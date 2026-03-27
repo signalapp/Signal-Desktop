@@ -56,6 +56,7 @@ export type ConversationStoryType = {
     | 'sortedGroupMembers'
     | 'title'
     | 'left'
+    | 'terminated'
   >;
   isHidden?: boolean;
   searchNames?: string; // This is just here to satisfy Fuse's types

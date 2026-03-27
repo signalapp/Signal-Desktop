@@ -114,6 +114,10 @@ export async function joinViaLink(value: string): Promise<void> {
         description: i18n('icu:GroupV2--join--link-revoked'),
         title: i18n('icu:GroupV2--join--link-revoked--title'),
       });
+    } else if (error instanceof HTTPError && error.code === 423) {
+      window.reduxActions.globalModals.showErrorModal({
+        description: i18n('icu:GroupV2--join--group-terminated'),
+      });
     } else {
       window.reduxActions.globalModals.showErrorModal({
         description: i18n('icu:GroupV2--join--general-join-failure'),

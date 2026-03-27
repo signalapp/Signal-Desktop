@@ -54,6 +54,7 @@ export default {
     conversationId: '123',
     getPreferredBadge: () => undefined,
     i18n,
+    isTerminated: false,
     memberships: defaultMemberships,
     memberColors: getMemberColors(defaultMemberships),
     showContactModal: action('showContactModal'),

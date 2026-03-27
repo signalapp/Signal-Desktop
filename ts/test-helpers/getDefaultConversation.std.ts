@@ -99,6 +99,7 @@ export function getDefaultGroup(
     markedUnread: Boolean(overrideProps.markedUnread),
     membersCount: memberships.length,
     memberships,
+    terminated: false,
     title: casual.title,
     serviceId: generateAci(),
     acknowledgedGroupNameCollisions: {},

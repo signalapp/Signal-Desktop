@@ -1796,6 +1796,36 @@ export function AnnouncementGroupChange(): React.JSX.Element {
   );
 }
 
+export function GroupTerminated(): React.JSX.Element {
+  return (
+    <>
+      {renderChange({
+        from: OUR_ACI,
+        details: [
+          {
+            type: 'terminated',
+          },
+        ],
+      })}
+      {renderChange({
+        from: ADMIN_A,
+        details: [
+          {
+            type: 'terminated',
+          },
+        ],
+      })}
+      {renderChange({
+        details: [
+          {
+            type: 'terminated',
+          },
+        ],
+      })}
+    </>
+  );
+}
+
 export function Summary(): React.JSX.Element {
   return (
     <>

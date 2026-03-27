@@ -72,6 +72,7 @@ export default {
     },
     announcementsOnly: { control: { type: 'boolean' } },
     areWePendingApproval: { control: { type: 'boolean' } },
+    terminated: { control: { type: 'boolean' } },
   },
   args: {
     acceptedMessageRequest: true,
@@ -145,6 +146,7 @@ export default {
     announcementsOnly: false,
     areWeAdmin: false,
     areWePendingApproval: false,
+    terminated: false,
     groupAdmins,
     memberColors,
     cancelJoinRequest: action('cancelJoinRequest'),
@@ -256,6 +258,13 @@ export function AnnouncementsOnlyGroup(args: Props): React.JSX.Element {
       announcementsOnly
       areWeAdmin={false}
     />
+  );
+}
+
+export function TerminatedGroup(args: Props): React.JSX.Element {
+  const theme = useContext(StorybookThemeContext);
+  return (
+    <CompositionArea {...args} theme={theme} terminated areWeAdmin={false} />
   );
 }
 

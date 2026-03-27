@@ -901,6 +901,7 @@ export const getPropsForMessage = (
 
   const conversation = getConversation(message, conversationSelector);
   const isGroup = conversation.type === 'group';
+  const isGroupTerminated = isGroup && conversation.terminated;
   const { sticker } = message;
 
   const isMessageTapToView = isTapToView(message);
@@ -956,13 +957,13 @@ export const getPropsForMessage = (
         : getPropsForAttachment(textAttachment, 'long-message', message),
     payment,
     canCopy: canCopy(message),
-    canEditMessage: canEditMessage(message),
+    canEditMessage: canEditMessage(message) && !isGroupTerminated,
     canDeleteForEveryone: canDeleteForEveryoneInSelector(message, {
       conversation,
       ourAci,
     }),
     canDownload: canDownload(message, conversationSelector),
-    canEndPoll: canEndPoll(message),
+    canEndPoll: canEndPoll(message) && !isGroupTerminated,
     canForward: canForward(message),
     canPinMessage: canPinMessage(conversation, message),
     canReact: canReact(message, ourConversationId, conversationSelector),
@@ -2277,6 +2278,10 @@ function canReplyOrReact(
     return false;
   }
 
+  if (conversation.terminated) {
+    return false;
+  }
+
   if (deletedForEveryone) {
     return false;
   }
@@ -2332,6 +2337,7 @@ export function canReply(
   const conversation = getConversation(message, conversationSelector);
   if (
     !conversation ||
+    conversation.terminated ||
     (conversation.announcementsOnly && !conversation.areWeAdmin)
   ) {
     return false;
@@ -2363,7 +2369,13 @@ export function canCopy(
 
 type CanDeleteForEveryoneConversation = Pick<
   ConversationType,
-  'id' | 'e164' | 'serviceId' | 'groupId' | 'groupVersion' | 'areWeAdmin'
+  | 'id'
+  | 'e164'
+  | 'serviceId'
+  | 'groupId'
+  | 'groupVersion'
+  | 'areWeAdmin'
+  | 'terminated'
 >;
 
 type MessageCanDeleteForEveryoneResult = Readonly<{
@@ -2391,7 +2403,7 @@ function getMessageCanDeleteForEveryone(
   const { conversation, ourAci } = options;
   const isDeletingOwnMessage = isOutgoing(message);
 
-  if (!ourAci) {
+  if (!ourAci || conversation.terminated) {
     return {
       canDeleteForEveryone: false,
       needsAdminDelete: false,
@@ -2618,7 +2630,8 @@ export function canForward(message: ReadonlyMessageAttributesType): boolean {
 
 export function canPinMessages(conversation: ConversationType): boolean {
   return (
-    conversation.type === 'direct' || conversation.canEditGroupInfo === true
+    conversation.type === 'direct' ||
+    (conversation.canEditGroupInfo === true && !conversation.terminated)
   );
 }
 

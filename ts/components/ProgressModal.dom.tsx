@@ -8,9 +8,11 @@ import type { LocalizerType } from '../types/Util.std.js';
 
 export type PropsType = {
   readonly i18n: LocalizerType;
+  readonly description?: string;
 };
 
 export const ProgressModal = React.memo(function ProgressModalInner({
+  description,
   i18n,
 }: PropsType) {
   const [root, setRoot] = React.useState<HTMLElement | null>(null);
@@ -32,7 +34,7 @@ export const ProgressModal = React.memo(function ProgressModalInner({
   return root
     ? createPortal(
         <div role="presentation" className="module-progress-dialog__overlay">
-          <ProgressDialog i18n={i18n} />
+          <ProgressDialog description={description} i18n={i18n} />
         </div>,
         root
       )

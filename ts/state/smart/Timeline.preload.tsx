@@ -112,6 +112,7 @@ export const SmartTimeline = memo(function SmartTimeline({
     acceptedMessageRequest,
     isBlocked = false,
     isGroupV1AndDisabled,
+    terminated: isGroupTerminated = false,
     removalStage,
     typingContactIdTimestamps = {},
     unreadCount,
@@ -207,6 +208,7 @@ export const SmartTimeline = memo(function SmartTimeline({
       isBlocked={isBlocked}
       isConversationSelected={isConversationSelected}
       isGroupV1AndDisabled={isGroupV1AndDisabled}
+      isGroupTerminated={isGroupTerminated}
       isInFullScreenCall={isInFullScreenCall}
       isIncomingMessageRequest={isIncomingMessageRequest}
       isNearBottom={isNearBottom}

@@ -174,6 +174,7 @@ export type GlobalModalsStateType = ReadonlyDeep<{
   safetyNumberModalContactId?: string;
   stickerPackPreviewId?: string;
   tapToViewNotAvailableModalProps?: TapToViewNotAvailablePropsType;
+  terminateGroupFailedModal: { conversationId: string } | null;
   userNotFoundModalState?: UserNotFoundModalStateType;
 }>;
 
@@ -264,6 +265,10 @@ const SHOW_LOW_DISK_SPACE_BACKUP_IMPORT_MODAL =
 const HIDE_LOW_DISK_SPACE_BACKUP_IMPORT_MODAL =
   'globalModals/HIDE_LOW_DISK_SPACE_BACKUP_IMPORT_MODAL';
 const TOGGLE_PIN_MESSAGE_DIALOG = 'globalModals/TOGGLE_PIN_MESSAGE_DIALOG';
+export const SHOW_TERMINATE_GROUP_FAILED_MODAL =
+  'globalModals/SHOW_TERMINATE_GROUP_FAILED_MODAL';
+const HIDE_TERMINATE_GROUP_FAILED_MODAL =
+  'globalModals/HIDE_TERMINATE_GROUP_FAILED_MODAL';
 
 export type UserNotFoundModalStateType = ReadonlyDeep<
   | {
@@ -557,6 +562,17 @@ type TogglePinMessageDialogActionType = ReadonlyDeep<{
   payload: PinMessageDialogData | null;
 }>;
 
+export type ShowTerminateGroupFailedModalActionType = ReadonlyDeep<{
+  type: typeof SHOW_TERMINATE_GROUP_FAILED_MODAL;
+  payload: {
+    conversationId: string;
+  };
+}>;
+
+type HideTerminateGroupFailedModalActionType = ReadonlyDeep<{
+  type: typeof HIDE_TERMINATE_GROUP_FAILED_MODAL;
+}>;
+
 export type GlobalModalsActionType = ReadonlyDeep<
   | CloseEditHistoryModalActionType
   | CloseDebugLogErrorModalActionType
@@ -575,6 +591,7 @@ export type GlobalModalsActionType = ReadonlyDeep<
   | HideSendAnywayDialogActiontype
   | HideStoriesSettingsActionType
   | HideTapToViewNotAvailableModalActionType
+  | HideTerminateGroupFailedModalActionType
   | HideUserNotFoundModalActionType
   | HideWhatsNewModalActionType
   | MessageChangedActionType
@@ -595,6 +612,7 @@ export type GlobalModalsActionType = ReadonlyDeep<
   | ShowStickerPackPreviewActionType
   | ShowStoriesSettingsActionType
   | ShowTapToViewNotAvailableModalActionType
+  | ShowTerminateGroupFailedModalActionType
   | ShowUserNotFoundModalActionType
   | ShowWhatsNewModalActionType
   | StartMigrationToGV2ActionType
@@ -642,6 +660,7 @@ export const actions = {
   hideLowDiskSpaceBackupImportModal,
   hideStoriesSettings,
   hideTapToViewNotAvailableModal,
+  hideTerminateGroupFailedModal,
   hideUserNotFoundModal,
   hideWhatsNewModal,
   showBackfillFailureModal,
@@ -661,6 +680,7 @@ export const actions = {
   showStickerPackPreview,
   showStoriesSettings,
   showTapToViewNotAvailableModal,
+  showTerminateGroupFailedModal,
   showUserNotFoundModal,
   showWhatsNewModal,
   toggleAboutContactModal,
@@ -1381,6 +1401,23 @@ function hideLowDiskSpaceBackupImportModal(): HideLowDiskSpaceBackupImportModalA
   };
 }
 
+function showTerminateGroupFailedModal(
+  conversationId: string
+): ShowTerminateGroupFailedModalActionType {
+  return {
+    type: SHOW_TERMINATE_GROUP_FAILED_MODAL,
+    payload: {
+      conversationId,
+    },
+  };
+}
+
+function hideTerminateGroupFailedModal(): HideTerminateGroupFailedModalActionType {
+  return {
+    type: HIDE_TERMINATE_GROUP_FAILED_MODAL,
+  };
+}
+
 function toggleEditNicknameAndNoteModal(
   payload: EditNicknameAndNoteModalPropsType | null
 ): ToggleEditNicknameAndNoteModalActionType {
@@ -1549,6 +1586,7 @@ export function getEmptyState(): GlobalModalsStateType {
     tapToViewNotAvailableModalProps: undefined,
     notePreviewModalProps: null,
     pinMessageDialogData: null,
+    terminateGroupFailedModal: null,
   };
 }
 
@@ -2029,6 +2067,20 @@ export function reducer(
     return {
       ...state,
       lowDiskSpaceBackupImportModal: null,
+    };
+  }
+
+  if (action.type === SHOW_TERMINATE_GROUP_FAILED_MODAL) {
+    return {
+      ...state,
+      terminateGroupFailedModal: action.payload,
+    };
+  }
+
+  if (action.type === HIDE_TERMINATE_GROUP_FAILED_MODAL) {
+    return {
+      ...state,
+      terminateGroupFailedModal: null,
     };
   }
 

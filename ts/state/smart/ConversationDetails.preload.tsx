@@ -127,14 +127,18 @@ export const SmartConversationDetails = memo(function SmartConversationDetails({
     addMembersToGroup,
     blockConversation,
     deleteAvatarFromDisk,
+    destroyMessages,
     getProfilesForConversation,
     leaveGroup,
+    onArchive,
+    onMoveToInbox,
     replaceAvatar,
     saveAvatarToDisk,
     setDisappearingMessages,
     setMuteExpiration,
     showConversation,
     startAvatarDownload,
+    terminateGroup,
     updateGroupAttributes,
     updateNicknameAndNote,
   } = useConversationsActions();
@@ -179,6 +183,12 @@ export const SmartConversationDetails = memo(function SmartConversationDetails({
     remoteConfig: items.remoteConfig,
     prodKey: 'desktop.groupMemberLabels.edit.prod',
   });
+  const isTerminateGroupEnabled = isFeaturedEnabledSelector({
+    betaKey: 'desktop.groupTerminate.send.beta',
+    currentVersion: version,
+    remoteConfig: items.remoteConfig,
+    prodKey: 'desktop.groupTerminate.send.prod',
+  });
 
   const groupsInCommon = getGroupsInCommonSorted(
     conversation,
@@ -208,6 +218,18 @@ export const SmartConversationDetails = memo(function SmartConversationDetails({
   const handleOpenEditNicknameAndNoteModal = useCallback(() => {
     toggleEditNicknameAndNoteModal({ conversationId });
   }, [conversationId, toggleEditNicknameAndNoteModal]);
+
+  const onConversationArchive = useCallback(() => {
+    onArchive(conversationId);
+  }, [onArchive, conversationId]);
+
+  const onConversationUnarchive = useCallback(() => {
+    onMoveToInbox(conversationId);
+  }, [onMoveToInbox, conversationId]);
+
+  const onConversationDeleteMessages = useCallback(() => {
+    destroyMessages(conversationId);
+  }, [destroyMessages, conversationId]);
 
   const [hasMedia, setHasMedia] = useState(false);
 
@@ -252,12 +274,16 @@ export const SmartConversationDetails = memo(function SmartConversationDetails({
       isEditMemberLabelEnabled={isEditMemberLabelEnabled}
       isGroup={isGroup}
       isSignalConversation={isSignalConversation(conversation)}
+      isTerminateGroupEnabled={isTerminateGroupEnabled}
       leaveGroup={leaveGroup}
       hasMedia={hasMedia}
       maxGroupSize={maxGroupSize}
       maxRecommendedGroupSize={maxRecommendedGroupSize}
       memberColors={memberColors}
       memberships={memberships}
+      onConversationArchive={onConversationArchive}
+      onConversationDeleteMessages={onConversationDeleteMessages}
+      onConversationUnarchive={onConversationUnarchive}
       onDeleteNicknameAndNote={handleDeleteNicknameAndNote}
       onOpenEditNicknameAndNoteModal={handleOpenEditNicknameAndNoteModal}
       onOutgoingAudioCallInConversation={onOutgoingAudioCallInConversation}
@@ -278,6 +304,7 @@ export const SmartConversationDetails = memo(function SmartConversationDetails({
       showConversation={showConversation}
       showToast={showToast}
       startAvatarDownload={() => startAvatarDownload(conversationId)}
+      terminateGroup={terminateGroup}
       theme={theme}
       toggleAboutContactModal={toggleAboutContactModal}
       toggleAddUserToAnotherGroupModal={toggleAddUserToAnotherGroupModal}

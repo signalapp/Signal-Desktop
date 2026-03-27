@@ -79,6 +79,7 @@ export type PropsType = {
     | 'sortedGroupMembers'
     | 'title'
     | 'left'
+    | 'terminated'
   >;
   hasActiveCall?: boolean;
   hasAllStoriesUnmuted: boolean;
@@ -483,6 +484,7 @@ export function StoryViewer({
     | undefined;
 
   if (isSent) {
+    // TODO: DESKTOP-9943
     contextMenuOptions = [
       {
         icon: 'StoryListItem__icon--info',
@@ -1001,7 +1003,9 @@ export function StoryViewer({
             i18n={i18n}
             onClose={() => setConfirmDeleteStory(undefined)}
           >
-            {i18n('icu:MyStories__delete')}
+            {group?.terminated
+              ? i18n('icu:MyStories__delete-group-story-for-me')
+              : i18n('icu:MyStories__delete')}
           </ConfirmationDialog>
         )}
       </div>

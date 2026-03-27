@@ -39,6 +39,7 @@ export type PropsType = SystemMessageBaseProps &
           | 'group-leave'
           | 'group-remove'
           | 'group-summary'
+          | 'group-terminate'
           | 'info'
           | 'phone'
           | 'profile'

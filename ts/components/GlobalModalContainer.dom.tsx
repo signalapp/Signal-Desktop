@@ -190,6 +190,9 @@ export type PropsType = {
   // LocalBackupExportWorkflow
   shouldShowLocalBackupExportWorkflow: boolean;
   renderLocalBackupExportWorkflow: () => React.JSX.Element;
+  // TerminateGroupFailedModal
+  terminateGroupFailedModal: { conversationId: string } | null;
+  renderTerminateGroupFailedModal: () => React.JSX.Element | null;
 };
 
 export function GlobalModalContainer({
@@ -314,6 +317,9 @@ export function GlobalModalContainer({
   // LocalBackupExportWorkflow
   shouldShowLocalBackupExportWorkflow,
   renderLocalBackupExportWorkflow,
+  // TerminateGroupFailedModal
+  terminateGroupFailedModal,
+  renderTerminateGroupFailedModal,
 }: PropsType): React.JSX.Element | null {
   // We want the following dialogs to show in this order:
   // 0. Stateful multi-modal workflows
@@ -563,6 +569,10 @@ export function GlobalModalContainer({
         onClose={hideLowDiskSpaceBackupImportModal}
       />
     );
+  }
+
+  if (terminateGroupFailedModal) {
+    return renderTerminateGroupFailedModal();
   }
 
   return null;

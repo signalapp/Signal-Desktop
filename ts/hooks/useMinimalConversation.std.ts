@@ -42,6 +42,7 @@ export type MinimalConversation = Satisfies<
     | 'name'
     | 'phoneNumber'
     | 'profileName'
+    | 'terminated'
     | 'title'
     | 'type'
   > & {
@@ -76,6 +77,7 @@ export function useMinimalConversation(
     name,
     phoneNumber,
     profileName,
+    terminated,
     title,
     type,
   } = conversation;
@@ -107,6 +109,7 @@ export function useMinimalConversation(
       name,
       phoneNumber,
       profileName,
+      terminated,
       title,
       type,
     };
@@ -135,6 +138,7 @@ export function useMinimalConversation(
     name,
     phoneNumber,
     profileName,
+    terminated,
     title,
     type,
   ]);

@@ -196,6 +196,7 @@ function toGroupActionsParams(
     addMembersBanned: null,
     deleteMembersBanned: null,
     promoteMembersPendingPniAciProfileKey: null,
+    terminateGroup: null,
     ...input,
   };
 }
@@ -254,7 +255,7 @@ const GROUP_DESC_MAX_ENCRYPTED_BYTES = 8192;
 const TEMPORAL_AUTH_REJECTED_CODE = 401;
 const GROUP_ACCESS_DENIED_CODE = 403;
 const GROUP_NONEXISTENT_CODE = 404;
-const SUPPORTED_CHANGE_EPOCH = 6; // support for ModifyMemberLabelAction
+const SUPPORTED_CHANGE_EPOCH = 7; // support for GroupTerminateChangeUpdate
 export const LINK_VERSION_ERROR = 'LINK_VERSION_ERROR';
 const GROUP_INVITE_LINK_PASSWORD_LENGTH = 16;
 
@@ -594,6 +595,7 @@ function buildGroupProto(
     membersBanned: null,
     inviteLinkPassword: null,
     announcementsOnly: null,
+    terminated: null,
   };
 }
 
@@ -1461,6 +1463,15 @@ export function buildPromoteMemberChange({
             },
           ],
         }),
+  });
+}
+
+export function buildTerminateChange(
+  group: ConversationAttributesType
+): Actions.Params {
+  return toGroupActionsParams({
+    version: (group.revision || 0) + 1,
+    terminateGroup: {},
   });
 }
 
@@ -4974,6 +4985,18 @@ function extractDiffs({
     });
   }
 
+  // terminated
+
+  if (Boolean(old.terminated) !== Boolean(current.terminated)) {
+    strictAssert(
+      current.terminated,
+      'extractDiffs/terminated: terminated can only be set from false to true'
+    );
+    details.push({
+      type: 'terminated',
+    });
+  }
+
   // Note: currently no diff generated for bannedMembersV2 changes
 
   // final processing
@@ -5103,6 +5126,18 @@ function extractDiffs({
       seenStatus: isFromUs ? SeenStatus.Seen : SeenStatus.Unseen,
     };
   } else if (details.length > 0) {
+    let readStatus: ReadStatus;
+    let seenStatus: SeenStatus;
+    if (!isFromUs && details.find(detail => detail.type === 'terminated')) {
+      // When a group is terminated, we want the unread count for this conversation
+      // to go up, and we want the conversation list badged
+      readStatus = ReadStatus.Unread;
+      seenStatus = SeenStatus.Unseen;
+    } else {
+      readStatus = ReadStatus.Read;
+      seenStatus = isFromUs ? SeenStatus.Seen : SeenStatus.Unseen;
+    }
+
     message = {
       type: 'group-v2-change',
       sourceServiceId,
@@ -5110,8 +5145,8 @@ function extractDiffs({
         from,
         details,
       },
-      readStatus: ReadStatus.Read,
-      seenStatus: isFromUs ? SeenStatus.Seen : SeenStatus.Unseen,
+      readStatus,
+      seenStatus,
     };
   }
 
@@ -5731,6 +5766,10 @@ async function applyGroupChange({
     result.announcementsOnly = announcementsOnly;
   }
 
+  if (actions.terminateGroup) {
+    result.terminated = true;
+  }
+
   if (actions.addMembersBanned && actions.addMembersBanned.length > 0) {
     actions.addMembersBanned.forEach(member => {
       if (bannedMembers.has(member.serviceId)) {
@@ -6172,6 +6211,9 @@ async function applyGroupState({
   // announcementsOnly
   result.announcementsOnly = groupState.announcementsOnly;
 
+  // terminated
+  result.terminated = groupState.terminated;
+
   // membersBanned
   result.bannedMembersV2 = groupState.membersBanned?.map(member => {
     const previousMember = bannedMembers.get(member.serviceId);
@@ -6350,6 +6392,7 @@ type DecryptedGroupChangeActions = {
   modifyAvatar?: {
     avatar: string;
   };
+  terminateGroup?: Record<string, never>;
 };
 
 function decryptGroupChange(
@@ -6962,6 +7005,11 @@ function decryptGroupChange(
     };
   }
 
+  // modifyTerminated
+  if (actions.terminateGroup) {
+    result.terminateGroup = {};
+  }
+
   // addMembersBanned
   if (actions.addMembersBanned && actions.addMembersBanned.length > 0) {
     result.addMembersBanned = actions.addMembersBanned
@@ -7111,6 +7159,7 @@ type DecryptedGroupState = {
   avatarUrl?: string;
   announcementsOnly?: boolean;
   membersBanned?: Array<GroupV2BannedMemberType>;
+  terminated?: boolean;
 };
 
 function decryptGroupState(
@@ -7257,6 +7306,10 @@ function decryptGroupState(
   // announcementsOnly
   const { announcementsOnly } = groupState;
   result.announcementsOnly = Boolean(announcementsOnly);
+
+  // terminated
+  const { terminated } = groupState;
+  result.terminated = Boolean(terminated);
 
   // membersBanned
   const { membersBanned } = groupState;

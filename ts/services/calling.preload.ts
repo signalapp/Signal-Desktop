@@ -1306,7 +1306,9 @@ export class CallingClass {
     await DataWriter.markCallHistoryMissed(staleCallIds);
   }
 
-  public async peekGroupCall(conversationId: string): Promise<PeekInfo> {
+  public async peekGroupCall(
+    conversationId: string
+  ): Promise<PeekInfo | undefined> {
     // This can be undefined in two cases:
     //
     // 1. There is no group call instance. This is "stateless peeking", and is expected
@@ -1329,6 +1331,11 @@ export class CallingClass {
     if (!conversation) {
       throw new Error('Missing conversation; not peeking group call');
     }
+
+    if (conversation.get('terminated')) {
+      return undefined;
+    }
+
     const publicParams = conversation.get('publicParams');
     const secretParams = conversation.get('secretParams');
     if (!publicParams || !secretParams) {
@@ -3399,6 +3406,11 @@ export class CallingClass {
 
     if (!conversation.hasMember(ringerAci)) {
       log.warn(`${logId}: they left the group`);
+      return;
+    }
+
+    if (conversation.get('terminated')) {
+      log.warn(`${logId}: update to terminated group`);
       return;
     }
 

@@ -214,6 +214,7 @@ export type OwnProps = Readonly<{
   shouldSendHighQualityAttachments: boolean;
   showConversation: ShowConversationType;
   startRecording: (id: string) => unknown;
+  terminated: boolean | null;
   theme: ThemeType;
   renderSmartCompositionRecording: () => React.JSX.Element;
   renderSmartCompositionRecordingDraft: (
@@ -348,6 +349,7 @@ export const CompositionArea = memo(function CompositionArea({
   areWeAdmin,
   groupAdmins,
   memberColors,
+  terminated,
   cancelJoinRequest,
   showConversation,
   // SMS-only contacts
@@ -981,6 +983,19 @@ export const CompositionArea = memo(function CompositionArea({
         }}
         showToast={showToast}
       />
+    );
+  }
+
+  if (terminated) {
+    return (
+      <div
+        className={tw(
+          'border-t-[1px] border-border-primary py-[16px]',
+          'text-center type-body-small text-label-secondary select-none'
+        )}
+      >
+        {i18n('icu:CompositionArea--group-terminated')}
+      </div>
     );
   }
 

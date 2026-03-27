@@ -365,6 +365,15 @@ export async function handleDataMessage(
       }
     }
 
+    // Drop incoming messages to terminated groups
+    if (conversation.get('terminated')) {
+      log.warn(
+        `Received message for terminated group ${conversation.idForLogging()}. Dropping.`
+      );
+      confirm();
+      return;
+    }
+
     const messageId =
       message.get('id') || generateMessageId(message.get('received_at')).id;
 

@@ -15,40 +15,60 @@ import {
   ConversationDetailsIcon,
   IconType,
 } from './ConversationDetailsIcon.dom.js';
+import { DeleteMessagesConfirmationDialog } from '../../DeleteMessagesConfirmationDialog.dom.js';
 
 export type Props = {
   acceptConversation: (id: string) => void;
   blockConversation: (id: string) => void;
+  canTerminateGroup: boolean;
   cannotLeaveBecauseYouAreLastAdmin: boolean;
   conversationId: string;
   conversationTitle: string;
   i18n: LocalizerType;
+  isArchived: boolean;
   isBlocked: boolean;
   isGroup: boolean;
+  isGroupTerminated: boolean;
   left: boolean;
+  onArchive: () => void;
+  onDelete: () => void;
+  onUnarchive: () => void;
   onLeave: () => void;
+  onTerminateGroup: () => void;
 };
 
 export function ConversationDetailsActions({
   acceptConversation,
   blockConversation,
   cannotLeaveBecauseYouAreLastAdmin,
+  canTerminateGroup,
   conversationId,
   conversationTitle,
   i18n,
+  isArchived,
   isBlocked,
   isGroup,
+  isGroupTerminated,
   left,
+  onArchive,
+  onDelete,
+  onUnarchive,
   onLeave,
+  onTerminateGroup,
 }: Props): React.JSX.Element {
   const [confirmLeave, gLeave] = useState<boolean>(false);
   const [confirmGroupBlock, gGroupBlock] = useState<boolean>(false);
   const [confirmGroupUnblock, gGroupUnblock] = useState<boolean>(false);
   const [confirmDirectBlock, gDirectBlock] = useState<boolean>(false);
   const [confirmDirectUnblock, gDirectUnblock] = useState<boolean>(false);
+  const [promptTerminateGroup, gPromptTerminateGroup] =
+    useState<boolean>(false);
+  const [confirmTerminateGroup, gConfirmTerminateGroup] =
+    useState<boolean>(false);
+  const [confirmGroupDelete, gGroupDelete] = useState<boolean>(false);
 
   let leaveGroupNode: ReactNode;
-  if (isGroup && !left) {
+  if (isGroup && !left && !isGroupTerminated) {
     leaveGroupNode = (
       <PanelRow
         disabled={cannotLeaveBecauseYouAreLastAdmin}
@@ -88,7 +108,7 @@ export function ConversationDetailsActions({
   }
 
   let blockNode: ReactNode;
-  if (isGroup && !isBlocked) {
+  if (isGroup && !isBlocked && !isGroupTerminated) {
     blockNode = (
       <PanelRow
         disabled={cannotLeaveBecauseYouAreLastAdmin}
@@ -106,7 +126,7 @@ export function ConversationDetailsActions({
         }
       />
     );
-  } else if (isGroup && isBlocked) {
+  } else if (isGroup && isBlocked && !isGroupTerminated) {
     blockNode = (
       <PanelRow
         onClick={() => gGroupUnblock(true)}
@@ -123,7 +143,7 @@ export function ConversationDetailsActions({
         }
       />
     );
-  } else {
+  } else if (!isGroup) {
     const label = isBlocked
       ? i18n('icu:MessageRequests--unblock')
       : i18n('icu:MessageRequests--block');
@@ -164,12 +184,91 @@ export function ConversationDetailsActions({
     );
   }
 
+  let terminateGroupNode: ReactNode;
+  if (canTerminateGroup) {
+    terminateGroupNode = (
+      <PanelRow
+        onClick={() => gPromptTerminateGroup(true)}
+        icon={
+          <ConversationDetailsIcon
+            ariaLabel={i18n('icu:ConversationDetailsActions--terminate-group')}
+            icon={IconType.terminate}
+          />
+        }
+        label={
+          <div className={classNames('ConversationDetails__terminate-group')}>
+            {i18n('icu:ConversationDetailsActions--terminate-group')}
+          </div>
+        }
+      />
+    );
+  }
+
+  let archiveNode: ReactNode;
+  if (isGroupTerminated) {
+    if (isArchived) {
+      archiveNode = (
+        <PanelRow
+          onClick={onUnarchive}
+          icon={
+            <ConversationDetailsIcon
+              ariaLabel={i18n('icu:ConversationDetailsActions--unarchive')}
+              icon={IconType.archive}
+            />
+          }
+          label={
+            <div className={classNames('ConversationDetails__unarchive')}>
+              {i18n('icu:ConversationDetailsActions--unarchive')}
+            </div>
+          }
+        />
+      );
+    } else {
+      archiveNode = (
+        <PanelRow
+          onClick={onArchive}
+          icon={
+            <ConversationDetailsIcon
+              ariaLabel={i18n('icu:ConversationDetailsActions--archive')}
+              icon={IconType.archive}
+            />
+          }
+          label={
+            <div className={classNames('ConversationDetails__archive')}>
+              {i18n('icu:ConversationDetailsActions--archive')}
+            </div>
+          }
+        />
+      );
+    }
+  }
+
+  const deleteNode = isGroupTerminated ? (
+    <PanelRow
+      onClick={() => gGroupDelete(true)}
+      icon={
+        <ConversationDetailsIcon
+          ariaLabel={i18n('icu:ConversationDetailsActions--delete')}
+          icon={IconType.delete}
+        />
+      }
+      label={
+        <div className={classNames('ConversationDetails__delete')}>
+          {i18n('icu:ConversationDetailsActions--delete')}
+        </div>
+      }
+    />
+  ) : null;
+
   return (
     <>
       <PanelSection>
         {leaveGroupNode}
         {blockNode}
+        {archiveNode}
+        {deleteNode}
       </PanelSection>
+      {terminateGroupNode && <PanelSection>{terminateGroupNode}</PanelSection>}
       {confirmLeave && (
         <ConfirmationDialog
           dialogName="ConversationDetailsAction.confirmLeave"
@@ -179,7 +278,7 @@ export function ConversationDetailsActions({
                 'icu:ConversationDetailsActions--leave-group-modal-confirm'
               ),
               action: onLeave,
-              style: 'affirmative',
+              style: 'negative',
             },
           ]}
           i18n={i18n}
@@ -201,7 +300,7 @@ export function ConversationDetailsActions({
                 'icu:ConversationDetailsActions--block-group-modal-confirm'
               ),
               action: () => blockConversation(conversationId),
-              style: 'affirmative',
+              style: 'negative',
             },
           ]}
           i18n={i18n}
@@ -225,7 +324,7 @@ export function ConversationDetailsActions({
                 'icu:ConversationDetailsActions--unblock-group-modal-confirm'
               ),
               action: () => acceptConversation(conversationId),
-              style: 'affirmative',
+              style: 'negative',
             },
           ]}
           i18n={i18n}
@@ -248,7 +347,7 @@ export function ConversationDetailsActions({
             {
               text: i18n('icu:MessageRequests--block'),
               action: () => blockConversation(conversationId),
-              style: 'affirmative',
+              style: 'negative',
             },
           ]}
           i18n={i18n}
@@ -278,6 +377,67 @@ export function ConversationDetailsActions({
         >
           {i18n('icu:MessageRequests--unblock-direct-confirm-body')}
         </ConfirmationDialog>
+      )}
+
+      {promptTerminateGroup && (
+        <ConfirmationDialog
+          dialogName="ConversationDetailsAction.promptTerminateGroup"
+          actions={[
+            {
+              text: i18n(
+                'icu:ConversationDetailsActions--terminate-group-modal-confirm'
+              ),
+              action: () => gConfirmTerminateGroup(true),
+              style: 'negative',
+            },
+          ]}
+          i18n={i18n}
+          onClose={() => gPromptTerminateGroup(false)}
+          title={i18n(
+            'icu:ConversationDetailsActions--prompt-terminate-group-modal-title',
+            {
+              groupName: conversationTitle,
+            }
+          )}
+        >
+          {i18n(
+            'icu:ConversationDetailsActions--prompt-terminate-group-modal-content'
+          )}
+        </ConfirmationDialog>
+      )}
+
+      {confirmTerminateGroup && (
+        <ConfirmationDialog
+          dialogName="ConversationDetailsAction.confirmTerminateGroup"
+          actions={[
+            {
+              text: i18n(
+                'icu:ConversationDetailsActions--terminate-group-modal-confirm'
+              ),
+              action: onTerminateGroup,
+              style: 'negative',
+            },
+          ]}
+          i18n={i18n}
+          onClose={() => gConfirmTerminateGroup(false)}
+        >
+          {i18n(
+            'icu:ConversationDetailsActions--confirm-terminate-group-confirm-modal-content'
+          )}
+        </ConfirmationDialog>
+      )}
+
+      {confirmGroupDelete && (
+        <DeleteMessagesConfirmationDialog
+          i18n={i18n}
+          onDestroyMessages={() => {
+            gGroupDelete(false);
+            onDelete();
+          }}
+          onClose={() => {
+            gGroupDelete(false);
+          }}
+        />
       )}
     </>
   );

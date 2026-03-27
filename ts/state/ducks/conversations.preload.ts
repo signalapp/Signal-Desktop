@@ -33,13 +33,15 @@ import { AttachmentDownloadUrgency } from '../../types/AttachmentDownload.std.js
 import { isFileDangerous } from '../../util/isFileDangerous.std.js';
 import { getLocalAttachmentUrl } from '../../util/getLocalAttachmentUrl.std.js';
 import { instance as libphonenumberInstance } from '../../util/libphonenumberInstance.std.js';
-import type {
-  ShowSendAnywayDialogActionType,
-  ShowErrorModalActionType,
-  ToggleDiscardDraftDialogActionType,
+import {
+  type ShowSendAnywayDialogActionType,
+  type ShowErrorModalActionType,
+  type ShowTerminateGroupFailedModalActionType,
+  type ToggleDiscardDraftDialogActionType,
 } from './globalModals.preload.js';
 import {
   SHOW_SEND_ANYWAY_DIALOG,
+  SHOW_TERMINATE_GROUP_FAILED_MODAL,
   SHOW_ERROR_MODAL,
   TOGGLE_DISCARD_DRAFT_DIALOG,
 } from './globalModals.preload.js';
@@ -250,6 +252,7 @@ import { pinnedMessagesCleanupService } from '../../services/expiring/pinnedMess
 import { getPinnedMessageTarget } from '../../util/getPinMessageTarget.preload.js';
 import {
   getActivePanel,
+  getPanels,
   getSelectedConversationId,
 } from '../selectors/nav.std.js';
 
@@ -439,6 +442,7 @@ export type ConversationType = ReadonlyDeep<
     groupVersion?: 1 | 2;
     groupId?: string;
     groupLink?: string;
+    terminated?: boolean;
     acceptedMessageRequest: boolean;
     secretParams?: string;
     publicParams?: string;
@@ -1289,6 +1293,7 @@ export const actions = {
   showMediaNoLongerAvailableToast,
   startComposing,
   startSettingGroupMetadata,
+  terminateGroup,
   toggleAdmin,
   toggleComposeEditingAvatar,
   toggleConversationInChooseMembers,
@@ -3148,6 +3153,64 @@ function createGroup(
     } catch (err) {
       log.error('Failed to create group', Errors.toLogFormat(err));
       dispatch({ type: 'CREATE_GROUP_REJECTED' });
+    }
+  };
+}
+
+function terminateGroup(
+  conversationId: string
+): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  | ShowTerminateGroupFailedModalActionType
+  | TargetedConversationChangedActionType
+  | NoopActionType
+> {
+  return async (dispatch, getState) => {
+    const conversation = window.ConversationController.get(conversationId);
+    if (!conversation) {
+      throw new Error('terminateGroup: No conversation found');
+    }
+
+    const i18n = getIntl(getState());
+
+    try {
+      await longRunningTaskWrapper({
+        name: 'terminateGroup',
+        idForLogging: conversation.idForLogging(),
+        spinnerText: i18n('icu:GroupV2--terminate-group-in-progress'),
+        suppressErrorDialog: true,
+        task: async () => conversation.terminateGroup(),
+      });
+
+      // After success, reset panel state to show conversation timeline
+      const state = getState();
+      const selectedConversationId = getSelectedConversationId(state);
+      const panels = getPanels(state);
+      if (selectedConversationId === conversationId) {
+        if (panels && panels.stack.length === 1) {
+          dispatch(popPanelForConversation());
+        } else {
+          dispatch(
+            showConversation({
+              conversationId,
+            })
+          );
+        }
+      } else {
+        dispatch({
+          type: 'NOOP',
+          payload: null,
+        });
+      }
+    } catch {
+      dispatch({
+        type: SHOW_TERMINATE_GROUP_FAILED_MODAL,
+        payload: {
+          conversationId,
+        },
+      });
     }
   };
 }

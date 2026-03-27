@@ -454,6 +454,7 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   haveOldest: overrideProps.haveOldest ?? false,
   isBlocked: false,
   isConversationSelected: true,
+  isGroupTerminated: false,
   isIncomingMessageRequest: overrideProps.isIncomingMessageRequest ?? false,
   isInFullScreenCall: false,
   items:

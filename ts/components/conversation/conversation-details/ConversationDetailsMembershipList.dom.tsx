@@ -35,6 +35,7 @@ export type Props = {
   getPreferredBadge: PreferredBadgeSelectorType;
   i18n: LocalizerType;
   isEditMemberLabelEnabled: boolean;
+  isTerminated: boolean;
   maxShownMemberCount?: number;
   memberships: ReadonlyArray<GroupV2Membership>;
   memberColors: Map<string, ContactNameColorType>;
@@ -90,6 +91,7 @@ export function ConversationDetailsMembershipList({
   getPreferredBadge,
   i18n,
   isEditMemberLabelEnabled,
+  isTerminated,
   maxShownMemberCount = 5,
   memberColors,
   memberships,
@@ -107,14 +109,17 @@ export function ConversationDetailsMembershipList({
     shouldHideRestMembers && !showAllMembers
       ? maxShownMemberCount
       : sortedMemberships.length;
+  const title = isTerminated
+    ? i18n('icu:ConversationDetailsMembershipList--terminated-title', {
+        number: sortedMemberships.length,
+      })
+    : i18n('icu:ConversationDetailsMembershipList--title', {
+        number: sortedMemberships.length,
+      });
 
   return (
-    <PanelSection
-      title={i18n('icu:ConversationDetailsMembershipList--title', {
-        number: sortedMemberships.length,
-      })}
-    >
-      {canAddNewMembers && (
+    <PanelSection title={title}>
+      {canAddNewMembers && !isTerminated && (
         <PanelRow
           icon={
             <div className="ConversationDetails-membership-list__add-members-icon" />
