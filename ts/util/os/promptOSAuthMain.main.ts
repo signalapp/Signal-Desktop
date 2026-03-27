@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { systemPreferences } from 'electron';
+import { app, systemPreferences } from 'electron';
 import { exec } from 'node:child_process';
 import {
   checkAvailability as checkAvailabilityWindowsUcv,
@@ -166,7 +166,11 @@ async function isPromptOSAuthAvailableLinux(
   });
 
   if (!isActionRegistered) {
-    if (OS.isAppImage()) {
+    if (!app.isPackaged) {
+      log.info(
+        'isPromptOsAuthAvailable: action not registered due to non-packaged app'
+      );
+    } else if (OS.isAppImage()) {
       log.warn(
         'isPromptOsAuthAvailable: action not registered due to AppImage'
       );
