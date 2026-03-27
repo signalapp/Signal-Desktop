@@ -93,8 +93,8 @@ importers:
         specifier: 1.0.13
         version: 1.0.13
       '@indutny/protopiler':
-        specifier: 3.2.3
-        version: 3.2.3
+        specifier: 3.2.4
+        version: 3.2.4
       '@indutny/range-finder':
         specifier: 1.3.4
         version: 1.3.4
@@ -1685,8 +1685,8 @@ packages:
     resolution: {integrity: sha512-u3ZVLus/9wwkojVSO0es5tppdd+2f9zA6ogax3OytOwGueDWSj+eVU6sSWYiSY/zxMSgdnKxRik0D3D36u3iWw==}
     hasBin: true
 
-  '@indutny/protopiler@3.2.3':
-    resolution: {integrity: sha512-2xOv8YSIl5fv3Hliwaaz0N5Etuzu8R/MFpbiSHu8Amb2Qu29rGmr6M1HL4eDBogfzJuQQP2ESoaM+R+dHId2vg==}
+  '@indutny/protopiler@3.2.4':
+    resolution: {integrity: sha512-uBz01wZxVz8+9DeGKN0QPvViDPq0Agcs5pAF8CkivULFP/sFGWpWaC9nPWIuVC9y44RrPQS+xpp1pFYlnX7BVg==}
     hasBin: true
 
   '@indutny/range-finder@1.3.4':
@@ -11703,7 +11703,7 @@ snapshots:
 
   '@indutny/protopiler@3.2.1': {}
 
-  '@indutny/protopiler@3.2.3': {}
+  '@indutny/protopiler@3.2.4': {}
 
   '@indutny/range-finder@1.3.4':
     dependencies:
