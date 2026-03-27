@@ -32,15 +32,12 @@ import {
 import type { MenuItemConstructorOptions, Settings } from 'electron';
 import { z } from 'zod';
 
-import {
-  version as packageVersion,
-  productName,
-} from '../ts/util/packageJson.node.js';
+import { packageJson } from '../ts/util/packageJson.main.js';
 import * as GlobalErrors from './global_errors.main.js';
 import { setup as setupCrashReports } from './crashReports.main.js';
 import { setup as setupSpellChecker } from './spell_check.main.js';
-import { getDNSFallback } from './dns-fallback.node.js';
-import { redactAll, addSensitivePath } from '../ts/util/privacy.node.js';
+import { getDNSFallback } from './dns-fallback.main.js';
+import { redactAll, addSensitivePath } from './privacy.main.js';
 import { createSupportUrl } from '../ts/util/createSupportUrl.std.js';
 import { missingCaseError } from '../ts/util/missingCaseError.std.js';
 import { strictAssert } from '../ts/util/assert.std.js';
@@ -137,6 +134,7 @@ import { safeParseLoose, safeParseUnknown } from '../ts/util/schemas.std.js';
 import { getAppErrorIcon } from '../ts/util/getAppErrorIcon.node.js';
 import { promptOSAuth } from '../ts/util/os/promptOSAuthMain.main.js';
 import { appRelaunch } from '../ts/util/relaunch.main.js';
+import { getAppRootDir } from '../ts/util/appRootDir.main.js';
 import {
   sendDummyKeystroke,
   show as showWindowsNotification,
@@ -626,13 +624,14 @@ function isVisible(window: BoundsType, bounds: BoundsType) {
 }
 
 let windowIcon: string;
+const rootDir = getAppRootDir();
 
 if (OS.isWindows()) {
-  windowIcon = join(__dirname, '../build/icons/win/icon.ico');
+  windowIcon = join(rootDir, 'build', 'icons', 'win', 'icon.ico');
 } else if (OS.isLinux()) {
-  windowIcon = join(__dirname, '../images/signal-logo-desktop-linux.png');
+  windowIcon = join(rootDir, 'images', 'signal-logo-desktop-linux.png');
 } else {
-  windowIcon = join(__dirname, '../build/icons/png/512x512.png');
+  windowIcon = join(rootDir, 'build', 'icons', 'png', '512x512.png');
 }
 
 // The titlebar is hidden on:
@@ -722,10 +721,10 @@ async function createWindow() {
       sandbox: false,
       contextIsolation: !isTestEnvironment(getEnvironment()),
       preload: join(
-        __dirname,
-        usePreloadBundle
-          ? '../preload.wrapper.js'
-          : '../ts/windows/main/preload.preload.js'
+        rootDir,
+        ...(usePreloadBundle
+          ? ['preload.wrapper.js']
+          : ['ts', 'windows', 'main', 'preload.preload.js'])
       ),
       spellcheck,
     },
@@ -1056,8 +1055,8 @@ async function createWindow() {
   await safeLoadURL(
     mainWindow,
     getEnvironment() === Environment.Test
-      ? await prepareFileUrl([__dirname, '../test/index.html'])
-      : await prepareFileUrl([__dirname, '../background.html'])
+      ? await prepareFileUrl([rootDir, 'test', 'index.html'])
+      : await prepareFileUrl([rootDir, 'background.html'])
   );
 }
 
@@ -1304,7 +1303,7 @@ async function showScreenShareWindow(sourceName: string | undefined) {
       nodeIntegrationInWorker: false,
       sandbox: true,
       contextIsolation: true,
-      preload: join(__dirname, '../bundles/screenShare/preload.preload.js'),
+      preload: join(rootDir, 'bundles', 'screenShare', 'preload.preload.js'),
     },
     x: Math.floor(display.size.width / 2) - width / 2,
     y: 24,
@@ -1326,7 +1325,7 @@ async function showScreenShareWindow(sourceName: string | undefined) {
 
   await safeLoadURL(
     screenShareWindow,
-    await prepareFileUrl([__dirname, '../screenShare.html'], { sourceName })
+    await prepareFileUrl([rootDir, 'screenShare.html'], { sourceName })
   );
 }
 
@@ -1352,7 +1351,7 @@ async function showAbout() {
       nodeIntegrationInWorker: false,
       sandbox: true,
       contextIsolation: true,
-      preload: join(__dirname, '../bundles/about/preload.preload.js'),
+      preload: join(rootDir, 'bundles', 'about', 'preload.preload.js'),
       nativeWindowOpen: true,
     },
   };
@@ -1371,10 +1370,7 @@ async function showAbout() {
     }
   });
 
-  await safeLoadURL(
-    aboutWindow,
-    await prepareFileUrl([__dirname, '../about.html'])
-  );
+  await safeLoadURL(aboutWindow, await prepareFileUrl([rootDir, 'about.html']));
 }
 
 async function getIsLinked() {
@@ -1416,7 +1412,7 @@ async function showDebugLogWindow(options: DebugLogWindowOptions = {}) {
   if (debugLogWindow) {
     if (debugLogCurrentMode !== newMode) {
       debugLogCurrentMode = newMode;
-      const url = pathToFileURL(join(__dirname, '../debug_log.html'));
+      const url = pathToFileURL(join(rootDir, 'debug_log.html'));
       url.searchParams.set('mode', newMode);
       await safeLoadURL(debugLogWindow, url.href);
     }
@@ -1457,7 +1453,7 @@ async function showDebugLogWindow(options: DebugLogWindowOptions = {}) {
       nodeIntegrationInWorker: false,
       sandbox: true,
       contextIsolation: true,
-      preload: join(__dirname, '../bundles/debuglog/preload.preload.js'),
+      preload: join(rootDir, 'bundles', 'debuglog', 'preload.preload.js'),
     },
     parent: mainWindow,
   };
@@ -1480,7 +1476,7 @@ async function showDebugLogWindow(options: DebugLogWindowOptions = {}) {
     }
   });
 
-  const url = pathToFileURL(join(__dirname, '../debug_log.html'));
+  const url = pathToFileURL(join(rootDir, 'debug_log.html'));
   if (options.mode) {
     url.searchParams.set('mode', options.mode);
   }
@@ -1527,7 +1523,7 @@ async function showCallDiagnosticWindow() {
       nodeIntegrationInWorker: false,
       sandbox: true,
       contextIsolation: true,
-      preload: join(__dirname, '../bundles/calldiagnostic/preload.preload.js'),
+      preload: join(rootDir, 'bundles', 'calldiagnostic', 'preload.preload.js'),
     },
     parent: mainWindow,
   };
@@ -1549,7 +1545,7 @@ async function showCallDiagnosticWindow() {
     }
   });
 
-  const url = pathToFileURL(join(__dirname, '../call_diagnostic.html'));
+  const url = pathToFileURL(join(rootDir, 'call_diagnostic.html'));
   await safeLoadURL(callDiagnosticWindow, url.href);
 }
 
@@ -1586,7 +1582,7 @@ function showPermissionsPopupWindow(forCalling: boolean, forCamera: boolean) {
         nodeIntegrationInWorker: false,
         sandbox: true,
         contextIsolation: true,
-        preload: join(__dirname, '../bundles/permissions/preload.preload.js'),
+        preload: join(rootDir, 'bundles', 'permissions', 'preload.preload.js'),
         nativeWindowOpen: true,
       },
       parent: mainWindow,
@@ -1612,7 +1608,7 @@ function showPermissionsPopupWindow(forCalling: boolean, forCamera: boolean) {
 
     await safeLoadURL(
       permissionsPopupWindow,
-      await prepareFileUrl([__dirname, '../permissions_popup.html'], {
+      await prepareFileUrl([rootDir, 'permissions_popup.html'], {
         forCalling,
         forCamera,
       })
@@ -1790,7 +1786,7 @@ function handleSafeStorageDecryptionError(): 'continue' | 'quit' {
     cancelId: copyErrorAndQuitIndex,
     message,
     detail,
-    icon: getAppErrorIcon(),
+    icon: getAppErrorIcon(rootDir),
     noLink: true,
   });
   if (resultIndex === copyErrorAndQuitIndex) {
@@ -1951,7 +1947,7 @@ const onDatabaseInitializationError = async (error: Error) => {
     cancelId: copyErrorAndQuitButtonIndex,
     message: messageTitle,
     detail: messageDetail,
-    icon: getAppErrorIcon(),
+    icon: getAppErrorIcon(rootDir),
     noLink: true,
   });
 
@@ -1977,7 +1973,7 @@ const onDatabaseInitializationError = async (error: Error) => {
       cancelId: cancelButtonIndex,
       message: i18n('icu:databaseError__deleteDataConfirmation'),
       detail: i18n('icu:databaseError__deleteDataConfirmation__detail'),
-      icon: getAppErrorIcon(),
+      icon: getAppErrorIcon(rootDir),
       noLink: true,
     });
 
@@ -2080,7 +2076,7 @@ app.on('ready', async () => {
   const [userDataPath, crashDumpsPath, installPath] = await Promise.all([
     realpath(app.getPath('userData')),
     realpath(app.getPath('crashDumps')),
-    realpath(app.getAppPath()),
+    realpath(rootDir),
   ]);
 
   updateDefaultSession(session.defaultSession, log);
@@ -2120,6 +2116,7 @@ app.on('ready', async () => {
 
     log.info('app.ready: preferred system locales:', preferredSystemLocales);
     resolvedTranslationsLocale = loadLocale({
+      rootDir,
       hourCyclePreference,
       isPackaged: app.isPackaged,
       localeDirectionTestingOverride,
@@ -2233,7 +2230,7 @@ app.on('ready', async () => {
   }
 
   log.info('app ready');
-  log.info(`starting version ${packageVersion}`);
+  log.info(`starting version ${packageJson.version}`);
 
   // This logging helps us debug user reports about broken devices.
   {
@@ -2292,7 +2289,7 @@ app.on('ready', async () => {
           nodeIntegration: false,
           sandbox: true,
           contextIsolation: true,
-          preload: join(__dirname, '../bundles/loading/preload.preload.js'),
+          preload: join(rootDir, 'bundles', 'loading', 'preload.preload.js'),
         },
         icon: windowIcon,
       });
@@ -2310,7 +2307,7 @@ app.on('ready', async () => {
 
       await safeLoadURL(
         loadingWindow,
-        await prepareFileUrl([__dirname, '../loading.html'])
+        await prepareFileUrl([rootDir, 'loading.html'])
       );
     })
   );
@@ -2863,7 +2860,7 @@ ipc.on('get-config', async event => {
   }
 
   const parsed = safeParseLoose(rendererConfigSchema, {
-    name: productName,
+    name: packageJson.productName,
     availableLocales: getResolvedMessagesLocale().availableLocales,
     resolvedTranslationsLocale: getResolvedMessagesLocale().name,
     resolvedTranslationsLocaleDirection: getResolvedMessagesLocale().direction,
@@ -2915,7 +2912,7 @@ ipc.on('get-config', async event => {
     // paths
     crashDumpsPath: app.getPath('crashDumps'),
     homePath: app.getPath('home'),
-    installPath: app.getAppPath(),
+    installPath: rootDir,
     userDataPath: app.getPath('userData'),
 
     directoryConfig: directoryConfig.data,
@@ -3411,8 +3408,11 @@ async function showStickerCreatorWindow() {
       sandbox: true,
       contextIsolation: true,
       preload: join(
-        __dirname,
-        '../ts/windows/sticker-creator/preload.preload.js'
+        rootDir,
+        'ts',
+        'windows',
+        'sticker-creator',
+        'preload.preload.js'
       ),
       nativeWindowOpen: true,
     },
@@ -3432,7 +3432,7 @@ async function showStickerCreatorWindow() {
 
   await safeLoadURL(
     stickerCreatorWindow,
-    await prepareFileUrl([__dirname, '../sticker-creator/dist/index.html'])
+    await prepareFileUrl([rootDir, 'sticker-creator', 'dist', 'index.html'])
   );
 }
 

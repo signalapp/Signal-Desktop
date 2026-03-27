@@ -8,6 +8,7 @@ import { join } from 'node:path';
 import { readFileSync } from 'node:fs';
 import { createLogger } from '../ts/logging/log.std.js';
 import type { LocalizerType } from '../ts/types/I18N.std.js';
+import { getAppRootDir } from '../ts/util/appRootDir.main.js';
 
 const log = createLogger('SystemTrayService');
 
@@ -285,8 +286,7 @@ function getTrayIconImagePath(size: number, unreadCount: number): string {
   }
 
   const iconPath = join(
-    __dirname,
-    '..',
+    getAppRootDir(),
     'images',
     'tray-icons',
     dirName,

@@ -5,13 +5,7 @@ import { nativeImage } from 'electron';
 import type { NativeImage } from 'electron';
 import { join } from 'node:path';
 
-export function getAppErrorIcon(): NativeImage {
-  const iconPath = join(
-    __dirname,
-    '..',
-    '..',
-    'images',
-    'app-icon-with-error.png'
-  );
+export function getAppErrorIcon(rootDir: string): NativeImage {
+  const iconPath = join(rootDir, 'images', 'app-icon-with-error.png');
   return nativeImage.createFromPath(iconPath);
 }

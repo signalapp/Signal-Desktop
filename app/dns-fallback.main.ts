@@ -6,6 +6,7 @@ import { readFile } from 'node:fs/promises';
 import { DNSFallbackSchema } from '../ts/types/DNSFallback.std.js';
 import type { DNSFallbackType } from '../ts/types/DNSFallback.std.js';
 import { parseUnknown } from '../ts/util/schemas.std.js';
+import { getAppRootDir } from '../ts/util/appRootDir.main.js';
 import { createLogger } from '../ts/logging/log.std.js';
 
 const log = createLogger('dns-fallback');
@@ -17,7 +18,7 @@ export async function getDNSFallback(): Promise<DNSFallbackType> {
     return cached;
   }
 
-  const configPath = join(__dirname, '..', 'build', 'dns-fallback.json');
+  const configPath = join(getAppRootDir(), 'build', 'dns-fallback.json');
   let str: string;
   try {
     str = await readFile(configPath, 'utf8');

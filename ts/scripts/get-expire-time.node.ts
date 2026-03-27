@@ -6,7 +6,7 @@ import { execSync } from 'node:child_process';
 import { writeFileSync } from 'node:fs';
 
 import { DAY } from '../util/durations/index.std.js';
-import { version } from '../util/packageJson.node.js';
+import { packageJson } from '../util/packageJson.node.js';
 import { isNotUpdatable } from '../util/version.std.js';
 
 const unixTimestamp = parseInt(
@@ -18,7 +18,7 @@ const buildCreation = unixTimestamp * 1000;
 
 // NB: Build expirations are also determined via users' auto-update settings; see
 // getExpirationTimestamp
-const validDuration = isNotUpdatable(version) ? DAY * 30 : DAY * 90;
+const validDuration = isNotUpdatable(packageJson.version) ? DAY * 30 : DAY * 90;
 const buildExpiration = buildCreation + validDuration;
 
 const localProductionPath = join(
@@ -29,7 +29,7 @@ const localProductionPath = join(
 const localProductionConfig = {
   buildCreation,
   buildExpiration,
-  ...(isNotUpdatable(version) ? { updatesEnabled: false } : {}),
+  ...(isNotUpdatable(packageJson.version) ? { updatesEnabled: false } : {}),
 };
 
 writeFileSync(

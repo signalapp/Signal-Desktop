@@ -15,15 +15,15 @@ import type {
 } from '../ts/types/OptionalResource.std.js';
 import { OptionalResourcesDictSchema } from '../ts/types/OptionalResource.std.js';
 import { createLogger } from '../ts/logging/log.std.js';
-import { getGotOptions } from '../ts/updater/got.node.js';
+import { getGotOptions } from '../ts/updater/got.main.js';
 import { drop } from '../ts/util/drop.std.js';
 import { parseUnknown } from '../ts/util/schemas.std.js';
+import { getAppRootDir } from '../ts/util/appRootDir.main.js';
 
 const log = createLogger('OptionalResourceService');
 
 const RESOURCES_DICT_PATH = join(
-  __dirname,
-  '..',
+  getAppRootDir(),
   'build',
   'optional-resources.json'
 );

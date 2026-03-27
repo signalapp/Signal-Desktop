@@ -1,7 +1,6 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* eslint-disable no-console */
 import { createWriteStream } from 'node:fs';
 import fsExtra from 'fs-extra';
 import { mkdir, readdir, stat, writeFile } from 'node:fs/promises';
@@ -10,8 +9,6 @@ import { release as osRelease, tmpdir } from 'node:os';
 import { extname, join, normalize } from 'node:path';
 
 import config from 'config';
-import type { ParserConfiguration } from 'dashdash';
-import { createParser } from 'dashdash';
 import { FAILSAFE_SCHEMA, load as loadYaml } from 'js-yaml';
 import { gt, gte, lt } from 'semver';
 import got from 'got';
@@ -39,7 +36,7 @@ import {
 } from '../util/version.std.js';
 import { isPathInside } from '../util/isPathInside.node.js';
 
-import { version as packageVersion } from '../util/packageJson.node.js';
+import { packageJson } from '../util/packageJson.main.js';
 
 import {
   getSignatureFileName,
@@ -51,8 +48,8 @@ import {
   getBlockMapFileName,
   isValidPreparedData as isValidDifferentialData,
   prepareDownload as prepareDifferentialDownload,
-} from './differential.node.js';
-import { getGotOptions } from './got.node.js';
+} from './differential.main.js';
+import { getGotOptions } from './got.main.js';
 import { checkIntegrity, isTimeToUpdate } from './util.node.js';
 import {
   gracefulRename,
@@ -60,7 +57,7 @@ import {
 } from '../util/gracefulFs.node.js';
 
 import type { LoggerType } from '../types/Logging.std.js';
-import type { PrepareDownloadResultType as DifferentialDownloadDataType } from './differential.node.js';
+import type { PrepareDownloadResultType as DifferentialDownloadDataType } from './differential.main.js';
 import type { MainSQL } from '../sql/main.main.js';
 
 const { pathExists } = fsExtra;
@@ -578,7 +575,7 @@ export abstract class Updater {
   async #checkForUpdates(
     checkType: CheckType
   ): Promise<UpdateInformationType | undefined> {
-    if (isNotUpdatable(packageVersion)) {
+    if (isNotUpdatable(packageJson.version)) {
       this.logger.info(
         'checkForUpdates: not checking for updates, this is not an updatable build'
       );
@@ -605,7 +602,7 @@ export abstract class Updater {
 
     if (checkType === CheckType.Normal && !isVersionNewer(version)) {
       this.logger.info(
-        `checkForUpdates: ${version} is not newer than ${packageVersion}; ` +
+        `checkForUpdates: ${version} is not newer than ${packageJson.version}; ` +
           'no new update available'
       );
 
@@ -1007,27 +1004,27 @@ export function getUpdatesFileName(): string {
 }
 
 function getChannel(): string {
-  if (isNotUpdatable(packageVersion)) {
+  if (isNotUpdatable(packageJson.version)) {
     // we don't want ad hoc versions to update
-    return packageVersion;
+    return packageJson.version;
   }
-  if (isStaging(packageVersion)) {
+  if (isStaging(packageJson.version)) {
     return 'staging';
   }
-  if (isAlpha(packageVersion)) {
+  if (isAlpha(packageJson.version)) {
     return 'alpha';
   }
-  if (isAxolotl(packageVersion)) {
+  if (isAxolotl(packageJson.version)) {
     return 'axolotl';
   }
-  if (isBeta(packageVersion)) {
+  if (isBeta(packageJson.version)) {
     return 'beta';
   }
   return 'latest';
 }
 
 function isVersionNewer(newVersion: string): boolean {
-  return gt(newVersion, packageVersion);
+  return gt(newVersion, packageJson.version);
 }
 
 export function getVersion(info: JSONUpdateSchema): string | null {
@@ -1178,17 +1175,4 @@ export async function deleteTempDir(
   }
 
   await gracefulRmRecursive(logger, targetDir);
-}
-
-export function getCliOptions<T>(options: ParserConfiguration['options']): T {
-  const parser = createParser({ options });
-  const cliOptions = parser.parse(process.argv);
-
-  if (cliOptions.help) {
-    const help = parser.help().trimRight();
-    console.log(help);
-    process.exit(0);
-  }
-
-  return cliOptions as unknown as T;
 }

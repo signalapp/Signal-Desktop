@@ -5,7 +5,7 @@ import type { StrictOptions as GotOptions } from 'got';
 import config from 'config';
 import { Agent as HTTPAgent } from 'node:http';
 
-import { version } from '../util/packageJson.node.js';
+import { packageJson } from '../util/packageJson.main.js';
 import { getUserAgent } from '../util/getUserAgent.node.js';
 import * as durations from '../util/durations/index.std.js';
 import { createHTTPSAgent } from '../util/createHTTPSAgent.node.js';
@@ -46,7 +46,7 @@ export async function getGotOptions(): Promise<GotOptions> {
     },
     headers: {
       'Cache-Control': 'no-cache',
-      'User-Agent': getUserAgent(version),
+      'User-Agent': getUserAgent(packageJson.version),
     },
     timeout: {
       connect: GOT_CONNECT_TIMEOUT,

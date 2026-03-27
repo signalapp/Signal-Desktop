@@ -3,6 +3,7 @@
 
 import { parse } from 'csv-parse';
 import fs from 'node:fs/promises';
+import { join } from 'node:path';
 import { z } from 'zod';
 import { _getAvailableLocales } from '../../app/locale.node.js';
 import { parseUnknown } from '../util/schemas.std.js';
@@ -21,8 +22,9 @@ if (!process.argv[4]) {
   throw new Error('Missing third argument: output json file');
 }
 const localeDisplayNamesBuildPath = process.argv[4];
+const rootDir = join(__dirname, '..', '..');
 
-const availableLocales = _getAvailableLocales();
+const availableLocales = _getAvailableLocales(rootDir);
 
 const LocaleString = z.string().refine(arg => {
   try {

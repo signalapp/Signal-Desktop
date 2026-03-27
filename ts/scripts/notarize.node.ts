@@ -6,7 +6,7 @@ import type { AfterPackContext } from 'electron-builder';
 
 import { notarize } from '@electron/notarize';
 
-import { build } from '../util/packageJson.node.js';
+import { packageJson } from '../util/packageJson.node.js';
 
 export async function afterSign({
   appOutDir,
@@ -22,7 +22,7 @@ export async function afterSign({
 
   const appPath = path.join(appOutDir, `${productFilename}.app`);
 
-  const appBundleId = build.appId;
+  const appBundleId = packageJson.build.appId;
   if (!appBundleId) {
     throw new Error(
       'appBundleId must be provided in package.json: build.appId'

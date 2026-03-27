@@ -8,6 +8,7 @@ import { app } from 'electron';
 
 import { strictAssert } from '../util/assert.std.js';
 import { explodePromise } from '../util/explodePromise.std.js';
+import { getAppRootDir } from '../util/appRootDir.main.js';
 import type { LoggerType } from '../types/Logging.std.js';
 import * as Errors from '../types/errors.std.js';
 import { SqliteErrorKind } from './errors.std.js';
@@ -551,12 +552,7 @@ export class MainSQL {
   }
 
   #createWorker(): CreateWorkerResultType {
-    const scriptPath = join(
-      app.getAppPath(),
-      'ts',
-      'sql',
-      'mainWorker.node.js'
-    );
+    const scriptPath = join(getAppRootDir(), 'ts', 'sql', 'mainWorker.node.js');
 
     const worker = new Worker(scriptPath);
 

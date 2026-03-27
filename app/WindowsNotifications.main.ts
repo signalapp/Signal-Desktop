@@ -1,7 +1,7 @@
 // Copyright 2017 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { ipcMain as ipc, app } from 'electron';
+import { ipcMain as ipc } from 'electron';
 import type { IpcMainInvokeEvent } from 'electron';
 import { join } from 'node:path';
 import { Worker } from 'node:worker_threads';
@@ -15,6 +15,7 @@ import type {
 import { WindowsNotificationDataSchema } from '../ts/types/notifications.std.js';
 import OS from '../ts/util/os/osMain.node.js';
 import { createLogger } from '../ts/logging/log.std.js';
+import { getAppRootDir } from '../ts/util/appRootDir.main.js';
 
 const log = createLogger('WindowsNotifications');
 
@@ -22,7 +23,7 @@ let worker: Worker | undefined;
 
 if (OS.isWindows()) {
   const scriptPath = join(
-    app.getAppPath(),
+    getAppRootDir(),
     'app',
     'WindowsNotificationsWorker.node.js'
   );
