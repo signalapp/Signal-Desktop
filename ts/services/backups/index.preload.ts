@@ -1468,7 +1468,7 @@ export class BackupsService {
     await Promise.all([
       itemStorage.remove('lastLocalBackup'),
       itemStorage.remove('localBackupFolder'),
-      itemStorage.remove('backupKeyViewed'),
+      itemStorage.remove('backupKeyViewedHash'),
     ]);
 
     if (deleteExistingBackups) {

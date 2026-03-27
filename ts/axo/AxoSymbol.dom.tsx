@@ -75,7 +75,7 @@ export namespace AxoSymbol {
    */
 
   export type IconName = AxoSymbolIconName;
-  export type IconSize = 12 | 14 | 16 | 18 | 20 | 24 | 48;
+  export type IconSize = 12 | 14 | 16 | 18 | 20 | 24 | 36 | 48;
 
   type IconSizeConfig = { size: number; fontSize: number };
 
@@ -86,6 +86,7 @@ export namespace AxoSymbol {
     18: { size: 18, fontSize: 16 },
     20: { size: 20, fontSize: 18 },
     24: { size: 24, fontSize: 22 },
+    36: { size: 36, fontSize: 34 },
     48: { size: 48, fontSize: 44 },
   };
 

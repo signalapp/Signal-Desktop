@@ -286,6 +286,7 @@ import { itemStorage } from './textsecure/Storage.preload.js';
 import { initMessageCleanup } from './services/messageStateCleanup.dom.js';
 import { MessageCache } from './services/MessageCache.preload.js';
 import { saveAndNotify } from './messages/saveAndNotify.preload.js';
+import { getBackupKeyHash } from './services/backups/crypto.preload.js';
 
 const { isNumber, throttle } = lodash;
 
@@ -1024,6 +1025,20 @@ export async function startApp(): Promise<void> {
         await itemStorage.remove('versionedExpirationTimer');
         await itemStorage.remove('callQualitySurveyCooldownDisabled');
         await itemStorage.remove('localDeleteWarningShown');
+      }
+
+      if (
+        itemStorage.get('backupKeyViewed') === true &&
+        itemStorage.get('backupKeyViewedHash') == null
+      ) {
+        const backupKey = itemStorage.get('accountEntropyPool');
+        if (backupKey) {
+          await itemStorage.put(
+            'backupKeyViewedHash',
+            getBackupKeyHash(backupKey)
+          );
+        }
+        await itemStorage.remove('backupKeyViewed');
       }
     }
 

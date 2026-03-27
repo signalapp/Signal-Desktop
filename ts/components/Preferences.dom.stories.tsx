@@ -389,8 +389,9 @@ export default {
   component: Preferences,
   args: {
     i18n,
-    accountEntropyPool:
+    backupKey:
       'uy38jh2778hjjhj8lk19ga61s672jsj089r023s6a57809bap92j2yh5t326vv7t',
+    backupKeyHash: 'backupkeyhash',
     autoDownloadAttachment: {
       photos: true,
       videos: false,
@@ -419,7 +420,6 @@ export default {
     availableMicrophones,
     availableSpeakers,
     backupFreeMediaDays: 45,
-    backupKeyViewed: false,
     backupLocalBackupsEnabled: false,
     backupSubscriptionStatus: { status: 'not-found' },
     backupTier: null,
@@ -492,6 +492,7 @@ export default {
     },
     preferredSystemLocales: ['en'],
     preferredWidthFromStorage: 300,
+    previouslyViewedBackupKeyHash: 'hash',
     resolvedLocale: 'en',
     selectedCamera:
       'dfbe6effe70b0611ba0fdc2a9ea3f39f6cb110e6687948f7e5f016c111b7329c',
@@ -557,7 +558,7 @@ export default {
     onAutoDownloadAttachmentChange: action('onAutoDownloadAttachmentChange'),
     onAutoDownloadUpdateChange: action('onAutoDownloadUpdateChange'),
     onAutoLaunchChange: action('onAutoLaunchChange'),
-    onBackupKeyViewedChange: action('onBackupKeyViewedChange'),
+    onBackupKeyViewed: action('onBackupKeyViewed'),
     onCallNotificationsChange: action('onCallNotificationsChange'),
     onCallRingtoneNotificationChange: action(
       'onCallRingtoneNotificationChange'
@@ -1253,7 +1254,7 @@ export const LocalBackups = Template.bind({});
 LocalBackups.args = {
   settingsLocation: { page: SettingsPage.LocalBackups },
   backupLocalBackupsEnabled: true,
-  backupKeyViewed: true,
+  previouslyViewedBackupKeyHash: 'hash',
   lastLocalBackup: {
     timestamp: Date.now() - DAY,
     backupsFolder: 'backups',
@@ -1266,20 +1267,20 @@ export const LocalBackupsNeverBackedUp = Template.bind({});
 LocalBackupsNeverBackedUp.args = {
   settingsLocation: { page: SettingsPage.LocalBackups },
   backupLocalBackupsEnabled: true,
-  backupKeyViewed: true,
+  previouslyViewedBackupKeyHash: 'hash',
   lastLocalBackup: undefined,
   localBackupFolder: '/home/signaluser/Signal Backups/',
 };
 
 export const LocalBackupsSetupChooseFolder = Template.bind({});
 LocalBackupsSetupChooseFolder.args = {
-  settingsLocation: { page: SettingsPage.LocalBackupsSetupFolder },
+  settingsLocation: { page: SettingsPage.LocalBackups },
   backupLocalBackupsEnabled: true,
 };
 
 export const LocalBackupsSetupViewBackupKey = Template.bind({});
 LocalBackupsSetupViewBackupKey.args = {
-  settingsLocation: { page: SettingsPage.LocalBackupsSetupKey },
+  settingsLocation: { page: SettingsPage.LocalBackups },
   backupLocalBackupsEnabled: true,
   localBackupFolder: '/home/signaluser/Signal Backups/',
 };

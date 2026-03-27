@@ -8586,6 +8586,18 @@
     "messageformat": "Other ways to back up",
     "description": "Heading on the backups settings view for alternative backup methods such as on-device backups."
   },
+  "icu:Preferences__recovery-key-updated__title": {
+    "messageformat": "Your recovery key has changed",
+    "description": "Title in modal warning the user that their recovery key (backup key) has been changed"
+  },
+  "icu:Preferences__recovery-key-updated__description": {
+    "messageformat": "Your recovery key has been updated. Any new backups you make can only be restored using your new recovery key.",
+    "description": "Text in modal warning the user that their recovery key (backup key) has been changed"
+  },
+  "icu:Preferences__recovery-key-updated__view-key": {
+    "messageformat": "View new key",
+    "description": "Button text to view the new updated recovery key"
+  },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {# contact} other {# contacts}}",
     "description": "Number of contacts blocked plural"

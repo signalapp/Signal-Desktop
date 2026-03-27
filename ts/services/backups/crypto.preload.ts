@@ -13,6 +13,7 @@ import { strictAssert } from '../../util/assert.std.js';
 import type { AciString } from '../../types/ServiceId.std.js';
 import { toAciObject } from '../../util/ServiceId.node.js';
 import { itemStorage } from '../../textsecure/Storage.preload.js';
+import { sha256 } from '../../Crypto.node.js';
 
 const getMemoizedBackupKey = memoizee((accountEntropyPool: string) => {
   return AccountEntropyPool.deriveBackupKey(accountEntropyPool);
@@ -23,6 +24,10 @@ export function getBackupKey(): BackupKey {
   strictAssert(accountEntropyPool, 'Account Entropy Pool not available');
 
   return getMemoizedBackupKey(accountEntropyPool);
+}
+
+export function getBackupKeyHash(backupKey: string): string {
+  return Buffer.from(sha256(Buffer.from(backupKey))).toString('base64');
 }
 
 export function getBackupMediaRootKey(): BackupKey {

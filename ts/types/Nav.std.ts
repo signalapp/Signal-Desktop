@@ -89,8 +89,6 @@ export enum SettingsPage {
   PNP = 'PNP',
   BackupsDetails = 'BackupsDetails',
   LocalBackups = 'LocalBackups',
-  LocalBackupsSetupFolder = 'LocalBackupsSetupFolder',
-  LocalBackupsSetupKey = 'LocalBackupsSetupKey',
   LocalBackupsKeyReference = 'LocalBackupsKeyReference',
 }
 

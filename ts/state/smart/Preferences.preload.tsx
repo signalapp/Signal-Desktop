@@ -1,7 +1,7 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { StrictMode, useCallback, useEffect } from 'react';
+import React, { StrictMode, useCallback, useEffect, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 
 import type { AudioDevice } from '@signalapp/ringrtc';
@@ -15,6 +15,7 @@ import {
   getOtherTabsUnreadStats,
 } from '../selectors/conversations.dom.js';
 import {
+  getBackupKey,
   getCustomColors,
   getItems,
   getNavTabsCollapsed,
@@ -118,6 +119,7 @@ import type { ExternalProps as SmartNotificationProfilesProps } from './Preferen
 import { useMegaphonesActions } from '../ducks/megaphones.preload.js';
 import type { ZoomFactorType } from '../../types/StorageKeys.std.js';
 import { isLocalBackupsEnabled } from '../../util/isLocalBackupsEnabled.preload.js';
+import { getBackupKeyHash } from '../../services/backups/crypto.preload.js';
 
 const DEFAULT_NOTIFICATION_SETTING = 'message';
 
@@ -258,6 +260,14 @@ export function SmartPreferences(): React.JSX.Element | null {
     getHasAnyCurrentCustomChatFolders
   );
   const { osName } = useSelector(getUser);
+
+  const backupKey = useSelector(getBackupKey);
+  const backupKeyHash = useMemo(() => {
+    if (!backupKey) {
+      return undefined;
+    }
+    return getBackupKeyHash(backupKey);
+  }, [backupKey]);
 
   // The weird ones
 
@@ -552,6 +562,10 @@ export function SmartPreferences(): React.JSX.Element | null {
     await window.IPC.setMediaPermissions(value);
   };
 
+  const onBackupKeyViewed = (args: { backupKeyHash: string }) => {
+    onBackupKeyViewedChange(args.backupKeyHash);
+  };
+
   // Simple, one-way items
 
   const {
@@ -622,10 +636,9 @@ export function SmartPreferences(): React.JSX.Element | null {
       'auto-download-attachment',
       DEFAULT_AUTO_DOWNLOAD_ATTACHMENT
     );
-  const [backupKeyViewed, onBackupKeyViewedChange] = createItemsAccess(
-    'backupKeyViewed',
-    false
-  );
+
+  const [previouslyViewedBackupKeyHash, onBackupKeyViewedChange] =
+    createItemsAccess('backupKeyViewedHash', undefined);
 
   const [hasAudioNotifications, onAudioNotificationsChange] = createItemsAccess(
     'audio-notification',
@@ -816,20 +829,18 @@ export function SmartPreferences(): React.JSX.Element | null {
     });
   };
 
-  const accountEntropyPool = itemStorage.get('accountEntropyPool');
-
   return (
     <StrictMode>
       <AxoProvider dir={i18n.getLocaleDirection()}>
         <Preferences
-          accountEntropyPool={accountEntropyPool}
+          backupKey={backupKey}
+          backupKeyHash={backupKeyHash}
           addCustomColor={addCustomColor}
           autoDownloadAttachment={autoDownloadAttachment}
           availableCameras={availableCameras}
           availableLocales={availableLocales}
           availableMicrophones={availableMicrophones}
           availableSpeakers={availableSpeakers}
-          backupKeyViewed={backupKeyViewed}
           backupTier={backupLevelFromNumber(backupTier)}
           backupSubscriptionStatus={
             backupSubscriptionStatus ?? { status: 'not-found' }
@@ -919,7 +930,7 @@ export function SmartPreferences(): React.JSX.Element | null {
           onAutoDownloadAttachmentChange={onAutoDownloadAttachmentChange}
           onAutoDownloadUpdateChange={onAutoDownloadUpdateChange}
           onAutoLaunchChange={onAutoLaunchChange}
-          onBackupKeyViewedChange={onBackupKeyViewedChange}
+          onBackupKeyViewed={onBackupKeyViewed}
           onCallNotificationsChange={onCallNotificationsChange}
           onCallRingtoneNotificationChange={onCallRingtoneNotificationChange}
           onContentProtectionChange={onContentProtectionChange}
@@ -981,6 +992,7 @@ export function SmartPreferences(): React.JSX.Element | null {
           renderPreferencesEditChatFolderPage={
             renderPreferencesEditChatFolderPage
           }
+          previouslyViewedBackupKeyHash={previouslyViewedBackupKeyHash}
           promptOSAuth={promptOSAuth}
           resetAllChatColors={resetAllChatColors}
           resetDefaultChatColor={resetDefaultChatColor}
