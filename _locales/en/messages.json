@@ -8402,21 +8402,41 @@
     "messageformat": "show your backup key",
     "description": "Shown as part of an OS prompt with a final string like 'Signal Desktop is trying to show your backup key'"
   },
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
+    "messageformat": "show your recovery key",
+    "description": "Shown as part of an OS prompt with a final string like 'Signal Desktop is trying to show your recovery (backup) key'"
+  },
   "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
     "messageformat": "Verify your identity to view your backup key.",
+    "description": "Shown as the body text of an OS prompt with a title like \"Making sure it's you\""
+  },
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
+    "messageformat": "Verify your identity to view your recovery key.",
     "description": "Shown as the body text of an OS prompt with a title like \"Making sure it's you\""
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
     "messageformat": "View backup key",
     "description": "If linux system has pkcheck and we were able to install .policy files, this is the dialog header the user will see on the polkit prompt before showing the key"
   },
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
+    "messageformat": "View recovery key",
+    "description": "If linux system has pkcheck and we were able to install .policy files, this is the dialog header the user will see on the polkit prompt before showing the key"
+  },
   "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
     "messageformat": "Authentication is required to view your backup key.",
+    "description": "If linux system has pkcheck and we were able to install .policy files, this is the dialog text the user will see on the polkit prompt before showing the key"
+  },
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
+    "messageformat": "Authentication is required to view your recovery key.",
     "description": "If linux system has pkcheck and we were able to install .policy files, this is the dialog text the user will see on the polkit prompt before showing the key"
   },
   "icu:Preferences--local-backups-backup-key-text-box": {
     "messageformat": "Backup key text box",
     "description": "ARIA label for the text box used to view or confirm the backup key for local message backups."
+  },
+  "icu:Preferences--local-backups-recovery-key-text-box": {
+    "messageformat": "Recovery key",
+    "description": "ARIA label for the text box used to view or confirm the recovery (backup) key for local message backups."
   },
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "Enter key",
@@ -8426,33 +8446,45 @@
     "messageformat": "Record your backup key",
     "description": "Title for viewing the backup key for local message backups."
   },
+  "icu:Preferences--local-backups-record-recovery-key": {
+    "messageformat": "Record your recovery key",
+    "description": "Title for viewing the recovery (backup) key for local message backups."
+  },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "This key is required to recover your account and data. Store this key somewhere safe. If you lose it, you won’t be able to recover your account. <learnMoreLink>Learn more.</learnMoreLink>",
-    "description": "Description for viewing the backup key for local message backups."
+    "description": "Description for viewing the recovery (backup) key for local message backups."
   },
   "icu:Preferences--local-backups-confirm-backup-key": {
     "messageformat": "Confirm your backup key",
     "description": "Title for confirming the backup key for local message backups by re-entering it into a text box."
   },
+  "icu:Preferences--local-backups-confirm-recovery-key": {
+    "messageformat": "Confirm your recovery key",
+    "description": "Title for confirming the recovery (backup) key for local message backups by re-entering it into a text box."
+  },
   "icu:Preferences--local-backups-confirm-backup-key-description": {
     "messageformat": "Enter the backup key that you just recorded",
     "description": "Description for confirming the backup key for local message backups by re-entering it into a text box."
   },
+  "icu:Preferences--local-backups-confirm-recovery-key-description": {
+    "messageformat": "Enter the recovery key that you just recorded",
+    "description": "Description for confirming the recovery (backup) key for local message backups by re-entering it into a text box."
+  },
   "icu:Preferences__local-backups-confirm-key-modal-title": {
     "messageformat": "Keep your key safe",
-    "description": "Title of modal shown after you confirmed the backup key for local on-device backups in settings"
+    "description": "Title of modal shown after you confirmed the recovery (backup) key for local on-device backups in settings"
   },
   "icu:Preferences__local-backups-confirm-key-modal-body": {
     "messageformat": "Signal will not be able to help you restore your backup if you lose your key. Store it somewhere safe and secure, and do not share it with others.",
-    "description": "Body text of modal shown after you confirmed the backup key for local on-device backups in settings"
+    "description": "Body text of modal shown after you confirmed the recovery (backup) key for local on-device backups in settings"
   },
   "icu:Preferences__local-backups-confirm-key-modal-continue": {
     "messageformat": "Continue",
-    "description": "Text of the primary button on modal shown after you confirmed the backup key for local on-device backups in settings"
+    "description": "Text of the primary button on modal shown after you confirmed the recovery (backup) key for local on-device backups in settings"
   },
   "icu:Preferences--local-backups-see-backup-key-again": {
     "messageformat": "See key again",
-    "description": "Link text to return to the previous backup key page, shown when confirming the backup key for local message backups."
+    "description": "Link text to return to the previous recovery key page, shown when confirming the recovery (backup) key for local message backups."
   },
   "icu:Preferences__local-backups-last-backup": {
     "messageformat": "Last backup",
@@ -8492,10 +8524,14 @@
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Copy to clipboard",
-    "description": "Button label for copying the backup key to clipboard in the settings for local on-device backups"
+    "description": "Button label for copying the recovery (backup) key to clipboard in the settings for local on-device backups"
   },
   "icu:Preferences__local-backups-copied-key": {
     "messageformat": "Backup key copied",
+    "description": "Toast message after you copied the backup key to clipboard from settings for local on-device backups"
+  },
+  "icu:Preferences__local-backups-copied-recovery-key": {
+    "messageformat": "Recovery key copied",
     "description": "Toast message after you copied the backup key to clipboard from settings for local on-device backups"
   },
   "icu:Preferences__local-backups--enable--os-prompt--mac": {
@@ -8514,6 +8550,18 @@
     "messageformat": "Authentication is required to enable backups.",
     "description": "If linux system has pkcheck and we were able to install .policy files, this is the dialog text the user will see on the polkit prompt before enabling backups"
   },
+  "icu:Preferences__local-backups-auth-error--unauthorized": {
+    "messageformat": "This action could not be completed because system authentication failed. Please try again or open the Signal app on your mobile device and go to Backup Settings to view your recovery key.",
+    "description": "Error shown in local backups settings when system authentication fails while trying to view the recovery key."
+  },
+  "icu:Preferences__local-backups-auth-error--unauthorized-no-windows-ucv": {
+    "messageformat": "This action could not be completed because Windows Hello is not enabled on your computer. Please set up Windows Hello and try again, or open the Signal app on your mobile device and go to Backup Settings to view your recovery key.",
+    "description": "Error shown in local backups settings on Windows when Windows Hello is not available while trying to view the recovery key."
+  },
+  "icu:Preferences__local-backups-auth-error--unavailable": {
+    "messageformat": "The action could not be completed because authentication is not available on this computer. Please open the Signal app on your mobile device and go to Backup Settings to view your recovery key.",
+    "description": "Error shown in local backups settings when system authentication is unavailable while trying to view the recovery key."
+  },
   "icu:Preferences__view-key": {
     "messageformat": "View key",
     "description": "Button to view the backup key which is used to restore a message history backup"
@@ -8522,8 +8570,16 @@
     "messageformat": "Backup key",
     "description": "Name for the key code used to restore a message history backup"
   },
+  "icu:Preferences__recovery-key": {
+    "messageformat": "Recovery key",
+    "description": "Name for the key code used to restore a message history backup"
+  },
   "icu:Preferences__backup-key-description": {
     "messageformat": "Your backup key is a 64-digit code used to restore your backup",
+    "description": "Description for the key code used to restore a message history backup"
+  },
+  "icu:Preferences__recovery-key-description": {
+    "messageformat": "Your recovery key is a 64-digit code used to restore your backup",
     "description": "Description for the key code used to restore a message history backup"
   },
   "icu:Preferences__backup-other-ways": {

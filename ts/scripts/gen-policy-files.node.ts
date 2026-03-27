@@ -47,9 +47,9 @@ async function main() {
         'utf8'
       ),
       description:
-        'icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux',
+        'icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux',
       message:
-        'icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux',
+        'icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux',
     },
   ];
 
