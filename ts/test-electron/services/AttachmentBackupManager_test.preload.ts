@@ -244,12 +244,18 @@ describe('AttachmentBackupManager/JobManager', function attachmentBackupManager(
     const jobs = await addJobs(5);
     const thumbnailJobs = await addThumbnailJobs(5);
 
+    const job0Started = waitForJobToBeStarted(assertAt(jobs, 0));
+    const job2Started = waitForJobToBeStarted(assertAt(jobs, 2));
+    const job0ThumbnailCompleted = waitForJobToBeCompleted(
+      assertAt(thumbnailJobs, 0)
+    );
+
     // Confirm they are saved to DB
     const allJobs = await getAllSavedJobs();
     assert.strictEqual(allJobs.length, 10, 'initial setup');
 
     await backupManager?.start();
-    await waitForJobToBeStarted(assertAt(jobs, 2));
+    await job2Started;
 
     assert.strictEqual(runJob.callCount, 3);
     assertRunJobCalledWith([
@@ -258,7 +264,7 @@ describe('AttachmentBackupManager/JobManager', function attachmentBackupManager(
       assertAt(jobs, 2),
     ]);
 
-    await waitForJobToBeStarted(assertAt(jobs, 0));
+    await job0Started;
     assert.strictEqual(runJob.callCount, 5, 'first calls');
     assertRunJobCalledWith([
       assertAt(jobs, 4),
@@ -268,7 +274,7 @@ describe('AttachmentBackupManager/JobManager', function attachmentBackupManager(
       assertAt(jobs, 0),
     ]);
 
-    await waitForJobToBeCompleted(assertAt(thumbnailJobs, 0));
+    await job0ThumbnailCompleted;
     assert.strictEqual(runJob.callCount, 10, 'all calls');
 
     assertRunJobCalledWith([
@@ -288,8 +294,9 @@ describe('AttachmentBackupManager/JobManager', function attachmentBackupManager(
 
   it('with transitCdnInfo, will copy to backup tier', async () => {
     const jobs = await addJobs(1);
+    const jobCompleted = waitForJobToBeCompleted(assertAt(jobs, 0));
     await backupManager?.start();
-    await waitForJobToBeCompleted(assertAt(jobs, 0));
+    await jobCompleted;
     assert.strictEqual(backupMediaBatch.callCount, 1);
     assert.strictEqual(encryptAndUploadAttachment.callCount, 0);
 
@@ -315,8 +322,9 @@ describe('AttachmentBackupManager/JobManager', function attachmentBackupManager(
     );
 
     const jobs = await addJobs(1);
+    const jobCompleted = waitForJobToBeCompleted(assertAt(jobs, 0));
     await backupManager?.start();
-    await waitForJobToBeCompleted(assertAt(jobs, 0));
+    await jobCompleted;
     assert.strictEqual(encryptAndUploadAttachment.callCount, 1);
     assert.strictEqual(backupMediaBatch.callCount, 2);
 
@@ -335,9 +343,10 @@ describe('AttachmentBackupManager/JobManager', function attachmentBackupManager(
 
   it('without transitCdnInfo, will upload then copy', async () => {
     const jobs = await addJobs(1, { transitCdnInfo: undefined });
+    const jobCompleted = waitForJobToBeCompleted(assertAt(jobs, 0));
 
     await backupManager?.start();
-    await waitForJobToBeCompleted(assertAt(jobs, 0));
+    await jobCompleted;
 
     assert.strictEqual(backupMediaBatch.callCount, 1);
     assert.strictEqual(encryptAndUploadAttachment.callCount, 1);
@@ -352,9 +361,10 @@ describe('AttachmentBackupManager/JobManager', function attachmentBackupManager(
       transitCdnInfo: undefined,
       path: 'nothing/here',
     });
+    const jobCompleted = waitForJobToBeCompleted(assertAt(jobs, 0));
 
     await backupManager?.start();
-    await waitForJobToBeCompleted(assertAt(jobs, 0));
+    await jobCompleted;
 
     assert.strictEqual(backupMediaBatch.callCount, 0);
     assert.strictEqual(encryptAndUploadAttachment.callCount, 0);
@@ -366,6 +376,8 @@ describe('AttachmentBackupManager/JobManager', function attachmentBackupManager(
 
   it('pauses if it receives a retryAfter', async () => {
     const jobs = await addJobs(5, { transitCdnInfo: undefined });
+    const job0Started = waitForJobToBeStarted(assertAt(jobs, 0));
+    const job2Started = waitForJobToBeStarted(assertAt(jobs, 2));
 
     encryptAndUploadAttachment.throws(
       new HTTPError('Rate limited', {
@@ -374,7 +386,7 @@ describe('AttachmentBackupManager/JobManager', function attachmentBackupManager(
       })
     );
     await backupManager?.start();
-    await waitForJobToBeStarted(assertAt(jobs, 2));
+    await job2Started;
 
     assert.strictEqual(runJob.callCount, 3);
     assertRunJobCalledWith([
@@ -393,7 +405,7 @@ describe('AttachmentBackupManager/JobManager', function attachmentBackupManager(
     });
 
     await clock.tickAsync(100000);
-    await waitForJobToBeStarted(assertAt(jobs, 0));
+    await job0Started;
     assert.strictEqual(runJob.callCount, 8);
     assertRunJobCalledWith([
       assertAt(jobs, 4),
