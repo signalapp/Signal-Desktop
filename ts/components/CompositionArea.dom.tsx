@@ -92,6 +92,7 @@ import { PollCreateModal } from './PollCreateModal.dom.js';
 import { useDocumentKeyDown } from '../hooks/useDocumentKeyDown.dom.js';
 import { hasDraft } from '../util/hasDraft.std.js';
 import type { ContactNameColorType } from '../types/Colors.std.js';
+import { CameraModal } from './CameraModal.dom.js';
 
 export type OwnProps = Readonly<{
   acceptedMessageRequest: boolean | null;
@@ -467,6 +468,11 @@ export const CompositionArea = memo(function CompositionArea({
     () => launchAttachmentPicker('file'),
     [launchAttachmentPicker]
   );
+
+  const [isCameraModalOpen, setIsCameraModalOpen] = useState(false);
+  const launchCameraPicker = useCallback(() => {
+    setIsCameraModalOpen(true);
+  }, []);
 
   const handleOpenPollModal = useCallback(() => {
     setIsPollModalOpen(true);
@@ -862,6 +868,9 @@ export const CompositionArea = memo(function CompositionArea({
             </AxoDropdownMenu.Item>
             <AxoDropdownMenu.Item symbol="file" onSelect={launchFilePicker}>
               {i18n('icu:CompositionArea__AttachMenu__File')}
+            </AxoDropdownMenu.Item>
+            <AxoDropdownMenu.Item symbol="camera" onSelect={launchCameraPicker}>
+              {i18n('icu:CompositionArea__AttachMenu__Camera')}
             </AxoDropdownMenu.Item>
             {(conversationType === 'group' || isPollSend1to1Enabled) && (
               <AxoDropdownMenu.Item
@@ -1350,6 +1359,16 @@ export const CompositionArea = memo(function CompositionArea({
           i18n={i18n}
           onClose={handleClosePollModal}
           onSendPoll={handleSendPoll}
+        />
+      )}
+      {isCameraModalOpen && (
+        <CameraModal
+          i18n={i18n}
+          onClose={() => setIsCameraModalOpen(false)}
+          onCapture={file => {
+            processAttachments({ conversationId, files: [file] });
+            setIsCameraModalOpen(false);
+          }}
         />
       )}
     </div>

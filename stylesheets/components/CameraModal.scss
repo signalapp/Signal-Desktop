@@ -1,0 +1,38 @@
+.CameraModal {
+  &__preview {
+    width: 100%;
+    background: black;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  &__video {
+    width: 100%;
+    display: block;
+  }
+
+  &__controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  &__capture {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    border: 4px solid white;
+    background: white;
+    cursor: pointer;
+    transition: transform 0.1s ease;
+
+    &:hover {
+      transform: scale(1.05);
+    }
+
+    &:active {
+      transform: scale(0.95);
+    }
+  }
+}
