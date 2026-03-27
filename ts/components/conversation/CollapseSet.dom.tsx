@@ -61,6 +61,7 @@ export function CollapseSetViewer(props: Props): React.JSX.Element {
     Record<string, CollapsedMessage>
   >({});
   const previousTargetedMessage = useRef<TargetedMessageType>(undefined);
+  const [isAnimating, setIsAnimating] = useState<boolean>(false);
 
   useEffect(() => {
     if (!targetedMessage) {
@@ -140,8 +141,6 @@ export function CollapseSetViewer(props: Props): React.JSX.Element {
     !shouldShowButton ? 0 : oldestOriginallyUnseenIndex
   );
 
-  const transparencyRef = React.useRef<HTMLDivElement>(null);
-
   return (
     <div>
       {shouldShowButton ? (
@@ -152,6 +151,7 @@ export function CollapseSetViewer(props: Props): React.JSX.Element {
             dayCount={collapsedDayCount}
             isExpanded={isExpanded}
             onClick={() => {
+              setIsAnimating(true);
               setIsExpanded(value => !value);
             }}
             onDelete={() => {
@@ -168,34 +168,21 @@ export function CollapseSetViewer(props: Props): React.JSX.Element {
           'CollapseSet__height-container',
           isExpanded ? 'CollapseSet__height-container--expanded' : undefined
         )}
-        style={{
-          maxHeight: isExpanded
-            ? `${transparencyRef.current?.clientHeight ?? 5000}px`
-            : undefined,
+        onTransitionEnd={event => {
+          if (event.propertyName === 'height') {
+            setIsAnimating(false);
+          }
         }}
       >
         <div
-          ref={transparencyRef}
-          onTransitionEnd={() => {
-            const expandedClass =
-              'CollapseSet__transparency-container--expanded';
-            const ref = transparencyRef.current;
-            if (!ref) {
-              return;
-            }
-
-            if (ref.classList.contains(expandedClass)) {
-              ref.classList.remove(expandedClass);
-            } else {
-              ref.classList.add(expandedClass);
-            }
-          }}
-          className={classNames('CollapseSet__transparency-container')}
-          style={{
-            opacity: isExpanded ? '1' : undefined,
-          }}
+          className={classNames(
+            'CollapseSet__transparency-container',
+            isExpanded
+              ? 'CollapseSet__transparency-container--expanded'
+              : undefined
+          )}
         >
-          {shouldShowButton ? (
+          {shouldShowButton && (isExpanded || isAnimating) ? (
             <>
               {collapsedMessages.map((child, index) => {
                 const previousMessage = messages[index - 1];
