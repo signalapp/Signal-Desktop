@@ -1,8 +1,5 @@
 // Copyright 2015 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 import { assert } from 'chai';
 import lodash from 'lodash';
 import {
@@ -604,22 +601,27 @@ describe('SignalProtocolStore', () => {
       }
 
       it('rejects an invalid publicKey', async () => {
+        // oxlint-disable-next-line typescript/no-explicit-any
         attributes.publicKey = 'a string' as any;
         await testInvalidAttributes();
       });
       it('rejects invalid firstUse', async () => {
+        // oxlint-disable-next-line typescript/no-explicit-any
         attributes.firstUse = 0 as any;
         await testInvalidAttributes();
       });
       it('rejects invalid timestamp', async () => {
+        // oxlint-disable-next-line typescript/no-explicit-any
         attributes.timestamp = NaN as any;
         await testInvalidAttributes();
       });
       it('rejects invalid verified', async () => {
+        // oxlint-disable-next-line typescript/no-explicit-any
         attributes.verified = null as any;
         await testInvalidAttributes();
       });
       it('rejects invalid nonblockingApproval', async () => {
+        // oxlint-disable-next-line typescript/no-explicit-any
         attributes.nonblockingApproval = 0 as any;
         await testInvalidAttributes();
       });
@@ -866,6 +868,7 @@ describe('SignalProtocolStore', () => {
           store.isTrustedIdentity(
             identifier,
             testKey.publicKey.serialize(),
+            // oxlint-disable-next-line typescript/no-explicit-any
             'dir' as any
           )
         );

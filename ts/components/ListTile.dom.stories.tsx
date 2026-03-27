@@ -16,8 +16,8 @@ export default {
 const lorem =
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam feugiat quam vitae semper facilisis. Praesent eu efficitur dui. Donec semper mattis nisl non hendrerit.';
 
+// oxlint-disable-next-line react/display-name
 function TemplateList(width: number): StoryFn<Props> {
-  // eslint-disable-next-line react/display-name
   return args => {
     return (
       <div

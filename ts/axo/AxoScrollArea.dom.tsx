@@ -341,28 +341,28 @@ export namespace AxoScrollArea {
       edgeYStyles,
       edgeStartStyles,
       'top-0',
-      'bg-gradient-to-b'
+      'bg-linear-to-b'
     ),
     bottom: tw(
       edgeStyles,
       edgeYStyles,
       edgeEndStyles,
       'bottom-0',
-      'bg-gradient-to-t'
+      'bg-linear-to-t'
     ),
     'inline-start': tw(
       edgeStyles,
       edgeXStyles,
       edgeStartStyles,
-      'start-0',
-      'bg-gradient-to-r rtl:bg-gradient-to-l'
+      'inset-s-0',
+      'bg-linear-to-r rtl:bg-linear-to-l'
     ),
     'inline-end': tw(
       edgeStyles,
       edgeXStyles,
       edgeEndStyles,
-      'end-0',
-      'bg-gradient-to-l rtl:bg-gradient-to-r'
+      'inset-e-0',
+      'bg-linear-to-l rtl:bg-linear-to-r'
     ),
   };
 

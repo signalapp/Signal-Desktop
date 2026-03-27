@@ -55,8 +55,6 @@ export type CurrentChatFolders = Readonly<{
   hasAnyCurrentCustomChatFolders: boolean;
 }>;
 
-// eslint-disable-next-line max-len
-// eslint-disable-next-line @typescript-eslint/no-namespace, @typescript-eslint/no-redeclare
 export namespace CurrentChatFolders {
   export function createEmpty(): CurrentChatFolders {
     return {

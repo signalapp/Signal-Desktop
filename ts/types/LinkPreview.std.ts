@@ -4,7 +4,7 @@
 import lodash from 'lodash';
 // This file gets imported into renderer that does not have access to Node.js
 // builtins, use an `npm` package.
-// eslint-disable-next-line import/enforce-node-protocol-usage
+// oxlint-disable-next-line unicorn/prefer-node-protocol
 import nodeUrl from 'url';
 import LinkifyIt from 'linkify-it';
 

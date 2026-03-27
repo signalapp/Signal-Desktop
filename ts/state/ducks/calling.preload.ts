@@ -146,7 +146,7 @@ export type GroupCallPeekInfoType = ReadonlyDeep<{
   deviceCount: number;
 }>;
 
-// eslint-disable-next-line local-rules/type-alias-readonlydeep
+// oxlint-disable-next-line signal-desktop/enforce-type-alias-readonlydeep
 export type GroupCallParticipantInfoType = {
   aci: AciString;
   addedTime?: number;
@@ -160,7 +160,7 @@ export type GroupCallParticipantInfoType = {
   videoAspectRatio: number;
 };
 
-// eslint-disable-next-line local-rules/type-alias-readonlydeep
+// oxlint-disable-next-line signal-desktop/enforce-type-alias-readonlydeep
 export type DirectCallStateType = {
   callMode: CallMode.Direct;
   conversationId: string;
@@ -185,7 +185,7 @@ type GroupCallRingStateType = ReadonlyDeep<
     }
 >;
 
-// eslint-disable-next-line local-rules/type-alias-readonlydeep
+// oxlint-disable-next-line signal-desktop/enforce-type-alias-readonlydeep
 export type GroupCallStateType = {
   callMode: CallMode.Group | CallMode.Adhoc;
   conversationId: string;
@@ -198,7 +198,7 @@ export type GroupCallStateType = {
   remoteAudioLevels?: Map<number, number>;
 } & GroupCallRingStateType;
 
-// eslint-disable-next-line local-rules/type-alias-readonlydeep
+// oxlint-disable-next-line signal-desktop/enforce-type-alias-readonlydeep
 export type ActiveCallStateType = {
   state: 'Active';
   callMode: CallMode;
@@ -227,12 +227,12 @@ export type WaitingCallStateType = ReadonlyDeep<{
   conversationId: string;
 }>;
 
-// eslint-disable-next-line local-rules/type-alias-readonlydeep
+// oxlint-disable-next-line signal-desktop/enforce-type-alias-readonlydeep
 export type CallsByConversationType = {
   [conversationId: string]: DirectCallStateType | GroupCallStateType;
 };
 
-// eslint-disable-next-line local-rules/type-alias-readonlydeep
+// oxlint-disable-next-line signal-desktop/enforce-type-alias-readonlydeep
 export type AdhocCallsType = {
   [roomId: string]: GroupCallStateType;
 };
@@ -253,7 +253,7 @@ export type CQSSubmissionStateType = ReadonlyDeep<{
       };
 }>;
 
-// eslint-disable-next-line local-rules/type-alias-readonlydeep
+// oxlint-disable-next-line signal-desktop/enforce-type-alias-readonlydeep
 export type CallingStateType = MediaDeviceSettings & {
   callsByConversation: CallsByConversationType;
   adhocCalls: AdhocCallsType;
@@ -288,7 +288,7 @@ export type DeclineCallType = ReadonlyDeep<{
   conversationId: string;
 }>;
 
-// eslint-disable-next-line local-rules/type-alias-readonlydeep
+// oxlint-disable-next-line signal-desktop/enforce-type-alias-readonlydeep
 type GroupCallStateChangeArgumentType = {
   callMode: CallMode.Group | CallMode.Adhoc;
   connectionState: GroupCallConnectionState;
@@ -307,7 +307,7 @@ type GroupCallReactionsReceivedArgumentType = ReadonlyDeep<{
   reactions: Array<CallReaction>;
 }>;
 
-// eslint-disable-next-line local-rules/type-alias-readonlydeep
+// oxlint-disable-next-line signal-desktop/enforce-type-alias-readonlydeep
 type GroupCallStateChangeActionPayloadType =
   GroupCallStateChangeArgumentType & {
     ourAci: AciString;
@@ -393,7 +393,7 @@ type RemoteSharingScreenChangeType = ReadonlyDeep<{
   isSharingScreen: boolean;
 }>;
 
-// eslint-disable-next-line local-rules/type-alias-readonlydeep
+// oxlint-disable-next-line signal-desktop/enforce-type-alias-readonlydeep
 export type SetLocalAudioType = (
   payload?: ReadonlyDeep<{
     enabled: boolean;
@@ -406,14 +406,14 @@ export type SetLocalAudioType = (
   }>
 ) => void;
 
-// eslint-disable-next-line local-rules/type-alias-readonlydeep
+// oxlint-disable-next-line signal-desktop/enforce-type-alias-readonlydeep
 export type SetLocalVideoType = (
   payload: ReadonlyDeep<{
     enabled: boolean;
   }>
 ) => void;
 
-// eslint-disable-next-line local-rules/type-alias-readonlydeep
+// oxlint-disable-next-line signal-desktop/enforce-type-alias-readonlydeep
 export type SetMutedByType = (
   payload: ReadonlyDeep<{
     mutedBy: number;
@@ -453,7 +453,7 @@ type StartCallLinkLobbyThunkActionType = ReadonlyDeep<
   >
 >;
 
-// eslint-disable-next-line local-rules/type-alias-readonlydeep
+// oxlint-disable-next-line signal-desktop/enforce-type-alias-readonlydeep
 type StartCallingLobbyPayloadType =
   | {
       callMode: CallMode.Direct;
@@ -473,7 +473,7 @@ type StartCallingLobbyPayloadType =
       remoteParticipants: Array<GroupCallParticipantInfoType>;
     };
 
-// eslint-disable-next-line local-rules/type-alias-readonlydeep
+// oxlint-disable-next-line signal-desktop/enforce-type-alias-readonlydeep
 type StartCallLinkLobbyPayloadType = {
   callMode: CallMode.Adhoc;
   conversationId: string;
@@ -489,7 +489,7 @@ type StartCallLinkLobbyPayloadType = {
   callLinkRootKey: string;
 };
 
-// eslint-disable-next-line local-rules/type-alias-readonlydeep
+// oxlint-disable-next-line signal-desktop/enforce-type-alias-readonlydeep
 export type SetRendererCanvasType = {
   element: React.RefObject<HTMLCanvasElement | null> | undefined;
   sizeCallback: SizeCallbackType | undefined;
@@ -750,7 +750,7 @@ type DenyUserActionType = ReadonlyDeep<{
   type: 'calling/DENY_USER';
 }>;
 
-// eslint-disable-next-line local-rules/type-alias-readonlydeep
+// oxlint-disable-next-line signal-desktop/enforce-type-alias-readonlydeep
 type StartCallingLobbyActionType = {
   type: typeof START_CALLING_LOBBY;
   payload: StartCallingLobbyPayloadType;
@@ -761,7 +761,7 @@ type WaitingForCallingLobbyActionType = ReadonlyDeep<{
   payload: { conversationId: string };
 }>;
 
-// eslint-disable-next-line local-rules/type-alias-readonlydeep
+// oxlint-disable-next-line signal-desktop/enforce-type-alias-readonlydeep
 type StartCallLinkLobbyActionType = {
   type: typeof START_CALL_LINK_LOBBY;
   payload: StartCallLinkLobbyPayloadType;
@@ -837,7 +837,7 @@ type GroupCallRaisedHandsChangeActionType = ReadonlyDeep<{
   payload: GroupCallRaisedHandsChangeActionPayloadType;
 }>;
 
-// eslint-disable-next-line local-rules/type-alias-readonlydeep
+// oxlint-disable-next-line signal-desktop/enforce-type-alias-readonlydeep
 export type GroupCallStateChangeActionType = {
   type: 'calling/GROUP_CALL_STATE_CHANGE';
   payload: GroupCallStateChangeActionPayloadType;
@@ -923,7 +923,7 @@ export type BatchUserActionPayloadType = ReadonlyDeep<{
   serviceIds: Array<ServiceIdString>;
 }>;
 
-// eslint-disable-next-line local-rules/type-alias-readonlydeep
+// oxlint-disable-next-line signal-desktop/enforce-type-alias-readonlydeep
 type RefreshIODevicesActionType = {
   type: 'calling/REFRESH_IO_DEVICES';
   payload: MediaDeviceSettings;
@@ -1057,7 +1057,7 @@ type ResetCQSSubmissionStateActionType = ReadonlyDeep<{
   type: typeof RESET_CQS_SUBMISSION_STATE;
 }>;
 
-// eslint-disable-next-line local-rules/type-alias-readonlydeep
+// oxlint-disable-next-line signal-desktop/enforce-type-alias-readonlydeep
 export type CallingActionType =
   | ApproveUserActionType
   | AcceptCallPendingActionType
@@ -2911,7 +2911,7 @@ type SubmitCallQualitySurveyOptionsType = ReadonlyDeep<{
   callType: CallQualitySurvey.CallType;
 }>;
 
-// eslint-disable-next-line local-rules/type-alias-readonlydeep
+// oxlint-disable-next-line signal-desktop/enforce-type-alias-readonlydeep
 type CQSSubmissionActionType =
   | CQSSubmissionStartedActionType
   | CQSSubmissionFailedActionType

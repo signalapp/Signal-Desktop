@@ -60,7 +60,7 @@ export namespace AxoTokens {
         Number.isInteger(hash) && hash >= 0,
         'Hash must be positive integer'
       );
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      // oxlint-disable-next-line typescript/no-non-null-assertion
       return ALL_COLOR_NAMES[hash % ALL_COLOR_NAMES.length]!;
     }
 
@@ -97,7 +97,7 @@ export namespace AxoTokens {
         Number.isInteger(hash) && hash >= 0,
         'Hash must be positive integer'
       );
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      // oxlint-disable-next-line typescript/no-non-null-assertion
       return Gradients[hash % Gradients.length]!;
     }
 

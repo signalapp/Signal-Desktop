@@ -1,24 +1,29 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
+// @ts-check
+import { ESLintUtils } from '@typescript-eslint/utils';
+
 const COMMENT_LINE_1_EXACT = /^ Copyright \d{4} Signal Messenger, LLC$/;
 const COMMENT_LINE_2_EXACT = /^ SPDX-License-Identifier: AGPL-3.0-only$/;
 
 const COMMENT_LINE_1_LOOSE = /Copyright (\d{4}) Signal Messenger, LLC/;
 const COMMENT_LINE_2_LOOSE = /SPDX-License-Identifier: AGPL-3.0-only/;
 
-/** @type {import("eslint").Rule.RuleModule} */
-module.exports = {
+export const enforceLicenseComments = ESLintUtils.RuleCreator.withoutDocs({
   meta: {
     type: 'problem',
-    hasSuggestions: false,
-    fixable: true,
+    fixable: 'code',
+    messages: {
+      missingLicenseComment: 'Missing license comment',
+    },
     schema: [],
+    defaultOptions: [],
   },
   create(context) {
     return {
       Program(node) {
-        let comment1 = node.comments.at(0);
-        let comment2 = node.comments.at(1);
+        const comment1 = node.comments?.at(0);
+        const comment2 = node.comments?.at(1);
 
         if (
           comment1?.type === 'Line' &&
@@ -31,15 +36,14 @@ module.exports = {
 
         context.report({
           node,
-          message: 'Missing license comment',
-
+          messageId: 'missingLicenseComment',
           fix(fixer) {
             let year = null;
-            let remove = [];
+            const remove = [];
 
-            for (let comment of node.comments) {
-              let match1 = comment.value.match(COMMENT_LINE_1_LOOSE);
-              let match2 = comment.value.match(COMMENT_LINE_2_LOOSE);
+            for (const comment of node.comments ?? []) {
+              const match1 = comment.value.match(COMMENT_LINE_1_LOOSE);
+              const match2 = comment.value.match(COMMENT_LINE_2_LOOSE);
 
               if (match1 != null) {
                 year = match1[1];
@@ -52,7 +56,7 @@ module.exports = {
 
             year ??= new Date().getFullYear().toString();
 
-            let insert =
+            const insert =
               `// Copyright ${year} Signal Messenger, LLC\n` +
               '// SPDX-License-Identifier: AGPL-3.0-only\n';
 
@@ -70,4 +74,4 @@ module.exports = {
       },
     };
   },
-};
+});

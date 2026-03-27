@@ -13,7 +13,7 @@ export function StopPropagation({
   className?: string;
 }): React.JSX.Element {
   return (
-    // eslint-disable-next-line jsx-a11y/no-static-element-interactions
+    // oxlint-disable-next-line jsx-a11y/no-static-element-interactions
     <div
       className={className}
       onClick={ev => ev.stopPropagation()}

@@ -163,8 +163,7 @@ export function LeftPaneSearchInput({
           // Clicking the non-X part of the pill should focus the input but have a normal
           //   cursor. This effectively simulates `pointer-events: none` while still
           //   letting us change the cursor.
-          // eslint-disable-next-line max-len
-          // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
+          // oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
           <div
             className="LeftPaneSearchInput__in-conversation-pill"
             onClick={() => {

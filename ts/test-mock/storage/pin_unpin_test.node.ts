@@ -1,6 +1,5 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-/* eslint-disable no-await-in-loop */
 
 import { assert } from 'chai';
 
@@ -29,7 +28,7 @@ describe('storage service', function (this: Mocha.Suite) {
 
   for (const useLegacyStorageEncryption of [false, true]) {
     const suffix = `useLegacyStorageEncryption=${useLegacyStorageEncryption}`;
-    // eslint-disable-next-line no-loop-func
+    // oxlint-disable-next-line no-loop-func
     it(`should pin/unpin groups ${suffix}`, async () => {
       ({ bootstrap, app, group } = await initStorage({
         useLegacyStorageEncryption,
@@ -101,30 +100,36 @@ describe('storage service', function (this: Mocha.Suite) {
           const isLast = i === toPin.length - 1;
 
           debug('sending a message to contact=%d', i);
+          // oxlint-disable-next-line no-await-in-loop
           await contact.sendText(desktop, 'Hello!', {
             timestamp: bootstrap.getTimestamp(),
           });
 
+          // oxlint-disable-next-line no-await-in-loop
           const state = await phone.expectStorageState('consistency check');
 
           debug('pinning contact=%d', i);
           const convo = leftPane.locator(
             `[data-testid="${contact.device.aci}"]`
           );
+          // oxlint-disable-next-line no-await-in-loop
           await convo.click();
 
           const moreButton = conversationStack.getByRole('button', {
             name: 'More Info',
           });
+          // oxlint-disable-next-line no-await-in-loop
           await moreButton.click();
 
           const pinButton = window.getByRole('menuitem', {
             name: 'Pin chat',
           });
+          // oxlint-disable-next-line no-await-in-loop
           await pinButton.click();
 
           if (isLast) {
             // Storage state shouldn't be updated because we failed to pin
+            // oxlint-disable-next-line no-await-in-loop
             await window
               .locator('.Toast >> "You can only pin up to 4 chats"')
               .waitFor();
@@ -132,9 +137,11 @@ describe('storage service', function (this: Mocha.Suite) {
           }
 
           debug('verifying storage state change contact=%d', i);
+          // oxlint-disable-next-line no-await-in-loop
           const newState = await phone.waitForStorageState({
             after: state,
           });
+          // oxlint-disable-next-line no-await-in-loop
           assert.isTrue(await newState.isPinned(contact), 'contact not pinned');
 
           // AccountRecord

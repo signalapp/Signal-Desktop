@@ -1,16 +1,12 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable guard-for-in */
-/* eslint-disable no-restricted-syntax */
-
 /*
  * Implements EventTarget
  * https://developer.mozilla.org/en-US/docs/Web/API/EventTarget
  */
 
+// oxlint-disable-next-line typescript/explicit-module-boundary-types, typescript/no-explicit-any
 export type EventHandler = (event: any) => unknown;
 
 export default class EventTarget {
@@ -75,14 +71,5 @@ export default class EventTarget {
       }
       this.listeners[eventName] = listeners;
     }
-  }
-
-  extend(source: any): any {
-    const target = this as any;
-
-    for (const prop in source) {
-      target[prop] = source[prop];
-    }
-    return target;
   }
 }

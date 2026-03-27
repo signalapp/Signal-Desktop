@@ -392,7 +392,7 @@ export async function sendNormalMessage(
 
         log.info('sending direct message');
         innerPromise = messaging.sendMessageToServiceId({
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          // oxlint-disable-next-line typescript/no-non-null-assertion
           serviceId: recipientServiceIdsWithoutMe[0]!,
           messageOptions: {
             attachments,
@@ -952,7 +952,7 @@ async function uploadMessageQuote({
       );
 
       const attachmentAfterThumbnailUpload =
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        // oxlint-disable-next-line typescript/no-non-null-assertion
         attachmentsAfterThumbnailUpload[index]!;
       return {
         ...attachment,

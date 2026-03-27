@@ -51,10 +51,10 @@ export async function afterPack({
       'Replacing electron framework symlink with real folder',
       sourcePath
     );
-    // eslint-disable-next-line no-await-in-loop
+    // oxlint-disable-next-line no-await-in-loop
     await rm(targetPath, { recursive: true, force: true });
 
-    // eslint-disable-next-line no-await-in-loop
+    // oxlint-disable-next-line no-await-in-loop
     await fs.rename(sourcePath, targetPath);
   }
 

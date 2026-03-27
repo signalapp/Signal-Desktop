@@ -423,7 +423,7 @@ describe('backup/attachments', () => {
             } else {
               assert.equal(
                 roundtrippedAttachment.cdnKey,
-                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                // oxlint-disable-next-line typescript/no-non-null-assertion
                 after.attachments?.[0]!.cdnKey
               );
             }
@@ -824,6 +824,7 @@ describe('backup/attachments', () => {
 
     describe('when copied over from sticker pack (i.e. missing encryption info)', () => {
       // TODO: DESKTOP-8896
+      // oxlint-disable-next-line signal-desktop/no-disabled-tests
       it.skip('BackupLevel.Paid, generates new encryption info', async () => {
         await asymmetricRoundtripHarness(
           [

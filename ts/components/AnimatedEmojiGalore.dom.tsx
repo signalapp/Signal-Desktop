@@ -68,7 +68,7 @@ export function AnimatedEmojiGalore({
     <>
       {springs.map((styles, index) => (
         <animated.div
-          // eslint-disable-next-line react/no-array-index-key
+          // oxlint-disable-next-line react/no-array-index-key
           key={index}
           style={{
             left: `${random(0, 100)}%`,

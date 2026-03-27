@@ -23,13 +23,12 @@ export function SharedGroupNames({
 }: PropsType): React.JSX.Element {
   const firstThreeGroups = take(sharedGroupNames, 3).map((group, i) => (
     // We cannot guarantee uniqueness of group names
-    // eslint-disable-next-line react/no-array-index-key
+    // oxlint-disable-next-line react/no-array-index-key
     <strong key={i} className={nameClassName}>
       <UserText text={group} />
     </strong>
   ));
 
-  /* eslint-disable @typescript-eslint/no-non-null-assertion */
   if (sharedGroupNames.length >= 5) {
     const remainingCount = sharedGroupNames.length - 3;
     return (
@@ -37,8 +36,11 @@ export function SharedGroupNames({
         i18n={i18n}
         id="icu:member-of-more-than-3-groups--multiple-more"
         components={{
+          // oxlint-disable-next-line typescript/no-non-null-assertion
           group1: firstThreeGroups[0]!,
+          // oxlint-disable-next-line typescript/no-non-null-assertion
           group2: firstThreeGroups[1]!,
+          // oxlint-disable-next-line typescript/no-non-null-assertion
           group3: firstThreeGroups[2]!,
           remainingCount,
         }}
@@ -51,8 +53,11 @@ export function SharedGroupNames({
         i18n={i18n}
         id="icu:member-of-more-than-3-groups--one-more"
         components={{
+          // oxlint-disable-next-line typescript/no-non-null-assertion
           group1: firstThreeGroups[0]!,
+          // oxlint-disable-next-line typescript/no-non-null-assertion
           group2: firstThreeGroups[1]!,
+          // oxlint-disable-next-line typescript/no-non-null-assertion
           group3: firstThreeGroups[2]!,
         }}
       />
@@ -64,8 +69,11 @@ export function SharedGroupNames({
         i18n={i18n}
         id="icu:member-of-3-groups"
         components={{
+          // oxlint-disable-next-line typescript/no-non-null-assertion
           group1: firstThreeGroups[0]!,
+          // oxlint-disable-next-line typescript/no-non-null-assertion
           group2: firstThreeGroups[1]!,
+          // oxlint-disable-next-line typescript/no-non-null-assertion
           group3: firstThreeGroups[2]!,
         }}
       />
@@ -77,7 +85,9 @@ export function SharedGroupNames({
         i18n={i18n}
         id="icu:member-of-2-groups"
         components={{
+          // oxlint-disable-next-line typescript/no-non-null-assertion
           group1: firstThreeGroups[0]!,
+          // oxlint-disable-next-line typescript/no-non-null-assertion
           group2: firstThreeGroups[1]!,
         }}
       />
@@ -89,12 +99,12 @@ export function SharedGroupNames({
         i18n={i18n}
         id="icu:member-of-1-group"
         components={{
+          // oxlint-disable-next-line typescript/no-non-null-assertion
           group: firstThreeGroups[0]!,
         }}
       />
     );
   }
-  /* eslint-enable @typescript-eslint/no-non-null-assertion */
 
   return <>{i18n('icu:no-groups-in-common')}</>;
 }

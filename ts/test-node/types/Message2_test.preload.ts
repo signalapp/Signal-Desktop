@@ -350,7 +350,7 @@ describe('Message', () => {
       assert.throws(
         () =>
           Message._withSchemaVersion({
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            // oxlint-disable-next-line typescript/no-explicit-any
             schemaVersion: toVersionX as any,
             upgrade: () => Promise.resolve(getDefaultMessage()),
           }),
@@ -361,7 +361,7 @@ describe('Message', () => {
     it('should require an upgrade function', () => {
       assert.throws(
         () =>
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          // oxlint-disable-next-line typescript/no-explicit-any
           Message._withSchemaVersion({ schemaVersion: 2, upgrade: 3 as any }),
         '_withSchemaVersion: upgrade must be a function'
       );
@@ -417,7 +417,7 @@ describe('Message', () => {
       const upgrade = async () => null;
       const upgradeWithVersion = Message._withSchemaVersion({
         schemaVersion: 3,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        // oxlint-disable-next-line typescript/no-explicit-any
         upgrade: upgrade as any,
       });
 
@@ -464,7 +464,7 @@ describe('Message', () => {
           id: 34233,
           isViewOnce: false,
           referencedMessageNotFound: false,
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          // oxlint-disable-next-line typescript/no-explicit-any
         } as any,
       });
       const expected = getDefaultMessage({

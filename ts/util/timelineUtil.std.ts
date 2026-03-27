@@ -3,11 +3,11 @@
 
 import lodash from 'lodash';
 import { createLogger } from '../logging/log.std.js';
-// eslint-disable-next-line import/no-restricted-paths
+// oxlint-disable-next-line signal-desktop/no-restricted-paths
 import type { PropsType as TimelinePropsType } from '../components/conversation/Timeline.dom.js';
-// eslint-disable-next-line import/no-restricted-paths
+// oxlint-disable-next-line signal-desktop/no-restricted-paths
 import type { TimelineItemType } from '../components/conversation/TimelineItem.dom.js';
-// eslint-disable-next-line import/no-restricted-paths
+// oxlint-disable-next-line signal-desktop/no-restricted-paths
 import { WidthBreakpoint } from '../components/_util.std.js';
 import { toLogFormat } from '../types/errors.std.js';
 import { MINUTE } from './durations/index.std.js';

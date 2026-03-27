@@ -2857,10 +2857,11 @@ export class CallingClass {
     ) {
       return false;
     }
+    // oxlint-disable-next-line typescript/prefer-for-of
     for (let i = 0; i < a.availableCameras.length; i += 1) {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      // oxlint-disable-next-line typescript/no-non-null-assertion
       const aCamera = a.availableCameras[i]!;
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      // oxlint-disable-next-line typescript/no-non-null-assertion
       const bCamera = a.availableCameras[i]!;
       if (
         aCamera.deviceId !== bCamera.deviceId ||
@@ -2871,9 +2872,9 @@ export class CallingClass {
       }
     }
     for (let i = 0; i < a.availableMicrophones.length; i += 1) {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      // oxlint-disable-next-line typescript/no-non-null-assertion
       const aMicrophone = a.availableMicrophones[i]!;
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      // oxlint-disable-next-line typescript/no-non-null-assertion
       const bMicrophone = b.availableMicrophones[i]!;
       if (
         aMicrophone.name !== bMicrophone.name ||
@@ -2883,9 +2884,9 @@ export class CallingClass {
       }
     }
     for (let i = 0; i < a.availableSpeakers.length; i += 1) {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      // oxlint-disable-next-line typescript/no-non-null-assertion
       const aSpeaker = a.availableSpeakers[i]!;
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      // oxlint-disable-next-line typescript/no-non-null-assertion
       const bSpeaker = b.availableSpeakers[i]!;
       if (
         aSpeaker.name !== bSpeaker.name ||
@@ -3696,7 +3697,7 @@ export class CallingClass {
 
     let acceptedTime: number | null = null;
 
-    // eslint-disable-next-line no-param-reassign
+    // oxlint-disable-next-line no-param-reassign
     call.handleStateChanged = async () => {
       if (call.state === CallState.Accepted) {
         acceptedTime = acceptedTime ?? Date.now();
@@ -3757,14 +3758,14 @@ export class CallingClass {
       });
     };
 
-    // eslint-disable-next-line no-param-reassign
+    // oxlint-disable-next-line no-param-reassign
     call.handleRemoteAudioEnabled = () => {
       reduxInterface.remoteAudioChange({
         conversationId,
         hasAudio: call.remoteAudioEnabled,
       });
     };
-    // eslint-disable-next-line no-param-reassign
+    // oxlint-disable-next-line no-param-reassign
     call.handleRemoteVideoEnabled = () => {
       reduxInterface.remoteVideoChange({
         conversationId,
@@ -3772,7 +3773,7 @@ export class CallingClass {
       });
     };
 
-    // eslint-disable-next-line no-param-reassign
+    // oxlint-disable-next-line no-param-reassign
     call.handleRemoteSharingScreen = () => {
       reduxInterface.remoteSharingScreenChange({
         conversationId,
@@ -3780,7 +3781,7 @@ export class CallingClass {
       });
     };
 
-    // eslint-disable-next-line no-param-reassign
+    // oxlint-disable-next-line no-param-reassign
     call.handleAudioLevels = () => {
       window.SignalCI?.maybeUpdateMaxAudioLevel(call.remoteAudioLevel);
       reduxInterface.directCallAudioLevelsChange({
@@ -3790,7 +3791,7 @@ export class CallingClass {
       });
     };
 
-    // eslint-disable-next-line no-param-reassign
+    // oxlint-disable-next-line no-param-reassign
     call.handleLowBandwidthForVideo = _recovered => {
       // TODO: Implement handling of "low outgoing bandwidth for video" notification.
     };

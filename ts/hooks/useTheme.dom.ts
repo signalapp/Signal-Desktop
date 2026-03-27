@@ -37,10 +37,10 @@ export const useTheme = (): ThemeType => {
 
     async function loop() {
       while (!signal.aborted) {
-        // eslint-disable-next-line no-await-in-loop
+        // oxlint-disable-next-line no-await-in-loop
         await applyTheme();
 
-        // eslint-disable-next-line no-await-in-loop
+        // oxlint-disable-next-line no-await-in-loop
         await SignalContext.Settings.waitForChange();
       }
     }

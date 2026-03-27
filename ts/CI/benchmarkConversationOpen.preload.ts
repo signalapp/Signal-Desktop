@@ -122,7 +122,7 @@ export async function benchmarkConversationOpen({
     'CI not enabled; ensure this is a staging build'
   );
 
-  // eslint-disable-next-line no-param-reassign
+  // oxlint-disable-next-line no-param-reassign
   conversationId =
     conversationId || getSelectedConversationId(window.reduxStore.getState());
 
@@ -150,12 +150,12 @@ export async function benchmarkConversationOpen({
   const durations: Array<number> = [];
   for (let i = 0; i < runCount; i += 1) {
     // Give some buffer between tests
-    // eslint-disable-next-line no-await-in-loop
+    // oxlint-disable-next-line no-await-in-loop
     await sleep(BUFFER_DELAY_MS);
 
     log.info(`${logId}: running open test run ${i + 1}/${runCount}`);
 
-    // eslint-disable-next-line no-await-in-loop
+    // oxlint-disable-next-line no-await-in-loop
     const duration = await timeConversationOpen(conversationId);
 
     if (i >= runCountToSkip) {
@@ -184,7 +184,7 @@ async function waitForSelector(
       return element;
     }
 
-    // eslint-disable-next-line no-await-in-loop
+    // oxlint-disable-next-line no-await-in-loop
     await sleep(BUFFER_DELAY_MS);
   }
 

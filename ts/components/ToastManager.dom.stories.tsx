@@ -349,7 +349,6 @@ export default {
   },
 } satisfies Meta<Args>;
 
-// eslint-disable-next-line react/function-component-definition
 const Template: StoryFn<Args> = args => {
   const { toastType, megaphoneType, ...rest } = args;
   return (

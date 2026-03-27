@@ -223,7 +223,6 @@ export async function onRetryRequest(event: RetryRequestEvent): Promise<void> {
     requesterAci,
     timestamp,
   });
-  // eslint-disable-next-line prefer-destructuring
   let contentProto: Proto.Content.Params | undefined =
     addSenderKeyResult.contentProto;
   const { groupId } = addSenderKeyResult;
@@ -458,7 +457,7 @@ async function getRetryConversation({
     return window.ConversationController.get(requestGroupId);
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  // oxlint-disable-next-line typescript/no-non-null-assertion
   const messageId = messageIds[0]!;
   const message = await DataReader.getMessageById(messageId);
   if (!message) {

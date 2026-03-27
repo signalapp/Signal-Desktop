@@ -173,7 +173,7 @@ export async function addAttachmentToMessage(
         await maybeDeleteAttachmentFile(attachment.path);
       }
       if (!handledAnywhere) {
-        // eslint-disable-next-line no-unsafe-finally
+        // oxlint-disable-next-line no-unsafe-finally
         throw new AttachmentNotNeededForMessageError(attachment);
       }
     }

@@ -38,7 +38,7 @@ export function exponentialBackoffSleepTime(
   );
 
   if (attempt - 1 < numHardcodedBackoffs) {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    // oxlint-disable-next-line typescript/no-non-null-assertion
     return options.firstBackoffs[attempt - 1]!;
   }
 

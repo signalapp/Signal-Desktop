@@ -180,7 +180,7 @@ function MediaSection({
 
   const sections = groupedItems.map((section, index) => {
     const isLast = index === groupedItems.length - 1;
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    // oxlint-disable-next-line typescript/no-non-null-assertion
     const first = section.mediaItems[0]!;
     const { message } = first;
     const date = moment(message.receivedAtMs || message.receivedAt);

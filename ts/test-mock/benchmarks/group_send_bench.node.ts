@@ -1,6 +1,5 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-/* eslint-disable no-await-in-loop, no-console */
 
 import assert from 'node:assert';
 
@@ -56,12 +55,14 @@ Bootstrap.benchmark(async (bootstrap: Bootstrap): Promise<void> => {
     const messageTimestamp = bootstrap.getTimestamp();
 
     messages.push(
+      // oxlint-disable-next-line no-await-in-loop
       await contact.encryptText(desktop, `hello from: ${contact.profileName}`, {
         timestamp: messageTimestamp,
         sealed: true,
       })
     );
     messages.push(
+      // oxlint-disable-next-line no-await-in-loop
       await phone.encryptSyncRead(desktop, {
         timestamp: bootstrap.getTimestamp(),
         messages: [
@@ -95,12 +96,13 @@ Bootstrap.benchmark(async (bootstrap: Bootstrap): Promise<void> => {
 
   // Fill group
   for (let i = 0; i < CONVERSATION_SIZE; i += 1) {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    // oxlint-disable-next-line typescript/no-non-null-assertion
     const contact = unblockedMembers[i % unblockedMembers.length]!;
     const messageTimestamp = bootstrap.getTimestamp();
 
     const isLast = i === CONVERSATION_SIZE - 1;
     messages.push(
+      // oxlint-disable-next-line no-await-in-loop
       await contact.encryptText(
         desktop,
         isLast ? LAST_MESSAGE : `#${i} from: ${contact.profileName}`,
@@ -114,6 +116,7 @@ Bootstrap.benchmark(async (bootstrap: Bootstrap): Promise<void> => {
     // Last message should trigger an unread indicator
     if (!isLast) {
       messages.push(
+        // oxlint-disable-next-line no-await-in-loop
         await phone.encryptSyncRead(desktop, {
           timestamp: bootstrap.getTimestamp(),
           messages: [
@@ -231,24 +234,30 @@ Bootstrap.benchmark(async (bootstrap: Bootstrap): Promise<void> => {
     });
 
     debug('entering message text');
+    // oxlint-disable-next-line no-await-in-loop
     await typeIntoInput(input, `my message ${runId}`, '');
+    // oxlint-disable-next-line no-await-in-loop
     await input.press('Enter');
 
     debug('waiting for message on server side');
+    // oxlint-disable-next-line no-await-in-loop
     const { body, source, envelopeType } = await first.waitForMessage();
     assert.strictEqual(body, `my message ${runId}`);
     assert.strictEqual(source, desktop);
     assert.strictEqual(envelopeType, EnvelopeType.SenderKey);
 
     debug('waiting for timing from the app');
+    // oxlint-disable-next-line no-await-in-loop
     const { timestamp, delta } = await app.waitForMessageSend();
 
     if (GROUP_DELIVERY_RECEIPTS > 1) {
       // Sleep to allow any receipts from previous rounds to be processed
+      // oxlint-disable-next-line no-await-in-loop
       await sleep(1000);
     }
 
     debug('sending delivery receipts');
+    // oxlint-disable-next-line no-await-in-loop
     receiptsFromPreviousMessage = await Promise.all(
       members.slice(0, GROUP_DELIVERY_RECEIPTS).map(member =>
         member.encryptReceipt(desktop, {
@@ -261,11 +270,14 @@ Bootstrap.benchmark(async (bootstrap: Bootstrap): Promise<void> => {
 
     if (runId >= DISCARD_COUNT) {
       deltaList.push(delta);
+      // oxlint-disable-next-line no-console
       console.log('run=%d info=%j', runId - DISCARD_COUNT, { delta });
     } else {
+      // oxlint-disable-next-line no-console
       console.log('discarded=%d info=%j', runId, { delta });
     }
   }
 
+  // oxlint-disable-next-line no-console
   console.log('stats info=%j', { delta: stats(deltaList, [99, 99.8]) });
 });

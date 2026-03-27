@@ -170,7 +170,7 @@ export async function makeImageThumbnailForBackup({
             (maxSize / blob.size) * jpegQuality -
               ADDITIONAL_QUALITY_DECREASE_PER_ITERATION
           );
-          // eslint-disable-next-line no-await-in-loop
+          // oxlint-disable-next-line no-await-in-loop
           blob = await canvasToBlob(canvas, IMAGE_JPEG, jpegQuality);
           iterations += 1;
         }

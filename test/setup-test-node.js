@@ -43,11 +43,11 @@ global.navigator = {};
 global.WebSocket = {};
 
 // For GlobalAudioContext.tsx
-/* eslint max-classes-per-file: ["error", 2] */
 global.AudioContext = class {};
+// oxlint-disable-next-line max-classes-per-file
 global.Audio = class {
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  // oxlint-disable-next-line typescript/no-empty-function
   pause() {}
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  // oxlint-disable-next-line typescript/no-empty-function
   addEventListener() {}
 };

@@ -62,7 +62,6 @@ export default {
   },
 } satisfies Meta<Props>;
 
-// eslint-disable-next-line react/function-component-definition
 const Template: StoryFn<Props> = args => {
   const theme = useContext(StorybookThemeContext);
   const baseProps = {

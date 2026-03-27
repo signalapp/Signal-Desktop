@@ -378,7 +378,7 @@ export async function sendStory(
         });
 
         // Don't send normal sync messages; a story sync is sent at the end of the process
-        // eslint-disable-next-line no-param-reassign
+        // oxlint-disable-next-line no-param-reassign
         message.doNotSendSyncMessage = true;
 
         const messageSendPromise = send(message, {

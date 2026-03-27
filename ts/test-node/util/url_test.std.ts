@@ -30,7 +30,7 @@ describe('URL utilities', () => {
 
     it('handles non-strings for compatibility, returning undefined', () => {
       [undefined, null, 123, ['https://example.com']].forEach(value => {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        // oxlint-disable-next-line typescript/no-explicit-any
         assert.isUndefined(maybeParseUrl(value as any));
       });
     });

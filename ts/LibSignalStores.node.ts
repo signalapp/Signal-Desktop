@@ -1,8 +1,6 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* eslint-disable max-classes-per-file */
-
 import lodash from 'lodash';
 
 import type {
@@ -108,6 +106,7 @@ export type IdentityKeysOptions = Readonly<{
   zone?: Zone;
 }>;
 
+// oxlint-disable-next-line max-classes-per-file
 export class IdentityKeys extends IdentityKeyStore {
   readonly #signalProtocolStore: SignalProtocolStore;
   readonly #ourServiceId: ServiceIdString;

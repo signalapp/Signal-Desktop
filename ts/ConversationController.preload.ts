@@ -38,7 +38,6 @@ import {
 } from './types/SignalConversation.std.js';
 import { getTitleNoDefault } from './util/getTitle.preload.js';
 import * as StorageService from './services/storage.preload.js';
-import textsecureUtils from './textsecure/Helpers.std.js';
 import { cdsLookup } from './textsecure/WebAPI.preload.js';
 import type { ConversationPropsForUnreadStats } from './util/countUnreadStats.std.js';
 import { countAllConversationsUnreadStats } from './util/countUnreadStats.std.js';
@@ -67,6 +66,7 @@ import type {
 } from './types/ServiceId.std.js';
 import { itemStorage } from './textsecure/Storage.preload.js';
 import { getSelectedConversationId } from './state/selectors/nav.std.js';
+import { unencodeNumber } from './util/unencodeNumber.std.js';
 
 const { debounce, pick, uniq, without } = lodash;
 
@@ -278,7 +278,7 @@ export class ConversationController {
       return;
     }
 
-    // eslint-disable-next-line no-param-reassign
+    // oxlint-disable-next-line no-param-reassign
     conversation.cachedProps = undefined;
 
     const hasAttributeChanged = (name: keyof ConversationAttributesType) => {
@@ -634,7 +634,7 @@ export class ConversationController {
       return null;
     }
 
-    const [id] = textsecureUtils.unencodeNumber(address);
+    const [id] = unencodeNumber(address);
     const conv = this.get(id);
 
     if (conv) {
@@ -1130,7 +1130,7 @@ export class ConversationController {
           // Keep the newer one if it has an e164, otherwise keep existing
           if (conversation.get('e164')) {
             // Keep new one
-            // eslint-disable-next-line no-await-in-loop
+            // oxlint-disable-next-line no-await-in-loop
             await this.#doCombineConversations({
               current: conversation,
               obsolete: existing,
@@ -1138,7 +1138,7 @@ export class ConversationController {
             byServiceId[serviceId] = conversation;
           } else {
             // Keep existing - note that this applies if neither had an e164
-            // eslint-disable-next-line no-await-in-loop
+            // oxlint-disable-next-line no-await-in-loop
             await this.#doCombineConversations({
               current: existing,
               obsolete: conversation,
@@ -1164,7 +1164,7 @@ export class ConversationController {
           // Keep the newer one if it has additional data, otherwise keep existing
           if (conversation.get('e164') || conversation.getPni()) {
             // Keep new one
-            // eslint-disable-next-line no-await-in-loop
+            // oxlint-disable-next-line no-await-in-loop
             await this.#doCombineConversations({
               current: conversation,
               obsolete: existing,
@@ -1172,7 +1172,7 @@ export class ConversationController {
             byServiceId[pni] = conversation;
           } else {
             // Keep existing - note that this applies if neither had an e164
-            // eslint-disable-next-line no-await-in-loop
+            // oxlint-disable-next-line no-await-in-loop
             await this.#doCombineConversations({
               current: existing,
               obsolete: conversation,
@@ -1210,7 +1210,7 @@ export class ConversationController {
           // Keep the newer one if it has a service id, otherwise keep existing
           if (conversation.getServiceId()) {
             // Keep new one
-            // eslint-disable-next-line no-await-in-loop
+            // oxlint-disable-next-line no-await-in-loop
             await this.#doCombineConversations({
               current: conversation,
               obsolete: existing,
@@ -1218,7 +1218,7 @@ export class ConversationController {
             byE164[e164] = conversation;
           } else {
             // Keep existing - note that this applies if neither had a service id
-            // eslint-disable-next-line no-await-in-loop
+            // oxlint-disable-next-line no-await-in-loop
             await this.#doCombineConversations({
               current: existing,
               obsolete: conversation,
@@ -1256,14 +1256,14 @@ export class ConversationController {
             isGroupV2(conversation.attributes) &&
             !isGroupV2(existing.attributes)
           ) {
-            // eslint-disable-next-line no-await-in-loop
+            // oxlint-disable-next-line no-await-in-loop
             await this.#doCombineConversations({
               current: conversation,
               obsolete: existing,
             });
             byGroupV2Id[groupV2Id] = conversation;
           } else {
-            // eslint-disable-next-line no-await-in-loop
+            // oxlint-disable-next-line no-await-in-loop
             await this.#doCombineConversations({
               current: existing,
               obsolete: conversation,
@@ -1598,7 +1598,7 @@ export class ConversationController {
       }
 
       if (count % 10 === 0) {
-        // eslint-disable-next-line no-await-in-loop
+        // oxlint-disable-next-line no-await-in-loop
         await sleep(300);
       }
     }
@@ -1719,7 +1719,7 @@ export class ConversationController {
         continue;
       }
 
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       await removeConversation(convo.id);
       this.#removeConversation(convo);
     }

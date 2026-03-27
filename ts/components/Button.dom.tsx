@@ -160,7 +160,7 @@ export const Button = React.forwardRef<HTMLButtonElement, PropsType>(
         style={style}
         tabIndex={tabIndex}
         // The `type` should either be "button" or "submit", which is effectively static.
-        // eslint-disable-next-line react/button-has-type
+        // oxlint-disable-next-line react/button-has-type
         type={type}
       >
         {children}

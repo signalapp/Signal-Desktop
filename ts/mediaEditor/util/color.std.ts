@@ -33,7 +33,7 @@ export function getRGBANumber(percentage: number): number {
   const [h, s, l] = getHSLValues(percentage);
   const { r, g, b } = hslToRGB(h, s, l);
 
-  // eslint-disable-next-line no-bitwise
+  // oxlint-disable-next-line no-bitwise
   return 0x100000000 + ((255 << 24) | ((255 & r) << 16) | ((255 & g) << 8) | b);
 }
 

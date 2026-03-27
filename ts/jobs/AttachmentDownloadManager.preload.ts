@@ -182,6 +182,7 @@ export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownload
       drop(this.maybeStartJobs());
     },
   });
+
   #onLowDiskSpaceBackupImport: (bytesNeeded: number) => Promise<void>;
   #getMessageQueueTime: () => number;
   #hasMediaBackups: () => boolean;
@@ -826,6 +827,7 @@ export async function runDownloadAttachmentJobInner({
   try {
     const { downloadPath } = attachment;
     let totalDownloaded = 0;
+    // oxlint-disable-next-line prefer-const
     let downloadedAttachment: ReencryptedAttachmentV2 | undefined;
 
     const onSizeUpdate = async (totalBytes: number) => {

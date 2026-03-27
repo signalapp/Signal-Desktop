@@ -1438,7 +1438,7 @@ export function isExpirationTimerUpdate(
   message: Pick<MessageWithUIFieldsType, 'flags'>
 ): boolean {
   const flag = Proto.DataMessage.Flags.EXPIRATION_TIMER_UPDATE;
-  // eslint-disable-next-line no-bitwise
+  // oxlint-disable-next-line no-bitwise
   return Boolean(message.flags && message.flags & flag);
 }
 
@@ -1647,7 +1647,7 @@ export function isEndSession(
   message: Pick<MessageWithUIFieldsType, 'flags'>
 ): boolean {
   const flag = Proto.DataMessage.Flags.END_SESSION;
-  // eslint-disable-next-line no-bitwise
+  // oxlint-disable-next-line no-bitwise
   return Boolean(message.flags && message.flags & flag);
 }
 
@@ -2163,7 +2163,7 @@ export function getPropsForEmbeddedContact(
     return undefined;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  // oxlint-disable-next-line typescript/no-non-null-assertion
   const firstContact = contacts[0]!;
   const numbers = firstContact?.number;
   const firstNumber = numbers && numbers[0] ? numbers[0].value : undefined;

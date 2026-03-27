@@ -114,12 +114,10 @@ describe('BodyRanges', () => {
     });
 
     it('handles triple-nesting', () => {
-      /* eslint-disable max-len */
       //                                                                 m            m
       // b                                      bs                                                          s
       // i                                                                                                             i
       // Italic Start and Bold Start ... Bold EndStrikethrough Start ... Monospace Pop! ... Strikethrough End Italic End',
-      /* eslint-enable max-len */
       const ranges = [
         {
           start: 0,
@@ -186,12 +184,10 @@ describe('BodyRanges', () => {
     });
 
     it('handles triple-nesting, with out-of-order inputs', () => {
-      /* eslint-disable max-len */
       //                                                                 m            m
       // b                                      bs                                                          s
       // i                                                                                                             i
       // Italic Start and Bold Start ... Bold EndStrikethrough Start ... Monospace Pop! ... Strikethrough End Italic End',
-      /* eslint-enable max-len */
       const ranges = [
         {
           start: 64,

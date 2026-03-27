@@ -852,7 +852,7 @@ export class SocketManager extends EventListener {
 
   public override on(
     type: string | symbol,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // oxlint-disable-next-line typescript/no-explicit-any
     listener: (...args: Array<any>) => void
   ): this {
     return super.on(type, listener);
@@ -871,7 +871,7 @@ export class SocketManager extends EventListener {
     alerts: Array<ServerAlert>
   ): boolean;
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // oxlint-disable-next-line typescript/no-explicit-any
   public override emit(type: string | symbol, ...args: Array<any>): boolean {
     return super.emit(type, ...args);
   }

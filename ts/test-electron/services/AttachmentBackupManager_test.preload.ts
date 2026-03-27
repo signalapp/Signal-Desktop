@@ -180,7 +180,7 @@ describe('AttachmentBackupManager/JobManager', function attachmentBackupManager(
       index >= 0 && index < array.length,
       `index out of bounds: ${index}`
     );
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    // oxlint-disable-next-line typescript/no-non-null-assertion
     return array[index]!;
   }
 
@@ -192,7 +192,7 @@ describe('AttachmentBackupManager/JobManager', function attachmentBackupManager(
       .fill(null)
       .map((_, idx) => composeJob(idx, overrides));
     for (const job of jobs) {
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       await backupManager?.addJob(job);
     }
     return jobs;
@@ -206,7 +206,7 @@ describe('AttachmentBackupManager/JobManager', function attachmentBackupManager(
       .fill(null)
       .map((_, idx) => composeThumbnailJob(idx, overrides));
     for (const job of jobs) {
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       await backupManager?.addJob(job);
     }
     return jobs;

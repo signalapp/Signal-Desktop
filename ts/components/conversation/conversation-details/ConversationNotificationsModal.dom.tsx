@@ -77,6 +77,7 @@ export function ConversationNotificationsModal({
       {muteOptions.map((option, i) => (
         <label
           className="Preferences__settings-radio__label"
+          // oxlint-disable-next-line react/no-array-index-key
           key={htmlIds[i]}
           htmlFor={htmlIds[i]}
         >

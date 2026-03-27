@@ -13,8 +13,7 @@ import type {
 import { ServiceIdKind, isPniString } from '../../types/ServiceId.std.js';
 import { isAciString } from '../../util/isAciString.std.js';
 import { createLogger } from '../../logging/log.std.js';
-
-import Helpers from '../Helpers.std.js';
+import { unencodeNumber } from '../../util/unencodeNumber.std.js';
 
 const log = createLogger('User');
 
@@ -66,7 +65,7 @@ export class User {
     if (numberId === undefined) {
       return undefined;
     }
-    return Helpers.unencodeNumber(numberId)[0];
+    return unencodeNumber(numberId)[0];
   }
 
   public getPni(): PniString | undefined {
@@ -82,7 +81,7 @@ export class User {
     if (!uuidId) {
       return undefined;
     }
-    const aci = Helpers.unencodeNumber(uuidId.toLowerCase())[0];
+    const aci = unencodeNumber(uuidId.toLowerCase())[0];
     if (!isAciString(aci)) {
       return undefined;
     }
@@ -218,7 +217,7 @@ export class User {
     if (uuid === undefined) {
       return undefined;
     }
-    return Helpers.unencodeNumber(uuid)[1];
+    return unencodeNumber(uuid)[1];
   }
 
   #_getDeviceIdFromNumber(): string | undefined {
@@ -226,6 +225,6 @@ export class User {
     if (numberId === undefined) {
       return undefined;
     }
-    return Helpers.unencodeNumber(numberId)[1];
+    return unencodeNumber(numberId)[1];
   }
 }

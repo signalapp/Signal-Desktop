@@ -11,7 +11,7 @@ const EXTERNALS = new Set(builtinModules);
 EXTERNALS.delete('buffer');
 EXTERNALS.delete('url');
 
-const config: StorybookConfig = {
+const storybookConfig: StorybookConfig = {
   typescript: {
     reactDocgen: false,
   },
@@ -53,16 +53,19 @@ const config: StorybookConfig = {
     },
   ],
 
-  webpackFinal(config) {
-    config.cache = {
+  webpackFinal(webpackConfig) {
+    // oxlint-disable-next-line no-param-reassign
+    webpackConfig.cache = {
       type: 'filesystem',
     };
 
-    config.resolve!.extensionAlias = {
+    // oxlint-disable-next-line no-param-reassign, typescript/no-non-null-assertion
+    webpackConfig.resolve!.extensionAlias = {
       '.js': ['.tsx', '.ts', '.js'],
     };
 
-    config.module!.rules!.unshift({
+    // oxlint-disable-next-line typescript/no-non-null-assertion
+    webpackConfig.module!.rules!.unshift({
       test: /\.scss$/,
       use: [
         { loader: 'style-loader' },
@@ -71,14 +74,16 @@ const config: StorybookConfig = {
       ],
     });
 
-    config.module!.rules!.unshift({
+    // oxlint-disable-next-line typescript/no-non-null-assertion
+    webpackConfig.module!.rules!.unshift({
       test: /\.css$/,
       use: [
         // prevent storybook defaults from being applied
       ],
     });
 
-    config.module!.rules!.push({
+    // oxlint-disable-next-line typescript/no-non-null-assertion
+    webpackConfig.module!.rules!.push({
       test: /tailwind-config\.css$/,
       use: [
         {
@@ -95,9 +100,11 @@ const config: StorybookConfig = {
       ],
     });
 
-    config.node = { global: true };
+    // oxlint-disable-next-line no-param-reassign
+    webpackConfig.node = { global: true };
 
-    config.externals = ({ request }, callback) => {
+    // oxlint-disable-next-line no-param-reassign
+    webpackConfig.externals = ({ request }, callback) => {
       if (
         (/^node:/.test(request) && request !== 'node:buffer') ||
         EXTERNALS.has(request)
@@ -108,16 +115,17 @@ const config: StorybookConfig = {
       callback();
     };
 
-    config.plugins!.push(
+    // oxlint-disable-next-line typescript/no-non-null-assertion
+    webpackConfig.plugins!.push(
       new ProvidePlugin({
         Buffer: ['buffer', 'Buffer'],
       })
     );
 
-    return config;
+    return webpackConfig;
   },
 
   docs: {},
 };
 
-export default config;
+export default storybookConfig;

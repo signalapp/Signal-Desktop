@@ -15,7 +15,7 @@ import { useBoundActions } from '../../hooks/useBoundActions.std.js';
 
 // State
 
-// eslint-disable-next-line local-rules/type-alias-readonlydeep
+// oxlint-disable-next-line signal-desktop/enforce-type-alias-readonlydeep
 export type UserStateType = Readonly<{
   attachmentsPath: string;
   i18n: LocalizerType;

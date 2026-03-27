@@ -307,7 +307,6 @@ export function CallsTab({
                 i18n={i18n}
                 id="icu:CallsTab__EmptyStateText--with-icon-2"
                 components={{
-                  // eslint-disable-next-line react/no-unstable-nested-components
                   newCallButtonIcon: () => {
                     return (
                       <span

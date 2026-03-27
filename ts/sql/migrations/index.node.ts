@@ -777,7 +777,7 @@ function updateToSchemaVersion20(db: Database): void {
   for (const row of allConversations) {
     const oldId = row.id;
     const newId = generateUuid();
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    // oxlint-disable-next-line typescript/no-non-null-assertion
     allConversationsByOldId[oldId]!.id = newId;
     const patchObj: { id: string; e164?: string; groupId?: string } = {
       id: newId,
@@ -1726,7 +1726,7 @@ export function updateSchema(db: WritableDB, logger: LoggerType): void {
   // one requires vacuum - commit, vacuum, and continue from where we stopped
   let i = 0;
   while (i < SCHEMA_VERSIONS.length) {
-    // eslint-disable-next-line no-loop-func
+    // oxlint-disable-next-line no-loop-func
     const needsVacuum = db.transaction(() => {
       for (; i < SCHEMA_VERSIONS.length; i += 1) {
         const schema = SCHEMA_VERSIONS[i];

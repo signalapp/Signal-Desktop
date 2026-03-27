@@ -93,7 +93,7 @@ export const ReactionPicker = React.forwardRef<HTMLDivElement, Props>(
               isSelected={isSelected}
               // The index is the only thing that uniquely identifies the emoji, because
               //   there can be duplicates in the list.
-              // eslint-disable-next-line react/no-array-index-key
+              // oxlint-disable-next-line react/no-array-index-key
               key={index}
               onClick={() => {
                 onPick(emoji);

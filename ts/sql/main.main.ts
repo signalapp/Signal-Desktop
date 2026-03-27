@@ -93,7 +93,7 @@ export type WrappedWorkerResponse =
           }>
         | undefined;
       errorKind: SqliteErrorKind | undefined;
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // oxlint-disable-next-line typescript/no-explicit-any
       response: any;
     }>
   | WrappedWorkerLogEntry;
@@ -145,7 +145,7 @@ export class MainSQL {
   #seq = 0;
   #logger?: LoggerType;
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // oxlint-disable-next-line typescript/no-explicit-any
   #onResponse = new Map<number, ResponseEntry<any>>();
 
   #shouldLogQueryTime: (queryName: string) => boolean;
@@ -378,7 +378,7 @@ export class MainSQL {
     while (this.#pauseWaiters != null) {
       const { promise, resolve } = explodePromise<void>();
       this.#pauseWaiters.push(resolve);
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       await promise;
     }
 
@@ -429,7 +429,7 @@ export class MainSQL {
     }
 
     const seq = this.#seq;
-    // eslint-disable-next-line no-bitwise
+    // oxlint-disable-next-line no-bitwise
     this.#seq = (this.#seq + 1) >>> 0;
 
     const { promise: result, resolve, reject } = explodePromise<Response>();
@@ -446,11 +446,11 @@ export class MainSQL {
     entry.worker.postMessage(wrappedRequest);
 
     try {
-      // eslint-disable-next-line no-param-reassign
+      // oxlint-disable-next-line no-param-reassign
       entry.load += 1;
       return await result;
     } finally {
-      // eslint-disable-next-line no-param-reassign
+      // oxlint-disable-next-line no-param-reassign
       entry.load -= 1;
     }
   }

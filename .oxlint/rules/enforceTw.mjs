@@ -1,18 +1,30 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-const { createSyncFn } = require('synckit');
+// @ts-check
+import { ESLintUtils } from '@typescript-eslint/utils';
+import { createSyncFn } from 'synckit';
 
-const worker = createSyncFn(require.resolve('./enforce-tw.worker.js'));
+/**
+ * @typedef {import("@typescript-eslint/utils").TSESTree.Node} Node
+ */
 
-/** @type {import("eslint").Rule.RuleModule} */
-module.exports = {
+const worker = createSyncFn(import.meta.resolve('./enforceTw.worker.mjs'));
+
+export const enforceTw = ESLintUtils.RuleCreator.withoutDocs({
+  name: 'enforce-tw',
   meta: {
     type: 'problem',
-    hasSuggestions: true,
-    fixable: true,
+    messages: {
+      needsTw: 'Tailwind classes must be wrapped with tw()',
+    },
     schema: [],
+    defaultOptions: [],
   },
   create(context) {
+    /**
+     * @param {string} input
+     * @param {Node} node
+     */
     function check(input, node) {
       if (typeof input !== 'string') {
         throw new Error(`Unexpected input ${input} for node type ${node.type}`);
@@ -35,11 +47,14 @@ module.exports = {
               column: node.loc.start.column + index + length,
             },
           },
-          message: 'Tailwind classes must be wrapped with tw()',
+          messageId: 'needsTw',
         });
       }
     }
 
+    /**
+     * @param {Node} node
+     */
     function traverse(node) {
       if (node.type === 'Literal') {
         if (typeof node.value === 'string') {
@@ -47,14 +62,16 @@ module.exports = {
         }
         // ignore other literals
       } else if (node.type === 'TemplateLiteral') {
-        for (let element of node.quasis) {
+        for (const element of node.quasis) {
           traverse(element);
         }
-        for (let expression of node.expressions) {
+        for (const expression of node.expressions) {
           traverse(expression);
         }
       } else if (node.type === 'TemplateElement') {
-        check(node.value.cooked, node);
+        if (node.value.cooked != null) {
+          check(node.value.cooked, node);
+        }
       } else if (node.type === 'JSXExpressionContainer') {
         traverse(node.expression);
       } else if (node.type === 'ConditionalExpression') {
@@ -74,7 +91,7 @@ module.exports = {
           throw new Error(`Unexpected binary operator: ${node.operator}`);
         }
       } else if (node.type === 'ObjectExpression') {
-        for (let prop of node.properties) {
+        for (const prop of node.properties) {
           traverse(prop);
         }
       } else if (node.type === 'Property') {
@@ -93,8 +110,10 @@ module.exports = {
           throw new Error(`Unexpected property key type: ${node.key.type}`);
         }
       } else if (node.type === 'ArrayExpression') {
-        for (let element of node.elements) {
-          traverse(element);
+        for (const element of node.elements) {
+          if (element != null) {
+            traverse(element);
+          }
         }
       } else if (node.type === 'Identifier') {
         // ignore
@@ -111,15 +130,17 @@ module.exports = {
       CallExpression(node) {
         if (node.callee.type !== 'Identifier') return;
         if (node.callee.name !== 'classNames') return;
-        for (let arg of node.arguments) {
+        for (const arg of node.arguments) {
           traverse(arg);
         }
       },
       JSXAttribute(node) {
         if (node.name.type !== 'JSXIdentifier') return;
         if (node.name.name !== 'className') return;
-        traverse(node.value);
+        if (node.value != null) {
+          traverse(node.value);
+        }
       },
     };
   },
-};
+});

@@ -146,7 +146,6 @@ function createProps(args: Partial<Props>) {
   };
 }
 
-// eslint-disable-next-line react/function-component-definition
 const Template: StoryFn<Props> = args => {
   return (
     <AxoDropdownMenu.Root>

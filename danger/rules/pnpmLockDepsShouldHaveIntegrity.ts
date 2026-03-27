@@ -1,7 +1,7 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { Line, Rule } from 'endanger';
+import { Rule } from 'endanger';
 
 function assert(condition: boolean, message: string): asserts condition {
   if (!condition) {
@@ -10,9 +10,10 @@ function assert(condition: boolean, message: string): asserts condition {
 }
 
 function isObject(value: unknown): value is object {
-  return typeof value === 'object' && value !== null;
+  return typeof value === 'object' && value != null;
 }
 
+// oxlint-disable-next-line typescript/no-explicit-any
 function has<T extends object, const K extends T[any]>(
   value: T,
   key: K
@@ -20,7 +21,8 @@ function has<T extends object, const K extends T[any]>(
   return Object.hasOwn(value, key);
 }
 
-export default function pnpmLockDepsShouldHaveIntegrity() {
+// oxlint-disable-next-line typescript/no-explicit-any
+export default function pnpmLockDepsShouldHaveIntegrity(): Rule<any, any> {
   return new Rule({
     match: {
       files: ['pnpm-lock.yaml'],
@@ -36,6 +38,7 @@ export default function pnpmLockDepsShouldHaveIntegrity() {
     },
     async run({ files, context }) {
       for (const file of files.modifiedOrCreated) {
+        // oxlint-disable-next-line no-await-in-loop
         const contents: unknown = await file.yaml();
 
         assert(

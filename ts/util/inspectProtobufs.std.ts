@@ -39,14 +39,14 @@ export function inspectUnknownFieldTags(
       // The first byte of a field is a varint encoding the tag bit-shifted << 3
       let tag = 0;
       for (const [i, b] of field.entries()) {
-        // eslint-disable-next-line no-bitwise
+        // oxlint-disable-next-line no-bitwise
         tag |= (b & 0x7f) << (7 * i);
-        // eslint-disable-next-line no-bitwise
+        // oxlint-disable-next-line no-bitwise
         if ((b & 0x80) === 0) {
           break;
         }
       }
-      // eslint-disable-next-line no-bitwise
+      // oxlint-disable-next-line no-bitwise
       return tag >>> 3;
     }) ?? []
   );

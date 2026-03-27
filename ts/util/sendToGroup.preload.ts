@@ -1258,7 +1258,7 @@ function getXorOfAccessKeys(
     }
 
     for (let i = 0; i < ACCESS_KEY_LENGTH; i += 1) {
-      // eslint-disable-next-line no-bitwise, @typescript-eslint/no-non-null-assertion
+      // oxlint-disable-next-line no-bitwise, typescript/no-non-null-assertion
       result[i]! ^= accessKeyBuffer[i]!;
     }
   });

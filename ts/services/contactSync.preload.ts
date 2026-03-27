@@ -160,12 +160,12 @@ async function doContactSync({
     try {
       if (!isOnline()) {
         log.info(`${logId}: We are not online; waiting until we are online`);
-        // eslint-disable-next-line no-await-in-loop
+        // oxlint-disable-next-line no-await-in-loop
         await waitForOnline({ server: { isOnline } });
         log.info(`${logId}: We are back online; starting up again`);
       }
 
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       contacts = await downloadAndParseContactAttachment(contactAttachment);
     } catch (error) {
       if (attempts >= ATTEMPT_LIMIT) {

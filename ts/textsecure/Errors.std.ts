@@ -1,8 +1,6 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* eslint-disable max-classes-per-file */
-
 import type { LibSignalErrorBase } from '@signalapp/libsignal-client';
 
 import { parseRetryAfter } from '../util/parseRetryAfter.std.js';
@@ -13,7 +11,7 @@ import type { HeaderListType } from '../types/WebAPI.d.ts';
 import type { CallbackResultType } from './Types.d.ts';
 
 function appendStack(newError: Error, originalError: Error) {
-  // eslint-disable-next-line no-param-reassign
+  // oxlint-disable-next-line no-param-reassign
   newError.stack += `\nOriginal stack:\n${originalError.stack}`;
 }
 
@@ -41,6 +39,7 @@ export class ReplayableError extends Error {
   }
 }
 
+// oxlint-disable-next-line max-classes-per-file
 export class OutgoingIdentityKeyError extends ReplayableError {
   public readonly identifier: string;
 

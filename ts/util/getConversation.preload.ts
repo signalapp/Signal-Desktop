@@ -158,7 +158,7 @@ export function getConversation(model: ConversationModel): ConversationType {
     aboutText: attributes.about,
     aboutEmoji: attributes.aboutEmoji,
     acceptedMessageRequest: isConversationAccepted(attributes),
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    // oxlint-disable-next-line typescript/no-non-null-assertion
     activeAt: attributes.active_at!,
     areWePending: areWePending(attributes),
     areWePendingApproval: Boolean(

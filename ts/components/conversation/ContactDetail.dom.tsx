@@ -193,7 +193,7 @@ export function ContactDetail({
       {contact.address?.map((address: PostalAddress, index: number) => {
         return (
           <div
-            // eslint-disable-next-line react/no-array-index-key
+            // oxlint-disable-next-line react/no-array-index-key
             key={index}
             className="module-contact-detail__additional-contact"
           >

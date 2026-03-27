@@ -1,6 +1,5 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-/* eslint-disable no-console */
 
 import createDebug from 'debug';
 
@@ -45,7 +44,9 @@ export const MAX_CYCLES = process.env.MAX_CYCLES
 
 // Can happen if electron exits prematurely
 process.on('unhandledRejection', reason => {
+  // oxlint-disable-next-line no-console
   console.error('Unhandled rejection:');
+  // oxlint-disable-next-line no-console
   console.error(reason);
   process.exit(1);
 });

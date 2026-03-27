@@ -206,7 +206,6 @@ const renderInMessage = ({
   );
 };
 
-// eslint-disable-next-line react/function-component-definition
 const Template: StoryFn<Props> = args => <Quote {...args} />;
 const TemplateInMessage: StoryFn<Props> = args => renderInMessage(args);
 

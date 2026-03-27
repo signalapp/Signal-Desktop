@@ -1,6 +1,5 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-/* eslint-disable no-await-in-loop */
 
 import { join } from 'node:path';
 import { readFile } from 'node:fs/promises';
@@ -18,7 +17,7 @@ function assert(condition: unknown, message: string): asserts condition {
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+// oxlint-disable-next-line typescript/no-explicit-any
 async function readJsonFile(path: string): Promise<any> {
   return JSON.parse(await readFile(path, 'utf-8'));
 }
@@ -108,7 +107,7 @@ async function main() {
 
   const fetchedDeps: ReadonlyArray<FetchedDependency> = await Promise.all(
     localDeps.map(async dep => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // oxlint-disable-next-line typescript/no-explicit-any
       const info: any = await npm(`${dep.name}/latest`).json();
       const latestVersion = info.version;
       const moduleType = info.type ?? 'commonjs';
@@ -183,7 +182,6 @@ async function main() {
     chalk`Starting upgrade of {cyan ${approvedDeps.length}} dependencies`
   );
 
-  // eslint-disable no-await-in-loop
   for (const dep of upgradeableDeps) {
     try {
       if (!approvedDeps.includes(dep.name)) {
@@ -191,6 +189,7 @@ async function main() {
         continue;
       }
 
+      // oxlint-disable-next-line no-await-in-loop
       const gitStatusBefore = await execa('git', ['status', '--porcelain']);
       if (gitStatusBefore.stdout.trim() !== '') {
         console.error(chalk`{red Found uncommitted changes, exiting}`);
@@ -201,15 +200,17 @@ async function main() {
       console.log(
         chalk`Upgrading {cyan ${dep.name}} from {yellow ${dep.resolvedVersion}} to {magenta ${dep.latestVersion}}`
       );
+      // oxlint-disable-next-line no-await-in-loop
       await execa(
         'npm',
         ['install', '--save-exact', `${dep.name}@${dep.latestVersion}`],
         { stdio: 'inherit' }
       );
 
-      // eslint-disable-next-line no-constant-condition
+      // oxlint-disable-next-line no-constant-condition
       while (true) {
         try {
+          // oxlint-disable-next-line no-await-in-loop
           await execa(
             'npx',
             ['patch-package', '--error-on-fail', '--error-on-warn'],
@@ -217,6 +218,7 @@ async function main() {
           );
           break;
         } catch {
+          // oxlint-disable-next-line no-await-in-loop
           const { retry } = await enquirer.prompt<{ retry: boolean }>({
             type: 'confirm',
             name: 'retry',
@@ -230,6 +232,7 @@ async function main() {
         }
       }
 
+      // oxlint-disable-next-line no-await-in-loop
       const { npmScriptsToRun } = await enquirer.prompt<{
         npmScriptsToRun: Array<string>;
       }>({
@@ -238,13 +241,13 @@ async function main() {
         message: 'Select which scripts to run',
         choices: [
           // Fast and common
-          { name: 'eslint' },
+          { name: 'oxlint' },
           { name: 'test-node' },
           { name: 'test-electron' },
           // Long
           { name: 'test-mock' },
           // Uncommon
-          { name: 'test-eslint' },
+          { name: 'test-oxlint' },
           { name: 'test-lint-intl' },
         ],
       });
@@ -261,9 +264,10 @@ async function main() {
       for (const script of allNpmScriptToRun) {
         console.log(chalk`Running {cyan npm run ${script}}`);
 
-        // eslint-disable-next-line no-constant-condition
+        // oxlint-disable-next-line no-constant-condition
         while (true) {
           try {
+            // oxlint-disable-next-line no-await-in-loop
             await execa('npm', ['run', script], { stdio: 'inherit' });
             break;
           } catch (error) {
@@ -273,6 +277,7 @@ async function main() {
               )
             );
 
+            // oxlint-disable-next-line no-await-in-loop
             const { retry } = await enquirer.prompt<{
               retry: boolean;
             }>({
@@ -293,8 +298,10 @@ async function main() {
       }
 
       console.log('Changes after upgrade:');
+      // oxlint-disable-next-line no-await-in-loop
       await execa('git', ['status', '--porcelain'], { stdio: 'inherit' });
 
+      // oxlint-disable-next-line no-await-in-loop
       const { commitChanges } = await enquirer.prompt<{
         commitChanges: boolean;
       }>({
@@ -309,12 +316,15 @@ async function main() {
 
       if (!commitChanges) {
         console.log('Reverting changes, and skipping');
+        // oxlint-disable-next-line no-await-in-loop
         await execa('git', ['checkout', '.']);
         continue;
       }
 
       console.log('Committing changes');
+      // oxlint-disable-next-line no-await-in-loop
       await execa('git', ['add', '.']);
+      // oxlint-disable-next-line no-await-in-loop
       await execa('git', [
         'commit',
         '-m',
@@ -325,11 +335,13 @@ async function main() {
       console.log(
         chalk.red(`Failed to upgrade ${dep.name}, reverting and skipping`)
       );
+      // oxlint-disable-next-line no-await-in-loop
       await execa('git', ['checkout', '.']);
     }
   }
 }
 
+// oxlint-disable-next-line promise/prefer-await-to-then
 main().catch(error => {
   console.error(error);
   process.exit(1);

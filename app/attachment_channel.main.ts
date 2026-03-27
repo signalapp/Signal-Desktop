@@ -418,7 +418,7 @@ function deleteOrphanedAttachments({
         let attachments: ReadonlyArray<string>;
         let downloads: ReadonlyArray<string>;
 
-        // eslint-disable-next-line no-await-in-loop
+        // oxlint-disable-next-line no-await-in-loop
         ({ attachments, downloads, cursor } = await sql.sqlRead(
           'getKnownMessageAttachments',
           cursor
@@ -443,7 +443,7 @@ function deleteOrphanedAttachments({
 
         // Let other SQL calls come through. There are hundreds of thousands of
         // messages in the database and it might take time to go through them all.
-        // eslint-disable-next-line no-await-in-loop
+        // oxlint-disable-next-line no-await-in-loop
         await sleep(INTERACTIVITY_DELAY);
       } while (cursor !== undefined && !cursor.done);
     } finally {

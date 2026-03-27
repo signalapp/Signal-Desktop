@@ -1,8 +1,6 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* eslint-disable @typescript-eslint/no-namespace */
-
 import lodash from 'lodash';
 import * as z from 'zod';
 
@@ -37,7 +35,6 @@ export enum DisplayStyle {
   SearchKeywordHighlight = 'SearchKeywordHighlight',
 }
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export namespace BodyRange {
   // re-export for convenience
   export type Style = Proto.BodyRange.Style;

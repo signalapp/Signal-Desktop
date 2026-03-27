@@ -1,9 +1,6 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* eslint-disable max-classes-per-file */
-/* eslint-disable no-await-in-loop */
-
 import EventEmitter, { once } from 'node:events';
 
 import type { JobQueueStore, StoredJob } from '../../jobs/types.std.js';
@@ -82,6 +79,7 @@ export class TestJobQueueStore implements JobQueueStore {
   }
 }
 
+// oxlint-disable-next-line max-classes-per-file
 class Pipe implements AsyncIterable<StoredJob> {
   #queue: Array<StoredJob> = [];
   #eventEmitter = new EventEmitter();
@@ -99,14 +97,17 @@ class Pipe implements AsyncIterable<StoredJob> {
     }
     this.#isLocked = true;
 
+    // oxlint-disable-next-line no-constant-condition
     while (true) {
       for (const value of this.#queue) {
+        // oxlint-disable-next-line no-await-in-loop
         await this.#waitForUnpaused();
         yield value;
       }
       this.#queue = [];
 
       // We do this because we want to yield values in series.
+      // oxlint-disable-next-line no-await-in-loop
       await once(this.#eventEmitter, 'add');
     }
   }

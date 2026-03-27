@@ -189,7 +189,7 @@ export class RetryPlaceholders {
     (items || []).forEach(item => {
       if (!item.wasOpened) {
         changed += 1;
-        // eslint-disable-next-line no-param-reassign
+        // oxlint-disable-next-line no-param-reassign
         item.wasOpened = true;
       }
     });

@@ -68,6 +68,7 @@ export async function isVideoGoodForStories(
   {
     const { promise, resolve } = explodePromise<ArrayBuffer | undefined>();
 
+    // oxlint-disable-next-line no-undef FIXME
     const reader = new FileReader();
     reader.onload = () => {
       if (reader.result) {

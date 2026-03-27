@@ -36,7 +36,6 @@ export default {
   },
 } satisfies Meta<PropsType>;
 
-// eslint-disable-next-line react/function-component-definition
 const Template: StoryFn<PropsType> = args => <MediaEditor {...args} />;
 
 export const ExtraLarge = Template.bind({});

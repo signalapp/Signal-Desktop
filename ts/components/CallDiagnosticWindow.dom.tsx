@@ -24,7 +24,7 @@ export function CallDiagnosticWindow({
   const formattedData = useMemo(() => {
     try {
       const parsed = JSON.parse(diagnosticData);
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      // oxlint-disable-next-line typescript/no-unused-vars
       const { rawStats, rawStatsText, ...rest } = parsed;
       const pretty = {
         ...rest,

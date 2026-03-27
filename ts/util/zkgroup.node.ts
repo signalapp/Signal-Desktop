@@ -33,6 +33,7 @@ import * as Bytes from '../Bytes.std.js';
 import { toServiceIdObject } from './ServiceId.node.js';
 import { strictAssert } from './assert.std.js';
 
+// oxlint-disable-next-line no-barrel-file
 export * from '@signalapp/libsignal-client/zkgroup.js';
 
 // Scenarios

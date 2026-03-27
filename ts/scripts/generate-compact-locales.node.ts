@@ -78,6 +78,7 @@ async function main(): Promise<void> {
   );
 }
 
+// oxlint-disable-next-line promise/prefer-await-to-then
 main().catch(err => {
   console.error(err);
   process.exit(1);

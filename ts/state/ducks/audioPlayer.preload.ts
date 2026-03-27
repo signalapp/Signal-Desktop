@@ -64,7 +64,6 @@ export type ActiveAudioPlayerStateType = ReadonlyDeep<{
   content: AudioPlayerContentVoiceNote | AudioPlayerContentDraft;
 }>;
 
-/* eslint-disable @typescript-eslint/no-namespace */
 export namespace AudioPlayerContent {
   export function isVoiceNote(
     content: ActiveAudioPlayerStateType['content']
@@ -110,7 +109,7 @@ async function getNextVoiceNote({
     return undefined;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  // oxlint-disable-next-line typescript/no-non-null-assertion
   const { message, attachment } = results[0]!;
   return extractVoiceNoteForPlayback(
     {

@@ -3,9 +3,9 @@
 
 import type { LoggerType } from '../../types/Logging.std.js';
 import { isValidUuid } from '../../util/isValidUuid.std.js';
-import Helpers from '../../textsecure/Helpers.std.js';
 import { createOrUpdate, getById, removeById } from '../util.std.js';
 import type { ItemKeyType, ReadableDB, WritableDB } from '../Interface.std.js';
+import { unencodeNumber } from '../../util/unencodeNumber.std.js';
 
 export function getOurUuid(db: ReadableDB): string | undefined {
   const UUID_ID: ItemKeyType = 'uuid_id';
@@ -20,7 +20,7 @@ export function getOurUuid(db: ReadableDB): string | undefined {
 
   const { value } = JSON.parse(row.json);
 
-  const [ourUuid] = Helpers.unencodeNumber(String(value).toLowerCase());
+  const [ourUuid] = unencodeNumber(String(value).toLowerCase());
   return ourUuid;
 }
 
@@ -197,7 +197,7 @@ export default function updateToSchemaVersion41(
     let deleted = 0;
     let skipped = 0;
     for (const { id, senderId, lastUpdatedDate } of senderKeys) {
-      const [conversationId] = Helpers.unencodeNumber(senderId);
+      const [conversationId] = unencodeNumber(senderId);
       const uuid = getConversationUuid.get<string>({ conversationId });
 
       if (!uuid) {

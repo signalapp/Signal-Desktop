@@ -474,7 +474,7 @@ async function getStickerPackPreview(
     }
 
     const { title, coverStickerId } = pack;
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    // oxlint-disable-next-line typescript/no-non-null-assertion
     const sticker = pack.stickers[coverStickerId]!;
     const data =
       pack.status === 'ephemeral'

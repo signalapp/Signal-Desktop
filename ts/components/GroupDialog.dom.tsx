@@ -19,15 +19,9 @@ type PropsType = {
   onClose: () => void;
   primaryButtonText: string;
   title: string;
-} & (
-  | // We use this empty type for an "all or nothing" setup.
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  {}
-  | {
-      onClickSecondaryButton: () => void;
-      secondaryButtonText: string;
-    }
-);
+  secondaryButtonText?: string;
+  onClickSecondaryButton?: () => void;
+};
 
 // TODO: This should use <Modal>. See DESKTOP-1038.
 export function GroupDialog(props: Readonly<PropsType>): React.JSX.Element {
@@ -38,11 +32,12 @@ export function GroupDialog(props: Readonly<PropsType>): React.JSX.Element {
     onClose,
     primaryButtonText,
     title,
+    onClickSecondaryButton,
+    secondaryButtonText,
   } = props;
 
   let secondaryButton: undefined | ReactNode;
-  if ('secondaryButtonText' in props) {
-    const { onClickSecondaryButton, secondaryButtonText } = props;
+  if (secondaryButtonText != null && onClickSecondaryButton != null) {
     secondaryButton = (
       <Button
         onClick={onClickSecondaryButton}

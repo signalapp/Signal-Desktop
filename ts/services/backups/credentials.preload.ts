@@ -359,9 +359,9 @@ export class BackupCredentials {
     result.sort((a, b) => a.redemptionTimeMs - b.redemptionTimeMs);
     await this.#updateCache(result);
 
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    // oxlint-disable-next-line typescript/no-non-null-assertion
     const startMs = result[0]!.redemptionTimeMs;
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    // oxlint-disable-next-line typescript/no-non-null-assertion
     const endMs = result[result.length - 1]!.redemptionTimeMs;
     log.info(`saved [${startMs}, ${endMs}]`);
 

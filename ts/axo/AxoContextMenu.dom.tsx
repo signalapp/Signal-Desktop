@@ -239,8 +239,7 @@ export namespace AxoContextMenu {
           alignOffset={-6}
           collisionPadding={6}
           onCloseAutoFocus={props.onCloseAutoFocus}
-          // @ts-expect-error -- React/TS doesn't know about inert
-          inert={open ? undefined : 'true'}
+          inert={!open}
         >
           {props.children}
         </ContextMenu.Content>
@@ -453,12 +452,10 @@ export namespace AxoContextMenu {
    * -------------------------------------
    */
 
-  export type SeparatorProps = AxoBaseMenu.MenuSeparatorProps;
-
   /**
    * Used to visually separate items in the context menu.
    */
-  export const Separator: FC<SeparatorProps> = memo(() => {
+  export const Separator: FC = memo(() => {
     return (
       <ContextMenu.Separator className={AxoBaseMenu.menuSeparatorStyles} />
     );

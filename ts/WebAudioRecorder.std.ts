@@ -79,7 +79,7 @@ export class WebAudioRecorder {
     this.#input.connect(this.processor);
     this.processor.connect(this.#context.destination);
     this.processor.onaudioprocess = event => {
-      // eslint-disable-next-line no-plusplus
+      // oxlint-disable-next-line no-plusplus
       for (let ch = 0; ch < numChannels; ++ch) {
         buffer[ch] = event.inputBuffer.getChannelData(ch);
       }
@@ -130,6 +130,7 @@ export class WebAudioRecorder {
       this.worker.terminate();
     }
 
+    // oxlint-disable-next-line no-undef FIXME
     this.worker = new Worker('js/WebAudioRecorderMp3.js');
     this.worker.onmessage = event => {
       const { data } = event;

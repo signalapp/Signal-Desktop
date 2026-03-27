@@ -53,7 +53,7 @@ process.env.NODE_CONFIG_DIR = join(getAppRootDir(), 'config');
 // Note: we use `require()` because esbuild moves the imports to the top of
 // the module regardless of their actual placement in the file.
 // See: https://github.com/evanw/esbuild/issues/2011
-// eslint-disable-next-line @typescript-eslint/no-var-requires
+// oxlint-disable-next-line typescript/no-var-requires
 const config: IConfig = require('config');
 
 if (getEnvironment() !== Environment.PackagedApp) {
@@ -73,6 +73,7 @@ if (getEnvironment() !== Environment.PackagedApp) {
   'SUPPRESS_NO_CONFIG_WARNING',
   'SIGNAL_ENABLE_HTTP',
 ].forEach(s => {
+  // oxlint-disable-next-line no-console
   console.log(`${s} ${config.util.getEnv(s)}`);
 });
 

@@ -140,7 +140,7 @@ export function MessageRequestActionsConfirmation({
           },
         ]}
       >
-        {/* eslint-disable-next-line no-nested-ternary */}
+        {/* oxlint-disable-next-line no-nested-ternary */}
         {conversationType === 'direct' ? (
           i18n('icu:MessageRequests--ReportAndMaybeBlockModal-body--direct')
         ) : addedByName == null ? (

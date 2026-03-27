@@ -1,8 +1,6 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* eslint-disable max-classes-per-file */
-
 import { assert } from 'chai';
 import * as sinon from 'sinon';
 import EventEmitter, { once } from 'node:events';
@@ -91,6 +89,7 @@ describe('JobQueue', () => {
         maxActive = Math.max(activeJobCount, maxActive);
       };
 
+      // oxlint-disable-next-line max-classes-per-file
       class Queue extends JobQueue<number> {
         parseData(data: unknown): number {
           return parseUnknown(z.number(), data);
@@ -530,10 +529,14 @@ describe('JobQueue', () => {
 
       drop(queue.streamJobs());
 
+      // oxlint-disable-next-line promise/prefer-await-to-then
       (await queue.add('invalid')).completion.catch(noop);
+      // oxlint-disable-next-line promise/prefer-await-to-then
       (await queue.add('invalid')).completion.catch(noop);
       await queue.add('valid');
+      // oxlint-disable-next-line promise/prefer-await-to-then
       (await queue.add('invalid')).completion.catch(noop);
+      // oxlint-disable-next-line promise/prefer-await-to-then
       (await queue.add('invalid')).completion.catch(noop);
 
       sinon.assert.calledOnce(run);
@@ -668,7 +671,7 @@ describe('JobQueue', () => {
 
       store.pauseStream('test queue');
       const job = await queue.add(undefined);
-      // eslint-disable-next-line more/no-then
+      // oxlint-disable-next-line promise/prefer-await-to-then, signal-desktop/no-then
       const jobCompletionPromise = job.completion.then(() => {
         events.push('resolved');
       });
@@ -710,6 +713,7 @@ describe('JobQueue', () => {
 
       store.pauseStream('test queue');
       const job = await queue.add(undefined);
+      // oxlint-disable-next-line promise/prefer-await-to-then
       const jobCompletionPromise = job.completion.catch(() => {
         events.push('rejected');
       });
@@ -743,8 +747,9 @@ describe('JobQueue', () => {
       #eventEmitter = new EventEmitter();
 
       async *[Symbol.asyncIterator]() {
+        // oxlint-disable-next-line no-constant-condition
         while (true) {
-          // eslint-disable-next-line no-await-in-loop
+          // oxlint-disable-next-line no-await-in-loop
           const [job] = await once(this.#eventEmitter, 'drip');
           yield parseUnknown(storedJobSchema, job as unknown);
         }

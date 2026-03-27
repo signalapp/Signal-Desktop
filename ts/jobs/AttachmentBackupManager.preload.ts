@@ -1,6 +1,5 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-/* eslint-disable max-classes-per-file */
 
 import { existsSync } from 'node:fs';
 import { PassThrough } from 'node:stream';
@@ -180,6 +179,7 @@ function getJobIdForLogging(job: CoreAttachmentBackupJobType): string {
 /**
  * Backup-specific methods
  */
+// oxlint-disable-next-line max-classes-per-file
 class AttachmentPermanentlyMissingError extends Error {}
 class FileNotFoundOnTransitTierError extends Error {}
 

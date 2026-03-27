@@ -3424,7 +3424,7 @@ export const EmbeddedContactWithSendMessage = Template.bind({});
 EmbeddedContactWithSendMessage.args = {
   contact: {
     ...fullContact,
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    // oxlint-disable-next-line typescript/no-non-null-assertion
     firstNumber: fullContact.number[0]!.value,
     serviceId: generateAci(),
   },

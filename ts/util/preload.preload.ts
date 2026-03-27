@@ -96,7 +96,7 @@ export function createSetting<
 }
 
 type UnwrapReturn<
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // oxlint-disable-next-line typescript/no-explicit-any
   Callback extends (...args: Array<any>) => unknown,
 > = UnwrapPromise<ReturnType<Callback>>;
 
@@ -139,7 +139,7 @@ export function installSetting(
   if (setter) {
     ipcRenderer.on(`settings:set:${name}`, async (_event, { seq, value }) => {
       // Some settings do not have setters...
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // oxlint-disable-next-line typescript/no-explicit-any
       const setFn = (window.Events as any)[setterName] as (
         value: unknown
       ) => Promise<void>;

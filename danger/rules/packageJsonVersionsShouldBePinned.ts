@@ -1,7 +1,8 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { File, Rule } from 'endanger';
+import type { File } from 'endanger';
+import { Rule } from 'endanger';
 import semver from 'semver';
 
 function isPinnedVersion(spec: string): boolean {
@@ -14,12 +15,13 @@ function isPinnedVersion(spec: string): boolean {
   } else {
     version = spec;
   }
-  return semver.valid(version) !== null;
+  return semver.valid(version) != null;
 }
 
 async function getLineContaining(file: File, text: string) {
-  let lines = await file.lines();
-  for (let line of lines) {
+  const lines = await file.lines();
+  for (const line of lines) {
+    // oxlint-disable-next-line no-await-in-loop
     if (await line.contains(text)) {
       return line;
     }
@@ -27,14 +29,15 @@ async function getLineContaining(file: File, text: string) {
   return null;
 }
 
-let dependencyTypes = [
+const dependencyTypes = [
   'dependencies',
   'devDependencies',
   'peerDependencies',
   'optionalDependencies',
 ];
 
-export default function packageJsonVersionsShouldBePinned() {
+// oxlint-disable-next-line typescript/no-explicit-any
+export default function packageJsonVersionsShouldBePinned(): Rule<any, any> {
   return new Rule({
     match: {
       files: ['**/package.json', '!**/node_modules/**'],
@@ -47,17 +50,19 @@ export default function packageJsonVersionsShouldBePinned() {
 			`,
     },
     async run({ files, context }) {
-      for (let file of files.modifiedOrCreated) {
-        let pkg = await file.json();
-        for (let dependencyType of dependencyTypes) {
-          let deps = pkg[dependencyType];
+      for (const file of files.modifiedOrCreated) {
+        // oxlint-disable-next-line no-await-in-loop
+        const pkg = await file.json();
+        for (const dependencyType of dependencyTypes) {
+          const deps = pkg[dependencyType];
           if (deps == null) {
             continue;
           }
-          for (let depName of Object.keys(deps)) {
-            let depVersion = deps[depName];
+          for (const depName of Object.keys(deps)) {
+            const depVersion = deps[depName];
             if (!isPinnedVersion(depVersion)) {
-              let line = await getLineContaining(
+              // oxlint-disable-next-line no-await-in-loop
+              const line = await getLineContaining(
                 file,
                 `"${depName}": "${depVersion}"`
               );

@@ -277,7 +277,6 @@ export function AboutContactModal({
           >
             <I18n
               components={{
-                // eslint-disable-next-line react/no-unstable-nested-components
                 clickable: (parts: ReactNode) => <>{parts}</>,
               }}
               i18n={i18n}

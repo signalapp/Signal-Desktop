@@ -64,7 +64,7 @@ const EMOJI_LIST: LocaleEmojiListType = [
 
 describe('emojiCompletion', () => {
   let emojiCompletion: EmojiCompletion;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // oxlint-disable-next-line typescript/no-explicit-any
   let mockQuill: any;
 
   beforeEach(function (this: Mocha.Context) {
@@ -94,7 +94,7 @@ describe('emojiCompletion', () => {
       emojiLocalizer,
     };
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // oxlint-disable-next-line typescript/no-explicit-any
     emojiCompletion = new EmojiCompletion(mockQuill as any, options);
 
     // Stub rendering to avoid missing DOM until we bring in Enzyme

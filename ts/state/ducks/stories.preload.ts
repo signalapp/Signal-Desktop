@@ -276,7 +276,7 @@ type SetHasAllStoriesUnmutedType = ReadonlyDeep<{
   payload: boolean;
 }>;
 
-// eslint-disable-next-line local-rules/type-alias-readonlydeep
+// oxlint-disable-next-line signal-desktop/enforce-type-alias-readonlydeep
 export type StoriesActionType =
   | DOEStoryActionType
   | ListMembersVerified

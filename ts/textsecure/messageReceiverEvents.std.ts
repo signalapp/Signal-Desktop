@@ -1,6 +1,5 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-/* eslint-disable max-classes-per-file */
 
 import type { PublicKey } from '@signalapp/libsignal-client';
 import { z } from 'zod';
@@ -48,6 +47,7 @@ export type TypingEventConfig = {
   typing: TypingEventData;
 };
 
+// oxlint-disable-next-line max-classes-per-file
 export class TypingEvent extends Event {
   public readonly sender?: string;
 

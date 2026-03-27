@@ -164,21 +164,21 @@ describe('lightbox', function (this: Mocha.Suite) {
 
     for (const [index, [label, attachment]] of order.entries()) {
       if (index > 0) {
-        // eslint-disable-next-line no-await-in-loop
+        // oxlint-disable-next-line no-await-in-loop
         await LighboxNext.click();
       }
       debug(label);
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       await expectLightboxImage(attachment);
     }
 
     for (const [index, [label, attachment]] of reverseOrder.entries()) {
       if (index > 0) {
-        // eslint-disable-next-line no-await-in-loop
+        // oxlint-disable-next-line no-await-in-loop
         await LighboxPrev.click();
       }
       debug(label);
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       await expectLightboxImage(attachment);
     }
   });

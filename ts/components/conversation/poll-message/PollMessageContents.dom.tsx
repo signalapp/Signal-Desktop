@@ -242,7 +242,7 @@ export function PollMessageContents({
   return (
     <div
       className={tw(
-        'text-start break-words whitespace-pre-wrap',
+        'text-start wrap-break-word whitespace-pre-wrap',
         'type-body-large',
         isIncoming ? 'text-label-primary' : 'text-label-primary-on-color',
         'w-[275px] max-w-full',
@@ -279,7 +279,7 @@ export function PollMessageContents({
             : weVotedForThis;
 
           return (
-            // eslint-disable-next-line react/no-array-index-key
+            // oxlint-disable-next-line react/no-array-index-key
             <div key={`option-${index}`} className={tw('flex gap-3')}>
               {poll.terminatedAt == null && (
                 // 3px offset: type-body-large has 14px font-size and 20px line-height,
@@ -298,7 +298,9 @@ export function PollMessageContents({
 
               <div className={tw('flex min-w-0 flex-1 flex-col gap-1')}>
                 <div className={tw('flex items-start justify-between gap-3')}>
-                  <span className={tw('min-w-0 type-body-large break-words')}>
+                  <span
+                    className={tw('min-w-0 type-body-large wrap-break-word')}
+                  >
                     <UserText text={option} />
                   </span>
                   <div
@@ -340,7 +342,7 @@ export function PollMessageContents({
                   />
                   <div
                     className={tw(
-                      'absolute inset-y-0 start-0 rounded-s-full',
+                      'absolute inset-y-0 inset-s-0 rounded-s-full',
                       'transition-[width] duration-250 motion-reduce:transition-none',
                       isIncoming
                         ? 'bg-color-fill-primary'

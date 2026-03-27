@@ -68,7 +68,7 @@ function createMediaItem(
 }
 
 const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => {
-  // eslint-disable-next-line react-hooks/rules-of-hooks
+  // oxlint-disable-next-line react-hooks/rules-of-hooks
   const [selectedIndex, setSelectedIndex] = useState(0);
   const media = overrideProps.media || [];
   return {

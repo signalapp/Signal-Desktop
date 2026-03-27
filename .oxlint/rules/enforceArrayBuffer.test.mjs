@@ -1,31 +1,12 @@
 // Copyright 2026 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
+// @ts-check
+import { enforceArrayBuffer } from './enforceArrayBuffer.mjs';
+import { RuleTester } from '@typescript-eslint/rule-tester';
 
-const rule = require('./enforce-array-buffer');
-const RuleTester = require('eslint').RuleTester;
+const ruleTester = new RuleTester();
 
-// avoid triggering mocha's global leak detection
-require('@typescript-eslint/parser');
-
-const ruleTester = new RuleTester({
-  parser: require.resolve('@typescript-eslint/parser'),
-  parserOptions: {
-    ecmaVersion: 2018,
-    sourceType: 'module',
-  },
-});
-
-const EXPECTED_ARRAY_ERROR = {
-  message: 'Should be Uint8Array<ArrayBuffer>',
-  type: 'TSTypeReference',
-};
-
-const EXPECTED_BUFFER_ERROR = {
-  message: 'Should be Buffer<ArrayBuffer>',
-  type: 'TSTypeReference',
-};
-
-ruleTester.run('enforce-array-buffer', rule, {
+ruleTester.run('enforce-array-buffer', enforceArrayBuffer, {
   valid: [
     { code: 'type T = number;' },
     { code: 'type T = Uint16Array;' },
@@ -52,32 +33,32 @@ ruleTester.run('enforce-array-buffer', rule, {
     {
       code: `type T = Uint8Array`,
       output: `type T = Uint8Array<ArrayBuffer>`,
-      errors: [EXPECTED_ARRAY_ERROR],
+      errors: [{ messageId: 'shouldUseArrayBuffer' }],
     },
     {
       code: `function f(): Uint8Array {}`,
       output: `function f(): Uint8Array<ArrayBuffer> {}`,
-      errors: [EXPECTED_ARRAY_ERROR],
+      errors: [{ messageId: 'shouldUseArrayBuffer' }],
     },
     {
       code: `function f(p: Uint8Array) {}`,
       output: `function f(p: Uint8Array<ArrayBuffer>) {}`,
-      errors: [EXPECTED_ARRAY_ERROR],
+      errors: [{ messageId: 'shouldUseArrayBuffer' }],
     },
     {
       code: `let v: Uint8Array;`,
       output: `let v: Uint8Array<ArrayBuffer>;`,
-      errors: [EXPECTED_ARRAY_ERROR],
+      errors: [{ messageId: 'shouldUseArrayBuffer' }],
     },
     {
       code: `let v: { p: Uint8Array };`,
       output: `let v: { p: Uint8Array<ArrayBuffer> };`,
-      errors: [EXPECTED_ARRAY_ERROR],
+      errors: [{ messageId: 'shouldUseArrayBuffer' }],
     },
     {
       code: `type T = Buffer`,
       output: `type T = Buffer<ArrayBuffer>`,
-      errors: [EXPECTED_BUFFER_ERROR],
+      errors: [{ messageId: 'shouldUseArrayBuffer' }],
     },
   ],
 });

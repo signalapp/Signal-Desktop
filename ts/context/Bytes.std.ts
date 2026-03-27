@@ -3,7 +3,7 @@
 
 // This file gets imported into renderer that does not have access to Node.js
 // builtins, use an `npm` package.
-// eslint-disable-next-line import/enforce-node-protocol-usage
+// oxlint-disable-next-line unicorn/prefer-node-protocol
 import { Buffer } from 'buffer';
 
 export class Bytes {

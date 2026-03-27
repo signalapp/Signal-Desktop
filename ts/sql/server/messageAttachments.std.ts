@@ -11,21 +11,25 @@ const permissiveStringOrNull = z
   .string()
   .optional()
   .transform(convertUndefinedToNull)
+  // oxlint-disable-next-line promise/prefer-await-to-then
   .catch(null);
 const permissiveNumberOrNull = z
   .number()
   .optional()
   .transform(convertUndefinedToNull)
+  // oxlint-disable-next-line promise/prefer-await-to-then
   .catch(null);
 const permissiveAttachmentVersion = z
   .union([z.literal(1), z.literal(2)])
   .optional()
   .transform(convertUndefinedToNull)
+  // oxlint-disable-next-line promise/prefer-await-to-then
   .catch(null);
 const permissiveOptionalBool = z
   .union([z.literal(0), z.literal(1)])
   .optional()
   .transform(convertUndefinedToNull)
+  // oxlint-disable-next-line promise/prefer-await-to-then
   .catch(null);
 
 // A schema which converts invalid values to null, to handle bad data when
@@ -38,9 +42,13 @@ export const permissiveMessageAttachmentSchema = z.object({
   attachmentType: messageAttachmentTypeSchema,
   orderInMessage: z.number(),
   conversationId: z.string(),
+  // oxlint-disable-next-line promise/prefer-await-to-then
   sentAt: z.number().catch(0),
+  // oxlint-disable-next-line promise/prefer-await-to-then
   receivedAt: z.number().catch(0),
+  // oxlint-disable-next-line promise/prefer-await-to-then
   size: z.number().catch(0),
+  // oxlint-disable-next-line promise/prefer-await-to-then
   contentType: z.string().catch(APPLICATION_OCTET_STREAM),
 
   // Fields allowing NULL

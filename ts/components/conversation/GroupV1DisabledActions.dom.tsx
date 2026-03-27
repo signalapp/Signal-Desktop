@@ -23,8 +23,6 @@ export function GroupV1DisabledActions({
           i18n={i18n}
           id="icu:GroupV1--Migration--disabled--link"
           components={{
-            // This is a render prop, not a component
-            // eslint-disable-next-line react/no-unstable-nested-components
             learnMoreLink: parts => {
               return (
                 <a

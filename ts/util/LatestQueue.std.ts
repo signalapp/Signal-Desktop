@@ -42,6 +42,7 @@ export class LatestQueue {
     } else {
       this.#isRunning = true;
       drop(
+        // oxlint-disable-next-line promise/prefer-await-to-then
         task().finally(() => {
           this.#isRunning = false;
 

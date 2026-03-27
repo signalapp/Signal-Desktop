@@ -7,6 +7,6 @@ export function wrappingAdd24(a: number, b: number): number {
     throw new Error('Invalid arguments');
   }
 
-  // eslint-disable-next-line no-bitwise
+  // oxlint-disable-next-line no-bitwise
   return (a + b) & 0xffffff;
 }

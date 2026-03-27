@@ -14,7 +14,7 @@ export type SingleServePromiseIdString = string & { __single_serve: never };
 
 const promises = new Map<
   SingleServePromiseIdString,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // oxlint-disable-next-line typescript/no-explicit-any
   ExplodePromiseResultType<any>
 >();
 

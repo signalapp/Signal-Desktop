@@ -1,10 +1,6 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable more/no-then */
-/* eslint-disable no-param-reassign */
-
 import lodash from 'lodash';
 
 import { z } from 'zod';
@@ -428,6 +424,7 @@ export default class OutgoingMessage {
     const ourAci = itemStorage.user.getCheckedAci();
     const ourDeviceId = itemStorage.user.getDeviceId();
     if ((serviceId === ourNumber || serviceId === ourAci) && !sealedSender) {
+      // oxlint-disable-next-line no-param-reassign
       deviceIds = reject(
         deviceIds,
         deviceId =>
@@ -447,98 +444,144 @@ export default class OutgoingMessage {
       ourServiceId: ourAci,
     });
 
-    return Promise.all(
-      deviceIds.map(async destinationDeviceId => {
-        const address = new QualifiedAddress(
-          ourAci,
-          new Address(serviceId, destinationDeviceId)
-        );
+    return (
+      Promise.all(
+        deviceIds.map(async destinationDeviceId => {
+          const address = new QualifiedAddress(
+            ourAci,
+            new Address(serviceId, destinationDeviceId)
+          );
 
-        return signalProtocolStore.enqueueSessionJob<MessageType>(
-          address,
-          async () => {
-            const protocolAddress = ProtocolAddress.new(
-              serviceId,
-              destinationDeviceId
-            );
-
-            const activeSession =
-              await sessionStore.getSession(protocolAddress);
-            if (!activeSession) {
-              throw new Error(
-                'OutgoingMessage.doSendMessage: No active session!'
+          return signalProtocolStore.enqueueSessionJob<MessageType>(
+            address,
+            async () => {
+              const protocolAddress = ProtocolAddress.new(
+                serviceId,
+                destinationDeviceId
               );
-            }
 
-            const destinationRegistrationId =
-              activeSession.remoteRegistrationId();
+              const activeSession =
+                await sessionStore.getSession(protocolAddress);
+              if (!activeSession) {
+                throw new Error(
+                  'OutgoingMessage.doSendMessage: No active session!'
+                );
+              }
 
-            if (sealedSender && senderCertificate) {
+              const destinationRegistrationId =
+                activeSession.remoteRegistrationId();
+
+              if (sealedSender && senderCertificate) {
+                const ciphertextMessage = await this.getCiphertextMessage({
+                  identityKeyStore,
+                  protocolAddress,
+                  sessionStore,
+                });
+
+                const certificate = SenderCertificate.deserialize(
+                  senderCertificate.serialized
+                );
+                const groupIdBuffer = this.groupId
+                  ? Bytes.fromBase64(this.groupId)
+                  : null;
+
+                const content = UnidentifiedSenderMessageContent.new(
+                  ciphertextMessage,
+                  certificate,
+                  this.contentHint,
+                  groupIdBuffer
+                );
+
+                const buffer = await sealedSenderEncrypt(
+                  content,
+                  protocolAddress,
+                  identityKeyStore
+                );
+
+                return {
+                  type: Proto.Envelope.Type.UNIDENTIFIED_SENDER,
+                  destinationDeviceId,
+                  destinationRegistrationId,
+                  content: Bytes.toBase64(buffer),
+                };
+              }
+
               const ciphertextMessage = await this.getCiphertextMessage({
                 identityKeyStore,
                 protocolAddress,
                 sessionStore,
               });
-
-              const certificate = SenderCertificate.deserialize(
-                senderCertificate.serialized
-              );
-              const groupIdBuffer = this.groupId
-                ? Bytes.fromBase64(this.groupId)
-                : null;
-
-              const content = UnidentifiedSenderMessageContent.new(
-                ciphertextMessage,
-                certificate,
-                this.contentHint,
-                groupIdBuffer
+              const type = ciphertextMessageTypeToEnvelopeType(
+                ciphertextMessage.type()
               );
 
-              const buffer = await sealedSenderEncrypt(
-                content,
-                protocolAddress,
-                identityKeyStore
-              );
+              const content = Bytes.toBase64(ciphertextMessage.serialize());
 
               return {
-                type: Proto.Envelope.Type.UNIDENTIFIED_SENDER,
+                type,
                 destinationDeviceId,
                 destinationRegistrationId,
-                content: Bytes.toBase64(buffer),
+                content,
               };
             }
+          );
+        })
+      )
+        // oxlint-disable-next-line promise/prefer-await-to-then, signal-desktop/no-then
+        .then(async (jsonData: Array<MessageType>) => {
+          if (sealedSender) {
+            return this.transmitMessage(serviceId, jsonData, this.timestamp, {
+              accessKey,
+              groupSendToken,
+              // oxlint-disable-next-line signal-desktop/no-then
+            }).then(
+              () => {
+                this.recipients[serviceId] = deviceIds;
+                this.unidentifiedDeliveries.push(serviceId);
+                this.successfulServiceIds.push(serviceId);
+                this.numberCompleted();
 
-            const ciphertextMessage = await this.getCiphertextMessage({
-              identityKeyStore,
-              protocolAddress,
-              sessionStore,
-            });
-            const type = ciphertextMessageTypeToEnvelopeType(
-              ciphertextMessage.type()
+                if (this.sendLogCallback) {
+                  void this.sendLogCallback({
+                    serviceId,
+                    deviceIds,
+                  });
+                } else if (this.successfulServiceIds.length > 1) {
+                  log.warn(
+                    `doSendMessage: no sendLogCallback provided for message ${this.timestamp}, but multiple recipients`
+                  );
+                }
+              },
+              async (error: Error) => {
+                if (
+                  error instanceof SendMessageNetworkError &&
+                  (error.code === 401 || error.code === 403)
+                ) {
+                  log.warn(
+                    `doSendMessage: Failing over to unsealed send for serviceId ${serviceId}`
+                  );
+                  if (this.failoverServiceIds.indexOf(serviceId) === -1) {
+                    this.failoverServiceIds.push(serviceId);
+                  }
+
+                  // This ensures that we don't hit this codepath the next time through
+                  if (sendMetadata) {
+                    delete sendMetadata[serviceId];
+                  }
+
+                  return this.doSendMessage(serviceId, deviceIds, recurse);
+                }
+
+                throw error;
+              }
             );
-
-            const content = Bytes.toBase64(ciphertextMessage.serialize());
-
-            return {
-              type,
-              destinationDeviceId,
-              destinationRegistrationId,
-              content,
-            };
           }
-        );
-      })
-    )
-      .then(async (jsonData: Array<MessageType>) => {
-        if (sealedSender) {
-          return this.transmitMessage(serviceId, jsonData, this.timestamp, {
-            accessKey,
-            groupSendToken,
-          }).then(
+
+          // oxlint-disable-next-line signal-desktop/no-then
+          return this.transmitMessage(serviceId, jsonData, this.timestamp).then(
             () => {
-              this.recipients[serviceId] = deviceIds;
-              this.unidentifiedDeliveries.push(serviceId);
               this.successfulServiceIds.push(serviceId);
+              this.recipients[serviceId] = deviceIds;
               this.numberCompleted();
 
               if (this.sendLogCallback) {
@@ -551,134 +594,101 @@ export default class OutgoingMessage {
                   `doSendMessage: no sendLogCallback provided for message ${this.timestamp}, but multiple recipients`
                 );
               }
-            },
-            async (error: Error) => {
-              if (
-                error instanceof SendMessageNetworkError &&
-                (error.code === 401 || error.code === 403)
-              ) {
-                log.warn(
-                  `doSendMessage: Failing over to unsealed send for serviceId ${serviceId}`
-                );
-                if (this.failoverServiceIds.indexOf(serviceId) === -1) {
-                  this.failoverServiceIds.push(serviceId);
-                }
-
-                // This ensures that we don't hit this codepath the next time through
-                if (sendMetadata) {
-                  delete sendMetadata[serviceId];
-                }
-
-                return this.doSendMessage(serviceId, deviceIds, recurse);
-              }
-
-              throw error;
             }
           );
-        }
-
-        return this.transmitMessage(serviceId, jsonData, this.timestamp).then(
-          () => {
-            this.successfulServiceIds.push(serviceId);
-            this.recipients[serviceId] = deviceIds;
-            this.numberCompleted();
-
-            if (this.sendLogCallback) {
-              void this.sendLogCallback({
+        })
+        // oxlint-disable-next-line promise/prefer-await-to-then
+        .catch(async error => {
+          if (
+            error instanceof HTTPError &&
+            (error.code === 410 || error.code === 409)
+          ) {
+            if (!recurse) {
+              this.registerError(
                 serviceId,
-                deviceIds,
-              });
-            } else if (this.successfulServiceIds.length > 1) {
-              log.warn(
-                `doSendMessage: no sendLogCallback provided for message ${this.timestamp}, but multiple recipients`
+                'Hit retry limit attempting to reload device list',
+                error
+              );
+              return undefined;
+            }
+
+            const response = error.response as {
+              extraDevices?: Array<number>;
+              staleDevices?: Array<number>;
+              missingDevices?: Array<number>;
+            };
+            // oxlint-disable-next-line typescript/no-explicit-any
+            let p: Promise<any> = Promise.resolve();
+            if (error.code === 409) {
+              p = this.removeDeviceIdsForServiceId(
+                serviceId,
+                response.extraDevices || []
+              );
+            } else {
+              p = Promise.all(
+                (response.staleDevices || []).map(async (deviceId: number) => {
+                  await signalProtocolStore.archiveSession(
+                    new QualifiedAddress(
+                      ourAci,
+                      new Address(serviceId, deviceId)
+                    )
+                  );
+                })
               );
             }
-          }
-        );
-      })
-      .catch(async error => {
-        if (
-          error instanceof HTTPError &&
-          (error.code === 410 || error.code === 409)
-        ) {
-          if (!recurse) {
-            this.registerError(
-              serviceId,
-              'Hit retry limit attempting to reload device list',
-              error
-            );
-            return undefined;
+
+            // oxlint-disable-next-line signal-desktop/no-then
+            return p.then(async () => {
+              const resetDevices =
+                error.code === 410
+                  ? (response.staleDevices ?? null)
+                  : (response.missingDevices ?? null);
+              // oxlint-disable-next-line signal-desktop/no-then
+              return this.getKeysForServiceId(serviceId, resetDevices).then(
+                // We continue to retry as long as the error code was 409; the assumption is
+                //   that we'll request new device info and the next request will succeed.
+                this.reloadDevicesAndSend(serviceId, error.code === 409)
+              );
+            });
           }
 
-          const response = error.response as {
-            extraDevices?: Array<number>;
-            staleDevices?: Array<number>;
-            missingDevices?: Array<number>;
-          };
-          let p: Promise<any> = Promise.resolve();
-          if (error.code === 409) {
-            p = this.removeDeviceIdsForServiceId(
+          let newError = error;
+          if (
+            error instanceof LibSignalErrorBase &&
+            error.code === ErrorCode.UntrustedIdentity
+          ) {
+            newError = new OutgoingIdentityKeyError(serviceId, error);
+            log.error(
+              'UntrustedIdentityKeyError from decrypt!',
               serviceId,
-              response.extraDevices || []
+              deviceIds
             );
-          } else {
-            p = Promise.all(
-              (response.staleDevices || []).map(async (deviceId: number) => {
-                await signalProtocolStore.archiveSession(
-                  new QualifiedAddress(ourAci, new Address(serviceId, deviceId))
+
+            log.info('closing all sessions for', serviceId);
+            // oxlint-disable-next-line promise/prefer-await-to-then, signal-desktop/no-then
+            signalProtocolStore.archiveAllSessions(serviceId).then(
+              () => {
+                throw error;
+              },
+              innerError => {
+                log.error(
+                  'doSendMessage: Error closing sessions: ' +
+                    `${Errors.toLogFormat(innerError)}`
                 );
-              })
+                throw error;
+              }
             );
           }
 
-          return p.then(async () => {
-            const resetDevices =
-              error.code === 410
-                ? (response.staleDevices ?? null)
-                : (response.missingDevices ?? null);
-            return this.getKeysForServiceId(serviceId, resetDevices).then(
-              // We continue to retry as long as the error code was 409; the assumption is
-              //   that we'll request new device info and the next request will succeed.
-              this.reloadDevicesAndSend(serviceId, error.code === 409)
-            );
-          });
-        }
-
-        let newError = error;
-        if (
-          error instanceof LibSignalErrorBase &&
-          error.code === ErrorCode.UntrustedIdentity
-        ) {
-          newError = new OutgoingIdentityKeyError(serviceId, error);
-          log.error(
-            'UntrustedIdentityKeyError from decrypt!',
+          this.registerError(
             serviceId,
-            deviceIds
+            'Failed to create or send message',
+            newError
           );
 
-          log.info('closing all sessions for', serviceId);
-          signalProtocolStore.archiveAllSessions(serviceId).then(
-            () => {
-              throw error;
-            },
-            innerError => {
-              log.error(
-                'doSendMessage: Error closing sessions: ' +
-                  `${Errors.toLogFormat(innerError)}`
-              );
-              throw error;
-            }
-          );
-        }
-
-        this.registerError(
-          serviceId,
-          'Failed to create or send message',
-          newError
-        );
-
-        return undefined;
-      });
+          return undefined;
+        })
+    );
   }
 
   async removeDeviceIdsForServiceId(

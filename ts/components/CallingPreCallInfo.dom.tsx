@@ -110,38 +110,44 @@ export function CallingPreCallInfo({
         }
         return getParticipantName(participant);
       });
-      /* eslint-disable @typescript-eslint/no-non-null-assertion */
       switch (participantNames.length) {
         case 1:
           subtitle = hasYou
             ? i18n('icu:calling__pre-call-info--another-device-in-call')
             : i18n('icu:calling__pre-call-info--1-person-in-call', {
+                // oxlint-disable-next-line typescript/no-non-null-assertion
                 first: participantNames[0]!,
               });
           break;
         case 2:
           subtitle = i18n('icu:calling__pre-call-info--2-people-in-call', {
+            // oxlint-disable-next-line typescript/no-non-null-assertion
             first: participantNames[0]!,
+            // oxlint-disable-next-line typescript/no-non-null-assertion
             second: participantNames[1]!,
           });
           break;
         case 3:
           subtitle = i18n('icu:calling__pre-call-info--3-people-in-call', {
+            // oxlint-disable-next-line typescript/no-non-null-assertion
             first: participantNames[0]!,
+            // oxlint-disable-next-line typescript/no-non-null-assertion
             second: participantNames[1]!,
+            // oxlint-disable-next-line typescript/no-non-null-assertion
             third: participantNames[2]!,
           });
           break;
         default:
           subtitle = i18n('icu:calling__pre-call-info--many-people-in-call', {
+            // oxlint-disable-next-line typescript/no-non-null-assertion
             first: participantNames[0]!,
+            // oxlint-disable-next-line typescript/no-non-null-assertion
             second: participantNames[1]!,
             others: participantNames.length - 2,
           });
           break;
       }
     }
-    /* eslint-enable @typescript-eslint/no-non-null-assertion */
   } else {
     let memberNames: Array<string>;
     switch (conversation.type) {
@@ -160,7 +166,6 @@ export function CallingPreCallInfo({
 
     const ring = ringMode === RingMode.WillRing;
 
-    /* eslint-disable @typescript-eslint/no-non-null-assertion */
     switch (memberNames.length) {
       case 0:
         subtitle = i18n('icu:calling__pre-call-info--empty-group');
@@ -168,9 +173,11 @@ export function CallingPreCallInfo({
       case 1: {
         subtitle = ring
           ? i18n('icu:calling__pre-call-info--will-ring-1', {
+              // oxlint-disable-next-line typescript/no-non-null-assertion
               person: memberNames[0]!,
             })
           : i18n('icu:calling__pre-call-info--will-notify-1', {
+              // oxlint-disable-next-line typescript/no-non-null-assertion
               person: memberNames[0]!,
             });
         break;
@@ -178,11 +185,15 @@ export function CallingPreCallInfo({
       case 2: {
         subtitle = ring
           ? i18n('icu:calling__pre-call-info--will-ring-2', {
+              // oxlint-disable-next-line typescript/no-non-null-assertion
               first: memberNames[0]!,
+              // oxlint-disable-next-line typescript/no-non-null-assertion
               second: memberNames[1]!,
             })
           : i18n('icu:calling__pre-call-info--will-notify-2', {
+              // oxlint-disable-next-line typescript/no-non-null-assertion
               first: memberNames[0]!,
+              // oxlint-disable-next-line typescript/no-non-null-assertion
               second: memberNames[1]!,
             });
         break;
@@ -190,13 +201,19 @@ export function CallingPreCallInfo({
       case 3: {
         subtitle = ring
           ? i18n('icu:calling__pre-call-info--will-ring-3', {
+              // oxlint-disable-next-line typescript/no-non-null-assertion
               first: memberNames[0]!,
+              // oxlint-disable-next-line typescript/no-non-null-assertion
               second: memberNames[1]!,
+              // oxlint-disable-next-line typescript/no-non-null-assertion
               third: memberNames[2]!,
             })
           : i18n('icu:calling__pre-call-info--will-notify-3', {
+              // oxlint-disable-next-line typescript/no-non-null-assertion
               first: memberNames[0]!,
+              // oxlint-disable-next-line typescript/no-non-null-assertion
               second: memberNames[1]!,
+              // oxlint-disable-next-line typescript/no-non-null-assertion
               third: memberNames[2]!,
             });
         break;
@@ -204,12 +221,16 @@ export function CallingPreCallInfo({
       default: {
         subtitle = ring
           ? i18n('icu:calling__pre-call-info--will-ring-many', {
+              // oxlint-disable-next-line typescript/no-non-null-assertion
               first: memberNames[0]!,
+              // oxlint-disable-next-line typescript/no-non-null-assertion
               second: memberNames[1]!,
               others: memberNames.length - 2,
             })
           : i18n('icu:calling__pre-call-info--will-notify-many', {
+              // oxlint-disable-next-line typescript/no-non-null-assertion
               first: memberNames[0]!,
+              // oxlint-disable-next-line typescript/no-non-null-assertion
               second: memberNames[1]!,
               others: memberNames.length - 2,
             });
@@ -217,7 +238,6 @@ export function CallingPreCallInfo({
       }
     }
   }
-  /* eslint-enable @typescript-eslint/no-non-null-assertion */
 
   return (
     <div className="module-CallingPreCallInfo">

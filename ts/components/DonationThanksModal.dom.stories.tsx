@@ -37,7 +37,6 @@ const defaultProps = {
   },
 };
 
-// eslint-disable-next-line react/function-component-definition
 const Template: StoryFn<PropsType> = args => <DonationThanksModal {...args} />;
 
 export const Default = Template.bind({});

@@ -1,6 +1,5 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-/* eslint-disable max-classes-per-file */
 
 /**
  * Shared types/errors (plaintext & encrypted)
@@ -17,6 +16,7 @@ export class NotEnoughStorageError extends Error {
     super('NotEnoughStorageError');
   }
 }
+// oxlint-disable-next-line max-classes-per-file
 export class RanOutOfStorageError extends Error {
   constructor(public readonly bytesNeeded: number) {
     super('RanOutOfStorageError');

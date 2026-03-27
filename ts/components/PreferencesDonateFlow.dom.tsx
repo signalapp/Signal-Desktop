@@ -158,7 +158,7 @@ export function PreferencesDonateFlow({
       initialStep: 'amount',
       initialAmount: undefined,
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // oxlint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const [step, setStep] = useState<
@@ -473,7 +473,7 @@ export function PreferencesDonateFlow({
         <CardFormHero i18n={i18n} amount={amount} currency={currency} />
         <hr className="PreferencesDonations__separator PreferencesDonations__separator--card-form" />
         <div className={tw('my-4 flex min-w-[400px] py-4 type-body-large')}>
-          <div className={tw('flex flex-grow items-center')}>
+          <div className={tw('flex grow items-center')}>
             {i18n('icu:Donations__PaymentMethod')}
           </div>
           <img

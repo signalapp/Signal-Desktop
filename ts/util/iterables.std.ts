@@ -1,8 +1,6 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* eslint-disable max-classes-per-file */
-
 import { getOwn } from './getOwn.std.js';
 
 export function isIterable(value: unknown): value is Iterable<unknown> {
@@ -73,6 +71,7 @@ export function filter<T>(
   return new FilterIterable(iterable, predicate);
 }
 
+// oxlint-disable-next-line max-classes-per-file
 class FilterIterable<T> implements Iterable<T> {
   constructor(
     private readonly iterable: Iterable<T>,
@@ -91,7 +90,7 @@ class FilterIterator<T> implements Iterator<T> {
   ) {}
 
   next(): IteratorResult<T> {
-    // eslint-disable-next-line no-constant-condition
+    // oxlint-disable-next-line no-constant-condition
     while (true) {
       const nextIteration = this.iterator.next();
       if (nextIteration.done || this.predicate(nextIteration.value)) {
@@ -116,7 +115,6 @@ export function collectFirst<T, S>(
   iterable: Iterable<T>,
   fn: (value: T) => S | undefined
 ): S | undefined {
-  // eslint-disable-next-line no-unreachable-loop
   for (const v of collect(iterable, fn)) {
     return v;
   }
@@ -141,7 +139,7 @@ class CollectIterator<T, S> implements Iterator<S> {
   ) {}
 
   next(): IteratorResult<S> {
-    // eslint-disable-next-line no-constant-condition
+    // oxlint-disable-next-line no-constant-condition
     while (true) {
       const nextIteration = this.iterator.next();
       if (nextIteration.done) {
@@ -337,7 +335,7 @@ export function zipObject<ValueT>(
 
   const propsIterator = props[Symbol.iterator]();
   const valuesIterator = values[Symbol.iterator]();
-  // eslint-disable-next-line no-constant-condition
+  // oxlint-disable-next-line no-constant-condition
   while (true) {
     const propIteration = propsIterator.next();
     if (propIteration.done) {

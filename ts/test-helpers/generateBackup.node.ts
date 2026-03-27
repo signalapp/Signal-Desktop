@@ -253,7 +253,7 @@ function* createRecords({
   }
 
   for (let i = 0; i < messages; i += 1) {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    // oxlint-disable-next-line typescript/no-non-null-assertion
     const chat = chats[i % chats.length]!;
 
     const isIncoming = i % 2 === 0;

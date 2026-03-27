@@ -25,7 +25,7 @@ export const FlexWrapDetector = memo(function FlexWrapDetector(
         <div className={tw('absolute -end-px size-px')} />
       </div>
       {/* 5. When not wrapped, this item should take priority when growing the items */}
-      <div className={tw('grow-[9999]')}>{props.children}</div>
+      <div className={tw('grow-9999')}>{props.children}</div>
     </div>
   );
 });

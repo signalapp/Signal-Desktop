@@ -58,8 +58,8 @@ export namespace AxoCheckbox {
           'data-[state=checked]:bg-color-fill-primary',
           'data-[state=checked]:text-label-primary-on-color',
           'data-[state=checked]:pressed:bg-color-fill-primary-pressed',
-          'data-[disabled]:border-border-secondary',
-          'data-[state=checked]:data-[disabled]:text-label-disabled-on-color',
+          'data-disabled:border-border-secondary',
+          'data-[state=checked]:data-disabled:text-label-disabled-on-color',
           'outline-0 outline-border-focused focused:outline-[2.5px]',
           'overflow-hidden'
         )}

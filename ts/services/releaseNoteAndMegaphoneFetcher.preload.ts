@@ -158,7 +158,7 @@ export class ReleaseNoteAndMegaphoneFetcher {
   ): Promise<LocaleMegaphoneType | undefined> {
     for (const locale of locales) {
       // megaphones share URL with release notes
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       const hash = await this.#server.getReleaseNoteHash({
         uuid,
         locale,
@@ -167,7 +167,7 @@ export class ReleaseNoteAndMegaphoneFetcher {
         continue;
       }
 
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       const localeMegaphone = await this.#server.getMegaphone({ uuid, locale });
       if (localeMegaphone == null) {
         log.warn(
@@ -180,11 +180,11 @@ export class ReleaseNoteAndMegaphoneFetcher {
       let imagePath: string | null;
       if (localeMegaphone.image) {
         const { imageData: rawAttachmentData } =
-          // eslint-disable-next-line no-await-in-loop
+          // oxlint-disable-next-line no-await-in-loop
           await this.#server.getReleaseNoteImageAttachment(
             localeMegaphone.image
           );
-        // eslint-disable-next-line no-await-in-loop
+        // oxlint-disable-next-line no-await-in-loop
         imagePath = await writeNewMegaphoneImageFileData(rawAttachmentData);
       } else {
         imagePath = null;
@@ -237,7 +237,7 @@ export class ReleaseNoteAndMegaphoneFetcher {
       log.warn(
         `deleteUnknownMegaphones: Found local megaphone missing in manifest, deleting: ${id}`
       );
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       await deleteMegaphoneAndRemoveFromRedux(id);
     }
   }
@@ -260,14 +260,14 @@ export class ReleaseNoteAndMegaphoneFetcher {
           e164: ourE164,
           aci: ourAci,
         }) ||
-        // eslint-disable-next-line no-await-in-loop
+        // oxlint-disable-next-line no-await-in-loop
         (await DataReader.hasMegaphone(uuid))
       ) {
         continue;
       }
 
       try {
-        // eslint-disable-next-line no-await-in-loop
+        // oxlint-disable-next-line no-await-in-loop
         const localeDetail = await this.#maybeGetLocaleMegaphone(uuid, locales);
         if (localeDetail == null) {
           log.warn(
@@ -309,7 +309,7 @@ export class ReleaseNoteAndMegaphoneFetcher {
           snoozeCount: 0,
           isFinished: false,
         };
-        // eslint-disable-next-line no-await-in-loop
+        // oxlint-disable-next-line no-await-in-loop
         await DataWriter.createMegaphone(hydratedMegaphone);
         savedCount += 1;
       } catch (error) {
@@ -332,7 +332,7 @@ export class ReleaseNoteAndMegaphoneFetcher {
 
     for (const localeToTry of localesToTry) {
       try {
-        // eslint-disable-next-line no-await-in-loop
+        // oxlint-disable-next-line no-await-in-loop
         const hash = await this.#server.getReleaseNoteHash({
           uuid,
           locale: localeToTry,
@@ -342,7 +342,7 @@ export class ReleaseNoteAndMegaphoneFetcher {
           continue;
         }
 
-        // eslint-disable-next-line no-await-in-loop
+        // oxlint-disable-next-line no-await-in-loop
         const result = await this.#server.getReleaseNote({
           uuid,
           locale: localeToTry,

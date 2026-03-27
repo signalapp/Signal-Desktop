@@ -100,6 +100,7 @@ async function main() {
   await fs.writeFile(MESSAGES_FILE, `${JSON.stringify(messages, null, 2)}\n`);
 }
 
+// oxlint-disable-next-line promise/prefer-await-to-then
 main().catch(err => {
   console.error(err);
   process.exit(1);

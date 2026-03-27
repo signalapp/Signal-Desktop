@@ -56,7 +56,7 @@ export function Emojify({
 
           return (
             <FunInlineEmoji
-              // eslint-disable-next-line react/no-array-index-key
+              // oxlint-disable-next-line react/no-array-index-key
               key={index}
               role="img"
               aria-label={emojiLocalizer.getLocaleShortName(variantKey)}

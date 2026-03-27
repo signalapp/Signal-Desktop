@@ -13,9 +13,9 @@ export function getColorForCallLink(
   const rootKeyStart = rootKey.slice(0, 2);
 
   const upper =
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    // oxlint-disable-next-line typescript/no-non-null-assertion
     (BASE_16_CONSONANT_ALPHABET.indexOf(rootKeyStart[0]!) || 0) * 16;
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  // oxlint-disable-next-line typescript/no-non-null-assertion
   const lower = BASE_16_CONSONANT_ALPHABET.indexOf(rootKeyStart[1]!) || 0;
   const firstByte = upper + lower;
 

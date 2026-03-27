@@ -28,7 +28,7 @@ describe('DelimitedStream', () => {
     for (let stride = data.length; stride > 0; stride -= decrease) {
       const out = new Array<string>();
 
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       await pipeline(
         Readable.from(
           (function* () {

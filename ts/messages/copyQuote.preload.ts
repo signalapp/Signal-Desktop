@@ -90,21 +90,21 @@ export const copyQuoteContentFromOriginal = async (
   const quoteAttachment = attachments ? attachments[0] : undefined;
 
   if (isTapToView(message.attributes, true)) {
-    // eslint-disable-next-line no-param-reassign
+    // oxlint-disable-next-line no-param-reassign
     quote.text = undefined;
-    // eslint-disable-next-line no-param-reassign
+    // oxlint-disable-next-line no-param-reassign
     quote.attachments = [
       {
         contentType: IMAGE_JPEG,
       },
     ];
-    // eslint-disable-next-line no-param-reassign
+    // oxlint-disable-next-line no-param-reassign
     quote.isViewOnce = true;
 
     return;
   }
 
-  // eslint-disable-next-line no-param-reassign
+  // oxlint-disable-next-line no-param-reassign
   quote.isViewOnce = false;
 
   // We should copy things that contribute to the type of message,
@@ -118,31 +118,31 @@ export const copyQuoteContentFromOriginal = async (
     log.warn(
       `copyQuoteContentFromOriginal: Quote.isGiftBadge: ${quote.isGiftBadge}, isGiftBadge(message): ${isMessageAGiftBadge}`
     );
-    // eslint-disable-next-line no-param-reassign
+    // oxlint-disable-next-line no-param-reassign
     quote.isGiftBadge = isMessageAGiftBadge;
   }
   if (isMessageAGiftBadge) {
-    // eslint-disable-next-line no-param-reassign
+    // oxlint-disable-next-line no-param-reassign
     quote.text = undefined;
-    // eslint-disable-next-line no-param-reassign
+    // oxlint-disable-next-line no-param-reassign
     quote.attachments = [];
 
     return;
   }
 
   if (messageHasPaymentEvent(message.attributes)) {
-    // eslint-disable-next-line no-param-reassign
+    // oxlint-disable-next-line no-param-reassign
     quote.payment = message.get('payment');
   }
 
-  // eslint-disable-next-line no-param-reassign
+  // oxlint-disable-next-line no-param-reassign
   quote.text = getQuoteBodyText({
     messageAttributes: message.attributes,
     id: quote.id,
     i18n,
   });
 
-  // eslint-disable-next-line no-param-reassign
+  // oxlint-disable-next-line no-param-reassign
   quote.bodyRanges = message.attributes.bodyRanges;
 
   if (!quoteAttachment || !quoteAttachment.contentType) {
@@ -185,7 +185,7 @@ export const copyQuoteContentFromOriginal = async (
   }
 
   if (queryPreview.length > 0) {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    // oxlint-disable-next-line typescript/no-non-null-assertion
     const { image: quotedPreviewImage } = queryPreview[0]!;
     if (quotedPreviewImage && quotedPreviewImage.path) {
       quoteAttachment.thumbnail = {

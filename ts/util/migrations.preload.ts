@@ -117,7 +117,6 @@ export const loadStickerData = doLoadStickerData(loadAttachmentData);
 export const getAbsoluteAttachmentPath =
   createAbsolutePathGetter(ATTACHMENTS_PATH);
 
-// eslint-disable-next-line camelcase
 const __DANGEROUS__deleteAttachmentFile = createDeleter(ATTACHMENTS_PATH);
 export const maybeDeleteAttachmentFile = async (
   relativePath: string

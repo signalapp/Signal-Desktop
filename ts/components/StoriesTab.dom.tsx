@@ -216,7 +216,6 @@ export function StoriesTab({
               i18n={i18n}
               id="icu:Stories__placeholder-with-icon--text-2"
               components={{
-                // eslint-disable-next-line react/no-unstable-nested-components
                 newStoryButtonIcon: () => {
                   return (
                     <span

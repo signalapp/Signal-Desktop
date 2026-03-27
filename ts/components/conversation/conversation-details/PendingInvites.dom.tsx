@@ -196,12 +196,12 @@ function MembershipActionConfirmation({
     }
     approvePendingMembershipFromGroupV2(
       conversation.id,
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      // oxlint-disable-next-line typescript/no-non-null-assertion
       stagedMemberships[0]!.membership.member.id
     );
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  // oxlint-disable-next-line typescript/no-non-null-assertion
   const membershipType = stagedMemberships[0]!.type;
 
   const modalAction =

@@ -82,15 +82,15 @@ function sortAndNormalize(
       poll,
 
       // This is not in the backup
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      // oxlint-disable-next-line typescript/no-unused-vars
       id: _id,
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      // oxlint-disable-next-line typescript/no-unused-vars
       received_at: _receivedAt,
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      // oxlint-disable-next-line typescript/no-unused-vars
       sourceDevice: _sourceDevice,
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      // oxlint-disable-next-line typescript/no-unused-vars
       editMessageReceivedAt: _editMessageReceivedAt,
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      // oxlint-disable-next-line typescript/no-unused-vars
       schemaVersion: _schemaVersion,
 
       ...rest
@@ -137,7 +137,7 @@ function sortAndNormalize(
         editHistory: editHistory?.map(history => {
           const {
             sendStateByConversationId: historySendState,
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            // oxlint-disable-next-line typescript/no-unused-vars
             received_at: _receivedAtHistory,
             ...restOfHistory
           } = history;
@@ -267,7 +267,7 @@ export async function asymmetricRoundtripHarness(
     if (options.comparator) {
       assert.strictEqual(actual.length, expected.length);
       for (let i = 0; i < actual.length; i += 1) {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        // oxlint-disable-next-line typescript/no-non-null-assertion
         options.comparator(expected[i]!, actual[i]!);
       }
     } else {

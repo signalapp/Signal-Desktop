@@ -31,7 +31,7 @@ const GET_UNUSED_FILENAME_MAX_ATTEMPTS = 100;
 let xattr: FSAttrType | undefined;
 
 try {
-  // eslint-disable-next-line global-require, import/no-extraneous-dependencies
+  // oxlint-disable-next-line global-require, typescript/no-var-requires
   xattr = require('fs-xattr');
 } catch (e) {
   if (process.platform === 'darwin') {

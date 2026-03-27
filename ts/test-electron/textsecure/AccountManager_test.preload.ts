@@ -24,8 +24,6 @@ import { itemStorage } from '../../textsecure/Storage.preload.js';
 
 const { range } = lodash;
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 describe('AccountManager', () => {
   let sandbox: sinon.SinonSandbox;
   const accountManager = new AccountManager();
@@ -105,7 +103,9 @@ describe('AccountManager', () => {
   });
 
   describe('#_cleanSignedPreKeys', () => {
+    // oxlint-disable-next-line typescript/no-explicit-any
     let originalLoadSignedPreKeys: any;
+    // oxlint-disable-next-line typescript/no-explicit-any
     let originalRemoveSignedPreKey: any;
     let signedPreKeys: Array<OuterSignedPrekeyType>;
 
@@ -224,7 +224,9 @@ describe('AccountManager', () => {
   });
 
   describe('#_cleanLastResortKeys', () => {
+    // oxlint-disable-next-line typescript/no-explicit-any
     let originalLoadKyberPreKeys: any;
+    // oxlint-disable-next-line typescript/no-explicit-any
     let originalRemoveKyberPreKey: any;
     let kyberPreKeys: Array<KyberPreKeyType>;
 
@@ -376,7 +378,9 @@ describe('AccountManager', () => {
   });
 
   describe('#_cleanPreKeys', () => {
+    // oxlint-disable-next-line typescript/no-explicit-any
     let originalLoadPreKeys: any;
+    // oxlint-disable-next-line typescript/no-explicit-any
     let originalRemovePreKeys: any;
     let preKeys: Array<PreKeyType>;
 
@@ -496,7 +500,9 @@ describe('AccountManager', () => {
   });
 
   describe('#_cleanKyberPreKeys', () => {
+    // oxlint-disable-next-line typescript/no-explicit-any
     let originalLoadKyberPreKeys: any;
+    // oxlint-disable-next-line typescript/no-explicit-any
     let originalRemoveKyberPreKeys: any;
     let kyberPreKeys: Array<KyberPreKeyType>;
 

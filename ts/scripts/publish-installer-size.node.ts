@@ -21,7 +21,7 @@ const RELEASE_DIR = join(__dirname, '..', '..', 'release');
 
 // TODO: DESKTOP-9836
 async function main(): Promise<void> {
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  // oxlint-disable-next-line typescript/no-non-null-assertion
   const config = process.argv[2]!;
   if (!SUPPORT_CONFIG.has(config)) {
     throw new Error(`Invalid argument: ${config}`);
@@ -60,6 +60,7 @@ async function main(): Promise<void> {
   console.log(`${platform} ${arch} release size: ${size}`);
 }
 
+// oxlint-disable-next-line promise/prefer-await-to-then
 main().catch(err => {
   console.error('Failed', err);
   process.exit(1);

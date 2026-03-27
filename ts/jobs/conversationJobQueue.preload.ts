@@ -615,7 +615,7 @@ export class ConversationJobQueue extends JobQueue<ConversationQueueJobData> {
   #getRetryWithBackoff(attempts: number) {
     return (
       Date.now() +
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      // oxlint-disable-next-line typescript/no-non-null-assertion
       MINUTE * (FIBONACCI[attempts] ?? FIBONACCI[FIBONACCI.length - 1]!)
     );
   }
@@ -763,7 +763,7 @@ export class ConversationJobQueue extends JobQueue<ConversationQueueJobData> {
     if (newCallback !== callback) {
       const queue = this.getInMemoryQueue(job);
       drop(
-        // eslint-disable-next-line more/no-then
+        // oxlint-disable-next-line promise/prefer-await-to-then, signal-desktop/no-then
         queue.onIdle().then(() => {
           globalLogger.info(`${logId}: Running callback due to queue.onIdle`);
           newCallback();
@@ -869,12 +869,12 @@ export class ConversationJobQueue extends JobQueue<ConversationQueueJobData> {
     let shouldContinue: boolean;
     let count = 0;
 
-    // eslint-disable-next-line no-constant-condition
+    // oxlint-disable-next-line no-constant-condition
     while (true) {
       count += 1;
       log.info('calculating timeRemaining and shouldContinue...');
       timeRemaining = timestamp + MAX_RETRY_TIME - Date.now();
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       shouldContinue = await commonShouldJobContinue({
         attempt,
         log,
@@ -907,7 +907,7 @@ export class ConversationJobQueue extends JobQueue<ConversationQueueJobData> {
         log.info(
           'captcha challenge is pending for this conversation; waiting at most 5m...'
         );
-        // eslint-disable-next-line no-await-in-loop
+        // oxlint-disable-next-line no-await-in-loop
         await Promise.race([
           this.#startVerificationWaiter(conversation.id),
           // don't resolve on shutdown, otherwise we end up in an infinite loop
@@ -946,7 +946,7 @@ export class ConversationJobQueue extends JobQueue<ConversationQueueJobData> {
         log.info(
           'verification is pending for this conversation; waiting at most 5m...'
         );
-        // eslint-disable-next-line no-await-in-loop
+        // oxlint-disable-next-line no-await-in-loop
         await Promise.race([
           this.#startVerificationWaiter(conversation.id),
           // don't resolve on shutdown, otherwise we end up in an infinite loop

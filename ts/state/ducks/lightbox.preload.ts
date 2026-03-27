@@ -57,7 +57,7 @@ import { markViewOnceMessageViewed } from '../../services/MessageUpdater.preload
 
 const log = createLogger('lightbox');
 
-// eslint-disable-next-line local-rules/type-alias-readonlydeep
+// oxlint-disable-next-line signal-desktop/enforce-type-alias-readonlydeep
 export type LightboxStateType =
   | {
       isShowingLightbox: false;
@@ -82,7 +82,7 @@ type CloseLightboxActionType = ReadonlyDeep<{
   type: typeof CLOSE_LIGHTBOX;
 }>;
 
-// eslint-disable-next-line local-rules/type-alias-readonlydeep
+// oxlint-disable-next-line signal-desktop/enforce-type-alias-readonlydeep
 type ShowLightboxActionType = {
   type: typeof SHOW_LIGHTBOX;
   payload: {
@@ -104,7 +104,7 @@ type SetSelectedLightboxIndexActionType = ReadonlyDeep<{
   payload: number;
 }>;
 
-// eslint-disable-next-line local-rules/type-alias-readonlydeep
+// oxlint-disable-next-line signal-desktop/enforce-type-alias-readonlydeep
 type LightboxActionType =
   | CloseLightboxActionType
   | MessageChangedActionType
@@ -502,9 +502,9 @@ function showLightboxForAdjacentMessage(
       showLightbox({
         attachment:
           direction === AdjacentMessageDirection.Previous
-            ? // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            ? // oxlint-disable-next-line typescript/no-non-null-assertion
               attachments[attachments.length - 1]!
-            : // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            : // oxlint-disable-next-line typescript/no-non-null-assertion
               attachments[0]!,
         messageId: adjacent.id,
       })

@@ -61,7 +61,7 @@ function getCacheKey(
 ) {
   return `${locales.join(',')}:${Object.keys(options)
     .sort()
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // oxlint-disable-next-line typescript/no-explicit-any
     .map(key => `${key}=${(options as any)[key]}`)
     .join(',')}`;
 }

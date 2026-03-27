@@ -26,7 +26,9 @@ before(async () => {
 window.testUtilities.prepareTests();
 delete window.testUtilities.prepareTests;
 
+// oxlint-disable-next-line no-unused-expressions
 !(function () {
+  // oxlint-disable-next-line no-undef
   class Reporter extends Mocha.reporters.HTML {
     constructor(runner, options) {
       super(runner, options);

@@ -114,7 +114,7 @@ export const StickerPreviewModal = React.memo(
         });
       }
       // We only want to attempt downloads on initial load
-      // eslint-disable-next-line react-hooks/exhaustive-deps
+      // oxlint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     React.useEffect(() => {

@@ -256,7 +256,6 @@ export class ProfileService {
 
 export const profileService = new ProfileService();
 
-// eslint-disable-next-line @typescript-eslint/no-namespace
 namespace ProfileFetchOptions {
   type WithVersioned = ReadonlyDeep<{
     profileKey: string;

@@ -161,7 +161,7 @@ export abstract class JobQueue<T> {
       if (this.#paused) {
         log.info(`${this.#logPrefix} is paused. Waiting until resume.`);
         while (this.#paused) {
-          // eslint-disable-next-line no-await-in-loop
+          // oxlint-disable-next-line no-await-in-loop
           await sleep(SECOND);
         }
         log.info(`${this.#logPrefix} has been resumed. Queuing job.`);
@@ -292,7 +292,7 @@ export abstract class JobQueue<T> {
           try {
             // We want an `await` in the loop, as we don't want a single job running more
             //   than once at a time. Ideally, the job will succeed on the first attempt.
-            // eslint-disable-next-line no-await-in-loop
+            // oxlint-disable-next-line no-await-in-loop
             const jobStatus = await this.run(parsedJob, {
               attempt,
               log: logger,

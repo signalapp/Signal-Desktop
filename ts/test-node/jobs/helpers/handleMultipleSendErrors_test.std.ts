@@ -112,7 +112,7 @@ describe('handleMultipleSendErrors', () => {
   });
 
   for (const code of [413, 429] as const) {
-    // eslint-disable-next-line no-loop-func
+    // oxlint-disable-next-line no-loop-func
     describe(`${code} handling`, () => {
       it(`sleeps for the longest ${code} Retry-After time`, async () => {
         let done = false;

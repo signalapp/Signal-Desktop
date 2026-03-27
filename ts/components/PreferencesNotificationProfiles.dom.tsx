@@ -243,7 +243,7 @@ const ARGB_BITS = 0xff000000;
 const A100_BACKGROUND_ARGB = 0xffe3e3fe;
 
 function getRandomColor(): number {
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  // oxlint-disable-next-line typescript/no-non-null-assertion
   const colorName = sample(AvatarColors) || AvatarColors[0]!;
   const color = AvatarColorMap.get(colorName);
   if (!color) {
@@ -1254,7 +1254,7 @@ function NotificationProfilesEditPage({
       <Container contentsRef={contentsRef}>
         <AriaClickable.Root
           className={tw(
-            'group mb-3 flex min-h-[80px] w-full items-center rounded-md border-[2.5px] border-transparent px-[11.5px] outline-none data-[focused]:border-color-label-light'
+            'group mb-3 flex min-h-[80px] w-full items-center rounded-md border-[2.5px] border-transparent px-[11.5px] outline-none data-focused:border-color-label-light'
           )}
         >
           <ProfileAvatar i18n={i18n} profile={profile} size="medium" />
@@ -1262,7 +1262,7 @@ function NotificationProfilesEditPage({
           <span
             id="edit-icon"
             className={tw(
-              'ms-2 opacity-0 group-hover:opacity-100 group-data-[focused]:opacity-100'
+              'ms-2 opacity-0 group-hover:opacity-100 group-data-focused:opacity-100'
             )}
           >
             <AxoSymbol.Icon
@@ -1589,7 +1589,7 @@ function EmojiOrMoon({
     return (
       <div
         className={tw(
-          'absolute start-1/2 top-1/2 -translate-1/2 text-color-label-primary'
+          'absolute inset-s-1/2 top-1/2 -translate-1/2 text-color-label-primary'
         )}
         style={
           forceLightTheme
@@ -1611,7 +1611,9 @@ function EmojiOrMoon({
   const emojiData = getEmojiVariantByKey(emoji);
 
   return (
-    <span className={tw('absolute start-1/2 top-1/2 -translate-1/2 leading-0')}>
+    <span
+      className={tw('absolute inset-s-1/2 top-1/2 -translate-1/2 leading-0')}
+    >
       <FunStaticEmoji
         role="img"
         aria-label={emojiLocalizer.getLocaleShortName(emojiData.key)}
@@ -2094,18 +2096,18 @@ function TimePicker({
               return <span />;
             }
             if (segment.type === 'literal') {
-              // eslint-disable-next-line no-param-reassign
+              // oxlint-disable-next-line no-param-reassign
               segment.text = i18n('icu:NotificationProfile--time-separator');
             }
             return (
               <DateSegment
                 className={classNames(
                   tw(
-                    'inline-block px-[1px] type-body-medium outline-none focus:bg-fill-selected'
+                    'inline-block px-px type-body-medium outline-none focus:bg-fill-selected'
                   ),
                   segment.type === 'literal' ? tw('px-[3px]') : null,
                   segment.type === 'dayPeriod' ? tw('ps-[2px]') : null,
-                  segment.type === 'hour' ? tw('flex-grow text-end') : null,
+                  segment.type === 'hour' ? tw('grow text-end') : null,
                   isDisabled ? tw('text-label-placeholder') : null
                 )}
                 segment={segment}

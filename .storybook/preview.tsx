@@ -11,7 +11,8 @@ import * as styles from './styles.scss';
 import messages from '../_locales/en/messages.json';
 
 import { Provider } from 'react-redux';
-import { Store, combineReducers, createStore } from 'redux';
+import type { Store } from 'redux';
+import { combineReducers, createStore } from 'redux';
 import { Globals } from '@react-spring/web';
 
 import { StorybookThemeContext } from './StorybookThemeContext.std.js';
@@ -100,7 +101,7 @@ const mockStore: Store<StateType> = createStore(
   })
 );
 
-// eslint-disable-next-line
+// oxlint-disable-next-line
 const noop = () => {};
 
 window.Whisper = window.Whisper || {};
@@ -138,6 +139,7 @@ window.SignalContext = {
     platform: '',
     release: '',
   },
+  // oxlint-disable-next-line typescript/no-explicit-any
   config: {} as any,
 
   getHourCyclePreference: () => HourCyclePreference.UnknownPreference,
@@ -241,7 +243,7 @@ function withMockStoreProvider(Story, context) {
 function withScrollLockProvider(Story, context) {
   return (
     <ScrollerLockContext.Provider
-      value={createScrollerLock('MockStories', () => {})}
+      value={createScrollerLock('MockStories', () => null)}
     >
       <Story {...context} />
     </ScrollerLockContext.Provider>
@@ -265,12 +267,15 @@ function withFunProvider(Story, context) {
       fetchGifsFeatured={() => Promise.resolve(MOCK_GIFS_PAGINATED_ONE_PAGE)}
       fetchGif={() => Promise.resolve(new Blob([new Uint8Array(1)]))}
       onSelectEmoji={function (emojiSelection: FunEmojiSelection): void {
+        // oxlint-disable-next-line no-console
         console.log('onSelectEmoji', emojiSelection);
       }}
       onSelectSticker={function (stickerSelection: FunStickerSelection): void {
+        // oxlint-disable-next-line no-console
         console.log('onSelectSticker', stickerSelection);
       }}
       onSelectGif={function (gifSelection: FunGifSelection): void {
+        // oxlint-disable-next-line no-console
         console.log('onSelectGif', gifSelection);
       }}
     >

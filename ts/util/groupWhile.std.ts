@@ -24,10 +24,10 @@ export function groupWhile<T>(
   while (cursor < array.length) {
     const group: Array<T> = [];
     do {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      // oxlint-disable-next-line typescript/no-non-null-assertion
       group.push(array[cursor]!);
       cursor += 1;
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      // oxlint-disable-next-line typescript/no-non-null-assertion
       if (!iteratee(array[cursor]!, array[cursor - 1]!)) {
         break;
       }
@@ -56,12 +56,12 @@ export function formatGroups<T>(
       if (group.length === 0) {
         return '';
       }
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      // oxlint-disable-next-line typescript/no-non-null-assertion
       const start = formatItem(group.at(0)!);
       if (group.length === 1) {
         return start;
       }
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      // oxlint-disable-next-line typescript/no-non-null-assertion
       const end = formatItem(group.at(-1)!);
       return `${start}${rangeSeparator}${end}`;
     })

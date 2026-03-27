@@ -224,10 +224,10 @@ export class BackupsService {
     const absoluteDownloadPath = getAbsoluteDownloadsPath(backupDownloadPath);
     let hasBackup = false;
 
-    // eslint-disable-next-line no-constant-condition
+    // oxlint-disable-next-line no-constant-condition
     while (true) {
       try {
-        // eslint-disable-next-line no-await-in-loop
+        // oxlint-disable-next-line no-await-in-loop
         hasBackup = await this.#doDownloadAndImport({
           downloadPath: absoluteDownloadPath,
           onProgress: options.onProgress,
@@ -264,7 +264,7 @@ export class BackupsService {
         const nextStep =
           error instanceof BackupImportCanceledError
             ? 'cancel'
-            : // eslint-disable-next-line no-await-in-loop
+            : // oxlint-disable-next-line no-await-in-loop
               await this.#downloadRetryPromise.promise;
         if (nextStep === 'retry') {
           log.warn('backups.downloadAndImport: retrying');
@@ -279,11 +279,11 @@ export class BackupsService {
         // getting an error (potentially fatal).
         log.warn('backups.downloadAndImport: unlinking');
 
-        // eslint-disable-next-line no-await-in-loop
+        // oxlint-disable-next-line no-await-in-loop
         await this.#unlinkAndDeleteAllData();
 
         try {
-          // eslint-disable-next-line no-await-in-loop
+          // oxlint-disable-next-line no-await-in-loop
           await unlink(absoluteDownloadPath);
         } catch {
           // Best-effort
@@ -504,7 +504,7 @@ export class BackupsService {
       }
 
       try {
-        // eslint-disable-next-line no-await-in-loop
+        // oxlint-disable-next-line no-await-in-loop
         await runAttachmentBackupJob(job, baseDir);
 
         currentBytes += job.data.size;
@@ -543,7 +543,7 @@ export class BackupsService {
         // Regenerate QR code without link & sync option
         window.reduxActions.installer.startInstaller();
 
-        // eslint-disable-next-line no-alert
+        // oxlint-disable-next-line no-alert
         window.alert(
           'Staged backup successfully. Please link to perform import.'
         );
@@ -554,7 +554,7 @@ export class BackupsService {
       );
     } else {
       this.#localBackupSnapshotDir = undefined;
-      // eslint-disable-next-line no-alert
+      // oxlint-disable-next-line no-alert
       window.alert(
         'Invalid backup snapshot directory; make sure you choose a snapshot directory (e.g. `signal-backup-2026-01-01-12-00-00`)'
       );
@@ -972,10 +972,10 @@ export class BackupsService {
     let numObjects = 0;
     do {
       log.info('fetchAndSaveBackupCdnObjectMetadata: fetching next page');
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       const listResult = await this.api.listMedia({ cursor, limit: PAGE_SIZE });
 
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       await DataWriter.saveBackupCdnObjectMetadata(
         listResult.storedMediaObjects.map(object => ({
           mediaId: object.mediaId,

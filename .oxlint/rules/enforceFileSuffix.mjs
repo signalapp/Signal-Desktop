@@ -1,5 +1,23 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
+// @ts-check
+import { ESLintUtils } from '@typescript-eslint/utils';
+import { getReferenceType } from './utils/getReferenceType.mjs';
+import { isStringLiteral } from './utils/astUtils.mjs';
+import { assert } from './utils/assert.mjs';
+
+/**
+ * @typedef {import("@typescript-eslint/utils").TSESTree.Node} Node
+ * @typedef {import("@typescript-eslint/utils").TSESTree.ImportDeclaration} ImportDeclaration
+ * @typedef {import("@typescript-eslint/utils").TSESTree.ExportAllDeclaration} ExportAllDeclaration
+ * @typedef {import("@typescript-eslint/utils").TSESTree.ExportNamedDeclaration} ExportNamedDeclaration
+ * @typedef {import("@typescript-eslint/utils").TSESTree.ImportClause} ImportClause
+ * @typedef {import("@typescript-eslint/utils").TSESTree.ExportSpecifier} ExportSpecifier
+ */
+
+/**
+ * @typedef {'std' | 'node' | 'dom' | 'preload' | 'main'} Suffix
+ */
 
 const ELECTRON_MAIN_MODULES = new Set([
   'app',
@@ -225,14 +243,7 @@ const STD_PACKAGES = new Set([
   'emoji-datasource-apple',
   'emoji-regex',
   'eslint',
-  'eslint-config-airbnb-typescript-prettier',
-  'eslint-config-prettier',
   'eslint-plugin-better-tailwindcss',
-  'eslint-plugin-import',
-  'eslint-plugin-local-rules',
-  'eslint-plugin-mocha',
-  'eslint-plugin-more',
-  'eslint-plugin-react',
   'filesize',
   'firstline',
   'form-data',
@@ -279,24 +290,56 @@ const STD_PACKAGES = new Set([
   'zod',
 ]);
 
-/** @type {import("eslint").Rule.RuleModule} */
-module.exports = {
+export const enforceFileSuffix = ESLintUtils.RuleCreator.withoutDocs({
+  name: 'enforce-file-suffix',
   meta: {
     type: 'problem',
-    hasSuggestions: false,
-    fixable: false,
+    messages: {
+      missingFileSuffix: 'Missing file suffix in {{source}} import',
+      unrecognizedFileSuffix:
+        'Unrecognized file suffix in {{source}}, expected: node/preload/main/std, found: {{depSuffix}}',
+      commonJsImportOfElectronNoAllowed:
+        'CJS import of electron is not allowed',
+      uncategorizedElectronApi:
+        'Uncategorized electron API: "{{name}}". ' +
+        'Please update .oxlint/rules/file-suffix.js and add it to ' +
+        'ELECTRON_MAIN_MODULES/ELECTRON_RENDERER_MODULES/' +
+        'ELECTRON_SHARED_MODULES',
+      unsupportedNamespaceImportForElectron:
+        'Unsupported namespace import specifier for electron',
+      unsupportedImportSpecifierForElectron:
+        'Unsupported import specifier for electron',
+      uncategorizedDependency:
+        'Uncategorized dependency "{{moduleName}}". ' +
+        'Please update .oxlint/rules/file-suffix.js and add it to either ' +
+        'of NODE_PACKAGES/DOM_PACKAGES/STD_PACKAGES',
+      missingFileSuffixMustBeOneOf:
+        'Missing file suffix. Has to be one of: node/preload/main/std',
+      wrongFileSuffix:
+        'Invalid suffix {{fileSuffix}}, expected: {{expectedSuffix}}',
+      invalidImportForSuffix:
+        'Invalid import/reference for suffix: {{expectedSuffix}}',
+      invalidRequireCount: 'Invalid require() argument count',
+    },
     schema: [],
+    defaultOptions: [],
   },
   create(context) {
     const { filename, sourceCode } = context;
 
+    /** @type {string} */
     let fileSuffix;
 
+    /** @type {Node[]} */
     const nodeUses = [];
+    /** @type {Node[]} */
     const domUses = [];
+    /** @type {Node[]} */
     const preloadUses = [];
+    /** @type {Node[]} */
     const mainUses = [];
 
+    /** @type Record<Suffix, Node[][]> */
     const invalidUsesBySuffix = {
       std: [nodeUses, domUses, preloadUses, mainUses],
       node: [domUses, preloadUses, mainUses],
@@ -305,6 +348,10 @@ module.exports = {
       main: [domUses, preloadUses],
     };
 
+    /**
+     * @param {Node} node
+     * @param {string} source
+     */
     function trackLocalDep(node, source) {
       if (!source.endsWith('.js')) {
         return;
@@ -314,7 +361,8 @@ module.exports = {
       if (match == null) {
         context.report({
           node,
-          message: `Missing file suffix in ${source} import`,
+          messageId: 'missingFileSuffix',
+          data: { source },
         });
         return;
       }
@@ -333,13 +381,17 @@ module.exports = {
       } else {
         context.report({
           node,
-          message:
-            `Unrecognized file suffix in ${source}, ` +
-            `expected: node/preload/main/std, found: ${depSuffix}`,
+          messageId: 'unrecognizedFileSuffix',
+          data: { source, depSuffix },
         });
       }
     }
 
+    /**
+     * @param {Node} node
+     * @param {string} source
+     * @param {Array<ImportClause | ExportSpecifier> | null} specifiers
+     */
     function processUse(node, source, specifiers) {
       if (source.startsWith('.')) {
         trackLocalDep(node, source);
@@ -356,38 +408,43 @@ module.exports = {
       if (source === 'electron' && specifiers == null) {
         context.report({
           node,
-          message: 'CJS import of electron is not allowed',
+          messageId: 'commonJsImportOfElectronNoAllowed',
         });
         return;
       } else if (source === 'electron') {
-        for (const s of specifiers) {
-          if (s.importKind === 'type') {
-            continue;
-          }
+        for (const s of specifiers ?? []) {
           // We implicitly skip:
           // they are used in scripts
           if (s.type === 'ImportSpecifier') {
-            if (ELECTRON_MAIN_MODULES.has(s.imported.name)) {
+            if (s.importKind === 'type') {
+              continue;
+            }
+            /** @type {string} */
+            let importName;
+            if (s.imported.type === 'Identifier') {
+              importName = s.imported.name;
+            } else {
+              importName = s.imported.value;
+            }
+
+            if (ELECTRON_MAIN_MODULES.has(importName)) {
               mainUses.push(s);
-            } else if (ELECTRON_RENDERER_MODULES.has(s.imported.name)) {
+            } else if (ELECTRON_RENDERER_MODULES.has(importName)) {
               preloadUses.push(s);
-            } else if (ELECTRON_SHARED_MODULES.has(s.imported.name)) {
+            } else if (ELECTRON_SHARED_MODULES.has(importName)) {
               // no-op
             } else {
               context.report({
                 node: s,
-                message:
-                  `Uncategorized electron API: "${s.imported.name}". ` +
-                  'Please update .eslint/rules/file-suffix.js and add it to ' +
-                  'ELECTRON_MAIN_MODULES/ELECTRON_RENDERER_MODULES/' +
-                  'ELECTRON_SHARED_MODULES',
+                messageId: 'uncategorizedElectronApi',
+                data: { name: importName },
               });
             }
           } else if (s.type === 'ImportNamespaceSpecifier') {
             // import * as electron from 'electron';
             context.report({
               node: s,
-              message: 'Unsupported namespace import specifier for electron',
+              messageId: 'unsupportedNamespaceImportForElectron',
             });
             nodeUses.push(s);
           } else if (s.type === 'ImportDefaultSpecifier') {
@@ -396,14 +453,20 @@ module.exports = {
           } else {
             context.report({
               node: s,
-              message: 'Unsupported import specifier for electron',
+              messageId: 'unsupportedImportSpecifierForElectron',
             });
           }
         }
         return;
       }
 
-      const [, moduleName] = source.match(/^([^@\/]+|@[^\/]+\/[^\/]+)/);
+      const match = source.match(/^([^@/]+|@[^/]+\/[^/]+)/);
+      if (match == null) {
+        return;
+      }
+
+      const [, moduleName] = match;
+      assert(moduleName, 'Missing moduleName');
       if (NODE_PACKAGES.has(moduleName)) {
         nodeUses.push(node);
       } else if (source === 'react-dom/server') {
@@ -416,33 +479,50 @@ module.exports = {
       } else if (!STD_PACKAGES.has(moduleName)) {
         context.report({
           node,
-          message:
-            `Uncategorized dependency "${moduleName}". ` +
-            'Please update .eslint/rules/file-suffix.js and add it to either ' +
-            'of NODE_PACKAGES/DOM_PACKAGES/STD_PACKAGES',
+          messageId: 'uncategorizedDependency',
+          data: { moduleName },
         });
       }
     }
 
+    /**
+     * @param {ImportDeclaration | ExportAllDeclaration | ExportNamedDeclaration} node
+     */
     function processESMReference(node) {
-      if (
-        node.importKind === 'type' ||
-        (node.specifiers?.length &&
-          node.specifiers.every(x => x.importKind === 'type'))
-      ) {
-        return;
+      /** @type {Array<ImportClause | ExportSpecifier> | null} */
+      let specifiers;
+      if (node.type === 'ImportDeclaration') {
+        if (node.importKind === 'type') {
+          return;
+        }
+
+        if (node.specifiers.length > 0) {
+          const allTypes = node.specifiers.every(specifier => {
+            return (
+              specifier.type === 'ImportSpecifier' &&
+              specifier.importKind === 'type'
+            );
+          });
+
+          if (allTypes) {
+            return;
+          }
+        }
+
+        specifiers = node.specifiers;
+      } else if (node.type === 'ExportNamedDeclaration') {
+        specifiers = node.specifiers;
+      } else {
+        specifiers = null;
       }
+
       if (!node.source) {
         return;
       }
       if (node.source.type !== 'Literal') {
         return;
       }
-      const {
-        specifiers,
-        source: { value: source },
-      } = node;
-
+      const source = node.source.value;
       processUse(node, source, specifiers);
     }
 
@@ -457,19 +537,21 @@ module.exports = {
         if (match == null) {
           context.report({
             node: node,
-            message:
-              'Missing file suffix. Has to be one of: node/preload/main/std',
+            messageId: 'missingFileSuffixMustBeOneOf',
           });
           return;
         }
 
-        fileSuffix = match[1];
+        const matchedSuffix = match[1];
+        assert(matchedSuffix, 'Missing matchedSuffix');
+        fileSuffix = matchedSuffix;
       },
       'Program:exit': node => {
         if (fileSuffix == null) {
           return;
         }
 
+        /** @type {Suffix} */
         let expectedSuffix;
         if (mainUses.length > 0) {
           expectedSuffix = 'main';
@@ -500,7 +582,8 @@ module.exports = {
         if (fileSuffix !== expectedSuffix) {
           context.report({
             node,
-            message: `Invalid suffix ${fileSuffix}, expected: ${expectedSuffix}`,
+            messageId: 'wrongFileSuffix',
+            data: { fileSuffix, expectedSuffix },
           });
         }
 
@@ -508,7 +591,8 @@ module.exports = {
         for (const use of invalid) {
           context.report({
             node: use,
-            message: `Invalid import/reference for suffix: ${expectedSuffix}`,
+            messageId: 'invalidImportForSuffix',
+            data: { expectedSuffix },
           });
         }
       },
@@ -529,27 +613,29 @@ module.exports = {
           return;
         }
 
-        const scope = sourceCode.getScope(node);
-        const ref = scope.references.find(r => r.identifier === node.callee);
-        if (ref.resolved.scope.type !== 'global') {
+        const refType = getReferenceType(sourceCode, node.callee);
+        if (refType !== 'global') {
           return;
         }
+
         const { arguments: args } = node;
         if (args.length !== 1) {
           context.report({
             node,
-            message: 'Invalid require() argument count',
+            messageId: 'invalidRequireCount',
           });
           return;
         }
         const [arg] = args;
+        assert(arg, 'Missing arg');
 
+        /** @type {string} */
         let source;
-        if (arg.type === 'Literal') {
+        if (isStringLiteral(arg)) {
           source = arg.value;
         } else if (
           arg.type === 'TSAsExpression' &&
-          arg.expression.type === 'Literal'
+          isStringLiteral(arg.expression)
         ) {
           source = arg.expression.value;
         } else {
@@ -557,23 +643,22 @@ module.exports = {
           return;
         }
 
-        processUse(node, source, undefined);
+        processUse(node, source, null);
       },
       Identifier(node) {
         if (node.name !== 'window' && node.name !== 'document') {
           return;
         }
-        const scope = sourceCode.getScope(node);
-        const ref = scope.references.find(r => r.identifier === node);
-        if (ref == null) {
+        const refType = getReferenceType(sourceCode, node);
+        if (refType == null) {
           // Not part of expression
           return;
         }
-        if (ref.resolved.scope.type !== 'global') {
+        if (refType !== 'global') {
           return;
         }
         domUses.push(node);
       },
     };
   },
-};
+});

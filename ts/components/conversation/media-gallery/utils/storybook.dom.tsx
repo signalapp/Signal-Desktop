@@ -1,10 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import React, { useCallback, type ReactNode } from 'react';
-
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { action } from '@storybook/addon-actions';
-
 import type { PropsType } from '../../../../state/smart/MediaItem.preload.js';
 import { getSafeDomain } from '../../../../types/LinkPreview.std.js';
 import type { AttachmentStatusType } from '../../../../hooks/useAttachmentStatus.std.js';

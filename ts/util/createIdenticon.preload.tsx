@@ -10,7 +10,7 @@ import {
   IdenticonSVGForCallLink,
   IdenticonSVGForContact,
   IdenticonSVGForGroup,
-  // eslint-disable-next-line import/no-restricted-paths
+  // oxlint-disable-next-line signal-desktop/no-restricted-paths
 } from '../components/IdenticonSVG.dom.js';
 import { missingCaseError } from './missingCaseError.std.js';
 import { writeNewPlaintextTempData } from './migrations.preload.js';

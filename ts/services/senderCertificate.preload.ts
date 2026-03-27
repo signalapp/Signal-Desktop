@@ -133,6 +133,7 @@ export class SenderCertificateService {
       return existingPromise;
     }
 
+    // oxlint-disable-next-line prefer-const
     let promise: Promise<undefined | SerializedCertificateType>;
     const doFetch = async () => {
       const result = await this.#fetchAndSaveCertificate(mode);

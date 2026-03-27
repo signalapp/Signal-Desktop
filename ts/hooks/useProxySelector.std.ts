@@ -16,7 +16,7 @@ export function useProxySelector<Params extends Array<unknown>, Result>(
   return useSelector(
     useCallback(
       (state: StateType) => memoized(state, ...params),
-      // eslint-disable-next-line react-hooks/exhaustive-deps
+      // oxlint-disable-next-line react-hooks/exhaustive-deps
       [memoized, ...params]
     )
   );

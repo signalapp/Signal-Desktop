@@ -40,7 +40,6 @@ export function InlineNotificationWrapper({
   return (
     <div
       className="module-inline-notification-wrapper"
-      // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
       tabIndex={0}
       ref={focusRef}
       onFocus={handleFocus}

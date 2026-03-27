@@ -251,7 +251,7 @@ function Row(props: { children: ReactNode }) {
         'flex h-14 items-center pe-3 select-none',
         'rounded-xs',
         'outline-0 outline-border-focused',
-        'data-[focused]:outline-[2.5px]'
+        'data-focused:outline-[2.5px]'
       )}
     >
       {props.children}
@@ -340,7 +340,7 @@ function TabTrigger(props: {
       })}
       className={tw(
         'group flex-1 px-[7px] outline-0',
-        props.pinsCount === 3 ? 'py-[1px]' : 'py-0.5'
+        props.pinsCount === 3 ? 'py-px' : 'py-0.5'
       )}
     >
       <span
@@ -384,7 +384,7 @@ const Content = forwardRef(function Content(
             'data-[state=active]:animate-enter data-[state=active]:animate-translate-y-[100%]',
             'data-[state=inactive]:animate-exit data-[state=inactive]:animate-translate-y-[-100%]',
             // Use !important to override Radix'x logic for preventing mount animations
-            // eslint-disable-next-line better-tailwindcss/no-restricted-classes
+            // oxlint-disable-next-line better-tailwindcss/no-restricted-classes
             'animate-duration-300!'
           ),
         direction === Direction.Backwards &&
@@ -392,7 +392,7 @@ const Content = forwardRef(function Content(
             'data-[state=active]:animate-enter data-[state=active]:animate-translate-y-[-100%]',
             'data-[state=inactive]:animate-exit data-[state=inactive]:animate-translate-y-[100%]',
             // Use !important to override Radix'x logic for preventing mount animations
-            // eslint-disable-next-line better-tailwindcss/no-restricted-classes
+            // oxlint-disable-next-line better-tailwindcss/no-restricted-classes
             'animate-duration-300!'
           )
       )}

@@ -1,8 +1,6 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* eslint-disable react/no-array-index-key */
-
 import React, { useContext } from 'react';
 import { createPortal } from 'react-dom';
 import classNames from 'classnames';
@@ -114,6 +112,7 @@ export const CallingParticipantsList = React.memo(
                     // It's tempting to use `participant.serviceId` as the `key`
                     //   here, but that can result in duplicate keys for
                     //   participants who have joined on multiple devices.
+                    // oxlint-disable-next-line react/no-array-index-key
                     key={index}
                     onClick={() => {
                       if (participant.isMe) {

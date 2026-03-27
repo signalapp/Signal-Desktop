@@ -108,7 +108,7 @@ export async function applyDeleteForEveryone(
   });
 
   try {
-    // eslint-disable-next-line no-param-reassign
+    // oxlint-disable-next-line no-param-reassign
     message.deletingForEveryone = true;
 
     // Remove any notifications for this message
@@ -137,7 +137,7 @@ export async function applyDeleteForEveryone(
       });
     }
   } finally {
-    // eslint-disable-next-line no-param-reassign
+    // oxlint-disable-next-line no-param-reassign
     message.deletingForEveryone = undefined;
   }
 }

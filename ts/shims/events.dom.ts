@@ -5,7 +5,7 @@ import { runTaskWithTimeout } from '../textsecure/TaskWithTimeout.std.js';
 import { explodePromise } from '../util/explodePromise.std.js';
 
 // Matching Whisper.events.trigger API
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+// oxlint-disable-next-line typescript/no-explicit-any
 export function trigger(name: string, ...rest: Array<any>): void {
   window.Whisper.events.emit(name, ...rest);
 }

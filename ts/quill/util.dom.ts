@@ -467,7 +467,7 @@ export const insertEmojiOps = (
       let index = 0;
       let match: RegExpExecArray | null;
 
-      // eslint-disable-next-line no-cond-assign
+      // oxlint-disable-next-line no-cond-assign
       while ((match = re.exec(text))) {
         const [emojiMatch] = match;
         if (!isSafeEmojifyEmoji(emojiMatch)) {

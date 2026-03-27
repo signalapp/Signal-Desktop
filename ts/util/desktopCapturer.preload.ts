@@ -1,6 +1,5 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-/* eslint-disable max-classes-per-file */
 
 import { ipcRenderer, type DesktopCapturerSource } from 'electron';
 import type { Stream, StreamOptions } from '@indutny/mac-screen-share';
@@ -88,6 +87,7 @@ export type DesktopCapturerBaton = Readonly<{
   __desktop_capturer_baton: never;
 }>;
 
+// oxlint-disable-next-line max-classes-per-file
 export class DesktopCapturer {
   #state: State;
 
@@ -267,7 +267,7 @@ export class DesktopCapturer {
 
     // process.dlopen() for the addon takes roughly 34ms so avoid running it
     // until requested by user.
-    // eslint-disable-next-line global-require, @typescript-eslint/no-var-requires
+    // oxlint-disable-next-line global-require, typescript/no-var-requires
     const macScreenShare = require('@indutny/mac-screen-share');
     const stream: Stream = new macScreenShare.Stream({
       width: REQUESTED_SCREEN_SHARE_WIDTH,
@@ -380,6 +380,6 @@ function isScreenSource(source: DesktopCapturerSource): boolean {
 export function isNativeMacScreenShareSupported(): boolean {
   // process.dlopen() for the addon takes roughly 34ms so avoid running it
   // until requested by user.
-  // eslint-disable-next-line global-require, @typescript-eslint/no-var-requires
+  // oxlint-disable-next-line global-require, typescript/no-var-requires
   return require('@indutny/mac-screen-share').isSupported;
 }

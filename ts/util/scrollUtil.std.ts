@@ -10,7 +10,7 @@ export function setScrollBottom(
   newScrollBottom: number
 ): void {
   // We want to mutate the parameter here.
-  // eslint-disable-next-line no-param-reassign
+  // oxlint-disable-next-line no-param-reassign
   el.scrollTop = el.scrollHeight - newScrollBottom - el.clientHeight;
 }
 
@@ -18,6 +18,6 @@ export function scrollToBottom(
   el: Pick<HTMLElement, 'scrollHeight' | 'scrollTop'>
 ): void {
   // We want to mutate the parameter here.
-  // eslint-disable-next-line no-param-reassign
+  // oxlint-disable-next-line no-param-reassign
   el.scrollTop = el.scrollHeight;
 }

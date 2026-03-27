@@ -108,7 +108,7 @@ export function All(): React.JSX.Element {
             setInput(event.currentTarget.value);
           }}
           className={tw(
-            'w-full rounded bg-elevated-background-secondary p-3 type-body-medium'
+            'w-full rounded-sm bg-elevated-background-secondary p-3 type-body-medium'
           )}
         />
       </div>

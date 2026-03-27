@@ -1,12 +1,12 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-// eslint-disable-next-line import/no-restricted-paths
+// oxlint-disable-next-line signal-desktop/no-restricted-paths
 import type { GroupV2Membership } from '../components/conversation/conversation-details/ConversationDetailsMembershipList.dom.js';
 import type {
   GroupV2PendingMembership,
   GroupV2RequestingMembership,
-  // eslint-disable-next-line import/no-restricted-paths
+  // oxlint-disable-next-line signal-desktop/no-restricted-paths
 } from '../components/conversation/conversation-details/PendingInvites.dom.js';
 import type { ConversationType } from '../state/ducks/conversations.preload.js';
 import type { ServiceIdString } from '../types/ServiceId.std.js';

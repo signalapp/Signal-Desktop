@@ -203,7 +203,7 @@ export function GroupMembersNames({
       3
     ).map((name, i) => (
       // We cannot guarantee uniqueness of member names
-      // eslint-disable-next-line react/no-array-index-key
+      // oxlint-disable-next-line react/no-array-index-key
       <strong key={i} className={nameClassName}>
         <UserText text={name ?? i18n('icu:unknownContactShort')} />
       </strong>

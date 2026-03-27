@@ -206,7 +206,7 @@ export function ChooseGroupMembersModal({
       if (virtualIndex === 0) {
         return {
           type: RowType.Header,
-          // eslint-disable-next-line @typescript-eslint/no-shadow
+          // oxlint-disable-next-line typescript/no-shadow
           getHeaderText: i18n => i18n('icu:contactsHeader'),
         };
       }
@@ -246,7 +246,7 @@ export function ChooseGroupMembersModal({
       if (virtualIndex === 0) {
         return {
           type: RowType.Header,
-          // eslint-disable-next-line @typescript-eslint/no-shadow
+          // oxlint-disable-next-line typescript/no-shadow
           getHeaderText: i18n => i18n('icu:findByPhoneNumberHeader'),
         };
       }
@@ -265,7 +265,7 @@ export function ChooseGroupMembersModal({
       if (virtualIndex === 0) {
         return {
           type: RowType.Header,
-          // eslint-disable-next-line @typescript-eslint/no-shadow
+          // oxlint-disable-next-line typescript/no-shadow
           getHeaderText: i18n => i18n('icu:findByUsernameHeader'),
         };
       }
@@ -439,8 +439,8 @@ export function ChooseGroupMembersModal({
               //   event. See [this note in the jsx-a11y docs][0].
               //
               // [0]: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/c275964f52c35775208bd00cb612c6f82e42e34f/docs/rules/no-static-element-interactions.md#case-the-event-handler-is-only-being-used-to-capture-bubbled-events
-              /* eslint-disable jsx-a11y/no-static-element-interactions */
               return (
+                // oxlint-disable-next-line jsx-a11y/no-static-element-interactions
                 <div
                   className="module-AddGroupMembersModal__list-wrapper"
                   ref={ref}
@@ -474,7 +474,6 @@ export function ChooseGroupMembersModal({
                   )}
                 </div>
               );
-              /* eslint-enable jsx-a11y/no-static-element-interactions */
             }}
           </SizeObserver>
         ) : (

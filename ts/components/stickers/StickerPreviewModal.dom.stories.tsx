@@ -112,7 +112,7 @@ export function InitialDownload(): React.JSX.Element {
       uninstallStickerPack={action('uninstallStickerPack')}
       downloadStickerPack={action('downloadStickerPack')}
       i18n={i18n}
-      //  eslint-disable-next-line @typescript-eslint/no-explicit-any
+      //  oxlint-disable-next-line typescript/no-explicit-any
       pack={{} as any}
     />
   );

@@ -9,7 +9,7 @@ import { IMAGE_GIF } from '../../types/MIME.std.js';
 describe('_cleanMessageData', () => {
   it('throws if message is missing received_at', () => {
     assert.throws(() => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // oxlint-disable-next-line typescript/no-explicit-any
       _cleanMessageData({} as any);
     }, 'received_at');
   });
@@ -27,7 +27,7 @@ describe('_cleanMessageData', () => {
         {
           contentType: IMAGE_GIF,
           size: 4,
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          // oxlint-disable-next-line typescript/no-explicit-any
           data: 1 as any,
         },
         {

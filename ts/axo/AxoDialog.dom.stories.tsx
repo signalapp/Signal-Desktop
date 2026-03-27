@@ -350,7 +350,6 @@ export function ExampleLanguageDialog(): React.JSX.Element {
         <AxoDialog.ExperimentalSearch>
           <input
             type="search"
-            // eslint-disable-next-line jsx-a11y/no-autofocus
             autoFocus
             placeholder="Search languages"
             className={tw(

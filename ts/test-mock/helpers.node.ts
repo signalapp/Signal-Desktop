@@ -35,7 +35,7 @@ function isProfileKeyUpdate(flags: number | null | undefined): boolean {
   if (flags == null) {
     return false;
   }
-  // eslint-disable-next-line no-bitwise
+  // oxlint-disable-next-line no-bitwise
   return (flags & Proto.DataMessage.Flags.PROFILE_KEY_UPDATE) !== 0;
 }
 
@@ -44,7 +44,7 @@ export async function waitForNonProfileKeyUpdateMessage(
   { maxAttempts = 5 }: { maxAttempts?: number } = {}
 ): Promise<Awaited<ReturnType<PrimaryDevice['waitForMessage']>>> {
   for (let i = 0; i < maxAttempts; i += 1) {
-    // eslint-disable-next-line no-await-in-loop
+    // oxlint-disable-next-line no-await-in-loop
     const message = await device.waitForMessage();
     if (isProfileKeyUpdate(message.dataMessage.flags)) {
       debug('Skipping profile key update');
@@ -95,9 +95,9 @@ export async function expectItemsWithText(
   // Wait for each message to appear in case they're not all there yet
   for (const [index, message] of expected.entries()) {
     const nth = items.nth(index);
-    // eslint-disable-next-line no-await-in-loop
+    // oxlint-disable-next-line no-await-in-loop
     await nth.waitFor();
-    // eslint-disable-next-line no-await-in-loop
+    // oxlint-disable-next-line no-await-in-loop
     const text = await nth.innerText();
     const log = `Expect item at index ${index} to match`;
     if (typeof message === 'string') {
@@ -450,9 +450,9 @@ export async function sendMessageWithAttachments(
 
   return pTimeout(
     (async () => {
-      // eslint-disable-next-line no-constant-condition
+      // oxlint-disable-next-line no-constant-condition
       while (true) {
-        // eslint-disable-next-line no-await-in-loop
+        // oxlint-disable-next-line no-await-in-loop
         const receivedMessage = await receiver.waitForMessage();
         const attachments = receivedMessage.dataMessage.attachments ?? [];
         if (

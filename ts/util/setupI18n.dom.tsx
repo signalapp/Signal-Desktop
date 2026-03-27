@@ -5,7 +5,7 @@ import type { IntlShape } from 'react-intl';
 import React from 'react';
 import type { LocaleMessagesType } from '../types/I18N.std.js';
 import type { LocalizerType } from '../types/Util.std.js';
-// eslint-disable-next-line import/no-restricted-paths
+// oxlint-disable-next-line signal-desktop/no-restricted-paths
 import { Emojify } from '../components/conversation/Emojify.dom.js';
 import {
   createCachedIntl as createCachedIntlMain,

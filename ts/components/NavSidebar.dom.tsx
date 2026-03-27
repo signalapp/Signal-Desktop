@@ -230,7 +230,6 @@ export function NavSidebar({
           aria-valuemin={MIN_WIDTH}
           aria-valuemax={preferredLeftPaneWidth}
           aria-valuenow={MAX_WIDTH}
-          // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex -- See https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/separator_role#focusable_separator
           tabIndex={0}
           {...moveProps}
         />

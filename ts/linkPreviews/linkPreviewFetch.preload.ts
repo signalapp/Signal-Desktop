@@ -95,7 +95,7 @@ async function fetchWithRedirects(
     urlsSeen.add(nextHrefToLoad);
 
     // This `await` is deliberately inside of a loop.
-    // eslint-disable-next-line no-await-in-loop
+    // oxlint-disable-next-line no-await-in-loop
     const response = await fetchFn(nextHrefToLoad, {
       ...options,
       redirect: 'manual',
@@ -160,8 +160,7 @@ const parseContentType = (headerValue: string | null): ParsedContentType => {
   }
 
   let charset: null | string = null;
-  for (let i = 0; i < rawParameters.length; i += 1) {
-    const rawParameter = rawParameters[i];
+  for (const rawParameter of rawParameters) {
     const parsed = new URLSearchParams(rawParameter);
     const parsedCharset = parsed.get('charset')?.trim();
     if (parsedCharset) {
@@ -339,8 +338,7 @@ const getOpenGraphContent = (
   document: HTMLDocument,
   properties: ReadonlyArray<string>
 ): string | null => {
-  for (let i = 0; i < properties.length; i += 1) {
-    const property = properties[i];
+  for (const property of properties) {
     const content = document
       .querySelector(`meta[property="${property}"]`)
       ?.getAttribute('content')
@@ -356,8 +354,7 @@ const getLinkHrefAttribute = (
   document: HTMLDocument,
   rels: ReadonlyArray<string>
 ): string | null => {
-  for (let i = 0; i < rels.length; i += 1) {
-    const rel = rels[i];
+  for (const rel of rels) {
     const href = document
       .querySelector(`link[rel="${rel}"]`)
       ?.getAttribute('href')
@@ -536,7 +533,7 @@ export async function fetchLinkPreviewMetadata(
   // [0]: https://nodejs.org/docs/latest-v12.x/api/stream.html#stream_readable_symbol_asynciterator
   // [1]: https://nodejs.org/docs/latest-v12.x/api/stream.html#stream_readable_destroy_error
   try {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // oxlint-disable-next-line typescript/no-explicit-any
     (response.body as any).destroy();
   } catch (err) {
     // Ignored.

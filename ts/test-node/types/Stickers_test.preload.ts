@@ -110,7 +110,7 @@ describe('Stickers', () => {
       assert.isFalse(isPackIdValid(123));
       assert.isFalse(isPackIdValid(['b9439fa5fdc8b9873fe64f01b88b8ccf']));
       assert.isFalse(
-        // eslint-disable-next-line no-new-wrappers
+        // oxlint-disable-next-line no-new-wrappers
         isPackIdValid(new String('b9439fa5fdc8b9873fe64f01b88b8ccf'))
       );
     });

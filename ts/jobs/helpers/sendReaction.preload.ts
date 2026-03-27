@@ -231,7 +231,7 @@ export async function sendReaction(
 
         log.info('sending direct reaction message');
         promise = messaging.sendMessageToServiceId({
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          // oxlint-disable-next-line typescript/no-non-null-assertion
           serviceId: recipientServiceIdsWithoutMe[0]!,
           messageOptions: {
             reaction: reactionForSend,

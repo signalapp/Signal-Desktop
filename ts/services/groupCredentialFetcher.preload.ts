@@ -91,10 +91,10 @@ export async function runWithRetry(
 ): Promise<void> {
   const backOff = new BackOff(BACKOFF_TIMEOUTS);
 
-  // eslint-disable-next-line no-constant-condition
+  // oxlint-disable-next-line no-constant-condition
   while (true) {
     try {
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       await fn();
       return;
     } catch (error) {
@@ -102,19 +102,22 @@ export async function runWithRetry(
       log.info(
         `runWithRetry: ${fn.name} failed. Waiting ${wait}ms for retry. Error: ${error.stack}`
       );
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       await sleep(wait);
     }
   }
 
   // It's important to schedule our next run here instead of the level above; otherwise we
   //   could end up with multiple endlessly-retrying runs.
-  // eslint-disable-next-line no-unreachable -- Why is this here, its unreachable
+  // oxlint-disable-next-line no-unreachable -- Why is this here, its unreachable
   const duration = options.scheduleAnother;
+  // oxlint-disable-next-line no-unreachable
   if (duration) {
+    // oxlint-disable-next-line no-unreachable
     log.info(
       `runWithRetry: scheduling another run with a setTimeout duration of ${duration}ms`
     );
+    // oxlint-disable-next-line no-unreachable
     setTimeout(async () => runWithRetry(fn, options), duration);
   }
 }
@@ -135,9 +138,9 @@ function getCredentialsForToday(
   }
 
   return {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    // oxlint-disable-next-line typescript/no-non-null-assertion
     today: credentials[todayIndex]!,
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    // oxlint-disable-next-line typescript/no-non-null-assertion
     tomorrow: credentials[todayIndex + 1]!,
   };
 }

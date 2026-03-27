@@ -33,7 +33,7 @@ export function PlaybackRateButton({
   const [isDown, setIsDown] = useState(false);
   const reducedMotion = useReducedMotion();
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps -- FIXME
+  // oxlint-disable-next-line react-hooks/exhaustive-deps -- FIXME
   const [animProps] = useSpring(
     {
       immediate: reducedMotion,
@@ -105,7 +105,7 @@ const playbackRates = [1, 1.5, 2, 0.5];
 
 PlaybackRateButton.nextPlaybackRate = (currentRate: number): number => {
   // cycle through the rates
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  // oxlint-disable-next-line typescript/no-non-null-assertion
   return playbackRates[
     (playbackRates.indexOf(currentRate) + 1) % playbackRates.length
   ]!;

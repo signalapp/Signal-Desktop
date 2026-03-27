@@ -44,7 +44,7 @@ describe('storage service', function (this: Mocha.Suite) {
   });
 
   for (const kind of ['contact', 'group']) {
-    // eslint-disable-next-line no-loop-func
+    // oxlint-disable-next-line no-loop-func
     it(`should handle ${kind} conflicts`, async () => {
       const { phone, contacts } = bootstrap;
       const [first] = contacts as [PrimaryDevice];

@@ -26,7 +26,7 @@ export function FileThumbnail(props: PropsType): React.JSX.Element {
       <span
         className={tw(
           'mx-1 overflow-hidden',
-          // eslint-disable-next-line better-tailwindcss/no-restricted-classes
+          // oxlint-disable-next-line better-tailwindcss/no-restricted-classes
           'text-[rgba(0,0,0,0.85)]',
           'text-ellipsis',
           extension.length > 3 ? 'text-[9px]' : '',
@@ -38,7 +38,7 @@ export function FileThumbnail(props: PropsType): React.JSX.Element {
       {isDangerous ? (
         <div
           className={tw(
-            'absolute -end-1.5 -top-1 size-5',
+            'absolute -inset-e-1.5 -top-1 size-5',
             'bg-contain bg-center bg-no-repeat',
             'bg-[url(../images/generic-file-dangerous.svg)]'
           )}

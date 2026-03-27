@@ -48,7 +48,7 @@ const actionStats: ActionStats = {
   names: [],
 };
 export const actionRateLogger: Middleware = () => next => _action => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // oxlint-disable-next-line typescript/no-explicit-any
   const action = _action as any as UnknownAction;
   const name = action.type;
   const lastTimestamp = actionStats.timestamp;
@@ -91,5 +91,5 @@ const enhancer = applyMiddleware(...middlewareList);
 export const createStore = (
   initialState: Readonly<StateType>
 ): Store<StateType> =>
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // oxlint-disable-next-line typescript/no-explicit-any
   reduxCreateStore<any, any>(reducer, initialState, enhancer);

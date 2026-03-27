@@ -1,8 +1,6 @@
 // Copyright 2017 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* eslint-env node */
-
 import { ipcRenderer as ipc } from 'electron';
 import * as path from 'node:path';
 

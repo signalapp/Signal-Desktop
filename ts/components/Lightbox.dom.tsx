@@ -320,6 +320,7 @@ export function Lightbox({
 
     if (videoElement.paused) {
       onMediaPlaybackStart();
+      // oxlint-disable-next-line promise/prefer-await-to-then
       void videoElement.play().catch(error => {
         if (!isAbortError(error)) {
           log.error('Failed to play video', Errors.toLogFormat(error));
@@ -387,7 +388,7 @@ export function Lightbox({
 
   const reducedMotion = useReducedMotion();
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps -- FIXME
+  // oxlint-disable-next-line react-hooks/exhaustive-deps -- FIXME
   const [thumbnailsStyle, thumbnailsAnimation] = useSpring(
     {
       immediate: reducedMotion,

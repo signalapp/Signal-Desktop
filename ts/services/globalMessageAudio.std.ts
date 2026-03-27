@@ -11,6 +11,7 @@ const { noop } = lodash;
  * source and callbacks without requiring removeEventListener
  */
 class GlobalMessageAudio {
+  // oxlint-disable-next-line no-undef FIXME
   #audio: HTMLAudioElement = new Audio();
   #url: string | undefined;
 
@@ -69,6 +70,7 @@ class GlobalMessageAudio {
 
   play(): void {
     this.#playing = true;
+    // oxlint-disable-next-line promise/prefer-await-to-then
     this.#audio.play().catch(error => {
       // If `audio.pause()` is called before `audio.play()` resolves
       if (!isAbortError(error)) {

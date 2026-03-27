@@ -370,7 +370,7 @@ export function verifyHmacSha256(
   let result = 0;
 
   for (let i = 0; i < theirMac.byteLength; i += 1) {
-    // eslint-disable-next-line no-bitwise, @typescript-eslint/no-non-null-assertion
+    // oxlint-disable-next-line no-bitwise, typescript/no-non-null-assertion
     result |= ourMac[i]! ^ theirMac[i]!;
   }
   if (result !== 0) {
@@ -465,7 +465,7 @@ export function getZeroes(n: number): Uint8Array<ArrayBuffer> {
 }
 
 export function highBitsToInt(byte: number): number {
-  // eslint-disable-next-line no-bitwise
+  // oxlint-disable-next-line no-bitwise
   return (byte & 0xff) >> 4;
 }
 
@@ -473,7 +473,7 @@ export function intsToByteHighAndLow(
   highValue: number,
   lowValue: number
 ): number {
-  // eslint-disable-next-line no-bitwise
+  // oxlint-disable-next-line no-bitwise
   return ((highValue << 4) | lowValue) & 0xff;
 }
 
@@ -503,7 +503,7 @@ function verifyDigest(
   const ourDigest = sha256(data);
   let result = 0;
   for (let i = 0; i < theirDigest.byteLength; i += 1) {
-    // eslint-disable-next-line no-bitwise, @typescript-eslint/no-non-null-assertion
+    // oxlint-disable-next-line no-bitwise, typescript/no-non-null-assertion
     result |= ourDigest[i]! ^ theirDigest[i]!;
   }
   if (result !== 0) {
@@ -777,7 +777,7 @@ export function getIdentifierHash({
   }
 
   const digest = hash(HashType.size256, identifier);
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  // oxlint-disable-next-line typescript/no-non-null-assertion
   return digest[0]!;
 }
 
@@ -795,10 +795,10 @@ export function generateAvatarColor({
   const hashValue = getIdentifierHash({ aci, e164, pni, groupId });
 
   if (hashValue == null) {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    // oxlint-disable-next-line typescript/no-non-null-assertion
     return sample(AvatarColors) || AvatarColors[0]!;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  // oxlint-disable-next-line typescript/no-non-null-assertion
   return AvatarColors[hashValue % AVATAR_COLOR_COUNT]!;
 }

@@ -1,8 +1,6 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* eslint-disable camelcase */
-
 // TODO(indutny): format queries
 import type { RowType } from '@signalapp/sqlcipher';
 import SQL, { setLogger as setSqliteLogger } from '@signalapp/sqlcipher';
@@ -2539,7 +2537,7 @@ export function dequeueOldestSyncTasks(
     strictAssert(lastRowId, 'dequeueOldestSyncTasks: lastRowId is null');
 
     let tasks: Array<SyncTaskType> = rows.map(row => {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      // oxlint-disable-next-line typescript/no-unused-vars
       const { rowid: _rowid, ...rest } = row;
       return {
         ...rest,
@@ -3139,7 +3137,7 @@ function saveMessage(
       `saveMessage: Message ${id}/${type} is unread but had seenStatus=${seenStatus}. Forcing to UnseenStatus.Unseen.`
     );
 
-    // eslint-disable-next-line no-param-reassign
+    // oxlint-disable-next-line no-param-reassign
     message = {
       ...message,
       seenStatus: SeenStatus.Unseen,
@@ -5908,7 +5906,7 @@ export function migrateConversationMessages(
   `);
 
   db.transaction(() => {
-    // eslint-disable-next-line no-constant-condition
+    // oxlint-disable-next-line no-constant-condition
     for (let offset = 0; true; offset += PAGE_SIZE) {
       const parts: Array<{
         rowid: number;
@@ -7732,7 +7730,7 @@ function getAllBadges(db: ReadableDB): Array<BadgeType> {
       const { badgeId, order, localPath, url, theme } = badgeImageFileRow;
       const badgeImages = badgeImagesByBadge.get(badgeId) || [];
       badgeImages[order] = {
-        ...(badgeImages[order] || {}),
+        ...badgeImages[order],
         [parseBadgeImageTheme(theme)]: {
           localPath: dropNull(localPath),
           url,

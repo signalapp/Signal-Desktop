@@ -28,5 +28,4 @@ const byRuleThenByCategory = fromPairs(
   })
 );
 
-// eslint-disable-next-line no-console
 console.log(JSON.stringify(byRuleThenByCategory, null, '  '));

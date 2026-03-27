@@ -153,9 +153,9 @@ export class App extends EventEmitter {
   }
 
   public async waitForManifestVersion(version: bigint): Promise<void> {
-    // eslint-disable-next-line no-constant-condition
+    // oxlint-disable-next-line no-constant-condition
     while (true) {
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       const { manifestVersion } = await this.waitForStorageService();
       if (manifestVersion >= version) {
         break;
@@ -177,7 +177,7 @@ export class App extends EventEmitter {
       return;
     }
     for (let i = 0; i < count; i += 1) {
-      // eslint-disable-next-line no-await-in-loop, no-console
+      // oxlint-disable-next-line no-await-in-loop, no-console
       console.error(await this.#waitForEvent('fatalTestError'));
     }
     throw new Error('App had fatal test errors');
@@ -262,7 +262,7 @@ export class App extends EventEmitter {
 
   public override on(
     type: string | symbol,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // oxlint-disable-next-line typescript/no-explicit-any
     listener: (...args: Array<any>) => void
   ): this {
     return super.on(type, listener);
@@ -270,7 +270,7 @@ export class App extends EventEmitter {
 
   public override emit(type: 'close'): boolean;
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // oxlint-disable-next-line typescript/no-explicit-any
   public override emit(type: string | symbol, ...args: Array<any>): boolean {
     return super.emit(type, ...args);
   }
@@ -321,10 +321,10 @@ export class App extends EventEmitter {
       return kClosed;
     })();
 
-    // eslint-disable-next-line no-constant-condition
+    // oxlint-disable-next-line no-constant-condition
     while (true) {
       try {
-        // eslint-disable-next-line no-await-in-loop
+        // oxlint-disable-next-line no-await-in-loop
         const value = await Promise.race([
           this.#waitForEvent<string>('print', 0),
           onClose,
@@ -334,7 +334,7 @@ export class App extends EventEmitter {
           break;
         }
 
-        // eslint-disable-next-line no-console
+        // oxlint-disable-next-line no-console
         console.error(`CI.print: ${value}`);
       } catch {
         // Ignore errors

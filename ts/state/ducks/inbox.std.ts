@@ -5,7 +5,7 @@ import type { ReadonlyDeep } from 'type-fest';
 
 // State
 
-// eslint-disable-next-line local-rules/type-alias-readonlydeep
+// oxlint-disable-next-line signal-desktop/enforce-type-alias-readonlydeep
 export type InboxStateType = Readonly<{
   firstEnvelopeTimestamp: number | undefined;
   envelopeTimestamp: number | undefined;

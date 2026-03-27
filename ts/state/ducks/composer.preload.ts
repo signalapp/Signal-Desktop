@@ -115,7 +115,7 @@ const { debounce, isEqual } = lodash;
 const log = createLogger('composer');
 
 // State
-// eslint-disable-next-line local-rules/type-alias-readonlydeep
+// oxlint-disable-next-line signal-desktop/enforce-type-alias-readonlydeep
 type ComposerStateByConversationType = {
   attachments: ReadonlyArray<AttachmentDraftType>;
   focusCounter: number;
@@ -136,7 +136,7 @@ export type QuotedMessageForComposerType = ReadonlyDeep<{
   };
 }>;
 
-// eslint-disable-next-line local-rules/type-alias-readonlydeep
+// oxlint-disable-next-line signal-desktop/enforce-type-alias-readonlydeep
 export type ComposerStateType = {
   conversations: Record<string, ComposerStateByConversationType>;
 };
@@ -187,7 +187,7 @@ export type IncrementSendActionType = ReadonlyDeep<{
   };
 }>;
 
-// eslint-disable-next-line local-rules/type-alias-readonlydeep
+// oxlint-disable-next-line signal-desktop/enforce-type-alias-readonlydeep
 export type ReplaceAttachmentsActionType = {
   type: typeof REPLACE_ATTACHMENTS;
   payload: {
@@ -226,7 +226,7 @@ type SetHighQualitySettingActionType = ReadonlyDeep<{
   };
 }>;
 
-// eslint-disable-next-line local-rules/type-alias-readonlydeep
+// oxlint-disable-next-line signal-desktop/enforce-type-alias-readonlydeep
 export type SetQuotedMessageActionType = {
   type: typeof SET_QUOTED_MESSAGE;
   payload: {
@@ -243,7 +243,7 @@ export type SetViewOnceActionType = ReadonlyDeep<{
   };
 }>;
 
-// eslint-disable-next-line local-rules/type-alias-readonlydeep
+// oxlint-disable-next-line signal-desktop/enforce-type-alias-readonlydeep
 type ComposerActionType =
   | AddLinkPreviewActionType
   | AddPendingAttachmentActionType
@@ -521,7 +521,7 @@ export function saveDraftRecordingIfNeeded(
   };
 }
 
-// eslint-disable-next-line local-rules/type-alias-readonlydeep
+// oxlint-disable-next-line signal-desktop/enforce-type-alias-readonlydeep
 type WithPreSendChecksOptions = Readonly<{
   message?: string;
   voiceNoteAttachment?: InMemoryAttachmentDraftType;

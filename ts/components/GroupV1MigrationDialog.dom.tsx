@@ -51,22 +51,16 @@ export const GroupV1MigrationDialog: React.FunctionComponent<PropsType> =
 
     let primaryButtonText: string;
     let onClickPrimaryButton: () => void;
-    let secondaryButtonProps:
-      | undefined
-      | {
-          secondaryButtonText: string;
-          onClickSecondaryButton: () => void;
-        };
+    let secondaryButtonText: string | undefined;
+    let onClickSecondaryButton: (() => void) | undefined;
     if (hasMigrated) {
       primaryButtonText = i18n('icu:Confirmation--confirm');
       onClickPrimaryButton = onClose;
     } else {
       primaryButtonText = i18n('icu:GroupV1--Migration--migrate');
       onClickPrimaryButton = onMigrate;
-      secondaryButtonProps = {
-        secondaryButtonText: i18n('icu:cancel'),
-        onClickSecondaryButton: onClose,
-      };
+      secondaryButtonText = i18n('icu:cancel');
+      onClickSecondaryButton = onClose;
     }
 
     return (
@@ -76,7 +70,8 @@ export const GroupV1MigrationDialog: React.FunctionComponent<PropsType> =
         onClose={onClose}
         primaryButtonText={primaryButtonText}
         title={title}
-        {...secondaryButtonProps}
+        secondaryButtonText={secondaryButtonText}
+        onClickSecondaryButton={onClickSecondaryButton}
       >
         <GroupDialog.Paragraph>
           {i18n('icu:GroupV1--Migration--info--summary')}

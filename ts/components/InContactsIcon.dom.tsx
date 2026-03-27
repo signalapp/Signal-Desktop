@@ -16,7 +16,6 @@ export type PropsType = {
 export function InContactsIcon(props: PropsType): React.JSX.Element {
   const { className, i18n, tooltipContainerRef } = props;
 
-  /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
   return (
     <Tooltip
       content={i18n('icu:contactInAddressBook')}
@@ -37,5 +36,4 @@ export function InContactsIcon(props: PropsType): React.JSX.Element {
       />
     </Tooltip>
   );
-  /* eslint-enable jsx-a11y/no-noninteractive-tabindex */
 }

@@ -54,16 +54,20 @@ const config: TestRunnerConfig = {
         .or(page.getByTitle(value))
         .or(page.getByLabel(value));
 
+      // oxlint-disable-next-line no-await-in-loop
       if (await locator.count()) {
         const first = locator.first();
 
         try {
+          // oxlint-disable-next-line no-await-in-loop
           await first.focus({ timeout: SECOND });
         } catch {
           // Opportunistic
         }
         try {
+          // oxlint-disable-next-line no-await-in-loop
           if (await first.isVisible()) {
+            // oxlint-disable-next-line no-await-in-loop
             await first.scrollIntoViewIfNeeded({ timeout: SECOND });
           }
         } catch {
@@ -71,6 +75,7 @@ const config: TestRunnerConfig = {
         }
       }
 
+      // oxlint-disable-next-line no-await-in-loop
       const image = await page.screenshot({
         animations: 'disabled',
         fullPage: true,

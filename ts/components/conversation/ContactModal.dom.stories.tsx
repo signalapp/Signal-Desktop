@@ -76,7 +76,6 @@ export default {
   },
 } satisfies Meta<PropsType>;
 
-// eslint-disable-next-line react/function-component-definition
 const Template: StoryFn<PropsType> = args => <ContactModal {...args} />;
 
 export const AsNonAdmin = Template.bind({});

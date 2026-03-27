@@ -162,7 +162,7 @@ function createRandomFiles(
   fileExtensions: Array<FileExtension>
 ): Array<MediaItemType> {
   return range(random(5, 20)).map(() =>
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    // oxlint-disable-next-line typescript/no-non-null-assertion
     createRandomFile(type, startTime, timeWindow, sample(fileExtensions)!)
   );
 }

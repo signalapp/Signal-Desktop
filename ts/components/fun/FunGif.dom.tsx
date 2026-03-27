@@ -65,6 +65,7 @@ function FunGifReducedMotion(props: FunGifProps) {
     strictAssert(videoRef.current, 'Expected video element');
     const video = videoRef.current;
     if (shouldPlay) {
+      // oxlint-disable-next-line promise/prefer-await-to-then
       video.play().catch(error => {
         // ignore errors where `play()` was interrupted by `pause()`
         if (!isAbortError(error)) {

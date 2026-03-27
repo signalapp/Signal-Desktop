@@ -338,7 +338,7 @@ describe('SQL/updateToSchemaVersion88', () => {
   });
 
   for (const table of ['preKeys', 'signedPreKeys', 'kyberPreKeys']) {
-    // eslint-disable-next-line no-loop-func
+    // oxlint-disable-next-line no-loop-func
     it(`should migrate ${table}`, () => {
       insertData(db, table, [
         {

@@ -1199,6 +1199,7 @@ export async function startApp(): Promise<void> {
     } finally {
       setupAppState();
       drop(
+        // oxlint-disable-next-line promise/prefer-await-to-then
         start().catch(error => {
           log.error('start: threw an unexpected error', error);
         })
@@ -1665,7 +1666,7 @@ export async function startApp(): Promise<void> {
 
     while (afterAuthSocketConnectPromise?.promise) {
       log.info(`${logId}: waiting for previous run to finish`);
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       await afterAuthSocketConnectPromise.promise;
     }
 
@@ -2126,7 +2127,7 @@ export async function startApp(): Promise<void> {
           let lastRowId: number | null = 0;
           while (lastRowId != null) {
             const result =
-              // eslint-disable-next-line no-await-in-loop
+              // oxlint-disable-next-line no-await-in-loop
               await DataWriter.dequeueOldestSyncTasks({
                 previousRowId: lastRowId,
                 incrementAttempts: false,
@@ -2140,9 +2141,9 @@ export async function startApp(): Promise<void> {
               log.info(
                 `onEmpty/syncTasks: Queueing ${syncTasks.length} sync tasks for reattempt`
               );
-              // eslint-disable-next-line no-await-in-loop
+              // oxlint-disable-next-line no-await-in-loop
               await queueSyncTasks(syncTasks, DataWriter.removeSyncTaskById);
-              // eslint-disable-next-line no-await-in-loop
+              // oxlint-disable-next-line no-await-in-loop
               await Promise.resolve(); // one tick
             }
 
@@ -2448,7 +2449,7 @@ export async function startApp(): Promise<void> {
     });
 
     const { PROFILE_KEY_UPDATE } = Proto.DataMessage.Flags;
-    // eslint-disable-next-line no-bitwise
+    // oxlint-disable-next-line no-bitwise
     const isProfileUpdate = Boolean(data.message.flags & PROFILE_KEY_UPDATE);
     if (isProfileUpdate) {
       return handleMessageReceivedProfileUpdate({
@@ -2787,7 +2788,7 @@ export async function startApp(): Promise<void> {
   }) {
     // First set profileSharing = true for the conversation we sent to
     const { id } = messageDescriptor;
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    // oxlint-disable-next-line typescript/no-non-null-assertion
     const conversation = window.ConversationController.get(id)!;
 
     conversation.enableProfileSharing({
@@ -2797,7 +2798,7 @@ export async function startApp(): Promise<void> {
 
     // Then we update our own profileKey if it's different from what we have
     const ourId = window.ConversationController.getOurConversationId();
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    // oxlint-disable-next-line typescript/no-non-null-assertion
     const me = window.ConversationController.get(ourId)!;
     const { profileKey } = data.message;
     strictAssert(
@@ -3029,7 +3030,7 @@ export async function startApp(): Promise<void> {
     });
 
     const { PROFILE_KEY_UPDATE } = Proto.DataMessage.Flags;
-    // eslint-disable-next-line no-bitwise
+    // oxlint-disable-next-line no-bitwise
     const isProfileUpdate = Boolean(data.message.flags & PROFILE_KEY_UPDATE);
     if (isProfileUpdate) {
       return handleMessageSentProfileUpdate({

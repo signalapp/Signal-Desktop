@@ -32,9 +32,7 @@ async function fetchJSON(url: string): Promise<unknown> {
 async function main(): Promise<void> {
   const manifest = parseUnknown(ManifestSchema, await fetchJSON(MANIFEST_URL));
 
-  // eslint-disable-next-line dot-notation
   manifest.languageToSmartlingLocale['zh_TW'] = 'zh-Hant';
-  // eslint-disable-next-line dot-notation
   manifest.languageToSmartlingLocale['sr'] = 'sr';
 
   const extraResources = new Map<string, OptionalResourceType>();
@@ -96,6 +94,7 @@ async function main(): Promise<void> {
   await writeFile(resourcesPath, output);
 }
 
+// oxlint-disable-next-line promise/prefer-await-to-then
 main().catch(err => {
   console.error(err);
   process.exit(1);

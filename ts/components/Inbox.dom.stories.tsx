@@ -27,7 +27,6 @@ export default {
   },
 } satisfies Meta<PropsType & { daysAgo?: number }>;
 
-// eslint-disable-next-line react/function-component-definition
 const Template: StoryFn<PropsType & { daysAgo?: number }> = ({
   daysAgo,
   ...args

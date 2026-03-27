@@ -250,7 +250,7 @@ export function TimelineMessage(props: Props): React.JSX.Element {
       if (attachments.length !== 1) {
         saveAttachments(attachments, timestamp);
       } else {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        // oxlint-disable-next-line typescript/no-non-null-assertion
         saveAttachment(attachments[0]!, timestamp);
       }
     },
@@ -530,8 +530,7 @@ function MessageMenu({
 
                 return (
                   // This a menu meant for mouse use only
-                  // eslint-disable-next-line max-len
-                  // eslint-disable-next-line jsx-a11y/interactive-supports-focus, jsx-a11y/click-events-have-key-events
+                  // oxlint-disable-next-line jsx-a11y/click-events-have-key-events
                   <div
                     ref={maybePopperRef}
                     onClick={(event: React.MouseEvent) => {
@@ -555,8 +554,7 @@ function MessageMenu({
 
           {onDownload && (
             // This a menu meant for mouse use only
-            // eslint-disable-next-line max-len
-            // eslint-disable-next-line jsx-a11y/interactive-supports-focus, jsx-a11y/click-events-have-key-events
+            // oxlint-disable-next-line jsx-a11y/click-events-have-key-events
             <div
               onClick={onDownload}
               role="button"
@@ -574,8 +572,7 @@ function MessageMenu({
 
           {onReplyToMessage && (
             // This a menu meant for mouse use only
-            // eslint-disable-next-line max-len
-            // eslint-disable-next-line jsx-a11y/interactive-supports-focus, jsx-a11y/click-events-have-key-events
+            // oxlint-disable-next-line jsx-a11y/click-events-have-key-events
             <div
               onClick={(event: React.MouseEvent) => {
                 event.stopPropagation();

@@ -635,6 +635,7 @@ export function CompositionInput(props: Props): React.ReactElement {
         node.attributes.removeNamedItem('style');
       }
 
+      // oxlint-disable-next-line no-undef FIXME
       if (Buffer.byteLength(text) > MAX_BODY_ATTACHMENT_BYTE_LENGTH) {
         quill.history.undo();
         propsRef.current.onTextTooLong();
@@ -766,7 +767,7 @@ export function CompositionInput(props: Props): React.ReactElement {
 
     const newDelta = getDeltaToRemoveStaleMentions(ops, currentMemberAcis);
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // oxlint-disable-next-line typescript/no-explicit-any
     quill.updateContents(newDelta as any);
   };
 
@@ -960,7 +961,7 @@ export function CompositionInput(props: Props): React.ReactElement {
     },
     // quill shouldn't re-render, all changes should take place exclusively
     // through mutating the quill state directly instead of through props
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // oxlint-disable-next-line react-hooks/exhaustive-deps
     []
   );
 
@@ -968,8 +969,6 @@ export function CompositionInput(props: Props): React.ReactElement {
   //   message box. In 'large' mode, the actual Quill text box can be one line while the
   //   visual text box is much larger. Clicking that should allow you to start typing,
   //   hence the click handler.
-  // eslint-disable-next-line max-len
-  /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 
   const getClassName = getClassNamesFor(BASE_CLASS_NAME, moduleClassName);
 
@@ -1007,6 +1006,7 @@ export function CompositionInput(props: Props): React.ReactElement {
     <Manager>
       <Reference>
         {({ ref }) => (
+          // oxlint-disable-next-line jsx_a11y/no-static-element-interactions
           <div
             className={classNames(
               getClassName('__input'),
@@ -1048,6 +1048,7 @@ export function CompositionInput(props: Props): React.ReactElement {
                 {i18n('icu:CompositionArea--viewOnceMediaPlaceholder')}
               </div>
             )}
+            {/* oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
             <div
               onClick={focus}
               onScroll={onScroll}

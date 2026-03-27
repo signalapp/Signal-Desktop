@@ -373,7 +373,7 @@ export class BackupImportStream extends Writable {
       // Finish saving remaining conversations/messages
       // Save messages first since they depend on conversations in memory
       while (this.#flushMessagesPromise) {
-        // eslint-disable-next-line no-await-in-loop
+        // oxlint-disable-next-line no-await-in-loop
         await this.#flushMessagesPromise;
       }
       await this.#flushMessages();
@@ -387,7 +387,7 @@ export class BackupImportStream extends Writable {
       });
       for (const params of sortedPinnedMessages) {
         try {
-          // eslint-disable-next-line no-await-in-loop
+          // oxlint-disable-next-line no-await-in-loop
           await DataWriter.appendPinnedMessage(pinnedMessageLimit, params);
         } catch (error) {
           log.error(
@@ -404,7 +404,7 @@ export class BackupImportStream extends Writable {
       for (const [callLink, hasCall] of this.#adminCallLinksToHasCall) {
         if (!hasCall) {
           const callHistory = toCallHistoryFromUnusedCallLink(callLink);
-          // eslint-disable-next-line no-await-in-loop
+          // oxlint-disable-next-line no-await-in-loop
           await this.#saveCallHistory(callHistory);
         }
       }
@@ -634,7 +634,7 @@ export class BackupImportStream extends Writable {
       // (Unlikely to happen, but needed to make sure we don't save too many
       // messages at once)
       while (this.#flushMessagesPromise) {
-        // eslint-disable-next-line no-await-in-loop
+        // oxlint-disable-next-line no-await-in-loop
         await this.#flushMessagesPromise;
       }
       this.#flushMessagesPromise = this.#flushMessages();
@@ -722,7 +722,7 @@ export class BackupImportStream extends Writable {
       const { editHistory } = attributes;
 
       if (editHistory?.length) {
-        // eslint-disable-next-line no-await-in-loop
+        // oxlint-disable-next-line no-await-in-loop
         await DataWriter.saveEditedMessages(
           attributes,
           ourAci,
@@ -2354,7 +2354,6 @@ export class BackupImportStream extends Writable {
           const {
             patch: {
               sendStateByConversationId,
-              // eslint-disable-next-line camelcase
               received_at_ms,
               serverTimestamp,
               readStatus,
@@ -2370,7 +2369,6 @@ export class BackupImportStream extends Writable {
             timestamp,
             received_at: incrementMessageCounter(),
             sendStateByConversationId,
-            // eslint-disable-next-line camelcase
             received_at_ms,
             serverTimestamp,
             readStatus,

@@ -1,10 +1,6 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import lodash from 'lodash';
-
-const { has } = lodash;
-
 /**
  * This function is like `Object.assign` but won't create a new object if we don't need
  * to. This is purely a performance optimization.
@@ -19,12 +15,12 @@ export function assignWithNoUnnecessaryAllocation<T extends object>(
   source: Readonly<Partial<T>>
 ): T {
   // We want to bail early so we use `for .. in` instead of `Object.keys` or similar.
-  // eslint-disable-next-line no-restricted-syntax
+  // oxlint-disable-next-line signal-desktop/no-for-in
   for (const key in source) {
-    if (!has(source, key)) {
+    if (!Object.hasOwn(source, key)) {
       continue;
     }
-    if (!(key in obj) || obj[key] !== source[key]) {
+    if (!Object.hasOwn(obj, key) || obj[key] !== source[key]) {
       return { ...obj, ...source };
     }
   }

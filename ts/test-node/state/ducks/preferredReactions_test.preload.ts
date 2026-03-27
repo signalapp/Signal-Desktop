@@ -248,10 +248,10 @@ describe('preferred reactions duck', () => {
 
     // We want to create a fake ConversationController for testing purposes, and we need
     //   to sidestep typechecking to do that.
-    /* eslint-disable @typescript-eslint/no-explicit-any */
 
     let storagePutStub: sinon.SinonStub;
     let captureChangeStub: sinon.SinonStub;
+    // oxlint-disable-next-line typescript/no-explicit-any
     let oldConversationController: any;
 
     beforeEach(() => {
@@ -261,9 +261,11 @@ describe('preferred reactions duck', () => {
 
       captureChangeStub = sinonSandbox.stub();
       window.ConversationController = {
+        // oxlint-disable-next-line typescript/no-explicit-any
         getOurConversationOrThrow: (): any => ({
           captureChange: captureChangeStub,
         }),
+        // oxlint-disable-next-line typescript/no-explicit-any
       } as any;
     });
 

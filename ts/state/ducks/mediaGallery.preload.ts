@@ -660,7 +660,7 @@ export function reducer(
         ? [
             {
               type: 'link',
-              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+              // oxlint-disable-next-line typescript/no-non-null-assertion
               preview: message.preview[0]!,
               message: _cleanMessage(message),
             },
@@ -676,7 +676,7 @@ export function reducer(
       newDocuments = newDocuments.concat(
         _cleanContact({
           type: 'contact',
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          // oxlint-disable-next-line typescript/no-non-null-assertion
           contact: message.contact[0]!,
           message: _cleanMessage(message),
         })

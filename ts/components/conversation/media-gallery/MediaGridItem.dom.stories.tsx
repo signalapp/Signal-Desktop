@@ -25,7 +25,7 @@ export default {
 const createProps = (
   overrideProps: Partial<Props> & { mediaItem: MediaItemType }
 ): Props => {
-  // eslint-disable-next-line react-hooks/rules-of-hooks
+  // oxlint-disable-next-line react-hooks/rules-of-hooks
   const theme = React.useContext(StorybookThemeContext);
 
   return {
