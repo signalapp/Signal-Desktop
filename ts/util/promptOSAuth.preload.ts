@@ -26,7 +26,7 @@ export async function promptOSAuth(
         );
       } else if (reason === 'view-aep') {
         localeString = window.SignalContext.i18n(
-          'icu:Preferences--local-backups--view-backup-key--os-prompt--mac'
+          'icu:Preferences--local-backups--view-recovery-key--os-prompt--mac'
         );
       } else {
         throw missingCaseError(reason);
@@ -44,7 +44,7 @@ export async function promptOSAuth(
         );
       } else if (reason === 'view-aep') {
         localeString = window.SignalContext.i18n(
-          'icu:Preferences--local-backups--view-backup-key--os-prompt--windows'
+          'icu:Preferences--local-backups--view-recovery-key--os-prompt--windows'
         );
       } else {
         throw missingCaseError(reason);

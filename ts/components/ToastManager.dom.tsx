@@ -318,7 +318,7 @@ export function renderToast({
   if (toastType === ToastType.CopiedBackupKey) {
     return (
       <Toast onClose={hideToast} timeout={3 * SECOND}>
-        {i18n('icu:Preferences__local-backups-copied-key')}
+        {i18n('icu:Preferences__local-backups-copied-recovery-key')}
       </Toast>
     );
   }

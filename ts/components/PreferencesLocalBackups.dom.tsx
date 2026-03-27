@@ -204,9 +204,9 @@ export function PreferencesLocalBackups({
         <FlowingControl>
           <div className="Preferences__two-thirds-flow">
             <label>
-              {i18n('icu:Preferences__backup-key')}
+              {i18n('icu:Preferences__recovery-key')}
               <div className="Preferences__description">
-                {i18n('icu:Preferences__backup-key-description')}
+                {i18n('icu:Preferences__recovery-key-description')}
               </div>
             </label>
           </div>
@@ -314,7 +314,7 @@ export function PreferencesLocalBackups({
           <AxoAlertDialog.Content escape="cancel-is-noop">
             <AxoAlertDialog.Body>
               <AxoAlertDialog.Description>
-                {getOSAuthErrorString(authError) ?? i18n('icu:error')}
+                {getOSAuthErrorString(i18n, authError) ?? i18n('icu:error')}
               </AxoAlertDialog.Description>
             </AxoAlertDialog.Body>
             <AxoAlertDialog.Footer>
@@ -524,7 +524,7 @@ function LocalBackupsBackupKeyViewer({
   let footerLeft: React.JSX.Element | undefined;
   let footerRight: React.JSX.Element;
   if (isStepViewOrReference) {
-    title = i18n('icu:Preferences--local-backups-record-backup-key');
+    title = i18n('icu:Preferences--local-backups-record-recovery-key');
     description = (
       <I18n
         id="icu:Preferences--local-backups-record-backup-key-description"
@@ -552,9 +552,9 @@ function LocalBackupsBackupKeyViewer({
       );
     }
   } else {
-    title = i18n('icu:Preferences--local-backups-confirm-backup-key');
+    title = i18n('icu:Preferences--local-backups-confirm-recovery-key');
     description = i18n(
-      'icu:Preferences--local-backups-confirm-backup-key-description'
+      'icu:Preferences--local-backups-confirm-recovery-key-description'
     );
     footerLeft = (
       <AxoButton.Root
@@ -689,7 +689,7 @@ function LocalBackupsBackupKeyTextarea({
 
   return (
     <textarea
-      aria-label={i18n('icu:Preferences--local-backups-backup-key-text-box')}
+      aria-label={i18n('icu:Preferences--local-backups-recovery-key-text-box')}
       className="Preferences--LocalBackupsBackupKey"
       cols={20}
       dir="ltr"
@@ -706,6 +706,7 @@ function LocalBackupsBackupKeyTextarea({
 }
 
 function getOSAuthErrorString(
+  i18n: LocalizerType,
   authError: Omit<PromptOSAuthResultType, 'success'> | undefined
 ): string | undefined {
   if (!authError) {
@@ -714,12 +715,14 @@ function getOSAuthErrorString(
 
   // TODO: DESKTOP-8895
   if (authError === 'unauthorized') {
-    return 'This action could not be completed because system authentication failed. Please try again or open the Signal app on your mobile device and go to Backup Settings to view your backup key.';
+    return i18n('icu:Preferences__local-backups-auth-error--unauthorized');
   }
 
   if (authError === 'unauthorized-no-windows-ucv') {
-    return 'This action could not be completed because Windows Hello is not enabled on your computer. Please set up Windows Hello and try again, or open the Signal app on your mobile device and go to Backup Settings to view your backup key.';
+    return i18n(
+      'icu:Preferences__local-backups-auth-error--unauthorized-no-windows-ucv'
+    );
   }
 
-  return 'The action could not be completed because authentication is not available on this computer. Please open the Signal app on your mobile device and go to Backup Settings to view your backup key.';
+  return i18n('icu:Preferences__local-backups-auth-error--unavailable');
 }
