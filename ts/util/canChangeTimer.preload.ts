@@ -25,6 +25,10 @@ export function canChangeTimer(
     return true;
   }
 
+  if (attributes.terminated) {
+    return false;
+  }
+
   const accessControlEnum = Proto.AccessControl.AccessRequired;
   const { accessControl } = attributes;
   const canAnyoneChangeTimer =

@@ -580,7 +580,7 @@ export function ConversationDetails({
 
       {!isSignalConversation && (
         <PanelSection>
-          {!isGroup || canEditGroupInfo ? (
+          {!isGroup || canEditGroupInfo || conversation.expireTimer != null ? (
             <PanelRow
               icon={
                 <ConversationDetailsIcon
@@ -606,7 +606,7 @@ export function ConversationDetails({
                 <DisappearingTimerSelect
                   i18n={i18n}
                   value={conversation.expireTimer || DurationInSeconds.ZERO}
-                  disabled={conversation.terminated}
+                  disabled={!canEditGroupInfo || conversation.terminated}
                   onChange={value =>
                     setDisappearingMessages(conversation.id, value)
                   }

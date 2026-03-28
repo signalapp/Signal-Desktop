@@ -428,6 +428,12 @@ export function ContactModal({
   switch (view) {
     case ContactModalView.Default: {
       const preferredBadge: undefined | BadgeType = badges[0];
+      const canDoGroupAdminActions =
+        !contact.isMe &&
+        areWeAdmin &&
+        isMember &&
+        conversation?.id &&
+        !conversation.terminated;
       return (
         <Modal
           modalName="ContactModal"
@@ -593,7 +599,7 @@ export function ContactModal({
                   {i18n('icu:ContactModal--add-to-group')}
                 </button>
               )}
-              {!contact.isMe && areWeAdmin && isMember && conversation?.id && (
+              {canDoGroupAdminActions && (
                 <>
                   <button
                     type="button"

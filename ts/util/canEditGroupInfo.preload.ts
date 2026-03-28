@@ -17,6 +17,10 @@ export function canEditGroupInfo(
     return false;
   }
 
+  if (conversationAttrs.terminated) {
+    return false;
+  }
+
   if (areWeAdmin(conversationAttrs)) {
     return true;
   }
