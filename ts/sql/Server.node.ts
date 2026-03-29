@@ -328,7 +328,7 @@ const {
 } = lodash;
 
 
-const DEBUG_ALWAYS_HANDSHAKE = true;
+const DEBUG_ALWAYS_HANDSHAKE = false;
 
 type ConversationRow = Readonly<{
   json: string;

@@ -8,33 +8,36 @@ type LocalNonceStore = Record<string, Record<string, string>>;
 
 const KEY = 'pvrfDemoLocalNonce' as const;
 
-async function readStore(): Promise<LocalNonceStore> {
-  return (await itemStorage.get(KEY)) ?? {};
+async function readStore(key?: any): Promise<LocalNonceStore> {
+  const realKey =  (key || KEY)
+  return (await itemStorage.get(realKey)) ?? {};
 }
 
-async function writeStore(store: LocalNonceStore): Promise<void> {
-  await itemStorage.put(KEY, store);
+async function writeStore(store: LocalNonceStore, key?: any): Promise<void> {
+  await itemStorage.put(key || KEY, store);
 }
 
 export async function setLocalNonce(
   serviceId: string,
   deviceId: number,
-  nonceB64: string
+  nonceB64: string,
+  key?: string
 ): Promise<void> {
-  const store = await readStore();
+  const store = await readStore(key);
   const did = String(deviceId);
 
   store[serviceId] = store[serviceId] ?? {};
   store[serviceId][did] = nonceB64;
 
-  await writeStore(store);
+  await writeStore(store, key);
 }
 
 export async function getLocalNonce(
   serviceId: string,
-  deviceId: number
+  deviceId: number,
+  key?: string
 ): Promise<string | undefined> {
-  const store = await readStore();
+  const store = await readStore(key);
   return store[serviceId]?.[String(deviceId)];
 }
 
