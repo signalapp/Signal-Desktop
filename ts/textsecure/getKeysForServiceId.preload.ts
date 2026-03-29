@@ -3,7 +3,7 @@
 // import { contextBridge } from 'electron';
 
 import { pvrfComputeZbDemo, pvrfComputeSasDemo } from '@signalapp/libsignal-client';
-import { setLocalNonce } from './pvrfLocalNonceStorage.preload.js';
+import { getLocalNonce, setLocalNonce } from './pvrfLocalNonceStorage.preload.js';
 
 
 import {
@@ -208,40 +208,8 @@ async function handleServerKeys(
           identityKeyStore,
           signalProtocolStore
         );
-        debugger; // eslint-disable-line no-debugger
 
-        // 1) check if we already had a session before running X3DH
-        const existingSession = await sessionStore.getSession(protocolAddress);
-        if (!existingSession) 
-        {
-          // 2) create "sender-specific" SAS / basis for demo, Use env var if available; otherwise derive from ourAci so Alice/Bob differ.
-          //const demoSas=(typeof process!=='undefined' && process.env && process.env.SIGNAL_DEMO_SAS)||ourAci.slice(-4); 
-          //{ v: 0, sas: demoSas, from: ourAci, ts: Date.now() }
 
-          const nonce = new Uint8Array(16);
-          globalThis.crypto.getRandomValues(nonce);
-          const nonce_b64 = Bytes.toBase64(nonce);
-          const payloadObj = {
-            v: 0,
-            type: 'nonce',
-            from: ourAci,
-            ts: Date.now(),
-            nonce_b64,
-          };
-
-          const payloadBytes = new TextEncoder().encode(JSON.stringify(payloadObj));
-          const payloadB64 = Bytes.toBase64(payloadBytes);
-          await setPendingBasis(serviceId, deviceId, payloadB64);
-          await setLocalNonce(serviceId, deviceId, nonce_b64);
-          log.info(
-            `PVRF demo (Alice): stored pending NONCE + localNonce for ${serviceId}.${deviceId}`
-          );
-          //log.info( `PVRF demo: stored pending payload for ${serviceId}.${deviceId} sas=${demoSas}`);
-          const DEMO_CONTEXT = new TextEncoder().encode('demo-context-v0');
-          const zb16 = pvrfComputeZbDemo(DEMO_CONTEXT, nonce);
-          const sas16 = pvrfComputeSasDemo(nonce, zb16);
-          log.info(`DEBUG INFO TO CHECK EQUALITY:PVRF demo (Alice): computed sas16=${Bytes.toBase64(sas16)}`);
-        }
 
         await signalProtocolStore.enqueueSessionJob(address, () =>
           processPreKeyBundle(
@@ -259,18 +227,121 @@ async function handleServerKeys(
           identityKeyStore,
           signalProtocolStore
         );
-        const temp = await sessionStore.getSession(protocolAddress);
-        log.info('got session', temp);
-        log.info('SAS value', temp?.getSAS?.());
-        // below stuff doesnt really work feel free to try
-        // contextBridge.exposeInMainWorld('preKeyBundle', preKeyBundle);
-        // contextBridge.exposeInMainWorld('protocolAddress', protocolAddress);
-        // contextBridge.exposeInMainWorld('sessionStore', sessionStore);
-        // contextBridge.exposeInMainWorld('identityKeyStore', identityKeyStore);
-        // contextBridge.exposeInMainWorld(
-        //   'signalProtocolStore',
-        //   signalProtocolStore
-        // );
+
+
+
+        //maybe problem if user loses their main device?
+        //end goal maybe calc for 1 device, using that data for all
+        //but would require synchronosity, doing device 1 first, then allowing others to run
+        //remove the true || to test 
+        if (deviceId == 1) {
+          // 1) check if we already had a session before running X3DH
+          const existingSession = await sessionStore.getSession(protocolAddress);
+          if (!existingSession) 
+          {
+            // 2) create "sender-specific" SAS / basis for demo, Use env var if available; otherwise derive from ourAci so Alice/Bob differ.
+            //const demoSas=(typeof process!=='undefined' && process.env && process.env.SIGNAL_DEMO_SAS)||ourAci.slice(-4); 
+            //{ v: 0, sas: demoSas, from: ourAci, ts: Date.now() }
+
+            const nonce = new Uint8Array(16);
+            globalThis.crypto.getRandomValues(nonce);
+            const nonce_b64 = Bytes.toBase64(nonce);
+            const payloadObj = {
+              v: 0,
+              type: 'nonce',
+              from: ourAci,
+              ts: Date.now(),
+              nonce_b64,
+            };
+
+            const payloadBytes = new TextEncoder().encode(JSON.stringify(payloadObj));
+            const payloadB64 = Bytes.toBase64(payloadBytes);
+            await setPendingBasis(serviceId, deviceId, payloadB64);
+            await setLocalNonce(serviceId, deviceId, nonce_b64);
+            log.info(
+              `PVRF demo (Alice): stored pending NONCE + localNonce for ${serviceId}.${deviceId}`
+            );
+            //log.info( `PVRF demo: stored pending payload for ${serviceId}.${deviceId} sas=${demoSas}`);
+            const DEMO_CONTEXT = new TextEncoder().encode('demo-context-v0');
+            const zb16 = pvrfComputeZbDemo(DEMO_CONTEXT, nonce);
+            const sas16 = pvrfComputeSasDemo(nonce, zb16);
+            log.info(`DEBUG INFO TO CHECK EQUALITY:PVRF demo (Alice): computed sas16=${Bytes.toBase64(sas16)}`);
+          }
+
+          const temp = await sessionStore.getSession(protocolAddress);
+          log.info('got session', temp, device);
+          log.info('SAS value', temp?.getSAS?.());
+          log.info('VTS value', temp?.getVTS?.());
+          const buf = temp?.getVTS?.();
+          let offset = 0;
+
+          const read32 = () => {
+            const slice = buf.slice(offset, offset + 32);
+            offset += 32;
+            return slice;
+          };
+
+          const readU32 = () => {
+            const view = new DataView(buf.buffer, buf.byteOffset + offset, 4);
+            const val = view.getUint32(0, true); // little endian
+            offset += 4;
+            return val;
+          };
+
+          const readBytes = (len: number) => {
+            const slice = buf.slice(offset, offset + len);
+            offset += len;
+            return slice;
+          };
+
+          // fixed-size fields
+          const A = read32();      // RistrettoPoint (compressed)
+          const B = read32();
+
+          const s1 = read32();     // Scalar
+          const s2_1 = read32();
+          const s2_2 = read32();
+
+          // variable-length fields
+          const bytes1Len = readU32();
+          const bytes1 = readBytes(bytes1Len);
+
+          const bytes2Len = readU32();
+          const bytes2 = readBytes(bytes2Len);
+
+          // final scalars
+          const r1 = read32();
+          const r2 = read32();
+
+          const h = A;
+          const hprime = B;
+          const tau = { c: s1, s: [s2_1, s2_2] };
+          const vt = { h, hprime, tau };
+          const vk = bytes1;
+          const secrets = bytes2;
+          const alpha = r1;
+          const beta = r2;
+          const vts = { vt, vk, secrets, alpha, beta };
+
+
+          console.log('first check what was stored', serviceId, deviceId);
+          const initial_stored_vts = await getLocalNonce(serviceId, deviceId, 'vts');
+          console.log('initial stored vts', initial_stored_vts);
+          console.log('this is the vts', vts);
+          await setLocalNonce(serviceId, deviceId, JSON.stringify(vts), 'vts');
+          console.log('loading what was stored');
+          const stored_vts = await getLocalNonce(serviceId, deviceId, 'vts');
+          console.log('stored vts', stored_vts);
+          // below stuff doesnt really work feel free to try
+          // contextBridge.exposeInMainWorld('preKeyBundle', preKeyBundle);
+          // contextBridge.exposeInMainWorld('protocolAddress', protocolAddress);
+          // contextBridge.exposeInMainWorld('sessionStore', sessionStore);
+          // contextBridge.exposeInMainWorld('identityKeyStore', identityKeyStore);
+          // contextBridge.exposeInMainWorld(
+          //   'signalProtocolStore',
+          //   signalProtocolStore
+          // );
+        }
       } catch (error) {
         if (
           error instanceof LibSignalErrorBase &&
