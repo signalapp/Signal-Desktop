@@ -17,6 +17,10 @@ export function canAddNewMembers(
     return false;
   }
 
+  if (conversationAttrs.terminated) {
+    return false;
+  }
+
   return (
     areWeAdmin(conversationAttrs) ||
     conversationAttrs.accessControl?.members ===

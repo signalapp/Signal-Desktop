@@ -333,6 +333,7 @@ export function AboutContactModal({
           <i className="AboutContactModal__row__icon AboutContactModal__row__icon--label" />
           <button
             className="AboutContactModal__button"
+            disabled={!canAddLabel}
             type="button"
             onClick={showEditMemberLabelScreen}
           >
