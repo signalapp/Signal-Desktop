@@ -5,8 +5,8 @@ import { createDecipheriv, type Decipheriv } from 'node:crypto';
 import { Buffer } from 'node:buffer';
 import { Transform } from 'node:stream';
 
-import { CipherType, IV_LENGTH } from '../types/Crypto.std.js';
-import { strictAssert } from './assert.std.js';
+import { CipherType, IV_LENGTH } from '../types/Crypto.std.ts';
+import { strictAssert } from './assert.std.ts';
 
 /**
  * Gets the IV from the start of the stream and creates a decipher.

@@ -3,10 +3,10 @@
 
 import { z } from 'zod';
 import lodash from 'lodash';
-import { createLogger } from '../logging/log.std.js';
-import { aciSchema } from '../types/ServiceId.std.js';
-import { safeParseStrict } from '../util/schemas.std.js';
-import { HOUR } from '../util/durations/index.std.js';
+import { createLogger } from '../logging/log.std.ts';
+import { aciSchema } from '../types/ServiceId.std.ts';
+import { safeParseStrict } from '../util/schemas.std.ts';
+import { HOUR } from '../util/durations/index.std.ts';
 import type { StorageInterface } from '../types/Storage.d.ts';
 
 const { groupBy } = lodash;

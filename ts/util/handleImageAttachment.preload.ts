@@ -4,13 +4,13 @@
 import { ipcRenderer } from 'electron';
 import { v4 as genUuid } from 'uuid';
 
-import { blobToArrayBuffer } from '../types/VisualAttachment.dom.js';
-import type { MIMEType } from '../types/MIME.std.js';
-import { IMAGE_JPEG, isHeic, stringToMIMEType } from '../types/MIME.std.js';
-import type { InMemoryAttachmentDraftType } from '../types/Attachment.std.js';
-import { canBeTranscoded } from './Attachment.std.js';
-import { imageToBlurHash } from './imageToBlurHash.dom.js';
-import { scaleImageToLevel } from './scaleImageToLevel.preload.js';
+import { blobToArrayBuffer } from '../types/VisualAttachment.dom.ts';
+import type { MIMEType } from '../types/MIME.std.ts';
+import { IMAGE_JPEG, isHeic, stringToMIMEType } from '../types/MIME.std.ts';
+import type { InMemoryAttachmentDraftType } from '../types/Attachment.std.ts';
+import { canBeTranscoded } from './Attachment.std.ts';
+import { imageToBlurHash } from './imageToBlurHash.dom.ts';
+import { scaleImageToLevel } from './scaleImageToLevel.preload.ts';
 
 export async function handleImageAttachment(
   file: File

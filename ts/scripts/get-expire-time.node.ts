@@ -5,9 +5,9 @@ import { join } from 'node:path';
 import { execSync } from 'node:child_process';
 import { writeFileSync } from 'node:fs';
 
-import { DAY } from '../util/durations/index.std.js';
-import { packageJson } from '../util/packageJson.node.js';
-import { isNotUpdatable } from '../util/version.std.js';
+import { DAY } from '../util/durations/index.std.ts';
+import { packageJson } from '../util/packageJson.node.ts';
+import { isNotUpdatable } from '../util/version.std.ts';
 
 const unixTimestamp = parseInt(
   process.env.SOURCE_DATE_EPOCH ||

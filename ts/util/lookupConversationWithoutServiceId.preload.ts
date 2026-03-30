@@ -3,18 +3,18 @@
 
 import { usernames } from '@signalapp/libsignal-client';
 
-import type { UserNotFoundModalStateType } from '../state/ducks/globalModals.preload.js';
-import { createLogger } from '../logging/log.std.js';
-import type { AciString } from '../types/ServiceId.std.js';
-import * as Errors from '../types/errors.std.js';
-import { ToastType } from '../types/Toast.dom.js';
-import { strictAssert } from './assert.std.js';
-import type { UUIDFetchStateKeyType } from './uuidFetchState.std.js';
-import { getServiceIdsForE164s } from './getServiceIdsForE164s.dom.js';
+import type { UserNotFoundModalStateType } from '../state/ducks/globalModals.preload.ts';
+import { createLogger } from '../logging/log.std.ts';
+import type { AciString } from '../types/ServiceId.std.ts';
+import * as Errors from '../types/errors.std.ts';
+import { ToastType } from '../types/Toast.dom.tsx';
+import { strictAssert } from './assert.std.ts';
+import type { UUIDFetchStateKeyType } from './uuidFetchState.std.ts';
+import { getServiceIdsForE164s } from './getServiceIdsForE164s.dom.ts';
 import {
   getAccountForUsername,
   cdsLookup,
-} from '../textsecure/WebAPI.preload.js';
+} from '../textsecure/WebAPI.preload.ts';
 
 const log = createLogger('lookupConversationWithoutServiceId');
 

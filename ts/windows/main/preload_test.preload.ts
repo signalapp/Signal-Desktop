@@ -9,13 +9,13 @@ import chai, { assert, config as chaiConfig } from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import { reporters, type MochaOptions } from 'mocha';
 
-import { initializeMessageCounter } from '../../util/incrementMessageCounter.preload.js';
-import { initializeRedux } from '../../state/initializeRedux.preload.js';
-import * as Stickers from '../../types/Stickers.preload.js';
-import { ThemeType } from '../../types/Util.std.js';
-import { itemStorage } from '../../textsecure/Storage.preload.js';
-import { MessageCache } from '../../services/MessageCache.preload.js';
-import { updateRemoteConfig } from '../../test-helpers/RemoteConfigStub.dom.js';
+import { initializeMessageCounter } from '../../util/incrementMessageCounter.preload.ts';
+import { initializeRedux } from '../../state/initializeRedux.preload.ts';
+import * as Stickers from '../../types/Stickers.preload.ts';
+import { ThemeType } from '../../types/Util.std.ts';
+import { itemStorage } from '../../textsecure/Storage.preload.ts';
+import { MessageCache } from '../../services/MessageCache.preload.ts';
+import { updateRemoteConfig } from '../../test-helpers/RemoteConfigStub.dom.ts';
 
 chai.use(chaiAsPromised);
 
@@ -151,7 +151,7 @@ window.testUtilities = {
   prepareTests() {
     // oxlint-disable-next-line no-console
     console.log('Preparing tests...');
-    const files = sync('../../test-{both,electron}/**/*_test.*.js', {
+    const files = sync('../../test-{both,electron}/**/*_test.*.ts', {
       absolute: true,
       cwd: __dirname,
     });

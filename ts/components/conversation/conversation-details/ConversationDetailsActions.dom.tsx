@@ -5,17 +5,17 @@ import type { ReactNode } from 'react';
 import React, { useState } from 'react';
 import classNames from 'classnames';
 
-import type { LocalizerType } from '../../../types/Util.std.js';
-import { ConfirmationDialog } from '../../ConfirmationDialog.dom.js';
-import { Tooltip, TooltipPlacement } from '../../Tooltip.dom.js';
+import type { LocalizerType } from '../../../types/Util.std.ts';
+import { ConfirmationDialog } from '../../ConfirmationDialog.dom.tsx';
+import { Tooltip, TooltipPlacement } from '../../Tooltip.dom.tsx';
 
-import { PanelRow } from './PanelRow.dom.js';
-import { PanelSection } from './PanelSection.dom.js';
+import { PanelRow } from './PanelRow.dom.tsx';
+import { PanelSection } from './PanelSection.dom.tsx';
 import {
   ConversationDetailsIcon,
   IconType,
-} from './ConversationDetailsIcon.dom.js';
-import { DeleteMessagesConfirmationDialog } from '../../DeleteMessagesConfirmationDialog.dom.js';
+} from './ConversationDetailsIcon.dom.tsx';
+import { DeleteMessagesConfirmationDialog } from '../../DeleteMessagesConfirmationDialog.dom.tsx';
 
 export type Props = {
   acceptConversation: (id: string) => void;

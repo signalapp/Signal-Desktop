@@ -12,13 +12,13 @@ import {
 } from '@signalapp/ringrtc';
 import { ContentHint } from '@signalapp/libsignal-client';
 import lodash from 'lodash';
-import { strictAssert } from './assert.std.js';
-import { DataReader, DataWriter } from '../sql/Client.preload.js';
-import { SignalService as Proto } from '../protobuf/index.std.js';
-import { bytesToUuid, uuidToBytes } from './uuidToBytes.std.js';
-import { missingCaseError } from './missingCaseError.std.js';
-import { generateMessageId } from './generateMessageId.node.js';
-import { CallEndedReason, GroupCallJoinState } from '../types/Calling.std.js';
+import { strictAssert } from './assert.std.ts';
+import { DataReader, DataWriter } from '../sql/Client.preload.ts';
+import { SignalService as Proto } from '../protobuf/index.std.ts';
+import { bytesToUuid, uuidToBytes } from './uuidToBytes.std.ts';
+import { missingCaseError } from './missingCaseError.std.ts';
+import { generateMessageId } from './generateMessageId.node.ts';
+import { CallEndedReason, GroupCallJoinState } from '../types/Calling.std.ts';
 import {
   CallMode,
   DirectCallStatus,
@@ -36,20 +36,20 @@ import {
   callLogEventNormalizeSchema,
   CallLogEvent,
   ClearCallHistoryResult,
-} from '../types/CallDisposition.std.js';
-import type { AciString } from '../types/ServiceId.std.js';
-import { isAciString } from './isAciString.std.js';
-import { isMe } from './whatTypeOfConversation.dom.js';
-import { createLogger } from '../logging/log.std.js';
-import * as Errors from '../types/errors.std.js';
-import { incrementMessageCounter } from './incrementMessageCounter.preload.js';
-import { ReadStatus } from '../messages/MessageReadStatus.std.js';
-import { SeenStatus, maxSeenStatus } from '../MessageSeenStatus.std.js';
-import { canConversationBeUnarchived } from './canConversationBeUnarchived.preload.js';
+} from '../types/CallDisposition.std.ts';
+import type { AciString } from '../types/ServiceId.std.ts';
+import { isAciString } from './isAciString.std.ts';
+import { isMe } from './whatTypeOfConversation.dom.ts';
+import { createLogger } from '../logging/log.std.ts';
+import * as Errors from '../types/errors.std.ts';
+import { incrementMessageCounter } from './incrementMessageCounter.preload.ts';
+import { ReadStatus } from '../messages/MessageReadStatus.std.ts';
+import { SeenStatus, maxSeenStatus } from '../MessageSeenStatus.std.ts';
+import { canConversationBeUnarchived } from './canConversationBeUnarchived.preload.ts';
 import type { ConversationAttributesType } from '../model-types.d.ts';
-import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue.preload.js';
-import { MessageSender } from '../textsecure/SendMessage.preload.js';
-import * as Bytes from '../Bytes.std.js';
+import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue.preload.ts';
+import { MessageSender } from '../textsecure/SendMessage.preload.ts';
+import * as Bytes from '../Bytes.std.ts';
 import type {
   CallDetails,
   CallEvent,
@@ -59,18 +59,18 @@ import type {
   CallLogEventDetails,
   CallStatus,
   GroupCallMeta,
-} from '../types/CallDisposition.std.js';
-import type { ConversationType } from '../state/ducks/conversations.preload.js';
-import type { ConversationModel } from '../models/conversations.preload.js';
-import { drop } from './drop.std.js';
-import { sendCallLinkUpdateSync } from './sendCallLinkUpdateSync.preload.js';
-import { storageServiceUploadJob } from '../services/storage.preload.js';
-import { CallLinkFinalizeDeleteManager } from '../jobs/CallLinkFinalizeDeleteManager.preload.js';
-import { parseLoose, parseStrict } from './schemas.std.js';
-import { calling } from '../services/calling.preload.js';
-import { cleanupMessages } from './cleanup.preload.js';
-import { MessageModel } from '../models/messages.preload.js';
-import { itemStorage } from '../textsecure/Storage.preload.js';
+} from '../types/CallDisposition.std.ts';
+import type { ConversationType } from '../state/ducks/conversations.preload.ts';
+import type { ConversationModel } from '../models/conversations.preload.ts';
+import { drop } from './drop.std.ts';
+import { sendCallLinkUpdateSync } from './sendCallLinkUpdateSync.preload.ts';
+import { storageServiceUploadJob } from '../services/storage.preload.ts';
+import { CallLinkFinalizeDeleteManager } from '../jobs/CallLinkFinalizeDeleteManager.preload.ts';
+import { parseLoose, parseStrict } from './schemas.std.ts';
+import { calling } from '../services/calling.preload.ts';
+import { cleanupMessages } from './cleanup.preload.ts';
+import { MessageModel } from '../models/messages.preload.ts';
+import { itemStorage } from '../textsecure/Storage.preload.ts';
 
 const { isEqual } = lodash;
 

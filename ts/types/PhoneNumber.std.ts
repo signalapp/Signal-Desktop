@@ -5,9 +5,9 @@ import memoizee from 'memoizee';
 import {
   instance,
   PhoneNumberFormat,
-} from '../util/libphonenumberInstance.std.js';
-import { createLogger } from '../logging/log.std.js';
-import * as Errors from './errors.std.js';
+} from '../util/libphonenumberInstance.std.ts';
+import { createLogger } from '../logging/log.std.ts';
+import * as Errors from './errors.std.ts';
 
 const log = createLogger('PhoneNumber');
 

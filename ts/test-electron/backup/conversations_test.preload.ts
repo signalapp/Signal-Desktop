@@ -3,19 +3,19 @@
 
 import { assert } from 'chai';
 import { randomBytes } from 'node:crypto';
-import { getRandomBytes } from '../../Crypto.node.js';
-import * as Bytes from '../../Bytes.std.js';
-import { setupBasics, symmetricRoundtripHarness } from './helpers.preload.js';
-import { loadAllAndReinitializeRedux } from '../../services/allLoaders.preload.js';
+import { getRandomBytes } from '../../Crypto.node.ts';
+import * as Bytes from '../../Bytes.std.ts';
+import { setupBasics, symmetricRoundtripHarness } from './helpers.preload.ts';
+import { loadAllAndReinitializeRedux } from '../../services/allLoaders.preload.ts';
 import {
   deriveGroupID,
   deriveGroupSecretParams,
-} from '../../util/zkgroup.node.js';
-import { DataWriter } from '../../sql/Client.preload.js';
-import { generateAci, generatePni } from '../../types/ServiceId.std.js';
+} from '../../util/zkgroup.node.ts';
+import { DataWriter } from '../../sql/Client.preload.ts';
+import { generateAci, generatePni } from '../../types/ServiceId.std.ts';
 import type { ConversationAttributesType } from '../../model-types.d.ts';
-import { strictAssert } from '../../util/assert.std.js';
-import { itemStorage } from '../../textsecure/Storage.preload.js';
+import { strictAssert } from '../../util/assert.std.ts';
+import { itemStorage } from '../../textsecure/Storage.preload.ts';
 
 function getGroupTestInfo() {
   const masterKey = getRandomBytes(32);

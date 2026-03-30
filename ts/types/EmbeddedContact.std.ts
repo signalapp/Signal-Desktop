@@ -4,25 +4,25 @@
 import lodash from 'lodash';
 import type { ReadonlyDeep } from 'type-fest';
 
-import { SignalService as Proto } from '../protobuf/index.std.js';
+import { SignalService as Proto } from '../protobuf/index.std.ts';
 import type { ReadonlyMessageAttributesType } from '../model-types.d.ts';
 
-import { isNotNil } from '../util/isNotNil.std.js';
+import { isNotNil } from '../util/isNotNil.std.ts';
 import {
   format as formatPhoneNumber,
   normalize as normalizePhoneNumber,
-} from './PhoneNumber.std.js';
+} from './PhoneNumber.std.ts';
 import type {
   AttachmentType,
   AttachmentForUIType,
   AttachmentWithHydratedData,
   UploadedAttachmentType,
-} from './Attachment.std.js';
-import { toLogFormat } from './errors.std.js';
-import type { ServiceIdString } from './ServiceId.std.js';
-import type { migrateDataToFileSystem } from '../util/attachments/migrateDataToFilesystem.std.js';
-import { getLocalAttachmentUrl } from '../util/getLocalAttachmentUrl.std.js';
-import type { ContextType } from './Message2.preload.js';
+} from './Attachment.std.ts';
+import { toLogFormat } from './errors.std.ts';
+import type { ServiceIdString } from './ServiceId.std.ts';
+import type { migrateDataToFileSystem } from '../util/attachments/migrateDataToFilesystem.std.ts';
+import { getLocalAttachmentUrl } from '../util/getLocalAttachmentUrl.std.ts';
+import type { ContextType } from './Message2.preload.ts';
 
 const { omit } = lodash;
 

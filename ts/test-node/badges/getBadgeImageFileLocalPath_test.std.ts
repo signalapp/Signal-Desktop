@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import { BadgeCategory } from '../../badges/BadgeCategory.std.js';
-import { BadgeImageTheme } from '../../badges/BadgeImageTheme.std.js';
+import { BadgeCategory } from '../../badges/BadgeCategory.std.ts';
+import { BadgeImageTheme } from '../../badges/BadgeImageTheme.std.ts';
 
-import { getBadgeImageFileLocalPath } from '../../badges/getBadgeImageFileLocalPath.std.js';
+import { getBadgeImageFileLocalPath } from '../../badges/getBadgeImageFileLocalPath.std.ts';
 
 describe('getBadgeImageFileLocalPath', () => {
   const image = (localPath?: string) => ({

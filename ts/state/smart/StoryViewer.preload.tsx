@@ -3,41 +3,41 @@
 
 import React, { memo, useCallback } from 'react';
 import { useSelector } from 'react-redux';
-import { StoryViewer } from '../../components/StoryViewer.dom.js';
-import { ToastType } from '../../types/Toast.dom.js';
-import { useToastActions } from '../ducks/toast.preload.js';
-import { getConversationSelector } from '../selectors/conversations.dom.js';
+import { StoryViewer } from '../../components/StoryViewer.dom.tsx';
+import { ToastType } from '../../types/Toast.dom.tsx';
+import { useToastActions } from '../ducks/toast.preload.ts';
+import { getConversationSelector } from '../selectors/conversations.dom.ts';
 import {
   getEmojiSkinToneDefault,
   getHasStoryViewReceiptSetting,
   getPreferredReactionEmoji,
   getTextFormattingEnabled,
   isInternalUser,
-} from '../selectors/items.dom.js';
+} from '../selectors/items.dom.ts';
 import {
   getIntl,
   getPlatform,
   getUserConversationId,
-} from '../selectors/user.std.js';
-import { getPreferredBadgeSelector } from '../selectors/badges.preload.js';
+} from '../selectors/user.std.ts';
+import { getPreferredBadgeSelector } from '../selectors/badges.preload.ts';
 import {
   getSelectedStoryData,
   getStoryReplies,
   getStoryByIdSelector,
   getHasAllStoriesUnmuted,
-} from '../selectors/stories.preload.js';
-import { isInFullScreenCall } from '../selectors/calling.std.js';
-import { isSignalConversation as getIsSignalConversation } from '../../util/isSignalConversation.dom.js';
-import { strictAssert } from '../../util/assert.std.js';
-import { asyncShouldNeverBeCalled } from '../../util/shouldNeverBeCalled.std.js';
-import { useEmojisActions } from '../ducks/emojis.preload.js';
-import { useConversationsActions } from '../ducks/conversations.preload.js';
-import { useAudioPlayerActions } from '../ducks/audioPlayer.preload.js';
-import { useGlobalModalActions } from '../ducks/globalModals.preload.js';
-import { useStoriesActions } from '../ducks/stories.preload.js';
-import { useIsWindowActive } from '../../hooks/useIsWindowActive.dom.js';
-import type { DraftBodyRanges } from '../../types/BodyRange.std.js';
-import type { StoryViewType } from '../../types/Stories.std.js';
+} from '../selectors/stories.preload.ts';
+import { isInFullScreenCall } from '../selectors/calling.std.ts';
+import { isSignalConversation as getIsSignalConversation } from '../../util/isSignalConversation.dom.ts';
+import { strictAssert } from '../../util/assert.std.ts';
+import { asyncShouldNeverBeCalled } from '../../util/shouldNeverBeCalled.std.ts';
+import { useEmojisActions } from '../ducks/emojis.preload.ts';
+import { useConversationsActions } from '../ducks/conversations.preload.ts';
+import { useAudioPlayerActions } from '../ducks/audioPlayer.preload.ts';
+import { useGlobalModalActions } from '../ducks/globalModals.preload.ts';
+import { useStoriesActions } from '../ducks/stories.preload.ts';
+import { useIsWindowActive } from '../../hooks/useIsWindowActive.dom.ts';
+import type { DraftBodyRanges } from '../../types/BodyRange.std.ts';
+import type { StoryViewType } from '../../types/Stories.std.ts';
 
 export const SmartStoryViewer = memo(function SmartStoryViewer() {
   const {

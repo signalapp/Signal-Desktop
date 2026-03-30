@@ -5,8 +5,8 @@ import * as React from 'react';
 import PQueue from 'p-queue';
 import { LRUCache } from 'lru-cache';
 
-import type { WaveformCache } from '../types/Audio.dom.js';
-import { createLogger } from '../logging/log.std.js';
+import type { WaveformCache } from '../types/Audio.dom.tsx';
+import { createLogger } from '../logging/log.std.ts';
 
 const log = createLogger('VoiceNotesPlaybackContext');
 

@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import React from 'react';
 import { action } from '@storybook/addon-actions';
-import { type ComponentMeta } from '../storybook/types.std.js';
-import type { PropsType } from './MediaPermissionsModal.dom.js';
-import { MediaPermissionsModal } from './MediaPermissionsModal.dom.js';
+import { type ComponentMeta } from '../storybook/types.std.ts';
+import type { PropsType } from './MediaPermissionsModal.dom.tsx';
+import { MediaPermissionsModal } from './MediaPermissionsModal.dom.tsx';
 
 const { i18n } = window.SignalContext;
 

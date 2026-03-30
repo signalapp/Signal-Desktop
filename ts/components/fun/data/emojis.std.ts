@@ -2,18 +2,18 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import { z } from 'zod';
 import emojiRegex from 'emoji-regex';
-import { strictAssert } from '../../../util/assert.std.js';
-import { parseUnknown } from '../../../util/schemas.std.js';
+import { strictAssert } from '../../../util/assert.std.ts';
+import { parseUnknown } from '../../../util/schemas.std.ts';
 import type {
   FunEmojiSearchIndex,
   FunEmojiSearchIndexEntry,
-} from '../useFunEmojiSearch.dom.js';
-import type { FunEmojiLocalizerIndex } from '../useFunEmojiLocalizer.dom.js';
-import { removeDiacritics } from '../../../util/removeDiacritics.std.js';
-import { createLogger } from '../../../logging/log.std.js';
-import { EmojiSkinTone } from '../../../types/emoji.std.js';
+} from '../useFunEmojiSearch.dom.tsx';
+import type { FunEmojiLocalizerIndex } from '../useFunEmojiLocalizer.dom.tsx';
+import { removeDiacritics } from '../../../util/removeDiacritics.std.ts';
+import { createLogger } from '../../../logging/log.std.ts';
+import { EmojiSkinTone } from '../../../types/emoji.std.ts';
 
-export { EmojiSkinTone } from '../../../types/emoji.std.js';
+export { EmojiSkinTone } from '../../../types/emoji.std.ts';
 
 const log = createLogger('fun/data/emojis');
 

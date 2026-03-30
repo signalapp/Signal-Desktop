@@ -3,7 +3,7 @@
 
 import type { RefCallback } from 'react';
 import { useMemo, useState } from 'react';
-import { createStrictContext, useStrictContext } from './StrictContext.dom.js';
+import { createStrictContext, useStrictContext } from './StrictContext.dom.tsx';
 
 type AriaLabellingContextType = Readonly<{
   labelRef: RefCallback<HTMLElement>;

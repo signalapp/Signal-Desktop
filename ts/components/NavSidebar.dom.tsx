@@ -5,17 +5,17 @@ import type { ButtonHTMLAttributes, ReactNode } from 'react';
 import React, { createContext, useCallback, useEffect, useState } from 'react';
 import classNames from 'classnames';
 import { useMove } from 'react-aria';
-import { NavTabsToggle } from './NavTabs.dom.js';
-import type { LocalizerType } from '../types/I18N.std.js';
+import { NavTabsToggle } from './NavTabs.dom.tsx';
+import type { LocalizerType } from '../types/I18N.std.ts';
 import {
   MAX_WIDTH,
   MIN_FULL_WIDTH,
   MIN_WIDTH,
   getWidthFromPreferredWidth,
-} from '../util/leftPaneWidth.std.js';
-import { WidthBreakpoint, getNavSidebarWidthBreakpoint } from './_util.std.js';
-import type { UnreadStats } from '../util/countUnreadStats.std.js';
-import type { SmartPropsType as SmartToastManagerPropsType } from '../state/smart/ToastManager.preload.js';
+} from '../util/leftPaneWidth.std.ts';
+import { WidthBreakpoint, getNavSidebarWidthBreakpoint } from './_util.std.ts';
+import type { UnreadStats } from '../util/countUnreadStats.std.ts';
+import type { SmartPropsType as SmartToastManagerPropsType } from '../state/smart/ToastManager.preload.tsx';
 
 export const NavSidebarWidthBreakpointContext =
   createContext<WidthBreakpoint | null>(null);

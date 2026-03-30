@@ -3,12 +3,12 @@
 import type { ReadonlyDeep } from 'type-fest';
 import type { ThunkAction } from 'redux-thunk';
 import lodash from 'lodash';
-import type { GifType } from '../../components/fun/panels/FunPanelGifs.dom.js';
-import { DataWriter } from '../../sql/Client.preload.js';
+import type { GifType } from '../../components/fun/panels/FunPanelGifs.dom.tsx';
+import { DataWriter } from '../../sql/Client.preload.ts';
 import {
   type BoundActionCreatorsMapObject,
   useBoundActions,
-} from '../../hooks/useBoundActions.std.js';
+} from '../../hooks/useBoundActions.std.ts';
 
 const { take } = lodash;
 

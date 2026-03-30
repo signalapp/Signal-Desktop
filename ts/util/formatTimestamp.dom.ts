@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import moment from 'moment';
-import { HourCyclePreference } from '../types/I18N.std.js';
-import type { LocalizerType } from '../types/Util.std.js';
-import { assertDev } from './assert.std.js';
-import { isYesterday, isToday, type RawTimestamp } from './timestamp.std.js';
-import { HOUR, MINUTE, MONTH, WEEK } from './durations/index.std.js';
+import { HourCyclePreference } from '../types/I18N.std.ts';
+import type { LocalizerType } from '../types/Util.std.ts';
+import { assertDev } from './assert.std.ts';
+import { isYesterday, isToday, type RawTimestamp } from './timestamp.std.ts';
+import { HOUR, MINUTE, MONTH, WEEK } from './durations/index.std.ts';
 
 function getOptionsWithPreferences(
   options: Intl.DateTimeFormatOptions

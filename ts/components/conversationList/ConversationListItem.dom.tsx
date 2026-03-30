@@ -5,22 +5,22 @@ import type { FunctionComponent, ReactNode } from 'react';
 import React, { useCallback } from 'react';
 import classNames from 'classnames';
 
-import type { RenderConversationListItemContextMenuProps } from './BaseConversationListItem.dom.js';
+import type { RenderConversationListItemContextMenuProps } from './BaseConversationListItem.dom.tsx';
 import {
   BaseConversationListItem,
   HEADER_NAME_CLASS_NAME,
   HEADER_CONTACT_NAME_CLASS_NAME,
   MESSAGE_TEXT_CLASS_NAME,
-} from './BaseConversationListItem.dom.js';
-import { MessageBody } from '../conversation/MessageBody.dom.js';
-import { ContactName } from '../conversation/ContactName.dom.js';
-import { TypingAnimation } from '../conversation/TypingAnimation.dom.js';
+} from './BaseConversationListItem.dom.tsx';
+import { MessageBody } from '../conversation/MessageBody.dom.tsx';
+import { ContactName } from '../conversation/ContactName.dom.tsx';
+import { TypingAnimation } from '../conversation/TypingAnimation.dom.tsx';
 
-import type { LocalizerType, ThemeType } from '../../types/Util.std.js';
-import type { ConversationType } from '../../state/ducks/conversations.preload.js';
-import type { BadgeType } from '../../badges/types.std.js';
-import { isSignalConversation } from '../../util/isSignalConversation.dom.js';
-import { RenderLocation } from '../conversation/MessageTextRenderer.dom.js';
+import type { LocalizerType, ThemeType } from '../../types/Util.std.ts';
+import type { ConversationType } from '../../state/ducks/conversations.preload.ts';
+import type { BadgeType } from '../../badges/types.std.ts';
+import { isSignalConversation } from '../../util/isSignalConversation.dom.ts';
+import { RenderLocation } from '../conversation/MessageTextRenderer.dom.tsx';
 
 const EMPTY_OBJECT = Object.freeze(Object.create(null));
 const MESSAGE_STATUS_ICON_CLASS_NAME = `${MESSAGE_TEXT_CLASS_NAME}__status-icon`;

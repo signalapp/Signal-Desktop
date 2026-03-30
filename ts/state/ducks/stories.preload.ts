@@ -5,85 +5,85 @@ import type { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import lodash from 'lodash';
 
 import type { ReadonlyDeep } from 'type-fest';
-import * as Errors from '../../types/errors.std.js';
-import type { AttachmentType } from '../../types/Attachment.std.js';
-import type { DraftBodyRanges } from '../../types/BodyRange.std.js';
+import * as Errors from '../../types/errors.std.ts';
+import type { AttachmentType } from '../../types/Attachment.std.ts';
+import type { DraftBodyRanges } from '../../types/BodyRange.std.ts';
 import type { ReadonlyMessageAttributesType } from '../../model-types.d.ts';
 import type {
   MessageChangedActionType,
   MessageDeletedActionType,
   MessagesAddedActionType,
   TargetedConversationChangedActionType,
-} from './conversations.preload.js';
-import type { NoopActionType } from './noop.std.js';
-import type { StateType as RootStateType } from '../reducer.preload.js';
+} from './conversations.preload.ts';
+import type { NoopActionType } from './noop.std.ts';
+import type { StateType as RootStateType } from '../reducer.preload.ts';
 import type {
   StoryViewTargetType,
   StoryViewType,
-} from '../../types/Stories.std.js';
-import type { SyncType } from '../../jobs/helpers/syncHelpers.preload.js';
-import type { StoryDistributionIdString } from '../../types/StoryDistributionId.std.js';
-import type { ServiceIdString } from '../../types/ServiceId.std.js';
-import { isAciString } from '../../util/isAciString.std.js';
-import { createLogger } from '../../logging/log.std.js';
-import { TARGETED_CONVERSATION_CHANGED } from './conversations.preload.js';
-import { SIGNAL_ACI } from '../../types/SignalConversation.std.js';
-import { DataReader, DataWriter } from '../../sql/Client.preload.js';
-import { ReadStatus } from '../../messages/MessageReadStatus.std.js';
-import { SendStatus } from '../../messages/MessageSendState.std.js';
-import { SafetyNumberChangeSource } from '../../types/SafetyNumberChangeSource.std.js';
+} from '../../types/Stories.std.ts';
+import type { SyncType } from '../../jobs/helpers/syncHelpers.preload.ts';
+import type { StoryDistributionIdString } from '../../types/StoryDistributionId.std.ts';
+import type { ServiceIdString } from '../../types/ServiceId.std.ts';
+import { isAciString } from '../../util/isAciString.std.ts';
+import { createLogger } from '../../logging/log.std.ts';
+import { TARGETED_CONVERSATION_CHANGED } from './conversations.preload.ts';
+import { SIGNAL_ACI } from '../../types/SignalConversation.std.ts';
+import { DataReader, DataWriter } from '../../sql/Client.preload.ts';
+import { ReadStatus } from '../../messages/MessageReadStatus.std.ts';
+import { SendStatus } from '../../messages/MessageSendState.std.ts';
+import { SafetyNumberChangeSource } from '../../types/SafetyNumberChangeSource.std.ts';
 import {
   StoryViewDirectionType,
   StoryViewModeType,
-} from '../../types/Stories.std.js';
-import { areStoryViewReceiptsEnabled } from '../../util/Settings.preload.js';
-import { assertDev, strictAssert } from '../../util/assert.std.js';
-import { drop } from '../../util/drop.std.js';
-import { blockSendUntilConversationsAreVerified } from '../../util/blockSendUntilConversationsAreVerified.dom.js';
-import { deleteStoryForEveryone as doDeleteStoryForEveryone } from '../../util/deleteStoryForEveryone.preload.js';
-import { deleteGroupStoryReplyForEveryone as doDeleteGroupStoryReplyForEveryone } from '../../util/deleteGroupStoryReplyForEveryone.preload.js';
-import { enqueueReactionForSend } from '../../reactions/enqueueReactionForSend.preload.js';
-import { getMessageById } from '../../messages/getMessageById.preload.js';
-import { markOnboardingStoryAsRead } from '../../util/markOnboardingStoryAsRead.preload.js';
-import { markViewed } from '../../services/MessageUpdater.preload.js';
-import { queueAttachmentDownloads } from '../../util/queueAttachmentDownloads.preload.js';
-import { replaceIndex } from '../../util/replaceIndex.std.js';
-import type { DurationInSeconds } from '../../util/durations/index.std.js';
+} from '../../types/Stories.std.ts';
+import { areStoryViewReceiptsEnabled } from '../../util/Settings.preload.ts';
+import { assertDev, strictAssert } from '../../util/assert.std.ts';
+import { drop } from '../../util/drop.std.ts';
+import { blockSendUntilConversationsAreVerified } from '../../util/blockSendUntilConversationsAreVerified.dom.ts';
+import { deleteStoryForEveryone as doDeleteStoryForEveryone } from '../../util/deleteStoryForEveryone.preload.ts';
+import { deleteGroupStoryReplyForEveryone as doDeleteGroupStoryReplyForEveryone } from '../../util/deleteGroupStoryReplyForEveryone.preload.ts';
+import { enqueueReactionForSend } from '../../reactions/enqueueReactionForSend.preload.ts';
+import { getMessageById } from '../../messages/getMessageById.preload.ts';
+import { markOnboardingStoryAsRead } from '../../util/markOnboardingStoryAsRead.preload.ts';
+import { markViewed } from '../../services/MessageUpdater.preload.ts';
+import { queueAttachmentDownloads } from '../../util/queueAttachmentDownloads.preload.ts';
+import { replaceIndex } from '../../util/replaceIndex.std.ts';
+import type { DurationInSeconds } from '../../util/durations/index.std.ts';
 import {
   hasFailed,
   isDownloaded,
   isDownloading,
-} from '../../util/Attachment.std.js';
+} from '../../util/Attachment.std.ts';
 import {
   getConversationSelector,
   getHideStoryConversationIds,
-} from '../selectors/conversations.dom.js';
+} from '../selectors/conversations.dom.ts';
 import {
   getStories,
   getStoryDownloadableAttachment,
-} from '../selectors/stories.preload.js';
-import { setStoriesDisabled as utilSetStoriesDisabled } from '../../util/stories.preload.js';
-import { getStoryDataFromMessageAttributes } from '../../services/storyLoader.preload.js';
-import { isGroup } from '../../util/whatTypeOfConversation.dom.js';
-import { isNotNil } from '../../util/isNotNil.std.js';
-import { isStory } from '../../messages/helpers.std.js';
-import { sendStoryMessage as doSendStoryMessage } from '../../util/sendStoryMessage.preload.js';
-import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.js';
-import { useBoundActions } from '../../hooks/useBoundActions.std.js';
-import { verifyStoryListMembers as doVerifyStoryListMembers } from '../../util/verifyStoryListMembers.preload.js';
-import { viewSyncJobQueue } from '../../jobs/viewSyncJobQueue.preload.js';
-import { getOwn } from '../../util/getOwn.std.js';
-import { SHOW_TOAST } from './toast.preload.js';
-import { ToastType } from '../../types/Toast.dom.js';
-import type { ShowToastActionType } from './toast.preload.js';
+} from '../selectors/stories.preload.ts';
+import { setStoriesDisabled as utilSetStoriesDisabled } from '../../util/stories.preload.ts';
+import { getStoryDataFromMessageAttributes } from '../../services/storyLoader.preload.ts';
+import { isGroup } from '../../util/whatTypeOfConversation.dom.ts';
+import { isNotNil } from '../../util/isNotNil.std.ts';
+import { isStory } from '../../messages/helpers.std.ts';
+import { sendStoryMessage as doSendStoryMessage } from '../../util/sendStoryMessage.preload.ts';
+import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.ts';
+import { useBoundActions } from '../../hooks/useBoundActions.std.ts';
+import { verifyStoryListMembers as doVerifyStoryListMembers } from '../../util/verifyStoryListMembers.preload.ts';
+import { viewSyncJobQueue } from '../../jobs/viewSyncJobQueue.preload.ts';
+import { getOwn } from '../../util/getOwn.std.ts';
+import { SHOW_TOAST } from './toast.preload.ts';
+import { ToastType } from '../../types/Toast.dom.tsx';
+import type { ShowToastActionType } from './toast.preload.ts';
 import {
   conversationJobQueue,
   conversationQueueJobEnum,
-} from '../../jobs/conversationJobQueue.preload.js';
-import { ReceiptType } from '../../types/Receipt.std.js';
-import { cleanupMessages } from '../../util/cleanup.preload.js';
-import { AttachmentDownloadUrgency } from '../../types/AttachmentDownload.std.js';
-import { itemStorage } from '../../textsecure/Storage.preload.js';
+} from '../../jobs/conversationJobQueue.preload.ts';
+import { ReceiptType } from '../../types/Receipt.std.ts';
+import { cleanupMessages } from '../../util/cleanup.preload.ts';
+import { AttachmentDownloadUrgency } from '../../types/AttachmentDownload.std.ts';
+import { itemStorage } from '../../textsecure/Storage.preload.ts';
 
 const { isEqual, pick } = lodash;
 

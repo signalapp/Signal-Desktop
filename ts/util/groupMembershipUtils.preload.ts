@@ -3,18 +3,18 @@
 
 import isNumber from 'lodash/isNumber.js';
 import type { ConversationAttributesType } from '../model-types.d.ts';
-import type { ServiceIdString, AciString } from '../types/ServiceId.std.js';
-import { SignalService as Proto } from '../protobuf/index.std.js';
+import type { ServiceIdString, AciString } from '../types/ServiceId.std.ts';
+import { SignalService as Proto } from '../protobuf/index.std.ts';
 import {
   isDirectConversation,
   isGroupV2,
-} from './whatTypeOfConversation.dom.js';
-import { itemStorage } from '../textsecure/Storage.preload.js';
-import { truncateString } from './truncateString.std.js';
+} from './whatTypeOfConversation.dom.ts';
+import { itemStorage } from '../textsecure/Storage.preload.ts';
+import { truncateString } from './truncateString.std.ts';
 import {
   STRING_BYTE_LIMIT,
   STRING_GRAPHEME_LIMIT,
-} from '../types/GroupMemberLabels.std.js';
+} from '../types/GroupMemberLabels.std.ts';
 
 export function isMemberPending(
   conversationAttrs: Pick<

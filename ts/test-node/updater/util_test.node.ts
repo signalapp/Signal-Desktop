@@ -3,9 +3,9 @@
 
 import { assert } from 'chai';
 
-import { isTimeToUpdate } from '../../updater/util.node.js';
-import { HOUR } from '../../util/durations/index.std.js';
-import { createLogger } from '../../logging/log.std.js';
+import { isTimeToUpdate } from '../../updater/util.node.ts';
+import { HOUR } from '../../util/durations/index.std.ts';
+import { createLogger } from '../../logging/log.std.ts';
 
 const logger = createLogger('util_test');
 

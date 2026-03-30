@@ -7,33 +7,33 @@ import { v4 as generateUuid } from 'uuid';
 import { readdirSync } from 'node:fs';
 import { dirname } from 'node:path';
 
-import { missingCaseError } from '../util/missingCaseError.std.js';
+import { missingCaseError } from '../util/missingCaseError.std.ts';
 import {
   getDownloadsPath,
   getAttachmentsPath,
-} from '../windows/main/attachments.preload.js';
+} from '../../app/attachments.node.ts';
 
-import { IMAGE_JPEG, LONG_MESSAGE } from '../types/MIME.std.js';
+import { IMAGE_JPEG, LONG_MESSAGE } from '../types/MIME.std.ts';
 import type { MessageAttributesType } from '../model-types.d.ts';
-import type { AttachmentType } from '../types/Attachment.std.js';
+import type { AttachmentType } from '../types/Attachment.std.ts';
 import {
   getAbsoluteAttachmentPath,
   getAbsoluteDownloadsPath,
   getAbsoluteDraftPath,
   maybeDeleteAttachmentFile,
-} from '../util/migrations.preload.js';
-import { strictAssert } from '../util/assert.std.js';
+} from '../util/migrations.preload.ts';
+import { strictAssert } from '../util/assert.std.ts';
 import {
   cleanupAllMessageAttachmentFiles,
   cleanupAttachmentFiles,
   cleanupMessages,
-} from '../util/cleanup.preload.js';
-import { DataReader, DataWriter } from '../sql/Client.preload.js';
-import { generateAci } from '../types/ServiceId.std.js';
+} from '../util/cleanup.preload.ts';
+import { DataReader, DataWriter } from '../sql/Client.preload.ts';
+import { generateAci } from '../types/ServiceId.std.ts';
 import {
   testAttachmentLocalKey,
   testPlaintextHash,
-} from '../test-helpers/attachments.node.js';
+} from '../test-helpers/attachments.node.ts';
 
 const { emptyDir, ensureFile } = fsExtra;
 

@@ -2,12 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import { noopAction } from '../../../state/ducks/noop.std.js';
-import type { VoiceNoteAndConsecutiveForPlayback } from '../../../state/selectors/audioPlayer.preload.js';
-import { isPaused } from '../../../state/selectors/audioPlayer.preload.js';
-import { actions } from '../../../state/ducks/audioPlayer.preload.js';
-import type { StateType } from '../../../state/reducer.preload.js';
-import { reducer as rootReducer } from '../../../state/reducer.preload.js';
+import { noopAction } from '../../../state/ducks/noop.std.ts';
+import type { VoiceNoteAndConsecutiveForPlayback } from '../../../state/selectors/audioPlayer.preload.ts';
+import { isPaused } from '../../../state/selectors/audioPlayer.preload.ts';
+import { actions } from '../../../state/ducks/audioPlayer.preload.ts';
+import type { StateType } from '../../../state/reducer.preload.ts';
+import { reducer as rootReducer } from '../../../state/reducer.preload.ts';
 
 function voiceNoteDataForMessage(
   messageId: string

@@ -13,7 +13,7 @@ import {
   isLineAfterDate,
   fetchLog,
   fetchLogs,
-} from '../logging/main_process_logging.main.js';
+} from '../logging/main_process_logging.main.ts';
 
 describe('logging', () => {
   const fakeLogEntry = ({

@@ -11,30 +11,30 @@ import {
 } from '@signalapp/libsignal-client/zkgroup.js';
 import * as countryCodes from 'country-codes-list';
 
-import * as Bytes from '../Bytes.std.js';
-import * as Errors from '../types/errors.std.js';
-import { getRandomBytes, sha256 } from '../Crypto.node.js';
-import { DataWriter } from '../sql/Client.preload.js';
-import { createLogger } from '../logging/log.std.js';
-import { getProfile } from '../util/getProfile.preload.js';
+import * as Bytes from '../Bytes.std.ts';
+import * as Errors from '../types/errors.std.ts';
+import { getRandomBytes, sha256 } from '../Crypto.node.ts';
+import { DataWriter } from '../sql/Client.preload.ts';
+import { createLogger } from '../logging/log.std.ts';
+import { getProfile } from '../util/getProfile.preload.ts';
 import {
   donationPaypalApprovedRoute,
   donationPaypalCanceledRoute,
   donationValidationCompleteRoute,
-} from '../util/signalRoutes.std.js';
-import { safeParseStrict, safeParseUnknown } from '../util/schemas.std.js';
-import { missingCaseError } from '../util/missingCaseError.std.js';
-import { exponentialBackoffSleepTime } from '../util/exponentialBackoff.std.js';
-import { sleeper } from '../util/sleeper.std.js';
-import { isInPast, isOlderThan } from '../util/timestamp.std.js';
-import { DAY, DurationInSeconds } from '../util/durations/index.std.js';
-import { waitForOnline } from '../util/waitForOnline.dom.js';
+} from '../util/signalRoutes.std.ts';
+import { safeParseStrict, safeParseUnknown } from '../util/schemas.std.ts';
+import { missingCaseError } from '../util/missingCaseError.std.ts';
+import { exponentialBackoffSleepTime } from '../util/exponentialBackoff.std.ts';
+import { sleeper } from '../util/sleeper.std.ts';
+import { isInPast, isOlderThan } from '../util/timestamp.std.ts';
+import { DAY, DurationInSeconds } from '../util/durations/index.std.ts';
+import { waitForOnline } from '../util/waitForOnline.dom.ts';
 import {
   donationErrorTypeSchema,
   donationStateSchema,
   donationWorkflowSchema,
   donationProcessorSchema,
-} from '../types/Donations.std.js';
+} from '../types/Donations.std.ts';
 
 import type {
   CardDetail,
@@ -43,10 +43,10 @@ import type {
   DonationWorkflow,
   ReceiptContext,
   StripeDonationAmount,
-} from '../types/Donations.std.js';
-import { ToastType } from '../types/Toast.dom.js';
-import { NavTab, SettingsPage } from '../types/Nav.std.js';
-import { getRegionCodeForNumber } from '../util/libphonenumberUtil.std.js';
+} from '../types/Donations.std.ts';
+import { ToastType } from '../types/Toast.dom.tsx';
+import { NavTab, SettingsPage } from '../types/Nav.std.ts';
+import { getRegionCodeForNumber } from '../util/libphonenumberUtil.std.ts';
 import {
   createBoostPaymentIntent,
   createPaymentMethodWithStripe,
@@ -56,8 +56,8 @@ import {
   isOnline,
   createPaypalBoostPayment,
   confirmPaypalBoostPayment,
-} from '../textsecure/WebAPI.preload.js';
-import { itemStorage } from '../textsecure/Storage.preload.js';
+} from '../textsecure/WebAPI.preload.ts';
+import { itemStorage } from '../textsecure/Storage.preload.ts';
 
 const { createDonationReceipt } = DataWriter;
 

@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { fromBase64, fromHex } from '../Bytes.std.js';
+import { fromBase64, fromHex } from '../Bytes.std.ts';
 
 export enum HashType {
   size256 = 'sha256',

@@ -4,13 +4,13 @@
 import { Dialog } from 'radix-ui';
 import type { CSSProperties, FC, ReactNode } from 'react';
 import React, { memo, useMemo, useState } from 'react';
-import { AxoBaseDialog } from './_internal/AxoBaseDialog.dom.js';
-import type { AxoSymbol } from './AxoSymbol.dom.js';
-import { tw } from './tw.dom.js';
-import { AxoScrollArea } from './AxoScrollArea.dom.js';
-import { AxoButton } from './AxoButton.dom.js';
-import { AxoIconButton } from './AxoIconButton.dom.js';
-import { AxoTooltip } from './AxoTooltip.dom.js';
+import { AxoBaseDialog } from './_internal/AxoBaseDialog.dom.tsx';
+import type { AxoSymbol } from './AxoSymbol.dom.tsx';
+import { tw } from './tw.dom.tsx';
+import { AxoScrollArea } from './AxoScrollArea.dom.tsx';
+import { AxoButton } from './AxoButton.dom.tsx';
+import { AxoIconButton } from './AxoIconButton.dom.tsx';
+import { AxoTooltip } from './AxoTooltip.dom.tsx';
 
 const Namespace = 'AxoDialog';
 

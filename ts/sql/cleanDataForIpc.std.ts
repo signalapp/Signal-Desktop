@@ -2,12 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import lodash from 'lodash';
-import { createLogger } from '../logging/log.std.js';
+import { createLogger } from '../logging/log.std.ts';
 
-import { isIterable } from '../util/iterables.std.js';
+import { isIterable } from '../util/iterables.std.ts';
 
-import { toNumber } from '../util/toNumber.std.js';
-import { isNonSharedUint8Array } from '../Bytes.std.js';
+import { toNumber } from '../util/toNumber.std.ts';
+import { isNonSharedUint8Array } from '../Bytes.std.ts';
 
 const { isPlainObject } = lodash;
 

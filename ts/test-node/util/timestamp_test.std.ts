@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 import * as sinon from 'sinon';
-import { HOUR, DAY } from '../../util/durations/index.std.js';
+import { HOUR, DAY } from '../../util/durations/index.std.ts';
 
 import {
   isMoreRecentThan,
@@ -11,7 +11,7 @@ import {
   isSameDay,
   isToday,
   toDayMillis,
-} from '../../util/timestamp.std.js';
+} from '../../util/timestamp.std.ts';
 
 const FAKE_NOW = new Date('2020-01-23T04:56:00.000');
 

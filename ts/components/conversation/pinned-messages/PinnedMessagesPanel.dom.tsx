@@ -11,23 +11,23 @@ import React, {
   useState,
 } from 'react';
 import { useLayoutEffect } from '@react-aria/utils';
-import type { LocalizerType } from '../../../types/I18N.std.js';
-import type { ConversationType } from '../../../state/ducks/conversations.preload.js';
-import type { PinnedMessage } from '../../../types/PinnedMessage.std.js';
-import type { SmartTimelineItemProps } from '../../../state/smart/TimelineItem.preload.js';
-import { WidthBreakpoint } from '../../_util.std.js';
-import { AxoScrollArea } from '../../../axo/AxoScrollArea.dom.js';
+import type { LocalizerType } from '../../../types/I18N.std.ts';
+import type { ConversationType } from '../../../state/ducks/conversations.preload.ts';
+import type { PinnedMessage } from '../../../types/PinnedMessage.std.ts';
+import type { SmartTimelineItemProps } from '../../../state/smart/TimelineItem.preload.tsx';
+import { WidthBreakpoint } from '../../_util.std.ts';
+import { AxoScrollArea } from '../../../axo/AxoScrollArea.dom.tsx';
 import {
   createScrollerLock,
   ScrollerLockContext,
-} from '../../../hooks/useScrollLock.dom.js';
-import { getWidthBreakpoint } from '../../../util/timelineUtil.std.js';
-import { strictAssert } from '../../../util/assert.std.js';
-import { useSizeObserver } from '../../../hooks/useSizeObserver.dom.js';
-import { MessageInteractivity } from '../Message.dom.js';
-import { tw } from '../../../axo/tw.dom.js';
-import { AxoButton } from '../../../axo/AxoButton.dom.js';
-import { AxoAlertDialog } from '../../../axo/AxoAlertDialog.dom.js';
+} from '../../../hooks/useScrollLock.dom.tsx';
+import { getWidthBreakpoint } from '../../../util/timelineUtil.std.ts';
+import { strictAssert } from '../../../util/assert.std.ts';
+import { useSizeObserver } from '../../../hooks/useSizeObserver.dom.tsx';
+import { MessageInteractivity } from '../Message.dom.tsx';
+import { tw } from '../../../axo/tw.dom.tsx';
+import { AxoButton } from '../../../axo/AxoButton.dom.tsx';
+import { AxoAlertDialog } from '../../../axo/AxoAlertDialog.dom.tsx';
 
 export type PinnedMessagesPanelProps = Readonly<{
   i18n: LocalizerType;

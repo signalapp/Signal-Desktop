@@ -7,14 +7,14 @@ import type { Meta } from '@storybook/react';
 import type {
   Props,
   SafetyNumberProps,
-} from './SafetyNumberChangeDialog.dom.js';
-import { SafetyNumberChangeDialog } from './SafetyNumberChangeDialog.dom.js';
-import { getDefaultConversation } from '../test-helpers/getDefaultConversation.std.js';
+} from './SafetyNumberChangeDialog.dom.tsx';
+import { SafetyNumberChangeDialog } from './SafetyNumberChangeDialog.dom.tsx';
+import { getDefaultConversation } from '../test-helpers/getDefaultConversation.std.ts';
 import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext.std.js';
-import { getFakeBadge } from '../test-helpers/getFakeBadge.std.js';
-import { MY_STORY_ID } from '../types/Stories.std.js';
-import { generateStoryDistributionId } from '../types/StoryDistributionId.std.js';
-import { SafetyNumber } from './SafetyNumberViewer.dom.stories.js';
+import { getFakeBadge } from '../test-helpers/getFakeBadge.std.ts';
+import { MY_STORY_ID } from '../types/Stories.std.ts';
+import { generateStoryDistributionId } from '../types/StoryDistributionId.std.ts';
+import { SafetyNumber } from './SafetyNumberViewer.dom.stories.tsx';
 
 const { i18n } = window.SignalContext;
 

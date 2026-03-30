@@ -4,16 +4,16 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { Props } from './AttachmentSection.dom.js';
-import { AttachmentSection } from './AttachmentSection.dom.js';
+import type { Props } from './AttachmentSection.dom.tsx';
+import { AttachmentSection } from './AttachmentSection.dom.tsx';
 import {
   createRandomDocuments,
   createRandomMedia,
   createRandomLinks,
   createRandomAudio,
   days,
-} from './utils/mocks.std.js';
-import { MediaItem } from './utils/storybook.dom.js';
+} from './utils/mocks.std.ts';
+import { MediaItem } from './utils/storybook.dom.tsx';
 
 export default {
   title: 'Components/Conversation/MediaGallery/AttachmentSection',

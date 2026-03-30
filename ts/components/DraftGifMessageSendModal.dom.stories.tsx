@@ -6,14 +6,14 @@ import { action } from '@storybook/addon-actions';
 import {
   DraftGifMessageSendModal,
   type DraftGifMessageSendModalProps,
-} from './DraftGifMessageSendModal.dom.js';
-import { ThemeType } from '../types/Util.std.js';
-import { CompositionTextArea } from './CompositionTextArea.dom.js';
-import type { SmartCompositionTextAreaProps } from '../state/smart/CompositionTextArea.preload.js';
-import { EmojiSkinTone } from './fun/data/emojis.std.js';
-import { LoadingState } from '../util/loadable.std.js';
-import { VIDEO_MP4 } from '../types/MIME.std.js';
-import { drop } from '../util/drop.std.js';
+} from './DraftGifMessageSendModal.dom.tsx';
+import { ThemeType } from '../types/Util.std.ts';
+import { CompositionTextArea } from './CompositionTextArea.dom.tsx';
+import type { SmartCompositionTextAreaProps } from '../state/smart/CompositionTextArea.preload.tsx';
+import { EmojiSkinTone } from './fun/data/emojis.std.ts';
+import { LoadingState } from '../util/loadable.std.ts';
+import { VIDEO_MP4 } from '../types/MIME.std.ts';
+import { drop } from '../util/drop.std.ts';
 
 const { i18n } = window.SignalContext;
 

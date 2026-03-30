@@ -13,7 +13,7 @@ import {
   isBeta,
   isProduction,
   isStaging,
-} from '../../util/version.std.js';
+} from '../../util/version.std.ts';
 
 describe('version utilities', () => {
   describe('isProduction', () => {

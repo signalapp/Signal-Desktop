@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 
-import { deconstructLookup } from '../../util/deconstructLookup.std.js';
+import { deconstructLookup } from '../../util/deconstructLookup.std.ts';
 
 describe('deconstructLookup', () => {
   it('looks up an array of properties in a lookup', () => {

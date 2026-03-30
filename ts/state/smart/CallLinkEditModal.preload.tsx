@@ -2,21 +2,21 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import React, { memo, useCallback, useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import { CallLinkEditModal } from '../../components/CallLinkEditModal.dom.js';
-import { useCallingActions } from '../ducks/calling.preload.js';
+import { CallLinkEditModal } from '../../components/CallLinkEditModal.dom.tsx';
+import { useCallingActions } from '../ducks/calling.preload.ts';
 import {
   getActiveCallState,
   getCallLinkSelector,
-} from '../selectors/calling.std.js';
-import { createLogger } from '../../logging/log.std.js';
-import { getIntl } from '../selectors/user.std.js';
-import { useGlobalModalActions } from '../ducks/globalModals.preload.js';
-import type { CallLinkRestrictions } from '../../types/CallLink.std.js';
-import { getCallLinkEditModalRoomId } from '../selectors/globalModals.std.js';
-import { strictAssert } from '../../util/assert.std.js';
-import { linkCallRoute } from '../../util/signalRoutes.std.js';
-import { copyCallLink } from '../../util/copyLinksWithToast.dom.js';
-import { drop } from '../../util/drop.std.js';
+} from '../selectors/calling.std.ts';
+import { createLogger } from '../../logging/log.std.ts';
+import { getIntl } from '../selectors/user.std.ts';
+import { useGlobalModalActions } from '../ducks/globalModals.preload.ts';
+import type { CallLinkRestrictions } from '../../types/CallLink.std.ts';
+import { getCallLinkEditModalRoomId } from '../selectors/globalModals.std.ts';
+import { strictAssert } from '../../util/assert.std.ts';
+import { linkCallRoute } from '../../util/signalRoutes.std.ts';
+import { copyCallLink } from '../../util/copyLinksWithToast.dom.ts';
+import { drop } from '../../util/drop.std.ts';
 
 const log = createLogger('CallLinkEditModal');
 

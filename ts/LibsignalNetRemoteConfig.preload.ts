@@ -6,10 +6,10 @@ import {
   REMOTE_CONFIG_KEYS as KeysExpectedByLibsignalNet,
 } from '@signalapp/libsignal-client/dist/net.js';
 
-import { isProduction } from './util/version.std.js';
-import * as RemoteConfig from './RemoteConfig.dom.js';
-import type { AddPrefix, ArrayValues } from './types/Util.std.js';
-import { createLogger } from './logging/log.std.js';
+import { isProduction } from './util/version.std.ts';
+import * as RemoteConfig from './RemoteConfig.dom.ts';
+import type { AddPrefix, ArrayValues } from './types/Util.std.ts';
+import { createLogger } from './logging/log.std.ts';
 
 const log = createLogger('LibsignalNetRemoteConfig');
 

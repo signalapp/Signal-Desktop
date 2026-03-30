@@ -3,7 +3,7 @@
 
 import { useState, useEffect } from 'react';
 
-import { ThemeType } from '../types/Util.std.js';
+import { ThemeType } from '../types/Util.std.ts';
 
 // Note that this hook is used in non-main windows (e.g. "About" and
 // "Debug Log" windows), and thus can't access redux state.

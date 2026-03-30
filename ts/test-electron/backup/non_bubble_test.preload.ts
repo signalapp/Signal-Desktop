@@ -3,28 +3,28 @@
 
 import { v4 as generateGuid } from 'uuid';
 
-import type { ConversationModel } from '../../models/conversations.preload.js';
+import type { ConversationModel } from '../../models/conversations.preload.ts';
 
-import { getRandomBytes } from '../../Crypto.node.js';
-import * as Bytes from '../../Bytes.std.js';
-import { SignalService as Proto, Backups } from '../../protobuf/index.std.js';
-import { DataWriter } from '../../sql/Client.preload.js';
-import { APPLICATION_OCTET_STREAM } from '../../types/MIME.std.js';
-import { generateAci } from '../../types/ServiceId.std.js';
-import { PaymentEventKind } from '../../types/Payment.std.js';
-import { ContactFormType } from '../../types/EmbeddedContact.std.js';
-import { MessageRequestResponseEvent } from '../../types/MessageRequestResponseEvent.std.js';
-import { DurationInSeconds } from '../../util/durations/index.std.js';
-import { ReadStatus } from '../../messages/MessageReadStatus.std.js';
-import { SeenStatus } from '../../MessageSeenStatus.std.js';
+import { getRandomBytes } from '../../Crypto.node.ts';
+import * as Bytes from '../../Bytes.std.ts';
+import { SignalService as Proto, Backups } from '../../protobuf/index.std.ts';
+import { DataWriter } from '../../sql/Client.preload.ts';
+import { APPLICATION_OCTET_STREAM } from '../../types/MIME.std.ts';
+import { generateAci } from '../../types/ServiceId.std.ts';
+import { PaymentEventKind } from '../../types/Payment.std.ts';
+import { ContactFormType } from '../../types/EmbeddedContact.std.ts';
+import { MessageRequestResponseEvent } from '../../types/MessageRequestResponseEvent.std.ts';
+import { DurationInSeconds } from '../../util/durations/index.std.ts';
+import { ReadStatus } from '../../messages/MessageReadStatus.std.ts';
+import { SeenStatus } from '../../MessageSeenStatus.std.ts';
 import {
   setupBasics,
   asymmetricRoundtripHarness,
   symmetricRoundtripHarness,
   OUR_ACI,
-} from './helpers.preload.js';
-import { loadAllAndReinitializeRedux } from '../../services/allLoaders.preload.js';
-import { itemStorage } from '../../textsecure/Storage.preload.js';
+} from './helpers.preload.ts';
+import { loadAllAndReinitializeRedux } from '../../services/allLoaders.preload.ts';
+import { itemStorage } from '../../textsecure/Storage.preload.ts';
 
 const CONTACT_A = generateAci();
 const GROUP_ID = Bytes.toBase64(getRandomBytes(32));

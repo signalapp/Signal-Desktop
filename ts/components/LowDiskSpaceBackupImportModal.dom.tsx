@@ -3,10 +3,10 @@
 
 import * as React from 'react';
 
-import type { LocalizerType } from '../types/Util.std.js';
-import { Modal } from './Modal.dom.js';
-import { Button, ButtonVariant } from './Button.dom.js';
-import { formatFileSize } from '../util/formatFileSize.std.js';
+import type { LocalizerType } from '../types/Util.std.ts';
+import { Modal } from './Modal.dom.tsx';
+import { Button, ButtonVariant } from './Button.dom.tsx';
+import { formatFileSize } from '../util/formatFileSize.std.ts';
 
 export type PropsType = Readonly<{
   bytesNeeded: number;

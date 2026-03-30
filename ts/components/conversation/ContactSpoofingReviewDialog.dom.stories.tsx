@@ -5,11 +5,11 @@ import React from 'react';
 import lodash from 'lodash';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import { getDefaultConversation } from '../../test-helpers/getDefaultConversation.std.js';
-import type { PropsType } from './ContactSpoofingReviewDialog.dom.js';
-import { ContactSpoofingReviewDialog } from './ContactSpoofingReviewDialog.dom.js';
-import { ContactSpoofingType } from '../../util/contactSpoofing.std.js';
-import { ThemeType } from '../../types/Util.std.js';
+import { getDefaultConversation } from '../../test-helpers/getDefaultConversation.std.ts';
+import type { PropsType } from './ContactSpoofingReviewDialog.dom.tsx';
+import { ContactSpoofingReviewDialog } from './ContactSpoofingReviewDialog.dom.tsx';
+import { ContactSpoofingType } from '../../util/contactSpoofing.std.ts';
+import { ThemeType } from '../../types/Util.std.ts';
 
 const { times } = lodash;
 

@@ -5,70 +5,70 @@ import type { ReactNode } from 'react';
 import React, { useEffect, useState, useCallback } from 'react';
 import classNames from 'classnames';
 
-import { Button, ButtonIconType, ButtonVariant } from '../../Button.dom.js';
+import { Button, ButtonIconType, ButtonVariant } from '../../Button.dom.tsx';
 import type {
   ConversationType,
   PushPanelForConversationActionType,
   ShowConversationType,
   UpdateGroupAttributesType,
-} from '../../../state/ducks/conversations.preload.js';
-import type { PreferredBadgeSelectorType } from '../../../state/selectors/badges.preload.js';
-import type { SmartChooseGroupMembersModalPropsType } from '../../../state/smart/ChooseGroupMembersModal.preload.js';
-import type { SmartConfirmAdditionsModalPropsType } from '../../../state/smart/ConfirmAdditionsModal.dom.js';
-import { assertDev } from '../../../util/assert.std.js';
-import { getMutedUntilText } from '../../../util/getMutedUntilText.std.js';
+} from '../../../state/ducks/conversations.preload.ts';
+import type { PreferredBadgeSelectorType } from '../../../state/selectors/badges.preload.ts';
+import type { SmartChooseGroupMembersModalPropsType } from '../../../state/smart/ChooseGroupMembersModal.preload.tsx';
+import type { SmartConfirmAdditionsModalPropsType } from '../../../state/smart/ConfirmAdditionsModal.dom.tsx';
+import { assertDev } from '../../../util/assert.std.ts';
+import { getMutedUntilText } from '../../../util/getMutedUntilText.std.ts';
 
-import type { LocalizerType, ThemeType } from '../../../types/Util.std.js';
-import type { BadgeType } from '../../../badges/types.std.js';
-import { missingCaseError } from '../../../util/missingCaseError.std.js';
-import { DurationInSeconds } from '../../../util/durations/index.std.js';
+import type { LocalizerType, ThemeType } from '../../../types/Util.std.ts';
+import type { BadgeType } from '../../../badges/types.std.ts';
+import { missingCaseError } from '../../../util/missingCaseError.std.ts';
+import { DurationInSeconds } from '../../../util/durations/index.std.ts';
 
-import { DisappearingTimerSelect } from '../../DisappearingTimerSelect.dom.js';
+import { DisappearingTimerSelect } from '../../DisappearingTimerSelect.dom.tsx';
 
-import { PanelRow } from './PanelRow.dom.js';
-import { PanelSection } from './PanelSection.dom.js';
-import { AddGroupMembersModal } from './AddGroupMembersModal.dom.js';
-import { ConversationDetailsActions } from './ConversationDetailsActions.dom.js';
-import { ConversationDetailsHeader } from './ConversationDetailsHeader.dom.js';
+import { PanelRow } from './PanelRow.dom.tsx';
+import { PanelSection } from './PanelSection.dom.tsx';
+import { AddGroupMembersModal } from './AddGroupMembersModal.dom.tsx';
+import { ConversationDetailsActions } from './ConversationDetailsActions.dom.tsx';
+import { ConversationDetailsHeader } from './ConversationDetailsHeader.dom.tsx';
 import {
   ConversationDetailsIcon,
   IconType,
-} from './ConversationDetailsIcon.dom.js';
-import type { GroupV2Membership } from './ConversationDetailsMembershipList.dom.js';
-import { ConversationDetailsMembershipList } from './ConversationDetailsMembershipList.dom.js';
+} from './ConversationDetailsIcon.dom.tsx';
+import type { GroupV2Membership } from './ConversationDetailsMembershipList.dom.tsx';
+import { ConversationDetailsMembershipList } from './ConversationDetailsMembershipList.dom.tsx';
 import type {
   GroupV2PendingMembership,
   GroupV2RequestingMembership,
-} from './PendingInvites.dom.js';
-import { EditConversationAttributesModal } from './EditConversationAttributesModal.dom.js';
-import { RequestState } from './util.std.js';
-import { getCustomColorStyle } from '../../../util/getCustomColorStyle.dom.js';
-import { openLinkInWebBrowser } from '../../../util/openLinkInWebBrowser.dom.js';
-import { ConfirmationDialog } from '../../ConfirmationDialog.dom.js';
-import { ConversationNotificationsModal } from './ConversationNotificationsModal.dom.js';
+} from './PendingInvites.dom.tsx';
+import { EditConversationAttributesModal } from './EditConversationAttributesModal.dom.tsx';
+import { RequestState } from './util.std.ts';
+import { getCustomColorStyle } from '../../../util/getCustomColorStyle.dom.ts';
+import { openLinkInWebBrowser } from '../../../util/openLinkInWebBrowser.dom.ts';
+import { ConfirmationDialog } from '../../ConfirmationDialog.dom.tsx';
+import { ConversationNotificationsModal } from './ConversationNotificationsModal.dom.tsx';
 import type {
   AvatarDataType,
   DeleteAvatarFromDiskActionType,
   ReplaceAvatarActionType,
   SaveAvatarToDiskActionType,
-} from '../../../types/Avatar.std.js';
-import { isConversationMuted } from '../../../util/isConversationMuted.std.js';
-import { ConversationDetailsGroups } from './ConversationDetailsGroups.dom.js';
-import { PanelType } from '../../../types/Panels.std.js';
-import { type CallHistoryGroup } from '../../../types/CallDisposition.std.js';
-import { NavTab } from '../../../types/Nav.std.js';
-import { ContextMenu } from '../../ContextMenu.dom.js';
-import { canHaveNicknameAndNote } from '../../../util/nicknames.dom.js';
-import { CallHistoryGroupPanelSection } from './CallHistoryGroupPanelSection.dom.js';
+} from '../../../types/Avatar.std.ts';
+import { isConversationMuted } from '../../../util/isConversationMuted.std.ts';
+import { ConversationDetailsGroups } from './ConversationDetailsGroups.dom.tsx';
+import { PanelType } from '../../../types/Panels.std.ts';
+import { type CallHistoryGroup } from '../../../types/CallDisposition.std.ts';
+import { NavTab } from '../../../types/Nav.std.ts';
+import { ContextMenu } from '../../ContextMenu.dom.tsx';
+import { canHaveNicknameAndNote } from '../../../util/nicknames.dom.ts';
+import { CallHistoryGroupPanelSection } from './CallHistoryGroupPanelSection.dom.tsx';
 import {
   InAnotherCallTooltip,
   getTooltipContent,
-} from '../InAnotherCallTooltip.dom.js';
-import { BadgeSustainerInstructionsDialog } from '../../BadgeSustainerInstructionsDialog.dom.js';
-import type { ContactModalStateType } from '../../../types/globalModals.std.js';
-import type { ShowToastAction } from '../../../state/ducks/toast.preload.js';
-import { ToastType } from '../../../types/Toast.dom.js';
-import type { ContactNameColorType } from '../../../types/Colors.std.js';
+} from '../InAnotherCallTooltip.dom.tsx';
+import { BadgeSustainerInstructionsDialog } from '../../BadgeSustainerInstructionsDialog.dom.tsx';
+import type { ContactModalStateType } from '../../../types/globalModals.std.ts';
+import type { ShowToastAction } from '../../../state/ducks/toast.preload.ts';
+import { ToastType } from '../../../types/Toast.dom.tsx';
+import type { ContactNameColorType } from '../../../types/Colors.std.ts';
 
 enum ModalState {
   AddingGroupMembers,

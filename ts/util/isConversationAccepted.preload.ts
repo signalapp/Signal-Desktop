@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ConversationAttributesType } from '../model-types.d.ts';
-import { SignalService as Proto } from '../protobuf/index.std.js';
-import { isDirectConversation, isMe } from './whatTypeOfConversation.dom.js';
-import { isInSystemContacts } from './isInSystemContacts.std.js';
-import { createLogger } from '../logging/log.std.js';
-import { itemStorage } from '../textsecure/Storage.preload.js';
+import { SignalService as Proto } from '../protobuf/index.std.ts';
+import { isDirectConversation, isMe } from './whatTypeOfConversation.dom.ts';
+import { isInSystemContacts } from './isInSystemContacts.std.ts';
+import { createLogger } from '../logging/log.std.ts';
+import { itemStorage } from '../textsecure/Storage.preload.ts';
 
 export type IsConversationAcceptedOptionsType = {
   ignoreEmptyConvo: boolean;

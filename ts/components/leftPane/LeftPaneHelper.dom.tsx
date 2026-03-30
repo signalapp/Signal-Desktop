@@ -3,16 +3,16 @@
 
 import type { ChangeEvent, ReactNode } from 'react';
 
-import type { Row } from '../ConversationList.dom.js';
-import type { LocalizerType } from '../../types/Util.std.js';
+import type { Row } from '../ConversationList.dom.tsx';
+import type { LocalizerType } from '../../types/Util.std.ts';
 import type {
   DeleteAvatarFromDiskActionType,
   ReplaceAvatarActionType,
   SaveAvatarToDiskActionType,
-} from '../../types/Avatar.std.js';
-import type { DurationInSeconds } from '../../util/durations/index.std.js';
-import type { LookupConversationWithoutServiceIdActionsType } from '../../util/lookupConversationWithoutServiceId.preload.js';
-import type { ShowConversationType } from '../../state/ducks/conversations.preload.js';
+} from '../../types/Avatar.std.ts';
+import type { DurationInSeconds } from '../../util/durations/index.std.ts';
+import type { LookupConversationWithoutServiceIdActionsType } from '../../util/lookupConversationWithoutServiceId.preload.ts';
+import type { ShowConversationType } from '../../state/ducks/conversations.preload.ts';
 
 export enum FindDirection {
   Up,

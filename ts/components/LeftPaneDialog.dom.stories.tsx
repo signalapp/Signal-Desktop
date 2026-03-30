@@ -3,9 +3,9 @@
 
 import React from 'react';
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './LeftPaneDialog.dom.js';
-import { LeftPaneDialog } from './LeftPaneDialog.dom.js';
-import { WidthBreakpoint } from './_util.std.js';
+import type { PropsType } from './LeftPaneDialog.dom.tsx';
+import { LeftPaneDialog } from './LeftPaneDialog.dom.tsx';
+import { WidthBreakpoint } from './_util.std.ts';
 
 const widths = {
   [WidthBreakpoint.Wide]: '400px',

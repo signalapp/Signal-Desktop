@@ -4,17 +4,17 @@
 import * as moment from 'moment';
 import 'moment/min/locales.min.js';
 
-import { initialize as initializeLogging } from '../../logging/set_up_renderer_logging.preload.js';
-import { setup } from '../../signal.preload.js';
-import { addSensitivePath } from '../../util/privacy.node.js';
-import * as dns from '../../util/dns.node.js';
+import { initialize as initializeLogging } from '../../logging/set_up_renderer_logging.preload.ts';
+import { setup } from '../../signal.preload.ts';
+import { addSensitivePath } from '../../util/privacy.node.ts';
+import * as dns from '../../util/dns.node.ts';
 import {
   ATTACHMENTS_PATH,
   STICKERS_PATH,
   DRAFT_PATH,
-} from '../../util/basePaths.preload.js';
-import { SignalContext } from '../context.preload.js';
-import '../clipboard.dom.js';
+} from '../../util/basePaths.preload.ts';
+import { SignalContext } from '../context.preload.ts';
+import '../clipboard.dom.ts';
 
 initializeLogging();
 

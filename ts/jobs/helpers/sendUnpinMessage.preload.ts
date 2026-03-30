@@ -1,8 +1,8 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { UnpinMessageJobData } from '../conversationJobQueue.preload.js';
-import { createSendMessageJob } from './createSendMessageJob.preload.js';
+import type { UnpinMessageJobData } from '../conversationJobQueue.preload.ts';
+import { createSendMessageJob } from './createSendMessageJob.preload.ts';
 
 export const sendUnpinMessage = createSendMessageJob<UnpinMessageJobData>({
   sendName: 'sendUnpinMessage',

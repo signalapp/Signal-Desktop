@@ -7,9 +7,9 @@ import lodash from 'lodash';
 import { action } from '@storybook/addon-actions';
 
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './AvatarPreview.dom.js';
-import { AvatarPreview } from './AvatarPreview.dom.js';
-import { AvatarColors } from '../types/Colors.std.js';
+import type { PropsType } from './AvatarPreview.dom.tsx';
+import { AvatarPreview } from './AvatarPreview.dom.tsx';
+import { AvatarColors } from '../types/Colors.std.ts';
 
 const { chunk } = lodash;
 

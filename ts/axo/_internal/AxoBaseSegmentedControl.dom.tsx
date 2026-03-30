@@ -11,10 +11,10 @@ import type {
 import React, { forwardRef, memo, useId, useMemo } from 'react';
 import type { Transition } from 'motion/react';
 import { motion } from 'motion/react';
-import type { TailwindStyles } from '../tw.dom.js';
-import { tw } from '../tw.dom.js';
-import { ExperimentalAxoBadge } from '../AxoBadge.dom.js';
-import { createStrictContext, useStrictContext } from './StrictContext.dom.js';
+import type { TailwindStyles } from '../tw.dom.tsx';
+import { tw } from '../tw.dom.tsx';
+import { ExperimentalAxoBadge } from '../AxoBadge.dom.tsx';
+import { createStrictContext, useStrictContext } from './StrictContext.dom.tsx';
 
 const Namespace = 'AxoBaseSegmentedControl';
 

@@ -3,9 +3,9 @@
 
 import * as React from 'react';
 import type { Meta } from '@storybook/react';
-import { getDefaultConversation } from '../../test-helpers/getDefaultConversation.std.js';
-import type { Props } from './ChangeNumberNotification.dom.js';
-import { ChangeNumberNotification } from './ChangeNumberNotification.dom.js';
+import { getDefaultConversation } from '../../test-helpers/getDefaultConversation.std.ts';
+import type { Props } from './ChangeNumberNotification.dom.tsx';
+import { ChangeNumberNotification } from './ChangeNumberNotification.dom.tsx';
 
 export default {
   title: 'Components/Conversation/ChangeNumberNotification',

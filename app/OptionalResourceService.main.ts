@@ -12,13 +12,13 @@ import PQueue from 'p-queue';
 import type {
   OptionalResourceType,
   OptionalResourcesDictType,
-} from '../ts/types/OptionalResource.std.js';
-import { OptionalResourcesDictSchema } from '../ts/types/OptionalResource.std.js';
-import { createLogger } from '../ts/logging/log.std.js';
-import { getGotOptions } from '../ts/updater/got.main.js';
-import { drop } from '../ts/util/drop.std.js';
-import { parseUnknown } from '../ts/util/schemas.std.js';
-import { getAppRootDir } from '../ts/util/appRootDir.main.js';
+} from '../ts/types/OptionalResource.std.ts';
+import { OptionalResourcesDictSchema } from '../ts/types/OptionalResource.std.ts';
+import { createLogger } from '../ts/logging/log.std.ts';
+import { getGotOptions } from '../ts/updater/got.main.ts';
+import { drop } from '../ts/util/drop.std.ts';
+import { parseUnknown } from '../ts/util/schemas.std.ts';
+import { getAppRootDir } from '../ts/util/appRootDir.main.ts';
 
 const log = createLogger('OptionalResourceService');
 

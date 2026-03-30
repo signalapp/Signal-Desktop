@@ -6,7 +6,7 @@ import {
   _getSegmentSize,
   _SEGMENT_SIZE_BUCKETS,
   type _SegmentRange,
-} from '../../../components/fun/data/segments.std.js';
+} from '../../../components/fun/data/segments.std.ts';
 
 const SMALLEST_BUCKET = Math.min(..._SEGMENT_SIZE_BUCKETS);
 

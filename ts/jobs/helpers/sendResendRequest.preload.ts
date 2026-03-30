@@ -3,31 +3,31 @@
 
 import { ContentHint, PlaintextContent } from '@signalapp/libsignal-client';
 
-import { handleMessageSend } from '../../util/handleMessageSend.preload.js';
-import { getSendOptions } from '../../util/getSendOptions.preload.js';
-import { isDirectConversation } from '../../util/whatTypeOfConversation.dom.js';
+import { handleMessageSend } from '../../util/handleMessageSend.preload.ts';
+import { getSendOptions } from '../../util/getSendOptions.preload.ts';
+import { isDirectConversation } from '../../util/whatTypeOfConversation.dom.ts';
 import {
   handleMultipleSendErrors,
   maybeExpandErrors,
-} from './handleMultipleSendErrors.std.js';
+} from './handleMultipleSendErrors.std.ts';
 
-import type { ConversationModel } from '../../models/conversations.preload.js';
+import type { ConversationModel } from '../../models/conversations.preload.ts';
 import type {
   ConversationQueueJobBundle,
   ResendRequestJobData,
-} from '../conversationJobQueue.preload.js';
-import { isConversationUnregistered } from '../../util/isConversationUnregistered.dom.js';
+} from '../conversationJobQueue.preload.ts';
+import { isConversationUnregistered } from '../../util/isConversationUnregistered.dom.ts';
 import {
   OutgoingIdentityKeyError,
   UnregisteredUserError,
-} from '../../textsecure/Errors.std.js';
-import { drop } from '../../util/drop.std.js';
-import type { DecryptionErrorEventData } from '../../textsecure/messageReceiverEvents.std.js';
-import { retryPlaceholders } from '../../services/retryPlaceholders.std.js';
-import type { LoggerType } from '../../types/Logging.std.js';
-import { startAutomaticSessionReset } from '../../util/handleRetry.preload.js';
-import * as Bytes from '../../Bytes.std.js';
-import { getSelectedConversationId } from '../../state/selectors/nav.std.js';
+} from '../../textsecure/Errors.std.ts';
+import { drop } from '../../util/drop.std.ts';
+import type { DecryptionErrorEventData } from '../../textsecure/messageReceiverEvents.std.ts';
+import { retryPlaceholders } from '../../services/retryPlaceholders.std.ts';
+import type { LoggerType } from '../../types/Logging.std.ts';
+import { startAutomaticSessionReset } from '../../util/handleRetry.preload.ts';
+import * as Bytes from '../../Bytes.std.ts';
+import { getSelectedConversationId } from '../../state/selectors/nav.std.ts';
 
 function failoverToLocalReset(
   logger: LoggerType,

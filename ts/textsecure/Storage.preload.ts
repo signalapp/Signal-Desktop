@@ -5,11 +5,11 @@ import type {
   StorageAccessType as Access,
   StorageInterface,
 } from '../types/Storage.d.ts';
-import { User } from './storage/User.dom.js';
-import { Blocked } from './storage/Blocked.std.js';
+import { User } from './storage/User.dom.ts';
+import { Blocked } from './storage/Blocked.std.ts';
 
-import { DataReader, DataWriter } from '../sql/Client.preload.js';
-import { createLogger } from '../logging/log.std.js';
+import { DataReader, DataWriter } from '../sql/Client.preload.ts';
+import { createLogger } from '../logging/log.std.ts';
 
 const log = createLogger('Storage');
 

@@ -3,14 +3,14 @@
 
 import { assert } from 'chai';
 
-import { generateAci } from '../../types/ServiceId.std.js';
-import { isAciString } from '../../util/isAciString.std.js';
-import type { ConversationType } from '../../state/ducks/conversations.preload.js';
+import { generateAci } from '../../types/ServiceId.std.ts';
+import { isAciString } from '../../util/isAciString.std.ts';
+import type { ConversationType } from '../../state/ducks/conversations.preload.ts';
 import {
   MemberRepository,
   _toMembers,
-} from '../../quill/memberRepository.std.js';
-import { getDefaultConversationWithServiceId } from '../../test-helpers/getDefaultConversation.std.js';
+} from '../../quill/memberRepository.std.ts';
+import { getDefaultConversationWithServiceId } from '../../test-helpers/getDefaultConversation.std.ts';
 
 const UNKNOWN_SERVICE_ID = generateAci();
 

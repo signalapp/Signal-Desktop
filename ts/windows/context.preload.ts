@@ -4,25 +4,25 @@
 import type { MenuItemConstructorOptions } from 'electron';
 import { ipcRenderer } from 'electron';
 
-import type { NativeThemeType } from '../context/createNativeThemeListener.std.js';
-import type { MenuOptionsType } from '../types/menu.std.js';
-import type { RendererConfigType } from '../types/RendererConfig.std.js';
-import type { LocalizerType } from '../types/Util.std.js';
+import type { NativeThemeType } from '../context/createNativeThemeListener.std.ts';
+import type { MenuOptionsType } from '../types/menu.std.ts';
+import type { RendererConfigType } from '../types/RendererConfig.std.ts';
+import type { LocalizerType } from '../types/Util.std.ts';
 import type {
   SettingType,
   SettingsValuesType,
-} from '../util/preload.preload.js';
+} from '../util/preload.preload.ts';
 
-import { Bytes } from '../context/Bytes.std.js';
-import { Crypto } from '../context/Crypto.node.js';
-import { Timers } from '../context/Timers.node.js';
+import { Bytes } from '../context/Bytes.std.ts';
+import { Crypto } from '../context/Crypto.node.ts';
+import { Timers } from '../context/Timers.node.ts';
 
-import type { LocaleDirection } from '../../app/locale.node.js';
-import { i18n } from '../context/i18n.preload.js';
-import type { ActiveWindowServiceType } from '../services/ActiveWindowService.std.js';
-import type { LocaleEmojiListType } from '../types/emoji.std.js';
-import type { HourCyclePreference } from '../types/I18N.std.js';
-import { MinimalSignalContext } from './minimalContext.preload.js';
+import type { LocaleDirection } from '../../app/locale.node.ts';
+import { i18n } from '../context/i18n.preload.ts';
+import type { ActiveWindowServiceType } from '../services/ActiveWindowService.std.ts';
+import type { LocaleEmojiListType } from '../types/emoji.std.ts';
+import type { HourCyclePreference } from '../types/I18N.std.ts';
+import { MinimalSignalContext } from './minimalContext.preload.ts';
 
 export type MainWindowStatsType = Readonly<{
   isMaximized: boolean;

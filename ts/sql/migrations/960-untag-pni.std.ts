@@ -3,15 +3,15 @@
 
 import type { Database } from '@signalapp/sqlcipher';
 
-import type { LoggerType } from '../../types/Logging.std.js';
+import type { LoggerType } from '../../types/Logging.std.ts';
 import type {
   ServiceIdString,
   AciString,
   PniString,
-} from '../../types/ServiceId.std.js';
-import { normalizePni } from '../../types/ServiceId.std.js';
-import { normalizeAci } from '../../util/normalizeAci.std.js';
-import type { JSONWithUnknownFields } from '../../types/Util.std.js';
+} from '../../types/ServiceId.std.ts';
+import { normalizePni } from '../../types/ServiceId.std.ts';
+import { normalizeAci } from '../../util/normalizeAci.std.ts';
+import type { JSONWithUnknownFields } from '../../types/Util.std.ts';
 
 export default function updateToSchemaVersion960(
   db: Database,

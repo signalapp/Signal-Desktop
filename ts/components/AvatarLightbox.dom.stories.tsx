@@ -4,10 +4,10 @@
 import React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import { AvatarColors } from '../types/Colors.std.js';
-import type { PropsType } from './AvatarLightbox.dom.js';
-import { AvatarLightbox } from './AvatarLightbox.dom.js';
-import { getDefaultConversation } from '../test-helpers/getDefaultConversation.std.js';
+import { AvatarColors } from '../types/Colors.std.ts';
+import type { PropsType } from './AvatarLightbox.dom.tsx';
+import { AvatarLightbox } from './AvatarLightbox.dom.tsx';
+import { getDefaultConversation } from '../test-helpers/getDefaultConversation.std.ts';
 
 const { i18n } = window.SignalContext;
 

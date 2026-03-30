@@ -5,12 +5,12 @@ import { assert } from 'chai';
 import type { PrimaryDevice } from '@signalapp/mock-server';
 import { Proto } from '@signalapp/mock-server';
 
-import * as durations from '../../util/durations/index.std.js';
-import { generateAci } from '../../types/ServiceId.std.js';
-import { toAciObject } from '../../util/ServiceId.node.js';
-import { MAX_READ_KEYS } from '../../services/storageConstants.std.js';
-import type { App, Bootstrap } from './fixtures.node.js';
-import { initStorage, debug } from './fixtures.node.js';
+import * as durations from '../../util/durations/index.std.ts';
+import { generateAci } from '../../types/ServiceId.std.ts';
+import { toAciObject } from '../../util/ServiceId.node.ts';
+import { MAX_READ_KEYS } from '../../services/storageConstants.std.ts';
+import type { App, Bootstrap } from './fixtures.node.ts';
+import { initStorage, debug } from './fixtures.node.ts';
 
 const IdentifierType = Proto.ManifestRecord.Identifier.Type;
 

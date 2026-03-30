@@ -2,25 +2,27 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import {
+  readAndDecryptDataFromDisk,
+  writeNewAttachmentData as doWriteNewAttachmentData,
+  createDeleter,
+} from '../../app/attachments.node.ts';
+import {
   createAbsolutePathGetter,
   createPlaintextReader,
   createWriterForNew,
   createDoesExist,
   getUnusedFilename,
-  readAndDecryptDataFromDisk,
   saveAttachmentToDisk,
-  writeNewAttachmentData as doWriteNewAttachmentData,
-  createDeleter,
   copyIntoAttachmentsDirectory,
-} from '../windows/main/attachments.preload.js';
+} from '../windows/main/attachments.preload.ts';
 import {
   getImageDimensions,
   makeImageThumbnail,
   makeObjectUrl,
   makeVideoScreenshot,
   revokeObjectUrl,
-} from '../types/VisualAttachment.dom.js';
-import { loadData } from './Attachment.std.js';
+} from '../types/VisualAttachment.dom.ts';
+import { loadData } from './Attachment.std.ts';
 import {
   loadContactData as doLoadContactData,
   loadPreviewData as doLoadPreviewData,
@@ -30,16 +32,16 @@ import {
   processNewSticker as doProcessNewSticker,
   createAttachmentLoader,
   upgradeSchema,
-} from '../types/Message2.preload.js';
+} from '../types/Message2.preload.ts';
 import type {
   AttachmentType,
   AddressableAttachmentType,
   LocalAttachmentV2Type,
-} from '../types/Attachment.std.js';
-import type { MessageAttachmentType } from '../types/AttachmentDownload.std.js';
+} from '../types/Attachment.std.ts';
+import type { MessageAttachmentType } from '../types/AttachmentDownload.std.ts';
 import type { MessageAttributesType } from '../model-types.d.ts';
-import { createLogger } from '../logging/log.std.js';
-import { itemStorage } from '../textsecure/Storage.preload.js';
+import { createLogger } from '../logging/log.std.ts';
+import { itemStorage } from '../textsecure/Storage.preload.ts';
 import {
   ATTACHMENTS_PATH,
   STICKERS_PATH,
@@ -49,10 +51,10 @@ import {
   AVATARS_PATH,
   DOWNLOADS_PATH,
   MEGAPHONES_PATH,
-} from './basePaths.preload.js';
-import { DataReader } from '../sql/Client.preload.js';
-import { getExistingAttachmentDataForReuse } from './attachments/deduplicateAttachment.preload.js';
-import { getPlaintextHashForInMemoryAttachment } from '../AttachmentCrypto.node.js';
+} from './basePaths.preload.ts';
+import { DataReader } from '../sql/Client.preload.ts';
+import { getExistingAttachmentDataForReuse } from './attachments/deduplicateAttachment.preload.ts';
+import { getPlaintextHashForInMemoryAttachment } from '../AttachmentCrypto.node.ts';
 
 const logger = createLogger('migrations');
 

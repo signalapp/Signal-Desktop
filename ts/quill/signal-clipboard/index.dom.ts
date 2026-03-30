@@ -8,9 +8,9 @@ import { deleteRange } from '@signalapp/quill-cjs/modules/keyboard.js';
 import {
   FormattingMenu,
   QuillFormattingStyle,
-} from '../formatting/menu.dom.js';
-import { insertEmojiOps } from '../util.dom.js';
-import { createEventHandler } from './util.dom.js';
+} from '../formatting/menu.dom.tsx';
+import { insertEmojiOps } from '../util.dom.ts';
+import { createEventHandler } from './util.dom.ts';
 
 type ClipboardOptions = Readonly<{
   isDisabled: boolean;

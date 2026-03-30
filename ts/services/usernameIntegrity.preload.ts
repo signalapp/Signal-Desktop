@@ -4,22 +4,22 @@
 import pTimeout from 'p-timeout';
 import { usernames } from '@signalapp/libsignal-client';
 
-import { whoami } from '../textsecure/WebAPI.preload.js';
-import { isDone as isRegistrationDone } from '../util/registration.preload.js';
-import { getConversation } from '../util/getConversation.preload.js';
-import { MINUTE, DAY } from '../util/durations/index.std.js';
-import { drop } from '../util/drop.std.js';
-import { explodePromise } from '../util/explodePromise.std.js';
-import { storageJobQueue } from '../util/JobQueue.std.js';
-import { getProfile } from '../util/getProfile.preload.js';
-import { isSharingPhoneNumberWithEverybody } from '../util/phoneNumberSharingMode.preload.js';
-import { bytesToUuid } from '../util/uuidToBytes.std.js';
-import { CheckScheduler } from '../util/CheckScheduler.preload.js';
-import { createLogger } from '../logging/log.std.js';
-import * as Bytes from '../Bytes.std.js';
-import { runStorageServiceSyncJob } from './storage.preload.js';
-import { writeProfile } from './writeProfile.preload.js';
-import { itemStorage } from '../textsecure/Storage.preload.js';
+import { whoami } from '../textsecure/WebAPI.preload.ts';
+import { isDone as isRegistrationDone } from '../util/registration.preload.ts';
+import { getConversation } from '../util/getConversation.preload.ts';
+import { MINUTE, DAY } from '../util/durations/index.std.ts';
+import { drop } from '../util/drop.std.ts';
+import { explodePromise } from '../util/explodePromise.std.ts';
+import { storageJobQueue } from '../util/JobQueue.std.ts';
+import { getProfile } from '../util/getProfile.preload.ts';
+import { isSharingPhoneNumberWithEverybody } from '../util/phoneNumberSharingMode.preload.ts';
+import { bytesToUuid } from '../util/uuidToBytes.std.ts';
+import { CheckScheduler } from '../util/CheckScheduler.preload.ts';
+import { createLogger } from '../logging/log.std.ts';
+import * as Bytes from '../Bytes.std.ts';
+import { runStorageServiceSyncJob } from './storage.preload.ts';
+import { writeProfile } from './writeProfile.preload.ts';
+import { itemStorage } from '../textsecure/Storage.preload.ts';
 
 const log = createLogger('usernameIntegrity');
 

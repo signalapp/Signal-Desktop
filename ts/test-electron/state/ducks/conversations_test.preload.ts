@@ -7,13 +7,13 @@ import { v4 as generateUuid } from 'uuid';
 import lodash from 'lodash';
 import type { ReadonlyDeep } from 'type-fest';
 
-import { reducer as rootReducer } from '../../../state/reducer.preload.js';
-import { noopAction } from '../../../state/ducks/noop.std.js';
+import { reducer as rootReducer } from '../../../state/reducer.preload.ts';
+import { noopAction } from '../../../state/ducks/noop.std.ts';
 import {
   ComposerStep,
   ConversationVerificationState,
   OneTimeModalState,
-} from '../../../state/ducks/conversationsEnums.std.js';
+} from '../../../state/ducks/conversationsEnums.std.ts';
 import type {
   CancelVerificationDataByConversationActionType,
   ConversationMessageType,
@@ -24,7 +24,7 @@ import type {
   ToggleConversationInChooseMembersActionType,
   MessageChangedActionType,
   ConversationsUpdatedActionType,
-} from '../../../state/ducks/conversations.preload.js';
+} from '../../../state/ducks/conversations.preload.ts';
 import {
   TARGETED_CONVERSATION_CHANGED,
   actions,
@@ -33,43 +33,43 @@ import {
   getEmptyState,
   reducer,
   updateConversationLookups,
-} from '../../../state/ducks/conversations.preload.js';
-import { ReadStatus } from '../../../messages/MessageReadStatus.std.js';
-import type { SingleServePromiseIdString } from '../../../services/singleServePromise.std.js';
-import { CallMode } from '../../../types/CallDisposition.std.js';
+} from '../../../state/ducks/conversations.preload.ts';
+import { ReadStatus } from '../../../messages/MessageReadStatus.std.ts';
+import type { SingleServePromiseIdString } from '../../../services/singleServePromise.std.ts';
+import { CallMode } from '../../../types/CallDisposition.std.ts';
 import {
   type AciString,
   type PniString,
   generateAci,
   getAciFromPrefix,
-} from '../../../types/ServiceId.std.js';
-import { generateStoryDistributionId } from '../../../types/StoryDistributionId.std.js';
+} from '../../../types/ServiceId.std.ts';
+import { generateStoryDistributionId } from '../../../types/StoryDistributionId.std.ts';
 import {
   getDefaultConversation,
   getDefaultConversationWithServiceId,
   getDefaultGroup,
-} from '../../../test-helpers/getDefaultConversation.std.js';
-import { getDefaultAvatars } from '../../../types/Avatar.std.js';
+} from '../../../test-helpers/getDefaultConversation.std.ts';
+import { getDefaultAvatars } from '../../../types/Avatar.std.ts';
 import {
   defaultStartDirectConversationComposerState,
   defaultChooseGroupMembersComposerState,
   defaultSetGroupMetadataComposerState,
-} from '../../../test-helpers/defaultComposerStates.std.js';
-import { updateRemoteConfig } from '../../../test-helpers/RemoteConfigStub.dom.js';
-import type { ShowSendAnywayDialogActionType } from '../../../state/ducks/globalModals.preload.js';
-import { SHOW_SEND_ANYWAY_DIALOG } from '../../../state/ducks/globalModals.preload.js';
-import type { StoryDistributionListsActionType } from '../../../state/ducks/storyDistributionLists.preload.js';
+} from '../../../test-helpers/defaultComposerStates.std.ts';
+import { updateRemoteConfig } from '../../../test-helpers/RemoteConfigStub.dom.ts';
+import type { ShowSendAnywayDialogActionType } from '../../../state/ducks/globalModals.preload.ts';
+import { SHOW_SEND_ANYWAY_DIALOG } from '../../../state/ducks/globalModals.preload.ts';
+import type { StoryDistributionListsActionType } from '../../../state/ducks/storyDistributionLists.preload.ts';
 import {
   DELETE_LIST,
   HIDE_MY_STORIES_FROM,
   MODIFY_LIST,
   VIEWERS_CHANGED,
-} from '../../../state/ducks/storyDistributionLists.preload.js';
-import { MY_STORY_ID } from '../../../types/Stories.std.js';
+} from '../../../state/ducks/storyDistributionLists.preload.ts';
+import { MY_STORY_ID } from '../../../types/Stories.std.ts';
 import type { ReadonlyMessageAttributesType } from '../../../model-types.d.ts';
-import { strictAssert } from '../../../util/assert.std.js';
-import { getConversationCallMode } from '../../../util/getConversationCallMode.std.js';
-import { itemStorage } from '../../../textsecure/Storage.preload.js';
+import { strictAssert } from '../../../util/assert.std.ts';
+import { getConversationCallMode } from '../../../util/getConversationCallMode.std.ts';
+import { itemStorage } from '../../../textsecure/Storage.preload.ts';
 
 const { times } = lodash;
 

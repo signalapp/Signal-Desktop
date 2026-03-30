@@ -3,8 +3,8 @@
 
 import type { MessageAttributesType } from '../model-types.d.ts';
 import type { CallbackResultType } from '../textsecure/Types.d.ts';
-import { initializeSchemaVersion } from '../types/Message2.preload.js';
-import { createLogger } from '../logging/log.std.js';
+import { initializeSchemaVersion } from '../types/Message2.preload.ts';
+import { createLogger } from '../logging/log.std.ts';
 
 const log = createLogger('messages');
 

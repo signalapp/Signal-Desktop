@@ -6,11 +6,11 @@ import React from 'react';
 import { action } from '@storybook/addon-actions';
 
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './NewlyCreatedGroupInvitedContactsDialog.dom.js';
-import { NewlyCreatedGroupInvitedContactsDialog } from './NewlyCreatedGroupInvitedContactsDialog.dom.js';
-import type { ConversationType } from '../state/ducks/conversations.preload.js';
-import { getDefaultConversation } from '../test-helpers/getDefaultConversation.std.js';
-import { ThemeType } from '../types/Util.std.js';
+import type { PropsType } from './NewlyCreatedGroupInvitedContactsDialog.dom.tsx';
+import { NewlyCreatedGroupInvitedContactsDialog } from './NewlyCreatedGroupInvitedContactsDialog.dom.tsx';
+import type { ConversationType } from '../state/ducks/conversations.preload.ts';
+import { getDefaultConversation } from '../test-helpers/getDefaultConversation.std.ts';
+import { ThemeType } from '../types/Util.std.ts';
 
 const { i18n } = window.SignalContext;
 

@@ -3,7 +3,7 @@
 
 import React, { useMemo, useCallback, useState, useRef } from 'react';
 
-import { computeBlurHashUrl } from '../util/computeBlurHashUrl.std.js';
+import { computeBlurHashUrl } from '../util/computeBlurHashUrl.std.ts';
 
 export type Props = React.ImgHTMLAttributes<HTMLImageElement> &
   Readonly<{

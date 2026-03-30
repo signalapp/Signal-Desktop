@@ -69,10 +69,6 @@ if (ENVIRONMENT_IS_NODE) {
 
   Module['readBinary'] = function readBinary(filename) { return Module['read'](filename, true) };
 
-  Module['load'] = function load(f) {
-    globalEval(read(f));
-  };
-
   if (!Module['thisProgram']) {
     if (process['argv'].length > 1) {
       Module['thisProgram'] = process['argv'][1].replace(/\\/g, '/');
@@ -164,14 +160,6 @@ else {
   throw 'Unknown runtime environment. Where are we?';
 }
 
-function globalEval(x) {
-  eval.call(null, x);
-}
-if (!Module['load'] && Module['read']) {
-  Module['load'] = function load(f) {
-    globalEval(Module['read'](f));
-  };
-}
 if (!Module['print']) {
   Module['print'] = function(){};
 }

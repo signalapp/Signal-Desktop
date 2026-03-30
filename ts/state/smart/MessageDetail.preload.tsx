@@ -4,31 +4,31 @@
 import React, { memo, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
-import type { Props as MessageDetailProps } from '../../components/conversation/MessageDetail.dom.js';
-import { MessageDetail } from '../../components/conversation/MessageDetail.dom.js';
-import { getContactNameColorSelector } from '../selectors/conversations.dom.js';
+import type { Props as MessageDetailProps } from '../../components/conversation/MessageDetail.dom.tsx';
+import { MessageDetail } from '../../components/conversation/MessageDetail.dom.tsx';
+import { getContactNameColorSelector } from '../selectors/conversations.dom.ts';
 import {
   getIntl,
   getInteractionMode,
   getTheme,
   getPlatform,
-} from '../selectors/user.std.js';
-import { getMessageDetailsSelector } from '../selectors/message.preload.js';
-import { getPreferredBadgeSelector } from '../selectors/badges.preload.js';
-import { renderAudioAttachment } from './renderAudioAttachment.preload.js';
-import { startConversation } from '../../util/startConversation.dom.js';
-import { useAccountsActions } from '../ducks/accounts.preload.js';
-import { useComposerActions } from '../ducks/composer.preload.js';
-import { useConversationsActions } from '../ducks/conversations.preload.js';
-import { useGlobalModalActions } from '../ducks/globalModals.preload.js';
-import { useLightboxActions } from '../ducks/lightbox.preload.js';
-import { useStoriesActions } from '../ducks/stories.preload.js';
-import { createLogger } from '../../logging/log.std.js';
-import { useNavActions } from '../ducks/nav.std.js';
-import { getPanelInformation } from '../selectors/nav.std.js';
-import { PanelType } from '../../types/Panels.std.js';
+} from '../selectors/user.std.ts';
+import { getMessageDetailsSelector } from '../selectors/message.preload.ts';
+import { getPreferredBadgeSelector } from '../selectors/badges.preload.ts';
+import { renderAudioAttachment } from './renderAudioAttachment.preload.tsx';
+import { startConversation } from '../../util/startConversation.dom.ts';
+import { useAccountsActions } from '../ducks/accounts.preload.ts';
+import { useComposerActions } from '../ducks/composer.preload.ts';
+import { useConversationsActions } from '../ducks/conversations.preload.ts';
+import { useGlobalModalActions } from '../ducks/globalModals.preload.ts';
+import { useLightboxActions } from '../ducks/lightbox.preload.ts';
+import { useStoriesActions } from '../ducks/stories.preload.ts';
+import { createLogger } from '../../logging/log.std.ts';
+import { useNavActions } from '../ducks/nav.std.ts';
+import { getPanelInformation } from '../selectors/nav.std.ts';
+import { PanelType } from '../../types/Panels.std.ts';
 
-export type { Contact } from '../../components/conversation/MessageDetail.dom.js';
+export type { Contact } from '../../components/conversation/MessageDetail.dom.tsx';
 export type OwnProps = Pick<
   MessageDetailProps,
   'contacts' | 'errors' | 'message' | 'receivedAt'

@@ -4,17 +4,17 @@
 import { createRoot, type Root } from 'react-dom/client';
 
 import type { ConversationAttributesType } from '../model-types.d.ts';
-import type { ConversationModel } from '../models/conversations.preload.js';
-import type { PreJoinConversationType } from '../state/ducks/conversations.preload.js';
+import type { ConversationModel } from '../models/conversations.preload.ts';
+import type { PreJoinConversationType } from '../state/ducks/conversations.preload.ts';
 
-import { DataWriter } from '../sql/Client.preload.js';
-import * as Bytes from '../Bytes.std.js';
-import * as Errors from '../types/errors.std.js';
-import { createLogger } from '../logging/log.std.js';
-import { HTTPError } from '../types/HTTPError.std.js';
-import { SignalService as Proto } from '../protobuf/index.std.js';
-import type { ContactAvatarType } from '../types/Avatar.std.js';
-import { ToastType } from '../types/Toast.dom.js';
+import { DataWriter } from '../sql/Client.preload.ts';
+import * as Bytes from '../Bytes.std.ts';
+import * as Errors from '../types/errors.std.ts';
+import { createLogger } from '../logging/log.std.ts';
+import { HTTPError } from '../types/HTTPError.std.ts';
+import { SignalService as Proto } from '../protobuf/index.std.ts';
+import type { ContactAvatarType } from '../types/Avatar.std.ts';
+import { ToastType } from '../types/Toast.dom.tsx';
 import {
   applyNewAvatar,
   decryptGroupDescription,
@@ -24,20 +24,20 @@ import {
   idForLogging,
   LINK_VERSION_ERROR,
   parseGroupLink,
-} from '../groups.preload.js';
-import { createGroupV2JoinModal } from '../state/roots/createGroupV2JoinModal.dom.js';
-import { explodePromise } from '../util/explodePromise.std.js';
-import { maybeDeleteAttachmentFile } from '../util/migrations.preload.js';
-import { isAccessControlEnabled } from './util.std.js';
-import { isGroupV1 } from '../util/whatTypeOfConversation.dom.js';
-import { longRunningTaskWrapper } from '../util/longRunningTaskWrapper.dom.js';
-import { sleep } from '../util/sleep.std.js';
-import { dropNull } from '../util/dropNull.std.js';
-import { getLocalAttachmentUrl } from '../util/getLocalAttachmentUrl.std.js';
-import { type Loadable, LoadingState } from '../util/loadable.std.js';
-import { missingCaseError } from '../util/missingCaseError.std.js';
-import { removeConversation } from '../util/Conversation.preload.js';
-import { itemStorage } from '../textsecure/Storage.preload.js';
+} from '../groups.preload.ts';
+import { createGroupV2JoinModal } from '../state/roots/createGroupV2JoinModal.dom.tsx';
+import { explodePromise } from '../util/explodePromise.std.ts';
+import { maybeDeleteAttachmentFile } from '../util/migrations.preload.ts';
+import { isAccessControlEnabled } from './util.std.ts';
+import { isGroupV1 } from '../util/whatTypeOfConversation.dom.ts';
+import { longRunningTaskWrapper } from '../util/longRunningTaskWrapper.dom.tsx';
+import { sleep } from '../util/sleep.std.ts';
+import { dropNull } from '../util/dropNull.std.ts';
+import { getLocalAttachmentUrl } from '../util/getLocalAttachmentUrl.std.ts';
+import { type Loadable, LoadingState } from '../util/loadable.std.ts';
+import { missingCaseError } from '../util/missingCaseError.std.ts';
+import { removeConversation } from '../util/Conversation.preload.ts';
+import { itemStorage } from '../textsecure/Storage.preload.ts';
 
 const log = createLogger('joinViaLink');
 const { i18n } = window.SignalContext;

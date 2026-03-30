@@ -3,10 +3,10 @@
 
 import { ipcRenderer } from 'electron';
 import { serialize, deserialize } from 'node:v8';
-import { createLogger } from '../logging/log.std.js';
-import { runTaskWithTimeout } from '../textsecure/TaskWithTimeout.std.js';
-import { explodePromise } from '../util/explodePromise.std.js';
-import { missingCaseError } from '../util/missingCaseError.std.js';
+import { createLogger } from '../logging/log.std.ts';
+import { runTaskWithTimeout } from '../textsecure/TaskWithTimeout.std.ts';
+import { explodePromise } from '../util/explodePromise.std.ts';
+import { missingCaseError } from '../util/missingCaseError.std.ts';
 
 const log = createLogger('channels');
 

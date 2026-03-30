@@ -27,35 +27,35 @@ import type {
 import { GroupSendFullToken } from '@signalapp/libsignal-client/zkgroup.js';
 import type { Request as KTRequest } from '@signalapp/libsignal-client/dist/net/KeyTransparency.js';
 
-import { assertDev, strictAssert } from '../util/assert.std.js';
-import * as durations from '../util/durations/index.std.js';
-import type { ExplodePromiseResultType } from '../util/explodePromise.std.js';
-import { explodePromise } from '../util/explodePromise.std.js';
-import { getUserAgent } from '../util/getUserAgent.node.js';
-import { getTimeoutStream } from '../util/getStreamWithTimeout.node.js';
+import { assertDev, strictAssert } from '../util/assert.std.ts';
+import * as durations from '../util/durations/index.std.ts';
+import type { ExplodePromiseResultType } from '../util/explodePromise.std.ts';
+import { explodePromise } from '../util/explodePromise.std.ts';
+import { getUserAgent } from '../util/getUserAgent.node.ts';
+import { getTimeoutStream } from '../util/getStreamWithTimeout.node.ts';
 import {
   toWebSafeBase64,
   fromWebSafeBase64,
-} from '../util/webSafeBase64.std.js';
-import { getBasicAuth } from '../util/getBasicAuth.std.js';
-import { createHTTPSAgent } from '../util/createHTTPSAgent.node.js';
-import { createProxyAgent } from '../util/createProxyAgent.node.js';
-import type { ProxyAgent } from '../util/createProxyAgent.node.js';
-import type { FetchFunctionType } from '../util/uploads/tusProtocol.node.js';
-import { VerificationTransport } from '../types/VerificationTransport.std.js';
+} from '../util/webSafeBase64.std.ts';
+import { getBasicAuth } from '../util/getBasicAuth.std.ts';
+import { createHTTPSAgent } from '../util/createHTTPSAgent.node.ts';
+import { createProxyAgent } from '../util/createProxyAgent.node.ts';
+import type { ProxyAgent } from '../util/createProxyAgent.node.ts';
+import type { FetchFunctionType } from '../util/uploads/tusProtocol.node.ts';
+import { VerificationTransport } from '../types/VerificationTransport.std.ts';
 import type {
   CapabilitiesType,
   CapabilitiesUploadType,
 } from '../types/Capabilities.d.ts';
 import type { HeaderListType } from '../types/WebAPI.d.ts';
-import { ZERO_ACCESS_KEY } from '../types/SealedSender.std.js';
-import { toLogFormat } from '../types/errors.std.js';
-import { isPackIdValid, redactPackId } from '../util/Stickers.std.js';
+import { ZERO_ACCESS_KEY } from '../types/SealedSender.std.ts';
+import { toLogFormat } from '../types/errors.std.ts';
+import { isPackIdValid, redactPackId } from '../util/Stickers.std.ts';
 import type {
   ServiceIdString,
   AciString,
   UntaggedPniString,
-} from '../types/ServiceId.std.js';
+} from '../types/ServiceId.std.ts';
 import {
   fromAciObject,
   ServiceIdKind,
@@ -63,22 +63,22 @@ import {
   aciSchema,
   untaggedPniSchema,
   fromServiceIdObject,
-} from '../types/ServiceId.std.js';
-import type { BackupPresentationHeadersType } from '../types/backups.node.js';
-import { HTTPError } from '../types/HTTPError.std.js';
-import * as Bytes from '../Bytes.std.js';
-import { getRandomBytes, randomInt } from '../Crypto.node.js';
-import * as linkPreviewFetch from '../linkPreviews/linkPreviewFetch.preload.js';
-import { isBadgeImageFileUrlValid } from '../badges/isBadgeImageFileUrlValid.std.js';
+} from '../types/ServiceId.std.ts';
+import type { BackupPresentationHeadersType } from '../types/backups.node.ts';
+import { HTTPError } from '../types/HTTPError.std.ts';
+import * as Bytes from '../Bytes.std.ts';
+import { getRandomBytes, randomInt } from '../Crypto.node.ts';
+import * as linkPreviewFetch from '../linkPreviews/linkPreviewFetch.preload.ts';
+import { isBadgeImageFileUrlValid } from '../badges/isBadgeImageFileUrlValid.std.ts';
 
 import {
   SocketManager,
   type SocketStatuses,
   type SocketExpirationReason,
-} from './SocketManager.preload.js';
+} from './SocketManager.preload.ts';
 import type { CDSAuthType, CDSResponseType } from './cds/Types.d.ts';
-import { CDSI } from './cds/CDSI.node.js';
-import { SignalService as Proto } from '../protobuf/index.std.js';
+import { CDSI } from './cds/CDSI.node.ts';
+import { SignalService as Proto } from '../protobuf/index.std.ts';
 
 import type {
   WebAPICredentials,
@@ -86,43 +86,43 @@ import type {
   StorageServiceCallOptionsType,
   StorageServiceCredentials,
 } from './Types.d.ts';
-import { handleStatusCode, translateError } from './Utils.dom.js';
-import { createLogger } from '../logging/log.std.js';
-import { maybeParseUrl, urlPathFromComponents } from '../util/url.std.js';
-import { HOUR, MINUTE, SECOND } from '../util/durations/index.std.js';
-import { safeParseNumber } from '../util/numbers.std.js';
-import { getLibsignalNet } from './preconnect.preload.js';
-import type { GroupSendToken } from '../types/GroupSendEndorsements.std.js';
+import { handleStatusCode, translateError } from './Utils.dom.ts';
+import { createLogger } from '../logging/log.std.ts';
+import { maybeParseUrl, urlPathFromComponents } from '../util/url.std.ts';
+import { HOUR, MINUTE, SECOND } from '../util/durations/index.std.ts';
+import { safeParseNumber } from '../util/numbers.std.ts';
+import { getLibsignalNet } from './preconnect.preload.ts';
+import type { GroupSendToken } from '../types/GroupSendEndorsements.std.ts';
 import {
   parseUnknown,
   safeParseUnknown,
   type Schema,
-} from '../util/schemas.std.js';
+} from '../util/schemas.std.ts';
 import type {
   ProfileFetchAuthRequestOptions,
   ProfileFetchUnauthRequestOptions,
-} from '../services/profiles.preload.js';
-import { ToastType } from '../types/Toast.dom.js';
-import { isProduction } from '../util/version.std.js';
-import type { ServerAlert } from '../types/ServerAlert.std.js';
-import { isAbortError } from '../util/isAbortError.std.js';
-import { missingCaseError } from '../util/missingCaseError.std.js';
-import { drop } from '../util/drop.std.js';
-import { subscriptionConfigurationCurrencyZod } from '../types/Donations.std.js';
+} from '../services/profiles.preload.ts';
+import { ToastType } from '../types/Toast.dom.tsx';
+import { isProduction } from '../util/version.std.ts';
+import type { ServerAlert } from '../types/ServerAlert.std.ts';
+import { isAbortError } from '../util/isAbortError.std.ts';
+import { missingCaseError } from '../util/missingCaseError.std.ts';
+import { drop } from '../util/drop.std.ts';
+import { subscriptionConfigurationCurrencyZod } from '../types/Donations.std.ts';
 import type {
   StripeDonationAmount,
   CardDetail,
-} from '../types/Donations.std.js';
-import { badgeFromServerSchema } from '../badges/parseBadgesFromServer.std.js';
-import { ZERO_DECIMAL_CURRENCIES } from '../util/currency.dom.js';
-import type { JobCancelReason } from '../jobs/types.std.js';
+} from '../types/Donations.std.ts';
+import { badgeFromServerSchema } from '../badges/parseBadgesFromServer.std.ts';
+import { ZERO_DECIMAL_CURRENCIES } from '../util/currency.dom.ts';
+import type { JobCancelReason } from '../jobs/types.std.ts';
 import {
   RemoteMegaphoneCtaDataSchema,
   type RemoteMegaphoneId,
-} from '../types/Megaphone.std.js';
-import { bindRemoteConfigToLibsignalNet } from '../LibsignalNetRemoteConfig.preload.js';
-import { KeyTransparencyStore } from '../LibSignalStores.node.js';
-import { signalProtocolStore } from '../SignalProtocolStore.preload.js';
+} from '../types/Megaphone.std.ts';
+import { bindRemoteConfigToLibsignalNet } from '../LibsignalNetRemoteConfig.preload.ts';
+import { KeyTransparencyStore } from '../LibSignalStores.node.ts';
+import { signalProtocolStore } from '../SignalProtocolStore.preload.ts';
 
 const { escapeRegExp, isNumber, throttle } = lodash;
 

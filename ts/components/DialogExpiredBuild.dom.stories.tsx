@@ -3,10 +3,10 @@
 
 import * as React from 'react';
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './DialogExpiredBuild.dom.js';
-import { DialogExpiredBuild } from './DialogExpiredBuild.dom.js';
-import { WidthBreakpoint } from './_util.std.js';
-import { FakeLeftPaneContainer } from '../test-helpers/FakeLeftPaneContainer.dom.js';
+import type { PropsType } from './DialogExpiredBuild.dom.tsx';
+import { DialogExpiredBuild } from './DialogExpiredBuild.dom.tsx';
+import { WidthBreakpoint } from './_util.std.ts';
+import { FakeLeftPaneContainer } from '../test-helpers/FakeLeftPaneContainer.dom.tsx';
 
 const { i18n } = window.SignalContext;
 

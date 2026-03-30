@@ -4,26 +4,26 @@
 import { assert } from 'chai';
 import { v4 as generateUuid } from 'uuid';
 
-import { getMidnight } from '../../types/NotificationProfile.std.js';
-import { mapItemsIntoCollapseSets } from '../../util/CollapseSet.std.js';
-import { generateAci } from '../../types/ServiceId.std.js';
-import { ReadStatus } from '../../messages/MessageReadStatus.std.js';
-import { SeenStatus } from '../../MessageSeenStatus.std.js';
-import { DurationInSeconds } from '../../util/durations/duration-in-seconds.std.js';
+import { getMidnight } from '../../types/NotificationProfile.std.ts';
+import { mapItemsIntoCollapseSets } from '../../util/CollapseSet.std.ts';
+import { generateAci } from '../../types/ServiceId.std.ts';
+import { ReadStatus } from '../../messages/MessageReadStatus.std.ts';
+import { SeenStatus } from '../../MessageSeenStatus.std.ts';
+import { DurationInSeconds } from '../../util/durations/duration-in-seconds.std.ts';
 import {
   CallDirection,
   CallMode,
   CallType,
   DirectCallStatus,
-} from '../../types/CallDisposition.std.js';
-import { DAY } from '../../util/durations/constants.std.js';
+} from '../../types/CallDisposition.std.ts';
+import { DAY } from '../../util/durations/constants.std.ts';
 
-import type { CallHistoryDetails } from '../../types/CallDisposition.std.js';
+import type { CallHistoryDetails } from '../../types/CallDisposition.std.ts';
 import type {
   MessageLookupType,
   MessageType,
-} from '../../state/ducks/conversations.preload.js';
-import type { CollapseSet } from '../../util/CollapseSet.std.js';
+} from '../../state/ducks/conversations.preload.ts';
+import type { CollapseSet } from '../../util/CollapseSet.std.ts';
 
 describe('util/CollapseSets', () => {
   describe('mapItemsIntoCollapseSets', () => {

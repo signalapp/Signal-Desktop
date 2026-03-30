@@ -9,23 +9,23 @@ import type {
   DisplayNode,
   DraftBodyRange,
   DraftBodyRanges,
-} from '../types/BodyRange.std.js';
-import { BodyRange } from '../types/BodyRange.std.js';
-import type { MentionBlot } from './mentions/blot.dom.js';
-import type { EmojiBlot } from './emoji/blot.dom.js';
+} from '../types/BodyRange.std.ts';
+import { BodyRange } from '../types/BodyRange.std.ts';
+import type { MentionBlot } from './mentions/blot.dom.tsx';
+import type { EmojiBlot } from './emoji/blot.dom.tsx';
 import {
   isNewlineOnlyOp,
   QuillFormattingStyle,
-} from './formatting/menu.dom.js';
-import { isNotNil } from '../util/isNotNil.std.js';
-import type { AciString } from '../types/ServiceId.std.js';
+} from './formatting/menu.dom.tsx';
+import { isNotNil } from '../util/isNotNil.std.ts';
+import type { AciString } from '../types/ServiceId.std.ts';
 import {
   getEmojiDebugLabel,
   getEmojiVariantByKey,
   getEmojiVariantKeyByValue,
   isSafeEmojifyEmoji,
-} from '../components/fun/data/emojis.std.js';
-import { createLogger } from '../logging/log.std.js';
+} from '../components/fun/data/emojis.std.ts';
+import { createLogger } from '../logging/log.std.ts';
 
 const log = createLogger('quill/util');
 

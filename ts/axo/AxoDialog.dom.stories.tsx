@@ -4,10 +4,10 @@ import type { ReactNode } from 'react';
 import React, { useId, useMemo, useState } from 'react';
 import type { Meta } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
-import { AxoDialog } from './AxoDialog.dom.js';
-import { AxoButton } from './AxoButton.dom.js';
-import { tw } from './tw.dom.js';
-import { AxoCheckbox } from './AxoCheckbox.dom.js';
+import { AxoDialog } from './AxoDialog.dom.tsx';
+import { AxoButton } from './AxoButton.dom.tsx';
+import { tw } from './tw.dom.tsx';
+import { AxoCheckbox } from './AxoCheckbox.dom.tsx';
 
 export default {
   title: 'Axo/AxoDialog',

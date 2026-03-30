@@ -9,7 +9,7 @@ import {
   isValidLink,
   shouldLinkifyMessage,
   shouldPreviewHref,
-} from '../../types/LinkPreview.std.js';
+} from '../../types/LinkPreview.std.ts';
 
 describe('Link previews', () => {
   describe('#isValidLink', () => {

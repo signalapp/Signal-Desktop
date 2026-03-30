@@ -6,18 +6,18 @@ import React, { type ReactNode } from 'react';
 import {
   LocalExportErrors,
   LocalBackupExportSteps,
-} from '../types/LocalExport.std.js';
-import { AxoDialog } from '../axo/AxoDialog.dom.js';
-import { AxoAlertDialog } from '../axo/AxoAlertDialog.dom.js';
+} from '../types/LocalExport.std.ts';
+import { AxoDialog } from '../axo/AxoDialog.dom.tsx';
+import { AxoAlertDialog } from '../axo/AxoAlertDialog.dom.tsx';
 
-import type { LocalBackupExportWorkflowType } from '../types/LocalExport.std.js';
-import type { LocalizerType } from '../types/I18N.std.js';
-import { formatFileSize } from '../util/formatFileSize.std.js';
-import { ProgressBar } from './ProgressBar.dom.js';
-import { missingCaseError } from '../util/missingCaseError.std.js';
-import { tw } from '../axo/tw.dom.js';
-import { AxoSymbol } from '../axo/AxoSymbol.dom.js';
-import type { AxoSymbolIconName } from '../axo/_internal/AxoSymbolDefs.generated.std.js';
+import type { LocalBackupExportWorkflowType } from '../types/LocalExport.std.ts';
+import type { LocalizerType } from '../types/I18N.std.ts';
+import { formatFileSize } from '../util/formatFileSize.std.ts';
+import { ProgressBar } from './ProgressBar.dom.tsx';
+import { missingCaseError } from '../util/missingCaseError.std.ts';
+import { tw } from '../axo/tw.dom.tsx';
+import { AxoSymbol } from '../axo/AxoSymbol.dom.tsx';
+import type { AxoSymbolIconName } from '../axo/_internal/AxoSymbolDefs.generated.std.ts';
 
 export type PropsType = {
   cancelWorkflow: () => void;

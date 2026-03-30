@@ -13,41 +13,41 @@ import { z } from 'zod';
 import type { Dictionary } from 'lodash';
 import lodash from 'lodash';
 
-import { parseBadgeCategory } from '../badges/BadgeCategory.std.js';
+import { parseBadgeCategory } from '../badges/BadgeCategory.std.ts';
 import {
   parseBadgeImageTheme,
   type BadgeImageTheme,
-} from '../badges/BadgeImageTheme.std.js';
-import type { BadgeImageType, BadgeType } from '../badges/types.std.js';
-import type { StoredJob } from '../jobs/types.std.js';
-import { formatCountForLogging } from '../logging/formatCountForLogging.std.js';
-import { ReadStatus } from '../messages/MessageReadStatus.std.js';
+} from '../badges/BadgeImageTheme.std.ts';
+import type { BadgeImageType, BadgeType } from '../badges/types.std.ts';
+import type { StoredJob } from '../jobs/types.std.ts';
+import { formatCountForLogging } from '../logging/formatCountForLogging.std.ts';
+import { ReadStatus } from '../messages/MessageReadStatus.std.ts';
 import type {
   GroupV2MemberType,
   MessageAttributesType,
 } from '../model-types.d.ts';
-import type { ReactionType } from '../types/Reactions.std.js';
-import { ReactionReadStatus } from '../types/Reactions.std.js';
-import type { AciString, ServiceIdString } from '../types/ServiceId.std.js';
-import { isServiceIdString } from '../types/ServiceId.std.js';
-import { STORAGE_KEYS_TO_PRESERVE_AFTER_UNLINK } from '../types/StorageKeys.std.js';
-import type { StoryDistributionIdString } from '../types/StoryDistributionId.std.js';
-import * as Errors from '../types/errors.std.js';
-import { assertDev, strictAssert } from '../util/assert.std.js';
-import { missingCaseError } from '../util/missingCaseError.std.js';
-import { combineNames } from '../util/combineNames.std.js';
-import { consoleLogger } from '../util/consoleLogger.std.js';
+import type { ReactionType } from '../types/Reactions.std.ts';
+import { ReactionReadStatus } from '../types/Reactions.std.ts';
+import type { AciString, ServiceIdString } from '../types/ServiceId.std.ts';
+import { isServiceIdString } from '../types/ServiceId.std.ts';
+import { STORAGE_KEYS_TO_PRESERVE_AFTER_UNLINK } from '../types/StorageKeys.std.ts';
+import type { StoryDistributionIdString } from '../types/StoryDistributionId.std.ts';
+import * as Errors from '../types/errors.std.ts';
+import { assertDev, strictAssert } from '../util/assert.std.ts';
+import { missingCaseError } from '../util/missingCaseError.std.ts';
+import { combineNames } from '../util/combineNames.std.ts';
+import { consoleLogger } from '../util/consoleLogger.std.ts';
 import {
   dropNull,
   shallowConvertUndefinedToNull,
   type ShallowNullToUndefined,
   type ShallowUndefinedToNull,
-} from '../util/dropNull.std.js';
-import { isNormalNumber } from '../util/isNormalNumber.std.js';
-import { isNotNil } from '../util/isNotNil.std.js';
-import { parseIntOrThrow } from '../util/parseIntOrThrow.std.js';
-import { updateSchema } from './migrations/index.node.js';
-import type { JSONRows, QueryTemplate, QueryFragment } from './util.std.js';
+} from '../util/dropNull.std.ts';
+import { isNormalNumber } from '../util/isNormalNumber.std.ts';
+import { isNotNil } from '../util/isNotNil.std.ts';
+import { parseIntOrThrow } from '../util/parseIntOrThrow.std.ts';
+import { updateSchema } from './migrations/index.node.ts';
+import type { JSONRows, QueryTemplate, QueryFragment } from './util.std.ts';
 import {
   batchMultiVarQuery,
   bulkAdd,
@@ -68,33 +68,33 @@ import {
   sqlJoin,
   convertOptionalBooleanToInteger,
   sqlId,
-} from './util.std.js';
+} from './util.std.ts';
 import {
   hydrateMessage,
   hydrateMessages,
   convertAttachmentDBFieldsToAttachmentType,
   getAttachmentReferencesForMessages,
   ROOT_MESSAGE_ATTACHMENT_EDIT_HISTORY_INDEX,
-} from './hydration.std.js';
+} from './hydration.std.ts';
 
-import { SignalService } from '../protobuf/index.std.js';
-import { SeenStatus } from '../MessageSeenStatus.std.js';
+import { SignalService } from '../protobuf/index.std.ts';
+import { SeenStatus } from '../MessageSeenStatus.std.ts';
 import {
   attachmentBackupJobSchema,
   type AttachmentBackupJobType,
-} from '../types/AttachmentBackup.std.js';
+} from '../types/AttachmentBackup.std.ts';
 import {
   attachmentDownloadJobSchema,
   type MessageAttachmentType,
   type AttachmentDownloadJobType,
-} from '../types/AttachmentDownload.std.js';
+} from '../types/AttachmentDownload.std.ts';
 import type {
   CallHistoryDetails,
   CallHistoryFilter,
   CallHistoryGroup,
   CallHistoryPagination,
   CallLogEventTarget,
-} from '../types/CallDisposition.std.js';
+} from '../types/CallDisposition.std.ts';
 import {
   CallDirection,
   CallHistoryFilterStatus,
@@ -105,21 +105,21 @@ import {
   GroupCallStatus,
   callHistoryDetailsSchema,
   callHistoryGroupSchema,
-} from '../types/CallDisposition.std.js';
-import { redactGenericText } from '../util/privacy.node.js';
+} from '../types/CallDisposition.std.ts';
+import { redactGenericText } from '../util/privacy.node.ts';
 import {
   parseLoose,
   parseStrict,
   parseUnknown,
   safeParseUnknown,
-} from '../util/schemas.std.js';
+} from '../util/schemas.std.ts';
 import {
   SNIPPET_LEFT_PLACEHOLDER,
   SNIPPET_RIGHT_PLACEHOLDER,
   SNIPPET_TRUNCATION_PLACEHOLDER,
-} from '../util/search.std.js';
-import type { SyncTaskType } from '../util/syncTasks.preload.js';
-import { MAX_SYNC_TASK_ATTEMPTS } from '../util/syncTasks.types.std.js';
+} from '../util/search.std.ts';
+import type { SyncTaskType } from '../util/syncTasks.preload.ts';
+import { MAX_SYNC_TASK_ATTEMPTS } from '../util/syncTasks.types.std.ts';
 import type {
   AdjacentMessagesByConversationOptionsType,
   BackupCdnMediaObjectType,
@@ -199,14 +199,14 @@ import type {
   MaybeStaleCallHistory,
   ExistingAttachmentData,
   ExistingAttachmentUploadData,
-} from './Interface.std.js';
+} from './Interface.std.ts';
 import {
   AttachmentDownloadSource,
   MESSAGE_COLUMNS,
   MESSAGE_COLUMNS_FRAGMENT,
   MESSAGE_ATTACHMENT_COLUMNS,
   MESSAGE_NON_PRIMARY_KEY_COLUMNS,
-} from './Interface.std.js';
+} from './Interface.std.ts';
 import {
   _removeAllCallLinks,
   beginDeleteAllCallLinks,
@@ -230,21 +230,21 @@ import {
   updateCallLink,
   updateCallLinkState,
   updateDefunctCallLink,
-} from './server/callLinks.node.js';
+} from './server/callLinks.node.ts';
 import {
   _deleteAllDonationReceipts,
   createDonationReceipt,
   deleteDonationReceiptById,
   getAllDonationReceipts,
   getDonationReceiptById,
-} from './server/donationReceipts.std.js';
+} from './server/donationReceipts.std.ts';
 import {
   deleteAllEndorsementsForGroup,
   getGroupSendCombinedEndorsementExpiration,
   getGroupSendEndorsementsData,
   getGroupSendMemberEndorsement,
   replaceAllEndorsementsForGroup,
-} from './server/groupSendEndorsements.std.js';
+} from './server/groupSendEndorsements.std.ts';
 import {
   getAllChatFolders,
   getCurrentChatFolders,
@@ -260,7 +260,7 @@ import {
   updateChatFolderPositions,
   updateChatFolderDeletedAtTimestampMsFromSync,
   deleteExpiredChatFolders,
-} from './server/chatFolders.std.js';
+} from './server/chatFolders.std.ts';
 import {
   getAllPinnedMessages,
   getPinnedMessagesPreloadDataForConversation,
@@ -268,7 +268,7 @@ import {
   appendPinnedMessage,
   deletePinnedMessageByMessageId,
   deleteAllExpiredPinnedMessagesBefore,
-} from './server/pinnedMessages.std.js';
+} from './server/pinnedMessages.std.ts';
 import {
   getAllMegaphones,
   getAllMegaphoneIds,
@@ -280,29 +280,29 @@ import {
   internalDeleteAllMegaphones,
   getAllMegaphoneImageLocalPaths,
   hasMegaphone,
-} from './server/megaphones.std.js';
+} from './server/megaphones.std.ts';
 import {
   getAllKTAcis,
   getKTAccountData,
   setKTAccountData,
   removeAllKTAccountData,
-} from './server/keyTransparency.std.js';
-import { INITIAL_EXPIRE_TIMER_VERSION } from '../util/expirationTimer.std.js';
-import type { GifType } from '../components/fun/panels/FunPanelGifs.dom.js';
-import type { NotificationProfileType } from '../types/NotificationProfile.std.js';
-import * as durations from '../util/durations/index.std.js';
-import type { AttachmentType } from '../types/Attachment.std.js';
-import { isFile, isVisualMedia } from '../util/Attachment.std.js';
-import { generateMessageId } from '../util/generateMessageId.node.js';
+} from './server/keyTransparency.std.ts';
+import { INITIAL_EXPIRE_TIMER_VERSION } from '../util/expirationTimer.std.ts';
+import type { GifType } from '../components/fun/panels/FunPanelGifs.dom.tsx';
+import type { NotificationProfileType } from '../types/NotificationProfile.std.ts';
+import * as durations from '../util/durations/index.std.ts';
+import type { AttachmentType } from '../types/Attachment.std.ts';
+import { isFile, isVisualMedia } from '../util/Attachment.std.ts';
+import { generateMessageId } from '../util/generateMessageId.node.ts';
 import type {
   ConversationColorType,
   CustomColorType,
-} from '../types/Colors.std.js';
-import { sqlLogger } from './sqlLogger.node.js';
-import { permissiveMessageAttachmentSchema } from './server/messageAttachments.std.js';
-import { getFilePathsReferencedByMessage } from '../util/messageFilePaths.std.js';
-import { createMessagesOnInsertTrigger } from './migrations/1500-search-polls.std.js';
-import { isValidPlaintextHash } from '../types/Crypto.std.js';
+} from '../types/Colors.std.ts';
+import { sqlLogger } from './sqlLogger.node.ts';
+import { permissiveMessageAttachmentSchema } from './server/messageAttachments.std.ts';
+import { getFilePathsReferencedByMessage } from '../util/messageFilePaths.std.ts';
+import { createMessagesOnInsertTrigger } from './migrations/1500-search-polls.std.ts';
+import { isValidPlaintextHash } from '../types/Crypto.std.ts';
 
 const {
   forEach,

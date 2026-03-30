@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import lodash from 'lodash';
-import { strictAssert } from './assert.std.js';
+import { strictAssert } from './assert.std.ts';
 
-import type { AttachmentType } from '../types/Attachment.std.js';
+import type { AttachmentType } from '../types/Attachment.std.ts';
 
 const { isNumber } = lodash;
 

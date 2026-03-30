@@ -3,48 +3,48 @@
 
 import type { ReadonlyDeep } from 'type-fest';
 
-import type { GroupV2ChangeType } from './types/groups.std.js';
-import type { DraftBodyRanges, RawBodyRange } from './types/BodyRange.std.js';
+import type { GroupV2ChangeType } from './types/groups.std.ts';
+import type { DraftBodyRanges, RawBodyRange } from './types/BodyRange.std.ts';
 import type {
   CustomColorType,
   ConversationColorType,
-} from './types/Colors.std.js';
-import type { SendMessageChallengeData } from './textsecure/Errors.std.js';
-import type { ProfileNameChangeType } from './util/getStringForProfileChange.std.js';
+} from './types/Colors.std.ts';
+import type { SendMessageChallengeData } from './textsecure/Errors.std.ts';
+import type { ProfileNameChangeType } from './util/getStringForProfileChange.std.ts';
 import type { CapabilitiesType } from './types/Capabilities.d.ts';
-import type { ReadStatus } from './messages/MessageReadStatus.std.js';
-import type { SendStateByConversationId } from './messages/MessageSendState.std.js';
-import type { GroupNameCollisionsWithIdsByTitle } from './util/groupMemberNameCollisions.std.js';
+import type { ReadStatus } from './messages/MessageReadStatus.std.ts';
+import type { SendStateByConversationId } from './messages/MessageSendState.std.ts';
+import type { GroupNameCollisionsWithIdsByTitle } from './util/groupMemberNameCollisions.std.ts';
 
 import type {
   AttachmentDraftType,
   AttachmentType,
-} from './util/Attachment.std.js';
-import type { EmbeddedContactType } from './types/EmbeddedContact.std.js';
-import { SignalService as Proto } from './protobuf/index.std.js';
-import type { AvatarDataType, ContactAvatarType } from './types/Avatar.std.js';
+} from './util/Attachment.std.ts';
+import type { EmbeddedContactType } from './types/EmbeddedContact.std.ts';
+import { SignalService as Proto } from './protobuf/index.std.ts';
+import type { AvatarDataType, ContactAvatarType } from './types/Avatar.std.ts';
 import type {
   AciString,
   PniString,
   ServiceIdString,
-} from './types/ServiceId.std.js';
-import type { StoryDistributionIdString } from './types/StoryDistributionId.std.js';
-import type { SeenStatus } from './MessageSeenStatus.std.js';
-import type { GiftBadgeStates } from './types/GiftBadgeStates.std.js';
-import type { LinkPreviewType } from './types/message/LinkPreviews.std.js';
+} from './types/ServiceId.std.ts';
+import type { StoryDistributionIdString } from './types/StoryDistributionId.std.ts';
+import type { SeenStatus } from './MessageSeenStatus.std.ts';
+import type { GiftBadgeStates } from './types/GiftBadgeStates.std.ts';
+import type { LinkPreviewType } from './types/message/LinkPreviews.std.ts';
 
-import type { StickerType } from './types/Stickers.preload.js';
-import type { StorySendMode } from './types/Stories.std.js';
-import type { MIMEType } from './types/MIME.std.js';
-import type { DurationInSeconds } from './util/durations/index.std.js';
-import type { AnyPaymentEvent } from './types/Payment.std.js';
-import type { PollMessageAttribute } from './types/Polls.dom.js';
+import type { StickerType } from './types/Stickers.preload.ts';
+import type { StorySendMode } from './types/Stories.std.ts';
+import type { MIMEType } from './types/MIME.std.ts';
+import type { DurationInSeconds } from './util/durations/index.std.ts';
+import type { AnyPaymentEvent } from './types/Payment.std.ts';
+import type { PollMessageAttribute } from './types/Polls.dom.ts';
 
 import AccessRequiredEnum = Proto.AccessControl.AccessRequired;
 import MemberRoleEnum = Proto.Member.Role;
-import type { MessageRequestResponseEvent } from './types/MessageRequestResponseEvent.std.js';
-import type { QuotedMessageForComposerType } from './state/ducks/composer.preload.js';
-import type { SEALED_SENDER } from './types/SealedSender.std.js';
+import type { MessageRequestResponseEvent } from './types/MessageRequestResponseEvent.std.ts';
+import type { QuotedMessageForComposerType } from './state/ducks/composer.preload.ts';
+import type { SEALED_SENDER } from './types/SealedSender.std.ts';
 
 export type LastMessageStatus =
   | 'paused'

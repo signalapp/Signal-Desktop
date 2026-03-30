@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 
-import { isRecord } from '../../util/isRecord.std.js';
+import { isRecord } from '../../util/isRecord.std.ts';
 
 describe('isRecord', () => {
   it('returns false for primitives', () => {

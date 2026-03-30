@@ -4,7 +4,7 @@
 import React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import { DiscardDraftDialog } from './DiscardDraftDialog.dom.js';
+import { DiscardDraftDialog } from './DiscardDraftDialog.dom.tsx';
 
 const { i18n } = window.SignalContext;
 

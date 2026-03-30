@@ -9,6 +9,7 @@ const repoRoot = join(__dirname, '..');
 
 const PATTERNS = [
   'sticker-creator/dist',
+  'build/**/*.js',
   'app/**/*.js',
   'app/*.js',
   'ts/**/*.js',
@@ -18,6 +19,8 @@ const PATTERNS = [
   'preload.bundle.cache',
 ];
 
+const EXCEPTIONS = new Set(['ts/windows/main/tsx.preload.js']);
+
 async function main() {
   const readable = fastGlob.stream(PATTERNS, {
     cwd: repoRoot,
@@ -26,6 +29,9 @@ async function main() {
   const promises = [];
   let count = 0;
   for await (const entry of readable) {
+    if (EXCEPTIONS.has(entry)) {
+      continue;
+    }
     count += 1;
     promises.push(rm(entry, { recursive: true, force: true }));
   }

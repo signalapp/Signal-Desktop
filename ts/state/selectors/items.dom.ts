@@ -3,27 +3,27 @@
 
 import { createSelector } from 'reselect';
 
-import { isCountryPpmCsvBucketEnabled } from '../../RemoteConfig.dom.js';
-import type { ConfigKeyType, ConfigMapType } from '../../RemoteConfig.dom.js';
-import type { StateType } from '../reducer.preload.js';
-import type { ItemsStateType } from '../ducks/items.preload.js';
+import { isCountryPpmCsvBucketEnabled } from '../../RemoteConfig.dom.ts';
+import type { ConfigKeyType, ConfigMapType } from '../../RemoteConfig.dom.ts';
+import type { StateType } from '../reducer.preload.ts';
+import type { ItemsStateType } from '../ducks/items.preload.ts';
 import type {
   ConversationColorType,
   CustomColorType,
-} from '../../types/Colors.std.js';
-import type { AciString } from '../../types/ServiceId.std.js';
-import { DEFAULT_CONVERSATION_COLOR } from '../../types/Colors.std.js';
-import { getPreferredReactionEmoji as getPreferredReactionEmojiFromStoredValue } from '../../reactions/preferredReactionEmoji.std.js';
-import { DurationInSeconds } from '../../util/durations/index.std.js';
-import * as Bytes from '../../Bytes.std.js';
-import { contactByEncryptedUsernameRoute } from '../../util/signalRoutes.std.js';
-import { isNotUpdatable } from '../../util/version.std.js';
+} from '../../types/Colors.std.ts';
+import type { AciString } from '../../types/ServiceId.std.ts';
+import { DEFAULT_CONVERSATION_COLOR } from '../../types/Colors.std.ts';
+import { getPreferredReactionEmoji as getPreferredReactionEmojiFromStoredValue } from '../../reactions/preferredReactionEmoji.std.ts';
+import { DurationInSeconds } from '../../util/durations/index.std.ts';
+import * as Bytes from '../../Bytes.std.ts';
+import { contactByEncryptedUsernameRoute } from '../../util/signalRoutes.std.ts';
+import { isNotUpdatable } from '../../util/version.std.ts';
 import {
   EmojiSkinTone,
   isValidEmojiSkinTone,
-} from '../../components/fun/data/emojis.std.js';
-import { BackupLevel } from '../../services/backups/types.std.js';
-import type { StateSelector } from '../types.std.js';
+} from '../../components/fun/data/emojis.std.ts';
+import { BackupLevel } from '../../services/backups/types.std.ts';
+import type { StateSelector } from '../types.std.ts';
 
 const DEFAULT_PREFERRED_LEFT_PANE_WIDTH = 320;
 

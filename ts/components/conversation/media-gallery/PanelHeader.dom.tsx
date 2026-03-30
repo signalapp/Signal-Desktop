@@ -3,16 +3,16 @@
 
 import React, { useCallback } from 'react';
 
-import { tw } from '../../../axo/tw.dom.js';
-import { ExperimentalAxoSegmentedControl } from '../../../axo/AxoSegmentedControl.dom.js';
-import { AxoSelect } from '../../../axo/AxoSelect.dom.js';
-import { AxoDropdownMenu } from '../../../axo/AxoDropdownMenu.dom.js';
-import { AxoIconButton } from '../../../axo/AxoIconButton.dom.js';
-import type { LocalizerType } from '../../../types/Util.std.js';
+import { tw } from '../../../axo/tw.dom.tsx';
+import { ExperimentalAxoSegmentedControl } from '../../../axo/AxoSegmentedControl.dom.tsx';
+import { AxoSelect } from '../../../axo/AxoSelect.dom.tsx';
+import { AxoDropdownMenu } from '../../../axo/AxoDropdownMenu.dom.tsx';
+import { AxoIconButton } from '../../../axo/AxoIconButton.dom.tsx';
+import type { LocalizerType } from '../../../types/Util.std.ts';
 import type {
   MediaTabType,
   MediaSortOrderType,
-} from '../../../types/MediaItem.std.js';
+} from '../../../types/MediaItem.std.ts';
 
 // Provided by smart layer
 export type Props = Readonly<{

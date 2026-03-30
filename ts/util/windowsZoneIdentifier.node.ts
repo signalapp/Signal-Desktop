@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as fs from 'node:fs';
-import OS from './os/osMain.node.js';
+import OS from './os/osMain.node.ts';
 
 const ZONE_IDENTIFIER_CONTENTS = Buffer.from('[ZoneTransfer]\r\nZoneId=3');
 

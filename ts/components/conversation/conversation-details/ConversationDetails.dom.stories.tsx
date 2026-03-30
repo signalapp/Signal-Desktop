@@ -7,21 +7,21 @@ import { action } from '@storybook/addon-actions';
 import lodash from 'lodash';
 
 import type { Meta } from '@storybook/react';
-import type { Props } from './ConversationDetails.dom.js';
-import { ConversationDetails } from './ConversationDetails.dom.js';
-import { ChooseGroupMembersModal } from './AddGroupMembersModal/ChooseGroupMembersModal.dom.js';
-import { ConfirmAdditionsModal } from './AddGroupMembersModal/ConfirmAdditionsModal.dom.js';
-import type { ConversationType } from '../../../state/ducks/conversations.preload.js';
-import { getDefaultConversation } from '../../../test-helpers/getDefaultConversation.std.js';
-import { makeFakeLookupConversationWithoutServiceId } from '../../../test-helpers/fakeLookupConversationWithoutServiceId.std.js';
-import { ThemeType } from '../../../types/Util.std.js';
-import { DurationInSeconds } from '../../../util/durations/index.std.js';
-import { NavTab } from '../../../types/Nav.std.js';
-import { getFakeCallHistoryGroup } from '../../../test-helpers/getFakeCallHistoryGroup.std.js';
-import type { ContactNameColorType } from '../../../types/Colors.std.js';
-import { ContactNameColors } from '../../../types/Colors.std.js';
-import { isNotNil } from '../../../util/isNotNil.std.js';
-import { strictAssert } from '../../../util/assert.std.js';
+import type { Props } from './ConversationDetails.dom.tsx';
+import { ConversationDetails } from './ConversationDetails.dom.tsx';
+import { ChooseGroupMembersModal } from './AddGroupMembersModal/ChooseGroupMembersModal.dom.tsx';
+import { ConfirmAdditionsModal } from './AddGroupMembersModal/ConfirmAdditionsModal.dom.tsx';
+import type { ConversationType } from '../../../state/ducks/conversations.preload.ts';
+import { getDefaultConversation } from '../../../test-helpers/getDefaultConversation.std.ts';
+import { makeFakeLookupConversationWithoutServiceId } from '../../../test-helpers/fakeLookupConversationWithoutServiceId.std.ts';
+import { ThemeType } from '../../../types/Util.std.ts';
+import { DurationInSeconds } from '../../../util/durations/index.std.ts';
+import { NavTab } from '../../../types/Nav.std.ts';
+import { getFakeCallHistoryGroup } from '../../../test-helpers/getFakeCallHistoryGroup.std.ts';
+import type { ContactNameColorType } from '../../../types/Colors.std.ts';
+import { ContactNameColors } from '../../../types/Colors.std.ts';
+import { isNotNil } from '../../../util/isNotNil.std.ts';
+import { strictAssert } from '../../../util/assert.std.ts';
 
 const { times } = lodash;
 

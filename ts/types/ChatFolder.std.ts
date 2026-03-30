@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import { z } from 'zod';
 import type { Simplify } from 'type-fest';
-import * as grapheme from '../util/grapheme.std.js';
-import type { ConversationType } from '../state/ducks/conversations.preload.js';
-import { isConversationUnread } from '../util/isConversationUnread.std.js';
+import * as grapheme from '../util/grapheme.std.ts';
+import type { ConversationType } from '../state/ducks/conversations.preload.ts';
+import { isConversationUnread } from '../util/isConversationUnread.std.ts';
 
 export const CHAT_FOLDER_NAME_MAX_CHAR_LENGTH = 32;
 

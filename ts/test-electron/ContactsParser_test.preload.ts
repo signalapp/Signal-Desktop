@@ -15,29 +15,29 @@ import { pipeline } from 'node:stream/promises';
 import { Transform } from 'node:stream';
 import fse from 'fs-extra';
 
-import { createLogger } from '../logging/log.std.js';
-import * as Bytes from '../Bytes.std.js';
-import * as Errors from '../types/errors.std.js';
+import { createLogger } from '../logging/log.std.ts';
+import * as Bytes from '../Bytes.std.ts';
+import * as Errors from '../types/errors.std.ts';
 import {
   getAbsoluteAttachmentPath,
   maybeDeleteAttachmentFile,
   readAttachmentData,
-} from '../util/migrations.preload.js';
-import { APPLICATION_OCTET_STREAM } from '../types/MIME.std.js';
-import { type AciString, generateAci } from '../types/ServiceId.std.js';
-import { SignalService as Proto } from '../protobuf/index.std.js';
+} from '../util/migrations.preload.ts';
+import { APPLICATION_OCTET_STREAM } from '../types/MIME.std.ts';
+import { type AciString, generateAci } from '../types/ServiceId.std.ts';
+import { SignalService as Proto } from '../protobuf/index.std.ts';
 import {
   ParseContactsTransform,
   parseContactsV2,
-} from '../textsecure/ContactsParser.preload.js';
-import type { ContactDetailsWithAvatar } from '../textsecure/ContactsParser.preload.js';
-import { strictAssert } from '../util/assert.std.js';
-import { encodeDelimited } from '../util/encodeDelimited.std.js';
-import { toAciObject } from '../util/ServiceId.node.js';
+} from '../textsecure/ContactsParser.preload.ts';
+import type { ContactDetailsWithAvatar } from '../textsecure/ContactsParser.preload.ts';
+import { strictAssert } from '../util/assert.std.ts';
+import { encodeDelimited } from '../util/encodeDelimited.std.ts';
+import { toAciObject } from '../util/ServiceId.node.ts';
 import {
   generateKeys,
   encryptAttachmentV2ToDisk,
-} from '../AttachmentCrypto.node.js';
+} from '../AttachmentCrypto.node.ts';
 
 const log = createLogger('ContactsParser_test');
 

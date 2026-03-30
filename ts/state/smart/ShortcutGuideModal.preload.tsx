@@ -3,9 +3,9 @@
 
 import React, { memo } from 'react';
 import { useSelector } from 'react-redux';
-import { ShortcutGuideModal } from '../../components/ShortcutGuideModal.dom.js';
-import { getIntl, getPlatform } from '../selectors/user.std.js';
-import { useGlobalModalActions } from '../ducks/globalModals.preload.js';
+import { ShortcutGuideModal } from '../../components/ShortcutGuideModal.dom.tsx';
+import { getIntl, getPlatform } from '../selectors/user.std.ts';
+import { useGlobalModalActions } from '../ducks/globalModals.preload.ts';
 
 export const SmartShortcutGuideModal = memo(function SmartShortcutGuideModal() {
   const i18n = useSelector(getIntl);

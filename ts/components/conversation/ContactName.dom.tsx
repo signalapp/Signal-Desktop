@@ -6,22 +6,22 @@ import classNames from 'classnames';
 
 import type { ReactNode } from 'react';
 
-import { getClassNamesFor } from '../../util/getClassNamesFor.std.js';
-import { isSignalConversation as getIsSignalConversation } from '../../util/isSignalConversation.dom.js';
+import { getClassNamesFor } from '../../util/getClassNamesFor.std.ts';
+import { isSignalConversation as getIsSignalConversation } from '../../util/isSignalConversation.dom.ts';
 import {
   getEmojiVariantByKey,
   getEmojiVariantKeyByValue,
   isEmojiVariantValue,
-} from '../fun/data/emojis.std.js';
-import { useFunEmojiLocalizer } from '../fun/useFunEmojiLocalizer.dom.js';
-import { FunStaticEmoji } from '../fun/FunEmoji.dom.js';
-import { missingEmojiPlaceholder } from '../../types/GroupMemberLabels.std.js';
+} from '../fun/data/emojis.std.ts';
+import { useFunEmojiLocalizer } from '../fun/useFunEmojiLocalizer.dom.tsx';
+import { FunStaticEmoji } from '../fun/FunEmoji.dom.tsx';
+import { missingEmojiPlaceholder } from '../../types/GroupMemberLabels.std.ts';
 
-import type { MemberLabelType } from '../../types/GroupMemberLabels.std.js';
-import type { ConversationType } from '../../state/ducks/conversations.preload.js';
-import type { ContactNameColorType } from '../../types/Colors.std.js';
-import type { FunStaticEmojiSize } from '../fun/FunEmoji.dom.js';
-import { UserText } from '../UserText.dom.js';
+import type { MemberLabelType } from '../../types/GroupMemberLabels.std.ts';
+import type { ConversationType } from '../../state/ducks/conversations.preload.ts';
+import type { ContactNameColorType } from '../../types/Colors.std.ts';
+import type { FunStaticEmojiSize } from '../fun/FunEmoji.dom.tsx';
+import { UserText } from '../UserText.dom.tsx';
 
 export type ContactNameData = {
   contactNameColor?: ContactNameColorType;

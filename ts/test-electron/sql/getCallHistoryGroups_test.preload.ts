@@ -4,7 +4,7 @@
 import { assert } from 'chai';
 import { v4 as generateUuid } from 'uuid';
 
-import { DataReader, DataWriter } from '../../sql/Client.preload.js';
+import { DataReader, DataWriter } from '../../sql/Client.preload.ts';
 
 import {
   CallMode,
@@ -13,20 +13,20 @@ import {
   CallHistoryFilterStatus,
   CallType,
   DirectCallStatus,
-} from '../../types/CallDisposition.std.js';
-import { generateAci } from '../../types/ServiceId.std.js';
-import type { ServiceIdString } from '../../types/ServiceId.std.js';
+} from '../../types/CallDisposition.std.ts';
+import { generateAci } from '../../types/ServiceId.std.ts';
+import type { ServiceIdString } from '../../types/ServiceId.std.ts';
 import type {
   CallHistoryDetails,
   CallHistoryGroup,
   CallStatus,
-} from '../../types/CallDisposition.std.js';
-import { strictAssert } from '../../util/assert.std.js';
+} from '../../types/CallDisposition.std.ts';
+import { strictAssert } from '../../util/assert.std.ts';
 import type { ConversationAttributesType } from '../../model-types.d.ts';
 import {
   FAKE_CALL_LINK,
   FAKE_CALL_LINK_WITH_ADMIN_KEY,
-} from '../../test-helpers/fakeCallLink.std.js';
+} from '../../test-helpers/fakeCallLink.std.ts';
 
 const { getCallHistoryGroups, getCallHistoryGroupsCount } = DataReader;
 const { removeAll, insertCallLink, saveCallHistory, saveConversation } =

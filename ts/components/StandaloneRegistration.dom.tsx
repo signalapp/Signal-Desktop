@@ -6,10 +6,10 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import type { Iti } from 'intl-tel-input';
 import intlTelInput from 'intl-tel-input';
 
-import { strictAssert } from '../util/assert.std.js';
-import { parseNumber } from '../util/libphonenumberUtil.std.js';
-import { missingCaseError } from '../util/missingCaseError.std.js';
-import { VerificationTransport } from '../types/VerificationTransport.std.js';
+import { strictAssert } from '../util/assert.std.ts';
+import { parseNumber } from '../util/libphonenumberUtil.std.ts';
+import { missingCaseError } from '../util/missingCaseError.std.ts';
+import { VerificationTransport } from '../types/VerificationTransport.std.ts';
 
 function PhoneInput({
   initialValue,

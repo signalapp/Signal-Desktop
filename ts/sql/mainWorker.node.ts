@@ -7,11 +7,11 @@ import { serialize, deserialize } from 'node:v8';
 import type {
   WrappedWorkerRequest,
   WrappedWorkerResponse,
-} from './main.main.js';
-import type { WritableDB } from './Interface.std.js';
-import { initialize, DataReader, DataWriter, removeDB } from './Server.node.js';
-import { SqliteErrorKind, parseSqliteError } from './errors.std.js';
-import { sqlLogger as logger } from './sqlLogger.node.js';
+} from './main.main.ts';
+import type { WritableDB } from './Interface.std.ts';
+import { initialize, DataReader, DataWriter, removeDB } from './Server.node.ts';
+import { SqliteErrorKind, parseSqliteError } from './errors.std.ts';
+import { sqlLogger as logger } from './sqlLogger.node.ts';
 
 if (!parentPort) {
   throw new Error('Must run as a worker thread');

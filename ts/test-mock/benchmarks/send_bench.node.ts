@@ -6,9 +6,9 @@ import assert from 'node:assert';
 import type { PrimaryDevice } from '@signalapp/mock-server';
 import { ReceiptType } from '@signalapp/mock-server';
 
-import { Bootstrap, debug, RUN_COUNT, DISCARD_COUNT } from './fixtures.node.js';
-import { stats } from '../../util/benchmark/stats.std.js';
-import { typeIntoInput, waitForEnabledComposer } from '../helpers.node.js';
+import { Bootstrap, debug, RUN_COUNT, DISCARD_COUNT } from './fixtures.node.ts';
+import { stats } from '../../util/benchmark/stats.std.ts';
+import { typeIntoInput, waitForEnabledComposer } from '../helpers.node.ts';
 
 const CONVERSATION_SIZE = 500; // messages
 

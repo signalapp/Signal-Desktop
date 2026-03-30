@@ -3,22 +3,22 @@
 
 import React, { type ReactNode, useState } from 'react';
 import classNames from 'classnames';
-import type { Props as AvatarProps } from '../Avatar.dom.js';
-import { Avatar, AvatarSize, AvatarBlur } from '../Avatar.dom.js';
-import { ContactName } from './ContactName.dom.js';
-import { About } from './About.dom.js';
-import { GroupDescription } from './GroupDescription.dom.js';
-import { SharedGroupNames } from '../SharedGroupNames.dom.js';
-import { GroupMembersNames } from '../GroupMembersNames.dom.js';
-import type { LocalizerType, ThemeType } from '../../types/Util.std.js';
-import type { HasStories } from '../../types/Stories.std.js';
-import type { ViewUserStoriesActionCreatorType } from '../../state/ducks/stories.preload.js';
-import type { GroupV2Membership } from './conversation-details/ConversationDetailsMembershipList.dom.js';
-import { StoryViewModeType } from '../../types/Stories.std.js';
-import { Button, ButtonVariant } from '../Button.dom.js';
-import { SafetyTipsModal } from '../SafetyTipsModal.dom.js';
-import { I18n } from '../I18n.dom.js';
-import type { ContactModalStateType } from '../../types/globalModals.std.js';
+import type { Props as AvatarProps } from '../Avatar.dom.tsx';
+import { Avatar, AvatarSize, AvatarBlur } from '../Avatar.dom.tsx';
+import { ContactName } from './ContactName.dom.tsx';
+import { About } from './About.dom.tsx';
+import { GroupDescription } from './GroupDescription.dom.tsx';
+import { SharedGroupNames } from '../SharedGroupNames.dom.tsx';
+import { GroupMembersNames } from '../GroupMembersNames.dom.tsx';
+import type { LocalizerType, ThemeType } from '../../types/Util.std.ts';
+import type { HasStories } from '../../types/Stories.std.ts';
+import type { ViewUserStoriesActionCreatorType } from '../../state/ducks/stories.preload.ts';
+import type { GroupV2Membership } from './conversation-details/ConversationDetailsMembershipList.dom.tsx';
+import { StoryViewModeType } from '../../types/Stories.std.ts';
+import { Button, ButtonVariant } from '../Button.dom.tsx';
+import { SafetyTipsModal } from '../SafetyTipsModal.dom.tsx';
+import { I18n } from '../I18n.dom.tsx';
+import type { ContactModalStateType } from '../../types/globalModals.std.ts';
 
 export type Props = {
   about?: string;

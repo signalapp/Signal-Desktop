@@ -4,7 +4,7 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import type { PackageJsonType } from '../types/packageJson.d.ts';
-import { getAppRootDir } from './appRootDir.main.js';
+import { getAppRootDir } from './appRootDir.main.ts';
 
 const PACKAGE_JSON_PATH = join(getAppRootDir(), 'package.json');
 

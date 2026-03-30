@@ -38,6 +38,7 @@ build/ICUMessageParams.d.ts
 build/**/*.js
 app/*.js
 ts/**/*.js
+!ts/windows/main/tsx.js
 ts/protobuf/*.d.ts
 
 # CSS Modules

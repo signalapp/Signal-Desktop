@@ -3,15 +3,15 @@
 
 import { assert } from 'chai';
 
-import { type WritableDB } from '../../sql/Interface.std.js';
-import { Migrations as Proto } from '../../protobuf/index.std.js';
-import { generateAci } from '../../types/ServiceId.std.js';
+import { type WritableDB } from '../../sql/Interface.std.ts';
+import { Migrations as Proto } from '../../protobuf/index.std.ts';
+import { generateAci } from '../../types/ServiceId.std.ts';
 import {
   createDB,
   updateToVersion,
   insertData,
   getTableData,
-} from './helpers.node.js';
+} from './helpers.node.ts';
 
 const EMPTY_ENVELOPE: Proto.Envelope.Params = {
   content: null,

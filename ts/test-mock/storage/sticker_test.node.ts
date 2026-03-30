@@ -4,8 +4,8 @@
 import { assert } from 'chai';
 import type { PrimaryDevice } from '@signalapp/mock-server';
 import { Proto } from '@signalapp/mock-server';
-import * as durations from '../../util/durations/index.std.js';
-import type { App, Bootstrap } from './fixtures.node.js';
+import * as durations from '../../util/durations/index.std.ts';
+import type { App, Bootstrap } from './fixtures.node.ts';
 import {
   initStorage,
   debug,
@@ -14,13 +14,13 @@ import {
   storeStickerPacks,
   getStickerPackRecordPredicate,
   getStickerPackLink,
-} from './fixtures.node.js';
+} from './fixtures.node.ts';
 import {
   getMessageInTimelineByTimestamp,
   sendTextMessage,
-} from '../helpers.node.js';
-import { strictAssert } from '../../util/assert.std.js';
-import { toNumber } from '../../util/toNumber.std.js';
+} from '../helpers.node.ts';
+import { strictAssert } from '../../util/assert.std.ts';
+import { toNumber } from '../../util/toNumber.std.ts';
 
 const { StickerPackOperation } = Proto.SyncMessage;
 

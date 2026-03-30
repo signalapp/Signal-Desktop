@@ -3,17 +3,17 @@
 
 import { assert } from 'chai';
 import lodash from 'lodash';
-import type { WritableDB } from '../../sql/Interface.std.js';
-import { markAllCallHistoryRead } from '../../sql/Server.node.js';
-import { SeenStatus } from '../../MessageSeenStatus.std.js';
+import type { WritableDB } from '../../sql/Interface.std.ts';
+import { markAllCallHistoryRead } from '../../sql/Server.node.ts';
+import { SeenStatus } from '../../MessageSeenStatus.std.ts';
 import {
   CallMode,
   CallDirection,
   CallType,
   DirectCallStatus,
-} from '../../types/CallDisposition.std.js';
-import { strictAssert } from '../../util/assert.std.js';
-import { createDB, insertData, updateToVersion } from './helpers.node.js';
+} from '../../types/CallDisposition.std.ts';
+import { strictAssert } from '../../util/assert.std.ts';
+import { createDB, insertData, updateToVersion } from './helpers.node.ts';
 
 const { findLast } = lodash;
 

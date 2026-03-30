@@ -4,7 +4,7 @@
 import type { ComponentProps } from 'react';
 import React from 'react';
 
-import { SmartReactionPicker } from './ReactionPicker.dom.js';
+import { SmartReactionPicker } from './ReactionPicker.dom.tsx';
 
 export const renderReactionPicker = (
   props: ComponentProps<typeof SmartReactionPicker>

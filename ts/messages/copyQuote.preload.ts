@@ -3,23 +3,23 @@
 
 import lodash from 'lodash';
 
-import { createLogger } from '../logging/log.std.js';
+import { createLogger } from '../logging/log.std.ts';
 import type { QuotedMessageType } from '../model-types.d.ts';
-import { SignalService } from '../protobuf/index.std.js';
+import { SignalService } from '../protobuf/index.std.ts';
 import {
   isGiftBadge,
   isTapToView,
-} from '../state/selectors/message.preload.js';
+} from '../state/selectors/message.preload.ts';
 import type { ProcessedQuote } from '../textsecure/Types.d.ts';
-import { IMAGE_JPEG } from '../types/MIME.std.js';
-import { VERSION_NEEDED_FOR_DISPLAY } from '../types/Message2.preload.js';
-import { strictAssert } from '../util/assert.std.js';
-import { getQuoteBodyText } from '../util/getQuoteBodyText.std.js';
-import { isQuoteAMatch } from './quotes.preload.js';
-import { messageHasPaymentEvent } from './payments.std.js';
-import * as Errors from '../types/errors.std.js';
-import type { MessageModel } from '../models/messages.preload.js';
-import { isDownloadable } from '../util/Attachment.std.js';
+import { IMAGE_JPEG } from '../types/MIME.std.ts';
+import { VERSION_NEEDED_FOR_DISPLAY } from '../types/Message2.preload.ts';
+import { strictAssert } from '../util/assert.std.ts';
+import { getQuoteBodyText } from '../util/getQuoteBodyText.std.ts';
+import { isQuoteAMatch } from './quotes.preload.ts';
+import { messageHasPaymentEvent } from './payments.std.ts';
+import * as Errors from '../types/errors.std.ts';
+import type { MessageModel } from '../models/messages.preload.ts';
+import { isDownloadable } from '../util/Attachment.std.ts';
 
 const { omit } = lodash;
 

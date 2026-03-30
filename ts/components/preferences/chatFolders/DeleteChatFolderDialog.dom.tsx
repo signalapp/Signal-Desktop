@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import type { ReactNode } from 'react';
 import React from 'react';
-import { AxoAlertDialog } from '../../../axo/AxoAlertDialog.dom.js';
+import { AxoAlertDialog } from '../../../axo/AxoAlertDialog.dom.tsx';
 
 export function DeleteChatFolderDialog(props: {
   title: string;

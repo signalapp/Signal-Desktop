@@ -11,13 +11,13 @@ import React, {
 import type { ReactNode, MouseEvent, FC, ForwardedRef } from 'react';
 import { useLayoutEffect, mergeRefs } from '@react-aria/utils';
 import { computeAccessibleName } from 'dom-accessibility-api';
-import { tw } from './tw.dom.js';
-import { assert } from './_internal/assert.std.js';
+import { tw } from './tw.dom.tsx';
+import { assert } from './_internal/assert.std.tsx';
 import {
   createStrictContext,
   useStrictContext,
-} from './_internal/StrictContext.dom.js';
-import { isTestOrMockEnvironment } from '../environment.std.js';
+} from './_internal/StrictContext.dom.tsx';
+import { isTestOrMockEnvironment } from '../environment.std.ts';
 
 const Namespace = 'AriaClickable';
 

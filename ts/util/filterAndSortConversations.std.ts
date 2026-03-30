@@ -2,15 +2,15 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type Fuse from 'fuse.js';
-import type { ConversationType } from '../state/ducks/conversations.preload.js';
-import { parseAndFormatPhoneNumber } from './libphonenumberInstance.std.js';
-import { WEEK } from './durations/index.std.js';
-import { fuseGetFnRemoveDiacritics, getCachedFuseIndex } from './fuse.std.js';
-import type { UnreadStatsIncludeMuted } from './countUnreadStats.std.js';
-import { isConversationUnread } from './countUnreadStats.std.js';
-import { getE164 } from './getE164.std.js';
-import { removeDiacritics } from './removeDiacritics.std.js';
-import { isAciString } from './isAciString.std.js';
+import type { ConversationType } from '../state/ducks/conversations.preload.ts';
+import { parseAndFormatPhoneNumber } from './libphonenumberInstance.std.ts';
+import { WEEK } from './durations/index.std.ts';
+import { fuseGetFnRemoveDiacritics, getCachedFuseIndex } from './fuse.std.ts';
+import type { UnreadStatsIncludeMuted } from './countUnreadStats.std.ts';
+import { isConversationUnread } from './countUnreadStats.std.ts';
+import { getE164 } from './getE164.std.ts';
+import { removeDiacritics } from './removeDiacritics.std.ts';
+import { isAciString } from './isAciString.std.ts';
 
 // See: https://fusejs.io/api/options.html#includescore
 // 0 score is a perfect match, 1 - complete mismatch

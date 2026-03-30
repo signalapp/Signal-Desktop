@@ -3,9 +3,9 @@
 import type { ReactNode } from 'react';
 import React from 'react';
 import type { Meta } from '@storybook/react';
-import { AxoScrollArea } from './AxoScrollArea.dom.js';
-import { tw } from './tw.dom.js';
-import { AxoSymbol } from './AxoSymbol.dom.js';
+import { AxoScrollArea } from './AxoScrollArea.dom.tsx';
+import { tw } from './tw.dom.tsx';
+import { AxoSymbol } from './AxoSymbol.dom.tsx';
 
 export default {
   title: 'Axo/AxoScrollArea',

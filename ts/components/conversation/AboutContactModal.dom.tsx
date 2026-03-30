@@ -3,26 +3,26 @@
 
 import React, { type ReactNode, useCallback, useMemo } from 'react';
 
-import { isInSystemContacts } from '../../util/isInSystemContacts.std.js';
-import { Avatar, AvatarBlur, AvatarSize } from '../Avatar.dom.js';
-import { Modal } from '../Modal.dom.js';
-import { UserText } from '../UserText.dom.js';
-import { SharedGroupNames } from '../SharedGroupNames.dom.js';
-import { About } from './About.dom.js';
-import { I18n } from '../I18n.dom.js';
-import { canHaveNicknameAndNote } from '../../util/nicknames.dom.js';
-import { Tooltip, TooltipPlacement } from '../Tooltip.dom.js';
-import { useFunEmojiLocalizer } from '../fun/useFunEmojiLocalizer.dom.js';
+import { isInSystemContacts } from '../../util/isInSystemContacts.std.ts';
+import { Avatar, AvatarBlur, AvatarSize } from '../Avatar.dom.tsx';
+import { Modal } from '../Modal.dom.tsx';
+import { UserText } from '../UserText.dom.tsx';
+import { SharedGroupNames } from '../SharedGroupNames.dom.tsx';
+import { About } from './About.dom.tsx';
+import { I18n } from '../I18n.dom.tsx';
+import { canHaveNicknameAndNote } from '../../util/nicknames.dom.ts';
+import { Tooltip, TooltipPlacement } from '../Tooltip.dom.tsx';
+import { useFunEmojiLocalizer } from '../fun/useFunEmojiLocalizer.dom.tsx';
 import {
   getEmojiVariantByKey,
   getEmojiVariantKeyByValue,
   isEmojiVariantValue,
-} from '../fun/data/emojis.std.js';
-import { FunStaticEmoji } from '../fun/FunEmoji.dom.js';
-import { missingEmojiPlaceholder } from '../../types/GroupMemberLabels.std.js';
+} from '../fun/data/emojis.std.ts';
+import { FunStaticEmoji } from '../fun/FunEmoji.dom.tsx';
+import { missingEmojiPlaceholder } from '../../types/GroupMemberLabels.std.ts';
 
-import type { ConversationType } from '../../state/ducks/conversations.preload.js';
-import type { LocalizerType } from '../../types/Util.std.js';
+import type { ConversationType } from '../../state/ducks/conversations.preload.ts';
+import type { LocalizerType } from '../../types/Util.std.ts';
 
 function muted(parts: Array<string | React.JSX.Element>) {
   return (

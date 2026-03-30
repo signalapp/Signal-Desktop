@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 
-import { count } from '../../util/characters.std.js';
+import { count } from '../../util/characters.std.ts';
 
 describe('character utilities', () => {
   describe('count', () => {

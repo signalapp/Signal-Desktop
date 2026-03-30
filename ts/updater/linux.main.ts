@@ -8,13 +8,13 @@ import { app, ipcMain } from 'electron';
 import { extractFile } from '@electron/asar';
 import z from 'zod';
 
-import { markShouldQuit } from '../../app/window_state.std.js';
-import type { LoggerType } from '../types/Logging.std.js';
-import { DialogType } from '../types/Dialogs.std.js';
-import * as Errors from '../types/errors.std.js';
-import type { UpdaterOptionsType } from './common.main.js';
-import { appRelaunch } from '../util/relaunch.main.js';
-import { getAppRootDir } from '../util/appRootDir.main.js';
+import { markShouldQuit } from '../../app/window_state.std.ts';
+import type { LoggerType } from '../types/Logging.std.ts';
+import { DialogType } from '../types/Dialogs.std.ts';
+import * as Errors from '../types/errors.std.ts';
+import type { UpdaterOptionsType } from './common.main.ts';
+import { appRelaunch } from '../util/relaunch.main.ts';
+import { getAppRootDir } from '../util/appRootDir.main.ts';
 
 const MIN_UBUNTU_VERSION = '22.04';
 

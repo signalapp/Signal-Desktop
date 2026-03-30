@@ -23,15 +23,15 @@ import type {
   ServiceIdString,
   AciString,
   PniString,
-} from '../types/ServiceId.std.js';
+} from '../types/ServiceId.std.ts';
 import {
   fromServiceIdObject,
   fromAciObject,
   fromPniObject,
-} from '../types/ServiceId.std.js';
-import * as Bytes from '../Bytes.std.js';
-import { toServiceIdObject } from './ServiceId.node.js';
-import { strictAssert } from './assert.std.js';
+} from '../types/ServiceId.std.ts';
+import * as Bytes from '../Bytes.std.ts';
+import { toServiceIdObject } from './ServiceId.node.ts';
+import { strictAssert } from './assert.std.ts';
 
 // oxlint-disable-next-line no-barrel-file
 export * from '@signalapp/libsignal-client/zkgroup.js';

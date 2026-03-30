@@ -2,12 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import React, { memo } from 'react';
 import { useSelector } from 'react-redux';
-import { MessageSearchResult } from '../../components/conversationList/MessageSearchResult.dom.js';
-import { getPreferredBadgeSelector } from '../selectors/badges.preload.js';
-import { getIntl, getTheme } from '../selectors/user.std.js';
-import { getMessageSearchResultSelector } from '../selectors/search.preload.js';
-import { createLogger } from '../../logging/log.std.js';
-import { useConversationsActions } from '../ducks/conversations.preload.js';
+import { MessageSearchResult } from '../../components/conversationList/MessageSearchResult.dom.tsx';
+import { getPreferredBadgeSelector } from '../selectors/badges.preload.ts';
+import { getIntl, getTheme } from '../selectors/user.std.ts';
+import { getMessageSearchResultSelector } from '../selectors/search.preload.ts';
+import { createLogger } from '../../logging/log.std.ts';
+import { useConversationsActions } from '../ducks/conversations.preload.ts';
 
 const log = createLogger('MessageSearchResult');
 

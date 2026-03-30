@@ -4,12 +4,12 @@
 import React, { useEffect, useState } from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta, StoryFn } from '@storybook/react';
-import { DialogType } from '../../types/Dialogs.std.js';
-import { InstallScreenQRCodeError } from '../../types/InstallScreen.std.js';
-import type { Loadable } from '../../util/loadable.std.js';
-import { LoadingState } from '../../util/loadable.std.js';
-import type { PropsType } from './InstallScreenQrCodeNotScannedStep.dom.js';
-import { InstallScreenQrCodeNotScannedStep } from './InstallScreenQrCodeNotScannedStep.dom.js';
+import { DialogType } from '../../types/Dialogs.std.ts';
+import { InstallScreenQRCodeError } from '../../types/InstallScreen.std.ts';
+import type { Loadable } from '../../util/loadable.std.ts';
+import { LoadingState } from '../../util/loadable.std.ts';
+import type { PropsType } from './InstallScreenQrCodeNotScannedStep.dom.tsx';
+import { InstallScreenQrCodeNotScannedStep } from './InstallScreenQrCodeNotScannedStep.dom.tsx';
 
 const { i18n } = window.SignalContext;
 

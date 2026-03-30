@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { Transform } from 'node:stream';
-import { strictAssert } from './assert.std.js';
+import { strictAssert } from './assert.std.ts';
 
 /**
  * Truncates the stream to the target size and analyzes padding type.

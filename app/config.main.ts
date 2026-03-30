@@ -11,9 +11,9 @@ import {
   getEnvironment,
   setEnvironment,
   parseEnvironment,
-} from '../ts/environment.std.js';
-import { createLogger } from '../ts/logging/log.std.js';
-import { getAppRootDir } from '../ts/util/appRootDir.main.js';
+} from '../ts/environment.std.ts';
+import { createLogger } from '../ts/logging/log.std.ts';
+import { getAppRootDir } from '../ts/util/appRootDir.main.ts';
 
 const log = createLogger('config');
 

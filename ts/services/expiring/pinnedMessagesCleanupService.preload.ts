@@ -1,15 +1,15 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { DataReader, DataWriter } from '../../sql/Client.preload.js';
-import { createExpiringEntityCleanupService } from './createExpiringEntityCleanupService.std.js';
-import { strictAssert } from '../../util/assert.std.js';
+import { DataReader, DataWriter } from '../../sql/Client.preload.ts';
+import { createExpiringEntityCleanupService } from './createExpiringEntityCleanupService.std.ts';
+import { strictAssert } from '../../util/assert.std.ts';
 import {
   conversationJobQueue,
   conversationQueueJobEnum,
-} from '../../jobs/conversationJobQueue.preload.js';
-import { getPinnedMessageTarget } from '../../util/getPinMessageTarget.preload.js';
-import { drop } from '../../util/drop.std.js';
+} from '../../jobs/conversationJobQueue.preload.ts';
+import { getPinnedMessageTarget } from '../../util/getPinMessageTarget.preload.ts';
+import { drop } from '../../util/drop.std.ts';
 
 export const pinnedMessagesCleanupService = createExpiringEntityCleanupService({
   logPrefix: 'PinnedMessages',

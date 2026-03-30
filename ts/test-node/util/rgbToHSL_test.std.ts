@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 
-import { rgbIntToHSL, rgbToHSL } from '../../util/rgbToHSL.std.js';
+import { rgbIntToHSL, rgbToHSL } from '../../util/rgbToHSL.std.ts';
 
 describe('rgbToHSL', () => {
   it('converts pure rgb colors', () => {

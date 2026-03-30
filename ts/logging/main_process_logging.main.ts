@@ -18,16 +18,16 @@ import { join } from 'node:path';
 import { read as readLastLines } from 'read-last-lines';
 import split2 from 'split2';
 
-import type { LoggerType } from '../types/Logging.std.js';
-import * as Errors from '../types/errors.std.js';
-import { createRotatingPinoDest } from '../util/rotatingPinoDest.node.js';
-import { redactAll } from '../util/privacy.node.js';
+import type { LoggerType } from '../types/Logging.std.ts';
+import * as Errors from '../types/errors.std.ts';
+import { createRotatingPinoDest } from '../util/rotatingPinoDest.node.ts';
+import { redactAll } from '../util/privacy.node.ts';
 
-import { setPinoDestination, log, setOnLogCallback } from './log.std.js';
+import { setPinoDestination, log, setOnLogCallback } from './log.std.ts';
 
-import type { FetchLogIpcData, LogEntryType } from './shared.std.js';
-import { LogLevel, isLogEntry } from './shared.std.js';
-import { isProduction } from '../util/version.std.js';
+import type { FetchLogIpcData, LogEntryType } from './shared.std.ts';
+import { LogLevel, isLogEntry } from './shared.std.ts';
+import { isProduction } from '../util/version.std.ts';
 
 const { filter, flatten, map, pick, sortBy } = lodash;
 

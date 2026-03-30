@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import type { Meta } from '@storybook/react';
 import React from 'react';
-import { ExperimentalAxoBadge } from './AxoBadge.dom.js';
-import { tw } from './tw.dom.js';
+import { ExperimentalAxoBadge } from './AxoBadge.dom.tsx';
+import { tw } from './tw.dom.tsx';
 
 export default {
   title: 'Axo/AriaBadge (Experimental)',

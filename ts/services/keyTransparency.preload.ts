@@ -13,25 +13,25 @@ import type {
 } from '@signalapp/libsignal-client/dist/net/KeyTransparency.js';
 import pTimeout from 'p-timeout';
 
-import { keyTransparencyCheck } from '../textsecure/WebAPI.preload.js';
-import { signalProtocolStore } from '../SignalProtocolStore.preload.js';
-import { itemStorage } from '../textsecure/Storage.preload.js';
-import { toLogFormat } from '../types/errors.std.js';
-import { toAciObject } from '../util/ServiceId.node.js';
-import { TaskDeduplicator } from '../util/TaskDeduplicator.std.js';
-import { BackOff, FIBONACCI_TIMEOUTS } from '../util/BackOff.std.js';
-import { sleep } from '../util/sleep.std.js';
-import { SECOND, MINUTE, DAY, WEEK } from '../util/durations/constants.std.js';
-import { CheckScheduler } from '../util/CheckScheduler.preload.js';
-import { strictAssert } from '../util/assert.std.js';
-import { isFeaturedEnabledNoRedux } from '../util/isFeatureEnabled.dom.js';
-import { explodePromise } from '../util/explodePromise.std.js';
-import { PhoneNumberDiscoverability } from '../util/phoneNumberDiscoverability.std.js';
-import * as Bytes from '../Bytes.std.js';
-import { createLogger } from '../logging/log.std.js';
-import { isEnabled } from '../RemoteConfig.dom.js';
-import { DataWriter } from '../sql/Client.preload.js';
-import { runStorageServiceSyncJob } from './storage.preload.js';
+import { keyTransparencyCheck } from '../textsecure/WebAPI.preload.ts';
+import { signalProtocolStore } from '../SignalProtocolStore.preload.ts';
+import { itemStorage } from '../textsecure/Storage.preload.ts';
+import { toLogFormat } from '../types/errors.std.ts';
+import { toAciObject } from '../util/ServiceId.node.ts';
+import { TaskDeduplicator } from '../util/TaskDeduplicator.std.ts';
+import { BackOff, FIBONACCI_TIMEOUTS } from '../util/BackOff.std.ts';
+import { sleep } from '../util/sleep.std.ts';
+import { SECOND, MINUTE, DAY, WEEK } from '../util/durations/constants.std.ts';
+import { CheckScheduler } from '../util/CheckScheduler.preload.ts';
+import { strictAssert } from '../util/assert.std.ts';
+import { isFeaturedEnabledNoRedux } from '../util/isFeatureEnabled.dom.ts';
+import { explodePromise } from '../util/explodePromise.std.ts';
+import { PhoneNumberDiscoverability } from '../util/phoneNumberDiscoverability.std.ts';
+import * as Bytes from '../Bytes.std.ts';
+import { createLogger } from '../logging/log.std.ts';
+import { isEnabled } from '../RemoteConfig.dom.ts';
+import { DataWriter } from '../sql/Client.preload.ts';
+import { runStorageServiceSyncJob } from './storage.preload.ts';
 
 const log = createLogger('KeyTransparency');
 

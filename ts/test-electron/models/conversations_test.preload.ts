@@ -4,15 +4,15 @@
 import { assert } from 'chai';
 import { v7 as generateUuid } from 'uuid';
 
-import { DataReader, DataWriter } from '../../sql/Client.preload.js';
-import { SendStatus } from '../../messages/MessageSendState.std.js';
-import { IMAGE_PNG } from '../../types/MIME.std.js';
-import { generateAci, generatePni } from '../../types/ServiceId.std.js';
-import { MessageModel } from '../../models/messages.preload.js';
-import { DurationInSeconds } from '../../util/durations/index.std.js';
-import { ConversationModel } from '../../models/conversations.preload.js';
-import { itemStorage } from '../../textsecure/Storage.preload.js';
-import { strictAssert } from '../../util/assert.std.js';
+import { DataReader, DataWriter } from '../../sql/Client.preload.ts';
+import { SendStatus } from '../../messages/MessageSendState.std.ts';
+import { IMAGE_PNG } from '../../types/MIME.std.ts';
+import { generateAci, generatePni } from '../../types/ServiceId.std.ts';
+import { MessageModel } from '../../models/messages.preload.ts';
+import { DurationInSeconds } from '../../util/durations/index.std.ts';
+import { ConversationModel } from '../../models/conversations.preload.ts';
+import { itemStorage } from '../../textsecure/Storage.preload.ts';
+import { strictAssert } from '../../util/assert.std.ts';
 
 describe('Conversations', () => {
   async function resetConversationController(): Promise<void> {

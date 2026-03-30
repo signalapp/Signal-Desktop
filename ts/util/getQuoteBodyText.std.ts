@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReadonlyMessageAttributesType } from '../model-types.d.ts';
-import type { LocalizerType } from '../types/Util.std.js';
-import * as EmbeddedContact from '../types/EmbeddedContact.std.js';
+import type { LocalizerType } from '../types/Util.std.ts';
+import * as EmbeddedContact from '../types/EmbeddedContact.std.ts';
 
 export function getQuoteBodyText({
   messageAttributes,

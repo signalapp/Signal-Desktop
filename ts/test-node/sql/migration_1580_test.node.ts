@@ -2,13 +2,13 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import { assert } from 'chai';
 
-import { type WritableDB } from '../../sql/Interface.std.js';
+import { type WritableDB } from '../../sql/Interface.std.ts';
 import {
   createDB,
   getTableData,
   insertData,
   updateToVersion,
-} from './helpers.node.js';
+} from './helpers.node.ts';
 
 describe('SQL/updateToSchemaVersion1580', () => {
   let db: WritableDB;

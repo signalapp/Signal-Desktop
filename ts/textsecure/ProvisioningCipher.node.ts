@@ -3,21 +3,21 @@
 
 import { PublicKey, Aci, Pni } from '@signalapp/libsignal-client';
 import type { KeyPairType } from './Types.d.ts';
-import * as Bytes from '../Bytes.std.js';
+import * as Bytes from '../Bytes.std.ts';
 import {
   decryptAes256CbcPkcsPadding,
   deriveSecrets,
   verifyHmacSha256,
-} from '../Crypto.node.js';
+} from '../Crypto.node.ts';
 import {
   calculateAgreement,
   createKeyPair,
   generateKeyPair,
-} from '../Curve.node.js';
-import { SignalService as Proto } from '../protobuf/index.std.js';
-import { strictAssert } from '../util/assert.std.js';
-import { dropNull } from '../util/dropNull.std.js';
-import { normalizeAci } from '../util/normalizeAci.std.js';
+} from '../Curve.node.ts';
+import { SignalService as Proto } from '../protobuf/index.std.ts';
+import { strictAssert } from '../util/assert.std.ts';
+import { dropNull } from '../util/dropNull.std.ts';
+import { normalizeAci } from '../util/normalizeAci.std.ts';
 import {
   type AciString,
   type PniString,
@@ -26,7 +26,7 @@ import {
   isUntaggedPniString,
   fromAciObject,
   fromPniObject,
-} from '../types/ServiceId.std.js';
+} from '../types/ServiceId.std.ts';
 
 export type ProvisionDecryptResult = Readonly<{
   aciKeyPair: KeyPairType;

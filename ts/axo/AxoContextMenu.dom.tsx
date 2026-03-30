@@ -15,14 +15,14 @@ import type {
   KeyboardEventHandler,
   MouseEvent as ReactMouseEvent,
 } from 'react';
-import { AxoSymbol } from './AxoSymbol.dom.js';
-import { AxoBaseMenu } from './_internal/AxoBaseMenu.dom.js';
-import { tw } from './tw.dom.js';
-import { assert } from './_internal/assert.std.js';
+import { AxoSymbol } from './AxoSymbol.dom.tsx';
+import { AxoBaseMenu } from './_internal/AxoBaseMenu.dom.tsx';
+import { tw } from './tw.dom.tsx';
+import { assert } from './_internal/assert.std.tsx';
 import {
   createStrictContext,
   useStrictContext,
-} from './_internal/StrictContext.dom.js';
+} from './_internal/StrictContext.dom.tsx';
 
 const Namespace = 'AxoContextMenu';
 

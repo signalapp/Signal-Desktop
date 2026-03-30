@@ -1,8 +1,8 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import { createSelector } from 'reselect';
-import type { StateType } from '../reducer.preload.js';
-import type { AudioRecorderStateType } from '../ducks/audioRecorder.preload.js';
+import type { StateType } from '../reducer.preload.ts';
+import type { AudioRecorderStateType } from '../ducks/audioRecorder.preload.ts';
 
 export function getAudioRecorder(state: StateType): AudioRecorderStateType {
   return state.audioRecorder;

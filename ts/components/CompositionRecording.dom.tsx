@@ -3,19 +3,19 @@
 
 import lodash from 'lodash';
 import React, { useEffect, useRef, useState } from 'react';
-import { useEscapeHandling } from '../hooks/useEscapeHandling.dom.js';
+import { useEscapeHandling } from '../hooks/useEscapeHandling.dom.ts';
 import type {
   HideToastAction,
   ShowToastAction,
-} from '../state/ducks/toast.preload.js';
-import { ErrorDialogAudioRecorderType } from '../types/AudioRecorder.std.js';
-import type { LocalizerType } from '../types/Util.std.js';
-import type { AnyToast } from '../types/Toast.dom.js';
-import { ToastType } from '../types/Toast.dom.js';
-import { DurationInSeconds, SECOND } from '../util/durations/index.std.js';
-import { durationToPlaybackText } from '../util/durationToPlaybackText.std.js';
-import { ConfirmationDialog } from './ConfirmationDialog.dom.js';
-import { RecordingComposer } from './RecordingComposer.dom.js';
+} from '../state/ducks/toast.preload.ts';
+import { ErrorDialogAudioRecorderType } from '../types/AudioRecorder.std.ts';
+import type { LocalizerType } from '../types/Util.std.ts';
+import type { AnyToast } from '../types/Toast.dom.tsx';
+import { ToastType } from '../types/Toast.dom.tsx';
+import { DurationInSeconds, SECOND } from '../util/durations/index.std.ts';
+import { durationToPlaybackText } from '../util/durationToPlaybackText.std.ts';
+import { ConfirmationDialog } from './ConfirmationDialog.dom.tsx';
+import { RecordingComposer } from './RecordingComposer.dom.tsx';
 
 const { noop } = lodash;
 

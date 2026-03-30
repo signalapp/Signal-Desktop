@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 
-import { isPathInside } from '../../util/isPathInside.node.js';
+import { isPathInside } from '../../util/isPathInside.node.ts';
 
 describe('isPathInside', () => {
   it('returns false if the child path is not inside the parent path', () => {

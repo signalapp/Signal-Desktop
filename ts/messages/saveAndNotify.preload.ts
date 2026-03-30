@@ -1,22 +1,22 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { createLogger } from '../logging/log.std.js';
+import { createLogger } from '../logging/log.std.ts';
 
-import { explodePromise } from '../util/explodePromise.std.js';
+import { explodePromise } from '../util/explodePromise.std.ts';
 
-import { saveNewMessageBatcher } from '../util/messageBatcher.preload.js';
-import { handleAttachmentDownloadsForNewMessage } from '../util/queueAttachmentDownloads.preload.js';
+import { saveNewMessageBatcher } from '../util/messageBatcher.preload.ts';
+import { handleAttachmentDownloadsForNewMessage } from '../util/queueAttachmentDownloads.preload.ts';
 import {
   modifyTargetMessage,
   ModifyTargetMessageResult,
-} from '../util/modifyTargetMessage.preload.js';
-import { isStory } from './helpers.std.js';
-import { drop } from '../util/drop.std.js';
+} from '../util/modifyTargetMessage.preload.ts';
+import { isStory } from './helpers.std.ts';
+import { drop } from '../util/drop.std.ts';
 
-import type { ConversationModel } from '../models/conversations.preload.js';
-import type { MessageModel } from '../models/messages.preload.js';
-import { maybeNotify } from './maybeNotify.preload.js';
+import type { ConversationModel } from '../models/conversations.preload.ts';
+import type { MessageModel } from '../models/messages.preload.ts';
+import { maybeNotify } from './maybeNotify.preload.ts';
 
 const log = createLogger('saveAndNotify');
 

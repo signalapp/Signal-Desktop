@@ -3,9 +3,9 @@
 
 import React from 'react';
 
-import type { LocalizerType } from '../types/Util.std.js';
-import { useEscapeHandling } from '../hooks/useEscapeHandling.dom.js';
-import { tw } from '../axo/tw.dom.js';
+import type { LocalizerType } from '../types/Util.std.ts';
+import { useEscapeHandling } from '../hooks/useEscapeHandling.dom.ts';
+import { tw } from '../axo/tw.dom.tsx';
 
 export type AboutProps = Readonly<{
   closeAbout: () => unknown;

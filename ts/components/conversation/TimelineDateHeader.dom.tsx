@@ -4,10 +4,10 @@
 import type { ReactElement } from 'react';
 import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
-import * as durations from '../../util/durations/index.std.js';
-import type { LocalizerType } from '../../types/Util.std.js';
-import { formatDate } from '../../util/formatTimestamp.dom.js';
-import { Time } from '../Time.dom.js';
+import * as durations from '../../util/durations/index.std.ts';
+import type { LocalizerType } from '../../types/Util.std.ts';
+import { formatDate } from '../../util/formatTimestamp.dom.ts';
+import { Time } from '../Time.dom.tsx';
 
 export function TimelineDateHeader({
   floating = false,

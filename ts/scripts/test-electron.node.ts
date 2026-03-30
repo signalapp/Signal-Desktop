@@ -11,10 +11,10 @@ import z from 'zod';
 import split2 from 'split2';
 import logSymbols from 'log-symbols';
 
-import { explodePromise } from '../util/explodePromise.std.js';
-import { missingCaseError } from '../util/missingCaseError.std.js';
-import { SECOND } from '../util/durations/index.std.js';
-import { parseUnknown } from '../util/schemas.std.js';
+import { explodePromise } from '../util/explodePromise.std.ts';
+import { missingCaseError } from '../util/missingCaseError.std.ts';
+import { SECOND } from '../util/durations/index.std.ts';
+import { parseUnknown } from '../util/schemas.std.ts';
 
 const ROOT_DIR = join(__dirname, '..', '..');
 
@@ -100,6 +100,8 @@ async function launchElectron(
         SIGNAL_CI_CONFIG: JSON.stringify({
           storagePath,
         }),
+        // Necessary for `tsx` to work in preload (there are no worker_threads)
+        ESBUILD_WORKER_THREADS: '0',
       },
       // Since we run `.cmd` file on Windows - use shell
       shell: process.platform === 'win32',

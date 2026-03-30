@@ -12,12 +12,12 @@ import lodash from 'lodash';
 import pMap from 'p-map';
 import Dicer from '@indutny/dicer';
 
-import { strictAssert } from '../util/assert.std.js';
-import { wrapEventEmitterOnce } from '../util/wrapEventEmitterOnce.node.js';
-import type { LoggerType } from '../types/Logging.std.js';
-import { getGotOptions } from './got.main.js';
-import type { GotOptions } from './got.main.js';
-import { checkIntegrity } from './util.node.js';
+import { strictAssert } from '../util/assert.std.ts';
+import { wrapEventEmitterOnce } from '../util/wrapEventEmitterOnce.node.ts';
+import type { LoggerType } from '../types/Logging.std.ts';
+import { getGotOptions } from './got.main.ts';
+import type { GotOptions } from './got.main.ts';
+import { checkIntegrity } from './util.node.ts';
 
 const { chunk: lodashChunk, noop } = lodash;
 

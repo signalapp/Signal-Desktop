@@ -3,8 +3,8 @@
 
 import * as React from 'react';
 import type { Meta } from '@storybook/react';
-import type { Props } from './JoinedSignalNotification.dom.js';
-import { JoinedSignalNotification } from './JoinedSignalNotification.dom.js';
+import type { Props } from './JoinedSignalNotification.dom.tsx';
+import { JoinedSignalNotification } from './JoinedSignalNotification.dom.tsx';
 
 export default {
   title: 'Components/Conversation/JoinedSignalNotification',

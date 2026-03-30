@@ -1,12 +1,12 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { MessageAttributesType } from '../model-types.js';
-import { strictAssert } from '../util/assert.std.js';
-import type { DurationInSeconds } from '../util/durations/index.std.js';
-import type { AttachmentType } from './Attachment.std.js';
-import type { EmbeddedContactType } from './EmbeddedContact.std.js';
-import type { ErrorIfOverlapping, ExactKeys } from './Util.std.js';
+import type { MessageAttributesType } from '../model-types.d.ts';
+import { strictAssert } from '../util/assert.std.ts';
+import type { DurationInSeconds } from '../util/durations/index.std.ts';
+import type { AttachmentType } from './Attachment.std.ts';
+import type { EmbeddedContactType } from './EmbeddedContact.std.ts';
+import type { ErrorIfOverlapping, ExactKeys } from './Util.std.ts';
 
 export function getMentionsRegex(): RegExp {
   return /\uFFFC/g;

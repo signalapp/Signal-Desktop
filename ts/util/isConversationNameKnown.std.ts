@@ -1,8 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ConversationType } from '../state/ducks/conversations.preload.js';
-import { missingCaseError } from './missingCaseError.std.js';
+import type { ConversationType } from '../state/ducks/conversations.preload.ts';
+import { missingCaseError } from './missingCaseError.std.ts';
 
 export function isConversationNameKnown(
   conversation: Readonly<

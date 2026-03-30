@@ -1,9 +1,9 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { AttachmentDownloadSource } from '../sql/Interface.std.js';
-import { IMAGE_JPEG, IMAGE_PNG } from '../types/MIME.std.js';
-import type { AttachmentDownloadJobType } from '../types/AttachmentDownload.std.js';
+import { AttachmentDownloadSource } from '../sql/Interface.std.ts';
+import { IMAGE_JPEG, IMAGE_PNG } from '../types/MIME.std.ts';
+import type { AttachmentDownloadJobType } from '../types/AttachmentDownload.std.ts';
 
 export function createAttachmentDownloadJob(
   index: number,

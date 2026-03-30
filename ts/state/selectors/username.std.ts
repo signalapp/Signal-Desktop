@@ -3,18 +3,18 @@
 
 import { createSelector } from 'reselect';
 
-import type { UsernameReservationType } from '../../types/Username.std.js';
-import type { StateType } from '../reducer.preload.js';
+import type { UsernameReservationType } from '../../types/Username.std.ts';
+import type { StateType } from '../reducer.preload.ts';
 import type {
   UsernameStateType,
   UsernameReservationStateType,
-} from '../ducks/username.preload.js';
+} from '../ducks/username.preload.ts';
 import type {
   UsernameEditState,
   UsernameLinkState,
   UsernameReservationState,
   UsernameReservationError,
-} from '../ducks/usernameEnums.std.js';
+} from '../ducks/usernameEnums.std.ts';
 
 export const getUsernameState = (state: StateType): UsernameStateType =>
   state.username;

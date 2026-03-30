@@ -1,9 +1,9 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { DataReader, DataWriter } from '../sql/Client.preload.js';
+import { DataReader, DataWriter } from '../sql/Client.preload.ts';
 import type { ConversationAttributesType } from '../model-types.d.ts';
-import { maybeDeleteAttachmentFile } from './migrations.preload.js';
+import { maybeDeleteAttachmentFile } from './migrations.preload.ts';
 
 async function deleteExternalFiles(
   conversation: ConversationAttributesType

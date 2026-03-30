@@ -26,13 +26,13 @@ import {
   SignedPreKeyStore,
 } from '@signalapp/libsignal-client';
 import type { Store as KeyTransparencyStoreInterface } from '@signalapp/libsignal-client/dist/net/KeyTransparency.d.ts';
-import { Address } from './types/Address.std.js';
-import { QualifiedAddress } from './types/QualifiedAddress.std.js';
-import type { ServiceIdString } from './types/ServiceId.std.js';
-import { normalizeServiceId } from './types/ServiceId.std.js';
-import type { SignalProtocolStore } from './SignalProtocolStore.preload.js';
+import { Address } from './types/Address.std.ts';
+import { QualifiedAddress } from './types/QualifiedAddress.std.ts';
+import type { ServiceIdString } from './types/ServiceId.std.ts';
+import { normalizeServiceId } from './types/ServiceId.std.ts';
+import type { SignalProtocolStore } from './SignalProtocolStore.preload.ts';
 
-import type { Zone } from './util/Zone.std.js';
+import type { Zone } from './util/Zone.std.ts';
 
 const { isNumber } = lodash;
 

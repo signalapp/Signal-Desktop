@@ -5,7 +5,7 @@ import lodash from 'lodash';
 import { useMemo } from 'react';
 
 // oxlint-disable-next-line signal-desktop/no-restricted-paths
-import type { Reaction } from '../components/conversation/ReactionViewer.dom.js';
+import type { Reaction } from '../components/conversation/ReactionViewer.dom.tsx';
 import {
   isEmojiVariantValue,
   getEmojiVariantKeyByValue,
@@ -14,10 +14,10 @@ import {
   type EmojiVariantKey,
   type EmojiParentKey,
   // oxlint-disable-next-line signal-desktop/no-restricted-paths
-} from '../components/fun/data/emojis.std.js';
-import { isNotNil } from './isNotNil.std.js';
+} from '../components/fun/data/emojis.std.ts';
+import { isNotNil } from './isNotNil.std.ts';
 // oxlint-disable-next-line signal-desktop/no-restricted-paths
-import { useFunEmojiLocalizer } from '../components/fun/useFunEmojiLocalizer.dom.js';
+import { useFunEmojiLocalizer } from '../components/fun/useFunEmojiLocalizer.dom.tsx';
 
 const { groupBy, orderBy } = lodash;
 

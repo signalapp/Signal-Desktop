@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 
-import { isValid } from '../../types/SchemaVersion.std.js';
+import { isValid } from '../../types/SchemaVersion.std.ts';
 
 describe('SchemaVersion', () => {
   describe('isValid', () => {

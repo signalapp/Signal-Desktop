@@ -3,13 +3,13 @@
 
 import React, { memo, useMemo, useCallback } from 'react';
 import { useSelector } from 'react-redux';
-import { ThemeType } from '../../types/Util.std.js';
-import { LinkPreviewSourceType } from '../../types/LinkPreview.std.js';
+import { ThemeType } from '../../types/Util.std.ts';
+import { LinkPreviewSourceType } from '../../types/LinkPreview.std.ts';
 import type {
   DraftBodyRanges,
   HydratedBodyRangesType,
-} from '../../types/BodyRange.std.js';
-import { StoryCreator } from '../../components/StoryCreator.dom.js';
+} from '../../types/BodyRange.std.ts';
+import { StoryCreator } from '../../components/StoryCreator.dom.tsx';
 import {
   getCandidateContactsForNewGroup,
   getConversationSelector,
@@ -17,33 +17,33 @@ import {
   getMe,
   getNonGroupStories,
   selectMostRecentActiveStoryTimestampByGroupOrDistributionList,
-} from '../selectors/conversations.dom.js';
-import { getAllSignalConnections } from '../selectors/conversations-extra.preload.js';
-import { getDistributionListsWithMembers } from '../selectors/storyDistributionLists.dom.js';
+} from '../selectors/conversations.dom.ts';
+import { getAllSignalConnections } from '../selectors/conversations-extra.preload.ts';
+import { getDistributionListsWithMembers } from '../selectors/storyDistributionLists.dom.ts';
 import {
   getIntl,
   getPlatform,
   getUserConversationId,
-} from '../selectors/user.std.js';
-import { getAddStoryData } from '../selectors/stories.preload.js';
-import { getLinkPreview } from '../selectors/linkPreviews.std.js';
-import { getPreferredBadgeSelector } from '../selectors/badges.preload.js';
+} from '../selectors/user.std.ts';
+import { getAddStoryData } from '../selectors/stories.preload.ts';
+import { getLinkPreview } from '../selectors/linkPreviews.std.ts';
+import { getPreferredBadgeSelector } from '../selectors/badges.preload.ts';
 import {
   getEmojiSkinToneDefault,
   getHasSetMyStoriesPrivacy,
   getTextFormattingEnabled,
-} from '../selectors/items.dom.js';
-import { imageToBlurHash } from '../../util/imageToBlurHash.dom.js';
-import { processAttachment } from '../../util/processAttachment.preload.js';
-import { hydrateRanges } from '../../util/BodyRange.node.js';
-import { useEmojisActions } from '../ducks/emojis.preload.js';
-import { useAudioPlayerActions } from '../ducks/audioPlayer.preload.js';
-import { useComposerActions } from '../ducks/composer.preload.js';
-import { useConversationsActions } from '../ducks/conversations.preload.js';
-import { useGlobalModalActions } from '../ducks/globalModals.preload.js';
-import { useLinkPreviewActions } from '../ducks/linkPreviews.preload.js';
-import { useStoriesActions } from '../ducks/stories.preload.js';
-import { useStoryDistributionListsActions } from '../ducks/storyDistributionLists.preload.js';
+} from '../selectors/items.dom.ts';
+import { imageToBlurHash } from '../../util/imageToBlurHash.dom.ts';
+import { processAttachment } from '../../util/processAttachment.preload.ts';
+import { hydrateRanges } from '../../util/BodyRange.node.ts';
+import { useEmojisActions } from '../ducks/emojis.preload.ts';
+import { useAudioPlayerActions } from '../ducks/audioPlayer.preload.ts';
+import { useComposerActions } from '../ducks/composer.preload.ts';
+import { useConversationsActions } from '../ducks/conversations.preload.ts';
+import { useGlobalModalActions } from '../ducks/globalModals.preload.ts';
+import { useLinkPreviewActions } from '../ducks/linkPreviews.preload.ts';
+import { useStoriesActions } from '../ducks/stories.preload.ts';
+import { useStoryDistributionListsActions } from '../ducks/storyDistributionLists.preload.ts';
 
 export type PropsType = {
   file?: File;

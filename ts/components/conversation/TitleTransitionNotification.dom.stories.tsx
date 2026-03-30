@@ -3,8 +3,8 @@
 
 import * as React from 'react';
 import type { Meta } from '@storybook/react';
-import type { Props } from './TitleTransitionNotification.dom.js';
-import { TitleTransitionNotification } from './TitleTransitionNotification.dom.js';
+import type { Props } from './TitleTransitionNotification.dom.tsx';
+import { TitleTransitionNotification } from './TitleTransitionNotification.dom.tsx';
 
 export default {
   title: 'Components/Conversation/TitleTransitionNotification',

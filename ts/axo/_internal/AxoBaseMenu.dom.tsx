@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import React from 'react';
 import type { ReactNode } from 'react';
-import { tw } from '../tw.dom.js';
-import { AxoSymbol } from '../AxoSymbol.dom.js';
-import { isTestOrMockEnvironment } from '../../environment.std.js';
+import { tw } from '../tw.dom.tsx';
+import { AxoSymbol } from '../AxoSymbol.dom.tsx';
+import { isTestOrMockEnvironment } from '../../environment.std.ts';
 
 // In the future we should be relying more on insert order of
 // dialogs/popovers/menus into portals

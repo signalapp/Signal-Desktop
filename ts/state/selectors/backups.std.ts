@@ -3,12 +3,12 @@
 
 import { createSelector } from 'reselect';
 
-import type { StateType } from '../reducer.preload.js';
-import type { BackupsStateType } from '../ducks/backups.preload.js';
+import type { StateType } from '../reducer.preload.ts';
+import type { BackupsStateType } from '../ducks/backups.preload.ts';
 import type {
   PlaintextExportWorkflowType,
   LocalBackupExportWorkflowType,
-} from '../../types/LocalExport.std.js';
+} from '../../types/LocalExport.std.ts';
 
 export const getBackups = (state: StateType): BackupsStateType => state.backups;
 

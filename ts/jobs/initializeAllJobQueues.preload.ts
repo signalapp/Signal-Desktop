@@ -1,21 +1,21 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { reportMessage, isOnline } from '../textsecure/WebAPI.preload.js';
-import { drop } from '../util/drop.std.js';
-import { CallLinkFinalizeDeleteManager } from './CallLinkFinalizeDeleteManager.preload.js';
-import { chatFolderCleanupService } from '../services/expiring/chatFolderCleanupService.preload.js';
-import { pinnedMessagesCleanupService } from '../services/expiring/pinnedMessagesCleanupService.preload.js';
-import { callLinkRefreshJobQueue } from './callLinkRefreshJobQueue.preload.js';
-import { conversationJobQueue } from './conversationJobQueue.preload.js';
-import { deleteDownloadsJobQueue } from './deleteDownloadsJobQueue.preload.js';
-import { groupAvatarJobQueue } from './groupAvatarJobQueue.preload.js';
-import { readSyncJobQueue } from './readSyncJobQueue.preload.js';
-import { removeStorageKeyJobQueue } from './removeStorageKeyJobQueue.preload.js';
-import { reportSpamJobQueue } from './reportSpamJobQueue.preload.js';
-import { singleProtoJobQueue } from './singleProtoJobQueue.preload.js';
-import { viewOnceOpenJobQueue } from './viewOnceOpenJobQueue.preload.js';
-import { viewSyncJobQueue } from './viewSyncJobQueue.preload.js';
+import type { reportMessage, isOnline } from '../textsecure/WebAPI.preload.ts';
+import { drop } from '../util/drop.std.ts';
+import { CallLinkFinalizeDeleteManager } from './CallLinkFinalizeDeleteManager.preload.ts';
+import { chatFolderCleanupService } from '../services/expiring/chatFolderCleanupService.preload.ts';
+import { pinnedMessagesCleanupService } from '../services/expiring/pinnedMessagesCleanupService.preload.ts';
+import { callLinkRefreshJobQueue } from './callLinkRefreshJobQueue.preload.ts';
+import { conversationJobQueue } from './conversationJobQueue.preload.ts';
+import { deleteDownloadsJobQueue } from './deleteDownloadsJobQueue.preload.ts';
+import { groupAvatarJobQueue } from './groupAvatarJobQueue.preload.ts';
+import { readSyncJobQueue } from './readSyncJobQueue.preload.ts';
+import { removeStorageKeyJobQueue } from './removeStorageKeyJobQueue.preload.ts';
+import { reportSpamJobQueue } from './reportSpamJobQueue.preload.ts';
+import { singleProtoJobQueue } from './singleProtoJobQueue.preload.ts';
+import { viewOnceOpenJobQueue } from './viewOnceOpenJobQueue.preload.ts';
+import { viewSyncJobQueue } from './viewSyncJobQueue.preload.ts';
 
 type ServerType = {
   reportMessage: typeof reportMessage;

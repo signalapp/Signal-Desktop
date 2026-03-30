@@ -3,12 +3,12 @@
 
 import * as React from 'react';
 
-import { Modal } from '../Modal.dom.js';
+import { Modal } from '../Modal.dom.tsx';
 
-import { useRestoreFocus } from '../../hooks/useRestoreFocus.dom.js';
+import { useRestoreFocus } from '../../hooks/useRestoreFocus.dom.ts';
 
-import type { LocalizerType } from '../../types/Util.std.js';
-import { Button, ButtonSize, ButtonVariant } from '../Button.dom.js';
+import type { LocalizerType } from '../../types/Util.std.ts';
+import { Button, ButtonSize, ButtonVariant } from '../Button.dom.tsx';
 
 export type PropsType = {
   i18n: LocalizerType;

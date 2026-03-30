@@ -2,18 +2,18 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useMemo } from 'react';
-import { tw } from '../../../axo/tw.dom.js';
-import { AxoButton } from '../../../axo/AxoButton.dom.js';
-import { AxoSymbol } from '../../../axo/AxoSymbol.dom.js';
-import { Modal } from '../../Modal.dom.js';
-import { Avatar, AvatarSize } from '../../Avatar.dom.js';
-import { ContactName } from '../ContactName.dom.js';
-import { UserText } from '../../UserText.dom.js';
-import type { LocalizerType } from '../../../types/Util.std.js';
+import { tw } from '../../../axo/tw.dom.tsx';
+import { AxoButton } from '../../../axo/AxoButton.dom.tsx';
+import { AxoSymbol } from '../../../axo/AxoSymbol.dom.tsx';
+import { Modal } from '../../Modal.dom.tsx';
+import { Avatar, AvatarSize } from '../../Avatar.dom.tsx';
+import { ContactName } from '../ContactName.dom.tsx';
+import { UserText } from '../../UserText.dom.tsx';
+import type { LocalizerType } from '../../../types/Util.std.ts';
 import type {
   PollVoteWithUserType,
   PollWithResolvedVotersType,
-} from '../../../state/selectors/message.preload.js';
+} from '../../../state/selectors/message.preload.ts';
 
 type PollVotesModalProps = {
   i18n: LocalizerType;

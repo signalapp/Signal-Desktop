@@ -1,16 +1,16 @@
 // Copyright 2017 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as durations from '../util/durations/index.std.js';
-import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary.std.js';
-import * as Registration from '../util/registration.preload.js';
-import { ServiceIdKind } from '../types/ServiceId.std.js';
-import { createLogger } from '../logging/log.std.js';
-import * as Errors from '../types/errors.std.js';
-import { HTTPError } from '../types/HTTPError.std.js';
-import { isOnline } from './WebAPI.preload.js';
-import { itemStorage } from './Storage.preload.js';
-import { accountManager } from './AccountManager.preload.js';
+import * as durations from '../util/durations/index.std.ts';
+import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary.std.ts';
+import * as Registration from '../util/registration.preload.ts';
+import { ServiceIdKind } from '../types/ServiceId.std.ts';
+import { createLogger } from '../logging/log.std.ts';
+import * as Errors from '../types/errors.std.ts';
+import { HTTPError } from '../types/HTTPError.std.ts';
+import { isOnline } from './WebAPI.preload.ts';
+import { itemStorage } from './Storage.preload.ts';
+import { accountManager } from './AccountManager.preload.ts';
 
 const log = createLogger('UpdateKeysListener');
 

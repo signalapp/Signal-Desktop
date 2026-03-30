@@ -7,24 +7,24 @@ import { randomBytes } from 'node:crypto';
 import { join } from 'node:path';
 import { emptyDir, ensureFile } from 'fs-extra';
 
-import type { Backups } from '../../protobuf/index.std.js';
+import type { Backups } from '../../protobuf/index.std.ts';
 
 import {
   getFilePointerForAttachment,
   convertFilePointerToAttachment,
-} from '../../services/backups/util/filePointers.preload.js';
-import { IMAGE_PNG } from '../../types/MIME.std.js';
-import * as Bytes from '../../Bytes.std.js';
-import type { AttachmentType } from '../../types/Attachment.std.js';
-import { MASTER_KEY, MEDIA_ROOT_KEY } from './helpers.preload.js';
-import { generateKeys } from '../../AttachmentCrypto.node.js';
-import type { GetBackupCdnInfoType } from '../../services/backups/util/mediaId.preload.js';
-import { strictAssert } from '../../util/assert.std.js';
-import { isValidAttachmentKey } from '../../types/Crypto.std.js';
-import { itemStorage } from '../../textsecure/Storage.preload.js';
-import { getAbsoluteAttachmentPath } from '../../util/migrations.preload.js';
-import { getAttachmentsPath } from '../../../app/attachments.node.js';
-import { sha256 } from '../../Crypto.node.js';
+} from '../../services/backups/util/filePointers.preload.ts';
+import { IMAGE_PNG } from '../../types/MIME.std.ts';
+import * as Bytes from '../../Bytes.std.ts';
+import type { AttachmentType } from '../../types/Attachment.std.ts';
+import { MASTER_KEY, MEDIA_ROOT_KEY } from './helpers.preload.ts';
+import { generateKeys } from '../../AttachmentCrypto.node.ts';
+import type { GetBackupCdnInfoType } from '../../services/backups/util/mediaId.preload.ts';
+import { strictAssert } from '../../util/assert.std.ts';
+import { isValidAttachmentKey } from '../../types/Crypto.std.ts';
+import { itemStorage } from '../../textsecure/Storage.preload.ts';
+import { getAbsoluteAttachmentPath } from '../../util/migrations.preload.ts';
+import { getAttachmentsPath } from '../../../app/attachments.node.ts';
+import { sha256 } from '../../Crypto.node.ts';
 
 describe('convertFilePointerToAttachment', () => {
   const commonFilePointerProps = {

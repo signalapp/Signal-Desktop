@@ -3,20 +3,20 @@
 import lodash from 'lodash';
 import { assert } from 'chai';
 
-import type { ReadableDB, WritableDB } from '../../sql/Interface.std.js';
+import type { ReadableDB, WritableDB } from '../../sql/Interface.std.ts';
 import {
   jsonToObject,
   objectToJSON,
   sql,
   sqlJoin,
-} from '../../sql/util.std.js';
-import { createDB, updateToVersion, explain } from './helpers.node.js';
+} from '../../sql/util.std.ts';
+import { createDB, updateToVersion, explain } from './helpers.node.ts';
 import type {
   _AttachmentDownloadJobTypeV1030,
   _AttachmentDownloadJobTypeV1040,
-} from '../../sql/migrations/1040-undownloaded-backed-up-media.std.js';
-import type { AttachmentType } from '../../types/Attachment.std.js';
-import { IMAGE_JPEG } from '../../types/MIME.std.js';
+} from '../../sql/migrations/1040-undownloaded-backed-up-media.std.ts';
+import type { AttachmentType } from '../../types/Attachment.std.ts';
+import { IMAGE_JPEG } from '../../types/MIME.std.ts';
 
 const { omit } = lodash;
 

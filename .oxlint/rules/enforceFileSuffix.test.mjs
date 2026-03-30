@@ -51,7 +51,7 @@ ruleTester.run('file-suffix', enforceFileSuffix, {
           name: `importing ${depSuffix} from ${fileSuffix}`,
           filename: `a.${fileSuffix}.ts`,
           code: `
-            import { x } from './b.${depSuffix}.js';
+            import { x } from './b.${depSuffix}.ts';
             ${requiredLine}
           `,
           languageOptions: {
@@ -66,7 +66,7 @@ ruleTester.run('file-suffix', enforceFileSuffix, {
     {
       name: 'type import should have no effect',
       filename: 'a.std.ts',
-      code: `import type { ReadonlyDeep } from './b.dom.js'`,
+      code: `import type { ReadonlyDeep } from './b.dom.ts'`,
     },
   ],
   invalid: [
@@ -76,7 +76,7 @@ ruleTester.run('file-suffix', enforceFileSuffix, {
         return {
           name: `importing ${depSuffix} from ${fileSuffix}`,
           filename: `a.${fileSuffix}.ts`,
-          code: `import { x } from './b.${depSuffix}.js'`,
+          code: `import { x } from './b.${depSuffix}.ts'`,
           errors: [
             {
               messageId: 'wrongFileSuffix',
@@ -108,7 +108,7 @@ ruleTester.run('file-suffix', enforceFileSuffix, {
       filename: 'a.main.ts',
       code: `
         import { autoUpdater } from 'electron';
-        import './b.preload.js';
+        import './b.preload.ts';
       `,
       errors: [
         {
@@ -122,7 +122,7 @@ ruleTester.run('file-suffix', enforceFileSuffix, {
       filename: 'a.preload.ts',
       code: `
         import { ipcRenderer } from 'electron';
-        import './b.main.js';
+        import './b.main.ts';
       `,
       errors: [
         {

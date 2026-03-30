@@ -23,41 +23,41 @@ import type {
   SaveAttachmentActionCreatorType,
   SaveAttachmentsActionCreatorType,
   ShowConversationType,
-} from '../../state/ducks/conversations.preload.js';
-import type { ViewStoryActionCreatorType } from '../../state/ducks/stories.preload.js';
-import { ReadStatus } from '../../messages/MessageReadStatus.std.js';
-import { Avatar, AvatarSize } from '../Avatar.dom.js';
-import { AvatarSpacer } from '../AvatarSpacer.dom.js';
-import { MessageBodyReadMore } from './MessageBodyReadMore.dom.js';
-import { MessageMetadata } from './MessageMetadata.dom.js';
-import { MessageTextMetadataSpacer } from './MessageTextMetadataSpacer.dom.js';
-import { ImageGrid } from './ImageGrid.dom.js';
-import { GIF } from './GIF.dom.js';
-import { CurveType, Image } from './Image.dom.js';
-import { ContactName } from './ContactName.dom.js';
-import { I18n } from '../I18n.dom.js';
-import type { QuotedAttachmentForUIType } from './Quote.dom.js';
-import { Quote } from './Quote.dom.js';
-import { EmbeddedContact } from './EmbeddedContact.dom.js';
+} from '../../state/ducks/conversations.preload.ts';
+import type { ViewStoryActionCreatorType } from '../../state/ducks/stories.preload.ts';
+import { ReadStatus } from '../../messages/MessageReadStatus.std.ts';
+import { Avatar, AvatarSize } from '../Avatar.dom.tsx';
+import { AvatarSpacer } from '../AvatarSpacer.dom.tsx';
+import { MessageBodyReadMore } from './MessageBodyReadMore.dom.tsx';
+import { MessageMetadata } from './MessageMetadata.dom.tsx';
+import { MessageTextMetadataSpacer } from './MessageTextMetadataSpacer.dom.tsx';
+import { ImageGrid } from './ImageGrid.dom.tsx';
+import { GIF } from './GIF.dom.tsx';
+import { CurveType, Image } from './Image.dom.tsx';
+import { ContactName } from './ContactName.dom.tsx';
+import { I18n } from '../I18n.dom.tsx';
+import type { QuotedAttachmentForUIType } from './Quote.dom.tsx';
+import { Quote } from './Quote.dom.tsx';
+import { EmbeddedContact } from './EmbeddedContact.dom.tsx';
 import type {
   OwnProps as ReactionViewerProps,
   Reaction,
-} from './ReactionViewer.dom.js';
-import { ReactionViewer } from './ReactionViewer.dom.js';
-import { LinkPreviewDate } from './LinkPreviewDate.dom.js';
+} from './ReactionViewer.dom.tsx';
+import { ReactionViewer } from './ReactionViewer.dom.tsx';
+import { LinkPreviewDate } from './LinkPreviewDate.dom.tsx';
 import type { RenderingContextType } from '../../types/RenderingContext.d.ts';
-import type { LinkPreviewForUIType } from '../../types/message/LinkPreviews.std.js';
-import type { MessageStatusType } from '../../types/message/MessageStatus.std.js';
-import { shouldUseFullSizeLinkPreviewImage } from '../../linkPreviews/shouldUseFullSizeLinkPreviewImage.std.js';
-import type { WidthBreakpoint } from '../_util.std.js';
-import { OutgoingGiftBadgeModal } from '../OutgoingGiftBadgeModal.dom.js';
-import { createLogger } from '../../logging/log.std.js';
-import { StoryViewModeType } from '../../types/Stories.std.js';
-import { GiftBadgeStates } from '../../types/GiftBadgeStates.std.js';
+import type { LinkPreviewForUIType } from '../../types/message/LinkPreviews.std.ts';
+import type { MessageStatusType } from '../../types/message/MessageStatus.std.ts';
+import { shouldUseFullSizeLinkPreviewImage } from '../../linkPreviews/shouldUseFullSizeLinkPreviewImage.std.ts';
+import type { WidthBreakpoint } from '../_util.std.ts';
+import { OutgoingGiftBadgeModal } from '../OutgoingGiftBadgeModal.dom.tsx';
+import { createLogger } from '../../logging/log.std.ts';
+import { StoryViewModeType } from '../../types/Stories.std.ts';
+import { GiftBadgeStates } from '../../types/GiftBadgeStates.std.ts';
 import type {
   AttachmentForUIType,
   AttachmentType,
-} from '../../types/Attachment.std.js';
+} from '../../types/Attachment.std.ts';
 import {
   canDisplayImage,
   getGridDimensions,
@@ -71,47 +71,47 @@ import {
   isImage,
   isImageAttachment,
   isVideo,
-} from '../../util/Attachment.std.js';
-import type { EmbeddedContactForUIType } from '../../types/EmbeddedContact.std.js';
+} from '../../util/Attachment.std.ts';
+import type { EmbeddedContactForUIType } from '../../types/EmbeddedContact.std.ts';
 
-import { getIncrement } from '../../util/timer.std.js';
-import { clearTimeoutIfNecessary } from '../../util/clearTimeoutIfNecessary.std.js';
-import { missingCaseError } from '../../util/missingCaseError.std.js';
-import type { HydratedBodyRangesType } from '../../types/BodyRange.std.js';
-import type { LocalizerType, ThemeType } from '../../types/Util.std.js';
+import { getIncrement } from '../../util/timer.std.ts';
+import { clearTimeoutIfNecessary } from '../../util/clearTimeoutIfNecessary.std.ts';
+import { missingCaseError } from '../../util/missingCaseError.std.ts';
+import type { HydratedBodyRangesType } from '../../types/BodyRange.std.ts';
+import type { LocalizerType, ThemeType } from '../../types/Util.std.ts';
 
-import type { PreferredBadgeSelectorType } from '../../state/selectors/badges.preload.js';
+import type { PreferredBadgeSelectorType } from '../../state/selectors/badges.preload.ts';
 import type {
   ContactNameColorType,
   ConversationColorType,
   CustomColorType,
-} from '../../types/Colors.std.js';
-import { createRefMerger } from '../../util/refMerger.std.js';
-import { getCustomColorStyle } from '../../util/getCustomColorStyle.dom.js';
-import type { ServiceIdString } from '../../types/ServiceId.std.js';
-import { DAY, HOUR, MINUTE, SECOND } from '../../util/durations/index.std.js';
-import { BadgeImageTheme } from '../../badges/BadgeImageTheme.std.js';
-import { getBadgeImageFileLocalPath } from '../../badges/getBadgeImageFileLocalPath.std.js';
-import { handleOutsideClick } from '../../util/handleOutsideClick.dom.js';
-import { isPaymentNotificationEvent } from '../../types/Payment.std.js';
-import type { AnyPaymentEvent } from '../../types/Payment.std.js';
-import { getPaymentEventDescription } from '../../messages/payments.std.js';
-import { PanelType } from '../../types/Panels.std.js';
-import type { PollWithResolvedVotersType } from '../../state/selectors/message.preload.js';
-import { PollMessageContents } from './poll-message/PollMessageContents.dom.js';
-import { openLinkInWebBrowser } from '../../util/openLinkInWebBrowser.dom.js';
-import { RenderLocation } from './MessageTextRenderer.dom.js';
-import { UserText } from '../UserText.dom.js';
-import { getColorForCallLink } from '../../util/getColorForCallLink.std.js';
-import { getKeyFromCallLink } from '../../util/callLinks.std.js';
-import { InAnotherCallTooltip } from './InAnotherCallTooltip.dom.js';
-import { formatFileSize } from '../../util/formatFileSize.std.js';
-import { assertDev, strictAssert } from '../../util/assert.std.js';
-import { AttachmentStatusIcon } from './AttachmentStatusIcon.dom.js';
-import { TapToViewNotAvailableType } from '../TapToViewNotAvailableModal.dom.js';
-import type { DataPropsType as TapToViewNotAvailablePropsType } from '../TapToViewNotAvailableModal.dom.js';
-import { FileThumbnail } from '../FileThumbnail.dom.js';
-import { FunStaticEmoji } from '../fun/FunEmoji.dom.js';
+} from '../../types/Colors.std.ts';
+import { createRefMerger } from '../../util/refMerger.std.ts';
+import { getCustomColorStyle } from '../../util/getCustomColorStyle.dom.ts';
+import type { ServiceIdString } from '../../types/ServiceId.std.ts';
+import { DAY, HOUR, MINUTE, SECOND } from '../../util/durations/index.std.ts';
+import { BadgeImageTheme } from '../../badges/BadgeImageTheme.std.ts';
+import { getBadgeImageFileLocalPath } from '../../badges/getBadgeImageFileLocalPath.std.ts';
+import { handleOutsideClick } from '../../util/handleOutsideClick.dom.ts';
+import { isPaymentNotificationEvent } from '../../types/Payment.std.ts';
+import type { AnyPaymentEvent } from '../../types/Payment.std.ts';
+import { getPaymentEventDescription } from '../../messages/payments.std.ts';
+import { PanelType } from '../../types/Panels.std.ts';
+import type { PollWithResolvedVotersType } from '../../state/selectors/message.preload.ts';
+import { PollMessageContents } from './poll-message/PollMessageContents.dom.tsx';
+import { openLinkInWebBrowser } from '../../util/openLinkInWebBrowser.dom.ts';
+import { RenderLocation } from './MessageTextRenderer.dom.tsx';
+import { UserText } from '../UserText.dom.tsx';
+import { getColorForCallLink } from '../../util/getColorForCallLink.std.ts';
+import { getKeyFromCallLink } from '../../util/callLinks.std.ts';
+import { InAnotherCallTooltip } from './InAnotherCallTooltip.dom.tsx';
+import { formatFileSize } from '../../util/formatFileSize.std.ts';
+import { assertDev, strictAssert } from '../../util/assert.std.ts';
+import { AttachmentStatusIcon } from './AttachmentStatusIcon.dom.tsx';
+import { TapToViewNotAvailableType } from '../TapToViewNotAvailableModal.dom.tsx';
+import type { DataPropsType as TapToViewNotAvailablePropsType } from '../TapToViewNotAvailableModal.dom.tsx';
+import { FileThumbnail } from '../FileThumbnail.dom.tsx';
+import { FunStaticEmoji } from '../fun/FunEmoji.dom.tsx';
 import {
   type EmojifyData,
   getEmojiDebugLabel,
@@ -121,13 +121,13 @@ import {
   getEmojiVariantByKey,
   getEmojiVariantKeyByValue,
   isEmojiVariantValue,
-} from '../fun/data/emojis.std.js';
-import { useGroupedAndOrderedReactions } from '../../util/groupAndOrderReactions.dom.js';
-import type { AxoMenuBuilder } from '../../axo/AxoMenuBuilder.dom.js';
-import { AxoSymbol } from '../../axo/AxoSymbol.dom.js';
-import type { RenderAudioAttachmentProps } from '../../state/smart/renderAudioAttachment.preload.js';
-import type { MemberLabelType } from '../../types/GroupMemberLabels.std.js';
-import type { ContactModalStateType } from '../../types/globalModals.std.js';
+} from '../fun/data/emojis.std.ts';
+import { useGroupedAndOrderedReactions } from '../../util/groupAndOrderReactions.dom.ts';
+import type { AxoMenuBuilder } from '../../axo/AxoMenuBuilder.dom.tsx';
+import { AxoSymbol } from '../../axo/AxoSymbol.dom.tsx';
+import type { RenderAudioAttachmentProps } from '../../state/smart/renderAudioAttachment.preload.tsx';
+import type { MemberLabelType } from '../../types/GroupMemberLabels.std.ts';
+import type { ContactModalStateType } from '../../types/globalModals.std.ts';
 
 const { drop, take, unescape } = lodash;
 

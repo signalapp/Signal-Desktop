@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ServiceIdString } from './ServiceId.std.js';
+import type { ServiceIdString } from './ServiceId.std.ts';
 
 export type AddressStringType = `${ServiceIdString}.${number}`;
 

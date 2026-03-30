@@ -16,75 +16,75 @@ import { BackupKey } from '@signalapp/libsignal-client/dist/AccountKeys.js';
 import lodashFp from 'lodash/fp.js';
 import { ipcRenderer } from 'electron';
 
-import { DataReader, DataWriter } from '../../sql/Client.preload.js';
-import { createLogger } from '../../logging/log.std.js';
-import * as Bytes from '../../Bytes.std.js';
-import { strictAssert } from '../../util/assert.std.js';
-import { drop } from '../../util/drop.std.js';
-import { TEMP_PATH } from '../../util/basePaths.preload.js';
-import { getAbsoluteDownloadsPath } from '../../util/migrations.preload.js';
-import { waitForAllBatchers } from '../../util/batcher.std.js';
-import { flushAllWaitBatchers } from '../../util/waitBatcher.std.js';
-import { DelimitedStream } from '../../util/DelimitedStream.node.js';
-import { appendPaddingStream } from '../../util/logPadding.node.js';
-import { prependStream } from '../../util/prependStream.node.js';
-import { appendMacStream } from '../../util/appendMacStream.node.js';
-import { getMacAndUpdateHmac } from '../../util/getMacAndUpdateHmac.node.js';
-import { missingCaseError } from '../../util/missingCaseError.std.js';
-import { HOUR, SECOND } from '../../util/durations/index.std.js';
-import type { ExplodePromiseResultType } from '../../util/explodePromise.std.js';
-import { explodePromise } from '../../util/explodePromise.std.js';
-import type { RetryBackupImportValue } from '../../state/ducks/installer.preload.js';
-import { CipherType, HashType } from '../../types/Crypto.std.js';
+import { DataReader, DataWriter } from '../../sql/Client.preload.ts';
+import { createLogger } from '../../logging/log.std.ts';
+import * as Bytes from '../../Bytes.std.ts';
+import { strictAssert } from '../../util/assert.std.ts';
+import { drop } from '../../util/drop.std.ts';
+import { TEMP_PATH } from '../../util/basePaths.preload.ts';
+import { getAbsoluteDownloadsPath } from '../../util/migrations.preload.ts';
+import { waitForAllBatchers } from '../../util/batcher.std.ts';
+import { flushAllWaitBatchers } from '../../util/waitBatcher.std.ts';
+import { DelimitedStream } from '../../util/DelimitedStream.node.ts';
+import { appendPaddingStream } from '../../util/logPadding.node.ts';
+import { prependStream } from '../../util/prependStream.node.ts';
+import { appendMacStream } from '../../util/appendMacStream.node.ts';
+import { getMacAndUpdateHmac } from '../../util/getMacAndUpdateHmac.node.ts';
+import { missingCaseError } from '../../util/missingCaseError.std.ts';
+import { HOUR, SECOND } from '../../util/durations/index.std.ts';
+import type { ExplodePromiseResultType } from '../../util/explodePromise.std.ts';
+import { explodePromise } from '../../util/explodePromise.std.ts';
+import type { RetryBackupImportValue } from '../../state/ducks/installer.preload.ts';
+import { CipherType, HashType } from '../../types/Crypto.std.ts';
 import {
   InstallScreenBackupStep,
   InstallScreenBackupError,
-} from '../../types/InstallScreen.std.js';
-import * as Errors from '../../types/errors.std.js';
+} from '../../types/InstallScreen.std.ts';
+import * as Errors from '../../types/errors.std.ts';
 import {
   BackupCredentialType,
   type BackupsSubscriptionType,
   type BackupStatusType,
-} from '../../types/backups.node.js';
-import { HTTPError } from '../../types/HTTPError.std.js';
-import { constantTimeEqual } from '../../Crypto.node.js';
-import { measureSize } from '../../AttachmentCrypto.node.js';
-import { signalProtocolStore } from '../../SignalProtocolStore.preload.js';
-import { isTestOrMockEnvironment } from '../../environment.std.js';
-import { runStorageServiceSyncJob } from '../storage.preload.js';
-import { BackupExportStream } from './export.preload.js';
-import { BackupImportStream } from './import.preload.js';
+} from '../../types/backups.node.ts';
+import { HTTPError } from '../../types/HTTPError.std.ts';
+import { constantTimeEqual } from '../../Crypto.node.ts';
+import { measureSize } from '../../AttachmentCrypto.node.ts';
+import { signalProtocolStore } from '../../SignalProtocolStore.preload.ts';
+import { isTestOrMockEnvironment } from '../../environment.std.ts';
+import { runStorageServiceSyncJob } from '../storage.preload.ts';
+import { BackupExportStream } from './export.preload.ts';
+import { BackupImportStream } from './import.preload.ts';
 import {
   getBackupId,
   getKeyMaterial,
   getLocalBackupMetadataKey,
-} from './crypto.preload.js';
-import { BackupCredentials } from './credentials.preload.js';
-import { BackupAPI } from './api.preload.js';
+} from './crypto.preload.ts';
+import { BackupCredentials } from './credentials.preload.ts';
+import { BackupAPI } from './api.preload.ts';
 import {
   validateBackup,
   validateBackupStream,
   ValidationType,
-} from './validator.preload.js';
+} from './validator.preload.ts';
 import type {
   BackupExportOptions,
   BackupImportOptions,
   ExportResultType,
   LocalBackupExportResultType,
   OnProgressCallback,
-} from './types.std.js';
+} from './types.std.ts';
 import {
   BackupInstallerError,
   BackupDownloadFailedError,
   BackupImportCanceledError,
   BackupProcessingError,
   RelinkRequestedError,
-} from './errors.std.js';
-import { FileStream } from './util/FileStream.node.js';
-import { ToastType } from '../../types/Toast.dom.js';
-import { isAdhoc, isNightly } from '../../util/version.std.js';
-import { isLocalBackupsEnabled } from '../../util/isLocalBackupsEnabled.preload.js';
-import type { ValidateLocalBackupStructureResultType } from './util/localBackup.node.js';
+} from './errors.std.ts';
+import { FileStream } from './util/FileStream.node.ts';
+import { ToastType } from '../../types/Toast.dom.tsx';
+import { isAdhoc, isNightly } from '../../util/version.std.ts';
+import { isLocalBackupsEnabled } from '../../util/isLocalBackupsEnabled.preload.ts';
+import type { ValidateLocalBackupStructureResultType } from './util/localBackup.node.ts';
 import {
   writeLocalBackupMetadata,
   verifyLocalBackupMetadata,
@@ -95,29 +95,29 @@ import {
   getLocalBackupFilesDirectory,
   getLocalBackupSnapshotDirectory,
   LOCAL_BACKUP_DIR_NAME,
-} from './util/localBackup.node.js';
+} from './util/localBackup.node.ts';
 import {
   AttachmentPermanentlyMissingError,
   getJobIdForLogging,
   runAttachmentBackupJob,
-} from '../../jobs/AttachmentLocalBackupManager.preload.js';
-import { decipherWithAesKey } from '../../util/decipherWithAesKey.node.js';
-import { areRemoteBackupsTurnedOn } from '../../util/isBackupEnabled.preload.js';
+} from '../../jobs/AttachmentLocalBackupManager.preload.ts';
+import { decipherWithAesKey } from '../../util/decipherWithAesKey.node.ts';
+import { areRemoteBackupsTurnedOn } from '../../util/isBackupEnabled.preload.ts';
 import {
   isOnline,
   unlink as unlinkAccount,
-} from '../../textsecure/WebAPI.preload.js';
-import { itemStorage } from '../../textsecure/Storage.preload.js';
-import { LOCAL_BACKUP_VERSION } from './constants.std.js';
-import { getTimestampForFolder } from '../../util/timestamp.std.js';
-import { MEBIBYTE } from '../../types/AttachmentSize.std.js';
+} from '../../textsecure/WebAPI.preload.ts';
+import { itemStorage } from '../../textsecure/Storage.preload.ts';
+import { LOCAL_BACKUP_VERSION } from './constants.std.ts';
+import { getTimestampForFolder } from '../../util/timestamp.std.ts';
+import { MEBIBYTE } from '../../types/AttachmentSize.std.ts';
 import {
   NotEnoughStorageError,
   RanOutOfStorageError,
   StoragePermissionsError,
-} from '../../types/LocalExport.std.js';
-import { getFreeDiskSpace } from '../../util/getFreeDiskSpace.node.js';
-import { isFeaturedEnabledNoRedux } from '../../util/isFeatureEnabled.dom.js';
+} from '../../types/LocalExport.std.ts';
+import { getFreeDiskSpace } from '../../util/getFreeDiskSpace.node.ts';
+import { isFeaturedEnabledNoRedux } from '../../util/isFeatureEnabled.dom.ts';
 
 const { ensureFile, exists } = fsExtra;
 

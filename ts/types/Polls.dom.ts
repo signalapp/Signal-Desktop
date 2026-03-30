@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { z } from 'zod';
-import { hasAtMostGraphemes } from '../util/grapheme.std.js';
-import { isFeaturedEnabledNoRedux } from '../util/isFeatureEnabled.dom.js';
-import type { SendStateByConversationId } from '../messages/MessageSendState.std.js';
-import { aciSchema } from './ServiceId.std.js';
-import { MAX_MESSAGE_BODY_BYTE_LENGTH } from '../util/longAttachment.std.js';
+import { hasAtMostGraphemes } from '../util/grapheme.std.ts';
+import { isFeaturedEnabledNoRedux } from '../util/isFeatureEnabled.dom.ts';
+import type { SendStateByConversationId } from '../messages/MessageSendState.std.ts';
+import { aciSchema } from './ServiceId.std.ts';
+import { MAX_MESSAGE_BODY_BYTE_LENGTH } from '../util/longAttachment.std.ts';
 
 // temporarily limit poll questions to an outbound 100 char and an inbound 200 char
 export const POLL_QUESTION_MAX_LENGTH_RECEIVE = 200;

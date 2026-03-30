@@ -2,13 +2,13 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import React, { memo, useMemo, useState } from 'react';
 import type { CSSProperties, FC, ReactNode } from 'react';
-import type { TailwindStyles } from './tw.dom.js';
-import { tw } from './tw.dom.js';
+import type { TailwindStyles } from './tw.dom.tsx';
+import { tw } from './tw.dom.tsx';
 import {
   createStrictContext,
   useStrictContext,
-} from './_internal/StrictContext.dom.js';
-import { AxoTooltip } from './AxoTooltip.dom.js';
+} from './_internal/StrictContext.dom.tsx';
+import { AxoTooltip } from './AxoTooltip.dom.tsx';
 
 const Namespace = 'AxoScrollArea';
 

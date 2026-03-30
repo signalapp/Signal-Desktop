@@ -3,10 +3,10 @@
 
 import type { ReadonlyDeep } from 'type-fest';
 import type { AudioDevice, Reaction as CallReaction } from '@signalapp/ringrtc';
-import type { ConversationType } from '../state/ducks/conversations.preload.js';
-import type { AciString, ServiceIdString } from './ServiceId.std.js';
-import type { CallLinkConversationType } from './CallLink.std.js';
-import type { CallMode } from './CallDisposition.std.js';
+import type { ConversationType } from '../state/ducks/conversations.preload.ts';
+import type { AciString, ServiceIdString } from './ServiceId.std.ts';
+import type { CallLinkConversationType } from './CallLink.std.ts';
+import type { CallMode } from './CallDisposition.std.ts';
 
 export const MAX_CALLING_REACTIONS = 5;
 export const CALLING_REACTIONS_LIFETIME = 4000;

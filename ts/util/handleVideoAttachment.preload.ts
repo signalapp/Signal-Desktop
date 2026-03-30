@@ -5,13 +5,13 @@ import { blobToArrayBuffer } from 'blob-util';
 import { sanitize } from '@signalapp/libsignal-client/dist/Mp4Sanitizer.js';
 import { v4 as generateUuid } from 'uuid';
 
-import { makeVideoScreenshot } from '../types/VisualAttachment.dom.js';
-import { IMAGE_PNG, stringToMIMEType } from '../types/MIME.std.js';
-import { toLogFormat } from '../types/errors.std.js';
-import type { InMemoryAttachmentDraftType } from '../types/Attachment.std.js';
-import { createLogger } from '../logging/log.std.js';
-import { MemoryStream } from './MemoryStream.node.js';
-import { fileToBytes } from './fileToBytes.std.js';
+import { makeVideoScreenshot } from '../types/VisualAttachment.dom.ts';
+import { IMAGE_PNG, stringToMIMEType } from '../types/MIME.std.ts';
+import { toLogFormat } from '../types/errors.std.ts';
+import type { InMemoryAttachmentDraftType } from '../types/Attachment.std.ts';
+import { createLogger } from '../logging/log.std.ts';
+import { MemoryStream } from './MemoryStream.node.ts';
+import { fileToBytes } from './fileToBytes.std.ts';
 
 const log = createLogger('handleVideoAttachment');
 

@@ -6,10 +6,10 @@ import createDebug from 'debug';
 import type { PrimaryDevice } from '@signalapp/mock-server';
 import { EnvelopeType, StorageState } from '@signalapp/mock-server';
 
-import type { App } from '../playwright.node.js';
-import * as durations from '../../util/durations/index.std.js';
-import { Bootstrap } from '../bootstrap.node.js';
-import { sleep } from '../../util/sleep.std.js';
+import type { App } from '../playwright.node.ts';
+import * as durations from '../../util/durations/index.std.ts';
+import { Bootstrap } from '../bootstrap.node.ts';
+import { sleep } from '../../util/sleep.std.ts';
 
 export const debug = createDebug('mock:test:retries');
 

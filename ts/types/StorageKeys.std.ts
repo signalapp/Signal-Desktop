@@ -5,30 +5,30 @@ import type { AudioDevice } from '@signalapp/ringrtc';
 import type {
   CustomColorsItemType,
   DefaultConversationColorType,
-} from './Colors.std.js';
-import type { PhoneNumberDiscoverability } from '../util/phoneNumberDiscoverability.std.js';
-import type { RetryItemType } from '../services/retryPlaceholders.std.js';
-import type { ConfigMapType as RemoteConfigType } from '../RemoteConfig.dom.js';
-import type { ExtendedStorageID, UnknownRecord } from './StorageService.js';
+} from './Colors.std.ts';
+import type { PhoneNumberDiscoverability } from '../util/phoneNumberDiscoverability.std.ts';
+import type { RetryItemType } from '../services/retryPlaceholders.std.ts';
+import type { ConfigMapType as RemoteConfigType } from '../RemoteConfig.dom.ts';
+import type { ExtendedStorageID, UnknownRecord } from './StorageService.d.ts';
 
-import type { GroupCredentialType } from '../textsecure/WebAPI.preload.js';
+import type { GroupCredentialType } from '../textsecure/WebAPI.preload.ts';
 import type {
   SessionResetsType,
   StorageServiceCredentials,
-} from '../textsecure/Types.js';
+} from '../textsecure/Types.d.ts';
 import type {
   BackupCredentialWrapperType,
   BackupsSubscriptionType,
   BackupStatusType,
-} from './backups.node.js';
-import type { ServiceIdString } from './ServiceId.std.js';
-import type { RegisteredChallengeType } from '../challenge.dom.js';
-import type { NotificationProfileOverride } from './NotificationProfile.std.js';
-import type { PhoneNumberSharingMode } from './PhoneNumberSharingMode.std.js';
-import type { LocalBackupExportMetadata } from './LocalExport.std.js';
-import type { ServerAlertsType } from './ServerAlert.std.js';
-import type { EmojiSkinTone } from './emoji.std.js';
-import type { AssertSameMembers } from './Util.std.js';
+} from './backups.node.ts';
+import type { ServiceIdString } from './ServiceId.std.ts';
+import type { RegisteredChallengeType } from '../challenge.dom.ts';
+import type { NotificationProfileOverride } from './NotificationProfile.std.ts';
+import type { PhoneNumberSharingMode } from './PhoneNumberSharingMode.std.ts';
+import type { LocalBackupExportMetadata } from './LocalExport.std.ts';
+import type { ServerAlertsType } from './ServerAlert.std.ts';
+import type { EmojiSkinTone } from './emoji.std.ts';
+import type { AssertSameMembers } from './Util.std.ts';
 
 export type AutoDownloadAttachmentType = {
   photos: boolean;

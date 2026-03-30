@@ -3,9 +3,9 @@
 
 import lodash from 'lodash';
 
-import type { ReadableDB, WritableDB } from './Interface.std.js';
-import type { LoggerType } from '../types/Logging.std.js';
-import { strictAssert } from '../util/assert.std.js';
+import type { ReadableDB, WritableDB } from './Interface.std.ts';
+import type { LoggerType } from '../types/Logging.std.ts';
+import { strictAssert } from '../util/assert.std.ts';
 
 const { isNumber, last } = lodash;
 

@@ -3,13 +3,13 @@
 
 import React, { memo, useCallback } from 'react';
 import { useSelector } from 'react-redux';
-import { Lightbox } from '../../components/Lightbox.dom.js';
-import { getConversationSelector } from '../selectors/conversations.dom.js';
-import { getIntl } from '../selectors/user.std.js';
-import { useConversationsActions } from '../ducks/conversations.preload.js';
-import { useGlobalModalActions } from '../ducks/globalModals.preload.js';
-import { useLightboxActions } from '../ducks/lightbox.preload.js';
-import { useAudioPlayerActions } from '../ducks/audioPlayer.preload.js';
+import { Lightbox } from '../../components/Lightbox.dom.tsx';
+import { getConversationSelector } from '../selectors/conversations.dom.ts';
+import { getIntl } from '../selectors/user.std.ts';
+import { useConversationsActions } from '../ducks/conversations.preload.ts';
+import { useGlobalModalActions } from '../ducks/globalModals.preload.ts';
+import { useLightboxActions } from '../ducks/lightbox.preload.ts';
+import { useAudioPlayerActions } from '../ducks/audioPlayer.preload.ts';
 import {
   getIsViewOnce,
   getMedia,
@@ -18,7 +18,7 @@ import {
   getPlaybackDisabled,
   getSelectedIndex,
   shouldShowLightbox,
-} from '../selectors/lightbox.std.js';
+} from '../selectors/lightbox.std.ts';
 
 export const SmartLightbox = memo(function SmartLightbox() {
   const i18n = useSelector(getIntl);

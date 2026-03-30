@@ -2,13 +2,13 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ConversationAttributesType } from '../model-types.d.ts';
-import { SignalService as Proto } from '../protobuf/index.std.js';
-import { areWeAdmin } from './areWeAdmin.preload.js';
+import { SignalService as Proto } from '../protobuf/index.std.ts';
+import { areWeAdmin } from './areWeAdmin.preload.ts';
 import {
   isDirectConversation,
   isGroupV1,
   isGroupV2,
-} from './whatTypeOfConversation.dom.js';
+} from './whatTypeOfConversation.dom.ts';
 
 export function canChangeTimer(
   attributes: ConversationAttributesType

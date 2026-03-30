@@ -3,7 +3,7 @@
 
 import type { Moment } from 'moment';
 import moment from 'moment';
-import { DAY } from './durations/index.std.js';
+import { DAY } from './durations/index.std.ts';
 
 export type RawTimestamp = Readonly<number | Date | Moment>;
 

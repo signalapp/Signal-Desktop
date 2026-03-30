@@ -7,11 +7,11 @@ import FormData from 'form-data';
 import got from 'got';
 import { gzip } from 'node:zlib';
 import pify from 'pify';
-import { getUserAgent } from '../util/getUserAgent.node.js';
-import { maybeParseUrl } from '../util/url.std.js';
-import * as durations from '../util/durations/index.std.js';
-import type { LoggerType } from '../types/Logging.std.js';
-import { parseUnknown } from '../util/schemas.std.js';
+import { getUserAgent } from '../util/getUserAgent.node.ts';
+import { maybeParseUrl } from '../util/url.std.ts';
+import * as durations from '../util/durations/index.std.ts';
+import type { LoggerType } from '../types/Logging.std.ts';
+import { parseUnknown } from '../util/schemas.std.ts';
 
 const BASE_URL = 'https://debuglogs.org';
 

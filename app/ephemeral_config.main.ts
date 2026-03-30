@@ -5,7 +5,7 @@ import { join } from 'node:path';
 
 import { app } from 'electron';
 
-import { start } from './base_config.node.js';
+import { start } from './base_config.node.ts';
 
 const userDataPath = app.getPath('userData');
 const targetPath = join(userDataPath, 'ephemeral.json');

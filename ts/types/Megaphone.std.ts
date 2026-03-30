@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import { z } from 'zod';
 import type { Simplify } from 'type-fest';
-import { safeParsePartial } from '../util/schemas.std.js';
-import { DAY } from '../util/durations/index.std.js';
+import { safeParsePartial } from '../util/schemas.std.ts';
+import { DAY } from '../util/durations/index.std.ts';
 
 const SNOOZE_DEFAULT_DURATION_DAYS = 3;
 const SNOOZE_DEFAULT_CTA_DATA: RemoteMegaphoneSnoozeCtaType = {

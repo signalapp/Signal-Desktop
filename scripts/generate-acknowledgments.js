@@ -14,7 +14,11 @@ const { default: packageJson } = require('./packageJson.js');
 // Enable this flag to throw an error.
 const REQUIRE_SIGNAL_LIB_FILES = Boolean(process.env.REQUIRE_SIGNAL_LIB_FILES);
 
-const { dependencies = {}, optionalDependencies = {} } = packageJson;
+const {
+  dependencies = {},
+  devDependencies = {},
+  optionalDependencies = {},
+} = packageJson;
 
 const SIGNAL_LIBS = [
   '@signalapp/libsignal-client',
@@ -117,6 +121,7 @@ async function main() {
 
   const dependencyNames = [
     ...Object.keys(dependencies),
+    ...Object.keys(devDependencies),
     ...Object.keys(optionalDependencies),
   ]
     .filter(name => !SKIPPED_DEPENDENCIES.has(name))

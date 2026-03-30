@@ -6,8 +6,10 @@ import { join } from 'node:path';
 import { Script, constants } from 'node:vm';
 import { ipcRenderer } from 'electron';
 
-const srcPath = join(__dirname, 'preload.bundle.js');
-const cachePath = join(__dirname, 'preload.bundle.cache');
+// This file is in root dir, but the bundled file that we run is in
+// bundles/preload
+const srcPath = join(__dirname, 'main.js');
+const cachePath = join(__dirname, '..', '..', 'preload.bundle.cache');
 
 let cachedData: Buffer<ArrayBuffer> | undefined;
 try {
@@ -40,7 +42,7 @@ const filename = process.env.GENERATE_PRELOAD_CACHE
   : srcPath;
 
 const script = new Script(
-  `(function(require, __dirname){${source.toString()}})`,
+  `(function(require, __dirname, exports){${source.toString()}})`,
   {
     filename,
     lineOffset: 0,
@@ -63,13 +65,13 @@ const fn = script.runInThisContext({
 if (process.env.GENERATE_PRELOAD_CACHE) {
   // Use hottest cache possible in CI
   if (process.env.CI) {
-    fn(require, __dirname);
+    fn(require, __dirname, {});
     window.startApp();
   }
   writeFileSync(cachePath, script.createCachedData());
   ipcRenderer.send('shutdown');
 } else {
-  fn(require, __dirname);
+  fn(require, __dirname, {});
   window.SignalCI?.setPreloadCacheHit(
     cachedData != null && !cachedDataRejected
   );

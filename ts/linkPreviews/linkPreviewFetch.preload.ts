@@ -4,7 +4,7 @@
 import type { RequestInit, Response } from 'node-fetch';
 import { blobToArrayBuffer } from 'blob-util';
 
-import type { MIMEType } from '../types/MIME.std.js';
+import type { MIMEType } from '../types/MIME.std.ts';
 import {
   IMAGE_GIF,
   IMAGE_ICO,
@@ -12,10 +12,10 @@ import {
   IMAGE_PNG,
   IMAGE_WEBP,
   stringToMIMEType,
-} from '../types/MIME.std.js';
-import type { LoggerType } from '../types/Logging.std.js';
-import { scaleImageToLevel } from '../util/scaleImageToLevel.preload.js';
-import { createLogger } from '../logging/log.std.js';
+} from '../types/MIME.std.ts';
+import type { LoggerType } from '../types/Logging.std.ts';
+import { scaleImageToLevel } from '../util/scaleImageToLevel.preload.ts';
+import { createLogger } from '../logging/log.std.ts';
 
 const log = createLogger('linkPreviewFetch');
 

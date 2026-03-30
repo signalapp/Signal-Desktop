@@ -3,13 +3,13 @@
 
 import React from 'react';
 import lodash from 'lodash';
-import type { ConversationType } from '../state/ducks/conversations.preload.js';
-import type { CallingConversationType } from '../types/Calling.std.js';
-import type { LocalizerType } from '../types/Util.std.js';
-import { Avatar, AvatarSize } from './Avatar.dom.js';
-import { getParticipantName } from '../util/callingGetParticipantName.std.js';
-import { missingCaseError } from '../util/missingCaseError.std.js';
-import { UserText } from './UserText.dom.js';
+import type { ConversationType } from '../state/ducks/conversations.preload.ts';
+import type { CallingConversationType } from '../types/Calling.std.ts';
+import type { LocalizerType } from '../types/Util.std.ts';
+import { Avatar, AvatarSize } from './Avatar.dom.tsx';
+import { getParticipantName } from '../util/callingGetParticipantName.std.ts';
+import { missingCaseError } from '../util/missingCaseError.std.ts';
+import { UserText } from './UserText.dom.tsx';
 
 const { partition } = lodash;
 

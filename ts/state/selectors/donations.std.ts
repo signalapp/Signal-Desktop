@@ -3,9 +3,9 @@
 
 import { createSelector } from 'reselect';
 import type { ReadonlyDeep } from 'type-fest';
-import type { StateType } from '../reducer.preload.js';
-import type { DonationsStateType } from '../ducks/donations.preload.js';
-import type { OneTimeDonationHumanAmounts } from '../../types/Donations.std.js';
+import type { StateType } from '../reducer.preload.ts';
+import type { DonationsStateType } from '../ducks/donations.preload.ts';
+import type { OneTimeDonationHumanAmounts } from '../../types/Donations.std.ts';
 
 export const getDonationsState = (
   state: Readonly<StateType>

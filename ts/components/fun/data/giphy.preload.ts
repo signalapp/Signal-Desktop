@@ -1,19 +1,19 @@
 // Copyright 2026 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import { z } from 'zod';
-import { parseUnknown } from '../../../util/schemas.std.js';
+import { parseUnknown } from '../../../util/schemas.std.ts';
 import {
   fetchJsonViaProxy,
   fetchBytesViaProxy,
-} from '../../../textsecure/WebAPI.preload.js';
-import { fetchInSegments } from './segments.std.js';
-import { safeParseInteger } from '../../../util/numbers.std.js';
-import type { PaginatedGifResults } from '../panels/FunPanelGifs.dom.js';
+} from '../../../textsecure/WebAPI.preload.ts';
+import { fetchInSegments } from './segments.std.ts';
+import { safeParseInteger } from '../../../util/numbers.std.ts';
+import type { PaginatedGifResults } from '../panels/FunPanelGifs.dom.tsx';
 import {
   getGifCdnUrlOrigin,
   isGifCdnUrlOriginAllowed,
   isGiphyCdnUrlOrigin,
-} from '../../../util/gifCdnUrls.dom.js';
+} from '../../../util/gifCdnUrls.dom.ts';
 
 const BASE_API_URL = 'https://api.giphy.com';
 const API_KEY = 'ApVVlSyeBfNKK6UWtnBRq9CvAkWsxayB';

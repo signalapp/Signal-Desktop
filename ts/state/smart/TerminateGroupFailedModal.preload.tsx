@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import React, { memo } from 'react';
 import { useSelector } from 'react-redux';
-import { TerminateGroupFailedModal } from '../../components/TerminateGroupFailedModal.dom.js';
-import { getIntl } from '../selectors/user.std.js';
-import { useConversationsActions } from '../ducks/conversations.preload.js';
-import { useGlobalModalActions } from '../ducks/globalModals.preload.js';
+import { TerminateGroupFailedModal } from '../../components/TerminateGroupFailedModal.dom.tsx';
+import { getIntl } from '../selectors/user.std.ts';
+import { useConversationsActions } from '../ducks/conversations.preload.ts';
+import { useGlobalModalActions } from '../ducks/globalModals.preload.ts';
 
 export type SmartTerminateGroupFailedModalProps = {
   conversationId: string;

@@ -4,8 +4,8 @@
 import * as React from 'react';
 
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './ProgressDialog.dom.js';
-import { ProgressDialog } from './ProgressDialog.dom.js';
+import type { PropsType } from './ProgressDialog.dom.tsx';
+import { ProgressDialog } from './ProgressDialog.dom.tsx';
 
 export default {
   title: 'Components/ProgressDialog',

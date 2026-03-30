@@ -7,10 +7,10 @@ import { v4 as uuid } from 'uuid';
 import {
   RowType,
   _testHeaderText,
-} from '../../../components/ConversationList.dom.js';
-import { getDefaultConversation } from '../../../test-helpers/getDefaultConversation.std.js';
+} from '../../../components/ConversationList.dom.tsx';
+import { getDefaultConversation } from '../../../test-helpers/getDefaultConversation.std.ts';
 
-import { LeftPaneSearchHelper } from '../../../components/leftPane/LeftPaneSearchHelper.dom.js';
+import { LeftPaneSearchHelper } from '../../../components/leftPane/LeftPaneSearchHelper.dom.tsx';
 
 const baseSearchHelperArgs = {
   conversationResults: { isLoading: false, results: [] },

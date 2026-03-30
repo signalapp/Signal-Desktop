@@ -2,13 +2,13 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ConversationAttributesType } from '../model-types.d.ts';
-import type { ConversationModel } from '../models/conversations.preload.js';
-import type { ConversationType } from '../state/ducks/conversations.preload.js';
-import { isInSystemContacts } from './isInSystemContacts.std.js';
-import { isSignalConversation } from './isSignalConversation.dom.js';
-import { isDirectConversation } from './whatTypeOfConversation.dom.js';
-import { isConversationEverUnregistered } from './isConversationUnregistered.dom.js';
-import { isBlocked } from './isBlocked.preload.js';
+import type { ConversationModel } from '../models/conversations.preload.ts';
+import type { ConversationType } from '../state/ducks/conversations.preload.ts';
+import { isInSystemContacts } from './isInSystemContacts.std.ts';
+import { isSignalConversation } from './isSignalConversation.dom.ts';
+import { isDirectConversation } from './whatTypeOfConversation.dom.ts';
+import { isConversationEverUnregistered } from './isConversationUnregistered.dom.ts';
+import { isBlocked } from './isBlocked.preload.ts';
 
 export function isSignalConnection(
   conversation: ConversationType | ConversationAttributesType

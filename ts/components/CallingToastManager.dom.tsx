@@ -5,17 +5,17 @@ import React, { useEffect, useMemo, useRef } from 'react';
 import type {
   ActiveCallType,
   ObservedRemoteMuteType,
-} from '../types/Calling.std.js';
-import { CallMode } from '../types/CallDisposition.std.js';
-import type { ConversationType } from '../state/ducks/conversations.preload.js';
-import type { LocalizerType } from '../types/Util.std.js';
-import { CallingToastProvider, useCallingToasts } from './CallingToast.dom.js';
-import { usePrevious } from '../hooks/usePrevious.std.js';
-import { difference as setDifference } from '../util/setUtil.std.js';
-import { isMoreRecentThan } from '../util/timestamp.std.js';
-import { isGroupOrAdhocActiveCall } from '../util/isGroupOrAdhocCall.std.js';
-import { SECOND } from '../util/durations/index.std.js';
-import type { SetMutedByType } from '../state/ducks/calling.preload.js';
+} from '../types/Calling.std.ts';
+import { CallMode } from '../types/CallDisposition.std.ts';
+import type { ConversationType } from '../state/ducks/conversations.preload.ts';
+import type { LocalizerType } from '../types/Util.std.ts';
+import { CallingToastProvider, useCallingToasts } from './CallingToast.dom.tsx';
+import { usePrevious } from '../hooks/usePrevious.std.ts';
+import { difference as setDifference } from '../util/setUtil.std.ts';
+import { isMoreRecentThan } from '../util/timestamp.std.ts';
+import { isGroupOrAdhocActiveCall } from '../util/isGroupOrAdhocCall.std.ts';
+import { SECOND } from '../util/durations/index.std.ts';
+import type { SetMutedByType } from '../state/ducks/calling.preload.ts';
 
 type PropsType = {
   activeCall: ActiveCallType;

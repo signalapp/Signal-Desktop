@@ -8,11 +8,11 @@ import config from 'config';
 import { app } from 'electron';
 import { coerce, lt } from 'semver';
 
-import type { JSONVendorSchema } from './common.main.js';
-import { Updater } from './common.main.js';
-import { appRelaunch } from '../util/relaunch.main.js';
-import { hexToBinary } from './signature.node.js';
-import { DialogType } from '../types/Dialogs.std.js';
+import type { JSONVendorSchema } from './common.main.ts';
+import { Updater } from './common.main.ts';
+import { appRelaunch } from '../util/relaunch.main.ts';
+import { hexToBinary } from './signature.node.ts';
+import { DialogType } from '../types/Dialogs.std.ts';
 
 export class LinuxAppImageUpdater extends Updater {
   #installing = false;

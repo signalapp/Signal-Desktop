@@ -8,20 +8,20 @@ import classNames from 'classnames';
 import type {
   ConversationType,
   ShowConversationType,
-} from '../state/ducks/conversations.preload.js';
+} from '../state/ducks/conversations.preload.ts';
 import type {
   ConversationStoryType,
   MyStoryType,
-} from '../types/Stories.std.js';
-import type { LocalizerType, ThemeType } from '../types/Util.std.js';
-import type { PreferredBadgeSelectorType } from '../state/selectors/badges.preload.js';
-import type { ShowToastAction } from '../state/ducks/toast.preload.js';
-import type { ViewUserStoriesActionCreatorType } from '../state/ducks/stories.preload.js';
-import { MyStoryButton } from './MyStoryButton.dom.js';
-import { SearchInput } from './SearchInput.dom.js';
-import { StoryListItem } from './StoryListItem.dom.js';
-import { isNotNil } from '../util/isNotNil.std.js';
-import { NavSidebarSearchHeader, NavSidebarEmpty } from './NavSidebar.dom.js';
+} from '../types/Stories.std.ts';
+import type { LocalizerType, ThemeType } from '../types/Util.std.ts';
+import type { PreferredBadgeSelectorType } from '../state/selectors/badges.preload.ts';
+import type { ShowToastAction } from '../state/ducks/toast.preload.ts';
+import type { ViewUserStoriesActionCreatorType } from '../state/ducks/stories.preload.ts';
+import { MyStoryButton } from './MyStoryButton.dom.tsx';
+import { SearchInput } from './SearchInput.dom.tsx';
+import { StoryListItem } from './StoryListItem.dom.tsx';
+import { isNotNil } from '../util/isNotNil.std.ts';
+import { NavSidebarSearchHeader, NavSidebarEmpty } from './NavSidebar.dom.tsx';
 
 const FUSE_OPTIONS: Fuse.IFuseOptions<ConversationStoryType> = {
   getFn: (story, path) => {

@@ -4,7 +4,7 @@
 import React, { useEffect, useReducer } from 'react';
 import classNames from 'classnames';
 
-import { getIncrement, getTimerBucket } from '../../util/timer.std.js';
+import { getIncrement, getTimerBucket } from '../../util/timer.std.ts';
 
 export type Props = Readonly<{
   expirationLength: number;

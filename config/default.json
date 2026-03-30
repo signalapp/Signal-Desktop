@@ -19,7 +19,6 @@
   "updatesEnabled": false,
   "ciMode": false,
   "ciForceUnprocessed": false,
-  "forcePreloadBundle": false,
   "openDevTools": false,
   "buildCreation": 0,
   "buildExpiration": 0,

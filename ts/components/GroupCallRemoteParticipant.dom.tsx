@@ -12,25 +12,25 @@ import React, {
 import classNames from 'classnames';
 import lodash from 'lodash';
 import type { VideoFrameSource } from '@signalapp/ringrtc';
-import type { GroupCallRemoteParticipantType } from '../types/Calling.std.js';
-import type { LocalizerType } from '../types/Util.std.js';
-import { AvatarColors } from '../types/Colors.std.js';
-import { CallBackgroundBlur } from './CallBackgroundBlur.dom.js';
+import type { GroupCallRemoteParticipantType } from '../types/Calling.std.ts';
+import type { LocalizerType } from '../types/Util.std.ts';
+import { AvatarColors } from '../types/Colors.std.ts';
+import { CallBackgroundBlur } from './CallBackgroundBlur.dom.tsx';
 import {
   CallingAudioIndicator,
   SPEAKING_LINGER_MS,
-} from './CallingAudioIndicator.dom.js';
-import { Avatar, AvatarSize } from './Avatar.dom.js';
-import { ConfirmationDialog } from './ConfirmationDialog.dom.js';
-import { I18n } from './I18n.dom.js';
-import { ContactName } from './conversation/ContactName.dom.js';
-import { useIntersectionObserver } from '../hooks/useIntersectionObserver.std.js';
-import { MAX_FRAME_HEIGHT, MAX_FRAME_WIDTH } from '../calling/constants.std.js';
-import { useValueAtFixedRate } from '../hooks/useValueAtFixedRate.std.js';
-import { Theme } from '../util/theme.std.js';
-import { isOlderThan } from '../util/timestamp.std.js';
-import type { CallingImageDataCache } from './CallManager.dom.js';
-import { usePrevious } from '../hooks/usePrevious.std.js';
+} from './CallingAudioIndicator.dom.tsx';
+import { Avatar, AvatarSize } from './Avatar.dom.tsx';
+import { ConfirmationDialog } from './ConfirmationDialog.dom.tsx';
+import { I18n } from './I18n.dom.tsx';
+import { ContactName } from './conversation/ContactName.dom.tsx';
+import { useIntersectionObserver } from '../hooks/useIntersectionObserver.std.ts';
+import { MAX_FRAME_HEIGHT, MAX_FRAME_WIDTH } from '../calling/constants.std.ts';
+import { useValueAtFixedRate } from '../hooks/useValueAtFixedRate.std.ts';
+import { Theme } from '../util/theme.std.ts';
+import { isOlderThan } from '../util/timestamp.std.ts';
+import type { CallingImageDataCache } from './CallManager.dom.tsx';
+import { usePrevious } from '../hooks/usePrevious.std.ts';
 
 const { debounce, noop } = lodash;
 

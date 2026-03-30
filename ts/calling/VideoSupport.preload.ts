@@ -4,8 +4,8 @@
 import { videoPixelFormatToEnum } from '@signalapp/ringrtc';
 import type { VideoFrameSender, VideoFrameSource } from '@signalapp/ringrtc';
 import type { RefObject } from 'react';
-import { createLogger } from '../logging/log.std.js';
-import { toLogFormat } from '../types/errors.std.js';
+import { createLogger } from '../logging/log.std.ts';
+import { toLogFormat } from '../types/errors.std.ts';
 
 const log = createLogger('VideoSupport');
 

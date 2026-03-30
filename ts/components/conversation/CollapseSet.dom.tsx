@@ -6,25 +6,25 @@ import classNames from 'classnames';
 
 import type { RefObject } from 'react';
 
-import { MessageInteractivity } from './Message.dom.js';
-import { format } from '../../util/expirationTimer.std.js';
-import { strictAssert } from '../../util/assert.std.js';
-import { missingCaseError } from '../../util/missingCaseError.std.js';
-import { AxoSymbol } from '../../axo/AxoSymbol.dom.js';
-import { tw } from '../../axo/tw.dom.js';
-import { AxoButton } from '../../axo/AxoButton.dom.js';
-import { MessageContextMenu } from './MessageContextMenu.dom.js';
+import { MessageInteractivity } from './Message.dom.tsx';
+import { format } from '../../util/expirationTimer.std.ts';
+import { strictAssert } from '../../util/assert.std.ts';
+import { missingCaseError } from '../../util/missingCaseError.std.ts';
+import { AxoSymbol } from '../../axo/AxoSymbol.dom.tsx';
+import { tw } from '../../axo/tw.dom.tsx';
+import { AxoButton } from '../../axo/AxoButton.dom.tsx';
+import { MessageContextMenu } from './MessageContextMenu.dom.tsx';
 
-import type { WidthBreakpoint } from '../_util.std.js';
+import type { WidthBreakpoint } from '../_util.std.ts';
 import type {
   CollapsedMessage,
   CollapseSet,
-} from '../../util/CollapseSet.std.js';
-import type { RenderItemProps } from '../../state/smart/TimelineItem.preload.js';
-import type { LocalizerType } from '../../types/I18N.std.js';
-import type { TargetedMessageType } from '../../state/selectors/conversations.dom.js';
-import type { DeleteMessagesPropsType } from '../../state/ducks/globalModals.preload.js';
-import { I18n } from '../I18n.dom.js';
+} from '../../util/CollapseSet.std.ts';
+import type { RenderItemProps } from '../../state/smart/TimelineItem.preload.tsx';
+import type { LocalizerType } from '../../types/I18N.std.ts';
+import type { TargetedMessageType } from '../../state/selectors/conversations.dom.ts';
+import type { DeleteMessagesPropsType } from '../../state/ducks/globalModals.preload.ts';
+import { I18n } from '../I18n.dom.tsx';
 
 export type Props = CollapseSet & {
   containerElementRef: RefObject<HTMLElement | null>;

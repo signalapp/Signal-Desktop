@@ -8,21 +8,21 @@ import { z } from 'zod';
 import lodash from 'lodash';
 import { v4 as uuid } from 'uuid';
 import PQueue from 'p-queue';
-import { JobError } from '../../jobs/JobError.std.js';
-import { TestJobQueueStore } from './TestJobQueueStore.node.js';
-import { missingCaseError } from '../../util/missingCaseError.std.js';
-import { drop } from '../../util/drop.std.js';
-import type { LoggerType } from '../../types/Logging.std.js';
+import { JobError } from '../../jobs/JobError.std.ts';
+import { TestJobQueueStore } from './TestJobQueueStore.node.ts';
+import { missingCaseError } from '../../util/missingCaseError.std.ts';
+import { drop } from '../../util/drop.std.ts';
+import type { LoggerType } from '../../types/Logging.std.ts';
 
-import type { JOB_STATUS } from '../../jobs/JobQueue.std.js';
-import { JobQueue } from '../../jobs/JobQueue.std.js';
+import type { JOB_STATUS } from '../../jobs/JobQueue.std.ts';
+import { JobQueue } from '../../jobs/JobQueue.std.ts';
 import type {
   ParsedJob,
   StoredJob,
   JobQueueStore,
-} from '../../jobs/types.std.js';
-import { sleep } from '../../util/sleep.std.js';
-import { parseUnknown } from '../../util/schemas.std.js';
+} from '../../jobs/types.std.ts';
+import { sleep } from '../../util/sleep.std.ts';
+import { parseUnknown } from '../../util/schemas.std.ts';
 
 const { noop, groupBy } = lodash;
 

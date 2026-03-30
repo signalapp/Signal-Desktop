@@ -3,14 +3,14 @@
 import React, { useCallback, useMemo } from 'react';
 import type { Selection } from 'react-aria-components';
 import { ListBox, ListBoxItem } from 'react-aria-components';
-import type { EmojiParentKey } from './data/emojis.std.js';
+import type { EmojiParentKey } from './data/emojis.std.ts';
 import {
   EmojiSkinTone,
   getEmojiVariantByParentKeyAndSkinTone,
-} from './data/emojis.std.js';
-import { strictAssert } from '../../util/assert.std.js';
-import { FunStaticEmoji } from './FunEmoji.dom.js';
-import type { LocalizerType } from '../../types/I18N.std.js';
+} from './data/emojis.std.ts';
+import { strictAssert } from '../../util/assert.std.ts';
+import { FunStaticEmoji } from './FunEmoji.dom.tsx';
+import type { LocalizerType } from '../../types/I18N.std.ts';
 
 export type FunSkinTonesListProps = Readonly<{
   i18n: LocalizerType;

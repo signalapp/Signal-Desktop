@@ -4,7 +4,7 @@
 import type {
   StickerPackType,
   StickerType,
-} from '../state/ducks/stickers.preload.js';
+} from '../state/ducks/stickers.preload.ts';
 
 export const createPack = (
   props: Partial<StickerPackType>,

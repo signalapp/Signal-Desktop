@@ -4,16 +4,16 @@
 import type { ReactNode } from 'react';
 import React from 'react';
 
-import type { ConversationType } from '../../state/ducks/conversations.preload.js';
-import type { LocalizerType, ThemeType } from '../../types/Util.std.js';
-import type { PreferredBadgeSelectorType } from '../../state/selectors/badges.preload.js';
-import { assertDev } from '../../util/assert.std.js';
+import type { ConversationType } from '../../state/ducks/conversations.preload.ts';
+import type { LocalizerType, ThemeType } from '../../types/Util.std.ts';
+import type { PreferredBadgeSelectorType } from '../../state/selectors/badges.preload.ts';
+import { assertDev } from '../../util/assert.std.ts';
 
-import { Avatar, AvatarSize } from '../Avatar.dom.js';
-import { ContactName } from './ContactName.dom.js';
-import { SharedGroupNames } from '../SharedGroupNames.dom.js';
-import { UserText } from '../UserText.dom.js';
-import { I18n } from '../I18n.dom.js';
+import { Avatar, AvatarSize } from '../Avatar.dom.tsx';
+import { ContactName } from './ContactName.dom.tsx';
+import { SharedGroupNames } from '../SharedGroupNames.dom.tsx';
+import { UserText } from '../UserText.dom.tsx';
+import { I18n } from '../I18n.dom.tsx';
 
 export type PropsType = Readonly<{
   children?: ReactNode;

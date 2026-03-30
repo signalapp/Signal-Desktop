@@ -3,10 +3,10 @@
 
 import type { AnswerMessage, CallingMessage } from '@signalapp/ringrtc';
 import { CallMessageUrgency } from '@signalapp/ringrtc';
-import { SignalService as Proto } from '../protobuf/index.std.js';
-import { createLogger } from '../logging/log.std.js';
-import { toLogFormat } from '../types/errors.std.js';
-import { missingCaseError } from './missingCaseError.std.js';
+import { SignalService as Proto } from '../protobuf/index.std.ts';
+import { createLogger } from '../logging/log.std.ts';
+import { toLogFormat } from '../types/errors.std.ts';
+import { missingCaseError } from './missingCaseError.std.ts';
 
 const log = createLogger('callingMessageToProto');
 

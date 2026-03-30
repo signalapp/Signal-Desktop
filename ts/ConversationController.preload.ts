@@ -5,53 +5,53 @@ import lodash from 'lodash';
 import PQueue from 'p-queue';
 import { v4 as generateUuid } from 'uuid';
 
-import { DataReader, DataWriter } from './sql/Client.preload.js';
-import { createLogger } from './logging/log.std.js';
-import * as Errors from './types/errors.std.js';
-import { getAuthorId } from './messages/sources.preload.js';
-import { maybeDeriveGroupV2Id } from './groups.preload.js';
-import { assertDev, strictAssert } from './util/assert.std.js';
-import { drop } from './util/drop.std.js';
+import { DataReader, DataWriter } from './sql/Client.preload.ts';
+import { createLogger } from './logging/log.std.ts';
+import * as Errors from './types/errors.std.ts';
+import { getAuthorId } from './messages/sources.preload.ts';
+import { maybeDeriveGroupV2Id } from './groups.preload.ts';
+import { assertDev, strictAssert } from './util/assert.std.ts';
+import { drop } from './util/drop.std.ts';
 import {
   isDirectConversation,
   isGroup,
   isGroupV1,
   isGroupV2,
-} from './util/whatTypeOfConversation.dom.js';
+} from './util/whatTypeOfConversation.dom.ts';
 import {
   doesAttachmentExist,
   maybeDeleteAttachmentFile,
-} from './util/migrations.preload.js';
+} from './util/migrations.preload.ts';
 import {
   isServiceIdString,
   normalizePni,
   normalizeServiceId,
-} from './types/ServiceId.std.js';
-import { normalizeAci } from './util/normalizeAci.std.js';
-import { sleep } from './util/sleep.std.js';
-import { isNotNil } from './util/isNotNil.std.js';
-import { MINUTE, SECOND } from './util/durations/index.std.js';
-import { getServiceIdsForE164s } from './util/getServiceIdsForE164s.dom.js';
+} from './types/ServiceId.std.ts';
+import { normalizeAci } from './util/normalizeAci.std.ts';
+import { sleep } from './util/sleep.std.ts';
+import { isNotNil } from './util/isNotNil.std.ts';
+import { MINUTE, SECOND } from './util/durations/index.std.ts';
+import { getServiceIdsForE164s } from './util/getServiceIdsForE164s.dom.ts';
 import {
   SIGNAL_ACI,
   SIGNAL_AVATAR_PATH,
-} from './types/SignalConversation.std.js';
-import { getTitleNoDefault } from './util/getTitle.preload.js';
-import * as StorageService from './services/storage.preload.js';
-import { cdsLookup } from './textsecure/WebAPI.preload.js';
-import type { ConversationPropsForUnreadStats } from './util/countUnreadStats.std.js';
-import { countAllConversationsUnreadStats } from './util/countUnreadStats.std.js';
-import { isTestOrMockEnvironment } from './environment.std.js';
-import { isConversationAccepted } from './util/isConversationAccepted.preload.js';
-import { areWePending } from './util/groupMembershipUtils.preload.js';
-import { conversationJobQueue } from './jobs/conversationJobQueue.preload.js';
-import { createBatcher } from './util/batcher.std.js';
-import { validateConversation } from './util/validateConversation.dom.js';
-import { ConversationModel } from './models/conversations.preload.js';
-import { INITIAL_EXPIRE_TIMER_VERSION } from './util/expirationTimer.std.js';
-import { missingCaseError } from './util/missingCaseError.std.js';
-import { removeConversation } from './util/Conversation.preload.js';
-import { signalProtocolStore } from './SignalProtocolStore.preload.js';
+} from './types/SignalConversation.std.ts';
+import { getTitleNoDefault } from './util/getTitle.preload.ts';
+import * as StorageService from './services/storage.preload.ts';
+import { cdsLookup } from './textsecure/WebAPI.preload.ts';
+import type { ConversationPropsForUnreadStats } from './util/countUnreadStats.std.ts';
+import { countAllConversationsUnreadStats } from './util/countUnreadStats.std.ts';
+import { isTestOrMockEnvironment } from './environment.std.ts';
+import { isConversationAccepted } from './util/isConversationAccepted.preload.ts';
+import { areWePending } from './util/groupMembershipUtils.preload.ts';
+import { conversationJobQueue } from './jobs/conversationJobQueue.preload.ts';
+import { createBatcher } from './util/batcher.std.ts';
+import { validateConversation } from './util/validateConversation.dom.ts';
+import { ConversationModel } from './models/conversations.preload.ts';
+import { INITIAL_EXPIRE_TIMER_VERSION } from './util/expirationTimer.std.ts';
+import { missingCaseError } from './util/missingCaseError.std.ts';
+import { removeConversation } from './util/Conversation.preload.ts';
+import { signalProtocolStore } from './SignalProtocolStore.preload.ts';
 
 import type {
   ConversationAttributesType,
@@ -63,10 +63,10 @@ import type {
   ServiceIdString,
   AciString,
   PniString,
-} from './types/ServiceId.std.js';
-import { itemStorage } from './textsecure/Storage.preload.js';
-import { getSelectedConversationId } from './state/selectors/nav.std.js';
-import { unencodeNumber } from './util/unencodeNumber.std.js';
+} from './types/ServiceId.std.ts';
+import { itemStorage } from './textsecure/Storage.preload.ts';
+import { getSelectedConversationId } from './state/selectors/nav.std.ts';
+import { unencodeNumber } from './util/unencodeNumber.std.ts';
 
 const { debounce, pick, uniq, without } = lodash;
 

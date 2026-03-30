@@ -2,13 +2,13 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ConversationAttributesType } from '../model-types.d.ts';
-import type { SignalService as Proto } from '../protobuf/index.std.js';
-import type { AciString } from '../types/ServiceId.std.js';
-import { createLogger } from '../logging/log.std.js';
-import { buildDeletePendingAdminApprovalMemberChange } from '../groups.preload.js';
-import { getConversationIdForLogging } from './idForLogging.preload.js';
-import { isMemberRequestingToJoin } from './groupMembershipUtils.preload.js';
-import { itemStorage } from '../textsecure/Storage.preload.js';
+import type { SignalService as Proto } from '../protobuf/index.std.ts';
+import type { AciString } from '../types/ServiceId.std.ts';
+import { createLogger } from '../logging/log.std.ts';
+import { buildDeletePendingAdminApprovalMemberChange } from '../groups.preload.ts';
+import { getConversationIdForLogging } from './idForLogging.preload.ts';
+import { isMemberRequestingToJoin } from './groupMembershipUtils.preload.ts';
+import { itemStorage } from '../textsecure/Storage.preload.ts';
 
 const log = createLogger('denyPendingApprovalRequest');
 

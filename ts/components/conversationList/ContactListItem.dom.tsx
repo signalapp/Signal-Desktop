@@ -4,20 +4,20 @@
 import type { FunctionComponent } from 'react';
 import React, { useMemo, useState } from 'react';
 
-import { HEADER_CONTACT_NAME_CLASS_NAME } from './BaseConversationListItem.dom.js';
-import type { ConversationType } from '../../state/ducks/conversations.preload.js';
-import type { BadgeType } from '../../badges/types.std.js';
-import type { LocalizerType, ThemeType } from '../../types/Util.std.js';
-import { ContactName } from '../conversation/ContactName.dom.js';
-import { About } from '../conversation/About.dom.js';
-import { ListTile } from '../ListTile.dom.js';
-import { Avatar, AvatarSize } from '../Avatar.dom.js';
-import { ContextMenu } from '../ContextMenu.dom.js';
-import { I18n } from '../I18n.dom.js';
-import { ConfirmationDialog } from '../ConfirmationDialog.dom.js';
-import { isSignalConversation } from '../../util/isSignalConversation.dom.js';
-import { isInSystemContacts } from '../../util/isInSystemContacts.std.js';
-import { InContactsIcon } from '../InContactsIcon.dom.js';
+import { HEADER_CONTACT_NAME_CLASS_NAME } from './BaseConversationListItem.dom.tsx';
+import type { ConversationType } from '../../state/ducks/conversations.preload.ts';
+import type { BadgeType } from '../../badges/types.std.ts';
+import type { LocalizerType, ThemeType } from '../../types/Util.std.ts';
+import { ContactName } from '../conversation/ContactName.dom.tsx';
+import { About } from '../conversation/About.dom.tsx';
+import { ListTile } from '../ListTile.dom.tsx';
+import { Avatar, AvatarSize } from '../Avatar.dom.tsx';
+import { ContextMenu } from '../ContextMenu.dom.tsx';
+import { I18n } from '../I18n.dom.tsx';
+import { ConfirmationDialog } from '../ConfirmationDialog.dom.tsx';
+import { isSignalConversation } from '../../util/isSignalConversation.dom.ts';
+import { isInSystemContacts } from '../../util/isInSystemContacts.std.ts';
+import { InContactsIcon } from '../InContactsIcon.dom.tsx';
 
 export type ContactListItemConversationType = Pick<
   ConversationType,

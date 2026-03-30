@@ -1,13 +1,13 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { LinkPreviewForUIType } from './message/LinkPreviews.std.js';
-import type { MIMEType } from './MIME.std.js';
+import type { LinkPreviewForUIType } from './message/LinkPreviews.std.ts';
+import type { MIMEType } from './MIME.std.ts';
 import type {
   WithOptionalProperties,
   WithRequiredProperties,
-} from './Util.std.js';
-import type { SignalService as Proto } from '../protobuf/index.std.js';
+} from './Util.std.ts';
+import type { SignalService as Proto } from '../protobuf/index.std.ts';
 
 export type ThumbnailType = EphemeralAttachmentFields & {
   size: number;

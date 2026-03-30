@@ -2,16 +2,16 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { pickBy } from 'lodash';
-import type { SubscriptionConfigurationResultType } from '../textsecure/WebAPI.preload.js';
-import { getSubscriptionConfiguration } from '../textsecure/WebAPI.preload.js';
+import type { SubscriptionConfigurationResultType } from '../textsecure/WebAPI.preload.ts';
+import { getSubscriptionConfiguration } from '../textsecure/WebAPI.preload.ts';
 import {
   PaymentMethod,
   type OneTimeDonationHumanAmounts,
-} from '../types/Donations.std.js';
-import { HOUR } from './durations/index.std.js';
-import { isInPast } from './timestamp.std.js';
-import { createLogger } from '../logging/log.std.js';
-import { TaskDeduplicator } from './TaskDeduplicator.std.js';
+} from '../types/Donations.std.ts';
+import { HOUR } from './durations/index.std.ts';
+import { isInPast } from './timestamp.std.ts';
+import { createLogger } from '../logging/log.std.ts';
+import { TaskDeduplicator } from './TaskDeduplicator.std.ts';
 
 const log = createLogger('subscriptionConfiguration');
 

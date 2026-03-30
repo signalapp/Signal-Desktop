@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useState } from 'react';
-import { ConfirmDiscardDialog } from './ConfirmDiscardDialog.dom.js';
-import type { LocalizerType } from '../types/Util.std.js';
-import { Modal } from './Modal.dom.js';
-import { AxoButton } from '../axo/AxoButton.dom.js';
+import { ConfirmDiscardDialog } from './ConfirmDiscardDialog.dom.tsx';
+import type { LocalizerType } from '../types/Util.std.ts';
+import { Modal } from './Modal.dom.tsx';
+import { AxoButton } from '../axo/AxoButton.dom.tsx';
 
 export type PropsType = {
   hasChanges: boolean;

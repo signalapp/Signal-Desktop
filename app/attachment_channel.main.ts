@@ -26,30 +26,30 @@ import {
   type DecryptAttachmentToSinkOptionsType,
   decryptAttachmentV2ToSink,
   type IntegrityCheckType,
-} from '../ts/AttachmentCrypto.node.js';
-import * as Bytes from '../ts/Bytes.std.js';
-import type { MessageAttachmentsCursorType } from '../ts/sql/Interface.std.js';
-import type { MainSQL } from '../ts/sql/main.main.js';
+} from '../ts/AttachmentCrypto.node.ts';
+import * as Bytes from '../ts/Bytes.std.ts';
+import type { MessageAttachmentsCursorType } from '../ts/sql/Interface.std.ts';
+import type { MainSQL } from '../ts/sql/main.main.ts';
 import {
   APPLICATION_OCTET_STREAM,
   MIMETypeToString,
   stringToMIMEType,
-} from '../ts/types/MIME.std.js';
-import * as Errors from '../ts/types/errors.std.js';
+} from '../ts/types/MIME.std.ts';
+import * as Errors from '../ts/types/errors.std.ts';
 import {
   isImageTypeSupported,
   isVideoTypeSupported,
-} from '../ts/util/GoogleChrome.std.js';
-import { strictAssert } from '../ts/util/assert.std.js';
-import { drop } from '../ts/util/drop.std.js';
-import { SECOND } from '../ts/util/durations/index.std.js';
-import { isPathInside } from '../ts/util/isPathInside.node.js';
-import { missingCaseError } from '../ts/util/missingCaseError.std.js';
-import { safeParseInteger } from '../ts/util/numbers.std.js';
-import { parseLoose } from '../ts/util/schemas.std.js';
-import { sleep } from '../ts/util/sleep.std.js';
-import { toWebStream } from '../ts/util/toWebStream.node.js';
-import { createLogger } from '../ts/logging/log.std.js';
+} from '../ts/util/GoogleChrome.std.ts';
+import { strictAssert } from '../ts/util/assert.std.ts';
+import { drop } from '../ts/util/drop.std.ts';
+import { SECOND } from '../ts/util/durations/index.std.ts';
+import { isPathInside } from '../ts/util/isPathInside.node.ts';
+import { missingCaseError } from '../ts/util/missingCaseError.std.ts';
+import { safeParseInteger } from '../ts/util/numbers.std.ts';
+import { parseLoose } from '../ts/util/schemas.std.ts';
+import { sleep } from '../ts/util/sleep.std.ts';
+import { toWebStream } from '../ts/util/toWebStream.node.ts';
+import { createLogger } from '../ts/logging/log.std.ts';
 import {
   deleteAllAttachments,
   deleteAllBadges,
@@ -68,8 +68,8 @@ import {
   getAttachmentsPath,
   getStickersPath,
   getTempPath,
-} from './attachments.node.js';
-import { isValidDigest, isValidPlaintextHash } from '../ts/types/Crypto.std.js';
+} from './attachments.node.ts';
+import { isValidDigest, isValidPlaintextHash } from '../ts/types/Crypto.std.ts';
 
 const { isNumber } = lodash;
 

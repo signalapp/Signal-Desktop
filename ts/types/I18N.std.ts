@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { z } from 'zod';
-import type { LocalizerType } from './Util.std.js';
+import type { LocalizerType } from './Util.std.ts';
 
-export type { LocalizerType } from './Util.std.js';
+export type { LocalizerType } from './Util.std.ts';
 
 type SmartlingConfigType = {
   placeholder_format_custom: string;

@@ -5,7 +5,7 @@ import type { ReactNode } from 'react';
 import React, { forwardRef, useMemo } from 'react';
 import { v4 as uuid } from 'uuid';
 
-import { getClassNamesFor } from '../util/getClassNamesFor.std.js';
+import { getClassNamesFor } from '../util/getClassNamesFor.std.ts';
 
 export type PropsType = {
   checked?: boolean;

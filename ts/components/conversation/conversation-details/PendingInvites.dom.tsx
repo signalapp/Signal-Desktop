@@ -4,20 +4,20 @@
 import React from 'react';
 import _ from 'lodash';
 
-import type { ConversationType } from '../../../state/ducks/conversations.preload.js';
-import type { LocalizerType, ThemeType } from '../../../types/Util.std.js';
-import type { PreferredBadgeSelectorType } from '../../../state/selectors/badges.preload.js';
-import type { AciString } from '../../../types/ServiceId.std.js';
-import { Avatar, AvatarSize } from '../../Avatar.dom.js';
-import { ConfirmationDialog } from '../../ConfirmationDialog.dom.js';
-import { PanelSection } from './PanelSection.dom.js';
-import { PanelRow } from './PanelRow.dom.js';
+import type { ConversationType } from '../../../state/ducks/conversations.preload.ts';
+import type { LocalizerType, ThemeType } from '../../../types/Util.std.ts';
+import type { PreferredBadgeSelectorType } from '../../../state/selectors/badges.preload.ts';
+import type { AciString } from '../../../types/ServiceId.std.ts';
+import { Avatar, AvatarSize } from '../../Avatar.dom.tsx';
+import { ConfirmationDialog } from '../../ConfirmationDialog.dom.tsx';
+import { PanelSection } from './PanelSection.dom.tsx';
+import { PanelRow } from './PanelRow.dom.tsx';
 import {
   ConversationDetailsIcon,
   IconType,
-} from './ConversationDetailsIcon.dom.js';
-import { isAccessControlEnabled } from '../../../groups/util.std.js';
-import { Tabs } from '../../Tabs.dom.js';
+} from './ConversationDetailsIcon.dom.tsx';
+import { isAccessControlEnabled } from '../../../groups/util.std.ts';
+import { Tabs } from '../../Tabs.dom.tsx';
 
 export type PropsDataType = {
   readonly conversation?: ConversationType;

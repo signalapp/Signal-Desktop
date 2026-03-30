@@ -12,15 +12,15 @@ import React, {
 
 import classNames from 'classnames';
 import type { ReadonlyDeep } from 'type-fest';
-import type { LocalizerType } from '../types/Util.std.js';
-import { useConfirmDiscard } from '../hooks/useConfirmDiscard.dom.js';
+import type { LocalizerType } from '../types/Util.std.ts';
+import { useConfirmDiscard } from '../hooks/useConfirmDiscard.dom.tsx';
 import {
   donationErrorTypeSchema,
   DonationProcessor,
   donationStateSchema,
   ONE_TIME_DONATION_CONFIG_ID,
   PaymentMethod,
-} from '../types/Donations.std.js';
+} from '../types/Donations.std.ts';
 import type {
   CardDetail,
   DonationErrorType,
@@ -28,12 +28,12 @@ import type {
   HumanDonationAmount,
   DonationWorkflow,
   OneTimeDonationHumanAmounts,
-} from '../types/Donations.std.js';
+} from '../types/Donations.std.ts';
 import type {
   CardCvcError,
   CardExpirationError,
   CardNumberError,
-} from '../types/DonationsCardForm.std.js';
+} from '../types/DonationsCardForm.std.ts';
 import {
   cardFormToCardDetail,
   getCardFormSettings,
@@ -42,7 +42,7 @@ import {
   parseCardExpiration,
   parseCardForm,
   parseCardNumber,
-} from '../types/DonationsCardForm.std.js';
+} from '../types/DonationsCardForm.std.ts';
 import {
   brandHumanDonationAmount,
   brandStripeDonationAmount,
@@ -53,33 +53,33 @@ import {
   toHumanCurrencyString,
   toHumanDonationAmount,
   toStripeDonationAmount,
-} from '../util/currency.dom.js';
-import { PreferencesContent } from './Preferences.dom.js';
-import type { SubmitDonationType } from '../state/ducks/donations.preload.js';
-import { Select } from './Select.dom.js';
+} from '../util/currency.dom.ts';
+import { PreferencesContent } from './Preferences.dom.tsx';
+import type { SubmitDonationType } from '../state/ducks/donations.preload.ts';
+import { Select } from './Select.dom.tsx';
 import {
   DonateInputCardNumber,
   getCardNumberErrorMessage,
-} from './preferences/donations/DonateInputCardNumber.dom.js';
+} from './preferences/donations/DonateInputCardNumber.dom.tsx';
 import {
   DonateInputCardExp,
   getCardExpirationErrorMessage,
-} from './preferences/donations/DonateInputCardExp.dom.js';
+} from './preferences/donations/DonateInputCardExp.dom.tsx';
 import {
   DonateInputCardCvc,
   getCardCvcErrorMessage,
-} from './preferences/donations/DonateInputCardCvc.dom.js';
-import { I18n } from './I18n.dom.js';
-import { strictAssert } from '../util/assert.std.js';
-import { DonationsOfflineTooltip } from './conversation/DonationsOfflineTooltip.dom.js';
-import { DonateInputAmount } from './preferences/donations/DonateInputAmount.dom.js';
-import { Tooltip, TooltipPlacement } from './Tooltip.dom.js';
-import { offsetDistanceModifier } from '../util/popperUtil.std.js';
-import { AxoButton } from '../axo/AxoButton.dom.js';
-import { missingCaseError } from '../util/missingCaseError.std.js';
-import { openLinkInWebBrowser } from '../util/openLinkInWebBrowser.dom.js';
-import { usePrevious } from '../hooks/usePrevious.std.js';
-import { tw } from '../axo/tw.dom.js';
+} from './preferences/donations/DonateInputCardCvc.dom.tsx';
+import { I18n } from './I18n.dom.tsx';
+import { strictAssert } from '../util/assert.std.ts';
+import { DonationsOfflineTooltip } from './conversation/DonationsOfflineTooltip.dom.tsx';
+import { DonateInputAmount } from './preferences/donations/DonateInputAmount.dom.tsx';
+import { Tooltip, TooltipPlacement } from './Tooltip.dom.tsx';
+import { offsetDistanceModifier } from '../util/popperUtil.std.ts';
+import { AxoButton } from '../axo/AxoButton.dom.tsx';
+import { missingCaseError } from '../util/missingCaseError.std.ts';
+import { openLinkInWebBrowser } from '../util/openLinkInWebBrowser.dom.ts';
+import { usePrevious } from '../hooks/usePrevious.std.ts';
+import { tw } from '../axo/tw.dom.tsx';
 
 const SUPPORT_URL = 'https://support.signal.org/hc/requests/new?desktop';
 

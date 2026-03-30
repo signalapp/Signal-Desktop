@@ -3,7 +3,7 @@
 
 const { timers } = window.SignalContext;
 
-export type { Timeout } from './context/Timers.node.js';
+export type { Timeout } from './context/Timers.node.ts';
 
 export function setTimeout(
   ...args: Parameters<typeof timers.setTimeout>

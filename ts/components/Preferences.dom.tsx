@@ -16,93 +16,93 @@ import * as LocaleMatcher from '@formatjs/intl-localematcher';
 import type { MutableRefObject, ReactNode } from 'react';
 import type { RowType } from '@signalapp/sqlcipher';
 import type { BackupLevel } from '@signalapp/libsignal-client/zkgroup.js';
-import { ChatColorPicker } from './ChatColorPicker.dom.js';
-import { Checkbox } from './Checkbox.dom.js';
-import { WidthBreakpoint } from './_util.std.js';
-import { ConfirmationDialog } from './ConfirmationDialog.dom.js';
-import { DisappearingTimeDialog } from './DisappearingTimeDialog.dom.js';
-import { PhoneNumberDiscoverability } from '../util/phoneNumberDiscoverability.std.js';
-import { PhoneNumberSharingMode } from '../types/PhoneNumberSharingMode.std.js';
-import { KEY_TRANSPARENCY_URL } from '../types/support.std.js';
-import { Select } from './Select.dom.js';
-import { getCustomColorStyle } from '../util/getCustomColorStyle.dom.js';
+import { ChatColorPicker } from './ChatColorPicker.dom.tsx';
+import { Checkbox } from './Checkbox.dom.tsx';
+import { WidthBreakpoint } from './_util.std.ts';
+import { ConfirmationDialog } from './ConfirmationDialog.dom.tsx';
+import { DisappearingTimeDialog } from './DisappearingTimeDialog.dom.tsx';
+import { PhoneNumberDiscoverability } from '../util/phoneNumberDiscoverability.std.ts';
+import { PhoneNumberSharingMode } from '../types/PhoneNumberSharingMode.std.ts';
+import { KEY_TRANSPARENCY_URL } from '../types/support.std.ts';
+import { Select } from './Select.dom.tsx';
+import { getCustomColorStyle } from '../util/getCustomColorStyle.dom.ts';
 import {
   DEFAULT_DURATIONS_IN_SECONDS,
   DEFAULT_DURATIONS_SET,
   format as formatExpirationTimer,
-} from '../util/expirationTimer.std.js';
-import { DurationInSeconds } from '../util/durations/index.std.js';
-import { focusableSelector } from '../util/focusableSelectors.std.js';
-import { Modal } from './Modal.dom.js';
-import { SearchInput } from './SearchInput.dom.js';
-import { removeDiacritics } from '../util/removeDiacritics.std.js';
-import { assertDev } from '../util/assert.std.js';
-import { I18n } from './I18n.dom.js';
-import { FunSkinTonesList } from './fun/FunSkinTones.dom.js';
-import { EMOJI_PARENT_KEY_CONSTANTS } from './fun/data/emojis.std.js';
+} from '../util/expirationTimer.std.ts';
+import { DurationInSeconds } from '../util/durations/index.std.ts';
+import { focusableSelector } from '../util/focusableSelectors.std.ts';
+import { Modal } from './Modal.dom.tsx';
+import { SearchInput } from './SearchInput.dom.tsx';
+import { removeDiacritics } from '../util/removeDiacritics.std.ts';
+import { assertDev } from '../util/assert.std.ts';
+import { I18n } from './I18n.dom.tsx';
+import { FunSkinTonesList } from './fun/FunSkinTones.dom.tsx';
+import { EMOJI_PARENT_KEY_CONSTANTS } from './fun/data/emojis.std.ts';
 import {
   SettingsControl as Control,
   FlowingSettingsControl as FlowingControl,
   SettingsRadio,
   SettingsRow,
-} from './PreferencesUtil.dom.js';
-import { PreferencesBackups } from './PreferencesBackups.dom.js';
-import { PreferencesInternal } from './PreferencesInternal.dom.js';
-import { FunEmojiLocalizationProvider } from './fun/FunEmojiLocalizationProvider.dom.js';
-import { Avatar, AvatarSize } from './Avatar.dom.js';
-import { NavSidebar } from './NavSidebar.dom.js';
-import type { SettingsLocation } from '../types/Nav.std.js';
-import { SettingsPage, ProfileEditorPage } from '../types/Nav.std.js';
-import { tw } from '../axo/tw.dom.js';
-import { FullWidthButton } from './PreferencesNotificationProfiles.dom.js';
-import type { EmojiSkinTone } from './fun/data/emojis.std.js';
-import type { MediaDeviceSettings } from '../types/Calling.std.js';
-import type { ValidationResultType as BackupValidationResultType } from '../services/backups/index.preload.js';
+} from './PreferencesUtil.dom.tsx';
+import { PreferencesBackups } from './PreferencesBackups.dom.tsx';
+import { PreferencesInternal } from './PreferencesInternal.dom.tsx';
+import { FunEmojiLocalizationProvider } from './fun/FunEmojiLocalizationProvider.dom.tsx';
+import { Avatar, AvatarSize } from './Avatar.dom.tsx';
+import { NavSidebar } from './NavSidebar.dom.tsx';
+import type { SettingsLocation } from '../types/Nav.std.ts';
+import { SettingsPage, ProfileEditorPage } from '../types/Nav.std.ts';
+import { tw } from '../axo/tw.dom.tsx';
+import { FullWidthButton } from './PreferencesNotificationProfiles.dom.tsx';
+import type { EmojiSkinTone } from './fun/data/emojis.std.ts';
+import type { MediaDeviceSettings } from '../types/Calling.std.ts';
+import type { ValidationResultType as BackupValidationResultType } from '../services/backups/index.preload.ts';
 import type {
   AutoDownloadAttachmentType,
   NotificationSettingType,
   SentMediaQualitySettingType,
   ZoomFactorType,
   StorageAccessType,
-} from '../types/StorageKeys.std.js';
-import type { ThemeSettingType } from '../util/theme.std.js';
-import type { AnyToast } from '../types/Toast.dom.js';
-import { ToastType } from '../types/Toast.dom.js';
-import type { ConversationType } from '../state/ducks/conversations.preload.js';
+} from '../types/StorageKeys.std.ts';
+import type { ThemeSettingType } from '../util/theme.std.ts';
+import type { AnyToast } from '../types/Toast.dom.tsx';
+import { ToastType } from '../types/Toast.dom.tsx';
+import type { ConversationType } from '../state/ducks/conversations.preload.ts';
 import type {
   ConversationColorType,
   CustomColorType,
   DefaultConversationColorType,
-} from '../types/Colors.std.js';
+} from '../types/Colors.std.ts';
 import type {
   LocalizerType,
   SentMediaQualityType,
   ThemeType,
-} from '../types/Util.std.js';
+} from '../types/Util.std.ts';
 import type {
   BackupMediaDownloadStatusType,
   BackupsSubscriptionType,
   BackupStatusType,
-} from '../types/backups.node.js';
-import type { UnreadStats } from '../util/countUnreadStats.std.js';
-import type { BadgeType } from '../badges/types.std.js';
-import type { MessageCountBySchemaVersionType } from '../sql/Interface.std.js';
+} from '../types/backups.node.ts';
+import type { UnreadStats } from '../util/countUnreadStats.std.ts';
+import type { BadgeType } from '../badges/types.std.ts';
+import type { MessageCountBySchemaVersionType } from '../sql/Interface.std.ts';
 import type { MessageAttributesType } from '../model-types.d.ts';
-import { isBackupPage } from '../types/PreferencesBackupPage.std.js';
-import type { PreferencesBackupPage } from '../types/PreferencesBackupPage.std.js';
+import { isBackupPage } from '../types/PreferencesBackupPage.std.ts';
+import type { PreferencesBackupPage } from '../types/PreferencesBackupPage.std.ts';
 import type {
   PromptOSAuthReasonType,
   PromptOSAuthResultType,
-} from '../util/os/promptOSAuthMain.main.js';
-import type { DonationReceipt } from '../types/Donations.std.js';
-import type { ChatFolderId } from '../types/ChatFolder.std.js';
-import type { SmartPreferencesEditChatFolderPageProps } from '../state/smart/PreferencesEditChatFolderPage.preload.js';
-import type { SmartPreferencesChatFoldersPageProps } from '../state/smart/PreferencesChatFoldersPage.preload.js';
-import { AxoButton } from '../axo/AxoButton.dom.js';
-import type { ExternalProps as SmartNotificationProfilesProps } from '../state/smart/PreferencesNotificationProfiles.preload.js';
-import type { LocalBackupExportMetadata } from '../types/LocalExport.std.js';
-import { isDonationsPage } from './PreferencesDonations.dom.js';
-import type { VisibleRemoteMegaphoneType } from '../types/Megaphone.std.js';
+} from '../util/os/promptOSAuthMain.main.ts';
+import type { DonationReceipt } from '../types/Donations.std.ts';
+import type { ChatFolderId } from '../types/ChatFolder.std.ts';
+import type { SmartPreferencesEditChatFolderPageProps } from '../state/smart/PreferencesEditChatFolderPage.preload.tsx';
+import type { SmartPreferencesChatFoldersPageProps } from '../state/smart/PreferencesChatFoldersPage.preload.tsx';
+import { AxoButton } from '../axo/AxoButton.dom.tsx';
+import type { ExternalProps as SmartNotificationProfilesProps } from '../state/smart/PreferencesNotificationProfiles.preload.tsx';
+import type { LocalBackupExportMetadata } from '../types/LocalExport.std.ts';
+import { isDonationsPage } from './PreferencesDonations.dom.tsx';
+import type { VisibleRemoteMegaphoneType } from '../types/Megaphone.std.ts';
 
 const { isNumber, noop, partition } = lodash;
 

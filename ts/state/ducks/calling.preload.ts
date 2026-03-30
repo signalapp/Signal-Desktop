@@ -11,20 +11,20 @@ import {
   type Reaction as CallReaction,
   type CallSummary,
 } from '@signalapp/ringrtc';
-import { getOwn } from '../../util/getOwn.std.js';
-import * as Errors from '../../types/errors.std.js';
-import { getIntl, getPlatform } from '../selectors/user.std.js';
-import { isConversationTooBigToRing } from '../../conversations/isConversationTooBigToRing.dom.js';
-import { missingCaseError } from '../../util/missingCaseError.std.js';
-import { drop } from '../../util/drop.std.js';
+import { getOwn } from '../../util/getOwn.std.ts';
+import * as Errors from '../../types/errors.std.ts';
+import { getIntl, getPlatform } from '../selectors/user.std.ts';
+import { isConversationTooBigToRing } from '../../conversations/isConversationTooBigToRing.dom.ts';
+import { missingCaseError } from '../../util/missingCaseError.std.ts';
+import { drop } from '../../util/drop.std.ts';
 import {
   DesktopCapturer,
   isNativeMacScreenShareSupported,
   type DesktopCapturerBaton,
-} from '../../util/desktopCapturer.preload.js';
-import { calling } from '../../services/calling.preload.js';
-import { truncateAudioLevel } from '../../calling/truncateAudioLevel.std.js';
-import type { StateType as RootStateType } from '../reducer.preload.js';
+} from '../../util/desktopCapturer.preload.ts';
+import { calling } from '../../services/calling.preload.ts';
+import { truncateAudioLevel } from '../../calling/truncateAudioLevel.std.ts';
+import type { StateType as RootStateType } from '../reducer.preload.ts';
 import type {
   ActiveCallReaction,
   ActiveCallReactionsType,
@@ -35,13 +35,13 @@ import type {
   PresentedSource,
   PresentableSource,
   RemoveClientType,
-} from '../../types/Calling.std.js';
+} from '../../types/Calling.std.ts';
 import {
   isCallLinkAdmin,
   type CallLinkRestrictions,
   type CallLinkStateType,
   type CallLinkType,
-} from '../../types/CallLink.std.js';
+} from '../../types/CallLink.std.ts';
 import {
   CALLING_REACTIONS_LIFETIME,
   MAX_CALLING_REACTIONS,
@@ -51,85 +51,85 @@ import {
   CallState,
   GroupCallConnectionState,
   GroupCallJoinState,
-} from '../../types/Calling.std.js';
-import { CallMode } from '../../types/CallDisposition.std.js';
-import { callingTones } from '../../util/callingTones.preload.js';
-import { requestCameraPermissions } from '../../util/callingPermissions.dom.js';
+} from '../../types/Calling.std.ts';
+import { CallMode } from '../../types/CallDisposition.std.ts';
+import { callingTones } from '../../util/callingTones.preload.ts';
+import { requestCameraPermissions } from '../../util/callingPermissions.dom.ts';
 import {
   CALL_LINK_DEFAULT_STATE,
   toAdminKeyBytes,
   toCallHistoryFromUnusedCallLink,
-} from '../../util/callLinks.std.js';
-import { getRoomIdFromRootKey } from '../../util/callLinksRingrtc.node.js';
-import { sendCallLinkUpdateSync } from '../../util/sendCallLinkUpdateSync.preload.js';
-import { sleep } from '../../util/sleep.std.js';
-import { LatestQueue } from '../../util/LatestQueue.std.js';
-import type { AciString, ServiceIdString } from '../../types/ServiceId.std.js';
+} from '../../util/callLinks.std.ts';
+import { getRoomIdFromRootKey } from '../../util/callLinksRingrtc.node.ts';
+import { sendCallLinkUpdateSync } from '../../util/sendCallLinkUpdateSync.preload.ts';
+import { sleep } from '../../util/sleep.std.ts';
+import { LatestQueue } from '../../util/LatestQueue.std.ts';
+import type { AciString, ServiceIdString } from '../../types/ServiceId.std.ts';
 import type {
   ConversationsUpdatedActionType,
   ConversationRemovedActionType,
-} from './conversations.preload.js';
-import { updateLastMessage } from './conversations.preload.js';
-import { createLogger } from '../../logging/log.std.js';
-import { strictAssert } from '../../util/assert.std.js';
-import { getConversationCallMode } from '../../util/getConversationCallMode.std.js';
-import { waitForOnline } from '../../util/waitForOnline.dom.js';
-import * as mapUtil from '../../util/mapUtil.std.js';
-import { isCallSafe } from '../../util/isCallSafe.dom.js';
-import { isDirectConversation } from '../../util/whatTypeOfConversation.dom.js';
-import { SHOW_TOAST } from './toast.preload.js';
-import { ToastType } from '../../types/Toast.dom.js';
-import type { ShowToastActionType } from './toast.preload.js';
-import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.js';
-import { useBoundActions } from '../../hooks/useBoundActions.std.js';
+} from './conversations.preload.ts';
+import { updateLastMessage } from './conversations.preload.ts';
+import { createLogger } from '../../logging/log.std.ts';
+import { strictAssert } from '../../util/assert.std.ts';
+import { getConversationCallMode } from '../../util/getConversationCallMode.std.ts';
+import { waitForOnline } from '../../util/waitForOnline.dom.ts';
+import * as mapUtil from '../../util/mapUtil.std.ts';
+import { isCallSafe } from '../../util/isCallSafe.dom.ts';
+import { isDirectConversation } from '../../util/whatTypeOfConversation.dom.ts';
+import { SHOW_TOAST } from './toast.preload.ts';
+import { ToastType } from '../../types/Toast.dom.tsx';
+import type { ShowToastActionType } from './toast.preload.ts';
+import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.ts';
+import { useBoundActions } from '../../hooks/useBoundActions.std.ts';
 import {
   isAnybodyElseInGroupCall,
   isAnybodyInGroupCall,
   MAX_CALL_PARTICIPANTS_FOR_DEFAULT_MUTE,
-} from './callingHelpers.std.js';
-import { SafetyNumberChangeSource } from '../../types/SafetyNumberChangeSource.std.js';
+} from './callingHelpers.std.ts';
+import { SafetyNumberChangeSource } from '../../types/SafetyNumberChangeSource.std.ts';
 import {
   isGroupOrAdhocCallMode,
   isGroupOrAdhocCallState,
-} from '../../util/isGroupOrAdhocCall.std.js';
+} from '../../util/isGroupOrAdhocCall.std.ts';
 import type {
   CallQualitySurveyPropsType,
   HideCallQualitySurveyActionType,
   ShowCallQualitySurveyActionType,
   ShowErrorModalActionType,
   ToggleConfirmLeaveCallModalActionType,
-} from './globalModals.preload.js';
+} from './globalModals.preload.ts';
 import {
   SHOW_CALL_QUALITY_SURVEY,
   SHOW_ERROR_MODAL,
   toggleConfirmLeaveCallModal,
   hideCallQualitySurvey,
-} from './globalModals.preload.js';
-import { CallQualitySurvey } from '../../types/CallQualitySurvey.std.js';
-import { isCallFailure } from '../../util/callQualitySurvey.dom.js';
-import { ButtonVariant } from '../../components/Button.dom.js';
-import { getConversationIdForLogging } from '../../util/idForLogging.preload.js';
-import { DataReader, DataWriter } from '../../sql/Client.preload.js';
-import { isAciString } from '../../util/isAciString.std.js';
-import type { CallHistoryAdd } from './callHistory.preload.js';
-import { addCallHistory, reloadCallHistory } from './callHistory.preload.js';
-import { saveDraftRecordingIfNeeded } from './composer.preload.js';
-import type { StartCallData } from '../../components/ConfirmLeaveCallModal.dom.js';
+} from './globalModals.preload.ts';
+import { CallQualitySurvey } from '../../types/CallQualitySurvey.std.ts';
+import { isCallFailure } from '../../util/callQualitySurvey.dom.ts';
+import { ButtonVariant } from '../../components/Button.dom.tsx';
+import { getConversationIdForLogging } from '../../util/idForLogging.preload.ts';
+import { DataReader, DataWriter } from '../../sql/Client.preload.ts';
+import { isAciString } from '../../util/isAciString.std.ts';
+import type { CallHistoryAdd } from './callHistory.preload.ts';
+import { addCallHistory, reloadCallHistory } from './callHistory.preload.ts';
+import { saveDraftRecordingIfNeeded } from './composer.preload.ts';
+import type { StartCallData } from '../../components/ConfirmLeaveCallModal.dom.tsx';
 import {
   getCallLinksByRoomId,
   getPresentingSource,
-} from '../selectors/calling.std.js';
-import { storageServiceUploadJob } from '../../services/storage.preload.js';
-import { CallLinkFinalizeDeleteManager } from '../../jobs/CallLinkFinalizeDeleteManager.preload.js';
-import { callLinkRefreshJobQueue } from '../../jobs/callLinkRefreshJobQueue.preload.js';
+} from '../selectors/calling.std.ts';
+import { storageServiceUploadJob } from '../../services/storage.preload.ts';
+import { CallLinkFinalizeDeleteManager } from '../../jobs/CallLinkFinalizeDeleteManager.preload.ts';
+import { callLinkRefreshJobQueue } from '../../jobs/callLinkRefreshJobQueue.preload.ts';
 import {
   isOnline,
   submitCallQualitySurvey as submitCallQualitySurveyToServer,
-} from '../../textsecure/WebAPI.preload.js';
-import { itemStorage } from '../../textsecure/Storage.preload.js';
-import type { SizeCallbackType } from '../../calling/VideoSupport.preload.js';
-import type { NoopActionType } from './noop.std.js';
-import type { SignalService } from '../../protobuf/index.std.js';
+} from '../../textsecure/WebAPI.preload.ts';
+import { itemStorage } from '../../textsecure/Storage.preload.ts';
+import type { SizeCallbackType } from '../../calling/VideoSupport.preload.ts';
+import type { NoopActionType } from './noop.std.ts';
+import type { SignalService } from '../../protobuf/index.std.ts';
 
 const { omit } = lodash;
 

@@ -4,17 +4,17 @@
 import type { FunctionComponent } from 'react';
 import React, { useState } from 'react';
 
-import { ButtonVariant } from '../Button.dom.js';
-import { ConfirmationDialog } from '../ConfirmationDialog.dom.js';
-import { SPINNER_CLASS_NAME } from './BaseConversationListItem.dom.js';
-import type { ParsedE164Type } from '../../util/libphonenumberInstance.std.js';
-import type { LocalizerType, ThemeType } from '../../types/Util.std.js';
-import { AvatarColors } from '../../types/Colors.std.js';
-import type { LookupConversationWithoutServiceIdActionsType } from '../../util/lookupConversationWithoutServiceId.preload.js';
-import { ListTile } from '../ListTile.dom.js';
-import { Avatar, AvatarSize } from '../Avatar.dom.js';
-import { Spinner } from '../Spinner.dom.js';
-import { UserText } from '../UserText.dom.js';
+import { ButtonVariant } from '../Button.dom.tsx';
+import { ConfirmationDialog } from '../ConfirmationDialog.dom.tsx';
+import { SPINNER_CLASS_NAME } from './BaseConversationListItem.dom.tsx';
+import type { ParsedE164Type } from '../../util/libphonenumberInstance.std.ts';
+import type { LocalizerType, ThemeType } from '../../types/Util.std.ts';
+import { AvatarColors } from '../../types/Colors.std.ts';
+import type { LookupConversationWithoutServiceIdActionsType } from '../../util/lookupConversationWithoutServiceId.preload.ts';
+import { ListTile } from '../ListTile.dom.tsx';
+import { Avatar, AvatarSize } from '../Avatar.dom.tsx';
+import { Spinner } from '../Spinner.dom.tsx';
+import { UserText } from '../UserText.dom.tsx';
 
 export type PropsDataType = {
   phoneNumber: ParsedE164Type;

@@ -9,9 +9,9 @@ import {
   isSafeEmojifyEmoji,
   type EmojiVariantData,
   type EmojiVariantValue,
-} from './data/emojis.std.js';
-import type { FunImageAriaProps } from './types.dom.js';
-import { createLogger } from '../../logging/log.std.js';
+} from './data/emojis.std.ts';
+import type { FunImageAriaProps } from './types.dom.tsx';
+import { createLogger } from '../../logging/log.std.ts';
 
 const log = createLogger('FunEmoji');
 

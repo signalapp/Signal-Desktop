@@ -7,119 +7,119 @@ import { useSelector } from 'react-redux';
 import type { AudioDevice } from '@signalapp/ringrtc';
 import type { MutableRefObject } from 'react';
 
-import { useItemsActions } from '../ducks/items.preload.js';
-import { useConversationsActions } from '../ducks/conversations.preload.js';
+import { useItemsActions } from '../ducks/items.preload.ts';
+import { useConversationsActions } from '../ducks/conversations.preload.ts';
 import {
   getConversationsWithCustomColorSelector,
   getMe,
   getOtherTabsUnreadStats,
-} from '../selectors/conversations.dom.js';
+} from '../selectors/conversations.dom.ts';
 import {
   getBackupKey,
   getCustomColors,
   getItems,
   getNavTabsCollapsed,
   getPreferredLeftPaneWidth,
-} from '../selectors/items.dom.js';
+} from '../selectors/items.dom.ts';
 import {
   itemStorage,
   DEFAULT_AUTO_DOWNLOAD_ATTACHMENT,
-} from '../../textsecure/Storage.preload.js';
+} from '../../textsecure/Storage.preload.ts';
 import {
   onHasStoriesDisabledChange,
   setPhoneNumberDiscoverability,
-} from '../../textsecure/WebAPI.preload.js';
-import { DEFAULT_CONVERSATION_COLOR } from '../../types/Colors.std.js';
-import { saveAttachmentToDisk } from '../../util/migrations.preload.js';
-import { format } from '../../types/PhoneNumber.std.js';
+} from '../../textsecure/WebAPI.preload.ts';
+import { DEFAULT_CONVERSATION_COLOR } from '../../types/Colors.std.ts';
+import { saveAttachmentToDisk } from '../../util/migrations.preload.ts';
+import { format } from '../../types/PhoneNumber.std.ts';
 import {
   getIntl,
   getTheme,
   getUser,
   getUserDeviceId,
   getUserNumber,
-} from '../selectors/user.std.js';
-import { EmojiSkinTone } from '../../components/fun/data/emojis.std.js';
-import { renderClearingDataView } from '../../shims/renderClearingDataView.preload.js';
-import OS from '../../util/os/osPreload.preload.js';
-import { themeChanged } from '../../shims/themeChanged.dom.js';
-import * as Settings from '../../types/Settings.std.js';
-import * as universalExpireTimerUtil from '../../util/universalExpireTimer.preload.js';
+} from '../selectors/user.std.ts';
+import { EmojiSkinTone } from '../../components/fun/data/emojis.std.ts';
+import { renderClearingDataView } from '../../shims/renderClearingDataView.preload.tsx';
+import OS from '../../util/os/osPreload.preload.ts';
+import { themeChanged } from '../../shims/themeChanged.dom.ts';
+import * as Settings from '../../types/Settings.std.ts';
+import * as universalExpireTimerUtil from '../../util/universalExpireTimer.preload.ts';
 import {
   parseSystemTraySetting,
   shouldMinimizeToSystemTray,
   SystemTraySetting,
-} from '../../types/SystemTraySetting.std.js';
-import { calling } from '../../services/calling.preload.js';
-import { drop } from '../../util/drop.std.js';
-import { assertDev } from '../../util/assert.std.js';
-import { backupsService } from '../../services/backups/index.preload.js';
-import { DurationInSeconds } from '../../util/durations/duration-in-seconds.std.js';
-import { PhoneNumberDiscoverability } from '../../util/phoneNumberDiscoverability.std.js';
-import { PhoneNumberSharingMode } from '../../types/PhoneNumberSharingMode.std.js';
-import { writeProfile } from '../../services/writeProfile.preload.js';
-import { keyTransparency } from '../../services/keyTransparency.preload.js';
-import { getConversation } from '../../util/getConversation.preload.js';
-import { waitForEvent } from '../../shims/events.dom.js';
-import { DAY } from '../../util/durations/index.std.js';
-import { sendSyncRequests } from '../../textsecure/syncRequests.preload.js';
-import { SmartUpdateDialog } from './UpdateDialog.preload.js';
-import { Preferences } from '../../components/Preferences.dom.js';
-import { useUpdatesActions } from '../ducks/updates.preload.js';
-import { getUpdateDialogType } from '../selectors/updates.std.js';
-import { getHasAnyFailedStorySends } from '../selectors/stories.preload.js';
+} from '../../types/SystemTraySetting.std.ts';
+import { calling } from '../../services/calling.preload.ts';
+import { drop } from '../../util/drop.std.ts';
+import { assertDev } from '../../util/assert.std.ts';
+import { backupsService } from '../../services/backups/index.preload.ts';
+import { DurationInSeconds } from '../../util/durations/duration-in-seconds.std.ts';
+import { PhoneNumberDiscoverability } from '../../util/phoneNumberDiscoverability.std.ts';
+import { PhoneNumberSharingMode } from '../../types/PhoneNumberSharingMode.std.ts';
+import { writeProfile } from '../../services/writeProfile.preload.ts';
+import { keyTransparency } from '../../services/keyTransparency.preload.ts';
+import { getConversation } from '../../util/getConversation.preload.ts';
+import { waitForEvent } from '../../shims/events.dom.ts';
+import { DAY } from '../../util/durations/index.std.ts';
+import { sendSyncRequests } from '../../textsecure/syncRequests.preload.ts';
+import { SmartUpdateDialog } from './UpdateDialog.preload.tsx';
+import { Preferences } from '../../components/Preferences.dom.tsx';
+import { useUpdatesActions } from '../ducks/updates.preload.ts';
+import { getUpdateDialogType } from '../selectors/updates.std.ts';
+import { getHasAnyFailedStorySends } from '../selectors/stories.preload.ts';
 import {
   getSelectedConversationId,
   getSelectedLocation,
-} from '../selectors/nav.std.js';
-import { getPreferredBadgeSelector } from '../selectors/badges.preload.js';
-import { SmartProfileEditor } from './ProfileEditor.preload.js';
-import { useNavActions } from '../ducks/nav.std.js';
-import { NavTab } from '../../types/Nav.std.js';
-import { renderToastManagerWithoutMegaphone } from './ToastManager.preload.js';
-import { useToastActions } from '../ducks/toast.preload.js';
-import { DataReader, DataWriter } from '../../sql/Client.preload.js';
-import { deleteAllMyStories } from '../../util/deleteAllMyStories.preload.js';
-import { SmartPreferencesDonations } from './PreferencesDonations.preload.js';
-import { useDonationsActions } from '../ducks/donations.preload.js';
-import { generateDonationReceiptBlob } from '../../util/generateDonationReceipt.dom.js';
-import { getProfiles } from '../selectors/notificationProfiles.dom.js';
-import { backupLevelFromNumber } from '../../services/backups/types.std.js';
-import { getMessageQueueTime } from '../../util/getMessageQueueTime.dom.js';
-import { useBackupActions } from '../ducks/backups.preload.js';
-import { isFeaturedEnabledSelector } from '../../util/isFeatureEnabled.dom.js';
-import { SmartPreferencesChatFoldersPage } from './PreferencesChatFoldersPage.preload.js';
-import { SmartPreferencesEditChatFolderPage } from './PreferencesEditChatFolderPage.preload.js';
-import { AxoProvider } from '../../axo/AxoProvider.dom.js';
+} from '../selectors/nav.std.ts';
+import { getPreferredBadgeSelector } from '../selectors/badges.preload.ts';
+import { SmartProfileEditor } from './ProfileEditor.preload.tsx';
+import { useNavActions } from '../ducks/nav.std.ts';
+import { NavTab } from '../../types/Nav.std.ts';
+import { renderToastManagerWithoutMegaphone } from './ToastManager.preload.tsx';
+import { useToastActions } from '../ducks/toast.preload.ts';
+import { DataReader, DataWriter } from '../../sql/Client.preload.ts';
+import { deleteAllMyStories } from '../../util/deleteAllMyStories.preload.ts';
+import { SmartPreferencesDonations } from './PreferencesDonations.preload.tsx';
+import { useDonationsActions } from '../ducks/donations.preload.ts';
+import { generateDonationReceiptBlob } from '../../util/generateDonationReceipt.dom.ts';
+import { getProfiles } from '../selectors/notificationProfiles.dom.ts';
+import { backupLevelFromNumber } from '../../services/backups/types.std.ts';
+import { getMessageQueueTime } from '../../util/getMessageQueueTime.dom.ts';
+import { useBackupActions } from '../ducks/backups.preload.ts';
+import { isFeaturedEnabledSelector } from '../../util/isFeatureEnabled.dom.ts';
+import { SmartPreferencesChatFoldersPage } from './PreferencesChatFoldersPage.preload.tsx';
+import { SmartPreferencesEditChatFolderPage } from './PreferencesEditChatFolderPage.preload.tsx';
+import { AxoProvider } from '../../axo/AxoProvider.dom.tsx';
 import {
   getCurrentChatFoldersCount,
   getHasAnyCurrentCustomChatFolders,
-} from '../selectors/chatFolders.std.js';
+} from '../selectors/chatFolders.std.ts';
 import {
   SmartNotificationProfilesCreateFlow,
   SmartNotificationProfilesHome,
-} from './PreferencesNotificationProfiles.preload.js';
+} from './PreferencesNotificationProfiles.preload.tsx';
 
-import type { SettingsLocation } from '../../types/Nav.std.js';
+import type { SettingsLocation } from '../../types/Nav.std.ts';
 import type { StorageAccessType } from '../../types/Storage.d.ts';
-import type { ThemeType } from '../../util/preload.preload.js';
-import type { WidthBreakpoint } from '../../components/_util.std.js';
-import { DialogType } from '../../types/Dialogs.std.js';
-import { promptOSAuth } from '../../util/promptOSAuth.preload.js';
-import type { StateType } from '../reducer.preload.js';
+import type { ThemeType } from '../../util/preload.preload.ts';
+import type { WidthBreakpoint } from '../../components/_util.std.ts';
+import { DialogType } from '../../types/Dialogs.std.ts';
+import { promptOSAuth } from '../../util/promptOSAuth.preload.ts';
+import type { StateType } from '../reducer.preload.ts';
 import {
   pauseBackupMediaDownload,
   resumeBackupMediaDownload,
   cancelBackupMediaDownload,
-} from '../../util/backupMediaDownload.preload.js';
-import { DonationsErrorBoundary } from '../../components/DonationsErrorBoundary.dom.js';
-import type { SmartPreferencesChatFoldersPageProps } from './PreferencesChatFoldersPage.preload.js';
-import type { SmartPreferencesEditChatFolderPageProps } from './PreferencesEditChatFolderPage.preload.js';
-import type { ExternalProps as SmartNotificationProfilesProps } from './PreferencesNotificationProfiles.preload.js';
-import { useMegaphonesActions } from '../ducks/megaphones.preload.js';
-import type { ZoomFactorType } from '../../types/StorageKeys.std.js';
-import { isLocalBackupsEnabled } from '../../util/isLocalBackupsEnabled.preload.js';
-import { getBackupKeyHash } from '../../services/backups/crypto.preload.js';
+} from '../../util/backupMediaDownload.preload.ts';
+import { DonationsErrorBoundary } from '../../components/DonationsErrorBoundary.dom.tsx';
+import type { SmartPreferencesChatFoldersPageProps } from './PreferencesChatFoldersPage.preload.tsx';
+import type { SmartPreferencesEditChatFolderPageProps } from './PreferencesEditChatFolderPage.preload.tsx';
+import type { ExternalProps as SmartNotificationProfilesProps } from './PreferencesNotificationProfiles.preload.tsx';
+import { useMegaphonesActions } from '../ducks/megaphones.preload.ts';
+import type { ZoomFactorType } from '../../types/StorageKeys.std.ts';
+import { isLocalBackupsEnabled } from '../../util/isLocalBackupsEnabled.preload.ts';
+import { getBackupKeyHash } from '../../services/backups/crypto.preload.ts';
 
 const DEFAULT_NOTIFICATION_SETTING = 'message';
 

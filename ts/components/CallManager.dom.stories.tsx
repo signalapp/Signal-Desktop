@@ -4,35 +4,35 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './CallManager.dom.js';
-import { CallManager } from './CallManager.dom.js';
+import type { PropsType } from './CallManager.dom.tsx';
+import { CallManager } from './CallManager.dom.tsx';
 import {
   CallEndedReason,
   CallState,
   CallViewMode,
   GroupCallConnectionState,
   GroupCallJoinState,
-} from '../types/Calling.std.js';
-import { CallMode } from '../types/CallDisposition.std.js';
+} from '../types/Calling.std.ts';
+import { CallMode } from '../types/CallDisposition.std.ts';
 import type {
   ActiveGroupCallType,
   GroupCallRemoteParticipantType,
-} from '../types/Calling.std.js';
+} from '../types/Calling.std.ts';
 import type {
   ConversationType,
   ConversationTypeType,
-} from '../state/ducks/conversations.preload.js';
-import { AvatarColors } from '../types/Colors.std.js';
-import { generateAci } from '../types/ServiceId.std.js';
-import { getDefaultConversation } from '../test-helpers/getDefaultConversation.std.js';
-import { fakeGetGroupCallVideoFrameSource } from '../test-helpers/fakeGetGroupCallVideoFrameSource.std.js';
-import { StorySendMode } from '../types/Stories.std.js';
+} from '../state/ducks/conversations.preload.ts';
+import { AvatarColors } from '../types/Colors.std.ts';
+import { generateAci } from '../types/ServiceId.std.ts';
+import { getDefaultConversation } from '../test-helpers/getDefaultConversation.std.ts';
+import { fakeGetGroupCallVideoFrameSource } from '../test-helpers/fakeGetGroupCallVideoFrameSource.std.ts';
+import { StorySendMode } from '../types/Stories.std.ts';
 import {
   FAKE_CALL_LINK,
   FAKE_CALL_LINK_WITH_ADMIN_KEY,
   getDefaultCallLinkConversation,
-} from '../test-helpers/fakeCallLink.std.js';
-import { allRemoteParticipants } from './CallScreen.dom.stories.js';
+} from '../test-helpers/fakeCallLink.std.ts';
+import { allRemoteParticipants } from './CallScreen.dom.stories.tsx';
 
 const { i18n } = window.SignalContext;
 

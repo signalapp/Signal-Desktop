@@ -7,17 +7,17 @@ import type { Transition } from 'motion/react';
 import { motion } from 'motion/react';
 import type { ReadonlyDeep } from 'type-fest';
 
-import { tw } from '../../../axo/tw.dom.js';
-import { formatFileSize } from '../../../util/formatFileSize.std.js';
-import { durationToPlaybackText } from '../../../util/durationToPlaybackText.std.js';
+import { tw } from '../../../axo/tw.dom.tsx';
+import { formatFileSize } from '../../../util/formatFileSize.std.ts';
+import { durationToPlaybackText } from '../../../util/durationToPlaybackText.std.ts';
 import type {
   GenericMediaItemType,
   MediaItemType,
-} from '../../../types/MediaItem.std.js';
-import type { LocalizerType, ThemeType } from '../../../types/Util.std.js';
-import { type AttachmentStatusType } from '../../../hooks/useAttachmentStatus.std.js';
-import { useComputePeaks } from '../../../hooks/useComputePeaks.dom.js';
-import { ListItem } from './ListItem.dom.js';
+} from '../../../types/MediaItem.std.ts';
+import type { LocalizerType, ThemeType } from '../../../types/Util.std.ts';
+import { type AttachmentStatusType } from '../../../hooks/useAttachmentStatus.std.ts';
+import { useComputePeaks } from '../../../hooks/useComputePeaks.dom.ts';
+import { ListItem } from './ListItem.dom.tsx';
 
 const { noop } = lodash;
 

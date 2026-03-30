@@ -6,8 +6,8 @@ import { readFile, readdir, writeFile } from 'node:fs/promises';
 import z from 'zod';
 import semver from 'semver';
 
-import { drop } from '../util/drop.std.js';
-import { strictAssert } from '../util/assert.std.js';
+import { drop } from '../util/drop.std.ts';
+import { strictAssert } from '../util/assert.std.ts';
 
 const { GITHUB_TOKEN } = process.env;
 

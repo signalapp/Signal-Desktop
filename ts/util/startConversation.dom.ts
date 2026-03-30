@@ -1,8 +1,8 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ServiceIdString } from '../types/ServiceId.std.js';
-import { strictAssert } from './assert.std.js';
+import type { ServiceIdString } from '../types/ServiceId.std.ts';
+import { strictAssert } from './assert.std.ts';
 
 export function startConversation(
   e164: string,

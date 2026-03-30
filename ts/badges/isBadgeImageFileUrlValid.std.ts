@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { maybeParseUrl } from '../util/url.std.js';
+import { maybeParseUrl } from '../util/url.std.ts';
 
 export function isBadgeImageFileUrlValid(
   url: string,

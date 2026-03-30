@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 
-import { isSorted } from '../../util/isSorted.std.js';
+import { isSorted } from '../../util/isSorted.std.ts';
 
 describe('isSorted', () => {
   it('returns true for empty lists', () => {

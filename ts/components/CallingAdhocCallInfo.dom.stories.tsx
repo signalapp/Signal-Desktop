@@ -6,14 +6,14 @@ import lodash from 'lodash';
 import { action } from '@storybook/addon-actions';
 
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './CallingAdhocCallInfo.dom.js';
-import { CallingAdhocCallInfo } from './CallingAdhocCallInfo.dom.js';
-import { AvatarColors } from '../types/Colors.std.js';
-import type { GroupCallRemoteParticipantType } from '../types/Calling.std.js';
-import { generateAci } from '../types/ServiceId.std.js';
-import { getDefaultConversation } from '../test-helpers/getDefaultConversation.std.js';
-import type { CallLinkType } from '../types/CallLink.std.js';
-import { CallLinkRestrictions } from '../types/CallLink.std.js';
+import type { PropsType } from './CallingAdhocCallInfo.dom.tsx';
+import { CallingAdhocCallInfo } from './CallingAdhocCallInfo.dom.tsx';
+import { AvatarColors } from '../types/Colors.std.ts';
+import type { GroupCallRemoteParticipantType } from '../types/Calling.std.ts';
+import { generateAci } from '../types/ServiceId.std.ts';
+import { getDefaultConversation } from '../test-helpers/getDefaultConversation.std.ts';
+import type { CallLinkType } from '../types/CallLink.std.ts';
+import { CallLinkRestrictions } from '../types/CallLink.std.ts';
 
 const { sample } = lodash;
 

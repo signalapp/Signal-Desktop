@@ -6,13 +6,13 @@ import lodash from 'lodash';
 
 import { action } from '@storybook/addon-actions';
 import type { Meta, StoryFn } from '@storybook/react';
-import { tw } from '../../axo/tw.dom.js';
+import { tw } from '../../axo/tw.dom.tsx';
 
-import { SignalService } from '../../protobuf/index.std.js';
-import { ConversationColors } from '../../types/Colors.std.js';
-import type { Props } from './TimelineMessage.dom.js';
-import { TimelineMessage } from './TimelineMessage.dom.js';
-import { MessageInteractivity, TextDirection } from './Message.dom.js';
+import { SignalService } from '../../protobuf/index.std.ts';
+import { ConversationColors } from '../../types/Colors.std.ts';
+import type { Props } from './TimelineMessage.dom.tsx';
+import { TimelineMessage } from './TimelineMessage.dom.tsx';
+import { MessageInteractivity, TextDirection } from './Message.dom.tsx';
 import {
   AUDIO_MP3,
   IMAGE_JPEG,
@@ -23,28 +23,28 @@ import {
   stringToMIMEType,
   IMAGE_GIF,
   VIDEO_QUICKTIME,
-} from '../../types/MIME.std.js';
-import { ReadStatus } from '../../messages/MessageReadStatus.std.js';
-import { MessageAudio } from './MessageAudio.dom.js';
-import { computePeaks } from '../VoiceNotesPlaybackContext.dom.js';
-import { pngUrl } from '../../storybook/Fixtures.std.js';
-import { getDefaultConversation } from '../../test-helpers/getDefaultConversation.std.js';
-import { WidthBreakpoint } from '../_util.std.js';
-import { DAY, HOUR, MINUTE, SECOND } from '../../util/durations/index.std.js';
-import { ContactFormType } from '../../types/EmbeddedContact.std.js';
-import { GiftBadgeStates } from '../../types/GiftBadgeStates.std.js';
-import { generateAci } from '../../types/ServiceId.std.js';
+} from '../../types/MIME.std.ts';
+import { ReadStatus } from '../../messages/MessageReadStatus.std.ts';
+import { MessageAudio } from './MessageAudio.dom.tsx';
+import { computePeaks } from '../VoiceNotesPlaybackContext.dom.tsx';
+import { pngUrl } from '../../storybook/Fixtures.std.ts';
+import { getDefaultConversation } from '../../test-helpers/getDefaultConversation.std.ts';
+import { WidthBreakpoint } from '../_util.std.ts';
+import { DAY, HOUR, MINUTE, SECOND } from '../../util/durations/index.std.ts';
+import { ContactFormType } from '../../types/EmbeddedContact.std.ts';
+import { GiftBadgeStates } from '../../types/GiftBadgeStates.std.ts';
+import { generateAci } from '../../types/ServiceId.std.ts';
 
 import {
   fakeAttachment,
   fakeThumbnail,
-} from '../../test-helpers/fakeAttachment.std.js';
-import { getFakeBadge } from '../../test-helpers/getFakeBadge.std.js';
-import { ThemeType } from '../../types/Util.std.js';
-import { BadgeCategory } from '../../badges/BadgeCategory.std.js';
-import { PaymentEventKind } from '../../types/Payment.std.js';
-import type { RenderAudioAttachmentProps } from '../../state/smart/renderAudioAttachment.preload.js';
-import type { PollVoteWithUserType } from '../../state/selectors/message.preload.js';
+} from '../../test-helpers/fakeAttachment.std.ts';
+import { getFakeBadge } from '../../test-helpers/getFakeBadge.std.ts';
+import { ThemeType } from '../../types/Util.std.ts';
+import { BadgeCategory } from '../../badges/BadgeCategory.std.ts';
+import { PaymentEventKind } from '../../types/Payment.std.ts';
+import type { RenderAudioAttachmentProps } from '../../state/smart/renderAudioAttachment.preload.tsx';
+import type { PollVoteWithUserType } from '../../state/selectors/message.preload.ts';
 
 const { isBoolean, noop } = lodash;
 

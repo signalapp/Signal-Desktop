@@ -4,14 +4,14 @@
 import lodash from 'lodash';
 import type { ThunkAction } from 'redux-thunk';
 import type { ReadonlyDeep } from 'type-fest';
-import { DataWriter } from '../../sql/Client.preload.js';
-import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.js';
-import { useBoundActions } from '../../hooks/useBoundActions.std.js';
-import type { FunEmojiSelection } from '../../components/fun/panels/FunPanelEmojis.dom.js';
+import { DataWriter } from '../../sql/Client.preload.ts';
+import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.ts';
+import { useBoundActions } from '../../hooks/useBoundActions.std.ts';
+import type { FunEmojiSelection } from '../../components/fun/panels/FunPanelEmojis.dom.tsx';
 import {
   getEmojiParentByKey,
   getEmojiParentKeyByVariantKey,
-} from '../../components/fun/data/emojis.std.js';
+} from '../../components/fun/data/emojis.std.ts';
 
 const { take, uniq } = lodash;
 

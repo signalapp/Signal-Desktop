@@ -7,23 +7,23 @@ import {
   getUserACI,
   getUserConversationId,
   getUserNumber,
-} from './user.std.js';
-import { getSource, getSourceServiceId } from './message.preload.js';
+} from './user.std.ts';
+import { getSource, getSourceServiceId } from './message.preload.ts';
 import {
   getConversationByIdSelector,
   getConversations,
   getConversationSelector,
-} from './conversations.dom.js';
-import type { StateType } from '../reducer.preload.js';
-import { createLogger } from '../../logging/log.std.js';
-import { getLocalAttachmentUrl } from '../../util/getLocalAttachmentUrl.std.js';
+} from './conversations.dom.ts';
+import type { StateType } from '../reducer.preload.ts';
+import { createLogger } from '../../logging/log.std.ts';
+import { getLocalAttachmentUrl } from '../../util/getLocalAttachmentUrl.std.ts';
 import type { ReadonlyMessageAttributesType } from '../../model-types.d.ts';
-import { getMessageIdForLogging } from '../../util/idForLogging.preload.js';
-import * as Attachment from '../../util/Attachment.std.js';
-import type { ActiveAudioPlayerStateType } from '../ducks/audioPlayer.preload.js';
-import { isVoiceMessagePlayed } from '../../util/isVoiceMessagePlayed.std.js';
-import type { ServiceIdString } from '../../types/ServiceId.std.js';
-import { getSelectedConversationId } from './nav.std.js';
+import { getMessageIdForLogging } from '../../util/idForLogging.preload.ts';
+import * as Attachment from '../../util/Attachment.std.ts';
+import type { ActiveAudioPlayerStateType } from '../ducks/audioPlayer.preload.ts';
+import { isVoiceMessagePlayed } from '../../util/isVoiceMessagePlayed.std.ts';
+import type { ServiceIdString } from '../../types/ServiceId.std.ts';
+import { getSelectedConversationId } from './nav.std.ts';
 
 const log = createLogger('audioPlayer');
 

@@ -7,39 +7,39 @@ import type { ReactNode } from 'react';
 import type {
   ConversationType,
   ShowConversationType,
-} from '../../state/ducks/conversations.preload.js';
-import type { BadgeType } from '../../badges/types.std.js';
-import type { HasStories } from '../../types/Stories.std.js';
-import type { LocalizerType, ThemeType } from '../../types/Util.std.js';
-import type { ViewUserStoriesActionCreatorType } from '../../state/ducks/stories.preload.js';
-import { StoryViewModeType } from '../../types/Stories.std.js';
-import { createLogger } from '../../logging/log.std.js';
-import { Avatar, AvatarBlur, AvatarSize } from '../Avatar.dom.js';
-import { AvatarLightbox } from '../AvatarLightbox.dom.js';
-import { BadgeDialog } from '../BadgeDialog.dom.js';
-import { ConfirmationDialog } from '../ConfirmationDialog.dom.js';
-import { Modal } from '../Modal.dom.js';
-import { RemoveGroupMemberConfirmationDialog } from './RemoveGroupMemberConfirmationDialog.dom.js';
-import { missingCaseError } from '../../util/missingCaseError.std.js';
-import { UserText } from '../UserText.dom.js';
-import { Button, ButtonIconType, ButtonVariant } from '../Button.dom.js';
-import { isInSystemContacts } from '../../util/isInSystemContacts.std.js';
-import { InContactsIcon } from '../InContactsIcon.dom.js';
-import { canHaveNicknameAndNote } from '../../util/nicknames.dom.js';
-import { getThemeByThemeType } from '../../util/theme.std.js';
+} from '../../state/ducks/conversations.preload.ts';
+import type { BadgeType } from '../../badges/types.std.ts';
+import type { HasStories } from '../../types/Stories.std.ts';
+import type { LocalizerType, ThemeType } from '../../types/Util.std.ts';
+import type { ViewUserStoriesActionCreatorType } from '../../state/ducks/stories.preload.ts';
+import { StoryViewModeType } from '../../types/Stories.std.ts';
+import { createLogger } from '../../logging/log.std.ts';
+import { Avatar, AvatarBlur, AvatarSize } from '../Avatar.dom.tsx';
+import { AvatarLightbox } from '../AvatarLightbox.dom.tsx';
+import { BadgeDialog } from '../BadgeDialog.dom.tsx';
+import { ConfirmationDialog } from '../ConfirmationDialog.dom.tsx';
+import { Modal } from '../Modal.dom.tsx';
+import { RemoveGroupMemberConfirmationDialog } from './RemoveGroupMemberConfirmationDialog.dom.tsx';
+import { missingCaseError } from '../../util/missingCaseError.std.ts';
+import { UserText } from '../UserText.dom.tsx';
+import { Button, ButtonIconType, ButtonVariant } from '../Button.dom.tsx';
+import { isInSystemContacts } from '../../util/isInSystemContacts.std.ts';
+import { InContactsIcon } from '../InContactsIcon.dom.tsx';
+import { canHaveNicknameAndNote } from '../../util/nicknames.dom.ts';
+import { getThemeByThemeType } from '../../util/theme.std.ts';
 import {
   InAnotherCallTooltip,
   getTooltipContent,
-} from './InAnotherCallTooltip.dom.js';
-import type { ToggleGroupMemberLabelInfoModalType } from '../../state/ducks/globalModals.preload.js';
-import type { ContactModalStateType } from '../../types/globalModals.std.js';
-import { GroupMemberLabel } from './ContactName.dom.js';
-import { SignalService as Proto } from '../../protobuf/index.std.js';
-import { AxoSymbol } from '../../axo/AxoSymbol.dom.js';
-import { tw } from '../../axo/tw.dom.js';
-import { strictAssert } from '../../util/assert.std.js';
-import type { RemoveClientType } from '../../types/Calling.std.js';
-import type { ContactNameColorType } from '../../types/Colors.std.js';
+} from './InAnotherCallTooltip.dom.tsx';
+import type { ToggleGroupMemberLabelInfoModalType } from '../../state/ducks/globalModals.preload.ts';
+import type { ContactModalStateType } from '../../types/globalModals.std.ts';
+import { GroupMemberLabel } from './ContactName.dom.tsx';
+import { SignalService as Proto } from '../../protobuf/index.std.ts';
+import { AxoSymbol } from '../../axo/AxoSymbol.dom.tsx';
+import { tw } from '../../axo/tw.dom.tsx';
+import { strictAssert } from '../../util/assert.std.ts';
+import type { RemoveClientType } from '../../types/Calling.std.ts';
+import type { ContactNameColorType } from '../../types/Colors.std.ts';
 
 const ACCESS_ENUM = Proto.AccessControl.AccessRequired;
 

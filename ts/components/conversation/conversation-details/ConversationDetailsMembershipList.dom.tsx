@@ -3,23 +3,23 @@
 
 import React from 'react';
 
-import type { LocalizerType, ThemeType } from '../../../types/Util.std.js';
+import type { LocalizerType, ThemeType } from '../../../types/Util.std.ts';
 
-import { Avatar, AvatarSize } from '../../Avatar.dom.js';
-import { Emojify } from '../Emojify.dom.js';
+import { Avatar, AvatarSize } from '../../Avatar.dom.tsx';
+import { Emojify } from '../Emojify.dom.tsx';
 
 import {
   ConversationDetailsIcon,
   IconType,
-} from './ConversationDetailsIcon.dom.js';
-import type { ConversationType } from '../../../state/ducks/conversations.preload.js';
-import type { PreferredBadgeSelectorType } from '../../../state/selectors/badges.preload.js';
-import { PanelRow } from './PanelRow.dom.js';
-import { PanelSection } from './PanelSection.dom.js';
-import { GroupMemberLabel } from '../ContactName.dom.js';
-import { AriaClickable } from '../../../axo/AriaClickable.dom.js';
-import type { ContactModalStateType } from '../../../types/globalModals.std.js';
-import type { ContactNameColorType } from '../../../types/Colors.std.js';
+} from './ConversationDetailsIcon.dom.tsx';
+import type { ConversationType } from '../../../state/ducks/conversations.preload.ts';
+import type { PreferredBadgeSelectorType } from '../../../state/selectors/badges.preload.ts';
+import { PanelRow } from './PanelRow.dom.tsx';
+import { PanelSection } from './PanelSection.dom.tsx';
+import { GroupMemberLabel } from '../ContactName.dom.tsx';
+import { AriaClickable } from '../../../axo/AriaClickable.dom.tsx';
+import type { ContactModalStateType } from '../../../types/globalModals.std.ts';
+import type { ContactNameColorType } from '../../../types/Colors.std.ts';
 
 export type GroupV2Membership = {
   isAdmin: boolean;

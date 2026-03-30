@@ -10,7 +10,7 @@ import {
   toHumanDonationAmount,
   toHumanCurrencyString,
   toStripeDonationAmount,
-} from '../../util/currency.dom.js';
+} from '../../util/currency.dom.ts';
 
 describe('parseCurrencyString', () => {
   function testFn(

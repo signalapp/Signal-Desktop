@@ -4,20 +4,20 @@
 import { assert } from 'chai';
 import * as sinon from 'sinon';
 
-import * as Message from '../../types/Message2.preload.js';
-import { SignalService } from '../../protobuf/index.std.js';
-import * as Bytes from '../../Bytes.std.js';
-import * as MIME from '../../types/MIME.std.js';
+import * as Message from '../../types/Message2.preload.ts';
+import { SignalService } from '../../protobuf/index.std.ts';
+import * as Bytes from '../../Bytes.std.ts';
+import * as MIME from '../../types/MIME.std.ts';
 
-import type { EmbeddedContactType } from '../../types/EmbeddedContact.std.js';
+import type { EmbeddedContactType } from '../../types/EmbeddedContact.std.ts';
 import type { MessageAttributesType } from '../../model-types.d.ts';
 import type {
   AddressableAttachmentType,
   AttachmentType,
   LocalAttachmentV2Type,
-} from '../../types/Attachment.std.js';
-import type { LoggerType } from '../../types/Logging.std.js';
-import { testPlaintextHash } from '../../test-helpers/attachments.node.js';
+} from '../../types/Attachment.std.ts';
+import type { LoggerType } from '../../types/Logging.std.ts';
+import { testPlaintextHash } from '../../test-helpers/attachments.node.ts';
 
 const FAKE_LOCAL_ATTACHMENT: LocalAttachmentV2Type = {
   version: 2,

@@ -4,19 +4,19 @@
 import { assert } from 'chai';
 import * as sinon from 'sinon';
 
-import * as Attachment from '../../util/Attachment.std.js';
+import * as Attachment from '../../util/Attachment.std.ts';
 import type {
   LocalAttachmentV2Type,
   AttachmentType,
-} from '../../types/Attachment.std.js';
-import * as MIME from '../../types/MIME.std.js';
-import { SignalService } from '../../protobuf/index.std.js';
-import * as Bytes from '../../Bytes.std.js';
-import { createLogger } from '../../logging/log.std.js';
+} from '../../types/Attachment.std.ts';
+import * as MIME from '../../types/MIME.std.ts';
+import { SignalService } from '../../protobuf/index.std.ts';
+import * as Bytes from '../../Bytes.std.ts';
+import { createLogger } from '../../logging/log.std.ts';
 
-import { fakeAttachment } from '../../test-helpers/fakeAttachment.std.js';
-import { DAY } from '../../util/durations/index.std.js';
-import { migrateDataToFileSystem } from '../../util/attachments/migrateDataToFilesystem.std.js';
+import { fakeAttachment } from '../../test-helpers/fakeAttachment.std.ts';
+import { DAY } from '../../util/durations/index.std.ts';
+import { migrateDataToFileSystem } from '../../util/attachments/migrateDataToFilesystem.std.ts';
 
 const logger = createLogger('Attachment_test');
 

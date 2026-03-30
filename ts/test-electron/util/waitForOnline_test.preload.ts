@@ -5,7 +5,7 @@ import { assert } from 'chai';
 import { EventEmitter } from 'node:events';
 import * as sinon from 'sinon';
 
-import { waitForOnline } from '../../util/waitForOnline.dom.js';
+import { waitForOnline } from '../../util/waitForOnline.dom.ts';
 
 describe('waitForOnline', () => {
   let sandbox: sinon.SinonSandbox;

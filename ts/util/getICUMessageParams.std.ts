@@ -6,7 +6,7 @@ import type {
   MessageFormatElement,
   PluralOrSelectOption,
 } from '@formatjs/icu-messageformat-parser';
-import { missingCaseError } from './missingCaseError.std.js';
+import { missingCaseError } from './missingCaseError.std.ts';
 
 export type ICUMessageParamType = Readonly<
   | {

@@ -2,22 +2,22 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import React, { memo, useCallback } from 'react';
 import { useSelector } from 'react-redux';
-import { ChatColorPicker } from '../../components/ChatColorPicker.dom.js';
+import { ChatColorPicker } from '../../components/ChatColorPicker.dom.tsx';
 import {
   getConversationSelector,
   getConversationsWithCustomColorSelector,
-} from '../selectors/conversations.dom.js';
-import { getIntl } from '../selectors/user.std.js';
+} from '../selectors/conversations.dom.ts';
+import { getIntl } from '../selectors/user.std.ts';
 import {
   getCustomColors,
   getDefaultConversationColor,
-} from '../selectors/items.dom.js';
-import { getConversationColorAttributes } from '../../util/getConversationColorAttributes.std.js';
+} from '../selectors/items.dom.ts';
+import { getConversationColorAttributes } from '../../util/getConversationColorAttributes.std.ts';
 import {
   useConversationsActions,
   type ConversationType,
-} from '../ducks/conversations.preload.js';
-import { useItemsActions } from '../ducks/items.preload.js';
+} from '../ducks/conversations.preload.ts';
+import { useItemsActions } from '../ducks/items.preload.ts';
 
 export type SmartChatColorPickerProps = Readonly<{
   conversationId?: string;

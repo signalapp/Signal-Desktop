@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 
-import { getCountryCode } from '../../types/PhoneNumber.std.js';
+import { getCountryCode } from '../../types/PhoneNumber.std.ts';
 
 describe('types/PhoneNumber', () => {
   describe('#getCountryCode', () => {

@@ -16,49 +16,49 @@ import { v4 as getGuid } from 'uuid';
 import type { BrowserWindow } from 'electron';
 import { app, ipcMain } from 'electron';
 
-import { missingCaseError } from '../util/missingCaseError.std.js';
-import { getTempPath, getUpdateCachePath } from '../../app/attachments.node.js';
+import { missingCaseError } from '../util/missingCaseError.std.ts';
+import { getTempPath, getUpdateCachePath } from '../../app/attachments.node.ts';
 import {
   markShouldNotQuit,
   markShouldQuit,
-} from '../../app/window_state.std.js';
-import { DialogType } from '../types/Dialogs.std.js';
-import * as Errors from '../types/errors.std.js';
-import { strictAssert } from '../util/assert.std.js';
-import { drop } from '../util/drop.std.js';
-import * as durations from '../util/durations/index.std.js';
+} from '../../app/window_state.std.ts';
+import { DialogType } from '../types/Dialogs.std.ts';
+import * as Errors from '../types/errors.std.ts';
+import { strictAssert } from '../util/assert.std.ts';
+import { drop } from '../util/drop.std.ts';
+import * as durations from '../util/durations/index.std.ts';
 import {
   isAlpha,
   isAxolotl,
   isBeta,
   isNotUpdatable,
   isStaging,
-} from '../util/version.std.js';
-import { isPathInside } from '../util/isPathInside.node.js';
+} from '../util/version.std.ts';
+import { isPathInside } from '../util/isPathInside.node.ts';
 
-import { packageJson } from '../util/packageJson.main.js';
+import { packageJson } from '../util/packageJson.main.ts';
 
 import {
   getSignatureFileName,
   hexToBinary,
   verifySignature,
-} from './signature.node.js';
+} from './signature.node.ts';
 import {
   download as downloadDifferentialData,
   getBlockMapFileName,
   isValidPreparedData as isValidDifferentialData,
   prepareDownload as prepareDifferentialDownload,
-} from './differential.main.js';
-import { getGotOptions } from './got.main.js';
-import { checkIntegrity, isTimeToUpdate } from './util.node.js';
+} from './differential.main.ts';
+import { getGotOptions } from './got.main.ts';
+import { checkIntegrity, isTimeToUpdate } from './util.node.ts';
 import {
   gracefulRename,
   gracefulRmRecursive,
-} from '../util/gracefulFs.node.js';
+} from '../util/gracefulFs.node.ts';
 
-import type { LoggerType } from '../types/Logging.std.js';
-import type { PrepareDownloadResultType as DifferentialDownloadDataType } from './differential.main.js';
-import type { MainSQL } from '../sql/main.main.js';
+import type { LoggerType } from '../types/Logging.std.ts';
+import type { PrepareDownloadResultType as DifferentialDownloadDataType } from './differential.main.ts';
+import type { MainSQL } from '../sql/main.main.ts';
 
 const { pathExists } = fsExtra;
 

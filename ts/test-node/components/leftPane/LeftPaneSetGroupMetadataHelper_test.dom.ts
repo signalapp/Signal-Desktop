@@ -6,11 +6,11 @@ import * as sinon from 'sinon';
 import {
   RowType,
   _testHeaderText,
-} from '../../../components/ConversationList.dom.js';
-import { getDefaultConversation } from '../../../test-helpers/getDefaultConversation.std.js';
-import { DurationInSeconds } from '../../../util/durations/index.std.js';
+} from '../../../components/ConversationList.dom.tsx';
+import { getDefaultConversation } from '../../../test-helpers/getDefaultConversation.std.ts';
+import { DurationInSeconds } from '../../../util/durations/index.std.ts';
 
-import { LeftPaneSetGroupMetadataHelper } from '../../../components/leftPane/LeftPaneSetGroupMetadataHelper.dom.js';
+import { LeftPaneSetGroupMetadataHelper } from '../../../components/leftPane/LeftPaneSetGroupMetadataHelper.dom.tsx';
 
 function getComposeState() {
   return {

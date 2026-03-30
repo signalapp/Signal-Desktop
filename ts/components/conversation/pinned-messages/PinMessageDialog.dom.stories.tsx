@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import type { Meta } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
-import { PinMessageDialog } from './PinMessageDialog.dom.js';
+import { PinMessageDialog } from './PinMessageDialog.dom.tsx';
 
 const { i18n } = window.SignalContext;
 

@@ -9,16 +9,16 @@ import {
   isMegaphoneCtaIdValid,
   isMegaphoneDeletable,
   isMegaphoneShowable,
-} from '../../services/megaphone.preload.js';
-import { DAY } from '../../util/durations/index.std.js';
+} from '../../services/megaphone.preload.ts';
+import { DAY } from '../../util/durations/index.std.ts';
 import type {
   RemoteMegaphoneId,
   RemoteMegaphoneType,
-} from '../../types/Megaphone.std.js';
-import { generateAci } from '../../types/ServiceId.std.js';
-import { itemStorage } from '../../textsecure/Storage.preload.js';
-import type { ConversationController } from '../../ConversationController.preload.js';
-import type { ConversationModel } from '../../models/conversations.preload.js';
+} from '../../types/Megaphone.std.ts';
+import { generateAci } from '../../types/ServiceId.std.ts';
+import { itemStorage } from '../../textsecure/Storage.preload.ts';
+import type { ConversationController } from '../../ConversationController.preload.ts';
+import type { ConversationModel } from '../../models/conversations.preload.ts';
 
 const FAKE_MEGAPHONE: RemoteMegaphoneType = {
   id: uuid() as RemoteMegaphoneId,

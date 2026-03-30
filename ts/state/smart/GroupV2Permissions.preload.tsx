@@ -3,10 +3,10 @@
 
 import { useSelector } from 'react-redux';
 import React, { memo } from 'react';
-import { GroupV2Permissions } from '../../components/conversation/conversation-details/GroupV2Permissions.dom.js';
-import { getConversationSelector } from '../selectors/conversations.dom.js';
-import { getIntl } from '../selectors/user.std.js';
-import { useConversationsActions } from '../ducks/conversations.preload.js';
+import { GroupV2Permissions } from '../../components/conversation/conversation-details/GroupV2Permissions.dom.tsx';
+import { getConversationSelector } from '../selectors/conversations.dom.ts';
+import { getIntl } from '../selectors/user.std.ts';
+import { useConversationsActions } from '../ducks/conversations.preload.ts';
 
 export type SmartGroupV2PermissionsProps = {
   conversationId: string;

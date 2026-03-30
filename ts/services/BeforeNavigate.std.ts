@@ -1,12 +1,12 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { createLogger } from '../logging/log.std.js';
+import { createLogger } from '../logging/log.std.ts';
 
-import { SECOND } from '../util/durations/index.std.js';
-import { sleep } from '../util/sleep.std.js';
+import { SECOND } from '../util/durations/index.std.ts';
+import { sleep } from '../util/sleep.std.ts';
 
-import type { Location } from '../types/Nav.std.js';
+import type { Location } from '../types/Nav.std.ts';
 
 const log = createLogger('BeforeNavigate');
 

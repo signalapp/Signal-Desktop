@@ -5,10 +5,10 @@ import React from 'react';
 import { action } from '@storybook/addon-actions';
 
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './CallingScreenSharingController.dom.js';
-import { CallingScreenSharingController } from './CallingScreenSharingController.dom.js';
+import type { PropsType } from './CallingScreenSharingController.dom.tsx';
+import { CallingScreenSharingController } from './CallingScreenSharingController.dom.tsx';
 
-import { ScreenShareStatus } from '../types/Calling.std.js';
+import { ScreenShareStatus } from '../types/Calling.std.ts';
 
 const { i18n } = window.SignalContext;
 

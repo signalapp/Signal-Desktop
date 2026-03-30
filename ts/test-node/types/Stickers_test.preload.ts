@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import * as Stickers from '../../types/Stickers.preload.js';
-import { isPackIdValid, redactPackId } from '../../util/Stickers.std.js';
+import * as Stickers from '../../types/Stickers.preload.ts';
+import { isPackIdValid, redactPackId } from '../../util/Stickers.std.ts';
 
 describe('Stickers', () => {
   describe('getDataFromLink', () => {

@@ -5,10 +5,10 @@ import { v4 as generateUuid } from 'uuid';
 import { z } from 'zod';
 import type { ServiceId, Aci, Pni } from '@signalapp/libsignal-client';
 
-import { isValidUuid } from '../util/isValidUuid.std.js';
-import { createLogger } from '../logging/log.std.js';
-import type { LoggerType } from './Logging.std.js';
-import { isAciString } from '../util/isAciString.std.js';
+import { isValidUuid } from '../util/isValidUuid.std.ts';
+import { createLogger } from '../logging/log.std.ts';
+import type { LoggerType } from './Logging.std.ts';
+import { isAciString } from '../util/isAciString.std.ts';
 
 const log = createLogger('ServiceId');
 

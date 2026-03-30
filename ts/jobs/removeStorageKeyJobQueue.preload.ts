@@ -3,12 +3,12 @@
 
 import { z } from 'zod';
 
-import type { JOB_STATUS } from './JobQueue.std.js';
-import { JobQueue } from './JobQueue.std.js';
+import type { JOB_STATUS } from './JobQueue.std.ts';
+import { JobQueue } from './JobQueue.std.ts';
 
-import { jobQueueDatabaseStore } from './JobQueueDatabaseStore.preload.js';
-import { parseUnknown } from '../util/schemas.std.js';
-import { itemStorage } from '../textsecure/Storage.preload.js';
+import { jobQueueDatabaseStore } from './JobQueueDatabaseStore.preload.ts';
+import { parseUnknown } from '../util/schemas.std.ts';
+import { itemStorage } from '../textsecure/Storage.preload.ts';
 
 const removeStorageKeyJobDataSchema = z.object({
   key: z.enum([

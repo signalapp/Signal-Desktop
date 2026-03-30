@@ -2,23 +2,23 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import lodash from 'lodash';
-import type { LoggerType } from '../../types/Logging.std.js';
-import type { AciString } from '../../types/ServiceId.std.js';
-import { normalizeAci } from '../../util/normalizeAci.std.js';
-import { getSendOptions } from '../../util/getSendOptions.preload.js';
-import type { SendTypesType } from '../../util/handleMessageSend.preload.js';
-import { handleMessageSend } from '../../util/handleMessageSend.preload.js';
-import { isNotNil } from '../../util/isNotNil.std.js';
-import { strictAssert } from '../../util/assert.std.js';
-import { isRecord } from '../../util/isRecord.std.js';
+import type { LoggerType } from '../../types/Logging.std.ts';
+import type { AciString } from '../../types/ServiceId.std.ts';
+import { normalizeAci } from '../../util/normalizeAci.std.ts';
+import { getSendOptions } from '../../util/getSendOptions.preload.ts';
+import type { SendTypesType } from '../../util/handleMessageSend.preload.ts';
+import { handleMessageSend } from '../../util/handleMessageSend.preload.ts';
+import { isNotNil } from '../../util/isNotNil.std.ts';
+import { strictAssert } from '../../util/assert.std.ts';
+import { isRecord } from '../../util/isRecord.std.ts';
 
-import { commonShouldJobContinue } from './commonShouldJobContinue.preload.js';
-import { handleCommonJobRequestError } from './handleCommonJobRequestError.std.js';
-import { missingCaseError } from '../../util/missingCaseError.std.js';
+import { commonShouldJobContinue } from './commonShouldJobContinue.preload.ts';
+import { handleCommonJobRequestError } from './handleCommonJobRequestError.std.ts';
+import { missingCaseError } from '../../util/missingCaseError.std.ts';
 import {
   type MessageSender,
   messageSender,
-} from '../../textsecure/SendMessage.preload.js';
+} from '../../textsecure/SendMessage.preload.ts';
 
 const { chunk } = lodash;
 

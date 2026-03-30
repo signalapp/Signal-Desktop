@@ -5,15 +5,15 @@ import { assert } from 'chai';
 import { v4 as generateGuid } from 'uuid';
 import lodash from 'lodash';
 
-import { createDB, insertData, updateToVersion } from './helpers.node.js';
-import type { ServiceIdString } from '../../types/ServiceId.std.js';
-import { normalizePni } from '../../types/ServiceId.std.js';
-import { normalizeAci } from '../../util/normalizeAci.std.js';
+import { createDB, insertData, updateToVersion } from './helpers.node.ts';
+import type { ServiceIdString } from '../../types/ServiceId.std.ts';
+import { normalizePni } from '../../types/ServiceId.std.ts';
+import { normalizeAci } from '../../util/normalizeAci.std.ts';
 import type {
   WritableDB,
   KyberPreKeyType,
   SignedPreKeyType,
-} from '../../sql/Interface.std.js';
+} from '../../sql/Interface.std.ts';
 
 const { range } = lodash;
 

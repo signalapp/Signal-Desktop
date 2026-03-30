@@ -114,9 +114,8 @@ jobs:
         # CXX: sccache clang++
         # SCCACHE_GHA_ENABLED: "true"
         NPM_CONFIG_LOGLEVEL: verbose
-
-    - run: pnpm run generate
     - run: pnpm run prepare-beta-build
+    - run: pnpm run generate
     - run: pnpm run test-node
     - run: pnpm run test-electron
       env:
@@ -135,9 +134,9 @@ jobs:
     - name: Upload installer size
       if: ${{ github.repository == 'signalapp/Signal-Desktop-Private' && github.ref == 'refs/heads/main' }}
       run: |
-        node ts/scripts/publish-installer-size.node.js macos-arm64
-        node ts/scripts/publish-installer-size.node.js macos-x64
-        node ts/scripts/publish-installer-size.node.js macos-universal
+        ./node_modules/.bin/tsx ts/scripts/publish-installer-size.node.ts macos-arm64
+        ./node_modules/.bin/tsx ts/scripts/publish-installer-size.node.ts macos-x64
+        ./node_modules/.bin/tsx ts/scripts/publish-installer-size.node.ts macos-universal
     - run: pnpm run test-release
       env:
         NODE_ENV: production
@@ -190,11 +189,9 @@ jobs:
         # SCCACHE_GHA_ENABLED: "true"
         NPM_CONFIG_LOGLEVEL: verbose
 
-    - run: pnpm run generate
     - run: pnpm run prepare-beta-build
+    - run: pnpm run generate
 
-    - name: Create bundle
-      run: pnpm run build:esbuild:prod
     - name: Create preload cache
       run: xvfb-run --auto-servernum pnpm run build:preload-cache
       env:
@@ -219,7 +216,7 @@ jobs:
 
     - name: Upload installer size
       if: ${{ github.repository == 'signalapp/Signal-Desktop-Private' && github.ref == 'refs/heads/main' }}
-      run: node ts/scripts/publish-installer-size.node.js linux
+      run: ./node_modules/.bin/tsx ts/scripts/publish-installer-size.node.ts linux
 
     - run: xvfb-run --auto-servernum pnpm run test-node
 
@@ -272,15 +269,13 @@ jobs:
       env:
         NPM_CONFIG_LOGLEVEL: verbose
 
-    - run: pnpm run generate
-    - run: pnpm run test-node
     - run: copy package.json temp.json
     - run: del package.json
     - run: type temp.json | findstr /v certificateSubjectName | findstr /v certificateSha1 > package.json
     - run: pnpm run prepare-beta-build
+    - run: pnpm run generate
+    - run: pnpm run test-node
 
-    - name: Create bundle
-      run: pnpm run build:esbuild:prod
     - name: Create preload cache
       run: pnpm run build:preload-cache
       env:
@@ -299,7 +294,7 @@ jobs:
 
     - name: Upload installer size
       if: ${{ github.repository == 'signalapp/Signal-Desktop-Private' && github.ref == 'refs/heads/main' }}
-      run: node ts/scripts/publish-installer-size.node.js windows
+      run: ./node_modules/.bin/tsx ts/scripts/publish-installer-size.node.ts windows
 
     - run: pnpm run test-electron
       env:
@@ -414,8 +409,6 @@ jobs:
 
     - name: Build typescript
       run: pnpm run generate
-    - name: Bundle
-      run: pnpm run build:esbuild:prod
     - name: Create preload cache
       run: xvfb-run --auto-servernum pnpm run build:preload-cache
       env:
@@ -490,4 +483,4 @@ jobs:
     - run: pnpm generate:phase-0
     - name: Run OS version check
       run: |
-        node ts/scripts/check-min-os-version.node.js
+        ./node_modules/.bin/tsx ts/scripts/check-min-os-version.node.ts

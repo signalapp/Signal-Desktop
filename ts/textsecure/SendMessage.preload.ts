@@ -15,93 +15,93 @@ import type { RequireExactlyOne } from 'type-fest';
 import {
   GLOBAL_ZONE,
   signalProtocolStore,
-} from '../SignalProtocolStore.preload.js';
-import { DataWriter } from '../sql/Client.preload.js';
-import type { ConversationModel } from '../models/conversations.preload.js';
-import { assertDev, strictAssert } from '../util/assert.std.js';
-import { parseIntOrThrow } from '../util/parseIntOrThrow.std.js';
-import { uuidToBytes } from '../util/uuidToBytes.std.js';
-import { Address } from '../types/Address.std.js';
-import { QualifiedAddress } from '../types/QualifiedAddress.std.js';
-import type { StoryMessageRecipientsType } from '../types/Stories.std.js';
-import { SenderKeys } from '../LibSignalStores.node.js';
+} from '../SignalProtocolStore.preload.ts';
+import { DataWriter } from '../sql/Client.preload.ts';
+import type { ConversationModel } from '../models/conversations.preload.ts';
+import { assertDev, strictAssert } from '../util/assert.std.ts';
+import { parseIntOrThrow } from '../util/parseIntOrThrow.std.ts';
+import { uuidToBytes } from '../util/uuidToBytes.std.ts';
+import { Address } from '../types/Address.std.ts';
+import { QualifiedAddress } from '../types/QualifiedAddress.std.ts';
+import type { StoryMessageRecipientsType } from '../types/Stories.std.ts';
+import { SenderKeys } from '../LibSignalStores.node.ts';
 import type {
   TextAttachmentType,
   UploadedAttachmentType,
-} from '../types/Attachment.std.js';
-import type { AciString, ServiceIdString } from '../types/ServiceId.std.js';
+} from '../types/Attachment.std.ts';
+import type { AciString, ServiceIdString } from '../types/ServiceId.std.ts';
 import {
   ServiceIdKind,
   serviceIdSchema,
   isPniString,
-} from '../types/ServiceId.std.js';
+} from '../types/ServiceId.std.ts';
 import {
   toAciObject,
   toPniObject,
   toServiceIdObject,
-} from '../util/ServiceId.node.js';
-import { runTaskWithTimeout } from './TaskWithTimeout.std.js';
+} from '../util/ServiceId.node.ts';
+import { runTaskWithTimeout } from './TaskWithTimeout.std.ts';
 import type { CallbackResultType } from './Types.d.ts';
 import type {
   SerializedCertificateType,
   SendLogCallbackType,
-} from './OutgoingMessage.preload.js';
-import OutgoingMessage from './OutgoingMessage.preload.js';
-import * as Bytes from '../Bytes.std.js';
-import { getRandomBytes } from '../Crypto.node.js';
-import { SendMessageProtoError, NoSenderKeyError } from './Errors.std.js';
-import { BodyRange } from '../types/BodyRange.std.js';
-import type { RawBodyRange } from '../types/BodyRange.std.js';
-import type { StoryContextType } from '../types/Util.std.js';
-import { concat, isEmpty } from '../util/iterables.std.js';
-import type { SendTypesType } from '../util/handleMessageSend.preload.js';
+} from './OutgoingMessage.preload.ts';
+import OutgoingMessage from './OutgoingMessage.preload.ts';
+import * as Bytes from '../Bytes.std.ts';
+import { getRandomBytes } from '../Crypto.node.ts';
+import { SendMessageProtoError, NoSenderKeyError } from './Errors.std.ts';
+import { BodyRange } from '../types/BodyRange.std.ts';
+import type { RawBodyRange } from '../types/BodyRange.std.ts';
+import type { StoryContextType } from '../types/Util.std.ts';
+import { concat, isEmpty } from '../util/iterables.std.ts';
+import type { SendTypesType } from '../util/handleMessageSend.preload.ts';
 import {
   shouldSaveProto,
   sendTypesEnum,
-} from '../util/handleMessageSend.preload.js';
-import type { DurationInSeconds } from '../util/durations/index.std.js';
-import { SignalService as Proto } from '../protobuf/index.std.js';
-import { createLogger } from '../logging/log.std.js';
-import type { EmbeddedContactWithUploadedAvatar } from '../types/EmbeddedContact.std.js';
+} from '../util/handleMessageSend.preload.ts';
+import type { DurationInSeconds } from '../util/durations/index.std.ts';
+import { SignalService as Proto } from '../protobuf/index.std.ts';
+import { createLogger } from '../logging/log.std.ts';
+import type { EmbeddedContactWithUploadedAvatar } from '../types/EmbeddedContact.std.ts';
 import {
   numberToPhoneType,
   numberToEmailType,
   numberToAddressType,
-} from '../types/EmbeddedContact.std.js';
-import { missingCaseError } from '../util/missingCaseError.std.js';
-import { drop } from '../util/drop.std.js';
+} from '../types/EmbeddedContact.std.ts';
+import { missingCaseError } from '../util/missingCaseError.std.ts';
+import { drop } from '../util/drop.std.ts';
 import type {
   ConversationIdentifier,
   DeleteForMeSyncEventData,
   DeleteMessageSyncTarget,
   AddressableMessage,
-} from './messageReceiverEvents.std.js';
-import { getConversationFromTarget } from '../util/syncIdentifiers.preload.js';
+} from './messageReceiverEvents.std.ts';
+import { getConversationFromTarget } from '../util/syncIdentifiers.preload.ts';
 import type {
   CallDetails,
   CallHistoryDetails,
-} from '../types/CallDisposition.std.js';
+} from '../types/CallDisposition.std.ts';
 import {
   AdhocCallStatus,
   DirectCallStatus,
   GroupCallStatus,
   CallMode,
-} from '../types/CallDisposition.std.js';
+} from '../types/CallDisposition.std.ts';
 import {
   getBytesForPeerId,
   getCallIdForProto,
   getProtoForCallHistory,
-} from '../util/callDisposition.preload.js';
-import { MAX_MESSAGE_COUNT } from '../util/deleteForMe.types.std.js';
-import { isProtoBinaryEncodingEnabled } from '../util/isProtoBinaryEncodingEnabled.dom.js';
-import type { GroupSendToken } from '../types/GroupSendEndorsements.std.js';
-import type { OutgoingPollVote, PollCreateType } from '../types/Polls.dom.js';
-import { itemStorage } from './Storage.preload.js';
-import { accountManager } from './AccountManager.preload.js';
+} from '../util/callDisposition.preload.ts';
+import { MAX_MESSAGE_COUNT } from '../util/deleteForMe.types.std.ts';
+import { isProtoBinaryEncodingEnabled } from '../util/isProtoBinaryEncodingEnabled.dom.ts';
+import type { GroupSendToken } from '../types/GroupSendEndorsements.std.ts';
+import type { OutgoingPollVote, PollCreateType } from '../types/Polls.dom.ts';
+import { itemStorage } from './Storage.preload.ts';
+import { accountManager } from './AccountManager.preload.ts';
 import type {
   SendPinMessageType,
   SendUnpinMessageType,
-} from '../types/PinnedMessage.std.js';
+} from '../types/PinnedMessage.std.ts';
 
 const log = createLogger('SendMessage');
 

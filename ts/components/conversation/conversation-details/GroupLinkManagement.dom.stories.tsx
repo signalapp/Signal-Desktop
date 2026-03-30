@@ -4,11 +4,11 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './GroupLinkManagement.dom.js';
-import { GroupLinkManagement } from './GroupLinkManagement.dom.js';
-import { SignalService as Proto } from '../../../protobuf/index.std.js';
-import type { ConversationType } from '../../../state/ducks/conversations.preload.js';
-import { getDefaultConversation } from '../../../test-helpers/getDefaultConversation.std.js';
+import type { PropsType } from './GroupLinkManagement.dom.tsx';
+import { GroupLinkManagement } from './GroupLinkManagement.dom.tsx';
+import { SignalService as Proto } from '../../../protobuf/index.std.ts';
+import type { ConversationType } from '../../../state/ducks/conversations.preload.ts';
+import { getDefaultConversation } from '../../../test-helpers/getDefaultConversation.std.ts';
 
 const { i18n } = window.SignalContext;
 

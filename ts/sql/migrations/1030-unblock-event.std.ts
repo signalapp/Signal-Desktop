@@ -3,7 +3,7 @@
 
 import type { Database } from '@signalapp/sqlcipher';
 
-import { sql, sqlFragment } from '../util.std.js';
+import { sql, sqlFragment } from '../util.std.ts';
 
 export default function updateToSchemaVersion1030(db: Database): void {
   // From migration 81

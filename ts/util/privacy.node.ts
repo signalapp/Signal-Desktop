@@ -7,7 +7,7 @@ import lodashFp from 'lodash/fp.js';
 import lodash from 'lodash';
 
 import type { ExtendedStorageID } from '../types/StorageService.d.ts';
-import type { ConversationModel } from '../models/conversations.preload.js';
+import type { ConversationModel } from '../models/conversations.preload.ts';
 
 const { escapeRegExp, isString, isRegExp } = lodash;
 

@@ -18,36 +18,36 @@ import type {
   ProvisioningConnectionListener,
 } from '@signalapp/libsignal-client/dist/net/Chat.js';
 
-import { strictAssert } from '../util/assert.std.js';
-import { explodePromise } from '../util/explodePromise.std.js';
+import { strictAssert } from '../util/assert.std.ts';
+import { explodePromise } from '../util/explodePromise.std.ts';
 import {
   BackOff,
   EXTENDED_FIBONACCI_TIMEOUTS,
   FIBONACCI_TIMEOUTS,
-} from '../util/BackOff.std.js';
-import * as durations from '../util/durations/index.std.js';
-import { drop } from '../util/drop.std.js';
-import { type SocketInfo, SocketStatus } from '../types/SocketStatus.std.js';
-import { HTTPError } from '../types/HTTPError.std.js';
-import * as Errors from '../types/errors.std.js';
-import * as Bytes from '../Bytes.std.js';
-import { createLogger } from '../logging/log.std.js';
+} from '../util/BackOff.std.ts';
+import * as durations from '../util/durations/index.std.ts';
+import { drop } from '../util/drop.std.ts';
+import { type SocketInfo, SocketStatus } from '../types/SocketStatus.std.ts';
+import { HTTPError } from '../types/HTTPError.std.ts';
+import * as Errors from '../types/errors.std.ts';
+import * as Bytes from '../Bytes.std.ts';
+import { createLogger } from '../logging/log.std.ts';
 
-import type { AbortableProcess } from '../util/AbortableProcess.std.js';
+import type { AbortableProcess } from '../util/AbortableProcess.std.ts';
 import type {
   ChatKind,
   IChatConnection,
   IncomingWebSocketRequest,
-} from './WebsocketResources.preload.js';
+} from './WebsocketResources.preload.ts';
 import {
   connectAuthenticated,
   connectUnauthenticated,
   ServerRequestType,
-} from './WebsocketResources.preload.js';
-import { ConnectTimeoutError } from './Errors.std.js';
+} from './WebsocketResources.preload.ts';
+import { ConnectTimeoutError } from './Errors.std.ts';
 import type { IRequestHandler, WebAPICredentials } from './Types.d.ts';
-import type { ServerAlert } from '../types/ServerAlert.std.js';
-import { getUserLanguages } from '../util/userLanguages.std.js';
+import type { ServerAlert } from '../types/ServerAlert.std.ts';
+import { getUserLanguages } from '../util/userLanguages.std.ts';
 
 const log = createLogger('SocketManager');
 

@@ -3,7 +3,7 @@
 import type { Meta } from '@storybook/react';
 import React from 'react';
 import { action } from '@storybook/addon-actions';
-import { DeleteMessagesConfirmationDialog } from './DeleteMessagesConfirmationDialog.dom.js';
+import { DeleteMessagesConfirmationDialog } from './DeleteMessagesConfirmationDialog.dom.tsx';
 
 const { i18n } = window.SignalContext;
 

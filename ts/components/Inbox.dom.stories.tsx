@@ -5,9 +5,9 @@ import React, { useState, useEffect, useMemo } from 'react';
 import type { Meta, StoryFn } from '@storybook/react';
 import lodash from 'lodash';
 
-import { Inbox } from './Inbox.dom.js';
-import type { PropsType } from './Inbox.dom.js';
-import { DAY, SECOND } from '../util/durations/index.std.js';
+import { Inbox } from './Inbox.dom.tsx';
+import type { PropsType } from './Inbox.dom.tsx';
+import { DAY, SECOND } from '../util/durations/index.std.ts';
 
 const { noop } = lodash;
 

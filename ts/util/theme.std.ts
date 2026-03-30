@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { z } from 'zod';
-import { missingCaseError } from './missingCaseError.std.js';
-import { ThemeType } from '../types/Util.std.js';
+import { missingCaseError } from './missingCaseError.std.ts';
+import { ThemeType } from '../types/Util.std.ts';
 
 export enum Theme {
   Light,

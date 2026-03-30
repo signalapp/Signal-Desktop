@@ -3,9 +3,9 @@
 
 import * as React from 'react';
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './PhoneNumberDiscoveryNotification.dom.js';
-import { PhoneNumberDiscoveryNotification } from './PhoneNumberDiscoveryNotification.dom.js';
-import type { GetSharedGroupNamesType } from '../../util/sharedGroupNames.dom.js';
+import type { PropsType } from './PhoneNumberDiscoveryNotification.dom.tsx';
+import { PhoneNumberDiscoveryNotification } from './PhoneNumberDiscoveryNotification.dom.tsx';
+import type { GetSharedGroupNamesType } from '../../util/sharedGroupNames.dom.ts';
 
 const { i18n } = window.SignalContext;
 

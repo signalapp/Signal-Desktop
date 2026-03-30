@@ -7,7 +7,7 @@ import {
   actions,
   getEmptyState,
   reducer,
-} from '../../../state/ducks/network.dom.js';
+} from '../../../state/ducks/network.dom.ts';
 
 describe('both/state/ducks/network', () => {
   describe('setChallengeStatus', () => {

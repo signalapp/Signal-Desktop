@@ -3,12 +3,12 @@
 
 import pMap from 'p-map';
 
-import { createLogger } from '../logging/log.std.js';
-import { DataReader, DataWriter } from '../sql/Client.preload.js';
+import { createLogger } from '../logging/log.std.ts';
+import { DataReader, DataWriter } from '../sql/Client.preload.ts';
 import type { ConversationAttributesType } from '../model-types.d.ts';
-import { encryptLegacyAttachment } from './encryptLegacyAttachment.preload.js';
-import { AttachmentDisposition } from './getLocalAttachmentUrl.std.js';
-import { isNotNil } from './isNotNil.std.js';
+import { encryptLegacyAttachment } from './encryptLegacyAttachment.preload.ts';
+import { AttachmentDisposition } from './getLocalAttachmentUrl.std.ts';
+import { isNotNil } from './isNotNil.std.ts';
 import {
   maybeDeleteAttachmentFile,
   deleteAvatar,
@@ -19,10 +19,10 @@ import {
   writeNewAttachmentData,
   writeNewAvatarData,
   writeNewDraftData,
-} from './migrations.preload.js';
-import { isSignalConversation } from './isSignalConversation.dom.js';
-import { getConversationIdForLogging } from './idForLogging.preload.js';
-import { itemStorage } from '../textsecure/Storage.preload.js';
+} from './migrations.preload.ts';
+import { isSignalConversation } from './isSignalConversation.dom.ts';
+import { getConversationIdForLogging } from './idForLogging.preload.ts';
+import { itemStorage } from '../textsecure/Storage.preload.ts';
 
 const log = createLogger('encryptConversationAttachments');
 

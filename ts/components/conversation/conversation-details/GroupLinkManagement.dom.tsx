@@ -1,20 +1,20 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import React, { useId, useState } from 'react';
-import type { ConversationType } from '../../../state/ducks/conversations.preload.js';
-import type { LocalizerType } from '../../../types/Util.std.js';
-import { ConfirmationDialog } from '../../ConfirmationDialog.dom.js';
+import type { ConversationType } from '../../../state/ducks/conversations.preload.ts';
+import type { LocalizerType } from '../../../types/Util.std.ts';
+import { ConfirmationDialog } from '../../ConfirmationDialog.dom.tsx';
 import {
   ConversationDetailsIcon,
   IconType,
-} from './ConversationDetailsIcon.dom.js';
-import { PanelRow } from './PanelRow.dom.js';
-import { PanelSection } from './PanelSection.dom.js';
-import { Select } from '../../Select.dom.js';
-import { SignalService as Proto } from '../../../protobuf/index.std.js';
-import { copyGroupLink } from '../../../util/copyLinksWithToast.dom.js';
-import { drop } from '../../../util/drop.std.js';
-import { useDelayedRestoreFocus } from '../../../hooks/useRestoreFocus.dom.js';
+} from './ConversationDetailsIcon.dom.tsx';
+import { PanelRow } from './PanelRow.dom.tsx';
+import { PanelSection } from './PanelSection.dom.tsx';
+import { Select } from '../../Select.dom.tsx';
+import { SignalService as Proto } from '../../../protobuf/index.std.ts';
+import { copyGroupLink } from '../../../util/copyLinksWithToast.dom.ts';
+import { drop } from '../../../util/drop.std.ts';
+import { useDelayedRestoreFocus } from '../../../hooks/useRestoreFocus.dom.ts';
 
 const AccessControlEnum = Proto.AccessControl.AccessRequired;
 

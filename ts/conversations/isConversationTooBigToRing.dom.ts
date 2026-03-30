@@ -1,9 +1,9 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { parseIntWithFallback } from '../util/parseIntWithFallback.std.js';
-import { getValue } from '../RemoteConfig.dom.js';
-import type { ConversationType } from '../state/ducks/conversations.preload.js';
+import { parseIntWithFallback } from '../util/parseIntWithFallback.std.ts';
+import { getValue } from '../RemoteConfig.dom.ts';
+import type { ConversationType } from '../state/ducks/conversations.preload.ts';
 
 const getMaxGroupCallRingSize = (): number =>
   parseIntWithFallback(getValue('global.calling.maxGroupCallRingSize'), 16);

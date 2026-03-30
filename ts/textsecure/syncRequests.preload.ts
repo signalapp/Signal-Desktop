@@ -1,10 +1,10 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { createLogger } from '../logging/log.std.js';
-import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue.preload.js';
-import { MessageSender } from './SendMessage.preload.js';
-import { toLogFormat } from '../types/errors.std.js';
+import { createLogger } from '../logging/log.std.ts';
+import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue.preload.ts';
+import { MessageSender } from './SendMessage.preload.ts';
+import { toLogFormat } from '../types/errors.std.ts';
 
 const log = createLogger('syncRequests');
 

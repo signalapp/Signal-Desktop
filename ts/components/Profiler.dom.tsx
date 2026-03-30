@@ -3,7 +3,7 @@
 
 import type { ProfilerOnRenderCallback, ReactNode } from 'react';
 import React from 'react';
-import { createLogger } from '../logging/log.std.js';
+import { createLogger } from '../logging/log.std.ts';
 
 const log = createLogger('Profiler');
 

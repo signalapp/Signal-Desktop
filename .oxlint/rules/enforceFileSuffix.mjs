@@ -115,7 +115,6 @@ const NODE_PACKAGES = new Set([
   'endanger',
   'enhanced-resolve',
   'enquirer',
-  'esbuild',
   'execa',
   'html-webpack-plugin',
   'http-server',
@@ -136,6 +135,7 @@ const NODE_PACKAGES = new Set([
   'react-devtools',
   'react-devtools-core',
   'resolve-url-loader',
+  'rolldown',
   'sass',
   'sass-loader',
   'style-loader',
@@ -147,6 +147,7 @@ const NODE_PACKAGES = new Set([
   'synckit',
   'tailwindcss',
   'terser-webpack-plugin',
+  'tsx',
   'ts-node',
   'typescript',
   'wait-on',
@@ -353,11 +354,11 @@ export const enforceFileSuffix = ESLintUtils.RuleCreator.withoutDocs({
      * @param {string} source
      */
     function trackLocalDep(node, source) {
-      if (!source.endsWith('.js')) {
+      if (!/\.tsx?/.test(source)) {
         return;
       }
 
-      const match = source.match(/\.([^.\/]+)(?:\.stories)?\.js$/);
+      const match = source.match(/\.([^.\/]+)(?:\.stories)?\.tsx?$/);
       if (match == null) {
         context.report({
           node,

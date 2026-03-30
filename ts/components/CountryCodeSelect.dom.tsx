@@ -4,10 +4,10 @@
 import React, { useState, useCallback, useMemo } from 'react';
 import Fuse from 'fuse.js';
 
-import type { LocalizerType } from '../types/Util.std.js';
-import type { CountryDataType } from '../util/getCountryData.dom.js';
-import { Modal } from './Modal.dom.js';
-import { SearchInput } from './SearchInput.dom.js';
+import type { LocalizerType } from '../types/Util.std.ts';
+import type { CountryDataType } from '../util/getCountryData.dom.ts';
+import { Modal } from './Modal.dom.tsx';
+import { SearchInput } from './SearchInput.dom.tsx';
 
 export type PropsType = Readonly<{
   i18n: LocalizerType;

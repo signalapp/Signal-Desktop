@@ -4,15 +4,15 @@
 import type { ReadonlyDeep } from 'type-fest';
 import type { ThunkAction } from 'redux-thunk';
 
-import { createLogger } from '../../logging/log.std.js';
-import * as Errors from '../../types/errors.std.js';
-import { ToastType } from '../../types/Toast.dom.js';
-import type { StateType as RootStateType } from '../reducer.preload.js';
-import { showToast } from './toast.preload.js';
-import type { ShowToastActionType } from './toast.preload.js';
-import type { PromiseAction } from '../util.std.js';
-import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.js';
-import { useBoundActions } from '../../hooks/useBoundActions.std.js';
+import { createLogger } from '../../logging/log.std.ts';
+import * as Errors from '../../types/errors.std.ts';
+import { ToastType } from '../../types/Toast.dom.tsx';
+import type { StateType as RootStateType } from '../reducer.preload.ts';
+import { showToast } from './toast.preload.ts';
+import type { ShowToastActionType } from './toast.preload.ts';
+import type { PromiseAction } from '../util.std.ts';
+import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.ts';
+import { useBoundActions } from '../../hooks/useBoundActions.std.ts';
 
 const log = createLogger('crashReports');
 

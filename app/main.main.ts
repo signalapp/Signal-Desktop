@@ -32,113 +32,109 @@ import {
 import type { MenuItemConstructorOptions, Settings } from 'electron';
 import { z } from 'zod';
 
-import { packageJson } from '../ts/util/packageJson.main.js';
-import * as GlobalErrors from './global_errors.main.js';
-import { setup as setupCrashReports } from './crashReports.main.js';
-import { setup as setupSpellChecker } from './spell_check.main.js';
-import { getDNSFallback } from './dns-fallback.main.js';
-import { redactAll, addSensitivePath } from './privacy.main.js';
-import { createSupportUrl } from '../ts/util/createSupportUrl.std.js';
-import { missingCaseError } from '../ts/util/missingCaseError.std.js';
-import { strictAssert } from '../ts/util/assert.std.js';
-import { drop } from '../ts/util/drop.std.js';
-import type { ThemeSettingType } from '../ts/util/theme.std.js';
-import { ThemeType } from '../ts/types/Util.std.js';
-import { NotificationType } from '../ts/types/notifications.std.js';
-import * as Errors from '../ts/types/errors.std.js';
-import { resolveCanonicalLocales } from '../ts/util/resolveCanonicalLocales.std.js';
-import { createLogger } from '../ts/logging/log.std.js';
-import * as debugLog from '../ts/logging/debuglogs.node.js';
-import * as uploadDebugLog from '../ts/logging/uploadDebugLog.node.js';
-import { explodePromise } from '../ts/util/explodePromise.std.js';
+import { packageJson } from '../ts/util/packageJson.main.ts';
+import * as GlobalErrors from './global_errors.main.ts';
+import { setup as setupCrashReports } from './crashReports.main.ts';
+import { setup as setupSpellChecker } from './spell_check.main.ts';
+import { getDNSFallback } from './dns-fallback.main.ts';
+import { redactAll, addSensitivePath } from './privacy.main.ts';
+import { createSupportUrl } from '../ts/util/createSupportUrl.std.ts';
+import { missingCaseError } from '../ts/util/missingCaseError.std.ts';
+import { strictAssert } from '../ts/util/assert.std.ts';
+import { drop } from '../ts/util/drop.std.ts';
+import type { ThemeSettingType } from '../ts/util/theme.std.ts';
+import { ThemeType } from '../ts/types/Util.std.ts';
+import * as Errors from '../ts/types/errors.std.ts';
+import { resolveCanonicalLocales } from '../ts/util/resolveCanonicalLocales.std.ts';
+import { createLogger } from '../ts/logging/log.std.ts';
+import * as debugLog from '../ts/logging/debuglogs.node.ts';
+import * as uploadDebugLog from '../ts/logging/uploadDebugLog.node.ts';
+import { explodePromise } from '../ts/util/explodePromise.std.ts';
 
-import './startup_config.main.js';
+import './startup_config.main.ts';
 
-import type { RendererConfigType } from '../ts/types/RendererConfig.std.js';
+import type { RendererConfigType } from '../ts/types/RendererConfig.std.ts';
 import {
   directoryConfigSchema,
   rendererConfigSchema,
-} from '../ts/types/RendererConfig.std.js';
-import config from './config.main.js';
+} from '../ts/types/RendererConfig.std.ts';
+import config from './config.main.ts';
 import {
   Environment,
   getEnvironment,
   isTestEnvironment,
-} from '../ts/environment.std.js';
+} from '../ts/environment.std.ts';
 
 // Very important to put before the single instance check, since it is based on the
 //   userData directory. (see requestSingleInstanceLock below)
-import * as userConfig from './user_config.main.js';
+import * as userConfig from './user_config.main.ts';
 
 // We generally want to pull in our own modules after this point, after the user
 //   data directory has been set.
-import * as attachments from './attachments.node.js';
-import * as attachmentChannel from './attachment_channel.main.js';
-import * as bounce from '../ts/services/bounce.main.js';
-import * as updater from '../ts/updater/index.main.js';
-import { updateDefaultSession } from './updateDefaultSession.main.js';
-import { PreventDisplaySleepService } from './PreventDisplaySleepService.std.js';
+import * as attachments from './attachments.node.ts';
+import * as attachmentChannel from './attachment_channel.main.ts';
+import * as bounce from '../ts/services/bounce.main.ts';
+import * as updater from '../ts/updater/index.main.ts';
+import { updateDefaultSession } from './updateDefaultSession.main.ts';
+import { PreventDisplaySleepService } from './PreventDisplaySleepService.std.ts';
 import {
   SystemTrayService,
   focusAndForceToTop,
-} from './SystemTrayService.main.js';
-import { SystemTraySettingCache } from './SystemTraySettingCache.node.js';
-import { OptionalResourceService } from './OptionalResourceService.main.js';
-import { EmojiService } from './EmojiService.main.js';
+} from './SystemTrayService.main.ts';
+import { SystemTraySettingCache } from './SystemTraySettingCache.node.ts';
+import { OptionalResourceService } from './OptionalResourceService.main.ts';
+import { EmojiService } from './EmojiService.main.ts';
 import {
   SystemTraySetting,
   shouldMinimizeToSystemTray,
   parseSystemTraySetting,
-} from '../ts/types/SystemTraySetting.std.js';
+} from '../ts/types/SystemTraySetting.std.ts';
 import {
   getDefaultSystemTraySetting,
   isSystemTraySupported,
   isContentProtectionEnabledByDefault,
-} from '../ts/types/Settings.std.js';
-import * as ephemeralConfig from './ephemeral_config.main.js';
-import * as mainProcessLogging from '../ts/logging/main_process_logging.main.js';
-import { MainSQL } from '../ts/sql/main.main.js';
-import * as sqlChannels from './sql_channel.main.js';
-import * as windowState from './window_state.std.js';
-import type { CreateTemplateOptionsType } from './menu.std.js';
-import { createTemplate } from './menu.std.js';
+} from '../ts/types/Settings.std.ts';
+import * as ephemeralConfig from './ephemeral_config.main.ts';
+import * as mainProcessLogging from '../ts/logging/main_process_logging.main.ts';
+import { MainSQL } from '../ts/sql/main.main.ts';
+import * as sqlChannels from './sql_channel.main.ts';
+import * as windowState from './window_state.std.ts';
+import type { CreateTemplateOptionsType } from './menu.std.ts';
+import { createTemplate } from './menu.std.ts';
 import {
   installFileHandler,
   installWebHandler,
-} from './protocol_filter.node.js';
-import OS from '../ts/util/os/osMain.node.js';
-import { isNightly, isProduction } from '../ts/util/version.std.js';
-import { clearTimeoutIfNecessary } from '../ts/util/clearTimeoutIfNecessary.std.js';
-import { toggleMaximizedBrowserWindow } from '../ts/util/toggleMaximizedBrowserWindow.std.js';
-import { ChallengeMainHandler } from '../ts/main/challengeMain.main.js';
-import { NativeThemeNotifier } from '../ts/main/NativeThemeNotifier.main.js';
-import { PowerChannel } from '../ts/main/powerChannel.main.js';
-import { SettingsChannel } from '../ts/main/settingsChannel.main.js';
-import { maybeParseUrl, setUrlSearchParams } from '../ts/util/url.std.js';
-import { getHeicConverter } from '../ts/workers/heicConverterMain.main.js';
+} from './protocol_filter.node.ts';
+import OS from '../ts/util/os/osMain.node.ts';
+import { isNightly, isProduction } from '../ts/util/version.std.ts';
+import { clearTimeoutIfNecessary } from '../ts/util/clearTimeoutIfNecessary.std.ts';
+import { toggleMaximizedBrowserWindow } from '../ts/util/toggleMaximizedBrowserWindow.std.ts';
+import { ChallengeMainHandler } from '../ts/main/challengeMain.main.ts';
+import { NativeThemeNotifier } from '../ts/main/NativeThemeNotifier.main.ts';
+import { PowerChannel } from '../ts/main/powerChannel.main.ts';
+import { SettingsChannel } from '../ts/main/settingsChannel.main.ts';
+import { maybeParseUrl, setUrlSearchParams } from '../ts/util/url.std.ts';
+import { getHeicConverter } from '../ts/workers/heicConverterMain.main.ts';
 
-import type { LocaleDirection, LocaleType } from './locale.node.js';
-import { load as loadLocale } from './locale.node.js';
+import type { LocaleDirection, LocaleType } from './locale.node.ts';
+import { load as loadLocale } from './locale.node.ts';
 
-import { HourCyclePreference } from '../ts/types/I18N.std.js';
-import { ScreenShareStatus } from '../ts/types/Calling.std.js';
-import type { ParsedSignalRoute } from '../ts/util/signalRoutes.std.js';
-import { parseSignalRoute } from '../ts/util/signalRoutes.std.js';
-import * as dns from '../ts/util/dns.node.js';
-import { ZoomFactorService } from '../ts/services/ZoomFactorService.main.js';
-import { SafeStorageBackendChangeError } from '../ts/types/SafeStorageBackendChangeError.std.js';
-import { SafeStorageDecryptionError } from '../ts/types/SafeStorageDecryptionError.std.js';
-import { LINUX_PASSWORD_STORE_FLAGS } from '../ts/util/linuxPasswordStoreFlags.std.js';
-import { getOwn } from '../ts/util/getOwn.std.js';
-import { safeParseLoose, safeParseUnknown } from '../ts/util/schemas.std.js';
-import { getAppErrorIcon } from '../ts/util/getAppErrorIcon.node.js';
-import { promptOSAuth } from '../ts/util/os/promptOSAuthMain.main.js';
-import { appRelaunch } from '../ts/util/relaunch.main.js';
-import { getAppRootDir } from '../ts/util/appRootDir.main.js';
-import {
-  sendDummyKeystroke,
-  show as showWindowsNotification,
-} from './WindowsNotifications.main.js';
+import { HourCyclePreference } from '../ts/types/I18N.std.ts';
+import { ScreenShareStatus } from '../ts/types/Calling.std.ts';
+import type { ParsedSignalRoute } from '../ts/util/signalRoutes.std.ts';
+import { parseSignalRoute } from '../ts/util/signalRoutes.std.ts';
+import * as dns from '../ts/util/dns.node.ts';
+import { ZoomFactorService } from '../ts/services/ZoomFactorService.main.ts';
+import { SafeStorageBackendChangeError } from '../ts/types/SafeStorageBackendChangeError.std.ts';
+import { SafeStorageDecryptionError } from '../ts/types/SafeStorageDecryptionError.std.ts';
+import { LINUX_PASSWORD_STORE_FLAGS } from '../ts/util/linuxPasswordStoreFlags.std.ts';
+import { getOwn } from '../ts/util/getOwn.std.ts';
+import { safeParseLoose, safeParseUnknown } from '../ts/util/schemas.std.ts';
+import { getAppErrorIcon } from '../ts/util/getAppErrorIcon.node.ts';
+import { promptOSAuth } from '../ts/util/os/promptOSAuthMain.main.ts';
+import { appRelaunch } from '../ts/util/relaunch.main.ts';
+import { getAppRootDir } from '../ts/util/appRootDir.main.ts';
+import { sendDummyKeystroke } from './WindowsNotifications.main.ts';
 
 const { chmod, realpath, writeFile } = fsExtra;
 const { get, pick, isNumber, isBoolean, some, debounce, noop } = lodash;
@@ -180,7 +176,6 @@ const development =
   getEnvironment() === Environment.Staging;
 
 const ciMode = config.get<'full' | 'benchmark' | false>('ciMode');
-const forcePreloadBundle = config.get<boolean>('forcePreloadBundle');
 const localeDirectionTestingOverride = config.has(
   'localeDirectionTestingOverride'
 )
@@ -678,9 +673,6 @@ async function safeLoadURL(window: BrowserWindow, url: string): Promise<void> {
 }
 
 async function createWindow() {
-  const usePreloadBundle =
-    !isTestEnvironment(getEnvironment()) || forcePreloadBundle;
-
   const primaryDisplay = screen.getPrimaryDisplay();
   const { width: maxWidth, height: maxHeight } = primaryDisplay.workAreaSize;
   const width = windowConfig
@@ -720,12 +712,9 @@ async function createWindow() {
       nodeIntegrationInWorker: false,
       sandbox: false,
       contextIsolation: !isTestEnvironment(getEnvironment()),
-      preload: join(
-        rootDir,
-        ...(usePreloadBundle
-          ? ['preload.wrapper.js']
-          : ['ts', 'windows', 'main', 'preload.preload.js'])
-      ),
+      preload: isTestEnvironment(getEnvironment())
+        ? join(rootDir, 'ts', 'windows', 'main', 'tsx.preload.js')
+        : join(rootDir, 'bundles', 'preload', 'wrapper.js'),
       spellcheck,
     },
     icon: windowIcon,
@@ -932,43 +921,27 @@ async function createWindow() {
       !windowState.shouldQuit() &&
       (usingTrayIcon || OS.isMacOS())
     ) {
-      if (!usingTrayIcon) {
-        return;
-      }
+      if (usingTrayIcon) {
+        const shownTrayNotice = ephemeralConfig.get('shown-tray-notice');
+        if (shownTrayNotice) {
+          log.info('close: not showing tray notice');
+          return;
+        }
 
-      const shownTrayNotice = ephemeralConfig.get('shown-tray-notice');
-      if (shownTrayNotice) {
-        log.info('close: not showing tray notice');
-        return;
-      }
+        ephemeralConfig.set('shown-tray-notice', true);
+        log.info('close: showing tray notice');
 
-      ephemeralConfig.set('shown-tray-notice', true);
-      log.info('close: showing tray notice');
-
-      if (OS.isWindows()) {
-        showWindowsNotification({
-          type: NotificationType.MinimizedToTray,
-          token: 'unused',
-          heading: getResolvedMessagesLocale().i18n(
+        const n = new Notification({
+          title: getResolvedMessagesLocale().i18n(
             'icu:minimizeToTrayNotification--title'
           ),
           body: getResolvedMessagesLocale().i18n(
             'icu:minimizeToTrayNotification--body'
           ),
         });
-        return;
+
+        n.show();
       }
-
-      const n = new Notification({
-        title: getResolvedMessagesLocale().i18n(
-          'icu:minimizeToTrayNotification--title'
-        ),
-        body: getResolvedMessagesLocale().i18n(
-          'icu:minimizeToTrayNotification--body'
-        ),
-      });
-
-      n.show();
       return;
     }
 
@@ -1303,7 +1276,7 @@ async function showScreenShareWindow(sourceName: string | undefined) {
       nodeIntegrationInWorker: false,
       sandbox: true,
       contextIsolation: true,
-      preload: join(rootDir, 'bundles', 'screenShare', 'preload.preload.js'),
+      preload: join(rootDir, 'bundles', 'preload', 'screenShare.js'),
     },
     x: Math.floor(display.size.width / 2) - width / 2,
     y: 24,
@@ -1351,7 +1324,7 @@ async function showAbout() {
       nodeIntegrationInWorker: false,
       sandbox: true,
       contextIsolation: true,
-      preload: join(rootDir, 'bundles', 'about', 'preload.preload.js'),
+      preload: join(rootDir, 'bundles', 'preload', 'about.js'),
       nativeWindowOpen: true,
     },
   };
@@ -1453,7 +1426,7 @@ async function showDebugLogWindow(options: DebugLogWindowOptions = {}) {
       nodeIntegrationInWorker: false,
       sandbox: true,
       contextIsolation: true,
-      preload: join(rootDir, 'bundles', 'debuglog', 'preload.preload.js'),
+      preload: join(rootDir, 'bundles', 'preload', 'debuglog.js'),
     },
     parent: mainWindow,
   };
@@ -1523,7 +1496,7 @@ async function showCallDiagnosticWindow() {
       nodeIntegrationInWorker: false,
       sandbox: true,
       contextIsolation: true,
-      preload: join(rootDir, 'bundles', 'calldiagnostic', 'preload.preload.js'),
+      preload: join(rootDir, 'bundles', 'preload', 'calldiagnostic.js'),
     },
     parent: mainWindow,
   };
@@ -1582,7 +1555,7 @@ function showPermissionsPopupWindow(forCalling: boolean, forCamera: boolean) {
         nodeIntegrationInWorker: false,
         sandbox: true,
         contextIsolation: true,
-        preload: join(rootDir, 'bundles', 'permissions', 'preload.preload.js'),
+        preload: join(rootDir, 'bundles', 'preload', 'permissions.js'),
         nativeWindowOpen: true,
       },
       parent: mainWindow,
@@ -2290,7 +2263,7 @@ app.on('ready', async () => {
           nodeIntegration: false,
           sandbox: true,
           contextIsolation: true,
-          preload: join(rootDir, 'bundles', 'loading', 'preload.preload.js'),
+          preload: join(rootDir, 'bundles', 'preload', 'loading.js'),
         },
         icon: windowIcon,
       });
@@ -3410,13 +3383,7 @@ async function showStickerCreatorWindow() {
       nodeIntegrationInWorker: false,
       sandbox: true,
       contextIsolation: true,
-      preload: join(
-        rootDir,
-        'ts',
-        'windows',
-        'sticker-creator',
-        'preload.preload.js'
-      ),
+      preload: join(rootDir, 'bundles', 'sticker-creator', 'preload.js'),
       nativeWindowOpen: true,
     },
   };

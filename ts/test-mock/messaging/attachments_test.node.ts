@@ -13,19 +13,19 @@ import { join } from 'node:path';
 import { access, readFile } from 'node:fs/promises';
 import { v4 } from 'uuid';
 
-import type { App } from '../playwright.node.js';
-import { Bootstrap } from '../bootstrap.node.js';
+import type { App } from '../playwright.node.ts';
+import { Bootstrap } from '../bootstrap.node.ts';
 import {
   getMessageInTimelineByTimestamp,
   getTimelineMessageWithText,
   sendMessageWithAttachments,
   sendTextMessage,
-} from '../helpers.node.js';
-import * as durations from '../../util/durations/index.std.js';
-import { strictAssert } from '../../util/assert.std.js';
-import { IMAGE_PNG, VIDEO_MP4 } from '../../types/MIME.std.js';
-import { toBase64 } from '../../Bytes.std.js';
-import type { AttachmentType } from '../../types/Attachment.std.js';
+} from '../helpers.node.ts';
+import * as durations from '../../util/durations/index.std.ts';
+import { strictAssert } from '../../util/assert.std.ts';
+import { IMAGE_PNG, VIDEO_MP4 } from '../../types/MIME.std.ts';
+import { toBase64 } from '../../Bytes.std.ts';
+import type { AttachmentType } from '../../types/Attachment.std.ts';
 
 export const debug = createDebug('mock:test:attachments');
 

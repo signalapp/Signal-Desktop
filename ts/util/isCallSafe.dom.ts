@@ -3,11 +3,11 @@
 
 import type { ConversationAttributesType } from '../model-types.d.ts';
 
-import { createLogger } from '../logging/log.std.js';
-import { blockSendUntilConversationsAreVerified } from './blockSendUntilConversationsAreVerified.dom.js';
-import { getRecipientsByConversation } from './getRecipientsByConversation.dom.js';
+import { createLogger } from '../logging/log.std.ts';
+import { blockSendUntilConversationsAreVerified } from './blockSendUntilConversationsAreVerified.dom.ts';
+import { getRecipientsByConversation } from './getRecipientsByConversation.dom.ts';
 
-import type { SafetyNumberChangeSource } from '../types/SafetyNumberChangeSource.std.js';
+import type { SafetyNumberChangeSource } from '../types/SafetyNumberChangeSource.std.ts';
 
 const log = createLogger('isCallSafe');
 

@@ -1,13 +1,13 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { createLogger } from '../logging/log.std.js';
-import { isNotNil } from './isNotNil.std.js';
-import { updateIdentityKey } from '../services/profiles.preload.js';
-import type { ServiceIdString } from '../types/ServiceId.std.js';
-import { signalProtocolStore } from '../SignalProtocolStore.preload.js';
-import { postBatchIdentityCheck } from '../textsecure/WebAPI.preload.js';
-import * as Bytes from '../Bytes.std.js';
+import { createLogger } from '../logging/log.std.ts';
+import { isNotNil } from './isNotNil.std.ts';
+import { updateIdentityKey } from '../services/profiles.preload.ts';
+import type { ServiceIdString } from '../types/ServiceId.std.ts';
+import { signalProtocolStore } from '../SignalProtocolStore.preload.ts';
+import { postBatchIdentityCheck } from '../textsecure/WebAPI.preload.ts';
+import * as Bytes from '../Bytes.std.ts';
 
 const log = createLogger('verifyStoryListMembers');
 

@@ -4,12 +4,12 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { Props } from './LinkPreviewItem.dom.js';
-import { LinkPreviewItem } from './LinkPreviewItem.dom.js';
+import type { Props } from './LinkPreviewItem.dom.tsx';
+import { LinkPreviewItem } from './LinkPreviewItem.dom.tsx';
 import {
   createPreparedMediaItems,
   createRandomLinks,
-} from './utils/mocks.std.js';
+} from './utils/mocks.std.ts';
 
 export default {
   title: 'Components/Conversation/MediaGallery/LinkPreviewItem',

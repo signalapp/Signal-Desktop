@@ -4,13 +4,13 @@
 import React, { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 
-import '../sandboxedInit.dom.js';
-import { CallingScreenSharingController } from '../../components/CallingScreenSharingController.dom.js';
-import { strictAssert } from '../../util/assert.std.js';
-import { drop } from '../../util/drop.std.js';
-import { parseEnvironment, setEnvironment } from '../../environment.std.js';
-import { FunDefaultEnglishEmojiLocalizationProvider } from '../../components/fun/FunEmojiLocalizationProvider.dom.js';
-import { AxoProvider } from '../../axo/AxoProvider.dom.js';
+import '../sandboxedInit.dom.ts';
+import { CallingScreenSharingController } from '../../components/CallingScreenSharingController.dom.tsx';
+import { strictAssert } from '../../util/assert.std.ts';
+import { drop } from '../../util/drop.std.ts';
+import { parseEnvironment, setEnvironment } from '../../environment.std.ts';
+import { FunDefaultEnglishEmojiLocalizationProvider } from '../../components/fun/FunEmojiLocalizationProvider.dom.tsx';
+import { AxoProvider } from '../../axo/AxoProvider.dom.tsx';
 
 const { ScreenShareWindowProps } = window.Signal;
 const { i18n } = window.SignalContext;

@@ -4,18 +4,18 @@
 import React, { memo } from 'react';
 import { useSelector } from 'react-redux';
 
-import { GroupMemberLabelEditor } from '../../components/conversation/conversation-details/GroupMemberLabelEditor.dom.js';
+import { GroupMemberLabelEditor } from '../../components/conversation/conversation-details/GroupMemberLabelEditor.dom.tsx';
 import {
   getCachedConversationMemberColorsSelector,
   getConversationSelector,
-} from '../selectors/conversations.dom.js';
-import { getIntl, getTheme, getUser } from '../selectors/user.std.js';
-import { useConversationsActions } from '../ducks/conversations.preload.js';
-import { createLogger } from '../../logging/log.std.js';
-import { getPreferredBadgeSelector } from '../selectors/badges.preload.js';
-import { isNotNil } from '../../util/isNotNil.std.js';
-import { useNavActions } from '../ducks/nav.std.js';
-import { getCanAddLabel } from '../../types/GroupMemberLabels.std.js';
+} from '../selectors/conversations.dom.ts';
+import { getIntl, getTheme, getUser } from '../selectors/user.std.ts';
+import { useConversationsActions } from '../ducks/conversations.preload.ts';
+import { createLogger } from '../../logging/log.std.ts';
+import { getPreferredBadgeSelector } from '../selectors/badges.preload.ts';
+import { isNotNil } from '../../util/isNotNil.std.ts';
+import { useNavActions } from '../ducks/nav.std.ts';
+import { getCanAddLabel } from '../../types/GroupMemberLabels.std.ts';
 
 const log = createLogger('SmartGroupMemberLabelEditor');
 

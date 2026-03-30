@@ -2,18 +2,18 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { MessageAttributesType } from '../model-types.d.ts';
-import * as Errors from '../types/errors.std.js';
-import { createLogger } from '../logging/log.std.js';
-import { DataReader } from '../sql/Client.preload.js';
-import { drop } from '../util/drop.std.js';
-import { getAuthorId } from '../messages/sources.preload.js';
-import { handleEditMessage } from '../util/handleEditMessage.preload.js';
-import { getMessageSentTimestamp } from '../util/getMessageSentTimestamp.std.js';
+import * as Errors from '../types/errors.std.ts';
+import { createLogger } from '../logging/log.std.ts';
+import { DataReader } from '../sql/Client.preload.ts';
+import { drop } from '../util/drop.std.ts';
+import { getAuthorId } from '../messages/sources.preload.ts';
+import { handleEditMessage } from '../util/handleEditMessage.preload.ts';
+import { getMessageSentTimestamp } from '../util/getMessageSentTimestamp.std.ts';
 import {
   isAttachmentDownloadQueueEmpty,
   registerQueueEmptyCallback,
-} from '../util/attachmentDownloadQueue.preload.js';
-import { MessageModel } from '../models/messages.preload.js';
+} from '../util/attachmentDownloadQueue.preload.ts';
+import { MessageModel } from '../models/messages.preload.ts';
 
 const log = createLogger('Edits');
 

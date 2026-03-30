@@ -3,13 +3,13 @@
 
 import { createSelector } from 'reselect';
 import lodash from 'lodash';
-import { createLogger } from '../../logging/log.std.js';
-import type { StateType } from '../reducer.preload.js';
-import type { BadgesStateType } from '../ducks/badges.preload.js';
-import type { BadgeType } from '../../badges/types.std.js';
-import { getOwn } from '../../util/getOwn.std.js';
-import { getAbsoluteBadgeImageFilePath } from '../../util/migrations.preload.js';
-import type { ConversationType } from '../ducks/conversations.preload.js';
+import { createLogger } from '../../logging/log.std.ts';
+import type { StateType } from '../reducer.preload.ts';
+import type { BadgesStateType } from '../ducks/badges.preload.ts';
+import type { BadgeType } from '../../badges/types.std.ts';
+import { getOwn } from '../../util/getOwn.std.ts';
+import { getAbsoluteBadgeImageFilePath } from '../../util/migrations.preload.ts';
+import type { ConversationType } from '../ducks/conversations.preload.ts';
 
 const { mapValues } = lodash;
 

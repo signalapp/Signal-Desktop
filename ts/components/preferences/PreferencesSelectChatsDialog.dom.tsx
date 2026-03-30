@@ -3,29 +3,29 @@
 import type { ChangeEvent } from 'react';
 import React, { useCallback, useMemo, useState } from 'react';
 
-import type { ConversationType } from '../../state/ducks/conversations.preload.js';
-import type { PreferredBadgeSelectorType } from '../../state/selectors/badges.preload.js';
-import type { LocalizerType } from '../../types/I18N.std.js';
-import type { ThemeType } from '../../types/Util.std.js';
-import { filterAndSortConversations } from '../../util/filterAndSortConversations.std.js';
-import { ContactPills } from '../ContactPills.dom.js';
-import { ContactPill } from '../ContactPill.dom.js';
+import type { ConversationType } from '../../state/ducks/conversations.preload.ts';
+import type { PreferredBadgeSelectorType } from '../../state/selectors/badges.preload.ts';
+import type { LocalizerType } from '../../types/I18N.std.ts';
+import type { ThemeType } from '../../types/Util.std.ts';
+import { filterAndSortConversations } from '../../util/filterAndSortConversations.std.ts';
+import { ContactPills } from '../ContactPills.dom.tsx';
+import { ContactPill } from '../ContactPill.dom.tsx';
 import {
   asyncShouldNeverBeCalled,
   shouldNeverBeCalled,
-} from '../../util/shouldNeverBeCalled.std.js';
-import { SearchInput } from '../SearchInput.dom.js';
-import { Button, ButtonVariant } from '../Button.dom.js';
-import { Modal } from '../Modal.dom.js';
-import type { Row } from '../ConversationList.dom.js';
+} from '../../util/shouldNeverBeCalled.std.ts';
+import { SearchInput } from '../SearchInput.dom.tsx';
+import { Button, ButtonVariant } from '../Button.dom.tsx';
+import { Modal } from '../Modal.dom.tsx';
+import type { Row } from '../ConversationList.dom.tsx';
 import {
   ConversationList,
   GenericCheckboxRowIcon,
   RowType,
-} from '../ConversationList.dom.js';
-import type { GetConversationByIdType } from '../../state/selectors/conversations.dom.js';
-import { SizeObserver } from '../../hooks/useSizeObserver.dom.js';
-import { tw } from '../../axo/tw.dom.js';
+} from '../ConversationList.dom.tsx';
+import type { GetConversationByIdType } from '../../state/selectors/conversations.dom.ts';
+import { SizeObserver } from '../../hooks/useSizeObserver.dom.tsx';
+import { tw } from '../../axo/tw.dom.tsx';
 
 export type ChatFolderSelection = Readonly<{
   selectedRecipientIds: ReadonlyArray<string>;

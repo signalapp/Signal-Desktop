@@ -4,9 +4,9 @@
 import type { ReactNode } from 'react';
 import React, { forwardRef } from 'react';
 import classNames from 'classnames';
-import { AxoSymbol } from '../../axo/AxoSymbol.dom.js';
-import type { AxoSymbolIconName } from '../../axo/_internal/AxoSymbolDefs.generated.std.js';
-import { tw } from '../../axo/tw.dom.js';
+import { AxoSymbol } from '../../axo/AxoSymbol.dom.tsx';
+import type { AxoSymbolIconName } from '../../axo/_internal/AxoSymbolDefs.generated.std.ts';
+import { tw } from '../../axo/tw.dom.tsx';
 
 export enum SystemMessageKind {
   Normal = 'Normal',

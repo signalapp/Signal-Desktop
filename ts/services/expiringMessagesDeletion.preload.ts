@@ -2,15 +2,15 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import lodash from 'lodash';
 
-import * as Errors from '../types/errors.std.js';
-import { createLogger } from '../logging/log.std.js';
-import { DataReader, DataWriter } from '../sql/Client.preload.js';
-import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary.std.js';
-import { sleep } from '../util/sleep.std.js';
-import { SECOND } from '../util/durations/index.std.js';
-import { MessageModel } from '../models/messages.preload.js';
-import { cleanupMessages } from '../util/cleanup.preload.js';
-import { drop } from '../util/drop.std.js';
+import * as Errors from '../types/errors.std.ts';
+import { createLogger } from '../logging/log.std.ts';
+import { DataReader, DataWriter } from '../sql/Client.preload.ts';
+import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary.std.ts';
+import { sleep } from '../util/sleep.std.ts';
+import { SECOND } from '../util/durations/index.std.ts';
+import { MessageModel } from '../models/messages.preload.ts';
+import { cleanupMessages } from '../util/cleanup.preload.ts';
+import { drop } from '../util/drop.std.ts';
 
 const { debounce } = lodash;
 

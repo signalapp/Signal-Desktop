@@ -13,9 +13,9 @@ import {
 import { assert } from 'chai';
 import type { Locator, Page } from 'playwright';
 import { expect } from 'playwright/test';
-import { strictAssert } from '../util/assert.std.js';
-import { SECOND } from '../util/durations/constants.std.js';
-import { toNumber } from '../util/toNumber.std.js';
+import { strictAssert } from '../util/assert.std.ts';
+import { SECOND } from '../util/durations/constants.std.ts';
+import { toNumber } from '../util/toNumber.std.ts';
 
 const debug = createDebug('mock:test:helpers');
 

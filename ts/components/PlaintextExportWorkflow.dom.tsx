@@ -6,18 +6,18 @@ import React from 'react';
 import {
   LocalExportErrors,
   PlaintextExportSteps,
-} from '../types/LocalExport.std.js';
-import { AxoDialog } from '../axo/AxoDialog.dom.js';
-import { AxoAlertDialog } from '../axo/AxoAlertDialog.dom.js';
+} from '../types/LocalExport.std.ts';
+import { AxoDialog } from '../axo/AxoDialog.dom.tsx';
+import { AxoAlertDialog } from '../axo/AxoAlertDialog.dom.tsx';
 
-import type { PlaintextExportWorkflowType } from '../types/LocalExport.std.js';
-import type { LocalizerType } from '../types/I18N.std.js';
-import { AxoCheckbox } from '../axo/AxoCheckbox.dom.js';
-import { formatFileSize } from '../util/formatFileSize.std.js';
-import { ProgressBar } from './ProgressBar.dom.js';
-import { missingCaseError } from '../util/missingCaseError.std.js';
-import { tw } from '../axo/tw.dom.js';
-import { I18n } from './I18n.dom.js';
+import type { PlaintextExportWorkflowType } from '../types/LocalExport.std.ts';
+import type { LocalizerType } from '../types/I18N.std.ts';
+import { AxoCheckbox } from '../axo/AxoCheckbox.dom.tsx';
+import { formatFileSize } from '../util/formatFileSize.std.ts';
+import { ProgressBar } from './ProgressBar.dom.tsx';
+import { missingCaseError } from '../util/missingCaseError.std.ts';
+import { tw } from '../axo/tw.dom.tsx';
+import { I18n } from './I18n.dom.tsx';
 
 export type PropsType = {
   cancelWorkflow: () => unknown;

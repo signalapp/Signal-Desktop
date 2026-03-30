@@ -7,50 +7,50 @@ import { type StatsFs } from 'node:fs';
 import { v7 } from 'uuid';
 import { emptyDir, ensureFile } from 'fs-extra';
 
-import * as MIME from '../../types/MIME.std.js';
+import * as MIME from '../../types/MIME.std.ts';
 import {
   AttachmentDownloadManager,
   runDownloadAttachmentJob,
   runDownloadAttachmentJobInner,
   type NewAttachmentDownloadJobType,
-} from '../../jobs/AttachmentDownloadManager.preload.js';
+} from '../../jobs/AttachmentDownloadManager.preload.ts';
 import {
   type AttachmentDownloadJobType,
   AttachmentDownloadUrgency,
   MediaTier,
-} from '../../types/AttachmentDownload.std.js';
-import { DataReader, DataWriter } from '../../sql/Client.preload.js';
-import { DAY, MINUTE, MONTH } from '../../util/durations/index.std.js';
+} from '../../types/AttachmentDownload.std.ts';
+import { DataReader, DataWriter } from '../../sql/Client.preload.ts';
+import { DAY, MINUTE, MONTH } from '../../util/durations/index.std.ts';
 import {
   type AttachmentType,
   AttachmentVariant,
-} from '../../types/Attachment.std.js';
-import { strictAssert } from '../../util/assert.std.js';
-import type { downloadAttachment as downloadAttachmentUtil } from '../../util/downloadAttachment.preload.js';
-import { AttachmentDownloadSource } from '../../sql/Interface.std.js';
-import { generateAttachmentKeys } from '../../AttachmentCrypto.node.js';
-import { getAttachmentCiphertextSize } from '../../util/AttachmentCrypto.std.js';
-import { MEBIBYTE } from '../../types/AttachmentSize.std.js';
-import { generateAci } from '../../types/ServiceId.std.js';
-import { toBase64 } from '../../Bytes.std.js';
-import { JobCancelReason } from '../../jobs/types.std.js';
+} from '../../types/Attachment.std.ts';
+import { strictAssert } from '../../util/assert.std.ts';
+import type { downloadAttachment as downloadAttachmentUtil } from '../../util/downloadAttachment.preload.ts';
+import { AttachmentDownloadSource } from '../../sql/Interface.std.ts';
+import { generateAttachmentKeys } from '../../AttachmentCrypto.node.ts';
+import { getAttachmentCiphertextSize } from '../../util/AttachmentCrypto.std.ts';
+import { MEBIBYTE } from '../../types/AttachmentSize.std.ts';
+import { generateAci } from '../../types/ServiceId.std.ts';
+import { toBase64 } from '../../Bytes.std.ts';
+import { JobCancelReason } from '../../jobs/types.std.ts';
 import {
   explodePromise,
   type ExplodePromiseResultType,
-} from '../../util/explodePromise.std.js';
-import { itemStorage } from '../../textsecure/Storage.preload.js';
-import { composeAttachment } from '../../test-node/util/queueAttachmentDownloads_test.preload.js';
-import { MessageCache } from '../../services/MessageCache.preload.js';
-import { AttachmentNotNeededForMessageError } from '../../messageModifiers/AttachmentDownloads.preload.js';
+} from '../../util/explodePromise.std.ts';
+import { itemStorage } from '../../textsecure/Storage.preload.ts';
+import { composeAttachment } from '../../test-node/util/queueAttachmentDownloads_test.preload.ts';
+import { MessageCache } from '../../services/MessageCache.preload.ts';
+import { AttachmentNotNeededForMessageError } from '../../messageModifiers/AttachmentDownloads.preload.ts';
 import {
   testAttachmentDigest,
   testAttachmentKey,
   testAttachmentLocalKey,
   testPlaintextHash,
-} from '../../test-helpers/attachments.node.js';
-import type { MessageAttributesType } from '../../model-types.js';
-import { getAttachmentsPath } from '../../../app/attachments.node.js';
-import { getAbsoluteAttachmentPath } from '../../util/migrations.preload.js';
+} from '../../test-helpers/attachments.node.ts';
+import type { MessageAttributesType } from '../../model-types.d.ts';
+import { getAttachmentsPath } from '../../../app/attachments.node.ts';
+import { getAbsoluteAttachmentPath } from '../../util/migrations.preload.ts';
 
 const { omit } = lodash;
 

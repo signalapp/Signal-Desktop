@@ -3,12 +3,12 @@
 
 import React, { useState } from 'react';
 
-import type { LocalizerType } from '../types/Util.std.js';
-import { formatFileSize } from '../util/formatFileSize.std.js';
-import { roundFractionForProgressBar } from '../util/numbers.std.js';
-import { ProgressBar } from './ProgressBar.dom.js';
-import { Button, ButtonSize, ButtonVariant } from './Button.dom.js';
-import { BackupMediaDownloadCancelConfirmationDialog } from './BackupMediaDownloadCancelConfirmationDialog.dom.js';
+import type { LocalizerType } from '../types/Util.std.ts';
+import { formatFileSize } from '../util/formatFileSize.std.ts';
+import { roundFractionForProgressBar } from '../util/numbers.std.ts';
+import { ProgressBar } from './ProgressBar.dom.tsx';
+import { Button, ButtonSize, ButtonVariant } from './Button.dom.tsx';
+import { BackupMediaDownloadCancelConfirmationDialog } from './BackupMediaDownloadCancelConfirmationDialog.dom.tsx';
 
 export type PropsType = Readonly<{
   i18n: LocalizerType;

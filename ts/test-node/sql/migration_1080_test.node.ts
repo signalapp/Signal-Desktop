@@ -8,17 +8,17 @@ import type {
   WritableDB,
   ReadableDB,
   MessageType,
-} from '../../sql/Interface.std.js';
-import { sql, jsonToObject } from '../../sql/util.std.js';
+} from '../../sql/Interface.std.ts';
+import { sql, jsonToObject } from '../../sql/util.std.ts';
 import {
   createDB,
   insertData,
   updateToVersion,
   explain,
-} from './helpers.node.js';
+} from './helpers.node.ts';
 
 import type { MessageAttributesType } from '../../model-types.d.ts';
-import { DurationInSeconds } from '../../util/durations/duration-in-seconds.std.js';
+import { DurationInSeconds } from '../../util/durations/duration-in-seconds.std.ts';
 
 function generateMessage(json: MessageAttributesType) {
   const { conversationId, expireTimer, received_at, sent_at, type } = json;

@@ -6,40 +6,40 @@ import { batch } from 'react-redux';
 import { pick } from 'lodash';
 
 import type { MessageAttributesType } from '../model-types.d.ts';
-import { MessageModel } from '../models/messages.preload.js';
+import { MessageModel } from '../models/messages.preload.ts';
 
-import * as Errors from '../types/errors.std.js';
-import { createLogger } from '../logging/log.std.js';
+import * as Errors from '../types/errors.std.ts';
+import { createLogger } from '../logging/log.std.ts';
 
-import { MessageSender } from '../textsecure/SendMessage.preload.js';
-import { DataReader, DataWriter } from '../sql/Client.preload.js';
-import { deletePackReference } from '../types/Stickers.preload.js';
-import { isStory } from '../messages/helpers.std.js';
-import { isDirectConversation } from './whatTypeOfConversation.dom.js';
-import { getCallHistorySelector } from '../state/selectors/callHistory.std.js';
+import { MessageSender } from '../textsecure/SendMessage.preload.ts';
+import { DataReader, DataWriter } from '../sql/Client.preload.ts';
+import { deletePackReference } from '../types/Stickers.preload.ts';
+import { isStory } from '../messages/helpers.std.ts';
+import { isDirectConversation } from './whatTypeOfConversation.dom.ts';
+import { getCallHistorySelector } from '../state/selectors/callHistory.std.ts';
 import {
   DirectCallStatus,
   GroupCallStatus,
   AdhocCallStatus,
-} from '../types/CallDisposition.std.js';
-import { getMessageIdForLogging } from './idForLogging.preload.js';
-import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue.preload.js';
-import { MINUTE } from './durations/index.std.js';
-import { drop } from './drop.std.js';
+} from '../types/CallDisposition.std.ts';
+import { getMessageIdForLogging } from './idForLogging.preload.ts';
+import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue.preload.ts';
+import { MINUTE } from './durations/index.std.ts';
+import { drop } from './drop.std.ts';
 import {
   getFilePathsReferencedByAttachment,
   getFilePathsReferencedByMessage,
-} from './messageFilePaths.std.js';
+} from './messageFilePaths.std.ts';
 import {
   deleteDownloadFile,
   maybeDeleteAttachmentFile,
-} from './migrations.preload.js';
-import { hydrateStoryContext } from './hydrateStoryContext.preload.js';
-import { update as updateExpiringMessagesService } from '../services/expiringMessagesDeletion.preload.js';
-import { tapToViewMessagesDeletionService } from '../services/tapToViewMessagesDeletionService.preload.js';
-import { throttledUpdateBackupMediaDownloadProgress } from './updateBackupMediaDownloadProgress.preload.js';
-import { messageAttrsToPreserveAfterErase } from '../types/Message.std.js';
-import type { AttachmentType } from '../types/Attachment.std.js';
+} from './migrations.preload.ts';
+import { hydrateStoryContext } from './hydrateStoryContext.preload.ts';
+import { update as updateExpiringMessagesService } from '../services/expiringMessagesDeletion.preload.ts';
+import { tapToViewMessagesDeletionService } from '../services/tapToViewMessagesDeletionService.preload.ts';
+import { throttledUpdateBackupMediaDownloadProgress } from './updateBackupMediaDownloadProgress.preload.ts';
+import { messageAttrsToPreserveAfterErase } from '../types/Message.std.ts';
+import type { AttachmentType } from '../types/Attachment.std.ts';
 
 const log = createLogger('cleanup');
 

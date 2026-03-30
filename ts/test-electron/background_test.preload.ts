@@ -7,9 +7,9 @@ import lodash from 'lodash';
 import {
   isOverHourIntoPast,
   cleanupSessionResets,
-} from '../background.preload.js';
-import { DataWriter } from '../sql/Client.preload.js';
-import { itemStorage } from '../textsecure/Storage.preload.js';
+} from '../background.preload.ts';
+import { DataWriter } from '../sql/Client.preload.ts';
+import { itemStorage } from '../textsecure/Storage.preload.ts';
 
 const { pick } = lodash;
 

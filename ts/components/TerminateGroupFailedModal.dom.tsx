@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useCallback } from 'react';
-import type { LocalizerType } from '../types/Util.std.js';
-import { AxoAlertDialog } from '../axo/AxoAlertDialog.dom.js';
+import type { LocalizerType } from '../types/Util.std.ts';
+import { AxoAlertDialog } from '../axo/AxoAlertDialog.dom.tsx';
 
 export type PropsType = Readonly<{
   i18n: LocalizerType;

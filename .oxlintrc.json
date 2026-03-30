@@ -1650,7 +1650,8 @@
         "dangerfile.js",
         "eslint-local-rules.js",
         "test/setup-test-node.js",
-        "preload.wrapper.ts"
+        "preload.wrapper.ts",
+        "rolldown.config.ts"
       ],
       "env": { "node": true }
     },
@@ -1695,7 +1696,8 @@
         ".*rc.js",
         "ci.js",
         "dangerfile.js",
-        "preload.wrapper.ts"
+        "preload.wrapper.ts",
+        "rolldown.config.ts"
       ],
       "rules": {
         "signal-desktop/enforce-file-suffix": "off"
@@ -1723,7 +1725,8 @@
         "ts/util/lint/**",
         "ts/windows/main/*_test.*",
         "dangerfile.js",
-        "preload.wrapper.ts"
+        "preload.wrapper.ts",
+        "rolldown.config.ts"
       ],
       "rules": {
         "eslint/no-restricted-globals": [

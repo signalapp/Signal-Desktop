@@ -3,8 +3,8 @@
 
 import { join } from 'node:path';
 
-import type { ExceptionType } from './types.std.js';
-import { loadJSON, writeExceptions } from './util.node.js';
+import type { ExceptionType } from './types.std.ts';
+import { loadJSON, writeExceptions } from './util.node.ts';
 
 const exceptionsPath = join(__dirname, 'exceptions.json');
 const exceptions: Array<ExceptionType> = loadJSON(exceptionsPath);

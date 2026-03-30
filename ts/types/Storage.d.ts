@@ -1,9 +1,9 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { StorageAccessType } from './StorageKeys.std.js';
+import type { StorageAccessType } from './StorageKeys.std.ts';
 
-export type { StorageAccessType } from './StorageKeys.std.js';
+export type { StorageAccessType } from './StorageKeys.std.ts';
 
 export type StorageInterface = {
   onready(callback: () => void): void;

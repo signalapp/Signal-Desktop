@@ -5,10 +5,10 @@ import React, { useMemo } from 'react';
 import type { ReactNode } from 'react';
 import lodash from 'lodash';
 
-import { I18n } from './I18n.dom.js';
-import type { LocalizerType } from '../types/Util.std.js';
-import { UserText } from './UserText.dom.js';
-import type { GroupV2Membership } from './conversation/conversation-details/ConversationDetailsMembershipList.dom.js';
+import { I18n } from './I18n.dom.tsx';
+import type { LocalizerType } from '../types/Util.std.ts';
+import { UserText } from './UserText.dom.tsx';
+import type { GroupV2Membership } from './conversation/conversation-details/ConversationDetailsMembershipList.dom.tsx';
 
 const { take } = lodash;
 

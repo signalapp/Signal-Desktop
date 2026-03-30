@@ -5,7 +5,7 @@ import { assert } from 'chai';
 import * as sinon from 'sinon';
 import { EventEmitter } from 'node:events';
 
-import { getActiveWindowService } from '../../services/ActiveWindowService.std.js';
+import { getActiveWindowService } from '../../services/ActiveWindowService.std.ts';
 
 describe('ActiveWindowService', () => {
   const fakeIpcEvent = {};

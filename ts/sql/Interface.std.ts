@@ -4,81 +4,81 @@
 import type { Database, RowType } from '@signalapp/sqlcipher';
 import type { ReadonlyDeep } from 'type-fest';
 
-import { strictAssert } from '../util/assert.std.js';
+import { strictAssert } from '../util/assert.std.ts';
 
 import type {
   ConversationAttributesType,
   MessageAttributesType,
   SenderKeyInfoType,
 } from '../model-types.d.ts';
-import type { StoredJob } from '../jobs/types.std.js';
+import type { StoredJob } from '../jobs/types.std.ts';
 import type {
   ReactionType,
   ReactionReadStatus,
-} from '../types/Reactions.std.js';
+} from '../types/Reactions.std.ts';
 import type {
   ConversationColorType,
   CustomColorType,
-} from '../types/Colors.std.js';
+} from '../types/Colors.std.ts';
 import type { StorageAccessType } from '../types/Storage.d.ts';
-import type { BytesToStrings } from '../types/Util.std.js';
-import type { QualifiedAddressStringType } from '../types/QualifiedAddress.std.js';
-import type { StoryDistributionIdString } from '../types/StoryDistributionId.std.js';
+import type { BytesToStrings } from '../types/Util.std.ts';
+import type { QualifiedAddressStringType } from '../types/QualifiedAddress.std.ts';
+import type { StoryDistributionIdString } from '../types/StoryDistributionId.std.ts';
 import type {
   AciString,
   PniString,
   ServiceIdString,
-} from '../types/ServiceId.std.js';
-import type { BadgeType } from '../badges/types.std.js';
-import type { ReadStatus } from '../messages/MessageReadStatus.std.js';
-import type { RawBodyRange } from '../types/BodyRange.std.js';
-import type { MessageTimestamps } from '../state/ducks/conversations.preload.js';
+} from '../types/ServiceId.std.ts';
+import type { BadgeType } from '../badges/types.std.ts';
+import type { ReadStatus } from '../messages/MessageReadStatus.std.ts';
+import type { RawBodyRange } from '../types/BodyRange.std.ts';
+import type { MessageTimestamps } from '../state/ducks/conversations.preload.ts';
 import type {
   CallHistoryDetails,
   CallHistoryFilter,
   CallHistoryGroup,
   CallHistoryPagination,
   CallLogEventTarget,
-} from '../types/CallDisposition.std.js';
+} from '../types/CallDisposition.std.ts';
 import type {
   CallLinkRecord,
   CallLinkStateType,
   CallLinkType,
   DefunctCallLinkType,
-} from '../types/CallLink.std.js';
+} from '../types/CallLink.std.ts';
 import type {
   AttachmentDownloadJobType,
   MessageAttachmentType,
-} from '../types/AttachmentDownload.std.js';
+} from '../types/AttachmentDownload.std.ts';
 import type {
   GroupSendEndorsementsData,
   GroupSendMemberEndorsementRecord,
-} from '../types/GroupSendEndorsements.std.js';
-import type { SyncTaskType } from '../util/syncTasks.preload.js';
-import type { AttachmentBackupJobType } from '../types/AttachmentBackup.std.js';
-import type { AttachmentType } from '../types/Attachment.std.js';
-import type { MediaItemMessageType } from '../types/MediaItem.std.js';
-import type { LinkPreviewType } from '../types/message/LinkPreviews.std.js';
-import type { EmbeddedContactType } from '../types/EmbeddedContact.std.js';
-import type { GifType } from '../components/fun/panels/FunPanelGifs.dom.js';
-import type { NotificationProfileType } from '../types/NotificationProfile.std.js';
-import type { DonationReceipt } from '../types/Donations.std.js';
-import type { InsertOrUpdateCallLinkFromSyncResult } from './server/callLinks.node.js';
-import type { ChatFolderId, ChatFolder } from '../types/ChatFolder.std.js';
-import type { CurrentChatFolder } from '../types/CurrentChatFolders.std.js';
+} from '../types/GroupSendEndorsements.std.ts';
+import type { SyncTaskType } from '../util/syncTasks.preload.ts';
+import type { AttachmentBackupJobType } from '../types/AttachmentBackup.std.ts';
+import type { AttachmentType } from '../types/Attachment.std.ts';
+import type { MediaItemMessageType } from '../types/MediaItem.std.ts';
+import type { LinkPreviewType } from '../types/message/LinkPreviews.std.ts';
+import type { EmbeddedContactType } from '../types/EmbeddedContact.std.ts';
+import type { GifType } from '../components/fun/panels/FunPanelGifs.dom.tsx';
+import type { NotificationProfileType } from '../types/NotificationProfile.std.ts';
+import type { DonationReceipt } from '../types/Donations.std.ts';
+import type { InsertOrUpdateCallLinkFromSyncResult } from './server/callLinks.node.ts';
+import type { ChatFolderId, ChatFolder } from '../types/ChatFolder.std.ts';
+import type { CurrentChatFolder } from '../types/CurrentChatFolders.std.ts';
 import type {
   PinnedMessage,
   PinnedMessageId,
   PinnedMessageParams,
   PinnedMessagePreloadData,
-} from '../types/PinnedMessage.std.js';
-import type { AppendPinnedMessageResult } from './server/pinnedMessages.std.js';
+} from '../types/PinnedMessage.std.ts';
+import type { AppendPinnedMessageResult } from './server/pinnedMessages.std.ts';
 import type {
   RemoteMegaphoneId,
   RemoteMegaphoneType,
-} from '../types/Megaphone.std.js';
-import { sqlFragment, sqlId, sqlJoin } from './util.std.js';
-import type { MIMEType } from '../types/MIME.std.js';
+} from '../types/Megaphone.std.ts';
+import { sqlFragment, sqlId, sqlJoin } from './util.std.ts';
+import type { MIMEType } from '../types/MIME.std.ts';
 
 export type ReadableDB = Database & { __readable_db: never };
 export type WritableDB = ReadableDB & { __writable_db: never };

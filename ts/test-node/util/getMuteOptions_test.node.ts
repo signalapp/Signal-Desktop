@@ -3,9 +3,9 @@
 
 import { assert } from 'chai';
 import * as sinon from 'sinon';
-import i18n from './i18n.node.js';
+import i18n from './i18n.node.ts';
 
-import { getMuteOptions } from '../../util/getMuteOptions.std.js';
+import { getMuteOptions } from '../../util/getMuteOptions.std.ts';
 
 describe('getMuteOptions', () => {
   const HOUR = 3600000;

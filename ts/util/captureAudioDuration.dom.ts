@@ -1,10 +1,10 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { AttachmentType } from '../types/Attachment.std.js';
-import type { LoggerType } from '../types/Logging.std.js';
-import { getLocalAttachmentUrl } from './getLocalAttachmentUrl.std.js';
-import { toLogFormat } from '../types/errors.std.js';
+import type { AttachmentType } from '../types/Attachment.std.ts';
+import type { LoggerType } from '../types/Logging.std.ts';
+import { getLocalAttachmentUrl } from './getLocalAttachmentUrl.std.ts';
+import { toLogFormat } from '../types/errors.std.ts';
 
 export async function captureAudioDuration(
   attachment: AttachmentType,

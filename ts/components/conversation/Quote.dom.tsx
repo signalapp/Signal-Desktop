@@ -7,32 +7,32 @@ import classNames from 'classnames';
 
 import type { ReactNode } from 'react';
 
-import * as MIME from '../../types/MIME.std.js';
-import * as GoogleChrome from '../../util/GoogleChrome.std.js';
-import { MessageBody } from './MessageBody.dom.js';
-import { ContactName, GroupMemberLabel } from './ContactName.dom.js';
-import { Emojify } from './Emojify.dom.js';
-import { TextAttachment } from '../TextAttachment.dom.js';
-import { getClassNamesFor } from '../../util/getClassNamesFor.std.js';
-import { getCustomColorStyle } from '../../util/getCustomColorStyle.dom.js';
-import { PaymentEventKind } from '../../types/Payment.std.js';
-import { getPaymentEventNotificationText } from '../../messages/payments.std.js';
-import { shouldTryToCopyFromQuotedMessage } from '../../messages/helpers.std.js';
-import { RenderLocation } from './MessageTextRenderer.dom.js';
+import * as MIME from '../../types/MIME.std.ts';
+import * as GoogleChrome from '../../util/GoogleChrome.std.ts';
+import { MessageBody } from './MessageBody.dom.tsx';
+import { ContactName, GroupMemberLabel } from './ContactName.dom.tsx';
+import { Emojify } from './Emojify.dom.tsx';
+import { TextAttachment } from '../TextAttachment.dom.tsx';
+import { getClassNamesFor } from '../../util/getClassNamesFor.std.ts';
+import { getCustomColorStyle } from '../../util/getCustomColorStyle.dom.ts';
+import { PaymentEventKind } from '../../types/Payment.std.ts';
+import { getPaymentEventNotificationText } from '../../messages/payments.std.ts';
+import { shouldTryToCopyFromQuotedMessage } from '../../messages/helpers.std.ts';
+import { RenderLocation } from './MessageTextRenderer.dom.tsx';
 
 import type {
   AttachmentType,
   ThumbnailType,
-} from '../../types/Attachment.std.js';
-import type { HydratedBodyRangesType } from '../../types/BodyRange.std.js';
-import type { LocalizerType } from '../../types/Util.std.js';
+} from '../../types/Attachment.std.ts';
+import type { HydratedBodyRangesType } from '../../types/BodyRange.std.ts';
+import type { LocalizerType } from '../../types/Util.std.ts';
 import type {
   ConversationColorType,
   CustomColorType,
-} from '../../types/Colors.std.js';
-import type { AnyPaymentEvent } from '../../types/Payment.std.js';
+} from '../../types/Colors.std.ts';
+import type { AnyPaymentEvent } from '../../types/Payment.std.ts';
 import type { QuotedAttachmentType } from '../../model-types.d.ts';
-import type { MemberLabelType } from '../../types/GroupMemberLabels.std.js';
+import type { MemberLabelType } from '../../types/GroupMemberLabels.std.ts';
 
 const { noop } = lodash;
 

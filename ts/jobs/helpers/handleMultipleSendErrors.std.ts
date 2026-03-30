@@ -1,13 +1,13 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { LoggerType } from '../../types/Logging.std.js';
-import * as Errors from '../../types/errors.std.js';
-import { sleepForRateLimitRetryAfterTime } from './sleepForRateLimitRetryAfterTime.std.js';
-import { getHttpErrorCode } from './getHttpErrorCode.std.js';
-import { strictAssert } from '../../util/assert.std.js';
-import { findRetryAfterTimeFromError } from './findRetryAfterTimeFromError.std.js';
-import { SendMessageProtoError } from '../../textsecure/Errors.std.js';
+import type { LoggerType } from '../../types/Logging.std.ts';
+import * as Errors from '../../types/errors.std.ts';
+import { sleepForRateLimitRetryAfterTime } from './sleepForRateLimitRetryAfterTime.std.ts';
+import { getHttpErrorCode } from './getHttpErrorCode.std.ts';
+import { strictAssert } from '../../util/assert.std.ts';
+import { findRetryAfterTimeFromError } from './findRetryAfterTimeFromError.std.ts';
+import { SendMessageProtoError } from '../../textsecure/Errors.std.ts';
 
 export function maybeExpandErrors(error: unknown): ReadonlyArray<unknown> {
   if (error instanceof SendMessageProtoError) {

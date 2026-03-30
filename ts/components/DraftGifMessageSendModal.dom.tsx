@@ -2,17 +2,17 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import React, { type ComponentType, useEffect, useMemo, useId } from 'react';
 import { VisuallyHidden } from 'react-aria';
-import type { LocalizerType } from '../types/I18N.std.js';
-import { Button, ButtonVariant } from './Button.dom.js';
-import { Modal } from './Modal.dom.js';
-import type { HydratedBodyRangesType } from '../types/BodyRange.std.js';
-import type { SmartCompositionTextAreaProps } from '../state/smart/CompositionTextArea.preload.js';
-import type { ThemeType } from '../types/Util.std.js';
-import { EmojiSkinTone } from './fun/data/emojis.std.js';
-import { FunGifPreview } from './fun/FunGif.dom.js';
-import type { FunGifSelection } from './fun/panels/FunPanelGifs.dom.js';
-import type { GifDownloadState } from '../state/smart/DraftGifMessageSendModal.preload.js';
-import { LoadingState } from '../util/loadable.std.js';
+import type { LocalizerType } from '../types/I18N.std.ts';
+import { Button, ButtonVariant } from './Button.dom.tsx';
+import { Modal } from './Modal.dom.tsx';
+import type { HydratedBodyRangesType } from '../types/BodyRange.std.ts';
+import type { SmartCompositionTextAreaProps } from '../state/smart/CompositionTextArea.preload.tsx';
+import type { ThemeType } from '../types/Util.std.ts';
+import { EmojiSkinTone } from './fun/data/emojis.std.ts';
+import { FunGifPreview } from './fun/FunGif.dom.tsx';
+import type { FunGifSelection } from './fun/panels/FunPanelGifs.dom.tsx';
+import type { GifDownloadState } from '../state/smart/DraftGifMessageSendModal.preload.tsx';
+import { LoadingState } from '../util/loadable.std.ts';
 
 export type DraftGifMessageSendModalProps = Readonly<{
   i18n: LocalizerType;

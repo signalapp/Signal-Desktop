@@ -4,11 +4,11 @@
 import React, { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 
-import { ClearingData } from '../components/ClearingData.dom.js';
-import { strictAssert } from '../util/assert.std.js';
-import { deleteAllData } from './deleteAllData.preload.js';
-import { FunDefaultEnglishEmojiLocalizationProvider } from '../components/fun/FunEmojiLocalizationProvider.dom.js';
-import { AxoProvider } from '../axo/AxoProvider.dom.js';
+import { ClearingData } from '../components/ClearingData.dom.tsx';
+import { strictAssert } from '../util/assert.std.ts';
+import { deleteAllData } from './deleteAllData.preload.ts';
+import { FunDefaultEnglishEmojiLocalizationProvider } from '../components/fun/FunEmojiLocalizationProvider.dom.tsx';
+import { AxoProvider } from '../axo/AxoProvider.dom.tsx';
 
 export function renderClearingDataView(): void {
   const appContainer = document.getElementById('app-container');

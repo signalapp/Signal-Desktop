@@ -6,13 +6,13 @@ import { BackupLevel } from '@signalapp/libsignal-client/zkgroup.js';
 import lodash from 'lodash';
 import { assert } from 'chai';
 
-import type { ConversationModel } from '../../models/conversations.preload.js';
-import * as Bytes from '../../Bytes.std.js';
-import { DataWriter } from '../../sql/Client.preload.js';
-import { type AciString, generateAci } from '../../types/ServiceId.std.js';
-import { ReadStatus } from '../../messages/MessageReadStatus.std.js';
-import { SeenStatus } from '../../MessageSeenStatus.std.js';
-import { setupBasics, asymmetricRoundtripHarness } from './helpers.preload.js';
+import type { ConversationModel } from '../../models/conversations.preload.ts';
+import * as Bytes from '../../Bytes.std.ts';
+import { DataWriter } from '../../sql/Client.preload.ts';
+import { type AciString, generateAci } from '../../types/ServiceId.std.ts';
+import { ReadStatus } from '../../messages/MessageReadStatus.std.ts';
+import { SeenStatus } from '../../MessageSeenStatus.std.ts';
+import { setupBasics, asymmetricRoundtripHarness } from './helpers.preload.ts';
 import {
   AUDIO_MP3,
   IMAGE_JPEG,
@@ -20,7 +20,7 @@ import {
   IMAGE_WEBP,
   LONG_MESSAGE,
   VIDEO_MP4,
-} from '../../types/MIME.std.js';
+} from '../../types/MIME.std.ts';
 import type {
   MessageAttributesType,
   QuotedMessageType,
@@ -28,19 +28,19 @@ import type {
 import {
   hasRequiredInformationForRemoteBackup,
   isVoiceMessage,
-} from '../../util/Attachment.std.js';
-import type { AttachmentType } from '../../types/Attachment.std.js';
-import { strictAssert } from '../../util/assert.std.js';
-import { SignalService } from '../../protobuf/index.std.js';
-import { getRandomBytes } from '../../Crypto.node.js';
-import { loadAllAndReinitializeRedux } from '../../services/allLoaders.preload.js';
+} from '../../util/Attachment.std.ts';
+import type { AttachmentType } from '../../types/Attachment.std.ts';
+import { strictAssert } from '../../util/assert.std.ts';
+import { SignalService } from '../../protobuf/index.std.ts';
+import { getRandomBytes } from '../../Crypto.node.ts';
+import { loadAllAndReinitializeRedux } from '../../services/allLoaders.preload.ts';
 import {
   generateAttachmentKeys,
   generateKeys,
   getPlaintextHashForInMemoryAttachment,
-} from '../../AttachmentCrypto.node.js';
-import { KIBIBYTE } from '../../types/AttachmentSize.std.js';
-import { itemStorage } from '../../textsecure/Storage.preload.js';
+} from '../../AttachmentCrypto.node.ts';
+import { KIBIBYTE } from '../../types/AttachmentSize.std.ts';
+import { itemStorage } from '../../textsecure/Storage.preload.ts';
 
 const { omit } = lodash;
 

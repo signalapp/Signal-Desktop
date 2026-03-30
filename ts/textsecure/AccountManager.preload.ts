@@ -9,7 +9,7 @@ import {
   BackupKey,
 } from '@signalapp/libsignal-client/dist/AccountKeys.js';
 
-import EventTarget from './EventTarget.std.js';
+import EventTarget from './EventTarget.std.ts';
 import {
   type UploadKeysType,
   type UploadKyberPreKeyType,
@@ -23,7 +23,7 @@ import {
   createAccount,
   linkDevice,
   authenticate,
-} from './WebAPI.preload.js';
+} from './WebAPI.preload.ts';
 import type {
   CompatPreKeyType,
   CompatSignedPreKeyType,
@@ -31,15 +31,15 @@ import type {
   KyberPreKeyType,
   PniKeyMaterialType,
 } from './Types.d.ts';
-import { runTaskWithTimeout } from './TaskWithTimeout.std.js';
-import * as Bytes from '../Bytes.std.js';
-import * as Errors from '../types/errors.std.js';
+import { runTaskWithTimeout } from './TaskWithTimeout.std.ts';
+import * as Bytes from '../Bytes.std.ts';
+import * as Errors from '../types/errors.std.ts';
 import {
   isTestEnvironment,
   isMockEnvironment,
   getEnvironment,
-} from '../environment.std.js';
-import { senderCertificateService } from '../services/senderCertificate.preload.js';
+} from '../environment.std.ts';
+import { senderCertificateService } from '../services/senderCertificate.preload.ts';
 import {
   decryptDeviceName,
   deriveStorageServiceKey,
@@ -49,45 +49,45 @@ import {
   getRandomBytes,
   decryptDeviceCreatedAt,
   encryptDeviceCreatedAt,
-} from '../Crypto.node.js';
+} from '../Crypto.node.ts';
 import {
   generateKeyPair,
   generateKyberPreKey,
   generatePreKey,
   generateSignedPreKey,
-} from '../Curve.node.js';
+} from '../Curve.node.ts';
 import type {
   AciString,
   PniString,
   ServiceIdString,
-} from '../types/ServiceId.std.js';
+} from '../types/ServiceId.std.ts';
 import {
   isUntaggedPniString,
   normalizePni,
   ServiceIdKind,
   toTaggedPni,
-} from '../types/ServiceId.std.js';
-import { normalizeAci } from '../util/normalizeAci.std.js';
-import { drop } from '../util/drop.std.js';
-import { isMoreRecentThan, isOlderThan } from '../util/timestamp.std.js';
-import { ourProfileKeyService } from '../services/ourProfileKey.std.js';
-import { strictAssert } from '../util/assert.std.js';
-import { getRegionCodeForNumber } from '../util/libphonenumberUtil.std.js';
-import { isNotNil } from '../util/isNotNil.std.js';
-import { missingCaseError } from '../util/missingCaseError.std.js';
-import { SignalService as Proto } from '../protobuf/index.std.js';
-import { createLogger } from '../logging/log.std.js';
+} from '../types/ServiceId.std.ts';
+import { normalizeAci } from '../util/normalizeAci.std.ts';
+import { drop } from '../util/drop.std.ts';
+import { isMoreRecentThan, isOlderThan } from '../util/timestamp.std.ts';
+import { ourProfileKeyService } from '../services/ourProfileKey.std.ts';
+import { strictAssert } from '../util/assert.std.ts';
+import { getRegionCodeForNumber } from '../util/libphonenumberUtil.std.ts';
+import { isNotNil } from '../util/isNotNil.std.ts';
+import { missingCaseError } from '../util/missingCaseError.std.ts';
+import { SignalService as Proto } from '../protobuf/index.std.ts';
+import { createLogger } from '../logging/log.std.ts';
 import type { StorageAccessType } from '../types/Storage.d.ts';
-import { getRelativePath, createName } from '../util/attachmentPath.node.js';
-import { isLinkAndSyncEnabled } from '../util/isLinkAndSyncEnabled.preload.js';
-import { getMessageQueueTime } from '../util/getMessageQueueTime.dom.js';
-import { canAttemptRemoteBackupDownload } from '../util/isBackupEnabled.preload.js';
-import { signalProtocolStore } from '../SignalProtocolStore.preload.js';
-import { itemStorage } from './Storage.preload.js';
-import { deriveAccessKeyFromProfileKey } from '../util/zkgroup.node.js';
-import { wrappingAdd24 } from '../util/wrappingAdd.std.js';
-import { everDone as registrationEverDone } from '../util/registration.preload.js';
-import { isAciString } from '../util/isAciString.std.js';
+import { getRelativePath, createName } from '../util/attachmentPath.node.ts';
+import { isLinkAndSyncEnabled } from '../util/isLinkAndSyncEnabled.preload.ts';
+import { getMessageQueueTime } from '../util/getMessageQueueTime.dom.ts';
+import { canAttemptRemoteBackupDownload } from '../util/isBackupEnabled.preload.ts';
+import { signalProtocolStore } from '../SignalProtocolStore.preload.ts';
+import { itemStorage } from './Storage.preload.ts';
+import { deriveAccessKeyFromProfileKey } from '../util/zkgroup.node.ts';
+import { wrappingAdd24 } from '../util/wrappingAdd.std.ts';
+import { everDone as registrationEverDone } from '../util/registration.preload.ts';
+import { isAciString } from '../util/isAciString.std.ts';
 
 const { isNumber, omit, orderBy } = lodash;
 

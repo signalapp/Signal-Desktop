@@ -3,8 +3,8 @@
 
 import type Fuse from 'fuse.js';
 
-import type { ConversationType } from '../state/ducks/conversations.preload.js';
-import { fuseGetFnRemoveDiacritics, getCachedFuseIndex } from './fuse.std.js';
+import type { ConversationType } from '../state/ducks/conversations.preload.ts';
+import { fuseGetFnRemoveDiacritics, getCachedFuseIndex } from './fuse.std.ts';
 
 const CONVERSATION_TITLE = 'title';
 const MIN_SEARCH_TERM_LENGTH = 2;

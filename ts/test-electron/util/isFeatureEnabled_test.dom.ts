@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import { _isFeatureEnabledInner } from '../../util/isFeatureEnabled.dom.js';
+import { _isFeatureEnabledInner } from '../../util/isFeatureEnabled.dom.ts';
 
 const isTestEnvironment = () => false;
 

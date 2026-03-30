@@ -7,9 +7,9 @@ import { Provider } from 'react-redux';
 
 import type { Store } from 'redux';
 
-import { SmartApp } from '../smart/App.preload.js';
-import { SmartVoiceNotesPlaybackProvider } from '../smart/VoiceNotesPlaybackProvider.preload.js';
-import { AxoProvider } from '../../axo/AxoProvider.dom.js';
+import { SmartApp } from '../smart/App.preload.tsx';
+import { SmartVoiceNotesPlaybackProvider } from '../smart/VoiceNotesPlaybackProvider.preload.tsx';
+import { AxoProvider } from '../../axo/AxoProvider.dom.tsx';
 
 export const createApp = (store: Store): ReactElement => (
   <AxoProvider dir={window.SignalContext.i18n.getLocaleDirection()}>

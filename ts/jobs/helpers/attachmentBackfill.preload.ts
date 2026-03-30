@@ -1,49 +1,49 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { AttachmentBackfillResponseSyncEvent } from '../../textsecure/messageReceiverEvents.std.js';
-import { MessageSender } from '../../textsecure/SendMessage.preload.js';
-import { createLogger } from '../../logging/log.std.js';
+import type { AttachmentBackfillResponseSyncEvent } from '../../textsecure/messageReceiverEvents.std.ts';
+import { MessageSender } from '../../textsecure/SendMessage.preload.ts';
+import { createLogger } from '../../logging/log.std.ts';
 import type { ReadonlyMessageAttributesType } from '../../model-types.d.ts';
-import type { AttachmentType } from '../../types/Attachment.std.js';
+import type { AttachmentType } from '../../types/Attachment.std.ts';
 import {
   isDownloading,
   isDownloaded,
   isDownloadable,
   getUndownloadedAttachmentSignature,
-} from '../../util/Attachment.std.js';
+} from '../../util/Attachment.std.ts';
 import {
   type MessageAttachmentType,
   AttachmentDownloadUrgency,
-} from '../../types/AttachmentDownload.std.js';
-import { AttachmentDownloadSource } from '../../sql/Interface.std.js';
-import { APPLICATION_OCTET_STREAM } from '../../types/MIME.std.js';
+} from '../../types/AttachmentDownload.std.ts';
+import { AttachmentDownloadSource } from '../../sql/Interface.std.ts';
+import { APPLICATION_OCTET_STREAM } from '../../types/MIME.std.ts';
 import {
   getConversationIdentifier,
   getAddressableMessage,
   getConversationFromTarget,
   getMessageQueryFromTarget,
   findMatchingMessage,
-} from '../../util/syncIdentifiers.preload.js';
-import { strictAssert } from '../../util/assert.std.js';
-import { drop } from '../../util/drop.std.js';
-import { missingCaseError } from '../../util/missingCaseError.std.js';
-import { isStagingServer } from '../../util/isStagingServer.dom.js';
+} from '../../util/syncIdentifiers.preload.ts';
+import { strictAssert } from '../../util/assert.std.ts';
+import { drop } from '../../util/drop.std.ts';
+import { missingCaseError } from '../../util/missingCaseError.std.ts';
+import { isStagingServer } from '../../util/isStagingServer.dom.ts';
 import {
   ensureBodyAttachmentsAreSeparated,
   queueAttachmentDownloads,
-} from '../../util/queueAttachmentDownloads.preload.js';
-import { SECOND } from '../../util/durations/index.std.js';
-import { showDownloadFailedToast } from '../../util/showDownloadFailedToast.dom.js';
-import { markAttachmentAsPermanentlyErrored } from '../../util/attachments/markAttachmentAsPermanentlyErrored.std.js';
-import { singleProtoJobQueue } from '../singleProtoJobQueue.preload.js';
-import { MessageModel } from '../../models/messages.preload.js';
-import { getMessageById } from '../../messages/getMessageById.preload.js';
-import { addAttachmentToMessage } from '../../messageModifiers/AttachmentDownloads.preload.js';
-import { SignalService as Proto } from '../../protobuf/index.std.js';
-import * as RemoteConfig from '../../RemoteConfig.dom.js';
-import { isTestOrMockEnvironment } from '../../environment.std.js';
-import { BackfillFailureKind } from '../../components/BackfillFailureModal.dom.js';
+} from '../../util/queueAttachmentDownloads.preload.ts';
+import { SECOND } from '../../util/durations/index.std.ts';
+import { showDownloadFailedToast } from '../../util/showDownloadFailedToast.dom.ts';
+import { markAttachmentAsPermanentlyErrored } from '../../util/attachments/markAttachmentAsPermanentlyErrored.std.ts';
+import { singleProtoJobQueue } from '../singleProtoJobQueue.preload.ts';
+import { MessageModel } from '../../models/messages.preload.ts';
+import { getMessageById } from '../../messages/getMessageById.preload.ts';
+import { addAttachmentToMessage } from '../../messageModifiers/AttachmentDownloads.preload.ts';
+import { SignalService as Proto } from '../../protobuf/index.std.ts';
+import * as RemoteConfig from '../../RemoteConfig.dom.ts';
+import { isTestOrMockEnvironment } from '../../environment.std.ts';
+import { BackfillFailureKind } from '../../components/BackfillFailureModal.dom.tsx';
 
 const log = createLogger('attachmentBackfill');
 

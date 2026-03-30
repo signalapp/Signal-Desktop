@@ -1,8 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { MAX_SAFE_DATE } from './timestamp.std.js';
-import { toNumber } from './toNumber.std.js';
+import { MAX_SAFE_DATE } from './timestamp.std.ts';
+import { toNumber } from './toNumber.std.ts';
 
 export function getSafeLongFromTimestamp(
   timestamp = 0,

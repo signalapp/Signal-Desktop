@@ -4,21 +4,21 @@ import type { ForwardedRef, ReactNode } from 'react';
 import React, { forwardRef, memo, useCallback, useMemo, useState } from 'react';
 import { Tabs } from 'radix-ui';
 import { AnimatePresence, motion } from 'motion/react';
-import type { LocalizerType } from '../../../types/I18N.std.js';
-import { tw } from '../../../axo/tw.dom.js';
-import { AxoIconButton } from '../../../axo/AxoIconButton.dom.js';
-import { AxoDropdownMenu } from '../../../axo/AxoDropdownMenu.dom.js';
-import { AriaClickable } from '../../../axo/AriaClickable.dom.js';
-import { UserText } from '../../UserText.dom.js';
-import type { PinnedMessageId } from '../../../types/PinnedMessage.std.js';
+import type { LocalizerType } from '../../../types/I18N.std.ts';
+import { tw } from '../../../axo/tw.dom.tsx';
+import { AxoIconButton } from '../../../axo/AxoIconButton.dom.tsx';
+import { AxoDropdownMenu } from '../../../axo/AxoDropdownMenu.dom.tsx';
+import { AriaClickable } from '../../../axo/AriaClickable.dom.tsx';
+import { UserText } from '../../UserText.dom.tsx';
+import type { PinnedMessageId } from '../../../types/PinnedMessage.std.ts';
 import {
   MessageTextRenderer,
   RenderLocation,
-} from '../MessageTextRenderer.dom.js';
-import type { HydratedBodyRangesType } from '../../../types/BodyRange.std.js';
-import { AxoSymbol } from '../../../axo/AxoSymbol.dom.js';
-import { missingCaseError } from '../../../util/missingCaseError.std.js';
-import { stripNewlinesForLeftPane } from '../../../util/stripNewlinesForLeftPane.std.js';
+} from '../MessageTextRenderer.dom.tsx';
+import type { HydratedBodyRangesType } from '../../../types/BodyRange.std.ts';
+import { AxoSymbol } from '../../../axo/AxoSymbol.dom.tsx';
+import { missingCaseError } from '../../../util/missingCaseError.std.ts';
+import { stripNewlinesForLeftPane } from '../../../util/stripNewlinesForLeftPane.std.ts';
 
 enum Direction {
   None = 0,

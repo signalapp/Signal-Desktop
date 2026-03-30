@@ -5,16 +5,16 @@ import assert from 'node:assert';
 import { Proto, StorageState } from '@signalapp/mock-server';
 import { expect } from 'playwright/test';
 
-import * as Bytes from '../../Bytes.std.js';
-import * as durations from '../../util/durations/index.std.js';
-import { dropNull } from '../../util/dropNull.std.js';
-import { constantTimeEqual } from '../../Crypto.node.js';
-import { generateNotificationProfileId } from '../../types/NotificationProfile-node.node.js';
-import { Bootstrap, debug } from './fixtures.node.js';
-import { typeIntoInput } from '../helpers.node.js';
+import * as Bytes from '../../Bytes.std.ts';
+import * as durations from '../../util/durations/index.std.ts';
+import { dropNull } from '../../util/dropNull.std.ts';
+import { constantTimeEqual } from '../../Crypto.node.ts';
+import { generateNotificationProfileId } from '../../types/NotificationProfile-node.node.ts';
+import { Bootstrap, debug } from './fixtures.node.ts';
+import { typeIntoInput } from '../helpers.node.ts';
 
-import type { App } from './fixtures.node.js';
-import { DayOfWeek } from '../../types/NotificationProfile.std.js';
+import type { App } from './fixtures.node.ts';
+import { DayOfWeek } from '../../types/NotificationProfile.std.ts';
 
 const IdentifierType = Proto.ManifestRecord.Identifier.Type;
 

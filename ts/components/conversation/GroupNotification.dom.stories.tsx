@@ -3,9 +3,9 @@
 
 import * as React from 'react';
 import type { Meta } from '@storybook/react';
-import type { Props } from './GroupNotification.dom.js';
-import { GroupNotification } from './GroupNotification.dom.js';
-import { getDefaultConversation } from '../../test-helpers/getDefaultConversation.std.js';
+import type { Props } from './GroupNotification.dom.tsx';
+import { GroupNotification } from './GroupNotification.dom.tsx';
+import { getDefaultConversation } from '../../test-helpers/getDefaultConversation.std.ts';
 
 export default {
   title: 'Components/Conversation',

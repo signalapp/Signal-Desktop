@@ -5,24 +5,24 @@ import lodash from 'lodash';
 import type { ReactNode } from 'react';
 import React from 'react';
 
-import type { ToFindType } from './LeftPaneHelper.dom.js';
+import type { ToFindType } from './LeftPaneHelper.dom.tsx';
 import type {
   ConversationType,
   ShowConversationType,
-} from '../../state/ducks/conversations.preload.js';
-import { LeftPaneHelper } from './LeftPaneHelper.dom.js';
-import { getConversationInDirection } from './getConversationInDirection.dom.js';
-import type { Row } from '../ConversationList.dom.js';
-import { RowType } from '../ConversationList.dom.js';
-import type { PropsData as ConversationListItemPropsType } from '../conversationList/ConversationListItem.dom.js';
-import type { LocalizerType } from '../../types/Util.std.js';
-import { handleKeydownForSearch } from './handleKeydownForSearch.dom.js';
-import { LeftPaneSearchInput } from '../LeftPaneSearchInput.dom.js';
-import type { ChatFolder } from '../../types/ChatFolder.std.js';
-import { ChatFolderType } from '../../types/ChatFolder.std.js';
-import { AxoButton } from '../../axo/AxoButton.dom.js';
-import { NavTab, SettingsPage, type Location } from '../../types/Nav.std.js';
-import { tw } from '../../axo/tw.dom.js';
+} from '../../state/ducks/conversations.preload.ts';
+import { LeftPaneHelper } from './LeftPaneHelper.dom.tsx';
+import { getConversationInDirection } from './getConversationInDirection.dom.ts';
+import type { Row } from '../ConversationList.dom.tsx';
+import { RowType } from '../ConversationList.dom.tsx';
+import type { PropsData as ConversationListItemPropsType } from '../conversationList/ConversationListItem.dom.tsx';
+import type { LocalizerType } from '../../types/Util.std.ts';
+import { handleKeydownForSearch } from './handleKeydownForSearch.dom.ts';
+import { LeftPaneSearchInput } from '../LeftPaneSearchInput.dom.tsx';
+import type { ChatFolder } from '../../types/ChatFolder.std.ts';
+import { ChatFolderType } from '../../types/ChatFolder.std.ts';
+import { AxoButton } from '../../axo/AxoButton.dom.tsx';
+import { NavTab, SettingsPage, type Location } from '../../types/Nav.std.ts';
+import { tw } from '../../axo/tw.dom.tsx';
 
 const { last } = lodash;
 

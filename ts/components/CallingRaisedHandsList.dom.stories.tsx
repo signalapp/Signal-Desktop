@@ -9,14 +9,14 @@ import type { Meta } from '@storybook/react';
 import type {
   CallingRaisedHandsListButtonPropsType,
   PropsType,
-} from './CallingRaisedHandsList.dom.js';
+} from './CallingRaisedHandsList.dom.tsx';
 import {
   CallingRaisedHandsList,
   CallingRaisedHandsListButton,
-} from './CallingRaisedHandsList.dom.js';
-import type { ConversationType } from '../state/ducks/conversations.preload.js';
-import { AvatarColors } from '../types/Colors.std.js';
-import { getDefaultConversationWithServiceId } from '../test-helpers/getDefaultConversation.std.js';
+} from './CallingRaisedHandsList.dom.tsx';
+import type { ConversationType } from '../state/ducks/conversations.preload.ts';
+import { AvatarColors } from '../types/Colors.std.ts';
+import { getDefaultConversationWithServiceId } from '../test-helpers/getDefaultConversation.std.ts';
 
 const { times } = lodash;
 

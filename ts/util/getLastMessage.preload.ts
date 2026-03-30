@@ -1,17 +1,17 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { AciString } from '../types/ServiceId.std.js';
+import type { AciString } from '../types/ServiceId.std.ts';
 import type { ConversationAttributesType } from '../model-types.d.ts';
-import type { LastMessageType } from '../state/ducks/conversations.preload.js';
-import { BodyRange } from '../types/BodyRange.std.js';
-import { dropNull } from './dropNull.std.js';
-import { findAndFormatContact } from './findAndFormatContact.preload.js';
-import { hydrateRanges } from './BodyRange.node.js';
-import { stripNewlinesForLeftPane } from './stripNewlinesForLeftPane.std.js';
-import { itemStorage } from '../textsecure/Storage.preload.js';
-import { getTitle } from './getTitle.preload.js';
-import { isDirectConversation } from './whatTypeOfConversation.dom.js';
+import type { LastMessageType } from '../state/ducks/conversations.preload.ts';
+import { BodyRange } from '../types/BodyRange.std.ts';
+import { dropNull } from './dropNull.std.ts';
+import { findAndFormatContact } from './findAndFormatContact.preload.ts';
+import { hydrateRanges } from './BodyRange.node.ts';
+import { stripNewlinesForLeftPane } from './stripNewlinesForLeftPane.std.ts';
+import { itemStorage } from '../textsecure/Storage.preload.ts';
+import { getTitle } from './getTitle.preload.ts';
+import { isDirectConversation } from './whatTypeOfConversation.dom.ts';
 
 function getNameForAci(
   aci: AciString | null | undefined,

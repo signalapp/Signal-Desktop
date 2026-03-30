@@ -3,16 +3,16 @@
 
 import * as z from 'zod';
 import lodash from 'lodash';
-import { isRecord } from '../util/isRecord.std.js';
-import { isNormalNumber } from '../util/isNormalNumber.std.js';
-import { createLogger } from '../logging/log.std.js';
-import type { BadgeType, BadgeImageType } from './types.std.js';
-import { parseBadgeCategory } from './BadgeCategory.std.js';
+import { isRecord } from '../util/isRecord.std.ts';
+import { isNormalNumber } from '../util/isNormalNumber.std.ts';
+import { createLogger } from '../logging/log.std.ts';
+import type { BadgeType, BadgeImageType } from './types.std.ts';
+import { parseBadgeCategory } from './BadgeCategory.std.ts';
 import {
   BadgeImageTheme,
   parseBadgeImageTheme,
-} from './BadgeImageTheme.std.js';
-import { safeParseUnknown } from '../util/schemas.std.js';
+} from './BadgeImageTheme.std.ts';
+import { safeParseUnknown } from '../util/schemas.std.ts';
 
 const { isEmpty } = lodash;
 

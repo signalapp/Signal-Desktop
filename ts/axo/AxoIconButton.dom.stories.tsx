@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import React, { Fragment } from 'react';
 import type { Meta } from '@storybook/react';
-import { AxoIconButton } from './AxoIconButton.dom.js';
-import type { TailwindStyles } from './tw.dom.js';
-import { tw } from './tw.dom.js';
+import { AxoIconButton } from './AxoIconButton.dom.tsx';
+import type { TailwindStyles } from './tw.dom.tsx';
+import { tw } from './tw.dom.tsx';
 
 export default {
   title: 'Axo/AxoIconButton',

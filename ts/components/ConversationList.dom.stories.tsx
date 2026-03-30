@@ -6,16 +6,16 @@ import lodash from 'lodash';
 import { v4 as generateUuid } from 'uuid';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { Row, PropsType } from './ConversationList.dom.js';
-import { ConversationList, RowType } from './ConversationList.dom.js';
-import { MessageSearchResult } from './conversationList/MessageSearchResult.dom.js';
-import type { PropsData as ConversationListItemPropsType } from './conversationList/ConversationListItem.dom.js';
-import { MessageStatuses } from '../types/message/MessageStatus.std.js';
-import { ContactCheckboxDisabledReason } from './conversationList/ContactCheckbox.dom.js';
-import { getDefaultConversation } from '../test-helpers/getDefaultConversation.std.js';
-import { ThemeType } from '../types/Util.std.js';
+import type { Row, PropsType } from './ConversationList.dom.tsx';
+import { ConversationList, RowType } from './ConversationList.dom.tsx';
+import { MessageSearchResult } from './conversationList/MessageSearchResult.dom.tsx';
+import type { PropsData as ConversationListItemPropsType } from './conversationList/ConversationListItem.dom.tsx';
+import { MessageStatuses } from '../types/message/MessageStatus.std.ts';
+import { ContactCheckboxDisabledReason } from './conversationList/ContactCheckbox.dom.tsx';
+import { getDefaultConversation } from '../test-helpers/getDefaultConversation.std.ts';
+import { ThemeType } from '../types/Util.std.ts';
 import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext.std.js';
-import { makeFakeLookupConversationWithoutServiceId } from '../test-helpers/fakeLookupConversationWithoutServiceId.std.js';
+import { makeFakeLookupConversationWithoutServiceId } from '../test-helpers/fakeLookupConversationWithoutServiceId.std.ts';
 
 const { times, omit } = lodash;
 

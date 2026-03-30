@@ -4,10 +4,10 @@
 import type { ReactNode } from 'react';
 import React, { useEffect, useState, useMemo } from 'react';
 import classNames from 'classnames';
-import type { LocalizerType } from '../types/Util.std.js';
-import { createLogger } from '../logging/log.std.js';
-import { SECOND, DAY } from '../util/durations/index.std.js';
-import type { SmartNavTabsProps } from '../state/smart/NavTabs.preload.js';
+import type { LocalizerType } from '../types/Util.std.ts';
+import { createLogger } from '../logging/log.std.ts';
+import { SECOND, DAY } from '../util/durations/index.std.ts';
+import type { SmartNavTabsProps } from '../state/smart/NavTabs.preload.tsx';
 
 const log = createLogger('Inbox');
 

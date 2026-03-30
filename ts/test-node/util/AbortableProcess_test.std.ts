@@ -4,7 +4,7 @@
 import { assert } from 'chai';
 import lodash from 'lodash';
 
-import { AbortableProcess } from '../../util/AbortableProcess.std.js';
+import { AbortableProcess } from '../../util/AbortableProcess.std.ts';
 
 const { noop } = lodash;
 

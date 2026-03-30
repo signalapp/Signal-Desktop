@@ -7,13 +7,13 @@ import { ipcRenderer } from 'electron';
 import type { ThunkAction } from 'redux-thunk';
 import type { ReadonlyDeep } from 'type-fest';
 
-import { createLogger } from '../../logging/log.std.js';
-import { useBoundActions } from '../../hooks/useBoundActions.std.js';
-import { getBackups, getPlaintextWorkflow } from '../selectors/backups.std.js';
-import { getIntl } from '../selectors/user.std.js';
-import { promptOSAuth } from '../../util/promptOSAuth.preload.js';
-import { missingCaseError } from '../../util/missingCaseError.std.js';
-import { backupsService } from '../../services/backups/index.preload.js';
+import { createLogger } from '../../logging/log.std.ts';
+import { useBoundActions } from '../../hooks/useBoundActions.std.ts';
+import { getBackups, getPlaintextWorkflow } from '../selectors/backups.std.ts';
+import { getIntl } from '../selectors/user.std.ts';
+import { promptOSAuth } from '../../util/promptOSAuth.preload.ts';
+import { missingCaseError } from '../../util/missingCaseError.std.ts';
+import { backupsService } from '../../services/backups/index.preload.ts';
 import {
   NotEnoughStorageError,
   LocalExportErrors,
@@ -23,18 +23,18 @@ import {
   plaintextExportValidTransitions,
   LocalBackupExportSteps,
   localBackupExportValidTransitions,
-} from '../../types/LocalExport.std.js';
+} from '../../types/LocalExport.std.ts';
 
-import type { StateType } from '../reducer.preload.js';
-import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.js';
+import type { StateType } from '../reducer.preload.ts';
+import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.ts';
 import type {
   PlaintextExportWorkflowType,
   LocalBackupExportWorkflowType,
   LocalExportErrorDetails,
-} from '../../types/LocalExport.std.js';
-import type { LocalizerType } from '../../types/I18N.std.js';
-import { toLogFormat } from '../../types/errors.std.js';
-import { itemStorage } from '../../textsecure/Storage.preload.js';
+} from '../../types/LocalExport.std.ts';
+import type { LocalizerType } from '../../types/I18N.std.ts';
+import { toLogFormat } from '../../types/errors.std.ts';
+import { itemStorage } from '../../textsecure/Storage.preload.ts';
 
 const log = createLogger('ducks/backups');
 

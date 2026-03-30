@@ -11,29 +11,29 @@ import React, {
 import classNames from 'classnames';
 import lodash from 'lodash';
 
-import type { LocalizerType } from '../types/Util.std.js';
-import type { UsernameReservationType } from '../types/Username.std.js';
-import { ToastType } from '../types/Toast.dom.js';
-import { missingCaseError } from '../util/missingCaseError.std.js';
+import type { LocalizerType } from '../types/Util.std.ts';
+import type { UsernameReservationType } from '../types/Username.std.ts';
+import { ToastType } from '../types/Toast.dom.tsx';
+import { missingCaseError } from '../util/missingCaseError.std.ts';
 import {
   getNickname,
   getDiscriminator,
   isCaseChange,
-} from '../types/Username.std.js';
+} from '../types/Username.std.ts';
 import {
   UsernameReservationState,
   UsernameReservationError,
-} from '../state/ducks/usernameEnums.std.js';
-import type { ReserveUsernameOptionsType } from '../state/ducks/username.preload.js';
-import type { ShowToastAction } from '../state/ducks/toast.preload.js';
-import { AutoSizeInput } from './AutoSizeInput.dom.js';
-import { ConfirmationDialog } from './ConfirmationDialog.dom.js';
-import { Input } from './Input.dom.js';
-import { Spinner } from './Spinner.dom.js';
-import { Modal } from './Modal.dom.js';
-import { Button, ButtonVariant } from './Button.dom.js';
-import { useConfirmDiscard } from '../hooks/useConfirmDiscard.dom.js';
-import { AxoButton } from '../axo/AxoButton.dom.js';
+} from '../state/ducks/usernameEnums.std.ts';
+import type { ReserveUsernameOptionsType } from '../state/ducks/username.preload.ts';
+import type { ShowToastAction } from '../state/ducks/toast.preload.ts';
+import { AutoSizeInput } from './AutoSizeInput.dom.tsx';
+import { ConfirmationDialog } from './ConfirmationDialog.dom.tsx';
+import { Input } from './Input.dom.tsx';
+import { Spinner } from './Spinner.dom.tsx';
+import { Modal } from './Modal.dom.tsx';
+import { Button, ButtonVariant } from './Button.dom.tsx';
+import { useConfirmDiscard } from '../hooks/useConfirmDiscard.dom.tsx';
+import { AxoButton } from '../axo/AxoButton.dom.tsx';
 
 const { noop } = lodash;
 

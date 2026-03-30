@@ -5,10 +5,10 @@ import { join } from 'node:path';
 import { mkdirSync } from 'node:fs';
 import { app } from 'electron';
 
-import { start } from './base_config.node.js';
-import config from './config.main.js';
-import * as Errors from '../ts/types/errors.std.js';
-import OS from '../ts/util/os/osMain.node.js';
+import { start } from './base_config.node.ts';
+import config from './config.main.ts';
+import * as Errors from '../ts/types/errors.std.ts';
+import OS from '../ts/util/os/osMain.node.ts';
 
 let userData: string | undefined;
 // Use separate data directory for benchmarks & development

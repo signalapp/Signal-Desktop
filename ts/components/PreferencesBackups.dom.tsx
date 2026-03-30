@@ -8,30 +8,30 @@ import type {
   BackupMediaDownloadStatusType,
   BackupsSubscriptionType,
   BackupStatusType,
-} from '../types/backups.node.js';
-import type { LocalizerType } from '../types/I18N.std.js';
+} from '../types/backups.node.ts';
+import type { LocalizerType } from '../types/I18N.std.ts';
 import {
   SettingsControl as Control,
   FlowingSettingsControl as FlowingControl,
   LightIconLabel,
   SettingsRow,
-} from './PreferencesUtil.dom.js';
-import type { SettingsLocation } from '../types/Nav.std.js';
-import { SettingsPage } from '../types/Nav.std.js';
-import { I18n } from './I18n.dom.js';
-import { PreferencesLocalBackups } from './PreferencesLocalBackups.dom.js';
-import type { ShowToastAction } from '../state/ducks/toast.preload.js';
+} from './PreferencesUtil.dom.tsx';
+import type { SettingsLocation } from '../types/Nav.std.ts';
+import { SettingsPage } from '../types/Nav.std.ts';
+import { I18n } from './I18n.dom.tsx';
+import { PreferencesLocalBackups } from './PreferencesLocalBackups.dom.tsx';
+import type { ShowToastAction } from '../state/ducks/toast.preload.ts';
 import type {
   PromptOSAuthReasonType,
   PromptOSAuthResultType,
-} from '../util/os/promptOSAuthMain.main.js';
-import { AxoButton } from '../axo/AxoButton.dom.js';
-import { BackupLevel } from '../services/backups/types.std.js';
+} from '../util/os/promptOSAuthMain.main.ts';
+import { AxoButton } from '../axo/AxoButton.dom.tsx';
+import { BackupLevel } from '../services/backups/types.std.ts';
 import {
   BackupsDetailsPage,
   renderSubscriptionDetails,
-} from './PreferencesBackupDetails.dom.js';
-import type { LocalBackupExportMetadata } from '../types/LocalExport.std.js';
+} from './PreferencesBackupDetails.dom.tsx';
+import type { LocalBackupExportMetadata } from '../types/LocalExport.std.ts';
 
 export const SIGNAL_BACKUPS_LEARN_MORE_URL =
   'https://support.signal.org/hc/articles/360007059752-Backup-and-Restore-Messages';

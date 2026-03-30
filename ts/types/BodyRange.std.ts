@@ -4,17 +4,17 @@
 import lodash from 'lodash';
 import * as z from 'zod';
 
-import { SignalService as Proto } from '../protobuf/index.std.js';
-import { createLogger } from '../logging/log.std.js';
-import { missingCaseError } from '../util/missingCaseError.std.js';
-import { isNotNil } from '../util/isNotNil.std.js';
+import { SignalService as Proto } from '../protobuf/index.std.ts';
+import { createLogger } from '../logging/log.std.ts';
+import { missingCaseError } from '../util/missingCaseError.std.ts';
+import { isNotNil } from '../util/isNotNil.std.ts';
 import {
   SNIPPET_LEFT_PLACEHOLDER,
   SNIPPET_RIGHT_PLACEHOLDER,
   SNIPPET_TRUNCATION_PLACEHOLDER,
-} from '../util/search.std.js';
-import { assertDev } from '../util/assert.std.js';
-import { aciSchema, type AciString } from './ServiceId.std.js';
+} from '../util/search.std.ts';
+import { assertDev } from '../util/assert.std.ts';
+import { aciSchema, type AciString } from './ServiceId.std.ts';
 import { signalservice } from '../protobuf/compiled.std.js';
 
 const { isEqual, isNumber, omit, orderBy, partition } = lodash;

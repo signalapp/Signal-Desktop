@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import React, { useState } from 'react';
 import type { Meta } from '@storybook/react';
-import { AxoRadioGroup } from './AxoRadioGroup.dom.js';
+import { AxoRadioGroup } from './AxoRadioGroup.dom.tsx';
 
 export default {
   title: 'Axo/AxoRadioGroup',

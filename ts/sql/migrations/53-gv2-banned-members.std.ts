@@ -3,8 +3,8 @@
 
 import type { Database } from '@signalapp/sqlcipher';
 
-import type { LoggerType } from '../../types/Logging.std.js';
-import { jsonToObject } from '../util.std.js';
+import type { LoggerType } from '../../types/Logging.std.ts';
+import { jsonToObject } from '../util.std.ts';
 
 export default function updateToSchemaVersion53(
   db: Database,

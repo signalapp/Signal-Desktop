@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { canvasToBytes } from './canvasToBytes.std.js';
+import { canvasToBytes } from './canvasToBytes.std.ts';
 
 export async function imagePathToBytes(
   src: string

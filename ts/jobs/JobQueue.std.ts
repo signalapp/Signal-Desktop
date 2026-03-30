@@ -5,17 +5,17 @@ import PQueue from 'p-queue';
 import { v7 as uuid } from 'uuid';
 import lodash from 'lodash';
 
-import { Job } from './Job.std.js';
-import { JobError } from './JobError.std.js';
-import type { ParsedJob, StoredJob, JobQueueStore } from './types.std.js';
-import { assertDev } from '../util/assert.std.js';
-import { createLogger } from '../logging/log.std.js';
-import { JobLogger } from './JobLogger.std.js';
-import * as Errors from '../types/errors.std.js';
-import type { LoggerType } from '../types/Logging.std.js';
-import { drop } from '../util/drop.std.js';
-import { sleep } from '../util/sleep.std.js';
-import { SECOND } from '../util/durations/index.std.js';
+import { Job } from './Job.std.ts';
+import { JobError } from './JobError.std.ts';
+import type { ParsedJob, StoredJob, JobQueueStore } from './types.std.ts';
+import { assertDev } from '../util/assert.std.ts';
+import { createLogger } from '../logging/log.std.ts';
+import { JobLogger } from './JobLogger.std.ts';
+import * as Errors from '../types/errors.std.ts';
+import type { LoggerType } from '../types/Logging.std.ts';
+import { drop } from '../util/drop.std.ts';
+import { sleep } from '../util/sleep.std.ts';
+import { SECOND } from '../util/durations/index.std.ts';
 
 const { noop } = lodash;
 

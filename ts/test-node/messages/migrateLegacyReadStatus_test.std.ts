@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import { ReadStatus } from '../../messages/MessageReadStatus.std.js';
+import { ReadStatus } from '../../messages/MessageReadStatus.std.ts';
 
-import { migrateLegacyReadStatus } from '../../messages/migrateLegacyReadStatus.std.js';
+import { migrateLegacyReadStatus } from '../../messages/migrateLegacyReadStatus.std.ts';
 
 describe('migrateLegacyReadStatus', () => {
   it("doesn't migrate messages that already have the modern read state", () => {

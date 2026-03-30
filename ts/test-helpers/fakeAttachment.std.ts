@@ -7,8 +7,8 @@ import type {
   AttachmentDraftType,
   ThumbnailType,
   AttachmentForUIType,
-} from '../types/Attachment.std.js';
-import { IMAGE_JPEG } from '../types/MIME.std.js';
+} from '../types/Attachment.std.ts';
+import { IMAGE_JPEG } from '../types/MIME.std.ts';
 
 export const fakeAttachment = (
   overrides: Partial<AttachmentForUIType> = {}

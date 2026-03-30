@@ -5,7 +5,7 @@ import type { ReactNode, RefObject } from 'react';
 import React, { useEffect, useRef } from 'react';
 // @ts-expect-error - Needs tinykeys to update package.json type resolution
 import { createKeybindingsHandler } from 'tinykeys';
-import { strictAssert } from '../../../util/assert.std.js';
+import { strictAssert } from '../../../util/assert.std.ts';
 
 export abstract class KeyboardDelegate<State> {
   abstract scrollToState(state: State): void;

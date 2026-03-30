@@ -6,11 +6,11 @@ import { Proto, StorageState } from '@signalapp/mock-server';
 
 import lodash from 'lodash';
 import { expect } from 'playwright/test';
-import { Bootstrap, debug, RUN_COUNT, DISCARD_COUNT } from './fixtures.node.js';
-import { stats } from '../../util/benchmark/stats.std.js';
-import { uuidToBytes } from '../../util/uuidToBytes.std.js';
-import { strictAssert } from '../../util/assert.std.js';
-import { typeIntoInput } from '../helpers.node.js';
+import { Bootstrap, debug, RUN_COUNT, DISCARD_COUNT } from './fixtures.node.ts';
+import { stats } from '../../util/benchmark/stats.std.ts';
+import { uuidToBytes } from '../../util/uuidToBytes.std.ts';
+import { strictAssert } from '../../util/assert.std.ts';
+import { typeIntoInput } from '../helpers.node.ts';
 
 const { sample } = lodash;
 

@@ -11,13 +11,13 @@ import React, {
 } from 'react';
 import { Tooltip, Direction } from 'radix-ui';
 import { computeAccessibleName } from 'dom-accessibility-api';
-import { tw } from './tw.dom.js';
-import { assert } from './_internal/assert.std.js';
+import { tw } from './tw.dom.tsx';
+import { assert } from './_internal/assert.std.tsx';
 import {
   getElementAriaRole,
   isAriaWidgetRole,
-} from './_internal/ariaRoles.dom.js';
-import { isTestOrMockEnvironment } from '../environment.std.js';
+} from './_internal/ariaRoles.dom.tsx';
+import { isTestOrMockEnvironment } from '../environment.std.ts';
 
 const { useDirection } = Direction;
 

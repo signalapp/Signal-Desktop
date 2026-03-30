@@ -5,40 +5,40 @@ import type {
   AttachmentType,
   AttachmentWithHydratedData,
   UploadedAttachmentType,
-} from '../types/Attachment.std.js';
-import * as Bytes from '../Bytes.std.js';
-import { createLogger } from '../logging/log.std.js';
-import { MIMETypeToString, supportsIncrementalMac } from '../types/MIME.std.js';
-import { getRandomBytes } from '../Crypto.node.js';
-import { backupsService } from '../services/backups/index.preload.js';
-import { tusUpload } from './uploads/tusProtocol.node.js';
-import { defaultFileReader } from './uploads/uploads.node.js';
+} from '../types/Attachment.std.ts';
+import * as Bytes from '../Bytes.std.ts';
+import { createLogger } from '../logging/log.std.ts';
+import { MIMETypeToString, supportsIncrementalMac } from '../types/MIME.std.ts';
+import { getRandomBytes } from '../Crypto.node.ts';
+import { backupsService } from '../services/backups/index.preload.ts';
+import { tusUpload } from './uploads/tusProtocol.node.ts';
+import { defaultFileReader } from './uploads/uploads.node.ts';
 import {
   type AttachmentUploadFormResponseType,
   getAttachmentUploadForm,
   createFetchForAttachmentUpload,
   putEncryptedAttachment,
-} from '../textsecure/WebAPI.preload.js';
+} from '../textsecure/WebAPI.preload.ts';
 import {
   type EncryptedAttachmentV2,
   encryptAttachmentV2ToDisk,
   safeUnlink,
   type PlaintextSourceType,
-} from '../AttachmentCrypto.node.js';
-import { missingCaseError } from './missingCaseError.std.js';
-import { uuidToBytes } from './uuidToBytes.std.js';
-import { DAY, HOUR } from './durations/index.std.js';
-import { isImageAttachment, isVideoAttachment } from './Attachment.std.js';
-import { getAbsoluteAttachmentPath } from './migrations.preload.js';
-import { isMoreRecentThan } from './timestamp.std.js';
-import { DataReader } from '../sql/Client.preload.js';
+} from '../AttachmentCrypto.node.ts';
+import { missingCaseError } from './missingCaseError.std.ts';
+import { uuidToBytes } from './uuidToBytes.std.ts';
+import { DAY, HOUR } from './durations/index.std.ts';
+import { isImageAttachment, isVideoAttachment } from './Attachment.std.ts';
+import { getAbsoluteAttachmentPath } from './migrations.preload.ts';
+import { isMoreRecentThan } from './timestamp.std.ts';
+import { DataReader } from '../sql/Client.preload.ts';
 import {
   isValidAttachmentKey,
   isValidDigest,
   isValidPlaintextHash,
-} from '../types/Crypto.std.js';
-import type { ExistingAttachmentUploadData } from '../sql/Interface.std.js';
-import { assertDev } from './assert.std.js';
+} from '../types/Crypto.std.ts';
+import type { ExistingAttachmentUploadData } from '../sql/Interface.std.ts';
+import { assertDev } from './assert.std.ts';
 
 const CDNS_SUPPORTING_TUS = new Set([3]);
 const MAX_DURATION_TO_REUSE_ATTACHMENT_CDN_POINTER = 3 * DAY;

@@ -22,34 +22,34 @@ import {
   sendMessagesUnauth,
   getKeysForServiceId as doGetKeysForServiceId,
   getKeysForServiceIdUnauth,
-} from './WebAPI.preload.js';
-import type { MessageType } from './WebAPI.preload.js';
+} from './WebAPI.preload.ts';
+import type { MessageType } from './WebAPI.preload.ts';
 import type {
   SendMetadataType,
   SendOptionsType,
-} from './SendMessage.preload.js';
+} from './SendMessage.preload.ts';
 import {
   OutgoingIdentityKeyError,
   OutgoingMessageError,
   SendMessageNetworkError,
   SendMessageChallengeError,
   UnregisteredUserError,
-} from './Errors.std.js';
+} from './Errors.std.ts';
 import type { CallbackResultType, CustomError } from './Types.d.ts';
-import { Address } from '../types/Address.std.js';
-import * as Errors from '../types/errors.std.js';
-import { HTTPError } from '../types/HTTPError.std.js';
-import { QualifiedAddress } from '../types/QualifiedAddress.std.js';
-import type { ServiceIdString } from '../types/ServiceId.std.js';
-import { Sessions, IdentityKeys } from '../LibSignalStores.node.js';
-import { getKeysForServiceId } from './getKeysForServiceId.preload.js';
-import { SignalService as Proto } from '../protobuf/index.std.js';
-import { createLogger } from '../logging/log.std.js';
-import type { GroupSendToken } from '../types/GroupSendEndorsements.std.js';
-import { isSignalServiceId } from '../util/isSignalConversation.dom.js';
-import * as Bytes from '../Bytes.std.js';
-import { signalProtocolStore } from '../SignalProtocolStore.preload.js';
-import { itemStorage } from './Storage.preload.js';
+import { Address } from '../types/Address.std.ts';
+import * as Errors from '../types/errors.std.ts';
+import { HTTPError } from '../types/HTTPError.std.ts';
+import { QualifiedAddress } from '../types/QualifiedAddress.std.ts';
+import type { ServiceIdString } from '../types/ServiceId.std.ts';
+import { Sessions, IdentityKeys } from '../LibSignalStores.node.ts';
+import { getKeysForServiceId } from './getKeysForServiceId.preload.ts';
+import { SignalService as Proto } from '../protobuf/index.std.ts';
+import { createLogger } from '../logging/log.std.ts';
+import type { GroupSendToken } from '../types/GroupSendEndorsements.std.ts';
+import { isSignalServiceId } from '../util/isSignalConversation.dom.ts';
+import * as Bytes from '../Bytes.std.ts';
+import { signalProtocolStore } from '../SignalProtocolStore.preload.ts';
+import { itemStorage } from './Storage.preload.ts';
 
 const { reject } = lodash;
 

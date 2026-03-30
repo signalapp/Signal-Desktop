@@ -3,7 +3,7 @@
 
 import createDebug from 'debug';
 
-import { Bootstrap } from './bootstrap.node.js';
+import { Bootstrap } from './bootstrap.node.ts';
 
 const debug = createDebug('mock:test:setup-ci');
 

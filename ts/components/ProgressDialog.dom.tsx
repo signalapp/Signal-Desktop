@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import type { LocalizerType } from '../types/Util.std.js';
-import { Spinner } from './Spinner.dom.js';
+import type { LocalizerType } from '../types/Util.std.ts';
+import { Spinner } from './Spinner.dom.tsx';
 
 export type PropsType = {
   readonly i18n: LocalizerType;

@@ -2,34 +2,34 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import lodash from 'lodash';
-import type { ReadStatus } from '../messages/MessageReadStatus.std.js';
-import type { SeenStatus } from '../MessageSeenStatus.std.js';
-import type { ServiceIdString } from '../types/ServiceId.std.js';
-import { dropNull, shallowDropNull } from '../util/dropNull.std.js';
+import type { ReadStatus } from '../messages/MessageReadStatus.std.ts';
+import type { SeenStatus } from '../MessageSeenStatus.std.ts';
+import type { ServiceIdString } from '../types/ServiceId.std.ts';
+import { dropNull, shallowDropNull } from '../util/dropNull.std.ts';
 import type {
   MessageTypeUnhydrated,
   MessageType,
   MESSAGE_COLUMNS,
   ReadableDB,
   MessageAttachmentDBType,
-} from './Interface.std.js';
+} from './Interface.std.ts';
 import {
   batchMultiVarQuery,
   convertOptionalIntegerToBoolean,
   jsonToObject,
   sql,
   sqlJoin,
-} from './util.std.js';
-import type { AttachmentType } from '../types/Attachment.std.js';
+} from './util.std.ts';
+import type { AttachmentType } from '../types/Attachment.std.ts';
 import {
   APPLICATION_OCTET_STREAM,
   IMAGE_JPEG,
   IMAGE_PNG,
   stringToMIMEType,
-} from '../types/MIME.std.js';
-import { strictAssert } from '../util/assert.std.js';
+} from '../types/MIME.std.ts';
+import { strictAssert } from '../util/assert.std.ts';
 import type { MessageAttributesType } from '../model-types.d.ts';
-import { createLogger } from '../logging/log.std.js';
+import { createLogger } from '../logging/log.std.ts';
 
 const { groupBy } = lodash;
 

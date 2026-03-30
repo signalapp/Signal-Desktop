@@ -3,7 +3,7 @@
 
 import os from 'node:os';
 import fsExtra from 'fs-extra';
-import { getOSFunctions } from './shared.std.js';
+import { getOSFunctions } from './shared.std.ts';
 
 const { readFileSync } = fsExtra;
 

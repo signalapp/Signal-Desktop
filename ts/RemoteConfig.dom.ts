@@ -5,24 +5,24 @@ import lodash from 'lodash';
 import semver from 'semver';
 import type { REMOTE_CONFIG_KEYS as KeysExpectedByLibsignalNet } from '@signalapp/libsignal-client/dist/net.js';
 
-import type { getConfig } from './textsecure/WebAPI.preload.js';
-import { createLogger } from './logging/log.std.js';
-import type { AciString } from './types/ServiceId.std.js';
-import { parseIntOrThrow } from './util/parseIntOrThrow.std.js';
-import { HOUR } from './util/durations/index.std.js';
-import * as Bytes from './Bytes.std.js';
-import { uuidToBytes } from './util/uuidToBytes.std.js';
-import { HashType } from './types/Crypto.std.js';
-import { getCountryCode } from './types/PhoneNumber.std.js';
-import { parseRemoteClientExpiration } from './util/parseRemoteClientExpiration.dom.js';
+import type { getConfig } from './textsecure/WebAPI.preload.ts';
+import { createLogger } from './logging/log.std.ts';
+import type { AciString } from './types/ServiceId.std.ts';
+import { parseIntOrThrow } from './util/parseIntOrThrow.std.ts';
+import { HOUR } from './util/durations/index.std.ts';
+import * as Bytes from './Bytes.std.ts';
+import { uuidToBytes } from './util/uuidToBytes.std.ts';
+import { HashType } from './types/Crypto.std.ts';
+import { getCountryCode } from './types/PhoneNumber.std.ts';
+import { parseRemoteClientExpiration } from './util/parseRemoteClientExpiration.dom.ts';
 import type { StorageInterface } from './types/Storage.d.ts';
-import { ToastType } from './types/Toast.dom.js';
-import { assertDev, strictAssert } from './util/assert.std.js';
+import { ToastType } from './types/Toast.dom.tsx';
+import { assertDev, strictAssert } from './util/assert.std.ts';
 import type {
   ArrayValues,
   AssertSameMembers,
   StripPrefix,
-} from './types/Util.std.js';
+} from './types/Util.std.ts';
 
 const { get, throttle } = lodash;
 

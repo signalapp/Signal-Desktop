@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import { assert } from 'chai';
 
-import { replaceEmojiWithSpaces, splitByEmoji } from '../../util/emoji.std.js';
+import { replaceEmojiWithSpaces, splitByEmoji } from '../../util/emoji.std.ts';
 
 describe('emoji', () => {
   describe('replaceEmojiWithSpaces', () => {

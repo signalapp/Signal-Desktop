@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import React, { memo } from 'react';
 import { useSelector } from 'react-redux';
-import { GroupLinkManagement } from '../../components/conversation/conversation-details/GroupLinkManagement.dom.js';
-import { getConversationSelector } from '../selectors/conversations.dom.js';
-import { getIntl } from '../selectors/user.std.js';
-import { useConversationsActions } from '../ducks/conversations.preload.js';
+import { GroupLinkManagement } from '../../components/conversation/conversation-details/GroupLinkManagement.dom.tsx';
+import { getConversationSelector } from '../selectors/conversations.dom.ts';
+import { getIntl } from '../selectors/user.std.ts';
+import { useConversationsActions } from '../ducks/conversations.preload.ts';
 
 export type SmartGroupLinkManagementProps = Readonly<{
   conversationId: string;

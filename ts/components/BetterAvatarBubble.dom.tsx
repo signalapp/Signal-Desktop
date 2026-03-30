@@ -5,8 +5,8 @@ import type { CSSProperties, MouseEvent, ReactNode } from 'react';
 import React from 'react';
 import classNames from 'classnames';
 
-import type { AvatarColorType } from '../types/Colors.std.js';
-import type { LocalizerType } from '../types/Util.std.js';
+import type { AvatarColorType } from '../types/Colors.std.ts';
+import type { LocalizerType } from '../types/Util.std.ts';
 
 export type PropsType = {
   children?: ReactNode;

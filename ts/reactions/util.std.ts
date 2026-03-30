@@ -3,7 +3,7 @@
 
 import lodash from 'lodash';
 import type { MessageReactionType } from '../model-types.d.ts';
-import { areObjectEntriesEqual } from '../util/areObjectEntriesEqual.std.js';
+import { areObjectEntriesEqual } from '../util/areObjectEntriesEqual.std.ts';
 
 const { findLastIndex, has, identity, omit, negate } = lodash;
 

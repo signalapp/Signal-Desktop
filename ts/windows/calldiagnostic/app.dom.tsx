@@ -3,11 +3,11 @@
 
 import React, { StrictMode, useSyncExternalStore } from 'react';
 import { createRoot } from 'react-dom/client';
-import '../sandboxedInit.dom.js';
-import { CallDiagnosticWindow } from '../../components/CallDiagnosticWindow.dom.js';
-import { FunDefaultEnglishEmojiLocalizationProvider } from '../../components/fun/FunEmojiLocalizationProvider.dom.js';
-import { strictAssert } from '../../util/assert.std.js';
-import { AxoProvider } from '../../axo/AxoProvider.dom.js';
+import '../sandboxedInit.dom.ts';
+import { CallDiagnosticWindow } from '../../components/CallDiagnosticWindow.dom.tsx';
+import { FunDefaultEnglishEmojiLocalizationProvider } from '../../components/fun/FunEmojiLocalizationProvider.dom.tsx';
+import { strictAssert } from '../../util/assert.std.ts';
+import { AxoProvider } from '../../axo/AxoProvider.dom.tsx';
 
 const { CallDiagnosticWindowProps } = window.Signal;
 strictAssert(CallDiagnosticWindowProps, 'window values not provided');

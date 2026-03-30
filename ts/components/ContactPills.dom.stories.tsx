@@ -6,11 +6,11 @@ import React from 'react';
 import { action } from '@storybook/addon-actions';
 
 import type { Meta } from '@storybook/react';
-import { ContactPills } from './ContactPills.dom.js';
-import type { PropsType as ContactPillPropsType } from './ContactPill.dom.js';
-import { ContactPill } from './ContactPill.dom.js';
-import { gifUrl } from '../storybook/Fixtures.std.js';
-import { getDefaultConversation } from '../test-helpers/getDefaultConversation.std.js';
+import { ContactPills } from './ContactPills.dom.tsx';
+import type { PropsType as ContactPillPropsType } from './ContactPill.dom.tsx';
+import { ContactPill } from './ContactPill.dom.tsx';
+import { gifUrl } from '../storybook/Fixtures.std.ts';
+import { getDefaultConversation } from '../test-helpers/getDefaultConversation.std.ts';
 
 const { i18n } = window.SignalContext;
 

@@ -12,28 +12,28 @@ import { useSpring, animated } from '@react-spring/web';
 
 import type { MutableRefObject } from 'react';
 
-import { AvatarColors } from '../types/Colors.std.js';
-import { AvatarEditor } from './AvatarEditor.dom.js';
-import { AvatarPreview } from './AvatarPreview.dom.js';
-import { ButtonVariant } from './Button.dom.js';
-import { Input } from './Input.dom.js';
-import { PanelRow } from './conversation/conversation-details/PanelRow.dom.js';
-import { UsernameEditState } from '../state/ducks/usernameEnums.std.js';
-import { ToastType } from '../types/Toast.dom.js';
-import { assertDev } from '../util/assert.std.js';
-import { missingCaseError } from '../util/missingCaseError.std.js';
-import { ConfirmationDialog } from './ConfirmationDialog.dom.js';
-import { ContextMenu } from './ContextMenu.dom.js';
-import { UsernameLinkEditor } from './UsernameLinkEditor.dom.js';
+import { AvatarColors } from '../types/Colors.std.ts';
+import { AvatarEditor } from './AvatarEditor.dom.tsx';
+import { AvatarPreview } from './AvatarPreview.dom.tsx';
+import { ButtonVariant } from './Button.dom.tsx';
+import { Input } from './Input.dom.tsx';
+import { PanelRow } from './conversation/conversation-details/PanelRow.dom.tsx';
+import { UsernameEditState } from '../state/ducks/usernameEnums.std.ts';
+import { ToastType } from '../types/Toast.dom.tsx';
+import { assertDev } from '../util/assert.std.ts';
+import { missingCaseError } from '../util/missingCaseError.std.ts';
+import { ConfirmationDialog } from './ConfirmationDialog.dom.tsx';
+import { ContextMenu } from './ContextMenu.dom.tsx';
+import { UsernameLinkEditor } from './UsernameLinkEditor.dom.tsx';
 import {
   ConversationDetailsIcon,
   IconType,
-} from './conversation/conversation-details/ConversationDetailsIcon.dom.js';
-import { UserText } from './UserText.dom.js';
-import { Tooltip, TooltipPlacement } from './Tooltip.dom.js';
-import { offsetDistanceModifier } from '../util/popperUtil.std.js';
-import { useReducedMotion } from '../hooks/useReducedMotion.dom.js';
-import { FunStaticEmoji } from './fun/FunEmoji.dom.js';
+} from './conversation/conversation-details/ConversationDetailsIcon.dom.tsx';
+import { UserText } from './UserText.dom.tsx';
+import { Tooltip, TooltipPlacement } from './Tooltip.dom.tsx';
+import { offsetDistanceModifier } from '../util/popperUtil.std.ts';
+import { useReducedMotion } from '../hooks/useReducedMotion.dom.ts';
+import { FunStaticEmoji } from './fun/FunEmoji.dom.tsx';
 import {
   EMOJI_PARENT_KEY_CONSTANTS,
   EmojiSkinTone,
@@ -41,33 +41,33 @@ import {
   getEmojiVariantByParentKeyAndSkinTone,
   getEmojiVariantKeyByValue,
   isEmojiVariantValue,
-} from './fun/data/emojis.std.js';
-import { FunEmojiPicker } from './fun/FunEmojiPicker.dom.js';
-import { FunEmojiPickerButton } from './fun/FunButton.dom.js';
-import { useFunEmojiLocalizer } from './fun/useFunEmojiLocalizer.dom.js';
-import { PreferencesContent } from './Preferences.dom.js';
-import { ProfileEditorPage } from '../types/Nav.std.js';
+} from './fun/data/emojis.std.ts';
+import { FunEmojiPicker } from './fun/FunEmojiPicker.dom.tsx';
+import { FunEmojiPickerButton } from './fun/FunButton.dom.tsx';
+import { useFunEmojiLocalizer } from './fun/useFunEmojiLocalizer.dom.tsx';
+import { PreferencesContent } from './Preferences.dom.tsx';
+import { ProfileEditorPage } from '../types/Nav.std.ts';
 
-import type { AvatarColorType } from '../types/Colors.std.js';
+import type { AvatarColorType } from '../types/Colors.std.ts';
 import type {
   AvatarDataType,
   AvatarUpdateOptionsType,
   DeleteAvatarFromDiskActionType,
   ReplaceAvatarActionType,
   SaveAvatarToDiskActionType,
-} from '../types/Avatar.std.js';
-import type { LocalizerType } from '../types/Util.std.js';
+} from '../types/Avatar.std.ts';
+import type { LocalizerType } from '../types/Util.std.ts';
 import type {
   ConversationType,
   ProfileDataType,
   SaveAttachmentActionCreatorType,
-} from '../state/ducks/conversations.preload.js';
-import type { UsernameLinkState } from '../state/ducks/usernameEnums.std.js';
-import type { ShowToastAction } from '../state/ducks/toast.preload.js';
-import type { EmojiParentKey, EmojiVariantKey } from './fun/data/emojis.std.js';
-import type { FunEmojiSelection } from './fun/panels/FunPanelEmojis.dom.js';
-import { useConfirmDiscard } from '../hooks/useConfirmDiscard.dom.js';
-import { AxoButton } from '../axo/AxoButton.dom.js';
+} from '../state/ducks/conversations.preload.ts';
+import type { UsernameLinkState } from '../state/ducks/usernameEnums.std.ts';
+import type { ShowToastAction } from '../state/ducks/toast.preload.ts';
+import type { EmojiParentKey, EmojiVariantKey } from './fun/data/emojis.std.ts';
+import type { FunEmojiSelection } from './fun/panels/FunPanelEmojis.dom.tsx';
+import { useConfirmDiscard } from '../hooks/useConfirmDiscard.dom.tsx';
+import { AxoButton } from '../axo/AxoButton.dom.tsx';
 
 type ProfileEditorData = {
   firstName: string;

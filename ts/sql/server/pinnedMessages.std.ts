@@ -6,16 +6,16 @@ import type {
   PinnedMessageId,
   PinnedMessageParams,
   PinnedMessagePreloadData,
-} from '../../types/PinnedMessage.std.js';
-import { strictAssert } from '../../util/assert.std.js';
-import { hydrateMessage } from '../hydration.std.js';
+} from '../../types/PinnedMessage.std.ts';
+import { strictAssert } from '../../util/assert.std.ts';
+import { hydrateMessage } from '../hydration.std.ts';
 import type {
   MessageTypeUnhydrated,
   MessageType,
   ReadableDB,
   WritableDB,
-} from '../Interface.std.js';
-import { sql } from '../util.std.js';
+} from '../Interface.std.ts';
+import { sql } from '../util.std.ts';
 
 function _getMessageById(
   db: ReadableDB,

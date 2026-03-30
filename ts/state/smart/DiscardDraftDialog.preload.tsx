@@ -2,13 +2,13 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import React, { memo, useCallback } from 'react';
 import { useSelector } from 'react-redux';
-import { getIntl } from '../selectors/user.std.js';
-import { useGlobalModalActions } from '../ducks/globalModals.preload.js';
-import { useConversationsActions } from '../ducks/conversations.preload.js';
-import { useComposerActions } from '../ducks/composer.preload.js';
-import { getDiscardDraftDialogProps } from '../selectors/globalModals.std.js';
-import { strictAssert } from '../../util/assert.std.js';
-import { DiscardDraftDialog } from '../../components/DiscardDraftDialog.dom.js';
+import { getIntl } from '../selectors/user.std.ts';
+import { useGlobalModalActions } from '../ducks/globalModals.preload.ts';
+import { useConversationsActions } from '../ducks/conversations.preload.ts';
+import { useComposerActions } from '../ducks/composer.preload.ts';
+import { getDiscardDraftDialogProps } from '../selectors/globalModals.std.ts';
+import { strictAssert } from '../../util/assert.std.ts';
+import { DiscardDraftDialog } from '../../components/DiscardDraftDialog.dom.tsx';
 
 export const SmartDiscardDraftDialog = memo(function SmartDiscardDraftDialog() {
   const discardDraftDialogProps = useSelector(getDiscardDraftDialogProps);

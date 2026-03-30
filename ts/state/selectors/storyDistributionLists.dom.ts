@@ -3,11 +3,11 @@
 
 import { createSelector } from 'reselect';
 
-import type { StateType } from '../reducer.preload.js';
-import type { StoryDistributionListDataType } from '../ducks/storyDistributionLists.preload.js';
-import type { StoryDistributionListWithMembersDataType } from '../../types/Stories.std.js';
-import { getConversationSelector } from './conversations.dom.js';
-import { MY_STORY_ID } from '../../types/Stories.std.js';
+import type { StateType } from '../reducer.preload.ts';
+import type { StoryDistributionListDataType } from '../ducks/storyDistributionLists.preload.ts';
+import type { StoryDistributionListWithMembersDataType } from '../../types/Stories.std.ts';
+import { getConversationSelector } from './conversations.dom.ts';
+import { MY_STORY_ID } from '../../types/Stories.std.ts';
 
 export const getDistributionLists = (
   state: StateType

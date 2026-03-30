@@ -3,22 +3,22 @@
 
 import { last } from 'lodash';
 
-import { CallMode } from '../types/CallDisposition.std.js';
-import { strictAssert } from './assert.std.js';
-import { getMidnight } from '../types/NotificationProfile.std.js';
-import { SeenStatus } from '../MessageSeenStatus.std.js';
-import { missingCaseError } from './missingCaseError.std.js';
+import { CallMode } from '../types/CallDisposition.std.ts';
+import { strictAssert } from './assert.std.ts';
+import { getMidnight } from '../types/NotificationProfile.std.ts';
+import { SeenStatus } from '../MessageSeenStatus.std.ts';
+import { missingCaseError } from './missingCaseError.std.ts';
 
 import type {
   MessageLookupType,
   MessageType,
-} from '../state/ducks/conversations.preload.js';
+} from '../state/ducks/conversations.preload.ts';
 import type {
   CallSelectorType,
   CallStateType,
-} from '../state/selectors/calling.std.js';
-import type { DurationInSeconds } from './durations/duration-in-seconds.std.js';
-import type { CallHistorySelectorType } from '../state/selectors/callHistory.std.js';
+} from '../state/selectors/calling.std.ts';
+import type { DurationInSeconds } from './durations/duration-in-seconds.std.ts';
+import type { CallHistorySelectorType } from '../state/selectors/callHistory.std.ts';
 
 export type CollapsedMessage = {
   id: string;

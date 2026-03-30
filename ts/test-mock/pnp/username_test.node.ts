@@ -7,17 +7,17 @@ import type { PrimaryDevice } from '@signalapp/mock-server';
 import { usernames } from '@signalapp/libsignal-client';
 import createDebug from 'debug';
 
-import * as durations from '../../util/durations/index.std.js';
-import { uuidToBytes } from '../../util/uuidToBytes.std.js';
-import { MY_STORY_ID } from '../../types/Stories.std.js';
-import { Bootstrap } from '../bootstrap.node.js';
-import type { App } from '../bootstrap.node.js';
+import * as durations from '../../util/durations/index.std.ts';
+import { uuidToBytes } from '../../util/uuidToBytes.std.ts';
+import { MY_STORY_ID } from '../../types/Stories.std.ts';
+import { Bootstrap } from '../bootstrap.node.ts';
+import type { App } from '../bootstrap.node.ts';
 import {
   bufferToUuid,
   typeIntoInput,
   waitForEnabledComposer,
-} from '../helpers.node.js';
-import { contactByEncryptedUsernameRoute } from '../../util/signalRoutes.std.js';
+} from '../helpers.node.ts';
+import { contactByEncryptedUsernameRoute } from '../../util/signalRoutes.std.ts';
 
 export const debug = createDebug('mock:test:username');
 

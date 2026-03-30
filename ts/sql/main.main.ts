@@ -6,16 +6,16 @@ import { Worker } from 'node:worker_threads';
 import { format } from 'node:util';
 import { app } from 'electron';
 
-import { strictAssert } from '../util/assert.std.js';
-import { explodePromise } from '../util/explodePromise.std.js';
-import { getAppRootDir } from '../util/appRootDir.main.js';
-import type { LoggerType } from '../types/Logging.std.js';
-import * as Errors from '../types/errors.std.js';
-import { SqliteErrorKind } from './errors.std.js';
+import { strictAssert } from '../util/assert.std.ts';
+import { explodePromise } from '../util/explodePromise.std.ts';
+import { getAppRootDir } from '../util/appRootDir.main.ts';
+import type { LoggerType } from '../types/Logging.std.ts';
+import * as Errors from '../types/errors.std.ts';
+import { SqliteErrorKind } from './errors.std.ts';
 import type {
   ServerReadableDirectInterface,
   ServerWritableDirectInterface,
-} from './Interface.std.js';
+} from './Interface.std.ts';
 
 const MIN_TRACE_DURATION = 40;
 
@@ -552,7 +552,7 @@ export class MainSQL {
   }
 
   #createWorker(): CreateWorkerResultType {
-    const scriptPath = join(getAppRootDir(), 'ts', 'sql', 'mainWorker.node.js');
+    const scriptPath = join(getAppRootDir(), 'bundles', 'workers', 'sql.js');
 
     const worker = new Worker(scriptPath);
 

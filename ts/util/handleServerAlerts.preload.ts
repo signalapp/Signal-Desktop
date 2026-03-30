@@ -1,17 +1,17 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { createLogger } from '../logging/log.std.js';
-import { isMoreRecentThan } from './timestamp.std.js';
-import { DAY, WEEK } from './durations/index.std.js';
-import { isNotNil } from './isNotNil.std.js';
-import { clearTimeoutIfNecessary } from './clearTimeoutIfNecessary.std.js';
-import { safeSetTimeout } from './timeout.std.js';
-import { itemStorage } from '../textsecure/Storage.preload.js';
+import { createLogger } from '../logging/log.std.ts';
+import { isMoreRecentThan } from './timestamp.std.ts';
+import { DAY, WEEK } from './durations/index.std.ts';
+import { isNotNil } from './isNotNil.std.ts';
+import { clearTimeoutIfNecessary } from './clearTimeoutIfNecessary.std.ts';
+import { safeSetTimeout } from './timeout.std.ts';
+import { itemStorage } from '../textsecure/Storage.preload.ts';
 import {
   ServerAlert,
   type ServerAlertsType,
-} from '../types/ServerAlert.std.js';
+} from '../types/ServerAlert.std.ts';
 
 const log = createLogger('handleServerAlerts');
 

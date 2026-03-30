@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReadonlyMessageAttributesType } from '../model-types.d.ts';
-import { getMessageAge } from './getMessageAge.std.js';
-import { DAY } from './durations/index.std.js';
+import { getMessageAge } from './getMessageAge.std.ts';
+import { DAY } from './durations/index.std.ts';
 
 export function isTooOldToEditMessage(
   serverTimestamp: number,

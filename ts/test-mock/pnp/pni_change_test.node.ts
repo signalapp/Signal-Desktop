@@ -7,16 +7,16 @@ import { ServiceIdKind, StorageState, Proto } from '@signalapp/mock-server';
 import type { PrimaryDevice } from '@signalapp/mock-server';
 import createDebug from 'debug';
 
-import * as durations from '../../util/durations/index.std.js';
-import { generatePni } from '../../types/ServiceId.std.js';
-import { toPniObject } from '../../util/ServiceId.node.js';
-import { Bootstrap } from '../bootstrap.node.js';
-import type { App } from '../bootstrap.node.js';
+import * as durations from '../../util/durations/index.std.ts';
+import { generatePni } from '../../types/ServiceId.std.ts';
+import { toPniObject } from '../../util/ServiceId.node.ts';
+import { Bootstrap } from '../bootstrap.node.ts';
+import type { App } from '../bootstrap.node.ts';
 import {
   expectSystemMessages,
   typeIntoInput,
   waitForEnabledComposer,
-} from '../helpers.node.js';
+} from '../helpers.node.ts';
 
 export const debug = createDebug('mock:test:pni-change');
 

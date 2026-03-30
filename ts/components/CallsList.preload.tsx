@@ -12,15 +12,15 @@ import React, {
 import type { Index, IndexRange, ListRowProps } from 'react-virtualized';
 import { InfiniteLoader, List } from 'react-virtualized';
 import classNames from 'classnames';
-import type { LocalizerType } from '../types/I18N.std.js';
-import { ListTile } from './ListTile.dom.js';
-import { Avatar, AvatarSize } from './Avatar.dom.js';
-import { SearchInput } from './SearchInput.dom.js';
+import type { LocalizerType } from '../types/I18N.std.ts';
+import { ListTile } from './ListTile.dom.tsx';
+import { Avatar, AvatarSize } from './Avatar.dom.tsx';
+import { SearchInput } from './SearchInput.dom.tsx';
 import type {
   CallHistoryFilterOptions,
   CallHistoryGroup,
   CallHistoryPagination,
-} from '../types/CallDisposition.std.js';
+} from '../types/CallDisposition.std.ts';
 import {
   CallHistoryFilterStatus,
   CallDirection,
@@ -29,46 +29,46 @@ import {
   GroupCallStatus,
   isSameCallHistoryGroup,
   CallMode,
-} from '../types/CallDisposition.std.js';
-import { isMoreRecentThan, toBoundedDate } from '../util/timestamp.std.js';
-import { formatDateTimeShort } from '../util/formatTimestamp.dom.js';
-import type { ConversationType } from '../state/ducks/conversations.preload.js';
-import { createLogger } from '../logging/log.std.js';
-import { refMerger } from '../util/refMerger.std.js';
-import { drop } from '../util/drop.std.js';
-import { strictAssert } from '../util/assert.std.js';
-import { UserText } from './UserText.dom.js';
-import { I18n } from './I18n.dom.js';
-import { NavSidebarSearchHeader, NavSidebarEmpty } from './NavSidebar.dom.js';
-import { SizeObserver } from '../hooks/useSizeObserver.dom.js';
+} from '../types/CallDisposition.std.ts';
+import { isMoreRecentThan, toBoundedDate } from '../util/timestamp.std.ts';
+import { formatDateTimeShort } from '../util/formatTimestamp.dom.ts';
+import type { ConversationType } from '../state/ducks/conversations.preload.ts';
+import { createLogger } from '../logging/log.std.ts';
+import { refMerger } from '../util/refMerger.std.ts';
+import { drop } from '../util/drop.std.ts';
+import { strictAssert } from '../util/assert.std.ts';
+import { UserText } from './UserText.dom.tsx';
+import { I18n } from './I18n.dom.tsx';
+import { NavSidebarSearchHeader, NavSidebarEmpty } from './NavSidebar.dom.tsx';
+import { SizeObserver } from '../hooks/useSizeObserver.dom.tsx';
 import {
   formatCallHistoryGroup,
   getCallIdFromEra,
-} from '../util/callDisposition.preload.js';
-import { CallsNewCallButton } from './CallsNewCallButton.dom.js';
-import { Tooltip, TooltipPlacement } from './Tooltip.dom.js';
-import { Theme } from '../util/theme.std.js';
-import type { CallingConversationType } from '../types/Calling.std.js';
-import type { CallLinkType } from '../types/CallLink.std.js';
+} from '../util/callDisposition.preload.ts';
+import { CallsNewCallButton } from './CallsNewCallButton.dom.tsx';
+import { Tooltip, TooltipPlacement } from './Tooltip.dom.tsx';
+import { Theme } from '../util/theme.std.ts';
+import type { CallingConversationType } from '../types/Calling.std.ts';
+import type { CallLinkType } from '../types/CallLink.std.ts';
 import {
   callLinkToConversation,
   getPlaceholderCallLinkConversation,
-} from '../util/callLinks.std.js';
-import type { CallsTabSelectedView } from './CallsTab.preload.js';
-import type { CallStateType } from '../state/selectors/calling.std.js';
+} from '../util/callLinks.std.ts';
+import type { CallsTabSelectedView } from './CallsTab.preload.tsx';
+import type { CallStateType } from '../state/selectors/calling.std.ts';
 import {
   isGroupOrAdhocCallMode,
   isGroupOrAdhocCallState,
-} from '../util/isGroupOrAdhocCall.std.js';
-import { isAnybodyInGroupCall } from '../state/ducks/callingHelpers.std.js';
+} from '../util/isGroupOrAdhocCall.std.ts';
+import { isAnybodyInGroupCall } from '../state/ducks/callingHelpers.std.ts';
 import type {
   ActiveCallStateType,
   PeekNotConnectedGroupCallType,
-} from '../state/ducks/calling.preload.js';
-import { DAY, MINUTE, SECOND } from '../util/durations/index.std.js';
-import type { StartCallData } from './ConfirmLeaveCallModal.dom.js';
-import { Button, ButtonVariant } from './Button.dom.js';
-import type { ICUJSXMessageParamsByKeyType } from '../types/Util.std.js';
+} from '../state/ducks/calling.preload.ts';
+import { DAY, MINUTE, SECOND } from '../util/durations/index.std.ts';
+import type { StartCallData } from './ConfirmLeaveCallModal.dom.tsx';
+import { Button, ButtonVariant } from './Button.dom.tsx';
+import type { ICUJSXMessageParamsByKeyType } from '../types/Util.std.ts';
 
 const log = createLogger('CallsList');
 

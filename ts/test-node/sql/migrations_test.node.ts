@@ -8,15 +8,15 @@ import {
   _storyIdPredicate,
   getJobsInQueue,
   insertJob,
-} from '../../sql/Server.node.js';
-import type { WritableDB } from '../../sql/Interface.std.js';
-import { ReadStatus } from '../../messages/MessageReadStatus.std.js';
-import { SeenStatus } from '../../MessageSeenStatus.std.js';
-import { objectToJSON, sql, sqlJoin } from '../../sql/util.std.js';
-import { BodyRange } from '../../types/BodyRange.std.js';
-import type { AciString } from '../../types/ServiceId.std.js';
-import { generateAci } from '../../types/ServiceId.std.js';
-import { createDB, updateToVersion, explain } from './helpers.node.js';
+} from '../../sql/Server.node.ts';
+import type { WritableDB } from '../../sql/Interface.std.ts';
+import { ReadStatus } from '../../messages/MessageReadStatus.std.ts';
+import { SeenStatus } from '../../MessageSeenStatus.std.ts';
+import { objectToJSON, sql, sqlJoin } from '../../sql/util.std.ts';
+import { BodyRange } from '../../types/BodyRange.std.ts';
+import type { AciString } from '../../types/ServiceId.std.ts';
+import { generateAci } from '../../types/ServiceId.std.ts';
+import { createDB, updateToVersion, explain } from './helpers.node.ts';
 
 const OUR_UUID = generateGuid();
 

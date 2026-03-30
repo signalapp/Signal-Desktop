@@ -3,7 +3,7 @@
 import type { Meta } from '@storybook/react';
 import React, { useState } from 'react';
 import { action } from '@storybook/addon-actions';
-import { KeyTransparencyOnboardingDialog } from './KeyTransparencyOnboardingDialog.dom.js';
+import { KeyTransparencyOnboardingDialog } from './KeyTransparencyOnboardingDialog.dom.tsx';
 
 const { i18n } = window.SignalContext;
 

@@ -9,11 +9,11 @@ import type { Meta } from '@storybook/react';
 import {
   getFakeBadge,
   getFakeBadges,
-} from '../test-helpers/getFakeBadge.std.js';
-import { repeat, zipObject } from '../util/iterables.std.js';
-import { BadgeImageTheme } from '../badges/BadgeImageTheme.std.js';
-import type { PropsType } from './BadgeDialog.dom.js';
-import { BadgeDialog } from './BadgeDialog.dom.js';
+} from '../test-helpers/getFakeBadge.std.ts';
+import { repeat, zipObject } from '../util/iterables.std.ts';
+import { BadgeImageTheme } from '../badges/BadgeImageTheme.std.ts';
+import type { PropsType } from './BadgeDialog.dom.tsx';
+import { BadgeDialog } from './BadgeDialog.dom.tsx';
 
 const { i18n } = window.SignalContext;
 

@@ -3,12 +3,12 @@
 
 import type { ReactNode } from 'react';
 import React, { useCallback, useState, useMemo } from 'react';
-import type { LocalizerType } from '../types/Util.std.js';
-import * as expirationTimer from '../util/expirationTimer.std.js';
-import { DurationInSeconds } from '../util/durations/index.std.js';
-import { DisappearingTimeDialog } from './DisappearingTimeDialog.dom.js';
-import { AxoSelect } from '../axo/AxoSelect.dom.js';
-import { tw } from '../axo/tw.dom.js';
+import type { LocalizerType } from '../types/Util.std.ts';
+import * as expirationTimer from '../util/expirationTimer.std.ts';
+import { DurationInSeconds } from '../util/durations/index.std.ts';
+import { DisappearingTimeDialog } from './DisappearingTimeDialog.dom.tsx';
+import { AxoSelect } from '../axo/AxoSelect.dom.tsx';
+import { tw } from '../axo/tw.dom.tsx';
 
 export type Props = {
   i18n: LocalizerType;

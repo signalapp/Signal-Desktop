@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import lodash from 'lodash';
-import { isSorted } from './isSorted.std.js';
-import { strictAssert } from './assert.std.js';
+import { isSorted } from './isSorted.std.ts';
+import { strictAssert } from './assert.std.ts';
 
 const { clamp } = lodash;
 

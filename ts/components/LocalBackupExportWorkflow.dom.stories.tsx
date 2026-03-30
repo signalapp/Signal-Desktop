@@ -3,14 +3,14 @@
 
 import React from 'react';
 import { action } from '@storybook/addon-actions';
-import { LocalBackupExportWorkflow } from './LocalBackupExportWorkflow.dom.js';
+import { LocalBackupExportWorkflow } from './LocalBackupExportWorkflow.dom.tsx';
 import {
   LocalExportErrors,
   LocalBackupExportSteps,
-} from '../types/LocalExport.std.js';
+} from '../types/LocalExport.std.ts';
 
-import type { PropsType } from './LocalBackupExportWorkflow.dom.js';
-import type { ComponentMeta } from '../storybook/types.std.js';
+import type { PropsType } from './LocalBackupExportWorkflow.dom.tsx';
+import type { ComponentMeta } from '../storybook/types.std.ts';
 
 const { i18n } = window.SignalContext;
 

@@ -2,20 +2,20 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { ContactName } from './ContactName.dom.js';
-import { Button, ButtonVariant } from '../Button.dom.js';
-import type { MessageRequestActionsConfirmationProps } from './MessageRequestActionsConfirmation.dom.js';
+import { ContactName } from './ContactName.dom.tsx';
+import { Button, ButtonVariant } from '../Button.dom.tsx';
+import type { MessageRequestActionsConfirmationProps } from './MessageRequestActionsConfirmation.dom.tsx';
 import {
   MessageRequestActionsConfirmation,
   MessageRequestState,
-} from './MessageRequestActionsConfirmation.dom.js';
-import { I18n } from '../I18n.dom.js';
-import type { LocalizerType } from '../../types/Util.std.js';
-import { strictAssert } from '../../util/assert.std.js';
+} from './MessageRequestActionsConfirmation.dom.tsx';
+import { I18n } from '../I18n.dom.tsx';
+import type { LocalizerType } from '../../types/Util.std.ts';
+import { strictAssert } from '../../util/assert.std.ts';
 import {
   useSharedGroupNamesOnMount,
   type GetSharedGroupNamesType,
-} from '../../util/sharedGroupNames.dom.js';
+} from '../../util/sharedGroupNames.dom.ts';
 
 export type Props = {
   i18n: LocalizerType;

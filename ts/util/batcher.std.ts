@@ -3,12 +3,12 @@
 
 import PQueue from 'p-queue';
 
-import { sleep } from './sleep.std.js';
-import { createLogger } from '../logging/log.std.js';
-import * as Errors from '../types/errors.std.js';
-import { clearTimeoutIfNecessary } from './clearTimeoutIfNecessary.std.js';
-import { MINUTE } from './durations/index.std.js';
-import { drop } from './drop.std.js';
+import { sleep } from './sleep.std.ts';
+import { createLogger } from '../logging/log.std.ts';
+import * as Errors from '../types/errors.std.ts';
+import { clearTimeoutIfNecessary } from './clearTimeoutIfNecessary.std.ts';
+import { MINUTE } from './durations/index.std.ts';
+import { drop } from './drop.std.ts';
 
 const log = createLogger('batcher');
 

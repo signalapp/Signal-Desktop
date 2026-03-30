@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 
-import { parseIntOrThrow } from '../../util/parseIntOrThrow.std.js';
+import { parseIntOrThrow } from '../../util/parseIntOrThrow.std.ts';
 
 describe('parseIntOrThrow', () => {
   describe('when passed a number argument', () => {

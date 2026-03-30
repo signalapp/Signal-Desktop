@@ -4,14 +4,14 @@
 import lodash from 'lodash';
 import type { ReadonlyDeep } from 'type-fest';
 
-import { strictAssert } from './assert.std.js';
+import { strictAssert } from './assert.std.ts';
 
 import type {
   EditHistoryType,
   MessageAttributesType,
   ReadonlyMessageAttributesType,
 } from '../model-types.d.ts';
-import type { LoggerType } from '../types/Logging.std.js';
+import type { LoggerType } from '../types/Logging.std.ts';
 
 const { isNumber, sortBy } = lodash;
 

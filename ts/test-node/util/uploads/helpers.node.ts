@@ -9,7 +9,7 @@ import type {
   Server,
   OutgoingHttpHeaders,
 } from 'node:http';
-import { strictAssert } from '../../../util/assert.std.js';
+import { strictAssert } from '../../../util/assert.std.ts';
 
 export type NextResponse = Readonly<{
   status: number;

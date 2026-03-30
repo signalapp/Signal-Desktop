@@ -11,10 +11,10 @@ import {
 } from '@signalapp/libsignal-client';
 import createDebug from 'debug';
 
-import * as durations from '../../util/durations/index.std.js';
-import { generatePni } from '../../types/ServiceId.std.js';
-import { Bootstrap } from '../bootstrap.node.js';
-import type { App } from '../bootstrap.node.js';
+import * as durations from '../../util/durations/index.std.ts';
+import { generatePni } from '../../types/ServiceId.std.ts';
+import { Bootstrap } from '../bootstrap.node.ts';
+import type { App } from '../bootstrap.node.ts';
 
 export const debug = createDebug('mock:test:pni-unlink');
 

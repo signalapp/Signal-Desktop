@@ -5,7 +5,7 @@ import { assert } from 'chai';
 import {
   formatAcceptLanguageHeader,
   getUserLanguages,
-} from '../../util/userLanguages.std.js';
+} from '../../util/userLanguages.std.ts';
 
 describe('user language utilities', () => {
   describe('formatAcceptLanguageHeader', () => {

@@ -7,60 +7,60 @@ import type { MutableRefObject } from 'react';
 import { action } from '@storybook/addon-actions';
 import lodash from 'lodash';
 
-import { Preferences } from './Preferences.dom.js';
-import { DEFAULT_CONVERSATION_COLOR } from '../types/Colors.std.js';
-import { PhoneNumberSharingMode } from '../types/PhoneNumberSharingMode.std.js';
-import { PhoneNumberDiscoverability } from '../util/phoneNumberDiscoverability.std.js';
-import { sleep } from '../util/sleep.std.js';
-import { EmojiSkinTone } from './fun/data/emojis.std.js';
+import { Preferences } from './Preferences.dom.tsx';
+import { DEFAULT_CONVERSATION_COLOR } from '../types/Colors.std.ts';
+import { PhoneNumberSharingMode } from '../types/PhoneNumberSharingMode.std.ts';
+import { PhoneNumberDiscoverability } from '../util/phoneNumberDiscoverability.std.ts';
+import { sleep } from '../util/sleep.std.ts';
+import { EmojiSkinTone } from './fun/data/emojis.std.ts';
 import {
   DAY,
   DurationInSeconds,
   HOUR,
   WEEK,
-} from '../util/durations/index.std.js';
-import { DialogUpdate } from './DialogUpdate.dom.js';
-import { DialogType } from '../types/Dialogs.std.js';
-import { ThemeType } from '../types/Util.std.js';
+} from '../util/durations/index.std.ts';
+import { DialogUpdate } from './DialogUpdate.dom.tsx';
+import { DialogType } from '../types/Dialogs.std.ts';
+import { ThemeType } from '../types/Util.std.ts';
 import {
   getDefaultConversation,
   getDefaultGroup,
-} from '../test-helpers/getDefaultConversation.std.js';
-import { ProfileEditor } from './ProfileEditor.dom.js';
+} from '../test-helpers/getDefaultConversation.std.ts';
+import { ProfileEditor } from './ProfileEditor.dom.tsx';
 import {
   UsernameEditState,
   UsernameLinkState,
-} from '../state/ducks/usernameEnums.std.js';
-import type { SettingsLocation } from '../types/Nav.std.js';
-import { NavTab, ProfileEditorPage, SettingsPage } from '../types/Nav.std.js';
-import { PreferencesDonations } from './PreferencesDonations.dom.js';
-import { strictAssert } from '../util/assert.std.js';
-import { PreferencesChatFoldersPage } from './preferences/chatFolders/PreferencesChatFoldersPage.dom.js';
-import { PreferencesEditChatFolderPage } from './preferences/chatFolders/PreferencesEditChatFoldersPage.dom.js';
-import { CHAT_FOLDER_DEFAULTS } from '../types/ChatFolder.std.js';
+} from '../state/ducks/usernameEnums.std.ts';
+import type { SettingsLocation } from '../types/Nav.std.ts';
+import { NavTab, ProfileEditorPage, SettingsPage } from '../types/Nav.std.ts';
+import { PreferencesDonations } from './PreferencesDonations.dom.tsx';
+import { strictAssert } from '../util/assert.std.ts';
+import { PreferencesChatFoldersPage } from './preferences/chatFolders/PreferencesChatFoldersPage.dom.tsx';
+import { PreferencesEditChatFolderPage } from './preferences/chatFolders/PreferencesEditChatFoldersPage.dom.tsx';
+import { CHAT_FOLDER_DEFAULTS } from '../types/ChatFolder.std.ts';
 import {
   NotificationProfilesHome,
   NotificationProfilesCreateFlow,
-} from './PreferencesNotificationProfiles.dom.js';
-import { DayOfWeek } from '../types/NotificationProfile.std.js';
+} from './PreferencesNotificationProfiles.dom.tsx';
+import { DayOfWeek } from '../types/NotificationProfile.std.ts';
 
-import type { LocalizerType } from '../types/Util.std.js';
-import type { PropsType } from './Preferences.dom.js';
-import type { WidthBreakpoint } from './_util.std.js';
+import type { LocalizerType } from '../types/Util.std.ts';
+import type { PropsType } from './Preferences.dom.tsx';
+import type { WidthBreakpoint } from './_util.std.ts';
 import type { MessageAttributesType } from '../model-types.d.ts';
 import type {
   DonationReceipt,
   DonationWorkflow,
   OneTimeDonationHumanAmounts,
-} from '../types/Donations.std.js';
-import type { AnyToast } from '../types/Toast.dom.js';
-import type { SmartPreferencesChatFoldersPageProps } from '../state/smart/PreferencesChatFoldersPage.preload.js';
-import type { SmartPreferencesEditChatFolderPageProps } from '../state/smart/PreferencesEditChatFolderPage.preload.js';
-import { CurrentChatFolders } from '../types/CurrentChatFolders.std.js';
-import type { ExternalProps as SmartNotificationProfilesProps } from '../state/smart/PreferencesNotificationProfiles.preload.js';
-import type { NotificationProfileIdString } from '../types/NotificationProfile.std.js';
-import type { ExportResultType } from '../services/backups/types.std.js';
-import { BackupLevel } from '../services/backups/types.std.js';
+} from '../types/Donations.std.ts';
+import type { AnyToast } from '../types/Toast.dom.tsx';
+import type { SmartPreferencesChatFoldersPageProps } from '../state/smart/PreferencesChatFoldersPage.preload.tsx';
+import type { SmartPreferencesEditChatFolderPageProps } from '../state/smart/PreferencesEditChatFolderPage.preload.tsx';
+import { CurrentChatFolders } from '../types/CurrentChatFolders.std.ts';
+import type { ExternalProps as SmartNotificationProfilesProps } from '../state/smart/PreferencesNotificationProfiles.preload.tsx';
+import type { NotificationProfileIdString } from '../types/NotificationProfile.std.ts';
+import type { ExportResultType } from '../services/backups/types.std.ts';
+import { BackupLevel } from '../services/backups/types.std.ts';
 
 const { shuffle } = lodash;
 

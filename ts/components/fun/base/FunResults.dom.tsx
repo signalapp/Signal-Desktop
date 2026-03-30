@@ -3,7 +3,7 @@
 import type { ReactNode } from 'react';
 import React from 'react';
 import { Button, Header } from 'react-aria-components';
-import { SpinnerV2 } from '../../SpinnerV2.dom.js';
+import { SpinnerV2 } from '../../SpinnerV2.dom.tsx';
 
 export type FunResultsProps = Readonly<{
   'aria-busy': boolean;

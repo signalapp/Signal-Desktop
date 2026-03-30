@@ -5,6 +5,7 @@ import '../ts/window.d.ts';
 
 import React, { StrictMode } from 'react';
 
+import '@signalapp/quill-cjs/dist/quill.core.css';
 import '../stylesheets/manifest.scss';
 import '../stylesheets/tailwind-config.css';
 import * as styles from './styles.scss';
@@ -16,26 +17,26 @@ import { combineReducers, createStore } from 'redux';
 import { Globals } from '@react-spring/web';
 
 import { StorybookThemeContext } from './StorybookThemeContext.std.js';
-import { SystemThemeType, ThemeType } from '../ts/types/Util.std.js';
-import { setupI18n } from '../ts/util/setupI18n.dom.js';
-import { HourCyclePreference } from '../ts/types/I18N.std.js';
-import { AxoProvider } from '../ts/axo/AxoProvider.dom.js';
-import type { StateType } from '../ts/state/reducer.preload.js';
+import { SystemThemeType, ThemeType } from '../ts/types/Util.std.ts';
+import { setupI18n } from '../ts/util/setupI18n.dom.tsx';
+import { HourCyclePreference } from '../ts/types/I18N.std.ts';
+import { AxoProvider } from '../ts/axo/AxoProvider.dom.tsx';
+import type { StateType } from '../ts/state/reducer.preload.ts';
 import {
   ScrollerLockContext,
   createScrollerLock,
-} from '../ts/hooks/useScrollLock.dom.js';
-import { Environment, setEnvironment } from '../ts/environment.std.js';
-import { parseUnknown } from '../ts/util/schemas.std.js';
-import { LocaleEmojiListSchema } from '../ts/types/emoji.std.js';
-import { FunProvider } from '../ts/components/fun/FunProvider.dom.js';
-import { EmojiSkinTone } from '../ts/components/fun/data/emojis.std.js';
-import { MOCK_GIFS_PAGINATED_ONE_PAGE } from '../ts/components/fun/mocks.dom.js';
-import { NavTab } from '../ts/types/Nav.std.js';
+} from '../ts/hooks/useScrollLock.dom.tsx';
+import { Environment, setEnvironment } from '../ts/environment.std.ts';
+import { parseUnknown } from '../ts/util/schemas.std.ts';
+import { LocaleEmojiListSchema } from '../ts/types/emoji.std.ts';
+import { FunProvider } from '../ts/components/fun/FunProvider.dom.tsx';
+import { EmojiSkinTone } from '../ts/components/fun/data/emojis.std.ts';
+import { MOCK_GIFS_PAGINATED_ONE_PAGE } from '../ts/components/fun/mocks.dom.tsx';
+import { NavTab } from '../ts/types/Nav.std.ts';
 
-import type { FunEmojiSelection } from '../ts/components/fun/panels/FunPanelEmojis.dom.js';
-import type { FunGifSelection } from '../ts/components/fun/panels/FunPanelGifs.dom.js';
-import type { FunStickerSelection } from '../ts/components/fun/panels/FunPanelStickers.dom.js';
+import type { FunEmojiSelection } from '../ts/components/fun/panels/FunPanelEmojis.dom.tsx';
+import type { FunGifSelection } from '../ts/components/fun/panels/FunPanelGifs.dom.tsx';
+import type { FunStickerSelection } from '../ts/components/fun/panels/FunPanelStickers.dom.tsx';
 
 setEnvironment(Environment.Development, true);
 

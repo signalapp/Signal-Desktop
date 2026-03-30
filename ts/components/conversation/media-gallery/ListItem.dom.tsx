@@ -5,19 +5,19 @@ import React, { useCallback, type ReactNode } from 'react';
 import type { ReadonlyDeep } from 'type-fest';
 
 import moment from 'moment';
-import { missingCaseError } from '../../../util/missingCaseError.std.js';
-import type { GenericMediaItemType } from '../../../types/MediaItem.std.js';
-import type { AttachmentForUIType } from '../../../types/Attachment.std.js';
-import type { LocalizerType } from '../../../types/Util.std.js';
-import { SpinnerV2 } from '../../SpinnerV2.dom.js';
-import { tw } from '../../../axo/tw.dom.js';
-import { AriaClickable } from '../../../axo/AriaClickable.dom.js';
-import { AxoSymbol } from '../../../axo/AxoSymbol.dom.js';
-import { UserText } from '../../UserText.dom.js';
+import { missingCaseError } from '../../../util/missingCaseError.std.ts';
+import type { GenericMediaItemType } from '../../../types/MediaItem.std.ts';
+import type { AttachmentForUIType } from '../../../types/Attachment.std.ts';
+import type { LocalizerType } from '../../../types/Util.std.ts';
+import { SpinnerV2 } from '../../SpinnerV2.dom.tsx';
+import { tw } from '../../../axo/tw.dom.tsx';
+import { AriaClickable } from '../../../axo/AriaClickable.dom.tsx';
+import { AxoSymbol } from '../../../axo/AxoSymbol.dom.tsx';
+import { UserText } from '../../UserText.dom.tsx';
 import {
   useAttachmentStatus,
   type AttachmentStatusType,
-} from '../../../hooks/useAttachmentStatus.std.js';
+} from '../../../hooks/useAttachmentStatus.std.ts';
 
 export type Props = Readonly<{
   i18n: LocalizerType;

@@ -4,9 +4,9 @@
 import { assert } from 'chai';
 import * as sinon from 'sinon';
 import lodash from 'lodash';
-import type { StoredJob } from '../../jobs/types.std.js';
+import type { StoredJob } from '../../jobs/types.std.ts';
 
-import { JobQueueDatabaseStore } from '../../jobs/JobQueueDatabaseStore.preload.js';
+import { JobQueueDatabaseStore } from '../../jobs/JobQueueDatabaseStore.preload.ts';
 
 const { noop } = lodash;
 

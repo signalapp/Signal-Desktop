@@ -50,8 +50,8 @@ jobs:
       - run: ./node_modules/.bin/run-p --race test:storybook:serve test:storybook:test
         env:
           ARTIFACTS_DIR: stories
-      - run: pnpm run build:esbuild
-      - run: node ts/scripts/compile-stories-icu-lookup.node.js stories
+      - run: pnpm run build:rolldown
+      - run: ./node_modules/.bin/tsx ts/scripts/compile-stories-icu-lookup.node.ts stories
 
       - name: Upload test artifacts
         if: github.event_name == 'workflow_dispatch'

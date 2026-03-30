@@ -1,10 +1,10 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { SignalService as Proto } from '../protobuf/index.std.js';
-import type { ServiceIdString } from '../types/ServiceId.std.js';
-import { normalizeStoryDistributionId } from '../types/StoryDistributionId.std.js';
-import { fromServiceIdBinaryOrString } from '../util/ServiceId.node.js';
+import type { SignalService as Proto } from '../protobuf/index.std.ts';
+import type { ServiceIdString } from '../types/ServiceId.std.ts';
+import { normalizeStoryDistributionId } from '../types/StoryDistributionId.std.ts';
+import { fromServiceIdBinaryOrString } from '../util/ServiceId.node.ts';
 import type { ProcessedSent } from './Types.d.ts';
 
 type ProtoServiceId = Readonly<{

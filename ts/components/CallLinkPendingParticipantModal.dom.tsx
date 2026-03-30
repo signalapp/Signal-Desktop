@@ -2,18 +2,18 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useCallback, useMemo } from 'react';
-import { Modal } from './Modal.dom.js';
-import type { LocalizerType } from '../types/I18N.std.js';
-import { Avatar, AvatarSize } from './Avatar.dom.js';
-import type { PendingUserActionPayloadType } from '../state/ducks/calling.preload.js';
-import type { ConversationType } from '../state/ducks/conversations.preload.js';
-import { InContactsIcon } from './InContactsIcon.dom.js';
-import { isInSystemContacts } from '../util/isInSystemContacts.std.js';
-import { ThemeType } from '../types/Util.std.js';
-import { Theme } from '../util/theme.std.js';
-import { UserText } from './UserText.dom.js';
-import { SharedGroupNames } from './SharedGroupNames.dom.js';
-import type { ContactModalStateType } from '../types/globalModals.std.js';
+import { Modal } from './Modal.dom.tsx';
+import type { LocalizerType } from '../types/I18N.std.ts';
+import { Avatar, AvatarSize } from './Avatar.dom.tsx';
+import type { PendingUserActionPayloadType } from '../state/ducks/calling.preload.ts';
+import type { ConversationType } from '../state/ducks/conversations.preload.ts';
+import { InContactsIcon } from './InContactsIcon.dom.tsx';
+import { isInSystemContacts } from '../util/isInSystemContacts.std.ts';
+import { ThemeType } from '../types/Util.std.ts';
+import { Theme } from '../util/theme.std.ts';
+import { UserText } from './UserText.dom.tsx';
+import { SharedGroupNames } from './SharedGroupNames.dom.tsx';
+import type { ContactModalStateType } from '../types/globalModals.std.ts';
 
 export type CallLinkPendingParticipantModalProps = {
   readonly i18n: LocalizerType;

@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { fabric } from 'fabric';
-import { customFabricObjectControls } from './util/customFabricObjectControls.dom.js';
-import { moreStyles } from './util/moreStyles.dom.js';
-import { getDateTimeFormatter } from '../util/formatTimestamp.dom.js';
+import { customFabricObjectControls } from './util/customFabricObjectControls.dom.ts';
+import { moreStyles } from './util/moreStyles.dom.ts';
+import { getDateTimeFormatter } from '../util/formatTimestamp.dom.ts';
 
 export enum DigitalClockStickerStyle {
   White = 'White',

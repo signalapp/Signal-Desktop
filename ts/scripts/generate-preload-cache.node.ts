@@ -8,8 +8,8 @@ import { mkdir, mkdtemp, rm, rename } from 'node:fs/promises';
 import pTimeout from 'p-timeout';
 import ELECTRON_BIN from 'electron';
 
-import { MINUTE } from '../util/durations/index.std.js';
-import { explodePromise } from '../util/explodePromise.std.js';
+import { MINUTE } from '../util/durations/index.std.ts';
+import { explodePromise } from '../util/explodePromise.std.ts';
 
 const ROOT_DIR = join(__dirname, '..', '..');
 

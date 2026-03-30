@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import PQueue from 'p-queue';
-import { runTaskWithTimeout } from '../textsecure/TaskWithTimeout.std.js';
+import { runTaskWithTimeout } from '../textsecure/TaskWithTimeout.std.ts';
 
 function createJobQueue(label: string) {
   const jobQueue = new PQueue({ concurrency: 1 });

@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 
-import { isWindowDragElement } from '../../util/isWindowDragElement.std.js';
+import { isWindowDragElement } from '../../util/isWindowDragElement.std.ts';
 
 describe('isWindowDragElement', () => {
   const crel = (tagName: string, appRegion?: string): Element => {

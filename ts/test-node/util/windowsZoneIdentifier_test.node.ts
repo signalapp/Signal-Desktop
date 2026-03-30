@@ -8,7 +8,7 @@ import * as fs from 'node:fs';
 import * as fse from 'fs-extra';
 import * as Sinon from 'sinon';
 
-import { writeWindowsZoneIdentifier } from '../../util/windowsZoneIdentifier.node.js';
+import { writeWindowsZoneIdentifier } from '../../util/windowsZoneIdentifier.node.ts';
 
 describe('writeWindowsZoneIdentifier', () => {
   before(function (this: Mocha.Context) {

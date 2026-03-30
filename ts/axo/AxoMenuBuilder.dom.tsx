@@ -3,14 +3,14 @@
 
 import type { FC } from 'react';
 import React, { memo } from 'react';
-import type { AxoBaseMenu } from './_internal/AxoBaseMenu.dom.js';
-import { unreachable } from './_internal/assert.std.js';
-import { AxoDropdownMenu } from './AxoDropdownMenu.dom.js';
-import { AxoContextMenu } from './AxoContextMenu.dom.js';
+import type { AxoBaseMenu } from './_internal/AxoBaseMenu.dom.tsx';
+import { unreachable } from './_internal/assert.std.tsx';
+import { AxoDropdownMenu } from './AxoDropdownMenu.dom.tsx';
+import { AxoContextMenu } from './AxoContextMenu.dom.tsx';
 import {
   createStrictContext,
   useStrictContext,
-} from './_internal/StrictContext.dom.js';
+} from './_internal/StrictContext.dom.tsx';
 
 const Namespace = 'AxoMenuBuilder';
 

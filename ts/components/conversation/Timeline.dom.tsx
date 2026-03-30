@@ -9,42 +9,42 @@ import React from 'react';
 import {
   ScrollDownButton,
   ScrollDownButtonVariant,
-} from './ScrollDownButton.dom.js';
+} from './ScrollDownButton.dom.tsx';
 
-import type { LocalizerType, ThemeType } from '../../types/Util.std.js';
-import type { ConversationType } from '../../state/ducks/conversations.preload.js';
-import type { PreferredBadgeSelectorType } from '../../state/selectors/badges.preload.js';
-import { assertDev, strictAssert } from '../../util/assert.std.js';
-import { missingCaseError } from '../../util/missingCaseError.std.js';
-import { clearTimeoutIfNecessary } from '../../util/clearTimeoutIfNecessary.std.js';
-import { WidthBreakpoint } from '../_util.std.js';
+import type { LocalizerType, ThemeType } from '../../types/Util.std.ts';
+import type { ConversationType } from '../../state/ducks/conversations.preload.ts';
+import type { PreferredBadgeSelectorType } from '../../state/selectors/badges.preload.ts';
+import { assertDev, strictAssert } from '../../util/assert.std.ts';
+import { missingCaseError } from '../../util/missingCaseError.std.ts';
+import { clearTimeoutIfNecessary } from '../../util/clearTimeoutIfNecessary.std.ts';
+import { WidthBreakpoint } from '../_util.std.ts';
 
-import { ErrorBoundary } from './ErrorBoundary.dom.js';
-import { NewlyCreatedGroupInvitedContactsDialog } from '../NewlyCreatedGroupInvitedContactsDialog.dom.js';
-import type { PropsType as SmartContactSpoofingReviewDialogPropsType } from '../../state/smart/ContactSpoofingReviewDialog.preload.js';
-import { TimelineFloatingHeader } from './TimelineFloatingHeader.dom.js';
+import { ErrorBoundary } from './ErrorBoundary.dom.tsx';
+import { NewlyCreatedGroupInvitedContactsDialog } from '../NewlyCreatedGroupInvitedContactsDialog.dom.tsx';
+import type { PropsType as SmartContactSpoofingReviewDialogPropsType } from '../../state/smart/ContactSpoofingReviewDialog.preload.tsx';
+import { TimelineFloatingHeader } from './TimelineFloatingHeader.dom.tsx';
 import {
   getScrollAnchorBeforeUpdate,
   getWidthBreakpoint,
   ScrollAnchor,
   TimelineMessageLoadingState,
   UnreadIndicatorPlacement,
-} from '../../util/timelineUtil.std.js';
+} from '../../util/timelineUtil.std.ts';
 import {
   getScrollBottom,
   scrollToBottom,
   setScrollBottom,
-} from '../../util/scrollUtil.std.js';
-import { LastSeenIndicator } from './LastSeenIndicator.dom.js';
-import { MINUTE, SECOND } from '../../util/durations/index.std.js';
-import { SizeObserver } from '../../hooks/useSizeObserver.dom.js';
+} from '../../util/scrollUtil.std.ts';
+import { LastSeenIndicator } from './LastSeenIndicator.dom.tsx';
+import { MINUTE, SECOND } from '../../util/durations/index.std.ts';
+import { SizeObserver } from '../../hooks/useSizeObserver.dom.tsx';
 import {
   createScrollerLock,
   ScrollerLockContext,
-} from '../../hooks/useScrollLock.dom.js';
-import { MessageInteractivity } from './Message.dom.js';
-import type { RenderItemProps } from '../../state/smart/TimelineItem.preload.js';
-import type { CollapseSet } from '../../util/CollapseSet.std.js';
+} from '../../hooks/useScrollLock.dom.tsx';
+import { MessageInteractivity } from './Message.dom.tsx';
+import type { RenderItemProps } from '../../state/smart/TimelineItem.preload.tsx';
+import type { CollapseSet } from '../../util/CollapseSet.std.ts';
 
 const { first, get, isNumber, last, throttle } = lodash;
 

@@ -4,16 +4,16 @@
 import React, { StrictMode } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 
-import * as Errors from '../types/errors.std.js';
-import { createLogger } from '../logging/log.std.js';
+import * as Errors from '../types/errors.std.ts';
+import { createLogger } from '../logging/log.std.ts';
 // oxlint-disable-next-line signal-desktop/no-restricted-paths
-import { ProgressModal } from '../components/ProgressModal.dom.js';
-import { clearTimeoutIfNecessary } from './clearTimeoutIfNecessary.std.js';
-import { sleep } from './sleep.std.js';
+import { ProgressModal } from '../components/ProgressModal.dom.tsx';
+import { clearTimeoutIfNecessary } from './clearTimeoutIfNecessary.std.ts';
+import { sleep } from './sleep.std.ts';
 // oxlint-disable-next-line signal-desktop/no-restricted-paths
-import { FunDefaultEnglishEmojiLocalizationProvider } from '../components/fun/FunEmojiLocalizationProvider.dom.js';
+import { FunDefaultEnglishEmojiLocalizationProvider } from '../components/fun/FunEmojiLocalizationProvider.dom.tsx';
 // oxlint-disable-next-line signal-desktop/no-restricted-paths
-import { AxoProvider } from '../axo/AxoProvider.dom.js';
+import { AxoProvider } from '../axo/AxoProvider.dom.tsx';
 
 const log = createLogger('longRunningTaskWrapper');
 

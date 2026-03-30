@@ -1,21 +1,21 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import lodash from 'lodash';
-import { createLogger } from '../logging/log.std.js';
-import * as Bytes from '../Bytes.std.js';
-import type { MessageAttachmentType } from '../types/AttachmentDownload.std.js';
+import { createLogger } from '../logging/log.std.ts';
+import * as Bytes from '../Bytes.std.ts';
+import type { MessageAttachmentType } from '../types/AttachmentDownload.std.ts';
 
-import type { AttachmentType } from '../types/Attachment.std.js';
+import type { AttachmentType } from '../types/Attachment.std.ts';
 import {
   doAttachmentsOnSameMessageMatch,
   isDownloaded,
-} from '../util/Attachment.std.js';
+} from '../util/Attachment.std.ts';
 import {
   loadAttachmentData,
   maybeDeleteAttachmentFile,
-} from '../util/migrations.preload.js';
-import { getMessageById } from '../messages/getMessageById.preload.js';
-import { trimMessageWhitespace } from '../types/BodyRange.std.js';
+} from '../util/migrations.preload.ts';
+import { getMessageById } from '../messages/getMessageById.preload.ts';
+import { trimMessageWhitespace } from '../types/BodyRange.std.ts';
 
 const { omit } = lodash;
 

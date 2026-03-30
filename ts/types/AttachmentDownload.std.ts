@@ -1,13 +1,13 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import { z } from 'zod';
-import { MIMETypeSchema, type MIMEType } from './MIME.std.js';
-import type { AttachmentType } from './Attachment.std.js';
+import { MIMETypeSchema, type MIMEType } from './MIME.std.ts';
+import type { AttachmentType } from './Attachment.std.ts';
 import {
   type JobManagerJobType,
   jobManagerJobSchema,
-} from '../jobs/JobManager.std.js';
-import { AttachmentDownloadSource } from '../sql/Interface.std.js';
+} from '../jobs/JobManager.std.ts';
+import { AttachmentDownloadSource } from '../sql/Interface.std.ts';
 
 export enum MediaTier {
   STANDARD = 'standard',

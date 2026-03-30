@@ -1,21 +1,21 @@
 // Copyright 2026 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { AciString, ServiceIdString } from '../types/ServiceId.std.js';
+import type { AciString, ServiceIdString } from '../types/ServiceId.std.ts';
 import type {
   ConversationAttributesType,
   ReadonlyMessageAttributesType,
-} from '../model-types.js';
-import { getMessageAge } from './getMessageAge.std.js';
+} from '../model-types.d.ts';
+import { getMessageAge } from './getMessageAge.std.ts';
 import {
   getAdminDeleteMaxAgeMs,
   getNormalDeleteMaxAgeMs,
-} from './getDeleteMaxAgeMs.dom.js';
-import { DAY } from './durations/index.std.js';
-import { isGroupV2, isMe } from './whatTypeOfConversation.dom.js';
-import { isSignalConversation } from './isSignalConversation.dom.js';
-import { getSourceServiceId } from '../messages/sources.preload.js';
-import { SignalService as Proto } from '../protobuf/index.std.js';
+} from './getDeleteMaxAgeMs.dom.ts';
+import { DAY } from './durations/index.std.ts';
+import { isGroupV2, isMe } from './whatTypeOfConversation.dom.ts';
+import { isSignalConversation } from './isSignalConversation.dom.ts';
+import { getSourceServiceId } from '../messages/sources.preload.ts';
+import { SignalService as Proto } from '../protobuf/index.std.ts';
 
 export type DeleteForEveryoneMessage = Pick<
   ReadonlyMessageAttributesType,

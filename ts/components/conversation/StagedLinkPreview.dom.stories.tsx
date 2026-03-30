@@ -5,10 +5,10 @@ import type { Meta, StoryFn } from '@storybook/react';
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 
-import type { Props } from './StagedLinkPreview.dom.js';
-import { StagedLinkPreview } from './StagedLinkPreview.dom.js';
-import { fakeAttachment } from '../../test-helpers/fakeAttachment.std.js';
-import { IMAGE_JPEG } from '../../types/MIME.std.js';
+import type { Props } from './StagedLinkPreview.dom.tsx';
+import { StagedLinkPreview } from './StagedLinkPreview.dom.tsx';
+import { fakeAttachment } from '../../test-helpers/fakeAttachment.std.ts';
+import { IMAGE_JPEG } from '../../types/MIME.std.ts';
 
 const LONG_TITLE =
   "This is a super-sweet site. And it's got some really amazing content in store for you if you just click that link. Can you click that link for me?";

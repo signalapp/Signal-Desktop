@@ -3,17 +3,17 @@
 
 import React, { memo, useCallback } from 'react';
 import { useSelector } from 'react-redux';
-import { CompositionRecordingDraft } from '../../components/CompositionRecordingDraft.dom.js';
-import type { AttachmentDraftType } from '../../types/Attachment.std.js';
+import { CompositionRecordingDraft } from '../../components/CompositionRecordingDraft.dom.tsx';
+import type { AttachmentDraftType } from '../../types/Attachment.std.ts';
 import {
   AudioPlayerContent,
   useAudioPlayerActions,
-} from '../ducks/audioPlayer.preload.js';
-import { useComposerActions } from '../ducks/composer.preload.js';
-import { selectAudioPlayerActive } from '../selectors/audioPlayer.preload.js';
-import { getConversationByIdSelector } from '../selectors/conversations.dom.js';
-import { getSelectedConversationId } from '../selectors/nav.std.js';
-import { getIntl } from '../selectors/user.std.js';
+} from '../ducks/audioPlayer.preload.ts';
+import { useComposerActions } from '../ducks/composer.preload.ts';
+import { selectAudioPlayerActive } from '../selectors/audioPlayer.preload.ts';
+import { getConversationByIdSelector } from '../selectors/conversations.dom.ts';
+import { getSelectedConversationId } from '../selectors/nav.std.ts';
+import { getIntl } from '../selectors/user.std.ts';
 
 export type SmartCompositionRecordingDraftProps = {
   voiceNoteAttachment: AttachmentDraftType;

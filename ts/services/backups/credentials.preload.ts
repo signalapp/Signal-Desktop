@@ -12,48 +12,48 @@ import {
 import { type BackupKey } from '@signalapp/libsignal-client/dist/AccountKeys.js';
 import lodashFp from 'lodash/fp.js';
 
-import * as Bytes from '../../Bytes.std.js';
-import { createLogger } from '../../logging/log.std.js';
-import { strictAssert } from '../../util/assert.std.js';
-import { isMoreRecentThan, toDayMillis } from '../../util/timestamp.std.js';
+import * as Bytes from '../../Bytes.std.ts';
+import { createLogger } from '../../logging/log.std.ts';
+import { strictAssert } from '../../util/assert.std.ts';
+import { isMoreRecentThan, toDayMillis } from '../../util/timestamp.std.ts';
 import {
   DAY,
   DurationInSeconds,
   HOUR,
   MINUTE,
-} from '../../util/durations/index.std.js';
-import { missingCaseError } from '../../util/missingCaseError.std.js';
+} from '../../util/durations/index.std.ts';
+import { missingCaseError } from '../../util/missingCaseError.std.ts';
 import {
   type BackupCdnReadCredentialType,
   type BackupCredentialWrapperType,
   type BackupPresentationHeadersType,
   type BackupSignedPresentationType,
   BackupCredentialType,
-} from '../../types/backups.node.js';
-import { HTTPError } from '../../types/HTTPError.std.js';
+} from '../../types/backups.node.ts';
+import { HTTPError } from '../../types/HTTPError.std.ts';
 import type {
   GetBackupCredentialsResponseType,
   GetBackupCDNCredentialsResponseType,
-} from '../../textsecure/WebAPI.preload.js';
+} from '../../textsecure/WebAPI.preload.ts';
 import {
   setBackupSignatureKey,
   getBackupCDNCredentials,
   getBackupCredentials,
   setBackupId,
-} from '../../textsecure/WebAPI.preload.js';
+} from '../../textsecure/WebAPI.preload.ts';
 import {
   getBackupKey,
   getBackupMediaRootKey,
   getBackupSignatureKey,
   getBackupMediaSignatureKey,
-} from './crypto.preload.js';
-import { isTestOrMockEnvironment } from '../../environment.std.js';
+} from './crypto.preload.ts';
+import { isTestOrMockEnvironment } from '../../environment.std.ts';
 import {
   areRemoteBackupsTurnedOn,
   canAttemptRemoteBackupDownload,
-} from '../../util/isBackupEnabled.preload.js';
-import { CheckScheduler } from '../../util/CheckScheduler.preload.js';
-import { itemStorage } from '../../textsecure/Storage.preload.js';
+} from '../../util/isBackupEnabled.preload.ts';
+import { CheckScheduler } from '../../util/CheckScheduler.preload.ts';
+import { itemStorage } from '../../textsecure/Storage.preload.ts';
 
 const { throttle } = lodashFp;
 

@@ -4,16 +4,16 @@
 import React, { memo, useState, useEffect, useCallback } from 'react';
 import lodash from 'lodash';
 import { useSelector } from 'react-redux';
-import { SafetyNumberViewer } from '../../components/SafetyNumberViewer.dom.js';
-import type { SafetyNumberProps } from '../../components/SafetyNumberChangeDialog.dom.js';
-import { getContactSafetyNumberSelector } from '../selectors/safetyNumber.std.js';
-import { getConversationSelector } from '../selectors/conversations.dom.js';
-import { getIntl, getVersion } from '../selectors/user.std.js';
-import { getItems, getKeyTransparencyEnabled } from '../selectors/items.dom.js';
-import { useSafetyNumberActions } from '../ducks/safetyNumber.preload.js';
-import { keyTransparency } from '../../services/keyTransparency.preload.js';
-import { isFeaturedEnabledSelector } from '../../util/isFeatureEnabled.dom.js';
-import { drop } from '../../util/drop.std.js';
+import { SafetyNumberViewer } from '../../components/SafetyNumberViewer.dom.tsx';
+import type { SafetyNumberProps } from '../../components/SafetyNumberChangeDialog.dom.tsx';
+import { getContactSafetyNumberSelector } from '../selectors/safetyNumber.std.ts';
+import { getConversationSelector } from '../selectors/conversations.dom.ts';
+import { getIntl, getVersion } from '../selectors/user.std.ts';
+import { getItems, getKeyTransparencyEnabled } from '../selectors/items.dom.ts';
+import { useSafetyNumberActions } from '../ducks/safetyNumber.preload.ts';
+import { keyTransparency } from '../../services/keyTransparency.preload.ts';
+import { isFeaturedEnabledSelector } from '../../util/isFeatureEnabled.dom.ts';
+import { drop } from '../../util/drop.std.ts';
 import type { KeyTransparencyStatusType } from '../../types/KeyTransparency.d.ts';
 
 const { noop } = lodash;

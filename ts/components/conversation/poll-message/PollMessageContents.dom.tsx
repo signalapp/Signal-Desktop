@@ -4,16 +4,16 @@
 import React, { memo, useState, useEffect, useRef } from 'react';
 import { Checkbox } from 'radix-ui';
 import { AnimatePresence, motion } from 'motion/react';
-import { type TailwindStyles, tw } from '../../../axo/tw.dom.js';
-import { AxoButton } from '../../../axo/AxoButton.dom.js';
-import { AxoSymbol } from '../../../axo/AxoSymbol.dom.js';
-import type { DirectionType } from '../Message.dom.js';
-import type { PollWithResolvedVotersType } from '../../../state/selectors/message.preload.js';
-import type { LocalizerType } from '../../../types/Util.std.js';
-import { PollVotesModal } from './PollVotesModal.dom.js';
-import { SpinnerV2 } from '../../SpinnerV2.dom.js';
-import { usePrevious } from '../../../hooks/usePrevious.std.js';
-import { UserText } from '../../UserText.dom.js';
+import { type TailwindStyles, tw } from '../../../axo/tw.dom.tsx';
+import { AxoButton } from '../../../axo/AxoButton.dom.tsx';
+import { AxoSymbol } from '../../../axo/AxoSymbol.dom.tsx';
+import type { DirectionType } from '../Message.dom.tsx';
+import type { PollWithResolvedVotersType } from '../../../state/selectors/message.preload.ts';
+import type { LocalizerType } from '../../../types/Util.std.ts';
+import { PollVotesModal } from './PollVotesModal.dom.tsx';
+import { SpinnerV2 } from '../../SpinnerV2.dom.tsx';
+import { usePrevious } from '../../../hooks/usePrevious.std.ts';
+import { UserText } from '../../UserText.dom.tsx';
 
 function VotedCheckmark({
   isIncoming,

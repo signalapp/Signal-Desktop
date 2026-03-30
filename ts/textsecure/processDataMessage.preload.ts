@@ -4,17 +4,17 @@
 import { ReceiptCredentialPresentation } from '@signalapp/libsignal-client/zkgroup.js';
 import lodash from 'lodash';
 
-import { assertDev, strictAssert } from '../util/assert.std.js';
-import { dropNull } from '../util/dropNull.std.js';
+import { assertDev, strictAssert } from '../util/assert.std.ts';
+import { dropNull } from '../util/dropNull.std.ts';
 import {
   fromAciUuidBytes,
   fromAciUuidBytesOrString,
-} from '../util/ServiceId.node.js';
-import { getTimestampFromLong } from '../util/timestampLongUtils.std.js';
-import { isKnownProtoEnumMember } from '../util/isKnownProtoEnumMember.std.js';
-import { SignalService as Proto } from '../protobuf/index.std.js';
-import { deriveGroupFields } from '../groups.preload.js';
-import * as Bytes from '../Bytes.std.js';
+} from '../util/ServiceId.node.ts';
+import { getTimestampFromLong } from '../util/timestampLongUtils.std.ts';
+import { isKnownProtoEnumMember } from '../util/isKnownProtoEnumMember.std.ts';
+import { SignalService as Proto } from '../protobuf/index.std.ts';
+import { deriveGroupFields } from '../groups.preload.ts';
+import * as Bytes from '../Bytes.std.ts';
 
 import type {
   ProcessedAttachment,
@@ -35,27 +35,27 @@ import type {
   ProcessedPinMessage,
   ProcessedUnpinMessage,
 } from './Types.d.ts';
-import { GiftBadgeStates } from '../types/GiftBadgeStates.std.js';
-import type { RawBodyRange } from '../types/BodyRange.std.js';
+import { GiftBadgeStates } from '../types/GiftBadgeStates.std.ts';
+import type { RawBodyRange } from '../types/BodyRange.std.ts';
 import {
   APPLICATION_OCTET_STREAM,
   stringToMIMEType,
-} from '../types/MIME.std.js';
+} from '../types/MIME.std.ts';
 import {
   SECOND,
   DurationInSeconds,
   HOUR,
-} from '../util/durations/index.std.js';
-import type { AnyPaymentEvent } from '../types/Payment.std.js';
-import { PaymentEventKind } from '../types/Payment.std.js';
-import { filterAndClean } from '../util/BodyRange.node.js';
-import { bytesToUuid } from '../util/uuidToBytes.std.js';
-import { createName } from '../util/attachmentPath.node.js';
-import { partitionBodyAndNormalAttachments } from '../util/Attachment.std.js';
-import { isNotNil } from '../util/isNotNil.std.js';
-import { createLogger } from '../logging/log.std.js';
+} from '../util/durations/index.std.ts';
+import type { AnyPaymentEvent } from '../types/Payment.std.ts';
+import { PaymentEventKind } from '../types/Payment.std.ts';
+import { filterAndClean } from '../util/BodyRange.node.ts';
+import { bytesToUuid } from '../util/uuidToBytes.std.ts';
+import { createName } from '../util/attachmentPath.node.ts';
+import { partitionBodyAndNormalAttachments } from '../util/Attachment.std.ts';
+import { isNotNil } from '../util/isNotNil.std.ts';
+import { createLogger } from '../logging/log.std.ts';
 
-import { toNumber } from '../util/toNumber.std.js';
+import { toNumber } from '../util/toNumber.std.ts';
 
 const { isNumber } = lodash;
 

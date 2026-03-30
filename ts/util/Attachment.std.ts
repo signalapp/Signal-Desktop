@@ -13,24 +13,24 @@ import type {
   AttachmentDownloadableFromTransitTier,
   LocallySavedAttachment,
   AttachmentReadyForLocalBackup,
-} from '../types/Attachment.std.js';
-import type { LoggerType } from '../types/Logging.std.js';
-import { createLogger } from '../logging/log.std.js';
-import * as MIME from '../types/MIME.std.js';
-import { SignalService } from '../protobuf/index.std.js';
+} from '../types/Attachment.std.ts';
+import type { LoggerType } from '../types/Logging.std.ts';
+import { createLogger } from '../logging/log.std.ts';
+import * as MIME from '../types/MIME.std.ts';
+import { SignalService } from '../protobuf/index.std.ts';
 import {
   isImageTypeSupported,
   isVideoTypeSupported,
-} from './GoogleChrome.std.js';
-import type { LocalizerType } from '../types/Util.std.js';
-import { ThemeType } from '../types/Util.std.js';
+} from './GoogleChrome.std.ts';
+import type { LocalizerType } from '../types/Util.std.ts';
+import { ThemeType } from '../types/Util.std.ts';
 import {
   isValidAttachmentKey,
   isValidDigest,
   isValidPlaintextHash,
-} from '../types/Crypto.std.js';
-import { missingCaseError } from './missingCaseError.std.js';
-import type { MessageAttachmentType } from '../types/AttachmentDownload.std.js';
+} from '../types/Crypto.std.ts';
+import { missingCaseError } from './missingCaseError.std.ts';
+import type { MessageAttachmentType } from '../types/AttachmentDownload.std.ts';
 
 const {
   isNumber,

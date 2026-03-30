@@ -4,8 +4,8 @@
 import type { KeyboardEvent } from 'react';
 import React, { useState } from 'react';
 import classNames from 'classnames';
-import { assertDev } from '../util/assert.std.js';
-import { getClassNamesFor } from '../util/getClassNamesFor.std.js';
+import { assertDev } from '../util/assert.std.ts';
+import { getClassNamesFor } from '../util/getClassNamesFor.std.ts';
 
 type Tab = {
   id: string;

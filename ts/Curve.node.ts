@@ -4,14 +4,14 @@
 import * as client from '@signalapp/libsignal-client';
 import type { KyberPreKeyRecord } from '@signalapp/libsignal-client';
 
-import * as Bytes from './Bytes.std.js';
-import { constantTimeEqual } from './Crypto.node.js';
+import * as Bytes from './Bytes.std.ts';
+import { constantTimeEqual } from './Crypto.node.ts';
 import type {
   KeyPairType,
   CompatPreKeyType,
   CompatSignedPreKeyType,
 } from './textsecure/Types.d.ts';
-import { createLogger } from './logging/log.std.js';
+import { createLogger } from './logging/log.std.ts';
 
 const log = createLogger('Curve');
 

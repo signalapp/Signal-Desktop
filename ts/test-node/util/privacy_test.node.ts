@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 
-import * as Privacy from '../../util/privacy.node.js';
+import * as Privacy from '../../util/privacy.node.ts';
 
 Privacy.addSensitivePath('sensitive-path');
 

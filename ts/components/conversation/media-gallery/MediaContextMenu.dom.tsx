@@ -4,9 +4,9 @@
 import React, { useCallback, useState } from 'react';
 import type { ReactNode } from 'react';
 
-import type { LocalizerType } from '../../../types/Util.std.js';
-import { AxoContextMenu } from '../../../axo/AxoContextMenu.dom.js';
-import { DeleteAttachmentConfirmationDialog } from '../../DeleteAttachmentConfirmationDialog.dom.js';
+import type { LocalizerType } from '../../../types/Util.std.ts';
+import { AxoContextMenu } from '../../../axo/AxoContextMenu.dom.tsx';
+import { DeleteAttachmentConfirmationDialog } from '../../DeleteAttachmentConfirmationDialog.dom.tsx';
 
 export type PropsType = Readonly<{
   i18n: LocalizerType;

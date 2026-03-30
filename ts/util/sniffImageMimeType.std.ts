@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { MIMEType } from '../types/MIME.std.js';
+import type { MIMEType } from '../types/MIME.std.ts';
 import {
   IMAGE_BMP,
   IMAGE_GIF,
@@ -9,7 +9,7 @@ import {
   IMAGE_JPEG,
   IMAGE_PNG,
   IMAGE_WEBP,
-} from '../types/MIME.std.js';
+} from '../types/MIME.std.ts';
 
 /**
  * This follows the [MIME Sniffing Standard for images][0].

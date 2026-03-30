@@ -7,16 +7,16 @@ import classNames from 'classnames';
 import lodash from 'lodash';
 import { v4 as generateUuid } from 'uuid';
 
-import { Avatar, AvatarSize } from '../Avatar.dom.js';
-import type { BadgeType } from '../../badges/types.std.js';
-import { isConversationUnread } from '../../util/isConversationUnread.std.js';
-import { cleanId } from '../_util.std.js';
-import type { LocalizerType, ThemeType } from '../../types/Util.std.js';
-import type { ConversationType } from '../../state/ducks/conversations.preload.js';
-import { Spinner } from '../Spinner.dom.js';
-import { Time } from '../Time.dom.js';
-import { formatDateTimeShort } from '../../util/formatTimestamp.dom.js';
-import * as durations from '../../util/durations/index.std.js';
+import { Avatar, AvatarSize } from '../Avatar.dom.tsx';
+import type { BadgeType } from '../../badges/types.std.ts';
+import { isConversationUnread } from '../../util/isConversationUnread.std.ts';
+import { cleanId } from '../_util.std.ts';
+import type { LocalizerType, ThemeType } from '../../types/Util.std.ts';
+import type { ConversationType } from '../../state/ducks/conversations.preload.ts';
+import { Spinner } from '../Spinner.dom.tsx';
+import { Time } from '../Time.dom.tsx';
+import { formatDateTimeShort } from '../../util/formatTimestamp.dom.ts';
+import * as durations from '../../util/durations/index.std.ts';
 
 const { isBoolean, isNumber } = lodash;
 

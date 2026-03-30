@@ -3,7 +3,7 @@
 
 import { assert as chaiAssert } from 'chai';
 
-import { assertDev, strictAssert } from '../../util/assert.std.js';
+import { assertDev, strictAssert } from '../../util/assert.std.ts';
 
 describe('assert utilities', () => {
   describe('assert', () => {
