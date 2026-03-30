@@ -3153,7 +3153,7 @@
     "description": "Label for the support center link in conversation details"
   },
   "icu:ConversationDetails__GroupTerminatedBanner": {
-    "messageformat": "This group was ended",
+    "messageformat": "This group has ended",
     "description": "Conversation Header banner in conversation details for terminated groups"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
@@ -5265,7 +5265,7 @@
     "description": "Shown in composition area when you've requested to join a group"
   },
   "icu:GroupV2--join--group-terminated": {
-    "messageformat": "Join by link failed, group has ended.",
+    "messageformat": "Unable to join this group.",
     "description": "Shown if you click a group link for a group which was terminated"
   },
   "icu:GroupV2--join--general-join-failure--title": {
@@ -5281,7 +5281,7 @@
     "description": "Shown while waiting for a group terminate request to finish"
   },
   "icu:TerminateGroupFailedModal__description": {
-    "messageformat": "Ending the group failed. Check your connection and try again.",
+    "messageformat": "Couldn't end the group. Check your connection and try again.",
     "description": "Shown when a group terminate request failed"
   },
   "icu:TerminateGroupFailedModal__try-again": {
@@ -5885,7 +5885,7 @@
     "description": "Shown in timeline or conversation preview when group is terminated by someone else"
   },
   "icu:GroupV2--terminated--unknown": {
-    "messageformat": "This group was ended",
+    "messageformat": "This group has ended",
     "description": "Shown in timeline or conversation preview when group is terminated"
   },
   "icu:GroupV1--Migration--disabled--link": {
@@ -6257,7 +6257,7 @@
     "description": "Composition Area > GIF Picker > After selecting a GIF > When you already have an attachment > Confirm Dialog > Replace Button"
   },
   "icu:CompositionArea--group-terminated": {
-    "messageformat": "You can’t send messages because the group was ended.",
+    "messageformat": "You can't send messages because the group has ended.",
     "description": "Shown instead of message composer when group is terminated"
   },
   "icu:CompositionArea--viewOnceToggle": {
