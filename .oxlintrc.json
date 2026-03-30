@@ -911,7 +911,7 @@
     "eslint/unicode-bom": "error",
     // [restriction] Ensure consistent use of file extension within the import path.
     "import/extensions": [
-      "off", // TODO: Failing to resolve .js extensions to .ts files when esbuild not run
+      "error",
       "always",
       { "ignorePackages": true, "checkTypeImports": true }
     ],
