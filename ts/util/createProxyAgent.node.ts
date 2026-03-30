@@ -1,8 +1,9 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import net from 'node:net';
-import type { ProxyAgent } from 'proxy-agent';
+import net, { type TcpSocketConnectOpts } from 'node:net';
+import { HttpsProxyAgent } from 'https-proxy-agent';
+import { SocksProxyAgent } from 'socks-proxy-agent';
 import { URL } from 'node:url';
 import type { LookupOptions, LookupAddress } from 'node:dns';
 import { lookup } from 'node:dns/promises';
@@ -27,17 +28,26 @@ const SOCKS_PROTOCOLS = new Set([
   'socks5h:',
 ]);
 
-export type { ProxyAgent };
+export type ProxyAgent =
+  | HttpsProxyAgent<'http:'>
+  | HttpsProxyAgent<'https:'>
+  | SocksProxyAgent;
 
 export async function createProxyAgent(proxyUrl: string): Promise<ProxyAgent> {
   const { port: portStr, hostname: proxyHost, protocol } = new URL(proxyUrl);
   let defaultPort: number | undefined;
+  let agentClass: typeof HttpsProxyAgent | typeof SocksProxyAgent;
   if (protocol === 'http:') {
     defaultPort = 80;
+    agentClass = HttpsProxyAgent;
   } else if (protocol === 'https:') {
     defaultPort = 443;
+    agentClass = HttpsProxyAgent;
   } else if (SOCKS_PROTOCOLS.has(protocol)) {
     defaultPort = 1080;
+    agentClass = SocksProxyAgent;
+  } else {
+    throw new Error(`Unsupported proxy protocol: ${protocol}`);
   }
   const port = portStr ? parseInt(portStr, 10) : defaultPort;
 
@@ -101,9 +111,7 @@ export async function createProxyAgent(proxyUrl: string): Promise<ProxyAgent> {
     }
   }
 
-  const { ProxyAgent } = await import('proxy-agent');
-
-  return new ProxyAgent({
+  return new agentClass(proxyUrl, {
     lookup:
       port !== undefined
         ? (host, opts, callback) =>
@@ -115,10 +123,7 @@ export async function createProxyAgent(proxyUrl: string): Promise<ProxyAgent> {
               )
             )
         : undefined,
-    getProxyForUrl() {
-      return proxyUrl;
-    },
-  });
+  } satisfies Pick<TcpSocketConnectOpts, 'lookup'>);
 }
 
 async function connect({
