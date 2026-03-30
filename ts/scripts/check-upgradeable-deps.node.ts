@@ -5,7 +5,7 @@ import { join } from 'node:path';
 import { readFile } from 'node:fs/promises';
 import chalk from 'chalk';
 import semver from 'semver';
-import got from 'got';
+import { got, HTTPError } from 'got';
 import enquirer from 'enquirer';
 import execa from 'execa';
 
@@ -46,7 +46,7 @@ const npm = got.extend({
   retry: {
     calculateDelay: retry => {
       if (
-        retry.error instanceof got.HTTPError &&
+        retry.error instanceof HTTPError &&
         retry.error.response.statusCode === 429
       ) {
         const retryAfter = parseNumberField(
