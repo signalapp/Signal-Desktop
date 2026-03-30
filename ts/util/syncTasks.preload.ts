@@ -85,7 +85,7 @@ export async function queueSyncTasks(
     const schema = SCHEMAS_BY_TYPE[type];
     if (!schema) {
       log.error(`${innerLogId}: Schema not found. Deleting.`);
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       await removeSyncTaskById(id);
       continue;
     }
@@ -94,7 +94,7 @@ export async function queueSyncTasks(
       log.error(
         `${innerLogId}: Failed to parse. Deleting. Error: ${parseResult.error}`
       );
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       await removeSyncTaskById(id);
       continue;
     }
@@ -221,7 +221,7 @@ export async function queueSyncTasks(
       log.error(
         `${innerLogId}: Encountered job of type ${parsedType}, removing`
       );
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       await removeSyncTaskById(id);
     }
   }
@@ -253,9 +253,9 @@ const A_TICK = Promise.resolve();
 export async function runAllSyncTasks(): Promise<void> {
   let lastRowId: number | null = null;
   do {
-    // eslint-disable-next-line no-await-in-loop
+    // oxlint-disable-next-line no-await-in-loop
     lastRowId = await processSyncTasksBatch('Startup', lastRowId);
-    // eslint-disable-next-line no-await-in-loop
+    // oxlint-disable-next-line no-await-in-loop
     await A_TICK;
   } while (lastRowId != null);
 }

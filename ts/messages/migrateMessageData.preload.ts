@@ -129,7 +129,7 @@ export async function _migrateMessageData({
   );
 
   const failedToSaveMessageIds = failedToSaveIndices.map(
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    // oxlint-disable-next-line typescript/no-non-null-assertion
     idx => upgradedMessages[idx]!.id
   );
 
@@ -181,7 +181,7 @@ export async function migrateAllMessages(): Promise<void> {
   let batch: BatchResultType | undefined;
   let total = 0;
   while (!batch?.done) {
-    // eslint-disable-next-line no-await-in-loop
+    // oxlint-disable-next-line no-await-in-loop
     batch = await migrateBatchOfMessages({
       numMessagesPerBatch: 1000,
     });

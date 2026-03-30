@@ -111,7 +111,7 @@ describe('sql/getNearbyMessageFromDeletedSet', () => {
     for (const testCase of testCases) {
       const { name, lastSelectedMessage, deletedMessageIds, expectedId } =
         testCase;
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       const id = await getNearbyMessageFromDeletedSet({
         conversationId,
         lastSelectedMessage,

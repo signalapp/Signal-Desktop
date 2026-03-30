@@ -96,9 +96,9 @@ export function AttachmentSection({
           <div
             className={tw(
               'grid gap-1',
-              '@min-[560px]:grid-cols-[repeat(5,_minmax(100px,_120px))]',
-              '@min-[455px]:grid-cols-[repeat(4,_minmax(100px,_120px))]',
-              'grid-cols-[repeat(3,_minmax(100px,_120px))]',
+              '@min-[560px]:grid-cols-[repeat(5,minmax(100px,120px))]',
+              '@min-[455px]:grid-cols-[repeat(4,minmax(100px,120px))]',
+              'grid-cols-[repeat(3,minmax(100px,120px))]',
               'pb-1'
             )}
           >

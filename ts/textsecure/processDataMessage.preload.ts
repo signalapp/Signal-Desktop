@@ -508,8 +508,6 @@ export function processDataMessage(
   // Only for testing
   { _createName: doCreateName = createName } = {}
 ): ProcessedDataMessage {
-  /* eslint-disable no-bitwise */
-
   // Now that its decrypted, validate the message and clean it up for consumer
   //   processing
   // Note that messages may (generally) only perform one action and we ignore remaining
@@ -576,10 +574,13 @@ export function processDataMessage(
     unpinMessage: processUnpinMessage(message.unpinMessage),
   };
 
+  // oxlint-disable-next-line no-bitwise
   const isEndSession = Boolean(result.flags & FLAGS.END_SESSION);
   const isExpirationTimerUpdate = Boolean(
+    // oxlint-disable-next-line no-bitwise
     result.flags & FLAGS.EXPIRATION_TIMER_UPDATE
   );
+  // oxlint-disable-next-line no-bitwise
   const isProfileKeyUpdate = Boolean(result.flags & FLAGS.PROFILE_KEY_UPDATE);
   // The following assertion codifies an assumption: 0 or 1 flags are set, but never
   //   more. This assumption is fine as of this writing, but may not always be.

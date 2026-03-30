@@ -143,7 +143,7 @@ export type SignalCoreType = {
 
 declare global {
   // We want to extend various globals, so we need to use interfaces.
-  /* eslint-disable no-restricted-syntax */
+  // oxlint-disable-next-line typescript/consistent-type-definitions
   interface Window {
     enterKeyboardMode: () => void;
     enterMouseMode: () => void;
@@ -164,9 +164,9 @@ declare global {
     isAfterVersion: (version: string, anotherVersion: string) => boolean;
     isBeforeVersion: (version: string, anotherVersion: string) => boolean;
     initialTheme?: ThemeType;
-    nodeSetImmediate: typeof setImmediate;
+    nodeSetImmediate: typeof globalThis.setImmediate;
     platform: string;
-    setImmediate: typeof setImmediate;
+    setImmediate: typeof globalThis.setImmediate;
     sendChallengeRequest: (request: IPCChallengeRequest) => void;
     systemTheme: SystemThemeType;
 
@@ -225,6 +225,7 @@ declare global {
     };
   }
 
+  // oxlint-disable-next-line typescript/consistent-type-definitions
   interface Element {
     // WebKit-specific
     scrollIntoViewIfNeeded: (bringToCenter?: boolean) => void;
@@ -232,22 +233,27 @@ declare global {
 
   // Uint8Array and ArrayBuffer are type-compatible in TypeScript's covariant
   // type checker, but in reality they are not. Let's assert correct use!
+  // oxlint-disable-next-line typescript/consistent-type-definitions
   interface Uint8Array {
     __uint8array: never;
   }
 
+  // oxlint-disable-next-line typescript/consistent-type-definitions
   interface ArrayBuffer {
     __arrayBuffer: never;
   }
 
+  // oxlint-disable-next-line typescript/consistent-type-definitions
   interface SharedArrayBuffer {
     __arrayBuffer: never;
   }
 
+  // oxlint-disable-next-line typescript/consistent-type-definitions
   interface StringSplitSplitter<T> {
     [Symbol.split](string: string, limit?: number): T;
   }
 
+  // oxlint-disable-next-line typescript/consistent-type-definitions
   interface String {
     split(splitter: string | RegExp): [string, ...Array<string>];
     split(splitter: string | RegExp, limit: 0): [];

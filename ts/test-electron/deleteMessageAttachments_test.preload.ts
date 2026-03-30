@@ -65,7 +65,7 @@ async function writeFiles(
   type: 'attachment' | 'download' | 'draft'
 ) {
   for (let i = 0; i < num; i += 1) {
-    // eslint-disable-next-line no-await-in-loop
+    // oxlint-disable-next-line no-await-in-loop
     await writeFile(`${type}${i}`, type);
   }
 }

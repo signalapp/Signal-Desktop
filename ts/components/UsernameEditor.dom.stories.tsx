@@ -75,7 +75,6 @@ type ArgsType = PropsType & {
   reservation?: UsernameReservationType;
 };
 
-// eslint-disable-next-line react/function-component-definition
 const Template: StoryFn<ArgsType> = args => {
   let { reservation } = args;
   if (!reservation && args.discriminator) {

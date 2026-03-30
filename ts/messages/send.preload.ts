@@ -38,8 +38,6 @@ const { noop, union } = lodash;
 
 const log = createLogger('send');
 
-/* eslint-disable more/no-then */
-
 export async function send(
   message: MessageModel,
   {
@@ -344,7 +342,7 @@ export async function sendSyncMessage(
     return;
   }
 
-  // eslint-disable-next-line no-param-reassign
+  // oxlint-disable-next-line no-param-reassign
   message.syncPromise = message.syncPromise || Promise.resolve();
   const next = async () => {
     const dataMessage = message.get('dataMessage');
@@ -359,7 +357,7 @@ export async function sendSyncMessage(
     const isSendingEdit = targetTimestamp !== originalTimestamp;
 
     const isUpdate = Boolean(message.get('synced')) && !isSendingEdit;
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    // oxlint-disable-next-line typescript/no-non-null-assertion
     const conv = window.ConversationController.get(
       message.attributes.conversationId
     )!;
@@ -422,6 +420,7 @@ export async function sendSyncMessage(
       // Note: in some situations, for doNotSave messages, the message has no
       //   id, so we provide an empty array here.
       { messageIds: message.id ? [message.id] : [], sendType: 'sentSync' }
+      // oxlint-disable-next-line signal-desktop/no-then
     ).then(async result => {
       let newSendStateByConversationId: undefined | SendStateByConversationId;
       const sendStateByConversationId =
@@ -474,7 +473,7 @@ export async function sendSyncMessage(
     });
   };
 
-  // eslint-disable-next-line no-param-reassign
+  // oxlint-disable-next-line no-param-reassign, promise/no-callback-in-promise, promise/prefer-await-to-then, signal-desktop/no-then
   message.syncPromise = message.syncPromise.then(next, next);
 
   return message.syncPromise;

@@ -159,7 +159,7 @@ export function CallingLobby({
     isAdhocJoinRequestPending || false
   );
 
-  // eslint-disable-next-line no-nested-ternary
+  // oxlint-disable-next-line no-nested-ternary
   const videoButtonType = hasLocalVideo
     ? CallingButtonType.VIDEO_ON
     : availableCameras.length === 0
@@ -300,7 +300,7 @@ export function CallingLobby({
           className={classNames(
             'module-calling__camera-is-off module-CallingLobby__camera-is-off',
             `module-CallingLobby__camera-is-off--${
-              // eslint-disable-next-line local-rules/enforce-tw
+              // oxlint-disable-next-line signal-desktop/enforce-tw
               shouldShowLocalVideo ? 'invisible' : 'visible'
             }`
           )}
@@ -308,7 +308,7 @@ export function CallingLobby({
           {i18n('icu:calling__your-video-is-off')}
         </div>
 
-        {/* eslint-disable-next-line no-nested-ternary */}
+        {/* oxlint-disable-next-line no-nested-ternary */}
         {callMode === CallMode.Adhoc ? (
           isAdhocJoinRequestPending ? (
             <div className="CallingLobby__CallLinkNotice CallingLobby__CallLinkNotice--join-request-pending">

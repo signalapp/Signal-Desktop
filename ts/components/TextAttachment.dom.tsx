@@ -177,7 +177,7 @@ export const TextAttachment = forwardRef<HTMLTextAreaElement, PropsType>(
     const scaleFactor = (size?.hidden === false ? size.height : 1) / 1280;
 
     return (
-      // eslint-disable-next-line jsx-a11y/no-static-element-interactions
+      // oxlint-disable-next-line jsx-a11y/no-static-element-interactions
       <div
         className="TextAttachment"
         onClick={() => {

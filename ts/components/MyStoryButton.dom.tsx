@@ -28,7 +28,7 @@ export type PropsType = {
 };
 
 function getNewestMyStory(story: MyStoryType): StoryViewType {
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  // oxlint-disable-next-line typescript/no-non-null-assertion
   return story.stories[0]!;
 }
 
@@ -46,7 +46,7 @@ export function MyStoryButton({
   const [active, setActive] = useState(false);
 
   const newestStory = myStories.length
-    ? // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    ? // oxlint-disable-next-line typescript/no-non-null-assertion
       getNewestMyStory(myStories[0]!)
     : undefined;
 
@@ -87,7 +87,7 @@ export function MyStoryButton({
   }
 
   const hasMultiple = myStories.length
-    ? // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    ? // oxlint-disable-next-line typescript/no-non-null-assertion
       myStories[0]!.stories.length > 1
     : false;
 

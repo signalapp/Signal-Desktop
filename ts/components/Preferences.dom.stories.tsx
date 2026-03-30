@@ -668,7 +668,6 @@ export default {
   } satisfies PropsType,
 } satisfies Meta<PropsType>;
 
-// eslint-disable-next-line react/function-component-definition
 const Template: StoryFn<PropsType> = args => {
   const [settingsLocation, setSettingsLocation] = useState(
     args.settingsLocation
@@ -678,7 +677,7 @@ const Template: StoryFn<PropsType> = args => {
       {...args}
       settingsLocation={settingsLocation}
       setSettingsLocation={(newSettingsLocation: SettingsLocation) => {
-        // eslint-disable-next-line no-console
+        // oxlint-disable-next-line no-console
         console.log('setSettingsLocation:', newSettingsLocation);
         setSettingsLocation(newSettingsLocation);
       }}

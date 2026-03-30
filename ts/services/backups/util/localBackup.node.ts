@@ -131,7 +131,7 @@ export async function pruneLocalBackups({
 
   const referencedMediaNames = new Set<string>();
   for (const snapshotDir of snapshotDirsToKeep) {
-    // eslint-disable-next-line no-await-in-loop
+    // oxlint-disable-next-line no-await-in-loop
     const mediaNames = await readLocalBackupFilesList(snapshotDir);
     for (const mediaName of mediaNames) {
       referencedMediaNames.add(mediaName);
@@ -364,7 +364,7 @@ export async function validateLocalBackupStructure(
 
   for (const file of ['main', 'metadata', 'files']) {
     try {
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       await stat(join(snapshotDir, 'main'));
     } catch (error) {
       return {

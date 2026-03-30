@@ -9,7 +9,7 @@ export function assert(condition: boolean, message?: string): asserts condition;
 export function assert<T>(input: T, message?: string): NonNullable<T>;
 export function assert<T>(input: T, message?: string): NonNullable<T> {
   if (input === false || input == null) {
-    // eslint-disable-next-line no-debugger
+    // oxlint-disable-next-line no-debugger
     debugger;
     throw new AssertionError(message ?? `input is ${input}`);
   }
@@ -17,7 +17,7 @@ export function assert<T>(input: T, message?: string): NonNullable<T> {
 }
 
 export function unreachable(_value: never): never {
-  // eslint-disable-next-line no-debugger
+  // oxlint-disable-next-line no-debugger
   debugger;
   throw new AssertionError('unreachable');
 }

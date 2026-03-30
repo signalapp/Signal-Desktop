@@ -1012,7 +1012,7 @@ function OutgoingCallButtons({
     case OutgoingCallButtonStyle.JustVideo:
       return videoElement;
     case OutgoingCallButtonStyle.Both:
-      // eslint-disable-next-line no-case-declarations
+      // oxlint-disable-next-line no-case-declarations
       const audioButton = (
         <button
           type="button"
@@ -1041,7 +1041,7 @@ function OutgoingCallButtons({
         </>
       );
     case OutgoingCallButtonStyle.Join:
-      // eslint-disable-next-line no-case-declarations
+      // oxlint-disable-next-line no-case-declarations
       const joinButton = (
         <button
           aria-label={i18n('icu:joinOngoingCall')}
@@ -1238,8 +1238,6 @@ function DirectConversationWithSameTitleWarning(props: {
         i18n={i18n}
         id="icu:ContactSpoofing__same-name--link"
         components={{
-          // This is a render props, not a component
-          // eslint-disable-next-line react/no-unstable-nested-components
           reviewRequestLink: parts => (
             <TimelineWarningLink
               onClick={props.reviewConversationNameCollision}

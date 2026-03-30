@@ -108,7 +108,7 @@ describe('upload', () => {
       let err: unknown;
       try {
         // Again, these should be run serially.
-        // eslint-disable-next-line no-await-in-loop
+        // oxlint-disable-next-line no-await-in-loop
         await upload({ content: 'hello world', appVersion: '1.2.3', logger });
       } catch (e) {
         err = e;

@@ -43,6 +43,7 @@ export function useIntersectionObserver(): [
       return;
     }
 
+    // oxlint-disable-next-line no-undef FIXME
     const observer = new IntersectionObserver(entries => {
       if (entries.length !== 1) {
         log.error(

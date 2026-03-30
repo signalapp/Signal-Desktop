@@ -32,7 +32,7 @@ export function TimelineDateHeader({
     <div
       className={classNames(
         'TimelineDateHeader',
-        // eslint-disable-next-line local-rules/enforce-tw
+        // oxlint-disable-next-line signal-desktop/enforce-tw
         `TimelineDateHeader--${floating ? 'floating' : 'inline'}`
       )}
     >

@@ -315,7 +315,7 @@ export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<LeftPaneCho
       }
 
       if (virtualRowIndex <= this.#candidateContacts.length) {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        // oxlint-disable-next-line typescript/no-non-null-assertion
         const contact = this.#candidateContacts[virtualRowIndex - 1]!;
 
         const isChecked = this.#selectedConversationIdsSet.has(contact.id);

@@ -25,18 +25,17 @@ export type EmojisStateType = ReadonlyDeep<{
 
 // Actions
 
-type UseEmojiAction = ReadonlyDeep<{
-  type: 'emojis/USE_EMOJI';
+type EmojiUsedAction = ReadonlyDeep<{
+  type: 'emojis/EMOJI_USED';
   payload: string;
 }>;
 
-type EmojisActionType = ReadonlyDeep<UseEmojiAction>;
+type EmojisActionType = ReadonlyDeep<EmojiUsedAction>;
 
 // Action Creators
 
 export const actions = {
   onUseEmoji,
-  useEmoji,
 };
 
 export const useEmojisActions = (): BoundActionCreatorsMapObject<
@@ -45,7 +44,7 @@ export const useEmojisActions = (): BoundActionCreatorsMapObject<
 
 function onUseEmoji(
   emojiSelection: FunEmojiSelection
-): ThunkAction<void, unknown, unknown, UseEmojiAction> {
+): ThunkAction<void, unknown, unknown, EmojiUsedAction> {
   return async dispatch => {
     try {
       const emojiParentKey = getEmojiParentKeyByVariantKey(
@@ -54,16 +53,16 @@ function onUseEmoji(
       const emojiParent = getEmojiParentByKey(emojiParentKey);
       const shortName = emojiParent.englishShortNameDefault;
       await updateEmojiUsage(shortName);
-      dispatch(useEmoji(shortName));
+      dispatch(emojiUsed(shortName));
     } catch (err) {
       // Errors are ignored.
     }
   };
 }
 
-function useEmoji(payload: string): UseEmojiAction {
+function emojiUsed(payload: string): EmojiUsedAction {
   return {
-    type: 'emojis/USE_EMOJI',
+    type: 'emojis/EMOJI_USED',
     payload,
   };
 }
@@ -80,7 +79,7 @@ export function reducer(
   state: EmojisStateType = getEmptyState(),
   action: EmojisActionType
 ): EmojisStateType {
-  if (action.type === 'emojis/USE_EMOJI') {
+  if (action.type === 'emojis/EMOJI_USED') {
     const { payload } = action;
 
     return {

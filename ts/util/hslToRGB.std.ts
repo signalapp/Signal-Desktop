@@ -31,6 +31,6 @@ export function hslToRGBInt(
   lightness: number
 ): number {
   const { r, g, b } = hslToRGB(hue, saturation, lightness);
-  // eslint-disable-next-line no-bitwise
+  // oxlint-disable-next-line no-bitwise
   return ((0xff << 24) | (r << 16) | (g << 8) | b) >>> 0;
 }

@@ -104,10 +104,10 @@ export function AudioListItem({
 
         return (
           <div
-            // eslint-disable-next-line react/no-array-index-key
+            // oxlint-disable-next-line react/no-array-index-key
             key={index}
             className={tw(
-              'rounded bg-label-placeholder p-px',
+              'rounded-sm bg-label-placeholder p-px',
               'transition-[height] duration-250'
             )}
             style={{ height: `${height}px` }}
@@ -119,7 +119,7 @@ export function AudioListItem({
 
   const dot = (
     <motion.div
-      className={tw('size-1.5 shrink-0 rounded bg-label-secondary')}
+      className={tw('size-1.5 shrink-0 rounded-sm bg-label-secondary')}
       initial={false}
       animate={{ scale: isPlayed ? 0 : 1 }}
       transition={DOT_TRANSITION}

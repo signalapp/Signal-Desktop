@@ -57,7 +57,7 @@ export async function downloadOnboardingStory(): Promise<void> {
 
   const imageFilenames =
     manifest.languages[userLocale] ??
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    // oxlint-disable-next-line typescript/no-non-null-assertion
     manifest.languages.en!;
 
   const imageBuffers = await downloadOnboardingStories(

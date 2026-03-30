@@ -191,16 +191,16 @@ function MetadataOverlay(
   return (
     <div
       className={tw(
-        'absolute end-0 bottom-0 h-11.5 w-full',
+        'absolute inset-e-0 bottom-0 h-11.5 w-full',
         // This is an overlay gradient to ensure that the text has contrast
         // against the image/blurhash.
-        // eslint-disable-next-line better-tailwindcss/no-restricted-classes
+        // oxlint-disable-next-line better-tailwindcss/no-restricted-classes
         'bg-linear-to-b from-transparent to-[rgba(0,0,0,0.6)]'
       )}
     >
       <span
         className={tw(
-          'absolute end-2 bottom-1.5',
+          'absolute inset-e-2 bottom-1.5',
           'type-caption text-[12px] text-label-primary-on-color'
         )}
       >

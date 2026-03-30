@@ -85,7 +85,7 @@ export namespace AriaClickable {
     return (
       <TriggerStateUpdateContext.Provider value={handleTriggerStateUpdate}>
         <div
-          // eslint-disable-next-line better-tailwindcss/no-restricted-classes
+          // oxlint-disable-next-line better-tailwindcss/no-restricted-classes
           className={tw('relative!', props.className)}
           // For styling based on the HiddenTrigger state.
           data-hovered={hovered ? true : null}
@@ -136,7 +136,7 @@ export namespace AriaClickable {
         // [css-position-3: Painting Order and Stacking Contexts]: https://drafts.csswg.org/css-position-3/#stacking
         // [css-flexbox-1: Flex Item Z-Ordering]: https://drafts.csswg.org/css-flexbox-1/#painting
         //
-        // eslint-disable-next-line better-tailwindcss/no-restricted-classes
+        // oxlint-disable-next-line better-tailwindcss/no-restricted-classes
         className={tw('contents *:relative *:z-20')}
       >
         {props.children}
@@ -160,7 +160,7 @@ export namespace AriaClickable {
    */
   export const DeadArea: FC<DeadAreaProps> = memo(props => {
     return (
-      // eslint-disable-next-line better-tailwindcss/no-restricted-classes
+      // oxlint-disable-next-line better-tailwindcss/no-restricted-classes
       <div className={tw('relative! z-20!', props.className)}>
         {props.children}
       </div>

@@ -105,15 +105,15 @@ const processReceiptBatcher = createWaitBatcher({
         continue;
       }
       // All receipts have the same sentAt, so we can grab it from the first
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      // oxlint-disable-next-line typescript/no-non-null-assertion
       const sentAt = receiptsForMessageSentAt[0]!.receiptSync.messageSentAt;
 
       const messagesMatchingTimestamp =
-        // eslint-disable-next-line no-await-in-loop
+        // oxlint-disable-next-line no-await-in-loop
         await DataReader.getMessagesBySentAt(sentAt);
 
       if (messagesMatchingTimestamp.length === 0) {
-        // eslint-disable-next-line no-await-in-loop
+        // oxlint-disable-next-line no-await-in-loop
         const reaction = await DataReader.getReactionByTimestamp(
           window.ConversationController.getOurConversationIdOrThrow(),
           sentAt
@@ -129,7 +129,7 @@ const processReceiptBatcher = createWaitBatcher({
               receiptSync.sourceConversationId,
               receiptSync.sourceServiceId
             );
-            // eslint-disable-next-line no-await-in-loop
+            // oxlint-disable-next-line no-await-in-loop
             await remove(receipt);
           }
           continue;
@@ -223,7 +223,7 @@ async function processReceiptsForMessage(
 
   // Confirm/remove receipts, and delete sent protos
   for (const receipt of validReceipts) {
-    // eslint-disable-next-line no-await-in-loop
+    // oxlint-disable-next-line no-await-in-loop
     await remove(receipt);
     drop(addToDeleteSentProtoBatcher(receipt, message.attributes));
   }
@@ -368,14 +368,14 @@ function getTargetMessage({
 
   if (matchingMessages.length > 1) {
     log.warn(`
-      MessageReceipts.getTargetMessage: multiple (${matchingMessages.length}) 
-      matching messages for receipt, 
-      sentAt=${targetTimestamp}, 
+      MessageReceipts.getTargetMessage: multiple (${matchingMessages.length})
+      matching messages for receipt,
+      sentAt=${targetTimestamp},
       sourceConversationId=${sourceConversationId}
     `);
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  // oxlint-disable-next-line typescript/no-non-null-assertion
   const message = matchingMessages[0]!;
   return window.MessageCache.register(new MessageModel(message));
 }

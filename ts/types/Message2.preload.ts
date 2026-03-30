@@ -746,7 +746,7 @@ export const upgradeSchema = async (
       strictAssert(currentVersion, 'Missing currentVersion');
       // We really do want this intra-loop await because this is a chained async action,
       //   each step dependent on the previous
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       message = await currentVersion(message, context);
     } catch (e) {
       // Throw the error if we were unable to upgrade the message at all

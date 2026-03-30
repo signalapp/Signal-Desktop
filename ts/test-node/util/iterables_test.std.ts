@@ -121,7 +121,7 @@ describe('iterable utilities', () => {
     it('concatenates multiple iterables', () => {
       const everyNumber = {
         *[Symbol.iterator]() {
-          for (let i = 4; true; i += 1) {
+          for (let i = 4; ; i += 1) {
             yield i;
           }
         },
@@ -223,7 +223,7 @@ describe('iterable utilities', () => {
     it('can filter an infinite iterable', () => {
       const everyNumber = {
         *[Symbol.iterator]() {
-          for (let i = 0; true; i += 1) {
+          for (let i = 0; ; i += 1) {
             yield i;
           }
         },
@@ -281,7 +281,7 @@ describe('iterable utilities', () => {
     it('can collect an infinite iterable', () => {
       const everyNumber = {
         *[Symbol.iterator]() {
-          for (let i = 0; true; i += 1) {
+          for (let i = 0; ; i += 1) {
             yield { a: 'x', ...(i % 2 ? { b: i } : {}) };
           }
         },
@@ -427,7 +427,7 @@ describe('iterable utilities', () => {
     it('can map over an infinite iterable', () => {
       const everyNumber = {
         *[Symbol.iterator]() {
-          for (let i = 0; true; i += 1) {
+          for (let i = 0; ; i += 1) {
             yield i;
           }
         },
@@ -465,7 +465,7 @@ describe('iterable utilities', () => {
     it('returns the first n elements from an iterable', () => {
       const everyNumber = {
         *[Symbol.iterator]() {
-          for (let i = 0; true; i += 1) {
+          for (let i = 0; ; i += 1) {
             yield i;
           }
         },

@@ -412,7 +412,7 @@ export async function downloadRanges(
     // When the result is single range we might non-multipart response
     if (ranges.length === 1 && !match) {
       await saveDiffStream({
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        // oxlint-disable-next-line typescript/no-non-null-assertion
         diff: ranges[0]!,
         stream,
         abortSignal,
@@ -422,7 +422,6 @@ export async function downloadRanges(
       return;
     }
 
-    // eslint-disable-next-line prefer-destructuring
     boundary = match[1];
   } catch (error) {
     // Ignore further errors and destroy stream early

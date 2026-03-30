@@ -14,7 +14,7 @@ export const dispatchItemsMiddleware: Middleware =
   ({ getState }) =>
   next =>
   _action => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // oxlint-disable-next-line typescript/no-explicit-any
     const action = _action as any as UnknownAction;
     const result = next(action);
     if (

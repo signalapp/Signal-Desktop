@@ -123,7 +123,6 @@ function GroupCallMessage({
     .map(member => <UserText text={getParticipantName(member)} />);
   const ringerNode = <UserText text={getParticipantName(ringer)} />;
 
-  /* eslint-disable @typescript-eslint/no-non-null-assertion */
   switch (otherMembersRung.length) {
     case 0:
       return (
@@ -141,6 +140,7 @@ function GroupCallMessage({
           components={{
             ringer: ringerNode,
 
+            // oxlint-disable-next-line typescript/no-non-null-assertion
             otherMember: first!,
           }}
         />
@@ -152,7 +152,9 @@ function GroupCallMessage({
           i18n={i18n}
           components={{
             ringer: ringerNode,
+            // oxlint-disable-next-line typescript/no-non-null-assertion
             first: first!,
+            // oxlint-disable-next-line typescript/no-non-null-assertion
             second: second!,
           }}
         />
@@ -164,7 +166,9 @@ function GroupCallMessage({
           i18n={i18n}
           components={{
             ringer: ringerNode,
+            // oxlint-disable-next-line typescript/no-non-null-assertion
             first: first!,
+            // oxlint-disable-next-line typescript/no-non-null-assertion
             second: second!,
           }}
         />
@@ -176,14 +180,15 @@ function GroupCallMessage({
           i18n={i18n}
           components={{
             ringer: ringerNode,
+            // oxlint-disable-next-line typescript/no-non-null-assertion
             first: first!,
+            // oxlint-disable-next-line typescript/no-non-null-assertion
             second: second!,
             remaining: otherMembersRung.length - 2,
           }}
         />
       );
   }
-  /* eslint-enable @typescript-eslint/no-non-null-assertion */
 }
 
 export function IncomingCallBar(props: PropsType): React.JSX.Element | null {

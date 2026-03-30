@@ -49,7 +49,7 @@ export const PlaybackButton = React.forwardRef<PlaybackButtonRef, ButtonProps>(
     }
 
     const reducedMotion = useReducedMotion();
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- FIXME
+    // oxlint-disable-next-line react-hooks/exhaustive-deps -- FIXME
     const [animProps] = useSpring(
       {
         immediate: reducedMotion,

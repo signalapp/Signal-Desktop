@@ -143,6 +143,6 @@ export function getMegaphoneLastSnoozeDurationMs(
   const { snoozeDurationDays } = getMegaphoneSnoozeConfig(megaphone);
   const lastSnoozeCount = Math.max(megaphone.snoozeCount - 1, 0);
   const snoozeIndex = Math.min(lastSnoozeCount, snoozeDurationDays.length - 1);
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  // oxlint-disable-next-line typescript/no-non-null-assertion
   return snoozeDurationDays[snoozeIndex]! * DAY;
 }

@@ -191,7 +191,7 @@ export function ContextMenu<T>({
 
     if (ev.key === 'Enter') {
       if (focusedIndex !== undefined) {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        // oxlint-disable-next-line typescript/no-non-null-assertion
         const focusedOption = menuOptions[focusedIndex]!;
         focusedOption.onClick(focusedOption.value);
       }
@@ -242,7 +242,7 @@ export function ContextMenu<T>({
       );
     }
 
-    // eslint-disable-next-line no-loop-func
+    // oxlint-disable-next-line no-loop-func
     const onElementClick = (ev: React.MouseEvent): void => {
       ev.preventDefault();
       ev.stopPropagation();

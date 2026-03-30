@@ -33,7 +33,7 @@ export function stats(
   const result: StatsType = { mean, stddev };
 
   for (const p of percentiles) {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    // oxlint-disable-next-line typescript/no-non-null-assertion
     result[`p${p}`] = sorted[Math.floor((sorted.length * p) / 100)]!;
   }
 
@@ -147,7 +147,7 @@ export function regress(samples: ReadonlyArray<Sample>): Regression {
     yIntercept,
     slope,
     confidence:
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      // oxlint-disable-next-line typescript/no-non-null-assertion
       STUDENT_T[Math.min(samples.length, STUDENT_T.length - 1)]! * stdError,
     outliers,
     severeOutliers,

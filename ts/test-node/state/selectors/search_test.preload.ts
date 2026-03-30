@@ -34,7 +34,7 @@ import { NavTab } from '../../../types/Nav.std.js';
 
 describe('both/state/selectors/search', () => {
   const NOW = 1_000_000;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // oxlint-disable-next-line typescript/no-explicit-any
   let clock: any;
 
   beforeEach(() => {

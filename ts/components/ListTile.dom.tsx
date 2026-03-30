@@ -153,7 +153,7 @@ ListTile.heightCompact = 52;
 ListTile.checkbox = (
   props: Omit<Props, 'trailing'> & { isChecked: boolean }
 ) => {
-  // eslint-disable-next-line react-hooks/rules-of-hooks
+  // oxlint-disable-next-line react-hooks/rules-of-hooks
   const htmlId: string = useMemo(() => uuid(), []);
 
   const { onClick, disabled, isChecked, ...otherProps } = props;

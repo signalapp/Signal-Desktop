@@ -55,7 +55,7 @@ export async function runMegaphoneCheck(): Promise<void> {
     );
     for (const megaphone of megaphones) {
       try {
-        // eslint-disable-next-line no-await-in-loop
+        // oxlint-disable-next-line no-await-in-loop
         const result = await processMegaphone(megaphone);
         if (result === 'shown') {
           shownIds.add(megaphone.id);

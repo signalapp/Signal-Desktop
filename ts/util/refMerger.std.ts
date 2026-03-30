@@ -23,7 +23,7 @@ export function refMerger<T>(
         // I believe the types for `ref` are wrong in this case, as `ref.current` should
         //   not be `readonly`. That's why we do this cast. See [the React source][1].
         // [1]: https://github.com/facebook/react/blob/29b7b775f2ecf878eaf605be959d959030598b07/packages/shared/ReactTypes.js#L78-L80
-        // eslint-disable-next-line no-param-reassign
+        // oxlint-disable-next-line no-param-reassign
         (ref as MutableRefObject<T>).current = el;
       }
     });

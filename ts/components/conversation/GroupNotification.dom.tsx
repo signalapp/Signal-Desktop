@@ -92,7 +92,7 @@ function GroupNotificationChange({
                 <I18n
                   i18n={i18n}
                   id="icu:joinedTheGroup"
-                  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                  // oxlint-disable-next-line typescript/no-non-null-assertion
                   components={{ name: otherPeople[0]! }}
                 />
               ) : (
@@ -124,7 +124,7 @@ function GroupNotificationChange({
         <I18n
           id="icu:multipleLeftTheGroup"
           i18n={i18n}
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          // oxlint-disable-next-line typescript/no-non-null-assertion
           components={{ name: otherPeople[0]! }}
         />
       ) : (
@@ -174,7 +174,7 @@ export function GroupNotification({
       <>
         <p>{fromLabel}</p>
         {changes.map((change, i) => (
-          // eslint-disable-next-line react/no-array-index-key
+          // oxlint-disable-next-line react/no-array-index-key
           <p key={i} className="module-group-notification__change">
             <GroupNotificationChange change={change} from={from} i18n={i18n} />
           </p>

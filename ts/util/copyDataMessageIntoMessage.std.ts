@@ -14,6 +14,6 @@ export function copyDataMessageIntoMessage(
     // TODO: DESKTOP-5278
     // There are type conflicts between MessageAttributesType and the protos
     // that are passed in here.
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // oxlint-disable-next-line typescript/no-explicit-any
   } as any as MessageAttributesType;
 }

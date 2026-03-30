@@ -87,7 +87,7 @@ export class LinuxAppImageUpdater extends Updater {
         return true;
       }
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // oxlint-disable-next-line typescript/no-explicit-any
       const sysReport = process.report.getReport() as any;
       const glibcVersion = sysReport?.header?.glibcVersionRuntime;
       const parsedGlibcVersion = glibcVersion ? coerce(glibcVersion) : null;

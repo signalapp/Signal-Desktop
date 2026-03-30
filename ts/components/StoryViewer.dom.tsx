@@ -559,10 +559,9 @@ export function StoryViewer({
 
   return (
     <FocusScope contain={currentViewTarget == null} autoFocus>
-      {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
+      {/* oxlint-disable-next-line jsx-a11y/no-static-element-interactions */}
       <div
         className="StoryViewer"
-        // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
         tabIndex={0}
         onMouseDown={event => {
           if (isDescendentEvent(event)) {

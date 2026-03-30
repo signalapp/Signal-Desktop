@@ -16,7 +16,6 @@ const PATTERNS = [
   'tsconfig.tsbuildinfo',
   'preload.bundle.js',
   'preload.bundle.cache',
-  '.eslintcache',
 ];
 
 async function main() {
@@ -25,12 +24,17 @@ async function main() {
   });
 
   const promises = [];
+  let count = 0;
   for await (const entry of readable) {
+    count += 1;
     promises.push(rm(entry, { recursive: true, force: true }));
   }
   await Promise.all(promises);
+
+  console.log(`Deleted ${count} files`);
 }
 
+// oxlint-disable-next-line promise/prefer-await-to-then
 main().catch(error => {
   console.error(error);
   process.exit(1);

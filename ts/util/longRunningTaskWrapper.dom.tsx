@@ -6,13 +6,13 @@ import { createRoot, type Root } from 'react-dom/client';
 
 import * as Errors from '../types/errors.std.js';
 import { createLogger } from '../logging/log.std.js';
-// eslint-disable-next-line import/no-restricted-paths
+// oxlint-disable-next-line signal-desktop/no-restricted-paths
 import { ProgressModal } from '../components/ProgressModal.dom.js';
 import { clearTimeoutIfNecessary } from './clearTimeoutIfNecessary.std.js';
 import { sleep } from './sleep.std.js';
-// eslint-disable-next-line import/no-restricted-paths
+// oxlint-disable-next-line signal-desktop/no-restricted-paths
 import { FunDefaultEnglishEmojiLocalizationProvider } from '../components/fun/FunEmojiLocalizationProvider.dom.js';
-// eslint-disable-next-line import/no-restricted-paths
+// oxlint-disable-next-line signal-desktop/no-restricted-paths
 import { AxoProvider } from '../axo/AxoProvider.dom.js';
 
 const log = createLogger('longRunningTaskWrapper');

@@ -52,7 +52,6 @@ export function FunSearch(props: FunSearchProps): React.JSX.Element {
         onFocus={handleFocus}
         onBlur={handleBlur}
         placeholder={props.placeholder}
-        // eslint-disable-next-line jsx-a11y/no-autofocus
         autoFocus={shouldAutoFocus}
       />
       {props.searchInput !== '' && (

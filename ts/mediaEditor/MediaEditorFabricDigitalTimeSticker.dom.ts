@@ -138,8 +138,7 @@ export class MediaEditorFabricDigitalTimeSticker extends fabric.Group {
   }
 
   static override fromObject(
-    // eslint-disable-next-line max-len
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
+    // oxlint-disable-next-line typescript/no-explicit-any, typescript/explicit-module-boundary-types
     options: any,
     callback: (_: MediaEditorFabricDigitalTimeSticker) => unknown
   ): MediaEditorFabricDigitalTimeSticker {

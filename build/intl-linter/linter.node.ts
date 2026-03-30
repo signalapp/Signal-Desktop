@@ -174,7 +174,7 @@ async function lintMessages() {
     const key = topProp.key.value;
 
     if (process.argv.includes('--test')) {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      // oxlint-disable-next-line typescript/no-non-null-assertion
       const test = tests[key]!;
       const actualErrors = reports.map(report => report.id);
       deepEqual(actualErrors, test.expectErrors);
@@ -197,13 +197,13 @@ async function lintMessages() {
         loc = `:${line}:${column + report.locationOffset}`;
       }
 
-      // eslint-disable-next-line no-console
+      // oxlint-disable-next-line no-console
       console.error(
         chalk`{bold.cyan ${relativePath}${loc}} ${report.message} {magenta ({underline ${report.id}})}`
       );
-      // eslint-disable-next-line no-console
+      // oxlint-disable-next-line no-console
       console.error(chalk`  {dim in ${key} is "}{red ${icuMessage}}{dim "}`);
-      // eslint-disable-next-line no-console
+      // oxlint-disable-next-line no-console
       console.error();
 
       failed = true;
@@ -215,8 +215,9 @@ async function lintMessages() {
   }
 }
 
+// oxlint-disable-next-line promise/prefer-await-to-then
 lintMessages().catch(error => {
-  // eslint-disable-next-line no-console
+  // oxlint-disable-next-line no-console
   console.error(error);
   process.exit(1);
 });

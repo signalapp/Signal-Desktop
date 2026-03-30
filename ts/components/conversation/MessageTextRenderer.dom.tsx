@@ -189,6 +189,7 @@ function renderNode({
     }
 
     return (
+      // oxlint-disable-next-line jsx_a11y/no-static-element-interactions
       <span
         key={key}
         tabIndex={disableLinks ? undefined : 0}

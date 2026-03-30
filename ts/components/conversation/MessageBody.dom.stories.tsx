@@ -411,11 +411,10 @@ export function FormattingNesting(): React.JSX.Element {
         replacementText: 'Eve',
       },
     ],
-    /* eslint-disable max-len */
+
     //                                                                     m            m
     //     b                                      bs                                                          s
     //     i                                                                                                             i
-    /* eslint-enable max-len */
     text: 'Italic Start and Bold Start .\uFFFC. Bold EndStrikethrough Start .\uFFFC. Mono\uFFFCpace Pop! .\uFFFC. Strikethrough End Ital\uFFFCc End',
   });
 

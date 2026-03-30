@@ -220,9 +220,9 @@ async function cleanupStoryReplies(
   }
 
   return cleanupStoryReplies(story, {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    // oxlint-disable-next-line typescript/no-non-null-assertion
     messageId: lastMessageId!,
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    // oxlint-disable-next-line typescript/no-non-null-assertion
     receivedAt: lastReceivedAt!,
   });
 }

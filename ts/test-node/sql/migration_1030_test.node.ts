@@ -74,7 +74,7 @@ describe('SQL/updateToSchemaVersion1030', () => {
     'conversation-merge',
     'group-v1-migration',
     'keychange',
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- legacy type
+    // oxlint-disable-next-line typescript/no-explicit-any -- legacy type
     'message-history-unsynced' as any,
     'profile-change',
     'story',

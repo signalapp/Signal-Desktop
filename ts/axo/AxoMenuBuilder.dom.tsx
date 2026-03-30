@@ -110,7 +110,7 @@ export namespace AxoMenuBuilder {
 
   Label.displayName = `${Namespace}.Label`;
 
-  export const Separator: FC<AxoBaseMenu.MenuSeparatorProps> = memo(props => {
+  export const Separator: FC = memo(props => {
     const renderer = useStrictContext(MenuBuilderContext);
     if (renderer === 'AxoDropdownMenu') {
       return <AxoDropdownMenu.Separator {...props} />;

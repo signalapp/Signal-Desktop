@@ -14,7 +14,7 @@ export async function awaitObject<
 
   const values = await Promise.all(promises);
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // oxlint-disable-next-line typescript/no-explicit-any
   const result: any = {};
   for (const [i, key] of keys.entries()) {
     result[key] = values[i];

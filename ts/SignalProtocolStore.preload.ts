@@ -186,7 +186,7 @@ async function _fillCaches<ID, T extends HasIdType<ID>, HydratedType>(
   }
 
   log.info(`Finished caching ${field} data`);
-  // eslint-disable-next-line no-param-reassign, @typescript-eslint/no-explicit-any
+  // oxlint-disable-next-line no-param-reassign, typescript/no-explicit-any
   object[field] = cache as any;
 }
 
@@ -2090,11 +2090,11 @@ export class SignalProtocolStore extends EventEmitter {
       throw new Error('saveIdentity: encodedAddress was undefined/null');
     }
     if (!(publicKey instanceof Uint8Array)) {
-      // eslint-disable-next-line no-param-reassign
+      // oxlint-disable-next-line no-param-reassign
       publicKey = Bytes.fromBinary(publicKey);
     }
     if (typeof nonblockingApproval !== 'boolean') {
-      // eslint-disable-next-line no-param-reassign
+      // oxlint-disable-next-line no-param-reassign
       nonblockingApproval = false;
     }
 
@@ -2636,14 +2636,14 @@ export class SignalProtocolStore extends EventEmitter {
     // Update database
     await Promise.all<void>([
       itemStorage.put('identityKeyMap', {
-        ...(itemStorage.get('identityKeyMap') || {}),
+        ...itemStorage.get('identityKeyMap'),
         [pni]: {
           pubKey: pniPublicKey,
           privKey: pniPrivateKey,
         },
       }),
       itemStorage.put('registrationIdMap', {
-        ...(itemStorage.get('registrationIdMap') || {}),
+        ...itemStorage.get('registrationIdMap'),
         [pni]: registrationId,
       }),
       (async () => {
@@ -2851,7 +2851,7 @@ export class SignalProtocolStore extends EventEmitter {
 
   public override on(
     eventName: string | symbol,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // oxlint-disable-next-line typescript/no-explicit-any
     listener: (...args: Array<any>) => void
   ): this {
     return super.on(eventName, listener);
@@ -2877,7 +2877,7 @@ export class SignalProtocolStore extends EventEmitter {
 
   public override emit(
     eventName: string | symbol,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // oxlint-disable-next-line typescript/no-explicit-any
     ...args: Array<any>
   ): boolean {
     return super.emit(eventName, ...args);

@@ -33,7 +33,7 @@ function PhoneInput({
       }
 
       if (initialValue !== undefined) {
-        // eslint-disable-next-line no-param-reassign
+        // oxlint-disable-next-line no-param-reassign
         elem.value = initialValue;
       }
 

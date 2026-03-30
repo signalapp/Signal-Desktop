@@ -1069,7 +1069,7 @@ export type ConsumePreloadDataActionType = ReadonlyDeep<{
   };
 }>;
 
-// eslint-disable-next-line local-rules/type-alias-readonlydeep
+// oxlint-disable-next-line signal-desktop/enforce-type-alias-readonlydeep
 export type ConversationActionType =
   | AddPreloadDataActionType
   | CancelVerificationDataByConversationActionType
@@ -2544,7 +2544,7 @@ function retryMessageSend(
       throw new Error(`retryMessageSend: Message ${messageId} missing!`);
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    // oxlint-disable-next-line typescript/no-non-null-assertion
     const conversation = window.ConversationController.get(
       message.attributes.conversationId
     )!;
@@ -4310,7 +4310,7 @@ function saveAttachments(
       for (const attachment of attachments) {
         index += 1;
 
-        // eslint-disable-next-line no-await-in-loop
+        // oxlint-disable-next-line no-await-in-loop
         const result = await Attachment.save({
           attachment,
           index,
@@ -4677,7 +4677,7 @@ function addMembersToGroup(
   };
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+// oxlint-disable-next-line typescript/no-explicit-any
 export type ActionCreator<T extends (...params: Array<any>) => any> =
   ReadonlyDeep<(...params: Parameters<T>) => void>;
 

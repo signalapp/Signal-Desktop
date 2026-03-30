@@ -497,7 +497,7 @@ describe('Attachment', () => {
     it('should clear `data` field if it is not a typed array', async () => {
       const input = {
         contentType: MIME.IMAGE_JPEG,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        // oxlint-disable-next-line typescript/no-explicit-any
         data: 123 as any,
         fileName: 'foo.jpg',
         size: 1111,

@@ -239,7 +239,7 @@ export function MentionNoMatches(): React.JSX.Element {
   return <MessageSearchResult {...props} />;
 }
 
-export const _MentionNoMatches = (): React.JSX.Element => {
+export const MentionNoMatches2 = (): React.JSX.Element => {
   const props = useProps({
     body: 'moss banana twine sound lake zoo brain count vacuum work stairs try power forget hair dry diary years no results \uFFFC elephant sorry umbrella potato igloo kangaroo home Georgia bayonet vector orange forge diary zebra turtle rise front \uFFFC',
     bodyRanges: [

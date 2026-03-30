@@ -1,8 +1,6 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* eslint-disable max-classes-per-file */
-
 import { PublicKey, Aci, Pni } from '@signalapp/libsignal-client';
 import type { KeyPairType } from './Types.d.ts';
 import * as Bytes from '../Bytes.std.js';
@@ -154,6 +152,7 @@ class ProvisioningCipherInner {
   }
 }
 
+// oxlint-disable-next-line max-classes-per-file
 export default class ProvisioningCipher {
   constructor() {
     const inner = new ProvisioningCipherInner();

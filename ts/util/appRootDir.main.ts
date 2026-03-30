@@ -10,5 +10,6 @@ export function getAppRootDir(): string {
   if (app.isPackaged || process.env.IS_BUNDLED) {
     return app.getAppPath();
   }
+  // oxlint-disable-next-line no-restricted-globals
   return join(__dirname, '..', '..');
 }

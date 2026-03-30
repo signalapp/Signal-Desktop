@@ -33,7 +33,6 @@ const getDefaultProps = (): Props => ({
   isCallLink: false,
 });
 
-// eslint-disable-next-line react/function-component-definition
 const Template: StoryFn<Props> = args => <StagedLinkPreview {...args} />;
 
 export const Loading = Template.bind({});

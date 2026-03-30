@@ -1,17 +1,12 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* eslint-disable no-console */
-
 import { inspect, parseArgs } from 'node:util';
 import { ipcRenderer as ipc } from 'electron';
 import { sync } from 'fast-glob';
 
-// eslint-disable-next-line import/no-extraneous-dependencies
 import chai, { assert, config as chaiConfig } from 'chai';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import chaiAsPromised from 'chai-as-promised';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { reporters, type MochaOptions } from 'mocha';
 
 import { initializeMessageCounter } from '../../util/incrementMessageCounter.preload.js';
@@ -154,6 +149,7 @@ window.testUtilities = {
   },
 
   prepareTests() {
+    // oxlint-disable-next-line no-console
     console.log('Preparing tests...');
     const files = sync('../../test-{both,electron}/**/*_test.*.js', {
       absolute: true,
@@ -163,7 +159,7 @@ window.testUtilities = {
     for (const [i, file] of files.entries()) {
       if (i % workerCount === worker) {
         try {
-          // eslint-disable-next-line import/no-dynamic-require, global-require
+          // oxlint-disable-next-line import/no-dynamic-require, global-require
           require(file);
         } catch (error) {
           window.testUtilities.onTestEvent({

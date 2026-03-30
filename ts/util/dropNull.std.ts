@@ -17,14 +17,14 @@ export type ShallowNullToUndefined<T extends { [key: string]: unknown }> = {
 export function dropNull<T>(
   value: NonNullable<T> | null | undefined
 ): T | undefined {
-  // eslint-disable-next-line eqeqeq
+  // oxlint-disable-next-line eqeqeq
   if (value === null) {
     return undefined;
   }
   return value;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+// oxlint-disable-next-line typescript/no-explicit-any
 export function shallowDropNull<O extends { [key: string]: any }>(
   value: O | null | undefined
 ):
@@ -36,7 +36,7 @@ export function shallowDropNull<O extends { [key: string]: any }>(
     return undefined;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // oxlint-disable-next-line typescript/no-explicit-any
   const result: any = {};
 
   for (const [key, propertyValue] of Object.entries(value)) {
@@ -53,11 +53,11 @@ export function convertUndefinedToNull<T>(value: T | undefined): T | null {
   return value;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+// oxlint-disable-next-line typescript/no-explicit-any
 export function shallowConvertUndefinedToNull<T extends { [key: string]: any }>(
   obj: T
 ): ShallowUndefinedToNull<T> {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // oxlint-disable-next-line typescript/no-explicit-any
   const result: any = {};
 
   for (const [key, propertyValue] of Object.entries(obj)) {

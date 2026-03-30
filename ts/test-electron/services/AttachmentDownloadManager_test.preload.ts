@@ -1,8 +1,5 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-
-/* eslint-disable more/no-then */
-/* eslint-disable @typescript-eslint/no-floating-promises */
 import * as sinon from 'sinon';
 import { assert } from 'chai';
 import lodash, { pick } from 'lodash';
@@ -141,6 +138,7 @@ describe('AttachmentDownloadManager', () => {
       >()
       .callsFake(async () => {
         return new Promise<{ status: 'finished' | 'retry' }>(resolve => {
+          // oxlint-disable-next-line promise/prefer-await-to-then, typescript/no-floating-promises, signal-desktop/no-then
           Promise.resolve().then(() => {
             resolve({ status: 'finished' });
           });
@@ -185,7 +183,7 @@ describe('AttachmentDownloadManager', () => {
       index >= 0 && index < array.length,
       `index out of bounds: ${index}`
     );
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    // oxlint-disable-next-line typescript/no-non-null-assertion
     return array[index]!;
   }
 
@@ -231,7 +229,7 @@ describe('AttachmentDownloadManager', () => {
       })
     );
     for (const job of jobs) {
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       await addJob(job, AttachmentDownloadUrgency.STANDARD);
     }
     return jobs;
@@ -276,9 +274,9 @@ describe('AttachmentDownloadManager', () => {
     await flushSQLReads();
     const now = Date.now();
     while (Date.now() < now + ms) {
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       await clock.tickAsync(downloadManager?.tickInterval ?? 1000);
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       await flushSQLReads();
     }
   }
@@ -444,6 +442,7 @@ describe('AttachmentDownloadManager', () => {
 
     runJob.callsFake(async ({ job }: { job: AttachmentDownloadJobType }) => {
       return new Promise<{ status: 'finished' | 'retry' }>(resolve => {
+        // oxlint-disable-next-line typescript/no-floating-promises, promise/prefer-await-to-then, signal-desktop/no-then
         Promise.resolve().then(() => {
           if (job.messageId === assertAt(jobs, 0).messageId) {
             resolve({ status: 'finished' });
@@ -507,6 +506,7 @@ describe('AttachmentDownloadManager', () => {
     const jobs = await addJobs(1);
     runJob.callsFake(async () => {
       return new Promise<{ status: 'finished' | 'retry' }>(resolve => {
+        // oxlint-disable-next-line typescript/no-floating-promises, promise/prefer-await-to-then, signal-desktop/no-then
         Promise.resolve().then(() => {
           resolve({ status: 'retry' });
         });
@@ -605,6 +605,7 @@ describe('AttachmentDownloadManager', () => {
 
     runJob.callsFake(async () => {
       return new Promise<{ status: 'finished' | 'retry' }>(resolve => {
+        // oxlint-disable-next-line typescript/no-floating-promises, promise/prefer-await-to-then, signal-desktop/no-then
         Promise.resolve().then(() => {
           resolve({ status: 'retry' });
         });
@@ -631,6 +632,7 @@ describe('AttachmentDownloadManager', () => {
 
     runJob.callsFake(async args => {
       return new Promise(resolve => {
+        // oxlint-disable-next-line typescript/no-floating-promises, promise/prefer-await-to-then, signal-desktop/no-then
         Promise.resolve().then(() => {
           resolve({
             status: 'retry',
@@ -707,6 +709,7 @@ describe('AttachmentDownloadManager', () => {
       await downloadStarted.promise;
 
       // Shutdown behavior
+      // oxlint-disable-next-line typescript/no-floating-promises
       downloadManager?.stop();
       inflightRequestAbortController.abort();
 
@@ -730,6 +733,7 @@ describe('AttachmentDownloadManager', () => {
       await downloadStarted.promise;
 
       // user-canceled behavior
+      // oxlint-disable-next-line typescript/no-floating-promises
       downloadManager?.cancelJobs(JobCancelReason.UserInitiated, () => true);
 
       await assert.isRejected(
@@ -927,7 +931,7 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
   let maybeDeleteAttachmentFile: sinon.SinonStub;
   let deleteDownloadFile: sinon.SinonStub;
   let downloadAttachment: sinon.SinonStub<
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // oxlint-disable-next-line typescript/no-explicit-any
     any,
     ReturnType<typeof downloadAttachmentUtil>
   >;

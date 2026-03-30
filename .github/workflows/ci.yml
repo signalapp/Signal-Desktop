@@ -41,14 +41,12 @@ jobs:
     #     path: ${{ env.SCCACHE_PATH }}
     #     key: sccache-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml', 'patches/**') }}
 
-    - name: Restore cached .eslintcache and tsconfig.tsbuildinfo
+    - name: Restore cached tsconfig.tsbuildinfo
       uses: actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
       id: cache-lint
       with:
-        path: |
-          .eslintcache
-          tsconfig.tsbuildinfo
-        key: lint-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml', 'patches/**', '.eslintrc.js', '.eslint/**', 'tsconfig.json') }}
+        path: tsconfig.tsbuildinfo
+        key: lint-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml', 'patches/**', 'tsconfig.json') }}
 
     - name: Install Desktop node_modules
       run: pnpm install
@@ -71,13 +69,11 @@ jobs:
 
     - run: git diff --exit-code
 
-    - name: Update cached .eslintcache and tsconfig.tsbuildinfo
+    - name: Update cached tsconfig.tsbuildinfo
       uses: actions/cache/save@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
       if: github.ref == 'refs/heads/main'
       with:
-        path: |
-          .eslintcache
-          tsconfig.tsbuildinfo
+        path: tsconfig.tsbuildinfo
         key: ${{ steps.cache-lint.outputs.cache-primary-key }}
 
   macos:

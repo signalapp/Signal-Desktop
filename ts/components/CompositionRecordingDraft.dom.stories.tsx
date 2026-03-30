@@ -42,7 +42,7 @@ export function Default(): React.JSX.Element {
     });
 
     return a;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // oxlint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handlePlay = (positionAsRatio?: number) => {

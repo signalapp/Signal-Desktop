@@ -38,7 +38,7 @@ const getMemberColors = (
   new Map(
     memberships.map((membership, i) => [
       membership.member.id,
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      // oxlint-disable-next-line typescript/no-non-null-assertion
       ContactNameColors[i % ContactNameColors.length]!,
     ])
   );

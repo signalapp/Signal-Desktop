@@ -384,7 +384,7 @@ async function getBackgroundColor(
 
 async function getLocaleOverrideSetting(): Promise<string | null> {
   const value = ephemeralConfig.get('localeOverride');
-  // eslint-disable-next-line eqeqeq -- Checking for null explicitly
+  // oxlint-disable-next-line eqeqeq -- Checking for null explicitly
   if (typeof value === 'string' || value === null) {
     log.info('got fast localeOverride setting', value);
     return value;
@@ -818,13 +818,13 @@ async function createWindow() {
       maximized: mainWindow.isMaximized(),
       autoHideMenuBar: mainWindow.autoHideMenuBar,
       fullscreen: mainWindow.isFullScreen(),
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      // oxlint-disable-next-line typescript/no-non-null-assertion
       width: size[0]!,
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      // oxlint-disable-next-line typescript/no-non-null-assertion
       height: size[1]!,
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      // oxlint-disable-next-line typescript/no-non-null-assertion
       x: position[0]!,
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      // oxlint-disable-next-line typescript/no-non-null-assertion
       y: position[1]!,
     };
 
@@ -1551,7 +1551,7 @@ async function showCallDiagnosticWindow() {
 
 let permissionsPopupWindow: BrowserWindow | undefined;
 function showPermissionsPopupWindow(forCalling: boolean, forCamera: boolean) {
-  // eslint-disable-next-line no-async-promise-executor
+  // oxlint-disable-next-line no-async-promise-executor
   return new Promise<void>(async (resolveFn, reject) => {
     if (permissionsPopupWindow) {
       permissionsPopupWindow.show();
@@ -1565,9 +1565,9 @@ function showPermissionsPopupWindow(forCalling: boolean, forCamera: boolean) {
 
     const size = mainWindow.getSize();
     const options = {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      // oxlint-disable-next-line typescript/no-non-null-assertion
       width: Math.min(400, size[0]!),
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      // oxlint-disable-next-line typescript/no-non-null-assertion
       height: Math.min(150, size[1]!),
       resizable: false,
       title: getResolvedMessagesLocale().i18n('icu:allowAccess'),
@@ -1679,6 +1679,7 @@ function getSQLKey(): string {
     typeof previousBackend === 'string' &&
     previousBackend !== safeStorageBackend
   ) {
+    // oxlint-disable-next-line no-console
     console.error(
       `Detected change in safeStorage backend, can't decrypt DB key (previous: ${previousBackend}, current: ${safeStorageBackend})`
     );
@@ -2267,7 +2268,7 @@ app.on('ready', async () => {
   });
 
   drop(
-    // eslint-disable-next-line more/no-then
+    // oxlint-disable-next-line promise/prefer-await-to-then, signal-desktop/no-then
     Promise.race([sqlInitPromise, timeout]).then(async maybeTimeout => {
       if (maybeTimeout !== 'timeout') {
         return;
@@ -2465,6 +2466,7 @@ async function maybeRequestCloseConfirmation(): Promise<boolean> {
     'maybeRequestCloseConfirmation: Checking to see if close confirmation is needed'
   );
   const request = new Promise<boolean>(resolveFn => {
+    // oxlint-disable-next-line prefer-const
     let timeout: NodeJS.Timeout | undefined;
 
     if (!mainWindow) {
@@ -2516,6 +2518,7 @@ async function requestShutdown() {
 
   log.info('requestShutdown: Requesting close of mainWindow...');
   const request = new Promise<void>(resolveFn => {
+    // oxlint-disable-next-line prefer-const
     let timeout: NodeJS.Timeout | undefined;
 
     if (!mainWindow) {
@@ -2933,31 +2936,31 @@ ipc.on('get-config', async event => {
     );
   }
 
-  // eslint-disable-next-line no-param-reassign
+  // oxlint-disable-next-line no-param-reassign
   event.returnValue = parsed.data;
 });
 
 // Ingested in preload.js via a sendSync call
 ipc.on('locale-data', event => {
-  // eslint-disable-next-line no-param-reassign
+  // oxlint-disable-next-line no-param-reassign
   event.returnValue = getResolvedMessagesLocale().messages;
 });
 
 // Ingested in preload.js via a sendSync call
 ipc.on('locale-display-names', event => {
-  // eslint-disable-next-line no-param-reassign
+  // oxlint-disable-next-line no-param-reassign
   event.returnValue = getResolvedMessagesLocale().localeDisplayNames;
 });
 
 // Ingested in preload.js via a sendSync call
 ipc.on('country-display-names', event => {
-  // eslint-disable-next-line no-param-reassign
+  // oxlint-disable-next-line no-param-reassign
   event.returnValue = getResolvedMessagesLocale().countryDisplayNames;
 });
 
 // TODO DESKTOP-5241
 ipc.on('OS.getClassName', event => {
-  // eslint-disable-next-line no-param-reassign
+  // oxlint-disable-next-line no-param-reassign
   event.returnValue = OS.getClassName();
 });
 
@@ -2986,7 +2989,7 @@ ipc.handle('DebugLogs.upload', async (_event, content: string) => {
 });
 
 ipc.on('get-user-data-path', event => {
-  // eslint-disable-next-line no-param-reassign
+  // oxlint-disable-next-line no-param-reassign
   event.returnValue = app.getPath('userData');
 });
 
@@ -3438,7 +3441,7 @@ async function showStickerCreatorWindow() {
 
 if (isTestEnvironment(getEnvironment())) {
   ipc.on('ci:test-electron:getArgv', event => {
-    // eslint-disable-next-line no-param-reassign
+    // oxlint-disable-next-line no-param-reassign
     event.returnValue = process.argv;
   });
 

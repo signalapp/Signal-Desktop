@@ -19,7 +19,7 @@ if (!parentPort) {
 
 const port = parentPort;
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+// oxlint-disable-next-line typescript/no-explicit-any
 function respond(seq: number, response?: any) {
   const wrappedResponse: WrappedWorkerResponse = {
     type: 'response',
@@ -104,7 +104,7 @@ const onMessage = (
     if (request.type === 'sqlCall:read' || request.type === 'sqlCall:write') {
       const DataInterface =
         request.type === 'sqlCall:read' ? DataReader : DataWriter;
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // oxlint-disable-next-line typescript/no-explicit-any
       const method = (DataInterface as any)[request.method];
       if (typeof method !== 'function') {
         throw new Error(`Invalid sql method: ${request.method} ${method}`);

@@ -455,7 +455,7 @@ export class BackupExportStream extends Readable {
         isAciString(attributes.serviceId) &&
         ktAcis.has(attributes.serviceId)
       ) {
-        // eslint-disable-next-line no-await-in-loop
+        // oxlint-disable-next-line no-await-in-loop
         keyTransparencyData = await DataReader.getKTAccountData(
           attributes.serviceId
         );
@@ -476,7 +476,7 @@ export class BackupExportStream extends Readable {
         recipient,
       });
 
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       await this.#flush();
       this.#stats.conversations += 1;
     }
@@ -540,7 +540,7 @@ export class BackupExportStream extends Readable {
         },
       });
 
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       await this.#flush();
       this.#stats.distributionLists += 1;
     }
@@ -586,7 +586,7 @@ export class BackupExportStream extends Readable {
         },
       });
 
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       await this.#flush();
       this.#stats.callLinks += 1;
     }
@@ -601,7 +601,7 @@ export class BackupExportStream extends Readable {
         },
       });
 
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       await this.#flush();
       this.#stats.stickerPacks += 1;
     }
@@ -679,7 +679,7 @@ export class BackupExportStream extends Readable {
         },
       });
 
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       await this.#flush();
       this.#stats.chats += 1;
     }
@@ -728,7 +728,7 @@ export class BackupExportStream extends Readable {
         },
       });
 
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       await this.#flush();
       this.#stats.adHocCalls += 1;
     }
@@ -778,7 +778,7 @@ export class BackupExportStream extends Readable {
         },
       });
 
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       await this.#flush();
       this.#stats.notificationProfiles += 1;
     }
@@ -824,7 +824,7 @@ export class BackupExportStream extends Readable {
         },
       });
 
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       await this.#flush();
       this.#stats.chatFolders += 1;
     }
@@ -1627,7 +1627,7 @@ export class BackupExportStream extends Readable {
       isOutgoing = true;
       isIncoming = false;
 
-      // eslint-disable-next-line no-param-reassign
+      // oxlint-disable-next-line no-param-reassign
       message.type = 'outgoing';
 
       this.#stats.fixedDirectMessages += 1;
@@ -3257,7 +3257,7 @@ export class BackupExportStream extends Readable {
     attachment: AttachmentType
   ): Backups.MessageAttachment.Flag {
     const flag = SignalService.AttachmentPointer.Flags.VOICE_MESSAGE;
-    // eslint-disable-next-line no-bitwise
+    // oxlint-disable-next-line no-bitwise
     if (((attachment.flags || 0) & flag) === flag) {
       // Legacy data support for iOS
       if (message.body) {
@@ -3271,7 +3271,7 @@ export class BackupExportStream extends Readable {
     }
     if (
       attachment.flags &&
-      // eslint-disable-next-line no-bitwise
+      // oxlint-disable-next-line no-bitwise
       attachment.flags & SignalService.AttachmentPointer.Flags.BORDERLESS
     ) {
       return Backups.MessageAttachment.Flag.BORDERLESS;
@@ -4192,7 +4192,7 @@ async function* getAllMessages(): AsyncIterable<MessageAttributesType> {
   let cursor: PageBackupMessagesCursorType | undefined;
   while (!cursor?.done) {
     const { messages, cursor: newCursor } =
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       await DataReader.pageBackupMessages(cursor);
 
     cursor = newCursor;

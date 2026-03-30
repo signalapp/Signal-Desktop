@@ -185,7 +185,7 @@ export function Icons(): JSX.Element {
       {size => (
         <AxoAvatar.Root size={size}>
           <AxoAvatar.Content label={null}>
-            {/* eslint-disable-next-line @typescript-eslint/no-non-null-assertion */}
+            {/* oxlint-disable-next-line typescript/no-non-null-assertion */}
             <AxoAvatar.Icon symbol={icons[size % icons.length]!} />
           </AxoAvatar.Content>
         </AxoAvatar.Root>

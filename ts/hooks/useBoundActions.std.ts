@@ -7,8 +7,6 @@ import { bindActionCreators } from 'redux';
 import { useDispatch } from 'react-redux';
 import { useMemo } from 'react';
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 /**
  * Type-level function from an action creator (which may be ThunkAction creator) to a
  * bound action creator.
@@ -22,6 +20,7 @@ import { useMemo } from 'react';
  */
 type BoundActionCreator<A> = A extends (
   ...params: infer P
+  // oxlint-disable-next-line typescript/no-explicit-any
 ) => ThunkAction<infer R, any, any, any>
   ? (...params: P) => R
   : A;
@@ -41,6 +40,7 @@ export const useBoundActions = <T extends ActionCreatorsMapObject>(
     return bindActionCreators(
       actions,
       dispatch
+      // oxlint-disable-next-line typescript/no-explicit-any
     ) as any as BoundActionCreatorsMapObject<T>;
   }, [actions, dispatch]);
 };

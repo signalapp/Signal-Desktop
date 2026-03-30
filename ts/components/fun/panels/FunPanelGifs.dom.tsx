@@ -351,7 +351,7 @@ export function FunPanelGifs({
 
   const getItemKey = useCallback(
     (index: number) => {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      // oxlint-disable-next-line typescript/no-non-null-assertion
       return items[index]!.id;
     },
     [items]
@@ -613,7 +613,7 @@ export function FunPanelGifs({
               exit={{ opacity: 0 }}
               className={tw(
                 'absolute bottom-1',
-                // eslint-disable-next-line better-tailwindcss/no-restricted-classes
+                // oxlint-disable-next-line better-tailwindcss/no-restricted-classes
                 'left-1/2 -translate-x-1/2',
                 'rounded-full bg-[black]/70 px-4.5 py-1.5',
                 'pointer-events-none'

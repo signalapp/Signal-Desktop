@@ -732,7 +732,7 @@ export function renderToast({
           label: i18n('icu:Toast__ActionLabel--SubmitLog'),
           onClick: onShowDebugLog,
         }}
-        // eslint-disable-next-line better-tailwindcss/no-restricted-classes
+        // oxlint-disable-next-line better-tailwindcss/no-restricted-classes
         className={tw('max-w-[640px]!')}
       >
         <h2>
@@ -748,7 +748,7 @@ export function renderToast({
 
         <pre
           className={tw(
-            'my-2 max-h-48 min-h-24 max-w-[520px] overflow-auto border-1 border-solid p-2'
+            'my-2 max-h-48 min-h-24 max-w-[520px] overflow-auto border border-solid p-2'
           )}
         >
           {toast.parameters.logLines.join('\n')}

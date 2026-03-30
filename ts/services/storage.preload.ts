@@ -281,7 +281,7 @@ async function generateManifest(
     if (conversationType === ConversationTypes.Me) {
       storageRecord = {
         record: {
-          // eslint-disable-next-line no-await-in-loop
+          // oxlint-disable-next-line no-await-in-loop
           account: await toAccountRecord(conversation, {
             notificationProfileSyncDisabled,
           }),
@@ -333,7 +333,7 @@ async function generateManifest(
 
       storageRecord = {
         record: {
-          // eslint-disable-next-line no-await-in-loop
+          // oxlint-disable-next-line no-await-in-loop
           contact: await toContactRecord(conversation),
         },
       };

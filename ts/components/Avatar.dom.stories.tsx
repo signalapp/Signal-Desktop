@@ -84,7 +84,6 @@ const sizes = Object.values(AvatarSize).filter(
   x => typeof x === 'number'
 ) as Array<AvatarSize>;
 
-// eslint-disable-next-line react/function-component-definition
 const Template: StoryFn<Props> = (args: Props) => {
   return (
     <>
@@ -95,7 +94,6 @@ const Template: StoryFn<Props> = (args: Props) => {
   );
 };
 
-// eslint-disable-next-line react/function-component-definition
 const TemplateSingle: StoryFn<Props> = (args: Props) => (
   <Avatar {...args} size={AvatarSize.EIGHTY} />
 );
@@ -104,12 +102,12 @@ export const Default = Template.bind({});
 Default.args = createProps({
   avatarUrl: '/fixtures/giphy-GVNvOUpeYmI7e.gif',
 });
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+// oxlint-disable-next-line typescript/no-explicit-any
 Default.play = async (context: any) => {
   const { args, canvasElement } = context;
   const canvas = within(canvasElement);
   const [avatar] = canvas.getAllByRole('button');
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  // oxlint-disable-next-line typescript/no-non-null-assertion
   await userEvent.click(avatar!);
   await expect(args.onClick).toHaveBeenCalled();
 };

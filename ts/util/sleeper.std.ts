@@ -26,6 +26,7 @@ export class Sleeper {
     const resolveOnShutdown = options?.resolveOnShutdown ?? true;
 
     return new Promise((resolve, reject) => {
+      // oxlint-disable-next-line prefer-const
       let timeout: NodeJS.Timeout | undefined;
 
       const shutdownCallback = () => {

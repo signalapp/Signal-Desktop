@@ -1,8 +1,6 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* eslint-env node */
-
 import path from 'node:path';
 
 import lodashFp from 'lodash/fp.js';

@@ -27,7 +27,6 @@ export default {
   title: 'Components/InstallScreenBackupImportStep',
 } satisfies Meta<PropsType>;
 
-// eslint-disable-next-line react/function-component-definition
 const Template: StoryFn<PropsType> = (args: PropsType) => {
   const [updates, setUpdates] = useState(DEFAULT_UPDATES);
   const forceUpdate = useCallback(async () => {

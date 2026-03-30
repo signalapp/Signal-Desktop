@@ -1536,7 +1536,7 @@ export async function modifyGroupV2({
   for (let attempt = 0; attempt < MAX_ATTEMPTS; attempt += 1) {
     log.info(`modifyGroupV2/${logId}: Starting attempt ${attempt}`);
     try {
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       await window.waitForEmptyEventQueue();
 
       // Fetch profiles for contacts that do not have credentials (or have
@@ -1553,7 +1553,7 @@ export async function modifyGroupV2({
           log.info(`modifyGroupV2/${logId}: Fetching profiles for ${logIds}`);
         }
 
-        // eslint-disable-next-line no-await-in-loop
+        // oxlint-disable-next-line no-await-in-loop
         await Promise.all(
           membersMissingCredentials.map(member => member.getProfiles())
         );
@@ -1561,7 +1561,7 @@ export async function modifyGroupV2({
 
       log.info(`modifyGroupV2/${logId}: Queuing attempt ${attempt}`);
 
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       await conversation.queueJob('modifyGroupV2', async () => {
         log.info(`modifyGroupV2/${logId}: Running attempt ${attempt}`);
 
@@ -1667,7 +1667,7 @@ export async function modifyGroupV2({
           `modifyGroupV2/${logId}: Conflict while updating. Trying again...`
         );
 
-        // eslint-disable-next-line no-await-in-loop
+        // oxlint-disable-next-line no-await-in-loop
         await conversation.fetchLatestGroupV2Data({ force: true });
       } else if (error.code === 400 && !refreshedCredentials) {
         const logIds = usingCredentialsFrom.map(member =>
@@ -1687,7 +1687,7 @@ export async function modifyGroupV2({
           });
         }
 
-        // eslint-disable-next-line no-await-in-loop
+        // oxlint-disable-next-line no-await-in-loop
         await Promise.all(
           usingCredentialsFrom.map(member => member.getProfiles())
         );
@@ -4099,13 +4099,13 @@ async function updateGroupViaLogs({
   const changes: Array<Proto.GroupChanges.Params> = [];
   do {
     const fetchedAt = Date.now();
-    // eslint-disable-next-line no-await-in-loop
+    // oxlint-disable-next-line no-await-in-loop
     response = await makeRequestWithCredentials({
       logId: `getGroupLog/${logId}`,
       publicParams,
       secretParams,
 
-      // eslint-disable-next-line no-loop-func
+      // oxlint-disable-next-line no-loop-func
       request: requestOptions =>
         getGroupLog(
           {
@@ -4128,7 +4128,7 @@ async function updateGroupViaLogs({
       log.info(
         'updateGroupViaLogs: Received paginated response, deleting group endorsements'
       );
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       await DataWriter.deleteAllEndorsementsForGroup(groupId);
       cachedEndorsementsExpiration = null; // gets sent as 0 in header
     }
@@ -4310,7 +4310,7 @@ async function integrateGroupChanges({
           newAttributes,
           groupChangeMessages,
           newProfileKeys,
-          // eslint-disable-next-line no-await-in-loop
+          // oxlint-disable-next-line no-await-in-loop
         } = await integrateGroupChange({
           group: attributes,
           newRevision,

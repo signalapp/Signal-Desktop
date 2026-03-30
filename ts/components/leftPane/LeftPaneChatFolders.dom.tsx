@@ -152,7 +152,7 @@ export function LeftPaneChatFolders(
   return (
     <div
       className={tw(
-        'scroll-px-[20%] overflow-x-auto overflow-y-clip px-4 py-2 [scrollbar-width:none]'
+        'scroll-px-[20%] overflow-x-auto overflow-y-clip px-4 py-2 scrollbar-width-none'
       )}
       onFocus={handleFocus}
     >

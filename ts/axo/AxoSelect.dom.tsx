@@ -134,7 +134,7 @@ export namespace AxoSelect {
     },
     'on-hover': {
       chevronStyles: tw(
-        'absolute inset-y-0 end-0 w-9.5',
+        'absolute inset-y-0 inset-e-0 w-9.5',
         'flex items-center justify-end pe-2',
         'opacity-0 group-focus:opacity-100 group-data-[state=open]:opacity-100 group-hovered:opacity-100',
         'transition-opacity duration-150'
@@ -146,10 +146,10 @@ export namespace AxoSelect {
         'group-hovered:[--axo-select-trigger-mask-start:transparent]',
         'group-focus:[--axo-select-trigger-mask-start:transparent]',
         'group-data-[state=open]:[--axo-select-trigger-mask-start:transparent]',
-        '[mask-image:linear-gradient(to_left,var(--axo-select-trigger-mask-start)_19px,black_38px)]',
-        'rtl:[mask-image:linear-gradient(to_right,var(--axo-select-trigger-mask-start)_19px,black_38px)]',
-        '[mask-repeat:no-repeat]',
-        '[mask-position:right] rtl:[mask-position:left]',
+        'mask-[linear-gradient(to_left,var(--axo-select-trigger-mask-start)_19px,black_38px)]',
+        'rtl:mask-[linear-gradient(to_right,var(--axo-select-trigger-mask-start)_19px,black_38px)]',
+        'mask-no-repeat',
+        'mask-right rtl:mask-left',
         '[transition-property:--axo-select-trigger-mask-start] duration-150'
       ),
     },
@@ -408,14 +408,10 @@ export namespace AxoSelect {
    * ---------------------------
    */
 
-  export type SeparatorProps = Readonly<{
-    // N/A
-  }>;
-
   /**
    * Used to visually separate items in the select.
    */
-  export const Separator: FC<SeparatorProps> = memo(() => {
+  export const Separator: FC = memo(() => {
     return <Select.Separator className={AxoBaseMenu.selectSeperatorStyles} />;
   });
 

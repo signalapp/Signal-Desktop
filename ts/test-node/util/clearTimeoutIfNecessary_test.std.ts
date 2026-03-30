@@ -17,14 +17,14 @@ describe('clearTimeoutIfNecessary', () => {
   });
 
   it('does nothing if passed `null` or `undefined`', () => {
-    sandbox.stub(global, 'clearTimeout');
-    sandbox.stub(global, 'clearInterval');
+    sandbox.stub(globalThis, 'clearTimeout');
+    sandbox.stub(globalThis, 'clearInterval');
 
     clearTimeoutIfNecessary(undefined);
     clearTimeoutIfNecessary(null);
 
-    sinon.assert.notCalled(global.clearTimeout as sinon.SinonSpy);
-    sinon.assert.notCalled(global.clearInterval as sinon.SinonSpy);
+    sinon.assert.notCalled(globalThis.clearTimeout as sinon.SinonSpy);
+    sinon.assert.notCalled(globalThis.clearInterval as sinon.SinonSpy);
   });
 
   it('clears timeouts', async () => {

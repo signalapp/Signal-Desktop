@@ -104,7 +104,7 @@ function PlayedDot({
   const start = played ? 1 : 0;
   const end = played ? 0 : 1;
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps -- FIXME
+  // oxlint-disable-next-line react-hooks/exhaustive-deps -- FIXME
   const [animProps] = useSpring(
     {
       config: SPRING_CONFIG,

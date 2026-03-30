@@ -166,9 +166,7 @@ export async function joinViaLink(value: string): Promise<void> {
   ) {
     log.warn(`${logId}: Already awaiting approval, opening conversation`);
     const timestamp = existingConversation.get('timestamp') || Date.now();
-    // eslint-disable-next-line camelcase
     const active_at = existingConversation.get('active_at') || Date.now();
-    // eslint-disable-next-line camelcase
     existingConversation.set({ active_at, timestamp });
     await DataWriter.updateConversation(existingConversation.attributes);
 
@@ -321,11 +319,9 @@ export async function joinViaLink(value: string): Promise<void> {
               //   to join it.
               const timestamp =
                 targetConversation.get('timestamp') || Date.now();
-              // eslint-disable-next-line camelcase
               const active_at =
                 targetConversation.get('active_at') || Date.now();
               targetConversation.set({
-                // eslint-disable-next-line camelcase
                 active_at,
                 avatar,
                 description: groupDescription,

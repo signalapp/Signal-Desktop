@@ -1,6 +1,5 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-/* eslint-disable max-classes-per-file */
 
 import lodash from 'lodash';
 
@@ -77,7 +76,7 @@ export function sqlFragment(
   const params: Array<QueryTemplateParam> = [];
 
   strings.forEach((string, index) => {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    // oxlint-disable-next-line typescript/no-non-null-assertion
     const value = values[index]!;
 
     query += string;
@@ -396,6 +395,7 @@ export function getCountFromTable(db: ReadableDB, table: TableType): number {
   throw new Error(`getCountFromTable: Unable to get count from table ${table}`);
 }
 
+// oxlint-disable-next-line max-classes-per-file
 export class TableIterator<ObjectType extends { id: string }> {
   constructor(
     private readonly db: ReadableDB,

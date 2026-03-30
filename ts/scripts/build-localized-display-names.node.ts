@@ -71,7 +71,7 @@ function convertData(
 
       result[subKey] = {};
       for (const [index, message] of messages.entries()) {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        // oxlint-disable-next-line typescript/no-non-null-assertion
         result[subKey][keys[index]!] = message;
       }
     }
@@ -85,7 +85,7 @@ function convertData(
       const [subKey, ...messages] = row;
 
       for (const [index, message] of messages.entries()) {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        // oxlint-disable-next-line typescript/no-non-null-assertion
         result[keys[index]!]![subKey] = message;
       }
     }
@@ -108,7 +108,7 @@ function assertValuesForAllLocales(result: LocaleDisplayNamesResult) {
 }
 
 function assertValuesForAllCountries(result: LocaleDisplayNamesResult) {
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  // oxlint-disable-next-line typescript/no-non-null-assertion
   const availableCountries = Object.keys(result.en!);
   for (const locale of availableLocales) {
     const values = result[locale];
@@ -137,6 +137,7 @@ async function main() {
   await fs.writeFile(localeDisplayNamesBuildPath, json, 'utf-8');
 }
 
+// oxlint-disable-next-line promise/prefer-await-to-then
 main().catch(error => {
   console.error(error);
   process.exit(1);

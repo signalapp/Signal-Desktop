@@ -1,8 +1,5 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
-
 import { assert } from 'chai';
 import { v4 as generateUuid } from 'uuid';
 import sinon from 'sinon';
@@ -56,6 +53,7 @@ describe('updateConversationsWithUuidLookup', () => {
         reason,
         'FakeConversationController must be provided a reason when merging'
       );
+      // oxlint-disable-next-line typescript/no-non-null-assertion
       const normalizedAci = normalizeAci(aciFromServer!, 'test');
 
       const convoE164 = this.get(e164);
@@ -99,6 +97,7 @@ describe('updateConversationsWithUuidLookup', () => {
         'FakeConversationController is not set up for this case (UUID must be provided)'
       );
       const normalizedServiceId = normalizeServiceId(
+        // oxlint-disable-next-line typescript/no-non-null-assertion
         serviceIdFromServer!,
         'test'
       );

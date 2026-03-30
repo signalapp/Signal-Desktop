@@ -21,7 +21,7 @@ export class NativeThemeNotifier {
     });
 
     ipc.on('native-theme:init', event => {
-      // eslint-disable-next-line no-param-reassign
+      // oxlint-disable-next-line no-param-reassign
       event.returnValue = getState();
     });
   }

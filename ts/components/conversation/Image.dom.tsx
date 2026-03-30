@@ -197,7 +197,7 @@ export function Image({
 
   const isUndownloadable = attachment.isPermanentlyUndownloadable;
 
-  // eslint-disable-next-line no-nested-ternary
+  // oxlint-disable-next-line no-nested-ternary
   const startDownloadOrUnavailableButton = startDownload ? (
     isUndownloadable ? (
       <button

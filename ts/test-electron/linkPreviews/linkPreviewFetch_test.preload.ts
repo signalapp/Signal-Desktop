@@ -32,7 +32,7 @@ describe('link preview fetching', () => {
   // We'll use this to create a fake `fetch`. We'll want to call `.resolves` or
   //   `.rejects` on it (meaning that it needs to be a Sinon Stub type), but we'll also
   //   want it to be a fake `fetch`. `any` seems like the best "supertype" there.
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // oxlint-disable-next-line typescript/no-explicit-any
   function stub(): any {
     return sinon.stub();
   }
@@ -183,7 +183,7 @@ describe('link preview fetching', () => {
           })
         );
 
-        // eslint-disable-next-line no-await-in-loop
+        // oxlint-disable-next-line no-await-in-loop
         const val = await fetchLinkPreviewMetadata(
           fakeFetch,
           'https://example.com',

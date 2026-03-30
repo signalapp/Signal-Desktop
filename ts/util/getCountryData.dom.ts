@@ -65,7 +65,7 @@ function getCountryCodeForRegion(region: string): string {
 function computeCountryDataForLocale(
   locale: string
 ): ReadonlyArray<CountryDataType> {
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  // oxlint-disable-next-line typescript/no-non-null-assertion
   const map = window.SignalContext.getCountryDisplayNames()[locale]!;
 
   const list = Object.entries(map).map(([region, displayName]) => {

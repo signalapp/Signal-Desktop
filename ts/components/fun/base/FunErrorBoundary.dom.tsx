@@ -20,7 +20,7 @@ type ErrorBoundaryState = {
 };
 
 class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
-  // eslint-disable-next-line react/state-in-constructor
+  // oxlint-disable-next-line react/state-in-constructor
   override state: ErrorBoundaryState = {};
 
   static getDerivedStateFromError(error: unknown) {

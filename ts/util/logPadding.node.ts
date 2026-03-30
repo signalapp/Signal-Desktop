@@ -32,7 +32,7 @@ function pushPadding(
   paddingIterator: Iterator<Uint8Array<ArrayBuffer>>,
   readable: Readable
 ): boolean {
-  // eslint-disable-next-line no-constant-condition
+  // oxlint-disable-next-line no-constant-condition
   while (true) {
     const result = paddingIterator.next();
     if (result.done) {

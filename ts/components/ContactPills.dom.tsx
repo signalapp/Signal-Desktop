@@ -19,6 +19,7 @@ export function ContactPills({
 }: PropsType): React.JSX.Element {
   const elRef = useRef<null | HTMLDivElement>(null);
 
+  // oxlint-disable-next-line no-react-children
   const childCount = Children.count(children);
   const previousChildCount = usePrevious(0, childCount);
 

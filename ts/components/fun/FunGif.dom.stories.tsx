@@ -19,7 +19,6 @@ export function Basic(): React.JSX.Element {
   const id = useId();
   return (
     <>
-      {/* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */}
       <div tabIndex={0}>
         <FunGif
           src={MOCK_GIF_URL}

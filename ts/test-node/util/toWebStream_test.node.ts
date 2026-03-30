@@ -86,7 +86,7 @@ describe('toWebStream', () => {
 
     // Some sort of mismatch between Node's expectation for ReadStream and
     // what TS says ReadStream is in WebAPIs.
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // oxlint-disable-next-line typescript/no-explicit-any
     const node = Readable.fromWeb(web as any);
     node.on('data', () => {
       node.destroy();

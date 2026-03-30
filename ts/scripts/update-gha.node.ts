@@ -62,7 +62,7 @@ async function updateAction(fullPath: string): Promise<void> {
       `https://api.github.com/repos/${encodeURIComponent(org)}/` +
       `${encodeURIComponent(repo)}/tags`;
 
-    // eslint-disable-next-line no-await-in-loop
+    // oxlint-disable-next-line no-await-in-loop
     const res = await fetch(url, {
       headers: {
         authorization: GITHUB_TOKEN ? `Bearer ${GITHUB_TOKEN}` : '',
@@ -75,7 +75,7 @@ async function updateAction(fullPath: string): Promise<void> {
       throw new Error(`Failed to fetch ${url}, status: ${res.status}`);
     }
 
-    // eslint-disable-next-line no-await-in-loop
+    // oxlint-disable-next-line no-await-in-loop
     const tags = TagsSchema.parse(await res.json())
       // Filter out invalid tags
       .filter(tag => semver.valid(tag.name))
@@ -117,7 +117,7 @@ async function main(): Promise<void> {
   const actions = await readdir(WORKFLOWS_DIR);
 
   for (const name of actions) {
-    // eslint-disable-next-line no-await-in-loop
+    // oxlint-disable-next-line no-await-in-loop
     await updateAction(join(WORKFLOWS_DIR, name));
   }
 }

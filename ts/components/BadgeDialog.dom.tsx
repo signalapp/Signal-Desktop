@@ -78,7 +78,7 @@ function BadgeDialogWithBadges({
     currentBadgeIndex = 0;
     currentBadge = firstBadge;
   } else {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    // oxlint-disable-next-line typescript/no-non-null-assertion
     currentBadge = badges[currentBadgeIndex]!;
   }
 

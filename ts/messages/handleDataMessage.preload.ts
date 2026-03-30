@@ -115,7 +115,7 @@ export async function handleDataMessage(
     fromContact.setRegistered();
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  // oxlint-disable-next-line typescript/no-non-null-assertion
   const conversation = window.ConversationController.get(conversationId)!;
   const idLog = `handleDataMessage/${conversation.idForLogging()} ${getMessageIdForLogging(message.attributes)}`;
   await conversation.queueJob(idLog, async () => {
@@ -158,7 +158,7 @@ export async function handleDataMessage(
           toUpdate.get('unidentifiedDeliveries') ?? []
         );
         const sendStateByConversationId = {
-          ...(toUpdate.get('sendStateByConversationId') || {}),
+          ...toUpdate.get('sendStateByConversationId'),
         };
 
         const unidentifiedStatus: Array<ProcessedUnidentifiedDeliveryStatus> =
@@ -297,7 +297,7 @@ export async function handleDataMessage(
     }
 
     const ourAci = itemStorage.user.getCheckedAci();
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    // oxlint-disable-next-line typescript/no-non-null-assertion
     const sender = window.ConversationController.lookupOrCreate({
       e164: source,
       serviceId: sourceServiceId,
@@ -500,7 +500,7 @@ export async function handleDataMessage(
     };
 
     // There are type conflicts between ModelAttributesType and protos passed in here
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // oxlint-disable-next-line typescript/no-explicit-any
     const dataMessage = await upgradeMessageSchema(withQuoteReference as any);
 
     const isGroupStoryReply =
@@ -543,7 +543,7 @@ export async function handleDataMessage(
       const ourPni = itemStorage.user.getCheckedPni();
       const ourServiceIds: Set<ServiceIdString> = new Set([ourAci, ourPni]);
 
-      // eslint-disable-next-line no-param-reassign
+      // oxlint-disable-next-line no-param-reassign
       message = window.MessageCache.register(message);
 
       message.set({
@@ -762,7 +762,7 @@ export async function handleDataMessage(
         });
       }
 
-      // eslint-disable-next-line no-param-reassign
+      // oxlint-disable-next-line no-param-reassign
       message = window.MessageCache.register(message);
       conversation.incrementMessageCount();
 

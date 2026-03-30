@@ -162,7 +162,7 @@ export async function scaleImageToLevel({
     }
 
     // We need these operations to be in serial
-    // eslint-disable-next-line no-await-in-loop
+    // oxlint-disable-next-line no-await-in-loop
     const blob = await getCanvasBlobAsJPEG(
       data.image,
       scalableDimensions,

@@ -3,7 +3,6 @@
 
 import type { CallEndReason } from '@signalapp/ringrtc';
 
-// eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace CallQualitySurvey {
   // IMPORTANT: These strings need to be the same across clients
   export enum Issue {

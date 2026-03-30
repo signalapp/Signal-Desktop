@@ -131,7 +131,7 @@ export async function _tusCreateWithUploadRequest({
           'Content-Type': 'application/offset+octet-stream',
         },
         timeout: MINUTE,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        // oxlint-disable-next-line typescript/no-explicit-any
         body: readable as any,
       }),
       readable
@@ -259,7 +259,7 @@ export async function _tusResumeUploadRequest({
           'Content-Type': 'application/offset+octet-stream',
         },
         timeout: MINUTE,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        // oxlint-disable-next-line typescript/no-explicit-any
         body: readable as any,
       }),
       readable
@@ -313,7 +313,7 @@ export async function tusUpload({
     headers,
     fileName,
     fileSize,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // oxlint-disable-next-line typescript/no-explicit-any
     readable: readable as any,
     onProgress,
     onCaughtError,
@@ -375,11 +375,11 @@ export async function tusResumeUpload({
 
   let retryAttempts = 0;
   while (retryAttempts < maxRetries) {
-    // eslint-disable-next-line no-await-in-loop
+    // oxlint-disable-next-line no-await-in-loop
     await sleep(backoff.getAndIncrement());
     retryAttempts += 1;
 
-    // eslint-disable-next-line no-await-in-loop
+    // oxlint-disable-next-line no-await-in-loop
     const uploadOffset = await _tusGetCurrentOffsetRequest({
       endpoint,
       headers,
@@ -394,7 +394,7 @@ export async function tusResumeUpload({
 
     const readable = reader(filePath, uploadOffset);
 
-    // eslint-disable-next-line no-await-in-loop
+    // oxlint-disable-next-line no-await-in-loop
     const done = await _tusResumeUploadRequest({
       endpoint,
       headers,

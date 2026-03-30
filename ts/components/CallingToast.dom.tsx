@@ -235,7 +235,7 @@ export function CallingToastProvider({
         toast => toast.key === item.key
       );
       const isToastReplacingAnExistingOneAtThisPosition = toastsRemoved.has(
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        // oxlint-disable-next-line typescript/no-non-null-assertion
         previousToasts[enteringItemIndex]!
       );
       return {
@@ -276,7 +276,7 @@ export function CallingToastProvider({
         toast => toast.key === item.key
       );
       const isToastBeingReplacedByANewOneAtThisPosition = toastsAdded.has(
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        // oxlint-disable-next-line typescript/no-non-null-assertion
         toasts[leavingItemIndex]!
       );
       return {

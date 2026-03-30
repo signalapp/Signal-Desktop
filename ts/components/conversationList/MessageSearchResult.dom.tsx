@@ -135,7 +135,6 @@ export const MessageSearchResult: FunctionComponent<PropsType> = React.memo(
         );
       }
     } else {
-      // eslint-disable-next-line no-lonely-if
       if (to.type === 'group') {
         headerName = (
           <span>

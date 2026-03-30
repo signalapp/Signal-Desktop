@@ -40,7 +40,6 @@ export default {
   },
 } satisfies Meta<PropsType>;
 
-// eslint-disable-next-line react/function-component-definition
 const Template: StoryFn<PropsType> = args => <MyStories {...args} />;
 
 export const NoStories = Template.bind({});
@@ -54,7 +53,7 @@ const interactionTest: PlayFunction<ReactRenderer, PropsType> = async ({
 }) => {
   const canvas = within(canvasElement);
   const [btnDownload] = canvas.getAllByLabelText('Download story');
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  // oxlint-disable-next-line typescript/no-non-null-assertion
   await userEvent.click(btnDownload!);
   await expect(args.onSave).toHaveBeenCalled();
 
@@ -64,11 +63,11 @@ const interactionTest: PlayFunction<ReactRenderer, PropsType> = async ({
 
   const [btnCtxMenu] = canvas.getAllByLabelText('Context menu');
 
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  // oxlint-disable-next-line typescript/no-non-null-assertion
   await userEvent.click(btnCtxMenu!);
   await sleep(300);
   const [btnFwd] = canvas.getAllByLabelText('Forward');
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  // oxlint-disable-next-line typescript/no-non-null-assertion
   await userEvent.click(btnFwd!);
   await expect(args.onForward).toHaveBeenCalled();
 };

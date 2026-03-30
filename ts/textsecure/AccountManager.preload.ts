@@ -210,7 +210,7 @@ function getNextKeyId(
     return 1;
   }
 
-  // eslint-disable-next-line no-bitwise
+  // oxlint-disable-next-line no-bitwise
   return Buffer.from(getRandomBytes(4)).readUint32LE(0) & 0xffffff;
 }
 

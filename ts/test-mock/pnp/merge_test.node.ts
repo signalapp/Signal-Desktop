@@ -120,7 +120,7 @@ describe('pnp/merge', function (this: Mocha.Suite) {
       `${pniSignatureVerified ? 'with' : 'without'} pniSignatureVerified ` +
       `(${finalContact})`;
 
-    // eslint-disable-next-line no-loop-func
+    // oxlint-disable-next-line no-loop-func
     it(testName, async () => {
       const { phone } = bootstrap;
 
@@ -239,7 +239,7 @@ describe('pnp/merge', function (this: Mocha.Suite) {
       'accepts storage service contact splitting ' +
       `${withPniContact ? 'with PNI contact' : 'without PNI contact'}`;
 
-    // eslint-disable-next-line no-loop-func
+    // oxlint-disable-next-line no-loop-func
     it(testName, async () => {
       const { phone } = bootstrap;
 
@@ -603,7 +603,7 @@ describe('pnp/merge', function (this: Mocha.Suite) {
       const sendOptions = {
         timestamp,
       };
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       await phone.sendRaw(desktop, content, sendOptions);
     }
 

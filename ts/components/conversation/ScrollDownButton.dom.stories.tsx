@@ -33,7 +33,6 @@ export default {
   },
 } satisfies Meta<ScrollDownButtonPropsType>;
 
-// eslint-disable-next-line react/function-component-definition
 const Template: StoryFn<ScrollDownButtonPropsType> = args => (
   <ScrollDownButton {...args} />
 );

@@ -1,8 +1,5 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-
-// `window` use below is actually executed in the browser.
-// eslint-disable-next-line local-rules/file-suffix
 import type { PrimaryDevice } from '@signalapp/mock-server';
 import { Proto, EMPTY_DATA_MESSAGE } from '@signalapp/mock-server';
 import { Aci } from '@signalapp/libsignal-client';
@@ -559,6 +556,7 @@ describe('editing', function (this: Mocha.Suite) {
       ): Promise<MessageAttributesType> {
         await sleep(RECEIPT_BATCHER_WAIT_MS + 20);
         const messages = await page.evaluate(
+          // oxlint-disable-next-line no-undef FIXME
           timestamp => window.SignalCI?.getMessagesBySentAt(timestamp),
           originalMessageTimestamp
         );
@@ -617,6 +615,7 @@ describe('editing', function (this: Mocha.Suite) {
 
       debug("getting friend's conversationId");
       const conversationId = await page.evaluate(
+        // oxlint-disable-next-line no-undef FIXME
         serviceId => window.SignalCI?.getConversationId(serviceId),
         friend.device.aci
       );
@@ -704,7 +703,7 @@ describe('editing', function (this: Mocha.Suite) {
       {
         const message = await getMessageFromApp(originalMessageTimestamp);
         strictAssert(message.editHistory, 'edit history exists');
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        // oxlint-disable-next-line typescript/no-unused-vars
         const [_v2, v1] = message.editHistory;
         assert.strictEqual(
           message.sendStateByConversationId?.[conversationId]?.status,

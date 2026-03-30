@@ -60,27 +60,27 @@ export class RoutineProfileRefresher {
 
     const { storage, getAllConversations, getOurConversationId } = this.options;
 
-    // eslint-disable-next-line no-constant-condition
+    // oxlint-disable-next-line no-constant-condition
     while (true) {
       const refreshInMs = timeUntilNextRefresh(storage);
 
       log.info(`${logId}: waiting for ${refreshInMs}ms`);
 
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       await sleep(refreshInMs);
 
       const ourConversationId = getOurConversationId();
       if (!ourConversationId) {
         log.warn(`${logId}: missing our conversation id`);
 
-        // eslint-disable-next-line no-await-in-loop
+        // oxlint-disable-next-line no-await-in-loop
         await sleep(MIN_REFRESH_DELAY);
 
         continue;
       }
 
       try {
-        // eslint-disable-next-line no-await-in-loop
+        // oxlint-disable-next-line no-await-in-loop
         await routineProfileRefresh({
           allConversations: getAllConversations(),
           ourConversationId,
@@ -90,7 +90,7 @@ export class RoutineProfileRefresher {
       } catch (error) {
         log.error(`${logId}: failure`, Errors.toLogFormat(error));
       } finally {
-        // eslint-disable-next-line no-await-in-loop
+        // oxlint-disable-next-line no-await-in-loop
         await sleep(MIN_REFRESH_DELAY);
       }
     }

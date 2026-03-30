@@ -64,6 +64,7 @@ type BatcherType<ItemType> = {
 export function createWaitBatcher<ItemType>(
   options: BatcherOptionsType<ItemType>
 ): BatcherType<ItemType> {
+  // oxlint-disable-next-line prefer-const
   let waitBatcher: BatcherType<ItemType>;
   let timeout: NodeJS.Timeout | null;
   let items: Array<ItemHolderType<ItemType>> = [];
@@ -132,12 +133,12 @@ export function createWaitBatcher<ItemType>(
   async function onIdle() {
     while (anyPending()) {
       if (queue.size > 0 || queue.pending > 0) {
-        // eslint-disable-next-line no-await-in-loop
+        // oxlint-disable-next-line no-await-in-loop
         await queue.onIdle();
       }
 
       if (items.length > 0) {
-        // eslint-disable-next-line no-await-in-loop
+        // oxlint-disable-next-line no-await-in-loop
         await sleep(options.wait * 2);
       }
     }
@@ -157,11 +158,11 @@ export function createWaitBatcher<ItemType>(
     timeout = null;
 
     while (anyPending()) {
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       await _kickBatchOff();
 
       if (queue.size > 0 || queue.pending > 0) {
-        // eslint-disable-next-line no-await-in-loop
+        // oxlint-disable-next-line no-await-in-loop
         await queue.onIdle();
       }
     }

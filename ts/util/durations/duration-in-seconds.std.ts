@@ -7,7 +7,6 @@ export type DurationInSeconds = number & {
   __time_difference_in_seconds: never;
 };
 
-/* eslint-disable @typescript-eslint/no-namespace, @typescript-eslint/no-redeclare */
 export namespace DurationInSeconds {
   export const fromMillis = (ms: number): DurationInSeconds =>
     (ms / Constants.SECOND) as DurationInSeconds;
@@ -36,4 +35,3 @@ export namespace DurationInSeconds {
   export const DAY = DurationInSeconds.fromDays(1);
   export const WEEK = DurationInSeconds.fromWeeks(1);
 }
-/* eslint-enable @typescript-eslint/no-namespace, @typescript-eslint/no-redeclare */

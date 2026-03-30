@@ -11,7 +11,6 @@ import * as fs from 'node:fs';
 import { promisify } from 'node:util';
 import * as childProcess from 'node:child_process';
 import pMap from 'p-map';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import chalk from 'chalk';
 
 const exec = promisify(childProcess.exec);
@@ -19,7 +18,6 @@ const exec = promisify(childProcess.exec);
 const rootPath = path.join(__dirname, '..', '..', '..');
 
 const EXTENSIONS_TO_CHECK = new Set([
-  '.eslintignore',
   '.gitattributes',
   '.gitignore',
   '.nvmrc',
@@ -245,7 +243,6 @@ async function main() {
 
   const failed = failures.length > 0;
 
-  /* eslint-disable no-console */
   if (failed) {
     console.log();
     console.log(
@@ -265,14 +262,13 @@ async function main() {
 
     process.exit(1);
   }
-  /* eslint-enable no-console */
 }
 
 // Note: this check will fail if we switch to ES modules. See
 //  <https://stackoverflow.com/a/60309682>.
 if (require.main === module) {
+  // oxlint-disable-next-line promise/prefer-await-to-then
   main().catch(err => {
-    // eslint-disable-next-line no-console
     console.error(err);
     process.exit(1);
   });

@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 // We allow `any`s because it's arduous to set up "real" WebAPIs and storages.
-/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { assert } from 'chai';
 import * as sinon from 'sinon';
@@ -27,8 +26,10 @@ describe('SenderCertificateService', () => {
   let fakeValidCertificate: SenderCertificate;
   let fakeValidEncodedCertificate: Uint8Array<ArrayBuffer>;
   let fakeValidCertificateExpiry: number;
+  // oxlint-disable-next-line typescript/no-explicit-any
   let fakeServer: any;
   let fakeEvents: Pick<typeof window.Whisper.events, 'on' | 'off'>;
+  // oxlint-disable-next-line typescript/no-explicit-any
   let fakeStorage: any;
 
   function initializeTestService(): SenderCertificateService {

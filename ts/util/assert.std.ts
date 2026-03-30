@@ -12,7 +12,7 @@ const log = createLogger('assert');
  */
 export function devDebugger(): void {
   if (getEnvironment() === Environment.Development) {
-    debugger; // eslint-disable-line no-debugger
+    debugger; // oxlint-disable-line no-debugger
   }
 }
 

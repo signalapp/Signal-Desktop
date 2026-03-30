@@ -247,10 +247,10 @@ export class Provisioner {
       let delay: number;
 
       try {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        // oxlint-disable-next-line typescript/no-non-null-assertion
         const sleepMs = QR_CODE_TIMEOUTS[this.#attemptCount]!;
 
-        // eslint-disable-next-line no-await-in-loop
+        // oxlint-disable-next-line no-await-in-loop
         await this.#connect(signal, sleepMs);
 
         // Successful connect, sleep until rotation time
@@ -304,7 +304,7 @@ export class Provisioner {
       }
 
       try {
-        // eslint-disable-next-line no-await-in-loop
+        // oxlint-disable-next-line no-await-in-loop
         await sleep(delay, signal);
       } catch (error) {
         // New loop is running

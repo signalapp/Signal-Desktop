@@ -1,6 +1,5 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-/* eslint-disable no-unreachable-loop */
 
 import { assert } from 'chai';
 import * as sinon from 'sinon';
@@ -77,7 +76,7 @@ describe('JobQueueDatabaseStore', () => {
 
       const streamPromise = (async () => {
         // We don't actually care about using the variable from the async iterable.
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        // oxlint-disable-next-line typescript/no-unused-vars
         for await (const _job of store.stream('test queue')) {
           events.push('yielded job');
           break;
@@ -101,7 +100,7 @@ describe('JobQueueDatabaseStore', () => {
 
       const streamPromise = (async () => {
         // We don't actually care about using the variable from the async iterable.
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        // oxlint-disable-next-line typescript/no-unused-vars
         for await (const _job of store.stream('test queue')) {
           break;
         }

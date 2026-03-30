@@ -1,9 +1,6 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* eslint-disable no-bitwise */
-/* eslint-disable max-classes-per-file */
-
 import { z } from 'zod';
 import PQueue from 'p-queue';
 import pMap from 'p-map';
@@ -381,6 +378,7 @@ class Message {
   }
 
   isEndSession() {
+    // oxlint-disable-next-line no-bitwise
     return (this.flags || 0) & Proto.DataMessage.Flags.END_SESSION;
   }
 
@@ -736,13 +734,14 @@ export function addPniSignatureMessageToProto({
       `adding pni signature for ${conversation.idForLogging()}`
   );
 
-  // eslint-disable-next-line no-param-reassign
+  // oxlint-disable-next-line no-param-reassign
   proto.pniSignatureMessage = {
     pni: toPniObject(pniSignatureMessage.pni).getRawUuidBytes(),
     signature: pniSignatureMessage.signature,
   };
 }
 
+// oxlint-disable-next-line max-classes-per-file
 export class MessageSender {
   pendingMessages: {
     [id: string]: PQueue;
@@ -775,7 +774,7 @@ export class MessageSender {
   static getRandomPadding(): Uint8Array<ArrayBuffer> {
     // Generate a random int from 1 and 512
     const buffer = getRandomBytes(2);
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    // oxlint-disable-next-line typescript/no-non-null-assertion, no-bitwise
     const paddingLength = (new Uint16Array(buffer)[0]! & 0x1ff) + 1;
 
     // Generate a random padding buffer of the chosen size
@@ -2172,7 +2171,7 @@ export class MessageSender {
         `syncViewOnceOpen: ${viewOnceOpens.length} opens provided. Can only handle one.`
       );
     }
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    // oxlint-disable-next-line typescript/no-non-null-assertion
     const { senderAci, timestamp } = viewOnceOpens[0]!;
 
     if (!senderAci) {

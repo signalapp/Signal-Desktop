@@ -1,6 +1,5 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-/* eslint-disable no-await-in-loop, no-console */
 
 import assert from 'node:assert';
 import type { PrimaryDevice } from '@signalapp/mock-server';
@@ -26,6 +25,7 @@ Bootstrap.benchmark(async (bootstrap: Bootstrap): Promise<void> => {
     for (let i = 0; i < CONVERSATION_SIZE; i += 1) {
       const messageTimestamp = bootstrap.getTimestamp();
       messages.push(
+        // oxlint-disable-next-line no-await-in-loop
         await contact.encryptText(
           desktop,
           `hello from: ${contact.profileName}`,
@@ -37,6 +37,7 @@ Bootstrap.benchmark(async (bootstrap: Bootstrap): Promise<void> => {
       );
 
       messages.push(
+        // oxlint-disable-next-line no-await-in-loop
         await phone.encryptSyncRead(desktop, {
           timestamp: bootstrap.getTimestamp(),
           messages: [
@@ -69,22 +70,28 @@ Bootstrap.benchmark(async (bootstrap: Bootstrap): Promise<void> => {
 
     const deltaList = new Array<number>();
     for (let runId = 0; runId < RUN_COUNT + DISCARD_COUNT; runId += 1) {
+      // oxlint-disable-next-line no-await-in-loop
       await openConvo(runId % 2 === 0 ? first : second);
 
       debug('waiting for timing from the app');
+      // oxlint-disable-next-line no-await-in-loop
       const { delta } = await app.waitForConversationOpen();
 
       // Let render complete
+      // oxlint-disable-next-line no-await-in-loop
       await new Promise(resolve => setTimeout(resolve, DELAY));
 
       if (runId >= DISCARD_COUNT) {
         deltaList.push(delta);
+        // oxlint-disable-next-line no-console
         console.log('run=%d info=%j', runId - DISCARD_COUNT, { delta });
       } else {
+        // oxlint-disable-next-line no-console
         console.log('discarded=%d info=%j', runId, { delta });
       }
     }
 
+    // oxlint-disable-next-line no-console
     console.log('stats info=%j', { delta: stats(deltaList, [99, 99.8]) });
   };
 

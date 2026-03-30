@@ -31,6 +31,7 @@ export const PollCreateSchema = z
         }
       )
       .refine(
+        // oxlint-disable-next-line no-undef FIXME
         value => Buffer.byteLength(value) <= MAX_MESSAGE_BODY_BYTE_LENGTH,
         {
           message: `question must contain at most ${MAX_MESSAGE_BODY_BYTE_LENGTH} bytes`,
@@ -45,6 +46,7 @@ export const PollCreateSchema = z
             message: `option must contain at most ${POLL_OPTION_MAX_LENGTH} characters`,
           })
           .refine(
+            // oxlint-disable-next-line no-undef FIXME
             value => Buffer.byteLength(value) <= MAX_MESSAGE_BODY_BYTE_LENGTH,
             {
               message: `option must contain at most ${MAX_MESSAGE_BODY_BYTE_LENGTH} bytes`,

@@ -1,6 +1,5 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-/* eslint-disable max-classes-per-file */
 
 import type { LinkPreviewForUIType } from './message/LinkPreviews.std.js';
 import type { MIMEType } from './MIME.std.js';
@@ -259,6 +258,7 @@ export class AttachmentSizeError extends Error {}
 
 // Used for downlaods
 
+// oxlint-disable-next-line max-classes-per-file
 export class AttachmentPermanentlyUndownloadableError extends Error {
   constructor(message: string) {
     super(`AttachmentPermanentlyUndownloadableError: ${message}`);

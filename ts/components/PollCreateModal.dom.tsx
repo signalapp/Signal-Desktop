@@ -221,6 +221,7 @@ export function PollCreateModal({
     if (!questionValue) {
       questionErrors.push(i18n('icu:PollCreateModal__Error--RequiresQuestion'));
     }
+    // oxlint-disable-next-line no-undef FIXME
     if (Buffer.byteLength(questionValue) > MAX_MESSAGE_BODY_BYTE_LENGTH) {
       questionErrors.push(i18n('icu:PollCreateModal__Error--QuestionTooLong'));
     }
@@ -231,6 +232,7 @@ export function PollCreateModal({
       optionErrors.push(i18n('icu:PollCreateModal__Error--RequiresTwoOptions'));
     }
     const optionOverByteLength = optionValues.find(
+      // oxlint-disable-next-line no-undef FIXME
       value => Buffer.byteLength(value) > MAX_MESSAGE_BODY_BYTE_LENGTH
     );
     if (optionOverByteLength) {

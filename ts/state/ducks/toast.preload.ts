@@ -11,7 +11,7 @@ import type { AnyToast } from '../../types/Toast.dom.js';
 
 // State
 
-// eslint-disable-next-line local-rules/type-alias-readonlydeep
+// oxlint-disable-next-line signal-desktop/enforce-type-alias-readonlydeep
 export type ToastStateType = {
   toast?: AnyToast;
 };
@@ -26,13 +26,13 @@ type HideToastActionType = ReadonlyDeep<{
   payload: AnyToast | undefined;
 }>;
 
-// eslint-disable-next-line local-rules/type-alias-readonlydeep
+// oxlint-disable-next-line signal-desktop/enforce-type-alias-readonlydeep
 export type ShowToastActionType = {
   type: typeof SHOW_TOAST;
   payload: AnyToast;
 };
 
-// eslint-disable-next-line local-rules/type-alias-readonlydeep
+// oxlint-disable-next-line signal-desktop/enforce-type-alias-readonlydeep
 export type ToastActionType = HideToastActionType | ShowToastActionType;
 
 // Action Creators

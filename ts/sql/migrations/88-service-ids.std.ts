@@ -735,7 +735,7 @@ function migrateMessages(db: Database, logger: LoggerType): void {
   logger.info('updating messages');
 
   let totalMessages = 0;
-  // eslint-disable-next-line no-constant-condition
+  // oxlint-disable-next-line no-constant-condition
   for (let offset = 0; true; offset += PAGE_SIZE) {
     const messages: Array<{ id: string; rowid: number; json: string }> =
       getPage.all({

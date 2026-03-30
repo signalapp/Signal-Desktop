@@ -98,6 +98,7 @@ export function CallingRaisedHandsList({
           {participants.map((participant: ConversationType, index: number) => (
             <li
               className="module-calling-participants-list__contact"
+              // oxlint-disable-next-line react/no-array-index-key
               key={participant.serviceId ?? index}
             >
               <div className="CallingRaisedHandsList__AvatarAndName module-calling-participants-list__avatar-and-name">
@@ -179,7 +180,7 @@ export function CallingRaisedHandsListButton({
 
   const reducedMotion = useReducedMotion();
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps -- FIXME
+  // oxlint-disable-next-line react-hooks/exhaustive-deps -- FIXME
   const [opacitySpringProps, opacitySpringApi] = useSpring(
     {
       from: { opacity: 0 },
@@ -188,7 +189,7 @@ export function CallingRaisedHandsListButton({
     },
     []
   );
-  // eslint-disable-next-line react-hooks/exhaustive-deps -- FIXME
+  // oxlint-disable-next-line react-hooks/exhaustive-deps -- FIXME
   const [scaleSpringProps, scaleSpringApi] = useSpring(
     {
       immediate: reducedMotion,

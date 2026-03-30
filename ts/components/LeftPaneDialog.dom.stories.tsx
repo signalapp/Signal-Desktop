@@ -13,7 +13,7 @@ const widths = {
   [WidthBreakpoint.Narrow]: '100px',
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+// oxlint-disable-next-line typescript/no-explicit-any
 function WidthDecorator(Story: any, context: any): React.JSX.Element {
   return (
     <div

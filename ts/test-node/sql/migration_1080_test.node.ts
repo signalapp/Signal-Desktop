@@ -20,8 +20,6 @@ import {
 import type { MessageAttributesType } from '../../model-types.d.ts';
 import { DurationInSeconds } from '../../util/durations/duration-in-seconds.std.js';
 
-/* eslint-disable camelcase */
-
 function generateMessage(json: MessageAttributesType) {
   const { conversationId, expireTimer, received_at, sent_at, type } = json;
 

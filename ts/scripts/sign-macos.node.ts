@@ -7,8 +7,7 @@ import fsExtra from 'fs-extra';
 
 const { realpath } = fsExtra;
 
-// eslint-disable-next-line max-len
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
+// oxlint-disable-next-line typescript/explicit-module-boundary-types, typescript/no-explicit-any
 export async function sign(configuration: any): Promise<void> {
   if (process.env.SKIP_SIGNING_SCRIPT === '1') {
     console.log('SKIP_SIGNING_SCRIPT=1, skipping custom macOS signing script');

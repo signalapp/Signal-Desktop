@@ -51,7 +51,7 @@ export function hasAtMostGraphemes(str: string, max: number): boolean {
   }
 
   let countSoFar = 0;
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  // oxlint-disable-next-line typescript/no-unused-vars
   for (const _ of getSegmenter().segment(str)) {
     countSoFar += 1;
     if (countSoFar > max) {

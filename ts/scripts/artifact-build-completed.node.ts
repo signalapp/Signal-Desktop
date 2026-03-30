@@ -59,9 +59,9 @@ export async function artifactBuildCompleted({
   console.log('Updating hash and size');
   const sha512 = createHash('sha512');
   await pipeline(createReadStream(file), sha512);
-  // eslint-disable-next-line no-param-reassign
+  // oxlint-disable-next-line no-param-reassign
   updateInfo.sha512 = sha512.digest('base64');
   const { size } = await stat(file);
-  // eslint-disable-next-line no-param-reassign
+  // oxlint-disable-next-line no-param-reassign
   updateInfo.size = size;
 }

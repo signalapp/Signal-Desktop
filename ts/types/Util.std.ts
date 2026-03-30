@@ -78,6 +78,7 @@ export enum ScrollBehavior {
 type InternalAssertProps<
   Result,
   Value,
+  // oxlint-disable-next-line no-shadow
   Missing = Omit<Result, keyof Value>,
 > = keyof Missing extends never
   ? Result

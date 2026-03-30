@@ -766,7 +766,7 @@ async function removeMessagesInConversation(
     );
     // Yes, we really want the await in the loop. We're deleting a chunk at a
     //   time so we don't use too much memory.
-    // eslint-disable-next-line no-await-in-loop
+    // oxlint-disable-next-line no-await-in-loop
     messages = await getOlderMessagesByConversation({
       conversationId,
       limit: chunkSize,
@@ -779,7 +779,7 @@ async function removeMessagesInConversation(
       return;
     }
 
-    // eslint-disable-next-line no-await-in-loop
+    // oxlint-disable-next-line no-await-in-loop
     await removeMessages(messages, { fromSync, cleanupMessages });
   } while (messages.length > 0);
 }

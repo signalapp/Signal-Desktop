@@ -85,7 +85,7 @@ describe('pnp/username', function (this: Mocha.Suite) {
   });
 
   for (const type of ['profile', 'system']) {
-    // eslint-disable-next-line no-loop-func
+    // oxlint-disable-next-line no-loop-func
     it(`drops username when contact's ${type} name becomes known`, async () => {
       const { phone } = bootstrap;
 

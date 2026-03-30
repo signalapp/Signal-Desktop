@@ -137,6 +137,7 @@ function balanceUnicodeDirControlChars(input: string): string {
 
   // We need to scan the entire input string and drop some characters as we
   // go in case they are closing something that was never opened.
+  // oxlint-disable-next-line typescript/prefer-for-of
   for (let index = 0; index < input.length; index += 1) {
     const char = input[index];
     switch (char) {

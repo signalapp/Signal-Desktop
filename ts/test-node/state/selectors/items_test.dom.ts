@@ -22,7 +22,7 @@ describe('both/state/selectors/items', () => {
   function getRootState(items: ItemsStateType): StateType {
     return {
       items,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // oxlint-disable-next-line typescript/no-explicit-any
     } as any;
   }
 
@@ -57,7 +57,7 @@ describe('both/state/selectors/items', () => {
         0.1,
         1.2,
         NaN,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any -- for testing
+        // oxlint-disable-next-line typescript/no-explicit-any -- for testing
       ].forEach((emojiSkinToneDefault: any) => {
         const state = getRootState({ emojiSkinToneDefault });
         assert.strictEqual(getEmojiSkinToneDefault(state), null);
@@ -82,7 +82,7 @@ describe('both/state/selectors/items', () => {
       [undefined, null, '250', [250], 250.123].forEach(
         preferredLeftPaneWidth => {
           const state = getRootState({
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            // oxlint-disable-next-line typescript/no-explicit-any
             preferredLeftPaneWidth: preferredLeftPaneWidth as any,
           });
           assert.strictEqual(getPreferredLeftPaneWidth(state), 320);

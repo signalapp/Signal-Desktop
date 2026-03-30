@@ -105,7 +105,6 @@ function renderUsernameEditor(props: {
   );
 }
 
-// eslint-disable-next-line react/function-component-definition
 const Template: StoryFn<PropsType> = args => {
   const [editState, setEditState] = useState(args.editState);
 

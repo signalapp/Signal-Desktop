@@ -18,7 +18,7 @@ export { EmojiSkinTone } from '../../../types/emoji.std.js';
 const log = createLogger('fun/data/emojis');
 
 // Import emoji-datasource dynamically to avoid costly typechecking.
-// eslint-disable-next-line import/no-dynamic-require, @typescript-eslint/no-var-requires
+// oxlint-disable-next-line import/no-dynamic-require, typescript/no-var-requires, no-undef
 const RAW_UNTYPED_DATA: unknown = require('emoji-datasource' as string);
 
 /**

@@ -209,8 +209,7 @@ export function ModalPage({
   return (
     <>
       {/* We don't want the click event to propagate to its container node. */}
-      {/* eslint-disable-next-line max-len */}
-      {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions */}
+      {/* oxlint-disable-next-line jsx-a11y/click-events-have-key-events */}
       <div
         className={classNames(
           getClassName(''),

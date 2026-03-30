@@ -80,6 +80,7 @@ export function StoryImage({
       videoRef.current.pause();
     } else {
       onMediaPlaybackStart();
+      // oxlint-disable-next-line promise/prefer-await-to-then
       void videoRef.current.play().catch(error => {
         if (!isAbortError(error)) {
           log.error('Failed to play video', Errors.toLogFormat(error));

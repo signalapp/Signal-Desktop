@@ -172,7 +172,7 @@ export function createExpiringEntityCleanupService(
   async function scheduleRunsUntilDrained() {
     let shouldStop = false;
     while (!shouldStop) {
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       shouldStop = await scheduleNextRun();
     }
   }

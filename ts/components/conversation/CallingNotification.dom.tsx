@@ -88,11 +88,7 @@ export const CallingNotification: React.FC<PropsType> = React.memo(
         onPinMessage={null}
         onUnpinMessage={null}
       >
-        <div
-          // @ts-expect-error -- React/TS doesn't know about inert
-          // eslint-disable-next-line react/no-unknown-property
-          inert={props.isSelectMode ? '' : undefined}
-        >
+        <div inert={props.isSelectMode}>
           <SystemMessage
             button={renderCallingNotificationButton(props)}
             contents={

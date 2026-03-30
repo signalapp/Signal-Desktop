@@ -123,7 +123,6 @@ describe('ReleaseNoteAndMegaphoneFetcher', () => {
   };
 
   let sandbox: sinon.SinonSandbox;
-  let clock: sinon.SinonFakeTimers | undefined;
   let originalSignalCI: CIType | undefined;
   let fakeMegaphoneUuid: string;
 
@@ -307,7 +306,6 @@ describe('ReleaseNoteAndMegaphoneFetcher', () => {
     return {
       // Core objects
       sandbox,
-      clock,
       events,
       fakeConversation,
       serverStubs,
@@ -343,7 +341,6 @@ describe('ReleaseNoteAndMegaphoneFetcher', () => {
     // Restore all stubs and timers
     sandbox.restore();
     sandbox.reset();
-    clock?.restore();
 
     // Restore original global values (even if they were undefined)
     window.SignalCI = originalSignalCI as CIType;
@@ -396,6 +393,7 @@ describe('ReleaseNoteAndMegaphoneFetcher', () => {
 
     // TODO(DESKTOP-9092): test setup requires isNewVersion=true, but
     // that flag forces a manifest fetch.
+    // oxlint-disable-next-line signal-desktop/no-disabled-tests
     it.skip('does not fetch when hash is the same', async () => {
       const {
         setupStorage,

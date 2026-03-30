@@ -307,8 +307,8 @@ function ProgressBarAndDescription(
         </div>
       </>
     );
-    // eslint-disable-next-line no-else-return
   } else if (backupStep === InstallScreenBackupStep.Process) {
+    // oxlint-disable-next-line no-else-return
     return (
       <>
         <ProgressBar

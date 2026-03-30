@@ -2028,7 +2028,7 @@ describe('both/state/ducks/conversations', () => {
 
       it('defaults the maximum recommended size to 151', async () => {
         for (const value of [null, 'xyz']) {
-          // eslint-disable-next-line no-await-in-loop
+          // oxlint-disable-next-line no-await-in-loop
           await updateRemoteConfig(
             [
               {
@@ -2121,7 +2121,7 @@ describe('both/state/ducks/conversations', () => {
 
       it('defaults the maximum group size to 1001 if the recommended maximum is smaller', async () => {
         for (const value of [null, 'xyz']) {
-          // eslint-disable-next-line no-await-in-loop
+          // oxlint-disable-next-line no-await-in-loop
           await updateRemoteConfig(
             [{ name: 'global.groupsv2.maxGroupSize', value: '2' }].concat(
               value

@@ -2,14 +2,14 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { readFileSync, writeFileSync } from 'node:fs';
-import { join, dirname, basename } from 'node:path';
+import { join } from 'node:path';
 import { Script, constants } from 'node:vm';
 import { ipcRenderer } from 'electron';
 
 const srcPath = join(__dirname, 'preload.bundle.js');
 const cachePath = join(__dirname, 'preload.bundle.cache');
 
-let cachedData: Buffer | undefined;
+let cachedData: Buffer<ArrayBuffer> | undefined;
 try {
   if (!process.env.GENERATE_PRELOAD_CACHE) {
     cachedData = readFileSync(cachePath);
@@ -76,7 +76,9 @@ if (process.env.GENERATE_PRELOAD_CACHE) {
 }
 
 if (cachedDataRejected) {
+  // oxlint-disable-next-line no-console
   console.log('preload cache rejected');
 } else {
+  // oxlint-disable-next-line no-console
   console.log('preload cache hit');
 }

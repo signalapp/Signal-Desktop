@@ -1,6 +1,5 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-/* eslint-disable no-await-in-loop, no-console */
 
 import type { PrimaryDevice } from '@signalapp/mock-server';
 import { StorageState } from '@signalapp/mock-server';
@@ -20,6 +19,7 @@ Bootstrap.benchmark(async (bootstrap: Bootstrap): Promise<void> => {
   let state = StorageState.getEmpty();
   let lastContact: PrimaryDevice | undefined;
   for (const [i, profileName] of contactNames.entries()) {
+    // oxlint-disable-next-line no-await-in-loop
     const contact = await server.createPrimaryDevice({
       profileName,
     });
@@ -53,5 +53,6 @@ Bootstrap.benchmark(async (bootstrap: Bootstrap): Promise<void> => {
   await item.waitFor();
 
   const duration = Date.now() - start;
+  // oxlint-disable-next-line no-console
   console.log(`Took: ${(duration / 1000).toFixed(2)} seconds`);
 });

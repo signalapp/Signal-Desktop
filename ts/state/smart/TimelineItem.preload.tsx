@@ -228,7 +228,7 @@ export const SmartTimelineItem = memo(function SmartTimelineItem(
       return;
     }
     const message = await DataReader.getMessageById(messageId);
-    // eslint-disable-next-line no-console
+    // oxlint-disable-next-line no-console
     console.debug(message);
     await window.navigator.clipboard.writeText(
       JSON.stringify(message, null, 2)

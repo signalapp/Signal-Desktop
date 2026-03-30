@@ -104,7 +104,7 @@ export const SmartToastManager = memo(function SmartToastManager({
     };
   } else if (megaphones.length > 0) {
     megaphone = {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      // oxlint-disable-next-line typescript/no-non-null-assertion
       ...megaphones[0]!,
       type: MegaphoneType.Remote,
       onInteractWithMegaphone: interactWithMegaphone,

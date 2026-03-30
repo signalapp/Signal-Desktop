@@ -334,7 +334,7 @@ export namespace AxoDialog {
           // fit 1-2 words per line, push it up into its own row:
           'min-w-[calc-size(fit-content,min(20ch,size))]',
           // Allow it to fill its own row
-          'flex-grow',
+          'grow',
           'type-body-large text-label-primary'
         )}
       >

@@ -1,8 +1,5 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-
-/* eslint-disable no-await-in-loop */
-
 import { v4 as uuid } from 'uuid';
 import {
   ClientZkReceiptOperations,
@@ -458,7 +455,7 @@ export async function _runDonationWorkflow(): Promise<void> {
     runDonationAbortController = new AbortController();
 
     // We will loop until we explicitly return or throw
-    // eslint-disable-next-line no-constant-condition
+    // oxlint-disable-next-line no-constant-condition
     while (true) {
       const existing = _getWorkflowFromRedux();
       const idForLog = existing?.id ? redactId(existing.id) : 'NONE';
@@ -474,6 +471,7 @@ export async function _runDonationWorkflow(): Promise<void> {
         log.info(
           `${logId}: Workflow timestamp is more than 90 days ago. Clearing.`
         );
+        // oxlint-disable-next-line no-await-in-loop
         await failDonation(donationErrorTypeSchema.Enum.GeneralError);
         return;
       }
@@ -494,6 +492,7 @@ export async function _runDonationWorkflow(): Promise<void> {
 
       if (!isOnline()) {
         log.info(`${logId}: We are not online; waiting until we are online`);
+        // oxlint-disable-next-line no-await-in-loop
         await waitForOnline({ server: { isOnline } });
         log.info(`${logId}: We are back online; starting up again`);
       }
@@ -503,6 +502,7 @@ export async function _runDonationWorkflow(): Promise<void> {
       if (sleepTime > 0) {
         const detail = `${logId}: sleeping for backoff for ${type}, backoff count is ${backoffCount}`;
         log.info(detail);
+        // oxlint-disable-next-line no-await-in-loop
         await sleeper.sleep(sleepTime, detail);
       }
 
@@ -522,6 +522,7 @@ export async function _runDonationWorkflow(): Promise<void> {
           }
 
           log.info(`${logId}: Attempting to confirm payment`);
+          // oxlint-disable-next-line no-await-in-loop
           updated = await _confirmPayment(existing);
           // continuing
         } else if (type === donationStateSchema.Enum.INTENT_REDIRECT) {
@@ -544,16 +545,19 @@ export async function _runDonationWorkflow(): Promise<void> {
           return;
         } else if (type === donationStateSchema.Enum.PAYPAL_APPROVED) {
           log.info(`${logId}: Attempting to confirm PayPal payment`);
+          // oxlint-disable-next-line no-await-in-loop
           updated = await _confirmPaypalPayment(existing);
         } else if (
           type === donationStateSchema.Enum.INTENT_CONFIRMED ||
           type === donationStateSchema.Enum.PAYMENT_CONFIRMED
         ) {
           log.info(`${logId}: Attempting to get receipt`);
+          // oxlint-disable-next-line no-await-in-loop
           updated = await _getReceipt(existing);
           // continuing
         } else if (type === donationStateSchema.Enum.RECEIPT) {
           log.info(`${logId}: Attempting to redeem receipt`);
+          // oxlint-disable-next-line no-await-in-loop
           updated = await _redeemReceipt(existing);
           // continuing
         } else if (type === donationStateSchema.Enum.DONE) {
@@ -586,6 +590,7 @@ export async function _runDonationWorkflow(): Promise<void> {
           backoffCount = 0;
         }
 
+        // oxlint-disable-next-line no-await-in-loop
         await _saveWorkflow(updated);
       } catch (error) {
         const errorType: string | undefined = error.response?.error?.type;
@@ -600,11 +605,13 @@ export async function _runDonationWorkflow(): Promise<void> {
             type === donationStateSchema.Enum.INTENT_METHOD &&
             errorType === 'card_error'
           ) {
+            // oxlint-disable-next-line no-await-in-loop
             await failDonation(
               donationErrorTypeSchema.Enum.PaymentDeclined,
               errorType
             );
           } else {
+            // oxlint-disable-next-line no-await-in-loop
             await failDonation(
               donationErrorTypeSchema.Enum.GeneralError,
               errorType
@@ -620,6 +627,7 @@ export async function _runDonationWorkflow(): Promise<void> {
           log.warn(
             `${logId}: Donation step threw unexpectedly. Failing donation. ${Errors.toLogFormat(error)}`
           );
+          // oxlint-disable-next-line no-await-in-loop
           await failDonation(
             donationErrorTypeSchema.Enum.GeneralError,
             errorType
@@ -638,7 +646,7 @@ export async function _runDonationWorkflow(): Promise<void> {
 
 let isDonationStepInProgress = false;
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+// oxlint-disable-next-line typescript/no-explicit-any
 async function withConcurrencyCheck<T extends () => Promise<any>>(
   name: string,
   fn: T

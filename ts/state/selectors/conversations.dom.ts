@@ -1177,7 +1177,7 @@ export const getCachedConversationMemberColorsSelector = createSelector(
 
             contactNameColors.set(
               conversation.id,
-              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+              // oxlint-disable-next-line typescript/no-non-null-assertion
               ContactNameColors[i % ContactNameColors.length]!
             );
           });

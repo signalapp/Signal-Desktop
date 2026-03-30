@@ -71,7 +71,7 @@ async function main() {
     for (const dirEntry of dirEntries) {
       const locale = path.basename(dirEntry);
       const data = JSON.parse(
-        // eslint-disable-next-line no-await-in-loop
+        // oxlint-disable-next-line no-await-in-loop
         await fs.readFile(
           path.join(ROOT_DIR, '_locales', locale, 'messages.json'),
           'utf8'
@@ -99,11 +99,12 @@ async function main() {
       allMessages
     );
 
-    // eslint-disable-next-line no-await-in-loop
+    // oxlint-disable-next-line no-await-in-loop
     await fs.writeFile(targetPath, targetContent);
   }
 }
 
+// oxlint-disable-next-line promise/prefer-await-to-then
 main().catch(error => {
   console.error(error);
   process.exit(1);

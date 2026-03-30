@@ -5,7 +5,7 @@ import 'urlpattern-polyfill';
 // builtins, use an `npm` package.
 // We need to use the Node.js version of `URL` because chromium's `URL` doesn't
 // support custom protocols correctly.
-// eslint-disable-next-line import/enforce-node-protocol-usage
+// oxlint-disable-next-line unicorn/prefer-node-protocol
 import { URL as NodeURL } from 'url';
 import { z } from 'zod';
 import { strictAssert } from './assert.std.js';

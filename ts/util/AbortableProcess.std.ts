@@ -1,12 +1,11 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-/* eslint-disable no-restricted-syntax */
 
 import { explodePromise } from './explodePromise.std.js';
 
-export interface IController {
+export type IController = {
   abort(): void;
-}
+};
 
 export class AbortableProcess<Result> implements IController {
   #abortReject: (error: Error) => void;

@@ -1,5 +1,11 @@
 {
-  "include": ["ts/**/*", "app/**/*", "package.json", "build/intl-linter/**/*"],
+  "include": [
+    "ts/**/*",
+    "app/**/*",
+    "package.json",
+    "build/intl-linter/**/*.ts",
+    ".oxlint/**/*"
+  ],
   "compilerOptions": {
     /*
      * Visit https://aka.ms/tsconfig to read more about this file
@@ -101,7 +107,7 @@
      */
 
     /* Allow JavaScript files to be a part of your program. Use the 'checkJS' option to get errors from these files. */
-    // "allowJs": true,
+    "allowJs": true,
     /* Enable error reporting in type-checked JavaScript files. */
     // "checkJs": true,
     /* Specify the maximum folder depth used for checking JavaScript files from 'node_modules'. Only applicable with 'allowJs'. */

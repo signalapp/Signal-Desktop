@@ -611,7 +611,7 @@ export function UnknownType(): React.JSX.Element {
     data: {
       somethin: 'somethin',
     },
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // oxlint-disable-next-line typescript/no-explicit-any
   } as any as TimelineItemProps['item'];
 
   return (
@@ -622,7 +622,7 @@ export function UnknownType(): React.JSX.Element {
 }
 
 export function MissingItem(): React.JSX.Element {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // oxlint-disable-next-line typescript/no-explicit-any
   const item = null as any as TimelineItemProps['item'];
 
   return <TimelineItem {...getDefaultProps()} item={item} i18n={i18n} />;

@@ -27,6 +27,7 @@ if (userData !== undefined) {
   try {
     mkdirSync(userData, { recursive: true });
   } catch (error) {
+    // oxlint-disable-next-line no-console
     console.error('Failed to create userData', Errors.toLogFormat(error));
   }
 
@@ -34,6 +35,7 @@ if (userData !== undefined) {
 }
 
 // Use console.log because logger isn't fully initialized yet
+// oxlint-disable-next-line no-console
 console.log(`userData: ${app.getPath('userData')}`);
 
 const userDataPath = app.getPath('userData');

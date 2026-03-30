@@ -1334,10 +1334,10 @@ export function ensureSystemMediaPermissions(
 
     const { signal } = abortController;
     while (!signal.aborted) {
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       await sleep(MEDIA_PERMISSIONS_POLL_INTERVAL, signal);
 
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       const updatedStatus = await window.IPC.getMediaAccessStatus(mediaType);
       if (signal.aborted) {
         throw new Error('ensureSystemMediaPermissions: modal dismissed');

@@ -168,7 +168,7 @@ export function getNotificationDataForMessage(
         _i18n: unknown,
         components: ICUStringMessageParamsByKeyType[Key]
       ) => {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        // oxlint-disable-next-line typescript/no-explicit-any
         return i18n(key, components as any);
       },
     });
@@ -318,7 +318,7 @@ export function getNotificationDataForMessage(
         }
       } else {
         const joinedContact = window.ConversationController.getOrCreate(
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          // oxlint-disable-next-line typescript/no-non-null-assertion
           groupUpdate.joined[0]!,
           'private'
         );
@@ -327,7 +327,7 @@ export function getNotificationDataForMessage(
         } else {
           messages.push(
             i18n('icu:joinedTheGroup', {
-              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+              // oxlint-disable-next-line typescript/no-non-null-assertion
               name: joinedContacts[0]!.getTitle(),
             })
           );
@@ -478,7 +478,7 @@ export function getNotificationDataForMessage(
   const { contact: contacts } = attributes;
   if (contacts && contacts.length) {
     return {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      // oxlint-disable-next-line typescript/no-non-null-assertion
       text: EmbeddedContact.getName(contacts[0]!) || i18n('icu:unknownContact'),
       emoji: '👤',
     };

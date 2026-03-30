@@ -283,7 +283,7 @@ export class Bootstrap {
           });
 
           for (let i = 0; i < this.#options.linkedDevices; i += 1) {
-            // eslint-disable-next-line no-await-in-loop
+            // oxlint-disable-next-line no-await-in-loop
             await this.server.createSecondaryDevice(primary);
           }
 
@@ -448,9 +448,9 @@ export class Bootstrap {
 
     for (const contact of this.allContacts) {
       for (const serviceIdKind of [ServiceIdKind.ACI, ServiceIdKind.PNI]) {
-        // eslint-disable-next-line no-await-in-loop
+        // oxlint-disable-next-line no-await-in-loop
         const contactKey = await this.desktop.popSingleUseKey(serviceIdKind);
-        // eslint-disable-next-line no-await-in-loop
+        // oxlint-disable-next-line no-await-in-loop
         await contact.addSingleUseKey(this.desktop, contactKey, serviceIdKind);
       }
     }
@@ -493,7 +493,7 @@ export class Bootstrap {
         );
       }
 
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       const config = await this.#generateConfig(port, family, extraConfig);
 
       const startedApp = new App({
@@ -503,16 +503,16 @@ export class Bootstrap {
       });
 
       try {
-        // eslint-disable-next-line no-await-in-loop
+        // oxlint-disable-next-line no-await-in-loop
         await startedApp.start();
       } catch (error) {
-        // eslint-disable-next-line no-console
+        // oxlint-disable-next-line no-console
         console.error(
           `Failed to start the app, attempt ${startAttempts}, retrying`,
           error
         );
 
-        // eslint-disable-next-line no-await-in-loop
+        // oxlint-disable-next-line no-await-in-loop
         await this.#resetAppStorage();
         continue;
       }
@@ -594,7 +594,7 @@ export class Bootstrap {
       return;
     }
 
-    // eslint-disable-next-line no-console
+    // oxlint-disable-next-line no-console
     console.error(`Saving logs to ${outDir}`);
 
     const { logsDir } = this;
@@ -794,7 +794,7 @@ export class Bootstrap {
   async #getArtifactsDir(testName?: string): Promise<string | undefined> {
     const { ARTIFACTS_DIR } = process.env;
     if (!ARTIFACTS_DIR) {
-      // eslint-disable-next-line no-console
+      // oxlint-disable-next-line no-console
       console.error(
         'Not saving artifacts. Please set ARTIFACTS_DIR env variable'
       );
@@ -861,13 +861,13 @@ export class Bootstrap {
           fromValue * (1 - progress) + toValue * progress
         );
 
-        // eslint-disable-next-line no-await-in-loop
+        // oxlint-disable-next-line no-await-in-loop
         const data = await Bootstrap.runBenchmark(bootstrap => {
           return fn({ bootstrap, iteration, value });
         }, timeout);
 
         if (data.metrics) {
-          // eslint-disable-next-line no-console
+          // oxlint-disable-next-line no-console
           console.log(`run=${lineNum} info=%j`, data.metrics);
           lineNum += 1;
         }
@@ -877,7 +877,7 @@ export class Bootstrap {
           data,
         });
 
-        // eslint-disable-next-line no-console
+        // oxlint-disable-next-line no-console
         console.log(
           'cycle=%d iteration=%d value=%d data=%j',
           cycle,
@@ -888,7 +888,7 @@ export class Bootstrap {
       }
 
       const result: Record<string, number> = Object.create(null);
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      // oxlint-disable-next-line typescript/no-non-null-assertion
       const keys = Object.keys(samples[0]!.data).filter(
         (key: string): key is `${string}Duration` => key.endsWith('Duration')
       );
@@ -897,7 +897,7 @@ export class Bootstrap {
       let worstError = 0;
       for (const key of keys) {
         const { yIntercept, slope, confidence, outliers, severeOutliers } =
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          // oxlint-disable-next-line typescript/no-non-null-assertion
           regress(samples.map(s => ({ y: s.value, x: s.data[key]! })));
 
         const delay = -yIntercept / slope;
@@ -919,18 +919,18 @@ export class Bootstrap {
         worstError = Math.max(worstError, error / perSecond);
       }
 
-      // eslint-disable-next-line no-console
+      // oxlint-disable-next-line no-console
       console.log(human.join('\n'));
 
       if (cycle !== maxCycles - 1 && worstError > maxError) {
-        // eslint-disable-next-line no-console
+        // oxlint-disable-next-line no-console
         console.warn(
           `cycle=${cycle} error=${worstError} max=${maxError} continuing`
         );
         continue;
       }
 
-      // eslint-disable-next-line no-console
+      // oxlint-disable-next-line no-console
       console.log(`run=${lineNum} info=%j`, result);
       break;
     }

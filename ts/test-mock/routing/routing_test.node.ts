@@ -1,8 +1,5 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-
-// `window` use below is actually executed in the browser.
-// eslint-disable-next-line local-rules/file-suffix
 import { assert } from 'chai';
 
 import type { PrimaryDevice } from '@signalapp/mock-server';
@@ -59,6 +56,7 @@ describe('routing', function (this: Mocha.Suite) {
     const page = await app.getWindow();
     await page.locator('#LeftPane').waitFor();
     const token = await page.evaluate(
+      // oxlint-disable-next-line no-undef FIXME
       serviceId => window.SignalCI?.createNotificationToken(serviceId),
       friend.device.aci
     );

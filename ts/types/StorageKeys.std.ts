@@ -42,7 +42,8 @@ export type SerializedCertificateType = {
   serialized: Uint8Array<ArrayBuffer>;
 };
 
-export type ZoomFactorType = 0.75 | 1 | 1.25 | 1.5 | 2 | number;
+// oxlint-disable-next-line typescript/ban-types
+export type ZoomFactorType = 0.75 | 1 | 1.25 | 1.5 | 2 | (number & {});
 
 export type SentMediaQualitySettingType = 'standard' | 'high';
 

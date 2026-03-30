@@ -84,7 +84,7 @@ export class BeforeNavigateService {
     const entries = Array.from(this.#beforeNavigateCallbacks);
 
     for (const entry of entries) {
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       const response = await Promise.race([
         entry.callback({ existingLocation, newLocation }),
         timeOutAfter(30 * SECOND),

@@ -1,12 +1,13 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-const { runAsWorker } = require('synckit');
-const enhancedResolve = require('enhanced-resolve');
-const tailwind = require('tailwindcss');
-const path = require('node:path');
-const fs = require('node:fs');
+// @ts-check
+import { runAsWorker } from 'synckit';
+import enhancedResolve from 'enhanced-resolve';
+import * as tailwind from 'tailwindcss';
+import path from 'node:path';
+import fs from 'node:fs';
 
-const rootDir = path.join(__dirname, '../..');
+const rootDir = path.join(import.meta.dirname, '../..');
 const tailwindCssPath = path.join(rootDir, 'stylesheets/tailwind-config.css');
 
 async function loadDesignSystem() {
@@ -21,12 +22,13 @@ async function loadDesignSystem() {
     tailwindCss,
     {
       base: path.dirname(tailwindCssPath),
-      loadStylesheet(id, base) {
+      async loadStylesheet(id, base) {
         const resolved = resolver(base, id);
         if (!resolved) {
-          return { base: '', content: '' };
+          return { path: '', base: '', content: '' };
         }
         return {
+          path: resolved,
           base: path.dirname(resolved),
           content: fs.readFileSync(resolved, 'utf-8'),
         };
@@ -39,12 +41,17 @@ async function loadDesignSystem() {
 
 let cachedDesignSystem = null;
 
-runAsWorker(async classNames => {
+/**
+ * @param {Array<string>} classNames
+ */
+async function worker(classNames) {
   cachedDesignSystem ??= await loadDesignSystem();
   const designSystem = cachedDesignSystem;
   const css = designSystem.candidatesToCss(classNames);
   const tailwindClassNames = classNames.filter((_, index) => {
-    return css.at(index) !== null;
+    return css.at(index) != null;
   });
   return tailwindClassNames;
-});
+}
+
+runAsWorker(worker);

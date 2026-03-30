@@ -97,7 +97,7 @@ export function AttachmentList<
       <div className="module-attachments__rail">
         {attachments.map((attachment, index) => {
           const url = getUrl(attachment);
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          // oxlint-disable-next-line typescript/no-non-null-assertion
           const forUI = attachmentsForUI[index]!;
 
           const key =

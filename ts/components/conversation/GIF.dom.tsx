@@ -96,6 +96,7 @@ export function GIF(props: Props): React.JSX.Element {
     }
 
     if (isPlaying) {
+      // oxlint-disable-next-line promise/prefer-await-to-then
       video.play().catch(error => {
         if (!isAbortError(error)) {
           log.error(

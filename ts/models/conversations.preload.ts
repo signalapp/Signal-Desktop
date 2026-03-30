@@ -1385,10 +1385,10 @@ export class ConversationModel {
     }
     return {
       masterKey: Bytes.fromBase64(
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        // oxlint-disable-next-line typescript/no-non-null-assertion
         this.get('masterKey')!
       ),
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      // oxlint-disable-next-line typescript/no-non-null-assertion
       revision: this.get('revision')!,
       members:
         'members' in options ? options.members : this.getRecipients(options),
@@ -1633,7 +1633,7 @@ export class ConversationModel {
     const logId = `setInProgressFetch(${this.idForLogging()})`;
     while (this.inProgressFetch != null) {
       log.warn(`${logId}: blocked, waiting`);
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       await this.inProgressFetch;
     }
     const start = Date.now();
@@ -1642,6 +1642,7 @@ export class ConversationModel {
     this.inProgressFetch = promise;
 
     let isFinished = false;
+    // oxlint-disable-next-line prefer-const
     let timeout: NodeJS.Timeout;
     const finish = () => {
       strictAssert(!isFinished, 'inProgressFetch.finish called twice');
@@ -2367,7 +2368,7 @@ export class ConversationModel {
     do {
       const first = messages ? messages[0] : undefined;
 
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       messages = await DataReader.getOlderMessagesByConversation({
         conversationId: this.get('id'),
         includeStoryReplies: !isGroup(this.attributes),
@@ -2387,7 +2388,7 @@ export class ConversationModel {
       if (isLocalAction) {
         const conversationId = this.get('id');
 
-        // eslint-disable-next-line no-await-in-loop
+        // oxlint-disable-next-line no-await-in-loop
         await conversationJobQueue.add({
           type: conversationQueueJobEnum.enum.Receipts,
           conversationId: this.get('id'),
@@ -2408,7 +2409,7 @@ export class ConversationModel {
         });
       }
 
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       await Promise.all(
         readMessages.map(async m => {
           const registered = window.MessageCache.register(new MessageModel(m));
@@ -2986,7 +2987,7 @@ export class ConversationModel {
     this.fetchContacts();
 
     await Promise.all(
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      // oxlint-disable-next-line typescript/no-non-null-assertion
       this.contactCollection!.map(async contact => {
         if (!isMe(contact.attributes)) {
           await contact.updateVerified();
@@ -4516,7 +4517,7 @@ export class ConversationModel {
       preview = window.MessageCache.register(
         new MessageModel(previewAttributes)
       );
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      // oxlint-disable-next-line typescript/no-non-null-assertion
       const updates = (await this.cleanAttributes([preview.attributes]))[0]!;
       preview.set(updates);
     }
@@ -4525,7 +4526,7 @@ export class ConversationModel {
       activity = window.MessageCache.register(
         new MessageModel(activityAttributes)
       );
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      // oxlint-disable-next-line typescript/no-non-null-assertion
       const updates = (await this.cleanAttributes([activity.attributes]))[0]!;
       activity.set(updates);
     }

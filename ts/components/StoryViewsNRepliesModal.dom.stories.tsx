@@ -142,7 +142,6 @@ function getViewsAndReplies() {
   };
 }
 
-// eslint-disable-next-line react/function-component-definition
 const Template: StoryFn<PropsType> = args => {
   const [viewTarget, setViewTarget] = useState(args.viewTarget);
 

@@ -1130,7 +1130,7 @@ export function CaptchaDialogPending(): React.JSX.Element {
   );
 }
 
-export function _CrashReportDialog(): React.JSX.Element {
+export function CrashReportDialogExample(): React.JSX.Element {
   return (
     <LeftPaneInContainer
       {...useProps({

@@ -34,9 +34,9 @@ async function drawImage(
   const image = new Image();
   image.src = src;
   await image.decode();
-  // eslint-disable-next-line no-param-reassign
+  // oxlint-disable-next-line no-param-reassign
   canvas.width = image.width;
-  // eslint-disable-next-line no-param-reassign
+  // oxlint-disable-next-line no-param-reassign
   canvas.height = image.height;
   context.drawImage(image, 0, 0);
 }

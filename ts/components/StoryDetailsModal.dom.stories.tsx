@@ -26,7 +26,6 @@ export default {
   },
 } satisfies Meta<PropsType>;
 
-// eslint-disable-next-line react/function-component-definition
 const Template: StoryFn<PropsType> = args => <StoryDetailsModal {...args} />;
 
 export const MyStory = Template.bind({});

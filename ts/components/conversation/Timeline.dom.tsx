@@ -175,7 +175,7 @@ export class Timeline extends React.Component<
   #delayedPeekTimeout?: NodeJS.Timeout;
   #peekInterval?: NodeJS.Timeout;
 
-  // eslint-disable-next-line react/state-in-constructor
+  // oxlint-disable-next-line react/state-in-constructor
   override state: StateType = {
     scrollLocked: false,
     scrollLockHeight: undefined,

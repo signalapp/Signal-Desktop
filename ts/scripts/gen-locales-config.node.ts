@@ -56,6 +56,7 @@ async function main() {
   await fs.writeFile(jsonPath, `${JSON.stringify(localeDirNames, null, 2)}\n`);
 }
 
+// oxlint-disable-next-line promise/prefer-await-to-then
 main().catch(error => {
   console.error(error);
   process.exit(1);

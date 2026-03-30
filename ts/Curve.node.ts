@@ -146,16 +146,15 @@ function validatePubKeyFormat(
 }
 
 export function setPublicKeyTypeByte(publicKey: Uint8Array<ArrayBuffer>): void {
-  // eslint-disable-next-line no-param-reassign
+  // oxlint-disable-next-line no-param-reassign
   publicKey[0] = 5;
 }
 
 export function clampPrivateKey(privateKey: Uint8Array<ArrayBuffer>): void {
-  /* eslint-disable no-bitwise, no-param-reassign */
-  /* eslint-disable @typescript-eslint/no-non-null-assertion */
+  // oxlint-disable-next-line no-bitwise, no-param-reassign, typescript/no-non-null-assertion
   privateKey[0]! &= 248;
+  // oxlint-disable-next-line no-bitwise, no-param-reassign, typescript/no-non-null-assertion
   privateKey[31]! &= 127;
+  // oxlint-disable-next-line no-bitwise, no-param-reassign, typescript/no-non-null-assertion
   privateKey[31]! |= 64;
-  /* eslint-enable no-bitwise, no-param-reassign */
-  /* eslint-enable @typescript-eslint/no-non-null-assertion */
 }

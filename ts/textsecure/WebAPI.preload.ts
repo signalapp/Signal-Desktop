@@ -1,11 +1,6 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* eslint-disable no-param-reassign */
-/* eslint-disable guard-for-in */
-/* eslint-disable no-restricted-syntax */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 import type { RequestInit, Response } from 'node-fetch';
 import fetch from 'node-fetch';
 import type { Agent } from 'node:https';
@@ -156,14 +151,16 @@ function _createRedactor(
     }, href);
 }
 
+// oxlint-disable-next-line typescript/no-explicit-any
 function _validateResponse(response: any, schema: any) {
   try {
+    // oxlint-disable-next-line signal-desktop/no-for-in, guard-for-in
     for (const i in schema) {
       switch (schema[i]) {
         case 'object':
         case 'string':
         case 'number':
-          // eslint-disable-next-line valid-typeof
+          // oxlint-disable-next-line valid-typeof
           if (typeof response[i] !== schema[i]) {
             return false;
           }
@@ -233,6 +230,7 @@ type PromiseAjaxOptionsType<Type extends ResponseType, OutputShape> = {
   timeout?: number;
   type: HTTPCodeType;
   user?: string;
+  // oxlint-disable-next-line typescript/no-explicit-any
   validateResponse?: any;
   version: string;
   abortSignal?: AbortSignal;
@@ -513,7 +511,7 @@ async function _promiseAjax<Type extends ResponseType, OutputShape>(
   try {
     if (DEBUG && !isSuccess(response.status)) {
       result = await response.text();
-      // eslint-disable-next-line no-console
+      // oxlint-disable-next-line no-console
       console.error(result);
     } else if (
       (options.responseType === 'json' ||
@@ -701,6 +699,7 @@ async function _outerAjax<Type extends ResponseType, OutputShape>(
   url: string | null,
   options: PromiseAjaxOptionsType<Type, OutputShape>
 ): Promise<unknown> {
+  // oxlint-disable-next-line no-param-reassign
   options.stack = new Error().stack; // just in case, save stack here.
 
   if (options.disableRetries) {
@@ -858,6 +857,7 @@ type AjaxOptionsType<Type extends AjaxResponseType, OutputShape = unknown> = (
   responseType?: Type;
   timeout?: number;
   urlParameters?: string;
+  // oxlint-disable-next-line typescript/no-explicit-any
   validateResponse?: any;
   abortSignal?: AbortSignal;
 } & (Type extends 'json' | 'jsonwithdetails'
@@ -1870,6 +1870,7 @@ async function _ajax<Type extends AjaxResponseType, OutputShape>(
   }
 
   if (!param.urlParameters) {
+    // oxlint-disable-next-line no-param-reassign
     param.urlParameters = '';
   }
 
@@ -2444,7 +2445,7 @@ export async function getTransferArchive({
       ? `?timeout=${encodeURIComponent(requestTimeoutInSecs)}`
       : undefined;
 
-    // eslint-disable-next-line no-await-in-loop
+    // oxlint-disable-next-line no-await-in-loop
     const { data, response } = await _ajax({
       host: 'chatService',
       call: 'transferArchive',
@@ -4027,7 +4028,7 @@ async function _getAttachment({
 
       const match = PARSE_RANGE_HEADER.exec(range);
       strictAssert(match != null, 'Attachment Content-Range is invalid');
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      // oxlint-disable-next-line typescript/no-non-null-assertion
       const maybeSize = safeParseNumber(match[1]!);
       strictAssert(
         maybeSize != null,
@@ -4132,7 +4133,7 @@ export async function putEncryptedAttachment(
 
     try {
       // This is going to the CDN, not the service, so we use _outerAjax
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       await _outerAjax(uploadLocation, {
         disableRetries: true,
         certificateAuthority,
@@ -4158,7 +4159,7 @@ export async function putEncryptedAttachment(
       );
     }
 
-    // eslint-disable-next-line no-await-in-loop
+    // oxlint-disable-next-line no-await-in-loop
     const result: BytesWithDetailsType = await _outerAjax(uploadLocation, {
       certificateAuthority,
       proxyUrl,
@@ -4177,7 +4178,7 @@ export async function putEncryptedAttachment(
     if (range != null) {
       const match = range.match(/^bytes=0-(\d+)$/);
       strictAssert(match != null, `Invalid range header: ${range}`);
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      // oxlint-disable-next-line typescript/no-non-null-assertion
       start = parseInt(match[1]!, 10);
     } else {
       log.warn(`${logId}: No range header`);
@@ -4740,11 +4741,11 @@ export async function getGroupLog(
     const range = response.headers.get('Content-Range');
     const match = PARSE_GROUP_LOG_RANGE_HEADER.exec(range || '');
 
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    // oxlint-disable-next-line typescript/no-non-null-assertion
     const start = match ? parseInt(match[1]!, 10) : undefined;
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    // oxlint-disable-next-line typescript/no-non-null-assertion
     const end = match ? parseInt(match[2]!, 10) : undefined;
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    // oxlint-disable-next-line typescript/no-non-null-assertion
     const currentRevision = match ? parseInt(match[3]!, 10) : undefined;
 
     if (

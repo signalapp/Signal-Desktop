@@ -240,7 +240,7 @@ export const deleteAllBadges = async ({
   let filesDeleted = 0;
   for (const file of await getAllBadgeImageFiles(userDataPath)) {
     if (!pathsToKeep.has(file)) {
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       await deleteFromDisk(file);
       filesDeleted += 1;
     }
@@ -261,7 +261,7 @@ export const deleteAllMegaphones = async ({
   let filesDeleted = 0;
   for (const file of await getAllMegaphoneImageFiles(userDataPath)) {
     if (!pathsToKeep.has(file)) {
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       await deleteFromDisk(file);
       filesDeleted += 1;
     }

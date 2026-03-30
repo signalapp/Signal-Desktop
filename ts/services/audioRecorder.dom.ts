@@ -79,7 +79,7 @@ export class RecorderClass {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
         // TypeScript doesn't know about these options.
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        // oxlint-disable-next-line typescript/no-explicit-any
         audio: { mandatory: { googAutoGainControl: false } } as any,
       });
 

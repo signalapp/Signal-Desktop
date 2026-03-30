@@ -1,8 +1,6 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* eslint-disable no-bitwise */
-
 import lodash from 'lodash';
 import PQueue from 'p-queue';
 import { v7 as getGuid } from 'uuid';
@@ -301,13 +299,10 @@ function getEnvelopeId(envelope: ProcessedEnvelope): string {
   return `${prefix} ${timestamp} (${envelope.id})`;
 }
 
-/* eslint-disable @typescript-eslint/brace-style -- Prettier conflicts with ESLint */
 export default class MessageReceiver
   extends EventTarget
   implements IRequestHandler
 {
-  /* eslint-enable @typescript-eslint/brace-style */
-
   #storage: Storage;
 
   #appQueue: PQueue;
@@ -834,7 +829,7 @@ export default class MessageReceiver
 
     for await (const batch of this.#getAllFromCache()) {
       for (const item of batch) {
-        // eslint-disable-next-line no-await-in-loop
+        // oxlint-disable-next-line no-await-in-loop
         await this.#queueCached(item);
       }
     }
@@ -2082,6 +2077,7 @@ export default class MessageReceiver
     }
 
     // TODO: DESKTOP-5804
+    // oxlint-disable-next-line no-bitwise
     if (msg.flags && msg.flags & Proto.DataMessage.Flags.END_SESSION) {
       if (destinationServiceId) {
         await this.#handleEndSession(envelope, destinationServiceId);
@@ -2438,6 +2434,7 @@ export default class MessageReceiver
       return undefined;
     }
 
+    // oxlint-disable-next-line no-bitwise
     if (msg.flags && msg.flags & Proto.DataMessage.Flags.END_SESSION) {
       p = this.#handleEndSession(envelope, sourceAci);
     }
@@ -2445,6 +2442,7 @@ export default class MessageReceiver
     const { profileKey } = msg;
     const hasProfileKey = profileKey && profileKey.length > 0;
     const isProfileKeyUpdate =
+      // oxlint-disable-next-line no-bitwise
       msg.flags && msg.flags & Proto.DataMessage.Flags.PROFILE_KEY_UPDATE;
 
     if (isProfileKeyUpdate) {
@@ -2481,6 +2479,7 @@ export default class MessageReceiver
       type = 'deleteForEveryone';
     } else if (
       msg.flags &&
+      // oxlint-disable-next-line no-bitwise
       msg.flags & Proto.DataMessage.Flags.EXPIRATION_TIMER_UPDATE
     ) {
       type = 'expirationTimerUpdate';
@@ -2964,7 +2963,7 @@ export default class MessageReceiver
     }
 
     const ourDeviceId = this.#storage.user.getDeviceId();
-    // eslint-disable-next-line eqeqeq
+    // oxlint-disable-next-line eqeqeq
     if (envelope.sourceDevice == ourDeviceId) {
       throw new Error('Received sync message from our own device');
     }

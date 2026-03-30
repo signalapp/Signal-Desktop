@@ -34,7 +34,6 @@ export default {
   },
 } satisfies Meta<Props>;
 
-// eslint-disable-next-line react/function-component-definition
 const Template: StoryFn<Props> = args => <StoryLinkPreview {...args} />;
 
 export const Default = Template.bind({});

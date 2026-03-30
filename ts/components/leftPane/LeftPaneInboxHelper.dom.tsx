@@ -239,7 +239,7 @@ export class LeftPaneInboxHelper extends LeftPaneHelper<LeftPaneInboxPropsType> 
       if (index < pinnedConversations.length) {
         return {
           type: RowType.Conversation,
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          // oxlint-disable-next-line typescript/no-non-null-assertion
           conversation: pinnedConversations[index]!,
         };
       }
@@ -260,7 +260,7 @@ export class LeftPaneInboxHelper extends LeftPaneHelper<LeftPaneInboxPropsType> 
     if (index < conversations.length) {
       return {
         type: RowType.Conversation,
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        // oxlint-disable-next-line typescript/no-non-null-assertion
         conversation: conversations[index]!,
       };
     }

@@ -1,8 +1,6 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* eslint-disable react/jsx-pascal-case */
-
 import type {
   DetailedHTMLProps,
   HTMLAttributes,
@@ -561,7 +559,7 @@ const MessageReactions = forwardRef(function MessageReactions(
                 <button
                   aria-label={re.label}
                   type="button"
-                  // eslint-disable-next-line react/no-array-index-key
+                  // oxlint-disable-next-line react/no-array-index-key
                   key={`${re.emoji}-${i}`}
                   className={classNames(
                     'module-message__reactions__reaction',
@@ -1261,6 +1259,7 @@ export class Message extends React.PureComponent<Props, State> {
       if (isGIF(attachments)) {
         return (
           <div className={containerClassName}>
+            {/* oxlint-disable-next-line react/jsx-pascal-case */}
             <GIF
               attachment={firstAttachment}
               size={GIF_SIZE}
@@ -2474,7 +2473,7 @@ export class Message extends React.PureComponent<Props, State> {
     }
 
     return (
-      <div // eslint-disable-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions
+      <div // oxlint-disable-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions
         className={classNames(
           'module-message__text',
           `module-message__text--${direction}`,
@@ -3383,7 +3382,7 @@ export class Message extends React.PureComponent<Props, State> {
       <div className="module-message__container-outer">
         {maybeWrapWithContextMenu(
           // the keyboard handler is a level higher in hierarchy due to selection
-          //  eslint-disable-next-line jsx-a11y/click-events-have-key-events
+          //  oxlint-disable-next-line jsx-a11y/click-events-have-key-events
           <div
             className={containerClassnames}
             id={`message-accessibility-contents:${id}`}
@@ -3559,9 +3558,7 @@ export class Message extends React.PureComponent<Props, State> {
           role="row"
           onFocus={this.handleFocus}
           ref={this.focusRef}
-          // @ts-expect-error -- React/TS doesn't know about inert
-          // eslint-disable-next-line react/no-unknown-property
-          inert={isSelectMode ? '' : undefined}
+          inert={isSelectMode}
         >
           {this.#renderError()}
           {this.#renderAvatar()}

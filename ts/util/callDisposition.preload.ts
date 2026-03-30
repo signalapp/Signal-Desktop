@@ -1427,9 +1427,9 @@ export async function clearCallHistoryDataAndSync(
       for (const callLink of adminCallLinks) {
         try {
           // This throws if call link is active or network is unavailable.
-          // eslint-disable-next-line no-await-in-loop
+          // oxlint-disable-next-line no-await-in-loop
           await calling.deleteCallLink(callLink);
-          // eslint-disable-next-line no-await-in-loop
+          // oxlint-disable-next-line no-await-in-loop
           await DataWriter.deleteCallHistoryByRoomId(callLink.roomId);
           // Wait for storage service sync before finalizing delete.
           drop(

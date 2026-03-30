@@ -132,7 +132,6 @@ export const FunScroller = forwardRef(function FunScroller(
         ref={mergeRefs(scrollerRef, ref)}
         className="FunScroller__Viewport"
         // Nested scrollable elements should be focusable
-        // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
         tabIndex={0}
       >
         <ScrollerSectionObserveContext.Provider value={observe}>

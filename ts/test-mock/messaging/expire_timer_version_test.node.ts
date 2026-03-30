@@ -175,7 +175,7 @@ describe('messaging/expireTimerVersion', function (this: Mocha.Suite) {
     const testName =
       `sets correct version after ${scenario.name}, ` +
       `theyFirst=${scenario.theyFirst}`;
-    // eslint-disable-next-line no-loop-func
+    // oxlint-disable-next-line no-loop-func
     it(testName, async () => {
       const { phone, desktop } = bootstrap;
 

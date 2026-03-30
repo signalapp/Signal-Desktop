@@ -224,7 +224,7 @@ export async function modifyTargetMessage(
       });
       changed = true;
 
-      // eslint-disable-next-line no-param-reassign
+      // oxlint-disable-next-line no-param-reassign
       message.pendingMarkRead = Math.min(
         message.pendingMarkRead ?? Date.now(),
         markReadAt
@@ -239,7 +239,7 @@ export async function modifyTargetMessage(
 
     if (!isFirstRun && message.pendingMarkRead) {
       const markReadAt = message.pendingMarkRead;
-      // eslint-disable-next-line no-param-reassign
+      // oxlint-disable-next-line no-param-reassign
       message.pendingMarkRead = undefined;
 
       // This is primarily to allow the conversation to mark all older
@@ -280,7 +280,7 @@ export async function modifyTargetMessage(
         Date.now(),
         ...viewSyncs.map(({ viewSync }) => viewSync.viewedAt)
       );
-      // eslint-disable-next-line no-param-reassign
+      // oxlint-disable-next-line no-param-reassign
       message.pendingMarkRead = Math.min(
         message.pendingMarkRead ?? Date.now(),
         markReadAt

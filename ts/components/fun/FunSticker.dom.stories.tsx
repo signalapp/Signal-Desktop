@@ -12,7 +12,6 @@ export function Default(): React.JSX.Element {
   return (
     <>
       <p>with reduce motion:</p>
-      {/* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */}
       <div tabIndex={0}>
         <FunSticker
           src="/fixtures/giphy-GVNvOUpeYmI7e.gif"

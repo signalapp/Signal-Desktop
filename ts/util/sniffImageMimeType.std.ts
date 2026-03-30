@@ -86,7 +86,7 @@ function matchesType(input: Uint8Array<ArrayBuffer>, type: Type): boolean {
   for (let p = 0; p < type.bytePattern.length; p += 1) {
     const mask = type.patternMask ? type.patternMask[p] : 0xff;
     // We need to use a bitwise operator here, per the spec.
-    // eslint-disable-next-line no-bitwise, @typescript-eslint/no-non-null-assertion
+    // oxlint-disable-next-line no-bitwise, typescript/no-non-null-assertion
     const maskedData = input[p]! & mask!;
     if (maskedData !== type.bytePattern[p]) {
       return false;

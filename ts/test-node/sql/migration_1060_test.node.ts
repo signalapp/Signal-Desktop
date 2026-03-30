@@ -27,8 +27,6 @@ import { WEEK } from '../../util/durations/index.std.js';
 import type { MessageAttributesType } from '../../model-types.d.ts';
 import type { SyncTaskType } from '../../util/syncTasks.preload.js';
 
-/* eslint-disable camelcase */
-
 // Snapshot before: 1270
 export function getMostRecentAddressableMessages(
   db: ReadableDB,

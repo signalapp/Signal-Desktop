@@ -18,6 +18,7 @@ let copyErrorAndQuitText = 'Copy error and quit';
 
 function handleError(prefix: string, error: Error): void {
   const formattedError = Errors.toLogFormat(error);
+  // oxlint-disable-next-line no-console
   console.error(`${prefix}:`, formattedError);
   log.error(`${prefix}:`, formattedError);
 

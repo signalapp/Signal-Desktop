@@ -63,6 +63,7 @@ async function main() {
   await writeFile(outPath, `${JSON.stringify(config, null, 2)}\n`);
 }
 
+// oxlint-disable-next-line promise/prefer-await-to-then
 main().catch(error => {
   console.error(error);
   process.exit(1);

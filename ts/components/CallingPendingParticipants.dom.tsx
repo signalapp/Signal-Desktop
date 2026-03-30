@@ -1,8 +1,6 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* eslint-disable react/no-array-index-key */
-
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import lodash from 'lodash';
 import classNames from 'classnames';
@@ -253,6 +251,7 @@ export function CallingPendingParticipants({
           {participants.map((participant: ConversationType, index: number) => (
             <li
               className="module-calling-participants-list__contact"
+              // oxlint-disable-next-line react/no-array-index-key
               key={index}
             >
               <button

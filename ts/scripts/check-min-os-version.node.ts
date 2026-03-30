@@ -330,13 +330,13 @@ async function main() {
   ];
   for (const file of BINARY_FILES) {
     if (process.platform === 'darwin') {
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       await macosVersionCheck(file);
     } else if (process.platform === 'win32') {
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       await windowsDllImportCheck(file);
     } else if (process.platform === 'linux') {
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       await linuxVersionCheck(file);
     }
   }

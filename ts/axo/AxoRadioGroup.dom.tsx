@@ -94,11 +94,7 @@ export namespace AxoRadioGroup {
    * ------------------------------------
    */
 
-  export type IndicatorProps = Readonly<{
-    // ...
-  }>;
-
-  export const Indicator: FC<IndicatorProps> = memo(() => {
+  export const Indicator: FC = memo(() => {
     const context = useStrictContext(ItemContext);
     return (
       <RadioGroup.Item
@@ -112,7 +108,7 @@ export namespace AxoRadioGroup {
           'data-[state=unchecked]:pressed:bg-fill-primary-pressed',
           'data-[state=checked]:bg-color-fill-primary',
           'data-[state=checked]:pressed:bg-color-fill-primary-pressed',
-          'data-[disabled]:border-border-secondary',
+          'data-disabled:border-border-secondary',
           'outline-0 outline-border-focused focused:outline-[2.5px]',
           'overflow-hidden',
           'forced-colors:data-[state=checked]:bg-[SelectedItem]'
@@ -123,7 +119,7 @@ export namespace AxoRadioGroup {
             className={tw(
               'size-[9px] rounded-full',
               'data-[state=checked]:bg-label-primary-on-color',
-              'data-[state=checked]:data-[disabled]:bg-label-disabled-on-color',
+              'data-[state=checked]:data-disabled:bg-label-disabled-on-color',
               'forced-colors:data-[state=checked]:bg-[SelectedItemText]'
             )}
           />

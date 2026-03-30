@@ -4,7 +4,7 @@
 import lodash from 'lodash';
 import { useMemo } from 'react';
 
-// eslint-disable-next-line import/no-restricted-paths
+// oxlint-disable-next-line signal-desktop/no-restricted-paths
 import type { Reaction } from '../components/conversation/ReactionViewer.dom.js';
 import {
   isEmojiVariantValue,
@@ -13,10 +13,10 @@ import {
   getEmojiVariantByKey,
   type EmojiVariantKey,
   type EmojiParentKey,
-  // eslint-disable-next-line import/no-restricted-paths
+  // oxlint-disable-next-line signal-desktop/no-restricted-paths
 } from '../components/fun/data/emojis.std.js';
 import { isNotNil } from './isNotNil.std.js';
-// eslint-disable-next-line import/no-restricted-paths
+// oxlint-disable-next-line signal-desktop/no-restricted-paths
 import { useFunEmojiLocalizer } from '../components/fun/useFunEmojiLocalizer.dom.js';
 
 const { groupBy, orderBy } = lodash;
@@ -81,7 +81,7 @@ export function useGroupedAndOrderedReactions(
 
     return orderBy(
       groupedReactions,
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      // oxlint-disable-next-line typescript/no-non-null-assertion
       ['length', ([first]) => first!.timestamp],
       ['desc', 'desc']
     );

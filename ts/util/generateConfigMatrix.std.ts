@@ -23,7 +23,7 @@ export function generateConfigMatrix<Config>(combinations: {
 }): ReadonlyArray<Config> {
   let result = [{} as Record<string, unknown>];
 
-  const entries = [...Object.entries(combinations)] as Array<
+  const entries = Object.entries(combinations) as Array<
     [string, ReadonlyArray<unknown>]
   >;
   if (
@@ -36,7 +36,7 @@ export function generateConfigMatrix<Config>(combinations: {
   for (const [key, values] of entries) {
     result = values
       // Make a copy of each existing result for each value
-      // eslint-disable-next-line no-loop-func
+      // oxlint-disable-next-line no-loop-func
       .map(value =>
         result.map(config => ({
           ...config,

@@ -53,7 +53,7 @@ export function reinitializeRedux(options: ReduxInitData): void {
   });
 
   log.info(`${logId}: restoring original reducer`);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // oxlint-disable-next-line typescript/no-explicit-any
   window.reduxStore.replaceReducer(normalReducer as any);
 
   log.info(`${logId}: complete!`);

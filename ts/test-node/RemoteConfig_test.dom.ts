@@ -186,7 +186,7 @@ describe('RemoteConfig', () => {
     it('triggers listener on known flag change', async () => {
       await updateRemoteConfig([]);
 
-      // eslint-disable-next-line @typescript-eslint/no-empty-function
+      // oxlint-disable-next-line typescript/no-empty-function
       const listener = sinon.spy<ConfigListenerType>(() => {});
       onChange('desktop.internalUser', listener);
 

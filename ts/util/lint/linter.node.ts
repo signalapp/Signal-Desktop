@@ -1,7 +1,6 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* eslint-disable no-console */
 import * as fs from 'node:fs';
 import { join, relative } from 'node:path';
 import normalizePath from 'normalize-path';
@@ -373,7 +372,7 @@ function setupRules(allRules: Array<RuleType>) {
       throw new Error(`Rule '${rule.name}' is missing an expression`);
     }
 
-    // eslint-disable-next-line no-param-reassign
+    // oxlint-disable-next-line no-param-reassign
     rule.regex = new RegExp(rule.expression, 'g');
   });
 }
@@ -427,7 +426,7 @@ async function main(argv: ReadonlyArray<string>): Promise<void> {
           }
           // recreate this rule since it has g flag, and carries local state
           if (rule.expression) {
-            // eslint-disable-next-line no-param-reassign
+            // oxlint-disable-next-line no-param-reassign
             rule.regex = new RegExp(rule.expression, 'g');
           }
 
@@ -503,6 +502,7 @@ async function main(argv: ReadonlyArray<string>): Promise<void> {
   process.exit(1);
 }
 
+// oxlint-disable-next-line promise/prefer-await-to-then
 main(process.argv).catch(err => {
   console.error(err);
   process.exit(1);

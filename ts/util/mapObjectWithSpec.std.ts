@@ -1,6 +1,5 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import lodash from 'lodash';
 
@@ -20,10 +19,11 @@ export type ObjectMappingSpecType =
 
 export function mapObjectWithSpec<Input, Output>(
   spec: ObjectMappingSpecType,
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  // oxlint-disable-next-line typescript/explicit-module-boundary-types, typescript/no-explicit-any
   data: any,
   map: (value: Input) => Output,
   target = cloneDeep(data)
+  // oxlint-disable-next-line typescript/no-explicit-any
 ): any {
   if (!data) {
     return target;
@@ -40,7 +40,7 @@ export function mapObjectWithSpec<Input, Output>(
 
   if ('isMap' in spec) {
     for (const key of Object.keys(data)) {
-      // eslint-disable-next-line no-param-reassign
+      // oxlint-disable-next-line no-param-reassign
       target[key] = mapObjectWithSpec(
         spec.valueSpec,
         data[key],
@@ -52,7 +52,7 @@ export function mapObjectWithSpec<Input, Output>(
   }
 
   if ('key' in spec) {
-    // eslint-disable-next-line no-param-reassign
+    // oxlint-disable-next-line no-param-reassign
     target[spec.key] = mapObjectWithSpec(
       spec.valueSpec,
       data[spec.key],

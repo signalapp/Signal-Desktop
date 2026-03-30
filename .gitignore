@@ -17,7 +17,6 @@ release/
 
 /sql/
 /start.sh
-.eslintcache
 .stylelintcache
 tsconfig.tsbuildinfo
 .smartling-source.sh

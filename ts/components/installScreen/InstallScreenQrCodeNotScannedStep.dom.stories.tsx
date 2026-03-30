@@ -171,7 +171,6 @@ export function SimulatedTimeout(): React.JSX.Element {
 }
 
 export const WithUpdateKnobs: StoryFn<PropsType & { dialogType: DialogType }> =
-  // eslint-disable-next-line react/function-component-definition
   function WithUpdateKnobs({
     dialogType,
     currentVersion,

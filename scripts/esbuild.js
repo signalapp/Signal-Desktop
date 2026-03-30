@@ -205,6 +205,7 @@ async function main() {
   ]);
 }
 
+// oxlint-disable-next-line promise/prefer-await-to-then
 main().catch(error => {
   console.error(error.stack);
   process.exit(1);

@@ -1062,7 +1062,7 @@ export function getUpdateFileName(
     const candidates = files.filter(fileFilter);
 
     if (candidates.length === 1) {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      // oxlint-disable-next-line typescript/no-non-null-assertion
       path = candidates[0]!.url;
     }
   }
@@ -1102,7 +1102,7 @@ function getSize(info: JSONUpdateSchema, fileName: string): number {
 }
 
 export function parseYaml(yaml: string): JSONUpdateSchema {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // oxlint-disable-next-line typescript/no-explicit-any
   return loadYaml(yaml, { schema: FAILSAFE_SCHEMA, json: true }) as any;
 }
 

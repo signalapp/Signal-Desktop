@@ -1,12 +1,18 @@
 // Copyright 2026 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
+// @ts-check
+import { ESLintUtils } from '@typescript-eslint/utils';
 
-/** @type {import("eslint").Rule.RuleModule} */
-module.exports = {
+export const enforceArrayBuffer = ESLintUtils.RuleCreator.withoutDocs({
+  name: 'enforce-array-buffer',
   meta: {
     type: 'problem',
-    hasSuggestions: true,
-    fixable: true,
+    fixable: 'code',
+    messages: {
+      shouldUseArrayBuffer: `Should be {{replacement}}`,
+    },
+    schema: [],
+    defaultOptions: [],
   },
   create(context) {
     return {
@@ -24,13 +30,14 @@ module.exports = {
           return;
         }
 
-        if (node.typeParameters != null) {
+        if (node.typeArguments != null) {
           return;
         }
 
         context.report({
           node,
-          message: `Should be ${replacement}`,
+          messageId: 'shouldUseArrayBuffer',
+          data: { replacement },
           fix(fixer) {
             return [fixer.replaceTextRange(node.range, replacement)];
           },
@@ -38,4 +45,4 @@ module.exports = {
       },
     };
   },
-};
+});

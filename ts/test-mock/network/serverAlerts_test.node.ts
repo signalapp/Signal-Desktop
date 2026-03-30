@@ -84,7 +84,7 @@ describe('serverAlerts', function (this: Mocha.Suite) {
   ] as const;
 
   for (const testCase of TEST_CASES) {
-    // eslint-disable-next-line no-loop-func
+    // oxlint-disable-next-line no-loop-func
     it(`${testCase.name}`, async () => {
       bootstrap.server.setWebsocketUpgradeResponseHeaders(testCase.headers);
       app = await bootstrap.link();

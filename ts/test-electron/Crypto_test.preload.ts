@@ -305,7 +305,7 @@ describe('Crypto', () => {
       const key = getRandomBytes(32);
 
       const encrypted = encryptSymmetric(key, plaintext);
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      // oxlint-disable-next-line typescript/no-non-null-assertion
       encrypted[2]! += 2;
 
       try {
@@ -327,7 +327,7 @@ describe('Crypto', () => {
       const key = getRandomBytes(32);
 
       const encrypted = encryptSymmetric(key, plaintext);
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      // oxlint-disable-next-line typescript/no-non-null-assertion
       encrypted[encrypted.length - 3]! += 2;
 
       try {
@@ -349,7 +349,7 @@ describe('Crypto', () => {
       const key = getRandomBytes(32);
 
       const encrypted = encryptSymmetric(key, plaintext);
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      // oxlint-disable-next-line typescript/no-non-null-assertion
       encrypted[35]! += 9;
 
       try {
@@ -754,7 +754,7 @@ describe('Crypto', () => {
             isNumber(macLength) &&
             encryptedAttachment.incrementalMac
           ) {
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            // oxlint-disable-next-line typescript/no-non-null-assertion
             encryptedAttachment.incrementalMac[macLength / 2]! += 1;
           }
 

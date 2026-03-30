@@ -198,7 +198,7 @@ export function NotDelivered(args: Props): React.JSX.Element {
   return (
     <MessageDetail
       {...args}
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // oxlint-disable-next-line typescript/no-explicit-any
       receivedAt={undefined as any}
       message={{
         ...defaultMessage,

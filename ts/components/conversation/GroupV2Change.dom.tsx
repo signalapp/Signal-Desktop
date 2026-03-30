@@ -338,7 +338,7 @@ export function GroupV2Change(props: PropsType): ReactElement {
             groupName={groupName}
             i18n={i18n}
             // Difficult to find a unique key for this type
-            // eslint-disable-next-line react/no-array-index-key
+            // oxlint-disable-next-line react/no-array-index-key
             key={index}
             ourAci={ourAci}
             renderContact={renderContact}

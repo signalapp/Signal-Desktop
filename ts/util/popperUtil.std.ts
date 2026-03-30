@@ -30,7 +30,7 @@ export const sameWidthModifier: Modifier<
   enabled: true,
   phase: 'write',
   fn({ state }) {
-    // eslint-disable-next-line no-param-reassign
+    // oxlint-disable-next-line no-param-reassign
     state.elements.popper.style.width = `${state.rects.reference.width}px`;
   },
 };

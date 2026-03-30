@@ -198,7 +198,7 @@ describe('sendToGroup', () => {
     });
 
     it('returns false for unspecified error codes', () => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // oxlint-disable-next-line typescript/no-explicit-any
       const error: any = new Error('generic');
 
       error.code = 422;
@@ -219,7 +219,7 @@ describe('sendToGroup', () => {
     });
 
     it('returns true for a specified error codes', () => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // oxlint-disable-next-line typescript/no-explicit-any
       const error: any = new Error('generic');
       error.code = 428;
 
@@ -310,7 +310,7 @@ describe('sendToGroup', () => {
         )
       );
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // oxlint-disable-next-line typescript/no-explicit-any
       const error: any = new Error('generic');
       error.code = 428;
 

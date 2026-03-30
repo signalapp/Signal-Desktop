@@ -1,7 +1,6 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* eslint-disable max-classes-per-file */
 /*
  * WebSocket-Resources
  *
@@ -22,9 +21,6 @@
  * 1. https://github.com/signalapp/WebSocket-Resources
  *
  */
-
-/* eslint-disable @typescript-eslint/no-namespace */
-/* eslint-disable @typescript-eslint/brace-style */
 
 import pTimeout from 'p-timeout';
 import { Response } from 'node-fetch';
@@ -76,7 +72,6 @@ const AggregatedStatsSchema = z.object({
 
 export type AggregatedStats = z.infer<typeof AggregatedStatsSchema>;
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export namespace AggregatedStats {
   export function loadOrCreateEmpty(name: string): AggregatedStats {
     const key = localStorageKey(name);
@@ -188,6 +183,7 @@ export type WebSocketResourceOptions = {
   keepalive?: KeepAliveOptionsType;
 };
 
+// oxlint-disable-next-line max-classes-per-file
 export class CloseEvent extends Event {
   constructor(
     public readonly code: number,
@@ -203,7 +199,7 @@ type ChatConnection<Kind extends ChatKind> = Kind extends 'auth'
   ? AuthenticatedChatConnection
   : UnauthenticatedChatConnection;
 
-// eslint-disable-next-line no-restricted-syntax
+// oxlint-disable-next-line typescript/consistent-type-definitions
 export interface IWebSocketResource {
   sendRequest(options: SendRequestOptions): Promise<Response>;
 
@@ -367,7 +363,7 @@ function connect<Chat extends ChatKind>(
         resource.close(3000, 'aborted');
         throw new Error('Aborted');
       }
-      // eslint-disable-next-line no-param-reassign
+      // oxlint-disable-next-line no-param-reassign
       resourceHolder.resource = resource;
       return resource;
     } catch (error) {

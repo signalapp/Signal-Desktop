@@ -1,10 +1,6 @@
 // Copyright 2017 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-// NOTE: Temporarily allow `then` until we convert the entire file to `async` / `await`:
-/* eslint-disable more/no-then */
-/* eslint-disable no-console */
-
 import { CircularBuffer } from 'cirbuf';
 import type { BrowserWindow } from 'electron';
 import { app, ipcMain as ipc } from 'electron';
@@ -69,6 +65,7 @@ export async function initialize(
     const errorString =
       'Failed to clean logs; deleting all. ' +
       `Error: ${Errors.toLogFormat(error)}`;
+    // oxlint-disable-next-line no-console
     console.error(errorString);
     await deleteAllLogs(logPath);
     mkdirSync(logPath, { recursive: true });
@@ -76,6 +73,7 @@ export async function initialize(
     // If we want this log entry to persist on disk, we need to wait until we've
     //   set up our logging infrastructure.
     setTimeout(() => {
+      // oxlint-disable-next-line no-console
       console.error(errorString);
     }, 500);
   }
@@ -159,6 +157,7 @@ async function cleanupLogs(logPath: string) {
 
     await eliminateOldEntries(files, earliestDate);
   } catch (error) {
+    // oxlint-disable-next-line no-console
     console.error(
       'Error cleaning logs; deleting and starting over from scratch.',
       Errors.toLogFormat(error)
@@ -180,6 +179,7 @@ export function isLineAfterDate(line: string, date: Readonly<Date>): boolean {
     const data = JSON.parse(line);
     return new Date(data.time).getTime() > date.getTime();
   } catch (e) {
+    // oxlint-disable-next-line no-console
     console.log('error parsing log line', Errors.toLogFormat(e), line);
     return false;
   }
@@ -201,6 +201,7 @@ export function eliminateOutOfDateFiles(
 
   return Promise.all(
     map(paths, target =>
+      // oxlint-disable-next-line promise/prefer-await-to-then, signal-desktop/no-then
       Promise.all([readFirstLine(target), readLastLines(target, 2)]).then(
         results => {
           const start = results[0];
@@ -210,9 +211,9 @@ export function eliminateOutOfDateFiles(
             path: target,
             start: isLineAfterDate(start, date),
             end:
-              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+              // oxlint-disable-next-line typescript/no-non-null-assertion
               isLineAfterDate(end[end.length - 1]!, date) ||
-              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+              // oxlint-disable-next-line typescript/no-non-null-assertion
               isLineAfterDate(end[end.length - 2]!, date),
           };
 
@@ -234,6 +235,7 @@ export async function eliminateOldEntries(
 ): Promise<void> {
   await Promise.all(
     map(files, file =>
+      // oxlint-disable-next-line signal-desktop/no-then
       fetchLog(file.path).then(lines => {
         const recent = filter(lines, line => new Date(line.time) >= date);
         const text = map(recent, line => JSON.stringify(line)).join('\n');
@@ -287,6 +289,7 @@ export function fetchLogs(logPath: string): Promise<Array<LogEntryType>> {
     msg: `Loaded this list of log files from logPath: ${files.join(', ')}`,
   };
 
+  // oxlint-disable-next-line signal-desktop/no-then
   return Promise.all(paths.map(fetchLog)).then(results => {
     const data = flatten(results);
 

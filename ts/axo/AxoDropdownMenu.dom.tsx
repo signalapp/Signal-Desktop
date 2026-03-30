@@ -203,8 +203,7 @@ export namespace AxoDropdownMenu {
             aria-labelledby={labelId}
             aria-describedby={descriptionId}
             onCloseAutoFocus={props.onCloseAutoFocus}
-            // @ts-expect-error -- React/TS doesn't know about inert
-            inert={open ? undefined : 'true'}
+            inert={!open}
           >
             {props.children}
           </DropdownMenu.Content>
@@ -502,12 +501,10 @@ export namespace AxoDropdownMenu {
    * --------------------------------------
    */
 
-  export type SeparatorProps = AxoBaseMenu.MenuSeparatorProps;
-
   /**
    * Used to visually separate items in the dropdown menu.
    */
-  export const Separator: FC<SeparatorProps> = memo(() => {
+  export const Separator: FC = memo(() => {
     return (
       <DropdownMenu.Separator className={AxoBaseMenu.menuSeparatorStyles} />
     );
@@ -519,7 +516,7 @@ export namespace AxoDropdownMenu {
    * Component: <AxoDropdownMenu.ContentSeparator>
    */
 
-  export const ContentSeparator: FC<SeparatorProps> = memo(() => {
+  export const ContentSeparator: FC = memo(() => {
     return (
       <DropdownMenu.Separator
         className={AxoBaseMenu.menuContentSeparatorStyles}
