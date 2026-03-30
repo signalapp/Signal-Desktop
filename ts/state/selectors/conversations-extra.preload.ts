@@ -6,21 +6,21 @@
 
 import { createSelector } from 'reselect';
 
-import { normalizeStoryDistributionId } from '../../types/StoryDistributionId.std.js';
-import type { ContactsByStory } from '../../components/SafetyNumberChangeDialog.dom.js';
-import type { ConversationVerificationData } from '../ducks/conversations.preload.js';
-import type { StoryDistributionListDataType } from '../ducks/storyDistributionLists.preload.js';
-import type { GetConversationByIdType } from './conversations.dom.js';
-import { isSignalConnection } from '../../util/getSignalConnections.preload.js';
+import { normalizeStoryDistributionId } from '../../types/StoryDistributionId.std.ts';
+import type { ContactsByStory } from '../../components/SafetyNumberChangeDialog.dom.tsx';
+import type { ConversationVerificationData } from '../ducks/conversations.preload.ts';
+import type { StoryDistributionListDataType } from '../ducks/storyDistributionLists.preload.ts';
+import type { GetConversationByIdType } from './conversations.dom.ts';
+import { isSignalConnection } from '../../util/getSignalConnections.preload.ts';
 
-import { isGroup } from '../../util/whatTypeOfConversation.dom.js';
+import { isGroup } from '../../util/whatTypeOfConversation.dom.ts';
 import {
   getAllConversations,
   getConversationSelector,
   getConversationVerificationData,
-} from './conversations.dom.js';
-import { ConversationVerificationState } from '../ducks/conversationsEnums.std.js';
-import { getDistributionListSelector } from './storyDistributionLists.dom.js';
+} from './conversations.dom.ts';
+import { ConversationVerificationState } from '../ducks/conversationsEnums.std.ts';
+import { getDistributionListSelector } from './storyDistributionLists.dom.ts';
 
 export const getByDistributionListConversationsStoppingSend = createSelector(
   getConversationSelector,

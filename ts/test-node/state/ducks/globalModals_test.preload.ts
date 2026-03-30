@@ -7,7 +7,7 @@ import {
   actions,
   getEmptyState,
   reducer,
-} from '../../../state/ducks/globalModals.preload.js';
+} from '../../../state/ducks/globalModals.preload.ts';
 
 describe('both/state/ducks/globalModals', () => {
   describe('showWhatsNewModal/hideWhatsNewModal', () => {

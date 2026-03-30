@@ -2,28 +2,28 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ConversationAttributesType } from '../model-types.d.ts';
-import type { ConversationQueueJobData } from '../jobs/conversationJobQueue.preload.js';
-import * as Errors from '../types/errors.std.js';
-import { createLogger } from '../logging/log.std.js';
+import type { ConversationQueueJobData } from '../jobs/conversationJobQueue.preload.ts';
+import * as Errors from '../types/errors.std.ts';
+import { createLogger } from '../logging/log.std.ts';
 import {
   conversationJobQueue,
   conversationQueueJobEnum,
-} from '../jobs/conversationJobQueue.preload.js';
-import { applyDeleteForEveryone } from './deleteForEveryone.preload.js';
+} from '../jobs/conversationJobQueue.preload.ts';
+import { applyDeleteForEveryone } from './deleteForEveryone.preload.ts';
 import {
   getConversationIdForLogging,
   getMessageIdForLogging,
-} from './idForLogging.preload.js';
-import { getMessageById } from '../messages/getMessageById.preload.js';
-import { getRecipientConversationIds } from './getRecipientConversationIds.dom.js';
-import { getRecipients } from './getRecipients.dom.js';
-import { repeat, zipObject } from './iterables.std.js';
-import { isOutgoing } from '../state/selectors/message.preload.js';
-import { canSendDeleteForEveryone } from './canDeleteForEveryone.preload.js';
-import { areWeAdmin } from './areWeAdmin.preload.js';
-import { isAciString } from './isAciString.std.js';
-import { itemStorage } from '../textsecure/Storage.preload.js';
-import { strictAssert } from './assert.std.js';
+} from './idForLogging.preload.ts';
+import { getMessageById } from '../messages/getMessageById.preload.ts';
+import { getRecipientConversationIds } from './getRecipientConversationIds.dom.ts';
+import { getRecipients } from './getRecipients.dom.ts';
+import { repeat, zipObject } from './iterables.std.ts';
+import { isOutgoing } from '../state/selectors/message.preload.ts';
+import { canSendDeleteForEveryone } from './canDeleteForEveryone.preload.ts';
+import { areWeAdmin } from './areWeAdmin.preload.ts';
+import { isAciString } from './isAciString.std.ts';
+import { itemStorage } from '../textsecure/Storage.preload.ts';
+import { strictAssert } from './assert.std.ts';
 
 const log = createLogger('sendDeleteForEveryoneMessage');
 

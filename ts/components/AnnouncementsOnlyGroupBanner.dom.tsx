@@ -2,17 +2,17 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useState } from 'react';
-import type { ShowConversationType } from '../state/ducks/conversations.preload.js';
-import { I18n } from './I18n.dom.js';
-import type { LocalizerType, ThemeType } from '../types/Util.std.js';
-import { Modal } from './Modal.dom.js';
-import { Avatar, AvatarSize } from './Avatar.dom.js';
-import { GroupMemberLabel } from './conversation/ContactName.dom.js';
-import type { PreferredBadgeSelectorType } from '../state/selectors/badges.preload.js';
-import { tw } from '../axo/tw.dom.js';
-import type { AdminMembershipType } from '../state/selectors/conversations.dom.js';
-import { UserText } from './UserText.dom.js';
-import type { ContactNameColorType } from '../types/Colors.std.js';
+import type { ShowConversationType } from '../state/ducks/conversations.preload.ts';
+import { I18n } from './I18n.dom.tsx';
+import type { LocalizerType, ThemeType } from '../types/Util.std.ts';
+import { Modal } from './Modal.dom.tsx';
+import { Avatar, AvatarSize } from './Avatar.dom.tsx';
+import { GroupMemberLabel } from './conversation/ContactName.dom.tsx';
+import type { PreferredBadgeSelectorType } from '../state/selectors/badges.preload.ts';
+import { tw } from '../axo/tw.dom.tsx';
+import type { AdminMembershipType } from '../state/selectors/conversations.dom.ts';
+import { UserText } from './UserText.dom.tsx';
+import type { ContactNameColorType } from '../types/Colors.std.ts';
 
 type PropsType = {
   getPreferredBadge: PreferredBadgeSelectorType;

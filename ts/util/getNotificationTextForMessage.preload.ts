@@ -2,13 +2,13 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReadonlyMessageAttributesType } from '../model-types.d.ts';
-import { applyRangesToText } from '../types/BodyRange.std.js';
-import { hydrateRanges } from './BodyRange.node.js';
-import { findAndFormatContact } from './findAndFormatContact.preload.js';
-import { getNotificationDataForMessage } from './getNotificationDataForMessage.preload.js';
-import { isConversationAccepted } from './isConversationAccepted.preload.js';
-import { strictAssert } from './assert.std.js';
-import { itemStorage } from '../textsecure/Storage.preload.js';
+import { applyRangesToText } from '../types/BodyRange.std.ts';
+import { hydrateRanges } from './BodyRange.node.ts';
+import { findAndFormatContact } from './findAndFormatContact.preload.ts';
+import { getNotificationDataForMessage } from './getNotificationDataForMessage.preload.ts';
+import { isConversationAccepted } from './isConversationAccepted.preload.ts';
+import { strictAssert } from './assert.std.ts';
+import { itemStorage } from '../textsecure/Storage.preload.ts';
 
 const { i18n } = window.SignalContext;
 

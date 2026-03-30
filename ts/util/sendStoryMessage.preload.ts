@@ -3,37 +3,37 @@
 
 import { v4 as generateUuid } from 'uuid';
 
-import type { AttachmentType } from '../types/Attachment.std.js';
+import type { AttachmentType } from '../types/Attachment.std.ts';
 import type { MessageAttributesType } from '../model-types.d.ts';
 import type {
   SendState,
   SendStateByConversationId,
-} from '../messages/MessageSendState.std.js';
-import type { StoryDistributionIdString } from '../types/StoryDistributionId.std.js';
-import type { ServiceIdString } from '../types/ServiceId.std.js';
-import { createLogger } from '../logging/log.std.js';
-import { DataReader, DataWriter } from '../sql/Client.preload.js';
-import { MY_STORY_ID, StorySendMode } from '../types/Stories.std.js';
-import { getStoriesBlocked } from './stories.preload.js';
-import { ReadStatus } from '../messages/MessageReadStatus.std.js';
-import { SeenStatus } from '../MessageSeenStatus.std.js';
-import { SendStatus } from '../messages/MessageSendState.std.js';
+} from '../messages/MessageSendState.std.ts';
+import type { StoryDistributionIdString } from '../types/StoryDistributionId.std.ts';
+import type { ServiceIdString } from '../types/ServiceId.std.ts';
+import { createLogger } from '../logging/log.std.ts';
+import { DataReader, DataWriter } from '../sql/Client.preload.ts';
+import { MY_STORY_ID, StorySendMode } from '../types/Stories.std.ts';
+import { getStoriesBlocked } from './stories.preload.ts';
+import { ReadStatus } from '../messages/MessageReadStatus.std.ts';
+import { SeenStatus } from '../MessageSeenStatus.std.ts';
+import { SendStatus } from '../messages/MessageSendState.std.ts';
 import {
   conversationJobQueue,
   conversationQueueJobEnum,
-} from '../jobs/conversationJobQueue.preload.js';
-import { getRecipients } from './getRecipients.dom.js';
-import { getSignalConnections } from './getSignalConnections.preload.js';
-import { incrementMessageCounter } from './incrementMessageCounter.preload.js';
-import { isGroupV2 } from './whatTypeOfConversation.dom.js';
-import { isNotNil } from './isNotNil.std.js';
-import { collect } from './iterables.std.js';
-import { loadPreviewData, upgradeMessageSchema } from './migrations.preload.js';
-import { DurationInSeconds } from './durations/index.std.js';
-import { sanitizeLinkPreview } from '../services/LinkPreview.preload.js';
-import type { DraftBodyRanges } from '../types/BodyRange.std.js';
-import { MessageModel } from '../models/messages.preload.js';
-import { itemStorage } from '../textsecure/Storage.preload.js';
+} from '../jobs/conversationJobQueue.preload.ts';
+import { getRecipients } from './getRecipients.dom.ts';
+import { getSignalConnections } from './getSignalConnections.preload.ts';
+import { incrementMessageCounter } from './incrementMessageCounter.preload.ts';
+import { isGroupV2 } from './whatTypeOfConversation.dom.ts';
+import { isNotNil } from './isNotNil.std.ts';
+import { collect } from './iterables.std.ts';
+import { loadPreviewData, upgradeMessageSchema } from './migrations.preload.ts';
+import { DurationInSeconds } from './durations/index.std.ts';
+import { sanitizeLinkPreview } from '../services/LinkPreview.preload.ts';
+import type { DraftBodyRanges } from '../types/BodyRange.std.ts';
+import { MessageModel } from '../models/messages.preload.ts';
+import { itemStorage } from '../textsecure/Storage.preload.ts';
 
 const log = createLogger('sendStoryMessage');
 

@@ -1,14 +1,14 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import * as durations from '../util/durations/index.std.js';
-import { createLogger } from '../logging/log.std.js';
-import { DataReader, DataWriter } from '../sql/Client.preload.js';
+import * as durations from '../util/durations/index.std.ts';
+import { createLogger } from '../logging/log.std.ts';
+import { DataReader, DataWriter } from '../sql/Client.preload.ts';
 import {
   JobManager,
   type JobManagerParamsType,
   type JobManagerJobResultType,
   type JobManagerJobType,
-} from './JobManager.std.js';
+} from './JobManager.std.ts';
 
 const log = createLogger('CallLinkFinalizeDeleteManager');
 

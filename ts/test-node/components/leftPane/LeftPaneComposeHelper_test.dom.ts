@@ -6,14 +6,14 @@ import * as sinon from 'sinon';
 import {
   RowType,
   _testHeaderText,
-} from '../../../components/ConversationList.dom.js';
-import { FindDirection } from '../../../components/leftPane/LeftPaneHelper.dom.js';
+} from '../../../components/ConversationList.dom.tsx';
+import { FindDirection } from '../../../components/leftPane/LeftPaneHelper.dom.tsx';
 import {
   getDefaultConversation,
   getDefaultGroupListItem,
-} from '../../../test-helpers/getDefaultConversation.std.js';
+} from '../../../test-helpers/getDefaultConversation.std.ts';
 
-import { LeftPaneComposeHelper } from '../../../components/leftPane/LeftPaneComposeHelper.dom.js';
+import { LeftPaneComposeHelper } from '../../../components/leftPane/LeftPaneComposeHelper.dom.tsx';
 
 describe('LeftPaneComposeHelper', () => {
   let sinonSandbox: sinon.SinonSandbox;

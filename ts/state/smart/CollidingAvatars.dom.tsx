@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import React, { memo, useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import { CollidingAvatars } from '../../components/CollidingAvatars.dom.js';
-import { getIntl } from '../selectors/user.std.js';
-import { getConversationSelector } from '../selectors/conversations.dom.js';
+import { CollidingAvatars } from '../../components/CollidingAvatars.dom.tsx';
+import { getIntl } from '../selectors/user.std.ts';
+import { getConversationSelector } from '../selectors/conversations.dom.ts';
 
 export type SmartCollidingAvatarsProps = Readonly<{
   conversationIds: ReadonlyArray<string>;

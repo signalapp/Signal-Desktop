@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import pino from 'pino';
-import { isRecord } from '../util/isRecord.std.js';
-import { missingCaseError } from '../util/missingCaseError.std.js';
-import { LogLevel } from '../types/Logging.std.js';
+import { isRecord } from '../util/isRecord.std.ts';
+import { missingCaseError } from '../util/missingCaseError.std.ts';
+import { LogLevel } from '../types/Logging.std.ts';
 
 export { LogLevel };
 

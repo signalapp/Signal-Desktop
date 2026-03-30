@@ -3,8 +3,8 @@
 
 import { assert } from 'chai';
 import * as sinon from 'sinon';
-import { AreWeASubscriberService } from '../../services/areWeASubscriber.dom.js';
-import { explodePromise } from '../../util/explodePromise.std.js';
+import { AreWeASubscriberService } from '../../services/areWeASubscriber.dom.ts';
+import { explodePromise } from '../../util/explodePromise.std.ts';
 
 describe('"are we a subscriber?" service', () => {
   const subscriberId = new Uint8Array([1, 2, 3]);

@@ -10,41 +10,41 @@ import React, {
   useState,
   Fragment,
 } from 'react';
-import { AttachmentList } from './conversation/AttachmentList.dom.js';
-import type { AttachmentForUIType } from '../types/Attachment.std.js';
-import { Button } from './Button.dom.js';
-import { ConfirmationDialog } from './ConfirmationDialog.dom.js';
-import { ContactCheckboxDisabledReason } from './conversationList/ContactCheckbox.dom.js';
-import type { Row } from './ConversationList.dom.js';
-import { ConversationList, RowType } from './ConversationList.dom.js';
-import type { ConversationType } from '../state/ducks/conversations.preload.js';
-import type { PreferredBadgeSelectorType } from '../state/selectors/badges.preload.js';
-import type { LocalizerType, ThemeType } from '../types/Util.std.js';
-import type { SmartCompositionTextAreaProps } from '../state/smart/CompositionTextArea.preload.js';
-import { SearchInput } from './SearchInput.dom.js';
-import { StagedLinkPreview } from './conversation/StagedLinkPreview.dom.js';
-import { filterAndSortConversations } from '../util/filterAndSortConversations.std.js';
+import { AttachmentList } from './conversation/AttachmentList.dom.tsx';
+import type { AttachmentForUIType } from '../types/Attachment.std.ts';
+import { Button } from './Button.dom.tsx';
+import { ConfirmationDialog } from './ConfirmationDialog.dom.tsx';
+import { ContactCheckboxDisabledReason } from './conversationList/ContactCheckbox.dom.tsx';
+import type { Row } from './ConversationList.dom.tsx';
+import { ConversationList, RowType } from './ConversationList.dom.tsx';
+import type { ConversationType } from '../state/ducks/conversations.preload.ts';
+import type { PreferredBadgeSelectorType } from '../state/selectors/badges.preload.ts';
+import type { LocalizerType, ThemeType } from '../types/Util.std.ts';
+import type { SmartCompositionTextAreaProps } from '../state/smart/CompositionTextArea.preload.tsx';
+import { SearchInput } from './SearchInput.dom.tsx';
+import { StagedLinkPreview } from './conversation/StagedLinkPreview.dom.tsx';
+import { filterAndSortConversations } from '../util/filterAndSortConversations.std.ts';
 import {
   shouldNeverBeCalled,
   asyncShouldNeverBeCalled,
-} from '../util/shouldNeverBeCalled.std.js';
-import type { LinkPreviewForUIType } from '../types/message/LinkPreviews.std.js';
-import { LinkPreviewSourceType } from '../types/LinkPreview.std.js';
-import { ToastType } from '../types/Toast.dom.js';
-import type { ShowToastAction } from '../state/ducks/toast.preload.js';
-import type { HydratedBodyRangesType } from '../types/BodyRange.std.js';
-import { applyRangesToText } from '../types/BodyRange.std.js';
-import { UserText } from './UserText.dom.js';
-import { Modal } from './Modal.dom.js';
-import { SizeObserver } from '../hooks/useSizeObserver.dom.js';
+} from '../util/shouldNeverBeCalled.std.ts';
+import type { LinkPreviewForUIType } from '../types/message/LinkPreviews.std.ts';
+import { LinkPreviewSourceType } from '../types/LinkPreview.std.ts';
+import { ToastType } from '../types/Toast.dom.tsx';
+import type { ShowToastAction } from '../state/ducks/toast.preload.ts';
+import type { HydratedBodyRangesType } from '../types/BodyRange.std.ts';
+import { applyRangesToText } from '../types/BodyRange.std.ts';
+import { UserText } from './UserText.dom.tsx';
+import { Modal } from './Modal.dom.tsx';
+import { SizeObserver } from '../hooks/useSizeObserver.dom.tsx';
 import {
   isDraftEditable,
   isDraftForwardable,
   type MessageForwardDraft,
-} from '../types/ForwardDraft.std.js';
-import { missingCaseError } from '../util/missingCaseError.std.js';
-import { Theme } from '../util/theme.std.js';
-import { EmojiSkinTone } from './fun/data/emojis.std.js';
+} from '../types/ForwardDraft.std.ts';
+import { missingCaseError } from '../util/missingCaseError.std.ts';
+import { Theme } from '../util/theme.std.ts';
+import { EmojiSkinTone } from './fun/data/emojis.std.ts';
 
 export enum ForwardMessagesModalType {
   Forward,

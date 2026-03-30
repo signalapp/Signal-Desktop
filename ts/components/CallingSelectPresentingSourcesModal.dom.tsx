@@ -4,15 +4,15 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 import lodash from 'lodash';
-import { Button, ButtonVariant } from './Button.dom.js';
-import type { LocalizerType } from '../types/Util.std.js';
-import { Modal } from './Modal.dom.js';
+import { Button, ButtonVariant } from './Button.dom.tsx';
+import type { LocalizerType } from '../types/Util.std.ts';
+import { Modal } from './Modal.dom.tsx';
 import type {
   PresentedSource,
   PresentableSource,
-} from '../types/Calling.std.js';
-import { Theme } from '../util/theme.std.js';
-import { strictAssert } from '../util/assert.std.js';
+} from '../types/Calling.std.ts';
+import { Theme } from '../util/theme.std.ts';
+import { strictAssert } from '../util/assert.std.ts';
 
 const { groupBy } = lodash;
 

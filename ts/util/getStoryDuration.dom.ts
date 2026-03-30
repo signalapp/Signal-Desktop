@@ -1,18 +1,18 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { AttachmentType } from '../types/Attachment.std.js';
+import type { AttachmentType } from '../types/Attachment.std.ts';
 import {
   hasFailed,
   hasNotResolved,
   isDownloaded,
   isGIF,
   isVideo,
-} from './Attachment.std.js';
-import { count } from './grapheme.std.js';
-import { SECOND } from './durations/index.std.js';
-import { createLogger } from '../logging/log.std.js';
-import * as Errors from '../types/errors.std.js';
+} from './Attachment.std.ts';
+import { count } from './grapheme.std.ts';
+import { SECOND } from './durations/index.std.ts';
+import { createLogger } from '../logging/log.std.ts';
+import * as Errors from '../types/errors.std.ts';
 
 const log = createLogger('getStoryDuration');
 

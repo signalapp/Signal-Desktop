@@ -26,7 +26,7 @@ import {
 import type { ChunkSizeChoice } from '@signalapp/libsignal-client/dist/incremental_mac.js';
 import { isAbsolute } from 'node:path';
 
-import { createLogger } from './logging/log.std.js';
+import { createLogger } from './logging/log.std.ts';
 import {
   HashType,
   CipherType,
@@ -36,24 +36,24 @@ import {
   DIGEST_LENGTH,
   ATTACHMENT_MAC_LENGTH,
   AES_KEY_LENGTH,
-} from './types/Crypto.std.js';
-import { constantTimeEqual } from './Crypto.node.js';
-import { createName, getRelativePath } from './util/attachmentPath.node.js';
-import { appendPaddingStream } from './util/logPadding.node.js';
-import { prependStream } from './util/prependStream.node.js';
-import { appendMacStream } from './util/appendMacStream.node.js';
-import { finalStream } from './util/finalStream.node.js';
-import { getMacAndUpdateHmac } from './util/getMacAndUpdateHmac.node.js';
-import { trimPadding } from './util/trimPadding.node.js';
-import { assertDev, strictAssert } from './util/assert.std.js';
-import * as Errors from './types/errors.std.js';
-import { isNotNil } from './util/isNotNil.std.js';
-import { missingCaseError } from './util/missingCaseError.std.js';
-import { getEnvironment, Environment } from './environment.std.js';
-import { isNotEmpty, toBase64, toHex } from './Bytes.std.js';
-import { decipherWithAesKey } from './util/decipherWithAesKey.node.js';
-import { getAttachmentCiphertextSize } from './util/AttachmentCrypto.std.js';
-import { MediaTier } from './types/AttachmentDownload.std.js';
+} from './types/Crypto.std.ts';
+import { constantTimeEqual } from './Crypto.node.ts';
+import { createName, getRelativePath } from './util/attachmentPath.node.ts';
+import { appendPaddingStream } from './util/logPadding.node.ts';
+import { prependStream } from './util/prependStream.node.ts';
+import { appendMacStream } from './util/appendMacStream.node.ts';
+import { finalStream } from './util/finalStream.node.ts';
+import { getMacAndUpdateHmac } from './util/getMacAndUpdateHmac.node.ts';
+import { trimPadding } from './util/trimPadding.node.ts';
+import { assertDev, strictAssert } from './util/assert.std.ts';
+import * as Errors from './types/errors.std.ts';
+import { isNotNil } from './util/isNotNil.std.ts';
+import { missingCaseError } from './util/missingCaseError.std.ts';
+import { getEnvironment, Environment } from './environment.std.ts';
+import { isNotEmpty, toBase64, toHex } from './Bytes.std.ts';
+import { decipherWithAesKey } from './util/decipherWithAesKey.node.ts';
+import { getAttachmentCiphertextSize } from './util/AttachmentCrypto.std.ts';
+import { MediaTier } from './types/AttachmentDownload.std.ts';
 
 const { ensureFile } = fsExtra;
 

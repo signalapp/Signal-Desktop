@@ -2,20 +2,20 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import { getCallingNotificationText } from '../../util/callingNotification.std.js';
+import { getCallingNotificationText } from '../../util/callingNotification.std.ts';
 import {
   CallMode,
   CallDirection,
   CallType,
   GroupCallStatus,
-} from '../../types/CallDisposition.std.js';
-import i18n from './i18n.node.js';
+} from '../../types/CallDisposition.std.ts';
+import i18n from './i18n.node.ts';
 import {
   getDefaultConversation,
   getDefaultGroup,
-} from '../../test-helpers/getDefaultConversation.std.js';
-import { getPeerIdFromConversation } from '../../util/callDisposition.preload.js';
-import { HOUR } from '../../util/durations/index.std.js';
+} from '../../test-helpers/getDefaultConversation.std.ts';
+import { getPeerIdFromConversation } from '../../util/callDisposition.preload.ts';
+import { HOUR } from '../../util/durations/index.std.ts';
 
 describe('calling notification helpers', () => {
   describe('getCallingNotificationText', () => {

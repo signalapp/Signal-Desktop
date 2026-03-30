@@ -5,9 +5,9 @@ import type { PrimaryDevice } from '@signalapp/mock-server';
 import { ServiceIdKind } from '@signalapp/mock-server';
 import createDebug from 'debug';
 
-import * as durations from '../../util/durations/index.std.js';
-import { Bootstrap } from '../bootstrap.node.js';
-import type { App } from '../bootstrap.node.js';
+import * as durations from '../../util/durations/index.std.ts';
+import { Bootstrap } from '../bootstrap.node.ts';
+import type { App } from '../bootstrap.node.ts';
 
 export const debug = createDebug('mock:test:change-number');
 

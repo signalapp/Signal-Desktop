@@ -5,9 +5,9 @@ import type { StorageInterface } from '../types/Storage.d.ts';
 import type {
   getHasSubscription,
   isOnline,
-} from '../textsecure/WebAPI.preload.js';
-import { LatestQueue } from '../util/LatestQueue.std.js';
-import { waitForOnline } from '../util/waitForOnline.dom.js';
+} from '../textsecure/WebAPI.preload.ts';
+import { LatestQueue } from '../util/LatestQueue.std.ts';
+import { waitForOnline } from '../util/waitForOnline.dom.ts';
 
 // This is only exported for testing.
 export class AreWeASubscriberService {

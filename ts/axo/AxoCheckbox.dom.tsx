@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import React, { memo } from 'react';
 import { Checkbox } from 'radix-ui';
-import { AxoSymbol } from './AxoSymbol.dom.js';
-import type { TailwindStyles } from './tw.dom.js';
-import { tw } from './tw.dom.js';
+import { AxoSymbol } from './AxoSymbol.dom.tsx';
+import type { TailwindStyles } from './tw.dom.tsx';
+import { tw } from './tw.dom.tsx';
 
 const Namespace = 'AxoCheckbox';
 

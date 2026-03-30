@@ -4,9 +4,9 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { Props as ReactionPickerProps } from './ReactionPicker.dom.js';
-import { ReactionPicker } from './ReactionPicker.dom.js';
-import { DEFAULT_PREFERRED_REACTION_EMOJI } from '../../reactions/constants.std.js';
+import type { Props as ReactionPickerProps } from './ReactionPicker.dom.tsx';
+import { ReactionPicker } from './ReactionPicker.dom.tsx';
+import { DEFAULT_PREFERRED_REACTION_EMOJI } from '../../reactions/constants.std.ts';
 
 const { i18n } = window.SignalContext;
 

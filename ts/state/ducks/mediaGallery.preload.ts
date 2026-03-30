@@ -6,26 +6,26 @@ import type { ThunkAction } from 'redux-thunk';
 import type { ReadonlyDeep } from 'type-fest';
 
 import type { ReadonlyMessageAttributesType } from '../../model-types.d.ts';
-import { createLogger } from '../../logging/log.std.js';
-import { DataReader } from '../../sql/Client.preload.js';
+import { createLogger } from '../../logging/log.std.ts';
+import { DataReader } from '../../sql/Client.preload.ts';
 import type {
   MediaItemDBType,
   NonAttachmentMediaItemDBType,
   ContactMediaItemDBType,
-} from '../../sql/Interface.std.js';
+} from '../../sql/Interface.std.ts';
 import {
   CONVERSATION_UNLOADED,
   MESSAGE_CHANGED,
   MESSAGE_DELETED,
-} from './conversations.preload.js';
-import { useBoundActions } from '../../hooks/useBoundActions.std.js';
+} from './conversations.preload.ts';
+import { useBoundActions } from '../../hooks/useBoundActions.std.ts';
 
-import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.js';
+import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.ts';
 import type {
   ConversationUnloadedActionType,
   MessageChangedActionType,
   MessageDeletedActionType,
-} from './conversations.preload.js';
+} from './conversations.preload.ts';
 import type {
   MediaTabType,
   MediaSortOrderType,
@@ -34,18 +34,18 @@ import type {
   LinkPreviewMediaItemType,
   ContactMediaItemType,
   GenericMediaItemType,
-} from '../../types/MediaItem.std.js';
-import type { AttachmentForUIType } from '../../types/Attachment.std.js';
+} from '../../types/MediaItem.std.ts';
+import type { AttachmentForUIType } from '../../types/Attachment.std.ts';
 import {
   isFile,
   isVisualMedia,
   isVoiceMessage,
   isAudio,
-} from '../../util/Attachment.std.js';
-import { missingCaseError } from '../../util/missingCaseError.std.js';
-import { strictAssert } from '../../util/assert.std.js';
-import type { StateType as RootStateType } from '../reducer.preload.js';
-import { getPropsForAttachment } from '../selectors/message.preload.js';
+} from '../../util/Attachment.std.ts';
+import { missingCaseError } from '../../util/missingCaseError.std.ts';
+import { strictAssert } from '../../util/assert.std.ts';
+import type { StateType as RootStateType } from '../reducer.preload.ts';
+import { getPropsForAttachment } from '../selectors/message.preload.ts';
 
 const { orderBy } = lodash;
 

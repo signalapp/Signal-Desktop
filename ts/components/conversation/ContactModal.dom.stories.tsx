@@ -5,14 +5,14 @@ import type { Meta, StoryFn } from '@storybook/react';
 import * as React from 'react';
 import casual from 'casual';
 import { action } from '@storybook/addon-actions';
-import type { ConversationType } from '../../state/ducks/conversations.preload.js';
-import type { PropsType } from './ContactModal.dom.js';
-import { ContactModal } from './ContactModal.dom.js';
-import { HasStories } from '../../types/Stories.std.js';
-import { ThemeType } from '../../types/Util.std.js';
-import { getDefaultConversation } from '../../test-helpers/getDefaultConversation.std.js';
-import { getFakeBadges } from '../../test-helpers/getFakeBadge.std.js';
-import { SignalService as Proto } from '../../protobuf/index.std.js';
+import type { ConversationType } from '../../state/ducks/conversations.preload.ts';
+import type { PropsType } from './ContactModal.dom.tsx';
+import { ContactModal } from './ContactModal.dom.tsx';
+import { HasStories } from '../../types/Stories.std.ts';
+import { ThemeType } from '../../types/Util.std.ts';
+import { getDefaultConversation } from '../../test-helpers/getDefaultConversation.std.ts';
+import { getFakeBadges } from '../../test-helpers/getFakeBadge.std.ts';
+import { SignalService as Proto } from '../../protobuf/index.std.ts';
 
 const ACCESS_ENUM = Proto.AccessControl.AccessRequired;
 

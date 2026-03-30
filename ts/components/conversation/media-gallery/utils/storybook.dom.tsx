@@ -2,17 +2,17 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import React, { useCallback, type ReactNode } from 'react';
 import { action } from '@storybook/addon-actions';
-import type { PropsType } from '../../../../state/smart/MediaItem.preload.js';
-import { getSafeDomain } from '../../../../types/LinkPreview.std.js';
-import type { AttachmentStatusType } from '../../../../hooks/useAttachmentStatus.std.js';
-import { missingCaseError } from '../../../../util/missingCaseError.std.js';
-import { isVoiceMessagePlayed } from '../../../../util/isVoiceMessagePlayed.std.js';
-import { LinkPreviewItem } from '../LinkPreviewItem.dom.js';
-import { MediaContextMenu } from '../MediaContextMenu.dom.js';
-import { MediaGridItem } from '../MediaGridItem.dom.js';
-import { DocumentListItem } from '../DocumentListItem.dom.js';
-import { ContactListItem } from '../ContactListItem.dom.js';
-import { AudioListItem } from '../AudioListItem.dom.js';
+import type { PropsType } from '../../../../state/smart/MediaItem.preload.tsx';
+import { getSafeDomain } from '../../../../types/LinkPreview.std.ts';
+import type { AttachmentStatusType } from '../../../../hooks/useAttachmentStatus.std.ts';
+import { missingCaseError } from '../../../../util/missingCaseError.std.ts';
+import { isVoiceMessagePlayed } from '../../../../util/isVoiceMessagePlayed.std.ts';
+import { LinkPreviewItem } from '../LinkPreviewItem.dom.tsx';
+import { MediaContextMenu } from '../MediaContextMenu.dom.tsx';
+import { MediaGridItem } from '../MediaGridItem.dom.tsx';
+import { DocumentListItem } from '../DocumentListItem.dom.tsx';
+import { ContactListItem } from '../ContactListItem.dom.tsx';
+import { AudioListItem } from '../AudioListItem.dom.tsx';
 
 const { i18n } = window.SignalContext;
 

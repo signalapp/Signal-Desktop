@@ -4,8 +4,8 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { Spinner } from '../../Spinner.dom.js';
-import { bemGenerator } from './util.std.js';
+import { Spinner } from '../../Spinner.dom.tsx';
+import { bemGenerator } from './util.std.ts';
 
 export enum IconType {
   'archive' = 'archive',

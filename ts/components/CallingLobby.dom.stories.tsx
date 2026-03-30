@@ -7,18 +7,18 @@ import { action } from '@storybook/addon-actions';
 import { v4 as generateUuid } from 'uuid';
 
 import type { Meta } from '@storybook/react';
-import { AvatarColors } from '../types/Colors.std.js';
-import type { ConversationType } from '../state/ducks/conversations.preload.js';
-import type { PropsType } from './CallingLobby.dom.js';
-import { CallingLobby as UnwrappedCallingLobby } from './CallingLobby.dom.js';
-import { generateAci } from '../types/ServiceId.std.js';
+import { AvatarColors } from '../types/Colors.std.ts';
+import type { ConversationType } from '../state/ducks/conversations.preload.ts';
+import type { PropsType } from './CallingLobby.dom.tsx';
+import { CallingLobby as UnwrappedCallingLobby } from './CallingLobby.dom.tsx';
+import { generateAci } from '../types/ServiceId.std.ts';
 import {
   getDefaultConversation,
   getDefaultConversationWithServiceId,
-} from '../test-helpers/getDefaultConversation.std.js';
-import { CallingToastProvider } from './CallingToast.dom.js';
-import { CallMode } from '../types/CallDisposition.std.js';
-import { getDefaultCallLinkConversation } from '../test-helpers/fakeCallLink.std.js';
+} from '../test-helpers/getDefaultConversation.std.ts';
+import { CallingToastProvider } from './CallingToast.dom.tsx';
+import { CallMode } from '../types/CallDisposition.std.ts';
+import { getDefaultCallLinkConversation } from '../test-helpers/fakeCallLink.std.ts';
 
 const { times } = lodash;
 

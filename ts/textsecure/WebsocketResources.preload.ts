@@ -35,22 +35,22 @@ import type {
   ConnectionEventsListener,
   UnauthenticatedChatConnection,
 } from '@signalapp/libsignal-client/dist/net/Chat.js';
-import type { EventHandler } from './EventTarget.std.js';
-import EventTarget from './EventTarget.std.js';
+import type { EventHandler } from './EventTarget.std.ts';
+import EventTarget from './EventTarget.std.ts';
 
-import * as durations from '../util/durations/index.std.js';
-import { drop } from '../util/drop.std.js';
-import { isOlderThan } from '../util/timestamp.std.js';
-import * as Errors from '../types/errors.std.js';
-import { createLogger } from '../logging/log.std.js';
-import * as Timers from '../Timers.preload.js';
+import * as durations from '../util/durations/index.std.ts';
+import { drop } from '../util/drop.std.ts';
+import { isOlderThan } from '../util/timestamp.std.ts';
+import * as Errors from '../types/errors.std.ts';
+import { createLogger } from '../logging/log.std.ts';
+import * as Timers from '../Timers.preload.ts';
 
-import { AbortableProcess } from '../util/AbortableProcess.std.js';
+import { AbortableProcess } from '../util/AbortableProcess.std.ts';
 import type { WebAPICredentials } from './Types.d.ts';
-import { NORMAL_DISCONNECT_CODE } from './SocketManager.preload.js';
-import { parseUnknown } from '../util/schemas.std.js';
-import { parseServerAlertsFromHeader } from '../util/handleServerAlerts.preload.js';
-import type { ServerAlert } from '../types/ServerAlert.std.js';
+import { NORMAL_DISCONNECT_CODE } from './SocketManager.preload.ts';
+import { parseUnknown } from '../util/schemas.std.ts';
+import { parseServerAlertsFromHeader } from '../util/handleServerAlerts.preload.ts';
+import type { ServerAlert } from '../types/ServerAlert.std.ts';
 
 const log = createLogger('WebsocketResources');
 

@@ -3,7 +3,7 @@
 
 import { useCallback } from 'react';
 import type { ReactNode } from 'react';
-import { tw } from '../tw.dom.js';
+import { tw } from '../tw.dom.tsx';
 
 export namespace AxoBaseDialog {
   /**

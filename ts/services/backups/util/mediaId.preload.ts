@@ -1,14 +1,14 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { DataReader } from '../../../sql/Client.preload.js';
-import * as Bytes from '../../../Bytes.std.js';
-import { getBackupMediaRootKey } from '../crypto.preload.js';
+import { DataReader } from '../../../sql/Client.preload.ts';
+import * as Bytes from '../../../Bytes.std.ts';
+import { getBackupMediaRootKey } from '../crypto.preload.ts';
 import type {
   BackupableAttachmentType,
   AttachmentReadyForLocalBackup,
-} from '../../../types/Attachment.std.js';
-import { sha256 } from '../../../Crypto.node.js';
+} from '../../../types/Attachment.std.ts';
+import { sha256 } from '../../../Crypto.node.ts';
 
 export function getMediaIdFromMediaName(mediaName: string): {
   string: string;

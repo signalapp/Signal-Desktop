@@ -6,8 +6,8 @@ import React from 'react';
 import { action } from '@storybook/addon-actions';
 
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './AvatarModalButtons.dom.js';
-import { AvatarModalButtons } from './AvatarModalButtons.dom.js';
+import type { PropsType } from './AvatarModalButtons.dom.tsx';
+import { AvatarModalButtons } from './AvatarModalButtons.dom.tsx';
 
 const { i18n } = window.SignalContext;
 

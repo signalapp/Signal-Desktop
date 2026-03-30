@@ -10,7 +10,7 @@ import {
   getAvatarsPath,
   getDownloadsPath,
   getMegaphonesPath,
-} from '../windows/main/attachments.preload.js';
+} from '../../app/attachments.node.ts';
 
 const userDataPath = window.SignalContext.getPath('userData');
 

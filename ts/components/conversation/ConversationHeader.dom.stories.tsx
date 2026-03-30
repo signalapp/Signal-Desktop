@@ -10,19 +10,19 @@ import { v4 as generateUuid } from 'uuid';
 import {
   getDefaultConversation,
   getDefaultGroup,
-} from '../../test-helpers/getDefaultConversation.std.js';
-import { getRandomColor } from '../../test-helpers/getRandomColor.std.js';
-import { DurationInSeconds } from '../../util/durations/index.std.js';
+} from '../../test-helpers/getDefaultConversation.std.ts';
+import { getRandomColor } from '../../test-helpers/getRandomColor.std.ts';
+import { DurationInSeconds } from '../../util/durations/index.std.ts';
 import { StorybookThemeContext } from '../../../.storybook/StorybookThemeContext.std.js';
-import type { PropsType } from './ConversationHeader.dom.js';
+import type { PropsType } from './ConversationHeader.dom.tsx';
 import {
   ConversationHeader,
   OutgoingCallButtonStyle,
-} from './ConversationHeader.dom.js';
-import { gifUrl } from '../../storybook/Fixtures.std.js';
-import { ThemeType } from '../../types/Util.std.js';
-import { ContactSpoofingType } from '../../util/contactSpoofing.std.js';
-import { CollidingAvatars } from '../CollidingAvatars.dom.js';
+} from './ConversationHeader.dom.tsx';
+import { gifUrl } from '../../storybook/Fixtures.std.ts';
+import { ThemeType } from '../../types/Util.std.ts';
+import { ContactSpoofingType } from '../../util/contactSpoofing.std.ts';
+import { CollidingAvatars } from '../CollidingAvatars.dom.tsx';
 
 export default {
   title: 'Components/Conversation/ConversationHeader',

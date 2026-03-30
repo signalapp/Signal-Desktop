@@ -1,10 +1,10 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ConversationModel } from '../models/conversations.preload.js';
-import { isInSystemContacts } from './isInSystemContacts.std.js';
-import { getSharedGroupNames } from './sharedGroupNames.dom.js';
-import { isMe } from './whatTypeOfConversation.dom.js';
+import type { ConversationModel } from '../models/conversations.preload.ts';
+import { isInSystemContacts } from './isInSystemContacts.std.ts';
+import { getSharedGroupNames } from './sharedGroupNames.dom.ts';
+import { isMe } from './whatTypeOfConversation.dom.ts';
 
 export function shouldRespondWithProfileKey(
   sender: ConversationModel

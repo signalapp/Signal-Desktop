@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert, AssertionError } from 'chai';
-import { parseNumber } from '../../util/libphonenumberUtil.std.js';
+import { parseNumber } from '../../util/libphonenumberUtil.std.ts';
 
 describe('libphonenumber util', () => {
   describe('parseNumber', () => {

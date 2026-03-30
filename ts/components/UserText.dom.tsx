@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import React, { useMemo } from 'react';
 import type { CSSProperties } from 'react';
-import { Emojify } from './conversation/Emojify.dom.js';
-import { bidiIsolate } from '../util/unicodeBidi.std.js';
+import { Emojify } from './conversation/Emojify.dom.tsx';
+import { bidiIsolate } from '../util/unicodeBidi.std.ts';
 
 export type UserTextProps = Readonly<{
   text: string;

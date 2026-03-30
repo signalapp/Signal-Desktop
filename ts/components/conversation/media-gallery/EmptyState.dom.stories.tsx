@@ -3,8 +3,8 @@
 
 import * as React from 'react';
 import type { Meta } from '@storybook/react';
-import type { Props } from './EmptyState.dom.js';
-import { EmptyState } from './EmptyState.dom.js';
+import type { Props } from './EmptyState.dom.tsx';
+import { EmptyState } from './EmptyState.dom.tsx';
 
 const { i18n } = window.SignalContext;
 

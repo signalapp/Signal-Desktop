@@ -86,7 +86,7 @@
     /* List of file name suffixes to search when resolving a module. */
     // "moduleSuffixes": [],
     /* Allow imports to include TypeScript file extensions. Requires '--moduleResolution bundler' and either '--noEmit' or '--emitDeclarationOnly' to be set. */
-    // "allowImportingTsExtensions": true,
+    "allowImportingTsExtensions": true,
     /* Use the package.json 'exports' field when resolving package imports. */
     // "resolvePackageJsonExports": true,
     /* Use the package.json 'imports' field when resolving imports. */

@@ -1,29 +1,29 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { createLogger } from '../logging/log.std.js';
+import { createLogger } from '../logging/log.std.ts';
 
-import { isOutgoing } from './helpers.std.js';
-import { getAuthor } from './sources.preload.js';
+import { isOutgoing } from './helpers.std.ts';
+import { getAuthor } from './sources.preload.ts';
 
-import type { ConversationModel } from '../models/conversations.preload.js';
-import { getActiveProfile } from '../state/selectors/notificationProfiles.dom.js';
-import { shouldNotify as shouldNotifyDuringNotificationProfile } from '../types/NotificationProfile.std.js';
-import { NotificationType } from '../types/notifications.std.js';
-import { isMessageUnread } from '../util/isMessageUnread.std.js';
-import { isDirectConversation } from '../util/whatTypeOfConversation.dom.js';
-import { isExpiringMessage } from '../types/Message2.preload.js';
-import { notificationService } from '../services/notifications.preload.js';
-import { getNotificationTextForMessage } from '../util/getNotificationTextForMessage.preload.js';
+import type { ConversationModel } from '../models/conversations.preload.ts';
+import { getActiveProfile } from '../state/selectors/notificationProfiles.dom.ts';
+import { shouldNotify as shouldNotifyDuringNotificationProfile } from '../types/NotificationProfile.std.ts';
+import { NotificationType } from '../types/notifications.std.ts';
+import { isMessageUnread } from '../util/isMessageUnread.std.ts';
+import { isDirectConversation } from '../util/whatTypeOfConversation.dom.ts';
+import { isExpiringMessage } from '../types/Message2.preload.ts';
+import { notificationService } from '../services/notifications.preload.ts';
+import { getNotificationTextForMessage } from '../util/getNotificationTextForMessage.preload.ts';
 import type { MessageAttributesType } from '../model-types.d.ts';
-import type { ReactionAttributesType } from '../messageModifiers/Reactions.preload.js';
+import type { ReactionAttributesType } from '../messageModifiers/Reactions.preload.ts';
 import {
   type PollVoteAttributesType,
   PollSource,
-} from '../messageModifiers/Polls.preload.js';
-import { shouldStoryReplyNotifyUser } from '../util/shouldStoryReplyNotifyUser.preload.js';
-import { ReactionSource } from '../reactions/ReactionSource.std.js';
-import { itemStorage } from '../textsecure/Storage.preload.js';
+} from '../messageModifiers/Polls.preload.ts';
+import { shouldStoryReplyNotifyUser } from '../util/shouldStoryReplyNotifyUser.preload.ts';
+import { ReactionSource } from '../reactions/ReactionSource.std.ts';
+import { itemStorage } from '../textsecure/Storage.preload.ts';
 
 const log = createLogger('maybeNotify');
 

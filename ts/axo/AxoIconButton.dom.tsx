@@ -3,12 +3,12 @@
 
 import type { ButtonHTMLAttributes, FC, ForwardedRef } from 'react';
 import React, { forwardRef, memo, useMemo } from 'react';
-import { AxoSymbol } from './AxoSymbol.dom.js';
-import type { TailwindStyles } from './tw.dom.js';
-import { tw } from './tw.dom.js';
-import type { SpinnerVariant } from '../components/SpinnerV2.dom.js';
-import { SpinnerV2 } from '../components/SpinnerV2.dom.js';
-import { AxoTooltip } from './AxoTooltip.dom.js';
+import { AxoSymbol } from './AxoSymbol.dom.tsx';
+import type { TailwindStyles } from './tw.dom.tsx';
+import { tw } from './tw.dom.tsx';
+import type { SpinnerVariant } from '../components/SpinnerV2.dom.tsx';
+import { SpinnerV2 } from '../components/SpinnerV2.dom.tsx';
+import { AxoTooltip } from './AxoTooltip.dom.tsx';
 
 const Namespace = 'AxoIconButton';
 

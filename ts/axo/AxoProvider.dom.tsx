@@ -3,7 +3,7 @@
 import type { FC, ReactNode } from 'react';
 import React, { memo, useInsertionEffect } from 'react';
 import { Direction, Tooltip } from 'radix-ui';
-import { createScrollbarGutterCssProperties } from './_internal/scrollbars.dom.js';
+import { createScrollbarGutterCssProperties } from './_internal/scrollbars.dom.tsx';
 
 type AxoProviderProps = Readonly<{
   dir: 'ltr' | 'rtl';

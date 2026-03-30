@@ -11,31 +11,31 @@ import {
 } from '@signalapp/libsignal-client';
 import { v4 as generateUuid } from 'uuid';
 
-import { DataReader, DataWriter } from '../sql/Client.preload.js';
+import { DataReader, DataWriter } from '../sql/Client.preload.ts';
 import { signal } from '../protobuf/compiled.std.js';
-import { sessionStructureToBytes } from '../util/sessionTranslation.node.js';
-import * as durations from '../util/durations/index.std.js';
-import { explodePromise } from '../util/explodePromise.std.js';
-import { Zone } from '../util/Zone.std.js';
+import { sessionStructureToBytes } from '../util/sessionTranslation.node.ts';
+import * as durations from '../util/durations/index.std.ts';
+import { explodePromise } from '../util/explodePromise.std.ts';
+import { Zone } from '../util/Zone.std.ts';
 
-import * as Bytes from '../Bytes.std.js';
-import { getRandomBytes, constantTimeEqual } from '../Crypto.node.js';
+import * as Bytes from '../Bytes.std.ts';
+import { getRandomBytes, constantTimeEqual } from '../Crypto.node.ts';
 import {
   clampPrivateKey,
   setPublicKeyTypeByte,
   generateSignedPreKey,
   generateKyberPreKey,
-} from '../Curve.node.js';
-import type { SignalProtocolStore } from '../SignalProtocolStore.preload.js';
+} from '../Curve.node.ts';
+import type { SignalProtocolStore } from '../SignalProtocolStore.preload.ts';
 import {
   GLOBAL_ZONE,
   signalProtocolStore,
-} from '../SignalProtocolStore.preload.js';
-import { Address } from '../types/Address.std.js';
-import { QualifiedAddress } from '../types/QualifiedAddress.std.js';
-import { generateAci, generatePni } from '../types/ServiceId.std.js';
+} from '../SignalProtocolStore.preload.ts';
+import { Address } from '../types/Address.std.ts';
+import { QualifiedAddress } from '../types/QualifiedAddress.std.ts';
+import { generateAci, generatePni } from '../types/ServiceId.std.ts';
 import type { IdentityKeyType, KeyPairType } from '../textsecure/Types.d.ts';
-import { itemStorage } from '../textsecure/Storage.preload.js';
+import { itemStorage } from '../textsecure/Storage.preload.ts';
 
 const { clone } = lodash;
 

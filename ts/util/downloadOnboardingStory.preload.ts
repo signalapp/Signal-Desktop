@@ -3,24 +3,24 @@
 
 import { v4 as generateUuid } from 'uuid';
 
-import type { AttachmentType } from '../types/Attachment.std.js';
-import { MessageModel } from '../models/messages.preload.js';
-import { createLogger } from '../logging/log.std.js';
-import { IMAGE_JPEG } from '../types/MIME.std.js';
-import { ReadStatus } from '../messages/MessageReadStatus.std.js';
-import { SeenStatus } from '../MessageSeenStatus.std.js';
-import { findAndDeleteOnboardingStoryIfExists } from './findAndDeleteOnboardingStoryIfExists.preload.js';
-import { saveNewMessageBatcher } from './messageBatcher.preload.js';
+import type { AttachmentType } from '../types/Attachment.std.ts';
+import { MessageModel } from '../models/messages.preload.ts';
+import { createLogger } from '../logging/log.std.ts';
+import { IMAGE_JPEG } from '../types/MIME.std.ts';
+import { ReadStatus } from '../messages/MessageReadStatus.std.ts';
+import { SeenStatus } from '../MessageSeenStatus.std.ts';
+import { findAndDeleteOnboardingStoryIfExists } from './findAndDeleteOnboardingStoryIfExists.preload.ts';
+import { saveNewMessageBatcher } from './messageBatcher.preload.ts';
 import {
   writeNewAttachmentData,
   processNewAttachment,
-} from './migrations.preload.js';
-import { incrementMessageCounter } from './incrementMessageCounter.preload.js';
+} from './migrations.preload.ts';
+import { incrementMessageCounter } from './incrementMessageCounter.preload.ts';
 import {
   getOnboardingStoryManifest,
   downloadOnboardingStories,
-} from '../textsecure/WebAPI.preload.js';
-import { itemStorage } from '../textsecure/Storage.preload.js';
+} from '../textsecure/WebAPI.preload.ts';
+import { itemStorage } from '../textsecure/Storage.preload.ts';
 
 const log = createLogger('downloadOnboardingStory');
 

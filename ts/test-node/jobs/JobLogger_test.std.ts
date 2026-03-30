@@ -3,7 +3,7 @@
 
 import * as sinon from 'sinon';
 
-import { JobLogger } from '../../jobs/JobLogger.std.js';
+import { JobLogger } from '../../jobs/JobLogger.std.ts';
 
 describe('JobLogger', () => {
   const LEVELS = ['fatal', 'error', 'warn', 'info', 'debug', 'trace'] as const;

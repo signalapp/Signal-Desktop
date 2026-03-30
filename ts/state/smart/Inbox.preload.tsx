@@ -3,24 +3,24 @@
 
 import React, { memo } from 'react';
 import { useSelector } from 'react-redux';
-import { Inbox } from '../../components/Inbox.dom.js';
-import { isNightly } from '../../util/version.std.js';
-import { getIntl } from '../selectors/user.std.js';
-import { SmartCustomizingPreferredReactionsModal } from './CustomizingPreferredReactionsModal.preload.js';
-import { getIsCustomizingPreferredReactions } from '../selectors/preferredReactions.std.js';
-import type { SmartNavTabsProps } from './NavTabs.preload.js';
-import { SmartNavTabs } from './NavTabs.preload.js';
-import { SmartStoriesTab } from './StoriesTab.preload.js';
-import { SmartCallsTab } from './CallsTab.preload.js';
-import { useItemsActions } from '../ducks/items.preload.js';
-import { getNavTabsCollapsed } from '../selectors/items.dom.js';
-import { SmartChatsTab } from './ChatsTab.preload.js';
-import { getHasInitialLoadCompleted } from '../selectors/app.std.js';
+import { Inbox } from '../../components/Inbox.dom.tsx';
+import { isNightly } from '../../util/version.std.ts';
+import { getIntl } from '../selectors/user.std.ts';
+import { SmartCustomizingPreferredReactionsModal } from './CustomizingPreferredReactionsModal.preload.tsx';
+import { getIsCustomizingPreferredReactions } from '../selectors/preferredReactions.std.ts';
+import type { SmartNavTabsProps } from './NavTabs.preload.tsx';
+import { SmartNavTabs } from './NavTabs.preload.tsx';
+import { SmartStoriesTab } from './StoriesTab.preload.tsx';
+import { SmartCallsTab } from './CallsTab.preload.tsx';
+import { useItemsActions } from '../ducks/items.preload.ts';
+import { getNavTabsCollapsed } from '../selectors/items.dom.ts';
+import { SmartChatsTab } from './ChatsTab.preload.tsx';
+import { getHasInitialLoadCompleted } from '../selectors/app.std.ts';
 import {
   getInboxEnvelopeTimestamp,
   getInboxFirstEnvelopeTimestamp,
-} from '../selectors/inbox.std.js';
-import { SmartPreferences } from './Preferences.preload.js';
+} from '../selectors/inbox.std.ts';
+import { SmartPreferences } from './Preferences.preload.tsx';
 
 function renderChatsTab() {
   return <SmartChatsTab />;

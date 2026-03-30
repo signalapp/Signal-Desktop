@@ -4,11 +4,11 @@ import type { ReactNode } from 'react';
 import React, { useState } from 'react';
 import type { Meta } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
-import type { Pin, PinMessage } from './PinnedMessagesBar.dom.js';
-import { PinnedMessagesBar } from './PinnedMessagesBar.dom.js';
-import { tw } from '../../../axo/tw.dom.js';
-import type { PinnedMessageId } from '../../../types/PinnedMessage.std.js';
-import { BodyRange } from '../../../types/BodyRange.std.js';
+import type { Pin, PinMessage } from './PinnedMessagesBar.dom.tsx';
+import { PinnedMessagesBar } from './PinnedMessagesBar.dom.tsx';
+import { tw } from '../../../axo/tw.dom.tsx';
+import type { PinnedMessageId } from '../../../types/PinnedMessage.std.ts';
+import { BodyRange } from '../../../types/BodyRange.std.ts';
 
 const { i18n } = window.SignalContext;
 

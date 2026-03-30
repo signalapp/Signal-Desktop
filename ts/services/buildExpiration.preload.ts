@@ -6,10 +6,10 @@ import EventEmitter from 'node:events';
 import {
   hasBuildExpired,
   getBuildExpirationTimestamp,
-} from '../util/buildExpiration.std.js';
-import { LongTimeout } from '../util/timeout.std.js';
-import { createLogger } from '../logging/log.std.js';
-import { itemStorage } from '../textsecure/Storage.preload.js';
+} from '../util/buildExpiration.std.ts';
+import { LongTimeout } from '../util/timeout.std.ts';
+import { createLogger } from '../logging/log.std.ts';
+import { itemStorage } from '../textsecure/Storage.preload.ts';
 
 const log = createLogger('buildExpiration');
 

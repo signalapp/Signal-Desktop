@@ -2,19 +2,19 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import { v7 as getGuid } from 'uuid';
 
-import type { LoggerType } from '../../types/Logging.std.js';
+import type { LoggerType } from '../../types/Logging.std.ts';
 import {
   normalizePni,
   normalizeServiceId,
   toTaggedPni,
   isUntaggedPniString,
-} from '../../types/ServiceId.std.js';
-import { isKnownProtoEnumMember } from '../../util/isKnownProtoEnumMember.std.js';
-import { Migrations as Proto } from '../../protobuf/index.std.js';
-import { sql } from '../util.std.js';
-import type { WritableDB } from '../Interface.std.js';
-import { getOurUuid } from './41-uuid-keys.std.js';
-import { strictAssert } from '../../util/assert.std.js';
+} from '../../types/ServiceId.std.ts';
+import { isKnownProtoEnumMember } from '../../util/isKnownProtoEnumMember.std.ts';
+import { Migrations as Proto } from '../../protobuf/index.std.ts';
+import { sql } from '../util.std.ts';
+import type { WritableDB } from '../Interface.std.ts';
+import { getOurUuid } from './41-uuid-keys.std.ts';
+import { strictAssert } from '../../util/assert.std.ts';
 
 export default function updateToSchemaVersion1280(
   db: WritableDB,

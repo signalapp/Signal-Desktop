@@ -12,33 +12,33 @@ import React, {
 import lodash from 'lodash';
 import classNames from 'classnames';
 
-import type { LocalizerType } from '../types/I18N.std.js';
+import type { LocalizerType } from '../types/I18N.std.ts';
 import {
   FlowingSettingsControl as FlowingControl,
   SettingsRow,
-} from './PreferencesUtil.dom.js';
-import { SIGNAL_BACKUPS_LEARN_MORE_URL } from './PreferencesBackups.dom.js';
-import { I18n } from './I18n.dom.js';
-import type { SettingsLocation } from '../types/Nav.std.js';
-import { SettingsPage } from '../types/Nav.std.js';
-import { ToastType } from '../types/Toast.dom.js';
-import type { ShowToastAction } from '../state/ducks/toast.preload.js';
-import { Modal } from './Modal.dom.js';
+} from './PreferencesUtil.dom.tsx';
+import { SIGNAL_BACKUPS_LEARN_MORE_URL } from './PreferencesBackups.dom.tsx';
+import { I18n } from './I18n.dom.tsx';
+import type { SettingsLocation } from '../types/Nav.std.ts';
+import { SettingsPage } from '../types/Nav.std.ts';
+import { ToastType } from '../types/Toast.dom.tsx';
+import type { ShowToastAction } from '../state/ducks/toast.preload.ts';
+import { Modal } from './Modal.dom.tsx';
 import type {
   PromptOSAuthReasonType,
   PromptOSAuthResultType,
-} from '../util/os/promptOSAuthMain.main.js';
-import { AxoButton } from '../axo/AxoButton.dom.js';
-import { AxoDialog } from '../axo/AxoDialog.dom.js';
-import { AxoCheckbox } from '../axo/AxoCheckbox.dom.js';
-import { SECOND } from '../util/durations/constants.std.js';
-import { formatTimestamp } from '../util/formatTimestamp.dom.js';
-import type { LocalBackupExportMetadata } from '../types/LocalExport.std.js';
-import { tw } from '../axo/tw.dom.js';
-import { createLogger } from '../logging/log.std.js';
-import { toLogFormat } from '../types/errors.std.js';
-import { AxoAlertDialog } from '../axo/AxoAlertDialog.dom.js';
-import { AxoSymbol } from '../axo/AxoSymbol.dom.js';
+} from '../util/os/promptOSAuthMain.main.ts';
+import { AxoButton } from '../axo/AxoButton.dom.tsx';
+import { AxoDialog } from '../axo/AxoDialog.dom.tsx';
+import { AxoCheckbox } from '../axo/AxoCheckbox.dom.tsx';
+import { SECOND } from '../util/durations/constants.std.ts';
+import { formatTimestamp } from '../util/formatTimestamp.dom.ts';
+import type { LocalBackupExportMetadata } from '../types/LocalExport.std.ts';
+import { tw } from '../axo/tw.dom.tsx';
+import { createLogger } from '../logging/log.std.ts';
+import { toLogFormat } from '../types/errors.std.ts';
+import { AxoAlertDialog } from '../axo/AxoAlertDialog.dom.tsx';
+import { AxoSymbol } from '../axo/AxoSymbol.dom.tsx';
 
 const { noop } = lodash;
 const log = createLogger('PreferencesLocalBackups');

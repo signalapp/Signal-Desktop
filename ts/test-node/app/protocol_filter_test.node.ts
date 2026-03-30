@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 
-import { _urlToPath } from '../../../app/protocol_filter.node.js';
+import { _urlToPath } from '../../../app/protocol_filter.node.ts';
 
 describe('Protocol Filter', () => {
   describe('_urlToPath', () => {

@@ -6,8 +6,8 @@ import React from 'react';
 import type {
   LocalizerType,
   ICUJSXMessageParamsByKeyType,
-} from '../types/Util.std.js';
-import { strictAssert } from '../util/assert.std.js';
+} from '../types/Util.std.ts';
+import { strictAssert } from '../util/assert.std.ts';
 
 export type I18nComponentParts = ReadonlyArray<string | React.JSX.Element>;
 

@@ -3,23 +3,23 @@
 
 import { v4 as generateUuid } from 'uuid';
 
-import type { DraftBodyRanges } from '../types/BodyRange.std.js';
-import type { LinkPreviewType } from '../types/message/LinkPreviews.std.js';
+import type { DraftBodyRanges } from '../types/BodyRange.std.ts';
+import type { LinkPreviewType } from '../types/message/LinkPreviews.std.ts';
 import type {
   MessageAttributesType,
   QuotedMessageType,
 } from '../model-types.d.ts';
-import { createLogger } from '../logging/log.std.js';
-import { DataReader, DataWriter } from '../sql/Client.preload.js';
-import { ErrorWithToast } from '../types/ErrorWithToast.std.js';
-import { SendStatus } from '../messages/MessageSendState.std.js';
-import { ToastType } from '../types/Toast.dom.js';
-import type { AciString } from '../types/ServiceId.std.js';
-import { canEditMessage, isWithinMaxEdits } from './canEditMessage.dom.js';
+import { createLogger } from '../logging/log.std.ts';
+import { DataReader, DataWriter } from '../sql/Client.preload.ts';
+import { ErrorWithToast } from '../types/ErrorWithToast.std.ts';
+import { SendStatus } from '../messages/MessageSendState.std.ts';
+import { ToastType } from '../types/Toast.dom.tsx';
+import type { AciString } from '../types/ServiceId.std.ts';
+import { canEditMessage, isWithinMaxEdits } from './canEditMessage.dom.ts';
 import {
   conversationJobQueue,
   conversationQueueJobEnum,
-} from '../jobs/conversationJobQueue.preload.js';
+} from '../jobs/conversationJobQueue.preload.ts';
 import {
   concat,
   filter,
@@ -27,20 +27,20 @@ import {
   repeat,
   zipObject,
   find,
-} from './iterables.std.js';
-import { getConversationIdForLogging } from './idForLogging.preload.js';
-import { isQuoteAMatch } from '../messages/quotes.preload.js';
-import { getMessageById } from '../messages/getMessageById.preload.js';
-import { handleEditMessage } from './handleEditMessage.preload.js';
-import { incrementMessageCounter } from './incrementMessageCounter.preload.js';
-import { isGroupV1 } from './whatTypeOfConversation.dom.js';
-import { isNotNil } from './isNotNil.std.js';
-import { isSignalConversation } from './isSignalConversation.dom.js';
-import { strictAssert } from './assert.std.js';
-import { timeAndLogIfTooLong } from './timeAndLogIfTooLong.std.js';
-import { makeQuote } from './makeQuote.preload.js';
-import { getMessageSentTimestamp } from './getMessageSentTimestamp.std.js';
-import { itemStorage } from '../textsecure/Storage.preload.js';
+} from './iterables.std.ts';
+import { getConversationIdForLogging } from './idForLogging.preload.ts';
+import { isQuoteAMatch } from '../messages/quotes.preload.ts';
+import { getMessageById } from '../messages/getMessageById.preload.ts';
+import { handleEditMessage } from './handleEditMessage.preload.ts';
+import { incrementMessageCounter } from './incrementMessageCounter.preload.ts';
+import { isGroupV1 } from './whatTypeOfConversation.dom.ts';
+import { isNotNil } from './isNotNil.std.ts';
+import { isSignalConversation } from './isSignalConversation.dom.ts';
+import { strictAssert } from './assert.std.ts';
+import { timeAndLogIfTooLong } from './timeAndLogIfTooLong.std.ts';
+import { makeQuote } from './makeQuote.preload.ts';
+import { getMessageSentTimestamp } from './getMessageSentTimestamp.std.ts';
+import { itemStorage } from '../textsecure/Storage.preload.ts';
 
 const log = createLogger('sendEditedMessage');
 

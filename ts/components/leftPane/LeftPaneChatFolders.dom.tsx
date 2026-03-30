@@ -10,25 +10,25 @@ import {
   ChatFolderType,
   type ChatFolder,
   type ChatFolderId,
-} from '../../types/ChatFolder.std.js';
-import type { LocalizerType } from '../../types/I18N.std.js';
-import { ExperimentalAxoSegmentedControl } from '../../axo/AxoSegmentedControl.dom.js';
-import { tw } from '../../axo/tw.dom.js';
+} from '../../types/ChatFolder.std.ts';
+import type { LocalizerType } from '../../types/I18N.std.ts';
+import { ExperimentalAxoSegmentedControl } from '../../axo/AxoSegmentedControl.dom.tsx';
+import { tw } from '../../axo/tw.dom.tsx';
 import type {
   AllChatFoldersUnreadStats,
   UnreadStats,
-} from '../../util/countUnreadStats.std.js';
-import { WidthBreakpoint } from '../_util.std.js';
-import { AxoSelect } from '../../axo/AxoSelect.dom.js';
-import { AxoContextMenu } from '../../axo/AxoContextMenu.dom.js';
-import { getMuteValuesOptions } from '../../util/getMuteOptions.std.js';
+} from '../../util/countUnreadStats.std.ts';
+import { WidthBreakpoint } from '../_util.std.ts';
+import { AxoSelect } from '../../axo/AxoSelect.dom.tsx';
+import { AxoContextMenu } from '../../axo/AxoContextMenu.dom.tsx';
+import { getMuteValuesOptions } from '../../util/getMuteOptions.std.ts';
 import type {
   AllChatFoldersMutedStats,
   MutedStats,
-} from '../../util/countMutedStats.std.js';
-import type { AxoSymbol } from '../../axo/AxoSymbol.dom.js';
-import { UserText } from '../UserText.dom.js';
-import { CurrentChatFolders } from '../../types/CurrentChatFolders.std.js';
+} from '../../util/countMutedStats.std.ts';
+import type { AxoSymbol } from '../../axo/AxoSymbol.dom.tsx';
+import { UserText } from '../UserText.dom.tsx';
+import { CurrentChatFolders } from '../../types/CurrentChatFolders.std.ts';
 
 export type LeftPaneChatFoldersProps = Readonly<{
   i18n: LocalizerType;

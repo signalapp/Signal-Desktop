@@ -12,7 +12,7 @@ import {
   callLinkRecordSchema,
   defunctCallLinkRecordSchema,
   toCallLinkRestrictions,
-} from '../types/CallLink.std.js';
+} from '../types/CallLink.std.ts';
 import type {
   CallLinkRecord,
   CallLinkRestrictions,
@@ -20,15 +20,15 @@ import type {
   DefunctCallLinkRecord,
   DefunctCallLinkType,
   CallLinkStateType,
-} from '../types/CallLink.std.js';
-import { unicodeSlice } from './unicodeSlice.std.js';
+} from '../types/CallLink.std.ts';
+import { unicodeSlice } from './unicodeSlice.std.ts';
 import {
   fromAdminKeyBytes,
   getKeyFromCallLink,
   toAdminKeyBytes,
-} from './callLinks.std.js';
-import { parseStrict } from './schemas.std.js';
-import * as Bytes from '../Bytes.std.js';
+} from './callLinks.std.ts';
+import { parseStrict } from './schemas.std.ts';
+import * as Bytes from '../Bytes.std.ts';
 
 /**
  * RingRTC conversions

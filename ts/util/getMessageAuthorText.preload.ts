@@ -5,11 +5,11 @@ import type {
   ConversationAttributesType,
   ReadonlyMessageAttributesType,
 } from '../model-types.d.ts';
-import type { AciString } from '../types/ServiceId.std.js';
-import { isIncoming, isOutgoing } from '../state/selectors/message.preload.js';
-import { isAciString } from './isAciString.std.js';
-import { getTitle } from './getTitle.preload.js';
-import { itemStorage } from '../textsecure/Storage.preload.js';
+import type { AciString } from '../types/ServiceId.std.ts';
+import { isIncoming, isOutgoing } from '../state/selectors/message.preload.ts';
+import { isAciString } from './isAciString.std.ts';
+import { getTitle } from './getTitle.preload.ts';
+import { itemStorage } from '../textsecure/Storage.preload.ts';
 
 function getIncomingContact(
   messageAttributes: ReadonlyMessageAttributesType

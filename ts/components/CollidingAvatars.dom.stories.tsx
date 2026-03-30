@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import type { PropsType } from './CollidingAvatars.dom.js';
-import { CollidingAvatars } from './CollidingAvatars.dom.js';
-import { type ComponentMeta } from '../storybook/types.std.js';
-import { getDefaultConversation } from '../test-helpers/getDefaultConversation.std.js';
+import type { PropsType } from './CollidingAvatars.dom.tsx';
+import { CollidingAvatars } from './CollidingAvatars.dom.tsx';
+import { type ComponentMeta } from '../storybook/types.std.ts';
+import { getDefaultConversation } from '../test-helpers/getDefaultConversation.std.ts';
 
 const { i18n } = window.SignalContext;
 

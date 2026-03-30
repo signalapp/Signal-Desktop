@@ -3,27 +3,27 @@
 
 import { v4 as generateGuid } from 'uuid';
 
-import { DataWriter } from '../../sql/Client.preload.js';
-import { SignalService as Proto } from '../../protobuf/index.std.js';
+import { DataWriter } from '../../sql/Client.preload.ts';
+import { SignalService as Proto } from '../../protobuf/index.std.ts';
 
-import { generateAci, generatePni } from '../../types/ServiceId.std.js';
+import { generateAci, generatePni } from '../../types/ServiceId.std.ts';
 import type { MessageAttributesType } from '../../model-types.d.ts';
-import type { GroupV2ChangeType } from '../../types/groups.std.js';
-import { getRandomBytes } from '../../Crypto.node.js';
-import * as Bytes from '../../Bytes.std.js';
-import { strictAssert } from '../../util/assert.std.js';
-import { DurationInSeconds } from '../../util/durations/index.std.js';
+import type { GroupV2ChangeType } from '../../types/groups.std.ts';
+import { getRandomBytes } from '../../Crypto.node.ts';
+import * as Bytes from '../../Bytes.std.ts';
+import { strictAssert } from '../../util/assert.std.ts';
+import { DurationInSeconds } from '../../util/durations/index.std.ts';
 import {
   OUR_ACI,
   OUR_PNI,
   setupBasics,
   asymmetricRoundtripHarness,
   symmetricRoundtripHarness,
-} from './helpers.preload.js';
-import { ReadStatus } from '../../messages/MessageReadStatus.std.js';
-import { SeenStatus } from '../../MessageSeenStatus.std.js';
-import { loadAllAndReinitializeRedux } from '../../services/allLoaders.preload.js';
-import { itemStorage } from '../../textsecure/Storage.preload.js';
+} from './helpers.preload.ts';
+import { ReadStatus } from '../../messages/MessageReadStatus.std.ts';
+import { SeenStatus } from '../../MessageSeenStatus.std.ts';
+import { loadAllAndReinitializeRedux } from '../../services/allLoaders.preload.ts';
+import { itemStorage } from '../../textsecure/Storage.preload.ts';
 
 // Note: this should be kept up to date with GroupV2Change.stories.tsx, to
 //   maintain the comprehensive set of GroupV2 notifications we need to handle

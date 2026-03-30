@@ -1,10 +1,10 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { AttachmentType } from '../types/Attachment.std.js';
-import { isMoreRecentThan } from './timestamp.std.js';
-import { DAY } from './durations/index.std.js';
-import { getMessageQueueTime } from './getMessageQueueTime.dom.js';
+import type { AttachmentType } from '../types/Attachment.std.ts';
+import { isMoreRecentThan } from './timestamp.std.ts';
+import { DAY } from './durations/index.std.ts';
+import { getMessageQueueTime } from './getMessageQueueTime.dom.ts';
 
 // Extend range in case the attachment is actually still there (this function is meant to
 // be optimistic)

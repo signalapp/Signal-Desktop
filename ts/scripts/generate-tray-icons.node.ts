@@ -4,7 +4,7 @@
 import { createCanvas, GlobalFonts, loadImage } from '@napi-rs/canvas';
 import { join } from 'node:path';
 import { mkdir, rm, writeFile } from 'node:fs/promises';
-import { strictAssert } from '../util/assert.std.js';
+import { strictAssert } from '../util/assert.std.ts';
 
 const cwd = __dirname;
 const fontsDir = join(cwd, '..', '..', 'fonts');

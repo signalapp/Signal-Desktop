@@ -12,10 +12,10 @@ import * as electron from 'electron';
 import type { ResolvedHost, ResolvedEndpoint } from 'electron';
 import pTimeout from 'p-timeout';
 
-import { strictAssert } from './assert.std.js';
-import { drop } from './drop.std.js';
-import type { DNSFallbackType } from '../types/DNSFallback.std.js';
-import { SECOND } from './durations/index.std.js';
+import { strictAssert } from './assert.std.ts';
+import { drop } from './drop.std.ts';
+import type { DNSFallbackType } from '../types/DNSFallback.std.ts';
+import { SECOND } from './durations/index.std.ts';
 
 const LOOKUP_TIMEOUT_MS = 5 * SECOND;
 const fallbackAddrs = new Map<string, ReadonlyArray<ResolvedEndpoint>>();

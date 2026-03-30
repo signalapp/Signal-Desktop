@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 
-import { awaitObject } from '../../util/awaitObject.std.js';
+import { awaitObject } from '../../util/awaitObject.std.ts';
 
 describe('awaitObject', () => {
   it('returns correct result', async () => {

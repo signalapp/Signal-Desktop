@@ -2,17 +2,17 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import lodash from 'lodash';
-import { IMAGE_JPEG, stringToMIMEType } from '../../../../types/MIME.std.js';
+import { IMAGE_JPEG, stringToMIMEType } from '../../../../types/MIME.std.ts';
 import type {
   MediaItemType,
   ContactMediaItemType,
   LinkPreviewMediaItemType,
   MediaItemMessageType,
   GenericMediaItemType,
-} from '../../../../types/MediaItem.std.js';
-import type { AttachmentForUIType } from '../../../../types/Attachment.std.js';
-import { randomBlurHash } from '../../../../util/randomBlurHash.std.js';
-import { SignalService } from '../../../../protobuf/index.std.js';
+} from '../../../../types/MediaItem.std.ts';
+import type { AttachmentForUIType } from '../../../../types/Attachment.std.ts';
+import { randomBlurHash } from '../../../../util/randomBlurHash.std.ts';
+import { SignalService } from '../../../../protobuf/index.std.ts';
 
 const { random, range, sample, sortBy } = lodash;
 

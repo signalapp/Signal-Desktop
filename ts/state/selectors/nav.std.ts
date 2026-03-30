@@ -3,12 +3,12 @@
 
 import { createSelector } from 'reselect';
 
-import { NavTab } from '../../types/Nav.std.js';
+import { NavTab } from '../../types/Nav.std.ts';
 
-import type { PanelArgsType } from '../../types/Panels.std.js';
-import type { Location, PanelInfo } from '../../types/Nav.std.js';
-import type { StateType } from '../reducer.preload.js';
-import type { NavStateType } from '../ducks/nav.std.js';
+import type { PanelArgsType } from '../../types/Panels.std.ts';
+import type { Location, PanelInfo } from '../../types/Nav.std.ts';
+import type { StateType } from '../reducer.preload.ts';
+import type { NavStateType } from '../ducks/nav.std.ts';
 
 function getNav(state: StateType): NavStateType {
   return state.nav;

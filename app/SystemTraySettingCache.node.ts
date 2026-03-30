@@ -1,14 +1,14 @@
 // Copyright 2017 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { createLogger } from '../ts/logging/log.std.js';
-import OS from '../ts/util/os/osMain.node.js';
+import { createLogger } from '../ts/logging/log.std.ts';
+import OS from '../ts/util/os/osMain.node.ts';
 import {
   parseSystemTraySetting,
   SystemTraySetting,
-} from '../ts/types/SystemTraySetting.std.js';
-import { isSystemTraySupported } from '../ts/types/Settings.std.js';
-import type { ConfigType } from './base_config.node.js';
+} from '../ts/types/SystemTraySetting.std.ts';
+import { isSystemTraySupported } from '../ts/types/Settings.std.ts';
+import type { ConfigType } from './base_config.node.ts';
 
 const log = createLogger('SystemTraySettingCache');
 

@@ -4,9 +4,9 @@
 import type { ReactNode } from 'react';
 import React from 'react';
 
-import type { LocalizerType } from '../types/Util.std.js';
-import { Alert } from './Alert.dom.js';
-import { missingCaseError } from '../util/missingCaseError.std.js';
+import type { LocalizerType } from '../types/Util.std.ts';
+import { Alert } from './Alert.dom.tsx';
+import { missingCaseError } from '../util/missingCaseError.std.ts';
 
 export enum AddGroupMemberErrorDialogMode {
   MaximumGroupSize,

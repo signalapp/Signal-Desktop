@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { PowerSaveBlocker } from 'electron';
-import { createLogger } from '../ts/logging/log.std.js';
+import { createLogger } from '../ts/logging/log.std.ts';
 
 const log = createLogger('PreventDisplaySleepService');
 

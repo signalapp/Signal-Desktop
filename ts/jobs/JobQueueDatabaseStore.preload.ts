@@ -2,12 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import lodash from 'lodash';
-import { AsyncQueue } from '../util/AsyncQueue.std.js';
-import { concat, wrapPromise } from '../util/asyncIterables.std.js';
-import type { JobQueueStore, StoredJob } from './types.std.js';
-import { formatJobForInsert } from './formatJobForInsert.std.js';
-import { DataReader, DataWriter } from '../sql/Client.preload.js';
-import { createLogger } from '../logging/log.std.js';
+import { AsyncQueue } from '../util/AsyncQueue.std.ts';
+import { concat, wrapPromise } from '../util/asyncIterables.std.ts';
+import type { JobQueueStore, StoredJob } from './types.std.ts';
+import { formatJobForInsert } from './formatJobForInsert.std.ts';
+import { DataReader, DataWriter } from '../sql/Client.preload.ts';
+import { createLogger } from '../logging/log.std.ts';
 
 const { noop } = lodash;
 

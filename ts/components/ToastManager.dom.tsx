@@ -5,25 +5,25 @@ import classNames from 'classnames';
 import React from 'react';
 import { createPortal } from 'react-dom';
 
-import { SECOND } from '../util/durations/index.std.js';
-import { Toast } from './Toast.dom.js';
-import { WidthBreakpoint } from './_util.std.js';
-import { UsernameMegaphone } from './UsernameMegaphone.dom.js';
-import { assertDev } from '../util/assert.std.js';
-import { missingCaseError } from '../util/missingCaseError.std.js';
-import { ToastType } from '../types/Toast.dom.js';
-import { MegaphoneType } from '../types/Megaphone.std.js';
-import { NavTab, SettingsPage } from '../types/Nav.std.js';
-import { AxoSymbol } from '../axo/AxoSymbol.dom.js';
-import { tw } from '../axo/tw.dom.js';
+import { SECOND } from '../util/durations/index.std.ts';
+import { Toast } from './Toast.dom.tsx';
+import { WidthBreakpoint } from './_util.std.ts';
+import { UsernameMegaphone } from './UsernameMegaphone.dom.tsx';
+import { assertDev } from '../util/assert.std.ts';
+import { missingCaseError } from '../util/missingCaseError.std.ts';
+import { ToastType } from '../types/Toast.dom.tsx';
+import { MegaphoneType } from '../types/Megaphone.std.ts';
+import { NavTab, SettingsPage } from '../types/Nav.std.ts';
+import { AxoSymbol } from '../axo/AxoSymbol.dom.tsx';
+import { tw } from '../axo/tw.dom.tsx';
 
-import type { LocalizerType } from '../types/Util.std.js';
-import type { AnyToast } from '../types/Toast.dom.js';
-import type { AnyActionableMegaphone } from '../types/Megaphone.std.js';
-import type { Location } from '../types/Nav.std.js';
-import { I18n } from './I18n.dom.js';
-import { UserText } from './UserText.dom.js';
-import { RemoteMegaphone } from './RemoteMegaphone.dom.js';
+import type { LocalizerType } from '../types/Util.std.ts';
+import type { AnyToast } from '../types/Toast.dom.tsx';
+import type { AnyActionableMegaphone } from '../types/Megaphone.std.ts';
+import type { Location } from '../types/Nav.std.ts';
+import { I18n } from './I18n.dom.tsx';
+import { UserText } from './UserText.dom.tsx';
+import { RemoteMegaphone } from './RemoteMegaphone.dom.tsx';
 
 export type PropsType = {
   changeLocation: (newLocation: Location) => unknown;

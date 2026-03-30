@@ -8,22 +8,22 @@ import createDebug from 'debug';
 import type { Page } from 'playwright';
 import type { RequireExactlyOne } from 'type-fest';
 
-import type { App } from '../playwright.node.js';
-import * as durations from '../../util/durations/index.std.js';
-import { Bootstrap } from '../bootstrap.node.js';
+import type { App } from '../playwright.node.ts';
+import * as durations from '../../util/durations/index.std.ts';
+import { Bootstrap } from '../bootstrap.node.ts';
 import {
   RECEIPT_BATCHER_WAIT_MS,
   ReceiptType,
-} from '../../types/Receipt.std.js';
-import { SendStatus } from '../../messages/MessageSendState.std.js';
-import { drop } from '../../util/drop.std.js';
-import { strictAssert } from '../../util/assert.std.js';
-import { toNumber } from '../../util/toNumber.std.js';
-import { generateAci } from '../../types/ServiceId.std.js';
-import { IMAGE_GIF } from '../../types/MIME.std.js';
-import { typeIntoInput, waitForEnabledComposer } from '../helpers.node.js';
+} from '../../types/Receipt.std.ts';
+import { SendStatus } from '../../messages/MessageSendState.std.ts';
+import { drop } from '../../util/drop.std.ts';
+import { strictAssert } from '../../util/assert.std.ts';
+import { toNumber } from '../../util/toNumber.std.ts';
+import { generateAci } from '../../types/ServiceId.std.ts';
+import { IMAGE_GIF } from '../../types/MIME.std.ts';
+import { typeIntoInput, waitForEnabledComposer } from '../helpers.node.ts';
 import type { MessageAttributesType } from '../../model-types.d.ts';
-import { sleep } from '../../util/sleep.std.js';
+import { sleep } from '../../util/sleep.std.ts';
 
 export const debug = createDebug('mock:test:edit');
 

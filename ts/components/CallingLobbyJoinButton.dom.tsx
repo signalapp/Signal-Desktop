@@ -5,9 +5,9 @@ import type { ReactNode } from 'react';
 import React, { useState } from 'react';
 import lodash from 'lodash';
 
-import type { LocalizerType } from '../types/Util.std.js';
-import { Button, ButtonVariant } from './Button.dom.js';
-import { Spinner } from './Spinner.dom.js';
+import type { LocalizerType } from '../types/Util.std.ts';
+import { Button, ButtonVariant } from './Button.dom.tsx';
+import { Spinner } from './Spinner.dom.tsx';
 
 const { noop } = lodash;
 

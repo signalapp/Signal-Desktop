@@ -4,15 +4,15 @@
 import React, { memo, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import type { ReadonlyMessageAttributesType } from '../../model-types.d.ts';
-import { EditHistoryMessagesModal } from '../../components/EditHistoryMessagesModal.dom.js';
-import { getIntl, getPlatform } from '../selectors/user.std.js';
-import { getMessagePropsSelector } from '../selectors/message.preload.js';
-import { getPreferredBadgeSelector } from '../selectors/badges.preload.js';
-import { useConversationsActions } from '../ducks/conversations.preload.js';
-import { useGlobalModalActions } from '../ducks/globalModals.preload.js';
-import { useLightboxActions } from '../ducks/lightbox.preload.js';
-import { strictAssert } from '../../util/assert.std.js';
-import { getEditHistoryMessages } from '../selectors/globalModals.std.js';
+import { EditHistoryMessagesModal } from '../../components/EditHistoryMessagesModal.dom.tsx';
+import { getIntl, getPlatform } from '../selectors/user.std.ts';
+import { getMessagePropsSelector } from '../selectors/message.preload.ts';
+import { getPreferredBadgeSelector } from '../selectors/badges.preload.ts';
+import { useConversationsActions } from '../ducks/conversations.preload.ts';
+import { useGlobalModalActions } from '../ducks/globalModals.preload.ts';
+import { useLightboxActions } from '../ducks/lightbox.preload.ts';
+import { strictAssert } from '../../util/assert.std.ts';
+import { getEditHistoryMessages } from '../selectors/globalModals.std.ts';
 
 export const SmartEditHistoryMessagesModal = memo(
   function SmartEditHistoryMessagesModal(): React.JSX.Element {

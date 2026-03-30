@@ -1,9 +1,9 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { createLogger } from '../logging/log.std.js';
-import { profileService } from '../services/profiles.preload.js';
-import type { ServiceIdString } from '../types/ServiceId.std.js';
+import { createLogger } from '../logging/log.std.ts';
+import { profileService } from '../services/profiles.preload.ts';
+import type { ServiceIdString } from '../types/ServiceId.std.ts';
 
 const log = createLogger('getProfile');
 

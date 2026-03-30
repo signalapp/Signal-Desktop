@@ -3,13 +3,13 @@
 
 import React, { useRef, useEffect } from 'react';
 import classNames from 'classnames';
-import type { SetRendererCanvasType } from '../state/ducks/calling.preload.js';
-import type { ConversationType } from '../state/ducks/conversations.preload.js';
-import type { LocalizerType } from '../types/Util.std.js';
-import { AvatarColors } from '../types/Colors.std.js';
-import { Avatar, AvatarSize } from './Avatar.dom.js';
-import { CallBackgroundBlur } from './CallBackgroundBlur.dom.js';
-import type { SizeCallbackType } from '../calling/VideoSupport.preload.js';
+import type { SetRendererCanvasType } from '../state/ducks/calling.preload.ts';
+import type { ConversationType } from '../state/ducks/conversations.preload.ts';
+import type { LocalizerType } from '../types/Util.std.ts';
+import { AvatarColors } from '../types/Colors.std.ts';
+import { Avatar, AvatarSize } from './Avatar.dom.tsx';
+import { CallBackgroundBlur } from './CallBackgroundBlur.dom.tsx';
+import type { SizeCallbackType } from '../calling/VideoSupport.preload.ts';
 
 type PropsType = {
   conversation: ConversationType;

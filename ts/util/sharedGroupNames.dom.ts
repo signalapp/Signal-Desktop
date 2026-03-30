@@ -3,12 +3,12 @@
 
 import { useState } from 'react';
 import { useStore } from 'react-redux';
-import type { StateType } from '../state/reducer.preload.js';
-import type { ConversationType } from '../state/ducks/conversations.preload.js';
+import type { StateType } from '../state/reducer.preload.ts';
+import type { ConversationType } from '../state/ducks/conversations.preload.ts';
 import {
   getConversationLookup,
   getAllComposableConversations,
-} from '../state/selectors/conversations.dom.js';
+} from '../state/selectors/conversations.dom.ts';
 
 const EMPTY_ARRAY: ReadonlyArray<string> = [];
 

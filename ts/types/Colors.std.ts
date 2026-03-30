@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { AxoTokens } from '../axo/AxoTokens.std.js';
+import { AxoTokens } from '../axo/AxoTokens.std.ts';
 
 export const AvatarColorMap = new Map(
   AxoTokens.Avatar.getAllColorNames().map(colorName => {

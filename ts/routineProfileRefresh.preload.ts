@@ -4,18 +4,18 @@
 import lodash from 'lodash';
 import PQueue from 'p-queue';
 
-import { createLogger } from './logging/log.std.js';
-import { assertDev } from './util/assert.std.js';
-import { sleep } from './util/sleep.std.js';
-import { isNormalNumber } from './util/isNormalNumber.std.js';
-import { take } from './util/iterables.std.js';
-import type { ConversationModel } from './models/conversations.preload.js';
+import { createLogger } from './logging/log.std.ts';
+import { assertDev } from './util/assert.std.ts';
+import { sleep } from './util/sleep.std.ts';
+import { isNormalNumber } from './util/isNormalNumber.std.ts';
+import { take } from './util/iterables.std.ts';
+import type { ConversationModel } from './models/conversations.preload.ts';
 import type { StorageInterface } from './types/Storage.d.ts';
-import * as Errors from './types/errors.std.js';
-import { getProfile } from './util/getProfile.preload.js';
-import { drop } from './util/drop.std.js';
-import { MINUTE, HOUR, DAY, WEEK } from './util/durations/index.std.js';
-import { isDirectConversation } from './util/whatTypeOfConversation.dom.js';
+import * as Errors from './types/errors.std.ts';
+import { getProfile } from './util/getProfile.preload.ts';
+import { drop } from './util/drop.std.ts';
+import { MINUTE, HOUR, DAY, WEEK } from './util/durations/index.std.ts';
+import { isDirectConversation } from './util/whatTypeOfConversation.dom.ts';
 
 const { isNil, sortBy } = lodash;
 

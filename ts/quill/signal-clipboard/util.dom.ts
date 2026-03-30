@@ -1,7 +1,7 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { getFunEmojiElementValue } from '../../components/fun/FunEmoji.dom.js';
+import { getFunEmojiElementValue } from '../../components/fun/FunEmoji.dom.tsx';
 
 const QUILL_EMBED_GUARD = '\uFEFF';
 

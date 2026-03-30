@@ -10,13 +10,13 @@ import {
   IMAGE_JPEG,
   IMAGE_WEBP,
   stringToMIMEType,
-} from '../../types/MIME.std.js';
-import type { LoggerType } from '../../types/Logging.std.js';
+} from '../../types/MIME.std.ts';
+import type { LoggerType } from '../../types/Logging.std.ts';
 
 import {
   fetchLinkPreviewImage,
   fetchLinkPreviewMetadata,
-} from '../../linkPreviews/linkPreviewFetch.preload.js';
+} from '../../linkPreviews/linkPreviewFetch.preload.ts';
 
 async function readFixtureImage(
   filename: string

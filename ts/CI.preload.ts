@@ -4,23 +4,23 @@
 import { format } from 'node:util';
 import { ipcRenderer } from 'electron';
 
-import type { IPCResponse as ChallengeResponseType } from './challenge.dom.js';
+import type { IPCResponse as ChallengeResponseType } from './challenge.dom.ts';
 import type { MessageAttributesType } from './model-types.d.ts';
-import { createLogger } from './logging/log.std.js';
-import { explodePromise } from './util/explodePromise.std.js';
-import { AccessType, ipcInvoke } from './sql/channels.preload.js';
-import { backupsService } from './services/backups/index.preload.js';
-import { notificationService } from './services/notifications.preload.js';
-import { challengeHandler } from './services/challengeHandler.preload.js';
-import { AttachmentBackupManager } from './jobs/AttachmentBackupManager.preload.js';
-import { migrateAllMessages } from './messages/migrateMessageData.preload.js';
-import { SECOND } from './util/durations/index.std.js';
-import { isSignalRoute } from './util/signalRoutes.std.js';
-import { strictAssert } from './util/assert.std.js';
-import { MessageModel } from './models/messages.preload.js';
-import type { SocketStatuses } from './textsecure/SocketManager.preload.js';
-import { itemStorage } from './textsecure/Storage.preload.js';
-import { BackupLevel } from './services/backups/types.std.js';
+import { createLogger } from './logging/log.std.ts';
+import { explodePromise } from './util/explodePromise.std.ts';
+import { AccessType, ipcInvoke } from './sql/channels.preload.ts';
+import { backupsService } from './services/backups/index.preload.ts';
+import { notificationService } from './services/notifications.preload.ts';
+import { challengeHandler } from './services/challengeHandler.preload.ts';
+import { AttachmentBackupManager } from './jobs/AttachmentBackupManager.preload.ts';
+import { migrateAllMessages } from './messages/migrateMessageData.preload.ts';
+import { SECOND } from './util/durations/index.std.ts';
+import { isSignalRoute } from './util/signalRoutes.std.ts';
+import { strictAssert } from './util/assert.std.ts';
+import { MessageModel } from './models/messages.preload.ts';
+import type { SocketStatuses } from './textsecure/SocketManager.preload.ts';
+import { itemStorage } from './textsecure/Storage.preload.ts';
+import { BackupLevel } from './services/backups/types.std.ts';
 
 const log = createLogger('CI');
 

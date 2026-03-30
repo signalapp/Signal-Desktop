@@ -3,10 +3,10 @@
 
 import { assert } from 'chai';
 import lodash from 'lodash';
-import { generateAci } from '../types/ServiceId.std.js';
+import { generateAci } from '../types/ServiceId.std.ts';
 import { signalservice as Proto } from '../protobuf/compiled.std.js';
 
-import { processSent } from '../textsecure/processSyncMessage.node.js';
+import { processSent } from '../textsecure/processSyncMessage.node.ts';
 
 const { omit } = lodash;
 

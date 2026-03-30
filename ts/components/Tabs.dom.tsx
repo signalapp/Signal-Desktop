@@ -4,8 +4,8 @@
 import type { ReactNode } from 'react';
 import React from 'react';
 
-import type { TabsOptionsType } from '../hooks/useTabs.dom.js';
-import { useTabs } from '../hooks/useTabs.dom.js';
+import type { TabsOptionsType } from '../hooks/useTabs.dom.tsx';
+import { useTabs } from '../hooks/useTabs.dom.tsx';
 
 type PropsType = {
   children: (renderProps: { selectedTab: string }) => ReactNode;

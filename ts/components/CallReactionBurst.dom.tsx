@@ -12,8 +12,8 @@ import React, {
 } from 'react';
 import { createPortal } from 'react-dom';
 import { v4 as uuid } from 'uuid';
-import { useIsMounted } from '../hooks/useIsMounted.std.js';
-import { CallReactionBurstEmoji } from './CallReactionBurstEmoji.dom.js';
+import { useIsMounted } from '../hooks/useIsMounted.std.ts';
+import { CallReactionBurstEmoji } from './CallReactionBurstEmoji.dom.tsx';
 
 const LIFETIME = 3000;
 

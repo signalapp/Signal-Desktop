@@ -12,7 +12,7 @@ import {
   getLocalBackupPathForMediaName,
   pruneLocalBackups,
   writeLocalBackupFilesList,
-} from '../../../services/backups/util/localBackup.node.js';
+} from '../../../services/backups/util/localBackup.node.ts';
 
 async function createSnapshot({
   backupsBaseDir,

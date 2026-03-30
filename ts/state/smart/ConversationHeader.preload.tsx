@@ -3,55 +3,55 @@
 
 import React, { memo, useCallback, useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import { useContactNameData } from '../../components/conversation/ContactName.dom.js';
+import { useContactNameData } from '../../components/conversation/ContactName.dom.tsx';
 import {
   ConversationHeader,
   OutgoingCallButtonStyle,
-} from '../../components/conversation/ConversationHeader.dom.js';
-import { getCannotLeaveBecauseYouAreLastAdmin } from '../../components/conversation/conversation-details/ConversationDetails.dom.js';
-import { useMinimalConversation } from '../../hooks/useMinimalConversation.std.js';
-import { CallMode } from '../../types/CallDisposition.std.js';
-import { PanelType } from '../../types/Panels.std.js';
-import { StoryViewModeType } from '../../types/Stories.std.js';
-import { strictAssert } from '../../util/assert.std.js';
-import { getAddedByForOurPendingInvitation } from '../../util/getAddedByForOurPendingInvitation.preload.js';
-import { getGroupMemberships } from '../../util/getGroupMemberships.dom.js';
-import { isConversationSMSOnly } from '../../util/isConversationSMSOnly.std.js';
-import { isGroupOrAdhocCallState } from '../../util/isGroupOrAdhocCall.std.js';
-import { isSignalConversation } from '../../util/isSignalConversation.dom.js';
-import { missingCaseError } from '../../util/missingCaseError.std.js';
-import { getConversationCallMode } from '../../util/getConversationCallMode.std.js';
-import { useCallingActions } from '../ducks/calling.preload.js';
-import { isAnybodyElseInGroupCall } from '../ducks/callingHelpers.std.js';
-import type { ConversationType } from '../ducks/conversations.preload.js';
-import { useConversationsActions } from '../ducks/conversations.preload.js';
-import { useSearchActions } from '../ducks/search.preload.js';
-import { useStoriesActions } from '../ducks/stories.preload.js';
-import { getPreferredBadgeSelector } from '../selectors/badges.preload.js';
+} from '../../components/conversation/ConversationHeader.dom.tsx';
+import { getCannotLeaveBecauseYouAreLastAdmin } from '../../components/conversation/conversation-details/ConversationDetails.dom.tsx';
+import { useMinimalConversation } from '../../hooks/useMinimalConversation.std.ts';
+import { CallMode } from '../../types/CallDisposition.std.ts';
+import { PanelType } from '../../types/Panels.std.ts';
+import { StoryViewModeType } from '../../types/Stories.std.ts';
+import { strictAssert } from '../../util/assert.std.ts';
+import { getAddedByForOurPendingInvitation } from '../../util/getAddedByForOurPendingInvitation.preload.ts';
+import { getGroupMemberships } from '../../util/getGroupMemberships.dom.ts';
+import { isConversationSMSOnly } from '../../util/isConversationSMSOnly.std.ts';
+import { isGroupOrAdhocCallState } from '../../util/isGroupOrAdhocCall.std.ts';
+import { isSignalConversation } from '../../util/isSignalConversation.dom.ts';
+import { missingCaseError } from '../../util/missingCaseError.std.ts';
+import { getConversationCallMode } from '../../util/getConversationCallMode.std.ts';
+import { useCallingActions } from '../ducks/calling.preload.ts';
+import { isAnybodyElseInGroupCall } from '../ducks/callingHelpers.std.ts';
+import type { ConversationType } from '../ducks/conversations.preload.ts';
+import { useConversationsActions } from '../ducks/conversations.preload.ts';
+import { useSearchActions } from '../ducks/search.preload.ts';
+import { useStoriesActions } from '../ducks/stories.preload.ts';
+import { getPreferredBadgeSelector } from '../selectors/badges.preload.ts';
 import {
   getActiveCallState,
   getCallSelector,
-} from '../selectors/calling.std.js';
+} from '../selectors/calling.std.ts';
 import {
   getConversationByServiceIdSelector,
   getConversationSelector,
   isMissingRequiredProfileSharing as getIsMissingRequiredProfileSharing,
   getSelectedMessageIds,
-} from '../selectors/conversations.dom.js';
-import { getHasPanelOpen } from '../selectors/nav.std.js';
-import { getHasStoriesSelector } from '../selectors/stories2.dom.js';
-import { getIntl, getTheme, getUserACI } from '../selectors/user.std.js';
-import { isConversationEverUnregistered } from '../../util/isConversationUnregistered.dom.js';
-import { isDirectConversation } from '../../util/whatTypeOfConversation.dom.js';
-import type { DurationInSeconds } from '../../util/durations/index.std.js';
-import { selectAudioPlayerActive } from '../selectors/audioPlayer.preload.js';
-import type { SmartCollidingAvatarsProps } from './CollidingAvatars.dom.js';
-import { SmartCollidingAvatars } from './CollidingAvatars.dom.js';
-import type { SmartMiniPlayerProps } from './MiniPlayer.preload.js';
-import { SmartMiniPlayer } from './MiniPlayer.preload.js';
-import { SmartPinnedMessagesBar } from './PinnedMessagesBar.preload.js';
-import { getContactSpoofingWarningSelector } from '../selectors/timeline.preload.js';
-import { useNavActions } from '../ducks/nav.std.js';
+} from '../selectors/conversations.dom.ts';
+import { getHasPanelOpen } from '../selectors/nav.std.ts';
+import { getHasStoriesSelector } from '../selectors/stories2.dom.ts';
+import { getIntl, getTheme, getUserACI } from '../selectors/user.std.ts';
+import { isConversationEverUnregistered } from '../../util/isConversationUnregistered.dom.ts';
+import { isDirectConversation } from '../../util/whatTypeOfConversation.dom.ts';
+import type { DurationInSeconds } from '../../util/durations/index.std.ts';
+import { selectAudioPlayerActive } from '../selectors/audioPlayer.preload.ts';
+import type { SmartCollidingAvatarsProps } from './CollidingAvatars.dom.tsx';
+import { SmartCollidingAvatars } from './CollidingAvatars.dom.tsx';
+import type { SmartMiniPlayerProps } from './MiniPlayer.preload.tsx';
+import { SmartMiniPlayer } from './MiniPlayer.preload.tsx';
+import { SmartPinnedMessagesBar } from './PinnedMessagesBar.preload.tsx';
+import { getContactSpoofingWarningSelector } from '../selectors/timeline.preload.ts';
+import { useNavActions } from '../ducks/nav.std.ts';
 
 function renderCollidingAvatars(
   props: SmartCollidingAvatarsProps

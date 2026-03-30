@@ -3,11 +3,11 @@
 
 import lodash from 'lodash';
 
-import { AvatarColors } from '../types/Colors.std.js';
-import type { GroupCallRemoteParticipantType } from '../types/Calling.std.js';
-import { generateAci } from '../types/ServiceId.std.js';
+import { AvatarColors } from '../types/Colors.std.ts';
+import type { GroupCallRemoteParticipantType } from '../types/Calling.std.ts';
+import { generateAci } from '../types/ServiceId.std.ts';
 
-import { getDefaultConversationWithServiceId } from './getDefaultConversation.std.js';
+import { getDefaultConversationWithServiceId } from './getDefaultConversation.std.ts';
 
 const { sample } = lodash;
 

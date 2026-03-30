@@ -1,9 +1,9 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { sendDeleteForEveryoneMessage } from './sendDeleteForEveryoneMessage.preload.js';
-import { getMessageById } from '../messages/getMessageById.preload.js';
-import { createLogger } from '../logging/log.std.js';
+import { sendDeleteForEveryoneMessage } from './sendDeleteForEveryoneMessage.preload.ts';
+import { getMessageById } from '../messages/getMessageById.preload.ts';
+import { createLogger } from '../logging/log.std.ts';
 
 const log = createLogger('deleteGroupStoryReplyForEveryone');
 

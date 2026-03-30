@@ -4,13 +4,13 @@
 import { assert } from 'chai';
 import { v4 as generateUuid } from 'uuid';
 
-import { DataReader, DataWriter } from '../../sql/Client.preload.js';
-import { generateAci } from '../../types/ServiceId.std.js';
-import { constantTimeEqual, getRandomBytes } from '../../Crypto.node.js';
+import { DataReader, DataWriter } from '../../sql/Client.preload.ts';
+import { generateAci } from '../../types/ServiceId.std.ts';
+import { constantTimeEqual, getRandomBytes } from '../../Crypto.node.ts';
 import {
   cleanupMessages,
   postSaveUpdates,
-} from '../../util/cleanup.preload.js';
+} from '../../util/cleanup.preload.ts';
 
 const {
   _getAllSentProtoMessageIds,

@@ -6,11 +6,11 @@ import type {
   EditHistoryType,
   MessageAttributesType,
 } from '../../model-types.d.ts';
-import type { AttachmentType } from '../../types/Attachment.std.js';
-import { IMAGE_JPEG, LONG_MESSAGE } from '../../types/MIME.std.js';
-import { generateMessageId } from '../../util/generateMessageId.node.js';
-import { ensureBodyAttachmentsAreSeparated } from '../../util/queueAttachmentDownloads.preload.js';
-import { createLogger } from '../../logging/log.std.js';
+import type { AttachmentType } from '../../types/Attachment.std.ts';
+import { IMAGE_JPEG, LONG_MESSAGE } from '../../types/MIME.std.ts';
+import { generateMessageId } from '../../util/generateMessageId.node.ts';
+import { ensureBodyAttachmentsAreSeparated } from '../../util/queueAttachmentDownloads.preload.ts';
+import { createLogger } from '../../logging/log.std.ts';
 
 const logger = createLogger('queueAttachmentDownloads_test');
 

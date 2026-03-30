@@ -3,7 +3,7 @@
 
 import lodash from 'lodash';
 import type { ReadonlyMessageAttributesType } from '../model-types.d.ts';
-import { isLongMessage } from '../types/MIME.std.js';
+import { isLongMessage } from '../types/MIME.std.ts';
 
 const { partition } = lodash;
 

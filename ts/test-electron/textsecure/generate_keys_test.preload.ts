@@ -3,18 +3,18 @@
 
 import { assert } from 'chai';
 
-import { constantTimeEqual } from '../../Crypto.node.js';
-import { generateKeyPair } from '../../Curve.node.js';
+import { constantTimeEqual } from '../../Crypto.node.ts';
+import { generateKeyPair } from '../../Curve.node.ts';
 import type {
   UploadKeysType,
   UploadPreKeyType,
-} from '../../textsecure/WebAPI.preload.js';
-import AccountManager from '../../textsecure/AccountManager.preload.js';
-import { ServiceIdKind } from '../../types/ServiceId.std.js';
-import { normalizeAci } from '../../util/normalizeAci.std.js';
-import { DataWriter } from '../../sql/Client.preload.js';
-import { signalProtocolStore } from '../../SignalProtocolStore.preload.js';
-import { itemStorage } from '../../textsecure/Storage.preload.js';
+} from '../../textsecure/WebAPI.preload.ts';
+import AccountManager from '../../textsecure/AccountManager.preload.ts';
+import { ServiceIdKind } from '../../types/ServiceId.std.ts';
+import { normalizeAci } from '../../util/normalizeAci.std.ts';
+import { DataWriter } from '../../sql/Client.preload.ts';
+import { signalProtocolStore } from '../../SignalProtocolStore.preload.ts';
+import { itemStorage } from '../../textsecure/Storage.preload.ts';
 
 const assertEqualBuffers = (
   a: Uint8Array<ArrayBuffer>,

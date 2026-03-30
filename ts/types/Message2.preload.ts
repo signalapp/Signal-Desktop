@@ -4,13 +4,13 @@
 import lodash from 'lodash';
 import type { ReadonlyDeep } from 'type-fest';
 
-import * as Contact from './EmbeddedContact.std.js';
+import * as Contact from './EmbeddedContact.std.ts';
 import type {
   AddressableAttachmentType,
   AttachmentType,
   AttachmentWithHydratedData,
   LocalAttachmentV2Type,
-} from './Attachment.std.js';
+} from './Attachment.std.ts';
 import {
   isAudio,
   isVoiceMessage,
@@ -18,20 +18,20 @@ import {
   replaceUnicodeOrderOverrides,
   replaceUnicodeV2,
   shouldGenerateThumbnailForAttachmentType,
-} from '../util/Attachment.std.js';
-import { captureDimensionsAndScreenshot } from '../util/captureDimensionsAndScreenshot.dom.js';
-import { captureAudioDuration } from '../util/captureAudioDuration.dom.js';
-import type { MakeVideoScreenshotResultType } from './VisualAttachment.dom.js';
-import * as Errors from './errors.std.js';
-import * as SchemaVersion from './SchemaVersion.std.js';
+} from '../util/Attachment.std.ts';
+import { captureDimensionsAndScreenshot } from '../util/captureDimensionsAndScreenshot.dom.ts';
+import { captureAudioDuration } from '../util/captureAudioDuration.dom.ts';
+import type { MakeVideoScreenshotResultType } from './VisualAttachment.dom.ts';
+import * as Errors from './errors.std.ts';
+import * as SchemaVersion from './SchemaVersion.std.ts';
 
-import { LONG_MESSAGE } from './MIME.std.js';
-import type * as MIME from './MIME.std.js';
-import type { LoggerType } from './Logging.std.js';
+import { LONG_MESSAGE } from './MIME.std.ts';
+import type * as MIME from './MIME.std.ts';
+import type { LoggerType } from './Logging.std.ts';
 import type {
   EmbeddedContactType,
   EmbeddedContactWithHydratedAvatar,
-} from './EmbeddedContact.std.js';
+} from './EmbeddedContact.std.ts';
 
 import type {
   MessageAttributesType,
@@ -41,26 +41,26 @@ import type {
 import type {
   LinkPreviewType,
   LinkPreviewWithHydratedData,
-} from './message/LinkPreviews.std.js';
+} from './message/LinkPreviews.std.ts';
 import type {
   StickerType,
   StickerWithHydratedData,
-} from './Stickers.preload.js';
-import { migrateDataToFileSystem } from '../util/attachments/migrateDataToFilesystem.std.js';
+} from './Stickers.preload.ts';
+import { migrateDataToFileSystem } from '../util/attachments/migrateDataToFilesystem.std.ts';
 import {
   getLocalAttachmentUrl,
   AttachmentDisposition,
-} from '../util/getLocalAttachmentUrl.std.js';
-import { encryptLegacyAttachment } from '../util/encryptLegacyAttachment.preload.js';
-import { deepClone } from '../util/deepClone.std.js';
-import * as Bytes from '../Bytes.std.js';
-import { isBodyTooLong } from '../util/longAttachment.std.js';
-import type { MessageAttachmentType } from './AttachmentDownload.std.js';
-import type { getExistingAttachmentDataForReuse } from '../util/attachments/deduplicateAttachment.preload.js';
-import type { getPlaintextHashForInMemoryAttachment } from '../AttachmentCrypto.node.js';
-import { strictAssert } from '../util/assert.std.js';
+} from '../util/getLocalAttachmentUrl.std.ts';
+import { encryptLegacyAttachment } from '../util/encryptLegacyAttachment.preload.ts';
+import { deepClone } from '../util/deepClone.std.ts';
+import * as Bytes from '../Bytes.std.ts';
+import { isBodyTooLong } from '../util/longAttachment.std.ts';
+import type { MessageAttachmentType } from './AttachmentDownload.std.ts';
+import type { getExistingAttachmentDataForReuse } from '../util/attachments/deduplicateAttachment.preload.ts';
+import type { getPlaintextHashForInMemoryAttachment } from '../AttachmentCrypto.node.ts';
+import { strictAssert } from '../util/assert.std.ts';
 
-const { isFunction, isObject, identity } = lodash;
+const { isFunction, isObject } = lodash;
 
 export const GROUP = 'group';
 export const PRIVATE = 'private';
@@ -288,11 +288,6 @@ export type UpgradeAttachmentType = (
   message: MessageAttributesType
 ) => Promise<AttachmentType>;
 
-// As regrettable as it is we have to fight back against esbuild's `__name`
-// wrapper for functions that are created at high rate, because `__name` affects
-// runtime performance.
-const esbuildAnonymize = identity;
-
 export const _mapAttachments =
   (upgradeAttachment: UpgradeAttachmentType) =>
   async (
@@ -303,9 +298,8 @@ export const _mapAttachments =
       return message;
     }
 
-    const upgradeWithContext = esbuildAnonymize((attachment: AttachmentType) =>
-      upgradeAttachment(attachment, context, message)
-    );
+    const upgradeWithContext = (attachment: AttachmentType) =>
+      upgradeAttachment(attachment, context, message);
     const attachments = await Promise.all(
       (message.attachments || []).map(upgradeWithContext)
     );
@@ -378,10 +372,8 @@ export const _mapContact =
       return message;
     }
 
-    const upgradeWithContext = esbuildAnonymize(
-      (contact: EmbeddedContactType) =>
-        upgradeContact(contact, context, message)
-    );
+    const upgradeWithContext = (contact: EmbeddedContactType) =>
+      upgradeContact(contact, context, message);
     const contact = await Promise.all(
       (message.contact || []).map(upgradeWithContext)
     );
@@ -404,23 +396,21 @@ export const _mapQuotedAttachments =
       throw new Error('_mapQuotedAttachments: context must have logger object');
     }
 
-    const upgradeWithContext = esbuildAnonymize(
-      async (
-        attachment: QuotedAttachmentType
-      ): Promise<QuotedAttachmentType> => {
-        const { thumbnail } = attachment;
-        if (!thumbnail) {
-          return attachment;
-        }
-
-        const upgradedThumbnail = await upgradeAttachment(
-          thumbnail as AttachmentType,
-          context,
-          message
-        );
-        return { ...attachment, thumbnail: upgradedThumbnail };
+    const upgradeWithContext = async (
+      attachment: QuotedAttachmentType
+    ): Promise<QuotedAttachmentType> => {
+      const { thumbnail } = attachment;
+      if (!thumbnail) {
+        return attachment;
       }
-    );
+
+      const upgradedThumbnail = await upgradeAttachment(
+        thumbnail as AttachmentType,
+        context,
+        message
+      );
+      return { ...attachment, thumbnail: upgradedThumbnail };
+    };
 
     const quotedAttachments =
       (message.quote && message.quote.attachments) || [];
@@ -449,17 +439,15 @@ export const _mapPreviewAttachments =
       );
     }
 
-    const upgradeWithContext = esbuildAnonymize(
-      async (preview: LinkPreviewType) => {
-        const { image } = preview;
-        if (!image) {
-          return preview;
-        }
-
-        const upgradedImage = await upgradeAttachment(image, context, message);
-        return { ...preview, image: upgradedImage };
+    const upgradeWithContext = async (preview: LinkPreviewType) => {
+      const { image } = preview;
+      if (!image) {
+        return preview;
       }
-    );
+
+      const upgradedImage = await upgradeAttachment(image, context, message);
+      return { ...preview, image: upgradedImage };
+    };
 
     const preview = await Promise.all(
       (message.preview || []).map(upgradeWithContext)
@@ -527,29 +515,27 @@ const toVersion10 = _withSchemaVersion({
   schemaVersion: 10,
   upgrade: async (message, context) => {
     const processPreviews = _mapPreviewAttachments(migrateDataToFileSystem);
-    const processSticker = esbuildAnonymize(
-      async (
-        stickerMessage: MessageAttributesType,
-        stickerContext: ContextType
-      ): Promise<MessageAttributesType> => {
-        const { sticker } = stickerMessage;
-        if (!sticker || !sticker.data || !sticker.data.data) {
-          return stickerMessage;
-        }
-
-        return {
-          ...stickerMessage,
-          sticker: {
-            ...sticker,
-            data: await migrateDataToFileSystem(
-              sticker.data,
-              stickerContext,
-              stickerMessage
-            ),
-          },
-        };
+    const processSticker = async (
+      stickerMessage: MessageAttributesType,
+      stickerContext: ContextType
+    ): Promise<MessageAttributesType> => {
+      const { sticker } = stickerMessage;
+      if (!sticker || !sticker.data || !sticker.data.data) {
+        return stickerMessage;
       }
-    );
+
+      return {
+        ...stickerMessage,
+        sticker: {
+          ...sticker,
+          data: await migrateDataToFileSystem(
+            sticker.data,
+            stickerContext,
+            stickerMessage
+          ),
+        },
+      };
+    };
 
     const previewProcessed = await processPreviews(message, context);
     const stickerProcessed = await processSticker(previewProcessed, context);

@@ -4,27 +4,27 @@
 import type { MenuItemConstructorOptions } from 'electron';
 import { ipcRenderer } from 'electron';
 
-import type { MenuOptionsType } from '../types/menu.std.js';
-import type { LocaleEmojiListType } from '../types/emoji.std.js';
-import { LocaleEmojiListSchema } from '../types/emoji.std.js';
+import type { MenuOptionsType } from '../types/menu.std.ts';
+import type { LocaleEmojiListType } from '../types/emoji.std.ts';
+import { LocaleEmojiListSchema } from '../types/emoji.std.ts';
 import type {
   MainWindowStatsType,
   MinimalSignalContextType,
-} from './context.preload.js';
-import { activeWindowService } from '../context/activeWindowService.preload.js';
-import { config } from '../context/config.preload.js';
-import { createNativeThemeListener } from '../context/createNativeThemeListener.std.js';
-import { createSetting } from '../util/preload.preload.js';
-import { setupI18n } from '../util/setupI18n.dom.js';
-import { environment } from '../context/environment.preload.js';
+} from './context.preload.ts';
+import { activeWindowService } from '../context/activeWindowService.preload.ts';
+import { config } from '../context/config.preload.ts';
+import { createNativeThemeListener } from '../context/createNativeThemeListener.std.ts';
+import { createSetting } from '../util/preload.preload.ts';
+import { setupI18n } from '../util/setupI18n.dom.tsx';
+import { environment } from '../context/environment.preload.ts';
 import {
   localeDisplayNames,
   countryDisplayNames,
   localeMessages,
-} from '../context/localeMessages.preload.js';
-import { waitForSettingsChange } from '../context/waitForSettingsChange.preload.js';
-import { isTestOrMockEnvironment } from '../environment.std.js';
-import { parseUnknown } from '../util/schemas.std.js';
+} from '../context/localeMessages.preload.ts';
+import { waitForSettingsChange } from '../context/waitForSettingsChange.preload.ts';
+import { isTestOrMockEnvironment } from '../environment.std.ts';
+import { parseUnknown } from '../util/schemas.std.ts';
 
 const emojiListCache = new Map<string, LocaleEmojiListType>();
 

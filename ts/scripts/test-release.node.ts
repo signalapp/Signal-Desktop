@@ -9,9 +9,9 @@ import { mkdtemp, cp } from 'node:fs/promises';
 import { constants as fsConstants } from 'node:fs';
 import { _electron as electron } from 'playwright';
 
-import { packageJson } from '../util/packageJson.node.js';
-import { gracefulRmRecursive } from '../util/gracefulFs.node.js';
-import { consoleLogger } from '../util/consoleLogger.std.js';
+import { packageJson } from '../util/packageJson.node.ts';
+import { gracefulRmRecursive } from '../util/gracefulFs.node.ts';
+import { consoleLogger } from '../util/consoleLogger.std.ts';
 
 const ENVIRONMENT = 'production';
 const RELEASE_DIR = join(__dirname, '..', '..', 'release');

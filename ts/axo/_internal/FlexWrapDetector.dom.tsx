@@ -1,7 +1,7 @@
 // Copyright 2026 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import React, { memo, type ReactNode } from 'react';
-import { tw } from '../tw.dom.js';
+import { tw } from '../tw.dom.tsx';
 
 export type FlexWrapDetectorProps = Readonly<{
   children: ReactNode;

@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 
-import { isLinkPreviewDateValid } from '../../linkPreviews/isLinkPreviewDateValid.std.js';
+import { isLinkPreviewDateValid } from '../../linkPreviews/isLinkPreviewDateValid.std.ts';
 
 describe('isLinkPreviewDateValid', () => {
   it('returns false for non-numbers', () => {

@@ -3,17 +3,17 @@
 
 import type { KeyboardEvent } from 'react';
 import React from 'react';
-import type { AttachmentType } from '../../types/Attachment.std.js';
-import { canBeDownloaded, isDownloaded } from '../../util/Attachment.std.js';
-import type { ShowConversationType } from '../../state/ducks/conversations.preload.js';
-import type { HydratedBodyRangesType } from '../../types/BodyRange.std.js';
-import type { LocalizerType } from '../../types/Util.std.js';
-import { MessageTextRenderer } from './MessageTextRenderer.dom.js';
-import type { RenderLocation } from './MessageTextRenderer.dom.js';
-import { UserText } from '../UserText.dom.js';
-import { shouldLinkifyMessage } from '../../types/LinkPreview.std.js';
-import { FunJumboEmojiSize } from '../fun/FunEmoji.dom.js';
-import { getEmojifyData } from '../fun/data/emojis.std.js';
+import type { AttachmentType } from '../../types/Attachment.std.ts';
+import { canBeDownloaded, isDownloaded } from '../../util/Attachment.std.ts';
+import type { ShowConversationType } from '../../state/ducks/conversations.preload.ts';
+import type { HydratedBodyRangesType } from '../../types/BodyRange.std.ts';
+import type { LocalizerType } from '../../types/Util.std.ts';
+import { MessageTextRenderer } from './MessageTextRenderer.dom.tsx';
+import type { RenderLocation } from './MessageTextRenderer.dom.tsx';
+import { UserText } from '../UserText.dom.tsx';
+import { shouldLinkifyMessage } from '../../types/LinkPreview.std.ts';
+import { FunJumboEmojiSize } from '../fun/FunEmoji.dom.tsx';
+import { getEmojifyData } from '../fun/data/emojis.std.ts';
 
 function getSizeClass(str: string): FunJumboEmojiSize | null {
   const emojifyData = getEmojifyData(str);

@@ -6,15 +6,15 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import classNames from 'classnames';
 import { animated, useSpring } from '@react-spring/web';
 
-import { TypingAnimation } from './TypingAnimation.dom.js';
-import { Avatar } from '../Avatar.dom.js';
+import { TypingAnimation } from './TypingAnimation.dom.tsx';
+import { Avatar } from '../Avatar.dom.tsx';
 
-import type { LocalizerType, ThemeType } from '../../types/Util.std.js';
-import type { ConversationType } from '../../state/ducks/conversations.preload.js';
-import type { PreferredBadgeSelectorType } from '../../state/selectors/badges.preload.js';
-import { drop } from '../../util/drop.std.js';
-import { useReducedMotion } from '../../hooks/useReducedMotion.dom.js';
-import type { ContactModalStateType } from '../../types/globalModals.std.js';
+import type { LocalizerType, ThemeType } from '../../types/Util.std.ts';
+import type { ConversationType } from '../../state/ducks/conversations.preload.ts';
+import type { PreferredBadgeSelectorType } from '../../state/selectors/badges.preload.ts';
+import { drop } from '../../util/drop.std.ts';
+import { useReducedMotion } from '../../hooks/useReducedMotion.dom.ts';
+import type { ContactModalStateType } from '../../types/globalModals.std.ts';
 
 const MAX_AVATARS_COUNT = 3;
 

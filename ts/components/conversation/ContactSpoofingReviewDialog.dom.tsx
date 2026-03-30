@@ -4,23 +4,23 @@
 import type { ReactNode } from 'react';
 import React, { useState } from 'react';
 
-import type { LocalizerType, ThemeType } from '../../types/Util.std.js';
-import type { ConversationType } from '../../state/ducks/conversations.preload.js';
-import type { PreferredBadgeSelectorType } from '../../state/selectors/badges.preload.js';
+import type { LocalizerType, ThemeType } from '../../types/Util.std.ts';
+import type { ConversationType } from '../../state/ducks/conversations.preload.ts';
+import type { PreferredBadgeSelectorType } from '../../state/selectors/badges.preload.ts';
 import {
   MessageRequestActionsConfirmation,
   MessageRequestState,
-} from './MessageRequestActionsConfirmation.dom.js';
-import { ContactSpoofingType } from '../../util/contactSpoofing.std.js';
+} from './MessageRequestActionsConfirmation.dom.tsx';
+import { ContactSpoofingType } from '../../util/contactSpoofing.std.ts';
 
-import { Modal } from '../Modal.dom.js';
-import { RemoveGroupMemberConfirmationDialog } from './RemoveGroupMemberConfirmationDialog.dom.js';
-import { ContactSpoofingReviewDialogPerson } from './ContactSpoofingReviewDialogPerson.dom.js';
-import { Button, ButtonVariant } from '../Button.dom.js';
-import { assertDev } from '../../util/assert.std.js';
-import { missingCaseError } from '../../util/missingCaseError.std.js';
-import { isInSystemContacts } from '../../util/isInSystemContacts.std.js';
-import type { ContactModalStateType } from '../../types/globalModals.std.js';
+import { Modal } from '../Modal.dom.tsx';
+import { RemoveGroupMemberConfirmationDialog } from './RemoveGroupMemberConfirmationDialog.dom.tsx';
+import { ContactSpoofingReviewDialogPerson } from './ContactSpoofingReviewDialogPerson.dom.tsx';
+import { Button, ButtonVariant } from '../Button.dom.tsx';
+import { assertDev } from '../../util/assert.std.ts';
+import { missingCaseError } from '../../util/missingCaseError.std.ts';
+import { isInSystemContacts } from '../../util/isInSystemContacts.std.ts';
+import type { ContactModalStateType } from '../../types/globalModals.std.ts';
 
 export type ReviewPropsType = Readonly<
   | {

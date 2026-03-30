@@ -3,32 +3,32 @@
 
 import lodash from 'lodash';
 
-import { createLogger } from '../logging/log.std.js';
+import { createLogger } from '../logging/log.std.ts';
 
-import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary.std.js';
-import { isInPast, isMoreRecentThan } from '../util/timestamp.std.js';
-import { getMessageQueueTime } from '../util/getMessageQueueTime.dom.js';
-import { drop } from '../util/drop.std.js';
-import { DataReader, DataWriter } from '../sql/Client.preload.js';
+import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary.std.ts';
+import { isInPast, isMoreRecentThan } from '../util/timestamp.std.ts';
+import { getMessageQueueTime } from '../util/getMessageQueueTime.dom.ts';
+import { drop } from '../util/drop.std.ts';
+import { DataReader, DataWriter } from '../sql/Client.preload.ts';
 import {
   findNextProfileEvent,
   redactNotificationProfileId,
-} from '../types/NotificationProfile.std.js';
+} from '../types/NotificationProfile.std.ts';
 import {
   getActiveProfile,
   getCurrentState,
   getDeletedProfiles,
   getOverride,
   getProfiles,
-} from '../state/selectors/notificationProfiles.dom.js';
-import { safeSetTimeout } from '../util/timeout.std.js';
-import { ToastType } from '../types/Toast.dom.js';
-import { toLogFormat } from '../types/errors.std.js';
+} from '../state/selectors/notificationProfiles.dom.ts';
+import { safeSetTimeout } from '../util/timeout.std.ts';
+import { ToastType } from '../types/Toast.dom.tsx';
+import { toLogFormat } from '../types/errors.std.ts';
 
 import type {
   NextProfileEvent,
   NotificationProfileType,
-} from '../types/NotificationProfile.std.js';
+} from '../types/NotificationProfile.std.ts';
 
 const { debounce, isEqual, isNumber } = lodash;
 

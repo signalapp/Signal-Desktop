@@ -3,13 +3,13 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
-import type { LocalizerType } from '../types/Util.std.js';
-import { Avatar, AvatarBlur } from './Avatar.dom.js';
-import { Spinner } from './Spinner.dom.js';
-import { Button, ButtonVariant } from './Button.dom.js';
-import { GroupDescription } from './conversation/GroupDescription.dom.js';
+import type { LocalizerType } from '../types/Util.std.ts';
+import { Avatar, AvatarBlur } from './Avatar.dom.tsx';
+import { Spinner } from './Spinner.dom.tsx';
+import { Button, ButtonVariant } from './Button.dom.tsx';
+import { GroupDescription } from './conversation/GroupDescription.dom.tsx';
 
-import type { PreJoinConversationType } from '../state/ducks/conversations.preload.js';
+import type { PreJoinConversationType } from '../state/ducks/conversations.preload.ts';
 
 type CallbackType = () => unknown;
 

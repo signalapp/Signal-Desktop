@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 
-import { getDefaultAvatars } from '../../types/Avatar.std.js';
+import { getDefaultAvatars } from '../../types/Avatar.std.ts';
 
 describe('Avatar', () => {
   describe('getDefaultAvatars', () => {

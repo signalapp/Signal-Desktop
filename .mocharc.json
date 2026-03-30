@@ -1,3 +1,4 @@
 {
-  "checkLeaks": true
+  "checkLeaks": true,
+  "node-option": ["import=tsx"]
 }

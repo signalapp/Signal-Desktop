@@ -3,10 +3,10 @@
 
 import React, { useEffect } from 'react';
 
-import type { LocalizerType } from '../types/Util.std.js';
-import { TitlebarDragArea } from './TitlebarDragArea.dom.js';
-import { ProgressBar } from './ProgressBar.dom.js';
-import { InstallScreenSignalLogo } from './installScreen/InstallScreenSignalLogo.dom.js';
+import type { LocalizerType } from '../types/Util.std.ts';
+import { TitlebarDragArea } from './TitlebarDragArea.dom.tsx';
+import { ProgressBar } from './ProgressBar.dom.tsx';
+import { InstallScreenSignalLogo } from './installScreen/InstallScreenSignalLogo.dom.tsx';
 
 export type PropsType = {
   deleteAllData: () => void;

@@ -3,10 +3,10 @@
 
 import { z } from 'zod';
 
-import { Environment } from '../environment.std.js';
-import { HourCyclePreferenceSchema } from './I18N.std.js';
-import { DNSFallbackSchema } from './DNSFallback.std.js';
-import { themeSettingSchema } from '../util/theme.std.js';
+import { Environment } from '../environment.std.ts';
+import { HourCyclePreferenceSchema } from './I18N.std.ts';
+import { DNSFallbackSchema } from './DNSFallback.std.ts';
+import { themeSettingSchema } from '../util/theme.std.ts';
 
 const environmentSchema = z.nativeEnum(Environment);
 

@@ -3,9 +3,9 @@
 
 import React from 'react';
 import { action } from '@storybook/addon-actions';
-import type { ComponentMeta } from '../storybook/types.std.js';
-import type { ChatsTabProps } from './ChatsTab.dom.js';
-import { ChatsTab } from './ChatsTab.dom.js';
+import type { ComponentMeta } from '../storybook/types.std.ts';
+import type { ChatsTabProps } from './ChatsTab.dom.tsx';
+import { ChatsTab } from './ChatsTab.dom.tsx';
 
 const { i18n } = window.SignalContext;
 

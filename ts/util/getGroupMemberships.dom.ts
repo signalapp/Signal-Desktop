@@ -2,15 +2,15 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 // oxlint-disable-next-line signal-desktop/no-restricted-paths
-import type { GroupV2Membership } from '../components/conversation/conversation-details/ConversationDetailsMembershipList.dom.js';
+import type { GroupV2Membership } from '../components/conversation/conversation-details/ConversationDetailsMembershipList.dom.tsx';
 import type {
   GroupV2PendingMembership,
   GroupV2RequestingMembership,
   // oxlint-disable-next-line signal-desktop/no-restricted-paths
-} from '../components/conversation/conversation-details/PendingInvites.dom.js';
-import type { ConversationType } from '../state/ducks/conversations.preload.js';
-import type { ServiceIdString } from '../types/ServiceId.std.js';
-import { isConversationUnregistered } from './isConversationUnregistered.dom.js';
+} from '../components/conversation/conversation-details/PendingInvites.dom.tsx';
+import type { ConversationType } from '../state/ducks/conversations.preload.ts';
+import type { ServiceIdString } from '../types/ServiceId.std.ts';
+import { isConversationUnregistered } from './isConversationUnregistered.dom.ts';
 
 export type GroupMemberships = {
   memberships: ReadonlyArray<GroupV2Membership>;

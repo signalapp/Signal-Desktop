@@ -6,10 +6,10 @@ import React from 'react';
 import casual from 'casual';
 
 import { action } from '@storybook/addon-actions';
-import type { PropsType } from './StoryDetailsModal.dom.js';
-import { SendStatus } from '../messages/MessageSendState.std.js';
-import { StoryDetailsModal } from './StoryDetailsModal.dom.js';
-import { getDefaultConversation } from '../test-helpers/getDefaultConversation.std.js';
+import type { PropsType } from './StoryDetailsModal.dom.tsx';
+import { SendStatus } from '../messages/MessageSendState.std.ts';
+import { StoryDetailsModal } from './StoryDetailsModal.dom.tsx';
+import { getDefaultConversation } from '../test-helpers/getDefaultConversation.std.ts';
 
 const { i18n } = window.SignalContext;
 

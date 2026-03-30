@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import React, { useState } from 'react';
 import type { Meta } from '@storybook/react';
-import { AxoCheckbox } from './AxoCheckbox.dom.js';
-import { tw } from './tw.dom.js';
+import { AxoCheckbox } from './AxoCheckbox.dom.tsx';
+import { tw } from './tw.dom.tsx';
 
 export default {
   title: 'Axo/AxoCheckbox',

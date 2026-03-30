@@ -11,15 +11,15 @@ import { Popper } from 'react-popper';
 import classNames from 'classnames';
 import { createPortal } from 'react-dom';
 
-import { Avatar, AvatarSize } from '../../components/Avatar.dom.js';
-import type { LocalizerType, ThemeType } from '../../types/Util.std.js';
-import type { MemberType, MemberRepository } from '../memberRepository.std.js';
-import type { PreferredBadgeSelectorType } from '../../state/selectors/badges.preload.js';
-import { matchBlotTextPartitions } from '../util.dom.js';
-import type { MentionBlotValue } from '../util.dom.js';
-import { handleOutsideClick } from '../../util/handleOutsideClick.dom.js';
-import { sameWidthModifier } from '../../util/popperUtil.std.js';
-import { UserText } from '../../components/UserText.dom.js';
+import { Avatar, AvatarSize } from '../../components/Avatar.dom.tsx';
+import type { LocalizerType, ThemeType } from '../../types/Util.std.ts';
+import type { MemberType, MemberRepository } from '../memberRepository.std.ts';
+import type { PreferredBadgeSelectorType } from '../../state/selectors/badges.preload.ts';
+import { matchBlotTextPartitions } from '../util.dom.ts';
+import type { MentionBlotValue } from '../util.dom.ts';
+import { handleOutsideClick } from '../../util/handleOutsideClick.dom.ts';
+import { sameWidthModifier } from '../../util/popperUtil.std.ts';
+import { UserText } from '../../components/UserText.dom.tsx';
 
 export type MentionCompletionOptions = {
   getPreferredBadge: PreferredBadgeSelectorType;

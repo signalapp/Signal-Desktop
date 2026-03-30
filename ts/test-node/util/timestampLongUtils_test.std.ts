@@ -9,11 +9,11 @@ import {
   getTimestampOrUndefinedFromLong,
   getCheckedTimestampFromLong,
   getCheckedTimestampOrUndefinedFromLong,
-} from '../../util/timestampLongUtils.std.js';
-import { MAX_SAFE_DATE } from '../../util/timestamp.std.js';
-import { MAX_VALUE } from '../../util/long.std.js';
+} from '../../util/timestampLongUtils.std.ts';
+import { MAX_SAFE_DATE } from '../../util/timestamp.std.ts';
+import { MAX_VALUE } from '../../util/long.std.ts';
 
-import { toNumber } from '../../util/toNumber.std.js';
+import { toNumber } from '../../util/toNumber.std.ts';
 
 describe('getSafeLongFromTimestamp', () => {
   it('returns zero when passed undefined', () => {

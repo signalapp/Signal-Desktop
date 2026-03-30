@@ -5,30 +5,30 @@ import type { ReactNode } from 'react';
 import React from 'react';
 import lodash from 'lodash';
 
-import { SystemMessage, SystemMessageKind } from './SystemMessage.dom.js';
-import { Button, ButtonSize, ButtonVariant } from '../Button.dom.js';
-import { MessageTimestamp } from './MessageTimestamp.dom.js';
-import type { LocalizerType } from '../../types/Util.std.js';
+import { SystemMessage, SystemMessageKind } from './SystemMessage.dom.tsx';
+import { Button, ButtonSize, ButtonVariant } from '../Button.dom.tsx';
+import { MessageTimestamp } from './MessageTimestamp.dom.tsx';
+import type { LocalizerType } from '../../types/Util.std.ts';
 import {
   CallMode,
   CallDirection,
   CallType,
   DirectCallStatus,
   GroupCallStatus,
-} from '../../types/CallDisposition.std.js';
-import type { CallingNotificationType } from '../../util/callingNotification.std.js';
+} from '../../types/CallDisposition.std.ts';
+import type { CallingNotificationType } from '../../util/callingNotification.std.ts';
 import {
   getCallingIcon,
   getCallingNotificationText,
-} from '../../util/callingNotification.std.js';
-import { missingCaseError } from '../../util/missingCaseError.std.js';
-import { Tooltip, TooltipPlacement } from '../Tooltip.dom.js';
-import { createLogger } from '../../logging/log.std.js';
-import { MessageContextMenu } from './MessageContextMenu.dom.js';
-import type { DeleteMessagesPropsType } from '../../state/ducks/globalModals.preload.js';
-import { MINUTE } from '../../util/durations/index.std.js';
-import { isMoreRecentThan } from '../../util/timestamp.std.js';
-import { InAnotherCallTooltip } from './InAnotherCallTooltip.dom.js';
+} from '../../util/callingNotification.std.ts';
+import { missingCaseError } from '../../util/missingCaseError.std.ts';
+import { Tooltip, TooltipPlacement } from '../Tooltip.dom.tsx';
+import { createLogger } from '../../logging/log.std.ts';
+import { MessageContextMenu } from './MessageContextMenu.dom.tsx';
+import type { DeleteMessagesPropsType } from '../../state/ducks/globalModals.preload.ts';
+import { MINUTE } from '../../util/durations/index.std.ts';
+import { isMoreRecentThan } from '../../util/timestamp.std.ts';
+import { InAnotherCallTooltip } from './InAnotherCallTooltip.dom.tsx';
 
 const { noop } = lodash;
 

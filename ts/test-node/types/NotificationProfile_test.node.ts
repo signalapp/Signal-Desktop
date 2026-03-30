@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 
-import { DAY, HOUR, MINUTE } from '../../util/durations/index.std.js';
+import { DAY, HOUR, MINUTE } from '../../util/durations/index.std.ts';
 
 import {
   DayOfWeek,
@@ -14,13 +14,13 @@ import {
   getStartTime,
   loopThroughWeek,
   sortProfiles,
-} from '../../types/NotificationProfile.std.js';
-import { generateNotificationProfileId } from '../../types/NotificationProfile-node.node.js';
+} from '../../types/NotificationProfile.std.ts';
+import { generateNotificationProfileId } from '../../types/NotificationProfile-node.node.ts';
 
 import type {
   NextProfileEvent,
   NotificationProfileType,
-} from '../../types/NotificationProfile.std.js';
+} from '../../types/NotificationProfile.std.ts';
 
 describe('NotificationProfile', () => {
   const startingTime = Date.now();

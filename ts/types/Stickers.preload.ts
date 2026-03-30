@@ -5,31 +5,31 @@ import lodash from 'lodash';
 import pMap from 'p-map';
 import Queue from 'p-queue';
 
-import { strictAssert } from '../util/assert.std.js';
-import { dropNull } from '../util/dropNull.std.js';
-import { makeLookup } from '../util/makeLookup.std.js';
-import { maybeParseUrl } from '../util/url.std.js';
-import { getMessagesById } from '../messages/getMessagesById.preload.js';
-import * as Bytes from '../Bytes.std.js';
-import * as Errors from './errors.std.js';
-import { deriveStickerPackKey, decryptAttachmentV1 } from '../Crypto.node.js';
-import { IMAGE_WEBP, type MIMEType } from './MIME.std.js';
-import { sniffImageMimeType } from '../util/sniffImageMimeType.std.js';
+import { strictAssert } from '../util/assert.std.ts';
+import { dropNull } from '../util/dropNull.std.ts';
+import { makeLookup } from '../util/makeLookup.std.ts';
+import { maybeParseUrl } from '../util/url.std.ts';
+import { getMessagesById } from '../messages/getMessagesById.preload.ts';
+import * as Bytes from '../Bytes.std.ts';
+import * as Errors from './errors.std.ts';
+import { deriveStickerPackKey, decryptAttachmentV1 } from '../Crypto.node.ts';
+import { IMAGE_WEBP, type MIMEType } from './MIME.std.ts';
+import { sniffImageMimeType } from '../util/sniffImageMimeType.std.ts';
 import type {
   AttachmentType,
   AttachmentWithHydratedData,
-} from './Attachment.std.js';
+} from './Attachment.std.ts';
 import type {
   StickerType as StickerFromDBType,
   StickerPackType,
   StickerPackStatusType,
   UninstalledStickerPackType,
-} from '../sql/Interface.std.js';
-import { DataReader, DataWriter } from '../sql/Client.preload.js';
-import { SignalService as Proto } from '../protobuf/index.std.js';
-import { createLogger } from '../logging/log.std.js';
-import type { StickersStateType } from '../state/ducks/stickers.preload.js';
-import { MINUTE } from '../util/durations/index.std.js';
+} from '../sql/Interface.std.ts';
+import { DataReader, DataWriter } from '../sql/Client.preload.ts';
+import { SignalService as Proto } from '../protobuf/index.std.ts';
+import { createLogger } from '../logging/log.std.ts';
+import type { StickersStateType } from '../state/ducks/stickers.preload.ts';
+import { MINUTE } from '../util/durations/index.std.ts';
 import {
   processNewEphemeralSticker,
   processNewSticker,
@@ -38,19 +38,19 @@ import {
   readStickerData,
   writeNewStickerData,
   writeNewAttachmentData,
-} from '../util/migrations.preload.js';
-import { drop } from '../util/drop.std.js';
-import { isNotNil } from '../util/isNotNil.std.js';
-import { encryptLegacyAttachment } from '../util/encryptLegacyAttachment.preload.js';
-import { AttachmentDisposition } from '../util/getLocalAttachmentUrl.std.js';
-import { isPackIdValid, redactPackId } from '../util/Stickers.std.js';
-import { getPlaintextHashForInMemoryAttachment } from '../AttachmentCrypto.node.js';
+} from '../util/migrations.preload.ts';
+import { drop } from '../util/drop.std.ts';
+import { isNotNil } from '../util/isNotNil.std.ts';
+import { encryptLegacyAttachment } from '../util/encryptLegacyAttachment.preload.ts';
+import { AttachmentDisposition } from '../util/getLocalAttachmentUrl.std.ts';
+import { isPackIdValid, redactPackId } from '../util/Stickers.std.ts';
+import { getPlaintextHashForInMemoryAttachment } from '../AttachmentCrypto.node.ts';
 import {
   isOnline,
   getSticker as doGetSticker,
   getStickerPackManifest,
-} from '../textsecure/WebAPI.preload.js';
-import { getExistingAttachmentDataForReuse } from '../util/attachments/deduplicateAttachment.preload.js';
+} from '../textsecure/WebAPI.preload.ts';
+import { getExistingAttachmentDataForReuse } from '../util/attachments/deduplicateAttachment.preload.ts';
 
 const { isNumber, reject, groupBy, values, chunk } = lodash;
 

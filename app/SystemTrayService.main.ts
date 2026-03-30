@@ -6,9 +6,9 @@ import { Menu, Tray, app, nativeImage, nativeTheme, screen } from 'electron';
 import os from 'node:os';
 import { join } from 'node:path';
 import { readFileSync } from 'node:fs';
-import { createLogger } from '../ts/logging/log.std.js';
-import type { LocalizerType } from '../ts/types/I18N.std.js';
-import { getAppRootDir } from '../ts/util/appRootDir.main.js';
+import { createLogger } from '../ts/logging/log.std.ts';
+import type { LocalizerType } from '../ts/types/I18N.std.ts';
+import { getAppRootDir } from '../ts/util/appRootDir.main.ts';
 
 const log = createLogger('SystemTrayService');
 

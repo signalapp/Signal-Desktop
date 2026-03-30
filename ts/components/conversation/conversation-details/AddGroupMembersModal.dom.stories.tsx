@@ -6,17 +6,17 @@ import React, { useState } from 'react';
 import lodash from 'lodash';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import { sleep } from '../../../util/sleep.std.js';
-import { makeLookup } from '../../../util/makeLookup.std.js';
-import { deconstructLookup } from '../../../util/deconstructLookup.std.js';
-import type { ConversationType } from '../../../state/ducks/conversations.preload.js';
-import { getDefaultConversation } from '../../../test-helpers/getDefaultConversation.std.js';
-import { AddGroupMembersModal } from './AddGroupMembersModal.dom.js';
-import { ChooseGroupMembersModal } from './AddGroupMembersModal/ChooseGroupMembersModal.dom.js';
-import { ConfirmAdditionsModal } from './AddGroupMembersModal/ConfirmAdditionsModal.dom.js';
-import { RequestState } from './util.std.js';
-import { ThemeType } from '../../../types/Util.std.js';
-import { makeFakeLookupConversationWithoutServiceId } from '../../../test-helpers/fakeLookupConversationWithoutServiceId.std.js';
+import { sleep } from '../../../util/sleep.std.ts';
+import { makeLookup } from '../../../util/makeLookup.std.ts';
+import { deconstructLookup } from '../../../util/deconstructLookup.std.ts';
+import type { ConversationType } from '../../../state/ducks/conversations.preload.ts';
+import { getDefaultConversation } from '../../../test-helpers/getDefaultConversation.std.ts';
+import { AddGroupMembersModal } from './AddGroupMembersModal.dom.tsx';
+import { ChooseGroupMembersModal } from './AddGroupMembersModal/ChooseGroupMembersModal.dom.tsx';
+import { ConfirmAdditionsModal } from './AddGroupMembersModal/ConfirmAdditionsModal.dom.tsx';
+import { RequestState } from './util.std.ts';
+import { ThemeType } from '../../../types/Util.std.ts';
+import { makeFakeLookupConversationWithoutServiceId } from '../../../test-helpers/fakeLookupConversationWithoutServiceId.std.ts';
 
 const { times } = lodash;
 

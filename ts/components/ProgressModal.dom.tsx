@@ -3,8 +3,8 @@
 
 import * as React from 'react';
 import { createPortal } from 'react-dom';
-import { ProgressDialog } from './ProgressDialog.dom.js';
-import type { LocalizerType } from '../types/Util.std.js';
+import { ProgressDialog } from './ProgressDialog.dom.tsx';
+import type { LocalizerType } from '../types/Util.std.ts';
 
 export type PropsType = {
   readonly i18n: LocalizerType;

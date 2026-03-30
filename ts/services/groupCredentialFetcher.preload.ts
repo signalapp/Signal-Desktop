@@ -8,20 +8,20 @@ import {
   GenericServerPublicParams,
 } from '@signalapp/libsignal-client/zkgroup.js';
 
-import { getClientZkAuthOperations } from '../util/zkgroup.node.js';
+import { getClientZkAuthOperations } from '../util/zkgroup.node.ts';
 
-import type { GroupCredentialType } from '../textsecure/WebAPI.preload.js';
-import { getGroupCredentials } from '../textsecure/WebAPI.preload.js';
-import { strictAssert } from '../util/assert.std.js';
-import * as durations from '../util/durations/index.std.js';
-import { BackOff } from '../util/BackOff.std.js';
-import { sleep } from '../util/sleep.std.js';
-import { toDayMillis } from '../util/timestamp.std.js';
-import { toTaggedPni } from '../types/ServiceId.std.js';
-import { toPniObject, toAciObject } from '../util/ServiceId.node.js';
-import { createLogger } from '../logging/log.std.js';
-import * as Bytes from '../Bytes.std.js';
-import { itemStorage } from '../textsecure/Storage.preload.js';
+import type { GroupCredentialType } from '../textsecure/WebAPI.preload.ts';
+import { getGroupCredentials } from '../textsecure/WebAPI.preload.ts';
+import { strictAssert } from '../util/assert.std.ts';
+import * as durations from '../util/durations/index.std.ts';
+import { BackOff } from '../util/BackOff.std.ts';
+import { sleep } from '../util/sleep.std.ts';
+import { toDayMillis } from '../util/timestamp.std.ts';
+import { toTaggedPni } from '../types/ServiceId.std.ts';
+import { toPniObject, toAciObject } from '../util/ServiceId.node.ts';
+import { createLogger } from '../logging/log.std.ts';
+import * as Bytes from '../Bytes.std.ts';
+import { itemStorage } from '../textsecure/Storage.preload.ts';
 
 const { first, last, sortBy } = lodash;
 

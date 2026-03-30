@@ -2,18 +2,18 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import lodash from 'lodash';
-import type { LoggerType } from '../types/Logging.std.js';
-import type { Receipt } from '../types/Receipt.std.js';
-import { ReceiptType } from '../types/Receipt.std.js';
-import { getSendOptions } from './getSendOptions.preload.js';
-import { handleMessageSend } from './handleMessageSend.preload.js';
-import { missingCaseError } from './missingCaseError.std.js';
-import type { ConversationModel } from '../models/conversations.preload.js';
-import { mapEmplace } from './mapEmplace.std.js';
-import { isSignalConversation } from './isSignalConversation.dom.js';
-import { messageSender } from '../textsecure/SendMessage.preload.js';
-import { itemStorage } from '../textsecure/Storage.preload.js';
-import { shouldSendToDirectConversation } from '../jobs/helpers/shouldSendToConversation.preload.js';
+import type { LoggerType } from '../types/Logging.std.ts';
+import type { Receipt } from '../types/Receipt.std.ts';
+import { ReceiptType } from '../types/Receipt.std.ts';
+import { getSendOptions } from './getSendOptions.preload.ts';
+import { handleMessageSend } from './handleMessageSend.preload.ts';
+import { missingCaseError } from './missingCaseError.std.ts';
+import type { ConversationModel } from '../models/conversations.preload.ts';
+import { mapEmplace } from './mapEmplace.std.ts';
+import { isSignalConversation } from './isSignalConversation.dom.ts';
+import { messageSender } from '../textsecure/SendMessage.preload.ts';
+import { itemStorage } from '../textsecure/Storage.preload.ts';
+import { shouldSendToDirectConversation } from '../jobs/helpers/shouldSendToConversation.preload.ts';
 
 const { chunk, map } = lodash;
 

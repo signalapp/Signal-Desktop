@@ -5,9 +5,9 @@ import { createHash } from 'node:crypto';
 import { createReadStream } from 'node:fs';
 import { pipeline } from 'node:stream/promises';
 
-import type { LoggerType } from '../types/Logging.std.js';
-import * as Errors from '../types/errors.std.js';
-import { MINUTE, HOUR } from '../util/durations/index.std.js';
+import type { LoggerType } from '../types/Logging.std.ts';
+import * as Errors from '../types/errors.std.ts';
+import { MINUTE, HOUR } from '../util/durations/index.std.ts';
 
 export type CheckIntegrityResultType = Readonly<
   | {

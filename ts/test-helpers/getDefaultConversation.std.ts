@@ -5,15 +5,15 @@ import casual from 'casual';
 import lodash from 'lodash';
 import { v4 as generateUuid } from 'uuid';
 
-import type { ConversationType } from '../state/ducks/conversations.preload.js';
-import type { ServiceIdString } from '../types/ServiceId.std.js';
-import { generateAci } from '../types/ServiceId.std.js';
-import type { GroupListItemConversationType } from '../components/conversationList/GroupListItem.dom.js';
-import { toBase64 } from '../Bytes.std.js';
-import { getRandomColor } from './getRandomColor.std.js';
-import { ConversationColors } from '../types/Colors.std.js';
-import { StorySendMode } from '../types/Stories.std.js';
-import { getAvatarPlaceholderGradient } from '../utils/getAvatarPlaceholderGradient.std.js';
+import type { ConversationType } from '../state/ducks/conversations.preload.ts';
+import type { ServiceIdString } from '../types/ServiceId.std.ts';
+import { generateAci } from '../types/ServiceId.std.ts';
+import type { GroupListItemConversationType } from '../components/conversationList/GroupListItem.dom.tsx';
+import { toBase64 } from '../Bytes.std.ts';
+import { getRandomColor } from './getRandomColor.std.ts';
+import { ConversationColors } from '../types/Colors.std.ts';
+import { StorySendMode } from '../types/Stories.std.ts';
+import { getAvatarPlaceholderGradient } from '../utils/getAvatarPlaceholderGradient.std.ts';
 
 const { sample } = lodash;
 

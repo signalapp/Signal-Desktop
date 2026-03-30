@@ -1,8 +1,8 @@
 // Copyright 2026 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import React, { useCallback } from 'react';
-import type { LocalizerType } from '../types/I18N.std.js';
-import { AxoDialog } from '../axo/AxoDialog.dom.js';
+import type { LocalizerType } from '../types/I18N.std.ts';
+import { AxoDialog } from '../axo/AxoDialog.dom.tsx';
 
 export function DeleteAttachmentConfirmationDialog({
   i18n,

@@ -3,10 +3,10 @@
 
 import { assert } from 'chai';
 import * as sinon from 'sinon';
-import { SystemTraySetting } from '../../types/SystemTraySetting.std.js';
+import { SystemTraySetting } from '../../types/SystemTraySetting.std.ts';
 
-import type { ConfigType } from '../../../app/base_config.node.js';
-import { SystemTraySettingCache } from '../../../app/SystemTraySettingCache.node.js';
+import type { ConfigType } from '../../../app/base_config.node.ts';
+import { SystemTraySettingCache } from '../../../app/SystemTraySettingCache.node.ts';
 
 describe('SystemTraySettingCache', () => {
   let sandbox: sinon.SinonSandbox;

@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReadonlyDeep } from 'type-fest';
-import type { ChatFolderId, ChatFolderParams } from './ChatFolder.std.js';
-import type { PanelArgsType } from './Panels.std.js';
+import type { ChatFolderId, ChatFolderParams } from './ChatFolder.std.ts';
+import type { PanelArgsType } from './Panels.std.ts';
 
 export type Location = ReadonlyDeep<
   | {

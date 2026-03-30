@@ -3,22 +3,22 @@
 
 import lodash from 'lodash';
 import type { ReadonlyMessageAttributesType } from '../model-types.d.ts';
-import type { StoryDataType } from '../state/ducks/stories.preload.js';
-import * as durations from '../util/durations/index.std.js';
-import { createLogger } from '../logging/log.std.js';
-import { DataReader } from '../sql/Client.preload.js';
-import type { GetAllStoriesResultType } from '../sql/Interface.std.js';
+import type { StoryDataType } from '../state/ducks/stories.preload.ts';
+import * as durations from '../util/durations/index.std.ts';
+import { createLogger } from '../logging/log.std.ts';
+import { DataReader } from '../sql/Client.preload.ts';
+import type { GetAllStoriesResultType } from '../sql/Interface.std.ts';
 import {
   getAttachmentsForMessage,
   getPropsForAttachment,
-} from '../state/selectors/message.preload.js';
-import type { LinkPreviewType } from '../types/message/LinkPreviews.std.js';
-import { isNotNil } from '../util/isNotNil.std.js';
-import { strictAssert } from '../util/assert.std.js';
-import { dropNull } from '../util/dropNull.std.js';
-import { DurationInSeconds } from '../util/durations/index.std.js';
-import { SIGNAL_ACI } from '../types/SignalConversation.std.js';
-import { itemStorage } from '../textsecure/Storage.preload.js';
+} from '../state/selectors/message.preload.ts';
+import type { LinkPreviewType } from '../types/message/LinkPreviews.std.ts';
+import { isNotNil } from '../util/isNotNil.std.ts';
+import { strictAssert } from '../util/assert.std.ts';
+import { dropNull } from '../util/dropNull.std.ts';
+import { DurationInSeconds } from '../util/durations/index.std.ts';
+import { SIGNAL_ACI } from '../types/SignalConversation.std.ts';
+import { itemStorage } from '../textsecure/Storage.preload.ts';
 
 const { pick } = lodash;
 

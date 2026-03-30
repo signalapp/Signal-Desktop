@@ -3,7 +3,7 @@
 
 import React, { forwardRef } from 'react';
 
-import type { LocalizerType } from '../../types/Util.std.js';
+import type { LocalizerType } from '../../types/Util.std.ts';
 
 export type Props = {
   count: number;

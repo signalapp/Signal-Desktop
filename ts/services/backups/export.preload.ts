@@ -9,68 +9,68 @@ import { Readable } from 'node:stream';
 import lodash from 'lodash';
 import { CallLinkRootKey } from '@signalapp/ringrtc';
 
-import { Backups, SignalService } from '../../protobuf/index.std.js';
+import { Backups, SignalService } from '../../protobuf/index.std.ts';
 import {
   DataReader,
   DataWriter,
   pauseWriteAccess,
   resumeWriteAccess,
-} from '../../sql/Client.preload.js';
+} from '../../sql/Client.preload.ts';
 import type {
   PageBackupMessagesCursorType,
   IdentityKeyType,
-} from '../../sql/Interface.std.js';
-import { createLogger } from '../../logging/log.std.js';
-import { GiftBadgeStates } from '../../types/GiftBadgeStates.std.js';
-import { type CustomColorType } from '../../types/Colors.std.js';
-import { StorySendMode, MY_STORY_ID } from '../../types/Stories.std.js';
-import { getStickerPacksForBackup } from '../../types/Stickers.preload.js';
+} from '../../sql/Interface.std.ts';
+import { createLogger } from '../../logging/log.std.ts';
+import { GiftBadgeStates } from '../../types/GiftBadgeStates.std.ts';
+import { type CustomColorType } from '../../types/Colors.std.ts';
+import { StorySendMode, MY_STORY_ID } from '../../types/Stories.std.ts';
+import { getStickerPacksForBackup } from '../../types/Stickers.preload.ts';
 import {
   isPniString,
   isServiceIdString,
   type PniString,
   type AciString,
   type ServiceIdString,
-} from '../../types/ServiceId.std.js';
+} from '../../types/ServiceId.std.ts';
 import {
   bodyRangeSchema,
   type RawBodyRange,
-} from '../../types/BodyRange.std.js';
-import { PaymentEventKind } from '../../types/Payment.std.js';
-import { MessageRequestResponseEvent } from '../../types/MessageRequestResponseEvent.std.js';
+} from '../../types/BodyRange.std.ts';
+import { PaymentEventKind } from '../../types/Payment.std.ts';
+import { MessageRequestResponseEvent } from '../../types/MessageRequestResponseEvent.std.ts';
 import type {
   ConversationAttributesType,
   MessageAttributesType,
   QuotedAttachmentType,
 } from '../../model-types.d.ts';
-import { drop } from '../../util/drop.std.js';
-import { isNotNil } from '../../util/isNotNil.std.js';
-import { explodePromise } from '../../util/explodePromise.std.js';
+import { drop } from '../../util/drop.std.ts';
+import { isNotNil } from '../../util/isNotNil.std.ts';
+import { explodePromise } from '../../util/explodePromise.std.ts';
 import {
   isDirectConversation,
   isGroup,
   isGroupV1,
   isGroupV2,
   isMe,
-} from '../../util/whatTypeOfConversation.dom.js';
-import { uuidToBytes } from '../../util/uuidToBytes.std.js';
-import { strictAssert } from '../../util/assert.std.js';
-import { getSafeLongFromTimestamp } from '../../util/timestampLongUtils.std.js';
+} from '../../util/whatTypeOfConversation.dom.ts';
+import { uuidToBytes } from '../../util/uuidToBytes.std.ts';
+import { strictAssert } from '../../util/assert.std.ts';
+import { getSafeLongFromTimestamp } from '../../util/timestampLongUtils.std.ts';
 import {
   DAY,
   MINUTE,
   SECOND,
   DurationInSeconds,
-} from '../../util/durations/index.std.js';
+} from '../../util/durations/index.std.ts';
 import {
   PhoneNumberDiscoverability,
   parsePhoneNumberDiscoverability,
-} from '../../util/phoneNumberDiscoverability.std.js';
+} from '../../util/phoneNumberDiscoverability.std.ts';
 import {
   PhoneNumberSharingMode,
   parsePhoneNumberSharingMode,
-} from '../../types/PhoneNumberSharingMode.std.js';
-import { missingCaseError } from '../../util/missingCaseError.std.js';
+} from '../../types/PhoneNumberSharingMode.std.ts';
+import { missingCaseError } from '../../util/missingCaseError.std.ts';
 import {
   isCallHistory,
   isChatSessionRefreshed,
@@ -97,20 +97,20 @@ import {
   isTitleTransitionNotification,
   isMessageRequestResponse,
   isPinnedMessageNotification,
-} from '../../state/selectors/message.preload.js';
-import * as Bytes from '../../Bytes.std.js';
-import { canBeSynced as canPreferredReactionEmojiBeSynced } from '../../reactions/preferredReactionEmoji.std.js';
-import { SendStatus } from '../../messages/MessageSendState.std.js';
-import { BACKUP_VERSION } from './constants.std.js';
+} from '../../state/selectors/message.preload.ts';
+import * as Bytes from '../../Bytes.std.ts';
+import { canBeSynced as canPreferredReactionEmojiBeSynced } from '../../reactions/preferredReactionEmoji.std.ts';
+import { SendStatus } from '../../messages/MessageSendState.std.ts';
+import { BACKUP_VERSION } from './constants.std.ts';
 import {
   getMessageIdForLogging,
   getConversationIdForLogging,
-} from '../../util/idForLogging.preload.js';
-import { makeLookup } from '../../util/makeLookup.std.js';
+} from '../../util/idForLogging.preload.ts';
+import { makeLookup } from '../../util/makeLookup.std.ts';
 import type {
   CallHistoryDetails,
   CallStatus,
-} from '../../types/CallDisposition.std.js';
+} from '../../types/CallDisposition.std.ts';
 import {
   CallMode,
   CallDirection,
@@ -118,79 +118,79 @@ import {
   DirectCallStatus,
   GroupCallStatus,
   AdhocCallStatus,
-} from '../../types/CallDisposition.std.js';
-import { isAciString } from '../../util/isAciString.std.js';
-import { hslToRGBInt } from '../../util/hslToRGB.std.js';
+} from '../../types/CallDisposition.std.ts';
+import { isAciString } from '../../util/isAciString.std.ts';
+import { hslToRGBInt } from '../../util/hslToRGB.std.ts';
 import type {
   AboutMe,
   BackupExportOptions,
   LocalChatStyle,
   StatsType,
-} from './types.std.js';
-import { messageHasPaymentEvent } from '../../messages/payments.std.js';
+} from './types.std.ts';
+import { messageHasPaymentEvent } from '../../messages/payments.std.ts';
 import {
   numberToAddressType,
   numberToPhoneType,
-} from '../../types/EmbeddedContact.std.js';
-import { toLogFormat } from '../../types/errors.std.js';
-import type { AttachmentType } from '../../types/Attachment.std.js';
+} from '../../types/EmbeddedContact.std.ts';
+import { toLogFormat } from '../../types/errors.std.ts';
+import type { AttachmentType } from '../../types/Attachment.std.ts';
 import {
   isGIF,
   isDownloaded,
   hasRequiredInformationForLocalBackup,
   hasRequiredInformationForRemoteBackup,
-} from '../../util/Attachment.std.js';
-import { getFilePointerForAttachment } from './util/filePointers.preload.js';
-import { getBackupMediaRootKey } from './crypto.preload.js';
+} from '../../util/Attachment.std.ts';
+import { getFilePointerForAttachment } from './util/filePointers.preload.ts';
+import { getBackupMediaRootKey } from './crypto.preload.ts';
 import type {
   CoreAttachmentBackupJobType,
   CoreAttachmentLocalBackupJobType,
-} from '../../types/AttachmentBackup.std.js';
-import { AttachmentBackupManager } from '../../jobs/AttachmentBackupManager.preload.js';
+} from '../../types/AttachmentBackup.std.ts';
+import { AttachmentBackupManager } from '../../jobs/AttachmentBackupManager.preload.ts';
 import {
   getBackupCdnInfo,
   getLocalBackupFileNameForAttachment,
   getMediaNameForAttachment,
-} from './util/mediaId.preload.js';
-import { calculateExpirationTimestamp } from '../../util/expirationTimer.std.js';
-import { ReadStatus } from '../../messages/MessageReadStatus.std.js';
-import { CallLinkRestrictions } from '../../types/CallLink.std.js';
+} from './util/mediaId.preload.ts';
+import { calculateExpirationTimestamp } from '../../util/expirationTimer.std.ts';
+import { ReadStatus } from '../../messages/MessageReadStatus.std.ts';
+import { CallLinkRestrictions } from '../../types/CallLink.std.ts';
 import {
   isCallHistoryForUnusedCallLink,
   toAdminKeyBytes,
-} from '../../util/callLinks.std.js';
-import { getRoomIdFromRootKey } from '../../util/callLinksRingrtc.node.js';
-import { SeenStatus } from '../../MessageSeenStatus.std.js';
-import { migrateAllMessages } from '../../messages/migrateMessageData.preload.js';
+} from '../../util/callLinks.std.ts';
+import { getRoomIdFromRootKey } from '../../util/callLinksRingrtc.node.ts';
+import { SeenStatus } from '../../MessageSeenStatus.std.ts';
+import { migrateAllMessages } from '../../messages/migrateMessageData.preload.ts';
 import {
   isBodyTooLong,
   MAX_MESSAGE_BODY_BYTE_LENGTH,
   trimBody,
-} from '../../util/longAttachment.std.js';
-import { generateBackupsSubscriberData } from '../../util/backupSubscriptionData.preload.js';
+} from '../../util/longAttachment.std.ts';
+import { generateBackupsSubscriberData } from '../../util/backupSubscriptionData.preload.ts';
 import {
   getEnvironment,
   isTestEnvironment,
   isTestOrMockEnvironment,
-} from '../../environment.std.js';
-import { calculateLightness } from '../../util/getHSL.std.js';
-import { isSignalServiceId } from '../../util/isSignalConversation.dom.js';
-import { isValidE164 } from '../../util/isValidE164.std.js';
-import { toDayOfWeekArray } from '../../types/NotificationProfile.std.js';
+} from '../../environment.std.ts';
+import { calculateLightness } from '../../util/getHSL.std.ts';
+import { isSignalServiceId } from '../../util/isSignalConversation.dom.ts';
+import { isValidE164 } from '../../util/isValidE164.std.ts';
+import { toDayOfWeekArray } from '../../types/NotificationProfile.std.ts';
 import {
   getLinkPreviewSetting,
   getTypingIndicatorSetting,
-} from '../../util/Settings.preload.js';
-import { KIBIBYTE } from '../../types/AttachmentSize.std.js';
-import { itemStorage } from '../../textsecure/Storage.preload.js';
-import { ChatFolderType } from '../../types/ChatFolder.std.js';
-import { expiresTooSoonForBackup } from './util/expiration.std.js';
-import type { PinnedMessage } from '../../types/PinnedMessage.std.js';
-import type { ThemeType } from '../../util/preload.preload.js';
-import { MAX_VALUE as LONG_MAX_VALUE } from '../../util/long.std.js';
-import { encodeDelimited } from '../../util/encodeDelimited.std.js';
-import { safeParseStrict } from '../../util/schemas.std.js';
-import type { WithRequiredProperties } from '../../types/Util.std.js';
+} from '../../util/Settings.preload.ts';
+import { KIBIBYTE } from '../../types/AttachmentSize.std.ts';
+import { itemStorage } from '../../textsecure/Storage.preload.ts';
+import { ChatFolderType } from '../../types/ChatFolder.std.ts';
+import { expiresTooSoonForBackup } from './util/expiration.std.ts';
+import type { PinnedMessage } from '../../types/PinnedMessage.std.ts';
+import type { ThemeType } from '../../util/preload.preload.ts';
+import { MAX_VALUE as LONG_MAX_VALUE } from '../../util/long.std.ts';
+import { encodeDelimited } from '../../util/encodeDelimited.std.ts';
+import { safeParseStrict } from '../../util/schemas.std.ts';
+import type { WithRequiredProperties } from '../../types/Util.std.ts';
 
 const { isNumber } = lodash;
 

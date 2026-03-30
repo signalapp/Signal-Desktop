@@ -7,11 +7,11 @@ import * as z from 'zod';
 import { protocol } from 'electron';
 import { LRUCache } from 'lru-cache';
 
-import type { OptionalResourceService } from './OptionalResourceService.main.js';
-import { SignalService as Proto } from '../ts/protobuf/index.std.js';
-import { parseUnknown } from '../ts/util/schemas.std.js';
-import { utf16ToEmoji } from '../ts/util/utf16ToEmoji.node.js';
-import { getAppRootDir } from '../ts/util/appRootDir.main.js';
+import type { OptionalResourceService } from './OptionalResourceService.main.ts';
+import { SignalService as Proto } from '../ts/protobuf/index.std.ts';
+import { parseUnknown } from '../ts/util/schemas.std.ts';
+import { utf16ToEmoji } from '../ts/util/utf16ToEmoji.node.ts';
+import { getAppRootDir } from '../ts/util/appRootDir.main.ts';
 
 const MANIFEST_PATH = join(getAppRootDir(), 'build', 'jumbomoji.json');
 

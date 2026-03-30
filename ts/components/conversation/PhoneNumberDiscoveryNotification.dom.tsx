@@ -3,14 +3,14 @@
 
 import React from 'react';
 
-import type { LocalizerType } from '../../types/Util.std.js';
-import { SystemMessage } from './SystemMessage.dom.js';
-import { Emojify } from './Emojify.dom.js';
-import { getStringForPhoneNumberDiscovery } from '../../util/getStringForPhoneNumberDiscovery.std.js';
+import type { LocalizerType } from '../../types/Util.std.ts';
+import { SystemMessage } from './SystemMessage.dom.tsx';
+import { Emojify } from './Emojify.dom.tsx';
+import { getStringForPhoneNumberDiscovery } from '../../util/getStringForPhoneNumberDiscovery.std.ts';
 import {
   useSharedGroupNamesOnMount,
   type GetSharedGroupNamesType,
-} from '../../util/sharedGroupNames.dom.js';
+} from '../../util/sharedGroupNames.dom.ts';
 
 export type PropsDataType = {
   conversationId: string;

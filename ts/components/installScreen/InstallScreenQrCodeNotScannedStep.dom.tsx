@@ -6,26 +6,26 @@ import React, { useCallback, useState, useEffect } from 'react';
 import classNames from 'classnames';
 import lodash from 'lodash';
 
-import type { LocalizerType } from '../../types/Util.std.js';
+import type { LocalizerType } from '../../types/Util.std.ts';
 import {
   InstallScreenStep,
   InstallScreenQRCodeError,
-} from '../../types/InstallScreen.std.js';
-import { DialogType } from '../../types/Dialogs.std.js';
-import { missingCaseError } from '../../util/missingCaseError.std.js';
-import type { Loadable } from '../../util/loadable.std.js';
-import { LoadingState } from '../../util/loadable.std.js';
-import { drop } from '../../util/drop.std.js';
-import { getEnvironment, Environment } from '../../environment.std.js';
+} from '../../types/InstallScreen.std.ts';
+import { DialogType } from '../../types/Dialogs.std.ts';
+import { missingCaseError } from '../../util/missingCaseError.std.ts';
+import type { Loadable } from '../../util/loadable.std.ts';
+import { LoadingState } from '../../util/loadable.std.ts';
+import { drop } from '../../util/drop.std.ts';
+import { getEnvironment, Environment } from '../../environment.std.ts';
 
-import { I18n } from '../I18n.dom.js';
-import { Spinner } from '../Spinner.dom.js';
-import { BrandedQRCode } from '../BrandedQRCode.dom.js';
-import { TitlebarDragArea } from '../TitlebarDragArea.dom.js';
-import { InstallScreenSignalLogo } from './InstallScreenSignalLogo.dom.js';
-import { InstallScreenUpdateDialog } from './InstallScreenUpdateDialog.dom.js';
-import { getClassNamesFor } from '../../util/getClassNamesFor.std.js';
-import type { UpdatesStateType } from '../../state/ducks/updates.preload.js';
+import { I18n } from '../I18n.dom.tsx';
+import { Spinner } from '../Spinner.dom.tsx';
+import { BrandedQRCode } from '../BrandedQRCode.dom.tsx';
+import { TitlebarDragArea } from '../TitlebarDragArea.dom.tsx';
+import { InstallScreenSignalLogo } from './InstallScreenSignalLogo.dom.tsx';
+import { InstallScreenUpdateDialog } from './InstallScreenUpdateDialog.dom.tsx';
+import { getClassNamesFor } from '../../util/getClassNamesFor.std.ts';
+import type { UpdatesStateType } from '../../state/ducks/updates.preload.ts';
 
 const { noop } = lodash;
 

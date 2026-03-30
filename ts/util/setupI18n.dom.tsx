@@ -3,18 +3,18 @@
 
 import type { IntlShape } from 'react-intl';
 import React from 'react';
-import type { LocaleMessagesType } from '../types/I18N.std.js';
-import type { LocalizerType } from '../types/Util.std.js';
+import type { LocaleMessagesType } from '../types/I18N.std.ts';
+import type { LocalizerType } from '../types/Util.std.ts';
 // oxlint-disable-next-line signal-desktop/no-restricted-paths
-import { Emojify } from '../components/conversation/Emojify.dom.js';
+import { Emojify } from '../components/conversation/Emojify.dom.tsx';
 import {
   createCachedIntl as createCachedIntlMain,
   setupI18n as setupI18nMain,
-} from './setupI18nMain.std.js';
-import type { SetupI18nOptionsType } from './setupI18nMain.std.js';
-import { strictAssert } from './assert.std.js';
+} from './setupI18nMain.std.ts';
+import type { SetupI18nOptionsType } from './setupI18nMain.std.ts';
+import { strictAssert } from './assert.std.ts';
 
-export { isLocaleMessageType } from './setupI18nMain.std.js';
+export { isLocaleMessageType } from './setupI18nMain.std.ts';
 
 export function renderEmojify(
   parts: ReadonlyArray<unknown>

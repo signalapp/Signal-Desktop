@@ -4,12 +4,12 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import { getDefaultConversation } from '../../../test-helpers/getDefaultConversation.std.js';
-import { getFakeBadges } from '../../../test-helpers/getFakeBadge.std.js';
+import { getDefaultConversation } from '../../../test-helpers/getDefaultConversation.std.ts';
+import { getFakeBadges } from '../../../test-helpers/getFakeBadge.std.ts';
 import { StorybookThemeContext } from '../../../../.storybook/StorybookThemeContext.std.js';
-import type { ConversationType } from '../../../state/ducks/conversations.preload.js';
-import type { Props } from './ConversationDetailsHeader.dom.js';
-import { ConversationDetailsHeader } from './ConversationDetailsHeader.dom.js';
+import type { ConversationType } from '../../../state/ducks/conversations.preload.ts';
+import type { Props } from './ConversationDetailsHeader.dom.tsx';
+import { ConversationDetailsHeader } from './ConversationDetailsHeader.dom.tsx';
 
 const { i18n } = window.SignalContext;
 

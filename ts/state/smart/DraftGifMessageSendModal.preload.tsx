@@ -2,26 +2,26 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import React, { memo, useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { getIntl, getTheme } from '../selectors/user.std.js';
-import type { DraftGifMessageSendModalProps } from '../../components/DraftGifMessageSendModal.dom.js';
-import { DraftGifMessageSendModal } from '../../components/DraftGifMessageSendModal.dom.js';
-import { strictAssert } from '../../util/assert.std.js';
-import type { HydratedBodyRangesType } from '../../types/BodyRange.std.js';
-import { SmartCompositionTextArea } from './CompositionTextArea.preload.js';
-import { getDraftGifMessageSendModalProps } from '../selectors/globalModals.std.js';
-import { useGlobalModalActions } from '../ducks/globalModals.preload.js';
-import { useComposerActions } from '../ducks/composer.preload.js';
-import type { FunGifSelection } from '../../components/fun/panels/FunPanelGifs.dom.js';
-import { fetchGiphyFile } from '../../components/fun/data/giphy.preload.js';
-import { drop } from '../../util/drop.std.js';
-import { processAttachment } from '../../util/processAttachment.preload.js';
-import { SignalService as Proto } from '../../protobuf/index.std.js';
-import { writeDraftAttachment } from '../../util/writeDraftAttachment.preload.js';
-import type { AttachmentDraftType } from '../../types/Attachment.std.js';
-import { createLogger } from '../../logging/log.std.js';
-import * as Errors from '../../types/errors.std.js';
-import { type Loadable, LoadingState } from '../../util/loadable.std.js';
-import { isAbortError } from '../../util/isAbortError.std.js';
+import { getIntl, getTheme } from '../selectors/user.std.ts';
+import type { DraftGifMessageSendModalProps } from '../../components/DraftGifMessageSendModal.dom.tsx';
+import { DraftGifMessageSendModal } from '../../components/DraftGifMessageSendModal.dom.tsx';
+import { strictAssert } from '../../util/assert.std.ts';
+import type { HydratedBodyRangesType } from '../../types/BodyRange.std.ts';
+import { SmartCompositionTextArea } from './CompositionTextArea.preload.tsx';
+import { getDraftGifMessageSendModalProps } from '../selectors/globalModals.std.ts';
+import { useGlobalModalActions } from '../ducks/globalModals.preload.ts';
+import { useComposerActions } from '../ducks/composer.preload.ts';
+import type { FunGifSelection } from '../../components/fun/panels/FunPanelGifs.dom.tsx';
+import { fetchGiphyFile } from '../../components/fun/data/giphy.preload.ts';
+import { drop } from '../../util/drop.std.ts';
+import { processAttachment } from '../../util/processAttachment.preload.ts';
+import { SignalService as Proto } from '../../protobuf/index.std.ts';
+import { writeDraftAttachment } from '../../util/writeDraftAttachment.preload.ts';
+import type { AttachmentDraftType } from '../../types/Attachment.std.ts';
+import { createLogger } from '../../logging/log.std.ts';
+import * as Errors from '../../types/errors.std.ts';
+import { type Loadable, LoadingState } from '../../util/loadable.std.ts';
+import { isAbortError } from '../../util/isAbortError.std.ts';
 
 const log = createLogger('DraftGifMessageSendModal');
 

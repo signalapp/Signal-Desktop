@@ -8,7 +8,7 @@ import type {
   ReadonlyMessageAttributesType,
   QuotedAttachmentType,
 } from '../model-types.d.ts';
-import type { AciString } from '../types/ServiceId.std.js';
+import type { AciString } from '../types/ServiceId.std.ts';
 
 export function isIncoming(
   message: Pick<ReadonlyMessageAttributesType, 'type'>

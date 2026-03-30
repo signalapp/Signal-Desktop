@@ -3,8 +3,8 @@
 
 import lodash from 'lodash';
 import { useEffect, useState } from 'react';
-import { computePeaks } from '../components/VoiceNotesPlaybackContext.dom.js';
-import { createLogger } from '../logging/log.std.js';
+import { computePeaks } from '../components/VoiceNotesPlaybackContext.dom.tsx';
+import { createLogger } from '../logging/log.std.ts';
 
 const { noop } = lodash;
 

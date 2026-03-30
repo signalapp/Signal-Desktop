@@ -7,35 +7,35 @@ import {
   ErrorCode,
 } from '@signalapp/libsignal-client';
 
-import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue.preload.js';
-import { strictAssert } from '../util/assert.std.js';
-import { sleep } from '../util/sleep.std.js';
-import { getMinNickname, getMaxNickname } from '../util/Username.dom.js';
-import { bytesToUuid, uuidToBytes } from '../util/uuidToBytes.std.js';
-import type { UsernameReservationType } from '../types/Username.std.js';
+import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue.preload.ts';
+import { strictAssert } from '../util/assert.std.ts';
+import { sleep } from '../util/sleep.std.ts';
+import { getMinNickname, getMaxNickname } from '../util/Username.dom.ts';
+import { bytesToUuid, uuidToBytes } from '../util/uuidToBytes.std.ts';
+import type { UsernameReservationType } from '../types/Username.std.ts';
 import {
   ReserveUsernameError,
   ConfirmUsernameResult,
   getNickname,
   getDiscriminator,
   isCaseChange,
-} from '../types/Username.std.js';
-import * as Errors from '../types/errors.std.js';
-import { createLogger } from '../logging/log.std.js';
-import { MessageSender } from '../textsecure/SendMessage.preload.js';
+} from '../types/Username.std.ts';
+import * as Errors from '../types/errors.std.ts';
+import { createLogger } from '../logging/log.std.ts';
+import { MessageSender } from '../textsecure/SendMessage.preload.ts';
 import {
   reserveUsername as doReserveUsername,
   replaceUsernameLink,
   confirmUsername as doConfirmUsername,
   deleteUsername as doDeleteUsername,
   resolveUsernameLink,
-} from '../textsecure/WebAPI.preload.js';
-import type { ResolveUsernameByLinkOptionsType } from '../textsecure/WebAPI.preload.js';
-import { HTTPError } from '../types/HTTPError.std.js';
-import { findRetryAfterTimeFromError } from '../jobs/helpers/findRetryAfterTimeFromError.std.js';
-import * as Bytes from '../Bytes.std.js';
-import { storageServiceUploadJob } from './storage.preload.js';
-import { itemStorage } from '../textsecure/Storage.preload.js';
+} from '../textsecure/WebAPI.preload.ts';
+import type { ResolveUsernameByLinkOptionsType } from '../textsecure/WebAPI.preload.ts';
+import { HTTPError } from '../types/HTTPError.std.ts';
+import { findRetryAfterTimeFromError } from '../jobs/helpers/findRetryAfterTimeFromError.std.ts';
+import * as Bytes from '../Bytes.std.ts';
+import { storageServiceUploadJob } from './storage.preload.ts';
+import { itemStorage } from '../textsecure/Storage.preload.ts';
 
 const log = createLogger('username');
 

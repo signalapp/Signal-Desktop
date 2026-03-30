@@ -5,13 +5,13 @@ import * as sinon from 'sinon';
 import { v4 as generateUuid } from 'uuid';
 
 import lodash from 'lodash';
-import { ConversationModel } from '../models/conversations.preload.js';
+import { ConversationModel } from '../models/conversations.preload.ts';
 import type { ConversationAttributesType } from '../model-types.d.ts';
-import { generateAci } from '../types/ServiceId.std.js';
-import { DAY, HOUR, MINUTE, MONTH } from '../util/durations/index.std.js';
+import { generateAci } from '../types/ServiceId.std.ts';
+import { DAY, HOUR, MINUTE, MONTH } from '../util/durations/index.std.ts';
 
-import { routineProfileRefresh } from '../routineProfileRefresh.preload.js';
-import type { getProfile } from '../util/getProfile.preload.js';
+import { routineProfileRefresh } from '../routineProfileRefresh.preload.ts';
+import type { getProfile } from '../util/getProfile.preload.ts';
 
 const { times } = lodash;
 

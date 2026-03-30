@@ -4,38 +4,38 @@
 import type { ReadonlyDeep } from 'type-fest';
 import type { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import lodash from 'lodash';
-import type { StateType as RootStateType } from '../reducer.preload.js';
+import type { StateType as RootStateType } from '../reducer.preload.ts';
 import {
   clearCallHistoryDataAndSync,
   markAllCallHistoryReadAndSync,
-} from '../../util/callDisposition.preload.js';
-import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.js';
-import { useBoundActions } from '../../hooks/useBoundActions.std.js';
-import type { ToastActionType } from './toast.preload.js';
-import { showToast } from './toast.preload.js';
-import { DataReader, DataWriter } from '../../sql/Client.preload.js';
-import { ToastType } from '../../types/Toast.dom.js';
+} from '../../util/callDisposition.preload.ts';
+import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.ts';
+import { useBoundActions } from '../../hooks/useBoundActions.std.ts';
+import type { ToastActionType } from './toast.preload.ts';
+import { showToast } from './toast.preload.ts';
+import { DataReader, DataWriter } from '../../sql/Client.preload.ts';
+import { ToastType } from '../../types/Toast.dom.tsx';
 import {
   ClearCallHistoryResult,
   type CallHistoryDetails,
-} from '../../types/CallDisposition.std.js';
-import { createLogger } from '../../logging/log.std.js';
-import * as Errors from '../../types/errors.std.js';
+} from '../../types/CallDisposition.std.ts';
+import { createLogger } from '../../logging/log.std.ts';
+import * as Errors from '../../types/errors.std.ts';
 import {
   getCallHistoryLatestCall,
   getCallHistorySelector,
-} from '../selectors/callHistory.std.js';
+} from '../selectors/callHistory.std.ts';
 import {
   getCallsHistoryForRedux,
   getCallsHistoryUnreadCountForRedux,
   loadCallHistory,
-} from '../../services/callHistoryLoader.preload.js';
-import { makeLookup } from '../../util/makeLookup.std.js';
-import { missingCaseError } from '../../util/missingCaseError.std.js';
-import { getIntl } from '../selectors/user.std.js';
-import { ButtonVariant } from '../../components/Button.dom.js';
-import type { ShowErrorModalActionType } from './globalModals.preload.js';
-import { SHOW_ERROR_MODAL } from './globalModals.preload.js';
+} from '../../services/callHistoryLoader.preload.ts';
+import { makeLookup } from '../../util/makeLookup.std.ts';
+import { missingCaseError } from '../../util/missingCaseError.std.ts';
+import { getIntl } from '../selectors/user.std.ts';
+import { ButtonVariant } from '../../components/Button.dom.tsx';
+import type { ShowErrorModalActionType } from './globalModals.preload.ts';
+import { SHOW_ERROR_MODAL } from './globalModals.preload.ts';
 
 const { debounce, omit } = lodash;
 

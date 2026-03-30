@@ -1,9 +1,9 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import { DataReader, DataWriter } from '../../sql/Client.preload.js';
-import { getMessageQueueTime } from '../../util/getMessageQueueTime.dom.js';
-import { createExpiringEntityCleanupService } from './createExpiringEntityCleanupService.std.js';
-import * as RemoteConfig from '../../RemoteConfig.dom.js';
+import { DataReader, DataWriter } from '../../sql/Client.preload.ts';
+import { getMessageQueueTime } from '../../util/getMessageQueueTime.dom.ts';
+import { createExpiringEntityCleanupService } from './createExpiringEntityCleanupService.std.ts';
+import * as RemoteConfig from '../../RemoteConfig.dom.ts';
 
 export const chatFolderCleanupService = createExpiringEntityCleanupService({
   logPrefix: 'ChatFolders',

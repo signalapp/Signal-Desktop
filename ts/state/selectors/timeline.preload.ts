@@ -5,9 +5,9 @@ import { useSelector } from 'react-redux';
 import { createSelector } from 'reselect';
 import { isEmpty } from 'lodash';
 import type { ReadonlyDeep } from 'type-fest';
-import type { TimelineItemType } from '../../components/conversation/TimelineItem.dom.js';
+import type { TimelineItemType } from '../../components/conversation/TimelineItem.dom.tsx';
 
-import type { StateType } from '../reducer.preload.js';
+import type { StateType } from '../reducer.preload.ts';
 import {
   getConversationSelector,
   getTargetedMessage,
@@ -17,31 +17,31 @@ import {
   getPinnedMessagesMessageIds,
   getSafeConversationWithSameTitle,
   getConversationByServiceIdSelector,
-} from './conversations.dom.js';
-import { getAccountSelector } from './accounts.std.js';
+} from './conversations.dom.ts';
+import { getAccountSelector } from './accounts.std.ts';
 import {
   getRegionCode,
   getUserConversationId,
   getUserNumber,
   getUserACI,
   getUserPNI,
-} from './user.std.js';
-import { getDefaultConversationColor } from './items.dom.js';
-import { getActiveCall, getCallSelector } from './calling.std.js';
-import { getPropsForBubble } from './message.preload.js';
-import { getCallHistorySelector } from './callHistory.std.js';
-import { useProxySelector } from '../../hooks/useProxySelector.std.js';
-import type { StateSelector } from '../types.std.js';
-import { ContactSpoofingType } from '../../util/contactSpoofing.std.js';
+} from './user.std.ts';
+import { getDefaultConversationColor } from './items.dom.ts';
+import { getActiveCall, getCallSelector } from './calling.std.ts';
+import { getPropsForBubble } from './message.preload.ts';
+import { getCallHistorySelector } from './callHistory.std.ts';
+import { useProxySelector } from '../../hooks/useProxySelector.std.ts';
+import type { StateSelector } from '../types.std.ts';
+import { ContactSpoofingType } from '../../util/contactSpoofing.std.ts';
 import {
   dehydrateCollisionsWithConversations,
   getCollisionsFromMemberships,
   type GroupNameCollisionsWithIdsByTitle,
-} from '../../util/groupMemberNameCollisions.std.js';
-import type { ConversationType } from '../ducks/conversations.preload.js';
-import { missingCaseError } from '../../util/missingCaseError.std.js';
-import { getGroupMemberships } from '../../util/getGroupMemberships.dom.js';
-import type { ContactNameColorType } from '../../types/Colors.std.js';
+} from '../../util/groupMemberNameCollisions.std.ts';
+import type { ConversationType } from '../ducks/conversations.preload.ts';
+import { missingCaseError } from '../../util/missingCaseError.std.ts';
+import { getGroupMemberships } from '../../util/getGroupMemberships.dom.ts';
+import type { ContactNameColorType } from '../../types/Colors.std.ts';
 
 const getTimelineItem = (
   state: StateType,

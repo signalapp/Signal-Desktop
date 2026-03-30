@@ -3,33 +3,33 @@
 import React, { memo, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 
-import { AboutContactModal } from '../../components/conversation/AboutContactModal.dom.js';
-import { isSignalConnection } from '../../util/getSignalConnections.preload.js';
-import { getIntl, getVersion } from '../selectors/user.std.js';
-import { getAboutContactModalState } from '../selectors/globalModals.std.js';
+import { AboutContactModal } from '../../components/conversation/AboutContactModal.dom.tsx';
+import { isSignalConnection } from '../../util/getSignalConnections.preload.ts';
+import { getIntl, getVersion } from '../selectors/user.std.ts';
+import { getAboutContactModalState } from '../selectors/globalModals.std.ts';
 import {
   getCachedConversationMemberColorsSelector,
   getConversationSelector,
   getPendingAvatarDownloadSelector,
-} from '../selectors/conversations.dom.js';
-import { useSharedGroupNamesOnMount } from '../../util/sharedGroupNames.dom.js';
-import type { ConversationType } from '../ducks/conversations.preload.js';
-import { useConversationsActions } from '../ducks/conversations.preload.js';
-import { useGlobalModalActions } from '../ducks/globalModals.preload.js';
-import { strictAssert } from '../../util/assert.std.js';
-import { getAddedByForOurPendingInvitation } from '../../util/getAddedByForOurPendingInvitation.preload.js';
-import { getItems } from '../selectors/items.dom.js';
-import { isFeaturedEnabledSelector } from '../../util/isFeatureEnabled.dom.js';
-import { getCanAddLabel } from '../../types/GroupMemberLabels.std.js';
-import { useNavActions } from '../ducks/nav.std.js';
-import { PanelType } from '../../types/Panels.std.js';
+} from '../selectors/conversations.dom.ts';
+import { useSharedGroupNamesOnMount } from '../../util/sharedGroupNames.dom.ts';
+import type { ConversationType } from '../ducks/conversations.preload.ts';
+import { useConversationsActions } from '../ducks/conversations.preload.ts';
+import { useGlobalModalActions } from '../ducks/globalModals.preload.ts';
+import { strictAssert } from '../../util/assert.std.ts';
+import { getAddedByForOurPendingInvitation } from '../../util/getAddedByForOurPendingInvitation.preload.ts';
+import { getItems } from '../selectors/items.dom.ts';
+import { isFeaturedEnabledSelector } from '../../util/isFeatureEnabled.dom.ts';
+import { getCanAddLabel } from '../../types/GroupMemberLabels.std.ts';
+import { useNavActions } from '../ducks/nav.std.ts';
+import { PanelType } from '../../types/Panels.std.ts';
 import {
   NavTab,
   ProfileEditorPage,
   SettingsPage,
-} from '../../types/Nav.std.js';
-import { getSelectedLocation } from '../selectors/nav.std.js';
-import { getLeafPanelOnly } from '../../components/conversation/conversation-details/GroupMemberLabelEditor.dom.js';
+} from '../../types/Nav.std.ts';
+import { getSelectedLocation } from '../selectors/nav.std.ts';
+import { getLeafPanelOnly } from '../../components/conversation/conversation-details/GroupMemberLabelEditor.dom.tsx';
 
 function isFromOrAddedByTrustedContact(
   conversation: ConversationType

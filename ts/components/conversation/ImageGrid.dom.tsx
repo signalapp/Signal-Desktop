@@ -7,7 +7,7 @@ import classNames from 'classnames';
 import type {
   AttachmentForUIType,
   AttachmentType,
-} from '../../types/Attachment.std.js';
+} from '../../types/Attachment.std.ts';
 import {
   areAllAttachmentsVisual,
   getAlt,
@@ -17,13 +17,13 @@ import {
   isDownloadable,
   isIncremental,
   isVideoAttachment,
-} from '../../util/Attachment.std.js';
+} from '../../util/Attachment.std.ts';
 
-import { Image, CurveType } from './Image.dom.js';
+import { Image, CurveType } from './Image.dom.tsx';
 
-import type { LocalizerType, ThemeType } from '../../types/Util.std.js';
-import { AttachmentDetailPill } from './AttachmentDetailPill.dom.js';
-import { strictAssert } from '../../util/assert.std.js';
+import type { LocalizerType, ThemeType } from '../../types/Util.std.ts';
+import { AttachmentDetailPill } from './AttachmentDetailPill.dom.tsx';
+import { strictAssert } from '../../util/assert.std.ts';
 
 export type DirectionType = 'incoming' | 'outgoing';
 

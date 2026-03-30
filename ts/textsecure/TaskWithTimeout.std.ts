@@ -1,10 +1,10 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { MINUTE } from '../util/durations/index.std.js';
-import { explodePromise } from '../util/explodePromise.std.js';
-import { missingCaseError } from '../util/missingCaseError.std.js';
-import { createLogger } from '../logging/log.std.js';
+import { MINUTE } from '../util/durations/index.std.ts';
+import { explodePromise } from '../util/explodePromise.std.ts';
+import { missingCaseError } from '../util/missingCaseError.std.ts';
+import { createLogger } from '../logging/log.std.ts';
 
 const TICK_INTERVAL = MINUTE / 2;
 

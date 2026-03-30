@@ -4,8 +4,8 @@
 import React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './Alert.dom.js';
-import { Alert } from './Alert.dom.js';
+import type { PropsType } from './Alert.dom.tsx';
+import { Alert } from './Alert.dom.tsx';
 
 const { i18n } = window.SignalContext;
 

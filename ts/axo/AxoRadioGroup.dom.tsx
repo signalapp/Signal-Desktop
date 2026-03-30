@@ -4,11 +4,11 @@
 import { RadioGroup } from 'radix-ui';
 import type { FC, ReactNode } from 'react';
 import React, { memo, useId, useMemo } from 'react';
-import { tw } from './tw.dom.js';
+import { tw } from './tw.dom.tsx';
 import {
   createStrictContext,
   useStrictContext,
-} from './_internal/StrictContext.dom.js';
+} from './_internal/StrictContext.dom.tsx';
 
 export const Namespace = 'AxoRadioGroup';
 

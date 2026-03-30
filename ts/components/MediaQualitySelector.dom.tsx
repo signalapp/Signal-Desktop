@@ -5,9 +5,9 @@ import type { KeyboardEvent } from 'react';
 import React, { useCallback, useRef, useState } from 'react';
 import classNames from 'classnames';
 import { Popover } from 'radix-ui';
-import type { LocalizerType } from '../types/Util.std.js';
-import { ThemeType } from '../types/Util.std.js';
-import { AxoIconButton } from '../axo/AxoIconButton.dom.js';
+import type { LocalizerType } from '../types/Util.std.ts';
+import { ThemeType } from '../types/Util.std.ts';
+import { AxoIconButton } from '../axo/AxoIconButton.dom.tsx';
 
 export type PropsType = {
   conversationId: string;

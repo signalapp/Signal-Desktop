@@ -6,8 +6,8 @@ import { assert } from 'chai';
 import {
   fontSniffer,
   getFontNameByTextScript,
-} from '../../util/getFontNameByTextScript.std.js';
-import { setupI18n } from '../../util/setupI18n.dom.js';
+} from '../../util/getFontNameByTextScript.std.ts';
+import { setupI18n } from '../../util/setupI18n.dom.tsx';
 
 describe('getFontNameByTextScript', () => {
   it('has arabic', () => {

@@ -10,16 +10,16 @@ import {
   StorageState,
 } from '@signalapp/mock-server';
 import * as path from 'node:path';
-import type { App } from '../playwright.node.js';
-import { Bootstrap } from '../bootstrap.node.js';
+import type { App } from '../playwright.node.ts';
+import { Bootstrap } from '../bootstrap.node.ts';
 import {
   getMessageInTimelineByTimestamp,
   getTimelineMessageWithText,
   sendMessageWithAttachments,
   sendTextMessage,
-} from '../helpers.node.js';
-import * as durations from '../../util/durations/index.std.js';
-import { strictAssert } from '../../util/assert.std.js';
+} from '../helpers.node.ts';
+import * as durations from '../../util/durations/index.std.ts';
+import { strictAssert } from '../../util/assert.std.ts';
 
 const debug = createDebug('mock:test:lightbox');
 

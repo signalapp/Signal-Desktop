@@ -3,29 +3,29 @@
 
 import { ContentHint } from '@signalapp/libsignal-client';
 
-import { handleMessageSend } from '../../util/handleMessageSend.preload.js';
-import { getSendOptions } from '../../util/getSendOptions.preload.js';
-import { isDirectConversation } from '../../util/whatTypeOfConversation.dom.js';
+import { handleMessageSend } from '../../util/handleMessageSend.preload.ts';
+import { getSendOptions } from '../../util/getSendOptions.preload.ts';
+import { isDirectConversation } from '../../util/whatTypeOfConversation.dom.ts';
 import {
   handleMultipleSendErrors,
   maybeExpandErrors,
-} from './handleMultipleSendErrors.std.js';
+} from './handleMultipleSendErrors.std.ts';
 
-import type { ConversationModel } from '../../models/conversations.preload.js';
+import type { ConversationModel } from '../../models/conversations.preload.ts';
 import type {
   ConversationQueueJobBundle,
   NullMessageJobData,
-} from '../conversationJobQueue.preload.js';
+} from '../conversationJobQueue.preload.ts';
 import type { SessionResetsType } from '../../textsecure/Types.d.ts';
-import { isConversationUnregistered } from '../../util/isConversationUnregistered.dom.js';
+import { isConversationUnregistered } from '../../util/isConversationUnregistered.dom.ts';
 import {
   OutgoingIdentityKeyError,
   UnregisteredUserError,
-} from '../../textsecure/Errors.std.js';
-import { MessageSender } from '../../textsecure/SendMessage.preload.js';
-import { sendToGroup } from '../../util/sendToGroup.preload.js';
-import { itemStorage } from '../../textsecure/Storage.preload.js';
-import { strictAssert } from '../../util/assert.std.js';
+} from '../../textsecure/Errors.std.ts';
+import { MessageSender } from '../../textsecure/SendMessage.preload.ts';
+import { sendToGroup } from '../../util/sendToGroup.preload.ts';
+import { itemStorage } from '../../textsecure/Storage.preload.ts';
+import { strictAssert } from '../../util/assert.std.ts';
 
 async function clearResetsTracking(idForTracking: string | undefined) {
   if (!idForTracking) {

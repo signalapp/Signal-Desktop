@@ -7,21 +7,21 @@ import { readdir, readFile, rm, stat, writeFile } from 'node:fs/promises';
 import { createReadStream, createWriteStream } from 'node:fs';
 import { Readable, Writable } from 'node:stream';
 import { pipeline } from 'node:stream/promises';
-import { createLogger } from '../../../logging/log.std.js';
-import * as Bytes from '../../../Bytes.std.js';
-import * as Errors from '../../../types/errors.std.js';
-import { Signal } from '../../../protobuf/index.std.js';
-import { DelimitedStream } from '../../../util/DelimitedStream.node.js';
-import { strictAssert } from '../../../util/assert.std.js';
-import { encodeDelimited } from '../../../util/encodeDelimited.std.js';
-import { decryptAesCtr, encryptAesCtr } from '../../../Crypto.node.js';
-import type { LocalBackupMetadataVerificationType } from '../../../types/backups.node.js';
+import { createLogger } from '../../../logging/log.std.ts';
+import * as Bytes from '../../../Bytes.std.ts';
+import * as Errors from '../../../types/errors.std.ts';
+import { Signal } from '../../../protobuf/index.std.ts';
+import { DelimitedStream } from '../../../util/DelimitedStream.node.ts';
+import { strictAssert } from '../../../util/assert.std.ts';
+import { encodeDelimited } from '../../../util/encodeDelimited.std.ts';
+import { decryptAesCtr, encryptAesCtr } from '../../../Crypto.node.ts';
+import type { LocalBackupMetadataVerificationType } from '../../../types/backups.node.ts';
 import {
   LOCAL_BACKUP_VERSION,
   LOCAL_BACKUP_BACKUP_ID_IV_LENGTH,
-} from '../constants.std.js';
-import { getTimestampForFolder } from '../../../util/timestamp.std.js';
-import { isPathInside } from '../../../util/isPathInside.node.js';
+} from '../constants.std.ts';
+import { getTimestampForFolder } from '../../../util/timestamp.std.ts';
+import { isPathInside } from '../../../util/isPathInside.node.ts';
 
 const log = createLogger('localBackup');
 

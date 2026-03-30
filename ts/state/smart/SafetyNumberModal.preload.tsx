@@ -2,12 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import React, { memo } from 'react';
 import { useSelector } from 'react-redux';
-import { SafetyNumberModal } from '../../components/SafetyNumberModal.dom.js';
-import { getConversationSelector } from '../selectors/conversations.dom.js';
-import { getIntl } from '../selectors/user.std.js';
-import { useGlobalModalActions } from '../ducks/globalModals.preload.js';
-import type { SafetyNumberProps } from '../../components/SafetyNumberChangeDialog.dom.js';
-import { SmartSafetyNumberViewer } from './SafetyNumberViewer.preload.js';
+import { SafetyNumberModal } from '../../components/SafetyNumberModal.dom.tsx';
+import { getConversationSelector } from '../selectors/conversations.dom.ts';
+import { getIntl } from '../selectors/user.std.ts';
+import { useGlobalModalActions } from '../ducks/globalModals.preload.ts';
+import type { SafetyNumberProps } from '../../components/SafetyNumberChangeDialog.dom.tsx';
+import { SmartSafetyNumberViewer } from './SafetyNumberViewer.preload.tsx';
 
 export type SmartSafetyNumberModalProps = {
   contactID: string;

@@ -1,17 +1,17 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { getMessageById } from '../messages/getMessageById.preload.js';
-import type { MessageModel } from '../models/messages.preload.js';
+import { getMessageById } from '../messages/getMessageById.preload.ts';
+import type { MessageModel } from '../models/messages.preload.ts';
 
-import { hydrateStoryContext } from './hydrateStoryContext.preload.js';
-import { getMessageIdForLogging } from './idForLogging.preload.js';
+import { hydrateStoryContext } from './hydrateStoryContext.preload.ts';
+import { getMessageIdForLogging } from './idForLogging.preload.ts';
 
-import { createLogger } from '../logging/log.std.js';
-import { isQuoteAMatch } from '../messages/quotes.preload.js';
-import { shouldTryToCopyFromQuotedMessage } from '../messages/helpers.std.js';
-import { copyQuoteContentFromOriginal } from '../messages/copyQuote.preload.js';
-import { maybeDeleteAttachmentFile } from './migrations.preload.js';
+import { createLogger } from '../logging/log.std.ts';
+import { isQuoteAMatch } from '../messages/quotes.preload.ts';
+import { shouldTryToCopyFromQuotedMessage } from '../messages/helpers.std.ts';
+import { copyQuoteContentFromOriginal } from '../messages/copyQuote.preload.ts';
+import { maybeDeleteAttachmentFile } from './migrations.preload.ts';
 
 const log = createLogger('doubleCheckMissingQuoteReference');
 

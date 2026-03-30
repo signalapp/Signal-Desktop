@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { makeEnumParser } from '../util/enum.std.js';
+import { makeEnumParser } from '../util/enum.std.ts';
 
 export enum BadgeImageTheme {
   Light = 'light',

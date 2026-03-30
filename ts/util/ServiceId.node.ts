@@ -6,7 +6,7 @@ import type {
   AciString,
   PniString,
   ServiceIdString,
-} from '../types/ServiceId.std.js';
+} from '../types/ServiceId.std.ts';
 import {
   normalizeServiceId,
   normalizePni,
@@ -15,9 +15,9 @@ import {
   fromServiceIdObject,
   fromAciObject,
   fromPniObject,
-} from '../types/ServiceId.std.js';
-import * as Bytes from '../Bytes.std.js';
-import { normalizeAci } from './normalizeAci.std.js';
+} from '../types/ServiceId.std.ts';
+import * as Bytes from '../Bytes.std.ts';
+import { normalizeAci } from './normalizeAci.std.ts';
 
 export function toServiceIdObject(serviceId: ServiceIdString): ServiceId {
   return ServiceId.parseFromServiceIdString(serviceId);

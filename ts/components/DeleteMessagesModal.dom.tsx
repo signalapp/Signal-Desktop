@@ -3,10 +3,10 @@
 
 import type { MouseEvent } from 'react';
 import React, { useCallback, useState } from 'react';
-import type { LocalizerType } from '../types/Util.std.js';
-import type { ShowToastAction } from '../state/ducks/toast.preload.js';
-import { ToastType } from '../types/Toast.dom.js';
-import { AxoAlertDialog } from '../axo/AxoAlertDialog.dom.js';
+import type { LocalizerType } from '../types/Util.std.ts';
+import type { ShowToastAction } from '../state/ducks/toast.preload.ts';
+import { ToastType } from '../types/Toast.dom.tsx';
+import { AxoAlertDialog } from '../axo/AxoAlertDialog.dom.tsx';
 
 export type DeleteMessagesModalProps = Readonly<{
   isMe: boolean;

@@ -9,15 +9,15 @@ import type {
   ReactNode,
 } from 'react';
 import React, { memo, useCallback, useMemo, useRef, useState } from 'react';
-import { AxoSymbol } from './AxoSymbol.dom.js';
-import type { TailwindStyles } from './tw.dom.js';
-import { tw } from './tw.dom.js';
+import { AxoSymbol } from './AxoSymbol.dom.tsx';
+import type { TailwindStyles } from './tw.dom.tsx';
+import { tw } from './tw.dom.tsx';
 import {
   createStrictContext,
   useStrictContext,
-} from './_internal/StrictContext.dom.js';
-import { assert } from './_internal/assert.std.js';
-import { AxoTokens } from './AxoTokens.std.js';
+} from './_internal/StrictContext.dom.tsx';
+import { assert } from './_internal/assert.std.tsx';
+import { AxoTokens } from './AxoTokens.std.ts';
 
 const Namespace = 'AxoAvatar';
 

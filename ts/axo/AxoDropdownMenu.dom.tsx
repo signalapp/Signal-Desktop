@@ -12,24 +12,24 @@ import React, {
 import { DropdownMenu } from 'radix-ui';
 import type { FC, ReactNode } from 'react';
 import { computeAccessibleName } from 'dom-accessibility-api';
-import { AxoSymbol } from './AxoSymbol.dom.js';
-import { AxoBaseMenu } from './_internal/AxoBaseMenu.dom.js';
-import { tw } from './tw.dom.js';
+import { AxoSymbol } from './AxoSymbol.dom.tsx';
+import { AxoBaseMenu } from './_internal/AxoBaseMenu.dom.tsx';
+import { tw } from './tw.dom.tsx';
 import {
   AriaLabellingProvider,
   useAriaLabellingContext,
   useCreateAriaLabellingContext,
-} from './_internal/AriaLabellingContext.dom.js';
-import { assert } from './_internal/assert.std.js';
+} from './_internal/AriaLabellingContext.dom.tsx';
+import { assert } from './_internal/assert.std.tsx';
 import {
   getElementAriaRole,
   isAriaWidgetRole,
-} from './_internal/ariaRoles.dom.js';
+} from './_internal/ariaRoles.dom.tsx';
 import {
   createStrictContext,
   useStrictContext,
-} from './_internal/StrictContext.dom.js';
-import { isTestOrMockEnvironment } from '../environment.std.js';
+} from './_internal/StrictContext.dom.tsx';
+import { isTestOrMockEnvironment } from '../environment.std.ts';
 
 const Namespace = 'AxoDropdownMenu';
 

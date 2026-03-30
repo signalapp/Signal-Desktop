@@ -1,7 +1,7 @@
 // Copyright 2017 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { createLogger } from '../../logging/log.std.js';
+import { createLogger } from '../../logging/log.std.ts';
 
 const log = createLogger('preload');
 
@@ -9,7 +9,7 @@ window.preloadStartTime = Date.now();
 
 try {
   // oxlint-disable-next-line node/global-require
-  require('./start.preload.js');
+  require('./start.preload.ts');
 } catch (error) {
   // oxlint-disable-next-line no-console
   console.log('preload error!', error.stack);

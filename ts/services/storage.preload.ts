@@ -4,8 +4,8 @@
 import lodash from 'lodash';
 import pMap from 'p-map';
 
-import { DataReader, DataWriter } from '../sql/Client.preload.js';
-import * as Bytes from '../Bytes.std.js';
+import { DataReader, DataWriter } from '../sql/Client.preload.ts';
+import * as Bytes from '../Bytes.std.ts';
 import {
   getRandomBytes,
   deriveStorageItemKey,
@@ -14,7 +14,7 @@ import {
   decryptProfile,
   deriveMasterKeyFromGroupV1,
   deriveStorageServiceKey,
-} from '../Crypto.node.js';
+} from '../Crypto.node.ts';
 import {
   mergeAccountRecord,
   mergeContactRecord,
@@ -35,30 +35,30 @@ import {
   toChatFolderRecord,
   mergeChatFolderRecord,
   mergeNotificationProfileRecord,
-} from './storageRecordOps.preload.js';
-import type { MergeResultType } from './storageRecordOps.preload.js';
-import { MAX_READ_KEYS } from './storageConstants.std.js';
-import type { ConversationModel } from '../models/conversations.preload.js';
-import { strictAssert } from '../util/assert.std.js';
-import { drop } from '../util/drop.std.js';
-import { dropNull } from '../util/dropNull.std.js';
-import * as durations from '../util/durations/index.std.js';
-import { BackOff } from '../util/BackOff.std.js';
-import { storageJobQueue } from '../util/JobQueue.std.js';
-import { sleep } from '../util/sleep.std.js';
-import { isMoreRecentThan, isOlderThan } from '../util/timestamp.std.js';
-import { map, filter } from '../util/iterables.std.js';
-import { getMessageQueueTime } from '../util/getMessageQueueTime.dom.js';
-import { ourProfileKeyService } from './ourProfileKey.std.js';
+} from './storageRecordOps.preload.ts';
+import type { MergeResultType } from './storageRecordOps.preload.ts';
+import { MAX_READ_KEYS } from './storageConstants.std.ts';
+import type { ConversationModel } from '../models/conversations.preload.ts';
+import { strictAssert } from '../util/assert.std.ts';
+import { drop } from '../util/drop.std.ts';
+import { dropNull } from '../util/dropNull.std.ts';
+import * as durations from '../util/durations/index.std.ts';
+import { BackOff } from '../util/BackOff.std.ts';
+import { storageJobQueue } from '../util/JobQueue.std.ts';
+import { sleep } from '../util/sleep.std.ts';
+import { isMoreRecentThan, isOlderThan } from '../util/timestamp.std.ts';
+import { map, filter } from '../util/iterables.std.ts';
+import { getMessageQueueTime } from '../util/getMessageQueueTime.dom.ts';
+import { ourProfileKeyService } from './ourProfileKey.std.ts';
 import {
   ConversationTypes,
   isDirectConversation,
   typeofConversation,
-} from '../util/whatTypeOfConversation.dom.js';
-import { SignalService as Proto } from '../protobuf/index.std.js';
-import { createLogger } from '../logging/log.std.js';
-import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue.preload.js';
-import * as Errors from '../types/errors.std.js';
+} from '../util/whatTypeOfConversation.dom.ts';
+import { SignalService as Proto } from '../protobuf/index.std.ts';
+import { createLogger } from '../logging/log.std.ts';
+import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue.preload.ts';
+import * as Errors from '../types/errors.std.ts';
 import type {
   ExtendedStorageID,
   RemoteRecord,
@@ -69,41 +69,41 @@ import {
   getStorageCredentials,
   getStorageManifest,
   getStorageRecords,
-} from '../textsecure/WebAPI.preload.js';
-import { MessageSender } from '../textsecure/SendMessage.preload.js';
+} from '../textsecure/WebAPI.preload.ts';
+import { MessageSender } from '../textsecure/SendMessage.preload.ts';
 import type {
   StoryDistributionWithMembersType,
   StorageServiceFieldsType,
   StickerPackType,
   UninstalledStickerPackType,
-} from '../sql/Interface.std.js';
-import { MY_STORY_ID } from '../types/Stories.std.js';
-import { isNotNil } from '../util/isNotNil.std.js';
-import { isSignalConversation } from '../util/isSignalConversation.dom.js';
+} from '../sql/Interface.std.ts';
+import { MY_STORY_ID } from '../types/Stories.std.ts';
+import { isNotNil } from '../util/isNotNil.std.ts';
+import { isSignalConversation } from '../util/isSignalConversation.dom.ts';
 import {
   redactExtendedStorageID,
   redactStorageID,
-} from '../util/privacy.node.js';
+} from '../util/privacy.node.ts';
 import type {
   CallLinkRecord,
   DefunctCallLinkType,
   PendingCallLinkType,
-} from '../types/CallLink.std.js';
+} from '../types/CallLink.std.ts';
 import {
   callLinkFromRecord,
   getRoomIdFromRootKeyString,
-} from '../util/callLinksRingrtc.node.js';
-import { fromPniUuidBytesOrUntaggedString } from '../util/ServiceId.node.js';
-import { isDone as isRegistrationDone } from '../util/registration.preload.js';
-import { callLinkRefreshJobQueue } from '../jobs/callLinkRefreshJobQueue.preload.js';
-import { isMockEnvironment } from '../environment.std.js';
-import { validateConversation } from '../util/validateConversation.dom.js';
-import type { ChatFolder } from '../types/ChatFolder.std.js';
-import { isCurrentAllChatFolder } from '../types/CurrentChatFolders.std.js';
-import type { NotificationProfileType } from '../types/NotificationProfile.std.js';
-import { itemStorage } from '../textsecure/Storage.preload.js';
+} from '../util/callLinksRingrtc.node.ts';
+import { fromPniUuidBytesOrUntaggedString } from '../util/ServiceId.node.ts';
+import { isDone as isRegistrationDone } from '../util/registration.preload.ts';
+import { callLinkRefreshJobQueue } from '../jobs/callLinkRefreshJobQueue.preload.ts';
+import { isMockEnvironment } from '../environment.std.ts';
+import { validateConversation } from '../util/validateConversation.dom.ts';
+import type { ChatFolder } from '../types/ChatFolder.std.ts';
+import { isCurrentAllChatFolder } from '../types/CurrentChatFolders.std.ts';
+import type { NotificationProfileType } from '../types/NotificationProfile.std.ts';
+import { itemStorage } from '../textsecure/Storage.preload.ts';
 
-import { toNumber } from '../util/toNumber.std.js';
+import { toNumber } from '../util/toNumber.std.ts';
 
 const { debounce, isNumber, chunk } = lodash;
 

@@ -1,13 +1,13 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import React, { useCallback } from 'react';
-import type { ConversationType } from '../../../state/ducks/conversations.preload.js';
-import type { LocalizerType } from '../../../types/Util.std.js';
-import { I18n } from '../../I18n.dom.js';
-import { SystemMessage } from '../SystemMessage.dom.js';
-import { UserText } from '../../UserText.dom.js';
-import { Button, ButtonSize, ButtonVariant } from '../../Button.dom.js';
-import type { PinMessageData } from '../../../model-types.js';
+import type { ConversationType } from '../../../state/ducks/conversations.preload.ts';
+import type { LocalizerType } from '../../../types/Util.std.ts';
+import { I18n } from '../../I18n.dom.tsx';
+import { SystemMessage } from '../SystemMessage.dom.tsx';
+import { UserText } from '../../UserText.dom.tsx';
+import { Button, ButtonSize, ButtonVariant } from '../../Button.dom.tsx';
+import type { PinMessageData } from '../../../model-types.d.ts';
 
 export type PinnedMessageNotificationData = Readonly<{
   sender: ConversationType;

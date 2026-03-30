@@ -4,15 +4,15 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import lodash from 'lodash';
 
-import { SearchInput } from './SearchInput.dom.js';
-import { filterAndSortConversations } from '../util/filterAndSortConversations.std.js';
+import { SearchInput } from './SearchInput.dom.tsx';
+import { filterAndSortConversations } from '../util/filterAndSortConversations.std.ts';
 
-import type { ConversationType } from '../state/ducks/conversations.preload.js';
-import type { ConversationWithStoriesType } from '../state/selectors/conversations.dom.js';
-import type { LocalizerType } from '../types/Util.std.js';
-import { ThemeType } from '../types/Util.std.js';
-import type { PreferredBadgeSelectorType } from '../state/selectors/badges.preload.js';
-import type { PropsType as StoriesSettingsModalPropsType } from './StoriesSettingsModal.dom.js';
+import type { ConversationType } from '../state/ducks/conversations.preload.ts';
+import type { ConversationWithStoriesType } from '../state/selectors/conversations.dom.ts';
+import type { LocalizerType } from '../types/Util.std.ts';
+import { ThemeType } from '../types/Util.std.ts';
+import type { PreferredBadgeSelectorType } from '../state/selectors/badges.preload.ts';
+import type { PropsType as StoriesSettingsModalPropsType } from './StoriesSettingsModal.dom.tsx';
 import {
   getI18nForMyStory,
   getListViewers,
@@ -20,36 +20,36 @@ import {
   EditDistributionListModal,
   EditMyStoryPrivacy,
   Page as StoriesSettingsPage,
-} from './StoriesSettingsModal.dom.js';
-import type { StoryDistributionListWithMembersDataType } from '../types/Stories.std.js';
-import type { StoryDistributionIdString } from '../types/StoryDistributionId.std.js';
-import type { ServiceIdString } from '../types/ServiceId.std.js';
-import { Alert } from './Alert.dom.js';
-import { Avatar, AvatarSize } from './Avatar.dom.js';
-import { Button, ButtonSize, ButtonVariant } from './Button.dom.js';
-import { Checkbox } from './Checkbox.dom.js';
-import { ConfirmationDialog } from './ConfirmationDialog.dom.js';
-import { ContextMenu } from './ContextMenu.dom.js';
+} from './StoriesSettingsModal.dom.tsx';
+import type { StoryDistributionListWithMembersDataType } from '../types/Stories.std.ts';
+import type { StoryDistributionIdString } from '../types/StoryDistributionId.std.ts';
+import type { ServiceIdString } from '../types/ServiceId.std.ts';
+import { Alert } from './Alert.dom.tsx';
+import { Avatar, AvatarSize } from './Avatar.dom.tsx';
+import { Button, ButtonSize, ButtonVariant } from './Button.dom.tsx';
+import { Checkbox } from './Checkbox.dom.tsx';
+import { ConfirmationDialog } from './ConfirmationDialog.dom.tsx';
+import { ContextMenu } from './ContextMenu.dom.tsx';
 
 import {
   MY_STORY_ID,
   getStoryDistributionListName,
-} from '../types/Stories.std.js';
-import type { RenderModalPage, ModalPropsType } from './Modal.dom.js';
-import { PagedModal, ModalPage } from './Modal.dom.js';
-import { StoryDistributionListName } from './StoryDistributionListName.dom.js';
-import { isNotNil } from '../util/isNotNil.std.js';
-import { StoryImage } from './StoryImage.dom.js';
-import type { AttachmentType } from '../types/Attachment.std.js';
-import { useConfirmDiscard } from '../hooks/useConfirmDiscard.dom.js';
-import { getStoryBackground } from '../util/getStoryBackground.std.js';
+} from '../types/Stories.std.ts';
+import type { RenderModalPage, ModalPropsType } from './Modal.dom.tsx';
+import { PagedModal, ModalPage } from './Modal.dom.tsx';
+import { StoryDistributionListName } from './StoryDistributionListName.dom.tsx';
+import { isNotNil } from '../util/isNotNil.std.ts';
+import { StoryImage } from './StoryImage.dom.tsx';
+import type { AttachmentType } from '../types/Attachment.std.ts';
+import { useConfirmDiscard } from '../hooks/useConfirmDiscard.dom.tsx';
+import { getStoryBackground } from '../util/getStoryBackground.std.ts';
 import {
   makeObjectUrl,
   revokeObjectUrl,
-} from '../types/VisualAttachment.dom.js';
-import { UserText } from './UserText.dom.js';
-import { Theme } from '../util/theme.std.js';
-import { strictAssert } from '../util/assert.std.js';
+} from '../types/VisualAttachment.dom.ts';
+import { UserText } from './UserText.dom.tsx';
+import { Theme } from '../util/theme.std.ts';
+import { strictAssert } from '../util/assert.std.ts';
 
 const { noop, sortBy } = lodash;
 

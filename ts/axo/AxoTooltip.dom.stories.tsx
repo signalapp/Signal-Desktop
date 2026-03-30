@@ -4,11 +4,11 @@ import type { JSX, ReactNode } from 'react';
 import React, { useState } from 'react';
 import type { Meta } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
-import { AxoTooltip } from './AxoTooltip.dom.js';
-import { AxoButton } from './AxoButton.dom.js';
-import { tw } from './tw.dom.js';
-import { AxoScrollArea } from './AxoScrollArea.dom.js';
-import { AxoDialog } from './AxoDialog.dom.js';
+import { AxoTooltip } from './AxoTooltip.dom.tsx';
+import { AxoButton } from './AxoButton.dom.tsx';
+import { tw } from './tw.dom.tsx';
+import { AxoScrollArea } from './AxoScrollArea.dom.tsx';
+import { AxoDialog } from './AxoDialog.dom.tsx';
 
 export default {
   title: 'Axo/AxoTooltip',

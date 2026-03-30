@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { NativeThemeState } from '../types/NativeThemeNotifier.d.ts';
-import { SystemThemeType } from '../types/Util.std.js';
+import { SystemThemeType } from '../types/Util.std.ts';
 
 export type Callback = (change: NativeThemeState) => void;
 

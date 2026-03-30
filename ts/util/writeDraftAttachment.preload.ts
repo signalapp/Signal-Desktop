@@ -5,17 +5,17 @@ import lodash from 'lodash';
 import type {
   InMemoryAttachmentDraftType,
   AttachmentDraftType,
-} from '../types/Attachment.std.js';
-import { isImageAttachment } from './Attachment.std.js';
-import { getImageDimensions } from '../types/VisualAttachment.dom.js';
-import { IMAGE_PNG } from '../types/MIME.std.js';
-import * as Errors from '../types/errors.std.js';
+} from '../types/Attachment.std.ts';
+import { isImageAttachment } from './Attachment.std.ts';
+import { getImageDimensions } from '../types/VisualAttachment.dom.ts';
+import { IMAGE_PNG } from '../types/MIME.std.ts';
+import * as Errors from '../types/errors.std.ts';
 import {
   getLocalAttachmentUrl,
   AttachmentDisposition,
-} from './getLocalAttachmentUrl.std.js';
-import { writeNewDraftData } from './migrations.preload.js';
-import { createLogger } from '../logging/log.std.js';
+} from './getLocalAttachmentUrl.std.ts';
+import { writeNewDraftData } from './migrations.preload.ts';
+import { createLogger } from '../logging/log.std.ts';
 
 const { omit } = lodash;
 

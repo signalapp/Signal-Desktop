@@ -7,29 +7,29 @@ import lodash, { clamp } from 'lodash';
 
 import type { VideoFrameSource } from '@signalapp/ringrtc';
 
-import { missingCaseError } from '../util/missingCaseError.std.js';
-import { isGroupOrAdhocActiveCall } from '../util/isGroupOrAdhocCall.std.js';
-import { useActivateSpeakerViewOnPresenting } from '../hooks/useActivateSpeakerViewOnPresenting.std.js';
-import { CallMode } from '../types/CallDisposition.std.js';
-import { TooltipPlacement } from './Tooltip.dom.js';
-import { CallingButton, CallingButtonType } from './CallingButton.dom.js';
-import { CallingPipRemoteVideo } from './CallingPipRemoteVideo.dom.js';
-import { CallBackgroundBlur } from './CallBackgroundBlur.dom.js';
+import { missingCaseError } from '../util/missingCaseError.std.ts';
+import { isGroupOrAdhocActiveCall } from '../util/isGroupOrAdhocCall.std.ts';
+import { useActivateSpeakerViewOnPresenting } from '../hooks/useActivateSpeakerViewOnPresenting.std.ts';
+import { CallMode } from '../types/CallDisposition.std.ts';
+import { TooltipPlacement } from './Tooltip.dom.tsx';
+import { CallingButton, CallingButtonType } from './CallingButton.dom.tsx';
+import { CallingPipRemoteVideo } from './CallingPipRemoteVideo.dom.tsx';
+import { CallBackgroundBlur } from './CallBackgroundBlur.dom.tsx';
 
-import type { LocalizerType } from '../types/Util.std.js';
+import type { LocalizerType } from '../types/Util.std.ts';
 import type {
   ActiveCallType,
   GroupCallVideoRequest,
-} from '../types/Calling.std.js';
-import type { SetRendererCanvasType } from '../state/ducks/calling.preload.js';
-import type { CallingImageDataCache } from './CallManager.dom.js';
-import type { ConversationType } from '../state/ducks/conversations.preload.js';
-import { Avatar, AvatarSize } from './Avatar.dom.js';
-import { AvatarColors } from '../types/Colors.std.js';
-import type { SetLocalPreviewContainerType } from '../services/calling.preload.js';
-import { usePrevious } from '../hooks/usePrevious.std.js';
-import type { SizeCallbackType } from '../calling/VideoSupport.preload.js';
-import { MAX_FRAME_HEIGHT } from '../calling/constants.std.js';
+} from '../types/Calling.std.ts';
+import type { SetRendererCanvasType } from '../state/ducks/calling.preload.ts';
+import type { CallingImageDataCache } from './CallManager.dom.tsx';
+import type { ConversationType } from '../state/ducks/conversations.preload.ts';
+import { Avatar, AvatarSize } from './Avatar.dom.tsx';
+import { AvatarColors } from '../types/Colors.std.ts';
+import type { SetLocalPreviewContainerType } from '../services/calling.preload.ts';
+import { usePrevious } from '../hooks/usePrevious.std.ts';
+import type { SizeCallbackType } from '../calling/VideoSupport.preload.ts';
+import { MAX_FRAME_HEIGHT } from '../calling/constants.std.ts';
 
 const { minBy, debounce, noop } = lodash;
 

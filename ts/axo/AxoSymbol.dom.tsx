@@ -4,16 +4,16 @@ import type { FC } from 'react';
 import React, { memo, useMemo } from 'react';
 import { Direction } from 'radix-ui';
 import { VisuallyHidden } from 'react-aria';
-import type { TailwindStyles } from './tw.dom.js';
-import { tw } from './tw.dom.js';
+import type { TailwindStyles } from './tw.dom.tsx';
+import { tw } from './tw.dom.tsx';
 import {
   getAxoSymbolIcon,
   getAxoSymbolInlineGlyph,
-} from './_internal/AxoSymbolDefs.generated.std.js';
+} from './_internal/AxoSymbolDefs.generated.std.ts';
 import type {
   AxoSymbolIconName,
   AxoSymbolInlineGlyphName,
-} from './_internal/AxoSymbolDefs.generated.std.js';
+} from './_internal/AxoSymbolDefs.generated.std.ts';
 
 const { useDirection } = Direction;
 

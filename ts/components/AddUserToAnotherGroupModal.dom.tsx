@@ -5,24 +5,24 @@ import lodash from 'lodash';
 import React, { useCallback } from 'react';
 import type { ListRowProps } from 'react-virtualized';
 
-import type { ConversationType } from '../state/ducks/conversations.preload.js';
-import type { LocalizerType } from '../types/Util.std.js';
-import { ToastType } from '../types/Toast.dom.js';
-import { filterAndSortConversations } from '../util/filterAndSortConversations.std.js';
-import { ConfirmationDialog } from './ConfirmationDialog.dom.js';
-import type { GroupListItemConversationType } from './conversationList/GroupListItem.dom.js';
+import type { ConversationType } from '../state/ducks/conversations.preload.ts';
+import type { LocalizerType } from '../types/Util.std.ts';
+import { ToastType } from '../types/Toast.dom.tsx';
+import { filterAndSortConversations } from '../util/filterAndSortConversations.std.ts';
+import { ConfirmationDialog } from './ConfirmationDialog.dom.tsx';
+import type { GroupListItemConversationType } from './conversationList/GroupListItem.dom.tsx';
 import {
   DisabledReason,
   GroupListItem,
-} from './conversationList/GroupListItem.dom.js';
-import { Modal } from './Modal.dom.js';
-import { SearchInput } from './SearchInput.dom.js';
-import { useRestoreFocus } from '../hooks/useRestoreFocus.dom.js';
-import { ListView } from './ListView.dom.js';
-import { ListTile } from './ListTile.dom.js';
-import type { ShowToastAction } from '../state/ducks/toast.preload.js';
-import { SizeObserver } from '../hooks/useSizeObserver.dom.js';
-import { strictAssert } from '../util/assert.std.js';
+} from './conversationList/GroupListItem.dom.tsx';
+import { Modal } from './Modal.dom.tsx';
+import { SearchInput } from './SearchInput.dom.tsx';
+import { useRestoreFocus } from '../hooks/useRestoreFocus.dom.ts';
+import { ListView } from './ListView.dom.tsx';
+import { ListTile } from './ListTile.dom.tsx';
+import type { ShowToastAction } from '../state/ducks/toast.preload.ts';
+import { SizeObserver } from '../hooks/useSizeObserver.dom.tsx';
+import { strictAssert } from '../util/assert.std.ts';
 
 const { pick } = lodash;
 

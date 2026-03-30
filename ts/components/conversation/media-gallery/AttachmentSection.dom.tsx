@@ -3,16 +3,16 @@
 
 import React, { Fragment } from 'react';
 
-import type { ItemClickEvent } from './types/ItemClickEvent.std.js';
+import type { ItemClickEvent } from './types/ItemClickEvent.std.ts';
 import type {
   GenericMediaItemType,
   MediaItemType,
   LinkPreviewMediaItemType,
   ContactMediaItemType,
-} from '../../../types/MediaItem.std.js';
-import { missingCaseError } from '../../../util/missingCaseError.std.js';
-import { strictAssert } from '../../../util/assert.std.js';
-import { tw } from '../../../axo/tw.dom.js';
+} from '../../../types/MediaItem.std.ts';
+import { missingCaseError } from '../../../util/missingCaseError.std.ts';
+import { strictAssert } from '../../../util/assert.std.ts';
+import { tw } from '../../../axo/tw.dom.tsx';
 
 export type Props = {
   header?: string;

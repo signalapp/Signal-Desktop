@@ -4,18 +4,18 @@
 import * as React from 'react';
 import lodash from 'lodash';
 import classNames from 'classnames';
-import { ContactName } from './ContactName.dom.js';
-import type { Props as AvatarProps } from '../Avatar.dom.js';
-import { Avatar } from '../Avatar.dom.js';
-import { useRestoreFocus } from '../../hooks/useRestoreFocus.dom.js';
-import type { ConversationType } from '../../state/ducks/conversations.preload.js';
-import type { PreferredBadgeSelectorType } from '../../state/selectors/badges.preload.js';
-import { useEscapeHandling } from '../../hooks/useEscapeHandling.dom.js';
-import type { ThemeType } from '../../types/Util.std.js';
+import { ContactName } from './ContactName.dom.tsx';
+import type { Props as AvatarProps } from '../Avatar.dom.tsx';
+import { Avatar } from '../Avatar.dom.tsx';
+import { useRestoreFocus } from '../../hooks/useRestoreFocus.dom.ts';
+import type { ConversationType } from '../../state/ducks/conversations.preload.ts';
+import type { PreferredBadgeSelectorType } from '../../state/selectors/badges.preload.ts';
+import { useEscapeHandling } from '../../hooks/useEscapeHandling.dom.ts';
+import type { ThemeType } from '../../types/Util.std.ts';
 import type {
   EmojiParentKey,
   EmojiVariantKey,
-} from '../fun/data/emojis.std.js';
+} from '../fun/data/emojis.std.ts';
 import {
   EMOJI_PARENT_KEY_CONSTANTS,
   getEmojiDebugLabel,
@@ -23,11 +23,11 @@ import {
   getEmojiVariantByKey,
   getEmojiVariantKeyByValue,
   isEmojiVariantValue,
-} from '../fun/data/emojis.std.js';
-import { strictAssert } from '../../util/assert.std.js';
-import { FunStaticEmoji } from '../fun/FunEmoji.dom.js';
-import { useFunEmojiLocalizer } from '../fun/useFunEmojiLocalizer.dom.js';
-import { createLogger } from '../../logging/log.std.js';
+} from '../fun/data/emojis.std.ts';
+import { strictAssert } from '../../util/assert.std.ts';
+import { FunStaticEmoji } from '../fun/FunEmoji.dom.tsx';
+import { useFunEmojiLocalizer } from '../fun/useFunEmojiLocalizer.dom.tsx';
+import { createLogger } from '../../logging/log.std.ts';
 
 const { mapValues, orderBy } = lodash;
 

@@ -1,31 +1,20 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-// @ts-expect-error -- image file
-import gif from '../../fixtures/giphy-GVNvOUpeYmI7e.gif';
-// @ts-expect-error -- image file
-import png from '../../fixtures/freepngs-2cd43b_bed7d1327e88454487397574d87b64dc_mv2.png';
-// @ts-expect-error -- image file
-import landscapeGreen from '../../fixtures/1000x50-green.jpeg';
-// @ts-expect-error -- image file
-import landscapePurple from '../../fixtures/200x50-purple.png';
-// @ts-expect-error -- image file
-import portraitTeal from '../../fixtures/50x1000-teal.jpeg';
-// @ts-expect-error -- image file
-import squareSticker from '../../fixtures/512x515-thumbs-up-lincoln.webp';
 
 // 320x240
-export const gifUrl = `/${gif}`;
+export const gifUrl = '/fixtures/giphy-GVNvOUpeYmI7e.gif';
 
 // 800×1200
-export const pngUrl = `/${png}`;
+export const pngUrl =
+  '/fixtures/freepngs-2cd43b_bed7d1327e88454487397574d87b64dc_mv2.png';
 
 // 1000x50
-export const landscapeGreenUrl = `/${landscapeGreen}`;
+export const landscapeGreenUrl = '/fixtures/1000x50-green.jpeg';
 
 // 200x50
-export const landscapePurpleUrl = `/${landscapePurple}`;
+export const landscapePurpleUrl = '/fixtures/200x50-purple.png';
 
 // 50x1000
-export const portraitTealUrl = `/${portraitTeal}`;
+export const portraitTealUrl = '/fixtures/50x1000-teal.jpeg';
 
-export const squareStickerUrl = `/${squareSticker}`;
+export const squareStickerUrl = '/fixtures/512x515-thumbs-up-lincoln.webp';

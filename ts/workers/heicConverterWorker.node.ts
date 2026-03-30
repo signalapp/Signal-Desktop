@@ -7,7 +7,7 @@ import { parentPort } from 'node:worker_threads';
 import type {
   WrappedWorkerRequest,
   WrappedWorkerResponse,
-} from './heicConverterMain.main.js';
+} from './heicConverterMain.main.ts';
 
 if (!parentPort) {
   throw new Error('Must run as a worker thread');

@@ -3,10 +3,10 @@
 
 import React from 'react';
 
-import type { LocalizerType } from '../types/Util.std.js';
-import { Button, ButtonVariant } from './Button.dom.js';
-import { Modal } from './Modal.dom.js';
-import { Spinner } from './Spinner.dom.js';
+import type { LocalizerType } from '../types/Util.std.ts';
+import { Button, ButtonVariant } from './Button.dom.tsx';
+import { Modal } from './Modal.dom.tsx';
+import { Spinner } from './Spinner.dom.tsx';
 
 type PropsActionsType = {
   writeCrashReportsToLog: () => void;

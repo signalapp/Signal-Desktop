@@ -3,16 +3,16 @@
 
 import React, { memo, useCallback } from 'react';
 import { useSelector } from 'react-redux';
-import { ConversationPanel } from './ConversationPanel.preload.js';
-import { ConversationView } from '../../components/conversation/ConversationView.dom.js';
-import { SmartCompositionArea } from './CompositionArea.preload.js';
-import { SmartConversationHeader } from './ConversationHeader.preload.js';
-import { SmartTimeline } from './Timeline.preload.js';
-import { getSelectedMessageIds } from '../selectors/conversations.dom.js';
-import { getActivePanel, getIsPanelAnimating } from '../selectors/nav.std.js';
-import { useComposerActions } from '../ducks/composer.preload.js';
-import { useConversationsActions } from '../ducks/conversations.preload.js';
-import { isShowingAnyModal } from '../selectors/globalModals.std.js';
+import { ConversationPanel } from './ConversationPanel.preload.tsx';
+import { ConversationView } from '../../components/conversation/ConversationView.dom.tsx';
+import { SmartCompositionArea } from './CompositionArea.preload.tsx';
+import { SmartConversationHeader } from './ConversationHeader.preload.tsx';
+import { SmartTimeline } from './Timeline.preload.tsx';
+import { getSelectedMessageIds } from '../selectors/conversations.dom.ts';
+import { getActivePanel, getIsPanelAnimating } from '../selectors/nav.std.ts';
+import { useComposerActions } from '../ducks/composer.preload.ts';
+import { useConversationsActions } from '../ducks/conversations.preload.ts';
+import { isShowingAnyModal } from '../selectors/globalModals.std.ts';
 
 function renderCompositionArea(conversationId: string) {
   return <SmartCompositionArea id={conversationId} />;

@@ -3,7 +3,7 @@
 
 import Fuse from 'fuse.js';
 
-import { removeDiacritics } from './removeDiacritics.std.js';
+import { removeDiacritics } from './removeDiacritics.std.ts';
 
 const cachedIndices: Map<
   Fuse.IFuseOptions<unknown>,

@@ -4,11 +4,11 @@
 import React, { type ReactNode } from 'react';
 import classNames from 'classnames';
 
-import { SpinnerV2 } from '../SpinnerV2.dom.js';
+import { SpinnerV2 } from '../SpinnerV2.dom.tsx';
 
-import type { AttachmentForUIType } from '../../types/Attachment.std.js';
-import { missingCaseError } from '../../util/missingCaseError.std.js';
-import { useAttachmentStatus } from '../../hooks/useAttachmentStatus.std.js';
+import type { AttachmentForUIType } from '../../types/Attachment.std.ts';
+import { missingCaseError } from '../../util/missingCaseError.std.ts';
+import { useAttachmentStatus } from '../../hooks/useAttachmentStatus.std.ts';
 
 export type PropsType = {
   attachment: AttachmentForUIType;

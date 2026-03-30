@@ -4,27 +4,27 @@
 import React, { useState, useRef, useCallback, useMemo } from 'react';
 import { flushSync } from 'react-dom';
 import { v4 as generateUuid } from 'uuid';
-import { tw } from '../axo/tw.dom.js';
-import type { LocalizerType } from '../types/Util.std.js';
-import { Modal } from './Modal.dom.js';
-import { AutoSizeTextArea } from './AutoSizeTextArea.dom.js';
-import { AxoButton } from '../axo/AxoButton.dom.js';
-import { AxoSwitch } from '../axo/AxoSwitch.dom.js';
-import { Toast } from './Toast.dom.js';
-import { FunEmojiPicker } from './fun/FunEmojiPicker.dom.js';
-import { FunEmojiPickerButton } from './fun/FunButton.dom.js';
-import type { FunEmojiSelection } from './fun/panels/FunPanelEmojis.dom.js';
-import { getEmojiVariantByKey } from './fun/data/emojis.std.js';
-import { strictAssert } from '../util/assert.std.js';
+import { tw } from '../axo/tw.dom.tsx';
+import type { LocalizerType } from '../types/Util.std.ts';
+import { Modal } from './Modal.dom.tsx';
+import { AutoSizeTextArea } from './AutoSizeTextArea.dom.tsx';
+import { AxoButton } from '../axo/AxoButton.dom.tsx';
+import { AxoSwitch } from '../axo/AxoSwitch.dom.tsx';
+import { Toast } from './Toast.dom.tsx';
+import { FunEmojiPicker } from './fun/FunEmojiPicker.dom.tsx';
+import { FunEmojiPickerButton } from './fun/FunButton.dom.tsx';
+import type { FunEmojiSelection } from './fun/panels/FunPanelEmojis.dom.tsx';
+import { getEmojiVariantByKey } from './fun/data/emojis.std.ts';
+import { strictAssert } from '../util/assert.std.ts';
 import {
   type PollCreateType,
   POLL_QUESTION_MAX_LENGTH_SEND,
   POLL_OPTION_MAX_LENGTH,
   POLL_OPTIONS_MIN_COUNT,
   POLL_OPTIONS_MAX_COUNT,
-} from '../types/Polls.dom.js';
-import { count as countGraphemes } from '../util/grapheme.std.js';
-import { MAX_MESSAGE_BODY_BYTE_LENGTH } from '../util/longAttachment.std.js';
+} from '../types/Polls.dom.ts';
+import { count as countGraphemes } from '../util/grapheme.std.ts';
+import { MAX_MESSAGE_BODY_BYTE_LENGTH } from '../util/longAttachment.std.ts';
 
 type PollOption = {
   id: string;

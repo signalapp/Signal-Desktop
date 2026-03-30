@@ -4,27 +4,27 @@
 import semver from 'semver';
 import lodash from 'lodash';
 
-import * as durations from '../util/durations/index.std.js';
-import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary.std.js';
-import * as Registration from '../util/registration.preload.js';
-import { createLogger } from '../logging/log.std.js';
-import * as Errors from '../types/errors.std.js';
-import { HTTPError } from '../types/HTTPError.std.js';
-import { drop } from '../util/drop.std.js';
+import * as durations from '../util/durations/index.std.ts';
+import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary.std.ts';
+import * as Registration from '../util/registration.preload.ts';
+import { createLogger } from '../logging/log.std.ts';
+import * as Errors from '../types/errors.std.ts';
+import { HTTPError } from '../types/HTTPError.std.ts';
+import { drop } from '../util/drop.std.ts';
 import {
   writeNewAttachmentData,
   processNewAttachment,
   writeNewMegaphoneImageFileData,
-} from '../util/migrations.preload.js';
-import { strictAssert } from '../util/assert.std.js';
+} from '../util/migrations.preload.ts';
+import { strictAssert } from '../util/assert.std.ts';
 import type { MessageAttributesType } from '../model-types.d.ts';
-import { ReadStatus } from '../messages/MessageReadStatus.std.js';
-import { incrementMessageCounter } from '../util/incrementMessageCounter.preload.js';
-import { SeenStatus } from '../MessageSeenStatus.std.js';
-import { saveNewMessageBatcher } from '../util/messageBatcher.preload.js';
-import { generateMessageId } from '../util/generateMessageId.node.js';
-import type { RawBodyRange } from '../types/BodyRange.std.js';
-import { BodyRange } from '../types/BodyRange.std.js';
+import { ReadStatus } from '../messages/MessageReadStatus.std.ts';
+import { incrementMessageCounter } from '../util/incrementMessageCounter.preload.ts';
+import { SeenStatus } from '../MessageSeenStatus.std.ts';
+import { saveNewMessageBatcher } from '../util/messageBatcher.preload.ts';
+import { generateMessageId } from '../util/generateMessageId.node.ts';
+import type { RawBodyRange } from '../types/BodyRange.std.ts';
+import { BodyRange } from '../types/BodyRange.std.ts';
 import type {
   ReleaseNotesManifestResponseType,
   ReleaseNoteResponseType,
@@ -36,20 +36,20 @@ import type {
   getReleaseNotesManifest as doGetReleaseNotesManifest,
   getReleaseNotesManifestHash as doGetReleaseNotesManifestHash,
   MegaphoneResponseType,
-} from '../textsecure/WebAPI.preload.js';
-import type { WithRequiredProperties } from '../types/Util.std.js';
-import { MessageModel } from '../models/messages.preload.js';
-import { stringToMIMEType } from '../types/MIME.std.js';
-import { isNotNil } from '../util/isNotNil.std.js';
-import { itemStorage } from '../textsecure/Storage.preload.js';
-import { DataReader, DataWriter } from '../sql/Client.preload.js';
-import { type RemoteMegaphoneType } from '../types/Megaphone.std.js';
-import { isCountryPpmCsvBucketEnabled } from '../RemoteConfig.dom.js';
-import type { AciString } from '../types/ServiceId.std.js';
+} from '../textsecure/WebAPI.preload.ts';
+import type { WithRequiredProperties } from '../types/Util.std.ts';
+import { MessageModel } from '../models/messages.preload.ts';
+import { stringToMIMEType } from '../types/MIME.std.ts';
+import { isNotNil } from '../util/isNotNil.std.ts';
+import { itemStorage } from '../textsecure/Storage.preload.ts';
+import { DataReader, DataWriter } from '../sql/Client.preload.ts';
+import { type RemoteMegaphoneType } from '../types/Megaphone.std.ts';
+import { isCountryPpmCsvBucketEnabled } from '../RemoteConfig.dom.ts';
+import type { AciString } from '../types/ServiceId.std.ts';
 import {
   deleteMegaphoneAndRemoveFromRedux,
   runMegaphoneCheck,
-} from './megaphone.preload.js';
+} from './megaphone.preload.ts';
 
 const { last } = lodash;
 

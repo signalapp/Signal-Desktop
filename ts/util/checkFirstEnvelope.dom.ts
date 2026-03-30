@@ -3,16 +3,16 @@
 
 import lodash from 'lodash';
 
-import { createLogger } from '../logging/log.std.js';
-import { SignalService as Proto } from '../protobuf/index.std.js';
-import { ToastType } from '../types/Toast.dom.js';
-import { HOUR, SECOND } from './durations/index.std.js';
-import { isOlderThan } from './timestamp.std.js';
-import { isProduction } from './version.std.js';
+import { createLogger } from '../logging/log.std.ts';
+import { SignalService as Proto } from '../protobuf/index.std.ts';
+import { ToastType } from '../types/Toast.dom.tsx';
+import { HOUR, SECOND } from './durations/index.std.ts';
+import { isOlderThan } from './timestamp.std.ts';
+import { isProduction } from './version.std.ts';
 
-import type { IncomingWebSocketRequest } from '../textsecure/WebsocketResources.preload.js';
+import type { IncomingWebSocketRequest } from '../textsecure/WebsocketResources.preload.ts';
 
-import { toNumber } from './toNumber.std.js';
+import { toNumber } from './toNumber.std.ts';
 
 const { isNumber } = lodash;
 

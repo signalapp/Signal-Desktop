@@ -5,16 +5,16 @@ import type { Key, ReactNode } from 'react';
 import React, { useState } from 'react';
 import { Tabs, TabList, Tab, TabPanel } from 'react-aria-components';
 import classNames from 'classnames';
-import { Avatar, AvatarSize } from './Avatar.dom.js';
-import type { LocalizerType, ThemeType } from '../types/Util.std.js';
-import type { ConversationType } from '../state/ducks/conversations.preload.js';
-import type { BadgeType } from '../badges/types.std.js';
-import { NavTab, ProfileEditorPage, SettingsPage } from '../types/Nav.std.js';
-import type { Location } from '../types/Nav.std.js';
-import { Tooltip, TooltipPlacement } from './Tooltip.dom.js';
-import { Theme } from '../util/theme.std.js';
-import type { UnreadStats } from '../util/countUnreadStats.std.js';
-import { ProfileMovedModal } from './ProfileMovedModal.dom.js';
+import { Avatar, AvatarSize } from './Avatar.dom.tsx';
+import type { LocalizerType, ThemeType } from '../types/Util.std.ts';
+import type { ConversationType } from '../state/ducks/conversations.preload.ts';
+import type { BadgeType } from '../badges/types.std.ts';
+import { NavTab, ProfileEditorPage, SettingsPage } from '../types/Nav.std.ts';
+import type { Location } from '../types/Nav.std.ts';
+import { Tooltip, TooltipPlacement } from './Tooltip.dom.tsx';
+import { Theme } from '../util/theme.std.ts';
+import type { UnreadStats } from '../util/countUnreadStats.std.ts';
+import { ProfileMovedModal } from './ProfileMovedModal.dom.tsx';
 
 type NavTabsItemBadgesProps = Readonly<{
   i18n: LocalizerType;

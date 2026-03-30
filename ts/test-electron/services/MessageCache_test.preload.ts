@@ -3,13 +3,13 @@
 
 import { assert } from 'chai';
 import { v4 as uuid } from 'uuid';
-import { MessageModel } from '../../models/messages.preload.js';
-import { strictAssert } from '../../util/assert.std.js';
+import { MessageModel } from '../../models/messages.preload.ts';
+import { strictAssert } from '../../util/assert.std.ts';
 
-import { MessageCache } from '../../services/MessageCache.preload.js';
-import { generateAci } from '../../types/ServiceId.std.js';
-import { DataWriter } from '../../sql/Client.preload.js';
-import { itemStorage } from '../../textsecure/Storage.preload.js';
+import { MessageCache } from '../../services/MessageCache.preload.ts';
+import { generateAci } from '../../types/ServiceId.std.ts';
+import { DataWriter } from '../../sql/Client.preload.ts';
+import { itemStorage } from '../../textsecure/Storage.preload.ts';
 
 describe('MessageCache', () => {
   beforeEach(async () => {

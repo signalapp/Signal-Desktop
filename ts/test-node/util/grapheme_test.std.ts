@@ -8,7 +8,7 @@ import {
   count,
   hasAtMostGraphemes,
   isSingleGrapheme,
-} from '../../util/grapheme.std.js';
+} from '../../util/grapheme.std.ts';
 
 describe('grapheme utilities', () => {
   describe('getGraphemes', () => {

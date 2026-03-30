@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 
-import { prependStream } from '../../util/prependStream.node.js';
+import { prependStream } from '../../util/prependStream.node.ts';
 
 describe('prependStream', () => {
   it('should prepend stream with a prefix', async () => {

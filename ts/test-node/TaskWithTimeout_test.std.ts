@@ -4,14 +4,14 @@
 import { assert } from 'chai';
 import * as sinon from 'sinon';
 
-import { sleep } from '../util/sleep.std.js';
-import { explodePromise } from '../util/explodePromise.std.js';
-import { MINUTE } from '../util/durations/index.std.js';
+import { sleep } from '../util/sleep.std.ts';
+import { explodePromise } from '../util/explodePromise.std.ts';
+import { MINUTE } from '../util/durations/index.std.ts';
 import {
   runTaskWithTimeout,
   suspendTasksWithTimeout,
   resumeTasksWithTimeout,
-} from '../textsecure/TaskWithTimeout.std.js';
+} from '../textsecure/TaskWithTimeout.std.ts';
 
 describe('runTaskWithTimeout', () => {
   let sandbox: sinon.SinonSandbox;

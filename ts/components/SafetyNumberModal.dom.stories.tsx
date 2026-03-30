@@ -4,10 +4,10 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import { getDefaultConversation } from '../test-helpers/getDefaultConversation.std.js';
-import type { PropsType } from './SafetyNumberModal.dom.js';
-import { SafetyNumberModal } from './SafetyNumberModal.dom.js';
-import { SafetyNumber } from './SafetyNumberViewer.dom.stories.js';
+import { getDefaultConversation } from '../test-helpers/getDefaultConversation.std.ts';
+import type { PropsType } from './SafetyNumberModal.dom.tsx';
+import { SafetyNumberModal } from './SafetyNumberModal.dom.tsx';
+import { SafetyNumber } from './SafetyNumberViewer.dom.stories.tsx';
 
 const { i18n } = window.SignalContext;
 

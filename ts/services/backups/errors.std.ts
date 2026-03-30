@@ -1,6 +1,6 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import { InstallScreenBackupError } from '../../types/InstallScreen.std.js';
+import { InstallScreenBackupError } from '../../types/InstallScreen.std.ts';
 
 export class BackupInstallerError extends Error {
   constructor(

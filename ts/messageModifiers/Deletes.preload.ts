@@ -2,15 +2,15 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { MessageAttributesType } from '../model-types.d.ts';
-import type { AciString } from '../types/ServiceId.std.js';
-import { getAuthorId } from '../messages/sources.preload.js';
-import { DataReader } from '../sql/Client.preload.js';
-import { createLogger } from '../logging/log.std.js';
-import * as Errors from '../types/errors.std.js';
-import { receiveDeleteForEveryone } from '../util/deleteForEveryone.preload.js';
-import { drop } from '../util/drop.std.js';
-import { getMessageSentTimestampSet } from '../util/getMessageSentTimestampSet.std.js';
-import { MessageModel } from '../models/messages.preload.js';
+import type { AciString } from '../types/ServiceId.std.ts';
+import { getAuthorId } from '../messages/sources.preload.ts';
+import { DataReader } from '../sql/Client.preload.ts';
+import { createLogger } from '../logging/log.std.ts';
+import * as Errors from '../types/errors.std.ts';
+import { receiveDeleteForEveryone } from '../util/deleteForEveryone.preload.ts';
+import { drop } from '../util/drop.std.ts';
+import { getMessageSentTimestampSet } from '../util/getMessageSentTimestampSet.std.ts';
+import { MessageModel } from '../models/messages.preload.ts';
 
 const log = createLogger('Deletes');
 

@@ -3,16 +3,16 @@
 
 import { ContentHint } from '@signalapp/libsignal-client';
 
-import * as Bytes from '../Bytes.std.js';
-import { CallLinkUpdateSyncType } from '../types/CallLink.std.js';
-import { createLogger } from '../logging/log.std.js';
-import * as Errors from '../types/errors.std.js';
-import { SignalService as Proto } from '../protobuf/index.std.js';
-import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue.preload.js';
-import { MessageSender } from '../textsecure/SendMessage.preload.js';
-import { toAdminKeyBytes } from './callLinks.std.js';
-import { toRootKeyBytes } from './callLinksRingrtc.node.js';
-import { itemStorage } from '../textsecure/Storage.preload.js';
+import * as Bytes from '../Bytes.std.ts';
+import { CallLinkUpdateSyncType } from '../types/CallLink.std.ts';
+import { createLogger } from '../logging/log.std.ts';
+import * as Errors from '../types/errors.std.ts';
+import { SignalService as Proto } from '../protobuf/index.std.ts';
+import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue.preload.ts';
+import { MessageSender } from '../textsecure/SendMessage.preload.ts';
+import { toAdminKeyBytes } from './callLinks.std.ts';
+import { toRootKeyBytes } from './callLinksRingrtc.node.ts';
+import { itemStorage } from '../textsecure/Storage.preload.ts';
 
 const log = createLogger('sendCallLinkUpdateSync');
 

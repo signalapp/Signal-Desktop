@@ -4,9 +4,9 @@
 import React, { useState } from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './CaptchaDialog.dom.js';
-import { CaptchaDialog } from './CaptchaDialog.dom.js';
-import { Button } from './Button.dom.js';
+import type { PropsType } from './CaptchaDialog.dom.tsx';
+import { CaptchaDialog } from './CaptchaDialog.dom.tsx';
+import { Button } from './Button.dom.tsx';
 
 const { i18n } = window.SignalContext;
 

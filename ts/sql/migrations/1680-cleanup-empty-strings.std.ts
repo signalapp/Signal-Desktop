@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import z from 'zod';
 
-import type { WritableDB } from '../Interface.std.js';
-import type { LoggerType } from '../../types/Logging.std.js';
-import { safeParseUnknown } from '../../util/schemas.std.js';
+import type { WritableDB } from '../Interface.std.ts';
+import type { LoggerType } from '../../types/Logging.std.ts';
+import { safeParseUnknown } from '../../util/schemas.std.ts';
 
 const toNullable = z
   .string()

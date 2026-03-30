@@ -1,9 +1,9 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { AttachmentType } from '../types/Attachment.std.js';
-import type { LocalizerType } from '../types/Util.std.js';
-import { isGIF, isImage, isVideo } from './Attachment.std.js';
+import type { AttachmentType } from '../types/Attachment.std.ts';
+import type { LocalizerType } from '../types/Util.std.ts';
+import { isGIF, isImage, isVideo } from './Attachment.std.ts';
 
 export function getStoryReplyText(
   i18n: LocalizerType,

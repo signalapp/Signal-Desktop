@@ -7,24 +7,24 @@ import classNames from 'classnames';
 import lodash from 'lodash';
 import { animated, useSpring } from '@react-spring/web';
 
-import type { LocalizerType } from '../../types/Util.std.js';
-import type { AttachmentForUIType } from '../../types/Attachment.std.js';
-import type { MessageStatusType } from '../../types/message/MessageStatus.std.js';
-import type { PushPanelForConversationActionType } from '../../state/ducks/conversations.preload.js';
-import { isDownloaded } from '../../util/Attachment.std.js';
-import type { DirectionType } from './Message.dom.js';
+import type { LocalizerType } from '../../types/Util.std.ts';
+import type { AttachmentForUIType } from '../../types/Attachment.std.ts';
+import type { MessageStatusType } from '../../types/message/MessageStatus.std.ts';
+import type { PushPanelForConversationActionType } from '../../state/ducks/conversations.preload.ts';
+import { isDownloaded } from '../../util/Attachment.std.ts';
+import type { DirectionType } from './Message.dom.tsx';
 
-import type { ComputePeaksResult } from '../VoiceNotesPlaybackContext.dom.js';
-import { MessageMetadata } from './MessageMetadata.dom.js';
-import { createLogger } from '../../logging/log.std.js';
-import type { ActiveAudioPlayerStateType } from '../../state/ducks/audioPlayer.preload.js';
-import { PlaybackRateButton } from '../PlaybackRateButton.dom.js';
-import { PlaybackButton } from '../PlaybackButton.dom.js';
-import { WaveformScrubber } from './WaveformScrubber.dom.js';
-import { useComputePeaks } from '../../hooks/useComputePeaks.dom.js';
-import { durationToPlaybackText } from '../../util/durationToPlaybackText.std.js';
-import { shouldNeverBeCalled } from '../../util/shouldNeverBeCalled.std.js';
-import { formatFileSize } from '../../util/formatFileSize.std.js';
+import type { ComputePeaksResult } from '../VoiceNotesPlaybackContext.dom.tsx';
+import { MessageMetadata } from './MessageMetadata.dom.tsx';
+import { createLogger } from '../../logging/log.std.ts';
+import type { ActiveAudioPlayerStateType } from '../../state/ducks/audioPlayer.preload.ts';
+import { PlaybackRateButton } from '../PlaybackRateButton.dom.tsx';
+import { PlaybackButton } from '../PlaybackButton.dom.tsx';
+import { WaveformScrubber } from './WaveformScrubber.dom.tsx';
+import { useComputePeaks } from '../../hooks/useComputePeaks.dom.ts';
+import { durationToPlaybackText } from '../../util/durationToPlaybackText.std.ts';
+import { shouldNeverBeCalled } from '../../util/shouldNeverBeCalled.std.ts';
+import { formatFileSize } from '../../util/formatFileSize.std.ts';
 
 const { noop } = lodash;
 

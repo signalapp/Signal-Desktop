@@ -7,16 +7,16 @@ import type {
   BackupMediaDownloadStatusType,
   BackupsSubscriptionType,
   BackupStatusType,
-} from '../types/backups.node.js';
-import type { LocalizerType } from '../types/I18N.std.js';
-import { formatTimestamp } from '../util/formatTimestamp.dom.js';
-import { SettingsRow } from './PreferencesUtil.dom.js';
-import { missingCaseError } from '../util/missingCaseError.std.js';
-import { BackupMediaDownloadProgressSettings } from './BackupMediaDownloadProgressSettings.dom.js';
-import { BackupLevel } from '../services/backups/types.std.js';
-import { SpinnerV2 } from './SpinnerV2.dom.js';
-import { MINUTE } from '../util/durations/constants.std.js';
-import { isOlderThan } from '../util/timestamp.std.js';
+} from '../types/backups.node.ts';
+import type { LocalizerType } from '../types/I18N.std.ts';
+import { formatTimestamp } from '../util/formatTimestamp.dom.ts';
+import { SettingsRow } from './PreferencesUtil.dom.tsx';
+import { missingCaseError } from '../util/missingCaseError.std.ts';
+import { BackupMediaDownloadProgressSettings } from './BackupMediaDownloadProgressSettings.dom.tsx';
+import { BackupLevel } from '../services/backups/types.std.ts';
+import { SpinnerV2 } from './SpinnerV2.dom.tsx';
+import { MINUTE } from '../util/durations/constants.std.ts';
+import { isOlderThan } from '../util/timestamp.std.ts';
 
 // We'll show a loading spinner if we are fetching fresh data and cached data is older
 // than this duration

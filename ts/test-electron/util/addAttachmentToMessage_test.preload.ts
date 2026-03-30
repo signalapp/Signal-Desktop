@@ -7,17 +7,17 @@ import { randomBytes } from 'node:crypto';
 import { readdir, writeFile } from 'node:fs/promises';
 import { v7 } from 'uuid';
 
-import * as MIME from '../../types/MIME.std.js';
-import { composeAttachment } from '../../test-node/util/queueAttachmentDownloads_test.preload.js';
-import { addAttachmentToMessage } from '../../messageModifiers/AttachmentDownloads.preload.js';
-import { getMessageById } from '../../messages/getMessageById.preload.js';
-import { MessageCache } from '../../services/MessageCache.preload.js';
-import { getAttachmentsPath } from '../../../app/attachments.node.js';
-import { getAbsoluteAttachmentPath } from '../../util/migrations.preload.js';
-import { DataWriter } from '../../sql/Client.preload.js';
-import type { MessageAttributesType } from '../../model-types.js';
-import { itemStorage } from '../../textsecure/Storage.preload.js';
-import { generateAci } from '../../types/ServiceId.std.js';
+import * as MIME from '../../types/MIME.std.ts';
+import { composeAttachment } from '../../test-node/util/queueAttachmentDownloads_test.preload.ts';
+import { addAttachmentToMessage } from '../../messageModifiers/AttachmentDownloads.preload.ts';
+import { getMessageById } from '../../messages/getMessageById.preload.ts';
+import { MessageCache } from '../../services/MessageCache.preload.ts';
+import { getAttachmentsPath } from '../../../app/attachments.node.ts';
+import { getAbsoluteAttachmentPath } from '../../util/migrations.preload.ts';
+import { DataWriter } from '../../sql/Client.preload.ts';
+import type { MessageAttributesType } from '../../model-types.d.ts';
+import { itemStorage } from '../../textsecure/Storage.preload.ts';
+import { generateAci } from '../../types/ServiceId.std.ts';
 
 describe('addAttachmentToMessage', () => {
   beforeEach(async () => {

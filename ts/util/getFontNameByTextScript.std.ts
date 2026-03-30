@@ -1,9 +1,9 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { TextAttachmentStyleType } from '../types/Attachment.std.js';
-import type { LocalizerType } from '../types/Util.std.js';
-import { strictAssert } from './assert.std.js';
+import { TextAttachmentStyleType } from '../types/Attachment.std.ts';
+import type { LocalizerType } from '../types/Util.std.ts';
+import { strictAssert } from './assert.std.ts';
 
 const TextStyle = TextAttachmentStyleType;
 

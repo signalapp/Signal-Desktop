@@ -3,7 +3,7 @@
 
 import PQueue from 'p-queue';
 
-import { MINUTE } from './durations/index.std.js';
+import { MINUTE } from './durations/index.std.ts';
 
 const MAX_CONCURRENCY = 5;
 

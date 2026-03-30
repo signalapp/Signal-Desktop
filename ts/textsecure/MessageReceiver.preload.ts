@@ -36,24 +36,24 @@ import {
   SenderKeys,
   Sessions,
   SignedPreKeys,
-} from '../LibSignalStores.node.js';
-import { createName } from '../util/attachmentPath.node.js';
-import { assertDev, strictAssert } from '../util/assert.std.js';
-import type { BatcherType } from '../util/batcher.std.js';
-import { createBatcher } from '../util/batcher.std.js';
-import { drop } from '../util/drop.std.js';
-import { dropNull } from '../util/dropNull.std.js';
-import { parseIntOrThrow } from '../util/parseIntOrThrow.std.js';
-import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary.std.js';
-import { Zone } from '../util/Zone.std.js';
-import * as durations from '../util/durations/index.std.js';
-import { DurationInSeconds } from '../util/durations/index.std.js';
-import { isKnownProtoEnumMember } from '../util/isKnownProtoEnumMember.std.js';
-import { Address } from '../types/Address.std.js';
-import { QualifiedAddress } from '../types/QualifiedAddress.std.js';
-import { normalizeStoryDistributionId } from '../types/StoryDistributionId.std.js';
-import type { ServiceIdString, AciString } from '../types/ServiceId.std.js';
-import type { TextAttachmentType } from '../types/Attachment.std.js';
+} from '../LibSignalStores.node.ts';
+import { createName } from '../util/attachmentPath.node.ts';
+import { assertDev, strictAssert } from '../util/assert.std.ts';
+import type { BatcherType } from '../util/batcher.std.ts';
+import { createBatcher } from '../util/batcher.std.ts';
+import { drop } from '../util/drop.std.ts';
+import { dropNull } from '../util/dropNull.std.ts';
+import { parseIntOrThrow } from '../util/parseIntOrThrow.std.ts';
+import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary.std.ts';
+import { Zone } from '../util/Zone.std.ts';
+import * as durations from '../util/durations/index.std.ts';
+import { DurationInSeconds } from '../util/durations/index.std.ts';
+import { isKnownProtoEnumMember } from '../util/isKnownProtoEnumMember.std.ts';
+import { Address } from '../types/Address.std.ts';
+import { QualifiedAddress } from '../types/QualifiedAddress.std.ts';
+import { normalizeStoryDistributionId } from '../types/StoryDistributionId.std.ts';
+import type { ServiceIdString, AciString } from '../types/ServiceId.std.ts';
+import type { TextAttachmentType } from '../types/Attachment.std.ts';
 import {
   fromPniObject,
   isPniString,
@@ -63,34 +63,34 @@ import {
   normalizeServiceId,
   ServiceIdKind,
   toTaggedPni,
-} from '../types/ServiceId.std.js';
-import { normalizeAci } from '../util/normalizeAci.std.js';
-import { isAciString } from '../util/isAciString.std.js';
-import { calling } from '../services/calling.preload.js';
-import { retryPlaceholders } from '../services/retryPlaceholders.std.js';
-import * as Errors from '../types/errors.std.js';
-import { signalProtocolStore } from '../SignalProtocolStore.preload.js';
+} from '../types/ServiceId.std.ts';
+import { normalizeAci } from '../util/normalizeAci.std.ts';
+import { isAciString } from '../util/isAciString.std.ts';
+import { calling } from '../services/calling.preload.ts';
+import { retryPlaceholders } from '../services/retryPlaceholders.std.ts';
+import * as Errors from '../types/errors.std.ts';
+import { signalProtocolStore } from '../SignalProtocolStore.preload.ts';
 
-import { SignalService as Proto } from '../protobuf/index.std.js';
-import { deriveGroupFields, MASTER_KEY_LENGTH } from '../groups.preload.js';
+import { SignalService as Proto } from '../protobuf/index.std.ts';
+import { deriveGroupFields, MASTER_KEY_LENGTH } from '../groups.preload.ts';
 
-import { runTaskWithTimeout } from './TaskWithTimeout.std.js';
+import { runTaskWithTimeout } from './TaskWithTimeout.std.ts';
 import {
   processAttachment,
   processDataMessage,
   processBodyRange,
   processGroupV2Context,
   processPreview,
-} from './processDataMessage.preload.js';
-import { processSent } from './processSyncMessage.node.js';
-import type { EventHandler } from './EventTarget.std.js';
-import EventTarget from './EventTarget.std.js';
-import type { IncomingWebSocketRequest } from './WebsocketResources.preload.js';
-import { ServerRequestType } from './WebsocketResources.preload.js';
-import { type Storage } from './Storage.preload.js';
-import { accountManager } from './AccountManager.preload.js';
-import { WarnOnlyError } from './Errors.std.js';
-import * as Bytes from '../Bytes.std.js';
+} from './processDataMessage.preload.ts';
+import { processSent } from './processSyncMessage.node.ts';
+import type { EventHandler } from './EventTarget.std.ts';
+import EventTarget from './EventTarget.std.ts';
+import type { IncomingWebSocketRequest } from './WebsocketResources.preload.ts';
+import { ServerRequestType } from './WebsocketResources.preload.ts';
+import { type Storage } from './Storage.preload.ts';
+import { accountManager } from './AccountManager.preload.ts';
+import { WarnOnlyError } from './Errors.std.ts';
+import * as Bytes from '../Bytes.std.ts';
 import type {
   IRequestHandler,
   ProcessedAttachment,
@@ -109,7 +109,7 @@ import type {
   AddressableMessage,
   ReadSyncEventData,
   ViewSyncEventData,
-} from './messageReceiverEvents.std.js';
+} from './messageReceiverEvents.std.ts';
 import {
   AttachmentBackfillResponseSyncEvent,
   CallEventSyncEvent,
@@ -142,38 +142,38 @@ import {
   ViewEvent,
   ViewOnceOpenSyncEvent,
   ViewSyncEvent,
-} from './messageReceiverEvents.std.js';
-import { createLogger } from '../logging/log.std.js';
-import { diffArraysAsSets } from '../util/diffArraysAsSets.std.js';
-import { generateBlurHash } from '../util/generateBlurHash.std.js';
-import { TEXT_ATTACHMENT } from '../types/MIME.std.js';
-import type { SendTypesType } from '../util/handleMessageSend.preload.js';
-import { getStoriesBlocked } from '../util/stories.preload.js';
-import { isNotNil } from '../util/isNotNil.std.js';
-import { chunk } from '../util/iterables.std.js';
-import { inspectUnknownFieldTags } from '../util/inspectProtobufs.std.js';
-import { incrementMessageCounter } from '../util/incrementMessageCounter.preload.js';
-import { filterAndClean } from '../util/BodyRange.node.js';
+} from './messageReceiverEvents.std.ts';
+import { createLogger } from '../logging/log.std.ts';
+import { diffArraysAsSets } from '../util/diffArraysAsSets.std.ts';
+import { generateBlurHash } from '../util/generateBlurHash.std.ts';
+import { TEXT_ATTACHMENT } from '../types/MIME.std.ts';
+import type { SendTypesType } from '../util/handleMessageSend.preload.ts';
+import { getStoriesBlocked } from '../util/stories.preload.ts';
+import { isNotNil } from '../util/isNotNil.std.ts';
+import { chunk } from '../util/iterables.std.ts';
+import { inspectUnknownFieldTags } from '../util/inspectProtobufs.std.ts';
+import { incrementMessageCounter } from '../util/incrementMessageCounter.preload.ts';
+import { filterAndClean } from '../util/BodyRange.node.ts';
 import {
   getCallEventForProto,
   getCallLogEventForProto,
-} from '../util/callDisposition.preload.js';
-import { checkOurPniIdentityKey } from '../util/checkOurPniIdentityKey.preload.js';
-import { CallLinkUpdateSyncType } from '../types/CallLink.std.js';
-import { bytesToUuid } from '../util/uuidToBytes.std.js';
-import { isBodyTooLong } from '../util/longAttachment.std.js';
+} from '../util/callDisposition.preload.ts';
+import { checkOurPniIdentityKey } from '../util/checkOurPniIdentityKey.preload.ts';
+import { CallLinkUpdateSyncType } from '../types/CallLink.std.ts';
+import { bytesToUuid } from '../util/uuidToBytes.std.ts';
+import { isBodyTooLong } from '../util/longAttachment.std.ts';
 import {
   fromServiceIdBinaryOrString,
   fromAciUuidBytes,
   fromAciUuidBytesOrString,
   fromPniUuidBytesOrUntaggedString,
-} from '../util/ServiceId.node.js';
+} from '../util/ServiceId.node.ts';
 import {
   type MessageRequestResponseInfo,
   MessageRequestResponseSource,
-} from '../types/MessageRequestResponseEvent.std.js';
+} from '../types/MessageRequestResponseEvent.std.ts';
 
-import { toNumber } from '../util/toNumber.std.js';
+import { toNumber } from '../util/toNumber.std.ts';
 
 const { isBoolean, isNumber, isString, noop } = lodash;
 

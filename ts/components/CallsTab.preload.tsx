@@ -2,29 +2,29 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useCallback, useEffect, useState } from 'react';
-import type { LocalizerType } from '../types/I18N.std.js';
-import { NavSidebar, NavSidebarActionButton } from './NavSidebar.dom.js';
-import { CallsList } from './CallsList.preload.js';
-import type { ConversationType } from '../state/ducks/conversations.preload.js';
+import type { LocalizerType } from '../types/I18N.std.ts';
+import { NavSidebar, NavSidebarActionButton } from './NavSidebar.dom.tsx';
+import { CallsList } from './CallsList.preload.tsx';
+import type { ConversationType } from '../state/ducks/conversations.preload.ts';
 import type {
   CallHistoryFilterOptions,
   CallHistoryGroup,
   CallHistoryPagination,
-} from '../types/CallDisposition.std.js';
-import { CallsNewCall } from './CallsNewCallButton.dom.js';
-import { useEscapeHandling } from '../hooks/useEscapeHandling.dom.js';
+} from '../types/CallDisposition.std.ts';
+import { CallsNewCall } from './CallsNewCallButton.dom.tsx';
+import { useEscapeHandling } from '../hooks/useEscapeHandling.dom.ts';
 import type {
   ActiveCallStateType,
   PeekNotConnectedGroupCallType,
-} from '../state/ducks/calling.preload.js';
-import { ConfirmationDialog } from './ConfirmationDialog.dom.js';
-import type { UnreadStats } from '../util/countUnreadStats.std.js';
-import type { CallLinkType } from '../types/CallLink.std.js';
-import type { CallStateType } from '../state/selectors/calling.std.js';
-import type { StartCallData } from './ConfirmLeaveCallModal.dom.js';
-import { I18n } from './I18n.dom.js';
-import { AxoDropdownMenu } from '../axo/AxoDropdownMenu.dom.js';
-import type { SmartPropsType as SmartToastManagerPropsType } from '../state/smart/ToastManager.preload.js';
+} from '../state/ducks/calling.preload.ts';
+import { ConfirmationDialog } from './ConfirmationDialog.dom.tsx';
+import type { UnreadStats } from '../util/countUnreadStats.std.ts';
+import type { CallLinkType } from '../types/CallLink.std.ts';
+import type { CallStateType } from '../state/selectors/calling.std.ts';
+import type { StartCallData } from './ConfirmLeaveCallModal.dom.tsx';
+import { I18n } from './I18n.dom.tsx';
+import { AxoDropdownMenu } from '../axo/AxoDropdownMenu.dom.tsx';
+import type { SmartPropsType as SmartToastManagerPropsType } from '../state/smart/ToastManager.preload.tsx';
 
 enum CallsTabSidebarView {
   CallsListView,

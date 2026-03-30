@@ -5,34 +5,34 @@ import { fabric } from 'fabric';
 import lodash from 'lodash';
 import { contextBridge } from 'electron';
 
-import { createLogger } from '../../logging/log.std.js';
+import { createLogger } from '../../logging/log.std.ts';
 
-import '../context.preload.js';
+import '../context.preload.ts';
 
 // Connect websocket early
-import '../../textsecure/preconnect.preload.js';
+import '../../textsecure/preconnect.preload.ts';
 
-import './phase0-devtools.node.js';
-import './phase1-ipc.preload.js';
-import '../preload.preload.js';
-import './phase2-dependencies.preload.js';
-import './phase3-post-signal.preload.js';
-import './phase4-test.preload.js';
+import './phase0-devtools.node.ts';
+import './phase1-ipc.preload.ts';
+import '../preload.preload.ts';
+import './phase2-dependencies.preload.ts';
+import './phase3-post-signal.preload.ts';
+import './phase4-test.preload.ts';
 
 import type {
   CdsLookupOptionsType,
   GetIceServersResultType,
-} from '../../textsecure/WebAPI.preload.js';
-import { cdsLookup, getSocketStatus } from '../../textsecure/WebAPI.preload.js';
+} from '../../textsecure/WebAPI.preload.ts';
+import { cdsLookup, getSocketStatus } from '../../textsecure/WebAPI.preload.ts';
 import type { FeatureFlagType } from '../../window.d.ts';
 import type { StorageAccessType } from '../../types/Storage.d.ts';
-import { calling } from '../../services/calling.preload.js';
-import { Environment, getEnvironment } from '../../environment.std.js';
-import { isProduction } from '../../util/version.std.js';
-import { benchmarkConversationOpen } from '../../CI/benchmarkConversationOpen.preload.js';
-import { itemStorage } from '../../textsecure/Storage.preload.js';
-import { IMAGE_PNG } from '../../types/MIME.std.js';
-import { getSelectedConversationId } from '../../state/selectors/nav.std.js';
+import { calling } from '../../services/calling.preload.ts';
+import { Environment, getEnvironment } from '../../environment.std.ts';
+import { isProduction } from '../../util/version.std.ts';
+import { benchmarkConversationOpen } from '../../CI/benchmarkConversationOpen.preload.ts';
+import { itemStorage } from '../../textsecure/Storage.preload.ts';
+import { IMAGE_PNG } from '../../types/MIME.std.ts';
+import { getSelectedConversationId } from '../../state/selectors/nav.std.ts';
 
 const { has } = lodash;
 
@@ -159,17 +159,16 @@ if (
       : {}),
   };
 
-  contextBridge.exposeInMainWorld('SignalDebug', SignalDebug);
-}
-
-if (getEnvironment() === Environment.Test) {
-  contextBridge.exposeInMainWorld('RETRY_DELAY', window.RETRY_DELAY);
-  contextBridge.exposeInMainWorld('assert', window.assert);
-  contextBridge.exposeInMainWorld('testUtilities', window.testUtilities);
+  if (getEnvironment() !== Environment.Test) {
+    contextBridge.exposeInMainWorld('SignalDebug', SignalDebug);
+  }
 }
 
 // See ts/logging/log.ts
-if (getEnvironment() !== Environment.PackagedApp) {
+if (
+  getEnvironment() !== Environment.PackagedApp &&
+  getEnvironment() !== Environment.Test
+) {
   const debug = (...args: Array<string>) => {
     localStorage.setItem('debug', args.join(','));
   };
@@ -180,5 +179,7 @@ if (window.SignalContext.config.ciMode === 'full') {
   contextBridge.exposeInMainWorld('SignalCI', window.SignalCI);
 }
 
-contextBridge.exposeInMainWorld('showDebugLog', window.IPC.showDebugLog);
-contextBridge.exposeInMainWorld('startApp', window.startApp);
+if (getEnvironment() !== Environment.Test) {
+  contextBridge.exposeInMainWorld('showDebugLog', window.IPC.showDebugLog);
+  contextBridge.exposeInMainWorld('startApp', window.startApp);
+}

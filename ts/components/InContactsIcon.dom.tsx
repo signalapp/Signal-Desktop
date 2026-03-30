@@ -4,8 +4,8 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { Tooltip } from './Tooltip.dom.js';
-import type { LocalizerType } from '../types/Util.std.js';
+import { Tooltip } from './Tooltip.dom.tsx';
+import type { LocalizerType } from '../types/Util.std.ts';
 
 export type PropsType = {
   className?: string;

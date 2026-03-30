@@ -8,9 +8,9 @@ import {
   _getAllAxoButtonVariants,
   _getAllAxoButtonSizes,
   AxoButton,
-} from './AxoButton.dom.js';
-import { tw } from './tw.dom.js';
-import { AxoSwitch } from './AxoSwitch.dom.js';
+} from './AxoButton.dom.tsx';
+import { tw } from './tw.dom.tsx';
+import { AxoSwitch } from './AxoSwitch.dom.tsx';
 
 export default {
   title: 'Axo/AxoButton',

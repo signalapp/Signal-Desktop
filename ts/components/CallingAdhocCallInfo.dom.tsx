@@ -5,21 +5,21 @@ import React from 'react';
 import classNames from 'classnames';
 
 import lodash from 'lodash';
-import { Avatar, AvatarSize } from './Avatar.dom.js';
-import { ContactName } from './conversation/ContactName.dom.js';
-import { InContactsIcon } from './InContactsIcon.dom.js';
-import type { CallLinkType } from '../types/CallLink.std.js';
-import type { LocalizerType } from '../types/Util.std.js';
-import type { ServiceIdString } from '../types/ServiceId.std.js';
-import { sortByTitle } from '../util/sortByTitle.std.js';
-import type { ConversationType } from '../state/ducks/conversations.preload.js';
-import { ModalHost } from './ModalHost.dom.js';
-import { isInSystemContacts } from '../util/isInSystemContacts.std.js';
-import { AVATAR_COLOR_COUNT, AvatarColors } from '../types/Colors.std.js';
-import { Button } from './Button.dom.js';
-import { Modal } from './Modal.dom.js';
-import { Theme } from '../util/theme.std.js';
-import type { ContactModalStateType } from '../types/globalModals.std.js';
+import { Avatar, AvatarSize } from './Avatar.dom.tsx';
+import { ContactName } from './conversation/ContactName.dom.tsx';
+import { InContactsIcon } from './InContactsIcon.dom.tsx';
+import type { CallLinkType } from '../types/CallLink.std.ts';
+import type { LocalizerType } from '../types/Util.std.ts';
+import type { ServiceIdString } from '../types/ServiceId.std.ts';
+import { sortByTitle } from '../util/sortByTitle.std.ts';
+import type { ConversationType } from '../state/ducks/conversations.preload.ts';
+import { ModalHost } from './ModalHost.dom.tsx';
+import { isInSystemContacts } from '../util/isInSystemContacts.std.ts';
+import { AVATAR_COLOR_COUNT, AvatarColors } from '../types/Colors.std.ts';
+import { Button } from './Button.dom.tsx';
+import { Modal } from './Modal.dom.tsx';
+import { Theme } from '../util/theme.std.ts';
+import type { ContactModalStateType } from '../types/globalModals.std.ts';
 
 const { partition } = lodash;
 

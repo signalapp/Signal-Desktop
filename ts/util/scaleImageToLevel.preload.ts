@@ -4,12 +4,12 @@
 import type { LoadImageResult } from 'blueimp-load-image';
 import loadImage from 'blueimp-load-image';
 
-import type { MIMEType } from '../types/MIME.std.js';
-import { IMAGE_JPEG } from '../types/MIME.std.js';
-import { canvasToBlob } from './canvasToBlob.std.js';
-import { getValue } from '../RemoteConfig.dom.js';
-import { parseNumber } from './libphonenumberUtil.std.js';
-import { itemStorage } from '../textsecure/Storage.preload.js';
+import type { MIMEType } from '../types/MIME.std.ts';
+import { IMAGE_JPEG } from '../types/MIME.std.ts';
+import { canvasToBlob } from './canvasToBlob.std.ts';
+import { getValue } from '../RemoteConfig.dom.ts';
+import { parseNumber } from './libphonenumberUtil.std.ts';
+import { itemStorage } from '../textsecure/Storage.preload.ts';
 
 enum MediaQualityLevels {
   One = 1,

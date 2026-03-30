@@ -3,9 +3,9 @@
 
 import React from 'react';
 import { action } from '@storybook/addon-actions';
-import type { PropsType } from './Toast.dom.js';
-import { Toast } from './Toast.dom.js';
-import { type ComponentMeta, argPresets } from '../storybook/types.std.js';
+import type { PropsType } from './Toast.dom.tsx';
+import { Toast } from './Toast.dom.tsx';
+import { type ComponentMeta, argPresets } from '../storybook/types.std.ts';
 
 export default {
   title: 'Components/Toast',

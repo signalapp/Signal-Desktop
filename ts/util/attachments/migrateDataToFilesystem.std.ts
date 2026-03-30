@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import lodash from 'lodash';
-import type { AttachmentType } from '../../types/Attachment.std.js';
-import type { ContextType } from '../../types/Message2.preload.js';
-import type { MessageAttributesType } from '../../model-types.js';
+import type { AttachmentType } from '../../types/Attachment.std.ts';
+import type { ContextType } from '../../types/Message2.preload.ts';
+import type { MessageAttributesType } from '../../model-types.d.ts';
 
 const { isFunction, isTypedArray, isUndefined, omit } = lodash;
 

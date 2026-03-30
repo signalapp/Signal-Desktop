@@ -12,8 +12,8 @@ import React, {
 
 import moment from 'moment';
 
-import type { ItemClickEvent } from './types/ItemClickEvent.std.js';
-import type { LocalizerType } from '../../../types/Util.std.js';
+import type { ItemClickEvent } from './types/ItemClickEvent.std.ts';
+import type { LocalizerType } from '../../../types/Util.std.ts';
 import type {
   MediaTabType,
   MediaSortOrderType,
@@ -21,20 +21,20 @@ import type {
   ContactMediaItemType,
   MediaItemType,
   GenericMediaItemType,
-} from '../../../types/MediaItem.std.js';
+} from '../../../types/MediaItem.std.ts';
 import type {
   SaveAttachmentActionCreatorType,
   PushPanelForConversationActionType,
-} from '../../../state/ducks/conversations.preload.js';
-import { AttachmentSection } from './AttachmentSection.dom.js';
-import { EmptyState } from './EmptyState.dom.js';
-import { groupMediaItemsByDate } from './groupMediaItemsByDate.std.js';
-import { missingCaseError } from '../../../util/missingCaseError.std.js';
-import { openLinkInWebBrowser } from '../../../util/openLinkInWebBrowser.dom.js';
-import { useIntersectionObserver } from '../../../hooks/useIntersectionObserver.std.js';
-import type { AttachmentForUIType } from '../../../types/Attachment.std.js';
-import { PanelType } from '../../../types/Panels.std.js';
-import { tw } from '../../../axo/tw.dom.js';
+} from '../../../state/ducks/conversations.preload.ts';
+import { AttachmentSection } from './AttachmentSection.dom.tsx';
+import { EmptyState } from './EmptyState.dom.tsx';
+import { groupMediaItemsByDate } from './groupMediaItemsByDate.std.ts';
+import { missingCaseError } from '../../../util/missingCaseError.std.ts';
+import { openLinkInWebBrowser } from '../../../util/openLinkInWebBrowser.dom.ts';
+import { useIntersectionObserver } from '../../../hooks/useIntersectionObserver.std.ts';
+import type { AttachmentForUIType } from '../../../types/Attachment.std.ts';
+import { PanelType } from '../../../types/Panels.std.ts';
+import { tw } from '../../../axo/tw.dom.tsx';
 
 export type Props = {
   conversationId: string;

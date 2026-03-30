@@ -8,10 +8,10 @@ import 'urlpattern-polyfill';
 // oxlint-disable-next-line unicorn/prefer-node-protocol
 import { URL as NodeURL } from 'url';
 import { z } from 'zod';
-import { strictAssert } from './assert.std.js';
-import { createLogger } from '../logging/log.std.js';
-import * as Errors from '../types/errors.std.js';
-import { parsePartial, parseUnknown, safeParseUnknown } from './schemas.std.js';
+import { strictAssert } from './assert.std.ts';
+import { createLogger } from '../logging/log.std.ts';
+import * as Errors from '../types/errors.std.ts';
+import { parsePartial, parseUnknown, safeParseUnknown } from './schemas.std.ts';
 
 const log = createLogger('signalRoutes');
 

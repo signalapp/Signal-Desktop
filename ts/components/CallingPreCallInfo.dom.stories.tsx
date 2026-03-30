@@ -3,13 +3,13 @@
 
 import React from 'react';
 import type { Meta } from '@storybook/react';
-import { getDefaultConversation } from '../test-helpers/getDefaultConversation.std.js';
-import type { PropsType } from './CallingPreCallInfo.dom.js';
-import { CallingPreCallInfo, RingMode } from './CallingPreCallInfo.dom.js';
-import type { ConversationType } from '../state/ducks/conversations.preload.js';
-import { generateAci } from '../types/ServiceId.std.js';
-import { FAKE_CALL_LINK } from '../test-helpers/fakeCallLink.std.js';
-import { callLinkToConversation } from '../util/callLinks.std.js';
+import { getDefaultConversation } from '../test-helpers/getDefaultConversation.std.ts';
+import type { PropsType } from './CallingPreCallInfo.dom.tsx';
+import { CallingPreCallInfo, RingMode } from './CallingPreCallInfo.dom.tsx';
+import type { ConversationType } from '../state/ducks/conversations.preload.ts';
+import { generateAci } from '../types/ServiceId.std.ts';
+import { FAKE_CALL_LINK } from '../test-helpers/fakeCallLink.std.ts';
+import { callLinkToConversation } from '../util/callLinks.std.ts';
 
 const { i18n } = window.SignalContext;
 const getDefaultGroupConversation = () =>

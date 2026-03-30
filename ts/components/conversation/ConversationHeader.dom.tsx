@@ -5,53 +5,53 @@ import classNames from 'classnames';
 import type { RefObject } from 'react';
 import React, { memo, useCallback, useMemo, useRef, useState } from 'react';
 import type { ReadonlyDeep } from 'type-fest';
-import type { BadgeType } from '../../badges/types.std.js';
+import type { BadgeType } from '../../badges/types.std.ts';
 import {
   useKeyboardShortcuts,
   useStartCallShortcuts,
-} from '../../hooks/useKeyboardShortcuts.dom.js';
-import { SizeObserver } from '../../hooks/useSizeObserver.dom.js';
-import type { ConversationTypeType } from '../../state/ducks/conversations.preload.js';
-import type { HasStories } from '../../types/Stories.std.js';
-import type { LocalizerType, ThemeType } from '../../types/Util.std.js';
-import type { DurationInSeconds } from '../../util/durations/index.std.js';
-import * as expirationTimer from '../../util/expirationTimer.std.js';
-import { getMuteOptions } from '../../util/getMuteOptions.std.js';
-import { isConversationMuted } from '../../util/isConversationMuted.std.js';
-import { isInSystemContacts } from '../../util/isInSystemContacts.std.js';
-import { missingCaseError } from '../../util/missingCaseError.std.js';
-import { Alert } from '../Alert.dom.js';
-import { Avatar, AvatarSize } from '../Avatar.dom.js';
-import { ConfirmationDialog } from '../ConfirmationDialog.dom.js';
-import { DisappearingTimeDialog } from '../DisappearingTimeDialog.dom.js';
-import { InContactsIcon } from '../InContactsIcon.dom.js';
-import { UserText } from '../UserText.dom.js';
-import type { ContactNameData } from './ContactName.dom.js';
+} from '../../hooks/useKeyboardShortcuts.dom.tsx';
+import { SizeObserver } from '../../hooks/useSizeObserver.dom.tsx';
+import type { ConversationTypeType } from '../../state/ducks/conversations.preload.ts';
+import type { HasStories } from '../../types/Stories.std.ts';
+import type { LocalizerType, ThemeType } from '../../types/Util.std.ts';
+import type { DurationInSeconds } from '../../util/durations/index.std.ts';
+import * as expirationTimer from '../../util/expirationTimer.std.ts';
+import { getMuteOptions } from '../../util/getMuteOptions.std.ts';
+import { isConversationMuted } from '../../util/isConversationMuted.std.ts';
+import { isInSystemContacts } from '../../util/isInSystemContacts.std.ts';
+import { missingCaseError } from '../../util/missingCaseError.std.ts';
+import { Alert } from '../Alert.dom.tsx';
+import { Avatar, AvatarSize } from '../Avatar.dom.tsx';
+import { ConfirmationDialog } from '../ConfirmationDialog.dom.tsx';
+import { DisappearingTimeDialog } from '../DisappearingTimeDialog.dom.tsx';
+import { InContactsIcon } from '../InContactsIcon.dom.tsx';
+import { UserText } from '../UserText.dom.tsx';
+import type { ContactNameData } from './ContactName.dom.tsx';
 import {
   MessageRequestActionsConfirmation,
   MessageRequestState,
-} from './MessageRequestActionsConfirmation.dom.js';
-import type { MinimalConversation } from '../../hooks/useMinimalConversation.std.js';
-import { InAnotherCallTooltip } from './InAnotherCallTooltip.dom.js';
-import { DeleteMessagesConfirmationDialog } from '../DeleteMessagesConfirmationDialog.dom.js';
-import { AxoDropdownMenu } from '../../axo/AxoDropdownMenu.dom.js';
-import { strictAssert } from '../../util/assert.std.js';
+} from './MessageRequestActionsConfirmation.dom.tsx';
+import type { MinimalConversation } from '../../hooks/useMinimalConversation.std.ts';
+import { InAnotherCallTooltip } from './InAnotherCallTooltip.dom.tsx';
+import { DeleteMessagesConfirmationDialog } from '../DeleteMessagesConfirmationDialog.dom.tsx';
+import { AxoDropdownMenu } from '../../axo/AxoDropdownMenu.dom.tsx';
+import { strictAssert } from '../../util/assert.std.ts';
 import {
   TimelineWarning,
   TimelineWarningCustomInfo,
   TimelineWarningLink,
-} from './TimelineWarning.dom.js';
-import { ContactSpoofingType } from '../../util/contactSpoofing.std.js';
-import type { GroupNameCollisionsWithIdsByTitle } from '../../util/groupMemberNameCollisions.std.js';
-import { hasUnacknowledgedCollisions } from '../../util/groupMemberNameCollisions.std.js';
-import type { I18nComponentParts } from '../I18n.dom.js';
-import { I18n } from '../I18n.dom.js';
-import type { SmartCollidingAvatarsProps } from '../../state/smart/CollidingAvatars.dom.js';
+} from './TimelineWarning.dom.tsx';
+import { ContactSpoofingType } from '../../util/contactSpoofing.std.ts';
+import type { GroupNameCollisionsWithIdsByTitle } from '../../util/groupMemberNameCollisions.std.ts';
+import { hasUnacknowledgedCollisions } from '../../util/groupMemberNameCollisions.std.ts';
+import type { I18nComponentParts } from '../I18n.dom.tsx';
+import { I18n } from '../I18n.dom.tsx';
+import type { SmartCollidingAvatarsProps } from '../../state/smart/CollidingAvatars.dom.tsx';
 import type {
   ContactSpoofingWarning,
   MultipleGroupMembersWithSameTitleContactSpoofingWarning,
-} from '../../state/selectors/timeline.preload.js';
-import { tw } from '../../axo/tw.dom.js';
+} from '../../state/selectors/timeline.preload.ts';
+import { tw } from '../../axo/tw.dom.tsx';
 
 function HeaderInfoTitle({
   name,

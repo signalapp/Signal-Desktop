@@ -10,7 +10,7 @@ import {
   isTagElement,
   isLiteralElement,
 } from '@formatjs/icu-messageformat-parser';
-import { rule } from '../utils/rule.std.js';
+import { rule } from '../utils/rule.std.ts';
 
 function isEmojifyTag(
   element: MessageFormatElement | null

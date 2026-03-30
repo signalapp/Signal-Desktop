@@ -5,15 +5,15 @@ import type { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import lodash from 'lodash';
 
 import type { ReadonlyDeep } from 'type-fest';
-import type { StateType as RootStateType } from '../reducer.preload.js';
-import { filterAndSortConversations } from '../../util/filterAndSortConversations.std.js';
-import type { ClientSearchResultMessageType } from '../../sql/Interface.std.js';
-import { DataReader } from '../../sql/Client.preload.js';
-import { makeLookup } from '../../util/makeLookup.std.js';
-import { isNotNil } from '../../util/isNotNil.std.js';
-import type { ServiceIdString } from '../../types/ServiceId.std.js';
-import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.js';
-import { useBoundActions } from '../../hooks/useBoundActions.std.js';
+import type { StateType as RootStateType } from '../reducer.preload.ts';
+import { filterAndSortConversations } from '../../util/filterAndSortConversations.std.ts';
+import type { ClientSearchResultMessageType } from '../../sql/Interface.std.ts';
+import { DataReader } from '../../sql/Client.preload.ts';
+import { makeLookup } from '../../util/makeLookup.std.ts';
+import { isNotNil } from '../../util/isNotNil.std.ts';
+import type { ServiceIdString } from '../../types/ServiceId.std.ts';
+import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.ts';
+import { useBoundActions } from '../../hooks/useBoundActions.std.ts';
 
 import type {
   ConversationType,
@@ -24,31 +24,31 @@ import type {
   ShowArchivedConversationsActionType,
   MessageType,
   ConversationLookupType,
-} from './conversations.preload.js';
+} from './conversations.preload.ts';
 import {
   getFilterByUnread,
   getIsActivelySearching,
   getQuery,
   getSearchConversation,
-} from '../selectors/search.preload.js';
-import { getAllConversations } from '../selectors/conversations.dom.js';
+} from '../selectors/search.preload.ts';
+import { getAllConversations } from '../selectors/conversations.dom.ts';
 import {
   getIntl,
   getRegionCode,
   getUserConversationId,
-} from '../selectors/user.std.js';
-import { strictAssert } from '../../util/assert.std.js';
+} from '../selectors/user.std.ts';
+import { strictAssert } from '../../util/assert.std.ts';
 import {
   CONVERSATION_UNLOADED,
   TARGETED_CONVERSATION_CHANGED,
-} from './conversations.preload.js';
-import { removeDiacritics } from '../../util/removeDiacritics.std.js';
-import { createLogger } from '../../logging/log.std.js';
-import { searchConversationTitles } from '../../util/searchConversationTitles.std.js';
-import { isDirectConversation } from '../../util/whatTypeOfConversation.dom.js';
-import { isConversationSMSOnly } from '../../util/isConversationSMSOnly.std.js';
-import { isConversationUnread } from '../../util/countUnreadStats.std.js';
-import { getSelectedConversationId } from '../selectors/nav.std.js';
+} from './conversations.preload.ts';
+import { removeDiacritics } from '../../util/removeDiacritics.std.ts';
+import { createLogger } from '../../logging/log.std.ts';
+import { searchConversationTitles } from '../../util/searchConversationTitles.std.ts';
+import { isDirectConversation } from '../../util/whatTypeOfConversation.dom.ts';
+import { isConversationSMSOnly } from '../../util/isConversationSMSOnly.std.ts';
+import { isConversationUnread } from '../../util/countUnreadStats.std.ts';
+import { getSelectedConversationId } from '../selectors/nav.std.ts';
 
 const { debounce, omit, reject } = lodash;
 

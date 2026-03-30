@@ -10,8 +10,8 @@ import fsExtra from 'fs-extra';
 import { assert } from 'chai';
 import lodash from 'lodash';
 
-import * as Bytes from '../Bytes.std.js';
-import * as Curve from '../Curve.node.js';
+import * as Bytes from '../Bytes.std.ts';
+import * as Curve from '../Curve.node.ts';
 import {
   PaddedLengths,
   encryptProfileItemWithPadding,
@@ -40,7 +40,7 @@ import {
   CipherType,
   encryptDeviceCreatedAt,
   decryptDeviceCreatedAt,
-} from '../Crypto.node.js';
+} from '../Crypto.node.ts';
 import {
   _generateAttachmentIv,
   decryptAttachmentV2,
@@ -49,17 +49,17 @@ import {
   generateAttachmentKeys,
   type DecryptedAttachmentV2,
   decryptAttachmentV2ToSink,
-} from '../AttachmentCrypto.node.js';
-import type { AciString, PniString } from '../types/ServiceId.std.js';
-import { getAbsoluteAttachmentPath } from '../util/migrations.preload.js';
-import { uuidToBytes, bytesToUuid } from '../util/uuidToBytes.std.js';
+} from '../AttachmentCrypto.node.ts';
+import type { AciString, PniString } from '../types/ServiceId.std.ts';
+import { getAbsoluteAttachmentPath } from '../util/migrations.preload.ts';
+import { uuidToBytes, bytesToUuid } from '../util/uuidToBytes.std.ts';
 import {
   getAesCbcCiphertextSize,
   getAttachmentCiphertextSize,
-} from '../util/AttachmentCrypto.std.js';
-import { getAttachmentsPath } from '../windows/main/attachments.preload.js';
-import { MediaTier } from '../types/AttachmentDownload.std.js';
-import { deriveAccessKeyFromProfileKey } from '../util/zkgroup.node.js';
+} from '../util/AttachmentCrypto.std.ts';
+import { getAttachmentsPath } from '../../app/attachments.node.ts';
+import { MediaTier } from '../types/AttachmentDownload.std.ts';
+import { deriveAccessKeyFromProfileKey } from '../util/zkgroup.node.ts';
 
 const { emptyDir } = fsExtra;
 

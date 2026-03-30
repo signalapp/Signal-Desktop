@@ -1,8 +1,8 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { createLogger } from '../logging/log.std.js';
-import { missingCaseError } from './missingCaseError.std.js';
+import { createLogger } from '../logging/log.std.ts';
+import { missingCaseError } from './missingCaseError.std.ts';
 
 const log = createLogger('Sound');
 

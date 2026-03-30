@@ -13,8 +13,8 @@ import { Format, NtExecutable } from 'pe-library';
 // Note: because we don't run under electron - this is a path to binary
 import ELECTRON_BINARY from 'electron';
 
-import { drop } from '../util/drop.std.js';
-import { packageJson } from '../util/packageJson.node.js';
+import { drop } from '../util/drop.std.ts';
+import { packageJson } from '../util/packageJson.node.ts';
 
 const { ImageDosHeader, ImageNtHeaders, ImageDirectoryEntry } = Format;
 

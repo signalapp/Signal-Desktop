@@ -1,8 +1,8 @@
 // Copyright 2026 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { strictAssert } from './assert.std.js';
-import { explodePromise } from './explodePromise.std.js';
+import { strictAssert } from './assert.std.ts';
+import { explodePromise } from './explodePromise.std.ts';
 
 // A wrapper class around a task that should not run concurrently.
 // `TaskDeduplicator` takes `abortSignal` for each `run` and thus lets you

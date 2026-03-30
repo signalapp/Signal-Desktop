@@ -12,16 +12,16 @@ import {
   countAllConversationsUnreadStats,
   countConversationUnreadStats,
   isConversationUnread,
-} from '../../util/countUnreadStats.std.js';
+} from '../../util/countUnreadStats.std.ts';
 import type {
   UnreadStats,
   ConversationPropsForUnreadStats,
   UnreadStatsIncludeMuted,
-} from '../../util/countUnreadStats.std.js';
-import type { CurrentChatFolder } from '../../types/CurrentChatFolders.std.js';
-import { CurrentChatFolders } from '../../types/CurrentChatFolders.std.js';
-import type { ChatFolderId } from '../../types/ChatFolder.std.js';
-import { CHAT_FOLDER_DEFAULTS } from '../../types/ChatFolder.std.js';
+} from '../../util/countUnreadStats.std.ts';
+import type { CurrentChatFolder } from '../../types/CurrentChatFolders.std.ts';
+import { CurrentChatFolders } from '../../types/CurrentChatFolders.std.ts';
+import type { ChatFolderId } from '../../types/ChatFolder.std.ts';
+import { CHAT_FOLDER_DEFAULTS } from '../../types/ChatFolder.std.ts';
 
 function getFutureMutedTimestamp() {
   return Date.now() + 12345;

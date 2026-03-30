@@ -4,7 +4,7 @@
 import { app } from 'electron';
 import type { RelaunchOptions } from 'electron';
 
-import OS from './os/osMain.node.js';
+import OS from './os/osMain.node.ts';
 
 // app.relaunch() doesn't work in AppImage, so this is a workaround
 export function appRelaunch(): void {

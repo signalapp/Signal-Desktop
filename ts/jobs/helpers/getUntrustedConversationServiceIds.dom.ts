@@ -1,9 +1,9 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { isNotNil } from '../../util/isNotNil.std.js';
-import { createLogger } from '../../logging/log.std.js';
-import type { ServiceIdString } from '../../types/ServiceId.std.js';
+import { isNotNil } from '../../util/isNotNil.std.ts';
+import { createLogger } from '../../logging/log.std.ts';
+import type { ServiceIdString } from '../../types/ServiceId.std.ts';
 
 const log = createLogger('getUntrustedConversationServiceIds');
 

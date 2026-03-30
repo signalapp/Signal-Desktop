@@ -1,15 +1,15 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ConversationController } from './ConversationController.preload.js';
-import type { ConversationModel } from './models/conversations.preload.js';
+import type { ConversationController } from './ConversationController.preload.ts';
+import type { ConversationModel } from './models/conversations.preload.ts';
 import type {
   cdsLookup,
   checkAccountExistence,
-} from './textsecure/WebAPI.preload.js';
-import { assertDev } from './util/assert.std.js';
-import { isNotNil } from './util/isNotNil.std.js';
-import { getServiceIdsForE164s } from './util/getServiceIdsForE164s.dom.js';
+} from './textsecure/WebAPI.preload.ts';
+import { assertDev } from './util/assert.std.ts';
+import { isNotNil } from './util/isNotNil.std.ts';
+import { getServiceIdsForE164s } from './util/getServiceIdsForE164s.dom.ts';
 
 export type ServerType = Readonly<{
   cdsLookup: typeof cdsLookup;

@@ -5,25 +5,25 @@ import { BackupLevel } from '@signalapp/libsignal-client/zkgroup.js';
 import {
   APPLICATION_OCTET_STREAM,
   stringToMIMEType,
-} from '../../../types/MIME.std.js';
-import type { AttachmentType } from '../../../types/Attachment.std.js';
-import { doesAttachmentExist } from '../../../util/migrations.preload.js';
+} from '../../../types/MIME.std.ts';
+import type { AttachmentType } from '../../../types/Attachment.std.ts';
+import { doesAttachmentExist } from '../../../util/migrations.preload.ts';
 import {
   hasRequiredInformationForLocalBackup,
   hasRequiredInformationForRemoteBackup,
   hasRequiredInformationToDownloadFromTransitTier,
-} from '../../../util/Attachment.std.js';
-import { Backups, SignalService } from '../../../protobuf/index.std.js';
-import * as Bytes from '../../../Bytes.std.js';
+} from '../../../util/Attachment.std.ts';
+import { Backups, SignalService } from '../../../protobuf/index.std.ts';
+import * as Bytes from '../../../Bytes.std.ts';
 import {
   getSafeLongFromTimestamp,
   getTimestampFromLong,
-} from '../../../util/timestampLongUtils.std.js';
-import { strictAssert } from '../../../util/assert.std.js';
+} from '../../../util/timestampLongUtils.std.ts';
+import { strictAssert } from '../../../util/assert.std.ts';
 import type {
   CoreAttachmentBackupJobType,
   CoreAttachmentLocalBackupJobType,
-} from '../../../types/AttachmentBackup.std.js';
+} from '../../../types/AttachmentBackup.std.ts';
 import {
   type GetBackupCdnInfoType,
   getMediaIdFromMediaName,
@@ -32,21 +32,21 @@ import {
   type BackupCdnInfoType,
   getLocalBackupFileNameForAttachment,
   getLocalBackupFileName,
-} from './mediaId.preload.js';
-import { missingCaseError } from '../../../util/missingCaseError.std.js';
-import { bytesToUuid } from '../../../util/uuidToBytes.std.js';
-import { createName } from '../../../util/attachmentPath.node.js';
-import { generateAttachmentKeys } from '../../../AttachmentCrypto.node.js';
-import { getAttachmentLocalBackupPathFromSnapshotDir } from './localBackup.node.js';
+} from './mediaId.preload.ts';
+import { missingCaseError } from '../../../util/missingCaseError.std.ts';
+import { bytesToUuid } from '../../../util/uuidToBytes.std.ts';
+import { createName } from '../../../util/attachmentPath.node.ts';
+import { generateAttachmentKeys } from '../../../AttachmentCrypto.node.ts';
+import { getAttachmentLocalBackupPathFromSnapshotDir } from './localBackup.node.ts';
 import {
   isValidAttachmentKey,
   isValidDigest,
   isValidPlaintextHash,
-} from '../../../types/Crypto.std.js';
-import type { BackupExportOptions, BackupImportOptions } from '../types.std.js';
-import { isTestOrMockEnvironment } from '../../../environment.std.js';
-import { toNumber } from '../../../util/toNumber.std.js';
-import { isKnownProtoEnumMember } from '../../../util/isKnownProtoEnumMember.std.js';
+} from '../../../types/Crypto.std.ts';
+import type { BackupExportOptions, BackupImportOptions } from '../types.std.ts';
+import { isTestOrMockEnvironment } from '../../../environment.std.ts';
+import { toNumber } from '../../../util/toNumber.std.ts';
+import { isKnownProtoEnumMember } from '../../../util/isKnownProtoEnumMember.std.ts';
 
 export function convertFilePointerToAttachment(
   filePointer: Backups.FilePointer,

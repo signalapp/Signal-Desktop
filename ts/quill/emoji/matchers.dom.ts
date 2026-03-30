@@ -3,9 +3,9 @@
 
 import { Delta } from '@signalapp/quill-cjs';
 
-import { insertEmojiOps } from '../util.dom.js';
-import type { Matcher } from '../util.dom.js';
-import { getFunEmojiElementValue } from '../../components/fun/FunEmoji.dom.js';
+import { insertEmojiOps } from '../util.dom.ts';
+import type { Matcher } from '../util.dom.ts';
+import { getFunEmojiElementValue } from '../../components/fun/FunEmoji.dom.tsx';
 
 export const matchEmojiBlot: Matcher = (
   node,

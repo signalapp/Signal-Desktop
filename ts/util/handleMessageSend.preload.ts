@@ -4,17 +4,17 @@
 import { z } from 'zod';
 import lodash from 'lodash';
 import type { CallbackResultType } from '../textsecure/Types.d.ts';
-import { DataWriter } from '../sql/Client.preload.js';
-import { createLogger } from '../logging/log.std.js';
+import { DataWriter } from '../sql/Client.preload.ts';
+import { createLogger } from '../logging/log.std.ts';
 import {
   OutgoingMessageError,
   SendMessageNetworkError,
   SendMessageProtoError,
   UnregisteredUserError,
-} from '../textsecure/Errors.std.js';
-import { SEALED_SENDER } from '../types/SealedSender.std.js';
-import type { ServiceIdString } from '../types/ServiceId.std.js';
-import { drop } from './drop.std.js';
+} from '../textsecure/Errors.std.ts';
+import { SEALED_SENDER } from '../types/SealedSender.std.ts';
+import type { ServiceIdString } from '../types/ServiceId.std.ts';
+import { drop } from './drop.std.ts';
 
 const { isBoolean, isNumber } = lodash;
 

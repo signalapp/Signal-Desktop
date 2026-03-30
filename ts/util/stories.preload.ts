@@ -1,7 +1,7 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import { itemStorage } from '../textsecure/Storage.preload.js';
-import { onHasStoriesDisabledChange } from '../textsecure/WebAPI.preload.js';
+import { itemStorage } from '../textsecure/Storage.preload.ts';
+import { onHasStoriesDisabledChange } from '../textsecure/WebAPI.preload.ts';
 
 export const getStoriesDisabled = (): boolean =>
   itemStorage.get('hasStoriesDisabled', false);

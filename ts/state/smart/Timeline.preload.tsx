@@ -5,10 +5,10 @@ import React, { memo, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { isEqual } from 'lodash';
 
-import { Timeline } from '../../components/conversation/Timeline.dom.js';
-import { useCallingActions } from '../ducks/calling.preload.js';
-import { useConversationsActions } from '../ducks/conversations.preload.js';
-import { getPreferredBadgeSelector } from '../selectors/badges.preload.js';
+import { Timeline } from '../../components/conversation/Timeline.dom.tsx';
+import { useCallingActions } from '../ducks/calling.preload.ts';
+import { useConversationsActions } from '../ducks/conversations.preload.ts';
+import { getPreferredBadgeSelector } from '../selectors/badges.preload.ts';
 import {
   getConversationMessagesSelector,
   getConversationSelector,
@@ -16,27 +16,27 @@ import {
   getInvitedContactsForNewlyCreatedGroup,
   getMessages,
   getTargetedMessage,
-} from '../selectors/conversations.dom.js';
-import { getSelectedConversationId } from '../selectors/nav.std.js';
-import { getIntl, getTheme } from '../selectors/user.std.js';
-import { SmartContactSpoofingReviewDialog } from './ContactSpoofingReviewDialog.preload.js';
-import { SmartHeroRow } from './HeroRow.preload.js';
-import { SmartTimelineItem } from './TimelineItem.preload.js';
-import { SmartTypingBubble } from './TypingBubble.preload.js';
-import { AttachmentDownloadManager } from '../../jobs/AttachmentDownloadManager.preload.js';
+} from '../selectors/conversations.dom.ts';
+import { getSelectedConversationId } from '../selectors/nav.std.ts';
+import { getIntl, getTheme } from '../selectors/user.std.ts';
+import { SmartContactSpoofingReviewDialog } from './ContactSpoofingReviewDialog.preload.tsx';
+import { SmartHeroRow } from './HeroRow.preload.tsx';
+import { SmartTimelineItem } from './TimelineItem.preload.tsx';
+import { SmartTypingBubble } from './TypingBubble.preload.tsx';
+import { AttachmentDownloadManager } from '../../jobs/AttachmentDownloadManager.preload.ts';
 import {
   getActiveCall,
   getCallSelector,
   isInFullScreenCall as getIsInFullScreenCall,
-} from '../selectors/calling.std.js';
-import { getMidnight } from '../../types/NotificationProfile.std.js';
+} from '../selectors/calling.std.ts';
+import { getMidnight } from '../../types/NotificationProfile.std.ts';
 
-import type { PropsType as SmartContactSpoofingReviewDialogPropsType } from './ContactSpoofingReviewDialog.preload.js';
-import type { RenderItemProps } from './TimelineItem.preload.js';
-import { getCallHistorySelector } from '../selectors/callHistory.std.js';
-import { getCallIdFromEra } from '../../util/callDisposition.preload.js';
-import { mapItemsIntoCollapseSets } from '../../util/CollapseSet.std.js';
-import type { CollapseSet } from '../../util/CollapseSet.std.js';
+import type { PropsType as SmartContactSpoofingReviewDialogPropsType } from './ContactSpoofingReviewDialog.preload.tsx';
+import type { RenderItemProps } from './TimelineItem.preload.tsx';
+import { getCallHistorySelector } from '../selectors/callHistory.std.ts';
+import { getCallIdFromEra } from '../../util/callDisposition.preload.ts';
+import { mapItemsIntoCollapseSets } from '../../util/CollapseSet.std.ts';
+import type { CollapseSet } from '../../util/CollapseSet.std.ts';
 
 type ExternalProps = {
   id: string;

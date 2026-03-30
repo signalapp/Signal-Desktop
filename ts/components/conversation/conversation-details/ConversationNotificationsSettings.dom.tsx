@@ -2,18 +2,18 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useMemo, useId } from 'react';
-import type { ConversationTypeType } from '../../../state/ducks/conversations.preload.js';
-import type { LocalizerType } from '../../../types/Util.std.js';
-import { PanelSection } from './PanelSection.dom.js';
-import { PanelRow } from './PanelRow.dom.js';
+import type { ConversationTypeType } from '../../../state/ducks/conversations.preload.ts';
+import type { LocalizerType } from '../../../types/Util.std.ts';
+import { PanelSection } from './PanelSection.dom.tsx';
+import { PanelRow } from './PanelRow.dom.tsx';
 import {
   ConversationDetailsIcon,
   IconType,
-} from './ConversationDetailsIcon.dom.js';
-import { Select } from '../../Select.dom.js';
-import { isConversationMuted } from '../../../util/isConversationMuted.std.js';
-import { getMuteOptions } from '../../../util/getMuteOptions.std.js';
-import { parseIntOrThrow } from '../../../util/parseIntOrThrow.std.js';
+} from './ConversationDetailsIcon.dom.tsx';
+import { Select } from '../../Select.dom.tsx';
+import { isConversationMuted } from '../../../util/isConversationMuted.std.ts';
+import { getMuteOptions } from '../../../util/getMuteOptions.std.ts';
+import { parseIntOrThrow } from '../../../util/parseIntOrThrow.std.ts';
 
 export type PropsType = {
   id: string;

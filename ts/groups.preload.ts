@@ -4,30 +4,30 @@
 import lodash from 'lodash';
 import type { ClientZkGroupCipher } from '@signalapp/libsignal-client/zkgroup.js';
 import { LRUCache } from 'lru-cache';
-import { createLogger } from './logging/log.std.js';
+import { createLogger } from './logging/log.std.ts';
 import {
   getCheckedGroupCredentialsForToday,
   maybeFetchNewCredentials,
-} from './services/groupCredentialFetcher.preload.js';
-import { DataReader, DataWriter } from './sql/Client.preload.js';
+} from './services/groupCredentialFetcher.preload.ts';
+import { DataReader, DataWriter } from './sql/Client.preload.ts';
 import {
   toWebSafeBase64,
   fromWebSafeBase64,
-} from './util/webSafeBase64.std.js';
-import { assertDev, strictAssert } from './util/assert.std.js';
-import { isMoreRecentThan } from './util/timestamp.std.js';
+} from './util/webSafeBase64.std.ts';
+import { assertDev, strictAssert } from './util/assert.std.ts';
+import { isMoreRecentThan } from './util/timestamp.std.ts';
 import {
   MINUTE,
   DurationInSeconds,
   SECOND,
-} from './util/durations/index.std.js';
-import { drop } from './util/drop.std.js';
-import { dropNull } from './util/dropNull.std.js';
+} from './util/durations/index.std.ts';
+import { drop } from './util/drop.std.ts';
+import { dropNull } from './util/dropNull.std.ts';
 import {
   writeNewAttachmentData,
   readAttachmentData,
   maybeDeleteAttachmentFile,
-} from './util/migrations.preload.js';
+} from './util/migrations.preload.ts';
 import type {
   ConversationAttributesType,
   GroupV2MemberType,
@@ -54,16 +54,16 @@ import {
   getClientZkGroupCipher,
   getClientZkProfileOperations,
   verifyNotarySignature,
-} from './util/zkgroup.node.js';
+} from './util/zkgroup.node.ts';
 import {
   computeHash,
   deriveMasterKeyFromGroupV1,
   getRandomBytes,
-} from './Crypto.node.js';
+} from './Crypto.node.ts';
 import type {
   GroupCredentialsType,
   GroupLogResponseType,
-} from './textsecure/WebAPI.preload.js';
+} from './textsecure/WebAPI.preload.ts';
 import {
   createGroup,
   getGroup,
@@ -73,66 +73,66 @@ import {
   getExternalGroupCredential,
   modifyGroup,
   uploadGroupAvatar,
-} from './textsecure/WebAPI.preload.js';
-import { HTTPError } from './types/HTTPError.std.js';
-import { CURRENT_SCHEMA_VERSION as MAX_MESSAGE_SCHEMA } from './types/Message2.preload.js';
-import type { ConversationModel } from './models/conversations.preload.js';
-import { getGroupSizeHardLimit } from './groups/limits.dom.js';
+} from './textsecure/WebAPI.preload.ts';
+import { HTTPError } from './types/HTTPError.std.ts';
+import { CURRENT_SCHEMA_VERSION as MAX_MESSAGE_SCHEMA } from './types/Message2.preload.ts';
+import type { ConversationModel } from './models/conversations.preload.ts';
+import { getGroupSizeHardLimit } from './groups/limits.dom.ts';
 import {
   isGroupV1 as getIsGroupV1,
   isGroupV2 as getIsGroupV2,
   isGroupV2,
   isMe,
-} from './util/whatTypeOfConversation.dom.js';
-import * as Bytes from './Bytes.std.js';
-import type { AvatarDataType } from './types/Avatar.std.js';
-import type { GroupV2ChangeDetailType } from './types/groups.std.js';
+} from './util/whatTypeOfConversation.dom.ts';
+import * as Bytes from './Bytes.std.ts';
+import type { AvatarDataType } from './types/Avatar.std.ts';
+import type { GroupV2ChangeDetailType } from './types/groups.std.ts';
 import type {
   ServiceIdString,
   AciString,
   PniString,
-} from './types/ServiceId.std.js';
+} from './types/ServiceId.std.ts';
 import {
   ServiceIdKind,
   isPniString,
   isServiceIdString,
-} from './types/ServiceId.std.js';
-import { isAciString } from './util/isAciString.std.js';
-import * as Errors from './types/errors.std.js';
-import { SignalService as Proto } from './protobuf/index.std.js';
-import { isNotNil } from './util/isNotNil.std.js';
-import { isAccessControlEnabled } from './groups/util.std.js';
+} from './types/ServiceId.std.ts';
+import { isAciString } from './util/isAciString.std.ts';
+import * as Errors from './types/errors.std.ts';
+import { SignalService as Proto } from './protobuf/index.std.ts';
+import { isNotNil } from './util/isNotNil.std.ts';
+import { isAccessControlEnabled } from './groups/util.std.ts';
 
 import {
   conversationJobQueue,
   conversationQueueJobEnum,
-} from './jobs/conversationJobQueue.preload.js';
-import { ReadStatus } from './messages/MessageReadStatus.std.js';
-import { SeenStatus } from './MessageSeenStatus.std.js';
-import { incrementMessageCounter } from './util/incrementMessageCounter.preload.js';
-import { sleep } from './util/sleep.std.js';
-import { groupInvitesRoute } from './util/signalRoutes.std.js';
+} from './jobs/conversationJobQueue.preload.ts';
+import { ReadStatus } from './messages/MessageReadStatus.std.ts';
+import { SeenStatus } from './MessageSeenStatus.std.ts';
+import { incrementMessageCounter } from './util/incrementMessageCounter.preload.ts';
+import { sleep } from './util/sleep.std.ts';
+import { groupInvitesRoute } from './util/signalRoutes.std.ts';
 import {
   decodeGroupSendEndorsementsResponse,
   validateGroupSendEndorsementsExpiration,
-} from './util/groupSendEndorsements.preload.js';
-import { getProfile } from './util/getProfile.preload.js';
-import { generateMessageId } from './util/generateMessageId.node.js';
-import { postSaveUpdates } from './util/cleanup.preload.js';
-import { MessageModel } from './models/messages.preload.js';
-import { areWePending } from './util/groupMembershipUtils.preload.js';
+} from './util/groupSendEndorsements.preload.ts';
+import { getProfile } from './util/getProfile.preload.ts';
+import { generateMessageId } from './util/generateMessageId.node.ts';
+import { postSaveUpdates } from './util/cleanup.preload.ts';
+import { MessageModel } from './models/messages.preload.ts';
+import { areWePending } from './util/groupMembershipUtils.preload.ts';
 import {
   isConversationAccepted,
   isTrustedContact,
-} from './util/isConversationAccepted.preload.js';
-import { itemStorage } from './textsecure/Storage.preload.js';
+} from './util/isConversationAccepted.preload.ts';
+import { itemStorage } from './textsecure/Storage.preload.ts';
 import {
   EMOJI_OUTGOING_BYTE_LIMIT,
   SERVER_EMOJI_BYTE_LIMIT,
   SERVER_STRING_BYTE_LIMIT,
-} from './types/GroupMemberLabels.std.js';
-import { getConversationIdForLogging } from './util/idForLogging.preload.js';
-import { toNumber } from './util/toNumber.std.js';
+} from './types/GroupMemberLabels.std.ts';
+import { getConversationIdForLogging } from './util/idForLogging.preload.ts';
+import { toNumber } from './util/toNumber.std.ts';
 
 import Actions = Proto.GroupChange.Actions;
 import AccessRequired = Proto.AccessControl.AccessRequired;
@@ -143,7 +143,7 @@ const { compact, difference, flatten, fromPairs, isNumber, omit, values } =
 
 const log = createLogger('groups');
 
-export { joinViaLink } from './groups/joinViaLink.preload.js';
+export { joinViaLink } from './groups/joinViaLink.preload.ts';
 
 export type GroupFields = {
   readonly id: Uint8Array<ArrayBuffer>;

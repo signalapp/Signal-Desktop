@@ -4,20 +4,20 @@
 import React, { useContext, useState } from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import { IMAGE_JPEG } from '../types/MIME.std.js';
-import type { Props } from './CompositionArea.dom.js';
-import { CompositionArea } from './CompositionArea.dom.js';
+import { IMAGE_JPEG } from '../types/MIME.std.ts';
+import type { Props } from './CompositionArea.dom.tsx';
+import { CompositionArea } from './CompositionArea.dom.tsx';
 import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext.std.js';
 
-import { fakeDraftAttachment } from '../test-helpers/fakeAttachment.std.js';
-import { landscapeGreenUrl } from '../storybook/Fixtures.std.js';
-import { RecordingState } from '../types/AudioRecorder.std.js';
-import type { ContactNameColorType } from '../types/Colors.std.js';
-import { ContactNameColors, ConversationColors } from '../types/Colors.std.js';
-import { getDefaultConversation } from '../test-helpers/getDefaultConversation.std.js';
-import { PaymentEventKind } from '../types/Payment.std.js';
-import { EmojiSkinTone } from './fun/data/emojis.std.js';
-import { isNotNil } from '../util/isNotNil.std.js';
+import { fakeDraftAttachment } from '../test-helpers/fakeAttachment.std.ts';
+import { landscapeGreenUrl } from '../storybook/Fixtures.std.ts';
+import { RecordingState } from '../types/AudioRecorder.std.ts';
+import type { ContactNameColorType } from '../types/Colors.std.ts';
+import { ContactNameColors, ConversationColors } from '../types/Colors.std.ts';
+import { getDefaultConversation } from '../test-helpers/getDefaultConversation.std.ts';
+import { PaymentEventKind } from '../types/Payment.std.ts';
+import { EmojiSkinTone } from './fun/data/emojis.std.ts';
+import { isNotNil } from '../util/isNotNil.std.ts';
 
 const { i18n } = window.SignalContext;
 

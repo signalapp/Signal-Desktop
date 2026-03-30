@@ -6,17 +6,17 @@ import { blobToArrayBuffer } from 'blob-util';
 import type {
   AttachmentType,
   LocalAttachmentV2Type,
-} from '../types/Attachment.std.js';
-import { type MIMEType, IMAGE_PNG } from '../types/MIME.std.js';
-import type { MakeVideoScreenshotResultType } from '../types/VisualAttachment.dom.js';
-import type { LoggerType } from '../types/Logging.std.js';
-import { getLocalAttachmentUrl } from './getLocalAttachmentUrl.std.js';
-import { toLogFormat } from '../types/errors.std.js';
+} from '../types/Attachment.std.ts';
+import { type MIMEType, IMAGE_PNG } from '../types/MIME.std.ts';
+import type { MakeVideoScreenshotResultType } from '../types/VisualAttachment.dom.ts';
+import type { LoggerType } from '../types/Logging.std.ts';
+import { getLocalAttachmentUrl } from './getLocalAttachmentUrl.std.ts';
+import { toLogFormat } from '../types/errors.std.ts';
 import {
   isImageTypeSupported,
   isVideoTypeSupported,
-} from './GoogleChrome.std.js';
-import { strictAssert } from './assert.std.js';
+} from './GoogleChrome.std.ts';
+import { strictAssert } from './assert.std.ts';
 
 const THUMBNAIL_SIZE = 150;
 const THUMBNAIL_CONTENT_TYPE = IMAGE_PNG;

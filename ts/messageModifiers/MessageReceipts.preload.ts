@@ -8,34 +8,34 @@ import type {
   MessageAttributesType,
   ReadonlyMessageAttributesType,
 } from '../model-types.d.ts';
-import type { SendStateByConversationId } from '../messages/MessageSendState.std.js';
-import { isOutgoing, isStory } from '../state/selectors/message.preload.js';
-import { getOwn } from '../util/getOwn.std.js';
-import { missingCaseError } from '../util/missingCaseError.std.js';
-import { createWaitBatcher } from '../util/waitBatcher.std.js';
-import { isServiceIdString } from '../types/ServiceId.std.js';
+import type { SendStateByConversationId } from '../messages/MessageSendState.std.ts';
+import { isOutgoing, isStory } from '../state/selectors/message.preload.ts';
+import { getOwn } from '../util/getOwn.std.ts';
+import { missingCaseError } from '../util/missingCaseError.std.ts';
+import { createWaitBatcher } from '../util/waitBatcher.std.ts';
+import { isServiceIdString } from '../types/ServiceId.std.ts';
 import {
   SendActionType,
   SendStatus,
   UNDELIVERED_SEND_STATUSES,
   sendStateReducer,
-} from '../messages/MessageSendState.std.js';
-import { DataReader, DataWriter } from '../sql/Client.preload.js';
-import type { DeleteSentProtoRecipientOptionsType } from '../sql/Interface.std.js';
-import { createLogger } from '../logging/log.std.js';
-import { getSourceServiceId } from '../messages/sources.preload.js';
-import { getMessageSentTimestamp } from '../util/getMessageSentTimestamp.std.js';
-import { getMessageIdForLogging } from '../util/idForLogging.preload.js';
-import { getPropForTimestamp } from '../util/editHelpers.std.js';
+} from '../messages/MessageSendState.std.ts';
+import { DataReader, DataWriter } from '../sql/Client.preload.ts';
+import type { DeleteSentProtoRecipientOptionsType } from '../sql/Interface.std.ts';
+import { createLogger } from '../logging/log.std.ts';
+import { getSourceServiceId } from '../messages/sources.preload.ts';
+import { getMessageSentTimestamp } from '../util/getMessageSentTimestamp.std.ts';
+import { getMessageIdForLogging } from '../util/idForLogging.preload.ts';
+import { getPropForTimestamp } from '../util/editHelpers.std.ts';
 import {
   DELETE_SENT_PROTO_BATCHER_WAIT_MS,
   RECEIPT_BATCHER_WAIT_MS,
-} from '../types/Receipt.std.js';
-import { drop } from '../util/drop.std.js';
-import { getMessageById } from '../messages/getMessageById.preload.js';
-import { MessageModel } from '../models/messages.preload.js';
-import { areStoryViewReceiptsEnabled } from '../util/Settings.preload.js';
-import { itemStorage } from '../textsecure/Storage.preload.js';
+} from '../types/Receipt.std.ts';
+import { drop } from '../util/drop.std.ts';
+import { getMessageById } from '../messages/getMessageById.preload.ts';
+import { MessageModel } from '../models/messages.preload.ts';
+import { areStoryViewReceiptsEnabled } from '../util/Settings.preload.ts';
+import { itemStorage } from '../textsecure/Storage.preload.ts';
 
 const { groupBy } = lodash;
 

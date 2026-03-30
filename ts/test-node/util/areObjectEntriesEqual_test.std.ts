@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 
-import { areObjectEntriesEqual } from '../../util/areObjectEntriesEqual.std.js';
+import { areObjectEntriesEqual } from '../../util/areObjectEntriesEqual.std.ts';
 
 describe('areObjectEntriesEqual', () => {
   type TestObject = { foo?: number; bar?: number };

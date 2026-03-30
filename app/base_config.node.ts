@@ -6,8 +6,8 @@ import { sync as writeFileSync } from 'write-file-atomic';
 
 import lodash from 'lodash';
 import lodashFp from 'lodash/fp.js';
-import { strictAssert } from '../ts/util/assert.std.js';
-import { createLogger } from '../ts/logging/log.std.js';
+import { strictAssert } from '../ts/util/assert.std.ts';
+import { createLogger } from '../ts/logging/log.std.ts';
 
 const { set } = lodashFp;
 

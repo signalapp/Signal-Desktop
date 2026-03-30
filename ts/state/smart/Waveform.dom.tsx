@@ -3,10 +3,10 @@
 
 import lodash from 'lodash';
 import React, { memo, useEffect, useState } from 'react';
-import { Waveform } from '../../components/conversation/Waveform.dom.js';
-import type { ComputePeaksResult } from '../../components/VoiceNotesPlaybackContext.dom.js';
-import { VoiceNotesPlaybackContext } from '../../components/VoiceNotesPlaybackContext.dom.js';
-import { createLogger } from '../../logging/log.std.js';
+import { Waveform } from '../../components/conversation/Waveform.dom.tsx';
+import type { ComputePeaksResult } from '../../components/VoiceNotesPlaybackContext.dom.tsx';
+import { VoiceNotesPlaybackContext } from '../../components/VoiceNotesPlaybackContext.dom.tsx';
+import { createLogger } from '../../logging/log.std.ts';
 
 const { noop } = lodash;
 

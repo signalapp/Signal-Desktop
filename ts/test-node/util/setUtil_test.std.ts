@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 
-import { difference, isEqual, remove, toggle } from '../../util/setUtil.std.js';
+import { difference, isEqual, remove, toggle } from '../../util/setUtil.std.ts';
 
 describe('set utilities', () => {
   const original = new Set([1, 2, 3]);

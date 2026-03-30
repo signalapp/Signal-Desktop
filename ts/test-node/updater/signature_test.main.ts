@@ -14,10 +14,10 @@ import {
   verifySignature,
   writeHexToPath,
   writeSignature,
-} from '../../updater/signature.node.js';
-import { createTempDir, deleteTempDir } from '../../updater/common.main.js';
-import { keyPair } from '../../updater/curve.node.js';
-import { createLogger } from '../../logging/log.std.js';
+} from '../../updater/signature.node.ts';
+import { createTempDir, deleteTempDir } from '../../updater/common.main.ts';
+import { keyPair } from '../../updater/curve.node.ts';
+import { createLogger } from '../../logging/log.std.ts';
 
 const { copy } = fsExtra;
 

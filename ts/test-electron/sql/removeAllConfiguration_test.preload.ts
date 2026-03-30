@@ -4,7 +4,7 @@
 import { assert } from 'chai';
 import { v4 as generateGuid } from 'uuid';
 
-import { DataWriter, DataReader } from '../../sql/Client.preload.js';
+import { DataWriter, DataReader } from '../../sql/Client.preload.ts';
 
 describe('Remove all configuration test', () => {
   beforeEach(async () => {

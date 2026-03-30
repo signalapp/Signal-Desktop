@@ -5,7 +5,7 @@ import { assert } from 'chai';
 import type {
   HydratedBodyRangeMention,
   RangeNode,
-} from '../../types/BodyRange.std.js';
+} from '../../types/BodyRange.std.ts';
 import {
   BodyRange,
   DisplayStyle,
@@ -15,8 +15,8 @@ import {
   insertRange,
   processBodyRangesForSearchResult,
   trimMessageWhitespace,
-} from '../../types/BodyRange.std.js';
-import { generateAci } from '../../types/ServiceId.std.js';
+} from '../../types/BodyRange.std.ts';
+import { generateAci } from '../../types/ServiceId.std.ts';
 
 const SERVICE_ID_1 = generateAci();
 const SERVICE_ID_2 = generateAci();

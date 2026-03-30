@@ -4,8 +4,8 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
-import { setupI18n } from '../../util/setupI18nMain.std.js';
-import { shouldNeverBeCalled } from '../../util/shouldNeverBeCalled.std.js';
+import { setupI18n } from '../../util/setupI18nMain.std.ts';
+import { shouldNeverBeCalled } from '../../util/shouldNeverBeCalled.std.ts';
 
 const PATH = join(
   __dirname,

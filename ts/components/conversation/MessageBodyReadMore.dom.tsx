@@ -3,10 +3,10 @@
 
 import React from 'react';
 
-import type { Props as MessageBodyPropsType } from './MessageBody.dom.js';
-import { MessageBody } from './MessageBody.dom.js';
-import { graphemeAndLinkAwareSlice } from '../../util/graphemeAndLinkAwareSlice.std.js';
-import { shouldLinkifyMessage } from '../../types/LinkPreview.std.js';
+import type { Props as MessageBodyPropsType } from './MessageBody.dom.tsx';
+import { MessageBody } from './MessageBody.dom.tsx';
+import { graphemeAndLinkAwareSlice } from '../../util/graphemeAndLinkAwareSlice.std.ts';
+import { shouldLinkifyMessage } from '../../types/LinkPreview.std.ts';
 
 export type Props = Pick<
   MessageBodyPropsType,

@@ -3,8 +3,8 @@
 
 import * as React from 'react';
 import type { Meta } from '@storybook/react';
-import type { Props } from './VerificationNotification.dom.js';
-import { VerificationNotification } from './VerificationNotification.dom.js';
+import type { Props } from './VerificationNotification.dom.tsx';
+import { VerificationNotification } from './VerificationNotification.dom.tsx';
 
 const { i18n } = window.SignalContext;
 

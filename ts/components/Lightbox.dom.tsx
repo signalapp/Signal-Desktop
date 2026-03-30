@@ -12,30 +12,30 @@ import type { ReadonlyDeep } from 'type-fest';
 import type {
   ConversationType,
   SaveAttachmentActionCreatorType,
-} from '../state/ducks/conversations.preload.js';
-import type { LocalizerType } from '../types/Util.std.js';
-import type { MediaItemType } from '../types/MediaItem.std.js';
-import * as GoogleChrome from '../util/GoogleChrome.std.js';
-import { createLogger } from '../logging/log.std.js';
-import * as Errors from '../types/errors.std.js';
-import { Avatar, AvatarSize } from './Avatar.dom.js';
-import { IMAGE_PNG, isImage, isVideo } from '../types/MIME.std.js';
-import { formatDateTimeForAttachment } from '../util/formatTimestamp.dom.js';
-import { formatDuration } from '../util/formatDuration.std.js';
-import { isGIF, isIncremental } from '../util/Attachment.std.js';
-import { useRestoreFocus } from '../hooks/useRestoreFocus.dom.js';
-import { usePrevious } from '../hooks/usePrevious.std.js';
-import { arrow } from '../util/keyboard.dom.js';
-import { drop } from '../util/drop.std.js';
-import { isCmdOrCtrl } from '../hooks/useKeyboardShortcuts.dom.js';
-import type { ForwardMessagesPayload } from '../state/ducks/globalModals.preload.js';
-import { ForwardMessagesModalType } from './ForwardMessagesModal.dom.js';
-import { useReducedMotion } from '../hooks/useReducedMotion.dom.js';
-import { formatFileSize } from '../util/formatFileSize.std.js';
-import { SECOND } from '../util/durations/index.std.js';
-import { Toast } from './Toast.dom.js';
-import { isAbortError } from '../util/isAbortError.std.js';
-import { strictAssert } from '../util/assert.std.js';
+} from '../state/ducks/conversations.preload.ts';
+import type { LocalizerType } from '../types/Util.std.ts';
+import type { MediaItemType } from '../types/MediaItem.std.ts';
+import * as GoogleChrome from '../util/GoogleChrome.std.ts';
+import { createLogger } from '../logging/log.std.ts';
+import * as Errors from '../types/errors.std.ts';
+import { Avatar, AvatarSize } from './Avatar.dom.tsx';
+import { IMAGE_PNG, isImage, isVideo } from '../types/MIME.std.ts';
+import { formatDateTimeForAttachment } from '../util/formatTimestamp.dom.ts';
+import { formatDuration } from '../util/formatDuration.std.ts';
+import { isGIF, isIncremental } from '../util/Attachment.std.ts';
+import { useRestoreFocus } from '../hooks/useRestoreFocus.dom.ts';
+import { usePrevious } from '../hooks/usePrevious.std.ts';
+import { arrow } from '../util/keyboard.dom.ts';
+import { drop } from '../util/drop.std.ts';
+import { isCmdOrCtrl } from '../hooks/useKeyboardShortcuts.dom.tsx';
+import type { ForwardMessagesPayload } from '../state/ducks/globalModals.preload.ts';
+import { ForwardMessagesModalType } from './ForwardMessagesModal.dom.tsx';
+import { useReducedMotion } from '../hooks/useReducedMotion.dom.ts';
+import { formatFileSize } from '../util/formatFileSize.std.ts';
+import { SECOND } from '../util/durations/index.std.ts';
+import { Toast } from './Toast.dom.tsx';
+import { isAbortError } from '../util/isAbortError.std.ts';
+import { strictAssert } from '../util/assert.std.ts';
 
 const { noop } = lodash;
 

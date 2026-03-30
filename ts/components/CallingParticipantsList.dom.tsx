@@ -5,16 +5,16 @@ import React, { useContext } from 'react';
 import { createPortal } from 'react-dom';
 import classNames from 'classnames';
 import { FocusScope } from 'react-aria';
-import { Avatar, AvatarSize } from './Avatar.dom.js';
-import { ContactName } from './conversation/ContactName.dom.js';
-import { InContactsIcon } from './InContactsIcon.dom.js';
-import type { LocalizerType } from '../types/Util.std.js';
-import type { ServiceIdString } from '../types/ServiceId.std.js';
-import { sortByTitle } from '../util/sortByTitle.std.js';
-import type { ConversationType } from '../state/ducks/conversations.preload.js';
-import { isInSystemContacts } from '../util/isInSystemContacts.std.js';
-import { ModalContainerContext } from './ModalHost.dom.js';
-import type { ContactModalStateType } from '../types/globalModals.std.js';
+import { Avatar, AvatarSize } from './Avatar.dom.tsx';
+import { ContactName } from './conversation/ContactName.dom.tsx';
+import { InContactsIcon } from './InContactsIcon.dom.tsx';
+import type { LocalizerType } from '../types/Util.std.ts';
+import type { ServiceIdString } from '../types/ServiceId.std.ts';
+import { sortByTitle } from '../util/sortByTitle.std.ts';
+import type { ConversationType } from '../state/ducks/conversations.preload.ts';
+import { isInSystemContacts } from '../util/isInSystemContacts.std.ts';
+import { ModalContainerContext } from './ModalHost.dom.tsx';
+import type { ContactModalStateType } from '../types/globalModals.std.ts';
 
 type ParticipantType = ConversationType & {
   hasRemoteAudio?: boolean;

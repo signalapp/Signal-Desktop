@@ -6,11 +6,11 @@ import { pipeline } from 'node:stream/promises';
 import * as libsignal from '@signalapp/libsignal-client/dist/MessageBackup.js';
 import type { InputStream } from '@signalapp/libsignal-client/dist/io.js';
 
-import { strictAssert } from '../../util/assert.std.js';
-import { toAciObject } from '../../util/ServiceId.node.js';
-import { missingCaseError } from '../../util/missingCaseError.std.js';
-import { DelimitedStream } from '../../util/DelimitedStream.node.js';
-import { itemStorage } from '../../textsecure/Storage.preload.js';
+import { strictAssert } from '../../util/assert.std.ts';
+import { toAciObject } from '../../util/ServiceId.node.ts';
+import { missingCaseError } from '../../util/missingCaseError.std.ts';
+import { DelimitedStream } from '../../util/DelimitedStream.node.ts';
+import { itemStorage } from '../../textsecure/Storage.preload.ts';
 
 export enum ValidationType {
   Export = 'Export',

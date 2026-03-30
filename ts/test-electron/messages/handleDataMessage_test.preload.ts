@@ -5,20 +5,20 @@ import { assert } from 'chai';
 import * as sinon from 'sinon';
 import { v4 as uuid } from 'uuid';
 
-import { handleDataMessage } from '../../messages/handleDataMessage.preload.js';
+import { handleDataMessage } from '../../messages/handleDataMessage.preload.ts';
 import type { MessageAttributesType } from '../../model-types.d.ts';
-import { MessageModel } from '../../models/messages.preload.js';
-import { MessageCache } from '../../services/MessageCache.preload.js';
-import { DataWriter } from '../../sql/Client.preload.js';
-import { itemStorage } from '../../textsecure/Storage.preload.js';
+import { MessageModel } from '../../models/messages.preload.ts';
+import { MessageCache } from '../../services/MessageCache.preload.ts';
+import { DataWriter } from '../../sql/Client.preload.ts';
+import { itemStorage } from '../../textsecure/Storage.preload.ts';
 import type { ProcessedDataMessage } from '../../textsecure/Types.d.ts';
 import {
   type AciString,
   generateAci,
   generatePni,
-} from '../../types/ServiceId.std.js';
-import { DurationInSeconds } from '../../util/durations/duration-in-seconds.std.js';
-import { SignalService } from '../../protobuf/index.std.js';
+} from '../../types/ServiceId.std.ts';
+import { DurationInSeconds } from '../../util/durations/duration-in-seconds.std.ts';
+import { SignalService } from '../../protobuf/index.std.ts';
 
 describe('handleDataMessage', () => {
   let ourAci: AciString;

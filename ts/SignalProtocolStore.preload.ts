@@ -20,15 +20,15 @@ import {
   SignedPreKeyRecord,
 } from '@signalapp/libsignal-client';
 
-import { DataReader, DataWriter } from './sql/Client.preload.js';
-import type { ItemType, KyberPreKeyTripleType } from './sql/Interface.std.js';
-import * as Bytes from './Bytes.std.js';
-import { constantTimeEqual, sha256 } from './Crypto.node.js';
-import { assertDev, strictAssert } from './util/assert.std.js';
-import { isNotNil } from './util/isNotNil.std.js';
-import { drop } from './util/drop.std.js';
-import { Zone } from './util/Zone.std.js';
-import { isMoreRecentThan } from './util/timestamp.std.js';
+import { DataReader, DataWriter } from './sql/Client.preload.ts';
+import type { ItemType, KyberPreKeyTripleType } from './sql/Interface.std.ts';
+import * as Bytes from './Bytes.std.ts';
+import { constantTimeEqual, sha256 } from './Crypto.node.ts';
+import { assertDev, strictAssert } from './util/assert.std.ts';
+import { isNotNil } from './util/isNotNil.std.ts';
+import { drop } from './util/drop.std.ts';
+import { Zone } from './util/Zone.std.ts';
+import { isMoreRecentThan } from './util/timestamp.std.ts';
 import type {
   DeviceType,
   IdentityKeyType,
@@ -54,26 +54,26 @@ import type {
   ServiceIdString,
   PniString,
   AciString,
-} from './types/ServiceId.std.js';
+} from './types/ServiceId.std.ts';
 import {
   isServiceIdString,
   ServiceIdKind,
   fromAciObject,
-} from './types/ServiceId.std.js';
-import type { Address } from './types/Address.std.js';
-import type { QualifiedAddressStringType } from './types/QualifiedAddress.std.js';
-import { QualifiedAddress } from './types/QualifiedAddress.std.js';
-import { createLogger } from './logging/log.std.js';
-import * as Errors from './types/errors.std.js';
-import { MINUTE } from './util/durations/index.std.js';
+} from './types/ServiceId.std.ts';
+import type { Address } from './types/Address.std.ts';
+import type { QualifiedAddressStringType } from './types/QualifiedAddress.std.ts';
+import { QualifiedAddress } from './types/QualifiedAddress.std.ts';
+import { createLogger } from './logging/log.std.ts';
+import * as Errors from './types/errors.std.ts';
+import { MINUTE } from './util/durations/index.std.ts';
 import {
   KYBER_KEY_ID_KEY,
   SIGNED_PRE_KEY_ID_KEY,
-} from './textsecure/AccountManager.preload.js';
-import { formatGroups, groupWhile } from './util/groupWhile.std.js';
-import { parseUnknown } from './util/schemas.std.js';
-import { wrappingAdd24 } from './util/wrappingAdd.std.js';
-import { itemStorage } from './textsecure/Storage.preload.js';
+} from './textsecure/AccountManager.preload.ts';
+import { formatGroups, groupWhile } from './util/groupWhile.std.ts';
+import { parseUnknown } from './util/schemas.std.ts';
+import { wrappingAdd24 } from './util/wrappingAdd.std.ts';
+import { itemStorage } from './textsecure/Storage.preload.ts';
 
 const { omit } = lodash;
 

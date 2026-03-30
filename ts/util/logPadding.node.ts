@@ -4,7 +4,7 @@
 import { Transform } from 'node:stream';
 import type { Duplex, Readable } from 'node:stream';
 
-import { logPadSize } from './logPadSize.std.js';
+import { logPadSize } from './logPadSize.std.ts';
 
 const PADDING_CHUNK_SIZE = 64 * 1024;
 

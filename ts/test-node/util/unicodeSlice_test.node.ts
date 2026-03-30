@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import assert from 'node:assert/strict';
-import { unicodeSlice } from '../../util/unicodeSlice.std.js';
-import { byteLength } from '../../Bytes.std.js';
+import { unicodeSlice } from '../../util/unicodeSlice.std.ts';
+import { byteLength } from '../../Bytes.std.ts';
 
 describe('unicodeSlice()', () => {
   function test(

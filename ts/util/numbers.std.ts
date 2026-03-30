@@ -1,6 +1,6 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import { strictAssert } from './assert.std.js';
+import { strictAssert } from './assert.std.ts';
 
 export function safeParseNumber(value: number | string): number | null {
   if (typeof value === 'number') {

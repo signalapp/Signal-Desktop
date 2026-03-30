@@ -2,14 +2,14 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReadonlyObjectDeep } from 'type-fest/source/readonly-deep.js';
-import { isEnabled, type ConfigMapType } from '../RemoteConfig.dom.js';
+import { isEnabled, type ConfigMapType } from '../RemoteConfig.dom.ts';
 import {
   isFeaturedEnabledNoRedux,
   isFeaturedEnabledSelector,
-} from './isFeatureEnabled.dom.js';
-import { itemStorage } from '../textsecure/Storage.preload.js';
-import { isNightly } from './version.std.js';
-import { isTestOrMockEnvironment } from '../environment.std.js';
+} from './isFeatureEnabled.dom.ts';
+import { itemStorage } from '../textsecure/Storage.preload.ts';
+import { isNightly } from './version.std.ts';
+import { isTestOrMockEnvironment } from '../environment.std.ts';
 
 const IOS_USER_AGENT = 'OWI';
 

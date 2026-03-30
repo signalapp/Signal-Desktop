@@ -1,10 +1,10 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ConversationType } from '../state/ducks/conversations.preload.js';
-import { PLACEHOLDER_CONTACT_ID } from '../state/selectors/conversations.dom.js';
-import { format, isValidNumber } from '../types/PhoneNumber.std.js';
-import { itemStorage } from '../textsecure/Storage.preload.js';
+import type { ConversationType } from '../state/ducks/conversations.preload.ts';
+import { PLACEHOLDER_CONTACT_ID } from '../state/selectors/conversations.dom.ts';
+import { format, isValidNumber } from '../types/PhoneNumber.std.ts';
+import { itemStorage } from '../textsecure/Storage.preload.ts';
 
 const PLACEHOLDER_CONTACT: ConversationType = {
   acceptedMessageRequest: false,

@@ -3,9 +3,9 @@
 
 import React from 'react';
 
-import type { AttachmentType } from '../../types/Attachment.std.js';
-import type { LocalizerType } from '../../types/Util.std.js';
-import { FileThumbnail } from '../FileThumbnail.dom.js';
+import type { AttachmentType } from '../../types/Attachment.std.ts';
+import type { LocalizerType } from '../../types/Util.std.ts';
+import { FileThumbnail } from '../FileThumbnail.dom.tsx';
 
 export type Props = {
   attachment: AttachmentType;

@@ -6,11 +6,11 @@ import { assert } from 'chai';
 import {
   AttachmentDownloadSource,
   type WritableDB,
-} from '../../sql/Interface.std.js';
-import { objectToJSON, sql } from '../../sql/util.std.js';
-import { createDB, updateToVersion, explain } from './helpers.node.js';
-import { IMAGE_JPEG } from '../../types/MIME.std.js';
-import type { _AttachmentDownloadJobTypeV1040 } from '../../sql/migrations/1040-undownloaded-backed-up-media.std.js';
+} from '../../sql/Interface.std.ts';
+import { objectToJSON, sql } from '../../sql/util.std.ts';
+import { createDB, updateToVersion, explain } from './helpers.node.ts';
+import { IMAGE_JPEG } from '../../types/MIME.std.ts';
+import type { _AttachmentDownloadJobTypeV1040 } from '../../sql/migrations/1040-undownloaded-backed-up-media.std.ts';
 
 type UnflattenedAttachmentDownloadJobType = Omit<
   _AttachmentDownloadJobTypeV1040,

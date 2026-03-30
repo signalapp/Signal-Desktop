@@ -4,11 +4,11 @@ import type { Meta } from '@storybook/react';
 import type { JSX, ReactNode } from 'react';
 import React from 'react';
 import { action } from '@storybook/addon-actions';
-import { AxoAvatar } from './AxoAvatar.dom.js';
-import { tw } from './tw.dom.js';
-import { BADGES_FIXTURE } from './_internal/storybook-fixtures.std.js';
-import { _getAllAxoSymbolIconNames } from './_internal/AxoSymbolDefs.generated.std.js';
-import { AxoTokens } from './AxoTokens.std.js';
+import { AxoAvatar } from './AxoAvatar.dom.tsx';
+import { tw } from './tw.dom.tsx';
+import { BADGES_FIXTURE } from './_internal/storybook-fixtures.std.tsx';
+import { _getAllAxoSymbolIconNames } from './_internal/AxoSymbolDefs.generated.std.ts';
+import { AxoTokens } from './AxoTokens.std.ts';
 
 export default {
   title: 'Axo/AxoAvatar',

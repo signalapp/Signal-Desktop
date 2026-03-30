@@ -4,9 +4,9 @@ import type { ForwardedRef, RefObject } from 'react';
 import React, { useRef, useEffect, useState, forwardRef } from 'react';
 import classNames from 'classnames';
 import { isFocusable } from '@react-aria/focus';
-import { strictAssert } from '../../../util/assert.std.js';
-import { useReducedMotion } from '../../../hooks/useReducedMotion.dom.js';
-import type { FunImageAriaProps } from '../types.dom.js';
+import { strictAssert } from '../../../util/assert.std.ts';
+import { useReducedMotion } from '../../../hooks/useReducedMotion.dom.ts';
+import type { FunImageAriaProps } from '../types.dom.tsx';
 
 export type FunImageProps = FunImageAriaProps &
   Readonly<{

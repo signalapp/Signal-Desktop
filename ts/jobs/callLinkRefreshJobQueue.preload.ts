@@ -4,26 +4,26 @@
 import * as z from 'zod';
 import PQueue from 'p-queue';
 import { CallLinkRootKey } from '@signalapp/ringrtc';
-import { createLogger } from '../logging/log.std.js';
-import type { LoggerType } from '../types/Logging.std.js';
-import { exponentialBackoffMaxAttempts } from '../util/exponentialBackoff.std.js';
-import type { ParsedJob, StoredJob } from './types.std.js';
-import type { JOB_STATUS } from './JobQueue.std.js';
-import { JobQueue } from './JobQueue.std.js';
-import { jobQueueDatabaseStore } from './JobQueueDatabaseStore.preload.js';
-import { DAY, SECOND } from '../util/durations/index.std.js';
-import { commonShouldJobContinue } from './helpers/commonShouldJobContinue.preload.js';
-import { DataReader, DataWriter } from '../sql/Client.preload.js';
+import { createLogger } from '../logging/log.std.ts';
+import type { LoggerType } from '../types/Logging.std.ts';
+import { exponentialBackoffMaxAttempts } from '../util/exponentialBackoff.std.ts';
+import type { ParsedJob, StoredJob } from './types.std.ts';
+import type { JOB_STATUS } from './JobQueue.std.ts';
+import { JobQueue } from './JobQueue.std.ts';
+import { jobQueueDatabaseStore } from './JobQueueDatabaseStore.preload.ts';
+import { DAY, SECOND } from '../util/durations/index.std.ts';
+import { commonShouldJobContinue } from './helpers/commonShouldJobContinue.preload.ts';
+import { DataReader, DataWriter } from '../sql/Client.preload.ts';
 import type {
   CallLinkType,
   PendingCallLinkType,
-} from '../types/CallLink.std.js';
-import { calling } from '../services/calling.preload.js';
-import { sleeper } from '../util/sleeper.std.js';
-import { parseUnknown } from '../util/schemas.std.js';
-import { getRoomIdFromRootKey } from '../util/callLinksRingrtc.node.js';
-import { toCallHistoryFromUnusedCallLink } from '../util/callLinks.std.js';
-import type { StorageServiceFieldsType } from '../sql/Interface.std.js';
+} from '../types/CallLink.std.ts';
+import { calling } from '../services/calling.preload.ts';
+import { sleeper } from '../util/sleeper.std.ts';
+import { parseUnknown } from '../util/schemas.std.ts';
+import { getRoomIdFromRootKey } from '../util/callLinksRingrtc.node.ts';
+import { toCallHistoryFromUnusedCallLink } from '../util/callLinks.std.ts';
+import type { StorageServiceFieldsType } from '../sql/Interface.std.ts';
 
 const globalLogger = createLogger('callLinkRefreshJobQueue');
 

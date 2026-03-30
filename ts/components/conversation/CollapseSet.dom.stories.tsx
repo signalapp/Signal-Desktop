@@ -5,13 +5,13 @@ import * as React from 'react';
 import type { Meta } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
-import { DurationInSeconds } from '../../util/durations/duration-in-seconds.std.js';
-import { WidthBreakpoint } from '../_util.std.js';
-import { tw } from '../../axo/tw.dom.js';
-import { CollapseSetViewer } from './CollapseSet.dom.js';
+import { DurationInSeconds } from '../../util/durations/duration-in-seconds.std.ts';
+import { WidthBreakpoint } from '../_util.std.ts';
+import { tw } from '../../axo/tw.dom.tsx';
+import { CollapseSetViewer } from './CollapseSet.dom.tsx';
 
-import type { Props } from './CollapseSet.dom.js';
-import type { RenderItemProps } from '../../state/smart/TimelineItem.preload.js';
+import type { Props } from './CollapseSet.dom.tsx';
+import type { RenderItemProps } from '../../state/smart/TimelineItem.preload.tsx';
 
 const { i18n } = window.SignalContext;
 

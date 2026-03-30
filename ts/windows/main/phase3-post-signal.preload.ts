@@ -3,8 +3,8 @@
 
 // These all need access to window.Signal:
 
-import '../../models/messages.preload.js';
-import '../../models/conversations.preload.js';
+import '../../models/messages.preload.ts';
+import '../../models/conversations.preload.ts';
 
-import '../../SignalProtocolStore.preload.js';
-import '../../background.preload.js';
+import '../../SignalProtocolStore.preload.ts';
+import '../../background.preload.ts';

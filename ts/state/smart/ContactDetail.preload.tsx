@@ -4,20 +4,20 @@
 import React, { memo, useEffect, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 
-import type { Props as ContactDetailProps } from '../../components/conversation/ContactDetail.dom.js';
-import { ContactDetail } from '../../components/conversation/ContactDetail.dom.js';
-import { useAccountsActions } from '../ducks/accounts.preload.js';
-import { useConversationsActions } from '../ducks/conversations.preload.js';
-import { getMessages } from '../selectors/conversations.dom.js';
-import { getIntl, getRegionCode } from '../selectors/user.std.js';
-import { embeddedContactSelector } from '../../types/EmbeddedContact.std.js';
-import { startConversation } from '../../util/startConversation.dom.js';
+import type { Props as ContactDetailProps } from '../../components/conversation/ContactDetail.dom.tsx';
+import { ContactDetail } from '../../components/conversation/ContactDetail.dom.tsx';
+import { useAccountsActions } from '../ducks/accounts.preload.ts';
+import { useConversationsActions } from '../ducks/conversations.preload.ts';
+import { getMessages } from '../selectors/conversations.dom.ts';
+import { getIntl, getRegionCode } from '../selectors/user.std.ts';
+import { embeddedContactSelector } from '../../types/EmbeddedContact.std.ts';
+import { startConversation } from '../../util/startConversation.dom.ts';
 import type {
   EmbeddedContactType,
   EmbeddedContactForUIType,
-} from '../../types/EmbeddedContact.std.js';
-import { getAccountSelector } from '../selectors/accounts.std.js';
-import { useNavActions } from '../ducks/nav.std.js';
+} from '../../types/EmbeddedContact.std.ts';
+import { getAccountSelector } from '../selectors/accounts.std.ts';
+import { useNavActions } from '../ducks/nav.std.ts';
 
 export type OwnProps = Pick<ContactDetailProps, 'messageId'>;
 

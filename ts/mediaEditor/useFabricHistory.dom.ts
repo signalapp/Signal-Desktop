@@ -4,16 +4,16 @@
 import { useCallback, useEffect, useState } from 'react';
 import { fabric } from 'fabric';
 
-import { createLogger } from '../logging/log.std.js';
+import { createLogger } from '../logging/log.std.ts';
 
-import type { ImageStateType } from './ImageStateType.std.js';
-import { MediaEditorFabricAnalogTimeSticker } from './MediaEditorFabricAnalogTimeSticker.dom.js';
-import { MediaEditorFabricDigitalTimeSticker } from './MediaEditorFabricDigitalTimeSticker.dom.js';
-import { MediaEditorFabricIText } from './MediaEditorFabricIText.dom.js';
-import { MediaEditorFabricPath } from './MediaEditorFabricPath.dom.js';
-import { MediaEditorFabricSticker } from './MediaEditorFabricSticker.dom.js';
-import { fabricEffectListener } from './fabricEffectListener.std.js';
-import { strictAssert } from '../util/assert.std.js';
+import type { ImageStateType } from './ImageStateType.std.ts';
+import { MediaEditorFabricAnalogTimeSticker } from './MediaEditorFabricAnalogTimeSticker.dom.ts';
+import { MediaEditorFabricDigitalTimeSticker } from './MediaEditorFabricDigitalTimeSticker.dom.ts';
+import { MediaEditorFabricIText } from './MediaEditorFabricIText.dom.ts';
+import { MediaEditorFabricPath } from './MediaEditorFabricPath.dom.ts';
+import { MediaEditorFabricSticker } from './MediaEditorFabricSticker.dom.ts';
+import { fabricEffectListener } from './fabricEffectListener.std.ts';
+import { strictAssert } from '../util/assert.std.ts';
 
 const log = createLogger('useFabricHistory');
 

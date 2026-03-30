@@ -5,8 +5,8 @@ import type { Meta, StoryFn } from '@storybook/react';
 import React from 'react';
 
 import { action } from '@storybook/addon-actions';
-import type { PropsType } from './SignalConnectionsModal.dom.js';
-import { SignalConnectionsModal } from './SignalConnectionsModal.dom.js';
+import type { PropsType } from './SignalConnectionsModal.dom.tsx';
+import { SignalConnectionsModal } from './SignalConnectionsModal.dom.tsx';
 
 const { i18n } = window.SignalContext;
 

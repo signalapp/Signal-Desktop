@@ -4,18 +4,18 @@
 import type { MouseEvent } from 'react';
 import React, { useEffect, useState } from 'react';
 import copyText from 'copy-text-to-clipboard';
-import type { LocalizerType } from '../types/Util.std.js';
-import * as Errors from '../types/errors.std.js';
-import type { AnyToast } from '../types/Toast.dom.js';
-import { ToastType } from '../types/Toast.dom.js';
-import { createLogger } from '../logging/log.std.js';
-import { Button, ButtonVariant } from './Button.dom.js';
-import { Spinner } from './Spinner.dom.js';
-import { ToastManager } from './ToastManager.dom.js';
-import { createSupportUrl } from '../util/createSupportUrl.std.js';
-import { shouldNeverBeCalled } from '../util/shouldNeverBeCalled.std.js';
-import { openLinkInWebBrowser } from '../util/openLinkInWebBrowser.dom.js';
-import { useEscapeHandling } from '../hooks/useEscapeHandling.dom.js';
+import type { LocalizerType } from '../types/Util.std.ts';
+import * as Errors from '../types/errors.std.ts';
+import type { AnyToast } from '../types/Toast.dom.tsx';
+import { ToastType } from '../types/Toast.dom.tsx';
+import { createLogger } from '../logging/log.std.ts';
+import { Button, ButtonVariant } from './Button.dom.tsx';
+import { Spinner } from './Spinner.dom.tsx';
+import { ToastManager } from './ToastManager.dom.tsx';
+import { createSupportUrl } from '../util/createSupportUrl.std.ts';
+import { shouldNeverBeCalled } from '../util/shouldNeverBeCalled.std.ts';
+import { openLinkInWebBrowser } from '../util/openLinkInWebBrowser.dom.ts';
+import { useEscapeHandling } from '../hooks/useEscapeHandling.dom.ts';
 
 const log = createLogger('DebugLogWindow');
 

@@ -3,9 +3,9 @@
 
 import EventEmitter, { once } from 'node:events';
 
-import type { JobQueueStore, StoredJob } from '../../jobs/types.std.js';
-import { sleep } from '../../util/sleep.std.js';
-import { drop } from '../../util/drop.std.js';
+import type { JobQueueStore, StoredJob } from '../../jobs/types.std.ts';
+import { sleep } from '../../util/sleep.std.ts';
+import { drop } from '../../util/drop.std.ts';
 
 export class TestJobQueueStore implements JobQueueStore {
   events = new EventEmitter();

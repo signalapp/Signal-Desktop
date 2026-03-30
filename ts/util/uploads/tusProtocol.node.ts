@@ -3,12 +3,12 @@
 import { type Readable } from 'node:stream';
 import fetch, { type RequestInit, type Response } from 'node-fetch';
 
-import { HTTPError } from '../../types/HTTPError.std.js';
-import { createLogger } from '../../logging/log.std.js';
-import * as Errors from '../../types/errors.std.js';
-import { sleep } from '../sleep.std.js';
-import { FIBONACCI_TIMEOUTS, BackOff } from '../BackOff.std.js';
-import { MINUTE } from '../durations/constants.std.js';
+import { HTTPError } from '../../types/HTTPError.std.ts';
+import { createLogger } from '../../logging/log.std.ts';
+import * as Errors from '../../types/errors.std.ts';
+import { sleep } from '../sleep.std.ts';
+import { FIBONACCI_TIMEOUTS, BackOff } from '../BackOff.std.ts';
+import { MINUTE } from '../durations/constants.std.ts';
 
 const log = createLogger('tusProtocol');
 

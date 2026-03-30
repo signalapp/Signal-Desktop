@@ -2,6 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { Context } from 'react';
-import type { ThemeType } from '../ts/types/Util.std.js';
+import type { ThemeType } from '../ts/types/Util.std.ts';
 
 export const StorybookThemeContext: Context<ThemeType>;

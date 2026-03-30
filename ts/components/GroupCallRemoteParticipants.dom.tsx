@@ -4,30 +4,30 @@
 import React, { useCallback, useState, useMemo, useEffect } from 'react';
 import lodash from 'lodash';
 import type { VideoFrameSource } from '@signalapp/ringrtc';
-import { GroupCallRemoteParticipant } from './GroupCallRemoteParticipant.dom.js';
+import { GroupCallRemoteParticipant } from './GroupCallRemoteParticipant.dom.tsx';
 import {
   GroupCallOverflowArea,
   OVERFLOW_PARTICIPANT_WIDTH,
-} from './GroupCallOverflowArea.dom.js';
+} from './GroupCallOverflowArea.dom.tsx';
 import type {
   GroupCallRemoteParticipantType,
   GroupCallVideoRequest,
-} from '../types/Calling.std.js';
-import { CallViewMode } from '../types/Calling.std.js';
-import { useGetCallingFrameBuffer } from '../calling/useGetCallingFrameBuffer.std.js';
-import type { LocalizerType } from '../types/Util.std.js';
-import { usePageVisibility } from '../hooks/usePageVisibility.dom.js';
-import { useDevicePixelRatio } from '../hooks/useDevicePixelRatio.dom.js';
-import { nonRenderedRemoteParticipant } from '../util/ringrtc/nonRenderedRemoteParticipant.std.js';
-import { missingCaseError } from '../util/missingCaseError.std.js';
-import { SECOND } from '../util/durations/index.std.js';
-import { filter, join } from '../util/iterables.std.js';
-import * as setUtil from '../util/setUtil.std.js';
-import { createLogger } from '../logging/log.std.js';
-import { MAX_FRAME_HEIGHT, MAX_FRAME_WIDTH } from '../calling/constants.std.js';
-import { SizeObserver } from '../hooks/useSizeObserver.dom.js';
-import { strictAssert } from '../util/assert.std.js';
-import type { CallingImageDataCache } from './CallManager.dom.js';
+} from '../types/Calling.std.ts';
+import { CallViewMode } from '../types/Calling.std.ts';
+import { useGetCallingFrameBuffer } from '../calling/useGetCallingFrameBuffer.std.ts';
+import type { LocalizerType } from '../types/Util.std.ts';
+import { usePageVisibility } from '../hooks/usePageVisibility.dom.ts';
+import { useDevicePixelRatio } from '../hooks/useDevicePixelRatio.dom.ts';
+import { nonRenderedRemoteParticipant } from '../util/ringrtc/nonRenderedRemoteParticipant.std.ts';
+import { missingCaseError } from '../util/missingCaseError.std.ts';
+import { SECOND } from '../util/durations/index.std.ts';
+import { filter, join } from '../util/iterables.std.ts';
+import * as setUtil from '../util/setUtil.std.ts';
+import { createLogger } from '../logging/log.std.ts';
+import { MAX_FRAME_HEIGHT, MAX_FRAME_WIDTH } from '../calling/constants.std.ts';
+import { SizeObserver } from '../hooks/useSizeObserver.dom.tsx';
+import { strictAssert } from '../util/assert.std.ts';
+import type { CallingImageDataCache } from './CallManager.dom.tsx';
 
 const { clamp, chunk, maxBy, flatten, noop } = lodash;
 

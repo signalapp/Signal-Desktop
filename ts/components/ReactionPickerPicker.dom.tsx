@@ -6,15 +6,15 @@ import React, { forwardRef } from 'react';
 import classNames from 'classnames';
 
 import { Button } from 'react-aria-components';
-import type { LocalizerType } from '../types/Util.std.js';
-import { FunStaticEmoji } from './fun/FunEmoji.dom.js';
+import type { LocalizerType } from '../types/Util.std.ts';
+import { FunStaticEmoji } from './fun/FunEmoji.dom.tsx';
 import {
   getEmojiDebugLabel,
   getEmojiVariantByKey,
   getEmojiVariantKeyByValue,
   isEmojiVariantValue,
-} from './fun/data/emojis.std.js';
-import { createLogger } from '../logging/log.std.js';
+} from './fun/data/emojis.std.ts';
+import { createLogger } from '../logging/log.std.ts';
 
 const log = createLogger('ReactionPickerPicker');
 

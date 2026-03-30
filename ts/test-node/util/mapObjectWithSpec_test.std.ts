@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 
-import { mapObjectWithSpec } from '../../util/mapObjectWithSpec.std.js';
+import { mapObjectWithSpec } from '../../util/mapObjectWithSpec.std.ts';
 
 describe('mapObjectWithSpec', () => {
   const increment = (value: number) => value + 1;

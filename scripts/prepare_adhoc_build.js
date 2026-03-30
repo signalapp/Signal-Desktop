@@ -4,7 +4,7 @@
 const fs = require('node:fs');
 const _ = require('lodash');
 const { execSync } = require('node:child_process');
-const { isAdhoc } = require('../ts/util/version.std.js');
+const { isAdhoc } = require('../ts/util/version.std.ts');
 const { default: packageJson, version } = require('./packageJson.js');
 
 // You might be wondering why this file is necessary. It comes down to our desire to allow

@@ -108,8 +108,6 @@ jobs:
 
     - name: Build typescript
       run: pnpm run generate
-    - name: Bundle
-      run: pnpm run build:esbuild:prod
     - name: Create preload cache
       run: xvfb-run --auto-servernum pnpm run build:preload-cache
 
@@ -121,7 +119,8 @@ jobs:
     - name: Run ${{ matrix.metric }}
       run: |
         set -o pipefail
-        xvfb-run --auto-servernum node ${{ matrix.script }} | tee benchmark.log
+        xvfb-run --auto-servernum ./node_modules/.bin/tsx \
+          ${{ matrix.script }} | tee benchmark.log
       timeout-minutes: 10
       env:
         NODE_ENV: production

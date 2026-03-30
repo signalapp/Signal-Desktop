@@ -7,10 +7,10 @@ import { EventEmitter } from 'node:events';
 import type {
   MinimalIPC,
   SystemThemeHolder,
-} from '../../context/createNativeThemeListener.std.js';
-import { createNativeThemeListener } from '../../context/createNativeThemeListener.std.js';
+} from '../../context/createNativeThemeListener.std.ts';
+import { createNativeThemeListener } from '../../context/createNativeThemeListener.std.ts';
 import type { NativeThemeState } from '../../types/NativeThemeNotifier.d.ts';
-import { SystemThemeType } from '../../types/Util.std.js';
+import { SystemThemeType } from '../../types/Util.std.ts';
 
 class FakeIPC extends EventEmitter implements MinimalIPC {
   constructor(private readonly state: NativeThemeState) {

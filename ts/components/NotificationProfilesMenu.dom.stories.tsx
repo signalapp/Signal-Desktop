@@ -6,18 +6,18 @@ import { shuffle } from 'lodash';
 import type { Meta, StoryFn } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
-import { NotificationProfilesMenu } from './NotificationProfilesMenu.dom.js';
-import type { Props } from './NotificationProfilesMenu.dom.js';
+import { NotificationProfilesMenu } from './NotificationProfilesMenu.dom.tsx';
+import type { Props } from './NotificationProfilesMenu.dom.tsx';
 import {
   getDefaultConversation,
   getDefaultGroup,
-} from '../test-helpers/getDefaultConversation.std.js';
-import { DayOfWeek } from '../types/NotificationProfile.std.js';
-import type { NotificationProfileIdString } from '../types/NotificationProfile.std.js';
-import { HOUR } from '../util/durations/index.std.js';
-import { AxoDropdownMenu } from '../axo/AxoDropdownMenu.dom.js';
-import { AxoButton } from '../axo/AxoButton.dom.js';
-import type { ConversationType } from '../state/ducks/conversations.preload.js';
+} from '../test-helpers/getDefaultConversation.std.ts';
+import { DayOfWeek } from '../types/NotificationProfile.std.ts';
+import type { NotificationProfileIdString } from '../types/NotificationProfile.std.ts';
+import { HOUR } from '../util/durations/index.std.ts';
+import { AxoDropdownMenu } from '../axo/AxoDropdownMenu.dom.tsx';
+import { AxoButton } from '../axo/AxoButton.dom.tsx';
+import type { ConversationType } from '../state/ducks/conversations.preload.ts';
 
 const { i18n } = window.SignalContext;
 

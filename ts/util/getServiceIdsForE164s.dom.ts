@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { CDSResponseType } from '../textsecure/cds/Types.d.ts';
-import type { cdsLookup } from '../textsecure/WebAPI.preload.js';
-import type { AciString } from '../types/ServiceId.std.js';
-import { createLogger } from '../logging/log.std.js';
-import { isDirectConversation, isMe } from './whatTypeOfConversation.dom.js';
-import { parseNumber } from './libphonenumberUtil.std.js';
+import type { cdsLookup } from '../textsecure/WebAPI.preload.ts';
+import type { AciString } from '../types/ServiceId.std.ts';
+import { createLogger } from '../logging/log.std.ts';
+import { isDirectConversation, isMe } from './whatTypeOfConversation.dom.ts';
+import { parseNumber } from './libphonenumberUtil.std.ts';
 
 const log = createLogger('getServiceIdsForE164s');
 

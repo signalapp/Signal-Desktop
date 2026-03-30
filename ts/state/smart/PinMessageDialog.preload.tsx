@@ -2,13 +2,13 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import React, { memo, useCallback } from 'react';
 import { useSelector } from 'react-redux';
-import { getIntl } from '../selectors/user.std.js';
-import { useConversationsActions } from '../ducks/conversations.preload.js';
-import { PinMessageDialog } from '../../components/conversation/pinned-messages/PinMessageDialog.dom.js';
-import { useItemsActions } from '../ducks/items.preload.js';
-import { getSeenPinMessageDisappearingMessagesWarningCount } from '../selectors/items.dom.js';
-import { getPinMessageDialogData } from '../selectors/globalModals.std.js';
-import { useGlobalModalActions } from '../ducks/globalModals.preload.js';
+import { getIntl } from '../selectors/user.std.ts';
+import { useConversationsActions } from '../ducks/conversations.preload.ts';
+import { PinMessageDialog } from '../../components/conversation/pinned-messages/PinMessageDialog.dom.tsx';
+import { useItemsActions } from '../ducks/items.preload.ts';
+import { getSeenPinMessageDisappearingMessagesWarningCount } from '../selectors/items.dom.ts';
+import { getPinMessageDialogData } from '../selectors/globalModals.std.ts';
+import { useGlobalModalActions } from '../ducks/globalModals.preload.ts';
 
 export type PinMessageDialogData = Readonly<{
   messageId: string;

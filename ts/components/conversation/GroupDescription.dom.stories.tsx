@@ -3,8 +3,8 @@
 
 import React from 'react';
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './GroupDescription.dom.js';
-import { GroupDescription } from './GroupDescription.dom.js';
+import type { PropsType } from './GroupDescription.dom.tsx';
+import { GroupDescription } from './GroupDescription.dom.tsx';
 
 const { i18n } = window.SignalContext;
 

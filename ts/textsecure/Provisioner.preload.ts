@@ -5,30 +5,30 @@ import pTimeout, { TimeoutError as PTimeoutError } from 'p-timeout';
 import type { LibSignalError } from '@signalapp/libsignal-client';
 import type { ProvisioningConnection } from '@signalapp/libsignal-client/dist/net/Chat.js';
 
-import { createLogger } from '../logging/log.std.js';
-import * as Errors from '../types/errors.std.js';
-import { MAX_DEVICE_NAME_LENGTH } from '../types/InstallScreen.std.js';
-import { strictAssert } from '../util/assert.std.js';
-import { BackOff, FIBONACCI_TIMEOUTS } from '../util/BackOff.std.js';
-import { SECOND } from '../util/durations/index.std.js';
-import { explodePromise } from '../util/explodePromise.std.js';
-import { drop } from '../util/drop.std.js';
-import { isLinkAndSyncEnabled } from '../util/isLinkAndSyncEnabled.preload.js';
-import { normalizeDeviceName } from '../util/normalizeDeviceName.std.js';
-import { linkDeviceRoute } from '../util/signalRoutes.std.js';
-import { sleep } from '../util/sleep.std.js';
-import * as Bytes from '../Bytes.std.js';
-import { SignalService as Proto } from '../protobuf/index.std.js';
+import { createLogger } from '../logging/log.std.ts';
+import * as Errors from '../types/errors.std.ts';
+import { MAX_DEVICE_NAME_LENGTH } from '../types/InstallScreen.std.ts';
+import { strictAssert } from '../util/assert.std.ts';
+import { BackOff, FIBONACCI_TIMEOUTS } from '../util/BackOff.std.ts';
+import { SECOND } from '../util/durations/index.std.ts';
+import { explodePromise } from '../util/explodePromise.std.ts';
+import { drop } from '../util/drop.std.ts';
+import { isLinkAndSyncEnabled } from '../util/isLinkAndSyncEnabled.preload.ts';
+import { normalizeDeviceName } from '../util/normalizeDeviceName.std.ts';
+import { linkDeviceRoute } from '../util/signalRoutes.std.ts';
+import { sleep } from '../util/sleep.std.ts';
+import * as Bytes from '../Bytes.std.ts';
+import { SignalService as Proto } from '../protobuf/index.std.ts';
 
 import {
   type CreateLinkedDeviceOptionsType,
   AccountType,
-} from './AccountManager.preload.js';
+} from './AccountManager.preload.ts';
 import ProvisioningCipher, {
   type ProvisionDecryptResult,
-} from './ProvisioningCipher.node.js';
-import { ConnectTimeoutError } from './Errors.std.js';
-import type { getProvisioningConnection } from './WebAPI.preload.js';
+} from './ProvisioningCipher.node.ts';
+import { ConnectTimeoutError } from './Errors.std.ts';
+import type { getProvisioningConnection } from './WebAPI.preload.ts';
 
 const log = createLogger('Provisioner');
 

@@ -6,11 +6,11 @@ import { assert } from 'chai';
 import {
   AttachmentDownloadSource,
   type WritableDB,
-} from '../../sql/Interface.std.js';
-import { objectToJSON, sql } from '../../sql/util.std.js';
-import { createDB, updateToVersion } from './helpers.node.js';
-import type { AttachmentDownloadJobType } from '../../types/AttachmentDownload.std.js';
-import { createAttachmentDownloadJob } from '../../test-helpers/attachmentDownloads.std.js';
+} from '../../sql/Interface.std.ts';
+import { objectToJSON, sql } from '../../sql/util.std.ts';
+import { createDB, updateToVersion } from './helpers.node.ts';
+import type { AttachmentDownloadJobType } from '../../types/AttachmentDownload.std.ts';
+import { createAttachmentDownloadJob } from '../../test-helpers/attachmentDownloads.std.ts';
 
 function createJobAndEnsureMessage(
   db: WritableDB,

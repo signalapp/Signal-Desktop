@@ -4,12 +4,12 @@
 import type { ReactElement } from 'react';
 import React, { useCallback, useState } from 'react';
 
-import type { LocalizerType } from '../../types/Util.std.js';
+import type { LocalizerType } from '../../types/Util.std.ts';
 
-import { Button, ButtonSize, ButtonVariant } from '../Button.dom.js';
-import { SystemMessage } from './SystemMessage.dom.js';
-import { ChatSessionRefreshedDialog } from './ChatSessionRefreshedDialog.dom.js';
-import { openLinkInWebBrowser } from '../../util/openLinkInWebBrowser.dom.js';
+import { Button, ButtonSize, ButtonVariant } from '../Button.dom.tsx';
+import { SystemMessage } from './SystemMessage.dom.tsx';
+import { ChatSessionRefreshedDialog } from './ChatSessionRefreshedDialog.dom.tsx';
+import { openLinkInWebBrowser } from '../../util/openLinkInWebBrowser.dom.ts';
 
 type PropsHousekeepingType = {
   i18n: LocalizerType;

@@ -4,11 +4,11 @@
 import React, { StrictMode } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 // oxlint-disable-next-line signal-desktop/no-restricted-paths
-import { ConfirmationDialog } from '../components/ConfirmationDialog.dom.js';
+import { ConfirmationDialog } from '../components/ConfirmationDialog.dom.tsx';
 // oxlint-disable-next-line signal-desktop/no-restricted-paths
-import { FunDefaultEnglishEmojiLocalizationProvider } from '../components/fun/FunEmojiLocalizationProvider.dom.js';
+import { FunDefaultEnglishEmojiLocalizationProvider } from '../components/fun/FunEmojiLocalizationProvider.dom.tsx';
 // oxlint-disable-next-line signal-desktop/no-restricted-paths
-import { AxoProvider } from '../axo/AxoProvider.dom.js';
+import { AxoProvider } from '../axo/AxoProvider.dom.tsx';
 
 type ConfirmationDialogViewProps = {
   onTopOfEverything?: boolean;

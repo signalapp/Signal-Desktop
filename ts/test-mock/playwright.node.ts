@@ -9,13 +9,13 @@ import pTimeout from 'p-timeout';
 import type {
   IPCRequest as ChallengeRequestType,
   IPCResponse as ChallengeResponseType,
-} from '../challenge.dom.js';
-import type { ReceiptType } from '../types/Receipt.std.js';
-import { SECOND } from '../util/durations/index.std.js';
-import { drop } from '../util/drop.std.js';
-import { toNumber } from '../util/toNumber.std.js';
+} from '../challenge.dom.ts';
+import type { ReceiptType } from '../types/Receipt.std.ts';
+import { SECOND } from '../util/durations/index.std.ts';
+import { drop } from '../util/drop.std.ts';
+import { toNumber } from '../util/toNumber.std.ts';
 import type { MessageAttributesType } from '../model-types.d.ts';
-import type { SocketStatuses } from '../textsecure/SocketManager.preload.js';
+import type { SocketStatuses } from '../textsecure/SocketManager.preload.ts';
 
 export type AppLoadedInfoType = Readonly<{
   loadTime: number;

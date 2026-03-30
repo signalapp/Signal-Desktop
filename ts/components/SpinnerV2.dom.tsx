@@ -3,8 +3,8 @@
 
 import React from 'react';
 
-import { tw, type TailwindStyles } from '../axo/tw.dom.js';
-import { roundFractionForProgressBar } from '../util/numbers.std.js';
+import { tw, type TailwindStyles } from '../axo/tw.dom.tsx';
+import { roundFractionForProgressBar } from '../util/numbers.std.ts';
 
 export type Props = {
   value?: number | 'indeterminate'; // default: 'indeterminate'

@@ -6,8 +6,8 @@ import React from 'react';
 import { action } from '@storybook/addon-actions';
 
 import type { Meta } from '@storybook/react';
-import { DonationPrivacyInformationModal } from './DonationPrivacyInformationModal.dom.js';
-import type { LocalizerType } from '../types/I18N.std.js';
+import { DonationPrivacyInformationModal } from './DonationPrivacyInformationModal.dom.tsx';
+import type { LocalizerType } from '../types/I18N.std.ts';
 
 const { i18n } = window.SignalContext;
 

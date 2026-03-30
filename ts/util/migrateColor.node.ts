@@ -1,10 +1,10 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { AvatarColors } from '../types/Colors.std.js';
+import { AvatarColors } from '../types/Colors.std.ts';
 import type { ConversationAttributesType } from '../model-types.d.ts';
-import type { AvatarColorType, CustomColorType } from '../types/Colors.std.js';
-import { generateAvatarColor } from '../Crypto.node.js';
+import type { AvatarColorType, CustomColorType } from '../types/Colors.std.ts';
+import { generateAvatarColor } from '../Crypto.node.ts';
 
 const NEW_COLOR_NAMES = new Set(AvatarColors);
 

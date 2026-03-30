@@ -5,14 +5,14 @@ import type { BrowserWindow } from 'electron';
 import { Menu, clipboard, nativeImage } from 'electron';
 import * as LocaleMatcher from '@formatjs/intl-localematcher';
 
-import { maybeParseUrl } from '../ts/util/url.std.js';
+import { maybeParseUrl } from '../ts/util/url.std.ts';
 
-import type { MenuListType } from '../ts/types/menu.std.js';
-import type { LocalizerType } from '../ts/types/Util.std.js';
-import { strictAssert } from '../ts/util/assert.std.js';
-import type { LoggerType } from '../ts/types/Logging.std.js';
-import { createLogger } from '../ts/logging/log.std.js';
-import { handleAttachmentRequest } from './attachment_channel.main.js';
+import type { MenuListType } from '../ts/types/menu.std.ts';
+import type { LocalizerType } from '../ts/types/Util.std.ts';
+import { strictAssert } from '../ts/util/assert.std.ts';
+import type { LoggerType } from '../ts/types/Logging.std.ts';
+import { createLogger } from '../ts/logging/log.std.ts';
+import { handleAttachmentRequest } from './attachment_channel.main.ts';
 
 const log = createLogger('spell_check');
 

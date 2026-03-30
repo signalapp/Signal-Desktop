@@ -6,20 +6,20 @@ import { isEqual } from 'lodash';
 import type { ReadonlyDeep } from 'type-fest';
 import type { ThunkAction } from 'redux-thunk';
 
-import { createLogger } from '../../logging/log.std.js';
-import { useBoundActions } from '../../hooks/useBoundActions.std.js';
-import { beforeNavigateService } from '../../services/BeforeNavigate.std.js';
-import { NavTab, SettingsPage } from '../../types/Nav.std.js';
+import { createLogger } from '../../logging/log.std.ts';
+import { useBoundActions } from '../../hooks/useBoundActions.std.ts';
+import { beforeNavigateService } from '../../services/BeforeNavigate.std.ts';
+import { NavTab, SettingsPage } from '../../types/Nav.std.ts';
 import {
   getActivePanel,
   getPanels,
   getSelectedLocation,
-} from '../selectors/nav.std.js';
+} from '../selectors/nav.std.ts';
 
-import type { PanelArgsType } from '../../types/Panels.std.js';
-import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.js';
-import type { StateType as RootStateType } from '../reducer.preload.js';
-import type { Location, PanelInfo } from '../../types/Nav.std.js';
+import type { PanelArgsType } from '../../types/Panels.std.ts';
+import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.ts';
+import type { StateType as RootStateType } from '../reducer.preload.ts';
+import type { Location, PanelInfo } from '../../types/Nav.std.ts';
 
 const log = createLogger('nav');
 

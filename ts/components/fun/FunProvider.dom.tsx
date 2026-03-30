@@ -7,23 +7,23 @@ import React, {
   useContext,
   useState,
 } from 'react';
-import { strictAssert } from '../../util/assert.std.js';
-import type { LocalizerType } from '../../types/I18N.std.js';
+import { strictAssert } from '../../util/assert.std.ts';
+import type { LocalizerType } from '../../types/I18N.std.ts';
 import type {
   StickerPackType,
   StickerType,
-} from '../../state/ducks/stickers.preload.js';
-import type { EmojiSkinTone, EmojiParentKey } from './data/emojis.std.js';
-import type { FunGifSelection, GifType } from './panels/FunPanelGifs.dom.js';
-import { FunPickerTabKey } from './constants.dom.js';
-import type { FunEmojiSelection } from './panels/FunPanelEmojis.dom.js';
-import type { FunStickerSelection } from './panels/FunPanelStickers.dom.js';
-import { FunEmojiLocalizationProvider } from './FunEmojiLocalizationProvider.dom.js';
+} from '../../state/ducks/stickers.preload.ts';
+import type { EmojiSkinTone, EmojiParentKey } from './data/emojis.std.ts';
+import type { FunGifSelection, GifType } from './panels/FunPanelGifs.dom.tsx';
+import { FunPickerTabKey } from './constants.dom.tsx';
+import type { FunEmojiSelection } from './panels/FunPanelEmojis.dom.tsx';
+import type { FunStickerSelection } from './panels/FunPanelStickers.dom.tsx';
+import { FunEmojiLocalizationProvider } from './FunEmojiLocalizationProvider.dom.tsx';
 import type {
   fetchGiphyFile,
   fetchGiphySearch,
   fetchGiphyTrending,
-} from './data/giphy.preload.js';
+} from './data/giphy.preload.ts';
 
 export type FunContextSmartProps = Readonly<{
   i18n: LocalizerType;

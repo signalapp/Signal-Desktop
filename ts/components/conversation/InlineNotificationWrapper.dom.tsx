@@ -3,7 +3,7 @@
 
 import type { ReactNode } from 'react';
 import React, { useCallback, useEffect, useRef } from 'react';
-import { getInteractionMode } from '../../services/InteractionMode.dom.js';
+import { getInteractionMode } from '../../services/InteractionMode.dom.ts';
 
 type PropsType = {
   id: string;

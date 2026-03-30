@@ -7,7 +7,7 @@ import {
   getScrollBottom,
   scrollToBottom,
   setScrollBottom,
-} from '../util/scrollUtil.std.js';
+} from '../util/scrollUtil.std.ts';
 
 describe('scroll utilities', () => {
   let sandbox: HTMLDivElement;

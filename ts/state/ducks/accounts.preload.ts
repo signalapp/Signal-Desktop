@@ -4,17 +4,17 @@
 import type { ThunkAction } from 'redux-thunk';
 
 import type { ReadonlyDeep } from 'type-fest';
-import * as Errors from '../../types/errors.std.js';
-import { cdsLookup } from '../../textsecure/WebAPI.preload.js';
-import { createLogger } from '../../logging/log.std.js';
+import * as Errors from '../../types/errors.std.ts';
+import { cdsLookup } from '../../textsecure/WebAPI.preload.ts';
+import { createLogger } from '../../logging/log.std.ts';
 
-import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.js';
-import type { StateType as RootStateType } from '../reducer.preload.js';
-import type { ServiceIdString } from '../../types/ServiceId.std.js';
-import { getServiceIdsForE164s } from '../../util/getServiceIdsForE164s.dom.js';
-import { useBoundActions } from '../../hooks/useBoundActions.std.js';
+import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.ts';
+import type { StateType as RootStateType } from '../reducer.preload.ts';
+import type { ServiceIdString } from '../../types/ServiceId.std.ts';
+import { getServiceIdsForE164s } from '../../util/getServiceIdsForE164s.dom.ts';
+import { useBoundActions } from '../../hooks/useBoundActions.std.ts';
 
-import type { NoopActionType } from './noop.std.js';
+import type { NoopActionType } from './noop.std.ts';
 
 const log = createLogger('accounts');
 

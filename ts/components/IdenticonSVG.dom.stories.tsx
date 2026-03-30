@@ -7,8 +7,8 @@ import {
   IdenticonSVGForCallLink,
   IdenticonSVGForContact,
   IdenticonSVGForGroup,
-} from './IdenticonSVG.dom.js';
-import { AvatarColorMap } from '../types/Colors.std.js';
+} from './IdenticonSVG.dom.tsx';
+import { AvatarColorMap } from '../types/Colors.std.ts';
 
 export default {
   title: 'Components/IdenticonSVG',

@@ -5,7 +5,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import fastGlob from 'fast-glob';
 
-import { strictAssert } from '../util/assert.std.js';
+import { strictAssert } from '../util/assert.std.ts';
 
 const ROOT_DIR = path.join(__dirname, '..', '..');
 

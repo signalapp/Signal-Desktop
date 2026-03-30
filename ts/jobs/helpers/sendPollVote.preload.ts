@@ -2,38 +2,38 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { ContentHint } from '@signalapp/libsignal-client';
-import * as Errors from '../../types/errors.std.js';
-import { getSendOptions } from '../../util/getSendOptions.preload.js';
-import { handleMessageSend } from '../../util/handleMessageSend.preload.js';
-import { sendContentMessageToGroup } from '../../util/sendToGroup.preload.js';
-import { MessageModel } from '../../models/messages.preload.js';
-import { generateMessageId } from '../../util/generateMessageId.node.js';
-import { incrementMessageCounter } from '../../util/incrementMessageCounter.preload.js';
-import { ourProfileKeyService } from '../../services/ourProfileKey.std.js';
-import { send, sendSyncMessageOnly } from '../../messages/send.preload.js';
-import { handleMultipleSendErrors } from './handleMultipleSendErrors.std.js';
-import { getMessageById } from '../../messages/getMessageById.preload.js';
+import * as Errors from '../../types/errors.std.ts';
+import { getSendOptions } from '../../util/getSendOptions.preload.ts';
+import { handleMessageSend } from '../../util/handleMessageSend.preload.ts';
+import { sendContentMessageToGroup } from '../../util/sendToGroup.preload.ts';
+import { MessageModel } from '../../models/messages.preload.ts';
+import { generateMessageId } from '../../util/generateMessageId.node.ts';
+import { incrementMessageCounter } from '../../util/incrementMessageCounter.preload.ts';
+import { ourProfileKeyService } from '../../services/ourProfileKey.std.ts';
+import { send, sendSyncMessageOnly } from '../../messages/send.preload.ts';
+import { handleMultipleSendErrors } from './handleMultipleSendErrors.std.ts';
+import { getMessageById } from '../../messages/getMessageById.preload.ts';
 import {
   isSent,
   SendStatus,
   type SendStateByConversationId,
-} from '../../messages/MessageSendState.std.js';
-import type { MessagePollVoteType } from '../../types/Polls.dom.js';
-import type { ConversationModel } from '../../models/conversations.preload.js';
+} from '../../messages/MessageSendState.std.ts';
+import type { MessagePollVoteType } from '../../types/Polls.dom.ts';
+import type { ConversationModel } from '../../models/conversations.preload.ts';
 import type {
   ConversationQueueJobBundle,
   PollVoteJobData,
-} from '../conversationJobQueue.preload.js';
-import * as pollVoteUtil from '../../polls/util.std.js';
-import { strictAssert } from '../../util/assert.std.js';
-import { getSendRecipientLists } from './getSendRecipientLists.dom.js';
-import { isDirectConversation } from '../../util/whatTypeOfConversation.dom.js';
+} from '../conversationJobQueue.preload.ts';
+import * as pollVoteUtil from '../../polls/util.std.ts';
+import { strictAssert } from '../../util/assert.std.ts';
+import { getSendRecipientLists } from './getSendRecipientLists.dom.ts';
+import { isDirectConversation } from '../../util/whatTypeOfConversation.dom.ts';
 import type { CallbackResultType } from '../../textsecure/Types.d.ts';
-import { addPniSignatureMessageToProto } from '../../textsecure/SendMessage.preload.js';
+import { addPniSignatureMessageToProto } from '../../textsecure/SendMessage.preload.ts';
 import {
   shouldSendToConversation,
   shouldSendToDirectConversation,
-} from './shouldSendToConversation.preload.js';
+} from './shouldSendToConversation.preload.ts';
 
 export async function sendPollVote(
   conversation: ConversationModel,

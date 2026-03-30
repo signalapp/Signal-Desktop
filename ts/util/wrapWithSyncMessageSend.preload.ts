@@ -1,20 +1,20 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { createLogger } from '../logging/log.std.js';
+import { createLogger } from '../logging/log.std.ts';
 
-import { SendMessageProtoError } from '../textsecure/Errors.std.js';
-import { getSendOptions } from './getSendOptions.preload.js';
-import { handleMessageSend } from './handleMessageSend.preload.js';
+import { SendMessageProtoError } from '../textsecure/Errors.std.ts';
+import { getSendOptions } from './getSendOptions.preload.ts';
+import { handleMessageSend } from './handleMessageSend.preload.ts';
 
 import type { CallbackResultType } from '../textsecure/Types.d.ts';
-import type { ConversationModel } from '../models/conversations.preload.js';
-import type { SendTypesType } from './handleMessageSend.preload.js';
+import type { ConversationModel } from '../models/conversations.preload.ts';
+import type { SendTypesType } from './handleMessageSend.preload.ts';
 import {
   type MessageSender,
   messageSender,
-} from '../textsecure/SendMessage.preload.js';
-import { areAllErrorsUnregistered } from '../jobs/helpers/areAllErrorsUnregistered.dom.js';
+} from '../textsecure/SendMessage.preload.ts';
+import { areAllErrorsUnregistered } from '../jobs/helpers/areAllErrorsUnregistered.dom.ts';
 
 const log = createLogger('wrapWithSyncMessageSend');
 

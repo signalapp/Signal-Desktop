@@ -5,13 +5,13 @@ import type { ReactNode } from 'react';
 import React from 'react';
 import lodash from 'lodash';
 
-import { ContactName } from './ContactName.dom.js';
-import { SystemMessage } from './SystemMessage.dom.js';
-import { I18n } from '../I18n.dom.js';
-import type { LocalizerType } from '../../types/Util.std.js';
+import { ContactName } from './ContactName.dom.tsx';
+import { SystemMessage } from './SystemMessage.dom.tsx';
+import { I18n } from '../I18n.dom.tsx';
+import type { LocalizerType } from '../../types/Util.std.ts';
 
-import { missingCaseError } from '../../util/missingCaseError.std.js';
-import type { ConversationType } from '../../state/ducks/conversations.preload.js';
+import { missingCaseError } from '../../util/missingCaseError.std.ts';
+import type { ConversationType } from '../../state/ducks/conversations.preload.ts';
 
 const { compact, flatten } = lodash;
 

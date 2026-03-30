@@ -3,11 +3,11 @@
 
 import * as React from 'react';
 import type { Meta } from '@storybook/react';
-import { UnsupportedOSDialog } from './UnsupportedOSDialog.dom.js';
-import type { PropsType } from './UnsupportedOSDialog.dom.js';
-import { DAY } from '../util/durations/index.std.js';
-import { WidthBreakpoint } from './_util.std.js';
-import { FakeLeftPaneContainer } from '../test-helpers/FakeLeftPaneContainer.dom.js';
+import { UnsupportedOSDialog } from './UnsupportedOSDialog.dom.tsx';
+import type { PropsType } from './UnsupportedOSDialog.dom.tsx';
+import { DAY } from '../util/durations/index.std.ts';
+import { WidthBreakpoint } from './_util.std.ts';
+import { FakeLeftPaneContainer } from '../test-helpers/FakeLeftPaneContainer.dom.tsx';
 
 const { i18n } = window.SignalContext;
 

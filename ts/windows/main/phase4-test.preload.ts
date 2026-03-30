@@ -9,7 +9,7 @@ if (config.environment === 'test') {
   // oxlint-disable-next-line no-console
   console.log('Importing test infrastructure...');
   // oxlint-disable-next-line node/global-require
-  require('./preload_test.preload.js');
+  require('./preload_test.preload.ts');
 }
 
 if (config.ciMode) {

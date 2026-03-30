@@ -3,8 +3,8 @@
 
 import * as React from 'react';
 import type { Meta } from '@storybook/react';
-import type { Props } from './ExpireTimer.dom.js';
-import { ExpireTimer } from './ExpireTimer.dom.js';
+import type { Props } from './ExpireTimer.dom.tsx';
+import { ExpireTimer } from './ExpireTimer.dom.tsx';
 
 export default {
   title: 'Components/Conversation/ExpireTimer',

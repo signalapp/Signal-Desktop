@@ -4,39 +4,39 @@
 import { ContentHint } from '@signalapp/libsignal-client';
 import lodash from 'lodash';
 
-import type { ConversationModel } from '../../models/conversations.preload.js';
+import type { ConversationModel } from '../../models/conversations.preload.ts';
 import type {
   ConversationQueueJobBundle,
   PollTerminateJobData,
-} from '../conversationJobQueue.preload.js';
-import { PollTerminateSendStatus } from '../../types/Polls.dom.js';
-import { wrapWithSyncMessageSend } from '../../util/wrapWithSyncMessageSend.preload.js';
-import { sendContentMessageToGroup } from '../../util/sendToGroup.preload.js';
-import { getMessageById } from '../../messages/getMessageById.preload.js';
-import { ourProfileKeyService } from '../../services/ourProfileKey.std.js';
-import { getSendOptions } from '../../util/getSendOptions.preload.js';
+} from '../conversationJobQueue.preload.ts';
+import { PollTerminateSendStatus } from '../../types/Polls.dom.ts';
+import { wrapWithSyncMessageSend } from '../../util/wrapWithSyncMessageSend.preload.ts';
+import { sendContentMessageToGroup } from '../../util/sendToGroup.preload.ts';
+import { getMessageById } from '../../messages/getMessageById.preload.ts';
+import { ourProfileKeyService } from '../../services/ourProfileKey.std.ts';
+import { getSendOptions } from '../../util/getSendOptions.preload.ts';
 import {
   isGroupV2,
   isDirectConversation,
   isMe,
-} from '../../util/whatTypeOfConversation.dom.js';
-import { SignalService as Proto } from '../../protobuf/index.std.js';
+} from '../../util/whatTypeOfConversation.dom.ts';
+import { SignalService as Proto } from '../../protobuf/index.std.ts';
 import {
   handleMultipleSendErrors,
   maybeExpandErrors,
-} from './handleMultipleSendErrors.std.js';
-import { getRecipients } from '../../util/getRecipients.dom.js';
-import type { MessageModel } from '../../models/messages.preload.js';
-import type { LoggerType } from '../../types/Logging.std.js';
-import { strictAssert } from '../../util/assert.std.js';
-import { DataWriter } from '../../sql/Client.preload.js';
-import { cleanupMessages } from '../../util/cleanup.preload.js';
-import { addPniSignatureMessageToProto } from '../../textsecure/SendMessage.preload.js';
+} from './handleMultipleSendErrors.std.ts';
+import { getRecipients } from '../../util/getRecipients.dom.ts';
+import type { MessageModel } from '../../models/messages.preload.ts';
+import type { LoggerType } from '../../types/Logging.std.ts';
+import { strictAssert } from '../../util/assert.std.ts';
+import { DataWriter } from '../../sql/Client.preload.ts';
+import { cleanupMessages } from '../../util/cleanup.preload.ts';
+import { addPniSignatureMessageToProto } from '../../textsecure/SendMessage.preload.ts';
 import {
   shouldSendToConversation,
   shouldSendToDirectConversation,
-} from './shouldSendToConversation.preload.js';
-import { handleMessageSend } from '../../util/handleMessageSend.preload.js';
+} from './shouldSendToConversation.preload.ts';
+import { handleMessageSend } from '../../util/handleMessageSend.preload.ts';
 
 const { isNumber } = lodash;
 

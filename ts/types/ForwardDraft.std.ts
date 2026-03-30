@@ -3,10 +3,10 @@
 
 import lodash from 'lodash';
 import type { ReadonlyMessageAttributesType } from '../model-types.d.ts';
-import type { AttachmentForUIType } from './Attachment.std.js';
-import { isVoiceMessage, isDownloaded } from '../util/Attachment.std.js';
-import type { HydratedBodyRangesType } from './BodyRange.std.js';
-import type { LinkPreviewForUIType } from './message/LinkPreviews.std.js';
+import type { AttachmentForUIType } from './Attachment.std.ts';
+import { isVoiceMessage, isDownloaded } from '../util/Attachment.std.ts';
+import type { HydratedBodyRangesType } from './BodyRange.std.ts';
+import type { LinkPreviewForUIType } from './message/LinkPreviews.std.ts';
 
 const { orderBy } = lodash;
 

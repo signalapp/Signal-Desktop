@@ -4,18 +4,18 @@
 import type { ReactNode } from 'react';
 import React from 'react';
 
-import { LeftPaneHelper } from './LeftPaneHelper.dom.js';
-import type { Row } from '../ConversationList.dom.js';
-import { RowType } from '../ConversationList.dom.js';
-import { SearchInput } from '../SearchInput.dom.js';
-import type { LocalizerType } from '../../types/Util.std.js';
-import type { ShowConversationType } from '../../state/ducks/conversations.preload.js';
-import type { UUIDFetchStateType } from '../../util/uuidFetchState.std.js';
-import { isFetchingByUsername } from '../../util/uuidFetchState.std.js';
-import { drop } from '../../util/drop.std.js';
-import type { LookupConversationWithoutServiceIdActionsType } from '../../util/lookupConversationWithoutServiceId.preload.js';
-import { Spinner } from '../Spinner.dom.js';
-import { Button } from '../Button.dom.js';
+import { LeftPaneHelper } from './LeftPaneHelper.dom.tsx';
+import type { Row } from '../ConversationList.dom.tsx';
+import { RowType } from '../ConversationList.dom.tsx';
+import { SearchInput } from '../SearchInput.dom.tsx';
+import type { LocalizerType } from '../../types/Util.std.ts';
+import type { ShowConversationType } from '../../state/ducks/conversations.preload.ts';
+import type { UUIDFetchStateType } from '../../util/uuidFetchState.std.ts';
+import { isFetchingByUsername } from '../../util/uuidFetchState.std.ts';
+import { drop } from '../../util/drop.std.ts';
+import type { LookupConversationWithoutServiceIdActionsType } from '../../util/lookupConversationWithoutServiceId.preload.ts';
+import { Spinner } from '../Spinner.dom.tsx';
+import { Button } from '../Button.dom.tsx';
 
 export type LeftPaneFindByUsernamePropsType = {
   searchTerm: string;

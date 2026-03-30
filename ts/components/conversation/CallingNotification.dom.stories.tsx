@@ -10,18 +10,18 @@ import {
   CallDirection,
   GroupCallStatus,
   DirectCallStatus,
-} from '../../types/CallDisposition.std.js';
-import { generateAci } from '../../types/ServiceId.std.js';
+} from '../../types/CallDisposition.std.ts';
+import { generateAci } from '../../types/ServiceId.std.ts';
 import {
   CallingNotification,
   type PropsType,
-} from './CallingNotification.dom.js';
+} from './CallingNotification.dom.tsx';
 import {
   getDefaultConversation,
   getDefaultGroup,
-} from '../../test-helpers/getDefaultConversation.std.js';
-import type { CallStatus } from '../../types/CallDisposition.std.js';
-import type { ConversationType } from '../../state/ducks/conversations.preload.js';
+} from '../../test-helpers/getDefaultConversation.std.ts';
+import type { CallStatus } from '../../types/CallDisposition.std.ts';
+import type { ConversationType } from '../../state/ducks/conversations.preload.ts';
 
 const { i18n } = window.SignalContext;
 

@@ -1,7 +1,7 @@
 // Copyright 2026 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { assert } from './_internal/assert.std.js';
+import { assert } from './_internal/assert.std.tsx';
 
 export namespace AxoTokens {
   export type HexColor = `#${string}` & { HexColor: never };

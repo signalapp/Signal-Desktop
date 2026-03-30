@@ -2,15 +2,15 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import type { LocalizerType } from '../../types/Util.std.js';
-import type { ConversationType } from '../../state/ducks/conversations.preload.js';
-import { SystemMessage } from './SystemMessage.dom.js';
-import { Button, ButtonVariant, ButtonSize } from '../Button.dom.js';
-import { UserText } from '../UserText.dom.js';
-import { I18n } from '../I18n.dom.js';
-import type { AciString } from '../../types/ServiceId.std.js';
-import { strictAssert } from '../../util/assert.std.js';
-import { isAciString } from '../../util/isAciString.std.js';
+import type { LocalizerType } from '../../types/Util.std.ts';
+import type { ConversationType } from '../../state/ducks/conversations.preload.ts';
+import { SystemMessage } from './SystemMessage.dom.tsx';
+import { Button, ButtonVariant, ButtonSize } from '../Button.dom.tsx';
+import { UserText } from '../UserText.dom.tsx';
+import { I18n } from '../I18n.dom.tsx';
+import type { AciString } from '../../types/ServiceId.std.ts';
+import { strictAssert } from '../../util/assert.std.ts';
+import { isAciString } from '../../util/isAciString.std.ts';
 
 export type PollTerminateNotificationDataType = {
   sender: ConversationType;

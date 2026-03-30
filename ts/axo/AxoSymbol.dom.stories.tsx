@@ -4,12 +4,12 @@ import React, { memo, useMemo, useState } from 'react';
 import type { Meta } from '@storybook/react';
 import { Direction } from 'radix-ui';
 import Fuse from 'fuse.js';
-import { AxoSymbol } from './AxoSymbol.dom.js';
-import { tw } from './tw.dom.js';
+import { AxoSymbol } from './AxoSymbol.dom.tsx';
+import { tw } from './tw.dom.tsx';
 import {
   _getAllAxoSymbolInlineGlyphNames,
   getAxoSymbolInlineGlyph,
-} from './_internal/AxoSymbolDefs.generated.std.js';
+} from './_internal/AxoSymbolDefs.generated.std.ts';
 
 export default {
   title: 'Axo/AxoSymbol',

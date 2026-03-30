@@ -7,14 +7,14 @@ import normalizePath from 'normalize-path';
 import pMap from 'p-map';
 import FastGlob from 'fast-glob';
 
-import type { ExceptionType, RuleType } from './types.std.js';
-import { REASONS } from './types.std.js';
+import type { ExceptionType, RuleType } from './types.std.ts';
+import { REASONS } from './types.std.ts';
 import {
   ENCODING,
   loadJSON,
   sortExceptions,
   writeExceptions,
-} from './util.node.js';
+} from './util.node.ts';
 
 const ALL_REASONS = REASONS.join('|');
 
@@ -81,7 +81,7 @@ const excludedFilesRegexp = RegExp(
     '^ts/sql/mainWorker.bundle.js',
 
     // Copied from dependency
-    '^js/Mp3LameEncoder.min.js',
+    '^js/WebAudioRecorderMp3.js',
 
     // Test files
     '^libtextsecure/test/.+',
@@ -182,7 +182,6 @@ const excludedFilesRegexp = RegExp(
     '^node_modules/es-abstract/.+',
     '^node_modules/es5-shim/.+', // Currently only used in storybook
     '^node_modules/es6-shim/.+', // Currently only used in storybook
-    '^node_modules/esbuild/.+',
     '^node_modules/escodegen/.+',
     '^node_modules/eslint.+',
     '^node_modules/espree.+',

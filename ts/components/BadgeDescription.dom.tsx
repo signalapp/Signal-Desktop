@@ -3,7 +3,7 @@
 
 import type { ReactNode, ReactElement } from 'react';
 import React from 'react';
-import { ContactName } from './conversation/ContactName.dom.js';
+import { ContactName } from './conversation/ContactName.dom.tsx';
 
 export type Props = Readonly<{
   firstName?: string;

@@ -5,9 +5,9 @@ import React, { useCallback, useState } from 'react';
 import type { Meta } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
-import DeleteMessagesModal from './DeleteMessagesModal.dom.js';
-import type { DeleteMessagesModalProps } from './DeleteMessagesModal.dom.js';
-import { AxoButton } from '../axo/AxoButton.dom.js';
+import DeleteMessagesModal from './DeleteMessagesModal.dom.tsx';
+import type { DeleteMessagesModalProps } from './DeleteMessagesModal.dom.tsx';
+import { AxoButton } from '../axo/AxoButton.dom.tsx';
 
 const { i18n } = window.SignalContext;
 

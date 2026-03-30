@@ -4,11 +4,11 @@
 import { app, dialog, clipboard } from 'electron';
 import os from 'node:os';
 
-import * as Errors from '../ts/types/errors.std.js';
-import { redactAll } from '../ts/util/privacy.node.js';
-import { createLogger } from '../ts/logging/log.std.js';
-import { reallyJsonStringify } from '../ts/util/reallyJsonStringify.std.js';
-import type { LocaleType } from './locale.node.js';
+import * as Errors from '../ts/types/errors.std.ts';
+import { redactAll } from '../ts/util/privacy.node.ts';
+import { createLogger } from '../ts/logging/log.std.ts';
+import { reallyJsonStringify } from '../ts/util/reallyJsonStringify.std.ts';
+import type { LocaleType } from './locale.node.ts';
 
 const log = createLogger('global_errors');
 

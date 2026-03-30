@@ -4,34 +4,34 @@
 import React, { useEffect } from 'react';
 import lodash from 'lodash';
 import type { VideoFrameSource } from '@signalapp/ringrtc';
-import { Avatar, AvatarSize } from './Avatar.dom.js';
-import { CallBackgroundBlur } from './CallBackgroundBlur.dom.js';
-import { DirectCallRemoteParticipant } from './DirectCallRemoteParticipant.dom.js';
-import { GroupCallRemoteParticipant } from './GroupCallRemoteParticipant.dom.js';
-import type { LocalizerType } from '../types/Util.std.js';
+import { Avatar, AvatarSize } from './Avatar.dom.tsx';
+import { CallBackgroundBlur } from './CallBackgroundBlur.dom.tsx';
+import { DirectCallRemoteParticipant } from './DirectCallRemoteParticipant.dom.tsx';
+import { GroupCallRemoteParticipant } from './GroupCallRemoteParticipant.dom.tsx';
+import type { LocalizerType } from '../types/Util.std.ts';
 import {
   GroupCallJoinState,
   type ActiveCallType,
   type GroupCallRemoteParticipantType,
   type GroupCallVideoRequest,
-} from '../types/Calling.std.js';
-import { CallMode } from '../types/CallDisposition.std.js';
-import { AvatarColors } from '../types/Colors.std.js';
-import type { SetRendererCanvasType } from '../state/ducks/calling.preload.js';
-import { useGetCallingFrameBuffer } from '../calling/useGetCallingFrameBuffer.std.js';
-import { MAX_FRAME_HEIGHT } from '../calling/constants.std.js';
-import { usePageVisibility } from '../hooks/usePageVisibility.dom.js';
-import { missingCaseError } from '../util/missingCaseError.std.js';
-import { nonRenderedRemoteParticipant } from '../util/ringrtc/nonRenderedRemoteParticipant.std.js';
-import { isReconnecting } from '../util/callingIsReconnecting.std.js';
-import { isGroupOrAdhocActiveCall } from '../util/isGroupOrAdhocCall.std.js';
-import { assertDev } from '../util/assert.std.js';
-import type { CallingImageDataCache } from './CallManager.dom.js';
+} from '../types/Calling.std.ts';
+import { CallMode } from '../types/CallDisposition.std.ts';
+import { AvatarColors } from '../types/Colors.std.ts';
+import type { SetRendererCanvasType } from '../state/ducks/calling.preload.ts';
+import { useGetCallingFrameBuffer } from '../calling/useGetCallingFrameBuffer.std.ts';
+import { MAX_FRAME_HEIGHT } from '../calling/constants.std.ts';
+import { usePageVisibility } from '../hooks/usePageVisibility.dom.ts';
+import { missingCaseError } from '../util/missingCaseError.std.ts';
+import { nonRenderedRemoteParticipant } from '../util/ringrtc/nonRenderedRemoteParticipant.std.ts';
+import { isReconnecting } from '../util/callingIsReconnecting.std.ts';
+import { isGroupOrAdhocActiveCall } from '../util/isGroupOrAdhocCall.std.ts';
+import { assertDev } from '../util/assert.std.ts';
+import type { CallingImageDataCache } from './CallManager.dom.tsx';
 import {
   PIP_MAXIMUM_HEIGHT_MULTIPLIER,
   PIP_MINIMUM_HEIGHT_MULTIPLIER,
   PIP_WIDTH_NORMAL,
-} from './CallingPip.dom.js';
+} from './CallingPip.dom.tsx';
 
 const { clamp, isNumber, maxBy } = lodash;
 

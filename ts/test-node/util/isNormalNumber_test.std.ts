@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 
-import { isNormalNumber } from '../../util/isNormalNumber.std.js';
+import { isNormalNumber } from '../../util/isNormalNumber.std.ts';
 
 describe('isNormalNumber', () => {
   it('returns false for non-numbers', () => {

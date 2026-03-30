@@ -3,7 +3,7 @@
 
 import { Transform } from 'node:stream';
 
-import { missingCaseError } from './missingCaseError.std.js';
+import { missingCaseError } from './missingCaseError.std.ts';
 
 type State =
   | {

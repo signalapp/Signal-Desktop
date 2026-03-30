@@ -9,8 +9,8 @@ import { readdir as readdirCallback, unlink as unlinkCallback } from 'node:fs';
 import { app } from 'electron';
 import pify from 'pify';
 
-import { getAppRootDir } from '../util/appRootDir.main.js';
-import { Updater } from './common.main.js';
+import { getAppRootDir } from '../util/appRootDir.main.ts';
+import { Updater } from './common.main.ts';
 
 const readdir = pify(readdirCallback);
 const unlink = pify(unlinkCallback);

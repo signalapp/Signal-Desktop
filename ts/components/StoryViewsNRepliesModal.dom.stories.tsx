@@ -6,13 +6,13 @@ import React, { useState } from 'react';
 import { v4 as generateUuid } from 'uuid';
 
 import { action } from '@storybook/addon-actions';
-import type { PropsType } from './StoryViewsNRepliesModal.dom.js';
-import * as durations from '../util/durations/index.std.js';
-import { SendStatus } from '../messages/MessageSendState.std.js';
-import { StoryViewsNRepliesModal } from './StoryViewsNRepliesModal.dom.js';
-import { getDefaultConversation } from '../test-helpers/getDefaultConversation.std.js';
-import { StoryViewTargetType } from '../types/Stories.std.js';
-import { DEFAULT_PREFERRED_REACTION_EMOJI } from '../reactions/constants.std.js';
+import type { PropsType } from './StoryViewsNRepliesModal.dom.tsx';
+import * as durations from '../util/durations/index.std.ts';
+import { SendStatus } from '../messages/MessageSendState.std.ts';
+import { StoryViewsNRepliesModal } from './StoryViewsNRepliesModal.dom.tsx';
+import { getDefaultConversation } from '../test-helpers/getDefaultConversation.std.ts';
+import { StoryViewTargetType } from '../types/Stories.std.ts';
+import { DEFAULT_PREFERRED_REACTION_EMOJI } from '../reactions/constants.std.ts';
 
 const { i18n } = window.SignalContext;
 

@@ -4,36 +4,36 @@
 import memoizee from 'memoizee';
 import { createSelector } from 'reselect';
 
-import { deconstructLookup } from '../../util/deconstructLookup.std.js';
+import { deconstructLookup } from '../../util/deconstructLookup.std.ts';
 
-import type { StateType } from '../reducer.preload.js';
+import type { StateType } from '../reducer.preload.ts';
 
 import type {
   MessageSearchResultLookupType,
   MessageSearchResultType,
   SearchStateType,
-} from '../ducks/search.preload.js';
+} from '../ducks/search.preload.ts';
 import type {
   ConversationLookupType,
   ConversationType,
-} from '../ducks/conversations.preload.js';
+} from '../ducks/conversations.preload.ts';
 
-import type { LeftPaneSearchPropsType } from '../../components/leftPane/LeftPaneSearchHelper.dom.js';
-import type { PropsDataType as MessageSearchResultPropsDataType } from '../../components/conversationList/MessageSearchResult.dom.js';
+import type { LeftPaneSearchPropsType } from '../../components/leftPane/LeftPaneSearchHelper.dom.tsx';
+import type { PropsDataType as MessageSearchResultPropsDataType } from '../../components/conversationList/MessageSearchResult.dom.tsx';
 
-import { getIntl, getUserConversationId } from './user.std.js';
-import type { GetConversationByIdType } from './conversations.dom.js';
+import { getIntl, getUserConversationId } from './user.std.ts';
+import type { GetConversationByIdType } from './conversations.dom.ts';
 import {
   getConversationLookup,
   getConversationSelector,
-} from './conversations.dom.js';
+} from './conversations.dom.ts';
 
-import { hydrateRanges } from '../../util/BodyRange.node.js';
-import type { RawBodyRange } from '../../types/BodyRange.std.js';
-import { createLogger } from '../../logging/log.std.js';
-import { getOwn } from '../../util/getOwn.std.js';
-import type { MessageAttributesType } from '../../model-types.js';
-import { getSelectedConversationId } from './nav.std.js';
+import { hydrateRanges } from '../../util/BodyRange.node.ts';
+import type { RawBodyRange } from '../../types/BodyRange.std.ts';
+import { createLogger } from '../../logging/log.std.ts';
+import { getOwn } from '../../util/getOwn.std.ts';
+import type { MessageAttributesType } from '../../model-types.d.ts';
+import { getSelectedConversationId } from './nav.std.ts';
 
 const log = createLogger('search');
 

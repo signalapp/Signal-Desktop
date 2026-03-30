@@ -3,8 +3,8 @@
 
 import type { ConversationAttributesType } from '../model-types.d.ts';
 
-import { DataReader } from '../sql/Client.preload.js';
-import { isMe } from './whatTypeOfConversation.dom.js';
+import { DataReader } from '../sql/Client.preload.ts';
+import { isMe } from './whatTypeOfConversation.dom.ts';
 
 const MAX_NUM_STORIES_TO_PREFETCH = 5;
 

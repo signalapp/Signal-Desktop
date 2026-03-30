@@ -4,10 +4,10 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './CallingPendingParticipants.dom.js';
-import { CallingPendingParticipants } from './CallingPendingParticipants.dom.js';
-import { allRemoteParticipants } from './CallScreen.dom.stories.js';
-import { strictAssert } from '../util/assert.std.js';
+import type { PropsType } from './CallingPendingParticipants.dom.tsx';
+import { CallingPendingParticipants } from './CallingPendingParticipants.dom.tsx';
+import { allRemoteParticipants } from './CallScreen.dom.stories.tsx';
+import { strictAssert } from '../util/assert.std.ts';
 
 const { i18n } = window.SignalContext;
 

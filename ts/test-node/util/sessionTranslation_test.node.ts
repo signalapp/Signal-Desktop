@@ -3,11 +3,11 @@
 
 import { assert } from 'chai';
 
-import * as Bytes from '../../Bytes.std.js';
-import type { LocalUserDataType } from '../../util/sessionTranslation.node.js';
-import { sessionRecordToProtobuf } from '../../util/sessionTranslation.node.js';
+import * as Bytes from '../../Bytes.std.ts';
+import type { LocalUserDataType } from '../../util/sessionTranslation.node.ts';
+import { sessionRecordToProtobuf } from '../../util/sessionTranslation.node.ts';
 
-import { toNumber } from '../../util/toNumber.std.js';
+import { toNumber } from '../../util/toNumber.std.ts';
 
 // oxlint-disable-next-line typescript/no-explicit-any
 const getRecordCopy = (record: any): any => JSON.parse(JSON.stringify(record));

@@ -4,11 +4,11 @@
 import type { ReactElement } from 'react';
 import React from 'react';
 
-import type { LocalizerType } from '../../types/Util.std.js';
+import type { LocalizerType } from '../../types/Util.std.ts';
 
-import { Spinner } from '../Spinner.dom.js';
-import { TitlebarDragArea } from '../TitlebarDragArea.dom.js';
-import { InstallScreenSignalLogo } from './InstallScreenSignalLogo.dom.js';
+import { Spinner } from '../Spinner.dom.tsx';
+import { TitlebarDragArea } from '../TitlebarDragArea.dom.tsx';
+import { InstallScreenSignalLogo } from './InstallScreenSignalLogo.dom.tsx';
 
 export type Props = Readonly<{ i18n: LocalizerType }>;
 

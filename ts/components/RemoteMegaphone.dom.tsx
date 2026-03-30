@@ -2,12 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import type { RemoteActionableMegaphoneType } from '../types/Megaphone.std.js';
-import { tw } from '../axo/tw.dom.js';
-import { AxoButton } from '../axo/AxoButton.dom.js';
-import { Tooltip, TooltipPlacement } from './Tooltip.dom.js';
-import type { LocalizerType } from '../types/Util.std.js';
-import { offsetDistanceModifier } from '../util/popperUtil.std.js';
+import type { RemoteActionableMegaphoneType } from '../types/Megaphone.std.ts';
+import { tw } from '../axo/tw.dom.tsx';
+import { AxoButton } from '../axo/AxoButton.dom.tsx';
+import { Tooltip, TooltipPlacement } from './Tooltip.dom.tsx';
+import type { LocalizerType } from '../types/Util.std.ts';
+import { offsetDistanceModifier } from '../util/popperUtil.std.ts';
 
 export type PropsType = Omit<RemoteActionableMegaphoneType, 'type'> & {
   isFullSize: boolean;

@@ -2,30 +2,30 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import React, { memo, useCallback, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { DataReader } from '../../sql/Client.preload.js';
-import { useItemsActions } from '../ducks/items.preload.js';
+import { DataReader } from '../../sql/Client.preload.ts';
+import { useItemsActions } from '../ducks/items.preload.ts';
 import {
   getNavTabsCollapsed,
   getPreferredLeftPaneWidth,
-} from '../selectors/items.dom.js';
-import { getIntl, getRegionCode } from '../selectors/user.std.js';
-import { CallsTab } from '../../components/CallsTab.preload.js';
+} from '../selectors/items.dom.ts';
+import { getIntl, getRegionCode } from '../selectors/user.std.ts';
+import { CallsTab } from '../../components/CallsTab.preload.tsx';
 import {
   getAllConversations,
   getConversationSelector,
   getOtherTabsUnreadStats,
-} from '../selectors/conversations.dom.js';
-import { filterAndSortConversations } from '../../util/filterAndSortConversations.std.js';
+} from '../selectors/conversations.dom.ts';
+import { filterAndSortConversations } from '../../util/filterAndSortConversations.std.ts';
 import type {
   CallHistoryFilter,
   CallHistoryFilterOptions,
   CallHistoryGroup,
   CallHistoryPagination,
-} from '../../types/CallDisposition.std.js';
-import type { ConversationType } from '../ducks/conversations.preload.js';
-import { SmartConversationDetails } from './ConversationDetails.preload.js';
-import { renderToastManagerWithoutMegaphone } from './ToastManager.preload.js';
-import { useCallingActions } from '../ducks/calling.preload.js';
+} from '../../types/CallDisposition.std.ts';
+import type { ConversationType } from '../ducks/conversations.preload.ts';
+import { SmartConversationDetails } from './ConversationDetails.preload.tsx';
+import { renderToastManagerWithoutMegaphone } from './ToastManager.preload.tsx';
+import { useCallingActions } from '../ducks/calling.preload.ts';
 import {
   getActiveCallState,
   getAdhocCallSelector,
@@ -33,15 +33,15 @@ import {
   getCallSelector,
   getCallLinkSelector,
   getHasAnyAdminCallLinks,
-} from '../selectors/calling.std.js';
-import { useCallHistoryActions } from '../ducks/callHistory.preload.js';
-import { getCallHistoryEdition } from '../selectors/callHistory.std.js';
-import { getHasPendingUpdate } from '../selectors/updates.std.js';
-import { getHasAnyFailedStorySends } from '../selectors/stories.preload.js';
-import { SmartCallLinkDetails } from './CallLinkDetails.preload.js';
-import type { CallLinkType } from '../../types/CallLink.std.js';
-import { filterCallLinks } from '../../util/filterCallLinks.dom.js';
-import { useGlobalModalActions } from '../ducks/globalModals.preload.js';
+} from '../selectors/calling.std.ts';
+import { useCallHistoryActions } from '../ducks/callHistory.preload.ts';
+import { getCallHistoryEdition } from '../selectors/callHistory.std.ts';
+import { getHasPendingUpdate } from '../selectors/updates.std.ts';
+import { getHasAnyFailedStorySends } from '../selectors/stories.preload.ts';
+import { SmartCallLinkDetails } from './CallLinkDetails.preload.tsx';
+import type { CallLinkType } from '../../types/CallLink.std.ts';
+import { filterCallLinks } from '../../util/filterCallLinks.dom.ts';
+import { useGlobalModalActions } from '../ducks/globalModals.preload.ts';
 
 function getCallHistoryFilter({
   allCallLinks,

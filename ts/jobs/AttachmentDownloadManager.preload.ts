@@ -3,9 +3,9 @@
 import lodash from 'lodash';
 import { statfs } from 'node:fs/promises';
 
-import * as durations from '../util/durations/index.std.js';
-import { createLogger } from '../logging/log.std.js';
-import type { AttachmentBackfillResponseSyncEvent } from '../textsecure/messageReceiverEvents.std.js';
+import * as durations from '../util/durations/index.std.ts';
+import { createLogger } from '../logging/log.std.ts';
+import type { AttachmentBackfillResponseSyncEvent } from '../textsecure/messageReceiverEvents.std.ts';
 import {
   type MessageAttachmentType,
   type AttachmentDownloadJobType,
@@ -13,26 +13,26 @@ import {
   AttachmentDownloadUrgency,
   coreAttachmentDownloadJobSchema,
   MediaTier,
-} from '../types/AttachmentDownload.std.js';
+} from '../types/AttachmentDownload.std.ts';
 import {
   downloadAttachment as downloadAttachmentUtil,
   isIncrementalMacVerificationError,
-} from '../util/downloadAttachment.preload.js';
+} from '../util/downloadAttachment.preload.ts';
 import {
   maybeDeleteAttachmentFile,
   deleteDownloadFile,
   processNewAttachment,
-} from '../util/migrations.preload.js';
-import { DataReader, DataWriter } from '../sql/Client.preload.js';
-import { getValue } from '../RemoteConfig.dom.js';
+} from '../util/migrations.preload.ts';
+import { DataReader, DataWriter } from '../sql/Client.preload.ts';
+import { getValue } from '../RemoteConfig.dom.ts';
 
-import { isInCall as isInCallSelector } from '../state/selectors/calling.std.js';
+import { isInCall as isInCallSelector } from '../state/selectors/calling.std.ts';
 import {
   AttachmentSizeError,
   type AttachmentType,
   AttachmentVariant,
   AttachmentPermanentlyUndownloadableError,
-} from '../types/Attachment.std.js';
+} from '../types/Attachment.std.ts';
 import {
   wasImportedFromLocalBackup,
   canAttachmentHaveThumbnail,
@@ -40,54 +40,54 @@ import {
   getUndownloadedAttachmentSignature,
   isIncremental,
   hasRequiredInformationForRemoteBackup,
-} from '../util/Attachment.std.js';
+} from '../util/Attachment.std.ts';
 import type { ReadonlyMessageAttributesType } from '../model-types.d.ts';
-import { backupsService } from '../services/backups/index.preload.js';
-import { getMessageById } from '../messages/getMessageById.preload.js';
+import { backupsService } from '../services/backups/index.preload.ts';
+import { getMessageById } from '../messages/getMessageById.preload.ts';
 import {
   KIBIBYTE,
   getMaximumIncomingAttachmentSizeInKb,
   getMaximumIncomingTextAttachmentSizeInKb,
-} from '../types/AttachmentSize.std.js';
+} from '../types/AttachmentSize.std.ts';
 import {
   addAttachmentToMessage,
   AttachmentNotNeededForMessageError,
-} from '../messageModifiers/AttachmentDownloads.preload.js';
-import * as Errors from '../types/errors.std.js';
-import { redactGenericText } from '../util/privacy.node.js';
+} from '../messageModifiers/AttachmentDownloads.preload.ts';
+import * as Errors from '../types/errors.std.ts';
+import { redactGenericText } from '../util/privacy.node.ts';
 import {
   JobManager,
   type JobManagerParamsType,
   type JobManagerJobResultType,
   type JobManagerJobType,
-} from './JobManager.std.js';
-import { IMAGE_WEBP } from '../types/MIME.std.js';
-import { AttachmentDownloadSource } from '../sql/Interface.std.js';
-import { drop } from '../util/drop.std.js';
-import { type ReencryptedAttachmentV2 } from '../AttachmentCrypto.node.js';
-import { safeParsePartial } from '../util/schemas.std.js';
-import { deleteDownloadsJobQueue } from './deleteDownloadsJobQueue.preload.js';
-import { createBatcher } from '../util/batcher.std.js';
-import { showDownloadFailedToast } from '../util/showDownloadFailedToast.dom.js';
-import { markAttachmentAsPermanentlyErrored } from '../util/attachments/markAttachmentAsPermanentlyErrored.std.js';
+} from './JobManager.std.ts';
+import { IMAGE_WEBP } from '../types/MIME.std.ts';
+import { AttachmentDownloadSource } from '../sql/Interface.std.ts';
+import { drop } from '../util/drop.std.ts';
+import { type ReencryptedAttachmentV2 } from '../AttachmentCrypto.node.ts';
+import { safeParsePartial } from '../util/schemas.std.ts';
+import { deleteDownloadsJobQueue } from './deleteDownloadsJobQueue.preload.ts';
+import { createBatcher } from '../util/batcher.std.ts';
+import { showDownloadFailedToast } from '../util/showDownloadFailedToast.dom.ts';
+import { markAttachmentAsPermanentlyErrored } from '../util/attachments/markAttachmentAsPermanentlyErrored.std.ts';
 import {
   AttachmentBackfill,
   isPermanentlyUndownloadable,
   isPermanentlyUndownloadableWithoutBackfill,
-} from './helpers/attachmentBackfill.preload.js';
-import { formatCountForLogging } from '../logging/formatCountForLogging.std.js';
-import { strictAssert } from '../util/assert.std.js';
-import { getAttachmentCiphertextSize } from '../util/AttachmentCrypto.std.js';
-import { updateBackupMediaDownloadProgress } from '../util/updateBackupMediaDownloadProgress.preload.js';
-import { HTTPError } from '../types/HTTPError.std.js';
-import { isOlderThan } from '../util/timestamp.std.js';
-import { getMessageQueueTime as doGetMessageQueueTime } from '../util/getMessageQueueTime.dom.js';
-import { JobCancelReason } from './types.std.js';
-import { isAbortError } from '../util/isAbortError.std.js';
-import { itemStorage } from '../textsecure/Storage.preload.js';
-import { calculateExpirationTimestamp } from '../util/expirationTimer.std.js';
-import { cleanupAttachmentFiles } from '../util/cleanup.preload.js';
-import { getExistingAttachmentDataForReuse } from '../util/attachments/deduplicateAttachment.preload.js';
+} from './helpers/attachmentBackfill.preload.ts';
+import { formatCountForLogging } from '../logging/formatCountForLogging.std.ts';
+import { strictAssert } from '../util/assert.std.ts';
+import { getAttachmentCiphertextSize } from '../util/AttachmentCrypto.std.ts';
+import { updateBackupMediaDownloadProgress } from '../util/updateBackupMediaDownloadProgress.preload.ts';
+import { HTTPError } from '../types/HTTPError.std.ts';
+import { isOlderThan } from '../util/timestamp.std.ts';
+import { getMessageQueueTime as doGetMessageQueueTime } from '../util/getMessageQueueTime.dom.ts';
+import { JobCancelReason } from './types.std.ts';
+import { isAbortError } from '../util/isAbortError.std.ts';
+import { itemStorage } from '../textsecure/Storage.preload.ts';
+import { calculateExpirationTimestamp } from '../util/expirationTimer.std.ts';
+import { cleanupAttachmentFiles } from '../util/cleanup.preload.ts';
+import { getExistingAttachmentDataForReuse } from '../util/attachments/deduplicateAttachment.preload.ts';
 
 const { noop, omit, throttle } = lodash;
 

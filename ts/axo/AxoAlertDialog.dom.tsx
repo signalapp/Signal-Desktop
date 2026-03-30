@@ -4,12 +4,12 @@
 import { AlertDialog } from 'radix-ui';
 import type { FC, MouseEvent, ReactNode } from 'react';
 import React, { memo } from 'react';
-import { AxoButton } from './AxoButton.dom.js';
-import { tw } from './tw.dom.js';
-import { AxoBaseDialog } from './_internal/AxoBaseDialog.dom.js';
-import { AxoScrollArea } from './AxoScrollArea.dom.js';
-import type { AxoSymbol } from './AxoSymbol.dom.js';
-import { FlexWrapDetector } from './_internal/FlexWrapDetector.dom.js';
+import { AxoButton } from './AxoButton.dom.tsx';
+import { tw } from './tw.dom.tsx';
+import { AxoBaseDialog } from './_internal/AxoBaseDialog.dom.tsx';
+import { AxoScrollArea } from './AxoScrollArea.dom.tsx';
+import type { AxoSymbol } from './AxoSymbol.dom.tsx';
+import { FlexWrapDetector } from './_internal/FlexWrapDetector.dom.tsx';
 
 const Namespace = 'AxoAlertDialog';
 

@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import type { LocalizerType } from '../../types/Util.std.js';
-import { setupI18n } from '../../util/setupI18n.dom.js';
-import { enMessages } from '../util/i18n.node.js';
+import type { LocalizerType } from '../../types/Util.std.ts';
+import { setupI18n } from '../../util/setupI18n.dom.tsx';
+import { enMessages } from '../util/i18n.node.ts';
 
 describe('setupI18n', () => {
   let i18n: LocalizerType;

@@ -4,9 +4,9 @@
 import { assert } from 'chai';
 import { Proto, type StorageStateRecord } from '@signalapp/mock-server';
 
-import * as durations from '../../util/durations/index.std.js';
-import type { App, Bootstrap } from './fixtures.node.js';
-import { initStorage, debug } from './fixtures.node.js';
+import * as durations from '../../util/durations/index.std.ts';
+import type { App, Bootstrap } from './fixtures.node.ts';
+import { initStorage, debug } from './fixtures.node.ts';
 
 const IdentifierType = Proto.ManifestRecord.Identifier.Type;
 

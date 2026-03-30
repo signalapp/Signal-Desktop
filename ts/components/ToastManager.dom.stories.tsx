@@ -5,17 +5,17 @@ import type { Meta, StoryFn } from '@storybook/react';
 import React from 'react';
 
 import { action } from '@storybook/addon-actions';
-import { ToastManager } from './ToastManager.dom.js';
-import type { AnyToast } from '../types/Toast.dom.js';
-import { ToastType } from '../types/Toast.dom.js';
+import { ToastManager } from './ToastManager.dom.tsx';
+import type { AnyToast } from '../types/Toast.dom.tsx';
+import { ToastType } from '../types/Toast.dom.tsx';
 import type {
   AnyActionableMegaphone,
   MegaphoneCtaId,
   RemoteMegaphoneId,
-} from '../types/Megaphone.std.js';
-import { MegaphoneType } from '../types/Megaphone.std.js';
-import { missingCaseError } from '../util/missingCaseError.std.js';
-import type { PropsType } from './ToastManager.dom.js';
+} from '../types/Megaphone.std.ts';
+import { MegaphoneType } from '../types/Megaphone.std.ts';
+import { missingCaseError } from '../util/missingCaseError.std.ts';
+import type { PropsType } from './ToastManager.dom.tsx';
 
 const { i18n } = window.SignalContext;
 

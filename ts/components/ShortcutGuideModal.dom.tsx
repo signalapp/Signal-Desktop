@@ -3,8 +3,8 @@
 
 import * as React from 'react';
 import { createPortal } from 'react-dom';
-import type { LocalizerType } from '../types/Util.std.js';
-import { ShortcutGuide } from './ShortcutGuide.dom.js';
+import type { LocalizerType } from '../types/Util.std.ts';
+import { ShortcutGuide } from './ShortcutGuide.dom.tsx';
 
 export type PropsType = {
   platform: string;

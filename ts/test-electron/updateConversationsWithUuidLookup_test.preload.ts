@@ -3,16 +3,16 @@
 import { assert } from 'chai';
 import { v4 as generateUuid } from 'uuid';
 import sinon from 'sinon';
-import { DataWriter } from '../sql/Client.preload.js';
-import { ConversationModel } from '../models/conversations.preload.js';
+import { DataWriter } from '../sql/Client.preload.ts';
+import { ConversationModel } from '../models/conversations.preload.ts';
 import type { ConversationAttributesType } from '../model-types.d.ts';
-import { generateAci, normalizeServiceId } from '../types/ServiceId.std.js';
-import { normalizeAci } from '../util/normalizeAci.std.js';
+import { generateAci, normalizeServiceId } from '../types/ServiceId.std.ts';
+import { normalizeAci } from '../util/normalizeAci.std.ts';
 
 import {
   updateConversationsWithUuidLookup,
   type ServerType,
-} from '../updateConversationsWithUuidLookup.dom.js';
+} from '../updateConversationsWithUuidLookup.dom.ts';
 
 describe('updateConversationsWithUuidLookup', () => {
   class FakeConversationController {

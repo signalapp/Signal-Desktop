@@ -4,39 +4,39 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './LeftPane.dom.js';
-import { LeftPane } from './LeftPane.dom.js';
-import { CaptchaDialog } from './CaptchaDialog.dom.js';
-import { CrashReportDialog } from './CrashReportDialog.dom.js';
-import { ToastManager } from './ToastManager.dom.js';
-import type { PropsType as DialogNetworkStatusPropsType } from './DialogNetworkStatus.dom.js';
-import { DialogExpiredBuild } from './DialogExpiredBuild.dom.js';
-import { DialogNetworkStatus } from './DialogNetworkStatus.dom.js';
-import { DialogRelink } from './DialogRelink.dom.js';
-import type { PropsType as DialogUpdatePropsType } from './DialogUpdate.dom.js';
-import { DialogUpdate } from './DialogUpdate.dom.js';
-import { UnsupportedOSDialog } from './UnsupportedOSDialog.dom.js';
-import type { ConversationType } from '../state/ducks/conversations.preload.js';
-import { MessageSearchResult } from './conversationList/MessageSearchResult.dom.js';
-import { DurationInSeconds, DAY } from '../util/durations/index.std.js';
-import { LeftPaneMode } from '../types/leftPane.std.js';
-import { ThemeType } from '../types/Util.std.js';
+import type { PropsType } from './LeftPane.dom.tsx';
+import { LeftPane } from './LeftPane.dom.tsx';
+import { CaptchaDialog } from './CaptchaDialog.dom.tsx';
+import { CrashReportDialog } from './CrashReportDialog.dom.tsx';
+import { ToastManager } from './ToastManager.dom.tsx';
+import type { PropsType as DialogNetworkStatusPropsType } from './DialogNetworkStatus.dom.tsx';
+import { DialogExpiredBuild } from './DialogExpiredBuild.dom.tsx';
+import { DialogNetworkStatus } from './DialogNetworkStatus.dom.tsx';
+import { DialogRelink } from './DialogRelink.dom.tsx';
+import type { PropsType as DialogUpdatePropsType } from './DialogUpdate.dom.tsx';
+import { DialogUpdate } from './DialogUpdate.dom.tsx';
+import { UnsupportedOSDialog } from './UnsupportedOSDialog.dom.tsx';
+import type { ConversationType } from '../state/ducks/conversations.preload.ts';
+import { MessageSearchResult } from './conversationList/MessageSearchResult.dom.tsx';
+import { DurationInSeconds, DAY } from '../util/durations/index.std.ts';
+import { LeftPaneMode } from '../types/leftPane.std.ts';
+import { ThemeType } from '../types/Util.std.ts';
 import {
   getDefaultConversation,
   getDefaultGroupListItem,
-} from '../test-helpers/getDefaultConversation.std.js';
-import { DialogType } from '../types/Dialogs.std.js';
-import { SocketStatus } from '../types/SocketStatus.std.js';
+} from '../test-helpers/getDefaultConversation.std.ts';
+import { DialogType } from '../types/Dialogs.std.ts';
+import { SocketStatus } from '../types/SocketStatus.std.ts';
 import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext.std.js';
 import {
   makeFakeLookupConversationWithoutServiceId,
   useUuidFetchState,
-} from '../test-helpers/fakeLookupConversationWithoutServiceId.std.js';
-import type { GroupListItemConversationType } from './conversationList/GroupListItem.dom.js';
-import { ServerAlert } from '../types/ServerAlert.std.js';
-import { LeftPaneChatFolders } from './leftPane/LeftPaneChatFolders.dom.js';
-import { LeftPaneConversationListItemContextMenu } from './leftPane/LeftPaneConversationListItemContextMenu.dom.js';
-import { CurrentChatFolders } from '../types/CurrentChatFolders.std.js';
+} from '../test-helpers/fakeLookupConversationWithoutServiceId.std.ts';
+import type { GroupListItemConversationType } from './conversationList/GroupListItem.dom.tsx';
+import { ServerAlert } from '../types/ServerAlert.std.ts';
+import { LeftPaneChatFolders } from './leftPane/LeftPaneChatFolders.dom.tsx';
+import { LeftPaneConversationListItemContextMenu } from './leftPane/LeftPaneConversationListItemContextMenu.dom.tsx';
+import { CurrentChatFolders } from '../types/CurrentChatFolders.std.ts';
 
 const { i18n } = window.SignalContext;
 

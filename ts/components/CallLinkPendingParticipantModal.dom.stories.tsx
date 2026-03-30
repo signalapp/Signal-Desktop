@@ -3,10 +3,10 @@
 
 import React from 'react';
 import { action } from '@storybook/addon-actions';
-import type { CallLinkPendingParticipantModalProps } from './CallLinkPendingParticipantModal.dom.js';
-import { CallLinkPendingParticipantModal } from './CallLinkPendingParticipantModal.dom.js';
-import type { ComponentMeta } from '../storybook/types.std.js';
-import { getDefaultConversation } from '../test-helpers/getDefaultConversation.std.js';
+import type { CallLinkPendingParticipantModalProps } from './CallLinkPendingParticipantModal.dom.tsx';
+import { CallLinkPendingParticipantModal } from './CallLinkPendingParticipantModal.dom.tsx';
+import type { ComponentMeta } from '../storybook/types.std.ts';
+import { getDefaultConversation } from '../test-helpers/getDefaultConversation.std.ts';
 
 const { i18n } = window.SignalContext;
 

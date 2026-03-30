@@ -5,8 +5,8 @@ import { ipcRenderer } from 'electron';
 import type {
   PromptOSAuthReasonType,
   PromptOSAuthResultType,
-} from './os/promptOSAuthMain.main.js';
-import { missingCaseError } from './missingCaseError.std.js';
+} from './os/promptOSAuthMain.main.ts';
+import { missingCaseError } from './missingCaseError.std.ts';
 
 export async function promptOSAuth(
   reason: PromptOSAuthReasonType

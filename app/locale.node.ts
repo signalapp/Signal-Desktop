@@ -5,15 +5,15 @@ import { join } from 'node:path';
 import { readFileSync } from 'node:fs';
 import lodash from 'lodash';
 import * as LocaleMatcher from '@formatjs/intl-localematcher';
-import { setupI18n } from '../ts/util/setupI18nMain.std.js';
-import { shouldNeverBeCalled } from '../ts/util/shouldNeverBeCalled.std.js';
+import { setupI18n } from '../ts/util/setupI18nMain.std.ts';
+import { shouldNeverBeCalled } from '../ts/util/shouldNeverBeCalled.std.ts';
 
-import type { LoggerType } from '../ts/types/Logging.std.js';
+import type { LoggerType } from '../ts/types/Logging.std.ts';
 import type {
   HourCyclePreference,
   LocaleMessagesType,
-} from '../ts/types/I18N.std.js';
-import type { LocalizerType } from '../ts/types/Util.std.js';
+} from '../ts/types/I18N.std.ts';
+import type { LocalizerType } from '../ts/types/Util.std.ts';
 
 const { merge } = lodash;
 

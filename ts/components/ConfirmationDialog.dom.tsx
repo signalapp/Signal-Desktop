@@ -4,13 +4,13 @@
 import type { MouseEvent } from 'react';
 import React, { useCallback } from 'react';
 import { animated } from '@react-spring/web';
-import { Button, ButtonVariant } from './Button.dom.js';
-import type { LocalizerType } from '../types/Util.std.js';
-import { ModalHost } from './ModalHost.dom.js';
-import { ModalPage } from './Modal.dom.js';
-import type { Theme } from '../util/theme.std.js';
-import { useAnimated } from '../hooks/useAnimated.dom.js';
-import { Spinner } from './Spinner.dom.js';
+import { Button, ButtonVariant } from './Button.dom.tsx';
+import type { LocalizerType } from '../types/Util.std.ts';
+import { ModalHost } from './ModalHost.dom.tsx';
+import { ModalPage } from './Modal.dom.tsx';
+import type { Theme } from '../util/theme.std.ts';
+import { useAnimated } from '../hooks/useAnimated.dom.tsx';
+import { Spinner } from './Spinner.dom.tsx';
 
 export type ActionSpec = {
   action: () => unknown;

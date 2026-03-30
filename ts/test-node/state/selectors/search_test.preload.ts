@@ -7,30 +7,30 @@ import sinon from 'sinon';
 import type {
   ConversationType,
   MessageType,
-} from '../../../state/ducks/conversations.preload.js';
-import { getEmptyState as getEmptyConversationState } from '../../../state/ducks/conversations.preload.js';
-import { noopAction } from '../../../state/ducks/noop.std.js';
-import type { MessageSearchResultType } from '../../../state/ducks/search.preload.js';
-import { getEmptyState as getEmptySearchState } from '../../../state/ducks/search.preload.js';
-import { getEmptyState as getEmptyUserState } from '../../../state/ducks/user.preload.js';
+} from '../../../state/ducks/conversations.preload.ts';
+import { getEmptyState as getEmptyConversationState } from '../../../state/ducks/conversations.preload.ts';
+import { noopAction } from '../../../state/ducks/noop.std.ts';
+import type { MessageSearchResultType } from '../../../state/ducks/search.preload.ts';
+import { getEmptyState as getEmptySearchState } from '../../../state/ducks/search.preload.ts';
+import { getEmptyState as getEmptyUserState } from '../../../state/ducks/user.preload.ts';
 import {
   getIsSearching,
   getIsSearchingGlobally,
   getIsSearchingInAConversation,
   getMessageSearchResultSelector,
   getSearchResults,
-} from '../../../state/selectors/search.preload.js';
-import { makeLookup } from '../../../util/makeLookup.std.js';
-import { generateAci } from '../../../types/ServiceId.std.js';
+} from '../../../state/selectors/search.preload.ts';
+import { makeLookup } from '../../../util/makeLookup.std.ts';
+import { generateAci } from '../../../types/ServiceId.std.ts';
 import {
   getDefaultConversation,
   getDefaultConversationWithServiceId,
-} from '../../../test-helpers/getDefaultConversation.std.js';
-import { ReadStatus } from '../../../messages/MessageReadStatus.std.js';
+} from '../../../test-helpers/getDefaultConversation.std.ts';
+import { ReadStatus } from '../../../messages/MessageReadStatus.std.ts';
 
-import type { StateType } from '../../../state/reducer.preload.js';
-import { reducer as rootReducer } from '../../../state/reducer.preload.js';
-import { NavTab } from '../../../types/Nav.std.js';
+import type { StateType } from '../../../state/reducer.preload.ts';
+import { reducer as rootReducer } from '../../../state/reducer.preload.ts';
+import { NavTab } from '../../../types/Nav.std.ts';
 
 describe('both/state/selectors/search', () => {
   const NOW = 1_000_000;

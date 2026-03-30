@@ -4,23 +4,23 @@
 import type { FormEventHandler } from 'react';
 import React, { useCallback, useRef, useState } from 'react';
 
-import type { LocalizerType } from '../../../types/Util.std.js';
-import { Modal } from '../../Modal.dom.js';
-import { AvatarEditor } from '../../AvatarEditor.dom.js';
-import { AvatarPreview } from '../../AvatarPreview.dom.js';
-import { Button, ButtonVariant } from '../../Button.dom.js';
-import { Spinner } from '../../Spinner.dom.js';
-import { GroupDescriptionInput } from '../../GroupDescriptionInput.dom.js';
-import { GroupTitleInput } from '../../GroupTitleInput.dom.js';
-import { RequestState } from './util.std.js';
+import type { LocalizerType } from '../../../types/Util.std.ts';
+import { Modal } from '../../Modal.dom.tsx';
+import { AvatarEditor } from '../../AvatarEditor.dom.tsx';
+import { AvatarPreview } from '../../AvatarPreview.dom.tsx';
+import { Button, ButtonVariant } from '../../Button.dom.tsx';
+import { Spinner } from '../../Spinner.dom.tsx';
+import { GroupDescriptionInput } from '../../GroupDescriptionInput.dom.tsx';
+import { GroupTitleInput } from '../../GroupTitleInput.dom.tsx';
+import { RequestState } from './util.std.ts';
 import type {
   AvatarDataType,
   DeleteAvatarFromDiskActionType,
   ReplaceAvatarActionType,
   SaveAvatarToDiskActionType,
-} from '../../../types/Avatar.std.js';
-import type { AvatarColorType } from '../../../types/Colors.std.js';
-import { useConfirmDiscard } from '../../../hooks/useConfirmDiscard.dom.js';
+} from '../../../types/Avatar.std.ts';
+import type { AvatarColorType } from '../../../types/Colors.std.ts';
+import { useConfirmDiscard } from '../../../hooks/useConfirmDiscard.dom.tsx';
 
 type PropsType = {
   avatarColor?: AvatarColorType;

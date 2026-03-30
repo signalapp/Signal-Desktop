@@ -7,25 +7,25 @@ import { v4 as generateUuid } from 'uuid';
 import { readdirSync } from 'node:fs';
 import { dirname } from 'node:path';
 
-import { DataWriter } from '../sql/Client.preload.js';
-import { missingCaseError } from '../util/missingCaseError.std.js';
+import { DataWriter } from '../sql/Client.preload.ts';
+import { missingCaseError } from '../util/missingCaseError.std.ts';
 import {
   getAbsoluteAttachmentPath,
   getAbsoluteDownloadsPath,
   getAbsoluteDraftPath,
   getAbsoluteMegaphoneImageFilePath,
-} from '../util/migrations.preload.js';
+} from '../util/migrations.preload.ts';
 import {
   getDownloadsPath,
   getDraftPath,
   getAttachmentsPath,
   getMegaphonesPath,
-} from '../windows/main/attachments.preload.js';
+} from '../../app/attachments.node.ts';
 
-import { generateAci } from '../types/ServiceId.std.js';
-import { IMAGE_JPEG, LONG_MESSAGE } from '../types/MIME.std.js';
+import { generateAci } from '../types/ServiceId.std.ts';
+import { IMAGE_JPEG, LONG_MESSAGE } from '../types/MIME.std.ts';
 import type { MessageAttributesType } from '../model-types.d.ts';
-import type { RemoteMegaphoneId } from '../types/Megaphone.std.js';
+import type { RemoteMegaphoneId } from '../types/Megaphone.std.ts';
 
 const { emptyDir, ensureFile } = fsExtra;
 
