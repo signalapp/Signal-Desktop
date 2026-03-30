@@ -124,14 +124,13 @@
     "emoji-datasource-apple": "16.0.0",
     "fs-extra": "11.2.0",
     "google-libphonenumber": "3.2.39",
-    "got": "11.8.5",
+    "got": "14.6.6",
     "intl-tel-input": "24.7.0",
     "node-fetch": "2.6.7",
     "pino": "9.8.0",
     "proxy-agent": "6.4.0"
   },
   "devDependencies": {
-    "linkify-it": "5.0.0",
     "@babel/core": "7.26.0",
     "@babel/plugin-proposal-class-properties": "7.18.6",
     "@babel/plugin-proposal-nullish-coalescing-operator": "7.18.6",
@@ -284,6 +283,7 @@
     "is-glob": "4.0.3",
     "js-yaml": "4.1.0",
     "json-to-ast": "2.1.0",
+    "linkify-it": "5.0.0",
     "lodash": "4.17.21",
     "log-symbols": "4.1.0",
     "lru-cache": "11.0.2",

@@ -23,7 +23,6 @@ const external = [
   'sass',
 
   // Things that don't bundle well
-  'got',
   'node-fetch',
   'pino',
   'proxy-agent',
