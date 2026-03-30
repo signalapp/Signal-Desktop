@@ -23,6 +23,7 @@ const defaultMessage: MessageDataPropsType = {
   }),
   canDeleteForEveryone: true,
   canRetryDeleteForEveryone: false,
+  canSendPollVote: true,
   conversationColor: 'crimson',
   conversationId: 'my-convo',
   conversationTitle: 'Conversation Title',

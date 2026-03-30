@@ -48,6 +48,7 @@ function mockMessageTimelineItem(
       canReact: true,
       canReply: true,
       canRetry: true,
+      canSendPollVote: true,
       conversationId: 'conversation-id',
       conversationTitle: 'Conversation Title',
       conversationType: 'group',

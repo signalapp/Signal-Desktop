@@ -250,6 +250,7 @@ export function GroupMemberLabelEditor({
               isPinned={false}
               canDeleteForEveryone={false}
               canRetryDeleteForEveryone={false}
+              canSendPollVote={false}
               retryDeleteForEveryone={noop}
               isBlocked={false}
               isMessageRequestAccepted={false}

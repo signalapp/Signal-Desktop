@@ -42,6 +42,13 @@ export function shouldSendToConversation(
     return false;
   }
 
+  if (conversation.get('terminated')) {
+    log.info(
+      `conversation ${conversation.idForLogging()} is terminated; refusing to send`
+    );
+    return false;
+  }
+
   if (isSignalConversation(conversation.attributes)) {
     log.info(
       `conversation ${conversation.idForLogging()} is Signal conversation; refusing to send`

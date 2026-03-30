@@ -55,6 +55,7 @@ const { noop, orderBy } = lodash;
 const MESSAGE_DEFAULT_PROPS = {
   canDeleteForEveryone: false,
   canRetryDeleteForEveryone: false,
+  canSendPollVote: false,
   retryDeleteForEveryone: shouldNeverBeCalled,
   checkForAccount: shouldNeverBeCalled,
   clearTargetedMessage: shouldNeverBeCalled,

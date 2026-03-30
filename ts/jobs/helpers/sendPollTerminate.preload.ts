@@ -32,7 +32,10 @@ import { strictAssert } from '../../util/assert.std.js';
 import { DataWriter } from '../../sql/Client.preload.js';
 import { cleanupMessages } from '../../util/cleanup.preload.js';
 import { addPniSignatureMessageToProto } from '../../textsecure/SendMessage.preload.js';
-import { shouldSendToDirectConversation } from './shouldSendToConversation.preload.js';
+import {
+  shouldSendToConversation,
+  shouldSendToDirectConversation,
+} from './shouldSendToConversation.preload.js';
 import { handleMessageSend } from '../../util/handleMessageSend.preload.js';
 
 const { isNumber } = lodash;
@@ -186,6 +189,11 @@ export async function sendPollTerminate(
         isGroupV2Conversation,
         `${logId}: expected GroupV2 conversation when not direct`
       );
+
+      const shouldSend = shouldSendToConversation(conversation, jobLog);
+      if (!shouldSend) {
+        return;
+      }
 
       await conversation.queueJob(
         'conversationQueue/sendPollTerminate',

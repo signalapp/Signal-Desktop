@@ -30,7 +30,10 @@ import { getSendRecipientLists } from './getSendRecipientLists.dom.js';
 import { isDirectConversation } from '../../util/whatTypeOfConversation.dom.js';
 import type { CallbackResultType } from '../../textsecure/Types.d.ts';
 import { addPniSignatureMessageToProto } from '../../textsecure/SendMessage.preload.js';
-import { shouldSendToDirectConversation } from './shouldSendToConversation.preload.js';
+import {
+  shouldSendToConversation,
+  shouldSendToDirectConversation,
+} from './shouldSendToConversation.preload.js';
 
 export async function sendPollVote(
   conversation: ConversationModel,
@@ -98,19 +101,7 @@ export async function sendPollVote(
 
     if (!shouldContinue) {
       jobLog.info('sendPollVote: ran out of time; giving up');
-      const pollField = pollMessage.get('poll');
-      if (pollField?.votes) {
-        const updatedVotes = pollVoteUtil.markOutgoingPollVoteFailed(
-          pollField.votes,
-          currentPendingVote
-        );
-        pollMessage.set({
-          poll: {
-            ...pollField,
-            votes: updatedVotes,
-          },
-        });
-      }
+      setMessagePollVoteFailed(pollMessage, currentPendingVote);
       await window.MessageCache.saveMessage(pollMessage.attributes);
       return;
     }
@@ -251,6 +242,13 @@ export async function sendPollVote(
           urgent: true,
         });
       } else {
+        const shouldSend = shouldSendToConversation(conversation, jobLog);
+        if (!shouldSend) {
+          setMessagePollVoteFailed(pollMessage, currentPendingVote);
+          await window.MessageCache.saveMessage(pollMessage.attributes);
+          return;
+        }
+
         jobLog.info('sending group poll vote message');
         promise = conversation.queueJob(
           'conversationQueue/sendPollVote',
@@ -363,19 +361,7 @@ export async function sendPollVote(
       log: jobLog,
       markFailed: () => {
         jobLog.info('poll vote send failed');
-        const updatedPoll = pollMessage.get('poll');
-        if (updatedPoll?.votes && pendingVote) {
-          const updatedVotes = pollVoteUtil.markOutgoingPollVoteFailed(
-            updatedPoll.votes,
-            pendingVote
-          );
-          pollMessage.set({
-            poll: {
-              ...updatedPoll,
-              votes: updatedVotes,
-            },
-          });
-        }
+        setMessagePollVoteFailed(pollMessage, pendingVote);
       },
       timeRemaining,
       toThrow: originalError || thrownError,
@@ -383,4 +369,25 @@ export async function sendPollVote(
   } finally {
     await window.MessageCache.saveMessage(pollMessage.attributes);
   }
+}
+
+function setMessagePollVoteFailed(
+  message: MessageModel,
+  pendingVote: MessagePollVoteType | undefined
+): void {
+  const poll = message.get('poll');
+  if (!poll?.votes || pendingVote == null) {
+    return;
+  }
+
+  const updatedVotes = pollVoteUtil.markOutgoingPollVoteFailed(
+    poll.votes,
+    pendingVote
+  );
+  message.set({
+    poll: {
+      ...poll,
+      votes: updatedVotes,
+    },
+  });
 }
