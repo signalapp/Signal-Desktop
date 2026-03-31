@@ -7,6 +7,9 @@ import { DEFAULT_PREFERRED_REACTION_EMOJI_PARENT_KEYS } from './constants.std.js
 import { isValidReactionEmoji } from './isValidReactionEmoji.std.js';
 import {
   getEmojiVariantByParentKeyAndSkinTone,
+  getEmojiVariantKeyByValue,
+  getEmojiParentKeyByVariantKey,
+  isEmojiVariantValue,
   type EmojiSkinTone,
 } from '../components/fun/data/emojis.std.js';
 
@@ -31,7 +34,7 @@ export function getPreferredReactionEmoji(
   return times(PREFERRED_REACTION_EMOJI_COUNT, index => {
     const storedItem: unknown = storedValueAsArray[index];
     if (isValidReactionEmoji(storedItem)) {
-      return storedItem;
+      return applyEmojiSkinTone(storedItem, emojiSkinToneDefault);
     }
 
     const fallbackParentKey =
@@ -56,6 +59,22 @@ export function getPreferredReactionEmoji(
 
     return fallbackEmoji.value;
   });
+}
+
+function applyEmojiSkinTone(
+  emoji: string,
+  skinTone: EmojiSkinTone
+): string {
+  if (!isEmojiVariantValue(emoji)) {
+    return emoji;
+  }
+  const variantKey = getEmojiVariantKeyByValue(emoji);
+  const parentKey = getEmojiParentKeyByVariantKey(variantKey);
+  const newVariant = getEmojiVariantByParentKeyAndSkinTone(
+    parentKey,
+    skinTone
+  );
+  return newVariant.value;
 }
 
 export const canBeSynced = (value: unknown): value is Array<string> =>

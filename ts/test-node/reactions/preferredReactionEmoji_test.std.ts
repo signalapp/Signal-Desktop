@@ -55,6 +55,24 @@ describe('preferred reaction emoji utilities', () => {
       );
     });
 
+    it('applies skin tone to stored emoji that support skin tones', () => {
+      const input = ['❤️', '👍', '👎', '😂', '😮', '😢'];
+      const expected = ['❤️', '👍🏼', '👎🏼', '😂', '😮', '😢'];
+      assert.deepStrictEqual(
+        getPreferredReactionEmoji(input, EmojiSkinTone.Type2),
+        expected
+      );
+    });
+
+    it('updates skin tone when stored emoji already have a different skin tone', () => {
+      const input = ['❤️', '👍🏻', '👎🏻', '😂', '😮', '😢'];
+      const expected = ['❤️', '👍🏿', '👎🏿', '😂', '😮', '😢'];
+      assert.deepStrictEqual(
+        getPreferredReactionEmoji(input, EmojiSkinTone.Type5),
+        expected
+      );
+    });
+
     it('only returns the first few emoji if passed a value that is too long', () => {
       const expected = ['✨', '❇️', '🎇', '🦈', '💖', '🅿️'];
       const input = [...expected, '💅', '💅', '💅', '💅'];
