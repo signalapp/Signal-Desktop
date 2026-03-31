@@ -14,6 +14,13 @@ import { PollVotesModal } from './PollVotesModal.dom.js';
 import { SpinnerV2 } from '../../SpinnerV2.dom.js';
 import { usePrevious } from '../../../hooks/usePrevious.std.js';
 import { UserText } from '../../UserText.dom.js';
+import { Linkify } from '../Linkify.dom.js';
+import { Emojify } from '../Emojify.dom.js';
+import type { RenderTextCallbackType } from '../../../types/Util.std.js';
+
+const renderNonLink: RenderTextCallbackType = ({ key, text }) => (
+  <Emojify key={key} text={text} />
+);
 
 function VotedCheckmark({
   isIncoming,
@@ -299,7 +306,7 @@ export function PollMessageContents({
               <div className={tw('flex min-w-0 flex-1 flex-col gap-1')}>
                 <div className={tw('flex items-start justify-between gap-3')}>
                   <span className={tw('min-w-0 type-body-large break-words')}>
-                    <UserText text={option} />
+                    <Linkify text={option} renderNonLink={renderNonLink} />
                   </span>
                   <div
                     className={tw(
