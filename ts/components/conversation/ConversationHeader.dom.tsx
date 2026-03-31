@@ -62,6 +62,7 @@ function HeaderInfoTitle({
   isMe,
   isSignalConversation,
   headerRef,
+  showSAS,
 }: {
   name: string | null;
   title: string;
@@ -70,6 +71,7 @@ function HeaderInfoTitle({
   isMe: boolean;
   isSignalConversation: boolean;
   headerRef: RefObject<HTMLDivElement | null>;
+  showSAS: string;
 }) {
   if (isSignalConversation) {
     return (
@@ -103,6 +105,8 @@ function HeaderInfoTitle({
           />
         ) : null}
       </div>
+
+      // TODO: if statement for user settings to show SAS value on the header
 
       <button
         type="button"
@@ -566,6 +570,7 @@ function HeaderContent({
         isMe={conversation.isMe}
         isSignalConversation={isSignalConversation}
         headerRef={headerRef}
+        showSAS={conversation.name ?? ''} // temporary until we have a real way to grab SAS value from the backend
       />
       {(isOfficialChat ||
         conversation.expireTimer != null ||
