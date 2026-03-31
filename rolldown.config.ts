@@ -22,10 +22,6 @@ const external = [
   'mac-screen-capture-permissions',
   'sass',
 
-  // Things that don't bundle well
-  'node-fetch',
-  'pino',
-
   // Large libraries (3.7mb total)
   // See: https://esbuild.github.io/api/#analyze
   'emoji-datasource',
@@ -68,8 +64,9 @@ const contextIsolated = {
   'preload/permissions': 'ts/windows/permissions/preload.preload.ts',
   'preload/screenShare': 'ts/windows/screenShare/preload.preload.ts',
   'preload/sticker-creator': 'ts/windows/sticker-creator/preload.preload.ts',
+};
 
-  // DOM
+const contextIsolatedDom = {
   'dom/about': 'ts/windows/about/app.dom.tsx',
   'dom/calldiagnostic': 'ts/windows/calldiagnostic/app.dom.tsx',
   'dom/debuglog': 'ts/windows/debuglog/app.dom.tsx',
@@ -121,6 +118,16 @@ export default defineConfig([
       },
     };
   }),
+  {
+    ...defaults,
+    external: ['electron'],
+    platform: 'browser',
+    input: contextIsolatedDom,
+    output: {
+      ...defaults.output,
+      format: 'es',
+    },
+  },
   {
     ...defaults,
 
