@@ -34,9 +34,16 @@ export type Props = CollapseSet & {
   isBlocked: boolean;
   isGroup: boolean;
   isSelectMode: boolean;
+  isSelected: boolean;
   renderItem: (props: RenderItemProps) => React.JSX.Element;
   targetedMessage: TargetedMessageType | undefined;
   toggleDeleteMessagesModal: (props: DeleteMessagesPropsType) => void;
+  toggleSelectMessage: (
+    conversationId: string,
+    messageId: string,
+    shift: boolean,
+    selected: boolean
+  ) => void;
 };
 
 export function CollapseSetViewer(props: Props): React.JSX.Element {
@@ -51,10 +58,12 @@ export function CollapseSetViewer(props: Props): React.JSX.Element {
     conversationId,
     isBlocked,
     isGroup,
+    isSelected,
     messages,
     renderItem,
     targetedMessage,
     toggleDeleteMessagesModal,
+    toggleSelectMessage,
   } = props;
   const [isExpanded, setIsExpanded] = useState(false);
   const [messageCache, setMessageCache] = useState<
@@ -151,6 +160,10 @@ export function CollapseSetViewer(props: Props): React.JSX.Element {
             dayCount={collapsedDayCount}
             isExpanded={isExpanded}
             onClick={() => {
+              if (isSelected) {
+                return;
+              }
+
               setIsAnimating(true);
               setIsExpanded(value => !value);
             }}
@@ -160,13 +173,20 @@ export function CollapseSetViewer(props: Props): React.JSX.Element {
                 messageIds: collapsedMessages.map(item => item.id),
               });
             }}
+            onSelect={() => {
+              collapsedMessages.forEach(message => {
+                toggleSelectMessage(conversationId, message.id, false, true);
+              });
+            }}
           />
         </div>
       ) : undefined}
       <div
         className={classNames(
           'CollapseSet__height-container',
-          isExpanded ? 'CollapseSet__height-container--expanded' : undefined
+          isSelected || isExpanded
+            ? 'CollapseSet__height-container--expanded'
+            : undefined
         )}
         onTransitionEnd={event => {
           if (event.propertyName === 'height') {
@@ -177,12 +197,12 @@ export function CollapseSetViewer(props: Props): React.JSX.Element {
         <div
           className={classNames(
             'CollapseSet__transparency-container',
-            isExpanded
+            isSelected || isExpanded
               ? 'CollapseSet__transparency-container--expanded'
               : undefined
           )}
         >
-          {shouldShowButton && (isExpanded || isAnimating) ? (
+          {shouldShowButton && (isSelected || isExpanded || isAnimating) ? (
             <>
               {collapsedMessages.map((child, index) => {
                 const previousMessage = messages[index - 1];
@@ -204,9 +224,10 @@ export function CollapseSetViewer(props: Props): React.JSX.Element {
                       containerElementRef,
                       containerWidthBreakpoint,
                       conversationId,
-                      interactivity: isExpanded
-                        ? MessageInteractivity.Normal
-                        : MessageInteractivity.Hidden,
+                      interactivity:
+                        isSelected || isExpanded
+                          ? MessageInteractivity.Normal
+                          : MessageInteractivity.Hidden,
                       isBlocked,
                       isGroup,
                       isOldestTimelineItem,
@@ -263,12 +284,23 @@ function CollapseSetButton(
     isExpanded: boolean;
     isGroup: boolean;
     isSelectMode: boolean;
+    isSelected: boolean;
     i18n: LocalizerType;
     onClick: () => unknown;
     onDelete: () => unknown;
+    onSelect: () => unknown;
   }
 ): React.JSX.Element {
-  const { count, dayCount, i18n, isExpanded, onClick, onDelete, type } = props;
+  const {
+    count,
+    dayCount,
+    i18n,
+    isExpanded,
+    isSelected,
+    onClick,
+    onDelete,
+    type,
+  } = props;
 
   strictAssert(
     type !== 'none',
@@ -317,7 +349,7 @@ function CollapseSetButton(
     });
   }
 
-  const trailingIcon = isExpanded ? (
+  let trailingIcon = isExpanded ? (
     <AxoSymbol.InlineGlyph
       symbol="chevron-up"
       label={i18n('icu:collapsedItems--expanded')}
@@ -328,6 +360,9 @@ function CollapseSetButton(
       label={i18n('icu:collapsedItems--collapsed')}
     />
   );
+  if (isSelected) {
+    trailingIcon = <span />;
+  }
 
   return (
     <MessageContextMenu
@@ -345,7 +380,7 @@ function CollapseSetButton(
       onRetryMessageSend={null}
       onRetryDeleteForEveryone={null}
       onCopy={null}
-      onSelect={null}
+      onSelect={props.onSelect}
       onForward={null}
       onMoreInfo={null}
       onPinMessage={null}

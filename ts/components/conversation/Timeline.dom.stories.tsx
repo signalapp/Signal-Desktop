@@ -362,6 +362,7 @@ const renderItem = ({
     isBlocked={false}
     isGroup={false}
     isSelectMode={false}
+    isSelected={false}
     i18n={i18n}
     interactivity={MessageInteractivity.Normal}
     interactionMode="keyboard"

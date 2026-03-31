@@ -216,6 +216,7 @@ type PropsLocalType = {
   isGroup: boolean;
   isNextItemCallingNotification: boolean;
   isSelectMode: boolean;
+  isSelected: boolean;
   isTargeted: boolean;
   scrollToPinnedMessage: (pinMessage: PinMessageData) => void;
   scrollToPollMessage: (
@@ -224,6 +225,12 @@ type PropsLocalType = {
     conversationId: string
   ) => unknown;
   targetMessage: (messageId: string, conversationId: string) => unknown;
+  toggleSelectMessage: (
+    conversationId: string,
+    messageId: string,
+    shift: boolean,
+    selected: boolean
+  ) => void;
   shouldRenderDateHeader: boolean;
   onOpenEditNicknameAndNoteModal: (contactId: string) => void;
   onOpenMessageRequestActionsConfirmation: (state: MessageRequestState) => void;
@@ -267,6 +274,7 @@ export const TimelineItem = memo(function TimelineItem({
   isGroup,
   isNextItemCallingNotification,
   isSelectMode,
+  isSelected,
   isTargeted,
   item,
   onOpenEditNicknameAndNoteModal,
@@ -287,6 +295,7 @@ export const TimelineItem = memo(function TimelineItem({
   shouldRenderDateHeader,
   targetedMessage,
   theme,
+  toggleSelectMessage,
   ...reducedProps
 }: PropsType): React.JSX.Element | null {
   if (!item) {
@@ -317,6 +326,7 @@ export const TimelineItem = memo(function TimelineItem({
         platform={platform}
         i18n={i18n}
         theme={theme}
+        toggleSelectMessage={toggleSelectMessage}
       />
     );
   } else if (item.type === 'collapseSet') {
@@ -329,9 +339,11 @@ export const TimelineItem = memo(function TimelineItem({
         isBlocked={isBlocked}
         isGroup={isGroup}
         isSelectMode={isSelectMode}
+        isSelected={isSelected}
         renderItem={renderItem}
         targetedMessage={targetedMessage}
         toggleDeleteMessagesModal={reducedProps.toggleDeleteMessagesModal}
+        toggleSelectMessage={toggleSelectMessage}
         i18n={i18n}
       />
     );
@@ -518,7 +530,10 @@ export const TimelineItem = memo(function TimelineItem({
         id={id}
         conversationId={conversationId}
         isTargeted={isTargeted}
+        isSelectMode={isSelectMode}
+        isSelected={isSelected}
         targetMessage={targetMessage}
+        toggleSelectMessage={toggleSelectMessage}
       >
         {notification}
       </InlineNotificationWrapper>

@@ -151,6 +151,11 @@ export const SmartTimelineItem = memo(function SmartTimelineItem(
         }
       : itemFromSelector;
 
+  const isSelected =
+    selectedMessageIds?.includes(messageId) ||
+    (item.type !== 'none' &&
+      item.messages.some(message => selectedMessageIds?.includes(message.id)));
+
   const {
     blockGroupLinkRequests,
     cancelAttachmentDownload,
@@ -247,6 +252,7 @@ export const SmartTimelineItem = memo(function SmartTimelineItem(
       isNextItemCallingNotification={isNextItemCallingNotification}
       isTargeted={isTargeted}
       isSelectMode={selectedMessageIds != null}
+      isSelected={isSelected}
       renderAudioAttachment={renderAudioAttachment}
       renderContact={renderContact}
       renderReactionPicker={renderReactionPicker}
