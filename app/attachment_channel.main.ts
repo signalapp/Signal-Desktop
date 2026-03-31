@@ -20,7 +20,7 @@ import GrowingFile from 'growing-file';
 import lodash from 'lodash';
 import { pathExists } from 'fs-extra';
 import pMap from 'p-map';
-import { access } from 'node:fs/promises';
+import { stat } from 'node:fs/promises';
 
 import {
   type DecryptAttachmentToSinkOptionsType,
@@ -70,6 +70,7 @@ import {
   getTempPath,
 } from './attachments.node.ts';
 import { isValidDigest, isValidPlaintextHash } from '../ts/types/Crypto.std.ts';
+import { isNotNil } from '../ts/util/isNotNil.std.ts';
 
 const { isNumber } = lodash;
 
@@ -468,20 +469,36 @@ function deleteOrphanedAttachments({
     // It's possible that messages and attachments have been deleted since we first
     // checked the contents of the attachments folder, so for better accounting, we
     // check once more that they still exist.
-    await pMap(
-      orphanedAttachments,
-      async path => {
-        try {
-          await access(join(attachmentsFolder, path));
-        } catch (e) {
-          orphanedAttachments.delete(path);
-        }
-      },
-      { concurrency: 20 }
-    );
+    const orphanedCTimes: Array<number> = (
+      await pMap(
+        orphanedAttachments,
+        async path => {
+          // Ignore the orphaned file if it does not exist
+          try {
+            const stats = await stat(join(attachmentsFolder, path));
+            return Math.floor(stats.ctimeMs);
+          } catch (e) {
+            // Ignore attachments that do not exist on disk
+            if ('code' in e && e.code === 'ENOENT') {
+              orphanedAttachments.delete(path);
+              return;
+            }
+            log.error(
+              "Unable to access orphaned file's stats",
+              Errors.toLogFormat(e)
+            );
+            return;
+          }
+        },
+        { concurrency: 20 }
+      )
+    ).filter(isNotNil);
 
     if (orphanedAttachments.size > 0) {
-      log.error(`${orphanedAttachments.size} orphaned attachment(s) found`);
+      log.error(
+        `${orphanedAttachments.size} orphaned attachment(s) found, cTimes:`,
+        orphanedCTimes
+      );
     }
 
     if (totalMissing > 0) {
