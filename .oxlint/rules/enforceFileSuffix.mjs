@@ -91,9 +91,11 @@ const NODE_PACKAGES = new Set([
   'fs-xattr',
   'got',
   'growing-file',
+  'http-proxy-agent',
+  'https-proxy-agent',
   'node-fetch',
-  'proxy-agent',
   'read-last-lines',
+  'socks-proxy-agent',
   'split2',
   'write-file-atomic',
 

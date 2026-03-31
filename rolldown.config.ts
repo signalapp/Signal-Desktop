@@ -25,7 +25,6 @@ const external = [
   // Things that don't bundle well
   'node-fetch',
   'pino',
-  'proxy-agent',
 
   // Large libraries (3.7mb total)
   // See: https://esbuild.github.io/api/#analyze
