@@ -85,7 +85,9 @@ export function PreferencesLocalBackups({
   startLocalBackupExport: () => void;
 }): React.JSX.Element | null {
   const [authError, setAuthError] =
-    React.useState<Omit<PromptOSAuthResultType, 'success'>>();
+    React.useState<
+      Exclude<PromptOSAuthResultType, 'success' | 'unsupported'>
+    >();
   const [isAuthPending, setIsAuthPending] = useState<boolean>(false);
   const [isDisablePending, setIsDisablePending] = useState<boolean>(false);
   const [isShowingBackupKeyChangedModal, setIsShowingBackupKeyChangedModal] =
@@ -336,7 +338,9 @@ export function PreferencesLocalBackups({
           <AxoAlertDialog.Content escape="cancel-is-noop">
             <AxoAlertDialog.Body>
               <AxoAlertDialog.Description>
-                {getOSAuthErrorString(i18n, authError) ?? i18n('icu:error')}
+                {i18n(
+                  'icu:Preferences__local-backups-auth-error--unauthorized'
+                )}
               </AxoAlertDialog.Description>
             </AxoAlertDialog.Body>
             <AxoAlertDialog.Footer>
@@ -770,28 +774,6 @@ function LocalBackupsBackupKeyTextarea({
       value={isStepViewOrReference ? backupKey : backupKeyInput}
     />
   );
-}
-
-function getOSAuthErrorString(
-  i18n: LocalizerType,
-  authError: Omit<PromptOSAuthResultType, 'success'> | undefined
-): string | undefined {
-  if (!authError) {
-    return undefined;
-  }
-
-  // TODO: DESKTOP-8895
-  if (authError === 'unauthorized') {
-    return i18n('icu:Preferences__local-backups-auth-error--unauthorized');
-  }
-
-  if (authError === 'unauthorized-no-windows-ucv') {
-    return i18n(
-      'icu:Preferences__local-backups-auth-error--unauthorized-no-windows-ucv'
-    );
-  }
-
-  return i18n('icu:Preferences__local-backups-auth-error--unavailable');
 }
 
 function LocalBackupSetupIcon(props: { symbol: 'key' | 'lock' }): JSX.Element {

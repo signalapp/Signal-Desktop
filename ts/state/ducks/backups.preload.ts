@@ -352,7 +352,6 @@ export function verifyWithOSForExport(
       case 'success':
         chooseExportLocation()(dispatch, getState, null);
         break;
-      case 'unauthorized-no-windows-ucv':
       case 'unsupported':
       case 'error':
         log.warn(

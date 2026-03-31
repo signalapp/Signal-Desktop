@@ -24,7 +24,6 @@ export type PromptOSAuthResultType =
   | 'error'
   | 'success'
   | 'unauthorized'
-  | 'unauthorized-no-windows-ucv'
   | 'unsupported';
 
 /**
@@ -32,9 +31,6 @@ export type PromptOSAuthResultType =
  * before viewing sensitive account credentials.
  * Return values: 'success' indicates successful authentication.
  * 'unauthorized' indicates authentication is possible, but failed or was canceled.
- * 'unauthorized-no-windows-ucv' indicates the Windows API was not available or not setup.
- * Because this is the default case on Windows without Windows Hello enabled,
- * this response should be treated as an auth failure, and not bypassed.
  * 'unsupported' indicates the OS is not supported. Authentication can be skipped
  * or user asked to use a fallback method (e.g. using the primary mobile device).
  */
@@ -75,11 +71,10 @@ async function promptOSAuthWindows(
   text: string
 ): Promise<PromptOSAuthResultType> {
   // For Windows a verification device is required for the UserConsentVerifier API.
-  // If unavailable, then the UI must fail and require the user to setup verification.
   const availability = await checkAvailabilityWindowsUcv();
   log.info(`Windows UCV availability=${availability}`);
   if (availability !== 'available') {
-    return 'unauthorized-no-windows-ucv';
+    return 'unsupported';
   }
 
   const result = await requestVerificationWindowsUcv(text);
