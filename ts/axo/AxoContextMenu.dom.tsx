@@ -93,6 +93,14 @@ export namespace AxoContextMenu {
       [onOpenChange]
     );
 
+    useEffect(() => {
+      if (open) {
+        document.body.classList.add('context-menu-open');
+        return () => document.body.classList.remove('context-menu-open');
+      }
+      return undefined;
+    }, [open]);
+
     const context = useMemo(() => {
       return { open };
     }, [open]);

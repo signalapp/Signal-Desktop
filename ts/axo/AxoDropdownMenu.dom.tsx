@@ -113,6 +113,14 @@ export namespace AxoDropdownMenu {
       [onOpenChange]
     );
 
+    useEffect(() => {
+      if (open) {
+        document.body.classList.add('context-menu-open');
+        return () => document.body.classList.remove('context-menu-open');
+      }
+      return undefined;
+    }, [open]);
+
     const context = useMemo((): RootContextType => {
       return { open };
     }, [open]);
