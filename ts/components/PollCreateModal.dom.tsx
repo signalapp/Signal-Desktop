@@ -95,19 +95,6 @@ export function PollCreateModal({
         }
       }
 
-      // Remove middle empty options
-      if (!isLastOption && !hasText && canRemove) {
-        resultOptions.splice(changedIndex, 1);
-        removedIndex = changedIndex;
-
-        // Ensure there's always an empty option at the end
-        const lastOption = resultOptions[resultOptions.length - 1];
-        const lastOptionEmpty = !lastOption || !lastOption.value.trim();
-        if (!lastOptionEmpty && resultOptions.length < POLL_OPTIONS_MAX_COUNT) {
-          resultOptions.push({ id: generateUuid(), value: '' });
-        }
-      }
-
       return { options: resultOptions, removedIndex };
     },
     []
@@ -151,6 +138,28 @@ export function PollCreateModal({
       }
     },
     [computeOptionsAfterChange, validationErrors, options]
+  );
+
+  const handleOptionBlur = useCallback(
+    (id: string) => {
+      setOptions(prev => {
+        const index = prev.findIndex(opt => opt.id === id);
+        if (index === -1) {
+          return prev;
+        }
+        const isLast = index === prev.length - 1;
+        const isEmpty = !prev[index].value.trim();
+        const canRemove = prev.length > POLL_OPTIONS_MIN_COUNT;
+
+        if (!isLast && isEmpty && canRemove) {
+          const updated = [...prev];
+          updated.splice(index, 1);
+          return updated;
+        }
+        return prev;
+      });
+    },
+    []
   );
 
   const handleEnterKey = useCallback(
@@ -339,6 +348,7 @@ export function PollCreateModal({
                   moduleClassName="PollCreateModalInput"
                   value={option.value}
                   onChange={value => handleOptionChange(option.id, value)}
+                  onBlur={() => handleOptionBlur(option.id)}
                   onEnter={e => handleEnterKey(e, index)}
                   placeholder={i18n('icu:PollCreateModal__optionPlaceholder', {
                     number: String(index + 1),
