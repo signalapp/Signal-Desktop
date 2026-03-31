@@ -5780,43 +5780,51 @@ button.module-calling-participants-list__contact {
 }
 
 .CollapseSet__height-container {
-  max-height: 0px;
   overflow: hidden;
-  transition: max-height 200ms
-    linear(
-      0,
-      0.024 1.7%,
-      0.097 3.7%,
-      0.55 12%,
-      0.75 16.6%,
-      0.887 21.4%,
-      0.935 24%,
-      0.97 26.8%,
-      1.002 31.5%,
-      1.013 37.5%,
-      1.001 62.7%,
-      1
-    );
-
-  visibility: hidden;
-  pointer-events: none;
-  user-select: none;
+  height: 0px;
+  display: none;
+  /* stylelint-disable-next-line property-no-unknown */
+  interpolate-size: allow-keywords;
+  transition-property: display, height;
+  transition-behavior: allow-discrete;
+  transition-duration: 200ms;
+  transition-timing-function: linear(
+    0,
+    0.024 1.7%,
+    0.097 3.7%,
+    0.55 12%,
+    0.75 16.6%,
+    0.887 21.4%,
+    0.935 24%,
+    0.97 26.8%,
+    1.002 31.5%,
+    1.013 37.5%,
+    1.001 62.7%,
+    1
+  );
 }
 
 .CollapseSet__height-container--expanded {
-  visibility: visible;
-  pointer-events: auto;
-  user-select: auto;
+  display: block;
+  height: auto;
+
+  @starting-style {
+    height: 0;
+  }
 }
 
 .CollapseSet__transparency-container {
   opacity: 0;
-  transition: opacity 120ms linear 200ms;
+  transition: opacity 25ms linear;
 }
 
 .CollapseSet__transparency-container--expanded {
-  opacity: 0;
-  transition: opacity 25ms;
+  transition-duration: 120ms;
+  transition-delay: 200ms;
+  opacity: 1;
+  @starting-style {
+    opacity: 0;
+  }
 }
 
 // Module: Last Seen Indicator
