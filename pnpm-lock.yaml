@@ -103,9 +103,6 @@ importers:
       google-libphonenumber:
         specifier: 3.2.39
         version: 3.2.39
-      intl-tel-input:
-        specifier: 24.7.0
-        version: 24.7.0
     devDependencies:
       '@babel/core':
         specifier: 7.26.0
@@ -560,6 +557,9 @@ importers:
       humanize-duration:
         specifier: 3.27.1
         version: 3.27.1
+      intl-tel-input:
+        specifier: 24.7.0
+        version: 24.7.0
       is-glob:
         specifier: 4.0.3
         version: 4.0.3
