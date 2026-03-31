@@ -1695,7 +1695,7 @@
         "test/**",
         ".*rc.js",
         "ci.js",
-        "dangerfile.js",
+        "dangerfile.mjs",
         "preload.wrapper.ts",
         "rolldown.config.ts"
       ],
