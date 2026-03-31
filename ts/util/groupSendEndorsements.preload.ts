@@ -419,6 +419,12 @@ export async function maybeCreateGroupSendEndorsementState(
   // Check if we need to refresh the group state.
   const result = validateGroupSendEndorsements(members, state);
   if (!result.valid) {
+    // For terminated groups, the server will not return endorsements so just move on
+    if (conversation.get('terminated')) {
+      log.info(`${logId}: Group terminated, ignoring invalid endorsements`);
+      return { state: null, didRefreshGroupState: false };
+    }
+
     // If we've already refreshed the group state, we should log and move on.
     if (alreadyRefreshedGroupState) {
       onFailedToSendWithEndorsements(
