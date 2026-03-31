@@ -44,6 +44,7 @@ const getDefaultProps = () => ({
   isNextItemCallingNotification: false,
   isPinned: false,
   isSelectMode: false,
+  isSelected: false,
   isTargeted: false,
   isBlocked: false,
   isGroup: false,

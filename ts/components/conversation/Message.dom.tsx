@@ -2326,6 +2326,7 @@ export class Message extends React.PureComponent<Props, State> {
       direction,
       getPreferredBadge,
       i18n,
+      isSelectMode,
       shouldCollapseBelow,
       showContactModal,
       theme,
@@ -2341,6 +2342,7 @@ export class Message extends React.PureComponent<Props, State> {
           'module-message__author-avatar-container--with-reactions':
             this.#hasReactions(),
         })}
+        inert={isSelectMode ? true : undefined}
       >
         {shouldCollapseBelow ? (
           <AvatarSpacer size={GROUP_AVATAR_SIZE} />
@@ -3313,6 +3315,7 @@ export class Message extends React.PureComponent<Props, State> {
       deletedForEveryone,
       direction,
       id,
+      isSelectMode,
       isSticker,
       isTapToView,
       renderMessageContextMenu,
@@ -3375,7 +3378,7 @@ export class Message extends React.PureComponent<Props, State> {
     }
 
     function maybeWrapWithContextMenu(children: ReactNode): ReactNode {
-      if (renderMessageContextMenu) {
+      if (renderMessageContextMenu && !isSelectMode) {
         return renderMessageContextMenu('AxoContextMenu', children);
       }
       return children;
@@ -3397,6 +3400,7 @@ export class Message extends React.PureComponent<Props, State> {
               ev.stopPropagation();
             }}
             tabIndex={-1}
+            inert={isSelectMode ? true : undefined}
           >
             {this.#renderAuthor()}
             <div dir={TextDirectionToDirAttribute[textDirection]}>
@@ -3561,7 +3565,6 @@ export class Message extends React.PureComponent<Props, State> {
           role="row"
           onFocus={this.handleFocus}
           ref={this.focusRef}
-          inert={isSelectMode}
         >
           {this.#renderError()}
           {this.#renderAvatar()}

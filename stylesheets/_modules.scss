@@ -2143,6 +2143,7 @@ $timer-icons:
 
 .module-inline-notification-wrapper {
   outline: none;
+  position: relative;
 
   &:focus {
     @include mixins.keyboard-mode {

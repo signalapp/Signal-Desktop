@@ -40,15 +40,30 @@ const defaultProps: Props = {
   isBlocked: false,
   isGroup: true,
   isSelectMode: false,
+  isSelected: false,
   renderItem,
   targetedMessage: undefined,
   toggleDeleteMessagesModal: action('toggleDeleteMessagesModal'),
+  toggleSelectMessage: action('toggleSelectMessage'),
 };
 
 export function GroupWithTwo(): React.JSX.Element {
   const props: Props = {
     ...defaultProps,
     type: 'group-updates',
+    messages: [
+      { id: 'id1', isUnseen: false },
+      { id: 'id2', isUnseen: false },
+    ],
+  };
+  return <CollapseSetViewer {...props} />;
+}
+
+export function GroupWithTwoSelectedCannotCollapse(): React.JSX.Element {
+  const props: Props = {
+    ...defaultProps,
+    type: 'group-updates',
+    isSelected: true,
     messages: [
       { id: 'id1', isUnseen: false },
       { id: 'id2', isUnseen: false },

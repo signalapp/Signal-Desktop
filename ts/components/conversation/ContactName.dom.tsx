@@ -89,7 +89,13 @@ export function ContactName({
         contactNameColor ? getClassName(`--${contactNameColor}`) : null
       )}
       dir="auto"
-      onClick={onClick}
+      onClick={(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        if (onClick) {
+          onClick();
+          event.stopPropagation();
+          event.preventDefault();
+        }
+      }}
     >
       <UserText text={text} />
       {(isSignalConversation || isMe) && (
