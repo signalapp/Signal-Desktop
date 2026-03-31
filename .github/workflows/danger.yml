@@ -11,8 +11,6 @@ jobs:
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
-        with:
-          fetch-depth: 0 # fetch all history
       - name: Setup pnpm
         uses: pnpm/action-setup@41ff72655975bd51cab0327fa583b6e92b6d3061 # v4
       - name: Setup node.js
@@ -21,7 +19,7 @@ jobs:
           node-version-file: '.nvmrc'
           package-manager-cache: false # Avoid cache key clashes
       - name: Install danger node_modules
-        run: cd danger && pnpm install
+        run: (cd danger && pnpm install --ignore-workspace)
       - name: Run DangerJS
         run: pnpm run danger:ci
         env:
