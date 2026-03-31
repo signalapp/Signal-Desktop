@@ -8554,14 +8554,6 @@
     "messageformat": "This action could not be completed because system authentication failed. Please try again or open the Signal app on your mobile device and go to Backup Settings to view your recovery key.",
     "description": "Error shown in local backups settings when system authentication fails while trying to view the recovery key."
   },
-  "icu:Preferences__local-backups-auth-error--unauthorized-no-windows-ucv": {
-    "messageformat": "This action could not be completed because Windows Hello is not enabled on your computer. Please set up Windows Hello and try again, or open the Signal app on your mobile device and go to Backup Settings to view your recovery key.",
-    "description": "Error shown in local backups settings on Windows when Windows Hello is not available while trying to view the recovery key."
-  },
-  "icu:Preferences__local-backups-auth-error--unavailable": {
-    "messageformat": "The action could not be completed because authentication is not available on this computer. Please open the Signal app on your mobile device and go to Backup Settings to view your recovery key.",
-    "description": "Error shown in local backups settings when system authentication is unavailable while trying to view the recovery key."
-  },
   "icu:Preferences__view-key": {
     "messageformat": "View key",
     "description": "Button to view the backup key which is used to restore a message history backup"

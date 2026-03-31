@@ -290,18 +290,19 @@ export function PreferencesBackups({
               size="lg"
               disabled={isAuthPending}
               onClick={async () => {
-                if (!isLocalBackupsSetup) {
+                if (isLocalBackupsSetup) {
+                  setSettingsLocation({ page: SettingsPage.LocalBackups });
+                } else {
                   try {
                     setIsAuthPending(true);
                     const result = await promptOSAuth('enable-backups');
-                    if (result !== 'success' && result !== 'unsupported') {
-                      return;
+                    if (result === 'success' || result === 'unsupported') {
+                      setSettingsLocation({ page: SettingsPage.LocalBackups });
                     }
                   } finally {
                     setIsAuthPending(false);
                   }
                 }
-                setSettingsLocation({ page: SettingsPage.LocalBackups });
               }}
             >
               {isLocalBackupsSetup
