@@ -45,7 +45,6 @@ export default function EmojiPicker({
 
   return (
     <RealEmojiPicker
-      skinTonesDisabled
       theme={Theme.AUTO}
       emojiStyle={EmojiStyle.APPLE}
       getEmojiUrl={getEmojiUrl}
