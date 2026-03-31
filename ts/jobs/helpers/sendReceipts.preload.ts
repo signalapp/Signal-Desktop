@@ -14,7 +14,12 @@ export async function sendReceipts(
   { log }: ConversationQueueJobBundle,
   data: ReceiptsJobData
 ): Promise<void> {
-  if (!shouldSendToConversation(conversation, log)) {
+  if (
+    !shouldSendToConversation(conversation, {
+      log,
+      shouldSendToTerminatedGroups: true,
+    })
+  ) {
     return;
   }
   await sendReceiptsTask({

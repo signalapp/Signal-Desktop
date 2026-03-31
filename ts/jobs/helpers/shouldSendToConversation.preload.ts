@@ -16,8 +16,12 @@ type ConversationForDirectSendType = Pick<
 
 export function shouldSendToConversation(
   conversation: ConversationModel,
-  log: LoggerType
+  options: {
+    log: LoggerType;
+    shouldSendToTerminatedGroups?: boolean;
+  }
 ): boolean {
+  const { log, shouldSendToTerminatedGroups = false } = options;
   const recipients = getRecipients(conversation.attributes);
   const untrustedServiceIds = getUntrustedConversationServiceIds(recipients);
 
@@ -42,7 +46,7 @@ export function shouldSendToConversation(
     return false;
   }
 
-  if (conversation.get('terminated')) {
+  if (!shouldSendToTerminatedGroups && conversation.get('terminated')) {
     log.info(
       `conversation ${conversation.idForLogging()} is terminated; refusing to send`
     );
