@@ -151,6 +151,12 @@ export class User {
     return parseInt(value, 10);
   }
 
+  public getCheckedDeviceId(): number {
+    const deviceId = this.getDeviceId();
+    strictAssert(deviceId !== undefined, 'Must have our own deviceId');
+    return deviceId;
+  }
+
   public getDeviceCreatedAt(): number | undefined {
     return this.storage.get('deviceCreatedAt');
   }

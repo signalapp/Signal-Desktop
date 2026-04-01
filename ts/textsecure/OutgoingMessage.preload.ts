@@ -376,11 +376,13 @@ export default class OutgoingMessage {
 
   async getCiphertextMessage({
     identityKeyStore,
-    protocolAddress,
+    destinationAddress,
+    localAddress,
     sessionStore,
   }: {
     identityKeyStore: IdentityKeys;
-    protocolAddress: ProtocolAddress;
+    destinationAddress: ProtocolAddress;
+    localAddress: ProtocolAddress;
     sessionStore: Sessions;
   }): Promise<CiphertextMessage> {
     const { message } = this;
@@ -391,7 +393,8 @@ export default class OutgoingMessage {
 
     return signalEncrypt(
       this.getPlaintext(),
-      protocolAddress,
+      destinationAddress,
+      localAddress,
       sessionStore,
       identityKeyStore
     );
@@ -422,7 +425,7 @@ export default class OutgoingMessage {
     // We don't send to ourselves unless sealedSender is enabled
     const ourNumber = itemStorage.user.getNumber();
     const ourAci = itemStorage.user.getCheckedAci();
-    const ourDeviceId = itemStorage.user.getDeviceId();
+    const ourDeviceId = itemStorage.user.getCheckedDeviceId();
     if ((serviceId === ourNumber || serviceId === ourAci) && !sealedSender) {
       // oxlint-disable-next-line no-param-reassign
       deviceIds = reject(
@@ -443,6 +446,7 @@ export default class OutgoingMessage {
       signalProtocolStore,
       ourServiceId: ourAci,
     });
+    const localAddress = ProtocolAddress.new(ourAci, ourDeviceId);
 
     return (
       Promise.all(
@@ -455,13 +459,13 @@ export default class OutgoingMessage {
           return signalProtocolStore.enqueueSessionJob<MessageType>(
             address,
             async () => {
-              const protocolAddress = ProtocolAddress.new(
+              const destinationAddress = ProtocolAddress.new(
                 serviceId,
                 destinationDeviceId
               );
 
               const activeSession =
-                await sessionStore.getSession(protocolAddress);
+                await sessionStore.getSession(destinationAddress);
               if (!activeSession) {
                 throw new Error(
                   'OutgoingMessage.doSendMessage: No active session!'
@@ -474,7 +478,8 @@ export default class OutgoingMessage {
               if (sealedSender && senderCertificate) {
                 const ciphertextMessage = await this.getCiphertextMessage({
                   identityKeyStore,
-                  protocolAddress,
+                  destinationAddress,
+                  localAddress,
                   sessionStore,
                 });
 
@@ -494,7 +499,7 @@ export default class OutgoingMessage {
 
                 const buffer = await sealedSenderEncrypt(
                   content,
-                  protocolAddress,
+                  destinationAddress,
                   identityKeyStore
                 );
 
@@ -508,7 +513,8 @@ export default class OutgoingMessage {
 
               const ciphertextMessage = await this.getCiphertextMessage({
                 identityKeyStore,
-                protocolAddress,
+                destinationAddress,
+                localAddress,
                 sessionStore,
               });
               const type = ciphertextMessageTypeToEnvelopeType(

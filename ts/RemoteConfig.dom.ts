@@ -97,6 +97,8 @@ const KnownDesktopLibsignalNetKeys = [
   'desktop.libsignalNet.grpc.AccountsAnonymousLookupUsernameHash.beta',
   'desktop.libsignalNet.grpc.AccountsAnonymousLookupUsernameLink.2',
   'desktop.libsignalNet.grpc.AccountsAnonymousLookupUsernameLink.2.beta',
+  'desktop.libsignalNet.grpc.AttachmentsGetUploadForm',
+  'desktop.libsignalNet.grpc.AttachmentsGetUploadForm.beta',
   'desktop.libsignalNet.grpc.MessagesAnonymousSendMultiRecipientMessage.2',
   'desktop.libsignalNet.grpc.MessagesAnonymousSendMultiRecipientMessage.2.beta',
   'desktop.libsignalNet.useH2ForAuthChat',
