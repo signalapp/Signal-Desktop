@@ -8404,7 +8404,7 @@
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
     "messageformat": "show your backup key",
-    "description": "Shown as part of an OS prompt with a final string like 'Signal Desktop is trying to show your backup key'"
+    "description": "(Deleted 2026/04/01) Shown as part of an OS prompt with a final string like 'Signal Desktop is trying to show your backup key'"
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
     "messageformat": "show your recovery key",
@@ -8412,7 +8412,7 @@
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
     "messageformat": "Verify your identity to view your backup key.",
-    "description": "Shown as the body text of an OS prompt with a title like \"Making sure it's you\""
+    "description": "(Deleted 2026/04/01) Shown as the body text of an OS prompt with a title like \"Making sure it's you\""
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
     "messageformat": "Verify your identity to view your recovery key.",
@@ -8420,7 +8420,7 @@
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
     "messageformat": "View backup key",
-    "description": "If linux system has pkcheck and we were able to install .policy files, this is the dialog header the user will see on the polkit prompt before showing the key"
+    "description": "(Deleted 2026/04/01) If linux system has pkcheck and we were able to install .policy files, this is the dialog header the user will see on the polkit prompt before showing the key"
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
     "messageformat": "View recovery key",
@@ -8428,7 +8428,7 @@
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
     "messageformat": "Authentication is required to view your backup key.",
-    "description": "If linux system has pkcheck and we were able to install .policy files, this is the dialog text the user will see on the polkit prompt before showing the key"
+    "description": "(Deleted 2026/04/01) If linux system has pkcheck and we were able to install .policy files, this is the dialog text the user will see on the polkit prompt before showing the key"
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
     "messageformat": "Authentication is required to view your recovery key.",
@@ -8436,7 +8436,7 @@
   },
   "icu:Preferences--local-backups-backup-key-text-box": {
     "messageformat": "Backup key text box",
-    "description": "ARIA label for the text box used to view or confirm the backup key for local message backups."
+    "description": "(Deleted 2026/04/01) ARIA label for the text box used to view or confirm the backup key for local message backups."
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
     "messageformat": "Recovery key",
@@ -8448,7 +8448,7 @@
   },
   "icu:Preferences--local-backups-record-backup-key": {
     "messageformat": "Record your backup key",
-    "description": "Title for viewing the backup key for local message backups."
+    "description": "(Deleted 2026/04/01) Title for viewing the backup key for local message backups."
   },
   "icu:Preferences--local-backups-record-recovery-key": {
     "messageformat": "Record your recovery key",
@@ -8460,7 +8460,7 @@
   },
   "icu:Preferences--local-backups-confirm-backup-key": {
     "messageformat": "Confirm your backup key",
-    "description": "Title for confirming the backup key for local message backups by re-entering it into a text box."
+    "description": "(Deleted 2026/04/01) Title for confirming the backup key for local message backups by re-entering it into a text box."
   },
   "icu:Preferences--local-backups-confirm-recovery-key": {
     "messageformat": "Confirm your recovery key",
@@ -8468,7 +8468,7 @@
   },
   "icu:Preferences--local-backups-confirm-backup-key-description": {
     "messageformat": "Enter the backup key that you just recorded",
-    "description": "Description for confirming the backup key for local message backups by re-entering it into a text box."
+    "description": "(Deleted 2026/04/01) Description for confirming the backup key for local message backups by re-entering it into a text box."
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
     "messageformat": "Enter the recovery key that you just recorded",
@@ -8532,7 +8532,7 @@
   },
   "icu:Preferences__local-backups-copied-key": {
     "messageformat": "Backup key copied",
-    "description": "Toast message after you copied the backup key to clipboard from settings for local on-device backups"
+    "description": "(Deleted 2026/04/01) Toast message after you copied the backup key to clipboard from settings for local on-device backups"
   },
   "icu:Preferences__local-backups-copied-recovery-key": {
     "messageformat": "Recovery key copied",
@@ -8564,7 +8564,7 @@
   },
   "icu:Preferences__backup-key": {
     "messageformat": "Backup key",
-    "description": "Name for the key code used to restore a message history backup"
+    "description": "(Deleted 2026/04/01) Name for the key code used to restore a message history backup"
   },
   "icu:Preferences__recovery-key": {
     "messageformat": "Recovery key",
@@ -8572,7 +8572,7 @@
   },
   "icu:Preferences__backup-key-description": {
     "messageformat": "Your backup key is a 64-digit code used to restore your backup",
-    "description": "Description for the key code used to restore a message history backup"
+    "description": "(Deleted 2026/04/01) Description for the key code used to restore a message history backup"
   },
   "icu:Preferences__recovery-key-description": {
     "messageformat": "Your recovery key is a 64-digit code used to restore your backup",

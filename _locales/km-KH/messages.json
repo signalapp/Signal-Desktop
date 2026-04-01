@@ -2372,6 +2372,9 @@
   "icu:ConversationDetails--support-center": {
     "messageformat": "មជ្ឈមណ្ឌលគាំទ្រ"
   },
+  "icu:ConversationDetails__GroupTerminatedBanner": {
+    "messageformat": "This group has ended"
+  },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "មើលលេខសុវត្ថិភាព"
   },
@@ -2551,6 +2554,36 @@
   },
   "icu:youUpdatedTheGroup": {
     "messageformat": "អ្នកបានធ្វើបច្ចុប្បន្នភាពក្រុម។"
+  },
+  "icu:collapsedContainer": {
+    "messageformat": "{leadingIcon} {text} {trailingIcon}"
+  },
+  "icu:collapsedGroupUpdates": {
+    "messageformat": "{count, plural, one {{count,number} group update} other {{count,number} group updates}}"
+  },
+  "icu:multidayCollapse__container": {
+    "messageformat": "{containerDescription} · {dayCountSummary}"
+  },
+  "icu:multidayCollapse__dayCountSummary": {
+    "messageformat": "{dayCount, plural, one {{dayCount,number} day} other {{dayCount,number} days}}"
+  },
+  "icu:collapsedChatUpdates": {
+    "messageformat": "{count, plural, one {{count,number} chat update} other {{count,number} chat updates}}"
+  },
+  "icu:collapsedTimerChanges": {
+    "messageformat": "{count, plural, one {{count,number} disappearing timer change · {endingState}} other {{count,number} disappearing message timer changes · {endingState}}}"
+  },
+  "icu:collapsedTimerChanges--disabled": {
+    "messageformat": "{count, plural, one {{count,number} disappearing timer change · Disabled} other {{count,number} disappearing message timer changes · Disabled}}"
+  },
+  "icu:collapsedCallEvents": {
+    "messageformat": "{count, plural, one {{count,number} call event} other {{count,number} call events}}"
+  },
+  "icu:collapsedItems--collapsed": {
+    "messageformat": "Set of items is collapsed - click to expand"
+  },
+  "icu:collapsedItems--expanded": {
+    "messageformat": "Set of items is expanded - click to collapse"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "រូបតំណាងក្រុមត្រូវបានធ្វើបច្ចុប្បន្នភាព។"
@@ -3932,11 +3965,23 @@
   "icu:GroupV2--join--requested": {
     "messageformat": "ការស្នើសុំរបស់អ្នកដើម្បីចូលក្រុម ត្រូវបានផ្ញើទៅកាន់អ្នកគ្រប់គ្រងក្រុម។ អ្នកនឹងទទួលដំណឹង នៅពេលគេមានសកម្មភាព។"
   },
+  "icu:GroupV2--join--group-terminated": {
+    "messageformat": "Unable to join this group."
+  },
   "icu:GroupV2--join--general-join-failure--title": {
     "messageformat": "តំណមានបញ្ហា"
   },
   "icu:GroupV2--join--general-join-failure": {
     "messageformat": "មិនអាចចូលរួមក្រុម។ សូមព្យាយាមម្តងទៀតនៅពេលក្រោយ។"
+  },
+  "icu:GroupV2--terminate-group-in-progress": {
+    "messageformat": "Ending group..."
+  },
+  "icu:TerminateGroupFailedModal__description": {
+    "messageformat": "Couldn't end the group. Check your connection and try again."
+  },
+  "icu:TerminateGroupFailedModal__try-again": {
+    "messageformat": "Try again"
   },
   "icu:GroupV2--admin": {
     "messageformat": "អ្នកគ្រប់គ្រង"
@@ -4379,6 +4424,15 @@
   "icu:GroupV2--summary": {
     "messageformat": "សមាជិក ឬការកំណត់របស់ក្រុមនេះបានផ្លាស់ប្តូរ។"
   },
+  "icu:GroupV2--terminated--you": {
+    "messageformat": "You ended the group"
+  },
+  "icu:GroupV2--terminated--other": {
+    "messageformat": "{memberName} ended the group"
+  },
+  "icu:GroupV2--terminated--unknown": {
+    "messageformat": "This group has ended"
+  },
   "icu:GroupV1--Migration--disabled--link": {
     "messageformat": "ដំឡើងកម្រិតរបស់ក្រុមនេះ ដើម្បីបើកដំណើរការមុខងារថ្មីៗដូចជា @លើកឈ្មោះ និងអ្នកគ្រប់គ្រង។ សមាជិកដែលមិនបានចែករំលែកឈ្មោះ ឬរូបថតរបស់ពួកគេនៅក្នុងក្រុមនេះទេនឹងត្រូវបានបបួលឲ្យចូលរួម។ <learnMoreLink>ស្វែងយល់បន្ថែម។</learnMoreLink>"
   },
@@ -4655,6 +4709,9 @@
   "icu:CompositionArea__ConfirmGifSelection__ReplaceButton": {
     "messageformat": "ប្តូរ"
   },
+  "icu:CompositionArea--group-terminated": {
+    "messageformat": "You can't send messages because the group has ended."
+  },
   "icu:CompositionArea--viewOnceToggle": {
     "messageformat": "មើលបានតែម្តង"
   },
@@ -4832,11 +4889,23 @@
   "icu:ConversationDetailsActions--leave-group": {
     "messageformat": "ចាកចេញពីក្រុម"
   },
+  "icu:ConversationDetailsActions--terminate-group": {
+    "messageformat": "End group"
+  },
   "icu:ConversationDetailsActions--block-group": {
     "messageformat": "ទប់ស្កាត់ក្រុម"
   },
   "icu:ConversationDetailsActions--unblock-group": {
     "messageformat": "ឈប់ទប់ស្កាត់ក្រុម"
+  },
+  "icu:ConversationDetailsActions--archive": {
+    "messageformat": "Archive chat"
+  },
+  "icu:ConversationDetailsActions--unarchive": {
+    "messageformat": "Unarchive chat"
+  },
+  "icu:ConversationDetailsActions--delete": {
+    "messageformat": "Delete chat"
   },
   "icu:ConversationDetailsActions--leave-group-must-choose-new-admin": {
     "messageformat": "មុនពេលអ្នកចាកចេញ អ្នកត្រូវជ្រើសរើសអ្នកគ្រប់គ្រងយ៉ាងហោចណាស់ម្នាក់សម្រាប់ក្រុមនេះ។"
@@ -4849,6 +4918,18 @@
   },
   "icu:ConversationDetailsActions--leave-group-modal-confirm": {
     "messageformat": "ចាកចេញ"
+  },
+  "icu:ConversationDetailsActions--prompt-terminate-group-modal-title": {
+    "messageformat": "End \"{groupName}\"?"
+  },
+  "icu:ConversationDetailsActions--prompt-terminate-group-modal-content": {
+    "messageformat": "Members will no longer be able to send messages or start calls in the group. They will be notified that you ended the group, and will still have access to message history."
+  },
+  "icu:ConversationDetailsActions--terminate-group-modal-confirm": {
+    "messageformat": "End group"
+  },
+  "icu:ConversationDetailsActions--confirm-terminate-group-confirm-modal-content": {
+    "messageformat": "This will end the group permanently. Are you sure you want to proceed?"
   },
   "icu:ConversationDetailsActions--unblock-group-modal-title": {
     "messageformat": "ឈប់ទប់ស្កាត់ក្រុម \"{groupName}\" ឬ?"
@@ -4876,6 +4957,9 @@
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, other {សមាជិក {number,number} នាក់}}"
+  },
+  "icu:ConversationDetailsMembershipList--terminated-title": {
+    "messageformat": "{number, plural, one {{number,number} former member} other {{number,number} former members}}"
   },
   "icu:ConversationDetailsMembershipList--add-members": {
     "messageformat": "បន្ថែមសមាជិក"
@@ -6235,17 +6319,32 @@
   "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
     "messageformat": "បង្ហាញសោបម្រុងទុករបស់អ្នក"
   },
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
+    "messageformat": "show your recovery key"
+  },
   "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
     "messageformat": "ផ្ទៀងផ្ទាត់អត្តសញ្ញាណរបស់អ្នក ដើម្បីមើលសោបម្រុងទុករបស់អ្នក។"
+  },
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
+    "messageformat": "Verify your identity to view your recovery key."
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
     "messageformat": "មើលសោបម្រុងទុក"
   },
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
+    "messageformat": "View recovery key"
+  },
   "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
     "messageformat": "ត្រូវមានការផ្ទៀងផ្ទាត់ដើម្បីមើលសោបម្រុងទុករបស់អ្នក។"
   },
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
+    "messageformat": "Authentication is required to view your recovery key."
+  },
   "icu:Preferences--local-backups-backup-key-text-box": {
     "messageformat": "ប្រអប់អក្សរសោបម្រុងទុក"
+  },
+  "icu:Preferences--local-backups-recovery-key-text-box": {
+    "messageformat": "Recovery key"
   },
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "បញ្ចូលសោ"
@@ -6253,14 +6352,23 @@
   "icu:Preferences--local-backups-record-backup-key": {
     "messageformat": "កត់ត្រាសោបម្រុងទុករបស់អ្នក"
   },
+  "icu:Preferences--local-backups-record-recovery-key": {
+    "messageformat": "Record your recovery key"
+  },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "តម្រូវឱ្យមានសោនេះដើម្បីស្តារគណនី និងទិន្នន័យរបស់អ្នក។ ទុកសោនេះនៅកន្លែងដែលមានសុវត្ថិភាព។ ប្រសិនបើអ្នកបាត់វា អ្នកនឹងមិនអាចស្តារគណនីរបស់អ្នកមកវិញបានទេ។ <learnMoreLink>ស្វែងយល់បន្ថែម។</learnMoreLink>"
   },
   "icu:Preferences--local-backups-confirm-backup-key": {
     "messageformat": "បញ្ជាក់សោបម្រុងទុករបស់អ្នក"
   },
+  "icu:Preferences--local-backups-confirm-recovery-key": {
+    "messageformat": "Confirm your recovery key"
+  },
   "icu:Preferences--local-backups-confirm-backup-key-description": {
     "messageformat": "បញ្ចូលសោបម្រុងទុកដែលអ្នកទើបតែបានកត់ត្រា"
+  },
+  "icu:Preferences--local-backups-confirm-recovery-key-description": {
+    "messageformat": "Enter the recovery key that you just recorded"
   },
   "icu:Preferences__local-backups-confirm-key-modal-title": {
     "messageformat": "រក្សាសោរបស់អ្នកឱ្យមានសុវត្ថិភាព"
@@ -6307,6 +6415,9 @@
   "icu:Preferences__local-backups-copied-key": {
     "messageformat": "សោបម្រុងទុកត្រូវបានចម្លង"
   },
+  "icu:Preferences__local-backups-copied-recovery-key": {
+    "messageformat": "Recovery key copied"
+  },
   "icu:Preferences__local-backups--enable--os-prompt--mac": {
     "messageformat": "បើកការបម្រុងទុក"
   },
@@ -6319,17 +6430,35 @@
   "icu:Preferences__local-backups--enable--os-prompt-message--linux": {
     "messageformat": "ត្រូវមានការផ្ទៀងផ្ទាត់ ដើម្បីបើកការបម្រុងទុក។"
   },
+  "icu:Preferences__local-backups-auth-error--unauthorized": {
+    "messageformat": "This action could not be completed because system authentication failed. Please try again or open the Signal app on your mobile device and go to Backup Settings to view your recovery key."
+  },
   "icu:Preferences__view-key": {
     "messageformat": "មើលសោ"
   },
   "icu:Preferences__backup-key": {
     "messageformat": "សោបម្រុងទុក"
   },
+  "icu:Preferences__recovery-key": {
+    "messageformat": "Recovery key"
+  },
   "icu:Preferences__backup-key-description": {
     "messageformat": "សោបម្រុងទុករបស់អ្នកគឺជាលេខកូដ 64 ខ្ទង់ដែលប្រើដើម្បីស្ដារការបម្រុងទុករបស់អ្នក"
   },
+  "icu:Preferences__recovery-key-description": {
+    "messageformat": "Your recovery key is a 64-digit code used to restore your backup"
+  },
   "icu:Preferences__backup-other-ways": {
     "messageformat": "វិធីផ្សេងទៀតដើម្បីបម្រុងទុក"
+  },
+  "icu:Preferences__recovery-key-updated__title": {
+    "messageformat": "Your recovery key has changed"
+  },
+  "icu:Preferences__recovery-key-updated__description": {
+    "messageformat": "Your recovery key has been updated. Any new backups you make can only be restored using your new recovery key."
+  },
+  "icu:Preferences__recovery-key-updated__view-key": {
+    "messageformat": "View new key"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, other {{num,number} ឈ្មោះទំនាក់ទំនង}}"
@@ -6681,6 +6810,9 @@
   },
   "icu:MyStories__delete": {
     "messageformat": "លុបរឿងរ៉ាវនេះឬ? វាក៏នឹងត្រូវបានលុបផងដែរសម្រាប់អ្នករាល់គ្នាដែលបានទទួលវា។"
+  },
+  "icu:MyStories__delete-group-story-for-me": {
+    "messageformat": "Delete this story? It will only be deleted for you because the group has ended."
   },
   "icu:payment-event-notification-message-you-label": {
     "messageformat": "អ្នកបានចាប់ផ្តើមការបង់ប្រាក់ទៅ {receiver}"
@@ -8018,5 +8150,8 @@
   },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "ឥឡូវនេះ អ្នកអាចដាក់ស្លាកសមាជិកជាជម្រើសបាន ដើម្បីពណ៌នាអំពីខ្លួនអ្នក ឬតួនាទីរបស់អ្នកនៅក្នុងការជជែកជាក្រុម។ កំណត់ស្លាកសមាជិកក្រុមរបស់អ្នកទៅជា \"អាជ្ញាកណ្តាល\" ឬ \"អ្នកចាំទី\" នៅក្នុងការជជែកអំពីការប្រកួតបាល់ទាត់ក្នុងស្រុក ដើម្បីជួយចាប់ផ្តើមនៅពេលដែលមិត្តរួមក្រុមថ្មីចូលរួម បន្ទាប់មកជ្រើសរើសស្លាកផ្សេងដែលមានមុខតំណែងការងាររបស់អ្នកនៅក្នុងការជជែករបស់ក្រុមហ៊ុន។ ស្លាកសមាជិកបង្ហាញនៅជិតឈ្មោះប្រូហ្វាល់នៅក្នុងក្រុមនោះ ហើយអ្នកគ្រប់គ្រងក្រុមជាអ្នកកំណត់ថាតើមុខងារនេះអាចបើកសម្រាប់មនុស្សគ្រប់គ្នាឬទេ។"
+  },
+  "icu:WhatsNew__8.6--0": {
+    "messageformat": "Now you won't need to scroll as far to catch up on the latest messages. If several new people join a busy group chat, or you receive multiple missed calls in a row, those repeated chat events can be automatically grouped together into a compact display. Sometimes less is more, but you can easily expand and collapse these lists at any time."
   }
 }

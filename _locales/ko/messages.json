@@ -1923,13 +1923,13 @@
     "messageformat": "마이크 음소거 해제"
   },
   "icu:calling__button--presenting-disabled": {
-    "messageformat": "표시 비활성화됨"
+    "messageformat": "화면 공유 비활성화됨"
   },
   "icu:calling__button--presenting-on": {
-    "messageformat": "표시 시작"
+    "messageformat": "화면 공유 시작"
   },
   "icu:calling__button--presenting-off": {
-    "messageformat": "표시 중단"
+    "messageformat": "화면 공유 중단"
   },
   "icu:calling__button--react": {
     "messageformat": "공감 표시하기"
@@ -2070,10 +2070,10 @@
     "messageformat": "아래로 스크롤"
   },
   "icu:calling__presenting--notification-title": {
-    "messageformat": "모든 사람에게 표시하고 있습니다."
+    "messageformat": "모든 사람에게 화면을 공유 중입니다."
   },
   "icu:calling__presenting--notification-body": {
-    "messageformat": "표시를 중단할 준비가 되었을 때 통화로 돌아가려면 여기를 클릭하세요."
+    "messageformat": "화면 공유를 중단하고 통화 화면으로 돌아가려면 여기를 클릭하세요."
   },
   "icu:calling__presenting--reconnecting--notification-title": {
     "messageformat": "다시 연결 중…"
@@ -2094,13 +2094,13 @@
     "messageformat": "공유 그만하기"
   },
   "icu:calling__presenting--you-stopped": {
-    "messageformat": "표시를 중단했습니다."
+    "messageformat": "화면 공유를 중단했습니다"
   },
   "icu:calling__presenting--person-ongoing": {
-    "messageformat": "{name} 님이 표시 중입니다."
+    "messageformat": "{name} 님이 화면 공유 중입니다"
   },
   "icu:calling__presenting--person-stopped": {
-    "messageformat": "{name} 님이 표시를 중단했습니다."
+    "messageformat": "{name} 님이 화면 공유를 중단했습니다"
   },
   "icu:calling__presenting--permission-title": {
     "messageformat": "권한이 필요합니다"
@@ -2372,6 +2372,9 @@
   "icu:ConversationDetails--support-center": {
     "messageformat": "고객 지원"
   },
+  "icu:ConversationDetails__GroupTerminatedBanner": {
+    "messageformat": "This group has ended"
+  },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "안전 번호 보기"
   },
@@ -2551,6 +2554,36 @@
   },
   "icu:youUpdatedTheGroup": {
     "messageformat": "그룹을 업데이트했습니다."
+  },
+  "icu:collapsedContainer": {
+    "messageformat": "{leadingIcon} {text} {trailingIcon}"
+  },
+  "icu:collapsedGroupUpdates": {
+    "messageformat": "{count, plural, one {{count,number} group update} other {{count,number} group updates}}"
+  },
+  "icu:multidayCollapse__container": {
+    "messageformat": "{containerDescription} · {dayCountSummary}"
+  },
+  "icu:multidayCollapse__dayCountSummary": {
+    "messageformat": "{dayCount, plural, one {{dayCount,number} day} other {{dayCount,number} days}}"
+  },
+  "icu:collapsedChatUpdates": {
+    "messageformat": "{count, plural, one {{count,number} chat update} other {{count,number} chat updates}}"
+  },
+  "icu:collapsedTimerChanges": {
+    "messageformat": "{count, plural, one {{count,number} disappearing timer change · {endingState}} other {{count,number} disappearing message timer changes · {endingState}}}"
+  },
+  "icu:collapsedTimerChanges--disabled": {
+    "messageformat": "{count, plural, one {{count,number} disappearing timer change · Disabled} other {{count,number} disappearing message timer changes · Disabled}}"
+  },
+  "icu:collapsedCallEvents": {
+    "messageformat": "{count, plural, one {{count,number} call event} other {{count,number} call events}}"
+  },
+  "icu:collapsedItems--collapsed": {
+    "messageformat": "Set of items is collapsed - click to expand"
+  },
+  "icu:collapsedItems--expanded": {
+    "messageformat": "Set of items is expanded - click to collapse"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "그룹 아바타가 업데이트 되었습니다."
@@ -3300,7 +3333,7 @@
     "messageformat": "암호화폐 또는 금융 사기"
   },
   "icu:SafetyTipsModal__TipDescription--Crypto": {
-    "messageformat": "모르는 사람이 암호화폐(예: 비트코인) 또는 금융 기회에 관해 메시지 할 경우 조심하세요. 사기일 가능성이 높습니다."
+    "messageformat": "모르는 사람으로부터 암호화폐(비트코인 등)나 금융 투자 제안 메시지를 받으셨다면 스팸일 가능성이 높으니 각별히 주의하시기 바랍니다."
   },
   "icu:SafetyTipsModal__TipTitle--Vague": {
     "messageformat": "모호하거나 관련이 없는 메시지"
@@ -3312,13 +3345,13 @@
     "messageformat": "링크가 있는 메시지"
   },
   "icu:SafetyTipsModal__TipDescription--Links": {
-    "messageformat": "모르는 사람이 보내는 링크나 웹사이트가 있는 메시지를 조심하세요. 신뢰할 수 없는 사람이 보내는 링크를 절대 방문하지 마세요."
+    "messageformat": "모르는 사람이 보낸 웹사이트 링크가 포함된 메시지에 주의하세요. 신뢰할 수 없는 출처의 링크는 절대 클릭하지 마시기 바랍니다."
   },
   "icu:SafetyTipsModal__TipTitle--Business": {
     "messageformat": "가짜 비즈니스 또는 기관"
   },
   "icu:SafetyTipsModal__TipDescription--Business": {
-    "messageformat": "비즈니스 또는 정부 기관에서 오는 연락을 조심하세요. 국세청, 배송 업체 등과 관련된 메시지는 스팸일 수 있습니다."
+    "messageformat": "기업이나 정부 기관을 사칭한 연락에 주의하세요. 국세청 등의 공공기관이나 배송 업체와 관련된 메시지는 스팸일 가능성이 높습니다."
   },
   "icu:SafetyTipsModal__DotLabel": {
     "messageformat": "{page,number}페이지로 이동"
@@ -3932,11 +3965,23 @@
   "icu:GroupV2--join--requested": {
     "messageformat": "내 참가 요청을 그룹 관리자에게 보냈습니다. 승인 여부가 결정되면 알림을 보내드립니다."
   },
+  "icu:GroupV2--join--group-terminated": {
+    "messageformat": "Unable to join this group."
+  },
   "icu:GroupV2--join--general-join-failure--title": {
     "messageformat": "링크 에러"
   },
   "icu:GroupV2--join--general-join-failure": {
     "messageformat": "그룹에 참가할 수 없습니다. 나중에 다시 시도해 주세요."
+  },
+  "icu:GroupV2--terminate-group-in-progress": {
+    "messageformat": "Ending group..."
+  },
+  "icu:TerminateGroupFailedModal__description": {
+    "messageformat": "Couldn't end the group. Check your connection and try again."
+  },
+  "icu:TerminateGroupFailedModal__try-again": {
+    "messageformat": "Try again"
   },
   "icu:GroupV2--admin": {
     "messageformat": "관리자"
@@ -4379,6 +4424,15 @@
   "icu:GroupV2--summary": {
     "messageformat": "이 그룹의 멤버 또는 설정이 바뀌었습니다."
   },
+  "icu:GroupV2--terminated--you": {
+    "messageformat": "You ended the group"
+  },
+  "icu:GroupV2--terminated--other": {
+    "messageformat": "{memberName} ended the group"
+  },
+  "icu:GroupV2--terminated--unknown": {
+    "messageformat": "This group has ended"
+  },
   "icu:GroupV1--Migration--disabled--link": {
     "messageformat": "그룹을 업그레이드하여 @멘션, 관리자와 같은 새로운 기능을 활성화하세요. 이 그룹에 이름이나 사진을 공유하지 않은 멤버도 초대되어 참여할 수 있습니다. <learnMoreLink>자세히 알아보기</learnMoreLink>"
   },
@@ -4655,6 +4709,9 @@
   "icu:CompositionArea__ConfirmGifSelection__ReplaceButton": {
     "messageformat": "바꾸기"
   },
+  "icu:CompositionArea--group-terminated": {
+    "messageformat": "You can't send messages because the group has ended."
+  },
   "icu:CompositionArea--viewOnceToggle": {
     "messageformat": "한 번만 보기"
   },
@@ -4832,11 +4889,23 @@
   "icu:ConversationDetailsActions--leave-group": {
     "messageformat": "그룹 탈퇴"
   },
+  "icu:ConversationDetailsActions--terminate-group": {
+    "messageformat": "End group"
+  },
   "icu:ConversationDetailsActions--block-group": {
     "messageformat": "그룹 차단"
   },
   "icu:ConversationDetailsActions--unblock-group": {
     "messageformat": "그룹 차단 해제"
+  },
+  "icu:ConversationDetailsActions--archive": {
+    "messageformat": "Archive chat"
+  },
+  "icu:ConversationDetailsActions--unarchive": {
+    "messageformat": "Unarchive chat"
+  },
+  "icu:ConversationDetailsActions--delete": {
+    "messageformat": "Delete chat"
   },
   "icu:ConversationDetailsActions--leave-group-must-choose-new-admin": {
     "messageformat": "나가기 전에 이 그룹에 대해 새 관리자를 한 명 이상 선택해야 합니다."
@@ -4849,6 +4918,18 @@
   },
   "icu:ConversationDetailsActions--leave-group-modal-confirm": {
     "messageformat": "나가기"
+  },
+  "icu:ConversationDetailsActions--prompt-terminate-group-modal-title": {
+    "messageformat": "End \"{groupName}\"?"
+  },
+  "icu:ConversationDetailsActions--prompt-terminate-group-modal-content": {
+    "messageformat": "Members will no longer be able to send messages or start calls in the group. They will be notified that you ended the group, and will still have access to message history."
+  },
+  "icu:ConversationDetailsActions--terminate-group-modal-confirm": {
+    "messageformat": "End group"
+  },
+  "icu:ConversationDetailsActions--confirm-terminate-group-confirm-modal-content": {
+    "messageformat": "This will end the group permanently. Are you sure you want to proceed?"
   },
   "icu:ConversationDetailsActions--unblock-group-modal-title": {
     "messageformat": "''{groupName}' 그룹을 차단 해제할까요?"
@@ -4876,6 +4957,9 @@
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, other {멤버 {number,number}명}}"
+  },
+  "icu:ConversationDetailsMembershipList--terminated-title": {
+    "messageformat": "{number, plural, one {{number,number} former member} other {{number,number} former members}}"
   },
   "icu:ConversationDetailsMembershipList--add-members": {
     "messageformat": "멤버 추가"
@@ -6235,17 +6319,32 @@
   "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
     "messageformat": "백업 키 표시"
   },
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
+    "messageformat": "show your recovery key"
+  },
   "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
     "messageformat": "백업 키를 확인하려면 신원을 인증하세요."
+  },
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
+    "messageformat": "Verify your identity to view your recovery key."
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
     "messageformat": "백업 키 보기"
   },
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
+    "messageformat": "View recovery key"
+  },
   "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
     "messageformat": "백업 키를 확인하려면 인증이 필요합니다."
   },
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
+    "messageformat": "Authentication is required to view your recovery key."
+  },
   "icu:Preferences--local-backups-backup-key-text-box": {
     "messageformat": "백업 키 텍스트 상자"
+  },
+  "icu:Preferences--local-backups-recovery-key-text-box": {
+    "messageformat": "Recovery key"
   },
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "키 입력"
@@ -6253,14 +6352,23 @@
   "icu:Preferences--local-backups-record-backup-key": {
     "messageformat": "백업 키 기록"
   },
+  "icu:Preferences--local-backups-record-recovery-key": {
+    "messageformat": "Record your recovery key"
+  },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "이 키는 계정과 데이터를 복원하는 데 필요합니다. 안전한 곳에 보관해 두세요. 키를 분실하면 계정을 복원할 수 없습니다. <learnMoreLink>자세히 알아보기.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-confirm-backup-key": {
     "messageformat": "백업 키 확인"
   },
+  "icu:Preferences--local-backups-confirm-recovery-key": {
+    "messageformat": "Confirm your recovery key"
+  },
   "icu:Preferences--local-backups-confirm-backup-key-description": {
     "messageformat": "기록해 둔 백업 키를 입력하세요"
+  },
+  "icu:Preferences--local-backups-confirm-recovery-key-description": {
+    "messageformat": "Enter the recovery key that you just recorded"
   },
   "icu:Preferences__local-backups-confirm-key-modal-title": {
     "messageformat": "키를 안전하게 보관하세요"
@@ -6307,6 +6415,9 @@
   "icu:Preferences__local-backups-copied-key": {
     "messageformat": "백업 키 복사됨"
   },
+  "icu:Preferences__local-backups-copied-recovery-key": {
+    "messageformat": "Recovery key copied"
+  },
   "icu:Preferences__local-backups--enable--os-prompt--mac": {
     "messageformat": "백업 활성화"
   },
@@ -6319,17 +6430,35 @@
   "icu:Preferences__local-backups--enable--os-prompt-message--linux": {
     "messageformat": "백업을 활성화하려면 인증이 필요합니다."
   },
+  "icu:Preferences__local-backups-auth-error--unauthorized": {
+    "messageformat": "This action could not be completed because system authentication failed. Please try again or open the Signal app on your mobile device and go to Backup Settings to view your recovery key."
+  },
   "icu:Preferences__view-key": {
     "messageformat": "키 보기"
   },
   "icu:Preferences__backup-key": {
     "messageformat": "백업 키"
   },
+  "icu:Preferences__recovery-key": {
+    "messageformat": "Recovery key"
+  },
   "icu:Preferences__backup-key-description": {
     "messageformat": "백업 키는 백업을 복원하는 데 사용되는 64자리 코드입니다"
   },
+  "icu:Preferences__recovery-key-description": {
+    "messageformat": "Your recovery key is a 64-digit code used to restore your backup"
+  },
   "icu:Preferences__backup-other-ways": {
     "messageformat": "다른 백업 방법"
+  },
+  "icu:Preferences__recovery-key-updated__title": {
+    "messageformat": "Your recovery key has changed"
+  },
+  "icu:Preferences__recovery-key-updated__description": {
+    "messageformat": "Your recovery key has been updated. Any new backups you make can only be restored using your new recovery key."
+  },
+  "icu:Preferences__recovery-key-updated__view-key": {
+    "messageformat": "View new key"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, other {연락처 {num,number}개}}"
@@ -6681,6 +6810,9 @@
   },
   "icu:MyStories__delete": {
     "messageformat": "이 스토리를 삭제할까요? 스토리를 받은 모든 사람에게서 해당 스토리가 삭제됩니다."
+  },
+  "icu:MyStories__delete-group-story-for-me": {
+    "messageformat": "Delete this story? It will only be deleted for you because the group has ended."
   },
   "icu:payment-event-notification-message-you-label": {
     "messageformat": "{receiver} 님에게 보내는 결제를 시작했습니다."
@@ -8018,5 +8150,8 @@
   },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "이제 원하는 경우 멤버 라벨을 추가하여 그룹 채팅 내에서 본인을 소개하거나 본인의 역할을 명시할 수 있습니다. 멤버 라벨은 해당 그룹의 내 프로필 이름 옆에 표시되며, 그룹 관리자는 그룹 내 모든 멤버에게 이 권한을 부여할지를 선택할 수 있습니다."
+  },
+  "icu:WhatsNew__8.6--0": {
+    "messageformat": "Now you won't need to scroll as far to catch up on the latest messages. If several new people join a busy group chat, or you receive multiple missed calls in a row, those repeated chat events can be automatically grouped together into a compact display. Sometimes less is more, but you can easily expand and collapse these lists at any time."
   }
 }
