@@ -1,5 +1,6 @@
 #!/bin/bash
-FULL_REDO=false #change to true to rebuild modules such as when libsignal updated
+FULL_REDO=true #change to true to rebuild modules such as when libsignal updated
+RESET_KEYS=true
 
 if [ "$FULL_REDO" = true ]; then
     pnpm prune
@@ -7,7 +8,10 @@ if [ "$FULL_REDO" = true ]; then
     rm -rf node_modules
     pnpm install
 fi
-rm -rf ~/Library/Application\ Support/Signal-development
+
+if [ "$RESET_KEYS" = true ]; then
+    rm -rf ~/Library/Application\ Support/Signal-development
+fi
 pnpm run generate
 #open -n ./release/mac-arm64/Signal.app
 pnpm start
