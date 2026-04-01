@@ -1776,7 +1776,11 @@ export default class MessageReceiver
       destinationServiceId,
       Address.create(sealedSenderIdentifier, envelope.sourceDevice)
     );
-    const protocolAddress = ProtocolAddress.new(
+
+    const ourAci = this.#storage.user.getCheckedAci();
+    const ourDeviceID = this.#storage.user.getCheckedDeviceId();
+    const localAddress = ProtocolAddress.new(ourAci, ourDeviceID);
+    const sourceAddress = ProtocolAddress.new(
       sealedSenderIdentifier,
       envelope.sourceDevice
     );
@@ -1790,7 +1794,8 @@ export default class MessageReceiver
         if (message instanceof PreKeySignalMessage) {
           return signalDecryptPreKey(
             message,
-            protocolAddress,
+            sourceAddress,
+            localAddress,
             sessionStore,
             identityKeyStore,
             preKeyStore,
@@ -1800,7 +1805,7 @@ export default class MessageReceiver
         }
         return signalDecrypt(
           message,
-          protocolAddress,
+          sourceAddress,
           sessionStore,
           identityKeyStore
         );
@@ -1908,13 +1913,19 @@ export default class MessageReceiver
       }
       const preKeySignalMessage = PreKeySignalMessage.deserialize(ciphertext);
 
+      const ourAci = this.#storage.user.getCheckedAci();
+      const ourDeviceID = this.#storage.user.getCheckedDeviceId();
+      const localAddress = ProtocolAddress.new(ourAci, ourDeviceID);
+      const sourceAddress = ProtocolAddress.new(identifier, sourceDevice);
+
       const plaintext = await signalProtocolStore.enqueueSessionJob(
         address,
         async () =>
           this.#unpad(
             await signalDecryptPreKey(
               preKeySignalMessage,
-              ProtocolAddress.new(identifier, sourceDevice),
+              sourceAddress,
+              localAddress,
               sessionStore,
               identityKeyStore,
               preKeyStore,
