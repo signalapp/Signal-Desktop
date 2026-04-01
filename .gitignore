@@ -51,3 +51,5 @@ ts/protobuf/*.d.ts
 *.sublime*
 *.map
 apply.sh
+prebuilds/
+pnpm-lock.yaml

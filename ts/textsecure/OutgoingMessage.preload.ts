@@ -58,6 +58,7 @@ import * as Bytes from '../Bytes.std.js';
 import { signalProtocolStore } from '../SignalProtocolStore.preload.js';
 import { itemStorage } from './Storage.preload.js';
 
+
 const { reject } = lodash;
 
 const log = createLogger('OutgoingMessage');
@@ -503,7 +504,9 @@ export default class OutgoingMessage {
               await clearPendingBasis(serviceId, destinationDeviceId);
               log.info(`PVRF demo: attached + cleared pending payload for ${serviceId}.${destinationDeviceId}`);
             }*/
-
+            const hasSAS = (await itemStorage.get('sas-enabled')) ?? false;
+            log.info("SAS setting:", hasSAS);
+            if(hasSAS){ // attach SAS if toggled in settings
               const pending = await getPendingBasis(serviceId, destinationDeviceId);
 
               if (typeof pending === 'string' && pending.length > 0) {
@@ -530,7 +533,7 @@ export default class OutgoingMessage {
                   }
                 }
               }
-              
+            } 
             if (sealedSender && senderCertificate) {
               const ciphertextMessage = await this.getCiphertextMessage({
                 identityKeyStore,

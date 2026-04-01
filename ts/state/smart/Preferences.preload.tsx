@@ -660,6 +660,10 @@ export function SmartPreferences(): React.JSX.Element | null {
       window.IPC.setMenuBarVisibility(!value);
     }
   );
+  const [hasSAS, onSASChange] = createItemsAccess( // for settings persistence
+    'sas-enabled', 
+    false
+  );
   const [hasMessageAudio, onMessageAudioChange] = createItemsAccess(
     'audioMessage',
     false
@@ -851,6 +855,7 @@ export function SmartPreferences(): React.JSX.Element | null {
           hasCountMutedConversations={hasCountMutedConversations}
           hasFailedStorySends={hasFailedStorySends}
           hasHideMenuBar={hasHideMenuBar}
+          hasSAS = {hasSAS}
           hasIncomingCallNotifications={hasIncomingCallNotifications}
           hasKeyTransparencyDisabled={hasKeyTransparencyDisabled}
           hasLinkPreviews={hasLinkPreviews}
@@ -908,6 +913,7 @@ export function SmartPreferences(): React.JSX.Element | null {
           }
           onHasStoriesDisabledChanged={onHasStoriesDisabledChanged}
           onHideMenuBarChange={onHideMenuBarChange}
+          onSASChange={onSASChange}
           onIncomingCallNotificationsChange={onIncomingCallNotificationsChange}
           onKeepMutedChatsArchivedChange={onKeepMutedChatsArchivedChange}
           onLastSyncTimeChange={onLastSyncTimeChange}
