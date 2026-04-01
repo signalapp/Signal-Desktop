@@ -2881,15 +2881,19 @@ button.module-image__border-overlay:focus {
   margin-top: 12px;
   margin-inline-start: 12px;
   padding-inline-end: 12px;
-  overflow-x: scroll;
+  display: flex;
+  align-items: flex-start;
+  gap: 4px;
+  flex-wrap: nowrap;
+  overflow-x: auto;
   max-height: 142px;
-  white-space: nowrap;
   overflow-y: hidden;
   margin-bottom: 6px;
 }
 
 .module-staged-attachment {
   margin-inline-end: 8px;
+  flex-shrink: 0;
 
   &.module-image::before {
     background: linear-gradient(
@@ -2918,15 +2922,15 @@ button.module-image__border-overlay:focus {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 5px;
-
   height: 120px;
   width: 120px;
   position: relative;
   border-radius: 4px;
-  padding: 7px;
+  padding: 0;
+  box-sizing: border-box;
   vertical-align: middle;
   white-space: nowrap;
+  overflow: hidden;
 
   @include mixins.light-theme {
     box-shadow: inset 0px 0px 0px 1px variables.$color-black-alpha-20;
@@ -2989,6 +2993,7 @@ button.module-image__border-overlay:focus {
     display: inline-block;
     vertical-align: middle;
     position: relative;
+    flex-shrink: 0;
 
     @include mixins.light-theme {
       border: 1px solid variables.$color-gray-25;

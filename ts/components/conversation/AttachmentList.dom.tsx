@@ -108,6 +108,7 @@ export function AttachmentList<
 
           const isImage = isImageAttachment(attachment);
           const isVideo = isVideoAttachment(attachment);
+          const isPDF = attachment.contentType === 'application/pdf';
           const closeAttachment = () => onCloseAttachment(attachment);
 
           if (
@@ -167,7 +168,7 @@ export function AttachmentList<
             />
           );
         })}
-        {allVisualAttachments && onAddAttachment ? (
+        {onAddAttachment ? (
           <StagedPlaceholderAttachment onClick={onAddAttachment} i18n={i18n} />
         ) : null}
       </div>
