@@ -29,7 +29,7 @@ export type DeleteForEveryoneMessage = Pick<
 
 export type DeleteForEveryoneConversation = Pick<
   ConversationAttributesType,
-  'id' | 'e164' | 'serviceId' | 'groupId' | 'groupVersion'
+  'id' | 'e164' | 'serviceId' | 'groupId' | 'groupVersion' | 'terminated'
 >;
 
 type Result<T extends object = Record<never, never>> =
@@ -46,6 +46,9 @@ function checkCommon(
   }
   if (isMe(targetConversation)) {
     return { ok: false, reason: 'note to self conversation' };
+  }
+  if (targetConversation.terminated) {
+    return { ok: false, reason: 'terminated conversation' };
   }
   if (!options?.allowAlreadyDeleted && targetMessage.deletedForEveryone) {
     return { ok: false, reason: 'already deleted' };
