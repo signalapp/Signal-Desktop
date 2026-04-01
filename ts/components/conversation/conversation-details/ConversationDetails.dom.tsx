@@ -606,7 +606,9 @@ export function ConversationDetails({
                 <DisappearingTimerSelect
                   i18n={i18n}
                   value={conversation.expireTimer || DurationInSeconds.ZERO}
-                  disabled={!canEditGroupInfo || conversation.terminated}
+                  disabled={
+                    isGroup && (!canEditGroupInfo || conversation.terminated)
+                  }
                   onChange={value =>
                     setDisappearingMessages(conversation.id, value)
                   }
