@@ -190,7 +190,9 @@ export async function sendPollTerminate(
         `${logId}: expected GroupV2 conversation when not direct`
       );
 
-      const shouldSend = shouldSendToConversation(conversation, jobLog);
+      const shouldSend = shouldSendToConversation(conversation, {
+        log: jobLog,
+      });
       if (!shouldSend) {
         return;
       }

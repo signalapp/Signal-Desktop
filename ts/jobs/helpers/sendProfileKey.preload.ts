@@ -107,7 +107,7 @@ export async function sendProfileKey(
 
   // Note: flags and the profileKey itself are all that matter in the proto.
 
-  if (!shouldSendToConversation(conversation, log)) {
+  if (!shouldSendToConversation(conversation, { log })) {
     return;
   }
 

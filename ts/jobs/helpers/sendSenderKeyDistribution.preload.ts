@@ -54,7 +54,7 @@ export async function sendSenderKeyDistribution(
     return;
   }
 
-  if (!shouldSendToConversation(conversation, log)) {
+  if (!shouldSendToConversation(conversation, { log })) {
     return;
   }
 

@@ -242,7 +242,9 @@ export async function sendPollVote(
           urgent: true,
         });
       } else {
-        const shouldSend = shouldSendToConversation(conversation, jobLog);
+        const shouldSend = shouldSendToConversation(conversation, {
+          log: jobLog,
+        });
         if (!shouldSend) {
           setMessagePollVoteFailed(pollMessage, currentPendingVote);
           await window.MessageCache.saveMessage(pollMessage.attributes);
