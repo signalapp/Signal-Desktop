@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "danger": "13.0.7",
-    "js-yaml": "4.1.0",
+    "js-yaml": "4.1.1",
     "semver": "7.7.4"
   },
   "pnpm": {
