@@ -20,6 +20,8 @@ import type {
 import type { DurationInSeconds } from './durations/duration-in-seconds.std.ts';
 import type { CallHistorySelectorType } from '../state/selectors/callHistory.std.ts';
 
+export const MAX_COLLAPSE_SET_SIZE = 50;
+
 export type CollapsedMessage = {
   id: string;
   isUnseen: boolean;
@@ -51,11 +53,22 @@ export type CollapseSet =
       messages: Array<CollapsedMessage>;
     };
 
-export function canCollapseForGroupSet(type: MessageType['type']): boolean {
+export function canCollapseForGroupSet(message: MessageType): boolean {
+  const { type, groupV2Change } = message;
+
   if (
-    type === 'group-v2-change' ||
     type === 'keychange' ||
-    type === 'profile-change'
+    type === 'profile-change' ||
+    type === 'poll-terminate' ||
+    type === 'change-number-notification' ||
+    type === 'pinned-message-notification'
+  ) {
+    return true;
+  }
+
+  if (
+    type === 'group-v2-change' &&
+    groupV2Change?.details[0]?.type !== 'terminated'
   ) {
     return true;
   }
@@ -185,7 +198,7 @@ export function mapItemsIntoCollapseSets({
 
     const DEFAULT_SET: CollapseSet =
       currentMessage &&
-      canCollapseForGroupSet(currentMessage.type) &&
+      canCollapseForGroupSet(currentMessage) &&
       extraItems &&
       extraItems > 0
         ? {
@@ -237,9 +250,6 @@ export function mapItemsIntoCollapseSets({
       haveCompleteDay = true;
       currentDayFirstId = currentId;
     }
-    const canContinueSet =
-      !atDateBoundary ||
-      (allowMultidaySets && !isToday && havePreviousCompleteDay);
 
     // Start a new set if we just crossed the last seen indicator
     if (i === oldestUnseenIndex) {
@@ -277,11 +287,17 @@ export function mapItemsIntoCollapseSets({
       'collapseSets: expect lastCollapseSet to be defined'
     );
 
+    const canContinueSet =
+      (lastCollapseSet.type === 'none' ||
+        lastCollapseSet.messages.length < MAX_COLLAPSE_SET_SIZE) &&
+      (!atDateBoundary ||
+        (allowMultidaySets && !isToday && havePreviousCompleteDay));
+
     // Add to current set if previous and current messages are both group updates
     if (
       canContinueSet &&
-      canCollapseForGroupSet(currentMessage.type) &&
-      canCollapseForGroupSet(previousMessage.type)
+      canCollapseForGroupSet(currentMessage) &&
+      canCollapseForGroupSet(previousMessage)
     ) {
       strictAssert(
         lastCollapseSet.type !== 'timer-changes' &&
