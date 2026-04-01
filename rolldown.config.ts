@@ -23,7 +23,6 @@ const external = [
   'sass',
 
   // Large libraries (3.7mb total)
-  // See: https://esbuild.github.io/api/#analyze
   'emoji-datasource',
   'google-libphonenumber',
 
