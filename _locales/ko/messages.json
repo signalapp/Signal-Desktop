@@ -1923,13 +1923,13 @@
     "messageformat": "마이크 음소거 해제"
   },
   "icu:calling__button--presenting-disabled": {
-    "messageformat": "표시 비활성화됨"
+    "messageformat": "화면 공유 비활성화됨"
   },
   "icu:calling__button--presenting-on": {
-    "messageformat": "표시 시작"
+    "messageformat": "화면 공유 시작"
   },
   "icu:calling__button--presenting-off": {
-    "messageformat": "표시 중단"
+    "messageformat": "화면 공유 중단"
   },
   "icu:calling__button--react": {
     "messageformat": "공감 표시하기"
@@ -2070,10 +2070,10 @@
     "messageformat": "아래로 스크롤"
   },
   "icu:calling__presenting--notification-title": {
-    "messageformat": "모든 사람에게 표시하고 있습니다."
+    "messageformat": "모든 사람에게 화면을 공유 중입니다."
   },
   "icu:calling__presenting--notification-body": {
-    "messageformat": "표시를 중단할 준비가 되었을 때 통화로 돌아가려면 여기를 클릭하세요."
+    "messageformat": "화면 공유를 중단하고 통화 화면으로 돌아가려면 여기를 클릭하세요."
   },
   "icu:calling__presenting--reconnecting--notification-title": {
     "messageformat": "다시 연결 중…"
@@ -2094,13 +2094,13 @@
     "messageformat": "공유 그만하기"
   },
   "icu:calling__presenting--you-stopped": {
-    "messageformat": "표시를 중단했습니다."
+    "messageformat": "화면 공유를 중단했습니다"
   },
   "icu:calling__presenting--person-ongoing": {
-    "messageformat": "{name} 님이 표시 중입니다."
+    "messageformat": "{name} 님이 화면 공유 중입니다"
   },
   "icu:calling__presenting--person-stopped": {
-    "messageformat": "{name} 님이 표시를 중단했습니다."
+    "messageformat": "{name} 님이 화면 공유를 중단했습니다"
   },
   "icu:calling__presenting--permission-title": {
     "messageformat": "권한이 필요합니다"

@@ -7626,7 +7626,7 @@
     "messageformat": "Wyświetl szczegóły potwierdzenia"
   },
   "icu:PreferencesDonations__faqs": {
-    "messageformat": "Najczęstsze pytania i odpowiedzi dla darczyńców"
+    "messageformat": "Częste pytania darczyńców"
   },
   "icu:PreferencesDonations--receiptList__info": {
     "messageformat": "Potwierdzenia darowizn na różnych urządzeniach nie są synchronizowane. Ponadto jeśli aplikacja Signal zostanie zainstalowana ponownie, wcześniejsze potwierdzenia darowizn nie będą dostępne."

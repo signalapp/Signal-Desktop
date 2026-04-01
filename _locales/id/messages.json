@@ -132,7 +132,7 @@
     "messageformat": "&Bantuan"
   },
   "icu:mainMenuSettings": {
-    "messageformat": "Preferensi…"
+    "messageformat": "Preferensi …"
   },
   "icu:appMenuServices": {
     "messageformat": "Layanan"
@@ -1890,7 +1890,7 @@
     "messageformat": "Siapa pun yang gabung dengan panggilan ini via tautan akan melihat nama, foto, dan nomor telepon Anda."
   },
   "icu:CallingLobby__CallLinkNotice--join-request-pending": {
-    "messageformat": "Menunggu diizinkan masuk…"
+    "messageformat": "Menunggu diizinkan masuk …"
   },
   "icu:CallingLobbyJoinButton--join": {
     "messageformat": "Gabung"
@@ -2175,7 +2175,7 @@
     "messageformat": "Hapus semua data dan pesan dari versi Signal Desktop ini? Akun Signal dan data di ponsel Anda atau perangkat terhubung lainnya tidak akan dihapus."
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Memutus koneksi dan menghapus semua data…"
+    "messageformat": "Memutus koneksi dan menghapus semua data …"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Anda menyimpan data lama dari instalasi Signal Desktop sebelumnya. Jika Anda memilih untuk lanjut, data tersebut akan dihapus dan Anda harus memulai dari awal."
@@ -3333,19 +3333,19 @@
     "messageformat": "Selesai"
   },
   "icu:MessageRequests--message-direct": {
-    "messageformat": "Izinkan {name} mengirimkan Anda pesan dan berbagi nama dan foto Anda dengan mereka? Mereka tidak akan mengetahui jika Anda telah membaca pesan tersebut sampai Anda menerimanya."
+    "messageformat": "Izinkan {name} mengirim pesan dan bagikan nama dan foto Anda kepada mereka? Mereka tidak akan mengetahui jika Anda telah membaca pesan tersebut sampai Anda menerimanya."
   },
   "icu:MessageRequests--message-direct-hidden": {
-    "messageformat": "Izinkan {name} mengirimi Anda pesan dan bagikan nama serta foto Anda dengannya? Anda telah menghapus orang ini sebelumnya."
+    "messageformat": "Izinkan {name} mengirim pesan dan bagikan nama dan foto Anda kepada mereka? Sebelum ini, Anda pernah menyingkirkan orang ini."
   },
   "icu:MessageRequests--message-direct-blocked": {
-    "messageformat": "Izinkan {name} mengirimi Anda pesan dan bagikan nama dan foto Anda dengan mereka? Anda tidak akan menerima pesan apa pun sampai Anda membuka blokir mereka."
+    "messageformat": "Izinkan {name} mengirim pesan dan bagikan nama dan foto Anda kepada mereka? Anda tidak akan menerima pesan apa pun sampai Anda membuka blokir mereka."
   },
   "icu:MessageRequests--message-group": {
-    "messageformat": "Gabung ke grup ini dan bagikan nama dan foto Anda dengan anggota? Mereka tidak akan mengetahui Anda telah melihat pesannya sampai Anda menerimanya."
+    "messageformat": "Gabung ke grup ini dan bagikan nama dan foto Anda dengan para anggotanya? Mereka tidak akan mengetahui Anda telah melihat pesannya sampai Anda menerimanya."
   },
   "icu:MessageRequests--message-group-blocked": {
-    "messageformat": "Buka blokir grup ini dan bagikan nama dan foto Anda dengan anggotanya? Anda tidak akan menerima pesan apa pun sampai Anda membuka blokirnya."
+    "messageformat": "Buka blokir grup ini dan bagikan nama dan foto Anda dengan para anggotanya? Anda tidak akan menerima pesan apa pun sampai Anda membuka blokirnya."
   },
   "icu:MessageRequests--block": {
     "messageformat": "Blokir"
@@ -3879,7 +3879,7 @@
     "messageformat": "Ini bukan tautan grup yang valid. Pastikan seluruh tautan utuh dan benar sebelum mencoba untuk bergabung."
   },
   "icu:GroupV2--join--prompt": {
-    "messageformat": "Apakah Anda ingin bergabung dengan grup ini dan berbagi nama dan foto Anda dengan anggota grup?"
+    "messageformat": "Gabung ke grup ini dan bagikan nama dan foto Anda dengan para anggotanya?"
   },
   "icu:GroupV2--join--already-in-group": {
     "messageformat": "Anda telah berada di grup."
@@ -4923,7 +4923,7 @@
     "messageformat": "Catatan"
   },
   "icu:ConversationNotificationsSettings__mentions__label": {
-    "messageformat": "Menyebut"
+    "messageformat": "Penyebutan"
   },
   "icu:ConversationNotificationsSettings__mentions__info": {
     "messageformat": "Terima notifikasi saat Anda disebut dalam obrolan yang dibisukan"
@@ -5248,7 +5248,7 @@
     "messageformat": "Verifikasi untuk melanjutkan berolah pesan"
   },
   "icu:CaptchaDialog__first-paragraph": {
-    "messageformat": "Untuk membantu mencegah spam di Signal, mohon selesaikan verifikasi."
+    "messageformat": "Untuk mengurangi spam di Signal, mohon selesaikan verifikasi."
   },
   "icu:CaptchaDialog__second-paragraph": {
     "messageformat": "Setelah memverifikasi, Anda dapat melanjutkan berolah pesan. Pesan yang tertunda akan dikirimkan secara otomatis."
@@ -7275,7 +7275,7 @@
     "messageformat": "Kode QR dan tautan"
   },
   "icu:UsernameOnboardingModalBody__row__qr__body": {
-    "messageformat": "Nama pengguna punya kode QR dan tautan unik yang bisa dibagikan kepada teman agar bisa cepat memulai obrolan dengan Anda."
+    "messageformat": "Ada kode QR dan tautan unik di tiap nama pengguna, yang dapat dibagikan kepada teman agar mereka bisa langsung mengobrol dengan Anda."
   },
   "icu:UsernameOnboardingModalBody__continue": {
     "messageformat": "Siapkan nama pengguna"

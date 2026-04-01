@@ -2199,7 +2199,7 @@
     "messageformat": "{sender}, {group} qrupundadır"
   },
   "icu:notificationReactionMessage": {
-    "messageformat": "{sender} {emoji} reakiyası verdi: {message} mesajı"
+    "messageformat": "{sender} {emoji} reaksiyası verdi: {message} mesajı"
   },
   "icu:notificationPollVoteMessage": {
     "messageformat": "{sender} \"{pollQuestion}\" səsverməsində iştirak etdi"
