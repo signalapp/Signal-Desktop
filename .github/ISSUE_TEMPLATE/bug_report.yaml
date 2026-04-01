@@ -10,7 +10,7 @@ body:
         Please try these locations if you have a question or comment:
         
           https://community.signalusers.org/
-          http://support.signal.org/
+          https://support.signal.org/
           support@signal.org
         
         Please fill out this template with all the information you have. We can't do much without
@@ -89,7 +89,7 @@ body:
     id: os
     attributes:
       label: Operating system
-      description: "Instructions for finding your OS version are here: http://whatsmyos.com/"
+      description: "Instructions for finding your OS version are here: https://whatsmyos.com/"
       placeholder: Windows 11
     validations:
       required: true
