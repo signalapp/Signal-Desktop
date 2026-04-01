@@ -51,6 +51,7 @@ import * as Bytes from '../Bytes.std.ts';
 import { signalProtocolStore } from '../SignalProtocolStore.preload.ts';
 import { itemStorage } from './Storage.preload.ts';
 
+
 const { reject } = lodash;
 
 const log = createLogger('OutgoingMessage');
@@ -474,6 +475,40 @@ export default class OutgoingMessage {
               }
 
             const destinationRegistrationId =activeSession.remoteRegistrationId();
+            /*const pending = await getPendingBasis(serviceId, destinationDeviceId);
+            if (typeof pending === 'string' && pending.length > 0) 
+            {
+              const header = `[PVRF_BASIS_V0:${pending}]`;
+              log.info("case 2", this.message, (this.message as any).dataMessage)
+              const c = this.message instanceof Proto.Content ? this.message : null;
+              log.info("Outgoing kind:", {
+                hasData: Boolean(c?.dataMessage),
+                hasTyping: Boolean(c?.typingMessage),
+                hasSync: Boolean(c?.syncMessage),
+                hasEdit: Boolean(c?.editMessage),
+              });
+
+              if (this.message instanceof Proto.Content && this.message.dataMessage) 
+              {
+                const body = this.message.dataMessage.body ?? '';
+                if (!body.startsWith('[PVRF_BASIS_V0:')) 
+                {
+                  this.message.dataMessage.body = `${header}\n${body}`;
+                  this.plaintext = undefined;
+                }
+              } else {
+                  log.warn('PVRF demo: No dataMessage present; cannot attach header');} 
+
+              await clearPendingBasis(serviceId, destinationDeviceId);
+              log.info(`PVRF demo: attached + cleared pending payload for ${serviceId}.${destinationDeviceId}`);
+            }*/
+            const hasSAS = (await itemStorage.get('sas-enabled')) ?? false;
+            log.info("SAS setting:", hasSAS);
+            if(hasSAS) { // attach SAS if toggled in settings
+              const pending = await getPendingBasis(serviceId, destinationDeviceId);
+
+              if (typeof pending === 'string' && pending.length > 0) {
+                const header = `[PVRF_BASIS_V0:${pending}]`;
               
 
               if (sealedSender && senderCertificate) {
@@ -511,7 +546,7 @@ export default class OutgoingMessage {
                   content: Bytes.toBase64(buffer),
                 };
               }
-
+            } 
             if (sealedSender && senderCertificate) {
               //
               const ciphertextMessage = await this.getCiphertextMessage({
@@ -533,7 +568,8 @@ export default class OutgoingMessage {
                 content,
               };
             }
-          );
+          }
+        });
         })
       )
         // oxlint-disable-next-line promise/prefer-await-to-then, signal-desktop/no-then

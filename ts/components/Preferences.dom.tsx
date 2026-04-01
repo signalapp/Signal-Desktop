@@ -143,6 +143,7 @@ export type PropsDataType = {
   hasContentProtection: boolean | undefined;
   hasCountMutedConversations: boolean;
   hasHideMenuBar?: boolean;
+  hasSAS?: boolean; // Toggle SAS support
   hasIncomingCallNotifications: boolean;
   hasKeyTransparencyDisabled: boolean;
   hasLinkPreviews: boolean;
@@ -328,6 +329,7 @@ type PropsFunctionType = {
   onHasKeyTransparencyDisabledChanged: SelectChangeHandlerType<boolean>;
   onHasStoriesDisabledChanged: SelectChangeHandlerType<boolean>;
   onHideMenuBarChange: CheckboxChangeHandlerType;
+  onSASChange: CheckboxChangeHandlerType; // SAS checkbox
   onIncomingCallNotificationsChange: CheckboxChangeHandlerType;
   onKeepMutedChatsArchivedChange: CheckboxChangeHandlerType;
   onLastSyncTimeChange: (time: number) => unknown;
@@ -454,6 +456,7 @@ export function Preferences({
   hasCountMutedConversations,
   hasFailedStorySends,
   hasHideMenuBar,
+  hasSAS, // SAS
   hasIncomingCallNotifications,
   hasKeyTransparencyDisabled,
   hasLinkPreviews,
@@ -509,6 +512,7 @@ export function Preferences({
   onHasKeyTransparencyDisabledChanged,
   onHasStoriesDisabledChanged,
   onHideMenuBarChange,
+  onSASChange, // SAS
   onIncomingCallNotificationsChange,
   onKeepMutedChatsArchivedChange,
   onLastSyncTimeChange,
@@ -608,6 +612,7 @@ export function Preferences({
   keyTransparencySelfHealth,
   weArePrimaryDevice,
 }: PropsType): JSX.Element {
+  const [localHasSAS, setLocalHasSAS] = useState<boolean>(hasSAS ?? false); // SAS state
   const storiesId = useId();
   const themeSelectId = useId();
   const zoomSelectId = useId();
@@ -630,6 +635,7 @@ export function Preferences({
   const [languageSearchInput, setLanguageSearchInput] = useState('');
   const [confirmPnpNotDiscoverable, setConfirmPnpNoDiscoverable] =
     useState(false);
+  const isSASSupported = true;
 
   const handleOpenEditChatFoldersPage = useCallback(
     (chatFolderId: ChatFolderId | null) => {
@@ -642,6 +648,10 @@ export function Preferences({
     },
     [setSettingsLocation]
   );
+  // SAS handler
+  function handleSASChange(checked: boolean) {
+    onSASChange(checked);
+  }
 
   function closeLanguageDialog() {
     setLanguageDialog(null);
@@ -875,6 +885,15 @@ export function Preferences({
               moduleClassName="Preferences__checkbox"
               name="hideMenuBar"
               onChange={onHideMenuBarChange}
+            />
+          )}
+          {isSASSupported && (  // SAS toggle
+            <Checkbox
+              checked={hasSAS}
+              label={i18n('icu:sas')}
+              moduleClassName="Preferences__checkbox"
+              name="sas"
+              onChange={handleSASChange} 
             />
           )}
           {isSystemTraySupported && (

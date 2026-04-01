@@ -72,6 +72,7 @@ export type StorageAccessType = {
   lastCallQualityFailureSurveyTime: number;
   cqsTestMode: boolean;
   'hide-menu-bar': boolean;
+  'sas-enabled': boolean;
   'incoming-call-notification': boolean;
   'notification-draw-attention': boolean;
   'notification-setting': NotificationSettingType;
@@ -344,6 +345,7 @@ export const STORAGE_KEYS_TO_PRESERVE_AFTER_UNLINK = [
   'hasCompletedSafetyNumberOnboarding',
   'hasCompletedUsernameLinkOnboarding',
   'hide-menu-bar',
+  'sas-enabled',
   'incoming-call-notification',
   'navTabsCollapsed',
   'notification-draw-attention',

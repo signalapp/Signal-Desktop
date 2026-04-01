@@ -576,6 +576,7 @@ export default {
     ),
     onHasStoriesDisabledChanged: action('onHasStoriesDisabledChanged'),
     onHideMenuBarChange: action('onHideMenuBarChange'),
+    onSASChange: action('onSASChange'),
     onIncomingCallNotificationsChange: action(
       'onIncomingCallNotificationsChange'
     ),
