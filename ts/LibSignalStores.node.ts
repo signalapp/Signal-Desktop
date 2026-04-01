@@ -15,6 +15,7 @@ import type {
   Uuid,
   PrivateKey,
   IdentityChange,
+  IdentityKeyPair,
 } from '@signalapp/libsignal-client';
 import {
   IdentityKeyStore,
@@ -125,13 +126,17 @@ export class IdentityKeys extends IdentityKeyStore {
   }
 
   async getIdentityKey(): Promise<PrivateKey> {
+    return (await this.getIdentityKeyPair()).privateKey;
+  }
+
+  override async getIdentityKeyPair(): Promise<IdentityKeyPair> {
     const keyPair = this.#signalProtocolStore.getIdentityKeyPair(
       this.#ourServiceId
     );
     if (!keyPair) {
       throw new Error('IdentityKeyStore/getIdentityKey: No identity key!');
     }
-    return keyPair.privateKey;
+    return keyPair;
   }
 
   async getLocalRegistrationId(): Promise<number> {
