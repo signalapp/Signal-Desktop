@@ -2433,9 +2433,13 @@ export class Message extends React.PureComponent<Props, State> {
         );
       }
       return (
-        <>
-          <AxoSymbol.InlineGlyph symbol="x-circle" label={null} /> {text}
-        </>
+        <span dir="auto">
+          <span dir="auto">
+            <AxoSymbol.InlineGlyph symbol="x-circle" label={null} />
+          </span>
+          &nbsp;
+          {text}
+        </span>
       );
     }
     if (direction === 'incoming' && status === 'error') {
@@ -2479,6 +2483,7 @@ export class Message extends React.PureComponent<Props, State> {
 
     return (
       <div // oxlint-disable-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions
+        dir="ltr"
         className={classNames(
           'module-message__text',
           `module-message__text--${direction}`,
