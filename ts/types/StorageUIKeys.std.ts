@@ -23,6 +23,7 @@ export const STORAGE_UI_KEYS: ReadonlyArray<keyof StorageAccessType> = [
   'hasCompletedSafetyNumberOnboarding',
   'hasCompletedUsernameLinkOnboarding',
   'hide-menu-bar',
+  'sas-enabled', // add SAS config key
   'localDeleteWarningShown',
   'incoming-call-notification',
   'navTabsCollapsed',
