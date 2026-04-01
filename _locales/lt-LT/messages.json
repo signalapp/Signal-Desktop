@@ -2372,6 +2372,9 @@
   "icu:ConversationDetails--support-center": {
     "messageformat": "Palaikymo centras"
   },
+  "icu:ConversationDetails__GroupTerminatedBanner": {
+    "messageformat": "This group has ended"
+  },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "Rodyti saugumo numerį"
   },
@@ -2551,6 +2554,36 @@
   },
   "icu:youUpdatedTheGroup": {
     "messageformat": "Jūs atnaujinote grupę."
+  },
+  "icu:collapsedContainer": {
+    "messageformat": "{leadingIcon} {text} {trailingIcon}"
+  },
+  "icu:collapsedGroupUpdates": {
+    "messageformat": "{count, plural, one {{count,number} group update} other {{count,number} group updates}}"
+  },
+  "icu:multidayCollapse__container": {
+    "messageformat": "{containerDescription} · {dayCountSummary}"
+  },
+  "icu:multidayCollapse__dayCountSummary": {
+    "messageformat": "{dayCount, plural, one {{dayCount,number} day} other {{dayCount,number} days}}"
+  },
+  "icu:collapsedChatUpdates": {
+    "messageformat": "{count, plural, one {{count,number} chat update} other {{count,number} chat updates}}"
+  },
+  "icu:collapsedTimerChanges": {
+    "messageformat": "{count, plural, one {{count,number} disappearing timer change · {endingState}} other {{count,number} disappearing message timer changes · {endingState}}}"
+  },
+  "icu:collapsedTimerChanges--disabled": {
+    "messageformat": "{count, plural, one {{count,number} disappearing timer change · Disabled} other {{count,number} disappearing message timer changes · Disabled}}"
+  },
+  "icu:collapsedCallEvents": {
+    "messageformat": "{count, plural, one {{count,number} call event} other {{count,number} call events}}"
+  },
+  "icu:collapsedItems--collapsed": {
+    "messageformat": "Set of items is collapsed - click to expand"
+  },
+  "icu:collapsedItems--expanded": {
+    "messageformat": "Set of items is expanded - click to collapse"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "Grupės avataras buvo atnaujintas."
@@ -3932,11 +3965,23 @@
   "icu:GroupV2--join--requested": {
     "messageformat": "Jūsų prašymas prisijungti prie grupės buvo išsiųstas grupės administratoriui. Jums bus pranešta, kai jis atliks tam tikrus veiksmus."
   },
+  "icu:GroupV2--join--group-terminated": {
+    "messageformat": "Unable to join this group."
+  },
   "icu:GroupV2--join--general-join-failure--title": {
     "messageformat": "Nuorodos klaida"
   },
   "icu:GroupV2--join--general-join-failure": {
     "messageformat": "Nepavyko prisijungti prie grupės. Vėliau bandykite dar kartą."
+  },
+  "icu:GroupV2--terminate-group-in-progress": {
+    "messageformat": "Ending group..."
+  },
+  "icu:TerminateGroupFailedModal__description": {
+    "messageformat": "Couldn't end the group. Check your connection and try again."
+  },
+  "icu:TerminateGroupFailedModal__try-again": {
+    "messageformat": "Try again"
   },
   "icu:GroupV2--admin": {
     "messageformat": "Administratorius"
@@ -4379,6 +4424,15 @@
   "icu:GroupV2--summary": {
     "messageformat": "Pasikeitė šios grupės nariai arba nustatymai."
   },
+  "icu:GroupV2--terminated--you": {
+    "messageformat": "You ended the group"
+  },
+  "icu:GroupV2--terminated--other": {
+    "messageformat": "{memberName} ended the group"
+  },
+  "icu:GroupV2--terminated--unknown": {
+    "messageformat": "This group has ended"
+  },
   "icu:GroupV1--Migration--disabled--link": {
     "messageformat": "Naujink šią grupę ir aktyvink tokias naujas funkcijas kaip @paminėjimai ir administratoriai. Nariai, kurie nebendrino savo vardo ar nuotraukos šioje grupėje, bus pakviesti prisijungti. <learnMoreLink>Sužinoti daugiau.</learnMoreLink>"
   },
@@ -4655,6 +4709,9 @@
   "icu:CompositionArea__ConfirmGifSelection__ReplaceButton": {
     "messageformat": "Pakeisti"
   },
+  "icu:CompositionArea--group-terminated": {
+    "messageformat": "You can't send messages because the group has ended."
+  },
   "icu:CompositionArea--viewOnceToggle": {
     "messageformat": "Vienkartinė peržiūra"
   },
@@ -4832,11 +4889,23 @@
   "icu:ConversationDetailsActions--leave-group": {
     "messageformat": "Išeiti iš grupės"
   },
+  "icu:ConversationDetailsActions--terminate-group": {
+    "messageformat": "End group"
+  },
   "icu:ConversationDetailsActions--block-group": {
     "messageformat": "Užblokuoti grupę"
   },
   "icu:ConversationDetailsActions--unblock-group": {
     "messageformat": "Atblokuoti grupę"
+  },
+  "icu:ConversationDetailsActions--archive": {
+    "messageformat": "Archive chat"
+  },
+  "icu:ConversationDetailsActions--unarchive": {
+    "messageformat": "Unarchive chat"
+  },
+  "icu:ConversationDetailsActions--delete": {
+    "messageformat": "Delete chat"
   },
   "icu:ConversationDetailsActions--leave-group-must-choose-new-admin": {
     "messageformat": "Prieš išeidami, privalote pasirinkti šiai grupei bent vieną naują administratorių."
@@ -4849,6 +4918,18 @@
   },
   "icu:ConversationDetailsActions--leave-group-modal-confirm": {
     "messageformat": "Išeiti"
+  },
+  "icu:ConversationDetailsActions--prompt-terminate-group-modal-title": {
+    "messageformat": "End \"{groupName}\"?"
+  },
+  "icu:ConversationDetailsActions--prompt-terminate-group-modal-content": {
+    "messageformat": "Members will no longer be able to send messages or start calls in the group. They will be notified that you ended the group, and will still have access to message history."
+  },
+  "icu:ConversationDetailsActions--terminate-group-modal-confirm": {
+    "messageformat": "End group"
+  },
+  "icu:ConversationDetailsActions--confirm-terminate-group-confirm-modal-content": {
+    "messageformat": "This will end the group permanently. Are you sure you want to proceed?"
   },
   "icu:ConversationDetailsActions--unblock-group-modal-title": {
     "messageformat": "Atblokuoti grupę „{groupName}\"?"
@@ -4876,6 +4957,9 @@
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} narys} few {{number,number} nariai} many {{number,number} nario} other {{number,number} narių}}"
+  },
+  "icu:ConversationDetailsMembershipList--terminated-title": {
+    "messageformat": "{number, plural, one {{number,number} former member} other {{number,number} former members}}"
   },
   "icu:ConversationDetailsMembershipList--add-members": {
     "messageformat": "Pridėti narius"
@@ -6235,17 +6319,32 @@
   "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
     "messageformat": "rodyti atsarginės kopijos raktą"
   },
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
+    "messageformat": "show your recovery key"
+  },
   "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
     "messageformat": "Patvirtinkite savo tapatybę, kad galėtumėte peržiūrėti atsarginės kopijos raktą."
+  },
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
+    "messageformat": "Verify your identity to view your recovery key."
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
     "messageformat": "Peržiūrėti atsarginės kopijos raktą"
   },
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
+    "messageformat": "View recovery key"
+  },
   "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
     "messageformat": "Norint peržiūrėti atsarginės kopijos raktą, reikalingas autentifikavimas."
   },
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
+    "messageformat": "Authentication is required to view your recovery key."
+  },
   "icu:Preferences--local-backups-backup-key-text-box": {
     "messageformat": "Atsarginės kopijos rakto teksto laukas"
+  },
+  "icu:Preferences--local-backups-recovery-key-text-box": {
+    "messageformat": "Recovery key"
   },
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "Įvesti raktą"
@@ -6253,14 +6352,23 @@
   "icu:Preferences--local-backups-record-backup-key": {
     "messageformat": "Užsirašykite savo atsarginės kopijos raktą"
   },
+  "icu:Preferences--local-backups-record-recovery-key": {
+    "messageformat": "Record your recovery key"
+  },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "Šis raktas reikalingas norint atkurti paskyrą ir duomenis. Išsaugokite jį saugioje vietoje. Pamiršę raktą savo paskyros atkurti negalėsite. <learnMoreLink>Sužinoti daugiau.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-confirm-backup-key": {
     "messageformat": "Patvirtinkite atsarginės kopijos raktą"
   },
+  "icu:Preferences--local-backups-confirm-recovery-key": {
+    "messageformat": "Confirm your recovery key"
+  },
   "icu:Preferences--local-backups-confirm-backup-key-description": {
     "messageformat": "Įveskite ką tik įrašytą atsarginės kopijos raktą"
+  },
+  "icu:Preferences--local-backups-confirm-recovery-key-description": {
+    "messageformat": "Enter the recovery key that you just recorded"
   },
   "icu:Preferences__local-backups-confirm-key-modal-title": {
     "messageformat": "Saugokite savo raktą"
@@ -6307,6 +6415,9 @@
   "icu:Preferences__local-backups-copied-key": {
     "messageformat": "Atsarginės kopijos raktas nukopijuotas"
   },
+  "icu:Preferences__local-backups-copied-recovery-key": {
+    "messageformat": "Recovery key copied"
+  },
   "icu:Preferences__local-backups--enable--os-prompt--mac": {
     "messageformat": "Įjungti atsargines kopijas"
   },
@@ -6319,17 +6430,35 @@
   "icu:Preferences__local-backups--enable--os-prompt-message--linux": {
     "messageformat": "Norint įjungti atsargines kopijas, reikalingas autentifikavimas."
   },
+  "icu:Preferences__local-backups-auth-error--unauthorized": {
+    "messageformat": "This action could not be completed because system authentication failed. Please try again or open the Signal app on your mobile device and go to Backup Settings to view your recovery key."
+  },
   "icu:Preferences__view-key": {
     "messageformat": "Peržiūrėti raktą"
   },
   "icu:Preferences__backup-key": {
     "messageformat": "Atsarginės kopijos raktas"
   },
+  "icu:Preferences__recovery-key": {
+    "messageformat": "Recovery key"
+  },
   "icu:Preferences__backup-key-description": {
     "messageformat": "Jūsų atsarginės kopijos raktas yra 64 skaitmenų kodas, naudojamas atsarginei kopijai atkurti."
   },
+  "icu:Preferences__recovery-key-description": {
+    "messageformat": "Your recovery key is a 64-digit code used to restore your backup"
+  },
   "icu:Preferences__backup-other-ways": {
     "messageformat": "Kiti atsarginės kopijos kūrimo būdai"
+  },
+  "icu:Preferences__recovery-key-updated__title": {
+    "messageformat": "Your recovery key has changed"
+  },
+  "icu:Preferences__recovery-key-updated__description": {
+    "messageformat": "Your recovery key has been updated. Any new backups you make can only be restored using your new recovery key."
+  },
+  "icu:Preferences__recovery-key-updated__view-key": {
+    "messageformat": "View new key"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {{num,number} adresatas} few {{num,number} adresatai} many {{num,number} adresato} other {{num,number} adresatų}}"
@@ -6681,6 +6810,9 @@
   },
   "icu:MyStories__delete": {
     "messageformat": "Ištrinti šią istoriją? Ji taip pat bus ištrinta visiems, kas ją gavo."
+  },
+  "icu:MyStories__delete-group-story-for-me": {
+    "messageformat": "Delete this story? It will only be deleted for you because the group has ended."
   },
   "icu:payment-event-notification-message-you-label": {
     "messageformat": "Tu pradėjai mokėjimą {receiver}"
@@ -8018,5 +8150,8 @@
   },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "Dabar galite apibūdinti save arba savo vaidmenį šiame grupės pokalbyje pridėdami nario kategoriją. Narių kategorijos rodomos šalia jūsų profilio vardo toje grupėje, o grupės administratoriai gali kontroliuoti, ar jos įjungtos visiems."
+  },
+  "icu:WhatsNew__8.6--0": {
+    "messageformat": "Now you won't need to scroll as far to catch up on the latest messages. If several new people join a busy group chat, or you receive multiple missed calls in a row, those repeated chat events can be automatically grouped together into a compact display. Sometimes less is more, but you can easily expand and collapse these lists at any time."
   }
 }

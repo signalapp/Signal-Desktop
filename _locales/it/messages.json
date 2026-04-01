@@ -2372,6 +2372,9 @@
   "icu:ConversationDetails--support-center": {
     "messageformat": "Centro assistenza"
   },
+  "icu:ConversationDetails__GroupTerminatedBanner": {
+    "messageformat": "This group has ended"
+  },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "Visualizza numero di sicurezza"
   },
@@ -2551,6 +2554,36 @@
   },
   "icu:youUpdatedTheGroup": {
     "messageformat": "Hai aggiornato il gruppo."
+  },
+  "icu:collapsedContainer": {
+    "messageformat": "{leadingIcon} {text} {trailingIcon}"
+  },
+  "icu:collapsedGroupUpdates": {
+    "messageformat": "{count, plural, one {{count,number} group update} other {{count,number} group updates}}"
+  },
+  "icu:multidayCollapse__container": {
+    "messageformat": "{containerDescription} · {dayCountSummary}"
+  },
+  "icu:multidayCollapse__dayCountSummary": {
+    "messageformat": "{dayCount, plural, one {{dayCount,number} day} other {{dayCount,number} days}}"
+  },
+  "icu:collapsedChatUpdates": {
+    "messageformat": "{count, plural, one {{count,number} chat update} other {{count,number} chat updates}}"
+  },
+  "icu:collapsedTimerChanges": {
+    "messageformat": "{count, plural, one {{count,number} disappearing timer change · {endingState}} other {{count,number} disappearing message timer changes · {endingState}}}"
+  },
+  "icu:collapsedTimerChanges--disabled": {
+    "messageformat": "{count, plural, one {{count,number} disappearing timer change · Disabled} other {{count,number} disappearing message timer changes · Disabled}}"
+  },
+  "icu:collapsedCallEvents": {
+    "messageformat": "{count, plural, one {{count,number} call event} other {{count,number} call events}}"
+  },
+  "icu:collapsedItems--collapsed": {
+    "messageformat": "Set of items is collapsed - click to expand"
+  },
+  "icu:collapsedItems--expanded": {
+    "messageformat": "Set of items is expanded - click to collapse"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "L'avatar del gruppo è stato aggiornato."
@@ -3932,11 +3965,23 @@
   "icu:GroupV2--join--requested": {
     "messageformat": "La tua richiesta di unirti è stata inviata agli admin del gruppo. Riceverai una notifica quando interverranno."
   },
+  "icu:GroupV2--join--group-terminated": {
+    "messageformat": "Unable to join this group."
+  },
   "icu:GroupV2--join--general-join-failure--title": {
     "messageformat": "Errore link"
   },
   "icu:GroupV2--join--general-join-failure": {
     "messageformat": "Impossibile unirsi al gruppo. Riprova più tardi."
+  },
+  "icu:GroupV2--terminate-group-in-progress": {
+    "messageformat": "Ending group..."
+  },
+  "icu:TerminateGroupFailedModal__description": {
+    "messageformat": "Couldn't end the group. Check your connection and try again."
+  },
+  "icu:TerminateGroupFailedModal__try-again": {
+    "messageformat": "Try again"
   },
   "icu:GroupV2--admin": {
     "messageformat": "Admin"
@@ -4379,6 +4424,15 @@
   "icu:GroupV2--summary": {
     "messageformat": "L'elenco di persone o le impostazioni del gruppo sono state cambiate."
   },
+  "icu:GroupV2--terminated--you": {
+    "messageformat": "You ended the group"
+  },
+  "icu:GroupV2--terminated--other": {
+    "messageformat": "{memberName} ended the group"
+  },
+  "icu:GroupV2--terminated--unknown": {
+    "messageformat": "This group has ended"
+  },
   "icu:GroupV1--Migration--disabled--link": {
     "messageformat": "Aggiorna questo gruppo per attivare nuove funzioni come le @menzioni e i ruoli da admin. Le persone che non hanno condiviso il proprio nome o la foto del profilo con il gruppo riceveranno l'invito a unirsi. <learnMoreLink>Scopri di più.</learnMoreLink>"
   },
@@ -4655,6 +4709,9 @@
   "icu:CompositionArea__ConfirmGifSelection__ReplaceButton": {
     "messageformat": "Sostituisci"
   },
+  "icu:CompositionArea--group-terminated": {
+    "messageformat": "You can't send messages because the group has ended."
+  },
   "icu:CompositionArea--viewOnceToggle": {
     "messageformat": "Visibile solo una volta"
   },
@@ -4832,11 +4889,23 @@
   "icu:ConversationDetailsActions--leave-group": {
     "messageformat": "Abbandona il gruppo"
   },
+  "icu:ConversationDetailsActions--terminate-group": {
+    "messageformat": "End group"
+  },
   "icu:ConversationDetailsActions--block-group": {
     "messageformat": "Blocca il gruppo"
   },
   "icu:ConversationDetailsActions--unblock-group": {
     "messageformat": "Sblocca il gruppo"
+  },
+  "icu:ConversationDetailsActions--archive": {
+    "messageformat": "Archive chat"
+  },
+  "icu:ConversationDetailsActions--unarchive": {
+    "messageformat": "Unarchive chat"
+  },
+  "icu:ConversationDetailsActions--delete": {
+    "messageformat": "Delete chat"
   },
   "icu:ConversationDetailsActions--leave-group-must-choose-new-admin": {
     "messageformat": "Prima di abbandonare il gruppo, devi scegliere almeno un nuovo admin."
@@ -4849,6 +4918,18 @@
   },
   "icu:ConversationDetailsActions--leave-group-modal-confirm": {
     "messageformat": "Abbandona"
+  },
+  "icu:ConversationDetailsActions--prompt-terminate-group-modal-title": {
+    "messageformat": "End \"{groupName}\"?"
+  },
+  "icu:ConversationDetailsActions--prompt-terminate-group-modal-content": {
+    "messageformat": "Members will no longer be able to send messages or start calls in the group. They will be notified that you ended the group, and will still have access to message history."
+  },
+  "icu:ConversationDetailsActions--terminate-group-modal-confirm": {
+    "messageformat": "End group"
+  },
+  "icu:ConversationDetailsActions--confirm-terminate-group-confirm-modal-content": {
+    "messageformat": "This will end the group permanently. Are you sure you want to proceed?"
   },
   "icu:ConversationDetailsActions--unblock-group-modal-title": {
     "messageformat": "Vuoi sbloccare il gruppo \"{groupName}\"?"
@@ -4876,6 +4957,9 @@
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} persona} other {{number,number} persone}}"
+  },
+  "icu:ConversationDetailsMembershipList--terminated-title": {
+    "messageformat": "{number, plural, one {{number,number} former member} other {{number,number} former members}}"
   },
   "icu:ConversationDetailsMembershipList--add-members": {
     "messageformat": "Aggiungi membri"
@@ -6235,17 +6319,32 @@
   "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
     "messageformat": "Mostra la tua chiave di backup"
   },
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
+    "messageformat": "show your recovery key"
+  },
   "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
     "messageformat": "Verifica la tua identità per vedere la tua chiave di backup."
+  },
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
+    "messageformat": "Verify your identity to view your recovery key."
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
     "messageformat": "Vedi la chiave per i backup"
   },
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
+    "messageformat": "View recovery key"
+  },
   "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
     "messageformat": "È necessaria l'autenticazione per vedere la tua chiave di backup."
   },
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
+    "messageformat": "Authentication is required to view your recovery key."
+  },
   "icu:Preferences--local-backups-backup-key-text-box": {
     "messageformat": "Box testuale con la chiave di backup"
+  },
+  "icu:Preferences--local-backups-recovery-key-text-box": {
+    "messageformat": "Recovery key"
   },
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "Inserisci chiave"
@@ -6253,14 +6352,23 @@
   "icu:Preferences--local-backups-record-backup-key": {
     "messageformat": "Annota la tua chiave di backup"
   },
+  "icu:Preferences--local-backups-record-recovery-key": {
+    "messageformat": "Record your recovery key"
+  },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "Questa chiave ti servirà per recuperare il tuo account e i tuoi dati. Salvala in un posto sicuro. Se la perdi, non potremo aiutarti a ripristinare il tuo account. <learnMoreLink>Scopri di più.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-confirm-backup-key": {
     "messageformat": "Conferma la tua chiave di backup"
   },
+  "icu:Preferences--local-backups-confirm-recovery-key": {
+    "messageformat": "Confirm your recovery key"
+  },
   "icu:Preferences--local-backups-confirm-backup-key-description": {
     "messageformat": "Inserisci la chiave di backup che hai appena registrato"
+  },
+  "icu:Preferences--local-backups-confirm-recovery-key-description": {
+    "messageformat": "Enter the recovery key that you just recorded"
   },
   "icu:Preferences__local-backups-confirm-key-modal-title": {
     "messageformat": "Tieni la tua chiave al sicuro"
@@ -6307,6 +6415,9 @@
   "icu:Preferences__local-backups-copied-key": {
     "messageformat": "Chiave del backup copiata"
   },
+  "icu:Preferences__local-backups-copied-recovery-key": {
+    "messageformat": "Recovery key copied"
+  },
   "icu:Preferences__local-backups--enable--os-prompt--mac": {
     "messageformat": "Abilitare i backup"
   },
@@ -6319,17 +6430,35 @@
   "icu:Preferences__local-backups--enable--os-prompt-message--linux": {
     "messageformat": "È necessaria l'autenticazione per attivare i backup."
   },
+  "icu:Preferences__local-backups-auth-error--unauthorized": {
+    "messageformat": "This action could not be completed because system authentication failed. Please try again or open the Signal app on your mobile device and go to Backup Settings to view your recovery key."
+  },
   "icu:Preferences__view-key": {
     "messageformat": "Visualizza chiave"
   },
   "icu:Preferences__backup-key": {
     "messageformat": "Chiave di backup"
   },
+  "icu:Preferences__recovery-key": {
+    "messageformat": "Recovery key"
+  },
   "icu:Preferences__backup-key-description": {
     "messageformat": "La tua chiave di backup è un codice di 64 cifre che puoi usare per ripristinare il tuo backup"
   },
+  "icu:Preferences__recovery-key-description": {
+    "messageformat": "Your recovery key is a 64-digit code used to restore your backup"
+  },
   "icu:Preferences__backup-other-ways": {
     "messageformat": "Altre modalità di backup"
+  },
+  "icu:Preferences__recovery-key-updated__title": {
+    "messageformat": "Your recovery key has changed"
+  },
+  "icu:Preferences__recovery-key-updated__description": {
+    "messageformat": "Your recovery key has been updated. Any new backups you make can only be restored using your new recovery key."
+  },
+  "icu:Preferences__recovery-key-updated__view-key": {
+    "messageformat": "View new key"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {{num,number} contatto} other {{num,number} contatti}}"
@@ -6681,6 +6810,9 @@
   },
   "icu:MyStories__delete": {
     "messageformat": "Vuoi eliminare questa Storia? Verrà rimossa anche per tutte le persone che l'hanno ricevuta."
+  },
+  "icu:MyStories__delete-group-story-for-me": {
+    "messageformat": "Delete this story? It will only be deleted for you because the group has ended."
   },
   "icu:payment-event-notification-message-you-label": {
     "messageformat": "Hai iniziato un pagamento a favore di {receiver}"
@@ -8018,5 +8150,8 @@
   },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "Da ora puoi aggiungere un tag per il ruolo dell'utente per descrivere il tuo ruolo in una chat di gruppo o per dare delle info su di te. Per esempio, nel gruppo del calcetto potrai impostare un ruolo per ogni persona che gioca (scommettiamo che trovare il portiere sarà difficile come al solito). Ricorda che i ruoli degli utenti appaiono vicino al nome del profilo all'interno di una chat di gruppo. Gli admin possono decidere se tali ruoli sono attivi per tutti gli utenti o meno di un gruppo."
+  },
+  "icu:WhatsNew__8.6--0": {
+    "messageformat": "Now you won't need to scroll as far to catch up on the latest messages. If several new people join a busy group chat, or you receive multiple missed calls in a row, those repeated chat events can be automatically grouped together into a compact display. Sometimes less is more, but you can easily expand and collapse these lists at any time."
   }
 }

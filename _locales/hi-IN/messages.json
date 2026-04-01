@@ -2372,6 +2372,9 @@
   "icu:ConversationDetails--support-center": {
     "messageformat": "सहायता केंद्र"
   },
+  "icu:ConversationDetails__GroupTerminatedBanner": {
+    "messageformat": "This group has ended"
+  },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "सुरक्षा संख्या देखें"
   },
@@ -2551,6 +2554,36 @@
   },
   "icu:youUpdatedTheGroup": {
     "messageformat": "आपने ग्रुप को अपडेट किया है।"
+  },
+  "icu:collapsedContainer": {
+    "messageformat": "{leadingIcon} {text} {trailingIcon}"
+  },
+  "icu:collapsedGroupUpdates": {
+    "messageformat": "{count, plural, one {{count,number} group update} other {{count,number} group updates}}"
+  },
+  "icu:multidayCollapse__container": {
+    "messageformat": "{containerDescription} · {dayCountSummary}"
+  },
+  "icu:multidayCollapse__dayCountSummary": {
+    "messageformat": "{dayCount, plural, one {{dayCount,number} day} other {{dayCount,number} days}}"
+  },
+  "icu:collapsedChatUpdates": {
+    "messageformat": "{count, plural, one {{count,number} chat update} other {{count,number} chat updates}}"
+  },
+  "icu:collapsedTimerChanges": {
+    "messageformat": "{count, plural, one {{count,number} disappearing timer change · {endingState}} other {{count,number} disappearing message timer changes · {endingState}}}"
+  },
+  "icu:collapsedTimerChanges--disabled": {
+    "messageformat": "{count, plural, one {{count,number} disappearing timer change · Disabled} other {{count,number} disappearing message timer changes · Disabled}}"
+  },
+  "icu:collapsedCallEvents": {
+    "messageformat": "{count, plural, one {{count,number} call event} other {{count,number} call events}}"
+  },
+  "icu:collapsedItems--collapsed": {
+    "messageformat": "Set of items is collapsed - click to expand"
+  },
+  "icu:collapsedItems--expanded": {
+    "messageformat": "Set of items is expanded - click to collapse"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "ग्रुप अवतार को अपडेट किया गया।"
@@ -3932,11 +3965,23 @@
   "icu:GroupV2--join--requested": {
     "messageformat": "ग्रप से जुड़ने का आपका अनुरोध ऐडमिन को भेज दिया गया है। ऐडमिन के ऐक्शन लेने के बाद आपको Signal में नोटिफ़िकेशन मिल जाएगा।"
   },
+  "icu:GroupV2--join--group-terminated": {
+    "messageformat": "Unable to join this group."
+  },
   "icu:GroupV2--join--general-join-failure--title": {
     "messageformat": "लिंक में कोई गड़बड़ी है"
   },
   "icu:GroupV2--join--general-join-failure": {
     "messageformat": "ग्रुप जॉइन नहीं हो सका। कृपया थोड़ी देर बाद दोबारा कोशिश करें।"
+  },
+  "icu:GroupV2--terminate-group-in-progress": {
+    "messageformat": "Ending group..."
+  },
+  "icu:TerminateGroupFailedModal__description": {
+    "messageformat": "Couldn't end the group. Check your connection and try again."
+  },
+  "icu:TerminateGroupFailedModal__try-again": {
+    "messageformat": "Try again"
   },
   "icu:GroupV2--admin": {
     "messageformat": "ऐडमिन"
@@ -4379,6 +4424,15 @@
   "icu:GroupV2--summary": {
     "messageformat": "इस समूह के सदस्य या सेटिंग बदल गए हैं।"
   },
+  "icu:GroupV2--terminated--you": {
+    "messageformat": "You ended the group"
+  },
+  "icu:GroupV2--terminated--other": {
+    "messageformat": "{memberName} ended the group"
+  },
+  "icu:GroupV2--terminated--unknown": {
+    "messageformat": "This group has ended"
+  },
   "icu:GroupV1--Migration--disabled--link": {
     "messageformat": "@mentions और ऐडमिन जैसे फ़ीचर ऐक्टिवेट करने के लिए इस ग्रुप को अपग्रेड करें। जिन सदस्यों ने इस ग्रुप में अब तक अपना नाम या फ़ोटो शेयर नहीं किया है उन्हें जॉइन करने के लिए इनवाइट भेजा जाएगा। <learnMoreLink>और जानें।</learnMoreLink>"
   },
@@ -4655,6 +4709,9 @@
   "icu:CompositionArea__ConfirmGifSelection__ReplaceButton": {
     "messageformat": "बदलें"
   },
+  "icu:CompositionArea--group-terminated": {
+    "messageformat": "You can't send messages because the group has ended."
+  },
   "icu:CompositionArea--viewOnceToggle": {
     "messageformat": "सिर्फ़ एक बार देखें"
   },
@@ -4832,11 +4889,23 @@
   "icu:ConversationDetailsActions--leave-group": {
     "messageformat": "ग्रुप छोड़ें"
   },
+  "icu:ConversationDetailsActions--terminate-group": {
+    "messageformat": "End group"
+  },
   "icu:ConversationDetailsActions--block-group": {
     "messageformat": "ग्रुप को ब्लॉक करें"
   },
   "icu:ConversationDetailsActions--unblock-group": {
     "messageformat": "ग्रुप को अनब्लॉक करें"
+  },
+  "icu:ConversationDetailsActions--archive": {
+    "messageformat": "Archive chat"
+  },
+  "icu:ConversationDetailsActions--unarchive": {
+    "messageformat": "Unarchive chat"
+  },
+  "icu:ConversationDetailsActions--delete": {
+    "messageformat": "Delete chat"
   },
   "icu:ConversationDetailsActions--leave-group-must-choose-new-admin": {
     "messageformat": "ग्रुप छोड़ने से पहले, आपको इस ग्रुप के लिए कम से कम एक नया ऐडमिन चुनना होगा।"
@@ -4849,6 +4918,18 @@
   },
   "icu:ConversationDetailsActions--leave-group-modal-confirm": {
     "messageformat": "छोड़ें"
+  },
+  "icu:ConversationDetailsActions--prompt-terminate-group-modal-title": {
+    "messageformat": "End \"{groupName}\"?"
+  },
+  "icu:ConversationDetailsActions--prompt-terminate-group-modal-content": {
+    "messageformat": "Members will no longer be able to send messages or start calls in the group. They will be notified that you ended the group, and will still have access to message history."
+  },
+  "icu:ConversationDetailsActions--terminate-group-modal-confirm": {
+    "messageformat": "End group"
+  },
+  "icu:ConversationDetailsActions--confirm-terminate-group-confirm-modal-content": {
+    "messageformat": "This will end the group permanently. Are you sure you want to proceed?"
   },
   "icu:ConversationDetailsActions--unblock-group-modal-title": {
     "messageformat": "\"{groupName}\" ग्रुप को अनब्लॉक करना है?"
@@ -4876,6 +4957,9 @@
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} सदस्य} other {{number,number} सदस्य}}"
+  },
+  "icu:ConversationDetailsMembershipList--terminated-title": {
+    "messageformat": "{number, plural, one {{number,number} former member} other {{number,number} former members}}"
   },
   "icu:ConversationDetailsMembershipList--add-members": {
     "messageformat": "सदस्य जोड़ें"
@@ -6235,17 +6319,32 @@
   "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
     "messageformat": "आपसे 'बैकअप की' दिखाने"
   },
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
+    "messageformat": "show your recovery key"
+  },
   "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
     "messageformat": "अपनी 'बैकअप की' देखने के लिए अपनी पहचान वेरिफ़ाई करें।"
+  },
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
+    "messageformat": "Verify your identity to view your recovery key."
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
     "messageformat": "बैकअप की देखें"
   },
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
+    "messageformat": "View recovery key"
+  },
   "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
     "messageformat": "अपनी 'बैकअप की' देखने के लिए ऑथेंटिकेशन की ज़रूरत है।"
   },
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
+    "messageformat": "Authentication is required to view your recovery key."
+  },
   "icu:Preferences--local-backups-backup-key-text-box": {
     "messageformat": "बैकअप की टेक्स्ट बॉक्स"
+  },
+  "icu:Preferences--local-backups-recovery-key-text-box": {
+    "messageformat": "Recovery key"
   },
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "की दर्ज करें"
@@ -6253,14 +6352,23 @@
   "icu:Preferences--local-backups-record-backup-key": {
     "messageformat": "अपनी बैकअप की रिकॉर्ड करें"
   },
+  "icu:Preferences--local-backups-record-recovery-key": {
+    "messageformat": "Record your recovery key"
+  },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "आपके अकाउंट और डेटा को रिकवर करने के लिए यह की ज़रूरी है। इस की को किसी सुरक्षित जगह पर स्टोर करें। अगर यह खो जाती है, तो आप अपना अकाउंट रिकवर नहीं कर पाएँगे। <learnMoreLink>अधिक जानें।</learnMoreLink>"
   },
   "icu:Preferences--local-backups-confirm-backup-key": {
     "messageformat": "अपनी बैकअप की की पुष्टि करें"
   },
+  "icu:Preferences--local-backups-confirm-recovery-key": {
+    "messageformat": "Confirm your recovery key"
+  },
   "icu:Preferences--local-backups-confirm-backup-key-description": {
     "messageformat": "अभी अपनी रिकॉर्ड की गई बैकअप की दर्ज करें"
+  },
+  "icu:Preferences--local-backups-confirm-recovery-key-description": {
+    "messageformat": "Enter the recovery key that you just recorded"
   },
   "icu:Preferences__local-backups-confirm-key-modal-title": {
     "messageformat": "अपनी की सुरक्षित रखें"
@@ -6307,6 +6415,9 @@
   "icu:Preferences__local-backups-copied-key": {
     "messageformat": "बैकअप की कॉपी की गई"
   },
+  "icu:Preferences__local-backups-copied-recovery-key": {
+    "messageformat": "Recovery key copied"
+  },
   "icu:Preferences__local-backups--enable--os-prompt--mac": {
     "messageformat": "बैकअप चालू करने"
   },
@@ -6319,17 +6430,35 @@
   "icu:Preferences__local-backups--enable--os-prompt-message--linux": {
     "messageformat": "बैकअप चालू करने के लिए ऑथेंटिकेशन की ज़रूरत है।"
   },
+  "icu:Preferences__local-backups-auth-error--unauthorized": {
+    "messageformat": "This action could not be completed because system authentication failed. Please try again or open the Signal app on your mobile device and go to Backup Settings to view your recovery key."
+  },
   "icu:Preferences__view-key": {
     "messageformat": "की देखें"
   },
   "icu:Preferences__backup-key": {
     "messageformat": "आपकी बैकअप की"
   },
+  "icu:Preferences__recovery-key": {
+    "messageformat": "Recovery key"
+  },
   "icu:Preferences__backup-key-description": {
     "messageformat": "आपकी बैकअप की 64 अंकों वाला एक कोड होती है, जो आपके बैकअप को रिकवर करने के लिए इस्तेमाल होती है"
   },
+  "icu:Preferences__recovery-key-description": {
+    "messageformat": "Your recovery key is a 64-digit code used to restore your backup"
+  },
   "icu:Preferences__backup-other-ways": {
     "messageformat": "बैकअप करने के दूसरे तरीके"
+  },
+  "icu:Preferences__recovery-key-updated__title": {
+    "messageformat": "Your recovery key has changed"
+  },
+  "icu:Preferences__recovery-key-updated__description": {
+    "messageformat": "Your recovery key has been updated. Any new backups you make can only be restored using your new recovery key."
+  },
+  "icu:Preferences__recovery-key-updated__view-key": {
+    "messageformat": "View new key"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {{num,number} कॉन्टैक्ट} other {{num,number} कॉन्टैक्ट}}"
@@ -6681,6 +6810,9 @@
   },
   "icu:MyStories__delete": {
     "messageformat": "यह स्टोरी डिलीट करनी है? यह उन सबके लिए भी डिलीट हो जाएगी जिन्हें यह मिली है।"
+  },
+  "icu:MyStories__delete-group-story-for-me": {
+    "messageformat": "Delete this story? It will only be deleted for you because the group has ended."
   },
   "icu:payment-event-notification-message-you-label": {
     "messageformat": "आपने {receiver} को एक भुगतान करना शुरू किया"
@@ -8018,5 +8150,8 @@
   },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "अब ग्रुप चैट में अपने बारे में या अपने रोल के बारे में बताने के लिए, आपके पास मेंबर लेबल जोड़ने का विकल्प मौजूद है। नए साथियों के जुड़ने पर बातचीत का माहौल जमाने के लिए, अपनी लोकल फुटबॉल लीग चैट में अपना ग्रुप मेंबर लेबल 'रेफ़री' या 'गोलकीपर' सेट करें। इसके बाद, कंपनी चैट में अपने ज़ॉब टाइटल वाला कोई दूसरा लेबल चुन लें। ग्रुप में मेंबर लेबल आपके प्रोफ़ाइल नेम के आगे दिखते हैं और ग्रुप ऐडमिन यह कंट्रोल कर सकते हैं कि यह सुविधा हर एक के लिए चालू हो या न हो।"
+  },
+  "icu:WhatsNew__8.6--0": {
+    "messageformat": "Now you won't need to scroll as far to catch up on the latest messages. If several new people join a busy group chat, or you receive multiple missed calls in a row, those repeated chat events can be automatically grouped together into a compact display. Sometimes less is more, but you can easily expand and collapse these lists at any time."
   }
 }

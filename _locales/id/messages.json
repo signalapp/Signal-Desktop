@@ -132,7 +132,7 @@
     "messageformat": "&Bantuan"
   },
   "icu:mainMenuSettings": {
-    "messageformat": "Preferensi…"
+    "messageformat": "Preferensi …"
   },
   "icu:appMenuServices": {
     "messageformat": "Layanan"
@@ -1890,7 +1890,7 @@
     "messageformat": "Siapa pun yang gabung dengan panggilan ini via tautan akan melihat nama, foto, dan nomor telepon Anda."
   },
   "icu:CallingLobby__CallLinkNotice--join-request-pending": {
-    "messageformat": "Menunggu diizinkan masuk…"
+    "messageformat": "Menunggu diizinkan masuk …"
   },
   "icu:CallingLobbyJoinButton--join": {
     "messageformat": "Gabung"
@@ -2175,7 +2175,7 @@
     "messageformat": "Hapus semua data dan pesan dari versi Signal Desktop ini? Akun Signal dan data di ponsel Anda atau perangkat terhubung lainnya tidak akan dihapus."
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Memutus koneksi dan menghapus semua data…"
+    "messageformat": "Memutus koneksi dan menghapus semua data …"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Anda menyimpan data lama dari instalasi Signal Desktop sebelumnya. Jika Anda memilih untuk lanjut, data tersebut akan dihapus dan Anda harus memulai dari awal."
@@ -2372,6 +2372,9 @@
   "icu:ConversationDetails--support-center": {
     "messageformat": "Pusat Bantuan"
   },
+  "icu:ConversationDetails__GroupTerminatedBanner": {
+    "messageformat": "This group has ended"
+  },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "Lihat Nomor Keamanan"
   },
@@ -2551,6 +2554,36 @@
   },
   "icu:youUpdatedTheGroup": {
     "messageformat": "Anda memperbarui grup."
+  },
+  "icu:collapsedContainer": {
+    "messageformat": "{leadingIcon} {text} {trailingIcon}"
+  },
+  "icu:collapsedGroupUpdates": {
+    "messageformat": "{count, plural, one {{count,number} group update} other {{count,number} group updates}}"
+  },
+  "icu:multidayCollapse__container": {
+    "messageformat": "{containerDescription} · {dayCountSummary}"
+  },
+  "icu:multidayCollapse__dayCountSummary": {
+    "messageformat": "{dayCount, plural, one {{dayCount,number} day} other {{dayCount,number} days}}"
+  },
+  "icu:collapsedChatUpdates": {
+    "messageformat": "{count, plural, one {{count,number} chat update} other {{count,number} chat updates}}"
+  },
+  "icu:collapsedTimerChanges": {
+    "messageformat": "{count, plural, one {{count,number} disappearing timer change · {endingState}} other {{count,number} disappearing message timer changes · {endingState}}}"
+  },
+  "icu:collapsedTimerChanges--disabled": {
+    "messageformat": "{count, plural, one {{count,number} disappearing timer change · Disabled} other {{count,number} disappearing message timer changes · Disabled}}"
+  },
+  "icu:collapsedCallEvents": {
+    "messageformat": "{count, plural, one {{count,number} call event} other {{count,number} call events}}"
+  },
+  "icu:collapsedItems--collapsed": {
+    "messageformat": "Set of items is collapsed - click to expand"
+  },
+  "icu:collapsedItems--expanded": {
+    "messageformat": "Set of items is expanded - click to collapse"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "Avatar grup telah diperbarui."
@@ -3333,19 +3366,19 @@
     "messageformat": "Selesai"
   },
   "icu:MessageRequests--message-direct": {
-    "messageformat": "Izinkan {name} mengirimkan Anda pesan dan berbagi nama dan foto Anda dengan mereka? Mereka tidak akan mengetahui jika Anda telah membaca pesan tersebut sampai Anda menerimanya."
+    "messageformat": "Izinkan {name} mengirim pesan dan bagikan nama dan foto Anda kepada mereka? Mereka tidak akan mengetahui jika Anda telah membaca pesan tersebut sampai Anda menerimanya."
   },
   "icu:MessageRequests--message-direct-hidden": {
-    "messageformat": "Izinkan {name} mengirimi Anda pesan dan bagikan nama serta foto Anda dengannya? Anda telah menghapus orang ini sebelumnya."
+    "messageformat": "Izinkan {name} mengirim pesan dan bagikan nama dan foto Anda kepada mereka? Sebelum ini, Anda pernah menyingkirkan orang ini."
   },
   "icu:MessageRequests--message-direct-blocked": {
-    "messageformat": "Izinkan {name} mengirimi Anda pesan dan bagikan nama dan foto Anda dengan mereka? Anda tidak akan menerima pesan apa pun sampai Anda membuka blokir mereka."
+    "messageformat": "Izinkan {name} mengirim pesan dan bagikan nama dan foto Anda kepada mereka? Anda tidak akan menerima pesan apa pun sampai Anda membuka blokir mereka."
   },
   "icu:MessageRequests--message-group": {
-    "messageformat": "Gabung ke grup ini dan bagikan nama dan foto Anda dengan anggota? Mereka tidak akan mengetahui Anda telah melihat pesannya sampai Anda menerimanya."
+    "messageformat": "Gabung ke grup ini dan bagikan nama dan foto Anda dengan para anggotanya? Mereka tidak akan mengetahui Anda telah melihat pesannya sampai Anda menerimanya."
   },
   "icu:MessageRequests--message-group-blocked": {
-    "messageformat": "Buka blokir grup ini dan bagikan nama dan foto Anda dengan anggotanya? Anda tidak akan menerima pesan apa pun sampai Anda membuka blokirnya."
+    "messageformat": "Buka blokir grup ini dan bagikan nama dan foto Anda dengan para anggotanya? Anda tidak akan menerima pesan apa pun sampai Anda membuka blokirnya."
   },
   "icu:MessageRequests--block": {
     "messageformat": "Blokir"
@@ -3879,7 +3912,7 @@
     "messageformat": "Ini bukan tautan grup yang valid. Pastikan seluruh tautan utuh dan benar sebelum mencoba untuk bergabung."
   },
   "icu:GroupV2--join--prompt": {
-    "messageformat": "Apakah Anda ingin bergabung dengan grup ini dan berbagi nama dan foto Anda dengan anggota grup?"
+    "messageformat": "Gabung ke grup ini dan bagikan nama dan foto Anda dengan para anggotanya?"
   },
   "icu:GroupV2--join--already-in-group": {
     "messageformat": "Anda telah berada di grup."
@@ -3932,11 +3965,23 @@
   "icu:GroupV2--join--requested": {
     "messageformat": "Permintaan Anda untuk bergabung telah dikirimkan ke admin grup. Anda akan diberitahukan ketika mereka mengambil keputusan."
   },
+  "icu:GroupV2--join--group-terminated": {
+    "messageformat": "Unable to join this group."
+  },
   "icu:GroupV2--join--general-join-failure--title": {
     "messageformat": "Kesalahan Tautan"
   },
   "icu:GroupV2--join--general-join-failure": {
     "messageformat": "Tidak dapat bergabung ke grup. Coba lagi nanti."
+  },
+  "icu:GroupV2--terminate-group-in-progress": {
+    "messageformat": "Ending group..."
+  },
+  "icu:TerminateGroupFailedModal__description": {
+    "messageformat": "Couldn't end the group. Check your connection and try again."
+  },
+  "icu:TerminateGroupFailedModal__try-again": {
+    "messageformat": "Try again"
   },
   "icu:GroupV2--admin": {
     "messageformat": "Admin"
@@ -4379,6 +4424,15 @@
   "icu:GroupV2--summary": {
     "messageformat": "Anggota atau pengaturan grup ini telah berubah."
   },
+  "icu:GroupV2--terminated--you": {
+    "messageformat": "You ended the group"
+  },
+  "icu:GroupV2--terminated--other": {
+    "messageformat": "{memberName} ended the group"
+  },
+  "icu:GroupV2--terminated--unknown": {
+    "messageformat": "This group has ended"
+  },
   "icu:GroupV1--Migration--disabled--link": {
     "messageformat": "Perbarui grup ini untuk mengaktifkan fitur-fitur baru seperti @mention dan admin. Anggota yang tidak membagikan nama atau foto di grup ini akan diundang untuk bergabung. <learnMoreLink>Pelajari selengkapnya.</learnMoreLink>"
   },
@@ -4655,6 +4709,9 @@
   "icu:CompositionArea__ConfirmGifSelection__ReplaceButton": {
     "messageformat": "Ganti"
   },
+  "icu:CompositionArea--group-terminated": {
+    "messageformat": "You can't send messages because the group has ended."
+  },
   "icu:CompositionArea--viewOnceToggle": {
     "messageformat": "Sekali lihat"
   },
@@ -4832,11 +4889,23 @@
   "icu:ConversationDetailsActions--leave-group": {
     "messageformat": "Keluar grup"
   },
+  "icu:ConversationDetailsActions--terminate-group": {
+    "messageformat": "End group"
+  },
   "icu:ConversationDetailsActions--block-group": {
     "messageformat": "Blokir grup"
   },
   "icu:ConversationDetailsActions--unblock-group": {
     "messageformat": "Buka blokir grup"
+  },
+  "icu:ConversationDetailsActions--archive": {
+    "messageformat": "Archive chat"
+  },
+  "icu:ConversationDetailsActions--unarchive": {
+    "messageformat": "Unarchive chat"
+  },
+  "icu:ConversationDetailsActions--delete": {
+    "messageformat": "Delete chat"
   },
   "icu:ConversationDetailsActions--leave-group-must-choose-new-admin": {
     "messageformat": "Sebelum Anda keluar, pilih admin baru untuk grup ini."
@@ -4849,6 +4918,18 @@
   },
   "icu:ConversationDetailsActions--leave-group-modal-confirm": {
     "messageformat": "Tinggalkan"
+  },
+  "icu:ConversationDetailsActions--prompt-terminate-group-modal-title": {
+    "messageformat": "End \"{groupName}\"?"
+  },
+  "icu:ConversationDetailsActions--prompt-terminate-group-modal-content": {
+    "messageformat": "Members will no longer be able to send messages or start calls in the group. They will be notified that you ended the group, and will still have access to message history."
+  },
+  "icu:ConversationDetailsActions--terminate-group-modal-confirm": {
+    "messageformat": "End group"
+  },
+  "icu:ConversationDetailsActions--confirm-terminate-group-confirm-modal-content": {
+    "messageformat": "This will end the group permanently. Are you sure you want to proceed?"
   },
   "icu:ConversationDetailsActions--unblock-group-modal-title": {
     "messageformat": "Buka blokir Grup \"{groupName}\"?"
@@ -4876,6 +4957,9 @@
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, other {{number,number} anggota}}"
+  },
+  "icu:ConversationDetailsMembershipList--terminated-title": {
+    "messageformat": "{number, plural, one {{number,number} former member} other {{number,number} former members}}"
   },
   "icu:ConversationDetailsMembershipList--add-members": {
     "messageformat": "Tambahkan anggota"
@@ -4923,7 +5007,7 @@
     "messageformat": "Catatan"
   },
   "icu:ConversationNotificationsSettings__mentions__label": {
-    "messageformat": "Menyebut"
+    "messageformat": "Penyebutan"
   },
   "icu:ConversationNotificationsSettings__mentions__info": {
     "messageformat": "Terima notifikasi saat Anda disebut dalam obrolan yang dibisukan"
@@ -5248,7 +5332,7 @@
     "messageformat": "Verifikasi untuk melanjutkan berolah pesan"
   },
   "icu:CaptchaDialog__first-paragraph": {
-    "messageformat": "Untuk membantu mencegah spam di Signal, mohon selesaikan verifikasi."
+    "messageformat": "Untuk mengurangi spam di Signal, mohon selesaikan verifikasi."
   },
   "icu:CaptchaDialog__second-paragraph": {
     "messageformat": "Setelah memverifikasi, Anda dapat melanjutkan berolah pesan. Pesan yang tertunda akan dikirimkan secara otomatis."
@@ -6235,17 +6319,32 @@
   "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
     "messageformat": "tampilkan kunci cadangan Anda"
   },
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
+    "messageformat": "show your recovery key"
+  },
   "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
     "messageformat": "Verifikasi identitas Anda untuk melihat kunci cadangan."
+  },
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
+    "messageformat": "Verify your identity to view your recovery key."
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
     "messageformat": "Lihat kunci cadangan"
   },
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
+    "messageformat": "View recovery key"
+  },
   "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
     "messageformat": "Autentikasi diperlukan untuk melihat kunci cadangan Anda."
   },
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
+    "messageformat": "Authentication is required to view your recovery key."
+  },
   "icu:Preferences--local-backups-backup-key-text-box": {
     "messageformat": "Kotak teks kunci cadangan"
+  },
+  "icu:Preferences--local-backups-recovery-key-text-box": {
+    "messageformat": "Recovery key"
   },
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "Masukkan kunci"
@@ -6253,14 +6352,23 @@
   "icu:Preferences--local-backups-record-backup-key": {
     "messageformat": "Catat kunci cadangan Anda"
   },
+  "icu:Preferences--local-backups-record-recovery-key": {
+    "messageformat": "Record your recovery key"
+  },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "Kunci ini diperlukan untuk memulihkan akun dan data Anda. Simpan kunci di tempat yang aman. Jika Anda kehilangan kunci, akun tidak dapat dipulihkan. <learnMoreLink>Pelajari selengkapnya.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-confirm-backup-key": {
     "messageformat": "Konfirmasi kunci cadangan Anda"
   },
+  "icu:Preferences--local-backups-confirm-recovery-key": {
+    "messageformat": "Confirm your recovery key"
+  },
   "icu:Preferences--local-backups-confirm-backup-key-description": {
     "messageformat": "Masukkan kunci cadangan yang baru Anda catat"
+  },
+  "icu:Preferences--local-backups-confirm-recovery-key-description": {
+    "messageformat": "Enter the recovery key that you just recorded"
   },
   "icu:Preferences__local-backups-confirm-key-modal-title": {
     "messageformat": "Pastikan kunci Anda aman"
@@ -6307,6 +6415,9 @@
   "icu:Preferences__local-backups-copied-key": {
     "messageformat": "Kunci cadangan disalin"
   },
+  "icu:Preferences__local-backups-copied-recovery-key": {
+    "messageformat": "Recovery key copied"
+  },
   "icu:Preferences__local-backups--enable--os-prompt--mac": {
     "messageformat": "aktifkan pencadangan"
   },
@@ -6319,17 +6430,35 @@
   "icu:Preferences__local-backups--enable--os-prompt-message--linux": {
     "messageformat": "Autentikasi diperlukan untuk mengaktifkan cadangan."
   },
+  "icu:Preferences__local-backups-auth-error--unauthorized": {
+    "messageformat": "This action could not be completed because system authentication failed. Please try again or open the Signal app on your mobile device and go to Backup Settings to view your recovery key."
+  },
   "icu:Preferences__view-key": {
     "messageformat": "Lihat kunci"
   },
   "icu:Preferences__backup-key": {
     "messageformat": "Kunci cadangan"
   },
+  "icu:Preferences__recovery-key": {
+    "messageformat": "Recovery key"
+  },
   "icu:Preferences__backup-key-description": {
     "messageformat": "Kunci cadangan adalah kode 64 digit yang digunakan untuk memulihkan cadangan Anda"
   },
+  "icu:Preferences__recovery-key-description": {
+    "messageformat": "Your recovery key is a 64-digit code used to restore your backup"
+  },
   "icu:Preferences__backup-other-ways": {
     "messageformat": "Cara lain untuk mencadangkan"
+  },
+  "icu:Preferences__recovery-key-updated__title": {
+    "messageformat": "Your recovery key has changed"
+  },
+  "icu:Preferences__recovery-key-updated__description": {
+    "messageformat": "Your recovery key has been updated. Any new backups you make can only be restored using your new recovery key."
+  },
+  "icu:Preferences__recovery-key-updated__view-key": {
+    "messageformat": "View new key"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, other {{num,number} kontak}}"
@@ -6681,6 +6810,9 @@
   },
   "icu:MyStories__delete": {
     "messageformat": "Hapus cerita ini? Cerita juga akan dihapus untuk semua yang menerimanya."
+  },
+  "icu:MyStories__delete-group-story-for-me": {
+    "messageformat": "Delete this story? It will only be deleted for you because the group has ended."
   },
   "icu:payment-event-notification-message-you-label": {
     "messageformat": "Anda memulai pembayaran kepada {receiver}"
@@ -7275,7 +7407,7 @@
     "messageformat": "Kode QR dan tautan"
   },
   "icu:UsernameOnboardingModalBody__row__qr__body": {
-    "messageformat": "Nama pengguna punya kode QR dan tautan unik yang bisa dibagikan kepada teman agar bisa cepat memulai obrolan dengan Anda."
+    "messageformat": "Ada kode QR dan tautan unik di tiap nama pengguna, yang dapat dibagikan kepada teman agar mereka bisa langsung mengobrol dengan Anda."
   },
   "icu:UsernameOnboardingModalBody__continue": {
     "messageformat": "Siapkan nama pengguna"
@@ -8018,5 +8150,8 @@
   },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "• Sekarang tersedia opsi menambahkan label anggota untuk mendeskripsikan diri atau peran Anda dalam sebuah chat grup. Label anggota ditampilkan di samping nama profil Anda dalam grup tersebut dan admin grup bisa mengontrol siapa yang bisa menetapkan label tersebut."
+  },
+  "icu:WhatsNew__8.6--0": {
+    "messageformat": "Now you won't need to scroll as far to catch up on the latest messages. If several new people join a busy group chat, or you receive multiple missed calls in a row, those repeated chat events can be automatically grouped together into a compact display. Sometimes less is more, but you can easily expand and collapse these lists at any time."
   }
 }

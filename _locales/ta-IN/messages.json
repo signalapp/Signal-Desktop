@@ -2372,6 +2372,9 @@
   "icu:ConversationDetails--support-center": {
     "messageformat": "ஆதரவு மையம்"
   },
+  "icu:ConversationDetails__GroupTerminatedBanner": {
+    "messageformat": "This group has ended"
+  },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "பாதுகாப்பு எண்ணைக் காட்டு"
   },
@@ -2551,6 +2554,36 @@
   },
   "icu:youUpdatedTheGroup": {
     "messageformat": "நீங்கள் குழுவைப் புதுப்பித்தீர்கள்."
+  },
+  "icu:collapsedContainer": {
+    "messageformat": "{leadingIcon} {text} {trailingIcon}"
+  },
+  "icu:collapsedGroupUpdates": {
+    "messageformat": "{count, plural, one {{count,number} group update} other {{count,number} group updates}}"
+  },
+  "icu:multidayCollapse__container": {
+    "messageformat": "{containerDescription} · {dayCountSummary}"
+  },
+  "icu:multidayCollapse__dayCountSummary": {
+    "messageformat": "{dayCount, plural, one {{dayCount,number} day} other {{dayCount,number} days}}"
+  },
+  "icu:collapsedChatUpdates": {
+    "messageformat": "{count, plural, one {{count,number} chat update} other {{count,number} chat updates}}"
+  },
+  "icu:collapsedTimerChanges": {
+    "messageformat": "{count, plural, one {{count,number} disappearing timer change · {endingState}} other {{count,number} disappearing message timer changes · {endingState}}}"
+  },
+  "icu:collapsedTimerChanges--disabled": {
+    "messageformat": "{count, plural, one {{count,number} disappearing timer change · Disabled} other {{count,number} disappearing message timer changes · Disabled}}"
+  },
+  "icu:collapsedCallEvents": {
+    "messageformat": "{count, plural, one {{count,number} call event} other {{count,number} call events}}"
+  },
+  "icu:collapsedItems--collapsed": {
+    "messageformat": "Set of items is collapsed - click to expand"
+  },
+  "icu:collapsedItems--expanded": {
+    "messageformat": "Set of items is expanded - click to collapse"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "குழு அவதார் புதுப்பிக்கப்பட்டது."
@@ -3932,11 +3965,23 @@
   "icu:GroupV2--join--requested": {
     "messageformat": "உங்கள் கோரிக்கை சேர க்கு அனுப்பப்பட்டுள்ளது குழுநிர்வாகம். அவர்கள் நடவடிக்கை எடுக்கும்போது உங்களுக்கு அறிவிக்கப்படும்."
   },
+  "icu:GroupV2--join--group-terminated": {
+    "messageformat": "Unable to join this group."
+  },
   "icu:GroupV2--join--general-join-failure--title": {
     "messageformat": "இணைப்பு பிழை"
   },
   "icu:GroupV2--join--general-join-failure": {
     "messageformat": "முடியவில்லை சேர குழு. பின்னர் மீண்டும் முயற்சிக்கவும்."
+  },
+  "icu:GroupV2--terminate-group-in-progress": {
+    "messageformat": "Ending group..."
+  },
+  "icu:TerminateGroupFailedModal__description": {
+    "messageformat": "Couldn't end the group. Check your connection and try again."
+  },
+  "icu:TerminateGroupFailedModal__try-again": {
+    "messageformat": "Try again"
   },
   "icu:GroupV2--admin": {
     "messageformat": "நிர்வாகம்"
@@ -4379,6 +4424,15 @@
   "icu:GroupV2--summary": {
     "messageformat": "இந்தக் குழுவின் உறுப்பினர்கள் அல்லது அமைப்புகள் மாற்றப்பட்டுள்ளன."
   },
+  "icu:GroupV2--terminated--you": {
+    "messageformat": "You ended the group"
+  },
+  "icu:GroupV2--terminated--other": {
+    "messageformat": "{memberName} ended the group"
+  },
+  "icu:GroupV2--terminated--unknown": {
+    "messageformat": "This group has ended"
+  },
   "icu:GroupV1--Migration--disabled--link": {
     "messageformat": "@குறிப்புகள் மற்றும் நிர்வாகிகள் போன்ற புதிய அம்சங்களைச் செயல்படுத்த இந்தக் குழுவை மேம்படுத்தவும். இந்தக் குழுவில் பெயர் அல்லது புகைப்படத்தைப் பகிராத உறுப்பினர்கள் சேர அழைக்கப்படுவார்கள். <learnMoreLink>மேலும் அறிக.</learnMoreLink>"
   },
@@ -4655,6 +4709,9 @@
   "icu:CompositionArea__ConfirmGifSelection__ReplaceButton": {
     "messageformat": "மாற்று"
   },
+  "icu:CompositionArea--group-terminated": {
+    "messageformat": "You can't send messages because the group has ended."
+  },
   "icu:CompositionArea--viewOnceToggle": {
     "messageformat": "ஒருமுறை மட்டும் காண்க"
   },
@@ -4832,11 +4889,23 @@
   "icu:ConversationDetailsActions--leave-group": {
     "messageformat": "குழுவிலுருந்து விலகு"
   },
+  "icu:ConversationDetailsActions--terminate-group": {
+    "messageformat": "End group"
+  },
   "icu:ConversationDetailsActions--block-group": {
     "messageformat": "குழுவைத் தடு"
   },
   "icu:ConversationDetailsActions--unblock-group": {
     "messageformat": "குழுவைத் தடைநீக்கு"
+  },
+  "icu:ConversationDetailsActions--archive": {
+    "messageformat": "Archive chat"
+  },
+  "icu:ConversationDetailsActions--unarchive": {
+    "messageformat": "Unarchive chat"
+  },
+  "icu:ConversationDetailsActions--delete": {
+    "messageformat": "Delete chat"
   },
   "icu:ConversationDetailsActions--leave-group-must-choose-new-admin": {
     "messageformat": "நீங்கள் வெளியேறுவதற்கு முன், இந்த குழுவிற்கு குறைந்தபட்சம் ஒரு புதிய new admin நிர்வாகியையாவது தேர்வு செய்ய வேண்டும்."
@@ -4849,6 +4918,18 @@
   },
   "icu:ConversationDetailsActions--leave-group-modal-confirm": {
     "messageformat": "விலகு"
+  },
+  "icu:ConversationDetailsActions--prompt-terminate-group-modal-title": {
+    "messageformat": "End \"{groupName}\"?"
+  },
+  "icu:ConversationDetailsActions--prompt-terminate-group-modal-content": {
+    "messageformat": "Members will no longer be able to send messages or start calls in the group. They will be notified that you ended the group, and will still have access to message history."
+  },
+  "icu:ConversationDetailsActions--terminate-group-modal-confirm": {
+    "messageformat": "End group"
+  },
+  "icu:ConversationDetailsActions--confirm-terminate-group-confirm-modal-content": {
+    "messageformat": "This will end the group permanently. Are you sure you want to proceed?"
   },
   "icu:ConversationDetailsActions--unblock-group-modal-title": {
     "messageformat": "\"{groupName}\" குழுவைத் தடைநீக்கலாமா?"
@@ -4876,6 +4957,9 @@
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} உறுப்பினர்} other {{number,number} உறுப்பினர்கள்}}"
+  },
+  "icu:ConversationDetailsMembershipList--terminated-title": {
+    "messageformat": "{number, plural, one {{number,number} former member} other {{number,number} former members}}"
   },
   "icu:ConversationDetailsMembershipList--add-members": {
     "messageformat": "உறுப்பினர்களைச் சேர்க்கவும்"
@@ -6235,17 +6319,32 @@
   "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
     "messageformat": "உங்கள் காப்புப்பிரதி குறியீட்டைக் காட்டுக"
   },
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
+    "messageformat": "show your recovery key"
+  },
   "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
     "messageformat": "உங்கள் காப்புப்பிரதி குறியீட்டைப் பார்க்க உங்கள் அடையாளத்தைச் சரிபார்க்கவும்."
+  },
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
+    "messageformat": "Verify your identity to view your recovery key."
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
     "messageformat": "காப்புப்பிரதி குறியீட்டை காண்க"
   },
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
+    "messageformat": "View recovery key"
+  },
   "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
     "messageformat": "உங்கள் காப்புப்பிரதி குறியீட்டைப் பார்க்க அங்கீகாரம் தேவை."
   },
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
+    "messageformat": "Authentication is required to view your recovery key."
+  },
   "icu:Preferences--local-backups-backup-key-text-box": {
     "messageformat": "காப்புப்பிரதி குறியீட்டின் உரை பெட்டி"
+  },
+  "icu:Preferences--local-backups-recovery-key-text-box": {
+    "messageformat": "Recovery key"
   },
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "குறியீட்டை உள்ளிடுங்கள்"
@@ -6253,14 +6352,23 @@
   "icu:Preferences--local-backups-record-backup-key": {
     "messageformat": "உங்கள் காப்புபிரதி குறியீட்டைப் பதிவு செய்யவும்"
   },
+  "icu:Preferences--local-backups-record-recovery-key": {
+    "messageformat": "Record your recovery key"
+  },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "உங்கள் கணக்கு மற்றும் தரவை மீட்டெடுக்க இந்தக் குறியீடு தேவை. இந்தக் குறியீட்டைப் பாதுகாப்பான இடத்தில் சேமித்து வைக்கவும். நீங்கள் அதை இழந்துவிட்டால், உங்கள் கணக்கை மீட்டெடுக்க முடியாது. <learnMoreLink>மேலும் அறிக.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-confirm-backup-key": {
     "messageformat": "உங்கள் காப்புப்பிரதி குறியீட்டை உறுதிபடுத்துக"
   },
+  "icu:Preferences--local-backups-confirm-recovery-key": {
+    "messageformat": "Confirm your recovery key"
+  },
   "icu:Preferences--local-backups-confirm-backup-key-description": {
     "messageformat": "நீங்கள் தற்போது பதிவுசெய்த உங்கள் காப்புப்பிரதி குறியீட்டை உள்ளிடவும்"
+  },
+  "icu:Preferences--local-backups-confirm-recovery-key-description": {
+    "messageformat": "Enter the recovery key that you just recorded"
   },
   "icu:Preferences__local-backups-confirm-key-modal-title": {
     "messageformat": "உங்கள் குறியீட்டைப் பாதுகாப்பாக வைத்திருக்கவும்"
@@ -6307,6 +6415,9 @@
   "icu:Preferences__local-backups-copied-key": {
     "messageformat": "காப்புப்பிரதி குறியீடு நகலெடுக்கப்பட்டது"
   },
+  "icu:Preferences__local-backups-copied-recovery-key": {
+    "messageformat": "Recovery key copied"
+  },
   "icu:Preferences__local-backups--enable--os-prompt--mac": {
     "messageformat": "காப்புப்பிரதிகளை இயக்கு"
   },
@@ -6319,17 +6430,35 @@
   "icu:Preferences__local-backups--enable--os-prompt-message--linux": {
     "messageformat": "காப்புப்பிரதிகளைச் செயல்படுத்த அங்கீகாரம் தேவை."
   },
+  "icu:Preferences__local-backups-auth-error--unauthorized": {
+    "messageformat": "This action could not be completed because system authentication failed. Please try again or open the Signal app on your mobile device and go to Backup Settings to view your recovery key."
+  },
   "icu:Preferences__view-key": {
     "messageformat": "குறியீட்டைக் காண்க"
   },
   "icu:Preferences__backup-key": {
     "messageformat": "காப்புப்பிரதி குறியீடு"
   },
+  "icu:Preferences__recovery-key": {
+    "messageformat": "Recovery key"
+  },
   "icu:Preferences__backup-key-description": {
     "messageformat": "உங்கள் காப்புப்பிரதி குறியீடு என்பது உங்கள் காப்புப்பிரதியை மீட்டெடுக்கப் பயன்படுத்தப்படும் 64 இலக்கக் குறியீடு ஆகும்"
   },
+  "icu:Preferences__recovery-key-description": {
+    "messageformat": "Your recovery key is a 64-digit code used to restore your backup"
+  },
   "icu:Preferences__backup-other-ways": {
     "messageformat": "காப்புப்பிரதி எடுப்பதற்கான மற்ற வழிகள்"
+  },
+  "icu:Preferences__recovery-key-updated__title": {
+    "messageformat": "Your recovery key has changed"
+  },
+  "icu:Preferences__recovery-key-updated__description": {
+    "messageformat": "Your recovery key has been updated. Any new backups you make can only be restored using your new recovery key."
+  },
+  "icu:Preferences__recovery-key-updated__view-key": {
+    "messageformat": "View new key"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {{num,number} தொடர்பு} other {{num,number} தொடர்புகள்}}"
@@ -6681,6 +6810,9 @@
   },
   "icu:MyStories__delete": {
     "messageformat": "இந்த ஸ்டோரியை நீக்குவதா? அதைப் பெற்ற அனைவருக்கும் இது நீக்கப்படும்."
+  },
+  "icu:MyStories__delete-group-story-for-me": {
+    "messageformat": "Delete this story? It will only be deleted for you because the group has ended."
   },
   "icu:payment-event-notification-message-you-label": {
     "messageformat": "{receiver} க்கு கட்டணம் செலுத்தத் தொடங்கியுள்ளீர்கள்"
@@ -8018,5 +8150,8 @@
   },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "இப்போது ஒரு சாட் தொகுப்பில் உங்களை அல்லது உங்கள் பதவி நிலையை விவரிக்க, விருப்பத்தின் பேரில் ஒரு உறுப்பினரின் பதவி நிலையைச் சேர்க்கலாம். அந்தத் தொகுப்பில் உங்கள் சுயவிவரப் பெயருக்கு அருகில் உறுப்பினரின் பதவி நிலைகள் தோன்றும், மேலும் அனைவருக்காகவும் அவற்றைச் செயல்படுத்தலாமா வேண்டாமா என்பதைத் குழு நிர்வாகிகள் கட்டுப்படுத்தலாம்."
+  },
+  "icu:WhatsNew__8.6--0": {
+    "messageformat": "Now you won't need to scroll as far to catch up on the latest messages. If several new people join a busy group chat, or you receive multiple missed calls in a row, those repeated chat events can be automatically grouped together into a compact display. Sometimes less is more, but you can easily expand and collapse these lists at any time."
   }
 }
