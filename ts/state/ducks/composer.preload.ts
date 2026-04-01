@@ -686,9 +686,10 @@ function sendMultiMediaMessage(
       if (voiceNoteAttachment) {
         attachments = [voiceNoteAttachment];
       } else if (draftAttachments) {
-        attachments = (
-          await Promise.all(draftAttachments.map(resolveAttachmentDraftData))
-        ).filter(isNotNil);
+        const resolved = await Promise.all(
+          draftAttachments.map(resolveAttachmentDraftData)
+        );
+        attachments = resolved.filter(att => att != null);
       }
 
       const conversationComposerState = getComposerStateForConversation(
@@ -708,49 +709,82 @@ function sendMultiMediaMessage(
           : state.items['sent-media-quality'] === 'high';
 
       try {
-        await conversation.enqueueMessageForSend(
-          {
-            body: message,
-            attachments,
-            quote,
-            preview: getLinkPreviewForSend(message),
-            bodyRanges,
-            isViewOnce,
-          },
-          {
-            sendHQImages,
-            timestamp,
-            // We rely on enqueueMessageForSend to call these within redux's batch
-            extraReduxActions: () => {
-              conversation.setMarkedUnread(false);
-              resetLinkPreview(conversationId);
-              drop(
-                clearConversationDraftAttachments(
-                  conversationId,
-                  draftAttachments
-                )
-              );
-              setQuoteByMessageId(conversationId, undefined)(
-                dispatch,
-                getState,
-                undefined
-              );
-              dispatch(incrementSendCounter(conversationId));
-
-              if (state.items.audioMessage) {
-                drop(new Sound({ soundType: SoundType.Whoosh }).play());
-              }
+        if (attachments.length === 0) {
+          await conversation.enqueueMessageForSend(
+            {
+              body: message,
+              attachments: [],
+              quote,
+              preview: getLinkPreviewForSend(message),
+              bodyRanges,
+              isViewOnce,
             },
+            {
+              sendHQImages,
+              timestamp,
+              extraReduxActions: () => {
+                conversation.setMarkedUnread(false);
+                resetLinkPreview(conversationId);
+                setQuoteByMessageId(conversationId, undefined)(
+                  dispatch,
+                  getState,
+                  undefined
+                );
+                dispatch(incrementSendCounter(conversationId));
+              },
           }
         );
-      } catch (error) {
-        log.error(
-          'Error pulling attached files before send',
-          Errors.toLogFormat(error)
-        );
-      }
-    });
-  };
+
+        return;
+}
+        
+        for (let i = 0; i < attachments.length; i++) {
+          const att = attachments[i];
+          await conversation.enqueueMessageForSend(
+            {
+              body: i === 0 ? message : '',
+              attachments: [att],           
+              quote,
+              preview: i === 0 ? getLinkPreviewForSend(message) : undefined,
+              bodyRanges: i === 0 ? bodyRanges : undefined,
+              isViewOnce,
+            },
+            {
+              sendHQImages,
+              timestamp: timestamp + i, 
+              extraReduxActions: () => {
+                if (i === 0) {
+                  conversation.setMarkedUnread(false);
+                  resetLinkPreview(conversationId);
+                  drop(
+                    clearConversationDraftAttachments(
+                      conversationId,
+                      draftAttachments
+                  )
+                );
+                setQuoteByMessageId(conversationId, undefined)(
+                  dispatch,
+                  getState,
+                  undefined
+                );
+                dispatch(incrementSendCounter(conversationId));
+                if (state.items.audioMessage) {
+                  drop(new Sound({ soundType: SoundType.Whoosh }).play());
+                }
+              }
+            },
+        }
+      );
+    }
+  }
+  catch (error){
+    log.error(
+      'Error pulling attached files before send',
+      Errors.toLogFormat(error)
+    );
+  }
+});
+};
 }
 
 function sendStickerMessage(
@@ -1300,24 +1334,32 @@ function preProcessAttachment(
     return { toastType: ToastType.MaxAttachments };
   }
 
-  const haveNonImageOrVideo = draftAttachments.some(
-    (attachment: AttachmentDraftType) => {
-      return !isImageAttachment(attachment) && !isVideoAttachment(attachment);
-    }
-  );
-  // You can't add another attachment if you already have a non-image staged
-  if (haveNonImageOrVideo) {
-    return { toastType: ToastType.UnsupportedMultiAttachment };
-  }
-
   const fileType = stringToMIMEType(file.type);
   const imageOrVideo =
     isImageTypeSupported(fileType) || isVideoTypeSupported(fileType);
+  
+  const isMedia = (type: string) =>
+    isImageTypeSupported(type) || isVideoTypeSupported(type);
+  
+  const existingAreMedia = draftAttachments.every(att =>
+    isMedia(att.contentType)
+  );
+  
+  const existingAreFiles = draftAttachments.every(att =>
+    !isMedia(att.contentType)
+  );
 
-  // You can't add a non-image attachment if you already have attachments staged
-  if (!imageOrVideo && draftAttachments.length > 0) {
-    return { toastType: ToastType.CannotMixMultiAndNonMultiAttachments };
-  }
+  const currentIsMedia = imageOrVideo;
+  const currentIsFile = !imageOrVideo;
+  
+  if (
+  draftAttachments.length > 0 &&
+  ((existingAreMedia && currentIsFile) ||
+   (existingAreFiles && currentIsMedia))
+) {
+  return { toastType: ToastType.CannotMixMultiAndNonMultiAttachments };
+}
+
 
   // Putting this after everything else because the other checks are more
   // important to show to the user.

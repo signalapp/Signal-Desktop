@@ -476,10 +476,12 @@ export function areAllAttachmentsVisual(
     return false;
   }
 
+  
   const max = attachments.length;
   for (let i = 0; i < max; i += 1) {
     const attachment = attachments[i];
-    if (!isImageAttachment(attachment) && !isVideoAttachment(attachment)) {
+    const isPDF = attachment.contentType === 'application/pdf'; 
+    if (!isImageAttachment(attachment) && !isVideoAttachment(attachment) && !isPDF) {
       return false;
     }
   }
