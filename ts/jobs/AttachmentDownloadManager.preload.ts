@@ -44,11 +44,7 @@ import {
 import type { ReadonlyMessageAttributesType } from '../model-types.d.ts';
 import { backupsService } from '../services/backups/index.preload.ts';
 import { getMessageById } from '../messages/getMessageById.preload.ts';
-import {
-  KIBIBYTE,
-  getMaximumIncomingAttachmentSizeInKb,
-  getMaximumIncomingTextAttachmentSizeInKb,
-} from '../types/AttachmentSize.std.ts';
+import { getMaximumIncomingAttachmentSize } from '../types/AttachmentSize.std.ts';
 import {
   addAttachmentToMessage,
   AttachmentNotNeededForMessageError,
@@ -88,6 +84,7 @@ import { itemStorage } from '../textsecure/Storage.preload.ts';
 import { calculateExpirationTimestamp } from '../util/expirationTimer.std.ts';
 import { cleanupAttachmentFiles } from '../util/cleanup.preload.ts';
 import { getExistingAttachmentDataForReuse } from '../util/attachments/deduplicateAttachment.preload.ts';
+import { MAX_BODY_ATTACHMENT_BYTE_LENGTH } from '../util/longAttachment.std.ts';
 
 const { noop, omit, throttle } = lodash;
 
@@ -132,8 +129,8 @@ const BACKUP_RETRY_CONFIG = {
 type RunDownloadAttachmentJobOptions = {
   abortSignal: AbortSignal;
   isForCurrentlyVisibleMessage: boolean;
-  maxAttachmentSizeInKib: number;
-  maxTextAttachmentSizeInKib: number;
+  maxAttachmentSize: number;
+  maxTextAttachmentSize: number;
   hasMediaBackups: boolean;
 };
 
@@ -156,6 +153,9 @@ type AttachmentDownloadManagerParamsType = Omit<
   onLowDiskSpaceBackupImport: (bytesNeeded: number) => Promise<void>;
   hasMediaBackups: () => boolean;
   getMessageQueueTime: () => number;
+  maxAttachmentSize?: number;
+  maxTextAttachmentSize?: number;
+  minimumFreeDiskSpace?: number;
   statfs: typeof statfs;
 };
 
@@ -187,11 +187,9 @@ export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownload
   #getMessageQueueTime: () => number;
   #hasMediaBackups: () => boolean;
   #statfs: typeof statfs;
-  #maxAttachmentSizeInKib = getMaximumIncomingAttachmentSizeInKb(getValue);
-  #maxTextAttachmentSizeInKib =
-    getMaximumIncomingTextAttachmentSizeInKb(getValue);
-
-  #minimumFreeDiskSpace = this.#maxAttachmentSizeInKib * 5;
+  #maxAttachmentSize: number;
+  #maxTextAttachmentSize: number;
+  #minimumFreeDiskSpace: number;
 
   #attachmentBackfill = new AttachmentBackfill();
 
@@ -288,8 +286,8 @@ export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownload
             abortSignal,
             hasMediaBackups: this.#hasMediaBackups(),
             isForCurrentlyVisibleMessage,
-            maxAttachmentSizeInKib: this.#maxAttachmentSizeInKib,
-            maxTextAttachmentSizeInKib: this.#maxTextAttachmentSizeInKib,
+            maxAttachmentSize: this.#maxAttachmentSize,
+            maxTextAttachmentSize: this.#maxTextAttachmentSize,
           },
         });
       },
@@ -297,6 +295,15 @@ export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownload
     this.#onLowDiskSpaceBackupImport = params.onLowDiskSpaceBackupImport;
     this.#getMessageQueueTime = params.getMessageQueueTime;
     this.#hasMediaBackups = params.hasMediaBackups;
+    this.#maxAttachmentSize =
+      params.maxAttachmentSize ?? getMaximumIncomingAttachmentSize(getValue);
+    this.#maxTextAttachmentSize = getAttachmentCiphertextSize({
+      unpaddedPlaintextSize: MAX_BODY_ATTACHMENT_BYTE_LENGTH,
+      mediaTier: MediaTier.STANDARD,
+    });
+    this.#minimumFreeDiskSpace =
+      params.minimumFreeDiskSpace ?? 5 * this.#maxAttachmentSize;
+
     this.#statfs = params.statfs;
   }
 
@@ -407,7 +414,7 @@ export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownload
       return { outOfSpace: false };
     }
 
-    if (freeDiskSpace <= this.#minimumFreeDiskSpace) {
+    if (freeDiskSpace < this.#minimumFreeDiskSpace) {
       const remainingBackupBytesToDownload =
         itemStorage.get('backupMediaDownloadTotalBytes', 0) -
         itemStorage.get('backupMediaDownloadCompletedBytes', 0);
@@ -543,8 +550,8 @@ export async function runDownloadAttachmentJob({
       hasMediaBackups: options.hasMediaBackups,
       isForCurrentlyVisibleMessage:
         options?.isForCurrentlyVisibleMessage ?? false,
-      maxAttachmentSizeInKib: options.maxAttachmentSizeInKib,
-      maxTextAttachmentSizeInKib: options.maxTextAttachmentSizeInKib,
+      maxAttachmentSize: options.maxAttachmentSize,
+      maxTextAttachmentSize: options.maxTextAttachmentSize,
       dependencies,
       messageExpiresAt:
         calculateExpirationTimestamp(message.attributes) ?? null,
@@ -715,8 +722,8 @@ export async function runDownloadAttachmentJobInner({
   job,
   abortSignal,
   isForCurrentlyVisibleMessage,
-  maxAttachmentSizeInKib,
-  maxTextAttachmentSizeInKib,
+  maxAttachmentSize,
+  maxTextAttachmentSize,
   hasMediaBackups,
   messageExpiresAt,
   dependencies,
@@ -735,23 +742,15 @@ export async function runDownloadAttachmentJobInner({
   }
 
   const { size } = attachment;
-  const sizeInKib = size / KIBIBYTE;
 
-  if (
-    !Number.isFinite(size) ||
-    size < 0 ||
-    sizeInKib > maxAttachmentSizeInKib
-  ) {
+  if (!Number.isFinite(size) || size < 0 || size > maxAttachmentSize) {
     throw new AttachmentSizeError(
-      `${logId}: Attachment was ${sizeInKib}kib, max is ${maxAttachmentSizeInKib}kib`
+      `${logId}: Attachment was ${size}, max is ${maxAttachmentSize}`
     );
   }
-  if (
-    attachmentType === 'long-message' &&
-    sizeInKib > maxTextAttachmentSizeInKib
-  ) {
+  if (attachmentType === 'long-message' && size > maxTextAttachmentSize) {
     throw new AttachmentSizeError(
-      `${logId}: Text attachment was ${sizeInKib}kib, max is ${maxTextAttachmentSizeInKib}kib`
+      `${logId}: Text attachment was ${size}, max is ${maxTextAttachmentSize}`
     );
   }
   const mightBeInRemoteBackup = shouldAttachmentEndUpInRemoteBackup({

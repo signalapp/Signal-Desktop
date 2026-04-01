@@ -60,9 +60,9 @@ import {
   suspendLinkPreviews,
 } from '../../services/LinkPreview.preload.ts';
 import {
-  getMaximumOutgoingAttachmentSizeInKb,
+  getAttachmentSizeLimit,
   getRenderDetailsForLimit,
-  KIBIBYTE,
+  isAttachmentTooLargeToSend,
 } from '../../types/AttachmentSize.std.ts';
 import { getValue as getRemoteConfigValue } from '../../RemoteConfig.dom.ts';
 import { getRecipientsByConversation } from '../../util/getRecipientsByConversation.dom.ts';
@@ -1329,11 +1329,19 @@ function preProcessAttachment(
 
   // Putting this after everything else because the other checks are more
   // important to show to the user.
-  const limitKb = getMaximumOutgoingAttachmentSizeInKb(getRemoteConfigValue);
-  if (file.size / KIBIBYTE > limitKb) {
+  const sizeLimit = getAttachmentSizeLimit({
+    contentType: fileType,
+    getRemoteConfigValue,
+  });
+
+  if (
+    isAttachmentTooLargeToSend({ plaintextSize: file.size, limit: sizeLimit })
+  ) {
     return {
-      toastType: ToastType.FileSize,
-      parameters: getRenderDetailsForLimit(limitKb),
+      toastType: isVideoAttachment({ contentType: fileType })
+        ? ToastType.VideoFileSize
+        : ToastType.FileSize,
+      parameters: getRenderDetailsForLimit(sizeLimit),
     };
   }
 

@@ -83,6 +83,7 @@ const ScalarKeys = [
   'global.normalDeleteMaxAgeInSeconds',
   'global.pinned_message_limit',
   'global.textAttachmentLimitBytes',
+  'global.videoAttachments.transcodeTargetBytes',
 ] as const;
 
 // These keys should always match those in Net.REMOTE_CONFIG_KEYS, prefixed by

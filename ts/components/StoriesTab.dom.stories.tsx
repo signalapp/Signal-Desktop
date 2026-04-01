@@ -24,7 +24,7 @@ export default {
     getPreferredBadge: () => undefined,
     hiddenStories: [],
     i18n,
-    maxAttachmentSizeInKb: 100 * 1024,
+    maxAttachmentVideoSize: 100 * 1024 * 1024,
     me: getDefaultConversation(),
     myStories: [],
     onForwardStory: action('onForwardStory'),

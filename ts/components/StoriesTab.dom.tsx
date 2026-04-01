@@ -40,7 +40,7 @@ export type PropsType = {
   i18n: LocalizerType;
   isStoriesSettingsVisible: boolean;
   isViewingStory: boolean;
-  maxAttachmentSizeInKb: number;
+  maxAttachmentVideoSize: number;
   me: ConversationType;
   myStories: Array<MyStoryType>;
   navTabsCollapsed: boolean;
@@ -78,7 +78,7 @@ export function StoriesTab({
   hasViewReceiptSetting,
   hiddenStories,
   i18n,
-  maxAttachmentSizeInKb,
+  maxAttachmentVideoSize,
   me,
   myStories,
   navTabsCollapsed,
@@ -155,7 +155,7 @@ export function StoriesTab({
             <>
               <StoriesAddStoryButton
                 i18n={i18n}
-                maxAttachmentSizeInKb={maxAttachmentSizeInKb}
+                maxAttachmentVideoSize={maxAttachmentVideoSize}
                 moduleClassName="Stories__pane__add-story"
                 onAddStory={onAddStory}
                 showToast={showToast}
@@ -183,7 +183,7 @@ export function StoriesTab({
             getPreferredBadge={getPreferredBadge}
             hiddenStories={hiddenStories}
             i18n={i18n}
-            maxAttachmentSizeInKb={maxAttachmentSizeInKb}
+            maxAttachmentVideoSize={maxAttachmentVideoSize}
             me={me}
             myStories={myStories}
             onAddStory={onAddStory}

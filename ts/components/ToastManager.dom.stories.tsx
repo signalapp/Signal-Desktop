@@ -275,6 +275,11 @@ function getToast(toastType: ToastType): AnyToast {
           group: 'Hike Group 🏔',
         },
       };
+    case ToastType.VideoFileSize:
+      return {
+        toastType: ToastType.VideoFileSize,
+        parameters: { limit: 100, units: 'MB' },
+      };
     case ToastType.ViewOnceDisabled:
       return { toastType: ToastType.ViewOnceDisabled };
     case ToastType.ViewOnceEnabled:

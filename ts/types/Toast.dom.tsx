@@ -98,6 +98,7 @@ export enum ToastType {
   UsernameRecovered = 'UsernameRecovered',
   ViewOnceDisabled = 'ViewOnceDisabled',
   ViewOnceEnabled = 'ViewOnceEnabled',
+  VideoFileSize = 'VideoFileSize',
   VoiceNoteLimit = 'VoiceNoteLimit',
   VoiceNoteMustBeTheOnlyAttachment = 'VoiceNoteMustBeTheOnlyAttachment',
   WhoCanFindMeReadOnly = 'WhoCanFindMeReadOnly',
@@ -185,7 +186,7 @@ export type AnyToast =
       parameters: { fullPath: string; countOfFiles?: number };
     }
   | {
-      toastType: ToastType.FileSize;
+      toastType: ToastType.FileSize | ToastType.VideoFileSize;
       parameters: { limit: number; units: string };
     }
   | { toastType: ToastType.GroupLinkCopied }

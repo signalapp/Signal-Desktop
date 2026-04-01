@@ -17,7 +17,7 @@ import { ConfirmationDialog } from './ConfirmationDialog.dom.tsx';
 export type PropsType = {
   children?: ReactNode;
   i18n: LocalizerType;
-  maxAttachmentSizeInKb: number;
+  maxAttachmentVideoSize: number;
   moduleClassName?: string;
   onAddStory: (file?: File) => unknown;
   onContextMenuShowingChanged?: (value: boolean) => void;
@@ -27,7 +27,7 @@ export type PropsType = {
 export function StoriesAddStoryButton({
   children,
   i18n,
-  maxAttachmentSizeInKb,
+  maxAttachmentVideoSize,
   moduleClassName,
   onAddStory,
   showToast,
@@ -47,7 +47,7 @@ export function StoriesAddStoryButton({
       }
 
       const result = await isVideoGoodForStories(file, {
-        maxAttachmentSizeInKb,
+        maxAttachmentVideoSize,
       });
 
       if (
@@ -85,7 +85,7 @@ export function StoriesAddStoryButton({
       onAddStory(file);
     };
     input.click();
-  }, [setError, showToast, i18n, maxAttachmentSizeInKb, onAddStory]);
+  }, [setError, showToast, i18n, maxAttachmentVideoSize, onAddStory]);
 
   return (
     <>

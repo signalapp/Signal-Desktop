@@ -4,70 +4,69 @@
 import { createLogger } from '../logging/log.std.ts';
 import { parseIntOrThrow } from '../util/parseIntOrThrow.std.ts';
 import type * as RemoteConfig from '../RemoteConfig.dom.ts';
+import { getAttachmentCiphertextSize } from '../util/AttachmentCrypto.std.ts';
+import { MediaTier } from './AttachmentDownload.std.ts';
+import type { MIMEType } from './MIME.std.ts';
+import { isVideoAttachment } from '../util/Attachment.std.ts';
 
 const log = createLogger('AttachmentSize');
 
 export const KIBIBYTE = 1024;
 export const MEBIBYTE = 1024 * 1024;
-const DEFAULT_MAX = 100 * MEBIBYTE;
 
-export const getMaximumOutgoingAttachmentSizeInKb = (
+export const getMaximumOutgoingVideoSize = (
   getValue: typeof RemoteConfig.getValue
 ): number => {
   try {
-    return (
-      parseIntOrThrow(
-        getValue('global.attachments.maxBytes'),
-        'getMaximumOutgoingAttachmentSizeInKb'
-      ) / KIBIBYTE
+    return parseIntOrThrow(
+      getValue('global.videoAttachments.transcodeTargetBytes'),
+      'getMaximumOutgoingVideoSize'
+    );
+  } catch (error) {
+    log.warn(
+      'Failed to parse integer out of global.videoAttachments.transcodeTargetBytes feature flag'
+    );
+    return 100 * MEBIBYTE;
+  }
+};
+
+export const getMaximumOutgoingAttachmentSize = (
+  getValue: typeof RemoteConfig.getValue
+): number => {
+  try {
+    return parseIntOrThrow(
+      getValue('global.attachments.maxBytes'),
+      'getMaximumOutgoingAttachmentSize'
     );
   } catch (error) {
     log.warn(
       'Failed to parse integer out of global.attachments.maxBytes feature flag'
     );
-    return DEFAULT_MAX / KIBIBYTE;
+    return 100 * MEBIBYTE;
   }
 };
 
-export const getMaximumIncomingAttachmentSizeInKb = (
+export const getMaximumIncomingAttachmentSize = (
   getValue: typeof RemoteConfig.getValue
 ): number => {
   try {
-    return (
-      parseIntOrThrow(
-        getValue('global.attachments.maxReceiveBytes'),
-        'getMaximumIncomingAttachmentSizeInKb'
-      ) / KIBIBYTE
+    return parseIntOrThrow(
+      getValue('global.attachments.maxReceiveBytes'),
+      'getMaximumIncomingAttachmentSize'
     );
   } catch (_error) {
     // TODO: DESKTOP-5913. We're not gonna log until the new flag is fully deployed
-    return getMaximumOutgoingAttachmentSizeInKb(getValue) * 1.25;
+    return getMaximumOutgoingAttachmentSize(getValue) * 1.25;
   }
 };
 
-export const getMaximumIncomingTextAttachmentSizeInKb = (
-  getValue: typeof RemoteConfig.getValue
-): number => {
-  try {
-    return (
-      parseIntOrThrow(
-        getValue('global.textAttachmentLimitBytes'),
-        'getMaximumIncomingTextAttachmentSizeInKb'
-      ) / KIBIBYTE
-    );
-  } catch (_error) {
-    // TODO: DESKTOP-6314. We're not gonna log until the new flag is fully deployed
-    return KIBIBYTE * 5;
-  }
-};
-
-export function getRenderDetailsForLimit(limitKb: number): {
+export function getRenderDetailsForLimit(limitBytes: number): {
   limit: number;
   units: string;
 } {
   const units = ['kB', 'MB', 'GB'];
   let u = -1;
-  let limit = limitKb * KIBIBYTE;
+  let limit = limitBytes;
   do {
     limit /= KIBIBYTE;
     u += 1;
@@ -78,4 +77,32 @@ export function getRenderDetailsForLimit(limitKb: number): {
     // oxlint-disable-next-line typescript/no-non-null-assertion
     units: units[u]!,
   };
+}
+
+export function getAttachmentSizeLimit({
+  contentType,
+  getRemoteConfigValue,
+}: {
+  contentType: MIMEType;
+  getRemoteConfigValue: typeof RemoteConfig.getValue;
+}): number {
+  const isVideo = isVideoAttachment({ contentType });
+  return isVideo
+    ? getMaximumOutgoingVideoSize(getRemoteConfigValue)
+    : getMaximumOutgoingAttachmentSize(getRemoteConfigValue);
+}
+
+export function isAttachmentTooLargeToSend({
+  plaintextSize,
+  limit,
+}: {
+  plaintextSize: number;
+  limit: number;
+}): boolean {
+  const paddedAndEncryptedSize = getAttachmentCiphertextSize({
+    unpaddedPlaintextSize: plaintextSize,
+    mediaTier: MediaTier.STANDARD,
+  });
+
+  return paddedAndEncryptedSize > limit;
 }

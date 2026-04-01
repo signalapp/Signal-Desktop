@@ -59,7 +59,7 @@ export type PropsType = {
   getPreferredBadge: PreferredBadgeSelectorType;
   hiddenStories: Array<ConversationStoryType>;
   i18n: LocalizerType;
-  maxAttachmentSizeInKb: number;
+  maxAttachmentVideoSize: number;
   me: ConversationType;
   myStories: Array<MyStoryType>;
   onAddStory: (file?: File) => unknown;
@@ -79,7 +79,7 @@ export function StoriesPane({
   getPreferredBadge,
   hiddenStories,
   i18n,
-  maxAttachmentSizeInKb,
+  maxAttachmentVideoSize,
   me,
   myStories,
   onAddStory,
@@ -126,7 +126,7 @@ export function StoriesPane({
       <div className="Stories__pane__list">
         <MyStoryButton
           i18n={i18n}
-          maxAttachmentSizeInKb={maxAttachmentSizeInKb}
+          maxAttachmentVideoSize={maxAttachmentVideoSize}
           me={me}
           myStories={myStories}
           onAddStory={onAddStory}

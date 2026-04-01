@@ -5,7 +5,6 @@ import { unicodeSlice } from './unicodeSlice.std.ts';
 
 const KIBIBYTE = 1024;
 export const MAX_MESSAGE_BODY_BYTE_LENGTH = 2 * KIBIBYTE;
-
 export const MAX_BODY_ATTACHMENT_BYTE_LENGTH = 64 * KIBIBYTE;
 
 export function isBodyTooLong(

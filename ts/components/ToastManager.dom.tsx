@@ -607,6 +607,16 @@ export function renderToast({
       </Toast>
     );
   }
+  if (toastType === ToastType.VideoFileSize) {
+    return (
+      <Toast onClose={hideToast}>
+        {i18n('icu:videoFileSizeWarning', {
+          limit: toast.parameters.limit,
+          units: toast.parameters.units,
+        })}
+      </Toast>
+    );
+  }
 
   if (toastType === ToastType.GroupLinkCopied) {
     return (

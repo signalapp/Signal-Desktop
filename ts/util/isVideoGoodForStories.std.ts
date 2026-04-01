@@ -4,8 +4,8 @@
 import MP4Box from 'mp4box';
 import { VIDEO_MP4, isVideo } from '../types/MIME.std.ts';
 import {
-  KIBIBYTE,
   getRenderDetailsForLimit,
+  isAttachmentTooLargeToSend,
 } from '../types/AttachmentSize.std.ts';
 import { explodePromise } from './explodePromise.std.ts';
 
@@ -48,12 +48,12 @@ export type IsVideoGoodForStoriesResultType = Readonly<
 >;
 
 export type IsVideoGoodForStoriesOptionsType = Readonly<{
-  maxAttachmentSizeInKb: number;
+  maxAttachmentVideoSize: number;
 }>;
 
 export async function isVideoGoodForStories(
   file: File,
-  { maxAttachmentSizeInKb }: IsVideoGoodForStoriesOptionsType
+  { maxAttachmentVideoSize }: IsVideoGoodForStoriesOptionsType
 ): Promise<IsVideoGoodForStoriesResultType> {
   if (!isVideo(file.type)) {
     return { reason: ReasonVideoNotGood.AllGoodNevermind };
@@ -87,10 +87,15 @@ export async function isVideoGoodForStories(
     src = maybeSrc;
   }
 
-  if (src.byteLength / KIBIBYTE > maxAttachmentSizeInKb) {
+  if (
+    isAttachmentTooLargeToSend({
+      plaintextSize: src.byteLength,
+      limit: maxAttachmentVideoSize,
+    })
+  ) {
     return {
       reason: ReasonVideoNotGood.TooBig,
-      renderDetails: getRenderDetailsForLimit(maxAttachmentSizeInKb),
+      renderDetails: getRenderDetailsForLimit(maxAttachmentVideoSize),
     };
   }
 

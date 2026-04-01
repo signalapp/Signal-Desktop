@@ -6,8 +6,8 @@ import { useSelector } from 'react-redux';
 import { SmartStoryCreator } from './StoryCreator.preload.tsx';
 import { renderToastManagerWithoutMegaphone } from './ToastManager.preload.tsx';
 import { StoriesTab } from '../../components/StoriesTab.dom.tsx';
-import { getMaximumOutgoingAttachmentSizeInKb } from '../../types/AttachmentSize.std.ts';
-import type { ConfigKeyType } from '../../RemoteConfig.dom.ts';
+import { getMaximumOutgoingVideoSize } from '../../types/AttachmentSize.std.ts';
+import { getValue, type ConfigKeyType } from '../../RemoteConfig.dom.ts';
 import {
   getMe,
   getOtherTabsUnreadStats,
@@ -68,11 +68,8 @@ export const SmartStoriesTab = memo(function SmartStoriesTab() {
   const otherTabsUnreadStats = useSelector(getOtherTabsUnreadStats);
   const remoteConfig = useSelector(getRemoteConfig);
 
-  const maxAttachmentSizeInKb = getMaximumOutgoingAttachmentSizeInKb(
-    (name: ConfigKeyType) => {
-      const value = remoteConfig[name]?.value;
-      return value ? String(value) : undefined;
-    }
+  const maxAttachmentVideoSize = getMaximumOutgoingVideoSize(
+    (name: ConfigKeyType) => getValue(name, remoteConfig)
   );
   const { pauseVoiceNotePlayer } = useAudioPlayerActions();
 
@@ -118,7 +115,7 @@ export const SmartStoriesTab = memo(function SmartStoriesTab() {
       hasPendingUpdate={hasPendingUpdate}
       hiddenStories={hiddenStories}
       i18n={i18n}
-      maxAttachmentSizeInKb={maxAttachmentSizeInKb}
+      maxAttachmentVideoSize={maxAttachmentVideoSize}
       me={me}
       myStories={myStories}
       navTabsCollapsed={navTabsCollapsed}

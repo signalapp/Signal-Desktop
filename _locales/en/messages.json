@@ -1004,6 +1004,10 @@
     "messageformat": "Sorry, the selected file exceeds message size restrictions. {limit, number}{units}",
     "description": "Shown in a toast if the user tries to attach too-large file"
   },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit, number}{units}",
+    "description": "Shown in a toast if the user tries to attach too-large video file"
+  },
   "icu:unableToLoadAttachment": {
     "messageformat": "Unable to load selected attachment."
   },

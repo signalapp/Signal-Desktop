@@ -252,12 +252,11 @@ export type LocallySavedAttachment = WithRequiredProperties<
   'path'
 >;
 
-// Used for display
-
-export class AttachmentSizeError extends Error {}
-
-// Used for downlaods
-
+export class AttachmentSizeError extends Error {
+  constructor(message: string) {
+    super(`AttachmentSizeError: ${message}`);
+  }
+}
 // oxlint-disable-next-line max-classes-per-file
 export class AttachmentPermanentlyUndownloadableError extends Error {
   constructor(message: string) {

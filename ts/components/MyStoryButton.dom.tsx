@@ -17,7 +17,7 @@ import { reduceStorySendStatus } from '../util/resolveStorySendStatus.std.ts';
 
 export type PropsType = {
   i18n: LocalizerType;
-  maxAttachmentSizeInKb: number;
+  maxAttachmentVideoSize: number;
   me: ConversationType;
   myStories: Array<MyStoryType>;
   onAddStory: () => unknown;
@@ -34,7 +34,7 @@ function getNewestMyStory(story: MyStoryType): StoryViewType {
 
 export function MyStoryButton({
   i18n,
-  maxAttachmentSizeInKb,
+  maxAttachmentVideoSize,
   me,
   myStories,
   onAddStory,
@@ -56,7 +56,7 @@ export function MyStoryButton({
     return (
       <StoriesAddStoryButton
         i18n={i18n}
-        maxAttachmentSizeInKb={maxAttachmentSizeInKb}
+        maxAttachmentVideoSize={maxAttachmentVideoSize}
         moduleClassName="StoryListItem StoryListItem--active-opactiy"
         onAddStory={onAddStory}
         showToast={showToast}
@@ -107,7 +107,7 @@ export function MyStoryButton({
       <div className="MyStories__avatar-container">
         <StoriesAddStoryButton
           i18n={i18n}
-          maxAttachmentSizeInKb={maxAttachmentSizeInKb}
+          maxAttachmentVideoSize={maxAttachmentVideoSize}
           moduleClassName="StoryListItem--active-opacity"
           onAddStory={onAddStory}
           showToast={showToast}

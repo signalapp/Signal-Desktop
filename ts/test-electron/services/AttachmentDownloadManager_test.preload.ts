@@ -30,7 +30,7 @@ import type { downloadAttachment as downloadAttachmentUtil } from '../../util/do
 import { AttachmentDownloadSource } from '../../sql/Interface.std.ts';
 import { generateAttachmentKeys } from '../../AttachmentCrypto.node.ts';
 import { getAttachmentCiphertextSize } from '../../util/AttachmentCrypto.std.ts';
-import { MEBIBYTE } from '../../types/AttachmentSize.std.ts';
+import { KIBIBYTE, MEBIBYTE } from '../../types/AttachmentSize.std.ts';
 import { generateAci } from '../../types/ServiceId.std.ts';
 import { toBase64 } from '../../Bytes.std.ts';
 import { JobCancelReason } from '../../jobs/types.std.ts';
@@ -54,6 +54,10 @@ import { getAbsoluteAttachmentPath } from '../../util/migrations.preload.ts';
 
 const { omit } = lodash;
 
+const maxAttachmentSize = 100 * MEBIBYTE;
+const maxTextAttachmentSize = 5 * KIBIBYTE;
+const minimumFreeDiskSpace = 500 * MEBIBYTE;
+
 function composeJob({
   messageId,
   receivedAt,
@@ -67,6 +71,7 @@ function composeJob({
   const plaintextHash = testPlaintextHash();
   const size = 128;
   const contentType = MIME.IMAGE_PNG;
+
   return {
     messageId,
     receivedAt,
@@ -146,8 +151,8 @@ describe('AttachmentDownloadManager', () => {
       });
     statfs = sandbox.stub().callsFake(() =>
       Promise.resolve({
-        bavail: 100_000_000_000,
-        bsize: 100,
+        bavail: minimumFreeDiskSpace * 100,
+        bsize: 8,
       } as StatsFs)
     );
 
@@ -166,6 +171,9 @@ describe('AttachmentDownloadManager', () => {
       }),
       onLowDiskSpaceBackupImport,
       hasMediaBackups,
+      maxAttachmentSize,
+      maxTextAttachmentSize,
+      minimumFreeDiskSpace,
       getMessageQueueTime: () => 45 * DAY,
       statfs,
     });
@@ -416,7 +424,9 @@ describe('AttachmentDownloadManager', () => {
 
     const jobAttempts = getPromisesForAttempts(assertAt(jobs, 0), 2);
 
-    statfs.callsFake(() => Promise.resolve({ bavail: 0, bsize: 8 }));
+    statfs.callsFake(() =>
+      Promise.resolve({ bavail: minimumFreeDiskSpace / 8 - 1, bsize: 8 })
+    );
 
     await downloadManager?.start();
     await assertAt(jobAttempts, 0).completed;
@@ -426,7 +436,7 @@ describe('AttachmentDownloadManager', () => {
     assert.isTrue(itemStorage.get('backupMediaDownloadPaused'));
 
     statfs.callsFake(() =>
-      Promise.resolve({ bavail: 100_000_000_000, bsize: 8 })
+      Promise.resolve({ bavail: minimumFreeDiskSpace / 8, bsize: 8 })
     );
     await itemStorage.put('backupMediaDownloadPaused', false);
 
@@ -883,8 +893,8 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJob', () => {
       options: {
         isForCurrentlyVisibleMessage: false,
         abortSignal: abortController.signal,
-        maxAttachmentSizeInKib: 100000,
-        maxTextAttachmentSizeInKib: 100000,
+        maxAttachmentSize,
+        maxTextAttachmentSize,
         hasMediaBackups: false,
       },
       dependencies: {
@@ -967,6 +977,70 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
     sandbox.restore();
   });
 
+  describe('attachment size errors', () => {
+    it('throws AttachmentSizeError if attachment > maxAttachmentSize', async () => {
+      const job = composeJob({
+        messageId: '1',
+        receivedAt: 1,
+        attachmentOverrides: {
+          size: maxAttachmentSize + 1,
+        },
+      });
+
+      await assert.isRejected(
+        runDownloadAttachmentJobInner({
+          job,
+          isForCurrentlyVisibleMessage: false,
+          hasMediaBackups: true,
+          abortSignal: abortController.signal,
+          maxAttachmentSize,
+          maxTextAttachmentSize,
+          messageExpiresAt: null,
+          dependencies: {
+            cleanupAttachmentFiles,
+            maybeDeleteAttachmentFile,
+            deleteDownloadFile,
+            downloadAttachment,
+            processNewAttachment,
+          },
+        }),
+        'AttachmentSizeError'
+      );
+    });
+    it('throws AttachmentSizeError if longText attachment > maxTextAttachmentSize', async () => {
+      const job = composeJob({
+        messageId: '1',
+        receivedAt: 1,
+        attachmentOverrides: {
+          size: maxTextAttachmentSize + 1,
+        },
+        jobOverrides: {
+          attachmentType: 'long-message',
+        },
+      });
+
+      await assert.isRejected(
+        runDownloadAttachmentJobInner({
+          job,
+          isForCurrentlyVisibleMessage: false,
+          hasMediaBackups: true,
+          abortSignal: abortController.signal,
+          maxAttachmentSize,
+          maxTextAttachmentSize,
+          messageExpiresAt: null,
+          dependencies: {
+            cleanupAttachmentFiles,
+            maybeDeleteAttachmentFile,
+            deleteDownloadFile,
+            downloadAttachment,
+            processNewAttachment,
+          },
+        }),
+        'AttachmentSizeError'
+      );
+    });
+  });
+
   describe('visible message', () => {
     it('will only download full-size if attachment not from backup', async () => {
       const job = composeJob({
@@ -982,8 +1056,8 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
         isForCurrentlyVisibleMessage: true,
         hasMediaBackups: true,
         abortSignal: abortController.signal,
-        maxAttachmentSizeInKib: 100 * MEBIBYTE,
-        maxTextAttachmentSizeInKib: 2 * MEBIBYTE,
+        maxAttachmentSize,
+        maxTextAttachmentSize,
         messageExpiresAt: null,
         dependencies: {
           cleanupAttachmentFiles,
@@ -1023,8 +1097,8 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
         isForCurrentlyVisibleMessage: true,
         hasMediaBackups: true,
         abortSignal: abortController.signal,
-        maxAttachmentSizeInKib: 100 * MEBIBYTE,
-        maxTextAttachmentSizeInKib: 2 * MEBIBYTE,
+        maxAttachmentSize,
+        maxTextAttachmentSize,
         messageExpiresAt: null,
         dependencies: {
           cleanupAttachmentFiles,
@@ -1081,8 +1155,8 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
         isForCurrentlyVisibleMessage: true,
         hasMediaBackups: true,
         abortSignal: abortController.signal,
-        maxAttachmentSizeInKib: 100 * MEBIBYTE,
-        maxTextAttachmentSizeInKib: 2 * MEBIBYTE,
+        maxAttachmentSize,
+        maxTextAttachmentSize,
         messageExpiresAt: null,
         dependencies: {
           cleanupAttachmentFiles,
@@ -1121,8 +1195,8 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
         isForCurrentlyVisibleMessage: true,
         hasMediaBackups: true,
         abortSignal: abortController.signal,
-        maxAttachmentSizeInKib: 100 * MEBIBYTE,
-        maxTextAttachmentSizeInKib: 2 * MEBIBYTE,
+        maxAttachmentSize,
+        maxTextAttachmentSize,
         messageExpiresAt: null,
         dependencies: {
           cleanupAttachmentFiles,
@@ -1162,8 +1236,8 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
         isForCurrentlyVisibleMessage: false,
         hasMediaBackups: true,
         abortSignal: abortController.signal,
-        maxAttachmentSizeInKib: 100 * MEBIBYTE,
-        maxTextAttachmentSizeInKib: 2 * MEBIBYTE,
+        maxAttachmentSize,
+        maxTextAttachmentSize,
         messageExpiresAt: null,
         dependencies: {
           cleanupAttachmentFiles,
@@ -1201,8 +1275,8 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
         isForCurrentlyVisibleMessage: false,
         hasMediaBackups: true,
         abortSignal: abortController.signal,
-        maxAttachmentSizeInKib: 100 * MEBIBYTE,
-        maxTextAttachmentSizeInKib: 2 * MEBIBYTE,
+        maxAttachmentSize,
+        maxTextAttachmentSize,
         messageExpiresAt: null,
         dependencies: {
           cleanupAttachmentFiles,
@@ -1259,8 +1333,8 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
           isForCurrentlyVisibleMessage: false,
           hasMediaBackups: true,
           abortSignal: abortController.signal,
-          maxAttachmentSizeInKib: 100 * MEBIBYTE,
-          maxTextAttachmentSizeInKib: 2 * MEBIBYTE,
+          maxAttachmentSize,
+          maxTextAttachmentSize,
           messageExpiresAt: null,
           dependencies: {
             cleanupAttachmentFiles,
@@ -1390,8 +1464,8 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
         isForCurrentlyVisibleMessage: false,
         hasMediaBackups: false,
         abortSignal: abortController.signal,
-        maxAttachmentSizeInKib: 100 * MEBIBYTE,
-        maxTextAttachmentSizeInKib: 2 * MEBIBYTE,
+        maxAttachmentSize,
+        maxTextAttachmentSize,
         messageExpiresAt: null,
         dependencies: {
           cleanupAttachmentFiles,
@@ -1465,8 +1539,8 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
         isForCurrentlyVisibleMessage: false,
         hasMediaBackups: false,
         abortSignal: abortController.signal,
-        maxAttachmentSizeInKib: 100 * MEBIBYTE,
-        maxTextAttachmentSizeInKib: 2 * MEBIBYTE,
+        maxAttachmentSize,
+        maxTextAttachmentSize,
         messageExpiresAt: null,
         dependencies: {
           cleanupAttachmentFiles,
@@ -1525,8 +1599,8 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
         isForCurrentlyVisibleMessage: false,
         hasMediaBackups: false,
         abortSignal: abortController.signal,
-        maxAttachmentSizeInKib: 100 * MEBIBYTE,
-        maxTextAttachmentSizeInKib: 2 * MEBIBYTE,
+        maxAttachmentSize,
+        maxTextAttachmentSize,
         messageExpiresAt: null,
         dependencies: {
           cleanupAttachmentFiles,
@@ -1567,8 +1641,8 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
         isForCurrentlyVisibleMessage: false,
         hasMediaBackups: false,
         abortSignal: abortController.signal,
-        maxAttachmentSizeInKib: 100 * MEBIBYTE,
-        maxTextAttachmentSizeInKib: 2 * MEBIBYTE,
+        maxAttachmentSize,
+        maxTextAttachmentSize,
         messageExpiresAt: null,
         dependencies: {
           cleanupAttachmentFiles,
@@ -1610,8 +1684,8 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
         isForCurrentlyVisibleMessage: false,
         hasMediaBackups: false,
         abortSignal: abortController.signal,
-        maxAttachmentSizeInKib: 100 * MEBIBYTE,
-        maxTextAttachmentSizeInKib: 2 * MEBIBYTE,
+        maxAttachmentSize,
+        maxTextAttachmentSize,
         messageExpiresAt: null,
         dependencies: {
           cleanupAttachmentFiles,
