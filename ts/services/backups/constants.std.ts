@@ -8,7 +8,7 @@ export const BACKUP_VERSION = 1n;
 
 export const LOCAL_BACKUP_VERSION = 1;
 
-export const LOCAL_BACKUP_BACKUP_ID_IV_LENGTH = 16;
+export const LOCAL_BACKUP_BACKUP_ID_IV_LENGTH = 12;
 
 const { WallpaperPreset } = Backups.ChatStyle;
 
