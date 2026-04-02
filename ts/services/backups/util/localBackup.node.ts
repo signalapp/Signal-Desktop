@@ -212,13 +212,25 @@ export function getAttachmentLocalBackupPathFromSnapshotDir(
   );
 }
 
+function getBackupIdIvAndCounter({
+  iv,
+}: {
+  iv: Uint8Array<ArrayBuffer>;
+}): Uint8Array<ArrayBuffer> {
+  return Buffer.concat([iv, Buffer.alloc(4)]);
+}
+
 export async function writeLocalBackupMetadata({
   snapshotDir,
   backupId,
   metadataKey,
 }: LocalBackupMetadataVerificationType): Promise<void> {
   const iv = randomBytes(LOCAL_BACKUP_BACKUP_ID_IV_LENGTH);
-  const encryptedId = encryptAesCtr(metadataKey, backupId, iv);
+  const encryptedId = encryptAesCtr(
+    metadataKey,
+    backupId,
+    getBackupIdIvAndCounter({ iv })
+  );
 
   const metadataSerialized = Signal.backup.local.Metadata.encode({
     backupId: {
@@ -257,7 +269,11 @@ export async function verifyLocalBackupMetadata({
     'verifyLocalBackupMetadata: Must have backupId.encryptedId'
   );
 
-  const localBackupBackupId = decryptAesCtr(metadataKey, encryptedId, iv);
+  const localBackupBackupId = decryptAesCtr(
+    metadataKey,
+    encryptedId,
+    getBackupIdIvAndCounter({ iv })
+  );
   strictAssert(
     Bytes.areEqual(backupId, localBackupBackupId),
     'verifyLocalBackupMetadata: backupId must match the local backup backupId'
