@@ -291,6 +291,12 @@ if (!process.mas) {
           return;
         }
 
+        // Focus the window when a deep link is clicked
+        if (mainWindow.isMinimized()) {
+          mainWindow.restore();
+        }
+        showWindow();
+
         handleSignalRoute(route);
       }
     });
