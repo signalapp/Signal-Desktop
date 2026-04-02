@@ -3383,7 +3383,7 @@ async function showStickerCreatorWindow() {
       nodeIntegrationInWorker: false,
       sandbox: true,
       contextIsolation: true,
-      preload: join(rootDir, 'bundles', 'sticker-creator', 'preload.js'),
+      preload: join(rootDir, 'bundles', 'preload', 'sticker-creator.js'),
       nativeWindowOpen: true,
     },
   };
