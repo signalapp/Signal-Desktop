@@ -150,7 +150,6 @@ const NODE_PACKAGES = new Set([
   'tailwindcss',
   'terser-webpack-plugin',
   'tsx',
-  'ts-node',
   'typescript',
   'wait-on',
   'webpack',
@@ -204,9 +203,6 @@ const DOM_PACKAGES = new Set([
 // Packages that can run in both browser/node
 const STD_PACKAGES = new Set([
   '@babel/core',
-  '@babel/plugin-proposal-class-properties',
-  '@babel/plugin-proposal-nullish-coalescing-operator',
-  '@babel/plugin-proposal-optional-chaining',
   '@babel/plugin-transform-runtime',
   '@babel/plugin-transform-typescript',
   '@babel/preset-react',
@@ -536,7 +532,9 @@ export const enforceFileSuffix = ESLintUtils.RuleCreator.withoutDocs({
           return;
         }
 
-        const match = filename.match(/\.([^.\/]+)(?:\.stories)?\.(?:ts|tsx)$/);
+        const match = filename.match(
+          /\.([^.\/]+)(?:\.stories)?\.(?:ts|tsx|js|mjs)$/
+        );
         if (match == null) {
           context.report({
             node: node,

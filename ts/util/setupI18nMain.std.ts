@@ -21,9 +21,7 @@ import { bidiIsolate, bidiStrip } from './unicodeBidi.std.ts';
 
 const log = createLogger('setupI18nMain');
 
-export function isLocaleMessageType(
-  value: unknown
-): value is LocaleMessageType {
+function isLocaleMessageType(value: unknown): value is LocaleMessageType {
   return (
     typeof value === 'object' &&
     value != null &&

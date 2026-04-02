@@ -62,6 +62,16 @@
             "target": ["ts/util/**", "ts/types/**"],
             "from": ["ts/components/**", "ts/axo/**/*.dom.*"],
             "message": "Importing components is forbidden from ts/{util,types}"
+          },
+          {
+            "target": ["scripts/**", "codemods/**"],
+            "from": ["ts/**"],
+            "message": "Scripts should not import from ts/**"
+          },
+          {
+            "target": ["ts/**"],
+            "from": ["scripts/**", "codemods/**"],
+            "message": "App should not import from scripts"
           }
         ]
       }
@@ -1599,8 +1609,6 @@
     "sticker-creator/**",
     // Third-party files
     "components/mp3lameencoder/lib/Mp3LameEncoder.js",
-    "components/recorderjs/recorder.js",
-    "components/recorderjs/recorderWorker.js",
     "components/webaudiorecorder/lib/WebAudioRecorderMp3.js",
     "js/WebAudioRecorderMp3.js"
   ],
@@ -1626,7 +1634,7 @@
         // misc
         ".storybook/preview.tsx",
         "preload.wrapper.ts",
-        "test/test.js"
+        "test/test.mjs"
       ],
       "env": { "browser": true }
     },
@@ -1642,14 +1650,14 @@
         "codemods/**",
         "danger/**",
         "scripts/**",
-        ".babelrc.js",
-        ".prettierrc.js",
+        "test/test.m",
+        ".babelrc.mjs",
+        ".prettierrc.mjs",
         ".storybook/test-runner.ts",
         ".stylelintrc.js",
         "ci.js",
         "dangerfile.js",
         "eslint-local-rules.js",
-        "test/setup-test-node.js",
         "preload.wrapper.ts",
         "rolldown.config.ts"
       ],
@@ -1660,14 +1668,15 @@
         "ts/test-node/**",
         "ts/test-electron/**",
         "ts/test-mock/**",
-        "test/test.js"
+        "test/test.mjs",
+        "scripts/**/*_test.mjs"
       ],
       "env": { "mocha": true }
     },
 
     // disables
     {
-      "files": ["ts/scripts/**", "scripts/**", "danger/**", "ts/util/lint/**"],
+      "files": ["scripts/**", "danger/**", "ts/util/lint/**"],
       "rules": {
         "no-console": "off"
       }
@@ -1692,8 +1701,10 @@
         "danger/**",
         "packages/**",
         "scripts/**",
-        "test/**",
-        ".*rc.js",
+        "test/test.mjs",
+        ".babelrc.mjs",
+        ".prettierrc.mjs",
+        ".stylelintrc.mjs",
         "ci.js",
         "dangerfile.mjs",
         "preload.wrapper.ts",
@@ -1714,16 +1725,13 @@
         ".oxlint/**",
         ".storybook/**",
         "build/intl-linter/**",
-        "codemods/**",
         "danger/**",
-        "scripts/**",
-        "test/**",
-        "ts/scripts/**",
         "ts/test-electron/**",
         "ts/test-mock/**",
         "ts/test-node/**",
         "ts/util/lint/**",
         "ts/windows/main/*_test.*",
+        "test/test.mjs",
         "dangerfile.js",
         "preload.wrapper.ts",
         "rolldown.config.ts"

@@ -134,9 +134,9 @@ jobs:
     - name: Upload installer size
       if: ${{ github.repository == 'signalapp/Signal-Desktop-Private' && github.ref == 'refs/heads/main' }}
       run: |
-        ./node_modules/.bin/tsx ts/scripts/publish-installer-size.node.ts macos-arm64
-        ./node_modules/.bin/tsx ts/scripts/publish-installer-size.node.ts macos-x64
-        ./node_modules/.bin/tsx ts/scripts/publish-installer-size.node.ts macos-universal
+        node scripts/publish-installer-size.mjs macos-arm64
+        node scripts/publish-installer-size.mjs macos-x64
+        node scripts/publish-installer-size.mjs macos-universal
     - run: pnpm run test-release
       env:
         NODE_ENV: production
@@ -216,7 +216,7 @@ jobs:
 
     - name: Upload installer size
       if: ${{ github.repository == 'signalapp/Signal-Desktop-Private' && github.ref == 'refs/heads/main' }}
-      run: ./node_modules/.bin/tsx ts/scripts/publish-installer-size.node.ts linux
+      run: node scripts/publish-installer-size.mjs linux
 
     - run: xvfb-run --auto-servernum pnpm run test-node
 
@@ -294,7 +294,7 @@ jobs:
 
     - name: Upload installer size
       if: ${{ github.repository == 'signalapp/Signal-Desktop-Private' && github.ref == 'refs/heads/main' }}
-      run: ./node_modules/.bin/tsx ts/scripts/publish-installer-size.node.ts windows
+      run: node scripts/publish-installer-size.mjs windows
 
     - run: pnpm run test-electron
       env:
@@ -483,4 +483,4 @@ jobs:
     - run: pnpm generate:phase-0
     - name: Run OS version check
       run: |
-        ./node_modules/.bin/tsx ts/scripts/check-min-os-version.node.ts
+        node scripts/check-min-os-version.mjs

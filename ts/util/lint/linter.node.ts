@@ -75,8 +75,6 @@ const excludedFilesRegexp = RegExp(
     '^js/components.js',
     '^js/curve/',
     '^js/util_worker.js',
-    '^libtextsecure/test/test.js',
-    '^test/test.js',
     '^ts/workers/heicConverter.bundle.js',
     '^ts/sql/mainWorker.bundle.js',
 
@@ -274,7 +272,6 @@ const excludedFilesRegexp = RegExp(
     '^node_modules/to-ast/.+',
     '^node_modules/trough/.+',
     '^node_modules/ts-loader/.+',
-    '^node_modules/ts-node/.+',
     '^node_modules/tweetnacl/.+',
     '^node_modules/typed-scss-modules/.+',
     '^node_modules/typescript/.+',

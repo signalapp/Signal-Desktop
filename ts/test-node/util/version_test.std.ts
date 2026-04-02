@@ -1,12 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-
 import { assert } from 'chai';
-import { useFakeTimers } from 'sinon';
-import * as semver from 'semver';
-
 import {
-  generateTaggedVersion,
   isAlpha,
   isAxolotl,
   isNightly,
@@ -100,103 +95,6 @@ describe('version utilities', () => {
       assert.isTrue(isStaging('1.2.3-staging'));
       assert.isTrue(isStaging('1.2.3-staging.1'));
       assert.isTrue(isStaging('1.2.3-staging.1232.23-adsfs'));
-    });
-  });
-
-  describe('generateTaggedVersion', () => {
-    beforeEach(function (this: Mocha.Context) {
-      // This isn't a hook.
-      this.clock = useFakeTimers();
-    });
-
-    afterEach(function (this: Mocha.Context) {
-      this.clock.restore();
-    });
-
-    it('uses the current date and provided shortSha', function (this: Mocha.Context) {
-      this.clock.setSystemTime(new Date('2021-07-23T01:22:55.692Z').getTime());
-
-      const currentVersion = '5.12.0-beta.1';
-      const shortSha = '07f0efc45';
-
-      const expected = '5.12.0-alpha.20210723.01-07f0efc45';
-      const actual = generateTaggedVersion({
-        release: 'alpha',
-        currentVersion,
-        shortSha,
-      });
-
-      assert.strictEqual(expected, actual);
-    });
-
-    it('same production version is semver.gt', function (this: Mocha.Context) {
-      const currentVersion = '5.12.0-beta.1';
-      const shortSha = '07f0efc45';
-
-      this.clock.setSystemTime(new Date('2021-07-23T01:22:55.692Z').getTime());
-      const actual = generateTaggedVersion({
-        release: 'alpha',
-        currentVersion,
-        shortSha,
-      });
-
-      assert.isTrue(semver.gt('5.12.0', actual));
-    });
-
-    it('same beta version is semver.gt', function (this: Mocha.Context) {
-      const currentVersion = '5.12.0-beta.1';
-      const shortSha = '07f0efc45';
-
-      this.clock.setSystemTime(new Date('2021-07-23T01:22:55.692Z').getTime());
-      const actual = generateTaggedVersion({
-        release: 'alpha',
-        currentVersion,
-        shortSha,
-      });
-
-      assert.isTrue(semver.gt(currentVersion, actual));
-    });
-
-    it('build earlier same day is semver.lt', function (this: Mocha.Context) {
-      const currentVersion = '5.12.0-beta.1';
-      const shortSha = '07f0efc45';
-
-      this.clock.setSystemTime(new Date('2021-07-23T00:22:55.692Z').getTime());
-      const actualEarlier = generateTaggedVersion({
-        release: 'alpha',
-        currentVersion,
-        shortSha,
-      });
-
-      this.clock.setSystemTime(new Date('2021-07-23T01:22:55.692Z').getTime());
-      const actualLater = generateTaggedVersion({
-        release: 'alpha',
-        currentVersion,
-        shortSha,
-      });
-
-      assert.isTrue(semver.lt(actualEarlier, actualLater));
-    });
-
-    it('build previous day is semver.lt', function (this: Mocha.Context) {
-      const currentVersion = '5.12.0-beta.1';
-      const shortSha = '07f0efc45';
-
-      this.clock.setSystemTime(new Date('2021-07-22T01:22:55.692Z').getTime());
-      const actualEarlier = generateTaggedVersion({
-        release: 'alpha',
-        currentVersion,
-        shortSha,
-      });
-
-      this.clock.setSystemTime(new Date('2021-07-23T01:22:55.692Z').getTime());
-      const actualLater = generateTaggedVersion({
-        release: 'alpha',
-        currentVersion,
-        shortSha,
-      });
-
-      assert.isTrue(semver.lt(actualEarlier, actualLater));
     });
   });
 });
