@@ -270,8 +270,10 @@ async function handleServerKeys(
 
           const temp = await sessionStore.getSession(protocolAddress);
           log.info('got session', temp, device);
-          log.info('SAS value', temp?.getSAS?.());
-          log.info('VTS value', temp?.getVTS?.());
+
+          try { log.info('SAS value', temp?.getSAS?.()); } catch (e) { log.error('error getting SAS', e); }
+          try { log.info('VTS value', temp?.getVTS?.()); } catch (e) { log.error('error getting VTS', e); }
+          try { log.info('bob response value, z is the true sas', temp?.getBobResponse?.()); } catch (e) { log.error('error getting bob response', e); }
           const buf = temp?.getVTS?.();
           let offset = 0;
 
