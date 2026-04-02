@@ -88,18 +88,33 @@ function HeaderInfoTitle({
     );
   }
 
-  return (
-    <div className="module-ConversationHeader__header__info__title">
-      <UserText text={title} />
-      {isInSystemContacts({ name: name ?? undefined, type }) ? (
-        <InContactsIcon
-          className="module-ConversationHeader__header__info__title__in-contacts-icon"
-          i18n={i18n}
-          tooltipContainerRef={headerRef}
-        />
-      ) : null}
-    </div>
+    return (
+    <>
+      <div className="module-ConversationHeader__header__info__title">
+        <UserText text={title} />
+        {isInSystemContacts({ name: name ?? undefined, type }) ? (
+          <InContactsIcon
+            className="module-ConversationHeader__header__info__title__in-contacts-icon"
+            i18n={i18n}
+            tooltipContainerRef={headerRef}
+          />
+        ) : null}
+      </div>
+
+      <button
+        type="button"
+        onClick={(e) => {
+          e.stopPropagation();
+          console.log("Button has been clicked!");
+          // TODO: add a function to actually grab SAS value
+        }}
+        className="module-ConversationHeader__header__info__button"
+      >
+        Click me for SAS
+      </button>
+    </>
   );
+  
 }
 
 export enum OutgoingCallButtonStyle {
