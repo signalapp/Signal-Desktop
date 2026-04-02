@@ -8575,7 +8575,7 @@
     "description": "(Deleted 2026/04/01) Description for the key code used to restore a message history backup"
   },
   "icu:Preferences__recovery-key-description": {
-    "messageformat": "Your recovery key is a 64-digit code used to restore your backup",
+    "messageformat": "Your recovery key is a 64-character code used to restore your backup",
     "description": "Description for the key code used to restore a message history backup"
   },
   "icu:Preferences__backup-other-ways": {
