@@ -157,7 +157,7 @@
     "@react-spring/web": "10.0.3",
     "@react-types/shared": "3.33.1",
     "@signalapp/minimask": "1.0.1",
-    "@signalapp/mock-server": "18.3.0",
+    "@signalapp/mock-server": "19.0.0",
     "@signalapp/quill-cjs": "2.1.2",
     "@storybook/addon-a11y": "8.4.4",
     "@storybook/addon-actions": "8.4.4",

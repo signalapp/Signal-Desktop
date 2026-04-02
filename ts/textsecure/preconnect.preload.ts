@@ -42,6 +42,7 @@ function resolveLibsignalNet(
       TESTING_localServer_svr2Port: DISCARD_PORT,
       TESTING_localServer_svrBPort: DISCARD_PORT,
       TESTING_localServer_rootCertificateDer: pemToDer(certificateAuthority),
+      TESTING_localServer_httpVersion: 2,
     });
   }
 
