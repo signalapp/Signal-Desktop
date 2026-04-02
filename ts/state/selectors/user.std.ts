@@ -90,9 +90,7 @@ export const getPreferredTheme = createSelector(
 const getIsInFullScreenCall = createSelector(
   (state: StateType): CallingStateType => state.calling,
   (state: CallingStateType): boolean =>
-    Boolean(
-      state.activeCallState?.state === 'Active' && !state.activeCallState.pip
-    )
+    state.activeCallState?.state === 'Active' && !state.activeCallState.pip
 );
 
 export const getTheme = createSelector(

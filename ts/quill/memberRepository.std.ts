@@ -73,7 +73,7 @@ export class MemberRepository {
   #rawMembers: ReadonlyArray<ConversationType>;
   #members: ReadonlyArray<MemberType> | null = null;
   #isFuseReady = false;
-  #fuse = new Fuse<MemberType>([], FUSE_OPTIONS);
+  readonly #fuse = new Fuse<MemberType>([], FUSE_OPTIONS);
 
   constructor(conversations: ReadonlyArray<ConversationType> = []) {
     this.#rawMembers = conversations;

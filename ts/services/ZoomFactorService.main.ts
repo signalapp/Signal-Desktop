@@ -31,7 +31,7 @@ type ZoomFactorServiceConfig = Readonly<{
 }>;
 
 export class ZoomFactorService extends EventEmitter {
-  #config: ZoomFactorServiceConfig;
+  readonly #config: ZoomFactorServiceConfig;
   #cachedZoomFactor: number | null = null;
   #isListeningForZoom = false;
 

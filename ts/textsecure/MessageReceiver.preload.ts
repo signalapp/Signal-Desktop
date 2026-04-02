@@ -303,18 +303,18 @@ export default class MessageReceiver
   extends EventTarget
   implements IRequestHandler
 {
-  #storage: Storage;
+  readonly #storage: Storage;
 
-  #appQueue: PQueue;
-  #decryptAndCacheBatcher: BatcherType<CacheAddItemType>;
-  #cacheRemoveBatcher: BatcherType<string>;
+  readonly #appQueue: PQueue;
+  readonly #decryptAndCacheBatcher: BatcherType<CacheAddItemType>;
+  readonly #cacheRemoveBatcher: BatcherType<string>;
   #processedCount: number;
-  #incomingQueue: PQueue;
+  readonly #incomingQueue: PQueue;
   #isEmptied?: boolean;
-  #encryptedQueue: PQueue;
-  #decryptedQueue: PQueue;
+  readonly #encryptedQueue: PQueue;
+  readonly #decryptedQueue: PQueue;
   #retryCachedTimeout: NodeJS.Timeout | undefined;
-  #serverTrustRoots: Array<PublicKey>;
+  readonly #serverTrustRoots: Array<PublicKey>;
   #stoppingProcessing?: boolean;
   #pniIdentityKeyCheckRequired?: boolean;
 
@@ -870,7 +870,7 @@ export default class MessageReceiver
         serverGuid: item.serverGuid,
         serverTimestamp: item.serverTimestamp,
         urgent: isBoolean(item.urgent) ? item.urgent : true,
-        story: Boolean(item.story),
+        story: item.story,
         reportingToken: item.reportingToken,
         groupId: item.groupId,
       };
@@ -2117,7 +2117,7 @@ export default class MessageReceiver
         device: envelope.sourceDevice,
         unidentifiedStatus,
         message,
-        isRecipientUpdate: Boolean(isRecipientUpdate),
+        isRecipientUpdate: isRecipientUpdate,
         receivedAtCounter: envelope.receivedAtCounter,
         receivedAtDate: envelope.receivedAtDate,
         expirationStartTimestamp: toNumber(expirationStartTimestamp) ?? 0,
@@ -2236,7 +2236,7 @@ export default class MessageReceiver
           envelopeId: envelope.id,
           destinationServiceId: envelope.destinationServiceId,
           device: envelope.sourceDevice,
-          isRecipientUpdate: Boolean(sentMessage.isRecipientUpdate),
+          isRecipientUpdate: sentMessage.isRecipientUpdate,
           message,
           receivedAtCounter: envelope.receivedAtCounter,
           receivedAtDate: envelope.receivedAtDate,
@@ -2250,7 +2250,7 @@ export default class MessageReceiver
 
               return {
                 destinationServiceId,
-                isAllowedToReplyToStory: Boolean(isAllowedToReply),
+                isAllowedToReplyToStory: isAllowedToReply,
                 destinationPniIdentityKey: undefined,
                 unidentified: false,
               };
@@ -2294,10 +2294,7 @@ export default class MessageReceiver
           );
         }
 
-        isAllowedToReply.set(
-          destinationServiceId,
-          recipient.isAllowedToReply !== false
-        );
+        isAllowedToReply.set(destinationServiceId, recipient.isAllowedToReply);
       });
 
       distributionListToSentServiceId.forEach((sentToServiceIds, listId) => {
@@ -2317,7 +2314,7 @@ export default class MessageReceiver
               })
             ),
             message,
-            isRecipientUpdate: Boolean(sentMessage.isRecipientUpdate),
+            isRecipientUpdate: sentMessage.isRecipientUpdate,
             receivedAtCounter: envelope.receivedAtCounter,
             receivedAtDate: envelope.receivedAtDate,
             storyDistributionListId: normalizeStoryDistributionId(
@@ -3195,7 +3192,7 @@ export default class MessageReceiver
           ...message,
           editedMessageTimestamp: toNumber(editMessage.targetSentTimestamp),
         },
-        isRecipientUpdate: Boolean(isRecipientUpdate),
+        isRecipientUpdate: isRecipientUpdate,
         receivedAtCounter: envelope.receivedAtCounter,
         receivedAtDate: envelope.receivedAtDate,
         expirationStartTimestamp: toNumber(expirationStartTimestamp) ?? 0,
@@ -3906,7 +3903,7 @@ export default class MessageReceiver
 
     const contactSync = new ContactSyncEvent(
       processAttachment(blob),
-      Boolean(contactSyncProto.complete),
+      contactSyncProto.complete,
       envelope.receivedAtCounter,
       envelope.timestamp
     );

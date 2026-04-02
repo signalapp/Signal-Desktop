@@ -90,9 +90,7 @@ export async function getSendOptions(
   const { accessKey } = conversationAttrs;
   const { e164, serviceId } = conversationAttrs;
 
-  let sealedSender = conversationAttrs.sealedSender as
-    | SEALED_SENDER
-    | undefined;
+  let sealedSender = conversationAttrs.sealedSender;
 
   const senderCertificate =
     await getSenderCertificateForDirectConversation(conversationAttrs);

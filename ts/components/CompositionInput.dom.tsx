@@ -665,7 +665,7 @@ export function CompositionInput(props: Props): React.ReactElement {
     }
 
     if (propsRef.current.onDirtyChange) {
-      let isDirty: boolean = false;
+      let isDirty = false;
 
       if (!draftEditMessage) {
         isDirty = text.length > 0;

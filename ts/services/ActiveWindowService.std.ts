@@ -36,7 +36,7 @@ class ActiveWindowService {
   #lastActiveEventAt = -Infinity;
   #lastActiveNonFocusingEventAt = -Infinity;
   #lastBlurredAt = -Infinity;
-  #callActiveCallbacks: () => void;
+  readonly #callActiveCallbacks: () => void;
 
   constructor() {
     this.#callActiveCallbacks = throttle(() => {

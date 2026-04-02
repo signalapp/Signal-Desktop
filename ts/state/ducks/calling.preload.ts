@@ -2060,7 +2060,7 @@ function setLocalVideo(
       return;
     }
 
-    let enabled = payload?.enabled;
+    let enabled = payload.enabled;
     if (await requestCameraPermissions()) {
       if (
         isGroupOrAdhocCallState(activeCall) ||
@@ -2068,9 +2068,9 @@ function setLocalVideo(
       ) {
         await calling.setOutgoingVideo(
           activeCall.conversationId,
-          Boolean(payload?.enabled)
+          payload.enabled
         );
-      } else if (payload?.enabled) {
+      } else if (payload.enabled) {
         await calling.enableLocalCamera(activeCall.callMode);
       } else {
         calling.disableLocalVideo();
@@ -2082,7 +2082,7 @@ function setLocalVideo(
     dispatch({
       type: SET_LOCAL_VIDEO_FULFILLED,
       payload: {
-        enabled: Boolean(enabled),
+        enabled,
       },
     });
   };
@@ -4354,7 +4354,7 @@ export function reducer(
       ...state,
       activeCallState: {
         ...state.activeCallState,
-        hasLocalVideo: Boolean(action.payload?.enabled),
+        hasLocalVideo: action.payload.enabled,
       },
     };
   }

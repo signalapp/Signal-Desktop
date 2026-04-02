@@ -174,7 +174,7 @@ export function filterAndSortConversations(
   conversations: ReadonlyArray<ConversationType>,
   searchTerm: string,
   regionCode: string | undefined,
-  filterByUnread: boolean = false,
+  filterByUnread = false,
   conversationToInject?: ConversationType
 ): Array<ConversationType> {
   let filteredConversations = filterByUnread

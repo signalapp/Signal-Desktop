@@ -23,8 +23,8 @@ export type CheckSchedulerOptionsType = Readonly<{
 }>;
 
 export class CheckScheduler {
-  #options: CheckSchedulerOptionsType;
-  #log: ReturnType<typeof createLogger>;
+  readonly #options: CheckSchedulerOptionsType;
+  readonly #log: ReturnType<typeof createLogger>;
   #timer: LongTimeout | undefined;
   #isRunning = false;
 

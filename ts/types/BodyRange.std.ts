@@ -255,6 +255,7 @@ export function insertRange(
     ];
   }
 
+  // oxlint-disable-next-line typescript/no-base-to-string, typescript/restrict-template-expressions
   log.error(`MessageTextRenderer: unhandled range ${range}`);
   throw new Error('unhandled range');
 }

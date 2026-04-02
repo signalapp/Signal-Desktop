@@ -11,6 +11,7 @@ export function assert<T>(input: T, message?: string): NonNullable<T> {
   if (input === false || input == null) {
     // oxlint-disable-next-line no-debugger
     debugger;
+    // oxlint-disable-next-line typescript/restrict-template-expressions
     throw new AssertionError(message ?? `input is ${input}`);
   }
   return input;

@@ -207,7 +207,7 @@ export function getExtensionForDisplay({
   fileName?: string;
   contentType: MIME.MIMEType;
 }): string | undefined {
-  if (fileName && fileName.indexOf('.') >= 0) {
+  if (fileName && fileName.includes('.')) {
     const lastPeriod = fileName.lastIndexOf('.');
     const extension = fileName.slice(lastPeriod + 1);
     if (extension.length) {
@@ -933,8 +933,8 @@ export function partitionBodyAndNormalAttachments<
   };
 }
 
-const MESSAGE_ATTACHMENT_TYPES_NEEDING_THUMBNAILS: Set<MessageAttachmentType> =
-  new Set(['attachment', 'sticker']);
+const MESSAGE_ATTACHMENT_TYPES_NEEDING_THUMBNAILS =
+  new Set<MessageAttachmentType>(['attachment', 'sticker']);
 
 export function shouldGenerateThumbnailForAttachmentType(
   type: MessageAttachmentType

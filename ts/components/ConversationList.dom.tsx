@@ -605,6 +605,7 @@ export function ConversationList({
               showConversation={showConversation}
             />
           );
+          // oxlint-disable-next-line typescript/no-base-to-string, typescript/restrict-template-expressions
           key = `start-new-conversation:${row.phoneNumber}`;
           break;
         case RowType.UsernameSearchResult:

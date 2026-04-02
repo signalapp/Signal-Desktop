@@ -3,11 +3,11 @@
 import { InstallScreenBackupError } from '../../types/InstallScreen.std.ts';
 
 export class BackupInstallerError extends Error {
-  constructor(
-    name: string,
-    public readonly installerError: InstallScreenBackupError
-  ) {
+  public readonly installerError: InstallScreenBackupError;
+
+  constructor(name: string, installerError: InstallScreenBackupError) {
     super(name);
+    this.installerError = installerError;
   }
 }
 

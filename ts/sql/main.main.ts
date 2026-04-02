@@ -146,9 +146,9 @@ export class MainSQL {
   #logger?: LoggerType;
 
   // oxlint-disable-next-line typescript/no-explicit-any
-  #onResponse = new Map<number, ResponseEntry<any>>();
+  readonly #onResponse = new Map<number, ResponseEntry<any>>();
 
-  #shouldLogQueryTime: (queryName: string) => boolean;
+  readonly #shouldLogQueryTime: (queryName: string) => boolean;
   #shouldTrackQueryStats = false;
 
   #queryStats?: {
@@ -508,7 +508,7 @@ export class MainSQL {
     this.#logger?.info(
       `Top ${maxQueriesToLog} queries by cumulative duration (ms) over last ${epochDuration}ms` +
         `${epochName ? ` during '${epochName}'` : ''}: ` +
-        `${sortedByCumulativeDuration
+        sortedByCumulativeDuration
           .slice(0, maxQueriesToLog)
           .map(stats => {
             return (
@@ -518,7 +518,7 @@ export class MainSQL {
               `count: ${stats.count}`
             );
           })
-          .join(' ||| ')}` +
+          .join(' ||| ') +
         `; Total cumulative duration of all SQL queries during this epoch: ${this.#roundDuration(cumulativeDuration)}ms`
     );
   }

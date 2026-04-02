@@ -37,6 +37,7 @@ export async function sign(configuration) {
   });
 
   if (returnCode) {
+    // oxlint-disable-next-line typescript/restrict-template-expressions
     throw new Error(`sign-macos: Script returned code ${returnCode}`);
   }
 }

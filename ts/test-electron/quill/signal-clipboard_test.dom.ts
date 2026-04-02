@@ -88,7 +88,7 @@ function createMockClipboardEvent(
 
 function createMockQuillWithContent(
   content: string,
-  hasStrike: boolean = false
+  hasStrike = false
 ): MockQuill {
   const mockQuill = new MockQuill();
 

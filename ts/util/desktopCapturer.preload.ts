@@ -89,6 +89,7 @@ export type DesktopCapturerBaton = Readonly<{
 
 // oxlint-disable-next-line max-classes-per-file
 export class DesktopCapturer {
+  readonly #options: DesktopCapturerOptionsType;
   #state: State;
 
   private static getDisplayMediaPromise: Promise<MediaStream> | undefined;
@@ -98,7 +99,9 @@ export class DesktopCapturer {
   // For use as a key in weak maps
   public readonly baton = {} as DesktopCapturerBaton;
 
-  constructor(private readonly options: DesktopCapturerOptionsType) {
+  constructor(options: DesktopCapturerOptionsType) {
+    this.#options = options;
+
     if (!DesktopCapturer.isInitialized) {
       DesktopCapturer.initialize();
     }
@@ -183,7 +186,7 @@ export class DesktopCapturer {
     >();
     this.#state = { step: Step.SelectingSource, promise, sources, onSource };
 
-    this.options.onPresentableSources(presentableSources);
+    this.#options.onPresentableSources(presentableSources);
     return source;
   }
 
@@ -226,7 +229,7 @@ export class DesktopCapturer {
         `Invalid state in "getStream.success" ${this.#state.step}`
       );
 
-      this.options.onMediaStream(stream);
+      this.#options.onMediaStream(stream);
       this.#state = { step: Step.Done };
     } catch (error) {
       strictAssert(
@@ -234,7 +237,7 @@ export class DesktopCapturer {
           this.#state.step === Step.SelectedSource,
         `Invalid state in "getStream.error" ${this.#state.step}`
       );
-      this.options.onError(error);
+      this.#options.onError(error);
       this.#state = { step: Step.Error };
     } finally {
       liveCapturers.delete(this);
@@ -288,7 +291,7 @@ export class DesktopCapturer {
           }
         }, SECOND);
 
-        this.options.onMediaStream(mediaStream);
+        this.#options.onMediaStream(mediaStream);
       },
       onStop() {
         if (!isRunning) {
@@ -327,7 +330,7 @@ export class DesktopCapturer {
   }
 
   #translateSourceName(source: DesktopCapturerSource): string {
-    const { i18n } = this.options;
+    const { i18n } = this.#options;
 
     const { name } = source;
     if (!isScreenSource(source)) {

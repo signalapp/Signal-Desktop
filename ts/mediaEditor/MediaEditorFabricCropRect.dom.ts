@@ -21,7 +21,7 @@ export class MediaEditorFabricCropRect extends fabric.Rect {
     this.on('moving', this.#containBounds);
   }
 
-  #containBounds = () => {
+  readonly #containBounds = () => {
     if (!this.canvas) {
       return;
     }

@@ -14,7 +14,7 @@ const { omit } = lodash;
 function insertOldJob(
   db: WritableDB,
   job: Omit<_AttachmentDownloadJobTypeV1040, 'source' | 'ciphertextSize'>,
-  addMessageFirst: boolean = true
+  addMessageFirst = true
 ): void {
   if (addMessageFirst) {
     try {
@@ -34,9 +34,9 @@ function insertOldJob(
         digest,
         contentType,
         size,
-        receivedAt, 
+        receivedAt,
         sentAt,
-        active, 
+        active,
         attempts,
         retryAfter,
         lastAttemptTimestamp
@@ -116,7 +116,7 @@ describe('SQL/updateToSchemaVersion1180', () => {
     const details = explain(
       db,
       sql`
-          SELECT SUM(ciphertextSize) FROM attachment_downloads 
+          SELECT SUM(ciphertextSize) FROM attachment_downloads
           WHERE source = 'backup_import';
         `
     );
@@ -131,8 +131,8 @@ describe('SQL/updateToSchemaVersion1180', () => {
     const details = explain(
       db,
       sql`
-          DELETE FROM attachment_downloads 
-          WHERE source = 'backup_import'; 
+          DELETE FROM attachment_downloads
+          WHERE source = 'backup_import';
         `
     );
 

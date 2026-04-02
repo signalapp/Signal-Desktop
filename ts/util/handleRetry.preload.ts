@@ -330,7 +330,7 @@ export async function handleDecryptionError(
   if (RemoteConfig.isEnabled('desktop.senderKey.retry')) {
     await requestResend(decryptionError);
   } else {
-    await startAutomaticSessionReset(decryptionError);
+    startAutomaticSessionReset(decryptionError);
   }
 
   confirm();

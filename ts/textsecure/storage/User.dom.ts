@@ -27,13 +27,17 @@ export type SetCredentialsOptions = {
 };
 
 export class User {
-  constructor(private readonly storage: StorageInterface) {}
+  readonly #storage: StorageInterface;
+
+  constructor(storage: StorageInterface) {
+    this.#storage = storage;
+  }
 
   public async setAciAndDeviceId(
     aci: AciString,
     deviceId: number
   ): Promise<void> {
-    await this.storage.put('uuid_id', `${aci}.${deviceId}`);
+    await this.#storage.put('uuid_id', `${aci}.${deviceId}`);
 
     log.info('storage.user: aci and device id changed');
   }
@@ -52,8 +56,8 @@ export class User {
     log.info('storage.user: number changed');
 
     await Promise.all([
-      this.storage.put('number_id', `${number}.${deviceId}`),
-      this.storage.remove('senderCertificate'),
+      this.#storage.put('number_id', `${number}.${deviceId}`),
+      this.#storage.remove('senderCertificate'),
     ]);
 
     // Notify redux about phone number change
@@ -61,7 +65,7 @@ export class User {
   }
 
   public getNumber(): string | undefined {
-    const numberId = this.storage.get('number_id');
+    const numberId = this.#storage.get('number_id');
     if (numberId === undefined) {
       return undefined;
     }
@@ -69,7 +73,7 @@ export class User {
   }
 
   public getPni(): PniString | undefined {
-    const pni = this.storage.get('pni');
+    const pni = this.#storage.get('pni');
     if (pni === undefined || !isPniString(pni)) {
       return undefined;
     }
@@ -77,7 +81,7 @@ export class User {
   }
 
   public getAci(): AciString | undefined {
-    const uuidId = this.storage.get('uuid_id');
+    const uuidId = this.#storage.get('uuid_id');
     if (!uuidId) {
       return undefined;
     }
@@ -121,7 +125,7 @@ export class User {
   }
 
   public async setPni(pni: PniString): Promise<void> {
-    await this.storage.put('pni', pni);
+    await this.#storage.put('pni', pni);
   }
 
   public getOurServiceIdKind(serviceId: ServiceIdString): ServiceIdKind {
@@ -158,31 +162,31 @@ export class User {
   }
 
   public getDeviceCreatedAt(): number | undefined {
-    return this.storage.get('deviceCreatedAt');
+    return this.#storage.get('deviceCreatedAt');
   }
 
   public async setDeviceCreatedAt(createdAt: number): Promise<void> {
-    return this.storage.put('deviceCreatedAt', createdAt);
+    return this.#storage.put('deviceCreatedAt', createdAt);
   }
 
   public getDeviceName(): string | undefined {
-    return this.storage.get('device_name');
+    return this.#storage.get('device_name');
   }
 
   public async setDeviceName(name: string): Promise<void> {
-    return this.storage.put('device_name', name);
+    return this.#storage.put('device_name', name);
   }
 
   public async setDeviceNameEncrypted(): Promise<void> {
-    return this.storage.put('deviceNameEncrypted', true);
+    return this.#storage.put('deviceNameEncrypted', true);
   }
 
   public getDeviceNameEncrypted(): boolean | undefined {
-    return this.storage.get('deviceNameEncrypted');
+    return this.#storage.get('deviceNameEncrypted');
   }
 
   public async removeSignalingKey(): Promise<void> {
-    return this.storage.remove('signaling_key');
+    return this.#storage.remove('signaling_key');
   }
 
   public async setCredentials(
@@ -191,9 +195,9 @@ export class User {
     const { aci, pni, number, deviceId, deviceName, password } = credentials;
 
     await Promise.all([
-      this.storage.put('number_id', `${number}.${deviceId}`),
-      this.storage.put('uuid_id', `${aci}.${deviceId}`),
-      this.storage.put('password', password),
+      this.#storage.put('number_id', `${number}.${deviceId}`),
+      this.#storage.put('uuid_id', `${aci}.${deviceId}`),
+      this.#storage.put('password', password),
       this.setPni(pni),
       deviceName ? this.setDeviceName(deviceName) : Promise.resolve(),
     ]);
@@ -203,23 +207,23 @@ export class User {
     log.info('storage.user: removeCredentials');
 
     await Promise.all([
-      this.storage.remove('number_id'),
-      this.storage.remove('uuid_id'),
-      this.storage.remove('password'),
-      this.storage.remove('device_name'),
+      this.#storage.remove('number_id'),
+      this.#storage.remove('uuid_id'),
+      this.#storage.remove('password'),
+      this.#storage.remove('device_name'),
     ]);
   }
 
   public getWebAPICredentials(): WebAPICredentials {
     return {
       username:
-        this.storage.get('uuid_id') || this.storage.get('number_id') || '',
-      password: this.storage.get('password', ''),
+        this.#storage.get('uuid_id') || this.#storage.get('number_id') || '',
+      password: this.#storage.get('password', ''),
     };
   }
 
   #_getDeviceIdFromUuid(): string | undefined {
-    const uuid = this.storage.get('uuid_id');
+    const uuid = this.#storage.get('uuid_id');
     if (uuid === undefined) {
       return undefined;
     }
@@ -227,7 +231,7 @@ export class User {
   }
 
   #_getDeviceIdFromNumber(): string | undefined {
-    const numberId = this.storage.get('number_id');
+    const numberId = this.#storage.get('number_id');
     if (numberId === undefined) {
       return undefined;
     }

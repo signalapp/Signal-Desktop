@@ -48,7 +48,7 @@ export function initMegaphoneCheckService(): void {
 export async function runMegaphoneCheck(): Promise<void> {
   try {
     const megaphones = await DataReader.getAllMegaphones();
-    const shownIds: Set<RemoteMegaphoneId> = new Set();
+    const shownIds = new Set<RemoteMegaphoneId>();
 
     log.info(
       `runMegaphoneCheck: Checking ${megaphones.length} locally saved megaphones`

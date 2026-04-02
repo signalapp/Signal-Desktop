@@ -33,7 +33,7 @@ export class SystemTrayService {
   #isEnabled = false;
   #isQuitting = false;
   #unreadCount = 0;
-  #createTrayInstance: (icon: NativeImage) => Tray;
+  readonly #createTrayInstance: (icon: NativeImage) => Tray;
 
   constructor({ i18n, createTrayInstance }: SystemTrayServiceOptionsType) {
     log.info('System tray service: created');
@@ -120,7 +120,7 @@ export class SystemTrayService {
     return this.#tray !== undefined;
   }
 
-  #render = (): void => {
+  readonly #render = (): void => {
     if (this.#isEnabled && this.#browserWindow) {
       this.#renderEnabled();
       return;

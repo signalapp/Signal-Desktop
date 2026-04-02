@@ -48,7 +48,7 @@ function toKey(item: VirtualItem | null): Key | null {
 }
 
 export class WaterfallKeyboardDelegate extends KeyboardDelegate<State> {
-  #virtualizer: Virtualizer<HTMLDivElement, HTMLDivElement>;
+  readonly #virtualizer: Virtualizer<HTMLDivElement, HTMLDivElement>;
 
   constructor(virtualizer: Virtualizer<HTMLDivElement, HTMLDivElement>) {
     super();

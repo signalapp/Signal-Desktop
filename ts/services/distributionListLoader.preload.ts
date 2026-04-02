@@ -17,10 +17,10 @@ export function getDistributionListsForRedux(): Array<StoryDistributionListDataT
 
   const lists = distributionLists
     .map(list => ({
-      allowsReplies: Boolean(list.allowsReplies),
+      allowsReplies: list.allowsReplies,
       deletedAtTimestamp: list.deletedAtTimestamp,
       id: list.id,
-      isBlockList: Boolean(list.isBlockList),
+      isBlockList: list.isBlockList,
       name: list.name,
       memberServiceIds: list.members,
     }))

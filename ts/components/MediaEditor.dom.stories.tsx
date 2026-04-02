@@ -22,6 +22,7 @@ export default {
     getPreferredBadge: () => undefined,
     isHighQuality: false,
     i18n,
+    // oxlint-disable-next-line typescript/no-base-to-string
     imageToBlurHash: input => Promise.resolve(input.toString()),
     imageSrc: IMAGE_2,
     isFormattingEnabled: true,

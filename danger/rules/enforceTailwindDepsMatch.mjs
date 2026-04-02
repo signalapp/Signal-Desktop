@@ -31,6 +31,11 @@ function isTailwindPackage(pkgName) {
 
 for (const depType of ['dependencies', 'devDependencies']) {
   for (const [depName, depSpec] of Object.entries(pkgJson[depType])) {
+    if (typeof depSpec !== 'string') {
+      throw new TypeError(
+        `Expected string value for "${depName}" in package.json#${depType}`
+      );
+    }
     if (isTailwindPackage(depName) && depSpec !== expectedVersion) {
       fail(
         `**Tailwind package versions must all match**\n` +

@@ -106,7 +106,7 @@ const storybookConfig: StorybookConfig = {
     // oxlint-disable-next-line no-param-reassign
     webpackConfig.externals = ({ request }, callback) => {
       if (
-        (/^node:/.test(request) && request !== 'node:buffer') ||
+        (request.startsWith('node:') && request !== 'node:buffer') ||
         EXTERNALS.has(request)
       ) {
         // Keep Node.js imports unchanged

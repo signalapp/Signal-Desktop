@@ -25,12 +25,12 @@ export type CompositionTextAreaProps = {
   maxLength?: number;
   placeholder?: string;
   whenToShowRemainingCount?: number;
-  onScroll?: (ev: React.UIEvent<HTMLElement, UIEvent>) => void;
+  onScroll?: (ev: React.UIEvent<HTMLElement>) => void;
   onSelectEmoji: (emojiSelection: FunEmojiSelection) => void;
   onChange: (
     messageText: string,
     draftBodyRanges: HydratedBodyRangesType,
-    caretLocation?: number | undefined
+    caretLocation?: number
   ) => void;
   emojiSkinToneDefault: EmojiSkinTone;
   onEmojiSkinToneDefaultChange: (emojiSkinToneDefault: EmojiSkinTone) => void;

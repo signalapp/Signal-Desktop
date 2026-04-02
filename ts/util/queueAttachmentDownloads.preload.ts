@@ -75,9 +75,7 @@ export async function handleAttachmentDownloadsForNewMessage(
   message: MessageModel,
   conversation: ConversationModel
 ): Promise<void> {
-  const logId =
-    `handleAttachmentDownloadsForNewMessage/${conversation.idForLogging()} ` +
-    `${getMessageIdForLogging(message.attributes)}`;
+  const logId = `handleAttachmentDownloadsForNewMessage/${conversation.idForLogging()} ${getMessageIdForLogging(message.attributes)}`;
 
   // Only queue attachments for downloads if this is a story (with additional logic), or
   // if it's either an outgoing message or we've accepted the conversation
@@ -295,7 +293,7 @@ export async function queueAttachmentDownloads(
       }
 
       if (!isManualDownload) {
-        if (autoDownloadAttachment.photos === false) {
+        if (!autoDownloadAttachment.photos) {
           return item;
         }
       }
@@ -510,7 +508,7 @@ export async function queueNormalAttachments({
   // than once.
   // We don't also register the signatures for "attachments" because they would
   // then not be added to the AttachmentDownloads job.
-  const attachmentSignatures: Map<string, AttachmentType> = new Map();
+  const attachmentSignatures = new Map<string, AttachmentType>();
   otherAttachments?.forEach(attachment => {
     cacheAttachmentBySignature(attachmentSignatures, attachment);
   });
@@ -564,21 +562,18 @@ export async function queueNormalAttachments({
         );
 
         if (isVideo(contentType)) {
-          if (autoDownloadAttachment.videos === false) {
+          if (!autoDownloadAttachment.videos) {
             return attachment;
           }
         } else if (isImage(contentType)) {
-          if (autoDownloadAttachment.photos === false) {
+          if (!autoDownloadAttachment.photos) {
             return attachment;
           }
         } else if (isAudio(contentType)) {
-          if (
-            autoDownloadAttachment.audio === false &&
-            !isVoiceMessage(attachment)
-          ) {
+          if (!autoDownloadAttachment.audio && !isVoiceMessage(attachment)) {
             return attachment;
           }
-        } else if (autoDownloadAttachment.documents === false) {
+        } else if (!autoDownloadAttachment.documents) {
           return attachment;
         }
       }
@@ -630,7 +625,7 @@ async function queuePreviews({
   ) => boolean;
 }): Promise<{ preview: Array<LinkPreviewType>; count: number }> {
   const log = getLogger(source);
-  const previewSignatures: Map<string, AttachmentType> = new Map();
+  const previewSignatures = new Map<string, AttachmentType>();
   otherPreviews?.forEach(preview => {
     if (preview.image) {
       cacheAttachmentBySignature(previewSignatures, preview.image);
@@ -678,7 +673,7 @@ async function queuePreviews({
           DEFAULT_AUTO_DOWNLOAD_ATTACHMENT
         );
 
-        if (autoDownloadAttachment.photos === false) {
+        if (!autoDownloadAttachment.photos) {
           return item;
         }
       }
@@ -745,7 +740,7 @@ async function queueQuoteAttachments({
 
   // Similar to queueNormalAttachments' logic for detecting same attachments
   // except here we also pick by quote sent timestamp.
-  const thumbnailSignatures: Map<string, ThumbnailType> = new Map();
+  const thumbnailSignatures = new Map<string, ThumbnailType>();
   otherQuotes.forEach(otherQuote => {
     for (const attachment of otherQuote.attachments) {
       if (attachment.thumbnail) {

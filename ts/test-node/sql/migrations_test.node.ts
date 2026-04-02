@@ -1837,8 +1837,8 @@ describe('SQL migrations test', () => {
           queueType: 'report spam',
           timestamp: 2,
           data: {
-            serverGuids: [`${MESSAGE_ID_1}`],
-            uuid: `${E164_1}`,
+            serverGuids: [MESSAGE_ID_1],
+            uuid: E164_1,
           },
         },
       ]);

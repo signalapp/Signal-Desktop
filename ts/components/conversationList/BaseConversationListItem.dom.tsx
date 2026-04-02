@@ -128,9 +128,7 @@ export const BaseConversationListItem: FunctionComponent<PropsType> =
     const testId = overrideTestId || groupId || serviceId;
     const isUnread = isConversationUnread({ markedUnread, unreadCount });
 
-    const isAvatarNoteToSelf = isBoolean(isNoteToSelf)
-      ? isNoteToSelf
-      : Boolean(isMe);
+    const isAvatarNoteToSelf = isBoolean(isNoteToSelf) ? isNoteToSelf : isMe;
 
     const isCheckbox = isBoolean(checked);
 

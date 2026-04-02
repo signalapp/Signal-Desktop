@@ -800,7 +800,7 @@ describe('SignalProtocolStore', () => {
       });
 
       await store.hydrateCaches();
-      const untrusted = await store.isUntrusted(theirAci);
+      const untrusted = store.isUntrusted(theirAci);
       assert.strictEqual(untrusted, false);
     });
 
@@ -815,7 +815,7 @@ describe('SignalProtocolStore', () => {
       });
       await store.hydrateCaches();
 
-      const untrusted = await store.isUntrusted(theirAci);
+      const untrusted = store.isUntrusted(theirAci);
       assert.strictEqual(untrusted, false);
     });
 
@@ -830,7 +830,7 @@ describe('SignalProtocolStore', () => {
       });
       await store.hydrateCaches();
 
-      const untrusted = await store.isUntrusted(theirAci);
+      const untrusted = store.isUntrusted(theirAci);
       assert.strictEqual(untrusted, false);
     });
 
@@ -845,7 +845,7 @@ describe('SignalProtocolStore', () => {
       });
       await store.hydrateCaches();
 
-      const untrusted = await store.isUntrusted(theirAci);
+      const untrusted = store.isUntrusted(theirAci);
       assert.strictEqual(untrusted, true);
     });
   });

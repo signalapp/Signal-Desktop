@@ -74,6 +74,7 @@ export const upload = async ({
   });
   const { fields, url } = parseTokenBody(signedForm.body);
 
+  // oxlint-disable-next-line typescript/restrict-template-expressions
   const uploadKey = `${fields.key}.${extension}`;
 
   const form = new FormData();

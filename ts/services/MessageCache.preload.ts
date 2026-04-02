@@ -29,7 +29,7 @@ export class MessageCache {
     return instance;
   }
 
-  #state = {
+  readonly #state = {
     messages: new Map<string, MessageModel>(),
     messageIdsBySentAt: new Map<number, Array<string>>(),
     lastAccessedAt: new Map<string, number>(),
@@ -300,7 +300,7 @@ export class MessageCache {
     );
   }
 
-  #throttledReduxUpdaters = new LRUCache<
+  readonly #throttledReduxUpdaters = new LRUCache<
     string,
     (attributes: MessageAttributesType) => void
   >({

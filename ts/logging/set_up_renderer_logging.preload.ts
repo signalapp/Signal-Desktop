@@ -49,6 +49,7 @@ export function initialize(): void {
 window.onerror = (message, source, line, column, error) => {
   const errorInfo = Errors.toLogFormat(error);
   log.error(
+    // oxlint-disable-next-line typescript/no-base-to-string, typescript/restrict-template-expressions
     `Top-level unhandled error: ${message}, ${errorInfo}`,
     Errors.toLocation(source, line, column)
   );
@@ -90,6 +91,7 @@ initLogger(
     } else if (level === SignalClientLogLevel.Error) {
       libSignalLog.error(logString);
     } else {
+      // oxlint-disable-next-line typescript/restrict-template-expressions
       libSignalLog.error(`${logString} (unknown log level ${level})`);
     }
   }

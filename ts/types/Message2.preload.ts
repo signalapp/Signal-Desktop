@@ -846,7 +846,7 @@ export const processNewSticker = async (
   }
 
   const local = await writeNewStickerData(stickerData);
-  const url = await getLocalAttachmentUrl(local, {
+  const url = getLocalAttachmentUrl(local, {
     disposition: isEphemeral
       ? AttachmentDisposition.Temporary
       : AttachmentDisposition.Sticker,

@@ -375,7 +375,7 @@ export function applyDonationBadge({
         badges: updatedBadges,
       };
 
-      await dispatch(
+      dispatch(
         conversationActions.myProfileChanged(profileData, { keepAvatar: true })
       );
       newDisplayBadgesOnProfile = true;
@@ -391,7 +391,7 @@ export function applyDonationBadge({
         badges: [],
       };
 
-      await dispatch(
+      dispatch(
         conversationActions.myProfileChanged(profileData, { keepAvatar: true })
       );
       newDisplayBadgesOnProfile = false;

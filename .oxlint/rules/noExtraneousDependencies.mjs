@@ -79,7 +79,7 @@ function getPackageNameFromSource(source) {
     return `${scope}/${name}`;
   }
   const [name] = source.split('/', 1);
-  return `${name}`;
+  return name;
 }
 
 /**

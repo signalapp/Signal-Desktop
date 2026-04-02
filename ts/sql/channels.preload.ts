@@ -27,11 +27,9 @@ export async function ipcInvoke<T>(
   name: string,
   args: ReadonlyArray<unknown>
 ): Promise<T> {
-  const fnName = String(name);
-
   if (shutdownPromise && name !== 'close') {
     throw new Error(
-      `Rejecting SQL channel job (${access}, ${fnName}); ` +
+      `Rejecting SQL channel job (${access}, ${name}); ` +
         'application is shutting down'
     );
   }
@@ -59,7 +57,7 @@ export async function ipcInvoke<T>(
         resolveShutdown?.();
       }
     }
-  }, `SQL channel call (${access}, ${fnName})`);
+  }, `SQL channel call (${access}, ${name})`);
 }
 
 export async function doShutdown(): Promise<void> {

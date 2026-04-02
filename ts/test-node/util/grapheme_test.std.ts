@@ -14,6 +14,7 @@ describe('grapheme utilities', () => {
   describe('getGraphemes', () => {
     it('returns extended graphemes in a string', () => {
       assert.deepEqual([...getGraphemes('')], []);
+      // oxlint-disable-next-line typescript/no-misused-spread
       assert.deepEqual([...getGraphemes('hello')], [...'hello']);
       assert.deepEqual(
         [...getGraphemes('Bokmål')],

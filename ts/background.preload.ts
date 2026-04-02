@@ -815,6 +815,7 @@ export async function startApp(): Promise<void> {
                 await convo.shutdownJobQueue();
               } catch (err) {
                 log.error(
+                  // oxlint-disable-next-line typescript/restrict-template-expressions
                   `shutdown: error waiting for conversation ${convo.idForLogging} job queue shutdown`,
                   Errors.toLogFormat(err)
                 );
@@ -1375,7 +1376,7 @@ export async function startApp(): Promise<void> {
     StorageService.enableStorageService();
 
     if (andSync != null) {
-      await StorageService.runStorageServiceSyncJob({
+      StorageService.runStorageServiceSyncJob({
         reason: andSync,
       });
       StorageService.runStorageServiceSyncJob.flush();
@@ -1682,12 +1683,12 @@ export async function startApp(): Promise<void> {
 
       if (!itemStorage.user.getAci()) {
         log.error(`${logId}: ACI not captured during registration, unlinking`);
-        return unlinkAndDisconnect();
+        return await unlinkAndDisconnect();
       }
 
       if (!itemStorage.user.getPni()) {
         log.error(`${logId}: PNI not captured during registration, unlinking`);
-        return unlinkAndDisconnect();
+        return await unlinkAndDisconnect();
       }
 
       // 2. Fetch remote config, before we process the message queue
@@ -1857,7 +1858,7 @@ export async function startApp(): Promise<void> {
   }
 
   async function afterEveryLinkedStartupOnNewVersion({
-    skipSyncRequests = false,
+    skipSyncRequests,
   }: {
     skipSyncRequests: boolean;
   }) {
@@ -3587,7 +3588,7 @@ export async function startApp(): Promise<void> {
         }
       }
 
-      await StorageService.runStorageServiceSyncJob({ reason: 'onKeysSync' });
+      StorageService.runStorageServiceSyncJob({ reason: 'onKeysSync' });
     }
     ev.confirm();
   }

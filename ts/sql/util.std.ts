@@ -45,10 +45,16 @@ export type QueryTemplateParam =
 export type QueryFragmentValue = QueryFragment | QueryTemplateParam;
 
 export class QueryFragment {
+  public readonly fragment: string;
+  public readonly fragmentParams: ReadonlyArray<QueryTemplateParam>;
+
   constructor(
-    public readonly fragment: string,
-    public readonly fragmentParams: ReadonlyArray<QueryTemplateParam>
-  ) {}
+    fragment: string,
+    fragmentParams: ReadonlyArray<QueryTemplateParam>
+  ) {
+    this.fragment = fragment;
+    this.fragmentParams = fragmentParams;
+  }
 }
 
 /**
@@ -105,6 +111,7 @@ export function sqlConstant(value: QueryTemplateParam): QueryFragment {
   } else if (typeof value === 'boolean') {
     fragment = `${value}`;
   } else {
+    // oxlint-disable-next-line typescript/restrict-template-expressions
     fragment = `'${value}'`;
   }
   return new QueryFragment(fragment, []);
@@ -397,16 +404,20 @@ export function getCountFromTable(db: ReadableDB, table: TableType): number {
 
 // oxlint-disable-next-line max-classes-per-file
 export class TableIterator<ObjectType extends { id: string }> {
-  constructor(
-    private readonly db: ReadableDB,
-    private readonly table: TableType,
-    private readonly pageSize = 500
-  ) {}
+  readonly #db: ReadableDB;
+  readonly #table: TableType;
+  readonly #pageSize: number;
+
+  constructor(db: ReadableDB, table: TableType, pageSize = 500) {
+    this.#db = db;
+    this.#table = table;
+    this.#pageSize = pageSize;
+  }
 
   *[Symbol.iterator](): Iterator<ObjectType> {
-    const fetchObject = this.db.prepare(
+    const fetchObject = this.#db.prepare(
       `
-        SELECT json FROM ${this.table}
+        SELECT json FROM ${this.#table}
         WHERE id > $id
         ORDER BY id ASC
         LIMIT $pageSize;
@@ -418,7 +429,7 @@ export class TableIterator<ObjectType extends { id: string }> {
     while (!complete) {
       const rows: JSONRows = fetchObject.all({
         id,
-        pageSize: this.pageSize,
+        pageSize: this.#pageSize,
       });
 
       const messages: Array<ObjectType> = rows.map(row =>
@@ -430,7 +441,7 @@ export class TableIterator<ObjectType extends { id: string }> {
       if (lastMessage) {
         ({ id } = lastMessage);
       }
-      complete = messages.length < this.pageSize;
+      complete = messages.length < this.#pageSize;
     }
   }
 }

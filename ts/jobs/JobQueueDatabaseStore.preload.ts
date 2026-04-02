@@ -20,11 +20,14 @@ type Database = {
 };
 
 export class JobQueueDatabaseStore implements JobQueueStore {
-  #activeQueueTypes = new Set<string>();
-  #queues = new Map<string, AsyncQueue<StoredJob>>();
-  #initialFetchPromises = new Map<string, Promise<void>>();
+  readonly #db: Database;
+  readonly #activeQueueTypes = new Set<string>();
+  readonly #queues = new Map<string, AsyncQueue<StoredJob>>();
+  readonly #initialFetchPromises = new Map<string, Promise<void>>();
 
-  constructor(private readonly db: Database) {}
+  constructor(db: Database) {
+    this.#db = db;
+  }
 
   async insert(
     job: Readonly<StoredJob>,
@@ -42,7 +45,7 @@ export class JobQueueDatabaseStore implements JobQueueStore {
     }
 
     if (shouldPersist) {
-      await this.db.insertJob(formatJobForInsert(job));
+      await this.#db.insertJob(formatJobForInsert(job));
     }
 
     if (initialFetchPromise) {
@@ -51,7 +54,7 @@ export class JobQueueDatabaseStore implements JobQueueStore {
   }
 
   async delete(id: string): Promise<void> {
-    await this.db.deleteJob(id);
+    await this.#db.deleteJob(id);
   }
 
   stream(queueType: string): AsyncIterable<StoredJob> {
@@ -90,7 +93,7 @@ export class JobQueueDatabaseStore implements JobQueueStore {
     });
     this.#initialFetchPromises.set(queueType, initialFetchPromise);
 
-    const result = await this.db.getJobsInQueue(queueType);
+    const result = await this.#db.getJobsInQueue(queueType);
     log.info(
       `finished fetching existing ${
         result.length

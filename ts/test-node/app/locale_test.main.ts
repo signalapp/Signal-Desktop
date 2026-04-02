@@ -28,7 +28,7 @@ describe('locale', async () => {
         preferredSystemLocales: Array<string>,
         expectedLocale: string
       ) {
-        const actualLocale = await load({
+        const actualLocale = load({
           rootDir,
           hourCyclePreference: HourCyclePreference.UnknownPreference,
           isPackaged: false,

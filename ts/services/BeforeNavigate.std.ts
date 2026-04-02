@@ -33,7 +33,7 @@ export type BeforeNavigateEntry = {
 };
 
 export class BeforeNavigateService {
-  #beforeNavigateCallbacks = new Set<BeforeNavigateEntry>();
+  readonly #beforeNavigateCallbacks = new Set<BeforeNavigateEntry>();
 
   private findMatchingEntry(
     entry: BeforeNavigateEntry

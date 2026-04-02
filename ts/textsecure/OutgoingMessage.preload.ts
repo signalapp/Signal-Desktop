@@ -566,7 +566,7 @@ export default class OutgoingMessage {
                   log.warn(
                     `doSendMessage: Failing over to unsealed send for serviceId ${serviceId}`
                   );
-                  if (this.failoverServiceIds.indexOf(serviceId) === -1) {
+                  if (!this.failoverServiceIds.includes(serviceId)) {
                     this.failoverServiceIds.push(serviceId);
                   }
 
@@ -678,8 +678,7 @@ export default class OutgoingMessage {
               },
               innerError => {
                 log.error(
-                  'doSendMessage: Error closing sessions: ' +
-                    `${Errors.toLogFormat(innerError)}`
+                  `doSendMessage: Error closing sessions: ${Errors.toLogFormat(innerError)}`
                 );
                 throw error;
               }

@@ -81,6 +81,7 @@ describe('callMessages', function callMessages(this: Mocha.Suite) {
       ],
       (error, stdout, stderr) => {
         if (error) {
+          // oxlint-disable-next-line typescript/only-throw-error
           throw error;
         }
         debug(stdout);

@@ -22,7 +22,7 @@ const { BACKUP_INTEGRATION_DIR } = process.env;
 
 describe('backup/integration', () => {
   before(async () => {
-    await initializeExpiringMessageService();
+    initializeExpiringMessageService();
   });
 
   beforeEach(async () => {

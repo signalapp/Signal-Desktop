@@ -167,7 +167,9 @@ export function installEphemeralSetting(name: keyof EphemeralSettings): void {
   const updaterName = getUpdaterName(name);
 
   ipcRenderer.on(`settings:update:${name}`, async (_event, value) => {
-    const updateFn = window.Events[updaterName] as (value: unknown) => void;
+    const updateFn = window.Events[updaterName] as (
+      value: unknown
+    ) => Promise<void> | void;
     if (!updateFn) {
       return;
     }

@@ -100,7 +100,7 @@ export namespace AxoScrollArea {
       orientation = 'vertical',
       maxWidth,
       maxHeight,
-      scrollbarWidth = 'thin',
+      scrollbarWidth,
       scrollbarGutter = 'stable-both-edges',
       scrollbarVisibility = 'auto',
       scrollBehavior = 'auto',

@@ -244,7 +244,7 @@ export function PreferencesInternal({
     };
 
     try {
-      await internalAddDonationReceipt(testReceipt);
+      internalAddDonationReceipt(testReceipt);
     } catch (error) {
       log.error('Error adding test receipt:', toLogFormat(error));
     }

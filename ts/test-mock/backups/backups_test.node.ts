@@ -69,7 +69,7 @@ describe('backups', function (this: Mocha.Suite) {
 
   async function generateTestDataThenRestoreBackup(
     thisVal: Mocha.Context,
-    exportBackupFn: () => void,
+    exportBackupFn: () => Promise<void>,
     getBootstrapLinkParams: () => LinkOptionsType
   ) {
     let state = StorageState.getEmpty();
@@ -324,7 +324,7 @@ describe('backups', function (this: Mocha.Suite) {
         await snapshot('styled bubbles');
 
         debug('Waiting for unread count');
-        const unreadCount = await leftPane
+        const unreadCount = leftPane
           .locator(
             '.module-conversation-list__item--contact-or-conversation__unread-indicator.module-conversation-list__item--contact-or-conversation__unread-indicator--unread-messages'
           )

@@ -65,7 +65,7 @@ const BACKUP_CDN_READ_CREDENTIALS_VALID_DURATION = 12 * HOUR;
 export class BackupCredentials {
   #activeFetch: Promise<ReadonlyArray<BackupCredentialWrapperType>> | undefined;
 
-  #scheduler = new CheckScheduler({
+  readonly #scheduler = new CheckScheduler({
     name: 'BackupCredentials',
     interval: 3 * DAY,
     storageKey: 'backupCombinedCredentialsLastRequestTime',

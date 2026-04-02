@@ -5,10 +5,10 @@ import Fuse from 'fuse.js';
 
 import { removeDiacritics } from './removeDiacritics.std.ts';
 
-const cachedIndices: Map<
+const cachedIndices = new Map<
   Fuse.IFuseOptions<unknown>,
   WeakMap<ReadonlyArray<unknown>, Fuse<unknown>>
-> = new Map();
+>();
 
 export function getCachedFuseIndex<T>(
   list: ReadonlyArray<T>,

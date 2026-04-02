@@ -203,7 +203,7 @@ export const _refreshRemoteConfig = async ({
   // new configuration only includes enabled flags we can't distinguish betewen
   // a remote flag being deleted or being disabled. We synthesize that for our
   // known keys.
-  const newConfigValues: Map<string, string | undefined> = new Map(
+  const newConfigValues = new Map<string, string | undefined>(
     KnownConfigKeys.map(name => [name, undefined])
   );
   for (const [name, value] of newConfig) {

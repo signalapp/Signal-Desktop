@@ -257,7 +257,7 @@ export function MediaGallery({
 
   // Reset local state when redux finishes loading
   useEffect(() => {
-    if (reduxLoading === false) {
+    if (!reduxLoading) {
       setLoading(false);
     }
   }, [reduxLoading]);

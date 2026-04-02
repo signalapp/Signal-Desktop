@@ -44,7 +44,7 @@ const MIN_HTML_CONTENT_LENGTH = 8;
 // Similar to the above. We don't want to show tiny images (even though the more likely
 //   case is that the Content-Length is 0).
 const MIN_IMAGE_CONTENT_LENGTH = 8;
-const VALID_IMAGE_MIME_TYPES: Set<MIMEType> = new Set([
+const VALID_IMAGE_MIME_TYPES = new Set<MIMEType>([
   IMAGE_GIF,
   IMAGE_ICO,
   IMAGE_JPEG,

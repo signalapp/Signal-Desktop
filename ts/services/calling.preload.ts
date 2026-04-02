@@ -201,10 +201,10 @@ const {
   cleanExpiredGroupCallRingCancellations,
 } = DataWriter;
 
-const RINGRTC_HTTP_METHOD_TO_OUR_HTTP_METHOD: Map<
+const RINGRTC_HTTP_METHOD_TO_OUR_HTTP_METHOD = new Map<
   HttpMethod,
   'GET' | 'PUT' | 'POST' | 'DELETE'
-> = new Map([
+>([
   [HttpMethod.Get, 'GET'],
   [HttpMethod.Put, 'PUT'],
   [HttpMethod.Post, 'POST'],
@@ -486,12 +486,14 @@ async function ensureSystemPermissions({
   hasLocalAudio: boolean;
 }): Promise<void> {
   if (hasLocalAudio) {
+    // oxlint-disable-next-line typescript/await-thenable
     await window.reduxActions.globalModals.ensureSystemMediaPermissions(
       'microphone',
       'call'
     );
   }
   if (hasLocalVideo) {
+    // oxlint-disable-next-line typescript/await-thenable
     await window.reduxActions.globalModals.ensureSystemMediaPermissions(
       'camera',
       'call'
@@ -590,13 +592,13 @@ export class CallingClass {
   #deviceReselectionTimer?: NodeJS.Timeout;
   #callsLookup: { [key: string]: Call | GroupCall };
 
-  #cameraEnabled: boolean = false;
+  #cameraEnabled = false;
 
-  #registeredAssets: Map<string, boolean> = new Map();
+  readonly #registeredAssets = new Map<string, boolean>();
 
   // Send our profile key to other participants in call link calls to ensure they
   // can see our profile info. Only send once per aci until the next app start.
-  #sendProfileKeysForAdhocCallCache: Set<AciString>;
+  readonly #sendProfileKeysForAdhocCallCache: Set<AciString>;
 
   constructor() {
     this.#videoCapturer = new GumVideoCapturer();
@@ -2601,6 +2603,7 @@ export class CallingClass {
 
     if (enabled) {
       // Make sure we have access to camera
+      // oxlint-disable-next-line typescript/await-thenable
       await window.reduxActions.globalModals.ensureSystemMediaPermissions(
         'camera',
         'call'
@@ -3056,6 +3059,7 @@ export class CallingClass {
   }
 
   async enableLocalCamera(mode: CallMode): Promise<void> {
+    // oxlint-disable-next-line typescript/await-thenable
     await window.reduxActions.globalModals.ensureSystemMediaPermissions(
       'camera',
       'call'
@@ -3608,7 +3612,7 @@ export class CallingClass {
     ageInSeconds: number,
     wasVideoCall: boolean,
     receivedAtCounter: number | undefined,
-    receivedAtMS: number | undefined = undefined
+    receivedAtMS?: number
   ) {
     const conversation = window.ConversationController.get(remoteUserId);
     if (!conversation) {
@@ -3777,7 +3781,7 @@ export class CallingClass {
     call.handleRemoteSharingScreen = () => {
       reduxInterface.remoteSharingScreenChange({
         conversationId,
-        isSharingScreen: Boolean(call.remoteSharingScreen),
+        isSharingScreen: call.remoteSharingScreen,
       });
     };
 

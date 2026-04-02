@@ -48,7 +48,7 @@ export class RetryPlaceholders {
   #items = new Array<RetryItemType>();
   #byConversation: ByConversationLookupType = {};
   #byMessage: ByMessageLookupType = new Map();
-  #retryReceiptLifespan: number;
+  readonly #retryReceiptLifespan: number;
   #storage: Pick<StorageInterface, 'get' | 'put'> | undefined;
 
   constructor(options: { retryReceiptLifespan?: number } = {}) {

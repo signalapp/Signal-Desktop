@@ -121,6 +121,7 @@ type StoryReplyContextType = {
 export type GroupV1Update = {
   avatarUpdated?: boolean;
   joined?: ReadonlyArray<string>;
+  // oxlint-disable-next-line typescript/no-redundant-type-constituents
   left?: string | 'You';
   name?: string;
 };

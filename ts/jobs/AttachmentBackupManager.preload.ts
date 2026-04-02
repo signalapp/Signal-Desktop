@@ -508,7 +508,7 @@ async function uploadToTransitTier({
     }
 
     // Legacy attachments
-    return dependencies.encryptAndUploadAttachment({
+    return await dependencies.encryptAndUploadAttachment({
       keys: fromBase64(keys),
       needIncrementalMac,
       plaintext: { absolutePath },

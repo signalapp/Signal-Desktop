@@ -100,7 +100,7 @@ function* createRecords({
 }: BackupGeneratorConfigType): Iterable<Uint8Array<ArrayBuffer>> {
   yield* encodeDelimited(
     Backups.BackupInfo.encode({
-      version: BigInt(BACKUP_VERSION),
+      version: BACKUP_VERSION,
       backupTimeMs: getTimestamp(),
       mediaRootBackupKey,
       currentAppVersion: null,

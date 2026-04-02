@@ -143,7 +143,7 @@ export abstract class Updater {
 
   protected readonly getMainWindow: () => BrowserWindow | undefined;
 
-  #throttledSendDownloadingUpdate: ((
+  readonly #throttledSendDownloadingUpdate: ((
     downloadedSize: number,
     downloadSize: number
   ) => void) & {
@@ -159,7 +159,7 @@ export abstract class Updater {
 
   // Just a stable randomness that is used for determining the update time. The
   // value does not have to be consistent across restarts.
-  #pollId = getGuid();
+  readonly #pollId = getGuid();
 
   constructor({
     canRunSilently,

@@ -233,7 +233,7 @@ export default function updateToSchemaVersion41(
       updateSenderKey.run({
         id,
         newId,
-        newSenderId: `${senderId.replace(conversationId, uuid)}`,
+        newSenderId: senderId.replace(conversationId, uuid),
       });
     }
 

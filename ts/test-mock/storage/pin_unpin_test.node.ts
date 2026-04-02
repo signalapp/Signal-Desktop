@@ -77,7 +77,7 @@ describe('storage service', function (this: Mocha.Suite) {
         const newState = await phone.waitForStorageState({
           after: state,
         });
-        assert.isTrue(await newState.isGroupPinned(group), 'group not pinned');
+        assert.isTrue(newState.isGroupPinned(group), 'group not pinned');
 
         // AccountRecord
         const { added, removed } = newState.diff(state);
@@ -141,8 +141,7 @@ describe('storage service', function (this: Mocha.Suite) {
           const newState = await phone.waitForStorageState({
             after: state,
           });
-          // oxlint-disable-next-line no-await-in-loop
-          assert.isTrue(await newState.isPinned(contact), 'contact not pinned');
+          assert.isTrue(newState.isPinned(contact), 'contact not pinned');
 
           // AccountRecord
           const { added, removed } = newState.diff(state);

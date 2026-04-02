@@ -128,7 +128,7 @@ export function CallingPendingParticipants({
   }, [serviceIdsStagedForAction, batchUserAction, hideConfirmDialog]);
 
   const renderApprovalButtons = useCallback(
-    (participant: ConversationType, isEnabled: boolean = true) => {
+    (participant: ConversationType, isEnabled = true) => {
       if (participant.serviceId == null) {
         return null;
       }

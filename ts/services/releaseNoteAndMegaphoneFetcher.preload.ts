@@ -110,7 +110,7 @@ export class ReleaseNoteAndMegaphoneFetcher {
   static initComplete = false;
   #timeout: NodeJS.Timeout | undefined;
   #isRunning = false;
-  #server: ServerType;
+  readonly #server: ServerType;
 
   constructor(server: ServerType) {
     this.#server = server;
@@ -145,11 +145,9 @@ export class ReleaseNoteAndMegaphoneFetcher {
 
   #getLocales(): ReadonlyArray<string> {
     const globalLocale = new Intl.Locale(window.SignalContext.getI18nLocale());
-    return [
-      globalLocale.toString(),
-      globalLocale.language.toString(),
-      'en',
-    ].map(locale => locale.toLocaleLowerCase().replace('-', '_'));
+    return [globalLocale.toString(), globalLocale.language, 'en'].map(locale =>
+      locale.toLocaleLowerCase().replace('-', '_')
+    );
   }
 
   async #maybeGetLocaleMegaphone(

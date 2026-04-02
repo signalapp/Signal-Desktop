@@ -237,9 +237,7 @@ function setIsSyncEnabled(
       await itemStorage.put('notificationProfileSyncDisabled', disabled);
       if (disabled) {
         if (!fromStorageService) {
-          const globalOverride = await itemStorage.get(
-            'notificationProfileOverride'
-          );
+          const globalOverride = itemStorage.get('notificationProfileOverride');
 
           await itemStorage.put(
             'notificationProfileOverrideFromPrimary',
@@ -394,6 +392,7 @@ function updateOverride(
     const enabled = payload?.enabled;
     await itemStorage.put('notificationProfileOverride', payload);
 
+    // oxlint-disable-next-line typescript/no-base-to-string, typescript/restrict-template-expressions
     const logId = `updateOverride/${id ? redactNotificationProfileId(id) : 'undefined'}/enabled=${enabled}`;
 
     dispatch({

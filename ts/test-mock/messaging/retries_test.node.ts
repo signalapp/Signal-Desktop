@@ -127,7 +127,7 @@ describe('retries', function (this: Mocha.Suite) {
       .waitFor();
 
     debug('verify that no resend request was sent');
-    const count = await first.getDecryptionErrorQueueSize();
+    const count = first.getDecryptionErrorQueueSize();
     assert.equal(count, 0);
   });
 
@@ -176,7 +176,7 @@ describe('retries', function (this: Mocha.Suite) {
     await sleep(500);
 
     debug('verify that no other resend requests were sent');
-    const count = await first.getDecryptionErrorQueueSize();
+    const count = first.getDecryptionErrorQueueSize();
     assert.equal(count, 0);
   });
 });

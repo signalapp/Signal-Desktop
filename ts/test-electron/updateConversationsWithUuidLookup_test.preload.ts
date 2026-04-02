@@ -16,12 +16,14 @@ import {
 
 describe('updateConversationsWithUuidLookup', () => {
   class FakeConversationController {
-    constructor(
-      private readonly conversations: Array<ConversationModel> = []
-    ) {}
+    readonly #conversations: Array<ConversationModel>;
+
+    constructor(conversations: Array<ConversationModel> = []) {
+      this.#conversations = conversations;
+    }
 
     get(id?: string | null): ConversationModel | undefined {
-      return this.conversations.find(
+      return this.#conversations.find(
         conversation =>
           conversation.id === id ||
           conversation.get('e164') === id ||
@@ -53,8 +55,7 @@ describe('updateConversationsWithUuidLookup', () => {
         reason,
         'FakeConversationController must be provided a reason when merging'
       );
-      // oxlint-disable-next-line typescript/no-non-null-assertion
-      const normalizedAci = normalizeAci(aciFromServer!, 'test');
+      const normalizedAci = normalizeAci(aciFromServer, 'test');
 
       const convoE164 = this.get(e164);
       const convoUuid = this.get(normalizedAci);
@@ -97,8 +98,7 @@ describe('updateConversationsWithUuidLookup', () => {
         'FakeConversationController is not set up for this case (UUID must be provided)'
       );
       const normalizedServiceId = normalizeServiceId(
-        // oxlint-disable-next-line typescript/no-non-null-assertion
-        serviceIdFromServer!,
+        serviceIdFromServer,
         'test'
       );
 

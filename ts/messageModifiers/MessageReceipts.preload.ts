@@ -81,10 +81,10 @@ const processReceiptBatcher = createWaitBatcher({
 
     // Once we find the message, we'll group them by messageId to process
     // all receipts for a given message
-    const receiptsByMessageId: Map<
+    const receiptsByMessageId = new Map<
       string,
       Array<MessageReceiptAttributesType>
-    > = new Map();
+    >();
 
     function addReceiptAndTargetMessage(
       message: MessageModel,

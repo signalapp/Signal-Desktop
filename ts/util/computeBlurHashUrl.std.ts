@@ -118,11 +118,11 @@ export function computeBlurHashUrl(
   ) {
     // BMP uses BGR ordering
     // oxlint-disable-next-line typescript/no-non-null-assertion
-    bitmap[j + 2]! = rgba[i]!;
+    bitmap[j + 2] = rgba[i]!;
     // oxlint-disable-next-line typescript/no-non-null-assertion
-    bitmap[j + 1]! = rgba[i + 1]!;
+    bitmap[j + 1] = rgba[i + 1]!;
     // oxlint-disable-next-line typescript/no-non-null-assertion
-    bitmap[j]! = rgba[i + 2]!;
+    bitmap[j] = rgba[i + 2]!;
   }
 
   return `data:image/bmp;base64,${Bytes.toBase64(bitmap)}`;

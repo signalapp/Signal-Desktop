@@ -78,7 +78,6 @@ export function canHaveUsername(
     | 'systemNickname'
     | 'nicknameGivenName'
     | 'nicknameFamilyName'
-    | 'type'
   >,
   ourConversationId: string | undefined
 ): boolean {

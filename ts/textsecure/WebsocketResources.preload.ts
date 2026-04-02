@@ -150,15 +150,25 @@ export enum ServerRequestType {
 }
 
 export class IncomingWebSocketRequest {
+  public readonly requestType: ServerRequestType;
+  public readonly body: Uint8Array<ArrayBuffer> | undefined;
+  public readonly timestamp: number | undefined;
+  readonly #ack: Pick<ChatServerMessageAck, 'send'> | undefined;
+
   constructor(
-    readonly requestType: ServerRequestType,
-    readonly body: Uint8Array<ArrayBuffer> | undefined,
-    readonly timestamp: number | undefined,
-    private readonly ack: Pick<ChatServerMessageAck, 'send'> | undefined
-  ) {}
+    requestType: ServerRequestType,
+    body: Uint8Array<ArrayBuffer> | undefined,
+    timestamp: number | undefined,
+    ack: Pick<ChatServerMessageAck, 'send'> | undefined
+  ) {
+    this.requestType = requestType;
+    this.body = body;
+    this.timestamp = timestamp;
+    this.#ack = ack;
+  }
 
   respond(status: number, _message: string): void {
-    this.ack?.send(status);
+    this.#ack?.send(status);
   }
 }
 
@@ -185,11 +195,13 @@ export type WebSocketResourceOptions = {
 
 // oxlint-disable-next-line max-classes-per-file
 export class CloseEvent extends Event {
-  constructor(
-    public readonly code: number,
-    public readonly reason: string
-  ) {
+  public readonly code: number;
+  public readonly reason: string;
+
+  constructor(code: number, reason: string) {
     super('close');
+    this.code = code;
+    this.reason = reason;
   }
 }
 
@@ -392,6 +404,11 @@ export class WebSocketResource<Chat extends ChatKind>
   extends EventTarget
   implements IChatConnection<Chat>
 {
+  readonly #chatService: ChatConnection<Chat>;
+  readonly #socketIpVersion: IpVersion;
+  readonly #localPortNumber: number;
+  readonly #logId: string;
+
   // The reason that the connection was closed, if it was closed.
   //
   // When setting this to anything other than `undefined`, the "close" event
@@ -402,28 +419,32 @@ export class WebSocketResource<Chat extends ChatKind>
   // - Server uses /v1/keepalive requests to do some consistency checks
   // - external events (like waking from sleep) can prompt us to do a shorter keepalive
   // So at least for now, we want to keep this mechanism around too.
-  #keepalive: KeepAlive;
+  readonly #keepalive: KeepAlive;
 
   constructor(
-    private readonly chatService: ChatConnection<Chat>,
-    private readonly socketIpVersion: IpVersion,
-    private readonly localPortNumber: number,
-    private readonly logId: string,
+    chatService: ChatConnection<Chat>,
+    socketIpVersion: IpVersion,
+    localPortNumber: number,
+    logId: string,
     keepalive: KeepAliveOptionsType
   ) {
     super();
+    this.#chatService = chatService;
+    this.#socketIpVersion = socketIpVersion;
+    this.#localPortNumber = localPortNumber;
+    this.#logId = logId;
 
-    this.#keepalive = new KeepAlive(this, this.logId, keepalive);
+    this.#keepalive = new KeepAlive(this, this.#logId, keepalive);
     this.#keepalive.reset();
     this.addEventListener('close', () => this.#keepalive?.stop());
   }
 
   public localPort(): number {
-    return this.localPortNumber;
+    return this.#localPortNumber;
   }
 
   public ipVersion(): IpVersion {
-    return this.socketIpVersion;
+    return this.#socketIpVersion;
   }
 
   public override addEventListener(
@@ -437,12 +458,12 @@ export class WebSocketResource<Chat extends ChatKind>
 
   public close(code = NORMAL_DISCONNECT_CODE, reason?: string): void {
     if (this.#closedReasonCode !== undefined) {
-      log.info(`${this.logId}.close: Already closed! ${code}/${reason}`);
+      log.info(`${this.#logId}.close: Already closed! ${code}/${reason}`);
       return;
     }
 
     this.#closedReasonCode = code;
-    drop(this.chatService.disconnect());
+    drop(this.#chatService.disconnect());
 
     // Since we set `closedReasonCode`, we must dispatch the close event.
     this.dispatchEvent(new CloseEvent(code, reason || 'no reason provided'));
@@ -459,12 +480,12 @@ export class WebSocketResource<Chat extends ChatKind>
         // request and an error on the connection. It's likely benign but in
         // case it's not, make sure we know about it.
         log.info(
-          `${this.logId}: onConnectionInterrupted called after resource is closed: ${cause.message}`
+          `${this.#logId}: onConnectionInterrupted called after resource is closed: ${cause.message}`
         );
       }
       return;
     }
-    log.warn(`${this.logId}: connection closed`);
+    log.warn(`${this.#logId}: connection closed`);
 
     // This is a workaround to map libsignal error codes to close codes that
     // SocketManager's existing clients expect.
@@ -495,13 +516,13 @@ export class WebSocketResource<Chat extends ChatKind>
   }
 
   get libsignalWebsocket(): ChatConnection<Chat> {
-    return this.chatService;
+    return this.#chatService;
   }
 
   public async sendRequestGetDebugInfo(
     options: SendRequestOptions
   ): Promise<Response> {
-    const response = await this.chatService.fetch({
+    const response = await this.#chatService.fetch({
       verb: options.verb,
       path: options.path,
       headers: options.headers ? options.headers : [],
@@ -545,7 +566,7 @@ const LOG_KEEPALIVE_AFTER_MS = 500;
  * intervals.
  */
 class KeepAliveSender {
-  #path: string;
+  readonly #path: string;
 
   protected wsr: IWebSocketResource;
 

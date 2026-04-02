@@ -94,8 +94,7 @@ describe('emojiCompletion', () => {
       emojiLocalizer,
     };
 
-    // oxlint-disable-next-line typescript/no-explicit-any
-    emojiCompletion = new EmojiCompletion(mockQuill as any, options);
+    emojiCompletion = new EmojiCompletion(mockQuill, options);
 
     // Stub rendering to avoid missing DOM until we bring in Enzyme
     emojiCompletion.render = sinon.stub();

@@ -518,7 +518,7 @@ export function TextStoryCreator({
                         'StoryCreator__bg--selected':
                           selectedBackground === backgroundValue,
                       })}
-                      key={String(bg)}
+                      key={bg}
                       onClick={() => {
                         setSelectedBackground(backgroundValue);
                         setIsColorPickerShowing(false);

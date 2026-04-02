@@ -6,13 +6,15 @@ import { Buffer } from 'node:buffer';
 import { InputStream } from '@signalapp/libsignal-client/dist/io.js';
 
 export class FileStream extends InputStream {
+  readonly #filePath: string;
   #file: FileHandle | undefined;
   #position = 0;
   #buffer = Buffer.alloc(16 * 1024);
   #initPromise: Promise<unknown> | undefined;
 
-  constructor(private readonly filePath: string) {
+  constructor(filePath: string) {
     super();
+    this.#filePath = filePath;
   }
 
   public override async close(): Promise<void> {
@@ -46,7 +48,7 @@ export class FileStream extends InputStream {
       return this.#file;
     }
 
-    const filePromise = open(this.filePath);
+    const filePromise = open(this.#filePath);
     this.#initPromise = filePromise;
     this.#file = await filePromise;
     return this.#file;

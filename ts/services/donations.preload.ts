@@ -659,7 +659,7 @@ async function withConcurrencyCheck<T extends () => Promise<any>>(
   isDonationStepInProgress = true;
 
   try {
-    return fn();
+    return await fn();
   } finally {
     isDonationStepInProgress = false;
   }
@@ -1144,7 +1144,7 @@ export async function _redeemReceipt(
 
 async function failDonation(
   errorType: DonationErrorType,
-  details: string | undefined = undefined
+  details?: string
 ): Promise<void> {
   const workflow = _getWorkflowFromRedux();
   const logId = `failDonation(${workflow?.id ? redactId(workflow.id) : 'NONE'})`;
@@ -1234,6 +1234,7 @@ export function _getWorkflowFromStorage(): DonationWorkflow | undefined {
   const result = safeParseUnknown(donationWorkflowSchema, workflowData);
   if (!result.success) {
     log.error(
+      // oxlint-disable-next-line typescript/no-base-to-string, typescript/restrict-template-expressions
       `${logId}: Workflow from storage was malformed: ${result.error.flatten()}`
     );
     return undefined;
@@ -1261,6 +1262,7 @@ export async function _saveWorkflowToStorage(
   const result = safeParseStrict(donationWorkflowSchema, workflow);
   if (!result.success) {
     log.error(
+      // oxlint-disable-next-line typescript/no-base-to-string, typescript/restrict-template-expressions
       `${logId}: Provided workflow was malformed: ${result.error.flatten()}`
     );
     throw result.error;

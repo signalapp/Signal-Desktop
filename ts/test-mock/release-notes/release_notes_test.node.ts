@@ -64,7 +64,7 @@ describe('release notes', function (this: Mocha.Suite) {
 
     await clickOnConversationWithAci(secondWindow, SIGNAL_ACI);
 
-    const timelineMessage = await getTimelineMessageWithText(
+    const timelineMessage = getTimelineMessageWithText(
       secondWindow,
       'Call links'
     );
@@ -117,7 +117,7 @@ describe('release notes', function (this: Mocha.Suite) {
       'expected message to have monospace text'
     );
 
-    const secondTimelineMessage = await getTimelineMessageWithText(
+    const secondTimelineMessage = getTimelineMessageWithText(
       secondWindow,
       'Bold text has invalid ranges, italic has valid'
     );

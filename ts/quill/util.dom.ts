@@ -195,6 +195,7 @@ export const getTextAndRangesFromOps = (
   const preTrimText = ops.reduce((acc, op) => {
     // We special-case all-newline ops because Quill doesn't apply styles to them
     if (isNewlineOnlyOp(op)) {
+      // oxlint-disable-next-line typescript/no-base-to-string, typescript/restrict-plus-operands
       return acc + op.insert;
     }
 
@@ -459,7 +460,7 @@ export const insertEmojiOps = (
   incomingOps: ReadonlyArray<Op>,
   existingAttributes: AttributeMap
 ): Array<Op> => {
-  return incomingOps.reduce((ops, op) => {
+  return incomingOps.reduce<Array<Op>>((ops, op) => {
     if (typeof op.insert === 'string') {
       const text = op.insert;
       const { attributes } = op;
@@ -493,5 +494,5 @@ export const insertEmojiOps = (
     }
 
     return ops;
-  }, [] as Array<Op>);
+  }, []);
 };

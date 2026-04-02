@@ -34,6 +34,7 @@ export async function sign(configuration) {
   });
 
   if (returnCode) {
+    // oxlint-disable-next-line typescript/restrict-template-expressions
     throw new Error(`sign-windows: Script returned code ${returnCode}`);
   }
 }

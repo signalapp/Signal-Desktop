@@ -22,7 +22,7 @@ const MAX_ATTACHMENT_MSGS_TO_DOWNLOAD = 250;
 
 let isEnabled = true;
 let attachmentDownloadQueue: Array<string> | undefined = [];
-const queueEmptyCallbacks: Set<() => void> = new Set();
+const queueEmptyCallbacks = new Set<() => void>();
 
 export function shouldUseAttachmentDownloadQueue(): boolean {
   return isEnabled;

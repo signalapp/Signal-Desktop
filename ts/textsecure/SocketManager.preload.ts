@@ -86,7 +86,8 @@ export type SocketExpirationReason = 'remote' | 'build';
 // Incoming requests on unauthenticated resource are not currently supported.
 // IChatConnection is responsible for their immediate termination.
 export class SocketManager extends EventListener {
-  #backOff = new BackOff(FIBONACCI_TIMEOUTS, {
+  readonly #libsignalNet: Net.Net;
+  readonly #backOff = new BackOff(FIBONACCI_TIMEOUTS, {
     jitter: JITTER,
   });
 
@@ -94,13 +95,13 @@ export class SocketManager extends EventListener {
   #unauthenticated?: AbortableProcess<IChatConnection<'unauth'>>;
   #unauthenticatedExpirationTimer?: NodeJS.Timeout;
   #credentials?: WebAPICredentials;
-  #authenticatedStatus: SocketInfo = {
+  readonly #authenticatedStatus: SocketInfo = {
     status: SocketStatus.CLOSED,
   };
-  #unathenticatedStatus: SocketInfo = {
+  readonly #unathenticatedStatus: SocketInfo = {
     status: SocketStatus.CLOSED,
   };
-  #requestHandlers = new Set<IRequestHandler>();
+  readonly #requestHandlers = new Set<IRequestHandler>();
   #incomingRequestQueue = new Array<IncomingWebSocketRequest>();
   #isNavigatorOffline = false;
   #privIsOnline: boolean | undefined;
@@ -109,8 +110,9 @@ export class SocketManager extends EventListener {
   #reconnectController: AbortController | undefined;
   #envelopeCount = 0;
 
-  constructor(private readonly libsignalNet: Net.Net) {
+  constructor(libsignalNet: Net.Net) {
     super();
+    this.#libsignalNet = libsignalNet;
   }
 
   public getStatus(): SocketStatuses {
@@ -188,7 +190,7 @@ export class SocketManager extends EventListener {
     );
 
     const process = connectAuthenticated({
-      libsignalNet: this.libsignalNet,
+      libsignalNet: this.#libsignalNet,
       name: AUTHENTICATED_CHANNEL_NAME,
       credentials: this.#credentials,
       handler: (req: IncomingWebSocketRequest): void => {
@@ -382,7 +384,7 @@ export class SocketManager extends EventListener {
     }, timeout);
 
     try {
-      return await this.libsignalNet.connectProvisioning(listener, {
+      return await this.#libsignalNet.connectProvisioning(listener, {
         abortSignal: abortController.signal,
       });
     } finally {
@@ -518,7 +520,7 @@ export class SocketManager extends EventListener {
     log.info('onNavigatorOnline');
     this.#isNavigatorOffline = false;
     this.#backOff.reset(FIBONACCI_TIMEOUTS);
-    this.libsignalNet.onNetworkChange();
+    this.#libsignalNet.onNetworkChange();
 
     // Reconnect earlier if waiting
     if (this.#credentials !== undefined) {
@@ -612,7 +614,7 @@ export class SocketManager extends EventListener {
 
     const process: AbortableProcess<IChatConnection<'unauth'>> =
       connectUnauthenticated({
-        libsignalNet: this.libsignalNet,
+        libsignalNet: this.#libsignalNet,
         name: UNAUTHENTICATED_CHANNEL_NAME,
         userLanguages,
         keepalive: { path: '/v1/keepalive' },

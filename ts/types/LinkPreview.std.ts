@@ -231,6 +231,7 @@ const VALID_URI_CHARACTERS = new Set([
   ';',
   '=',
   // unreserved
+  // oxlint-disable-next-line typescript/no-misused-spread
   ...String.fromCharCode(...range(65, 91), ...range(97, 123)),
   ...range(10).map(String),
   '-',
@@ -309,6 +310,7 @@ export function isLinkSneaky(href: string): boolean {
   const startOfPathAndHash = href.indexOf('/', url.protocol.length + 4);
   const pathAndHash =
     startOfPathAndHash === -1 ? '' : href.substr(startOfPathAndHash);
+  // oxlint-disable-next-line typescript/no-misused-spread
   return [...pathAndHash].some(
     character => !VALID_URI_CHARACTERS.has(character)
   );

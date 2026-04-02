@@ -56,7 +56,7 @@ export function isKeyTransparencyAvailable(): boolean {
 
 export class KeyTransparency {
   #isRunning = false;
-  #scheduler = new CheckScheduler({
+  readonly #scheduler = new CheckScheduler({
     name: 'KeyTransparency',
     interval: WEEK,
     storageKey: 'lastKeyTransparencySelfCheck',
@@ -71,7 +71,7 @@ export class KeyTransparency {
     },
   });
 
-  #selfCheckDedup = new TaskDeduplicator(
+  readonly #selfCheckDedup = new TaskDeduplicator(
     'KeyTransparency.selfCheck',
     abortSignal => this.#selfCheck(abortSignal)
   );

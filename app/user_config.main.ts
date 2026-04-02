@@ -17,6 +17,7 @@ if (config.has('storagePath')) {
 } else if (config.has('storageProfile')) {
   userData = join(
     app.getPath('appData'),
+    // oxlint-disable-next-line typescript/restrict-template-expressions
     `Signal-${config.get('storageProfile')}`
   );
 } else if (OS.isAppImage()) {

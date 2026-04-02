@@ -190,10 +190,10 @@ function createDistributionList(
     dispatch({
       type: CREATE_LIST,
       payload: {
-        allowsReplies: Boolean(storyDistribution.allowsReplies),
+        allowsReplies: storyDistribution.allowsReplies,
         deletedAtTimestamp: storyDistribution.deletedAtTimestamp,
         id: storyDistribution.id,
-        isBlockList: Boolean(storyDistribution.isBlockList),
+        isBlockList: storyDistribution.isBlockList,
         memberServiceIds,
         name: storyDistribution.name,
       },

@@ -9,7 +9,7 @@ import { environment } from '../../context/environment.preload.ts';
 const environments: Array<string> = [environment];
 
 if (config.appInstance) {
-  environments.push(String(config.appInstance));
+  environments.push(config.appInstance);
 }
 
 const Signal = {

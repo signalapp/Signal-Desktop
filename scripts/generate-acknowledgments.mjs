@@ -13,11 +13,7 @@ import packageJson from '../package.json' with { type: 'json' };
 // Enable this flag to throw an error.
 const REQUIRE_SIGNAL_LIB_FILES = Boolean(process.env.REQUIRE_SIGNAL_LIB_FILES);
 
-const {
-  dependencies = {},
-  devDependencies = {},
-  optionalDependencies = {},
-} = packageJson;
+const { dependencies, devDependencies, optionalDependencies } = packageJson;
 
 const SIGNAL_LIBS = [
   '@signalapp/libsignal-client',

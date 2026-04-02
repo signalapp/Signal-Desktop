@@ -44,8 +44,8 @@ import type { AttachmentType } from '../types/Attachment.std.ts';
 const log = createLogger('cleanup');
 
 export async function postSaveUpdates(): Promise<void> {
-  await updateExpiringMessagesService();
-  await tapToViewMessagesDeletionService.update();
+  updateExpiringMessagesService();
+  tapToViewMessagesDeletionService.update();
 }
 
 export async function eraseMessageContents(

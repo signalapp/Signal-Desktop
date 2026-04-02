@@ -106,23 +106,21 @@ describe('storage service', function (this: Mocha.Suite) {
     assert.notOk(deletedAtBeforeDelete, 'deletedAt falsey');
 
     debug('Deleting call link');
-    const callLinkItem = await window.getByText('Link to delete');
+    const callLinkItem = window.getByText('Link to delete');
     await callLinkItem.click();
-    const callLinkDetails = await window.locator(
+    const callLinkDetails = window.locator(
       '.CallsTab__ConversationCallDetails'
     );
     await callLinkDetails.waitFor();
-    const deleteButton = await window.getByRole('button', {
+    const deleteButton = window.getByRole('button', {
       name: 'Delete link',
     });
     await deleteButton.click();
-    const confirmModal = await window.getByTestId(
+    const confirmModal = window.getByTestId(
       'ConfirmationDialog.CallLinkDetails__DeleteLinkModal'
     );
     await confirmModal.waitFor();
-    const deleteConfirm = await window
-      .locator('.module-Button')
-      .getByText('Delete');
+    const deleteConfirm = window.locator('.module-Button').getByText('Delete');
     await deleteConfirm.click();
 
     debug('Waiting for storage update');

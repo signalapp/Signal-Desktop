@@ -4117,8 +4117,8 @@ function getAllStories(
 
     return hydrateMessages(db, rows).map(msg => ({
       ...msg,
-      hasReplies: Boolean(repliesLookup.has(msg.id)),
-      hasRepliesFromSelf: Boolean(repliesFromSelfLookup.has(msg.id)),
+      hasReplies: repliesLookup.has(msg.id),
+      hasRepliesFromSelf: repliesFromSelfLookup.has(msg.id),
     }));
   })();
 }
@@ -6416,7 +6416,7 @@ function getBackupAttachmentDownloadProgress(
 function getNextAttachmentDownloadJobs(
   db: WritableDB,
   {
-    limit = 3,
+    limit,
     sources,
     prioritizeMessageIds,
     timestamp = Date.now(),
@@ -6535,6 +6535,7 @@ function saveAttachmentDownloadJobs(
     return;
   }
   if (errors.length === 1) {
+    // oxlint-disable-next-line typescript/only-throw-error
     throw errors[0];
   }
   throw new AggregateError(
@@ -7342,7 +7343,9 @@ function getAllStickerPacks(db: ReadableDB): Array<StickerPackType> {
 
       // The columns have STRING type so if they have numeric value, sqlite
       // will return integers.
+      // oxlint-disable-next-line typescript/no-unnecessary-type-conversion
       author: String(row.author),
+      // oxlint-disable-next-line typescript/no-unnecessary-type-conversion
       title: String(row.title),
     };
   });

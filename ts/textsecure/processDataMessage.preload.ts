@@ -472,7 +472,7 @@ export function processGiftBadge(
   );
 
   return {
-    expiration: Number(receipt.getReceiptExpirationTime()) * SECOND,
+    expiration: receipt.getReceiptExpirationTime() * SECOND,
     id: undefined,
     level: Number(receipt.getReceiptLevel()),
     receiptCredentialPresentation: Bytes.toBase64(

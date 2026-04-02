@@ -142,8 +142,11 @@ describe('ContactsParser', () => {
 });
 
 class SmallChunksTransform extends Transform {
-  constructor(private chunkSize: number) {
+  readonly #chunkSize: number;
+
+  constructor(chunkSize: number) {
     super();
+    this.#chunkSize = chunkSize;
   }
 
   override _transform(
@@ -159,16 +162,16 @@ class SmallChunksTransform extends Transform {
     try {
       const totalSize = incomingChunk.byteLength;
 
-      const chunkCount = Math.floor(totalSize / this.chunkSize);
-      const remainder = totalSize % this.chunkSize;
+      const chunkCount = Math.floor(totalSize / this.#chunkSize);
+      const remainder = totalSize % this.#chunkSize;
 
       for (let i = 0; i < chunkCount; i += 1) {
-        const start = i * this.chunkSize;
-        const end = start + this.chunkSize;
+        const start = i * this.#chunkSize;
+        const end = start + this.#chunkSize;
         this.push(incomingChunk.subarray(start, end));
       }
       if (remainder > 0) {
-        this.push(incomingChunk.subarray(chunkCount * this.chunkSize));
+        this.push(incomingChunk.subarray(chunkCount * this.#chunkSize));
       }
     } catch (error) {
       done(error);

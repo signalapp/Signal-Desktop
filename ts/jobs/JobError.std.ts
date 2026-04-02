@@ -9,8 +9,11 @@ import { reallyJsonStringify } from '../util/reallyJsonStringify.std.ts';
  * Should not be instantiated directly, except by `JobQueue`.
  */
 export class JobError extends Error {
-  constructor(public readonly lastErrorThrownByJob: unknown) {
+  public readonly lastErrorThrownByJob: unknown;
+
+  constructor(lastErrorThrownByJob: unknown) {
     super(`Job failed. Last error: ${formatError(lastErrorThrownByJob)}`);
+    this.lastErrorThrownByJob = lastErrorThrownByJob;
   }
 }
 

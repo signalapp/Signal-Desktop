@@ -29,17 +29,19 @@ const MIN_REFRESH_DELAY = MINUTE;
 
 let idCounter = 1;
 
-export class RoutineProfileRefresher {
-  #started = false;
-  #id: number;
+type Options = Readonly<{
+  getAllConversations: () => ReadonlyArray<ConversationModel>;
+  getOurConversationId: () => string | undefined;
+  storage: Pick<StorageInterface, 'get' | 'put'>;
+}>;
 
-  constructor(
-    private readonly options: {
-      getAllConversations: () => ReadonlyArray<ConversationModel>;
-      getOurConversationId: () => string | undefined;
-      storage: Pick<StorageInterface, 'get' | 'put'>;
-    }
-  ) {
+export class RoutineProfileRefresher {
+  readonly #options: Options;
+  #started = false;
+  readonly #id: number;
+
+  constructor(options: Options) {
+    this.#options = options;
     // We keep track of how many of these classes we create, because we suspect that
     //   there might be too many...
     idCounter += 1;
@@ -58,7 +60,8 @@ export class RoutineProfileRefresher {
     }
     this.#started = true;
 
-    const { storage, getAllConversations, getOurConversationId } = this.options;
+    const { storage, getAllConversations, getOurConversationId } =
+      this.#options;
 
     // oxlint-disable-next-line no-constant-condition
     while (true) {

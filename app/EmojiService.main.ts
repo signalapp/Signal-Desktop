@@ -27,6 +27,7 @@ type EmojiEntryType = Readonly<{
 type SheetCacheEntry = Map<string, Uint8Array<ArrayBuffer>>;
 
 export class EmojiService {
+  readonly #resourceService: OptionalResourceService;
   readonly #emojiMap = new Map<string, EmojiEntryType>();
 
   readonly #sheetCache = new LRUCache<string, SheetCacheEntry>({
@@ -35,9 +36,11 @@ export class EmojiService {
   });
 
   private constructor(
-    private readonly resourceService: OptionalResourceService,
+    resourceService: OptionalResourceService,
     manifest: ManifestType
   ) {
+    this.#resourceService = resourceService;
+
     protocol.handle('emoji', async req => {
       const url = new URL(req.url);
       const emoji = url.searchParams.get('emoji');
@@ -74,7 +77,7 @@ export class EmojiService {
 
     let imageMap = this.#sheetCache.get(sheet);
     if (!imageMap) {
-      const proto = await this.resourceService.getData(
+      const proto = await this.#resourceService.getData(
         `emoji-sheet-${sheet}.proto`
       );
       if (!proto) {

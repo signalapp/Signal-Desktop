@@ -44,7 +44,7 @@ export type Props = {
   cancelDownload(): void;
 };
 
-type MediaEvent = React.SyntheticEvent<HTMLVideoElement, Event>;
+type MediaEvent = React.SyntheticEvent<HTMLVideoElement>;
 
 export function GIF(props: Props): React.JSX.Element {
   const {

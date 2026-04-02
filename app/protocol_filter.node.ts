@@ -110,7 +110,7 @@ function _createFileHandler({
       }
 
       log.info(
-        `Warning: denying request to path '${realPath}' (allowedRoots: '${allowedRoots}')`
+        `Warning: denying request to path '${realPath}' (allowedRoots: '${allowedRoots.join(', ')}')`
       );
       callback({ error: -10 });
     } catch (err) {

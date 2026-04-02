@@ -280,7 +280,7 @@ export function renderToast({
         toastAction={{
           label: i18n('icu:conversationArchivedUndo'),
           onClick: () => {
-            onUndoArchive(String(toast.parameters.conversationId), {
+            onUndoArchive(toast.parameters.conversationId, {
               wasPinned: toast.parameters.wasPinned,
             });
           },

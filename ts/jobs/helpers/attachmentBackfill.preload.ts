@@ -67,7 +67,7 @@ function isBackfillEnabled(): boolean {
 }
 
 export class AttachmentBackfill {
-  #pendingRequests = new Map<
+  readonly #pendingRequests = new Map<
     ReadonlyMessageAttributesType['id'],
     NodeJS.Timeout
   >();

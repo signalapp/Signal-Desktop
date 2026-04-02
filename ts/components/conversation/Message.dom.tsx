@@ -493,7 +493,7 @@ const MessageReactions = forwardRef(function MessageReactions(
 
   // Take the first three groups for rendering
   const toRender = take(ordered, 3).map(group => {
-    const isMe = group.some(re => Boolean(re.from.isMe));
+    const isMe = group.some(re => re.from.isMe);
     const count = group.length;
     const firstReaction = group[0];
     strictAssert(firstReaction, 'Missing firstReaction');
@@ -531,7 +531,7 @@ const MessageReactions = forwardRef(function MessageReactions(
   );
   const notRenderedIsMe =
     someNotRendered &&
-    maybeNotRendered.some(res => res.some(re => Boolean(re.from.isMe)));
+    maybeNotRendered.some(res => res.some(re => re.from.isMe));
 
   const popperPlacement = outgoing ? 'bottom-end' : 'bottom-start';
 
@@ -658,11 +658,12 @@ export class Message extends React.PureComponent<Props, State> {
   public reactionsContainerRef: React.RefObject<HTMLDivElement | null> =
     React.createRef();
 
-  #hasSelectedTextRef: React.MutableRefObject<boolean> = {
+  readonly #hasSelectedTextRef: React.MutableRefObject<boolean> = {
     current: false,
   };
 
-  #metadataRef: React.RefObject<HTMLDivElement | null> = React.createRef();
+  readonly #metadataRef: React.RefObject<HTMLDivElement | null> =
+    React.createRef();
 
   public expirationCheckInterval: NodeJS.Timeout | undefined;
 
@@ -1066,7 +1067,7 @@ export class Message extends React.PureComponent<Props, State> {
     return true;
   }
 
-  #updateMetadataWidth = (newMetadataWidth: number): void => {
+  readonly #updateMetadataWidth = (newMetadataWidth: number): void => {
     this.setState(({ metadataWidth }) => ({
       // We don't want text to jump around if the metadata shrinks, but we want to make
       //   sure we have enough room.
@@ -1074,7 +1075,7 @@ export class Message extends React.PureComponent<Props, State> {
     }));
   };
 
-  #handleSelectionChange = () => {
+  readonly #handleSelectionChange = () => {
     const selection = document.getSelection();
     if (selection != null && !selection.isCollapsed) {
       this.#hasSelectedTextRef.current = true;
@@ -2102,7 +2103,7 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  #doubleCheckMissingQuoteReference = () => {
+  readonly #doubleCheckMissingQuoteReference = () => {
     return this.props.doubleCheckMissingQuoteReference(this.props.id);
   };
 
@@ -2976,22 +2977,23 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  #popperPreventOverflowModifier = (): Partial<PreventOverflowModifier> => {
-    const { containerElementRef } = this.props;
-    return {
-      name: 'preventOverflow',
-      options: {
-        altAxis: true,
-        boundary: containerElementRef.current || undefined,
-        padding: {
-          bottom: 16,
-          left: 8,
-          right: 8,
-          top: 16,
+  readonly #popperPreventOverflowModifier =
+    (): Partial<PreventOverflowModifier> => {
+      const { containerElementRef } = this.props;
+      return {
+        name: 'preventOverflow',
+        options: {
+          altAxis: true,
+          boundary: containerElementRef.current || undefined,
+          padding: {
+            bottom: 16,
+            left: 8,
+            right: 8,
+            top: 16,
+          },
         },
-      },
+      };
     };
-  };
 
   public toggleReactionViewer = (onlyRemove = false): void => {
     this.setState(oldState => {

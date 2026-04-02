@@ -56,7 +56,7 @@ async function eraseTapToViewMessages() {
 class TapToViewMessagesDeletionService {
   #timeout?: ReturnType<typeof setTimeout>;
   #isPaused = false;
-  #debouncedUpdate = debounce(this.#checkTapToViewMessages);
+  readonly #debouncedUpdate = debounce(this.#checkTapToViewMessages);
 
   update() {
     drop(this.#debouncedUpdate());

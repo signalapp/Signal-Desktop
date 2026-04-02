@@ -20,7 +20,7 @@ enum BadgeDownloaderState {
 
 class BadgeImageFileDownloader {
   #state = BadgeDownloaderState.Idle;
-  #queue = new PQueue({ concurrency: 3 });
+  readonly #queue = new PQueue({ concurrency: 3 });
 
   public async checkForFilesToDownload(): Promise<void> {
     switch (this.#state) {

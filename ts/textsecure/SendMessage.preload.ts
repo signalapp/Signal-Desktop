@@ -484,7 +484,7 @@ class Message {
           if (contactEntry.avatar?.avatar) {
             avatar = {
               avatar: contactEntry.avatar.avatar,
-              isProfile: Boolean(contactEntry.avatar.isProfile),
+              isProfile: contactEntry.avatar.isProfile,
             };
           }
 
@@ -587,7 +587,7 @@ class Message {
     if (this.pollCreate) {
       pollCreate = {
         question: this.pollCreate.question,
-        allowMultiple: Boolean(this.pollCreate.allowMultiple),
+        allowMultiple: this.pollCreate.allowMultiple,
         options: this.pollCreate.options.slice(),
       };
       requiredProtocolVersion = Math.max(
@@ -809,9 +809,7 @@ export class MessageSender {
 
     return {
       text: attachmentAttrs.text ?? null,
-      textStyle: attachmentAttrs.textStyle
-        ? Number(attachmentAttrs.textStyle)
-        : 0,
+      textStyle: attachmentAttrs.textStyle ?? 0,
 
       textForegroundColor: attachmentAttrs.textForegroundColor ?? null,
       textBackgroundColor: attachmentAttrs.textBackgroundColor ?? null,
@@ -1845,10 +1843,7 @@ export class MessageSender {
         new Array<Proto.SyncMessage.DeleteForMe.AttachmentDelete.Params>(),
     } satisfies Proto.SyncMessage.DeleteForMe.Params;
 
-    const messageDeletes: Map<
-      string,
-      Array<DeleteMessageSyncTarget>
-    > = new Map();
+    const messageDeletes = new Map<string, Array<DeleteMessageSyncTarget>>();
 
     data.forEach(item => {
       if (item.type === 'delete-message') {
@@ -2635,7 +2630,7 @@ export class MessageSender {
     recipients,
     sendLogCallback,
     story,
-    timestamp = Date.now(),
+    timestamp,
     urgent,
   }: Readonly<{
     contentHint: number;

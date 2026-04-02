@@ -197,7 +197,7 @@ export function ConversationDetailsMembershipList({
             />
           );
         })}
-      {showAllMembers === false && shouldHideRestMembers && (
+      {!showAllMembers && shouldHideRestMembers && (
         <PanelRow
           className="ConversationDetails-membership-list--show-all"
           icon={

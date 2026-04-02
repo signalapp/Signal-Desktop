@@ -145,11 +145,11 @@ export function formatLocalDeviceState(
 }
 
 export function getCallIdFromRing(ringId: bigint): string {
-  return BigInt(callIdFromRingId(ringId)).toString();
+  return callIdFromRingId(ringId).toString();
 }
 
 export function getCallIdFromEra(eraId: string): string {
-  return BigInt(callIdFromEra(eraId)).toString();
+  return callIdFromEra(eraId).toString();
 }
 
 export function getCreatorAci(creator: Uint8Array<ArrayBuffer>): AciString {

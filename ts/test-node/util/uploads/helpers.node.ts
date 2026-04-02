@@ -24,7 +24,7 @@ export type LastRequestData = Readonly<{
 }>;
 
 export class TestServer extends EventEmitter {
-  #server: Server;
+  readonly #server: Server;
   #nextResponse: NextResponse = { status: 200, headers: {} };
   #lastRequest: { request: IncomingMessage; body: Buffer<ArrayBuffer> } | null =
     null;
@@ -86,7 +86,10 @@ export class TestServer extends EventEmitter {
     };
   }
 
-  #onRequest = (request: IncomingMessage, response: ServerResponse) => {
+  readonly #onRequest = (
+    request: IncomingMessage,
+    response: ServerResponse
+  ) => {
     this.emit('request');
     const nextResponse = this.#nextResponse;
     const lastRequest = { request, body: Buffer.alloc(0) };

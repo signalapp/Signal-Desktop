@@ -23,6 +23,7 @@ export function setUrlSearchParams(
     if (value == null) {
       continue;
     }
+    // oxlint-disable-next-line typescript/no-base-to-string
     result.searchParams.append(key, String(value));
   }
   return result;

@@ -100,10 +100,10 @@ type ConfirmUsernameActionType = ReadonlyDeep<
   PromiseAction<typeof CONFIRM_USERNAME, ConfirmUsernameResult>
 >;
 type DeleteUsernameActionType = ReadonlyDeep<
-  PromiseAction<typeof DELETE_USERNAME, void>
+  PromiseAction<typeof DELETE_USERNAME>
 >;
 type ResetUsernameLinkActionType = ReadonlyDeep<
-  PromiseAction<typeof RESET_USERNAME_LINK, void>
+  PromiseAction<typeof RESET_USERNAME_LINK>
 >;
 
 export type UsernameActionType = ReadonlyDeep<

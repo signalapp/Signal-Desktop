@@ -155,6 +155,7 @@ function debugLog(
 
   // `fatal` has no respective analog in `console`
   console[consoleMethod === 'fatal' ? 'error' : consoleMethod](
+    // oxlint-disable-next-line typescript/restrict-template-expressions
     `%c${msgPrefix ?? ''}%c${message}`,
     `color: ${color}; font-weight: bold`,
     'color: inherit; font-weight: inherit',

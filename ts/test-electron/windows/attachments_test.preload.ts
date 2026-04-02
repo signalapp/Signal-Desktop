@@ -71,16 +71,16 @@ describe('Attachments', () => {
 
     it('returns a function that rejects if the source path is not a string', async () => {
       const copier = Attachments.copyIntoAttachmentsDirectory({
-        sourceDir: await getFakeAttachmentsDirectory(),
-        targetDir: await getFakeAttachmentsDirectory(),
+        sourceDir: getFakeAttachmentsDirectory(),
+        targetDir: getFakeAttachmentsDirectory(),
       });
       await assert.isRejected(copier(123 as unknown as string));
     });
 
     it('returns a function that rejects if the source path is not in the user config directory', async () => {
       const copier = Attachments.copyIntoAttachmentsDirectory({
-        sourceDir: await getFakeAttachmentsDirectory(),
-        targetDir: await getFakeAttachmentsDirectory(),
+        sourceDir: getFakeAttachmentsDirectory(),
+        targetDir: getFakeAttachmentsDirectory(),
       });
       await assert.isRejected(
         copier(path.join(tempRootDirectory, 'hello.txt')),
@@ -89,7 +89,7 @@ describe('Attachments', () => {
     });
 
     it('returns a function that copies the source path into the attachments directory and returns its path and size', async () => {
-      const attachmentsPath = await getFakeAttachmentsDirectory();
+      const attachmentsPath = getFakeAttachmentsDirectory();
       const someOtherPath = path.join(USER_DATA, 'somethingElse');
       await fse.outputFile(someOtherPath, 'hello world');
       filesToRemove.push(someOtherPath);

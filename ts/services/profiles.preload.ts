@@ -90,14 +90,16 @@ const OBSERVED_CAPABILITY_KEYS = Object.keys({
 const PROFILE_FETCH_CONCURRENCY = 30;
 
 export class ProfileService {
-  #jobQueue: PQueue;
-  #jobsByConversationId: Map<string, JobType> = new Map();
+  readonly #fetchProfile: typeof doGetProfile;
+  readonly #jobQueue: PQueue;
+  readonly #jobsByConversationId = new Map<string, JobType>();
   #isPaused = false;
 
   constructor(
-    private fetchProfile = doGetProfile,
+    fetchProfile = doGetProfile,
     concurrency = PROFILE_FETCH_CONCURRENCY
   ) {
+    this.#fetchProfile = fetchProfile;
     this.#jobQueue = new PQueue({
       concurrency,
       timeout: MINUTE * 2,
@@ -151,7 +153,7 @@ export class ProfileService {
       }
 
       try {
-        await this.fetchProfile(conversation, groupId);
+        await this.#fetchProfile(conversation, groupId);
         resolve();
       } catch (error) {
         resolve();

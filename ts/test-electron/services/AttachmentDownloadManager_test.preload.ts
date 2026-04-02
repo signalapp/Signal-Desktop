@@ -746,9 +746,8 @@ describe('AttachmentDownloadManager', () => {
       // oxlint-disable-next-line typescript/no-floating-promises
       downloadManager?.cancelJobs(JobCancelReason.UserInitiated, () => true);
 
-      await assert.isRejected(
-        assertAt(jobAttempts, 0).completed as Promise<void>
-      );
+      // oxlint-disable-next-line typescript/no-non-null-assertion
+      await assert.isRejected(assertAt(jobAttempts, 0).completed!);
       await downloadManagerIdled;
 
       // Ensure it will not be retried

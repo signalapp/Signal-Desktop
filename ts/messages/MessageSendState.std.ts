@@ -249,12 +249,11 @@ const summarizeMessageSendStatuses = memoizee(
     statusesWithOnlyOneConversationId: Map<SendStatus, string>;
     length: number;
   } => {
-    const statuses: Set<SendStatus> = new Set();
+    const statuses = new Set<SendStatus>();
 
     // We keep track of statuses with only one conversationId associated with it
     // so that we can ignore a status if it is only for ourConversationId, as needed
-    const statusesWithOnlyOneConversationId: Map<SendStatus, string> =
-      new Map();
+    const statusesWithOnlyOneConversationId = new Map<SendStatus, string>();
 
     const entries = Object.entries(sendStateByConversationId);
 

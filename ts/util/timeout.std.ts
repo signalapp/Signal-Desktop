@@ -40,8 +40,8 @@ export function safeSetTimeout(
 // Set timeout for a delay that might be longer than MAX_SAFE_TIMEOUT_DELAY. The
 // callback is guaranteed to execute after desired delay.
 export class LongTimeout {
-  #callback: VoidFunction;
-  #fireTime: number;
+  readonly #callback: VoidFunction;
+  readonly #fireTime: number;
   #timer: NodeJS.Timeout | undefined;
 
   constructor(callback: VoidFunction, providedDelayMs: number) {

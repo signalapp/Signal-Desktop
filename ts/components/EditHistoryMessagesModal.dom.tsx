@@ -191,12 +191,11 @@ export function EditHistoryMessagesModal({
         {pastEdits.map(messageAttributes => {
           const syntheticId = `${messageAttributes.id}.${messageAttributes.timestamp}`;
 
-          const shouldShowDateHeader = Boolean(
+          const shouldShowDateHeader =
             !previousItem ||
             // This comparison avoids strange header behavior for out-of-order messages.
             (messageAttributes.timestamp > previousItem.timestamp &&
-              !isSameDay(previousItem.timestamp, messageAttributes.timestamp))
-          );
+              !isSameDay(previousItem.timestamp, messageAttributes.timestamp));
           const dateHeaderElement = shouldShowDateHeader ? (
             <TimelineDateHeader
               i18n={i18n}

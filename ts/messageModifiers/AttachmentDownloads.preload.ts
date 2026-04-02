@@ -70,8 +70,11 @@ export async function markAttachmentAsCorrupted(
 }
 
 export class AttachmentNotNeededForMessageError extends Error {
-  constructor(public readonly attachment: AttachmentType) {
+  public readonly attachment: AttachmentType;
+
+  constructor(attachment: AttachmentType) {
     super('AttachmentNotNeededForMessageError');
+    this.attachment = attachment;
   }
 }
 

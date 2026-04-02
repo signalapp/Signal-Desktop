@@ -161,7 +161,7 @@ export type PropsType = {
 export const isInSpeakerView = (
   call: Pick<ActiveCallStateType, 'viewMode'> | undefined
 ): boolean => {
-  return Boolean(
+  return (
     call?.viewMode === CallViewMode.Presentation ||
     call?.viewMode === CallViewMode.Speaker
   );

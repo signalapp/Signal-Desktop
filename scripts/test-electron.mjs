@@ -183,7 +183,7 @@ async function launchElectron(worker, attempt) {
     ]);
   } catch (error) {
     if (exitSignal && RETRIABLE_SIGNALS.includes(exitSignal)) {
-      return launchElectron(worker, attempt + 1);
+      return await launchElectron(worker, attempt + 1);
     }
     throw error;
   } finally {
