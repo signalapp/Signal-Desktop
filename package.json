@@ -41,6 +41,7 @@
     "prepare-adhoc-build": "tsx scripts/prepare_adhoc_build.js",
     "prepare-adhoc-version": "tsx scripts/prepare_tagged_version.js adhoc",
     "prepare-staging-build": "tsx scripts/prepare_staging_build.js",
+    "prepare-no-delay-release": "tsx ts/scripts/prepare-no-delay-release.node.ts",
     "prepare-linux-build": "tsx scripts/prepare_linux_build.js",
     "test": "run-s test-node test-electron test-lint-intl test-oxlint",
     "test-electron": "tsx ts/scripts/test-electron.node.ts",
