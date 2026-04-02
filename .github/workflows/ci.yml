@@ -55,6 +55,9 @@ jobs:
         # CXX: sccache g++
         # SCCACHE_GHA_ENABLED: "true"
         NPM_CONFIG_LOGLEVEL: verbose
+        # We rebuild in `electron:install-app-deps` that doesn't look at this
+        # environment variable
+        NPM_CONFIG_NODE_GYP: echo
 
     - run: pnpm run generate
     - run: pnpm run lint
@@ -114,6 +117,9 @@ jobs:
         # CXX: sccache clang++
         # SCCACHE_GHA_ENABLED: "true"
         NPM_CONFIG_LOGLEVEL: verbose
+        # We rebuild in `electron:install-app-deps` that doesn't look at this
+        # environment variable
+        NPM_CONFIG_NODE_GYP: echo
     - run: pnpm run prepare-beta-build
     - run: pnpm run generate
     - run: pnpm run test-node
@@ -188,6 +194,9 @@ jobs:
         # CXX: sccache g++
         # SCCACHE_GHA_ENABLED: "true"
         NPM_CONFIG_LOGLEVEL: verbose
+        # We rebuild in `electron:install-app-deps` that doesn't look at this
+        # environment variable
+        NPM_CONFIG_NODE_GYP: echo
 
     - run: pnpm run prepare-beta-build
     - run: pnpm run generate
@@ -264,10 +273,12 @@ jobs:
         cache: 'pnpm'
         cache-dependency-path: 'pnpm-lock.yaml'
 
+    - run: touch noop.js
     - name: Install Desktop node_modules
       run: pnpm install
       env:
         NPM_CONFIG_LOGLEVEL: verbose
+        NPM_CONFIG_NODE_GYP: ${{ github.workspace }}\noop.js
 
     - run: copy package.json temp.json
     - run: del package.json
@@ -406,6 +417,9 @@ jobs:
         # CXX: sccache g++
         # SCCACHE_GHA_ENABLED: "true"
         NPM_CONFIG_LOGLEVEL: verbose
+        # We rebuild in `electron:install-app-deps` that doesn't look at this
+        # environment variable
+        NPM_CONFIG_NODE_GYP: echo
 
     - name: Build typescript
       run: pnpm run generate
@@ -476,9 +490,25 @@ jobs:
         key: electron-gyp-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
 
     - name: Install Desktop node_modules
+      if: matrix.os != 'windows-latest-8-cores'
       run: pnpm install
       env:
         NPM_CONFIG_LOGLEVEL: verbose
+        # We rebuild in `electron:install-app-deps` that doesn't look at this
+        # environment variable
+        NPM_CONFIG_NODE_GYP: echo
+
+    - run: touch noop.js
+      if: matrix.os == 'windows-latest-8-cores'
+
+    - name: Install Desktop node_modules on Windows
+      if: matrix.os == 'windows-latest-8-cores'
+      run: pnpm install
+      env:
+        NPM_CONFIG_LOGLEVEL: verbose
+        # We rebuild in `electron:install-app-deps` that doesn't look at this
+        # environment variable
+        NPM_CONFIG_NODE_GYP: ${{ github.workspace }}\noop.js
 
     - run: pnpm generate:phase-0
     - name: Run OS version check
