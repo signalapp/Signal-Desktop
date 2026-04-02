@@ -2924,6 +2924,12 @@ ipc.on('locale-data', event => {
 });
 
 // Ingested in preload.js via a sendSync call
+ipc.on('art-creator:locale', event => {
+  // eslint-disable-next-line no-param-reassign
+  event.returnValue = getResolvedMessagesLocale().name;
+});
+
+// Ingested in preload.js via a sendSync call
 ipc.on('locale-display-names', event => {
   // oxlint-disable-next-line no-param-reassign
   event.returnValue = getResolvedMessagesLocale().localeDisplayNames;
