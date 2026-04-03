@@ -993,6 +993,7 @@ export const CompositionArea = memo(function CompositionArea({
           'border-t border-border-primary py-[16px]',
           'text-center type-body-small text-label-secondary select-none'
         )}
+        data-testid="CompositionArea--group-terminated"
       >
         {i18n('icu:CompositionArea--group-terminated')}
       </div>
