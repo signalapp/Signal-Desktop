@@ -2327,7 +2327,7 @@ function saveAvatarToDisk(
 }
 
 function myProfileChanged(
-  profileData: ProfileDataType,
+  profileData: ProfileDataType | undefined,
   avatarUpdateOptions: AvatarUpdateOptionsType
 ): ThunkAction<void, RootStateType, unknown, SetProfileUpdateErrorActionType> {
   return async (dispatch, getState) => {

@@ -68,6 +68,7 @@ import type { EmojiParentKey, EmojiVariantKey } from './fun/data/emojis.std.ts';
 import type { FunEmojiSelection } from './fun/panels/FunPanelEmojis.dom.tsx';
 import { useConfirmDiscard } from '../hooks/useConfirmDiscard.dom.tsx';
 import { AxoButton } from '../axo/AxoButton.dom.tsx';
+import { normalizeProfileName } from '../util/normalizeProfileName.std.ts';
 
 type ProfileEditorData = {
   firstName: string;
@@ -75,7 +76,7 @@ type ProfileEditorData = {
 
 type PropsExternalType = {
   onProfileChanged: (
-    profileData: ProfileDataType,
+    profileData: ProfileDataType | undefined,
     avatarUpdateOptions: AvatarUpdateOptionsType
   ) => unknown;
   renderUsernameEditor: (props: { onClose: () => void }) => React.JSX.Element;
@@ -290,23 +291,14 @@ export function ProfileEditor({
       setStartingAvatarUrl(undefined);
 
       setAvatarBuffer(avatar);
-      onProfileChanged(
-        {
-          ...stagedProfile,
-          firstName: stagedProfile.firstName.trim(),
-          familyName: stagedProfile.familyName
-            ? stagedProfile.familyName.trim()
-            : undefined,
-        },
-        {
-          keepAvatar: false,
-          avatarUpdate: { oldAvatar: oldAvatarBuffer, newAvatar: avatar },
-        }
-      );
+      onProfileChanged(undefined, {
+        keepAvatar: false,
+        avatarUpdate: { oldAvatar: oldAvatarBuffer, newAvatar: avatar },
+      });
       setOldAvatarBuffer(avatar);
       handleBack();
     },
-    [handleBack, oldAvatarBuffer, onProfileChanged, stagedProfile]
+    [handleBack, oldAvatarBuffer, onProfileChanged]
   );
 
   const getFullNameText = () => {
@@ -371,11 +363,19 @@ export function ProfileEditor({
       />
     );
   } else if (editState === ProfileEditorPage.ProfileName) {
+    const normalizedStagedFirstName = normalizeProfileName(
+      stagedProfile.firstName
+    );
+    const normalizedStagedFamilyName = normalizeProfileName(
+      stagedProfile.familyName
+    );
+    const normalizedFullFirstName = normalizeProfileName(fullName.firstName);
+    const normalizedFullFamilyName = normalizeProfileName(fullName.familyName);
+
     const shouldDisableSave =
-      !stagedProfile.firstName ||
-      (stagedProfile.firstName === fullName.firstName &&
-        stagedProfile.familyName === fullName.familyName) ||
-      stagedProfile.firstName.trim() === '';
+      !normalizedStagedFirstName ||
+      (normalizedStagedFirstName === normalizedFullFirstName &&
+        normalizedStagedFamilyName === normalizedFullFamilyName);
 
     content = (
       <>
@@ -415,15 +415,22 @@ export function ProfileEditor({
             size="lg"
             disabled={shouldDisableSave}
             onClick={() => {
-              if (!stagedProfile.firstName) {
+              if (!normalizedStagedFirstName) {
                 return;
               }
               setFullName({
-                firstName: stagedProfile.firstName,
-                familyName: stagedProfile.familyName,
+                firstName: normalizedStagedFirstName,
+                familyName: normalizedStagedFamilyName,
               });
 
-              onProfileChanged(stagedProfile, { keepAvatar: true });
+              onProfileChanged(
+                {
+                  ...stagedProfile,
+                  firstName: normalizedStagedFirstName,
+                  familyName: normalizedStagedFamilyName,
+                },
+                { keepAvatar: true }
+              );
 
               // Delay navigation until setFullName resolves and we are no longer dirty
               setTimeout(() => handleBack(), 500);

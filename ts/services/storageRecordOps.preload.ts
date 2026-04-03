@@ -14,6 +14,7 @@ import {
 } from '../groups.preload.ts';
 import { assertDev, strictAssert } from '../util/assert.std.ts';
 import { dropNull } from '../util/dropNull.std.ts';
+import { normalizeProfileName } from '../util/normalizeProfileName.std.ts';
 import { missingCaseError } from '../util/missingCaseError.std.ts';
 import { isNotNil } from '../util/isNotNil.std.ts';
 import {
@@ -1388,8 +1389,8 @@ export async function mergeContactRecord(
     );
   }
 
-  const remoteName = dropNull(contactRecord.givenName || null);
-  const remoteFamilyName = dropNull(contactRecord.familyName || null);
+  const remoteName = normalizeProfileName(contactRecord.givenName);
+  const remoteFamilyName = normalizeProfileName(contactRecord.familyName);
   const localName = conversation.get('profileName');
   const localFamilyName = conversation.get('profileFamilyName');
   if (

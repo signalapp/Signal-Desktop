@@ -146,6 +146,7 @@ import updateToSchemaVersion1660 from './1660-protected-attachments-non-unique.s
 import updateToSchemaVersion1670 from './1670-drop-call-link-epoch.std.ts';
 import updateToSchemaVersion1680 from './1680-cleanup-empty-strings.std.ts';
 import updateToSchemaVersion1690 from './1690-poll-terminate-notification-timestamp.std.ts';
+import updateToSchemaVersion1700 from './1700-trim-profile-names.std.ts';
 
 import { DataWriter } from '../Server.node.ts';
 import { strictAssert } from '../../util/assert.std.ts';
@@ -1654,6 +1655,7 @@ export const SCHEMA_VERSIONS: ReadonlyArray<SchemaUpdateType> = [
   { version: 1670, update: updateToSchemaVersion1670 },
   { version: 1680, update: updateToSchemaVersion1680 },
   { version: 1690, update: updateToSchemaVersion1690 },
+  { version: 1700, update: updateToSchemaVersion1700 },
 ];
 
 export class DBVersionFromFutureError extends Error {

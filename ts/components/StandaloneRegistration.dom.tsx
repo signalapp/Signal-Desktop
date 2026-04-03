@@ -10,6 +10,7 @@ import { strictAssert } from '../util/assert.std.ts';
 import { parseNumber } from '../util/libphonenumberUtil.std.ts';
 import { missingCaseError } from '../util/missingCaseError.std.ts';
 import { VerificationTransport } from '../types/VerificationTransport.std.ts';
+import { normalizeProfileName } from '../util/normalizeProfileName.std.ts';
 
 function PhoneInput({
   initialValue,
@@ -413,7 +414,7 @@ export function ProfileNameStage({
         <button
           type="button"
           className="button"
-          disabled={!firstName}
+          disabled={Boolean(normalizeProfileName(firstName))}
           onClick={onNextClick}
         >
           Finish

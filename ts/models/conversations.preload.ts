@@ -50,6 +50,7 @@ import {
 import { getDraftPreview } from '../util/getDraftPreview.preload.ts';
 import { hasDraft } from '../util/hasDraft.std.ts';
 import { hydrateStoryContext } from '../util/hydrateStoryContext.preload.ts';
+import { normalizeProfileName } from '../util/normalizeProfileName.std.ts';
 import type {
   StickerType,
   StickerWithHydratedData,
@@ -5136,8 +5137,12 @@ export class ConversationModel {
     const { given, family } = decryptProfileName(encryptedName, decryptionKey);
 
     // encode
-    const profileName = given ? Bytes.toString(given) : undefined;
-    const profileFamilyName = family ? Bytes.toString(family) : undefined;
+    const profileName = normalizeProfileName(
+      given ? Bytes.toString(given) : undefined
+    );
+    const profileFamilyName = normalizeProfileName(
+      family ? Bytes.toString(family) : undefined
+    );
 
     // set then check for changes
     const oldName = this.getProfileName();
