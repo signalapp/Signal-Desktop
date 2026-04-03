@@ -3,7 +3,6 @@
 
 import type { MouseEvent } from 'react';
 import React, { useEffect, useState } from 'react';
-import copyText from 'copy-text-to-clipboard';
 import type { LocalizerType } from '../types/Util.std.ts';
 import * as Errors from '../types/errors.std.ts';
 import type { AnyToast } from '../types/Toast.dom.tsx';
@@ -111,9 +110,9 @@ export function DebugLogWindow({
   }
 
   if (publicLogURL) {
-    const copyLog = (ev: MouseEvent) => {
+    const copyLog = async (ev: MouseEvent) => {
       ev.preventDefault();
-      copyText(publicLogURL);
+      await navigator.clipboard.writeText(publicLogURL);
       setToast({ toastType: ToastType.LinkCopied });
     };
 

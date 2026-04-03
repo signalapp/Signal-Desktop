@@ -241,7 +241,7 @@
   &__sticker-grid {
     width: 100%;
     display: grid;
-    grid-gap: 8px;
+    gap: 8px;
     grid-template-columns: repeat(4, 1fr);
 
     &__cell {

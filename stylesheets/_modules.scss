@@ -1027,8 +1027,7 @@ $message-padding-horizontal: 12px;
   -webkit-line-clamp: 5;
   -webkit-box-orient: vertical;
   overflow-wrap: break-word;
-  word-wrap: break-word;
-  word-break: break-word;
+  word-break: auto-phrase;
 
   @include mixins.light-theme {
     color: variables.$color-gray-90;
@@ -1106,8 +1105,7 @@ $message-padding-horizontal: 12px;
 
   text-align: start;
   overflow-wrap: break-word;
-  word-wrap: break-word;
-  word-break: break-word;
+  word-break: auto-phrase;
   white-space: pre-wrap;
 
   @include mixins.light-theme {

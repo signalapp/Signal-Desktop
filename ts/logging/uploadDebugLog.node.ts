@@ -6,12 +6,14 @@ import { z } from 'zod';
 import FormData from 'form-data';
 import got from 'got';
 import { gzip } from 'node:zlib';
-import pify from 'pify';
+import { promisify } from 'node:util';
 import { getUserAgent } from '../util/getUserAgent.node.ts';
 import { maybeParseUrl } from '../util/url.std.ts';
 import * as durations from '../util/durations/index.std.ts';
 import type { LoggerType } from '../types/Logging.std.ts';
 import { parseUnknown } from '../util/schemas.std.ts';
+
+const gzipAsync = promisify(gzip);
 
 const BASE_URL = 'https://debuglogs.org';
 
@@ -19,10 +21,10 @@ const UPLOAD_TIMEOUT = { request: durations.MINUTE };
 
 const tokenBodySchema = z
   .object({
-    fields: z.record(z.unknown()),
+    fields: z.record(z.string(), z.unknown()),
     url: z.string(),
   })
-  .nonstrict();
+  .strip();
 
 const parseTokenBody = (
   rawBody: unknown
@@ -87,7 +89,7 @@ export const upload = async ({
     });
 
   const contentBuffer = compress
-    ? await pify(gzip)(Buffer.from(content))
+    ? await gzipAsync(Buffer.from(content))
     : Buffer.from(content);
   form.append('Content-Type', contentType);
   form.append('file', contentBuffer, {

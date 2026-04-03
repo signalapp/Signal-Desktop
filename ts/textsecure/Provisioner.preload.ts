@@ -387,11 +387,10 @@ export class Provisioner {
 
     // But only register it once we get the uuid from server back.
 
-    const uuid = await pTimeout(
-      uuidPromise.promise,
-      Math.max(0, timeoutAt - Date.now()),
-      TIMEOUT_ERROR
-    );
+    const uuid = await pTimeout(uuidPromise.promise, {
+      milliseconds: Math.max(0, timeoutAt - Date.now()),
+      message: TIMEOUT_ERROR,
+    });
 
     const url = linkDeviceRoute
       .toAppUrl({

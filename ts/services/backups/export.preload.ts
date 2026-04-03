@@ -956,7 +956,9 @@ export class BackupExportStream extends Readable {
     const start = Date.now();
     log.info('flush paused due to pushback');
     try {
-      await pTimeout(promise, FLUSH_TIMEOUT);
+      await pTimeout(promise, {
+        milliseconds: FLUSH_TIMEOUT,
+      });
     } finally {
       const duration = Date.now() - start;
       if (duration > REPORTING_THRESHOLD) {

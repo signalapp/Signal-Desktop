@@ -54,7 +54,7 @@ export class CDSI extends CDSBase {
           acisAndAccessKeys,
           e164s,
         }),
-        timeout
+        { milliseconds: timeout }
       );
 
       log.info('CDSSocketManager: lookup request finished');

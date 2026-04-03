@@ -135,14 +135,14 @@ describe('SQL/updateToSchemaVersion1000', () => {
     assert.strictEqual(messages.length, 2);
 
     assert.strictEqual(messages[0]?.message.readStatus, ReadStatus.Read);
-    assert.strictEqual(messages[0].message.seenStatus, SeenStatus.Unseen);
-    assert.strictEqual(messages[0].readStatus, ReadStatus.Read);
-    assert.strictEqual(messages[0].seenStatus, SeenStatus.Unseen);
+    assert.strictEqual(messages[0]?.message.seenStatus, SeenStatus.Unseen);
+    assert.strictEqual(messages[0]?.readStatus, ReadStatus.Read);
+    assert.strictEqual(messages[0]?.seenStatus, SeenStatus.Unseen);
 
     assert.strictEqual(messages[1]?.message.readStatus, ReadStatus.Read);
-    assert.strictEqual(messages[1].message.seenStatus, SeenStatus.Unseen);
-    assert.strictEqual(messages[1].readStatus, ReadStatus.Read);
-    assert.strictEqual(messages[1].seenStatus, SeenStatus.Unseen);
+    assert.strictEqual(messages[1]?.message.seenStatus, SeenStatus.Unseen);
+    assert.strictEqual(messages[1]?.readStatus, ReadStatus.Read);
+    assert.strictEqual(messages[1]?.seenStatus, SeenStatus.Unseen);
   });
 
   it('does not mark read call history messages as unseen', () => {
@@ -175,13 +175,13 @@ describe('SQL/updateToSchemaVersion1000', () => {
     assert.strictEqual(messages.length, 2);
 
     assert.strictEqual(messages[0]?.message.readStatus, ReadStatus.Read);
-    assert.strictEqual(messages[0].message.seenStatus, SeenStatus.Seen);
-    assert.strictEqual(messages[0].readStatus, ReadStatus.Read);
-    assert.strictEqual(messages[0].seenStatus, SeenStatus.Seen);
+    assert.strictEqual(messages[0]?.message.seenStatus, SeenStatus.Seen);
+    assert.strictEqual(messages[0]?.readStatus, ReadStatus.Read);
+    assert.strictEqual(messages[0]?.seenStatus, SeenStatus.Seen);
 
     assert.strictEqual(messages[1]?.message.readStatus, ReadStatus.Read);
-    assert.strictEqual(messages[1].message.seenStatus, SeenStatus.Seen);
-    assert.strictEqual(messages[1].readStatus, ReadStatus.Read);
-    assert.strictEqual(messages[1].seenStatus, SeenStatus.Seen);
+    assert.strictEqual(messages[1]?.message.seenStatus, SeenStatus.Seen);
+    assert.strictEqual(messages[1]?.readStatus, ReadStatus.Read);
+    assert.strictEqual(messages[1]?.seenStatus, SeenStatus.Seen);
   });
 });

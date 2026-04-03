@@ -106,7 +106,6 @@ export const attachmentBackupJobSchema = z
   )
   .and(jobManagerJobSchema) satisfies z.ZodType<
   AttachmentBackupJobType,
-  z.ZodTypeDef,
   // With branded types, we need to specify that the input type of the schema is just a
   // string
   Omit<AttachmentBackupJobType, 'data'> & {

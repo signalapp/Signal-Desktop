@@ -928,7 +928,6 @@ export class SignalProtocolStore extends EventEmitter {
     return new PQueue({
       concurrency: 1,
       timeout: MINUTE * 30,
-      throwOnTimeout: true,
     });
   }
 
@@ -1097,7 +1096,6 @@ export class SignalProtocolStore extends EventEmitter {
     return new PQueue({
       concurrency: 1,
       timeout: MINUTE * 30,
-      throwOnTimeout: true,
     });
   }
 
@@ -1118,7 +1116,6 @@ export class SignalProtocolStore extends EventEmitter {
     return new PQueue({
       concurrency: 1,
       timeout: MINUTE * 30,
-      throwOnTimeout: true,
     });
   }
 

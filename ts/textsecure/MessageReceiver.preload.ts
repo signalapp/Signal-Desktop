@@ -334,21 +334,17 @@ export default class MessageReceiver
 
     this.#incomingQueue = new PQueue({
       concurrency: 1,
-      throwOnTimeout: true,
     });
     this.#appQueue = new PQueue({
       concurrency: 1,
-      throwOnTimeout: true,
     });
 
     // All envelopes start in encryptedQueue and progress to decryptedQueue
     this.#encryptedQueue = new PQueue({
       concurrency: 1,
-      throwOnTimeout: true,
     });
     this.#decryptedQueue = new PQueue({
       concurrency: 1,
-      throwOnTimeout: true,
     });
 
     this.#decryptAndCacheBatcher = createBatcher<CacheAddItemType>({

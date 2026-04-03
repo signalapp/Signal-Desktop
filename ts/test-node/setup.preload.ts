@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import chai from 'chai';
+import { use as chaiUse } from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 
 import type { SignalContextType } from '../windows/context.preload.ts';
@@ -10,7 +10,7 @@ import { setEnvironment, Environment } from '../environment.std.ts';
 import { HourCyclePreference } from '../types/I18N.std.ts';
 import { packageJson } from '../util/packageJson.node.ts';
 
-chai.use(chaiAsPromised);
+chaiUse(chaiAsPromised);
 
 setEnvironment(Environment.Test, true);
 

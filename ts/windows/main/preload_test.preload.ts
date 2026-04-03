@@ -5,7 +5,7 @@ import { inspect, parseArgs } from 'node:util';
 import { ipcRenderer as ipc } from 'electron';
 import { sync } from 'fast-glob';
 
-import chai, { assert, config as chaiConfig } from 'chai';
+import { assert, use as chaiUse, config as chaiConfig } from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import { reporters, type MochaOptions } from 'mocha';
 
@@ -17,7 +17,7 @@ import { itemStorage } from '../../textsecure/Storage.preload.ts';
 import { MessageCache } from '../../services/MessageCache.preload.ts';
 import { updateRemoteConfig } from '../../test-helpers/RemoteConfigStub.dom.ts';
 
-chai.use(chaiAsPromised);
+chaiUse(chaiAsPromised);
 
 // Show actual objects instead of abbreviated errors
 chaiConfig.truncateThreshold = 0;

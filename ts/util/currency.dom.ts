@@ -241,7 +241,7 @@ export function toStripeDonationAmount({
   const transformedAmount = ZERO_DECIMAL_CURRENCIES.has(currency.toLowerCase())
     ? amount
     : amount * 100;
-  return parseStrict(humanDonationAmountSchema, transformedAmount);
+  return parseStrict(stripeDonationAmountSchema, transformedAmount);
 }
 
 export function getHumanDonationAmount(

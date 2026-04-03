@@ -228,7 +228,7 @@ function _submitStripeDonation({
     try {
       const { currentWorkflow } = getState().donations;
       if (
-        currentWorkflow?.type === donationStateSchema.Enum.INTENT &&
+        currentWorkflow?.type === donationStateSchema.enum.INTENT &&
         currentWorkflow.paymentAmount === paymentAmount &&
         currentWorkflow.currencyType === currencyType
       ) {
@@ -487,7 +487,7 @@ export function reducer(
 
     // If we've cleared the workflow or are starting afresh, we clear the startup flag
     const didResumeWorkflowAtStartup =
-      !nextWorkflow || nextWorkflow.type === donationStateSchema.Enum.INTENT
+      !nextWorkflow || nextWorkflow.type === donationStateSchema.enum.INTENT
         ? false
         : state.didResumeWorkflowAtStartup;
 

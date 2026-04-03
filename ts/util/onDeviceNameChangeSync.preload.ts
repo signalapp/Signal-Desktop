@@ -18,7 +18,6 @@ const log = createLogger('onDeviceNameChangeSync');
 const deviceNameFetchQueue = new PQueue({
   concurrency: 1,
   timeout: 5 * MINUTE,
-  throwOnTimeout: true,
 });
 
 export async function onDeviceNameChangeSync(

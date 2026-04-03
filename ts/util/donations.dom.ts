@@ -27,12 +27,12 @@ export function getInProgressDonation(workflow: DonationWorkflow | undefined):
 
   const { type } = workflow;
   switch (type) {
-    case donationStateSchema.Enum.INTENT_METHOD:
-    case donationStateSchema.Enum.INTENT_REDIRECT:
-    case donationStateSchema.Enum.INTENT_CONFIRMED:
-    case donationStateSchema.Enum.PAYPAL_APPROVED:
-    case donationStateSchema.Enum.PAYMENT_CONFIRMED:
-    case donationStateSchema.Enum.RECEIPT: {
+    case donationStateSchema.enum.INTENT_METHOD:
+    case donationStateSchema.enum.INTENT_REDIRECT:
+    case donationStateSchema.enum.INTENT_CONFIRMED:
+    case donationStateSchema.enum.PAYPAL_APPROVED:
+    case donationStateSchema.enum.PAYMENT_CONFIRMED:
+    case donationStateSchema.enum.RECEIPT: {
       const { currencyType: currency, paymentAmount } = workflow;
       const amount = brandStripeDonationAmount(paymentAmount);
       return {
@@ -40,9 +40,9 @@ export function getInProgressDonation(workflow: DonationWorkflow | undefined):
         currency,
       };
     }
-    case donationStateSchema.Enum.INTENT:
-    case donationStateSchema.Enum.PAYPAL_INTENT:
-    case donationStateSchema.Enum.DONE:
+    case donationStateSchema.enum.INTENT:
+    case donationStateSchema.enum.PAYPAL_INTENT:
+    case donationStateSchema.enum.DONE:
       return;
     default:
       throw missingCaseError(type);

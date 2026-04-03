@@ -24,6 +24,7 @@
 
 import pTimeout from 'p-timeout';
 import { Response } from 'node-fetch';
+import type { BodyInit } from 'node-fetch';
 import { z } from 'zod';
 
 import type { LibSignalError, Net } from '@signalapp/libsignal-client';
@@ -529,7 +530,12 @@ export class WebSocketResource<Chat extends ChatKind>
       body: options.body,
       timeoutMillis: options.timeout,
     });
-    return new Response(response.body, {
+    let init: BodyInit | undefined;
+    if (response.body != null) {
+      init = Buffer.from(response.body);
+    }
+
+    return new Response(init, {
       status: response.status,
       statusText: response.message,
       headers: [...response.headers],
@@ -592,7 +598,7 @@ class KeepAliveSender {
           verb: 'GET',
           path: this.#path,
         }),
-        timeout
+        { milliseconds: timeout }
       );
 
       if (status < 200 || status >= 300) {

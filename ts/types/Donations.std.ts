@@ -125,7 +125,7 @@ export const donationWorkflowSchema = z.discriminatedUnion('type', [
     // Track that user has chosen currency and amount, and we've successfully fetched an
     // intent. There is no need to persist this, because we'd need to update
     // currency/amount on the intent if we want to continue to use it.
-    type: z.literal(donationStateSchema.Enum.INTENT),
+    type: z.literal(donationStateSchema.enum.INTENT),
     ...coreDataSchema.shape,
     ...stripeDataSchema.shape,
   }),
@@ -135,7 +135,7 @@ export const donationWorkflowSchema = z.discriminatedUnion('type', [
     // payment details and pressed the button to make the payment, and we have sent that
     // to stripe, which has saved that data behind a paymentMethodId. The only thing
     // that might require further user interaction: 3ds validation - see INTENT_REDIRECT.
-    type: z.literal(donationStateSchema.Enum.INTENT_METHOD),
+    type: z.literal(donationStateSchema.enum.INTENT_METHOD),
 
     // Stripe persists the user's payment information for us, behind this id
     paymentMethodId: z.string(),
@@ -150,7 +150,7 @@ export const donationWorkflowSchema = z.discriminatedUnion('type', [
     // However it will take some time (usually seconds, sometimes minutes or 1 day) to
     // finalize the transaction. We will only know when we successfully get a receipt
     // credential from the chat server.
-    type: z.literal(donationStateSchema.Enum.INTENT_CONFIRMED),
+    type: z.literal(donationStateSchema.enum.INTENT_CONFIRMED),
 
     ...coreDataSchema.shape,
     ...stripeDataSchema.shape,
@@ -165,7 +165,7 @@ export const donationWorkflowSchema = z.discriminatedUnion('type', [
     // credential from the chat server.
     // PayPal: Payment should finalize immediately. The subsequent call to get a receipt
     // should always succeed.
-    type: z.literal(donationStateSchema.Enum.PAYMENT_CONFIRMED),
+    type: z.literal(donationStateSchema.enum.PAYMENT_CONFIRMED),
 
     processor: donationProcessorSchema,
     paymentIntentId: z.string(),
@@ -180,7 +180,7 @@ export const donationWorkflowSchema = z.discriminatedUnion('type', [
     // bank, which will complete verification, then redirect back to us. We hand that
     // service a token to connect it back to this process. If the user never comes back,
     // we need to offer the redirect again.
-    type: z.literal(donationStateSchema.Enum.INTENT_REDIRECT),
+    type: z.literal(donationStateSchema.enum.INTENT_REDIRECT),
 
     // Where user should be sent; in this state we are waiting for them to come back
     redirectTarget: z.string(),
@@ -197,7 +197,7 @@ export const donationWorkflowSchema = z.discriminatedUnion('type', [
     // continue the donation process to get a receipt and badge from the chat server.
     // To cancel, a user can either cancel on the Paypal website, or cancel from within
     // the app (which just clears the active transaction locally).
-    type: z.literal(donationStateSchema.Enum.PAYPAL_INTENT),
+    type: z.literal(donationStateSchema.enum.PAYPAL_INTENT),
 
     paypalPaymentId: z.string(),
 
@@ -215,7 +215,7 @@ export const donationWorkflowSchema = z.discriminatedUnion('type', [
     // After PayPal approval, the user is redirected back to us with a payerId and
     // paymentToken. We save them immediately, then
     // confirm the payment on the chat server.
-    type: z.literal(donationStateSchema.Enum.PAYPAL_APPROVED),
+    type: z.literal(donationStateSchema.enum.PAYPAL_APPROVED),
 
     paypalPaymentId: z.string(),
     paypalPayerId: z.string(),
@@ -227,7 +227,7 @@ export const donationWorkflowSchema = z.discriminatedUnion('type', [
   z.object({
     // We now have everything we need to redeem. We know the payment has gone through
     // successfully; we just need to redeem it on the server anonymously.
-    type: z.literal(donationStateSchema.Enum.RECEIPT),
+    type: z.literal(donationStateSchema.enum.RECEIPT),
 
     // The result of mixing the receiptCredentialResponse from the API from our
     // previously-generated receiptCredentialRequestContext
@@ -240,7 +240,7 @@ export const donationWorkflowSchema = z.discriminatedUnion('type', [
     // After everything is done, we should notify the user the donation succeeded.
     // After we show a notification, or if the user initiates a new donation,
     // then this workflow can be deleted.
-    type: z.literal(donationStateSchema.Enum.DONE),
+    type: z.literal(donationStateSchema.enum.DONE),
     id: coreDataSchema.shape.id,
     timestamp: coreDataSchema.shape.timestamp,
   }),

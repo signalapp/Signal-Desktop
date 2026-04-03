@@ -470,8 +470,10 @@ export async function sendMessageWithAttachments(
         }
       }
     })(),
-    10 * SECOND,
-    'Timed out waiting to detect message send with attached files'
+    {
+      milliseconds: 10 * SECOND,
+      message: 'Timed out waiting to detect message send with attached files',
+    }
   );
 }
 

@@ -11,5 +11,7 @@ export function deleteAllLogs(): Promise<void> {
   // Restart logging again when the file stream close
   beforeRestart();
 
-  return pTimeout(ipcRenderer.invoke('delete-all-logs'), 5 * durations.SECOND);
+  return pTimeout(ipcRenderer.invoke('delete-all-logs'), {
+    milliseconds: 5 * durations.SECOND,
+  });
 }

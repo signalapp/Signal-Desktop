@@ -4,7 +4,7 @@
 import { join, basename } from 'node:path';
 import { app } from 'electron';
 
-import type { IConfig } from 'config';
+import type { Config } from 'config';
 
 import {
   Environment,
@@ -54,7 +54,7 @@ process.env.NODE_CONFIG_DIR = join(getAppRootDir(), 'config');
 // the module regardless of their actual placement in the file.
 // See: https://github.com/evanw/esbuild/issues/2011
 // oxlint-disable-next-line typescript/no-var-requires
-const config: IConfig = require('config');
+const config: Config = require('config');
 
 if (getEnvironment() !== Environment.PackagedApp) {
   config.util.getConfigSources().forEach(source => {
@@ -78,4 +78,4 @@ if (getEnvironment() !== Environment.PackagedApp) {
 });
 
 export default config;
-export type { IConfig as ConfigType };
+export type { Config as ConfigType };

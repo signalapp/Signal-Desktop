@@ -3,7 +3,7 @@
 
 import semver from 'semver';
 
-import type { ReadonlyObjectDeep } from 'type-fest/source/readonly-deep.js';
+import type { ReadonlyDeep } from 'type-fest';
 
 import { createLogger } from '../logging/log.std.ts';
 import { isTestOrMockEnvironment } from '../environment.std.ts';
@@ -23,7 +23,7 @@ export function isFeaturedEnabledSelector({
   betaKey: SemverKeyType;
   currentVersion: string;
   prodKey: SemverKeyType;
-  remoteConfig: ReadonlyObjectDeep<ConfigMapType> | undefined;
+  remoteConfig: ReadonlyDeep<ConfigMapType> | undefined;
 }): boolean {
   return _isFeatureEnabledInner({
     betaValue: remoteConfig?.[betaKey]?.value,

@@ -26,7 +26,7 @@ export const badgeFromServerSchema = z.object({
   id: z.string(),
   name: z.string(),
   svg: z.string(),
-  svgs: z.array(z.record(z.string())).length(3),
+  svgs: z.array(z.record(z.string(), z.string())).length(3),
   expiration: z.number().optional(),
   visible: z.boolean().optional(),
 });
@@ -34,6 +34,7 @@ export const badgeFromServerSchema = z.object({
 // GET /v1/subscription/configuration
 export const boostBadgesFromServerSchema = z.object({
   levels: z.record(
+    z.string(),
     z
       .object({
         badge: z.unknown(),

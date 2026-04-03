@@ -1,13 +1,14 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { RequestInit, Response } from 'node-fetch';
+import type { BodyInit, Headers, RequestInit, Response } from 'node-fetch';
 import fetch from 'node-fetch';
 import type { Agent } from 'node:https';
 import lodash from 'lodash';
 import PQueue from 'p-queue';
 import { v4 as getGuid } from 'uuid';
 import { z } from 'zod';
+import type { ZodType } from 'zod';
 import type { Readable } from 'node:stream';
 import qs from 'node:querystring';
 import {
@@ -93,11 +94,7 @@ import { HOUR, MINUTE, SECOND } from '../util/durations/index.std.ts';
 import { safeParseNumber } from '../util/numbers.std.ts';
 import { getLibsignalNet } from './preconnect.preload.ts';
 import type { GroupSendToken } from '../types/GroupSendEndorsements.std.ts';
-import {
-  parseUnknown,
-  safeParseUnknown,
-  type Schema,
-} from '../util/schemas.std.ts';
+import { parseUnknown, safeParseUnknown } from '../util/schemas.std.ts';
 import type {
   ProfileFetchAuthRequestOptions,
   ProfileFetchUnauthRequestOptions,
@@ -248,7 +245,7 @@ type PromiseAjaxOptionsType<Type extends ResponseType, OutputShape> = {
 ) &
   (Type extends 'json' | 'jsonwithdetails'
     ? {
-        zodSchema: Schema<unknown, OutputShape>;
+        zodSchema: ZodType<OutputShape>;
       }
     : {
         zodSchema?: never;
@@ -344,6 +341,7 @@ function getHostname(url: string): string {
 
 type FetchOptionsType = Omit<RequestInit, 'headers'> & {
   headers: Record<string, string>;
+  timeout?: number;
   // This is patch-packaged
   ca?: string;
 };
@@ -377,9 +375,20 @@ async function getFetchOptions<Type extends ResponseType, OutputShape>(
   const agentEntry = agents[cacheKey];
   const agent = agentEntry?.agent ?? undefined;
 
+  let body: BodyInit | undefined;
+  if (typeof options.data === 'string') {
+    body = options.data;
+  } else if (typeof options.data === 'function') {
+    body = options.data();
+  } else if (options.data instanceof Uint8Array) {
+    body = Buffer.from(options.data);
+  } else if (options.data != null) {
+    throw missingCaseError(options.data);
+  }
+
   const fetchOptions: FetchOptionsType = {
     method: options.type,
-    body: typeof options.data === 'function' ? options.data() : options.data,
+    body,
     headers: {
       'User-Agent': options.socketManager
         ? undefined
@@ -535,7 +544,7 @@ async function _promiseAjax<Type extends ResponseType, OutputShape>(
     } else if (options.responseType === 'raw') {
       result = response;
     } else {
-      result = await response.textConverted();
+      result = await response.text();
     }
   } catch (error) {
     if (isAbortError(error)) {
@@ -590,10 +599,10 @@ async function _promiseAjax<Type extends ResponseType, OutputShape>(
 
   if (options.responseType === 'stream') {
     log.info(logId, response.status, 'Streaming');
-    response.body.on('error', e => {
+    response.body?.on('error', e => {
       log.info(logId, 'Errored while streaming:', e.message);
     });
-    response.body.on('end', () => {
+    response.body?.on('end', () => {
       log.info(logId, response.status, 'Streaming ended');
     });
     return result;
@@ -601,10 +610,10 @@ async function _promiseAjax<Type extends ResponseType, OutputShape>(
 
   if (options.responseType === 'streamwithdetails') {
     log.info(logId, response.status, 'Streaming with details');
-    response.body.on('error', e => {
+    response.body?.on('error', e => {
       log.info(logId, 'Errored while streaming:', e.message);
     });
-    response.body.on('end', () => {
+    response.body?.on('end', () => {
       log.info(logId, response.status, 'Streaming ended');
     });
 
@@ -863,7 +872,7 @@ type AjaxOptionsType<Type extends AjaxResponseType, OutputShape = unknown> = (
   abortSignal?: AbortSignal;
 } & (Type extends 'json' | 'jsonwithdetails'
     ? {
-        zodSchema: Schema<unknown, OutputShape>;
+        zodSchema: ZodType<OutputShape>;
       }
     : {
         zodSchema?: never;
@@ -1141,7 +1150,7 @@ export type ReportMessageOptionsType = Readonly<{
 const attachmentUploadFormResponse = z.object({
   cdn: z.literal(2).or(z.literal(3)),
   key: z.string(),
-  headers: z.record(z.string()),
+  headers: z.record(z.string(), z.string()),
   signedUploadLocation: z.string(),
 });
 
@@ -3858,7 +3867,6 @@ export async function putStickers(
   const queue = new PQueue({
     concurrency: 3,
     timeout: MINUTE * 30,
-    throwOnTimeout: true,
   });
   await Promise.all(
     stickers.map(async (sticker: ServerV2AttachmentType, index: number) => {
@@ -3942,7 +3950,7 @@ async function _getAttachmentHeaders({
   cdnNumber,
   headers = {},
   redactor,
-}: Omit<GetAttachmentArgsType, 'options'>): Promise<fetch.Headers> {
+}: Omit<GetAttachmentArgsType, 'options'>): Promise<Headers> {
   const fullCdnUrl = getCheckedCdnUrl(cdnNumber, cdnPath);
   const response = await _outerAjax(fullCdnUrl, {
     headers,

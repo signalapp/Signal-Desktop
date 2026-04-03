@@ -308,7 +308,7 @@ $rtl-icon-map: (
     background-color: $color;
   }
   @media (forced-colors: active) {
-    background-color: WindowText;
+    background-color: CanvasText;
   }
   $rtl-svg: get-rtl-svg($svg);
   @if $rtl-svg {
@@ -952,7 +952,7 @@ $rtl-icon-map: (
   padding: 0;
   margin: -1px;
   overflow: hidden;
-  clip: rect(0, 0, 0, 0);
+  clip-path: rect(0, 0, 0, 0);
   white-space: nowrap;
   border-width: 0;
 }

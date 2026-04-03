@@ -98,4 +98,4 @@ export const permissiveMessageAttachmentSchema = z.object({
   copiedFromQuotedAttachment: permissiveOptionalBool,
   version: permissiveAttachmentVersion,
   pending: permissiveOptionalBool,
-}) satisfies z.ZodType<MessageAttachmentDBType, z.ZodTypeDef, unknown>;
+}) satisfies z.ZodType<MessageAttachmentDBType>;

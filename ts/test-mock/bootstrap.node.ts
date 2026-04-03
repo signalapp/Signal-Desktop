@@ -823,7 +823,7 @@ export class Bootstrap {
 
     let result: Result;
     try {
-      result = await pTimeout(fn(bootstrap), timeout);
+      result = await pTimeout(fn(bootstrap), { milliseconds: timeout });
       if (process.env.FORCE_ARTIFACT_SAVE) {
         await bootstrap.saveLogs();
       }

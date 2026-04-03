@@ -240,14 +240,14 @@ describe('sql/stories', () => {
         'stories last should be story3'
       );
 
-      assert.strictEqual(stories[0].hasReplies, true);
-      assert.strictEqual(stories[0].hasRepliesFromSelf, true);
+      assert.strictEqual(stories[0]?.hasReplies, true);
+      assert.strictEqual(stories[0]?.hasRepliesFromSelf, true);
 
       assert.strictEqual(stories[1]?.hasReplies, true);
-      assert.strictEqual(stories[1].hasRepliesFromSelf, false);
+      assert.strictEqual(stories[1]?.hasRepliesFromSelf, false);
 
-      assert.strictEqual(stories[2].hasReplies, false);
-      assert.strictEqual(stories[2].hasRepliesFromSelf, false);
+      assert.strictEqual(stories[2]?.hasReplies, false);
+      assert.strictEqual(stories[2]?.hasRepliesFromSelf, false);
     });
   });
 });

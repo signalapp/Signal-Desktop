@@ -20,7 +20,7 @@ import {
 
 async function readFixtureImage(
   filename: string
-): Promise<Uint8Array<ArrayBuffer>> {
+): Promise<Buffer<ArrayBuffer>> {
   const result = await fs.promises.readFile(
     path.join(__dirname, '..', '..', '..', 'fixtures', filename)
   );
@@ -1124,7 +1124,6 @@ describe('link preview fetching', () => {
             'Content-Type': IMAGE_WEBP,
             'Content-Length': fixture.length.toString(),
           },
-          url: 'https://example.com/d/lincoln.webp?spurious=true',
         })
       );
 
@@ -1424,8 +1423,8 @@ describe('link preview fetching', () => {
             'Content-Length': fixture.length.toString(),
           },
         });
-        const oldBufferMethod = response.buffer.bind(response);
-        sinon.stub(response, 'buffer').callsFake(async () => {
+        const oldBufferMethod = response.arrayBuffer.bind(response);
+        sinon.stub(response, 'arrayBuffer').callsFake(async () => {
           const data = await oldBufferMethod();
           abortController.abort();
           return data;

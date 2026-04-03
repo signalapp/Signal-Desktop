@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type Fuse from 'fuse.js';
+import type { FuseResult, IFuseOptions } from 'fuse.js';
 import type { ConversationType } from '../state/ducks/conversations.preload.ts';
 import { parseAndFormatPhoneNumber } from './libphonenumberInstance.std.ts';
 import { WEEK } from './durations/index.std.ts';
@@ -18,7 +18,7 @@ const ACTIVE_AT_SCORE_FACTOR = (1 / WEEK) * 0.01;
 const ARCHIVED_PENALTY = 0.3;
 const LEFT_GROUP_PENALTY = 1;
 
-const FUSE_OPTIONS: Fuse.IFuseOptions<ConversationType> = {
+const FUSE_OPTIONS: IFuseOptions<ConversationType> = {
   // A small-but-nonzero threshold lets us match parts of E164s better, and makes the
   //   search a little more forgiving.
   threshold: 0.2,
@@ -123,7 +123,7 @@ function searchConversations(
   conversations: ReadonlyArray<ConversationType>,
   searchTerm: string,
   regionCode: string | undefined
-): ReadonlyArray<Pick<Fuse.FuseResult<ConversationType>, 'item' | 'score'>> {
+): ReadonlyArray<Pick<FuseResult<ConversationType>, 'item' | 'score'>> {
   type CommandMatch = RegExpMatchArray & { 1: string; 2: string | undefined };
   const maybeCommand = searchTerm.match(/^!([^\s:]+)(?::(.*))?$/);
   if (maybeCommand) {

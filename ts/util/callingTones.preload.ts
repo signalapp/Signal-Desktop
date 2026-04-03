@@ -9,7 +9,6 @@ import { itemStorage } from '../textsecure/Storage.preload.ts';
 const ringtoneEventQueue = new PQueue({
   concurrency: 1,
   timeout: MINUTE * 30,
-  throwOnTimeout: true,
 });
 
 function getCallRingtoneNotificationSetting(): boolean {

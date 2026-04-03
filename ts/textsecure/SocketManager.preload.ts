@@ -400,7 +400,10 @@ export class SocketManager extends EventListener {
   // Fetch-compatible wrapper around underlying unauthenticated/authenticated
   // websocket resources. This wrapper supports only limited number of features
   // of node-fetch despite being API compatible.
-  public async fetch(url: string, init: RequestInit): Promise<Response> {
+  public async fetch(
+    url: string,
+    init: RequestInit & { timeout?: number }
+  ): Promise<Response> {
     const headers = new Headers(init.headers);
 
     let resource: IChatConnection<'auth'> | IChatConnection<'unauth'>;
@@ -434,7 +437,7 @@ export class SocketManager extends EventListener {
     const onAbort = () => reject(new Error('Aborted'));
     const cleanup = () => signal?.removeEventListener('abort', onAbort);
 
-    signal?.addEventListener('abort', onAbort, { once: true });
+    signal?.addEventListener('abort', onAbort);
 
     const responsePromise = resource.sendRequest({
       verb: method,

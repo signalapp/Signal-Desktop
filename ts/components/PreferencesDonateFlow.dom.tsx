@@ -109,12 +109,12 @@ export type PropsType = PropsDataType & PropsActionType & PropsHousekeepingType;
 
 const isPaymentDetailFinalizedInWorkflow = (workflow: DonationWorkflow) => {
   const finalizedStates: Array<DonationStateType> = [
-    donationStateSchema.Enum.INTENT_CONFIRMED,
-    donationStateSchema.Enum.INTENT_REDIRECT,
-    donationStateSchema.Enum.PAYPAL_APPROVED,
-    donationStateSchema.Enum.PAYMENT_CONFIRMED,
-    donationStateSchema.Enum.RECEIPT,
-    donationStateSchema.Enum.DONE,
+    donationStateSchema.enum.INTENT_CONFIRMED,
+    donationStateSchema.enum.INTENT_REDIRECT,
+    donationStateSchema.enum.PAYPAL_APPROVED,
+    donationStateSchema.enum.PAYMENT_CONFIRMED,
+    donationStateSchema.enum.RECEIPT,
+    donationStateSchema.enum.DONE,
   ];
   return finalizedStates.includes(workflow.type);
 };
@@ -143,8 +143,8 @@ export function PreferencesDonateFlow({
     initialAmount: HumanDonationAmount | undefined;
   } => {
     if (
-      workflow?.type === donationStateSchema.Enum.PAYPAL_INTENT ||
-      workflow?.type === donationStateSchema.Enum.PAYPAL_APPROVED
+      workflow?.type === donationStateSchema.enum.PAYPAL_INTENT ||
+      workflow?.type === donationStateSchema.enum.PAYPAL_APPROVED
     ) {
       const savedAmount = brandStripeDonationAmount(workflow.paymentAmount);
       const humanAmount = toHumanDonationAmount({
@@ -300,7 +300,7 @@ export function PreferencesDonateFlow({
     // which contains the approvalUrl.
     if (
       prevStep === 'paymentProcessor' &&
-      workflow?.type === donationStateSchema.Enum.PAYPAL_INTENT
+      workflow?.type === donationStateSchema.enum.PAYPAL_INTENT
     ) {
       setStep('paypal');
       openLinkInWebBrowser(workflow.approvalUrl);
@@ -360,7 +360,7 @@ export function PreferencesDonateFlow({
     const isConfirmationNeeded =
       ((hasCardFormData && !isCardFormDisabled) ||
         (step === 'paypal' &&
-          lastError !== donationErrorTypeSchema.Enum.PaypalCanceled)) &&
+          lastError !== donationErrorTypeSchema.enum.PaypalCanceled)) &&
       (!workflow || !isPaymentDetailFinalizedInWorkflow(workflow));
 
     confirmDiscardIf(isConfirmationNeeded, onDiscard);
@@ -467,7 +467,7 @@ export function PreferencesDonateFlow({
   } else if (step === 'paypal') {
     strictAssert(amount, 'Amount is required for Paypal page');
     const isDisabled =
-      workflow?.type !== donationStateSchema.Enum.PAYPAL_INTENT;
+      workflow?.type !== donationStateSchema.enum.PAYPAL_INTENT;
     innerContent = (
       <>
         <CardFormHero i18n={i18n} amount={amount} currency={currency} />
@@ -499,7 +499,7 @@ export function PreferencesDonateFlow({
             size="lg"
             disabled={isDisabled}
             onClick={() => {
-              if (workflow?.type === donationStateSchema.Enum.PAYPAL_INTENT) {
+              if (workflow?.type === donationStateSchema.enum.PAYPAL_INTENT) {
                 openLinkInWebBrowser(workflow.approvalUrl);
               }
             }}

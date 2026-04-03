@@ -3,11 +3,11 @@
 // @ts-check
 import { join } from 'node:path';
 import { readFile } from 'node:fs/promises';
-import chalk from 'chalk';
+import { styleText } from 'node:util';
 import semver from 'semver';
 import { got, HTTPError } from 'got';
 import enquirer from 'enquirer';
-import execa from 'execa';
+import { execa } from 'execa';
 import { assert } from './utils/assert.mjs';
 
 const rootDir = join(import.meta.dirname, '..');
@@ -56,7 +56,10 @@ const npm = got.extend({
         );
         if (retryAfter != null) {
           console.log(
-            chalk.gray(`Rate limited, retrying after ${retryAfter} seconds`)
+            styleText(
+              'gray',
+              `Rate limited, retrying after ${retryAfter} seconds`
+            )
           );
           return retryAfter * 1000;
         }
@@ -106,7 +109,9 @@ const localDeps = DependencyTypes.flatMap(depType => {
   });
 });
 
-console.log(chalk`Found {cyan ${localDeps.length}} local dependencies`);
+console.log(
+  `Found ${styleText('cyan', `${localDeps.length}`)} local dependencies`
+);
 
 /** @type {ReadonlyArray<FetchedDependency>} */
 const fetchedDeps = await Promise.all(
@@ -127,14 +132,16 @@ const fetchedDeps = await Promise.all(
 );
 
 const outdatedDeps = fetchedDeps.filter(dep => dep.diff != null);
-console.log(chalk`Found {cyan ${outdatedDeps.length}} outdated dependencies`);
+console.log(
+  `Found ${styleText('cyan', `${outdatedDeps.length}`)} outdated dependencies`
+);
 
 const upgradeableDeps = outdatedDeps.filter(dep => {
   return dep.moduleType === 'commonjs';
 });
 
 console.log(
-  chalk`Found {cyan ${upgradeableDeps.length}} upgradeable dependencies`
+  `Found ${styleText('cyan', `${upgradeableDeps.length}`)} upgradeable dependencies`
 );
 
 /** @type {Map<string, Set<string>>} */
@@ -153,7 +160,7 @@ for (const dep of upgradeableDeps) {
 }
 
 for (const [diff, deps] of upgradeableDepsByDiff) {
-  console.log(chalk` - ${diff}: {cyan ${deps.size}}`);
+  console.log(` - ${diff}: ${styleText('cyan', `${deps.size}`)}`);
 }
 
 let longestNameLength = 0;
@@ -167,42 +174,45 @@ const { approvedDeps } = await enquirer.prompt({
   name: 'approvedDeps',
   message: 'Select which dependencies to upgrade',
   choices: upgradeableDeps.map(deps => {
-    let color = chalk.red;
+    /** @type {'red' | 'green' | 'yellow'} */
+    let color = 'red';
     if (deps.diff === 'patch') {
-      color = chalk.green;
+      color = 'green';
     } else if (deps.diff === 'minor') {
-      color = chalk.yellow;
+      color = 'yellow';
     }
 
     return {
       name: deps.name,
       message: deps.name.padEnd(longestNameLength),
-      hint: `(${color(deps.diff)}: ${deps.resolvedVersion} -> ${color(deps.latestVersion)})`,
+      hint: `(${styleText(color, `${deps.diff}`)}: ${deps.resolvedVersion} -> ${styleText(color, deps.latestVersion)})`,
     };
   }),
 });
 
 console.log(
-  chalk`Starting upgrade of {cyan ${approvedDeps.length}} dependencies`
+  `Starting upgrade of ${styleText('cyan', `${approvedDeps.length}`)} dependencies`
 );
 
 for (const dep of upgradeableDeps) {
   try {
     if (!approvedDeps.includes(dep.name)) {
-      console.log(chalk`Skipping ${dep.name}`);
+      console.log(`Skipping ${dep.name}`);
       continue;
     }
 
     // oxlint-disable-next-line no-await-in-loop
     const gitStatusBefore = await execa('git', ['status', '--porcelain']);
     if (gitStatusBefore.stdout.trim() !== '') {
-      console.error(chalk`{red Found uncommitted changes, exiting}`);
-      console.error(chalk.red(gitStatusBefore.stdout));
+      console.error(styleText('red', 'Found uncommitted changes, exiting'));
+      console.error(styleText('red', gitStatusBefore.stdout));
       process.exit(1);
     }
 
     console.log(
-      chalk`Upgrading {cyan ${dep.name}} from {yellow ${dep.resolvedVersion}} to {magenta ${dep.latestVersion}}`
+      `Upgrading ${styleText('cyan', dep.name)} ` +
+        `from ${styleText('yellow', dep.resolvedVersion)} ` +
+        `to ${styleText('magenta', dep.latestVersion)}`
     );
     // oxlint-disable-next-line no-await-in-loop
     await execa(
@@ -266,7 +276,7 @@ for (const dep of upgradeableDeps) {
     ];
 
     for (const script of allNpmScriptToRun) {
-      console.log(chalk`Running {cyan npm run ${script}}`);
+      console.log(`Running ${styleText('cyan', `npm run ${script}`)}`);
 
       // oxlint-disable-next-line no-constant-condition
       while (true) {
@@ -276,7 +286,8 @@ for (const dep of upgradeableDeps) {
           break;
         } catch (error) {
           console.log(
-            chalk.red(
+            styleText(
+              'red',
               `Failed to run ${script}, you could go make changes and try again`
             )
           );
@@ -293,7 +304,7 @@ for (const dep of upgradeableDeps) {
           if (!retry) {
             throw error;
           } else {
-            console.log(chalk`Retrying {cyan npm run ${script}}`);
+            console.log(`Retrying ${styleText('cyan', `npm run ${script}`)}`);
             continue;
           }
         }
@@ -333,9 +344,9 @@ for (const dep of upgradeableDeps) {
       `Upgrade ${dep.name} ${dep.depType} from ${dep.requestedVersion} to ${dep.latestVersion}`,
     ]);
   } catch (error) {
-    console.error(chalk.red(error));
+    console.error(styleText('red', error));
     console.log(
-      chalk.red(`Failed to upgrade ${dep.name}, reverting and skipping`)
+      styleText('red', `Failed to upgrade ${dep.name}, reverting and skipping`)
     );
     // oxlint-disable-next-line no-await-in-loop
     await execa('git', ['checkout', '.']);

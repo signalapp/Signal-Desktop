@@ -2,20 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { createHash } from 'node:crypto';
-import {
-  createReadStream,
-  readFile as readFileCallback,
-  writeFile as writeFileCallback,
-} from 'node:fs';
+import { createReadStream } from 'node:fs';
+import { readFile, writeFile } from 'node:fs/promises';
 import { pipeline } from 'node:stream/promises';
 import { basename, dirname, join, resolve as resolvePath } from 'node:path';
-
-import pify from 'pify';
-
 import { sign, verify } from './curve.node.ts';
-
-const readFile = pify(readFileCallback);
-const writeFile = pify(writeFileCallback);
 
 export async function generateSignature(
   updatePackagePath: string,

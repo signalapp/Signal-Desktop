@@ -94,9 +94,9 @@
     /* Allow imports to include TypeScript file extensions. Requires '--moduleResolution bundler' and either '--noEmit' or '--emitDeclarationOnly' to be set. */
     "allowImportingTsExtensions": true,
     /* Use the package.json 'exports' field when resolving package imports. */
-    // "resolvePackageJsonExports": true,
+    "resolvePackageJsonExports": true,
     /* Use the package.json 'imports' field when resolving imports. */
-    // "resolvePackageJsonImports": true,
+    "resolvePackageJsonImports": true,
     /* Conditions to set in addition to the resolver-specific defaults when resolving imports. */
     // "customConditions": [],
     /* Check side effect imports. */

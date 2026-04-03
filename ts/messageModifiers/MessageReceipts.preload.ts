@@ -395,11 +395,11 @@ const shouldDropReceipt = (
 ): boolean => {
   const { type } = receipt.receiptSync;
   switch (type) {
-    case messageReceiptTypeSchema.Enum.Delivery:
+    case messageReceiptTypeSchema.enum.Delivery:
       return false;
-    case messageReceiptTypeSchema.Enum.Read:
+    case messageReceiptTypeSchema.enum.Read:
       return !itemStorage.get('read-receipt-setting');
-    case messageReceiptTypeSchema.Enum.View:
+    case messageReceiptTypeSchema.enum.View:
       if (isStory(message)) {
         return !areStoryViewReceiptsEnabled();
       }

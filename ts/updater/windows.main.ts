@@ -4,16 +4,10 @@
 import { join } from 'node:path';
 import type { SpawnOptions } from 'node:child_process';
 import { spawn as spawnEmitter } from 'node:child_process';
-import { readdir as readdirCallback, unlink as unlinkCallback } from 'node:fs';
-
+import { readdir, unlink } from 'node:fs/promises';
 import { app } from 'electron';
-import pify from 'pify';
-
 import { getAppRootDir } from '../util/appRootDir.main.ts';
 import { Updater } from './common.main.ts';
-
-const readdir = pify(readdirCallback);
-const unlink = pify(unlinkCallback);
 
 const IS_EXE = /\.exe$/i;
 

@@ -101,7 +101,7 @@
     -webkit-mask-size: contain;
 
     @media (forced-colors: active) {
-      background-color: WindowText;
+      background-color: CanvasText;
     }
 
     &--relink {
@@ -143,7 +143,7 @@
       .LeftPaneDialog__icon {
         background-color: $warning-text-color;
         @media (forced-colors: active) {
-          background-color: WindowText;
+          background-color: CanvasText;
         }
       }
     }
@@ -176,9 +176,9 @@
       height: 100%;
 
       @media (forced-colors: active) {
-        background-color: WindowText;
+        background-color: CanvasText;
         @include mixins.dark-theme {
-          background-color: WindowText;
+          background-color: CanvasText;
         }
       }
     }
@@ -267,7 +267,7 @@
 
       @include mixins.light-theme {
         background-color: variables.$color-white;
-        --tooltip-background-color: variables.$color-white;
+        --tooltip-background-color: #{variables.$color-white};
         border: 1px solid variables.$color-gray-20;
       }
       @include mixins.dark-theme {
@@ -314,7 +314,7 @@
         background-color: $warning-text-color;
 
         @media (forced-colors: active) {
-          background-color: WindowText;
+          background-color: CanvasText;
         }
       }
 
@@ -322,7 +322,7 @@
         background-color: $warning-text-color;
 
         @media (forced-colors: active) {
-          background-color: WindowText;
+          background-color: CanvasText;
         }
       }
 

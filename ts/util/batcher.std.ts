@@ -53,7 +53,6 @@ export function createBatcher<ItemType>(
   const queue = new PQueue({
     concurrency: 1,
     timeout: MINUTE * 30,
-    throwOnTimeout: true,
   });
 
   function _getWait() {

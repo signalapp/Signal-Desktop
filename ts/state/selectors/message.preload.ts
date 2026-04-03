@@ -3,7 +3,7 @@
 
 import lodash from 'lodash';
 import { createSelector } from 'reselect';
-import getDirection from 'direction';
+import { direction as getDirection } from 'direction';
 import emojiRegex from 'emoji-regex';
 import LinkifyIt from 'linkify-it';
 import type { ReadonlyDeep } from 'type-fest';

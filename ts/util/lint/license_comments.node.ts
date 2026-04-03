@@ -8,10 +8,9 @@ import assert from 'node:assert';
 import * as readline from 'node:readline';
 import * as path from 'node:path';
 import * as fs from 'node:fs';
-import { promisify } from 'node:util';
+import { promisify, styleText } from 'node:util';
 import * as childProcess from 'node:child_process';
 import pMap from 'p-map';
-import chalk from 'chalk';
 
 const exec = promisify(childProcess.exec);
 
@@ -199,40 +198,46 @@ async function main() {
     ) {
       const commit = await getCommitFileWasAdded(file);
       warnings.push(
-        chalk.red('Missing/Incorrect copyright line'),
+        styleText('red', 'Missing/Incorrect copyright line'),
         indent(
-          chalk.green(
+          styleText(
+            'green',
             `Expected: "Copyright ${commit.commitYear} Signal Messenger, LLC"`
           )
         ),
         // oxlint-disable-next-line typescript/restrict-template-expressions
-        indent(chalk.yellow(`Actual: "${firstLine}"`)),
+        indent(styleText('yellow', `Actual: "${firstLine}"`)),
         indent(
-          chalk.italic.dim(
+          styleText(
+            ['italic', 'dim'],
             `Tip: Looks like this file was added in ${commit.commitHash} in ${commit.commitYear}`
           )
         ),
         indent(
-          chalk.italic.dim(
+          styleText(
+            ['italic', 'dim'],
             `Tip: You can also use the current year (${currentYear})`
           )
         )
       );
     } else if (/\d{4}-\d{4}/.test(firstLine)) {
       warnings.push(
-        chalk.red('Copyright should not include end year'),
-        indent(chalk.yellow(`Actual: "${firstLine}"`))
+        styleText('red', 'Copyright should not include end year'),
+        indent(styleText('yellow', `Actual: "${firstLine}"`))
       );
     }
 
     if (!secondLine?.includes('SPDX-License-Identifier: AGPL-3.0-only')) {
       warnings.push(
-        chalk.red('Missing/incorrect license line'),
+        styleText('red', 'Missing/incorrect license line'),
         indent(
-          chalk.green('Expected: "SPDX-License-Identifier: AGPL-3.0-only"')
+          styleText(
+            'green',
+            'Expected: "SPDX-License-Identifier: AGPL-3.0-only"'
+          )
         ),
         // oxlint-disable-next-line typescript/restrict-template-expressions
-        indent(chalk.yellow(`Actual: "${secondLine}"`))
+        indent(styleText('yellow', `Actual: "${secondLine}"`))
       );
     }
 
@@ -246,18 +251,21 @@ async function main() {
   if (failed) {
     console.log();
     console.log(
-      chalk.magenta.bold(
+      styleText(
+        ['magenta', 'bold'],
         'Some files are missing/contain incorrect copyrights/licenses:'
       )
     );
     console.log();
     for (const failure of failures) {
-      console.log(chalk.bold(`${failure.file}:`));
+      console.log(styleText('bold', `${failure.file}:`));
       console.log(indent(failure.warnings.join('\n')));
       console.log();
     }
 
-    console.log(chalk.magenta.bold('`npm run lint-license-comments` failed'));
+    console.log(
+      styleText(['magenta', 'bold'], '`pnpm lint-license-comments` failed')
+    );
     console.log();
 
     process.exit(1);

@@ -220,7 +220,7 @@ export class KeyTransparency {
         resolve()
       );
 
-      await pTimeout(once, STORAGE_SERVICE_TIMEOUT);
+      await pTimeout(once, { milliseconds: STORAGE_SERVICE_TIMEOUT });
     }
 
     try {

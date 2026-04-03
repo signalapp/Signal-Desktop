@@ -89,7 +89,7 @@ export class App extends EventEmitter {
           await page?.emulateMedia({ reducedMotion: 'reduce' });
           await page?.waitForLoadState('load');
         })(),
-        20 * SECOND
+        { milliseconds: 20 * SECOND }
       );
     } catch (e) {
       this.#privApp?.process().kill('SIGKILL');

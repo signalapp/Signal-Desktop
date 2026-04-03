@@ -9,7 +9,7 @@ import type {
 import parseJsonToAst from 'json-to-ast';
 import { readFile } from 'node:fs/promises';
 import { join as pathJoin, relative as pathRelative } from 'node:path';
-import chalk from 'chalk';
+import { styleText } from 'node:util';
 import { deepEqual } from 'node:assert';
 import type { Rule } from './utils/rule.std.ts';
 
@@ -199,10 +199,16 @@ async function lintMessages() {
 
       // oxlint-disable-next-line no-console
       console.error(
-        chalk`{bold.cyan ${relativePath}${loc}} ${report.message} {magenta ({underline ${report.id}})}`
+        styleText(['bold', 'cyan'], `${relativePath}${loc}`) +
+          `${report.message} ` +
+          styleText('magenta', `(${styleText('underline', report.id)})`)
       );
       // oxlint-disable-next-line no-console
-      console.error(chalk`  {dim in ${key} is "}{red ${icuMessage}}{dim "}`);
+      console.error(
+        styleText('dim', `in ${key} is "`) +
+          styleText('red', icuMessage) +
+          styleText('dim', '"')
+      );
       // oxlint-disable-next-line no-console
       console.error();
 

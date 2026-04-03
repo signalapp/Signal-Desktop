@@ -50,7 +50,9 @@ try {
   proc.on('exit', status => resolve(status));
   proc.on('error', error => reject(error));
 
-  const status = await pTimeout(promise, 5 * MINUTE);
+  const status = await pTimeout(promise, {
+    milliseconds: 5 * MINUTE,
+  });
 
   if (status !== 0) {
     throw new Error(`Exit code: ${status}`);

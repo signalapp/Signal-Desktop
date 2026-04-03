@@ -509,11 +509,11 @@ describe('ReleaseNoteAndMegaphoneFetcher', () => {
       assert.strictEqual(dbMegaphones.length, 1);
       assert.strictEqual(dbMegaphone?.id, myMegaphone.uuid);
       assert.strictEqual(
-        dbMegaphone.dontShowBeforeEpochMs,
+        dbMegaphone?.dontShowBeforeEpochMs,
         myMegaphone.dontShowBeforeEpochSeconds * 1000
       );
       assert.strictEqual(
-        dbMegaphone.dontShowAfterEpochMs,
+        dbMegaphone?.dontShowAfterEpochMs,
         myMegaphone.dontShowAfterEpochSeconds * 1000
       );
     });

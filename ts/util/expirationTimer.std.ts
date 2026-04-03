@@ -75,7 +75,7 @@ export function format(
     // if we have an explicit `largest` specified,
     // allow it to pick from all the units
     units: largest ? allUnits : defaultUnits,
-    largest,
+    largest: largest ?? defaultUnits.length,
     language: locale,
     ...(fallbacks.length ? { fallbacks } : {}),
   });

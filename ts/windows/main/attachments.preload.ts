@@ -20,23 +20,7 @@ const { isString, isTypedArray } = lodash;
 
 const log = createLogger('attachments');
 
-type FSAttrType = {
-  set: (path: string, attribute: string, value: string) => Promise<void>;
-};
-
 const GET_UNUSED_FILENAME_MAX_ATTEMPTS = 100;
-
-let xattr: FSAttrType | undefined;
-
-try {
-  // oxlint-disable-next-line global-require, typescript/no-var-requires
-  xattr = require('fs-xattr');
-} catch (e) {
-  if (process.platform === 'darwin') {
-    throw e;
-  }
-  log.info('x-attr dependency did not load successfully');
-}
 
 export const createPlaintextReader = (
   root: string
@@ -217,7 +201,9 @@ async function writeWithAttributes(
 ): Promise<void> {
   await fse.writeFile(target, Buffer.from(data));
 
-  if (process.platform === 'darwin' && xattr) {
+  if (process.platform === 'darwin') {
+    const xattr = await import('fs-xattr');
+
     // kLSQuarantineTypeInstantMessageAttachment
     const type = '0003';
 
@@ -230,7 +216,7 @@ async function writeWithAttributes(
     // https://ilostmynotes.blogspot.com/2012/06/gatekeeper-xprotect-and-quarantine.html
     const attrValue = `${type};${timestamp};${appName};${guid}`;
 
-    await xattr.set(target, 'com.apple.quarantine', attrValue);
+    await xattr.setAttribute(target, 'com.apple.quarantine', attrValue);
   } else if (OS.isWindows()) {
     // This operation may fail (see the function's comments), which is not a show-stopper.
     try {

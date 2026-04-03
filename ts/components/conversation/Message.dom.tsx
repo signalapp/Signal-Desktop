@@ -10,7 +10,7 @@ import type {
 import React, { forwardRef, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import classNames from 'classnames';
-import getDirection from 'direction';
+import { direction as getDirection } from 'direction';
 import lodash from 'lodash';
 import { Manager, Popper, Reference } from 'react-popper';
 import type { PreventOverflowModifier } from '@popperjs/core/lib/modifiers/preventOverflow.js';

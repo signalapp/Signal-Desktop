@@ -57,11 +57,13 @@ describe('sql/sendLog', () => {
     const actual = allProtos[0];
 
     assert.strictEqual(actual?.contentHint, proto.contentHint);
-    assert.isTrue(constantTimeEqual(actual.proto, proto.proto));
-    assert.strictEqual(actual.timestamp, proto.timestamp);
-    assert.strictEqual(actual.urgent, proto.urgent);
+    assert.isTrue(
+      actual != null && constantTimeEqual(actual.proto, proto.proto)
+    );
+    assert.strictEqual(actual?.timestamp, proto.timestamp);
+    assert.strictEqual(actual?.urgent, proto.urgent);
     assert.strictEqual(
-      actual.hasPniSignatureMessage,
+      actual?.hasPniSignatureMessage,
       proto.hasPniSignatureMessage
     );
 
@@ -97,11 +99,13 @@ describe('sql/sendLog', () => {
     const actual = allProtos[0];
 
     assert.strictEqual(actual?.contentHint, proto.contentHint);
-    assert.isTrue(constantTimeEqual(actual.proto, proto.proto));
-    assert.strictEqual(actual.timestamp, proto.timestamp);
-    assert.strictEqual(actual.urgent, proto.urgent);
+    assert.isTrue(
+      actual != null && constantTimeEqual(actual.proto, proto.proto)
+    );
+    assert.strictEqual(actual?.timestamp, proto.timestamp);
+    assert.strictEqual(actual?.urgent, proto.urgent);
     assert.strictEqual(
-      actual.hasPniSignatureMessage,
+      actual?.hasPniSignatureMessage,
       proto.hasPniSignatureMessage
     );
 
@@ -295,13 +299,17 @@ describe('sql/sendLog', () => {
 
       const actual1 = allProtos[0];
       assert.strictEqual(actual1?.contentHint, proto1.contentHint);
-      assert.isTrue(constantTimeEqual(actual1.proto, proto1.proto));
-      assert.strictEqual(actual1.timestamp, proto1.timestamp);
+      assert.isTrue(
+        actual1 != null && constantTimeEqual(actual1.proto, proto1.proto)
+      );
+      assert.strictEqual(actual1?.timestamp, proto1.timestamp);
 
       const actual2 = allProtos[1];
       assert.strictEqual(actual2?.contentHint, proto2.contentHint);
-      assert.isTrue(constantTimeEqual(actual2.proto, proto2.proto));
-      assert.strictEqual(actual2.timestamp, proto2.timestamp);
+      assert.isTrue(
+        actual2 != null && constantTimeEqual(actual2.proto, proto2.proto)
+      );
+      assert.strictEqual(actual2?.timestamp, proto2.timestamp);
     });
   });
 

@@ -438,21 +438,21 @@ describe('sql/markRead', () => {
 
     assert.strictEqual(sorted[0]?.id, message1.id, 'checking message 1');
     assert.strictEqual(
-      sorted[0].expirationStartTimestamp,
+      sorted[0]?.expirationStartTimestamp,
       now,
       "message1's expirationStartTimestamp was moved earlier"
     );
 
     assert.strictEqual(sorted[1]?.id, message2.id, 'checking message 2');
     assert.strictEqual(
-      sorted[1].expirationStartTimestamp,
+      sorted[1]?.expirationStartTimestamp,
       now,
       'checking message 2 expirationStartTimestamp'
     );
 
     assert.strictEqual(sorted[3]?.id, message4.id, 'checking message 4');
     assert.strictEqual(
-      sorted[3].expirationStartTimestamp,
+      sorted[3]?.expirationStartTimestamp,
       now,
       'checking message 4 expirationStartTimestamp'
     );

@@ -9,7 +9,7 @@ import { assert } from './utils/assert.mjs';
 
 const type = process.argv[2];
 if (type !== 'countries' && type !== 'locales') {
-  throw new Error('Invalid first argument, expceted "countries" or "locales"');
+  throw new Error('Invalid first argument, expected "countries" or "locales"');
 }
 
 if (!process.argv[3]) {

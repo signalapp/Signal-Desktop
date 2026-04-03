@@ -580,7 +580,7 @@ export function PreferencesDonations({
   // Fetch badge data when we're about to show the badge modal
   useEffect(() => {
     if (
-      workflow?.type === donationStateSchema.Enum.DONE &&
+      workflow?.type === donationStateSchema.enum.DONE &&
       settingsLocation.page === SettingsPage.Donations &&
       !donationBadge
     ) {
@@ -594,10 +594,10 @@ export function PreferencesDonations({
     }
 
     if (
-      workflow?.type === donationStateSchema.Enum.INTENT_CONFIRMED ||
-      workflow?.type === donationStateSchema.Enum.PAYMENT_CONFIRMED ||
-      workflow?.type === donationStateSchema.Enum.RECEIPT ||
-      workflow?.type === donationStateSchema.Enum.DONE
+      workflow?.type === donationStateSchema.enum.INTENT_CONFIRMED ||
+      workflow?.type === donationStateSchema.enum.PAYMENT_CONFIRMED ||
+      workflow?.type === donationStateSchema.enum.RECEIPT ||
+      workflow?.type === donationStateSchema.enum.DONE
     ) {
       setIsSubmitted(false);
     }
@@ -632,7 +632,7 @@ export function PreferencesDonations({
           setIsSubmitted(false);
           if (
             workflow?.type === 'DONE' &&
-            lastError === donationErrorTypeSchema.Enum.BadgeApplicationFailed
+            lastError === donationErrorTypeSchema.enum.BadgeApplicationFailed
           ) {
             clearWorkflow();
           }
@@ -642,7 +642,7 @@ export function PreferencesDonations({
     );
   } else if (
     didResumeWorkflowAtStartup &&
-    workflow?.type === donationStateSchema.Enum.INTENT_METHOD
+    workflow?.type === donationStateSchema.enum.INTENT_METHOD
   ) {
     dialog = (
       <DonationInterruptedModal
@@ -657,7 +657,7 @@ export function PreferencesDonations({
         }}
       />
     );
-  } else if (workflow?.type === donationStateSchema.Enum.INTENT_REDIRECT) {
+  } else if (workflow?.type === donationStateSchema.enum.INTENT_REDIRECT) {
     dialog = (
       <DonationVerificationModal
         i18n={i18n}
@@ -671,12 +671,12 @@ export function PreferencesDonations({
         }}
         onTimedOut={() => {
           clearWorkflow();
-          updateLastError(donationErrorTypeSchema.Enum.TimedOut);
+          updateLastError(donationErrorTypeSchema.enum.TimedOut);
           setSettingsLocation({ page: SettingsPage.Donations });
         }}
       />
     );
-  } else if (workflow?.type === donationStateSchema.Enum.DONE) {
+  } else if (workflow?.type === donationStateSchema.enum.DONE) {
     dialog = (
       <DonationThanksModal
         i18n={i18n}
@@ -686,7 +686,7 @@ export function PreferencesDonations({
           if (error) {
             log.error('Badge application failed:', error.message);
             updateLastError(
-              donationErrorTypeSchema.Enum.BadgeApplicationFailed
+              donationErrorTypeSchema.enum.BadgeApplicationFailed
             );
           } else {
             clearWorkflow();
@@ -697,17 +697,17 @@ export function PreferencesDonations({
   } else if (
     settingsLocation.page === SettingsPage.DonationsDonateFlow &&
     (isSubmitted ||
-      workflow?.type === donationStateSchema.Enum.INTENT_CONFIRMED ||
-      workflow?.type === donationStateSchema.Enum.PAYMENT_CONFIRMED ||
-      workflow?.type === donationStateSchema.Enum.RECEIPT)
+      workflow?.type === donationStateSchema.enum.INTENT_CONFIRMED ||
+      workflow?.type === donationStateSchema.enum.PAYMENT_CONFIRMED ||
+      workflow?.type === donationStateSchema.enum.RECEIPT)
   ) {
     // We can't transition away from the payment screen until that payment information
     // has been accepted. Even if it takes more than 30 seconds.
     if (
       hasProcessingExpired &&
-      (workflow?.type === donationStateSchema.Enum.INTENT_CONFIRMED ||
-        workflow?.type === donationStateSchema.Enum.PAYMENT_CONFIRMED ||
-        workflow?.type === donationStateSchema.Enum.RECEIPT)
+      (workflow?.type === donationStateSchema.enum.INTENT_CONFIRMED ||
+        workflow?.type === donationStateSchema.enum.PAYMENT_CONFIRMED ||
+        workflow?.type === donationStateSchema.enum.RECEIPT)
     ) {
       dialog = (
         <DonationStillProcessingModal
@@ -720,7 +720,7 @@ export function PreferencesDonations({
           }}
         />
       );
-    } else if (workflow?.type === donationStateSchema.Enum.PAYPAL_INTENT) {
+    } else if (workflow?.type === donationStateSchema.enum.PAYPAL_INTENT) {
       // No need to show the dialog here because PreferencesDonateFlow already
       // initiates a dialog when redirecting to PayPal.
     } else {

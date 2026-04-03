@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import chai, { assert } from 'chai';
+import { assert, use as chaiUse } from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import { type PrimaryDevice, ServiceIdKind } from '@signalapp/mock-server';
 import createDebug from 'debug';
@@ -11,7 +11,7 @@ import { Bootstrap } from '../bootstrap.node.ts';
 import type { App } from '../bootstrap.node.ts';
 import { acceptConversation } from '../helpers.node.ts';
 
-chai.use(chaiAsPromised);
+chaiUse(chaiAsPromised);
 
 export const debug = createDebug('mock:test:pnp:calling');
 

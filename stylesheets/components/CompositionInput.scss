@@ -45,7 +45,8 @@
 
     border-radius: 18px;
     overflow: hidden;
-    word-break: break-word;
+    overflow-wrap: break-word;
+    word-break: auto-phrase;
 
     &--with-view-once {
       position: relative;

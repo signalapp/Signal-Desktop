@@ -11,6 +11,7 @@ const config = {
   plugins: ['stylelint-use-logical-spec'],
   rules: {
     // Disabled from recommended set to get stylelint working initially
+    'at-rule-empty-line-before': null,
     'block-no-empty': null,
     'declaration-block-no-duplicate-properties': null,
     'declaration-block-no-shorthand-property-overrides': null,
@@ -18,7 +19,6 @@ const config = {
     'no-duplicate-selectors': null,
     'no-descending-specificity': null,
     'selector-pseudo-element-no-unknown': null,
-    'scss/at-import-partial-extension': null,
     'scss/comment-no-empty': null,
     'scss/no-global-function-names': null,
     'scss/operator-no-newline-after': null,
@@ -48,4 +48,4 @@ const config = {
   },
 };
 
-export default config
+export default config;

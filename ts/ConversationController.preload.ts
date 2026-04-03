@@ -1746,7 +1746,6 @@ export class ConversationController {
       const queue = new PQueue({
         concurrency: 3,
         timeout: MINUTE * 30,
-        throwOnTimeout: true,
       });
       drop(
         queue.addAll(

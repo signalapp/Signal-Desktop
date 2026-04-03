@@ -10,6 +10,7 @@ import type { BadgeType } from '../../badges/types.std.ts';
 import { getOwn } from '../../util/getOwn.std.ts';
 import { getAbsoluteBadgeImageFilePath } from '../../util/migrations.preload.ts';
 import type { ConversationType } from '../ducks/conversations.preload.ts';
+import type { StateSelector } from '../types.std.ts';
 
 const { mapValues } = lodash;
 
@@ -18,21 +19,22 @@ const log = createLogger('badges');
 const getBadgeState = (state: Readonly<StateType>): BadgesStateType =>
   state.badges;
 
-export const getBadgesById = createSelector(getBadgeState, state =>
-  mapValues(state.byId, badge => ({
-    ...badge,
-    images: badge.images.map(image =>
-      mapValues(image, imageFile =>
-        imageFile.localPath
-          ? {
-              ...imageFile,
-              localPath: getAbsoluteBadgeImageFilePath(imageFile.localPath),
-            }
-          : imageFile
-      )
-    ),
-  }))
-);
+export const getBadgesById: StateSelector<Record<string, BadgeType>> =
+  createSelector(getBadgeState, state =>
+    mapValues(state.byId, badge => ({
+      ...badge,
+      images: badge.images.map(image =>
+        mapValues(image, imageFile =>
+          imageFile.localPath
+            ? {
+                ...imageFile,
+                localPath: getAbsoluteBadgeImageFilePath(imageFile.localPath),
+              }
+            : imageFile
+        )
+      ),
+    }))
+  );
 
 export const getBadgesSelector = createSelector(
   getBadgesById,

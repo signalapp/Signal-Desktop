@@ -191,7 +191,7 @@ const pinoInstance = pino(
     timestamp: pino.stdTimeFunctions.isoTime,
     redact: {
       paths: ['*'],
-      censor: item => redactAll(item),
+      censor: item => redactAll(String(item)),
     },
   },
   {

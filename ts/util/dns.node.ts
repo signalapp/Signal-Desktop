@@ -63,15 +63,19 @@ function lookupAll(
           electron.net.resolveHost(hostname, {
             queryType,
           }),
-          LOOKUP_TIMEOUT_MS,
-          'lookupAll: Electron lookup timed out'
+          {
+            milliseconds: LOOKUP_TIMEOUT_MS,
+            message: 'lookupAll: Electron lookup timed out',
+          }
         );
       } else {
         // Renderer
         result = await pTimeout(
           electron.ipcRenderer.invoke('net.resolveHost', hostname, queryType),
-          LOOKUP_TIMEOUT_MS,
-          'lookupAll: Electron lookup timed out'
+          {
+            milliseconds: LOOKUP_TIMEOUT_MS,
+            message: 'lookupAll: Electron lookup timed out',
+          }
         );
       }
     } catch (error) {

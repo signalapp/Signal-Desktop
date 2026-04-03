@@ -614,7 +614,7 @@ async function processImageResponse(
 
   let data: Uint8Array<ArrayBuffer>;
   try {
-    data = await response.buffer();
+    data = new Uint8Array(await response.arrayBuffer());
   } catch (err) {
     logger.warn('fetchLinkPreviewImage: failed to read body; bailing');
     return null;

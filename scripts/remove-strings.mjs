@@ -1,8 +1,8 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 // @ts-check
-import chalk from 'chalk';
-import execa from 'execa';
+import { styleText } from 'node:util';
+import { execa } from 'execa';
 import fs from 'node:fs/promises';
 import pLimit from 'p-limit';
 import path from 'node:path';
@@ -69,7 +69,8 @@ await Promise.all(
 
         // Match found
         console.error(
-          chalk.red(
+            styleText(
+              'red',
             `ERROR: String is still used: "${key}", deleted on ${match[1]}`
           )
         );
@@ -79,7 +80,10 @@ await Promise.all(
       } catch (error) {
         if (error.exitCode === 1) {
           console.log(
-            chalk.dim(`Removing string: "${key}", deleted on ${match[1]}`)
+              styleText(
+                'dim',
+                `Removing string: "${key}", deleted on ${match[1]}`
+              )
           );
           delete messages[key];
         } else {

@@ -142,7 +142,7 @@ describe('DonationsCardForm', () => {
     });
     it('empty', () => {
       const allPossibilities = getPossibleCardFormats('');
-      assert.equal(allPossibilities.length, 12);
+      assert.equal(allPossibilities.length, 13);
     });
     it('invalid', () => {
       check('1111', []);
