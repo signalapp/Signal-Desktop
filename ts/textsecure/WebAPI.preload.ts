@@ -1803,7 +1803,11 @@ export async function connect({
   hasStoriesDisabled,
   hasBuildExpired,
 }: WebAPIConnectOptionsType): Promise<void> {
-  bindRemoteConfigToLibsignalNet(getLibsignalNet(), window.getVersion());
+  bindRemoteConfigToLibsignalNet(
+    getLibsignalNet(),
+    window.getVersion(),
+    reconnect
+  );
 
   username = initialUsername;
   password = initialPassword;

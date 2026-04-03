@@ -248,6 +248,7 @@ import { encryptConversationAttachments } from './util/encryptConversationAttach
 import { DataReader, DataWriter } from './sql/Client.preload.ts';
 import {
   restoreRemoteConfigFromStorage,
+  isEnabled as isRemoteConfigValueEnabled,
   getValue as getRemoteConfigValue,
   onChange as onRemoteConfigChange,
   maybeRefreshRemoteConfig,
@@ -1557,8 +1558,12 @@ export async function startApp(): Promise<void> {
     });
 
     // Listen for changes to the `desktop.clientExpiration` remote flag
-    onRemoteConfigChange('desktop.clientExpiration', ({ enabled, value }) => {
-      if (!enabled) {
+    onRemoteConfigChange(['desktop.clientExpiration'], () => {
+      if (!isRemoteConfigValueEnabled('desktop.clientExpiration')) {
+        return;
+      }
+      const value = getRemoteConfigValue('desktop.clientExpiration');
+      if (value == null) {
         return;
       }
       const remoteBuildExpirationTimestamp = parseRemoteClientExpiration(value);

@@ -6,7 +6,7 @@ import * as sinon from 'sinon';
 
 import lodash from 'lodash';
 import { normalizeAci } from '../util/normalizeAci.std.ts';
-import type { ConfigKeyType, ConfigListenerType } from '../RemoteConfig.dom.ts';
+import type { ConfigKeyType } from '../RemoteConfig.dom.ts';
 import {
   COUNTRY_CODE_FALLBACK,
   getCountryCodeValue,
@@ -187,8 +187,8 @@ describe('RemoteConfig', () => {
       await updateRemoteConfig([]);
 
       // oxlint-disable-next-line typescript/no-empty-function
-      const listener = sinon.spy<ConfigListenerType>(() => {});
-      onChange('desktop.internalUser', listener);
+      const listener = sinon.spy<() => void>(() => {});
+      onChange(['desktop.internalUser', 'desktop.clientExpiration'], listener);
 
       await updateRemoteConfig([
         { name: 'desktop.internalUser', value: 'yes' },
@@ -198,14 +198,16 @@ describe('RemoteConfig', () => {
         { name: 'desktop.internalUser', value: 'yes' },
       ]);
 
+      // should not trigger callback
+      await updateRemoteConfig([
+        { name: 'desktop.internalUser', value: 'yes' },
+        { name: 'global.nicknames.max', value: '42' },
+      ]);
+
       const calls = listener
         .getCalls()
         .map(call => omit(call.firstArg, 'enabledAt'));
-      assert.deepEqual(calls, [
-        { name: 'desktop.internalUser', value: 'yes', enabled: true },
-        { name: 'desktop.internalUser', enabled: false },
-        { name: 'desktop.internalUser', value: 'yes', enabled: true },
-      ]);
+      assert.deepEqual(calls, [{}, {}, {}]);
     });
   });
 });
