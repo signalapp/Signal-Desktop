@@ -106,6 +106,7 @@ import type {
 const log = createLogger('SendMessage');
 
 const MAX_EMBEDDED_GROUP_CHANGE_BYTES = 2048;
+const MAX_INCREMENTAL_MAC_ATTACHMENTS = 10;
 
 export type SendIdentifierData =
   | {
@@ -625,9 +626,22 @@ class Message {
       };
     }
 
+    let incrementalMacsIncluded = 0;
     const dataMessage: Proto.DataMessage.Params = {
       timestamp: BigInt(this.timestamp),
-      attachments: this.attachments.slice(),
+      attachments: this.attachments.map(attachment => {
+        if (attachment.incrementalMac != null) {
+          if (incrementalMacsIncluded >= MAX_INCREMENTAL_MAC_ATTACHMENTS) {
+            log.warn(
+              `message.toProto${this.timestamp}: Dropping incremental mac`
+            );
+            return { ...attachment, incrementalMac: null, chunkSize: null };
+          }
+          incrementalMacsIncluded += 1;
+        }
+
+        return attachment;
+      }),
       flags: this.flags ?? 0,
       body: this.body ?? null,
       bodyRanges: this.bodyRanges?.map(toBodyRange) ?? null,
