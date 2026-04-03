@@ -762,9 +762,7 @@ function LocalBackupsBackupKeyTextarea({
     <textarea
       aria-label={i18n('icu:Preferences--local-backups-recovery-key-text-box')}
       className="Preferences--LocalBackupsBackupKey"
-      cols={20}
       dir="ltr"
-      rows={4}
       maxLength={79}
       onChange={isStepViewOrReference ? noop : handleTextareaChange}
       placeholder={i18n('icu:Preferences--local-backups-enter-backup-key')}
