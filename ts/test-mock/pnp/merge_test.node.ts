@@ -235,9 +235,9 @@ describe('pnp/merge', function (this: Mocha.Suite) {
   }
 
   for (const withPniContact of [false, true]) {
-    const testName =
-      'accepts storage service contact splitting ' +
-      `${withPniContact ? 'with PNI contact' : 'without PNI contact'}`;
+    const testName = `accepts storage service contact splitting ${
+      withPniContact ? 'with PNI contact' : 'without PNI contact'
+    }`;
 
     // oxlint-disable-next-line no-loop-func
     it(testName, async () => {
@@ -541,7 +541,7 @@ describe('pnp/merge', function (this: Mocha.Suite) {
 
     await typeIntoInput(searchBox, aciContact.device.number, '');
 
-    const firstSearchResult = await window.locator(
+    const firstSearchResult = window.locator(
       '.module-left-pane__no-search-results'
     );
     const firstSearchResultText = await firstSearchResult.innerText();

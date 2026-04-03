@@ -38,17 +38,22 @@ export type BackOffOptionsType = Readonly<{
 const DEFAULT_RANDOM = () => Math.random();
 
 export class BackOff {
+  #timeouts: ReadonlyArray<number>;
+  readonly #options: BackOffOptionsType;
   #count = 0;
 
   constructor(
-    private timeouts: ReadonlyArray<number>,
-    private readonly options: BackOffOptionsType = {}
-  ) {}
+    timeouts: ReadonlyArray<number>,
+    options: BackOffOptionsType = {}
+  ) {
+    this.#timeouts = timeouts;
+    this.#options = options;
+  }
 
   public get(): number {
     // oxlint-disable-next-line typescript/no-non-null-assertion
-    let result = this.timeouts[this.#count]!;
-    const { jitter = 0, random = DEFAULT_RANDOM } = this.options;
+    let result = this.#timeouts[this.#count]!;
+    const { jitter = 0, random = DEFAULT_RANDOM } = this.#options;
 
     // Do not apply jitter larger than the timeout value. It is supposed to be
     // activated for longer timeouts.
@@ -69,13 +74,13 @@ export class BackOff {
 
   public reset(newTimeouts?: ReadonlyArray<number>): void {
     if (newTimeouts !== undefined) {
-      this.timeouts = newTimeouts;
+      this.#timeouts = newTimeouts;
     }
     this.#count = 0;
   }
 
   public isFull(): boolean {
-    return this.#count === this.timeouts.length - 1;
+    return this.#count === this.#timeouts.length - 1;
   }
 
   public getIndex(): number {

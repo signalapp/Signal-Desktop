@@ -13,13 +13,16 @@ import type { NativeThemeState } from '../../types/NativeThemeNotifier.d.ts';
 import { SystemThemeType } from '../../types/Util.std.ts';
 
 class FakeIPC extends EventEmitter implements MinimalIPC {
-  constructor(private readonly state: NativeThemeState) {
+  readonly #state: NativeThemeState;
+
+  constructor(state: NativeThemeState) {
     super();
+    this.#state = state;
   }
 
   public sendSync(channel: string) {
     assert.strictEqual(channel, 'native-theme:init');
-    return this.state;
+    return this.#state;
   }
 
   public send() {

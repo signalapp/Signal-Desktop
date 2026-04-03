@@ -50,7 +50,7 @@ function getJobId(job: CoreCallLinkDeleteJobType): string {
 // synchronously and prior to running this job, so we can show confirmation
 // or error to the user.
 export class CallLinkFinalizeDeleteManager extends JobManager<CoreCallLinkDeleteJobType> {
-  jobs: Map<string, CallLinkDeleteJobType> = new Map();
+  jobs = new Map<string, CallLinkDeleteJobType>();
   private static _instance: CallLinkFinalizeDeleteManager | undefined;
   override logPrefix = 'CallLinkFinalizeDeleteManager';
 

@@ -255,7 +255,7 @@ export async function handleDataMessage(
         initialMessage.groupV2.publicParams
       ) {
         // Repair core GroupV2 data if needed
-        await conversation.maybeRepairGroupV2({
+        conversation.maybeRepairGroupV2({
           masterKey: initialMessage.groupV2.masterKey,
           secretParams: initialMessage.groupV2.secretParams,
           publicParams: initialMessage.groupV2.publicParams,
@@ -541,7 +541,7 @@ export async function handleDataMessage(
       }
 
       const ourPni = itemStorage.user.getCheckedPni();
-      const ourServiceIds: Set<ServiceIdString> = new Set([ourAci, ourPni]);
+      const ourServiceIds = new Set<ServiceIdString>([ourAci, ourPni]);
 
       // oxlint-disable-next-line no-param-reassign
       message = window.MessageCache.register(message);
@@ -792,7 +792,7 @@ export async function handleDataMessage(
             `${idLog}: gift badge with level ${level} not found on server`
           );
         } else {
-          await window.reduxActions.badges.updateOrCreate([badge]);
+          window.reduxActions.badges.updateOrCreate([badge]);
           giftBadge.id = badge.id;
         }
       }

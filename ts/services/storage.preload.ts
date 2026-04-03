@@ -281,8 +281,7 @@ async function generateManifest(
     if (conversationType === ConversationTypes.Me) {
       storageRecord = {
         record: {
-          // oxlint-disable-next-line no-await-in-loop
-          account: await toAccountRecord(conversation, {
+          account: toAccountRecord(conversation, {
             notificationProfileSyncDisabled,
           }),
         },
@@ -894,10 +893,10 @@ async function generateManifest(
   // manifest:
   let recordIkm: Uint8Array<ArrayBuffer> | undefined;
   if (previousManifest) {
-    const pendingInserts: Set<string> = new Set();
-    const pendingDeletes: Set<string> = new Set();
+    const pendingInserts = new Set<string>();
+    const pendingDeletes = new Set<string>();
 
-    const remoteKeys: Set<string> = new Set();
+    const remoteKeys = new Set<string>();
     (previousManifest.identifiers ?? []).forEach(
       (identifier: IManifestRecordIdentifier) => {
         strictAssert(identifier.raw, 'Identifier without raw field');
@@ -906,7 +905,7 @@ async function generateManifest(
       }
     );
 
-    const localKeys: Set<string> = new Set();
+    const localKeys = new Set<string>();
     for (const storageID of recordsByID.keys()) {
       localKeys.add(storageID);
 
@@ -997,8 +996,8 @@ async function encryptManifest(
   version: number,
   { recordsByID, recordIkm, insertKeys }: EncryptManifestOptionsType
 ): Promise<EncryptedManifestType> {
-  const manifestRecordKeys: Set<IManifestRecordIdentifier> = new Set();
-  const newItems: Set<Proto.StorageItem.Params> = new Set();
+  const manifestRecordKeys = new Set<IManifestRecordIdentifier>();
+  const newItems = new Set<Proto.StorageItem.Params>();
 
   for (const [storageID, { itemType, storageRecord }] of recordsByID) {
     const identifier: Proto.ManifestRecord.Identifier.Params = {
@@ -2145,7 +2144,7 @@ async function processRemoteRecords(
     needProfileFetch.map(convo => drop(convo.getProfiles()));
 
     // Collect full map of previously and currently unknown records
-    const unknownRecords: Map<string, UnknownRecord> = new Map();
+    const unknownRecords = new Map<string, UnknownRecord>();
 
     const previousUnknownRecords: ReadonlyArray<UnknownRecord> =
       itemStorage.get(
@@ -2373,7 +2372,7 @@ async function upload({
   }
 
   const localManifestVersion = itemStorage.get('manifestVersion', 0);
-  const version = Number(localManifestVersion) + 1;
+  const version = localManifestVersion + 1;
 
   log.info(`${logId}/${version}: will update to manifest version`);
 

@@ -203,9 +203,9 @@ export class MentionCompletion {
   getAttributesForInsert(index: number): Record<string, unknown> {
     const character = index > 0 ? index - 1 : 0;
     const contents = this.quill.getContents(character, 1);
-    return contents.ops.reduce(
-      (acc, op) => ({ acc, ...op.attributes }),
-      {} as Record<string, unknown>
+    return contents.ops.reduce<Record<string, unknown>>(
+      (acc, op) => ({ ...acc, ...op.attributes }),
+      {}
     );
   }
 

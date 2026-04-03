@@ -343,7 +343,8 @@ describe('ReleaseNoteAndMegaphoneFetcher', () => {
     sandbox.reset();
 
     // Restore original global values (even if they were undefined)
-    window.SignalCI = originalSignalCI as CIType;
+    // oxlint-disable-next-line typescript/no-non-null-assertion
+    window.SignalCI = originalSignalCI!;
 
     // Reset storage state
     await itemStorage.fetch();

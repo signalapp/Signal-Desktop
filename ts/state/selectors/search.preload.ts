@@ -171,10 +171,7 @@ export const getSearchResults = createSelector(
       filterByUnread: state.filterByUnread,
     };
 
-    if (
-      state.filterByUnread &&
-      searchResults.conversationResults.isLoading === false
-    ) {
+    if (state.filterByUnread && !searchResults.conversationResults.isLoading) {
       searchResults.conversationResults.results =
         searchResults.conversationResults.results.map(conversation => {
           return {

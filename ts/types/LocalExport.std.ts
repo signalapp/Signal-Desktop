@@ -12,14 +12,18 @@ export enum LocalExportErrors {
 }
 
 export class NotEnoughStorageError extends Error {
-  constructor(public readonly bytesNeeded: number) {
+  public readonly bytesNeeded: number;
+  constructor(bytesNeeded: number) {
     super('NotEnoughStorageError');
+    this.bytesNeeded = bytesNeeded;
   }
 }
 // oxlint-disable-next-line max-classes-per-file
 export class RanOutOfStorageError extends Error {
-  constructor(public readonly bytesNeeded: number) {
+  public readonly bytesNeeded: number;
+  constructor(bytesNeeded: number) {
     super('RanOutOfStorageError');
+    this.bytesNeeded = bytesNeeded;
   }
 }
 export class StoragePermissionsError extends Error {

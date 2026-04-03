@@ -266,9 +266,14 @@ type NonBubbleResultType = Readonly<
     }
 >;
 
+type Options = Readonly<BackupExportOptions> & {
+  validationRun?: boolean;
+};
+
 export class BackupExportStream extends Readable {
+  readonly #options: Options;
   // Shared between all methods for consistency.
-  #now = Date.now();
+  readonly #now = Date.now();
 
   readonly #backupTimeMs = getSafeLongFromTimestamp(this.#now);
   readonly #convoIdToRecipientId = new Map<string, bigint>();
@@ -307,14 +312,11 @@ export class BackupExportStream extends Readable {
 
   // Map from custom color uuid to an index in accountSettings.customColors
   // array.
-  #customColorIdByUuid = new Map<string, bigint>();
+  readonly #customColorIdByUuid = new Map<string, bigint>();
 
-  constructor(
-    private readonly options: Readonly<BackupExportOptions> & {
-      validationRun?: boolean;
-    }
-  ) {
+  constructor(options: Options) {
     super();
+    this.#options = options;
   }
 
   async #cleanupAfterError() {
@@ -345,7 +347,7 @@ export class BackupExportStream extends Readable {
           await this.#unsafeRun();
           await resumeWriteAccess();
           // TODO (DESKTOP-7344): Clear & add backup jobs in a single transaction
-          const { type } = this.options;
+          const { type } = this.#options;
           switch (type) {
             case 'remote':
               log.info(
@@ -417,7 +419,7 @@ export class BackupExportStream extends Readable {
       debugInfo: null,
     };
 
-    if (this.options.type === 'plaintext-export') {
+    if (this.#options.type === 'plaintext-export') {
       const { exporter, chunk: initialChunk } = BackupJsonExporter.start(
         Backups.BackupInfo.encode(backupInfo),
         { validate: false }
@@ -876,7 +878,7 @@ export class BackupExportStream extends Readable {
       this.#stats.messages += 1;
 
       if (
-        this.options.validationRun ||
+        this.#options.validationRun ||
         this.#stats.messages % FLUSH_EVERY === 0
       ) {
         // flush every chatItem to expose all validation errors
@@ -912,7 +914,7 @@ export class BackupExportStream extends Readable {
 
   #pushFrame(frame: Backups.Frame.Params['item']): void {
     const encodedFrame = Backups.Frame.encode({ item: frame });
-    if (this.options.type === 'plaintext-export') {
+    if (this.#options.type === 'plaintext-export') {
       const delimitedFrame = Buffer.concat(encodeDelimited(encodedFrame));
       strictAssert(
         this.#jsonExporter != null,
@@ -1586,7 +1588,7 @@ export class BackupExportStream extends Readable {
     }
 
     if (message.expireTimer) {
-      if (this.options.type === 'plaintext-export') {
+      if (this.#options.type === 'plaintext-export') {
         // All disappearing messages are excluded in plaintext export
         return undefined;
       }
@@ -3326,15 +3328,15 @@ export class BackupExportStream extends Readable {
   }): Promise<Backups.FilePointer.Params> {
     const { filePointer, backupJob } = await getFilePointerForAttachment({
       attachment,
-      backupOptions: this.options,
+      backupOptions: this.#options,
       messageReceivedAt,
       getBackupCdnInfo,
     });
 
     let mediaName: string | undefined;
     if (
-      this.options.type === 'local-encrypted' ||
-      this.options.type === 'plaintext-export'
+      this.#options.type === 'local-encrypted' ||
+      this.#options.type === 'plaintext-export'
     ) {
       if (hasRequiredInformationForLocalBackup(attachment)) {
         mediaName = getLocalBackupFileNameForAttachment(attachment);
@@ -3688,7 +3690,7 @@ export class BackupExportStream extends Readable {
     // Integration tests use the 'link-and-sync' version of export, which will include
     // view-once attachments
     const shouldIncludeAttachments =
-      this.options.type !== 'plaintext-export' && isTestOrMockEnvironment();
+      this.#options.type !== 'plaintext-export' && isTestOrMockEnvironment();
     return {
       attachment:
         !shouldIncludeAttachments || attachment == null

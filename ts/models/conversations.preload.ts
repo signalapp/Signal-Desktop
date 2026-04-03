@@ -362,9 +362,9 @@ export class ConversationModel {
 
   #lastIsTyping?: boolean;
   #muteTimer?: NodeJS.Timeout;
-  #privVerifiedEnum?: typeof signalProtocolStore.VerifiedStatus;
+  readonly #privVerifiedEnum?: typeof signalProtocolStore.VerifiedStatus;
   #isShuttingDown = false;
-  #savePromises = new Set<Promise<void>>();
+  readonly #savePromises = new Set<Promise<void>>();
 
   public get id(): string {
     return this.#_attributes.id;
@@ -593,7 +593,7 @@ export class ConversationModel {
   ): Promise<Proto.GroupChange.Actions.Params | undefined> {
     const idLog = this.idForLogging();
     const current = this.get('expireTimer');
-    const bothFalsey = Boolean(current) === false && Boolean(seconds) === false;
+    const bothFalsey = !current && !seconds;
 
     if (current === seconds || bothFalsey) {
       log.warn(
@@ -4100,8 +4100,8 @@ export class ConversationModel {
     const { clearUnreadMetrics } = window.reduxActions.conversations;
     clearUnreadMetrics(this.id);
 
-    const enabledProfileSharing = Boolean(!this.get('profileSharing'));
-    const unarchivedConversation = Boolean(this.get('isArchived'));
+    const enabledProfileSharing = !this.get('profileSharing');
+    const unarchivedConversation = this.get('isArchived');
 
     log.info(
       `beforeMessageSend(${this.idForLogging()}): ` +
@@ -4619,12 +4619,12 @@ export class ConversationModel {
   }
 
   setMarkedUnread(markedUnread: boolean): void {
-    const previousMarkedUnread = this.get('markedUnread');
+    const previousMarkedUnread = this.get('markedUnread') ?? false;
 
     this.set({ markedUnread });
     drop(DataWriter.updateConversation(this.attributes));
 
-    if (Boolean(previousMarkedUnread) !== Boolean(markedUnread)) {
+    if (previousMarkedUnread !== markedUnread) {
       this.captureChange('markedUnread');
     }
   }
@@ -5089,9 +5089,7 @@ export class ConversationModel {
     }
 
     const ourGroups =
-      await window.ConversationController.getAllGroupsInvolvingServiceId(
-        ourAci
-      );
+      window.ConversationController.getAllGroupsInvolvingServiceId(ourAci);
     return ourGroups
       .filter(c => c.hasMember(ourAci) && c.hasMember(theirAci))
       .sort(

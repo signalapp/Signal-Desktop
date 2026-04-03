@@ -121,6 +121,7 @@ function validateIdentityKey(attrs: unknown): attrs is IdentityKeyType {
  */
 function formatKeys(keys: Array<number>): string {
   return formatGroups(
+    // oxlint-disable-next-line typescript/require-array-sort-compare
     groupWhile(keys.sort(), (a, b) => a + 1 === b).slice(0, 10),
     '-',
     ', ',
@@ -246,9 +247,9 @@ export class SignalProtocolStore extends EventEmitter {
 
   // Cached values
 
-  #ourIdentityKeys = new Map<ServiceIdString, KeyPairType>();
+  readonly #ourIdentityKeys = new Map<ServiceIdString, KeyPairType>();
 
-  #ourRegistrationIds = new Map<ServiceIdString, number>();
+  readonly #ourRegistrationIds = new Map<ServiceIdString, number>();
   #cachedPniSignatureMessage: PniSignatureMessageType | undefined;
 
   identityKeys?: Map<

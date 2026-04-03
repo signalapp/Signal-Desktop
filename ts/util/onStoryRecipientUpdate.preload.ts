@@ -88,7 +88,7 @@ export async function onStoryRecipientUpdate(
             existing.add(convo.id);
           }
         }
-        isAllowedToReply.set(convo.id, item.isAllowedToReply !== false);
+        isAllowedToReply.set(convo.id, item.isAllowedToReply);
       });
 
       const ourConversationId =

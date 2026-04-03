@@ -38,8 +38,8 @@ function toState(state: State, cell: Cell | null): State {
 }
 
 export class GridKeyboardDelegate extends KeyboardDelegate<State> {
-  #virtualizer: Virtualizer<HTMLDivElement, HTMLDivElement>;
-  #layout: Layout;
+  readonly #virtualizer: Virtualizer<HTMLDivElement, HTMLDivElement>;
+  readonly #layout: Layout;
 
   constructor(
     virtualizer: Virtualizer<HTMLDivElement, HTMLDivElement>,

@@ -12,7 +12,7 @@ const { noop } = lodash;
  */
 class GlobalMessageAudio {
   // oxlint-disable-next-line no-undef FIXME
-  #audio: HTMLAudioElement = new Audio();
+  readonly #audio: HTMLAudioElement = new Audio();
   #url: string | undefined;
 
   // true immediately after play() is called, even if still loading

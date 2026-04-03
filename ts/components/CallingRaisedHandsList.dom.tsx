@@ -42,7 +42,7 @@ export function CallingRaisedHandsList({
     : undefined;
 
   const participants = React.useMemo<Array<ConversationType>>(() => {
-    const serviceIds: Set<ServiceIdString> = new Set();
+    const serviceIds = new Set<ServiceIdString>();
     const conversations: Array<ConversationType> = [];
     raisedHands.forEach(demuxId => {
       const conversation = conversationsByDemuxId.get(demuxId);

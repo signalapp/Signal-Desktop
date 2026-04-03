@@ -297,7 +297,7 @@ export const TextAttachment = forwardRef<HTMLTextAreaElement, PropsType>(
               )}
               <StoryLinkPreview
                 {...textAttachment.preview}
-                domain={getSafeDomain(String(textAttachment.preview.url))}
+                domain={getSafeDomain(textAttachment.preview.url)}
                 forceCompactMode={getTextSize(textContent) !== TextSize.Large}
                 i18n={i18n}
                 title={textAttachment.preview.title || undefined}

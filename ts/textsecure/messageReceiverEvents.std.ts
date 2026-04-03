@@ -50,16 +50,12 @@ export type TypingEventConfig = {
 // oxlint-disable-next-line max-classes-per-file
 export class TypingEvent extends Event {
   public readonly sender?: string;
-
   public readonly senderAci?: AciString;
-
   public readonly senderDevice: number;
-
   public readonly typing: TypingEventData;
 
   constructor({ sender, senderAci, senderDevice, typing }: TypingEventConfig) {
     super('typing');
-
     this.sender = sender;
     this.senderAci = senderAci;
     this.senderDevice = senderDevice;
@@ -68,32 +64,50 @@ export class TypingEvent extends Event {
 }
 
 export class ErrorEvent extends Event {
-  constructor(public readonly error: Error) {
+  public readonly error: Error;
+
+  constructor(error: Error) {
     super('error');
+    this.error = error;
   }
 }
 
 export class ContactSyncEvent extends Event {
+  public readonly contactAttachment: ProcessedAttachment;
+  public readonly complete: boolean;
+  public readonly receivedAtCounter: number;
+  public readonly sentAt: number;
+
   constructor(
-    public readonly contactAttachment: ProcessedAttachment,
-    public readonly complete: boolean,
-    public readonly receivedAtCounter: number,
-    public readonly sentAt: number
+    contactAttachment: ProcessedAttachment,
+    complete: boolean,
+    receivedAtCounter: number,
+    sentAt: number
   ) {
     super('contactSync');
+    this.contactAttachment = contactAttachment;
+    this.complete = complete;
+    this.receivedAtCounter = receivedAtCounter;
+    this.sentAt = sentAt;
   }
 }
 
 // Emitted right before we do full decrypt on a message, but after Sealed Sender unseal
 export class EnvelopeUnsealedEvent extends Event {
-  constructor(public readonly envelope: ProcessedEnvelope) {
+  public readonly envelope: ProcessedEnvelope;
+
+  constructor(envelope: ProcessedEnvelope) {
     super('envelopeUnsealed');
+    this.envelope = envelope;
   }
 }
 
 export class EnvelopeQueuedEvent extends Event {
-  constructor(public readonly envelope: ProcessedEnvelope) {
+  public readonly envelope: ProcessedEnvelope;
+
+  constructor(envelope: ProcessedEnvelope) {
     super('envelopeQueued');
+    this.envelope = envelope;
   }
 }
 
@@ -104,11 +118,11 @@ export class EnvelopeQueuedEvent extends Event {
 export type ConfirmCallback = () => void;
 
 export class ConfirmableEvent extends Event {
-  constructor(
-    type: string,
-    public readonly confirm: ConfirmCallback
-  ) {
+  public readonly confirm: ConfirmCallback;
+
+  constructor(type: string, confirm: ConfirmCallback) {
     super(type);
+    this.confirm = confirm;
   }
 }
 
@@ -121,13 +135,20 @@ export type DeliveryEventData = Readonly<{
 }>;
 
 export class DeliveryEvent extends ConfirmableEvent {
+  public readonly deliveryReceipts: ReadonlyArray<DeliveryEventData>;
+  public readonly envelopeId: string;
+  public readonly envelopeTimestamp: number;
+
   constructor(
-    public readonly deliveryReceipts: ReadonlyArray<DeliveryEventData>,
-    public readonly envelopeId: string,
-    public readonly envelopeTimestamp: number,
+    deliveryReceipts: ReadonlyArray<DeliveryEventData>,
+    envelopeId: string,
+    envelopeTimestamp: number,
     confirm: ConfirmCallback
   ) {
     super('delivery', confirm);
+    this.deliveryReceipts = deliveryReceipts;
+    this.envelopeId = envelopeId;
+    this.envelopeTimestamp = envelopeTimestamp;
   }
 }
 
@@ -138,8 +159,11 @@ export type SuccessfulDecryptEventData = Readonly<{
 }>;
 
 export class SuccessfulDecryptEvent extends Event {
-  constructor(public readonly data: SuccessfulDecryptEventData) {
+  public readonly data: SuccessfulDecryptEventData;
+
+  constructor(data: SuccessfulDecryptEventData) {
     super('successful-decrypt');
+    this.data = data;
   }
 }
 
@@ -156,11 +180,13 @@ export type DecryptionErrorEventData = Readonly<{
 }>;
 
 export class DecryptionErrorEvent extends ConfirmableEvent {
+  public readonly decryptionError: DecryptionErrorEventData;
   constructor(
-    public readonly decryptionError: DecryptionErrorEventData,
+    decryptionError: DecryptionErrorEventData,
     confirm: ConfirmCallback
   ) {
     super('decryption-error', confirm);
+    this.decryptionError = decryptionError;
   }
 }
 
@@ -171,8 +197,11 @@ export type InvalidPlaintextEventData = Readonly<{
 }>;
 
 export class InvalidPlaintextEvent extends Event {
-  constructor(public readonly data: InvalidPlaintextEventData) {
+  public readonly data: InvalidPlaintextEventData;
+
+  constructor(data: InvalidPlaintextEventData) {
     super('invalid-plaintext');
+    this.data = data;
   }
 }
 
@@ -186,11 +215,11 @@ export type RetryRequestEventData = Readonly<{
 }>;
 
 export class RetryRequestEvent extends ConfirmableEvent {
-  constructor(
-    public readonly retryRequest: RetryRequestEventData,
-    confirm: ConfirmCallback
-  ) {
+  public readonly retryRequest: RetryRequestEventData;
+
+  constructor(retryRequest: RetryRequestEventData, confirm: ConfirmCallback) {
     super('retry-request', confirm);
+    this.retryRequest = retryRequest;
   }
 }
 
@@ -211,11 +240,11 @@ export type SentEventData = Readonly<{
 }>;
 
 export class SentEvent extends ConfirmableEvent {
-  constructor(
-    public readonly data: SentEventData,
-    confirm: ConfirmCallback
-  ) {
+  public readonly data: SentEventData;
+
+  constructor(data: SentEventData, confirm: ConfirmCallback) {
     super('sent', confirm);
+    this.data = data;
   }
 }
 
@@ -226,12 +255,18 @@ export type ProfileKeyUpdateData = Readonly<{
 }>;
 
 export class ProfileKeyUpdateEvent extends ConfirmableEvent {
+  public readonly data: ProfileKeyUpdateData;
+  public readonly reason: string;
+
   constructor(
-    public readonly data: ProfileKeyUpdateData,
-    public readonly reason: string,
+    data: ProfileKeyUpdateData,
+    reason: string,
     confirm: ConfirmCallback
   ) {
     super('profileKeyUpdate', confirm);
+
+    this.data = data;
+    this.reason = reason;
   }
 }
 
@@ -251,11 +286,11 @@ export type MessageEventData = Readonly<{
 }>;
 
 export class MessageEvent extends ConfirmableEvent {
-  constructor(
-    public readonly data: MessageEventData,
-    confirm: ConfirmCallback
-  ) {
+  public readonly data: MessageEventData;
+
+  constructor(data: MessageEventData, confirm: ConfirmCallback) {
     super('message', confirm);
+    this.data = data;
   }
 }
 
@@ -268,33 +303,51 @@ export type ReadOrViewEventData = Readonly<{
 }>;
 
 export class ReadEvent extends ConfirmableEvent {
+  public readonly receipts: ReadonlyArray<ReadOrViewEventData>;
+  public readonly envelopeId: string;
+  public readonly envelopeTimestamp: number;
+
   constructor(
-    public readonly receipts: ReadonlyArray<ReadOrViewEventData>,
-    public readonly envelopeId: string,
-    public readonly envelopeTimestamp: number,
+    receipts: ReadonlyArray<ReadOrViewEventData>,
+    envelopeId: string,
+    envelopeTimestamp: number,
     confirm: ConfirmCallback
   ) {
     super('read', confirm);
+
+    this.receipts = receipts;
+    this.envelopeId = envelopeId;
+    this.envelopeTimestamp = envelopeTimestamp;
   }
 }
 
 export class ViewEvent extends ConfirmableEvent {
+  public readonly receipts: ReadonlyArray<ReadOrViewEventData>;
+  public readonly envelopeId: string;
+  public readonly envelopeTimestamp: number;
+
   constructor(
-    public readonly receipts: ReadonlyArray<ReadOrViewEventData>,
-    public readonly envelopeId: string,
-    public readonly envelopeTimestamp: number,
+    receipts: ReadonlyArray<ReadOrViewEventData>,
+    envelopeId: string,
+    envelopeTimestamp: number,
     confirm: ConfirmCallback
   ) {
     super('view', confirm);
+    this.receipts = receipts;
+    this.envelopeId = envelopeId;
+    this.envelopeTimestamp = envelopeTimestamp;
   }
 }
 
 export class ConfigurationEvent extends ConfirmableEvent {
+  public readonly configuration: Proto.SyncMessage.Configuration;
+
   constructor(
-    public readonly configuration: Proto.SyncMessage.Configuration,
+    configuration: Proto.SyncMessage.Configuration,
     confirm: ConfirmCallback
   ) {
     super('configuration', confirm);
+    this.configuration = configuration;
   }
 }
 
@@ -315,7 +368,6 @@ export class ViewOnceOpenSyncEvent extends ConfirmableEvent {
     confirm: ConfirmCallback
   ) {
     super('viewOnceOpenSync', confirm);
-
     this.sourceAci = sourceAci;
     this.timestamp = timestamp;
     this.envelopeTimestamp = envelopeTimestamp;
@@ -336,19 +388,12 @@ export type MessageRequestResponseOptions = {
 
 export class MessageRequestResponseEvent extends ConfirmableEvent {
   public readonly threadAci?: AciString;
-
   public readonly messageRequestResponseType?: MessageRequestResponseOptions['messageRequestResponseType'];
-
   public readonly groupId?: string;
-
   public readonly groupV2Id?: string;
-
   public readonly envelopeId?: string;
-
   public readonly receivedAtMs: number;
-
   public readonly receivedAtCounter: number;
-
   public readonly sentAt: number;
 
   constructor(
@@ -365,7 +410,6 @@ export class MessageRequestResponseEvent extends ConfirmableEvent {
     confirm: ConfirmCallback
   ) {
     super('messageRequestResponse', confirm);
-
     this.envelopeId = envelopeId;
     this.threadAci = threadAci;
     this.messageRequestResponseType = messageRequestResponseType;
@@ -378,11 +422,14 @@ export class MessageRequestResponseEvent extends ConfirmableEvent {
 }
 
 export class FetchLatestEvent extends ConfirmableEvent {
+  public readonly eventType: Proto.SyncMessage.FetchLatest['type'];
+
   constructor(
-    public readonly eventType: Proto.SyncMessage.FetchLatest['type'],
+    eventType: Proto.SyncMessage.FetchLatest['type'],
     confirm: ConfirmCallback
   ) {
     super('fetchLatest', confirm);
+    this.eventType = eventType;
   }
 }
 
@@ -402,7 +449,6 @@ export class KeysEvent extends ConfirmableEvent {
     confirm: ConfirmCallback
   ) {
     super('keys', confirm);
-
     this.masterKey = masterKey;
     this.accountEntropyPool = accountEntropyPool;
     this.mediaRootBackupKey = mediaRootBackupKey;
@@ -417,11 +463,14 @@ export type StickerPackEventData = Readonly<{
 }>;
 
 export class StickerPackEvent extends ConfirmableEvent {
+  public readonly stickerPacks: ReadonlyArray<StickerPackEventData>;
+
   constructor(
-    public readonly stickerPacks: ReadonlyArray<StickerPackEventData>,
+    stickerPacks: ReadonlyArray<StickerPackEventData>,
     confirm: ConfirmCallback
   ) {
     super('sticker-pack', confirm);
+    this.stickerPacks = stickerPacks;
   }
 }
 
@@ -434,13 +483,20 @@ export type ReadSyncEventData = Readonly<{
 }>;
 
 export class ReadSyncEvent extends ConfirmableEvent {
+  public readonly reads: ReadonlyArray<ReadSyncEventData>;
+  public readonly envelopeId: string;
+  public readonly envelopeTimestamp: number;
+
   constructor(
-    public readonly reads: ReadonlyArray<ReadSyncEventData>,
-    public readonly envelopeId: string,
-    public readonly envelopeTimestamp: number,
+    reads: ReadonlyArray<ReadSyncEventData>,
+    envelopeId: string,
+    envelopeTimestamp: number,
     confirm: ConfirmCallback
   ) {
     super('readSync', confirm);
+    this.reads = reads;
+    this.envelopeId = envelopeId;
+    this.envelopeTimestamp = envelopeTimestamp;
   }
 }
 
@@ -451,13 +507,20 @@ export type ViewSyncEventData = Readonly<{
 }>;
 
 export class ViewSyncEvent extends ConfirmableEvent {
+  public readonly views: ReadonlyArray<ViewSyncEventData>;
+  public readonly envelopeId: string;
+  public readonly envelopeTimestamp: number;
+
   constructor(
-    public readonly views: ReadonlyArray<ViewSyncEventData>,
-    public readonly envelopeId: string,
-    public readonly envelopeTimestamp: number,
+    views: ReadonlyArray<ViewSyncEventData>,
+    envelopeId: string,
+    envelopeTimestamp: number,
     confirm: ConfirmCallback
   ) {
     super('viewSync', confirm);
+    this.views = views;
+    this.envelopeId = envelopeId;
+    this.envelopeTimestamp = envelopeTimestamp;
   }
 }
 
@@ -468,11 +531,11 @@ export type CallEventSyncEventData = Readonly<{
 }>;
 
 export class CallEventSyncEvent extends ConfirmableEvent {
-  constructor(
-    public readonly callEvent: CallEventSyncEventData,
-    confirm: ConfirmCallback
-  ) {
+  public readonly callEvent: CallEventSyncEventData;
+
+  constructor(callEvent: CallEventSyncEventData, confirm: ConfirmCallback) {
     super('callEventSync', confirm);
+    this.callEvent = callEvent;
   }
 }
 
@@ -483,11 +546,14 @@ export type CallLinkUpdateSyncEventData = Readonly<{
 }>;
 
 export class CallLinkUpdateSyncEvent extends ConfirmableEvent {
+  public readonly callLinkUpdate: CallLinkUpdateSyncEventData;
+
   constructor(
-    public readonly callLinkUpdate: CallLinkUpdateSyncEventData,
+    callLinkUpdate: CallLinkUpdateSyncEventData,
     confirm: ConfirmCallback
   ) {
     super('callLinkUpdateSync', confirm);
+    this.callLinkUpdate = callLinkUpdate;
   }
 }
 
@@ -581,13 +647,21 @@ export type DeleteForMeSyncTarget = z.infer<typeof deleteForMeSyncTargetSchema>;
 export type DeleteForMeSyncEventData = ReadonlyArray<DeleteForMeSyncTarget>;
 
 export class DeleteForMeSyncEvent extends ConfirmableEvent {
+  public readonly deleteForMeSync: DeleteForMeSyncEventData;
+  public readonly timestamp: number;
+  public readonly envelopeId: string;
+
   constructor(
-    public readonly deleteForMeSync: DeleteForMeSyncEventData,
-    public readonly timestamp: number,
-    public readonly envelopeId: string,
+    deleteForMeSync: DeleteForMeSyncEventData,
+    timestamp: number,
+    envelopeId: string,
     confirm: ConfirmCallback
   ) {
     super('deleteForMeSync', confirm);
+
+    this.deleteForMeSync = deleteForMeSync;
+    this.timestamp = timestamp;
+    this.envelopeId = envelopeId;
   }
 }
 
@@ -616,13 +690,20 @@ export type AttachmentBackfillResponseSyncEventData = Readonly<
 >;
 
 export class AttachmentBackfillResponseSyncEvent extends ConfirmableEvent {
+  public readonly response: AttachmentBackfillResponseSyncEventData;
+  public readonly timestamp: number;
+  public readonly envelopeId: string;
+
   constructor(
-    public readonly response: AttachmentBackfillResponseSyncEventData,
-    public readonly timestamp: number,
-    public readonly envelopeId: string,
+    response: AttachmentBackfillResponseSyncEventData,
+    timestamp: number,
+    envelopeId: string,
     confirm: ConfirmCallback
   ) {
     super('attachmentBackfillResponseSync', confirm);
+    this.response = response;
+    this.timestamp = timestamp;
+    this.envelopeId = envelopeId;
   }
 }
 
@@ -632,11 +713,11 @@ export type CallLogEventSyncEventData = Readonly<{
 }>;
 
 export class CallLogEventSyncEvent extends ConfirmableEvent {
-  constructor(
-    public readonly data: CallLogEventSyncEventData,
-    confirm: ConfirmCallback
-  ) {
+  public readonly data: CallLogEventSyncEventData;
+
+  constructor(data: CallLogEventSyncEventData, confirm: ConfirmCallback) {
     super('callLogEventSync', confirm);
+    this.data = data;
   }
 }
 
@@ -647,10 +728,10 @@ export type StoryRecipientUpdateData = Readonly<{
 }>;
 
 export class StoryRecipientUpdateEvent extends ConfirmableEvent {
-  constructor(
-    public readonly data: StoryRecipientUpdateData,
-    confirm: ConfirmCallback
-  ) {
+  public readonly data: StoryRecipientUpdateData;
+
+  constructor(data: StoryRecipientUpdateData, confirm: ConfirmCallback) {
     super('storyRecipientUpdate', confirm);
+    this.data = data;
   }
 }

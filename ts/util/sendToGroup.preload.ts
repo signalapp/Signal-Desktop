@@ -484,6 +484,7 @@ export async function sendToGroupViaSenderKey(
       //   want the successful SKDM sends to be considered an overall success.
       if (error instanceof SendMessageProtoError) {
         throw new SendMessageProtoError({
+          // oxlint-disable-next-line typescript/no-misused-spread
           ...error,
           sendIsNotFinal: true,
         });
@@ -935,6 +936,7 @@ function mergeSendResult({
   senderKeyRecipientsWithDevices: Record<ServiceIdString, Array<number>>;
 }): CallbackResultType {
   return {
+    // oxlint-disable-next-line typescript/no-misused-spread
     ...result,
     successfulServiceIds: [
       ...(result.successfulServiceIds || []),
@@ -1532,7 +1534,7 @@ async function fetchKeysForServiceId(
   groupSendEndorsementState: GroupSendEndorsementState | null
 ): Promise<void> {
   const logId = `fetchKeysForServiceId/${serviceId}`;
-  log.info(`${logId}: Fetching ${devices || 'all'} devices`);
+  log.info(`${logId}: Fetching ${devices?.join(', ') || 'all'} devices`);
 
   const emptyConversation = window.ConversationController.getOrCreate(
     serviceId,
@@ -1591,7 +1593,7 @@ async function fetchKeysForServiceId(
       }
     }
     log.error(
-      `${logId}: Error fetching ${devices || 'all'} devices`,
+      `${logId}: Error fetching ${devices?.join(', ') || 'all'} devices`,
       Errors.toLogFormat(error)
     );
     throw error;

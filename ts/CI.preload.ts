@@ -216,7 +216,7 @@ export function getCI({
     const { error } =
       await backupsService.stageLocalBackupForImport(snapshotDir);
     if (error) {
-      throw error;
+      throw new Error(error);
     }
   }
 

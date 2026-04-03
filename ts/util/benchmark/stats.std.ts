@@ -88,10 +88,11 @@ export function regress(samples: ReadonlyArray<Sample>): Regression {
 
   // Within each iteration bin identify the outliers for reporting purposes.
   for (const [, ys] of bins) {
+    // oxlint-disable-next-line typescript/require-array-sort-compare
     ys.sort();
 
     const p25 = ys[Math.floor(ys.length * 0.25)] ?? -Infinity;
-    const p75 = ys[Math.ceil(ys.length * 0.75)] ?? +Infinity;
+    const p75 = ys[Math.ceil(ys.length * 0.75)] ?? Infinity;
     const iqr = p75 - p25;
 
     const outlierLow = p25 - iqr * 1.5;

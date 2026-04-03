@@ -642,12 +642,11 @@ function HeaderDropdownMenuContent({
 }) {
   const muteOptions = getMuteOptions(conversation.muteExpiresAt, i18n);
   const isGroup = conversation.type === 'group';
-  const disableTimerChanges = Boolean(
+  const disableTimerChanges =
     !conversation.canChangeTimer ||
     !conversation.acceptedMessageRequest ||
     conversation.left ||
-    isMissingMandatoryProfileSharing
-  );
+    isMissingMandatoryProfileSharing;
   const hasGV2AdminEnabled = isGroup && conversation.groupVersion === 2;
 
   const disappearingMessagesValue = useMemo(() => {

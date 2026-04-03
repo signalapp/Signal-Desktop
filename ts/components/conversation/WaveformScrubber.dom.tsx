@@ -76,11 +76,11 @@ export const WaveformScrubber = React.forwardRef(function WaveformScrubber(
     let increment: number;
 
     if (event.key === 'ArrowUp' || event.key === arrow('end')) {
-      increment = +SMALL_INCREMENT;
+      increment = SMALL_INCREMENT;
     } else if (event.key === 'ArrowDown' || event.key === arrow('start')) {
       increment = -SMALL_INCREMENT;
     } else if (event.key === 'PageUp') {
-      increment = +BIG_INCREMENT;
+      increment = BIG_INCREMENT;
     } else if (event.key === 'PageDown') {
       increment = -BIG_INCREMENT;
     } else {

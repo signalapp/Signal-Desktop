@@ -78,16 +78,25 @@ export type ActiveJobData<CoreJobType> = {
 };
 
 export abstract class JobManager<CoreJobType> {
-  #enabled: boolean = false;
-  #activeJobs: Map<string, ActiveJobData<CoreJobType>> = new Map();
-  #jobStartPromises: Map<string, ExplodePromiseResultType<void>> = new Map();
-  #jobCompletePromises: Map<string, ExplodePromiseResultType<void>> = new Map();
+  protected readonly params: JobManagerParamsType<CoreJobType>;
+  #enabled = false;
+  readonly #activeJobs = new Map<string, ActiveJobData<CoreJobType>>();
+  readonly #jobStartPromises = new Map<
+    string,
+    ExplodePromiseResultType<void>
+  >();
+  readonly #jobCompletePromises = new Map<
+    string,
+    ExplodePromiseResultType<void>
+  >();
   #tickTimeout: NodeJS.Timeout | null = null;
   #idleCallbacks = new Array<() => void>();
 
   protected logPrefix = 'JobManager';
   public tickInterval = DEFAULT_TICK_INTERVAL;
-  constructor(readonly params: JobManagerParamsType<CoreJobType>) {}
+  constructor(params: JobManagerParamsType<CoreJobType>) {
+    this.params = params;
+  }
 
   async start(): Promise<void> {
     log.info(`${this.logPrefix}: starting`);

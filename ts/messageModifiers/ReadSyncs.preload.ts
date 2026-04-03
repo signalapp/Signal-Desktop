@@ -63,7 +63,7 @@ async function maybeItIsAReactionReadSync(
 
   const readReaction = await DataWriter.markReactionAsRead(
     readSync.senderAci,
-    Number(readSync.timestamp)
+    readSync.timestamp
   );
 
   if (

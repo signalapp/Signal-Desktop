@@ -559,7 +559,7 @@ export function Preferences({
   localeOverride,
   theme,
   themeSetting,
-  universalExpireTimer = DurationInSeconds.ZERO,
+  universalExpireTimer,
   validateBackup,
   whoCanFindMe,
   whoCanSeeMe,
@@ -660,7 +660,7 @@ export function Preferences({
 
   const handleContentProtectionChange = useCallback(
     (value: boolean) => {
-      if (value === true || !isContentProtectionNeeded) {
+      if (value || !isContentProtectionNeeded) {
         onContentProtectionChange(value);
       } else {
         setConfirmContentProtection(true);
@@ -1969,7 +1969,7 @@ export function Preferences({
       <>
         <SettingsRow title={i18n('icu:Preferences__media-auto-download')}>
           <Checkbox
-            checked={autoDownloadAttachment.photos !== false}
+            checked={autoDownloadAttachment.photos}
             label={i18n('icu:Preferences__media-auto-download__photos')}
             moduleClassName="Preferences__checkbox"
             name="autoLaunch"
@@ -1981,7 +1981,7 @@ export function Preferences({
             }
           />
           <Checkbox
-            checked={autoDownloadAttachment.videos !== false}
+            checked={autoDownloadAttachment.videos}
             label={i18n('icu:Preferences__media-auto-download__videos')}
             moduleClassName="Preferences__checkbox"
             name="autoLaunch"
@@ -1993,7 +1993,7 @@ export function Preferences({
             }
           />
           <Checkbox
-            checked={autoDownloadAttachment.audio !== false}
+            checked={autoDownloadAttachment.audio}
             label={i18n('icu:Preferences__media-auto-download__audio')}
             moduleClassName="Preferences__checkbox"
             name="autoLaunch"
@@ -2005,7 +2005,7 @@ export function Preferences({
             }
           />
           <Checkbox
-            checked={autoDownloadAttachment.documents !== false}
+            checked={autoDownloadAttachment.documents}
             label={i18n('icu:Preferences__media-auto-download__documents')}
             moduleClassName="Preferences__checkbox"
             name="autoLaunch"

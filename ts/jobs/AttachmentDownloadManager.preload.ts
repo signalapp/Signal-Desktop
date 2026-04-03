@@ -171,9 +171,9 @@ function getJobIdForLogging(job: CoreAttachmentDownloadJobType): string {
 }
 
 export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownloadJobType> {
-  #visibleTimelineMessages: Set<string> = new Set();
+  #visibleTimelineMessages = new Set<string>();
 
-  #saveJobsBatcher = createBatcher<AttachmentDownloadJobType>({
+  readonly #saveJobsBatcher = createBatcher<AttachmentDownloadJobType>({
     name: 'saveAttachmentDownloadJobs',
     wait: 150,
     maxSize: 1000,
@@ -183,15 +183,15 @@ export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownload
     },
   });
 
-  #onLowDiskSpaceBackupImport: (bytesNeeded: number) => Promise<void>;
-  #getMessageQueueTime: () => number;
-  #hasMediaBackups: () => boolean;
-  #statfs: typeof statfs;
-  #maxAttachmentSize: number;
-  #maxTextAttachmentSize: number;
-  #minimumFreeDiskSpace: number;
+  readonly #onLowDiskSpaceBackupImport: (bytesNeeded: number) => Promise<void>;
+  readonly #getMessageQueueTime: () => number;
+  readonly #hasMediaBackups: () => boolean;
+  readonly #statfs: typeof statfs;
+  readonly #maxAttachmentSize: number;
+  readonly #maxTextAttachmentSize: number;
+  readonly #minimumFreeDiskSpace: number;
 
-  #attachmentBackfill = new AttachmentBackfill();
+  readonly #attachmentBackfill = new AttachmentBackfill();
 
   private static _instance: AttachmentDownloadManager | undefined;
   override logPrefix = 'AttachmentDownloadManager';

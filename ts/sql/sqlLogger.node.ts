@@ -12,7 +12,7 @@ import { consoleLogger } from '../util/consoleLogger.std.ts';
 import { strictAssert } from '../util/assert.std.ts';
 
 class SQLLogger {
-  #msgPrefix: string;
+  readonly #msgPrefix: string;
 
   constructor(msgPrefix: string) {
     this.#msgPrefix = msgPrefix;
@@ -47,6 +47,7 @@ class SQLLogger {
       const wrappedResponse: WrappedWorkerResponse = {
         type: 'log',
         level,
+        // oxlint-disable-next-line typescript/restrict-plus-operands
         args: ([this.#msgPrefix + fmt] as Array<unknown>).concat(rest),
       };
       parentPort.postMessage(wrappedResponse);

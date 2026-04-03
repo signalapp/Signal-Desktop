@@ -19,7 +19,9 @@ export async function afterAllArtifactBuild({
     platform => platform.name
   );
   if (platforms.length !== 1) {
-    console.log(`notarize: Skipping, too many platforms ${platforms}`);
+    console.log(
+      `notarize: Skipping, too many platforms ${platforms.join(', ')}`
+    );
     return;
   }
 
@@ -63,7 +65,9 @@ export async function afterAllArtifactBuild({
     /^.*mac-universal.*\.dmg$/.test(artifactPath)
   );
   if (artifactsToStaple.length !== 1) {
-    console.log(`notarize: Skipping, too many dmgs ${artifactsToStaple}`);
+    console.log(
+      `notarize: Skipping, too many dmgs ${artifactsToStaple.join(', ')}`
+    );
     return;
   }
 

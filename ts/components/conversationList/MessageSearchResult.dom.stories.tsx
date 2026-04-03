@@ -49,8 +49,10 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   snippet: overrideProps.snippet || "What's <<left>>going<<right>> on?",
   body: overrideProps.body || "What's going on?",
   bodyRanges: overrideProps.bodyRanges || [],
-  from: overrideProps.from as PropsType['from'],
-  to: overrideProps.to as PropsType['to'],
+  // oxlint-disable-next-line typescript/no-non-null-assertion
+  from: overrideProps.from!,
+  // oxlint-disable-next-line typescript/no-non-null-assertion
+  to: overrideProps.to!,
   getPreferredBadge: overrideProps.getPreferredBadge || (() => undefined),
   isSelected: overrideProps.isSelected || false,
   showConversation: action('showConversation'),

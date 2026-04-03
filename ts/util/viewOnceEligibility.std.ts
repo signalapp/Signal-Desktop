@@ -8,7 +8,7 @@ export function isViewOnceEligible(
   attachments: ReadonlyArray<AttachmentDraftType>,
   hasQuote: boolean
 ): boolean {
-  return Boolean(
+  return (
     attachments.length === 1 &&
     (isImageAttachment(attachments[0]) || isVideoAttachment(attachments[0])) &&
     !hasQuote

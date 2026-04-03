@@ -52,7 +52,7 @@ export class GumVideoCapturer {
   private mediaStream?: MediaStream;
   private spawnedSenderRunning = false;
   private preferredDeviceId?: string;
-  private reportVideoSizeCallback = this.reportVideoSize.bind(this);
+  private readonly reportVideoSizeCallback = this.reportVideoSize.bind(this);
 
   capturing(): boolean {
     return this.captureOptions !== undefined;
@@ -418,7 +418,7 @@ export const MAX_VIDEO_CAPTURE_BUFFER_SIZE = MAX_VIDEO_CAPTURE_AREA * 4;
 export class CanvasVideoRenderer {
   private canvas?: RefObject<HTMLCanvasElement | null>;
   private sizeCallback?: SizeCallbackType;
-  private buffer: Uint8Array<ArrayBuffer>;
+  private readonly buffer: Uint8Array<ArrayBuffer>;
   private imageData?: ImageData;
   private source?: VideoFrameSource;
   private rafId?: ReturnType<typeof requestAnimationFrame>;

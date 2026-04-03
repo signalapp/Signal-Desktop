@@ -386,7 +386,7 @@ export function ProfileEditor({
           onChange={newFirstName => {
             setStagedProfile(profileData => ({
               ...profileData,
-              firstName: String(newFirstName),
+              firstName: newFirstName,
             }));
           }}
           placeholder={i18n('icu:ProfileEditor--first-name')}

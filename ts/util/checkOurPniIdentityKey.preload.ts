@@ -18,7 +18,7 @@ export async function checkOurPniIdentityKey(): Promise<void> {
     return;
   }
 
-  const localKeyPair = await signalProtocolStore.getIdentityKeyPair(ourPni);
+  const localKeyPair = signalProtocolStore.getIdentityKeyPair(ourPni);
   if (!localKeyPair) {
     log.warn(`no local key pair for ${ourPni}, unlinking`);
     window.Whisper.events.emit('unlinkAndDisconnect');

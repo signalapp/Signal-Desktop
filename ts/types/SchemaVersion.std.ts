@@ -6,5 +6,5 @@ import lodash from 'lodash';
 const { isNumber } = lodash;
 
 export const isValid = (value: unknown): value is number => {
-  return Boolean(isNumber(value) && value >= 0);
+  return isNumber(value) && value >= 0;
 };

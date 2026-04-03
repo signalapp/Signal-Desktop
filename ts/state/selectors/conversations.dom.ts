@@ -241,7 +241,7 @@ export const getLastSelectedMessage = createSelector(
 export const getShowArchived = createSelector(
   getConversations,
   (state: ConversationsStateType): boolean => {
-    return Boolean(state.showArchived);
+    return state.showArchived;
   }
 );
 
@@ -679,7 +679,7 @@ function isTrusted(
     conversation.serviceId != null &&
     serviceIdsInGroups.has(conversation.serviceId);
 
-  return Boolean(
+  return (
     isInSystemContacts(conversation) ||
     hasSharedGroups ||
     conversation.profileSharing ||
@@ -704,7 +704,7 @@ function canComposeConversation(
   conversation: ConversationType,
   serviceIdsInGroups: Set<string>
 ): boolean {
-  return Boolean(
+  return (
     !isSignalConversation(conversation) &&
     !conversation.isBlocked &&
     !conversation.removalStage &&
@@ -1150,7 +1150,7 @@ export const getCachedConversationMemberColorsSelector = createSelector(
   ) => {
     return memoizee(
       (conversationId: string | undefined) => {
-        const contactNameColors: Map<string, ContactNameColorType> = new Map();
+        const contactNameColors = new Map<string, ContactNameColorType>();
         const {
           membersV2 = [],
           type,

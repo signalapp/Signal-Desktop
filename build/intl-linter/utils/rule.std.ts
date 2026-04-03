@@ -20,9 +20,7 @@ export type Context = {
   ): void;
 };
 
-export type RuleFactory = {
-  (context: Context): Visitor;
-};
+export type RuleFactory = (context: Context) => Visitor;
 
 export type Rule = {
   id: string;

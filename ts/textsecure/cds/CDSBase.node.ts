@@ -30,11 +30,13 @@ export type CachedAuthType = Readonly<{
 export abstract class CDSBase<
   Options extends CDSBaseOptionsType = CDSBaseOptionsType,
 > {
+  readonly #options: Options;
   protected readonly logger: LoggerType;
   protected proxyAgent?: ProxyAgent;
   protected cachedAuth?: CachedAuthType;
 
-  constructor(protected readonly options: Options) {
+  constructor(options: Options) {
+    this.#options = options;
     this.logger = options.logger;
   }
 
@@ -44,8 +46,8 @@ export abstract class CDSBase<
 
   protected async getAuth(): Promise<CDSAuthType> {
     // Lazily create proxy agent
-    if (!this.proxyAgent && this.options.proxyUrl) {
-      this.proxyAgent = await createProxyAgent(this.options.proxyUrl);
+    if (!this.proxyAgent && this.#options.proxyUrl) {
+      this.proxyAgent = await createProxyAgent(this.#options.proxyUrl);
     }
 
     if (this.cachedAuth) {
@@ -56,7 +58,7 @@ export abstract class CDSBase<
       }
     }
 
-    const auth = await this.options.getAuth();
+    const auth = await this.#options.getAuth();
 
     this.cachedAuth = {
       auth,

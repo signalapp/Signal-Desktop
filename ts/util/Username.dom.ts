@@ -42,10 +42,10 @@ export function isUsernameValid(username: string): boolean {
   if (!discriminator || discriminator.length === 0) {
     return false;
   }
-  if (discriminator[0] === '0' && discriminator[1] === '0') {
+  if (discriminator.startsWith('0') && discriminator[1] === '0') {
     return false;
   }
-  if (discriminator[0] === '0' && discriminator.length !== 2) {
+  if (discriminator.startsWith('0') && discriminator.length !== 2) {
     return false;
   }
 

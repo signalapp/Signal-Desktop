@@ -159,9 +159,8 @@ function renderNode({
   const key = node.start;
 
   if (node.isSpoiler && node.spoilerChildren?.length) {
-    const isSpoilerHidden = Boolean(
-      node.isSpoiler && !isSpoilerExpanded[node.spoilerId || 0]
-    );
+    const isSpoilerHidden =
+      node.isSpoiler && !isSpoilerExpanded[node.spoilerId || 0];
     const content = node.spoilerChildren?.map(spoilerNode =>
       renderNode({
         direction,

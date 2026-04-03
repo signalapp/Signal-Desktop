@@ -66,7 +66,7 @@ export const EMOJI_SKIN_TONE_ORDER: ReadonlyArray<EmojiSkinTone> = [
 ];
 
 /** @deprecated We should use `EmojiSkinTone` everywhere */
-export const EMOJI_SKIN_TONE_TO_NUMBER: Map<EmojiSkinTone, number> = new Map([
+export const EMOJI_SKIN_TONE_TO_NUMBER = new Map<EmojiSkinTone, number>([
   [EmojiSkinTone.None, 0],
   [EmojiSkinTone.Type1, 1],
   [EmojiSkinTone.Type2, 2],
@@ -85,7 +85,7 @@ export const KEY_TO_EMOJI_SKIN_TONE = new Map<string, EmojiSkinTone>([
 ]);
 
 /** @deprecated We should use `EmojiSkinTone` everywhere */
-export const EMOJI_SKIN_TONE_TO_KEY: Map<EmojiSkinTone, string> = new Map([
+export const EMOJI_SKIN_TONE_TO_KEY = new Map<EmojiSkinTone, string>([
   [EmojiSkinTone.Type1, '1F3FB'],
   [EmojiSkinTone.Type2, '1F3FC'],
   [EmojiSkinTone.Type3, '1F3FD'],
@@ -453,7 +453,9 @@ for (const rawEmoji of RAW_EMOJI_DATA) {
       const variantKey = one ?? two;
       if (variantKey == null) {
         const keys = Object.keys(rawEmoji.skin_variations);
-        throw new Error(`Missing variant key ${parentKey} -> ${key} (${keys})`);
+        throw new Error(
+          `Missing variant key ${parentKey} -> ${key} (${keys.join(', ')})`
+        );
       }
       result[skinTone] = variantKey;
       EMOJI_INDEX.variantKeyToSkinTone.set(variantKey, skinTone);

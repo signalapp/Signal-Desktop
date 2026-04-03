@@ -274,6 +274,7 @@ export async function getPreJoinGroupInfo(
   const data = deriveGroupFields(Bytes.fromBase64(masterKeyBase64));
 
   return makeRequestWithCredentials({
+    // oxlint-disable-next-line typescript/restrict-template-expressions
     logId: `getPreJoinInfo/groupv2(${data.id})`,
     publicParams: Bytes.toBase64(data.publicParams),
     secretParams: Bytes.toBase64(data.secretParams),
@@ -1423,7 +1424,7 @@ export function buildPromoteMemberChange({
   group,
   profileKeyCredentialBase64,
   serverPublicParamsBase64,
-  isPendingPniAciProfileKey = false,
+  isPendingPniAciProfileKey,
 }: BuildPromoteMemberChangeOptionsType): Actions.Params {
   if (!group.secretParams) {
     throw new Error(
@@ -1550,7 +1551,9 @@ export async function modifyGroupV2({
         );
 
         if (logIds.length !== 0) {
-          log.info(`modifyGroupV2/${logId}: Fetching profiles for ${logIds}`);
+          log.info(
+            `modifyGroupV2/${logId}: Fetching profiles for ${logIds.join(', ')}`
+          );
         }
 
         // oxlint-disable-next-line no-await-in-loop
@@ -1676,7 +1679,7 @@ export async function modifyGroupV2({
         if (logIds.length !== 0) {
           log.warn(
             `modifyGroupV2/${logId}: Profile key credentials were not ` +
-              `up-to-date. Updating profiles for ${logIds} and retrying`
+              `up-to-date. Updating profiles for ${logIds.join(', ')} and retrying`
           );
         }
 
@@ -1991,7 +1994,7 @@ export async function createGroupV2(
 
     log.warn(
       `createGroupV2/${logId}: Profile key credentials were not ` +
-        `up-to-date. Updating profiles for ${logIds} and retrying`
+        `up-to-date. Updating profiles for ${logIds.join(', ')} and retrying`
     );
 
     return createGroupV2({
@@ -4763,7 +4766,7 @@ function extractDiffs({
   const oldMemberLookup = new Map<AciString, GroupV2MemberType>(
     (old.membersV2 || []).map(member => [member.aci, member])
   );
-  const didWeStartInGroup = Boolean(ourAci && oldMemberLookup.has(ourAci));
+  const didWeStartInGroup = oldMemberLookup.has(ourAci);
 
   const oldPendingMemberLookup = new Map<
     ServiceIdString,
@@ -5828,6 +5831,7 @@ export async function decryptGroupAvatar(
 
   if (blob.content?.avatar == null) {
     throw new Error(
+      // oxlint-disable-next-line typescript/no-base-to-string, typescript/restrict-template-expressions
       `decryptGroupAvatar: Returned blob had incorrect content: ${blob.content}`
     );
   }
@@ -6448,7 +6452,7 @@ function decryptGroupChange(
 
       return {
         added: decrypted,
-        joinFromInviteLink: Boolean(addMember.joinFromInviteLink),
+        joinFromInviteLink: addMember.joinFromInviteLink,
       };
     })
   );
@@ -7001,7 +7005,7 @@ function decryptGroupChange(
   if (actions.modifyAnnouncementsOnly) {
     const { announcementsOnly } = actions.modifyAnnouncementsOnly;
     result.modifyAnnouncementsOnly = {
-      announcementsOnly: Boolean(announcementsOnly),
+      announcementsOnly,
     };
   }
 

@@ -22,7 +22,7 @@ export const SNIPPET_TRUNCATION_PLACEHOLDER = '<<truncation>>';
 export function generateSnippetAroundMention({
   body,
   mentionStart,
-  mentionLength = 1,
+  mentionLength,
   approxSnippetLength = 50,
   maxCharsBeforeHighlight = 30,
 }: {

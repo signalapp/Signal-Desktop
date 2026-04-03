@@ -35,7 +35,7 @@ const MAX_PARALLEL_JOBS = 5;
 const MAX_ATTEMPTS = exponentialBackoffMaxAttempts(MAX_RETRY_TIME);
 
 export class SingleProtoJobQueue extends JobQueue<SingleProtoJobData> {
-  #parallelQueue = new PQueue({ concurrency: MAX_PARALLEL_JOBS });
+  readonly #parallelQueue = new PQueue({ concurrency: MAX_PARALLEL_JOBS });
 
   protected override getQueues(): ReadonlySet<PQueue> {
     return new Set([this.#parallelQueue]);

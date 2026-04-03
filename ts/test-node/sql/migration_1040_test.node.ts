@@ -43,7 +43,7 @@ type UnflattenedAttachmentDownloadJobType = Omit<
 function insertNewJob(
   db: WritableDB,
   job: UnflattenedAttachmentDownloadJobType,
-  addMessageFirst: boolean = true
+  addMessageFirst = true
 ): void {
   if (addMessageFirst) {
     try {
@@ -63,9 +63,9 @@ function insertNewJob(
       digest,
       contentType,
       size,
-      receivedAt, 
+      receivedAt,
       sentAt,
-      active, 
+      active,
       attempts,
       retryAfter,
       lastAttemptTimestamp

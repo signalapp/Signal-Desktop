@@ -18,7 +18,10 @@ const log = createLogger('expiringMessagesDeletion');
 
 class ExpiringMessagesDeletionService {
   #timeout?: ReturnType<typeof setTimeout>;
-  #debouncedCheckExpiringMessages = debounce(this.#checkExpiringMessages, 1000);
+  readonly #debouncedCheckExpiringMessages = debounce(
+    this.#checkExpiringMessages,
+    1000
+  );
 
   update() {
     drop(this.#debouncedCheckExpiringMessages());
@@ -64,7 +67,7 @@ class ExpiringMessagesDeletionService {
     }
 
     log.info('destroyExpiredMessages: done, scheduling another check');
-    void this.update();
+    this.update();
   }
 
   async #checkExpiringMessages() {

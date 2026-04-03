@@ -205,6 +205,7 @@ async function main() {
             `Expected: "Copyright ${commit.commitYear} Signal Messenger, LLC"`
           )
         ),
+        // oxlint-disable-next-line typescript/restrict-template-expressions
         indent(chalk.yellow(`Actual: "${firstLine}"`)),
         indent(
           chalk.italic.dim(
@@ -230,6 +231,7 @@ async function main() {
         indent(
           chalk.green('Expected: "SPDX-License-Identifier: AGPL-3.0-only"')
         ),
+        // oxlint-disable-next-line typescript/restrict-template-expressions
         indent(chalk.yellow(`Actual: "${secondLine}"`))
       );
     }

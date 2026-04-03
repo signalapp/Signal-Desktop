@@ -43,7 +43,8 @@ export const getProfileMovedModalNeeded = createSelector(
 
 export const getUserAgent = createSelector(
   getItems,
-  (state: ItemsStateType): string => state.userAgent as string
+  // oxlint-disable-next-line typescript/no-non-null-assertion
+  (state: ItemsStateType): string => state.userAgent!
 );
 
 export const getPinnedConversationIds = createSelector(
@@ -214,9 +215,7 @@ export const getHasReadReceiptSetting = createSelector(
 export const getHasStoryViewReceiptSetting = createSelector(
   getItems,
   (state: ItemsStateType): boolean =>
-    Boolean(
-      state.storyViewReceiptsEnabled ?? state['read-receipt-setting'] ?? false
-    )
+    state.storyViewReceiptsEnabled ?? state['read-receipt-setting'] ?? false
 );
 
 export const getNotificationProfileSyncDisabled = createSelector(
@@ -227,10 +226,7 @@ export const getNotificationProfileSyncDisabled = createSelector(
 
 export const getRemoteBuildExpiration = createSelector(
   getItems,
-  (state: ItemsStateType): number | undefined =>
-    state.remoteBuildExpiration === undefined
-      ? undefined
-      : Number(state.remoteBuildExpiration)
+  (state: ItemsStateType): number | undefined => state.remoteBuildExpiration
 );
 
 export const getAutoDownloadUpdate = createSelector(
@@ -240,7 +236,7 @@ export const getAutoDownloadUpdate = createSelector(
       return false;
     }
 
-    return Boolean(state['auto-download-update'] ?? true);
+    return state['auto-download-update'] ?? true;
   }
 );
 
@@ -253,12 +249,12 @@ export const getBadgeCountMutedConversations = createSelector(
 
 export const getTextFormattingEnabled = createSelector(
   getItems,
-  (state: ItemsStateType): boolean => Boolean(state.textFormatting ?? true)
+  (state: ItemsStateType): boolean => state.textFormatting ?? true
 );
 
 export const getNavTabsCollapsed = createSelector(
   getItems,
-  (state: ItemsStateType): boolean => Boolean(state.navTabsCollapsed ?? false)
+  (state: ItemsStateType): boolean => state.navTabsCollapsed ?? false
 );
 
 export const getShowStickersIntroduction = createSelector(

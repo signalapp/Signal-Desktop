@@ -235,7 +235,7 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
           imageData?.data.buffer !== frameBuffer.buffer ||
           imageData?.data.byteOffset !== frameBuffer.byteOffset
         ) {
-          const view = new Uint8ClampedArray<ArrayBuffer>(
+          const view = new Uint8ClampedArray(
             frameBuffer.buffer,
             frameBuffer.byteOffset,
             frameWidth * frameHeight * 4

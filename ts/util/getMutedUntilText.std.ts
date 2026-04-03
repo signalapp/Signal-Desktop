@@ -14,7 +14,7 @@ export function getMutedUntilText(
   muteExpiresAt: number,
   i18n: LocalizerType
 ): string {
-  if (Number(muteExpiresAt) >= Number.MAX_SAFE_INTEGER) {
+  if (muteExpiresAt >= Number.MAX_SAFE_INTEGER) {
     return i18n('icu:muteExpirationLabelAlways');
   }
 

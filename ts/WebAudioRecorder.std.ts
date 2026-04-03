@@ -20,12 +20,12 @@ type OptionsType = {
 };
 
 export class WebAudioRecorder {
-  #buffer: Array<Float32Array>;
-  #options: OptionsType;
-  #context: BaseAudioContext;
-  #input: GainNode;
-  #onComplete: (recorder: WebAudioRecorder, blob: Blob) => unknown;
-  #onError: (recorder: WebAudioRecorder, error: string) => unknown;
+  readonly #buffer: Array<Float32Array>;
+  readonly #options: OptionsType;
+  readonly #context: BaseAudioContext;
+  readonly #input: GainNode;
+  readonly #onComplete: (recorder: WebAudioRecorder, blob: Blob) => unknown;
+  readonly #onError: (recorder: WebAudioRecorder, error: string) => unknown;
   private processor?: ScriptProcessorNode;
   public worker?: Worker;
 

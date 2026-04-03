@@ -84,6 +84,7 @@ export function _getSegmentRanges(
 function assertExpected<T>(actual: T, expected: T, message: string) {
   strictAssert(
     Object.is(actual, expected),
+    // oxlint-disable-next-line typescript/restrict-template-expressions
     `${message}: ${actual} (expected: ${expected})`
   );
 }

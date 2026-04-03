@@ -110,7 +110,7 @@ export async function writeProfile(
       encryptedAvatarData
     );
 
-    const hash = await computeHash(newAvatar);
+    const hash = computeHash(newAvatar);
 
     if (hash !== avatarHash) {
       log.info('removing old avatar and saving the new one');

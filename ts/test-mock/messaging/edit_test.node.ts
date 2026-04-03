@@ -422,7 +422,7 @@ describe('editing', function (this: Mocha.Suite) {
         .locator('.module-message__metadata__edited')
         .click();
 
-      const history = await window.locator(
+      const history = window.locator(
         '.EditHistoryMessagesModal .module-message'
       );
       assert.strictEqual(await history.count(), 3);

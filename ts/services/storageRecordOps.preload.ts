@@ -327,9 +327,9 @@ export async function toContactRecord(
     identityKey: serviceId
       ? ((await signalProtocolStore.loadIdentityKey(serviceId)) ?? null)
       : null,
-    identityState: verified ? toRecordVerified(Number(verified)) : null,
+    identityState: verified ? toRecordVerified(verified) : null,
     pniSignatureVerified: conversation.get('pniSignatureVerified') ?? false,
-    profileKey: profileKey ? Bytes.fromBase64(String(profileKey)) : null,
+    profileKey: profileKey ? Bytes.fromBase64(profileKey) : null,
     givenName: conversation.get('profileName') || null,
     familyName: conversation.get('profileFamilyName') || null,
     nickname:
@@ -353,7 +353,7 @@ export async function toContactRecord(
       MAX_VALUE
     ),
     avatarColor: conversation.get('colorFromPrimary') ?? null,
-    hideStory: hideStory != null ? Boolean(hideStory) : null,
+    hideStory: hideStory ?? null,
     unregisteredAtTimestamp: getSafeLongFromTimestamp(
       conversation.get('firstUnregisteredAt')
     ),
@@ -528,7 +528,7 @@ export function toAccountRecord(
   }
 
   return {
-    profileKey: profileKey ? Bytes.fromBase64(String(profileKey)) : null,
+    profileKey: profileKey ? Bytes.fromBase64(profileKey) : null,
     givenName: conversation.get('profileName') || null,
     familyName: conversation.get('profileFamilyName') || null,
     avatarUrlPath: itemStorage.get('avatarUrl') || null,
@@ -540,8 +540,7 @@ export function toAccountRecord(
     typingIndicators: getTypingIndicatorSetting(),
     linkPreviews: getLinkPreviewSetting(),
 
-    preferContactAvatars:
-      preferContactAvatars != null ? Boolean(preferContactAvatars) : null,
+    preferContactAvatars: preferContactAvatars ?? null,
     preferredReactionEmoji: preferredReactionEmoji.canBeSynced(
       rawPreferredReactionEmoji
     )
@@ -660,8 +659,8 @@ export function toStoryDistributionListRecord(
     deletedAtTimestamp: getSafeLongFromTimestamp(
       storyDistributionList.deletedAtTimestamp
     ),
-    allowsReplies: Boolean(storyDistributionList.allowsReplies),
-    isBlockList: Boolean(storyDistributionList.isBlockList),
+    allowsReplies: storyDistributionList.allowsReplies,
+    isBlockList: storyDistributionList.isBlockList,
     recipientServiceIdsBinary: isProtoBinaryEncodingEnabled()
       ? storyDistributionList.members.map(serviceId => {
           return toServiceIdObject(serviceId).getServiceIdBinary();
@@ -1236,12 +1235,10 @@ export async function mergeGroupV2Record(
   );
 
   conversation.set({
-    hideStory: Boolean(groupV2Record.hideStory),
-    isArchived: Boolean(groupV2Record.archived),
-    markedUnread: Boolean(groupV2Record.markedUnread),
-    dontNotifyForMentionsIfMuted: Boolean(
-      groupV2Record.dontNotifyForMentionsIfMuted
-    ),
+    hideStory: groupV2Record.hideStory,
+    isArchived: groupV2Record.archived,
+    markedUnread: groupV2Record.markedUnread,
+    dontNotifyForMentionsIfMuted: groupV2Record.dontNotifyForMentionsIfMuted,
     storageID,
     storageVersion,
     storySendMode,
@@ -1468,9 +1465,9 @@ export async function mergeContactRecord(
   const oldStorageVersion = conversation.get('storageVersion');
 
   conversation.set({
-    hideStory: Boolean(contactRecord.hideStory),
-    isArchived: Boolean(contactRecord.archived),
-    markedUnread: Boolean(contactRecord.markedUnread),
+    hideStory: contactRecord.hideStory,
+    isArchived: contactRecord.archived,
+    markedUnread: contactRecord.markedUnread,
     storageID,
     storageVersion,
     needsStorageServiceSync: false,
@@ -1568,14 +1565,14 @@ export async function mergeAccountRecord(
 
   const details = logRecordChanges(
     toAccountRecord(conversation, {
-      notificationProfileSyncDisabled: Boolean(notificationProfileSyncDisabled),
+      notificationProfileSyncDisabled,
     }),
     accountRecord
   );
 
   const updatedConversations = new Array<ConversationModel>();
 
-  await itemStorage.put('read-receipt-setting', Boolean(readReceipts));
+  await itemStorage.put('read-receipt-setting', readReceipts);
 
   if (typeof sealedSenderIndicators === 'boolean') {
     await itemStorage.put('sealedSenderIndicators', sealedSenderIndicators);
@@ -1596,10 +1593,7 @@ export async function mergeAccountRecord(
     const postRegistrationSyncsComplete =
       itemStorage.get('postRegistrationSyncsStatus') !== 'incomplete';
 
-    if (
-      Boolean(previous) !== Boolean(preferContactAvatars) &&
-      postRegistrationSyncsComplete
-    ) {
+    if (previous !== preferContactAvatars && postRegistrationSyncsComplete) {
       await window.ConversationController.forceRerender();
     }
   }
@@ -1800,66 +1794,40 @@ export async function mergeAccountRecord(
   await saveBackupsSubscriberData(backupSubscriberData);
   await saveBackupTier(toNumber(backupTier) ?? undefined);
 
-  await itemStorage.put(
-    'displayBadgesOnProfile',
-    Boolean(displayBadgesOnProfile)
-  );
-  await itemStorage.put(
-    'keepMutedChatsArchived',
-    Boolean(keepMutedChatsArchived)
-  );
-  await itemStorage.put(
-    'hasSetMyStoriesPrivacy',
-    Boolean(hasSetMyStoriesPrivacy)
-  );
+  await itemStorage.put('displayBadgesOnProfile', displayBadgesOnProfile);
+  await itemStorage.put('keepMutedChatsArchived', keepMutedChatsArchived);
+  await itemStorage.put('hasSetMyStoriesPrivacy', hasSetMyStoriesPrivacy);
   {
-    const hasViewedOnboardingStoryBool = Boolean(hasViewedOnboardingStory);
-    await itemStorage.put(
-      'hasViewedOnboardingStory',
-      hasViewedOnboardingStoryBool
-    );
-    if (hasViewedOnboardingStoryBool) {
+    await itemStorage.put('hasViewedOnboardingStory', hasViewedOnboardingStory);
+    if (hasViewedOnboardingStory) {
       drop(findAndDeleteOnboardingStoryIfExists());
     } else {
       drop(downloadOnboardingStory());
     }
   }
-  {
-    const hasCompletedUsernameOnboardingBool = Boolean(
-      hasCompletedUsernameOnboarding
-    );
-    await itemStorage.put(
-      'hasCompletedUsernameOnboarding',
-      hasCompletedUsernameOnboardingBool
-    );
-  }
-  {
-    const hasCompletedUsernameOnboardingBool = Boolean(
-      hasSeenGroupStoryEducationSheet
-    );
-    await itemStorage.put(
-      'hasSeenGroupStoryEducationSheet',
-      hasCompletedUsernameOnboardingBool
-    );
-  }
+  await itemStorage.put(
+    'hasCompletedUsernameOnboarding',
+    hasCompletedUsernameOnboarding
+  );
+  await itemStorage.put(
+    'hasSeenGroupStoryEducationSheet',
+    hasSeenGroupStoryEducationSheet
+  );
   await itemStorage.put(
     'hasSeenAdminDeleteEducationDialog',
     hasSeenAdminDeleteEducationDialog ?? false
   );
   {
-    const hasKeyTransparencyDisabled = Boolean(
-      automaticKeyVerificationDisabled
-    );
     await itemStorage.put(
       'hasKeyTransparencyDisabled',
-      hasKeyTransparencyDisabled
+      automaticKeyVerificationDisabled
     );
-    if (hasKeyTransparencyDisabled) {
+    if (automaticKeyVerificationDisabled) {
       await keyTransparency.disable();
     }
   }
   {
-    const hasStoriesDisabled = Boolean(storiesDisabled);
+    const hasStoriesDisabled = storiesDisabled;
     await itemStorage.put('hasStoriesDisabled', hasStoriesDisabled);
     onHasStoriesDisabledChange(hasStoriesDisabled);
   }
@@ -1918,6 +1886,7 @@ export async function mergeAccountRecord(
     log.info(
       `process(${storageVersion}): Account just flipped from notificationProfileSyncDisabled=${previousSyncDisabled} to ${notificationProfileSyncDisabled}`
     );
+    // oxlint-disable-next-line typescript/await-thenable
     await window.reduxActions.notificationProfiles.setIsSyncEnabled(
       !notificationProfileSyncDisabled,
       { fromStorageService: true }
@@ -1979,8 +1948,8 @@ export async function mergeAccountRecord(
   }
 
   conversation.set({
-    isArchived: Boolean(noteToSelfArchived),
-    markedUnread: Boolean(noteToSelfMarkedUnread),
+    isArchived: noteToSelfArchived,
+    markedUnread: noteToSelfMarkedUnread,
     storageID,
     storageVersion,
     needsStorageServiceSync: false,
@@ -2087,10 +2056,10 @@ export async function mergeStoryDistributionListRecord(
 
   const storyDistribution: StoryDistributionWithMembersType = {
     id: listId,
-    name: String(storyDistributionListRecord.name),
+    name: storyDistributionListRecord.name,
     deletedAtTimestamp: isMyStory ? undefined : deletedAtTimestamp,
-    allowsReplies: Boolean(storyDistributionListRecord.allowsReplies),
-    isBlockList: Boolean(storyDistributionListRecord.isBlockList),
+    allowsReplies: storyDistributionListRecord.allowsReplies,
+    isBlockList: storyDistributionListRecord.isBlockList,
     members: remoteListMembers,
     senderKeyInfo: localStoryDistributionList?.senderKeyInfo,
 
@@ -2154,10 +2123,10 @@ export async function mergeStoryDistributionListRecord(
     toRemove,
   });
   window.reduxActions.storyDistributionLists.modifyDistributionList({
-    allowsReplies: Boolean(storyDistribution.allowsReplies),
+    allowsReplies: storyDistribution.allowsReplies,
     deletedAtTimestamp: storyDistribution.deletedAtTimestamp,
     id: storyDistribution.id,
-    isBlockList: Boolean(storyDistribution.isBlockList),
+    isBlockList: storyDistribution.isBlockList,
     membersToAdd: toAdd,
     membersToRemove: toRemove,
     name: storyDistribution.name,
@@ -2865,10 +2834,10 @@ export async function mergeNotificationProfileRecord(
     emoji: dropNull(emoji),
     color: dropNull(color) ?? DEFAULT_PROFILE_COLOR,
     createdAtMs: toNumber(createdAtMs) ?? Date.now(),
-    allowAllCalls: Boolean(allowAllCalls),
-    allowAllMentions: Boolean(allowAllMentions),
+    allowAllCalls,
+    allowAllMentions,
     allowedMembers: new Set(allowedMemberConversationIds),
-    scheduleEnabled: Boolean(scheduleEnabled),
+    scheduleEnabled,
     scheduleStartTime: dropNull(scheduleStartTime),
     scheduleEndTime: dropNull(scheduleEndTime),
     scheduleDaysEnabled: fromDayOfWeekArray(

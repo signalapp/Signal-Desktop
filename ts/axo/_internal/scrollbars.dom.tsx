@@ -17,11 +17,11 @@ type Listener = () => void;
 type Unsubscribe = () => void;
 
 class ScrollbarGuttersObserver {
-  #container: HTMLDivElement;
-  #scroller: HTMLDivElement;
+  readonly #container: HTMLDivElement;
+  readonly #scroller: HTMLDivElement;
   #current: ScrollbarGutters | null;
-  #observer: ResizeObserver;
-  #listeners = new Set<Listener>();
+  readonly #observer: ResizeObserver;
+  readonly #listeners = new Set<Listener>();
 
   constructor(scrollbarWidth: Exclude<ScrollbarWidth, 'none'>) {
     const container = document.createElement('div');

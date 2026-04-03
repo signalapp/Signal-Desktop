@@ -426,7 +426,7 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType
     return this.#allResults().some(results => results.isLoading);
   }
 
-  #onEnterKeyDown = (
+  readonly #onEnterKeyDown = (
     clearSearchQuery: () => unknown,
     showConversation: ShowConversationType
   ): void => {

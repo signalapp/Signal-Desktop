@@ -172,9 +172,9 @@ export class ConversationController {
   #_initialPromise: undefined | Promise<void>;
 
   #_conversations: Array<ConversationModel> = [];
-  #_conversationOpenStart = new Map<string, number>();
+  readonly #_conversationOpenStart = new Map<string, number>();
   #_hasQueueEmptied = false;
-  #_combineConversationsQueue = new PQueue({ concurrency: 1 });
+  readonly #_combineConversationsQueue = new PQueue({ concurrency: 1 });
   #_signalConversationId: undefined | string;
 
   #delayBeforeUpdatingRedux: (() => number) | undefined;
@@ -187,7 +187,7 @@ export class ConversationController {
   #_byGroupId: Record<string, ConversationModel> = Object.create(null);
   #_byId: Record<string, ConversationModel> = Object.create(null);
 
-  #debouncedUpdateUnreadCount = debounce(
+  readonly #debouncedUpdateUnreadCount = debounce(
     this.updateUnreadCount.bind(this),
     SECOND,
     {
@@ -197,7 +197,7 @@ export class ConversationController {
     }
   );
 
-  #convoUpdateBatcher = createBatcher<
+  readonly #convoUpdateBatcher = createBatcher<
     | { type: 'change' | 'add'; conversation: ConversationModel }
     | { type: 'remove'; id: string }
   >({
@@ -955,8 +955,7 @@ export class ConversationController {
       } else if (targetConversation && !targetConversation?.get(key)) {
         // This is mostly for the situation where PNI was erased when updating e164
         log.debug(
-          `${logId}: Re-adding ${key} on target conversation - ` +
-            `${targetConversation.idForLogging()}`
+          `${logId}: Re-adding ${key} on target conversation - ${targetConversation.idForLogging()}`
         );
         applyChangeToConversation(targetConversation, pniSignatureVerified, {
           [key]: value,
@@ -1413,8 +1412,7 @@ export class ConversationController {
       log.warn(
         `${logId}: Ensure that all V1 groups have new conversationId instead of old`
       );
-      const groups =
-        await this.getAllGroupsInvolvingServiceId(obsoleteServiceId);
+      const groups = this.getAllGroupsInvolvingServiceId(obsoleteServiceId);
       groups.forEach(group => {
         const members = group.get('members');
         const withoutObsolete = without(members, obsoleteId);

@@ -186,7 +186,7 @@ export function setup(
             }
 
             // Node.js Addons are useful
-            if (/\.node$/.test(filename)) {
+            if (filename.endsWith('.node')) {
               return true;
             }
 

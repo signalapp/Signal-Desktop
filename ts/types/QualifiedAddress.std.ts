@@ -26,10 +26,13 @@ export type QualifiedAddressStringType =
   `${ServiceIdString}:${AddressStringType}`;
 
 export class QualifiedAddress {
-  constructor(
-    public readonly ourServiceId: ServiceIdString,
-    public readonly address: Address
-  ) {}
+  public readonly ourServiceId: ServiceIdString;
+  public readonly address: Address;
+
+  constructor(ourServiceId: ServiceIdString, address: Address) {
+    this.ourServiceId = ourServiceId;
+    this.address = address;
+  }
 
   public get serviceId(): ServiceIdString {
     return this.address.serviceId;

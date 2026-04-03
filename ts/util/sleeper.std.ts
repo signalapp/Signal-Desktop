@@ -12,7 +12,7 @@ const log = createLogger('sleeper');
  */
 export class Sleeper {
   #shuttingDown = false;
-  #shutdownCallbacks: Set<() => void> = new Set();
+  readonly #shutdownCallbacks = new Set<() => void>();
 
   /**
    * delay by ms, careful when using on a loop if resolving on shutdown (default)

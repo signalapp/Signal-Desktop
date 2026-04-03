@@ -63,7 +63,7 @@ export function AvatarLightbox({
           width: 'auto',
           minHeight: '64px',
           height: '100%',
-          maxHeight: `min(${512}px, 100%)`,
+          maxHeight: `min(512px, 100%)`,
           aspectRatio: '1 / 1',
         }}
       />

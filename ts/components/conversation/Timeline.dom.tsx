@@ -166,7 +166,7 @@ export class Timeline extends React.Component<
   readonly #atBottomDetectorRef = React.createRef<HTMLDivElement>();
   readonly #lastSeenIndicatorRef = React.createRef<HTMLDivElement>();
   #intersectionObserver?: IntersectionObserver;
-  #intersectionRatios: Map<Element, number> = new Map();
+  #intersectionRatios = new Map<Element, number>();
 
   // This is a best guess. It will likely be overridden when the timeline is measured.
   #maxVisibleRows = Math.ceil(window.innerHeight / MIN_ROW_HEIGHT);
@@ -184,7 +184,7 @@ export class Timeline extends React.Component<
     widthBreakpoint: WidthBreakpoint.Wide,
   };
 
-  #onScrollLockChange = (): void => {
+  readonly #onScrollLockChange = (): void => {
     const scrollLocked = this.#scrollerLock.isLocked();
     this.setState(() => {
       // Prevent scroll due to elements shrinking or disappearing (e.g. typing indicators)
@@ -198,9 +198,12 @@ export class Timeline extends React.Component<
     });
   };
 
-  #scrollerLock = createScrollerLock('Timeline', this.#onScrollLockChange);
+  readonly #scrollerLock = createScrollerLock(
+    'Timeline',
+    this.#onScrollLockChange
+  );
 
-  #onScroll = (event: UIEvent): void => {
+  readonly #onScroll = (event: UIEvent): void => {
     // When content is removed from the viewport, such as typing indicators leaving
     // or messages being edited smaller or deleted, scroll events are generated and
     // they are marked as user-generated (isTrusted === true). Actual user generated
@@ -246,7 +249,7 @@ export class Timeline extends React.Component<
       ?.scrollIntoView({ block: 'center' });
   }
 
-  #scrollToBottom = (setFocus?: boolean): void => {
+  readonly #scrollToBottom = (setFocus?: boolean): void => {
     if (this.#scrollerLock.isLocked()) {
       return;
     }
@@ -266,12 +269,12 @@ export class Timeline extends React.Component<
     }
   };
 
-  #onClickScrollDownButton = (): void => {
+  readonly #onClickScrollDownButton = (): void => {
     this.#scrollerLock.onUserInterrupt('onClickScrollDownButton');
     this.#scrollDown(false);
   };
 
-  #scrollDown = (setFocus?: boolean): void => {
+  readonly #scrollDown = (setFocus?: boolean): void => {
     if (this.#scrollerLock.isLocked()) {
       return;
     }
@@ -536,93 +539,97 @@ export class Timeline extends React.Component<
     return centerMessageId;
   }
 
-  #markNewestBottomVisibleMessageRead = throttle((itemId?: string): void => {
-    const { id, items, markMessageRead } = this.props;
-    const messageIdToMarkRead =
-      itemId ?? this.state.newestBottomVisibleMessageId;
+  readonly #markNewestBottomVisibleMessageRead = throttle(
+    (itemId?: string): void => {
+      const { id, items, markMessageRead } = this.props;
+      const messageIdToMarkRead =
+        itemId ?? this.state.newestBottomVisibleMessageId;
 
-    if (!messageIdToMarkRead) {
-      return;
-    }
+      if (!messageIdToMarkRead) {
+        return;
+      }
 
-    const lastIndex = items.length - 1;
-    const newestBottomVisibleItemIndex = items.findIndex(
-      item => item.id === messageIdToMarkRead
-    );
+      const lastIndex = items.length - 1;
+      const newestBottomVisibleItemIndex = items.findIndex(
+        item => item.id === messageIdToMarkRead
+      );
 
-    // Mark the newest visible message read if we're at the bottom, or override provided
-    if (
-      messageIdToMarkRead &&
-      (itemId || lastIndex === newestBottomVisibleItemIndex)
-    ) {
-      const item = items[newestBottomVisibleItemIndex];
-      if (!item || item.type === 'none') {
+      // Mark the newest visible message read if we're at the bottom, or override provided
+      if (
+        messageIdToMarkRead &&
+        (itemId || lastIndex === newestBottomVisibleItemIndex)
+      ) {
+        const item = items[newestBottomVisibleItemIndex];
+        if (!item || item.type === 'none') {
+          markMessageRead(id, messageIdToMarkRead);
+          return;
+        }
+      }
+
+      // We can return early if the newest partially-visible item is not a CollapseSet
+      const newestPartiallyVisibleIndex = Math.min(
+        lastIndex,
+        newestBottomVisibleItemIndex + 1
+      );
+      const newestPartiallyVisibleItem = items[newestPartiallyVisibleIndex];
+      if (
+        newestPartiallyVisibleItem &&
+        newestPartiallyVisibleItem.type === 'none'
+      ) {
         markMessageRead(id, messageIdToMarkRead);
         return;
       }
-    }
 
-    // We can return early if the newest partially-visible item is not a CollapseSet
-    const newestPartiallyVisibleIndex = Math.min(
-      lastIndex,
-      newestBottomVisibleItemIndex + 1
-    );
-    const newestPartiallyVisibleItem = items[newestPartiallyVisibleIndex];
-    if (
-      newestPartiallyVisibleItem &&
-      newestPartiallyVisibleItem.type === 'none'
-    ) {
-      markMessageRead(id, messageIdToMarkRead);
-      return;
-    }
-
-    // Now we need to figure out which of the CollapseSet's inner messages are visible
-    const collapseSetEl = this.#messagesRef.current?.querySelector(
-      `[data-item-index="${newestPartiallyVisibleIndex}"]`
-    );
-    const containerWindowRect =
-      this.#containerRef.current?.getBoundingClientRect();
-    if (!collapseSetEl || !containerWindowRect) {
-      markMessageRead(id, messageIdToMarkRead);
-      return;
-    }
-
-    const messageEls = collapseSetEl.querySelectorAll('[data-message-id]');
-    const containerWindowBottom =
-      containerWindowRect.y + containerWindowRect.height;
-
-    let newestFullyVisibleMessage;
-    for (let i = messageEls.length - 1; i >= 0; i -= 1) {
-      const messageEl = messageEls[i];
-      strictAssert(messageEl, 'No messageEl at index i');
-
-      // The messages might be rendered, but opacity = 0
-      if (!messageEl.checkVisibility({ opacityProperty: true })) {
-        break;
+      // Now we need to figure out which of the CollapseSet's inner messages are visible
+      const collapseSetEl = this.#messagesRef.current?.querySelector(
+        `[data-item-index="${newestPartiallyVisibleIndex}"]`
+      );
+      const containerWindowRect =
+        this.#containerRef.current?.getBoundingClientRect();
+      if (!collapseSetEl || !containerWindowRect) {
+        markMessageRead(id, messageIdToMarkRead);
+        return;
       }
 
-      // Make sure the messages are scrolled into view
-      const messageRect = messageEl.getBoundingClientRect();
-      const bottom = messageRect.y + messageRect.height;
+      const messageEls = collapseSetEl.querySelectorAll('[data-message-id]');
+      const containerWindowBottom =
+        containerWindowRect.y + containerWindowRect.height;
 
-      if (bottom <= containerWindowBottom) {
-        newestFullyVisibleMessage = messageEl;
-        break;
+      let newestFullyVisibleMessage;
+      for (let i = messageEls.length - 1; i >= 0; i -= 1) {
+        const messageEl = messageEls[i];
+        strictAssert(messageEl, 'No messageEl at index i');
+
+        // The messages might be rendered, but opacity = 0
+        if (!messageEl.checkVisibility({ opacityProperty: true })) {
+          break;
+        }
+
+        // Make sure the messages are scrolled into view
+        const messageRect = messageEl.getBoundingClientRect();
+        const bottom = messageRect.y + messageRect.height;
+
+        if (bottom <= containerWindowBottom) {
+          newestFullyVisibleMessage = messageEl;
+          break;
+        }
       }
-    }
 
-    if (!newestFullyVisibleMessage) {
-      markMessageRead(id, messageIdToMarkRead);
-      return;
-    }
+      if (!newestFullyVisibleMessage) {
+        markMessageRead(id, messageIdToMarkRead);
+        return;
+      }
 
-    const messageId = newestFullyVisibleMessage.getAttribute('data-message-id');
-    markMessageRead(id, messageId || messageIdToMarkRead);
-  }, 500);
+      const messageId =
+        newestFullyVisibleMessage.getAttribute('data-message-id');
+      markMessageRead(id, messageId || messageIdToMarkRead);
+    },
+    500
+  );
 
   // When the the window becomes active, or when a fullsceen call is ended, we mark read
   // with a delay, to allow users to navigate away quickly without marking messages read
-  #markNewestBottomVisibleMessageReadAfterDelay = throttle(
+  readonly #markNewestBottomVisibleMessageReadAfterDelay = throttle(
     this.#markNewestBottomVisibleMessageRead,
     DELAY_BEFORE_MARKING_READ_AFTER_FOCUS,
     {
@@ -854,7 +861,7 @@ export class Timeline extends React.Component<
     }
   }
 
-  #handleBlur = (event: React.FocusEvent): void => {
+  readonly #handleBlur = (event: React.FocusEvent): void => {
     const { clearTargetedMessage } = this.props;
 
     const { currentTarget } = event;
@@ -878,7 +885,9 @@ export class Timeline extends React.Component<
     }, 0);
   };
 
-  #handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>): void => {
+  readonly #handleKeyDown = (
+    event: React.KeyboardEvent<HTMLDivElement>
+  ): void => {
     const { targetMessage, targetedMessageId, items, id } = this.props;
     const commandKey = get(window, 'platform') === 'darwin' && event.metaKey;
     const controlKey = get(window, 'platform') !== 'darwin' && event.ctrlKey;
@@ -1123,11 +1132,10 @@ export class Timeline extends React.Component<
           .slice(-SCROLL_DOWN_BUTTON_THRESHOLD)
           .find(item => item.id === newestBottomVisibleMessageId));
 
-    const areUnreadBelowCurrentPosition = Boolean(
+    const areUnreadBelowCurrentPosition =
       areThereAnyMessages &&
       areAnyMessagesUnread &&
-      areAnyMessagesBelowCurrentPosition
-    );
+      areAnyMessagesBelowCurrentPosition;
     const shouldShowScrollDownButtons = Boolean(
       areThereAnyMessages &&
       (areUnreadBelowCurrentPosition || areAboveScrollDownButtonThreshold)

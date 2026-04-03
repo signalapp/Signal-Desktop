@@ -422,15 +422,15 @@
     // [correctness] Disallow void DOM elements (e.g. <img />, <br />) from receiving children
     "react/void-dom-elements-no-children": "error",
     // [correctness] (✅ recommended) (💡 suggestion) (💭 needs type info)
-    "typescript/await-thenable": "off", // FIXME (errors: 126)
+    "typescript/await-thenable": "error",
     // [correctness] (✅ recommended) (💡 suggestion) (💭 needs type info) Disallow using the delete operator on array values
     "typescript/no-array-delete": "error",
     // [correctness] (✅ recommended) (💭 needs type info) Require .toString() and .toLocaleString() to only be called on objects which provide useful information when stringified
-    "typescript/no-base-to-string": "off", // FIXME [reason: FILLMEIN] (errors: 14)
+    "typescript/no-base-to-string": "error",
     // [correctness] (✅ recommended) Disallow duplicate enum member values
     "typescript/no-duplicate-enum-values": "error",
     // [correctness] (✅ recommended) (🛠️ autofix) (💭 needs type info) Disallow duplicate constituents of union or intersection types
-    "typescript/no-duplicate-type-constituents": "off", // FIXME [reason: FILLMEIN] (errors: 2)
+    "typescript/no-duplicate-type-constituents": "error",
     // [correctness] (✅ recommended) (🚧 planned autofix) Disallow extra non-null assertions
     "typescript/no-extra-non-null-assertion": "error",
     // [correctness] (✅ recommended) (💡 suggestion) (💭 needs type info) Require Promise-like statements to be handled appropriately
@@ -440,15 +440,15 @@
     // [correctness] (✅ recommended) (💭 needs type info) Disallow the use of eval()-like functions
     "typescript/no-implied-eval": "error",
     // [correctness] (✅ recommended) (🛠️ autofix) (💡 suggestion) (💭 needs type info) Disallow the void operator except when used to discard a value
-    "typescript/no-meaningless-void-operator": "off", // DECIDEME (errors: 4)
+    "typescript/no-meaningless-void-operator": "error",
     // [correctness] (✅ recommended) Enforce valid definition of new and constructor
     "typescript/no-misused-new": "error",
     // [correctness] (✅ recommended) (💡 suggestion) (💭 needs type info) Disallow using the spread operator when it might cause unexpected behavior
-    "typescript/no-misused-spread": "off", // DECIDEME (errors: 12)
+    "typescript/no-misused-spread": "error",
     // [correctness] (✅ recommended) (💡 suggestion) Disallow non-null assertions after an optional chain expression
     "typescript/no-non-null-asserted-optional-chain": "error",
     // [correctness] (✅ recommended) (💭 needs type info) Disallow members of unions and intersections that do nothing or override type information
-    "typescript/no-redundant-type-constituents": "off", // DECIDEME (errors: 10)
+    "typescript/no-redundant-type-constituents": "error",
     // [correctness] (✅ recommended) Disallow aliasing this
     "typescript/no-this-alias": "error",
     // [correctness] (✅ recommended) (💡 suggestion) Disallow unnecessary assignment of constructor property parameter
@@ -466,9 +466,14 @@
     // [correctness] (✅ recommended) (🛠️ autofix) Require using namespace keyword over module keyword to declare custom TypeScript modules
     "typescript/prefer-namespace-keyword": "error",
     // [correctness] (✅ recommended) (💭 needs type info) Require Array#sort and Array#toSorted calls to always provide a compareFunction
-    "typescript/require-array-sort-compare": "off", // DECIDEME (errors: 2)
+    "typescript/require-array-sort-compare": "error",
     // [correctness] (✅ recommended) (💭 needs type info) Enforce template literal expressions to be of string type
-    "typescript/restrict-template-expressions": "off", // DECIDEME (errors: 76)
+    "typescript/restrict-template-expressions": [
+      "error",
+      {
+        "allowNever": true // FIXME
+      }
+    ],
     // [correctness] (✅ recommended) Disallow certain triple slash directives in favor of ES6-style import declarations
     "typescript/triple-slash-reference": "error",
     // [correctness] (✅ recommended) (💭 needs type info) Enforce unbound methods are called with their expected scope
@@ -547,31 +552,31 @@
     // [nursery] Require return statements to either always or never specify values
     "typescript/consistent-return": "off", // [reason: Doesn't seem like it would catch many bugs]
     // [nursery] Enforce consistent usage of type exports
-    "typescript/consistent-type-exports": "off", // DECIDEME (errors: 2)
+    "typescript/consistent-type-exports": "error",
     // [nursery] Enforce dot notation whenever possible
-    "typescript/dot-notation": "off", // DECIDEME (errors: 2)
+    "typescript/dot-notation": "error",
     // [nursery] Disallow conditionals where the type is always truthy or always falsy
     "typescript/no-unnecessary-condition": "off", // FIXME (errors: 1560) [reason: This is a big project, and we should make sure we're not removing conditional checks that are dealing with bad data (improved types)]
     // [nursery] Disallow unnecessary namespace qualifiers
-    "typescript/no-unnecessary-qualifier": "off", // DECIDEME (errors: 5)
+    "typescript/no-unnecessary-qualifier": "error",
     // [nursery] Disallow conversion idioms when they do not change the type or value of the expression
-    "typescript/no-unnecessary-type-conversion": "off", // DECIDEME (errors: 127)
+    "typescript/no-unnecessary-type-conversion": "error",
     // [nursery] Disallow type parameters that aren't used multiple times
     "typescript/no-unnecessary-type-parameters": "off", // TODO: Has issues with disable comments
     // [nursery] Disallow default values that will never be used
-    "typescript/no-useless-default-assignment": "off", // DECIDEME (errors: 12)
+    "typescript/no-useless-default-assignment": "error",
     // [nursery] Enforce the use of Array.prototype.find() over Array.prototype.filter() followed by [0] when looking for a single result
     "typescript/prefer-find": "error",
     // [nursery] ⚠️ 🛠 (💡 suggestion) Enforce using concise optional chain expressions instead of chained logical ands, negated logical ors, or empty objects
     "typescript/prefer-optional-chain": "off", // DECIDEME (errors: 251)
     // [nursery] Require private members to be marked as readonly if they're never modified outside of the constructor
-    "typescript/prefer-readonly": "off", // DECIDEME (errors: 138)
+    "typescript/prefer-readonly": "error",
     // [nursery] Require function parameters to be typed as readonly to prevent accidental mutation of inputs
     "typescript/prefer-readonly-parameter-types": "off", // DECIDEME (errors: 10694)
     // [nursery] Enforce RegExp#exec over String#match if no global flag is provided
     "typescript/prefer-regexp-exec": "off", // DECIDEME (errors: 19)
     // [nursery] (✅ recommended) Enforce using String#startsWith and String#endsWith over other equivalent methods of checking substrings
-    "typescript/prefer-string-starts-ends-with": "off", // DECIDEME (errors: 5)
+    "typescript/prefer-string-starts-ends-with": "error",
     // [nursery] Enforce ES5 or ES6 class for returning value in render function
     "react/require-render-return": "error",
     // [nursery] (💭 needs type info) Disallow passing a value-returning function in a position accepting a void function
@@ -686,43 +691,43 @@
     // [pedantic] (🛠️ autofix) (💡 suggestion) Require expressions of type void to appear in statement position
     "typescript/no-confusing-void-expression": "off", // DECIDEME (errors: 621)
     // [pedantic] Disallow using code marked as @deprecated
-    "typescript/no-deprecated": "off", // DECIDEME (errors: 187)
+    "typescript/no-deprecated": "off", // FIXME (errors: 187)
     // [pedantic] Disallow Promises in places not designed to handle them
     "typescript/no-misused-promises": ["error", { "checksVoidReturn": false }], // [reason: FILLMEIN] (errors: 352)
     // [pedantic] Disallow enums from having both number and string members
     "typescript/no-mixed-enums": "error",
     // [pedantic] Disallow calling a function with a value with type any
-    "typescript/no-unsafe-argument": "off", // DECIDEME (errors: 531)
+    "typescript/no-unsafe-argument": "off", // LATER (errors: 531)
     // [pedantic] Disallow assigning a value with type any to variables and properties
-    "typescript/no-unsafe-assignment": "off", // DECIDEME (errors: 817)
+    "typescript/no-unsafe-assignment": "off", // LATER (errors: 817)
     // [pedantic] Disallow calling a value with type any
-    "typescript/no-unsafe-call": "off", // DECIDEME (errors: 364)
+    "typescript/no-unsafe-call": "off", // LATER (errors: 364)
     // [pedantic] Disallow using the unsafe built-in Function type
-    "typescript/no-unsafe-function-type": "off", // DECIDEME (errors: 1)
+    "typescript/no-unsafe-function-type": "error",
     // [pedantic] Disallow member access on a value with type any
-    "typescript/no-unsafe-member-access": "off", // DECIDEME (errors: 1087)
+    "typescript/no-unsafe-member-access": "off", // LATER (errors: 1087)
     // [pedantic] Disallow returning a value with type any from a function
-    "typescript/no-unsafe-return": "off", // DECIDEME (errors: 123)
+    "typescript/no-unsafe-return": "off", // LATER (errors: 123)
     // [pedantic] Disallow throwing non-Error values as exceptions
-    "typescript/only-throw-error": "off", // DECIDEME (errors: 6)
+    "typescript/only-throw-error": "error",
     // [pedantic] (💡 suggestion) Require each enum member value to be explicitly initialized
     "typescript/prefer-enum-initializers": "off", // DECIDEME (errors: 180)
     // [pedantic] (🛠️ autofix) Enforce includes method over indexOf method
-    "typescript/prefer-includes": "off", // DECIDEME (errors: 3)
+    "typescript/prefer-includes": "error",
     // [pedantic] (🛠️ autofix) Enforce using the nullish coalescing operator instead of logical assignments or chaining
     "typescript/prefer-nullish-coalescing": "off", // DECIDEME (errors: 1199)
     // [pedantic] Require using Error objects as Promise rejection reasons
     "typescript/prefer-promise-reject-errors": "off", // DECIDEME (errors: 20)
     // [pedantic] (🛠️ autofix) Enforce using @ts-expect-error over @ts-ignore
-    "typescript/prefer-ts-expect-error": "off", // DECIDEME (errors: 6)
+    "typescript/prefer-ts-expect-error": "error",
     // [pedantic] Enforce that get() types should be assignable to their equivalent set() type
     "typescript/related-getter-setter-pairs": "error",
     // [pedantic] (🚧 planned autofix) Disallow async functions which do not return promises and have no await expression
     "typescript/require-await": "off", // DECIDEME (errors: 373)
     // [pedantic] Require both operands of addition to be the same type and be bigint, number, or string
-    "typescript/restrict-plus-operands": "off", // DECIDEME (errors: 3)
+    "typescript/restrict-plus-operands": "error",
     // [pedantic] (🛠️ autofix) (💡 suggestion) Enforce consistent awaiting of returned promises
-    "typescript/return-await": "off", // DECIDEME (errors: 9)
+    "typescript/return-await": "error",
     // [pedantic] (🚧 planned autofix) Disallow certain types in boolean expressions
     "typescript/strict-boolean-expressions": "off", // DECIDEME (errors: 4219)
     // [pedantic] (💡 suggestion) Require switch-case statements to be exhaustive
@@ -1019,7 +1024,7 @@
     // [restriction] Disallow require statements except in import statements
     "typescript/no-var-requires": "error",
     // [restriction] (🛠️ autofix) (💭 needcs type info) Enforce non-null assertions over explicit type assertions
-    "typescript/non-nullable-type-assertion-style": "off", // DECIDEME (errors: 12)
+    "typescript/non-nullable-type-assertion-style": "error",
     // [restriction] Require all enum members to be literal values
     "typescript/prefer-literal-enum-member": "off", // DECIDEME (errors: 21)
     // [restriction] (🛠️ autofix) (💭 needs type info) Require any function or method that returns a Promise to be marked async
@@ -1312,7 +1317,7 @@
     // [style] (🚧 planned autofix) Enforce that literals on classes are exposed in a consistent style
     "typescript/class-literal-property-style": "error",
     // [style] (🛠️ autofix) Enforce specifying generic type arguments on type annotation or constructor name of a constructor call
-    "typescript/consistent-generic-constructors": "off", // DECIDEME (errors: 38)
+    "typescript/consistent-generic-constructors": "error",
     // [style] (🛠️ autofix) Require or disallow the Record type
     "typescript/consistent-indexed-object-style": "off", // DECIDEME (errors: 40)
     // [style] (🛠️ autofix) (💡 suggestion) Enforce consistent usage of type assertions
@@ -1324,15 +1329,15 @@
     // [style] (🚧 planned autofix) Disallow the declaration of empty interfaces
     "typescript/no-empty-interface": "error", // [reason: FILLMEIN]
     // [style] (💡 suggestion) Disallow explicit type declarations for variables or parameters initialized to a number, string, or boolean
-    "typescript/no-inferrable-types": "off", // DECIDEME (errors: 12)
+    "typescript/no-inferrable-types": "error",
     // [style] Require or disallow parameter properties in class constructors
-    "typescript/parameter-properties": "off", // DECIDEME (errors: 128)
+    "typescript/parameter-properties": "error",
     // [style] (🚧 planned autofix) Enforce the use of for-of loop over the standard for loop where possible
     "typescript/prefer-for-of": "error",
     // [style] (🛠️ autofix) Enforce using function types instead of interfaces with call signatures
-    "typescript/prefer-function-type": "off", // DECIDEME (errors: 1)
+    "typescript/prefer-function-type": "error",
     // [style] (🛠️ autofix) (💭 needs type info) Enforce using type parameter when calling Array#reduce instead of using a type assertion
-    "typescript/prefer-reduce-type-parameter": "off", // DECIDEME (errors: 4)
+    "typescript/prefer-reduce-type-parameter": "error",
     // [style] (🛠️ autofix) (💭 needs type info) Enforce that this is used when only this type is returned
     "typescript/prefer-return-this-type": "error",
     // [style] Require that function overload signatures be consecutive
@@ -1526,17 +1531,17 @@
     // [suspicious] Enforce style prop value is an object
     "react/style-prop-object": "error",
     // [suspicious] (🚧 planned autofix) Disallow non-null assertion in locations that may be confusing
-    "typescript/no-confusing-non-null-assertion": "off", // DECIDEME (errors: 3)
+    "typescript/no-confusing-non-null-assertion": "error",
     // [suspicious] (⚠️ 💡 dangerous suggestion) Disallow classes used as namespaces
-    "typescript/no-extraneous-class": "off", // DECIDEME (errors: 3)
+    "typescript/no-extraneous-class": "error",
     // [suspicious] (🚧 planned autofix) (💭 needs type info) Disallow unnecessary equality comparisons against boolean literals
-    "typescript/no-unnecessary-boolean-literal-compare": "off", // DECIDEME (errors: 38)
+    "typescript/no-unnecessary-boolean-literal-compare": "error", // DECIDEME (errors: 38)
     // [suspicious] (🚧 planned autofix) (💭 needs type info) Disallow unnecessary template expressions
-    "typescript/no-unnecessary-template-expression": "off", // DECIDEME (errors: 20)
+    "typescript/no-unnecessary-template-expression": "error",
     // [suspicious] (🛠️ autofix) (💭 needs type info) Disallow type arguments that are equal to the default
-    "typescript/no-unnecessary-type-arguments": "off", // DECIDEME (errors: 24)
+    "typescript/no-unnecessary-type-arguments": "error",
     // [suspicious] (🛠️ autofix) (💭 needs type info) Disallow type assertions that do not change the type of an expression
-    "typescript/no-unnecessary-type-assertion": "off", // DECIDEME (errors: 11)
+    "typescript/no-unnecessary-type-assertion": "error",
     // [suspicious] (🚧 planned autofix) Disallow unnecessary constraints on generic types
     "typescript/no-unnecessary-type-constraint": "error",
     // [suspicious] (🚧 planned autofix) (💭 needs type info) Disallow comparing an enum value with a non-enum value
@@ -1691,6 +1696,15 @@
       "files": ["ts/axo/**"],
       "rules": {
         "eslint/no-inner-declarations": "off"
+      }
+    },
+    {
+      "files": [
+        "ts/test-node/state/ducks/**",
+        "ts/test-electron/state/ducks/**"
+      ],
+      "rules": {
+        "typescript/await-thenable": "off"
       }
     },
     {

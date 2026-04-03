@@ -7,6 +7,7 @@ declare module 'growing-file' {
     interval?: number;
   };
 
+  // oxlint-disable-next-line typescript/no-extraneous-class
   class GrowingFile {
     static open(path: string, options: GrowingFileOptions): Readable;
   }

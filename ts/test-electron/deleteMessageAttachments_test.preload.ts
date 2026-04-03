@@ -82,7 +82,7 @@ describe('deleteMessageAttachments', () => {
     attachmentIndex = 0;
     downloadIndex = 0;
     await DataWriter.removeAll();
-    await window.ConversationController.reset();
+    window.ConversationController.reset();
     await window.ConversationController.load();
     await emptyDir(
       getAttachmentsPath(window.SignalContext.config.userDataPath)
@@ -92,7 +92,7 @@ describe('deleteMessageAttachments', () => {
 
   afterEach(async () => {
     await DataWriter.removeAll();
-    await window.ConversationController.reset();
+    window.ConversationController.reset();
     await emptyDir(
       getAttachmentsPath(window.SignalContext.config.userDataPath)
     );

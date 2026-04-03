@@ -540,14 +540,14 @@ async function queryMessages({
     }
 
     if (searchConversationId) {
-      return dataSearchMessages({
+      return await dataSearchMessages({
         query,
         conversationId: searchConversationId,
         contactServiceIdsMatchingQuery,
       });
     }
 
-    return dataSearchMessages({
+    return await dataSearchMessages({
       query,
       contactServiceIdsMatchingQuery,
     });
@@ -636,7 +636,7 @@ async function queryConversationsAndContacts(
   // inject synthetic Note to Self only in the contacts list.
   // If we're filtering by unread, no contacts are shown anyway, so we show it in the
   // normal flow of the conversations list.
-  if (!filterByUnread && noteToSelf.indexOf(query.toLowerCase()) !== -1) {
+  if (!filterByUnread && noteToSelf.includes(query.toLowerCase())) {
     // ensure that we don't have duplicates in our results
     contactIds = contactIds.filter(id => id !== ourConversationId);
     conversationIds = conversationIds.filter(id => id !== ourConversationId);

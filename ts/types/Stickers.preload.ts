@@ -934,7 +934,7 @@ async function doDownloadStickerPack(
     if (existingStatus === 'installed') {
       // No-op
     } else if (finalStatus === 'installed') {
-      await installStickerPack(packId, packKey, {
+      installStickerPack(packId, packKey, {
         actionSource,
       });
     } else {

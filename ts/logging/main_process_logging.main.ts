@@ -49,7 +49,7 @@ export async function initialize(
       if (level >= LogLevel.Error) {
         getMainWindow()?.webContents.send(
           'logging-error',
-          `${msgPrefix ? `${msgPrefix}` : ''}${logLine}`
+          `${msgPrefix ?? ''}${logLine}`
         );
       }
     });

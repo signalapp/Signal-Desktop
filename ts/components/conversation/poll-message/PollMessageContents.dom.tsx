@@ -290,7 +290,7 @@ export function PollMessageContents({
                   <PollCheckbox
                     checked={shouldShowCheckmark}
                     onCheckedChange={next =>
-                      handlePollOptionClicked(index, Boolean(next))
+                      handlePollOptionClicked(index, next)
                     }
                     isIncoming={isIncoming}
                     isPending={isVotePending}

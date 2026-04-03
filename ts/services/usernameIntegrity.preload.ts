@@ -27,7 +27,7 @@ const STORAGE_SERVICE_TIMEOUT = 30 * MINUTE;
 
 class UsernameIntegrityService {
   #isStarted = false;
-  #scheduler = new CheckScheduler({
+  readonly #scheduler = new CheckScheduler({
     name: 'UsernameIntegrityService',
     interval: DAY,
     storageKey: 'usernameLastIntegrityCheck',

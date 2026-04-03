@@ -252,7 +252,7 @@ export function sendReaction({
   to,
   targetAuthor,
   targetMessageTimestamp,
-  emoji = '👍',
+  emoji,
   reactionTimestamp = Date.now(),
   desktop,
 }: {
@@ -491,7 +491,7 @@ export async function createCallLink(
   page: Page,
   {
     name,
-    isAdminApprovalRequired = undefined,
+    isAdminApprovalRequired,
   }: { name: string; isAdminApprovalRequired?: boolean | undefined }
 ): Promise<string | undefined> {
   await page.locator('[data-testid="NavTabsItem--Calls"]').click();
@@ -532,11 +532,9 @@ export async function createCallLink(
   const doneBtn = editModal.getByText('Done');
   await doneBtn.click();
 
-  const callLinkTitle = await page
-    .locator('.CallsList__ItemTile')
-    .getByText(name);
+  const callLinkTitle = page.locator('.CallsList__ItemTile').getByText(name);
 
-  const callLinkItem = await page.locator('.CallsList__Item', {
+  const callLinkItem = page.locator('.CallsList__Item', {
     has: callLinkTitle,
   });
   const testId = await callLinkItem.getAttribute('data-testid');

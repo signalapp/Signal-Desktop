@@ -13,7 +13,7 @@ if (
   !targets.every(target => TARGETS.has(target.toLowerCase()))
 ) {
   console.error(
-    `Invalid linux targets ${targets}. Valid options: ${[...TARGETS]}`
+    `Invalid linux targets ${targets.join(', ')}. Valid options: ${[...TARGETS].join(', ')}`
   );
   process.exit(1);
 }

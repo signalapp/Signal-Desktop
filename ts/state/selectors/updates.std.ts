@@ -65,5 +65,5 @@ export const isOSUnsupported = createSelector(
 
 export const getHasPendingUpdate = createSelector(
   getUpdatesState,
-  ({ didSnooze }) => didSnooze === true
+  ({ didSnooze }) => didSnooze
 );

@@ -50,7 +50,7 @@ const memberColors = new Map(
         return null;
       }
       return [
-        admin.member.id?.toString(),
+        admin.member.id,
         // oxlint-disable-next-line typescript/no-non-null-assertion
         ContactNameColors[i % ContactNameColors.length]!,
       ];

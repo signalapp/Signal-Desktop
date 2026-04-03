@@ -43,8 +43,7 @@ describe('Privacy', () => {
         '123-4-1-2-3-4-1-2-3-4-1-2-3-4-1-2-3\n' +
         '123-4-1-2-3-4-1-2-3-4-1-2-3-4-1-2-3-4\n' +
         '123a412-3-4-1-2-3-4-1-2-3-4-1-2-3-4\n' +
-        '123-4-1-2-3-4-1-2-3-4-1-2-3-4-1-a-2-3-4\n' +
-        '';
+        '123-4-1-2-3-4-1-2-3-4-1-2-3-4-1-a-2-3-4\n';
 
       const actual = Privacy.redactCardNumbers(text);
       const expected =
@@ -65,8 +64,7 @@ describe('Privacy', () => {
         '[REDACTED]\n' +
         '[REDACTED]-4\n' +
         '123a[REDACTED]\n' +
-        '[REDACTED]-a-2-3-4\n' +
-        '';
+        '[REDACTED]-a-2-3-4\n';
       assert.equal(actual, expected);
     });
 

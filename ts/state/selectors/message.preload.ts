@@ -2595,9 +2595,7 @@ export function canDownload(
   conversationSelector: GetConversationByIdType
 ): boolean {
   const conversation = getConversation(message, conversationSelector);
-  const isAccepted = Boolean(
-    conversation && conversation.acceptedMessageRequest
-  );
+  const isAccepted = conversation.acceptedMessageRequest;
   if (isIncoming(message) && !isAccepted) {
     return false;
   }
@@ -2911,7 +2909,7 @@ export const getMessageDetailsSelector = createSelector(
           selectedMessageIds,
           defaultConversationColor,
         }),
-        receivedAt: Number(message.received_at_ms || message.received_at),
+        receivedAt: message.received_at_ms ?? message.received_at ?? 0,
       };
     }
 );

@@ -89,7 +89,7 @@ export function ContactName({
         contactNameColor ? getClassName(`--${contactNameColor}`) : null
       )}
       dir="auto"
-      onClick={(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+      onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
         if (onClick) {
           onClick();
           event.stopPropagation();

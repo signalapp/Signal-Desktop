@@ -85,9 +85,7 @@ export const MessageMetadata = forwardRef<HTMLDivElement, Readonly<PropsType>>(
     const [confirmationType, setConfirmationType] = useState<
       ConfirmationType | undefined
     >();
-    const withImageNoCaption = Boolean(
-      !isSticker && !hasText && isShowingImage
-    );
+    const withImageNoCaption = !isSticker && !hasText && isShowingImage;
     const metadataDirection = isSticker ? undefined : direction;
 
     let timestampNode: ReactNode;

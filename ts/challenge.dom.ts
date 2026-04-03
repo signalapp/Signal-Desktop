@@ -126,6 +126,8 @@ export function getChallengeURL(type: 'chat' | 'registration'): string {
 // `ChallengeHandler` should be in memory at the same time because they could
 // overwrite each others storage data.
 export class ChallengeHandler {
+  readonly #options: Options;
+
   #solving = 0;
   #isLoaded = false;
   #challengeToken: string | undefined;
@@ -142,7 +144,9 @@ export class ChallengeHandler {
   readonly #startTimers = new Map<string, NodeJS.Timeout>();
   readonly #pendingStarts = new Set<string>();
 
-  constructor(private readonly options: Options) {}
+  constructor(options: Options) {
+    this.#options = options;
+  }
 
   public async load(): Promise<void> {
     if (this.#isLoaded) {
@@ -151,13 +155,13 @@ export class ChallengeHandler {
 
     this.#isLoaded = true;
     const challenges: ReadonlyArray<RegisteredChallengeType> =
-      this.options.storage.get(STORAGE_KEY) || [];
+      this.#options.storage.get(STORAGE_KEY) || [];
 
     log.info(`loading ${challenges.length} challenges`);
 
     await Promise.all(
       challenges.map(async challenge => {
-        const expireAfter = this.options.expireAfter || DEFAULT_EXPIRE_AFTER;
+        const expireAfter = this.#options.expireAfter || DEFAULT_EXPIRE_AFTER;
         if (isOlderThan(challenge.createdAt, expireAfter)) {
           log.info(
             `expired challenge for conversation ${challenge.conversationId}`
@@ -192,7 +196,7 @@ export class ChallengeHandler {
     log.info(`online, starting ${pending.length} queues`);
 
     // Start queues for challenges that matured while we were offline
-    await this.#startAllQueues();
+    this.#startAllQueues();
   }
 
   public maybeSolve({ conversationId, reason }: MaybeSolveOptionsType): void {
@@ -342,7 +346,7 @@ export class ChallengeHandler {
     const request: IPCRequest = { seq: this.#seq, reason };
     this.#seq += 1;
 
-    this.options.requestChallenge(request);
+    this.#options.requestChallenge(request);
 
     const response = await new Promise<ChallengeResponse>((resolve, reject) => {
       this.#responseHandlers.set(request.seq, { token, resolve, reject });
@@ -356,7 +360,7 @@ export class ChallengeHandler {
       this.#isLoaded,
       'ChallengeHandler has to be loaded before persisting new data'
     );
-    await this.options.storage.put(
+    await this.#options.storage.put(
       STORAGE_KEY,
       Array.from(this.#registeredConversations.values())
     );
@@ -391,16 +395,16 @@ export class ChallengeHandler {
     await this.unregister(conversationId, 'startQueue');
 
     if (this.#registeredConversations.size === 0) {
-      this.options.setChallengeStatus('idle');
+      this.#options.setChallengeStatus('idle');
     }
 
     log.info(`startQueue: starting queue ${conversationId}`);
-    this.options.startQueue(conversationId);
+    this.#options.startQueue(conversationId);
   }
 
   async #solve({ reason, token }: SolveOptionsType): Promise<void> {
     this.#solving += 1;
-    this.options.setChallengeStatus('required');
+    this.#options.setChallengeStatus('required');
     this.#challengeToken = token;
 
     const captcha = await this.requestCaptcha({ reason, token });
@@ -414,12 +418,12 @@ export class ChallengeHandler {
     const lastToken = this.#challengeToken;
     this.#challengeToken = undefined;
 
-    this.options.setChallengeStatus('pending');
+    this.#options.setChallengeStatus('pending');
 
     log.info(`challenge(${reason}): sending challenge to server`);
 
     try {
-      await this.options.sendChallengeResponse({
+      await this.#options.sendChallengeResponse({
         type: 'captcha',
         token: lastToken,
         captcha,
@@ -454,8 +458,8 @@ export class ChallengeHandler {
 
       // Remove the challenge dialog, and trigger the conversationJobQueue to retry the
       // sends, which will likely trigger another captcha
-      this.options.setChallengeStatus('idle');
-      this.options.onChallengeFailed(retryAfter);
+      this.#options.setChallengeStatus('idle');
+      this.#options.onChallengeFailed(retryAfter);
       this.forceWaitOnAll(retryAt);
       return;
     } finally {
@@ -464,8 +468,8 @@ export class ChallengeHandler {
 
     log.info(`challenge(${reason}): challenge success. force sending`);
 
-    this.options.setChallengeStatus('idle');
-    this.options.onChallengeSolved();
+    this.#options.setChallengeStatus('idle');
+    this.#options.onChallengeSolved();
     this.#startAllQueues({ force: true });
   }
 }

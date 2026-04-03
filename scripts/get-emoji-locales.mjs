@@ -34,8 +34,8 @@ async function fetchJSON(url) {
 
 const manifest = ManifestSchema.parse(await fetchJSON(MANIFEST_URL));
 
-manifest.languageToSmartlingLocale['zh_TW'] = 'zh-Hant';
-manifest.languageToSmartlingLocale['sr'] = 'sr';
+manifest.languageToSmartlingLocale.zh_TW = 'zh-Hant';
+manifest.languageToSmartlingLocale.sr = 'sr';
 
 /** @type {Map<string, OptionalResourceType>} */
 const extraResources = new Map();

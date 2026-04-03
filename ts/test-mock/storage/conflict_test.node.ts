@@ -74,8 +74,8 @@ describe('storage service', function (this: Mocha.Suite) {
 
         const record =
           kind === 'contact'
-            ? await newState.getContact(first)
-            : await newState.getGroup(group);
+            ? newState.getContact(first)
+            : newState.getGroup(group);
 
         assert.ok(record, 'contact record not found');
         assert.ok(record?.archived, 'contact archived');
@@ -303,7 +303,7 @@ describe('storage service', function (this: Mocha.Suite) {
       .getByRole('button', { name: 'Delete link' })
       .click();
 
-    const confirmModal = await window.getByTestId(
+    const confirmModal = window.getByTestId(
       'ConfirmationDialog.CallLinkDetails__DeleteLinkModal'
     );
     await confirmModal.locator('.module-Button').getByText('Delete').click();

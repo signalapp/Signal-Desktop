@@ -35,9 +35,7 @@ describe('calling/callLinkAdmin', function (this: Mocha.Suite) {
       const name = 'New Name';
       await createCallLink(window, { name });
 
-      const title = await window
-        .locator('.CallsList__ItemTile')
-        .getByText(name);
+      const title = window.locator('.CallsList__ItemTile').getByText(name);
 
       await expect(title).toContainText(name);
     }
@@ -49,7 +47,7 @@ describe('calling/callLinkAdmin', function (this: Mocha.Suite) {
         isAdminApprovalRequired: false,
       });
 
-      const callLinkItem = await window.getByText(name);
+      const callLinkItem = window.getByText(name);
       await callLinkItem.click();
 
       const callLinkDetails = window.locator(
@@ -57,7 +55,7 @@ describe('calling/callLinkAdmin', function (this: Mocha.Suite) {
       );
       await callLinkDetails.waitFor();
 
-      const restrictionsSelect = await window.locator(
+      const restrictionsSelect = window.locator(
         '.CallLinkRestrictionsSelect select'
       );
       await expect(restrictionsSelect).toHaveJSProperty('value', '0');
@@ -70,7 +68,7 @@ describe('calling/callLinkAdmin', function (this: Mocha.Suite) {
         isAdminApprovalRequired: true,
       });
 
-      const callLinkItem = await window.getByText(name);
+      const callLinkItem = window.getByText(name);
       await callLinkItem.click();
 
       const callLinkDetails = window.locator(
@@ -78,7 +76,7 @@ describe('calling/callLinkAdmin', function (this: Mocha.Suite) {
       );
       await callLinkDetails.waitFor();
 
-      const restrictionsSelect = await window.locator(
+      const restrictionsSelect = window.locator(
         '.CallLinkRestrictionsSelect select'
       );
       await expect(restrictionsSelect).toHaveJSProperty('value', '1');

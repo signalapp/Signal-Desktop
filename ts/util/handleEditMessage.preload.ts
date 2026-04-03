@@ -137,7 +137,7 @@ export async function handleEditMessage(
     editAttributes.message
   );
 
-  const previewSignatures: Map<string, AttachmentType> = new Map();
+  const previewSignatures = new Map<string, AttachmentType>();
   mainMessage.preview?.forEach(preview => {
     if (!preview.image) {
       return;

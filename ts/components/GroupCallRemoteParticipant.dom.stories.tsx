@@ -71,7 +71,7 @@ const createProps = (
     sharingScreen: false,
     videoAspectRatio: 1.3,
     ...getDefaultConversation({
-      isBlocked: Boolean(isBlocked),
+      isBlocked,
       title:
         'Pablo Diego José Francisco de Paula Juan Nepomuceno María de los Remedios Cipriano de la Santísima Trinidad Ruiz y Picasso',
       serviceId: generateAci(),

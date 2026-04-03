@@ -28,7 +28,7 @@ export function StoryLinkPreview({
   url,
 }: Props): React.JSX.Element {
   const isImage = isImageAttachment(image);
-  const location = domain || getSafeDomain(String(url));
+  const location = domain || getSafeDomain(url);
   const isCompact = forceCompactMode || !image;
 
   let content: React.JSX.Element | undefined;

@@ -106,8 +106,8 @@ describe('storage service', function (this: Mocha.Suite) {
       const newState = await phone.waitForStorageState({
         after: state,
       });
-      assert.ok(!(await newState.isPinned(firstContact)), 'contact not pinned');
-      const record = await newState.getContact(firstContact);
+      assert.ok(!newState.isPinned(firstContact), 'contact not pinned');
+      const record = newState.getContact(firstContact);
       assert.ok(record, 'contact record not found');
       assert.ok(record?.archived, 'contact archived');
 

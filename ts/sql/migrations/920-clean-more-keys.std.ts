@@ -87,6 +87,7 @@ export function cleanKeys(
       pluck: true,
     })
     .get(beforeParams);
+  // oxlint-disable-next-line typescript/restrict-template-expressions
   logger.info(`${logId}: Found ${beforeKeys} keys for PNI`);
 
   // Create index to help us with all these queries
@@ -95,7 +96,7 @@ export function cleanKeys(
       ALTER TABLE ${tableName}
         ADD COLUMN createdAt NUMBER
           GENERATED ALWAYS AS (json_extract(json, '$.${columnName}'));
-      
+
       CREATE INDEX ${tableName}_date
         ON ${tableName} (${idField}, createdAt);
     `[0]
@@ -106,7 +107,7 @@ export function cleanKeys(
   const [oldQuery, oldParams] = sql`
     SELECT createdAt
     FROM ${tableName}
-    WHERE 
+    WHERE
       createdAt IS NOT NULL AND
       ${idField} = ${pni}
     ORDER BY createdAt ASC
@@ -118,13 +119,14 @@ export function cleanKeys(
       pluck: true,
     })
     .get(oldParams);
+  // oxlint-disable-next-line typescript/restrict-template-expressions
   logger.info(`${logId}: Found 500th-oldest timestamp: ${oldBoundary}`);
 
   // Fetch 500th-newest timestamp for PNI
   const [newQuery, newParams] = sql`
     SELECT createdAt
     FROM ${tableName}
-    WHERE 
+    WHERE
       createdAt IS NOT NULL AND
       ${idField} = ${pni}
     ORDER BY createdAt DESC
@@ -136,6 +138,7 @@ export function cleanKeys(
       pluck: true,
     })
     .get(newParams);
+  // oxlint-disable-next-line typescript/restrict-template-expressions
   logger.info(`${logId}: Found 500th-newest timestamp: ${newBoundary}`);
 
   // Delete everything in between for PNI
@@ -167,6 +170,7 @@ export function cleanKeys(
       pluck: true,
     })
     .get(afterParams);
+  // oxlint-disable-next-line typescript/restrict-template-expressions
   logger.info(`${logId}: Found ${afterCount} keys for PNI after delete`);
 
   db.exec(

@@ -60,7 +60,7 @@ export const shouldTryToCopyFromQuotedMessage = ({
   quoteAttachment: ReadonlyDeep<QuotedAttachmentType> | undefined;
 }): boolean => {
   // If we've tried and can't find the message, try again.
-  if (referencedMessageNotFound === true) {
+  if (referencedMessageNotFound) {
     return true;
   }
 

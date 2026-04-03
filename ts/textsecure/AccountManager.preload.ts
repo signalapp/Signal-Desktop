@@ -686,7 +686,7 @@ export default class AccountManager extends EventTarget {
       );
     }
 
-    const key = await generateSignedPreKey(identityKey, signedKeyId);
+    const key = generateSignedPreKey(identityKey, signedKeyId);
     log.info(`${logId}: Saving new signed prekey`, key.keyId);
 
     await itemStorage.put(
@@ -705,7 +705,7 @@ export default class AccountManager extends EventTarget {
     const identityKey = this.#getIdentityKeyOrThrow(ourServiceId);
     const logId = `AccountManager.maybeUpdateSignedPreKey(${serviceIdKind}, ${ourServiceId})`;
 
-    const keys = await signalProtocolStore.loadSignedPreKeys(ourServiceId);
+    const keys = signalProtocolStore.loadSignedPreKeys(ourServiceId);
     const sortedKeys = orderBy(keys, ['created_at'], ['desc']);
     const confirmedKeys = sortedKeys.filter(key => key.confirmed);
     const mostRecent = confirmedKeys[0];
@@ -758,7 +758,7 @@ export default class AccountManager extends EventTarget {
     }
 
     const keyId = kyberKeyId;
-    const record = await generateKyberPreKey(identityKey, keyId);
+    const record = generateKyberPreKey(identityKey, keyId);
     log.info(`${logId}: Saving new last resort prekey`, keyId);
 
     await itemStorage.put(
@@ -1304,7 +1304,7 @@ export default class AccountManager extends EventTarget {
       Bytes.toBase64(deriveStorageServiceKey(derivedMasterKey))
     );
 
-    await itemStorage.put('read-receipt-setting', Boolean(readReceipts));
+    await itemStorage.put('read-receipt-setting', readReceipts);
 
     const regionCode = getRegionCodeForNumber(number);
     await itemStorage.put('regionCode', regionCode);

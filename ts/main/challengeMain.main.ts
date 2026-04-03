@@ -16,7 +16,7 @@ const log = createLogger('challengeMain');
 
 export class ChallengeMainHandler {
   #handlers: Array<(response: ChallengeResponse) => void> = [];
-  #hardcodedResult?: ChallengeResponse;
+  readonly #hardcodedResult?: ChallengeResponse;
 
   constructor(hardcodedResult?: string) {
     if (hardcodedResult && getEnvironment() === Environment.Development) {

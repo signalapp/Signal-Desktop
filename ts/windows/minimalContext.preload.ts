@@ -36,14 +36,13 @@ export const MinimalSignalContext: MinimalSignalContextType = {
   ): Promise<void> {
     await ipcRenderer.invoke('executeMenuRole', role);
   },
-  getAppInstance: (): string | undefined =>
-    config.appInstance ? String(config.appInstance) : undefined,
+  getAppInstance: (): string | undefined => config.appInstance,
   getEnvironment: () => environment,
-  getNodeVersion: (): string => String(config.nodeVersion),
+  getNodeVersion: (): string => config.nodeVersion,
   getPath: (name: 'userData' | 'home' | 'install'): string => {
-    return String(config[`${name}Path`]);
+    return config[`${name}Path`];
   },
-  getVersion: (): string => String(config.version),
+  getVersion: (): string => config.version,
   async getMainWindowStats(): Promise<MainWindowStatsType> {
     return ipcRenderer.invoke('getMainWindowStats');
   },

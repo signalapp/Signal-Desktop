@@ -3121,6 +3121,7 @@ function createGroup(
           ),
         },
       });
+      // oxlint-disable-next-line typescript/await-thenable
       await showConversation({
         conversationId: conversation.id,
         switchToAssociatedView: true,
@@ -3507,8 +3508,7 @@ function messagesReset({
     for (const message of messages) {
       strictAssert(
         message.conversationId === conversationId,
-        `messagesReset(${conversationId}): invalid message conversationId ` +
-          `${message.conversationId}`
+        `messagesReset(${conversationId}): invalid message conversationId ${message.conversationId}`
       );
     }
 
@@ -3533,8 +3533,7 @@ function addPreloadData(
   for (const message of messages) {
     strictAssert(
       message.conversationId === conversationId,
-      `addPreloadData(${conversationId}): invalid message conversationId ` +
-        `${message.conversationId}`
+      `addPreloadData(${conversationId}): invalid message conversationId ${message.conversationId}`
     );
   }
 
@@ -4905,6 +4904,7 @@ function showConversation({
     });
 
     // Attempt to change the location - note that this might be canceled
+    // oxlint-disable-next-line typescript/await-thenable
     await changeLocation({
       tab: NavTab.Chats,
       details: {
@@ -5090,6 +5090,7 @@ function onConversationClosed(
 
     // If we're still on this conversation, but we want to close it, go to splash screen
     if (selectedConversationId === conversationId) {
+      // oxlint-disable-next-line typescript/await-thenable
       await changeLocation({
         tab: NavTab.Chats,
         details: {

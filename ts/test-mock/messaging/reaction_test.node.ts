@@ -26,7 +26,7 @@ async function getReactionsForMessage(page: Page, timestamp: number) {
   const reactionsByEmoji: Record<string, Array<string>> = {};
 
   try {
-    const message = await getMessageInTimelineByTimestamp(page, timestamp);
+    const message = getMessageInTimelineByTimestamp(page, timestamp);
 
     await message.locator('.module-message__reactions').click();
 
@@ -417,7 +417,7 @@ describe('reactions', function (this: Mocha.Suite) {
     await leftPane.getByText('ThumbsToneGroup').click();
 
     // Click the reaction button on that message
-    const msg = await getMessageInTimelineByTimestamp(window, ts);
+    const msg = getMessageInTimelineByTimestamp(window, ts);
     await msg.locator('.module-message__reactions').click();
 
     // Grab the header emoji in the overlay (next to the total count)

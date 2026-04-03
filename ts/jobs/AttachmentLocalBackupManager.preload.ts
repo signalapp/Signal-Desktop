@@ -36,7 +36,7 @@ type RunAttachmentBackupJobDependenciesType = {
 export function getJobIdForLogging(
   job: CoreAttachmentLocalBackupJobType
 ): string {
-  return `${redactGenericText(job.mediaName)}`;
+  return redactGenericText(job.mediaName);
 }
 
 export async function runAttachmentBackupJob(

@@ -29,9 +29,9 @@ export namespace DurationInSeconds {
   export const toHours = (d: DurationInSeconds): number =>
     (d * Constants.SECOND) / Constants.HOUR;
 
-  export const ZERO = DurationInSeconds.fromSeconds(0);
-  export const HOUR = DurationInSeconds.fromHours(1);
-  export const MINUTE = DurationInSeconds.fromMinutes(1);
-  export const DAY = DurationInSeconds.fromDays(1);
-  export const WEEK = DurationInSeconds.fromWeeks(1);
+  export const ZERO = fromSeconds(0);
+  export const HOUR = fromHours(1);
+  export const MINUTE = fromMinutes(1);
+  export const DAY = fromDays(1);
+  export const WEEK = fromWeeks(1);
 }

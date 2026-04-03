@@ -31,6 +31,7 @@ const RESOURCES_DICT_PATH = join(
 const MAX_CACHE_SIZE = 50 * 1024 * 1024;
 
 export class OptionalResourceService {
+  readonly #resourcesDir: string;
   #maybeDeclaration: OptionalResourcesDictType | undefined;
 
   readonly #cache = new LRUCache<string, Buffer<ArrayBuffer>>({
@@ -41,7 +42,9 @@ export class OptionalResourceService {
 
   readonly #fileQueues = new Map<string, PQueue>();
 
-  private constructor(private readonly resourcesDir: string) {
+  private constructor(resourcesDir: string) {
+    this.#resourcesDir = resourcesDir;
+
     ipcMain.handle('OptionalResourceService:getData', (_event, name) =>
       this.getData(name)
     );
@@ -61,7 +64,7 @@ export class OptionalResourceService {
       return undefined;
     }
 
-    const filePath = join(this.resourcesDir, name);
+    const filePath = join(this.#resourcesDir, name);
     return this.#queueFileWork(filePath, async () => {
       const inMemory = this.#cache.get(name);
       if (inMemory) {
@@ -117,7 +120,7 @@ export class OptionalResourceService {
     // Clean unknown resources
     let subPaths: Array<string>;
     try {
-      subPaths = await readdir(this.resourcesDir);
+      subPaths = await readdir(this.#resourcesDir);
     } catch (error) {
       // Directory wasn't created yet
       if (error.code === 'ENOENT') {
@@ -132,7 +135,7 @@ export class OptionalResourceService {
           return;
         }
 
-        const fullPath = join(this.resourcesDir, subPath);
+        const fullPath = join(this.#resourcesDir, subPath);
 
         try {
           await unlink(fullPath);

@@ -476,7 +476,7 @@ async function takeDiffFromPart(
     | null;
   strictAssert(
     match,
-    `Invalid Content-Range header for the part: "${contentRange}"`
+    `Invalid Content-Range header for the part: "${contentRange.join(', ')}"`
   );
 
   const range = match[1];

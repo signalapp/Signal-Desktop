@@ -166,7 +166,7 @@ export function GroupMemberLabelEditor({
   // the new existing values yet when the onSuccess callback down-file is called.
   const previousIsSaving = usePrevious(isSaving, isSaving);
   useEffect(() => {
-    if (isSaving === false && previousIsSaving !== isSaving && !isDirty) {
+    if (!isSaving && previousIsSaving !== isSaving && !isDirty) {
       popPanelForConversation();
     }
   }, [isDirty, isSaving, popPanelForConversation, previousIsSaving]);

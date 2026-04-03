@@ -102,7 +102,7 @@ export async function getServiceIdsForE164s(
   const expandedE164sArray = Array.from(expandedE164s);
 
   log.info(
-    `getServiceIdsForE164s(${expandedE164sArray}): acis=${acisAndAccessKeys.length} ` +
+    `getServiceIdsForE164s(${expandedE164sArray.join(', ')}): acis=${acisAndAccessKeys.length} ` +
       `accessKeys=${acisAndAccessKeys.length}`
   );
   const response = await doCdsLookup({

@@ -174,7 +174,7 @@ export function Lightbox({
     setShouldShowDownloadToast(false);
   }, [isDownloading, setShouldShowDownloadToast]);
   const onUserInteractionOnVideo = useCallback(
-    (event: React.MouseEvent<HTMLVideoElement, MouseEvent>) => {
+    (event: React.MouseEvent<HTMLVideoElement>) => {
       if (downloadToastTimeout.current) {
         clearTimeout(downloadToastTimeout.current);
         downloadToastTimeout.current = undefined;
@@ -196,9 +196,7 @@ export function Lightbox({
   );
 
   const onPrevious = useCallback(
-    (
-      event: KeyboardEvent | React.MouseEvent<HTMLButtonElement, MouseEvent>
-    ) => {
+    (event: KeyboardEvent | React.MouseEvent<HTMLButtonElement>) => {
       event.preventDefault();
       event.stopPropagation();
 
@@ -212,9 +210,7 @@ export function Lightbox({
   );
 
   const onNext = useCallback(
-    (
-      event: KeyboardEvent | React.MouseEvent<HTMLButtonElement, MouseEvent>
-    ) => {
+    (event: KeyboardEvent | React.MouseEvent<HTMLButtonElement>) => {
       event.preventDefault();
       event.stopPropagation();
 
@@ -235,9 +231,7 @@ export function Lightbox({
   }, [setVideoTime, videoElement]);
 
   const handleSave = useCallback(
-    (
-      event: KeyboardEvent | React.MouseEvent<HTMLButtonElement, MouseEvent>
-    ) => {
+    (event: KeyboardEvent | React.MouseEvent<HTMLButtonElement>) => {
       if (isViewOnce) {
         return;
       }
@@ -254,9 +248,7 @@ export function Lightbox({
     [isViewOnce, media, saveAttachment, selectedIndex]
   );
 
-  const handleForward = (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
+  const handleForward = (event: React.MouseEvent<HTMLButtonElement>) => {
     if (isViewOnce) {
       return;
     }
@@ -524,7 +516,7 @@ export function Lightbox({
   );
 
   const zoomButtonHandler = useCallback(
-    (ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    (ev: React.MouseEvent<HTMLButtonElement>) => {
       ev.preventDefault();
       ev.stopPropagation();
 
@@ -850,10 +842,7 @@ export function Lightbox({
                           key={item.attachment.thumbnail?.url}
                           type="button"
                           onClick={(
-                            event: React.MouseEvent<
-                              HTMLButtonElement,
-                              MouseEvent
-                            >
+                            event: React.MouseEvent<HTMLButtonElement>
                           ) => {
                             event.stopPropagation();
                             event.preventDefault();

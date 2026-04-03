@@ -414,7 +414,7 @@ ipc.on('donation-paypal-canceled', (_event, { returnToken }) => {
 ipc.on('show-conversation-via-token', (_event, token: string) => {
   const { showConversationViaToken } = window.Events;
   if (showConversationViaToken) {
-    void showConversationViaToken(token);
+    showConversationViaToken(token);
   }
 });
 ipc.on('show-conversation-via-signal.me', (_event, info) => {

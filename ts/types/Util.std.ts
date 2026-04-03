@@ -21,7 +21,7 @@ export type RenderTextCallbackType = (options: {
   key: number;
 }) => React.JSX.Element | string;
 
-export { ICUJSXMessageParamsByKeyType, ICUStringMessageParamsByKeyType };
+export type { ICUJSXMessageParamsByKeyType, ICUStringMessageParamsByKeyType };
 
 export type LocalizerOptions = {
   /**

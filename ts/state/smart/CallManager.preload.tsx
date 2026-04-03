@@ -179,7 +179,7 @@ const mapStateToActiveCallProp = (
       const pendingParticipants: Array<ConversationType> = [];
       const conversationsByDemuxId: ConversationsByDemuxIdType = new Map();
       const { localDemuxId } = call;
-      const raisedHands: Set<number> = new Set(call.raisedHands ?? []);
+      const raisedHands = new Set<number>(call.raisedHands ?? []);
 
       const { memberships = [] } = conversation;
 

@@ -81,7 +81,7 @@ export function ConversationDetailsIcon({
         role="button"
         className={bem('button')}
         tabIndex={0}
-        onClick={(event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        onClick={(event: React.MouseEvent<HTMLDivElement>) => {
           event.preventDefault();
           event.stopPropagation();
           onClick();
@@ -106,7 +106,7 @@ export function ConversationDetailsIcon({
         className={bem('button')}
         disabled={disabled}
         type="button"
-        onClick={(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
           event.preventDefault();
           event.stopPropagation();
           onClick();

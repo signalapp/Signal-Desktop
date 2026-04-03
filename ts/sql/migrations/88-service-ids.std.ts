@@ -994,6 +994,7 @@ function migrateJobs(
     try {
       const parsedData: unknown = JSON.parse(data);
 
+      // oxlint-disable-next-line typescript/no-redundant-type-constituents
       let updatedData: unknown | undefined;
       if (queueType === 'conversation') {
         const convoJob = parsedData as LegacyConversationJob;

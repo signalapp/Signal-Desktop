@@ -744,7 +744,7 @@ describe('JobQueue', () => {
     });
 
     class FakeStream implements AsyncIterable<StoredJob> {
-      #eventEmitter = new EventEmitter();
+      readonly #eventEmitter = new EventEmitter();
 
       async *[Symbol.asyncIterator]() {
         // oxlint-disable-next-line no-constant-condition
@@ -874,7 +874,7 @@ describe('JobQueue', () => {
 
       await noopQueue.add(undefined);
 
-      sinon.assert.notCalled(fakeStore.stream as sinon.SinonStub);
+      sinon.assert.notCalled(fakeStore.stream);
     });
   });
 });

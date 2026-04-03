@@ -162,16 +162,16 @@ export function validateGroupSendEndorsementsExpiration(
 }
 
 export class GroupSendEndorsementState {
-  #logId: string;
-  #combinedEndorsement: GroupSendCombinedEndorsementRecord;
-  #memberEndorsements = new Map<
+  readonly #logId: string;
+  readonly #combinedEndorsement: GroupSendCombinedEndorsementRecord;
+  readonly #memberEndorsements = new Map<
     ServiceIdString,
     GroupSendMemberEndorsementRecord
   >();
-  #memberEndorsementsAcis = new Set<ServiceIdString>();
-  #groupSecretParamsBase64: string;
-  #ourAci: ServiceIdString;
-  #endorsementCache = new WeakMap<
+  readonly #memberEndorsementsAcis = new Set<ServiceIdString>();
+  readonly #groupSecretParamsBase64: string;
+  readonly #ourAci: ServiceIdString;
+  readonly #endorsementCache = new WeakMap<
     Uint8Array<ArrayBuffer>,
     GroupSendEndorsement
   >();

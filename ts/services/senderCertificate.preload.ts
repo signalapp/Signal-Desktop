@@ -41,10 +41,10 @@ type ServerType = Readonly<{
 export class SenderCertificateService {
   #server?: ServerType;
 
-  #fetchPromises: Map<
+  readonly #fetchPromises = new Map<
     SenderCertificateMode,
     Promise<undefined | SerializedCertificateType>
-  > = new Map();
+  >();
 
   #events?: Pick<typeof window.Whisper.events, 'on' | 'off'>;
   #storage?: StorageInterface;

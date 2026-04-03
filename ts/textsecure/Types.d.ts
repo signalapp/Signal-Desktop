@@ -18,7 +18,7 @@ import type { AnyPaymentEvent } from '../types/Payment.std.ts';
 import type { RawBodyRange } from '../types/BodyRange.std.ts';
 import type { StoryMessageRecipientsType } from '../types/Stories.std.ts';
 
-export {
+export type {
   IdentityKeyType,
   IdentityKeyIdType,
   KyberPreKeyType,
@@ -92,7 +92,7 @@ export type ProcessedEnvelope = Readonly<{
   type: Proto.Envelope.Type;
   source: string | undefined;
   sourceServiceId: ServiceIdString | undefined;
-  sourceDevice: number | Undefined;
+  sourceDevice: number | undefined;
   destinationServiceId: ServiceIdString;
   updatedPni: PniString | undefined;
   timestamp: number;

@@ -180,7 +180,7 @@ describe('pnp/username', function (this: Mocha.Suite) {
           'notification count'
         );
 
-        const first = await notifications.first();
+        const first = notifications.first();
         assert.strictEqual(
           await first.innerText(),
           `You started this chat with ${USERNAME}`

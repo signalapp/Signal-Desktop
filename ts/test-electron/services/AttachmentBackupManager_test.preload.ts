@@ -214,14 +214,14 @@ describe('AttachmentBackupManager/JobManager', function attachmentBackupManager(
 
   function waitForJobToBeStarted(
     job: CoreAttachmentBackupJobType,
-    attempts: number = 0
+    attempts = 0
   ) {
     return backupManager?.waitForJobToBeStarted({ ...job, attempts });
   }
 
   function waitForJobToBeCompleted(
     job: CoreAttachmentBackupJobType,
-    attempts: number = 0
+    attempts = 0
   ) {
     return backupManager?.waitForJobToBeCompleted({ ...job, attempts });
   }

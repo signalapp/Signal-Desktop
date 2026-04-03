@@ -1823,6 +1823,7 @@ async function initializeSQL(
 
     return {
       ok: false,
+      // oxlint-disable-next-line typescript/restrict-template-expressions
       error: new Error(`initializeSQL: Caught a non-error '${error}'`),
     };
   } finally {

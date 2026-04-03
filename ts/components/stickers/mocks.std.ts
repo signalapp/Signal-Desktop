@@ -79,9 +79,7 @@ export const packs = [
   createPack({ id: 'wide' }, wideSticker),
   ...Array(20)
     .fill(0)
-    .map((_, n) =>
-      createPack({ id: `pack-${n}` }, sample(choosableStickers) as StickerType)
-    ),
+    .map((_, n) => createPack({ id: `pack-${n}` }, sample(choosableStickers))),
 ];
 
 export const recentStickers = [

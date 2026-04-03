@@ -260,8 +260,8 @@ export async function markConversationRead(
     }
   }
 
-  void updateExpiringMessagesService();
-  void tapToViewMessagesDeletionService.update();
+  updateExpiringMessagesService();
+  tapToViewMessagesDeletionService.update();
 
   return true;
 }

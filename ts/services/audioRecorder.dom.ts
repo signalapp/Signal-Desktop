@@ -55,6 +55,7 @@ export class RecorderClass {
       return false;
     }
 
+    // oxlint-disable-next-line typescript/await-thenable
     await window.reduxActions.globalModals.ensureSystemMediaPermissions(
       'microphone',
       'voiceNote'

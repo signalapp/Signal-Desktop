@@ -7,7 +7,7 @@ import { encode } from 'blurhash';
  *
  * The color is specified as an ARGB value, where the alpha channel is ignored.
  */
-export function generateBlurHash(argb: number = 0xff_fbfbfb): string {
+export function generateBlurHash(argb = 0xff_fbfbfb): string {
   return encode(
     new Uint8ClampedArray([
       // Flipping from argb to rgba

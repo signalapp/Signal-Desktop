@@ -130,7 +130,7 @@ export function areMessagesInSameGroup(
     return false;
   }
 
-  return Boolean(
+  return (
     !olderMessage.reactions?.length &&
     olderMessage.author.id === newerMessage.author.id &&
     (olderMessage.isEditedMessage ||

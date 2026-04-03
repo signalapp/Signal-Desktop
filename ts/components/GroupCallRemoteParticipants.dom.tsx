@@ -724,7 +724,7 @@ function getGridParticipantsByPage({
       ...pageLayoutProps,
     });
 
-    let nextPage: ParticipantsInPageType<ParticipantTileType> | undefined;
+    let nextPage: ParticipantsInPageType | undefined;
 
     if (
       nextPageInSortedOrder.numParticipants ===
@@ -806,12 +806,9 @@ function getGridParticipantsByPage({
       break;
     }
 
-    const nextPageTiles =
-      nextPage as ParticipantsInPageType<ParticipantTileType>;
-
     // Add a previous page tile if needed
     if (pages.length > 0) {
-      const firstRow = nextPageTiles.rows[0];
+      const firstRow = nextPage.rows[0];
       strictAssert(firstRow, 'Missing firstRow');
       firstRow.unshift({
         isPaginationButton: true,
@@ -837,7 +834,7 @@ function getGridParticipantsByPage({
 
     // Add a next page tile if needed
     if (remainingParticipants.length) {
-      nextPageTiles.rows.at(-1)?.push({
+      nextPage.rows.at(-1)?.push({
         isPaginationButton: true,
         paginationButtonType: 'next',
         videoAspectRatio: PAGINATION_BUTTON_ASPECT_RATIO,

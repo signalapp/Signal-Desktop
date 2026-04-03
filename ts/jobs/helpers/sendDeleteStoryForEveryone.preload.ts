@@ -255,7 +255,7 @@ export async function sendDeleteStoryForEveryone(
 function doesMessageHaveSuccessfulSends(message: MessageModel): boolean {
   const map = message.get('deletedForEveryoneSendStatus') ?? {};
 
-  return Object.values(map).some(value => value === true);
+  return Object.values(map).includes(true);
 }
 
 async function updateMessageWithSuccessfulSends(

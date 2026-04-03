@@ -52,22 +52,24 @@ export type AppOptionsType = Readonly<{
 const WAIT_FOR_EVENT_TIMEOUT = 30 * SECOND;
 
 export class App extends EventEmitter {
+  readonly #options: AppOptionsType;
   #privApp: ElectronApplication | undefined;
 
-  constructor(private readonly options: AppOptionsType) {
+  constructor(options: AppOptionsType) {
     super();
+    this.#options = options;
   }
 
   public async start(): Promise<void> {
     try {
       // launch the electron processs
       this.#privApp = await electron.launch({
-        executablePath: this.options.main,
-        args: this.options.args.slice(),
+        executablePath: this.#options.main,
+        args: this.#options.args.slice(),
         env: {
           ...process.env,
           MOCK_TEST: 'true',
-          SIGNAL_CI_CONFIG: this.options.config,
+          SIGNAL_CI_CONFIG: this.#options.config,
         },
         locale: 'en',
         timeout: 30 * SECOND,

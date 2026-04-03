@@ -192,7 +192,8 @@ function getRangeWithContainer(range: Range): Node {
     return fragment;
   }
 
-  currentNode = startContainer.parentElement as HTMLElement;
+  // oxlint-disable-next-line typescript/no-non-null-assertion
+  currentNode = startContainer.parentElement!;
   while (
     currentNode &&
     CONTAINER_CLASSES.every(item => !currentNode?.classList.contains(item))

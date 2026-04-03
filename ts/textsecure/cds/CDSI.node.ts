@@ -20,14 +20,13 @@ export type CDSIOptionsType = CDSBaseOptionsType;
 
 const REQUEST_TIMEOUT = 10 * durations.SECOND;
 
-export class CDSI extends CDSBase<CDSIOptionsType> {
+export class CDSI extends CDSBase {
+  readonly #libsignalNet: Net.Net;
   #retryAfter?: number;
 
-  constructor(
-    private readonly libsignalNet: Net.Net,
-    options: CDSIOptionsType
-  ) {
+  constructor(libsignalNet: Net.Net, options: CDSIOptionsType) {
     super(options);
+    this.#libsignalNet = libsignalNet;
   }
 
   public async request(
@@ -51,7 +50,7 @@ export class CDSI extends CDSBase<CDSIOptionsType> {
 
       const { timeout = REQUEST_TIMEOUT } = options;
       const response = await pTimeout(
-        this.libsignalNet.cdsiLookup(auth, {
+        this.#libsignalNet.cdsiLookup(auth, {
           acisAndAccessKeys,
           e164s,
         }),

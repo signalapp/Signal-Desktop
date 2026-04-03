@@ -176,7 +176,7 @@ const { approvedDeps } = await enquirer.prompt({
 
     return {
       name: deps.name,
-      message: `${deps.name.padEnd(longestNameLength)}`,
+      message: deps.name.padEnd(longestNameLength),
       hint: `(${color(deps.diff)}: ${deps.resolvedVersion} -> ${color(deps.latestVersion)})`,
     };
   }),

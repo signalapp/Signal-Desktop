@@ -79,7 +79,7 @@ describe('encryptProfileData', () => {
     }
 
     if (encrypted.aboutEmoji) {
-      const decryptedAboutEmojiBytes = await decryptProfile(
+      const decryptedAboutEmojiBytes = decryptProfile(
         Bytes.fromBase64(encrypted.aboutEmoji),
         keyBuffer
       );

@@ -580,6 +580,7 @@ describe('sql/pollVoteMarkRead', () => {
       );
       assert.ok(
         result?.hasUnreadPollVotes == null ||
+          // oxlint-disable-next-line typescript/no-unnecessary-boolean-literal-compare
           result?.hasUnreadPollVotes === false,
         'hasUnreadPollVotes should be false or null/undefined after marking as read'
       );

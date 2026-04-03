@@ -567,6 +567,7 @@ describe('both/state/ducks/conversations', () => {
 
         assert(
           result.composer?.step === ComposerStep.SetGroupMetadata &&
+            // oxlint-disable-next-line typescript/no-unnecessary-boolean-literal-compare
             result.composer.hasError === false
         );
       });

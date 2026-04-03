@@ -10,7 +10,7 @@ import { PreventDisplaySleepService } from '../../../app/PreventDisplaySleepServ
 describe('PreventDisplaySleepService', () => {
   class FakePowerSaveBlocker implements PowerSaveBlocker {
     #nextId = 0;
-    #idsStarted = new Set<number>();
+    readonly #idsStarted = new Set<number>();
 
     isStarted(id: number): boolean {
       return this.#idsStarted.has(id);

@@ -110,6 +110,7 @@ describe('updater/differential', () => {
           const range = value.match(/^(\d+)-(\d+)$/) as
             | (RegExpMatchArray & { 1: string; 2: string })
             | null;
+          // oxlint-disable-next-line typescript/restrict-template-expressions
           strictAssert(range, `Invalid header: ${rangeHeader}`);
 
           return [parseInt(range[1], 10), parseInt(range[2], 10)] as const;

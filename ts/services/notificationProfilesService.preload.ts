@@ -36,7 +36,7 @@ const log = createLogger('notificationProfilesService');
 
 export class NotificationProfilesService {
   #timeout?: ReturnType<typeof setTimeout> | null;
-  #debouncedRefreshNextEvent = debounce(this.#refreshNextEvent, 1000);
+  readonly #debouncedRefreshNextEvent = debounce(this.#refreshNextEvent, 1000);
 
   update(): void {
     drop(this.#debouncedRefreshNextEvent());

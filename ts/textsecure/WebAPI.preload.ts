@@ -507,6 +507,7 @@ async function _promiseAjax<Type extends ResponseType, OutputShape>(
     }
   }
 
+  // oxlint-disable-next-line typescript/no-redundant-type-constituents
   let result: string | Uint8Array<ArrayBuffer> | Readable | unknown;
   try {
     if (DEBUG && !isSuccess(response.status)) {
@@ -2819,6 +2820,7 @@ async function _withNewCredentials<
 
   const result = await callback();
 
+  // oxlint-disable-next-line typescript/no-useless-default-assignment FIXME
   const { uuid: aci = newUsername, deviceId = 1 } = result;
 
   // Set final REST credentials to let `registerKeys` succeed.
@@ -3198,6 +3200,7 @@ export function createFetchForAttachmentUpload({
       ...init,
       headers: {
         ...fetchOptions.headers,
+        // oxlint-disable-next-line typescript/no-misused-spread FIXME
         ...init.headers,
       },
     });
@@ -4633,9 +4636,7 @@ export async function getGroupFromLink(
     disableSessionResumption: true,
     httpType: 'GET',
     responseType: 'bytes',
-    urlParameters: safeInviteLinkPassword
-      ? `${safeInviteLinkPassword}`
-      : undefined,
+    urlParameters: safeInviteLinkPassword,
     redactUrl: _createRedactor(safeInviteLinkPassword),
   });
 
@@ -4729,9 +4730,9 @@ export async function getGroupLog(
     },
     urlParameters:
       `/${startVersion}?` +
-      `includeFirstState=${Boolean(includeFirstState)}&` +
-      `includeLastState=${Boolean(includeLastState)}&` +
-      `maxSupportedChangeEpoch=${Number(maxSupportedChangeEpoch)}`,
+      `includeFirstState=${includeFirstState}&` +
+      `includeLastState=${includeLastState}&` +
+      `maxSupportedChangeEpoch=${maxSupportedChangeEpoch}`,
   });
   const { data, response } = withDetails;
   const changes = Proto.GroupChanges.decode(data);

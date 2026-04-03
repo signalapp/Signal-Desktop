@@ -753,11 +753,9 @@ function useMakeEveryoneTalk(
         Math.random() * call.remoteParticipants.length
       );
 
-      const demuxIdToStartSpeaking = (
-        call.remoteParticipants[
-          idxToStartSpeaking
-        ] as GroupCallRemoteParticipantType
-      ).demuxId;
+      const demuxIdToStartSpeaking =
+        // oxlint-disable-next-line typescript/no-non-null-assertion
+        call.remoteParticipants[idxToStartSpeaking]!.demuxId;
 
       const remoteAudioLevels = new Map();
 
@@ -776,9 +774,7 @@ function useMakeEveryoneTalk(
             hasRemoteAudio:
               idx === idxToStartSpeaking ? true : part.hasRemoteAudio,
             speakerTime:
-              idx === idxToStartSpeaking
-                ? Date.now()
-                : (part as GroupCallRemoteParticipantType).speakerTime,
+              idx === idxToStartSpeaking ? Date.now() : part.speakerTime,
           };
         }),
         remoteAudioLevels,
@@ -899,7 +895,8 @@ function useReactionsEmitter({
           {
             timestamp: timeNow,
             demuxId,
-            value: sample(emojis) as string,
+            // oxlint-disable-next-line typescript/no-non-null-assertion
+            value: sample(emojis)!,
           },
         ];
 

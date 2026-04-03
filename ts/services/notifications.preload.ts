@@ -98,7 +98,7 @@ class NotificationService extends EventEmitter {
   //   to manually close them. This introduces a minimum amount of time between calls,
   //   and batches up the quick successive update() calls we get from an incoming
   //   read sync, which might have a number of messages referenced inside of it.
-  #update: () => unknown;
+  readonly #update: () => unknown;
 
   constructor() {
     super();

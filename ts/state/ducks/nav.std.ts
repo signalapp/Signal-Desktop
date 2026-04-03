@@ -33,7 +33,7 @@ function printLocation(location: Location): string {
     return `${location.tab}/${location.details.page}`;
   }
 
-  return `${location.tab}`;
+  return location.tab;
 }
 
 function getDefaultPanels(): PanelInfo {

@@ -14,7 +14,7 @@ export type Props = {
   trailing?: string | React.JSX.Element;
   moduleClassName?: string;
   onClick?: () => void;
-  onContextMenu?: (ev: React.MouseEvent<Element, MouseEvent>) => void;
+  onContextMenu?: (ev: React.MouseEvent) => void;
   // show hover highlight,
   // defaults to true if onClick is defined
   clickable?: boolean;
