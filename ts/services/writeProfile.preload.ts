@@ -17,6 +17,7 @@ import {
 } from '../util/migrations.preload.ts';
 import { imagePathToBytes } from '../util/imagePathToBytes.dom.ts';
 import { getLocalAvatarUrl } from '../util/avatarUtils.preload.ts';
+import { normalizeProfileName } from '../util/normalizeProfileName.std.ts';
 import type {
   AvatarUpdateOptionsType,
   AvatarUpdateType,
@@ -54,7 +55,7 @@ export async function writeProfile(
   } = conversation;
 
   strictAssert(
-    conversation.firstName != null && conversation.firstName.trim() !== '',
+    normalizeProfileName(firstName) != null,
     'writeProfile: Cannot set an empty profile name'
   );
 
