@@ -40,8 +40,6 @@ const FILES_TO_IGNORE = new Set(
     '.smartling-source.sh',
     'packages/mute-state-change/dist/acknowledgments.md',
     'components/mp3lameencoder/lib/Mp3LameEncoder.js',
-    'components/recorderjs/recorder.js',
-    'components/recorderjs/recorderWorker.js',
     'components/webaudiorecorder/lib/WebAudioRecorder.js',
     'components/webaudiorecorder/lib/WebAudioRecorderMp3.js',
     'js/Mp3LameEncoder.min.js',

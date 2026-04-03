@@ -1,0 +1,54 @@
+// Copyright 2021 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+// @ts-check
+import path from 'node:path';
+import { flipFuses, FuseVersion, FuseV1Options } from '@electron/fuses';
+
+/** @import { AfterPackContext, LinuxPackager } from 'electron-builder' */
+
+/**
+ * @param {AfterPackContext} context
+ * @returns {Promise<void>}
+ */
+export async function afterPack({ appOutDir, packager, electronPlatformName }) {
+  const { productFilename } = packager.appInfo;
+
+  let target;
+  if (electronPlatformName === 'darwin' || electronPlatformName === 'mas') {
+    target = `${productFilename}.app`;
+  } else if (electronPlatformName === 'win32') {
+    target = `${productFilename}.exe`;
+  } else if (electronPlatformName === 'linux') {
+    target = /** @type {LinuxPackager} */ (packager).executableName;
+  } else {
+    throw new Error(`Unsupported platform: ${electronPlatformName}`);
+  }
+
+  const electron = path.join(appOutDir, target);
+
+  const enableInspectArguments = Boolean(process.env.DISABLE_INSPECT_FUSE);
+
+  console.log(
+    `Fusing electron at ${electron} ` +
+      `inspect-arguments=${enableInspectArguments}`
+  );
+  await flipFuses(electron, {
+    version: FuseVersion.V1,
+    // Disables ELECTRON_RUN_AS_NODE
+    [FuseV1Options.RunAsNode]: false,
+    // Enables cookie encryption
+    [FuseV1Options.EnableCookieEncryption]: true,
+    // Disables the NODE_OPTIONS environment variable
+    [FuseV1Options.EnableNodeOptionsEnvironmentVariable]: false,
+    // Disables the --inspect and --inspect-brk family of CLI options
+    [FuseV1Options.EnableNodeCliInspectArguments]: enableInspectArguments,
+    // Enables validation of the app.asar archive on macOS/Windows.
+    [FuseV1Options.EnableEmbeddedAsarIntegrityValidation]:
+      electronPlatformName === 'darwin' ||
+      electronPlatformName === 'mas' ||
+      electronPlatformName === 'win32',
+    // Enforces that Electron will only load your app from "app.asar" instead of
+    // its normal search paths
+    [FuseV1Options.OnlyLoadAppFromAsar]: true,
+  });
+}

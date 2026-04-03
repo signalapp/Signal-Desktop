@@ -61,7 +61,7 @@ const fn = script.runInThisContext({
   importModuleDynamically: constants.USE_MAIN_CONTEXT_DEFAULT_LOADER,
 });
 
-// See `ts/scripts/generate-preload-cache.node.ts`
+// See `scripts/generate-preload-cache.mjs`
 if (process.env.GENERATE_PRELOAD_CACHE) {
   // Use hottest cache possible in CI
   if (process.env.CI) {

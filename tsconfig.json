@@ -4,7 +4,13 @@
     "app/**/*",
     "package.json",
     "build/intl-linter/**/*.ts",
-    ".oxlint/**/*"
+    ".oxlint/**/*",
+    "scripts/**/*",
+    "codemods/**/*",
+    "test/test.mjs",
+    ".babelrc.mjs",
+    ".prettierrc.mjs",
+    ".stylelintrc.mjs"
   ],
   "compilerOptions": {
     /*
@@ -66,11 +72,11 @@
      */
 
     /* Specify what module code is generated. */
-    "module": "ES2022",
+    "module": "ESNext",
     /* Specify the root folder within your source files. */
     "rootDir": "./",
     /* Specify how TypeScript looks up a file from a given module specifier. */
-    "moduleResolution": "Node",
+    "moduleResolution": "Bundler",
     /* Specify the base directory to resolve non-relative module names. */
     // "baseUrl": "./",
     /* Specify a set of entries that re-map imports to additional lookup locations. */
@@ -232,17 +238,5 @@
     // "skipDefaultLibCheck": true,
     /* Skip type checking all .d.ts files. */
     "skipLibCheck": true
-  },
-
-  /**
-   * ts-node
-   */
-  "ts-node": {
-    "transpileOnly": true,
-    // Override TypeScript options for `ts-node` only
-    "compilerOptions": {
-      // Necessary for `ts-node` to work with CommonJS modules until we migrate to package.json#type: "module"
-      "module": "CommonJS"
-    }
   }
 }

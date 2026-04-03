@@ -51,7 +51,7 @@ jobs:
         env:
           ARTIFACTS_DIR: stories
       - run: pnpm run build:rolldown
-      - run: ./node_modules/.bin/tsx ts/scripts/compile-stories-icu-lookup.node.ts stories
+      - run: node scripts/compile-stories-icu-lookup.mjs stories
 
       - name: Upload test artifacts
         if: github.event_name == 'workflow_dispatch'

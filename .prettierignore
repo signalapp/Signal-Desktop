@@ -10,9 +10,7 @@ dist/**
 js/components.js
 js/util_worker.js
 libtextsecure/components.js
-libtextsecure/test/test.js
 stylesheets/*.css
-test/test.js
 ts/**/*.js
 ts/protobuf/*.d.ts
 ts/protobuf/*.js

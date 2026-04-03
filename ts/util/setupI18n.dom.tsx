@@ -14,8 +14,6 @@ import {
 import type { SetupI18nOptionsType } from './setupI18nMain.std.ts';
 import { strictAssert } from './assert.std.ts';
 
-export { isLocaleMessageType } from './setupI18nMain.std.ts';
-
 export function renderEmojify(
   parts: ReadonlyArray<unknown>
 ): React.JSX.Element {
