@@ -152,10 +152,7 @@ describe('both/state/ducks/composer', () => {
       assert.deepEqual(nextState, {
         ...getEmptyState(),
         conversations: {
-          '456': {
-            ...composerState,
-            messageCompositionId: composerState.messageCompositionId,
-          },
+          '456': composerState,
         },
       });
     });
