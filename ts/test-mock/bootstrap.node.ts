@@ -182,6 +182,14 @@ const DEFAULT_REMOTE_CONFIG = [
   ['global.groupsv2.groupSizeHardLimit', { enabled: true, value: '64' }],
   ['global.groupsv2.maxGroupSize', { enabled: true, value: '32' }],
   [
+    'desktop.libsignalNet.grpc.AccountsAnonymousLookupUsernameHash',
+    { enabled: true },
+  ],
+  [
+    'desktop.libsignalNet.grpc.AccountsAnonymousLookupUsernameLink.2',
+    { enabled: true },
+  ],
+  [
     'desktop.libsignalNet.grpc.MessagesAnonymousSendMultiRecipientMessage.2',
     { enabled: true },
   ],
