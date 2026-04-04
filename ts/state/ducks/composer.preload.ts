@@ -123,7 +123,6 @@ type ComposerStateByConversationType = {
   isViewOnce: boolean;
   linkPreviewLoading: boolean;
   linkPreviewResult?: LinkPreviewForUIType;
-  messageCompositionId: string;
   quotedMessage?: QuotedMessageForComposerType;
   sendCounter: number;
   shouldSendHighQualityAttachments?: boolean;
@@ -148,7 +147,6 @@ function getEmptyComposerState(): ComposerStateByConversationType {
     disabledCounter: 0,
     isViewOnce: false,
     linkPreviewLoading: false,
-    messageCompositionId: generateUuid(),
     sendCounter: 0,
   };
 }
