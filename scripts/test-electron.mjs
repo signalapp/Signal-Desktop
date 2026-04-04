@@ -102,8 +102,6 @@ async function launchElectron(worker, attempt) {
         SIGNAL_CI_CONFIG: JSON.stringify({
           storagePath,
         }),
-        // Necessary for `tsx` to work in preload (there are no worker_threads)
-        ESBUILD_WORKER_THREADS: '0',
       },
       // Since we run `.cmd` file on Windows - use shell
       shell: process.platform === 'win32',

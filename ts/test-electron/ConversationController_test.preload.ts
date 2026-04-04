@@ -58,20 +58,21 @@ describe('ConversationController', () => {
       }, 'Need to provide at least one');
     });
 
-    function create(
+    async function create(
       name: string,
       { serviceId: maybeServiceId, aci, e164, pni }: ParamsType
-    ): ConversationModel {
+    ): Promise<ConversationModel> {
       const identifier = aci || maybeServiceId || e164 || pni;
       const serviceId = aci || maybeServiceId || pni;
 
       strictAssert(identifier, 'create needs aci, e164, pni, or serviceId');
 
-      const conversation = window.ConversationController.getOrCreate(
-        identifier,
-        'private',
-        { serviceId, e164, pni }
-      );
+      const conversation =
+        await window.ConversationController.getOrCreateAndWait(
+          identifier,
+          'private',
+          { serviceId, e164, pni }
+        );
       expectLookups(conversation, name, { serviceId, aci, e164, pni });
 
       return conversation;
@@ -265,8 +266,8 @@ describe('ConversationController', () => {
         assert.strictEqual(result?.id, second?.id, 'result and second match');
       });
 
-      it('fetches all-data conversation with ACI-only query', () => {
-        const initial = create('initial', {
+      it('fetches all-data conversation with ACI-only query', async () => {
+        const initial = await create('initial', {
           aci: ACI_1,
           e164: E164_1,
           pni: PNI_1,
@@ -288,8 +289,8 @@ describe('ConversationController', () => {
         assert.strictEqual(result?.id, initial?.id, 'result and initial match');
       });
 
-      it('fetches all-data conversation with e164+PNI query', () => {
-        const initial = create('initial', {
+      it('fetches all-data conversation with e164+PNI query', async () => {
+        const initial = await create('initial', {
           aci: ACI_1,
           e164: E164_1,
           pni: PNI_1,
@@ -312,8 +313,8 @@ describe('ConversationController', () => {
         assert.strictEqual(result?.id, initial?.id, 'result and initial match');
       });
 
-      it('adds ACI to conversation with e164+PNI', () => {
-        const initial = create('initial', {
+      it('adds ACI to conversation with e164+PNI', async () => {
+        const initial = await create('initial', {
           e164: E164_1,
           pni: PNI_1,
         });
@@ -334,8 +335,8 @@ describe('ConversationController', () => {
 
         assert.strictEqual(initial?.id, result?.id, 'result and initial match');
       });
-      it('adds ACI (via ACI+PNI) to conversation with e164+PNI', () => {
-        const initial = create('initial', {
+      it('adds ACI (via ACI+PNI) to conversation with e164+PNI', async () => {
+        const initial = await create('initial', {
           serviceId: PNI_1,
           e164: E164_1,
         });
@@ -361,8 +362,8 @@ describe('ConversationController', () => {
         assert.strictEqual(initial?.id, result?.id, 'result and initial match');
       });
 
-      it('adds e164+PNI to conversation with just ACI', () => {
-        const initial = create('initial', {
+      it('adds e164+PNI to conversation with just ACI', async () => {
+        const initial = await create('initial', {
           serviceId: ACI_1,
         });
 
@@ -382,8 +383,8 @@ describe('ConversationController', () => {
 
         assert.strictEqual(result?.id, initial?.id, 'result and initial match');
       });
-      it('adds e164 to conversation with ACI+PNI', () => {
-        const initial = create('initial', {
+      it('adds e164 to conversation with ACI+PNI', async () => {
+        const initial = await create('initial', {
           aci: ACI_1,
           pni: PNI_1,
         });
@@ -404,8 +405,8 @@ describe('ConversationController', () => {
 
         assert.strictEqual(result?.id, initial?.id, 'result and initial match');
       });
-      it('adds PNI to conversation with ACI+e164', () => {
-        const initial = create('initial', {
+      it('adds PNI to conversation with ACI+e164', async () => {
+        const initial = await create('initial', {
           aci: ACI_1,
           e164: E164_1,
         });
@@ -426,8 +427,8 @@ describe('ConversationController', () => {
 
         assert.strictEqual(initial?.id, result?.id, 'result and initial match');
       });
-      it('adds PNI to conversation with just e164', () => {
-        const initial = create('initial', {
+      it('adds PNI to conversation with just e164', async () => {
+        const initial = await create('initial', {
           e164: E164_1,
         });
 
@@ -446,8 +447,8 @@ describe('ConversationController', () => {
 
         assert.strictEqual(initial?.id, result?.id, 'result and initial match');
       });
-      it('adds PNI+ACI to conversation with just e164', () => {
-        const initial = create('initial', {
+      it('adds PNI+ACI to conversation with just e164', async () => {
+        const initial = await create('initial', {
           e164: E164_1,
         });
 
@@ -467,8 +468,8 @@ describe('ConversationController', () => {
 
         assert.strictEqual(initial?.id, result?.id, 'result and initial match');
       });
-      it('adds ACI+e164 to conversation with just PNI', () => {
-        const initial = create('initial', {
+      it('adds ACI+e164 to conversation with just PNI', async () => {
+        const initial = await create('initial', {
           pni: PNI_1,
         });
 
@@ -489,8 +490,8 @@ describe('ConversationController', () => {
         assert.strictEqual(initial?.id, result?.id, 'result and initial match');
       });
 
-      it('promotes PNI used as generic serviceId to be in the PNI field as well', () => {
-        const initial = create('initial', {
+      it('promotes PNI used as generic serviceId to be in the PNI field as well', async () => {
+        const initial = await create('initial', {
           serviceId: PNI_1,
           e164: E164_1,
         });
@@ -517,8 +518,8 @@ describe('ConversationController', () => {
     });
 
     describe('with destructive updates', () => {
-      it('replaces e164+PNI in conversation with matching ACI', () => {
-        const initial = create('initial', {
+      it('replaces e164+PNI in conversation with matching ACI', async () => {
+        const initial = await create('initial', {
           serviceId: ACI_1,
           e164: E164_1,
           pni: PNI_1,
@@ -550,8 +551,8 @@ describe('ConversationController', () => {
         assert.strictEqual(result?.id, initial?.id, 'result and initial match');
       });
 
-      it('replaces PNI in conversation with e164+PNI', () => {
-        const initial = create('initial', {
+      it('replaces PNI in conversation with e164+PNI', async () => {
+        const initial = await create('initial', {
           pni: PNI_1,
           e164: E164_1,
         });
@@ -576,8 +577,8 @@ describe('ConversationController', () => {
 
         assert.strictEqual(result?.id, initial?.id, 'result and initial match');
       });
-      it('adds PNI to conversation with e164+ACI', () => {
-        const initial = create('initial', {
+      it('adds PNI to conversation with e164+ACI', async () => {
+        const initial = await create('initial', {
           aci: ACI_1,
           e164: E164_1,
         });
@@ -597,8 +598,8 @@ describe('ConversationController', () => {
 
         assert.strictEqual(result?.id, initial?.id, 'result and initial match');
       });
-      it('replaces PNI in conversation with all data', () => {
-        const initial = create('initial', {
+      it('replaces PNI in conversation with all data', async () => {
+        const initial = await create('initial', {
           aci: ACI_1,
           e164: E164_1,
           pni: PNI_1,
@@ -626,8 +627,8 @@ describe('ConversationController', () => {
         assert.strictEqual(result?.id, initial?.id, 'result and initial match');
       });
 
-      it('removes e164+PNI from previous conversation with an ACI, adds all data to new conversation', () => {
-        const initial = create('initial', {
+      it('removes e164+PNI from previous conversation with an ACI, adds all data to new conversation', async () => {
+        const initial = await create('initial', {
           serviceId: ACI_1,
           e164: E164_1,
           pni: PNI_1,
@@ -655,13 +656,13 @@ describe('ConversationController', () => {
           'result and initial should not match'
         );
       });
-      it('removes e164+PNI from previous conversation with an ACI, adds to ACI match', () => {
-        const initial = create('initial', {
+      it('removes e164+PNI from previous conversation with an ACI, adds to ACI match', async () => {
+        const initial = await create('initial', {
           serviceId: ACI_1,
           e164: E164_1,
           pni: PNI_1,
         });
-        const aciOnly = create('aciOnly', {
+        const aciOnly = await create('aciOnly', {
           serviceId: ACI_2,
         });
 
@@ -688,11 +689,11 @@ describe('ConversationController', () => {
         );
       });
 
-      it('removes PNI from previous conversation, adds it to e164-only match', () => {
-        const withE164 = create('withE164', {
+      it('removes PNI from previous conversation, adds it to e164-only match', async () => {
+        const withE164 = await create('withE164', {
           e164: E164_1,
         });
-        const withPNI = create('withPNI', {
+        const withPNI = await create('withPNI', {
           e164: E164_2,
           pni: PNI_1,
         });
@@ -718,8 +719,8 @@ describe('ConversationController', () => {
           'result and initial should match'
         );
       });
-      it('removes PNI from previous conversation, adds it new e164+PNI conversation', () => {
-        const initial = create('initial', {
+      it('removes PNI from previous conversation, adds it new e164+PNI conversation', async () => {
+        const initial = await create('initial', {
           e164: E164_1,
           pni: PNI_1,
         });
@@ -745,16 +746,16 @@ describe('ConversationController', () => {
           'result and initial should not match'
         );
       });
-      it('deletes PNI-only previous conversation, adds it to e164 match', () => {
+      it('deletes PNI-only previous conversation, adds it to e164 match', async () => {
         mergeOldAndNew = ({ obsolete }) => {
           window.ConversationController.dangerouslyRemoveById(obsolete.id);
           return Promise.resolve();
         };
 
-        const withE164 = create('withE164', {
+        const withE164 = await create('withE164', {
           e164: E164_1,
         });
-        const withPNI = create('withPNI', {
+        const withPNI = await create('withPNI', {
           pni: PNI_1,
         });
 
@@ -779,16 +780,16 @@ describe('ConversationController', () => {
           'result and initial should match'
         );
       });
-      it('deletes previous conversation with PNI as serviceId only, adds it to e164 match', () => {
+      it('deletes previous conversation with PNI as serviceId only, adds it to e164 match', async () => {
         mergeOldAndNew = ({ obsolete }) => {
           window.ConversationController.dangerouslyRemoveById(obsolete.id);
           return Promise.resolve();
         };
 
-        const withE164 = create('withE164', {
+        const withE164 = await create('withE164', {
           e164: E164_1,
         });
-        const withPNI = create('withPNI', {
+        const withPNI = await create('withPNI', {
           serviceId: PNI_1,
         });
 
@@ -813,17 +814,17 @@ describe('ConversationController', () => {
           'result and initial should match'
         );
       });
-      it('deletes e164+PNI previous conversation, adds data to ACI match', () => {
+      it('deletes e164+PNI previous conversation, adds data to ACI match', async () => {
         mergeOldAndNew = ({ obsolete }) => {
           window.ConversationController.dangerouslyRemoveById(obsolete.id);
           return Promise.resolve();
         };
 
-        const withE164 = create('withE164', {
+        const withE164 = await create('withE164', {
           e164: E164_1,
           pni: PNI_1,
         });
-        const withACI = create('withPNI', {
+        const withACI = await create('withPNI', {
           aci: ACI_1,
         });
 
@@ -850,15 +851,15 @@ describe('ConversationController', () => {
         );
       });
 
-      it('handles three matching conversations: ACI-only, with E164, and with PNI', () => {
-        const withACI = create('withACI', {
+      it('handles three matching conversations: ACI-only, with E164, and with PNI', async () => {
+        const withACI = await create('withACI', {
           aci: ACI_1,
         });
-        const withE164 = create('withE164', {
+        const withE164 = await create('withE164', {
           aci: ACI_2,
           e164: E164_1,
         });
-        const withPNI = create('withPNI', {
+        const withPNI = await create('withPNI', {
           pni: PNI_1,
           e164: E164_2,
         });
@@ -881,19 +882,19 @@ describe('ConversationController', () => {
 
         assert.strictEqual(result?.id, withACI?.id, 'result and withACI match');
       });
-      it('handles three matching conversations: ACI-only, E164-only (deleted), and with PNI', () => {
+      it('handles three matching conversations: ACI-only, E164-only (deleted), and with PNI', async () => {
         mergeOldAndNew = ({ obsolete }) => {
           window.ConversationController.dangerouslyRemoveById(obsolete.id);
           return Promise.resolve();
         };
 
-        const withACI = create('withACI', {
+        const withACI = await create('withACI', {
           aci: ACI_1,
         });
-        const withE164 = create('withE164', {
+        const withE164 = await create('withE164', {
           e164: E164_1,
         });
-        const withPNI = create('withPNI', {
+        const withPNI = await create('withPNI', {
           pni: PNI_1,
           e164: E164_2,
         });
@@ -917,19 +918,19 @@ describe('ConversationController', () => {
 
         assert.strictEqual(result?.id, withACI?.id, 'result and withACI match');
       });
-      it('merges three matching conversations: ACI-only, E164-only (deleted), PNI-only (deleted)', () => {
+      it('merges three matching conversations: ACI-only, E164-only (deleted), PNI-only (deleted)', async () => {
         mergeOldAndNew = ({ obsolete }) => {
           window.ConversationController.dangerouslyRemoveById(obsolete.id);
           return Promise.resolve();
         };
 
-        const withACI = create('withACI', {
+        const withACI = await create('withACI', {
           aci: ACI_1,
         });
-        const withE164 = create('withE164', {
+        const withE164 = await create('withE164', {
           e164: E164_1,
         });
-        const withPNI = create('withPNI', {
+        const withPNI = await create('withPNI', {
           pni: PNI_1,
         });
 
