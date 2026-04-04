@@ -135,13 +135,13 @@ type ConfigValueType = {
 export type ConfigMapType = {
   [key in ConfigKeyType]?: ConfigValueType;
 };
-export type ConfigListenerType = (value: ConfigValueType) => unknown;
-type ConfigListenersMapType = {
-  [key: string]: Array<ConfigListenerType>;
-};
+type ConfigListenerType = Readonly<{
+  keys: Set<ConfigKeyType>;
+  callback: () => unknown;
+}>;
 
 let config: ConfigMapType | undefined;
-const listeners: ConfigListenersMapType = {};
+const listeners = new Set<ConfigListenerType>();
 
 export type OptionsType = Readonly<{
   getConfig: typeof getConfig;
@@ -155,17 +155,17 @@ export function restoreRemoteConfigFromStorage({
 }
 
 export function onChange(
-  key: ConfigKeyType,
-  fn: ConfigListenerType
+  keys: Array<ConfigKeyType>,
+  callback: () => unknown
 ): () => void {
-  const keyListeners: Array<ConfigListenerType> = get(listeners, key, []);
-  keyListeners.push(fn);
-  listeners[key] = keyListeners;
+  const listener: ConfigListenerType = {
+    keys: new Set(keys),
+    callback,
+  };
+  listeners.add(listener);
 
   return () => {
-    if (listeners[key]) {
-      listeners[key] = listeners[key].filter(l => l !== fn);
-    }
+    listeners.delete(listener);
   };
 }
 
@@ -210,6 +210,8 @@ export const _refreshRemoteConfig = async ({
     newConfigValues.set(name, value);
   }
 
+  const changedKeys = new Set<string>();
+
   const oldConfig = config;
   let semverError = false;
   config = Array.from(newConfigValues.entries()).reduce(
@@ -253,13 +255,8 @@ export const _refreshRemoteConfig = async ({
         semverError = true;
       }
 
-      // If enablement changes at all, notify listeners
-      const currentListeners = listeners[name] || [];
       if (hasChanged) {
-        log.info(`Remote Config: Flag ${name} has changed`);
-        currentListeners.forEach(listener => {
-          listener(configValue);
-        });
+        changedKeys.add(name);
       }
 
       // Return new configuration object
@@ -270,6 +267,19 @@ export const _refreshRemoteConfig = async ({
     },
     {}
   );
+
+  if (changedKeys.size !== 0) {
+    log.info(
+      `Remote Config: Flags ${[...changedKeys].join(', ')} have changed`
+    );
+
+    // If enablement changes at all, notify listeners
+    for (const { keys, callback } of listeners) {
+      if (!keys.isDisjointFrom(changedKeys)) {
+        callback();
+      }
+    }
+  }
 
   if (semverError && config['desktop.internalUser']?.enabled) {
     window.reduxActions.toast.showToast({

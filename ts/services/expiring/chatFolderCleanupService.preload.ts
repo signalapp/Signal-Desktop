@@ -26,7 +26,7 @@ export const chatFolderCleanupService = createExpiringEntityCleanupService({
   },
   subscribeToTriggers: trigger => {
     let prevMessageQueueTime = getMessageQueueTime();
-    return RemoteConfig.onChange('global.messageQueueTimeInSeconds', () => {
+    return RemoteConfig.onChange(['global.messageQueueTimeInSeconds'], () => {
       const messageQueueTime = getMessageQueueTime();
       if (messageQueueTime !== prevMessageQueueTime) {
         trigger('messageQueueTime changed');
