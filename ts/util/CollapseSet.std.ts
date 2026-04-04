@@ -416,7 +416,7 @@ export function mapItemsIntoCollapseSets({
       strictAssert(
         lastCollapseSet.type !== 'group-updates' &&
           lastCollapseSet.type !== 'timer-changes',
-        'Should never have two matching timer items, but be in a group or timer set'
+        'Should never have two matching call items, but be in a group or timer set'
       );
 
       if (lastCollapseSet.type === 'call-events') {

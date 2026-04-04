@@ -120,7 +120,6 @@ export const SmartCompositionArea = memo(function SmartCompositionArea({
     isViewOnce,
     linkPreviewLoading,
     linkPreviewResult,
-    messageCompositionId,
     sendCounter,
     shouldSendHighQualityAttachments,
   } = composerState;
@@ -263,7 +262,6 @@ export const SmartCompositionArea = memo(function SmartCompositionArea({
       })}
       isActive={isActive}
       lastEditableMessageId={lastEditableMessageId ?? null}
-      messageCompositionId={messageCompositionId}
       platform={platform}
       ourConversationId={ourConversationId}
       sendCounter={sendCounter}

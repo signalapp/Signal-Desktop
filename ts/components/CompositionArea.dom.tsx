@@ -139,7 +139,6 @@ export type OwnProps = Readonly<{
   isActive: boolean;
   lastEditableMessageId: string | null;
   recordingState: RecordingState;
-  messageCompositionId: string;
   memberColors: Map<string, ContactNameColorType>;
   shouldHidePopovers: boolean | null;
   isMuted: boolean;
@@ -269,7 +268,6 @@ export const CompositionArea = memo(function CompositionArea({
   isMuted,
   isActive,
   lastEditableMessageId,
-  messageCompositionId,
   pushPanelForConversation,
   platform,
   processAttachments,
@@ -547,26 +545,24 @@ export const CompositionArea = memo(function CompositionArea({
     }
   }, [inputApiRef, focusCounter, previousFocusCounter]);
 
-  const previousMessageCompositionId = usePrevious(
-    messageCompositionId,
-    messageCompositionId
-  );
   const previousSendCounter = usePrevious(sendCounter, sendCounter);
+  const previousConversationId = usePrevious(conversationId, conversationId);
   useEffect(() => {
     if (!inputApiRef.current) {
       return;
     }
-    if (
-      previousMessageCompositionId !== messageCompositionId ||
-      previousSendCounter !== sendCounter
-    ) {
+    if (conversationId !== previousConversationId) {
+      return;
+    }
+
+    if (previousSendCounter !== sendCounter) {
       inputApiRef.current.reset();
     }
   }, [
-    messageCompositionId,
-    sendCounter,
-    previousMessageCompositionId,
+    conversationId,
+    previousConversationId,
     previousSendCounter,
+    sendCounter,
   ]);
 
   // We want to reset the state of Quill only if:
@@ -592,7 +588,6 @@ export const CompositionArea = memo(function CompositionArea({
     );
   }, [draftBodyRanges, draftEditMessageBody, hasEditDraftChanged]);
 
-  const previousConversationId = usePrevious(conversationId, conversationId);
   useEffect(() => {
     if (conversationId === previousConversationId) {
       return;
