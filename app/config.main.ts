@@ -30,6 +30,11 @@ if (app.isPackaged) {
 // Set environment vars to configure node-config before requiring it
 process.env.NODE_ENV = getEnvironment();
 
+if (process.env.NODE_ENV === Environment.Test) {
+  // Necessary for `tsx` to work in preload (there are no worker_threads)
+  process.env.ESBUILD_WORKER_THREADS = '0';
+}
+
 if (getEnvironment() === Environment.PackagedApp) {
   // harden production config against the local env
   process.env.NODE_CONFIG = '';
