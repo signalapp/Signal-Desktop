@@ -61,6 +61,9 @@ patchedDependencies:
   zod@3.23.8:
     hash: 239818e5d88990616205c8cdc1de1660bf5e18b157d00c4a5f726dde6094af4d
     path: patches/zod+3.23.8.patch
+  zod@4.3.6:
+    hash: b73d41a74cc629065f913f4e44c1b9b6378bc83ff18895380028b2e4798a261c
+    path: patches/zod@4.3.6.patch
 
 importers:
 
@@ -756,7 +759,7 @@ importers:
         version: 7.0.1
       zod:
         specifier: 4.3.6
-        version: 4.3.6
+        version: 4.3.6(patch_hash=b73d41a74cc629065f913f4e44c1b9b6378bc83ff18895380028b2e4798a261c)
     optionalDependencies:
       fs-xattr:
         specifier: 0.4.0
@@ -21450,4 +21453,4 @@ snapshots:
 
   zod@3.23.8(patch_hash=239818e5d88990616205c8cdc1de1660bf5e18b157d00c4a5f726dde6094af4d): {}
 
-  zod@4.3.6: {}
+  zod@4.3.6(patch_hash=b73d41a74cc629065f913f4e44c1b9b6378bc83ff18895380028b2e4798a261c): {}

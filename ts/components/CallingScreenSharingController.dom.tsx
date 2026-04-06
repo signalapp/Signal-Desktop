@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Button, ButtonVariant } from './Button.dom.tsx';
 import type { LocalizerType } from '../types/Util.std.ts';
 import { ScreenShareStatus } from '../types/Calling.std.ts';
@@ -33,13 +33,17 @@ export function CallingScreenSharingController({
     text = i18n('icu:calling__presenting--info--unknown');
   }
 
+  const handleClick = useCallback(() => {
+    onStopSharing();
+  }, [onStopSharing]);
+
   return (
     <div className="module-CallingScreenSharingController">
       <div className="module-CallingScreenSharingController__text">{text}</div>
       <div className="module-CallingScreenSharingController__buttons">
         <Button
           className="module-CallingScreenSharingController__button"
-          onClick={onStopSharing}
+          onClick={handleClick}
           variant={ButtonVariant.Destructive}
         >
           {i18n('icu:calling__presenting--stop')}

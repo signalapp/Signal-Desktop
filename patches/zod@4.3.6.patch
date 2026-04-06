@@ -1,0 +1,26 @@
+diff --git a/v4/core/registries.cjs b/v4/core/registries.cjs
+index 3ab67ce0c138764cc5194e6f85881d9518cb0487..fc5994b29787bb8a1cb97db7ae2f65802f375a58 100644
+--- a/v4/core/registries.cjs
++++ b/v4/core/registries.cjs
+@@ -52,5 +52,6 @@ exports.$ZodRegistry = $ZodRegistry;
+ function registry() {
+     return new $ZodRegistry();
+ }
+-(_a = globalThis).__zod_globalRegistry ?? (_a.__zod_globalRegistry = registry());
+-exports.globalRegistry = globalThis.__zod_globalRegistry;
++// SIGNAL CHANGE
++// (_a = globalThis).__zod_globalRegistry ?? (_a.__zod_globalRegistry = registry());
++exports.globalRegistry = registry();
+diff --git a/v4/core/registries.js b/v4/core/registries.js
+index 537b1f1b97c8c95c44485efbd143766dc9f29ead..3261b6812f3ed43d29f23c5e923ee955e6304c67 100644
+--- a/v4/core/registries.js
++++ b/v4/core/registries.js
+@@ -47,5 +47,6 @@ export class $ZodRegistry {
+ export function registry() {
+     return new $ZodRegistry();
+ }
+-(_a = globalThis).__zod_globalRegistry ?? (_a.__zod_globalRegistry = registry());
+-export const globalRegistry = globalThis.__zod_globalRegistry;
++// SIGNAL CHANGE
++// (_a = globalThis).__zod_globalRegistry ?? (_a.__zod_globalRegistry = registry());
++export const globalRegistry = registry();
