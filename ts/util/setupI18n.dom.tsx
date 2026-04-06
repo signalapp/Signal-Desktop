@@ -5,8 +5,6 @@ import type { IntlShape } from 'react-intl';
 import React from 'react';
 import type { LocaleMessagesType } from '../types/I18N.std.ts';
 import type { LocalizerType } from '../types/Util.std.ts';
-// oxlint-disable-next-line signal-desktop/no-restricted-paths
-import { Emojify } from '../components/conversation/Emojify.dom.tsx';
 import {
   createCachedIntl as createCachedIntlMain,
   setupI18n as setupI18nMain,
@@ -20,7 +18,11 @@ export function renderEmojify(
   strictAssert(parts.length === 1, '<emojify> must contain only one child');
   const text = parts[0];
   strictAssert(typeof text === 'string', '<emojify> must contain only text');
-  return <Emojify text={text} />;
+  const { Emojify } = window.SignalContext;
+  if (Emojify != null) {
+    return <Emojify text={text} />;
+  }
+  return <>{text}</>;
 }
 
 function getLocaleDirection() {

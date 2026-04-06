@@ -2,8 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { rmSync } from 'node:fs';
-import { join } from 'node:path';
+import { join, relative } from 'node:path';
 import { defineConfig } from 'rolldown';
+import { transform } from 'oxc-transform';
 
 const external = [
   // Native libraries
@@ -38,24 +39,7 @@ const external = [
 
 const isProd = process.argv.some(arg => arg === '--minify');
 
-const transform = {
-  define: {
-    'process.env.NODE_ENV': isProd ? '"production"' : '"development"',
-    'process.env.IS_BUNDLED': 'true',
-  },
-};
-
-const nonIsolated = {
-  // Preloads
-  'preload/wrapper': 'preload.wrapper.ts',
-  'preload/main': 'ts/windows/main/preload.preload.ts',
-
-  // Workers
-  'workers/sql': 'ts/sql/mainWorker.node.ts',
-  'workers/heic': 'ts/workers/heicConverterWorker.node.ts',
-};
-
-const contextIsolated = {
+const sandboxPreload = {
   // Preload
   'preload/about': 'ts/windows/about/preload.preload.ts',
   'preload/calldiagnostic': 'ts/windows/calldiagnostic/preload.preload.ts',
@@ -65,7 +49,7 @@ const contextIsolated = {
   'preload/sticker-creator': 'ts/windows/sticker-creator/preload.preload.ts',
 };
 
-const contextIsolatedDom = {
+const sandboxDOM = {
   'dom/about': 'ts/windows/about/app.dom.tsx',
   'dom/calldiagnostic': 'ts/windows/calldiagnostic/app.dom.tsx',
   'dom/debuglog': 'ts/windows/debuglog/app.dom.tsx',
@@ -75,7 +59,39 @@ const contextIsolatedDom = {
 };
 
 const defaults = {
-  transform,
+  transform: {
+    define: {
+      'process.env.IS_BUNDLED': 'true',
+      ...(isProd
+        ? {
+            __REACT_DEVTOOLS_GLOBAL_HOOK__: 'undefined',
+          }
+        : {}),
+    },
+  },
+  plugins: [
+    {
+      name: 'NODE_ENV',
+      async transform(code, id) {
+        if (id.endsWith('.json')) {
+          return;
+        }
+
+        const path = relative(__dirname, id);
+        if (path.startsWith('app')) {
+          return;
+        }
+
+        const { code: newCode } = await transform(id, code, {
+          define: {
+            'process.env.NODE_ENV': isProd ? '"production"' : '"development"',
+          },
+        });
+
+        return { code: newCode };
+      },
+    },
+  ],
   external,
   output: {
     format: 'cjs',
@@ -85,6 +101,9 @@ const defaults = {
     generatedCode: {
       symbols: false,
     },
+  },
+  watch: {
+    clearScreen: false,
   },
 };
 
@@ -99,13 +118,9 @@ if (isProd) {
 }
 
 export default defineConfig([
-  {
-    ...defaults,
-    input: nonIsolated,
-  },
-  // Each context isolated bundle has to be separate from the rest since
+  // Each sandboxed bundle has to be separate from the rest since
   // they cannot use `require()`
-  ...Object.entries(contextIsolated).map(([key, value]) => {
+  ...Object.entries(sandboxPreload).map(([key, value]) => {
     return {
       ...defaults,
       external: ['electron'],
@@ -121,7 +136,7 @@ export default defineConfig([
     ...defaults,
     external: ['electron'],
     platform: 'browser',
-    input: contextIsolatedDom,
+    input: sandboxDOM,
     output: {
       ...defaults.output,
       format: 'es',
@@ -130,17 +145,18 @@ export default defineConfig([
   {
     ...defaults,
 
-    // Main
     input: {
+      // Main
       main: 'app/main.main.ts',
       config: 'app/config.main.js',
-    },
 
-    // Do not override process.env.NODE_ENV in main process
-    transform: {
-      define: {
-        'process.env.IS_BUNDLED': 'true',
-      },
+      // Preloads
+      'preload/wrapper': 'preload.wrapper.ts',
+      'preload/main': 'ts/windows/main/preload.preload.ts',
+
+      // Workers
+      'workers/sql': 'ts/sql/mainWorker.node.ts',
+      'workers/heic': 'ts/workers/heicConverterWorker.node.ts',
     },
   },
 ]);
