@@ -1804,6 +1804,112 @@ export function BrokenImageWithExpirationTimer(): React.JSX.Element {
   );
 }
 
+export function BrokenImages(): React.JSX.Element {
+  const firstBroken = createProps({
+    attachments: [
+      fakeAttachment({
+        url: '/fixtures/tina-rolf-269345-unsplash.jpg',
+        fileName: 'tina-rolf-269345-unsplash.jpg',
+        contentType: IMAGE_JPEG,
+        width: 128,
+        height: 128,
+        blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+      }),
+      fakeAttachment({
+        url: 'nonexistent.jpg',
+        fileName: 'tina-rolf-269345-unsplash.jpg',
+        contentType: IMAGE_JPEG,
+        width: 128,
+        height: 128,
+        blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+      }),
+    ],
+    status: 'sent',
+  });
+  const secondBroken = createProps({
+    attachments: [
+      fakeAttachment({
+        url: 'nonexistent.jpg',
+        fileName: 'tina-rolf-269345-unsplash.jpg',
+        contentType: IMAGE_JPEG,
+        width: 128,
+        height: 128,
+        blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+      }),
+      fakeAttachment({
+        url: '/fixtures/tina-rolf-269345-unsplash.jpg',
+        fileName: 'tina-rolf-269345-unsplash.jpg',
+        contentType: IMAGE_JPEG,
+        width: 128,
+        height: 128,
+        blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+      }),
+    ],
+    status: 'sent',
+  });
+  const fifthBroken = createProps({
+    attachments: [
+      fakeAttachment({
+        url: 'nonexistent.jpg',
+        fileName: 'tina-rolf-269345-unsplash.jpg',
+        contentType: IMAGE_JPEG,
+        width: 128,
+        height: 128,
+        blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+      }),
+      fakeAttachment({
+        url: '/fixtures/tina-rolf-269345-unsplash.jpg',
+        fileName: 'tina-rolf-269345-unsplash.jpg',
+        contentType: IMAGE_JPEG,
+        width: 128,
+        height: 128,
+        blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+      }),
+      fakeAttachment({
+        url: '/fixtures/tina-rolf-269345-unsplash.jpg',
+        fileName: 'tina-rolf-269345-unsplash.jpg',
+        contentType: IMAGE_JPEG,
+        width: 128,
+        height: 128,
+        blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+      }),
+      fakeAttachment({
+        url: '/fixtures/tina-rolf-269345-unsplash.jpg',
+        fileName: 'tina-rolf-269345-unsplash.jpg',
+        contentType: IMAGE_JPEG,
+        width: 128,
+        height: 128,
+        blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+      }),
+      fakeAttachment({
+        url: 'nonexistent.jpg',
+        fileName: 'tina-rolf-269345-unsplash.jpg',
+        contentType: IMAGE_JPEG,
+        width: 128,
+        height: 128,
+        blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+      }),
+      fakeAttachment({
+        url: '/not-there.jpg',
+        fileName: 'tina-rolf-269345-unsplash.jpg',
+        contentType: IMAGE_JPEG,
+        width: 128,
+        height: 128,
+        blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+      }),
+    ],
+    status: 'sent',
+  });
+
+  return (
+    <>
+      {renderBothDirections(firstBroken)}
+      {renderBothDirections(secondBroken)}
+      {renderBothDirections(fifthBroken)}
+    </>
+  );
+}
+
 export function Video(): React.JSX.Element {
   const darkImageProps = createProps({
     attachments: [
