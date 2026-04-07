@@ -81,6 +81,7 @@ export const SmartCompositionArea = memo(function SmartCompositionArea({
 }) {
   const conversationSelector = useSelector(getConversationSelector);
   const conversation = conversationSelector(id);
+  const isGroup = conversation.type === 'group';
   strictAssert(conversation, `Conversation id ${id} not found!`);
 
   const i18n = useSelector(getIntl);
@@ -189,6 +190,7 @@ export const SmartCompositionArea = memo(function SmartCompositionArea({
           conversationSelector,
           ourConversationId,
           defaultConversationColor,
+          isGroup,
         })
       : undefined;
   }, [
@@ -196,6 +198,7 @@ export const SmartCompositionArea = memo(function SmartCompositionArea({
     conversationSelector,
     ourConversationId,
     defaultConversationColor,
+    isGroup,
   ]);
 
   const {
