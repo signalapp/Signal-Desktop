@@ -16,6 +16,7 @@ import type { LocalizerType } from '../types/Util.std.ts';
 import { getClassNamesFor } from '../util/getClassNamesFor.std.ts';
 import { useRefMerger } from '../hooks/useRefMerger.std.ts';
 import { byteLength } from '../Bytes.std.ts';
+import { truncateString } from '../util/truncateString.std.ts';
 
 export type PropsType = {
   autoFocus?: boolean;
@@ -181,17 +182,32 @@ export const Input = forwardRef<
 
       const pastedText = event.clipboardData.getData('Text');
 
+      const pastedLength = countLength(pastedText);
       const newLengthCount =
         countLength(textBeforeSelection) +
-        countLength(pastedText) +
+        pastedLength +
         countLength(textAfterSelection);
+      const pastedBytes = countBytes(pastedText);
       const newByteCount =
         countBytes(textBeforeSelection) +
-        countBytes(pastedText) +
+        pastedBytes +
         countBytes(textAfterSelection);
 
-      if (newLengthCount > maxLengthCount || newByteCount > maxByteCount) {
+      const lengthDelta = newLengthCount - maxLengthCount;
+      const byteDelta = newByteCount - maxByteCount;
+      if (lengthDelta > 0 || byteDelta > 0) {
         event.preventDefault();
+
+        const newPastedLength = pastedLength - lengthDelta;
+        const newPastedBytes = pastedBytes - byteDelta;
+
+        const truncatedPaste = truncateString(pastedText, {
+          byteLimit: newPastedBytes,
+          graphemeLimit: newPastedLength,
+        });
+
+        inputEl.value =
+          textBeforeSelection + truncatedPaste + textAfterSelection;
       }
 
       maybeSetLarge();

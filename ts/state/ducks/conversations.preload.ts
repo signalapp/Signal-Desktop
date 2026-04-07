@@ -2099,9 +2099,13 @@ function setMessageToEdit(
         : undefined;
     }
 
-    const draftBodyRanges = processBodyRanges(message, {
-      conversationSelector: getConversationSelector(getState()),
-    });
+    const draftBodyRanges = processBodyRanges(
+      message,
+      isGroup(conversation.attributes),
+      {
+        conversationSelector: getConversationSelector(getState()),
+      }
+    );
     conversation.set({
       draftEditMessage: {
         body: message.body,

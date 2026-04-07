@@ -30,6 +30,7 @@ import type {
   MessageForwardDraft,
 } from '../../types/ForwardDraft.std.ts';
 import { getForwardMessagesProps } from '../selectors/globalModals.std.ts';
+import { applyRangesToText } from '../../types/BodyRange.std.ts';
 
 const log = createLogger('ForwardMessagesModal');
 
@@ -76,7 +77,25 @@ function SmartForwardMessagesModalInner({
 
   const [drafts, setDrafts] = useState<ReadonlyArray<MessageForwardDraft>>(
     () => {
-      return forwardMessagesProps.messageDrafts;
+      return forwardMessagesProps.messageDrafts.map(draft => {
+        // We don't keep @mention bodyRanges when forwarding, so we turn them to text
+        const result = applyRangesToText(
+          {
+            body: draft.messageBody ?? '',
+            bodyRanges: draft.bodyRanges ?? [],
+          },
+          {
+            replaceMentions: true,
+            replaceSpoilers: false,
+          }
+        );
+
+        return {
+          ...draft,
+          messageBody: result.body,
+          bodyRanges: result.bodyRanges,
+        };
+      });
     }
   );
 

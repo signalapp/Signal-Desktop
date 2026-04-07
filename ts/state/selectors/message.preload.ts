@@ -56,7 +56,10 @@ import type {
 
 import type { EmbeddedContactForUIType } from '../../types/EmbeddedContact.std.ts';
 import { embeddedContactSelector } from '../../types/EmbeddedContact.std.ts';
-import type { HydratedBodyRangesType } from '../../types/BodyRange.std.ts';
+import {
+  BodyRange,
+  type HydratedBodyRangesType,
+} from '../../types/BodyRange.std.ts';
 import { hydrateRanges } from '../../util/BodyRange.node.ts';
 import type { AssertProps, LocalizerType } from '../../types/Util.std.ts';
 import type { LinkPreviewForUIType } from '../../types/message/LinkPreviews.std.ts';
@@ -356,13 +359,20 @@ export const getAttachmentsForMessage = (
 
 export const processBodyRanges = (
   { bodyRanges }: Pick<MessageWithUIFieldsType, 'bodyRanges'>,
+  isGroup: boolean,
   options: { conversationSelector: GetConversationByIdType }
 ): HydratedBodyRangesType | undefined => {
   if (!bodyRanges) {
     return undefined;
   }
 
-  return hydrateRanges(bodyRanges, options.conversationSelector)?.sort(
+  let toHydrate = bodyRanges;
+
+  if (!isGroup) {
+    toHydrate = toHydrate.filter(range => !BodyRange.isMention(range));
+  }
+
+  return hydrateRanges(toHydrate, options.conversationSelector)?.sort(
     (a, b) => b.start - a.start
   );
 };
@@ -702,10 +712,12 @@ export const getPropsForQuote = (
     conversationSelector,
     ourConversationId,
     defaultConversationColor,
+    isGroup,
   }: {
     conversationSelector: GetConversationByIdType;
     ourConversationId?: string;
     defaultConversationColor: DefaultConversationColorType;
+    isGroup: boolean;
   }
 ): PropsData['quote'] => {
   const { quote } = message;
@@ -758,7 +770,7 @@ export const getPropsForQuote = (
     authorPhoneNumber,
     authorProfileName,
     authorTitle,
-    bodyRanges: processBodyRanges(quote, { conversationSelector }),
+    bodyRanges: processBodyRanges(quote, isGroup, { conversationSelector }),
     conversationColor,
     conversationTitle: conversation.title,
     customColor,
@@ -869,11 +881,10 @@ export const getPropsForMessage = (
     item => item.wasTooBig
   );
   const attachments = getAttachmentsForMessage(message);
-  const bodyRanges = processBodyRanges(message, options);
   const author = getAuthorForMessage(message, options);
   const previews = getPreviewsForMessage(message);
   const reactions = getReactionsForMessage(message, options);
-  const quote = getPropsForQuote(message, options);
+
   const storyReplyContext = getPropsForStoryReplyContext(message, options);
   const textAttachment = getTextAttachment(message);
   const payment = getPayment(message);
@@ -901,6 +912,9 @@ export const getPropsForMessage = (
 
   const conversation = getConversation(message, conversationSelector);
   const isGroup = conversation.type === 'group';
+  const bodyRanges = processBodyRanges(message, isGroup, options);
+  const quote = getPropsForQuote(message, { ...options, isGroup });
+
   const isGroupTerminated = isGroup && conversation.terminated;
   const { sticker } = message;
 

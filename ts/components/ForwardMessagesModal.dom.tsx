@@ -33,7 +33,6 @@ import { LinkPreviewSourceType } from '../types/LinkPreview.std.ts';
 import { ToastType } from '../types/Toast.dom.tsx';
 import type { ShowToastAction } from '../state/ducks/toast.preload.ts';
 import type { HydratedBodyRangesType } from '../types/BodyRange.std.ts';
-import { applyRangesToText } from '../types/BodyRange.std.ts';
 import { UserText } from './UserText.dom.tsx';
 import { Modal } from './Modal.dom.tsx';
 import { SizeObserver } from '../hooks/useSizeObserver.dom.tsx';
@@ -146,28 +145,7 @@ export function ForwardMessagesModal({
       const previews = lonelyLinkPreview?.domain ? [lonelyLinkPreview] : [];
       doForwardMessages(conversationIds, [{ ...lonelyDraft, previews }]);
     } else {
-      doForwardMessages(
-        conversationIds,
-        drafts.map(draft => {
-          // We don't keep @mention bodyRanges in multi-forward scenarios
-          const result = applyRangesToText(
-            {
-              body: draft.messageBody ?? '',
-              bodyRanges: draft.bodyRanges ?? [],
-            },
-            {
-              replaceMentions: true,
-              replaceSpoilers: false,
-            }
-          );
-
-          return {
-            ...draft,
-            messageBody: result.body,
-            bodyRanges: result.bodyRanges,
-          };
-        })
-      );
+      doForwardMessages(conversationIds, drafts);
     }
   }, [
     drafts,
