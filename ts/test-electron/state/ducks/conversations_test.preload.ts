@@ -123,7 +123,8 @@ describe('both/state/ducks/conversations', () => {
   const SERVICE_ID_3 = generateAci();
   const SERVICE_ID_4 = generateAci();
 
-  const getEmptyRootState = () => rootReducer(undefined, noopAction());
+  const getEmptyRootState = () =>
+    rootReducer(undefined, noopAction('getEmptyRootState'));
 
   let sinonSandbox: sinon.SinonSandbox;
   let createGroupStub: sinon.SinonStub;

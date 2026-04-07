@@ -38,7 +38,7 @@ describe('both/state/ducks/composer', () => {
   };
 
   function getRootStateFunction(conversationId?: string) {
-    const state = rootReducer(undefined, noopAction());
+    const state = rootReducer(undefined, noopAction('getRootStateFunction'));
     return () => ({
       ...state,
       nav: {

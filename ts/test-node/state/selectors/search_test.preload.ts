@@ -48,7 +48,7 @@ describe('both/state/selectors/search', () => {
   });
 
   const getEmptyRootState = (): StateType => {
-    return rootReducer(undefined, noopAction());
+    return rootReducer(undefined, noopAction('getEmptyRootState'));
   };
 
   function getDefaultMessage(id: string): MessageType {

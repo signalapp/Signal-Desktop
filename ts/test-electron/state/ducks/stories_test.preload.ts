@@ -47,7 +47,7 @@ describe('both/state/ducks/stories', () => {
   });
 
   const getEmptyRootState = () => ({
-    ...rootReducer(undefined, noopAction()),
+    ...rootReducer(undefined, noopAction('getEmptyRootState')),
     stories: getEmptyState(),
   });
 

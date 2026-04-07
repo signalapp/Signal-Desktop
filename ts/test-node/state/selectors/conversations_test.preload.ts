@@ -67,7 +67,7 @@ describe('both/state/selectors/conversations-extra', () => {
   const SERVICE_ID_2 = generateAci();
 
   const getEmptyRootState = (): StateType => {
-    return rootReducer(undefined, noopAction());
+    return rootReducer(undefined, noopAction('getEmptyRootState'));
   };
 
   function makeConversation(id: string): ConversationType {

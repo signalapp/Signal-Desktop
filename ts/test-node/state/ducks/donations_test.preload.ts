@@ -16,7 +16,7 @@ import { generateAci } from '../../../types/ServiceId.std.ts';
 
 describe('donations duck', () => {
   const getEmptyRootState = (): StateType =>
-    rootReducer(undefined, noopAction());
+    rootReducer(undefined, noopAction('getEmptyRootState'));
 
   const storageMap = new Map<string, unknown>();
   const storage = {

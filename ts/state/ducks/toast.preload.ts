@@ -5,7 +5,7 @@ import { ipcRenderer } from 'electron';
 
 import type { ReadonlyDeep } from 'type-fest';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.ts';
-import type { NoopActionType } from './noop.std.ts';
+import { noopAction, type NoopActionType } from './noop.std.ts';
 import { useBoundActions } from '../../hooks/useBoundActions.std.ts';
 import type { AnyToast } from '../../types/Toast.dom.tsx';
 
@@ -48,10 +48,7 @@ function hideToast(toast?: AnyToast): HideToastActionType {
 
 function openFileInFolder(target: string): NoopActionType {
   ipcRenderer.send('show-item-in-folder', target);
-  return {
-    type: 'NOOP',
-    payload: null,
-  };
+  return noopAction('openFileInFolder');
 }
 
 export type ShowToastAction = ReadonlyDeep<(toast: AnyToast) => void>;

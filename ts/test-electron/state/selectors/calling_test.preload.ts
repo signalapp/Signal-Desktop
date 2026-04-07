@@ -36,7 +36,7 @@ const ACI_1 = generateAci();
 
 describe('state/selectors/calling', () => {
   const getEmptyRootState = () => {
-    const initial = rootReducer(undefined, noopAction());
+    const initial = rootReducer(undefined, noopAction('getEmptyRootState'));
     return rootReducer(
       initial,
       userActions.userChanged({

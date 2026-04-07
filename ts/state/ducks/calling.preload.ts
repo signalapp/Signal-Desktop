@@ -128,7 +128,7 @@ import {
 } from '../../textsecure/WebAPI.preload.ts';
 import { itemStorage } from '../../textsecure/Storage.preload.ts';
 import type { SizeCallbackType } from '../../calling/VideoSupport.preload.ts';
-import type { NoopActionType } from './noop.std.ts';
+import { noopAction, type NoopActionType } from './noop.std.ts';
 import type { SignalService } from '../../protobuf/index.std.ts';
 
 const { omit } = lodash;
@@ -1298,10 +1298,7 @@ function sendRemoteMute(
     }
 
     calling.sendRemoteMute(activeCall.conversationId, demuxId);
-    dispatch({
-      type: 'NOOP',
-      payload: null,
-    });
+    dispatch(noopAction('sendRemoteMute'));
   };
 }
 

@@ -11,7 +11,7 @@ import type {
 } from '../../types/message/LinkPreviews.std.ts';
 import type { AttachmentForUIType } from '../../types/Attachment.std.ts';
 import type { MaybeGrabLinkPreviewOptionsType } from '../../types/LinkPreview.std.ts';
-import type { NoopActionType } from './noop.std.ts';
+import { noopAction, type NoopActionType } from './noop.std.ts';
 import type { StateType as RootStateType } from '../reducer.preload.ts';
 import { LinkPreviewSourceType } from '../../types/LinkPreview.std.ts';
 import { assignWithNoUnnecessaryAllocation } from '../../util/assignWithNoUnnecessaryAllocation.std.ts';
@@ -62,10 +62,7 @@ function debouncedMaybeGrabLinkPreview(
   return dispatch => {
     maybeGrabLinkPreview(message, source, options);
 
-    dispatch({
-      type: 'NOOP',
-      payload: null,
-    });
+    dispatch(noopAction('debouncedMaybeGrabLinkPreview'));
   };
 }
 

@@ -4,13 +4,13 @@
 import type { ReadonlyDeep } from 'type-fest';
 
 export type NoopActionType = ReadonlyDeep<{
-  type: 'NOOP';
+  type: `NOOP/${string}`;
   payload: null;
 }>;
 
-export function noopAction(): NoopActionType {
+export function noopAction(cause: string): NoopActionType {
   return {
-    type: 'NOOP',
+    type: `NOOP/${cause}`,
     payload: null,
   };
 }

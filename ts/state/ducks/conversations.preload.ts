@@ -121,7 +121,7 @@ import { markViewed as messageUpdaterMarkViewed } from '../../services/MessageUp
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.ts';
 import { useBoundActions } from '../../hooks/useBoundActions.std.ts';
 
-import type { NoopActionType } from './noop.std.ts';
+import { noopAction, type NoopActionType } from './noop.std.ts';
 import {
   conversationJobQueue,
   conversationQueueJobEnum,
@@ -1389,10 +1389,7 @@ function acknowledgeGroupMemberNameCollisions(
 
   conversation.acknowledgeGroupMemberNameCollisions(groupNameCollisions);
 
-  return {
-    type: 'NOOP',
-    payload: null,
-  };
+  return noopAction('acknowledgeGroupMemberNameCollisions');
 }
 function blockGroupLinkRequests(
   conversationId: string,
@@ -1405,10 +1402,7 @@ function blockGroupLinkRequests(
 
   void conversation.blockGroupLinkRequests(serviceId);
 
-  return {
-    type: 'NOOP',
-    payload: null,
-  };
+  return noopAction('blockGroupLinkRequests');
 }
 function loadNewerMessages(
   conversationId: string,
@@ -1421,10 +1415,7 @@ function loadNewerMessages(
 
   void conversation.loadNewerMessages(newestMessageId);
 
-  return {
-    type: 'NOOP',
-    payload: null,
-  };
+  return noopAction('loadNewerMessages');
 }
 function loadNewestMessages(
   conversationId: string,
@@ -1438,10 +1429,7 @@ function loadNewestMessages(
 
   void conversation.loadNewestMessages(newestMessageId, setFocus);
 
-  return {
-    type: 'NOOP',
-    payload: null,
-  };
+  return noopAction('loadNewestMessages');
 }
 
 function loadOlderMessages(
@@ -1454,10 +1442,7 @@ function loadOlderMessages(
   }
 
   void conversation.loadOlderMessages(oldestMessageId);
-  return {
-    type: 'NOOP',
-    payload: null,
-  };
+  return noopAction('loadOlderMessages');
 }
 
 function _getAllConversationsInChatFolder(
@@ -1571,10 +1556,7 @@ function removeMember(
     task: () => conversation.removeFromGroupV2(memberConversationId),
   });
 
-  return {
-    type: 'NOOP',
-    payload: null,
-  };
+  return noopAction('removeMember');
 }
 
 function filterAvatarData(
@@ -1665,10 +1647,7 @@ function changeHasGroupLink(
       idForLogging: conversation.idForLogging(),
       task: async () => conversation.toggleGroupLink(value),
     });
-    dispatch({
-      type: 'NOOP',
-      payload: null,
-    });
+    dispatch(noopAction('changeHasGroupLink'));
   };
 }
 
@@ -1687,10 +1666,7 @@ function setAnnouncementsOnly(
       idForLogging: conversation.idForLogging(),
       task: async () => conversation.updateAnnouncementsOnly(value),
     });
-    dispatch({
-      type: 'NOOP',
-      payload: null,
-    });
+    dispatch(noopAction('setAnnouncementsOnly'));
   };
 }
 
@@ -1709,10 +1685,7 @@ function setAccessControlMembersSetting(
       idForLogging: conversation.idForLogging(),
       task: async () => conversation.updateAccessControlMembers(value),
     });
-    dispatch({
-      type: 'NOOP',
-      payload: null,
-    });
+    dispatch(noopAction('setAccessControlMembersSetting'));
   };
 }
 
@@ -1733,10 +1706,7 @@ function setAccessControlMemberLabelSetting(
       idForLogging: conversation.idForLogging(),
       task: async () => conversation.updateAccessControlMemberLabel(value),
     });
-    dispatch({
-      type: 'NOOP',
-      payload: null,
-    });
+    dispatch(noopAction('setAccessControlMemberLabelSetting'));
   };
 }
 
@@ -1757,10 +1727,7 @@ function setAccessControlAttributesSetting(
       idForLogging: conversation.idForLogging(),
       task: async () => conversation.updateAccessControlAttributes(value),
     });
-    dispatch({
-      type: 'NOOP',
-      payload: null,
-    });
+    dispatch(noopAction('setAccessControlAttributesSetting'));
   };
 }
 
@@ -1785,10 +1752,7 @@ function setDisappearingMessages(
           version: undefined,
         }),
     });
-    dispatch({
-      type: 'NOOP',
-      payload: null,
-    });
+    dispatch(noopAction('setDisappearingMessages'));
   };
 }
 
@@ -1803,10 +1767,7 @@ function setDontNotifyForMentionsIfMuted(
 
   conversation.setDontNotifyForMentionsIfMuted(newValue);
 
-  return {
-    type: 'NOOP',
-    payload: null,
-  };
+  return noopAction('setDontNotifyForMentionsIfMuted');
 }
 
 function setChatFolderMuteExpiration(
@@ -1840,10 +1801,7 @@ function setMuteExpiration(
       : Date.now() + muteExpiresAt
   );
 
-  return {
-    type: 'NOOP',
-    payload: null,
-  };
+  return noopAction('setMuteExpiration');
 }
 
 function setPinned(
@@ -1874,10 +1832,7 @@ function setPinned(
     conversation.unpin();
   }
 
-  return {
-    type: 'NOOP',
-    payload: null,
-  };
+  return noopAction('setPinned');
 }
 
 function deleteMessages({
@@ -2013,10 +1968,7 @@ function destroyMessages(
       },
     });
 
-    dispatch({
-      type: 'NOOP',
-      payload: null,
-    });
+    dispatch(noopAction('destroyMessages'));
   };
 }
 
@@ -2139,10 +2091,7 @@ function generateNewGroupLink(
       task: async () => conversation.refreshGroupLink(),
     });
 
-    dispatch({
-      type: 'NOOP',
-      payload: null,
-    });
+    dispatch(noopAction('generateNewGroupLink'));
   };
 }
 
@@ -2239,10 +2188,7 @@ function setAccessControlAddFromInviteLinkSetting(
         conversation.updateAccessControlAddFromInviteLink(value),
     });
 
-    dispatch({
-      type: 'NOOP',
-      payload: null,
-    });
+    dispatch(noopAction('setAccessControlAddFromInviteLinkSetting'));
   };
 }
 
@@ -2450,10 +2396,7 @@ function kickOffAttachmentDownload(
       drop(window.MessageCache.saveMessage(message.attributes));
     }
 
-    dispatch({
-      type: 'NOOP',
-      payload: null,
-    });
+    dispatch(noopAction('kickOffAttachmentDownload'));
   };
 }
 
@@ -2490,10 +2433,7 @@ function cancelAttachmentDownload({
 
     await DataWriter.removeAttachmentDownloadJobsForMessage(messageId);
 
-    dispatch({
-      type: 'NOOP',
-      payload: null,
-    });
+    dispatch(noopAction('cancelAttachmentDownload'));
   };
 }
 
@@ -2508,10 +2448,7 @@ function markAttachmentAsCorrupted(
   return async dispatch => {
     await doMarkAttachmentAsCorrupted(options.messageId, options.attachment);
 
-    dispatch({
-      type: 'NOOP',
-      payload: null,
-    });
+    dispatch(noopAction('markAttachmentAsCorrupted'));
   };
 }
 
@@ -2636,10 +2573,7 @@ function retryMessageSend(
       );
     }
 
-    dispatch({
-      type: 'NOOP',
-      payload: null,
-    });
+    dispatch(noopAction('retryMessageSend'));
   };
 }
 
@@ -2658,10 +2592,7 @@ function sendPollVote({
       // TODO DESKTOP-9343: show toast on exception
     }
 
-    dispatch({
-      type: 'NOOP',
-      payload: null,
-    });
+    dispatch(noopAction('sendPollVote'));
   };
 }
 
@@ -2677,10 +2608,7 @@ export function copyMessageText(
     const body = getNotificationTextForMessage(message.attributes);
     clipboard.writeText(body);
 
-    dispatch({
-      type: 'NOOP',
-      payload: null,
-    });
+    dispatch(noopAction('copyMessageText'));
   };
 }
 
@@ -2731,10 +2659,7 @@ export function retryDeleteForEveryone(
       );
       await conversationJobQueue.add(jobData);
 
-      dispatch({
-        type: 'NOOP',
-        payload: null,
-      });
+      dispatch(noopAction('retryDeleteForEveryone'));
     } catch (error) {
       log.error(
         'retryDeleteForEveryone: Failed to queue delete for everyone',
@@ -3175,10 +3100,7 @@ function terminateGroup(
           );
         }
       } else {
-        dispatch({
-          type: 'NOOP',
-          payload: null,
-        });
+        dispatch(noopAction('terminateGroup'));
       }
     } catch {
       dispatch({
@@ -3309,10 +3231,7 @@ function getProfilesForConversation(conversationId: string): NoopActionType {
 
   drop(conversation.getProfiles());
 
-  return {
-    type: 'NOOP',
-    payload: null,
-  };
+  return noopAction('getProfilesForConversation');
 }
 
 function conversationStoppedByMissingVerification(payload: {
@@ -3671,10 +3590,7 @@ function deleteMessagesForEveryone(
         },
       });
     } else {
-      dispatch({
-        type: 'NOOP',
-        payload: null,
-      });
+      dispatch(noopAction('deleteMessagesForEveryone'));
     }
   };
 }
@@ -3736,10 +3652,7 @@ function approvePendingMembershipFromGroupV2(
       });
     }
 
-    dispatch({
-      type: 'NOOP',
-      payload: null,
-    });
+    dispatch(noopAction('approvePendingMembershipFromGroupV2'));
   };
 }
 
@@ -3813,10 +3726,7 @@ function revokePendingMembershipsFromGroupV2(
       });
     }
 
-    dispatch({
-      type: 'NOOP',
-      payload: null,
-    });
+    dispatch(noopAction('revokePendingMembershipsFromGroupV2'));
   };
 }
 
@@ -4063,10 +3973,7 @@ function acceptConversation(
       }
     }
 
-    dispatch({
-      type: 'NOOP',
-      payload: null,
-    });
+    dispatch(noopAction('acceptConversation'));
   };
 }
 
@@ -4142,10 +4049,7 @@ function blockConversation(
       }
     }
 
-    dispatch({
-      type: 'NOOP',
-      payload: null,
-    });
+    dispatch(noopAction('blockConversation'));
   };
 }
 
@@ -4180,10 +4084,7 @@ function deleteConversation(
       await conversation.destroyMessages({ source: 'local-delete' });
     }
 
-    dispatch({
-      type: 'NOOP',
-      payload: null,
-    });
+    dispatch(noopAction('deleteConversation'));
   };
 }
 
@@ -4201,10 +4102,7 @@ function initiateMigrationToGroupV2(conversationId: string): NoopActionType {
     task: () => doInitiateMigrationToGroupV2(conversation),
   });
 
-  return {
-    type: 'NOOP',
-    payload: null,
-  };
+  return noopAction('initiateMigrationToGroupV2');
 }
 
 export type SaveAttachmentActionCreatorType = ReadonlyDeep<
@@ -4608,10 +4506,7 @@ function toggleHideStories(
     if (conversationModel) {
       conversationModel.toggleHideStories();
     }
-    dispatch({
-      type: 'NOOP',
-      payload: null,
-    });
+    dispatch(noopAction('toggleHideStories'));
   };
 }
 
@@ -4629,10 +4524,7 @@ function removeMemberFromGroup(
         task: () => conversationModel.removeFromGroupV2(contactId),
       });
     }
-    dispatch({
-      type: 'NOOP',
-      payload: null,
-    });
+    dispatch(noopAction('removeMemberFromGroup'));
   };
 }
 
@@ -4808,10 +4700,7 @@ function toggleGroupsForStorySend(
       })
     );
 
-    dispatch({
-      type: 'NOOP',
-      payload: null,
-    });
+    dispatch(noopAction('toggleGroupsForStorySend'));
   };
 }
 
@@ -4824,10 +4713,7 @@ function toggleAdmin(
     if (conversationModel) {
       void conversationModel.toggleAdmin(contactId);
     }
-    dispatch({
-      type: 'NOOP',
-      payload: null,
-    });
+    dispatch(noopAction('toggleAdmin'));
   };
 }
 
@@ -5130,10 +5016,7 @@ function doubleCheckMissingQuoteReference(messageId: string): NoopActionType {
     drop(doDoubleCheckMissingQuoteReference(message));
   }
 
-  return {
-    type: 'NOOP',
-    payload: null,
-  };
+  return noopAction('doubleCheckMissingQuoteReference');
 }
 
 function setPendingRequestedAvatarDownload(
