@@ -1014,7 +1014,7 @@ export type GetSenderCertificateResultType = Readonly<{ certificate: string }>;
 
 const whoamiResultZod = z.object({
   uuid: z.string(),
-  pni: z.string(),
+  pni: untaggedPniSchema,
   number: z.string(),
   usernameHash: z.string().nullish(),
   usernameLinkHandle: z.string().nullish(),
