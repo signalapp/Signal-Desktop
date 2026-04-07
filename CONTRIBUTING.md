@@ -5,17 +5,49 @@
 
 ## Advice for new contributors
 
-Start small. The PRs most likely to be merged are the ones that make small,
-easily reviewed changes with clear and specific intentions. See below for more
-[guidelines on pull requests](#pull-requests).
+First, there are ways to contribute that don't involve the code at all. It helps to
+_start small_. Here's a list of things to consider:
 
-It's a good idea to gauge interest in your intended work by finding the current issue
-for it or creating a new one yourself. You can use also that issue as a place to signal
-your intentions and get feedback from the users most likely to appreciate your changes.
+1. Talk about Signal with your friends and family - get them to join you in using it!
+1. Join the Beta and test out recently-released features before the general public gets access
+1. Find and comment on duplicate GitHub issues, so we can close them
+1. Determine and provide workarounds on existing GitHub issues
+1. Test Signal Desktop and find reliable, well-defined reproduction steps for existing GitHub issues
+1. For a given GitHub issue, test Signal iOS and/or Signal Android to see if their behavior matches Signal Desktop, and provide the details of your analysis.
 
-Once you've spent a little bit of time planning your solution, you can go
-back to the issue and talk about your approach. We'd be happy to provide feedback. [An
-ounce of prevention, as they say!](https://www.goodreads.com/quotes/247269-an-ounce-of-prevention-is-worth-a-pound-of-cure)
+If you're ready to spend some time on a GitHub issue, please consider commenting to ask us
+if there's interest. That will help ensure we minimize wasted time.
+
+### Getting into the code
+
+Have you spent some good time with Signal Desktop and GitHub issues? You can go deeper
+and get into the code itself.
+
+Again, it helps to start small. You don't need to create a PR to contribute!
+
+1. Find the root cause of a GitHub issue, and provide your explanation in the issue, with links to specific places in the code
+1. For a particularly difficult investigation, provide your process. Talk about the changes you made, and what happened - this might be useful to others working to fix the issue.
+1. Test or review the code for others' pull requests
+1. When reporting any issue, also include the specific place in the code where it happens.
+
+### Considering a Pull Request?
+
+If you're getting more comfortable with the code, you can consider assembling a PR. We
+have very high standards for the code we put into Signal Desktop, so take special care
+in changing the code, adding tests, and crafting the PR summary.
+
+Because this can take a lot of time, it's a good idea to gauge interest in your intended
+changes first. Find the current GitHub issue for it or create a new one yourself, then
+post about your plans. That way you'll get feedback from the users most likely to
+appreciate your changes. And we may tell you not to move forward with changes, because we
+have other plans for the issue itself or that area of the code.
+
+Than, once you've spent some time planning your solution, please consider going back
+to the issue and talking about your approach. We'd be happy to provide feedback.
+
+The PRs most likely to be merged are the ones that fix issues with real user impact,
+make small easily reviewed changes, and have clear and specific intentions. See below for
+more [guidelines on pull requests](#pull-requests).
 
 ## Developer Setup
 
@@ -217,9 +249,19 @@ command line. You can run the client-side tests in an interactive session with
 
 ## Pull requests
 
-So you wanna make a pull request? Please observe the following guidelines.
+So you wanna make a pull request?
 
-- First, make sure that your `pnpm run ready` run passes - it's very similar to what our
+First, know that it's highly unlikely we'll accept visual changes, new strings, or really
+anything that changes the user experience. Please talk to us first if you're planning
+something like this! It's possible that we'll give you the okay, but very likely not.
+
+The best changes fix bugs in our implementation of the existing user experience. For
+example, it's almost certain that we'll reject anything that adds a new option.
+
+More guidelines:
+
+- Don't forget to sign the [CLA](https://signal.org/cla/).
+- Be very sure that your `pnpm run ready` run passes - it's very similar to what our
   Continuous Integration servers do to test the app.
 - Please do not submit pull requests for translation fixes.
 - Never use plain strings right in the source code - pull them from `messages.json`!
@@ -230,7 +272,7 @@ So you wanna make a pull request? Please observe the following guidelines.
   changes on the latest `main` branch, resolving any conflicts.
   This ensures that your changes will merge cleanly when you open your PR.
 - Be sure to add and run tests!
-- Make sure the diff between the development branch and your branch contains only the
+- Make sure the diff between the main branch and your branch contains only the
   minimal set of changes needed to implement your feature or bugfix. This will
   make it easier for the person reviewing your code to approve the changes.
   Please do not submit a PR with commented out code or unfinished features.
