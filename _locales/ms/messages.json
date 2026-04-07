@@ -2565,7 +2565,7 @@
     "messageformat": "{containerDescription} · {dayCountSummary}"
   },
   "icu:multidayCollapse__dayCountSummary": {
-    "messageformat": "{dayCount, plural, one {{dayCount,number} day} other {{dayCount,number} days}}"
+    "messageformat": "{dayCount, plural, other {{dayCount,number} hari}}"
   },
   "icu:collapsedChatUpdates": {
     "messageformat": "{count, plural, one {{count,number} chat update} other {{count,number} chat updates}}"
@@ -3981,7 +3981,7 @@
     "messageformat": "Couldn't end the group. Check your connection and try again."
   },
   "icu:TerminateGroupFailedModal__try-again": {
-    "messageformat": "Try again"
+    "messageformat": "Cuba lagi"
   },
   "icu:GroupV2--admin": {
     "messageformat": "Pentadbir"
@@ -4425,10 +4425,10 @@
     "messageformat": "Ahli atau tetapan kumpulan ini telah berubah."
   },
   "icu:GroupV2--terminated--you": {
-    "messageformat": "You ended the group"
+    "messageformat": "Anda menamatkan kumpulan ini"
   },
   "icu:GroupV2--terminated--other": {
-    "messageformat": "{memberName} ended the group"
+    "messageformat": "{memberName} menamatkan kumpulan"
   },
   "icu:GroupV2--terminated--unknown": {
     "messageformat": "This group has ended"
@@ -4890,7 +4890,7 @@
     "messageformat": "Keluar kumpulan"
   },
   "icu:ConversationDetailsActions--terminate-group": {
-    "messageformat": "End group"
+    "messageformat": "Tamatkan kumpulan"
   },
   "icu:ConversationDetailsActions--block-group": {
     "messageformat": "Sekat kumpulan"
@@ -4899,13 +4899,13 @@
     "messageformat": "Nyahsekat kumpulan"
   },
   "icu:ConversationDetailsActions--archive": {
-    "messageformat": "Archive chat"
+    "messageformat": "Arkibkan Sembang"
   },
   "icu:ConversationDetailsActions--unarchive": {
-    "messageformat": "Unarchive chat"
+    "messageformat": "Nyaharkibkan Sembang"
   },
   "icu:ConversationDetailsActions--delete": {
-    "messageformat": "Delete chat"
+    "messageformat": "Padam sembang"
   },
   "icu:ConversationDetailsActions--leave-group-must-choose-new-admin": {
     "messageformat": "Sebelum anda pergi, anda mesti memilih sekurang-kurangnya satu pentadbir baharu untuk kumpulan ini."
@@ -4920,16 +4920,16 @@
     "messageformat": "Tinggalkan"
   },
   "icu:ConversationDetailsActions--prompt-terminate-group-modal-title": {
-    "messageformat": "End \"{groupName}\"?"
+    "messageformat": "Tamatkan \"{groupName}\"?"
   },
   "icu:ConversationDetailsActions--prompt-terminate-group-modal-content": {
-    "messageformat": "Members will no longer be able to send messages or start calls in the group. They will be notified that you ended the group, and will still have access to message history."
+    "messageformat": "Ahli tidak lagi boleh menghantar mesej atau memulakan panggilan dalam kumpulan ini. Mereka akan dimaklumkan bahawa anda telah menamatkan kumpulan ini dan masih boleh mengakses sejarah mesej."
   },
   "icu:ConversationDetailsActions--terminate-group-modal-confirm": {
-    "messageformat": "End group"
+    "messageformat": "Tamatkan kumpulan"
   },
   "icu:ConversationDetailsActions--confirm-terminate-group-confirm-modal-content": {
-    "messageformat": "This will end the group permanently. Are you sure you want to proceed?"
+    "messageformat": "Ini akan menamatkan kumpulan secara kekal. Adakah anda pasti mahu meneruskan?"
   },
   "icu:ConversationDetailsActions--unblock-group-modal-title": {
     "messageformat": "Nyahsekat Kumpulan \"{groupName}\"?"
@@ -4959,7 +4959,7 @@
     "messageformat": "{number, plural, other {{number,number} ahli}}"
   },
   "icu:ConversationDetailsMembershipList--terminated-title": {
-    "messageformat": "{number, plural, one {{number,number} former member} other {{number,number} former members}}"
+    "messageformat": "{number, plural, other {{number,number} ahli terdahulu}}"
   },
   "icu:ConversationDetailsMembershipList--add-members": {
     "messageformat": "Tambah ahli"
@@ -6332,7 +6332,7 @@
     "messageformat": "Lihat kunci sandaran"
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
-    "messageformat": "View recovery key"
+    "messageformat": "Lihat kunci pemulihan"
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
     "messageformat": "Pengesahan diperlukan untuk melihat kunci sandaran anda."
@@ -6344,7 +6344,7 @@
     "messageformat": "Kotak teks kunci sandaran"
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
-    "messageformat": "Recovery key"
+    "messageformat": "Kunci pemulihan"
   },
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "Masukkan kunci"
@@ -6353,7 +6353,7 @@
     "messageformat": "Rekodkan kunci sandaran anda"
   },
   "icu:Preferences--local-backups-record-recovery-key": {
-    "messageformat": "Record your recovery key"
+    "messageformat": "Rekodkan kunci pemulihan anda"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "Kunci ini diperlukan untuk memulihkan akaun dan data anda. Simpan kunci ini di tempat yang selamat. Jika anda kehilangannya, anda tidak akan dapat memulihkan akaun anda. <learnMoreLink>Ketahui lebih lanjut.</learnMoreLink>"
@@ -6362,13 +6362,13 @@
     "messageformat": "Sahkan kunci sandaran anda"
   },
   "icu:Preferences--local-backups-confirm-recovery-key": {
-    "messageformat": "Confirm your recovery key"
+    "messageformat": "Sahkan kunci pemulihan anda"
   },
   "icu:Preferences--local-backups-confirm-backup-key-description": {
     "messageformat": "Masukkan kunci sandaran yang baru anda rekodkan"
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
-    "messageformat": "Enter the recovery key that you just recorded"
+    "messageformat": "Masukkan kunci pemulihan yang anda baru rekodkan"
   },
   "icu:Preferences__local-backups-confirm-key-modal-title": {
     "messageformat": "Pastikan kunci anda selamat"
@@ -6416,7 +6416,7 @@
     "messageformat": "Kunci sandaran disalin"
   },
   "icu:Preferences__local-backups-copied-recovery-key": {
-    "messageformat": "Recovery key copied"
+    "messageformat": "Kunci pemulihan disalin"
   },
   "icu:Preferences__local-backups--enable--os-prompt--mac": {
     "messageformat": "Mendayakan sandaran"
@@ -6440,13 +6440,13 @@
     "messageformat": "Kunci sandaran"
   },
   "icu:Preferences__recovery-key": {
-    "messageformat": "Recovery key"
+    "messageformat": "Kunci pemulihan"
   },
   "icu:Preferences__backup-key-description": {
     "messageformat": "Kunci sandaran anda ialah kod 64 digit yang digunakan untuk memulihkan sandaran anda"
   },
   "icu:Preferences__recovery-key-description": {
-    "messageformat": "Your recovery key is a 64-digit code used to restore your backup"
+    "messageformat": "Your recovery key is a 64-character code used to restore your backup"
   },
   "icu:Preferences__backup-other-ways": {
     "messageformat": "Cara lain untuk membuat sandaran"

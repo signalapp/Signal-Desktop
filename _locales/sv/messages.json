@@ -2373,7 +2373,7 @@
     "messageformat": "Supportcenter"
   },
   "icu:ConversationDetails__GroupTerminatedBanner": {
-    "messageformat": "This group has ended"
+    "messageformat": "Gruppen har avslutats"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "Visa säkerhetsnummer"
@@ -2559,31 +2559,31 @@
     "messageformat": "{leadingIcon} {text} {trailingIcon}"
   },
   "icu:collapsedGroupUpdates": {
-    "messageformat": "{count, plural, one {{count,number} group update} other {{count,number} group updates}}"
+    "messageformat": "{count, plural, one {{count,number} gruppuppdatering} other {{count,number} gruppuppdateringar}}"
   },
   "icu:multidayCollapse__container": {
     "messageformat": "{containerDescription} · {dayCountSummary}"
   },
   "icu:multidayCollapse__dayCountSummary": {
-    "messageformat": "{dayCount, plural, one {{dayCount,number} day} other {{dayCount,number} days}}"
+    "messageformat": "{dayCount, plural, one {{dayCount,number} dag} other {{dayCount,number} dagar}}"
   },
   "icu:collapsedChatUpdates": {
-    "messageformat": "{count, plural, one {{count,number} chat update} other {{count,number} chat updates}}"
+    "messageformat": "{count, plural, one {{count,number} chattuppdatering} other {{count,number} chattuppdateringar}}"
   },
   "icu:collapsedTimerChanges": {
-    "messageformat": "{count, plural, one {{count,number} disappearing timer change · {endingState}} other {{count,number} disappearing message timer changes · {endingState}}}"
+    "messageformat": "{count, plural, one {{count,number} ändring av timer för försvinnande meddelanden · {endingState}} other {{count,number} ändringar av timer för försvinnande meddelanden · {endingState}}}"
   },
   "icu:collapsedTimerChanges--disabled": {
-    "messageformat": "{count, plural, one {{count,number} disappearing timer change · Disabled} other {{count,number} disappearing message timer changes · Disabled}}"
+    "messageformat": "{count, plural, one {{count,number} ändring av timer för försvinnande meddelanden · Inaktiverad} other {{count,number} ändringar av timer för försvinnande meddelanden · Inaktiverad}}"
   },
   "icu:collapsedCallEvents": {
-    "messageformat": "{count, plural, one {{count,number} call event} other {{count,number} call events}}"
+    "messageformat": "{count, plural, one {{count,number} samtalshändelse} other {{count,number} samtalshändelser}}"
   },
   "icu:collapsedItems--collapsed": {
-    "messageformat": "Set of items is collapsed - click to expand"
+    "messageformat": "En uppsättning objekt är hopfälld – klicka för att expandera"
   },
   "icu:collapsedItems--expanded": {
-    "messageformat": "Set of items is expanded - click to collapse"
+    "messageformat": "En uppsättning objekt är expanderad – klicka för att fälla ihop"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "Gruppavatar uppdaterades."
@@ -3966,7 +3966,7 @@
     "messageformat": "Din förfrågan om att gå med har skickats till gruppadministratören. Du får en notis när administratören vidtar åtgärder."
   },
   "icu:GroupV2--join--group-terminated": {
-    "messageformat": "Unable to join this group."
+    "messageformat": "Det går inte att gå med i den här gruppen."
   },
   "icu:GroupV2--join--general-join-failure--title": {
     "messageformat": "Länkfel"
@@ -3975,13 +3975,13 @@
     "messageformat": "Det gick inte att gå med i gruppen. Försök igen senare."
   },
   "icu:GroupV2--terminate-group-in-progress": {
-    "messageformat": "Ending group..."
+    "messageformat": "Avslutar grupp …"
   },
   "icu:TerminateGroupFailedModal__description": {
-    "messageformat": "Couldn't end the group. Check your connection and try again."
+    "messageformat": "Det gick inte att avsluta gruppen. Kontrollera din anslutning och försök igen."
   },
   "icu:TerminateGroupFailedModal__try-again": {
-    "messageformat": "Try again"
+    "messageformat": "Försök igen"
   },
   "icu:GroupV2--admin": {
     "messageformat": "Administratör"
@@ -4425,13 +4425,13 @@
     "messageformat": "Gruppens medlemmar eller inställningar har ändrats."
   },
   "icu:GroupV2--terminated--you": {
-    "messageformat": "You ended the group"
+    "messageformat": "Du avslutade gruppen"
   },
   "icu:GroupV2--terminated--other": {
-    "messageformat": "{memberName} ended the group"
+    "messageformat": "{memberName} avslutade gruppen"
   },
   "icu:GroupV2--terminated--unknown": {
-    "messageformat": "This group has ended"
+    "messageformat": "Gruppen har avslutats"
   },
   "icu:GroupV1--Migration--disabled--link": {
     "messageformat": "Uppgradera den här gruppen för att aktivera nya funktioner som @omnämnanden och administratörer. Medlemmar som inte har delat sitt namn eller foto i den här gruppen kommer att bjudas in att gå med. <learnMoreLink>Läs mer.</learnMoreLink>"
@@ -4710,7 +4710,7 @@
     "messageformat": "Ersätt"
   },
   "icu:CompositionArea--group-terminated": {
-    "messageformat": "You can't send messages because the group has ended."
+    "messageformat": "Du kan inte skicka meddelanden eftersom gruppen har avslutats."
   },
   "icu:CompositionArea--viewOnceToggle": {
     "messageformat": "Visa en gång"
@@ -4890,7 +4890,7 @@
     "messageformat": "Lämna grupp"
   },
   "icu:ConversationDetailsActions--terminate-group": {
-    "messageformat": "End group"
+    "messageformat": "Avsluta gruppen"
   },
   "icu:ConversationDetailsActions--block-group": {
     "messageformat": "Blockera grupp"
@@ -4899,13 +4899,13 @@
     "messageformat": "Avblockera grupp"
   },
   "icu:ConversationDetailsActions--archive": {
-    "messageformat": "Archive chat"
+    "messageformat": "Arkivera chatt"
   },
   "icu:ConversationDetailsActions--unarchive": {
-    "messageformat": "Unarchive chat"
+    "messageformat": "Avarkivera chatt"
   },
   "icu:ConversationDetailsActions--delete": {
-    "messageformat": "Delete chat"
+    "messageformat": "Ta bort chatt"
   },
   "icu:ConversationDetailsActions--leave-group-must-choose-new-admin": {
     "messageformat": "Innan du lämnar måste du välja minst en ny administratör för den här gruppen."
@@ -4920,16 +4920,16 @@
     "messageformat": "Lämna"
   },
   "icu:ConversationDetailsActions--prompt-terminate-group-modal-title": {
-    "messageformat": "End \"{groupName}\"?"
+    "messageformat": "Avsluta \"{groupName}\"?"
   },
   "icu:ConversationDetailsActions--prompt-terminate-group-modal-content": {
-    "messageformat": "Members will no longer be able to send messages or start calls in the group. They will be notified that you ended the group, and will still have access to message history."
+    "messageformat": "Medlemmar kommer inte längre att kunna skicka meddelanden eller starta samtal i gruppen. De får en notis om att du avslutade gruppen och har fortfarande tillgång till meddelandehistoriken."
   },
   "icu:ConversationDetailsActions--terminate-group-modal-confirm": {
-    "messageformat": "End group"
+    "messageformat": "Avsluta gruppen"
   },
   "icu:ConversationDetailsActions--confirm-terminate-group-confirm-modal-content": {
-    "messageformat": "This will end the group permanently. Are you sure you want to proceed?"
+    "messageformat": "Detta avslutar gruppen permanent. Är du säker på att du vill fortsätta?"
   },
   "icu:ConversationDetailsActions--unblock-group-modal-title": {
     "messageformat": "Avblockera gruppen \"{groupName}\"?"
@@ -4959,7 +4959,7 @@
     "messageformat": "{number, plural, one {{number,number} medlem} other {{number,number} medlemmar}}"
   },
   "icu:ConversationDetailsMembershipList--terminated-title": {
-    "messageformat": "{number, plural, one {{number,number} former member} other {{number,number} former members}}"
+    "messageformat": "{number, plural, one {{number,number} tidigare medlem} other {{number,number} tidigare medlemmar}}"
   },
   "icu:ConversationDetailsMembershipList--add-members": {
     "messageformat": "Lägg till medlemmar"
@@ -6320,31 +6320,31 @@
     "messageformat": "visa din säkerhetskopieringsnyckel"
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
-    "messageformat": "show your recovery key"
+    "messageformat": "visa din återställningsnyckel"
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
     "messageformat": "Verifiera din identitet för att se din säkerhetskopieringsnyckel."
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
-    "messageformat": "Verify your identity to view your recovery key."
+    "messageformat": "Verifiera din identitet för att visa din återställningsnyckel."
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
     "messageformat": "Visa säkerhetskopieringsnyckel"
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
-    "messageformat": "View recovery key"
+    "messageformat": "Visa återställningsnyckel"
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
     "messageformat": "Autentisering krävs för att visa din säkerhetskopieringsnyckel."
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
-    "messageformat": "Authentication is required to view your recovery key."
+    "messageformat": "Autentisering krävs för att visa din återställningsnyckel."
   },
   "icu:Preferences--local-backups-backup-key-text-box": {
     "messageformat": "Textruta för säkerhetskopieringsnyckel"
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
-    "messageformat": "Recovery key"
+    "messageformat": "Återställningsnyckel"
   },
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "Ange nyckel"
@@ -6353,7 +6353,7 @@
     "messageformat": "Spara din säkerhetskopieringsnyckel"
   },
   "icu:Preferences--local-backups-record-recovery-key": {
-    "messageformat": "Record your recovery key"
+    "messageformat": "Spara din återställningsnyckel"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "Denna nyckel krävs för att återställa ditt konto och dina data. Förvara den här nyckeln på ett säkert ställe. Om du förlorar den kommer du inte att kunna återställa ditt konto.<learnMoreLink>Läs mer.</learnMoreLink>"
@@ -6362,13 +6362,13 @@
     "messageformat": "Bekräfta din säkerhetskopieringsnyckel"
   },
   "icu:Preferences--local-backups-confirm-recovery-key": {
-    "messageformat": "Confirm your recovery key"
+    "messageformat": "Bekräfta din återställningsnyckel"
   },
   "icu:Preferences--local-backups-confirm-backup-key-description": {
     "messageformat": "Ange säkerhetskopieringsnyckeln som du just spelade in"
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
-    "messageformat": "Enter the recovery key that you just recorded"
+    "messageformat": "Ange återställningsnyckeln som du just registrerat"
   },
   "icu:Preferences__local-backups-confirm-key-modal-title": {
     "messageformat": "Förvara din nyckel säkert"
@@ -6416,7 +6416,7 @@
     "messageformat": "Säkerhetskopieringsnyckel kopierad"
   },
   "icu:Preferences__local-backups-copied-recovery-key": {
-    "messageformat": "Recovery key copied"
+    "messageformat": "Återställningsnyckeln kopierad"
   },
   "icu:Preferences__local-backups--enable--os-prompt--mac": {
     "messageformat": "Aktivera säkerhetskopior"
@@ -6431,7 +6431,7 @@
     "messageformat": "Autentisering krävs för att aktivera säkerhetskopior."
   },
   "icu:Preferences__local-backups-auth-error--unauthorized": {
-    "messageformat": "This action could not be completed because system authentication failed. Please try again or open the Signal app on your mobile device and go to Backup Settings to view your recovery key."
+    "messageformat": "Den här åtgärden kunde inte slutföras eftersom systemautentiseringen misslyckades. Försök igen eller öppna Signal-appen på din mobila enhet och gå till inställningarna för säkerhetskopiering för att visa din återställningsnyckel."
   },
   "icu:Preferences__view-key": {
     "messageformat": "Visa nyckel"
@@ -6440,25 +6440,25 @@
     "messageformat": "Säkerhetskopieringsnyckel"
   },
   "icu:Preferences__recovery-key": {
-    "messageformat": "Recovery key"
+    "messageformat": "Återställningsnyckel"
   },
   "icu:Preferences__backup-key-description": {
     "messageformat": "Din säkerhetskopieringsnyckel är en 64-siffrig kod som används för att återställa din säkerhetskopia"
   },
   "icu:Preferences__recovery-key-description": {
-    "messageformat": "Your recovery key is a 64-digit code used to restore your backup"
+    "messageformat": "Din återställningsnyckel är en kod med 64 tecken som används för att återställa din säkerhetskopia"
   },
   "icu:Preferences__backup-other-ways": {
     "messageformat": "Andra sätt att säkerhetskopiera"
   },
   "icu:Preferences__recovery-key-updated__title": {
-    "messageformat": "Your recovery key has changed"
+    "messageformat": "Din återställningsnyckel har ändrats"
   },
   "icu:Preferences__recovery-key-updated__description": {
-    "messageformat": "Your recovery key has been updated. Any new backups you make can only be restored using your new recovery key."
+    "messageformat": "Din återställningsnyckel har uppdaterats. Nya säkerhetskopior som du skapar kan bara återställas med din nya återställningsnyckel."
   },
   "icu:Preferences__recovery-key-updated__view-key": {
-    "messageformat": "View new key"
+    "messageformat": "Visa ny nyckel"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {{num,number} kontakt} other {{num,number} kontakter}}"
@@ -6812,7 +6812,7 @@
     "messageformat": "Ta bort den här storyn? Den kommer också att tas bort för alla som har mottagit den."
   },
   "icu:MyStories__delete-group-story-for-me": {
-    "messageformat": "Delete this story? It will only be deleted for you because the group has ended."
+    "messageformat": "Radera den här storyn? Den raderas bara för dig eftersom gruppen har avslutats."
   },
   "icu:payment-event-notification-message-you-label": {
     "messageformat": "Du har påbörjat en betalning till {receiver}"
@@ -8152,6 +8152,6 @@
     "messageformat": "Nu kan du välja att lägga till en medlemsetikett för att beskriva dig själv eller din roll i en gruppchatt. Medlemsetiketter visas bredvid ditt profilnamn i gruppen, och gruppadministratörer kan styra om de är aktiverade för alla."
   },
   "icu:WhatsNew__8.6--0": {
-    "messageformat": "Now you won't need to scroll as far to catch up on the latest messages. If several new people join a busy group chat, or you receive multiple missed calls in a row, those repeated chat events can be automatically grouped together into a compact display. Sometimes less is more, but you can easily expand and collapse these lists at any time."
+    "messageformat": "Upprepade chatthändelser (som flera missade samtal) kan automatiskt grupperas i en kompakt vy så att du inte behöver skrolla lika långt för att komma ikapp med de senaste meddelandena."
   }
 }

@@ -2373,7 +2373,7 @@
     "messageformat": "Laguntzarako Zentroa"
   },
   "icu:ConversationDetails__GroupTerminatedBanner": {
-    "messageformat": "This group has ended"
+    "messageformat": "Talde hau amaituta dago"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "Erakutsi segurtasun-zenbakia"
@@ -2559,31 +2559,31 @@
     "messageformat": "{leadingIcon} {text} {trailingIcon}"
   },
   "icu:collapsedGroupUpdates": {
-    "messageformat": "{count, plural, one {{count,number} group update} other {{count,number} group updates}}"
+    "messageformat": "{count, plural, one {Taldeko {count,number} eguneratze} other {Taldeko {count,number} eguneratze}}"
   },
   "icu:multidayCollapse__container": {
     "messageformat": "{containerDescription} · {dayCountSummary}"
   },
   "icu:multidayCollapse__dayCountSummary": {
-    "messageformat": "{dayCount, plural, one {{dayCount,number} day} other {{dayCount,number} days}}"
+    "messageformat": "{dayCount, plural, one {Egun {dayCount,number}} other {{dayCount,number} egun}}"
   },
   "icu:collapsedChatUpdates": {
-    "messageformat": "{count, plural, one {{count,number} chat update} other {{count,number} chat updates}}"
+    "messageformat": "{count, plural, one {Txateko {count,number} eguneratze} other {Txateko {count,number} eguneratze}}"
   },
   "icu:collapsedTimerChanges": {
-    "messageformat": "{count, plural, one {{count,number} disappearing timer change · {endingState}} other {{count,number} disappearing message timer changes · {endingState}}}"
+    "messageformat": "{count, plural, one {Desagertzen diren mezuen tenporizadorearen {count,number} aldaketa · {endingState}} other {Desagertzen diren mezuen tenporizadorearen {count,number} aldaketa · {endingState}}}"
   },
   "icu:collapsedTimerChanges--disabled": {
-    "messageformat": "{count, plural, one {{count,number} disappearing timer change · Disabled} other {{count,number} disappearing message timer changes · Disabled}}"
+    "messageformat": "{count, plural, one {Desagertzen diren mezuen tenporizadorearen {count,number} aldaketa · Desgaituta} other {Desagertzen diren mezuen tenporizadorearen {count,number} aldaketa · Desgaituta}}"
   },
   "icu:collapsedCallEvents": {
-    "messageformat": "{count, plural, one {{count,number} call event} other {{count,number} call events}}"
+    "messageformat": "{count, plural, one {Deiekin lotutako {count,number} gertaera} other {Deiekin lotutako {count,number} gertaera}}"
   },
   "icu:collapsedItems--collapsed": {
-    "messageformat": "Set of items is collapsed - click to expand"
+    "messageformat": "Elementu sorta tolestuta dago; egin klik hura zabaltzeko"
   },
   "icu:collapsedItems--expanded": {
-    "messageformat": "Set of items is expanded - click to collapse"
+    "messageformat": "Elementu sorta zabalduta dago; egin klik hura tolesteko"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "Taldeko abatarra eguneratu da."
@@ -3966,7 +3966,7 @@
     "messageformat": "Taldean sartzeko zure eskaera taldeko administratzaileari bidali zaio. Jakinaraziko zaizu erabaki bat hartzen duenean."
   },
   "icu:GroupV2--join--group-terminated": {
-    "messageformat": "Unable to join this group."
+    "messageformat": "Ezin zara sartu talde honetan."
   },
   "icu:GroupV2--join--general-join-failure--title": {
     "messageformat": "Estekaren errorea"
@@ -3975,13 +3975,13 @@
     "messageformat": "Ezin izan zara sartu taldean. Saiatu berriro geroago."
   },
   "icu:GroupV2--terminate-group-in-progress": {
-    "messageformat": "Ending group..."
+    "messageformat": "Taldea amaitzen…"
   },
   "icu:TerminateGroupFailedModal__description": {
-    "messageformat": "Couldn't end the group. Check your connection and try again."
+    "messageformat": "Ezin izan da amaitu taldea. Egiaztatu Internetera konektatuta zaudela eta saiatu berriro."
   },
   "icu:TerminateGroupFailedModal__try-again": {
-    "messageformat": "Try again"
+    "messageformat": "Saiatu berriro"
   },
   "icu:GroupV2--admin": {
     "messageformat": "Administratzailea"
@@ -4425,13 +4425,13 @@
     "messageformat": "Talde honen kideak edo ezarpenak aldatu egin dira."
   },
   "icu:GroupV2--terminated--you": {
-    "messageformat": "You ended the group"
+    "messageformat": "Taldea amaitu duzu"
   },
   "icu:GroupV2--terminated--other": {
-    "messageformat": "{memberName} ended the group"
+    "messageformat": "{memberName} erabiltzaileak taldea amaitu du"
   },
   "icu:GroupV2--terminated--unknown": {
-    "messageformat": "This group has ended"
+    "messageformat": "Talde hau amaituta dago"
   },
   "icu:GroupV1--Migration--disabled--link": {
     "messageformat": "Eguneratu talde hau @aipamenak eta administratzaileak bezalako eginbide berriak aktibatzeko. Talde honetan izena edo argazkia partekatu ez duten kideak sartzera gonbidatuko dira. <learnMoreLink>Gehiago ikasi.</learnMoreLink>"
@@ -4710,7 +4710,7 @@
     "messageformat": "Ordeztu"
   },
   "icu:CompositionArea--group-terminated": {
-    "messageformat": "You can't send messages because the group has ended."
+    "messageformat": "Ezin duzu mezurik bidali, taldea amaitu egin delako."
   },
   "icu:CompositionArea--viewOnceToggle": {
     "messageformat": "Ikusi behin"
@@ -4890,7 +4890,7 @@
     "messageformat": "Utzi taldea"
   },
   "icu:ConversationDetailsActions--terminate-group": {
-    "messageformat": "End group"
+    "messageformat": "Amaitu taldea"
   },
   "icu:ConversationDetailsActions--block-group": {
     "messageformat": "Blokeatu taldea"
@@ -4899,13 +4899,13 @@
     "messageformat": "Desblokeatu taldea"
   },
   "icu:ConversationDetailsActions--archive": {
-    "messageformat": "Archive chat"
+    "messageformat": "Artxibatu txata"
   },
   "icu:ConversationDetailsActions--unarchive": {
-    "messageformat": "Unarchive chat"
+    "messageformat": "Atera txata artxibotik"
   },
   "icu:ConversationDetailsActions--delete": {
-    "messageformat": "Delete chat"
+    "messageformat": "Ezabatu txata"
   },
   "icu:ConversationDetailsActions--leave-group-must-choose-new-admin": {
     "messageformat": "Irten baino lehen, gutxienez administratzaile berri bat aukeratu behar duzu talde honetarako."
@@ -4920,16 +4920,16 @@
     "messageformat": "Utzi"
   },
   "icu:ConversationDetailsActions--prompt-terminate-group-modal-title": {
-    "messageformat": "End \"{groupName}\"?"
+    "messageformat": "\"{groupName}\" amaitu nahi duzu?"
   },
   "icu:ConversationDetailsActions--prompt-terminate-group-modal-content": {
-    "messageformat": "Members will no longer be able to send messages or start calls in the group. They will be notified that you ended the group, and will still have access to message history."
+    "messageformat": "Aurrerantzean, kideek ezingo dituzte bidali mezuak taldean, ez eta deiak hasi ere. Taldea amaitu duzula jakinaraziko zaie, eta mezu-historia ikusten jarraitu ahalko dute."
   },
   "icu:ConversationDetailsActions--terminate-group-modal-confirm": {
-    "messageformat": "End group"
+    "messageformat": "Amaitu taldea"
   },
   "icu:ConversationDetailsActions--confirm-terminate-group-confirm-modal-content": {
-    "messageformat": "This will end the group permanently. Are you sure you want to proceed?"
+    "messageformat": "Taldea betiko amaituko da. Aurrera egin nahi duzu?"
   },
   "icu:ConversationDetailsActions--unblock-group-modal-title": {
     "messageformat": "\"{groupName}\" taldea desblokeatu nahi duzu?"
@@ -4959,7 +4959,7 @@
     "messageformat": "{number, plural, one {{number,number} kide} other {{number,number} kide}}"
   },
   "icu:ConversationDetailsMembershipList--terminated-title": {
-    "messageformat": "{number, plural, one {{number,number} former member} other {{number,number} former members}}"
+    "messageformat": "{number, plural, one {{number,number} kide ohi} other {{number,number} kide ohi}}"
   },
   "icu:ConversationDetailsMembershipList--add-members": {
     "messageformat": "Gehitu kideak"
@@ -6320,31 +6320,31 @@
     "messageformat": "erakutsi babeskopia-gakoa"
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
-    "messageformat": "show your recovery key"
+    "messageformat": "erakutsi zure berreskuratze-gakoa"
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
     "messageformat": "Babeskopia-gakoa ikusteko, egiaztatu zure identitatea."
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
-    "messageformat": "Verify your identity to view your recovery key."
+    "messageformat": "Berreskuratze-gakoa ikusteko, egiaztatu zure identitatea."
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
     "messageformat": "Ikusi babeskopia-gakoa"
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
-    "messageformat": "View recovery key"
+    "messageformat": "Ikusi berreskuratze-gakoa"
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
     "messageformat": "Babeskopia-gakoa ikusteko, autentifikatu egin behar zara."
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
-    "messageformat": "Authentication is required to view your recovery key."
+    "messageformat": "Berreskuratze-gakoa ikusteko, autentifikatu egin behar zara."
   },
   "icu:Preferences--local-backups-backup-key-text-box": {
     "messageformat": "Babeskopia-gakoaren testu-koadroa"
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
-    "messageformat": "Recovery key"
+    "messageformat": "Berreskuratze-gakoa"
   },
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "Idatzi gakoa"
@@ -6353,7 +6353,7 @@
     "messageformat": "Apuntatu babeskopia-gakoa"
   },
   "icu:Preferences--local-backups-record-recovery-key": {
-    "messageformat": "Record your recovery key"
+    "messageformat": "Gorde berreskuratze-gakoa"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "Zure kontua eta datuak berreskuratzeko behar da gako hori. Gorde gakoa toki seguru batean. Galduz gero, ezingo duzu berreskuratu kontua.<learnMoreLink>Gehiago ikasi.</learnMoreLink>"
@@ -6362,13 +6362,13 @@
     "messageformat": "Berretsi babeskopia-gakoa"
   },
   "icu:Preferences--local-backups-confirm-recovery-key": {
-    "messageformat": "Confirm your recovery key"
+    "messageformat": "Berretsi berreskuratze-gakoa"
   },
   "icu:Preferences--local-backups-confirm-backup-key-description": {
     "messageformat": "Idatzi grabatu berri duzun babeskopia-gakoa"
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
-    "messageformat": "Enter the recovery key that you just recorded"
+    "messageformat": "Idatzi erregistratu berri duzun berreskuratze-gakoa"
   },
   "icu:Preferences__local-backups-confirm-key-modal-title": {
     "messageformat": "Mantendu gakoa seguru"
@@ -6416,7 +6416,7 @@
     "messageformat": "Kopiatu da babeskopia-gakoa"
   },
   "icu:Preferences__local-backups-copied-recovery-key": {
-    "messageformat": "Recovery key copied"
+    "messageformat": "Kopiatu da berreskuratze-gakoa"
   },
   "icu:Preferences__local-backups--enable--os-prompt--mac": {
     "messageformat": "Gaitu babeskopiak"
@@ -6431,7 +6431,7 @@
     "messageformat": "Babeskopiak gaitzeko, autentifikatu egin behar zara."
   },
   "icu:Preferences__local-backups-auth-error--unauthorized": {
-    "messageformat": "This action could not be completed because system authentication failed. Please try again or open the Signal app on your mobile device and go to Backup Settings to view your recovery key."
+    "messageformat": "Ezin izan da osatu ekintza, sistemaren autentifikazioak huts egin baitu. Saiatu berriro, edo ireki Signal aplikazioa gailu mugikorrean eta joan babeskopien ezarpenetara berreskuratze-gakoa ikusteko."
   },
   "icu:Preferences__view-key": {
     "messageformat": "Ikusi gakoa"
@@ -6440,25 +6440,25 @@
     "messageformat": "Babeskopia-gakoa"
   },
   "icu:Preferences__recovery-key": {
-    "messageformat": "Recovery key"
+    "messageformat": "Berreskuratze-gakoa"
   },
   "icu:Preferences__backup-key-description": {
     "messageformat": "Babeskopia leheneratzeko erabiltzen den 64 digituko kode bat da babeskopia-gakoa"
   },
   "icu:Preferences__recovery-key-description": {
-    "messageformat": "Your recovery key is a 64-digit code used to restore your backup"
+    "messageformat": "Babeskopia leheneratzeko erabiltzen den 64 karaktereko kodea da berreskuratze-gakoa"
   },
   "icu:Preferences__backup-other-ways": {
     "messageformat": "Babeskopiak egiteko beste modu batzuk"
   },
   "icu:Preferences__recovery-key-updated__title": {
-    "messageformat": "Your recovery key has changed"
+    "messageformat": "Zure berreskuratze-gakoa aldatu egin da"
   },
   "icu:Preferences__recovery-key-updated__description": {
-    "messageformat": "Your recovery key has been updated. Any new backups you make can only be restored using your new recovery key."
+    "messageformat": "Zure berreskuratze-gakoa eguneratu egin da. Aurrerantzean egiten dituzun babeskopiak berreskuratze-gako berriarekin bakarrik leheneratu ahalko dira."
   },
   "icu:Preferences__recovery-key-updated__view-key": {
-    "messageformat": "View new key"
+    "messageformat": "Ikusi gako berria"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {Kontaktu 1} other {{num,number} kontaktu}}"
@@ -6812,7 +6812,7 @@
     "messageformat": "Istorio hau ezabatu nahi duzu? Jaso duten guztientzat ere ezabatuko da."
   },
   "icu:MyStories__delete-group-story-for-me": {
-    "messageformat": "Delete this story? It will only be deleted for you because the group has ended."
+    "messageformat": "Istorio hau ezabatu nahi duzu? Zuretzat bakarrik ezabatuko da, taldea amaituta dagoelako."
   },
   "icu:payment-event-notification-message-you-label": {
     "messageformat": "{receiver}(r)i ordainketa bat egiteko prozesua hasi duzu"
@@ -8152,6 +8152,6 @@
     "messageformat": "Orain, nahi baduzu, kide-etiketa bat gehi dezakezu zeure burua deskribatzeko edo taldeko txatean duzun funtzioa azaltzeko. Kide-Talde horretan duzun profil-izenaren alboan agertzen dira kide-etiketak, eta denentzat gaituta dauden ala ez kontrola dezakete taldeko adminek."
   },
   "icu:WhatsNew__8.6--0": {
-    "messageformat": "Now you won't need to scroll as far to catch up on the latest messages. If several new people join a busy group chat, or you receive multiple missed calls in a row, those repeated chat events can be automatically grouped together into a compact display. Sometimes less is more, but you can easily expand and collapse these lists at any time."
+    "messageformat": "Txatekin lotutako gertaera errepikatuak (hala nola dei galduak) automatikoki taldeka daitezke ikuspegi trinko batean, ez dezazun hain behera egin beharrik izan mezu berrienak irakurtzeko."
   }
 }

@@ -2565,7 +2565,7 @@
     "messageformat": "{containerDescription} · {dayCountSummary}"
   },
   "icu:multidayCollapse__dayCountSummary": {
-    "messageformat": "{dayCount, plural, one {{dayCount,number} day} other {{dayCount,number} days}}"
+    "messageformat": "{dayCount, plural, one {{dayCount,number} araw} other {{dayCount,number} araw}}"
   },
   "icu:collapsedChatUpdates": {
     "messageformat": "{count, plural, one {{count,number} chat update} other {{count,number} chat updates}}"
@@ -3981,7 +3981,7 @@
     "messageformat": "Couldn't end the group. Check your connection and try again."
   },
   "icu:TerminateGroupFailedModal__try-again": {
-    "messageformat": "Try again"
+    "messageformat": "Subukang muli"
   },
   "icu:GroupV2--admin": {
     "messageformat": "Admin"
@@ -4425,10 +4425,10 @@
     "messageformat": "Nagbago ang members o settings ng group na ito."
   },
   "icu:GroupV2--terminated--you": {
-    "messageformat": "You ended the group"
+    "messageformat": "Tinapos mo ang group"
   },
   "icu:GroupV2--terminated--other": {
-    "messageformat": "{memberName} ended the group"
+    "messageformat": "Tinapos ni {memberName} ang group"
   },
   "icu:GroupV2--terminated--unknown": {
     "messageformat": "This group has ended"
@@ -4890,7 +4890,7 @@
     "messageformat": "Umalis sa grupo"
   },
   "icu:ConversationDetailsActions--terminate-group": {
-    "messageformat": "End group"
+    "messageformat": "Tapusin ang group"
   },
   "icu:ConversationDetailsActions--block-group": {
     "messageformat": "I-block ang group"
@@ -4899,13 +4899,13 @@
     "messageformat": "I-unblock ang group"
   },
   "icu:ConversationDetailsActions--archive": {
-    "messageformat": "Archive chat"
+    "messageformat": "I-archive ang chat"
   },
   "icu:ConversationDetailsActions--unarchive": {
-    "messageformat": "Unarchive chat"
+    "messageformat": "I-unarchive ang chat"
   },
   "icu:ConversationDetailsActions--delete": {
-    "messageformat": "Delete chat"
+    "messageformat": "Burahin ang chat"
   },
   "icu:ConversationDetailsActions--leave-group-must-choose-new-admin": {
     "messageformat": "Bago ka umalis, kailangan mong pumili ng kahit isang bagong admin para sa group na ito."
@@ -4920,16 +4920,16 @@
     "messageformat": "Umalis"
   },
   "icu:ConversationDetailsActions--prompt-terminate-group-modal-title": {
-    "messageformat": "End \"{groupName}\"?"
+    "messageformat": "Tapusin ang \"{groupName}\"?"
   },
   "icu:ConversationDetailsActions--prompt-terminate-group-modal-content": {
-    "messageformat": "Members will no longer be able to send messages or start calls in the group. They will be notified that you ended the group, and will still have access to message history."
+    "messageformat": "Hindi na makakapag-send ng messages o makakapagsimula ng tawag ang members sa group na ito. Ino-notify silang tinapos mo na ang group, at magkakaroon pa rin sila ng access sa message history."
   },
   "icu:ConversationDetailsActions--terminate-group-modal-confirm": {
-    "messageformat": "End group"
+    "messageformat": "Tapusin ang group"
   },
   "icu:ConversationDetailsActions--confirm-terminate-group-confirm-modal-content": {
-    "messageformat": "This will end the group permanently. Are you sure you want to proceed?"
+    "messageformat": "Permanenteng tatapusin ang group na ito. Sigurado ka bang gusto mong magpatuloy?"
   },
   "icu:ConversationDetailsActions--unblock-group-modal-title": {
     "messageformat": "Gusto mo bang i-unblock ang \"{groupName}\" Group?"
@@ -4959,7 +4959,7 @@
     "messageformat": "{number, plural, one {{number,number} member} other {{number,number} members}}"
   },
   "icu:ConversationDetailsMembershipList--terminated-title": {
-    "messageformat": "{number, plural, one {{number,number} former member} other {{number,number} former members}}"
+    "messageformat": "{number, plural, one {{number,number} dating member} other {{number,number} dating members}}"
   },
   "icu:ConversationDetailsMembershipList--add-members": {
     "messageformat": "Magdagdag ng mga kasapi"
@@ -6332,7 +6332,7 @@
     "messageformat": "Tingnan ang backup key"
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
-    "messageformat": "View recovery key"
+    "messageformat": "Tingnan ang recovery key"
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
     "messageformat": "Kinakailangan ng authentication para makita ang backup key mo."
@@ -6353,7 +6353,7 @@
     "messageformat": "I-record ang backup key mo"
   },
   "icu:Preferences--local-backups-record-recovery-key": {
-    "messageformat": "Record your recovery key"
+    "messageformat": "I-record ang iyong recovery key"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "Kailangan ang key para ma-recover mo ang iyong account at data. Itago ang key na ito sa ligtas na lugar. Kapag nawala mo ito, hindi mo mare-recover ang iyong account. <learnMoreLink>Matuto pa.</learnMoreLink>"
@@ -6362,13 +6362,13 @@
     "messageformat": "I-confirm ang backup key mo"
   },
   "icu:Preferences--local-backups-confirm-recovery-key": {
-    "messageformat": "Confirm your recovery key"
+    "messageformat": "Kumpirmahin ang iyong recovery key"
   },
   "icu:Preferences--local-backups-confirm-backup-key-description": {
     "messageformat": "Ilagay ang backup key na ni-record mo"
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
-    "messageformat": "Enter the recovery key that you just recorded"
+    "messageformat": "Ilagay ang recovery key na ni-record mo"
   },
   "icu:Preferences__local-backups-confirm-key-modal-title": {
     "messageformat": "Panatilihing ligtas ang iyong key"
@@ -6446,7 +6446,7 @@
     "messageformat": "Ang backup key mo ay isang 64-digit code na ginagamit sa pag-restore ng backup mo"
   },
   "icu:Preferences__recovery-key-description": {
-    "messageformat": "Your recovery key is a 64-digit code used to restore your backup"
+    "messageformat": "Your recovery key is a 64-character code used to restore your backup"
   },
   "icu:Preferences__backup-other-ways": {
     "messageformat": "Iba pang paraan ng pag-backup"

@@ -2373,7 +2373,7 @@
     "messageformat": "Atbalsta centrs"
   },
   "icu:ConversationDetails__GroupTerminatedBanner": {
-    "messageformat": "This group has ended"
+    "messageformat": "Grupa ir slēgta"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "Skatīt drošības numuru"
@@ -2559,31 +2559,31 @@
     "messageformat": "{leadingIcon} {text} {trailingIcon}"
   },
   "icu:collapsedGroupUpdates": {
-    "messageformat": "{count, plural, one {{count,number} group update} other {{count,number} group updates}}"
+    "messageformat": "{count, plural, zero {{count,number} grupas atjauninājumi} one {{count,number} grupas atjauninājums} other {{count,number} grupas atjauninājumi}}"
   },
   "icu:multidayCollapse__container": {
     "messageformat": "{containerDescription} · {dayCountSummary}"
   },
   "icu:multidayCollapse__dayCountSummary": {
-    "messageformat": "{dayCount, plural, one {{dayCount,number} day} other {{dayCount,number} days}}"
+    "messageformat": "{dayCount, plural, zero {{dayCount,number} dienas} one {{dayCount,number} diena} other {{dayCount,number} dienas}}"
   },
   "icu:collapsedChatUpdates": {
-    "messageformat": "{count, plural, one {{count,number} chat update} other {{count,number} chat updates}}"
+    "messageformat": "{count, plural, zero {{count,number} sarunas atjauninājumi} one {{count,number} sarunas atjauninājums} other {{count,number} sarunas atjauninājumi}}"
   },
   "icu:collapsedTimerChanges": {
-    "messageformat": "{count, plural, one {{count,number} disappearing timer change · {endingState}} other {{count,number} disappearing message timer changes · {endingState}}}"
+    "messageformat": "{count, plural, zero {{count,number} gaistošo ziņu taimera izmaiņas · {endingState}} one {{count,number} gaistošās ziņas taimera maiņa · {endingState}} other {{count,number} gaistošo ziņu taimera izmaiņas · {endingState}}}"
   },
   "icu:collapsedTimerChanges--disabled": {
-    "messageformat": "{count, plural, one {{count,number} disappearing timer change · Disabled} other {{count,number} disappearing message timer changes · Disabled}}"
+    "messageformat": "{count, plural, zero {{count,number} gaistošo ziņu taimera izmaiņas · Atspējots} one {{count,number} gaistošās ziņas taimera maiņa · Atspējots} other {{count,number} gaistošo ziņu taimera izmaiņas · Atspējots}}"
   },
   "icu:collapsedCallEvents": {
-    "messageformat": "{count, plural, one {{count,number} call event} other {{count,number} call events}}"
+    "messageformat": "{count, plural, zero {{count,number} zvana notikumi} one {{count,number} zvana notikums} other {{count,number} zvana notikumi}}"
   },
   "icu:collapsedItems--collapsed": {
-    "messageformat": "Set of items is collapsed - click to expand"
+    "messageformat": "Vienumu virkne ir sakļauta – klikšķini, lai izvērstu"
   },
   "icu:collapsedItems--expanded": {
-    "messageformat": "Set of items is expanded - click to collapse"
+    "messageformat": "Vienumu virkne ir izvērsta – klikšķini, lai sakļautu"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "Grupas avatārs tika atjaunināts."
@@ -3966,7 +3966,7 @@
     "messageformat": "Jūsu pieprasījums pievienoties ir nosūtīts grupas administratoram. Jums tiks paziņots, kad tiks veikta kāda darbība."
   },
   "icu:GroupV2--join--group-terminated": {
-    "messageformat": "Unable to join this group."
+    "messageformat": "Šai grupai pievienoties nav iespējams."
   },
   "icu:GroupV2--join--general-join-failure--title": {
     "messageformat": "Saites kļūda"
@@ -3975,13 +3975,13 @@
     "messageformat": "Nevarēja pievienoties grupai. Vēlāk mēģiniet vēlreiz."
   },
   "icu:GroupV2--terminate-group-in-progress": {
-    "messageformat": "Ending group..."
+    "messageformat": "Slēdz grupu..."
   },
   "icu:TerminateGroupFailedModal__description": {
-    "messageformat": "Couldn't end the group. Check your connection and try again."
+    "messageformat": "Neizdevās slēgt grupu. Pārbaudi savienojumu un mēģini vēlreiz."
   },
   "icu:TerminateGroupFailedModal__try-again": {
-    "messageformat": "Try again"
+    "messageformat": "Mēģiniet vēlreiz"
   },
   "icu:GroupV2--admin": {
     "messageformat": "Administrators"
@@ -4425,13 +4425,13 @@
     "messageformat": "Šīs grupas dalībnieki vai iestatījumi ir mainīti."
   },
   "icu:GroupV2--terminated--you": {
-    "messageformat": "You ended the group"
+    "messageformat": "Jūs izbeidzāt šo grupu"
   },
   "icu:GroupV2--terminated--other": {
-    "messageformat": "{memberName} ended the group"
+    "messageformat": "{memberName} izbeidza šo grupu"
   },
   "icu:GroupV2--terminated--unknown": {
-    "messageformat": "This group has ended"
+    "messageformat": "Grupa ir slēgta"
   },
   "icu:GroupV1--Migration--disabled--link": {
     "messageformat": "Atjauniniet šo grupu, lai aktivizētu jaunas funkcijas, piemēram, @pieminēšanu un administratorus. Dalībnieki, kuri nav kopīgojuši savu vārdu vai fotoattēlu šajā grupā, tiks aicināti pievienoties. Uzziniet vairāk."
@@ -4710,7 +4710,7 @@
     "messageformat": "Aizvietot"
   },
   "icu:CompositionArea--group-terminated": {
-    "messageformat": "You can't send messages because the group has ended."
+    "messageformat": "Tu nevari nosūtīt ziņas, jo grupa ir slēgta."
   },
   "icu:CompositionArea--viewOnceToggle": {
     "messageformat": "Skatīt vienreiz"
@@ -4890,7 +4890,7 @@
     "messageformat": "Pamest grupu"
   },
   "icu:ConversationDetailsActions--terminate-group": {
-    "messageformat": "End group"
+    "messageformat": "Izbeigt grupu"
   },
   "icu:ConversationDetailsActions--block-group": {
     "messageformat": "Bloķēt grupu"
@@ -4899,13 +4899,13 @@
     "messageformat": "Atbloķēt grupu"
   },
   "icu:ConversationDetailsActions--archive": {
-    "messageformat": "Archive chat"
+    "messageformat": "Arhivēt sarunu"
   },
   "icu:ConversationDetailsActions--unarchive": {
-    "messageformat": "Unarchive chat"
+    "messageformat": "Atarhivēt sarunu"
   },
   "icu:ConversationDetailsActions--delete": {
-    "messageformat": "Delete chat"
+    "messageformat": "Dzēst sarunu"
   },
   "icu:ConversationDetailsActions--leave-group-must-choose-new-admin": {
     "messageformat": "Pirms aiziešanas šai grupai jāizvēlas vismaz viens jauns administrators."
@@ -4920,16 +4920,16 @@
     "messageformat": "Pamest"
   },
   "icu:ConversationDetailsActions--prompt-terminate-group-modal-title": {
-    "messageformat": "End \"{groupName}\"?"
+    "messageformat": "Izbeigt \"{groupName}\"?"
   },
   "icu:ConversationDetailsActions--prompt-terminate-group-modal-content": {
-    "messageformat": "Members will no longer be able to send messages or start calls in the group. They will be notified that you ended the group, and will still have access to message history."
+    "messageformat": "Dalībnieki šajā grupā vairs nevarēs sūtīt ziņas vai veikt zvanus. Viņi saņems paziņojumu par to, ka grupu pārtraucāt. Ziņu vēsture viņiem joprojām būs pieejama."
   },
   "icu:ConversationDetailsActions--terminate-group-modal-confirm": {
-    "messageformat": "End group"
+    "messageformat": "Izbeigt grupu"
   },
   "icu:ConversationDetailsActions--confirm-terminate-group-confirm-modal-content": {
-    "messageformat": "This will end the group permanently. Are you sure you want to proceed?"
+    "messageformat": "Grupa tiks neatgriezeniski dzēsta. Vai tiešām vēlaties turpināt?"
   },
   "icu:ConversationDetailsActions--unblock-group-modal-title": {
     "messageformat": "Vai atbloķēt grupu \"{groupName}\"?"
@@ -4959,7 +4959,7 @@
     "messageformat": "{number, plural, zero {{number,number} dalībnieki} one {{number,number} dalībnieks} other {{number,number} dalībnieki}}"
   },
   "icu:ConversationDetailsMembershipList--terminated-title": {
-    "messageformat": "{number, plural, one {{number,number} former member} other {{number,number} former members}}"
+    "messageformat": "{number, plural, zero {{number,number} iepriekšējie dalībnieki} one {{number,number} iepriekšējais dalībnieks} other {{number,number} iepriekšējie dalībnieki}}"
   },
   "icu:ConversationDetailsMembershipList--add-members": {
     "messageformat": "Pievienot dalībniekus"
@@ -6320,31 +6320,31 @@
     "messageformat": "parādīt rezerves kopijas atslēgu"
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
-    "messageformat": "show your recovery key"
+    "messageformat": "parādīt atkopšanas atslēgu"
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
     "messageformat": "Apstipriniet savu identitāti, lai skatītu rezerves kopijas atslēgu."
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
-    "messageformat": "Verify your identity to view your recovery key."
+    "messageformat": "Apstiprini savu identitāti, lai skatītu savu atkopšanas atslēgu."
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
     "messageformat": "Skatīt rezerves kopijas atslēgu"
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
-    "messageformat": "View recovery key"
+    "messageformat": "Skatīt atkopšanas atslēgu"
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
     "messageformat": "Lai skatītu rezerves kopijas atslēgu, ir nepieciešama autentifikācija."
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
-    "messageformat": "Authentication is required to view your recovery key."
+    "messageformat": "Lai skatītu savu atkopšanas atslēgu, ir nepieciešama autentifikācija."
   },
   "icu:Preferences--local-backups-backup-key-text-box": {
     "messageformat": "Rezerves kopijas atslēgas teksta lodziņš"
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
-    "messageformat": "Recovery key"
+    "messageformat": "Atkopšanas atslēga"
   },
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "Ievadīt atslēgu"
@@ -6353,7 +6353,7 @@
     "messageformat": "Saglabājiet rezerves kopijas atslēgu"
   },
   "icu:Preferences--local-backups-record-recovery-key": {
-    "messageformat": "Record your recovery key"
+    "messageformat": "Saglabājiet savu atkopšanas atslēgu"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "Šī atslēga ir nepieciešama, lai atgūtu jūsu kontu un datus. Noglabājiet šo atslēgu drošā vietā. Ja to pazaudēsiet, nevarēsiet atgūt savu kontu. <learnMoreLink>Uzziniet vairāk.</learnMoreLink>"
@@ -6362,13 +6362,13 @@
     "messageformat": "Apstipriniet rezerves kopijas atslēgu"
   },
   "icu:Preferences--local-backups-confirm-recovery-key": {
-    "messageformat": "Confirm your recovery key"
+    "messageformat": "Apstipriniet atkopšanas atslēgu"
   },
   "icu:Preferences--local-backups-confirm-backup-key-description": {
     "messageformat": "Ievadiet tikko ierakstīto rezerves kopijas atslēgu"
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
-    "messageformat": "Enter the recovery key that you just recorded"
+    "messageformat": "Ievadiet tikko pierakstīto atkopšanas atslēgu"
   },
   "icu:Preferences__local-backups-confirm-key-modal-title": {
     "messageformat": "Glabājiet atslēgu drošā vietā"
@@ -6416,7 +6416,7 @@
     "messageformat": "Rezerves kopijas atslēga nokopēta"
   },
   "icu:Preferences__local-backups-copied-recovery-key": {
-    "messageformat": "Recovery key copied"
+    "messageformat": "Atkopšanas atslēga nokopēta"
   },
   "icu:Preferences__local-backups--enable--os-prompt--mac": {
     "messageformat": "Iespējot rezerves kopēšanu"
@@ -6431,7 +6431,7 @@
     "messageformat": "Lai iespējotu rezerves kopijas, ir nepieciešama autentifikācija."
   },
   "icu:Preferences__local-backups-auth-error--unauthorized": {
-    "messageformat": "This action could not be completed because system authentication failed. Please try again or open the Signal app on your mobile device and go to Backup Settings to view your recovery key."
+    "messageformat": "Šo darbību nevarēja pabeigt, jo sistēmas autentifikācija neizdevās. Lūdzu, mēģini vēlreiz vai atver Signal lietotni savā mobilajā ierīcē un dodies uz rezerves kopiju iestatījumiem, lai skatītu savu atkopšanas atslēgu."
   },
   "icu:Preferences__view-key": {
     "messageformat": "Skatīt atslēgu"
@@ -6440,25 +6440,25 @@
     "messageformat": "Rezerves kopijas atslēga"
   },
   "icu:Preferences__recovery-key": {
-    "messageformat": "Recovery key"
+    "messageformat": "Atkopšanas atslēga"
   },
   "icu:Preferences__backup-key-description": {
     "messageformat": "Jūsu rezerves atslēga ir 64 ciparu kods, kas nepieciešams rezerves kopiju atjaunošanai"
   },
   "icu:Preferences__recovery-key-description": {
-    "messageformat": "Your recovery key is a 64-digit code used to restore your backup"
+    "messageformat": "Tava atkopšanas atslēga ir 64 rakstzīmju kods, ko izmanto rezerves kopijas atjaunošanai"
   },
   "icu:Preferences__backup-other-ways": {
     "messageformat": "Citi rezerves kopijas veidi"
   },
   "icu:Preferences__recovery-key-updated__title": {
-    "messageformat": "Your recovery key has changed"
+    "messageformat": "Tava atkopšanas atslēga ir mainīta"
   },
   "icu:Preferences__recovery-key-updated__description": {
-    "messageformat": "Your recovery key has been updated. Any new backups you make can only be restored using your new recovery key."
+    "messageformat": "Tava atkopšanas atslēga ir atjaunināta. Visas jaunās rezerves kopijas varēs atjaunot tikai ar tavu jauno atkopšanas atslēgu."
   },
   "icu:Preferences__recovery-key-updated__view-key": {
-    "messageformat": "View new key"
+    "messageformat": "Skatīt jauno atslēgu"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, zero {{num,number} kontakti} one {{num,number} kontakts} other {{num,number} kontakti}}"
@@ -6812,7 +6812,7 @@
     "messageformat": "Vai dzēst šo stāstu? Tas tiks dzēsts arī tiem lietotājiem, kuri to saņēma."
   },
   "icu:MyStories__delete-group-story-for-me": {
-    "messageformat": "Delete this story? It will only be deleted for you because the group has ended."
+    "messageformat": "Dzēst šo stāstu? Tas tiks dzēsts tikai tev, jo grupa ir slēgta."
   },
   "icu:payment-event-notification-message-you-label": {
     "messageformat": "Jūs sākāt maksājumu šim lietotājam: {receiver}"
@@ -8152,6 +8152,6 @@
     "messageformat": "Tagad varat pievienot lietotāja emblēmu, lai grupas tērzētavā aprakstītu sevi vai savu amata nosaukumu. Ja jūsu futbola komandai ir sava tērzētava, iestatiet emblēmu \"Tiesnesis\" vai \"Vārtsargs\", lai ātrāk iepazītos ar jaunajiem biedriem, savukārt darba tērzētavā varat izvēlēties citu emblēmu, kas raksturo jūsu amatu. Lietotāju emblēmas ir redzamas blakus profila nosaukumam attiecīgajā grupā, un grupas administratori var kontrolēt, vai tās ir iespējotas visiem."
   },
   "icu:WhatsNew__8.6--0": {
-    "messageformat": "Now you won't need to scroll as far to catch up on the latest messages. If several new people join a busy group chat, or you receive multiple missed calls in a row, those repeated chat events can be automatically grouped together into a compact display. Sometimes less is more, but you can easily expand and collapse these lists at any time."
+    "messageformat": "Turpmāk vairs nebūs tik tālu jāritina, lai redzētu jaunākās ziņas. Ja aktīvai grupai pievienojas vairāki jauni dalībnieki vai saņemat vairākus neatbildētus zvanus pēc kārtas, šādi atkārtoti sarunas notikumi var tikt automātiski apvienoti kompaktā skatā. Reizēm mazāk ir vairāk, bet atceries — tu jebkurā brīdī vari šos sarakstus ērti izvērst vai sakļaut."
   }
 }

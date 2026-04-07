@@ -2565,7 +2565,7 @@
     "messageformat": "{containerDescription} · {dayCountSummary}"
   },
   "icu:multidayCollapse__dayCountSummary": {
-    "messageformat": "{dayCount, plural, one {{dayCount,number} day} other {{dayCount,number} days}}"
+    "messageformat": "{dayCount, plural, one {{dayCount,number} день} few {{dayCount,number} дні} many {{dayCount,number} днів} other {{dayCount,number} дня}}"
   },
   "icu:collapsedChatUpdates": {
     "messageformat": "{count, plural, one {{count,number} chat update} other {{count,number} chat updates}}"
@@ -3981,7 +3981,7 @@
     "messageformat": "Couldn't end the group. Check your connection and try again."
   },
   "icu:TerminateGroupFailedModal__try-again": {
-    "messageformat": "Try again"
+    "messageformat": "Спробувати знов"
   },
   "icu:GroupV2--admin": {
     "messageformat": "Адміністратор"
@@ -4425,10 +4425,10 @@
     "messageformat": "Учасники або налаштування цієї групи змінилися."
   },
   "icu:GroupV2--terminated--you": {
-    "messageformat": "You ended the group"
+    "messageformat": "Ви закрили групу"
   },
   "icu:GroupV2--terminated--other": {
-    "messageformat": "{memberName} ended the group"
+    "messageformat": "Користувач {memberName} закрив групу"
   },
   "icu:GroupV2--terminated--unknown": {
     "messageformat": "This group has ended"
@@ -4890,7 +4890,7 @@
     "messageformat": "Покинути групу"
   },
   "icu:ConversationDetailsActions--terminate-group": {
-    "messageformat": "End group"
+    "messageformat": "Закрити групу"
   },
   "icu:ConversationDetailsActions--block-group": {
     "messageformat": "Заблокувати групу"
@@ -4899,13 +4899,13 @@
     "messageformat": "Розблокувати групу"
   },
   "icu:ConversationDetailsActions--archive": {
-    "messageformat": "Archive chat"
+    "messageformat": "Архівувати чат"
   },
   "icu:ConversationDetailsActions--unarchive": {
-    "messageformat": "Unarchive chat"
+    "messageformat": "Розархівувати чат"
   },
   "icu:ConversationDetailsActions--delete": {
-    "messageformat": "Delete chat"
+    "messageformat": "Видалити чат"
   },
   "icu:ConversationDetailsActions--leave-group-must-choose-new-admin": {
     "messageformat": "Перш ніж ви покинете групу, необхідно обрати для неї хоча б одного нового адміністратора."
@@ -4920,16 +4920,16 @@
     "messageformat": "Покинути"
   },
   "icu:ConversationDetailsActions--prompt-terminate-group-modal-title": {
-    "messageformat": "End \"{groupName}\"?"
+    "messageformat": "Закрити «{groupName}»?"
   },
   "icu:ConversationDetailsActions--prompt-terminate-group-modal-content": {
-    "messageformat": "Members will no longer be able to send messages or start calls in the group. They will be notified that you ended the group, and will still have access to message history."
+    "messageformat": "Учасники більше не зможуть надсилати повідомлення й здійснювати виклики в цій групі. Вони отримають сповіщення, що ви закрили групу, і надалі матимуть лише доступ до історії повідомлень."
   },
   "icu:ConversationDetailsActions--terminate-group-modal-confirm": {
-    "messageformat": "End group"
+    "messageformat": "Закрити групу"
   },
   "icu:ConversationDetailsActions--confirm-terminate-group-confirm-modal-content": {
-    "messageformat": "This will end the group permanently. Are you sure you want to proceed?"
+    "messageformat": "Групу буде закрито назавжди. Продовжити?"
   },
   "icu:ConversationDetailsActions--unblock-group-modal-title": {
     "messageformat": "Розблокувати групу «{groupName}»?"
@@ -4959,7 +4959,7 @@
     "messageformat": "{number, plural, one {{number,number} учасник} few {{number,number} учасники} many {{number,number} учасників} other {{number,number} учасника}}"
   },
   "icu:ConversationDetailsMembershipList--terminated-title": {
-    "messageformat": "{number, plural, one {{number,number} former member} other {{number,number} former members}}"
+    "messageformat": "{number, plural, one {{number,number} колишній учасник} few {{number,number} колишні учасники} many {{number,number} колишніх учасників} other {{number,number} колишнього учасника}}"
   },
   "icu:ConversationDetailsMembershipList--add-members": {
     "messageformat": "Додати учасників"
@@ -6332,7 +6332,7 @@
     "messageformat": "Переглянути ключ від резервної копії"
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
-    "messageformat": "View recovery key"
+    "messageformat": "Переглянути ключ відновлення"
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
     "messageformat": "Щоб переглянути ключ від резервної копії, потрібно здійснити автентифікацію."
@@ -6344,7 +6344,7 @@
     "messageformat": "Текстове поле для ключа від резервної копії"
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
-    "messageformat": "Recovery key"
+    "messageformat": "Ключ відновлення"
   },
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "Введіть ключ"
@@ -6353,7 +6353,7 @@
     "messageformat": "Збережіть ключ від своєї резервної копії"
   },
   "icu:Preferences--local-backups-record-recovery-key": {
-    "messageformat": "Record your recovery key"
+    "messageformat": "Збережіть ключ відновлення"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "Цей ключ потрібен для відновлення акаунту й даних. Зберігайте його в надійному місці. Якщо ви втратите ключ, то не зможете відновити акаунт. <learnMoreLink>Докладніше.</learnMoreLink>"
@@ -6362,13 +6362,13 @@
     "messageformat": "Підтвердьте ключ від резервної копії"
   },
   "icu:Preferences--local-backups-confirm-recovery-key": {
-    "messageformat": "Confirm your recovery key"
+    "messageformat": "Підтвердьте ключ відновлення"
   },
   "icu:Preferences--local-backups-confirm-backup-key-description": {
     "messageformat": "Введіть ключ від резервної копії, який ви щойно зберегли"
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
-    "messageformat": "Enter the recovery key that you just recorded"
+    "messageformat": "Введіть ключ відновлення, який ви щойно зберегли"
   },
   "icu:Preferences__local-backups-confirm-key-modal-title": {
     "messageformat": "Бережіть цей ключ"
@@ -6416,7 +6416,7 @@
     "messageformat": "Ключ скопійовано"
   },
   "icu:Preferences__local-backups-copied-recovery-key": {
-    "messageformat": "Recovery key copied"
+    "messageformat": "Ключ відновлення скопійовано"
   },
   "icu:Preferences__local-backups--enable--os-prompt--mac": {
     "messageformat": "увімкнути резервне копіювання"
@@ -6440,13 +6440,13 @@
     "messageformat": "Ключ від резервної копії"
   },
   "icu:Preferences__recovery-key": {
-    "messageformat": "Recovery key"
+    "messageformat": "Ключ відновлення"
   },
   "icu:Preferences__backup-key-description": {
     "messageformat": "Ключ від резервної копії — це 64-значний код, потрібний для відновлення резервної копії"
   },
   "icu:Preferences__recovery-key-description": {
-    "messageformat": "Your recovery key is a 64-digit code used to restore your backup"
+    "messageformat": "Your recovery key is a 64-character code used to restore your backup"
   },
   "icu:Preferences__backup-other-ways": {
     "messageformat": "Інші способи резервного копіювання"

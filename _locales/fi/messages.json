@@ -2565,7 +2565,7 @@
     "messageformat": "{containerDescription} · {dayCountSummary}"
   },
   "icu:multidayCollapse__dayCountSummary": {
-    "messageformat": "{dayCount, plural, one {{dayCount,number} day} other {{dayCount,number} days}}"
+    "messageformat": "{dayCount, plural, one {{dayCount,number} päivä} other {{dayCount,number} päivää}}"
   },
   "icu:collapsedChatUpdates": {
     "messageformat": "{count, plural, one {{count,number} chat update} other {{count,number} chat updates}}"
@@ -3981,7 +3981,7 @@
     "messageformat": "Couldn't end the group. Check your connection and try again."
   },
   "icu:TerminateGroupFailedModal__try-again": {
-    "messageformat": "Try again"
+    "messageformat": "Yritä uudelleen"
   },
   "icu:GroupV2--admin": {
     "messageformat": "Ylläpitäjä"
@@ -4425,10 +4425,10 @@
     "messageformat": "Tämän ryhmän jäsenet tai asetukset ovat muuttuneet."
   },
   "icu:GroupV2--terminated--you": {
-    "messageformat": "You ended the group"
+    "messageformat": "Suljit ryhmän"
   },
   "icu:GroupV2--terminated--other": {
-    "messageformat": "{memberName} ended the group"
+    "messageformat": "{memberName} sulki ryhmän"
   },
   "icu:GroupV2--terminated--unknown": {
     "messageformat": "This group has ended"
@@ -4890,7 +4890,7 @@
     "messageformat": "Poistu ryhmästä"
   },
   "icu:ConversationDetailsActions--terminate-group": {
-    "messageformat": "End group"
+    "messageformat": "Sulje ryhmä"
   },
   "icu:ConversationDetailsActions--block-group": {
     "messageformat": "Estä ryhmä"
@@ -4899,13 +4899,13 @@
     "messageformat": "Poista ryhmän esto"
   },
   "icu:ConversationDetailsActions--archive": {
-    "messageformat": "Archive chat"
+    "messageformat": "Arkistoi keskustelu"
   },
   "icu:ConversationDetailsActions--unarchive": {
-    "messageformat": "Unarchive chat"
+    "messageformat": "Palauta keskustelu arkistosta"
   },
   "icu:ConversationDetailsActions--delete": {
-    "messageformat": "Delete chat"
+    "messageformat": "Poista keskustelu"
   },
   "icu:ConversationDetailsActions--leave-group-must-choose-new-admin": {
     "messageformat": "Ennen kuin poistut ryhmästä, valitse uusi ylläpitäjä tälle ryhmälle."
@@ -4920,16 +4920,16 @@
     "messageformat": "Poistu"
   },
   "icu:ConversationDetailsActions--prompt-terminate-group-modal-title": {
-    "messageformat": "End \"{groupName}\"?"
+    "messageformat": "Suljetaanko {groupName}?"
   },
   "icu:ConversationDetailsActions--prompt-terminate-group-modal-content": {
-    "messageformat": "Members will no longer be able to send messages or start calls in the group. They will be notified that you ended the group, and will still have access to message history."
+    "messageformat": "Jäsenet eivät enää voi lähettää ryhmään viestejä tai aloittaa siinä puheluita. He saavat ilmoituksen, että olet sulkenut ryhmän. Pääsy ryhmän viestihistoriaan säilyy."
   },
   "icu:ConversationDetailsActions--terminate-group-modal-confirm": {
-    "messageformat": "End group"
+    "messageformat": "Sulje ryhmä"
   },
   "icu:ConversationDetailsActions--confirm-terminate-group-confirm-modal-content": {
-    "messageformat": "This will end the group permanently. Are you sure you want to proceed?"
+    "messageformat": "Toiminto sulkee ryhmän pysyvästi. Haluatko varmasti jatkaa?"
   },
   "icu:ConversationDetailsActions--unblock-group-modal-title": {
     "messageformat": "Poistetaanko ryhmän {groupName} esto?"
@@ -4959,7 +4959,7 @@
     "messageformat": "{number, plural, one {{number,number} jäsen} other {{number,number} jäsentä}}"
   },
   "icu:ConversationDetailsMembershipList--terminated-title": {
-    "messageformat": "{number, plural, one {{number,number} former member} other {{number,number} former members}}"
+    "messageformat": "{number, plural, one {{number,number} aiempi jäsen} other {{number,number} aiempaa jäsentä}}"
   },
   "icu:ConversationDetailsMembershipList--add-members": {
     "messageformat": "Lisää jäseniä"
@@ -6332,7 +6332,7 @@
     "messageformat": "Näytä varmuuskopion avain"
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
-    "messageformat": "View recovery key"
+    "messageformat": "Näytä palautusavain"
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
     "messageformat": "Todentaminen vaaditaan varmuuskopion avaimen näyttämiseksi."
@@ -6344,7 +6344,7 @@
     "messageformat": "Varmuuskopion avaimen tekstilaatikko"
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
-    "messageformat": "Recovery key"
+    "messageformat": "Palautusavain"
   },
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "Anna avain"
@@ -6353,7 +6353,7 @@
     "messageformat": "Tallenna varmuuskopion avain"
   },
   "icu:Preferences--local-backups-record-recovery-key": {
-    "messageformat": "Record your recovery key"
+    "messageformat": "Tallenna palautusavain"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "Tätä avainta tarvitaan tilisi ja tietojesi palauttamiseen. Säilytä avain turvallisessa paikassa. Jos kadotat sen, et voi palauttaa tiliäsi. <learnMoreLink>Lue lisää.</learnMoreLink>"
@@ -6362,13 +6362,13 @@
     "messageformat": "Vahvista varmuuskopion avain"
   },
   "icu:Preferences--local-backups-confirm-recovery-key": {
-    "messageformat": "Confirm your recovery key"
+    "messageformat": "Vahvista palautusavain"
   },
   "icu:Preferences--local-backups-confirm-backup-key-description": {
     "messageformat": "Anna juuri tallentamasi varmuuskopion avain"
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
-    "messageformat": "Enter the recovery key that you just recorded"
+    "messageformat": "Anna juuri tallentamasi palautusavain"
   },
   "icu:Preferences__local-backups-confirm-key-modal-title": {
     "messageformat": "Pidä avain turvassa"
@@ -6416,7 +6416,7 @@
     "messageformat": "Varmuuskopion avain kopioitu"
   },
   "icu:Preferences__local-backups-copied-recovery-key": {
-    "messageformat": "Recovery key copied"
+    "messageformat": "Palautusavain kopioitu"
   },
   "icu:Preferences__local-backups--enable--os-prompt--mac": {
     "messageformat": "Ota varmuuskopiot käyttöön"
@@ -6440,13 +6440,13 @@
     "messageformat": "Varmuuskopion avain"
   },
   "icu:Preferences__recovery-key": {
-    "messageformat": "Recovery key"
+    "messageformat": "Palautusavain"
   },
   "icu:Preferences__backup-key-description": {
     "messageformat": "Varmuuskopion avain on 64-numeroinen koodi, jota tarvitaan varmuuskopion palauttamiseen"
   },
   "icu:Preferences__recovery-key-description": {
-    "messageformat": "Your recovery key is a 64-digit code used to restore your backup"
+    "messageformat": "Your recovery key is a 64-character code used to restore your backup"
   },
   "icu:Preferences__backup-other-ways": {
     "messageformat": "Muita tapoja varmuuskopioida"

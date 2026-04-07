@@ -2373,7 +2373,7 @@
     "messageformat": "支援中心"
   },
   "icu:ConversationDetails__GroupTerminatedBanner": {
-    "messageformat": "This group has ended"
+    "messageformat": "此群組已解散"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "檢視安全碼"
@@ -2559,31 +2559,31 @@
     "messageformat": "{leadingIcon} {text} {trailingIcon}"
   },
   "icu:collapsedGroupUpdates": {
-    "messageformat": "{count, plural, one {{count,number} group update} other {{count,number} group updates}}"
+    "messageformat": "{count, plural, other {{count,number} 個群組更新}}"
   },
   "icu:multidayCollapse__container": {
     "messageformat": "{containerDescription} · {dayCountSummary}"
   },
   "icu:multidayCollapse__dayCountSummary": {
-    "messageformat": "{dayCount, plural, one {{dayCount,number} day} other {{dayCount,number} days}}"
+    "messageformat": "{dayCount, plural, other {{dayCount,number} 天}}"
   },
   "icu:collapsedChatUpdates": {
-    "messageformat": "{count, plural, one {{count,number} chat update} other {{count,number} chat updates}}"
+    "messageformat": "{count, plural, other {{count,number} 個聊天更新}}"
   },
   "icu:collapsedTimerChanges": {
-    "messageformat": "{count, plural, one {{count,number} disappearing timer change · {endingState}} other {{count,number} disappearing message timer changes · {endingState}}}"
+    "messageformat": "{count, plural, other {{count,number} 個自動銷毀訊息時限變更 · {endingState}}}"
   },
   "icu:collapsedTimerChanges--disabled": {
-    "messageformat": "{count, plural, one {{count,number} disappearing timer change · Disabled} other {{count,number} disappearing message timer changes · Disabled}}"
+    "messageformat": "{count, plural, other {{count,number} 個自動銷毀訊息時限變更 · 已停用}}"
   },
   "icu:collapsedCallEvents": {
-    "messageformat": "{count, plural, one {{count,number} call event} other {{count,number} call events}}"
+    "messageformat": "{count, plural, other {{count,number} 個通話相關事件}}"
   },
   "icu:collapsedItems--collapsed": {
-    "messageformat": "Set of items is collapsed - click to expand"
+    "messageformat": "項目清單已收起 - 點擊展開"
   },
   "icu:collapsedItems--expanded": {
-    "messageformat": "Set of items is expanded - click to collapse"
+    "messageformat": "項目清單已展開 - 點擊收起"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "群組頭像已被更新。"
@@ -3966,7 +3966,7 @@
     "messageformat": "你的加入要求已傳送到網上群組管理員。 他們採取動作時會通知你。"
   },
   "icu:GroupV2--join--group-terminated": {
-    "messageformat": "Unable to join this group."
+    "messageformat": "無法加入此群組。"
   },
   "icu:GroupV2--join--general-join-failure--title": {
     "messageformat": "連結錯誤"
@@ -3975,13 +3975,13 @@
     "messageformat": "無法加入群組。 稍後再試。"
   },
   "icu:GroupV2--terminate-group-in-progress": {
-    "messageformat": "Ending group..."
+    "messageformat": "正在解散群組..."
   },
   "icu:TerminateGroupFailedModal__description": {
-    "messageformat": "Couldn't end the group. Check your connection and try again."
+    "messageformat": "無法解散群組。請檢查你的網絡連線，然後再試一次。"
   },
   "icu:TerminateGroupFailedModal__try-again": {
-    "messageformat": "Try again"
+    "messageformat": "再試一次"
   },
   "icu:GroupV2--admin": {
     "messageformat": "管理員"
@@ -4425,13 +4425,13 @@
     "messageformat": "此群組的成員或設定已經變更。"
   },
   "icu:GroupV2--terminated--you": {
-    "messageformat": "You ended the group"
+    "messageformat": "你已解散群組"
   },
   "icu:GroupV2--terminated--other": {
-    "messageformat": "{memberName} ended the group"
+    "messageformat": "{memberName}已解散群組"
   },
   "icu:GroupV2--terminated--unknown": {
-    "messageformat": "This group has ended"
+    "messageformat": "此群組已解散"
   },
   "icu:GroupV1--Migration--disabled--link": {
     "messageformat": "升級此群組以啟用「@提及」和管理員等新功能。尚未在此群組中分享名字或照片的成員將會獲邀加入。<learnMoreLink>了解更多。</learnMoreLink>"
@@ -4710,7 +4710,7 @@
     "messageformat": "取代"
   },
   "icu:CompositionArea--group-terminated": {
-    "messageformat": "You can't send messages because the group has ended."
+    "messageformat": "你無法傳送訊息，因為群組已解散。"
   },
   "icu:CompositionArea--viewOnceToggle": {
     "messageformat": "閱後即焚"
@@ -4890,7 +4890,7 @@
     "messageformat": "離開對話群組"
   },
   "icu:ConversationDetailsActions--terminate-group": {
-    "messageformat": "End group"
+    "messageformat": "解散群組"
   },
   "icu:ConversationDetailsActions--block-group": {
     "messageformat": "封鎖群組"
@@ -4899,13 +4899,13 @@
     "messageformat": "解除封鎖群組"
   },
   "icu:ConversationDetailsActions--archive": {
-    "messageformat": "Archive chat"
+    "messageformat": "封存聊天"
   },
   "icu:ConversationDetailsActions--unarchive": {
-    "messageformat": "Unarchive chat"
+    "messageformat": "取消封存聊天"
   },
   "icu:ConversationDetailsActions--delete": {
-    "messageformat": "Delete chat"
+    "messageformat": "刪除聊天"
   },
   "icu:ConversationDetailsActions--leave-group-must-choose-new-admin": {
     "messageformat": "在你離開之前，你必須為此群組至少選擇一個新管理員。"
@@ -4920,16 +4920,16 @@
     "messageformat": "離開"
   },
   "icu:ConversationDetailsActions--prompt-terminate-group-modal-title": {
-    "messageformat": "End \"{groupName}\"?"
+    "messageformat": "要解散「{groupName}」嗎？"
   },
   "icu:ConversationDetailsActions--prompt-terminate-group-modal-content": {
-    "messageformat": "Members will no longer be able to send messages or start calls in the group. They will be notified that you ended the group, and will still have access to message history."
+    "messageformat": "成員將無法在此群組中傳送訊息或發起通話。他們將收到通知，告知你已解散該群組，但仍可查看訊息紀錄。"
   },
   "icu:ConversationDetailsActions--terminate-group-modal-confirm": {
-    "messageformat": "End group"
+    "messageformat": "解散群組"
   },
   "icu:ConversationDetailsActions--confirm-terminate-group-confirm-modal-content": {
-    "messageformat": "This will end the group permanently. Are you sure you want to proceed?"
+    "messageformat": "這將永久解散此群組。你確定要繼續嗎？"
   },
   "icu:ConversationDetailsActions--unblock-group-modal-title": {
     "messageformat": "要解除封鎖「{groupName}」群組嗎？"
@@ -4959,7 +4959,7 @@
     "messageformat": "{number, plural, other {{number,number} 位成員}}"
   },
   "icu:ConversationDetailsMembershipList--terminated-title": {
-    "messageformat": "{number, plural, one {{number,number} former member} other {{number,number} former members}}"
+    "messageformat": "{number, plural, other {{number,number} 個前任成員}}"
   },
   "icu:ConversationDetailsMembershipList--add-members": {
     "messageformat": "新增成員"
@@ -6320,31 +6320,31 @@
     "messageformat": "顯示你的備份金鑰"
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
-    "messageformat": "show your recovery key"
+    "messageformat": "顯示你的恢復金鑰"
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
     "messageformat": "驗證你的身份以檢視備份金鑰。"
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
-    "messageformat": "Verify your identity to view your recovery key."
+    "messageformat": "驗證你的身份以檢視恢復金鑰。"
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
     "messageformat": "檢視備份金鑰"
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
-    "messageformat": "View recovery key"
+    "messageformat": "檢視恢復金鑰"
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
     "messageformat": "檢視備份金鑰需要進行驗證。"
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
-    "messageformat": "Authentication is required to view your recovery key."
+    "messageformat": "檢視恢復金鑰需要進行驗證。"
   },
   "icu:Preferences--local-backups-backup-key-text-box": {
     "messageformat": "備份金鑰文字框"
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
-    "messageformat": "Recovery key"
+    "messageformat": "恢復金鑰"
   },
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "輸入金鑰"
@@ -6353,7 +6353,7 @@
     "messageformat": "記錄你的備份金鑰"
   },
   "icu:Preferences--local-backups-record-recovery-key": {
-    "messageformat": "Record your recovery key"
+    "messageformat": "記錄你的恢復金鑰"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "需要此金鑰才能恢復你的帳戶和資料。將此金鑰存放在安全的地方。如果你將其遺失，你將會無法恢復帳戶。 <learnMoreLink>了解更多。</learnMoreLink>"
@@ -6362,13 +6362,13 @@
     "messageformat": "確認你的備份金鑰"
   },
   "icu:Preferences--local-backups-confirm-recovery-key": {
-    "messageformat": "Confirm your recovery key"
+    "messageformat": "確認你的恢復金鑰"
   },
   "icu:Preferences--local-backups-confirm-backup-key-description": {
     "messageformat": "輸入你剛剛記錄的備份金鑰"
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
-    "messageformat": "Enter the recovery key that you just recorded"
+    "messageformat": "輸入你剛剛記錄的恢復金鑰"
   },
   "icu:Preferences__local-backups-confirm-key-modal-title": {
     "messageformat": "妥善保管你的金鑰"
@@ -6416,7 +6416,7 @@
     "messageformat": "已複製備份金鑰"
   },
   "icu:Preferences__local-backups-copied-recovery-key": {
-    "messageformat": "Recovery key copied"
+    "messageformat": "已複製恢復金鑰"
   },
   "icu:Preferences__local-backups--enable--os-prompt--mac": {
     "messageformat": "啟用備份"
@@ -6431,7 +6431,7 @@
     "messageformat": "啟用備份需要進行驗證。"
   },
   "icu:Preferences__local-backups-auth-error--unauthorized": {
-    "messageformat": "This action could not be completed because system authentication failed. Please try again or open the Signal app on your mobile device and go to Backup Settings to view your recovery key."
+    "messageformat": "此操作無法完成，因為系統驗證失敗。請再試一次或在你的行動裝置上開啟 Signal 應用程式，然後前往「備份設定」去檢視你的恢復金鑰。"
   },
   "icu:Preferences__view-key": {
     "messageformat": "檢視金鑰"
@@ -6440,25 +6440,25 @@
     "messageformat": "備份金鑰"
   },
   "icu:Preferences__recovery-key": {
-    "messageformat": "Recovery key"
+    "messageformat": "恢復金鑰"
   },
   "icu:Preferences__backup-key-description": {
     "messageformat": "你的備份金鑰是還原備份所用的一組 64 位數的代碼"
   },
   "icu:Preferences__recovery-key-description": {
-    "messageformat": "Your recovery key is a 64-digit code used to restore your backup"
+    "messageformat": "你的恢復金鑰是一組 64 個字元的代碼，用來還原你的備份"
   },
   "icu:Preferences__backup-other-ways": {
     "messageformat": "其他備份方式"
   },
   "icu:Preferences__recovery-key-updated__title": {
-    "messageformat": "Your recovery key has changed"
+    "messageformat": "你的恢復金鑰已變更"
   },
   "icu:Preferences__recovery-key-updated__description": {
-    "messageformat": "Your recovery key has been updated. Any new backups you make can only be restored using your new recovery key."
+    "messageformat": "你的恢復金鑰已更新。你建立的任何新備份都只能使用新的恢復金鑰進行還原。"
   },
   "icu:Preferences__recovery-key-updated__view-key": {
-    "messageformat": "View new key"
+    "messageformat": "檢視新的金鑰"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, other {{num,number} 位聯絡人}}"
@@ -6812,7 +6812,7 @@
     "messageformat": "要刪除這個限時動態嗎？這將同時在所有已收到此限時動態的用戶手機上刪除。"
   },
   "icu:MyStories__delete-group-story-for-me": {
-    "messageformat": "Delete this story? It will only be deleted for you because the group has ended."
+    "messageformat": "要刪除這個限時動態嗎？由於群組已結束，此內容僅會針對你個人進行刪除。"
   },
   "icu:payment-event-notification-message-you-label": {
     "messageformat": "您已開始向 {receiver} 付款"
@@ -8152,6 +8152,6 @@
     "messageformat": "現在你可以隨意地新增一個成員標籤來描述你自己或你在群組聊天中的角色。例如在你當地的足球聯賽聊天中，將你的群組成員標籤設定為「裁判」或「守門員」，以協助新隊友加入時展開討論，而在公司聊天中則選擇你工作職位的標籤。成員標籤會顯示在該群組中的個人檔案名稱旁邊，群組管理員可以控制是否開放給所有人使用此功能。"
   },
   "icu:WhatsNew__8.6--0": {
-    "messageformat": "Now you won't need to scroll as far to catch up on the latest messages. If several new people join a busy group chat, or you receive multiple missed calls in a row, those repeated chat events can be automatically grouped together into a compact display. Sometimes less is more, but you can easily expand and collapse these lists at any time."
+    "messageformat": "現在，你無需再向下捲動那麼久就能查看最新訊息。如果有幾個新人加入繁忙的群組聊天，或是連續收到多通未接來電，這些重複的聊天事件會自動歸類成簡潔的列表顯示。有時「簡單就是美」，但你隨時都能輕鬆展開或收合這些列表。"
   }
 }

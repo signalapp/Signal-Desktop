@@ -2373,7 +2373,7 @@
     "messageformat": "Centru Asistență"
   },
   "icu:ConversationDetails__GroupTerminatedBanner": {
-    "messageformat": "This group has ended"
+    "messageformat": "Acest grup s-a încheiat"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "Afișează Numărul de Siguranță"
@@ -2559,31 +2559,31 @@
     "messageformat": "{leadingIcon} {text} {trailingIcon}"
   },
   "icu:collapsedGroupUpdates": {
-    "messageformat": "{count, plural, one {{count,number} group update} other {{count,number} group updates}}"
+    "messageformat": "{count, plural, one {{count,number} actualizare a grupului} few {{count,number} actualizări ale grupului} other {{count,number} de actualizări ale grupului}}"
   },
   "icu:multidayCollapse__container": {
     "messageformat": "{containerDescription} · {dayCountSummary}"
   },
   "icu:multidayCollapse__dayCountSummary": {
-    "messageformat": "{dayCount, plural, one {{dayCount,number} day} other {{dayCount,number} days}}"
+    "messageformat": "{dayCount, plural, one {{dayCount,number} zi} few {{dayCount,number} zile} other {{dayCount,number} zile}}"
   },
   "icu:collapsedChatUpdates": {
-    "messageformat": "{count, plural, one {{count,number} chat update} other {{count,number} chat updates}}"
+    "messageformat": "{count, plural, one {{count,number} actualizare a conversației} few {{count,number} actualizări ale conversației} other {{count,number} de actualizări ale conversației}}"
   },
   "icu:collapsedTimerChanges": {
-    "messageformat": "{count, plural, one {{count,number} disappearing timer change · {endingState}} other {{count,number} disappearing message timer changes · {endingState}}}"
+    "messageformat": "{count, plural, one {{count,number} schimbare a temporizatorului pentru mesaje temporare · {endingState}} few {{count,number} schimbări ale temporizatorului pentru mesaje temporare · {endingState}} other {{count,number} de schimbări ale temporizatorului pentru mesaje temporare · {endingState}}}"
   },
   "icu:collapsedTimerChanges--disabled": {
-    "messageformat": "{count, plural, one {{count,number} disappearing timer change · Disabled} other {{count,number} disappearing message timer changes · Disabled}}"
+    "messageformat": "{count, plural, one {{count,number} schimbare a temporizatorului pentru mesaje temporare · Dezactivat} few {{count,number} schimbări ale temporizatorului pentru mesaje temporare · Dezactivat} other {{count,number} de schimbări ale temporizatorului pentru mesaje temporare · Dezactivat}}"
   },
   "icu:collapsedCallEvents": {
-    "messageformat": "{count, plural, one {{count,number} call event} other {{count,number} call events}}"
+    "messageformat": "{count, plural, one {{count,number} eveniment de apel} few {{count,number} evenimente de apel} other {{count,number} de evenimente de apel}}"
   },
   "icu:collapsedItems--collapsed": {
-    "messageformat": "Set of items is collapsed - click to expand"
+    "messageformat": "Setul de elemente este restrâns - dă clic și extinde"
   },
   "icu:collapsedItems--expanded": {
-    "messageformat": "Set of items is expanded - click to collapse"
+    "messageformat": "Setul de elemente este extins - dă clic și restrânge"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "Avatarul grupului a fost actualizat."
@@ -3966,7 +3966,7 @@
     "messageformat": "Solicitarea ta de a te alătura grupului a fost trimisă administratorului. Vei fi anunțat de decizia lor în curând."
   },
   "icu:GroupV2--join--group-terminated": {
-    "messageformat": "Unable to join this group."
+    "messageformat": "Nu te poți alătura acestui grup."
   },
   "icu:GroupV2--join--general-join-failure--title": {
     "messageformat": "Eroare de Link"
@@ -3975,13 +3975,13 @@
     "messageformat": "Alăturarea la grup nu a reușit. Încearcă din nou mai târziu."
   },
   "icu:GroupV2--terminate-group-in-progress": {
-    "messageformat": "Ending group..."
+    "messageformat": "Se încheie grupul..."
   },
   "icu:TerminateGroupFailedModal__description": {
-    "messageformat": "Couldn't end the group. Check your connection and try again."
+    "messageformat": "Nu s-a putut încheia grupul. Verifică-ți conexiunea și încearcă din nou."
   },
   "icu:TerminateGroupFailedModal__try-again": {
-    "messageformat": "Try again"
+    "messageformat": "Încearcă din nou"
   },
   "icu:GroupV2--admin": {
     "messageformat": "Administrator"
@@ -4425,13 +4425,13 @@
     "messageformat": "Membrii sau setările acestui grup s-au schimbat."
   },
   "icu:GroupV2--terminated--you": {
-    "messageformat": "You ended the group"
+    "messageformat": "Ai încheiat grupul"
   },
   "icu:GroupV2--terminated--other": {
-    "messageformat": "{memberName} ended the group"
+    "messageformat": "{memberName} a închis grupul"
   },
   "icu:GroupV2--terminated--unknown": {
-    "messageformat": "This group has ended"
+    "messageformat": "Acest grup s-a încheiat"
   },
   "icu:GroupV1--Migration--disabled--link": {
     "messageformat": "Actualizează acest grup pentru a activa noi funcționalități cum ar fi @mențiuni și abilitatea de a administra grupul. Membrii care nu și-au partajat numele și poza de profil cu acest grup vor fi invitați să se alăture. <learnMoreLink>Află mai multe.</learnMoreLink>"
@@ -4710,7 +4710,7 @@
     "messageformat": "Înlocuiește"
   },
   "icu:CompositionArea--group-terminated": {
-    "messageformat": "You can't send messages because the group has ended."
+    "messageformat": "Nu poți trimite mesaje pentru că grupul s-a încheiat."
   },
   "icu:CompositionArea--viewOnceToggle": {
     "messageformat": "Vizualizare o singură dată"
@@ -4890,7 +4890,7 @@
     "messageformat": "Părăsește grupul"
   },
   "icu:ConversationDetailsActions--terminate-group": {
-    "messageformat": "End group"
+    "messageformat": "Încheie grupul"
   },
   "icu:ConversationDetailsActions--block-group": {
     "messageformat": "Blochează grupul"
@@ -4899,13 +4899,13 @@
     "messageformat": "Deblochează grup"
   },
   "icu:ConversationDetailsActions--archive": {
-    "messageformat": "Archive chat"
+    "messageformat": "Arhivează conversația"
   },
   "icu:ConversationDetailsActions--unarchive": {
-    "messageformat": "Unarchive chat"
+    "messageformat": "Dezarhivează conversația"
   },
   "icu:ConversationDetailsActions--delete": {
-    "messageformat": "Delete chat"
+    "messageformat": "Șterge conversația"
   },
   "icu:ConversationDetailsActions--leave-group-must-choose-new-admin": {
     "messageformat": "Înainte de a pleca, trebuie să alegi cel puțin un nou administrator pentru acest grup."
@@ -4920,16 +4920,16 @@
     "messageformat": "Părăsește"
   },
   "icu:ConversationDetailsActions--prompt-terminate-group-modal-title": {
-    "messageformat": "End \"{groupName}\"?"
+    "messageformat": "Închei {groupName}?"
   },
   "icu:ConversationDetailsActions--prompt-terminate-group-modal-content": {
-    "messageformat": "Members will no longer be able to send messages or start calls in the group. They will be notified that you ended the group, and will still have access to message history."
+    "messageformat": "Membrii nu vor mai putea să trimită mesaje sau să înceapă apeluri în grup. Vor fi anunțați că ai încheiat grupul și vor avea încă acces la istoricul mesajelor."
   },
   "icu:ConversationDetailsActions--terminate-group-modal-confirm": {
-    "messageformat": "End group"
+    "messageformat": "Încheie grupul"
   },
   "icu:ConversationDetailsActions--confirm-terminate-group-confirm-modal-content": {
-    "messageformat": "This will end the group permanently. Are you sure you want to proceed?"
+    "messageformat": "Asta va încheia permanent grupul. Sigur vrei să continui?"
   },
   "icu:ConversationDetailsActions--unblock-group-modal-title": {
     "messageformat": "Deblochezi grupul „{groupName}”?"
@@ -4959,7 +4959,7 @@
     "messageformat": "{number, plural, one {{number,number} membru} few {{number,number} membri} other {{number,number} de membri}}"
   },
   "icu:ConversationDetailsMembershipList--terminated-title": {
-    "messageformat": "{number, plural, one {{number,number} former member} other {{number,number} former members}}"
+    "messageformat": "{number, plural, one {{number,number} fost membru} few {{number,number} foști membri} other {{number,number} de foști membri}}"
   },
   "icu:ConversationDetailsMembershipList--add-members": {
     "messageformat": "Adăugare membri"
@@ -6320,31 +6320,31 @@
     "messageformat": "arată codul de rezervă"
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
-    "messageformat": "show your recovery key"
+    "messageformat": "arată-ți codul de recuperare"
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
     "messageformat": "Confirmă-ți identitatea pentru a vedea codul de rezervă."
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
-    "messageformat": "Verify your identity to view your recovery key."
+    "messageformat": "Verifică-ți identitatea ca să-ți vezi codul de recuperare."
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
     "messageformat": "Vezi codul de rezervă"
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
-    "messageformat": "View recovery key"
+    "messageformat": "Vezi codul de recuperare"
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
     "messageformat": "Este necesară autentificarea pentru a vizualiza cheia de rezervă."
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
-    "messageformat": "Authentication is required to view your recovery key."
+    "messageformat": "Este necesară autentificarea ca să-ți vezi codul de recuperare."
   },
   "icu:Preferences--local-backups-backup-key-text-box": {
     "messageformat": "Caseta text codul de rezervă"
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
-    "messageformat": "Recovery key"
+    "messageformat": "Cod de recuperare"
   },
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "Introdu codul"
@@ -6353,7 +6353,7 @@
     "messageformat": "Înregistrează-ți codul de rezervă"
   },
   "icu:Preferences--local-backups-record-recovery-key": {
-    "messageformat": "Record your recovery key"
+    "messageformat": "Înregistrează-ți codul de recuperare"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "Codul e necesar ca să-ți recuperezi contul și datele. Păstrează codul într-un loc sigur. Dacă îl pierzi, nu îți vei putea recupera contul. <learnMoreLink>Află mai multe.</learnMoreLink>"
@@ -6362,13 +6362,13 @@
     "messageformat": "Confirmă-ți codul de rezervă"
   },
   "icu:Preferences--local-backups-confirm-recovery-key": {
-    "messageformat": "Confirm your recovery key"
+    "messageformat": "Confirmă-ți codul de recuperare"
   },
   "icu:Preferences--local-backups-confirm-backup-key-description": {
     "messageformat": "Introdu codul de rezervă pe care tocmai l-ai înregistrat"
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
-    "messageformat": "Enter the recovery key that you just recorded"
+    "messageformat": "Introdu codul de recuperare pe care tocmai l-ai înregistrat"
   },
   "icu:Preferences__local-backups-confirm-key-modal-title": {
     "messageformat": "Păstrează-ți codul în siguranță"
@@ -6416,7 +6416,7 @@
     "messageformat": "Codul de rezervă a fost copiat"
   },
   "icu:Preferences__local-backups-copied-recovery-key": {
-    "messageformat": "Recovery key copied"
+    "messageformat": "Codul de recuperare a fost copiat"
   },
   "icu:Preferences__local-backups--enable--os-prompt--mac": {
     "messageformat": "Activează backup-urile"
@@ -6431,7 +6431,7 @@
     "messageformat": "Autentificarea este necesară pentru a activa backup-urile."
   },
   "icu:Preferences__local-backups-auth-error--unauthorized": {
-    "messageformat": "This action could not be completed because system authentication failed. Please try again or open the Signal app on your mobile device and go to Backup Settings to view your recovery key."
+    "messageformat": "Acțiunea nu a putut fi finalizată pentru că a eșuat autentificare în sistem. Încearcă din nou sau deschide aplicația Signal pe dispozitivul mobil și mergi la Setări ale backup-ului ca să-ți vezi codul de recuperare."
   },
   "icu:Preferences__view-key": {
     "messageformat": "Vezi codul de rezervă"
@@ -6440,25 +6440,25 @@
     "messageformat": "Codul de rezervă"
   },
   "icu:Preferences__recovery-key": {
-    "messageformat": "Recovery key"
+    "messageformat": "Cod de recuperare"
   },
   "icu:Preferences__backup-key-description": {
     "messageformat": "Codul de rezervă este un cod format din 64 de cifre necesar ca să restaurezi backup-ul"
   },
   "icu:Preferences__recovery-key-description": {
-    "messageformat": "Your recovery key is a 64-digit code used to restore your backup"
+    "messageformat": "Codul de recuperare este un cod de 64 de caractere folosit pentru a-ți restaura backup-ul"
   },
   "icu:Preferences__backup-other-ways": {
     "messageformat": "Alte moduri de backup"
   },
   "icu:Preferences__recovery-key-updated__title": {
-    "messageformat": "Your recovery key has changed"
+    "messageformat": "Codul tău de recuperare s-a schimbat"
   },
   "icu:Preferences__recovery-key-updated__description": {
-    "messageformat": "Your recovery key has been updated. Any new backups you make can only be restored using your new recovery key."
+    "messageformat": "Codul tău de recuperare a fost actualizat. Orice backup-uri noi pe care le faci vor fi restaurate folosind doar noul tău cod de recuperare."
   },
   "icu:Preferences__recovery-key-updated__view-key": {
-    "messageformat": "View new key"
+    "messageformat": "Vezi noul cod"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {{num,number} contact} few {{num,number} contacte} other {{num,number} de contacte}}"
@@ -6812,7 +6812,7 @@
     "messageformat": "Ștergi această poveste? Povestea va fi ștearsă și pentru cei care au primit-o."
   },
   "icu:MyStories__delete-group-story-for-me": {
-    "messageformat": "Delete this story? It will only be deleted for you because the group has ended."
+    "messageformat": "Elimini povestea? Va fi eliminată doar pentru tine pentru că grupul s-a încheiat."
   },
   "icu:payment-event-notification-message-you-label": {
     "messageformat": "Ai început o plată către {receiver}"
@@ -8152,6 +8152,6 @@
     "messageformat": "Acum poți adăuga opțional un rol de membru pentru a te descrie pe tine sau rolul tău într-un chat de grup. Setează rolul de membru în grupul tău la „Arbitru” sau „Portar” în chat-ul local de fotbal din liga recreativă pentru a te ajuta să începi jocul atunci când se alătură noi coechipieri, apoi alege un rol cu funcția ta în chat-ul companiei. Rolurile de membri apar lângă numele de profil din acel grup, iar administratorii grupurilor pot controla dacă ele sunt active pentru toată lumea."
   },
   "icu:WhatsNew__8.6--0": {
-    "messageformat": "Now you won't need to scroll as far to catch up on the latest messages. If several new people join a busy group chat, or you receive multiple missed calls in a row, those repeated chat events can be automatically grouped together into a compact display. Sometimes less is more, but you can easily expand and collapse these lists at any time."
+    "messageformat": "Acum nu va mai trebui să derulezi atât de mult pentru a vedea cele mai recente mesaje. Dacă mai multe persoane noi se alătură unei conversații de grup aglomerate sau dacă primești mai multe apeluri pierdute la rând, aceste evenimente repetate din chat pot fi grupate automat într-un afișaj compact. Uneori, mai puțin înseamnă mai mult, dar poți extinde și reduce cu ușurință aceste liste în orice moment."
   }
 }

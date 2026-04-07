@@ -2373,7 +2373,7 @@
     "messageformat": "Trung tâm Hỗ trợ"
   },
   "icu:ConversationDetails__GroupTerminatedBanner": {
-    "messageformat": "This group has ended"
+    "messageformat": "Nhóm này đã kết thúc"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "Xem Số An toàn"
@@ -2559,31 +2559,31 @@
     "messageformat": "{leadingIcon} {text} {trailingIcon}"
   },
   "icu:collapsedGroupUpdates": {
-    "messageformat": "{count, plural, one {{count,number} group update} other {{count,number} group updates}}"
+    "messageformat": "{count, plural, other {{count,number} cập nhật về nhóm}}"
   },
   "icu:multidayCollapse__container": {
     "messageformat": "{containerDescription} · {dayCountSummary}"
   },
   "icu:multidayCollapse__dayCountSummary": {
-    "messageformat": "{dayCount, plural, one {{dayCount,number} day} other {{dayCount,number} days}}"
+    "messageformat": "{dayCount, plural, other {{dayCount,number} ngày}}"
   },
   "icu:collapsedChatUpdates": {
-    "messageformat": "{count, plural, one {{count,number} chat update} other {{count,number} chat updates}}"
+    "messageformat": "{count, plural, other {{count,number} cập nhật về cuộc trò chuyện}}"
   },
   "icu:collapsedTimerChanges": {
-    "messageformat": "{count, plural, one {{count,number} disappearing timer change · {endingState}} other {{count,number} disappearing message timer changes · {endingState}}}"
+    "messageformat": "{count, plural, other {{count,number} đồng hồ của tin nhắn tự xóa có thay đổi · {endingState}}}"
   },
   "icu:collapsedTimerChanges--disabled": {
-    "messageformat": "{count, plural, one {{count,number} disappearing timer change · Disabled} other {{count,number} disappearing message timer changes · Disabled}}"
+    "messageformat": "{count, plural, other {{count,number} đồng hồ của tin nhắn tự xóa có thay đổi · Đã tắt}}"
   },
   "icu:collapsedCallEvents": {
-    "messageformat": "{count, plural, one {{count,number} call event} other {{count,number} call events}}"
+    "messageformat": "{count, plural, other {{count,number} sự kiện gọi}}"
   },
   "icu:collapsedItems--collapsed": {
-    "messageformat": "Set of items is collapsed - click to expand"
+    "messageformat": "Danh sách đã được thu gọn - bấm để mở rộng"
   },
   "icu:collapsedItems--expanded": {
-    "messageformat": "Set of items is expanded - click to collapse"
+    "messageformat": "Danh sách đã được mở rộng - bấm để thu gọn"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "Ảnh đại diện của nhóm đã được cập nhật."
@@ -3966,7 +3966,7 @@
     "messageformat": "Yêu cầu tham gia nhóm của bạn đã được gửi tới admin nhóm. Bạn sẽ được thông báo khi họ chọn hành động."
   },
   "icu:GroupV2--join--group-terminated": {
-    "messageformat": "Unable to join this group."
+    "messageformat": "Không thể tham gia nhóm này."
   },
   "icu:GroupV2--join--general-join-failure--title": {
     "messageformat": "Lỗi Đường dẫn"
@@ -3975,13 +3975,13 @@
     "messageformat": "Không thể vào nhóm. Thử lại sau."
   },
   "icu:GroupV2--terminate-group-in-progress": {
-    "messageformat": "Ending group..."
+    "messageformat": "Đang kết thúc nhóm…"
   },
   "icu:TerminateGroupFailedModal__description": {
-    "messageformat": "Couldn't end the group. Check your connection and try again."
+    "messageformat": "Không thể kết thúc nhóm. Kiểm tra kết nối của bạn và thử lại."
   },
   "icu:TerminateGroupFailedModal__try-again": {
-    "messageformat": "Try again"
+    "messageformat": "Thử lại"
   },
   "icu:GroupV2--admin": {
     "messageformat": "Quản trị viên"
@@ -4425,13 +4425,13 @@
     "messageformat": "Các thành viên của nhóm này hoặc các cài đặt đã thay đổi."
   },
   "icu:GroupV2--terminated--you": {
-    "messageformat": "You ended the group"
+    "messageformat": "Bạn đã kết thúc nhóm"
   },
   "icu:GroupV2--terminated--other": {
-    "messageformat": "{memberName} ended the group"
+    "messageformat": "{memberName} đã kết thúc nhóm"
   },
   "icu:GroupV2--terminated--unknown": {
-    "messageformat": "This group has ended"
+    "messageformat": "Nhóm này đã kết thúc"
   },
   "icu:GroupV1--Migration--disabled--link": {
     "messageformat": "Cập nhật nhóm này để kích hoạt các tính năng mới như @nhắc tên và quản trị. Các thành viên chưa chia sẻ tên hoặc ảnh trong nhóm này sẽ được mời tham gia. <learnMoreLink>Tìm hiểu thêm.</learnMoreLink>"
@@ -4710,7 +4710,7 @@
     "messageformat": "Thay thế"
   },
   "icu:CompositionArea--group-terminated": {
-    "messageformat": "You can't send messages because the group has ended."
+    "messageformat": "Bạn không thể gửi tin nhắn vì nhóm đã kết thúc."
   },
   "icu:CompositionArea--viewOnceToggle": {
     "messageformat": "Xem một lần"
@@ -4890,7 +4890,7 @@
     "messageformat": "Rời nhóm"
   },
   "icu:ConversationDetailsActions--terminate-group": {
-    "messageformat": "End group"
+    "messageformat": "Kết thúc nhóm"
   },
   "icu:ConversationDetailsActions--block-group": {
     "messageformat": "Chặn nhóm"
@@ -4899,13 +4899,13 @@
     "messageformat": "Bỏ chặn nhóm"
   },
   "icu:ConversationDetailsActions--archive": {
-    "messageformat": "Archive chat"
+    "messageformat": "Lưu trữ cuộc trò chuyện"
   },
   "icu:ConversationDetailsActions--unarchive": {
-    "messageformat": "Unarchive chat"
+    "messageformat": "Bỏ lưu trữ cuộc trò chuyện"
   },
   "icu:ConversationDetailsActions--delete": {
-    "messageformat": "Delete chat"
+    "messageformat": "Xóa cuộc trò chuyện"
   },
   "icu:ConversationDetailsActions--leave-group-must-choose-new-admin": {
     "messageformat": "Trước khi rời nhóm, bạn phải chọn ít nhất một quản trị viên mới cho nhóm này."
@@ -4920,16 +4920,16 @@
     "messageformat": "Rời khỏi"
   },
   "icu:ConversationDetailsActions--prompt-terminate-group-modal-title": {
-    "messageformat": "End \"{groupName}\"?"
+    "messageformat": "Kết thúc \"{groupName}\"?"
   },
   "icu:ConversationDetailsActions--prompt-terminate-group-modal-content": {
-    "messageformat": "Members will no longer be able to send messages or start calls in the group. They will be notified that you ended the group, and will still have access to message history."
+    "messageformat": "Các thành viên sẽ không thể gửi tin nhắn hoặc bắt đầu cuộc gọi trong nhóm nữa. Họ sẽ được thông báo rằng bạn đã kết thúc nhóm, và vẫn có thể truy cập vào lịch sử tin nhắn."
   },
   "icu:ConversationDetailsActions--terminate-group-modal-confirm": {
-    "messageformat": "End group"
+    "messageformat": "Kết thúc nhóm"
   },
   "icu:ConversationDetailsActions--confirm-terminate-group-confirm-modal-content": {
-    "messageformat": "This will end the group permanently. Are you sure you want to proceed?"
+    "messageformat": "Thao tác này sẽ kết thúc nhóm vĩnh viễn. Bạn có chắc muốn tiếp tục?"
   },
   "icu:ConversationDetailsActions--unblock-group-modal-title": {
     "messageformat": "Bỏ chặn Nhóm \"{groupName}\"?"
@@ -4959,7 +4959,7 @@
     "messageformat": "{number, plural, other {{number,number} thành viên}}"
   },
   "icu:ConversationDetailsMembershipList--terminated-title": {
-    "messageformat": "{number, plural, one {{number,number} former member} other {{number,number} former members}}"
+    "messageformat": "{number, plural, other {{number,number} thành viên cũ}}"
   },
   "icu:ConversationDetailsMembershipList--add-members": {
     "messageformat": "Thêm thành viên"
@@ -6320,31 +6320,31 @@
     "messageformat": "hiển thị mã khóa sao lưu của bạn"
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
-    "messageformat": "show your recovery key"
+    "messageformat": "hiển thị mã khóa khôi phục của bạn"
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
     "messageformat": "Xác minh danh tính để xem mã khóa sao lưu của bạn."
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
-    "messageformat": "Verify your identity to view your recovery key."
+    "messageformat": "Xác minh danh tính để xem mã khóa khôi phục của bạn."
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
     "messageformat": "Xem mã khóa sao lưu"
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
-    "messageformat": "View recovery key"
+    "messageformat": "Xem mã khóa khôi phục"
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
     "messageformat": "Cần xác thực để xem mã khóa sao lưu của bạn."
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
-    "messageformat": "Authentication is required to view your recovery key."
+    "messageformat": "Cần xác thực để xem mã khóa khôi phục của bạn."
   },
   "icu:Preferences--local-backups-backup-key-text-box": {
     "messageformat": "Khung văn bản của mã khóa sao lưu"
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
-    "messageformat": "Recovery key"
+    "messageformat": "Mã khóa khôi phục"
   },
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "Nhập mã khóa"
@@ -6353,7 +6353,7 @@
     "messageformat": "Lưu mã khóa sao lưu"
   },
   "icu:Preferences--local-backups-record-recovery-key": {
-    "messageformat": "Record your recovery key"
+    "messageformat": "Lưu mã khóa khôi phục"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "Cần có mã khóa này để khôi phục tài khoản và dữ liệu của bạn. Lưu mã này ở nơi an toàn. Nếu để mất, bạn sẽ không thể khôi phục tài khoản của mình. <learnMoreLink>Tìm hiểu thêm.</learnMoreLink>"
@@ -6362,13 +6362,13 @@
     "messageformat": "Xác nhận mã khóa sao lưu"
   },
   "icu:Preferences--local-backups-confirm-recovery-key": {
-    "messageformat": "Confirm your recovery key"
+    "messageformat": "Xác nhận mã khóa khôi phục"
   },
   "icu:Preferences--local-backups-confirm-backup-key-description": {
     "messageformat": "Nhập khóa sao lưu mà bạn vừa ghi lại"
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
-    "messageformat": "Enter the recovery key that you just recorded"
+    "messageformat": "Nhập mã khóa khôi phục bạn đã lưu lại"
   },
   "icu:Preferences__local-backups-confirm-key-modal-title": {
     "messageformat": "Cất giữ an toàn mã khóa"
@@ -6416,7 +6416,7 @@
     "messageformat": "Đã sao chép mã khóa sao lưu"
   },
   "icu:Preferences__local-backups-copied-recovery-key": {
-    "messageformat": "Recovery key copied"
+    "messageformat": "Đã sao chép Mã khóa khôi phục"
   },
   "icu:Preferences__local-backups--enable--os-prompt--mac": {
     "messageformat": "Bật sao lưu"
@@ -6431,7 +6431,7 @@
     "messageformat": "Cần xác thực để bật sao lưu."
   },
   "icu:Preferences__local-backups-auth-error--unauthorized": {
-    "messageformat": "This action could not be completed because system authentication failed. Please try again or open the Signal app on your mobile device and go to Backup Settings to view your recovery key."
+    "messageformat": "Thao tác này không thể hoàn tất do quá trình xác thực hệ thống không thành công. Vui lòng thử lại hoặc mở ứng dụng Signal trên thiết bị di động của bạn và vào mục Cài đặt sao lưu để xem mã khóa khôi phục."
   },
   "icu:Preferences__view-key": {
     "messageformat": "Xem mã khóa"
@@ -6440,25 +6440,25 @@
     "messageformat": "Mã khóa sao lưu"
   },
   "icu:Preferences__recovery-key": {
-    "messageformat": "Recovery key"
+    "messageformat": "Mã khóa khôi phục"
   },
   "icu:Preferences__backup-key-description": {
     "messageformat": "Mã khóa sao lưu của bạn bao gồm 64 chữ số được sử dụng để khôi phục bản sao lưu của bạn"
   },
   "icu:Preferences__recovery-key-description": {
-    "messageformat": "Your recovery key is a 64-digit code used to restore your backup"
+    "messageformat": "Mã khóa khôi phục của bạn là một mã gồm 64 ký tự được sử dụng để khôi phục bản sao lưu của bạn"
   },
   "icu:Preferences__backup-other-ways": {
     "messageformat": "Cách sao lưu khác"
   },
   "icu:Preferences__recovery-key-updated__title": {
-    "messageformat": "Your recovery key has changed"
+    "messageformat": "Mã khóa khôi phục của bạn đã thay đổi"
   },
   "icu:Preferences__recovery-key-updated__description": {
-    "messageformat": "Your recovery key has been updated. Any new backups you make can only be restored using your new recovery key."
+    "messageformat": "Mã khóa khôi phục của bạn đã được cập nhật. Mọi bản sao lưu mới bạn tạo chỉ có thể được khôi phục bằng mã khóa khôi phục mới của bạn."
   },
   "icu:Preferences__recovery-key-updated__view-key": {
-    "messageformat": "View new key"
+    "messageformat": "Xem mã khóa mới"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, other {{num,number} liên hệ}}"
@@ -6812,7 +6812,7 @@
     "messageformat": "Xóa story này? Story cũng sẽ được xóa với tất cả những người đã nhận nó."
   },
   "icu:MyStories__delete-group-story-for-me": {
-    "messageformat": "Delete this story? It will only be deleted for you because the group has ended."
+    "messageformat": "Xóa story này? Story sẽ chỉ được xóa ở phía bạn vì nhóm đã kết thúc."
   },
   "icu:payment-event-notification-message-you-label": {
     "messageformat": "Bạn đã gửi một khoản thanh toán cho {receiver}"
@@ -8152,6 +8152,6 @@
     "messageformat": "Giờ đây, bạn có thể thêm nhãn thành viên (không bắt buộc) để mô tả bản thân hoặc vai trò của mình trong cuộc trò chuyện nhóm. Nhãn thành viên sẽ xuất hiện bên cạnh tên hồ sơ của bạn trong nhóm đó và quản trị viên nhóm có thể kiểm soát việc bật hay tắt nhãn thành viên cho tất cả mọi người."
   },
   "icu:WhatsNew__8.6--0": {
-    "messageformat": "Now you won't need to scroll as far to catch up on the latest messages. If several new people join a busy group chat, or you receive multiple missed calls in a row, those repeated chat events can be automatically grouped together into a compact display. Sometimes less is more, but you can easily expand and collapse these lists at any time."
+    "messageformat": "Các sự kiện trò chuyện lặp lại (như nhiều cuộc gọi nhỡ) có thể được tự động nhóm lại thành một bảng hiển thị nhỏ gọn, giúp bạn không cần phải cuộn quá nhiều để xem các tin nhắn mới nhất."
   }
 }

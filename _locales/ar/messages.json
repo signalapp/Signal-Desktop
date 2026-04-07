@@ -2373,7 +2373,7 @@
     "messageformat": "مركز الدعم"
   },
   "icu:ConversationDetails__GroupTerminatedBanner": {
-    "messageformat": "This group has ended"
+    "messageformat": "أُغلِقت هذه المجموعة"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "عرض رقم اﻷمان"
@@ -2559,31 +2559,31 @@
     "messageformat": "{leadingIcon} {text} {trailingIcon}"
   },
   "icu:collapsedGroupUpdates": {
-    "messageformat": "{count, plural, one {{count,number} group update} other {{count,number} group updates}}"
+    "messageformat": "{count, plural, zero {{count,number} تحديثات للمجموعة} one {{count,number} تحديث للمجموعة} two {{count,number} تحديثان للمجموعة} few {{count,number} تحديثات للمجموعة} many {{count,number} تحديث للمجموعة} other {{count,number} تحديث للمجموعة}}"
   },
   "icu:multidayCollapse__container": {
     "messageformat": "{containerDescription} · {dayCountSummary}"
   },
   "icu:multidayCollapse__dayCountSummary": {
-    "messageformat": "{dayCount, plural, one {{dayCount,number} day} other {{dayCount,number} days}}"
+    "messageformat": "{dayCount, plural, zero {{dayCount,number} يوم} one {{dayCount,number} يوم} two {{dayCount,number} يومين} few {{dayCount,number} أيام} many {{dayCount,number} يومًا} other {{dayCount,number} يومٍ}}"
   },
   "icu:collapsedChatUpdates": {
-    "messageformat": "{count, plural, one {{count,number} chat update} other {{count,number} chat updates}}"
+    "messageformat": "{count, plural, zero {{count,number} تحديثات للدردشة} one {{count,number} تحديث للدردشة} two {{count,number} تحديثان للدردشة} few {{count,number} تحديثات للدردشة} many {{count,number} تحديثًا للدردشة} other {{count,number} تحديثٍ للدردشة}}"
   },
   "icu:collapsedTimerChanges": {
-    "messageformat": "{count, plural, one {{count,number} disappearing timer change · {endingState}} other {{count,number} disappearing message timer changes · {endingState}}}"
+    "messageformat": "{count, plural, zero {{count,number} تغييرات في مُؤقِّت الرسائل المؤقَّتة · {endingState}} one {{count,number} تغيير في مُؤقِّت الرسائل المؤقَّتة · {endingState}} two {{count,number} تغييران في مُؤقِّت الرسائل المؤقَّتة · {endingState}} few {{count,number} تغييرات في مُؤقِّت الرسائل المؤقَّتة · {endingState}} many {{count,number} تغييرًا في مُؤقِّت الرسائل المؤقَّتة · {endingState}} other {{count,number} تغيير في مُؤقِّت الرسائل المؤقَّتة · {endingState}}}"
   },
   "icu:collapsedTimerChanges--disabled": {
-    "messageformat": "{count, plural, one {{count,number} disappearing timer change · Disabled} other {{count,number} disappearing message timer changes · Disabled}}"
+    "messageformat": "{count, plural, zero {{count,number} تعديلات على مُؤقِّت الرسائل المُؤقَّتة · مُعطَّلة} one {{count,number} تعديل واحد على مُؤقِّت الرسائل المُؤقَّتة · مُعطَّل} two {{count,number} تعديلان على مُؤقِّت الرسائل المُؤقَّتة · مُعطَّلان} few {{count,number} تعديلات على مُؤقِّت الرسائل المُؤقَّتة · مُعطَّلة} many {{count,number} تعديلًا على مُؤقِّت الرسائل المُؤقَّتة · مُعطَّل} other {{count,number} تعديل على مُؤقِّت الرسائل المُؤقَّتة · مُعطَّل}}"
   },
   "icu:collapsedCallEvents": {
-    "messageformat": "{count, plural, one {{count,number} call event} other {{count,number} call events}}"
+    "messageformat": "{count, plural, zero {{count,number} أحداث مكالمة} one {{count,number} حدث مكالمة} two {{count,number} حدثا مكالمة} few {{count,number} أحداث مكالمة} many {{count,number} حدث مكالمة} other {{count,number} حدث مكالمة}}"
   },
   "icu:collapsedItems--collapsed": {
-    "messageformat": "Set of items is collapsed - click to expand"
+    "messageformat": "قائمة العناصر مطوية - انقر للتوسيع"
   },
   "icu:collapsedItems--expanded": {
-    "messageformat": "Set of items is expanded - click to collapse"
+    "messageformat": "قائمة العناصر موسعة - انقر للطي"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "تمَّ تحديث صورة المجموعة."
@@ -3966,7 +3966,7 @@
     "messageformat": "تمَّ إرسال طلبك للانضمام إلى مُشرِف المجموعة. سيتمُّ إشعارك عند اتخاذه للإجراء."
   },
   "icu:GroupV2--join--group-terminated": {
-    "messageformat": "Unable to join this group."
+    "messageformat": "تعذَّر الانضمام إلى هذه المجموعة."
   },
   "icu:GroupV2--join--general-join-failure--title": {
     "messageformat": "خطأ في الرابط"
@@ -3975,13 +3975,13 @@
     "messageformat": "تعذَّر الانضمام إلى المجموعة. حاوِل مرّة أخرى لاحقًا."
   },
   "icu:GroupV2--terminate-group-in-progress": {
-    "messageformat": "Ending group..."
+    "messageformat": "جارٍ إغلاق المجموعة…"
   },
   "icu:TerminateGroupFailedModal__description": {
-    "messageformat": "Couldn't end the group. Check your connection and try again."
+    "messageformat": "تعذَّر إغلاق المجموعة. تحقَّق من اتصالك بالشبكة ثم حاوِل مرّة أخرى."
   },
   "icu:TerminateGroupFailedModal__try-again": {
-    "messageformat": "Try again"
+    "messageformat": "حاوِل مُجدَّدًا"
   },
   "icu:GroupV2--admin": {
     "messageformat": "المُشرِف"
@@ -4425,13 +4425,13 @@
     "messageformat": "تمَّ تغيير أعضاء هذه المجموعة أو إعداداتِها."
   },
   "icu:GroupV2--terminated--you": {
-    "messageformat": "You ended the group"
+    "messageformat": "لقد أنهيتَ المجموعة."
   },
   "icu:GroupV2--terminated--other": {
-    "messageformat": "{memberName} ended the group"
+    "messageformat": "{memberName} أنهى المجموعة"
   },
   "icu:GroupV2--terminated--unknown": {
-    "messageformat": "This group has ended"
+    "messageformat": "أُغلِقت هذه المجموعة."
   },
   "icu:GroupV1--Migration--disabled--link": {
     "messageformat": "قُم بتحديث هذه المجموعة لتفعيل مزايا جديدة مثل الإشارة بتاغ mentions@ والمُشرِفين. سَتتمُّ دعوة الأعضاء الذين لم يشاركوا اسمهم أو صورتهم في هذه المجموعة للانضمام. <learnMoreLink>اعرف المزيد.</learnMoreLink>"
@@ -4710,7 +4710,7 @@
     "messageformat": "استبدال"
   },
   "icu:CompositionArea--group-terminated": {
-    "messageformat": "You can't send messages because the group has ended."
+    "messageformat": "لا يمكنك إرسال رسائل لأن المجموعة أُغلِقت."
   },
   "icu:CompositionArea--viewOnceToggle": {
     "messageformat": "عرض لمرة واحدة"
@@ -4890,7 +4890,7 @@
     "messageformat": "مغادرة المجموعة"
   },
   "icu:ConversationDetailsActions--terminate-group": {
-    "messageformat": "End group"
+    "messageformat": "إنهاء المجموعة"
   },
   "icu:ConversationDetailsActions--block-group": {
     "messageformat": "حظر المجموعة"
@@ -4899,13 +4899,13 @@
     "messageformat": "رفع حَظر المجموعة"
   },
   "icu:ConversationDetailsActions--archive": {
-    "messageformat": "Archive chat"
+    "messageformat": "أرشفة الدردشة"
   },
   "icu:ConversationDetailsActions--unarchive": {
-    "messageformat": "Unarchive chat"
+    "messageformat": "إلغاء أرشفة الدردشة"
   },
   "icu:ConversationDetailsActions--delete": {
-    "messageformat": "Delete chat"
+    "messageformat": "حذف الدردشة"
   },
   "icu:ConversationDetailsActions--leave-group-must-choose-new-admin": {
     "messageformat": "قبل أن تغادر، يجب عليك أن تختار على الأقل مُشرِفًا واحدًا لهذه المجموعة."
@@ -4920,16 +4920,16 @@
     "messageformat": "مغادرة"
   },
   "icu:ConversationDetailsActions--prompt-terminate-group-modal-title": {
-    "messageformat": "End \"{groupName}\"?"
+    "messageformat": "هل ترغبُ بإنهاء \"{groupName}\"؟"
   },
   "icu:ConversationDetailsActions--prompt-terminate-group-modal-content": {
-    "messageformat": "Members will no longer be able to send messages or start calls in the group. They will be notified that you ended the group, and will still have access to message history."
+    "messageformat": "لن يبقى بإمكان الأعضاء إرسال الرسائل أو بدء مكالمات في المجموعة. سَيتم إشعارهم أنك أنهيت المجموعة، وسَيبقى بإمكانهم الوصول إلى سِجل الرسائل."
   },
   "icu:ConversationDetailsActions--terminate-group-modal-confirm": {
-    "messageformat": "End group"
+    "messageformat": "إنهاء المجموعة"
   },
   "icu:ConversationDetailsActions--confirm-terminate-group-confirm-modal-content": {
-    "messageformat": "This will end the group permanently. Are you sure you want to proceed?"
+    "messageformat": "سيُنهي هذا المجموعة بصفة نهائية. هل أنت مُتأكِّد من أنك تريد المواصلة؟"
   },
   "icu:ConversationDetailsActions--unblock-group-modal-title": {
     "messageformat": "هل تريد إلغاء الحظر على مجموعة \"{groupName}\"؟"
@@ -4959,7 +4959,7 @@
     "messageformat": "{number, plural, zero {{number,number} عضو} one {{number,number} عضو} two {{number,number} عضوان} few {{number,number} أعضاء} many {{number,number} عضوًا} other {{number,number} عضوٍ}}"
   },
   "icu:ConversationDetailsMembershipList--terminated-title": {
-    "messageformat": "{number, plural, one {{number,number} former member} other {{number,number} former members}}"
+    "messageformat": "{number, plural, zero {{number,number} أعضاء سابقين} one {{number,number} عضو سابق} two {{number,number} عضوان سابقين} few {{number,number} أعضاء سابقين} many {{number,number} عضوًا سابقًا} other {{number,number} عضو سابق}}"
   },
   "icu:ConversationDetailsMembershipList--add-members": {
     "messageformat": "إضافة أعضاء"
@@ -6320,31 +6320,31 @@
     "messageformat": "عرض مفتاح النسخ الاحتياطي"
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
-    "messageformat": "show your recovery key"
+    "messageformat": "إظهار مفتاح الاستعادة الخاص بك"
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
     "messageformat": "تحقَّق من هويتك لعرض مفتاح النسخ الاحتياطي الخاص بك."
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
-    "messageformat": "Verify your identity to view your recovery key."
+    "messageformat": "تحقَّق من هويتك لعرض مفتاح الاستعادة الخاص بك."
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
     "messageformat": "عرض مفتاح النسخة الاحتياطية"
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
-    "messageformat": "View recovery key"
+    "messageformat": "عرض مفتاح الاستعادة"
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
     "messageformat": "المصادقة مطلوبة لعرض مفتاح النسخ الاحتياطي."
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
-    "messageformat": "Authentication is required to view your recovery key."
+    "messageformat": "المصادقة مطلوبة لعرض مفتاح الاستعادة الخاص بك."
   },
   "icu:Preferences--local-backups-backup-key-text-box": {
     "messageformat": "مربع نص مفتاح النسخة الاحتياطية"
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
-    "messageformat": "Recovery key"
+    "messageformat": "مفتاح الاستعادة"
   },
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "أدخِل المفتاح"
@@ -6353,7 +6353,7 @@
     "messageformat": "احتفِظ بنسخة عن مفتاح النسخة الاحتياطية الخاص بك."
   },
   "icu:Preferences--local-backups-record-recovery-key": {
-    "messageformat": "Record your recovery key"
+    "messageformat": "قُم بتسجيل مفتاح الاستعادة الخاص بك"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "هذا المفتاح مطلوب لاسترجاع بياناتك وحسابك. احتفِظ بهذا المفتاح في مكانٍ آمن. إذا فقدته، لن تتمكّن من استرجاع حسابك. <learnMoreLink>اعرف المزيد.</learnMoreLink>"
@@ -6362,13 +6362,13 @@
     "messageformat": "تأكَّد من مفتاح نسختك الاحتياطية"
   },
   "icu:Preferences--local-backups-confirm-recovery-key": {
-    "messageformat": "Confirm your recovery key"
+    "messageformat": "قُم بتأكيد مفتاح الاستعادة الخاص بك"
   },
   "icu:Preferences--local-backups-confirm-backup-key-description": {
     "messageformat": "أدخِل مفتاح النسخة الاحتياطية الذي سجّلته للتو"
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
-    "messageformat": "Enter the recovery key that you just recorded"
+    "messageformat": "أدخِل مفتاح الاستعادة الذي سجّلته للتو"
   },
   "icu:Preferences__local-backups-confirm-key-modal-title": {
     "messageformat": "حافِظ على مفتاحك في مكانٍ آمن."
@@ -6416,7 +6416,7 @@
     "messageformat": "تمَّ نسخ مفتاح النسخ الاحتياطي"
   },
   "icu:Preferences__local-backups-copied-recovery-key": {
-    "messageformat": "Recovery key copied"
+    "messageformat": "تمَّ نسخ مفتاح الاستعادة"
   },
   "icu:Preferences__local-backups--enable--os-prompt--mac": {
     "messageformat": "تفعيل النسخ الاحتياطية"
@@ -6431,7 +6431,7 @@
     "messageformat": "المصادقة مطلوبة لتفعيل النسخ الاحتياطية."
   },
   "icu:Preferences__local-backups-auth-error--unauthorized": {
-    "messageformat": "This action could not be completed because system authentication failed. Please try again or open the Signal app on your mobile device and go to Backup Settings to view your recovery key."
+    "messageformat": "تعذّر إكمال هذا الإجراء بسبب فشل المصادقة. يُرجى المحاولة من جديد أو فتح تطبيق سيجنال على جهازك المحمول والانتقال إلى إعدادات النسخ الاحتياطي لعرض مفتاح الاستعادة الخاص بك."
   },
   "icu:Preferences__view-key": {
     "messageformat": "عرض المفتاح"
@@ -6440,25 +6440,25 @@
     "messageformat": "مفتاح النسخة الاحتياطية"
   },
   "icu:Preferences__recovery-key": {
-    "messageformat": "Recovery key"
+    "messageformat": "مفتاح الاستعادة"
   },
   "icu:Preferences__backup-key-description": {
     "messageformat": "مفتاح النسخ الاحتياطي الخاص بك هو عبارة عن كود مُكوَّن من 64 رقمًا، ويُستخدَم لاستعادة نسختك الاحتياطية."
   },
   "icu:Preferences__recovery-key-description": {
-    "messageformat": "Your recovery key is a 64-digit code used to restore your backup"
+    "messageformat": "مفتاح الاستعادة هو عبارة عن كود مُكوَّن من 64 رمزًا، ويُستخدَم لاستعادة نسختك الاحتياطية"
   },
   "icu:Preferences__backup-other-ways": {
     "messageformat": "طرق أخرى للنسخ الاحتياطي"
   },
   "icu:Preferences__recovery-key-updated__title": {
-    "messageformat": "Your recovery key has changed"
+    "messageformat": "تغيَّر مفتاح الاستعادة الخاص بك."
   },
   "icu:Preferences__recovery-key-updated__description": {
-    "messageformat": "Your recovery key has been updated. Any new backups you make can only be restored using your new recovery key."
+    "messageformat": "تمَّ تحديث مفتاح الاستعادة الخاص بك. لا يمكن استعادة أي نسخ احتياطية جديدة تصنعها إلّا باستخدام مفتاح الاستعادة الخاص بك."
   },
   "icu:Preferences__recovery-key-updated__view-key": {
-    "messageformat": "View new key"
+    "messageformat": "عرض المفتاح الجديد"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, zero {{num,number} جهات اتصال} one {{num,number} جهة اتصال} two {{num,number} جهتيْ اتصال} few {{num,number} جهات اتصال} many {{num,number} جهة اتصال} other {{num,number} جهة اتصال}}"
@@ -6812,7 +6812,7 @@
     "messageformat": "‫هل ترغبُ بحذف هذه القصة؟ سَتُحذَف أيضًا من عند جميع من استلموها."
   },
   "icu:MyStories__delete-group-story-for-me": {
-    "messageformat": "Delete this story? It will only be deleted for you because the group has ended."
+    "messageformat": "هل ترغبُ بحذف هذه القصة؟ ستُحذَف لديك فقط لأن المجموعة أُغلِقت."
   },
   "icu:payment-event-notification-message-you-label": {
     "messageformat": "بدأتَ بعملية الدفع لـ {receiver}"
@@ -8152,6 +8152,6 @@
     "messageformat": "يمكنك الآن إضافة دور عضو بشكل اختياري لتصِف نفسك أو دورك في دردشة جماعية. عيِّن دور عضو المجموعة إلى \"حكم\" أو \"حارس مرمى\" في دردشة دوري كرة القدم المحلي للمساعدة على كسر الجليد عند انضمام زملاء جُدُد، ثم اختر دور مختلف يعكس مُسمَّاك الوظيفي في دردشة الشركة. تظهر أدوار الأعضاء بجوار اسم الحساب الشخصي الخاص بك في تلك المجموعة، ويمكن لِمُشرِفي المجموعات التحكُّم فيما إذا ستكون مُفعَّلة للجميع."
   },
   "icu:WhatsNew__8.6--0": {
-    "messageformat": "Now you won't need to scroll as far to catch up on the latest messages. If several new people join a busy group chat, or you receive multiple missed calls in a row, those repeated chat events can be automatically grouped together into a compact display. Sometimes less is more, but you can easily expand and collapse these lists at any time."
+    "messageformat": "تُجمَّع الآن أحداث الدردشة المُتكرِّرة (مثل المكالمات الفائتة العديدة) تلقائيًا في عرضٍ مُختصر. إذا انضمّ عدة أشخاص جُدُد إلى دردشة جماعية نشِطة، أو تلقيتَ عدة مكالمات فائتة متتالية، فسيتم تجميع أحداث الدردشة المُتكرِّرة هذه تلقائيًا ضمن عرضٍ مُختصَر. في بعض الأحيان يكون الاختصار أفضل، ولكن يمكنك بسهولة توسيع هذه القوائم أو طيّها في أيّ وقت."
   }
 }

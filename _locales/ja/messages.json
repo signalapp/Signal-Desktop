@@ -2373,7 +2373,7 @@
     "messageformat": "サポートセンター"
   },
   "icu:ConversationDetails__GroupTerminatedBanner": {
-    "messageformat": "This group has ended"
+    "messageformat": "このグループは閉じられました"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "安全番号の検証"
@@ -2559,31 +2559,31 @@
     "messageformat": "{leadingIcon} {text} {trailingIcon}"
   },
   "icu:collapsedGroupUpdates": {
-    "messageformat": "{count, plural, one {{count,number} group update} other {{count,number} group updates}}"
+    "messageformat": "{count, plural, other {{count,number} 件のグループ更新}}"
   },
   "icu:multidayCollapse__container": {
     "messageformat": "{containerDescription} · {dayCountSummary}"
   },
   "icu:multidayCollapse__dayCountSummary": {
-    "messageformat": "{dayCount, plural, one {{dayCount,number} day} other {{dayCount,number} days}}"
+    "messageformat": "{dayCount, plural, other {{dayCount,number}日前}}"
   },
   "icu:collapsedChatUpdates": {
-    "messageformat": "{count, plural, one {{count,number} chat update} other {{count,number} chat updates}}"
+    "messageformat": "{count, plural, other {{count,number} 件のチャット更新}}"
   },
   "icu:collapsedTimerChanges": {
-    "messageformat": "{count, plural, one {{count,number} disappearing timer change · {endingState}} other {{count,number} disappearing message timer changes · {endingState}}}"
+    "messageformat": "{count, plural, other {{count,number} 件の消えるメッセージのタイマー変更：{endingState}}}"
   },
   "icu:collapsedTimerChanges--disabled": {
-    "messageformat": "{count, plural, one {{count,number} disappearing timer change · Disabled} other {{count,number} disappearing message timer changes · Disabled}}"
+    "messageformat": "{count, plural, other {{count,number}件の消えるメッセージのタイマー変更 · 無効}}"
   },
   "icu:collapsedCallEvents": {
-    "messageformat": "{count, plural, one {{count,number} call event} other {{count,number} call events}}"
+    "messageformat": "{count, plural, other {{count,number} 件の通話関連のお知らせ}}"
   },
   "icu:collapsedItems--collapsed": {
-    "messageformat": "Set of items is collapsed - click to expand"
+    "messageformat": "項目は折りたたまれています。クリックして展開"
   },
   "icu:collapsedItems--expanded": {
-    "messageformat": "Set of items is expanded - click to collapse"
+    "messageformat": "項目は展開されています。クリックして折りたたむ"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "グループアバターが更新されました。"
@@ -3966,7 +3966,7 @@
     "messageformat": "あなたの参加申請はグループ管理者に送信されました。応答があると通知されます。"
   },
   "icu:GroupV2--join--group-terminated": {
-    "messageformat": "Unable to join this group."
+    "messageformat": "このグループに参加できません。"
   },
   "icu:GroupV2--join--general-join-failure--title": {
     "messageformat": "リンクエラー"
@@ -3975,13 +3975,13 @@
     "messageformat": "グループに参加できませんでした。あとで再度試してください。"
   },
   "icu:GroupV2--terminate-group-in-progress": {
-    "messageformat": "Ending group..."
+    "messageformat": "グループを閉じています…"
   },
   "icu:TerminateGroupFailedModal__description": {
-    "messageformat": "Couldn't end the group. Check your connection and try again."
+    "messageformat": "グル－プを閉じられませんでした。インターネット接続を確認してもう一度お試しください。"
   },
   "icu:TerminateGroupFailedModal__try-again": {
-    "messageformat": "Try again"
+    "messageformat": "もう一度試す"
   },
   "icu:GroupV2--admin": {
     "messageformat": "管理者"
@@ -4425,13 +4425,13 @@
     "messageformat": "このグループのメンバーまたは設定が変更されました。"
   },
   "icu:GroupV2--terminated--you": {
-    "messageformat": "You ended the group"
+    "messageformat": "あなたがグループを閉じました"
   },
   "icu:GroupV2--terminated--other": {
-    "messageformat": "{memberName} ended the group"
+    "messageformat": "{memberName}がグループを閉じました"
   },
   "icu:GroupV2--terminated--unknown": {
-    "messageformat": "This group has ended"
+    "messageformat": "このグループは閉じられました"
   },
   "icu:GroupV1--Migration--disabled--link": {
     "messageformat": "@メンションや管理者などの機能を有効にするため、グループをアップグレードしてください。名前や写真を共有していないメンバーは、改めてこのグループに招待されます。<learnMoreLink>さらに詳しく。</learnMoreLink>"
@@ -4710,7 +4710,7 @@
     "messageformat": "置き換え"
   },
   "icu:CompositionArea--group-terminated": {
-    "messageformat": "You can't send messages because the group has ended."
+    "messageformat": "グループは閉じられたのでメッセージを送信できません。"
   },
   "icu:CompositionArea--viewOnceToggle": {
     "messageformat": "一度きりの表示"
@@ -4890,7 +4890,7 @@
     "messageformat": "グループを抜ける"
   },
   "icu:ConversationDetailsActions--terminate-group": {
-    "messageformat": "End group"
+    "messageformat": "グループを閉じる"
   },
   "icu:ConversationDetailsActions--block-group": {
     "messageformat": "グループをブロック"
@@ -4899,13 +4899,13 @@
     "messageformat": "グループのブロックを解除"
   },
   "icu:ConversationDetailsActions--archive": {
-    "messageformat": "Archive chat"
+    "messageformat": "チャットをアーカイブ"
   },
   "icu:ConversationDetailsActions--unarchive": {
-    "messageformat": "Unarchive chat"
+    "messageformat": "チャットのアーカイブを解除"
   },
   "icu:ConversationDetailsActions--delete": {
-    "messageformat": "Delete chat"
+    "messageformat": "チャットを消去"
   },
   "icu:ConversationDetailsActions--leave-group-must-choose-new-admin": {
     "messageformat": "グループから抜ける前に、新しい管理者を1人以上選択する必要があります。"
@@ -4920,16 +4920,16 @@
     "messageformat": "抜ける"
   },
   "icu:ConversationDetailsActions--prompt-terminate-group-modal-title": {
-    "messageformat": "End \"{groupName}\"?"
+    "messageformat": "「{groupName}」を閉じますか？"
   },
   "icu:ConversationDetailsActions--prompt-terminate-group-modal-content": {
-    "messageformat": "Members will no longer be able to send messages or start calls in the group. They will be notified that you ended the group, and will still have access to message history."
+    "messageformat": "メンバーは、グループへメッセージを送信したり通話を開始したりできなくなります。グループを閉じたことはメンバーに通知されます。メッセージ履歴には引き続きアクセスできます。"
   },
   "icu:ConversationDetailsActions--terminate-group-modal-confirm": {
-    "messageformat": "End group"
+    "messageformat": "グループを閉じる"
   },
   "icu:ConversationDetailsActions--confirm-terminate-group-confirm-modal-content": {
-    "messageformat": "This will end the group permanently. Are you sure you want to proceed?"
+    "messageformat": "グループは完全に閉じられます。本当によろしいですか？"
   },
   "icu:ConversationDetailsActions--unblock-group-modal-title": {
     "messageformat": "「{groupName}」グループのブロックを解除しますか？"
@@ -4959,7 +4959,7 @@
     "messageformat": "{number, plural, other {メンバー{number,number}人}}"
   },
   "icu:ConversationDetailsMembershipList--terminated-title": {
-    "messageformat": "{number, plural, one {{number,number} former member} other {{number,number} former members}}"
+    "messageformat": "{number, plural, other {チャットにいたメンバー：{number,number}人}}"
   },
   "icu:ConversationDetailsMembershipList--add-members": {
     "messageformat": "メンバーを追加する"
@@ -6320,31 +6320,31 @@
     "messageformat": "バックアップキーを表示する"
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
-    "messageformat": "show your recovery key"
+    "messageformat": "回復キーを表示"
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
     "messageformat": "バックアップキーを表示するには、本人確認をおこなってください。"
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
-    "messageformat": "Verify your identity to view your recovery key."
+    "messageformat": "回復キーを表示するには本人確認をおこなってください。"
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
     "messageformat": "バックアップキーを表示する"
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
-    "messageformat": "View recovery key"
+    "messageformat": "回復キーを表示する"
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
     "messageformat": "バックアップキーを表示するには認証が必要です。"
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
-    "messageformat": "Authentication is required to view your recovery key."
+    "messageformat": "回復キーを表示するには認証が必要です。"
   },
   "icu:Preferences--local-backups-backup-key-text-box": {
     "messageformat": "バックアップキー確認欄"
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
-    "messageformat": "Recovery key"
+    "messageformat": "回復キー"
   },
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "キーを入力"
@@ -6353,7 +6353,7 @@
     "messageformat": "バックアップキーを保管する"
   },
   "icu:Preferences--local-backups-record-recovery-key": {
-    "messageformat": "Record your recovery key"
+    "messageformat": "回復キーを記録する"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "このキーは、アカウントとデータを復元する際に必要です。このキーを安全な場所に保管してください。紛失した場合、アカウントを復元できなくなります。 <learnMoreLink>さらに詳しく。</learnMoreLink>"
@@ -6362,13 +6362,13 @@
     "messageformat": "バックアップキーを確認してください"
   },
   "icu:Preferences--local-backups-confirm-recovery-key": {
-    "messageformat": "Confirm your recovery key"
+    "messageformat": "回復キーを確認してください"
   },
   "icu:Preferences--local-backups-confirm-backup-key-description": {
     "messageformat": "先ほど記録したバックアップキーを入力してください"
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
-    "messageformat": "Enter the recovery key that you just recorded"
+    "messageformat": "記録した回復キーを入力してください"
   },
   "icu:Preferences__local-backups-confirm-key-modal-title": {
     "messageformat": "キーの取り扱いは厳重にしてください"
@@ -6416,7 +6416,7 @@
     "messageformat": "バックアップキーをコピーしました"
   },
   "icu:Preferences__local-backups-copied-recovery-key": {
-    "messageformat": "Recovery key copied"
+    "messageformat": "回復キーをコピーしました"
   },
   "icu:Preferences__local-backups--enable--os-prompt--mac": {
     "messageformat": "バックアップを有効にする"
@@ -6431,7 +6431,7 @@
     "messageformat": "バックアップを有効にするには認証が必要です。"
   },
   "icu:Preferences__local-backups-auth-error--unauthorized": {
-    "messageformat": "This action could not be completed because system authentication failed. Please try again or open the Signal app on your mobile device and go to Backup Settings to view your recovery key."
+    "messageformat": "システムの認証ができなかったので、この操作を完了できませんでした。もう一度お試しになるか、スマートフォンでSignalアプリを開いてバックアップの設定から回復キーを確認してください。"
   },
   "icu:Preferences__view-key": {
     "messageformat": "キーを表示する"
@@ -6440,25 +6440,25 @@
     "messageformat": "バックアップキー"
   },
   "icu:Preferences__recovery-key": {
-    "messageformat": "Recovery key"
+    "messageformat": "回復キー"
   },
   "icu:Preferences__backup-key-description": {
     "messageformat": "バックアップキーは、バックアップを復元するために使用する64桁のコードです"
   },
   "icu:Preferences__recovery-key-description": {
-    "messageformat": "Your recovery key is a 64-digit code used to restore your backup"
+    "messageformat": "回復キーは、バックアップを復元するために必要な64文字のコードです"
   },
   "icu:Preferences__backup-other-ways": {
     "messageformat": "その他のバックアップ方法"
   },
   "icu:Preferences__recovery-key-updated__title": {
-    "messageformat": "Your recovery key has changed"
+    "messageformat": "回復キーが変更されました"
   },
   "icu:Preferences__recovery-key-updated__description": {
-    "messageformat": "Your recovery key has been updated. Any new backups you make can only be restored using your new recovery key."
+    "messageformat": "回復キーが更新されました。これから作成するバックアップは、新しい回復キーでのみ復元できます。"
   },
   "icu:Preferences__recovery-key-updated__view-key": {
-    "messageformat": "View new key"
+    "messageformat": "新しいキーを表示"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, other {{num,number}人}}"
@@ -6812,7 +6812,7 @@
     "messageformat": "このストーリーを消去しますか？これを受けとった人も消去されます。"
   },
   "icu:MyStories__delete-group-story-for-me": {
-    "messageformat": "Delete this story? It will only be deleted for you because the group has ended."
+    "messageformat": "このストーリーを消去しますか？グループは閉じられているので、消去はあなたにのみ適用されます。"
   },
   "icu:payment-event-notification-message-you-label": {
     "messageformat": "{receiver}さんへの支払いを開始しました"
@@ -8152,6 +8152,6 @@
     "messageformat": "グループチャット内で、自分自身についてや自分の役割について説明するメンバーラベルを任意で追加できるようになりました。メンバーラベルは、そのグループ内であなたのプロフィールネームの横に表示されます。また、グループ管理者は、全員がメンバーラベルの追加をできるようにするかどうかを設定できます。"
   },
   "icu:WhatsNew__8.6--0": {
-    "messageformat": "Now you won't need to scroll as far to catch up on the latest messages. If several new people join a busy group chat, or you receive multiple missed calls in a row, those repeated chat events can be automatically grouped together into a compact display. Sometimes less is more, but you can easily expand and collapse these lists at any time."
+    "messageformat": "チャット内での同じ種類の通知（不在着信が何件もあったなど）は自動的にコンパクトな表示にまとめられるので、最新のメッセージを見るためにスクロールする手間が省略できます。"
   }
 }

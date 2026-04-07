@@ -2565,7 +2565,7 @@
     "messageformat": "{containerDescription} · {dayCountSummary}"
   },
   "icu:multidayCollapse__dayCountSummary": {
-    "messageformat": "{dayCount, plural, one {{dayCount,number} day} other {{dayCount,number} days}}"
+    "messageformat": "{dayCount, plural, one {{dayCount,number} día} other {{dayCount,number} días}}"
   },
   "icu:collapsedChatUpdates": {
     "messageformat": "{count, plural, one {{count,number} chat update} other {{count,number} chat updates}}"
@@ -3981,7 +3981,7 @@
     "messageformat": "Couldn't end the group. Check your connection and try again."
   },
   "icu:TerminateGroupFailedModal__try-again": {
-    "messageformat": "Try again"
+    "messageformat": "Reintentar"
   },
   "icu:GroupV2--admin": {
     "messageformat": "Admin"
@@ -4425,10 +4425,10 @@
     "messageformat": "Han cambiado los participantes o los ajustes de este grupo."
   },
   "icu:GroupV2--terminated--you": {
-    "messageformat": "You ended the group"
+    "messageformat": "Has desactivado el grupo"
   },
   "icu:GroupV2--terminated--other": {
-    "messageformat": "{memberName} ended the group"
+    "messageformat": "{memberName} ha desactivado el grupo"
   },
   "icu:GroupV2--terminated--unknown": {
     "messageformat": "This group has ended"
@@ -4890,7 +4890,7 @@
     "messageformat": "Abandonar grupo"
   },
   "icu:ConversationDetailsActions--terminate-group": {
-    "messageformat": "End group"
+    "messageformat": "Desactivar grupo"
   },
   "icu:ConversationDetailsActions--block-group": {
     "messageformat": "Bloquear grupo"
@@ -4899,13 +4899,13 @@
     "messageformat": "Desbloquear grupo"
   },
   "icu:ConversationDetailsActions--archive": {
-    "messageformat": "Archive chat"
+    "messageformat": "Archivar chat"
   },
   "icu:ConversationDetailsActions--unarchive": {
-    "messageformat": "Unarchive chat"
+    "messageformat": "Desarchivar chat"
   },
   "icu:ConversationDetailsActions--delete": {
-    "messageformat": "Delete chat"
+    "messageformat": "Eliminar chat"
   },
   "icu:ConversationDetailsActions--leave-group-must-choose-new-admin": {
     "messageformat": "Antes de abandonar el grupo, designa a otra persona como admin."
@@ -4920,16 +4920,16 @@
     "messageformat": "Abandonar"
   },
   "icu:ConversationDetailsActions--prompt-terminate-group-modal-title": {
-    "messageformat": "End \"{groupName}\"?"
+    "messageformat": "¿Desactivar \"{groupName}\"?"
   },
   "icu:ConversationDetailsActions--prompt-terminate-group-modal-content": {
-    "messageformat": "Members will no longer be able to send messages or start calls in the group. They will be notified that you ended the group, and will still have access to message history."
+    "messageformat": "Los participantes ya no podrán enviar mensajes ni iniciar llamadas en este grupo. Recibirán una notificación avisándoles de que has desactivado el grupo y seguirán teniendo acceso al historial de mensajes."
   },
   "icu:ConversationDetailsActions--terminate-group-modal-confirm": {
-    "messageformat": "End group"
+    "messageformat": "Desactivar grupo"
   },
   "icu:ConversationDetailsActions--confirm-terminate-group-confirm-modal-content": {
-    "messageformat": "This will end the group permanently. Are you sure you want to proceed?"
+    "messageformat": "Se desactivará el grupo de forma permanente. ¿Continuar de todos modos?"
   },
   "icu:ConversationDetailsActions--unblock-group-modal-title": {
     "messageformat": "¿Desbloquear el grupo \"{groupName}\"?"
@@ -4959,7 +4959,7 @@
     "messageformat": "{number, plural, one {{number,number} participante} other {{number,number} participantes}}"
   },
   "icu:ConversationDetailsMembershipList--terminated-title": {
-    "messageformat": "{number, plural, one {{number,number} former member} other {{number,number} former members}}"
+    "messageformat": "{number, plural, one {{number,number} participante anterior} other {{number,number} participantes anteriores}}"
   },
   "icu:ConversationDetailsMembershipList--add-members": {
     "messageformat": "Añadir participantes"
@@ -6332,7 +6332,7 @@
     "messageformat": "Ver clave de copia de seguridad"
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
-    "messageformat": "View recovery key"
+    "messageformat": "Ver clave de recuperación"
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
     "messageformat": "Se requiere autenticación para ver tu clave de copia de seguridad."
@@ -6344,7 +6344,7 @@
     "messageformat": "Cuadro de texto de clave de copia de seguridad"
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
-    "messageformat": "Recovery key"
+    "messageformat": "Clave de recuperación"
   },
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "Introducir clave"
@@ -6353,7 +6353,7 @@
     "messageformat": "Guarda la clave de tu copia de seguridad"
   },
   "icu:Preferences--local-backups-record-recovery-key": {
-    "messageformat": "Record your recovery key"
+    "messageformat": "Registra tu clave de recuperación"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "Se necesita esta clave para recuperar tu cuenta y tus datos. Guárdala en un lugar seguro. Si la pierdes, no podrás recuperar tu cuenta. <learnMoreLink>Más información.</learnMoreLink>"
@@ -6362,13 +6362,13 @@
     "messageformat": "Confirma la clave de tu copia de seguridad"
   },
   "icu:Preferences--local-backups-confirm-recovery-key": {
-    "messageformat": "Confirm your recovery key"
+    "messageformat": "Confirma tu clave de recuperación"
   },
   "icu:Preferences--local-backups-confirm-backup-key-description": {
     "messageformat": "Introduce la clave de copia de seguridad que acabas de registrar"
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
-    "messageformat": "Enter the recovery key that you just recorded"
+    "messageformat": "Introduce la clave de recuperación que acabas de registrar"
   },
   "icu:Preferences__local-backups-confirm-key-modal-title": {
     "messageformat": "Guarda bien tu clave"
@@ -6416,7 +6416,7 @@
     "messageformat": "Clave de copia de seguridad copiada"
   },
   "icu:Preferences__local-backups-copied-recovery-key": {
-    "messageformat": "Recovery key copied"
+    "messageformat": "Clave de recuperación copiada"
   },
   "icu:Preferences__local-backups--enable--os-prompt--mac": {
     "messageformat": "habilitar copias de seguridad"
@@ -6440,13 +6440,13 @@
     "messageformat": "Clave de copia de seguridad"
   },
   "icu:Preferences__recovery-key": {
-    "messageformat": "Recovery key"
+    "messageformat": "Clave de recuperación"
   },
   "icu:Preferences__backup-key-description": {
     "messageformat": "La clave de tu copia de seguridad es un código de 64 caracteres que necesitarás para recuperar tu copia de seguridad"
   },
   "icu:Preferences__recovery-key-description": {
-    "messageformat": "Your recovery key is a 64-digit code used to restore your backup"
+    "messageformat": "Your recovery key is a 64-character code used to restore your backup"
   },
   "icu:Preferences__backup-other-ways": {
     "messageformat": "Otras formas de hacer copias de seguridad"

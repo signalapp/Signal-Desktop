@@ -2373,7 +2373,7 @@
     "messageformat": "Támogatási Központ"
   },
   "icu:ConversationDetails__GroupTerminatedBanner": {
-    "messageformat": "This group has ended"
+    "messageformat": "Ez a csoport megszűnt"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "Biztonsági szám megjelenítése"
@@ -2559,31 +2559,31 @@
     "messageformat": "{leadingIcon} {text} {trailingIcon}"
   },
   "icu:collapsedGroupUpdates": {
-    "messageformat": "{count, plural, one {{count,number} group update} other {{count,number} group updates}}"
+    "messageformat": "{count, plural, one {{count,number} csoport frissítése} other {{count,number} csoport frissítése}}"
   },
   "icu:multidayCollapse__container": {
     "messageformat": "{containerDescription} · {dayCountSummary}"
   },
   "icu:multidayCollapse__dayCountSummary": {
-    "messageformat": "{dayCount, plural, one {{dayCount,number} day} other {{dayCount,number} days}}"
+    "messageformat": "{dayCount, plural, one {{dayCount,number} nap} other {{dayCount,number} nap}}"
   },
   "icu:collapsedChatUpdates": {
-    "messageformat": "{count, plural, one {{count,number} chat update} other {{count,number} chat updates}}"
+    "messageformat": "{count, plural, one {{count,number} csevegés frissítése} other {{count,number} csevegés frissítése}}"
   },
   "icu:collapsedTimerChanges": {
-    "messageformat": "{count, plural, one {{count,number} disappearing timer change · {endingState}} other {{count,number} disappearing message timer changes · {endingState}}}"
+    "messageformat": "{count, plural, one {{count,number} eltűnő üzenet időzítőjének módosítása · {endingState}} other {{count,number} eltűnő üzenet időzítőjének módosítása · {endingState}}}"
   },
   "icu:collapsedTimerChanges--disabled": {
-    "messageformat": "{count, plural, one {{count,number} disappearing timer change · Disabled} other {{count,number} disappearing message timer changes · Disabled}}"
+    "messageformat": "{count, plural, one {{count,number} eltűnő üzenet időzítőjének módosítása – Letiltva} other {{count,number} eltűnő üzenet időzítőjének módosítása – Letiltva}}"
   },
   "icu:collapsedCallEvents": {
-    "messageformat": "{count, plural, one {{count,number} call event} other {{count,number} call events}}"
+    "messageformat": "{count, plural, one {{count,number} híváselőzmény} other {{count,number} híváselőzmény}}"
   },
   "icu:collapsedItems--collapsed": {
-    "messageformat": "Set of items is collapsed - click to expand"
+    "messageformat": "Az elemek halmaza be van zárva - a kinyitáshoz kattints"
   },
   "icu:collapsedItems--expanded": {
-    "messageformat": "Set of items is expanded - click to collapse"
+    "messageformat": "Az elemek halmaza ki van nyitva - a bezáráshoz kattints"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "A csoportkép módosítva lett."
@@ -3966,7 +3966,7 @@
     "messageformat": "Csatlakozási igényed el lett küldve a csoportadmin részére. Értesítést fogsz kapni, amint reagálnak rá."
   },
   "icu:GroupV2--join--group-terminated": {
-    "messageformat": "Unable to join this group."
+    "messageformat": "Nem sikerült csatlakozni ehhez a csoporthoz."
   },
   "icu:GroupV2--join--general-join-failure--title": {
     "messageformat": "Hibás hivatkozás"
@@ -3975,13 +3975,13 @@
     "messageformat": "Nem sikerült belépni a csoportba. Próbáld később!"
   },
   "icu:GroupV2--terminate-group-in-progress": {
-    "messageformat": "Ending group..."
+    "messageformat": "Csoport megszüntetése..."
   },
   "icu:TerminateGroupFailedModal__description": {
-    "messageformat": "Couldn't end the group. Check your connection and try again."
+    "messageformat": "Nem sikerült megszüntetni a csoportot. Ellenőrizd az internetkapcsolatodat, és próbáld újra!"
   },
   "icu:TerminateGroupFailedModal__try-again": {
-    "messageformat": "Try again"
+    "messageformat": "Újra"
   },
   "icu:GroupV2--admin": {
     "messageformat": "Admin"
@@ -4425,13 +4425,13 @@
     "messageformat": "A csoport tagjai vagy beállításai megváltoztak."
   },
   "icu:GroupV2--terminated--you": {
-    "messageformat": "You ended the group"
+    "messageformat": "Megszüntetted a csoportot"
   },
   "icu:GroupV2--terminated--other": {
-    "messageformat": "{memberName} ended the group"
+    "messageformat": "{memberName} megszüntette a csoportot"
   },
   "icu:GroupV2--terminated--unknown": {
-    "messageformat": "This group has ended"
+    "messageformat": "Ez a csoport megszűnt."
   },
   "icu:GroupV1--Migration--disabled--link": {
     "messageformat": "Frissítsd a csoportot az új olyan funkciók aktiválásához, mint például a @mentions (személyek megemlítése) és adminisztrátorok kijelölése. Azok a tagok, akik nem osztották meg a nevüket vagy képüket ebben a csoportban, meghívót kapnak a csatlakozáshoz. <learnMoreLink>Tudj meg többet!</learnMoreLink>"
@@ -4710,7 +4710,7 @@
     "messageformat": "Csere"
   },
   "icu:CompositionArea--group-terminated": {
-    "messageformat": "You can't send messages because the group has ended."
+    "messageformat": "Nem tudsz üzenetet küldeni, mert ez a csoport megszűnt."
   },
   "icu:CompositionArea--viewOnceToggle": {
     "messageformat": "Megtekintés egyszer"
@@ -4890,7 +4890,7 @@
     "messageformat": "Kilépés a csoportból"
   },
   "icu:ConversationDetailsActions--terminate-group": {
-    "messageformat": "End group"
+    "messageformat": "Csoport megszüntetése"
   },
   "icu:ConversationDetailsActions--block-group": {
     "messageformat": "Csoport letiltása"
@@ -4899,13 +4899,13 @@
     "messageformat": "Csoport blokkolásának feloldása"
   },
   "icu:ConversationDetailsActions--archive": {
-    "messageformat": "Archive chat"
+    "messageformat": "Csevegés archiválása"
   },
   "icu:ConversationDetailsActions--unarchive": {
-    "messageformat": "Unarchive chat"
+    "messageformat": "Archivált csevegés feloldása"
   },
   "icu:ConversationDetailsActions--delete": {
-    "messageformat": "Delete chat"
+    "messageformat": "Csevegés törlése"
   },
   "icu:ConversationDetailsActions--leave-group-must-choose-new-admin": {
     "messageformat": "Kilépés előtt ki kell jelölnöd legalább egy új admint."
@@ -4920,16 +4920,16 @@
     "messageformat": "Csoport elhagyása"
   },
   "icu:ConversationDetailsActions--prompt-terminate-group-modal-title": {
-    "messageformat": "End \"{groupName}\"?"
+    "messageformat": "„{groupName}” megszüntetése?"
   },
   "icu:ConversationDetailsActions--prompt-terminate-group-modal-content": {
-    "messageformat": "Members will no longer be able to send messages or start calls in the group. They will be notified that you ended the group, and will still have access to message history."
+    "messageformat": "A tagok a továbbiakban nem tudnak üzeneteket küldeni vagy hívásokat kezdeményezni a csoportban. Értesítést kapnak arról, hogy megszüntetted a csoportot, de továbbra is hozzáférhetnek az üzenetelőzményekhez."
   },
   "icu:ConversationDetailsActions--terminate-group-modal-confirm": {
-    "messageformat": "End group"
+    "messageformat": "Csoport megszüntetése"
   },
   "icu:ConversationDetailsActions--confirm-terminate-group-confirm-modal-content": {
-    "messageformat": "This will end the group permanently. Are you sure you want to proceed?"
+    "messageformat": "Ez véglegesen megszünteti a csoportot. Biztosan szeretnéd folytatni?"
   },
   "icu:ConversationDetailsActions--unblock-group-modal-title": {
     "messageformat": "Feloldod a(z) „{groupName}” csoport letiltását?"
@@ -4959,7 +4959,7 @@
     "messageformat": "{number, plural, one {{number,number} tag} other {{number,number} tag}}"
   },
   "icu:ConversationDetailsMembershipList--terminated-title": {
-    "messageformat": "{number, plural, one {{number,number} former member} other {{number,number} former members}}"
+    "messageformat": "{number, plural, one {{number,number} korábbi tag} other {{number,number} korábbi tag}}"
   },
   "icu:ConversationDetailsMembershipList--add-members": {
     "messageformat": "Tagok hozzáadása"
@@ -6320,31 +6320,31 @@
     "messageformat": "a biztonsági kulcsod megjelenítése"
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
-    "messageformat": "show your recovery key"
+    "messageformat": "helyreállítási kulcs megjelenítése"
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
     "messageformat": "A biztonsági kulcs megtekintéséhez igazold a személyazonosságodat."
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
-    "messageformat": "Verify your identity to view your recovery key."
+    "messageformat": "A helyreállítási kulcs megtekintéséhez igazold a személyazonosságodat."
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
     "messageformat": "Biztonsági kulcs megtekintése"
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
-    "messageformat": "View recovery key"
+    "messageformat": "Helyreállítási kulcs megtekintése"
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
     "messageformat": "A biztonsági kulcs megtekintéséhez hitelesítés szükséges."
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
-    "messageformat": "Authentication is required to view your recovery key."
+    "messageformat": "A helyreállítási kulcs megtekintéséhez hitelesítés szükséges."
   },
   "icu:Preferences--local-backups-backup-key-text-box": {
     "messageformat": "Biztonsági kulcs szövegmező"
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
-    "messageformat": "Recovery key"
+    "messageformat": "Helyreállítási kulcs"
   },
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "Kulcs megadása"
@@ -6353,7 +6353,7 @@
     "messageformat": "Jegyezd fel a biztonsági kulcsod"
   },
   "icu:Preferences--local-backups-record-recovery-key": {
-    "messageformat": "Record your recovery key"
+    "messageformat": "Jegyezd fel a helyreállítási kulcsodat"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "Ez a kulcs szükséges a fiók és az adatok helyreállításához. Tárold biztonságos helyen ezt a kulcsot. Ha elveszíted, nem tudod helyreállítani a fiókodat. <learnMoreLink>Tudj meg többet!</learnMoreLink>"
@@ -6362,13 +6362,13 @@
     "messageformat": "Erősítsd meg a biztonsági kulcsot"
   },
   "icu:Preferences--local-backups-confirm-recovery-key": {
-    "messageformat": "Confirm your recovery key"
+    "messageformat": "Erősítsd meg a helyreállítási kulcsodat"
   },
   "icu:Preferences--local-backups-confirm-backup-key-description": {
     "messageformat": "Írd be az imént rögzített biztonsági kulcsot"
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
-    "messageformat": "Enter the recovery key that you just recorded"
+    "messageformat": "Írd be az imént feljegyzett helyreállítási kulcsot"
   },
   "icu:Preferences__local-backups-confirm-key-modal-title": {
     "messageformat": "Tartsd biztonságban a kulcsod"
@@ -6416,7 +6416,7 @@
     "messageformat": "Biztonsági kulcs másolva"
   },
   "icu:Preferences__local-backups-copied-recovery-key": {
-    "messageformat": "Recovery key copied"
+    "messageformat": "Helyreállítási kulcs másolva"
   },
   "icu:Preferences__local-backups--enable--os-prompt--mac": {
     "messageformat": "Biztonsági mentések bekapcsolása"
@@ -6431,7 +6431,7 @@
     "messageformat": "A biztonsági mentések engedélyezéséhez hitelesítés szükséges."
   },
   "icu:Preferences__local-backups-auth-error--unauthorized": {
-    "messageformat": "This action could not be completed because system authentication failed. Please try again or open the Signal app on your mobile device and go to Backup Settings to view your recovery key."
+    "messageformat": "Ez a művelet nem hajtható végre, mert a rendszer hitelesítése sikertelen volt. Kérjük, próbáld újra, vagy nyisd meg a Signal alkalmazást a mobileszközödön, és a Biztonsági mentés beállításainál nézd meg a helyreállítási kulcsot."
   },
   "icu:Preferences__view-key": {
     "messageformat": "Kulcs megtekintése"
@@ -6440,25 +6440,25 @@
     "messageformat": "Biztonsági kulcs"
   },
   "icu:Preferences__recovery-key": {
-    "messageformat": "Recovery key"
+    "messageformat": "Helyreállítási kulcs"
   },
   "icu:Preferences__backup-key-description": {
     "messageformat": "A biztonsági mentési kulcs egy 64 jegyű kód, amely a biztonsági mentés visszaállításához szükséges."
   },
   "icu:Preferences__recovery-key-description": {
-    "messageformat": "Your recovery key is a 64-digit code used to restore your backup"
+    "messageformat": "A helyreállítási kulcs egy 64 karakteres kód, amely a biztonsági mentés visszaállításához használható."
   },
   "icu:Preferences__backup-other-ways": {
     "messageformat": "A biztonsági mentés egyéb módjai"
   },
   "icu:Preferences__recovery-key-updated__title": {
-    "messageformat": "Your recovery key has changed"
+    "messageformat": "A helyreállítási kulcsod módosult"
   },
   "icu:Preferences__recovery-key-updated__description": {
-    "messageformat": "Your recovery key has been updated. Any new backups you make can only be restored using your new recovery key."
+    "messageformat": "A helyreállítási kulcsod frissítésre került. Az új biztonsági mentéseket csak az új helyreállítási kulccsal lehet visszaállítani."
   },
   "icu:Preferences__recovery-key-updated__view-key": {
-    "messageformat": "View new key"
+    "messageformat": "Új kulcs megtekintése"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {{num,number} névjegy} other {{num,number} névjegy}}"
@@ -6812,7 +6812,7 @@
     "messageformat": "Kitörlöd ezt a Történetet? Az összes címzettnél törlésre kerül."
   },
   "icu:MyStories__delete-group-story-for-me": {
-    "messageformat": "Delete this story? It will only be deleted for you because the group has ended."
+    "messageformat": "Törlöd ezt a történetet? Csak azért törlődik számodra, mert a csoport megszűnt."
   },
   "icu:payment-event-notification-message-you-label": {
     "messageformat": "Kifizetést kezdeményeztél {receiver} számára"
@@ -8152,6 +8152,6 @@
     "messageformat": "Mostantól opcionálisan hozzáadhatsz egy tagsági címkét, amellyel leírhatod magadat vagy a szerepedet egy csoportos csevegésben. A tagsági címkék a profilneved mellett jelennek meg az adott csoportban, és a csoport adminisztrátorai szabályozhatják, hogy mindenki számára engedélyezve legyenek-e."
   },
   "icu:WhatsNew__8.6--0": {
-    "messageformat": "Now you won't need to scroll as far to catch up on the latest messages. If several new people join a busy group chat, or you receive multiple missed calls in a row, those repeated chat events can be automatically grouped together into a compact display. Sometimes less is more, but you can easily expand and collapse these lists at any time."
+    "messageformat": "Az ismétlődő csevegési események (például több nem fogadott hívás) automatikusan csoportosíthatók egy kompakt kijelzőn, így nem kell messzire görgetned a legújabb üzenetek megtekintéséhez."
   }
 }

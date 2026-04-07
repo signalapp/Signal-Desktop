@@ -2565,7 +2565,7 @@
     "messageformat": "{containerDescription} · {dayCountSummary}"
   },
   "icu:multidayCollapse__dayCountSummary": {
-    "messageformat": "{dayCount, plural, one {{dayCount,number} day} other {{dayCount,number} days}}"
+    "messageformat": "{dayCount, plural, one {{dayCount,number} दिन} other {{dayCount,number} दिन}}"
   },
   "icu:collapsedChatUpdates": {
     "messageformat": "{count, plural, one {{count,number} chat update} other {{count,number} chat updates}}"
@@ -3981,7 +3981,7 @@
     "messageformat": "Couldn't end the group. Check your connection and try again."
   },
   "icu:TerminateGroupFailedModal__try-again": {
-    "messageformat": "Try again"
+    "messageformat": "फिर से कोशिश करें"
   },
   "icu:GroupV2--admin": {
     "messageformat": "ऐडमिन"
@@ -4425,10 +4425,10 @@
     "messageformat": "इस समूह के सदस्य या सेटिंग बदल गए हैं।"
   },
   "icu:GroupV2--terminated--you": {
-    "messageformat": "You ended the group"
+    "messageformat": "आपने यह ग्रुप बंद कर दिया है"
   },
   "icu:GroupV2--terminated--other": {
-    "messageformat": "{memberName} ended the group"
+    "messageformat": "{memberName} ने यह ग्रुप बंद कर दिया है"
   },
   "icu:GroupV2--terminated--unknown": {
     "messageformat": "This group has ended"
@@ -4890,7 +4890,7 @@
     "messageformat": "ग्रुप छोड़ें"
   },
   "icu:ConversationDetailsActions--terminate-group": {
-    "messageformat": "End group"
+    "messageformat": "ग्रुप बंद करें"
   },
   "icu:ConversationDetailsActions--block-group": {
     "messageformat": "ग्रुप को ब्लॉक करें"
@@ -4899,13 +4899,13 @@
     "messageformat": "ग्रुप को अनब्लॉक करें"
   },
   "icu:ConversationDetailsActions--archive": {
-    "messageformat": "Archive chat"
+    "messageformat": "चैट को संग्रहीत करें"
   },
   "icu:ConversationDetailsActions--unarchive": {
-    "messageformat": "Unarchive chat"
+    "messageformat": "चैट को असंग्रहीत करें"
   },
   "icu:ConversationDetailsActions--delete": {
-    "messageformat": "Delete chat"
+    "messageformat": "चैट डिलीट करें"
   },
   "icu:ConversationDetailsActions--leave-group-must-choose-new-admin": {
     "messageformat": "ग्रुप छोड़ने से पहले, आपको इस ग्रुप के लिए कम से कम एक नया ऐडमिन चुनना होगा।"
@@ -4920,16 +4920,16 @@
     "messageformat": "छोड़ें"
   },
   "icu:ConversationDetailsActions--prompt-terminate-group-modal-title": {
-    "messageformat": "End \"{groupName}\"?"
+    "messageformat": "\"{groupName}\" ग्रुप बंद करना है?"
   },
   "icu:ConversationDetailsActions--prompt-terminate-group-modal-content": {
-    "messageformat": "Members will no longer be able to send messages or start calls in the group. They will be notified that you ended the group, and will still have access to message history."
+    "messageformat": "इसके बाद, मेंबर के पास इस ग्रुप में मैसेज भेजने या पाने की सुविधा मौजूद नहीं रहेगी। उन्हें यह नोटिफ़िकेशन मिल जाएगा कि आपने यह ग्रुप बंद कर दिया है। हालांकि, इसके बावजूद वे पुराने मैसेज देख पाएंगे।"
   },
   "icu:ConversationDetailsActions--terminate-group-modal-confirm": {
-    "messageformat": "End group"
+    "messageformat": "ग्रुप बंद करें"
   },
   "icu:ConversationDetailsActions--confirm-terminate-group-confirm-modal-content": {
-    "messageformat": "This will end the group permanently. Are you sure you want to proceed?"
+    "messageformat": "इससे यह ग्रुप हमेशा के लिए बंद हो जाएगा। क्या आपको अब भी इसे बंद करना है?"
   },
   "icu:ConversationDetailsActions--unblock-group-modal-title": {
     "messageformat": "\"{groupName}\" ग्रुप को अनब्लॉक करना है?"
@@ -4959,7 +4959,7 @@
     "messageformat": "{number, plural, one {{number,number} सदस्य} other {{number,number} सदस्य}}"
   },
   "icu:ConversationDetailsMembershipList--terminated-title": {
-    "messageformat": "{number, plural, one {{number,number} former member} other {{number,number} former members}}"
+    "messageformat": "{number, plural, one {{number,number} एक्स-मेंबर} other {{number,number} एक्स-मेंबर}}"
   },
   "icu:ConversationDetailsMembershipList--add-members": {
     "messageformat": "सदस्य जोड़ें"
@@ -6332,7 +6332,7 @@
     "messageformat": "बैकअप की देखें"
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
-    "messageformat": "View recovery key"
+    "messageformat": "'रिकवरी की' देखें"
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
     "messageformat": "अपनी 'बैकअप की' देखने के लिए ऑथेंटिकेशन की ज़रूरत है।"
@@ -6344,7 +6344,7 @@
     "messageformat": "बैकअप की टेक्स्ट बॉक्स"
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
-    "messageformat": "Recovery key"
+    "messageformat": "'रिकवरी की'"
   },
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "की दर्ज करें"
@@ -6353,7 +6353,7 @@
     "messageformat": "अपनी बैकअप की रिकॉर्ड करें"
   },
   "icu:Preferences--local-backups-record-recovery-key": {
-    "messageformat": "Record your recovery key"
+    "messageformat": "अपनी 'रिकवरी की' सहेजें"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "आपके अकाउंट और डेटा को रिकवर करने के लिए यह की ज़रूरी है। इस की को किसी सुरक्षित जगह पर स्टोर करें। अगर यह खो जाती है, तो आप अपना अकाउंट रिकवर नहीं कर पाएँगे। <learnMoreLink>अधिक जानें।</learnMoreLink>"
@@ -6362,13 +6362,13 @@
     "messageformat": "अपनी बैकअप की की पुष्टि करें"
   },
   "icu:Preferences--local-backups-confirm-recovery-key": {
-    "messageformat": "Confirm your recovery key"
+    "messageformat": "अपनी 'रिकवरी की' की पुष्टि करें"
   },
   "icu:Preferences--local-backups-confirm-backup-key-description": {
     "messageformat": "अभी अपनी रिकॉर्ड की गई बैकअप की दर्ज करें"
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
-    "messageformat": "Enter the recovery key that you just recorded"
+    "messageformat": "अभी आपने जो 'रिकवरी की' सहेजी है, उसे डालें"
   },
   "icu:Preferences__local-backups-confirm-key-modal-title": {
     "messageformat": "अपनी की सुरक्षित रखें"
@@ -6416,7 +6416,7 @@
     "messageformat": "बैकअप की कॉपी की गई"
   },
   "icu:Preferences__local-backups-copied-recovery-key": {
-    "messageformat": "Recovery key copied"
+    "messageformat": "'रिकवरी की' कॉपी की गई"
   },
   "icu:Preferences__local-backups--enable--os-prompt--mac": {
     "messageformat": "बैकअप चालू करने"
@@ -6440,13 +6440,13 @@
     "messageformat": "आपकी बैकअप की"
   },
   "icu:Preferences__recovery-key": {
-    "messageformat": "Recovery key"
+    "messageformat": "'रिकवरी की'"
   },
   "icu:Preferences__backup-key-description": {
     "messageformat": "आपकी बैकअप की 64 अंकों वाला एक कोड होती है, जो आपके बैकअप को रिकवर करने के लिए इस्तेमाल होती है"
   },
   "icu:Preferences__recovery-key-description": {
-    "messageformat": "Your recovery key is a 64-digit code used to restore your backup"
+    "messageformat": "Your recovery key is a 64-character code used to restore your backup"
   },
   "icu:Preferences__backup-other-ways": {
     "messageformat": "बैकअप करने के दूसरे तरीके"

@@ -2373,7 +2373,7 @@
     "messageformat": "Lárionad Tacaíochta"
   },
   "icu:ConversationDetails__GroupTerminatedBanner": {
-    "messageformat": "This group has ended"
+    "messageformat": "Tá deireadh curtha leis an ngrúpa seo"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "Féach ar an Uimhir Shábháilteachta"
@@ -2559,31 +2559,31 @@
     "messageformat": "{leadingIcon} {text} {trailingIcon}"
   },
   "icu:collapsedGroupUpdates": {
-    "messageformat": "{count, plural, one {{count,number} group update} other {{count,number} group updates}}"
+    "messageformat": "{count, plural, one {{count,number} nuashonrú grúpa} two {{count,number} nuashonrú grúpa} few {{count,number} nuashonrú grúpa} many {{count,number} nuashonrú grúpa} other {{count,number} nuashonrú grúpa}}"
   },
   "icu:multidayCollapse__container": {
     "messageformat": "{containerDescription} · {dayCountSummary}"
   },
   "icu:multidayCollapse__dayCountSummary": {
-    "messageformat": "{dayCount, plural, one {{dayCount,number} day} other {{dayCount,number} days}}"
+    "messageformat": "{dayCount, plural, one {{dayCount,number} lá} two {{dayCount,number} lá} few {{dayCount,number} lá} many {{dayCount,number} lá} other {{dayCount,number} lá}}"
   },
   "icu:collapsedChatUpdates": {
-    "messageformat": "{count, plural, one {{count,number} chat update} other {{count,number} chat updates}}"
+    "messageformat": "{count, plural, one {{count,number} nuashonrú comhrá} two {{count,number} nuashonrú comhrá} few {{count,number} nuashonrú comhrá} many {{count,number} nuashonrú comhrá} other {{count,number} nuashonrú comhrá}}"
   },
   "icu:collapsedTimerChanges": {
-    "messageformat": "{count, plural, one {{count,number} disappearing timer change · {endingState}} other {{count,number} disappearing message timer changes · {endingState}}}"
+    "messageformat": "{count, plural, one {{count,number} athrú ar amadóir na teachtaireachta sealadaí · {endingState}} two {{count,number} athrú ar amadóir na teachtaireachta sealadaí · {endingState}} few {{count,number} athrú ar amadóir na teachtaireachta sealadaí · {endingState}} many {{count,number} n-athrú ar amadóir na teachtaireachta sealadaí · {endingState}} other {{count,number} athrú ar amadóir na teachtaireachta sealadaí · {endingState}}}"
   },
   "icu:collapsedTimerChanges--disabled": {
-    "messageformat": "{count, plural, one {{count,number} disappearing timer change · Disabled} other {{count,number} disappearing message timer changes · Disabled}}"
+    "messageformat": "{count, plural, one {{count,number} athrú ar amadóir na teachtaireachta sealadaí · Díchumasaithe} two {{count,number} athrú ar amadóir na teachtaireachta sealadaí · Díchumasaithe} few {{count,number} athrú ar amadóir na teachtaireachta sealadaí · Díchumasaithe} many {{count,number} n-athrú ar amadóir na teachtaireachta sealadaí · Díchumasaithe} other {{count,number} athrú ar amadóir na teachtaireachta sealadaí · Díchumasaithe}}"
   },
   "icu:collapsedCallEvents": {
-    "messageformat": "{count, plural, one {{count,number} call event} other {{count,number} call events}}"
+    "messageformat": "{count, plural, one {{count,number} imeacht glao} two {{count,number} imeacht glao} few {{count,number} imeacht glao} many {{count,number} n-imeacht glao} other {{count,number} imeacht glao}}"
   },
   "icu:collapsedItems--collapsed": {
-    "messageformat": "Set of items is collapsed - click to expand"
+    "messageformat": "Tá an tacar míreanna leacaithe – cliceáil lena fhairsing"
   },
   "icu:collapsedItems--expanded": {
-    "messageformat": "Set of items is expanded - click to collapse"
+    "messageformat": "Tá an tacar míreanna fairsingithe – cliceáil lena leacú"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "Nuashonraíodh abhatár an ghrúpa."
@@ -3966,7 +3966,7 @@
     "messageformat": "Your request to join has been sent to the group admin. You’ll be notified when they take action."
   },
   "icu:GroupV2--join--group-terminated": {
-    "messageformat": "Unable to join this group."
+    "messageformat": "Ní féidir dul isteach sa ghrúpa seo."
   },
   "icu:GroupV2--join--general-join-failure--title": {
     "messageformat": "Earráid leis an Nasc"
@@ -3975,13 +3975,13 @@
     "messageformat": "Níorbh fhéidir dul isteach sa ghrúpa. Triail arís ar ball."
   },
   "icu:GroupV2--terminate-group-in-progress": {
-    "messageformat": "Ending group..."
+    "messageformat": "Deireadh á chur leis an ngrúpa…"
   },
   "icu:TerminateGroupFailedModal__description": {
-    "messageformat": "Couldn't end the group. Check your connection and try again."
+    "messageformat": "Níorbh fhéidir deireadh a chur leis an ngrúpa. Seiceáil do nasc agus triail arís."
   },
   "icu:TerminateGroupFailedModal__try-again": {
-    "messageformat": "Try again"
+    "messageformat": "Triail arís"
   },
   "icu:GroupV2--admin": {
     "messageformat": "Riarthóir"
@@ -4425,13 +4425,13 @@
     "messageformat": "Tá baill nó socruithe an ghrúpa seo athraithe."
   },
   "icu:GroupV2--terminated--you": {
-    "messageformat": "You ended the group"
+    "messageformat": "Chuir tusa deireadh leis an ngrúpa"
   },
   "icu:GroupV2--terminated--other": {
-    "messageformat": "{memberName} ended the group"
+    "messageformat": "Chuir {memberName} deireadh leis an ngrúpa"
   },
   "icu:GroupV2--terminated--unknown": {
-    "messageformat": "This group has ended"
+    "messageformat": "Tá deireadh curtha leis an ngrúpa seo"
   },
   "icu:GroupV1--Migration--disabled--link": {
     "messageformat": "Uasghrádaigh an grúpa seo chun gnéithe nua amhail @tráchtanna agus riarthóirí a ghníomhachtú. Baill nár chomhroinn a n-ainm nó a ngrianghraf sa ghrúpa seo, tabharfar cuireadh dóibh déanamh amhlaidh. <learnMoreLink>Tuilleadh faisnéise.</learnMoreLink>"
@@ -4710,7 +4710,7 @@
     "messageformat": "Ionadaigh"
   },
   "icu:CompositionArea--group-terminated": {
-    "messageformat": "You can't send messages because the group has ended."
+    "messageformat": "Ní féidir leat teachtaireachtaí a sheoladh toisc go bhfuil deireadh curtha leis an ngrúpa."
   },
   "icu:CompositionArea--viewOnceToggle": {
     "messageformat": "Amharc aonuaire"
@@ -4890,7 +4890,7 @@
     "messageformat": "Fág an bhaicle"
   },
   "icu:ConversationDetailsActions--terminate-group": {
-    "messageformat": "End group"
+    "messageformat": "Cuir deireadh leis an ngrúpa"
   },
   "icu:ConversationDetailsActions--block-group": {
     "messageformat": "Cuir bac ar an ngrúpa"
@@ -4899,13 +4899,13 @@
     "messageformat": "Bain an bac den ghrúpa"
   },
   "icu:ConversationDetailsActions--archive": {
-    "messageformat": "Archive chat"
+    "messageformat": "Cuir comhrá sa chartlann"
   },
   "icu:ConversationDetailsActions--unarchive": {
-    "messageformat": "Unarchive chat"
+    "messageformat": "Bain comhrá den chartlann"
   },
   "icu:ConversationDetailsActions--delete": {
-    "messageformat": "Delete chat"
+    "messageformat": "Scrios comhrá"
   },
   "icu:ConversationDetailsActions--leave-group-must-choose-new-admin": {
     "messageformat": "Sula n-imíonn tú as, ní mór duit riarthóir amháin ar a laghad a roghnú don ghrúpa seo."
@@ -4920,16 +4920,16 @@
     "messageformat": "Fág"
   },
   "icu:ConversationDetailsActions--prompt-terminate-group-modal-title": {
-    "messageformat": "End \"{groupName}\"?"
+    "messageformat": "Cuir deireadh le \"{groupName}\"?"
   },
   "icu:ConversationDetailsActions--prompt-terminate-group-modal-content": {
-    "messageformat": "Members will no longer be able to send messages or start calls in the group. They will be notified that you ended the group, and will still have access to message history."
+    "messageformat": "Ní bheidh na baill in ann teachtaireachtaí a sheoladh ná glaonna a thosú sa ghrúpa a thuilleadh. Cuirfear in iúl dóibh gur chuir tú deireadh leis an ngrúpa, agus beidh rochtain acu fós ar stair na dteachtaireachtaí."
   },
   "icu:ConversationDetailsActions--terminate-group-modal-confirm": {
-    "messageformat": "End group"
+    "messageformat": "Cuir deireadh leis an ngrúpa"
   },
   "icu:ConversationDetailsActions--confirm-terminate-group-confirm-modal-content": {
-    "messageformat": "This will end the group permanently. Are you sure you want to proceed?"
+    "messageformat": "Cuirfear deireadh leis an ngrúpa go buan leis seo. An bhfuil tú cinnte gur mian leat leanúint leis?"
   },
   "icu:ConversationDetailsActions--unblock-group-modal-title": {
     "messageformat": "Bain an bac den ghrúpa \"{groupName}\"?"
@@ -4959,7 +4959,7 @@
     "messageformat": "{number, plural, one {{number,number} bhall} two {{number,number} bhall} few {{number,number} bhall} many {{number,number} mball} other {{number,number} ball}}"
   },
   "icu:ConversationDetailsMembershipList--terminated-title": {
-    "messageformat": "{number, plural, one {{number,number} former member} other {{number,number} former members}}"
+    "messageformat": "{number, plural, one {{number,number} iarbhall} two {{number,number} iarbhall} few {{number,number} iarbhall} many {{number,number} n-iarbhall} other {{number,number} iarbhall}}"
   },
   "icu:ConversationDetailsMembershipList--add-members": {
     "messageformat": "Cuir baill leis"
@@ -6320,31 +6320,31 @@
     "messageformat": "d'eochair chúltaca a thaispeáint"
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
-    "messageformat": "show your recovery key"
+    "messageformat": "d'eochair athshlánaithe a thaispeáint"
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
     "messageformat": "Fíoraigh do chéannacht le féachaint ar d'eochair chúltaca."
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
-    "messageformat": "Verify your identity to view your recovery key."
+    "messageformat": "Fíoraigh do chéannacht le féachaint ar d'eochair athshlánaithe."
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
     "messageformat": "Féach ar an eochair chúltaca"
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
-    "messageformat": "View recovery key"
+    "messageformat": "Féach ar an eochair athshlánaithe"
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
     "messageformat": "Éilítear fíordheimhniú le féachaint ar d'eochair chúltaca."
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
-    "messageformat": "Authentication is required to view your recovery key."
+    "messageformat": "Éilítear fíordheimhniú le féachaint ar d'eochair athshlánaithe."
   },
   "icu:Preferences--local-backups-backup-key-text-box": {
     "messageformat": "Bosca téacs don eochair chúltaca"
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
-    "messageformat": "Recovery key"
+    "messageformat": "Eochair athshlánaithe"
   },
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "Cuir isteach an eochair"
@@ -6353,7 +6353,7 @@
     "messageformat": "Taifead d'eochair chúltaca"
   },
   "icu:Preferences--local-backups-record-recovery-key": {
-    "messageformat": "Record your recovery key"
+    "messageformat": "Taifead d'eochair athshlánaithe"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "Tá an eochair seo ag teastáil chun do chuntas agus do shonraí a athshlánú. Stóráil an eochair in áit shábháilte. Má chailleann tú í, ní bheidh tú in ann do chuntas a athshlánú. <learnMoreLink>Tuilleadh faisnéise.</learnMoreLink>"
@@ -6362,13 +6362,13 @@
     "messageformat": "Deimhnigh d'eochair chúltaca"
   },
   "icu:Preferences--local-backups-confirm-recovery-key": {
-    "messageformat": "Confirm your recovery key"
+    "messageformat": "Deimhnigh d'eochair athshlánaithe"
   },
   "icu:Preferences--local-backups-confirm-backup-key-description": {
     "messageformat": "Cuir isteach an eochair chúltaca atá taifeadta agat díreach anois"
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
-    "messageformat": "Enter the recovery key that you just recorded"
+    "messageformat": "Cuir isteach an eochair athshlánaithe atá taifeadta agat díreach anois"
   },
   "icu:Preferences__local-backups-confirm-key-modal-title": {
     "messageformat": "Coinnigh d'eochair sábháilte"
@@ -6416,7 +6416,7 @@
     "messageformat": "Eochair chúltaca cóipeáilte"
   },
   "icu:Preferences__local-backups-copied-recovery-key": {
-    "messageformat": "Recovery key copied"
+    "messageformat": "Eochair athshlánaithe cóipeáilte"
   },
   "icu:Preferences__local-backups--enable--os-prompt--mac": {
     "messageformat": "cúltacaithe a chumasú"
@@ -6431,7 +6431,7 @@
     "messageformat": "Éilítear fíordheimhniú le cúltacaí a chumasú."
   },
   "icu:Preferences__local-backups-auth-error--unauthorized": {
-    "messageformat": "This action could not be completed because system authentication failed. Please try again or open the Signal app on your mobile device and go to Backup Settings to view your recovery key."
+    "messageformat": "Níorbh fhéidir an gníomh sin a chur i gcrích toisc gur theip ar fhíordheimhniú an chórais. Triail arís é nó oscail an aip Signal ar do ghléas móibíleach agus téigh chuig Socruithe Cúltacaí le féachaint ar d'eochair athshlánaithe."
   },
   "icu:Preferences__view-key": {
     "messageformat": "Féach ar an eochair"
@@ -6440,25 +6440,25 @@
     "messageformat": "Eochair chúltaca"
   },
   "icu:Preferences__recovery-key": {
-    "messageformat": "Recovery key"
+    "messageformat": "Eochair athshlánaithe"
   },
   "icu:Preferences__backup-key-description": {
     "messageformat": "Cód 64 digit is ea d'eochair chúltaca a úsáidtear chun do chúltaca a aischur"
   },
   "icu:Preferences__recovery-key-description": {
-    "messageformat": "Your recovery key is a 64-digit code used to restore your backup"
+    "messageformat": "Cód 64 digit is ea d'eochair athshlánaithe a úsáidtear chun do chúltaca a aischur"
   },
   "icu:Preferences__backup-other-ways": {
     "messageformat": "Bealaí eile chun cúltacú"
   },
   "icu:Preferences__recovery-key-updated__title": {
-    "messageformat": "Your recovery key has changed"
+    "messageformat": "Athraíodh d'eochair athshlánaithe"
   },
   "icu:Preferences__recovery-key-updated__description": {
-    "messageformat": "Your recovery key has been updated. Any new backups you make can only be restored using your new recovery key."
+    "messageformat": "Nuashonraíodh d'eochair athshlánaithe. Aon chúltacaí a dhéanfaidh tú, beidh d'eochair athshlánaithe nua ag teastáil chun iad a aischur."
   },
   "icu:Preferences__recovery-key-updated__view-key": {
-    "messageformat": "View new key"
+    "messageformat": "Féach ar an eochair nua"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {1 teagmhálaí} two {{num,number} theagmhálaí} few {{num,number} theagmhálaí} many {{num,number} dteagmhálaí} other {{num,number} teagmhálaí}}"
@@ -6812,7 +6812,7 @@
     "messageformat": "Scrios an scéal seo? Scriosfar do gach duine a fuair é freisin."
   },
   "icu:MyStories__delete-group-story-for-me": {
-    "messageformat": "Delete this story? It will only be deleted for you because the group has ended."
+    "messageformat": "Scrios an scéal seo? Ní scriosfar ach duitse é toisc go bhfuil deireadh curtha leis an ngrúpa."
   },
   "icu:payment-event-notification-message-you-label": {
     "messageformat": "Chuir tú tús le híocaíocht chuig {receiver}"
@@ -8152,6 +8152,6 @@
     "messageformat": "Anois tá rogha agat lipéad do bhall a chur leis le cur síos a dhéanamh ort féin nó ar do ról i ngrúpchomhrá.Socraigh do lipéad do bhall grúpa ag “Réiteoir” nó “Cúlaí” i do chomhrá áitiúil sacair mar chabhairt chun tús a chur leis nuair a thagann baill foirne nua isteach, ansin roghnaigh lipéad eile le do jabtheideal i gcomhrá na cuideachta. Taispeántar lipéid do bhaill taobh le d'ainm próifíle sa ghrúpa sin, agus is faoi riarthóirí an ghrúpa atá sé a rialú cibé an gcumasófar iad do chách."
   },
   "icu:WhatsNew__8.6--0": {
-    "messageformat": "Now you won't need to scroll as far to catch up on the latest messages. If several new people join a busy group chat, or you receive multiple missed calls in a row, those repeated chat events can be automatically grouped together into a compact display. Sometimes less is more, but you can easily expand and collapse these lists at any time."
+    "messageformat": "Is féidir imeachtaí comhráite a tharlaíonn go min minic (amhail go leor glaonna caillte) a ghrúpáil le chéile go huathoibríoch mar dhlúth-thaispeáint ionas nach mbeidh ort scrollú chomh fada leis na teachtaireachtaí is déanaí a fháil."
   }
 }

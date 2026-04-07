@@ -2373,7 +2373,7 @@
     "messageformat": "Kasutajatugi"
   },
   "icu:ConversationDetails__GroupTerminatedBanner": {
-    "messageformat": "This group has ended"
+    "messageformat": "See grupp on lõpetatud"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "Näita turvanumbrit"
@@ -2559,31 +2559,31 @@
     "messageformat": "{leadingIcon} {text} {trailingIcon}"
   },
   "icu:collapsedGroupUpdates": {
-    "messageformat": "{count, plural, one {{count,number} group update} other {{count,number} group updates}}"
+    "messageformat": "{count, plural, one {{count,number} grupi uuendus} other {{count,number} grupi uuendust}}"
   },
   "icu:multidayCollapse__container": {
     "messageformat": "{containerDescription} · {dayCountSummary}"
   },
   "icu:multidayCollapse__dayCountSummary": {
-    "messageformat": "{dayCount, plural, one {{dayCount,number} day} other {{dayCount,number} days}}"
+    "messageformat": "{dayCount, plural, one {{dayCount,number} päev} other {{dayCount,number} päeva}}"
   },
   "icu:collapsedChatUpdates": {
-    "messageformat": "{count, plural, one {{count,number} chat update} other {{count,number} chat updates}}"
+    "messageformat": "{count, plural, one {{count,number} vestluse uuendus} other {{count,number} vestluse uuendust}}"
   },
   "icu:collapsedTimerChanges": {
-    "messageformat": "{count, plural, one {{count,number} disappearing timer change · {endingState}} other {{count,number} disappearing message timer changes · {endingState}}}"
+    "messageformat": "{count, plural, one {{count,number} kaduva sõnumi taimeri muudatus · {endingState}} other {{count,number} kaduva sõnumi taimeri muudatust · {endingState}}}"
   },
   "icu:collapsedTimerChanges--disabled": {
-    "messageformat": "{count, plural, one {{count,number} disappearing timer change · Disabled} other {{count,number} disappearing message timer changes · Disabled}}"
+    "messageformat": "{count, plural, one {{count,number} kaduva sõnumi taimeri muudatus · Välja lülitatud} other {{count,number} kaduva sõnumi taimeri muudatust · Välja lülitatud}}"
   },
   "icu:collapsedCallEvents": {
-    "messageformat": "{count, plural, one {{count,number} call event} other {{count,number} call events}}"
+    "messageformat": "{count, plural, one {{count,number} kõne sündmus} other {{count,number} kõne sündmust}}"
   },
   "icu:collapsedItems--collapsed": {
-    "messageformat": "Set of items is collapsed - click to expand"
+    "messageformat": "Üksused on minimeeritud - klõpsa laiendamiseks"
   },
   "icu:collapsedItems--expanded": {
-    "messageformat": "Set of items is expanded - click to collapse"
+    "messageformat": "Üksused on laiendatud - klõpsa minimeerimiseks"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "Grupi pilti muudeti."
@@ -3966,7 +3966,7 @@
     "messageformat": "Sinu taotlus grupiga liituda on grupi administraatoritele saadetud. Sulle antakse teada, kui nad vastavad."
   },
   "icu:GroupV2--join--group-terminated": {
-    "messageformat": "Unable to join this group."
+    "messageformat": "Selle grupiga ei saa liituda."
   },
   "icu:GroupV2--join--general-join-failure--title": {
     "messageformat": "Lingi tõrge"
@@ -3975,13 +3975,13 @@
     "messageformat": "Grupiga liitumine ei õnnestunud. Proovi hiljem uuesti."
   },
   "icu:GroupV2--terminate-group-in-progress": {
-    "messageformat": "Ending group..."
+    "messageformat": "Grupi lõpetamine …"
   },
   "icu:TerminateGroupFailedModal__description": {
-    "messageformat": "Couldn't end the group. Check your connection and try again."
+    "messageformat": "Gruppi ei saanud lõpetada. Kontrolli oma ühendust ja proovi uuesti."
   },
   "icu:TerminateGroupFailedModal__try-again": {
-    "messageformat": "Try again"
+    "messageformat": "Proovi uuesti"
   },
   "icu:GroupV2--admin": {
     "messageformat": "Administraator"
@@ -4425,13 +4425,13 @@
     "messageformat": "Selle grupi liikmed või sätted on muutunud."
   },
   "icu:GroupV2--terminated--you": {
-    "messageformat": "You ended the group"
+    "messageformat": "Sa lõpetasid grupi"
   },
   "icu:GroupV2--terminated--other": {
-    "messageformat": "{memberName} ended the group"
+    "messageformat": "{memberName} lõpetas grupi"
   },
   "icu:GroupV2--terminated--unknown": {
-    "messageformat": "This group has ended"
+    "messageformat": "See grupp on lõpetatud"
   },
   "icu:GroupV1--Migration--disabled--link": {
     "messageformat": "Uuenda seda gruppi, et aktiveerida uued funktsioonid nagu @mainimised ja administraatorid. Kasutajad, kes ei ole selle grupiga oma nime ja fotot jaganud, kutsutakse liituma. <learnMoreLink>Rohkem teavet.</learnMoreLink>"
@@ -4710,7 +4710,7 @@
     "messageformat": "Asenda"
   },
   "icu:CompositionArea--group-terminated": {
-    "messageformat": "You can't send messages because the group has ended."
+    "messageformat": "Sa ei saa sõnumeid saata, sest grupp on lõpetatud."
   },
   "icu:CompositionArea--viewOnceToggle": {
     "messageformat": "Ühekordne vaatamine"
@@ -4890,7 +4890,7 @@
     "messageformat": "Lahku grupist"
   },
   "icu:ConversationDetailsActions--terminate-group": {
-    "messageformat": "End group"
+    "messageformat": "Lõpeta grupp"
   },
   "icu:ConversationDetailsActions--block-group": {
     "messageformat": "Blokeeri grupp"
@@ -4899,13 +4899,13 @@
     "messageformat": "Eemalda grupi blokeering"
   },
   "icu:ConversationDetailsActions--archive": {
-    "messageformat": "Archive chat"
+    "messageformat": "Arhiveeri vestlus"
   },
   "icu:ConversationDetailsActions--unarchive": {
-    "messageformat": "Unarchive chat"
+    "messageformat": "Eemalda vestlus arhiivist"
   },
   "icu:ConversationDetailsActions--delete": {
-    "messageformat": "Delete chat"
+    "messageformat": "Kustuta vestlus"
   },
   "icu:ConversationDetailsActions--leave-group-must-choose-new-admin": {
     "messageformat": "Enne lahkumist pead valima sellele grupile vähemalt ühe uue administraatori."
@@ -4920,16 +4920,16 @@
     "messageformat": "Lahku"
   },
   "icu:ConversationDetailsActions--prompt-terminate-group-modal-title": {
-    "messageformat": "End \"{groupName}\"?"
+    "messageformat": "Kas lõpetada „{groupName}“?"
   },
   "icu:ConversationDetailsActions--prompt-terminate-group-modal-content": {
-    "messageformat": "Members will no longer be able to send messages or start calls in the group. They will be notified that you ended the group, and will still have access to message history."
+    "messageformat": "Liikmetel pole enam võimalik sõnumeid saata ega grupis kõnesid alustada. Neid teavitatakse sellest, et sa lõpetasid grupi ning et sul on endiselt ligipääs sõnumiajaloole."
   },
   "icu:ConversationDetailsActions--terminate-group-modal-confirm": {
-    "messageformat": "End group"
+    "messageformat": "Lõpeta grupp"
   },
   "icu:ConversationDetailsActions--confirm-terminate-group-confirm-modal-content": {
-    "messageformat": "This will end the group permanently. Are you sure you want to proceed?"
+    "messageformat": "See lõpetab grupi lõplikult. Kas oled kindel, et soovid jätkata?"
   },
   "icu:ConversationDetailsActions--unblock-group-modal-title": {
     "messageformat": "Kas eemaldada blokeering grupilt {groupName}?"
@@ -4959,7 +4959,7 @@
     "messageformat": "{number, plural, one {{number,number} liige} other {{number,number} liiget}}"
   },
   "icu:ConversationDetailsMembershipList--terminated-title": {
-    "messageformat": "{number, plural, one {{number,number} former member} other {{number,number} former members}}"
+    "messageformat": "{number, plural, one {{number,number} endine liige} other {{number,number} endist liiget}}"
   },
   "icu:ConversationDetailsMembershipList--add-members": {
     "messageformat": "Lisa liikmed"
@@ -6320,31 +6320,31 @@
     "messageformat": "näidata sinu varukoopia võtit"
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
-    "messageformat": "show your recovery key"
+    "messageformat": "sinu varukoopia võtit"
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
     "messageformat": "Oma varukoopia võtme vaatamiseks kinnita oma isik."
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
-    "messageformat": "Verify your identity to view your recovery key."
+    "messageformat": "Oma varukoopia võtme vaatamiseks kinnita oma isik."
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
     "messageformat": "Vaata varukoopia võtit"
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
-    "messageformat": "View recovery key"
+    "messageformat": "Vaata varukoopia võtit"
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
     "messageformat": "Oma varukoopia võtme vaatamiseks on vajalik autentimine."
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
-    "messageformat": "Authentication is required to view your recovery key."
+    "messageformat": "Oma varukoopia võtme vaatamiseks on vajalik autentimine."
   },
   "icu:Preferences--local-backups-backup-key-text-box": {
     "messageformat": "Varukoopia võtme tekstiväli"
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
-    "messageformat": "Recovery key"
+    "messageformat": "Varukoopia võti"
   },
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "Sisesta võti"
@@ -6353,7 +6353,7 @@
     "messageformat": "Pane oma varukoopia võti kirja"
   },
   "icu:Preferences--local-backups-record-recovery-key": {
-    "messageformat": "Record your recovery key"
+    "messageformat": "Pane oma varukoopia võti kirja"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "Seda võtit on vaja sinu andmete ja konto taastamiseks. Hoia seda turvalises kohas. Kui selle kaotad, ei ole sul võimalik oma kontot taastada. <learnMoreLink>Rohkem teavet.</learnMoreLink>"
@@ -6362,13 +6362,13 @@
     "messageformat": "Kinnita oma varukoopia võti"
   },
   "icu:Preferences--local-backups-confirm-recovery-key": {
-    "messageformat": "Confirm your recovery key"
+    "messageformat": "Kinnita oma varukoopia võti"
   },
   "icu:Preferences--local-backups-confirm-backup-key-description": {
     "messageformat": "Sisesta just salvestatud varukoopia võti"
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
-    "messageformat": "Enter the recovery key that you just recorded"
+    "messageformat": "Sisesta just kirja pandud varukoopia võti"
   },
   "icu:Preferences__local-backups-confirm-key-modal-title": {
     "messageformat": "Hoia oma võtit turvaliselt"
@@ -6416,7 +6416,7 @@
     "messageformat": "Varukoopia võti kopeeritud"
   },
   "icu:Preferences__local-backups-copied-recovery-key": {
-    "messageformat": "Recovery key copied"
+    "messageformat": "Varukoopia võti on kopeeritud"
   },
   "icu:Preferences__local-backups--enable--os-prompt--mac": {
     "messageformat": "Luba varundamine"
@@ -6431,7 +6431,7 @@
     "messageformat": "Varundamise võimaldamiseks on vajalik autentimine."
   },
   "icu:Preferences__local-backups-auth-error--unauthorized": {
-    "messageformat": "This action could not be completed because system authentication failed. Please try again or open the Signal app on your mobile device and go to Backup Settings to view your recovery key."
+    "messageformat": "Seda tegevust ei saanud lõpule viia, sest süsteemi autentimine ebaõnnestus. Palun proovi uuesti või ava Signali äpp oma mobiiliseadmes ja mine varukoopia sätete alla, et oma varukoopia võtit vaadata."
   },
   "icu:Preferences__view-key": {
     "messageformat": "Vaata võtit"
@@ -6440,25 +6440,25 @@
     "messageformat": "Varukoopia võti"
   },
   "icu:Preferences__recovery-key": {
-    "messageformat": "Recovery key"
+    "messageformat": "Varukoopia võti"
   },
   "icu:Preferences__backup-key-description": {
     "messageformat": "Sinu varukoopia võti on 64-kohaline kood, mida kasutatakse su varukoopia taastamiseks"
   },
   "icu:Preferences__recovery-key-description": {
-    "messageformat": "Your recovery key is a 64-digit code used to restore your backup"
+    "messageformat": "Sinu varukoopia võti on 64-kohaline kood, mida on vaja varukoopia taastamiseks"
   },
   "icu:Preferences__backup-other-ways": {
     "messageformat": "Muud viisid varundamiseks"
   },
   "icu:Preferences__recovery-key-updated__title": {
-    "messageformat": "Your recovery key has changed"
+    "messageformat": "Sinu varukoopia võti on muutunud"
   },
   "icu:Preferences__recovery-key-updated__description": {
-    "messageformat": "Your recovery key has been updated. Any new backups you make can only be restored using your new recovery key."
+    "messageformat": "Sinu varukoopia võtit on uuendatud. Kõigi uute loodavate varukoopiate taastamiseks on vaja uut varukoopia võtit."
   },
   "icu:Preferences__recovery-key-updated__view-key": {
-    "messageformat": "View new key"
+    "messageformat": "Vaata uut võtit"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {{num,number} kontakt} other {{num,number} kontakti}}"
@@ -6812,7 +6812,7 @@
     "messageformat": "Kas kustutada see lugu? See kustutatakse ka kõigi jaoks, kellele see saadeti."
   },
   "icu:MyStories__delete-group-story-for-me": {
-    "messageformat": "Delete this story? It will only be deleted for you because the group has ended."
+    "messageformat": "Kas kustutada see lugu? See kustutatakse vaid sinu jaoks, sest grupp on lõpetatud."
   },
   "icu:payment-event-notification-message-you-label": {
     "messageformat": "Alustasid makset saajale {receiver}"
@@ -8152,6 +8152,6 @@
     "messageformat": "Nüüd on sul võimalus lisada liikme silt, et kirjeldada ennast või oma rolli selles grupivestluses. Liikme silte kuvatakse grupis sinu profiilinime kõrval ning grupi administraatorid otsustavad, kas igaüks saab neid lisada või mitte."
   },
   "icu:WhatsNew__8.6--0": {
-    "messageformat": "Now you won't need to scroll as far to catch up on the latest messages. If several new people join a busy group chat, or you receive multiple missed calls in a row, those repeated chat events can be automatically grouped together into a compact display. Sometimes less is more, but you can easily expand and collapse these lists at any time."
+    "messageformat": "Korduvaid sündmusi (nagu mitu vastamata kõnet) saab automaatselt grupeerida, et sa ei peaks uusimate sõnumite nägemiseks liiga palju kerima."
   }
 }
