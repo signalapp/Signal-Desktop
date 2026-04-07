@@ -171,7 +171,7 @@ export const Input = forwardRef<
   const handlePaste = useCallback(
     (event: ClipboardEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       const inputEl = innerRef.current;
-      if (!inputEl || !maxLengthCount || !maxByteCount) {
+      if (!inputEl || (!maxLengthCount && !maxByteCount)) {
         return;
       }
 
@@ -193,13 +193,17 @@ export const Input = forwardRef<
         pastedBytes +
         countBytes(textAfterSelection);
 
-      const lengthDelta = newLengthCount - maxLengthCount;
-      const byteDelta = newByteCount - maxByteCount;
+      const lengthDelta =
+        maxLengthCount > 0 ? newLengthCount - maxLengthCount : 0;
+      const byteDelta = maxByteCount > 0 ? newByteCount - maxByteCount : 0;
+
       if (lengthDelta > 0 || byteDelta > 0) {
         event.preventDefault();
 
-        const newPastedLength = pastedLength - lengthDelta;
-        const newPastedBytes = pastedBytes - byteDelta;
+        const newPastedLength =
+          lengthDelta > 0 ? pastedLength - lengthDelta : pastedLength;
+        const newPastedBytes =
+          byteDelta > 0 ? pastedBytes - byteDelta : pastedBytes;
 
         const truncatedPaste = truncateString(pastedText, {
           byteLimit: newPastedBytes,
