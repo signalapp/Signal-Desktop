@@ -275,7 +275,6 @@ const STD_PACKAGES = new Set([
   'tinykeys',
   'type-fest',
   'url',
-  'urlpattern-polyfill',
   'uuid',
   'zod',
 ]);
