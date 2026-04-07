@@ -1484,7 +1484,11 @@ export class BackupsService {
         return;
       }
 
-      await rm(backupsBaseDir, { force: true, recursive: true });
+      await rm(backupsBaseDir, {
+        force: true,
+        recursive: true,
+        maxRetries: 10,
+      });
       log.info('disableLocalBackups: deleted backups directory');
     }
   }
