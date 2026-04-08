@@ -146,8 +146,8 @@ importers:
         specifier: 3.0.0
         version: 3.0.0(prettier@3.8.1)
       '@indutny/protopiler':
-        specifier: 3.2.4
-        version: 3.2.4
+        specifier: 4.0.0
+        version: 4.0.0
       '@indutny/range-finder':
         specifier: 1.3.4
         version: 1.3.4
@@ -1694,10 +1694,6 @@ packages:
     hasBin: true
     peerDependencies:
       prettier: ^3.0.0
-
-  '@indutny/protopiler@3.2.4':
-    resolution: {integrity: sha512-uBz01wZxVz8+9DeGKN0QPvViDPq0Agcs5pAF8CkivULFP/sFGWpWaC9nPWIuVC9y44RrPQS+xpp1pFYlnX7BVg==}
-    hasBin: true
 
   '@indutny/protopiler@4.0.0':
     resolution: {integrity: sha512-QGVXaIBNXb0QwGHeWsbIdhwph72hYpYeE2M753Y91LGUTvBumFUMDEGBT8HQk1y4c2l80nvFAMGFFCWCCtk5gw==}
@@ -11426,8 +11422,6 @@ snapshots:
       ora: 5.4.1
       prettier: 3.8.1
       rxjs: 6.6.7
-
-  '@indutny/protopiler@3.2.4': {}
 
   '@indutny/protopiler@4.0.0': {}
 

@@ -21,6 +21,9 @@ describe.concurrent('provisioning', () => {
     const encrypted = await them.encryptMessage(message, us.publicKey);
     const decrypted = await us.decryptMessage(encrypted);
 
-    assert.deepStrictEqual(decrypted, message);
+    assert.deepStrictEqual(decrypted, {
+      $unknown: [],
+      ...message,
+    });
   });
 });

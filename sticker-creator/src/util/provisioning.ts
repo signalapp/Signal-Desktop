@@ -8,11 +8,7 @@ import {
 } from '@stablelib/x25519';
 
 import { deriveKeys, decryptAttachment, encryptAttachment } from './crypto';
-import {
-  ProvisioningEnvelope,
-  ProvisioningMessage,
-  type IProvisioningMessage,
-} from './protos';
+import { ProvisioningEnvelope, ProvisioningMessage } from './protos';
 
 const encoder = new TextEncoder();
 
@@ -66,7 +62,7 @@ export class Provisioning {
 
   public async decryptMessage(
     envelopeData: Uint8Array
-  ): Promise<IProvisioningMessage> {
+  ): Promise<ProvisioningMessage> {
     const envelope = ProvisioningEnvelope.decode(envelopeData);
     if (!envelope.publicKey) {
       throw new Error('Missing publicKey');
@@ -86,18 +82,18 @@ export class Provisioning {
   }
 
   public async encryptMessage(
-    message: IProvisioningMessage,
+    message: ProvisioningMessage.Params,
     theirKey: Uint8Array
   ): Promise<Uint8Array> {
     const secret = computeSharedKey(this.privateKey, unprefixKey(theirKey));
     const keys = await deriveKeys({ info: PROVISIONING_INFO, secret });
 
-    const plaintext = ProvisioningMessage.encode(message).finish();
+    const plaintext = ProvisioningMessage.encode(message);
     const ciphertext = await encryptAttachment(plaintext, keys);
 
     return ProvisioningEnvelope.encode({
       publicKey: this.publicKey,
       ciphertext,
-    }).finish();
+    });
   }
 }
