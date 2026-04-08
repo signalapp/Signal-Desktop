@@ -435,7 +435,6 @@ export function GroupMemberLabelEditor({
           <AxoAlertDialog.Footer>
             <AxoAlertDialog.Action
               variant="primary"
-              arrow={false}
               onClick={() => {
                 setIsShowingGeneralError(false);
               }}
@@ -466,7 +465,6 @@ export function GroupMemberLabelEditor({
           <AxoAlertDialog.Footer>
             <AxoAlertDialog.Action
               variant="primary"
-              arrow={false}
               onClick={() => {
                 popPanelForConversation();
                 setIsShowingPermissionsError(false);

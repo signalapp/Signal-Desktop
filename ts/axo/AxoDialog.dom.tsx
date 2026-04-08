@@ -397,7 +397,7 @@ export namespace AxoDialog {
       <AxoButton.Root
         variant={props.variant}
         symbol={props.symbol}
-        arrow={props.arrow}
+        arrow={props.arrow ? 'next' : null}
         experimentalSpinner={props.experimentalSpinner}
         disabled={props.disabled}
         focusableWhenDisabled={props.focusableWhenDisabled}
@@ -413,8 +413,8 @@ export namespace AxoDialog {
   Action.displayName = `${Namespace}.Action`;
 
   /**
-   * Component: <AxoDialog.Actions>
-   * ------------------------------
+   * Component: <AxoDialog.IconAction>
+   * ---------------------------------
    */
 
   export type IconActionVariant = 'primary' | 'destructive' | 'secondary';

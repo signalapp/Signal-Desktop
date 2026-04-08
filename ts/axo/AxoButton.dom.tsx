@@ -203,6 +203,10 @@ export namespace AxoButton {
 
   export type Width = 'fit' | 'grow' | 'full';
 
+  // Note: Omitted 'prev' because arrow appears on trailing side,
+  // back buttons should probably all use AxoIconButton.
+  export type Arrow = 'collapse' | 'expand' | 'next';
+
   const Widths: Record<Width, TailwindStyles> = {
     /* Always try to fit to the content of the button */
     fit: tw(''),
@@ -212,16 +216,24 @@ export namespace AxoButton {
     full: tw('w-full'),
   };
 
+  const Arrows: Record<Arrow, AxoSymbol.InlineGlyphName> = {
+    collapse: 'chevron-up',
+    expand: 'chevron-down',
+    next: 'chevron-[end]',
+  };
+
   export type RootProps = Readonly<{
     variant: AxoButtonVariant;
     size: AxoButtonSize;
     width?: Width;
     symbol?: AxoSymbol.InlineGlyphName;
-    arrow?: boolean;
+    arrow?: Arrow | null;
     experimentalSpinner?: { 'aria-label': string } | null;
     disabled?: GenericButtonProps['disabled'];
     focusableWhenDisabled?: boolean;
     onClick?: GenericButtonProps['onClick'];
+    'aria-expanded'?: boolean | null;
+    'aria-controls'?: string | null;
     children: ReactNode;
     // Note: Technically we forward all props for Radix, but we restrict the
     // props that the type accepts
@@ -238,6 +250,8 @@ export namespace AxoButton {
         experimentalSpinner,
         disabled,
         focusableWhenDisabled,
+        'aria-expanded': ariaExpanded,
+        'aria-controls': ariaControls,
         children,
         ...rest
       } = props;
@@ -254,8 +268,10 @@ export namespace AxoButton {
       return (
         <button
           ref={ref}
-          disabled={(disabled && !focusableWhenDisabled) || undefined}
-          aria-disabled={(focusableWhenDisabled && disabled) || undefined}
+          disabled={disabled && !focusableWhenDisabled}
+          aria-disabled={focusableWhenDisabled && disabled}
+          aria-expanded={ariaExpanded ?? undefined}
+          aria-controls={ariaControls ?? undefined}
           {...rest}
           type="button"
           className={tw(variantStyles, sizeStyles, widthStyles)}
@@ -272,8 +288,8 @@ export namespace AxoButton {
             <span className={tw('min-w-0 shrink grow truncate')}>
               {children}
             </span>
-            {arrow && (
-              <AxoSymbol.InlineGlyph symbol="chevron-[end]" label={null} />
+            {arrow != null && (
+              <AxoSymbol.InlineGlyph symbol={Arrows[arrow]} label={null} />
             )}
           </span>
           {experimentalSpinner != null && (

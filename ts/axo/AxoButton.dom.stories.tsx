@@ -65,7 +65,7 @@ export function Basic(): React.JSX.Element {
                   </AxoButton.Root>
 
                   <AxoButton.Root
-                    arrow
+                    arrow="next"
                     variant={variant}
                     size={size}
                     onClick={action('click')}
@@ -74,7 +74,7 @@ export function Basic(): React.JSX.Element {
                   </AxoButton.Root>
 
                   <AxoButton.Root
-                    arrow
+                    arrow="next"
                     variant={variant}
                     size={size}
                     onClick={action('click')}
