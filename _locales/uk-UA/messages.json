@@ -2373,7 +2373,7 @@
     "messageformat": "Центр підтримки"
   },
   "icu:ConversationDetails__GroupTerminatedBanner": {
-    "messageformat": "This group has ended"
+    "messageformat": "Групу закрито"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "Переглянути код безпеки"
@@ -2559,7 +2559,7 @@
     "messageformat": "{leadingIcon} {text} {trailingIcon}"
   },
   "icu:collapsedGroupUpdates": {
-    "messageformat": "{count, plural, one {{count,number} group update} other {{count,number} group updates}}"
+    "messageformat": "{count, plural, one {{count,number} оновлення в групі} few {{count,number} оновлення в групі} many {{count,number} оновлень у групі} other {{count,number} оновлення в групі}}"
   },
   "icu:multidayCollapse__container": {
     "messageformat": "{containerDescription} · {dayCountSummary}"
@@ -2568,22 +2568,22 @@
     "messageformat": "{dayCount, plural, one {{dayCount,number} день} few {{dayCount,number} дні} many {{dayCount,number} днів} other {{dayCount,number} дня}}"
   },
   "icu:collapsedChatUpdates": {
-    "messageformat": "{count, plural, one {{count,number} chat update} other {{count,number} chat updates}}"
+    "messageformat": "{count, plural, one {{count,number} оновлення в чаті} few {{count,number} оновлення в чаті} many {{count,number} оновлень у чаті} other {{count,number} оновлення в чаті}}"
   },
   "icu:collapsedTimerChanges": {
-    "messageformat": "{count, plural, one {{count,number} disappearing timer change · {endingState}} other {{count,number} disappearing message timer changes · {endingState}}}"
+    "messageformat": "{count, plural, one {{count,number} зміна таймера тимчасових повідомлень · {endingState}} few {{count,number} зміни таймера тимчасових повідомлень · {endingState}} many {{count,number} змін таймера тимчасових повідомлень · {endingState}} other {{count,number} зміни таймера тимчасових повідомлень · {endingState}}}"
   },
   "icu:collapsedTimerChanges--disabled": {
-    "messageformat": "{count, plural, one {{count,number} disappearing timer change · Disabled} other {{count,number} disappearing message timer changes · Disabled}}"
+    "messageformat": "{count, plural, one {{count,number} зміна таймера тимчасових повідомлень · Вимкнено} few {{count,number} зміни таймера тимчасових повідомлень · Вимкнено} many {{count,number} змін таймера тимчасових повідомлень · Вимкнено} other {{count,number} зміни таймера тимчасових повідомлень · Вимкнено}}"
   },
   "icu:collapsedCallEvents": {
-    "messageformat": "{count, plural, one {{count,number} call event} other {{count,number} call events}}"
+    "messageformat": "{count, plural, one {{count,number} сповіщення про виклики} few {{count,number} сповіщення про виклики} many {{count,number} сповіщень про виклики} other {{count,number} сповіщення про виклики}}"
   },
   "icu:collapsedItems--collapsed": {
-    "messageformat": "Set of items is collapsed - click to expand"
+    "messageformat": "Список згорнуто. Натисніть, щоб розгорнути"
   },
   "icu:collapsedItems--expanded": {
-    "messageformat": "Set of items is expanded - click to collapse"
+    "messageformat": "Список розгорнуто. Натисніть, щоб згорнути"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "Оновлено зображення групи."
@@ -3966,7 +3966,7 @@
     "messageformat": "Ваш запит на приєднання надіслано адміністраторам групи. Ви отримаєте сповіщення, коли його розглянуть."
   },
   "icu:GroupV2--join--group-terminated": {
-    "messageformat": "Unable to join this group."
+    "messageformat": "Неможливо приєднатися до групи."
   },
   "icu:GroupV2--join--general-join-failure--title": {
     "messageformat": "Щось не так з посиланням"
@@ -3975,10 +3975,10 @@
     "messageformat": "Неможливо приєднатися до групи. Спробуйте ще раз пізніше."
   },
   "icu:GroupV2--terminate-group-in-progress": {
-    "messageformat": "Ending group..."
+    "messageformat": "Закриття групи…"
   },
   "icu:TerminateGroupFailedModal__description": {
-    "messageformat": "Couldn't end the group. Check your connection and try again."
+    "messageformat": "Не вдалося закрити групу. Перевірте з'єднання і спробуйте ще раз."
   },
   "icu:TerminateGroupFailedModal__try-again": {
     "messageformat": "Спробувати знов"
@@ -4431,7 +4431,7 @@
     "messageformat": "Користувач {memberName} закрив групу"
   },
   "icu:GroupV2--terminated--unknown": {
-    "messageformat": "This group has ended"
+    "messageformat": "Групу закрито"
   },
   "icu:GroupV1--Migration--disabled--link": {
     "messageformat": "Оновіть цю групу, щоб отримати доступ до таких функцій, як @згадки й адміністрування. Учасників, які не поділилися своїми іменами чи фотографіями з цією групою, буде запрошено приєднатися. <learnMoreLink>Докладніше.</learnMoreLink>"
@@ -4710,7 +4710,7 @@
     "messageformat": "Замінити"
   },
   "icu:CompositionArea--group-terminated": {
-    "messageformat": "You can't send messages because the group has ended."
+    "messageformat": "Ви не можете надсилати повідомлення, оскільки групу було закрито."
   },
   "icu:CompositionArea--viewOnceToggle": {
     "messageformat": "Одноразове повідомлення"
@@ -6320,13 +6320,13 @@
     "messageformat": "показати ваш ключ від резервної копії"
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
-    "messageformat": "show your recovery key"
+    "messageformat": "показати ваш ключ відновлення"
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
     "messageformat": "Щоб переглянути ключ від резервної копії, підтвердьте свою особу."
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
-    "messageformat": "Verify your identity to view your recovery key."
+    "messageformat": "Щоб переглянути ключ від резервної копії, підтвердьте свою особу."
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
     "messageformat": "Переглянути ключ від резервної копії"
@@ -6338,7 +6338,7 @@
     "messageformat": "Щоб переглянути ключ від резервної копії, потрібно здійснити автентифікацію."
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
-    "messageformat": "Authentication is required to view your recovery key."
+    "messageformat": "Щоб переглянути ключ відновлення від резервної копії, потрібно здійснити автентифікацію."
   },
   "icu:Preferences--local-backups-backup-key-text-box": {
     "messageformat": "Текстове поле для ключа від резервної копії"
@@ -6431,7 +6431,7 @@
     "messageformat": "Щоб увімкнути резервне копіювання, потрібно здійснити автентифікацію."
   },
   "icu:Preferences__local-backups-auth-error--unauthorized": {
-    "messageformat": "This action could not be completed because system authentication failed. Please try again or open the Signal app on your mobile device and go to Backup Settings to view your recovery key."
+    "messageformat": "Не вдалося відкрити через помилку автентифікації. Повторіть спробу або відкрийте застосунок Signal на мобільному пристрої, перейдіть у налаштування й перегляньте свій ключ відновлення."
   },
   "icu:Preferences__view-key": {
     "messageformat": "Переглянути ключ"
@@ -6446,19 +6446,19 @@
     "messageformat": "Ключ від резервної копії — це 64-значний код, потрібний для відновлення резервної копії"
   },
   "icu:Preferences__recovery-key-description": {
-    "messageformat": "Your recovery key is a 64-character code used to restore your backup"
+    "messageformat": "Ключ відновлення — це код із 64 символів, який дає змогу відновити дані з резервної копії"
   },
   "icu:Preferences__backup-other-ways": {
     "messageformat": "Інші способи резервного копіювання"
   },
   "icu:Preferences__recovery-key-updated__title": {
-    "messageformat": "Your recovery key has changed"
+    "messageformat": "Ключ відновлення змінено"
   },
   "icu:Preferences__recovery-key-updated__description": {
-    "messageformat": "Your recovery key has been updated. Any new backups you make can only be restored using your new recovery key."
+    "messageformat": "Ваш ключ відновлення було змінено. Нові резервні копії можна відновити лише за допомогою нового ключа відновлення."
   },
   "icu:Preferences__recovery-key-updated__view-key": {
-    "messageformat": "View new key"
+    "messageformat": "Переглянути новий ключ"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {{num,number} контакт} few {{num,number} контакти} many {{num,number} контактів} other {{num,number} контакту}}"
@@ -6812,7 +6812,7 @@
     "messageformat": "Видалити цю історію? Її також буде видалено для всіх, хто її отримав."
   },
   "icu:MyStories__delete-group-story-for-me": {
-    "messageformat": "Delete this story? It will only be deleted for you because the group has ended."
+    "messageformat": "Видалити цю історію? Її буде видалено лише для вас, адже групу вже закрито."
   },
   "icu:payment-event-notification-message-you-label": {
     "messageformat": "Ви ініціювали платіж користувачеві {receiver}"
@@ -8152,6 +8152,6 @@
     "messageformat": "Тепер у груповому чаті можна додати роль учасника, щоб описати себе й те, чим ви займаєтеся. Наприклад, у чаті вашої футбольної команди доречно підписати себе як «суддя» або «воротар», щоб новачкам було легше зорієнтуватись, а в робочому чаті — зазначити свою посаду. Роль учасника показано поруч з назвою профілю в конкретній групі. Можливість встановлювати ролі надають адміністратори групи."
   },
   "icu:WhatsNew__8.6--0": {
-    "messageformat": "Now you won't need to scroll as far to catch up on the latest messages. If several new people join a busy group chat, or you receive multiple missed calls in a row, those repeated chat events can be automatically grouped together into a compact display. Sometimes less is more, but you can easily expand and collapse these lists at any time."
+    "messageformat": "Тепер вам не доведеться довго гортати, щоб переглянути всі оновлення в чаті. Якщо до групи приєдналося багато нових учасників або ви пропустили кілька викликів, Signal автоматично згрупує такі однотипні сповіщення для зручності. Іноді менше означає краще, але за потреби ви можете розгорнути список і прочитати кожне сповіщення окремо."
   }
 }

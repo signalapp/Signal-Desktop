@@ -2373,7 +2373,7 @@
     "messageformat": "Support center"
   },
   "icu:ConversationDetails__GroupTerminatedBanner": {
-    "messageformat": "This group has ended"
+    "messageformat": "Natapos na ang group na ito"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "Tingnan ang Safety Number"
@@ -2559,7 +2559,7 @@
     "messageformat": "{leadingIcon} {text} {trailingIcon}"
   },
   "icu:collapsedGroupUpdates": {
-    "messageformat": "{count, plural, one {{count,number} group update} other {{count,number} group updates}}"
+    "messageformat": "{count, plural, one {{count,number} na group update} other {{count,number} na group updates}}"
   },
   "icu:multidayCollapse__container": {
     "messageformat": "{containerDescription} · {dayCountSummary}"
@@ -2571,19 +2571,19 @@
     "messageformat": "{count, plural, one {{count,number} chat update} other {{count,number} chat updates}}"
   },
   "icu:collapsedTimerChanges": {
-    "messageformat": "{count, plural, one {{count,number} disappearing timer change · {endingState}} other {{count,number} disappearing message timer changes · {endingState}}}"
+    "messageformat": "{count, plural, one {{count,number} disappearing timer change · {endingState}} other {{count,number} disappearing timer changes · {endingState}}}"
   },
   "icu:collapsedTimerChanges--disabled": {
-    "messageformat": "{count, plural, one {{count,number} disappearing timer change · Disabled} other {{count,number} disappearing message timer changes · Disabled}}"
+    "messageformat": "{count, plural, one {{count,number} disappearing timer change · Naka-disable} other {{count,number} disappearing timer changes · Naka-disable}}"
   },
   "icu:collapsedCallEvents": {
     "messageformat": "{count, plural, one {{count,number} call event} other {{count,number} call events}}"
   },
   "icu:collapsedItems--collapsed": {
-    "messageformat": "Set of items is collapsed - click to expand"
+    "messageformat": "Naka-collapse ang set of items - i-click para i-expand"
   },
   "icu:collapsedItems--expanded": {
-    "messageformat": "Set of items is expanded - click to collapse"
+    "messageformat": "Naka-expand ang set of items - i-click para i-collapse"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "Updated na ang group avatar."
@@ -3966,7 +3966,7 @@
     "messageformat": "Ang iyong request to join ay na-send na sa group admin. You'll be notified when they take action."
   },
   "icu:GroupV2--join--group-terminated": {
-    "messageformat": "Unable to join this group."
+    "messageformat": "Hindi makapag-join sa group na ito."
   },
   "icu:GroupV2--join--general-join-failure--title": {
     "messageformat": "Link error"
@@ -3975,10 +3975,10 @@
     "messageformat": "Hindi maka-join sa group. Subukan ulit mamaya."
   },
   "icu:GroupV2--terminate-group-in-progress": {
-    "messageformat": "Ending group..."
+    "messageformat": "Tinatapos ang group..."
   },
   "icu:TerminateGroupFailedModal__description": {
-    "messageformat": "Couldn't end the group. Check your connection and try again."
+    "messageformat": "Hindi matapos ang group na ito. I-check ang iyong connection at subukan ulit."
   },
   "icu:TerminateGroupFailedModal__try-again": {
     "messageformat": "Subukang muli"
@@ -4431,7 +4431,7 @@
     "messageformat": "Tinapos ni {memberName} ang group"
   },
   "icu:GroupV2--terminated--unknown": {
-    "messageformat": "This group has ended"
+    "messageformat": "Natapos na ang group na ito"
   },
   "icu:GroupV1--Migration--disabled--link": {
     "messageformat": "I-upgrade ang group na ito para ma-activate ang bagong features gaya ng @mentions at admins. Ang members na hindi nag-share ng kanilang name o photo sa group na ito ay iimbitahang mag-join. <learnMoreLink>Matuto pa.</learnMoreLink>"
@@ -4710,7 +4710,7 @@
     "messageformat": "Palitan"
   },
   "icu:CompositionArea--group-terminated": {
-    "messageformat": "You can't send messages because the group has ended."
+    "messageformat": "Hindi ka makakapag-send ng messages dahil natapos na ang group."
   },
   "icu:CompositionArea--viewOnceToggle": {
     "messageformat": "View once"
@@ -6320,13 +6320,13 @@
     "messageformat": "ipakita ang iyong backup key"
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
-    "messageformat": "show your recovery key"
+    "messageformat": "ipakita ang recovery key mo"
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
     "messageformat": "I-verify ang identity mo para makita ang iyong backup key."
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
-    "messageformat": "Verify your identity to view your recovery key."
+    "messageformat": "I-verify ang identity mo para makita ang iyong recovery key."
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
     "messageformat": "Tingnan ang backup key"
@@ -6338,7 +6338,7 @@
     "messageformat": "Kinakailangan ng authentication para makita ang backup key mo."
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
-    "messageformat": "Authentication is required to view your recovery key."
+    "messageformat": "Required ang authentication para matignan ang iyong recovery key."
   },
   "icu:Preferences--local-backups-backup-key-text-box": {
     "messageformat": "Text box ng backup key"
@@ -6416,7 +6416,7 @@
     "messageformat": "Nakopya ang backup key"
   },
   "icu:Preferences__local-backups-copied-recovery-key": {
-    "messageformat": "Recovery key copied"
+    "messageformat": "Nakopya ang recovery key"
   },
   "icu:Preferences__local-backups--enable--os-prompt--mac": {
     "messageformat": "I-enable ang mga backup?"
@@ -6431,7 +6431,7 @@
     "messageformat": "Kinakailangan ng authentication para i-enable ang backups."
   },
   "icu:Preferences__local-backups-auth-error--unauthorized": {
-    "messageformat": "This action could not be completed because system authentication failed. Please try again or open the Signal app on your mobile device and go to Backup Settings to view your recovery key."
+    "messageformat": "Hindi matatapos ang action na ito dahil failed ang system authentication. Subukan ulit o buksan ang Signal app sa mobile device mo at pumunta sa Backup Settings para makita ang iyong recovery key."
   },
   "icu:Preferences__view-key": {
     "messageformat": "Tignan ang key"
@@ -6446,19 +6446,19 @@
     "messageformat": "Ang backup key mo ay isang 64-digit code na ginagamit sa pag-restore ng backup mo"
   },
   "icu:Preferences__recovery-key-description": {
-    "messageformat": "Your recovery key is a 64-character code used to restore your backup"
+    "messageformat": "Ang recovery key mo ay isang 64-character code na kailangan mo para ma-restore ang iyong backup"
   },
   "icu:Preferences__backup-other-ways": {
     "messageformat": "Iba pang paraan ng pag-backup"
   },
   "icu:Preferences__recovery-key-updated__title": {
-    "messageformat": "Your recovery key has changed"
+    "messageformat": "Nabago ang iyong recovery key"
   },
   "icu:Preferences__recovery-key-updated__description": {
-    "messageformat": "Your recovery key has been updated. Any new backups you make can only be restored using your new recovery key."
+    "messageformat": "Updated na ang iyong recovery key. Anumang bagong backups na gagawin mo ay mare-restore lamang gamit ang bago mong recovery key."
   },
   "icu:Preferences__recovery-key-updated__view-key": {
-    "messageformat": "View new key"
+    "messageformat": "Tignan ang bagong key"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {{num,number} contact} other {{num,number} contacts}}"
@@ -6812,7 +6812,7 @@
     "messageformat": "Gusto mo bang burahin ang story? Mabubura ang story na ito sa 'yo at sa lahat ng naka-receive nito."
   },
   "icu:MyStories__delete-group-story-for-me": {
-    "messageformat": "Delete this story? It will only be deleted for you because the group has ended."
+    "messageformat": "Gusto mo bang burahin ang story na ito? Mabubura lamang ito sa'yo dahil natapos na ang group na ito."
   },
   "icu:payment-event-notification-message-you-label": {
     "messageformat": "Nagsimula ka ng isang payment kay {receiver}"
@@ -8152,6 +8152,6 @@
     "messageformat": "Maaari ka nang maglagay ng member label para ilarawan ang sarili mo o ang role mo sa group chat. Ang member labels ay lalabas sa tabi ng profile name mo sa group na ito, at ang group admins ang may kontrol kung magiging enabled ito para sa lahat."
   },
   "icu:WhatsNew__8.6--0": {
-    "messageformat": "Now you won't need to scroll as far to catch up on the latest messages. If several new people join a busy group chat, or you receive multiple missed calls in a row, those repeated chat events can be automatically grouped together into a compact display. Sometimes less is more, but you can easily expand and collapse these lists at any time."
+    "messageformat": "Ngayon, ang inulit na chat events ay automatically pinagsama para sa isang compact display para hindi mo na kailangang mag-scroll nang mahaba to catch up on the latest messages."
   }
 }

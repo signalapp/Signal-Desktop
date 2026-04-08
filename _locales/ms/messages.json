@@ -2373,7 +2373,7 @@
     "messageformat": "Pusat Sokongan"
   },
   "icu:ConversationDetails__GroupTerminatedBanner": {
-    "messageformat": "This group has ended"
+    "messageformat": "Kumpulan ini telah ditamatkan"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "Lihat Nombor Keselamatan"
@@ -2559,7 +2559,7 @@
     "messageformat": "{leadingIcon} {text} {trailingIcon}"
   },
   "icu:collapsedGroupUpdates": {
-    "messageformat": "{count, plural, one {{count,number} group update} other {{count,number} group updates}}"
+    "messageformat": "{count, plural, other {{count,number} kemas kini kumpulan}}"
   },
   "icu:multidayCollapse__container": {
     "messageformat": "{containerDescription} · {dayCountSummary}"
@@ -2568,22 +2568,22 @@
     "messageformat": "{dayCount, plural, other {{dayCount,number} hari}}"
   },
   "icu:collapsedChatUpdates": {
-    "messageformat": "{count, plural, one {{count,number} chat update} other {{count,number} chat updates}}"
+    "messageformat": "{count, plural, other {{count,number} kemas kini sembang}}"
   },
   "icu:collapsedTimerChanges": {
-    "messageformat": "{count, plural, one {{count,number} disappearing timer change · {endingState}} other {{count,number} disappearing message timer changes · {endingState}}}"
+    "messageformat": "{count, plural, other {{count,number} perubahan pemasa mesej menghilang · {endingState}}}"
   },
   "icu:collapsedTimerChanges--disabled": {
-    "messageformat": "{count, plural, one {{count,number} disappearing timer change · Disabled} other {{count,number} disappearing message timer changes · Disabled}}"
+    "messageformat": "{count, plural, other {{count,number} perubahan pemasa mesej menghilang · Dinyahdayakan}}"
   },
   "icu:collapsedCallEvents": {
-    "messageformat": "{count, plural, one {{count,number} call event} other {{count,number} call events}}"
+    "messageformat": "{count, plural, other {{count,number} acara panggilan}}"
   },
   "icu:collapsedItems--collapsed": {
-    "messageformat": "Set of items is collapsed - click to expand"
+    "messageformat": "Set item diruntuhkan - klik untuk kembangkan"
   },
   "icu:collapsedItems--expanded": {
-    "messageformat": "Set of items is expanded - click to collapse"
+    "messageformat": "Set item dikembangkan - klik untuk runtuhkan"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "Avatar kumpulan telah dikemas kini."
@@ -3966,7 +3966,7 @@
     "messageformat": "Permintaan anda untuk menyertai kumpulan telah dihantar kepada pentadbir kumpulan. Anda akan dimaklumkan apabila mereka mengambil tindakan."
   },
   "icu:GroupV2--join--group-terminated": {
-    "messageformat": "Unable to join this group."
+    "messageformat": "Tidak dapat menyertai kumpulan ini."
   },
   "icu:GroupV2--join--general-join-failure--title": {
     "messageformat": "Ralat Pautan"
@@ -3975,10 +3975,10 @@
     "messageformat": "Tidak dapat menyertai kumpulan. Cuba sebentar lagi."
   },
   "icu:GroupV2--terminate-group-in-progress": {
-    "messageformat": "Ending group..."
+    "messageformat": "Menamatkan kumpulan…"
   },
   "icu:TerminateGroupFailedModal__description": {
-    "messageformat": "Couldn't end the group. Check your connection and try again."
+    "messageformat": "Tidak dapat menamatkan kumpulan. Periksa sambungan anda dan cuba lagi."
   },
   "icu:TerminateGroupFailedModal__try-again": {
     "messageformat": "Cuba lagi"
@@ -4431,7 +4431,7 @@
     "messageformat": "{memberName} menamatkan kumpulan"
   },
   "icu:GroupV2--terminated--unknown": {
-    "messageformat": "This group has ended"
+    "messageformat": "Kumpulan ini telah ditamatkan"
   },
   "icu:GroupV1--Migration--disabled--link": {
     "messageformat": "Naik taraf kumpulan ini untuk mengaktifkan ciri baharu seperti @sebutan dan pentadbir. Ahli yang belum berkongsi nama atau foto mereka dalam kumpulan ini akan dijemput untuk menyertainya. <learnMoreLink>Ketahui lebih lanjut.</learnMoreLink>"
@@ -4710,7 +4710,7 @@
     "messageformat": "Gantikan"
   },
   "icu:CompositionArea--group-terminated": {
-    "messageformat": "You can't send messages because the group has ended."
+    "messageformat": "Anda tidak boleh menghantar mesej kerana kumpulan ini telah ditamatkan."
   },
   "icu:CompositionArea--viewOnceToggle": {
     "messageformat": "Lihat sekali"
@@ -6320,13 +6320,13 @@
     "messageformat": "Tunjukkan kunci sandaran anda"
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
-    "messageformat": "show your recovery key"
+    "messageformat": "tunjukkan kunci pemulihan anda"
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
     "messageformat": "Sahkan identiti anda untuk melihat kunci sandaran anda."
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
-    "messageformat": "Verify your identity to view your recovery key."
+    "messageformat": "Sahkan identiti anda untuk melihat kunci pemulihan anda."
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
     "messageformat": "Lihat kunci sandaran"
@@ -6338,7 +6338,7 @@
     "messageformat": "Pengesahan diperlukan untuk melihat kunci sandaran anda."
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
-    "messageformat": "Authentication is required to view your recovery key."
+    "messageformat": "Pengesahan diperlukan untuk melihat kunci pemulihan anda."
   },
   "icu:Preferences--local-backups-backup-key-text-box": {
     "messageformat": "Kotak teks kunci sandaran"
@@ -6431,7 +6431,7 @@
     "messageformat": "Pengesahan diperlukan untuk mendayakan sandaran."
   },
   "icu:Preferences__local-backups-auth-error--unauthorized": {
-    "messageformat": "This action could not be completed because system authentication failed. Please try again or open the Signal app on your mobile device and go to Backup Settings to view your recovery key."
+    "messageformat": "Tindakan ini tidak dapat diselesaikan kerana pengesahan sistem gagal. Sila cuba lagi atau buka aplikasi Signal pada peranti mudah alih anda dan pergi ke Tetapan Sandaran untuk melihat kunci pemulihan anda."
   },
   "icu:Preferences__view-key": {
     "messageformat": "Lihat kunci"
@@ -6446,19 +6446,19 @@
     "messageformat": "Kunci sandaran anda ialah kod 64 digit yang digunakan untuk memulihkan sandaran anda"
   },
   "icu:Preferences__recovery-key-description": {
-    "messageformat": "Your recovery key is a 64-character code used to restore your backup"
+    "messageformat": "Kunci pemulihan anda ialah kod 64 aksara yang digunakan untuk memulihkan sandaran anda"
   },
   "icu:Preferences__backup-other-ways": {
     "messageformat": "Cara lain untuk membuat sandaran"
   },
   "icu:Preferences__recovery-key-updated__title": {
-    "messageformat": "Your recovery key has changed"
+    "messageformat": "Kunci pemulihan anda telah berubah"
   },
   "icu:Preferences__recovery-key-updated__description": {
-    "messageformat": "Your recovery key has been updated. Any new backups you make can only be restored using your new recovery key."
+    "messageformat": "Kunci pemulihan anda telah dikemas kini. Sebarang sandaran baharu yang anda lakukan hanya boleh dipulihkan menggunakan kunci pemulihan baharu anda."
   },
   "icu:Preferences__recovery-key-updated__view-key": {
-    "messageformat": "View new key"
+    "messageformat": "Lihat kunci baharu"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, other {{num,number} kenalan}}"
@@ -6812,7 +6812,7 @@
     "messageformat": "Padam cerita ini? Ia juga akan dipadamkan untuk semua orang yang menerimanya."
   },
   "icu:MyStories__delete-group-story-for-me": {
-    "messageformat": "Delete this story? It will only be deleted for you because the group has ended."
+    "messageformat": "Padam cerita ini? Ia hanya akan dipadam untuk anda kerana kumpulan ini telah ditamatkan."
   },
   "icu:payment-event-notification-message-you-label": {
     "messageformat": "Anda telah memulakan pembayaran kepada {receiver}"
@@ -8152,6 +8152,6 @@
     "messageformat": "Sekarang anda boleh menambah label ahli secara pilihan untuk menggambarkan diri atau peranan anda dalam sembang kumpulan. Label ahli akan dipaparkan di sebelah nama profil anda dalam kumpulan dan pentadbir kumpulan boleh mengawal sama ada ia dihidupkan untuk semua orang atau tidak."
   },
   "icu:WhatsNew__8.6--0": {
-    "messageformat": "Now you won't need to scroll as far to catch up on the latest messages. If several new people join a busy group chat, or you receive multiple missed calls in a row, those repeated chat events can be automatically grouped together into a compact display. Sometimes less is more, but you can easily expand and collapse these lists at any time."
+    "messageformat": "Acara sembang berulang (seperti panggilan tidak dijawab berganda) boleh digabungkan secara automatik dalam paparan padat supaya anda tidak perlu menatal jauh untuk melihat mesej terkini."
   }
 }

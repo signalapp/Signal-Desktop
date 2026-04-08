@@ -3390,7 +3390,7 @@
   },
   "icu:collapsedContainer": {
     "messageformat": "{leadingIcon} {text} {trailingIcon}",
-    "description": "This is how all the elements will be assembled: leading icon will be a timer or person, text is the text summary, and trailingIcon is the up/down chevron showing whether the area is expanded or collapsed"
+    "description": "(Deleted 2026/04/08) This is how all the elements will be assembled: leading icon will be a timer or person, text is the text summary, and trailingIcon is the up/down chevron showing whether the area is expanded or collapsed"
   },
   "icu:collapsedGroupUpdates": {
     "messageformat": "{count, plural, one {# group update} other {# group updates}}",
@@ -3422,11 +3422,11 @@
   },
   "icu:collapsedItems--collapsed": {
     "messageformat": "Set of items is collapsed - click to expand",
-    "description": "Accessibility label for the down chevron which shows if the collapsed set of items is closed"
+    "description": "(Deleted 2026/04/08) Accessibility label for the down chevron which shows if the collapsed set of items is closed"
   },
   "icu:collapsedItems--expanded": {
     "messageformat": "Set of items is expanded - click to collapse",
-    "description": "Accessibility label for the up chevron which shows if the collapsed set of items is open"
+    "description": "(Deleted 2026/04/08) Accessibility label for the up chevron which shows if the collapsed set of items is open"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "Group avatar was updated.",

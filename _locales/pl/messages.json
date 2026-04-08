@@ -2373,7 +2373,7 @@
     "messageformat": "Centrum pomocy"
   },
   "icu:ConversationDetails__GroupTerminatedBanner": {
-    "messageformat": "This group has ended"
+    "messageformat": "Ta grupa została rozwiązana"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "Wyświetl numer bezpieczeństwa"
@@ -2559,7 +2559,7 @@
     "messageformat": "{leadingIcon} {text} {trailingIcon}"
   },
   "icu:collapsedGroupUpdates": {
-    "messageformat": "{count, plural, one {{count,number} group update} other {{count,number} group updates}}"
+    "messageformat": "{count, plural, one {{count,number} aktualizacje w grupie} few {{count,number} aktualizacje w grupie} many {{count,number} aktualizacji w grupie} other {{count,number} aktualizacji w grupie}}"
   },
   "icu:multidayCollapse__container": {
     "messageformat": "{containerDescription} · {dayCountSummary}"
@@ -2568,22 +2568,22 @@
     "messageformat": "{dayCount, plural, one {{dayCount,number} dzień} few {{dayCount,number} dni} many {{dayCount,number} dni} other {{dayCount,number} dnia}}"
   },
   "icu:collapsedChatUpdates": {
-    "messageformat": "{count, plural, one {{count,number} chat update} other {{count,number} chat updates}}"
+    "messageformat": "{count, plural, one {{count,number} aktualizacja w czacie} few {{count,number} aktualizacje w czacie} many {{count,number} aktualizacji w czacie} other {{count,number} aktualizacji w czacie}}"
   },
   "icu:collapsedTimerChanges": {
-    "messageformat": "{count, plural, one {{count,number} disappearing timer change · {endingState}} other {{count,number} disappearing message timer changes · {endingState}}}"
+    "messageformat": "{count, plural, one {{count,number} zmiana czasu, po którym wiadomości znikają · {endingState}} few {{count,number} zmiany czasu, po którym wiadomości znikają · {endingState}} many {{count,number} zmian czasu, po którym wiadomości znikają · {endingState}} other {{count,number} zmiany czasu, po którym wiadomości znikają · {endingState}}}"
   },
   "icu:collapsedTimerChanges--disabled": {
-    "messageformat": "{count, plural, one {{count,number} disappearing timer change · Disabled} other {{count,number} disappearing message timer changes · Disabled}}"
+    "messageformat": "{count, plural, one {{count,number} zmiana czasu, po którym wiadomości znikają · Opcja wyłączona} few {{count,number} zmiany czasu, po którym wiadomości znikają · Opcja wyłączona} many {{count,number} zmian czasu, po którym wiadomości znikają · Opcja wyłączona} other {{count,number} zmiany czasu, po którym wiadomości znikają · Opcja wyłączona}}"
   },
   "icu:collapsedCallEvents": {
-    "messageformat": "{count, plural, one {{count,number} call event} other {{count,number} call events}}"
+    "messageformat": "{count, plural, one {{count,number} powiadomienie o połączeniach} few {{count,number} powiadomienia o połączeniach} many {{count,number} powiadomień o połączeniach} other {{count,number} powiadomienia o połączeniach}}"
   },
   "icu:collapsedItems--collapsed": {
-    "messageformat": "Set of items is collapsed - click to expand"
+    "messageformat": "Lista zwinięta – kliknij, aby rozwinąć"
   },
   "icu:collapsedItems--expanded": {
-    "messageformat": "Set of items is expanded - click to collapse"
+    "messageformat": "Lista rozwinięta – kliknij, aby zwinąć"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "Grupa ma nowy awatar."
@@ -3966,7 +3966,7 @@
     "messageformat": "Prośba o przyjęcie do grupy została wysłana. Gdy administrator rozpatrzy tę prośbę, otrzymasz powiadomienie."
   },
   "icu:GroupV2--join--group-terminated": {
-    "messageformat": "Unable to join this group."
+    "messageformat": "Nie można dołączyć do tej grupy."
   },
   "icu:GroupV2--join--general-join-failure--title": {
     "messageformat": "Błąd linku"
@@ -3975,10 +3975,10 @@
     "messageformat": "Nie udało się dołączyć do grupy. Spróbuj później."
   },
   "icu:GroupV2--terminate-group-in-progress": {
-    "messageformat": "Ending group..."
+    "messageformat": "Rozwiązywanie grupy…"
   },
   "icu:TerminateGroupFailedModal__description": {
-    "messageformat": "Couldn't end the group. Check your connection and try again."
+    "messageformat": "Nie udało się rozwiązać grupy. Sprawdź połączenie z internetem i spróbuj ponownie."
   },
   "icu:TerminateGroupFailedModal__try-again": {
     "messageformat": "Spróbuj ponownie"
@@ -4431,7 +4431,7 @@
     "messageformat": "{memberName} rozwiązuje tę grupę"
   },
   "icu:GroupV2--terminated--unknown": {
-    "messageformat": "This group has ended"
+    "messageformat": "Ta grupa została rozwiązana"
   },
   "icu:GroupV1--Migration--disabled--link": {
     "messageformat": "Zaktualizuj tę grupę, aby aktywować nowe funkcje, takie jak @wzmianki i administracja. Członkowie, którzy nie udostępnili w tej grupie swojego imienia lub zdjęcia, otrzymają zaproszenie. <learnMoreLink>Dowiedz się więcej.</learnMoreLink>"
@@ -4710,7 +4710,7 @@
     "messageformat": "Zastąp"
   },
   "icu:CompositionArea--group-terminated": {
-    "messageformat": "You can't send messages because the group has ended."
+    "messageformat": "Nie możesz wysyłać wiadomości, ponieważ grupa została rozwiązana."
   },
   "icu:CompositionArea--viewOnceToggle": {
     "messageformat": "Wyświetlanie jednorazowe"
@@ -6320,13 +6320,13 @@
     "messageformat": "wyświetlić kod kopii zapasowej"
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
-    "messageformat": "show your recovery key"
+    "messageformat": "wyświetlić Twój kod odzyskiwania"
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
     "messageformat": "Aby wyświetlić kod kopii zapasowej, zweryfikuj swoją tożsamość."
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
-    "messageformat": "Verify your identity to view your recovery key."
+    "messageformat": "Aby wyświetlić kod odzyskiwania, zweryfikuj swoją tożsamość."
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
     "messageformat": "Wyświetl kod kopii zapasowej"
@@ -6338,7 +6338,7 @@
     "messageformat": "Aby wyświetlić kod kopii zapasowej, zweryfikuj swoją tożsamość."
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
-    "messageformat": "Authentication is required to view your recovery key."
+    "messageformat": "Aby wyświetlić kod odzyskiwania, wymagana jest weryfikacja tożsamości."
   },
   "icu:Preferences--local-backups-backup-key-text-box": {
     "messageformat": "Pole tekstowe z kodem kopii zapasowej"
@@ -6431,7 +6431,7 @@
     "messageformat": "Aby włączyć tworzenie kopii zapasowych, zweryfikuj swoją tożsamość."
   },
   "icu:Preferences__local-backups-auth-error--unauthorized": {
-    "messageformat": "This action could not be completed because system authentication failed. Please try again or open the Signal app on your mobile device and go to Backup Settings to view your recovery key."
+    "messageformat": "Nie można tego wyświetlić z powodu nieudanego uwierzytelnienia. Spróbuj ponownie lub otwórz aplikację Signal na swoim urządzeniu mobilnym i przejdź do ustawień kopii zapasowej, aby wyświetlić kod odzyskiwania."
   },
   "icu:Preferences__view-key": {
     "messageformat": "Wyświetl kod"
@@ -6446,19 +6446,19 @@
     "messageformat": "Kod kopii zapasowej to sekwencja 64 znaków potrzebna do przywrócenia kopii zapasowej"
   },
   "icu:Preferences__recovery-key-description": {
-    "messageformat": "Your recovery key is a 64-character code used to restore your backup"
+    "messageformat": "Twój kod odzyskiwania składa się z 64 znaków i służy do przywracania kopii zapasowej"
   },
   "icu:Preferences__backup-other-ways": {
     "messageformat": "Inne metody tworzenia kopii zapasowych"
   },
   "icu:Preferences__recovery-key-updated__title": {
-    "messageformat": "Your recovery key has changed"
+    "messageformat": "Masz nowy kod odzyskiwania"
   },
   "icu:Preferences__recovery-key-updated__description": {
-    "messageformat": "Your recovery key has been updated. Any new backups you make can only be restored using your new recovery key."
+    "messageformat": "Twój kod odzyskiwania został zaktualizowany. Nowe kopie zapasowe, które utworzysz, będzie można przywrócić tylko za pomocą nowego kodu odzyskiwania."
   },
   "icu:Preferences__recovery-key-updated__view-key": {
-    "messageformat": "View new key"
+    "messageformat": "Wyświetl nowy kod"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {{num,number} kontakt} few {{num,number} kontakty} many {{num,number} kontaktów} other {{num,number} kontaktu}}"
@@ -6812,7 +6812,7 @@
     "messageformat": "Usunąć tę relację? Zostanie usunięta również u wszystkich osób, które ją otrzymały."
   },
   "icu:MyStories__delete-group-story-for-me": {
-    "messageformat": "Delete this story? It will only be deleted for you because the group has ended."
+    "messageformat": "Usunąć tę relację? Zostanie usunięta tylko u Ciebie, ponieważ grupa została rozwiązana."
   },
   "icu:payment-event-notification-message-you-label": {
     "messageformat": "Zainicjowano płatność, której odbiorcą jest {receiver}"
@@ -8152,6 +8152,6 @@
     "messageformat": "Od teraz możesz podać swoją rolę w grupie, aby się przedstawić lub określić funkcję, jaką pełnisz. Bo w życiu, jak w filmie, gramy różne role. Na czacie osiedlowej siłowni można uchodzić za „superkoksa”, na czacie firmowym – za „starszą specjalistką”, ale w grupie rodzinnej już na zawsze pozostanie się „synusiem”. Rola pojawi się w danej grupie obok Twojego imienia podanego w profilu. O tym, czy uczestnicy czatu mogą sami ustawiać swoje role w grupie, decydują jej administratorzy."
   },
   "icu:WhatsNew__8.6--0": {
-    "messageformat": "Now you won't need to scroll as far to catch up on the latest messages. If several new people join a busy group chat, or you receive multiple missed calls in a row, those repeated chat events can be automatically grouped together into a compact display. Sometimes less is more, but you can easily expand and collapse these lists at any time."
+    "messageformat": "Od teraz nie trzeba już dużo przewijać, aby nadrobić zaległości w wiadomościach. Jeśli do czatu grupowego dołączy kilka nowych osób lub będziesz w nim mieć kilka nieodebranych połączeń, powtarzające się powiadomienia mogą zostać automatycznie zgrupowane w kompaktową listę. Czasem mniej znaczy więcej, a listę powiadomień w razie potrzeby możesz w każdej chwili łatwo rozwinąć lub zwinąć."
   }
 }
