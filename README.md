@@ -20,14 +20,13 @@ Please search for any [existing issues](https://github.com/signalapp/Signal-Desk
 
 Please use our community forum: https://community.signalusers.org/
 
-## Contributing Code
+## Contributing to the project
 
-Please see [CONTRIBUTING.md](https://github.com/signalapp/Signal-Desktop/blob/main/CONTRIBUTING.md)
-for setup instructions and guidelines for new contributors. Don't forget to sign the [CLA](https://signal.org/cla/).
+Please see [CONTRIBUTING.md](https://github.com/signalapp/Signal-Desktop/blob/main/CONTRIBUTING.md). There are lots of ways to contribute - many that don't involve code!
 
-## Contributing Funds
+## Donate to Signal
 
-You can donate to Signal development through the [Signal Technology Foundation](https://signal.org/donate), an independent 501c3 nonprofit.
+You can donate to Signal from inside Signal apps (Desktop, Android, or iOS), or via the web here: [Signal Technology Foundation](https://signal.org/donate). Signal is an independent 501c3 nonprofit.
 
 ## Cryptography Notice
 
