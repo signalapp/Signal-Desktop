@@ -61,7 +61,6 @@ export function GroupMemberLabelInfoModal(props: PropsType): React.JSX.Element {
           {isEditMemberLabelEnabled && canAddLabel && (
             <AxoDialog.Action
               variant="secondary"
-              arrow={false}
               onClick={() => {
                 showEditMemberLabelScreen();
                 onClose();
@@ -74,7 +73,6 @@ export function GroupMemberLabelInfoModal(props: PropsType): React.JSX.Element {
           )}
           <AxoDialog.Action
             variant="primary"
-            arrow={false}
             onClick={() => {
               onClose();
             }}
