@@ -156,15 +156,15 @@ export async function encrypt({
     author: manifest.author,
     stickers: images.map(({ emoji }, id) => {
       return {
-        emoji: emoji.emoji,
+        emoji: emoji.emoji ?? null,
         id,
       };
     }),
     cover: {
       id: coverId,
-      emoji: coverEmoji?.emoji,
+      emoji: coverEmoji?.emoji ?? null,
     },
-  }).finish();
+  });
 
   const encryptedManifest = await encryptAttachment(manifestProto, keys);
   const encryptedImages = await Promise.all(
