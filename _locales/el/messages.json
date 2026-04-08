@@ -746,6 +746,9 @@
   "icu:fileSizeWarning": {
     "messageformat": "Δυστυχώς το επιλεγμένο αρχείο υπερβαίνει το όριο μεγέθους μηνυμάτων. {limit,number} {units}"
   },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+  },
   "icu:unableToLoadAttachment": {
     "messageformat": "Δεν είναι δυνατή η φόρτωση του επιλεγμένου συνημμένου."
   },
@@ -2373,7 +2376,7 @@
     "messageformat": "Κέντρο υποστήριξης"
   },
   "icu:ConversationDetails__GroupTerminatedBanner": {
-    "messageformat": "This group has ended"
+    "messageformat": "Αυτή η ομάδα έχει καταργηθεί"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "Εμφάνιση αριθμού ασφαλείας"
@@ -2559,31 +2562,31 @@
     "messageformat": "{leadingIcon} {text} {trailingIcon}"
   },
   "icu:collapsedGroupUpdates": {
-    "messageformat": "{count, plural, one {{count,number} group update} other {{count,number} group updates}}"
+    "messageformat": "{count, plural, one {{count,number} ενημέρωση ομάδας} other {{count,number} ενημερώσεις ομάδας}}"
   },
   "icu:multidayCollapse__container": {
     "messageformat": "{containerDescription} · {dayCountSummary}"
   },
   "icu:multidayCollapse__dayCountSummary": {
-    "messageformat": "{dayCount, plural, one {{dayCount,number} day} other {{dayCount,number} days}}"
+    "messageformat": "{dayCount, plural, one {{dayCount,number} ημέρα} other {{dayCount,number} ημέρες}}"
   },
   "icu:collapsedChatUpdates": {
-    "messageformat": "{count, plural, one {{count,number} chat update} other {{count,number} chat updates}}"
+    "messageformat": "{count, plural, one {{count,number} ενημέρωση συνομιλίας} other {{count,number} ενημερώσεις συνομιλίας}}"
   },
   "icu:collapsedTimerChanges": {
-    "messageformat": "{count, plural, one {{count,number} disappearing timer change · {endingState}} other {{count,number} disappearing message timer changes · {endingState}}}"
+    "messageformat": "{count, plural, one {{count,number} αλλαγή στον χρόνο εξαφάνισης μηνυμάτων · {endingState}} other {{count,number} αλλαγές στον χρόνο εξαφάνισης μηνυμάτων · {endingState}}}"
   },
   "icu:collapsedTimerChanges--disabled": {
-    "messageformat": "{count, plural, one {{count,number} disappearing timer change · Disabled} other {{count,number} disappearing message timer changes · Disabled}}"
+    "messageformat": "{count, plural, one {{count,number} αλλαγή στον χρόνο εξαφάνισης μηνυμάτων · Απενεργοποίηση} other {{count,number} αλλαγή στον χρόνο εξαφάνισης μηνυμάτων · Απενεργοποίηση}}"
   },
   "icu:collapsedCallEvents": {
-    "messageformat": "{count, plural, one {{count,number} call event} other {{count,number} call events}}"
+    "messageformat": "{count, plural, one {{count,number} εκδήλωση για κλήση} other {{count,number} εκδηλώσεις για κλήση}}"
   },
   "icu:collapsedItems--collapsed": {
-    "messageformat": "Set of items is collapsed - click to expand"
+    "messageformat": "Η λίστα στοιχείων είναι συμπτυγμένη - κάνε κλικ για να την αναπτύξεις"
   },
   "icu:collapsedItems--expanded": {
-    "messageformat": "Set of items is expanded - click to collapse"
+    "messageformat": "Η λίστα στοιχείων είναι αναπτυγμένη - κάνε κλικ για να την κλείσεις"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "Το εικονίδιο της ομάδας ανανεώθηκε."
@@ -3800,9 +3803,6 @@
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
     "messageformat": "Κοινοποίηση συνδέσμου κλήσης μέσω Signal"
   },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "Αφαίρεση αυτού του ατόμου από την κλήση"
-  },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "Αφαίρεση του χρήστη {name} από την κλήση;"
   },
@@ -3966,7 +3966,7 @@
     "messageformat": "Το αίτημά σου για να μπεις στην ομάδα στάλθηκε στον διαχειριστή/τρια της ομάδας. Θα ενημερωθείς όταν λάβει απόφαση."
   },
   "icu:GroupV2--join--group-terminated": {
-    "messageformat": "Unable to join this group."
+    "messageformat": "Δεν ήταν δυνατή η συμμετοχή σε αυτήν την ομάδα."
   },
   "icu:GroupV2--join--general-join-failure--title": {
     "messageformat": "Σφάλμα συνδέσμου"
@@ -3975,13 +3975,13 @@
     "messageformat": "Αποτυχία εισόδου στην ομάδα. Προσπάθησε ξανά αργότερα."
   },
   "icu:GroupV2--terminate-group-in-progress": {
-    "messageformat": "Ending group..."
+    "messageformat": "Κατάργηση ομάδας..."
   },
   "icu:TerminateGroupFailedModal__description": {
-    "messageformat": "Couldn't end the group. Check your connection and try again."
+    "messageformat": "Δεν ήταν δυνατή η κατάργηση της ομάδας. Έλεγξε τη σύνδεσή σου και δοκίμασε πάλι."
   },
   "icu:TerminateGroupFailedModal__try-again": {
-    "messageformat": "Try again"
+    "messageformat": "Ξαναπροσπάθησε"
   },
   "icu:GroupV2--admin": {
     "messageformat": "Διαχειριστής/τρια"
@@ -4425,13 +4425,13 @@
     "messageformat": "Τα μέλη ή οι ρυθμίσεις αυτής της ομάδας έχουν αλλάξει."
   },
   "icu:GroupV2--terminated--you": {
-    "messageformat": "You ended the group"
+    "messageformat": "Διέγραψες την ομάδα"
   },
   "icu:GroupV2--terminated--other": {
-    "messageformat": "{memberName} ended the group"
+    "messageformat": "Ο χρήστης {memberName} διέγραψε την ομάδα"
   },
   "icu:GroupV2--terminated--unknown": {
-    "messageformat": "This group has ended"
+    "messageformat": "Αυτή η ομάδα έχει καταργηθεί"
   },
   "icu:GroupV1--Migration--disabled--link": {
     "messageformat": "Αναβάθμισε την ομάδα για να ενεργοποιήσεις νέες δυνατότητες όπως οι @αναφορές και οι διαχειριστές. Τα μέλη που δεν έχουν μοιραστεί τη φωτογραφία ή το όνομά τους με την ομάδα θα προσκληθούν να μπουν. <learnMoreLink>Μάθε περισσότερα.</learnMoreLink>"
@@ -4710,7 +4710,7 @@
     "messageformat": "Αντικατάσταση"
   },
   "icu:CompositionArea--group-terminated": {
-    "messageformat": "You can't send messages because the group has ended."
+    "messageformat": "Δεν μπορείς να στείλεις μηνύματα, καθώς αυτή η ομάδα έχει καταργηθεί."
   },
   "icu:CompositionArea--viewOnceToggle": {
     "messageformat": "Προβολή μία φορά"
@@ -4890,7 +4890,7 @@
     "messageformat": "Αποχώρηση απ' την ομάδα"
   },
   "icu:ConversationDetailsActions--terminate-group": {
-    "messageformat": "End group"
+    "messageformat": "Διαγραφή ομάδας"
   },
   "icu:ConversationDetailsActions--block-group": {
     "messageformat": "Αποκλεισμός ομάδας"
@@ -4899,13 +4899,13 @@
     "messageformat": "Κατάργηση αποκλεισμού ομάδας"
   },
   "icu:ConversationDetailsActions--archive": {
-    "messageformat": "Archive chat"
+    "messageformat": "Αρχειοθέτηση συνομιλίας"
   },
   "icu:ConversationDetailsActions--unarchive": {
-    "messageformat": "Unarchive chat"
+    "messageformat": "Κατάργηση αρχειοθέτησης συνομιλίας"
   },
   "icu:ConversationDetailsActions--delete": {
-    "messageformat": "Delete chat"
+    "messageformat": "Διαγραφή συνομιλίας"
   },
   "icu:ConversationDetailsActions--leave-group-must-choose-new-admin": {
     "messageformat": "Πριν αποχωρήσεις, θα πρέπει να επιλέξεις τουλάχιστον έναν νέο διαχειριστή ή διαχειρίστρια για την ομάδα."
@@ -4920,16 +4920,16 @@
     "messageformat": "Αποχώρηση"
   },
   "icu:ConversationDetailsActions--prompt-terminate-group-modal-title": {
-    "messageformat": "End \"{groupName}\"?"
+    "messageformat": "Διαγραφή \"{groupName}\";"
   },
   "icu:ConversationDetailsActions--prompt-terminate-group-modal-content": {
-    "messageformat": "Members will no longer be able to send messages or start calls in the group. They will be notified that you ended the group, and will still have access to message history."
+    "messageformat": "Τα μέλη δεν θα μπορούν πλέον να στέλνουν μηνύματα ή να ξεκινάνε κλήσεις στην ομάδα. Θα ενημερωθούν ότι διέγραψες την ομάδα, αλλά θα εξακολουθούν να έχουν πρόσβαση στο ιστορικό μηνυμάτων."
   },
   "icu:ConversationDetailsActions--terminate-group-modal-confirm": {
-    "messageformat": "End group"
+    "messageformat": "Διαγραφή ομάδας"
   },
   "icu:ConversationDetailsActions--confirm-terminate-group-confirm-modal-content": {
-    "messageformat": "This will end the group permanently. Are you sure you want to proceed?"
+    "messageformat": "Αυτό θα διαγράψει την ομάδα μόνιμα. Θέλεις σίγουρα να συνεχίσεις;"
   },
   "icu:ConversationDetailsActions--unblock-group-modal-title": {
     "messageformat": "Κατάργηση αποκλεισμού της ομάδας \"{groupName}\";"
@@ -4959,7 +4959,7 @@
     "messageformat": "{number, plural, one {{number,number} μέλος} other {{number,number} μέλη}}"
   },
   "icu:ConversationDetailsMembershipList--terminated-title": {
-    "messageformat": "{number, plural, one {{number,number} former member} other {{number,number} former members}}"
+    "messageformat": "{number, plural, one {{number,number} πρώην μέλος} other {{number,number} πρώην μέλη}}"
   },
   "icu:ConversationDetailsMembershipList--add-members": {
     "messageformat": "Προσθήκη μελών"
@@ -6316,59 +6316,35 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "Τέλος"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "εμφάνιση του εφεδρικού κλειδιού"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
-    "messageformat": "show your recovery key"
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "Επαλήθευσε την ταυτότητά σου για να δεις το εφεδρικό κλειδί σου."
+    "messageformat": "εμφάνιση κλειδιού ανάκτησης"
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
-    "messageformat": "Verify your identity to view your recovery key."
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "Προβολή εφεδρικού κλειδιού"
+    "messageformat": "Επαλήθευσε την ταυτότητά σου για να δεις το κλειδί ανάκτησής σου."
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
-    "messageformat": "View recovery key"
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "Απαιτείται έλεγχος ταυτότητας για την προβολή του εφεδρικού κλειδιού σου."
+    "messageformat": "Προβολή κλειδιού ανάκτησης"
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
-    "messageformat": "Authentication is required to view your recovery key."
-  },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Πλαίσιο κειμένου εφεδρικού κλειδιού"
+    "messageformat": "Απαιτείται έλεγχος ταυτότητας για την προβολή του κλειδιού ανάκτησής σου."
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
-    "messageformat": "Recovery key"
+    "messageformat": "Κλειδί ανάκτησης"
   },
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "Εισαγωγή κλειδιού"
   },
-  "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "Καταγραφή εφεδρικού κλειδιού"
-  },
   "icu:Preferences--local-backups-record-recovery-key": {
-    "messageformat": "Record your recovery key"
+    "messageformat": "Κατάγραψε το κλειδί ανάκτησης"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "Αυτό το κλειδί απαιτείται για την ανάκτηση του λογαριασμού και των δεδομένων σου. Αποθήκευσε αυτό το κλειδί με ασφάλεια. Εάν το χάσεις, δεν θα μπορείς να ανακτήσεις τον λογαριασμό σου. <learnMoreLink>Μάθε περισσότερα.</learnMoreLink>"
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "Επιβεβαίωσε το εφεδρικό σου κλειδί"
-  },
   "icu:Preferences--local-backups-confirm-recovery-key": {
-    "messageformat": "Confirm your recovery key"
-  },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "Γράψε το εφεδρικό κλειδί που μόλις κατέγραψες"
+    "messageformat": "Επιβεβαίωσε το κλειδί ανάκτησης"
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
-    "messageformat": "Enter the recovery key that you just recorded"
+    "messageformat": "Γράψε το κλειδί ανάκτησης που μόλις κατέγραψες"
   },
   "icu:Preferences__local-backups-confirm-key-modal-title": {
     "messageformat": "Κράτησε το κλειδί σου ασφαλές"
@@ -6394,9 +6370,6 @@
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Φάκελος αντίγραφου ασφαλείας"
   },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "Αλλαγή"
-  },
   "icu:Preferences__local-backups-turn-off": {
     "messageformat": "Απενεργοποίηση αντιγράφων ασφαλείας"
   },
@@ -6412,11 +6385,8 @@
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Αντιγραφή στο πρόχειρο"
   },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "Το εφεδρικό κλειδί αντιγράφηκε"
-  },
   "icu:Preferences__local-backups-copied-recovery-key": {
-    "messageformat": "Recovery key copied"
+    "messageformat": "Το κλειδί ανάκτησης αντιγράφηκε"
   },
   "icu:Preferences__local-backups--enable--os-prompt--mac": {
     "messageformat": "Ενεργοποίηση αντίγραφων ασφαλείας"
@@ -6431,34 +6401,28 @@
     "messageformat": "Απαιτείται έλεγχος ταυτότητας για την ενεργοποίηση των αντιγράφων ασφαλείας."
   },
   "icu:Preferences__local-backups-auth-error--unauthorized": {
-    "messageformat": "This action could not be completed because system authentication failed. Please try again or open the Signal app on your mobile device and go to Backup Settings to view your recovery key."
+    "messageformat": "Η ενέργεια αυτή δεν μπόρεσε να ολοκληρωθεί λόγω αποτυχίας της επαλήθευσης συστήματος. Δοκίμασε ξανά ή άνοιξε την εφαρμογή Signal στο κινητό σου και πήγαινε στις «Ρυθμίσεις αντιγράφων ασφαλείας» για να δεις το κλειδί ανάκτησης."
   },
   "icu:Preferences__view-key": {
     "messageformat": "Προβολή κλειδιού"
   },
-  "icu:Preferences__backup-key": {
-    "messageformat": "Εφεδρικό κλειδί"
-  },
   "icu:Preferences__recovery-key": {
-    "messageformat": "Recovery key"
-  },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "Το εφεδρικό κλειδί σου είναι ένας 64ψήφιος κωδικός που χρησιμοποιείται για την ανάκτηση των αντιγράφων ασφαλείας σου"
+    "messageformat": "Κλειδί ανάκτησης"
   },
   "icu:Preferences__recovery-key-description": {
-    "messageformat": "Your recovery key is a 64-digit code used to restore your backup"
+    "messageformat": "Το κλειδί ανάκτησης είναι ένας κωδικός 64 χαρακτήρων που χρησιμοποιείται για την επαναφορά του αντιγράφου ασφαλείας σου"
   },
   "icu:Preferences__backup-other-ways": {
     "messageformat": "Άλλοι τρόποι δημιουργίας αντιγράφων ασφαλείας"
   },
   "icu:Preferences__recovery-key-updated__title": {
-    "messageformat": "Your recovery key has changed"
+    "messageformat": "Το κλειδί ανάκτησής σου έχει αλλάξει"
   },
   "icu:Preferences__recovery-key-updated__description": {
-    "messageformat": "Your recovery key has been updated. Any new backups you make can only be restored using your new recovery key."
+    "messageformat": "Το κλειδί ανάκτησής σου έχει ενημερωθεί. Οποιαδήποτε νέα αντίγραφα ασφαλείας δημιουργήσεις μπορούν να αποκατασταθούν μόνο με τη χρήση του νέου κλειδιού ανάκτησης."
   },
   "icu:Preferences__recovery-key-updated__view-key": {
-    "messageformat": "View new key"
+    "messageformat": "Προβολή νέου κλειδιού"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {{num,number} επαφή} other {{num,number} επαφές}}"
@@ -6812,7 +6776,7 @@
     "messageformat": "Διαγραφή της ιστορίας; Θα διαγραφεί και για όλα τα άτομα που την έλαβαν."
   },
   "icu:MyStories__delete-group-story-for-me": {
-    "messageformat": "Delete this story? It will only be deleted for you because the group has ended."
+    "messageformat": "Διαγραφή αυτής της ιστορίας; Θα διαγραφεί μόνο για εσένα επειδή η ομάδα έχει καταργηθεί."
   },
   "icu:payment-event-notification-message-you-label": {
     "messageformat": "Ξεκίνησες μία πληρωμή στον/στην {receiver}"
@@ -8148,10 +8112,7 @@
     "messageformat": "Μικρές τροποποιήσεις, επιδιορθώσεις σφαλμάτων και βελτιώσεις απόδοσης. Ευχαριστούμε που χρησιμοποιείς το Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "• Τώρα μπορείς προαιρετικά να προσθέσεις μια ετικέτα μέλους για να περιγράψεις τον εαυτό σου ή τον ρόλο σου σε μια ομαδική συνομιλία. Οι ετικέτες μελών εμφανίζονται δίπλα στο όνομα του προφίλ σου σε αυτήν την ομάδα, ενώ οι διαχειριστές της ομάδας μπορούν να ρυθμίσουν αν θα είναι ενεργοποιημένες για όλους."
-  },
   "icu:WhatsNew__8.6--0": {
-    "messageformat": "Now you won't need to scroll as far to catch up on the latest messages. If several new people join a busy group chat, or you receive multiple missed calls in a row, those repeated chat events can be automatically grouped together into a compact display. Sometimes less is more, but you can easily expand and collapse these lists at any time."
+    "messageformat": "Οι επαναλαμβανόμενες εκδηλώσεις συνομιλίας (όπως οι πολλαπλές αναπάντητες κλήσεις) μπορούν να ομαδοποιηθούν αυτόματα σε μια συνοπτική προβολή, ώστε να μην χρειάζεται να σκρολάρεις πολύ για να δεις τα πιο πρόσφατα μηνύματα."
   }
 }

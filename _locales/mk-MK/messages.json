@@ -746,6 +746,9 @@
   "icu:fileSizeWarning": {
     "messageformat": "Извинете, избраната датотека ги надминува рестрикциите за големина. {limit,number} {units}"
   },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+  },
   "icu:unableToLoadAttachment": {
     "messageformat": "Не успеав да го вчитам избраниот прилог."
   },
@@ -2373,7 +2376,7 @@
     "messageformat": "Центар за поддршка"
   },
   "icu:ConversationDetails__GroupTerminatedBanner": {
-    "messageformat": "This group has ended"
+    "messageformat": "Оваа група е затворена"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "Види безбедносен број"
@@ -2559,31 +2562,31 @@
     "messageformat": "{leadingIcon} {text} {trailingIcon}"
   },
   "icu:collapsedGroupUpdates": {
-    "messageformat": "{count, plural, one {{count,number} group update} other {{count,number} group updates}}"
+    "messageformat": "{count, plural, one {{count,number} ажурирање на групата} other {{count,number} ажурирања на групата}}"
   },
   "icu:multidayCollapse__container": {
     "messageformat": "{containerDescription} · {dayCountSummary}"
   },
   "icu:multidayCollapse__dayCountSummary": {
-    "messageformat": "{dayCount, plural, one {{dayCount,number} day} other {{dayCount,number} days}}"
+    "messageformat": "{dayCount, plural, one {{dayCount,number} ден} other {{dayCount,number} дена}}"
   },
   "icu:collapsedChatUpdates": {
-    "messageformat": "{count, plural, one {{count,number} chat update} other {{count,number} chat updates}}"
+    "messageformat": "{count, plural, one {{count,number} ажурирање на разговорот} other {{count,number} ажурирања на разговорот}}"
   },
   "icu:collapsedTimerChanges": {
-    "messageformat": "{count, plural, one {{count,number} disappearing timer change · {endingState}} other {{count,number} disappearing message timer changes · {endingState}}}"
+    "messageformat": "{count, plural, one {{count,number} промена на времетраењето на исчезнувачките пораки · {endingState}} other {{count,number} промени на времетраењето на исчезнувачките пораки · {endingState}}}"
   },
   "icu:collapsedTimerChanges--disabled": {
-    "messageformat": "{count, plural, one {{count,number} disappearing timer change · Disabled} other {{count,number} disappearing message timer changes · Disabled}}"
+    "messageformat": "{count, plural, one {{count,number} промена на времетраењето на исчезнувачките пораки · Оневозможено} other {{count,number} промени на времетраењето на исчезнувачките пораки · Оневозможено}}"
   },
   "icu:collapsedCallEvents": {
-    "messageformat": "{count, plural, one {{count,number} call event} other {{count,number} call events}}"
+    "messageformat": "{count, plural, one {{count,number} активност поврзана со повик} other {{count,number} активности поврзани со повик}}"
   },
   "icu:collapsedItems--collapsed": {
-    "messageformat": "Set of items is collapsed - click to expand"
+    "messageformat": "Листата е смалена - кликнете за да ја проширите"
   },
   "icu:collapsedItems--expanded": {
-    "messageformat": "Set of items is expanded - click to collapse"
+    "messageformat": "Листата е проширена - кликнете за да ја смалите"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "Групниот аватар е ажуриран."
@@ -3800,9 +3803,6 @@
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
     "messageformat": "Споделете го линкот за повикот преку Signal"
   },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "Отстранете ја оваа личност од повикот"
-  },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "Сакате да се отстрани {name} од повикот?"
   },
@@ -3966,7 +3966,7 @@
     "messageformat": "Вашето барање за приклучување кон групата е испратено до администраторот. Ќе бидете известени штом се превземе нешто во врска со истото."
   },
   "icu:GroupV2--join--group-terminated": {
-    "messageformat": "Unable to join this group."
+    "messageformat": "Не е возможно да се придружите на оваа група."
   },
   "icu:GroupV2--join--general-join-failure--title": {
     "messageformat": "Грешка со линкот"
@@ -3975,13 +3975,13 @@
     "messageformat": "Неуспешно придружување на групата. Обидете се поворно подоцна."
   },
   "icu:GroupV2--terminate-group-in-progress": {
-    "messageformat": "Ending group..."
+    "messageformat": "Групата се затвора..."
   },
   "icu:TerminateGroupFailedModal__description": {
-    "messageformat": "Couldn't end the group. Check your connection and try again."
+    "messageformat": "Не можеше да се затвори групата. Проверете ја интернет врската и обидете се повторно."
   },
   "icu:TerminateGroupFailedModal__try-again": {
-    "messageformat": "Try again"
+    "messageformat": "Обиди се повторно"
   },
   "icu:GroupV2--admin": {
     "messageformat": "Администратор"
@@ -4425,13 +4425,13 @@
     "messageformat": "Членовите или поставувањата на оваа група се променети."
   },
   "icu:GroupV2--terminated--you": {
-    "messageformat": "You ended the group"
+    "messageformat": "Ја затворивте оваа група"
   },
   "icu:GroupV2--terminated--other": {
-    "messageformat": "{memberName} ended the group"
+    "messageformat": "{memberName} ја затвори групата"
   },
   "icu:GroupV2--terminated--unknown": {
-    "messageformat": "This group has ended"
+    "messageformat": "Оваа група е затворена"
   },
   "icu:GroupV1--Migration--disabled--link": {
     "messageformat": "За пристап до нови опции како @спомнувања и администратори, надградете ја оваа група. Членовите кои не ги споделиле името и сликата во оваа група ќе бидат поканети да се придружат. <learnMoreLink>Дознајте повеќе.</learnMoreLink>"
@@ -4710,7 +4710,7 @@
     "messageformat": "Замени"
   },
   "icu:CompositionArea--group-terminated": {
-    "messageformat": "You can't send messages because the group has ended."
+    "messageformat": "Не можете да испраќате пораки зашто групата е затворена."
   },
   "icu:CompositionArea--viewOnceToggle": {
     "messageformat": "Еднократен преглед"
@@ -4890,7 +4890,7 @@
     "messageformat": "Напушти група"
   },
   "icu:ConversationDetailsActions--terminate-group": {
-    "messageformat": "End group"
+    "messageformat": "Затвори ја групата"
   },
   "icu:ConversationDetailsActions--block-group": {
     "messageformat": "Блокирај ја групата"
@@ -4899,13 +4899,13 @@
     "messageformat": "Деблокирај ја групата"
   },
   "icu:ConversationDetailsActions--archive": {
-    "messageformat": "Archive chat"
+    "messageformat": "Архивирај разговор"
   },
   "icu:ConversationDetailsActions--unarchive": {
-    "messageformat": "Unarchive chat"
+    "messageformat": "Врати архивиран разговор"
   },
   "icu:ConversationDetailsActions--delete": {
-    "messageformat": "Delete chat"
+    "messageformat": "Избриши го разговорот"
   },
   "icu:ConversationDetailsActions--leave-group-must-choose-new-admin": {
     "messageformat": "Пред да ја напуштите групата мора да одберете барем еден администратор за оваа група."
@@ -4920,16 +4920,16 @@
     "messageformat": "Напушти"
   },
   "icu:ConversationDetailsActions--prompt-terminate-group-modal-title": {
-    "messageformat": "End \"{groupName}\"?"
+    "messageformat": "Да се затвори групата „{groupName}“?"
   },
   "icu:ConversationDetailsActions--prompt-terminate-group-modal-content": {
-    "messageformat": "Members will no longer be able to send messages or start calls in the group. They will be notified that you ended the group, and will still have access to message history."
+    "messageformat": "Членовите повеќе нема да можат да испраќаат пораки или да започнуваат повици во групата. Ќе бидат известени дека ја имате затворено групата и сè уште ќе имаат пристап до историјата на пораки."
   },
   "icu:ConversationDetailsActions--terminate-group-modal-confirm": {
-    "messageformat": "End group"
+    "messageformat": "Затвори ја групата"
   },
   "icu:ConversationDetailsActions--confirm-terminate-group-confirm-modal-content": {
-    "messageformat": "This will end the group permanently. Are you sure you want to proceed?"
+    "messageformat": "Ова ќе ја затвори групата трајно. Сигурни сте дека сакате да продолжите?"
   },
   "icu:ConversationDetailsActions--unblock-group-modal-title": {
     "messageformat": "Сакате да ја деблокирате групата „{groupName}“?"
@@ -4959,7 +4959,7 @@
     "messageformat": "{number, plural, one {{number,number} член} other {{number,number} членови}}"
   },
   "icu:ConversationDetailsMembershipList--terminated-title": {
-    "messageformat": "{number, plural, one {{number,number} former member} other {{number,number} former members}}"
+    "messageformat": "{number, plural, one {{number,number} поранешен член} other {{number,number} поранешни членови}}"
   },
   "icu:ConversationDetailsMembershipList--add-members": {
     "messageformat": "Додај членови"
@@ -6316,59 +6316,35 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "Готово"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "да се прикаже клучот за резервни копии"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
-    "messageformat": "show your recovery key"
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "Потврдете го вашиот идентитет за да го видите клучот за резервни копии."
+    "messageformat": "да ви го прикаже клучот за враќање резервни копии"
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
-    "messageformat": "Verify your identity to view your recovery key."
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "Видете го клучот за резервни копии"
+    "messageformat": "Потврдете го вашиот идентитет за да го видите клучот за враќање резервни копии."
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
-    "messageformat": "View recovery key"
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "Потребна е автентикација за да го видите вашиот клуч за резервни копии."
+    "messageformat": "Видете го клучот за враќање резервни копии"
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
-    "messageformat": "Authentication is required to view your recovery key."
-  },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Поле за текст за клуч за резервни копии"
+    "messageformat": "Потребна е автентикација за да го видите вашиот клуч за враќање резервни копии."
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
-    "messageformat": "Recovery key"
+    "messageformat": "Клуч за враќање резервни копии"
   },
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "Внесете клуч"
   },
-  "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "Направете запис од вашиот клуч за резервни копии"
-  },
   "icu:Preferences--local-backups-record-recovery-key": {
-    "messageformat": "Record your recovery key"
+    "messageformat": "Зачувајте го клучот за враќање резервни копии"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "Овој клуч е потребен за враќање на вашата корисничка сметка и податоците. Чувајте го овој клуч на безбедно место. Ако го изгубите, нема да може да ја вратите вашата корисничка сметка. <learnMoreLink>Дознајте повеќе.</learnMoreLink>"
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "Потврдете го вашиот клуч за резервни копии"
-  },
   "icu:Preferences--local-backups-confirm-recovery-key": {
-    "messageformat": "Confirm your recovery key"
-  },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "Внесете го клучот за резервни копии што го запишавте сега"
+    "messageformat": "Потврдете го клучот за враќање резервни копии"
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
-    "messageformat": "Enter the recovery key that you just recorded"
+    "messageformat": "Внесете го клучот за враќање резервни копии што го запишавте сега"
   },
   "icu:Preferences__local-backups-confirm-key-modal-title": {
     "messageformat": "Чувајте го клучот на безбедно место"
@@ -6394,9 +6370,6 @@
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Папка за резервна копија"
   },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "Изменете"
-  },
   "icu:Preferences__local-backups-turn-off": {
     "messageformat": "Оневозможете резервни копии"
   },
@@ -6412,11 +6385,8 @@
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Копирај на таблата со исечоци"
   },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "Клучот за резервни копии е копиран"
-  },
   "icu:Preferences__local-backups-copied-recovery-key": {
-    "messageformat": "Recovery key copied"
+    "messageformat": "Клучот за враќање резервни копии е ископиран"
   },
   "icu:Preferences__local-backups--enable--os-prompt--mac": {
     "messageformat": "Вклучи резервна копија"
@@ -6431,34 +6401,28 @@
     "messageformat": "Потребна е автентикација за да се овозможат резервни копии."
   },
   "icu:Preferences__local-backups-auth-error--unauthorized": {
-    "messageformat": "This action could not be completed because system authentication failed. Please try again or open the Signal app on your mobile device and go to Backup Settings to view your recovery key."
+    "messageformat": "Ова дејство не можеше да се заврши зашто не успеа системската автентикација. Обидете се повторно или отворете ја апликацијата Signal на вашиот мобилен уред и одете до поставувањата за резервни копии за да го видите вашиот клуч за враќање резервни копии."
   },
   "icu:Preferences__view-key": {
     "messageformat": "Видете го клучот"
   },
-  "icu:Preferences__backup-key": {
-    "messageformat": "Клуч за резервни копии"
-  },
   "icu:Preferences__recovery-key": {
-    "messageformat": "Recovery key"
-  },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "Вашиот клуч за резервни копии е код од 64 цифри којшто ви помага да ги вратите податоците од резервната копија"
+    "messageformat": "Клуч за враќање резервни копии"
   },
   "icu:Preferences__recovery-key-description": {
-    "messageformat": "Your recovery key is a 64-digit code used to restore your backup"
+    "messageformat": "Вашиот клуч за враќање резервни копии е код од 64 цифри којшто се користи за да се врати вашата резервна копија"
   },
   "icu:Preferences__backup-other-ways": {
     "messageformat": "Други начини за правење резервна копија"
   },
   "icu:Preferences__recovery-key-updated__title": {
-    "messageformat": "Your recovery key has changed"
+    "messageformat": "Вашиот клуч за враќање резервни копии е сменет"
   },
   "icu:Preferences__recovery-key-updated__description": {
-    "messageformat": "Your recovery key has been updated. Any new backups you make can only be restored using your new recovery key."
+    "messageformat": "Вашиот клуч за враќање резервни копии е ажуриран. Новите резервни копии кои ги правите ќе можат да се вратат само со вашиот нов клуч за враќање резервни копии."
   },
   "icu:Preferences__recovery-key-updated__view-key": {
-    "messageformat": "View new key"
+    "messageformat": "Видете го новиот клуч"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {{num,number} контакт} other {{num,number} контакти}}"
@@ -6812,7 +6776,7 @@
     "messageformat": "Сакате да ја избришете оваа приказна? Ќе биде избришана и за сите кои ја примиле."
   },
   "icu:MyStories__delete-group-story-for-me": {
-    "messageformat": "Delete this story? It will only be deleted for you because the group has ended."
+    "messageformat": "Сакате да ја избришете оваа приказна? Ќе биде избришана само за вас бидејќи групата е затворена."
   },
   "icu:payment-event-notification-message-you-label": {
     "messageformat": "Почнавте исплата до {receiver}"
@@ -8148,10 +8112,7 @@
     "messageformat": "Mали подобрувања, решени багови и подобрувања на перформансот. Ви благодариме што користите Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "Сега можете да додадете ознака на член за да се опишете себеси или вашата улога во оваа група. Ознаките на членовите се појавуваат веднаш до името на вашиот профил во таа група, а администраторите на групата можат да одредуваат дали ознаките на членови се овозможени за сите."
-  },
   "icu:WhatsNew__8.6--0": {
-    "messageformat": "Now you won't need to scroll as far to catch up on the latest messages. If several new people join a busy group chat, or you receive multiple missed calls in a row, those repeated chat events can be automatically grouped together into a compact display. Sometimes less is more, but you can easily expand and collapse these lists at any time."
+    "messageformat": "Активностите поврзани со пораки кои се повторуваат (како многукратни пропуштени повици) можат автоматски да се групираат во компактен приказ за да не морате толку да листате за да стигнете до последните пораки."
   }
 }

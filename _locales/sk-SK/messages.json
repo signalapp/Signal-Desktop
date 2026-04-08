@@ -746,6 +746,9 @@
   "icu:fileSizeWarning": {
     "messageformat": "Ospravedlňujeme sa, vybraný súbor prekročil limit pre veľkosť správy. {limit,number} {units}"
   },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+  },
   "icu:unableToLoadAttachment": {
     "messageformat": "Zvolenú prílohu sa nepodarilo načítať."
   },
@@ -2373,7 +2376,7 @@
     "messageformat": "Centrum technickej podpory"
   },
   "icu:ConversationDetails__GroupTerminatedBanner": {
-    "messageformat": "This group has ended"
+    "messageformat": "Táto skupina bola ukončená"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "Zobraziť bezpečnostné číslo"
@@ -2559,31 +2562,31 @@
     "messageformat": "{leadingIcon} {text} {trailingIcon}"
   },
   "icu:collapsedGroupUpdates": {
-    "messageformat": "{count, plural, one {{count,number} group update} other {{count,number} group updates}}"
+    "messageformat": "{count, plural, one {{count,number} aktualizácia skupiny} few {{count,number} aktualizácie skupiny} many {{count,number} aktualizácie skupiny} other {{count,number} aktualizácií skupiny}}"
   },
   "icu:multidayCollapse__container": {
     "messageformat": "{containerDescription} · {dayCountSummary}"
   },
   "icu:multidayCollapse__dayCountSummary": {
-    "messageformat": "{dayCount, plural, one {{dayCount,number} day} other {{dayCount,number} days}}"
+    "messageformat": "{dayCount, plural, one {{dayCount,number} deň} few {{dayCount,number} dni} many {{dayCount,number} dní} other {{dayCount,number} dní}}"
   },
   "icu:collapsedChatUpdates": {
-    "messageformat": "{count, plural, one {{count,number} chat update} other {{count,number} chat updates}}"
+    "messageformat": "{count, plural, one {{count,number} aktualizácia četu} few {{count,number} aktualizácie četu} many {{count,number} aktualizácie četu} other {{count,number} aktualizácií četu}}"
   },
   "icu:collapsedTimerChanges": {
-    "messageformat": "{count, plural, one {{count,number} disappearing timer change · {endingState}} other {{count,number} disappearing message timer changes · {endingState}}}"
+    "messageformat": "{count, plural, one {{count,number} zmena časovača miznúcich správ · {endingState}} few {{count,number} zmeny časovača miznúcich správ · {endingState}} many {{count,number} zmeny časovača miznúcich správ · {endingState}} other {{count,number} zmien časovača miznúcich správ · {endingState}}}"
   },
   "icu:collapsedTimerChanges--disabled": {
-    "messageformat": "{count, plural, one {{count,number} disappearing timer change · Disabled} other {{count,number} disappearing message timer changes · Disabled}}"
+    "messageformat": "{count, plural, one {{count,number} zmena časovača miznúcich správ · Vypnuté} few {{count,number} zmeny časovača miznúcich správ · Vypnuté} many {{count,number} zmeny časovača miznúcich správ · Vypnuté} other {{count,number} zmien časovača miznúcich správ · Vypnuté}}"
   },
   "icu:collapsedCallEvents": {
-    "messageformat": "{count, plural, one {{count,number} call event} other {{count,number} call events}}"
+    "messageformat": "{count, plural, one {{count,number} volanie} few {{count,number} volania} many {{count,number} volania} other {{count,number} volaní}}"
   },
   "icu:collapsedItems--collapsed": {
-    "messageformat": "Set of items is collapsed - click to expand"
+    "messageformat": "Súprava položiek je zbalená – kliknutím rozbalíte"
   },
   "icu:collapsedItems--expanded": {
-    "messageformat": "Set of items is expanded - click to collapse"
+    "messageformat": "Súprava položiek je rozbalená – kliknutím zbalíte"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "Obrázok skupiny bol aktualizovaný."
@@ -3800,9 +3803,6 @@
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
     "messageformat": "Zdieľať odkaz na hovor cez Signal"
   },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "Odstrániť tohto používateľa z hovoru"
-  },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "Odstrániť používateľa {name} z hovoru?"
   },
@@ -3966,7 +3966,7 @@
     "messageformat": "Vaša žiadosť o členstvo bola odoslaná administrátorovi skupiny. Keď na ňu zareaguje, dostanete oznámenie."
   },
   "icu:GroupV2--join--group-terminated": {
-    "messageformat": "Unable to join this group."
+    "messageformat": "K tejto skupine sa nedá pripojiť."
   },
   "icu:GroupV2--join--general-join-failure--title": {
     "messageformat": "Chyba odkazu"
@@ -3975,13 +3975,13 @@
     "messageformat": "Nepodarilo sa pripojiť k skupine. Skúste to znova neskôr."
   },
   "icu:GroupV2--terminate-group-in-progress": {
-    "messageformat": "Ending group..."
+    "messageformat": "Prebieha ukončenie skupiny…"
   },
   "icu:TerminateGroupFailedModal__description": {
-    "messageformat": "Couldn't end the group. Check your connection and try again."
+    "messageformat": "Skupinu sa nepodarilo ukončiť. Skontrolujte svoje pripojenie a skúste to znova."
   },
   "icu:TerminateGroupFailedModal__try-again": {
-    "messageformat": "Try again"
+    "messageformat": "Skúsiť znova"
   },
   "icu:GroupV2--admin": {
     "messageformat": "Admin"
@@ -4425,13 +4425,13 @@
     "messageformat": "Členovia alebo nastavenia tejto skupiny sa zmenili."
   },
   "icu:GroupV2--terminated--you": {
-    "messageformat": "You ended the group"
+    "messageformat": "Ukončili ste skupinu"
   },
   "icu:GroupV2--terminated--other": {
-    "messageformat": "{memberName} ended the group"
+    "messageformat": "Používateľ {memberName} ukončil skupinu"
   },
   "icu:GroupV2--terminated--unknown": {
-    "messageformat": "This group has ended"
+    "messageformat": "Táto skupina bola ukončená"
   },
   "icu:GroupV1--Migration--disabled--link": {
     "messageformat": "Upgradnite túto skupinu na aktiváciu nových funkcií ako @tagy a administrátori. Členovia, ktorí so skupinou nezdieľajú svoje meno alebo fotku budú pozvaní pridať sa. <learnMoreLink>Zistiť viac.</learnMoreLink>"
@@ -4710,7 +4710,7 @@
     "messageformat": "Nahradiť"
   },
   "icu:CompositionArea--group-terminated": {
-    "messageformat": "You can't send messages because the group has ended."
+    "messageformat": "Nemôžete posielať správy, pretože skupina bola ukončená."
   },
   "icu:CompositionArea--viewOnceToggle": {
     "messageformat": "Pozrieť raz"
@@ -4890,7 +4890,7 @@
     "messageformat": "Opustiť skupinu"
   },
   "icu:ConversationDetailsActions--terminate-group": {
-    "messageformat": "End group"
+    "messageformat": "Ukončiť skupinu"
   },
   "icu:ConversationDetailsActions--block-group": {
     "messageformat": "Blokovať skupinu"
@@ -4899,13 +4899,13 @@
     "messageformat": "Odblokovať skupinu"
   },
   "icu:ConversationDetailsActions--archive": {
-    "messageformat": "Archive chat"
+    "messageformat": "Archivovať čet"
   },
   "icu:ConversationDetailsActions--unarchive": {
-    "messageformat": "Unarchive chat"
+    "messageformat": "Odarchivovať čet"
   },
   "icu:ConversationDetailsActions--delete": {
-    "messageformat": "Delete chat"
+    "messageformat": "Vymazať čet"
   },
   "icu:ConversationDetailsActions--leave-group-must-choose-new-admin": {
     "messageformat": "Pred tým, než opustíte túto skupinu, musíte pre ňu vybrať aspoň jedného nového administrátora."
@@ -4920,16 +4920,16 @@
     "messageformat": "Opustiť"
   },
   "icu:ConversationDetailsActions--prompt-terminate-group-modal-title": {
-    "messageformat": "End \"{groupName}\"?"
+    "messageformat": "Ukončiť „{groupName}“?"
   },
   "icu:ConversationDetailsActions--prompt-terminate-group-modal-content": {
-    "messageformat": "Members will no longer be able to send messages or start calls in the group. They will be notified that you ended the group, and will still have access to message history."
+    "messageformat": "Členovia už nebudú môcť v skupine posielať správy ani uskutočňovať hovory. Dostanú upozornenie, že ste skupinu ukončili, a stále budú mať prístup k histórii správ."
   },
   "icu:ConversationDetailsActions--terminate-group-modal-confirm": {
-    "messageformat": "End group"
+    "messageformat": "Ukončiť skupinu"
   },
   "icu:ConversationDetailsActions--confirm-terminate-group-confirm-modal-content": {
-    "messageformat": "This will end the group permanently. Are you sure you want to proceed?"
+    "messageformat": "Týmto sa skupina natrvalo ukončí. Naozaj chcete pokračovať?"
   },
   "icu:ConversationDetailsActions--unblock-group-modal-title": {
     "messageformat": "Odblokovať skupinu „{groupName}“?"
@@ -4959,7 +4959,7 @@
     "messageformat": "{number, plural, one {{number,number} člen} few {{number,number} členovia} many {{number,number} člena} other {{number,number} členov}}"
   },
   "icu:ConversationDetailsMembershipList--terminated-title": {
-    "messageformat": "{number, plural, one {{number,number} former member} other {{number,number} former members}}"
+    "messageformat": "{number, plural, one {{number,number} bývalý člen} few {{number,number} bývalí členovia} many {{number,number} bývalého člena} other {{number,number} bývalých členov}}"
   },
   "icu:ConversationDetailsMembershipList--add-members": {
     "messageformat": "Pridať členov"
@@ -6316,59 +6316,35 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "Hotovo"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "zobraziť váš záložný kľúč"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
-    "messageformat": "show your recovery key"
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "Ak chcete zobraziť záložný kľúč, overte svoju totožnosť."
+    "messageformat": "zobraziť kľúč na obnovenie"
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
-    "messageformat": "Verify your identity to view your recovery key."
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "Zobraziť záložný kľúč"
+    "messageformat": "Ak chcete zobraziť kľúč na obnovenie, overte svoju totožnosť."
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
-    "messageformat": "View recovery key"
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "Na zobrazenie záložného kľúča je potrebné overenie."
+    "messageformat": "Zobraziť kľúč na obnovenie"
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
-    "messageformat": "Authentication is required to view your recovery key."
-  },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Textové pole záložného kľúča"
+    "messageformat": "Na zobrazenie kľúča na obnovenie je potrebné overenie."
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
-    "messageformat": "Recovery key"
+    "messageformat": "Kľúč na obnovenie"
   },
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "Zadajte kód kľúča"
   },
-  "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "Uložte si záložný kľúč"
-  },
   "icu:Preferences--local-backups-record-recovery-key": {
-    "messageformat": "Record your recovery key"
+    "messageformat": "Zaznamenajte si kľúč na obnovenie"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "Tento kľúč je potrebný na obnovenie vášho účtu a údajov. Uložte ho na bezpečné miesto. Ak ho stratíte, nebudete môcť svoj účet obnoviť. <learnMoreLink>Zistiť viac.</learnMoreLink>"
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "Potvrďte záložný kľúč"
-  },
   "icu:Preferences--local-backups-confirm-recovery-key": {
-    "messageformat": "Confirm your recovery key"
-  },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "Zadajte záložný kľúč, ktorý ste si práve zaznamenali"
+    "messageformat": "Potvrďte kľúč na obnovenie"
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
-    "messageformat": "Enter the recovery key that you just recorded"
+    "messageformat": "Zadajte kľúč na obnovenie, ktorý ste si práve zaznamenali"
   },
   "icu:Preferences__local-backups-confirm-key-modal-title": {
     "messageformat": "Uchovajte svoj kľúč v bezpečí"
@@ -6394,9 +6370,6 @@
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Priečinok pre zálohy"
   },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "Zmeniť"
-  },
   "icu:Preferences__local-backups-turn-off": {
     "messageformat": "Vypnúť zálohy"
   },
@@ -6412,11 +6385,8 @@
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Skopírovať"
   },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "Záložný kľúč bol skopírovaný"
-  },
   "icu:Preferences__local-backups-copied-recovery-key": {
-    "messageformat": "Recovery key copied"
+    "messageformat": "Kľúč na obnovenie bol skopírovaný"
   },
   "icu:Preferences__local-backups--enable--os-prompt--mac": {
     "messageformat": "Povoliť zálohovanie"
@@ -6431,34 +6401,28 @@
     "messageformat": "Na povolenie zálohovania je potrebné overenie."
   },
   "icu:Preferences__local-backups-auth-error--unauthorized": {
-    "messageformat": "This action could not be completed because system authentication failed. Please try again or open the Signal app on your mobile device and go to Backup Settings to view your recovery key."
+    "messageformat": "Túto akciu nebolo možné dokončiť, pretože overenie systému zlyhalo. Skúste to znova alebo otvorte aplikáciu Signal na svojom mobilnom zariadení a prejdite do nastavení zálohovania, kde nájdete svoj kľúč na obnovenie."
   },
   "icu:Preferences__view-key": {
     "messageformat": "Zobraziť kľúč"
   },
-  "icu:Preferences__backup-key": {
-    "messageformat": "Záložný kľúč"
-  },
   "icu:Preferences__recovery-key": {
-    "messageformat": "Recovery key"
-  },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "Váš záložný kľúč je 64-miestny kód, ktorý sa používa na obnovenie zálohy."
+    "messageformat": "Kľúč na obnovenie"
   },
   "icu:Preferences__recovery-key-description": {
-    "messageformat": "Your recovery key is a 64-digit code used to restore your backup"
+    "messageformat": "Váš kľúč na obnovenie je 64-miestny kód, ktorý sa používa na obnovenie zálohy"
   },
   "icu:Preferences__backup-other-ways": {
     "messageformat": "Iné spôsoby zálohovania"
   },
   "icu:Preferences__recovery-key-updated__title": {
-    "messageformat": "Your recovery key has changed"
+    "messageformat": "Váš kľúč na obnovenie bol zmenený"
   },
   "icu:Preferences__recovery-key-updated__description": {
-    "messageformat": "Your recovery key has been updated. Any new backups you make can only be restored using your new recovery key."
+    "messageformat": "Váš kľúč na obnovenie bol aktualizovaný. Akékoľvek nové zálohy, ktoré vytvoríte, je možné obnoviť iba pomocou nového kľúča na obnovenie."
   },
   "icu:Preferences__recovery-key-updated__view-key": {
-    "messageformat": "View new key"
+    "messageformat": "Zobraziť nový kľúč"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {{num,number} kontakt} few {{num,number} kontakty} many {{num,number} kontaktu} other {{num,number} kontaktov}}"
@@ -6812,7 +6776,7 @@
     "messageformat": "Vymazať tento príbeh? Bude tiež vymazaný pre každého, kto ho dostal."
   },
   "icu:MyStories__delete-group-story-for-me": {
-    "messageformat": "Delete this story? It will only be deleted for you because the group has ended."
+    "messageformat": "Vymazať tento príbeh? Vymaže sa iba pre vás, pretože skupina bola ukončená."
   },
   "icu:payment-event-notification-message-you-label": {
     "messageformat": "Zadali ste platbu príjemcovi {receiver}"
@@ -8148,10 +8112,7 @@
     "messageformat": "Malé úpravy, opravy chýb a vylepšenia výkonu. Ďakujeme, že používate Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "Teraz môžete voliteľne pridať rolu používateľa, ktorá opíše vás alebo vašu úlohu v skupinovom čete. Role používateľov sa v danej skupine zobrazujú vedľa mena profilu a administrátori skupiny majú pod kontrolou, či sú povolené pre všetkých."
-  },
   "icu:WhatsNew__8.6--0": {
-    "messageformat": "Now you won't need to scroll as far to catch up on the latest messages. If several new people join a busy group chat, or you receive multiple missed calls in a row, those repeated chat events can be automatically grouped together into a compact display. Sometimes less is more, but you can easily expand and collapse these lists at any time."
+    "messageformat": "Opakované udalosti četu (napríklad viacero zmeškaných hovorov) je možné automaticky zoskupiť do kompaktného zobrazenia, takže na to, aby ste si prečítali najnovšie správy, už nebudete musieť toľko skrolovať."
   }
 }

@@ -3394,7 +3394,7 @@
   },
   "icu:collapsedContainer": {
     "messageformat": "{leadingIcon} {text} {trailingIcon}",
-    "description": "This is how all the elements will be assembled: leading icon will be a timer or person, text is the text summary, and trailingIcon is the up/down chevron showing whether the area is expanded or collapsed"
+    "description": "(Deleted 2026/04/08) This is how all the elements will be assembled: leading icon will be a timer or person, text is the text summary, and trailingIcon is the up/down chevron showing whether the area is expanded or collapsed"
   },
   "icu:collapsedGroupUpdates": {
     "messageformat": "{count, plural, one {# group update} other {# group updates}}",
@@ -3426,11 +3426,11 @@
   },
   "icu:collapsedItems--collapsed": {
     "messageformat": "Set of items is collapsed - click to expand",
-    "description": "Accessibility label for the down chevron which shows if the collapsed set of items is closed"
+    "description": "(Deleted 2026/04/08) Accessibility label for the down chevron which shows if the collapsed set of items is closed"
   },
   "icu:collapsedItems--expanded": {
     "messageformat": "Set of items is expanded - click to collapse",
-    "description": "Accessibility label for the up chevron which shows if the collapsed set of items is open"
+    "description": "(Deleted 2026/04/08) Accessibility label for the up chevron which shows if the collapsed set of items is open"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "Group avatar was updated.",
@@ -5047,10 +5047,6 @@
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
     "messageformat": "Share call link via Signal",
     "description": "Menu item in the in-call info popup for call link calls. Clicking the item opens the sharing dialog where you can send the call link to your Signal contacts or groups."
-  },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "Remove this person from the call",
-    "description": "(Deleted 2026/03/11) Button in the in-call info popup for call link calls showing all participants. The action is to remove the participant from the call."
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "Remove {name} from the call?",
@@ -7888,11 +7884,11 @@
   },
   "icu:PlaintextExport--OSPrompt--description--Linux": {
     "messageformat": "Export",
-    "description": "If linux system has pkcheck and we were able to install .policy files, this is the dialog header the user will see on the polkit prompt before doing an export"
+    "description": "(Deleted 2026/04/08) If linux system has pkcheck and we were able to install .policy files, this is the dialog header the user will see on the polkit prompt before doing an export"
   },
   "icu:PlaintextExport--OSPrompt--message--Linux": {
     "messageformat": "Authentication is required to export your chat history.",
-    "description": "If linux system has pkcheck and we were able to install .policy files, this is the dialog text the user will see on the polkit prompt before doing an export"
+    "description": "(Deleted 2026/04/08) If linux system has pkcheck and we were able to install .policy files, this is the dialog text the user will see on the polkit prompt before doing an export"
   },
   "icu:PlaintextExport--ProgressDialog--Header": {
     "messageformat": "Exporting chat history",
@@ -8402,41 +8398,21 @@
     "messageformat": "Done",
     "description": "Button to dismiss the backup key viewer, shown when reviewing your backup key for local on-device backups."
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "show your backup key",
-    "description": "(Deleted 2026/04/01) Shown as part of an OS prompt with a final string like 'Signal Desktop is trying to show your backup key'"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
     "messageformat": "show your recovery key",
     "description": "Shown as part of an OS prompt with a final string like 'Signal Desktop is trying to show your recovery (backup) key'"
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "Verify your identity to view your backup key.",
-    "description": "(Deleted 2026/04/01) Shown as the body text of an OS prompt with a title like \"Making sure it's you\""
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
     "messageformat": "Verify your identity to view your recovery key.",
     "description": "Shown as the body text of an OS prompt with a title like \"Making sure it's you\""
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "View backup key",
-    "description": "(Deleted 2026/04/01) If linux system has pkcheck and we were able to install .policy files, this is the dialog header the user will see on the polkit prompt before showing the key"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
     "messageformat": "View recovery key",
-    "description": "If linux system has pkcheck and we were able to install .policy files, this is the dialog header the user will see on the polkit prompt before showing the key"
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "Authentication is required to view your backup key.",
-    "description": "(Deleted 2026/04/01) If linux system has pkcheck and we were able to install .policy files, this is the dialog text the user will see on the polkit prompt before showing the key"
+    "description": "(Deleted 2026/04/08) If linux system has pkcheck and we were able to install .policy files, this is the dialog header the user will see on the polkit prompt before showing the key"
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
     "messageformat": "Authentication is required to view your recovery key.",
-    "description": "If linux system has pkcheck and we were able to install .policy files, this is the dialog text the user will see on the polkit prompt before showing the key"
-  },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Backup key text box",
-    "description": "(Deleted 2026/04/01) ARIA label for the text box used to view or confirm the backup key for local message backups."
+    "description": "(Deleted 2026/04/08) If linux system has pkcheck and we were able to install .policy files, this is the dialog text the user will see on the polkit prompt before showing the key"
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
     "messageformat": "Recovery key",
@@ -8446,10 +8422,6 @@
     "messageformat": "Enter key",
     "description": "Placeholder text for the text box used to confirm the backup key for local message backups."
   },
-  "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "Record your backup key",
-    "description": "(Deleted 2026/04/01) Title for viewing the backup key for local message backups."
-  },
   "icu:Preferences--local-backups-record-recovery-key": {
     "messageformat": "Record your recovery key",
     "description": "Title for viewing the recovery (backup) key for local message backups."
@@ -8458,17 +8430,9 @@
     "messageformat": "This key is required to recover your account and data. Store this key somewhere safe. If you lose it, you won’t be able to recover your account. <learnMoreLink>Learn more.</learnMoreLink>",
     "description": "Description for viewing the recovery (backup) key for local message backups."
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "Confirm your backup key",
-    "description": "(Deleted 2026/04/01) Title for confirming the backup key for local message backups by re-entering it into a text box."
-  },
   "icu:Preferences--local-backups-confirm-recovery-key": {
     "messageformat": "Confirm your recovery key",
     "description": "Title for confirming the recovery (backup) key for local message backups by re-entering it into a text box."
-  },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "Enter the backup key that you just recorded",
-    "description": "(Deleted 2026/04/01) Description for confirming the backup key for local message backups by re-entering it into a text box."
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
     "messageformat": "Enter the recovery key that you just recorded",
@@ -8506,10 +8470,6 @@
     "messageformat": "Backup folder",
     "description": "Label for current folder in which local on-device backups are stored."
   },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "Change",
-    "description": "(Deleted 2026/03/11) Button to change the folder in which local on-device backups are stored."
-  },
   "icu:Preferences__local-backups-turn-off": {
     "messageformat": "Turn off backups",
     "description": "Label for settings row to disable local on-device backups."
@@ -8530,10 +8490,6 @@
     "messageformat": "Copy to clipboard",
     "description": "Button label for copying the recovery (backup) key to clipboard in the settings for local on-device backups"
   },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "Backup key copied",
-    "description": "(Deleted 2026/04/01) Toast message after you copied the backup key to clipboard from settings for local on-device backups"
-  },
   "icu:Preferences__local-backups-copied-recovery-key": {
     "messageformat": "Recovery key copied",
     "description": "Toast message after you copied the backup key to clipboard from settings for local on-device backups"
@@ -8548,11 +8504,11 @@
   },
   "icu:Preferences__local-backups--enable--os-prompt-description--linux": {
     "messageformat": "Enable backups",
-    "description": "If linux system has pkcheck and we were able to install .policy files, this is the dialog header the user will see on the polkit prompt before enabling backups"
+    "description": "(Deleted 2026/04/08) If linux system has pkcheck and we were able to install .policy files, this is the dialog header the user will see on the polkit prompt before enabling backups"
   },
   "icu:Preferences__local-backups--enable--os-prompt-message--linux": {
     "messageformat": "Authentication is required to enable backups.",
-    "description": "If linux system has pkcheck and we were able to install .policy files, this is the dialog text the user will see on the polkit prompt before enabling backups"
+    "description": "(Deleted 2026/04/08) If linux system has pkcheck and we were able to install .policy files, this is the dialog text the user will see on the polkit prompt before enabling backups"
   },
   "icu:Preferences__local-backups-auth-error--unauthorized": {
     "messageformat": "This action could not be completed because system authentication failed. Please try again or open the Signal app on your mobile device and go to Backup Settings to view your recovery key.",
@@ -8562,17 +8518,9 @@
     "messageformat": "View key",
     "description": "Button to view the backup key which is used to restore a message history backup"
   },
-  "icu:Preferences__backup-key": {
-    "messageformat": "Backup key",
-    "description": "(Deleted 2026/04/01) Name for the key code used to restore a message history backup"
-  },
   "icu:Preferences__recovery-key": {
     "messageformat": "Recovery key",
     "description": "Name for the key code used to restore a message history backup"
-  },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "Your backup key is a 64-digit code used to restore your backup",
-    "description": "(Deleted 2026/04/01) Description for the key code used to restore a message history backup"
   },
   "icu:Preferences__recovery-key-description": {
     "messageformat": "Your recovery key is a 64-character code used to restore your backup",
@@ -10839,12 +10787,8 @@
     "description": "Release notes for releases that only include bug fixes",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control whether or not they are enabled for everyone.",
-    "description": "(Deleted 2026/03/25) Release notes for 8.3 release"
-  },
   "icu:WhatsNew__8.6--0": {
     "messageformat": "Now you won't need to scroll as far to catch up on the latest messages. If several new people join a busy group chat, or you receive multiple missed calls in a row, those repeated chat events can be automatically grouped together into a compact display. Sometimes less is more, but you can easily expand and collapse these lists at any time.",
-    "description": "Release notes for 8.6 release"
+    "description": "(Deleted 2026/04/08) Release notes for 8.6 release"
   }
 }

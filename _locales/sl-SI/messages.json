@@ -746,6 +746,9 @@
   "icu:fileSizeWarning": {
     "messageformat": "Izbrana datoteka presega največjo dovoljeno velikost. {limit,number} {units}"
   },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+  },
   "icu:unableToLoadAttachment": {
     "messageformat": "Izbrane priponke ni bilo mogoče zagnati."
   },
@@ -2373,7 +2376,7 @@
     "messageformat": "Središče za podporo"
   },
   "icu:ConversationDetails__GroupTerminatedBanner": {
-    "messageformat": "This group has ended"
+    "messageformat": "Ta skupina je zaključena"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "Prikaz varnostne številke"
@@ -2559,31 +2562,31 @@
     "messageformat": "{leadingIcon} {text} {trailingIcon}"
   },
   "icu:collapsedGroupUpdates": {
-    "messageformat": "{count, plural, one {{count,number} group update} other {{count,number} group updates}}"
+    "messageformat": "{count, plural, one {{count,number} posodobitev skupine} two {{count,number} posodobitvi skupine} few {{count,number} posodobitve skupine} other {{count,number} posodobitev skupine}}"
   },
   "icu:multidayCollapse__container": {
     "messageformat": "{containerDescription} · {dayCountSummary}"
   },
   "icu:multidayCollapse__dayCountSummary": {
-    "messageformat": "{dayCount, plural, one {{dayCount,number} day} other {{dayCount,number} days}}"
+    "messageformat": "{dayCount, plural, one {{dayCount,number} dan} two {{dayCount,number} dneva} few {{dayCount,number} dnevi} other {{dayCount,number} dni}}"
   },
   "icu:collapsedChatUpdates": {
-    "messageformat": "{count, plural, one {{count,number} chat update} other {{count,number} chat updates}}"
+    "messageformat": "{count, plural, one {{count,number} posodobitev klepeta} two {{count,number} posodobitvi klepeta} few {{count,number} posodobitve klepeta} other {{count,number} posodobitev klepetov}}"
   },
   "icu:collapsedTimerChanges": {
-    "messageformat": "{count, plural, one {{count,number} disappearing timer change · {endingState}} other {{count,number} disappearing message timer changes · {endingState}}}"
+    "messageformat": "{count, plural, one {{count,number} sprememba trajanja izginjajočih sporočil · {endingState}} two {{count,number} spremembi trajanja izginjajočih sporočil · {endingState}} few {{count,number} spremembe trajanja izginjajočih sporočil · {endingState}} other {{count,number} sprememb trajanja izginjajočih sporočil · {endingState}}}"
   },
   "icu:collapsedTimerChanges--disabled": {
-    "messageformat": "{count, plural, one {{count,number} disappearing timer change · Disabled} other {{count,number} disappearing message timer changes · Disabled}}"
+    "messageformat": "{count, plural, one {{count,number} sprememba trajanja izginjajočih sporočil · onemogočen} two {{count,number} spremembi trajanja izginjajočih sporočil · onemogočeno} few {{count,number} spremembe trajanja izginjajočih sporočil · onemogočeno} other {{count,number} sprememb trajanja izginjajočih sporočil · onemogočeno}}"
   },
   "icu:collapsedCallEvents": {
-    "messageformat": "{count, plural, one {{count,number} call event} other {{count,number} call events}}"
+    "messageformat": "{count, plural, one {{count,number} aktivnost v zvezi s klici} two {{count,number} aktivnosti v zvezi s klici} few {{count,number} aktivnosti v zvezi s klici} other {{count,number} aktivnosti v zvezi s klici}}"
   },
   "icu:collapsedItems--collapsed": {
-    "messageformat": "Set of items is collapsed - click to expand"
+    "messageformat": "Nabor je strnjen – kliknite za razširitev"
   },
   "icu:collapsedItems--expanded": {
-    "messageformat": "Set of items is expanded - click to collapse"
+    "messageformat": "Nabor je razširjen – kliknite za strnitev"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "Avatar skupine je bil posodobljen."
@@ -3800,9 +3803,6 @@
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
     "messageformat": "Deli klicno povezavo prek Signala"
   },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "Odstrani te osebe iz klica"
-  },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "Želite odstraniti uporabnika_co {name} iz klica?"
   },
@@ -3966,7 +3966,7 @@
     "messageformat": "Vaša prošnja za pridružitev je bila poslana skrbniku_ci skupine. O njegovi_njeni odločitvi boste obveščeni."
   },
   "icu:GroupV2--join--group-terminated": {
-    "messageformat": "Unable to join this group."
+    "messageformat": "Pridružitev skupini ni mogoča."
   },
   "icu:GroupV2--join--general-join-failure--title": {
     "messageformat": "Napaka pri povezavi"
@@ -3975,13 +3975,13 @@
     "messageformat": "Skupini se ni bilo mogoče pridružiti. Poskusite spet kasneje."
   },
   "icu:GroupV2--terminate-group-in-progress": {
-    "messageformat": "Ending group..."
+    "messageformat": "Zaključevanje skupine ..."
   },
   "icu:TerminateGroupFailedModal__description": {
-    "messageformat": "Couldn't end the group. Check your connection and try again."
+    "messageformat": "Skupine ni bilo mogoče zaključiti. Preverite povezavo in poskusite znova."
   },
   "icu:TerminateGroupFailedModal__try-again": {
-    "messageformat": "Try again"
+    "messageformat": "Poskusi znova"
   },
   "icu:GroupV2--admin": {
     "messageformat": "Skrbnik"
@@ -4425,13 +4425,13 @@
     "messageformat": "Člani ali nastavitve te skupine so se spremenili."
   },
   "icu:GroupV2--terminated--you": {
-    "messageformat": "You ended the group"
+    "messageformat": "Zaključili ste to skupino"
   },
   "icu:GroupV2--terminated--other": {
-    "messageformat": "{memberName} ended the group"
+    "messageformat": "{memberName} je zaključil_a to skupino"
   },
   "icu:GroupV2--terminated--unknown": {
-    "messageformat": "This group has ended"
+    "messageformat": "Ta skupina je zaključena"
   },
   "icu:GroupV1--Migration--disabled--link": {
     "messageformat": "Nadgradite to skupino, da aktivirate nove funkcije, kot so @omembe in skrbniki. Člani_ce, ki v tej skupini niso delili_e svojega imena ali fotografije, bodo povabljeni_e, da se pridružijo. <learnMoreLink>Izvedite več.</learnMoreLink>"
@@ -4710,7 +4710,7 @@
     "messageformat": "Zamenjaj"
   },
   "icu:CompositionArea--group-terminated": {
-    "messageformat": "You can't send messages because the group has ended."
+    "messageformat": "Ne morete pošiljati sporočil, saj je skupina zaključena."
   },
   "icu:CompositionArea--viewOnceToggle": {
     "messageformat": "Enkratni ogled"
@@ -4890,7 +4890,7 @@
     "messageformat": "Zapusti skupino"
   },
   "icu:ConversationDetailsActions--terminate-group": {
-    "messageformat": "End group"
+    "messageformat": "Zaključi skupino"
   },
   "icu:ConversationDetailsActions--block-group": {
     "messageformat": "Blokiraj skupino"
@@ -4899,13 +4899,13 @@
     "messageformat": "Odblokiraj skupino"
   },
   "icu:ConversationDetailsActions--archive": {
-    "messageformat": "Archive chat"
+    "messageformat": "Arhiviraj klepet"
   },
   "icu:ConversationDetailsActions--unarchive": {
-    "messageformat": "Unarchive chat"
+    "messageformat": "Vrni klepet"
   },
   "icu:ConversationDetailsActions--delete": {
-    "messageformat": "Delete chat"
+    "messageformat": "Izbriši klepet"
   },
   "icu:ConversationDetailsActions--leave-group-must-choose-new-admin": {
     "messageformat": "Pred odhodom iz skupine morate določiti vsaj enega skrbnika_co skupine."
@@ -4920,16 +4920,16 @@
     "messageformat": "Zapusti"
   },
   "icu:ConversationDetailsActions--prompt-terminate-group-modal-title": {
-    "messageformat": "End \"{groupName}\"?"
+    "messageformat": "Želite zaključiti »{groupName}«?"
   },
   "icu:ConversationDetailsActions--prompt-terminate-group-modal-content": {
-    "messageformat": "Members will no longer be able to send messages or start calls in the group. They will be notified that you ended the group, and will still have access to message history."
+    "messageformat": "Člani po tem ne bodo več mogli pošiljati sporočil ali začenjati klicev v tej skupini. Obveščeni bodo, da ste zaključili skupino, in bodo še naprej imeli dostop do zgodovine sporočil."
   },
   "icu:ConversationDetailsActions--terminate-group-modal-confirm": {
-    "messageformat": "End group"
+    "messageformat": "Zaključi skupino"
   },
   "icu:ConversationDetailsActions--confirm-terminate-group-confirm-modal-content": {
-    "messageformat": "This will end the group permanently. Are you sure you want to proceed?"
+    "messageformat": "S tem boste trajno zaključili skupino. Ste prepričani, da želite nadaljevati?"
   },
   "icu:ConversationDetailsActions--unblock-group-modal-title": {
     "messageformat": "Odblokiraj skupino \"{groupName}\"?"
@@ -4959,7 +4959,7 @@
     "messageformat": "{number, plural, one {{number,number} član_ica} two {{number,number} člana_ici} few {{number,number} člani_ce} other {{number,number} članov_ic}}"
   },
   "icu:ConversationDetailsMembershipList--terminated-title": {
-    "messageformat": "{number, plural, one {{number,number} former member} other {{number,number} former members}}"
+    "messageformat": "{number, plural, one {{number,number} nekdanji_a član_ica} two {{number,number} nekdanja_i člana_ici} few {{number,number} nekdanji_e člani_ice} other {{number,number} nekdanjih članov_ic}}"
   },
   "icu:ConversationDetailsMembershipList--add-members": {
     "messageformat": "Dodaj člane_ice"
@@ -6316,59 +6316,35 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "V redu"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "prikazati vaš varnostni ključ"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
-    "messageformat": "show your recovery key"
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "Za ogled varnostnega ključa potrdite svojo identiteto."
+    "messageformat": "prikazati vaš obnovitveni ključ"
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
-    "messageformat": "Verify your identity to view your recovery key."
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "Ogled varnostnega ključa"
+    "messageformat": "Za ogled obnovitvenega ključa potrdite svojo identiteto."
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
-    "messageformat": "View recovery key"
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "Za ogled varnostnega ključa je potrebna avtentikacija."
+    "messageformat": "Ogled obnovitvenega ključa"
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
-    "messageformat": "Authentication is required to view your recovery key."
-  },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Besedilno polje za Varnostni ključ"
+    "messageformat": "Za ogled obnovitvenega ključa je potrebno preverjanje pristnosti."
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
-    "messageformat": "Recovery key"
+    "messageformat": "Obnovitveni ključ"
   },
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "Tipka Enter"
   },
-  "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "Zapišite svoj ključ za varnostno kopiranje"
-  },
   "icu:Preferences--local-backups-record-recovery-key": {
-    "messageformat": "Record your recovery key"
+    "messageformat": "Zapišite svoj obnovitveni ključ"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "Ta ključ je potreben za obnovitev računa in podatkov. Ta ključ shranite na varnem mestu. Če ga izgubite, računa ne boste mogli obnoviti. <learnMoreLink>Preberite več.</learnMoreLink>"
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "Potrdite svoj varnostni ključ"
-  },
   "icu:Preferences--local-backups-confirm-recovery-key": {
-    "messageformat": "Confirm your recovery key"
-  },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "Vnesite varnostni ključ, ki ste ga pravkar zapisali"
+    "messageformat": "Potrdite svoj obnovitveni ključ"
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
-    "messageformat": "Enter the recovery key that you just recorded"
+    "messageformat": "Vnesite obnovitveni ključ, ki ste ga pravkar zapisali"
   },
   "icu:Preferences__local-backups-confirm-key-modal-title": {
     "messageformat": "Hranite svoj ključ na varnem"
@@ -6394,9 +6370,6 @@
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Mesto za varnostne kopije"
   },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "Spremeni"
-  },
   "icu:Preferences__local-backups-turn-off": {
     "messageformat": "Izklopi varnostne kopije"
   },
@@ -6412,11 +6385,8 @@
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Kopiraj v odložišče"
   },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "Varnostni ključ je kopiran"
-  },
   "icu:Preferences__local-backups-copied-recovery-key": {
-    "messageformat": "Recovery key copied"
+    "messageformat": "Obnovitveni ključ je kopiran"
   },
   "icu:Preferences__local-backups--enable--os-prompt--mac": {
     "messageformat": "Dovoli varnostno kopiranje"
@@ -6431,34 +6401,28 @@
     "messageformat": "Za omogočanje varnostnih kopij je potrebna avtentikacija."
   },
   "icu:Preferences__local-backups-auth-error--unauthorized": {
-    "messageformat": "This action could not be completed because system authentication failed. Please try again or open the Signal app on your mobile device and go to Backup Settings to view your recovery key."
+    "messageformat": "Tega dejanja ni bilo mogoče dokončati, ker sistemsko preverjanje pristnosti ni uspelo. Poskusite znova ali odprite aplikacijo Signal v svoji mobilni napravi in pojdite v Nastavitve varnostnih kopij, kjer si lahko ogledate svoj obnovitveni ključ."
   },
   "icu:Preferences__view-key": {
     "messageformat": "Prikaži ključ"
   },
-  "icu:Preferences__backup-key": {
-    "messageformat": "Varnostni ključ"
-  },
   "icu:Preferences__recovery-key": {
-    "messageformat": "Recovery key"
-  },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "Varnostni ključ je 64-mestna koda, ki se uporablja za obnovitev varnostne kopije"
+    "messageformat": "Obnovitveni ključ"
   },
   "icu:Preferences__recovery-key-description": {
-    "messageformat": "Your recovery key is a 64-digit code used to restore your backup"
+    "messageformat": "Vaš obnovitveni ključ je 64-mestna koda, uporabljena za obnovitev varnostne kopije"
   },
   "icu:Preferences__backup-other-ways": {
     "messageformat": "Drugi načini varnostnega kopiranja"
   },
   "icu:Preferences__recovery-key-updated__title": {
-    "messageformat": "Your recovery key has changed"
+    "messageformat": "Vaš obnovitveni ključ je spremenjen"
   },
   "icu:Preferences__recovery-key-updated__description": {
-    "messageformat": "Your recovery key has been updated. Any new backups you make can only be restored using your new recovery key."
+    "messageformat": "Vaš obnovitveni ključ je posodobljen. Nove varnostne kopije bo mogoče obnoviti samo z novim obnovitvenim ključem."
   },
   "icu:Preferences__recovery-key-updated__view-key": {
-    "messageformat": "View new key"
+    "messageformat": "Ogled novega ključa"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {{num,number} stik} two {{num,number} stika} few {{num,number} stiki} other {{num,number} stikov}}"
@@ -6812,7 +6776,7 @@
     "messageformat": "Želite izbrisati to zgodbo? Izbrisana bo tudi na napravah drugih prejemnikov_ic."
   },
   "icu:MyStories__delete-group-story-for-me": {
-    "messageformat": "Delete this story? It will only be deleted for you because the group has ended."
+    "messageformat": "Želite izbrisati to zgodbo? Izbrisana bo le za vas, saj je skupina zaključena."
   },
   "icu:payment-event-notification-message-you-label": {
     "messageformat": "Začeli ste plačilo za {receiver}"
@@ -8148,10 +8112,7 @@
     "messageformat": "Majhne prilagoditve, popravki napak in izboljšave zmogljivosti. Hvala, da uporabljate Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "Zdaj lahko dodate vlogo člana, s katero opišete sebe ali svojo vlogo v skupinskem klepetu. Vloge članov se prikažejo poleg imena profila v skupini, skrbniki skupine pa lahko nadzorujejo, če so te omogočene za vse."
-  },
   "icu:WhatsNew__8.6--0": {
-    "messageformat": "Now you won't need to scroll as far to catch up on the latest messages. If several new people join a busy group chat, or you receive multiple missed calls in a row, those repeated chat events can be automatically grouped together into a compact display. Sometimes less is more, but you can easily expand and collapse these lists at any time."
+    "messageformat": "Ponavljajoče se aktivnosti v zvezi s klepeti (na primer več zgrešenih klicev) je mogoče samodejno združiti v kompakten prikaz, da se vam ni treba pomikati tako daleč, da bi si ogledali najnovejša sporočila."
   }
 }
