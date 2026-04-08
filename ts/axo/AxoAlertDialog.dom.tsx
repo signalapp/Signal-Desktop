@@ -267,7 +267,7 @@ export namespace AxoAlertDialog {
         <AxoButton.Root
           variant={props.variant}
           symbol={props.symbol}
-          arrow={props.arrow}
+          arrow={props.arrow ? 'next' : null}
           size="md"
           width="grow"
           focusableWhenDisabled

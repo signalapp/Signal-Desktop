@@ -1,7 +1,13 @@
 // Copyright 2026 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import React, {
+  useEffect,
+  useId,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from 'react';
 import classNames from 'classnames';
 
 import type { RefObject } from 'react';
@@ -10,7 +16,7 @@ import { MessageInteractivity } from './Message.dom.tsx';
 import { format } from '../../util/expirationTimer.std.ts';
 import { strictAssert } from '../../util/assert.std.ts';
 import { missingCaseError } from '../../util/missingCaseError.std.ts';
-import { AxoSymbol } from '../../axo/AxoSymbol.dom.tsx';
+import type { AxoSymbol } from '../../axo/AxoSymbol.dom.tsx';
 import { tw } from '../../axo/tw.dom.tsx';
 import { AxoButton } from '../../axo/AxoButton.dom.tsx';
 import { MessageContextMenu } from './MessageContextMenu.dom.tsx';
@@ -24,7 +30,6 @@ import type { RenderItemProps } from '../../state/smart/TimelineItem.preload.tsx
 import type { LocalizerType } from '../../types/I18N.std.ts';
 import type { TargetedMessageType } from '../../state/selectors/conversations.dom.ts';
 import type { DeleteMessagesPropsType } from '../../state/ducks/globalModals.preload.ts';
-import { I18n } from '../I18n.dom.tsx';
 
 export type Props = CollapseSet & {
   containerElementRef: RefObject<HTMLElement | null>;
@@ -71,6 +76,7 @@ export function CollapseSetViewer(props: Props): React.JSX.Element {
   >({});
   const previousTargetedMessage = useRef<TargetedMessageType>(undefined);
   const [isAnimating, setIsAnimating] = useState<boolean>(false);
+  const disclosureContentId = useId();
 
   useEffect(() => {
     if (!targetedMessage) {
@@ -142,11 +148,16 @@ export function CollapseSetViewer(props: Props): React.JSX.Element {
     !shouldShowButton ||
     (oldestOriginallyUnseenIndex && oldestOriginallyUnseenIndex < max);
 
-  const collapsedMessages = messages.slice(
+  const ariaSetSize = messages.length;
+  const messagesWithAria = messages.map((message, index) => {
+    return { ...message, ariaSetSize, ariaPosInSet: index + 1 };
+  });
+
+  const collapsedMessages = messagesWithAria.slice(
     0,
     !shouldShowButton ? 0 : oldestOriginallyUnseenIndex
   );
-  const passThroughMessages = messages.slice(
+  const passThroughMessages = messagesWithAria.slice(
     !shouldShowButton ? 0 : oldestOriginallyUnseenIndex
   );
 
@@ -159,6 +170,7 @@ export function CollapseSetViewer(props: Props): React.JSX.Element {
             count={collapsedCount}
             dayCount={collapsedDayCount}
             isExpanded={isExpanded}
+            disclosureContentId={disclosureContentId}
             onClick={() => {
               if (isSelected) {
                 return;
@@ -181,98 +193,108 @@ export function CollapseSetViewer(props: Props): React.JSX.Element {
           />
         </div>
       ) : undefined}
-      <div
-        className={classNames(
-          'CollapseSet__height-container',
-          isSelected || isExpanded
-            ? 'CollapseSet__height-container--expanded'
-            : undefined
-        )}
-        onTransitionEnd={event => {
-          if (event.propertyName === 'height') {
-            setIsAnimating(false);
-          }
-        }}
-      >
+      <div role="list" id={disclosureContentId}>
         <div
           className={classNames(
-            'CollapseSet__transparency-container',
+            'CollapseSet__height-container',
             isSelected || isExpanded
-              ? 'CollapseSet__transparency-container--expanded'
+              ? 'CollapseSet__height-container--expanded'
               : undefined
           )}
+          onTransitionEnd={event => {
+            if (event.propertyName === 'height') {
+              setIsAnimating(false);
+            }
+          }}
         >
-          {shouldShowButton && (isSelected || isExpanded || isAnimating) ? (
-            <>
-              {collapsedMessages.map((child, index) => {
-                const previousMessage = messages[index - 1];
-                const nextMessage = messages[index + 1];
-                const indexItem = {
-                  type: 'none' as const,
-                  id: child.id,
-                  dayCount: undefined,
-                  messages: undefined,
-                };
+          <div
+            className={classNames(
+              'CollapseSet__transparency-container',
+              isSelected || isExpanded
+                ? 'CollapseSet__transparency-container--expanded'
+                : undefined
+            )}
+          >
+            {shouldShowButton && (isSelected || isExpanded || isAnimating) ? (
+              <>
+                {collapsedMessages.map((child, index) => {
+                  const previousMessage = messages[index - 1];
+                  const nextMessage = messages[index + 1];
+                  const indexItem = {
+                    type: 'none' as const,
+                    id: child.id,
+                    dayCount: undefined,
+                    messages: undefined,
+                  };
 
-                return (
-                  <div
-                    data-message-id={child.id}
-                    role="listitem"
-                    key={child.id}
-                  >
-                    {renderItem({
-                      containerElementRef,
-                      containerWidthBreakpoint,
-                      conversationId,
-                      interactivity:
-                        isSelected || isExpanded
-                          ? MessageInteractivity.Normal
-                          : MessageInteractivity.Hidden,
-                      isBlocked,
-                      isGroup,
-                      isOldestTimelineItem,
-                      item: indexItem,
-                      nextMessageId: nextMessage?.id,
-                      previousMessageId: previousMessage?.id,
-                      unreadIndicatorPlacement: undefined,
-                    })}
-                  </div>
-                );
-              })}
-            </>
-          ) : undefined}
-        </div>
-      </div>
-      {shouldShowPassThrough
-        ? passThroughMessages.map((child, index) => {
-            const previousMessage = passThroughMessages[index - 1];
-            const nextMessage = passThroughMessages[index + 1];
-            const indexItem = {
-              type: 'none' as const,
-              id: child.id,
-              dayCount: undefined,
-              messages: undefined,
-            };
-
-            return (
-              <div data-message-id={child.id} role="listitem" key={child.id}>
-                {renderItem({
-                  containerElementRef,
-                  containerWidthBreakpoint,
-                  conversationId,
-                  interactivity: MessageInteractivity.Normal,
-                  isBlocked,
-                  isGroup,
-                  isOldestTimelineItem,
-                  item: indexItem,
-                  nextMessageId: nextMessage?.id,
-                  previousMessageId: previousMessage?.id,
-                  unreadIndicatorPlacement: undefined,
+                  return (
+                    <div
+                      data-message-id={child.id}
+                      role="listitem"
+                      key={child.id}
+                      aria-setsize={child.ariaSetSize}
+                      aria-posinset={child.ariaPosInSet}
+                    >
+                      {renderItem({
+                        containerElementRef,
+                        containerWidthBreakpoint,
+                        conversationId,
+                        interactivity:
+                          isSelected || isExpanded
+                            ? MessageInteractivity.Normal
+                            : MessageInteractivity.Hidden,
+                        isBlocked,
+                        isGroup,
+                        isOldestTimelineItem,
+                        item: indexItem,
+                        nextMessageId: nextMessage?.id,
+                        previousMessageId: previousMessage?.id,
+                        unreadIndicatorPlacement: undefined,
+                      })}
+                    </div>
+                  );
                 })}
-              </div>
-            );
-          })
-        : undefined}
+              </>
+            ) : undefined}
+          </div>
+        </div>
+        {shouldShowPassThrough
+          ? passThroughMessages.map((child, index) => {
+              const previousMessage = passThroughMessages[index - 1];
+              const nextMessage = passThroughMessages[index + 1];
+              const indexItem = {
+                type: 'none' as const,
+                id: child.id,
+                dayCount: undefined,
+                messages: undefined,
+              };
+
+              return (
+                <div
+                  data-message-id={child.id}
+                  role="listitem"
+                  key={child.id}
+                  aria-setsize={child.ariaSetSize}
+                  aria-posinset={child.ariaPosInSet}
+                >
+                  {renderItem({
+                    containerElementRef,
+                    containerWidthBreakpoint,
+                    conversationId,
+                    interactivity: MessageInteractivity.Normal,
+                    isBlocked,
+                    isGroup,
+                    isOldestTimelineItem,
+                    item: indexItem,
+                    nextMessageId: nextMessage?.id,
+                    previousMessageId: previousMessage?.id,
+                    unreadIndicatorPlacement: undefined,
+                  })}
+                </div>
+              );
+            })
+          : undefined}
+      </div>
     </div>
   );
 }
@@ -281,6 +303,7 @@ function CollapseSetButton(
   props: CollapseSet & {
     count: number;
     dayCount: number;
+    disclosureContentId: string;
     isExpanded: boolean;
     isGroup: boolean;
     isSelectMode: boolean;
@@ -294,6 +317,7 @@ function CollapseSetButton(
   const {
     count,
     dayCount,
+    disclosureContentId,
     i18n,
     isExpanded,
     isSelected,
@@ -307,22 +331,20 @@ function CollapseSetButton(
     "CollapseSetButton should never render a 'none' set"
   );
 
-  let leadingIcon;
-  let text;
+  let symbol: AxoSymbol.InlineGlyphName;
+  let text: string;
 
   // Note: no need for labels for these icons, since they have full text descriptions
   if (type === 'group-updates') {
     if (props.isGroup) {
-      leadingIcon = <AxoSymbol.InlineGlyph symbol="group" label={null} />;
+      symbol = 'group';
       text = i18n('icu:collapsedGroupUpdates', { count });
     } else {
-      leadingIcon = (
-        <AxoSymbol.InlineGlyph symbol="message-thread" label={null} />
-      );
+      symbol = 'message-thread';
       text = i18n('icu:collapsedChatUpdates', { count });
     }
   } else if (type === 'timer-changes') {
-    leadingIcon = <AxoSymbol.InlineGlyph symbol="timer" label={null} />;
+    symbol = 'timer';
     if (props.endingState) {
       text = i18n('icu:collapsedTimerChanges', {
         count,
@@ -334,7 +356,7 @@ function CollapseSetButton(
       });
     }
   } else if (type === 'call-events') {
-    leadingIcon = <AxoSymbol.InlineGlyph symbol="phone" label={null} />;
+    symbol = 'phone';
     text = i18n('icu:collapsedCallEvents', { count });
   } else {
     throw missingCaseError(type);
@@ -349,19 +371,17 @@ function CollapseSetButton(
     });
   }
 
-  let trailingIcon = isExpanded ? (
-    <AxoSymbol.InlineGlyph
-      symbol="chevron-up"
-      label={i18n('icu:collapsedItems--expanded')}
-    />
-  ) : (
-    <AxoSymbol.InlineGlyph
-      symbol="chevron-down"
-      label={i18n('icu:collapsedItems--collapsed')}
-    />
-  );
+  let arrow: AxoButton.Arrow | null;
+  let ariaExpanded: boolean | null;
   if (isSelected) {
-    trailingIcon = <span />;
+    arrow = null;
+    ariaExpanded = null;
+  } else if (isExpanded) {
+    arrow = 'collapse';
+    ariaExpanded = true;
+  } else {
+    arrow = 'expand';
+    ariaExpanded = false;
   }
 
   return (
@@ -386,18 +406,16 @@ function CollapseSetButton(
       onPinMessage={null}
       onUnpinMessage={null}
     >
-      <AxoButton.Root size="md" variant="secondary" onClick={onClick}>
-        <div className={tw('font-semibold text-label-secondary')}>
-          <I18n
-            id="icu:collapsedContainer"
-            i18n={i18n}
-            components={{
-              leadingIcon,
-              text,
-              trailingIcon,
-            }}
-          />
-        </div>
+      <AxoButton.Root
+        size="md"
+        variant="secondary"
+        arrow={arrow}
+        symbol={symbol}
+        aria-expanded={ariaExpanded}
+        aria-controls={disclosureContentId}
+        onClick={onClick}
+      >
+        {text}
       </AxoButton.Root>
     </MessageContextMenu>
   );
