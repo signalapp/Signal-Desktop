@@ -17,7 +17,7 @@
       content="default-src 'none';
             child-src 'self';
             connect-src 'self' https: wss: attachment:;
-            font-src 'self';
+            font-src 'self' asset:;
             form-action 'self';
             frame-src 'none';
             img-src 'self' blob: data: emoji: attachment:;
@@ -29,56 +29,56 @@
     <title>Signal</title>
     <link
       rel="preload"
-      href="fonts/inter-v3.19/Inter-BoldItalic.woff2"
+      href="asset:///fonts/inter-v3.19/Inter-BoldItalic.woff2"
       as="font"
       crossorigin
       type="font/woff2"
     />
     <link
       rel="preload"
-      href="fonts/inter-v3.19/Inter-Bold.woff2"
+      href="asset:///fonts/inter-v3.19/Inter-Bold.woff2"
       as="font"
       type="font/woff2"
       crossorigin
     />
     <link
       rel="preload"
-      href="fonts/inter-v3.19/Inter-SemiBoldItalic.woff2"
+      href="asset:///fonts/inter-v3.19/Inter-SemiBoldItalic.woff2"
       as="font"
       type="font/woff2"
       crossorigin
     />
     <link
       rel="preload"
-      href="fonts/inter-v3.19/Inter-Italic.woff2"
+      href="asset:///fonts/inter-v3.19/Inter-Italic.woff2"
       as="font"
       type="font/woff2"
       crossorigin
     />
     <link
       rel="preload"
-      href="fonts/inter-v3.19/Inter-SemiBold.woff2"
+      href="asset:///fonts/inter-v3.19/Inter-SemiBold.woff2"
       as="font"
       type="font/woff2"
       crossorigin
     />
     <link
       rel="preload"
-      href="fonts/inter-v3.19/Inter-Regular.woff2"
+      href="asset:///fonts/inter-v3.19/Inter-Regular.woff2"
       as="font"
       type="font/woff2"
       crossorigin
     />
     <link
       rel="preload"
-      href="fonts/inter-v3.19/Inter-Medium.woff2"
+      href="asset:///fonts/inter-v3.19/Inter-Medium.woff2"
       as="font"
       type="font/woff2"
       crossorigin
     />
     <link
       rel="preload"
-      href="fonts/signal-symbols/SignalSymbolsVariable.woff2"
+      href="asset:///fonts/signal-symbols/SignalSymbolsVariable.woff2"
       as="font"
       type="font/woff2"
       crossorigin
@@ -90,6 +90,12 @@
       crossorigin
     />
     <link rel="preload" href="images/signal-logo.svg" as="image" crossorigin />
+    <link
+      rel="preload"
+      href="images/emoji-sheet-32.webp"
+      as="image"
+      crossorigin
+    />
     <link
       rel="preload"
       href="images/emoji-sheet-64.webp"
