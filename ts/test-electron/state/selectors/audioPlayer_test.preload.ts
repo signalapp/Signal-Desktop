@@ -31,7 +31,7 @@ function voiceNoteDataForMessage(
 
 describe('state/selectors/audioPlayer', () => {
   const getEmptyRootState = (): StateType => {
-    return rootReducer(undefined, noopAction());
+    return rootReducer(undefined, noopAction('getEmptyRootState'));
   };
 
   describe('isPaused', () => {

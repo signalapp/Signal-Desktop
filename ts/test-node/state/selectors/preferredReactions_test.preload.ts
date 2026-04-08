@@ -11,7 +11,7 @@ import { getIsCustomizingPreferredReactions } from '../../../state/selectors/pre
 
 describe('both/state/selectors/preferredReactions', () => {
   const getEmptyRootState = (): StateType =>
-    rootReducer(undefined, noopAction());
+    rootReducer(undefined, noopAction('getEmptyRootState'));
 
   const getRootState = (preferredReactions: PreferredReactionsStateType) => ({
     ...getEmptyRootState(),

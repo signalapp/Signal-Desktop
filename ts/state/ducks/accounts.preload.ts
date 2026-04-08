@@ -14,7 +14,7 @@ import type { ServiceIdString } from '../../types/ServiceId.std.ts';
 import { getServiceIdsForE164s } from '../../util/getServiceIdsForE164s.dom.ts';
 import { useBoundActions } from '../../hooks/useBoundActions.std.ts';
 
-import type { NoopActionType } from './noop.std.ts';
+import { noopAction, type NoopActionType } from './noop.std.ts';
 
 const log = createLogger('accounts');
 
@@ -76,10 +76,7 @@ function checkForAccount(
       phoneNumber
     );
     if (existing) {
-      dispatch({
-        type: 'NOOP',
-        payload: null,
-      });
+      dispatch(noopAction('checkForAccount'));
       return;
     }
 

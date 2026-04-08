@@ -18,7 +18,7 @@ import { itemStorage } from '../../../textsecure/Storage.preload.ts';
 
 describe('preferred reactions duck', () => {
   const getEmptyRootState = (): StateType =>
-    rootReducer(undefined, noopAction());
+    rootReducer(undefined, noopAction('getEmptyRootState'));
 
   const getRootState = (
     preferredReactions: PreferredReactionsStateType

@@ -29,7 +29,7 @@ import type {
   PinMessageData,
   ReadonlyMessageAttributesType,
 } from '../../model-types.d.ts';
-import type { NoopActionType } from './noop.std.ts';
+import { noopAction, type NoopActionType } from './noop.std.ts';
 import type { ShowToastActionType } from './toast.preload.ts';
 import type { StateType as RootStateType } from '../reducer.preload.ts';
 import { createLogger } from '../../logging/log.std.ts';
@@ -332,10 +332,7 @@ function onClearAttachments(conversationId: string): NoopActionType {
     conversation.get('draftAttachments')
   );
 
-  return {
-    type: 'NOOP',
-    payload: null,
-  };
+  return noopAction('onClearAttachments');
 }
 
 function cancelJoinRequest(conversationId: string): NoopActionType {
@@ -350,20 +347,14 @@ function cancelJoinRequest(conversationId: string): NoopActionType {
     task: async () => conversation.cancelJoinRequest(),
   });
 
-  return {
-    type: 'NOOP',
-    payload: null,
-  };
+  return noopAction('cancelJoinRequest');
 }
 
 function onCloseLinkPreview(conversationId: string): NoopActionType {
   suspendLinkPreviews();
   removeLinkPreview(conversationId);
 
-  return {
-    type: 'NOOP',
-    payload: null,
-  };
+  return noopAction('onCloseLinkPreview');
 }
 
 function onTextTooLong(): ShowToastActionType {
@@ -806,10 +797,7 @@ function sendStickerMessage(
       log.error('clickSend error:', Errors.toLogFormat(error));
     }
 
-    dispatch({
-      type: 'NOOP',
-      payload: null,
-    });
+    dispatch(noopAction('sendStickerMessage'));
   };
 }
 
@@ -855,10 +843,7 @@ function sendPoll(
       log.error('sendPoll error:', Errors.toLogFormat(error));
     }
 
-    dispatch({
-      type: 'NOOP',
-      payload: null,
-    });
+    dispatch(noopAction('sendPoll'));
   };
 }
 
@@ -1156,10 +1141,7 @@ function onEditorStateChange({
       conversationId,
     });
 
-    dispatch({
-      type: 'NOOP',
-      payload: null,
-    });
+    dispatch(noopAction('onEditorStateChange'));
   };
 }
 
@@ -1283,10 +1265,7 @@ function processAttachments({
       return;
     }
 
-    dispatch({
-      type: 'NOOP',
-      payload: null,
-    });
+    dispatch(noopAction('processAttachments'));
   };
 }
 
@@ -1467,10 +1446,7 @@ function reactToMessage(
         emoji,
         remove,
       });
-      dispatch({
-        type: 'NOOP',
-        payload: null,
-      });
+      dispatch(noopAction('reactToMessage'));
     } catch (error) {
       log.error(
         'reactToMessage: Error sending reaction',
@@ -1499,10 +1475,7 @@ function endPoll(
   return async dispatch => {
     try {
       await enqueuePollTerminateForSend({ messageId });
-      dispatch({
-        type: 'NOOP',
-        payload: null,
-      });
+      dispatch(noopAction('endPoll'));
     } catch (error) {
       log.error('endPoll: Error sending poll terminate', error, messageId);
       dispatch({

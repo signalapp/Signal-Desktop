@@ -210,7 +210,7 @@ describe('calling duck', () => {
   const ourAci = generateAci();
 
   const getEmptyRootState = (): StateType => {
-    const rootState = rootReducer(undefined, noopAction());
+    const rootState = rootReducer(undefined, noopAction('getEmptyRootState'));
     return {
       ...rootState,
       user: {

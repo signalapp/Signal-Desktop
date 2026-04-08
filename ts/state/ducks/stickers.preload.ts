@@ -24,7 +24,7 @@ import { trigger } from '../../shims/events.dom.ts';
 import { ERASE_STORAGE_SERVICE } from './user.preload.ts';
 import type { EraseStorageServiceStateAction } from './user.preload.ts';
 
-import type { NoopActionType } from './noop.std.ts';
+import { noopAction, type NoopActionType } from './noop.std.ts';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.ts';
 import { useBoundActions } from '../../hooks/useBoundActions.std.ts';
 import { strictAssert } from '../../util/assert.std.ts';
@@ -221,10 +221,7 @@ function downloadStickerPack(
     })
   );
 
-  return {
-    type: 'NOOP',
-    payload: null,
-  };
+  return noopAction('downloadStickerPack');
 }
 
 function installStickerPack(

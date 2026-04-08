@@ -44,7 +44,7 @@ function voiceNoteDataForMessage(
 
 describe('both/state/ducks/audioPlayer', () => {
   const getEmptyRootState = (): StateType => {
-    return rootReducer(undefined, noopAction());
+    return rootReducer(undefined, noopAction('getEmptyRootState'));
   };
 
   const getInitializedState = (): StateType => {

@@ -15,7 +15,7 @@ import type {
   MessagesAddedActionType,
   TargetedConversationChangedActionType,
 } from './conversations.preload.ts';
-import type { NoopActionType } from './noop.std.ts';
+import { noopAction, type NoopActionType } from './noop.std.ts';
 import type { StateType as RootStateType } from '../reducer.preload.ts';
 import type {
   StoryViewTargetType,
@@ -320,10 +320,7 @@ function deleteGroupStoryReplyForEveryone(
 
     // the call above re-uses the sync-message processing code to update the UI
     // we don't need to do anything here
-    dispatch({
-      type: 'NOOP',
-      payload: null,
-    });
+    dispatch(noopAction('deleteGroupStoryReplyForEveryone'));
   };
 }
 
@@ -555,10 +552,7 @@ function queueStoryDownload(
       return;
     }
 
-    dispatch({
-      type: 'NOOP',
-      payload: null,
-    });
+    dispatch(noopAction('queueStoryDownload'));
   };
 }
 
@@ -578,10 +572,7 @@ function reactToStory(
         emoji: nextReaction,
         remove: false,
       });
-      dispatch({
-        type: 'NOOP',
-        payload: null,
-      });
+      dispatch(noopAction('reactToStory'));
     } catch (error) {
       log.error('Error enqueuing reaction', error, messageId, nextReaction);
       dispatch({
@@ -1455,10 +1446,7 @@ function removeAllContactStories(
 
     await DataWriter.removeMessagesById(messageIds, { cleanupMessages });
 
-    dispatch({
-      type: 'NOOP',
-      payload: null,
-    });
+    dispatch(noopAction('removeAllContactStories'));
   };
 }
 

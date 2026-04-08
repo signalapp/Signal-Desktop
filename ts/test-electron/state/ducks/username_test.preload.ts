@@ -32,7 +32,7 @@ const DEFAULT_RESERVATION = {
 };
 
 describe('electron/state/ducks/username', () => {
-  const emptyState = reducer(undefined, noopAction());
+  const emptyState = reducer(undefined, noopAction('emptyState'));
   const stateWithReservation = {
     ...emptyState,
     username: {

@@ -29,7 +29,7 @@ describe('both/state/selectors/conversations-extra', () => {
   const GROUP_ID = Bytes.toBase64(new Uint8Array(ID_LENGTH));
 
   const getEmptyRootState = (): StateType => {
-    return rootReducer(undefined, noopAction());
+    return rootReducer(undefined, noopAction('getEmptyRootState'));
   };
 
   function makeConversation(

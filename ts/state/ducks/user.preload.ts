@@ -6,7 +6,7 @@ import { trigger } from '../../shims/events.dom.ts';
 import type { LocaleMessagesType } from '../../types/I18N.std.ts';
 import type { LocalizerType } from '../../types/Util.std.ts';
 import type { MenuOptionsType } from '../../types/menu.std.ts';
-import type { NoopActionType } from './noop.std.ts';
+import { noopAction, type NoopActionType } from './noop.std.ts';
 import type { AciString, PniString } from '../../types/ServiceId.std.ts';
 import OS from '../../util/os/osMain.node.ts';
 import { ThemeType } from '../../types/Util.std.ts';
@@ -106,10 +106,7 @@ function userChanged(attributes: {
 function manualReconnect(): NoopActionType {
   trigger('manualConnect');
 
-  return {
-    type: 'NOOP',
-    payload: null,
-  };
+  return noopAction('manualReconnect');
 }
 
 const intlNotSetup = () => {
