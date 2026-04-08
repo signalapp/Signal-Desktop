@@ -2960,14 +2960,10 @@ export default class MessageReceiver
     envelope: UnsealedEnvelope,
     syncMessage: Proto.SyncMessage
   ): Promise<void> {
-    const ourNumber = this.#storage.user.getNumber();
     const ourAci = this.#storage.user.getCheckedAci();
 
-    const fromSelfSource = envelope.source && envelope.source === ourNumber;
-    const fromSelfSourceUuid =
-      envelope.sourceServiceId && envelope.sourceServiceId === ourAci;
-    if (!fromSelfSource && !fromSelfSourceUuid) {
-      throw new Error('Received sync message from another number');
+    if (envelope.sourceServiceId !== ourAci) {
+      throw new Error('Received sync message from a different account');
     }
 
     const ourDeviceId = this.#storage.user.getDeviceId();
