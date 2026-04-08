@@ -2279,6 +2279,13 @@ async function sync({
 
     strictAssert(manifest.version != null, 'Manifest without version');
     const version = toNumber(manifest.version) ?? 0;
+    if (version <= localManifestVersion) {
+      log.error(
+        'sync: remote manifest version mismatch ' +
+          `${version} <= ${localManifestVersion}`
+      );
+      return undefined;
+    }
 
     await window.waitForEmptyEventQueue();
 
