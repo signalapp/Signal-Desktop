@@ -746,6 +746,9 @@
   "icu:fileSizeWarning": {
     "messageformat": "ਅਫ਼ਸੋਸ, ਚੁਣੀ ਹੋਈ ਫ਼ਾਈਲ ਦਾ ਅਕਾਰ ਸੁਨੇਹੇ ਦੇ ਅਕਾਰ ਸਬੰਧੀ ਪਾਬੰਦੀਆਂ ਤੋਂ ਵੱਧ ਗਿਆ ਹੈ। {limit,number} {units}"
   },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+  },
   "icu:unableToLoadAttachment": {
     "messageformat": "ਚੁਣੀ ਅਟੈਚਮੈਂਟ ਲੋਡ ਕਰਨ ਵਿੱਚ ਅਸਮਰੱਥ।"
   },
@@ -2373,7 +2376,7 @@
     "messageformat": "ਸਹਾਇਤਾ ਕੇਂਦਰ"
   },
   "icu:ConversationDetails__GroupTerminatedBanner": {
-    "messageformat": "This group has ended"
+    "messageformat": "ਇਹ ਗਰੁੱਪ ਬੰਦ ਹੋ ਗਿਆ ਹੈ"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "ਸੁਰੱਖਿਆ ਨੰਬਰ ਦੇਖੋ"
@@ -2559,31 +2562,31 @@
     "messageformat": "{leadingIcon} {text} {trailingIcon}"
   },
   "icu:collapsedGroupUpdates": {
-    "messageformat": "{count, plural, one {{count,number} group update} other {{count,number} group updates}}"
+    "messageformat": "{count, plural, one {{count,number} ਗਰੁੱਪ ਅੱਪਡੇਟ} other {{count,number} ਗਰੁੱਪ ਅੱਪਡੇਟਾਂ}}"
   },
   "icu:multidayCollapse__container": {
     "messageformat": "{containerDescription} · {dayCountSummary}"
   },
   "icu:multidayCollapse__dayCountSummary": {
-    "messageformat": "{dayCount, plural, one {{dayCount,number} day} other {{dayCount,number} days}}"
+    "messageformat": "{dayCount, plural, one {{dayCount,number} ਦਿਨ} other {{dayCount,number} ਦਿਨ}}"
   },
   "icu:collapsedChatUpdates": {
-    "messageformat": "{count, plural, one {{count,number} chat update} other {{count,number} chat updates}}"
+    "messageformat": "{count, plural, one {{count,number} ਚੈਟ ਅੱਪਡੇਟ} other {{count,number} ਚੈਟ ਅੱਪਡੇਟਾਂ}}"
   },
   "icu:collapsedTimerChanges": {
-    "messageformat": "{count, plural, one {{count,number} disappearing timer change · {endingState}} other {{count,number} disappearing message timer changes · {endingState}}}"
+    "messageformat": "{count, plural, one {{count,number} ਗਾਇਬ ਹੋਣ ਵਾਲੇ ਸੁਨੇਹੇ ਦੇ ਟਾਈਮਰ ਵਿੱਚ ਤਬਦੀਲੀ · {endingState}} other {{count,number} ਗਾਇਬ ਹੋਣ ਵਾਲੇ ਸੁਨੇਹੇ ਦੇ ਟਾਈਮਰ ਵਿੱਚ ਤਬਦੀਲੀਆਂ · {endingState}}}"
   },
   "icu:collapsedTimerChanges--disabled": {
-    "messageformat": "{count, plural, one {{count,number} disappearing timer change · Disabled} other {{count,number} disappearing message timer changes · Disabled}}"
+    "messageformat": "{count, plural, one {{count,number} ਗਾਇਬ ਹੋਣ ਵਾਲੇ ਸੁਨੇਹੇ ਦੇ ਟਾਈਮਰ ਵਿੱਚ ਤਬਦੀਲੀ · ਅਸਮਰੱਥ ਹੈ} other {{count,number} ਗਾਇਬ ਹੋਣ ਵਾਲੇ ਸੁਨੇਹੇ ਦਾ ਟਾਈਮਰ ਵਿੱਚ ਤਬਦੀਲੀਆਂ · ਅਸਮਰੱਥ ਹੈ}}"
   },
   "icu:collapsedCallEvents": {
-    "messageformat": "{count, plural, one {{count,number} call event} other {{count,number} call events}}"
+    "messageformat": "{count, plural, one {{count,number} ਕਾਲ ਇਵੈਂਟ} other {{count,number} ਕਾਲ ਇਵੈਂਟ}}"
   },
   "icu:collapsedItems--collapsed": {
-    "messageformat": "Set of items is collapsed - click to expand"
+    "messageformat": "ਆਈਟਮਾਂ ਦਾ ਸੈੱਟ ਸਮੇਟਿਆ ਗਿਆ ਹੈ - ਫੈਲਾਉਣ ਲਈ ਕਲਿੱਕ ਕਰੋ"
   },
   "icu:collapsedItems--expanded": {
-    "messageformat": "Set of items is expanded - click to collapse"
+    "messageformat": "ਆਈਟਮਾਂ ਦਾ ਸੈੱਟ ਫੈਲਾਇਆ ਗਿਆ - ਸਮੇਟਣ ਲਈ ਕਲਿੱਕ ਕਰੋ"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "ਗਰੁੱਪ ਅਵਤਾਰ ਨੂੰ ਅੱਪਡੇਟ ਕੀਤਾ ਗਿਆ।"
@@ -3800,9 +3803,6 @@
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
     "messageformat": "Signal ਰਾਹੀਂ ਕਾਲ ਦਾ ਲਿੰਕ ਸਾਂਝਾ ਕਰੋ"
   },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "ਇਸ ਵਿਅਕਤੀ ਨੂੰ ਕਾਲ ਵਿੱਚੋਂ ਹਟਾਓ"
-  },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "ਕੀ {name} ਨੂੰ ਕਾਲ ਵਿੱਚੋਂ ਹਟਾਉਣਾ ਹੈ?"
   },
@@ -3966,7 +3966,7 @@
     "messageformat": "ਤੁਹਾਡੀ ਸ਼ਾਮਲ ਹੋਣ ਦੀ ਬੇਨਤੀ ਗਰੁੱਪ ਐਡਮਿਨ ਨੂੰ ਭੇਜ ਦਿੱਤੀ ਗਈ ਹੈ। ਜਦੋਂ ਉਹ ਕਾਰਵਾਈ ਕਰਨਗੇ ਤਾਂ ਤੂਹਾਨੂੰ ਸੂਚਿਤ ਕੀਤਾ ਜਾਵੇਗਾ।"
   },
   "icu:GroupV2--join--group-terminated": {
-    "messageformat": "Unable to join this group."
+    "messageformat": "ਇਸ ਗਰੁੱਪ ਵਿੱਚ ਸ਼ਾਮਲ ਨਹੀਂ ਹੋ ਸਕੇ।"
   },
   "icu:GroupV2--join--general-join-failure--title": {
     "messageformat": "ਲਿੰਕ ਵਿੱਚ ਤਰੁੱਟੀ"
@@ -3975,13 +3975,13 @@
     "messageformat": "ਗਰੁੱਪ ਵਿੱਚ ਸ਼ਾਮਲ ਨਹੀਂ ਹੋ ਸਕੇ। ਬਾਅਦ ਵਿੱਚ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।"
   },
   "icu:GroupV2--terminate-group-in-progress": {
-    "messageformat": "Ending group..."
+    "messageformat": "ਗਰੁੱਪ ਬੰਦ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ…"
   },
   "icu:TerminateGroupFailedModal__description": {
-    "messageformat": "Couldn't end the group. Check your connection and try again."
+    "messageformat": "ਗਰੁੱਪ ਨੂੰ ਬੰਦ ਨਹੀਂ ਕਰ ਸਕੇ। ਆਪਣੇ ਕਨੈਕਸ਼ਨ ਦੀ ਜਾਂਚ ਕਰੋ ਅਤੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।"
   },
   "icu:TerminateGroupFailedModal__try-again": {
-    "messageformat": "Try again"
+    "messageformat": "ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।"
   },
   "icu:GroupV2--admin": {
     "messageformat": "ਐਡਮਿਨ"
@@ -4425,13 +4425,13 @@
     "messageformat": "ਇਸ ਗਰੁੱਪ ਦੇ ਮੈਂਬਰ ਜਾਂ ਸੈਟਿੰਗਾਂ ਬਦਲ ਗਈਆਂ ਹਨ।"
   },
   "icu:GroupV2--terminated--you": {
-    "messageformat": "You ended the group"
+    "messageformat": "ਤੁਸੀਂ ਗਰੁੱਪ ਬੰਦ ਕਰ ਦਿੱਤਾ ਹੈ"
   },
   "icu:GroupV2--terminated--other": {
-    "messageformat": "{memberName} ended the group"
+    "messageformat": "{memberName} ਨੇ ਗਰੁੱਪ ਬੰਦ ਕੀਤਾ"
   },
   "icu:GroupV2--terminated--unknown": {
-    "messageformat": "This group has ended"
+    "messageformat": "ਇਹ ਗਰੁੱਪ ਬੰਦ ਹੋ ਗਿਆ ਹੈ"
   },
   "icu:GroupV1--Migration--disabled--link": {
     "messageformat": "@mentions ਅਤੇ ਐਡਮਿਨ ਵਰਗੇ ਨਵੇਂ ਫੀਚਰਾਂ ਨੂੰ ਐਕਟੀਵੇਟਵ ਕਰਨ ਲਈ ਇਸ ਗਰੁੱਪ ਨੂੰ ਅੱਪਗ੍ਰੇਡ ਕਰੋ। ਜਿਹੜੇ ਮੈਂਬਰਾਂ ਨੇ ਇਸ ਗਰੁੱਪ ਵਿੱਚ ਆਪਣਾ ਨਾਂ ਜਾਂ ਫ਼ੋਟੋ ਸਾਂਝੀ ਨਹੀਂ ਕੀਤੀ ਹੈ, ਉਹਨਾਂ ਨੂੰ ਸ਼ਾਮਲ ਹੋਣ ਲਈ ਸੱਦਿਆ ਜਾਵੇਗਾ। <learnMoreLink>ਹੋਰ ਜਾਣੋ।</learnMoreLink>"
@@ -4710,7 +4710,7 @@
     "messageformat": "ਬਦਲੋ"
   },
   "icu:CompositionArea--group-terminated": {
-    "messageformat": "You can't send messages because the group has ended."
+    "messageformat": "ਤੁਸੀਂ ਸੁਨੇਹੇ ਨਹੀਂ ਭੇਜ ਸਕਦੇ ਕਿਉਂਕਿ ਗਰੁੱਪ ਬੰਦ ਹੋ ਗਿਆ ਹੈ।"
   },
   "icu:CompositionArea--viewOnceToggle": {
     "messageformat": "ਇੱਕ ਵਾਰ ਦੇਖੋ"
@@ -4890,7 +4890,7 @@
     "messageformat": "ਗਰੁੱਪ ਛੱਡੋ"
   },
   "icu:ConversationDetailsActions--terminate-group": {
-    "messageformat": "End group"
+    "messageformat": "ਗਰੁੱਪ ਬੰਦ ਕਰੋ"
   },
   "icu:ConversationDetailsActions--block-group": {
     "messageformat": "ਗਰੁੱਪ ਉੱਤੇ ਪਾਬੰਦੀ ਲਗਾਓ"
@@ -4899,13 +4899,13 @@
     "messageformat": "ਗਰੁੱਪ ਉੱਤੋਂ ਪਾਬੰਦੀ ਹਟਾਓ"
   },
   "icu:ConversationDetailsActions--archive": {
-    "messageformat": "Archive chat"
+    "messageformat": "ਚੈਟ ਆਰਕਾਈਵ ਕਰੋ"
   },
   "icu:ConversationDetailsActions--unarchive": {
-    "messageformat": "Unarchive chat"
+    "messageformat": "ਚੈਟ ਆਰਕਾਈਵ ਵਿੱਚੋਂ ਹਟਾਓ"
   },
   "icu:ConversationDetailsActions--delete": {
-    "messageformat": "Delete chat"
+    "messageformat": "ਚੈਟ ਮਿਟਾਓ"
   },
   "icu:ConversationDetailsActions--leave-group-must-choose-new-admin": {
     "messageformat": "ਗਰੁੱਪ ਨੂੰ ਛੱਡਣ ਤੋਂ ਪਹਿਲਾਂ, ਲਾਜ਼ਮੀ ਹੈ ਕਿ ਤੁਸੀਂ ਇਸ ਗਰੁੱਪ ਲਈ ਘੱਟੋ-ਘੱਟ ਇੱਕ ਨਵਾਂ ਐਡਮਿਨ ਚੁਣੋ।"
@@ -4920,16 +4920,16 @@
     "messageformat": "ਛੱਡੋ"
   },
   "icu:ConversationDetailsActions--prompt-terminate-group-modal-title": {
-    "messageformat": "End \"{groupName}\"?"
+    "messageformat": "ਕੀ \"{groupName}\" ਨੂੰ ਬੰਦ ਕਰਨਾ ਹੈ?"
   },
   "icu:ConversationDetailsActions--prompt-terminate-group-modal-content": {
-    "messageformat": "Members will no longer be able to send messages or start calls in the group. They will be notified that you ended the group, and will still have access to message history."
+    "messageformat": "ਮੈਂਬਰ ਹੁਣ ਗਰੁੱਪ ਵਿੱਚ ਸੁਨੇਹੇ ਨਹੀਂ ਭੇਜ ਸਕਣਗੇ ਜਾਂ ਕਾਲਾਂ ਨਹੀਂ ਕਰ ਸਕਣਗੇ। ਉਹਨਾਂ ਨੂੰ ਸੂਚਿਤ ਕੀਤਾ ਜਾਵੇਗਾ ਕਿ ਤੁਸੀਂ ਗਰੁੱਪ ਬੰਦ ਕਰ ਦਿੱਤਾ ਹੈ, ਅਤੇ ਉਹਨਾਂ ਕੋਲ ਅਜੇ ਵੀ ਪੁਰਾਣੇ ਸੁਨੇਹਿਆਂ ਤੱਕ ਪਹੁੰਚ ਹੋਵੇਗੀ।"
   },
   "icu:ConversationDetailsActions--terminate-group-modal-confirm": {
-    "messageformat": "End group"
+    "messageformat": "ਗਰੁੱਪ ਬੰਦ ਕਰੋ"
   },
   "icu:ConversationDetailsActions--confirm-terminate-group-confirm-modal-content": {
-    "messageformat": "This will end the group permanently. Are you sure you want to proceed?"
+    "messageformat": "ਅਜਿਹਾ ਕਰਨ ਨਾਲ ਗਰੁੱਪ ਸਥਾਈ ਤੌਰ 'ਤੇ ਬੰਦ ਹੋ ਜਾਵੇਗਾ। ਕੀ ਤੁਸੀਂ ਪੱਕਾ ਅੱਗੇ ਵਧਣਾ ਚਾਹੁੰਦੇ ਹੋ?"
   },
   "icu:ConversationDetailsActions--unblock-group-modal-title": {
     "messageformat": "ਕੀ \"{groupName}\" ਗਰੁੱਪ ਉੱਤੋਂ ਪਾਬੰਦੀ ਹਟਾਉਣੀ ਹੈ?"
@@ -4959,7 +4959,7 @@
     "messageformat": "{number, plural, one {{number,number} ਮੈਂਬਰ} other {{number,number} ਮੈਂਬਰ}}"
   },
   "icu:ConversationDetailsMembershipList--terminated-title": {
-    "messageformat": "{number, plural, one {{number,number} former member} other {{number,number} former members}}"
+    "messageformat": "{number, plural, one {{number,number} ਸਾਬਕਾ ਮੈਂਬਰ} other {{number,number} ਸਾਬਕਾ ਮੈਂਬਰ}}"
   },
   "icu:ConversationDetailsMembershipList--add-members": {
     "messageformat": "ਮੈਂਬਰ ਸ਼ਾਮਲ ਕਰੋ"
@@ -6316,59 +6316,35 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "ਮੁਕੰਮਲ"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "ਆਪਣੀ ਬੈਕਅੱਪ ਕੁੰਜੀ ਦਿਖਾਓ"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
-    "messageformat": "show your recovery key"
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "ਆਪਣੀ ਬੈਕਅੱਪ ਕੁੰਜੀ ਦੇਖਣ ਲਈ ਆਪਣੀ ਪਛਾਣ ਦੀ ਤਸਦੀਕ ਕਰੋ।"
+    "messageformat": "ਆਪਣੀ ਰਿਕਵਰੀ ਕੁੰਜੀ ਦਿਖਾਓ"
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
-    "messageformat": "Verify your identity to view your recovery key."
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "ਬੈਕਅੱਪ ਕੁੰਜੀ ਦੇਖੋ"
+    "messageformat": "ਆਪਣੀ ਰਿਕਵਰੀ ਕੁੰਜੀ ਦੇਖਣ ਲਈ ਆਪਣੀ ਪਛਾਣ ਦੀ ਤਸਦੀਕ ਕਰੋ।"
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
-    "messageformat": "View recovery key"
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "ਤੁਹਾਡੀ ਬੈਕਅੱਪ ਕੁੰਜੀ ਦੇਖਣ ਲਈ ਪ੍ਰਮਾਣੀਕਰਨ ਲੋੜੀਂਦਾ ਹੈ।"
+    "messageformat": "ਰਿਕਵਰੀ ਕੁੰਜੀ ਦੇਖੋ"
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
-    "messageformat": "Authentication is required to view your recovery key."
-  },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "ਬੈਕਅੱਪ ਕੁੰਜੀ ਟੈਕਸਟ ਬਾਕਸ"
+    "messageformat": "ਤੁਹਾਡੀ ਰਿਕਵਰੀ ਕੁੰਜੀ ਦੇਖਣ ਲਈ ਪ੍ਰਮਾਣੀਕਰਨ ਲੋੜੀਂਦਾ ਹੈ।"
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
-    "messageformat": "Recovery key"
+    "messageformat": "ਰਿਕਵਰੀ ਕੁੰਜੀ"
   },
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "ਕੁੰਜੀ ਦਰਜ ਕਰੋ"
   },
-  "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "ਆਪਣੀ ਬੈਕਅੱਪ ਕੁੰਜੀ ਨੂੰ ਰਿਕਾਰਡ ਕਰੋ"
-  },
   "icu:Preferences--local-backups-record-recovery-key": {
-    "messageformat": "Record your recovery key"
+    "messageformat": "ਆਪਣੀ ਰਿਕਵਰੀ ਕੁੰਜੀ ਰਿਕਾਰਡ ਕਰੋ"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "ਇਹ ਕੁੰਜੀ ਤੁਹਾਡੇ ਖਾਤੇ ਅਤੇ ਡੇਟਾ ਨੂੰ ਰਿਕਵਰ ਕਰਨ ਲਈ ਲੋੜੀਂਦੀ ਹੈ। ਇਸ ਕੁੰਜੀ ਨੂੰ ਕਿਤੇ ਸੁਰੱਖਿਅਤ ਰੱਖੋ। ਜੇਕਰ ਤੁਸੀਂ ਇਸਨੂੰ ਗੁਆ ਦਿੰਦੇ ਹੋ, ਤਾਂ ਤੁਸੀਂ ਆਪਣਾ ਖਾਤਾ ਰਿਕਵਰ ਨਹੀਂ ਕਰ ਸਕੋਗੇ। <learnMoreLink>ਹੋਰ ਜਾਣੋ।</learnMoreLink>"
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "ਆਪਣੀ ਬੈਕਅੱਪ ਕੁੰਜੀ ਦੀ ਪੁਸ਼ਟੀ ਕਰੋ"
-  },
   "icu:Preferences--local-backups-confirm-recovery-key": {
-    "messageformat": "Confirm your recovery key"
-  },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "ਉਹ ਬੈਕਅੱਪ ਕੁੰਜੀ ਦਰਜ ਕਰੋ ਜੋ ਤੁਸੀਂ ਹੁਣੇ ਰਿਕਾਰਡ ਕੀਤੀ ਹੈ"
+    "messageformat": "ਆਪਣੀ ਰਿਕਵਰੀ ਕੁੰਜੀ ਦੀ ਪੁਸ਼ਟੀ ਕਰੋ"
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
-    "messageformat": "Enter the recovery key that you just recorded"
+    "messageformat": "ਉਹ ਰਿਕਵਰੀ ਕੁੰਜੀ ਦਰਜ ਕਰੋ ਜੋ ਤੁਸੀਂ ਹੁਣੇ ਰਿਕਾਰਡ ਕੀਤੀ ਹੈ"
   },
   "icu:Preferences__local-backups-confirm-key-modal-title": {
     "messageformat": "ਆਪਣੀ ਕੁੰਜੀ ਸੁਰੱਖਿਅਤ ਰੱਖੋ"
@@ -6394,9 +6370,6 @@
   "icu:Preferences__local-backups-folder": {
     "messageformat": "ਬੈਕਅੱਪ ਫੋਲਡਰ"
   },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "ਬਦਲੋ"
-  },
   "icu:Preferences__local-backups-turn-off": {
     "messageformat": "ਬੈਕਅੱਪ ਬੰਦ ਕਰੋ"
   },
@@ -6412,11 +6385,8 @@
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "ਕਲਿਪਬੋਰਡ 'ਤੇ ਕਾਪੀ ਕਰੋ"
   },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "ਬੈਕਅੱਪ ਕੁੰਜੀ ਕਾਪੀ ਕੀਤੀ ਗਈ"
-  },
   "icu:Preferences__local-backups-copied-recovery-key": {
-    "messageformat": "Recovery key copied"
+    "messageformat": "ਰਿਕਵਰੀ ਕੁੰਜੀ ਕਾਪੀ ਕੀਤੀ ਗਈ"
   },
   "icu:Preferences__local-backups--enable--os-prompt--mac": {
     "messageformat": "ਬੈਕਅੱਪ ਨੂੰ ਸਮਰੱਥ ਕਰੋ"
@@ -6431,34 +6401,28 @@
     "messageformat": "ਬੈਕਅੱਪ ਨੂੰ ਸਮਰੱਥ ਬਣਾਉਣ ਲਈ ਪ੍ਰਮਾਣੀਕਰਨ ਲੋੜੀਂਦਾ ਹੈ।"
   },
   "icu:Preferences__local-backups-auth-error--unauthorized": {
-    "messageformat": "This action could not be completed because system authentication failed. Please try again or open the Signal app on your mobile device and go to Backup Settings to view your recovery key."
+    "messageformat": "ਇਹ ਕਾਰਵਾਈ ਪੂਰੀ ਨਹੀਂ ਹੋ ਸਕੀ ਕਿਉਂਕਿ ਸਿਸਟਮ ਪ੍ਰਮਾਣੀਕਰਨ ਅਸਫਲ ਰਿਹਾ। ਕਿਰਪਾ ਕਰਕੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ ਜਾਂ ਆਪਣੇ ਮੋਬਾਈਲ ਡਿਵਾਈਸ 'ਤੇ Signal ਐਪ ਖੋਲ੍ਹੋ ਅਤੇ ਆਪਣੀ ਰਿਕਵਰੀ ਕੁੰਜੀ ਦੇਖਣ ਲਈ ਬੈਕਅੱਪ ਸੈਟਿੰਗਾਂ 'ਤੇ ਜਾਓ।"
   },
   "icu:Preferences__view-key": {
     "messageformat": "ਕੁੰਜੀ ਦੇਖੋ"
   },
-  "icu:Preferences__backup-key": {
-    "messageformat": "ਬੈਕਅੱਪ ਕੁੰਜੀ"
-  },
   "icu:Preferences__recovery-key": {
-    "messageformat": "Recovery key"
-  },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "ਤੁਹਾਡੀ ਬੈਕਅੱਪ ਕੁੰਜੀ ਇੱਕ 64-ਅੰਕਾਂ ਵਾਲਾ ਕੋਡ ਹੈ ਜੋ ਤੁਹਾਡੇ ਬੈਕਅੱਪ ਨੂੰ ਰੀਸਟੋਰ ਕਰਨ ਲਈ ਵਰਤਿਆ ਜਾਂਦਾ ਹੈ"
+    "messageformat": "ਰਿਕਵਰੀ ਕੁੰਜੀ"
   },
   "icu:Preferences__recovery-key-description": {
-    "messageformat": "Your recovery key is a 64-digit code used to restore your backup"
+    "messageformat": "ਤੁਹਾਡੀ ਰਿਕਵਰੀ ਕੁੰਜੀ ਇੱਕ 64-ਅੱਖਰਾਂ ਦਾ ਕੋਡ ਹੈ ਜੋ ਤੁਹਾਡੇ ਬੈਕਅੱਪ ਨੂੰ ਰੀਸਟੋਰ ਕਰਨ ਲਈ ਵਰਤਿਆ ਜਾਂਦਾ ਹੈ"
   },
   "icu:Preferences__backup-other-ways": {
     "messageformat": "ਬੈਕਅੱਪ ਲੈਣ ਦੇ ਹੋਰ ਤਰੀਕੇ"
   },
   "icu:Preferences__recovery-key-updated__title": {
-    "messageformat": "Your recovery key has changed"
+    "messageformat": "ਤੁਹਾਡੀ ਰਿਕਵਰੀ ਕੁੰਜੀ ਬਦਲ ਗਈ ਹੈ"
   },
   "icu:Preferences__recovery-key-updated__description": {
-    "messageformat": "Your recovery key has been updated. Any new backups you make can only be restored using your new recovery key."
+    "messageformat": "ਤੁਹਾਡੀ ਰਿਕਵਰੀ ਕੁੰਜੀ ਅੱਪਡੇਟ ਕੀਤੀ ਗਈ। ਤੁਹਾਡੇ ਦੁਆਰਾ ਲਏ ਜਾਣ ਵਾਲੇ ਨਵੇਂ ਬੈਕਅੱਪ ਨੂੰ ਸਿਰਫ਼ ਤੁਹਾਡੀ ਨਵੀਂ ਰਿਕਵਰੀ ਕੁੰਜੀ ਦੀ ਵਰਤੋਂ ਕਰਕੇ ਹੀ ਰੀਸਟੋਰ ਕੀਤਾ ਜਾ ਸਕਦਾ ਹੈ।"
   },
   "icu:Preferences__recovery-key-updated__view-key": {
-    "messageformat": "View new key"
+    "messageformat": "ਨਵੀਂ ਕੁੰਜੀ ਦੇਖੋ"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {1 ਸੰਪਰਕ} other {{num,number} ਸੰਪਰਕ}}"
@@ -6812,7 +6776,7 @@
     "messageformat": "ਕੀ ਇਸ ਸਟੋਰੀ ਨੂੰ ਮਿਟਾਉਣਾ ਹੈ? ਇਹ ਸਟੋਰੀ ਜਿਹਨਾਂ ਨੂੰ ਪ੍ਰਾਪਤ ਹੋਈ ਹੈ, ਉਹਨਾਂ ਸਭ ਲਈ ਵੀ ਮਿਟਾ ਦਿੱਤੀ ਜਾਵੇਗੀ।"
   },
   "icu:MyStories__delete-group-story-for-me": {
-    "messageformat": "Delete this story? It will only be deleted for you because the group has ended."
+    "messageformat": "ਕੀ ਇਸ ਸਟੋਰੀ ਨੂੰ ਮਿਟਾਉਣਾ ਹੈ? ਇਸਨੂੰ ਸਿਰਫ਼ ਤੁਹਾਡੇ ਲਈ ਮਿਟਾ ਦਿੱਤਾ ਜਾਵੇਗਾ ਕਿਉਂਕਿ ਗਰੁੱਪ ਬੰਦ ਹੋ ਗਿਆ ਹੈ।"
   },
   "icu:payment-event-notification-message-you-label": {
     "messageformat": "ਤੁਸੀਂ {receiver} ਨੂੰ ਭੇਜਣ ਲਈ ਭੁਗਤਾਨ ਸ਼ੁਰੂ ਕੀਤਾ ਹੈ"
@@ -8148,10 +8112,7 @@
     "messageformat": "ਛੋਟੇ-ਮੋਟੇ ਸੁਧਾਰ, ਖ਼ਰਾਬੀਆਂ ਨੂੰ ਦਰੁਸਤ ਅਤੇ ਪ੍ਰਦਰਸ਼ਨ ਨੂੰ ਬਿਹਤਰ ਬਣਾਇਆ ਗਿਆ ਹੈ। Signal ਦੀ ਵਰਤੋਂ ਕਰਨ ਲਈ ਤੁਹਾਡਾ ਧੰਨਵਾਦ!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "ਹੁਣ ਤੁਸੀਂ ਵਿਕਲਪਿਕ ਤੌਰ 'ਤੇ ਆਪਣੇ ਬਾਰੇ ਜਾਂ ਕਿਸੇ ਗਰੁੱਪ ਚੈਟ ਵਿੱਚ ਆਪਣੀ ਭੂਮਿਕਾ ਦਾ ਵਰਣਨ ਕਰਨ ਲਈ ਇੱਕ ਮੈਂਬਰ ਲੇਬਲ ਸ਼ਾਮਲ ਕਰ ਸਕਦੇ ਹੋ। ਉਸ ਗਰੁੱਪ ਵਿੱਚ ਮੈਂਬਰ ਲੇਬਲ ਨੂੰ ਤੁਹਾਡੇ ਪ੍ਰੋਫ਼ਾਈਲ ਨਾਂ ਦੇ ਅੱਗੇ ਦਿਖਾਇਆ ਜਾਂਦਾ ਹੈ, ਅਤੇ ਗਰੁੱਪ ਐਡਮਿਨ ਇਹ ਕੰਟਰੋਲ ਕਰ ਸਕਦੇ ਹਨ ਕਿ ਇਹ ਸਹੂਲਤ ਸਾਰਿਆਂ ਲਈ ਸਮਰੱਥ ਕਰਨੀ ਹੈ ਜਾਂ ਨਹੀਂ।"
-  },
   "icu:WhatsNew__8.6--0": {
-    "messageformat": "Now you won't need to scroll as far to catch up on the latest messages. If several new people join a busy group chat, or you receive multiple missed calls in a row, those repeated chat events can be automatically grouped together into a compact display. Sometimes less is more, but you can easily expand and collapse these lists at any time."
+    "messageformat": "ਵਾਰ-ਵਾਰ ਹੋਣ ਵਾਲੇ ਚੈਟ ਇਵੈਂਟ (ਜਿਵੇਂ ਕਿ ਕਈ ਮਿਸਡ ਕਾਲਾਂ) ਨੂੰ ਆਪਣੇ-ਆਪ ਇੱਕ ਸੰਖੇਪ ਡਿਸਪਲੇ ਵਿੱਚ ਇਕੱਠਾ ਕੀਤਾ ਜਾ ਸਕਦਾ ਹੈ ਤਾਂ ਜੋ ਤੁਹਾਨੂੰ ਨਵੇਂ ਸੁਨੇਹਿਆਂ ਤੱਕ ਪਹੁੰਚਣ ਲਈ ਜ਼ਿਆਦਾ ਸਕ੍ਰੌਲ ਨਾ ਕਰਨਾ ਪਵੇ।"
   }
 }

@@ -746,6 +746,9 @@
   "icu:fileSizeWarning": {
     "messageformat": "Təəssüf ki, seçilmiş fayl, mesaj həcm məhdudiyyətlərini aşır. {limit,number} {units}"
   },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+  },
   "icu:unableToLoadAttachment": {
     "messageformat": "Seçilmiş qoşma yüklənilə bilmir."
   },
@@ -2373,7 +2376,7 @@
     "messageformat": "Dəstək mərkəzi"
   },
   "icu:ConversationDetails__GroupTerminatedBanner": {
-    "messageformat": "This group has ended"
+    "messageformat": "Bu qrup sonlandırılıb"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "Güvənlik nömrəsinə bax"
@@ -2559,31 +2562,31 @@
     "messageformat": "{leadingIcon} {text} {trailingIcon}"
   },
   "icu:collapsedGroupUpdates": {
-    "messageformat": "{count, plural, one {{count,number} group update} other {{count,number} group updates}}"
+    "messageformat": "{count, plural, one {{count,number} qrup yeniləməsi} other {{count,number} qrup yeniləməsi}}"
   },
   "icu:multidayCollapse__container": {
     "messageformat": "{containerDescription} · {dayCountSummary}"
   },
   "icu:multidayCollapse__dayCountSummary": {
-    "messageformat": "{dayCount, plural, one {{dayCount,number} day} other {{dayCount,number} days}}"
+    "messageformat": "{dayCount, plural, one {{dayCount,number} gün} other {{dayCount,number} gün}}"
   },
   "icu:collapsedChatUpdates": {
-    "messageformat": "{count, plural, one {{count,number} chat update} other {{count,number} chat updates}}"
+    "messageformat": "{count, plural, one {{count,number} çat yeniləməsi} other {{count,number} çat yeniləməsi}}"
   },
   "icu:collapsedTimerChanges": {
-    "messageformat": "{count, plural, one {{count,number} disappearing timer change · {endingState}} other {{count,number} disappearing message timer changes · {endingState}}}"
+    "messageformat": "{count, plural, one {{count,number} avtomatik yox olan taymer dəyişdi · {endingState}} other {{count,number} avtomatik yox olan mesaj taymeri dəyişdi · {endingState}}}"
   },
   "icu:collapsedTimerChanges--disabled": {
-    "messageformat": "{count, plural, one {{count,number} disappearing timer change · Disabled} other {{count,number} disappearing message timer changes · Disabled}}"
+    "messageformat": "{count, plural, one {{count,number} avtomatik yox olan taymer dəyişdi · Qeyri-aktiv edildi} other {{count,number} avtomatik yox olan mesaj taymeri dəyişdi · Qeyri-aktiv edildi}}"
   },
   "icu:collapsedCallEvents": {
-    "messageformat": "{count, plural, one {{count,number} call event} other {{count,number} call events}}"
+    "messageformat": "{count, plural, one {{count,number} zəng etmə} other {{count,number} zəng etmə}}"
   },
   "icu:collapsedItems--collapsed": {
-    "messageformat": "Set of items is collapsed - click to expand"
+    "messageformat": "Bir sıra elementlər daraldıldı - genişləndirmək üçün klikləyin"
   },
   "icu:collapsedItems--expanded": {
-    "messageformat": "Set of items is expanded - click to collapse"
+    "messageformat": "Bir sıra elementlər artırıldı - daraltmaq üçün klikləyin"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "Qrup avatarı yeniləndi."
@@ -3800,9 +3803,6 @@
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
     "messageformat": "Signal vasitəsilə zəng keçidini paylaş"
   },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "Bu şəxsi zəngdən çıxar"
-  },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "{name} zəngdən çıxarılsın?"
   },
@@ -3966,7 +3966,7 @@
     "messageformat": "Qoşulma tələbiniz qrup admininə göndərildi. Əməliyyat olanda bildiriş alacaqsınız."
   },
   "icu:GroupV2--join--group-terminated": {
-    "messageformat": "Unable to join this group."
+    "messageformat": "Bu qrupa qoşulmaq mümkün olmadı."
   },
   "icu:GroupV2--join--general-join-failure--title": {
     "messageformat": "Bağlantı xətası"
@@ -3975,13 +3975,13 @@
     "messageformat": "Qrup qoşulmaq alınmır. Daha sonra yenidən sınayın."
   },
   "icu:GroupV2--terminate-group-in-progress": {
-    "messageformat": "Ending group..."
+    "messageformat": "Qrup sonlandırılır..."
   },
   "icu:TerminateGroupFailedModal__description": {
-    "messageformat": "Couldn't end the group. Check your connection and try again."
+    "messageformat": "Qrupu sonlandırmaq mümkün olmadı. Bağlantınızı yoxlayıb yenidən cəhd edin."
   },
   "icu:TerminateGroupFailedModal__try-again": {
-    "messageformat": "Try again"
+    "messageformat": "Yenidən sına"
   },
   "icu:GroupV2--admin": {
     "messageformat": "Admin"
@@ -4425,13 +4425,13 @@
     "messageformat": "Bu qrupun üzvləri və ya parametrləri dəyişib."
   },
   "icu:GroupV2--terminated--you": {
-    "messageformat": "You ended the group"
+    "messageformat": "Qrupu sonlandırdınız"
   },
   "icu:GroupV2--terminated--other": {
-    "messageformat": "{memberName} ended the group"
+    "messageformat": "{memberName} qrupu sonlandırdı"
   },
   "icu:GroupV2--terminated--unknown": {
-    "messageformat": "This group has ended"
+    "messageformat": "Bu qrup sonlandırılıb"
   },
   "icu:GroupV1--Migration--disabled--link": {
     "messageformat": "@adçəkmə və admin kimi yeni xüsusiyyətləri aktivləşdirmək üçün bu qrupu yeniləşdirin. Bu qrupda adını və fotosunu paylaşmayan üzvlərə qoşulmaq üçün dəvət göndəriləcək. <learnMoreLink>Daha ətraflı.</learnMoreLink>"
@@ -4710,7 +4710,7 @@
     "messageformat": "Dəyişdir"
   },
   "icu:CompositionArea--group-terminated": {
-    "messageformat": "You can't send messages because the group has ended."
+    "messageformat": "Qrup sonlandırıldığı üçün mesajlar göndərə bilmirsiniz."
   },
   "icu:CompositionArea--viewOnceToggle": {
     "messageformat": "Birdəfəlik baxış"
@@ -4890,7 +4890,7 @@
     "messageformat": "Qrupu tərk et"
   },
   "icu:ConversationDetailsActions--terminate-group": {
-    "messageformat": "End group"
+    "messageformat": "Qrupu sonlandır"
   },
   "icu:ConversationDetailsActions--block-group": {
     "messageformat": "Qrupu blokla"
@@ -4899,13 +4899,13 @@
     "messageformat": "Qrupu blokdan çıxart"
   },
   "icu:ConversationDetailsActions--archive": {
-    "messageformat": "Archive chat"
+    "messageformat": "Çatı arxivləşdir"
   },
   "icu:ConversationDetailsActions--unarchive": {
-    "messageformat": "Unarchive chat"
+    "messageformat": "Çatı arxivdən çıxart"
   },
   "icu:ConversationDetailsActions--delete": {
-    "messageformat": "Delete chat"
+    "messageformat": "Çatı sil"
   },
   "icu:ConversationDetailsActions--leave-group-must-choose-new-admin": {
     "messageformat": "Tərk etməzdən əvvəl, bu qrup üçün ən azı bir yeni admin seçməlisiniz."
@@ -4920,16 +4920,16 @@
     "messageformat": "Tərk et"
   },
   "icu:ConversationDetailsActions--prompt-terminate-group-modal-title": {
-    "messageformat": "End \"{groupName}\"?"
+    "messageformat": "\"{groupName}\" sonlandırılsın?"
   },
   "icu:ConversationDetailsActions--prompt-terminate-group-modal-content": {
-    "messageformat": "Members will no longer be able to send messages or start calls in the group. They will be notified that you ended the group, and will still have access to message history."
+    "messageformat": "Üzvlər bu qrupda artıq mesajlar göndərə və ya zənglər edə bilməyəcək. Onlar sizin qrupu sonlandırdığınız haqqında bildiriş alacaq və mesaj tarixçəsinə daxil ola biləcəklər."
   },
   "icu:ConversationDetailsActions--terminate-group-modal-confirm": {
-    "messageformat": "End group"
+    "messageformat": "Qrupu sonlandır"
   },
   "icu:ConversationDetailsActions--confirm-terminate-group-confirm-modal-content": {
-    "messageformat": "This will end the group permanently. Are you sure you want to proceed?"
+    "messageformat": "Bu addım qrupu daimi olaraq sonlandıracaq. Davam etmək istədiyinizdən əminsiniz?"
   },
   "icu:ConversationDetailsActions--unblock-group-modal-title": {
     "messageformat": "\"{groupName}\" qrupu blokdan çıxarılsın?"
@@ -4959,7 +4959,7 @@
     "messageformat": "{number, plural, one {{number,number} üzv} other {{number,number} üzv}}"
   },
   "icu:ConversationDetailsMembershipList--terminated-title": {
-    "messageformat": "{number, plural, one {{number,number} former member} other {{number,number} former members}}"
+    "messageformat": "{number, plural, one {{number,number} köhnə üzv} other {{number,number} köhnə üzv}}"
   },
   "icu:ConversationDetailsMembershipList--add-members": {
     "messageformat": "Üzv əlavə et"
@@ -6316,59 +6316,35 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "Hazırdır"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "ehtiyat nüsxə şifrənizi göstərin"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
-    "messageformat": "show your recovery key"
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "Ehtiyat nüsxə şifrəsinə baxmaq üçün kimliyinizi təsdiqləyin."
+    "messageformat": "bərpa şifrənizi göstərin"
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
-    "messageformat": "Verify your identity to view your recovery key."
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "Ehtiyat nüsxə paroluna bax"
+    "messageformat": "Bərpa şifrəsinə baxmaq üçün kimliyinizi təsdiqləyin."
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
-    "messageformat": "View recovery key"
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "Ehtiyat nüsxə şifrəsinə baxmanız üçün kimliyin yoxlanılması tələb olunur."
+    "messageformat": "Bərpa şifrəsinə bax"
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
-    "messageformat": "Authentication is required to view your recovery key."
-  },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Ehtiyat nüsxə şifrəsi mətn qutusu"
+    "messageformat": "Bərpa şifrənizə baxmağınız üçün autentifikasiya tələb olunur."
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
-    "messageformat": "Recovery key"
+    "messageformat": "Bərpa şifrəsi"
   },
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "Şifrəni daxil et"
   },
-  "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "Ehtiyat nüsxə şifrəsini qeyd edin"
-  },
   "icu:Preferences--local-backups-record-recovery-key": {
-    "messageformat": "Record your recovery key"
+    "messageformat": "Bərpa şifrənizi qeyd edin"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "Bu şifrə hesabınızı və verilənlərinizi bərpa etmək üçün tələb olunur. Bu şifrəni etibarlı bir yerdə saxlayın. Onu itirsəniz, hesabınızı bərpa edə bilməyəcəksiniz. <learnMoreLink>Daha ətraflı.</learnMoreLink>"
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "Ehtiyat nüsxə şifrəsini təsdiqləyin"
-  },
   "icu:Preferences--local-backups-confirm-recovery-key": {
-    "messageformat": "Confirm your recovery key"
-  },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "Yeni qeyd etdiyiniz ehtiyat nüsxə şifrəsini daxil edin"
+    "messageformat": "Bərpa şifrənizi təsdiqləyin"
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
-    "messageformat": "Enter the recovery key that you just recorded"
+    "messageformat": "Az əvvəl qeyd etdiyiniz bərpa şifrənizi daxil edin"
   },
   "icu:Preferences__local-backups-confirm-key-modal-title": {
     "messageformat": "Şifrənizin təhlükəsizliyini qoruyun"
@@ -6394,9 +6370,6 @@
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Nüsxə qovluğu"
   },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "Dəyiş"
-  },
   "icu:Preferences__local-backups-turn-off": {
     "messageformat": "Ehtiyat nüsxələr xüsusiyyətini söndür"
   },
@@ -6412,11 +6385,8 @@
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Lövhəyə kopyala"
   },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "Ehtiyat nüsxə şifrəsi kopiyalandı"
-  },
   "icu:Preferences__local-backups-copied-recovery-key": {
-    "messageformat": "Recovery key copied"
+    "messageformat": "Bərpa şifrəsi kopiyalandı"
   },
   "icu:Preferences__local-backups--enable--os-prompt--mac": {
     "messageformat": "Nüsxələməni fəallaşdır"
@@ -6431,34 +6401,28 @@
     "messageformat": "Ehtiyat nüsxələrin aktivləşdirilməsi üçün kimliyin yoxlanılması tələb olunur."
   },
   "icu:Preferences__local-backups-auth-error--unauthorized": {
-    "messageformat": "This action could not be completed because system authentication failed. Please try again or open the Signal app on your mobile device and go to Backup Settings to view your recovery key."
+    "messageformat": "Sistem autentifikasiyası baş tutmadığı üçün bu əməliyyatı tamamlamaq mümkün olmadı. Yenidən cəhd edin, yaxud da bərpa şifrəsinə baxmaq üçün mobil cihazınızda Signal tətbiqini açaraq Ehtiyat nüsxə parametrlərinə keçin."
   },
   "icu:Preferences__view-key": {
     "messageformat": "Şifrəyə bax"
   },
-  "icu:Preferences__backup-key": {
-    "messageformat": "Ehtiyat nüsxə şifrəsi"
-  },
   "icu:Preferences__recovery-key": {
-    "messageformat": "Recovery key"
-  },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "Ehtiyat nüsxənin bərpası üçün istifadə olunan ehtiyat nüsxə şifrəniz 64 rəqəmli bir koddur"
+    "messageformat": "Bərpa şifrəsi"
   },
   "icu:Preferences__recovery-key-description": {
-    "messageformat": "Your recovery key is a 64-digit code used to restore your backup"
+    "messageformat": "Bərpa şifrəniz ehtiyat nüsxənizin bərpasında istifadə olunan 64 simvoldan ibarət bir koddur"
   },
   "icu:Preferences__backup-other-ways": {
     "messageformat": "Ehtiyat nüsxəçıxarmanın digər yolları"
   },
   "icu:Preferences__recovery-key-updated__title": {
-    "messageformat": "Your recovery key has changed"
+    "messageformat": "Bərpa şifrəniz dəyişdirilib"
   },
   "icu:Preferences__recovery-key-updated__description": {
-    "messageformat": "Your recovery key has been updated. Any new backups you make can only be restored using your new recovery key."
+    "messageformat": "Bərpa şifrəniz yenilənib. Çıxardığınız istənilən ehtiyat nüsxə yalnız yeni bərpa şifrəsindən istifadə etməklə bərpa oluna bilər."
   },
   "icu:Preferences__recovery-key-updated__view-key": {
-    "messageformat": "View new key"
+    "messageformat": "Yeni şifrəyə bax"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {1 kontakt} other {{num,number} kontakt}}"
@@ -6812,7 +6776,7 @@
     "messageformat": "Bu hekayə silinsin? Hekayə həm də onu alan hər kəs üçün silinəcək."
   },
   "icu:MyStories__delete-group-story-for-me": {
-    "messageformat": "Delete this story? It will only be deleted for you because the group has ended."
+    "messageformat": "Bu hekayə silinsin? Qrup sonlandırıldığına görə bu yalnız sizin üçün silinəcək."
   },
   "icu:payment-event-notification-message-you-label": {
     "messageformat": "{receiver} adlı alıcıya bir ödəniş göndərdiniz"
@@ -8148,10 +8112,7 @@
     "messageformat": "Kiçik spesifik tənzimləmələr, xəta düzəlişləri və məhsuldarlığın artırılması. Signal istifadə etdiyiniz üçün təşəkkürlər!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "Artıq qrup çatında özünüzü və ya rolunuzu təsvir etmək üçün üzv etiketi də əlavə edə bilərsiniz. Qrupa yeni insanlar qoşulduqda işləri tezləşdirməyə kömək etmək üçün yerli futbol liqası qrup çatınızdakı üzv etiketinizi \"Hakim\" və ya \"Qapıçı\" kimi təyin edin, şirkət çatında isə fərqli bir etiket seçin. Üzv etiketləri həmin qrupdakı profil adınızın yanında görünür və qrup adminləri onların hamı üçün aktiv olub-olmadığına nəzarət edə bilər."
-  },
   "icu:WhatsNew__8.6--0": {
-    "messageformat": "Now you won't need to scroll as far to catch up on the latest messages. If several new people join a busy group chat, or you receive multiple missed calls in a row, those repeated chat events can be automatically grouped together into a compact display. Sometimes less is more, but you can easily expand and collapse these lists at any time."
+    "messageformat": "Artıq ən son mesajı tapana qədər ekranı sürüşdürməyə ehtiyac yoxdur. Qrup çatına bir neçə yeni insan qoşulduqda, yaxud da arxa-arxaya bir neçə cavabsız zəng aldığınız zaman həmin təkrarlanan çat hadisələri avtomatik qruplaşdırılaraq göstərilir. Bəzən az daha yaxşıdır, amma bu siyahını istədiyiniz zaman daralda və artıra bilərsiniz."
   }
 }

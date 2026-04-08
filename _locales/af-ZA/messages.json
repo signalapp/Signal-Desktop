@@ -746,6 +746,9 @@
   "icu:fileSizeWarning": {
     "messageformat": "Jammer, die geselekteerde lêer oorskry die boodskap se groottebeperkings. {limit,number} {units}"
   },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+  },
   "icu:unableToLoadAttachment": {
     "messageformat": "Kan nie die geselekteerde aanhegsel laai nie."
   },
@@ -2373,7 +2376,7 @@
     "messageformat": "Steundienssentrum"
   },
   "icu:ConversationDetails__GroupTerminatedBanner": {
-    "messageformat": "This group has ended"
+    "messageformat": "Hierdie groep is beëindig"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "Bekyk veiligheidsnommer"
@@ -2559,31 +2562,31 @@
     "messageformat": "{leadingIcon} {text} {trailingIcon}"
   },
   "icu:collapsedGroupUpdates": {
-    "messageformat": "{count, plural, one {{count,number} group update} other {{count,number} group updates}}"
+    "messageformat": "{count, plural, one {{count,number} groepopdatering} other {{count,number} groepopdaterings}}"
   },
   "icu:multidayCollapse__container": {
     "messageformat": "{containerDescription} · {dayCountSummary}"
   },
   "icu:multidayCollapse__dayCountSummary": {
-    "messageformat": "{dayCount, plural, one {{dayCount,number} day} other {{dayCount,number} days}}"
+    "messageformat": "{dayCount, plural, one {{dayCount,number} dag} other {{dayCount,number} dae}}"
   },
   "icu:collapsedChatUpdates": {
-    "messageformat": "{count, plural, one {{count,number} chat update} other {{count,number} chat updates}}"
+    "messageformat": "{count, plural, one {{count,number} kletsopdatering} other {{count,number} kletsopdaterings}}"
   },
   "icu:collapsedTimerChanges": {
-    "messageformat": "{count, plural, one {{count,number} disappearing timer change · {endingState}} other {{count,number} disappearing message timer changes · {endingState}}}"
+    "messageformat": "{count, plural, one {{count,number} verandering in verdwynboodskap-tydhouer · {endingState}} other {{count,number} veranderinge in verdwynboodskap-tydhouer · {endingState}}}"
   },
   "icu:collapsedTimerChanges--disabled": {
-    "messageformat": "{count, plural, one {{count,number} disappearing timer change · Disabled} other {{count,number} disappearing message timer changes · Disabled}}"
+    "messageformat": "{count, plural, one {{count,number} verandering in verdwynboodskap-tydhouer · Gedeaktiveer} other {{count,number} veranderinge in verdwynboodskap-tydhouer · Gedeaktiveer}}"
   },
   "icu:collapsedCallEvents": {
-    "messageformat": "{count, plural, one {{count,number} call event} other {{count,number} call events}}"
+    "messageformat": "{count, plural, one {{count,number} oproepgebeurtenis} other {{count,number} oproepgebeurtenisse}}"
   },
   "icu:collapsedItems--collapsed": {
-    "messageformat": "Set of items is collapsed - click to expand"
+    "messageformat": "Stel items is saamgroepeer - klik om oop te maak"
   },
   "icu:collapsedItems--expanded": {
-    "messageformat": "Set of items is expanded - click to collapse"
+    "messageformat": "Stel items is oopgemaak - klik om saam te groepeer"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "Groepavatar is bygewerk"
@@ -3800,9 +3803,6 @@
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
     "messageformat": "Deel oproepskakel d.m.v. Signal"
   },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "Verwyder hierdie persoon uit die oproep"
-  },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "Verwyder {name} uit die oproep?"
   },
@@ -3966,7 +3966,7 @@
     "messageformat": "Jou versoek om aan te sluit is na die groepadmin gestuur. Jy sal in kennis gestel word wanneer hulle aksie geneem het."
   },
   "icu:GroupV2--join--group-terminated": {
-    "messageformat": "Unable to join this group."
+    "messageformat": "Kon nie by hierdie groep aansluit nie."
   },
   "icu:GroupV2--join--general-join-failure--title": {
     "messageformat": "Fout met skakel"
@@ -3975,13 +3975,13 @@
     "messageformat": "Kon nie by groep aansluit nie. Probeer weer later."
   },
   "icu:GroupV2--terminate-group-in-progress": {
-    "messageformat": "Ending group..."
+    "messageformat": "Besig om groep te beëindig…"
   },
   "icu:TerminateGroupFailedModal__description": {
-    "messageformat": "Couldn't end the group. Check your connection and try again."
+    "messageformat": "Kon nie die groep beëindig nie. Gaan jou verbinding na en probeer weer."
   },
   "icu:TerminateGroupFailedModal__try-again": {
-    "messageformat": "Try again"
+    "messageformat": "Probeer weer"
   },
   "icu:GroupV2--admin": {
     "messageformat": "Admin"
@@ -4425,13 +4425,13 @@
     "messageformat": "Hierdie groep se lede of instellings het verander."
   },
   "icu:GroupV2--terminated--you": {
-    "messageformat": "You ended the group"
+    "messageformat": "Jy het die groep beëindig"
   },
   "icu:GroupV2--terminated--other": {
-    "messageformat": "{memberName} ended the group"
+    "messageformat": "{memberName} het die groep beëindig"
   },
   "icu:GroupV2--terminated--unknown": {
-    "messageformat": "This group has ended"
+    "messageformat": "Hierdie groep is beëindig"
   },
   "icu:GroupV1--Migration--disabled--link": {
     "messageformat": "Gradeer hierdie groep op om nuwe funksies soos @vermeldings en admins te aktiveer. Lede wat nie hul naam of foto in hierdie groep gedeel het nie, sal genooi word om aan te sluit. <learnMoreLink>Vind meer uit.</learnMoreLink>"
@@ -4710,7 +4710,7 @@
     "messageformat": "Vervang"
   },
   "icu:CompositionArea--group-terminated": {
-    "messageformat": "You can't send messages because the group has ended."
+    "messageformat": "Jy kan nie boodskappe stuur nie, want die groep is beëindig."
   },
   "icu:CompositionArea--viewOnceToggle": {
     "messageformat": "Eenkeerkyk"
@@ -4890,7 +4890,7 @@
     "messageformat": "Verlaat groep"
   },
   "icu:ConversationDetailsActions--terminate-group": {
-    "messageformat": "End group"
+    "messageformat": "Beëindig groep"
   },
   "icu:ConversationDetailsActions--block-group": {
     "messageformat": "Versper groep"
@@ -4899,13 +4899,13 @@
     "messageformat": "Ontsper groep"
   },
   "icu:ConversationDetailsActions--archive": {
-    "messageformat": "Archive chat"
+    "messageformat": "Argiveer klets"
   },
   "icu:ConversationDetailsActions--unarchive": {
-    "messageformat": "Unarchive chat"
+    "messageformat": "Ontargiveer klets"
   },
   "icu:ConversationDetailsActions--delete": {
-    "messageformat": "Delete chat"
+    "messageformat": "Skrap klets"
   },
   "icu:ConversationDetailsActions--leave-group-must-choose-new-admin": {
     "messageformat": "Voor jy verlaat, moet jy ten minste een nuwe admin vir hierdie groep kies."
@@ -4920,16 +4920,16 @@
     "messageformat": "Verlaat"
   },
   "icu:ConversationDetailsActions--prompt-terminate-group-modal-title": {
-    "messageformat": "End \"{groupName}\"?"
+    "messageformat": "Beëindig \"{groupName}\"?"
   },
   "icu:ConversationDetailsActions--prompt-terminate-group-modal-content": {
-    "messageformat": "Members will no longer be able to send messages or start calls in the group. They will be notified that you ended the group, and will still have access to message history."
+    "messageformat": "Lede sal nie meer in staat wees om boodskappe in die groep te stuur of oproepe te begin nie. Hulle sal in kennis gestel word dat jy die groep beëindig het, en sal steeds toegang tot die boodskapgeskiedenis hê."
   },
   "icu:ConversationDetailsActions--terminate-group-modal-confirm": {
-    "messageformat": "End group"
+    "messageformat": "Beëindig groep"
   },
   "icu:ConversationDetailsActions--confirm-terminate-group-confirm-modal-content": {
-    "messageformat": "This will end the group permanently. Are you sure you want to proceed?"
+    "messageformat": "Hierdie aksie sal die groep permanent beëindig. Is jy seker jy wil voortgaan?"
   },
   "icu:ConversationDetailsActions--unblock-group-modal-title": {
     "messageformat": "Ontsper die \"{groupName}\"-groep?"
@@ -4959,7 +4959,7 @@
     "messageformat": "{number, plural, one {{number,number} lid} other {{number,number} lede}}"
   },
   "icu:ConversationDetailsMembershipList--terminated-title": {
-    "messageformat": "{number, plural, one {{number,number} former member} other {{number,number} former members}}"
+    "messageformat": "{number, plural, one {{number,number} voormalige lid} other {{number,number} voormalige lede}}"
   },
   "icu:ConversationDetailsMembershipList--add-members": {
     "messageformat": "Voeg lede by"
@@ -6316,59 +6316,35 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "Klaar"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "wys jou rugsteunsleutel"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
-    "messageformat": "show your recovery key"
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "Verifieer jou identiteit om jou rugsteunsleutel te sien."
+    "messageformat": "om jou herwinsleutel te vertoon"
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
-    "messageformat": "Verify your identity to view your recovery key."
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "Sien rugsteunsleutel"
+    "messageformat": "Verifieer jou identiteit om jou herwinsleutel te besigtig."
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
-    "messageformat": "View recovery key"
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "Bevestiging word vereis om jou rugsteunsleutel te sien."
+    "messageformat": "Bekyk herwinsleutel"
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
-    "messageformat": "Authentication is required to view your recovery key."
-  },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Rugsteunsleutel-teksblokkie"
+    "messageformat": "Bevestiging word vereis om jou herwinsleutel te besigtig."
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
-    "messageformat": "Recovery key"
+    "messageformat": "Herwinsleutel"
   },
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "Voer sleutel in"
   },
-  "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "Maak 'n aantekening van jou rugsteunsleutel"
-  },
   "icu:Preferences--local-backups-record-recovery-key": {
-    "messageformat": "Record your recovery key"
+    "messageformat": "Maak 'n aantekening van jou herwinsleutel"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "Hierdie sleutel is nodig om jou rekening en data te herstel. Bewaar hierdie sleutel iewers waar dit veilig is. As jy dit verloor, sal jy nie jou rekening kan herstel nie. <learnMoreLink>Vind meer uit.</learnMoreLink>"
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "Bevestig jou rugsteunsleutel"
-  },
   "icu:Preferences--local-backups-confirm-recovery-key": {
-    "messageformat": "Confirm your recovery key"
-  },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "Voer die rugsteunsleutel in wat jy pas aangeteken het"
+    "messageformat": "Bevestig jou herwinsleutel"
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
-    "messageformat": "Enter the recovery key that you just recorded"
+    "messageformat": "Voer die herwinsleutel in wat jy pas aangeteken het"
   },
   "icu:Preferences__local-backups-confirm-key-modal-title": {
     "messageformat": "Hou jou sleutel veilig"
@@ -6394,9 +6370,6 @@
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Rugsteungids"
   },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "Verander"
-  },
   "icu:Preferences__local-backups-turn-off": {
     "messageformat": "Skakel rugsteun af"
   },
@@ -6412,11 +6385,8 @@
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Kopieer na knipbord"
   },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "Rugsteunsleutel gekopieer"
-  },
   "icu:Preferences__local-backups-copied-recovery-key": {
-    "messageformat": "Recovery key copied"
+    "messageformat": "Herwinsleutel gekopieer"
   },
   "icu:Preferences__local-backups--enable--os-prompt--mac": {
     "messageformat": "Aktiveer rugsteun"
@@ -6431,34 +6401,28 @@
     "messageformat": "Bevestiging word vereis om rugsteun te aktiveer."
   },
   "icu:Preferences__local-backups-auth-error--unauthorized": {
-    "messageformat": "This action could not be completed because system authentication failed. Please try again or open the Signal app on your mobile device and go to Backup Settings to view your recovery key."
+    "messageformat": "Hierdie aksie kon nie voltooi word nie, omdat stelselbevestiging misluk het. Probeer asseblief weer of maak die Signal-toepassing op jou mobiele toestel oop en gaan na Rugsteuninstellings om jou herwinsleutel te besigtig."
   },
   "icu:Preferences__view-key": {
     "messageformat": "Besigtig sleutel"
   },
-  "icu:Preferences__backup-key": {
-    "messageformat": "Rugsteunsleutel"
-  },
   "icu:Preferences__recovery-key": {
-    "messageformat": "Recovery key"
-  },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "Jou rugsteunsleutel is 'n 64-syfer-kode wat gebruik word om jou rugsteun te herwin"
+    "messageformat": "Herwinsleutel"
   },
   "icu:Preferences__recovery-key-description": {
-    "messageformat": "Your recovery key is a 64-digit code used to restore your backup"
+    "messageformat": "Jou herwinsleutel is 'n 64-karakter-kode wat gebruik word om jou rugsteun te herstel"
   },
   "icu:Preferences__backup-other-ways": {
     "messageformat": "Ander maniere om te rugsteun"
   },
   "icu:Preferences__recovery-key-updated__title": {
-    "messageformat": "Your recovery key has changed"
+    "messageformat": "Jou herwinsleutel het verander"
   },
   "icu:Preferences__recovery-key-updated__description": {
-    "messageformat": "Your recovery key has been updated. Any new backups you make can only be restored using your new recovery key."
+    "messageformat": "Jou herwinsleutel is opdateer. Enige nuwe rugsteun wat jy maak, kan slegs met gebruik van jou nuwe herwinsleutel herstel word."
   },
   "icu:Preferences__recovery-key-updated__view-key": {
-    "messageformat": "View new key"
+    "messageformat": "Besigtig nuwe sleutel"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {{num,number} kontak} other {{num,number} kontakte}}"
@@ -6812,7 +6776,7 @@
     "messageformat": "Skrap hierdie storie? Dit sal ook geskrap word vir almal wat dit ontvang het."
   },
   "icu:MyStories__delete-group-story-for-me": {
-    "messageformat": "Delete this story? It will only be deleted for you because the group has ended."
+    "messageformat": "Skrap hierdie storie? Dit sal slegs vir jou geskrap word, want die groep is beëindig."
   },
   "icu:payment-event-notification-message-you-label": {
     "messageformat": "Jy het begin met 'n betaling aan {receiver}"
@@ -8148,10 +8112,7 @@
     "messageformat": "Klein veranderings, foutregstellings en prestasieverbeterings. Dankie dat jy Signal gebruik!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "Nou kan jy opsioneel 'n lidfunksie-etiket byvoeg om jouself of jou rol in 'n groepklets te beskryf. Stel jou groeplidfunksie-etiket op \"Skeidsregter\" of \"Doelwagter\" in jou plaaslike ontspanningsliga-sokkerklets om te help om dinge af te skop wanneer nuwe spanmaats by julle aansluit, en kies dan 'n heel ander lidfunksie-etiket met jou postitel in jou maatskappy se klets. Lidfunksie-etikette verskyn langs jou profielnaam in daardie groep, en groepadmins kan beheer of dit vir almal geaktiveer is of nie."
-  },
   "icu:WhatsNew__8.6--0": {
-    "messageformat": "Now you won't need to scroll as far to catch up on the latest messages. If several new people join a busy group chat, or you receive multiple missed calls in a row, those repeated chat events can be automatically grouped together into a compact display. Sometimes less is more, but you can easily expand and collapse these lists at any time."
+    "messageformat": "Herhaalde kletsgebeurtenisse (soos veelvuldige gemiste oproepe) kan outomaties in 'n kompakte skermbeeld saamgroepeer word sodat jy nie so ver op of af hoef te rol om op hoogte van die jongste boodskappe te kom nie."
   }
 }

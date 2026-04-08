@@ -36,10 +36,10 @@
     "messageformat": "Uanachama wake unasubiri"
   },
   "icu:Preferences__sent-media-quality": {
-    "messageformat": "Ubora wa media iliyotumwa"
+    "messageformat": "Ubora wa picha na video iliyotumwa"
   },
   "icu:Preferences__sent-media-quality__description": {
-    "messageformat": "Kutuma media za ubora wa juu kutatumia data zaidi."
+    "messageformat": "Kutuma picha na video za ubora wa juu kutatumia data zaidi."
   },
   "icu:Preferences__DonateTitle": {
     "messageformat": "Changia Signal"
@@ -51,7 +51,7 @@
     "messageformat": "Juu"
   },
   "icu:softwareAcknowledgments": {
-    "messageformat": "Shukrani wa Wasadini Programu"
+    "messageformat": "Shukrani ya Wasadini Programu"
   },
   "icu:privacyPolicy": {
     "messageformat": "Sera ya Masharti na Usiri"
@@ -84,7 +84,7 @@
     "messageformat": "Ili kusaidia kurekebisha tatizo, fuata mwongozo wa usaidizi kwenye ukurasa wa usaidizi au wasiliana na usaidizi wa Signal ili usaidiwe kurekebisha tatizo.\n\nIkiwa unahitaji kutumia Signal papo hapo, unaweza futa data yako na kuunganisha tena kompyuta hii ya mezani. Utakuwa na chaguo la kuhamisha historia ya ujumbe kutoka kwenye simu yako."
   },
   "icu:databaseError": {
-    "messageformat": "Hitilafu ya hifadhidata"
+    "messageformat": "Hitilafu ya hifadhi data"
   },
   "icu:deleteAndRestart": {
     "messageformat": "Futa data na anza upya"
@@ -745,6 +745,9 @@
   },
   "icu:fileSizeWarning": {
     "messageformat": "Samahani, faili lililochaguliwa limepita vikwazo vya ukubwa wa ujumbe. {limit,number} {units}"
+  },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Imeshindwa kupakia kiambatisho kilichochaguliwa."
@@ -2373,7 +2376,7 @@
     "messageformat": "Kituo cha Usaidizi"
   },
   "icu:ConversationDetails__GroupTerminatedBanner": {
-    "messageformat": "This group has ended"
+    "messageformat": "Kikundi hiki kimefungwa"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "Tazama Nambari za Usalama"
@@ -2559,31 +2562,31 @@
     "messageformat": "{leadingIcon} {text} {trailingIcon}"
   },
   "icu:collapsedGroupUpdates": {
-    "messageformat": "{count, plural, one {{count,number} group update} other {{count,number} group updates}}"
+    "messageformat": "{count, plural, one {Taarifa {count,number} kuhusu kikundi} other {Taarifa {count,number} kuhusu kikundi}}"
   },
   "icu:multidayCollapse__container": {
     "messageformat": "{containerDescription} · {dayCountSummary}"
   },
   "icu:multidayCollapse__dayCountSummary": {
-    "messageformat": "{dayCount, plural, one {{dayCount,number} day} other {{dayCount,number} days}}"
+    "messageformat": "{dayCount, plural, one {siku 1{dayCount,number}} other {siku {dayCount,number}}}"
   },
   "icu:collapsedChatUpdates": {
-    "messageformat": "{count, plural, one {{count,number} chat update} other {{count,number} chat updates}}"
+    "messageformat": "{count, plural, one {Taarifa {count,number} kuhusu gumzo} other {Taarifa {count,number} kuhusu gumzo}}"
   },
   "icu:collapsedTimerChanges": {
-    "messageformat": "{count, plural, one {{count,number} disappearing timer change · {endingState}} other {{count,number} disappearing message timer changes · {endingState}}}"
+    "messageformat": "{count, plural, one {Badiliko {count,number} la kipima muda cha jumbe zinazotoweka · {endingState}} other {Mabadiliko {count,number} ya kipima muda cha jumbe zinazotoweka · {endingState}}}"
   },
   "icu:collapsedTimerChanges--disabled": {
-    "messageformat": "{count, plural, one {{count,number} disappearing timer change · Disabled} other {{count,number} disappearing message timer changes · Disabled}}"
+    "messageformat": "{count, plural, one {Badiliko {count,number} la kipima muda cha jumbe zinazotoweka · Imezimwa} other {Mabadiliko {count,number} ya kipima muda cha jumbe zinazotoweka · Yamezimwa}}"
   },
   "icu:collapsedCallEvents": {
-    "messageformat": "{count, plural, one {{count,number} call event} other {{count,number} call events}}"
+    "messageformat": "{count, plural, one {Tukio {count,number} kuhusu simu} other {Matukio {count,number} kuhusu simu}}"
   },
   "icu:collapsedItems--collapsed": {
-    "messageformat": "Set of items is collapsed - click to expand"
+    "messageformat": "Seti ya vipengee imekunjwa - bofya ili upanue"
   },
   "icu:collapsedItems--expanded": {
-    "messageformat": "Set of items is expanded - click to collapse"
+    "messageformat": "Seti ya vipengee imepanuliwa - bofya ili ukunje"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "Umbo la kikundi limebadilishwa."
@@ -3800,9 +3803,6 @@
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
     "messageformat": "Shiriki kiungo cha simu kupitia Signal"
   },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "Toa mtu huyu kwenye simu hii"
-  },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "Muondoe {name} kutoka kwenye simu?"
   },
@@ -3966,7 +3966,7 @@
     "messageformat": "Ombi lako la kujiunga limetumwa kwa msimamizi wa kikundi. Utaarifiwa wanapochukua hatua."
   },
   "icu:GroupV2--join--group-terminated": {
-    "messageformat": "Unable to join this group."
+    "messageformat": "Imeshindikana kujiunga na kikundi hiki."
   },
   "icu:GroupV2--join--general-join-failure--title": {
     "messageformat": "Hitilafu ya Kiungo"
@@ -3975,13 +3975,13 @@
     "messageformat": "Hujaweza kujiunga na kikundi. Jaribu tena baadaye."
   },
   "icu:GroupV2--terminate-group-in-progress": {
-    "messageformat": "Ending group..."
+    "messageformat": "Unafunga kikundi..."
   },
   "icu:TerminateGroupFailedModal__description": {
-    "messageformat": "Couldn't end the group. Check your connection and try again."
+    "messageformat": "Umeshindwa kufunga kikundi. Angalia muunganisho wako wa mtandao kisha ujaribu tena."
   },
   "icu:TerminateGroupFailedModal__try-again": {
-    "messageformat": "Try again"
+    "messageformat": "Jaribu tena"
   },
   "icu:GroupV2--admin": {
     "messageformat": "Msimamizi"
@@ -4425,13 +4425,13 @@
     "messageformat": "Wanachama wa kundi au mipangilio imebadilika."
   },
   "icu:GroupV2--terminated--you": {
-    "messageformat": "You ended the group"
+    "messageformat": "Umefunga kikundi"
   },
   "icu:GroupV2--terminated--other": {
-    "messageformat": "{memberName} ended the group"
+    "messageformat": "{memberName} amefunga kikundi"
   },
   "icu:GroupV2--terminated--unknown": {
-    "messageformat": "This group has ended"
+    "messageformat": "Kikundi hiki kimefungwa"
   },
   "icu:GroupV1--Migration--disabled--link": {
     "messageformat": "Sasisha kikundi hiki ili kuamilisha vipengele vupya kama @kutaja na ma-admini. Wanakikundi ambao hawajashiriki majina au picha zao kwenye kikundi hiki wataalikwa kujiunga. <learnMoreLink>Pata maelezo zaidi.</learnMoreLink>"
@@ -4710,7 +4710,7 @@
     "messageformat": "Badilisha"
   },
   "icu:CompositionArea--group-terminated": {
-    "messageformat": "You can't send messages because the group has ended."
+    "messageformat": "Huwezi kutuma jumbe kwa sababu kikundi kimefungwa."
   },
   "icu:CompositionArea--viewOnceToggle": {
     "messageformat": "Angalia mara moja"
@@ -4890,7 +4890,7 @@
     "messageformat": "Ondoka kwenye kikundi"
   },
   "icu:ConversationDetailsActions--terminate-group": {
-    "messageformat": "End group"
+    "messageformat": "Funga kikundi"
   },
   "icu:ConversationDetailsActions--block-group": {
     "messageformat": "Zuia kikundi"
@@ -4899,13 +4899,13 @@
     "messageformat": "Ondoa kizuizi kwa kikundi"
   },
   "icu:ConversationDetailsActions--archive": {
-    "messageformat": "Archive chat"
+    "messageformat": "Hifadhi Gumzo"
   },
   "icu:ConversationDetailsActions--unarchive": {
-    "messageformat": "Unarchive chat"
+    "messageformat": "Ondoa Gumzo kwenye Hifadhi"
   },
   "icu:ConversationDetailsActions--delete": {
-    "messageformat": "Delete chat"
+    "messageformat": "Futa gumzo"
   },
   "icu:ConversationDetailsActions--leave-group-must-choose-new-admin": {
     "messageformat": "Kabla ya kuondoka, sharti uchague angalau msimamizi mmoja mpya wa kikundi hiki."
@@ -4920,16 +4920,16 @@
     "messageformat": "Ondoka"
   },
   "icu:ConversationDetailsActions--prompt-terminate-group-modal-title": {
-    "messageformat": "End \"{groupName}\"?"
+    "messageformat": "Ungependa kufunga \"{groupName}\"?"
   },
   "icu:ConversationDetailsActions--prompt-terminate-group-modal-content": {
-    "messageformat": "Members will no longer be able to send messages or start calls in the group. They will be notified that you ended the group, and will still have access to message history."
+    "messageformat": "Wanakikundi hawataweza tena kutuma ujumbe au kupiga simu kwenye kikundi hiki. Wataarifiwa kuwa umefunga kikundi na bado wataweza kufikia historia ya jumbe."
   },
   "icu:ConversationDetailsActions--terminate-group-modal-confirm": {
-    "messageformat": "End group"
+    "messageformat": "Funga kikundi"
   },
   "icu:ConversationDetailsActions--confirm-terminate-group-confirm-modal-content": {
-    "messageformat": "This will end the group permanently. Are you sure you want to proceed?"
+    "messageformat": "Kitendo hiki kitafunga kabisa kikundi. Una uhakika unataka kuendelea?"
   },
   "icu:ConversationDetailsActions--unblock-group-modal-title": {
     "messageformat": "Ondoa kizuizi kwa kikundi cha \"{groupName}\"?"
@@ -4959,7 +4959,7 @@
     "messageformat": "{number, plural, one {Mwanachama {number,number}} other {Wanachama {number,number}}}"
   },
   "icu:ConversationDetailsMembershipList--terminated-title": {
-    "messageformat": "{number, plural, one {{number,number} former member} other {{number,number} former members}}"
+    "messageformat": "{number, plural, one {Mwanakikundi wa zamani {number,number}} other {Wanakikundi wa zamani {number,number}}}"
   },
   "icu:ConversationDetailsMembershipList--add-members": {
     "messageformat": "Ongeza wanachama"
@@ -6316,59 +6316,35 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "Imekamilika"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "onyesha ufunguo wako mbadala"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
-    "messageformat": "show your recovery key"
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "Thibitisha utambulisho wako ili kutazama ufunguo wako mbadala."
+    "messageformat": "onyesha ufunguo wako wa kurejesha akaunti"
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
-    "messageformat": "Verify your identity to view your recovery key."
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "Tazama ufunguo mbadala"
+    "messageformat": "Thibitisha utambulisho wako kutazama ufunguo wako wa kurejesha akaunti."
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
-    "messageformat": "View recovery key"
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "Uthibitishaji unahitajika ili utazame ufunguo wako mbadala."
+    "messageformat": "Tazama ufunguo wa kurejesha akaunti"
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
-    "messageformat": "Authentication is required to view your recovery key."
-  },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Kisanduku cha maandishi cha ufunguo mbadala"
+    "messageformat": "Uthibitishaji unahitajika kutazama ufunguo wako wa kurejesha akaunti."
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
-    "messageformat": "Recovery key"
+    "messageformat": "Ufunguo wa kurejesha akaunti"
   },
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "Ingiza ufunguo"
   },
-  "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "Rekodi ufunguo wangu wa ziada"
-  },
   "icu:Preferences--local-backups-record-recovery-key": {
-    "messageformat": "Record your recovery key"
+    "messageformat": "Rekodi ufunguo wako wa kurejesha akaunti"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "Ufunguo huu unahitajika kurejesha akaunti na data yako. Hifadhi ufunguo huu mahali salama. Ukiipoteza, hutaweza kurejesha akaunti yako. <learnMoreLink>Pata maelezo zaidi.</learnMoreLink>"
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "Thbitisha ufunguo wako mbadala"
-  },
   "icu:Preferences--local-backups-confirm-recovery-key": {
-    "messageformat": "Confirm your recovery key"
-  },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "Weka ufunguo wako mbadala uliorekodi"
+    "messageformat": "Thibitisha ufunguo wako wa kurejesha akaunti"
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
-    "messageformat": "Enter the recovery key that you just recorded"
+    "messageformat": "Weka ufunguo wako wa kurejesha akaunti ambao umetoka kurekodi hivi punde"
   },
   "icu:Preferences__local-backups-confirm-key-modal-title": {
     "messageformat": "Ulinde salama ufunguo wako"
@@ -6394,9 +6370,6 @@
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Folda ya nakala hifadhi"
   },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "Badili"
-  },
   "icu:Preferences__local-backups-turn-off": {
     "messageformat": "Zima uhifadhi nakala"
   },
@@ -6412,11 +6385,8 @@
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Nakili kwenye clipbodi"
   },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "Ufunguo mbadala umenakiliwa"
-  },
   "icu:Preferences__local-backups-copied-recovery-key": {
-    "messageformat": "Recovery key copied"
+    "messageformat": "Ufunguo wa Kurejesha Akaunti umenakiliwa"
   },
   "icu:Preferences__local-backups--enable--os-prompt--mac": {
     "messageformat": "Wezesha nakalahifadhi"
@@ -6431,34 +6401,28 @@
     "messageformat": "Uthibitishaji unahitajika ili uwezeshe uhifadhi nakala."
   },
   "icu:Preferences__local-backups-auth-error--unauthorized": {
-    "messageformat": "This action could not be completed because system authentication failed. Please try again or open the Signal app on your mobile device and go to Backup Settings to view your recovery key."
+    "messageformat": "Kitendo hiki hakikuweza kukamilishwa kwa sababu imeshindwa kuthibitisha mfumo. Tafadhali jaribu tena au fungua programu ya Signal kwenye kifaa chako cha mkononi kisha uende katika Mipangilio ya Nakala Zilizohifadhiwa kutazama ufunguo wako wa kurejesha akaunti."
   },
   "icu:Preferences__view-key": {
     "messageformat": "Tazama ufunguo"
   },
-  "icu:Preferences__backup-key": {
-    "messageformat": "Ufunguo mbadala"
-  },
   "icu:Preferences__recovery-key": {
-    "messageformat": "Recovery key"
-  },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "Ufunguo wako mbadala ni msimbo wa tarakimu 64 unaotumiwa kurejesha hifadhi nakala yako"
+    "messageformat": "Ufunguo wa kurejesha akaunti"
   },
   "icu:Preferences__recovery-key-description": {
-    "messageformat": "Your recovery key is a 64-digit code used to restore your backup"
+    "messageformat": "Ufunguo wako wa kurejesha akaunti ni code ya tarakimu 64 inayotumiwa kurejesha nakala zako zilizohifadhiwa"
   },
   "icu:Preferences__backup-other-ways": {
     "messageformat": "Njia zingine za kuhifadhi nakala"
   },
   "icu:Preferences__recovery-key-updated__title": {
-    "messageformat": "Your recovery key has changed"
+    "messageformat": "Ufunguo wako wa kurejesha akaunti umebadilishwa"
   },
   "icu:Preferences__recovery-key-updated__description": {
-    "messageformat": "Your recovery key has been updated. Any new backups you make can only be restored using your new recovery key."
+    "messageformat": "Ufunguo wako wa kurejesha akaunti umesasishwa. Nakala zozote mpya utakazohifadhi zitarejeshwa tu kwa kutumia ufunguo wako mpya wa kurejesha akaunti."
   },
   "icu:Preferences__recovery-key-updated__view-key": {
-    "messageformat": "View new key"
+    "messageformat": "Tazama ufunguo mpya"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {Muwasiliani {num,number}} other {Wawasiliani {num,number}}}"
@@ -6812,7 +6776,7 @@
     "messageformat": "Futa stori hii? Pia itafutwa kwa kila mtu aliyeipata."
   },
   "icu:MyStories__delete-group-story-for-me": {
-    "messageformat": "Delete this story? It will only be deleted for you because the group has ended."
+    "messageformat": "Futa stori hii? Itafutwa kwako tu kwa sababu kikundi kimefungwa."
   },
   "icu:payment-event-notification-message-you-label": {
     "messageformat": "Umeanza kufanya malipo kwa {receiver}"
@@ -8148,10 +8112,7 @@
     "messageformat": "Mabadiliko madogo, marekebisho ya bugs na uboreshaji wa utendaji. Asante kwa kutumia Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "Ukipenda unaweza kuweka cheo cha mwanachama kwa hiari ili kujielezea mwenyewe au nafasi yako kwenye gumzo la kikundi. Weka cheo cha mwanachama wa kikundi chako kuwa “Referee” au “Goalie” kwenye gumzo la timu ya eneo lako ili uweze kuzungumza na wachezaji wapya wanapojiunga, kisha chagua cheo tofauti cha kazi kwenye gumzo la kampuni. Vyeo vya wanachama vinaonekana kando ya jina lako la wasifu katika kikundi hiko na admins wa kikundi wanaweza kudhibiti kama vitawekwa kwa kila mtu au la."
-  },
   "icu:WhatsNew__8.6--0": {
-    "messageformat": "Now you won't need to scroll as far to catch up on the latest messages. If several new people join a busy group chat, or you receive multiple missed calls in a row, those repeated chat events can be automatically grouped together into a compact display. Sometimes less is more, but you can easily expand and collapse these lists at any time."
+    "messageformat": "Sasa hutahitaji kusogeza sana chini ili kupata jumbe mpya zaidi. Ikiwa watu kadhaa wapya watajiunga na gumzo la kikundi lenye shughuli nyingi au utapokea simu nyingi ambazo hukuzijibu mfululizo, matukio hayo yanayojirudia yanaweza kuunganishwa kiotomatiki na kuonyeshwa kwa muundo mfupi uliobana. Wakati mwingine huhitaji mambo mengi, lakini unaweza kupanua na kukunja orodha hizi kwa urahisi wakati wowote."
   }
 }

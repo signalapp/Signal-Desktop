@@ -746,6 +746,9 @@
   "icu:fileSizeWarning": {
     "messageformat": "Sorry, het geselecteerde bestand overschrijdt de maximale grootte. {limit,number} {units}"
   },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+  },
   "icu:unableToLoadAttachment": {
     "messageformat": "Kan geselecteerde bijlage niet laden."
   },
@@ -2373,7 +2376,7 @@
     "messageformat": "Ondersteuningscentrum"
   },
   "icu:ConversationDetails__GroupTerminatedBanner": {
-    "messageformat": "This group has ended"
+    "messageformat": "Deze groep is beëindigd"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "Veiligheidsnummer weergeven"
@@ -2559,31 +2562,31 @@
     "messageformat": "{leadingIcon} {text} {trailingIcon}"
   },
   "icu:collapsedGroupUpdates": {
-    "messageformat": "{count, plural, one {{count,number} group update} other {{count,number} group updates}}"
+    "messageformat": "{count, plural, one {{count,number} groepsupdate} other {{count,number} groepsupdates}}"
   },
   "icu:multidayCollapse__container": {
     "messageformat": "{containerDescription} · {dayCountSummary}"
   },
   "icu:multidayCollapse__dayCountSummary": {
-    "messageformat": "{dayCount, plural, one {{dayCount,number} day} other {{dayCount,number} days}}"
+    "messageformat": "{dayCount, plural, one {{dayCount,number} dag} other {{dayCount,number} dagen}}"
   },
   "icu:collapsedChatUpdates": {
-    "messageformat": "{count, plural, one {{count,number} chat update} other {{count,number} chat updates}}"
+    "messageformat": "{count, plural, one {{count,number} chatupdate} other {{count,number} chatupdates}}"
   },
   "icu:collapsedTimerChanges": {
-    "messageformat": "{count, plural, one {{count,number} disappearing timer change · {endingState}} other {{count,number} disappearing message timer changes · {endingState}}}"
+    "messageformat": "{count, plural, one {{count,number} wijziging in timer voor verdwijnende berichten · {endingState}} other {{count,number} wijzigingen in timer voor verdwijnende berichten · {endingState}}}"
   },
   "icu:collapsedTimerChanges--disabled": {
-    "messageformat": "{count, plural, one {{count,number} disappearing timer change · Disabled} other {{count,number} disappearing message timer changes · Disabled}}"
+    "messageformat": "{count, plural, one {{count,number} wijziging in timer voor verdwijnende berichten · Uitgeschakeld} other {{count,number} wijzigingen in timer voor verdwijnende berichten · Uitgeschakeld}}"
   },
   "icu:collapsedCallEvents": {
-    "messageformat": "{count, plural, one {{count,number} call event} other {{count,number} call events}}"
+    "messageformat": "{count, plural, one {{count,number} oproep} other {{count,number} oproep}}"
   },
   "icu:collapsedItems--collapsed": {
-    "messageformat": "Set of items is collapsed - click to expand"
+    "messageformat": "Lijst is ingeklapt - klik om uit te klappen"
   },
   "icu:collapsedItems--expanded": {
-    "messageformat": "Set of items is expanded - click to collapse"
+    "messageformat": "Lijst is uitgeklapt - klik om in te klappen"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "De groepsafbeelding is gewijzigd."
@@ -3800,9 +3803,6 @@
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
     "messageformat": "Oproeplink delen via Signal"
   },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "Deze persoon uit de oproep verwijderen"
-  },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "{name} uit deze oproep verwijderen?"
   },
@@ -3966,7 +3966,7 @@
     "messageformat": "Je verzoek om lid te worden van de groep is doorgestuurd naar een beheerder. Je krijgt een melding zodra deze een besluit heeft genomen."
   },
   "icu:GroupV2--join--group-terminated": {
-    "messageformat": "Unable to join this group."
+    "messageformat": "Je kunt niet meer deelnemen aan deze groep."
   },
   "icu:GroupV2--join--general-join-failure--title": {
     "messageformat": "Fout bij groepslink"
@@ -3975,13 +3975,13 @@
     "messageformat": "Je kunt niet lid worden van deze groep. Probeer het later opnieuw."
   },
   "icu:GroupV2--terminate-group-in-progress": {
-    "messageformat": "Ending group..."
+    "messageformat": "Groep opheffen…"
   },
   "icu:TerminateGroupFailedModal__description": {
-    "messageformat": "Couldn't end the group. Check your connection and try again."
+    "messageformat": "De groep kon niet worden beëindigd. Controleer je internetverbinding en probeer het opnieuw."
   },
   "icu:TerminateGroupFailedModal__try-again": {
-    "messageformat": "Try again"
+    "messageformat": "Opnieuw proberen"
   },
   "icu:GroupV2--admin": {
     "messageformat": "Beheerder"
@@ -4425,13 +4425,13 @@
     "messageformat": "De leden of instellingen van deze groep zijn gewijzigd."
   },
   "icu:GroupV2--terminated--you": {
-    "messageformat": "You ended the group"
+    "messageformat": "Je hebt de groep beëindigd"
   },
   "icu:GroupV2--terminated--other": {
-    "messageformat": "{memberName} ended the group"
+    "messageformat": "{memberName} heeft de groep beëindigd"
   },
   "icu:GroupV2--terminated--unknown": {
-    "messageformat": "This group has ended"
+    "messageformat": "Deze groep is beëindigd"
   },
   "icu:GroupV1--Migration--disabled--link": {
     "messageformat": "Werk deze groep bij om nieuwe functies zoals @vermeldingen en beheerders te activeren. Leden die hun naam of profielfoto niet in deze groep hebben gedeeld, worden uitgenodigd om lid te worden. <learnMoreLink>Meer informatie.</learnMoreLink>"
@@ -4710,7 +4710,7 @@
     "messageformat": "Vervangen"
   },
   "icu:CompositionArea--group-terminated": {
-    "messageformat": "You can't send messages because the group has ended."
+    "messageformat": "Je kunt geen berichten sturen omdat de groep is beëindigd."
   },
   "icu:CompositionArea--viewOnceToggle": {
     "messageformat": "Eenmalige weergave"
@@ -4890,7 +4890,7 @@
     "messageformat": "Groep verlaten"
   },
   "icu:ConversationDetailsActions--terminate-group": {
-    "messageformat": "End group"
+    "messageformat": "Groep opheffen"
   },
   "icu:ConversationDetailsActions--block-group": {
     "messageformat": "Groep blokkeren"
@@ -4899,13 +4899,13 @@
     "messageformat": "Groep deblokkeren"
   },
   "icu:ConversationDetailsActions--archive": {
-    "messageformat": "Archive chat"
+    "messageformat": "Chat archiveren"
   },
   "icu:ConversationDetailsActions--unarchive": {
-    "messageformat": "Unarchive chat"
+    "messageformat": "Chat dearchiveren"
   },
   "icu:ConversationDetailsActions--delete": {
-    "messageformat": "Delete chat"
+    "messageformat": "Chat verwijderen"
   },
   "icu:ConversationDetailsActions--leave-group-must-choose-new-admin": {
     "messageformat": "Voordat je de groep verlaat moet je ten minste één beheerder aanwijzen voor deze groep."
@@ -4920,16 +4920,16 @@
     "messageformat": "Verlaten"
   },
   "icu:ConversationDetailsActions--prompt-terminate-group-modal-title": {
-    "messageformat": "End \"{groupName}\"?"
+    "messageformat": "‘{groupName}’ opheffen?"
   },
   "icu:ConversationDetailsActions--prompt-terminate-group-modal-content": {
-    "messageformat": "Members will no longer be able to send messages or start calls in the group. They will be notified that you ended the group, and will still have access to message history."
+    "messageformat": "Leden kunnen in deze groep geen berichten meer verzenden of oproepen starten. Ze krijgen een melding dat je de groep hebt beëindigd en blijven toegang houden tot de chatgeschiedenis."
   },
   "icu:ConversationDetailsActions--terminate-group-modal-confirm": {
-    "messageformat": "End group"
+    "messageformat": "Groep opheffen"
   },
   "icu:ConversationDetailsActions--confirm-terminate-group-confirm-modal-content": {
-    "messageformat": "This will end the group permanently. Are you sure you want to proceed?"
+    "messageformat": "Hiermee wordt de groep definitief beëindigd. Weet je zeker dat je door wilt gaan?"
   },
   "icu:ConversationDetailsActions--unblock-group-modal-title": {
     "messageformat": "De groep ‘{groupName}’ deblokkeren?"
@@ -4959,7 +4959,7 @@
     "messageformat": "{number, plural, one {{number,number} lid} other {{number,number} leden}}"
   },
   "icu:ConversationDetailsMembershipList--terminated-title": {
-    "messageformat": "{number, plural, one {{number,number} former member} other {{number,number} former members}}"
+    "messageformat": "{number, plural, one {{number,number} voormalig lid} other {{number,number} voormalige leden}}"
   },
   "icu:ConversationDetailsMembershipList--add-members": {
     "messageformat": "Leden toevoegen"
@@ -6316,59 +6316,35 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "Klaar"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "je back-upsleutel weer te geven"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
-    "messageformat": "show your recovery key"
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "Verifieer je identiteit om je back-upsleutel te bekijken."
+    "messageformat": "je herstelsleutel weer te geven"
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
-    "messageformat": "Verify your identity to view your recovery key."
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "Back-upsleutel weergeven"
+    "messageformat": "Verifieer je identiteit om je herstelsleutel te bekijken."
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
-    "messageformat": "View recovery key"
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "Authenticatie is vereist om je back-upsleutel te bekijken."
+    "messageformat": "Herstelsleutel weergeven"
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
-    "messageformat": "Authentication is required to view your recovery key."
-  },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Tekstvak back-upsleutel"
+    "messageformat": "Authenticatie is vereist om je herstelsleutel te bekijken."
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
-    "messageformat": "Recovery key"
+    "messageformat": "Herstelsleutel"
   },
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "Sleutel invoeren"
   },
-  "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "Je back-upsleutel vastleggen"
-  },
   "icu:Preferences--local-backups-record-recovery-key": {
-    "messageformat": "Record your recovery key"
+    "messageformat": "Je herstelsleutel vastleggen"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "Deze sleutel is nodig om je account en gegevens te herstellen. Bewaar deze sleutel op een veilige manier. Als je hem kwijtraakt, kun je je account niet meer herstellen. <learnMoreLink>Meer informatie.</learnMoreLink>"
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "Bevestig je back-upsleutel"
-  },
   "icu:Preferences--local-backups-confirm-recovery-key": {
-    "messageformat": "Confirm your recovery key"
-  },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "Voer de back-upsleutel in die je zojuist hebt vastgelegd"
+    "messageformat": "Bevestig je herstelsleutel"
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
-    "messageformat": "Enter the recovery key that you just recorded"
+    "messageformat": "Voer de herstelsleutel in die je zojuist hebt vastgelegd"
   },
   "icu:Preferences__local-backups-confirm-key-modal-title": {
     "messageformat": "Bewaar je sleutel op een veilige manier"
@@ -6394,9 +6370,6 @@
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Back-uplocatie"
   },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "Aanpassen"
-  },
   "icu:Preferences__local-backups-turn-off": {
     "messageformat": "Back-ups uitschakelen"
   },
@@ -6412,11 +6385,8 @@
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Kopiëren naar klembord"
   },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "Back-upsleutel gekopieerd"
-  },
   "icu:Preferences__local-backups-copied-recovery-key": {
-    "messageformat": "Recovery key copied"
+    "messageformat": "Herstelsleutel gekopieerd"
   },
   "icu:Preferences__local-backups--enable--os-prompt--mac": {
     "messageformat": "back-ups in te schakelen"
@@ -6431,34 +6401,28 @@
     "messageformat": "Authenticatie is vereist om back-ups in te schakelen."
   },
   "icu:Preferences__local-backups-auth-error--unauthorized": {
-    "messageformat": "This action could not be completed because system authentication failed. Please try again or open the Signal app on your mobile device and go to Backup Settings to view your recovery key."
+    "messageformat": "Deze actie kon niet worden voltooid omdat de systeemverificatie is mislukt. Probeer het nog eens of open de Signal-app op je mobiele apparaat en ga naar de back-upinstellingen om je herstelsleutel te bekijken."
   },
   "icu:Preferences__view-key": {
     "messageformat": "Sleutel weergeven"
   },
-  "icu:Preferences__backup-key": {
-    "messageformat": "Back-upsleutel"
-  },
   "icu:Preferences__recovery-key": {
-    "messageformat": "Recovery key"
-  },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "Je back-upsleutel is een code van 64 tekens die je nodig hebt om je back-up te herstellen"
+    "messageformat": "Herstelsleutel"
   },
   "icu:Preferences__recovery-key-description": {
-    "messageformat": "Your recovery key is a 64-digit code used to restore your backup"
+    "messageformat": "Je herstelsleutel is een code van 64 tekens waarmee je je back-upgegevens terugzet"
   },
   "icu:Preferences__backup-other-ways": {
     "messageformat": "Andere manieren om een back-up te maken"
   },
   "icu:Preferences__recovery-key-updated__title": {
-    "messageformat": "Your recovery key has changed"
+    "messageformat": "Je herstelsleutel is gewijzigd"
   },
   "icu:Preferences__recovery-key-updated__description": {
-    "messageformat": "Your recovery key has been updated. Any new backups you make can only be restored using your new recovery key."
+    "messageformat": "Je hebt een nieuwe herstelsleutel. Alle nieuwe back-ups die je maakt, kunnen alleen worden hersteld met je nieuwe herstelsleutel."
   },
   "icu:Preferences__recovery-key-updated__view-key": {
-    "messageformat": "View new key"
+    "messageformat": "Nieuwe sleutel bekijken"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {{num,number} contact} other {{num,number} contacten}}"
@@ -6812,7 +6776,7 @@
     "messageformat": "Dit verhaal verwijderen? Het zal ook worden verwijderd voor iedereen die het al heeft ontvangen."
   },
   "icu:MyStories__delete-group-story-for-me": {
-    "messageformat": "Delete this story? It will only be deleted for you because the group has ended."
+    "messageformat": "Dit verhaal verwijderen? Het wordt alleen voor jou verwijderd omdat de groep is beëindigd."
   },
   "icu:payment-event-notification-message-you-label": {
     "messageformat": "Je hebt een betaling aan {receiver} geïnitieerd"
@@ -8148,10 +8112,7 @@
     "messageformat": "Kleine aanpassingen, bugfixes en prestatieverbeteringen. Bedankt dat je Signal gebruikt!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "Je kunt in groepschats nu een ledenlabel aanmaken waarmee je iets over jezelf zegt of over je rol. Maak een label aan met ‘Coach’ in de groepschat van je voetbalteam, dan weten nieuwe teamgenoten direct wie je bent. Voor de groepschat met je collega's maak je een ander label aan, bijvoorbeeld met je functietitel. Ledenlabels verschijnen naast je profielnaam in de betreffende groep. Groepsbeheerders kunnen bepalen of iedereen een label mag aanmaken."
-  },
   "icu:WhatsNew__8.6--0": {
-    "messageformat": "Now you won't need to scroll as far to catch up on the latest messages. If several new people join a busy group chat, or you receive multiple missed calls in a row, those repeated chat events can be automatically grouped together into a compact display. Sometimes less is more, but you can easily expand and collapse these lists at any time."
+    "messageformat": "Je hoeft nu niet meer ver te scrollen om de nieuwste berichten te zien. Herhaalde activiteiten in een drukke groepschat, zoals meerdere nieuwe deelnemers of verschillende gemiste oproepen achter elkaar, kunnen automatisch worden gegroepeerd in een overzichtelijke weergave. Deze kun je gemakkelijk in- en uitklappen."
   }
 }
