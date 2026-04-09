@@ -45,6 +45,10 @@ import { BadgeCategory } from '../../badges/BadgeCategory.std.ts';
 import { PaymentEventKind } from '../../types/Payment.std.ts';
 import type { RenderAudioAttachmentProps } from '../../state/smart/renderAudioAttachment.preload.tsx';
 import type { PollVoteWithUserType } from '../../state/selectors/message.preload.ts';
+import type { IntlShape } from 'react-intl';
+
+// Pull the actual localized strings from the project's Arabic dictionary
+import arMessages from '../../../_locales/ar/messages.json';
 
 const { isBoolean, noop } = lodash;
 
@@ -271,7 +275,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   getPreferredBadge: overrideProps.getPreferredBadge || (() => undefined),
   giftBadge: overrideProps.giftBadge,
   handleDebugMessage: action('handleDebugMessage'),
-  i18n,
+  i18n: overrideProps.i18n || i18n,
   platform: 'darwin',
   id: overrideProps.id ?? 'random-message-id',
   // renderingContext: 'storybook',
@@ -428,6 +432,12 @@ PlainMessage.args = {
 export const PlainRtlMessage = Template.bind({});
 PlainRtlMessage.args = {
   text: 'الأسانسير، علشان القطط ماتاكلش منها. وننساها، ونعود الى أوراقنا موصدين الباب بإحكام. نتنحنح، ونقول: البتاع. كلمة تدلّ على لا شيء، وعلى كلّ شيء. وهي مركز أبحاث شعبية كثيرة، تتعجّب من غرابتها والقومية المصرية الخاصة التي تعكسها، الى جانب الشيء الكثير من العفوية وحلاوة الروح. نعم، نحن قرأنا وسمعنا وعرفنا كل هذا. لكنه محلّ اهتمامنا اليوم لأسباب غير تلك الأسباب. كذلك، فإننا لعاقدون عزمنا على أن نتجاوز قضية الفصحى والعامية، وثنائية النخبة والرعاع، التي كثيراً ما ينحو نحوها الحديث عن الكلمة المذكورة. وفوق هذا كله، لسنا بصدد تفسير معاني "البتاع" كما تأتي في قصيدة الحاج أحمد فؤاد نجم، ولا التحذلق والتفذلك في الألغاز والأسرار المكنونة. هذا البتاع - أم هذه البت',
+  textDirection: TextDirection.RightToLeft,
+};
+
+export const MixedRtlAndLtrMessage = Template.bind({});
+MixedRtlAndLtrMessage.args = {
+  text: 'هذه رسالة مع بعض English text mixed in to check the directionality and spacing rules.',
   textDirection: TextDirection.RightToLeft,
 };
 
@@ -943,6 +953,59 @@ export function Deleted(): React.JSX.Element {
       {renderBothDirections(propsSending)}
     </>
   );
+}
+
+export function DeletedRtl(): React.JSX.Element {
+  // oxlint-disable-next-line typescript-eslint/no-explicit-any
+  const mockI18n = ((key: string, args?: any) => {
+    if (key === 'icu:message--deletedForEveryone--outgoing') {
+      // Use the narrowed key directly now that we've checked its value
+      return arMessages['icu:message--deletedForEveryone--outgoing']
+        .messageformat;
+    }
+    // oxlint-disable-next-line typescript-eslint/no-explicit-any
+    return i18n(key as any, args);
+  }) as typeof i18n;
+  Object.assign(mockI18n, i18n);
+
+  mockI18n.getIntl = () => {
+    const originalIntl = i18n.getIntl();
+    return {
+      ...originalIntl,
+      formatMessage: (
+        descriptor: Parameters<IntlShape['formatMessage']>[0],
+        values: Parameters<IntlShape['formatMessage']>[1]
+      ) => {
+        if (descriptor.id === 'icu:message--deletedForEveryone--incoming') {
+          // Mimic react-intl's behavior by splitting around the {name} variable
+          // and injecting the incoming React Component gracefully!
+          const formatString =
+            arMessages['icu:message--deletedForEveryone--incoming']
+              .messageformat;
+          const parts = formatString.split('{name}');
+          return (
+            <>
+              {parts[0]}
+              {values?.name as React.ReactNode}
+              {parts[1]}
+            </>
+          );
+        }
+        return originalIntl.formatMessage(descriptor, values);
+      },
+    } as unknown as IntlShape;
+  };
+
+  const propsSent = createProps({
+    conversationType: 'direct',
+    deletedForEveryone: true,
+    canForward: false,
+    status: 'sent',
+    textDirection: TextDirection.RightToLeft,
+    i18n: mockI18n,
+  });
+
+  return <>{renderBothDirections(propsSent)}</>;
 }
 
 export function DeletedByAdmin(): React.JSX.Element {
