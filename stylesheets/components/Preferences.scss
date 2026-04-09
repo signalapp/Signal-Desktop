@@ -966,7 +966,7 @@ $secondary-text-color: light-dark(
   border-width: 0;
   outline: none;
   color: variables.$color-gray-90;
-  font-family: variables.$monospace;
+  font-family: 'MonoSpecial', variables.$monospace;
   font-size: 16px;
   font-weight: 400;
   overflow: hidden;

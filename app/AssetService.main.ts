@@ -22,6 +22,7 @@ const LOCAL_ASSETS = new Set([
   'fonts/inter-v3.19/Inter-Bold.woff2',
   'fonts/inter-v3.19/Inter-Italic.woff2',
   'fonts/inter-v3.19/Inter-SemiBoldItalic.woff2',
+  'fonts/mono-special/MonoSpecial-Regular.woff2',
 ]);
 
 // pathname to optional resource name
