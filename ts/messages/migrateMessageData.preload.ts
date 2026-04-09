@@ -162,8 +162,10 @@ export async function _migrateMessageData({
 
 export async function migrateBatchOfMessages({
   numMessagesPerBatch,
+  maxVersion,
 }: {
   numMessagesPerBatch: number;
+  maxVersion?: number;
 }): ReturnType<typeof _migrateMessageData> {
   return migrationQueue.add(() =>
     _migrateMessageData({
@@ -173,22 +175,28 @@ export async function migrateBatchOfMessages({
       saveMessagesIndividually: DataWriter.saveMessagesIndividually,
       incrementMessagesMigrationAttempts:
         DataWriter.incrementMessagesMigrationAttempts,
+      maxVersion,
     })
   );
 }
 
-export async function migrateAllMessages(): Promise<void> {
+export async function migrateAllMessages({
+  maxVersion,
+}: {
+  maxVersion?: number;
+} = {}): Promise<void> {
+  const logId = `migrateAllMessages${maxVersion != null ? `[maxVersion=${maxVersion}]` : ''}`;
+
   let batch: BatchResultType | undefined;
   let total = 0;
   while (!batch?.done) {
     // oxlint-disable-next-line no-await-in-loop
     batch = await migrateBatchOfMessages({
       numMessagesPerBatch: 1000,
+      maxVersion,
     });
     total += batch.numProcessed;
-    log.info(`migrateAllMessages: Migrated batch of ${batch.numProcessed}`);
+    log.info(`${logId}: Migrated batch of ${batch.numProcessed}`);
   }
-  log.info(
-    `migrateAllMessages: message migration complete; ${total} messages migrated`
-  );
+  log.info(`${logId}: message migration complete; ${total} messages migrated`);
 }

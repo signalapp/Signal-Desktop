@@ -705,6 +705,8 @@ export const CURRENT_SCHEMA_VERSION = VERSIONS.length - 1;
 // We need dimensions and screenshots for images for proper display
 export const VERSION_NEEDED_FOR_DISPLAY = 9;
 
+export const MESSAGE_VERSION_WITH_NORMALIZED_ATTACHMENTS = 15;
+
 // UpgradeStep
 export const upgradeSchema = async (
   rawMessage: MessageAttributesType,

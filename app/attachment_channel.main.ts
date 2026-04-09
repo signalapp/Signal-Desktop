@@ -660,7 +660,7 @@ export async function handleAttachmentRequest(req: Request): Promise<Response> {
     return new Response('Access denied', { status: 401 });
   }
 
-  // Some attachments have weak references (e.g. copied quotes) and we
+  // Some attachments have weak references (e.g. old copied quotes) and we
   // don't want to treat those attachments missing as an error
   const weakReferenceParam = url.searchParams.get('weakReference');
   if (weakReferenceParam != null) {

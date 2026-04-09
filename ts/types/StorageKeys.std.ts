@@ -274,6 +274,8 @@ export type StorageAccessType = {
 
   avatarsHaveBeenMigrated: boolean;
 
+  blockedMessageMigrationVersion: number | undefined;
+
   // Key Transparency
   lastDistinguishedTreeHead: Uint8Array<ArrayBuffer>;
   // Meaning of values:
@@ -357,6 +359,7 @@ export const STORAGE_KEYS_TO_PRESERVE_AFTER_UNLINK = [
   // Bookkeeping keys
   'attachmentMigration_lastProcessedIndex',
   'attachmentMigration_isComplete',
+  'blockedMessageMigrationVersion',
   'chromiumRegistrationDoneEver',
   'version',
   'number_id',

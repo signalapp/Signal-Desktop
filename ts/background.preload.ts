@@ -73,7 +73,10 @@ import { PollVoteSchema, PollTerminateSchema } from './types/Polls.dom.ts';
 import type { ConversationModel } from './models/conversations.preload.ts';
 import { isIncoming } from './messages/helpers.std.ts';
 import { getAuthor } from './messages/sources.preload.ts';
-import { migrateBatchOfMessages } from './messages/migrateMessageData.preload.ts';
+import {
+  migrateAllMessages,
+  migrateBatchOfMessages,
+} from './messages/migrateMessageData.preload.ts';
 import { createBatcher, waitForAllBatchers } from './util/batcher.std.ts';
 import {
   flushAllWaitBatchers,
@@ -281,6 +284,7 @@ import {
   CURRENT_SCHEMA_VERSION,
   PRIVATE,
   GROUP,
+  MESSAGE_VERSION_WITH_NORMALIZED_ATTACHMENTS,
 } from './types/Message2.preload.ts';
 import { JobCancelReason } from './jobs/types.std.ts';
 import { itemStorage } from './textsecure/Storage.preload.ts';
@@ -1203,7 +1207,10 @@ export async function startApp(): Promise<void> {
       drop(
         // oxlint-disable-next-line promise/prefer-await-to-then
         start().catch(error => {
-          log.error('start: threw an unexpected error', error);
+          log.error(
+            'start: threw an unexpected error',
+            Errors.toLogFormat(error)
+          );
         })
       );
       initializeNetworkObserver(
@@ -1477,6 +1484,23 @@ export async function startApp(): Promise<void> {
       });
     }
     log.info('Expiration start timestamp cleanup: complete');
+
+    if (
+      itemStorage.user.getAci() &&
+      (itemStorage.get('blockedMessageMigrationVersion') ?? 0) <
+        MESSAGE_VERSION_WITH_NORMALIZED_ATTACHMENTS
+    ) {
+      log.warn(
+        `Blocking while migrating all messages to version ${MESSAGE_VERSION_WITH_NORMALIZED_ATTACHMENTS}`
+      );
+      await migrateAllMessages({
+        maxVersion: MESSAGE_VERSION_WITH_NORMALIZED_ATTACHMENTS,
+      });
+      await itemStorage.put(
+        'blockedMessageMigrationVersion',
+        MESSAGE_VERSION_WITH_NORMALIZED_ATTACHMENTS
+      );
+    }
 
     try {
       await runAllSyncTasks();

@@ -13,14 +13,6 @@ export function getFilePathsReferencedByAttachment(
   const externalAttachments = new Set<string>();
   const externalDownloads = new Set<string>();
 
-  // Copied attachments weakly reference their paths -- there is a chance that
-  // non-normalized attachments may still exist on messages.json, in which case
-  // `isAttachmentSafeToDelete` would incorrectly mark a copied thumbnail as safe to
-  // delete
-  if (attachment.copied) {
-    return { externalAttachments, externalDownloads };
-  }
-
   const { path, thumbnail, screenshot, thumbnailFromBackup, downloadPath } =
     attachment;
   if (path) {

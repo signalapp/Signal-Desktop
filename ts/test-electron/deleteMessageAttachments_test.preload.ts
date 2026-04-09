@@ -612,33 +612,5 @@ describe('deleteMessageAttachments', () => {
         'attachment4',
       ]);
     });
-    it('does not delete copied quote thumbnails', async () => {
-      const attachment: AttachmentType = {
-        size: 1,
-        contentType: IMAGE_JPEG,
-        path: 'attachment0',
-        version: 2,
-        copied: true,
-      };
-
-      await cleanupAttachmentFiles(attachment);
-      // not cleaned up
-      assert.sameDeepMembers(listFiles('attachment'), [
-        'attachment0',
-        'attachment1',
-        'attachment2',
-        'attachment3',
-        'attachment4',
-      ]);
-
-      // sanity check: if not copied, gets cleaned up
-      await cleanupAttachmentFiles({ ...attachment, copied: false });
-      assert.sameDeepMembers(listFiles('attachment'), [
-        'attachment1',
-        'attachment2',
-        'attachment3',
-        'attachment4',
-      ]);
-    });
   });
 });
