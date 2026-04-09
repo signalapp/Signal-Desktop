@@ -133,6 +133,7 @@ export const SmartConversationDetails = memo(function SmartConversationDetails({
     onArchive,
     onMoveToInbox,
     replaceAvatar,
+    reportSpam,
     saveAvatarToDisk,
     setDisappearingMessages,
     setMuteExpiration,
@@ -295,6 +296,7 @@ export const SmartConversationDetails = memo(function SmartConversationDetails({
       renderChooseGroupMembersModal={renderChooseGroupMembersModal}
       renderConfirmAdditionsModal={renderConfirmAdditionsModal}
       replaceAvatar={replaceAvatar}
+      reportSpam={reportSpam}
       saveAvatarToDisk={saveAvatarToDisk}
       searchInConversation={searchInConversation}
       selectedNavTab={selectedNavTab}

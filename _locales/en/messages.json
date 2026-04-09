@@ -6508,6 +6508,10 @@
     "messageformat": "Unblock group",
     "description": "This is a button to unblock a group"
   },
+  "icu:ConversationDetailsActions--report-spam": {
+    "messageformat": "Report spam",
+    "description": "This is a button to report spam"
+  },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "Archive chat",
     "description": "This is a button to archive a chat"
@@ -6575,6 +6579,26 @@
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "Unblock",
     "description": "This is the modal button to confirm unblock of a group"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-title": {
+    "messageformat": "Report spam?",
+    "description": "This is the modal title for confirming reporting spam"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
+    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats.",
+    "description": "This is the modal content for confirming reporting a 1-1 chat as spam"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-group": {
+    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats.",
+    "description": "This is the modal content for confirming reporting a group as spam"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
+    "messageformat": "Report spam",
+    "description": "This is the modal button to confirm reporting spam"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
+    "messageformat": "Report and block",
+    "description": "This is the modal button to confirm reporting spam and block"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {# member} other {# members}}",

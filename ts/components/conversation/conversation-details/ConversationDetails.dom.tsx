@@ -143,6 +143,7 @@ type ActionProps = {
   onOutgoingVideoCallInConversation: (conversationId: string) => unknown;
   pushPanelForConversation: PushPanelForConversationActionType;
   replaceAvatar: ReplaceAvatarActionType;
+  reportSpam: (id: string) => void;
   saveAvatarToDisk: SaveAvatarToDiskActionType;
   searchInConversation: (id: string) => unknown;
   setDisappearingMessages: (id: string, seconds: DurationInSeconds) => void;
@@ -215,6 +216,7 @@ export function ConversationDetails({
   renderChooseGroupMembersModal,
   renderConfirmAdditionsModal,
   replaceAvatar,
+  reportSpam,
   saveAvatarToDisk,
   searchInConversation,
   selectedNavTab,
@@ -882,11 +884,17 @@ export function ConversationDetails({
           isBlocked={Boolean(conversation.isBlocked)}
           isGroup={isGroup}
           isGroupTerminated={isGroupTerminated}
+          isSignalConversation={isSignalConversation}
           left={Boolean(conversation.left)}
           onArchive={onConversationArchive}
           onDelete={onConversationDeleteMessages}
           onUnarchive={onConversationUnarchive}
           onLeave={() => leaveGroup(conversation.id)}
+          onReportSpam={() => reportSpam(conversation.id)}
+          onReportSpamAndBlock={() => {
+            reportSpam(conversation.id);
+            blockConversation(conversation.id);
+          }}
           onTerminateGroup={() => terminateGroup(conversation.id)}
         />
       )}

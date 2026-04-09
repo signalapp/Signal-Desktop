@@ -284,6 +284,7 @@ export async function handleDataMessage(
               newRevision: revision,
               receivedAt: message.get('received_at'),
               sentAt: message.get('sent_at'),
+              serverGuid: message.get('serverGuid'),
             });
           } catch (error) {
             const errorText = Errors.toLogFormat(error);

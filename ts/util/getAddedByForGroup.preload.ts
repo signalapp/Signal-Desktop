@@ -3,16 +3,23 @@
 import type { ConversationType } from '../state/ducks/conversations.preload.ts';
 import { itemStorage } from '../textsecure/Storage.preload.ts';
 
-export function getAddedByForOurPendingInvitation(
+export function getAddedByForGroup(
   conversation: ConversationType
 ): ConversationType | null {
   const ourAci = itemStorage.user.getCheckedAci();
   const ourPni = itemStorage.user.getPni();
-  const addedBy = conversation.pendingMemberships?.find(
+
+  let addedByAci;
+  addedByAci = conversation.pendingMemberships?.find(
     item => item.serviceId === ourAci || item.serviceId === ourPni
   )?.addedByUserId;
-  if (addedBy == null) {
-    return null;
+
+  if (addedByAci == null) {
+    const conversationModel = window.ConversationController.get(
+      conversation.id
+    );
+    addedByAci = conversationModel?.attributes.addedBy;
   }
-  return window.ConversationController.get(addedBy)?.format() ?? null;
+
+  return window.ConversationController.get(addedByAci)?.format() ?? null;
 }

@@ -89,6 +89,7 @@
   }
 
   &__block-group,
+  &__report-spam,
   &__terminate-group,
   &__delete {
     color: variables.$color-accent-red;
@@ -355,6 +356,16 @@
 
         &--disabled {
           opacity: 0.5;
+        }
+      }
+
+      &--spam {
+        &::after {
+          @include details-icon(
+            '../images/icons/v3/spam/spam.svg',
+            variables.$color-accent-red,
+            variables.$color-accent-red
+          );
         }
       }
 

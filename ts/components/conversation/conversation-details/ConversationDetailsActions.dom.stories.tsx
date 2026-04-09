@@ -39,10 +39,13 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   isGroupTerminated: isBoolean(overrideProps.isGroupTerminated)
     ? overrideProps.isGroupTerminated
     : false,
+  isSignalConversation: false,
   left: isBoolean(overrideProps.left) ? overrideProps.left : false,
   onArchive: action('onArchive'),
   onDelete: action('onDelet'),
   onLeave: action('onLeave'),
+  onReportSpamAndBlock: action('onBlockAndReportSpam'),
+  onReportSpam: action('onReportSpam'),
   onTerminateGroup: action('onTerminateGroup'),
   onUnarchive: action('onUnarchive'),
 });

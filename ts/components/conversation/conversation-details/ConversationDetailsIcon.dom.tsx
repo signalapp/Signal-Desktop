@@ -32,6 +32,7 @@ export enum IconType {
   'official' = 'official',
   'reset' = 'reset',
   'share' = 'share',
+  'spam' = 'spam',
   'spinner' = 'spinner',
   'tag' = 'tag',
   'terminate' = 'terminate',

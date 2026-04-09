@@ -17,7 +17,7 @@ import type { ConversationType } from '../ducks/conversations.preload.ts';
 import { useConversationsActions } from '../ducks/conversations.preload.ts';
 import { useGlobalModalActions } from '../ducks/globalModals.preload.ts';
 import { strictAssert } from '../../util/assert.std.ts';
-import { getAddedByForOurPendingInvitation } from '../../util/getAddedByForOurPendingInvitation.preload.ts';
+import { getAddedByForGroup } from '../../util/getAddedByForGroup.preload.ts';
 import { getItems } from '../selectors/items.dom.ts';
 import { isFeaturedEnabledSelector } from '../../util/isFeatureEnabled.dom.ts';
 import { getCanAddLabel } from '../../types/GroupMemberLabels.std.ts';
@@ -38,7 +38,7 @@ function isFromOrAddedByTrustedContact(
     return Boolean(conversation.name) || Boolean(conversation.profileSharing);
   }
 
-  const addedByConv = getAddedByForOurPendingInvitation(conversation);
+  const addedByConv = getAddedByForGroup(conversation);
   if (!addedByConv) {
     return false;
   }

@@ -29,11 +29,14 @@ export type Props = {
   isBlocked: boolean;
   isGroup: boolean;
   isGroupTerminated: boolean;
+  isSignalConversation: boolean;
   left: boolean;
   onArchive: () => void;
   onDelete: () => void;
   onUnarchive: () => void;
   onLeave: () => void;
+  onReportSpam: () => void;
+  onReportSpamAndBlock: () => void;
   onTerminateGroup: () => void;
 };
 
@@ -49,11 +52,14 @@ export function ConversationDetailsActions({
   isBlocked,
   isGroup,
   isGroupTerminated,
+  isSignalConversation,
   left,
   onArchive,
   onDelete,
   onUnarchive,
   onLeave,
+  onReportSpamAndBlock,
+  onReportSpam,
   onTerminateGroup,
 }: Props): React.JSX.Element {
   const [confirmLeave, gLeave] = useState<boolean>(false);
@@ -61,6 +67,7 @@ export function ConversationDetailsActions({
   const [confirmGroupUnblock, gGroupUnblock] = useState<boolean>(false);
   const [confirmDirectBlock, gDirectBlock] = useState<boolean>(false);
   const [confirmDirectUnblock, gDirectUnblock] = useState<boolean>(false);
+  const [confirmReportSpam, gConfirmReportSpam] = useState<boolean>(false);
   const [promptTerminateGroup, gPromptTerminateGroup] =
     useState<boolean>(false);
   const [confirmTerminateGroup, gConfirmTerminateGroup] =
@@ -184,6 +191,26 @@ export function ConversationDetailsActions({
     );
   }
 
+  let reportSpamNode: ReactNode;
+  if (!isSignalConversation) {
+    reportSpamNode = (
+      <PanelRow
+        onClick={() => gConfirmReportSpam(true)}
+        icon={
+          <ConversationDetailsIcon
+            ariaLabel={i18n('icu:ConversationDetailsActions--report-spam')}
+            icon={IconType.spam}
+          />
+        }
+        label={
+          <div className="ConversationDetails__report-spam">
+            {i18n('icu:ConversationDetailsActions--report-spam')}
+          </div>
+        }
+      />
+    );
+  }
+
   let terminateGroupNode: ReactNode;
   if (canTerminateGroup) {
     terminateGroupNode = (
@@ -267,6 +294,7 @@ export function ConversationDetailsActions({
         {blockNode}
         {archiveNode}
         {deleteNode}
+        {reportSpamNode}
       </PanelSection>
       {terminateGroupNode && <PanelSection>{terminateGroupNode}</PanelSection>}
       {confirmLeave && (
@@ -376,6 +404,43 @@ export function ConversationDetailsActions({
           })}
         >
           {i18n('icu:MessageRequests--unblock-direct-confirm-body')}
+        </ConfirmationDialog>
+      )}
+
+      {confirmReportSpam && (
+        <ConfirmationDialog
+          dialogName="ConversationDetailsAction.confirmSpam"
+          actions={[
+            {
+              text: i18n(
+                'icu:ConversationDetailsActions--report-spam-modal-report-spam'
+              ),
+              action: onReportSpam,
+              style: 'negative',
+            },
+            ...(isBlocked
+              ? []
+              : ([
+                  {
+                    text: i18n(
+                      'icu:ConversationDetailsActions--report-spam-modal-report-and-block'
+                    ),
+                    action: onReportSpamAndBlock,
+                    style: 'negative',
+                  },
+                ] as const)),
+          ]}
+          i18n={i18n}
+          onClose={() => gConfirmReportSpam(false)}
+          title={i18n('icu:MessageRequests--ReportAndMaybeBlockModal-title')}
+        >
+          {isGroup
+            ? i18n(
+                'icu:ConversationDetailsActions--report-spam-modal-content-group'
+              )
+            : i18n(
+                'icu:ConversationDetailsActions--report-spam-modal-content-direct'
+              )}
         </ConfirmationDialog>
       )}
 

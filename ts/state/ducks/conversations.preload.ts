@@ -196,7 +196,7 @@ import {
   SettingsPage,
 } from '../../types/Nav.std.ts';
 import { sortByMessageOrder } from '../../types/ForwardDraft.std.ts';
-import { getAddedByForOurPendingInvitation } from '../../util/getAddedByForOurPendingInvitation.preload.ts';
+import { getAddedByForGroup } from '../../util/getAddedByForGroup.preload.ts';
 import {
   getConversationIdForLogging,
   getMessageIdForLogging,
@@ -3783,17 +3783,27 @@ async function syncMessageRequestResponse(
   }
 }
 
-function getConversationForReportSpam(
+function getDirectConversationForReportSpam(
   conversation: ConversationType
 ): ConversationType | null {
+  const ourAci = itemStorage.user.getAci();
+
   if (conversation.type === 'group') {
-    const addedBy = getAddedByForOurPendingInvitation(conversation);
+    const addedBy = getAddedByForGroup(conversation);
     if (addedBy == null) {
       log.error(
-        `getConversationForReportSpam: No addedBy found for ${conversation.id}`
+        `getDirectConversationForReportSpam: No addedBy found for ${conversation.id}`
       );
       return null;
     }
+
+    if (addedBy.serviceId === ourAci) {
+      log.warn(
+        "getDirectConversationForReportSpam: We added ourself to this group, but can't report ourself for spam."
+      );
+      return null;
+    }
+
     return addedBy;
   }
 
@@ -3813,19 +3823,23 @@ function reportSpam(
       return;
     }
 
-    const conversation = getConversationForReportSpam(conversationOrGroup);
+    const conversationForSpam =
+      getDirectConversationForReportSpam(conversationOrGroup);
     const conversationModel = window.ConversationController.get(
-      conversation?.id
+      conversationOrGroup?.id
     );
-    if (!conversation || !conversationModel) {
+    if (!conversationForSpam || !conversationModel) {
       log.error(
-        `reportSpam: Conversation for report spam not found ${conversation?.id}. Doing nothing.`
+        `reportSpam: Conversation for report spam not found ${conversationForSpam?.id}. Doing nothing.`
       );
       return;
     }
 
     const messageRequestEnum = Proto.SyncMessage.MessageRequestResponse.Type;
-    const idForLogging = getConversationIdForLogging(conversation);
+    const idForLogging = getConversationIdForLogging(conversationForSpam);
+    const groupConversationId = isGroup(conversationOrGroup)
+      ? conversationOrGroup.id
+      : undefined;
 
     drop(
       longRunningTaskWrapper({
@@ -3838,9 +3852,10 @@ function reportSpam(
               messageRequestEnum.SPAM
             ),
             addReportSpamJob({
-              conversation,
+              directConversation: conversationForSpam,
               getMessageServerGuidsForSpam:
                 DataReader.getMessageServerGuidsForSpam,
+              groupConversationId,
               jobQueue: reportSpamJobQueue,
             }),
           ]);
@@ -3871,7 +3886,7 @@ function blockAndReportSpam(
     }
 
     const conversationForSpam =
-      getConversationForReportSpam(conversationOrGroup);
+      getDirectConversationForReportSpam(conversationOrGroup);
     const conversationModel = window.ConversationController.get(
       conversationForSpam?.id
     );
@@ -3881,8 +3896,12 @@ function blockAndReportSpam(
       );
       return;
     }
+
     const messageRequestEnum = Proto.SyncMessage.MessageRequestResponse.Type;
     const idForLogging = getConversationIdForLogging(conversationOrGroup);
+    const groupConversationId = isGroup(conversationOrGroup)
+      ? conversationOrGroup.id
+      : undefined;
 
     if (conversationModel.getAci()) {
       drop(
@@ -3895,13 +3914,13 @@ function blockAndReportSpam(
                 conversationModel,
                 messageRequestEnum.BLOCK_AND_SPAM
               ),
-              conversationForSpam != null &&
-                addReportSpamJob({
-                  conversation: conversationForSpam,
-                  getMessageServerGuidsForSpam:
-                    DataReader.getMessageServerGuidsForSpam,
-                  jobQueue: reportSpamJobQueue,
-                }),
+              addReportSpamJob({
+                directConversation: conversationForSpam,
+                getMessageServerGuidsForSpam:
+                  DataReader.getMessageServerGuidsForSpam,
+                groupConversationId,
+                jobQueue: reportSpamJobQueue,
+              }),
             ]);
 
             dispatch({

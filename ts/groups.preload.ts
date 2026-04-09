@@ -3042,6 +3042,7 @@ type MaybeUpdatePropsType = Readonly<{
   newRevision?: number;
   receivedAt?: number;
   sentAt?: number;
+  serverGuid?: string;
   dropInitialJoinMessage?: boolean;
   force?: boolean;
   groupChange?: WrappedGroupChangeType;
@@ -3102,6 +3103,7 @@ export async function maybeUpdateGroup(
     newRevision,
     receivedAt,
     sentAt,
+    serverGuid,
   }: MaybeUpdatePropsType,
   { viaFirstStorageSync = false } = {}
 ): Promise<void> {
@@ -3120,7 +3122,7 @@ export async function maybeUpdateGroup(
     });
 
     await updateGroup(
-      { conversation, receivedAt, sentAt, updates },
+      { conversation, receivedAt, sentAt, serverGuid, updates },
       { viaFirstStorageSync }
     );
   } catch (error) {
@@ -3147,11 +3149,13 @@ async function updateGroup(
     conversation,
     receivedAt,
     sentAt,
+    serverGuid,
     updates,
   }: {
     conversation: ConversationModel;
     receivedAt?: number;
     sentAt?: number;
+    serverGuid?: string;
     updates: UpdatesResultType;
   },
   { viaFirstStorageSync = false } = {}
@@ -3211,6 +3215,7 @@ async function updateGroup(
       conversationId: conversation.id,
       received_at_ms: syntheticSentAt,
       sent_at: syntheticSentAt,
+      serverGuid,
       timestamp,
     };
   });

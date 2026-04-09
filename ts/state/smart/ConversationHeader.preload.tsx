@@ -14,7 +14,7 @@ import { CallMode } from '../../types/CallDisposition.std.ts';
 import { PanelType } from '../../types/Panels.std.ts';
 import { StoryViewModeType } from '../../types/Stories.std.ts';
 import { strictAssert } from '../../util/assert.std.ts';
-import { getAddedByForOurPendingInvitation } from '../../util/getAddedByForOurPendingInvitation.preload.ts';
+import { getAddedByForGroup } from '../../util/getAddedByForGroup.preload.ts';
 import { getGroupMemberships } from '../../util/getGroupMemberships.dom.ts';
 import { isConversationSMSOnly } from '../../util/isConversationSMSOnly.std.ts';
 import { isGroupOrAdhocCallState } from '../../util/isGroupOrAdhocCall.std.ts';
@@ -175,7 +175,7 @@ export const SmartConversationHeader = memo(function SmartConversationHeader({
 
   const addedBy = useMemo(() => {
     if (conversation.type === 'group') {
-      return getAddedByForOurPendingInvitation(conversation);
+      return getAddedByForGroup(conversation);
     }
     return null;
   }, [conversation]);
