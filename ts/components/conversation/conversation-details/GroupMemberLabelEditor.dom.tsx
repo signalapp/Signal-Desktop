@@ -139,7 +139,7 @@ export function GroupMemberLabelEditor({
     : undefined;
 
   useEffect(() => {
-    if (!canAddLabel && isActive) {
+    if (!canAddLabel && isActive && !isShowingPermissionsError) {
       setIsShowingPermissionsError(true);
     }
   }, [
@@ -158,8 +158,9 @@ export function GroupMemberLabelEditor({
 
   const onTryClose = React.useCallback(() => {
     const discardChanges = noop;
-    confirmDiscardIf(isDirty, discardChanges);
-  }, [confirmDiscardIf, isDirty]);
+    // If leaving the screen because we no longer have permission, no confirm discard
+    confirmDiscardIf(isDirty && canAddLabel, discardChanges);
+  }, [canAddLabel, confirmDiscardIf, isDirty]);
   tryClose.current = onTryClose;
 
   // Popping the panel here after a save is far safer; we may not have re-rendered with
@@ -416,7 +417,7 @@ export function GroupMemberLabelEditor({
       </div>
       {confirmDiscardModal}
       <AxoAlertDialog.Root
-        open={isShowingGeneralError && isActive}
+        open={isShowingGeneralError && isActive && !confirmDiscardModal}
         onOpenChange={value => {
           if (!value) {
             setIsShowingGeneralError(false);
@@ -445,7 +446,7 @@ export function GroupMemberLabelEditor({
         </AxoAlertDialog.Content>
       </AxoAlertDialog.Root>
       <AxoAlertDialog.Root
-        open={isShowingPermissionsError && isActive}
+        open={isShowingPermissionsError && isActive && !confirmDiscardModal}
         onOpenChange={value => {
           if (!value) {
             setIsShowingPermissionsError(false);
@@ -466,8 +467,8 @@ export function GroupMemberLabelEditor({
             <AxoAlertDialog.Action
               variant="primary"
               onClick={() => {
-                popPanelForConversation();
                 setIsShowingPermissionsError(false);
+                popPanelForConversation();
               }}
             >
               {i18n('icu:ok')}
