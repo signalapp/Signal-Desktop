@@ -21,6 +21,7 @@ export type TableType =
   | 'kyberPreKeys'
   | 'messages'
   | 'preKeys'
+  | 'shortAuthenticatedStrings'
   | 'senderKeys'
   | 'sessions'
   | 'signedPreKeys'
