@@ -53,6 +53,7 @@ import { OfficialChatInlineBadge } from './OfficialChatInlineBadge.dom.tsx';
 import { AxoIconButton } from '../../axo/AxoIconButton.dom.tsx';
 import { AxoButton } from '../../axo/AxoButton.dom.tsx';
 import { AxoConfirmDialog } from '../../axo/AxoConfirmDialog.dom.tsx';
+import { generateSafetyNumber } from '../../util/safetyNumber.preload.js';
 
 function HeaderInfoTitle({
   name,
@@ -62,7 +63,6 @@ function HeaderInfoTitle({
   isMe,
   isSignalConversation,
   headerRef,
-  showSAS,
 }: {
   name: string | null;
   title: string;
@@ -94,32 +94,16 @@ function HeaderInfoTitle({
   }
 
   return (
-    <>
-      <div className="module-ConversationHeader__header__info__title">
-        <UserText text={title} />
-        {isInSystemContacts({ name: name ?? undefined, type }) ? (
-          <InContactsIcon
-            className="module-ConversationHeader__header__info__title__in-contacts-icon"
-            i18n={i18n}
-            tooltipContainerRef={headerRef}
-          />
-        ) : null}
-      </div>
-
-      // TODO: if statement for user settings to show SAS value on the header
-
-      <button
-        type="button"
-        onClick={(e) => {
-          e.stopPropagation();
-          console.log("Button has been clicked!");
-          // TODO: add a function to actually grab SAS value
-        }}
-        className="module-ConversationHeader__header__info__button"
-      >
-        Click me for SAS
-      </button>
-    </>
+    <div className="module-ConversationHeader__header__info__title">
+      <UserText text={title} />
+      {isInSystemContacts({ name: name ?? undefined, type }) ? (
+        <InContactsIcon
+          className="module-ConversationHeader__header__info__title__in-contacts-icon"
+          i18n={i18n}
+          tooltipContainerRef={headerRef}
+        />
+      ) : null}
+    </div>
   );
   
 }
@@ -277,6 +261,24 @@ export const ConversationHeader = memo(function ConversationHeader({
   const [messageRequestState, setMessageRequestState] = useState(
     MessageRequestState.default
   );
+  const [sasNumber, setSasNumber] = useState<string | null>(null);
+  const handleShowSASModal = useCallback(async () => {
+    try {
+      const fullConversation = window.ConversationController.get(conversation.id)?.format();
+      if (!fullConversation) {
+        console.error('Could not find full conversation');
+        return;
+      }
+      if (!fullConversation.serviceId) {
+        console.error('Contact has no serviceId? cannot generate safety number');
+        return;
+      }
+      const result = await generateSafetyNumber(fullConversation);
+      setSasNumber(result.numberBlocks.join(' '));
+    } catch (err) {
+      console.error('Failed to generate safety number', err);
+    }
+  }, [conversation]); 
 
   const isTerminated = Boolean(conversation.terminated);
   const isMuted = isConversationMuted(conversation);
@@ -344,6 +346,13 @@ export const ConversationHeader = memo(function ConversationHeader({
           '@container flex flex-col shadow-elevation-1 shadow-no-outline'
         )}
       >
+        {sasNumber != null && (
+        <SASModal
+            sasValue={sasNumber}
+            onClose={() => setSasNumber(null)}
+            i18n={i18n}
+          />
+        )}
         <AxoDragRegion.Root>
           <div className="module-ConversationHeader">
             <HeaderContent
@@ -356,6 +365,7 @@ export const ConversationHeader = memo(function ConversationHeader({
               onViewUserStories={onViewUserStories}
               onViewConversationDetails={onViewConversationDetails}
               isSignalConversation={isSignalConversation ?? false}
+              onShowSASModal={handleShowSASModal}
             />
             <div className={tw(`flex flex-row gap-1 px-4 @min-[500px]:gap-3`)}>
               {!isSmsOnlyOrUnregistered &&
@@ -505,6 +515,7 @@ function HeaderContent({
   isSignalConversation,
   onViewUserStories,
   onViewConversationDetails,
+  onShowSASModal,
 }: {
   conversation: MinimalConversation;
   badge: BadgeType | null;
@@ -515,6 +526,7 @@ function HeaderContent({
   isSignalConversation: boolean;
   onViewUserStories: () => void;
   onViewConversationDetails: () => void;
+  onShowSASModal: () => void;
 }) {
   let onClick: undefined | (() => void);
   const { type } = conversation;
@@ -570,7 +582,7 @@ function HeaderContent({
         isMe={conversation.isMe}
         isSignalConversation={isSignalConversation}
         headerRef={headerRef}
-        showSAS={conversation.name ?? ''} // temporary until we have a real way to grab SAS value from the backend
+        showSAS={conversation.name ?? ''}
       />
       {(isOfficialChat ||
         conversation.expireTimer != null ||
@@ -603,13 +615,21 @@ function HeaderContent({
     return (
       <div className="module-ConversationHeader__header">
         {avatar}
-        <div>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
           <button
             type="button"
             className="module-ConversationHeader__header--clickable"
             onClick={onClick}
           >
             {contents}
+          </button>
+
+          <button
+            type="button"
+            onClick={onShowSASModal}
+            className="module-ConversationHeader__header__info__button"
+          >
+            View SAS Number
           </button>
         </div>
       </div>
@@ -619,7 +639,23 @@ function HeaderContent({
   return (
     <div className="module-ConversationHeader__header" ref={headerRef}>
       {avatar}
-      {contents}
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+        <button
+          type="button"
+          className="module-ConversationHeader__header--clickable"
+          onClick={onClick}
+        >
+          {contents}
+        </button>
+
+        <button
+          type="button"
+          onClick={onShowSASModal}
+          className="module-ConversationHeader__header__info__button"
+        >
+          View SAS Number
+        </button>
+      </div>
     </div>
   );
 }
@@ -1347,4 +1383,38 @@ function MultipleGroupMembersWithSameTitleWarning(props: {
       />
     </TimelineWarning>
   );
+}
+
+// right now this is displaying safety number and not the SAS flow
+function SASModal({
+  sasValue,
+  onClose,
+  i18n,
+}: {
+  sasValue: string;
+  onClose: () => void;
+  i18n: LocalizerType;
+}) {
+  return (
+    <ConfirmationDialog
+      dialogName="ConversationHeader.SASModal"
+      title="SAS Number"
+      i18n={i18n}
+      onClose={onClose}
+      actions={[
+        {
+          text: i18n('icu:close'),
+          action: onClose,
+          style: 'affirmative',
+        },
+      ]}
+    >
+      <div className="module-ConversationHeader__SASModal__content">
+        <p>Verify your SAS with this contact: </p>
+        <code className="module-ConversationHeader__SASModal__sasValue">
+          {sasValue} 
+        </code>
+      </div>
+    </ConfirmationDialog>
+  )
 }
