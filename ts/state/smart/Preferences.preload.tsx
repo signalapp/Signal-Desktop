@@ -744,7 +744,7 @@ export function SmartPreferences(): JSX.Element | null {
   );
   const [hasSAS, onSASChange] = createItemsAccess( // for settings persistence
     'sas-enabled', 
-    false
+    true
   );
   const [hasMessageAudio, onMessageAudioChange] = createItemsAccess(
     'audioMessage',
