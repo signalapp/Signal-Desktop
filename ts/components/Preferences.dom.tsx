@@ -420,7 +420,7 @@ export function Preferences({
   hasCountMutedConversations,
   hasFailedStorySends,
   hasHideMenuBar,
-  hasSAS, // SAS
+  hasSAS,
   hasIncomingCallNotifications,
   hasKeyTransparencyDisabled,
   hasLinkPreviews,
@@ -474,7 +474,7 @@ export function Preferences({
   onHasKeyTransparencyDisabledChanged,
   onHasStoriesDisabledChanged,
   onHideMenuBarChange,
-  onSASChange, // SAS
+  onSASChange,
   onIncomingCallNotificationsChange,
   onKeepMutedChatsArchivedChange,
   onLastSyncTimeChange,
