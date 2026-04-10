@@ -93,9 +93,7 @@ const { isNumber, omit, orderBy } = lodash;
 
 const log = createLogger('AccountManager');
 
-type StorageKeyByServiceIdKind = {
-  [kind in ServiceIdKind]: keyof StorageAccessType;
-};
+type StorageKeyByServiceIdKind = Record<ServiceIdKind, keyof StorageAccessType>;
 
 const DAY = 24 * 60 * 60 * 1000;
 
@@ -103,45 +101,45 @@ const PROFILE_KEY_LENGTH = 32;
 const MASTER_KEY_LENGTH = 32;
 const KEY_TOO_OLD_THRESHOLD = 14 * DAY;
 
-export const KYBER_KEY_ID_KEY: StorageKeyByServiceIdKind = {
+export const KYBER_KEY_ID_KEY = {
   [ServiceIdKind.ACI]: 'maxKyberPreKeyId',
   [ServiceIdKind.Unknown]: 'maxKyberPreKeyId',
   [ServiceIdKind.PNI]: 'maxKyberPreKeyIdPNI',
-};
+} as const satisfies StorageKeyByServiceIdKind;
 
 const LAST_RESORT_KEY_ROTATION_AGE = DAY * 1.5;
 const LAST_RESORT_KEY_MINIMUM = 5;
-const LAST_RESORT_KEY_UPDATE_TIME_KEY: StorageKeyByServiceIdKind = {
+const LAST_RESORT_KEY_UPDATE_TIME_KEY = {
   [ServiceIdKind.ACI]: 'lastResortKeyUpdateTime',
   [ServiceIdKind.Unknown]: 'lastResortKeyUpdateTime',
   [ServiceIdKind.PNI]: 'lastResortKeyUpdateTimePNI',
-};
+} as const satisfies StorageKeyByServiceIdKind;
 
 const PRE_KEY_ARCHIVE_AGE = 90 * DAY;
 // Use 20 keys for mock tests which is above the minimum, but takes much less
 // time to generate and store in the database (especially for PQ keys)
 const PRE_KEY_GEN_BATCH_SIZE = isMockEnvironment() ? 20 : 100;
 const PRE_KEY_MAX_COUNT = 200;
-const PRE_KEY_ID_KEY: StorageKeyByServiceIdKind = {
+const PRE_KEY_ID_KEY = {
   [ServiceIdKind.ACI]: 'maxPreKeyId',
   [ServiceIdKind.Unknown]: 'maxPreKeyId',
   [ServiceIdKind.PNI]: 'maxPreKeyIdPNI',
-};
+} as const satisfies StorageKeyByServiceIdKind;
 const PRE_KEY_MINIMUM = 10;
 
-export const SIGNED_PRE_KEY_ID_KEY: StorageKeyByServiceIdKind = {
+export const SIGNED_PRE_KEY_ID_KEY = {
   [ServiceIdKind.ACI]: 'signedKeyId',
   [ServiceIdKind.Unknown]: 'signedKeyId',
   [ServiceIdKind.PNI]: 'signedKeyIdPNI',
-};
+} as const satisfies StorageKeyByServiceIdKind;
 
 const SIGNED_PRE_KEY_ROTATION_AGE = DAY * 1.5;
 const SIGNED_PRE_KEY_MINIMUM = 5;
-const SIGNED_PRE_KEY_UPDATE_TIME_KEY: StorageKeyByServiceIdKind = {
+const SIGNED_PRE_KEY_UPDATE_TIME_KEY = {
   [ServiceIdKind.ACI]: 'signedKeyUpdateTime',
   [ServiceIdKind.Unknown]: 'signedKeyUpdateTime',
   [ServiceIdKind.PNI]: 'signedKeyUpdateTimePNI',
-};
+} as const satisfies StorageKeyByServiceIdKind;
 
 export enum AccountType {
   Primary = 'Primary',

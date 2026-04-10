@@ -40,10 +40,10 @@ export class Storage implements StorageInterface {
     key: K
   ): V | undefined;
 
-  public get<K extends keyof Access, V extends Access[K]>(
+  public get<K extends keyof Access>(
     key: K,
-    defaultValue: V
-  ): V;
+    defaultValue: Exclude<Access[K], undefined>
+  ): Exclude<Access[K], undefined>;
 
   public get<K extends keyof Access>(
     key: K,

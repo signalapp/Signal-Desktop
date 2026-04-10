@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 export function diffArraysAsSets<T>(
-  starting: Array<T>,
-  current: Array<T>
+  starting: ReadonlyArray<T>,
+  current: ReadonlyArray<T>
 ): { added: Array<T>; removed: Array<T> } {
   const startingSet = new Set(starting);
   const currentSet = new Set(current);
