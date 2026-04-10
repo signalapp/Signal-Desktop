@@ -8728,26 +8728,50 @@ export function incrementMessagesMigrationAttempts(
 
 function getMessageServerGuidsForSpam(
   db: ReadableDB,
-  conversationId: string
+  conversationId: string,
+  sourceServiceId?: string
 ): Array<string> {
-  // The server's maximum is 3, which is why you see `LIMIT 3` in this query. Note that we
-  //   use `pluck` here to only get the first column!
+  // The server's maximum is 3.
+  const limit = 3;
+
+  // Group reports -- sourceServiceId should be Aci matching addedBy of user who
+  // added you to a group
+  if (sourceServiceId != null) {
+    return db
+      .prepare(
+        `
+    SELECT DISTINCT serverGuid
+    FROM messages
+    WHERE conversationId = $conversationId
+    AND sourceServiceId = $sourceServiceId
+    AND type IS NOT 'outgoing'
+    AND serverGuid IS NOT NULL
+    ORDER BY received_at DESC, sent_at DESC
+    LIMIT $limit;
+    `,
+        {
+          pluck: true,
+        }
+      )
+      .all({ conversationId, sourceServiceId, limit });
+  }
+
   return db
     .prepare(
       `
-  SELECT serverGuid
-  FROM messages
-  WHERE conversationId = $conversationId
-  AND type = 'incoming'
-  AND serverGuid IS NOT NULL
-  ORDER BY received_at DESC, sent_at DESC
-  LIMIT 3;
-  `,
+    SELECT DISTINCT serverGuid
+    FROM messages
+    WHERE conversationId = $conversationId
+    AND type IS NOT 'outgoing'
+    AND serverGuid IS NOT NULL
+    ORDER BY received_at DESC, sent_at DESC
+    LIMIT $limit;
+    `,
       {
         pluck: true,
       }
     )
-    .all({ conversationId });
+    .all({ conversationId, limit });
 }
 
 function getExternalFilesForConversation(

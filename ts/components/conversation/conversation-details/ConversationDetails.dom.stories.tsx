@@ -127,6 +127,7 @@ const createProps = (
     setMuteExpiration: action('setMuteExpiration'),
     showToast: action('showToast'),
     userAvatarData: [],
+    reportSpam: action('reportSpam'),
     terminateGroup: action('terminateGroup'),
     toggleSafetyNumberModal: action('toggleSafetyNumberModal'),
     toggleAboutContactModal: action('toggleAboutContactModal'),

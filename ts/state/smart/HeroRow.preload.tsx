@@ -20,7 +20,7 @@ import {
 } from '../ducks/conversations.preload.ts';
 import { useGlobalModalActions } from '../ducks/globalModals.preload.ts';
 import { useStoriesActions } from '../ducks/stories.preload.ts';
-import { getAddedByForOurPendingInvitation } from '../../util/getAddedByForOurPendingInvitation.preload.ts';
+import { getAddedByForGroup } from '../../util/getAddedByForGroup.preload.ts';
 import { getGroupMemberships } from '../../util/getGroupMemberships.dom.ts';
 import { useNavActions } from '../ducks/nav.std.ts';
 
@@ -35,7 +35,7 @@ function isFromOrAddedByTrustedContact(
     return Boolean(conversation.name) || Boolean(conversation.profileSharing);
   }
 
-  const addedByConv = getAddedByForOurPendingInvitation(conversation);
+  const addedByConv = getAddedByForGroup(conversation);
   if (!addedByConv) {
     return false;
   }

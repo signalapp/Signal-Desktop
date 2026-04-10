@@ -1086,7 +1086,10 @@ type ReadableInterface = {
     limit: number,
     options: { maxVersion: number }
   ) => Array<MessageType>;
-  getMessageServerGuidsForSpam: (conversationId: string) => Array<string>;
+  getMessageServerGuidsForSpam: (
+    conversationId: string,
+    sourceServiceId?: string
+  ) => Array<string>;
 
   getJobsInQueue(queueType: string): Array<StoredJob>;
 

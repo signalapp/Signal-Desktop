@@ -32,7 +32,7 @@ describe('addReportSpamJob', () => {
 
   it('does nothing if the conversation lacks a serviceId', async () => {
     await addReportSpamJob({
-      conversation: {
+      directConversation: {
         ...conversation,
         serviceId: undefined,
       },
@@ -48,7 +48,7 @@ describe('addReportSpamJob', () => {
     getMessageServerGuidsForSpam.resolves([]);
 
     await addReportSpamJob({
-      conversation,
+      directConversation: conversation,
       getMessageServerGuidsForSpam,
       jobQueue,
     });
@@ -58,7 +58,7 @@ describe('addReportSpamJob', () => {
 
   it('enqueues a job without a token', async () => {
     await addReportSpamJob({
-      conversation,
+      directConversation: conversation,
       getMessageServerGuidsForSpam,
       jobQueue,
     });
@@ -76,7 +76,7 @@ describe('addReportSpamJob', () => {
 
   it('enqueues a job with a token', async () => {
     await addReportSpamJob({
-      conversation: {
+      directConversation: {
         ...conversation,
         reportingToken: 'uvw',
       },
@@ -93,5 +93,24 @@ describe('addReportSpamJob', () => {
       serverGuids: ['abc', 'xyz'],
       token: 'uvw',
     });
+  });
+
+  it('calls getMessageServerGuidsForSpam with groupConversationId', async () => {
+    await addReportSpamJob({
+      directConversation: {
+        ...conversation,
+        reportingToken: 'uvw',
+      },
+      getMessageServerGuidsForSpam,
+      groupConversationId: 'group',
+      jobQueue,
+    });
+
+    sinon.assert.calledOnce(getMessageServerGuidsForSpam);
+    sinon.assert.calledWith(
+      getMessageServerGuidsForSpam,
+      'group',
+      conversation.serviceId
+    );
   });
 });

@@ -11,7 +11,7 @@ import type {
 } from '../../types/BodyRange.std.ts';
 import { hydrateRanges } from '../../util/BodyRange.node.ts';
 import { strictAssert } from '../../util/assert.std.ts';
-import { getAddedByForOurPendingInvitation } from '../../util/getAddedByForOurPendingInvitation.preload.ts';
+import { getAddedByForGroup } from '../../util/getAddedByForGroup.preload.ts';
 import { AutoSubstituteAsciiEmojis } from '../../quill/auto-substitute-ascii-emojis/index.dom.tsx';
 import { imageToBlurHash } from '../../util/imageToBlurHash.dom.ts';
 import { isConversationSMSOnly } from '../../util/isConversationSMSOnly.std.ts';
@@ -151,7 +151,7 @@ export const SmartCompositionArea = memo(function SmartCompositionArea({
 
   const addedBy = useMemo(() => {
     if (conversation.type === 'group') {
-      return getAddedByForOurPendingInvitation(conversation);
+      return getAddedByForGroup(conversation);
     }
     return null;
   }, [conversation]);
