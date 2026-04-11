@@ -347,15 +347,6 @@ export type StoredSignedPreKeyType = {
 };
 export type SignedPreKeyIdType = SignedPreKeyType['id'];
 
-export type SASType = {
-  id: SASIdType;
-  createdAt: number;
-  ourServiceId: ServiceIdString;
-  sas: string;
-  authenticated: boolean;
-};
-export type SASIdType = `${ServiceIdString}:${number}`;
-
 export type StickerType = Readonly<{
   id: number;
   packId: string;
@@ -1574,8 +1565,6 @@ export type ServerReadableDirectInterface = ReadableInterface & {
 
   getPreKeyById: (id: PreKeyIdType) => StoredPreKeyType | undefined;
   getAllPreKeys: () => Array<StoredPreKeyType>;
-
-  getAllSAS: () => Array<SASType>;
 
   getSignedPreKeyById: (
     id: SignedPreKeyIdType

@@ -475,78 +475,6 @@ export default class OutgoingMessage {
               }
 
             const destinationRegistrationId =activeSession.remoteRegistrationId();
-            /*const pending = await getPendingBasis(serviceId, destinationDeviceId);
-            if (typeof pending === 'string' && pending.length > 0) 
-            {
-              const header = `[PVRF_BASIS_V0:${pending}]`;
-              log.info("case 2", this.message, (this.message as any).dataMessage)
-              const c = this.message instanceof Proto.Content ? this.message : null;
-              log.info("Outgoing kind:", {
-                hasData: Boolean(c?.dataMessage),
-                hasTyping: Boolean(c?.typingMessage),
-                hasSync: Boolean(c?.syncMessage),
-                hasEdit: Boolean(c?.editMessage),
-              });
-
-              if (this.message instanceof Proto.Content && this.message.dataMessage) 
-              {
-                const body = this.message.dataMessage.body ?? '';
-                if (!body.startsWith('[PVRF_BASIS_V0:')) 
-                {
-                  this.message.dataMessage.body = `${header}\n${body}`;
-                  this.plaintext = undefined;
-                }
-              } else {
-                  log.warn('PVRF demo: No dataMessage present; cannot attach header');} 
-
-              await clearPendingBasis(serviceId, destinationDeviceId);
-              log.info(`PVRF demo: attached + cleared pending payload for ${serviceId}.${destinationDeviceId}`);
-            }*/
-            const hasSAS = (await itemStorage.get('sas-enabled')) ?? false;
-            log.info("SAS setting:", hasSAS);
-            if(hasSAS) { // attach SAS if toggled in settings
-              const pending = await getPendingBasis(serviceId, destinationDeviceId);
-
-              if (typeof pending === 'string' && pending.length > 0) {
-                const header = `[PVRF_BASIS_V0:${pending}]`;
-              
-
-              if (sealedSender && senderCertificate) {
-                const ciphertextMessage = await this.getCiphertextMessage({
-                  identityKeyStore,
-                  destinationAddress,
-                  localAddress,
-                  sessionStore,
-                });
-
-                const certificate = SenderCertificate.deserialize(
-                  senderCertificate.serialized
-                );
-                const groupIdBuffer = this.groupId
-                  ? Bytes.fromBase64(this.groupId)
-                  : null;
-
-                const content = UnidentifiedSenderMessageContent.new(
-                  ciphertextMessage,
-                  certificate,
-                  this.contentHint,
-                  groupIdBuffer
-                );
-
-                const buffer = await sealedSenderEncrypt(
-                  content,
-                  destinationAddress,
-                  identityKeyStore
-                );
-
-                return {
-                  type: Proto.Envelope.Type.UNIDENTIFIED_SENDER,
-                  destinationDeviceId,
-                  destinationRegistrationId,
-                  content: Bytes.toBase64(buffer),
-                };
-              }
-            } 
             if (sealedSender && senderCertificate) {
               //
               const ciphertextMessage = await this.getCiphertextMessage({
@@ -569,7 +497,7 @@ export default class OutgoingMessage {
               };
             }
           }
-        });
+        );
         })
       )
         // oxlint-disable-next-line promise/prefer-await-to-then, signal-desktop/no-then

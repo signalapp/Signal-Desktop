@@ -2,8 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 // import { contextBridge } from 'electron';
 
-import { getLocalStores, setLocalStores } from './pvrfLocalStoresStorage.preload.js';
-
 
 import {
   ErrorCode,
@@ -35,7 +33,6 @@ import type { GroupSendToken } from '../types/GroupSendEndorsements.std.ts';
 import { HTTPError } from '../types/HTTPError.std.ts';
 import { signalProtocolStore } from '../SignalProtocolStore.preload.ts';
 import { itemStorage } from './Storage.preload.ts';
-
 
 
 const log = createLogger('getKeysForServiceId');
@@ -210,9 +207,6 @@ async function handleServerKeys(
           identityKeyStore,
           signalProtocolStore
         );
-
-        // 1) check if we already had a session before running X3DH
-        const existingSession = await sessionStore.getSession(protocolAddress);
 
         await signalProtocolStore.enqueueSessionJob(address, () =>
           processPreKeyBundle(
