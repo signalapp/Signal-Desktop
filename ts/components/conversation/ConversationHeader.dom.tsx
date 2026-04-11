@@ -1410,12 +1410,26 @@ function SASModal({
       title="SAS Number"
       i18n={i18n}
       onClose={onClose}
+      cancelText='Dismiss'
       actions={[
         {
-          text: i18n('icu:close'),
-          action: onClose,
+          text: 'Numbers Match',
+          action: () => {
+            // here instead of just closing the modal, it can mark the conversation as verified and stay persistent
+            console.log('User confirmed SAS numbers match');
+            onClose();
+          },
           style: 'affirmative',
         },
+        {
+          text: 'Numbers Do Not Match',
+          action: () => {
+            // here instead of just closing the modal, it can instead trigger MITM warning to the user and maybe end the conversation
+            console.log('User indicated SAS numbers do not match with the contact');
+            onClose(); 
+          },
+          style: 'negative',
+        }
       ]}
     >
       <div className="module-ConversationHeader__SASModal__content">
