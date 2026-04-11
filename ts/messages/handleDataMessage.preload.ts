@@ -1,10 +1,8 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as Bytes from '../Bytes.std.js';
 import lodash from 'lodash';
 import type { z } from 'zod';
-import { pvrfComputeZbDemo, pvrfComputeSasDemo } from '@signalapp/libsignal-client';
 
 import { createLogger } from '../logging/log.std.js';
 import * as Errors from '../types/errors.std.js';
@@ -82,52 +80,10 @@ import type { LinkPreviewType } from '../types/message/LinkPreviews.std.js';
 import { getCachedSubscriptionConfiguration } from '../util/subscriptionConfiguration.preload.js';
 import { itemStorage } from '../textsecure/Storage.preload.js';
 
-import { setPendingBasis } from '../textsecure/pvrfPendingBasisStorage.preload.js'; // adjust path to wherever your pending file is
-import { getLocalNonce, clearLocalNonce } from '../textsecure/pvrfLocalNonceStorage.preload.js';
-
 const { isNumber } = lodash;
 
 const log = createLogger('handleDataMessage');
 
-const PVRF_PREFIX = '[PVRF_BASIS_V0:';
-type PvrfPayloadV0 =
-  | { v: 0; type: 'nonce'; from?: string; ts?: number; nonce_b64: string }
-  | { v: 0; type: 'zb'; from?: string; ts?: number; zb_b64: string };
-
-function tryExtractPvrfPayload(
-  body: string
-): { payload: PvrfPayloadV0; strippedBody: string } | null {
-  if (!body.startsWith(PVRF_PREFIX)) return null;
-
-  const end = body.indexOf(']');
-  if (end <= PVRF_PREFIX.length) return null;
-
-  const b64 = body.slice(PVRF_PREFIX.length, end);
-
-  let obj: any;
-  try {
-    const json = new TextDecoder().decode(Bytes.fromBase64(b64));
-    obj = JSON.parse(json);
-  } catch {
-    return null;
-  }
-
-  if (obj?.v !== 0) return null;
-
-  let strippedBody = body.slice(end + 1);
-  if (strippedBody.startsWith('\r\n')) strippedBody = strippedBody.slice(2);
-  else if (strippedBody.startsWith('\n')) strippedBody = strippedBody.slice(1);
-
-  if (obj?.type === 'nonce' && typeof obj?.nonce_b64 === 'string') {
-    return { payload: obj as PvrfPayloadV0, strippedBody };
-  }
-  if (obj?.type === 'zb' && typeof obj?.zb_b64 === 'string') {
-    return { payload: obj as PvrfPayloadV0, strippedBody };
-  }
-
-  return null;
-}
- 
 const CURRENT_PROTOCOL_VERSION = Proto.DataMessage.ProtocolVersion.CURRENT;
 const INITIAL_PROTOCOL_VERSION = Proto.DataMessage.ProtocolVersion.INITIAL;
 
@@ -546,84 +502,6 @@ export async function handleDataMessage(
     // There are type conflicts between ModelAttributesType and protos passed in here
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const dataMessage = await upgradeMessageSchema(withQuoteReference as any);
-
-    /*if (typeof dataMessage.body === 'string' && dataMessage.body.length > 0) 
-    {
-      const { payloadObj, strippedBody } = tryExtractPvrfPayload(dataMessage.body);
-      if(payloadObj) 
-      {
-        log.info(`${idLog}: PVRF demo: received payload`, payloadObj);
-        if (typeof strippedBody === 'string') {dataMessage.body = strippedBody;}
-      }
-    }*/
-
-      if (typeof dataMessage.body === 'string') {
-        const extracted = tryExtractPvrfPayload(dataMessage.body);
-      
-        if (extracted) {
-          const { payload, strippedBody } = extracted;
-      
-          // Strip header from user-visible body always
-          dataMessage.body = strippedBody;
-      
-          const senderServiceId = sourceServiceId;
-          const senderDeviceId = message.get('sourceDevice');
-      
-          if (!senderServiceId || !senderDeviceId) {
-            log.warn(`${idLog}: PVRF demo: missing sender service/device`);
-          } else {
-            const DEMO_CONTEXT = new TextEncoder().encode('demo-context-v0');
-      
-            if (payload.type === 'nonce') {
-              // ---- Bob receives Alice nonce ----
-              const nonce = Bytes.fromBase64(payload.nonce_b64);
-      
-              const zB = pvrfComputeZbDemo(DEMO_CONTEXT, nonce);
-              const sas16 = pvrfComputeSasDemo(nonce, zB);
-      
-              log.info(`${idLog}: PVRF demo (Bob): sas16=${Bytes.toBase64(sas16)}`);
-      
-              // Schedule sending zB back on Bob's next outgoing message to Alice
-              const zbPayloadObj = {
-                v: 0,
-                type: 'zb',
-                from: ourAci,
-                ts: Date.now(),
-                zb_b64: Bytes.toBase64(zB),
-              };
-      
-              const zbPayloadB64 = Bytes.toBase64(
-                new TextEncoder().encode(JSON.stringify(zbPayloadObj))
-              );
-      
-              await setPendingBasis(senderServiceId, senderDeviceId, zbPayloadB64);
-              log.info(
-                `${idLog}: PVRF demo (Bob): stored pending ZB for ${senderServiceId}.${senderDeviceId}`
-              );
-            }
-      
-            if (payload.type === 'zb') {
-              // ---- Alice receives Bob zB ----
-              const zB = Bytes.fromBase64(payload.zb_b64);
-      
-              const nonce_b64 = await getLocalNonce(senderServiceId, senderDeviceId);
-              if (!nonce_b64) {
-                log.warn(
-                  `${idLog}: PVRF demo (Alice): no local nonce for ${senderServiceId}.${senderDeviceId}`
-                );
-              } else {
-                const nonce = Bytes.fromBase64(nonce_b64);
-                const sas16 = pvrfComputeSasDemo(nonce, zB);
-      
-                log.info(`${idLog}: PVRF demo (Alice): sas16=${Bytes.toBase64(sas16)}`);
-      
-                await clearLocalNonce(senderServiceId, senderDeviceId);
-              }
-            }
-          }
-        }
-      }
-
     const isGroupStoryReply =
       isGroup(conversation.attributes) && dataMessage.storyId;
 
