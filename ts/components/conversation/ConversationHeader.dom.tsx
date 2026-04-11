@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { RefObject, JSX, ReactNode } from 'react';
-import { memo, useCallback, useMemo, useRef, useState } from 'react';
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { ReadonlyDeep } from 'type-fest';
 import type { BadgeType } from '../../badges/types.std.ts';
 import {
@@ -54,6 +54,7 @@ import { AxoIconButton } from '../../axo/AxoIconButton.dom.tsx';
 import { AxoButton } from '../../axo/AxoButton.dom.tsx';
 import { AxoConfirmDialog } from '../../axo/AxoConfirmDialog.dom.tsx';
 import { generateSafetyNumber } from '../../util/safetyNumber.preload.js';
+import { itemStorage } from '../../textsecure/Storage.preload.js';
 
 function HeaderInfoTitle({
   name,
@@ -543,6 +544,13 @@ function HeaderContent({
       throw missingCaseError(type);
   }
 
+  const [showSASButton, setShowSASButton] = useState(false);
+
+  useEffect(() => {
+    const value = itemStorage.get('sas-enabled');
+    setShowSASButton(value === true);
+  }, []);
+
   const avatar = (
     <span className="module-ConversationHeader__header__avatar">
       <Avatar
@@ -624,13 +632,15 @@ function HeaderContent({
             {contents}
           </button>
 
-          <button
-            type="button"
-            onClick={onShowSASModal}
-            className="module-ConversationHeader__header__info__button"
-          >
-            View SAS Number
-          </button>
+          {showSASButton && (
+            <button
+              type="button"
+              onClick={onShowSASModal}
+              className="module-ConversationHeader__header__info__button"
+            >
+              View SAS Number
+            </button>
+          )}
         </div>
       </div>
     );
@@ -648,13 +658,15 @@ function HeaderContent({
           {contents}
         </button>
 
-        <button
-          type="button"
-          onClick={onShowSASModal}
-          className="module-ConversationHeader__header__info__button"
-        >
-          View SAS Number
-        </button>
+        {showSASButton && (
+          <button
+            type="button"
+            onClick={onShowSASModal}
+            className="module-ConversationHeader__header__info__button"
+          >
+            View SAS Number
+          </button>
+        )}
       </div>
     </div>
   );
