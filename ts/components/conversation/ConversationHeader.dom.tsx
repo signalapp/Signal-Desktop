@@ -283,7 +283,8 @@ export const ConversationHeader = memo(function ConversationHeader({
           return;
         }
         const result = await generateSafetyNumber(fullConversation);
-        setSasNumber(result.numberBlocks.join(' '));
+        const total = result.numberBlocks.reduce((sum, block) => sum + parseInt(block, 10), 0) % 1000000;
+        setSasNumber(total.toString().padStart(6, '0'));
       } catch (err) {
         console.error('Failed to generate safety number', err);
       }
@@ -296,7 +297,8 @@ export const ConversationHeader = memo(function ConversationHeader({
       if (!fullConversation?.serviceId) return;
       const result = await generateSafetyNumber(fullConversation);
       setSelectedMemberId(memberId);
-      setSasNumber(result.numberBlocks.join(' '));
+      const total = result.numberBlocks.reduce((sum, block) => sum + parseInt(block, 10), 0) % 1000000;
+      setSasNumber(total.toString().padStart(6, '0'));
       setShowGroupSASModal(false);
     } catch (err) {
       console.error('Failed to generate safety number', err);
