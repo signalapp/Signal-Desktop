@@ -747,7 +747,7 @@
     "messageformat": "క్షమించండి, ఎంచుకున్న పంక్తి సందేశ పరిమాణ పరిమితులను మించిపోయింది. {limit,number} {units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "క్షమించండి, ఎంచుకున్న వీడియో ఫైల్ సందేశ పరిమాణ పరిమితులను మించిపోయింది. {limit,number}{units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "ఎంచుకున్న అటాచ్‌మెంట్‌ను లోడ్ చేయడం సాధ్యం కాలేదు."

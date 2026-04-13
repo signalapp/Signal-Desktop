@@ -747,7 +747,7 @@
     "messageformat": "ಕ್ಷಮಿಸಿ, ಆಯ್ಕೆಮಾಡಿದ ಕಡತ ಸಂದೇಶದ ಗಾತ್ರ ನಿರ್ಬಂಧಗಳನ್ನು ಮೀರಿದೆ. {limit,number} {units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "ಕ್ಷಮಿಸಿ, ಆಯ್ಕೆಮಾಡಿದ ವಿಡಿಯೋ ಫೈಲ್, ಮೆಸೇಜ್ ಗಾತ್ರದ ನಿರ್ಬಂಧಗಳನ್ನು ಮೀರಿದೆ. {limit,number}{units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "ಆಯ್ಕೆಮಾಡಿದ ಲಗತ್ತನ್ನು ಲೋಡ್ ಮಾಡಲು ಸಾಧ್ಯವಿಲ್ಲ."

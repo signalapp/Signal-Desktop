@@ -747,7 +747,7 @@
     "messageformat": "Jammer, die geselekteerde lêer oorskry die boodskap se groottebeperkings. {limit,number} {units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "Jammer, die geselekteerde videolêer oorskry die boodskapgroottebeperkings. {limit,number}{units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Kan nie die geselekteerde aanhegsel laai nie."

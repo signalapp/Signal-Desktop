@@ -747,7 +747,7 @@
     "messageformat": "ขออภัย แฟ้มที่เลือกมีขนาดเกินจากที่จำกัด {limit,number} {units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "ขออภัย ไฟล์วิดีโอที่คุณเลือกมีขนาดใหญ่เกินกว่าที่กำหนด {limit,number}{units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "ไม่สามารถดึงแฟ้มแนบที่เลือกได้"

@@ -747,7 +747,7 @@
     "messageformat": "唔好意思，你揀嘅檔案超過咗訊息容量限制。 {limit,number} {units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "唔好意思，你揀嘅影片檔案超過咗訊息容量限制。{limit,number}{units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "載入唔到你揀嘅附件。"

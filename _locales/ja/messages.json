@@ -747,7 +747,7 @@
     "messageformat": "選択されたファイルは大きすぎます。 {limit,number} {units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "選択された動画ファイルは下記の送信可能なサイズ上限を超えています。{limit,number}{units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "選択された添付ファイルをロードできません。"

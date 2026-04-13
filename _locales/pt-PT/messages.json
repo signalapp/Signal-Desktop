@@ -747,7 +747,7 @@
     "messageformat": "Lamentamos, mas o ficheiro selecionado excede o tamanho máximo permitido. {limit,number} {units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "Lamentamos, mas o ficheiro de vídeo selecionado excede o tamanho máximo de mensagem permitido. {limit,number} {units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Não foi possível carregar o anexo selecionado."

@@ -747,7 +747,7 @@
     "messageformat": "Kahjuks ületab valitud fail sõnumi suuruse piirangu. {limit,number} {units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "Kahjuks ületab valitud videofail sõnumi suuruse piirangu. {limit,number} {units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Valitud manuse laadimine ei õnnestunud."

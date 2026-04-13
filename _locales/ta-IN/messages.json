@@ -747,7 +747,7 @@
     "messageformat": "மன்னிக்கவும், தேர்ந்தெடுக்கப்பட்ட கோப்பு செய்தி அளவு கட்டுப்பாடுகளை மீறுகிறது. {limit,number} {units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "மன்னிக்கவும், தேர்ந்தெடுக்கப்பட்ட வீடியோ கோப்பு மெசேஜ் அளவு கட்டுப்பாடுகளை மீறுகிறது. {limit,number}{units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "தேர்ந்தெடுக்கப்பட்ட இணைப்பு ஏற்ற முடியவில்லை."

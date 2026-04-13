@@ -747,7 +747,7 @@
     "messageformat": "ക്ഷമിക്കണം, തിരഞ്ഞെടുത്ത ഫയൽ സന്ദേശം വലുപ്പ നിയന്ത്രണങ്ങളെ മറികടക്കുന്നു. {limit,number} {units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "ക്ഷമിക്കണം, തിരഞ്ഞെടുത്ത വീഡിയോ ഫയൽ സന്ദേശ പരിധിയേക്കാൾ കൂടുതലാണ്. {limit,number}{units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "തിരഞ്ഞെടുത്ത അറ്റാച്ച്മെന്റ് ലോഡ് ചെയ്യാൻ കഴിയുന്നില്ല."

@@ -747,7 +747,7 @@
     "messageformat": "Sorry, het geselecteerde bestand overschrijdt de maximale grootte. {limit,number} {units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "Sorry, het geselecteerde videobestand overschrijdt de maximale grootte. {limit,number}{units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Kan geselecteerde bijlage niet laden."
@@ -2580,7 +2580,7 @@
     "messageformat": "{count, plural, one {{count,number} wijziging in timer voor verdwijnende berichten · Uitgeschakeld} other {{count,number} wijzigingen in timer voor verdwijnende berichten · Uitgeschakeld}}"
   },
   "icu:collapsedCallEvents": {
-    "messageformat": "{count, plural, one {{count,number} oproep} other {{count,number} oproep}}"
+    "messageformat": "{count, plural, one {{count,number} oproep} other {{count,number} oproepen}}"
   },
   "icu:collapsedItems--collapsed": {
     "messageformat": "Lijst is ingeklapt - klik om uit te klappen"
@@ -6410,7 +6410,7 @@
     "messageformat": "Herstelsleutel"
   },
   "icu:Preferences__recovery-key-description": {
-    "messageformat": "Je herstelsleutel is een code van 64 tekens waarmee je je back-upgegevens terugzet"
+    "messageformat": "Je herstelsleutel is een code van 64 tekens die je nodig hebt om je back-upgegevens terug te zetten"
   },
   "icu:Preferences__backup-other-ways": {
     "messageformat": "Andere manieren om een back-up te maken"

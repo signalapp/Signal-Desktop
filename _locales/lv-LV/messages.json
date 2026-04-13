@@ -747,7 +747,7 @@
     "messageformat": "Diemžēl atlasītais fails pārsniedz ziņas izmēra ierobežojumus. {limit,number} {units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "Diemžēl atlasītais video fails pārsniedz ziņas izmēra ierobežojumus. {limit,number}{units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Neizdevās ielādēt atlasīto pielikumu."

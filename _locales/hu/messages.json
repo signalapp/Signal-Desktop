@@ -747,7 +747,7 @@
     "messageformat": "Sajnos a kiválasztott fájl túllépi az elküldhető üzenet maximális méretét. {limit,number} {units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "Sajnos a kiválasztott videofájl túllépi az elküldhető üzenet maximális méretét. {limit,number}{units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Nem sikerült betölteni a kiválasztott csatolmányt."

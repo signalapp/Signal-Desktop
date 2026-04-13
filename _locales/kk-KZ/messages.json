@@ -747,7 +747,7 @@
     "messageformat": "Кешіріңіз, таңдалған файл хат өлшемінің шектеулерінен асып кетті. {limit,number} {units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "Кешіріңіз, таңдалған бейне файлы хабар өлшеміне қойылатын шектеулерден асып кетті. {limit,number} {units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Таңдалған тіркемені жүктеу мүмкін болмады."

@@ -747,7 +747,7 @@
     "messageformat": "ਅਫ਼ਸੋਸ, ਚੁਣੀ ਹੋਈ ਫ਼ਾਈਲ ਦਾ ਅਕਾਰ ਸੁਨੇਹੇ ਦੇ ਅਕਾਰ ਸਬੰਧੀ ਪਾਬੰਦੀਆਂ ਤੋਂ ਵੱਧ ਗਿਆ ਹੈ। {limit,number} {units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "ਮੁਆਫ਼ ਕਰਨਾ, ਚੁਣੀ ਗਈ ਵੀਡੀਓ ਫ਼ਾਈਲ ਦਾ ਆਕਾਰ ਸੁਨੇਹੇ ਦੀਆਂ ਆਕਾਰ ਸਬੰਧੀ ਪਾਬੰਦੀਆਂ ਤੋਂ ਵੱਧ ਹੈ। {limit,number}{units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "ਚੁਣੀ ਅਟੈਚਮੈਂਟ ਲੋਡ ਕਰਨ ਵਿੱਚ ਅਸਮਰੱਥ।"

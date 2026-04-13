@@ -747,7 +747,7 @@
     "messageformat": "Tiedosto ylittää viestin kokorajoituksen. {limit,number} {units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "Pahoittelut. Valittu videotiedosto ylittää viestin kokorajoituksen. {limit,number}{units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Valittua liitettä ei voitu ladata."

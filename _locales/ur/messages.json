@@ -747,7 +747,7 @@
     "messageformat": "معذرت، منتخب شدہ فائل پیغام کے حجم کی پابندیوں سے بڑھ چکی ہے۔ {limit,number} {units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "معذرت، منتخب شدہ ویڈیو فائل میسج کے سائز کی حدود سے تجاوز کر گئی ہے۔ {limit,number}{units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "منتخب کردہ اٹیچمنٹ لوڈ ہونے کے قابل نہیں ہے۔"

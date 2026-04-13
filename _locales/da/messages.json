@@ -747,7 +747,7 @@
     "messageformat": "Beklager, den valgte fil overskrider begrænsninger for beskedstørrelse. {limit,number} {units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "Beklager, videofilen overskrider begrænsninger for beskedstørrelse. {limit,number}{units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Ude af stand til at indlæse den valgte vedhæftning."

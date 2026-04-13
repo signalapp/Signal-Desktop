@@ -747,7 +747,7 @@
     "messageformat": "Nažalost odabrana datoteka premašuje ograničenja veličine poruke. {limit,number} {units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "Nažalost, odabrani videozapis prekoračuje ograničenje veličine poruke. {limit,number}{units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Nije moguće učitati odabrani privitak."

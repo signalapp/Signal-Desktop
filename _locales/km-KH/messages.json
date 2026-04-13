@@ -747,7 +747,7 @@
     "messageformat": "សុំទោស, ឯកសារដែលបានជ្រើសរើស លើសពីទំហំសារដែលបានកំណត់។ {limit,number} {units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "សូមអភ័យទោស ឯកសារវីដេអូដែលបានជ្រើសរើសគឺលើសពីទំហំសារដែលបានកំហិត។ {limit,number}{units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "មិនអាចផ្ទុកឯកសារភ្ជាប់ដែលបានជ្រើសរើស។"

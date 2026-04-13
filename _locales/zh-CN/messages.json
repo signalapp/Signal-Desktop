@@ -747,7 +747,7 @@
     "messageformat": "对不起，所选文件超过最大限制。 {limit,number} {units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "抱歉，所选视频文件超过了消息的最大限制。{limit,number}{units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "无法加载选中的附件。"

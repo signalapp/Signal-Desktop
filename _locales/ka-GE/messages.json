@@ -747,7 +747,7 @@
     "messageformat": "უკაცრავად, არჩეული ფაილი აჭარბებს შეტყობინების ზომის შეზღუდვებს. {limit,number}{units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "ვწუხვართ, არჩეული ვიდეო ფაილი წერილის ზომის შეზღუდვას აჭარბებს. {limit,number}{units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "არჩეული დანართის ჩატვირთვა ვერ მოხერხდა."

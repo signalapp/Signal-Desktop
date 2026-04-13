@@ -747,7 +747,7 @@
     "messageformat": "Съжаляваме, избраният файл надвишава ограниченията за съобщения. {limit,number} {units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "Съжаляваме, избраният видео файл надвишава ограниченията за размера на съобщенията. {limit,number}{units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Не може да се зареди избраният обект за прикачване."

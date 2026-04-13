@@ -747,7 +747,7 @@
     "messageformat": "Spiacente, il file selezionato supera la dimensione predefinita per il messaggio. {limit,number} {units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "Purtroppo il file video selezionato supera la dimensione massima consentita per il messaggio. {limit,number}{units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Non è stato possibile caricare l'allegato selezionato."

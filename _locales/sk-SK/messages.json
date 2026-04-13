@@ -747,7 +747,7 @@
     "messageformat": "Ospravedlňujeme sa, vybraný súbor prekročil limit pre veľkosť správy. {limit,number} {units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "Ospravedlňujeme sa, vybraný video súbor prekročil limit veľkosti správy. {limit,number} {units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Zvolenú prílohu sa nepodarilo načítať."

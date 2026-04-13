@@ -747,7 +747,7 @@
     "messageformat": "Na ndjeni, kartela e përzgjedhur tejkalon kufizimet për madhësi mesazhesh. {limit,number} {units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "Ju kërkojmë ndjesë, por skedari i përzgjedhur i videos i tejkalon kufizimet për madhësi mesazhesh. {limit,number}{units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "S’arrihet të ngarkohet bashkëngjitja e përzgjedhur."

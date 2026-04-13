@@ -747,7 +747,7 @@
     "messageformat": "Atleiskite, pasirinktas failas viršija žinutės dydžio apribojimus. {limit,number} {units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "Deja, pasirinktas vaizdo įrašo failas viršija žinutės dydžio apribojimus. {limit,number}{units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Nepavyko įkelti pasirinkto priedo."

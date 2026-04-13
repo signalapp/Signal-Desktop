@@ -747,7 +747,7 @@
     "messageformat": "Təəssüf ki, seçilmiş fayl, mesaj həcm məhdudiyyətlərini aşır. {limit,number} {units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "Təəssüf ki, seçilmiş video faylı mesaj həcminə qoyulmuş məhdudiyyətləri aşır. {limit,number}{units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Seçilmiş qoşma yüklənilə bilmir."

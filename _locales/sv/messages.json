@@ -747,7 +747,7 @@
     "messageformat": "Tyvärr, filen du har valt överstiger maximalt tillåten filstorlek. {limit,number} {units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "Tyvärr, den valda videofilen överskrider storleksgränsen för meddelanden. {limit,number} {units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Det gick inte att läsa in vald bilaga"

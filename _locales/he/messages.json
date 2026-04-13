@@ -747,7 +747,7 @@
     "messageformat": "הקובץ עובר את מגבלת הגודל המקסימלי. {limit,number} {units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "מצטערים, הסרטון שנבחר חורג ממגבלת גודל ההודעה המקסימלי. {limit,number}{units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "לא היה ניתן לטעון את הצרופה הנבחרת."
