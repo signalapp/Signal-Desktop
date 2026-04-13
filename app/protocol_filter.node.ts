@@ -16,10 +16,16 @@ import {
   getUpdateCachePath,
 } from './attachments.node.ts';
 import { createLogger } from '../ts/logging/log.std.ts';
+import { isPathInside } from '../ts/util/isPathInside.node.ts';
 
 const log = createLogger('protocol_filter');
 
 type CallbackType = (response: string | ProtocolResponse) => void;
+
+export type FileHandlerType = (
+  request: ProtocolRequest,
+  callback: CallbackType
+) => void;
 
 function _eliminateAllAfterCharacter(
   string: string,
@@ -50,7 +56,7 @@ export function _urlToPath(
   return withoutQuerystring;
 }
 
-function _createFileHandler({
+export function _createFileHandler({
   userDataPath,
   installPath,
   isWindows,
@@ -58,7 +64,7 @@ function _createFileHandler({
   userDataPath: string;
   installPath: string;
   isWindows: boolean;
-}) {
+}): FileHandlerType {
   const allowedRoots = [
     userDataPath,
     installPath,
@@ -71,6 +77,9 @@ function _createFileHandler({
     getTempPath(userDataPath),
     getUpdateCachePath(userDataPath),
   ];
+  const allowedRootsCased = allowedRoots.map(root =>
+    isWindows ? root.toLowerCase() : root
+  );
   return (request: ProtocolRequest, callback: CallbackType): void => {
     let targetPath;
 
@@ -102,8 +111,8 @@ function _createFileHandler({
         return;
       }
 
-      for (const root of allowedRoots) {
-        if (properCasing.startsWith(isWindows ? root.toLowerCase() : root)) {
+      for (const root of allowedRootsCased) {
+        if (isPathInside(properCasing, root)) {
           callback({ path: realPath });
           return;
         }
