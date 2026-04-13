@@ -2484,7 +2484,6 @@ export class Message extends React.PureComponent<Props, State> {
 
     return (
       <div // oxlint-disable-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions
-        dir="ltr"
         className={classNames(
           'module-message__text',
           `module-message__text--${direction}`,
