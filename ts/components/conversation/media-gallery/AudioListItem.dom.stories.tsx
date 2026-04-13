@@ -9,7 +9,7 @@ import { AudioListItem } from './AudioListItem.dom.tsx';
 import {
   createPreparedMediaItems,
   createRandomAudio,
-} from './utils/mocks.std.ts';
+} from '../../../test-helpers/mediaGalleryMocks.std.ts';
 
 export default {
   title: 'Components/Conversation/MediaGallery/AudioListItem',

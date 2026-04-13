@@ -3,7 +3,7 @@
 import { itemStorage } from '../textsecure/Storage.preload.ts';
 import { onHasStoriesDisabledChange } from '../textsecure/WebAPI.preload.ts';
 
-export const getStoriesDisabled = (): boolean =>
+const getStoriesDisabled = (): boolean =>
   itemStorage.get('hasStoriesDisabled', false);
 
 export const setStoriesDisabled = async (value: boolean): Promise<void> => {

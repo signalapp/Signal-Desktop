@@ -18,8 +18,8 @@ import {
   createRandomAudio,
   createRandomLinks,
   days,
-} from './utils/mocks.std.ts';
-import { MediaItem } from './utils/storybook.dom.tsx';
+} from '../../../test-helpers/mediaGalleryMocks.std.ts';
+import { MediaItem } from '../../../test-helpers/mediaGalleryStorybook.dom.tsx';
 
 const { i18n } = window.SignalContext;
 

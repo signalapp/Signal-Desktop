@@ -1,20 +1,14 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { IntlShape } from 'react-intl';
 import React from 'react';
 import type { LocaleMessagesType } from '../types/I18N.std.ts';
 import type { LocalizerType } from '../types/Util.std.ts';
-import {
-  createCachedIntl as createCachedIntlMain,
-  setupI18n as setupI18nMain,
-} from './setupI18nMain.std.ts';
+import { setupI18n as setupI18nMain } from './setupI18nMain.std.ts';
 import type { SetupI18nOptionsType } from './setupI18nMain.std.ts';
 import { strictAssert } from './assert.std.ts';
 
-export function renderEmojify(
-  parts: ReadonlyArray<unknown>
-): React.JSX.Element {
+function renderEmojify(parts: ReadonlyArray<unknown>): React.JSX.Element {
   strictAssert(parts.length === 1, '<emojify> must contain only one child');
   const text = parts[0];
   strictAssert(typeof text === 'string', '<emojify> must contain only text');
@@ -30,17 +24,6 @@ function getLocaleDirection() {
 }
 function getHourCyclePreference() {
   return window.SignalContext.getHourCyclePreference();
-}
-
-export function createCachedIntl(
-  locale: string,
-  icuMessages: Record<string, string>
-): IntlShape {
-  return createCachedIntlMain(locale, icuMessages, {
-    renderEmojify,
-    getLocaleDirection,
-    getHourCyclePreference,
-  });
 }
 
 export function setupI18n(

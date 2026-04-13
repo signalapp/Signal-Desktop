@@ -12,7 +12,7 @@ import * as conversations from '../../../state/ducks/conversations.preload.ts';
 import type { BadgeType } from '../../../badges/types.std.ts';
 import { BadgeCategory } from '../../../badges/BadgeCategory.std.ts';
 import type { ConversationType } from '../../../state/ducks/conversations.preload.ts';
-import { generateAci } from '../../../types/ServiceId.std.ts';
+import { generateAci } from '../../../test-helpers/serviceIdUtils.std.ts';
 
 describe('donations duck', () => {
   const getEmptyRootState = (): StateType =>

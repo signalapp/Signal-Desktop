@@ -12,7 +12,6 @@ import {
 import { DataWriter } from '../sql/Client.preload.ts';
 
 import type { AttachmentType, ThumbnailType } from '../types/Attachment.std.ts';
-import type { EmbeddedContactType } from '../types/EmbeddedContact.std.ts';
 import type {
   EditHistoryType,
   MessageAttributesType,
@@ -29,7 +28,6 @@ import {
   getUndownloadedAttachmentSignature,
 } from './Attachment.std.ts';
 import { AttachmentDownloadUrgency } from '../types/AttachmentDownload.std.ts';
-import type { StickerType } from '../types/Stickers.preload.ts';
 import type { LinkPreviewType } from '../types/message/LinkPreviews.std.ts';
 import { strictAssert } from './assert.std.ts';
 import { isNotNil } from './isNotNil.std.ts';
@@ -52,16 +50,6 @@ import {
 } from '../textsecure/Storage.preload.ts';
 
 const defaultLogger = createLogger('queueAttachmentDownloads');
-
-export type MessageAttachmentsDownloadedType = {
-  bodyAttachment?: AttachmentType;
-  attachments: ReadonlyArray<AttachmentType>;
-  editHistory?: ReadonlyArray<EditHistoryType>;
-  preview: ReadonlyArray<LinkPreviewType>;
-  contact: ReadonlyArray<EmbeddedContactType>;
-  quote?: QuotedMessageType;
-  sticker?: StickerType;
-};
 
 function getLogger(source: AttachmentDownloadSource) {
   const verbose =
@@ -473,7 +461,7 @@ export async function queueAttachmentDownloads(
   return false;
 }
 
-export async function queueNormalAttachments({
+async function queueNormalAttachments({
   attachments = [],
   isManualDownload,
   logId,

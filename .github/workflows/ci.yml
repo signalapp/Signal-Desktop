@@ -59,12 +59,20 @@ jobs:
         # environment variable
         NPM_CONFIG_NODE_GYP: echo
 
+    - name: Install Sticker Creator node_modules
+      run: pnpm install
+      working-directory: sticker-creator
+
     - run: pnpm run generate
-    - run: pnpm run lint
+    - run: pnpm run lint-prettier
+    - run: pnpm run lint-css
+    - run: pnpm run check:types
+    - run: pnpm run oxlint --format=github
     - run: pnpm run lint-deps
     - run: pnpm run lint-license-comments
     - run: pnpm run lint-intl
-
+    - run: pnpm run lint-knip:all --reporter github-actions
+    - run: pnpm run lint-knip:prod --reporter github-actions
     - name: Check acknowledgments file is up to date
       run: pnpm run build:acknowledgments
       env:
@@ -357,9 +365,6 @@ jobs:
 
     - name: Check Sticker Creator linting
       run: pnpm run lint
-
-    - name: Run tests
-      run: pnpm test -- --run
 
   mock-tests:
     needs: lint

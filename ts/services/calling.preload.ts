@@ -570,7 +570,7 @@ export type SetLocalPreviewContainerType = {
   sizeCallback: SizeCallbackType | undefined;
 };
 
-export class CallingClass {
+class CallingClass {
   readonly #videoCapturer: GumVideoCapturer;
   readonly videoRenderer: CanvasVideoRenderer;
 

@@ -8,7 +8,7 @@ import type { ChatFoldersState } from '../ducks/chatFolders.preload.ts';
 import type { CurrentChatFolder } from '../../types/CurrentChatFolders.std.ts';
 import { CurrentChatFolders } from '../../types/CurrentChatFolders.std.ts';
 
-export function getChatFoldersState(state: StateType): ChatFoldersState {
+function getChatFoldersState(state: StateType): ChatFoldersState {
   return state.chatFolders;
 }
 

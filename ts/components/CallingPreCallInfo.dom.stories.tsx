@@ -7,9 +7,9 @@ import { getDefaultConversation } from '../test-helpers/getDefaultConversation.s
 import type { PropsType } from './CallingPreCallInfo.dom.tsx';
 import { CallingPreCallInfo, RingMode } from './CallingPreCallInfo.dom.tsx';
 import type { ConversationType } from '../state/ducks/conversations.preload.ts';
-import { generateAci } from '../types/ServiceId.std.ts';
 import { FAKE_CALL_LINK } from '../test-helpers/fakeCallLink.std.ts';
 import { callLinkToConversation } from '../util/callLinks.std.ts';
+import { generateAci } from '../test-helpers/serviceIdUtils.std.ts';
 
 const { i18n } = window.SignalContext;
 const getDefaultGroupConversation = () =>

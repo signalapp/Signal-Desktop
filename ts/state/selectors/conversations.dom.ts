@@ -138,31 +138,24 @@ export const getConversationLookup = createSelector(
   }
 );
 
-export const getConversationsByServiceId = createSelector(
+const getConversationsByServiceId = createSelector(
   getConversations,
   (state: ConversationsStateType): ConversationLookupType => {
     return state.conversationsByServiceId;
   }
 );
 
-export const getConversationsByE164 = createSelector(
+const getConversationsByE164 = createSelector(
   getConversations,
   (state: ConversationsStateType): ConversationLookupType => {
     return state.conversationsByE164;
   }
 );
 
-export const getConversationsByGroupId = createSelector(
+const getConversationsByGroupId = createSelector(
   getConversations,
   (state: ConversationsStateType): ConversationLookupType => {
     return state.conversationsByGroupId;
-  }
-);
-
-export const getConversationsByUsername = createSelector(
-  getConversations,
-  (state: ConversationsStateType): ConversationLookupType => {
-    return state.conversationsByUsername;
   }
 );
 
@@ -300,7 +293,7 @@ export const getMessagesByConversation = createSelector(
   }
 );
 
-export const getConversationMessages = createSelector(
+const getConversationMessages = createSelector(
   getSelectedConversationId,
   getMessagesByConversation,
   (
@@ -394,7 +387,7 @@ export const _getConversationComparator = () => {
     return collator.compare(left.title, right.title);
   };
 };
-export const getConversationComparator = createSelector(
+const getConversationComparator = createSelector(
   getIntl,
   getRegionCode,
   _getConversationComparator
@@ -811,6 +804,7 @@ export const getAllChatFoldersMutedStats: StateSelector<AllChatFoldersMutedStats
  * Because they filter unregistered contacts and that's (partially) determined by the
  * current time, it's possible for them to return stale contacts that have unregistered
  * if no other conversations change. This should be a rare false positive.
+ * @testexport
  */
 export const getComposableContacts = createSelector(
   getConversationLookup,
@@ -1031,7 +1025,7 @@ export const getComposeSelectedContacts = createSelector(
 //   2) all of the message selectors need to be reselect-based; today those
 //      model-based prop-generation functions expect to get Conversation information
 //      directly via ConversationController
-export function _conversationSelector(
+function _conversationSelector(
   conversation?: ConversationType
   // regionCode: string,
   // userNumber: string
@@ -1048,7 +1042,7 @@ export function _conversationSelector(
 type CachedConversationSelectorType = (
   conversation?: ConversationType
 ) => ConversationType;
-export const getCachedSelectorForConversation = createSelector(
+const getCachedSelectorForConversation = createSelector(
   getRegionCode,
   getUserNumber,
   (): CachedConversationSelectorType => {
@@ -1061,7 +1055,7 @@ export const getCachedSelectorForConversation = createSelector(
 export type GetConversationByAnyIdSelectorType = (
   id?: string
 ) => ConversationType | undefined;
-export const getConversationByAnyIdSelector = createSelector(
+const getConversationByAnyIdSelector = createSelector(
   getConversationLookup,
   getConversationsByServiceId,
   getConversationsByE164,
@@ -1228,7 +1222,7 @@ export const getContactNameColor = (
 type TimelinePropsWithRawItems = Omit<TimelinePropsType, 'items'> & {
   items: ReadonlyArray<string>;
 };
-export function _conversationMessagesSelector(
+function _conversationMessagesSelector(
   conversation: ConversationMessageType
 ): TimelinePropsWithRawItems {
   const {
@@ -1282,7 +1276,7 @@ export function _conversationMessagesSelector(
 type CachedConversationMessagesSelectorType = (
   conversation: ConversationMessageType
 ) => TimelinePropsWithRawItems;
-export const getCachedSelectorForConversationMessages = createSelector(
+const getCachedSelectorForConversationMessages = createSelector(
   getRegionCode,
   getUserNumber,
   (): CachedConversationMessagesSelectorType => {
@@ -1477,7 +1471,7 @@ export const getHideStoryConversationIds = createSelector(
 export const getStoriesState = (state: StateType): StoriesStateType =>
   state.stories;
 
-export const getStoriesNotificationCount = createSelector(
+const getStoriesNotificationCount = createSelector(
   getStoriesEnabled,
   getHideStoryConversationIds,
   getStoriesState,

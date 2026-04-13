@@ -32,7 +32,7 @@ export type BeforeNavigateEntry = {
   callback: BeforeNavigateCallback;
 };
 
-export class BeforeNavigateService {
+class BeforeNavigateService {
   readonly #beforeNavigateCallbacks = new Set<BeforeNavigateEntry>();
 
   private findMatchingEntry(

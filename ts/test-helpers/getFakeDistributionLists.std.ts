@@ -7,8 +7,8 @@ import type { StoryDistributionListDataType } from '../state/ducks/storyDistribu
 import type { StoryDistributionListWithMembersDataType } from '../types/Stories.std.ts';
 import { MY_STORY_ID } from '../types/Stories.std.ts';
 import { generateStoryDistributionId } from '../types/StoryDistributionId.std.ts';
-import { generateAci } from '../types/ServiceId.std.ts';
 import { getDefaultConversation } from './getDefaultConversation.std.ts';
+import { generateAci } from './serviceIdUtils.std.ts';
 
 export function getFakeDistributionListsWithMembers(): Array<StoryDistributionListWithMembersDataType> {
   return [

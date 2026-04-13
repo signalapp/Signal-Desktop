@@ -7,12 +7,15 @@ import { v7 as generateUuid } from 'uuid';
 import { DataReader, DataWriter } from '../../sql/Client.preload.ts';
 import { SendStatus } from '../../messages/MessageSendState.std.ts';
 import { IMAGE_PNG } from '../../types/MIME.std.ts';
-import { generateAci, generatePni } from '../../types/ServiceId.std.ts';
 import { MessageModel } from '../../models/messages.preload.ts';
 import { DurationInSeconds } from '../../util/durations/index.std.ts';
 import { ConversationModel } from '../../models/conversations.preload.ts';
 import { itemStorage } from '../../textsecure/Storage.preload.ts';
 import { strictAssert } from '../../util/assert.std.ts';
+import {
+  generateAci,
+  generatePni,
+} from '../../test-helpers/serviceIdUtils.std.ts';
 
 describe('Conversations', () => {
   async function resetConversationController(): Promise<void> {

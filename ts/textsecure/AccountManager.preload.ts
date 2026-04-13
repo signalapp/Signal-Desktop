@@ -253,6 +253,7 @@ export type ConfirmNumberResultType = Readonly<{
   backupFile: Uint8Array<ArrayBuffer> | undefined;
 }>;
 
+/** @testexport */
 export default class AccountManager extends EventTarget {
   pending: Promise<void>;
 

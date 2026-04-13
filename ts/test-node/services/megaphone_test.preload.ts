@@ -15,10 +15,10 @@ import type {
   RemoteMegaphoneId,
   RemoteMegaphoneType,
 } from '../../types/Megaphone.std.ts';
-import { generateAci } from '../../types/ServiceId.std.ts';
 import { itemStorage } from '../../textsecure/Storage.preload.ts';
 import type { ConversationController } from '../../ConversationController.preload.ts';
 import type { ConversationModel } from '../../models/conversations.preload.ts';
+import { generateAci } from '../../test-helpers/serviceIdUtils.std.ts';
 
 const FAKE_MEGAPHONE: RemoteMegaphoneType = {
   id: uuid() as RemoteMegaphoneId,

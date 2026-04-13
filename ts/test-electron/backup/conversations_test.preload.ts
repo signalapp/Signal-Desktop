@@ -12,10 +12,13 @@ import {
   deriveGroupSecretParams,
 } from '../../util/zkgroup.node.ts';
 import { DataWriter } from '../../sql/Client.preload.ts';
-import { generateAci, generatePni } from '../../types/ServiceId.std.ts';
 import type { ConversationAttributesType } from '../../model-types.d.ts';
 import { strictAssert } from '../../util/assert.std.ts';
 import { itemStorage } from '../../textsecure/Storage.preload.ts';
+import {
+  generateAci,
+  generatePni,
+} from '../../test-helpers/serviceIdUtils.std.ts';
 
 function getGroupTestInfo() {
   const masterKey = getRandomBytes(32);

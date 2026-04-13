@@ -17,7 +17,7 @@ import {
 
 const log = createLogger('expiration');
 
-export const getExpiration = (state: StateType): ExpirationStateType =>
+const getExpiration = (state: StateType): ExpirationStateType =>
   state.expiration;
 
 const getPackagedBuildExpiration = createSelector(

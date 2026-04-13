@@ -263,7 +263,7 @@ export function InstallScreenUpdateDialog({
   throw missingCaseError(dialogType);
 }
 
-export function DownloadingModal({
+function DownloadingModal({
   i18n,
   width,
 }: {

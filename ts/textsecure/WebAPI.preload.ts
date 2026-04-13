@@ -1158,7 +1158,7 @@ export type AttachmentUploadFormResponseType = z.infer<
   typeof attachmentUploadFormResponse
 >;
 
-export const ServerKeyCountSchema = z.object({
+const ServerKeyCountSchema = z.object({
   count: z.number(),
   pqCount: z.number(),
 });
@@ -1379,7 +1379,7 @@ export type GetBackupCredentialsOptionsType = Readonly<{
   endDayInMs: number;
 }>;
 
-export const backupCredentialListSchema = z
+const backupCredentialListSchema = z
   .object({
     credential: z.string().transform(x => Bytes.fromBase64(x)),
     redemptionTime: z
@@ -1524,12 +1524,12 @@ export type CallLinkCreateAuthResponseType = Readonly<{
   credential: string;
 }>;
 
-export const StorageServiceCredentialsSchema = z.object({
+const StorageServiceCredentialsSchema = z.object({
   username: z.string(),
   password: z.string(),
 });
 
-export const callLinkCreateAuthResponseSchema = z.object({
+const callLinkCreateAuthResponseSchema = z.object({
   credential: z.string(),
 }) satisfies z.ZodSchema<CallLinkCreateAuthResponseType>;
 
@@ -2716,14 +2716,6 @@ export async function replaceUsernameLink({
   });
 }
 
-export async function deleteUsernameLink(): Promise<void> {
-  await _ajax({
-    host: 'chatService',
-    call: 'usernameLink',
-    httpType: 'DELETE',
-  });
-}
-
 export async function resolveUsernameLink({
   entropy,
   uuid,
@@ -3359,29 +3351,6 @@ export async function backupMediaBatch({
       }),
     },
     zodSchema: backupMediaBatchResponseSchema,
-  });
-}
-
-export async function backupDeleteMedia({
-  headers,
-  mediaToDelete,
-}: BackupDeleteMediaOptionsType): Promise<void> {
-  await _ajax({
-    host: 'chatService',
-    call: 'backupMediaDelete',
-    httpType: 'POST',
-    unauthenticated: true,
-    accessKey: undefined,
-    groupSendToken: undefined,
-    headers,
-    jsonData: {
-      mediaToDelete: mediaToDelete.map(({ cdn, mediaId }) => {
-        return {
-          cdn,
-          mediaId,
-        };
-      }),
-    },
   });
 }
 

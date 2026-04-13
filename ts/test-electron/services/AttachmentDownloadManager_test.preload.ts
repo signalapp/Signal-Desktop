@@ -31,7 +31,6 @@ import { AttachmentDownloadSource } from '../../sql/Interface.std.ts';
 import { generateAttachmentKeys } from '../../AttachmentCrypto.node.ts';
 import { getAttachmentCiphertextSize } from '../../util/AttachmentCrypto.std.ts';
 import { KIBIBYTE, MEBIBYTE } from '../../types/AttachmentSize.std.ts';
-import { generateAci } from '../../types/ServiceId.std.ts';
 import { toBase64 } from '../../Bytes.std.ts';
 import { JobCancelReason } from '../../jobs/types.std.ts';
 import {
@@ -51,6 +50,7 @@ import {
 import type { MessageAttributesType } from '../../model-types.d.ts';
 import { getAttachmentsPath } from '../../../app/attachments.node.ts';
 import { getAbsoluteAttachmentPath } from '../../util/migrations.preload.ts';
+import { generateAci } from '../../test-helpers/serviceIdUtils.std.ts';
 
 const { omit } = lodash;
 

@@ -90,7 +90,7 @@ export function StagedLinkPreview(props: Props): React.JSX.Element {
   );
 }
 
-export function Thumbnail({
+function Thumbnail({
   domain,
   i18n,
   image,

@@ -436,7 +436,7 @@ function renderText({
   );
 }
 
-export function extractLinks(
+function extractLinks(
   messageText: string,
   // Full, untruncated message text
   originalMessageText: string

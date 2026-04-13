@@ -3,13 +3,13 @@
 
 import { assert } from 'chai';
 
-import { generateAci } from '../../types/ServiceId.std.ts';
 import { _maybeBuildAddBannedMemberActions } from '../../groups.preload.ts';
 import {
   getClientZkGroupCipher,
   decryptServiceId,
 } from '../../util/zkgroup.node.ts';
 import { updateRemoteConfig } from '../../test-helpers/RemoteConfigStub.dom.ts';
+import { generateAci } from '../../test-helpers/serviceIdUtils.std.ts';
 
 const HARD_LIMIT_KEY = 'global.groupsv2.groupSizeHardLimit';
 

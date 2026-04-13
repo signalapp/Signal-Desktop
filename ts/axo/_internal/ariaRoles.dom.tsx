@@ -168,7 +168,7 @@ function inherits(role: AnyAriaRole, superRole: AnyAriaRole): boolean {
   return false;
 }
 
-export function isValidAriaRole(role: string | null): role is AriaRole {
+function isValidAriaRole(role: string | null): role is AriaRole {
   return role != null && Object.hasOwn(ParentRoles, role);
 }
 

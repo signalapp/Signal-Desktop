@@ -17,7 +17,7 @@ import {
   parsePhoneItem,
 } from '../../types/EmbeddedContact.std.ts';
 import { fakeAttachment } from '../../test-helpers/fakeAttachment.std.ts';
-import { generateAci } from '../../types/ServiceId.std.ts';
+import { generateAci } from '../../test-helpers/serviceIdUtils.std.ts';
 
 const logger = createLogger('EmbeddedContact_test');
 

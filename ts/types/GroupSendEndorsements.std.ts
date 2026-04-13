@@ -55,13 +55,11 @@ const groupIdSchema = z.string().refine(value => {
  */
 export const groupSendEndorsementExpirationSchema = z.number().int().positive(); // not 0
 
-export const groupSendEndorsementSchema = z
-  .instanceof(Uint8Array)
-  .refine(array => {
-    return array.byteLength > 0; // not empty
-  });
+const groupSendEndorsementSchema = z.instanceof(Uint8Array).refine(array => {
+  return array.byteLength > 0; // not empty
+});
 
-export const groupSendCombinedEndorsementSchema = z.object({
+const groupSendCombinedEndorsementSchema = z.object({
   groupId: groupIdSchema,
   expiration: groupSendEndorsementExpirationSchema,
   endorsement: groupSendEndorsementSchema,

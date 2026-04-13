@@ -11,7 +11,6 @@ import {
 import { MessageBackupKey } from '@signalapp/libsignal-client/dist/MessageBackup.js';
 
 import type { AciString } from '../types/ServiceId.std.ts';
-import { generateAci } from '../types/ServiceId.std.ts';
 import { CipherType } from '../types/Crypto.std.ts';
 import { appendPaddingStream } from '../util/logPadding.node.ts';
 import { prependStream } from '../util/prependStream.node.ts';
@@ -20,6 +19,7 @@ import { toAciObject } from '../util/ServiceId.node.ts';
 import { encodeDelimited } from '../util/encodeDelimited.std.ts';
 import { BACKUP_VERSION } from '../services/backups/constants.std.ts';
 import { Backups } from '../protobuf/index.std.ts';
+import { generateAci } from './serviceIdUtils.std.ts';
 
 export type BackupGeneratorConfigType = Readonly<
   {

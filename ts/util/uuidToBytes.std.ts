@@ -36,9 +36,7 @@ export function bytesToUuid(
   return undefined;
 }
 
-export function splitUuids(
-  buffer: Uint8Array<ArrayBuffer>
-): Array<string | null> {
+function splitUuids(buffer: Uint8Array<ArrayBuffer>): Array<string | null> {
   const uuids = new Array<string | null>();
   for (let i = 0; i < buffer.byteLength; i += UUID_BYTE_SIZE) {
     const bytes = getBytesSubarray(buffer, i, UUID_BYTE_SIZE);

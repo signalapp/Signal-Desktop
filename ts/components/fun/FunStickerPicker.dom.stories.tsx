@@ -6,9 +6,9 @@ import { action } from '@storybook/addon-actions';
 import { type ComponentMeta } from '../../storybook/types.std.ts';
 import type { FunStickerPickerProps } from './FunStickerPicker.dom.tsx';
 import { FunStickerPicker } from './FunStickerPicker.dom.tsx';
-import { MOCK_RECENT_EMOJIS } from './mocks.dom.tsx';
+import { MOCK_RECENT_EMOJIS } from '../../test-helpers/funPickerMocks.dom.tsx';
 import { FunProvider } from './FunProvider.dom.tsx';
-import { packs, recentStickers } from '../stickers/mocks.std.ts';
+import { packs, recentStickers } from '../../test-helpers/stickersMocks.std.ts';
 import { EmojiSkinTone } from './data/emojis.std.ts';
 
 const { i18n } = window.SignalContext;

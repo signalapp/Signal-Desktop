@@ -6,7 +6,6 @@ import { assert } from 'chai';
 import { DataWriter } from '../../sql/Client.preload.ts';
 import { getRandomBytes } from '../../Crypto.node.ts';
 import { Address } from '../../types/Address.std.ts';
-import { generateAci } from '../../types/ServiceId.std.ts';
 import { explodePromise } from '../../util/explodePromise.std.ts';
 import { SignalProtocolStore } from '../../SignalProtocolStore.preload.ts';
 import type { ConversationModel } from '../../models/conversations.preload.ts';
@@ -15,6 +14,7 @@ import { itemStorage } from '../../textsecure/Storage.preload.ts';
 import * as Bytes from '../../Bytes.std.ts';
 import { cleanupMessages } from '../../util/cleanup.preload.ts';
 import { removeConversation } from '../../util/Conversation.preload.ts';
+import { generateAci } from '../../test-helpers/serviceIdUtils.std.ts';
 
 describe('KeyChangeListener', () => {
   let oldNumberId: string | undefined;

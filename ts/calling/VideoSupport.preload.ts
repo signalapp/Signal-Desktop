@@ -409,11 +409,11 @@ export class GumVideoCapturer {
   }
 }
 
-export const MAX_VIDEO_CAPTURE_WIDTH = 2880;
-export const MAX_VIDEO_CAPTURE_HEIGHT = 1800;
-export const MAX_VIDEO_CAPTURE_AREA =
+const MAX_VIDEO_CAPTURE_WIDTH = 2880;
+const MAX_VIDEO_CAPTURE_HEIGHT = 1800;
+const MAX_VIDEO_CAPTURE_AREA =
   MAX_VIDEO_CAPTURE_WIDTH * MAX_VIDEO_CAPTURE_HEIGHT;
-export const MAX_VIDEO_CAPTURE_BUFFER_SIZE = MAX_VIDEO_CAPTURE_AREA * 4;
+const MAX_VIDEO_CAPTURE_BUFFER_SIZE = MAX_VIDEO_CAPTURE_AREA * 4;
 
 export class CanvasVideoRenderer {
   private canvas?: RefObject<HTMLCanvasElement | null>;

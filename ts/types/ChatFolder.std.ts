@@ -52,7 +52,7 @@ export type ChatFolder = Simplify<
   >
 >;
 
-export const ChatFolderPresetSchema = z.object({
+const ChatFolderPresetSchema = z.object({
   folderType: z.nativeEnum(ChatFolderType),
   showOnlyUnread: z.boolean(),
   showMutedChats: z.boolean(),
@@ -65,16 +65,6 @@ export const ChatFolderPresetSchema = z.object({
 export const ChatFolderParamsSchema = ChatFolderPresetSchema.extend({
   name: z.string().transform(input => input.normalize().trim()),
 }) satisfies z.ZodType<ChatFolderParams>;
-
-export const ChatFolderSchema = ChatFolderParamsSchema.extend({
-  id: z.intersection(z.string(), z.custom<ChatFolderId>()),
-  position: z.number().int().gte(0),
-  deletedAtTimestampMs: z.number().int().positive(),
-  storageID: z.string().nullable(),
-  storageVersion: z.number().nullable(),
-  storageUnknownFields: z.instanceof(Uint8Array).nullable(),
-  storageNeedsSync: z.boolean(),
-}) satisfies z.ZodType<ChatFolder>;
 
 export const CHAT_FOLDER_DEFAULTS: ChatFolderParams = {
   folderType: ChatFolderType.CUSTOM,
@@ -114,8 +104,6 @@ export const CHAT_FOLDER_PRESETS = {
     includeAllGroupChats: true, // all groups
   },
 } as const satisfies Record<string, ChatFolderPreset>;
-
-export type ChatFolderPresetKey = keyof typeof CHAT_FOLDER_PRESETS;
 
 export function validateChatFolderParams(params: ChatFolderParams): boolean {
   return (

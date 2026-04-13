@@ -4,7 +4,7 @@ import { createSelector } from 'reselect';
 import type { StateType } from '../reducer.preload.ts';
 import type { AudioRecorderStateType } from '../ducks/audioRecorder.preload.ts';
 
-export function getAudioRecorder(state: StateType): AudioRecorderStateType {
+function getAudioRecorder(state: StateType): AudioRecorderStateType {
   return state.audioRecorder;
 }
 

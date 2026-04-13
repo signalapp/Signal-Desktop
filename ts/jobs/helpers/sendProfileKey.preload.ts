@@ -39,7 +39,7 @@ import { strictAssert } from '../../util/assert.std.ts';
 
 const { isNumber } = lodash;
 
-export function canAllErrorsBeIgnored(
+function canAllErrorsBeIgnored(
   conversation: ConversationAttributesType,
   error: unknown
 ): boolean {

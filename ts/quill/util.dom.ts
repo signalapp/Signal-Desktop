@@ -42,18 +42,11 @@ export type MentionBlotValue = {
   title: string;
 };
 
-export type FormattingBlotValue = {
-  style: BodyRange.Style;
-};
-
 export const isEmojiBlot = (blot: Parchment.LeafBlot): blot is EmojiBlot =>
   blot.value() && blot.value().emoji;
 
 export const isMentionBlot = (blot: Parchment.LeafBlot): blot is MentionBlot =>
   blot.value() && blot.value().mention;
-
-export const isFormatting = (blot: Parchment.LeafBlot): blot is MentionBlot =>
-  blot.value() && blot.value().style;
 
 export type RetainOp = Op & { retain: number };
 export type InsertOp<K extends string, T> = Op & { insert: { [V in K]: T } };
@@ -64,10 +57,7 @@ export type InsertEmojiOp = InsertOp<
   { value: string; source?: string }
 >;
 
-export const isRetainOp = (op?: Op): op is RetainOp =>
-  op !== undefined && op.retain !== undefined;
-
-export const isSpecificInsertOp = (op: Op, type: string): boolean => {
+const isSpecificInsertOp = (op: Op, type: string): boolean => {
   return (
     op.insert !== undefined &&
     typeof op.insert === 'object' &&
@@ -75,30 +65,11 @@ export const isSpecificInsertOp = (op: Op, type: string): boolean => {
   );
 };
 
-export const isInsertEmojiOp = (op: Op): op is InsertEmojiOp =>
+const isInsertEmojiOp = (op: Op): op is InsertEmojiOp =>
   isSpecificInsertOp(op, 'emoji');
 
 export const isInsertMentionOp = (op: Op): op is InsertMentionOp =>
   isSpecificInsertOp(op, 'mention');
-
-export const getTextFromOps = (ops: Array<Op>): string =>
-  ops
-    .reduce((acc, op) => {
-      if (typeof op.insert === 'string') {
-        return acc + op.insert;
-      }
-
-      if (isInsertEmojiOp(op)) {
-        return acc + op.insert.emoji.value;
-      }
-
-      if (isInsertMentionOp(op)) {
-        return `${acc}@${op.insert.mention.title}`;
-      }
-
-      return acc;
-    }, '')
-    .trim();
 
 const { BOLD, ITALIC, MONOSPACE, SPOILER, STRIKETHROUGH, NONE } =
   BodyRange.Style;
@@ -409,7 +380,7 @@ export const insertFormattingAndMentionsOps = (
   return ops;
 };
 
-export const insertMentionOps = (
+const insertMentionOps = (
   incomingOps: Array<Op>,
   bodyRanges: DraftBodyRanges
 ): Array<Op> => {

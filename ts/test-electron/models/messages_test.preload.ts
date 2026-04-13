@@ -15,7 +15,6 @@ import { DataWriter } from '../../sql/Client.preload.ts';
 import enMessages from '../../../_locales/en/messages.json';
 import { SendStatus } from '../../messages/MessageSendState.std.ts';
 import { SignalService as Proto } from '../../protobuf/index.std.ts';
-import { generateAci } from '../../types/ServiceId.std.ts';
 import { getAuthor } from '../../messages/sources.preload.ts';
 import { setupI18n } from '../../util/setupI18n.dom.tsx';
 import {
@@ -32,6 +31,7 @@ import { getNotificationTextForMessage } from '../../util/getNotificationTextFor
 import { send } from '../../messages/send.preload.ts';
 import { messageSender } from '../../textsecure/SendMessage.preload.ts';
 import { itemStorage } from '../../textsecure/Storage.preload.ts';
+import { generateAci } from '../../test-helpers/serviceIdUtils.std.ts';
 
 describe('Message', () => {
   const i18n = setupI18n('en', enMessages);

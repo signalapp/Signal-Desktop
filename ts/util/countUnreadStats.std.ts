@@ -150,17 +150,6 @@ export function isConversationUnread(
   return false;
 }
 
-export function countConversationUnreadStats(
-  conversation: ConversationPropsForUnreadStats,
-  options: UnreadStatsOptions
-): UnreadStats {
-  const unreadStats = _createUnreadStats();
-  if (_canCountConversation(conversation, options)) {
-    _countConversation(unreadStats, conversation);
-  }
-  return unreadStats;
-}
-
 export function countAllConversationsUnreadStats(
   conversations: ReadonlyArray<ConversationPropsForUnreadStats | undefined>,
   options: UnreadStatsOptions

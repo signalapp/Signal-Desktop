@@ -9,7 +9,7 @@ import { assert } from 'chai';
 import type { ConversationModel } from '../../models/conversations.preload.ts';
 import * as Bytes from '../../Bytes.std.ts';
 import { DataWriter } from '../../sql/Client.preload.ts';
-import { type AciString, generateAci } from '../../types/ServiceId.std.ts';
+import type { AciString } from '../../types/ServiceId.std.ts';
 import { ReadStatus } from '../../messages/MessageReadStatus.std.ts';
 import { SeenStatus } from '../../MessageSeenStatus.std.ts';
 import { setupBasics, asymmetricRoundtripHarness } from './helpers.preload.ts';
@@ -41,6 +41,7 @@ import {
 } from '../../AttachmentCrypto.node.ts';
 import { KIBIBYTE } from '../../types/AttachmentSize.std.ts';
 import { itemStorage } from '../../textsecure/Storage.preload.ts';
+import { generateAci } from '../../test-helpers/serviceIdUtils.std.ts';
 
 const { omit } = lodash;
 

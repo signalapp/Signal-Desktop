@@ -5,7 +5,7 @@ import { DurationInSeconds } from './durations/index.std.ts';
 import type { ItemsStateType } from '../state/ducks/items.preload.ts';
 import { itemStorage } from '../textsecure/Storage.preload.ts';
 
-export const ITEM_NAME = 'universalExpireTimer';
+const ITEM_NAME = 'universalExpireTimer';
 
 export function get(): DurationInSeconds {
   return DurationInSeconds.fromSeconds(itemStorage.get(ITEM_NAME) || 0);

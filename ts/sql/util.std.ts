@@ -189,6 +189,7 @@ export function sql(
  * log.info('Query plan', explainQueryPlan(db, [query, params]));
  * db.prepare(query).all(params);
  * ```
+ * @knipignore
  */
 export function explainQueryPlan(
   db: ReadableDB,

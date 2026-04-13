@@ -8,7 +8,7 @@ import type { SignalContextType } from '../windows/context.preload.ts';
 import { Crypto } from '../context/Crypto.node.ts';
 import { setEnvironment, Environment } from '../environment.std.ts';
 import { HourCyclePreference } from '../types/I18N.std.ts';
-import { packageJson } from '../util/packageJson.node.ts';
+import packageJson from '../../package.json' with { type: 'json' };
 
 chaiUse(chaiAsPromised);
 

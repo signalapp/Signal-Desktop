@@ -12,12 +12,6 @@ import {
 
 const log = createLogger('CallLinkFinalizeDeleteManager');
 
-// Type for adding a new job
-export type NewCallLinkDeleteJobType = {
-  roomId: string;
-  options?: { delay: number };
-};
-
 export type CoreCallLinkDeleteJobType = {
   roomId: string;
 };

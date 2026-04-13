@@ -328,7 +328,7 @@ export function PreferencesBackups({
   );
 }
 
-export function renderPaidBackupsSummary({
+function renderPaidBackupsSummary({
   subscriptionStatus,
   i18n,
   locale,
@@ -351,7 +351,7 @@ export function renderPaidBackupsSummary({
   );
 }
 
-export function renderFreeBackupsSummary({
+function renderFreeBackupsSummary({
   backupFreeMediaDays,
   i18n,
 }: {

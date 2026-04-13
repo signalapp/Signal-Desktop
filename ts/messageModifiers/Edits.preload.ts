@@ -82,7 +82,7 @@ export function forMessage(
   return [];
 }
 
-export async function flushEdits(): Promise<void> {
+async function flushEdits(): Promise<void> {
   log.info('flushEdits running');
   return drop(
     Promise.all(Array.from(edits.values()).map(edit => onEdit(edit)))

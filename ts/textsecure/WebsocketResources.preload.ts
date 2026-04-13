@@ -57,7 +57,7 @@ const log = createLogger('WebsocketResources');
 
 const AGGREGATED_STATS_KEY = 'websocketStats';
 
-export enum IpVersion {
+enum IpVersion {
   IPv4 = 'ipv4',
   IPv6 = 'ipv6',
 }
@@ -90,31 +90,7 @@ export namespace AggregatedStats {
     }
   }
 
-  export function store(stats: AggregatedStats, name: string): void {
-    const key = localStorageKey(name);
-    try {
-      const json = JSON.stringify(stats);
-      localStorage.setItem(key, json);
-    } catch (error) {
-      log.warn(
-        `Failed to store key [${key}] to the local storage`,
-        Errors.toLogFormat(error)
-      );
-    }
-  }
-
-  export function add(a: AggregatedStats, b: AggregatedStats): AggregatedStats {
-    return {
-      requestsCompared: a.requestsCompared + b.requestsCompared,
-      connectionFailures: a.connectionFailures + b.connectionFailures,
-      healthcheckFailures: a.healthcheckFailures + b.healthcheckFailures,
-      ipVersionMismatches: a.ipVersionMismatches + b.ipVersionMismatches,
-      healthcheckBadStatus: a.healthcheckBadStatus + b.healthcheckBadStatus,
-      lastToastTimestamp: Math.max(a.lastToastTimestamp, b.lastToastTimestamp),
-    };
-  }
-
-  export function createEmpty(): AggregatedStats {
+  function createEmpty(): AggregatedStats {
     return {
       requestsCompared: 0,
       connectionFailures: 0,
@@ -125,19 +101,7 @@ export namespace AggregatedStats {
     };
   }
 
-  export function shouldReportError(stats: AggregatedStats): boolean {
-    const timeSinceLastToast = Date.now() - stats.lastToastTimestamp;
-    if (timeSinceLastToast < durations.DAY || stats.requestsCompared < 1000) {
-      return false;
-    }
-    const totalFailuresSinceLastToast =
-      stats.healthcheckBadStatus +
-      stats.healthcheckFailures +
-      stats.connectionFailures;
-    return totalFailuresSinceLastToast > 20;
-  }
-
-  export function localStorageKey(name: string): string {
+  function localStorageKey(name: string): string {
     return `${AGGREGATED_STATS_KEY}.${name}`;
   }
 }
@@ -145,9 +109,6 @@ export namespace AggregatedStats {
 export enum ServerRequestType {
   ApiMessage = '/api/v1/message',
   ApiEmptyQueue = '/api/v1/queue/empty',
-  ProvisioningMessage = '/v1/message',
-  ProvisioningAddress = '/v1/address',
-  Unknown = 'unknown',
 }
 
 export class IncomingWebSocketRequest {
@@ -180,19 +141,6 @@ export type SendRequestOptions = Readonly<{
   timeout?: number;
   headers?: ReadonlyArray<[string, string]>;
 }>;
-
-export type SendRequestResult = Readonly<{
-  status: number;
-  message: string;
-  response?: Uint8Array<ArrayBuffer>;
-  headers: ReadonlyArray<string>;
-}>;
-
-export type WebSocketResourceOptions = {
-  name: string;
-  handleRequest?: (request: IncomingWebSocketRequest) => void;
-  keepalive?: KeepAliveOptionsType;
-};
 
 // oxlint-disable-next-line max-classes-per-file
 export class CloseEvent extends Event {
@@ -401,7 +349,7 @@ function connect<Chat extends ChatKind>(
   );
 }
 
-export class WebSocketResource<Chat extends ChatKind>
+class WebSocketResource<Chat extends ChatKind>
   extends EventTarget
   implements IChatConnection<Chat>
 {
@@ -543,7 +491,7 @@ export class WebSocketResource<Chat extends ChatKind>
   }
 }
 
-export type KeepAliveOptionsType = {
+type KeepAliveOptionsType = {
   path?: string;
 };
 

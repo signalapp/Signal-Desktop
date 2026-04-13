@@ -1121,10 +1121,12 @@ const InlineDefs: Record<string, SymbolDef> = {
   'videocamera-slash-fill': '\u{E1EC}',
 } satisfies Record<InlineDefsName, SymbolDef>;
 
+/** @testexport */
 export function _getAllAxoSymbolIconNames(): ReadonlyArray<AxoSymbolIconName> {
   return Object.keys(IconDefs) as Array<AxoSymbolIconName>;
 }
 
+/** @testexport */
 export function _getAllAxoSymbolInlineGlyphNames(): ReadonlyArray<AxoSymbolInlineGlyphName> {
   return Object.keys(IconDefs) as Array<AxoSymbolIconName>;
 }

@@ -23,7 +23,6 @@ import type {
   ConversationTypeType,
 } from '../state/ducks/conversations.preload.ts';
 import { AvatarColors } from '../types/Colors.std.ts';
-import { generateAci } from '../types/ServiceId.std.ts';
 import { getDefaultConversation } from '../test-helpers/getDefaultConversation.std.ts';
 import { fakeGetGroupCallVideoFrameSource } from '../test-helpers/fakeGetGroupCallVideoFrameSource.std.ts';
 import { StorySendMode } from '../types/Stories.std.ts';
@@ -33,6 +32,7 @@ import {
   getDefaultCallLinkConversation,
 } from '../test-helpers/fakeCallLink.std.ts';
 import { allRemoteParticipants } from './CallScreen.dom.stories.tsx';
+import { generateAci } from '../test-helpers/serviceIdUtils.std.ts';
 
 const { i18n } = window.SignalContext;
 

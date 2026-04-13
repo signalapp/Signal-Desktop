@@ -15,7 +15,7 @@ function appendStack(newError: Error, originalError: Error) {
   newError.stack += `\nOriginal stack:\n${originalError.stack}`;
 }
 
-export class ReplayableError extends Error {
+class ReplayableError extends Error {
   functionCode?: number;
 
   constructor(options: {
@@ -219,6 +219,7 @@ export class SendMessageProtoError extends Error implements CallbackResultType {
   }
 }
 
+/** @testexport */
 export class MessageError extends ReplayableError {
   readonly httpError: HTTPError;
 

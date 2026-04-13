@@ -1,8 +1,6 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { every } from './iterables.std.ts';
-
 const add = <T>(set: Readonly<Set<T>>, item: T): Set<T> =>
   new Set(set).add(item);
 
@@ -22,11 +20,6 @@ export const toggle = <T>(
   item: Readonly<T>,
   shouldInclude: boolean
 ): Set<T> => (shouldInclude ? add : remove)(set, item);
-
-export const isEqual = (
-  a: Readonly<Set<unknown>>,
-  b: Readonly<Set<unknown>>
-): boolean => a === b || (a.size === b.size && every(a, item => b.has(item)));
 
 export const difference = <T>(
   a: Readonly<Set<T>>,

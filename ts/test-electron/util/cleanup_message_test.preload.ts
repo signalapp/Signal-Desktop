@@ -13,12 +13,12 @@ import { MessageModel } from '../../models/messages.preload.ts';
 import type { PollMessageAttribute } from '../../types/Polls.dom.ts';
 import { DataReader, DataWriter } from '../../sql/Client.preload.ts';
 import { itemStorage } from '../../textsecure/Storage.preload.ts';
-import { generateAci } from '../../types/ServiceId.std.ts';
 import type { MessageAttributesType } from '../../model-types.d.ts';
 import { IMAGE_BMP, IMAGE_JPEG } from '../../types/MIME.std.ts';
 import { SendStatus } from '../../messages/MessageSendState.std.ts';
 import { getAbsoluteAttachmentPath } from '../../util/migrations.preload.ts';
 import { getAttachmentsPath } from '../../../app/attachments.node.ts';
+import { generateAci } from '../../test-helpers/serviceIdUtils.std.ts';
 
 async function writeAttachmentFile(path: string) {
   await ensureFile(getAbsoluteAttachmentPath(path));

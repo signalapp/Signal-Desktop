@@ -37,7 +37,7 @@ import { getSelectedConversationId } from './nav.std.ts';
 
 const log = createLogger('search');
 
-export const getSearch = (state: StateType): SearchStateType => state.search;
+const getSearch = (state: StateType): SearchStateType => state.search;
 
 export const getFilterByUnread = createSelector(
   getSearch,
@@ -49,7 +49,7 @@ export const getQuery = createSelector(
   (state: SearchStateType): string => state.query
 );
 
-export const getSelectedMessage = createSelector(
+const getSelectedMessage = createSelector(
   getSearch,
   (state: SearchStateType): string | undefined => state.targetedMessage
 );
@@ -85,7 +85,7 @@ export const getSearchConversation = createSelector(
       : undefined
 );
 
-export const getSearchConversationName = createSelector(
+const getSearchConversationName = createSelector(
   getSearchConversation,
   getIntl,
   (conversation, i18n): undefined | string => {
@@ -112,7 +112,7 @@ export const getIsActivelySearching = createSelector(
     filterByUnread || hasSearchQuery
 );
 
-export const getMessageSearchResultLookup = createSelector(
+const getMessageSearchResultLookup = createSelector(
   getSearch,
   (state: SearchStateType) => state.messageLookup
 );
@@ -212,7 +212,7 @@ function getSearchableTextAndBodyRanges(message: MessageAttributesType): {
     bodyRanges: message.bodyRanges,
   };
 }
-export const getCachedSelectorForMessageSearchResult = createSelector(
+const getCachedSelectorForMessageSearchResult = createSelector(
   getUserConversationId,
   getConversationSelector,
   (

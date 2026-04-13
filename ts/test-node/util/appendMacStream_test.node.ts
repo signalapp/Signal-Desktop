@@ -9,7 +9,7 @@ import {
   MAC_KEY_SIZE,
   MAC_SIZE,
 } from '../../util/appendMacStream.node.ts';
-import { generateConfigMatrix } from '../../util/generateConfigMatrix.std.ts';
+import { generateConfigMatrix } from '../../test-helpers/generateConfigMatrix.std.ts';
 
 describe('appendMacStream', () => {
   generateConfigMatrix({

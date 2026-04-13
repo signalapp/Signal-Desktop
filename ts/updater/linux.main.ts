@@ -22,7 +22,7 @@ const PackageSchema = z.object({
   version: z.string(),
 });
 
-export function getUbuntuVersion(): string | undefined {
+function getUbuntuVersion(): string | undefined {
   if (process.platform !== 'linux') {
     return undefined;
   }
@@ -35,7 +35,7 @@ export function getUbuntuVersion(): string | undefined {
   return match[1];
 }
 
-export function isLinuxVersionSupported(logger?: LoggerType): boolean {
+function isLinuxVersionSupported(logger?: LoggerType): boolean {
   const ubuntu = getUbuntuVersion();
   if (ubuntu !== undefined && ubuntu < MIN_UBUNTU_VERSION) {
     logger?.warn(

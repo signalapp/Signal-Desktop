@@ -38,26 +38,6 @@ export function safeParseInteger(
   return parsed;
 }
 
-export function safeParseBigint(
-  value: bigint | number | string
-): bigint | null {
-  if (typeof value === 'bigint') {
-    return value;
-  }
-  if (typeof value === 'number') {
-    if (!Number.isInteger(value)) {
-      return null;
-    }
-    return BigInt(value);
-  }
-  strictAssert(typeof value === 'string', 'Expected string, number, or bigint');
-  const trimmed = value.trim();
-  if (trimmed === '') {
-    return null;
-  }
-  return BigInt(value);
-}
-
 export function roundFractionForProgressBar(fractionComplete: number): number {
   if (fractionComplete <= 0) {
     return 0;

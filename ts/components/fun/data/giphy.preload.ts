@@ -33,17 +33,6 @@ const GIF_FIELDS = [
   'images.fixed_width.mp4',
 ].join(',');
 
-export type GiphySearchParams = Readonly<{
-  query: string;
-  limit: number;
-  offset: number;
-}>;
-
-export type GiphyTrendingParams = Readonly<{
-  limit: number;
-  offset: number;
-}>;
-
 const GiphyPaginationSchema = z.object({
   offset: z.number().int(),
   total_count: z.number().int(),
@@ -89,8 +78,6 @@ const GiphyResultsSchema = z.object({
 });
 
 export type GiphyPagination = z.infer<typeof GiphyPaginationSchema>;
-export type GiphyImages = z.infer<typeof GiphyImagesSchema>;
-export type GiphyGif = z.infer<typeof GiphyGifSchema>;
 export type GiphyResults = z.infer<typeof GiphyResultsSchema>;
 
 function getNextOffset(pagination: GiphyPagination): number | null {

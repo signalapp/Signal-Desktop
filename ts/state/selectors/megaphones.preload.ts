@@ -16,13 +16,11 @@ import {
   TEST_MEGAPHONE_IMAGE,
 } from '../../util/getTestMegaphone.std.ts';
 
-export function getMegaphonesState(
-  state: Readonly<StateType>
-): MegaphonesStateType {
+function getMegaphonesState(state: Readonly<StateType>): MegaphonesStateType {
   return state.megaphones;
 }
 
-export const getVisibleMegaphones: StateSelector<
+const getVisibleMegaphones: StateSelector<
   ReadonlyArray<VisibleRemoteMegaphoneType>
 > = createSelector(getMegaphonesState, state => {
   return state.visibleMegaphones;

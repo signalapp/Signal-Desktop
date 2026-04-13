@@ -33,8 +33,6 @@ import { WidthBreakpoint } from '../_util.std.ts';
 import { DAY, HOUR, MINUTE, SECOND } from '../../util/durations/index.std.ts';
 import { ContactFormType } from '../../types/EmbeddedContact.std.ts';
 import { GiftBadgeStates } from '../../types/GiftBadgeStates.std.ts';
-import { generateAci } from '../../types/ServiceId.std.ts';
-
 import {
   fakeAttachment,
   fakeThumbnail,
@@ -45,6 +43,7 @@ import { BadgeCategory } from '../../badges/BadgeCategory.std.ts';
 import { PaymentEventKind } from '../../types/Payment.std.ts';
 import type { RenderAudioAttachmentProps } from '../../state/smart/renderAudioAttachment.preload.tsx';
 import type { PollVoteWithUserType } from '../../state/selectors/message.preload.ts';
+import { generateAci } from '../../test-helpers/serviceIdUtils.std.ts';
 
 const { isBoolean, noop } = lodash;
 

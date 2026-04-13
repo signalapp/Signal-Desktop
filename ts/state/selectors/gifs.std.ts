@@ -4,7 +4,7 @@ import { createSelector } from 'reselect';
 import type { StateType } from '../reducer.preload.ts';
 import type { GifsStateType } from '../ducks/gifs.preload.ts';
 
-export const selectGifs = (state: StateType): GifsStateType => state.gifs;
+const selectGifs = (state: StateType): GifsStateType => state.gifs;
 
 export const getRecentGifs = createSelector(selectGifs, gifs => {
   return gifs.recentGifs;

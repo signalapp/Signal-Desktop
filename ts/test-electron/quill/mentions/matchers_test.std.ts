@@ -6,11 +6,11 @@ import type { RefObject } from 'react';
 import { Delta } from '@signalapp/quill-cjs';
 
 import type { AciString } from '../../../types/ServiceId.std.ts';
-import { generateAci } from '../../../types/ServiceId.std.ts';
 import { matchMention } from '../../../quill/mentions/matchers.std.ts';
 import { MemberRepository } from '../../../quill/memberRepository.std.ts';
 import type { ConversationType } from '../../../state/ducks/conversations.preload.ts';
 import { getDefaultConversationWithServiceId } from '../../../test-helpers/getDefaultConversation.std.ts';
+import { generateAci } from '../../../test-helpers/serviceIdUtils.std.ts';
 
 const ACI_1 = generateAci();
 

@@ -621,7 +621,12 @@
     // [pedantic] Disallow inline comments after code
     "eslint/no-inline-comments": "off", // DECIDEME (errors: 333)
     // [pedantic] Disallow variable or function declarations in nested blocks
-    "eslint/no-inner-declarations": "error",
+    "eslint/no-inner-declarations": [
+      "error",
+      {
+        "blockScopedFunctions": "disallow"
+      }
+    ],
     // [pedantic] (🚧 planned autofix) Disallow if statements as the only statement in else blocks
     "eslint/no-lonely-if": "error",
     // [pedantic] Disallow function declarations that contain unsafe references inside loop statements
@@ -1658,11 +1663,12 @@
         "test/test.m",
         ".babelrc.mjs",
         ".prettierrc.mjs",
+        ".storybook/main.ts",
         ".storybook/test-runner.ts",
-        ".stylelintrc.js",
+        ".stylelintrc.mjs",
         "ci.js",
-        "dangerfile.js",
-        "eslint-local-rules.js",
+        "dangerfile.mjs",
+        "knip.js",
         "preload.wrapper.ts",
         "rolldown.config.ts"
       ],
@@ -1721,6 +1727,7 @@
         ".stylelintrc.mjs",
         "ci.js",
         "dangerfile.mjs",
+        "knip.js",
         "preload.wrapper.ts",
         "rolldown.config.ts"
       ],
@@ -1746,7 +1753,7 @@
         "ts/util/lint/**",
         "ts/windows/main/*_test.*",
         "test/test.mjs",
-        "dangerfile.js",
+        "dangerfile.mjs",
         "preload.wrapper.ts",
         "rolldown.config.ts"
       ],

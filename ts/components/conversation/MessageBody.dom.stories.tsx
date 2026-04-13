@@ -7,8 +7,8 @@ import type { Meta } from '@storybook/react';
 import type { Props } from './MessageBody.dom.tsx';
 import { MessageBody } from './MessageBody.dom.tsx';
 import { BodyRange } from '../../types/BodyRange.std.ts';
-import { generateAci } from '../../types/ServiceId.std.ts';
 import { RenderLocation } from './MessageTextRenderer.dom.tsx';
+import { generateAci } from '../../test-helpers/serviceIdUtils.std.ts';
 
 const SERVICE_ID_1 = generateAci();
 const SERVICE_ID_2 = generateAci();

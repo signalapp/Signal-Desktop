@@ -39,7 +39,6 @@ import {
   GroupCallJoinState,
 } from '../../../types/Calling.std.ts';
 import { CallMode } from '../../../types/CallDisposition.std.ts';
-import { generateAci } from '../../../types/ServiceId.std.ts';
 import { getDefaultConversation } from '../../../test-helpers/getDefaultConversation.std.ts';
 import type { UnwrapPromise } from '../../../types/Util.std.ts';
 import {
@@ -51,6 +50,7 @@ import { strictAssert } from '../../../util/assert.std.ts';
 import { callLinkRefreshJobQueue } from '../../../jobs/callLinkRefreshJobQueue.preload.ts';
 import { CALL_LINK_DEFAULT_STATE } from '../../../util/callLinks.std.ts';
 import { DataWriter } from '../../../sql/Client.preload.ts';
+import { generateAci } from '../../../test-helpers/serviceIdUtils.std.ts';
 
 const { cloneDeep, noop } = lodash;
 

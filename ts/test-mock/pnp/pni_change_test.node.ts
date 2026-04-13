@@ -8,7 +8,6 @@ import type { PrimaryDevice } from '@signalapp/mock-server';
 import createDebug from 'debug';
 
 import * as durations from '../../util/durations/index.std.ts';
-import { generatePni } from '../../types/ServiceId.std.ts';
 import { toPniObject } from '../../util/ServiceId.node.ts';
 import { Bootstrap } from '../bootstrap.node.ts';
 import type { App } from '../bootstrap.node.ts';
@@ -17,6 +16,7 @@ import {
   typeIntoInput,
   waitForEnabledComposer,
 } from '../helpers.node.ts';
+import { generatePni } from '../../test-helpers/serviceIdUtils.std.ts';
 
 export const debug = createDebug('mock:test:pni-change');
 

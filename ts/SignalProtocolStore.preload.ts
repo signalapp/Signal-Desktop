@@ -191,18 +191,15 @@ async function _fillCaches<ID, T extends HasIdType<ID>, HydratedType>(
   object[field] = cache as any;
 }
 
-export function hydrateSession(session: SessionType): SessionRecord {
+function hydrateSession(session: SessionType): SessionRecord {
   return SessionRecord.deserialize(session.record);
 }
-export function hydratePublicKey(identityKey: IdentityKeyType): PublicKey {
-  return PublicKey.deserialize(identityKey.publicKey);
-}
-export function hydratePreKey(preKey: PreKeyType): PreKeyRecord {
+function hydratePreKey(preKey: PreKeyType): PreKeyRecord {
   const publicKey = PublicKey.deserialize(preKey.publicKey);
   const privateKey = PrivateKey.deserialize(preKey.privateKey);
   return PreKeyRecord.new(preKey.keyId, publicKey, privateKey);
 }
-export function hydrateSignedPreKey(
+function hydrateSignedPreKey(
   signedPreKey: SignedPreKeyType
 ): SignedPreKeyRecord {
   const createdAt = signedPreKey.created_at;

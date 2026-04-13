@@ -10,9 +10,9 @@ import { GroupCallOverflowArea } from './GroupCallOverflowArea.dom.tsx';
 import { getDefaultConversationWithServiceId } from '../test-helpers/getDefaultConversation.std.ts';
 import { fakeGetGroupCallVideoFrameSource } from '../test-helpers/fakeGetGroupCallVideoFrameSource.std.ts';
 import { FRAME_BUFFER_SIZE } from '../calling/constants.std.ts';
-import { generateAci } from '../types/ServiceId.std.ts';
 import type { CallingImageDataCache } from './CallManager.dom.tsx';
 import { MINUTE } from '../util/durations/index.std.ts';
+import { generateAci } from '../test-helpers/serviceIdUtils.std.ts';
 
 const { memoize, times } = lodash;
 

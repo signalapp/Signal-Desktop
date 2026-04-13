@@ -162,7 +162,7 @@ export function processGroupV2Context(
   };
 }
 
-export function processPayment(
+function processPayment(
   payment?: Proto.DataMessage.Payment | null
 ): AnyPaymentEvent | undefined {
   if (!payment) {
@@ -194,7 +194,7 @@ export function processPayment(
   return undefined;
 }
 
-export function processQuote(
+function processQuote(
   quote?: Proto.DataMessage.Quote | null
 ): ProcessedQuote | undefined {
   if (!quote) {
@@ -230,7 +230,7 @@ export function processQuote(
   };
 }
 
-export function processStoryContext(
+function processStoryContext(
   storyContext?: Proto.DataMessage.StoryContext | null
 ): ProcessedStoryContext | undefined {
   if (!storyContext) {
@@ -254,7 +254,7 @@ export function processStoryContext(
   };
 }
 
-export function processContact(
+function processContact(
   contact?: ReadonlyArray<Proto.DataMessage.Contact> | null
 ): ReadonlyArray<ProcessedContact> | undefined {
   if (!contact) {
@@ -306,7 +306,7 @@ export function processPreview(
   });
 }
 
-export function processSticker(
+function processSticker(
   sticker?: Proto.DataMessage.Sticker | null
 ): ProcessedSticker | undefined {
   if (!sticker) {
@@ -322,7 +322,7 @@ export function processSticker(
   };
 }
 
-export function processReaction(
+function processReaction(
   reaction?: Proto.DataMessage.Reaction | null
 ): ProcessedReaction | undefined {
   if (!reaction) {
@@ -345,7 +345,7 @@ export function processReaction(
   };
 }
 
-export function processPinMessage(
+function processPinMessage(
   pinMessage?: Proto.DataMessage.PinMessage | null
 ): ProcessedPinMessage | undefined {
   if (pinMessage == null) {
@@ -378,7 +378,7 @@ export function processPinMessage(
   };
 }
 
-export function processPollCreate(
+function processPollCreate(
   pollCreate?: Proto.DataMessage.PollCreate | null
 ): ProcessedPollCreate | undefined {
   if (!pollCreate) {
@@ -392,7 +392,7 @@ export function processPollCreate(
   };
 }
 
-export function processPollVote(
+function processPollVote(
   pollVote?: Proto.DataMessage.PollVote | null
 ): ProcessedPollVote | undefined {
   if (!pollVote) {
@@ -413,7 +413,7 @@ export function processPollVote(
   };
 }
 
-export function processPollTerminate(
+function processPollTerminate(
   pollTerminate?: Proto.DataMessage.PollTerminate | null
 ): ProcessedPollTerminate | undefined {
   if (!pollTerminate) {
@@ -425,7 +425,7 @@ export function processPollTerminate(
   };
 }
 
-export function processDelete(
+function processDelete(
   del?: Proto.DataMessage.Delete | null
 ): ProcessedDelete | undefined {
   if (!del) {
@@ -437,7 +437,7 @@ export function processDelete(
   };
 }
 
-export function processAdminDelete(
+function processAdminDelete(
   adminDelete?: Proto.DataMessage.AdminDelete | null
 ): ProcessedAdminDelete | undefined {
   if (!adminDelete) {
@@ -456,7 +456,7 @@ export function processAdminDelete(
   };
 }
 
-export function processGiftBadge(
+function processGiftBadge(
   giftBadge: Proto.DataMessage.GiftBadge | null | undefined
 ): ProcessedGiftBadge | undefined {
   if (
@@ -482,7 +482,7 @@ export function processGiftBadge(
   };
 }
 
-export function processUnpinMessage(
+function processUnpinMessage(
   unpinMessage?: Proto.DataMessage.UnpinMessage | null
 ): ProcessedUnpinMessage | undefined {
   if (unpinMessage == null) {

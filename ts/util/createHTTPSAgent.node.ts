@@ -57,7 +57,7 @@ const HOST_LOG_ALLOWLIST = new Set([
   'sfu.voip.signal.org',
 ]);
 
-export class Agent extends HTTPSAgent {
+class Agent extends HTTPSAgent {
   constructor(options: AgentOptions = {}) {
     super({
       ...options,

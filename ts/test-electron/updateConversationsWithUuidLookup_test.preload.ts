@@ -6,13 +6,14 @@ import sinon from 'sinon';
 import { DataWriter } from '../sql/Client.preload.ts';
 import { ConversationModel } from '../models/conversations.preload.ts';
 import type { ConversationAttributesType } from '../model-types.d.ts';
-import { generateAci, normalizeServiceId } from '../types/ServiceId.std.ts';
+import { normalizeServiceId } from '../types/ServiceId.std.ts';
 import { normalizeAci } from '../util/normalizeAci.std.ts';
 
 import {
   updateConversationsWithUuidLookup,
   type ServerType,
 } from '../updateConversationsWithUuidLookup.dom.ts';
+import { generateAci } from '../test-helpers/serviceIdUtils.std.ts';
 
 describe('updateConversationsWithUuidLookup', () => {
   class FakeConversationController {

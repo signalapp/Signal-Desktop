@@ -8,7 +8,7 @@ import type { PropsType } from './GroupV2Permissions.dom.tsx';
 import { GroupV2Permissions } from './GroupV2Permissions.dom.tsx';
 import type { ConversationType } from '../../../state/ducks/conversations.preload.ts';
 import { getDefaultConversation } from '../../../test-helpers/getDefaultConversation.std.ts';
-import { generateAci } from '../../../types/ServiceId.std.ts';
+import { generateAci } from '../../../test-helpers/serviceIdUtils.std.ts';
 
 const { i18n } = window.SignalContext;
 

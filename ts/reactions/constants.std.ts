@@ -15,6 +15,7 @@ export const DEFAULT_PREFERRED_REACTION_EMOJI_PARENT_KEYS = [
 // This is used in storybook for simplicity. Normally we prefer to convert emoji short
 // names to actual emoji using convertShortNameToData from components/emoji/lib
 // because it takes skin tone into consideration.
+/** @testexport */
 export const DEFAULT_PREFERRED_REACTION_EMOJI = [
   '❤️',
   '👍',

@@ -13,7 +13,7 @@ import { getAbsoluteAttachmentPath } from './migrations.preload.ts';
 
 const { isNumber } = lodash;
 
-export class AttachmentPermanentlyUndownloadableError extends Error {}
+class AttachmentPermanentlyUndownloadableError extends Error {}
 
 export async function downloadAttachmentFromLocalBackup(
   attachment: BackupableAttachmentType,

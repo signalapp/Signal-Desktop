@@ -10,7 +10,7 @@ import * as durations from '../../util/durations/index.std.ts';
 import type { App } from '../playwright.node.ts';
 import { Bootstrap } from '../bootstrap.node.ts';
 
-export const debug = createDebug('mock:test:language');
+const debug = createDebug('mock:test:language');
 
 describe('language', function (this: Mocha.Suite) {
   this.timeout(durations.MINUTE);

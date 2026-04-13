@@ -273,7 +273,7 @@ type SendRecursion = {
   reason: string;
 };
 
-export async function sendToGroupViaSenderKey(
+async function sendToGroupViaSenderKey(
   options: SendToGroupOptions,
   recursion: SendRecursion
 ): Promise<CallbackResultType> {

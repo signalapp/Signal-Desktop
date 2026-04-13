@@ -14,7 +14,6 @@ import { expect } from 'playwright/test';
 import * as Bytes from '../../Bytes.std.ts';
 import { generateStoryDistributionId } from '../../types/StoryDistributionId.std.ts';
 import { MY_STORY_ID } from '../../types/Stories.std.ts';
-import { generateAci } from '../../types/ServiceId.std.ts';
 import { generateBackup } from '../../test-helpers/generateBackup.node.ts';
 import { IMAGE_JPEG } from '../../types/MIME.std.ts';
 import { uuidToBytes } from '../../util/uuidToBytes.std.ts';
@@ -30,6 +29,7 @@ import { toBase64 } from '../../Bytes.std.ts';
 import { strictAssert } from '../../util/assert.std.ts';
 import { BackupLevel } from '../../services/backups/types.std.ts';
 import { generateNotificationProfileId } from '../../types/NotificationProfile-node.node.ts';
+import { generateAci } from '../../test-helpers/serviceIdUtils.std.ts';
 
 export const debug = createDebug('mock:test:backups');
 

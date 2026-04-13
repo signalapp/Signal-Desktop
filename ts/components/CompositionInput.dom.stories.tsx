@@ -7,9 +7,9 @@ import type { Meta } from '@storybook/react';
 import { getDefaultConversation } from '../test-helpers/getDefaultConversation.std.ts';
 import type { Props } from './CompositionInput.dom.tsx';
 import { CompositionInput } from './CompositionInput.dom.tsx';
-import { generateAci } from '../types/ServiceId.std.ts';
-import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext.std.js';
+import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext.std.ts';
 import { EmojiSkinTone } from './fun/data/emojis.std.ts';
+import { generateAci } from '../test-helpers/serviceIdUtils.std.ts';
 
 const { i18n } = window.SignalContext;
 

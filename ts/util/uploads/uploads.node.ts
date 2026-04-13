@@ -83,7 +83,7 @@ export async function resumeUploadAttachment({
  * @throws {ResponseError} If the server responded with an error.
  * @throws {Error} If the response has no body.
  */
-export async function _doDownload({
+async function _doDownload({
   endpoint,
   headers = {},
   filePath,

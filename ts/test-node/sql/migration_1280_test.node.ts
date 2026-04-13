@@ -5,13 +5,13 @@ import { assert } from 'chai';
 
 import { type WritableDB } from '../../sql/Interface.std.ts';
 import { Migrations as Proto } from '../../protobuf/index.std.ts';
-import { generateAci } from '../../types/ServiceId.std.ts';
 import {
   createDB,
   updateToVersion,
   insertData,
   getTableData,
 } from './helpers.node.ts';
+import { generateAci } from '../../test-helpers/serviceIdUtils.std.ts';
 
 const EMPTY_ENVELOPE: Proto.Envelope.Params = {
   content: null,

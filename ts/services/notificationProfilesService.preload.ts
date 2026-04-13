@@ -34,7 +34,7 @@ const { debounce, isEqual, isNumber } = lodash;
 
 const log = createLogger('notificationProfilesService');
 
-export class NotificationProfilesService {
+class NotificationProfilesService {
   #timeout?: ReturnType<typeof setTimeout> | null;
   readonly #debouncedRefreshNextEvent = debounce(this.#refreshNextEvent, 1000);
 

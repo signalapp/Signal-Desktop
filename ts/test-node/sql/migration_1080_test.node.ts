@@ -34,7 +34,7 @@ function generateMessage(json: MessageAttributesType) {
 }
 
 // Snapshot before: 1270
-export function getMostRecentAddressableNondisappearingMessages(
+function getMostRecentAddressableNondisappearingMessages(
   db: ReadableDB,
   conversationId: string,
   limit = 5

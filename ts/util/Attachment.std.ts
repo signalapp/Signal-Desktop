@@ -11,7 +11,6 @@ import type {
   AttachmentWithHydratedData,
   BackupableAttachmentType,
   AttachmentDownloadableFromTransitTier,
-  LocallySavedAttachment,
   AttachmentReadyForLocalBackup,
 } from '../types/Attachment.std.ts';
 import type { LoggerType } from '../types/Logging.std.ts';
@@ -76,7 +75,7 @@ const MAX_DISPLAYABLE_IMAGE_HEIGHT = 8192;
 // Returns true if `rawAttachment` is a valid attachment based on our current schema.
 // Over time, we can expand this definition to become more narrow, e.g. require certain
 // fields, etc.
-export function isValid(
+function isValid(
   rawAttachment?: Pick<AttachmentType, 'data' | 'path'>
 ): rawAttachment is AttachmentType {
   // NOTE: We cannot use `_.isPlainObject` because `rawAttachment` is
@@ -164,10 +163,6 @@ export function removeSchemaVersion({
   return omit(attachment, 'schemaVersion');
 }
 
-export function hasData(attachment: AttachmentType): boolean {
-  return attachment.data instanceof Uint8Array;
-}
-
 export function loadData(
   readAttachmentV2Data: (
     attachment: Partial<AddressableAttachmentType>
@@ -234,20 +229,6 @@ export function isAudio(attachments?: ReadonlyArray<AttachmentType>): boolean {
     attachments[0].contentType &&
     !attachments[0].isCorrupted &&
     MIME.isAudio(attachments[0].contentType)
-  );
-}
-
-export function canRenderAudio(
-  attachments?: ReadonlyArray<AttachmentType>
-): boolean {
-  const firstAttachment = attachments && attachments[0];
-  if (!firstAttachment) {
-    return false;
-  }
-
-  return (
-    isAudio(attachments) &&
-    (isDownloaded(firstAttachment) || isDownloadable(firstAttachment))
   );
 }
 
@@ -412,14 +393,6 @@ export function isDownloading(attachment?: AttachmentType): boolean {
 export function hasFailed(attachment?: AttachmentType): boolean {
   const resolved = resolveNestedAttachment(attachment);
   return Boolean(resolved && resolved.error);
-}
-
-export function hasVideoBlurHash(
-  attachments?: ReadonlyArray<AttachmentType>
-): boolean {
-  const firstAttachment = attachments ? attachments[0] : null;
-
-  return Boolean(firstAttachment && firstAttachment.blurHash);
 }
 
 export function hasVideoScreenshot(
@@ -880,12 +853,6 @@ export function isDownloadable(attachment: AttachmentType): boolean {
       hasMediaBackups: true,
     })
   );
-}
-
-export function isAttachmentLocallySaved(
-  attachment: AttachmentType
-): attachment is LocallySavedAttachment {
-  return Boolean(attachment.path);
 }
 
 // We now partition out the bodyAttachment on receipt, but older

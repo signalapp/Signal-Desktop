@@ -5,8 +5,6 @@ import { v4 as generateGuid } from 'uuid';
 
 import { DataWriter } from '../../sql/Client.preload.ts';
 import { SignalService as Proto } from '../../protobuf/index.std.ts';
-
-import { generateAci, generatePni } from '../../types/ServiceId.std.ts';
 import type { MessageAttributesType } from '../../model-types.d.ts';
 import type { GroupV2ChangeType } from '../../types/groups.std.ts';
 import { getRandomBytes } from '../../Crypto.node.ts';
@@ -24,6 +22,10 @@ import { ReadStatus } from '../../messages/MessageReadStatus.std.ts';
 import { SeenStatus } from '../../MessageSeenStatus.std.ts';
 import { loadAllAndReinitializeRedux } from '../../services/allLoaders.preload.ts';
 import { itemStorage } from '../../textsecure/Storage.preload.ts';
+import {
+  generateAci,
+  generatePni,
+} from '../../test-helpers/serviceIdUtils.std.ts';
 
 // Note: this should be kept up to date with GroupV2Change.stories.tsx, to
 //   maintain the comprehensive set of GroupV2 notifications we need to handle

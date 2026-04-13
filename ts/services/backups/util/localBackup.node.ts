@@ -49,7 +49,7 @@ export function getLocalBackupFilesDirectory({
   return join(backupsBaseDir, 'files');
 }
 
-export async function getAllPathsInLocalBackupFilesDirectory({
+async function getAllPathsInLocalBackupFilesDirectory({
   backupsBaseDir,
 }: {
   backupsBaseDir: string;

@@ -1,7 +1,6 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import memoize from '@formatjs/fast-memoize';
 import type { IntlShape } from 'react-intl';
 import { createIntl, createIntlCache } from 'react-intl';
 import createDebug from 'debug';
@@ -16,21 +15,7 @@ import { assert } from './assert';
 
 const debug = createDebug('signal:i18n');
 
-export const formatters = {
-  getNumberFormat: memoize((locale, opts) => {
-    return new Intl.NumberFormat(locale, opts);
-  }),
-  getDateTimeFormat: memoize((locale, opts) => {
-    return new Intl.DateTimeFormat(locale, opts);
-  }),
-  getPluralRules: memoize((locale, opts) => {
-    return new Intl.PluralRules(locale, opts);
-  }),
-};
-
-export function isLocaleMessageType(
-  value: unknown
-): value is LocaleMessageType {
+function isLocaleMessageType(value: unknown): value is LocaleMessageType {
   return (
     typeof value === 'object' &&
     value != null &&

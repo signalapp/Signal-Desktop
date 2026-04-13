@@ -15,8 +15,8 @@ import { SeenStatus } from '../../MessageSeenStatus.std.ts';
 import { objectToJSON, sql, sqlJoin } from '../../sql/util.std.ts';
 import { BodyRange } from '../../types/BodyRange.std.ts';
 import type { AciString } from '../../types/ServiceId.std.ts';
-import { generateAci } from '../../types/ServiceId.std.ts';
 import { createDB, updateToVersion, explain } from './helpers.node.ts';
+import { generateAci } from '../../test-helpers/serviceIdUtils.std.ts';
 
 const OUR_UUID = generateGuid();
 

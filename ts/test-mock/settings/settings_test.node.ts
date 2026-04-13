@@ -1,13 +1,9 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import createDebug from 'debug';
-
 import * as durations from '../../util/durations/index.std.ts';
 import type { App } from '../playwright.node.ts';
 import { Bootstrap } from '../bootstrap.node.ts';
-
-export const debug = createDebug('mock:test:settings');
 
 describe('settings', function (this: Mocha.Suite) {
   this.timeout(durations.MINUTE);

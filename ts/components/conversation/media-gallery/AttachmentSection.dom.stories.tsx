@@ -12,8 +12,8 @@ import {
   createRandomLinks,
   createRandomAudio,
   days,
-} from './utils/mocks.std.ts';
-import { MediaItem } from './utils/storybook.dom.tsx';
+} from '../../../test-helpers/mediaGalleryMocks.std.ts';
+import { MediaItem } from '../../../test-helpers/mediaGalleryStorybook.dom.tsx';
 
 export default {
   title: 'Components/Conversation/MediaGallery/AttachmentSection',

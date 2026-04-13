@@ -17,7 +17,7 @@ import { getAbsoluteAttachmentPath } from '../../util/migrations.preload.ts';
 import { DataWriter } from '../../sql/Client.preload.ts';
 import type { MessageAttributesType } from '../../model-types.d.ts';
 import { itemStorage } from '../../textsecure/Storage.preload.ts';
-import { generateAci } from '../../types/ServiceId.std.ts';
+import { generateAci } from '../../test-helpers/serviceIdUtils.std.ts';
 
 describe('addAttachmentToMessage', () => {
   beforeEach(async () => {

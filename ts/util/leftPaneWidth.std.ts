@@ -8,7 +8,7 @@ import { strictAssert } from './assert.std.ts';
 const { clamp } = lodash;
 
 export const MIN_WIDTH = 97;
-export const SNAP_WIDTH = 200;
+const SNAP_WIDTH = 200;
 export const MIN_FULL_WIDTH = 280;
 export const MAX_WIDTH = 380;
 strictAssert(

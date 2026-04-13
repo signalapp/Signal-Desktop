@@ -19,22 +19,6 @@ describe('MIME', () => {
     });
   });
 
-  describe('isJPEG', () => {
-    it('should return true for `image/jpeg`', () => {
-      assert.isTrue(MIME.isJPEG('image/jpeg'));
-    });
-
-    it('returns false for non-JPEGs', () => {
-      assert.isFalse(MIME.isJPEG(''));
-      assert.isFalse(MIME.isJPEG('jpg'));
-      assert.isFalse(MIME.isJPEG('jpeg'));
-      assert.isFalse(MIME.isJPEG('image/jpg')); // invalid MIME type: https://stackoverflow.com/a/37266399/125305
-      assert.isFalse(MIME.isJPEG('image/gif'));
-      assert.isFalse(MIME.isJPEG('image/tiff'));
-      assert.isFalse(MIME.isJPEG('application/json'));
-    });
-  });
-
   describe('isLongMessage', () => {
     it('returns true for long messages', () => {
       assert.isTrue(MIME.isLongMessage('text/x-signal-plain'));

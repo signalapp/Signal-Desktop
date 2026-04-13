@@ -32,7 +32,7 @@ export const badgeFromServerSchema = z.object({
 });
 
 // GET /v1/subscription/configuration
-export const boostBadgesFromServerSchema = z.object({
+const boostBadgesFromServerSchema = z.object({
   levels: z.record(
     z.string(),
     z
@@ -78,7 +78,7 @@ export function parseBoostBadgeListFromServer(
   return result;
 }
 
-export function parseBadgeFromServer(
+function parseBadgeFromServer(
   value: unknown,
   updatesUrl: string
 ): BadgeType | undefined {

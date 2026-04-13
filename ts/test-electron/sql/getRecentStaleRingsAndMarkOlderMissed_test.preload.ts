@@ -13,9 +13,9 @@ import {
   CallType,
   GroupCallStatus,
 } from '../../types/CallDisposition.std.ts';
-import { generateAci } from '../../types/ServiceId.std.ts';
 import type { CallHistoryDetails } from '../../types/CallDisposition.std.ts';
 import type { MaybeStaleCallHistory } from '../../sql/Interface.std.ts';
+import { generateAci } from '../../test-helpers/serviceIdUtils.std.ts';
 
 const { times } = lodash;
 

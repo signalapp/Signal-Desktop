@@ -208,7 +208,7 @@ export function updateCallLinkState(
   return callLinkFromRecord(parseUnknown(callLinkRecordSchema, row));
 }
 
-export function updateCallLinkAdminKeyByRoomId(
+function updateCallLinkAdminKeyByRoomId(
   db: WritableDB,
   roomId: string,
   adminKey: string

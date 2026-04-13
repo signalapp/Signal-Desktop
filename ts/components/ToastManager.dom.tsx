@@ -49,7 +49,7 @@ export type PropsType = {
 
 const SHORT_TIMEOUT = 3 * SECOND;
 
-export function renderToast({
+function renderToast({
   changeLocation,
   hideToast,
   i18n,
@@ -996,7 +996,7 @@ export function renderToast({
   throw missingCaseError(toastType);
 }
 
-export function renderMegaphone({
+function renderMegaphone({
   i18n,
   megaphone,
   containerWidthBreakpoint,

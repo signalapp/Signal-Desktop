@@ -14,7 +14,7 @@ import { createLogger } from '../../logging/log.std.ts';
 
 const logger = createLogger('queueAttachmentDownloads_test');
 
-export function composeMessage(
+function composeMessage(
   overrides?: Partial<MessageAttributesType>
 ): MessageAttributesType {
   return {

@@ -67,15 +67,6 @@ export function getRoomIdFromRootKeyString(rootKeyString: string): string {
   return getRoomIdFromRootKey(callLinkRootKey);
 }
 
-export function getCallLinkRootKeyFromUrlKey(
-  key: string
-): Uint8Array<ArrayBuffer> {
-  const rootKeyBytes = CallLinkRootKey.parse(key).bytes;
-  // @ts-expect-error needs ringrtc update
-  const result: Uint8Array<ArrayBuffer> = rootKeyBytes;
-  return result;
-}
-
 export function getRoomIdFromCallLink(url: string): string {
   const keyString = getKeyFromCallLink(url);
   const key = CallLinkRootKey.parse(keyString);

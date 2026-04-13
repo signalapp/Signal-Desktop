@@ -5,7 +5,6 @@ import React, { forwardRef, useEffect, useRef, useState } from 'react';
 import { useReducedMotion } from '@react-spring/web';
 import { SpinnerV2 } from '../SpinnerV2.dom.tsx';
 import { strictAssert } from '../../util/assert.std.ts';
-import type { Loadable } from '../../util/loadable.std.ts';
 import { LoadingState } from '../../util/loadable.std.ts';
 import { useIntent } from './base/FunImage.dom.tsx';
 import { createLogger } from '../../logging/log.std.ts';
@@ -79,8 +78,6 @@ function FunGifReducedMotion(props: FunGifProps) {
 
   return <FunGifBase {...props} ref={videoRef} autoPlay={shouldPlay} />;
 }
-
-export type FunGifPreviewLoadable = Loadable<string>;
 
 export type FunGifPreviewProps = Readonly<{
   src: string | null;

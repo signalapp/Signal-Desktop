@@ -10,7 +10,6 @@ import {
   _shouldExcludeMuted,
   countAllChatFoldersUnreadStats,
   countAllConversationsUnreadStats,
-  countConversationUnreadStats,
   isConversationUnread,
 } from '../../util/countUnreadStats.std.ts';
 import type {
@@ -209,46 +208,6 @@ describe('countUnreadStats', () => {
       check({ unreadCount: 1, muteExpiresAt: future }, false);
       check({ unreadCount: 1, muteExpiresAt: future }, true, 'force-include');
       check({ unreadCount: 1, left: true }, false);
-    });
-  });
-
-  describe('countConversationUnreadStats', () => {
-    function check(
-      chat: ChatProps,
-      expected: StatsProps,
-      includeMuted: UnreadStatsIncludeMuted = 'force-exclude'
-    ) {
-      const actual = countConversationUnreadStats(mockChat(chat), {
-        activeProfile: undefined,
-        includeMuted,
-      });
-      assert.deepEqual(actual, mockStats(expected));
-    }
-
-    it('should count all stats', () => {
-      check({ unreadCount: 0 }, { unreadCount: 0 });
-      check({ unreadCount: 1 }, { unreadCount: 1 });
-      check({ unreadMentionsCount: 0 }, { unreadMentionsCount: 0 });
-      check({ unreadMentionsCount: 1 }, { unreadMentionsCount: 1 });
-      check({ markedUnread: false }, { readChatsMarkedUnreadCount: 0 });
-      check({ markedUnread: true }, { readChatsMarkedUnreadCount: 1 });
-    });
-
-    it('should check if it can count the conversation', () => {
-      const isCounted = { unreadCount: 10 };
-      const isNotCounted = { unreadCount: 0 };
-
-      const unread = { unreadCount: 10 };
-      const inactive = { ...unread, activeAt: 0 };
-      const archived = { ...unread, isArchived: true };
-      const muted = { ...unread, muteExpiresAt: getFutureMutedTimestamp() };
-      const left = { ...unread, left: true };
-
-      check(inactive, isNotCounted);
-      check(archived, isNotCounted);
-      check(muted, isNotCounted);
-      check(muted, isCounted, 'force-include');
-      check(left, isNotCounted);
     });
   });
 

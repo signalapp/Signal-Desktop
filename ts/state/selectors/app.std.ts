@@ -10,5 +10,3 @@ export const getHasInitialLoadCompleted = createSelector(
   getApp,
   ({ hasInitialLoadCompleted }) => hasInitialLoadCompleted
 );
-
-export const getAppView = createSelector(getApp, ({ appView }) => appView);

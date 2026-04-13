@@ -21,7 +21,7 @@ type AxoScrollAreaOrientation = 'vertical' | 'horizontal' | 'both';
 const AxoScrollAreaOrientationContext =
   createStrictContext<AxoScrollAreaOrientation>(`${Namespace}.Root`);
 
-export function useAxoScrollAreaOrientation(): AxoScrollArea.Orientation {
+function useAxoScrollAreaOrientation(): AxoScrollArea.Orientation {
   return useStrictContext(AxoScrollAreaOrientationContext);
 }
 

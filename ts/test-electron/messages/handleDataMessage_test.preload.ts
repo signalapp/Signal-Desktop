@@ -12,13 +12,13 @@ import { MessageCache } from '../../services/MessageCache.preload.ts';
 import { DataWriter } from '../../sql/Client.preload.ts';
 import { itemStorage } from '../../textsecure/Storage.preload.ts';
 import type { ProcessedDataMessage } from '../../textsecure/Types.d.ts';
-import {
-  type AciString,
-  generateAci,
-  generatePni,
-} from '../../types/ServiceId.std.ts';
+import type { AciString } from '../../types/ServiceId.std.ts';
 import { DurationInSeconds } from '../../util/durations/duration-in-seconds.std.ts';
 import { SignalService } from '../../protobuf/index.std.ts';
+import {
+  generateAci,
+  generatePni,
+} from '../../test-helpers/serviceIdUtils.std.ts';
 
 describe('handleDataMessage', () => {
   let ourAci: AciString;

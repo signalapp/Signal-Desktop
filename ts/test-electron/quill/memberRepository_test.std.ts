@@ -3,7 +3,6 @@
 
 import { assert } from 'chai';
 
-import { generateAci } from '../../types/ServiceId.std.ts';
 import { isAciString } from '../../util/isAciString.std.ts';
 import type { ConversationType } from '../../state/ducks/conversations.preload.ts';
 import {
@@ -11,6 +10,7 @@ import {
   _toMembers,
 } from '../../quill/memberRepository.std.ts';
 import { getDefaultConversationWithServiceId } from '../../test-helpers/getDefaultConversation.std.ts';
+import { generateAci } from '../../test-helpers/serviceIdUtils.std.ts';
 
 const UNKNOWN_SERVICE_ID = generateAci();
 

@@ -78,14 +78,6 @@ export const usePackUrl = (): string => useSelector(selectUrl);
 export const useToasts = (): ReadonlyArray<StateToastData> =>
   useSelector(({ art }: RootState) => art.toasts);
 
-export const useAddMoreCount = (): number =>
-  useSelector(({ art }: RootState) => {
-    assert(art.artType === ArtType.Sticker, 'Unexpected art type');
-    const min = MIN_STICKERS;
-
-    return Math.min(Math.max(min - art.order.length, 0), min);
-  });
-
 const selectOrderedData = createSelector(
   ({ art }: RootState) => art.order,
   ({ art }: RootState) => art.data,

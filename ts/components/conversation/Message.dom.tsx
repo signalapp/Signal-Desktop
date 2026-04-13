@@ -183,32 +183,6 @@ export enum MessageInteractivity {
   Hidden = 'Hidden',
 }
 
-export type AudioAttachmentProps = {
-  renderingContext: RenderingContextType;
-  i18n: LocalizerType;
-  buttonRef: React.RefObject<HTMLButtonElement>;
-  theme: ThemeType | undefined;
-  attachment: AttachmentForUIType;
-  collapseMetadata: boolean;
-  withContentAbove: boolean;
-  withContentBelow: boolean;
-
-  direction: DirectionType;
-  expirationLength?: number;
-  expirationTimestamp?: number;
-  id: string;
-  conversationId: string;
-  played: boolean;
-  pushPanelForConversation: PushPanelForConversationActionType;
-  status?: MessageStatusType;
-  textPending?: boolean;
-  timestamp: number;
-
-  kickOffAttachmentDownload(): void;
-  cancelAttachmentDownload(): void;
-  onCorrupted(): void;
-};
-
 export type GiftBadgeType =
   | {
       state:

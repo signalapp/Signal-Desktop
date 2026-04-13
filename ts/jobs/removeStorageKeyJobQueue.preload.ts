@@ -22,7 +22,7 @@ const removeStorageKeyJobDataSchema = z.object({
 
 type RemoveStorageKeyJobData = z.infer<typeof removeStorageKeyJobDataSchema>;
 
-export class RemoveStorageKeyJobQueue extends JobQueue<RemoveStorageKeyJobData> {
+class RemoveStorageKeyJobQueue extends JobQueue<RemoveStorageKeyJobData> {
   protected parseData(data: unknown): RemoveStorageKeyJobData {
     return parseUnknown(removeStorageKeyJobDataSchema, data);
   }

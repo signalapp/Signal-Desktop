@@ -26,7 +26,7 @@ export async function resumeBackupMediaDownload(): Promise<void> {
   return startBackupMediaDownload();
 }
 
-export async function resetBackupMediaDownloadItems(): Promise<void> {
+async function resetBackupMediaDownloadItems(): Promise<void> {
   await Promise.all([
     itemStorage.remove('backupMediaDownloadTotalBytes'),
     itemStorage.remove('backupMediaDownloadCompletedBytes'),

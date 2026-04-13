@@ -221,32 +221,6 @@ for (const dep of upgradeableDeps) {
       { stdio: 'inherit' }
     );
 
-    // oxlint-disable-next-line no-constant-condition
-    while (true) {
-      try {
-        // oxlint-disable-next-line no-await-in-loop
-        await execa(
-          'npx',
-          ['patch-package', '--error-on-fail', '--error-on-warn'],
-          { stdio: 'inherit' }
-        );
-        break;
-      } catch {
-        /** @type {{ retry: boolean }} */
-        // oxlint-disable-next-line no-await-in-loop
-        const { retry } = await enquirer.prompt({
-          type: 'confirm',
-          name: 'retry',
-          message: 'Retry patch-package?',
-          initial: true,
-        });
-
-        if (!retry) {
-          throw new Error('Failed to apply patch-package');
-        }
-      }
-    }
-
     /** @type {{ npmScriptsToRun: Array<string> }} */
     // oxlint-disable-next-line no-await-in-loop
     const { npmScriptsToRun } = await enquirer.prompt({

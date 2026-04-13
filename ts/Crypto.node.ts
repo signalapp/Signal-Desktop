@@ -291,6 +291,7 @@ const IV_LENGTH = 16;
 const NONCE_LENGTH = 16;
 const SYMMETRIC_MAC_LENGTH = 16;
 
+/** @testexport */
 export function encryptSymmetric(
   key: Uint8Array<ArrayBuffer>,
   plaintext: Uint8Array<ArrayBuffer>
@@ -310,6 +311,7 @@ export function encryptSymmetric(
   return Bytes.concatenate([nonce, ciphertext, mac]);
 }
 
+/** @testexport */
 export function decryptSymmetric(
   key: Uint8Array<ArrayBuffer>,
   data: Uint8Array<ArrayBuffer>
@@ -378,7 +380,7 @@ export function verifyHmacSha256(
   }
 }
 
-export function encryptAes256CbcPkcsPadding(
+function encryptAes256CbcPkcsPadding(
   key: Uint8Array<ArrayBuffer>,
   plaintext: Uint8Array<ArrayBuffer>,
   iv: Uint8Array<ArrayBuffer>
@@ -426,7 +428,7 @@ export function decryptAesCtr(
   });
 }
 
-export function encryptAesGcm(
+function encryptAesGcm(
   key: Uint8Array<ArrayBuffer>,
   iv: Uint8Array<ArrayBuffer>,
   plaintext: Uint8Array<ArrayBuffer>,
@@ -440,7 +442,7 @@ export function encryptAesGcm(
   });
 }
 
-export function decryptAesGcm(
+function decryptAesGcm(
   key: Uint8Array<ArrayBuffer>,
   iv: Uint8Array<ArrayBuffer>,
   ciphertext: Uint8Array<ArrayBuffer>
@@ -460,24 +462,11 @@ export function sha256(data: Uint8Array<ArrayBuffer>): Uint8Array<ArrayBuffer> {
 
 // Utility
 
-export function getZeroes(n: number): Uint8Array<ArrayBuffer> {
+function getZeroes(n: number): Uint8Array<ArrayBuffer> {
   return new Uint8Array(n);
 }
 
-export function highBitsToInt(byte: number): number {
-  // oxlint-disable-next-line no-bitwise
-  return (byte & 0xff) >> 4;
-}
-
-export function intsToByteHighAndLow(
-  highValue: number,
-  lowValue: number
-): number {
-  // oxlint-disable-next-line no-bitwise
-  return ((highValue << 4) | lowValue) & 0xff;
-}
-
-export function getFirstBytes(
+function getFirstBytes(
   data: Uint8Array<ArrayBuffer>,
   n: number
 ): Uint8Array<ArrayBuffer> {
@@ -589,6 +578,7 @@ export function encryptAttachment({
   };
 }
 
+/** @testexport */
 export function padAndEncryptAttachment({
   plaintext,
   keys,

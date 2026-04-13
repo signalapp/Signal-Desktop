@@ -693,7 +693,7 @@ async function removeMessagesById(
   return removeMessages(messages, options);
 }
 
-export async function removeMessages(
+async function removeMessages(
   messages: ReadonlyArray<MessageAttributesType>,
   options: RemoveMessageOptions
 ): Promise<void> {

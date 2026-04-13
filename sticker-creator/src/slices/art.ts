@@ -71,7 +71,7 @@ const adjustCover = (state: Draft<ArtState>) => {
   }
 };
 
-export const artSlice = createSlice({
+const artSlice = createSlice({
   name: 'art',
   initialState,
   reducers: {

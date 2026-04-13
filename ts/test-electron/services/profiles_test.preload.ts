@@ -7,8 +7,8 @@ import { MINUTE } from '../../util/durations/index.std.ts';
 import { drop } from '../../util/drop.std.ts';
 
 import { ProfileService } from '../../services/profiles.preload.ts';
-import { generateAci } from '../../types/ServiceId.std.ts';
 import { HTTPError } from '../../types/HTTPError.std.ts';
+import { generateAci } from '../../test-helpers/serviceIdUtils.std.ts';
 
 describe('util/profiles', () => {
   const SERVICE_ID_1 = generateAci();

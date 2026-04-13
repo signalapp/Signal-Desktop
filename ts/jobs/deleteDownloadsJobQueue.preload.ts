@@ -31,7 +31,7 @@ type DeleteDownloadsJobData = z.infer<typeof deleteDownloadsJobDataSchema>;
 const MAX_RETRY_TIME = DAY;
 const MAX_ATTEMPTS = exponentialBackoffMaxAttempts(MAX_RETRY_TIME);
 
-export class DeleteDownloadsJobQueue extends JobQueue<DeleteDownloadsJobData> {
+class DeleteDownloadsJobQueue extends JobQueue<DeleteDownloadsJobData> {
   protected parseData(data: unknown): DeleteDownloadsJobData {
     return parseUnknown(deleteDownloadsJobDataSchema, data);
   }

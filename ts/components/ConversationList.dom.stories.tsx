@@ -14,7 +14,7 @@ import { MessageStatuses } from '../types/message/MessageStatus.std.ts';
 import { ContactCheckboxDisabledReason } from './conversationList/ContactCheckbox.dom.tsx';
 import { getDefaultConversation } from '../test-helpers/getDefaultConversation.std.ts';
 import { ThemeType } from '../types/Util.std.ts';
-import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext.std.js';
+import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext.std.ts';
 import { makeFakeLookupConversationWithoutServiceId } from '../test-helpers/fakeLookupConversationWithoutServiceId.std.ts';
 
 const { times, omit } = lodash;

@@ -3,7 +3,7 @@
 
 import z from 'zod';
 
-export const LocaleEmojiSchema = z.object({
+const LocaleEmojiSchema = z.object({
   emoji: z.string(),
   shortName: z.string(),
   tags: z.string().array(),

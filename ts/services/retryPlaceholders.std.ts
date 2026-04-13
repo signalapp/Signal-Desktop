@@ -33,7 +33,7 @@ export type ByConversationLookupType = {
 };
 export type ByMessageLookupType = Map<string, RetryItemType>;
 
-export function getItemId(conversationId: string, sentAt: number): string {
+function getItemId(conversationId: string, sentAt: number): string {
   return `${conversationId}--${sentAt}`;
 }
 

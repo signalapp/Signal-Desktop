@@ -9,7 +9,7 @@ import { aciSchema } from './ServiceId.std.ts';
 import { MAX_MESSAGE_BODY_BYTE_LENGTH } from '../util/longAttachment.std.ts';
 
 // temporarily limit poll questions to an outbound 100 char and an inbound 200 char
-export const POLL_QUESTION_MAX_LENGTH_RECEIVE = 200;
+const POLL_QUESTION_MAX_LENGTH_RECEIVE = 200;
 export const POLL_QUESTION_MAX_LENGTH_SEND = 100;
 export const POLL_OPTION_MAX_LENGTH = 100;
 export const POLL_OPTIONS_MIN_COUNT = 2;

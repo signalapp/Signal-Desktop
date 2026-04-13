@@ -7,8 +7,7 @@ import type { StateType } from '../reducer.preload.ts';
 import type { AccountsStateType } from '../ducks/accounts.preload.ts';
 import type { ServiceIdString } from '../../types/ServiceId.std.ts';
 
-export const getAccounts = (state: StateType): AccountsStateType =>
-  state.accounts;
+const getAccounts = (state: StateType): AccountsStateType => state.accounts;
 
 export type AccountSelectorType = (
   identifier?: string

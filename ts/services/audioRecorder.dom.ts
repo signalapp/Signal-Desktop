@@ -8,7 +8,7 @@ import { WebAudioRecorder } from '../WebAudioRecorder.std.ts';
 
 const log = createLogger('audioRecorder');
 
-export class RecorderClass {
+class RecorderClass {
   #context?: AudioContext;
   #input?: GainNode;
   #recorder?: WebAudioRecorder;

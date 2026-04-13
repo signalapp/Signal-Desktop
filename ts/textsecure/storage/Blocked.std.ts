@@ -13,9 +13,9 @@ const { without } = lodash;
 
 const log = createLogger('Blocked');
 
-export const BLOCKED_NUMBERS_ID = 'blocked';
+const BLOCKED_NUMBERS_ID = 'blocked';
 export const BLOCKED_UUIDS_ID = 'blocked-uuids';
-export const BLOCKED_GROUPS_ID = 'blocked-groups';
+const BLOCKED_GROUPS_ID = 'blocked-groups';
 
 export class Blocked {
   readonly #storage: StorageInterface;

@@ -21,7 +21,7 @@ export function generateNotificationProfileId(): NotificationProfileIdString {
   );
 }
 
-export function isNotificationProfileId(
+function isNotificationProfileId(
   value?: string
 ): value is NotificationProfileIdString {
   if (!value) {

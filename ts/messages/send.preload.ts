@@ -324,7 +324,7 @@ export async function sendSyncMessageOnly(
   }
 }
 
-export async function sendSyncMessage(
+async function sendSyncMessage(
   message: MessageModel,
   targetTimestamp: number
 ): Promise<CallbackResultType | void> {

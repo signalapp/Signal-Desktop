@@ -6,52 +6,6 @@ type $Oneof<Variants extends Record<string, unknown>> = {
     [PartialKey in Exclude<keyof Variants, Key>]?: never;
   };
 }[keyof Variants];
-export namespace ProvisioningToken {
-  export function decode(
-    data: Uint8Array<ArrayBuffer>,
-  ): ProvisioningToken;
-  export function encode(data: Params): Uint8Array<ArrayBuffer>;
-  export type Params = {
-    $unknown?: Array<Uint8Array<ArrayBuffer>> | null;
-    token: string | null;
-  };
-}
-export type ProvisioningToken = {
-  $unknown: Array<Uint8Array<ArrayBuffer>>;
-  token: string | null;
-};
-export namespace ProvisioningEnvelope {
-  export function decode(
-    data: Uint8Array<ArrayBuffer>,
-  ): ProvisioningEnvelope;
-  export function encode(data: Params): Uint8Array<ArrayBuffer>;
-  export type Params = {
-    $unknown?: Array<Uint8Array<ArrayBuffer>> | null;
-    publicKey: Uint8Array<ArrayBuffer> | null;
-    ciphertext: Uint8Array<ArrayBuffer> | null;
-  };
-}
-export type ProvisioningEnvelope = {
-  $unknown: Array<Uint8Array<ArrayBuffer>>;
-  publicKey: Uint8Array<ArrayBuffer> | null;
-  ciphertext: Uint8Array<ArrayBuffer> | null;
-};
-export namespace ProvisioningMessage {
-  export function decode(
-    data: Uint8Array<ArrayBuffer>,
-  ): ProvisioningMessage;
-  export function encode(data: Params): Uint8Array<ArrayBuffer>;
-  export type Params = {
-    $unknown?: Array<Uint8Array<ArrayBuffer>> | null;
-    username: string | null;
-    password: string | null;
-  };
-}
-export type ProvisioningMessage = {
-  $unknown: Array<Uint8Array<ArrayBuffer>>;
-  username: string | null;
-  password: string | null;
-};
 export namespace StickerPack {
 export namespace Sticker {
   export function decode(

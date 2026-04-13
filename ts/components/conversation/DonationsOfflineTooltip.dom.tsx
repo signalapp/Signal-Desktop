@@ -13,7 +13,7 @@ type Props = {
   children: React.ReactNode;
 };
 
-export function getTooltipContent(i18n: LocalizerType): string {
+function getTooltipContent(i18n: LocalizerType): string {
   return i18n('icu:Donations__OfflineTooltip');
 }
 

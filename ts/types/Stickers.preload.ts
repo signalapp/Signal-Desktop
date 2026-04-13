@@ -306,18 +306,6 @@ export function getDataFromLink(
   return { id, key };
 }
 
-export function getInstalledStickerPacks(): Array<StickerPackType> {
-  const state = window.reduxStore.getState();
-  const { stickers } = state;
-  const { packs } = stickers;
-  if (!packs) {
-    return [];
-  }
-
-  const items = Object.values(packs);
-  return items.filter(pack => pack.status === 'installed');
-}
-
 export function downloadQueuedPacks(): void {
   log.info('downloadQueuedPacks');
   strictAssert(packsToDownload, 'Stickers not initialized');

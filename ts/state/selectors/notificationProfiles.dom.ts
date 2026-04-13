@@ -15,7 +15,7 @@ import type {
   NotificationProfileType,
 } from '../../types/NotificationProfile.std.ts';
 
-export const getNotificationProfileData = (
+const getNotificationProfileData = (
   state: StateType
 ): NotificationProfilesStateType => {
   return state.notificationProfiles;

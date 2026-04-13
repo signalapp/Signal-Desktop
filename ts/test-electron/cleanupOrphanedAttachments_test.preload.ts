@@ -21,11 +21,10 @@ import {
   getAttachmentsPath,
   getMegaphonesPath,
 } from '../../app/attachments.node.ts';
-
-import { generateAci } from '../types/ServiceId.std.ts';
 import { IMAGE_JPEG, LONG_MESSAGE } from '../types/MIME.std.ts';
 import type { MessageAttributesType } from '../model-types.d.ts';
 import type { RemoteMegaphoneId } from '../types/Megaphone.std.ts';
+import { generateAci } from '../test-helpers/serviceIdUtils.std.ts';
 
 const { emptyDir, ensureFile } = fsExtra;
 

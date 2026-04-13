@@ -12,7 +12,7 @@ import {
 } from './ForwardMessagesModal.dom.tsx';
 import { IMAGE_JPEG, VIDEO_MP4, stringToMIMEType } from '../types/MIME.std.ts';
 import { getDefaultConversation } from '../test-helpers/getDefaultConversation.std.ts';
-import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext.std.js';
+import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext.std.ts';
 import { CompositionTextArea } from './CompositionTextArea.dom.tsx';
 import type { MessageForwardDraft } from '../types/ForwardDraft.std.ts';
 import { EmojiSkinTone } from './fun/data/emojis.std.ts';

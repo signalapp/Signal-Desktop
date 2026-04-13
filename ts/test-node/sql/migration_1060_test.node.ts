@@ -28,7 +28,7 @@ import type { MessageAttributesType } from '../../model-types.d.ts';
 import type { SyncTaskType } from '../../util/syncTasks.preload.ts';
 
 // Snapshot before: 1270
-export function getMostRecentAddressableMessages(
+function getMostRecentAddressableMessages(
   db: ReadableDB,
   conversationId: string,
   limit = 5

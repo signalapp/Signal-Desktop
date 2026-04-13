@@ -19,7 +19,6 @@ import {
   LONG_MESSAGE,
 } from '../types/MIME.std.ts';
 import type { MessageAttributesType } from '../model-types.d.ts';
-import { generateAci } from '../types/ServiceId.std.ts';
 import { ReadStatus } from '../messages/MessageReadStatus.std.ts';
 import { SeenStatus } from '../MessageSeenStatus.std.ts';
 import { DataWriter, DataReader } from '../sql/Client.preload.ts';
@@ -31,6 +30,7 @@ import {
   testAttachmentLocalKey,
   testPlaintextHash,
 } from '../test-helpers/attachments.node.ts';
+import { generateAci } from '../test-helpers/serviceIdUtils.std.ts';
 
 const CONTACT_A = generateAci();
 const contactAConversationId = generateGuid();

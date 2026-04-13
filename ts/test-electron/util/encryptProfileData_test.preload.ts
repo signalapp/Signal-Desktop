@@ -11,8 +11,8 @@ import {
   decryptProfile,
 } from '../../Crypto.node.ts';
 import type { ConversationType } from '../../state/ducks/conversations.preload.ts';
-import { generateAci } from '../../types/ServiceId.std.ts';
 import { encryptProfileData } from '../../util/encryptProfileData.preload.ts';
+import { generateAci } from '../../test-helpers/serviceIdUtils.std.ts';
 
 describe('encryptProfileData', () => {
   let keyBuffer: Uint8Array<ArrayBuffer>;

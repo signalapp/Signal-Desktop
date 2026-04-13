@@ -6,9 +6,9 @@ import { DataReader, DataWriter } from '../../sql/Client.preload.ts';
 
 import { createAttachmentDownloadJob } from '../../test-helpers/attachmentDownloads.std.ts';
 import type { MessageAttributesType } from '../../model-types.d.ts';
-import { generateAci } from '../../types/ServiceId.std.ts';
 import { AttachmentDownloadSource } from '../../sql/Interface.std.ts';
 import { cleanupMessages } from '../../util/cleanup.preload.ts';
+import { generateAci } from '../../test-helpers/serviceIdUtils.std.ts';
 
 describe('sql/AttachmentDownloadBackupStats', () => {
   beforeEach(async () => {

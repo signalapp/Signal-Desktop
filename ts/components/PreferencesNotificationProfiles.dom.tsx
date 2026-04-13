@@ -256,7 +256,7 @@ function getRandomColor(): number {
   return argb;
 }
 
-export function getColorFromProfile(argb: number): string {
+function getColorFromProfile(argb: number): string {
   const rgb = argb - ARGB_BITS;
   return `#${rgb.toString(16)}`;
 }

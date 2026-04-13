@@ -299,18 +299,6 @@ function buildLayout(
  * Component
  */
 
-export type Cell = Readonly<{
-  sectionKey: SectionKey;
-  rowKey: RowKey;
-  cellKey: CellKey;
-
-  sectionIndex: number;
-  rowIndex: number;
-  colIndex: number;
-
-  item: VirtualItem;
-}>;
-
 export type FunVirtualGridOptions = Readonly<{
   scrollerRef: RefObject<HTMLDivElement | null>;
   sections: ReadonlyArray<GridSectionNode>;

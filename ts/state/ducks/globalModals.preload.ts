@@ -1303,7 +1303,7 @@ function closeMediaPermissionsModal(): CloseMediaPermissionsModalActionType {
 
 const MEDIA_PERMISSIONS_POLL_INTERVAL = SECOND;
 
-export function ensureSystemMediaPermissions(
+function ensureSystemMediaPermissions(
   mediaType: 'camera' | 'microphone',
   requestor: 'call' | 'voiceNote'
 ): ThunkAction<

@@ -14,7 +14,7 @@ import createDebug from 'debug';
 
 import * as durations from '../../util/durations/index.std.ts';
 import { uuidToBytes } from '../../util/uuidToBytes.std.ts';
-import { generateConfigMatrix } from '../../util/generateConfigMatrix.std.ts';
+import { generateConfigMatrix } from '../../test-helpers/generateConfigMatrix.std.ts';
 import { MY_STORY_ID } from '../../types/Stories.std.ts';
 import { Bootstrap } from '../bootstrap.node.ts';
 import type { App } from '../bootstrap.node.ts';

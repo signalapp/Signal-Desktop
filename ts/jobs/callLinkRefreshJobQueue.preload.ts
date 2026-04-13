@@ -49,7 +49,7 @@ export type CallLinkRefreshJobData = z.infer<
   typeof callLinkRefreshJobDataSchema
 >;
 
-export class CallLinkRefreshJobQueue extends JobQueue<CallLinkRefreshJobData> {
+class CallLinkRefreshJobQueue extends JobQueue<CallLinkRefreshJobData> {
   readonly #parallelQueue = new PQueue({ concurrency: MAX_PARALLEL_JOBS });
   readonly #pendingCallLinks = new Map<string, PendingCallLinkType>();
 

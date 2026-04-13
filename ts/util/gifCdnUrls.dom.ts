@@ -29,7 +29,7 @@ export function isTenorCdnUrlOrigin(origin: string): boolean {
   return TENOR_CDN_ORIGINS.has(origin);
 }
 
-export function isTenorCdnUrlOriginAllowed(): boolean {
+function isTenorCdnUrlOriginAllowed(): boolean {
   return RemoteConfig.isEnabled('desktop.recentGifs.allowLegacyTenorCdnUrls');
 }
 

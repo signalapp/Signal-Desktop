@@ -33,10 +33,6 @@ export type LinkPreviewResult = {
   date: number | null;
 };
 
-export type LinkPreviewWithDomain = {
-  domain: string;
-} & LinkPreviewResult;
-
 export enum LinkPreviewSourceType {
   Composer,
   ForwardMessageModal,

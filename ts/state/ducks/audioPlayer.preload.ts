@@ -340,7 +340,7 @@ function loadVoiceNoteAudio({
   };
 }
 
-export function loadVoiceNoteDraftAudio(
+function loadVoiceNoteDraftAudio(
   content: AudioPlayerContentDraft & {
     playbackRate: number;
     startPosition: number;
@@ -363,11 +363,11 @@ function setIsPlaying(value: boolean): SetIsPlayingAction {
  * alias for callers that just want to pause any voice notes before starting
  * their own playback: story viewer, media viewer, calling
  */
-export function pauseVoiceNotePlayer(): ReturnType<typeof setIsPlaying> {
+function pauseVoiceNotePlayer(): ReturnType<typeof setIsPlaying> {
   return setIsPlaying(false);
 }
 
-export function unloadMessageAudio(): SetMessageAudioAction {
+function unloadMessageAudio(): SetMessageAudioAction {
   return {
     type: 'audioPlayer/SET_MESSAGE_AUDIO',
     payload: undefined,

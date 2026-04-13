@@ -39,7 +39,7 @@ export function isCurrentAllChatFolder(
   );
 }
 
-export function isCurrentCustomChatFolder(
+function isCurrentCustomChatFolder(
   chatFolder: ChatFolder
 ): chatFolder is CurrentCustomChatFolder {
   return (

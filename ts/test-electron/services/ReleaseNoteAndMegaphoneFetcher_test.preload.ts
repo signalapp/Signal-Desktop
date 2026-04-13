@@ -8,13 +8,13 @@ import { v4 as uuid } from 'uuid';
 
 import { ReleaseNoteAndMegaphoneFetcher } from '../../services/releaseNoteAndMegaphoneFetcher.preload.ts';
 import * as durations from '../../util/durations/index.std.ts';
-import { generateAci } from '../../types/ServiceId.std.ts';
 import { saveNewMessageBatcher } from '../../util/messageBatcher.preload.ts';
 import type { CIType } from '../../CI.preload.ts';
 import type { ConversationModel } from '../../models/conversations.preload.ts';
 import { itemStorage } from '../../textsecure/Storage.preload.ts';
 import { DataReader, DataWriter } from '../../sql/Client.preload.ts';
 import type { RemoteMegaphoneId } from '../../types/Megaphone.std.ts';
+import { generateAci } from '../../test-helpers/serviceIdUtils.std.ts';
 
 const { getAllMegaphones, hasMegaphone } = DataReader;
 

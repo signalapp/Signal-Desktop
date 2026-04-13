@@ -48,18 +48,6 @@ class ConcatIterable<T> implements Iterable<T> {
   }
 }
 
-export function every<T>(
-  iterable: Iterable<T>,
-  predicate: (value: T) => boolean
-): boolean {
-  for (const value of iterable) {
-    if (!predicate(value)) {
-      return false;
-    }
-  }
-  return true;
-}
-
 export function filter<T, S extends T>(
   iterable: Iterable<T>,
   predicate: (value: T) => value is S
@@ -122,16 +110,6 @@ export function collect<T, S>(
   fn: (value: T) => S | undefined
 ): Iterable<S> {
   return new CollectIterable(iterable, fn);
-}
-
-export function collectFirst<T, S>(
-  iterable: Iterable<T>,
-  fn: (value: T) => S | undefined
-): S | undefined {
-  for (const v of collect(iterable, fn)) {
-    return v;
-  }
-  return undefined;
 }
 
 class CollectIterable<T, S> implements Iterable<S> {

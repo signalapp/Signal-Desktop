@@ -151,7 +151,7 @@ export async function cleanupMessages(
 /** Removes a message from redux caches & MessageCache, but does NOT delete files on disk,
  * story replies, edit histories, attachments, etc. Should ONLY be called in conjunction
  * with deleteMessageData.  */
-export function cleanupMessageFromMemory(message: MessageAttributesType): void {
+function cleanupMessageFromMemory(message: MessageAttributesType): void {
   const { id, conversationId } = message;
 
   window.reduxActions?.conversations.messageDeleted(id, conversationId);
@@ -247,7 +247,7 @@ export async function cleanupFilesAndReferencesToMessage(
   }
 }
 
-export async function maybeDeleteCall(
+async function maybeDeleteCall(
   message: MessageAttributesType,
   {
     fromSync,

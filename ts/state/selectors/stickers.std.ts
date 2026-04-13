@@ -146,18 +146,6 @@ export const getInstalledStickerPacks = createSelector(
   }
 );
 
-export const getRecentlyInstalledStickerPack = createSelector(
-  getInstalledStickerPacks,
-  getStickers,
-  (packs, { installedPack: packId }) => {
-    if (!packId) {
-      return null;
-    }
-
-    return packs.find(({ id }) => id === packId) || null;
-  }
-);
-
 export const getReceivedStickerPacks = createSelector(
   getPacks,
   getBlessedPacks,

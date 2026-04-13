@@ -11,9 +11,9 @@ import {
 import type { ProcessedAttachment } from '../textsecure/Types.d.ts';
 import { SignalService as Proto } from '../protobuf/index.std.ts';
 import { IMAGE_GIF, IMAGE_JPEG, LONG_MESSAGE } from '../types/MIME.std.ts';
-import { generateAci } from '../types/ServiceId.std.ts';
 import { toAciObject } from '../util/ServiceId.node.ts';
 import { uuidToBytes } from '../util/uuidToBytes.std.ts';
+import { generateAci } from '../test-helpers/serviceIdUtils.std.ts';
 
 const ACI_1 = generateAci();
 const ACI_BINARY_1 = toAciObject(ACI_1).getRawUuidBytes();

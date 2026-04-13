@@ -2,11 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { AciString } from '../types/ServiceId.std.ts';
-import type { ConversationModel } from '../models/conversations.preload.ts';
 import * as Errors from '../types/errors.std.ts';
 import { createLogger } from '../logging/log.std.ts';
 import { drop } from '../util/drop.std.ts';
-import { getConversationIdForLogging } from '../util/idForLogging.preload.ts';
 import type { MessageRequestResponseSource } from '../types/MessageRequestResponseEvent.std.ts';
 
 const log = createLogger('MessageRequests');
@@ -30,41 +28,6 @@ const messageRequests = new Map<string, MessageRequestAttributesType>();
 function remove(sync: MessageRequestAttributesType): void {
   messageRequests.delete(sync.envelopeId);
   sync.removeFromMessageReceiverCache();
-}
-
-export function forConversation(
-  conversation: ConversationModel
-): MessageRequestAttributesType | null {
-  const logId = `MessageRequests.forConversation(${getConversationIdForLogging(
-    conversation.attributes
-  )})`;
-
-  const messageRequestValues = Array.from(messageRequests.values());
-
-  if (conversation.getServiceId()) {
-    const syncByServiceId = messageRequestValues.find(
-      item => item.threadAci === conversation.getServiceId()
-    );
-    if (syncByServiceId) {
-      log.info(`${logId}: Found early message request response for serviceId`);
-      remove(syncByServiceId);
-      return syncByServiceId;
-    }
-  }
-
-  // V2 group
-  if (conversation.get('groupId')) {
-    const syncByGroupId = messageRequestValues.find(
-      item => item.groupV2Id === conversation.get('groupId')
-    );
-    if (syncByGroupId) {
-      log.info(`${logId}: Found early message request response for gv2`);
-      remove(syncByGroupId);
-      return syncByGroupId;
-    }
-  }
-
-  return null;
 }
 
 export async function onResponse(

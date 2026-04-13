@@ -13,7 +13,7 @@ import {
 } from '../../test-helpers/getDefaultConversation.std.ts';
 import { getRandomColor } from '../../test-helpers/getRandomColor.std.ts';
 import { DurationInSeconds } from '../../util/durations/index.std.ts';
-import { StorybookThemeContext } from '../../../.storybook/StorybookThemeContext.std.js';
+import { StorybookThemeContext } from '../../../.storybook/StorybookThemeContext.std.ts';
 import type { PropsType } from './ConversationHeader.dom.tsx';
 import {
   ConversationHeader,
