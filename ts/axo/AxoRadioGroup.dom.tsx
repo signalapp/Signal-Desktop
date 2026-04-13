@@ -10,7 +10,7 @@ import {
   useStrictContext,
 } from './_internal/StrictContext.dom.tsx';
 
-export const Namespace = 'AxoRadioGroup';
+const Namespace = 'AxoRadioGroup';
 
 /**
  * @example Anatomy

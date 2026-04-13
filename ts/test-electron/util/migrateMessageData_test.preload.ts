@@ -6,10 +6,10 @@ import { v7 as uuid } from 'uuid';
 import { _migrateMessageData as migrateMessageData } from '../../messages/migrateMessageData.preload.ts';
 import type { MessageAttributesType } from '../../model-types.d.ts';
 import { DataReader, DataWriter } from '../../sql/Client.preload.ts';
-import { generateAci } from '../../types/ServiceId.std.ts';
 import { postSaveUpdates } from '../../util/cleanup.preload.ts';
 import { upgradeMessageSchema } from '../../util/migrations.preload.ts';
 import { itemStorage } from '../../textsecure/Storage.preload.ts';
+import { generateAci } from '../../test-helpers/serviceIdUtils.std.ts';
 
 function composeMessage(timestamp: number): MessageAttributesType {
   return {

@@ -14,7 +14,8 @@ const config = {
     // importing commonjs modules from esmodules in storybook. As a part of
     // converting to TypeScript we should use esmodules and can eventually
     // remove this plugin
-    process.env.SIGNAL_ENV === 'storybook' && '@babel/transform-runtime',
+    process.env.SIGNAL_ENV === 'storybook' &&
+      import.meta.resolve('@babel/plugin-transform-runtime'),
   ].filter(plugin => {
     return typeof plugin === 'string';
   }),

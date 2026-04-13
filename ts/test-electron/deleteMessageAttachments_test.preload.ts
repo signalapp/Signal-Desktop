@@ -29,11 +29,11 @@ import {
   cleanupMessages,
 } from '../util/cleanup.preload.ts';
 import { DataReader, DataWriter } from '../sql/Client.preload.ts';
-import { generateAci } from '../types/ServiceId.std.ts';
 import {
   testAttachmentLocalKey,
   testPlaintextHash,
 } from '../test-helpers/attachments.node.ts';
+import { generateAci } from '../test-helpers/serviceIdUtils.std.ts';
 
 const { emptyDir, ensureFile } = fsExtra;
 

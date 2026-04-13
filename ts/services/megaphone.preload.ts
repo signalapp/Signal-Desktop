@@ -86,7 +86,7 @@ export async function runMegaphoneCheck(): Promise<void> {
   }
 }
 
-export function isConditionalActive(conditionalId: string | null): boolean {
+function isConditionalActive(conditionalId: string | null): boolean {
   if (conditionalId == null) {
     return true;
   }

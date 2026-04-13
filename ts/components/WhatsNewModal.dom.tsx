@@ -22,18 +22,6 @@ type ReleaseNotesType = {
   features: Array<React.JSX.Element>;
 };
 
-// Exported so it doesn't get marked unused
-export function ExternalLink(props: {
-  href: string;
-  children: ReactNode;
-}): React.JSX.Element {
-  return (
-    <a href={props.href} target="_blank" rel="noreferrer">
-      {props.children}
-    </a>
-  );
-}
-
 export function WhatsNewModal({
   i18n,
   hideWhatsNewModal,

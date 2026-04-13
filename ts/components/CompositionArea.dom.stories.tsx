@@ -7,7 +7,7 @@ import type { Meta } from '@storybook/react';
 import { IMAGE_JPEG } from '../types/MIME.std.ts';
 import type { Props } from './CompositionArea.dom.tsx';
 import { CompositionArea } from './CompositionArea.dom.tsx';
-import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext.std.js';
+import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext.std.ts';
 
 import { fakeDraftAttachment } from '../test-helpers/fakeAttachment.std.ts';
 import { landscapeGreenUrl } from '../storybook/Fixtures.std.ts';

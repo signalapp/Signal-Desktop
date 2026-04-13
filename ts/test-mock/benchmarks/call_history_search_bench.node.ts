@@ -7,7 +7,7 @@ import { Proto, StorageState } from '@signalapp/mock-server';
 import lodash from 'lodash';
 import { expect } from 'playwright/test';
 import { Bootstrap, debug, RUN_COUNT, DISCARD_COUNT } from './fixtures.node.ts';
-import { stats } from '../../util/benchmark/stats.std.ts';
+import { stats } from '../../test-helpers/benchmarkStats.std.ts';
 import { uuidToBytes } from '../../util/uuidToBytes.std.ts';
 import { strictAssert } from '../../util/assert.std.ts';
 import { typeIntoInput } from '../helpers.node.ts';

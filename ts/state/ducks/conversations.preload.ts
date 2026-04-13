@@ -2600,7 +2600,7 @@ function sendPollVote({
   };
 }
 
-export function copyMessageText(
+function copyMessageText(
   messageId: string
 ): ThunkAction<void, RootStateType, unknown, NoopActionType> {
   return async dispatch => {
@@ -2616,7 +2616,7 @@ export function copyMessageText(
   };
 }
 
-export function retryDeleteForEveryone(
+function retryDeleteForEveryone(
   messageId: string
 ): ThunkAction<void, RootStateType, unknown, NoopActionType> {
   return async dispatch => {
@@ -3263,7 +3263,7 @@ function conversationStoppedByMissingVerification(payload: {
   };
 }
 
-export function markOpenConversationRead(
+function markOpenConversationRead(
   conversationId: string
 ): ThunkAction<void, RootStateType, unknown, MarkReadActionType> {
   return async (dispatch, getState) => {
@@ -3283,7 +3283,7 @@ export function markOpenConversationRead(
   };
 }
 
-export function messageChanged(
+function messageChanged(
   id: string,
   conversationId: string,
   data: ReadonlyMessageAttributesType
@@ -4362,7 +4362,7 @@ function closeRecommendedGroupSizeModal(): CloseRecommendedGroupSizeModalActionT
   return { type: 'CLOSE_RECOMMENDED_GROUP_SIZE_MODAL' };
 }
 
-export function scrollToOldestUnreadMention(
+function scrollToOldestUnreadMention(
   conversationId: string
 ): ThunkAction<void, RootStateType, unknown, NoopActionType> {
   return async (dispatch, getState) => {

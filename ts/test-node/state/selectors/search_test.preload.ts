@@ -21,7 +21,6 @@ import {
   getSearchResults,
 } from '../../../state/selectors/search.preload.ts';
 import { makeLookup } from '../../../util/makeLookup.std.ts';
-import { generateAci } from '../../../types/ServiceId.std.ts';
 import {
   getDefaultConversation,
   getDefaultConversationWithServiceId,
@@ -31,6 +30,7 @@ import { ReadStatus } from '../../../messages/MessageReadStatus.std.ts';
 import type { StateType } from '../../../state/reducer.preload.ts';
 import { reducer as rootReducer } from '../../../state/reducer.preload.ts';
 import { NavTab } from '../../../types/Nav.std.ts';
+import { generateAci } from '../../../test-helpers/serviceIdUtils.std.ts';
 
 describe('both/state/selectors/search', () => {
   const NOW = 1_000_000;

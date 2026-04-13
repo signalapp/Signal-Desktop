@@ -37,12 +37,7 @@ import {
 import { ReadStatus } from '../../../messages/MessageReadStatus.std.ts';
 import type { SingleServePromiseIdString } from '../../../services/singleServePromise.std.ts';
 import { CallMode } from '../../../types/CallDisposition.std.ts';
-import {
-  type AciString,
-  type PniString,
-  generateAci,
-  getAciFromPrefix,
-} from '../../../types/ServiceId.std.ts';
+import type { AciString, PniString } from '../../../types/ServiceId.std.ts';
 import { generateStoryDistributionId } from '../../../types/StoryDistributionId.std.ts';
 import {
   getDefaultConversation,
@@ -70,6 +65,10 @@ import type { ReadonlyMessageAttributesType } from '../../../model-types.d.ts';
 import { strictAssert } from '../../../util/assert.std.ts';
 import { getConversationCallMode } from '../../../util/getConversationCallMode.std.ts';
 import { itemStorage } from '../../../textsecure/Storage.preload.ts';
+import {
+  generateAci,
+  getAciFromPrefix,
+} from '../../../test-helpers/serviceIdUtils.std.ts';
 
 const { times } = lodash;
 

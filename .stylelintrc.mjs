@@ -1,9 +1,12 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 // @ts-check
+// @ts-expect-error
+import githubActionsFormatter from '@csstools/stylelint-formatter-github';
 
 /** @type {import('stylelint').Config} */
 const config = {
+  formatter: process.env.CI ? githubActionsFormatter : undefined,
   extends: [
     'stylelint-config-recommended-scss',
     'stylelint-config-css-modules',

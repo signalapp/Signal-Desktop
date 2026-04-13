@@ -4,7 +4,7 @@
 import { v4 as uuid } from 'uuid';
 import { assert } from 'chai';
 
-import { type AciString, generateAci } from '../types/ServiceId.std.ts';
+import type { AciString } from '../types/ServiceId.std.ts';
 import type { MessageAttributesType } from '../model-types.d.ts';
 import { DataReader, DataWriter } from '../sql/Client.preload.ts';
 import { SendStatus } from '../messages/MessageSendState.std.ts';
@@ -18,6 +18,7 @@ import {
 } from '../messageModifiers/MessageReceipts.preload.ts';
 import { ReadStatus } from '../messages/MessageReadStatus.std.ts';
 import { itemStorage } from '../textsecure/Storage.preload.ts';
+import { generateAci } from '../test-helpers/serviceIdUtils.std.ts';
 
 describe('MessageReceipts', () => {
   let ourAci: AciString;

@@ -10,7 +10,7 @@ import type {
 } from './SafetyNumberChangeDialog.dom.tsx';
 import { SafetyNumberChangeDialog } from './SafetyNumberChangeDialog.dom.tsx';
 import { getDefaultConversation } from '../test-helpers/getDefaultConversation.std.ts';
-import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext.std.js';
+import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext.std.ts';
 import { getFakeBadge } from '../test-helpers/getFakeBadge.std.ts';
 import { MY_STORY_ID } from '../types/Stories.std.ts';
 import { generateStoryDistributionId } from '../types/StoryDistributionId.std.ts';

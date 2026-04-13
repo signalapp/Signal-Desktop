@@ -7,7 +7,7 @@ import pino from 'pino';
 import { DAY, SECOND } from './durations/index.std.ts';
 import { isMoreRecentThan } from './timestamp.std.ts';
 
-export const DEFAULT_MAX_ROTATIONS = 3;
+const DEFAULT_MAX_ROTATIONS = 3;
 
 const RETRY_DELAY = 5 * SECOND;
 

@@ -24,7 +24,7 @@ import {
 import { MAX_READ_KEYS as MAX_STORAGE_READ_KEYS } from '../services/storageConstants.std.ts';
 import { SECOND, MINUTE, WEEK, MONTH } from '../util/durations/index.std.ts';
 import { drop } from '../util/drop.std.ts';
-import { regress } from '../util/benchmark/stats.std.ts';
+import { regress } from '../test-helpers/benchmarkStats.std.ts';
 import type { RendererConfigType } from '../types/RendererConfig.std.ts';
 import type { MIMEType } from '../types/MIME.std.ts';
 import { App } from './playwright.node.ts';

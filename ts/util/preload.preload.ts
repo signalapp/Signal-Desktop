@@ -5,11 +5,7 @@ import { ipcRenderer } from 'electron';
 
 import { strictAssert } from './assert.std.ts';
 import * as Errors from '../types/errors.std.ts';
-import type { UnwrapPromise } from '../types/Util.std.ts';
-import type {
-  IPCEventsCallbacksType,
-  IPCEventsValuesType,
-} from './createIPCEvents.preload.ts';
+import type { IPCEventsValuesType } from './createIPCEvents.preload.ts';
 import type { SystemTraySetting } from '../types/SystemTraySetting.std.ts';
 
 type SettingOptionsType = {
@@ -95,23 +91,7 @@ export function createSetting<
   };
 }
 
-type UnwrapReturn<
-  // oxlint-disable-next-line typescript/no-explicit-any
-  Callback extends (...args: Array<any>) => unknown,
-> = UnwrapPromise<ReturnType<Callback>>;
-
-export function createCallback<
-  Name extends keyof IPCEventsCallbacksType,
-  Callback extends IPCEventsCallbacksType[Name],
->(
-  name: Name
-): (...args: Parameters<Callback>) => Promise<UnwrapReturn<Callback>> {
-  return (...args: Parameters<Callback>): Promise<UnwrapReturn<Callback>> => {
-    return ipcRenderer.invoke(`settings:call:${name}`, args);
-  };
-}
-
-export function installSetting(
+function installSetting(
   name: keyof SettingsValuesType,
   { getter = true, setter = true }: { getter?: boolean; setter?: boolean } = {}
 ): void {
@@ -175,20 +155,5 @@ export function installEphemeralSetting(name: keyof EphemeralSettings): void {
     }
 
     await updateFn(value);
-  });
-}
-
-export function installCallback<Name extends keyof IPCEventsCallbacksType>(
-  name: Name
-): void {
-  ipcRenderer.on(`settings:call:${name}`, async (_, { seq, args }) => {
-    const hook = window.Events[name] as (
-      ...hookArgs: Array<unknown>
-    ) => Promise<unknown>;
-    try {
-      ipcRenderer.send('settings:response', seq, null, await hook(...args));
-    } catch (error) {
-      ipcRenderer.send('settings:response', seq, Errors.toLogFormat(error));
-    }
   });
 }

@@ -9,7 +9,7 @@ import type { StoryDistributionListWithMembersDataType } from '../../types/Stori
 import { getConversationSelector } from './conversations.dom.ts';
 import { MY_STORY_ID } from '../../types/Stories.std.ts';
 
-export const getDistributionLists = (
+const getDistributionLists = (
   state: StateType
 ): Array<StoryDistributionListDataType> =>
   state.storyDistributionLists.distributionLists

@@ -9,7 +9,6 @@ import {
   mapItemsIntoCollapseSets,
   MAX_COLLAPSE_SET_SIZE,
 } from '../../util/CollapseSet.std.ts';
-import { generateAci } from '../../types/ServiceId.std.ts';
 import { ReadStatus } from '../../messages/MessageReadStatus.std.ts';
 import { SeenStatus } from '../../MessageSeenStatus.std.ts';
 import { DurationInSeconds } from '../../util/durations/duration-in-seconds.std.ts';
@@ -28,6 +27,7 @@ import type {
 } from '../../state/ducks/conversations.preload.ts';
 import type { CollapseSet } from '../../util/CollapseSet.std.ts';
 import type { MessageAttributesType } from '../../model-types.d.ts';
+import { generateAci } from '../../test-helpers/serviceIdUtils.std.ts';
 
 describe('util/CollapseSets', () => {
   describe('mapItemsIntoCollapseSets', () => {

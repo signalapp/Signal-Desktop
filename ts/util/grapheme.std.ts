@@ -36,15 +36,6 @@ export function truncateAndSize(
   ];
 }
 
-export function isSingleGrapheme(str: string): boolean {
-  if (str === '') {
-    return false;
-  }
-  const segments = getSegmenter().segment(str);
-  const first = segments.containing(0);
-  return first != null && first.segment === str;
-}
-
 export function hasAtMostGraphemes(str: string, max: number): boolean {
   if (max < 0) {
     return false;

@@ -1658,11 +1658,11 @@ export const SCHEMA_VERSIONS: ReadonlyArray<SchemaUpdateType> = [
   { version: 1700, update: updateToSchemaVersion1700 },
 ];
 
-export class DBVersionFromFutureError extends Error {
+class DBVersionFromFutureError extends Error {
   override name = 'DBVersionFromFutureError';
 }
 
-export function enableFTS5SecureDelete(db: Database, logger: LoggerType): void {
+function enableFTS5SecureDelete(db: Database, logger: LoggerType): void {
   const isEnabled =
     db
       .prepare(

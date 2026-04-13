@@ -161,7 +161,7 @@ export function getStoryDownloadableAttachment({
   return attachment?.textAttachment?.preview?.image ?? attachment;
 }
 
-export function getStoryView(
+function getStoryView(
   conversationSelector: GetConversationByIdType,
   ourConversationId: string | undefined,
   story: StoryDataType
@@ -260,7 +260,7 @@ export function getStoryView(
   };
 }
 
-export function getConversationStory(
+function getConversationStory(
   conversationSelector: GetConversationByIdType,
   ourConversationId: string | undefined,
   story: StoryDataType

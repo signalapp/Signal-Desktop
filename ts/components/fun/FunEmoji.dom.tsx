@@ -16,7 +16,7 @@ import { createLogger } from '../../logging/log.std.ts';
 const log = createLogger('FunEmoji');
 
 export const FUN_STATIC_EMOJI_CLASS = 'FunStaticEmoji';
-export const FUN_INLINE_EMOJI_CLASS = 'FunInlineEmoji';
+const FUN_INLINE_EMOJI_CLASS = 'FunInlineEmoji';
 
 const FUN_STATIC_JUMBO_EMOJI_CLASS = 'FunStaticEmoji--has-jumbo';
 const FUN_INLINE_JUMBO_EMOJI_CLASS = 'FunInlineEmoji--has-jumbo';
@@ -210,7 +210,7 @@ export function FunInlineEmoji(props: FunInlineEmojiProps): React.JSX.Element {
   );
 }
 
-export function isFunEmojiElement(element: HTMLElement): boolean {
+function isFunEmojiElement(element: HTMLElement): boolean {
   return (
     element.classList.contains(FUN_INLINE_EMOJI_CLASS) ||
     element.classList.contains(FUN_STATIC_EMOJI_CLASS)

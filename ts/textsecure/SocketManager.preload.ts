@@ -58,7 +58,7 @@ const JITTER = 5 * durations.SECOND;
 const OFFLINE_KEEPALIVE_TIMEOUT_MS = 5 * durations.SECOND;
 export const UNAUTHENTICATED_CHANNEL_NAME = 'unauthenticated';
 
-export const AUTHENTICATED_CHANNEL_NAME = 'authenticated';
+const AUTHENTICATED_CHANNEL_NAME = 'authenticated';
 
 export const NORMAL_DISCONNECT_CODE = 3000;
 

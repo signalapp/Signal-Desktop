@@ -16,8 +16,8 @@ import {
   writeSignature,
 } from '../../updater/signature.node.ts';
 import { createTempDir, deleteTempDir } from '../../updater/common.main.ts';
-import { keyPair } from '../../updater/curve.node.ts';
 import { createLogger } from '../../logging/log.std.ts';
+import { keyPair } from '../../test-helpers/keyPair.node.ts';
 
 const { copy } = fsExtra;
 

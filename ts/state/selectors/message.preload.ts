@@ -242,22 +242,6 @@ export function getSource(
   return ourNumber;
 }
 
-export function getSourceDevice(
-  message: MessageWithUIFieldsType,
-  ourDeviceId: number
-): string | number | undefined {
-  const { sourceDevice } = message;
-
-  if (isIncoming(message)) {
-    return sourceDevice;
-  }
-  if (!isOutgoing(message)) {
-    log.warn('getSourceDevice: Called for non-incoming/non-outoing message');
-  }
-
-  return sourceDevice || ourDeviceId;
-}
-
 export function getSourceServiceId(
   message: Pick<ReadonlyMessageAttributesType, 'type' | 'sourceServiceId'>,
   ourAci: AciString | undefined
@@ -277,7 +261,7 @@ export type GetContactOptions = Pick<
   'conversationSelector' | 'ourConversationId' | 'ourNumber' | 'ourAci'
 >;
 
-export function getAuthorId(
+function getAuthorId(
   message: MessageWithUIFieldsType,
   {
     conversationSelector,
@@ -298,7 +282,7 @@ export function getAuthorId(
 }
 
 // TODO: DESKTOP-2145
-export function getContact(
+function getContact(
   message: MessageWithUIFieldsType,
   {
     conversationSelector,
@@ -317,7 +301,7 @@ export function getContact(
   return conversationSelector(sourceServiceId || source);
 }
 
-export function getConversation(
+function getConversation(
   message: Pick<MessageWithUIFieldsType, 'conversationId'>,
   conversationSelector: GetConversationByIdType
 ): ConversationType {
@@ -873,7 +857,7 @@ function getTextDirection(body?: string): TextDirection {
   }
 }
 
-export const getPropsForMessage = (
+const getPropsForMessage = (
   message: MessageWithUIFieldsType,
   options: GetPropsForMessageOptions
 ): MessagePropsType => {
@@ -1784,7 +1768,7 @@ export function isPinnedMessageNotification(
   return message.type === 'pinned-message-notification';
 }
 
-export function getPropsForPinnedMessageNotification(
+function getPropsForPinnedMessageNotification(
   message: MessageWithUIFieldsType,
   { conversationSelector }: GetPropsForBubbleOptions
 ): PinnedMessageNotificationData {
@@ -1959,7 +1943,7 @@ export function isChatSessionRefreshed(
 export function isConversationMerge(message: MessageWithUIFieldsType): boolean {
   return message.type === 'conversation-merge';
 }
-export function getPropsForConversationMerge(
+function getPropsForConversationMerge(
   message: MessageWithUIFieldsType,
   { conversationSelector }: GetPropsForBubbleOptions
 ): ConversationMergePropsType {
@@ -1989,7 +1973,7 @@ export function isPhoneNumberDiscovery(
 ): boolean {
   return message.type === 'phone-number-discovery';
 }
-export function getPropsForPhoneNumberDiscovery(
+function getPropsForPhoneNumberDiscovery(
   message: MessageWithUIFieldsType,
   { conversationSelector }: GetPropsForBubbleOptions
 ): PhoneNumberDiscoveryPropsType {
@@ -2168,7 +2152,7 @@ function getDeletedForEveryoneByAdmin(
   };
 }
 
-export function getPropsForEmbeddedContact(
+function getPropsForEmbeddedContact(
   message: MessageWithUIFieldsType,
   regionCode: string | undefined,
   accountSelector: (identifier?: string) => ServiceIdString | undefined
@@ -2376,7 +2360,7 @@ export function canReact(
   return canReplyOrReact(message, ourConversationId, conversation);
 }
 
-export function canCopy(
+function canCopy(
   message: Pick<MessageWithUIFieldsType, 'body' | 'deletedForEveryone'>
 ): boolean {
   return !message.deletedForEveryone && Boolean(message.body);
@@ -2553,7 +2537,7 @@ export const getMessagesCanDeleteForEveryone = createSelector(
   }
 );
 
-export function canRetryDeleteForEveryone(
+function canRetryDeleteForEveryone(
   message: Pick<
     MessageWithUIFieldsType,
     | 'type'
@@ -2585,7 +2569,7 @@ export function canRetryDeleteForEveryone(
   return result.ok;
 }
 
-export function canEndPoll(
+function canEndPoll(
   message: Pick<MessageWithUIFieldsType, 'type' | 'poll'>
 ): boolean {
   if (message.type !== 'outgoing') {
@@ -2604,7 +2588,7 @@ export function canEndPoll(
   return true;
 }
 
-export function canDownload(
+function canDownload(
   message: MessageWithUIFieldsType,
   conversationSelector: GetConversationByIdType
 ): boolean {
@@ -2648,7 +2632,7 @@ export function canPinMessages(conversation: ConversationType): boolean {
   );
 }
 
-export function canPinMessage(
+function canPinMessage(
   conversation: ConversationType,
   message: ReadonlyMessageAttributesType
 ): boolean {
@@ -2664,7 +2648,7 @@ export function canPinMessage(
   return true;
 }
 
-export function getLastChallengeError(
+function getLastChallengeError(
   message: Pick<MessageWithUIFieldsType, 'errors'>
 ): ShallowChallengeError | undefined {
   const { errors } = message;

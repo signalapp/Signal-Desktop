@@ -54,7 +54,7 @@ export function isKeyTransparencyAvailable(): boolean {
   });
 }
 
-export class KeyTransparency {
+class KeyTransparency {
   #isRunning = false;
   readonly #scheduler = new CheckScheduler({
     name: 'KeyTransparency',

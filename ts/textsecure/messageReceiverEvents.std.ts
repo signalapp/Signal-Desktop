@@ -117,7 +117,7 @@ export class EnvelopeQueuedEvent extends Event {
 
 export type ConfirmCallback = () => void;
 
-export class ConfirmableEvent extends Event {
+class ConfirmableEvent extends Event {
   public readonly confirm: ConfirmCallback;
 
   constructor(type: string, confirm: ConfirmCallback) {

@@ -2,17 +2,17 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import React, { useCallback, type ReactNode } from 'react';
 import { action } from '@storybook/addon-actions';
-import type { PropsType } from '../../../../state/smart/MediaItem.preload.tsx';
-import { getSafeDomain } from '../../../../types/LinkPreview.std.ts';
-import type { AttachmentStatusType } from '../../../../hooks/useAttachmentStatus.std.ts';
-import { missingCaseError } from '../../../../util/missingCaseError.std.ts';
-import { isVoiceMessagePlayed } from '../../../../util/isVoiceMessagePlayed.std.ts';
-import { LinkPreviewItem } from '../LinkPreviewItem.dom.tsx';
-import { MediaContextMenu } from '../MediaContextMenu.dom.tsx';
-import { MediaGridItem } from '../MediaGridItem.dom.tsx';
-import { DocumentListItem } from '../DocumentListItem.dom.tsx';
-import { ContactListItem } from '../ContactListItem.dom.tsx';
-import { AudioListItem } from '../AudioListItem.dom.tsx';
+import type { PropsType } from '../state/smart/MediaItem.preload.tsx';
+import { getSafeDomain } from '../types/LinkPreview.std.ts';
+import type { AttachmentStatusType } from '../hooks/useAttachmentStatus.std.ts';
+import { missingCaseError } from '../util/missingCaseError.std.ts';
+import { isVoiceMessagePlayed } from '../util/isVoiceMessagePlayed.std.ts';
+import { LinkPreviewItem } from '../components/conversation/media-gallery/LinkPreviewItem.dom.tsx';
+import { MediaContextMenu } from '../components/conversation/media-gallery/MediaContextMenu.dom.tsx';
+import { MediaGridItem } from '../components/conversation/media-gallery/MediaGridItem.dom.tsx';
+import { DocumentListItem } from '../components/conversation/media-gallery/DocumentListItem.dom.tsx';
+import { ContactListItem } from '../components/conversation/media-gallery/ContactListItem.dom.tsx';
+import { AudioListItem } from '../components/conversation/media-gallery/AudioListItem.dom.tsx';
 
 const { i18n } = window.SignalContext;
 

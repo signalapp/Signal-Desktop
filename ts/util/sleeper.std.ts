@@ -10,7 +10,7 @@ const log = createLogger('sleeper');
  * Provides a way to delay tasks
  * but also a way to force sleeping tasks to immediately resolve/reject on shutdown
  */
-export class Sleeper {
+class Sleeper {
   #shuttingDown = false;
   readonly #shutdownCallbacks = new Set<() => void>();
 

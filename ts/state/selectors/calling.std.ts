@@ -77,7 +77,7 @@ export const getCallsByConversation = createSelector(
     state.callsByConversation
 );
 
-export const getAdhocCalls = createSelector(
+const getAdhocCalls = createSelector(
   getCalling,
   (state: CallingStateType): AdhocCallsType => state.adhocCalls
 );

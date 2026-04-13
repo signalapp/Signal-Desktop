@@ -8,8 +8,6 @@ import {
   _analyzeSenderKeyDevices,
   _shouldFailSend,
 } from '../../util/sendToGroup.preload.ts';
-import { generateAci } from '../../types/ServiceId.std.ts';
-
 import type { DeviceType } from '../../textsecure/Types.d.ts';
 import {
   ConnectTimeoutError,
@@ -24,6 +22,7 @@ import {
   UnregisteredUserError,
 } from '../../textsecure/Errors.std.ts';
 import { HTTPError } from '../../types/HTTPError.std.ts';
+import { generateAci } from '../../test-helpers/serviceIdUtils.std.ts';
 
 describe('sendToGroup', () => {
   const serviceIdOne = generateAci();

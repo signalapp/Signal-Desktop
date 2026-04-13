@@ -7,7 +7,6 @@ import lodash from 'lodash';
 import classNames from 'classnames';
 import type { VideoFrameSource } from '@signalapp/ringrtc';
 import type {
-  ActiveCallStateType,
   BatchUserActionPayloadType,
   PendingUserActionPayloadType,
   SendGroupCallRaiseHandType,
@@ -156,15 +155,6 @@ export type PropsType = {
   toggleSettings: () => void;
   changeCallView: (mode: CallViewMode) => void;
   setLocalAudioRemoteMuted: SetMutedByType;
-};
-
-export const isInSpeakerView = (
-  call: Pick<ActiveCallStateType, 'viewMode'> | undefined
-): boolean => {
-  return (
-    call?.viewMode === CallViewMode.Presentation ||
-    call?.viewMode === CallViewMode.Speaker
-  );
 };
 
 const REACTIONS_TOASTS_TRANSITION_FROM = {

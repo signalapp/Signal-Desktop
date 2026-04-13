@@ -41,12 +41,6 @@ export const getProfileMovedModalNeeded = createSelector(
     Boolean(needProfileMovedModal)
 );
 
-export const getUserAgent = createSelector(
-  getItems,
-  // oxlint-disable-next-line typescript/no-non-null-assertion
-  (state: ItemsStateType): string => state.userAgent!
-);
-
 export const getPinnedConversationIds = createSelector(
   getItems,
   (state: ItemsStateType): Array<string> =>
@@ -59,12 +53,13 @@ export const getUniversalExpireTimer = createSelector(
     DurationInSeconds.fromSeconds(state.universalExpireTimer || 0)
 );
 
-export const isRemoteConfigFlagEnabled = (
+const isRemoteConfigFlagEnabled = (
   config: Readonly<ConfigMapType>,
   key: ConfigKeyType
 ): boolean => Boolean(config[key]?.enabled);
 
 // See isBucketValueEnabled in RemoteConfig.ts
+/** @knipignore Keep around for future features that might need it */
 export const isRemoteConfigBucketEnabled = (
   config: Readonly<ConfigMapType>,
   name: ConfigKeyType,
@@ -78,11 +73,6 @@ export const isRemoteConfigBucketEnabled = (
 export const getRemoteConfig = createSelector(
   getItems,
   (state: ItemsStateType): ConfigMapType => state.remoteConfig || {}
-);
-
-export const getServerTimeSkew = createSelector(
-  getItems,
-  (state: ItemsStateType): number => state.serverTimeSkew || 0
 );
 
 export const getHasCompletedUsernameOnboarding = createSelector(
@@ -197,19 +187,9 @@ export const getPreferredReactionEmoji = createSelector(
     )
 );
 
-export const getHideMenuBar = createSelector(
-  getItems,
-  (state: ItemsStateType): boolean => Boolean(state['hide-menu-bar'])
-);
-
 export const getHasSetMyStoriesPrivacy = createSelector(
   getItems,
   (state: ItemsStateType): boolean => Boolean(state.hasSetMyStoriesPrivacy)
-);
-
-export const getHasReadReceiptSetting = createSelector(
-  getItems,
-  (state: ItemsStateType): boolean => Boolean(state['read-receipt-setting'])
 );
 
 export const getHasStoryViewReceiptSetting = createSelector(
@@ -255,13 +235,6 @@ export const getTextFormattingEnabled = createSelector(
 export const getNavTabsCollapsed = createSelector(
   getItems,
   (state: ItemsStateType): boolean => state.navTabsCollapsed ?? false
-);
-
-export const getShowStickersIntroduction = createSelector(
-  getItems,
-  (state: ItemsStateType): boolean => {
-    return state.showStickersIntroduction ?? false;
-  }
 );
 
 export const getShowStickerPickerHint = createSelector(

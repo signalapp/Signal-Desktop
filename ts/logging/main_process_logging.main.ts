@@ -299,7 +299,7 @@ export function fetchLogs(logPath: string): Promise<Array<LogEntryType>> {
   });
 }
 
-export const fetchAdditionalLogData = (
+const fetchAdditionalLogData = (
   mainWindow: BrowserWindow
 ): Promise<Omit<FetchLogIpcData, 'logEntries'>> =>
   new Promise(resolve => {

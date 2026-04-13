@@ -7,7 +7,7 @@ import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import type { ButtonProps } from './PlaybackButton.dom.tsx';
 import { PlaybackButton } from './PlaybackButton.dom.tsx';
-import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext.std.js';
+import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext.std.ts';
 import { ThemeType } from '../types/Util.std.ts';
 import { AUDIO_MP3 } from '../types/MIME.std.ts';
 

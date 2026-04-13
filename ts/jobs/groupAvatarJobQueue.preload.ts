@@ -21,7 +21,7 @@ const groupAvatarJobDataSchema = z.object({
 
 export type GroupAvatarJobData = z.infer<typeof groupAvatarJobDataSchema>;
 
-export class GroupAvatarJobQueue extends JobQueue<GroupAvatarJobData> {
+class GroupAvatarJobQueue extends JobQueue<GroupAvatarJobData> {
   protected parseData(data: unknown): GroupAvatarJobData {
     return parseUnknown(groupAvatarJobDataSchema, data);
   }

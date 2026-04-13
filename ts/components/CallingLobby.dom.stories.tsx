@@ -11,7 +11,6 @@ import { AvatarColors } from '../types/Colors.std.ts';
 import type { ConversationType } from '../state/ducks/conversations.preload.ts';
 import type { PropsType } from './CallingLobby.dom.tsx';
 import { CallingLobby as UnwrappedCallingLobby } from './CallingLobby.dom.tsx';
-import { generateAci } from '../types/ServiceId.std.ts';
 import {
   getDefaultConversation,
   getDefaultConversationWithServiceId,
@@ -19,6 +18,7 @@ import {
 import { CallingToastProvider } from './CallingToast.dom.tsx';
 import { CallMode } from '../types/CallDisposition.std.ts';
 import { getDefaultCallLinkConversation } from '../test-helpers/fakeCallLink.std.ts';
+import { generateAci } from '../test-helpers/serviceIdUtils.std.ts';
 
 const { times } = lodash;
 

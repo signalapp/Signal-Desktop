@@ -20,34 +20,6 @@ describe('Settings', () => {
     sandbox.restore();
   });
 
-  describe('isNotificationGroupingSupported', () => {
-    it('returns true on macOS', () => {
-      sandbox.stub(process, 'platform').value('darwin');
-      const OS = getOSFunctions(os.release());
-      assert.isTrue(Settings.isNotificationGroupingSupported(OS));
-    });
-
-    it('returns true on Windows 7', () => {
-      sandbox.stub(process, 'platform').value('win32');
-      sandbox.stub(os, 'release').returns('7.0.0');
-      const OS = getOSFunctions(os.release());
-      assert.isFalse(Settings.isNotificationGroupingSupported(OS));
-    });
-
-    it('returns true on Windows 8', () => {
-      sandbox.stub(process, 'platform').value('win32');
-      sandbox.stub(os, 'release').returns('8.0.0');
-      const OS = getOSFunctions(os.release());
-      assert.isTrue(Settings.isNotificationGroupingSupported(OS));
-    });
-
-    it('returns true on Linux', () => {
-      sandbox.stub(process, 'platform').value('linux');
-      const OS = getOSFunctions(os.release());
-      assert.isTrue(Settings.isNotificationGroupingSupported(OS));
-    });
-  });
-
   describe('isAutoLaunchSupported', () => {
     it('returns true on Windows', () => {
       sandbox.stub(process, 'platform').value('win32');

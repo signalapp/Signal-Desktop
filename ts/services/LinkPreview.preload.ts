@@ -145,7 +145,7 @@ export function removeLinkPreview(conversationId?: string): void {
   window.reduxActions.linkPreviews.removeLinkPreview(conversationId);
 }
 
-export async function addLinkPreview(
+async function addLinkPreview(
   url: string,
   source: LinkPreviewSourceType,
   { conversationId, disableFetch }: AddLinkPreviewOptionsType = {}

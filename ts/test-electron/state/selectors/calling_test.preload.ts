@@ -12,7 +12,6 @@ import {
   GroupCallJoinState,
 } from '../../../types/Calling.std.ts';
 import { CallMode } from '../../../types/CallDisposition.std.ts';
-import { generateAci } from '../../../types/ServiceId.std.ts';
 import {
   getCallsByConversation,
   getCallSelector,
@@ -30,6 +29,7 @@ import {
   FAKE_CALL_LINK,
   FAKE_CALL_LINK_WITH_ADMIN_KEY,
 } from '../../../test-helpers/fakeCallLink.std.ts';
+import { generateAci } from '../../../test-helpers/serviceIdUtils.std.ts';
 
 const OUR_ACI = generateAci();
 const ACI_1 = generateAci();

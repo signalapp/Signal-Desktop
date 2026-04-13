@@ -25,7 +25,7 @@ type EventWrapperPropsType = {
 //   disabled button. This uses native browser events to avoid that.
 //
 // See <https://lecstor.com/react-disabled-button-onmouseleave/>.
-export const TooltipEventWrapper = React.forwardRef<
+const TooltipEventWrapper = React.forwardRef<
   HTMLSpanElement,
   EventWrapperPropsType
 >(function TooltipEvent(

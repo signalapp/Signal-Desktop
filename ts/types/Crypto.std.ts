@@ -22,6 +22,7 @@ export const AES_KEY_LENGTH = 32;
 
 export const MAC_LENGTH = 32;
 
+/** @alias */
 export const ATTACHMENT_MAC_LENGTH = MAC_LENGTH;
 
 export const DIGEST_LENGTH = 32;

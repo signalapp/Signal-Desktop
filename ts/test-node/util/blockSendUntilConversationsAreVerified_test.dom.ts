@@ -5,13 +5,12 @@ import { assert } from 'chai';
 
 import type { RecipientsByConversation } from '../../state/ducks/stories.preload.ts';
 import type { ServiceIdString } from '../../types/ServiceId.std.ts';
-
-import { generateAci } from '../../types/ServiceId.std.ts';
 import { generateStoryDistributionId } from '../../types/StoryDistributionId.std.ts';
 import {
   getAllServiceIds,
   filterServiceIds,
 } from '../../util/blockSendUntilConversationsAreVerified.dom.ts';
+import { generateAci } from '../../test-helpers/serviceIdUtils.std.ts';
 
 describe('both/util/blockSendUntilConversationsAreVerified', () => {
   const SERVICE_ID_1 = generateAci();

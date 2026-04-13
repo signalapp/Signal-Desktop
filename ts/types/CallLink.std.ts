@@ -13,11 +13,6 @@ export enum CallLinkUpdateSyncType {
   Delete = 'Delete',
 }
 
-export type CallLinkUpdateData = Readonly<{
-  rootKey: Uint8Array<ArrayBuffer>;
-  adminKey: Uint8Array<ArrayBuffer> | undefined;
-}>;
-
 /**
  * Names
  */
@@ -25,7 +20,7 @@ export type CallLinkUpdateData = Readonly<{
 export const CallLinkNameMaxByteLength = 120;
 export const CallLinkNameMaxLength = 32;
 
-export const callLinkNameSchema = z.string().refine(input => {
+const callLinkNameSchema = z.string().refine(input => {
   return byteLength(input) <= 120;
 });
 

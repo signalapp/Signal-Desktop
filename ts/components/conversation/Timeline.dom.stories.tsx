@@ -10,7 +10,7 @@ import type { PropsType } from './Timeline.dom.tsx';
 import { Timeline } from './Timeline.dom.tsx';
 import type { TimelineItemType } from './TimelineItem.dom.tsx';
 import { TimelineItem } from './TimelineItem.dom.tsx';
-import { StorybookThemeContext } from '../../../.storybook/StorybookThemeContext.std.js';
+import { StorybookThemeContext } from '../../../.storybook/StorybookThemeContext.std.ts';
 import { ConversationHero } from './ConversationHero.dom.tsx';
 import { getDefaultConversation } from '../../test-helpers/getDefaultConversation.std.ts';
 import { TypingBubble } from './TypingBubble.dom.tsx';

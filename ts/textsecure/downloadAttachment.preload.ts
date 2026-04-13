@@ -66,13 +66,13 @@ const { isNumber } = lodash;
 
 const log = createLogger('downloadAttachment');
 
-export function getCdnKey(attachment: ProcessedAttachment): string {
+function getCdnKey(attachment: ProcessedAttachment): string {
   const cdnKey = attachment.cdnId || attachment.cdnKey;
   strictAssert(cdnKey, 'Attachment was missing cdnId or cdnKey');
   return cdnKey;
 }
 
-export function getBackupMediaOuterEncryptionKeyMaterial(
+function getBackupMediaOuterEncryptionKeyMaterial(
   attachment: BackupableAttachmentType
 ): BackupMediaKeyMaterialType {
   const mediaId = getMediaIdForAttachment(attachment);

@@ -20,7 +20,6 @@ import {
   StoryViewModeType,
 } from '../../../types/Stories.std.ts';
 import type { StoryDistributionIdString } from '../../../types/StoryDistributionId.std.ts';
-import { generateAci, generatePni } from '../../../types/ServiceId.std.ts';
 import { generateStoryDistributionId } from '../../../types/StoryDistributionId.std.ts';
 import {
   actions,
@@ -32,6 +31,10 @@ import { dropNull } from '../../../util/dropNull.std.ts';
 import { MessageModel } from '../../../models/messages.preload.ts';
 import { DataWriter } from '../../../sql/Client.preload.ts';
 import { itemStorage } from '../../../textsecure/Storage.preload.ts';
+import {
+  generateAci,
+  generatePni,
+} from '../../../test-helpers/serviceIdUtils.std.ts';
 
 describe('both/state/ducks/stories', () => {
   const ourAci = generateAci();

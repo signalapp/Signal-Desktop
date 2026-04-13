@@ -138,10 +138,12 @@ const AxoButtonSizes = {
 type AxoButtonVariant = keyof typeof AxoButtonVariants;
 type AxoButtonSize = keyof typeof AxoButtonSizes;
 
+/** @testexport */
 export function _getAllAxoButtonVariants(): ReadonlyArray<AxoButtonVariant> {
   return Object.keys(AxoButtonVariants) as Array<AxoButtonVariant>;
 }
 
+/** @testexport */
 export function _getAllAxoButtonSizes(): ReadonlyArray<AxoButtonSize> {
   return Object.keys(AxoButtonSizes) as Array<AxoButtonSize>;
 }

@@ -11,7 +11,7 @@ import type { App } from '../playwright.node.ts';
 import { Bootstrap } from '../bootstrap.node.ts';
 import { MINUTE } from '../../util/durations/index.std.ts';
 
-export const debug = createDebug('mock:test:megaphone');
+const debug = createDebug('mock:test:megaphone');
 
 describe('megaphone', function (this: Mocha.Suite) {
   let bootstrap: Bootstrap;

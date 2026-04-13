@@ -1,8 +1,6 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { brotliCompress } from 'zlib';
-import { promisify } from 'util';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { visualizer } from 'rollup-plugin-visualizer';
@@ -16,9 +14,6 @@ export default defineConfig({
   },
   worker: {
     format: 'es',
-  },
-  test: {
-    environment: 'happy-dom',
   },
   plugins: [react(), visualizer()],
   server: {

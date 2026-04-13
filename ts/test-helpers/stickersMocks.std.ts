@@ -5,7 +5,7 @@ import lodash from 'lodash';
 import type {
   StickerPackType,
   StickerType,
-} from '../../state/ducks/stickers.preload.ts';
+} from '../state/ducks/stickers.preload.ts';
 
 const { sample } = lodash;
 
@@ -23,28 +23,28 @@ export const sticker2: StickerType = {
   emoji: '',
 };
 
-export const sticker3: StickerType = {
+const sticker3: StickerType = {
   id: 3,
   url: '/fixtures/kitten-3-64-64.jpg',
   packId: 'baz',
   emoji: '',
 };
 
-export const abeSticker: StickerType = {
+const abeSticker: StickerType = {
   id: 4,
   url: '/fixtures/512x515-thumbs-up-lincoln.webp',
   packId: 'abe',
   emoji: '',
 };
 
-export const wideSticker: StickerType = {
+const wideSticker: StickerType = {
   id: 5,
   url: '/fixtures/1000x50-green.jpeg',
   packId: 'wide',
   emoji: '',
 };
 
-export const tallSticker: StickerType = {
+const tallSticker: StickerType = {
   id: 6,
   url: '/fixtures/50x1000-teal.jpeg',
   packId: 'tall',

@@ -227,7 +227,7 @@ const paramSchema = z.string().min(1);
  * // URL { "https://signal.me/#p/+1234567890" }
  * ```
  */
-export const contactByPhoneNumberRoute = _route('contactByPhoneNumber', {
+const contactByPhoneNumberRoute = _route('contactByPhoneNumber', {
   patterns: [
     _pattern('https:', 'signal.me', '{/}?', { hash: 'p/:phoneNumber' }),
     _pattern('sgnl:', 'signal.me', '{/}?', { hash: 'p/:phoneNumber' }),
@@ -367,7 +367,7 @@ export const linkDeviceRoute = _route('linkDevice', {
  * // URL { "signalcaptcha://123" }
  * ```
  */
-export const captchaRoute = _route('captcha', {
+const captchaRoute = _route('captcha', {
   // needs `(.+)` to capture `.` in hostname
   patterns: [_pattern('signalcaptcha:', ':captchaId(.+)', '{/}?', {})],
   schema: z.object({
@@ -794,6 +794,7 @@ export function parseSignalRoute(
  * toSignalRouteUrl(new URL("https://example.com"))
  * // null
  * ```
+ * @testexport
  */
 export function toSignalRouteUrl(input: URL | string): URL | null {
   const normalizedUrl = _normalizeUrl(input);
@@ -813,6 +814,7 @@ export function toSignalRouteUrl(input: URL | string): URL | null {
  * toSignalRouteAppUrl(new URL("https://example.com"))
  * // null
  * ```
+ * @testexport
  */
 export function toSignalRouteAppUrl(input: URL | string): URL | null {
   const normalizedUrl = _normalizeUrl(input);
@@ -837,6 +839,7 @@ export function toSignalRouteAppUrl(input: URL | string): URL | null {
  * toSignalRouteWebUrl(new URL("https://example.com"))
  * // null
  * ```
+ * @testexport
  */
 export function toSignalRouteWebUrl(input: URL | string): URL | null {
   const normalizedUrl = _normalizeUrl(input);

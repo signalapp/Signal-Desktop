@@ -100,7 +100,7 @@ export type DonationsActionType = ReadonlyDeep<
 
 // Action Creators
 
-export function addReceipt(receipt: DonationReceipt): AddReceiptAction {
+function addReceipt(receipt: DonationReceipt): AddReceiptAction {
   return {
     type: ADD_RECEIPT,
     payload: { receipt },

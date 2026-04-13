@@ -4,7 +4,6 @@
 import { assert } from 'chai';
 import { v4 as generateGuid } from 'uuid';
 import { DataWriter } from '../../sql/Client.preload.ts';
-import { generateAci, generatePni } from '../../types/ServiceId.std.ts';
 import { isMessageAMatchForReaction } from '../../messageModifiers/Reactions.preload.ts';
 import { generateMessageId } from '../../util/generateMessageId.node.ts';
 import { incrementMessageCounter } from '../../util/incrementMessageCounter.preload.ts';
@@ -12,6 +11,10 @@ import type { ConversationModel } from '../../models/conversations.preload.ts';
 import type { MessageAttributesType } from '../../model-types.d.ts';
 import { SendStatus } from '../../messages/MessageSendState.std.ts';
 import { itemStorage } from '../../textsecure/Storage.preload.ts';
+import {
+  generateAci,
+  generatePni,
+} from '../../test-helpers/serviceIdUtils.std.ts';
 
 describe('isMessageAMatchForReaction', () => {
   let contactA: ConversationModel;

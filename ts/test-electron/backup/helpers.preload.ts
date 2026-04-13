@@ -23,12 +23,15 @@ import type {
 
 import { backupsService } from '../../services/backups/index.preload.ts';
 import { isUnsupportedMessage } from '../../state/selectors/message.preload.ts';
-import { generateAci, generatePni } from '../../types/ServiceId.std.ts';
 import { DataReader, DataWriter } from '../../sql/Client.preload.ts';
 import { getRandomBytes } from '../../Crypto.node.ts';
 import * as Bytes from '../../Bytes.std.ts';
 import { postSaveUpdates } from '../../util/cleanup.preload.ts';
 import { itemStorage } from '../../textsecure/Storage.preload.ts';
+import {
+  generateAci,
+  generatePni,
+} from '../../test-helpers/serviceIdUtils.std.ts';
 
 const { omit, sortBy } = lodash;
 

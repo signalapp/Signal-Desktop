@@ -9,7 +9,7 @@ import type { Props } from './Image.dom.tsx';
 import { CurveType, Image } from './Image.dom.tsx';
 import { IMAGE_PNG } from '../../types/MIME.std.ts';
 import type { ThemeType } from '../../types/Util.std.ts';
-import { StorybookThemeContext } from '../../../.storybook/StorybookThemeContext.std.js';
+import { StorybookThemeContext } from '../../../.storybook/StorybookThemeContext.std.ts';
 
 import { fakeAttachment } from '../../test-helpers/fakeAttachment.std.ts';
 

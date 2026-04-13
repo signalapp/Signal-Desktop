@@ -115,11 +115,5 @@ export const attachmentBackupJobSchema = z
   }
 >;
 
-export const thumbnailBackupJobRecordSchema = z.object({
-  mediaName: thumbnailMediaNameSchema,
-  type: z.literal('standard'),
-  json: thumbnailBackupJobDataSchema.omit({ type: true }),
-});
-
 export type AttachmentBackupJobType = CoreAttachmentBackupJobType &
   JobManagerJobType;

@@ -146,7 +146,7 @@ type HeaderRowType = {
   getHeaderText: (i18n: LocalizerType) => string;
 };
 
-// Exported for tests across multiple files
+/** @testexport */
 export function _testHeaderText(row: Row | void): string | null {
   if (row?.type === RowType.Header) {
     return row.getHeaderText(((key: string) => key) as LocalizerType);

@@ -127,7 +127,7 @@ export function getInitialState(
   };
 }
 
-export function generateConversationsState(): ConversationsStateType {
+function generateConversationsState(): ConversationsStateType {
   const convoCollection = window.ConversationController.getAll();
   const formattedConversations = convoCollection.map(conversation =>
     conversation.format()
@@ -188,7 +188,7 @@ function getEmptyState(): StateType {
   };
 }
 
-export function generateStoryDistributionListState(
+function generateStoryDistributionListState(
   storyDistributionLists: ReadonlyArray<StoryDistributionListDataType>
 ): StoryDistributionListStateType {
   return {
@@ -197,7 +197,7 @@ export function generateStoryDistributionListState(
   };
 }
 
-export function generateUserState({
+function generateUserState({
   mainWindowStats,
   menuOptions,
   theme,

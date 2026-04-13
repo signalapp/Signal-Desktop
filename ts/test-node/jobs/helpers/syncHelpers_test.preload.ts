@@ -4,7 +4,7 @@
 import { assert } from 'chai';
 
 import { parseRawSyncDataArray } from '../../../jobs/helpers/syncHelpers.preload.ts';
-import { generateAci } from '../../../types/ServiceId.std.ts';
+import { generateAci } from '../../../test-helpers/serviceIdUtils.std.ts';
 
 const SERVICE_ID_1 = generateAci();
 const SERVICE_ID_2 = generateAci();

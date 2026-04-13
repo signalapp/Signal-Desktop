@@ -36,7 +36,7 @@ export type FunEmojiLocalizationContextType = Readonly<{
   emojiLocalizerIndex: FunEmojiLocalizerIndex;
 }>;
 
-export const FunEmojiLocalizationContext =
+const FunEmojiLocalizationContext =
   createContext<FunEmojiLocalizationContextType | null>(null);
 
 export function useFunEmojiLocalization(): FunEmojiLocalizationContextType {

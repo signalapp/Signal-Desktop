@@ -73,9 +73,7 @@ export function hydrateMessages(
   return hydrateMessagesWithAttachments(db, messagesWithColumnsHydrated);
 }
 
-export function hydrateMessageTableColumns(
-  row: MessageTypeUnhydrated
-): MessageType {
+function hydrateMessageTableColumns(row: MessageTypeUnhydrated): MessageType {
   const {
     json,
     id,

@@ -23,7 +23,7 @@ export type ViewOnceOpenJobData = {
   viewOnceOpens: Array<SyncType>;
 };
 
-export class ViewOnceOpenJobQueue extends JobQueue<ViewOnceOpenJobData> {
+class ViewOnceOpenJobQueue extends JobQueue<ViewOnceOpenJobData> {
   protected parseData(data: unknown): ViewOnceOpenJobData {
     strictAssert(isRecord(data), 'data is not an object');
     return { viewOnceOpens: parseRawSyncDataArray(data.viewOnceOpens) };

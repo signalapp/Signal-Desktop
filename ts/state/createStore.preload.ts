@@ -47,7 +47,7 @@ const actionStats: ActionStats = {
   timestamp: Date.now(),
   names: [],
 };
-export const actionRateLogger: Middleware = () => next => _action => {
+const actionRateLogger: Middleware = () => next => _action => {
   // oxlint-disable-next-line typescript/no-explicit-any
   const action = _action as any as UnknownAction;
   const name = action.type;

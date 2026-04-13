@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import memoizee from 'memoizee';
-import { makeEnumParser } from '../util/enum.std.ts';
 
 /**
  * `SendStatus` represents the send status of a message to a single recipient. For
@@ -35,11 +34,6 @@ export enum SendStatus {
   Viewed = 'Viewed',
   Skipped = 'Skipped',
 }
-
-export const parseMessageSendStatus = makeEnumParser(
-  SendStatus,
-  SendStatus.Pending
-);
 
 export const UNDELIVERED_SEND_STATUSES = [
   SendStatus.Pending,
@@ -79,8 +73,6 @@ export const isSent = (status: SendStatus): boolean =>
   STATUS_NUMBERS[status] >= STATUS_NUMBERS[SendStatus.Sent];
 export const isFailed = (status: SendStatus): boolean =>
   status === SendStatus.Failed;
-export const isSkipped = (status: SendStatus): boolean =>
-  status === SendStatus.Skipped;
 
 /**
  * `SendState` combines `SendStatus` and a timestamp. You can use it to show things to the

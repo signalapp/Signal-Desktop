@@ -7,7 +7,7 @@ import type { MediaItemType } from '../../types/MediaItem.std.ts';
 import type { StateType } from '../reducer.preload.ts';
 import type { LightboxStateType } from '../ducks/lightbox.preload.ts';
 
-export const getLightboxState = (state: StateType): LightboxStateType =>
+const getLightboxState = (state: StateType): LightboxStateType =>
   state.lightbox;
 
 export const shouldShowLightbox = createSelector(

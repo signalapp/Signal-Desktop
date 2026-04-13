@@ -12,8 +12,6 @@ import {
 import { getOwn } from '../../util/getOwn.std.ts';
 import { missingCaseError } from '../../util/missingCaseError.std.ts';
 
-export const version = 1220;
-
 const identityKeyMapSchema = z.record(
   z.string(),
   z.object({

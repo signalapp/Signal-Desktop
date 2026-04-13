@@ -76,7 +76,6 @@ const coreDataSchema = z.object({
   // The last time we transitioned into a new state.
   timestamp: z.number(),
 });
-export type CoreData = z.infer<typeof coreDataSchema>;
 
 // Payment type: CARD
 export type CardDetail = {
@@ -104,7 +103,6 @@ const stripeDataSchema = z.object({
   // Used for any validation that takes the user somewhere else
   returnToken: z.string(),
 });
-export type StripeData = z.infer<typeof stripeDataSchema>;
 
 // We need these for durability. if we keep these around throughout the process, retries
 // later in the process won't give us weird errors.

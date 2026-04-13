@@ -12,9 +12,12 @@ import type {
   PniString,
   ServiceIdString,
 } from '../types/ServiceId.std.ts';
-import { generateAci, generatePni } from '../types/ServiceId.std.ts';
 import type { SafeCombineConversationsParams } from '../ConversationController.preload.ts';
 import { signalProtocolStore } from '../SignalProtocolStore.preload.ts';
+import {
+  generateAci,
+  generatePni,
+} from '../test-helpers/serviceIdUtils.std.ts';
 
 const ACI_1 = generateAci();
 const ACI_2 = generateAci();

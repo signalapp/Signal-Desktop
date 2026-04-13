@@ -3,7 +3,7 @@
 
 import { useMemo, useSyncExternalStore } from 'react';
 
-export function useMediaQuery(query: string): boolean {
+function useMediaQuery(query: string): boolean {
   const api = useMemo(() => {
     const mediaQuery = window.matchMedia(query);
 

@@ -13,8 +13,8 @@ import { strictAssert } from '../util/assert.std.ts';
 import { MINUTE } from '../util/durations/index.std.ts';
 import { isOlderThan } from '../util/timestamp.std.ts';
 import { sleep } from '../util/sleep.std.ts';
-import { stats } from '../util/benchmark/stats.std.ts';
-import type { StatsType } from '../util/benchmark/stats.std.ts';
+import { stats } from '../test-helpers/benchmarkStats.std.ts';
+import type { StatsType } from '../test-helpers/benchmarkStats.std.ts';
 import type { MessageAttributesType } from '../model-types.d.ts';
 import { createLogger } from '../logging/log.std.ts';
 import { postSaveUpdates } from '../util/cleanup.preload.ts';
@@ -35,7 +35,7 @@ type PopulateConversationArgsType = {
   ) => MessageAttributesType;
 };
 
-export async function populateConversationWithMessages({
+async function populateConversationWithMessages({
   conversationId,
   messageCount,
   unreadCount = 0,

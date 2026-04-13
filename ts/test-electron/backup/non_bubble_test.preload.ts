@@ -10,7 +10,6 @@ import * as Bytes from '../../Bytes.std.ts';
 import { SignalService as Proto, Backups } from '../../protobuf/index.std.ts';
 import { DataWriter } from '../../sql/Client.preload.ts';
 import { APPLICATION_OCTET_STREAM } from '../../types/MIME.std.ts';
-import { generateAci } from '../../types/ServiceId.std.ts';
 import { PaymentEventKind } from '../../types/Payment.std.ts';
 import { ContactFormType } from '../../types/EmbeddedContact.std.ts';
 import { MessageRequestResponseEvent } from '../../types/MessageRequestResponseEvent.std.ts';
@@ -25,6 +24,7 @@ import {
 } from './helpers.preload.ts';
 import { loadAllAndReinitializeRedux } from '../../services/allLoaders.preload.ts';
 import { itemStorage } from '../../textsecure/Storage.preload.ts';
+import { generateAci } from '../../test-helpers/serviceIdUtils.std.ts';
 
 const CONTACT_A = generateAci();
 const GROUP_ID = Bytes.toBase64(getRandomBytes(32));

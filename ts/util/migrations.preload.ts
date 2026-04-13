@@ -30,7 +30,6 @@ import {
   loadStickerData as doLoadStickerData,
   processNewAttachment as doProcessNewAttachment,
   processNewSticker as doProcessNewSticker,
-  createAttachmentLoader,
   upgradeSchema,
 } from '../types/Message2.preload.ts';
 import type {
@@ -138,7 +137,6 @@ export const writeNewAttachmentData =
   createEncryptedWriterForNew(ATTACHMENTS_PATH);
 export const doesAttachmentExist = createDoesExist(ATTACHMENTS_PATH);
 
-export const getAbsoluteStickerPath = createAbsolutePathGetter(STICKERS_PATH);
 export const writeNewStickerData = createEncryptedWriterForNew(STICKERS_PATH);
 export const deleteSticker = createDeleter(STICKERS_PATH);
 export const readStickerData = createEncryptedReader(STICKERS_PATH);
@@ -175,11 +173,8 @@ export const getAbsoluteDownloadsPath =
 export const deleteDownloadFile = createDeleter(DOWNLOADS_PATH);
 
 export const readAvatarData = createEncryptedReader(AVATARS_PATH);
-export const getAbsoluteAvatarPath = createAbsolutePathGetter(AVATARS_PATH);
 export const writeNewAvatarData = createEncryptedWriterForNew(AVATARS_PATH);
 export const deleteAvatar = createDeleter(AVATARS_PATH);
-
-export const loadMessage = createAttachmentLoader(loadAttachmentData);
 
 export const processNewAttachment = (
   attachment: AttachmentType,

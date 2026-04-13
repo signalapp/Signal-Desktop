@@ -14,7 +14,6 @@ import {
   CallType,
   DirectCallStatus,
 } from '../../types/CallDisposition.std.ts';
-import { generateAci } from '../../types/ServiceId.std.ts';
 import type { ServiceIdString } from '../../types/ServiceId.std.ts';
 import type {
   CallHistoryDetails,
@@ -27,6 +26,7 @@ import {
   FAKE_CALL_LINK,
   FAKE_CALL_LINK_WITH_ADMIN_KEY,
 } from '../../test-helpers/fakeCallLink.std.ts';
+import { generateAci } from '../../test-helpers/serviceIdUtils.std.ts';
 
 const { getCallHistoryGroups, getCallHistoryGroupsCount } = DataReader;
 const { removeAll, insertCallLink, saveCallHistory, saveConversation } =

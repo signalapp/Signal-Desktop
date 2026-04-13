@@ -43,7 +43,7 @@ type ServerType = Readonly<{
   isOnline: typeof isOnline;
 }>;
 
-export class ReportSpamJobQueue extends JobQueue<ReportSpamJobData> {
+class ReportSpamJobQueue extends JobQueue<ReportSpamJobData> {
   #server?: ServerType;
 
   public initialize({ server }: { server: ServerType }): void {

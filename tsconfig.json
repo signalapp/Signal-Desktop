@@ -10,7 +10,8 @@
     "test/test.mjs",
     ".babelrc.mjs",
     ".prettierrc.mjs",
-    ".stylelintrc.mjs"
+    ".stylelintrc.mjs",
+    "knip.js"
   ],
   "compilerOptions": {
     /*
@@ -86,7 +87,7 @@
     /* Specify multiple folders that act like './node_modules/@types'. */
     // "typeRoots": [],
     /* Specify type package names to be included without being referenced in a source file. */
-    // "types": [],
+    "types": ["@types/dom-mediacapture-transform"],
     /* Allow accessing UMD globals from modules. */
     // "allowUmdGlobalAccess": true,
     /* List of file name suffixes to search when resolving a module. */

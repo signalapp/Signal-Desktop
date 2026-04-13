@@ -10,10 +10,10 @@ import type { PropsType } from './CallingAdhocCallInfo.dom.tsx';
 import { CallingAdhocCallInfo } from './CallingAdhocCallInfo.dom.tsx';
 import { AvatarColors } from '../types/Colors.std.ts';
 import type { GroupCallRemoteParticipantType } from '../types/Calling.std.ts';
-import { generateAci } from '../types/ServiceId.std.ts';
 import { getDefaultConversation } from '../test-helpers/getDefaultConversation.std.ts';
 import type { CallLinkType } from '../types/CallLink.std.ts';
 import { CallLinkRestrictions } from '../types/CallLink.std.ts';
+import { generateAci } from '../test-helpers/serviceIdUtils.std.ts';
 
 const { sample } = lodash;
 

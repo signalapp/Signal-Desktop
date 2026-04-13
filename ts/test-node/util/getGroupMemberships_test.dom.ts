@@ -3,12 +3,12 @@
 
 import { assert } from 'chai';
 import type { ConversationType } from '../../state/ducks/conversations.preload.ts';
-import { generateAci } from '../../types/ServiceId.std.ts';
 import { normalizeAci } from '../../util/normalizeAci.std.ts';
 import type { ServiceIdString } from '../../types/ServiceId.std.ts';
 import { getDefaultConversationWithServiceId } from '../../test-helpers/getDefaultConversation.std.ts';
 
 import { getGroupMemberships } from '../../util/getGroupMemberships.dom.ts';
+import { generateAci } from '../../test-helpers/serviceIdUtils.std.ts';
 
 describe('getGroupMemberships', () => {
   const normalConversation1 = getDefaultConversationWithServiceId();

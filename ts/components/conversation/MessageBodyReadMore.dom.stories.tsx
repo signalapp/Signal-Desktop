@@ -8,8 +8,8 @@ import type { Props } from './MessageBodyReadMore.dom.tsx';
 import { MessageBodyReadMore } from './MessageBodyReadMore.dom.tsx';
 import type { HydratedBodyRangesType } from '../../types/BodyRange.std.ts';
 import { BodyRange } from '../../types/BodyRange.std.ts';
-import { generateAci } from '../../types/ServiceId.std.ts';
 import { RenderLocation } from './MessageTextRenderer.dom.tsx';
+import { generateAci } from '../../test-helpers/serviceIdUtils.std.ts';
 
 const { i18n } = window.SignalContext;
 

@@ -544,7 +544,7 @@ export function processBodyRangesForSearchResult({
   };
 }
 
-export const SPOILER_REPLACEMENT = '■■■■';
+const SPOILER_REPLACEMENT = '■■■■';
 
 /**
  * Replace text in a string at a given range, returning the new string. The

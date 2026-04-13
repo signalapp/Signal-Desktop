@@ -11,16 +11,16 @@ import * as durations from '../util/durations/index.std.ts';
 import { createHTTPSAgent } from '../util/createHTTPSAgent.node.ts';
 import { createProxyAgent } from '../util/createProxyAgent.node.ts';
 
-export const GOT_CONNECT_TIMEOUT = durations.MINUTE;
-export const GOT_LOOKUP_TIMEOUT = durations.MINUTE;
-export const GOT_SOCKET_TIMEOUT = durations.MINUTE;
+const GOT_CONNECT_TIMEOUT = durations.MINUTE;
+const GOT_LOOKUP_TIMEOUT = durations.MINUTE;
+const GOT_SOCKET_TIMEOUT = durations.MINUTE;
 const GOT_RETRY_LIMIT = 3;
 
-export function getProxyUrl(): string | undefined {
+function getProxyUrl(): string | undefined {
   return process.env.HTTPS_PROXY || process.env.https_proxy;
 }
 
-export function getCertificateAuthority(): string {
+function getCertificateAuthority(): string {
   return config.get('certificateAuthority');
 }
 

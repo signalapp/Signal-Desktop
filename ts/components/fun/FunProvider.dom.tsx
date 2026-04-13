@@ -69,7 +69,7 @@ export type FunContextProps = FunContextSmartProps &
     onChangeShouldAutoFocus: (shouldAutoFocus: boolean) => void;
   }>;
 
-export const FunContext = createContext<FunContextProps | null>(null);
+const FunContext = createContext<FunContextProps | null>(null);
 
 export function useFunContext(): FunContextProps {
   const fun = useContext(FunContext);

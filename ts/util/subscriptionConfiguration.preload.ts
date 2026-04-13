@@ -37,7 +37,7 @@ const getCachedSubscriptionConfigurationDedup = new TaskDeduplicator(
   () => _getCachedSubscriptionConfiguration()
 );
 
-export async function _getCachedSubscriptionConfiguration(): Promise<SubscriptionConfigurationResultType> {
+async function _getCachedSubscriptionConfiguration(): Promise<SubscriptionConfigurationResultType> {
   if (isCacheRefreshNeeded()) {
     cachedSubscriptionConfig = undefined;
   }
@@ -56,11 +56,7 @@ export async function _getCachedSubscriptionConfiguration(): Promise<Subscriptio
   return response;
 }
 
-export function getCachedSubscriptionConfigExpiresAt(): number | undefined {
-  return cachedSubscriptionConfigExpiresAt;
-}
-
-export async function getCachedDonationHumanAmounts(): Promise<OneTimeDonationHumanAmounts> {
+async function getCachedDonationHumanAmounts(): Promise<OneTimeDonationHumanAmounts> {
   const { currencies } = await getCachedSubscriptionConfiguration();
   // pickBy returns a Partial so we need to cast it
   return pickBy(

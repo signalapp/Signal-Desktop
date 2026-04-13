@@ -13,14 +13,14 @@ import type {
   OuterSignedPrekeyType,
   PreKeyType,
 } from '../../textsecure/Types.d.ts';
-import {
-  ServiceIdKind,
-  generateAci,
-  generatePni,
-} from '../../types/ServiceId.std.ts';
+import { ServiceIdKind } from '../../types/ServiceId.std.ts';
 import { DAY } from '../../util/durations/index.std.ts';
 import { signalProtocolStore } from '../../SignalProtocolStore.preload.ts';
 import { itemStorage } from '../../textsecure/Storage.preload.ts';
+import {
+  generateAci,
+  generatePni,
+} from '../../test-helpers/serviceIdUtils.std.ts';
 
 const { range } = lodash;
 

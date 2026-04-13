@@ -5,11 +5,11 @@ import { assert } from 'chai';
 import { Proto } from '@signalapp/mock-server';
 
 import * as durations from '../../util/durations/index.std.ts';
-import { generateAci } from '../../types/ServiceId.std.ts';
 import { toAciObject } from '../../util/ServiceId.node.ts';
 import { MAX_READ_KEYS } from '../../services/storageConstants.std.ts';
 import type { App, Bootstrap } from './fixtures.node.ts';
 import { initStorage, debug } from './fixtures.node.ts';
+import { generateAci } from '../../test-helpers/serviceIdUtils.std.ts';
 
 const IdentifierType = Proto.ManifestRecord.Identifier.Type;
 

@@ -1272,7 +1272,7 @@ type GroupStorySettingsModalProps = {
   onRemoveGroup(group: ConversationType): void;
 };
 
-export function GroupStorySettingsModal({
+function GroupStorySettingsModal({
   i18n,
   group,
   onClose,

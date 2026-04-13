@@ -8,7 +8,7 @@ import { action } from '@storybook/addon-actions';
 import type { Props } from './ConversationHero.dom.tsx';
 import { ConversationHero } from './ConversationHero.dom.tsx';
 import { HasStories } from '../../types/Stories.std.ts';
-import { StorybookThemeContext } from '../../../.storybook/StorybookThemeContext.std.js';
+import { StorybookThemeContext } from '../../../.storybook/StorybookThemeContext.std.ts';
 import { getDefaultConversation } from '../../test-helpers/getDefaultConversation.std.ts';
 import { ThemeType } from '../../types/Util.std.ts';
 import type { GroupV2Membership } from './conversation-details/ConversationDetailsMembershipList.dom.tsx';

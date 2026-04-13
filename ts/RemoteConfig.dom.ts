@@ -351,6 +351,7 @@ export function getValue(
 }
 
 // See isRemoteConfigBucketEnabled in selectors/items.ts
+/** @knipignore Keep around for future features that might need it */
 export function isBucketValueEnabled(
   name: ConfigKeyType,
   e164: string | undefined,

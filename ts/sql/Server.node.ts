@@ -1032,6 +1032,7 @@ export function initialize({
   }
 }
 
+/** @testexport */
 export function setupTests(db: WritableDB): void {
   const silentLogger = {
     ...consoleLogger,
@@ -2362,7 +2363,7 @@ function hasUserInitiatedMessages(
   return exists !== 0;
 }
 
-export function getMostRecentAddressableMessages(
+function getMostRecentAddressableMessages(
   db: ReadableDB,
   conversationId: string,
   limit = 5
@@ -2385,7 +2386,7 @@ export function getMostRecentAddressableMessages(
   })();
 }
 
-export function getMostRecentAddressableNondisappearingMessages(
+function getMostRecentAddressableNondisappearingMessages(
   db: ReadableDB,
   conversationId: string,
   limit = 5
@@ -3382,10 +3383,7 @@ function removeMessages(db: WritableDB, ids: ReadonlyArray<string>): void {
   );
 }
 
-export function getMessageById(
-  db: ReadableDB,
-  id: string
-): MessageType | undefined {
+function getMessageById(db: ReadableDB, id: string): MessageType | undefined {
   return db.transaction(() => {
     const row = db
       .prepare(

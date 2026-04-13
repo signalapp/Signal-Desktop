@@ -7,13 +7,6 @@ import type { OSType } from '../util/os/shared.std.ts';
 import { SystemTraySetting } from './SystemTraySetting.std.ts';
 import { isNotUpdatable, isProduction } from '../util/version.std.ts';
 
-const MIN_WINDOWS_VERSION = '8.0.0';
-
-// Using `Notification::tag` has a bug on Windows 7:
-// https://github.com/electron/electron/issues/11189
-export const isNotificationGroupingSupported = (OS: OSType): boolean =>
-  !OS.isWindows() || OS.isWindows(MIN_WINDOWS_VERSION);
-
 // Login item settings are only supported on macOS and Windows, according to [Electron's
 //   docs][0].
 // [0]: https://www.electronjs.org/docs/api/app#appsetloginitemsettingssettings-macos-windows

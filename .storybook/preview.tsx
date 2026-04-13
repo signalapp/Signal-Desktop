@@ -16,7 +16,7 @@ import type { Store } from 'redux';
 import { combineReducers, createStore } from 'redux';
 import { Globals } from '@react-spring/web';
 
-import { StorybookThemeContext } from './StorybookThemeContext.std.js';
+import { StorybookThemeContext } from './StorybookThemeContext.std.ts';
 import { SystemThemeType, ThemeType } from '../ts/types/Util.std.ts';
 import { setupI18n } from '../ts/util/setupI18n.dom.tsx';
 import { HourCyclePreference } from '../ts/types/I18N.std.ts';
@@ -31,7 +31,7 @@ import { parseUnknown } from '../ts/util/schemas.std.ts';
 import { LocaleEmojiListSchema } from '../ts/types/emoji.std.ts';
 import { FunProvider } from '../ts/components/fun/FunProvider.dom.tsx';
 import { EmojiSkinTone } from '../ts/components/fun/data/emojis.std.ts';
-import { MOCK_GIFS_PAGINATED_ONE_PAGE } from '../ts/components/fun/mocks.dom.tsx';
+import { MOCK_GIFS_PAGINATED_ONE_PAGE } from '../ts/test-helpers/funPickerMocks.dom.tsx';
 import { NavTab } from '../ts/types/Nav.std.ts';
 
 import type { FunEmojiSelection } from '../ts/components/fun/panels/FunPanelEmojis.dom.tsx';

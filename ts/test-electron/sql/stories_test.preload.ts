@@ -5,10 +5,9 @@ import { assert } from 'chai';
 import { v4 as generateUuid } from 'uuid';
 
 import { DataReader, DataWriter } from '../../sql/Client.preload.ts';
-import { generateAci } from '../../types/ServiceId.std.ts';
-
 import type { MessageAttributesType } from '../../model-types.d.ts';
 import { postSaveUpdates } from '../../util/cleanup.preload.ts';
+import { generateAci } from '../../test-helpers/serviceIdUtils.std.ts';
 
 const { _getAllMessages, getAllStories } = DataReader;
 const { removeAll, saveMessages } = DataWriter;

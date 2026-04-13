@@ -161,14 +161,14 @@ import { badgeImageFileDownloader } from './badges/badgeImageFileDownloader.prel
 import * as Deletes from './messageModifiers/Deletes.preload.ts';
 import * as Edits from './messageModifiers/Edits.preload.ts';
 import * as MessageReceipts from './messageModifiers/MessageReceipts.preload.ts';
-import * as MessageRequests from './messageModifiers/MessageRequests.preload.ts';
+import * as MessageRequests from './messageModifiers/MessageRequests.dom.ts';
 import * as PinnedMessages from './messageModifiers/PinnedMessages.preload.ts';
 import * as Polls from './messageModifiers/Polls.preload.ts';
 import * as Reactions from './messageModifiers/Reactions.preload.ts';
 import * as ViewOnceOpenSyncs from './messageModifiers/ViewOnceOpenSyncs.preload.ts';
 import type { DeleteAttributesType } from './messageModifiers/Deletes.preload.ts';
 import type { EditAttributesType } from './messageModifiers/Edits.preload.ts';
-import type { MessageRequestAttributesType } from './messageModifiers/MessageRequests.preload.ts';
+import type { MessageRequestAttributesType } from './messageModifiers/MessageRequests.dom.ts';
 import type {
   PollVoteAttributesType,
   PollTerminateAttributesType,
@@ -315,7 +315,7 @@ export async function cleanupSessionResets(): Promise<void> {
   await itemStorage.put('sessionResets', sessionResets);
 }
 
-export async function startApp(): Promise<void> {
+async function startApp(): Promise<void> {
   if (window.initialTheme === ThemeType.light) {
     document.body.classList.add('light-theme');
   }

@@ -981,15 +981,15 @@ export function validatePath(basePath: string, targetPath: string): void {
 
 // Helper functions
 
-export function getUpdateCheckUrl(): string {
+function getUpdateCheckUrl(): string {
   return `${getUpdatesBase()}/${getUpdatesFileName()}`;
 }
 
-export function getUpdatesBase(): string {
+function getUpdatesBase(): string {
   return config.get('updatesUrl');
 }
 
-export function getUpdatesFileName(): string {
+function getUpdatesFileName(): string {
   const prefix = getChannel();
 
   if (process.platform === 'darwin') {

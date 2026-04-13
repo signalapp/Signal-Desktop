@@ -103,7 +103,7 @@ export function getOnDecryptionError(getDecryptionErrorQueue: () => PQueue) {
   };
 }
 
-export function getRetryKey({
+function getRetryKey({
   senderAci,
   senderDevice,
   timestamp,
@@ -116,18 +116,14 @@ export function getRetryKey({
 }
 
 const registeredErrors = new Set<RetryKeyType>();
-export function registerError(key: RetryKeyType): void {
+function registerError(key: RetryKeyType): void {
   registeredErrors.add(key);
 }
-export function isErrorRegistered(key: RetryKeyType): boolean {
+function isErrorRegistered(key: RetryKeyType): boolean {
   return registeredErrors.has(key);
 }
-export function unregisterError(key: RetryKeyType): void {
+function unregisterError(key: RetryKeyType): void {
   registeredErrors.delete(key);
-}
-
-export function _getRetryRecord(): Map<string, number> {
-  return retryRecord;
 }
 
 export async function onRetryRequest(event: RetryRequestEvent): Promise<void> {
@@ -300,7 +296,7 @@ export function onInvalidPlaintextMessage({
   maybeShowDecryptionToast(logId, name, senderDevice);
 }
 
-export async function handleDecryptionError(
+async function handleDecryptionError(
   event: DecryptionErrorEvent
 ): Promise<void> {
   const { confirm, decryptionError } = event;

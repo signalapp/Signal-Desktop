@@ -69,7 +69,7 @@ type State = Readonly<
     }
 >;
 
-export const liveCapturers = new Set<DesktopCapturer>();
+const liveCapturers = new Set<DesktopCapturer>();
 
 export type IpcResponseType = Readonly<{
   id: string;

@@ -3,98 +3,11 @@
 
 import type { MessageAttributesType } from '../model-types.d.ts';
 import { strictAssert } from '../util/assert.std.ts';
-import type { DurationInSeconds } from '../util/durations/index.std.ts';
-import type { AttachmentType } from './Attachment.std.ts';
-import type { EmbeddedContactType } from './EmbeddedContact.std.ts';
 import type { ErrorIfOverlapping, ExactKeys } from './Util.std.ts';
 
 export function getMentionsRegex(): RegExp {
   return /\uFFFC/g;
 }
-
-export type Message = (
-  | VerifiedChangeMessage
-  | ProfileChangeNotificationMessage
-) & { deletedForEveryone?: boolean };
-
-export type IncomingMessage = Readonly<
-  {
-    type: 'incoming';
-    // Required
-    attachments: Array<AttachmentType>;
-    id: string;
-    received_at: number;
-
-    // Optional
-    body?: string;
-    decrypted_at?: number;
-    errors?: Array<Error>;
-    expireTimer?: DurationInSeconds;
-    messageTimer?: number; // deprecated
-    isViewOnce?: number;
-    flags?: number;
-    source?: string;
-    sourceDevice?: number;
-  } & SharedMessageProperties &
-    MessageSchemaVersion6 &
-    ExpirationTimerUpdate
->;
-
-export type OutgoingMessage = Readonly<
-  {
-    type: 'outgoing';
-
-    // Required
-    attachments: Array<AttachmentType>;
-    expirationStartTimestamp: number;
-    id: string;
-    received_at: number;
-
-    // Optional
-    body?: string;
-    expireTimer?: DurationInSeconds;
-    messageTimer?: number; // deprecated
-    isViewOnce?: number;
-    synced: boolean;
-  } & SharedMessageProperties &
-    ExpirationTimerUpdate
->;
-
-export type VerifiedChangeMessage = Readonly<
-  {
-    type: 'verified-change';
-  } & SharedMessageProperties &
-    ExpirationTimerUpdate
->;
-
-export type ProfileChangeNotificationMessage = Readonly<
-  {
-    type: 'profile-change';
-  } & SharedMessageProperties &
-    ExpirationTimerUpdate
->;
-
-export type SharedMessageProperties = Readonly<{
-  conversationId: string;
-  sent_at: number;
-  timestamp: number;
-}>;
-
-export type ExpirationTimerUpdate = Partial<
-  Readonly<{
-    expirationTimerUpdate: Readonly<{
-      expireTimer: DurationInSeconds;
-      fromSync: boolean;
-      source: string; // PhoneNumber
-    }>;
-  }>
->;
-
-export type MessageSchemaVersion6 = Partial<
-  Readonly<{
-    contact: Array<EmbeddedContactType>;
-  }>
->;
 
 // NB: see `eraseMessageContents` for all scenarios in which message content can be erased
 export const messageAttrsToPreserveAfterErase = [

@@ -11,9 +11,6 @@ export const pngUrl =
 // 1000x50
 export const landscapeGreenUrl = '/fixtures/1000x50-green.jpeg';
 
-// 200x50
-export const landscapePurpleUrl = '/fixtures/200x50-purple.png';
-
 // 50x1000
 export const portraitTealUrl = '/fixtures/50x1000-teal.jpeg';
 

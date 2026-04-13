@@ -7,9 +7,9 @@ import { MessageModel } from '../../models/messages.preload.ts';
 import { strictAssert } from '../../util/assert.std.ts';
 
 import { MessageCache } from '../../services/MessageCache.preload.ts';
-import { generateAci } from '../../types/ServiceId.std.ts';
 import { DataWriter } from '../../sql/Client.preload.ts';
 import { itemStorage } from '../../textsecure/Storage.preload.ts';
+import { generateAci } from '../../test-helpers/serviceIdUtils.std.ts';
 
 describe('MessageCache', () => {
   beforeEach(async () => {

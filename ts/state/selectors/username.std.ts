@@ -16,7 +16,7 @@ import type {
   UsernameReservationError,
 } from '../ducks/usernameEnums.std.ts';
 
-export const getUsernameState = (state: StateType): UsernameStateType =>
+const getUsernameState = (state: StateType): UsernameStateType =>
   state.username;
 
 export const getUsernameEditState = createSelector(
@@ -29,7 +29,7 @@ export const getUsernameLinkState = createSelector(
   (state: UsernameStateType): UsernameLinkState => state.linkState
 );
 
-export const getUsernameReservation = createSelector(
+const getUsernameReservation = createSelector(
   getUsernameState,
   (state: UsernameStateType): UsernameReservationStateType =>
     state.usernameReservation

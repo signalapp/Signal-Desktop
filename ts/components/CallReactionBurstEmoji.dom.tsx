@@ -116,7 +116,7 @@ type AnimatedEmojiProps = {
   onAnimationEnd?: () => unknown;
 };
 
-export function AnimatedEmoji({
+function AnimatedEmoji({
   value,
   fromRotate,
   fromX,

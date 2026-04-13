@@ -35,7 +35,6 @@ export type AppStateType = ReadonlyDeep<{
 
 const INITIAL_LOAD_COMPLETE = 'app/INITIAL_LOAD_COMPLETE';
 const OPEN_INBOX = 'app/OPEN_INBOX';
-export const OPEN_INSTALLER = 'app/OPEN_INSTALLER';
 const OPEN_STANDALONE = 'app/OPEN_STANDALONE';
 
 type InitialLoadCompleteActionType = ReadonlyDeep<{

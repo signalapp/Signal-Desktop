@@ -30,7 +30,7 @@ export const getMaximumOutgoingVideoSize = (
   }
 };
 
-export const getMaximumOutgoingAttachmentSize = (
+const getMaximumOutgoingAttachmentSize = (
   getValue: typeof RemoteConfig.getValue
 ): number => {
   try {

@@ -23,7 +23,7 @@ export type ReadSyncJobData = {
   readSyncs: Array<SyncType>;
 };
 
-export class ReadSyncJobQueue extends JobQueue<ReadSyncJobData> {
+class ReadSyncJobQueue extends JobQueue<ReadSyncJobData> {
   protected parseData(data: unknown): ReadSyncJobData {
     strictAssert(isRecord(data), 'data is not an object');
     return { readSyncs: parseRawSyncDataArray(data.readSyncs) };

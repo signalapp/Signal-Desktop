@@ -1,15 +1,18 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { strictAssert } from '../../util/assert.std.ts';
-import type { EmojiParentKey, EmojiVariantKey } from './data/emojis.std.ts';
+import { strictAssert } from '../util/assert.std.ts';
+import type {
+  EmojiParentKey,
+  EmojiVariantKey,
+} from '../components/fun/data/emojis.std.ts';
 import {
   EmojiSkinTone,
   getEmojiParentKeyByEnglishShortName,
   getEmojiVariantKeyByParentKeyAndSkinTone,
   isEmojiEnglishShortName,
-} from './data/emojis.std.ts';
-import type { PaginatedGifResults } from './panels/FunPanelGifs.dom.tsx';
+} from '../components/fun/data/emojis.std.ts';
+import type { PaginatedGifResults } from '../components/fun/panels/FunPanelGifs.dom.tsx';
 
 function getEmoji(input: string): EmojiParentKey {
   strictAssert(

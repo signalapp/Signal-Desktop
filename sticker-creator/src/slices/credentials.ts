@@ -15,7 +15,7 @@ const initialState: CredentialsState = {
   credentials: undefined,
 };
 
-export const credentialsSlice = createSlice({
+const credentialsSlice = createSlice({
   name: 'credentials',
   initialState,
   reducers: {
@@ -28,5 +28,4 @@ export const credentialsSlice = createSlice({
   },
 });
 
-export const { setCredentials } = credentialsSlice.actions;
 export default credentialsSlice.reducer;

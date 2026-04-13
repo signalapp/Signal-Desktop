@@ -2,11 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { Transform } from 'node:stream';
-import type { Readable } from 'node:stream';
-
-import * as Bytes from '../Bytes.std.ts';
 import { clearTimeoutIfNecessary } from './clearTimeoutIfNecessary.std.ts';
-import { explodePromise } from './explodePromise.std.ts';
 
 export type OptionsType = Readonly<{
   name: string;
@@ -14,53 +10,7 @@ export type OptionsType = Readonly<{
   abortController: { abort(): void };
 }>;
 
-export class StreamTimeoutError extends Error {}
-
-export function getStreamWithTimeout(
-  stream: Readable,
-  { name, timeout, abortController }: OptionsType
-): Promise<Uint8Array<ArrayBuffer>> {
-  const { promise, resolve, reject } =
-    explodePromise<Uint8Array<ArrayBuffer>>();
-
-  const chunks = new Array<Uint8Array<ArrayBuffer>>();
-
-  let timer: NodeJS.Timeout | undefined;
-
-  const clearTimer = () => {
-    clearTimeoutIfNecessary(timer);
-    timer = undefined;
-  };
-
-  const reset = () => {
-    clearTimer();
-
-    timer = setTimeout(() => {
-      abortController.abort();
-      reject(new StreamTimeoutError(`getStreamWithTimeout(${name}) timed out`));
-    }, timeout);
-  };
-
-  stream.on('data', chunk => {
-    reset();
-
-    chunks.push(chunk);
-  });
-
-  stream.on('end', () => {
-    clearTimer();
-    resolve(Bytes.concatenate(chunks));
-  });
-
-  stream.on('error', error => {
-    clearTimer();
-    reject(error);
-  });
-
-  reset();
-
-  return promise;
-}
+class StreamTimeoutError extends Error {}
 
 export function getTimeoutStream({
   name,

@@ -9,7 +9,7 @@ import { ContactListItem } from './ContactListItem.dom.tsx';
 import {
   createPreparedMediaItems,
   createRandomContacts,
-} from './utils/mocks.std.ts';
+} from '../../../test-helpers/mediaGalleryMocks.std.ts';
 
 export default {
   title: 'Components/Conversation/MediaGallery/ContactListItem',

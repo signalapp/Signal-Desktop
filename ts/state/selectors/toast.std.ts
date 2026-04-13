@@ -4,7 +4,7 @@ import { createSelector } from 'reselect';
 import type { StateType } from '../reducer.preload.ts';
 import type { ToastStateType } from '../ducks/toast.preload.ts';
 
-export function getToastState(state: StateType): ToastStateType {
+function getToastState(state: StateType): ToastStateType {
   return state.toast;
 }
 

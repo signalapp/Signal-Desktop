@@ -236,7 +236,7 @@ function PhoneNumberStage({
   );
 }
 
-export function VerificationCodeStage({
+function VerificationCodeStage({
   number,
   sessionId,
   registerSingleDevice,
@@ -341,7 +341,7 @@ export function VerificationCodeStage({
   );
 }
 
-export function ProfileNameStage({
+function ProfileNameStage({
   uploadProfile,
   onNext,
 }: {

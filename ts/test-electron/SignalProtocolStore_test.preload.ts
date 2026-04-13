@@ -33,9 +33,12 @@ import {
 } from '../SignalProtocolStore.preload.ts';
 import { Address } from '../types/Address.std.ts';
 import { QualifiedAddress } from '../types/QualifiedAddress.std.ts';
-import { generateAci, generatePni } from '../types/ServiceId.std.ts';
 import type { IdentityKeyType, KeyPairType } from '../textsecure/Types.d.ts';
 import { itemStorage } from '../textsecure/Storage.preload.ts';
+import {
+  generateAci,
+  generatePni,
+} from '../test-helpers/serviceIdUtils.std.ts';
 
 const { clone } = lodash;
 

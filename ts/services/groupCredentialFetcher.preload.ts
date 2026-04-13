@@ -85,7 +85,7 @@ const BACKOFF_TIMEOUTS = [
   5 * durations.MINUTE,
 ];
 
-export async function runWithRetry(
+async function runWithRetry(
   fn: () => Promise<void>,
   options: { scheduleAnother?: number } = {}
 ): Promise<void> {
@@ -319,7 +319,7 @@ function haveToday(
   return data?.some(({ redemptionTime }) => redemptionTime === today);
 }
 
-export function getDatesForRequest(
+function getDatesForRequest(
   data: CredentialsDataType
 ): RequestDatesType | undefined {
   const today = toDayMillis(Date.now());
@@ -347,8 +347,6 @@ export function getDatesForRequest(
   };
 }
 
-export function sortCredentials(
-  data: CredentialsDataType
-): CredentialsDataType {
+function sortCredentials(data: CredentialsDataType): CredentialsDataType {
   return sortBy(data, (item: GroupCredentialType) => item.redemptionTime);
 }

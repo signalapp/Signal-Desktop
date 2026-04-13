@@ -7,7 +7,7 @@ settings:
 importers:
 
   .:
-    dependencies:
+    devDependencies:
       danger:
         specifier: 13.0.7
         version: 13.0.7

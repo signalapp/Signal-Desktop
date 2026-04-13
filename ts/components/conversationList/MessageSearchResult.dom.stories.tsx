@@ -4,14 +4,14 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import { StorybookThemeContext } from '../../../.storybook/StorybookThemeContext.std.js';
+import { StorybookThemeContext } from '../../../.storybook/StorybookThemeContext.std.ts';
 import { strictAssert } from '../../util/assert.std.ts';
 import { getFakeBadge } from '../../test-helpers/getFakeBadge.std.ts';
 import type { PropsType } from './MessageSearchResult.dom.tsx';
 import { MessageSearchResult } from './MessageSearchResult.dom.tsx';
 import { getDefaultConversation } from '../../test-helpers/getDefaultConversation.std.ts';
 import { BodyRange } from '../../types/BodyRange.std.ts';
-import { generateAci } from '../../types/ServiceId.std.ts';
+import { generateAci } from '../../test-helpers/serviceIdUtils.std.ts';
 
 const SERVICE_ID_1 = generateAci();
 const SERVICE_ID_2 = generateAci();

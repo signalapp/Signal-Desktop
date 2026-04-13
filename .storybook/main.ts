@@ -68,10 +68,13 @@ const storybookConfig: StorybookConfig = {
     webpackConfig.module!.rules!.unshift({
       test: /\.scss$/,
       use: [
-        { loader: 'style-loader' },
-        { loader: 'css-loader', options: { modules: false, url: false } },
+        { loader: require.resolve('style-loader') },
         {
-          loader: 'sass-loader',
+          loader: require.resolve('css-loader'),
+          options: { modules: false, url: false },
+        },
+        {
+          loader: require.resolve('sass-loader'),
           options: {
             additionalData: '$is-storybook: true;',
           },
@@ -92,13 +95,11 @@ const storybookConfig: StorybookConfig = {
       test: /tailwind-config\.css$/,
       use: [
         {
-          loader: 'postcss-loader',
+          loader: require.resolve('postcss-loader'),
           options: {
             postcssOptions: {
               config: false,
-              plugins: {
-                '@tailwindcss/postcss': {},
-              },
+              plugins: [require.resolve('@tailwindcss/postcss')],
             },
           },
         },

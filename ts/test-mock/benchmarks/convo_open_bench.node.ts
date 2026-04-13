@@ -5,7 +5,7 @@ import assert from 'node:assert';
 import type { PrimaryDevice } from '@signalapp/mock-server';
 
 import { Bootstrap, debug, RUN_COUNT, DISCARD_COUNT } from './fixtures.node.ts';
-import { stats } from '../../util/benchmark/stats.std.ts';
+import { stats } from '../../test-helpers/benchmarkStats.std.ts';
 import { sleep } from '../../util/sleep.std.ts';
 
 const CONVERSATION_SIZE = 1000; // messages

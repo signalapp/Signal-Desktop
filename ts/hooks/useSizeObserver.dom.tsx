@@ -10,7 +10,7 @@ export type Size = Readonly<
 
 export type SizeChangeHandler = (size: Size) => void;
 
-export function isSameSize(a: Size, b: Size): boolean {
+function isSameSize(a: Size, b: Size): boolean {
   if (a.hidden || b.hidden) {
     if (a.hidden && b.hidden) {
       return true;
@@ -121,7 +121,7 @@ export type Scroll = Readonly<
 
 export type ScrollChangeHandler = (scroll: Scroll) => void;
 
-export function isSameScroll(a: Scroll, b: Scroll): boolean {
+function isSameScroll(a: Scroll, b: Scroll): boolean {
   return (
     a.scrollTop === b.scrollTop &&
     a.scrollHeight === b.scrollHeight &&
@@ -136,16 +136,8 @@ export function isScrollOverflowVertical(scroll: Scroll): boolean {
   return scroll.scrollHeight > scroll.clientHeight;
 }
 
-export function isScrollOverflowHorizontal(scroll: Scroll): boolean {
-  return scroll.scrollWidth > scroll.clientWidth;
-}
-
 export function isScrollAtTop(scroll: Scroll, threshold = 0): boolean {
   return scroll.scrollTop <= threshold;
-}
-
-export function isScrollAtLeft(scroll: Scroll, threshold = 0): boolean {
-  return scroll.scrollLeft <= threshold;
 }
 
 export function isScrollAtBottom(scroll: Scroll, threshold = 0): boolean {
@@ -153,24 +145,8 @@ export function isScrollAtBottom(scroll: Scroll, threshold = 0): boolean {
   return scroll.scrollTop >= maxScrollTop - threshold;
 }
 
-export function isScrollAtRight(scroll: Scroll, threshold = 0): boolean {
-  const maxScrollLeft = scroll.scrollWidth - scroll.clientWidth;
-  return scroll.scrollLeft >= maxScrollLeft - threshold;
-}
-
-export function getScrollTopDistance(scroll: Scroll, clamp: number): number {
-  return Math.min(scroll.scrollTop, clamp);
-}
-
 export function getScrollLeftDistance(scroll: Scroll, clamp: number): number {
   return Math.min(scroll.scrollLeft, clamp);
-}
-
-export function getScrollBottomDistance(scroll: Scroll, clamp: number): number {
-  return Math.min(
-    scroll.scrollHeight - scroll.clientHeight - scroll.scrollTop,
-    clamp
-  );
 }
 
 export function getScrollRightDistance(scroll: Scroll, clamp: number): number {

@@ -78,10 +78,7 @@ export type RemoteMegaphoneSnoozeCtaType = z.infer<
   typeof RemoteMegaphoneSnoozeCtaSchema
 >;
 
-export const RemoteMegaphoneUnknownCtaDataSchema = z.record(
-  z.string(),
-  z.any()
-);
+const RemoteMegaphoneUnknownCtaDataSchema = z.record(z.string(), z.any());
 
 export const RemoteMegaphoneCtaDataSchema = z.union([
   RemoteMegaphoneSnoozeCtaSchema,
@@ -117,7 +114,7 @@ export const RemoteMegaphoneSchema = z.object({
 
 export type RemoteMegaphoneType = z.infer<typeof RemoteMegaphoneSchema>;
 
-export function getMegaphoneSnoozeConfig(
+function getMegaphoneSnoozeConfig(
   megaphone: RemoteMegaphoneType
 ): RemoteMegaphoneSnoozeCtaType {
   let parseableCtaData;

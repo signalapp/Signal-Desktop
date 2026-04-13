@@ -6,9 +6,12 @@ import { action } from '@storybook/addon-actions';
 import { type ComponentMeta } from '../../storybook/types.std.ts';
 import type { FunEmojiPickerProps } from './FunEmojiPicker.dom.tsx';
 import { FunEmojiPicker } from './FunEmojiPicker.dom.tsx';
-import { MOCK_RECENT_EMOJIS, MOCK_THIS_MESSAGE_EMOJIS } from './mocks.dom.tsx';
+import {
+  MOCK_RECENT_EMOJIS,
+  MOCK_THIS_MESSAGE_EMOJIS,
+} from '../../test-helpers/funPickerMocks.dom.tsx';
 import { FunProvider } from './FunProvider.dom.tsx';
-import { packs, recentStickers } from '../stickers/mocks.std.ts';
+import { packs, recentStickers } from '../../test-helpers/stickersMocks.std.ts';
 import { EmojiSkinTone } from './data/emojis.std.ts';
 import { Select } from '../Select.dom.tsx';
 

@@ -10,7 +10,6 @@ import { GiftBadgeStates } from '../../types/GiftBadgeStates.std.ts';
 import { DataWriter } from '../../sql/Client.preload.ts';
 import { getRandomBytes } from '../../Crypto.node.ts';
 import * as Bytes from '../../Bytes.std.ts';
-import { generateAci } from '../../types/ServiceId.std.ts';
 import { ReadStatus } from '../../messages/MessageReadStatus.std.ts';
 import { SeenStatus } from '../../MessageSeenStatus.std.ts';
 import { ID_V1_LENGTH } from '../../types/groups.std.ts';
@@ -29,6 +28,7 @@ import { MY_STORY_ID } from '../../types/Stories.std.ts';
 import { generateAttachmentKeys } from '../../AttachmentCrypto.node.ts';
 import { itemStorage } from '../../textsecure/Storage.preload.ts';
 import { BodyRange } from '../../types/BodyRange.std.ts';
+import { generateAci } from '../../test-helpers/serviceIdUtils.std.ts';
 
 const CONTACT_A = generateAci();
 const CONTACT_B = generateAci();

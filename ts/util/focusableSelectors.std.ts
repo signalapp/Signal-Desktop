@@ -10,7 +10,7 @@ const not = {
   disabled: ':not(:disabled)',
 };
 
-export const focusableSelectors = [
+const focusableSelectors = [
   `a[href]${not.inert}${not.negTabIndex}`,
   `area[href]${not.inert}${not.negTabIndex}`,
   `input:not([type="hidden"]):not([type="radio"])${not.inert}${not.negTabIndex}${not.disabled}`,

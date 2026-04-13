@@ -8,7 +8,7 @@ import { pipeline } from 'node:stream/promises';
 import { basename, dirname, join, resolve as resolvePath } from 'node:path';
 import { sign, verify } from './curve.node.ts';
 
-export async function generateSignature(
+async function generateSignature(
   updatePackagePath: string,
   version: string,
   privateKeyPath: string
@@ -42,6 +42,7 @@ async function generateMessage(
   return Buffer.from(messageString);
 }
 
+/** @testexport */
 export async function writeSignature(
   updatePackagePath: string,
   version: string,
@@ -83,7 +84,7 @@ export function hexToBinary(target: string): Buffer<ArrayBuffer> {
   return Buffer.from(target, 'hex');
 }
 
-export function binaryToHex(data: Uint8Array<ArrayBuffer>): string {
+function binaryToHex(data: Uint8Array<ArrayBuffer>): string {
   return Buffer.from(data).toString('hex');
 }
 

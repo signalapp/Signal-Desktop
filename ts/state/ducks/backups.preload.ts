@@ -119,7 +119,7 @@ function clearWorkflow(): SetWorkflowAction {
 
 // Local Backup Export Actions
 
-export function startLocalBackupExport(): ThunkAction<
+function startLocalBackupExport(): ThunkAction<
   void,
   StateType,
   unknown,
@@ -321,7 +321,7 @@ function startPlaintextExport(): ThunkAction<
   };
 }
 
-export function verifyWithOSForExport(
+function verifyWithOSForExport(
   includeMedia: boolean
 ): ThunkAction<void, StateType, unknown, SetWorkflowAction> {
   return async (dispatch, getState) => {

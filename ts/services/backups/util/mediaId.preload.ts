@@ -85,12 +85,6 @@ export function getMediaNameForAttachmentThumbnail(
   return `${fullsizeMediaName}_thumbnail`;
 }
 
-export function getBytesFromMediaIdString(
-  mediaId: string
-): Uint8Array<ArrayBuffer> {
-  return Bytes.fromBase64url(mediaId);
-}
-
 export type BackupCdnInfoType =
   | { isInBackupTier: true; cdnNumber: number }
   | { isInBackupTier: false };

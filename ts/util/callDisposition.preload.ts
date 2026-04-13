@@ -84,7 +84,7 @@ export function peerIdToLog(peerId: string, mode: CallMode): string {
   return mode === CallMode.Group ? `groupv2(${peerId})` : peerId;
 }
 
-export function formatCallEvent(callEvent: CallEventDetails): string {
+function formatCallEvent(callEvent: CallEventDetails): string {
   const {
     callId,
     peerId,
@@ -101,7 +101,7 @@ export function formatCallEvent(callEvent: CallEventDetails): string {
   return `CallEvent (${callId}, ${peerIdLog}, ${mode}, ${event}, ${direction}, ${type}, ${mode}, ${timestamp}, ${ringerId}, ${startedById}, ${eventSource})`;
 }
 
-export function formatCallHistory(callHistory: CallHistoryDetails): string {
+function formatCallHistory(callHistory: CallHistoryDetails): string {
   const {
     callId,
     peerId,
@@ -152,7 +152,7 @@ export function getCallIdFromEra(eraId: string): string {
   return callIdFromEra(eraId).toString();
 }
 
-export function getCreatorAci(creator: Uint8Array<ArrayBuffer>): AciString {
+function getCreatorAci(creator: Uint8Array<ArrayBuffer>): AciString {
   const aci = bytesToUuid(creator);
   strictAssert(aci != null, 'creator uuid buffer was not a valid uuid');
   strictAssert(isAciString(aci), 'creator uuid buffer was not a valid aci');
@@ -443,7 +443,7 @@ const endedReasonToEvent: Record<CallEndedReason, LocalCallEvent> = {
   [CallEndedReason.UnexpectedReason]: LocalCallEvent.Missed,
 };
 
-export function getLocalCallEventFromCallEndedReason(
+function getLocalCallEventFromCallEndedReason(
   callEndedReason: CallEndedReason
 ): LocalCallEvent {
   log.info('getLocalCallEventFromCallEndedReason', callEndedReason);
@@ -637,7 +637,7 @@ export function getCallEventDetails(
 // transitions
 // -----------
 
-export function transitionCallHistory(
+function transitionCallHistory(
   callHistory: CallHistoryDetails | null,
   callEvent: CallEventDetails
 ): CallHistoryDetails {
@@ -1081,7 +1081,7 @@ export async function updateAdhocCallHistory(
   drop(updateRemoteCallHistory(callHistory));
 }
 
-export async function updateLocalAdhocCallHistory(
+async function updateLocalAdhocCallHistory(
   callEvent: CallEventDetails
 ): Promise<CallHistoryDetails | null> {
   log.info(

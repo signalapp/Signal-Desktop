@@ -13,7 +13,6 @@ import type { CallLinkType } from '../../types/CallLink.std.ts';
 import * as Bytes from '../../Bytes.std.ts';
 import { getRandomBytes } from '../../Crypto.node.ts';
 import { DataReader, DataWriter } from '../../sql/Client.preload.ts';
-import { generateAci } from '../../types/ServiceId.std.ts';
 import { setupBasics, symmetricRoundtripHarness } from './helpers.preload.ts';
 import {
   AdhocCallStatus,
@@ -34,6 +33,7 @@ import {
 } from '../../util/zkgroup.node.ts';
 import { loadAllAndReinitializeRedux } from '../../services/allLoaders.preload.ts';
 import { itemStorage } from '../../textsecure/Storage.preload.ts';
+import { generateAci } from '../../test-helpers/serviceIdUtils.std.ts';
 
 const CONTACT_A = generateAci();
 const GROUP_MASTER_KEY = getRandomBytes(32);

@@ -23,7 +23,7 @@ export type ViewSyncJobData = {
   viewSyncs: Array<SyncType>;
 };
 
-export class ViewSyncJobQueue extends JobQueue<ViewSyncJobData> {
+class ViewSyncJobQueue extends JobQueue<ViewSyncJobData> {
   protected parseData(data: unknown): ViewSyncJobData {
     strictAssert(isRecord(data), 'data is not an object');
     return { viewSyncs: parseRawSyncDataArray(data.viewSyncs) };

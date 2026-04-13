@@ -372,7 +372,7 @@ export async function resolveUsernameByLinkBase64(
   return resolveUsernameByLink({ entropy, uuid });
 }
 
-export async function resolveUsernameByLink(
+async function resolveUsernameByLink(
   options: ResolveUsernameByLinkOptionsType
 ): Promise<string | undefined> {
   try {

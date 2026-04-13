@@ -110,7 +110,7 @@ export function getProfileName(
   return undefined;
 }
 
-export function getNicknameName(
+function getNicknameName(
   attributes: Pick<
     ConversationAttributesType,
     'nicknameGivenName' | 'nicknameFamilyName' | 'type'
@@ -125,7 +125,7 @@ export function getNicknameName(
   return undefined;
 }
 
-export function getSystemName(
+function getSystemName(
   attributes: Pick<
     ConversationAttributesType,
     'systemGivenName' | 'systemFamilyName' | 'systemNickname' | 'type'

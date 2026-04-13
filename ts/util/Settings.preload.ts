@@ -23,11 +23,3 @@ export function areStoryViewReceiptsEnabled(): boolean {
     false
   );
 }
-
-export async function setStoryViewReceiptsEnabled(
-  value: boolean
-): Promise<void> {
-  await itemStorage.put('storyViewReceiptsEnabled', value);
-  const account = window.ConversationController.getOurConversationOrThrow();
-  account.captureChange('storyViewReceiptsEnabled');
-}

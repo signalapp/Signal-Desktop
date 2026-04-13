@@ -19,7 +19,7 @@ import {
   GROUP_DELIVERY_RECEIPTS,
   BLOCKED_COUNT,
 } from './fixtures.node.ts';
-import { stats } from '../../util/benchmark/stats.std.ts';
+import { stats } from '../../test-helpers/benchmarkStats.std.ts';
 import { sleep } from '../../util/sleep.std.ts';
 import { typeIntoInput, waitForEnabledComposer } from '../helpers.node.ts';
 import { MINUTE } from '../../util/durations/index.std.ts';

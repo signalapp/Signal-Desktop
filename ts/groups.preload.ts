@@ -2159,7 +2159,7 @@ type MigratePropsType = Readonly<{
   groupChange?: WrappedGroupChangeType;
 }>;
 
-export async function isGroupEligibleToMigrate(
+async function isGroupEligibleToMigrate(
   conversation: ConversationModel
 ): Promise<boolean> {
   if (!getIsGroupV1(conversation.attributes)) {
@@ -2597,7 +2597,7 @@ export async function waitThenRespondToGroupV2Migration(
   });
 }
 
-export function buildMigrationBubble(
+function buildMigrationBubble(
   previousGroupV1MembersIds: ReadonlyArray<string>,
   newAttributes: ConversationAttributesType
 ): GroupChangeMessageType {
@@ -2642,7 +2642,7 @@ export function buildMigrationBubble(
   };
 }
 
-export function getBasicMigrationBubble(): GroupChangeMessageType {
+function getBasicMigrationBubble(): GroupChangeMessageType {
   return {
     type: 'group-v1-migration',
     groupMigration: {

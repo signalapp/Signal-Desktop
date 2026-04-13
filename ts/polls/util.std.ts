@@ -17,7 +17,7 @@ export function* getUnsentConversationIds(
   }
 }
 
-export function isOutgoingPollVoteCompletelyUnsent(
+function isOutgoingPollVoteCompletelyUnsent(
   pollVote: Readonly<Pick<MessagePollVoteType, 'sendStateByConversationId'>>
 ): boolean {
   if (!pollVote.sendStateByConversationId) {

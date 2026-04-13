@@ -35,7 +35,7 @@ export function getTimestampFromLong(
   return num;
 }
 
-export class InvalidTimestampError extends Error {
+class InvalidTimestampError extends Error {
   constructor(message: string) {
     super(`InvalidTimestampError: ${message}`);
   }

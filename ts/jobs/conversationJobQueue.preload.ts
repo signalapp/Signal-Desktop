@@ -454,7 +454,7 @@ type ConversationData = Readonly<
     }
 >;
 
-export class ConversationJobQueue extends JobQueue<ConversationQueueJobData> {
+class ConversationJobQueue extends JobQueue<ConversationQueueJobData> {
   readonly #perConversationData = new Map<
     string,
     ConversationData | undefined

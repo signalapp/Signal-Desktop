@@ -6,7 +6,7 @@ import { MediaTier } from '../types/AttachmentDownload.std.ts';
 import { logPadSize } from './logPadSize.std.ts';
 import { missingCaseError } from './missingCaseError.std.ts';
 
-export function getCiphertextSize(plaintextLength: number): number {
+function getCiphertextSize(plaintextLength: number): number {
   const paddedPlaintextSize = logPadSize(plaintextLength);
 
   return (

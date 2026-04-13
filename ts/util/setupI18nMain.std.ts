@@ -35,7 +35,7 @@ export type SetupI18nOptionsType = Readonly<{
   getHourCyclePreference: LocalizerType['getHourCyclePreference'];
 }>;
 
-export function createCachedIntl(
+function createCachedIntl(
   locale: string,
   icuMessages: Record<string, string>,
   { renderEmojify }: SetupI18nOptionsType

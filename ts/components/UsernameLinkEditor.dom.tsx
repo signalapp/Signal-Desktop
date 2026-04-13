@@ -55,7 +55,7 @@ const DEFAULT_PRESET: ColorMapEntryType = {
   tint: '#ecf0fb',
 };
 
-export const COLOR_MAP: ReadonlyMap<number, ColorMapEntryType> = new Map([
+const COLOR_MAP: ReadonlyMap<number, ColorMapEntryType> = new Map([
   [ColorEnum.BLUE, DEFAULT_PRESET],
   [ColorEnum.WHITE, { fg: '#000000', bg: '#ffffff', tint: '#f5f5f5' }],
   [ColorEnum.GREY, { fg: '#464852', bg: '#6a6c75', tint: '#f0f0f1' }],
@@ -214,8 +214,7 @@ type GenerateImageURLOptionsType = Readonly<{
   colorId: number;
 }>;
 
-// Exported for testing
-export async function _generateImageBlob({
+async function _generateImageBlob({
   link,
   username,
   hint,

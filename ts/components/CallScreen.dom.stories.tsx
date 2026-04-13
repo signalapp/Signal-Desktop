@@ -19,7 +19,6 @@ import {
   GroupCallJoinState,
 } from '../types/Calling.std.ts';
 import { CallMode } from '../types/CallDisposition.std.ts';
-import { generateAci } from '../types/ServiceId.std.ts';
 import type { AciString } from '../types/ServiceId.std.ts';
 import type { ConversationType } from '../state/ducks/conversations.preload.ts';
 import { AvatarColors } from '../types/Colors.std.ts';
@@ -37,6 +36,7 @@ import { CallingToastProvider, useCallingToasts } from './CallingToast.dom.tsx';
 import type { CallingImageDataCache } from './CallManager.dom.tsx';
 import { MINUTE } from '../util/durations/index.std.ts';
 import { strictAssert } from '../util/assert.std.ts';
+import { generateAci } from '../test-helpers/serviceIdUtils.std.ts';
 
 const { sample, shuffle, times } = lodash;
 
