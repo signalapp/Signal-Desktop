@@ -1,0 +1,12 @@
+/**
+ * Copyright 2025 Signal Messenger, LLC
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+
+[data-axo-drag-region] {
+  -webkit-app-region: drag;
+}
+
+body[data-axo-drag-region-disable] [data-axo-drag-region='auto'] {
+  -webkit-app-region: no-drag;
+}

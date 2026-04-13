@@ -103,6 +103,7 @@ import type { ExternalProps as SmartNotificationProfilesProps } from '../state/s
 import type { LocalBackupExportMetadata } from '../types/LocalExport.std.ts';
 import { isDonationsPage } from './PreferencesDonations.dom.tsx';
 import type { VisibleRemoteMegaphoneType } from '../types/Megaphone.std.ts';
+import { TitlebarDragArea } from './TitlebarDragArea.dom.tsx';
 
 const { isNumber, noop, partition } = lodash;
 
@@ -2389,7 +2390,6 @@ export function Preferences({
   }
   return (
     <FunEmojiLocalizationProvider i18n={i18n}>
-      <div className="module-title-bar-drag-area" />
       <div className="Preferences">
         <NavSidebar
           title={i18n('icu:Preferences--header')}
@@ -2630,6 +2630,7 @@ export function Preferences({
         </NavSidebar>
         {content}
       </div>
+      <TitlebarDragArea />
     </FunEmojiLocalizationProvider>
   );
 }

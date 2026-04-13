@@ -12,6 +12,7 @@ import { type AppStateType, AppViewType } from '../state/ducks/app.preload.ts';
 import { SmartInstallScreen } from '../state/smart/InstallScreen.preload.tsx';
 import { StandaloneRegistration } from './StandaloneRegistration.dom.tsx';
 import { usePageVisibility } from '../hooks/usePageVisibility.dom.ts';
+import { TitlebarDragArea } from './TitlebarDragArea.dom.tsx';
 
 type PropsType = {
   state: AppStateType;
@@ -92,7 +93,7 @@ export function App({
     // See `background.html`
     contents = (
       <div className="app-loading-screen app-loading-screen--before-app-load">
-        <div className="module-title-bar-drag-area" />
+        <TitlebarDragArea />
 
         <div className="module-splash-screen__logo module-splash-screen__logo--128" />
         <div className="dot-container">

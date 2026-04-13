@@ -8,6 +8,7 @@ import type { LocalizerType } from '../types/Util.std.ts';
 import { createLogger } from '../logging/log.std.ts';
 import { SECOND, DAY } from '../util/durations/index.std.ts';
 import type { SmartNavTabsProps } from '../state/smart/NavTabs.preload.tsx';
+import { TitlebarDragArea } from './TitlebarDragArea.dom.tsx';
 
 const log = createLogger('Inbox');
 
@@ -161,7 +162,7 @@ export function Inbox({
 
     return (
       <div className="app-loading-screen">
-        <div className="module-title-bar-drag-area" />
+        <TitlebarDragArea />
 
         {logo}
 
@@ -197,7 +198,6 @@ export function Inbox({
   return (
     <>
       <div className="Inbox">
-        <div className="module-title-bar-drag-area" />
         {renderNavTabs({
           navTabsCollapsed,
           onToggleNavTabsCollapse,
@@ -206,6 +206,7 @@ export function Inbox({
           renderStoriesTab,
           renderSettingsTab,
         })}
+        <TitlebarDragArea />
       </div>
       {activeModal}
     </>

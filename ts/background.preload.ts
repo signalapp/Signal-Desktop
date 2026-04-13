@@ -880,14 +880,6 @@ export async function startApp(): Promise<void> {
       );
     });
 
-    window.document.body.classList.add('window-focused');
-    window.addEventListener('focus', () => {
-      window.document.body.classList.add('window-focused');
-    });
-    window.addEventListener('blur', () =>
-      window.document.body.classList.remove('window-focused')
-    );
-
     const currentVersion = window.getVersion();
     lastVersion = itemStorage.get('version');
     newVersion = !lastVersion || currentVersion !== lastVersion;

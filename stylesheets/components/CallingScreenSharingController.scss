@@ -13,7 +13,6 @@
   overflow: hidden;
   align-items: center;
   justify-content: space-between;
-  @include mixins.draggable-region;
 
   &__text {
     @include mixins.font-body-2;

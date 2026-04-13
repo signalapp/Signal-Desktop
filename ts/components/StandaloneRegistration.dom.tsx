@@ -11,6 +11,7 @@ import { parseNumber } from '../util/libphonenumberUtil.std.ts';
 import { missingCaseError } from '../util/missingCaseError.std.ts';
 import { VerificationTransport } from '../types/VerificationTransport.std.ts';
 import { normalizeProfileName } from '../util/normalizeProfileName.std.ts';
+import { TitlebarDragArea } from './TitlebarDragArea.dom.tsx';
 
 function PhoneInput({
   initialValue,
@@ -524,7 +525,7 @@ export function StandaloneRegistration({
 
   return (
     <div className="full-screen-flow">
-      <div className="module-title-bar-drag-area" />
+      <TitlebarDragArea />
 
       <div className="step">
         <div className="inner">{body}</div>
