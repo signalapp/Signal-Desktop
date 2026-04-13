@@ -1014,11 +1014,17 @@ function transitionAdhocCallStatus(
 // actions
 // -------
 
-async function updateLocalCallHistory(
-  callEvent: CallEventDetails,
-  receivedAtCounter: number | null,
-  receivedAtMS: number | null
-): Promise<CallHistoryDetails | null> {
+async function updateLocalCallHistory({
+  callEvent,
+  receivedAtCounter,
+  receivedAtMS,
+  serverGuid,
+}: {
+  callEvent: CallEventDetails;
+  receivedAtCounter: number | null;
+  receivedAtMS: number | null;
+  serverGuid: string | null;
+}): Promise<CallHistoryDetails | null> {
   const conversation = window.ConversationController.get(callEvent.peerId);
   strictAssert(
     conversation != null,
@@ -1064,6 +1070,7 @@ async function updateLocalCallHistory(
         conversation,
         receivedAtCounter,
         receivedAtMS,
+        serverGuid,
       });
       return updatedCallHistory;
     }
@@ -1169,11 +1176,13 @@ async function saveCallHistory({
   conversation,
   receivedAtCounter,
   receivedAtMS,
+  serverGuid,
 }: {
   callHistory: CallHistoryDetails;
   conversation: ConversationModel;
   receivedAtCounter: number | null;
   receivedAtMS: number | null;
+  serverGuid: string | null;
 }): Promise<CallHistoryDetails> {
   log.info(
     'saveCallHistory: Saving call history:',
@@ -1261,6 +1270,7 @@ async function saveCallHistory({
     readStatus: ReadStatus.Read,
     seenStatus,
     callId: callHistory.callId,
+    serverGuid: prevMessage?.serverGuid ?? (serverGuid || undefined),
   });
 
   const id = await window.MessageCache.saveMessage(message, {
@@ -1359,22 +1369,34 @@ export async function updateCallHistoryFromRemoteEvent(
   receivedAtMS: number
 ): Promise<void> {
   if (callEvent.mode === CallMode.Direct || callEvent.mode === CallMode.Group) {
-    await updateLocalCallHistory(callEvent, receivedAtCounter, receivedAtMS);
+    await updateLocalCallHistory({
+      callEvent,
+      receivedAtCounter,
+      receivedAtMS,
+      serverGuid: null,
+    });
   } else if (callEvent.mode === CallMode.Adhoc) {
     await updateLocalAdhocCallHistory(callEvent);
   }
 }
 
-export async function updateCallHistoryFromLocalEvent(
-  callEvent: CallEventDetails,
-  receivedAtCounter: number | null,
-  receivedAtMS: number | null
-): Promise<void> {
-  const updatedCallHistory = await updateLocalCallHistory(
+export async function updateCallHistoryFromLocalEvent({
+  callEvent,
+  receivedAtCounter,
+  receivedAtMS,
+  serverGuid,
+}: {
+  callEvent: CallEventDetails;
+  receivedAtCounter?: number | null;
+  receivedAtMS?: number | null;
+  serverGuid?: string | null;
+}): Promise<void> {
+  const updatedCallHistory = await updateLocalCallHistory({
     callEvent,
-    receivedAtCounter,
-    receivedAtMS
-  );
+    receivedAtCounter: receivedAtCounter ?? null,
+    receivedAtMS: receivedAtMS ?? null,
+    serverGuid: serverGuid ?? null,
+  });
   if (updatedCallHistory == null) {
     return;
   }
@@ -1567,6 +1589,7 @@ export async function updateLocalGroupCallHistoryTimestamp(
         conversation,
         receivedAtCounter: null,
         receivedAtMS: null,
+        serverGuid: null,
       });
 
       return updatedCallHistory;

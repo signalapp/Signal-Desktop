@@ -3197,11 +3197,17 @@ class CallingClass {
         localCallEvent,
         'CallingClass.handleCallingMessage'
       );
-      await updateCallHistoryFromLocalEvent(
+      const {
+        receivedAtCounter,
+        receivedAtDate: receivedAtMS,
+        serverGuid,
+      } = envelope;
+      await updateCallHistoryFromLocalEvent({
         callEvent,
-        envelope.receivedAtCounter,
-        envelope.receivedAtDate
-      );
+        receivedAtCounter,
+        receivedAtMS,
+        serverGuid,
+      });
 
       return;
     }
@@ -3482,7 +3488,9 @@ class CallingClass {
         localEventForCall,
         'CallingClass.handleGroupCallRingUpdate'
       );
-      await updateCallHistoryFromLocalEvent(callEvent, null, null);
+      await updateCallHistoryFromLocalEvent({
+        callEvent,
+      });
     }
   }
 
@@ -3577,7 +3585,9 @@ class CallingClass {
           localCallEvent,
           'CallingClass.handleIncomingCall'
         );
-        await updateCallHistoryFromLocalEvent(callEvent, null, null);
+        await updateCallHistoryFromLocalEvent({
+          callEvent,
+        });
 
         return false;
       }
@@ -3677,11 +3687,11 @@ class CallingClass {
       conversationId: conversation.id,
     });
 
-    await updateCallHistoryFromLocalEvent(
+    await updateCallHistoryFromLocalEvent({
       callEvent,
-      receivedAtCounter ?? null,
-      receivedAtMS ?? null
-    );
+      receivedAtCounter,
+      receivedAtMS,
+    });
   }
 
   #attachToCall(conversation: ConversationModel, call: Call): void {
@@ -3740,7 +3750,9 @@ class CallingClass {
           localCallEvent,
           'call.handleStateChanged'
         );
-        await updateCallHistoryFromLocalEvent(callEvent, null, null);
+        await updateCallHistoryFromLocalEvent({
+          callEvent,
+        });
       }
 
       if (
@@ -4156,7 +4168,9 @@ class CallingClass {
         localCallEvent,
         'CallingClass.updateCallHistoryForGroupCallOnLocalChanged'
       );
-      await updateCallHistoryFromLocalEvent(callEvent, null, null);
+      await updateCallHistoryFromLocalEvent({
+        callEvent,
+      });
     } catch (error) {
       log.error(
         'CallingClass.updateCallHistoryForGroupCallOnLocalChanged: Error updating state',
@@ -4211,7 +4225,9 @@ class CallingClass {
           localCallEvent,
           'CallingClass.updateCallHistoryForGroupCallOnPeek'
         );
-        await updateCallHistoryFromLocalEvent(callEvent, null, null);
+        await updateCallHistoryFromLocalEvent({
+          callEvent,
+        });
       }
     }
 
