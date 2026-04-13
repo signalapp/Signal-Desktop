@@ -70,7 +70,12 @@ const storybookConfig: StorybookConfig = {
       use: [
         { loader: 'style-loader' },
         { loader: 'css-loader', options: { modules: false, url: false } },
-        { loader: 'sass-loader' },
+        {
+          loader: 'sass-loader',
+          options: {
+            additionalData: '$is-storybook: true;',
+          },
+        },
       ],
     });
 

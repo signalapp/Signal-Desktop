@@ -2,7 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 // Global Settings, Variables, and Mixins
-@use 'fontfaces';
+$is-storybook: false !default;
+@use 'fontfaces' with (
+  $is-storybook: $is-storybook
+);
 @use 'variables';
 @use 'mixins';
 @use 'global';

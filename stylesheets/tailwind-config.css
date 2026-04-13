@@ -242,14 +242,6 @@
   --font-symbols: 'SignalSymbols';
 }
 
-@font-face {
-  font-family: 'SignalSymbols';
-  font-style: normal;
-  font-weight: 300 400 700;
-  font-display: block;
-  src: url('asset:///fonts/signal-symbols/SignalSymbolsVariable.woff2');
-}
-
 @layer base {
   /* Japanese */
   :lang(ja) {
