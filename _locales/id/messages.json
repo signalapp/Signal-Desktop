@@ -746,6 +746,9 @@
   "icu:fileSizeWarning": {
     "messageformat": "Maaf, berkas tersebut melebihi batas ukuran pesan. {limit,number} {units}"
   },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+  },
   "icu:unableToLoadAttachment": {
     "messageformat": "Tidak dapat memuat lampiran yang dipilih."
   },
@@ -3800,9 +3803,6 @@
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
     "messageformat": "Bagikan tautan panggilan via Signal"
   },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "Keluarkan orang ini dari panggilan"
-  },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "Hapus {name} dari panggilan?"
   },
@@ -6316,32 +6316,17 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "Selesai"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "tampilkan kunci cadangan Anda"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
     "messageformat": "menampilkan kunci pemulihan Anda"
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "Verifikasi identitas Anda untuk melihat kunci cadangan."
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
     "messageformat": "Verifikasi identitas Anda untuk melihat kunci pemulihan."
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "Lihat kunci cadangan"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
     "messageformat": "Lihat kunci pemulihan"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "Autentikasi diperlukan untuk melihat kunci cadangan Anda."
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
     "messageformat": "Autentikasi diperlukan untuk melihat kunci pemulihan Anda."
-  },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Kotak teks kunci cadangan"
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
     "messageformat": "Kunci pemulihan"
@@ -6349,23 +6334,14 @@
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "Masukkan kunci"
   },
-  "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "Catat kunci cadangan Anda"
-  },
   "icu:Preferences--local-backups-record-recovery-key": {
     "messageformat": "Catat kunci pemulihan Anda"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "Kunci ini diperlukan untuk memulihkan akun dan data Anda. Simpan kunci di tempat yang aman. Jika Anda kehilangan kunci, akun tidak dapat dipulihkan. <learnMoreLink>Pelajari selengkapnya.</learnMoreLink>"
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "Konfirmasi kunci cadangan Anda"
-  },
   "icu:Preferences--local-backups-confirm-recovery-key": {
     "messageformat": "Konfirmasi kunci pemulihan"
-  },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "Masukkan kunci cadangan yang baru Anda catat"
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
     "messageformat": "Masukkan kunci pemulihan yang baru Anda catat"
@@ -6394,9 +6370,6 @@
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Folder cadangan"
   },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "Ubah"
-  },
   "icu:Preferences__local-backups-turn-off": {
     "messageformat": "Nonaktifkan pencadangan"
   },
@@ -6411,9 +6384,6 @@
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Salin ke papan klip"
-  },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "Kunci cadangan disalin"
   },
   "icu:Preferences__local-backups-copied-recovery-key": {
     "messageformat": "Kunci pemulihan disalin"
@@ -6436,14 +6406,8 @@
   "icu:Preferences__view-key": {
     "messageformat": "Lihat kunci"
   },
-  "icu:Preferences__backup-key": {
-    "messageformat": "Kunci cadangan"
-  },
   "icu:Preferences__recovery-key": {
     "messageformat": "Kunci pemulihan"
-  },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "Kunci cadangan adalah kode 64 digit yang digunakan untuk memulihkan cadangan Anda"
   },
   "icu:Preferences__recovery-key-description": {
     "messageformat": "Kunci pemulihan adalah kode 64 karakter yang digunakan untuk memulihkan data cadangan Anda"
@@ -8147,9 +8111,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Tambahan penyesuaian kecil, perbaikan bug, dan peningkatan performa. Terima kasih telah menggunakan Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "• Sekarang tersedia opsi menambahkan label anggota untuk mendeskripsikan diri atau peran Anda dalam sebuah chat grup. Label anggota ditampilkan di samping nama profil Anda dalam grup tersebut dan admin grup bisa mengontrol siapa yang bisa menetapkan label tersebut."
   },
   "icu:WhatsNew__8.6--0": {
     "messageformat": "Aktivitas chat yang berulang (seperti beberapa panggilan tak terjawab) dapat digabungkan secara otomatis agar tampilannya lebih ringkas, sehingga Anda lebih mudah melihat pesan terbaru."

@@ -746,6 +746,9 @@
   "icu:fileSizeWarning": {
     "messageformat": "Ne pare rău, fișierul selectat depășește limita de mărime a mesajului. {limit,number} {units}"
   },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+  },
   "icu:unableToLoadAttachment": {
     "messageformat": "Nu s-a putut încărca atașamentul selectat."
   },
@@ -3800,9 +3803,6 @@
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
     "messageformat": "Trimite linkul apelului prin Signal"
   },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "Scoate această persoană din apel"
-  },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "Elimini pe {name} din apel?"
   },
@@ -6316,32 +6316,17 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "Gata"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "arată codul de rezervă"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
     "messageformat": "arată-ți codul de recuperare"
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "Confirmă-ți identitatea pentru a vedea codul de rezervă."
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
     "messageformat": "Verifică-ți identitatea ca să-ți vezi codul de recuperare."
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "Vezi codul de rezervă"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
     "messageformat": "Vezi codul de recuperare"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "Este necesară autentificarea pentru a vizualiza cheia de rezervă."
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
     "messageformat": "Este necesară autentificarea ca să-ți vezi codul de recuperare."
-  },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Caseta text codul de rezervă"
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
     "messageformat": "Cod de recuperare"
@@ -6349,23 +6334,14 @@
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "Introdu codul"
   },
-  "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "Înregistrează-ți codul de rezervă"
-  },
   "icu:Preferences--local-backups-record-recovery-key": {
     "messageformat": "Înregistrează-ți codul de recuperare"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "Codul e necesar ca să-ți recuperezi contul și datele. Păstrează codul într-un loc sigur. Dacă îl pierzi, nu îți vei putea recupera contul. <learnMoreLink>Află mai multe.</learnMoreLink>"
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "Confirmă-ți codul de rezervă"
-  },
   "icu:Preferences--local-backups-confirm-recovery-key": {
     "messageformat": "Confirmă-ți codul de recuperare"
-  },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "Introdu codul de rezervă pe care tocmai l-ai înregistrat"
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
     "messageformat": "Introdu codul de recuperare pe care tocmai l-ai înregistrat"
@@ -6394,9 +6370,6 @@
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Director backup"
   },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "Schimbă"
-  },
   "icu:Preferences__local-backups-turn-off": {
     "messageformat": "Dezactivează backup-urile"
   },
@@ -6411,9 +6384,6 @@
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Copiază în clipboard"
-  },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "Codul de rezervă a fost copiat"
   },
   "icu:Preferences__local-backups-copied-recovery-key": {
     "messageformat": "Codul de recuperare a fost copiat"
@@ -6436,14 +6406,8 @@
   "icu:Preferences__view-key": {
     "messageformat": "Vezi codul de rezervă"
   },
-  "icu:Preferences__backup-key": {
-    "messageformat": "Codul de rezervă"
-  },
   "icu:Preferences__recovery-key": {
     "messageformat": "Cod de recuperare"
-  },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "Codul de rezervă este un cod format din 64 de cifre necesar ca să restaurezi backup-ul"
   },
   "icu:Preferences__recovery-key-description": {
     "messageformat": "Codul de recuperare este un cod de 64 de caractere folosit pentru a-ți restaura backup-ul"
@@ -8147,9 +8111,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Mici ajustări, soluționări de bug-uri și îmbunătățiri ale performanței. Mersi că folosești Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "Acum poți adăuga opțional un rol de membru pentru a te descrie pe tine sau rolul tău într-un chat de grup. Setează rolul de membru în grupul tău la „Arbitru” sau „Portar” în chat-ul local de fotbal din liga recreativă pentru a te ajuta să începi jocul atunci când se alătură noi coechipieri, apoi alege un rol cu funcția ta în chat-ul companiei. Rolurile de membri apar lângă numele de profil din acel grup, iar administratorii grupurilor pot controla dacă ele sunt active pentru toată lumea."
   },
   "icu:WhatsNew__8.6--0": {
     "messageformat": "Acum nu va mai trebui să derulezi atât de mult pentru a vedea cele mai recente mesaje. Dacă mai multe persoane noi se alătură unei conversații de grup aglomerate sau dacă primești mai multe apeluri pierdute la rând, aceste evenimente repetate din chat pot fi grupate automat într-un afișaj compact. Uneori, mai puțin înseamnă mai mult, dar poți extinde și reduce cu ușurință aceste liste în orice moment."

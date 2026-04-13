@@ -746,6 +746,9 @@
   "icu:fileSizeWarning": {
     "messageformat": "متاسفانه حجم فایل انتخاب‌شده از حداکثر طول پیام بیشتر است. {limit,number} {units}"
   },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "متاسفانه حجم فایل ویدئویی انتخاب‌شده از حداکثر مجاز حجم پیام بیشتر است. {limit,number}{units}"
+  },
   "icu:unableToLoadAttachment": {
     "messageformat": "ناتوانی در بارگیری پیوست انتخابی."
   },
@@ -3800,9 +3803,6 @@
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
     "messageformat": "اشتراک‌گذاری پیوند تماس از طریق سیگنال"
   },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "این شخص از تماس حذف شود"
-  },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "{name} از تماس حذف شود؟"
   },
@@ -6316,32 +6316,17 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "تمام"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "نمایش رمز پشتیبان شما"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
     "messageformat": "رمز بازیابی شما را نمایش دهد"
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "برای مشاهده رمز پشتیبان، احراز هویت کنید."
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
     "messageformat": "برای مشاهده رمز بازیابی، هویت خود را تأیید کنید."
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "مشاهده کلید پشتیبان"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
     "messageformat": "مشاهده رمز بازیابی"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "برای مشاهده رمز پشتیبان، احراز هویت لازم است."
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
     "messageformat": "مشاهده رمز بازیابی شما مستلرم احراز هویت است."
-  },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "کادر متن رمز پشتیبان"
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
     "messageformat": "رمز بازیابی"
@@ -6349,23 +6334,14 @@
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "رمز را وارد کنید"
   },
-  "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "کلید پشتیبان خود را ضبط کنید"
-  },
   "icu:Preferences--local-backups-record-recovery-key": {
     "messageformat": "رمز بازیابی خود را ثبت کنید"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "این کلید برای بازیابی حساب و اطلاعات شما ضروری است. این کلید را در مکانی امن نگهداری کنید. اگر آن را گم کنید، نمی‌توانید حساب خود را بازیابی کنید. <learnMoreLink>اطلاعات بیشتر.</learnMoreLink>"
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "رمز پشتیبان خود را تأیید کنید"
-  },
   "icu:Preferences--local-backups-confirm-recovery-key": {
     "messageformat": "رمز بازیابی خود را تأیید کنید"
-  },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "رمز پشتیبان را که به‌تازگی ثبت کرده‌اید وارد کنید"
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
     "messageformat": "رمز بازیابی که ثبت کردید را وارد کنید"
@@ -6394,9 +6370,6 @@
   "icu:Preferences__local-backups-folder": {
     "messageformat": "پوشهٔ پشتیبان"
   },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "تغییر"
-  },
   "icu:Preferences__local-backups-turn-off": {
     "messageformat": "خاموش کردن نسخه‌های پشتیبان"
   },
@@ -6411,9 +6384,6 @@
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "کپی به کلیپ‌بورد"
-  },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "رمز پشتیبان کپی شد"
   },
   "icu:Preferences__local-backups-copied-recovery-key": {
     "messageformat": "رمز بازیابی کپی شد"
@@ -6436,14 +6406,8 @@
   "icu:Preferences__view-key": {
     "messageformat": "مشاهده رمز"
   },
-  "icu:Preferences__backup-key": {
-    "messageformat": "رمز پشتیبان"
-  },
   "icu:Preferences__recovery-key": {
     "messageformat": "رمز بازیابی"
-  },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "رمز پشتیبان شما یک کد ۶۴ رقمی است که برای بازیابی نسخه پشتیبان شما استفاده می‌شود"
   },
   "icu:Preferences__recovery-key-description": {
     "messageformat": "رمز بازیابی شما یک کد ۶۴ نویسه‌ای است که برای بازیابی نسخه پشتیبان استفاده می‌شود"
@@ -8147,9 +8111,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "تغییرات کوچک، رفع اشکالات و بهبود عملکرد. بابت استفاده از سیگنال سپاسگزاریم!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "اکنون می‌توانید به‌صورت اختیاری یک برچسب عضو برای معرفی خود یا نقش‌تان در گفتگوی گروهی اضافه کنید. برچسب‌های عضو در آن گروه کنار نام نمایه‌تان نمایش داده می‌شوند و مدیران گروه می‌توانند با استفاده از مجوز «ویرایش اطلاعات گروه» و مدیران گروه می‌توانند کنترل کنند که این برچسب‌ها برای همه فعال باشند یا خیر."
   },
   "icu:WhatsNew__8.6--0": {
     "messageformat": "رویدادهای تکراری گفتگو (مانند تماس‌های ازدست‌رفته متعدد) را می‌توان به‌طور خودکار با هم در نمایشی فشرده گروه‌بندی کرد تا دیگر نیاز نباشد برای رسیدن به آخرین پیام‌ها، پیمایش زیادی در صفحه کنید."

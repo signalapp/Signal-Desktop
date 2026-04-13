@@ -746,6 +746,9 @@
   "icu:fileSizeWarning": {
     "messageformat": "Izbrana datoteka presega največjo dovoljeno velikost. {limit,number} {units}"
   },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "Izbran videoposnetek presega največjo dovoljeno velikost. {limit,number} {units}"
+  },
   "icu:unableToLoadAttachment": {
     "messageformat": "Izbrane priponke ni bilo mogoče zagnati."
   },
@@ -3800,9 +3803,6 @@
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
     "messageformat": "Deli klicno povezavo prek Signala"
   },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "Odstrani te osebe iz klica"
-  },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "Želite odstraniti uporabnika_co {name} iz klica?"
   },
@@ -6316,32 +6316,17 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "V redu"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "prikazati vaš varnostni ključ"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
     "messageformat": "prikazati vaš obnovitveni ključ"
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "Za ogled varnostnega ključa potrdite svojo identiteto."
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
     "messageformat": "Za ogled obnovitvenega ključa potrdite svojo identiteto."
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "Ogled varnostnega ključa"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
     "messageformat": "Ogled obnovitvenega ključa"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "Za ogled varnostnega ključa je potrebna avtentikacija."
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
     "messageformat": "Za ogled obnovitvenega ključa je potrebno preverjanje pristnosti."
-  },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Besedilno polje za Varnostni ključ"
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
     "messageformat": "Obnovitveni ključ"
@@ -6349,23 +6334,14 @@
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "Tipka Enter"
   },
-  "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "Zapišite svoj ključ za varnostno kopiranje"
-  },
   "icu:Preferences--local-backups-record-recovery-key": {
     "messageformat": "Zapišite svoj obnovitveni ključ"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "Ta ključ je potreben za obnovitev računa in podatkov. Ta ključ shranite na varnem mestu. Če ga izgubite, računa ne boste mogli obnoviti. <learnMoreLink>Preberite več.</learnMoreLink>"
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "Potrdite svoj varnostni ključ"
-  },
   "icu:Preferences--local-backups-confirm-recovery-key": {
     "messageformat": "Potrdite svoj obnovitveni ključ"
-  },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "Vnesite varnostni ključ, ki ste ga pravkar zapisali"
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
     "messageformat": "Vnesite obnovitveni ključ, ki ste ga pravkar zapisali"
@@ -6394,9 +6370,6 @@
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Mesto za varnostne kopije"
   },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "Spremeni"
-  },
   "icu:Preferences__local-backups-turn-off": {
     "messageformat": "Izklopi varnostne kopije"
   },
@@ -6411,9 +6384,6 @@
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Kopiraj v odložišče"
-  },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "Varnostni ključ je kopiran"
   },
   "icu:Preferences__local-backups-copied-recovery-key": {
     "messageformat": "Obnovitveni ključ je kopiran"
@@ -6436,14 +6406,8 @@
   "icu:Preferences__view-key": {
     "messageformat": "Prikaži ključ"
   },
-  "icu:Preferences__backup-key": {
-    "messageformat": "Varnostni ključ"
-  },
   "icu:Preferences__recovery-key": {
     "messageformat": "Obnovitveni ključ"
-  },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "Varnostni ključ je 64-mestna koda, ki se uporablja za obnovitev varnostne kopije"
   },
   "icu:Preferences__recovery-key-description": {
     "messageformat": "Vaš obnovitveni ključ je 64-mestna koda, uporabljena za obnovitev varnostne kopije"
@@ -8147,9 +8111,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Majhne prilagoditve, popravki napak in izboljšave zmogljivosti. Hvala, da uporabljate Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "Zdaj lahko dodate vlogo člana, s katero opišete sebe ali svojo vlogo v skupinskem klepetu. Vloge članov se prikažejo poleg imena profila v skupini, skrbniki skupine pa lahko nadzorujejo, če so te omogočene za vse."
   },
   "icu:WhatsNew__8.6--0": {
     "messageformat": "Ponavljajoče se aktivnosti v zvezi s klepeti (na primer več zgrešenih klicev) je mogoče samodejno združiti v kompakten prikaz, da se vam ni treba pomikati tako daleč, da bi si ogledali najnovejša sporočila."

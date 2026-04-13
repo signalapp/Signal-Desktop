@@ -746,6 +746,9 @@
   "icu:fileSizeWarning": {
     "messageformat": "죄송합니다, 선택된 파일은 메시지의 최대 허용 용량을 초과했습니다. {limit,number} {units}"
   },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+  },
   "icu:unableToLoadAttachment": {
     "messageformat": "선택된 첨부 파일을 불러올 수 없습니다."
   },
@@ -3800,9 +3803,6 @@
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
     "messageformat": "Signal을 통해 통화 링크 공유"
   },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "이 사용자를 통화 그룹에서 내보내기"
-  },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "{name} 님을 통화 그룹에서 내보낼까요?"
   },
@@ -6316,32 +6316,17 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "확인"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "백업 키 표시"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
     "messageformat": "복구 키를 확인하세요"
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "백업 키를 확인하려면 신원을 인증하세요."
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
     "messageformat": "복구 키를 확인하려면 인증이 필요합니다."
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "백업 키 보기"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
     "messageformat": "복구 키 보기"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "백업 키를 확인하려면 인증이 필요합니다."
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
     "messageformat": "복구 키를 확인하려면 인증이 필요합니다."
-  },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "백업 키 텍스트 상자"
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
     "messageformat": "복구 키"
@@ -6349,23 +6334,14 @@
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "키 입력"
   },
-  "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "백업 키 기록"
-  },
   "icu:Preferences--local-backups-record-recovery-key": {
     "messageformat": "복구 키를 기록해 두세요"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "이 키는 계정과 데이터를 복원하는 데 필요합니다. 안전한 곳에 보관해 두세요. 키를 분실하면 계정을 복원할 수 없습니다. <learnMoreLink>자세히 알아보기.</learnMoreLink>"
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "백업 키 확인"
-  },
   "icu:Preferences--local-backups-confirm-recovery-key": {
     "messageformat": "복구 키를 확인하세요"
-  },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "기록해 둔 백업 키를 입력하세요"
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
     "messageformat": "기록해 둔 복구 키를 입력하세요"
@@ -6394,9 +6370,6 @@
   "icu:Preferences__local-backups-folder": {
     "messageformat": "백업 폴더"
   },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "변경"
-  },
   "icu:Preferences__local-backups-turn-off": {
     "messageformat": "백업 끄기"
   },
@@ -6411,9 +6384,6 @@
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "클립보드에 복사"
-  },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "백업 키 복사됨"
   },
   "icu:Preferences__local-backups-copied-recovery-key": {
     "messageformat": "복구 키 복사됨"
@@ -6436,14 +6406,8 @@
   "icu:Preferences__view-key": {
     "messageformat": "키 보기"
   },
-  "icu:Preferences__backup-key": {
-    "messageformat": "백업 키"
-  },
   "icu:Preferences__recovery-key": {
     "messageformat": "복구 키"
-  },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "백업 키는 백업을 복원하는 데 사용되는 64자리 코드입니다"
   },
   "icu:Preferences__recovery-key-description": {
     "messageformat": "복구 키는 백업을 복원하는 데 필요한 64자 코드입니다."
@@ -8147,9 +8111,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "사소한 변경 사항과 버그 수정 및 성능 개선. Signal을 이용해 주셔서 감사합니다!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "이제 원하는 경우 멤버 라벨을 추가하여 그룹 채팅 내에서 본인을 소개하거나 본인의 역할을 명시할 수 있습니다. 멤버 라벨은 해당 그룹의 내 프로필 이름 옆에 표시되며, 그룹 관리자는 그룹 내 모든 멤버에게 이 권한을 부여할지를 선택할 수 있습니다."
   },
   "icu:WhatsNew__8.6--0": {
     "messageformat": "이제 최신 메시지를 확인하기 위해 화면을 한참 올릴 필요가 없습니다. 북적이는 그룹 채팅에 여러 명이 새로 참여하거나 부재중 전화가 연달아 올 때, 반복되는 알림을 자동으로 묶어 간결하게 보여 드립니다. 화면은 더 단순하고 깔끔하게 유지되며, 목록은 언제든 자유롭게 펼치거나 접을 수 있습니다."

@@ -746,6 +746,9 @@
   "icu:fileSizeWarning": {
     "messageformat": "抱歉，選擇的檔案大小超過訊息限制 {limit,number} {units}"
   },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "抱歉，選擇的影片檔案大小超過訊息限制。{limit,number}{units}"
+  },
   "icu:unableToLoadAttachment": {
     "messageformat": "無法上傳所選附件。"
   },
@@ -3800,9 +3803,6 @@
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
     "messageformat": "透過 Signal 分享通話連結"
   },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "將此人從通話中移除"
-  },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "要將{name}從通話中移除嗎？"
   },
@@ -6316,32 +6316,17 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "完成"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "顯示你的備份金鑰"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
     "messageformat": "顯示你的恢復金鑰"
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "驗證你的身份以檢視備份金鑰。"
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
     "messageformat": "驗證你的身份以檢視恢復金鑰。"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "檢視備份金鑰"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
     "messageformat": "檢視恢復金鑰"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "檢視備份金鑰需要進行驗證。"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
     "messageformat": "檢視恢復金鑰需要進行驗證。"
-  },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "備份金鑰文字框"
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
     "messageformat": "恢復金鑰"
@@ -6349,23 +6334,14 @@
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "輸入金鑰"
   },
-  "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "記錄你的備份金鑰"
-  },
   "icu:Preferences--local-backups-record-recovery-key": {
     "messageformat": "記錄你的恢復金鑰"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "需要此金鑰才能恢復你的帳戶和資料。將此金鑰存放在安全的地方。如果你將其遺失，你將會無法恢復帳戶。 <learnMoreLink>了解更多。</learnMoreLink>"
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "確認你的備份金鑰"
-  },
   "icu:Preferences--local-backups-confirm-recovery-key": {
     "messageformat": "確認你的恢復金鑰"
-  },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "輸入你剛剛記錄的備份金鑰"
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
     "messageformat": "輸入你剛剛記錄的恢復金鑰"
@@ -6394,9 +6370,6 @@
   "icu:Preferences__local-backups-folder": {
     "messageformat": "備份資料夾"
   },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "更改"
-  },
   "icu:Preferences__local-backups-turn-off": {
     "messageformat": "關閉備份"
   },
@@ -6411,9 +6384,6 @@
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "複製至剪貼簿"
-  },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "已複製備份金鑰"
   },
   "icu:Preferences__local-backups-copied-recovery-key": {
     "messageformat": "已複製恢復金鑰"
@@ -6436,14 +6406,8 @@
   "icu:Preferences__view-key": {
     "messageformat": "檢視金鑰"
   },
-  "icu:Preferences__backup-key": {
-    "messageformat": "備份金鑰"
-  },
   "icu:Preferences__recovery-key": {
     "messageformat": "恢復金鑰"
-  },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "你的備份金鑰是還原備份所用的一組 64 位數的代碼"
   },
   "icu:Preferences__recovery-key-description": {
     "messageformat": "你的恢復金鑰是一組 64 個字元的代碼，用來還原你的備份"
@@ -8147,9 +8111,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "細微的調整、問題修復和效能改善。感謝各位使用 Signal！",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "現在你可以隨意地新增一個成員標籤來描述你自己或你在群組聊天中的角色。例如在你當地的足球聯賽聊天中，將你的群組成員標籤設定為「裁判」或「守門員」，以協助新隊友加入時展開討論，而在公司聊天中則選擇你工作職位的標籤。成員標籤會顯示在該群組中的個人檔案名稱旁邊，群組管理員可以控制是否開放給所有人使用此功能。"
   },
   "icu:WhatsNew__8.6--0": {
     "messageformat": "現在，你無需再向下捲動那麼久就能查看最新訊息。如果有幾個新人加入繁忙的群組聊天，或是連續收到多通未接來電，這些重複的聊天事件會自動歸類成簡潔的列表顯示。有時「簡單就是美」，但你隨時都能輕鬆展開或收合這些列表。"

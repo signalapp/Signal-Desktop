@@ -746,6 +746,9 @@
   "icu:fileSizeWarning": {
     "messageformat": "Desculpe, o arquivo selecionado excede o tamanho máximo aceito. {limit,number} {units}"
   },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+  },
   "icu:unableToLoadAttachment": {
     "messageformat": "Não foi possível carregar o anexo selecionado."
   },
@@ -3800,9 +3803,6 @@
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
     "messageformat": "Compartilhar link da chamada via Signal"
   },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "Remover esta pessoa da chamada"
-  },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "Remover {name} da chamada?"
   },
@@ -6316,32 +6316,17 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "Pronto"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "mostrar sua chave de backup"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
     "messageformat": "mostrar sua chave de recuperação"
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "Verifique sua identidade para ver sua chave de backup."
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
     "messageformat": "Verifique sua identidade para ver sua chave de recuperação."
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "Ver chave de backup"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
     "messageformat": "Ver chave de recuperação"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "É necessário fazer uma autenticação para ver sua chave de backup."
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
     "messageformat": "É necessário fazer uma autenticação para ver sua chave de recuperação."
-  },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Caixa de texto da chave de backup"
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
     "messageformat": "Chave de recuperação"
@@ -6349,23 +6334,14 @@
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "Inserir chave"
   },
-  "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "Grave sua chave de backup"
-  },
   "icu:Preferences--local-backups-record-recovery-key": {
     "messageformat": "Grave sua chave de recuperação"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "Essa chave é necessária para restaurar sua conta e seus dados. Certifique-se de guardá-la em um local seguro. Sem essa chave, não será possível recuperar sua conta. <learnMoreLink>Saiba mais.</learnMoreLink>"
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "Confirme sua chave de backup"
-  },
   "icu:Preferences--local-backups-confirm-recovery-key": {
     "messageformat": "Confirme sua chave de recuperação"
-  },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "Digite a chave de backup que você acabou de gravar"
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
     "messageformat": "Digite a chave de recuperação que você acabou de gravar"
@@ -6394,9 +6370,6 @@
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Pasta do backup"
   },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "Alterar"
-  },
   "icu:Preferences__local-backups-turn-off": {
     "messageformat": "Desativar backups"
   },
@@ -6411,9 +6384,6 @@
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Copiar para a área de transferência"
-  },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "Chave de backup copiada"
   },
   "icu:Preferences__local-backups-copied-recovery-key": {
     "messageformat": "Chave de recuperação copiada"
@@ -6436,14 +6406,8 @@
   "icu:Preferences__view-key": {
     "messageformat": "Ver chave"
   },
-  "icu:Preferences__backup-key": {
-    "messageformat": "Chave de backup"
-  },
   "icu:Preferences__recovery-key": {
     "messageformat": "Chave de recuperação"
-  },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "Sua chave de backup é um código de 64 dígitos usado para restaurar seu backup"
   },
   "icu:Preferences__recovery-key-description": {
     "messageformat": "Sua chave de recuperação é um código de 64 caracteres usado para restaurar seu backup"
@@ -8147,9 +8111,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Pequenas alterações adicionais, correções de bugs e melhorias de desempenho. Agradecemos por usar o Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "Agora você pode adicionar uma etiqueta de membro para descrever quem você é ou qual é a sua função no grupo. Defina algo como “Juiz” ou “Goleiro” em um grupo de futebol com amigos, ou use uma etiqueta diferente no grupo do trabalho. As etiquetas de membro aparecem ao lado do seu nome de perfil no grupo, e os admins do grupo podem controlar se as etiquetas estão habilitadas para todos."
   },
   "icu:WhatsNew__8.6--0": {
     "messageformat": "Você não vai mais precisar rolar tanto para acompanhar as mensagens mais recentes. Se várias pessoas entrarem de uma vez em um grupo movimentado ou se você receber várias chamadas perdidas em sequência, esses eventos repetidos podem ser agrupados automaticamente em uma visualização compacta. Às vezes, menos é mais — e você pode expandir ou recolher essas listas a qualquer momento. "

@@ -746,6 +746,9 @@
   "icu:fileSizeWarning": {
     "messageformat": "На жаль, розмір обраного файлу перевищує обмеження. {limit,number} {units}"
   },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+  },
   "icu:unableToLoadAttachment": {
     "messageformat": "Не вдається вивантажити обране вкладення."
   },
@@ -3800,9 +3803,6 @@
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
     "messageformat": "Поділитися посиланням на виклик у Signal"
   },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "Вилучити з виклику"
-  },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "Вилучити користувача {name} з виклику?"
   },
@@ -6316,32 +6316,17 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "Закрити"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "показати ваш ключ від резервної копії"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
     "messageformat": "показати ваш ключ відновлення"
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "Щоб переглянути ключ від резервної копії, підтвердьте свою особу."
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
     "messageformat": "Щоб переглянути ключ від резервної копії, підтвердьте свою особу."
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "Переглянути ключ від резервної копії"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
     "messageformat": "Переглянути ключ відновлення"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "Щоб переглянути ключ від резервної копії, потрібно здійснити автентифікацію."
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
     "messageformat": "Щоб переглянути ключ відновлення від резервної копії, потрібно здійснити автентифікацію."
-  },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Текстове поле для ключа від резервної копії"
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
     "messageformat": "Ключ відновлення"
@@ -6349,23 +6334,14 @@
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "Введіть ключ"
   },
-  "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "Збережіть ключ від своєї резервної копії"
-  },
   "icu:Preferences--local-backups-record-recovery-key": {
     "messageformat": "Збережіть ключ відновлення"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "Цей ключ потрібен для відновлення акаунту й даних. Зберігайте його в надійному місці. Якщо ви втратите ключ, то не зможете відновити акаунт. <learnMoreLink>Докладніше.</learnMoreLink>"
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "Підтвердьте ключ від резервної копії"
-  },
   "icu:Preferences--local-backups-confirm-recovery-key": {
     "messageformat": "Підтвердьте ключ відновлення"
-  },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "Введіть ключ від резервної копії, який ви щойно зберегли"
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
     "messageformat": "Введіть ключ відновлення, який ви щойно зберегли"
@@ -6394,9 +6370,6 @@
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Папка для резервних копій"
   },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "Змінити"
-  },
   "icu:Preferences__local-backups-turn-off": {
     "messageformat": "Вимкнення резервного копіювання"
   },
@@ -6411,9 +6384,6 @@
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Скопіювати в буфер обміну"
-  },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "Ключ скопійовано"
   },
   "icu:Preferences__local-backups-copied-recovery-key": {
     "messageformat": "Ключ відновлення скопійовано"
@@ -6436,14 +6406,8 @@
   "icu:Preferences__view-key": {
     "messageformat": "Переглянути ключ"
   },
-  "icu:Preferences__backup-key": {
-    "messageformat": "Ключ від резервної копії"
-  },
   "icu:Preferences__recovery-key": {
     "messageformat": "Ключ відновлення"
-  },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "Ключ від резервної копії — це 64-значний код, потрібний для відновлення резервної копії"
   },
   "icu:Preferences__recovery-key-description": {
     "messageformat": "Ключ відновлення — це код із 64 символів, який дає змогу відновити дані з резервної копії"
@@ -8147,9 +8111,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Дрібні поліпшення, виправлення помилок і покращення роботи застосунку. Дякуємо, що ви з Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "Тепер у груповому чаті можна додати роль учасника, щоб описати себе й те, чим ви займаєтеся. Наприклад, у чаті вашої футбольної команди доречно підписати себе як «суддя» або «воротар», щоб новачкам було легше зорієнтуватись, а в робочому чаті — зазначити свою посаду. Роль учасника показано поруч з назвою профілю в конкретній групі. Можливість встановлювати ролі надають адміністратори групи."
   },
   "icu:WhatsNew__8.6--0": {
     "messageformat": "Тепер вам не доведеться довго гортати, щоб переглянути всі оновлення в чаті. Якщо до групи приєдналося багато нових учасників або ви пропустили кілька викликів, Signal автоматично згрупує такі однотипні сповіщення для зручності. Іноді менше означає краще, але за потреби ви можете розгорнути список і прочитати кожне сповіщення окремо."

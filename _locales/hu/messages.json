@@ -746,6 +746,9 @@
   "icu:fileSizeWarning": {
     "messageformat": "Sajnos a kiválasztott fájl túllépi az elküldhető üzenet maximális méretét. {limit,number} {units}"
   },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "Sajnos a kiválasztott videofájl túllépi az elküldhető üzenet maximális méretét. {limit,number}{units}"
+  },
   "icu:unableToLoadAttachment": {
     "messageformat": "Nem sikerült betölteni a kiválasztott csatolmányt."
   },
@@ -3800,9 +3803,6 @@
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
     "messageformat": "Híváslink megosztása a Signalon keresztül"
   },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "E személy eltávolítása a hívásból"
-  },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "{name} eltávolítása a hívásból?"
   },
@@ -6316,32 +6316,17 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "Befejezés"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "a biztonsági kulcsod megjelenítése"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
     "messageformat": "helyreállítási kulcs megjelenítése"
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "A biztonsági kulcs megtekintéséhez igazold a személyazonosságodat."
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
     "messageformat": "A helyreállítási kulcs megtekintéséhez igazold a személyazonosságodat."
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "Biztonsági kulcs megtekintése"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
     "messageformat": "Helyreállítási kulcs megtekintése"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "A biztonsági kulcs megtekintéséhez hitelesítés szükséges."
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
     "messageformat": "A helyreállítási kulcs megtekintéséhez hitelesítés szükséges."
-  },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Biztonsági kulcs szövegmező"
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
     "messageformat": "Helyreállítási kulcs"
@@ -6349,23 +6334,14 @@
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "Kulcs megadása"
   },
-  "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "Jegyezd fel a biztonsági kulcsod"
-  },
   "icu:Preferences--local-backups-record-recovery-key": {
     "messageformat": "Jegyezd fel a helyreállítási kulcsodat"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "Ez a kulcs szükséges a fiók és az adatok helyreállításához. Tárold biztonságos helyen ezt a kulcsot. Ha elveszíted, nem tudod helyreállítani a fiókodat. <learnMoreLink>Tudj meg többet!</learnMoreLink>"
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "Erősítsd meg a biztonsági kulcsot"
-  },
   "icu:Preferences--local-backups-confirm-recovery-key": {
     "messageformat": "Erősítsd meg a helyreállítási kulcsodat"
-  },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "Írd be az imént rögzített biztonsági kulcsot"
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
     "messageformat": "Írd be az imént feljegyzett helyreállítási kulcsot"
@@ -6394,9 +6370,6 @@
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Biztonsági mentés mappája"
   },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "Módosítás"
-  },
   "icu:Preferences__local-backups-turn-off": {
     "messageformat": "Biztonsági mentések kikapcsolása"
   },
@@ -6411,9 +6384,6 @@
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Másolás vágólapra"
-  },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "Biztonsági kulcs másolva"
   },
   "icu:Preferences__local-backups-copied-recovery-key": {
     "messageformat": "Helyreállítási kulcs másolva"
@@ -6436,14 +6406,8 @@
   "icu:Preferences__view-key": {
     "messageformat": "Kulcs megtekintése"
   },
-  "icu:Preferences__backup-key": {
-    "messageformat": "Biztonsági kulcs"
-  },
   "icu:Preferences__recovery-key": {
     "messageformat": "Helyreállítási kulcs"
-  },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "A biztonsági mentési kulcs egy 64 jegyű kód, amely a biztonsági mentés visszaállításához szükséges."
   },
   "icu:Preferences__recovery-key-description": {
     "messageformat": "A helyreállítási kulcs egy 64 karakteres kód, amely a biztonsági mentés visszaállításához használható."
@@ -8147,9 +8111,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Apró finomítások, hibajavítások és teljesítménynövelések. Köszönjük, hogy a Signalt használod!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "Mostantól opcionálisan hozzáadhatsz egy tagsági címkét, amellyel leírhatod magadat vagy a szerepedet egy csoportos csevegésben. A tagsági címkék a profilneved mellett jelennek meg az adott csoportban, és a csoport adminisztrátorai szabályozhatják, hogy mindenki számára engedélyezve legyenek-e."
   },
   "icu:WhatsNew__8.6--0": {
     "messageformat": "Az ismétlődő csevegési események (például több nem fogadott hívás) automatikusan csoportosíthatók egy kompakt kijelzőn, így nem kell messzire görgetned a legújabb üzenetek megtekintéséhez."

@@ -746,6 +746,9 @@
   "icu:fileSizeWarning": {
     "messageformat": "क्षमस्व, निवडलेली फाईल आकार प्रतिबंधने ओलांडते. {limit,number} {units}"
   },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "क्षमस्व, निवडलेली व्हिडिओ फाईल संदेशाच्या आकारावरील निर्बंध ओलांडते. {limit,number}{units}"
+  },
   "icu:unableToLoadAttachment": {
     "messageformat": "निवडलेले संलग्न जोडण्यात अक्षम."
   },
@@ -3800,9 +3803,6 @@
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
     "messageformat": "Signal मार्फत कॉल लिंक शेअर करा"
   },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "ह्या व्यक्तीला कॉलमधून हटवा"
-  },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "कॉल {name} मधून हटवायचे?"
   },
@@ -6316,32 +6316,17 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "ठीक"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "तुमची बॅकअप की दाखवा"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
     "messageformat": "तुमची रीकव्हरी की दाखवा"
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "तुमची बॅकअप की पाहण्यासाठी तुमची ओळख पडताळणी करून घ्या."
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
     "messageformat": "तुमची रीकव्हरी की पाहण्यासाठी तुमच्या ओळखीची पडताळणी करा."
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "बॅकअप की बघा"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
     "messageformat": "रीकव्हरी की बघा"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "तुमची बॅकअप की पाहण्यासाठी प्रमाणीकरण आवश्यक आहे."
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
     "messageformat": "तुमची रीकव्हरी की पाहण्यासाठी अधिस्वीकृती आवश्यक आहे."
-  },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "बॅकअप की मजकुराचा रकाना"
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
     "messageformat": "रीकव्हरी की"
@@ -6349,23 +6334,14 @@
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "की प्रविष्ट करा"
   },
-  "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "आपली बॅकअप कि नोंद करा"
-  },
   "icu:Preferences--local-backups-record-recovery-key": {
     "messageformat": "तुमची रीकव्हरी की नोंदवा"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "ही की आपले अकाऊंट आणि डेटा पुर्नप्राप्त करण्यासाठी आवश्यक आहे. ही की कोठेतरी सुरक्षित ठेवा. आपण जी ती गहाळ केल्यास, आपण आपले अकाऊंट पुर्नप्राप्त करू शकणार नाही. <learnMoreLink>अधिक जाणा.</learnMoreLink>"
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "तुमची बॅकअप की निश्चित करा"
-  },
   "icu:Preferences--local-backups-confirm-recovery-key": {
     "messageformat": "तुमची रीकव्हरी की निश्चित करा"
-  },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "तुम्ही नुकतीच नोंदवलेली बॅकअप की प्रविष्ट करा"
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
     "messageformat": "तुम्ही आत्ताच नोंदवलेली रीकव्हरी की प्रविष्ट करा"
@@ -6394,9 +6370,6 @@
   "icu:Preferences__local-backups-folder": {
     "messageformat": "बॅकअप फोल्डर"
   },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "बदला"
-  },
   "icu:Preferences__local-backups-turn-off": {
     "messageformat": "बॅकअप्स बंद करा"
   },
@@ -6411,9 +6384,6 @@
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "क्लिपबोर्ड वर कॉपी करा"
-  },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "बॅकअप की कॉपी केली"
   },
   "icu:Preferences__local-backups-copied-recovery-key": {
     "messageformat": "रिकव्हरी की कॉपी केली"
@@ -6436,14 +6406,8 @@
   "icu:Preferences__view-key": {
     "messageformat": "की पहा"
   },
-  "icu:Preferences__backup-key": {
-    "messageformat": "बॅकअप की"
-  },
   "icu:Preferences__recovery-key": {
     "messageformat": "रीकव्हरी की"
-  },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "तुमची बॅकअप की एक 64-अंकी कोड असतो जो तुमचा बॅकअप रीस्टोर करण्यासाठी वापरला जातो"
   },
   "icu:Preferences__recovery-key-description": {
     "messageformat": "तुमची रीकव्हरी की तुमचा बॅकअप परत मिळवण्यासाठीचा 64 अंकी कोड आहे"
@@ -8147,9 +8111,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "लहान ट्विक्स, दोष निवारण, आणि कामगिरी सुधारणा. Signal वापरल्याबद्दल आभारी आहोत!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "आता तुमच्याकडे तुमचे किंवा गट चॅटमधील तुमच्या भूमिकेचे वर्णन करण्यासाठी एक सदस्य लेबल समाविष्ट करण्याचा पर्याय आहे. तुमच्या वस्तीतल्या फूटबॉल टीमच्या चॅटमधले तुमचे गट सदस्य लेबल \"रेफरी\" किंवा \"गोलकीपर\" सेट करा, म्हणजे टीममध्ये नवे सदस्य सामील झाले की त्यांना गोष्टी सुरू करण्यास मदत होईल, आणि कंपनीच्या चॅटमध्ये तुमच्या पदाचे नाव निवडा. सदस्य लेबल्स त्या गटामधील तुमच्या प्रोफाइल नावाच्या शेजारी दिसतात, आणि गटाचे ॲडमिन्स ही लेबल्स सगळ्यांना लावता येतील की नाही यावर नियंत्रण ठेवू शकतात."
   },
   "icu:WhatsNew__8.6--0": {
     "messageformat": "आता तुम्हाला नवे संदेश पाहण्यासाठी एवढे स्क्रोल करावे लागणार नाही. जर अनेक लोक एखाद्या गजबजलेल्या गट चॅटमध्ये सामील झाले, किंवा तुम्हाला सलग अनेक मिस्ड कॉल्स आले, तर ते वारंवार उद्भवणारे चॅटचे प्रसंग आपोआप एका छोट्या दृश्यात मावतील असे एकत्रित करता येतात. कधीकधी छोट्या गोष्टी मोठी सोय करतात, पण तुम्ही या याद्यांची कधीही उघडमिट करू शकता."

@@ -746,6 +746,9 @@
   "icu:fileSizeWarning": {
     "messageformat": "La taille du fichier sélectionné dépasse la limite autorisée. "
   },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+  },
   "icu:unableToLoadAttachment": {
     "messageformat": "Impossible de charger la pièce jointe sélectionnée."
   },
@@ -3800,9 +3803,6 @@
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
     "messageformat": "Partager le lien d’appel via Signal"
   },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "Retirer cet utilisateur de l’appel"
-  },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "Retirer {name} de l’appel ?"
   },
@@ -6316,32 +6316,17 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "OK"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "afficher votre clé de sauvegarde"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
     "messageformat": "d'afficher votre clé de récupération."
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "Authentifiez-vous pour afficher votre clé de sauvegarde."
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
     "messageformat": "Pour afficher votre clé de récupération, veuillez vous authentifier."
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "Afficher la clé de sauvegarde"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
     "messageformat": "Afficher la clé de récupération"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "Vous devez vous authentifier pour afficher votre clé de sauvegarde."
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
     "messageformat": "Vous devez vous authentifier pour afficher votre clé de récupération."
-  },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Zone de texte de la clé de sauvegarde"
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
     "messageformat": "Clé de récupération"
@@ -6349,23 +6334,14 @@
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "Saisir la clé"
   },
-  "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "Enregistrer une clé de sauvegarde"
-  },
   "icu:Preferences--local-backups-record-recovery-key": {
     "messageformat": "Enregistrer votre clé de récupération"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "Vous devrez saisir cette clé pour restaurer votre compte et vos données. Conservez-la en lieu sûr. Si vous la perdez, vous ne pourrez pas restaurer votre compte. <learnMoreLink>En savoir plus</learnMoreLink>"
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "Confirmer la clé de sauvegarde"
-  },
   "icu:Preferences--local-backups-confirm-recovery-key": {
     "messageformat": "Confirmer la clé de récupération"
-  },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "Saisissez la clé de sauvegarde que vous venez d'enregistrer"
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
     "messageformat": "Saisissez la clé de récupération que vous venez d'enregistrer."
@@ -6394,9 +6370,6 @@
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Dossier de sauvegarde"
   },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "Modifier"
-  },
   "icu:Preferences__local-backups-turn-off": {
     "messageformat": "Désactiver les sauvegardes"
   },
@@ -6411,9 +6384,6 @@
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Copier dans le presse-papiers"
-  },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "Clé de sauvegarde copiée"
   },
   "icu:Preferences__local-backups-copied-recovery-key": {
     "messageformat": "Clé de récupération copiée"
@@ -6436,14 +6406,8 @@
   "icu:Preferences__view-key": {
     "messageformat": "Afficher la clé"
   },
-  "icu:Preferences__backup-key": {
-    "messageformat": "Clé de sauvegarde"
-  },
   "icu:Preferences__recovery-key": {
     "messageformat": "Clé de récupération"
-  },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "Votre clé de sauvegarde est un code de 64 caractères alphanumériques qui vous permet de restaurer votre sauvegarde."
   },
   "icu:Preferences__recovery-key-description": {
     "messageformat": "Votre clé de récupération est un code de 64 caractères qui vous permet de restaurer votre sauvegarde."
@@ -8147,9 +8111,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Au menu de cette version : quelques ajustements de plus, quelques petits bugs en moins et des gains de performance. Merci d'utiliser Signal !",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "Dans les conversations de groupe, vous pouvez maintenant créer une étiquette de membre pour vous décrire ou indiquer votre rôle. Comme dans la vraie vie, vous pouvez porter plusieurs casquettes : affichez votre intitulé de poste dans vos conversations pros et autoproclamez-vous \"L'artiste\" ou \"La chouchoute de Mamie\" dans votre groupe familial. Ces étiquettes n'apparaissent que dans le groupe concerné, à côté de votre nom de profil. Et les admins choisissent qui peut en créer."
   },
   "icu:WhatsNew__8.6--0": {
     "messageformat": "Ne vous laissez plus dépasser par les événements. Plusieurs personnes ont rejoint une conversation de groupe ? Vous avez manqué plusieurs appels à la suite ? Ces événements répétés sont maintenant regroupés et affichés sous forme de liste compacte. Pour consulter toutes les mises à jour dans le détail, il vous suffit de dérouler la liste."

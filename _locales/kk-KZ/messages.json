@@ -746,6 +746,9 @@
   "icu:fileSizeWarning": {
     "messageformat": "Кешіріңіз, таңдалған файл хат өлшемінің шектеулерінен асып кетті. {limit,number} {units}"
   },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+  },
   "icu:unableToLoadAttachment": {
     "messageformat": "Таңдалған тіркемені жүктеу мүмкін болмады."
   },
@@ -3800,9 +3803,6 @@
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
     "messageformat": "Signal арқылы қоңырау сілтемесін бөлісу"
   },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "Бұл адамды қоңыраудан өшіріп тастау"
-  },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "{name} қоңыраудан шығарылсын ба?"
   },
@@ -6316,32 +6316,17 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "Дайын"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "сақтық кілтіңізді көрсетуге тырысып жатыр"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
     "messageformat": "қалпына келтіру кілтін көрсеткелі жатыр"
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "Сақтық кілтті көру үшін жеке басыңызды растаңыз."
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
     "messageformat": "Қалпына келтіру кілтін көру үшін жеке басыңызды растаңыз."
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "Сақтық кілтті көру"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
     "messageformat": "Қалпына келтіру кілтін көру"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "Сақтық кілтті көру үшін аутентификация керек."
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
     "messageformat": "Қалпына келтіру кілтін көру үшін аутентификация керек."
-  },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Сақтық кілт мәтін ұясы"
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
     "messageformat": "Қалпына келтіру кілті"
@@ -6349,23 +6334,14 @@
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "Кілтті енгізу"
   },
-  "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "Резервтік кілтіңізді жазып алыңыз"
-  },
   "icu:Preferences--local-backups-record-recovery-key": {
     "messageformat": "Қалпына келтіру кілтін жазыңыз"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "Бұл кілт аккаунт пен деректерді қалпына келтіру үшін қажет. Бұл кілтті қауіпсіз жерде сақтаңыз. Оны жоғалтсаңыз, аккаунтыңызды қалпына келтіре алмайсыз. <learnMoreLink>Толығырақ.</learnMoreLink>"
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "Сақтық кілтіңізді растау"
-  },
   "icu:Preferences--local-backups-confirm-recovery-key": {
     "messageformat": "Қалпына келтіру кілтін растау"
-  },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "Қазір ғана жазған сақтық кілтті енгізіңіз"
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
     "messageformat": "Қазір ғана жазған қалпына келтіру кілтін енгізіңіз"
@@ -6394,9 +6370,6 @@
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Резервтік қалта"
   },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "Өзгерту"
-  },
   "icu:Preferences__local-backups-turn-off": {
     "messageformat": "Сақтық көшірмелерді өшіру"
   },
@@ -6411,9 +6384,6 @@
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Буферге көшіру"
-  },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "Сақтық кілт көшірілді"
   },
   "icu:Preferences__local-backups-copied-recovery-key": {
     "messageformat": "Қалпына келтіру кілті көшірілді"
@@ -6436,14 +6406,8 @@
   "icu:Preferences__view-key": {
     "messageformat": "Кілтті көру"
   },
-  "icu:Preferences__backup-key": {
-    "messageformat": "Сақтық кілт"
-  },
   "icu:Preferences__recovery-key": {
     "messageformat": "Қалпына келтіру кілті"
-  },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "Сақтық кілт – сақтық көшірмені қалпына келтіру үшін қолданылатын 64 цифрлық код"
   },
   "icu:Preferences__recovery-key-description": {
     "messageformat": "Қалпына келтіру кілті — 64 таңбалы код, ол сақтық көшірмеңізді қалпына келтіру үшін қолданылады"
@@ -8147,9 +8111,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Кішігірім түзетпелер жасалды, ақаулар жөнделді және жұмысы жақсартылды. Signal-ды қолданғаныңыз үшін рақмет!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "Енді топтық чатта қатысушы белгішесін қосып, өзіңізді немесе рөліңізді сипаттай аласыз. Жергілікті әуесқой футбол лигасының чатына жаңа ойыншылар қосылған кезде, топтағы қатысушы белгішеңізді \"Төреші\" немесе \"Қақпашы\" деп қойыңыз. Ал жұмыс істейтін компанияңыздың чатында өз лауазымыңызды көрсететін басқа белгіше таңдаңыз. Қатысушы белгішелері сол топтағы профиль атауының жанында пайда болады. Топ әкімшілері олардың баршаға ашық болатындығын басқара алады."
   },
   "icu:WhatsNew__8.6--0": {
     "messageformat": "Енді соңғы хабарларды көру үшін экранды сонша айналдырудың қажеті болмайды. Қарбалас топтық чатқа бірнеше жаңа адам қосылса немесе қатарынан бірнеше қоңырау өткізіп алсаңыз, чаттағы мұндай қайталанатын оқиғалар автоматты түрде топтастырылып көрсетілетін болады. Кейде мұндай қысқаша ақпарат жеткілікті болса да, бұл тізімдерді кез келген уақытта оңай жиюға немесе жаюға болады."

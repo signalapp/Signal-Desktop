@@ -746,6 +746,9 @@
   "icu:fileSizeWarning": {
     "messageformat": "選択されたファイルは大きすぎます。 {limit,number} {units}"
   },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "選択された動画ファイルは下記の送信可能なサイズ上限を超えています。{limit,number}{units}"
+  },
   "icu:unableToLoadAttachment": {
     "messageformat": "選択された添付ファイルをロードできません。"
   },
@@ -3800,9 +3803,6 @@
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
     "messageformat": "Signal経由で通話リンクを共有する"
   },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "このユーザーを通話から退出させる"
-  },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "{name} を通話から削除しますか？"
   },
@@ -6316,32 +6316,17 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "完了"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "バックアップキーを表示する"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
     "messageformat": "回復キーを表示"
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "バックアップキーを表示するには、本人確認をおこなってください。"
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
     "messageformat": "回復キーを表示するには本人確認をおこなってください。"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "バックアップキーを表示する"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
     "messageformat": "回復キーを表示する"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "バックアップキーを表示するには認証が必要です。"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
     "messageformat": "回復キーを表示するには認証が必要です。"
-  },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "バックアップキー確認欄"
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
     "messageformat": "回復キー"
@@ -6349,23 +6334,14 @@
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "キーを入力"
   },
-  "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "バックアップキーを保管する"
-  },
   "icu:Preferences--local-backups-record-recovery-key": {
     "messageformat": "回復キーを記録する"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "このキーは、アカウントとデータを復元する際に必要です。このキーを安全な場所に保管してください。紛失した場合、アカウントを復元できなくなります。 <learnMoreLink>さらに詳しく。</learnMoreLink>"
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "バックアップキーを確認してください"
-  },
   "icu:Preferences--local-backups-confirm-recovery-key": {
     "messageformat": "回復キーを確認してください"
-  },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "先ほど記録したバックアップキーを入力してください"
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
     "messageformat": "記録した回復キーを入力してください"
@@ -6394,9 +6370,6 @@
   "icu:Preferences__local-backups-folder": {
     "messageformat": "バックアップフォルダ"
   },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "変更する"
-  },
   "icu:Preferences__local-backups-turn-off": {
     "messageformat": "バックアップの無効化"
   },
@@ -6411,9 +6384,6 @@
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "クリップボードにコピー"
-  },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "バックアップキーをコピーしました"
   },
   "icu:Preferences__local-backups-copied-recovery-key": {
     "messageformat": "回復キーをコピーしました"
@@ -6436,14 +6406,8 @@
   "icu:Preferences__view-key": {
     "messageformat": "キーを表示する"
   },
-  "icu:Preferences__backup-key": {
-    "messageformat": "バックアップキー"
-  },
   "icu:Preferences__recovery-key": {
     "messageformat": "回復キー"
-  },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "バックアップキーは、バックアップを復元するために使用する64桁のコードです"
   },
   "icu:Preferences__recovery-key-description": {
     "messageformat": "回復キーは、バックアップを復元するために必要な64文字のコードです"
@@ -8147,9 +8111,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "細かな微調整、バグ修正、パフォーマンスの向上。 Signalをご利用いただきありがとうございます。",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "グループチャット内で、自分自身についてや自分の役割について説明するメンバーラベルを任意で追加できるようになりました。メンバーラベルは、そのグループ内であなたのプロフィールネームの横に表示されます。また、グループ管理者は、全員がメンバーラベルの追加をできるようにするかどうかを設定できます。"
   },
   "icu:WhatsNew__8.6--0": {
     "messageformat": "チャット内での同じ種類の通知（不在着信が何件もあったなど）は自動的にコンパクトな表示にまとめられるので、最新のメッセージを見るためにスクロールする手間が省略できます。"

@@ -746,6 +746,9 @@
   "icu:fileSizeWarning": {
     "messageformat": "Diemžēl atlasītais fails pārsniedz ziņas izmēra ierobežojumus. {limit,number} {units}"
   },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+  },
   "icu:unableToLoadAttachment": {
     "messageformat": "Neizdevās ielādēt atlasīto pielikumu."
   },
@@ -3800,9 +3803,6 @@
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
     "messageformat": "Nosūtīt zvana saiti, izmantojot Signal"
   },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "Noņemt šo personu no zvana"
-  },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "{name} — vai noņemt no šī zvana?"
   },
@@ -6316,32 +6316,17 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "Darīts"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "parādīt rezerves kopijas atslēgu"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
     "messageformat": "parādīt atkopšanas atslēgu"
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "Apstipriniet savu identitāti, lai skatītu rezerves kopijas atslēgu."
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
     "messageformat": "Apstiprini savu identitāti, lai skatītu savu atkopšanas atslēgu."
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "Skatīt rezerves kopijas atslēgu"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
     "messageformat": "Skatīt atkopšanas atslēgu"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "Lai skatītu rezerves kopijas atslēgu, ir nepieciešama autentifikācija."
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
     "messageformat": "Lai skatītu savu atkopšanas atslēgu, ir nepieciešama autentifikācija."
-  },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Rezerves kopijas atslēgas teksta lodziņš"
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
     "messageformat": "Atkopšanas atslēga"
@@ -6349,23 +6334,14 @@
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "Ievadīt atslēgu"
   },
-  "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "Saglabājiet rezerves kopijas atslēgu"
-  },
   "icu:Preferences--local-backups-record-recovery-key": {
     "messageformat": "Saglabājiet savu atkopšanas atslēgu"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "Šī atslēga ir nepieciešama, lai atgūtu jūsu kontu un datus. Noglabājiet šo atslēgu drošā vietā. Ja to pazaudēsiet, nevarēsiet atgūt savu kontu. <learnMoreLink>Uzziniet vairāk.</learnMoreLink>"
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "Apstipriniet rezerves kopijas atslēgu"
-  },
   "icu:Preferences--local-backups-confirm-recovery-key": {
     "messageformat": "Apstipriniet atkopšanas atslēgu"
-  },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "Ievadiet tikko ierakstīto rezerves kopijas atslēgu"
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
     "messageformat": "Ievadiet tikko pierakstīto atkopšanas atslēgu"
@@ -6394,9 +6370,6 @@
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Rezerves kopiju mape"
   },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "Mainīt"
-  },
   "icu:Preferences__local-backups-turn-off": {
     "messageformat": "Izslēgt rezerves kopijas"
   },
@@ -6411,9 +6384,6 @@
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Kopēt starpliktuvē"
-  },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "Rezerves kopijas atslēga nokopēta"
   },
   "icu:Preferences__local-backups-copied-recovery-key": {
     "messageformat": "Atkopšanas atslēga nokopēta"
@@ -6436,14 +6406,8 @@
   "icu:Preferences__view-key": {
     "messageformat": "Skatīt atslēgu"
   },
-  "icu:Preferences__backup-key": {
-    "messageformat": "Rezerves kopijas atslēga"
-  },
   "icu:Preferences__recovery-key": {
     "messageformat": "Atkopšanas atslēga"
-  },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "Jūsu rezerves atslēga ir 64 ciparu kods, kas nepieciešams rezerves kopiju atjaunošanai"
   },
   "icu:Preferences__recovery-key-description": {
     "messageformat": "Tava atkopšanas atslēga ir 64 rakstzīmju kods, ko izmanto rezerves kopijas atjaunošanai"
@@ -8147,9 +8111,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Nelielas izmaiņas, kļūdu labojumi un darbības uzlabojumi. Paldies, ka lietojat Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "Tagad varat pievienot lietotāja emblēmu, lai grupas tērzētavā aprakstītu sevi vai savu amata nosaukumu. Ja jūsu futbola komandai ir sava tērzētava, iestatiet emblēmu \"Tiesnesis\" vai \"Vārtsargs\", lai ātrāk iepazītos ar jaunajiem biedriem, savukārt darba tērzētavā varat izvēlēties citu emblēmu, kas raksturo jūsu amatu. Lietotāju emblēmas ir redzamas blakus profila nosaukumam attiecīgajā grupā, un grupas administratori var kontrolēt, vai tās ir iespējotas visiem."
   },
   "icu:WhatsNew__8.6--0": {
     "messageformat": "Turpmāk vairs nebūs tik tālu jāritina, lai redzētu jaunākās ziņas. Ja aktīvai grupai pievienojas vairāki jauni dalībnieki vai saņemat vairākus neatbildētus zvanus pēc kārtas, šādi atkārtoti sarunas notikumi var tikt automātiski apvienoti kompaktā skatā. Reizēm mazāk ir vairāk, bet atceries — tu jebkurā brīdī vari šos sarakstus ērti izvērst vai sakļaut."

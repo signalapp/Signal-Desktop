@@ -746,6 +746,9 @@
   "icu:fileSizeWarning": {
     "messageformat": "ക്ഷമിക്കണം, തിരഞ്ഞെടുത്ത ഫയൽ സന്ദേശം വലുപ്പ നിയന്ത്രണങ്ങളെ മറികടക്കുന്നു. {limit,number} {units}"
   },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "ക്ഷമിക്കണം, തിരഞ്ഞെടുത്ത വീഡിയോ ഫയൽ സന്ദേശ പരിധിയേക്കാൾ കൂടുതലാണ്. {limit,number}{units}"
+  },
   "icu:unableToLoadAttachment": {
     "messageformat": "തിരഞ്ഞെടുത്ത അറ്റാച്ച്മെന്റ് ലോഡ് ചെയ്യാൻ കഴിയുന്നില്ല."
   },
@@ -3800,9 +3803,6 @@
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
     "messageformat": "Signal വഴി കോൾ ലിങ്ക് പങ്കിടുക"
   },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "കോളിൽ നിന്ന് ഈ വ്യക്തിയെ നീക്കം ചെയ്യുക"
-  },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "കോളിൽ നിന്ന് {name} എന്നയാളെ നീക്കം ചെയ്യണോ?"
   },
@@ -6316,32 +6316,17 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "ചെയ്‌തു"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "നിങ്ങളുടെ ബാക്കപ്പ് കീ കാണിക്കുക"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
     "messageformat": "നിങ്ങളുടെ വീണ്ടെടുക്കൽ കീ കാണിക്കുന്നതിന്"
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "നിങ്ങളുടെ ബാക്കപ്പ് കീ കാണുന്നതിന് നിങ്ങളുടെ ഐഡന്റിറ്റി പരിശോധിച്ചുറപ്പിക്കുക."
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
     "messageformat": "നിങ്ങളുടെ വീണ്ടെടുക്കൽ കീ കാണുന്നതിനായി നിങ്ങളുടെ ഐഡന്റിറ്റി പരിശോധിച്ചുറപ്പിക്കുക."
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "ബാക്കപ്പ് കീ കാണുക"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
     "messageformat": "വീണ്ടെടുക്കൽ കീ കാണുക"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "നിങ്ങളുടെ ബാക്കപ്പ് കീ കാണുന്നതിന് പ്രാമാണീകരണം ആവശ്യമാണ്."
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
     "messageformat": "നിങ്ങളുടെ വീണ്ടെടുക്കൽ കീ കാണുന്നതിന് ഓതന്റിക്കേഷൻ ആവശ്യമാണ്."
-  },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "ബാക്കപ്പ് കീ ടെക്സ്റ്റ് ബോക്സ്"
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
     "messageformat": "വീണ്ടെടുക്കൽ കീ"
@@ -6349,23 +6334,14 @@
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "കീ നൽകുക"
   },
-  "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "നിങ്ങളുടെ ബാക്കപ്പ് കീ രേഖപ്പെടുത്തുക"
-  },
   "icu:Preferences--local-backups-record-recovery-key": {
     "messageformat": "നിങ്ങളുടെ വീണ്ടെടുക്കൽ കീ രേഖപ്പെടുത്തുക"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "നിങ്ങളുടെ അക്കൗണ്ടും ഡാറ്റയും വീണ്ടെടുക്കാൻ ഈ കീ ആവശ്യമാണ്. ഈ കീ സുരക്ഷിതമായ ഒരിടത്ത് സൂക്ഷിക്കുക. നിങ്ങൾക്കത് നഷ്‌ടപ്പെടുകയാണെങ്കിൽ, നിങ്ങളുടെ അക്കൗണ്ട് വീണ്ടെടുക്കാൻ നിങ്ങൾക്ക് കഴിയില്ല. <learnMoreLink>കൂടുതലറിയുക.</learnMoreLink>"
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "നിങ്ങളുടെ ബാക്കപ്പ് കീ സ്ഥിരീകരിക്കുക"
-  },
   "icu:Preferences--local-backups-confirm-recovery-key": {
     "messageformat": "നിങ്ങളുടെ വീണ്ടെടുക്കൽ കീ സ്ഥിരീകരിക്കുക"
-  },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "നിങ്ങൾ ഇപ്പോൾ റെക്കോർഡ് ചെയ്ത ബാക്കപ്പ് കീ നൽകുക"
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
     "messageformat": "നിങ്ങൾ ഇപ്പോൾ രേഖപ്പെടുത്തിയ വീണ്ടെടുക്കൽ കീ നൽകുക"
@@ -6394,9 +6370,6 @@
   "icu:Preferences__local-backups-folder": {
     "messageformat": "ബാക്കപ്പ് ഫോൾഡർ"
   },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "മാറ്റുക"
-  },
   "icu:Preferences__local-backups-turn-off": {
     "messageformat": "ബാക്കപ്പുകൾ ഓഫ് ആക്കുക"
   },
@@ -6411,9 +6384,6 @@
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "ക്ലിപ്പ്ബോർഡിലേക്ക് പകർത്തൂ"
-  },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "ബാക്കപ്പ് കീ പകർത്തി"
   },
   "icu:Preferences__local-backups-copied-recovery-key": {
     "messageformat": "വീണ്ടെടുക്കൽ കീ പകർത്തി"
@@ -6436,14 +6406,8 @@
   "icu:Preferences__view-key": {
     "messageformat": "കീ കാണുക"
   },
-  "icu:Preferences__backup-key": {
-    "messageformat": "ബാക്കപ്പ് കീ"
-  },
   "icu:Preferences__recovery-key": {
     "messageformat": "വീണ്ടെടുക്കൽ കീ"
-  },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "നിങ്ങളുടെ ബാക്കപ്പ് പുനഃസ്ഥാപിക്കാൻ ഉപയോഗിക്കുന്ന 64 അക്ക കോഡാണ് ബാക്കപ്പ് കീ"
   },
   "icu:Preferences__recovery-key-description": {
     "messageformat": "നിങ്ങളുടെ ബാക്കപ്പ് പുനഃസ്ഥാപിക്കാൻ ഉപയോഗിക്കുന്ന 64 പ്രതീകങ്ങളുള്ള കോഡാണ് വീണ്ടെടുക്കൽ കീ"
@@ -8147,9 +8111,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "ചെറിയ മാറ്റങ്ങളും ബഗ് പരിഹരിക്കലുകളും പ്രകടന മെച്ചപ്പെടുത്തലുകളും. Signal ഉപയോഗിക്കുന്നതിന് നന്ദി!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "ഇപ്പോൾ നിങ്ങൾക്ക് നിങ്ങളെക്കുറിച്ചോ ഗ്രൂപ്പ് ചാറ്റിലെ നിങ്ങളുടെ പങ്കിനെക്കുറിച്ചോ വിവരിക്കുന്നതിന് ഒരു മെമ്പര്‍ ലേബൽ ഓപ്ഷണലായി ചേർക്കാൻ കഴിയും. പുതിയ ടീമംഗങ്ങൾ ചേരുമ്പോൾ കാര്യങ്ങൾ ആരംഭിക്കാൻ സഹായിക്കുന്നതിന് നിങ്ങളുടെ ലോക്കല്‍ റിക്രിയേഷണൽ ലീഗ് സോക്കർ ചാറ്റിൽ നിങ്ങളുടെ ഗ്രൂപ്പ് മെമ്പര്‍ ലേബൽ \"റഫറി\" അല്ലെങ്കിൽ \"ഗോളി\" എന്ന് സജ്ജമാക്കുക, തുടർന്ന് കമ്പനി ചാറ്റിൽ നിങ്ങളുടെ ജോലിയുടെ പേര് ഉപയോഗിച്ച് മറ്റൊരു ലേബൽ തിരഞ്ഞെടുക്കുക. മെമ്പർ ലേബലുകൾ ആ ഗ്രൂപ്പിലെ നിങ്ങളുടെ പ്രൊഫൈൽ പേരിന് തൊട്ടടുത്തായി കാണപ്പെടും. ഇവ എല്ലാവർക്കും ലഭ്യമാക്കണോ വേണ്ടയോ എന്നത് ഗ്രൂപ്പ് അഡ്മിൻമാർക്ക് നിയന്ത്രിക്കാൻ സാധിക്കും."
   },
   "icu:WhatsNew__8.6--0": {
     "messageformat": "പുതിയ സന്ദേശങ്ങൾ കാണുന്നതിനായി ഇനി നിങ്ങൾ അധികം സ്ക്രോൾ ചെയ്യേണ്ടി വരില്ല. തിരക്കുള്ള ഒരു ഗ്രൂപ്പ് ചാറ്റിൽ നിരവധി പുതിയ ആളുകൾ ചേരുകയോ, അല്ലെങ്കിൽ നിങ്ങൾക്ക് തുടർച്ചയായി മിസ്ഡ് കോളുകൾ ലഭിക്കുകയോ ചെയ്താൽ, ആവർത്തിച്ചുള്ള അത്തരം ചാറ്റ് ഇവന്റുകൾ ലളിതമായ രീതിയിൽ സ്വയം ഗ്രൂപ്പ് ചെയ്യപ്പെടും. ചിലപ്പോൾ കുറഞ്ഞ വിവരങ്ങൾ നൽകുന്നതാണ് കൂടുതൽ വ്യക്തത നൽകുന്നത്, എന്നാൽ നിങ്ങൾക്ക് എപ്പോൾ വേണമെങ്കിലും ഈ ലിസ്റ്റുകൾ വികസിപ്പിക്കാനോ ചുരുക്കാനോ സാധിക്കും."

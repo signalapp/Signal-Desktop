@@ -746,6 +746,9 @@
   "icu:fileSizeWarning": {
     "messageformat": "Atleiskite, pasirinktas failas viršija žinutės dydžio apribojimus. {limit,number} {units}"
   },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+  },
   "icu:unableToLoadAttachment": {
     "messageformat": "Nepavyko įkelti pasirinkto priedo."
   },
@@ -3800,9 +3803,6 @@
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
     "messageformat": "Bendrinti skambučio nuorodą per „Signal“"
   },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "Pašalinti šį asmenį iš skambučio"
-  },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "Pašalinti {name} iš skambučio?"
   },
@@ -6316,32 +6316,17 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "Atlikta"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "rodyti atsarginės kopijos raktą"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
     "messageformat": "parodyti jūsų atkūrimo raktą"
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "Patvirtinkite savo tapatybę, kad galėtumėte peržiūrėti atsarginės kopijos raktą."
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
     "messageformat": "Patvirtinkite savo tapatybę, kad galėtumėte peržiūrėti atkūrimo raktą."
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "Peržiūrėti atsarginės kopijos raktą"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
     "messageformat": "Rodyti atkūrimo raktą"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "Norint peržiūrėti atsarginės kopijos raktą, reikalingas autentifikavimas."
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
     "messageformat": "Norint peržiūrėti atkūrimo raktą, reikalingas autentifikavimas."
-  },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Atsarginės kopijos rakto teksto laukas"
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
     "messageformat": "Atkūrimo raktas"
@@ -6349,23 +6334,14 @@
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "Įvesti raktą"
   },
-  "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "Užsirašykite savo atsarginės kopijos raktą"
-  },
   "icu:Preferences--local-backups-record-recovery-key": {
     "messageformat": "Užsirašykite savo atkūrimo raktą"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "Šis raktas reikalingas norint atkurti paskyrą ir duomenis. Išsaugokite jį saugioje vietoje. Pamiršę raktą savo paskyros atkurti negalėsite. <learnMoreLink>Sužinoti daugiau.</learnMoreLink>"
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "Patvirtinkite atsarginės kopijos raktą"
-  },
   "icu:Preferences--local-backups-confirm-recovery-key": {
     "messageformat": "Patvirtinkite atkūrimo raktą"
-  },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "Įveskite ką tik įrašytą atsarginės kopijos raktą"
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
     "messageformat": "Įveskite ką tik įrašytą atkūrimo raktą"
@@ -6394,9 +6370,6 @@
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Atsarginių kopijų aplankas"
   },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "Keisti"
-  },
   "icu:Preferences__local-backups-turn-off": {
     "messageformat": "Išjungti atsargines kopijas"
   },
@@ -6411,9 +6384,6 @@
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Kopijuoti į iškarpinę"
-  },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "Atsarginės kopijos raktas nukopijuotas"
   },
   "icu:Preferences__local-backups-copied-recovery-key": {
     "messageformat": "Atkūrimo raktas nukopijuotas"
@@ -6436,14 +6406,8 @@
   "icu:Preferences__view-key": {
     "messageformat": "Peržiūrėti raktą"
   },
-  "icu:Preferences__backup-key": {
-    "messageformat": "Atsarginės kopijos raktas"
-  },
   "icu:Preferences__recovery-key": {
     "messageformat": "Atkūrimo raktas"
-  },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "Jūsų atsarginės kopijos raktas yra 64 skaitmenų kodas, naudojamas atsarginei kopijai atkurti."
   },
   "icu:Preferences__recovery-key-description": {
     "messageformat": "Jūsų atkūrimo raktas yra 64 skaitmenų kodas, naudojamas atsarginei kopijai atkurti."
@@ -8147,9 +8111,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Smulkūs patobulinimai, klaidų pataisymai ir veikimo pagerinimas. Ačiū, kad naudoji „Signal“!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "Dabar galite apibūdinti save arba savo vaidmenį šiame grupės pokalbyje pridėdami nario kategoriją. Narių kategorijos rodomos šalia jūsų profilio vardo toje grupėje, o grupės administratoriai gali kontroliuoti, ar jos įjungtos visiems."
   },
   "icu:WhatsNew__8.6--0": {
     "messageformat": "Pakartotiniai pokalbių įvykiai (pvz., keli praleisti skambučiai) gali būti automatiškai sugrupuoti į vieną kompaktišką langą, todėl norint peržiūrėti naujausius pranešimus nereikės tiek daug slinkti."

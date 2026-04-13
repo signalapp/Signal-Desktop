@@ -746,6 +746,9 @@
   "icu:fileSizeWarning": {
     "messageformat": "Na ndjeni, kartela e përzgjedhur tejkalon kufizimet për madhësi mesazhesh. {limit,number} {units}"
   },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "Ju kërkojmë ndjesë, por skedari i përzgjedhur i videos i tejkalon kufizimet për madhësi mesazhesh. {limit,number}{units}"
+  },
   "icu:unableToLoadAttachment": {
     "messageformat": "S’arrihet të ngarkohet bashkëngjitja e përzgjedhur."
   },
@@ -3800,9 +3803,6 @@
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
     "messageformat": "Shpërndaj lidhjen e thirrjes përmes Signal"
   },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "Hiqe këtë person nga telefonata"
-  },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "Të hiqet {name} nga telefonata?"
   },
@@ -6316,32 +6316,17 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "U bë"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "shfaq kodin e kopjeruajtjes"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
     "messageformat": "trego kodin e rikthimit"
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "Verifiko identitetin për të parë kodin e kopjeruajtjes."
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
     "messageformat": "Verifiko identitetin për të parë kodin e rikthimit."
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "Shiko kodin e kopjeruajtjes"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
     "messageformat": "Shiko kodin e rikthimit"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "Kërkohet vërtetim për të parë kodin e kopjeruajtjes."
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
     "messageformat": "Kërkohet identifikim për të parë kodin e rikthimit."
-  },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Kutia e tekstit të kodit të kopjeruajtjes"
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
     "messageformat": "Kodi i rikthimit"
@@ -6349,23 +6334,14 @@
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "Shkruaj kodin"
   },
-  "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "Regjistro kodin e kopjeruajtjes"
-  },
   "icu:Preferences--local-backups-record-recovery-key": {
     "messageformat": "Regjistro kodin e rikthimit"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "Ky kod kërkohet për të rikuperuar llogarinë dhe të dhënat e tua. Ruaje kodin në një vend të sigurt. Nëse e humb, nuk do të mund të rikuperosh llogarinë. <learnMoreLink>Mëso më shumë.</learnMoreLink>"
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "Konfirmo kodin e kopjeruajtjes"
-  },
   "icu:Preferences--local-backups-confirm-recovery-key": {
     "messageformat": "Konfirmo kodin e rikthimit"
-  },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "Vendos kodin e kopjeruajtjes që sapo regjistrove"
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
     "messageformat": "Vendos kodin e rikthimit që sapo regjistrove"
@@ -6394,9 +6370,6 @@
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Dosje kopjeruajtjesh"
   },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "Ndrysho"
-  },
   "icu:Preferences__local-backups-turn-off": {
     "messageformat": "Çaktivizo kopjeruajtjet"
   },
@@ -6411,9 +6384,6 @@
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Kopjoje në të papastër"
-  },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "Kodi i kopjeruajtjes u kopjua"
   },
   "icu:Preferences__local-backups-copied-recovery-key": {
     "messageformat": "Kodi i rikthimit u kopjua"
@@ -6436,14 +6406,8 @@
   "icu:Preferences__view-key": {
     "messageformat": "Shiko kodin e kopjeruajtjes"
   },
-  "icu:Preferences__backup-key": {
-    "messageformat": "Kodi i kopjeruajtjes"
-  },
   "icu:Preferences__recovery-key": {
     "messageformat": "Kodi i rikthimit"
-  },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "Kodi i kopjeruajtjes është një kod 64-shifror që përdoret për të rikthyer kopjeruajtjen"
   },
   "icu:Preferences__recovery-key-description": {
     "messageformat": "Kodi i rikthimit është një kod me 64 karaktere që përdoret për të rikthyer kopjeruajtjen"
@@ -8147,9 +8111,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Rregullme të vogla, riparime të gabimeve dhe përmirësime të mbarëvajtjes.  Faleminderit që përdorni Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "Tani mund të shtosh opsionalisht emërtimin e anëtarit për të përshkruar veten ose rolin tënd në bisedat në grup. Vendos emërtimin e anëtarit të grupit në \"Arbitër\" ose \"Portier\" në bisedën lokale të futbollit të ligës argëtuese për të ndihmuar në fillimin e punës kur bashkohen shokët e rinj të ekipit, pastaj zgjidh një emërtim tjetër me titullin e punës në bisedën e kompanisë. Emërtimet e anëtarit shfaqen pranë emrit të profilit në atë grup dhe administratorët e grupit mund të kontrollojnë nëse janë të aktivizuara për këdo ose jo."
   },
   "icu:WhatsNew__8.6--0": {
     "messageformat": "Aktivitetet e përsëritura të thirrjeve (si thirrjet e shumta të humbura) mund të grupohen automatikisht, duke kursyer hapësirë dhe duke e bërë më të lehtë ndjekjen e mesazheve të fundit."

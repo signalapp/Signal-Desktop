@@ -746,6 +746,9 @@
   "icu:fileSizeWarning": {
     "messageformat": "უკაცრავად, არჩეული ფაილი აჭარბებს შეტყობინების ზომის შეზღუდვებს. {limit,number}{units}"
   },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "ვწუხვართ, არჩეული ვიდეო ფაილი წერილის ზომის შეზღუდვას აჭარბებს. {limit,number}{units}"
+  },
   "icu:unableToLoadAttachment": {
     "messageformat": "არჩეული დანართის ჩატვირთვა ვერ მოხერხდა."
   },
@@ -3800,9 +3803,6 @@
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
     "messageformat": "გააზიარე ზარის ბმული Signal-დან"
   },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "ამ ადამიანის ზარიდან გაგდება"
-  },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "გავთიშოთ {name} ზარიდან?"
   },
@@ -6316,32 +6316,17 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "შესრულებულია"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "შენი სათადარიგო ასლების გასაღების ჩვენება"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
     "messageformat": "შენი აღდგენის გასაღების ჩვენება"
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "შენი სათადარიგო ასლების გასაღების სანახავად დაადასტურე შენი ვინაობა."
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
     "messageformat": "დაადასტურე შენი ვინაობა აღდგენის გასაღების სანახავად."
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "სათადარიგო ასლების გასაღების ნახვა"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
     "messageformat": "აღდგენის გასაღების ნახვა"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "შენი სათადარიგო ასლების გასაღების სანახავად ავტორიზაციაა საჭირო."
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
     "messageformat": "შენი აღდგენის გასაღების სანახავად ავტორიზაციაა საჭირო."
-  },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "სათადარიგო ასლების გასაღები ტექსტის ველი"
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
     "messageformat": "აღდგენის გასაღები"
@@ -6349,23 +6334,14 @@
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "შეიყვანე გასაღები"
   },
-  "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "ჩაიწერე შენი სათადარიგო ჩანაწერების გასაღები"
-  },
   "icu:Preferences--local-backups-record-recovery-key": {
     "messageformat": "ჩაიწერე შენი აღდგენის გასაღები"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "ეს გასაღები საჭიროა შენი ანგარიშისა და მონაცემების აღსადგენად. შეინახე გასაღები უსაფრთხო ადგილას. თუ მას დაკარგავ, შენი ანგარიშის აღდგენას ვეღარ შეძლებ. <learnMoreLink>გაიგე მეტი.</learnMoreLink>"
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "დაადასტურე შენი სათადარიგო ასლების გასაღები"
-  },
   "icu:Preferences--local-backups-confirm-recovery-key": {
     "messageformat": "დაადასტურე შენი აღდგენის გასაღები"
-  },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "შეიყვანე სათადარიგო ასლების გასაღები, რომელიც ახლახანს ჩაიწერე"
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
     "messageformat": "შეიყვანე შენ მიერ ახლახან ჩაწერილი აღდგენის გასაღები"
@@ -6394,9 +6370,6 @@
   "icu:Preferences__local-backups-folder": {
     "messageformat": "სარეზერვო კოპიების შენახვის ადგილი"
   },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "შეცვლა"
-  },
   "icu:Preferences__local-backups-turn-off": {
     "messageformat": "სათადარიგო ასლების გამორთვა"
   },
@@ -6411,9 +6384,6 @@
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "ბუფერში ჩაკოპირება"
-  },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "სათადარიგო ასლების გასაღები დაკოპირებულია"
   },
   "icu:Preferences__local-backups-copied-recovery-key": {
     "messageformat": "აღდგენის გასაღები დაკოპირდა"
@@ -6436,14 +6406,8 @@
   "icu:Preferences__view-key": {
     "messageformat": "გასაღების ნახვა"
   },
-  "icu:Preferences__backup-key": {
-    "messageformat": "სათადარიგო ასლების გასაღები"
-  },
   "icu:Preferences__recovery-key": {
     "messageformat": "აღდგენის გასაღები"
-  },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "შენი სათადარიგო ასლების გასაღები 64 ციფრიანი კოდია, რომელიც შენი ასლების აღსადგენადაა საჭირო"
   },
   "icu:Preferences__recovery-key-description": {
     "messageformat": "შენი აღდგენის გასაღები 64 სიმბოლოსგან შემდგარი კოდია, რომელიც შენი სათადარიგო ასლების აღსადგენად გამოიყენება"
@@ -8147,9 +8111,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "მცირე შესწორებები, ბაგების გამოსწორება და წარმადობის გაუმჯობესება. მადლობას გიხდით სიგნალის გამოყენებისთვის!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "ახლა შეგიძლია, სურვილის შემთხვევაში, წევრის იარლიყი დაამატო, რათა შენი თავი ან შენი როლი აღწერო ჯგუფის ჩატში. დაიყენე ჯგუფის წევრის იარლიყი სამსახურის ჩატში შენი პოზიციის მიხედვით. წევრის იარლიყი იმ ჯგუფში შენი პროფილის სახელის გვერდზე ჩნდება და ჯგუფის ადმინისტრატორებს შეუძლიათ გააკონტროლონ, იქნება თუ არა ის ყველასთვის ჩართული."
   },
   "icu:WhatsNew__8.6--0": {
     "messageformat": "ახლა ბოლო წერილების წასაკითხად დიდხანს სქროლვა აღარ მოგიწევს. ახლა უკვე ჩატის განმეორებითი ქმედებების (მაგალითად, რამდენიმე გამოტოვებული ზარის) ავტომატურად კომპაქტურად დაჯგუფება შეიძლება. ამ სიების გაშლას ან დაპატარავებას ნებისმიერ დროს შეძლებ."

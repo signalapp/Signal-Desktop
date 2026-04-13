@@ -746,6 +746,9 @@
   "icu:fileSizeWarning": {
     "messageformat": "对不起，所选文件超过最大限制。 {limit,number} {units}"
   },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "抱歉，所选视频文件超过了消息的最大限制。{limit,number}{units}"
+  },
   "icu:unableToLoadAttachment": {
     "messageformat": "无法加载选中的附件。"
   },
@@ -3800,9 +3803,6 @@
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
     "messageformat": "通过 Signal 分享通话链接"
   },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "将此人移除出通话"
-  },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "要将{name}移除出通话吗？"
   },
@@ -6316,32 +6316,17 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "完成"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "显示您的备份密钥"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
     "messageformat": "显示您的恢复密钥"
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "请验证您的身份以查看备份密钥。"
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
     "messageformat": "请验证您的身份以查看您的恢复密钥。"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "查看备份密钥"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
     "messageformat": "查看恢复密钥"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "需要完成身份验证才能查看您的备份密钥。"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
     "messageformat": "需要完成身份验证才能查看您的恢复密钥。"
-  },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "备份密钥文本框"
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
     "messageformat": "恢复密钥"
@@ -6349,23 +6334,14 @@
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "输入密钥"
   },
-  "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "记录您的备份密钥"
-  },
   "icu:Preferences--local-backups-record-recovery-key": {
     "messageformat": "记录您的恢复密钥"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "这是恢复您的账户和数据时所需的密钥，请将其保存在安全的地方。如果密钥丢失，您将无法恢复您的账户。 <learnMoreLink>了解更多。</learnMoreLink>"
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "确认您的备份密钥"
-  },
   "icu:Preferences--local-backups-confirm-recovery-key": {
     "messageformat": "确认您的恢复密钥"
-  },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "请输入您刚刚记录的备份密钥"
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
     "messageformat": "请输入您刚刚记录的恢复密钥"
@@ -6394,9 +6370,6 @@
   "icu:Preferences__local-backups-folder": {
     "messageformat": "备份文件夹"
   },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "更改"
-  },
   "icu:Preferences__local-backups-turn-off": {
     "messageformat": "关闭备份"
   },
@@ -6411,9 +6384,6 @@
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "复制到剪切板"
-  },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "备份密钥已复制"
   },
   "icu:Preferences__local-backups-copied-recovery-key": {
     "messageformat": "恢复密钥已拷贝"
@@ -6436,14 +6406,8 @@
   "icu:Preferences__view-key": {
     "messageformat": "查看密钥"
   },
-  "icu:Preferences__backup-key": {
-    "messageformat": "备份密钥"
-  },
   "icu:Preferences__recovery-key": {
     "messageformat": "恢复密钥"
-  },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "您的备份密钥是一个 64 位数字代码，用于恢复您的备份"
   },
   "icu:Preferences__recovery-key-description": {
     "messageformat": "您的恢复密钥是一个 64 个字符的代码，用于恢复您的备份"
@@ -8147,9 +8111,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "我们进行了功能微调、漏洞修复和性能强化。感谢使用 Signal！",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "现在您可以选择添加成员标签来描述您自己或您在群组聊天中的角色。成员标签会显示在您的群组昵称旁，群组管理员可以控制成员标签是否对所有成员启用。"
   },
   "icu:WhatsNew__8.6--0": {
     "messageformat": "重复的聊天事件（例如多通未接来电）可自动归并为紧凑显示，让您无需大幅滚动屏幕，即可快速查阅最新消息。"

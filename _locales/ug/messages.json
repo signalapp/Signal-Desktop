@@ -746,6 +746,9 @@
   "icu:fileSizeWarning": {
     "messageformat": "كەچۈرۈڭ، تاللانغان ھۆججەتلەر ئۇچۇر چوڭلۇقى چەكلىمىسىدىن ئېشىپ كەتتى. {limit,number}{units}"
   },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "كەچۈرۈڭ، تاللانغان سىن ھۆججىتى ئۇچۇر چوڭلۇقى چەكلىمىسىدىن ئېشىپ كەتتى. {limit,number}{units}"
+  },
   "icu:unableToLoadAttachment": {
     "messageformat": "تاللانغان يۈكلەنمىلەرنى يۈكلىيەلمىدى."
   },
@@ -3800,9 +3803,6 @@
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
     "messageformat": "Signal ئارقىلىق چاقىرىق ئۇلانمىسىنى ئورتاقلىشىش"
   },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "بۇ كىشىنى چاقىرىقتىن چىقىرىۋېتىش"
-  },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "{name} نى بۇ چاقىرىقتىن چىقىرىۋېتەمسىز؟"
   },
@@ -6316,32 +6316,17 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "بولدى"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "زاپاسلاش ئاچقۇچىڭىزنى كۋرسىتىڭ"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
     "messageformat": "ئەسلىگە كەلتۈرۈش ئاچقۇچىڭىزنى كۆرسىتىڭ"
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "زاپاسلاش ئاچقۇچىڭىزنى كۆرۈش ئۈچۈن سالاھىيىتىڭىزنى تەكشۈرتۈڭ."
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
     "messageformat": "ئەسلىگە كەلتۈرۈش ئاچقۇچىڭىزنى كۆرۈش ئۈچۈن سالاھىيىتىڭىزنى دەلىللەڭ."
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "زاپاسلاش ئاچقۇچىنى كۆرۈڭ"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
     "messageformat": "ئەسلىگە كەلتۈرۈش ئاچقۇچىنى كۆرۈش"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "زاپاسلاش ئاچقۇچىڭىزنى كۆرۈش ئۈچۈن دەلىللەش تەلەپ قىلىنىدۇ."
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
     "messageformat": "ئەسلىگە كەلتۈرۈش ئاچقۇچىڭىزنى كۆرۈش ئۈچۈن دەلىللەش تەلەپ قىلىنىدۇ."
-  },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "«زاپاسلاش ئاچقۇچى»تېكىست رامكىسى"
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
     "messageformat": "ئەسلىگە كەلتۈرۈش ئاچقۇچى"
@@ -6349,23 +6334,14 @@
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "ئاچقۇچنى كىرگۈزۈش"
   },
-  "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "زاپاسلاش ئاچقۇچىڭىز خاتىرلەڭ"
-  },
   "icu:Preferences--local-backups-record-recovery-key": {
     "messageformat": "ئەسلىگە كەلتۈرۈش ئاچقۇچىڭىزنى خاتىرىلەڭ"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "بۇ ئاچقۇچ ھېساباتىڭىز ۋە سانلىق مەلۇماتلىرىڭىزنى ئەسلىگە كەلتۈرۈش ئۈچۈن تەلەپ قىلىنىدۇ. بۇ ئاچقۇچنى بىخەتەر جايدا ساقلاڭ. ئەگەر ئۇنى يوقىتىپ قويسىڭىز ، ھېساباتىڭىزنى ئەسلىگە كەلتۈرەلمەيسىز. <learnMoreLink>تەپسىلاتى.</learnMoreLink>"
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "زاپاسلاش ئاچقۇچىڭىزنى جەزملەشتۈرۈڭ"
-  },
   "icu:Preferences--local-backups-confirm-recovery-key": {
     "messageformat": "ئەسلىگە كەلتۈرۈش ئاچقۇچىڭىزنى جەزملەشتۈرۈڭ"
-  },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "بايام خاتىرىلىگەن زاپاسلاش ئاچقۇچىنى كىرگۈزۈڭ"
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
     "messageformat": "بايام خاتىرىلىگەن ئەسلىگە كەلتۈرۈش ئاچقۇچىنى كىرگۈزۈڭ"
@@ -6394,9 +6370,6 @@
   "icu:Preferences__local-backups-folder": {
     "messageformat": "زاپاسلاش قىسقۇچى"
   },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "ئۆزگەرتىش"
-  },
   "icu:Preferences__local-backups-turn-off": {
     "messageformat": "زاپاسلاشلارنى ئېتىۋەتتىڭىز"
   },
@@ -6411,9 +6384,6 @@
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "چاپلاش تاختىسىغا كۆچۈر"
-  },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "زاپاسلاش ئاچقۇچى كۆچۈرۈلدى"
   },
   "icu:Preferences__local-backups-copied-recovery-key": {
     "messageformat": "ئەسلىگە كەلتۈرۈش ئاچقۇچى كۆچۈرۈلدى"
@@ -6436,14 +6406,8 @@
   "icu:Preferences__view-key": {
     "messageformat": "ئاچقۇچنى كۆرۈش"
   },
-  "icu:Preferences__backup-key": {
-    "messageformat": "زاپاسلاش ئاچقۇچى"
-  },
   "icu:Preferences__recovery-key": {
     "messageformat": "ئەسلىگە كەلتۈرۈش ئاچقۇچى"
-  },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "زاپاسلاش ئاچقۇچىڭىز زاپاسلاشنى ئەسلىگە كەلتۈرۈش ئۈچۈن ئىشلىتىلىدىغان 64 خانىلىق كود"
   },
   "icu:Preferences__recovery-key-description": {
     "messageformat": "ئەسلىگە كەلتۈرۈش ئاچقۇچىڭىز، زاپاسلاشنى ئەسلىگە كەلتۈرۈش ئۈچۈن ئىشلىتىلىدىغان 64 خانىلىق كود"
@@ -8147,9 +8111,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "كىچىك ئۆزگەرتىشلەر كىرگۈزۈلدى، كاشىلا ھەل قىلىندى ۋە ئىقتىدار ئەلالاشتۇرۇلدى. Signal نى ئىشلەتكەنلىكىڭىزگە رەھمەت!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "ھازىر سىز ئۆزىڭىزنى ياكى گۇرۇپپا سۆھبىتىدىكى رولىڭىزنى تەسۋىرلەش ئۈچۈن ئەزا بەلگىسىنى ئىختىيارىي قوشالايسىز. يېڭى كوماندا ئەزالىرى قوشۇلغاندا، گۇرۇپپا ئەزا بەلگىسىنى يەرلىك پۇتبول بىرلەشمىسى گۇرۇپپىسىدا «رېپېر» ياكى «ۋارتا» قىلىپ تەڭشەش ئارقىلىق گۇرۇپپىغا ھەمكارلىشىپ ئىشلارنى يۈرۈشتۈرۈپ بېرىڭ، ئاندىن شىركەت گۇرۇپپىسىدا خىزمىتىڭىزنىڭ نامى بىلەن باشقا بەلگە تاللاڭ. ئەزا بەلگىللىرى شۇ گۇرۇپپىدا سىزنىڭ ئارخىپ نامىڭىزنىڭ يېنىدا كۆرۈنىدۇ، ھەمدە گۇرۇپپا باشقۇرغۇچىلىرى بۇلارنى ھەممەيلەننىڭ قوشالايدىغان ياكى قوشالمايدىغانلىقىنى كونترول قىلالايدۇ."
   },
   "icu:WhatsNew__8.6--0": {
     "messageformat": "بۇنىڭدىن كېيىن يېقىنقى ئۇچۇرلاردىن مەلۇمات ئېلىش ئۈچۈن توختىماي سېيرىشىڭىزنىڭ ھاجىتى يوق. ئەگەر قىززىپ كەتكەن گۇرۇپپا سۆھبىتىگە بىر قانچە يېڭى ئادەم قوشۇلسا ياكى ئارقا-ئارقىدىن بىر نەچچە جاۋابسىز تېلېفون تاپشۇرۇۋالسىڭىز، بۇ خىل تەكرارلانغان سۆھبەت ھالەتلىرى ئاپتوماتىك ھالدا بىر يەرگە توپلىنىپ، قىسقا ۋە يىغىنچاق كۆرۈنۈشتە كۆرسىتىلىدۇ. سىز بۇ تىزىملىكلەرنى خالىغان ۋاقىتتا ئاسانلا كېڭەيتەلەيسىز ياكى يىغالايسىز."

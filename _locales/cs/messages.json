@@ -746,6 +746,9 @@
   "icu:fileSizeWarning": {
     "messageformat": "Je nám líto, vybraný soubor překračuje limit velikosti zprávy. {limit,number} {units}"
   },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "Je nám líto, vybrané video překračuje limit pro velikosti zprávy. {limit,number}{units}"
+  },
   "icu:unableToLoadAttachment": {
     "messageformat": "Nelze načíst vybranou přílohu."
   },
@@ -3800,9 +3803,6 @@
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
     "messageformat": "Sdílet odkaz na hovor přes Signal"
   },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "Odebrat tuto osobu z hovoru"
-  },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "Odebrat uživatele {name} z hovoru?"
   },
@@ -6316,32 +6316,17 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "Hotovo"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "zobrazit záložní klíč"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
     "messageformat": "zobrazit klíč pro obnovení"
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "Ověřte svou totožnost, abyste mohli zobrazit svůj zálohovací klíč."
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
     "messageformat": "Ověřte svou totožnost, abyste mohli zobrazit svůj klíč pro obnovení."
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "Zobrazit záložní klíč"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
     "messageformat": "Zobrazit klíč pro obnovení"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "Pro zobrazení záložního klíče je vyžadováno ověření."
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
     "messageformat": "Pro zobrazení klíče pro obnovení je vyžadováno ověření."
-  },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Textové pole pro záložní klíč"
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
     "messageformat": "Klíč pro obnovení"
@@ -6349,23 +6334,14 @@
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "Zadat klíč"
   },
-  "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "Zaznamenejte si svůj záložní klíč"
-  },
   "icu:Preferences--local-backups-record-recovery-key": {
     "messageformat": "Nahrajte svůj klíč pro obnovení"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "Tento klíč je nutný k obnovení vašeho účtu a dat. Uložte tento klíč na bezpečné místo. Pokud jej ztratíte, nebudete moci svůj účet obnovit. <learnMoreLink>Víc informací.</learnMoreLink>"
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "Potvrďte svůj záložní klíč"
-  },
   "icu:Preferences--local-backups-confirm-recovery-key": {
     "messageformat": "Potvrďte svůj klíč pro obnovení"
-  },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "Zadejte záložní klíč, který jste právě nahráli"
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
     "messageformat": "Zadejte klíč pro obnovení, který jste právě nahráli"
@@ -6394,9 +6370,6 @@
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Složka pro zálohy"
   },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "Změnit"
-  },
   "icu:Preferences__local-backups-turn-off": {
     "messageformat": "Vypnout zálohování"
   },
@@ -6411,9 +6384,6 @@
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Zkopírovat do schránky"
-  },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "Záložní klíč zkopírován"
   },
   "icu:Preferences__local-backups-copied-recovery-key": {
     "messageformat": "Klíč pro obnovení zkopírován"
@@ -6436,14 +6406,8 @@
   "icu:Preferences__view-key": {
     "messageformat": "Zobrazit klíč"
   },
-  "icu:Preferences__backup-key": {
-    "messageformat": "Záložní klíč"
-  },
   "icu:Preferences__recovery-key": {
     "messageformat": "Klíč pro obnovení"
-  },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "Záložní klíč je 64místný kód potřebný k obnovení zálohy"
   },
   "icu:Preferences__recovery-key-description": {
     "messageformat": "Klíč pro obnovení je 64místný kód potřebný k obnovení zálohy"
@@ -8147,9 +8111,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Drobná vylepšení, opravy chyb a zvýšení výkonu. Děkujeme, že používáte Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "Nyní můžete volitelně přidat štítek člena, který popisuje člena nebo jeho roli ve skupinovém chatu. Štítky členů se v dané skupině zobrazují vedle profilového jména a správci skupiny mohou nastavit, zda budou povoleny pro všechny."
   },
   "icu:WhatsNew__8.6--0": {
     "messageformat": "Opakující se události v chatu (například více zmeškaných hovorů) lze nyní automaticky seskupit do přehledného zobrazení, takže při čtení nejnovějších zpráv nebudete muset tolik skrolovat."

@@ -746,6 +746,9 @@
   "icu:fileSizeWarning": {
     "messageformat": "క్షమించండి, ఎంచుకున్న పంక్తి సందేశ పరిమాణ పరిమితులను మించిపోయింది. {limit,number} {units}"
   },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "క్షమించండి, ఎంచుకున్న వీడియో ఫైల్ సందేశ పరిమాణ పరిమితులను మించిపోయింది. {limit,number}{units}"
+  },
   "icu:unableToLoadAttachment": {
     "messageformat": "ఎంచుకున్న అటాచ్‌మెంట్‌ను లోడ్ చేయడం సాధ్యం కాలేదు."
   },
@@ -3800,9 +3803,6 @@
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
     "messageformat": "కాల్ లింక్ Signal ద్వారా పంచుకోండి"
   },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "కాల్ నుండి ఈ వ్యక్తిని తొలగించండి"
-  },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "కాల్ నుండి {name}‌ను తొలగించేదా?"
   },
@@ -6316,32 +6316,17 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "పూర్తయింది"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "మీ బ్యాకప్ కీని చూపించండి"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
     "messageformat": "మీ రికవరీ కీని చూపించండి"
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "మీ బ్యాకప్ కీని వీక్షించడానికి మీ గుర్తింపును ధృవీకరించండి."
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
     "messageformat": "మీ రికవరీ కీని వీక్షించడానికి మీ గుర్తింపును ధృవీకరించండి."
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "బ్యాకప్ కీని వీక్షించండి"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
     "messageformat": "రికవరీ కీని వీక్షించండి"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "మీ బ్యాకప్ కీని వీక్షించడానికి ప్రమాణీకరణ అవసరం."
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
     "messageformat": "మీ రికవరీ కీని వీక్షించడానికి ప్రమాణీకరణ అవసరం."
-  },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "బ్యాకప్ కీ టెక్స్ట్ బాక్స్"
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
     "messageformat": "రికవరీ కీ"
@@ -6349,23 +6334,14 @@
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "కీ ఎంటర్ చేయండి"
   },
-  "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "మీ బ్యాకప్ కీని రికార్డ్ చేయండి"
-  },
   "icu:Preferences--local-backups-record-recovery-key": {
     "messageformat": "మీ రికవరీ కీని రికార్డ్ చేయండి"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "మీ ఖాతా మరియు డేటాను తిరిగి పొందడానికి ఈ కీ అవసరం. ఈ కీని ఎక్కడైనా సురక్షితంగా నిల్వ చేయండి. ఒకవేళ మీరు దీన్ని పోగొట్టుకుంటే, మీరు మీ ఖాతాను తిరిగి పొందలేరు. <learnMoreLink>మరింత తెలుసుకోండి.</learnMoreLink>"
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "మీ బ్యాకప్ కీని నిర్ధారించండి"
-  },
   "icu:Preferences--local-backups-confirm-recovery-key": {
     "messageformat": "మీ రికవరీ కీని నిర్ధారించండి"
-  },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "మీరు ఇప్పుడే రికార్డ్ చేసిన బ్యాకప్ కీని ఎంటర్ చేయండి"
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
     "messageformat": "మీరు ఇప్పుడే రికార్డ్ చేసిన రికవరీ కీని ఎంటర్ చేయండి"
@@ -6394,9 +6370,6 @@
   "icu:Preferences__local-backups-folder": {
     "messageformat": "బ్యాకప్ ఫోల్డర్"
   },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "మార్చండి"
-  },
   "icu:Preferences__local-backups-turn-off": {
     "messageformat": "బ్యాకప్‌లను ఆఫ్ చేయండి"
   },
@@ -6411,9 +6384,6 @@
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "తాత్కాలికంగా భద్రపరుచు ప్రదేశముకు నకలు చెయ్యి"
-  },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "బ్యాకప్ కీ కాపీ చేయబడింది"
   },
   "icu:Preferences__local-backups-copied-recovery-key": {
     "messageformat": "రికవరీ కీ కాపీ చేయబడింది"
@@ -6436,14 +6406,8 @@
   "icu:Preferences__view-key": {
     "messageformat": "కీని వీక్షించండి"
   },
-  "icu:Preferences__backup-key": {
-    "messageformat": "బ్యాకప్ కీ"
-  },
   "icu:Preferences__recovery-key": {
     "messageformat": "రికవరీ కీ"
-  },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "మీ బ్యాకప్ కీ అనేది మీ బ్యాకప్‌ను పునరుద్ధరించడానికి ఉపయోగించే 64-అంకెల కోడ్"
   },
   "icu:Preferences__recovery-key-description": {
     "messageformat": "మీ రికవరీ కీ అనేది మీ బ్యాకప్‌ను పునరుద్ధరించడానికి ఉపయోగించే 64 అక్షరాల కోడ్"
@@ -8147,9 +8111,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "చిన్న ట్వీక్‌లు, బగ్ ఫిక్స్‌లు, మరియు పనితీరు మెరుగుదలలు. Signal ఉపయోగించినందుకు మీకు ధన్యవాదాలు!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "గ్రూప్ చాట్‌లో మిమ్మల్ని లేదా మీ పాత్రను వివరించడానికి ఇప్పుడు మీరు ఐచ్ఛికంగా సభ్యుడి లేబుల్‌ను జోడించవచ్చు. కొత్త జట్టు సహచరులు చేరినప్పుడు విషయాలను ప్రారంభించడానికి మీ స్థానిక రెక్ లీగ్ సాకర్ చాట్‌లో మీ గ్రూప్ సభ్యుని లేబుల్‌ను \"రిఫరీ\" లేదా \"గోలీ\" గా సెట్ చేయండి, ఆపై కంపెనీ చాట్‌లో మీ ఉద్యోగ శీర్షికతో వేరే లేబుల్‌ను ఎంచుకోండి. ఆ గ్రూప్‌లో మీ ప్రొఫైల్ పేరు పక్కన సభ్యుల లేబుల్‌లు కనిపిస్తాయి మరియు గ్రూప్ అడ్మిన్‌లు వాటిని అందరికీ ప్రారంభించాలా వద్దా అని నియంత్రించగలరు."
   },
   "icu:WhatsNew__8.6--0": {
     "messageformat": "ఇప్పుడు తాజా సందేశాలను అందుకోవడానికి మీరు అంతగా స్క్రోల్ చేయాల్సిన అవసరం ఉండదు. పునరావృతమయ్యే చాట్ ఈవెంట్‌లను (అనేక మిస్డ్ కాల్స్ వంటివి) స్వయంచాలకంగా ఒక సంగ్రహించబడిన డిస్‌ప్లేగా సమూహపరచవచ్చు. కొన్నిసార్లు తక్కువగా ఉండటమే మేలు, కానీ మీరు ఈ జాబితాలను ఎప్పుడైనా సులభంగా విస్తరించవచ్చు లేదా కుదించవచ్చు."

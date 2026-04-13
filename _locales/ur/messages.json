@@ -746,6 +746,9 @@
   "icu:fileSizeWarning": {
     "messageformat": "معذرت، منتخب شدہ فائل پیغام کے حجم کی پابندیوں سے بڑھ چکی ہے۔ {limit,number} {units}"
   },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "معذرت، منتخب شدہ ویڈیو فائل میسج کے سائز کی حدود سے تجاوز کر گئی ہے۔ {limit,number}{units}"
+  },
   "icu:unableToLoadAttachment": {
     "messageformat": "منتخب کردہ اٹیچمنٹ لوڈ ہونے کے قابل نہیں ہے۔"
   },
@@ -3800,9 +3803,6 @@
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
     "messageformat": "کال لنک کا بذریعہ Signal اشتراک کریں"
   },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "کال سے اس فرد کو ہٹائیں"
-  },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "{name} کو کال سے ہٹا دیں؟"
   },
@@ -6316,32 +6316,17 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "ہو گیا"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "اپنی بیک اپ کیی دکھائیں"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
     "messageformat": "اپنی بحالی کی کیی دکھائیں"
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "اپنی بیک اپ کیی دیکھنے کے لیے اپنی شناخت کی تصدیق کریں۔"
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
     "messageformat": "اپنی بحالی کی کیی دیکھنے کے لیے اپنی شناخت کی تصدیق کریں۔"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "بیک اپ کیی دیکھیں"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
     "messageformat": "ریکوری کیی دیکھیں"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "اپنی بیک اپ کیی دیکھنے کے لیے توثیق درکار ہے۔"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
     "messageformat": "اپنی بحالی کی کیی دیکھنے کے لیے توثیق درکار ہے۔"
-  },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "بیک اپ کیی کا ٹیکسٹ باکس"
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
     "messageformat": "ریکوری کیی"
@@ -6349,23 +6334,14 @@
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "کیی درج کریں"
   },
-  "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "اپنی بیک اپ کیی محفوظ کریں"
-  },
   "icu:Preferences--local-backups-record-recovery-key": {
     "messageformat": "اپنی ریکوری کیی کو ریکارڈ کریں"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "یہ کیی آپ کے اکاؤنٹ اور ڈیٹا کو بحال کرنے کے لیے درکار ہوتی ہے۔ اس کیی کو کسی محفوظ جگہ پر اسٹور کریں۔ اگر آپ اسے کھو دیتے ہیں، تو آپ اپنا اکاؤنٹ بحال نہیں کر سکیں گے۔ <learnMoreLink>مزید جانیں۔</learnMoreLink>"
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "اپنی بیک اپ کیی کی تصدیق کریں"
-  },
   "icu:Preferences--local-backups-confirm-recovery-key": {
     "messageformat": "اپنی ریکوری کیی کی تصدیق کریں"
-  },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "وہ بیک اپ کیی درج کریں جو آپ نے ابھی ریکارڈ کی ہے"
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
     "messageformat": "وہ ریکوری کیی درج کریں جو آپ نے ابھی ریکارڈ کی ہے"
@@ -6394,9 +6370,6 @@
   "icu:Preferences__local-backups-folder": {
     "messageformat": "بیک اپ فولڈر"
   },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "تبدیل کریں"
-  },
   "icu:Preferences__local-backups-turn-off": {
     "messageformat": "بیک اپس غیر فعال کریں"
   },
@@ -6411,9 +6384,6 @@
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "کلپ بورڈ کو کاپی کریں"
-  },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "بیک اپ کیی کو کاپی کر لیا گیا"
   },
   "icu:Preferences__local-backups-copied-recovery-key": {
     "messageformat": "ریکوری کیی کاپی کر لی گئی"
@@ -6436,14 +6406,8 @@
   "icu:Preferences__view-key": {
     "messageformat": "کیی دیکھیں"
   },
-  "icu:Preferences__backup-key": {
-    "messageformat": "بیک اپ کیی"
-  },
   "icu:Preferences__recovery-key": {
     "messageformat": "ریکوری کیی"
-  },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "آپ کی بیک اپ کیی 64-ہندسے پر مشتمل کوڈ ہے جو آپ کے بیک اپ کو ری اسٹور کرنے کے لیے استعمال ہوتی ہے"
   },
   "icu:Preferences__recovery-key-description": {
     "messageformat": "آپ کی بحالی کی کیی 64 حروف پر مشتمل ایک کوڈ ہے جسے آپ کے بیک اپ کو ری اسٹور کرنے کے لیے استعمال کیا جاتا ہے"
@@ -8147,9 +8111,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "معمولی تبدیلیاں کی گئیں، بگ ٹھیک کیے گئے، اور کارکردگی اور بھی بہتر بنائی گئی ہے۔ Signal استعمال کرنے کے لیے شکریہ!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "• اب آپ اختیاری طور پر ممبر لیبل شامل کر سکتے ہیں تاکہ گروپ چیٹ میں خود کو یا اپنے کردار کو بیان کریں۔ جیسے، اپنی لوکل فٹبال چیٹ میں اپنا گروپ ممبر لیبل \"ریفری\" یا \"گولی\" رکھیں تاکہ نئے ممبرز آئیں تو بات فوری شروع ہو جائے، اور پھر کمپنی چیٹ میں کوئی نیا لیبل رکھیں۔ ممبر لیبلز اس گروپ میں آپ کے پروفائل نیم کے ساتھ ظاہر ہوتے ہیں، اور گروپ ایڈمنز یہ کنٹرول کر سکتے ہیں کہ وہ سب کے لیے فعال ہوں یا نہیں۔"
   },
   "icu:WhatsNew__8.6--0": {
     "messageformat": "اب آپ کو تازہ ترین میسج دیکھنے کے لیے زیادہ سکرول کرنے کی ضرورت نہیں۔ اگر کسی مصروف گروپ چیٹ میں زیادہ لوگ جوائن ہو جائیں یا آپ کو بار بار مس کالز آئیں گے بار بار ہونے والے چیٹ ایونٹس (جیسے متعدد مسڈ کالز) خودکار طور پر ایک مختصر ڈسپلے میں اکٹھے ہو سکتے ہیں تاکہ آپ کو تازہ ترین میسجز دیکھنے کے لیے زیادہ اسکرول نہ کرنا پڑے۔ کبھی کبھی کم بھی بہت زیادہ لگتا ہے، لیکن آپ کبھی بھی ان فہرستوں کو کھول یا بند کر سکتے ہیں۔"

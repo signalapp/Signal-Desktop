@@ -746,6 +746,9 @@
   "icu:fileSizeWarning": {
     "messageformat": "Den valgte filen overskrider begrensninger for meldingsstørrelse. {limit,number} {units}"
   },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "Den valgte videofilen overskrider begrensningen for meldingsstørrelse. {limit,number}{units}"
+  },
   "icu:unableToLoadAttachment": {
     "messageformat": "Kunne ikke laste valgt vedlegg."
   },
@@ -3800,9 +3803,6 @@
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
     "messageformat": "Del anropslenken via Signal"
   },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "Fjern personen fra samtalen"
-  },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "Vil du fjerne {name} fra samtalen?"
   },
@@ -6316,32 +6316,17 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "Ferdig"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "vise sikkerhetskoden"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
     "messageformat": "vise sikkerhetskoden din"
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "Bekreft identiteten din for å se sikkerhetskoden din."
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
     "messageformat": "Bekreft identiteten din for å se sikkerhetskoden."
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "Se sikkerhetskode"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
     "messageformat": "Se sikkerhetskoden"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "Autentisering kreves for å vise sikkerhetskoden."
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
     "messageformat": "Autentisering kreves for å vise sikkerhetskoden."
-  },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Tekstboks for sikkerhetskode"
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
     "messageformat": "Sikkerhetskode"
@@ -6349,23 +6334,14 @@
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "Angi kode"
   },
-  "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "Noter ned sikkerhetskoden din"
-  },
   "icu:Preferences--local-backups-record-recovery-key": {
     "messageformat": "Registrer sikkerhetskoden din"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "Du trenger denne koden for å gjenopprette kontoen din og dataene dine. Oppbevar koden på en trygg plass. Uten koden kan du ikke gjenopprette kontoen din. <learnMoreLink>Les mer</learnMoreLink>"
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "Angi sikkerhetskoden din"
-  },
   "icu:Preferences--local-backups-confirm-recovery-key": {
     "messageformat": "Bekreft sikkerhetskoden din"
-  },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "Skriv inn den registrerte sikkerhetskoden din"
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
     "messageformat": "Skriv inn sikkerhetskoden du akkurat laget"
@@ -6394,9 +6370,6 @@
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Mappe for sikkerhetskopi"
   },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "Bytt"
-  },
   "icu:Preferences__local-backups-turn-off": {
     "messageformat": "Slå av sikkerhetskopiering"
   },
@@ -6411,9 +6384,6 @@
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Kopier til utklippstavlen"
-  },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "Sikkerhetskoden ble kopiert"
   },
   "icu:Preferences__local-backups-copied-recovery-key": {
     "messageformat": "Sikkerhetskoden er kopiert"
@@ -6436,14 +6406,8 @@
   "icu:Preferences__view-key": {
     "messageformat": "Se koden"
   },
-  "icu:Preferences__backup-key": {
-    "messageformat": "Sikkerhetskode"
-  },
   "icu:Preferences__recovery-key": {
     "messageformat": "Sikkerhetskode"
-  },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "Sikkerhetskoden består av 64 tall og brukes til å gjenopprette sikkerhetskopien din"
   },
   "icu:Preferences__recovery-key-description": {
     "messageformat": "Sikkerhetskoden består av 64 tegn og brukes til å gjenopprette sikkerhetskopien din."
@@ -8147,9 +8111,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Noen små justeringer, feilrettinger og ytelsesforbedringer. Takk for at du bruker Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "• Nå kan du legge til medlemsmerker som beskriver deg eller rollen din, i gruppesamtaler. Medlemsmerket vises ved siden av profilnavnet ditt, og gruppeadministratorene styrer hvem som kan legge til og redigere merker."
   },
   "icu:WhatsNew__8.6--0": {
     "messageformat": "Nå kan flere samtaleoppdateringer (f.eks. tapte anrop) grupperes sammen i en kompakt visning, slik at du slipper å skrolle langt for å se de nyeste meldingene i samtalen."

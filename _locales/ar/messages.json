@@ -746,6 +746,9 @@
   "icu:fileSizeWarning": {
     "messageformat": "عُذرًا، حجم الملف المُحدَّد يتجاوز قيود الحجم الأقصى للرسالة. {limit,number}{units}"
   },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+  },
   "icu:unableToLoadAttachment": {
     "messageformat": "فشل تنزيل الملفات المُرفَقة المُحدَّدة."
   },
@@ -3800,9 +3803,6 @@
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
     "messageformat": "مشاركة رابط المكالمة عبر سيجنال"
   },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "إزالة هذا الشخص من المكالمة"
-  },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "هل ترغبُ بإزالة {name} من المكالمة؟"
   },
@@ -6316,32 +6316,17 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "تمّ"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "عرض مفتاح النسخ الاحتياطي"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
     "messageformat": "إظهار مفتاح الاستعادة الخاص بك"
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "تحقَّق من هويتك لعرض مفتاح النسخ الاحتياطي الخاص بك."
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
     "messageformat": "تحقَّق من هويتك لعرض مفتاح الاستعادة الخاص بك."
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "عرض مفتاح النسخة الاحتياطية"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
     "messageformat": "عرض مفتاح الاستعادة"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "المصادقة مطلوبة لعرض مفتاح النسخ الاحتياطي."
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
     "messageformat": "المصادقة مطلوبة لعرض مفتاح الاستعادة الخاص بك."
-  },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "مربع نص مفتاح النسخة الاحتياطية"
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
     "messageformat": "مفتاح الاستعادة"
@@ -6349,23 +6334,14 @@
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "أدخِل المفتاح"
   },
-  "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "احتفِظ بنسخة عن مفتاح النسخة الاحتياطية الخاص بك."
-  },
   "icu:Preferences--local-backups-record-recovery-key": {
     "messageformat": "قُم بتسجيل مفتاح الاستعادة الخاص بك"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "هذا المفتاح مطلوب لاسترجاع بياناتك وحسابك. احتفِظ بهذا المفتاح في مكانٍ آمن. إذا فقدته، لن تتمكّن من استرجاع حسابك. <learnMoreLink>اعرف المزيد.</learnMoreLink>"
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "تأكَّد من مفتاح نسختك الاحتياطية"
-  },
   "icu:Preferences--local-backups-confirm-recovery-key": {
     "messageformat": "قُم بتأكيد مفتاح الاستعادة الخاص بك"
-  },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "أدخِل مفتاح النسخة الاحتياطية الذي سجّلته للتو"
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
     "messageformat": "أدخِل مفتاح الاستعادة الذي سجّلته للتو"
@@ -6394,9 +6370,6 @@
   "icu:Preferences__local-backups-folder": {
     "messageformat": "مجلد النسخ الاحتياطية"
   },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "تغيير"
-  },
   "icu:Preferences__local-backups-turn-off": {
     "messageformat": "إيقاف النسخ الاحتياطية"
   },
@@ -6411,9 +6384,6 @@
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "نسخ إلى الحافظة"
-  },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "تمَّ نسخ مفتاح النسخ الاحتياطي"
   },
   "icu:Preferences__local-backups-copied-recovery-key": {
     "messageformat": "تمَّ نسخ مفتاح الاستعادة"
@@ -6436,14 +6406,8 @@
   "icu:Preferences__view-key": {
     "messageformat": "عرض المفتاح"
   },
-  "icu:Preferences__backup-key": {
-    "messageformat": "مفتاح النسخة الاحتياطية"
-  },
   "icu:Preferences__recovery-key": {
     "messageformat": "مفتاح الاستعادة"
-  },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "مفتاح النسخ الاحتياطي الخاص بك هو عبارة عن كود مُكوَّن من 64 رقمًا، ويُستخدَم لاستعادة نسختك الاحتياطية."
   },
   "icu:Preferences__recovery-key-description": {
     "messageformat": "مفتاح الاستعادة هو عبارة عن كود مُكوَّن من 64 رمزًا، ويُستخدَم لاستعادة نسختك الاحتياطية"
@@ -8147,9 +8111,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "تعديلات صغيرة، وإصلاح أعطال، وتحسينات للأداء. شكرًا على استخدامك سيجنال!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "يمكنك الآن إضافة دور عضو بشكل اختياري لتصِف نفسك أو دورك في دردشة جماعية. عيِّن دور عضو المجموعة إلى \"حكم\" أو \"حارس مرمى\" في دردشة دوري كرة القدم المحلي للمساعدة على كسر الجليد عند انضمام زملاء جُدُد، ثم اختر دور مختلف يعكس مُسمَّاك الوظيفي في دردشة الشركة. تظهر أدوار الأعضاء بجوار اسم الحساب الشخصي الخاص بك في تلك المجموعة، ويمكن لِمُشرِفي المجموعات التحكُّم فيما إذا ستكون مُفعَّلة للجميع."
   },
   "icu:WhatsNew__8.6--0": {
     "messageformat": "تُجمَّع الآن أحداث الدردشة المُتكرِّرة (مثل المكالمات الفائتة العديدة) تلقائيًا في عرضٍ مُختصر. إذا انضمّ عدة أشخاص جُدُد إلى دردشة جماعية نشِطة، أو تلقيتَ عدة مكالمات فائتة متتالية، فسيتم تجميع أحداث الدردشة المُتكرِّرة هذه تلقائيًا ضمن عرضٍ مُختصَر. في بعض الأحيان يكون الاختصار أفضل، ولكن يمكنك بسهولة توسيع هذه القوائم أو طيّها في أيّ وقت."

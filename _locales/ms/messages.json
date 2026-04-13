@@ -746,6 +746,9 @@
   "icu:fileSizeWarning": {
     "messageformat": "Maaf, fail yang dipilih melebihi sekatan saiz mesej. {limit,number} {units}"
   },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+  },
   "icu:unableToLoadAttachment": {
     "messageformat": "Tidak dapat memuatkan lampiran yang dipilih."
   },
@@ -3800,9 +3803,6 @@
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
     "messageformat": "Kongsi pautan panggilan melalui Signal"
   },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "Alih keluar orang ini daripada panggilan"
-  },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "Alih keluar {name} daripada panggilan?"
   },
@@ -6316,32 +6316,17 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "Selesai"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "Tunjukkan kunci sandaran anda"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
     "messageformat": "tunjukkan kunci pemulihan anda"
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "Sahkan identiti anda untuk melihat kunci sandaran anda."
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
     "messageformat": "Sahkan identiti anda untuk melihat kunci pemulihan anda."
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "Lihat kunci sandaran"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
     "messageformat": "Lihat kunci pemulihan"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "Pengesahan diperlukan untuk melihat kunci sandaran anda."
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
     "messageformat": "Pengesahan diperlukan untuk melihat kunci pemulihan anda."
-  },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Kotak teks kunci sandaran"
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
     "messageformat": "Kunci pemulihan"
@@ -6349,23 +6334,14 @@
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "Masukkan kunci"
   },
-  "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "Rekodkan kunci sandaran anda"
-  },
   "icu:Preferences--local-backups-record-recovery-key": {
     "messageformat": "Rekodkan kunci pemulihan anda"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "Kunci ini diperlukan untuk memulihkan akaun dan data anda. Simpan kunci ini di tempat yang selamat. Jika anda kehilangannya, anda tidak akan dapat memulihkan akaun anda. <learnMoreLink>Ketahui lebih lanjut.</learnMoreLink>"
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "Sahkan kunci sandaran anda"
-  },
   "icu:Preferences--local-backups-confirm-recovery-key": {
     "messageformat": "Sahkan kunci pemulihan anda"
-  },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "Masukkan kunci sandaran yang baru anda rekodkan"
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
     "messageformat": "Masukkan kunci pemulihan yang anda baru rekodkan"
@@ -6394,9 +6370,6 @@
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Folder backup"
   },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "Tukar"
-  },
   "icu:Preferences__local-backups-turn-off": {
     "messageformat": "Matikan sandaran"
   },
@@ -6411,9 +6384,6 @@
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Salin ke papan klip"
-  },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "Kunci sandaran disalin"
   },
   "icu:Preferences__local-backups-copied-recovery-key": {
     "messageformat": "Kunci pemulihan disalin"
@@ -6436,14 +6406,8 @@
   "icu:Preferences__view-key": {
     "messageformat": "Lihat kunci"
   },
-  "icu:Preferences__backup-key": {
-    "messageformat": "Kunci sandaran"
-  },
   "icu:Preferences__recovery-key": {
     "messageformat": "Kunci pemulihan"
-  },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "Kunci sandaran anda ialah kod 64 digit yang digunakan untuk memulihkan sandaran anda"
   },
   "icu:Preferences__recovery-key-description": {
     "messageformat": "Kunci pemulihan anda ialah kod 64 aksara yang digunakan untuk memulihkan sandaran anda"
@@ -8147,9 +8111,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Sedikit pengubahsuaian, pembaikan pepijat dan peningkatan prestasi. Terima kasih kerana menggunakan Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "Sekarang anda boleh menambah label ahli secara pilihan untuk menggambarkan diri atau peranan anda dalam sembang kumpulan. Label ahli akan dipaparkan di sebelah nama profil anda dalam kumpulan dan pentadbir kumpulan boleh mengawal sama ada ia dihidupkan untuk semua orang atau tidak."
   },
   "icu:WhatsNew__8.6--0": {
     "messageformat": "Acara sembang berulang (seperti panggilan tidak dijawab berganda) boleh digabungkan secara automatik dalam paparan padat supaya anda tidak perlu menatal jauh untuk melihat mesej terkini."

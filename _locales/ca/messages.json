@@ -746,6 +746,9 @@
   "icu:fileSizeWarning": {
     "messageformat": "Perdoneu, el fitxer seleccionat excedeix les restriccions de mida dels missatges. {limit,number} {units}"
   },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+  },
   "icu:unableToLoadAttachment": {
     "messageformat": "No s'ha pogut carregar l'adjunt seleccionat"
   },
@@ -3800,9 +3803,6 @@
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
     "messageformat": "Compartir enllaç de trucada per Signal"
   },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "Expulsar a aquesta persona de la trucada"
-  },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "Vols expulsar a {name} de la trucada?"
   },
@@ -6316,32 +6316,17 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "Fet"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "mostrar la teva clau de còpia de seguretat"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
     "messageformat": "mostrar la teva clau de recuperació"
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "Verifica la teva identitat per veure la teva clau de còpia de seguretat."
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
     "messageformat": "Verifica la teva identitat per veure la teva clau de recuperació."
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "Veure la teva clau de còpia de seguretat"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
     "messageformat": "Veure clau de recuperació"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "És necessari que t'autentifiquis per veure la teva clau de còpia de seguretat."
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
     "messageformat": "És necessari que t'autentifiquis per veure la teva clau de recuperació."
-  },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Caixa de text de la clau de còpia de seguretat"
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
     "messageformat": "Clau de recuperació"
@@ -6349,23 +6334,14 @@
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "Introduir clau"
   },
-  "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "Guarda la teva clau de còpia de seguretat"
-  },
   "icu:Preferences--local-backups-record-recovery-key": {
     "messageformat": "Registra la teva clau de recuperació"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "Aquesta clau és necessària per recuperar el teu compte i les teves dades. Guarda-la en un lloc segur. Si la perds, no podràs recuperar el teu compte. <learnMoreLink>Més informació.</learnMoreLink>"
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "Confirma la teva clau de còpia de seguretat"
-  },
   "icu:Preferences--local-backups-confirm-recovery-key": {
     "messageformat": "Confirma la teva clau de recuperació"
-  },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "Introdueix la clau de còpia de seguretat que acabes de registrar"
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
     "messageformat": "Introdueix la clau de recuperació que acabes de registrar"
@@ -6394,9 +6370,6 @@
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Carpeta de còpia de seguretat"
   },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "Canviar"
-  },
   "icu:Preferences__local-backups-turn-off": {
     "messageformat": "Desactivar les còpies de seguretat"
   },
@@ -6411,9 +6384,6 @@
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Copia al porta-retalls"
-  },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "S'ha copiat la clau de còpia de seguretat"
   },
   "icu:Preferences__local-backups-copied-recovery-key": {
     "messageformat": "Clau de recuperació copiada"
@@ -6436,14 +6406,8 @@
   "icu:Preferences__view-key": {
     "messageformat": "Veure clau"
   },
-  "icu:Preferences__backup-key": {
-    "messageformat": "Còpia de seguretat de la clau"
-  },
   "icu:Preferences__recovery-key": {
     "messageformat": "Clau de recuperació"
-  },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "La teva clau de còpia de seguretat és un codi de 64 dígits i és necessària per recuperar la teva còpia de seguretat"
   },
   "icu:Preferences__recovery-key-description": {
     "messageformat": "La teva clau de recuperació és un codi de 64 caràcters que necessitaràs per restaurar la teva còpia de seguretat"
@@ -8147,9 +8111,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Petits ajustos, correccions d'errors i tasques de millora de rendiment. Gràcies per utilitzar Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "Ara tens l'opció d'afegir una categoria de membre per descriure't a tu mateix o el teu rol en un xat grupal. La categoria de membre apareix al costat del teu nom de perfil al grup i els admins decideixen si aquesta opció està activa (o no) per a tothom."
   },
   "icu:WhatsNew__8.6--0": {
     "messageformat": "Ara, les accions de xat repetides (com ara múltiples trucades perdudes) es poden agrupar en llistes compactes perquè puguis posar-te al dia dels teus missatges més fàcilment."

@@ -746,6 +746,9 @@
   "icu:fileSizeWarning": {
     "messageformat": "Təəssüf ki, seçilmiş fayl, mesaj həcm məhdudiyyətlərini aşır. {limit,number} {units}"
   },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "Təəssüf ki, seçilmiş video faylı mesaj həcminə qoyulmuş məhdudiyyətləri aşır. {limit,number}{units}"
+  },
   "icu:unableToLoadAttachment": {
     "messageformat": "Seçilmiş qoşma yüklənilə bilmir."
   },
@@ -3800,9 +3803,6 @@
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
     "messageformat": "Signal vasitəsilə zəng keçidini paylaş"
   },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "Bu şəxsi zəngdən çıxar"
-  },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "{name} zəngdən çıxarılsın?"
   },
@@ -6316,32 +6316,17 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "Hazırdır"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "ehtiyat nüsxə şifrənizi göstərin"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
     "messageformat": "bərpa şifrənizi göstərin"
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "Ehtiyat nüsxə şifrəsinə baxmaq üçün kimliyinizi təsdiqləyin."
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
     "messageformat": "Bərpa şifrəsinə baxmaq üçün kimliyinizi təsdiqləyin."
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "Ehtiyat nüsxə paroluna bax"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
     "messageformat": "Bərpa şifrəsinə bax"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "Ehtiyat nüsxə şifrəsinə baxmanız üçün kimliyin yoxlanılması tələb olunur."
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
     "messageformat": "Bərpa şifrənizə baxmağınız üçün autentifikasiya tələb olunur."
-  },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Ehtiyat nüsxə şifrəsi mətn qutusu"
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
     "messageformat": "Bərpa şifrəsi"
@@ -6349,23 +6334,14 @@
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "Şifrəni daxil et"
   },
-  "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "Ehtiyat nüsxə şifrəsini qeyd edin"
-  },
   "icu:Preferences--local-backups-record-recovery-key": {
     "messageformat": "Bərpa şifrənizi qeyd edin"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "Bu şifrə hesabınızı və verilənlərinizi bərpa etmək üçün tələb olunur. Bu şifrəni etibarlı bir yerdə saxlayın. Onu itirsəniz, hesabınızı bərpa edə bilməyəcəksiniz. <learnMoreLink>Daha ətraflı.</learnMoreLink>"
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "Ehtiyat nüsxə şifrəsini təsdiqləyin"
-  },
   "icu:Preferences--local-backups-confirm-recovery-key": {
     "messageformat": "Bərpa şifrənizi təsdiqləyin"
-  },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "Yeni qeyd etdiyiniz ehtiyat nüsxə şifrəsini daxil edin"
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
     "messageformat": "Az əvvəl qeyd etdiyiniz bərpa şifrənizi daxil edin"
@@ -6394,9 +6370,6 @@
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Nüsxə qovluğu"
   },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "Dəyiş"
-  },
   "icu:Preferences__local-backups-turn-off": {
     "messageformat": "Ehtiyat nüsxələr xüsusiyyətini söndür"
   },
@@ -6411,9 +6384,6 @@
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Lövhəyə kopyala"
-  },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "Ehtiyat nüsxə şifrəsi kopiyalandı"
   },
   "icu:Preferences__local-backups-copied-recovery-key": {
     "messageformat": "Bərpa şifrəsi kopiyalandı"
@@ -6436,14 +6406,8 @@
   "icu:Preferences__view-key": {
     "messageformat": "Şifrəyə bax"
   },
-  "icu:Preferences__backup-key": {
-    "messageformat": "Ehtiyat nüsxə şifrəsi"
-  },
   "icu:Preferences__recovery-key": {
     "messageformat": "Bərpa şifrəsi"
-  },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "Ehtiyat nüsxənin bərpası üçün istifadə olunan ehtiyat nüsxə şifrəniz 64 rəqəmli bir koddur"
   },
   "icu:Preferences__recovery-key-description": {
     "messageformat": "Bərpa şifrəniz ehtiyat nüsxənizin bərpasında istifadə olunan 64 simvoldan ibarət bir koddur"
@@ -8147,9 +8111,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Kiçik spesifik tənzimləmələr, xəta düzəlişləri və məhsuldarlığın artırılması. Signal istifadə etdiyiniz üçün təşəkkürlər!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "Artıq qrup çatında özünüzü və ya rolunuzu təsvir etmək üçün üzv etiketi də əlavə edə bilərsiniz. Qrupa yeni insanlar qoşulduqda işləri tezləşdirməyə kömək etmək üçün yerli futbol liqası qrup çatınızdakı üzv etiketinizi \"Hakim\" və ya \"Qapıçı\" kimi təyin edin, şirkət çatında isə fərqli bir etiket seçin. Üzv etiketləri həmin qrupdakı profil adınızın yanında görünür və qrup adminləri onların hamı üçün aktiv olub-olmadığına nəzarət edə bilər."
   },
   "icu:WhatsNew__8.6--0": {
     "messageformat": "Artıq ən son mesajı tapana qədər ekranı sürüşdürməyə ehtiyac yoxdur. Qrup çatına bir neçə yeni insan qoşulduqda, yaxud da arxa-arxaya bir neçə cavabsız zəng aldığınız zaman həmin təkrarlanan çat hadisələri avtomatik qruplaşdırılaraq göstərilir. Bəzən az daha yaxşıdır, amma bu siyahını istədiyiniz zaman daralda və artıra bilərsiniz."

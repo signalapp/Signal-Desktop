@@ -746,6 +746,9 @@
   "icu:fileSizeWarning": {
     "messageformat": "Samahani, faili lililochaguliwa limepita vikwazo vya ukubwa wa ujumbe. {limit,number} {units}"
   },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+  },
   "icu:unableToLoadAttachment": {
     "messageformat": "Imeshindwa kupakia kiambatisho kilichochaguliwa."
   },
@@ -3800,9 +3803,6 @@
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
     "messageformat": "Shiriki kiungo cha simu kupitia Signal"
   },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "Toa mtu huyu kwenye simu hii"
-  },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "Muondoe {name} kutoka kwenye simu?"
   },
@@ -6316,32 +6316,17 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "Imekamilika"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "onyesha ufunguo wako mbadala"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
     "messageformat": "onyesha ufunguo wako wa kurejesha akaunti"
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "Thibitisha utambulisho wako ili kutazama ufunguo wako mbadala."
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
     "messageformat": "Thibitisha utambulisho wako kutazama ufunguo wako wa kurejesha akaunti."
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "Tazama ufunguo mbadala"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
     "messageformat": "Tazama ufunguo wa kurejesha akaunti"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "Uthibitishaji unahitajika ili utazame ufunguo wako mbadala."
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
     "messageformat": "Uthibitishaji unahitajika kutazama ufunguo wako wa kurejesha akaunti."
-  },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Kisanduku cha maandishi cha ufunguo mbadala"
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
     "messageformat": "Ufunguo wa kurejesha akaunti"
@@ -6349,23 +6334,14 @@
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "Ingiza ufunguo"
   },
-  "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "Rekodi ufunguo wangu wa ziada"
-  },
   "icu:Preferences--local-backups-record-recovery-key": {
     "messageformat": "Rekodi ufunguo wako wa kurejesha akaunti"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "Ufunguo huu unahitajika kurejesha akaunti na data yako. Hifadhi ufunguo huu mahali salama. Ukiipoteza, hutaweza kurejesha akaunti yako. <learnMoreLink>Pata maelezo zaidi.</learnMoreLink>"
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "Thbitisha ufunguo wako mbadala"
-  },
   "icu:Preferences--local-backups-confirm-recovery-key": {
     "messageformat": "Thibitisha ufunguo wako wa kurejesha akaunti"
-  },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "Weka ufunguo wako mbadala uliorekodi"
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
     "messageformat": "Weka ufunguo wako wa kurejesha akaunti ambao umetoka kurekodi hivi punde"
@@ -6394,9 +6370,6 @@
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Folda ya nakala hifadhi"
   },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "Badili"
-  },
   "icu:Preferences__local-backups-turn-off": {
     "messageformat": "Zima uhifadhi nakala"
   },
@@ -6411,9 +6384,6 @@
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Nakili kwenye clipbodi"
-  },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "Ufunguo mbadala umenakiliwa"
   },
   "icu:Preferences__local-backups-copied-recovery-key": {
     "messageformat": "Ufunguo wa Kurejesha Akaunti umenakiliwa"
@@ -6436,14 +6406,8 @@
   "icu:Preferences__view-key": {
     "messageformat": "Tazama ufunguo"
   },
-  "icu:Preferences__backup-key": {
-    "messageformat": "Ufunguo mbadala"
-  },
   "icu:Preferences__recovery-key": {
     "messageformat": "Ufunguo wa kurejesha akaunti"
-  },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "Ufunguo wako mbadala ni msimbo wa tarakimu 64 unaotumiwa kurejesha hifadhi nakala yako"
   },
   "icu:Preferences__recovery-key-description": {
     "messageformat": "Ufunguo wako wa kurejesha akaunti ni code ya tarakimu 64 inayotumiwa kurejesha nakala zako zilizohifadhiwa"
@@ -8147,9 +8111,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Mabadiliko madogo, marekebisho ya bugs na uboreshaji wa utendaji. Asante kwa kutumia Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "Ukipenda unaweza kuweka cheo cha mwanachama kwa hiari ili kujielezea mwenyewe au nafasi yako kwenye gumzo la kikundi. Weka cheo cha mwanachama wa kikundi chako kuwa “Referee” au “Goalie” kwenye gumzo la timu ya eneo lako ili uweze kuzungumza na wachezaji wapya wanapojiunga, kisha chagua cheo tofauti cha kazi kwenye gumzo la kampuni. Vyeo vya wanachama vinaonekana kando ya jina lako la wasifu katika kikundi hiko na admins wa kikundi wanaweza kudhibiti kama vitawekwa kwa kila mtu au la."
   },
   "icu:WhatsNew__8.6--0": {
     "messageformat": "Sasa hutahitaji kusogeza sana chini ili kupata jumbe mpya zaidi. Ikiwa watu kadhaa wapya watajiunga na gumzo la kikundi lenye shughuli nyingi au utapokea simu nyingi ambazo hukuzijibu mfululizo, matukio hayo yanayojirudia yanaweza kuunganishwa kiotomatiki na kuonyeshwa kwa muundo mfupi uliobana. Wakati mwingine huhitaji mambo mengi, lakini unaweza kupanua na kukunja orodha hizi kwa urahisi wakati wowote."

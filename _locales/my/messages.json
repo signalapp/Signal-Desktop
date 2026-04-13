@@ -746,6 +746,9 @@
   "icu:fileSizeWarning": {
     "messageformat": "ဝမ်းနည်းပါသည်၊ ရွေးချယ်ထားသော ဖိုင်မှာ မက်ဆေ့ချ်အရွယ်အစား သတ်မှတ်ချက်ထက် ကျော်နေပါသည်။ {limit,number}{units}"
   },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+  },
   "icu:unableToLoadAttachment": {
     "messageformat": "ရွေးချယ်ထား‌သော ပူးတွဲဖိုင်ကို ထည့်သွင်းလုပ်ဆောင်၍ မရနိုင်ပါ။"
   },
@@ -3800,9 +3803,6 @@
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
     "messageformat": "Signal ဖြင့်ဖုန်းခေါ်ဆိုရန်လင့်ကို မျှဝေပါ"
   },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "ဤလူကို ခေါ်ဆိုမှုမှ ဖယ်ရှားသည်"
-  },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "{name} ကို ကောလ်မှ ဖယ်ရှားမည်လား။"
   },
@@ -6316,32 +6316,17 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "ပြီးပါပြီ"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "သင့် ဘက်ခ်အပ်ကီးကိုပြပါ"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
     "messageformat": "ပြန်လည်ရယူရေးကီးကို ပြရန်"
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "သင့် ဘက်ခ်အပ်ကီးကို ကြည့်ရှုရန် သင်၏အထောက်အထားကို အတည်ပြုပါ။"
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
     "messageformat": "သင့် ပြန်လည်ရယူရေးကီးကို ကြည့်ရှုရန် သင်၏အထောက်အထားကို အတည်ပြုပါ။"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "ဘက်ခ်အပ်ကီးကိုကြည့်ရန်"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
     "messageformat": "ပြန်လည်ရယူရေးကီးကို ကြည့်ရန်"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "သင့် ဘက်ခ်အပ်ကီးကို ကြည့်ရှုရန် စစ်မှန်ကြောင်းအတည်ပြုချက် လိုအပ်သည်။"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
     "messageformat": "သင့် ပြန်လည်ရယူရေးကီးကို ကြည့်ရှုရန် စစ်မှန်ကြောင်းအတည်ပြုချက် လိုအပ်သည်။"
-  },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "ဘက်ခ်အပ်ကီး စာသားအကွက်"
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
     "messageformat": "ပြန်လည်ရယူရေးကီး"
@@ -6349,23 +6334,14 @@
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "ကီးထည့်ရန်"
   },
-  "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "သင်၏ အက်ခ်အပ်ကီးကို မှတ်တမ်းတင်ပါ"
-  },
   "icu:Preferences--local-backups-record-recovery-key": {
     "messageformat": "ပြန်လည်ရယူရေးကီးကို မှတ်တမ်းတင်ပါ"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "သင့်အကောင့်နှင့် ဒေတာကို ပြန်လည်ရယူရန် ဤကီးလိုအပ်ပါသည်။ ဤကီးကို လုံခြုံသောနေရာတွင် သိမ်းဆည်းပါ။ ၎င်းကိုဆုံးရှုံးသွားပါက သင့်အကောင့်ကို ပြန်လည်ရယူနိုင်မည်မဟုတ်ပါ။ <learnMoreLink>ပိုမိုလေ့လာပါ။</learnMoreLink>"
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "သင့် ဘက်ခ်အပ်ကီးကို အတည်ပြုပါ"
-  },
   "icu:Preferences--local-backups-confirm-recovery-key": {
     "messageformat": "ပြန်လည်ရယူရေးကီးကို အတည်ပြုပါ"
-  },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "သင်မှတ်တမ်းတင်ထားသော ဘက်ခ်အပ်ကီးကို ထည့်ပါ"
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
     "messageformat": "သင်မှတ်တမ်းတင်လိုက်သော ပြန်လည်ရယူရေးကီးကို ထည့်ပါ"
@@ -6394,9 +6370,6 @@
   "icu:Preferences__local-backups-folder": {
     "messageformat": "ဘက်ခ်အပ် ဖိုင်တွဲ"
   },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "ပြောင်းရန်"
-  },
   "icu:Preferences__local-backups-turn-off": {
     "messageformat": "ဘက်ခ်အပ်ကို ပိတ်ပါ"
   },
@@ -6411,9 +6384,6 @@
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "ကလစ်ဘုတ်သို့ ကူးယူမည်"
-  },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "ဘက်ခ်အပ်ကီးကို ကူးယူပြီး"
   },
   "icu:Preferences__local-backups-copied-recovery-key": {
     "messageformat": "ပြန်လည်ရယူရေးကီးကို ကူးယူထားသည်"
@@ -6436,14 +6406,8 @@
   "icu:Preferences__view-key": {
     "messageformat": "ကီးကိုကြည့်ရန်"
   },
-  "icu:Preferences__backup-key": {
-    "messageformat": "သင့် ဘက်ခ်အပ်ကီး"
-  },
   "icu:Preferences__recovery-key": {
     "messageformat": "ပြန်လည်ရယူရေးကီး"
-  },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "သင့် ဘက်ခ်အပ်ကီးသည် သင့်ဘက်ခ်အပ်ကို ပြန်လည်ရယူရန်လိုအပ်သော ဂဏန်း 64 လုံးပါ ကုဒ်တစ်ခုဖြစ်သည်"
   },
   "icu:Preferences__recovery-key-description": {
     "messageformat": "သင်၏ ပြန်လည်ရယူရေးကီးသည် သင့် ဘက်ခ်အပ်ကို ပြန်လည်ရယူရန် အသုံးပြုသော စာလုံး 64 လုံးပါ ကုဒ်တစ်ခုဖြစ်သည်"
@@ -8147,9 +8111,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "အနေအထား ပြုပြင်မှုလေးများ၊ ချို့ယွင်းချက် ပြင်ဆင်မှုများနှင့် စွမ်းဆောင်ရည် မြှင့်တင်မှုများ။ Signal ကို သုံးသည့်အတွက် ကျေးဇူးတင်ပါသည်။",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "ယခု သင်သည် အဖွဲ့လိုက်ချက်(တ်)တွင် သင့်ကိုယ်သင် သို့မဟုတ် သင့်အခန်းကဏ္ဍကို ဖော်ပြရန် အဖွဲ့ဝင်အမှတ်တံဆိပ်ကို ရွေးချယ်ထည့်သွင်းနိုင်ပါပြီ။ အဖွဲ့ဝင်အမှတ်တံဆိပ်များသည် ထိုအဖွဲ့ရှိ သင့်ပရိုဖိုင်အမည်ဘေးတွင် ပေါ်လာပြီး အယောက်တိုင်းအား ခွင့်ပြု မပြုကို အဖွဲ့အက်ဒ်မင်မှ ကိုင်တွယ်ထိန်းချုပ်နိုင်သည်။"
   },
   "icu:WhatsNew__8.6--0": {
     "messageformat": "ထပ်တလဲလဲဖြစ်သော ခေါ်ဆိုမှု အခြေအနေများ (လွတ်သွားသော ဖုန်းခေါ်ဆိုမှုများစွာကဲ့သို့) ကို အလိုအလျောက် စုစည်း၍ ကျစ်လျစ်စွာ ဖော်ပြမှုကြောင့် နောက်ဆုံးရမက်ဆေ့ချ်များကို ကြည့်ရှုရန် ဝေးဝေးသို့ Scroll လုပ်ရန် မလိုအပ်တော့ပါ။"

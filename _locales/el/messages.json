@@ -746,6 +746,9 @@
   "icu:fileSizeWarning": {
     "messageformat": "Δυστυχώς το επιλεγμένο αρχείο υπερβαίνει το όριο μεγέθους μηνυμάτων. {limit,number} {units}"
   },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+  },
   "icu:unableToLoadAttachment": {
     "messageformat": "Δεν είναι δυνατή η φόρτωση του επιλεγμένου συνημμένου."
   },
@@ -3800,9 +3803,6 @@
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
     "messageformat": "Κοινοποίηση συνδέσμου κλήσης μέσω Signal"
   },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "Αφαίρεση αυτού του ατόμου από την κλήση"
-  },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "Αφαίρεση του χρήστη {name} από την κλήση;"
   },
@@ -6316,32 +6316,17 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "Τέλος"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "εμφάνιση του εφεδρικού κλειδιού"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
     "messageformat": "εμφάνιση κλειδιού ανάκτησης"
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "Επαλήθευσε την ταυτότητά σου για να δεις το εφεδρικό κλειδί σου."
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
     "messageformat": "Επαλήθευσε την ταυτότητά σου για να δεις το κλειδί ανάκτησής σου."
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "Προβολή εφεδρικού κλειδιού"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
     "messageformat": "Προβολή κλειδιού ανάκτησης"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "Απαιτείται έλεγχος ταυτότητας για την προβολή του εφεδρικού κλειδιού σου."
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
     "messageformat": "Απαιτείται έλεγχος ταυτότητας για την προβολή του κλειδιού ανάκτησής σου."
-  },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Πλαίσιο κειμένου εφεδρικού κλειδιού"
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
     "messageformat": "Κλειδί ανάκτησης"
@@ -6349,23 +6334,14 @@
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "Εισαγωγή κλειδιού"
   },
-  "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "Καταγραφή εφεδρικού κλειδιού"
-  },
   "icu:Preferences--local-backups-record-recovery-key": {
     "messageformat": "Κατάγραψε το κλειδί ανάκτησης"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "Αυτό το κλειδί απαιτείται για την ανάκτηση του λογαριασμού και των δεδομένων σου. Αποθήκευσε αυτό το κλειδί με ασφάλεια. Εάν το χάσεις, δεν θα μπορείς να ανακτήσεις τον λογαριασμό σου. <learnMoreLink>Μάθε περισσότερα.</learnMoreLink>"
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "Επιβεβαίωσε το εφεδρικό σου κλειδί"
-  },
   "icu:Preferences--local-backups-confirm-recovery-key": {
     "messageformat": "Επιβεβαίωσε το κλειδί ανάκτησης"
-  },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "Γράψε το εφεδρικό κλειδί που μόλις κατέγραψες"
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
     "messageformat": "Γράψε το κλειδί ανάκτησης που μόλις κατέγραψες"
@@ -6394,9 +6370,6 @@
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Φάκελος αντίγραφου ασφαλείας"
   },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "Αλλαγή"
-  },
   "icu:Preferences__local-backups-turn-off": {
     "messageformat": "Απενεργοποίηση αντιγράφων ασφαλείας"
   },
@@ -6411,9 +6384,6 @@
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Αντιγραφή στο πρόχειρο"
-  },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "Το εφεδρικό κλειδί αντιγράφηκε"
   },
   "icu:Preferences__local-backups-copied-recovery-key": {
     "messageformat": "Το κλειδί ανάκτησης αντιγράφηκε"
@@ -6436,14 +6406,8 @@
   "icu:Preferences__view-key": {
     "messageformat": "Προβολή κλειδιού"
   },
-  "icu:Preferences__backup-key": {
-    "messageformat": "Εφεδρικό κλειδί"
-  },
   "icu:Preferences__recovery-key": {
     "messageformat": "Κλειδί ανάκτησης"
-  },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "Το εφεδρικό κλειδί σου είναι ένας 64ψήφιος κωδικός που χρησιμοποιείται για την ανάκτηση των αντιγράφων ασφαλείας σου"
   },
   "icu:Preferences__recovery-key-description": {
     "messageformat": "Το κλειδί ανάκτησης είναι ένας κωδικός 64 χαρακτήρων που χρησιμοποιείται για την επαναφορά του αντιγράφου ασφαλείας σου"
@@ -8147,9 +8111,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Μικρές τροποποιήσεις, επιδιορθώσεις σφαλμάτων και βελτιώσεις απόδοσης. Ευχαριστούμε που χρησιμοποιείς το Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "• Τώρα μπορείς προαιρετικά να προσθέσεις μια ετικέτα μέλους για να περιγράψεις τον εαυτό σου ή τον ρόλο σου σε μια ομαδική συνομιλία. Οι ετικέτες μελών εμφανίζονται δίπλα στο όνομα του προφίλ σου σε αυτήν την ομάδα, ενώ οι διαχειριστές της ομάδας μπορούν να ρυθμίσουν αν θα είναι ενεργοποιημένες για όλους."
   },
   "icu:WhatsNew__8.6--0": {
     "messageformat": "Οι επαναλαμβανόμενες εκδηλώσεις συνομιλίας (όπως οι πολλαπλές αναπάντητες κλήσεις) μπορούν να ομαδοποιηθούν αυτόματα σε μια συνοπτική προβολή, ώστε να μην χρειάζεται να σκρολάρεις πολύ για να δεις τα πιο πρόσφατα μηνύματα."

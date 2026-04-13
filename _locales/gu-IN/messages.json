@@ -746,6 +746,9 @@
   "icu:fileSizeWarning": {
     "messageformat": "માફ કરશો, પસંદ કરેલી ફાઇલ મેસેજના કદના પ્રતિબંધોને વટાવી ગઈ છે. {limit,number} {units} "
   },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "માફ કરશો, પસંદ કરેલી વીડિયો ફાઈલ મેસેજના કદના પ્રતિબંધોથી વધુ છે. {limit,number}{units}"
+  },
   "icu:unableToLoadAttachment": {
     "messageformat": "પસંદ કરેલ અટેચમેન્ટ લોડ કરવામાં અસમર્થ."
   },
@@ -3800,9 +3803,6 @@
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
     "messageformat": "Signal દ્વારા કૉલ લિંક શેર કરો"
   },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "આ વ્યક્તિને કૉલમાંથી દૂર કરો"
-  },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "કૉલમાંથી {name}ને દૂર કરવા છે?"
   },
@@ -6316,32 +6316,17 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "થઈ ગયું"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "તમારી બેકઅપ કી બતાવો"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
     "messageformat": "તમારી રિકવરી કી બતાવો"
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "તમારી બેકઅપ કી જોવા માટે તમારી ઓળખ ચકાસો."
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
     "messageformat": "તમારી રિકવરી કી જોવા માટે તમારી ઓળખ વેરિફાય કરો."
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "બેકઅપ કી જુઓ"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
     "messageformat": "રિકવરી કી જુઓ"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "તમારી બેકઅપ કી જોવા માટે પ્રમાણીકરણ જરૂરી છે."
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
     "messageformat": "તમારી રિકવરી કી જોવા માટે પ્રમાણીકરણ જરૂરી છે."
-  },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "બેકઅપ કી ટેક્સ્ટ બોક્સ"
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
     "messageformat": "રિકવરી કી"
@@ -6349,23 +6334,14 @@
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "કી દાખલ કરો"
   },
-  "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "તમારી બેકઅપ કીને રેકોર્ડ કરો"
-  },
   "icu:Preferences--local-backups-record-recovery-key": {
     "messageformat": "તમારી રિકવરી કી રેકોર્ડ કરો"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "તમારા એકાઉન્ટ અને ડેટાને રિકવર કરવા માટે આ કી જરૂરી છે. આ કીને કોઈ સુરક્ષિત જગ્યાએ સ્ટોર કરો. જો તમે તેને ગુમાવો છો, તો તમે તમારું એકાઉન્ટ રિકવર કરી શકશો નહીં. <learnMoreLink>વધુ જાણો.</learnMoreLink>"
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "તમારી બેકઅપ કી કન્ફર્મ કરો"
-  },
   "icu:Preferences--local-backups-confirm-recovery-key": {
     "messageformat": "તમારી રિકવરી કી કન્ફર્મ કરો"
-  },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "તમે હમણાં જ રેકોર્ડ કરેલી બેકઅપ કી દાખલ કરો"
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
     "messageformat": "તમે હમણાં જ રેકોર્ડ કરેલી રિકવરી કી દાખલ કરો"
@@ -6394,9 +6370,6 @@
   "icu:Preferences__local-backups-folder": {
     "messageformat": "બેકઅપ ફોલ્ડર"
   },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "બદલો"
-  },
   "icu:Preferences__local-backups-turn-off": {
     "messageformat": "બેકઅપ બંધ કરો"
   },
@@ -6411,9 +6384,6 @@
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "ક્લિપબોર્ડ પર કૉપિ કરેલું"
-  },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "બેકઅપ કી કૉપિ કરી"
   },
   "icu:Preferences__local-backups-copied-recovery-key": {
     "messageformat": "રિકવરી કી કૉપિ કરી"
@@ -6436,14 +6406,8 @@
   "icu:Preferences__view-key": {
     "messageformat": "કી જુઓ"
   },
-  "icu:Preferences__backup-key": {
-    "messageformat": "બેકઅપ કી"
-  },
   "icu:Preferences__recovery-key": {
     "messageformat": "રિકવરી કી"
-  },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "તમારી બેકઅપ કી એ 64-અંકનો કોડ છે જેનો ઉપયોગ તમારા બેકઅપને રિસ્ટોર કરવા માટે થાય છે"
   },
   "icu:Preferences__recovery-key-description": {
     "messageformat": "તમારી રિકવરી કી એ તમારા બેકઅપને રિસ્ટોર કરવા માટેનો 64-અક્ષરનો કોડ છે"
@@ -8147,9 +8111,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "નાના ફેરફારો, ભૂલ સુધારા અને પ્રદર્શનમાં વધારો. Signalનો ઉપયોગ કરવા બદલ આભાર!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "• હવે તમે વૈકલ્પિક રીતે ગ્રૂપ ચેટમાં તમારું અથવા તમારી ભૂમિકાનું વર્ણન કરવા માટે સભ્યના લેબલ ઉમેરી શકો છો. સભ્યના લેબલ તે ગ્રૂપમાં તમારા પ્રોફાઇલ નામની બાજુમાં દેખાય છે, અને ગ્રૂપ એડમિન નિયંત્રિત કરી શકે છે કે તે દરેક માટે સક્ષમ છે કે નહીં."
   },
   "icu:WhatsNew__8.6--0": {
     "messageformat": "પુનરાવર્તિત ચેટ ઇવેન્ટ (જેમ કે એકથી વધુ મિસ્ડ કૉલ) ને આપમેળે એક કોમ્પેક્ટ ડિસ્પ્લેમાં એકસાથે ગ્રૂપબદ્ધ કરી શકાય છે જેથી તમારે લેટેસ્ટ મેસેજ મેળવવા માટે દૂર સુધી સ્ક્રોલ કરવાની જરૂર નહીં પડે."

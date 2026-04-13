@@ -746,6 +746,9 @@
   "icu:fileSizeWarning": {
     "messageformat": "Beklager, den valgte fil overskrider begrænsninger for beskedstørrelse. {limit,number} {units}"
   },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "Beklager, videofilen overskrider begrænsninger for beskedstørrelse. {limit,number}{units}"
+  },
   "icu:unableToLoadAttachment": {
     "messageformat": "Ude af stand til at indlæse den valgte vedhæftning."
   },
@@ -3800,9 +3803,6 @@
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
     "messageformat": "Del opkaldslink via Signal"
   },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "Fjern denne person fra opkaldet"
-  },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "Fjern {name} fra dette opkald?"
   },
@@ -6316,32 +6316,17 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "Udført"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "vis din sikkerhedskopinøgle"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
     "messageformat": "vise din gendannelsesnøgle"
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "Verificer din identitet for at se din sikkerhedskopinøgle."
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
     "messageformat": "Verificer din identitet for at se din gendannelsesnøgle."
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "Se sikkerhedskopieringsnøgle"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
     "messageformat": "Se gendannelsesnøgle"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "Autentificering kræves for at se din sikkerhedskopinøgle."
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
     "messageformat": "Autentificering kræves for at se din gendannelsesnøgle."
-  },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Tekstfelt til sikkerhedskopinøgle"
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
     "messageformat": "Gendannelsesnøgle"
@@ -6349,23 +6334,14 @@
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "Angiv nøgle"
   },
-  "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "Skriv din sikkerhedskopinøgle ned"
-  },
   "icu:Preferences--local-backups-record-recovery-key": {
     "messageformat": "Skriv din gendannelsesnøgle ned"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "Denne nøgle er påkrævet for at gendanne din konto og dine data. Opbevar denne nøgle et sikkert sted. Hvis du mister den, vil du ikke kunne gendanne din konto. <learnMoreLink>Få mere at vide.</learnMoreLink>"
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "Bekræft din sikkerhedskopinøgle"
-  },
   "icu:Preferences--local-backups-confirm-recovery-key": {
     "messageformat": "Bekræft din gendannelsesnøgle"
-  },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "Angiv den sikkerhedskopinøgle, du lige har registreret"
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
     "messageformat": "Angiv den gendannelsesnøgle, du lige har registreret."
@@ -6394,9 +6370,6 @@
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Mappe til sikkerhedskopi"
   },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "Skift"
-  },
   "icu:Preferences__local-backups-turn-off": {
     "messageformat": "Slå sikkerhedskopier fra"
   },
@@ -6411,9 +6384,6 @@
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Kopiér til udklipsholder"
-  },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "Sikkerhedskopinøglen er kopieret"
   },
   "icu:Preferences__local-backups-copied-recovery-key": {
     "messageformat": "Gendannelsesnøgle kopieret"
@@ -6436,14 +6406,8 @@
   "icu:Preferences__view-key": {
     "messageformat": "Se sikkerhedskopieringsnøgle"
   },
-  "icu:Preferences__backup-key": {
-    "messageformat": "Sikkerhedskopinøgle"
-  },
   "icu:Preferences__recovery-key": {
     "messageformat": "Gendannelsesnøgle"
-  },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "Din sikkerhedskopinøgle er en 64-cifret kode, som bruges til at gendanne din sikkerhedskopi."
   },
   "icu:Preferences__recovery-key-description": {
     "messageformat": "Din gendannelsesnøgle er en kode på 64-tegn, der bruges til at gendanne din sikkerhedskopi"
@@ -8147,9 +8111,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Små tweaks, rettelser og forbedringer af appens præstation. Tak fordi du bruger Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "Nu kan du valgfrit tilføje en medlemstitel for at beskrive dig selv eller din rolle i gruppechatten. Brug medlemstitler som \"Dommer\" eller \"Målmand\" i din lokale fodboldgruppe for at komme i gang, når nye holdkammerater joiner. Skift derefter til en anden titel med din stilling i virksomhedschatten. Medlemstitler vises ved dit profilnavn i gruppen, og gruppeadministratorer kan bestemme, om de skal være synlige for alle."
   },
   "icu:WhatsNew__8.6--0": {
     "messageformat": "Du behøver ikke rulle så langt for at se de nyeste beskeder. Hvis flere nye personer deltager i en meget aktiv gruppechat, eller du modtager flere ubesvarede opkald i træk, kan disse gentagne chatbegivenheder automatisk samles i en kompakt visning. Nogle gange kan mindre være bedre, men du kan altid udvide eller skjule disse lister."

@@ -746,6 +746,9 @@
   "icu:fileSizeWarning": {
     "messageformat": "ਅਫ਼ਸੋਸ, ਚੁਣੀ ਹੋਈ ਫ਼ਾਈਲ ਦਾ ਅਕਾਰ ਸੁਨੇਹੇ ਦੇ ਅਕਾਰ ਸਬੰਧੀ ਪਾਬੰਦੀਆਂ ਤੋਂ ਵੱਧ ਗਿਆ ਹੈ। {limit,number} {units}"
   },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "ਮੁਆਫ਼ ਕਰਨਾ, ਚੁਣੀ ਗਈ ਵੀਡੀਓ ਫ਼ਾਈਲ ਦਾ ਆਕਾਰ ਸੁਨੇਹੇ ਦੀਆਂ ਆਕਾਰ ਸਬੰਧੀ ਪਾਬੰਦੀਆਂ ਤੋਂ ਵੱਧ ਹੈ। {limit,number}{units}"
+  },
   "icu:unableToLoadAttachment": {
     "messageformat": "ਚੁਣੀ ਅਟੈਚਮੈਂਟ ਲੋਡ ਕਰਨ ਵਿੱਚ ਅਸਮਰੱਥ।"
   },
@@ -3800,9 +3803,6 @@
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
     "messageformat": "Signal ਰਾਹੀਂ ਕਾਲ ਦਾ ਲਿੰਕ ਸਾਂਝਾ ਕਰੋ"
   },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "ਇਸ ਵਿਅਕਤੀ ਨੂੰ ਕਾਲ ਵਿੱਚੋਂ ਹਟਾਓ"
-  },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "ਕੀ {name} ਨੂੰ ਕਾਲ ਵਿੱਚੋਂ ਹਟਾਉਣਾ ਹੈ?"
   },
@@ -6316,32 +6316,17 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "ਮੁਕੰਮਲ"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "ਆਪਣੀ ਬੈਕਅੱਪ ਕੁੰਜੀ ਦਿਖਾਓ"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
     "messageformat": "ਆਪਣੀ ਰਿਕਵਰੀ ਕੁੰਜੀ ਦਿਖਾਓ"
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "ਆਪਣੀ ਬੈਕਅੱਪ ਕੁੰਜੀ ਦੇਖਣ ਲਈ ਆਪਣੀ ਪਛਾਣ ਦੀ ਤਸਦੀਕ ਕਰੋ।"
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
     "messageformat": "ਆਪਣੀ ਰਿਕਵਰੀ ਕੁੰਜੀ ਦੇਖਣ ਲਈ ਆਪਣੀ ਪਛਾਣ ਦੀ ਤਸਦੀਕ ਕਰੋ।"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "ਬੈਕਅੱਪ ਕੁੰਜੀ ਦੇਖੋ"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
     "messageformat": "ਰਿਕਵਰੀ ਕੁੰਜੀ ਦੇਖੋ"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "ਤੁਹਾਡੀ ਬੈਕਅੱਪ ਕੁੰਜੀ ਦੇਖਣ ਲਈ ਪ੍ਰਮਾਣੀਕਰਨ ਲੋੜੀਂਦਾ ਹੈ।"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
     "messageformat": "ਤੁਹਾਡੀ ਰਿਕਵਰੀ ਕੁੰਜੀ ਦੇਖਣ ਲਈ ਪ੍ਰਮਾਣੀਕਰਨ ਲੋੜੀਂਦਾ ਹੈ।"
-  },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "ਬੈਕਅੱਪ ਕੁੰਜੀ ਟੈਕਸਟ ਬਾਕਸ"
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
     "messageformat": "ਰਿਕਵਰੀ ਕੁੰਜੀ"
@@ -6349,23 +6334,14 @@
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "ਕੁੰਜੀ ਦਰਜ ਕਰੋ"
   },
-  "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "ਆਪਣੀ ਬੈਕਅੱਪ ਕੁੰਜੀ ਨੂੰ ਰਿਕਾਰਡ ਕਰੋ"
-  },
   "icu:Preferences--local-backups-record-recovery-key": {
     "messageformat": "ਆਪਣੀ ਰਿਕਵਰੀ ਕੁੰਜੀ ਰਿਕਾਰਡ ਕਰੋ"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "ਇਹ ਕੁੰਜੀ ਤੁਹਾਡੇ ਖਾਤੇ ਅਤੇ ਡੇਟਾ ਨੂੰ ਰਿਕਵਰ ਕਰਨ ਲਈ ਲੋੜੀਂਦੀ ਹੈ। ਇਸ ਕੁੰਜੀ ਨੂੰ ਕਿਤੇ ਸੁਰੱਖਿਅਤ ਰੱਖੋ। ਜੇਕਰ ਤੁਸੀਂ ਇਸਨੂੰ ਗੁਆ ਦਿੰਦੇ ਹੋ, ਤਾਂ ਤੁਸੀਂ ਆਪਣਾ ਖਾਤਾ ਰਿਕਵਰ ਨਹੀਂ ਕਰ ਸਕੋਗੇ। <learnMoreLink>ਹੋਰ ਜਾਣੋ।</learnMoreLink>"
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "ਆਪਣੀ ਬੈਕਅੱਪ ਕੁੰਜੀ ਦੀ ਪੁਸ਼ਟੀ ਕਰੋ"
-  },
   "icu:Preferences--local-backups-confirm-recovery-key": {
     "messageformat": "ਆਪਣੀ ਰਿਕਵਰੀ ਕੁੰਜੀ ਦੀ ਪੁਸ਼ਟੀ ਕਰੋ"
-  },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "ਉਹ ਬੈਕਅੱਪ ਕੁੰਜੀ ਦਰਜ ਕਰੋ ਜੋ ਤੁਸੀਂ ਹੁਣੇ ਰਿਕਾਰਡ ਕੀਤੀ ਹੈ"
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
     "messageformat": "ਉਹ ਰਿਕਵਰੀ ਕੁੰਜੀ ਦਰਜ ਕਰੋ ਜੋ ਤੁਸੀਂ ਹੁਣੇ ਰਿਕਾਰਡ ਕੀਤੀ ਹੈ"
@@ -6394,9 +6370,6 @@
   "icu:Preferences__local-backups-folder": {
     "messageformat": "ਬੈਕਅੱਪ ਫੋਲਡਰ"
   },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "ਬਦਲੋ"
-  },
   "icu:Preferences__local-backups-turn-off": {
     "messageformat": "ਬੈਕਅੱਪ ਬੰਦ ਕਰੋ"
   },
@@ -6411,9 +6384,6 @@
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "ਕਲਿਪਬੋਰਡ 'ਤੇ ਕਾਪੀ ਕਰੋ"
-  },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "ਬੈਕਅੱਪ ਕੁੰਜੀ ਕਾਪੀ ਕੀਤੀ ਗਈ"
   },
   "icu:Preferences__local-backups-copied-recovery-key": {
     "messageformat": "ਰਿਕਵਰੀ ਕੁੰਜੀ ਕਾਪੀ ਕੀਤੀ ਗਈ"
@@ -6436,14 +6406,8 @@
   "icu:Preferences__view-key": {
     "messageformat": "ਕੁੰਜੀ ਦੇਖੋ"
   },
-  "icu:Preferences__backup-key": {
-    "messageformat": "ਬੈਕਅੱਪ ਕੁੰਜੀ"
-  },
   "icu:Preferences__recovery-key": {
     "messageformat": "ਰਿਕਵਰੀ ਕੁੰਜੀ"
-  },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "ਤੁਹਾਡੀ ਬੈਕਅੱਪ ਕੁੰਜੀ ਇੱਕ 64-ਅੰਕਾਂ ਵਾਲਾ ਕੋਡ ਹੈ ਜੋ ਤੁਹਾਡੇ ਬੈਕਅੱਪ ਨੂੰ ਰੀਸਟੋਰ ਕਰਨ ਲਈ ਵਰਤਿਆ ਜਾਂਦਾ ਹੈ"
   },
   "icu:Preferences__recovery-key-description": {
     "messageformat": "ਤੁਹਾਡੀ ਰਿਕਵਰੀ ਕੁੰਜੀ ਇੱਕ 64-ਅੱਖਰਾਂ ਦਾ ਕੋਡ ਹੈ ਜੋ ਤੁਹਾਡੇ ਬੈਕਅੱਪ ਨੂੰ ਰੀਸਟੋਰ ਕਰਨ ਲਈ ਵਰਤਿਆ ਜਾਂਦਾ ਹੈ"
@@ -8147,9 +8111,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "ਛੋਟੇ-ਮੋਟੇ ਸੁਧਾਰ, ਖ਼ਰਾਬੀਆਂ ਨੂੰ ਦਰੁਸਤ ਅਤੇ ਪ੍ਰਦਰਸ਼ਨ ਨੂੰ ਬਿਹਤਰ ਬਣਾਇਆ ਗਿਆ ਹੈ। Signal ਦੀ ਵਰਤੋਂ ਕਰਨ ਲਈ ਤੁਹਾਡਾ ਧੰਨਵਾਦ!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "ਹੁਣ ਤੁਸੀਂ ਵਿਕਲਪਿਕ ਤੌਰ 'ਤੇ ਆਪਣੇ ਬਾਰੇ ਜਾਂ ਕਿਸੇ ਗਰੁੱਪ ਚੈਟ ਵਿੱਚ ਆਪਣੀ ਭੂਮਿਕਾ ਦਾ ਵਰਣਨ ਕਰਨ ਲਈ ਇੱਕ ਮੈਂਬਰ ਲੇਬਲ ਸ਼ਾਮਲ ਕਰ ਸਕਦੇ ਹੋ। ਉਸ ਗਰੁੱਪ ਵਿੱਚ ਮੈਂਬਰ ਲੇਬਲ ਨੂੰ ਤੁਹਾਡੇ ਪ੍ਰੋਫ਼ਾਈਲ ਨਾਂ ਦੇ ਅੱਗੇ ਦਿਖਾਇਆ ਜਾਂਦਾ ਹੈ, ਅਤੇ ਗਰੁੱਪ ਐਡਮਿਨ ਇਹ ਕੰਟਰੋਲ ਕਰ ਸਕਦੇ ਹਨ ਕਿ ਇਹ ਸਹੂਲਤ ਸਾਰਿਆਂ ਲਈ ਸਮਰੱਥ ਕਰਨੀ ਹੈ ਜਾਂ ਨਹੀਂ।"
   },
   "icu:WhatsNew__8.6--0": {
     "messageformat": "ਵਾਰ-ਵਾਰ ਹੋਣ ਵਾਲੇ ਚੈਟ ਇਵੈਂਟ (ਜਿਵੇਂ ਕਿ ਕਈ ਮਿਸਡ ਕਾਲਾਂ) ਨੂੰ ਆਪਣੇ-ਆਪ ਇੱਕ ਸੰਖੇਪ ਡਿਸਪਲੇ ਵਿੱਚ ਇਕੱਠਾ ਕੀਤਾ ਜਾ ਸਕਦਾ ਹੈ ਤਾਂ ਜੋ ਤੁਹਾਨੂੰ ਨਵੇਂ ਸੁਨੇਹਿਆਂ ਤੱਕ ਪਹੁੰਚਣ ਲਈ ਜ਼ਿਆਦਾ ਸਕ੍ਰੌਲ ਨਾ ਕਰਨਾ ਪਵੇ।"

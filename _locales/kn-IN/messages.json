@@ -746,6 +746,9 @@
   "icu:fileSizeWarning": {
     "messageformat": "ಕ್ಷಮಿಸಿ, ಆಯ್ಕೆಮಾಡಿದ ಕಡತ ಸಂದೇಶದ ಗಾತ್ರ ನಿರ್ಬಂಧಗಳನ್ನು ಮೀರಿದೆ. {limit,number} {units}"
   },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "ಕ್ಷಮಿಸಿ, ಆಯ್ಕೆಮಾಡಿದ ವಿಡಿಯೋ ಫೈಲ್, ಮೆಸೇಜ್ ಗಾತ್ರದ ನಿರ್ಬಂಧಗಳನ್ನು ಮೀರಿದೆ. {limit,number}{units}"
+  },
   "icu:unableToLoadAttachment": {
     "messageformat": "ಆಯ್ಕೆಮಾಡಿದ ಲಗತ್ತನ್ನು ಲೋಡ್ ಮಾಡಲು ಸಾಧ್ಯವಿಲ್ಲ."
   },
@@ -3800,9 +3803,6 @@
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
     "messageformat": "Signal ಮೂಲಕ ಕಾಲ್ ಲಿಂಕ್ ಅನ್ನು ಹಂಚಿಕೊಳ್ಳಿ"
   },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "ಈ ವ್ಯಕ್ತಿಯನ್ನು ಕರೆಯಿಂದ ತೆಗೆದುಹಾಕಿ"
-  },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "{name} ಅವರನ್ನು ಕರೆಯಿಂದ ತೆಗೆದುಹಾಕಬೇಕೆ?"
   },
@@ -6316,32 +6316,17 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "ಮುಗಿದಿದೆ"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "ನಿಮ್ಮ ಬ್ಯಾಕಪ್ ಕೀ ತೋರಿಸಿ"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
     "messageformat": "ನಿಮ್ಮ ರಿಕವರಿ ಕೀ ತೋರಿಸಿ"
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "ನಿಮ್ಮ ಬ್ಯಾಕಪ್ ಕೀಯನ್ನು ವೀಕ್ಷಿಸಲು ನಿಮ್ಮ ಗುರುತನ್ನು ದೃಢೀಕರಿಸಿ."
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
     "messageformat": "ನಿಮ್ಮ ರಿಕವರಿ ಕೀ ಅನ್ನು ವೀಕ್ಷಿಸಲು ನಿಮ್ಮ ಗುರುತನ್ನು ದೃಢೀಕರಿಸಿ."
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "ಬ್ಯಾಕಪ್ ಕೀ ವೀಕ್ಷಿಸಿ"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
     "messageformat": "ರಿಕವರಿ ಕೀ ವೀಕ್ಷಿಸಿ"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "ನಿಮ್ಮ ಬ್ಯಾಕಪ್ ಕೀಯನ್ನು ವೀಕ್ಷಿಸಲು ದೃಢೀಕರಣದ ಅಗತ್ಯವಿದೆ."
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
     "messageformat": "ನಿಮ್ಮ ರಿಕವರಿ ಕೀ ಅನ್ನು ವೀಕ್ಷಿಸಲು ದೃಢೀಕರಣದ ಅಗತ್ಯವಿದೆ."
-  },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "ಬ್ಯಾಕಪ್‌ ಕೀ ಟೆಕ್ಸ್ಟ್ ಬಾಕ್ಸ್"
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
     "messageformat": "ರಿಕವರಿ ಕೀ"
@@ -6349,23 +6334,14 @@
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "ಕೀ ನಮೂದಿಸಿ"
   },
-  "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "ನಿಮ್ಮ ಬ್ಯಾಕಪ್ ಕೀಯನ್ನು ರೆಕಾರ್ಡ್ ಮಾಡಿ"
-  },
   "icu:Preferences--local-backups-record-recovery-key": {
     "messageformat": "ನಿಮ್ಮ ರಿಕವರಿ ಕೀಯನ್ನು ರೆಕಾರ್ಡ್ ಮಾಡಿ"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "ನಿಮ್ಮ ಖಾತೆ ಮತ್ತು ಡೇಟಾವನ್ನು ರಿಕವರ್ ಮಾಡಲು ಈ ಕೀ ಅಗತ್ಯವಿದೆ. ಈ ಕೀಯನ್ನು ಎಲ್ಲಾದರೂ ಸುರಕ್ಷಿತವಾಗಿ ಸಂಗ್ರಹಿಸಿ. ನೀವು ಅದನ್ನು ಕಳೆದುಕೊಂಡರೆ, ನಿಮ್ಮ ಖಾತೆಯನ್ನು ರಿಕವರ್ ಮಾಡಲು ನಿಮಗೆ ಸಾಧ್ಯವಾಗುವುದಿಲ್ಲ. <learnMoreLink>ಇನ್ನಷ್ಟು ತಿಳಿಯಿರಿ.</learnMoreLink>"
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "ನಿಮ್ಮ ಬ್ಯಾಕಪ್‌ ಕೀ ಅನ್ನು ಖಚಿತಪಡಿಸಿ"
-  },
   "icu:Preferences--local-backups-confirm-recovery-key": {
     "messageformat": "ನಿಮ್ಮ ರಿಕವರಿ ಕೀಯನ್ನು ದೃಢೀಕರಿಸಿ"
-  },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "ನೀವು ಈಗ ತಾನೇ ರೆಕಾರ್ಡ್ ಮಾಡಿದ ಬ್ಯಾಕಪ್ ಕೀಯನ್ನು ನಮೂದಿಸಿ"
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
     "messageformat": "ನೀವು ಈಗ ತಾನೇ ರೆಕಾರ್ಡ್ ಮಾಡಿದ ರಿಕವರಿ ಕೀಯನ್ನು ನಮೂದಿಸಿ"
@@ -6394,9 +6370,6 @@
   "icu:Preferences__local-backups-folder": {
     "messageformat": "ಬ್ಯಾಕಪ್‌ ಫೋಲ್ಡರ್‌"
   },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "ಬದಲಾಯಿಸಿ"
-  },
   "icu:Preferences__local-backups-turn-off": {
     "messageformat": "ಬ್ಯಾಕಪ್‌ಗಳನ್ನು ಆಫ್ ಮಾಡಿ"
   },
@@ -6411,9 +6384,6 @@
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "ಕ್ಲಿಪ್‌ಬೋರ್ಡ್‌ಗೆ ನಕಲಿಸು"
-  },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "ಬ್ಯಾಕಪ್ ಕೀ ಕಾಪಿ ಮಾಡಲಾಗಿದೆ"
   },
   "icu:Preferences__local-backups-copied-recovery-key": {
     "messageformat": "ರಿಕವರಿ ಕೀ ಕಾಪಿ ಮಾಡಲಾಗಿದೆ"
@@ -6436,14 +6406,8 @@
   "icu:Preferences__view-key": {
     "messageformat": "ಕೀ ವೀಕ್ಷಿಸಿ"
   },
-  "icu:Preferences__backup-key": {
-    "messageformat": "ಬ್ಯಾಕಪ್ ಕೀ"
-  },
   "icu:Preferences__recovery-key": {
     "messageformat": "ರಿಕವರಿ ಕೀ"
-  },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "ನಿಮ್ಮ ಬ್ಯಾಕಪ್ ಕೀ ನಿಮ್ಮ ಬ್ಯಾಕಪ್ ಅನ್ನು ರಿಸ್ಟೋರ್ ಮಾಡಲು ಬಳಸುವ 64-ಅಂಕಿಯ ಕೋಡ್ ಆಗಿದೆ"
   },
   "icu:Preferences__recovery-key-description": {
     "messageformat": "ನಿಮ್ಮ ರಿಕವರಿ ಕೀ ನಿಮ್ಮ ಬ್ಯಾಕಪ್ ಅನ್ನು ರಿಸ್ಟೋರ್ ಮಾಡಲು ಬಳಸಲಾಗುವ 64-ಅಕ್ಷರಗಳ ಕೋಡ್ ಆಗಿದೆ"
@@ -8147,9 +8111,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "ಸಣ್ಣ ಟ್ವೀಕ್‌ಗಳು, ಬಗ್ ಫಿಕ್ಸ್‌ಗಳು ಮತ್ತು ಕಾರ್ಯಕ್ಷಮತೆ ವರ್ಧನೆಗಳು. Signal ಬಳಸುತ್ತಿರುವುದಕ್ಕಾಗಿ ಧನ್ಯವಾದಗಳು!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "ಈಗ ನೀವು ಗುಂಪು ಚಾಟ್‌ನಲ್ಲಿ ನಿಮ್ಮನ್ನು ಅಥವಾ ನಿಮ್ಮ ಪಾತ್ರವನ್ನು ವಿವರಿಸಲು ಐಚ್ಛಿಕವಾಗಿ ಸದಸ್ಯರ ಲೇಬಲ್ ಸೇರಿಸಬಹುದು. ನಿಮ್ಮ ಸ್ಥಳೀಯ ರೆಕ್ ಲೀಗ್ ಸಾಕರ್ ಚಾಟ್‌ನಲ್ಲಿ ತಂಡದ ಹೊಸ ಸದಸ್ಯರು ಸೇರಿದಾಗ ಆರಂಭಿಸಲು ಸಹಾಯವಾಗುವಂತೆ ಗುಂಪಿನ ಸದಸ್ಯರ ಲೇಬಲ್ ಅನ್ನು \"ರೆಫರಿ\" ಅಥವಾ \"ಗೋಲಿ\" ಎಂದು ಸೆಟ್ ಮಾಡಿ, ನಂತರ ಕಂಪನಿ ಚಾಟ್‌ನಲ್ಲಿ ಕೆಲಸದ ಶೀರ್ಷಿಕೆಯೊಂದಿಗೆ ಬೇರೆ ಲೇಬಲ್ ಆಯ್ಕೆಮಾಡಿ. ಆ ಗುಂಪಿನಲ್ಲಿ ನಿಮ್ಮ ಪ್ರೊಫೈಲ್ ಹೆಸರಿನ ಪಕ್ಕದಲ್ಲಿ ಸದಸ್ಯರ ಲೇಬಲ್‌ಗಳು ಕಾಣಿಸಿಕೊಳ್ಳುತ್ತವೆ ಮತ್ತು ಗುಂಪಿನ ಅಡ್ಮಿನ್‌ಗಳು ಅವುಗಳನ್ನು ಎಲ್ಲರಿಗೂ ಸಕ್ರಿಯಗೊಳಿಸಬೇಕೇ ಅಥವಾ ಬೇಡವೇ ಎಂಬುದನ್ನು ನಿಯಂತ್ರಿಸಬಹುದು."
   },
   "icu:WhatsNew__8.6--0": {
     "messageformat": "ಈಗ ನೀವು ಇತ್ತೀಚಿನ ಮೆಸೇಜ್‌ಗಳನ್ನು ಪಡೆದುಕೊಳ್ಳಲು ಹೆಚ್ಚು ಸ್ಕ್ರಾಲ್ ಮಾಡಬೇಕಾಗಿಲ್ಲ. ಹಲವಾರು ಹೊಸ ಜನರು ಕಾರ್ಯನಿರತ ಗುಂಪು ಚಾಟ್‌ಗೆ ಸೇರಿಕೊಂಡರೆ ಅಥವಾ ನೀವು ಸತತವಾಗಿ ಅನೇಕ ಮಿಸ್ಡ್ ಕಾಲ್‌ಗಳನ್ನು ಸ್ವೀಕರಿಸಿದರೆ, ಆ ಪುನರಾವರ್ತಿತ ಚಾಟ್ ಇವೆಂಟ್‌ಗಳನ್ನು ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಕಾಂಪ್ಯಾಕ್ಟ್ ಡಿಸ್‌ಪ್ಲೇ ಆಗಿ ಗುಂಪು ಮಾಡಬಹುದು. ಕೆಲವೊಮ್ಮೆ ಕಡಿಮೆ ಎಂದರೆ ಹೆಚ್ಚು ಆಗಿರುತ್ತದೆ, ಆದರೆ ನೀವು ಯಾವುದೇ ಸಮಯದಲ್ಲಿ ಈ ಪಟ್ಟಿಗಳನ್ನು ಸುಲಭವಾಗಿ ವಿಸ್ತರಿಸಬಹುದು ಮತ್ತು ಕುಗ್ಗಿಸಬಹುದು."

@@ -746,6 +746,9 @@
   "icu:fileSizeWarning": {
     "messageformat": "Извинете, избраната датотека ги надминува рестрикциите за големина. {limit,number} {units}"
   },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+  },
   "icu:unableToLoadAttachment": {
     "messageformat": "Не успеав да го вчитам избраниот прилог."
   },
@@ -3800,9 +3803,6 @@
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
     "messageformat": "Споделете го линкот за повикот преку Signal"
   },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "Отстранете ја оваа личност од повикот"
-  },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "Сакате да се отстрани {name} од повикот?"
   },
@@ -6316,32 +6316,17 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "Готово"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "да се прикаже клучот за резервни копии"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
     "messageformat": "да ви го прикаже клучот за враќање резервни копии"
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "Потврдете го вашиот идентитет за да го видите клучот за резервни копии."
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
     "messageformat": "Потврдете го вашиот идентитет за да го видите клучот за враќање резервни копии."
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "Видете го клучот за резервни копии"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
     "messageformat": "Видете го клучот за враќање резервни копии"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "Потребна е автентикација за да го видите вашиот клуч за резервни копии."
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
     "messageformat": "Потребна е автентикација за да го видите вашиот клуч за враќање резервни копии."
-  },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Поле за текст за клуч за резервни копии"
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
     "messageformat": "Клуч за враќање резервни копии"
@@ -6349,23 +6334,14 @@
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "Внесете клуч"
   },
-  "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "Направете запис од вашиот клуч за резервни копии"
-  },
   "icu:Preferences--local-backups-record-recovery-key": {
     "messageformat": "Зачувајте го клучот за враќање резервни копии"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "Овој клуч е потребен за враќање на вашата корисничка сметка и податоците. Чувајте го овој клуч на безбедно место. Ако го изгубите, нема да може да ја вратите вашата корисничка сметка. <learnMoreLink>Дознајте повеќе.</learnMoreLink>"
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "Потврдете го вашиот клуч за резервни копии"
-  },
   "icu:Preferences--local-backups-confirm-recovery-key": {
     "messageformat": "Потврдете го клучот за враќање резервни копии"
-  },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "Внесете го клучот за резервни копии што го запишавте сега"
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
     "messageformat": "Внесете го клучот за враќање резервни копии што го запишавте сега"
@@ -6394,9 +6370,6 @@
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Папка за резервна копија"
   },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "Изменете"
-  },
   "icu:Preferences__local-backups-turn-off": {
     "messageformat": "Оневозможете резервни копии"
   },
@@ -6411,9 +6384,6 @@
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Копирај на таблата со исечоци"
-  },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "Клучот за резервни копии е копиран"
   },
   "icu:Preferences__local-backups-copied-recovery-key": {
     "messageformat": "Клучот за враќање резервни копии е ископиран"
@@ -6436,14 +6406,8 @@
   "icu:Preferences__view-key": {
     "messageformat": "Видете го клучот"
   },
-  "icu:Preferences__backup-key": {
-    "messageformat": "Клуч за резервни копии"
-  },
   "icu:Preferences__recovery-key": {
     "messageformat": "Клуч за враќање резервни копии"
-  },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "Вашиот клуч за резервни копии е код од 64 цифри којшто ви помага да ги вратите податоците од резервната копија"
   },
   "icu:Preferences__recovery-key-description": {
     "messageformat": "Вашиот клуч за враќање резервни копии е код од 64 цифри којшто се користи за да се врати вашата резервна копија"
@@ -8147,9 +8111,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Mали подобрувања, решени багови и подобрувања на перформансот. Ви благодариме што користите Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "Сега можете да додадете ознака на член за да се опишете себеси или вашата улога во оваа група. Ознаките на членовите се појавуваат веднаш до името на вашиот профил во таа група, а администраторите на групата можат да одредуваат дали ознаките на членови се овозможени за сите."
   },
   "icu:WhatsNew__8.6--0": {
     "messageformat": "Активностите поврзани со пораки кои се повторуваат (како многукратни пропуштени повици) можат автоматски да се групираат во компактен приказ за да не морате толку да листате за да стигнете до последните пораки."

@@ -746,6 +746,9 @@
   "icu:fileSizeWarning": {
     "messageformat": "הקובץ עובר את מגבלת הגודל המקסימלי. {limit,number} {units}"
   },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "מצטערים, הסרטון שנבחר חורג ממגבלת גודל ההודעה המקסימלי. {limit,number}{units}"
+  },
   "icu:unableToLoadAttachment": {
     "messageformat": "לא היה ניתן לטעון את הצרופה הנבחרת."
   },
@@ -3800,9 +3803,6 @@
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
     "messageformat": "שיתוף לינק שיחה דרך Signal"
   },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "להסיר את אדם זה מהשיחה"
-  },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "להסיר את {name} מהשיחה?"
   },
@@ -6316,32 +6316,17 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "סיים"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "להציג את מפתח הגיבוי שלך"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
     "messageformat": "להציג את מפתח השחזור שלך"
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "יש לאמת את הזהות שלך על מנת להציג את מפתח הגיבוי."
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
     "messageformat": "יש לאמת את הזהות שלך על מנת להציג את מפתח השחזור."
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "הצגת מפתח גיבוי"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
     "messageformat": "הצגת מפתח שחזור"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "נדרש אימות כדי להציג את מפתח הגיבוי שלך."
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
     "messageformat": "נדרש אימות כדי להציג את מפתח השחזור שלך."
-  },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "תיבת טקסט של מפתח גיבוי"
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
     "messageformat": "מפתח שחזור"
@@ -6349,23 +6334,14 @@
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "הזנת מפתח"
   },
-  "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "תיעוד מפתח הגיבוי שלך"
-  },
   "icu:Preferences--local-backups-record-recovery-key": {
     "messageformat": "תיעוד מפתח השחזור שלך"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "המפתח הזה נדרש כדי לשחזר את החשבון והנתונים שלך. חשוב לאחסן את המפתח הזה במקום בטוח. אם הוא נאבד, אי אפשר לשחזר את החשבון שלך. <learnMoreLink>מידע נוסף.</learnMoreLink>"
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "אישור מפתח הגיבוי שלך"
-  },
   "icu:Preferences--local-backups-confirm-recovery-key": {
     "messageformat": "אישור מפתח השחזור שלך"
-  },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "יש להזין את מפתח הגיבוי שזה עתה הקלטת"
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
     "messageformat": "יש להזין את מפתח השחזור שזה עתה תיעדת"
@@ -6394,9 +6370,6 @@
   "icu:Preferences__local-backups-folder": {
     "messageformat": "תיקיית גיבוי"
   },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "שינוי"
-  },
   "icu:Preferences__local-backups-turn-off": {
     "messageformat": "השבתת גיבויים"
   },
@@ -6411,9 +6384,6 @@
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "העתק ללוח העריכה"
-  },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "מפתח הגיבוי הועתק"
   },
   "icu:Preferences__local-backups-copied-recovery-key": {
     "messageformat": "מפתח שחזור הועתק"
@@ -6436,14 +6406,8 @@
   "icu:Preferences__view-key": {
     "messageformat": "הצגת מפתח"
   },
-  "icu:Preferences__backup-key": {
-    "messageformat": "מפתח גיבוי"
-  },
   "icu:Preferences__recovery-key": {
     "messageformat": "מפתח שחזור"
-  },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "מפתח הגיבוי שלך הוא קוד בן 64 ספרות שמשמש לשחזור הגיבוי שלך"
   },
   "icu:Preferences__recovery-key-description": {
     "messageformat": "מפתח השחזור שלך הוא קוד בן 64 ספרות שמשמש לשחזור הגיבוי שלך"
@@ -8147,9 +8111,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "התאמות קטנות, תיקוני באגים ושיפורי ביצועים. תודה על השימוש ב-Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "עכשיו אפשר להוסיף תווית חבר/ה כדי לתאר את עצמך או את התפקיד שלך בצ׳אט הקבוצתי. תוויות חברים מופיעות ליד שם הפרופיל באותה קבוצה, ומנהלי קבוצות יכולים לשלוט במי שיכולים להגדיר תווית (כל חברי הקבוצה או רק חלק)."
   },
   "icu:WhatsNew__8.6--0": {
     "messageformat": "אירועי צ׳אט חוזרים (כמו מספר שיחות שלא נענו) יכולים להיות מקובצים יחדיו אוטומטית לתצוגה קומפקטית כך שלא יהיה צורך לגלול המון כדי להתעדכן בהודעות האחרונות."

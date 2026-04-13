@@ -746,6 +746,9 @@
   "icu:fileSizeWarning": {
     "messageformat": "Изабрани фајл превазилази ограничења у погледу величине поруке. {limit,number} {units}"
   },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "Изабрани видео-фајл превазилази ограничења у погледу величине поруке. {limit,number}{units}"
+  },
   "icu:unableToLoadAttachment": {
     "messageformat": "Учитавање изабраног прилога није успело."
   },
@@ -3800,9 +3803,6 @@
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
     "messageformat": "Подели линк за позив преко Signal-а"
   },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "Уклони ову особу из позива"
-  },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "Желите ли да уклоните корисника {name} из позива?"
   },
@@ -6316,32 +6316,17 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "Готово"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "прикажи кључ за резервне копије"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
     "messageformat": "прикаже ваш кључ за опоравак"
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "Потврдите свој идентитет да видите свој кључ за резервне копије."
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
     "messageformat": "Потврдите свој идентитет да видите свој кључ за резервне копије."
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "Прикажи кључ за резервне копије"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
     "messageformat": "Прикажи кључ за опоравак"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "За преглед резервног кључа потребна је потврда идентитета."
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
     "messageformat": "За преглед кључа за опоравак потребна је потврда идентитета."
-  },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Поље кључа за резервне копије"
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
     "messageformat": "Кључ за опоравак"
@@ -6349,23 +6334,14 @@
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "Унесите кључ"
   },
-  "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "Сачувајте кључ за резервне копије"
-  },
   "icu:Preferences--local-backups-record-recovery-key": {
     "messageformat": "Снимите кључ за опоравак"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "Овај кључ је потребан за враћање вашег налога и података. Чувајте овај кључ негде на сигурном. Ако га изгубите, нећете моћи да повратите свој налог. <learnMoreLink>Сазнајте више.</learnMoreLink>"
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "Потврдите кључ за резервне копије"
-  },
   "icu:Preferences--local-backups-confirm-recovery-key": {
     "messageformat": "Потврдите кључ за опоравак"
-  },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "Унесите кључ за резервне копије који сте управо забележили"
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
     "messageformat": "Унесите кључ за опоравак који сте управо забележили"
@@ -6394,9 +6370,6 @@
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Фолдер резервне копије"
   },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "Промени"
-  },
   "icu:Preferences__local-backups-turn-off": {
     "messageformat": "Искључи резервне копије"
   },
@@ -6411,9 +6384,6 @@
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Копирај"
-  },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "Кључ за резервне копије је копиран"
   },
   "icu:Preferences__local-backups-copied-recovery-key": {
     "messageformat": "Кључ за опоравак је копиран"
@@ -6436,14 +6406,8 @@
   "icu:Preferences__view-key": {
     "messageformat": "Прикажи кључ"
   },
-  "icu:Preferences__backup-key": {
-    "messageformat": "Кључ за резервне копије"
-  },
   "icu:Preferences__recovery-key": {
     "messageformat": "Кључ за опоравак"
-  },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "Кључ за резервне копије је 64-цифрена шифра која се користи за враћање резервне копије"
   },
   "icu:Preferences__recovery-key-description": {
     "messageformat": "Ваш кључ за опоравак је 64-цифрена шифра која вам је потребна за враћање резервне копије"
@@ -8147,9 +8111,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Обавили смо мања фина прилагођавања, исправке грешака и побољшања перформанси. Хвала што користите Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "Сада по жељи можете додати ознаку члана која ће описати вас или вашу улогу у групном ћаскању. Ознака члана ће се појавити поред имена вашег профила у тој групи. Администратори групе контролишу да ли су ознаке чланова омогућене свим члановима."
   },
   "icu:WhatsNew__8.6--0": {
     "messageformat": "Активности унутар ћаскања које се понављају (попут низа пропуштених позива) могу се аутоматски груписати у компактни приказ да не бисте морали да листате унедоглед да пронађете најновије поруке."

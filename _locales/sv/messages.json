@@ -746,6 +746,9 @@
   "icu:fileSizeWarning": {
     "messageformat": "Tyvärr, filen du har valt överstiger maximalt tillåten filstorlek. {limit,number} {units}"
   },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "Tyvärr, den valda videofilen överskrider storleksgränsen för meddelanden. {limit,number} {units}"
+  },
   "icu:unableToLoadAttachment": {
     "messageformat": "Det gick inte att läsa in vald bilaga"
   },
@@ -3800,9 +3803,6 @@
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
     "messageformat": "Dela samtalslänk via Signal"
   },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "Ta bort den här personen från samtalet"
-  },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "Ta bort {name} från samtalet?"
   },
@@ -6316,32 +6316,17 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "Klar"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "visa din säkerhetskopieringsnyckel"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
     "messageformat": "visa din återställningsnyckel"
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "Verifiera din identitet för att se din säkerhetskopieringsnyckel."
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
     "messageformat": "Verifiera din identitet för att visa din återställningsnyckel."
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "Visa säkerhetskopieringsnyckel"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
     "messageformat": "Visa återställningsnyckel"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "Autentisering krävs för att visa din säkerhetskopieringsnyckel."
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
     "messageformat": "Autentisering krävs för att visa din återställningsnyckel."
-  },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Textruta för säkerhetskopieringsnyckel"
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
     "messageformat": "Återställningsnyckel"
@@ -6349,23 +6334,14 @@
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "Ange nyckel"
   },
-  "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "Spara din säkerhetskopieringsnyckel"
-  },
   "icu:Preferences--local-backups-record-recovery-key": {
     "messageformat": "Spara din återställningsnyckel"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "Denna nyckel krävs för att återställa ditt konto och dina data. Förvara den här nyckeln på ett säkert ställe. Om du förlorar den kommer du inte att kunna återställa ditt konto.<learnMoreLink>Läs mer.</learnMoreLink>"
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "Bekräfta din säkerhetskopieringsnyckel"
-  },
   "icu:Preferences--local-backups-confirm-recovery-key": {
     "messageformat": "Bekräfta din återställningsnyckel"
-  },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "Ange säkerhetskopieringsnyckeln som du just spelade in"
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
     "messageformat": "Ange återställningsnyckeln som du just registrerat"
@@ -6394,9 +6370,6 @@
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Mapp för säkerhetskopior"
   },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "Ändra"
-  },
   "icu:Preferences__local-backups-turn-off": {
     "messageformat": "Stäng av säkerhetskopiering"
   },
@@ -6411,9 +6384,6 @@
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Kopiera till urklipp"
-  },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "Säkerhetskopieringsnyckel kopierad"
   },
   "icu:Preferences__local-backups-copied-recovery-key": {
     "messageformat": "Återställningsnyckeln kopierad"
@@ -6436,14 +6406,8 @@
   "icu:Preferences__view-key": {
     "messageformat": "Visa nyckel"
   },
-  "icu:Preferences__backup-key": {
-    "messageformat": "Säkerhetskopieringsnyckel"
-  },
   "icu:Preferences__recovery-key": {
     "messageformat": "Återställningsnyckel"
-  },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "Din säkerhetskopieringsnyckel är en 64-siffrig kod som används för att återställa din säkerhetskopia"
   },
   "icu:Preferences__recovery-key-description": {
     "messageformat": "Din återställningsnyckel är en kod med 64 tecken som används för att återställa din säkerhetskopia"
@@ -8147,9 +8111,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Små justeringer, buggfixar och prestandaförbättringar. Tack för att du använder Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "Nu kan du välja att lägga till en medlemsetikett för att beskriva dig själv eller din roll i en gruppchatt. Medlemsetiketter visas bredvid ditt profilnamn i gruppen, och gruppadministratörer kan styra om de är aktiverade för alla."
   },
   "icu:WhatsNew__8.6--0": {
     "messageformat": "Upprepade chatthändelser (som flera missade samtal) kan automatiskt grupperas i en kompakt vy så att du inte behöver skrolla lika långt för att komma ikapp med de senaste meddelandena."

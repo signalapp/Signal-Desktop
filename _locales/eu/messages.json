@@ -746,6 +746,9 @@
   "icu:fileSizeWarning": {
     "messageformat": "Barkatu, aukeratutako fitxategiak ezarri den tamaina muga gainditzen du. {limit,number} {units}"
   },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+  },
   "icu:unableToLoadAttachment": {
     "messageformat": "Ezin izan da hautatutako eranskina kargatu."
   },
@@ -3800,9 +3803,6 @@
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
     "messageformat": "Partekatu deiaren esteka Signal bidez"
   },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "Kendu pertsona hau deitik"
-  },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "{name} deitik kendu?"
   },
@@ -6316,32 +6316,17 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "Eginda"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "erakutsi babeskopia-gakoa"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
     "messageformat": "erakutsi zure berreskuratze-gakoa"
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "Babeskopia-gakoa ikusteko, egiaztatu zure identitatea."
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
     "messageformat": "Berreskuratze-gakoa ikusteko, egiaztatu zure identitatea."
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "Ikusi babeskopia-gakoa"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
     "messageformat": "Ikusi berreskuratze-gakoa"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "Babeskopia-gakoa ikusteko, autentifikatu egin behar zara."
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
     "messageformat": "Berreskuratze-gakoa ikusteko, autentifikatu egin behar zara."
-  },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Babeskopia-gakoaren testu-koadroa"
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
     "messageformat": "Berreskuratze-gakoa"
@@ -6349,23 +6334,14 @@
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "Idatzi gakoa"
   },
-  "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "Apuntatu babeskopia-gakoa"
-  },
   "icu:Preferences--local-backups-record-recovery-key": {
     "messageformat": "Gorde berreskuratze-gakoa"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "Zure kontua eta datuak berreskuratzeko behar da gako hori. Gorde gakoa toki seguru batean. Galduz gero, ezingo duzu berreskuratu kontua.<learnMoreLink>Gehiago ikasi.</learnMoreLink>"
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "Berretsi babeskopia-gakoa"
-  },
   "icu:Preferences--local-backups-confirm-recovery-key": {
     "messageformat": "Berretsi berreskuratze-gakoa"
-  },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "Idatzi grabatu berri duzun babeskopia-gakoa"
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
     "messageformat": "Idatzi erregistratu berri duzun berreskuratze-gakoa"
@@ -6394,9 +6370,6 @@
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Babeskopiak gordetzeko karpeta"
   },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "Aldatu"
-  },
   "icu:Preferences__local-backups-turn-off": {
     "messageformat": "Desaktibatu babeskopiak"
   },
@@ -6411,9 +6384,6 @@
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Kopiatu arbelera"
-  },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "Kopiatu da babeskopia-gakoa"
   },
   "icu:Preferences__local-backups-copied-recovery-key": {
     "messageformat": "Kopiatu da berreskuratze-gakoa"
@@ -6436,14 +6406,8 @@
   "icu:Preferences__view-key": {
     "messageformat": "Ikusi gakoa"
   },
-  "icu:Preferences__backup-key": {
-    "messageformat": "Babeskopia-gakoa"
-  },
   "icu:Preferences__recovery-key": {
     "messageformat": "Berreskuratze-gakoa"
-  },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "Babeskopia leheneratzeko erabiltzen den 64 digituko kode bat da babeskopia-gakoa"
   },
   "icu:Preferences__recovery-key-description": {
     "messageformat": "Babeskopia leheneratzeko erabiltzen den 64 karaktereko kodea da berreskuratze-gakoa"
@@ -8147,9 +8111,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Doikuntza txikiak, akats-konponketak eta errendimendu-hobekuntzak. Eskerrik asko Signal erabiltzeagatik!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "Orain, nahi baduzu, kide-etiketa bat gehi dezakezu zeure burua deskribatzeko edo taldeko txatean duzun funtzioa azaltzeko. Kide-Talde horretan duzun profil-izenaren alboan agertzen dira kide-etiketak, eta denentzat gaituta dauden ala ez kontrola dezakete taldeko adminek."
   },
   "icu:WhatsNew__8.6--0": {
     "messageformat": "Txatekin lotutako gertaera errepikatuak (hala nola dei galduak) automatikoki taldeka daitezke ikuspegi trinko batean, ez dezazun hain behera egin beharrik izan mezu berrienak irakurtzeko."

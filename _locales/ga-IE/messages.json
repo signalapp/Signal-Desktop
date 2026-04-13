@@ -746,6 +746,9 @@
   "icu:fileSizeWarning": {
     "messageformat": "Ár leithscéal, sáraíonn an comhad roghnaithe srianta le méid na teachtaireachta. {limit,number} {units}"
   },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+  },
   "icu:unableToLoadAttachment": {
     "messageformat": "Ní féidir an ceangaltán roghnaithe a lódáil."
   },
@@ -3800,9 +3803,6 @@
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
     "messageformat": "Comhroinn nasc glao trí Signal"
   },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "Bain an duine seo den ghlao"
-  },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "Bain {name} den ghlao?"
   },
@@ -6316,32 +6316,17 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "Déanta"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "d'eochair chúltaca a thaispeáint"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
     "messageformat": "d'eochair athshlánaithe a thaispeáint"
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "Fíoraigh do chéannacht le féachaint ar d'eochair chúltaca."
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
     "messageformat": "Fíoraigh do chéannacht le féachaint ar d'eochair athshlánaithe."
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "Féach ar an eochair chúltaca"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
     "messageformat": "Féach ar an eochair athshlánaithe"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "Éilítear fíordheimhniú le féachaint ar d'eochair chúltaca."
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
     "messageformat": "Éilítear fíordheimhniú le féachaint ar d'eochair athshlánaithe."
-  },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Bosca téacs don eochair chúltaca"
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
     "messageformat": "Eochair athshlánaithe"
@@ -6349,23 +6334,14 @@
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "Cuir isteach an eochair"
   },
-  "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "Taifead d'eochair chúltaca"
-  },
   "icu:Preferences--local-backups-record-recovery-key": {
     "messageformat": "Taifead d'eochair athshlánaithe"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "Tá an eochair seo ag teastáil chun do chuntas agus do shonraí a athshlánú. Stóráil an eochair in áit shábháilte. Má chailleann tú í, ní bheidh tú in ann do chuntas a athshlánú. <learnMoreLink>Tuilleadh faisnéise.</learnMoreLink>"
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "Deimhnigh d'eochair chúltaca"
-  },
   "icu:Preferences--local-backups-confirm-recovery-key": {
     "messageformat": "Deimhnigh d'eochair athshlánaithe"
-  },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "Cuir isteach an eochair chúltaca atá taifeadta agat díreach anois"
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
     "messageformat": "Cuir isteach an eochair athshlánaithe atá taifeadta agat díreach anois"
@@ -6394,9 +6370,6 @@
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Fillteán cúltaca"
   },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "Athraigh"
-  },
   "icu:Preferences__local-backups-turn-off": {
     "messageformat": "Cas as cúltacaí"
   },
@@ -6411,9 +6384,6 @@
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Cóipeáil chuig an ghearrthaisce"
-  },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "Eochair chúltaca cóipeáilte"
   },
   "icu:Preferences__local-backups-copied-recovery-key": {
     "messageformat": "Eochair athshlánaithe cóipeáilte"
@@ -6436,14 +6406,8 @@
   "icu:Preferences__view-key": {
     "messageformat": "Féach ar an eochair"
   },
-  "icu:Preferences__backup-key": {
-    "messageformat": "Eochair chúltaca"
-  },
   "icu:Preferences__recovery-key": {
     "messageformat": "Eochair athshlánaithe"
-  },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "Cód 64 digit is ea d'eochair chúltaca a úsáidtear chun do chúltaca a aischur"
   },
   "icu:Preferences__recovery-key-description": {
     "messageformat": "Cód 64 digit is ea d'eochair athshlánaithe a úsáidtear chun do chúltaca a aischur"
@@ -8147,9 +8111,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Mionathruithe, paistí fabhtanna agus feabhsuithe ar fheidhmíocht. Go raibh maith agat as Signal a úsáid!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "Anois tá rogha agat lipéad do bhall a chur leis le cur síos a dhéanamh ort féin nó ar do ról i ngrúpchomhrá.Socraigh do lipéad do bhall grúpa ag “Réiteoir” nó “Cúlaí” i do chomhrá áitiúil sacair mar chabhairt chun tús a chur leis nuair a thagann baill foirne nua isteach, ansin roghnaigh lipéad eile le do jabtheideal i gcomhrá na cuideachta. Taispeántar lipéid do bhaill taobh le d'ainm próifíle sa ghrúpa sin, agus is faoi riarthóirí an ghrúpa atá sé a rialú cibé an gcumasófar iad do chách."
   },
   "icu:WhatsNew__8.6--0": {
     "messageformat": "Is féidir imeachtaí comhráite a tharlaíonn go min minic (amhail go leor glaonna caillte) a ghrúpáil le chéile go huathoibríoch mar dhlúth-thaispeáint ionas nach mbeidh ort scrollú chomh fada leis na teachtaireachtaí is déanaí a fháil."

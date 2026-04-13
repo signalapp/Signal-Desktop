@@ -746,6 +746,9 @@
   "icu:fileSizeWarning": {
     "messageformat": "ขออภัย แฟ้มที่เลือกมีขนาดเกินจากที่จำกัด {limit,number} {units}"
   },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "ขออภัย ไฟล์วิดีโอที่คุณเลือกมีขนาดใหญ่เกินกว่าที่กำหนด {limit,number}{units}"
+  },
   "icu:unableToLoadAttachment": {
     "messageformat": "ไม่สามารถดึงแฟ้มแนบที่เลือกได้"
   },
@@ -3800,9 +3803,6 @@
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
     "messageformat": "แชร์ลิงก์การโทรผ่าน Signal"
   },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "ลบผู้ใช้คนนี้ออกจากการโทร"
-  },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "ลบ {name} ออกจากการโทรใช่หรือไม่"
   },
@@ -6316,32 +6316,17 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "เสร็จสิ้น"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "แสดงกุญแจสำรองของคุณ"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
     "messageformat": "แสดงกุญแจกู้คืนของคุณ"
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "โปรดยืนยันตัวตนเพื่อดูกุญแจสำรองของคุณ"
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
     "messageformat": "โปรดยืนยันตัวตนเพื่อดูกุญแจกู้คืนของคุณ"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "ดูกุญแจสำรอง"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
     "messageformat": "ดูกุญแจกู้คืน"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "จำเป็นต้องตรวจยืนยันเพื่อดูกุญแจสำรองของคุณ"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
     "messageformat": "จำเป็นต้องตรวจยืนยันเพื่อดูกุญแจกู้คืนของคุณ"
-  },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "กล่องข้อความระบุกุญแจสำรอง"
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
     "messageformat": "กุญแจกู้คืน"
@@ -6349,23 +6334,14 @@
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "ใส่กุญแจ"
   },
-  "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "บันทึกกุญแจสำรองของคุณ"
-  },
   "icu:Preferences--local-backups-record-recovery-key": {
     "messageformat": "บันทึกกุญแจกู้คืนของคุณ"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "คุณจำเป็นต้องใช้กุญแจนี้ในการกู้คืนบัญชีและข้อมูล โปรดเก็บกุญแจนี้ไว้ในที่ปลอดภัย คุณจะไม่สามารถกู้คืนบัญชีได้หากทำกุญแจหาย <learnMoreLink>เรียนรู้เพิ่มเติม</learnMoreLink>"
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "ยืนยันกุญแจสำรองของคุณ"
-  },
   "icu:Preferences--local-backups-confirm-recovery-key": {
     "messageformat": "ยืนยันกุญแจกู้คืนของคุณ"
-  },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "ใส่กุญแจสำรองที่คุณเพิ่งบันทึกไว้"
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
     "messageformat": "ป้อนกุญแจกู้คืนที่คุณเพิ่งบันทึกไว้"
@@ -6394,9 +6370,6 @@
   "icu:Preferences__local-backups-folder": {
     "messageformat": "โฟลเดอร์ข้อมูลสำรอง"
   },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "เปลี่ยน"
-  },
   "icu:Preferences__local-backups-turn-off": {
     "messageformat": "ปิดใช้งานการสำรองข้อมูล"
   },
@@ -6411,9 +6384,6 @@
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "คัดลอกไปยังคลิปบอร์ด"
-  },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "คัดลอกกุญแจสำรองแล้ว"
   },
   "icu:Preferences__local-backups-copied-recovery-key": {
     "messageformat": "คัดลอกกุญแจกู้คืนแล้ว"
@@ -6436,14 +6406,8 @@
   "icu:Preferences__view-key": {
     "messageformat": "ดูกุญแจ"
   },
-  "icu:Preferences__backup-key": {
-    "messageformat": "กุญแจสำรอง"
-  },
   "icu:Preferences__recovery-key": {
     "messageformat": "กุญแจกู้คืน"
-  },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "กุญแจสำรองคือรหัส 64 หลักที่ใช้ในการกู้คืนข้อมูลสำรองของคุณ"
   },
   "icu:Preferences__recovery-key-description": {
     "messageformat": "กุญแจกู้คืนคือรหัส 64 ตัวที่ใช้ในการกู้คืนข้อมูลสำรองของคุณ"
@@ -8147,9 +8111,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "มีการปรับเปลี่ยนเล็กน้อย พร้อมแก้ไขบั๊ก และการพัฒนาประสิทธิภาพให้ดียิ่งขึ้น ขอขอบคุณที่เลือกใช้ Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "ขอแนะนำป้ายกำกับสมาชิก ฟีเจอร์ใหม่ที่ให้คุณเลือกเพิ่มคำบรรยายหรือระบุบทบาทของตัวเองในแชทกลุ่ม ป้ายกำกับนี้จะแสดงอยู่ข้างชื่อโปรไฟล์ของคุณในกลุ่มนั้น และผู้ดูแลกลุ่มจะจัดการได้ว่าจะให้สิทธิ์ในการเข้าถึงป้ายกำกับสมาชิกกับทุกคนในกลุ่มหรือไม่"
   },
   "icu:WhatsNew__8.6--0": {
     "messageformat": "รวบรวมการอัปเดตที่มีรูปแบบเดียวกัน (เช่น หลายสายที่ไม่ได้รับ) เข้าไว้ด้วยกันในแชทโดยอัตโนมัติ พร้อมแสดงเป็นกล่องข้อมูลเพื่อช่วยให้คุณไม่ต้องเสียเวลาเลื่อนหาแต่ละข้อความอีกต่อไป"

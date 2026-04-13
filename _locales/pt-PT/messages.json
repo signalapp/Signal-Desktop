@@ -746,6 +746,9 @@
   "icu:fileSizeWarning": {
     "messageformat": "Lamentamos, mas o ficheiro selecionado excede o tamanho máximo permitido. {limit,number} {units}"
   },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+  },
   "icu:unableToLoadAttachment": {
     "messageformat": "Não foi possível carregar o anexo selecionado."
   },
@@ -3800,9 +3803,6 @@
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
     "messageformat": "Partilhar link de chamada através do Signal"
   },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "Remover esta pessoa da chamada"
-  },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "Remover {name} da chamada?"
   },
@@ -6316,32 +6316,17 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "Concluído"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "mostrar a sua chave da cópia de segurança"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
     "messageformat": "mostrar a sua chave de recuperação"
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "Verifique a sua identidade para ver a sua chave da cópia de segurança."
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
     "messageformat": "Verifique a sua identidade para ver a sua chave de recuperação."
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "Ver chave da cópia de segurança"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
     "messageformat": "Ver chave de recuperação"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "É necessária autenticação para ver a sua chave da cópia de segurança."
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
     "messageformat": "É necessária autenticação para ver a sua chave de recuperação."
-  },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Caixa de texto da chave da cópia de segurança"
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
     "messageformat": "Chave de recuperação"
@@ -6349,23 +6334,14 @@
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "Introduza a chave"
   },
-  "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "Anote a sua chave da cópia de segurança"
-  },
   "icu:Preferences--local-backups-record-recovery-key": {
     "messageformat": "Guarde a sua chave de recuperação"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "Esta chave é necessária para recuperar a sua conta e dados. Guarde esta chave num local seguro. Se a perder, não poderá recuperar a sua conta. <learnMoreLink>Saiba mais.</learnMoreLink>"
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "Confirme a sua chave da cópia de segurança"
-  },
   "icu:Preferences--local-backups-confirm-recovery-key": {
     "messageformat": "Confirme a sua cópia de recuperação"
-  },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "Introduza a chave da cópia de segurança que acabou de guardar"
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
     "messageformat": "Introduza a chave de recuperação que acabou de guardar"
@@ -6394,9 +6370,6 @@
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Pasta da cópia de segurança"
   },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "Alterar"
-  },
   "icu:Preferences__local-backups-turn-off": {
     "messageformat": "Desativar cópias de segurança"
   },
@@ -6411,9 +6384,6 @@
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Copiar para a área de transferência"
-  },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "Chave da cópia de segurança copiada"
   },
   "icu:Preferences__local-backups-copied-recovery-key": {
     "messageformat": "Chave de recuperação copiada"
@@ -6436,14 +6406,8 @@
   "icu:Preferences__view-key": {
     "messageformat": "Ver chave"
   },
-  "icu:Preferences__backup-key": {
-    "messageformat": "Chave da cópia de segurança"
-  },
   "icu:Preferences__recovery-key": {
     "messageformat": "Chave de recuperação"
-  },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "A sua chave de cópia de segurança é um código de 64 dígitos utilizado para restaurar a sua cópia de segurança"
   },
   "icu:Preferences__recovery-key-description": {
     "messageformat": "A sua chave de recuperação é um código de 64 caracteres usado para restaurar a sua cópia de segurança"
@@ -8147,9 +8111,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Pequenos ajustes adicionais, correções de bugs e melhorias de desempenho. Obrigado por usar o Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "Agora pode opcionalmente adicionar uma etiqueta de membro para se descrever ou descrever a sua função num chat de grupo. As etiquetas de membros aparecem junto ao nome do seu perfil nesse grupo e os administradores do grupo podem controlar se estão ativadas para toda a gente ou não."
   },
   "icu:WhatsNew__8.6--0": {
     "messageformat": "Eventos de chat repetidos (como várias chamadas perdidas) podem ser agrupados automaticamente numa vista compacta para não ter de fazer tanto scroll para ver as últimas mensagens."

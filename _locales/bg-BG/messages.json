@@ -746,6 +746,9 @@
   "icu:fileSizeWarning": {
     "messageformat": "Съжаляваме, избраният файл надвишава ограниченията за съобщения. {limit,number} {units}"
   },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "Съжаляваме, избраният видео файл надвишава ограниченията за размера на съобщенията. {limit,number}{units}"
+  },
   "icu:unableToLoadAttachment": {
     "messageformat": "Не може да се зареди избраният обект за прикачване."
   },
@@ -3800,9 +3803,6 @@
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
     "messageformat": "Споделяне на линк за разговор чрез Signal"
   },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "Премахване на този човек от разговора"
-  },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "Премахване на {name} от това повикване?"
   },
@@ -6316,32 +6316,17 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "Готово"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "покаже вашия резервен ключ"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
     "messageformat": "покаже вашия ключ за възстановяване"
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "Потвърдете самоличността си, за да видите своя резервен ключ."
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
     "messageformat": "Потвърдете самоличността си, за да видите своя ключ за възстановяване."
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "Преглед на резервния ключ"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
     "messageformat": "Преглед на ключа за възстановяване"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "За да видите своя резервен ключ, е необходимо удостоверяване."
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
     "messageformat": "За да видите своя ключ за възстановяване, е необходимо удостоверяване."
-  },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Текстово поле за резервен ключ"
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
     "messageformat": "Ключ за възстановяване"
@@ -6349,23 +6334,14 @@
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "Въведете ключ"
   },
-  "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "Запишете своя резервен ключ"
-  },
   "icu:Preferences--local-backups-record-recovery-key": {
     "messageformat": "Запишете своя ключ за възстановяване"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "Този ключ е необходим за възстановяване на акаунта и данните ви. Съхранявайте този ключ на сигурно място. Ако го изгубите, няма да можете да възстановите акаунта си. <learnMoreLink>Научете повече.</learnMoreLink>"
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "Потвърдете своя резервен ключ"
-  },
   "icu:Preferences--local-backups-confirm-recovery-key": {
     "messageformat": "Потвърдете своя ключ за възстановяване"
-  },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "Въведете резервния ключ, който току-що записахте"
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
     "messageformat": "Въведете ключа за възстановяване, който току-що записахте"
@@ -6394,9 +6370,6 @@
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Архивна папка"
   },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "Промяна"
-  },
   "icu:Preferences__local-backups-turn-off": {
     "messageformat": "Изключване на резервните копия"
   },
@@ -6411,9 +6384,6 @@
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Копиране"
-  },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "Резервният ключ е копиран"
   },
   "icu:Preferences__local-backups-copied-recovery-key": {
     "messageformat": "Ключът за възстановяване е копиран"
@@ -6436,14 +6406,8 @@
   "icu:Preferences__view-key": {
     "messageformat": "Преглед на ключа"
   },
-  "icu:Preferences__backup-key": {
-    "messageformat": "Резервен ключ"
-  },
   "icu:Preferences__recovery-key": {
     "messageformat": "Ключ за възстановяване"
-  },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "Вашият резервен ключ е 64-цифрен код, който се използва за възстановяване на резервното ви копие"
   },
   "icu:Preferences__recovery-key-description": {
     "messageformat": "Вашият ключ за възстановяване е код от 64 знака, който се използва за възстановяване на вашето резервно копие"
@@ -8147,9 +8111,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Дребни корекции, поправки на бъгове и подобрения на работата. Благодарим ви, че използвате Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "Вече по желание можете да добавите етикет на член, за да опишете себе си или ролята си в груповия чат. Етикетите на членовете се появяват до името на профила ви в групата, а администраторите на групи могат да управляват дали те са активирани за всички, или не."
   },
   "icu:WhatsNew__8.6--0": {
     "messageformat": "Повтарящите се събития в чата (като например няколко пропуснати обаждания) могат автоматично да се групират в компактен изглед, така че да не се налага да превъртате толкова много, за да видите най-новите съобщения."

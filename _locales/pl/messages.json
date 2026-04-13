@@ -746,6 +746,9 @@
   "icu:fileSizeWarning": {
     "messageformat": "Wybrany plik jest za duży, aby załączyć go do wiadomości. Limit rozmiaru to {limit,number}{units}"
   },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+  },
   "icu:unableToLoadAttachment": {
     "messageformat": "Nie można załadować wybranego załącznika."
   },
@@ -3800,9 +3803,6 @@
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
     "messageformat": "Udostępnij link do połączenia w aplikacji Signal"
   },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "Usuń tę osobę z rozmowy"
-  },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "Usunąć z rozmowy tę osobę: {name}?"
   },
@@ -6316,32 +6316,17 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "Gotowe"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "wyświetlić kod kopii zapasowej"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
     "messageformat": "wyświetlić Twój kod odzyskiwania"
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "Aby wyświetlić kod kopii zapasowej, zweryfikuj swoją tożsamość."
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
     "messageformat": "Aby wyświetlić kod odzyskiwania, zweryfikuj swoją tożsamość."
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "Wyświetl kod kopii zapasowej"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
     "messageformat": "Wyświetl kod odzyskiwania"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "Aby wyświetlić kod kopii zapasowej, zweryfikuj swoją tożsamość."
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
     "messageformat": "Aby wyświetlić kod odzyskiwania, wymagana jest weryfikacja tożsamości."
-  },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Pole tekstowe z kodem kopii zapasowej"
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
     "messageformat": "Kod odzyskiwania"
@@ -6349,23 +6334,14 @@
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "Wpisz kod"
   },
-  "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "Zapisz kod kopii zapasowej"
-  },
   "icu:Preferences--local-backups-record-recovery-key": {
     "messageformat": "Zapisz swój kod odzyskiwania"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "Ten kod będzie potrzebny do odzyskania konta i danych. Przechowuj go w bezpiecznym miejscu. Jeśli go zgubisz, stracisz możliwość przywrócenia konta. <learnMoreLink>Dowiedz się więcej.</learnMoreLink>"
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "Potwierdź kod kopii zapasowej"
-  },
   "icu:Preferences--local-backups-confirm-recovery-key": {
     "messageformat": "Potwierdź kod odzyskiwania"
-  },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "Podaj zapisany właśnie kod kopii zapasowej"
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
     "messageformat": "Podaj zapisany właśnie kod odzyskiwania"
@@ -6394,9 +6370,6 @@
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Folder kopii zapasowej"
   },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "Zmień"
-  },
   "icu:Preferences__local-backups-turn-off": {
     "messageformat": "Wyłącz tworzenie kopii zapasowych"
   },
@@ -6411,9 +6384,6 @@
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Skopiuj do schowka"
-  },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "Skopiowano kod kopii zapasowej"
   },
   "icu:Preferences__local-backups-copied-recovery-key": {
     "messageformat": "Kod odzyskiwania skopiowany"
@@ -6436,14 +6406,8 @@
   "icu:Preferences__view-key": {
     "messageformat": "Wyświetl kod"
   },
-  "icu:Preferences__backup-key": {
-    "messageformat": "Kod kopii zapasowej"
-  },
   "icu:Preferences__recovery-key": {
     "messageformat": "Kod odzyskiwania"
-  },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "Kod kopii zapasowej to sekwencja 64 znaków potrzebna do przywrócenia kopii zapasowej"
   },
   "icu:Preferences__recovery-key-description": {
     "messageformat": "Twój kod odzyskiwania składa się z 64 znaków i służy do przywracania kopii zapasowej"
@@ -8147,9 +8111,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Drobne ulepszenia, poprawki błędów i większa funkcjonalność. Cieszymy się, że korzystasz z aplikacji Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "Od teraz możesz podać swoją rolę w grupie, aby się przedstawić lub określić funkcję, jaką pełnisz. Bo w życiu, jak w filmie, gramy różne role. Na czacie osiedlowej siłowni można uchodzić za „superkoksa”, na czacie firmowym – za „starszą specjalistką”, ale w grupie rodzinnej już na zawsze pozostanie się „synusiem”. Rola pojawi się w danej grupie obok Twojego imienia podanego w profilu. O tym, czy uczestnicy czatu mogą sami ustawiać swoje role w grupie, decydują jej administratorzy."
   },
   "icu:WhatsNew__8.6--0": {
     "messageformat": "Od teraz nie trzeba już dużo przewijać, aby nadrobić zaległości w wiadomościach. Jeśli do czatu grupowego dołączy kilka nowych osób lub będziesz w nim mieć kilka nieodebranych połączeń, powtarzające się powiadomienia mogą zostać automatycznie zgrupowane w kompaktową listę. Czasem mniej znaczy więcej, a listę powiadomień w razie potrzeby możesz w każdej chwili łatwo rozwinąć lub zwinąć."

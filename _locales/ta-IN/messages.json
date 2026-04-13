@@ -746,6 +746,9 @@
   "icu:fileSizeWarning": {
     "messageformat": "மன்னிக்கவும், தேர்ந்தெடுக்கப்பட்ட கோப்பு செய்தி அளவு கட்டுப்பாடுகளை மீறுகிறது. {limit,number} {units}"
   },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "மன்னிக்கவும், தேர்ந்தெடுக்கப்பட்ட வீடியோ கோப்பு மெசேஜ் அளவு கட்டுப்பாடுகளை மீறுகிறது. {limit,number}{units}"
+  },
   "icu:unableToLoadAttachment": {
     "messageformat": "தேர்ந்தெடுக்கப்பட்ட இணைப்பு ஏற்ற முடியவில்லை."
   },
@@ -3800,9 +3803,6 @@
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
     "messageformat": "சிக்னல் மூலம் அழைப்பு இணைப்பைப் பகிர்க"
   },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "அழைப்பிலிருந்து இந்த நபரை அகற்று"
-  },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "அழைப்பிலிருந்து {name} ஐ அகற்ற வேண்டுமா?"
   },
@@ -6316,32 +6316,17 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "முடிந்தது"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "உங்கள் காப்புப்பிரதி குறியீட்டைக் காட்டுக"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
     "messageformat": "உங்கள் மீட்புக் குறியீட்டைக் காண்பி"
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "உங்கள் காப்புப்பிரதி குறியீட்டைப் பார்க்க உங்கள் அடையாளத்தைச் சரிபார்க்கவும்."
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
     "messageformat": "உங்கள் காப்புப்பிரதி மீட்புக் குறியீட்டைப் பார்க்க உங்கள் அடையாளத்தைச் சரிபார்க்கவும்."
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "காப்புப்பிரதி குறியீட்டை காண்க"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
     "messageformat": "மீட்புக் குறியீட்டை காண்க"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "உங்கள் காப்புப்பிரதி குறியீட்டைப் பார்க்க அங்கீகாரம் தேவை."
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
     "messageformat": "உங்கள் மீட்புக் குறியீட்டைப் பார்க்க அங்கீகாரம் தேவை."
-  },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "காப்புப்பிரதி குறியீட்டின் உரை பெட்டி"
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
     "messageformat": "மீட்புக் குறியீடு"
@@ -6349,23 +6334,14 @@
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "குறியீட்டை உள்ளிடுங்கள்"
   },
-  "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "உங்கள் காப்புபிரதி குறியீட்டைப் பதிவு செய்யவும்"
-  },
   "icu:Preferences--local-backups-record-recovery-key": {
     "messageformat": "உங்கள் மீட்புக் குறியீட்டைப் பதிவுசெய்க"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "உங்கள் கணக்கு மற்றும் தரவை மீட்டெடுக்க இந்தக் குறியீடு தேவை. இந்தக் குறியீட்டைப் பாதுகாப்பான இடத்தில் சேமித்து வைக்கவும். நீங்கள் அதை இழந்துவிட்டால், உங்கள் கணக்கை மீட்டெடுக்க முடியாது. <learnMoreLink>மேலும் அறிக.</learnMoreLink>"
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "உங்கள் காப்புப்பிரதி குறியீட்டை உறுதிபடுத்துக"
-  },
   "icu:Preferences--local-backups-confirm-recovery-key": {
     "messageformat": "உங்கள் மீட்புக் குறியீட்டை உறுதிப்படுத்துக"
-  },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "நீங்கள் தற்போது பதிவுசெய்த உங்கள் காப்புப்பிரதி குறியீட்டை உள்ளிடவும்"
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
     "messageformat": "நீங்கள் தற்போது பதிவுசெய்த உங்கள் மீட்புக் குறியீட்டை உள்ளிடுங்கள்"
@@ -6394,9 +6370,6 @@
   "icu:Preferences__local-backups-folder": {
     "messageformat": "மறுபிரதி கோப்புறை"
   },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "மாற்றுக"
-  },
   "icu:Preferences__local-backups-turn-off": {
     "messageformat": "காப்புப்பிரதிகளை ஆன் செய்க"
   },
@@ -6411,9 +6384,6 @@
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "கிளிப்போர்டுக்கு நகலெடுக்கவும்"
-  },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "காப்புப்பிரதி குறியீடு நகலெடுக்கப்பட்டது"
   },
   "icu:Preferences__local-backups-copied-recovery-key": {
     "messageformat": "மீட்புக் குறியீடு நகலெடுக்கப்பட்டது"
@@ -6436,14 +6406,8 @@
   "icu:Preferences__view-key": {
     "messageformat": "குறியீட்டைக் காண்க"
   },
-  "icu:Preferences__backup-key": {
-    "messageformat": "காப்புப்பிரதி குறியீடு"
-  },
   "icu:Preferences__recovery-key": {
     "messageformat": "மீட்புக் குறியீடு"
-  },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "உங்கள் காப்புப்பிரதி குறியீடு என்பது உங்கள் காப்புப்பிரதியை மீட்டெடுக்கப் பயன்படுத்தப்படும் 64 இலக்கக் குறியீடு ஆகும்"
   },
   "icu:Preferences__recovery-key-description": {
     "messageformat": "உங்கள் மீட்புக் குறியீடு என்பது உங்கள் காப்புப்பிரதியை மீட்டெடுக்க உபயோகிக்கப்படும் 64-எழுத்துகள் கொண்ட குறியீடாகும்"
@@ -8147,9 +8111,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "சிறு மாற்றங்கள், பிழை திருத்தங்கள் மற்றும் செயல்திறன் மேம்பாடுகள். சிக்னலைப் பயன்படுத்தியதற்கு நன்றி!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "இப்போது ஒரு சாட் தொகுப்பில் உங்களை அல்லது உங்கள் பதவி நிலையை விவரிக்க, விருப்பத்தின் பேரில் ஒரு உறுப்பினரின் பதவி நிலையைச் சேர்க்கலாம். அந்தத் தொகுப்பில் உங்கள் சுயவிவரப் பெயருக்கு அருகில் உறுப்பினரின் பதவி நிலைகள் தோன்றும், மேலும் அனைவருக்காகவும் அவற்றைச் செயல்படுத்தலாமா வேண்டாமா என்பதைத் குழு நிர்வாகிகள் கட்டுப்படுத்தலாம்."
   },
   "icu:WhatsNew__8.6--0": {
     "messageformat": "தொடர்ந்து பெரும் அரட்டை நிகழ்வுகள் (பல தவறிய அழைப்புகள் போல) தானாகவே ஒன்றுசேர்க்கப்பட்டு சுருக்கமான காட்சியாகத் தொகுக்கப்படும். எனவே அண்மைய செய்திகளைப் படிக்க நீங்கள் அதிகமாக ஸ்க்ரோல் செய்ய வேண்டியதில்லை."

@@ -746,6 +746,9 @@
   "icu:fileSizeWarning": {
     "messageformat": "Üzgünüz, seçilen dosya ileti boyutu kısıtlamalarını aşıyor. {limit,number} {units}"
   },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+  },
   "icu:unableToLoadAttachment": {
     "messageformat": "Seçilen eklenti yüklenemedi."
   },
@@ -3800,9 +3803,6 @@
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
     "messageformat": "Arama bağlantısını Signal ile paylaş"
   },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "Bu kişiyi aramadan çıkar"
-  },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "{name} aramadan çıkarılsın mı?"
   },
@@ -6316,32 +6316,17 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "Tamam"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "yedekleme anahtarını göster"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
     "messageformat": "kurtarma anahtarını göster"
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "Yedekleme anahtarını görüntülemek için kimliğini doğrula."
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
     "messageformat": "Kurtarma anahtarını görüntülemek için kimliğini doğrula."
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "Yedekleme anahtarını görüntüle"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
     "messageformat": "Kurtarma anahtarını görüntüle"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "Yedekleme anahtarını görüntülemek için kimlik doğrulaması gerekir."
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
     "messageformat": "Kurtarma anahtarını görüntülemek için kimlik doğrulaması gerekir."
-  },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Yedekleme anahtarı metin kutusu"
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
     "messageformat": "Kurtarma anahtarı"
@@ -6349,23 +6334,14 @@
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "Enter tuşu"
   },
-  "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "Yedekleme anahtarını kaydet"
-  },
   "icu:Preferences--local-backups-record-recovery-key": {
     "messageformat": "Kurtarma anahtarını kaydet"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "Hesabını ve verilerini kurtarmak için bu anahtar gereklidir. Bu anahtarı güvenli bir yerde sakla. Kaybedersen, hesabını kurtarmanız mümkün olmaz. <learnMoreLink>Dahasını öğren.</learnMoreLink>"
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "Yedekleme anahtarını onayla"
-  },
   "icu:Preferences--local-backups-confirm-recovery-key": {
     "messageformat": "Kurtarma anahtarını onayla"
-  },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "Az önce kaydettiğin yedekleme anahtarını gir"
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
     "messageformat": "Az önce kaydettiğin kurtarma anahtarını gir"
@@ -6394,9 +6370,6 @@
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Yedekleme dizini"
   },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "Değiştir"
-  },
   "icu:Preferences__local-backups-turn-off": {
     "messageformat": "Yedeklemeleri kapat"
   },
@@ -6411,9 +6384,6 @@
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Panoya kopyala"
-  },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "Yedekleme anahtarı kopyalandı"
   },
   "icu:Preferences__local-backups-copied-recovery-key": {
     "messageformat": "Kurtarma anahtarı kopyalandı"
@@ -6436,14 +6406,8 @@
   "icu:Preferences__view-key": {
     "messageformat": "Anahtarı görüntüle"
   },
-  "icu:Preferences__backup-key": {
-    "messageformat": "Yedekleme anahtarı"
-  },
   "icu:Preferences__recovery-key": {
     "messageformat": "Kurtarma anahtarı"
-  },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "Yedekleme anahtarın, yedeklemeni geri yüklemek için kullanılan 64 haneli bir koddur"
   },
   "icu:Preferences__recovery-key-description": {
     "messageformat": "Kurtarma anahtarın, yedeklemeni geri yüklemek için kullanacağın 64 karakterlik bir koddur"
@@ -8147,9 +8111,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Küçük ince ayarlar, hata düzeltmeleri ve performans geliştirmeleri yaptık. Signal'i kullandığın için teşekkürler!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "Artık bir grup sohbetinde kendini veya rolünü tanımlamak amacıyla isteğe bağlı bir üye etiketi ekleyebilirsin. Örneğin, mahalle futbol takımı grubunda üye etiketini “Hakem” veya “Kaleci” olarak ayarlayabilir ya da şirket grubunda üye etiketini unvanın olarak belirleyebilirsin. Üye etiketleri o gruptaki profil adının yanında görünür ve grup yöneticileri herkesin etiket belirleyip belirleyemeyeceğini kontrol edebilir."
   },
   "icu:WhatsNew__8.6--0": {
     "messageformat": "Tekrarlayan sohbet etkinlikleri (çok sayıda cevapsız arama gibi) otomatik olarak daha kompakt bir görünümde gruplanabilir. Böylece güncel mesajlara ulaşmak için fazla uzaklaşmana gerek kalmaz. Bazen sadeleşmek iyidir, fakat bu listeleri istediğin zaman kolayca genişletip küçültebilirsin."

@@ -746,6 +746,9 @@
   "icu:fileSizeWarning": {
     "messageformat": "Rất tiếc, tập tin đã chọn vượt quá giới hạn kích thước của tin nhắn. {limit,number} {units}"
   },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+  },
   "icu:unableToLoadAttachment": {
     "messageformat": "Không thể tải tập tin đính kèm đã chọn."
   },
@@ -3800,9 +3803,6 @@
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
     "messageformat": "Chia sẻ đường dẫn cuộc gọi"
   },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "Gỡ người này khỏi cuộc gọi"
-  },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "Gỡ {name} khỏi cuộc gọi?"
   },
@@ -6316,32 +6316,17 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "Xong"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "hiển thị mã khóa sao lưu của bạn"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
     "messageformat": "hiển thị mã khóa khôi phục của bạn"
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "Xác minh danh tính để xem mã khóa sao lưu của bạn."
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
     "messageformat": "Xác minh danh tính để xem mã khóa khôi phục của bạn."
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "Xem mã khóa sao lưu"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
     "messageformat": "Xem mã khóa khôi phục"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "Cần xác thực để xem mã khóa sao lưu của bạn."
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
     "messageformat": "Cần xác thực để xem mã khóa khôi phục của bạn."
-  },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Khung văn bản của mã khóa sao lưu"
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
     "messageformat": "Mã khóa khôi phục"
@@ -6349,23 +6334,14 @@
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "Nhập mã khóa"
   },
-  "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "Lưu mã khóa sao lưu"
-  },
   "icu:Preferences--local-backups-record-recovery-key": {
     "messageformat": "Lưu mã khóa khôi phục"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "Cần có mã khóa này để khôi phục tài khoản và dữ liệu của bạn. Lưu mã này ở nơi an toàn. Nếu để mất, bạn sẽ không thể khôi phục tài khoản của mình. <learnMoreLink>Tìm hiểu thêm.</learnMoreLink>"
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "Xác nhận mã khóa sao lưu"
-  },
   "icu:Preferences--local-backups-confirm-recovery-key": {
     "messageformat": "Xác nhận mã khóa khôi phục"
-  },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "Nhập khóa sao lưu mà bạn vừa ghi lại"
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
     "messageformat": "Nhập mã khóa khôi phục bạn đã lưu lại"
@@ -6394,9 +6370,6 @@
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Thư mục sao lưu"
   },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "Thay đổi"
-  },
   "icu:Preferences__local-backups-turn-off": {
     "messageformat": "Tắt sao lưu"
   },
@@ -6411,9 +6384,6 @@
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Sao chép vào clipboard"
-  },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "Đã sao chép mã khóa sao lưu"
   },
   "icu:Preferences__local-backups-copied-recovery-key": {
     "messageformat": "Đã sao chép Mã khóa khôi phục"
@@ -6436,14 +6406,8 @@
   "icu:Preferences__view-key": {
     "messageformat": "Xem mã khóa"
   },
-  "icu:Preferences__backup-key": {
-    "messageformat": "Mã khóa sao lưu"
-  },
   "icu:Preferences__recovery-key": {
     "messageformat": "Mã khóa khôi phục"
-  },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "Mã khóa sao lưu của bạn bao gồm 64 chữ số được sử dụng để khôi phục bản sao lưu của bạn"
   },
   "icu:Preferences__recovery-key-description": {
     "messageformat": "Mã khóa khôi phục của bạn là một mã gồm 64 ký tự được sử dụng để khôi phục bản sao lưu của bạn"
@@ -8147,9 +8111,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Các tinh chỉnh, sửa lỗi, và cải thiện hiệu năng. Cảm ơn bạn đã sử dụng Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "Giờ đây, bạn có thể thêm nhãn thành viên (không bắt buộc) để mô tả bản thân hoặc vai trò của mình trong cuộc trò chuyện nhóm. Nhãn thành viên sẽ xuất hiện bên cạnh tên hồ sơ của bạn trong nhóm đó và quản trị viên nhóm có thể kiểm soát việc bật hay tắt nhãn thành viên cho tất cả mọi người."
   },
   "icu:WhatsNew__8.6--0": {
     "messageformat": "Các sự kiện trò chuyện lặp lại (như nhiều cuộc gọi nhỡ) có thể được tự động nhóm lại thành một bảng hiển thị nhỏ gọn, giúp bạn không cần phải cuộn quá nhiều để xem các tin nhắn mới nhất."

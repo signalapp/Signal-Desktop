@@ -746,6 +746,9 @@
   "icu:fileSizeWarning": {
     "messageformat": "দুঃখিত, নির্বাচিত ফাইলটি মেসেজের আকারের সীমা অতিক্রম করেছে। {limit,number} {units}"
   },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+  },
   "icu:unableToLoadAttachment": {
     "messageformat": "নির্বাচিত সংযুক্তি লোড করতে অক্ষম।"
   },
@@ -3800,9 +3803,6 @@
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
     "messageformat": "Signal-এর মাধ্যমে কল লিংক শেয়ার করুন"
   },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "এই ব্যক্তিকে কল থেকে বাদ দিন"
-  },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "{name}-কে কল থেকে সরাতে চান?"
   },
@@ -6316,32 +6316,17 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "শেষ"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "আপনার ব্যাকআপ 'কি' দেখান"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
     "messageformat": "আপনার পুনরুদ্ধার 'কি' দেখান"
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "আপনার ব্যাকআপ 'কি' দেখতে পরিচয় যাচাই করুন।"
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
     "messageformat": "আপনার পুনরুদ্ধার 'কি' দেখতে আপনার পরিচয় যাচাই করুন।"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "ব্যাকআপ কি দেখুন"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
     "messageformat": "পুনরুদ্ধার 'কি' দেখুন"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "আপনার ব্যাকআপ 'কি' দেখার জন্য অথেন্টিকেশন প্রয়োজন।"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
     "messageformat": "আপনার পুনরুদ্ধার 'কি' দেখার জন্য অথেন্টিকেশন করা প্রয়োজন।"
-  },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "ব্যাকআপ 'কি' টেক্সট বক্স"
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
     "messageformat": "পুনরুদ্ধার 'কি'"
@@ -6349,23 +6334,14 @@
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "'কি' লিখুন"
   },
-  "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "আপনার ব্যাকআপ 'কি' সংরক্ষণ করুন"
-  },
   "icu:Preferences--local-backups-record-recovery-key": {
     "messageformat": "আপনার পুনরুদ্ধার 'কি' সংরক্ষণ করুন"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "আপনার অ্যাকাউন্ট এবং ডেটা পুনরুদ্ধার করতে এই 'কি' প্রয়োজন। এই 'কি'-টি নিরাপদ কোথাও সংরক্ষণ করুন। এটি হারিয়ে ফেললে, আপনি আপনার অ্যাকাউন্টের ব্যাকআপ পুনরুদ্ধার করতে পারবেন না। <learnMoreLink>আরো জানুন।</learnMoreLink>"
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "আপনার ব্যাকআপ 'কি' নিশ্চিত করুন"
-  },
   "icu:Preferences--local-backups-confirm-recovery-key": {
     "messageformat": "আপনার পুনরুদ্ধার 'কি' নিশ্চিত করুন"
-  },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "আপনার রেকর্ড করা ব্যাকআপ 'কি'-টি লিখুন"
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
     "messageformat": "আপনার রেকর্ড করা পুনরুদ্ধার 'কি'-টি লিখুন"
@@ -6394,9 +6370,6 @@
   "icu:Preferences__local-backups-folder": {
     "messageformat": "ব্যাকআপ ফোল্ডার"
   },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "পরিবর্তন করুন"
-  },
   "icu:Preferences__local-backups-turn-off": {
     "messageformat": "ব্যাকআপ বন্ধ করুন"
   },
@@ -6411,9 +6384,6 @@
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "ক্লিপবোর্ডে অনুলিপি করুন"
-  },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "ব্যাকআপ 'কি' কপি করা হয়েছে"
   },
   "icu:Preferences__local-backups-copied-recovery-key": {
     "messageformat": "পুনর্বহাল 'কি' কপি করা হয়েছে"
@@ -6436,14 +6406,8 @@
   "icu:Preferences__view-key": {
     "messageformat": "'কি' দেখুন"
   },
-  "icu:Preferences__backup-key": {
-    "messageformat": "ব্যাকআপ 'কি'"
-  },
   "icu:Preferences__recovery-key": {
     "messageformat": "পুনরুদ্ধার 'কি'"
-  },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "আপনার ব্যাকআপ 'কি' হলো একটি 64-সংখ্যার কোড যা আপনার ব্যাকআপ পুনর্বহাল করতে ব্যবহৃত হয়"
   },
   "icu:Preferences__recovery-key-description": {
     "messageformat": "আপনার পুনরুদ্ধার 'কি' হলো একটি 64-ক্যারেক্টারের কোড, যা আপনার ব্যাকআপ পুনরুদ্ধার করতে ব্যবহৃত হয়"
@@ -8147,9 +8111,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "ছোট ছোট কিছু পরিবর্তন, বাগ সংশোধন এবং পারফর্মেন্স সমৃদ্ধ করা হয়েছে। Signal ব্যবহার করার জন্য ধন্যবাদ!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "এখন আপনি ইচ্ছা হলে একটি সদস্য লেবেল যোগ করতে পারবেন যাতে আপনি নিজেকে বা একটি গ্রুপ চ্যাটে আপনার ভূমিকা সম্পর্কে ধারণা দিতে পারেন। সদস্য লেবেল সেই গ্রুপে আপনার প্রোফাইল নামের পাশে প্রদর্শিত হবে এবং সেগুলি সবার জন্য সচল করা হবে কিনা তা গ্রুপ অ্যাডমিনরা নিয়ন্ত্রণ করতে পারবেন।"
   },
   "icu:WhatsNew__8.6--0": {
     "messageformat": "বারবার আসা চ্যাট ইভেন্টগুলো (যেমন একাধিক মিসড কল) স্বয়ংক্রিয়ভাবে একটি ছোট ডিসপ্লেতে একত্রিত করা যায়, যার ফলে সর্বশেষ মেসেজ দেখার জন্য আপনাকে খুব বেশি স্ক্রল করতে হবে না।"

@@ -746,6 +746,9 @@
   "icu:fileSizeWarning": {
     "messageformat": "Spiacente, il file selezionato supera la dimensione predefinita per il messaggio. {limit,number} {units}"
   },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "Purtroppo il file video selezionato supera la dimensione massima consentita per il messaggio. {limit,number}{units}"
+  },
   "icu:unableToLoadAttachment": {
     "messageformat": "Non è stato possibile caricare l'allegato selezionato."
   },
@@ -3800,9 +3803,6 @@
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
     "messageformat": "Condividi il link chiamata via Signal"
   },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "Rimuovi questa persona dalla chiamata"
-  },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "Rimuovi {name} dalla chiamata?"
   },
@@ -6316,32 +6316,17 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "Fatto"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "Mostra la tua chiave di backup"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
     "messageformat": "mostra la tua chiave di ripristino"
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "Verifica la tua identità per vedere la tua chiave di backup."
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
     "messageformat": "Verifica la tua identità per vedere la tua chiave di ripristino."
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "Vedi la chiave per i backup"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
     "messageformat": "Vedi la chiave di ripristino"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "È necessaria l'autenticazione per vedere la tua chiave di backup."
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
     "messageformat": "È necessaria l'autenticazione per vedere la tua chiave di ripristino."
-  },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Box testuale con la chiave di backup"
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
     "messageformat": "Chiave di ripristino"
@@ -6349,23 +6334,14 @@
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "Inserisci chiave"
   },
-  "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "Annota la tua chiave di backup"
-  },
   "icu:Preferences--local-backups-record-recovery-key": {
     "messageformat": "Salva la tua chiave di ripristino"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "Questa chiave ti servirà per recuperare il tuo account e i tuoi dati. Salvala in un posto sicuro. Se la perdi, non potremo aiutarti a ripristinare il tuo account. <learnMoreLink>Scopri di più.</learnMoreLink>"
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "Conferma la tua chiave di backup"
-  },
   "icu:Preferences--local-backups-confirm-recovery-key": {
     "messageformat": "Conferma la tua chiave di ripristino"
-  },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "Inserisci la chiave di backup che hai appena registrato"
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
     "messageformat": "Inserisci la chiave di ripristino che hai appena salvato"
@@ -6394,9 +6370,6 @@
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Cartella dei backup"
   },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "Modifica"
-  },
   "icu:Preferences__local-backups-turn-off": {
     "messageformat": "Disattiva i backup"
   },
@@ -6411,9 +6384,6 @@
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Copia negli appunti"
-  },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "Chiave del backup copiata"
   },
   "icu:Preferences__local-backups-copied-recovery-key": {
     "messageformat": "Chiave di ripristino copiata"
@@ -6436,14 +6406,8 @@
   "icu:Preferences__view-key": {
     "messageformat": "Visualizza chiave"
   },
-  "icu:Preferences__backup-key": {
-    "messageformat": "Chiave di backup"
-  },
   "icu:Preferences__recovery-key": {
     "messageformat": "Chiave di ripristino"
-  },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "La tua chiave di backup è un codice di 64 cifre che puoi usare per ripristinare il tuo backup"
   },
   "icu:Preferences__recovery-key-description": {
     "messageformat": "La tua chiave di ripristino è un codice di 64 cifre che puoi usare per ripristinare il tuo backup"
@@ -8147,9 +8111,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Altre piccole modifiche e correzioni di bug per far funzionare l'app senza problemi. Grazie per usare Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "Da ora puoi aggiungere un tag per il ruolo dell'utente per descrivere il tuo ruolo in una chat di gruppo o per dare delle info su di te. Per esempio, nel gruppo del calcetto potrai impostare un ruolo per ogni persona che gioca (scommettiamo che trovare il portiere sarà difficile come al solito). Ricorda che i ruoli degli utenti appaiono vicino al nome del profilo all'interno di una chat di gruppo. Gli admin possono decidere se tali ruoli sono attivi per tutti gli utenti o meno di un gruppo."
   },
   "icu:WhatsNew__8.6--0": {
     "messageformat": "Meno scrolling, più messaggi da vedere. Nuove persone che si uniscono a un gruppo, diverse chiamate perse e tante novità che accadono nelle tue chat… ogni tanto ti perdi qualcosa? Beh, da ora sarà più facile. Tutti questi aggiornamenti saranno raggruppati, così potrai tenere traccia di tutto senza perdere tempo."

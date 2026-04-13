@@ -746,6 +746,9 @@
   "icu:fileSizeWarning": {
     "messageformat": "Tiedosto ylittää viestin kokorajoituksen. {limit,number} {units}"
   },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "Pahoittelut. Valittu videotiedosto ylittää viestin kokorajoituksen. {limit,number}{units}"
+  },
   "icu:unableToLoadAttachment": {
     "messageformat": "Valittua liitettä ei voitu ladata."
   },
@@ -3800,9 +3803,6 @@
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
     "messageformat": "Jaa puhelulinkki Signalissa"
   },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "Poista tämä henkilö puhelusta"
-  },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "Poistetaanko {name} puhelusta?"
   },
@@ -6316,32 +6316,17 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "Valmis"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "näytä varmuuskopion avain"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
     "messageformat": "näyttää palautusavaimesi"
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "Vahvista henkilöllisyytesi nähdäksesi varmuuskopioavaimesi."
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
     "messageformat": "Vahvista henkilöllisyytesi nähdäksesi palautusavaimesi."
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "Näytä varmuuskopion avain"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
     "messageformat": "Näytä palautusavain"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "Todentaminen vaaditaan varmuuskopion avaimen näyttämiseksi."
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
     "messageformat": "Todentaminen vaaditaan palautusavaimen näyttämiseksi."
-  },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Varmuuskopion avaimen tekstilaatikko"
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
     "messageformat": "Palautusavain"
@@ -6349,23 +6334,14 @@
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "Anna avain"
   },
-  "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "Tallenna varmuuskopion avain"
-  },
   "icu:Preferences--local-backups-record-recovery-key": {
     "messageformat": "Tallenna palautusavain"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "Tätä avainta tarvitaan tilisi ja tietojesi palauttamiseen. Säilytä avain turvallisessa paikassa. Jos kadotat sen, et voi palauttaa tiliäsi. <learnMoreLink>Lue lisää.</learnMoreLink>"
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "Vahvista varmuuskopion avain"
-  },
   "icu:Preferences--local-backups-confirm-recovery-key": {
     "messageformat": "Vahvista palautusavain"
-  },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "Anna juuri tallentamasi varmuuskopion avain"
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
     "messageformat": "Anna juuri tallentamasi palautusavain"
@@ -6394,9 +6370,6 @@
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Varmuuskopiokansio"
   },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "Vaihda"
-  },
   "icu:Preferences__local-backups-turn-off": {
     "messageformat": "Poista varmuuskopiointi käytöstä"
   },
@@ -6411,9 +6384,6 @@
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Kopioi leikepöydälle"
-  },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "Varmuuskopion avain kopioitu"
   },
   "icu:Preferences__local-backups-copied-recovery-key": {
     "messageformat": "Palautusavain kopioitu"
@@ -6436,14 +6406,8 @@
   "icu:Preferences__view-key": {
     "messageformat": "Näytä avain"
   },
-  "icu:Preferences__backup-key": {
-    "messageformat": "Varmuuskopion avain"
-  },
   "icu:Preferences__recovery-key": {
     "messageformat": "Palautusavain"
-  },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "Varmuuskopion avain on 64-numeroinen koodi, jota tarvitaan varmuuskopion palauttamiseen"
   },
   "icu:Preferences__recovery-key-description": {
     "messageformat": "Palautusavain on 64-numeroinen koodi, jota käytetään varmuuskopion palauttamiseen."
@@ -8147,9 +8111,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Pieniä säätöjä, virheenkorjauksia ja suorituskykyparannuksia. Kiitos, että käytät Signalia!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "Voit nyt halutessasi lisätä ryhmäkeskustelussa jäsenroolin kuvaamaan itseäsi tai rooliasi. Jäsenroolit näkyvät ryhmän profiilin nimen vieressä. Ryhmän ylläpitäjät voivat hallita, voivatko kaikki käyttäjät asettaa niitä."
   },
   "icu:WhatsNew__8.6--0": {
     "messageformat": "Nyt sinun ei tarvitse enää vierittää näyttöä niin paljoa nähdäksesi uusimmat viestit. Jos kiireiseen ryhmäkeskusteluun liittyy monia uusia käyttäjiä kerralla tai sinulta jää useita puheluita vastaamatta, kyseiset keskustelutapahtumat voidaan ryhmittää yhteen kompaktiin ruutuun. Joskus vähempi on parempi, mutta voit laajentaa ja tiivistää näitä luetteloita helposti milloin tahansa."

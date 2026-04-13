@@ -746,6 +746,9 @@
   "icu:fileSizeWarning": {
     "messageformat": "Кечиресиз, тандалган файл билдирүү өлчөмүнүн чегинен ашып кетти. {limit,number} {units}"
   },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+  },
   "icu:unableToLoadAttachment": {
     "messageformat": "Тандалган тиркемени жүктөп алуу мүмкүн эмес."
   },
@@ -3800,9 +3803,6 @@
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
     "messageformat": "Чалуунун шилтемесин Signal аркылуу бөлүшүү"
   },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "Бул адамды чалуудан алып салуу"
-  },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "{name} чалуудан чыгарасызбы?"
   },
@@ -6316,32 +6316,17 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "Бүттү"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "камдык көчүрмө ачкычын көрүү"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
     "messageformat": "калыбына келтирүүчү ачкычты көрсөтүүгө"
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "Камдык көчүрмөнүн ачкычын көрүү үчүн өздүгүңүздү ырастаңыз."
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
     "messageformat": "Калыбына келтирүүчү ачкычты көрүү үчүн өздүгүңүздү ырасташыңыз керек."
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "Камдык көчүрмөнүн ачкычын көрүү"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
     "messageformat": "Калыбына келтирүү ачкычы"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "Камдык көчүрмө ачкычын көрүү үчүн аутентификациядан өтүшүңүз керек."
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
     "messageformat": "Калыбына келтирүүчү ачкычыңызды көрүү үчүн аутентификациядан өтүшүңүз керек."
-  },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Камдык көчүрмөнүн ачкычы жазылган жер"
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
     "messageformat": "Калыбына келтирүү ачкычы"
@@ -6349,23 +6334,14 @@
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "Ачкычты киргизүү"
   },
-  "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "Камдык көчүрмөңүздүн ачкычын жаздырып алыңыз"
-  },
   "icu:Preferences--local-backups-record-recovery-key": {
     "messageformat": "Калыбына келтирүү ачкычыңызды жаздырып алыңыз"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "Бул ачкыч менен аккаунтуңузду жана андагы нерселерди калыбына келтиресиз. Аны коопсуз жерде сактаңыз. Жоготуп алсаңыз, аккаунтуңузду калыбына келтире албай каласыз. <learnMoreLink>Кененирээк маалымат.</learnMoreLink>"
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "Камдык көчүрмөнүн ачкычын ырастаңыз"
-  },
   "icu:Preferences--local-backups-confirm-recovery-key": {
     "messageformat": "Камдык көчүрмөнүн ачкычын ырастаңыз"
-  },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "Жаңы эле жаздырып алган ачкычты киргизиңиз"
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
     "messageformat": "Жаңы жазылган калыбына келтирүүчү ачкычты киргизиңиз"
@@ -6394,9 +6370,6 @@
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Камдык көчүрмөлөрдүн папкасы"
   },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "Өзгөртүү"
-  },
   "icu:Preferences__local-backups-turn-off": {
     "messageformat": "Камдык көчүрмөлөрдү сактоону өчүрүү"
   },
@@ -6411,9 +6384,6 @@
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Буферге көчүрүү"
-  },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "Камдык көчүрмөнүн ачкычы көчүрүлдү"
   },
   "icu:Preferences__local-backups-copied-recovery-key": {
     "messageformat": "Калыбына келтирүүчү ачкычтын көчүрмөсү алынды"
@@ -6436,14 +6406,8 @@
   "icu:Preferences__view-key": {
     "messageformat": "Ачкычты карап көрүү"
   },
-  "icu:Preferences__backup-key": {
-    "messageformat": "Камдык көчүрмөнүн ачкычы"
-  },
   "icu:Preferences__recovery-key": {
     "messageformat": "Калыбына келтирүү ачкычы"
-  },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "Камдык көчүрмөнүн ачкычы аны калыбына келтирүү үчүн колдонулуучу 64 орундуу код"
   },
   "icu:Preferences__recovery-key-description": {
     "messageformat": "Камдык көчүрмөнү калыбына келтирүүчү ачкыч 64 символдон турган код"
@@ -8147,9 +8111,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Майда-барат өзгөрүүлөрдү киргизип, мүчүлүштүктөрдү оңдоп, колдонмонун иштешин жакшыртып жатабыз. Signal'ды колдонгонуңуз үчүн чоң рахмат!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "Эми өзүңүздү же топтук маектеги ролуңузду катышуучунун энбелгиси аркылуу билдире аласыз. Жаңы топтун мүчөлөрү кошулганда ишти баштоого жардам берүү үчүн жергиликтүү футбол лигасынын маегинде топ мүчөсүнүн энбелгисин \"Рефери\" же \"Дарбазачы\" деп коюңуз, андан соң компаниянын маегинде кызмат ордуңуз жазылган башка энбелгини тандаңыз. Катышуучулардын энбелгилери ошол топтогу профилдин аталышынын жанында көрүнүп, алардын күйгүзүлүп күйгүзүлбөгөнүн топтун администраторлору көзөмөлдөйт."
   },
   "icu:WhatsNew__8.6--0": {
     "messageformat": "Эми соңку билдирүүлөрдү окуу үчүн сыдырып отурбайсыз. Эгер бош эмес топтук маекке бир нече жаңы адам кошулса же катары менен бир нече чалууну өткөрүп жиберсеңиз, экранда орун үнөмдөө үчүн маектеги бир нече билдирүү автоматтык түрдө топтолуп көрүнөт. Кээде кыска жана нуска кыйла ыңгайлуу болгону менен, бул тизмелерди каалаган убакта жайып же жашырып кое аласыз."

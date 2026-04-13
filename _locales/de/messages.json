@@ -746,6 +746,9 @@
   "icu:fileSizeWarning": {
     "messageformat": "Die ausgewählte Datei überschreitet leider die maximal erlaubte Nachrichtengröße."
   },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+  },
   "icu:unableToLoadAttachment": {
     "messageformat": "Ausgewählter Anhang kann nicht geladen werden."
   },
@@ -3800,9 +3803,6 @@
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
     "messageformat": "Anruflink über Signal teilen"
   },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "Diese Person aus dem Anruf entfernen"
-  },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "{name} aus dem Anruf entfernen?"
   },
@@ -6316,32 +6316,17 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "Fertig"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "deinen Backup-Schlüssel anzeigen"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
     "messageformat": "deinen Wiederherstellungsschlüssel anzuzeigen"
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "Bestätige deine Identität, um dir deinen Backup-Schlüssel anzeigen zu lassen."
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
     "messageformat": "Verifiziere deine Identität, um dir deinen Wiederherstellungsschlüssel anzeigen zu lassen."
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "Backup-Schlüssel anzeigen"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
     "messageformat": "Wiederherstellungsschlüssel anzeigen"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "Du musst dich authentifizieren, um deinen Backup-Schlüssel anzuzeigen."
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
     "messageformat": "Du musst dich authentifizieren, um deinen Wiederherstellungsschlüssel anzuzeigen."
-  },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Textfeld »Backup-Schlüssel«"
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
     "messageformat": "Wiederherstellungsschlüssel"
@@ -6349,23 +6334,14 @@
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "Schlüssel eingeben"
   },
-  "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "Sichere deinen Backup-Schlüssel"
-  },
   "icu:Preferences--local-backups-record-recovery-key": {
     "messageformat": "Speichere deinen Wiederherstellungsschlüssel"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "Dieser Schlüssel wird benötigt, um dein Konto und deine Daten wiederherzustellen. Bewahre diesen Schlüssel sicher auf. Wenn du ihn verlierst, kannst du dein Konto nicht wiederherstellen. <learnMoreLink>Mehr erfahren.</learnMoreLink>"
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "Bestätige deinen Backup-Schlüssel"
-  },
   "icu:Preferences--local-backups-confirm-recovery-key": {
     "messageformat": "Bestätige deinen Wiederherstellungsschlüssel"
-  },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "Gib den Backup-Schlüssel ein, den du eben aufgezeichnet hast"
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
     "messageformat": "Gib den Wiederherstellungsschlüssel ein, den du eben gespeichert hast"
@@ -6394,9 +6370,6 @@
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Ordner für Backup"
   },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "Ändern"
-  },
   "icu:Preferences__local-backups-turn-off": {
     "messageformat": "Backups ausschalten"
   },
@@ -6411,9 +6384,6 @@
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "In Zwischenablage kopieren"
-  },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "Backup-Schlüssel kopiert"
   },
   "icu:Preferences__local-backups-copied-recovery-key": {
     "messageformat": "Wiederherstellungsschlüssel kopiert"
@@ -6436,14 +6406,8 @@
   "icu:Preferences__view-key": {
     "messageformat": "Schlüssel anzeigen"
   },
-  "icu:Preferences__backup-key": {
-    "messageformat": "Backup-Schlüssel"
-  },
   "icu:Preferences__recovery-key": {
     "messageformat": "Wiederherstellungsschlüssel"
-  },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "Dein Backup-Schlüssel ist ein 64-stelliger Code, mit dem du dein Backup wiederherstellen kannst"
   },
   "icu:Preferences__recovery-key-description": {
     "messageformat": "Dein Wiederherstellungsschlüssel ist ein 64-stelliger Code, mit dem du dein Backup wiederherstellen kannst"
@@ -8147,9 +8111,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Kleine Optimierungen, Fehlerbehebungen und Leistungsverbesserungen. Danke, dass du Signal nutzt!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "Jetzt kannst du ein Mitgliedslabel hinzufügen, um dich oder deine Rolle in einem Gruppenchat zu beschreiben. Label dich im Fußballclub-Chat als »Schiedsrichterin« oder »Torwart«, damit neue Mitspieler*innen Bescheid wissen – und im Firmenchat ist wohl eher ein Label mit deiner beruflichen Position angesagt. Mitgliedslabels werden in dieser Gruppe neben deinem Profilnamen angezeigt, und Gruppenadmins können festlegen, ob sie für alle aktiviert sind oder nicht."
   },
   "icu:WhatsNew__8.6--0": {
     "messageformat": "Jetzt musst du nicht mehr so weit nach unten scrollen, um die neuesten Nachrichten zu sehen. Wenn mehrere neue Teilnehmer einem gut besuchten Gruppenchat beitreten oder du mehrere verpasste Anrufe hintereinander erhältst, können diese häufigen Chat-Ereignisse automatisch zu einer übersichtlichen Ansicht zusammengefasst werden. Manchmal ist weniger mehr, aber diese Listen kannst du jederzeit ganz einfach ein- und ausklappen."

@@ -746,6 +746,9 @@
   "icu:fileSizeWarning": {
     "messageformat": "Sorry, the selected file exceeds message size restrictions. {limit,number} {units}"
   },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "O vídeo seleccionado supera o tamaño permitido. {limit,number} {units}"
+  },
   "icu:unableToLoadAttachment": {
     "messageformat": "Non se puido abrir o anexo escollido."
   },
@@ -3800,9 +3803,6 @@
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
     "messageformat": "Compartir ligazón da chamada por Signal"
   },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "Expulsar esta persoa da chamada"
-  },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "Eliminar a {name} da chamada?"
   },
@@ -6316,32 +6316,17 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "Feito"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "mostrar a clave de seguranza"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
     "messageformat": "mostrar a túa clave de recuperación"
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "Verifica a túa identidade para ver a clave de seguranza."
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
     "messageformat": "Verifica a túa identidade para ver a clave de recuperación."
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "Ver clave de seguranza"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
     "messageformat": "Consultar a clave de recuperación"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "Precísase autenticación para ver a clave de seguranza."
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
     "messageformat": "Precísase autenticación para ver a clave de recuperación."
-  },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Cadro de texto da clave de copia de seguranza"
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
     "messageformat": "Clave de recuperación"
@@ -6349,23 +6334,14 @@
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "Escribe a clave"
   },
-  "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "Garda a túa clave de seguranza"
-  },
   "icu:Preferences--local-backups-record-recovery-key": {
     "messageformat": "Garda a túa clave de recuperación"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "Esta clave é necesaria para recuperar a túa conta e os datos asociados. Gárdaa nun lugar seguro. Se a perdes, non poderás recuperar a túa conta. <learnMoreLink>Máis información.</learnMoreLink>"
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "Confirma a túa clave de seguranza"
-  },
   "icu:Preferences--local-backups-confirm-recovery-key": {
     "messageformat": "Confirma a túa clave de recuperación"
-  },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "Introduce a clave de seguranza que acabas de rexistrar"
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
     "messageformat": "Introduce a clave de recuperación que acabas de rexistrar"
@@ -6394,9 +6370,6 @@
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Cartafol da copia"
   },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "Cambiar"
-  },
   "icu:Preferences__local-backups-turn-off": {
     "messageformat": "Desactivar copias de seguranza"
   },
@@ -6411,9 +6384,6 @@
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Copiar ao portapapeis"
-  },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "Clave de seguranza copiada"
   },
   "icu:Preferences__local-backups-copied-recovery-key": {
     "messageformat": "Clave de recuperación copiada"
@@ -6436,14 +6406,8 @@
   "icu:Preferences__view-key": {
     "messageformat": "Ver clave"
   },
-  "icu:Preferences__backup-key": {
-    "messageformat": "Clave de seguranza"
-  },
   "icu:Preferences__recovery-key": {
     "messageformat": "Clave de recuperación"
-  },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "A túa clave de seguranza é un código de 64 díxitos que permite recuperar a copia de seguranza"
   },
   "icu:Preferences__recovery-key-description": {
     "messageformat": "A túa clave de recuperación é un código de 64 díxitos que debes usar para restaurar a copia de seguranza"
@@ -8147,9 +8111,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Comprende pequenas modificacións e melloras no rendemento. Moitas grazas por empregar Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "Agora tes a opción de configurar unha categoría de membro para describirte a ti ou o teu rol dentro da conversa grupal. As categorías de membro aparecen ao carón do teu nome de perfil no grupo, e os administradores poden controlar se están activadas ou non para todos."
   },
   "icu:WhatsNew__8.6--0": {
     "messageformat": "Os avisos repetidos (como varias chamadas perdidas) poden agruparse automaticamente de xeito compacto. Así poderás acceder ás mensaxes máis recentes sen ter que desprazarte tanto."

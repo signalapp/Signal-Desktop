@@ -746,6 +746,9 @@
   "icu:fileSizeWarning": {
     "messageformat": "Kahjuks ületab valitud fail sõnumi suuruse piirangu. {limit,number} {units}"
   },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "Kahjuks ületab valitud videofail sõnumi suuruse piirangu. {limit,number} {units}"
+  },
   "icu:unableToLoadAttachment": {
     "messageformat": "Valitud manuse laadimine ei õnnestunud."
   },
@@ -3800,9 +3803,6 @@
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
     "messageformat": "Jaga kõnelinki Signali kaudu"
   },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "Eemalda see isik kõnest"
-  },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "Kas eemaldada {name} kõnest?"
   },
@@ -6316,32 +6316,17 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "Valmis"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "näidata sinu varukoopia võtit"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
     "messageformat": "sinu varukoopia võtit"
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "Oma varukoopia võtme vaatamiseks kinnita oma isik."
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
     "messageformat": "Oma varukoopia võtme vaatamiseks kinnita oma isik."
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "Vaata varukoopia võtit"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
     "messageformat": "Vaata varukoopia võtit"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "Oma varukoopia võtme vaatamiseks on vajalik autentimine."
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
     "messageformat": "Oma varukoopia võtme vaatamiseks on vajalik autentimine."
-  },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Varukoopia võtme tekstiväli"
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
     "messageformat": "Varukoopia võti"
@@ -6349,23 +6334,14 @@
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "Sisesta võti"
   },
-  "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "Pane oma varukoopia võti kirja"
-  },
   "icu:Preferences--local-backups-record-recovery-key": {
     "messageformat": "Pane oma varukoopia võti kirja"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "Seda võtit on vaja sinu andmete ja konto taastamiseks. Hoia seda turvalises kohas. Kui selle kaotad, ei ole sul võimalik oma kontot taastada. <learnMoreLink>Rohkem teavet.</learnMoreLink>"
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "Kinnita oma varukoopia võti"
-  },
   "icu:Preferences--local-backups-confirm-recovery-key": {
     "messageformat": "Kinnita oma varukoopia võti"
-  },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "Sisesta just salvestatud varukoopia võti"
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
     "messageformat": "Sisesta just kirja pandud varukoopia võti"
@@ -6394,9 +6370,6 @@
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Varunduste kaust"
   },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "Muuda"
-  },
   "icu:Preferences__local-backups-turn-off": {
     "messageformat": "Lülita varukoopiad välja"
   },
@@ -6411,9 +6384,6 @@
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Kopeeri lõikelauale"
-  },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "Varukoopia võti kopeeritud"
   },
   "icu:Preferences__local-backups-copied-recovery-key": {
     "messageformat": "Varukoopia võti on kopeeritud"
@@ -6436,14 +6406,8 @@
   "icu:Preferences__view-key": {
     "messageformat": "Vaata võtit"
   },
-  "icu:Preferences__backup-key": {
-    "messageformat": "Varukoopia võti"
-  },
   "icu:Preferences__recovery-key": {
     "messageformat": "Varukoopia võti"
-  },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "Sinu varukoopia võti on 64-kohaline kood, mida kasutatakse su varukoopia taastamiseks"
   },
   "icu:Preferences__recovery-key-description": {
     "messageformat": "Sinu varukoopia võti on 64-kohaline kood, mida on vaja varukoopia taastamiseks"
@@ -8147,9 +8111,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Väikesed muudatused, vigade parandused ja jõudluse täiustused. Aitäh, et kasutad Signalit!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "Nüüd on sul võimalus lisada liikme silt, et kirjeldada ennast või oma rolli selles grupivestluses. Liikme silte kuvatakse grupis sinu profiilinime kõrval ning grupi administraatorid otsustavad, kas igaüks saab neid lisada või mitte."
   },
   "icu:WhatsNew__8.6--0": {
     "messageformat": "Korduvaid sündmusi (nagu mitu vastamata kõnet) saab automaatselt grupeerida, et sa ei peaks uusimate sõnumite nägemiseks liiga palju kerima."

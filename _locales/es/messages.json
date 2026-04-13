@@ -746,6 +746,9 @@
   "icu:fileSizeWarning": {
     "messageformat": "El archivo seleccionado excede las restricciones de tamaño del mensaje. {limit,number} {units}"
   },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+  },
   "icu:unableToLoadAttachment": {
     "messageformat": "No se ha podido cargar el archivo seleccionado."
   },
@@ -3800,9 +3803,6 @@
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
     "messageformat": "Compartir enlace de llamada vía Signal"
   },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "Eliminar a esta persona de la llamada"
-  },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "¿Eliminar a {name} de la llamada?"
   },
@@ -6316,32 +6316,17 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "Listo"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "mostrar la clave de tu copia de seguridad"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
     "messageformat": "mostrar tu clave de recuperación"
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "Verifica tu identidad para ver la clave de tu copia de seguridad."
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
     "messageformat": "Verifica tu identidad para ver tu clave de recuperación."
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "Ver clave de copia de seguridad"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
     "messageformat": "Ver clave de recuperación"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "Se requiere autenticación para ver tu clave de copia de seguridad."
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
     "messageformat": "Se requiere autenticación para ver tu clave de recuperación."
-  },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Cuadro de texto de clave de copia de seguridad"
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
     "messageformat": "Clave de recuperación"
@@ -6349,23 +6334,14 @@
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "Introducir clave"
   },
-  "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "Guarda la clave de tu copia de seguridad"
-  },
   "icu:Preferences--local-backups-record-recovery-key": {
     "messageformat": "Registra tu clave de recuperación"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "Se necesita esta clave para recuperar tu cuenta y tus datos. Guárdala en un lugar seguro. Si la pierdes, no podrás recuperar tu cuenta. <learnMoreLink>Más información.</learnMoreLink>"
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "Confirma la clave de tu copia de seguridad"
-  },
   "icu:Preferences--local-backups-confirm-recovery-key": {
     "messageformat": "Confirma tu clave de recuperación"
-  },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "Introduce la clave de copia de seguridad que acabas de registrar"
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
     "messageformat": "Introduce la clave de recuperación que acabas de registrar"
@@ -6394,9 +6370,6 @@
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Carpeta de copia de seguridad"
   },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "Cambiar"
-  },
   "icu:Preferences__local-backups-turn-off": {
     "messageformat": "Desactivar copias de seguridad"
   },
@@ -6411,9 +6384,6 @@
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Copiar al portapapeles"
-  },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "Clave de copia de seguridad copiada"
   },
   "icu:Preferences__local-backups-copied-recovery-key": {
     "messageformat": "Clave de recuperación copiada"
@@ -6436,14 +6406,8 @@
   "icu:Preferences__view-key": {
     "messageformat": "Ver clave"
   },
-  "icu:Preferences__backup-key": {
-    "messageformat": "Clave de copia de seguridad"
-  },
   "icu:Preferences__recovery-key": {
     "messageformat": "Clave de recuperación"
-  },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "La clave de tu copia de seguridad es un código de 64 caracteres que necesitarás para recuperar tu copia de seguridad"
   },
   "icu:Preferences__recovery-key-description": {
     "messageformat": "Tu clave de recuperación es un código de 64 caracteres que necesitarás para restaurar tu copia de seguridad."
@@ -8147,9 +8111,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Hemos hecho algunos ajustes, correcciones de errores y mejoras en el rendimiento. ¡Gracias por usar Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "En los grupos, cada persona cumple un papel distinto. Por eso hemos lanzado las \"categorías de participante\", una función que te permite añadir tu rol en cada grupo al que perteneces. ¿Tienes un grupo del trabajo? Indica tu cargo para que cuando se unan nuevos participantes sepan de inmediato quién eres. En tu grupo familiar, quizá prefieras algo más divertido como \"El tío favorito\" o \"La consentida de mamá\". Las categorías de participante aparecen junto a tu nombre de perfil en ese grupo, y los admins pueden decidir si activan esta opción para todos."
   },
   "icu:WhatsNew__8.6--0": {
     "messageformat": "Dile adiós a tener que deslizar sin parar para ponerte al día con tus mensajes. Ahora, los eventos de chat repetidos (como nuevos participantes en un chat grupal o varias llamadas perdidas) se agrupan automáticamente en una lista compacta. Y sí, menos es más, pero si quieres enterarte de todos los detalles puedes mostrar o minimizar estas listas en cualquier momento."

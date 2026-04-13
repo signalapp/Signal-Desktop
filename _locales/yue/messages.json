@@ -746,6 +746,9 @@
   "icu:fileSizeWarning": {
     "messageformat": "唔好意思，你揀嘅檔案超過咗訊息容量限制。 {limit,number} {units}"
   },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "唔好意思，你揀嘅影片檔案超過咗訊息容量限制。{limit,number}{units}"
+  },
   "icu:unableToLoadAttachment": {
     "messageformat": "載入唔到你揀嘅附件。"
   },
@@ -3800,9 +3803,6 @@
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
     "messageformat": "透過 Signal 分享通話連結"
   },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "喺通話度移除呢個人"
-  },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "係咪要喺通話度移除 {name} ？"
   },
@@ -6316,32 +6316,17 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "完成"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "顯示你嘅備份金鑰"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
     "messageformat": "顯示你嘅恢復金鑰"
-  },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "驗證你嘅身份嚟睇吓備份金鑰。"
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
     "messageformat": "驗證你嘅身份嚟睇吓恢復金鑰。"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "睇吓備份金鑰"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
     "messageformat": "睇吓恢復金鑰"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "要驗證咗先可以睇備份金鑰。"
-  },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
     "messageformat": "要驗證咗先可以睇恢復金鑰。"
-  },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "備份金鑰文字框"
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
     "messageformat": "恢復金鑰"
@@ -6349,23 +6334,14 @@
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "輸入金鑰"
   },
-  "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "記低你嘅備份金鑰"
-  },
   "icu:Preferences--local-backups-record-recovery-key": {
     "messageformat": "記低你嘅恢復金鑰"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "系統需要用呢個金鑰嚟恢復你嘅帳戶同資料。請將金鑰儲存喺安全嘅地方。如果你整唔見咗佢，就冇辦法恢復帳戶㗎喇。 <learnMoreLink>了解詳情。</learnMoreLink>"
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "確認你嘅備份金鑰"
-  },
   "icu:Preferences--local-backups-confirm-recovery-key": {
     "messageformat": "確認你嘅恢復金鑰"
-  },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "輸入你啱啱記低嘅備份金鑰"
   },
   "icu:Preferences--local-backups-confirm-recovery-key-description": {
     "messageformat": "輸入你啱啱記低嘅恢復金鑰"
@@ -6394,9 +6370,6 @@
   "icu:Preferences__local-backups-folder": {
     "messageformat": "備份資料夾"
   },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "改一改"
-  },
   "icu:Preferences__local-backups-turn-off": {
     "messageformat": "閂咗備份"
   },
@@ -6411,9 +6384,6 @@
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "複製到剪貼簿"
-  },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "已經複製備份金鑰"
   },
   "icu:Preferences__local-backups-copied-recovery-key": {
     "messageformat": "複製咗恢復金鑰"
@@ -6436,14 +6406,8 @@
   "icu:Preferences__view-key": {
     "messageformat": "睇吓金鑰"
   },
-  "icu:Preferences__backup-key": {
-    "messageformat": "備份金鑰"
-  },
   "icu:Preferences__recovery-key": {
     "messageformat": "恢復金鑰"
-  },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "你嘅備份金鑰係一組 64 位數字代碼，用嚟還原你嘅備份"
   },
   "icu:Preferences__recovery-key-description": {
     "messageformat": "你嘅恢復金鑰係一組 64 個字元嘅代碼，用嚟還原你嘅備份"
@@ -8147,9 +8111,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "我哋做咗啲調整、修復咗一啲錯誤，同埋加強咗程式功能。多謝你使用 Signal！",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "而家 Singal 可以任你揀加唔加個成員標籤嚟形容你自己，或者你喺個聊天谷入面嘅角色。例如喺你個本地足球聯賽聊天谷入面，將你個成員標籤設定做「裁判」或者「守門員」，幫新隊友了解你係乜水；而喺公司個聊天谷度，你又可以加個標籤話俾人知你做咩職位。成員標籤會顯示喺個谷嘅個人檔名隔離，個谷嘅管理員可以控制係咪開放俾全部人用呢個功能。"
   },
   "icu:WhatsNew__8.6--0": {
     "messageformat": "而家你唔使再向下碌咁耐都可以睇到最新訊息。如果有幾個新人加入個熱熱鬧鬧嘅聊天谷，或者連續收到幾個未接來電，呢類重複嘅聊天事件會自動歸類做簡潔嘅列表顯示。「簡單就是美」係無錯，但係你隨時都可以輕鬆展開或者收埋呢啲列表。"
