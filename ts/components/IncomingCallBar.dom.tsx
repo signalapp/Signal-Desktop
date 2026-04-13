@@ -23,6 +23,9 @@ import {
   useKeyboardShortcuts,
 } from '../hooks/useKeyboardShortcuts.dom.tsx';
 import { UserText } from './UserText.dom.tsx';
+import { AxoDragRegion } from '../axo/AxoDragRegion.dom.tsx';
+
+const { useDisableDragRegions } = AxoDragRegion;
 
 export type PropsType = {
   acceptCall: (_: AcceptCallType) => void;
@@ -253,6 +256,8 @@ export function IncomingCallBar(props: PropsType): React.JSX.Element | null {
       bounceAppIconStop();
     };
   }, [bounceAppIconStart, bounceAppIconStop]);
+
+  useDisableDragRegions(true);
 
   const acceptVideoCall = useCallback(() => {
     if (isVideoCall) {

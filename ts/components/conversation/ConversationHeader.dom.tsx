@@ -52,6 +52,7 @@ import type {
   MultipleGroupMembersWithSameTitleContactSpoofingWarning,
 } from '../../state/selectors/timeline.preload.ts';
 import { tw } from '../../axo/tw.dom.tsx';
+import { AxoDragRegion } from '../../axo/AxoDragRegion.dom.tsx';
 
 function HeaderInfoTitle({
   name,
@@ -329,109 +330,111 @@ export const ConversationHeader = memo(function ConversationHeader({
             className={tw('flex flex-col shadow-elevation-1 shadow-no-outline')}
             ref={measureRef}
           >
-            <div
-              className={classNames('module-ConversationHeader', {
-                'module-ConversationHeader--narrow': isNarrow,
-              })}
-            >
-              <HeaderContent
-                conversation={conversation}
-                badge={badge ?? null}
-                hasStories={hasStories ?? null}
-                headerRef={headerRef}
-                i18n={i18n}
-                theme={theme}
-                onViewUserStories={onViewUserStories}
-                onViewConversationDetails={onViewConversationDetails}
-                isSignalConversation={isSignalConversation ?? false}
-              />
-              {!isSmsOnlyOrUnregistered &&
-                !isSignalConversation &&
-                !isTerminated && (
-                  <OutgoingCallButtons
-                    conversation={conversation}
-                    hasActiveCall={hasActiveCall}
-                    i18n={i18n}
-                    isNarrow={isNarrow}
-                    onOutgoingAudioCall={onOutgoingAudioCall}
-                    onOutgoingVideoCall={onOutgoingVideoCall}
-                    outgoingCallButtonStyle={outgoingCallButtonStyle}
-                  />
-                )}
-              <button
-                type="button"
-                onClick={onSearchInConversation}
-                className={classNames(
-                  'module-ConversationHeader__button',
-                  'module-ConversationHeader__button--search'
-                )}
-                aria-label={i18n('icu:search')}
-              />
-
-              <AxoDropdownMenu.Root>
-                <AxoDropdownMenu.Trigger disabled={isSelectMode}>
-                  <button
-                    type="button"
-                    className={classNames(
-                      'module-ConversationHeader__button',
-                      'module-ConversationHeader__button--more'
-                    )}
-                    aria-label={i18n('icu:moreInfo')}
-                  />
-                </AxoDropdownMenu.Trigger>
-                <HeaderDropdownMenuContent
-                  i18n={i18n}
+            <AxoDragRegion.Root>
+              <div
+                className={classNames('module-ConversationHeader', {
+                  'module-ConversationHeader--narrow': isNarrow,
+                })}
+              >
+                <HeaderContent
                   conversation={conversation}
-                  isTerminated={isTerminated}
-                  isMissingMandatoryProfileSharing={
-                    isMissingMandatoryProfileSharing ?? false
-                  }
-                  isSelectMode={isSelectMode}
-                  isSignalConversation={isSignalConversation ?? false}
-                  onChangeDisappearingMessages={
-                    onConversationDisappearingMessagesChange
-                  }
-                  onChangeMuteExpiration={onConversationMuteExpirationChange}
-                  onConversationAccept={onConversationAccept}
-                  onConversationArchive={onConversationArchive}
-                  onConversationBlock={() => {
-                    setMessageRequestState(MessageRequestState.blocking);
-                  }}
-                  onConversationDelete={() => {
-                    setMessageRequestState(MessageRequestState.deleting);
-                  }}
-                  onConversationDeleteMessages={() => {
-                    setHasDeleteMessagesConfirmation(true);
-                  }}
-                  onConversationLeaveGroup={() => {
-                    if (cannotLeaveBecauseYouAreLastAdmin) {
-                      setHasCannotLeaveGroupBecauseYouAreLastAdminAlert(true);
-                    } else {
-                      setHasLeaveGroupConfirmation(true);
-                    }
-                  }}
-                  onConversationMarkUnread={onConversationMarkUnread}
-                  onConversationPin={onConversationPin}
-                  onConversationReportAndMaybeBlock={() => {
-                    setMessageRequestState(
-                      MessageRequestState.reportingAndMaybeBlocking
-                    );
-                  }}
-                  onConversationUnarchive={onConversationUnarchive}
-                  onConversationUnblock={() => {
-                    setMessageRequestState(MessageRequestState.unblocking);
-                  }}
-                  onConversationUnpin={onConversationUnpin}
-                  onSelectModeEnter={onSelectModeEnter}
-                  onSetupCustomDisappearingTimeout={() => {
-                    setHasCustomDisappearingTimeoutModal(true);
-                  }}
-                  onShowMembers={onShowMembers}
-                  onViewAllMedia={onViewAllMedia}
+                  badge={badge ?? null}
+                  hasStories={hasStories ?? null}
+                  headerRef={headerRef}
+                  i18n={i18n}
+                  theme={theme}
+                  onViewUserStories={onViewUserStories}
                   onViewConversationDetails={onViewConversationDetails}
+                  isSignalConversation={isSignalConversation ?? false}
                 />
-              </AxoDropdownMenu.Root>
-            </div>
+                {!isSmsOnlyOrUnregistered &&
+                  !isSignalConversation &&
+                  !isTerminated && (
+                    <OutgoingCallButtons
+                      conversation={conversation}
+                      hasActiveCall={hasActiveCall}
+                      i18n={i18n}
+                      isNarrow={isNarrow}
+                      onOutgoingAudioCall={onOutgoingAudioCall}
+                      onOutgoingVideoCall={onOutgoingVideoCall}
+                      outgoingCallButtonStyle={outgoingCallButtonStyle}
+                    />
+                  )}
+                <button
+                  type="button"
+                  onClick={onSearchInConversation}
+                  className={classNames(
+                    'module-ConversationHeader__button',
+                    'module-ConversationHeader__button--search'
+                  )}
+                  aria-label={i18n('icu:search')}
+                />
+
+                <AxoDropdownMenu.Root>
+                  <AxoDropdownMenu.Trigger disabled={isSelectMode}>
+                    <button
+                      type="button"
+                      className={classNames(
+                        'module-ConversationHeader__button',
+                        'module-ConversationHeader__button--more'
+                      )}
+                      aria-label={i18n('icu:moreInfo')}
+                    />
+                  </AxoDropdownMenu.Trigger>
+                  <HeaderDropdownMenuContent
+                    i18n={i18n}
+                    conversation={conversation}
+                    isTerminated={isTerminated}
+                    isMissingMandatoryProfileSharing={
+                      isMissingMandatoryProfileSharing ?? false
+                    }
+                    isSelectMode={isSelectMode}
+                    isSignalConversation={isSignalConversation ?? false}
+                    onChangeDisappearingMessages={
+                      onConversationDisappearingMessagesChange
+                    }
+                    onChangeMuteExpiration={onConversationMuteExpirationChange}
+                    onConversationAccept={onConversationAccept}
+                    onConversationArchive={onConversationArchive}
+                    onConversationBlock={() => {
+                      setMessageRequestState(MessageRequestState.blocking);
+                    }}
+                    onConversationDelete={() => {
+                      setMessageRequestState(MessageRequestState.deleting);
+                    }}
+                    onConversationDeleteMessages={() => {
+                      setHasDeleteMessagesConfirmation(true);
+                    }}
+                    onConversationLeaveGroup={() => {
+                      if (cannotLeaveBecauseYouAreLastAdmin) {
+                        setHasCannotLeaveGroupBecauseYouAreLastAdminAlert(true);
+                      } else {
+                        setHasLeaveGroupConfirmation(true);
+                      }
+                    }}
+                    onConversationMarkUnread={onConversationMarkUnread}
+                    onConversationPin={onConversationPin}
+                    onConversationReportAndMaybeBlock={() => {
+                      setMessageRequestState(
+                        MessageRequestState.reportingAndMaybeBlocking
+                      );
+                    }}
+                    onConversationUnarchive={onConversationUnarchive}
+                    onConversationUnblock={() => {
+                      setMessageRequestState(MessageRequestState.unblocking);
+                    }}
+                    onConversationUnpin={onConversationUnpin}
+                    onSelectModeEnter={onSelectModeEnter}
+                    onSetupCustomDisappearingTimeout={() => {
+                      setHasCustomDisappearingTimeoutModal(true);
+                    }}
+                    onShowMembers={onShowMembers}
+                    onViewAllMedia={onViewAllMedia}
+                    onViewConversationDetails={onViewConversationDetails}
+                  />
+                </AxoDropdownMenu.Root>
+              </div>
+            </AxoDragRegion.Root>
 
             <MessageRequestActionsConfirmation
               i18n={i18n}

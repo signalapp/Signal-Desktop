@@ -16,6 +16,7 @@ import {
 import { WidthBreakpoint, getNavSidebarWidthBreakpoint } from './_util.std.ts';
 import type { UnreadStats } from '../util/countUnreadStats.std.ts';
 import type { SmartPropsType as SmartToastManagerPropsType } from '../state/smart/ToastManager.preload.tsx';
+import { AxoDragRegion } from '../axo/AxoDragRegion.dom.tsx';
 
 export const NavSidebarWidthBreakpointContext =
   createContext<WidthBreakpoint | null>(null);
@@ -174,48 +175,51 @@ export function NavSidebar({
         style={{ width }}
       >
         {!hideHeader && (
-          <div className="NavSidebar__Header">
-            {onBack == null && navTabsCollapsed && (
-              <NavTabsToggle
-                i18n={i18n}
-                navTabsCollapsed={navTabsCollapsed}
-                onToggleNavTabsCollapse={onToggleNavTabsCollapse}
-                hasFailedStorySends={hasFailedStorySends}
-                hasPendingUpdate={hasPendingUpdate}
-                otherTabsUnreadStats={otherTabsUnreadStats}
-              />
-            )}
-            <div
-              className={classNames('NavSidebar__HeaderContent', {
-                'NavSidebar__HeaderContent--navTabsCollapsed': navTabsCollapsed,
-                'NavSidebar__HeaderContent--withBackButton': onBack != null,
-              })}
-            >
-              {onBack != null && (
-                <button
-                  type="button"
-                  role="link"
-                  onClick={onBack}
-                  className="NavSidebar__BackButton"
-                >
-                  <span className="NavSidebar__BackButtonLabel">
-                    {i18n('icu:NavSidebar__BackButtonLabel')}
-                  </span>
-                </button>
+          <AxoDragRegion.Root>
+            <div className="NavSidebar__Header">
+              {onBack == null && navTabsCollapsed && (
+                <NavTabsToggle
+                  i18n={i18n}
+                  navTabsCollapsed={navTabsCollapsed}
+                  onToggleNavTabsCollapse={onToggleNavTabsCollapse}
+                  hasFailedStorySends={hasFailedStorySends}
+                  hasPendingUpdate={hasPendingUpdate}
+                  otherTabsUnreadStats={otherTabsUnreadStats}
+                />
               )}
-              <h1
-                className={classNames('NavSidebar__HeaderTitle', {
-                  'NavSidebar__HeaderTitle--withBackButton': onBack != null,
+              <div
+                className={classNames('NavSidebar__HeaderContent', {
+                  'NavSidebar__HeaderContent--navTabsCollapsed':
+                    navTabsCollapsed,
+                  'NavSidebar__HeaderContent--withBackButton': onBack != null,
                 })}
-                aria-live="assertive"
               >
-                {title}
-              </h1>
-              {actions && (
-                <div className="NavSidebar__HeaderActions">{actions}</div>
-              )}
+                {onBack != null && (
+                  <button
+                    type="button"
+                    role="link"
+                    onClick={onBack}
+                    className="NavSidebar__BackButton"
+                  >
+                    <span className="NavSidebar__BackButtonLabel">
+                      {i18n('icu:NavSidebar__BackButtonLabel')}
+                    </span>
+                  </button>
+                )}
+                <h1
+                  className={classNames('NavSidebar__HeaderTitle', {
+                    'NavSidebar__HeaderTitle--withBackButton': onBack != null,
+                  })}
+                  aria-live="assertive"
+                >
+                  {title}
+                </h1>
+                {actions && (
+                  <div className="NavSidebar__HeaderActions">{actions}</div>
+                )}
+              </div>
             </div>
-          </div>
+          </AxoDragRegion.Root>
         )}
 
         <div className="NavSidebar__Content">{children}</div>

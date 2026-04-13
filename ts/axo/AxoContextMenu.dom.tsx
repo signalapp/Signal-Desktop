@@ -23,6 +23,9 @@ import {
   createStrictContext,
   useStrictContext,
 } from './_internal/StrictContext.dom.tsx';
+import { AxoDragRegion } from './AxoDragRegion.dom.tsx';
+
+const { useDisableDragRegions } = AxoDragRegion;
 
 const Namespace = 'AxoContextMenu';
 
@@ -96,6 +99,8 @@ export namespace AxoContextMenu {
     const context = useMemo(() => {
       return { open };
     }, [open]);
+
+    useDisableDragRegions(open);
 
     return (
       <RootContext.Provider value={context}>

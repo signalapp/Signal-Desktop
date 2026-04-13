@@ -30,6 +30,9 @@ import {
   useStrictContext,
 } from './_internal/StrictContext.dom.tsx';
 import { isTestOrMockEnvironment } from '../environment.std.ts';
+import { AxoDragRegion } from './AxoDragRegion.dom.tsx';
+
+const { useDisableDragRegions } = AxoDragRegion;
 
 const Namespace = 'AxoDropdownMenu';
 
@@ -116,6 +119,8 @@ export namespace AxoDropdownMenu {
     const context = useMemo((): RootContextType => {
       return { open };
     }, [open]);
+
+    useDisableDragRegions(open);
 
     return (
       <RootContext.Provider value={context}>
