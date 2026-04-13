@@ -4121,7 +4121,13 @@ function saveAttachment(
   return async dispatch => {
     const { fileName = '' } = attachment;
 
-    const isDangerous = isFileDangerous(fileName);
+    const isDangerous = isFileDangerous(
+      fileName ||
+        Attachment.getSuggestedFilename({
+          attachment,
+          scenario: 'saving-locally',
+        })
+    );
 
     if (isDangerous) {
       dispatch({
@@ -4186,7 +4192,13 @@ function saveAttachments(
     for (const attachment of attachments) {
       const { fileName = '' } = attachment;
 
-      const isDangerous = isFileDangerous(fileName);
+      const isDangerous = isFileDangerous(
+        fileName ||
+          Attachment.getSuggestedFilename({
+            attachment,
+            scenario: 'saving-locally',
+          })
+      );
       if (isDangerous) {
         dispatch({
           type: SHOW_TOAST,

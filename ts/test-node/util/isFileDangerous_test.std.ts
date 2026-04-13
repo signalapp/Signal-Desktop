@@ -49,6 +49,13 @@ describe('isFileDangerous', () => {
     assert.strictEqual(isFileDangerous('install.pif\t\n\n\n '), true);
   });
 
+  it('returns true for dangerous files that end in combination of . and whitespace', () => {
+    assert.strictEqual(isFileDangerous('run.exe .  .    .... '), true);
+    assert.strictEqual(isFileDangerous('install.pif   .'), true);
+    assert.strictEqual(isFileDangerous('install.pif\t.\n . '), true);
+    assert.strictEqual(isFileDangerous('install.pif\t\n.\n\n  ..  .'), true);
+  });
+
   it('returns false for empty filename', () => {
     assert.strictEqual(isFileDangerous(''), false);
   });
