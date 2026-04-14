@@ -4052,6 +4052,10 @@
     "messageformat": "View-once messages are not stored in your chat history.",
     "description": "Shown when user clicks on an expired outgoing view-once bubble"
   },
+  "icu:Message--tap-to-view--outgoing--expired-toast-2": {
+    "messageformat": "View-once media is deleted after sending",
+    "description": "Shown when user clicks on an expired outgoing view-once bubble"
+  },
   "icu:Message--tap-to-view--video": {
     "messageformat": "View Once Video",
     "description": "Text shown on video messages with individual timers, before user has viewed it"
