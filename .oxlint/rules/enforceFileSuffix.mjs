@@ -231,7 +231,6 @@ const STD_PACKAGES = new Set([
   'debug',
   'direction',
   'emoji-datasource',
-  'emoji-datasource-apple',
   'emoji-regex',
   'eslint',
   'eslint-plugin-better-tailwindcss',

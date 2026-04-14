@@ -71,13 +71,12 @@ const config = {
         'buffer', // same name as builtin
         'url', // same name as builtin
         'danger', // turn into real workspace
-        'emoji-datasource-apple', // storybook plugin doesn't understand staticDirs
       ],
       ignoreFiles: [
         'ts/components/Profiler.dom.tsx',
         ...(PROD_ONLY ? ['ts/axo/AxoAvatar.dom.tsx'] : []),
       ],
-      ignoreBinaries: ['cwebp', ...(PROD_ONLY ? ['electron'] : [])],
+      ignoreBinaries: PROD_ONLY ? ['electron'] : [],
       storybook: {
         entry: [
           '.storybook/main.ts',

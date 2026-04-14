@@ -25,12 +25,12 @@ export class EmojiBlot extends EmbedBlot {
   static override blotName = 'emoji';
 
   // See `createStaticEmojiBlot()`
-  static override tagName = 'img';
+  static override tagName = 'span';
 
   static override className = FUN_STATIC_EMOJI_CLASS;
 
   static override create({ value: emoji, source }: EmojiBlotValue): Node {
-    const node = super.create(undefined) as HTMLImageElement;
+    const node = super.create(undefined) as HTMLSpanElement;
 
     const variantKey = getEmojiVariantKeyByValue(emoji);
     const variant = getEmojiVariantByKey(variantKey);

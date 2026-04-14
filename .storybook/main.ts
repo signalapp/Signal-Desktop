@@ -44,10 +44,6 @@ const storybookConfig: StorybookConfig = {
     { from: '../images', to: 'images' },
     { from: '../fixtures', to: 'fixtures' },
     {
-      from: '../node_modules/emoji-datasource-apple/img',
-      to: 'node_modules/emoji-datasource-apple/img',
-    },
-    {
       from: '../node_modules/intl-tel-input/build/img',
       to: 'node_modules/intl-tel-input/build/img',
     },

@@ -14,12 +14,15 @@
     font-family:
       Inter, 'SF Pro', 'SF Pro JP', 'BIZ UDGothic', 'Hiragino Kaku Gothic Pro',
       'ヒラギノ角ゴ Pro W3', メイリオ, Meiryo, 'ＭＳ Ｐゴシック',
-      'Helvetica Neue', Helvetica, Arial, sans-serif;
+      'Helvetica Neue', Helvetica, Arial, 'Signal Emoji Large',
+      'Signal Emoji Small', sans-serif;
   }
   /* Farsi (Persian) */
   &:lang(fa) {
     font-family:
       'Vazirmatn',
+      'Signal Emoji Large',
+      'Signal Emoji Small',
       -apple-system,
       system-ui,
       BlinkMacSystemFont,
@@ -34,7 +37,8 @@
   &:lang(ur) {
     font-family:
       'Noto Nastaliq Urdu', Gulzar, 'Jameel Noori Nastaleeq',
-      'Faiz Lahori Nastaleeq', 'Urdu Typesetting', Helvetica, Arial, sans-serif;
+      'Faiz Lahori Nastaleeq', 'Urdu Typesetting', Helvetica, Arial,
+      'Signal Emoji Large', 'Signal Emoji Small', sans-serif;
   }
 }
 

@@ -23,7 +23,7 @@ export default {
     size: 16,
   },
   argTypes: {
-    size: { control: { type: 'select' }, options: [16, 32] },
+    size: { control: { type: 'select' }, options: [16, 32, 48] },
   },
 } satisfies ComponentMeta<AllProps>;
 

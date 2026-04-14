@@ -44,21 +44,8 @@ export type Props = Partial<Pick<DropZoneProps, 'onDrop'>> &
     onRemove?(id: string): unknown;
   }>;
 
-function Emoji({ name, sheetX, sheetY }: EmojiData): React.JSX.Element {
-  const onRef = (elem: HTMLImageElement | null): void => {
-    if (elem) {
-      elem.style.setProperty('--sheet-x', sheetX.toString());
-      elem.style.setProperty('--sheet-y', sheetY.toString());
-    }
-  };
-  return (
-    <img
-      alt={name}
-      src="../../images/emoji-sheet-64.webp"
-      className={styles.emoji}
-      ref={onRef}
-    />
-  );
+function Emoji({ emoji }: EmojiData): React.JSX.Element {
+  return <span className={styles.emoji}>{emoji}</span>;
 }
 
 export const ArtFrame = React.memo(function ArtFrame({

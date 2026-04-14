@@ -78,3 +78,19 @@ $protocol: 'asset://';
   font-display: block;
   src: url('#{$protocol}/fonts/signal-symbols/SignalSymbolsVariable.woff2');
 }
+
+@font-face {
+  font-family: 'Signal Emoji Small';
+  src: url('#{$protocol}/fonts/emoji.woff2');
+}
+
+$largeEmojiFont: 'asset:///optional-fonts/emoji-large.woff2';
+@if $is-storybook {
+  $largeEmojiFont: 'https://updates.signal.org/static/android/emoji/font/desktop-32-64-v2.0.4.woff2';
+}
+
+@font-face {
+  font-family: 'Signal Emoji Large';
+  src: url($largeEmojiFont);
+  font-display: swap;
+}

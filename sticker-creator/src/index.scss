@@ -132,28 +132,7 @@ a {
     }
   }
 
-  button.epr-emoji .epr-emoji-img {
-    --original-size: 64px;
-    --original-padding: 1px;
-    --original-full-size: calc(
-      var(--original-size) + 2 * var(--original-padding)
-    );
-
-    // Override
-    max-height: var(--original-size);
-    max-width: var(--original-size);
-    min-height: var(--original-size);
-    min-width: var(--original-size);
-    padding: 0;
-
-    height: var(--original-size);
-    width: var(--original-size);
-    object-fit: none;
-    object-position: calc(-1 * var(--epr-sheet-x) * var(--original-full-size))
-      calc(-1 * var(--epr-sheet-y) * var(--original-full-size));
-
-    // Sadly we can't use calc here because the values are in pixels, but the
-    // display size is 32 px, while the image size is 64px so here it goes.
-    transform: scale(calc(32 / 64));
+  button.epr-emoji .epr-emoji-native {
+    font-family: 'Signal Emoji Large' !important;
   }
 }

@@ -233,8 +233,10 @@
 @theme {
   --font-*: initial; /* reset defaults */
   /* Note: --font-sans also has language */
-  --font-sans: Inter, 'Source Sans Pro', 'Source Han Sans', -apple-system,
-    system-ui, 'Segoe UI', 'Noto Sans', 'Helvetica Neue', Helvetica, Arial,
+  --font-sans: Inter, 'Source Sans Pro', 'Source Han Sans',
+    'Signal Emoji Large', 'Signal Emoji Small',
+    -apple-system, system-ui, 'Segoe UI', 'Noto Sans', 'Helvetica Neue',
+    Helvetica, Arial,
     sans-serif;
   /* Note: This font-family is checked for in matchMonospace, to support paste scenarios */
   --font-mono: 'SF Mono', SFMono-Regular, ui-monospace, 'DejaVu Sans Mono',
@@ -245,19 +247,26 @@
 @layer base {
   /* Japanese */
   :lang(ja) {
-    --font-sans: Inter, 'SF Pro', 'SF Pro JP', 'BIZ UDGothic',
+    --font-sans: Inter,
+      'SF Pro', 'SF Pro JP', 'BIZ UDGothic',
       'Hiragino Kaku Gothic Pro', 'ヒラギノ角ゴ Pro W3', メイリオ, Meiryo,
-      'ＭＳ Ｐゴシック', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      'ＭＳ Ｐゴシック',
+      'Signal Emoji Large', 'Signal Emoji Small',
+      'Helvetica Neue', Helvetica, Arial, sans-serif;
   }
   /* Farsi (Persian) */
   :lang(fa) {
-    --font-sans: 'Vazirmatn', -apple-system, system-ui, BlinkMacSystemFont,
+    --font-sans: 'Vazirmatn', 'Signal Emoji Large', 'Signal Emoji Small',
+      -apple-system, system-ui, BlinkMacSystemFont,
       'Segoe UI', Tahoma, 'Noto Sans Arabic', Helvetica, Arial, sans-serif;
   }
   /* Urdu */
   :lang(ur) {
     --font-sans: 'Noto Nastaliq Urdu', Gulzar, 'Jameel Noori Nastaleeq',
-      'Faiz Lahori Nastaleeq', 'Urdu Typesetting', Helvetica, Arial, sans-serif;
+      'Faiz Lahori Nastaleeq', 'Urdu Typesetting',
+      Helvetica, Arial,
+      'Signal Emoji Large', 'Signal Emoji Small',
+      sans-serif;
   }
 }
 

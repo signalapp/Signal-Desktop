@@ -8,6 +8,10 @@ import { protocol } from 'electron';
 import type { OptionalResourceService } from './OptionalResourceService.main.ts';
 import { getAppRootDir } from '../ts/util/appRootDir.main.ts';
 import { toWebStream } from '../ts/util/toWebStream.node.ts';
+import * as Errors from '../ts/types/errors.std.ts';
+import { createLogger } from '../ts/logging/log.std.ts';
+
+const log = createLogger('AssetService');
 
 const LOCAL_ASSETS = new Set([
   'fonts/signal-symbols/SignalSymbolsVariable.woff2',
@@ -23,10 +27,13 @@ const LOCAL_ASSETS = new Set([
   'fonts/inter-v3.19/Inter-Italic.woff2',
   'fonts/inter-v3.19/Inter-SemiBoldItalic.woff2',
   'fonts/mono-special/MonoSpecial-Regular.woff2',
+  'fonts/emoji.woff2',
 ]);
 
 // pathname to optional resource name
-const OPTIONAL_ASSETS = new Map<string, string>([]);
+const OPTIONAL_ASSETS = new Map([
+  ['optional-fonts/emoji-large.woff2', 'emoji-font.woff2'],
+]);
 
 export class AssetService {
   readonly #resourceService: OptionalResourceService;
@@ -37,7 +44,12 @@ export class AssetService {
     protocol.handle('asset', async req => {
       const url = new URL(req.url);
 
-      return this.#fetch(url.pathname);
+      try {
+        return await this.#fetch(url.pathname);
+      } catch (error) {
+        log.error('protocol handler error', Errors.toLogFormat(error));
+        return new Response('internal error', { status: 500 });
+      }
     });
   }
 
