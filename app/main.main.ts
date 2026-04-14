@@ -62,6 +62,7 @@ import config from './config.main.ts';
 import {
   Environment,
   getEnvironment,
+  isMockEnvironment,
   isTestEnvironment,
 } from '../ts/environment.std.ts';
 
@@ -989,12 +990,13 @@ async function createWindow() {
     }
   });
 
-  mainWindow.on('show', () => {
+  const onShow = () => {
     if (mainWindow) {
       mainWindow.webContents.send('activate');
       mainWindow.webContents.send('set-media-playback-disabled', false);
     }
-  });
+  };
+  mainWindow.on('show', onShow);
 
   mainWindow.webContents.on('devtools-reload-page', () => {
     mainWindow?.webContents.on('dom-ready', () => {
@@ -1014,7 +1016,13 @@ async function createWindow() {
 
     if (shouldShowWindow) {
       log.info('showing main window');
-      mainWindow.show();
+      if (isMockEnvironment() && process.env.SIGNAL_MOCK_TESTS_BACKGROUND) {
+        mainWindow.showInactive();
+        onShow();
+        mainWindow.webContents.send('set-window-focus', true);
+      } else {
+        mainWindow.show();
+      }
     }
   };
 
