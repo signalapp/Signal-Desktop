@@ -9,6 +9,12 @@ import { toLogFormat } from '../types/errors.std.ts';
 const log = createLogger('syncRequests');
 
 export async function sendSyncRequests(): Promise<void> {
+  if (window.ConversationController.areWePrimaryDevice()) {
+    throw new Error(
+      'sendSyncRequests: Cannot send sync requests if we are primary device'
+    );
+  }
+
   log.info('sendSyncRequests: sending sync requests');
   try {
     await Promise.all([

@@ -195,6 +195,13 @@ export async function sendReaction(
     const successfulConversationIds = new Set<string>();
 
     if (recipientServiceIdsWithoutMe.length === 0) {
+      if (!window.ConversationController.doWeHaveOtherDevices()) {
+        log.info(
+          'sendReaction: We have no other devices; not sending sync message'
+        );
+        return;
+      }
+
       log.info('sending sync reaction message only');
       const dataMessage = await messaging.getDataOrEditMessage({
         attachments: [],

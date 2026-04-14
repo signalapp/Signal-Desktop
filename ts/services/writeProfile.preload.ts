@@ -148,6 +148,10 @@ export async function writeProfile(
   await DataWriter.updateConversation(model.attributes);
   model.captureChange('writeProfile');
 
+  if (!window.ConversationController.doWeHaveOtherDevices()) {
+    return;
+  }
+
   try {
     await singleProtoJobQueue.add(
       MessageSender.getFetchLocalProfileSyncMessage()

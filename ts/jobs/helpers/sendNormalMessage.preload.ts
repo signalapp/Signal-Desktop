@@ -291,6 +291,10 @@ export async function sendNormalMessage(
         });
         return;
       }
+      if (!window.ConversationController.doWeHaveOtherDevices()) {
+        log.info('We have no other devices; not sending sync message');
+        return;
+      }
 
       // We're sending to Note to Self or a 'lonely group' with just us in it
       // or sending a story to a group where all other users don't have the stories
@@ -1241,7 +1245,8 @@ function didSendToEveryone({
     }) || {};
   const ourConversationId =
     window.ConversationController.getOurConversationIdOrThrow();
-  const areWePrimaryDevice = window.ConversationController.areWePrimaryDevice();
+  const weHaveOtherDevices =
+    window.ConversationController.doWeHaveOtherDevices();
 
   return Object.entries(sendStateByConversationId).every(
     ([conversationId, sendState]) => {
@@ -1255,7 +1260,7 @@ function didSendToEveryone({
         }
       }
 
-      if (conversationId === ourConversationId && areWePrimaryDevice) {
+      if (conversationId === ourConversationId && !weHaveOtherDevices) {
         return true;
       }
 

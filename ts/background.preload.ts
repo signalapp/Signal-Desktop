@@ -1738,8 +1738,11 @@ async function startApp(): Promise<void> {
 
         setIsInitialContactSync(true);
         contactSyncComplete = waitForEvent('contactSync:complete');
-        drop(sendSyncRequests());
-        hasSentSyncRequests = true;
+
+        if (!window.ConversationController.areWePrimaryDevice()) {
+          drop(sendSyncRequests());
+          hasSentSyncRequests = true;
+        }
       }
 
       // 4. Download (or resume download) of link & sync backup or local backup
@@ -1890,7 +1893,10 @@ async function startApp(): Promise<void> {
     }
 
     try {
-      if (!skipSyncRequests) {
+      if (
+        !skipSyncRequests &&
+        !window.ConversationController.areWePrimaryDevice()
+      ) {
         drop(sendSyncRequests());
       }
 

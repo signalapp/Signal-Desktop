@@ -147,6 +147,11 @@ export async function sendDeleteForEveryone(
 
       try {
         if (isMe(conversation.attributes)) {
+          if (!window.ConversationController.doWeHaveOtherDevices()) {
+            log.info(`${logId}: We have no other devices; not sending sync`);
+            return;
+          }
+
           const proto = await messaging.getContentMessage({
             deleteForEveryone,
             profileKey,

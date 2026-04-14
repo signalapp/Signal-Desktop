@@ -92,6 +92,8 @@ export async function sendGroupUpdate(
     groupChange,
   };
 
+  // Note: in the lonely group scenario, we 'send' to zero recipients, then
+  // wrapWithSyncMessageSend sends to our other devices.
   try {
     await conversation.queueJob(
       'conversationQueue/sendGroupUpdate',

@@ -19,7 +19,7 @@ export const getUserNumber = createSelector(
   (state: UserStateType): string | undefined => state.ourNumber
 );
 
-export const getUserDeviceId = createSelector(
+const getUserDeviceId = createSelector(
   getUser,
   (state: UserStateType): number | undefined => state.ourDeviceId
 );
@@ -42,6 +42,11 @@ export const getUserACI = createSelector(
 export const getUserPNI = createSelector(
   getUser,
   (state: UserStateType): PniString | undefined => state.ourPni
+);
+
+export const areWePrimaryDevice = createSelector(
+  getUserDeviceId,
+  (deviceId: number | undefined): boolean => deviceId === 1
 );
 
 export const getIntl = createSelector(

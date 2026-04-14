@@ -215,9 +215,14 @@ async function updateUsernameAndSyncProfile(
 ): Promise<void> {
   const me = window.ConversationController.getOurConversationOrThrow();
 
-  // Update model, update DB, then tell linked devices about profile update
+  // Update model, update DB
   await me.updateUsername(username);
 
+  if (!window.ConversationController.doWeHaveOtherDevices()) {
+    return;
+  }
+
+  // then tell our other devices about profile update
   try {
     await singleProtoJobQueue.add(
       MessageSender.getFetchLocalProfileSyncMessage()

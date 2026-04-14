@@ -103,6 +103,11 @@ export async function sendDirectExpirationTimerUpdate(
 
   try {
     if (isMe(conversation.attributes)) {
+      if (!window.ConversationController.doWeHaveOtherDevices()) {
+        log.info(`${logId}: We have no other devices; not sending sync`);
+        return;
+      }
+
       await handleMessageSend(
         messaging.sendSyncMessage({
           encodedDataMessage: Proto.DataMessage.encode(

@@ -75,6 +75,8 @@ export async function wrapWithSyncMessageSend({
   if (didSuccessfullySendOne) {
     if (!dataMessage) {
       log.error(`${logId}: dataMessage was not returned by send!`);
+    } else if (!window.ConversationController.doWeHaveOtherDevices()) {
+      log.info(`${logId}: We have no other devices; not sending sync message`);
     } else {
       log.info(`${logId}: Sending sync message... `);
       const ourConversation =

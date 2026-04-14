@@ -31,6 +31,13 @@ async function _sendCallLinkUpdateSync(
   callLink: sendCallLinkUpdateSyncCallLinkType,
   type: CallLinkUpdateSyncType
 ): Promise<void> {
+  if (!window.ConversationController.doWeHaveOtherDevices()) {
+    log.info(
+      'sendCallLinkUpdateSync: We have no other devices; not sending sync'
+    );
+    return;
+  }
+
   let protoType: Proto.SyncMessage.CallLinkUpdate.Type;
   if (type === CallLinkUpdateSyncType.Update) {
     protoType = Proto.SyncMessage.CallLinkUpdate.Type.UPDATE;

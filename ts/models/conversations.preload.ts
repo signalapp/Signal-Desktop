@@ -3077,9 +3077,9 @@ export class ConversationModel {
     aci: AciString,
     state: number
   ): Promise<CallbackResultType | void> {
-    if (window.ConversationController.areWePrimaryDevice()) {
-      log.warn(
-        'sendVerifySyncMessage: We are primary device; not sending sync'
+    if (!window.ConversationController.doWeHaveOtherDevices()) {
+      log.info(
+        'sendVerifySyncMessage: We have no other devices; not sending sync'
       );
       return;
     }
@@ -5468,7 +5468,12 @@ export class ConversationModel {
     });
     await DataWriter.updateConversation(this.attributes);
 
-    if (source === 'local-delete') {
+    if (
+      source === 'local-delete' &&
+      !window.ConversationController.doWeHaveOtherDevices()
+    ) {
+      log.info(`${logId}}: We have no other devices; not sending sync message`);
+    } else if (source === 'local-delete') {
       log.info(`${logId}: Preparing sync message`);
       const timestamp = Date.now();
 

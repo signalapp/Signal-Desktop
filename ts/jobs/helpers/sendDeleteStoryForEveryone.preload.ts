@@ -203,6 +203,11 @@ export async function sendDeleteStoryForEveryone(
     })
   );
 
+  if (!window.ConversationController.doWeHaveOtherDevices()) {
+    log.info(`${logId}: We have no other devices; not sending sync`);
+    return;
+  }
+
   // Send sync message exactly once per job. If any of the sends are successful
   // and we didn't send the DOE itself before - it is a good time to send the
   // sync message.

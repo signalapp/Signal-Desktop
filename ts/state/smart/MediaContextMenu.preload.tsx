@@ -82,16 +82,18 @@ async function doRemoveAttachment(
     log.info(`Deleting whole message ${mediaItem.message.id}`);
     await applyDeleteMessage(message.attributes);
 
-    await singleProtoJobQueue.add(
-      MessageSender.getDeleteForMeSyncMessage([
-        {
-          type: 'delete-message',
-          conversation: conversationIdentifier,
-          message: addressableMessage,
-          timestamp: Date.now(),
-        },
-      ])
-    );
+    if (window.ConversationController.doWeHaveOtherDevices()) {
+      await singleProtoJobQueue.add(
+        MessageSender.getDeleteForMeSyncMessage([
+          {
+            type: 'delete-message',
+            conversation: conversationIdentifier,
+            message: addressableMessage,
+            timestamp: Date.now(),
+          },
+        ])
+      );
+    }
   } else {
     log.info(`Deleting a single attachment for ${mediaItem.message.id}`);
     const attachmentData = {
@@ -114,17 +116,19 @@ async function doRemoveAttachment(
       return;
     }
 
-    await singleProtoJobQueue.add(
-      MessageSender.getDeleteForMeSyncMessage([
-        {
-          type: 'delete-single-attachment',
-          conversation: conversationIdentifier,
-          message: addressableMessage,
-          ...attachmentData,
-          timestamp: Date.now(),
-        },
-      ])
-    );
+    if (window.ConversationController.doWeHaveOtherDevices()) {
+      await singleProtoJobQueue.add(
+        MessageSender.getDeleteForMeSyncMessage([
+          {
+            type: 'delete-single-attachment',
+            conversation: conversationIdentifier,
+            message: addressableMessage,
+            ...attachmentData,
+            timestamp: Date.now(),
+          },
+        ])
+      );
+    }
   }
 }
 

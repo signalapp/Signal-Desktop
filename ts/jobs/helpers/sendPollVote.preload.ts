@@ -162,6 +162,13 @@ export async function sendPollVote(
     let ephemeralSendStateByConversationId: SendStateByConversationId = {};
 
     if (recipientServiceIdsWithoutMe.length === 0) {
+      if (!window.ConversationController.doWeHaveOtherDevices()) {
+        jobLog.info(
+          'sendPollVote: We have no other devices; not sending sync message'
+        );
+        return;
+      }
+
       jobLog.info('sending sync poll vote message only');
 
       const groupV2Info = isDirectConversation(conversation.attributes)

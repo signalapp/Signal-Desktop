@@ -73,6 +73,13 @@ export class AttachmentBackfill {
   >();
 
   public async request(message: ReadonlyMessageAttributesType): Promise<void> {
+    if (!window.ConversationController.doWeHaveOtherDevices()) {
+      log.info(
+        'attachmentBackfill: We have no other devices; not sending sync message'
+      );
+      return;
+    }
+
     const existingTimer = this.#pendingRequests.get(message.id);
     if (existingTimer != null) {
       return;
