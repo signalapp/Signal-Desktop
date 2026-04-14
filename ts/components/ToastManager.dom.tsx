@@ -888,7 +888,7 @@ function renderToast({
   if (toastType === ToastType.TapToViewExpiredOutgoing) {
     return (
       <Toast onClose={hideToast}>
-        {i18n('icu:Message--tap-to-view--outgoing--expired-toast')}
+        {i18n('icu:Message--tap-to-view--outgoing--expired-toast-2')}
       </Toast>
     );
   }
