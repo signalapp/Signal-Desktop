@@ -487,19 +487,19 @@ type PrepareUrlOptions = {
   sourceName?: string;
 };
 
-async function prepareFileUrl(
+function prepareFileUrl(
   pathSegments: ReadonlyArray<string>,
   options: PrepareUrlOptions = {}
-): Promise<string> {
+): string {
   const filePath = join(...pathSegments);
   const fileUrl = pathToFileURL(filePath) as URL;
   return prepareUrl(fileUrl, options);
 }
 
-async function prepareUrl(
+function prepareUrl(
   url: URL,
   { forCalling, forCamera, sourceName }: PrepareUrlOptions = {}
-): Promise<string> {
+): string {
   return setUrlSearchParams(url, { forCalling, forCamera, sourceName }).href;
 }
 
@@ -1041,8 +1041,8 @@ async function createWindow() {
   await safeLoadURL(
     mainWindow,
     getEnvironment() === Environment.Test
-      ? await prepareFileUrl([rootDir, 'test', 'index.html'])
-      : await prepareFileUrl([rootDir, 'background.html'])
+      ? prepareFileUrl([rootDir, 'test', 'index.html'])
+      : prepareFileUrl([rootDir, 'background.html'])
   );
 }
 
@@ -1311,7 +1311,7 @@ async function showScreenShareWindow(sourceName: string | undefined) {
 
   await safeLoadURL(
     screenShareWindow,
-    await prepareFileUrl([rootDir, 'screenShare.html'], { sourceName })
+    prepareFileUrl([rootDir, 'screenShare.html'], { sourceName })
   );
 }
 
@@ -1356,7 +1356,7 @@ async function showAbout() {
     }
   });
 
-  await safeLoadURL(aboutWindow, await prepareFileUrl([rootDir, 'about.html']));
+  await safeLoadURL(aboutWindow, prepareFileUrl([rootDir, 'about.html']));
 }
 
 async function getIsLinked() {
@@ -1594,7 +1594,7 @@ function showPermissionsPopupWindow(forCalling: boolean, forCamera: boolean) {
 
     await safeLoadURL(
       permissionsPopupWindow,
-      await prepareFileUrl([rootDir, 'permissions_popup.html'], {
+      prepareFileUrl([rootDir, 'permissions_popup.html'], {
         forCalling,
         forCamera,
       })
@@ -2296,7 +2296,7 @@ app.on('ready', async () => {
 
       await safeLoadURL(
         loadingWindow,
-        await prepareFileUrl([rootDir, 'loading.html'])
+        prepareFileUrl([rootDir, 'loading.html'])
       );
     })
   );
@@ -3417,7 +3417,7 @@ async function showStickerCreatorWindow() {
 
   await safeLoadURL(
     stickerCreatorWindow,
-    await prepareFileUrl([rootDir, 'sticker-creator', 'dist', 'index.html'])
+    prepareFileUrl([rootDir, 'sticker-creator', 'dist', 'index.html'])
   );
 }
 
