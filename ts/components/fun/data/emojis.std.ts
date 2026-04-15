@@ -346,7 +346,11 @@ function addVariant(parentKey: EmojiParentKey, variant: EmojiVariantData) {
   }
 }
 
-for (const rawEmoji of RAW_EMOJI_DATA) {
+const SORTED_EMOJI_DATA = RAW_EMOJI_DATA.toSorted((a, b) => {
+  return a.sort_order - b.sort_order;
+});
+
+for (const rawEmoji of SORTED_EMOJI_DATA) {
   if (!rawEmoji.has_img_apple) {
     continue;
   }
