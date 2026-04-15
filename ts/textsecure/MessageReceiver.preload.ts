@@ -1817,6 +1817,7 @@ export default class MessageReceiver
             kyberPreKeyStore
           );
         }
+        log.info('333 alternate receeive');
         return signalDecrypt(
           message,
           protocolAddress,
@@ -1913,6 +1914,7 @@ export default class MessageReceiver
       );
       return { plaintext, wasEncrypted: true };
     }
+    log.info(`decrypt/${logId}: is even looking check`);
     if (envelope.type === envelopeTypeEnum.PREKEY_MESSAGE) {
       log.info(`decrypt/${logId}: prekey message`);
       if (!identifier) {
@@ -1940,7 +1942,7 @@ export default class MessageReceiver
               signedPreKeyStore,
               kyberPreKeyStore
             )
-          ),
+          ), 
         zone
       );
       return { plaintext, wasEncrypted: true };
@@ -1951,6 +1953,16 @@ export default class MessageReceiver
         stores,
         envelope
       );
+      const sealedSenderIdentifier = envelope.sourceServiceId;
+      const protocolAddress = ProtocolAddress.new(
+        sealedSenderIdentifier,
+        envelope.sourceDevice
+      );
+      const temp = await sessionStore.getSession(protocolAddress);
+      log.info('got session', temp, temp?.getBobResponse);
+      try { log.info('bob response value, z is the true sas', temp?.getBobResponse()); } catch (e) { log.error('error getting bob response', e); log.error('errorstack getting bob response', e.stack); }
+      try { log.info('VTS value', temp?.getVTS?.()); } catch (e) { log.error('error getting VTS', e); }
+
       return { plaintext: this.#unpad(plaintext), wasEncrypted };
     }
     throw new Error('Unknown message type');
