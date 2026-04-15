@@ -7912,11 +7912,11 @@
   },
   "icu:PlaintextExport--OSPrompt--description--Linux": {
     "messageformat": "Export",
-    "description": "(Deleted 2026/04/08) If linux system has pkcheck and we were able to install .policy files, this is the dialog header the user will see on the polkit prompt before doing an export"
+    "description": "If linux system has pkcheck and we were able to install .policy files, this is the dialog header the user will see on the polkit prompt before doing an export"
   },
   "icu:PlaintextExport--OSPrompt--message--Linux": {
     "messageformat": "Authentication is required to export your chat history.",
-    "description": "(Deleted 2026/04/08) If linux system has pkcheck and we were able to install .policy files, this is the dialog text the user will see on the polkit prompt before doing an export"
+    "description": "If linux system has pkcheck and we were able to install .policy files, this is the dialog text the user will see on the polkit prompt before doing an export"
   },
   "icu:PlaintextExport--ProgressDialog--Header": {
     "messageformat": "Exporting chat history",
@@ -8436,11 +8436,11 @@
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
     "messageformat": "View recovery key",
-    "description": "(Deleted 2026/04/08) If linux system has pkcheck and we were able to install .policy files, this is the dialog header the user will see on the polkit prompt before showing the key"
+    "description": "If linux system has pkcheck and we were able to install .policy files, this is the dialog header the user will see on the polkit prompt before showing the key"
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
     "messageformat": "Authentication is required to view your recovery key.",
-    "description": "(Deleted 2026/04/08) If linux system has pkcheck and we were able to install .policy files, this is the dialog text the user will see on the polkit prompt before showing the key"
+    "description": "If linux system has pkcheck and we were able to install .policy files, this is the dialog text the user will see on the polkit prompt before showing the key"
   },
   "icu:Preferences--local-backups-recovery-key-text-box": {
     "messageformat": "Recovery key",
@@ -8532,11 +8532,11 @@
   },
   "icu:Preferences__local-backups--enable--os-prompt-description--linux": {
     "messageformat": "Enable backups",
-    "description": "(Deleted 2026/04/08) If linux system has pkcheck and we were able to install .policy files, this is the dialog header the user will see on the polkit prompt before enabling backups"
+    "description": "If linux system has pkcheck and we were able to install .policy files, this is the dialog header the user will see on the polkit prompt before enabling backups"
   },
   "icu:Preferences__local-backups--enable--os-prompt-message--linux": {
     "messageformat": "Authentication is required to enable backups.",
-    "description": "(Deleted 2026/04/08) If linux system has pkcheck and we were able to install .policy files, this is the dialog text the user will see on the polkit prompt before enabling backups"
+    "description": "If linux system has pkcheck and we were able to install .policy files, this is the dialog text the user will see on the polkit prompt before enabling backups"
   },
   "icu:Preferences__local-backups-auth-error--unauthorized": {
     "messageformat": "This action could not be completed because system authentication failed. Please try again or open the Signal app on your mobile device and go to Backup Settings to view your recovery key.",
