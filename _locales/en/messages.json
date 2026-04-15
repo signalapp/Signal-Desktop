@@ -3392,10 +3392,6 @@
     "messageformat": "You updated the group.",
     "description": "Shown in the conversation history when you update a group"
   },
-  "icu:collapsedContainer": {
-    "messageformat": "{leadingIcon} {text} {trailingIcon}",
-    "description": "(Deleted 2026/04/08) This is how all the elements will be assembled: leading icon will be a timer or person, text is the text summary, and trailingIcon is the up/down chevron showing whether the area is expanded or collapsed"
-  },
   "icu:collapsedGroupUpdates": {
     "messageformat": "{count, plural, one {# group update} other {# group updates}}",
     "description": "Label for a button giving access to a collection of group updates (count will always be 2+"
@@ -3423,14 +3419,6 @@
   "icu:collapsedCallEvents": {
     "messageformat": "{count, plural, one {# call event} other {# call events}}",
     "description": "Label for button giving access to a collection of call events (count will always be 2+)"
-  },
-  "icu:collapsedItems--collapsed": {
-    "messageformat": "Set of items is collapsed - click to expand",
-    "description": "(Deleted 2026/04/08) Accessibility label for the down chevron which shows if the collapsed set of items is closed"
-  },
-  "icu:collapsedItems--expanded": {
-    "messageformat": "Set of items is expanded - click to collapse",
-    "description": "(Deleted 2026/04/08) Accessibility label for the up chevron which shows if the collapsed set of items is open"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "Group avatar was updated.",
@@ -4050,7 +4038,7 @@
   },
   "icu:Message--tap-to-view--outgoing--expired-toast": {
     "messageformat": "View-once messages are not stored in your chat history.",
-    "description": "Shown when user clicks on an expired outgoing view-once bubble"
+    "description": "(Deleted 2026/04/15) Shown when user clicks on an expired outgoing view-once bubble"
   },
   "icu:Message--tap-to-view--outgoing--expired-toast-2": {
     "messageformat": "View-once media is deleted after sending",
@@ -6586,7 +6574,7 @@
   },
   "icu:ConversationDetailsActions--report-spam-modal-title": {
     "messageformat": "Report spam?",
-    "description": "This is the modal title for confirming reporting spam"
+    "description": "(Deleted 2026/04/15) This is the modal title for confirming reporting spam"
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
     "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats.",
@@ -10814,9 +10802,5 @@
     "messageformat": "Small tweaks, bug fixes, and performance enhancements. Thanks for using Signal!",
     "description": "Release notes for releases that only include bug fixes",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.6--0": {
-    "messageformat": "Now you won't need to scroll as far to catch up on the latest messages. If several new people join a busy group chat, or you receive multiple missed calls in a row, those repeated chat events can be automatically grouped together into a compact display. Sometimes less is more, but you can easily expand and collapse these lists at any time.",
-    "description": "(Deleted 2026/04/08) Release notes for 8.6 release"
   }
 }

@@ -747,7 +747,7 @@
     "messageformat": "Beklager, den valgte fil overskrider begrænsninger for beskedstørrelse. {limit,number} {units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "Beklager, videofilen overskrider begrænsninger for beskedstørrelse. {limit,number}{units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Ude af stand til at indlæse den valgte vedhæftning."
@@ -2558,9 +2558,6 @@
   "icu:youUpdatedTheGroup": {
     "messageformat": "Du opdaterede gruppen"
   },
-  "icu:collapsedContainer": {
-    "messageformat": "{leadingIcon} {text} {trailingIcon}"
-  },
   "icu:collapsedGroupUpdates": {
     "messageformat": "{count, plural, one {{count,number} gruppeopdatering} other {{count,number} gruppeopdateringer}}"
   },
@@ -2581,12 +2578,6 @@
   },
   "icu:collapsedCallEvents": {
     "messageformat": "{count, plural, one {{count,number} opkaldsbegivenhed} other {{count,number} opkaldsbegivenheder}}"
-  },
-  "icu:collapsedItems--collapsed": {
-    "messageformat": "Sæt af elementer skjult – klik for at åbne"
-  },
-  "icu:collapsedItems--expanded": {
-    "messageformat": "Sættet af elementer er åbent – klik for at skjule"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "Avataren for gruppen er blevet opdateret."
@@ -3055,6 +3046,9 @@
   },
   "icu:Message--tap-to-view--outgoing--expired-toast": {
     "messageformat": "Beskeder, der vises én gang, gemmes ikke i din chathistorik."
+  },
+  "icu:Message--tap-to-view--outgoing--expired-toast-2": {
+    "messageformat": "View-once media is deleted after sending"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "Video med engangsvisning"
@@ -4898,6 +4892,9 @@
   "icu:ConversationDetailsActions--unblock-group": {
     "messageformat": "Fjern blokering af gruppe"
   },
+  "icu:ConversationDetailsActions--report-spam": {
+    "messageformat": "Report spam"
+  },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "Arkivér chat"
   },
@@ -4948,6 +4945,21 @@
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "Fjern blokering"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-title": {
+    "messageformat": "Report spam?"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
+    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-group": {
+    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
+    "messageformat": "Report spam"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
+    "messageformat": "Report and block"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} medlem} other {{number,number} medlemmer}}"
@@ -8111,8 +8123,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Små tweaks, rettelser og forbedringer af appens præstation. Tak fordi du bruger Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.6--0": {
-    "messageformat": "Du behøver ikke rulle så langt for at se de nyeste beskeder. Hvis flere nye personer deltager i en meget aktiv gruppechat, eller du modtager flere ubesvarede opkald i træk, kan disse gentagne chatbegivenheder automatisk samles i en kompakt visning. Nogle gange kan mindre være bedre, men du kan altid udvide eller skjule disse lister."
   }
 }

@@ -747,7 +747,7 @@
     "messageformat": "הקובץ עובר את מגבלת הגודל המקסימלי. {limit,number} {units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "מצטערים, הסרטון שנבחר חורג ממגבלת גודל ההודעה המקסימלי. {limit,number}{units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "לא היה ניתן לטעון את הצרופה הנבחרת."
@@ -2558,9 +2558,6 @@
   "icu:youUpdatedTheGroup": {
     "messageformat": "עדכנת את הקבוצה."
   },
-  "icu:collapsedContainer": {
-    "messageformat": "{leadingIcon} {text} {trailingIcon}"
-  },
   "icu:collapsedGroupUpdates": {
     "messageformat": "{count, plural, one {עדכון קבוצה {count,number}} two {{count,number} עדכוני קבוצה} many {{count,number} עדכוני קבוצה} other {{count,number} עדכוני קבוצה}}"
   },
@@ -2581,12 +2578,6 @@
   },
   "icu:collapsedCallEvents": {
     "messageformat": "{count, plural, one {אירוע שיחה {count,number}} two {{count,number} אירועי שיחה} many {{count,number} אירועי שיחה} other {{count,number} אירועי שיחה}}"
-  },
-  "icu:collapsedItems--collapsed": {
-    "messageformat": "רשימת פריטים כווצה – יש ללחוץ כדי להרחיב"
-  },
-  "icu:collapsedItems--expanded": {
-    "messageformat": "רשימת פריטים הורחבה – יש ללחוץ כדי לכווץ"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "יצגן הקבוצה עודכן."
@@ -3055,6 +3046,9 @@
   },
   "icu:Message--tap-to-view--outgoing--expired-toast": {
     "messageformat": "הודעות לצפייה חד–פעמית לא מאוחסנות בהיסטוריית הצ'אט שלך."
+  },
+  "icu:Message--tap-to-view--outgoing--expired-toast-2": {
+    "messageformat": "View-once media is deleted after sending"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "סרטון לצפייה חד–פעמית"
@@ -4898,6 +4892,9 @@
   "icu:ConversationDetailsActions--unblock-group": {
     "messageformat": "ביטול חסימת קבוצה"
   },
+  "icu:ConversationDetailsActions--report-spam": {
+    "messageformat": "Report spam"
+  },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "אחסון צ'אט בארכיון"
   },
@@ -4948,6 +4945,21 @@
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "ביטול חסימה"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-title": {
+    "messageformat": "Report spam?"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
+    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-group": {
+    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
+    "messageformat": "Report spam"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
+    "messageformat": "Report and block"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {חבר/ה {number,number}} two {{number,number} חברים} many {{number,number} חברים} other {{number,number} חברים}}"
@@ -8111,8 +8123,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "התאמות קטנות, תיקוני באגים ושיפורי ביצועים. תודה על השימוש ב-Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.6--0": {
-    "messageformat": "אירועי צ׳אט חוזרים (כמו מספר שיחות שלא נענו) יכולים להיות מקובצים יחדיו אוטומטית לתצוגה קומפקטית כך שלא יהיה צורך לגלול המון כדי להתעדכן בהודעות האחרונות."
   }
 }

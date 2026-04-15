@@ -747,7 +747,7 @@
     "messageformat": "Sorry, het geselecteerde bestand overschrijdt de maximale grootte. {limit,number} {units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "Sorry, het geselecteerde videobestand overschrijdt de maximale grootte. {limit,number}{units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Kan geselecteerde bijlage niet laden."
@@ -2558,9 +2558,6 @@
   "icu:youUpdatedTheGroup": {
     "messageformat": "Je hebt de groep aangepast."
   },
-  "icu:collapsedContainer": {
-    "messageformat": "{leadingIcon} {text} {trailingIcon}"
-  },
   "icu:collapsedGroupUpdates": {
     "messageformat": "{count, plural, one {{count,number} groepsupdate} other {{count,number} groepsupdates}}"
   },
@@ -2580,13 +2577,7 @@
     "messageformat": "{count, plural, one {{count,number} wijziging in timer voor verdwijnende berichten · Uitgeschakeld} other {{count,number} wijzigingen in timer voor verdwijnende berichten · Uitgeschakeld}}"
   },
   "icu:collapsedCallEvents": {
-    "messageformat": "{count, plural, one {{count,number} oproep} other {{count,number} oproep}}"
-  },
-  "icu:collapsedItems--collapsed": {
-    "messageformat": "Lijst is ingeklapt - klik om uit te klappen"
-  },
-  "icu:collapsedItems--expanded": {
-    "messageformat": "Lijst is uitgeklapt - klik om in te klappen"
+    "messageformat": "{count, plural, one {{count,number} oproep} other {{count,number} oproepen}}"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "De groepsafbeelding is gewijzigd."
@@ -3055,6 +3046,9 @@
   },
   "icu:Message--tap-to-view--outgoing--expired-toast": {
     "messageformat": "Eenmalig te bekijken berichten worden niet opgeslagen in je chatgeschiedenis."
+  },
+  "icu:Message--tap-to-view--outgoing--expired-toast-2": {
+    "messageformat": "View-once media is deleted after sending"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "Eenmaligeweergave-video"
@@ -4898,6 +4892,9 @@
   "icu:ConversationDetailsActions--unblock-group": {
     "messageformat": "Groep deblokkeren"
   },
+  "icu:ConversationDetailsActions--report-spam": {
+    "messageformat": "Report spam"
+  },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "Chat archiveren"
   },
@@ -4948,6 +4945,21 @@
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "Deblokkeren"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-title": {
+    "messageformat": "Report spam?"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
+    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-group": {
+    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
+    "messageformat": "Report spam"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
+    "messageformat": "Report and block"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} lid} other {{number,number} leden}}"
@@ -8111,8 +8123,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Kleine aanpassingen, bugfixes en prestatieverbeteringen. Bedankt dat je Signal gebruikt!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.6--0": {
-    "messageformat": "Je hoeft nu niet meer ver te scrollen om de nieuwste berichten te zien. Herhaalde activiteiten in een drukke groepschat, zoals meerdere nieuwe deelnemers of verschillende gemiste oproepen achter elkaar, kunnen automatisch worden gegroepeerd in een overzichtelijke weergave. Deze kun je gemakkelijk in- en uitklappen."
   }
 }

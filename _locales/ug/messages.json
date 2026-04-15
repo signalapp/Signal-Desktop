@@ -747,7 +747,7 @@
     "messageformat": "كەچۈرۈڭ، تاللانغان ھۆججەتلەر ئۇچۇر چوڭلۇقى چەكلىمىسىدىن ئېشىپ كەتتى. {limit,number}{units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "كەچۈرۈڭ، تاللانغان سىن ھۆججىتى ئۇچۇر چوڭلۇقى چەكلىمىسىدىن ئېشىپ كەتتى. {limit,number}{units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "تاللانغان يۈكلەنمىلەرنى يۈكلىيەلمىدى."
@@ -2558,9 +2558,6 @@
   "icu:youUpdatedTheGroup": {
     "messageformat": "گۇرۇپپىنى يېڭىلىدىڭىز."
   },
-  "icu:collapsedContainer": {
-    "messageformat": "{leadingIcon} {text} {trailingIcon}"
-  },
   "icu:collapsedGroupUpdates": {
     "messageformat": "{count, plural, other {{count,number} گۇرۇپپا يېڭىلىقلىرى}}"
   },
@@ -2581,12 +2578,6 @@
   },
   "icu:collapsedCallEvents": {
     "messageformat": "{count, plural, other {{count,number} تېلېفونلىشىشقا ئالاقىدار ئەھۋاللار}}"
-  },
-  "icu:collapsedItems--collapsed": {
-    "messageformat": "بۇ يۈرۈش تۈرلەر يىغىلغان - كېڭەيتىش ئۈچۈن چېكىڭ"
-  },
-  "icu:collapsedItems--expanded": {
-    "messageformat": "بۇ يۈرۈش تۈرلەر كېڭەيگەن - يىغىش ئۈچۈن چېكىڭ"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "گۇرۇپپا باش سۈرىتى يېڭىلاندى."
@@ -3055,6 +3046,9 @@
   },
   "icu:Message--tap-to-view--outgoing--expired-toast": {
     "messageformat": "بىر قېتىملا كۆرۈشكە بولىدىغان ئۇچۇرلار پاراڭ خاتىرىڭىزدە ساقلانمايدۇ."
+  },
+  "icu:Message--tap-to-view--outgoing--expired-toast-2": {
+    "messageformat": "View-once media is deleted after sending"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "بىر قېتىملا كۆرۈلىدىغان سىن"
@@ -4898,6 +4892,9 @@
   "icu:ConversationDetailsActions--unblock-group": {
     "messageformat": "گۇرۇپپىنى چەكلەشنى بىكار قىلىش"
   },
+  "icu:ConversationDetailsActions--report-spam": {
+    "messageformat": "Report spam"
+  },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "سۆھبەتلەرنى ئارخىپلاڭ"
   },
@@ -4948,6 +4945,21 @@
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "چەكلەشنى بىكار قىلىش"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-title": {
+    "messageformat": "Report spam?"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
+    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-group": {
+    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
+    "messageformat": "Report spam"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
+    "messageformat": "Report and block"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, other {{number,number} ئەزا}}"
@@ -8111,8 +8123,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "كىچىك ئۆزگەرتىشلەر كىرگۈزۈلدى، كاشىلا ھەل قىلىندى ۋە ئىقتىدار ئەلالاشتۇرۇلدى. Signal نى ئىشلەتكەنلىكىڭىزگە رەھمەت!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.6--0": {
-    "messageformat": "بۇنىڭدىن كېيىن يېقىنقى ئۇچۇرلاردىن مەلۇمات ئېلىش ئۈچۈن توختىماي سېيرىشىڭىزنىڭ ھاجىتى يوق. ئەگەر قىززىپ كەتكەن گۇرۇپپا سۆھبىتىگە بىر قانچە يېڭى ئادەم قوشۇلسا ياكى ئارقا-ئارقىدىن بىر نەچچە جاۋابسىز تېلېفون تاپشۇرۇۋالسىڭىز، بۇ خىل تەكرارلانغان سۆھبەت ھالەتلىرى ئاپتوماتىك ھالدا بىر يەرگە توپلىنىپ، قىسقا ۋە يىغىنچاق كۆرۈنۈشتە كۆرسىتىلىدۇ. سىز بۇ تىزىملىكلەرنى خالىغان ۋاقىتتا ئاسانلا كېڭەيتەلەيسىز ياكى يىغالايسىز."
   }
 }

@@ -747,7 +747,7 @@
     "messageformat": "Кечиресиз, тандалган файл билдирүү өлчөмүнүн чегинен ашып кетти. {limit,number} {units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "Кечиресиз, тандалган видео файл билдирүүнүн чегинен ашып кетти. {limit,number}{units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Тандалган тиркемени жүктөп алуу мүмкүн эмес."
@@ -2558,9 +2558,6 @@
   "icu:youUpdatedTheGroup": {
     "messageformat": "Топту жаңырттыңыз."
   },
-  "icu:collapsedContainer": {
-    "messageformat": "{leadingIcon} {text} {trailingIcon}"
-  },
   "icu:collapsedGroupUpdates": {
     "messageformat": "{count, plural, other {Топто {count,number} жаңылык бар}}"
   },
@@ -2581,12 +2578,6 @@
   },
   "icu:collapsedCallEvents": {
     "messageformat": "{count, plural, other {{count,number} иш-чара}}"
-  },
-  "icu:collapsedItems--collapsed": {
-    "messageformat": "Тизме жашырылды - жаюу үчүн басыңыз"
-  },
-  "icu:collapsedItems--expanded": {
-    "messageformat": "Тизме жайылды - жашыруу үчүн басыңыз"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "Топтун аватары жаңырды."
@@ -3055,6 +3046,9 @@
   },
   "icu:Message--tap-to-view--outgoing--expired-toast": {
     "messageformat": "Бир жолу көрүлүүчү билдирүүлөр маектин таржымалында сакталбайт."
+  },
+  "icu:Message--tap-to-view--outgoing--expired-toast-2": {
+    "messageformat": "View-once media is deleted after sending"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "Бир жолу көрүлүүчү видео"
@@ -4898,6 +4892,9 @@
   "icu:ConversationDetailsActions--unblock-group": {
     "messageformat": "Топту бөгөттөн чыгаруу"
   },
+  "icu:ConversationDetailsActions--report-spam": {
+    "messageformat": "Report spam"
+  },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "Маекти архивдөө"
   },
@@ -4948,6 +4945,21 @@
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "Бөгөттөн чыгаруу"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-title": {
+    "messageformat": "Report spam?"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
+    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-group": {
+    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
+    "messageformat": "Report spam"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
+    "messageformat": "Report and block"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, other {{number,number} мүчө}}"
@@ -8111,8 +8123,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Майда-барат өзгөрүүлөрдү киргизип, мүчүлүштүктөрдү оңдоп, колдонмонун иштешин жакшыртып жатабыз. Signal'ды колдонгонуңуз үчүн чоң рахмат!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.6--0": {
-    "messageformat": "Эми соңку билдирүүлөрдү окуу үчүн сыдырып отурбайсыз. Эгер бош эмес топтук маекке бир нече жаңы адам кошулса же катары менен бир нече чалууну өткөрүп жиберсеңиз, экранда орун үнөмдөө үчүн маектеги бир нече билдирүү автоматтык түрдө топтолуп көрүнөт. Кээде кыска жана нуска кыйла ыңгайлуу болгону менен, бул тизмелерди каалаган убакта жайып же жашырып кое аласыз."
   }
 }

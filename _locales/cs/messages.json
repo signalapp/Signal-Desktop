@@ -747,7 +747,7 @@
     "messageformat": "Je nám líto, vybraný soubor překračuje limit velikosti zprávy. {limit,number} {units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "Je nám líto, vybrané video překračuje limit pro velikosti zprávy. {limit,number}{units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Nelze načíst vybranou přílohu."
@@ -2558,9 +2558,6 @@
   "icu:youUpdatedTheGroup": {
     "messageformat": "Aktualizovali jste skupinu."
   },
-  "icu:collapsedContainer": {
-    "messageformat": "{leadingIcon} {text} {trailingIcon}"
-  },
   "icu:collapsedGroupUpdates": {
     "messageformat": "{count, plural, one {{count,number} úprava ve skupině} few {{count,number} úpravy ve skupině} many {{count,number} úprav ve skupině} other {{count,number} úprav ve skupině}}"
   },
@@ -2581,12 +2578,6 @@
   },
   "icu:collapsedCallEvents": {
     "messageformat": "{count, plural, one {{count,number} volání} few {{count,number} volání} many {{count,number} volání} other {{count,number} volání}}"
-  },
-  "icu:collapsedItems--collapsed": {
-    "messageformat": "Seznam položek je sbalený – kliknutím jej rozbalíte"
-  },
-  "icu:collapsedItems--expanded": {
-    "messageformat": "Seznam položek je rozbalený – kliknutím jej sbalíte"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "Avatar skupiny byl aktualizován."
@@ -3055,6 +3046,9 @@
   },
   "icu:Message--tap-to-view--outgoing--expired-toast": {
     "messageformat": "Zprávy pro jednorázové zobrazení se neukládají do historie vašich chatů."
+  },
+  "icu:Message--tap-to-view--outgoing--expired-toast-2": {
+    "messageformat": "View-once media is deleted after sending"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "Video, které lze zobrazit jen jednou"
@@ -4898,6 +4892,9 @@
   "icu:ConversationDetailsActions--unblock-group": {
     "messageformat": "Odblokovat skupinu"
   },
+  "icu:ConversationDetailsActions--report-spam": {
+    "messageformat": "Report spam"
+  },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "Archivovat chat"
   },
@@ -4948,6 +4945,21 @@
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "Odblokovat"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-title": {
+    "messageformat": "Report spam?"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
+    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-group": {
+    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
+    "messageformat": "Report spam"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
+    "messageformat": "Report and block"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} člen} few {{number,number} členové} many {{number,number} členů} other {{number,number} členů}}"
@@ -8111,8 +8123,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Drobná vylepšení, opravy chyb a zvýšení výkonu. Děkujeme, že používáte Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.6--0": {
-    "messageformat": "Opakující se události v chatu (například více zmeškaných hovorů) lze nyní automaticky seskupit do přehledného zobrazení, takže při čtení nejnovějších zpráv nebudete muset tolik skrolovat."
   }
 }

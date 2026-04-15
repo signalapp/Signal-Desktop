@@ -747,7 +747,7 @@
     "messageformat": "ขออภัย แฟ้มที่เลือกมีขนาดเกินจากที่จำกัด {limit,number} {units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "ขออภัย ไฟล์วิดีโอที่คุณเลือกมีขนาดใหญ่เกินกว่าที่กำหนด {limit,number}{units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "ไม่สามารถดึงแฟ้มแนบที่เลือกได้"
@@ -2558,9 +2558,6 @@
   "icu:youUpdatedTheGroup": {
     "messageformat": "คุณได้ปรับปรุงกลุ่ม"
   },
-  "icu:collapsedContainer": {
-    "messageformat": "{leadingIcon} {text} {trailingIcon}"
-  },
   "icu:collapsedGroupUpdates": {
     "messageformat": "{count, plural, other {{count,number} การอัปเดตในกลุ่ม}}"
   },
@@ -2581,12 +2578,6 @@
   },
   "icu:collapsedCallEvents": {
     "messageformat": "{count, plural, other {{count,number} กิจกรรมการโทร}}"
-  },
-  "icu:collapsedItems--collapsed": {
-    "messageformat": "ชุดข้อมูลถูกย่อไว้ - คลิกเพื่อขยาย"
-  },
-  "icu:collapsedItems--expanded": {
-    "messageformat": "ชุดข้อมูลถูกขยายไว้ - คลิกเพื่อย่อ"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "อวตารของกลุ่มถูกปรับปรุง"
@@ -3055,6 +3046,9 @@
   },
   "icu:Message--tap-to-view--outgoing--expired-toast": {
     "messageformat": "ข้อความแบบที่ดูได้ครั้งเดียวจะไม่ถูกจัดเก็บในประวัติการแชทของคุณ"
+  },
+  "icu:Message--tap-to-view--outgoing--expired-toast-2": {
+    "messageformat": "View-once media is deleted after sending"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "ไฟล์วิดีโอแบบที่ดูได้ครั้งเดียว"
@@ -4898,6 +4892,9 @@
   "icu:ConversationDetailsActions--unblock-group": {
     "messageformat": "เลิกบล็อกกลุ่ม"
   },
+  "icu:ConversationDetailsActions--report-spam": {
+    "messageformat": "Report spam"
+  },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "จัดเก็บแชทในที่เก็บถาวร"
   },
@@ -4948,6 +4945,21 @@
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "เลิกบล็อก"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-title": {
+    "messageformat": "Report spam?"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
+    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-group": {
+    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
+    "messageformat": "Report spam"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
+    "messageformat": "Report and block"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, other {สมาชิก {number,number} คน}}"
@@ -8111,8 +8123,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "มีการปรับเปลี่ยนเล็กน้อย พร้อมแก้ไขบั๊ก และการพัฒนาประสิทธิภาพให้ดียิ่งขึ้น ขอขอบคุณที่เลือกใช้ Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.6--0": {
-    "messageformat": "รวบรวมการอัปเดตที่มีรูปแบบเดียวกัน (เช่น หลายสายที่ไม่ได้รับ) เข้าไว้ด้วยกันในแชทโดยอัตโนมัติ พร้อมแสดงเป็นกล่องข้อมูลเพื่อช่วยให้คุณไม่ต้องเสียเวลาเลื่อนหาแต่ละข้อความอีกต่อไป"
   }
 }

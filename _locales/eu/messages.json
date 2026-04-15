@@ -747,7 +747,7 @@
     "messageformat": "Barkatu, aukeratutako fitxategiak ezarri den tamaina muga gainditzen du. {limit,number} {units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "Barkatu, hautatutako bideo-fitxategiak mezuen tamaina-murriztapenak gainditzen ditu. {limit,number} {units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Ezin izan da hautatutako eranskina kargatu."
@@ -2558,9 +2558,6 @@
   "icu:youUpdatedTheGroup": {
     "messageformat": "Taldea eguneratu duzu"
   },
-  "icu:collapsedContainer": {
-    "messageformat": "{leadingIcon} {text} {trailingIcon}"
-  },
   "icu:collapsedGroupUpdates": {
     "messageformat": "{count, plural, one {Taldeko {count,number} eguneratze} other {Taldeko {count,number} eguneratze}}"
   },
@@ -2581,12 +2578,6 @@
   },
   "icu:collapsedCallEvents": {
     "messageformat": "{count, plural, one {Deiekin lotutako {count,number} gertaera} other {Deiekin lotutako {count,number} gertaera}}"
-  },
-  "icu:collapsedItems--collapsed": {
-    "messageformat": "Elementu sorta tolestuta dago; egin klik hura zabaltzeko"
-  },
-  "icu:collapsedItems--expanded": {
-    "messageformat": "Elementu sorta zabalduta dago; egin klik hura tolesteko"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "Taldeko abatarra eguneratu da."
@@ -3055,6 +3046,9 @@
   },
   "icu:Message--tap-to-view--outgoing--expired-toast": {
     "messageformat": "Ikustaldi bakarreko mezuak ez dira txat-historian gordetzen."
+  },
+  "icu:Message--tap-to-view--outgoing--expired-toast-2": {
+    "messageformat": "View-once media is deleted after sending"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "Behin ikusteko bideoa"
@@ -4898,6 +4892,9 @@
   "icu:ConversationDetailsActions--unblock-group": {
     "messageformat": "Desblokeatu taldea"
   },
+  "icu:ConversationDetailsActions--report-spam": {
+    "messageformat": "Report spam"
+  },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "Artxibatu txata"
   },
@@ -4948,6 +4945,21 @@
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "Desblokeatu"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-title": {
+    "messageformat": "Report spam?"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
+    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-group": {
+    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
+    "messageformat": "Report spam"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
+    "messageformat": "Report and block"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} kide} other {{number,number} kide}}"
@@ -8111,8 +8123,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Doikuntza txikiak, akats-konponketak eta errendimendu-hobekuntzak. Eskerrik asko Signal erabiltzeagatik!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.6--0": {
-    "messageformat": "Txatekin lotutako gertaera errepikatuak (hala nola dei galduak) automatikoki taldeka daitezke ikuspegi trinko batean, ez dezazun hain behera egin beharrik izan mezu berrienak irakurtzeko."
   }
 }

@@ -747,7 +747,7 @@
     "messageformat": "Kahjuks ületab valitud fail sõnumi suuruse piirangu. {limit,number} {units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "Kahjuks ületab valitud videofail sõnumi suuruse piirangu. {limit,number} {units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Valitud manuse laadimine ei õnnestunud."
@@ -2558,9 +2558,6 @@
   "icu:youUpdatedTheGroup": {
     "messageformat": "Sa uuendasid gruppi."
   },
-  "icu:collapsedContainer": {
-    "messageformat": "{leadingIcon} {text} {trailingIcon}"
-  },
   "icu:collapsedGroupUpdates": {
     "messageformat": "{count, plural, one {{count,number} grupi uuendus} other {{count,number} grupi uuendust}}"
   },
@@ -2581,12 +2578,6 @@
   },
   "icu:collapsedCallEvents": {
     "messageformat": "{count, plural, one {{count,number} kõne sündmus} other {{count,number} kõne sündmust}}"
-  },
-  "icu:collapsedItems--collapsed": {
-    "messageformat": "Üksused on minimeeritud - klõpsa laiendamiseks"
-  },
-  "icu:collapsedItems--expanded": {
-    "messageformat": "Üksused on laiendatud - klõpsa minimeerimiseks"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "Grupi pilti muudeti."
@@ -3055,6 +3046,9 @@
   },
   "icu:Message--tap-to-view--outgoing--expired-toast": {
     "messageformat": "Ühekordselt nähtavaid sõnumeid ei salvestata vestluse ajalukku."
+  },
+  "icu:Message--tap-to-view--outgoing--expired-toast-2": {
+    "messageformat": "View-once media is deleted after sending"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "Ühekordselt vaadatav video"
@@ -4898,6 +4892,9 @@
   "icu:ConversationDetailsActions--unblock-group": {
     "messageformat": "Eemalda grupi blokeering"
   },
+  "icu:ConversationDetailsActions--report-spam": {
+    "messageformat": "Report spam"
+  },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "Arhiveeri vestlus"
   },
@@ -4948,6 +4945,21 @@
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "Eemalda blokeering"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-title": {
+    "messageformat": "Report spam?"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
+    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-group": {
+    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
+    "messageformat": "Report spam"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
+    "messageformat": "Report and block"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} liige} other {{number,number} liiget}}"
@@ -8111,8 +8123,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Väikesed muudatused, vigade parandused ja jõudluse täiustused. Aitäh, et kasutad Signalit!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.6--0": {
-    "messageformat": "Korduvaid sündmusi (nagu mitu vastamata kõnet) saab automaatselt grupeerida, et sa ei peaks uusimate sõnumite nägemiseks liiga palju kerima."
   }
 }

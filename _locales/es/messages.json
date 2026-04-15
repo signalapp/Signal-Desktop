@@ -459,7 +459,7 @@
     "messageformat": "Este grupo no es válido. Crea un nuevo grupo."
   },
   "icu:scrollDown": {
-    "messageformat": "Ir al final del chat"
+    "messageformat": "Desplazarse al final del chat"
   },
   "icu:messagesBelow": {
     "messageformat": "Nuevos mensajes abajo"
@@ -747,7 +747,7 @@
     "messageformat": "El archivo seleccionado excede las restricciones de tamaño del mensaje. {limit,number} {units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "El vídeo que has seleccionado excede el límite de tamaño permitido. {limit,number} {units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "No se ha podido cargar el archivo seleccionado."
@@ -2558,9 +2558,6 @@
   "icu:youUpdatedTheGroup": {
     "messageformat": "Has actualizado el grupo."
   },
-  "icu:collapsedContainer": {
-    "messageformat": "{leadingIcon} {text} {trailingIcon}"
-  },
   "icu:collapsedGroupUpdates": {
     "messageformat": "{count, plural, one {{count,number} actualización de grupo} other {{count,number} actualizaciones de grupo}}"
   },
@@ -2581,12 +2578,6 @@
   },
   "icu:collapsedCallEvents": {
     "messageformat": "{count, plural, one {{count,number} notificación de llamada} other {{count,number} notificaciones de llamada}}"
-  },
-  "icu:collapsedItems--collapsed": {
-    "messageformat": "Vista minimizada de elementos. Haz clic para mostrar."
-  },
-  "icu:collapsedItems--expanded": {
-    "messageformat": "Vista ampliada de elementos. Haz clic para minimizar."
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "La imagen del grupo se ha actualizado."
@@ -3055,6 +3046,9 @@
   },
   "icu:Message--tap-to-view--outgoing--expired-toast": {
     "messageformat": "Los mensajes de visualización única no se almacenan en tu historial de chat."
+  },
+  "icu:Message--tap-to-view--outgoing--expired-toast-2": {
+    "messageformat": "View-once media is deleted after sending"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "Vídeo de visualización única"
@@ -4898,6 +4892,9 @@
   "icu:ConversationDetailsActions--unblock-group": {
     "messageformat": "Desbloquear grupo"
   },
+  "icu:ConversationDetailsActions--report-spam": {
+    "messageformat": "Report spam"
+  },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "Archivar chat"
   },
@@ -4948,6 +4945,21 @@
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "Desbloquear"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-title": {
+    "messageformat": "Report spam?"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
+    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-group": {
+    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
+    "messageformat": "Report spam"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
+    "messageformat": "Report and block"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} participante} other {{number,number} participantes}}"
@@ -8111,8 +8123,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Hemos hecho algunos ajustes, correcciones de errores y mejoras en el rendimiento. ¡Gracias por usar Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.6--0": {
-    "messageformat": "Dile adiós a tener que deslizar sin parar para ponerte al día con tus mensajes. Ahora, los eventos de chat repetidos (como nuevos participantes en un chat grupal o varias llamadas perdidas) se agrupan automáticamente en una lista compacta. Y sí, menos es más, pero si quieres enterarte de todos los detalles puedes mostrar o minimizar estas listas en cualquier momento."
   }
 }

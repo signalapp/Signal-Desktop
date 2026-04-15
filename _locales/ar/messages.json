@@ -747,7 +747,7 @@
     "messageformat": "عُذرًا، حجم الملف المُحدَّد يتجاوز قيود الحجم الأقصى للرسالة. {limit,number}{units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "عذرًا، يتجاوز ملف الفيديو المُحدَّد الحد الأقصى لِحجم الرسالة. {limit,number}{units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "فشل تنزيل الملفات المُرفَقة المُحدَّدة."
@@ -2558,9 +2558,6 @@
   "icu:youUpdatedTheGroup": {
     "messageformat": "قُمتَ بتحديث المجموعة."
   },
-  "icu:collapsedContainer": {
-    "messageformat": "{leadingIcon} {text} {trailingIcon}"
-  },
   "icu:collapsedGroupUpdates": {
     "messageformat": "{count, plural, zero {{count,number} تحديثات للمجموعة} one {{count,number} تحديث للمجموعة} two {{count,number} تحديثان للمجموعة} few {{count,number} تحديثات للمجموعة} many {{count,number} تحديث للمجموعة} other {{count,number} تحديث للمجموعة}}"
   },
@@ -2581,12 +2578,6 @@
   },
   "icu:collapsedCallEvents": {
     "messageformat": "{count, plural, zero {{count,number} أحداث مكالمة} one {{count,number} حدث مكالمة} two {{count,number} حدثا مكالمة} few {{count,number} أحداث مكالمة} many {{count,number} حدث مكالمة} other {{count,number} حدث مكالمة}}"
-  },
-  "icu:collapsedItems--collapsed": {
-    "messageformat": "قائمة العناصر مطوية - انقر للتوسيع"
-  },
-  "icu:collapsedItems--expanded": {
-    "messageformat": "قائمة العناصر موسعة - انقر للطي"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "تمَّ تحديث صورة المجموعة."
@@ -3055,6 +3046,9 @@
   },
   "icu:Message--tap-to-view--outgoing--expired-toast": {
     "messageformat": "لن تُحفَظ رسائل العرض لمرّة واحدة في سجل الدردشة لديك."
+  },
+  "icu:Message--tap-to-view--outgoing--expired-toast-2": {
+    "messageformat": "View-once media is deleted after sending"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "فيديو للمشاهدة مرّة واحدة"
@@ -4898,6 +4892,9 @@
   "icu:ConversationDetailsActions--unblock-group": {
     "messageformat": "رفع حَظر المجموعة"
   },
+  "icu:ConversationDetailsActions--report-spam": {
+    "messageformat": "Report spam"
+  },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "أرشفة الدردشة"
   },
@@ -4948,6 +4945,21 @@
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "رفع الحظر"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-title": {
+    "messageformat": "Report spam?"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
+    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-group": {
+    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
+    "messageformat": "Report spam"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
+    "messageformat": "Report and block"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, zero {{number,number} عضو} one {{number,number} عضو} two {{number,number} عضوان} few {{number,number} أعضاء} many {{number,number} عضوًا} other {{number,number} عضوٍ}}"
@@ -7674,7 +7686,7 @@
     "messageformat": "تبرَّع لدعم المراسلة الخصوصية. ساعِد في إبقاء سيجنال مستقلًا وخاليًا من الإعلانات. <readMoreLink>اقرأ المزيد</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
-    "messageformat": "التبرُّع"
+    "messageformat": "تبرَّع"
   },
   "icu:PreferencesDonations__my-support": {
     "messageformat": "الدعم الخاص بي"
@@ -7698,7 +7710,7 @@
     "messageformat": "<paragraph>لا يقوم سيجنال بجمع أو تخزين معلوماتك الشخصية عند قيامك بتبرُّع.</paragraph><paragraph>نستخدم Stripe كمعالج عمليات الدفع الخاصة بنا لتلقي تبرُّعاتك. لا يُمكننا الوصول إلى أو تخزين أو حفظ أي من المعلومات التي تُقدمها.</paragraph><paragraph>لا يقوم تطبيق سيجنال ولا يمكنه ربط تبرُّعاتك بحسابك على سيجنال.</paragraph><paragraph>شكرًا لدعمك!</paragraph>"
   },
   "icu:PreferencesDonations__privacy-modal-intro": {
-    "messageformat": "بصفتها شركة غير ربحية،  سيجنال مُلتزمة بدعم المراسلة والمكالمات الخاصة. بدون إعلانات، وبدون تعقُّب، وبدون مراقبة. تبرَّع اليوم لدعم سيجنال."
+    "messageformat": "بصفتها شركة غير ربحية، سيجنال مُلتزمة بدعم المراسلة والمكالمات الخاصة. بدون إعلانات، وبدون تعقُّب، وبدون مراقبة. تبرَّع اليوم لدعم سيجنال."
   },
   "icu:PreferencesDonations__privacy-modal-list-1": {
     "messageformat": "احصل على شارة اختيارية على حسابك الشخصي عند التبرُّع."
@@ -8111,8 +8123,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "تعديلات صغيرة، وإصلاح أعطال، وتحسينات للأداء. شكرًا على استخدامك سيجنال!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.6--0": {
-    "messageformat": "تُجمَّع الآن أحداث الدردشة المُتكرِّرة (مثل المكالمات الفائتة العديدة) تلقائيًا في عرضٍ مُختصر. إذا انضمّ عدة أشخاص جُدُد إلى دردشة جماعية نشِطة، أو تلقيتَ عدة مكالمات فائتة متتالية، فسيتم تجميع أحداث الدردشة المُتكرِّرة هذه تلقائيًا ضمن عرضٍ مُختصَر. في بعض الأحيان يكون الاختصار أفضل، ولكن يمكنك بسهولة توسيع هذه القوائم أو طيّها في أيّ وقت."
   }
 }

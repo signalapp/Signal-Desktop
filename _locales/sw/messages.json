@@ -747,7 +747,7 @@
     "messageformat": "Samahani, faili lililochaguliwa limepita vikwazo vya ukubwa wa ujumbe. {limit,number} {units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "Samahani, faili ya video iliyochaguliwa imepita kikomo cha ukubwa wa ujumbe. {limit,number}{units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Imeshindwa kupakia kiambatisho kilichochaguliwa."
@@ -2558,9 +2558,6 @@
   "icu:youUpdatedTheGroup": {
     "messageformat": "Umesasisha kikundi"
   },
-  "icu:collapsedContainer": {
-    "messageformat": "{leadingIcon} {text} {trailingIcon}"
-  },
   "icu:collapsedGroupUpdates": {
     "messageformat": "{count, plural, one {Taarifa {count,number} kuhusu kikundi} other {Taarifa {count,number} kuhusu kikundi}}"
   },
@@ -2581,12 +2578,6 @@
   },
   "icu:collapsedCallEvents": {
     "messageformat": "{count, plural, one {Tukio {count,number} kuhusu simu} other {Matukio {count,number} kuhusu simu}}"
-  },
-  "icu:collapsedItems--collapsed": {
-    "messageformat": "Seti ya vipengee imekunjwa - bofya ili upanue"
-  },
-  "icu:collapsedItems--expanded": {
-    "messageformat": "Seti ya vipengee imepanuliwa - bofya ili ukunje"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "Umbo la kikundi limebadilishwa."
@@ -3055,6 +3046,9 @@
   },
   "icu:Message--tap-to-view--outgoing--expired-toast": {
     "messageformat": "Jumbe za kuonwa mara moja hazihifadhiwi kwenye historia yako ya gumzo."
+  },
+  "icu:Message--tap-to-view--outgoing--expired-toast-2": {
+    "messageformat": "View-once media is deleted after sending"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "Video ya Kutazama Mara Moja"
@@ -4898,6 +4892,9 @@
   "icu:ConversationDetailsActions--unblock-group": {
     "messageformat": "Ondoa kizuizi kwa kikundi"
   },
+  "icu:ConversationDetailsActions--report-spam": {
+    "messageformat": "Report spam"
+  },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "Hifadhi Gumzo"
   },
@@ -4948,6 +4945,21 @@
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "Ondoa kizuizi"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-title": {
+    "messageformat": "Report spam?"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
+    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-group": {
+    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
+    "messageformat": "Report spam"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
+    "messageformat": "Report and block"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {Mwanachama {number,number}} other {Wanachama {number,number}}}"
@@ -8111,8 +8123,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Mabadiliko madogo, marekebisho ya bugs na uboreshaji wa utendaji. Asante kwa kutumia Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.6--0": {
-    "messageformat": "Sasa hutahitaji kusogeza sana chini ili kupata jumbe mpya zaidi. Ikiwa watu kadhaa wapya watajiunga na gumzo la kikundi lenye shughuli nyingi au utapokea simu nyingi ambazo hukuzijibu mfululizo, matukio hayo yanayojirudia yanaweza kuunganishwa kiotomatiki na kuonyeshwa kwa muundo mfupi uliobana. Wakati mwingine huhitaji mambo mengi, lakini unaweza kupanua na kukunja orodha hizi kwa urahisi wakati wowote."
   }
 }

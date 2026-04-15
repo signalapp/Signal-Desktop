@@ -747,7 +747,7 @@
     "messageformat": "Diemžēl atlasītais fails pārsniedz ziņas izmēra ierobežojumus. {limit,number} {units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "Diemžēl atlasītais video fails pārsniedz ziņas izmēra ierobežojumus. {limit,number}{units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Neizdevās ielādēt atlasīto pielikumu."
@@ -2558,9 +2558,6 @@
   "icu:youUpdatedTheGroup": {
     "messageformat": "Jūs aktualizējāt grupu."
   },
-  "icu:collapsedContainer": {
-    "messageformat": "{leadingIcon} {text} {trailingIcon}"
-  },
   "icu:collapsedGroupUpdates": {
     "messageformat": "{count, plural, zero {{count,number} grupas atjauninājumi} one {{count,number} grupas atjauninājums} other {{count,number} grupas atjauninājumi}}"
   },
@@ -2581,12 +2578,6 @@
   },
   "icu:collapsedCallEvents": {
     "messageformat": "{count, plural, zero {{count,number} zvana notikumi} one {{count,number} zvana notikums} other {{count,number} zvana notikumi}}"
-  },
-  "icu:collapsedItems--collapsed": {
-    "messageformat": "Vienumu virkne ir sakļauta – klikšķini, lai izvērstu"
-  },
-  "icu:collapsedItems--expanded": {
-    "messageformat": "Vienumu virkne ir izvērsta – klikšķini, lai sakļautu"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "Grupas avatārs tika atjaunināts."
@@ -3055,6 +3046,9 @@
   },
   "icu:Message--tap-to-view--outgoing--expired-toast": {
     "messageformat": "Vienreiz skatāmās ziņas netiek saglabātas jūsu sarunu vēsturē."
+  },
+  "icu:Message--tap-to-view--outgoing--expired-toast-2": {
+    "messageformat": "View-once media is deleted after sending"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "Vienreiz skatāms video"
@@ -4898,6 +4892,9 @@
   "icu:ConversationDetailsActions--unblock-group": {
     "messageformat": "Atbloķēt grupu"
   },
+  "icu:ConversationDetailsActions--report-spam": {
+    "messageformat": "Report spam"
+  },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "Arhivēt sarunu"
   },
@@ -4948,6 +4945,21 @@
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "Atbloķēt"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-title": {
+    "messageformat": "Report spam?"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
+    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-group": {
+    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
+    "messageformat": "Report spam"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
+    "messageformat": "Report and block"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, zero {{number,number} dalībnieki} one {{number,number} dalībnieks} other {{number,number} dalībnieki}}"
@@ -8111,8 +8123,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Nelielas izmaiņas, kļūdu labojumi un darbības uzlabojumi. Paldies, ka lietojat Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.6--0": {
-    "messageformat": "Turpmāk vairs nebūs tik tālu jāritina, lai redzētu jaunākās ziņas. Ja aktīvai grupai pievienojas vairāki jauni dalībnieki vai saņemat vairākus neatbildētus zvanus pēc kārtas, šādi atkārtoti sarunas notikumi var tikt automātiski apvienoti kompaktā skatā. Reizēm mazāk ir vairāk, bet atceries — tu jebkurā brīdī vari šos sarakstus ērti izvērst vai sakļaut."
   }
 }

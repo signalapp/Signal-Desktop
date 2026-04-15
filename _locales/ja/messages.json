@@ -369,7 +369,7 @@
     "messageformat": "アーカイブ済みのチャットはありません。"
   },
   "icu:archiveConversation": {
-    "messageformat": "アーカイブする"
+    "messageformat": "アーカイブ"
   },
   "icu:markUnread": {
     "messageformat": "未読にする"
@@ -747,7 +747,7 @@
     "messageformat": "選択されたファイルは大きすぎます。 {limit,number} {units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "選択された動画ファイルは下記の送信可能なサイズ上限を超えています。{limit,number}{units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "選択された添付ファイルをロードできません。"
@@ -2558,9 +2558,6 @@
   "icu:youUpdatedTheGroup": {
     "messageformat": "グループを更新しました。"
   },
-  "icu:collapsedContainer": {
-    "messageformat": "{leadingIcon} {text} {trailingIcon}"
-  },
   "icu:collapsedGroupUpdates": {
     "messageformat": "{count, plural, other {{count,number} 件のグループ更新}}"
   },
@@ -2581,12 +2578,6 @@
   },
   "icu:collapsedCallEvents": {
     "messageformat": "{count, plural, other {{count,number} 件の通話関連のお知らせ}}"
-  },
-  "icu:collapsedItems--collapsed": {
-    "messageformat": "項目は折りたたまれています。クリックして展開"
-  },
-  "icu:collapsedItems--expanded": {
-    "messageformat": "項目は展開されています。クリックして折りたたむ"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "グループアバターが更新されました。"
@@ -3055,6 +3046,9 @@
   },
   "icu:Message--tap-to-view--outgoing--expired-toast": {
     "messageformat": "使い捨てメッセージはチャット履歴に保存されません。"
+  },
+  "icu:Message--tap-to-view--outgoing--expired-toast-2": {
+    "messageformat": "View-once media is deleted after sending"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "使い捨て動画"
@@ -4898,6 +4892,9 @@
   "icu:ConversationDetailsActions--unblock-group": {
     "messageformat": "グループのブロックを解除"
   },
+  "icu:ConversationDetailsActions--report-spam": {
+    "messageformat": "Report spam"
+  },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "チャットをアーカイブ"
   },
@@ -4948,6 +4945,21 @@
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "ブロックを解除"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-title": {
+    "messageformat": "Report spam?"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
+    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-group": {
+    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
+    "messageformat": "Report spam"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
+    "messageformat": "Report and block"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, other {メンバー{number,number}人}}"
@@ -8111,8 +8123,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "細かな微調整、バグ修正、パフォーマンスの向上。 Signalをご利用いただきありがとうございます。",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.6--0": {
-    "messageformat": "チャット内での同じ種類の通知（不在着信が何件もあったなど）は自動的にコンパクトな表示にまとめられるので、最新のメッセージを見るためにスクロールする手間が省略できます。"
   }
 }

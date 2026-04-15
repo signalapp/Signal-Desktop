@@ -747,7 +747,7 @@
     "messageformat": "Den valgte filen overskrider begrensninger for meldingsstørrelse. {limit,number} {units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "Den valgte videofilen overskrider begrensningen for meldingsstørrelse. {limit,number}{units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Kunne ikke laste valgt vedlegg."
@@ -2558,9 +2558,6 @@
   "icu:youUpdatedTheGroup": {
     "messageformat": "Du har oppdatert gruppa."
   },
-  "icu:collapsedContainer": {
-    "messageformat": "{leadingIcon} {text} {trailingIcon}"
-  },
   "icu:collapsedGroupUpdates": {
     "messageformat": "{count, plural, one {{count,number} gruppeoppdatering} other {{count,number} gruppeoppdateringer}}"
   },
@@ -2581,12 +2578,6 @@
   },
   "icu:collapsedCallEvents": {
     "messageformat": "{count, plural, one {{count,number} samtalehendelse} other {{count,number} samtalehendelser}}"
-  },
-  "icu:collapsedItems--collapsed": {
-    "messageformat": "Oversikten over elementer er skjult – trykk for å vise"
-  },
-  "icu:collapsedItems--expanded": {
-    "messageformat": "Oversikten over elementer vises – trykk for å skjule"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "Gruppeavataren ble oppdatert."
@@ -3055,6 +3046,9 @@
   },
   "icu:Message--tap-to-view--outgoing--expired-toast": {
     "messageformat": "Vis-én-gang-meldinger blir ikke lagret i meldingsloggen."
+  },
+  "icu:Message--tap-to-view--outgoing--expired-toast-2": {
+    "messageformat": "View-once media is deleted after sending"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "Flyktig video"
@@ -4898,6 +4892,9 @@
   "icu:ConversationDetailsActions--unblock-group": {
     "messageformat": "Fjern blokkering av gruppen"
   },
+  "icu:ConversationDetailsActions--report-spam": {
+    "messageformat": "Report spam"
+  },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "Arkiver samtale"
   },
@@ -4948,6 +4945,21 @@
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "Fjern blokkering"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-title": {
+    "messageformat": "Report spam?"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
+    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-group": {
+    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
+    "messageformat": "Report spam"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
+    "messageformat": "Report and block"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} medlem} other {{number,number} medlemmer}}"
@@ -8111,8 +8123,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Noen små justeringer, feilrettinger og ytelsesforbedringer. Takk for at du bruker Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.6--0": {
-    "messageformat": "Nå kan flere samtaleoppdateringer (f.eks. tapte anrop) grupperes sammen i en kompakt visning, slik at du slipper å skrolle langt for å se de nyeste meldingene i samtalen."
   }
 }

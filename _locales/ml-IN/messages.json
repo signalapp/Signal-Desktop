@@ -747,7 +747,7 @@
     "messageformat": "ക്ഷമിക്കണം, തിരഞ്ഞെടുത്ത ഫയൽ സന്ദേശം വലുപ്പ നിയന്ത്രണങ്ങളെ മറികടക്കുന്നു. {limit,number} {units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "ക്ഷമിക്കണം, തിരഞ്ഞെടുത്ത വീഡിയോ ഫയൽ സന്ദേശ പരിധിയേക്കാൾ കൂടുതലാണ്. {limit,number}{units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "തിരഞ്ഞെടുത്ത അറ്റാച്ച്മെന്റ് ലോഡ് ചെയ്യാൻ കഴിയുന്നില്ല."
@@ -2558,9 +2558,6 @@
   "icu:youUpdatedTheGroup": {
     "messageformat": "നിങ്ങൾ ഗ്രൂപ്പ് അപ്‌ഡേറ്റുചെയ്‌തു."
   },
-  "icu:collapsedContainer": {
-    "messageformat": "{leadingIcon} {text} {trailingIcon}"
-  },
   "icu:collapsedGroupUpdates": {
     "messageformat": "{count, plural, one {{count,number} ഗ്രൂപ്പ് അപ്‌ഡേറ്റ്} other {{count,number} ഗ്രൂപ്പ് അപ്‌ഡേറ്റുകൾ}}"
   },
@@ -2581,12 +2578,6 @@
   },
   "icu:collapsedCallEvents": {
     "messageformat": "{count, plural, one {{count,number} കോൾ ഇവന്റ്} other {{count,number} കോൾ ഇവന്റുകൾ}}"
-  },
-  "icu:collapsedItems--collapsed": {
-    "messageformat": "വിവരങ്ങൾ ചുരുക്കി വെച്ചിരിക്കുന്നു - വികസിപ്പിക്കാൻ ക്ലിക്ക് ചെയ്യുക"
-  },
-  "icu:collapsedItems--expanded": {
-    "messageformat": "വിവരങ്ങൾ വികസിപ്പിച്ചു - ചുരുക്കാൻ ക്ലിക്ക് ചെയ്യുക"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "ഗ്രൂപ്പ് അവതാർ അപ്‌ഡേറ്റുചെയ്‌തു."
@@ -3055,6 +3046,9 @@
   },
   "icu:Message--tap-to-view--outgoing--expired-toast": {
     "messageformat": "ഒരിക്കൽ മാത്രം കാണുന്നതിനുള്ള സന്ദേശങ്ങൾ നിങ്ങളുടെ ചാറ്റ് ചരിത്രത്തിൽ സംഭരിക്കില്ല."
+  },
+  "icu:Message--tap-to-view--outgoing--expired-toast-2": {
+    "messageformat": "View-once media is deleted after sending"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "ഒരു തവണ-ദൃശ്യമാകുന്ന വീഡിയോ"
@@ -4898,6 +4892,9 @@
   "icu:ConversationDetailsActions--unblock-group": {
     "messageformat": "ഗ്രൂപ്പ് അൺബ്ലോക്ക് ചെയ്യുക"
   },
+  "icu:ConversationDetailsActions--report-spam": {
+    "messageformat": "Report spam"
+  },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "ചാറ്റ് ആർക്കൈവ് ചെയ്യുക"
   },
@@ -4948,6 +4945,21 @@
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "അൺബ്ലോക്ക് ചെയ്യുക"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-title": {
+    "messageformat": "Report spam?"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
+    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-group": {
+    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
+    "messageformat": "Report spam"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
+    "messageformat": "Report and block"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} അംഗം} other {{number,number} അംഗങ്ങൾ}}"
@@ -8111,8 +8123,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "ചെറിയ മാറ്റങ്ങളും ബഗ് പരിഹരിക്കലുകളും പ്രകടന മെച്ചപ്പെടുത്തലുകളും. Signal ഉപയോഗിക്കുന്നതിന് നന്ദി!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.6--0": {
-    "messageformat": "പുതിയ സന്ദേശങ്ങൾ കാണുന്നതിനായി ഇനി നിങ്ങൾ അധികം സ്ക്രോൾ ചെയ്യേണ്ടി വരില്ല. തിരക്കുള്ള ഒരു ഗ്രൂപ്പ് ചാറ്റിൽ നിരവധി പുതിയ ആളുകൾ ചേരുകയോ, അല്ലെങ്കിൽ നിങ്ങൾക്ക് തുടർച്ചയായി മിസ്ഡ് കോളുകൾ ലഭിക്കുകയോ ചെയ്താൽ, ആവർത്തിച്ചുള്ള അത്തരം ചാറ്റ് ഇവന്റുകൾ ലളിതമായ രീതിയിൽ സ്വയം ഗ്രൂപ്പ് ചെയ്യപ്പെടും. ചിലപ്പോൾ കുറഞ്ഞ വിവരങ്ങൾ നൽകുന്നതാണ് കൂടുതൽ വ്യക്തത നൽകുന്നത്, എന്നാൽ നിങ്ങൾക്ക് എപ്പോൾ വേണമെങ്കിലും ഈ ലിസ്റ്റുകൾ വികസിപ്പിക്കാനോ ചുരുക്കാനോ സാധിക്കും."
   }
 }

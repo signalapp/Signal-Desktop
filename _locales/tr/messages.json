@@ -747,7 +747,7 @@
     "messageformat": "Üzgünüz, seçilen dosya ileti boyutu kısıtlamalarını aşıyor. {limit,number} {units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "Üzgünüz, seçilen video dosyası mesaj boyutu kısıtlamalarını aşıyor. {limit,number}{units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Seçilen eklenti yüklenemedi."
@@ -2558,9 +2558,6 @@
   "icu:youUpdatedTheGroup": {
     "messageformat": "Grubu güncellediniz."
   },
-  "icu:collapsedContainer": {
-    "messageformat": "{leadingIcon} {text} {trailingIcon}"
-  },
   "icu:collapsedGroupUpdates": {
     "messageformat": "{count, plural, one {{count,number} grup güncellemesi} other {{count,number} grup güncellemesi}}"
   },
@@ -2581,12 +2578,6 @@
   },
   "icu:collapsedCallEvents": {
     "messageformat": "{count, plural, one {{count,number} arama etkinliği} other {{count,number} arama etkinliği}}"
-  },
-  "icu:collapsedItems--collapsed": {
-    "messageformat": "Öğe kümesi küçültüldü - genişletmek için tıkla"
-  },
-  "icu:collapsedItems--expanded": {
-    "messageformat": "Öğe kümesi genişletildi - küçültmek için tıkla"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "Grup resmi güncellendi."
@@ -3055,6 +3046,9 @@
   },
   "icu:Message--tap-to-view--outgoing--expired-toast": {
     "messageformat": "Bir kez görüntülenebilen mesajlar sohbet geçmişinde saklanmaz."
+  },
+  "icu:Message--tap-to-view--outgoing--expired-toast-2": {
+    "messageformat": "View-once media is deleted after sending"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "Tek Seferlik Video"
@@ -4898,6 +4892,9 @@
   "icu:ConversationDetailsActions--unblock-group": {
     "messageformat": "Grubun engelini kaldır"
   },
+  "icu:ConversationDetailsActions--report-spam": {
+    "messageformat": "Report spam"
+  },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "Sohbeti arşivle"
   },
@@ -4948,6 +4945,21 @@
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "Engeli kaldır"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-title": {
+    "messageformat": "Report spam?"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
+    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-group": {
+    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
+    "messageformat": "Report spam"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
+    "messageformat": "Report and block"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} üye} other {{number,number} üye}}"
@@ -8111,8 +8123,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Küçük ince ayarlar, hata düzeltmeleri ve performans geliştirmeleri yaptık. Signal'i kullandığın için teşekkürler!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.6--0": {
-    "messageformat": "Tekrarlayan sohbet etkinlikleri (çok sayıda cevapsız arama gibi) otomatik olarak daha kompakt bir görünümde gruplanabilir. Böylece güncel mesajlara ulaşmak için fazla uzaklaşmana gerek kalmaz. Bazen sadeleşmek iyidir, fakat bu listeleri istediğin zaman kolayca genişletip küçültebilirsin."
   }
 }

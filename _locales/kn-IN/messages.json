@@ -747,7 +747,7 @@
     "messageformat": "ಕ್ಷಮಿಸಿ, ಆಯ್ಕೆಮಾಡಿದ ಕಡತ ಸಂದೇಶದ ಗಾತ್ರ ನಿರ್ಬಂಧಗಳನ್ನು ಮೀರಿದೆ. {limit,number} {units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "ಕ್ಷಮಿಸಿ, ಆಯ್ಕೆಮಾಡಿದ ವಿಡಿಯೋ ಫೈಲ್, ಮೆಸೇಜ್ ಗಾತ್ರದ ನಿರ್ಬಂಧಗಳನ್ನು ಮೀರಿದೆ. {limit,number}{units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "ಆಯ್ಕೆಮಾಡಿದ ಲಗತ್ತನ್ನು ಲೋಡ್ ಮಾಡಲು ಸಾಧ್ಯವಿಲ್ಲ."
@@ -2558,9 +2558,6 @@
   "icu:youUpdatedTheGroup": {
     "messageformat": "ನೀವು ಗುಂಪನ್ನು ನವೀಕರಿಸಿದ್ದೀರಿ."
   },
-  "icu:collapsedContainer": {
-    "messageformat": "{leadingIcon} {text} {trailingIcon}"
-  },
   "icu:collapsedGroupUpdates": {
     "messageformat": "{count, plural, one {{count,number} ಗುಂಪು ಅಪ್‌ಡೇಟ್} other {{count,number} ಗುಂಪು ಅಪ್‌ಡೇಟ್‌ಗಳು}}"
   },
@@ -2581,12 +2578,6 @@
   },
   "icu:collapsedCallEvents": {
     "messageformat": "{count, plural, one {{count,number} ಕಾಲ್ ಇವೆಂಟ್} other {{count,number} ಕಾಲ್ ಇವೆಂಟ್‌ಗಳು}}"
-  },
-  "icu:collapsedItems--collapsed": {
-    "messageformat": "ಐಟಂಗಳ ಸೆಟ್ ಅನ್ನು ಕುಗ್ಗಿಸಲಾಗಿದೆ - ವಿಸ್ತರಿಸಲು ಕ್ಲಿಕ್ ಮಾಡಿ"
-  },
-  "icu:collapsedItems--expanded": {
-    "messageformat": "ಐಟಂಗಳ ಸೆಟ್ ಅನ್ನು ವಿಸ್ತರಿಸಲಾಗಿದೆ - ಕುಗ್ಗಿಸಲು ಕ್ಲಿಕ್ ಮಾಡಿ"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "ಗ್ರೂಪ್ ಅವತಾರ್ ಅಪ್‌ಡೇಟ್ ಆಗಿದೆ."
@@ -3055,6 +3046,9 @@
   },
   "icu:Message--tap-to-view--outgoing--expired-toast": {
     "messageformat": "ನಿಮ್ಮ ಚಾಟ್ ಇತಿಹಾಸದಲ್ಲಿ ಏಕ ವೀಕ್ಷಣೆ ಮೆಸೇಜ್‌ಗಳನ್ನು ಸಂಗ್ರಹಿಸಲಾಗಿಲ್ಲ."
+  },
+  "icu:Message--tap-to-view--outgoing--expired-toast-2": {
+    "messageformat": "View-once media is deleted after sending"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "ಏಕ ವೀಕ್ಷಣೆ ವೀಡಿಯೊ"
@@ -4898,6 +4892,9 @@
   "icu:ConversationDetailsActions--unblock-group": {
     "messageformat": "ಗ್ರೂಪ್‌ನ ನಿರ್ಬಂಧ ತೆಗೆಯಿರಿ"
   },
+  "icu:ConversationDetailsActions--report-spam": {
+    "messageformat": "Report spam"
+  },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "ಚಾಟ್ ಆರ್ಕೈವ್ ಮಾಡಿ"
   },
@@ -4948,6 +4945,21 @@
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "ನಿರ್ಬಂಧ ತೆಗೆಯಿರಿ"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-title": {
+    "messageformat": "Report spam?"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
+    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-group": {
+    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
+    "messageformat": "Report spam"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
+    "messageformat": "Report and block"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} ಸದಸ್ಯ} other {{number,number} ಸದಸ್ಯರು}}"
@@ -8111,8 +8123,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "ಸಣ್ಣ ಟ್ವೀಕ್‌ಗಳು, ಬಗ್ ಫಿಕ್ಸ್‌ಗಳು ಮತ್ತು ಕಾರ್ಯಕ್ಷಮತೆ ವರ್ಧನೆಗಳು. Signal ಬಳಸುತ್ತಿರುವುದಕ್ಕಾಗಿ ಧನ್ಯವಾದಗಳು!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.6--0": {
-    "messageformat": "ಈಗ ನೀವು ಇತ್ತೀಚಿನ ಮೆಸೇಜ್‌ಗಳನ್ನು ಪಡೆದುಕೊಳ್ಳಲು ಹೆಚ್ಚು ಸ್ಕ್ರಾಲ್ ಮಾಡಬೇಕಾಗಿಲ್ಲ. ಹಲವಾರು ಹೊಸ ಜನರು ಕಾರ್ಯನಿರತ ಗುಂಪು ಚಾಟ್‌ಗೆ ಸೇರಿಕೊಂಡರೆ ಅಥವಾ ನೀವು ಸತತವಾಗಿ ಅನೇಕ ಮಿಸ್ಡ್ ಕಾಲ್‌ಗಳನ್ನು ಸ್ವೀಕರಿಸಿದರೆ, ಆ ಪುನರಾವರ್ತಿತ ಚಾಟ್ ಇವೆಂಟ್‌ಗಳನ್ನು ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಕಾಂಪ್ಯಾಕ್ಟ್ ಡಿಸ್‌ಪ್ಲೇ ಆಗಿ ಗುಂಪು ಮಾಡಬಹುದು. ಕೆಲವೊಮ್ಮೆ ಕಡಿಮೆ ಎಂದರೆ ಹೆಚ್ಚು ಆಗಿರುತ್ತದೆ, ಆದರೆ ನೀವು ಯಾವುದೇ ಸಮಯದಲ್ಲಿ ಈ ಪಟ್ಟಿಗಳನ್ನು ಸುಲಭವಾಗಿ ವಿಸ್ತರಿಸಬಹುದು ಮತ್ತು ಕುಗ್ಗಿಸಬಹುದು."
   }
 }

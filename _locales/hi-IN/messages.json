@@ -747,7 +747,7 @@
     "messageformat": "क्षमा करें, चयनित दस्तावेज का मेसेज माप प्रतिबंध से अधिक है। {limit,number} {units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "माफ़ करें, चुनी गई वीडियो फ़ाइल, मैसेज के लिए साइज़ की तय सीमा से बड़ी है। {limit,number}{units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "चुना हुआ अटैचमेंट लोड नहीं हो पाया।"
@@ -2558,9 +2558,6 @@
   "icu:youUpdatedTheGroup": {
     "messageformat": "आपने ग्रुप को अपडेट किया है।"
   },
-  "icu:collapsedContainer": {
-    "messageformat": "{leadingIcon} {text} {trailingIcon}"
-  },
   "icu:collapsedGroupUpdates": {
     "messageformat": "{count, plural, one {{count,number} ग्रुप अपडेट} other {{count,number} ग्रुप अपडेट}}"
   },
@@ -2581,12 +2578,6 @@
   },
   "icu:collapsedCallEvents": {
     "messageformat": "{count, plural, one {{count,number} कॉल इवेंट} other {{count,number} कॉल इवेंट}}"
-  },
-  "icu:collapsedItems--collapsed": {
-    "messageformat": "आइटम सूची छिपी हुई है - देखने करने के लिए क्लिक करें"
-  },
-  "icu:collapsedItems--expanded": {
-    "messageformat": "आइटम सूची पूरी दिख रही है - छिपाने के लिए क्लिक करें"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "ग्रुप अवतार को अपडेट किया गया।"
@@ -3055,6 +3046,9 @@
   },
   "icu:Message--tap-to-view--outgoing--expired-toast": {
     "messageformat": "एक बार देखें संदेश आपके चैट इतिहास में संगृहीत नहीं होते हैं।"
+  },
+  "icu:Message--tap-to-view--outgoing--expired-toast-2": {
+    "messageformat": "View-once media is deleted after sending"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "देखें-एक बार वीडियो"
@@ -4898,6 +4892,9 @@
   "icu:ConversationDetailsActions--unblock-group": {
     "messageformat": "ग्रुप को अनब्लॉक करें"
   },
+  "icu:ConversationDetailsActions--report-spam": {
+    "messageformat": "Report spam"
+  },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "चैट को संग्रहीत करें"
   },
@@ -4948,6 +4945,21 @@
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "अनब्लॉक करें"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-title": {
+    "messageformat": "Report spam?"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
+    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-group": {
+    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
+    "messageformat": "Report spam"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
+    "messageformat": "Report and block"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} सदस्य} other {{number,number} सदस्य}}"
@@ -8111,8 +8123,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "कई छोटे सुधार किए गए हैं, बग हटाए गए हैं, और परफ़ॉर्मेंस बेहतर की गई है। Signal के साथ बने रहने के लिए धन्यवाद!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.6--0": {
-    "messageformat": "अब आपको नए मैसेज देखने के लिए स्क्रॉल करने की ज़रूरत नहीं है। अगर किसी बिज़ी ग्रुप चैट से कई नए लोग जुड़ते हैं, या आपको लगातार कई मिस्ड कॉल आते हैं, तो बार-बार होने वाले इन चैट इवेंट्स को ऑटोमैटिक ढंग से एक कॉम्पैक्ट डिस्प्ले में एक साथ ग्रुप किया जा सकता है। कई बार कम मगर ज़्यादा असरदार जानकारी बेहतर रहती है, फिर भी इन लिस्ट को कभी भी आसानी से बड़ा या छोटा किया जा सकता है।"
   }
 }

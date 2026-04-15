@@ -747,7 +747,7 @@
     "messageformat": "Кешіріңіз, таңдалған файл хат өлшемінің шектеулерінен асып кетті. {limit,number} {units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "Кешіріңіз, таңдалған бейне файлы хабар өлшеміне қойылатын шектеулерден асып кетті. {limit,number} {units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Таңдалған тіркемені жүктеу мүмкін болмады."
@@ -2558,9 +2558,6 @@
   "icu:youUpdatedTheGroup": {
     "messageformat": "Сіз топты жаңарттыңыз."
   },
-  "icu:collapsedContainer": {
-    "messageformat": "{leadingIcon} {text} {trailingIcon}"
-  },
   "icu:collapsedGroupUpdates": {
     "messageformat": "{count, plural, one {{count,number} топ жаңартуы} other {{count,number} топ жаңартуы}}"
   },
@@ -2581,12 +2578,6 @@
   },
   "icu:collapsedCallEvents": {
     "messageformat": "{count, plural, one {{count,number} қоңырау} other {{count,number} қоңырау}}"
-  },
-  "icu:collapsedItems--collapsed": {
-    "messageformat": "Элементтер жинағы жиылды - жаю үшін басыңыз"
-  },
-  "icu:collapsedItems--expanded": {
-    "messageformat": "Элементтер жинағы жайылды - жию үшін басыңыз"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "Топ аватары жаңарды."
@@ -3055,6 +3046,9 @@
   },
   "icu:Message--tap-to-view--outgoing--expired-toast": {
     "messageformat": "Тек көруге болатын хаттар чаттар тарихында сақталмайды."
+  },
+  "icu:Message--tap-to-view--outgoing--expired-toast-2": {
+    "messageformat": "View-once media is deleted after sending"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "Бір рет көрінетін бейне"
@@ -4898,6 +4892,9 @@
   "icu:ConversationDetailsActions--unblock-group": {
     "messageformat": "Топты блоктан шығару"
   },
+  "icu:ConversationDetailsActions--report-spam": {
+    "messageformat": "Report spam"
+  },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "Чатты мұрағаттау"
   },
@@ -4948,6 +4945,21 @@
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "Блоктан шығару"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-title": {
+    "messageformat": "Report spam?"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
+    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-group": {
+    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
+    "messageformat": "Report spam"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
+    "messageformat": "Report and block"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} мүше} other {{number,number} мүше}}"
@@ -8111,8 +8123,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Кішігірім түзетпелер жасалды, ақаулар жөнделді және жұмысы жақсартылды. Signal-ды қолданғаныңыз үшін рақмет!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.6--0": {
-    "messageformat": "Енді соңғы хабарларды көру үшін экранды сонша айналдырудың қажеті болмайды. Қарбалас топтық чатқа бірнеше жаңа адам қосылса немесе қатарынан бірнеше қоңырау өткізіп алсаңыз, чаттағы мұндай қайталанатын оқиғалар автоматты түрде топтастырылып көрсетілетін болады. Кейде мұндай қысқаша ақпарат жеткілікті болса да, бұл тізімдерді кез келген уақытта оңай жиюға немесе жаюға болады."
   }
 }

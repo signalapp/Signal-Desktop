@@ -747,7 +747,7 @@
     "messageformat": "দুঃখিত, নির্বাচিত ফাইলটি মেসেজের আকারের সীমা অতিক্রম করেছে। {limit,number} {units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "দুঃখিত, বেছে নেওয়া ভিডিও ফাইলটি মেসেজের আকারের সীমা অতিক্রম করেছে। {limit,number}{units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "নির্বাচিত সংযুক্তি লোড করতে অক্ষম।"
@@ -2558,9 +2558,6 @@
   "icu:youUpdatedTheGroup": {
     "messageformat": "আপনি গ্রুপটি আপডেট করেছেন।"
   },
-  "icu:collapsedContainer": {
-    "messageformat": "{leadingIcon} {text} {trailingIcon}"
-  },
   "icu:collapsedGroupUpdates": {
     "messageformat": "{count, plural, one {{count,number}টি গ্রুপ আপডেট} other {{count,number}টি গ্রুপ আপডেট}}"
   },
@@ -2581,12 +2578,6 @@
   },
   "icu:collapsedCallEvents": {
     "messageformat": "{count, plural, one {{count,number}টি কল ইভেন্ট} other {{count,number}টি কল ইভেন্ট}}"
-  },
-  "icu:collapsedItems--collapsed": {
-    "messageformat": "আইটেম সেটটি সংকুচিত অবস্থায় আছে - সম্প্রসারিত করতে ক্লিক করুন"
-  },
-  "icu:collapsedItems--expanded": {
-    "messageformat": "আইটেমের সেটটি  সম্প্রসারিত অবস্থায় আছে - সংকুচিত করতে ক্লিক করুন"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "গ্রুপ অবতার আপডেট করা হয়েছে।"
@@ -3055,6 +3046,9 @@
   },
   "icu:Message--tap-to-view--outgoing--expired-toast": {
     "messageformat": "একবার দেখার উপযোগী ম্যাসেজ আপনার চ্যাট-এর ইতিহাসে সংরক্ষিত হয় না।"
+  },
+  "icu:Message--tap-to-view--outgoing--expired-toast-2": {
+    "messageformat": "View-once media is deleted after sending"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "একবার দেখা যাবে এমন ভিডিও"
@@ -4898,6 +4892,9 @@
   "icu:ConversationDetailsActions--unblock-group": {
     "messageformat": "গ্রুপটি আনব্লক করুন"
   },
+  "icu:ConversationDetailsActions--report-spam": {
+    "messageformat": "Report spam"
+  },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "চ্যাট আর্কাইভ করুন"
   },
@@ -4948,6 +4945,21 @@
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "আনব্লক করুন"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-title": {
+    "messageformat": "Report spam?"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
+    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-group": {
+    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
+    "messageformat": "Report spam"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
+    "messageformat": "Report and block"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} জন সদস্য} other {{number,number} জন সদস্য}}"
@@ -8111,8 +8123,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "ছোট ছোট কিছু পরিবর্তন, বাগ সংশোধন এবং পারফর্মেন্স সমৃদ্ধ করা হয়েছে। Signal ব্যবহার করার জন্য ধন্যবাদ!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.6--0": {
-    "messageformat": "বারবার আসা চ্যাট ইভেন্টগুলো (যেমন একাধিক মিসড কল) স্বয়ংক্রিয়ভাবে একটি ছোট ডিসপ্লেতে একত্রিত করা যায়, যার ফলে সর্বশেষ মেসেজ দেখার জন্য আপনাকে খুব বেশি স্ক্রল করতে হবে না।"
   }
 }

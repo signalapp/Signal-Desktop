@@ -747,7 +747,7 @@
     "messageformat": "Nažalost odabrana datoteka premašuje ograničenja veličine poruke. {limit,number} {units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "Nažalost, odabrani videozapis prekoračuje ograničenje veličine poruke. {limit,number}{units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Nije moguće učitati odabrani privitak."
@@ -2558,9 +2558,6 @@
   "icu:youUpdatedTheGroup": {
     "messageformat": "Ažurirali ste grupu."
   },
-  "icu:collapsedContainer": {
-    "messageformat": "{leadingIcon} {text} {trailingIcon}"
-  },
   "icu:collapsedGroupUpdates": {
     "messageformat": "{count, plural, one {{count,number} ažuriranje grupnog razgovora} few {{count,number} ažuriranja grupnog razgovora} many {{count,number} ažuriranja grupnog razgovora} other {{count,number} ažuriranja grupnog razgovora}}"
   },
@@ -2581,12 +2578,6 @@
   },
   "icu:collapsedCallEvents": {
     "messageformat": "{count, plural, one {{count,number} aktivnost vezana za pozive} few {{count,number} aktivnosti vezane za pozive} many {{count,number} aktivnosti vezanih za pozive} other {{count,number} aktivnosti vezanih za pozive}}"
-  },
-  "icu:collapsedItems--collapsed": {
-    "messageformat": "Skup stavki je sažet - kliknite za proširenje"
-  },
-  "icu:collapsedItems--expanded": {
-    "messageformat": "Skup stavki je proširen - kliknite za sažimanje"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "Grupna slika je ažurirana."
@@ -3055,6 +3046,9 @@
   },
   "icu:Message--tap-to-view--outgoing--expired-toast": {
     "messageformat": "Jednom vidljive poruke neće biti spremljene u vašu povijest razgovora."
+  },
+  "icu:Message--tap-to-view--outgoing--expired-toast-2": {
+    "messageformat": "View-once media is deleted after sending"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "Videozapis koji nestaje nakon prikaza"
@@ -4898,6 +4892,9 @@
   "icu:ConversationDetailsActions--unblock-group": {
     "messageformat": "Odblokiraj grupu"
   },
+  "icu:ConversationDetailsActions--report-spam": {
+    "messageformat": "Report spam"
+  },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "Arhiviraj razgovor"
   },
@@ -4948,6 +4945,21 @@
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "Odblokiraj"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-title": {
+    "messageformat": "Report spam?"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
+    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-group": {
+    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
+    "messageformat": "Report spam"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
+    "messageformat": "Report and block"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} član} few {{number,number} člana} many {{number,number} članova} other {{number,number} članova}}"
@@ -8111,8 +8123,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Manja podešavanja, ispravci grešaka i poboljšanje rada aplikacije. Hvala vam što koristite Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.6--0": {
-    "messageformat": "Aktivnosti unutar razgovora (poput više propuštenih poruka) mogu se automatski grupirati u kompaktan prikaz kako ne biste morali toliko listati da pronađete najnovije poruke."
   }
 }

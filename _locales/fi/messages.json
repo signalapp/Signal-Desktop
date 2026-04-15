@@ -747,7 +747,7 @@
     "messageformat": "Tiedosto ylittää viestin kokorajoituksen. {limit,number} {units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "Pahoittelut. Valittu videotiedosto ylittää viestin kokorajoituksen. {limit,number}{units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Valittua liitettä ei voitu ladata."
@@ -2558,9 +2558,6 @@
   "icu:youUpdatedTheGroup": {
     "messageformat": "Päivitit ryhmää."
   },
-  "icu:collapsedContainer": {
-    "messageformat": "{leadingIcon} {text} {trailingIcon}"
-  },
   "icu:collapsedGroupUpdates": {
     "messageformat": "{count, plural, one {{count,number} päivitys ryhmissä} other {{count,number} päivitystä ryhmissä}}"
   },
@@ -2581,12 +2578,6 @@
   },
   "icu:collapsedCallEvents": {
     "messageformat": "{count, plural, one {{count,number} puhelutapahtuma} other {{count,number} puhelutapahtumaa}}"
-  },
-  "icu:collapsedItems--collapsed": {
-    "messageformat": "Kohteet on tiivistetty – laajenna napsauttamalla"
-  },
-  "icu:collapsedItems--expanded": {
-    "messageformat": "Kohteet on laajennettu – tiivistä napsauttamalla"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "Ryhmän kuvake päivitettiin."
@@ -3055,6 +3046,9 @@
   },
   "icu:Message--tap-to-view--outgoing--expired-toast": {
     "messageformat": "Kerran katsottavia viestejä ei tallenneta keskusteluhistoriaasi."
+  },
+  "icu:Message--tap-to-view--outgoing--expired-toast-2": {
+    "messageformat": "View-once media is deleted after sending"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "Kerran katsottava video"
@@ -4898,6 +4892,9 @@
   "icu:ConversationDetailsActions--unblock-group": {
     "messageformat": "Poista ryhmän esto"
   },
+  "icu:ConversationDetailsActions--report-spam": {
+    "messageformat": "Report spam"
+  },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "Arkistoi keskustelu"
   },
@@ -4948,6 +4945,21 @@
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "Poista esto"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-title": {
+    "messageformat": "Report spam?"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
+    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-group": {
+    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
+    "messageformat": "Report spam"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
+    "messageformat": "Report and block"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} jäsen} other {{number,number} jäsentä}}"
@@ -8111,8 +8123,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Pieniä säätöjä, virheenkorjauksia ja suorituskykyparannuksia. Kiitos, että käytät Signalia!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.6--0": {
-    "messageformat": "Nyt sinun ei tarvitse enää vierittää näyttöä niin paljoa nähdäksesi uusimmat viestit. Jos kiireiseen ryhmäkeskusteluun liittyy monia uusia käyttäjiä kerralla tai sinulta jää useita puheluita vastaamatta, kyseiset keskustelutapahtumat voidaan ryhmittää yhteen kompaktiin ruutuun. Joskus vähempi on parempi, mutta voit laajentaa ja tiivistää näitä luetteloita helposti milloin tahansa."
   }
 }

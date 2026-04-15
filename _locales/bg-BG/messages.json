@@ -747,7 +747,7 @@
     "messageformat": "Съжаляваме, избраният файл надвишава ограниченията за съобщения. {limit,number} {units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "Съжаляваме, избраният видео файл надвишава ограниченията за размера на съобщенията. {limit,number}{units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Не може да се зареди избраният обект за прикачване."
@@ -2558,9 +2558,6 @@
   "icu:youUpdatedTheGroup": {
     "messageformat": "Обновихте групата."
   },
-  "icu:collapsedContainer": {
-    "messageformat": "{leadingIcon} {text} {trailingIcon}"
-  },
   "icu:collapsedGroupUpdates": {
     "messageformat": "{count, plural, one {{count,number} актуализация в групата} other {{count,number} актуализации в групата}}"
   },
@@ -2581,12 +2578,6 @@
   },
   "icu:collapsedCallEvents": {
     "messageformat": "{count, plural, one {{count,number} събитие, свързано с обаждане} other {{count,number} събития, свързани с обаждания}}"
-  },
-  "icu:collapsedItems--collapsed": {
-    "messageformat": "Наборът от елементи е свит – кликнете за разширяване"
-  },
-  "icu:collapsedItems--expanded": {
-    "messageformat": "Наборът от елементи е разширен – кликнете за свиване"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "Аватарът на групата беше обновен."
@@ -3055,6 +3046,9 @@
   },
   "icu:Message--tap-to-view--outgoing--expired-toast": {
     "messageformat": "Еднократните съобщения не се запазват в хронологията на чата ви."
+  },
+  "icu:Message--tap-to-view--outgoing--expired-toast-2": {
+    "messageformat": "View-once media is deleted after sending"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "Видео за еднократно гледане"
@@ -4898,6 +4892,9 @@
   "icu:ConversationDetailsActions--unblock-group": {
     "messageformat": "Отблокиране на групата"
   },
+  "icu:ConversationDetailsActions--report-spam": {
+    "messageformat": "Report spam"
+  },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "Архивиране на чата"
   },
@@ -4948,6 +4945,21 @@
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "Отблокиране"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-title": {
+    "messageformat": "Report spam?"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
+    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-group": {
+    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
+    "messageformat": "Report spam"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
+    "messageformat": "Report and block"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} член} other {{number,number} членове}}"
@@ -8111,8 +8123,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Дребни корекции, поправки на бъгове и подобрения на работата. Благодарим ви, че използвате Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.6--0": {
-    "messageformat": "Повтарящите се събития в чата (като например няколко пропуснати обаждания) могат автоматично да се групират в компактен изглед, така че да не се налага да превъртате толкова много, за да видите най-новите съобщения."
   }
 }

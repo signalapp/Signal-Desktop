@@ -747,7 +747,7 @@
     "messageformat": "Atleiskite, pasirinktas failas viršija žinutės dydžio apribojimus. {limit,number} {units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "Deja, pasirinktas vaizdo įrašo failas viršija žinutės dydžio apribojimus. {limit,number}{units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Nepavyko įkelti pasirinkto priedo."
@@ -2558,9 +2558,6 @@
   "icu:youUpdatedTheGroup": {
     "messageformat": "Jūs atnaujinote grupę."
   },
-  "icu:collapsedContainer": {
-    "messageformat": "{leadingIcon} {text} {trailingIcon}"
-  },
   "icu:collapsedGroupUpdates": {
     "messageformat": "{count, plural, one {{count,number} grupės atnaujinimas} few {{count,number} grupės atnaujinimai} many {{count,number} grupės atnaujinimo} other {{count,number} grupės atnaujinimų}}"
   },
@@ -2581,12 +2578,6 @@
   },
   "icu:collapsedCallEvents": {
     "messageformat": "{count, plural, one {{count,number} skambučio įvykis} few {{count,number} skambučio įvykiai} many {{count,number} skambučio įvykio} other {{count,number} skambučio įvykių}}"
-  },
-  "icu:collapsedItems--collapsed": {
-    "messageformat": "Elementų rinkinys suskleistas – spustelėkite norėdami išskleisti"
-  },
-  "icu:collapsedItems--expanded": {
-    "messageformat": "Elementų rinkinys išskleistas – spustelėkite norėdami suskleisti"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "Grupės avataras buvo atnaujintas."
@@ -3055,6 +3046,9 @@
   },
   "icu:Message--tap-to-view--outgoing--expired-toast": {
     "messageformat": "Vienkartinės peržiūros žinutės nesaugomos tavo pokalbio istorijoje."
+  },
+  "icu:Message--tap-to-view--outgoing--expired-toast-2": {
+    "messageformat": "View-once media is deleted after sending"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "Vienkartinės peržiūros vaizdo įrašas"
@@ -4898,6 +4892,9 @@
   "icu:ConversationDetailsActions--unblock-group": {
     "messageformat": "Atblokuoti grupę"
   },
+  "icu:ConversationDetailsActions--report-spam": {
+    "messageformat": "Report spam"
+  },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "Archyvuoti pokalbį"
   },
@@ -4948,6 +4945,21 @@
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "Atblokuoti"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-title": {
+    "messageformat": "Report spam?"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
+    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-group": {
+    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
+    "messageformat": "Report spam"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
+    "messageformat": "Report and block"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} narys} few {{number,number} nariai} many {{number,number} nario} other {{number,number} narių}}"
@@ -8111,8 +8123,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Smulkūs patobulinimai, klaidų pataisymai ir veikimo pagerinimas. Ačiū, kad naudoji „Signal“!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.6--0": {
-    "messageformat": "Pakartotiniai pokalbių įvykiai (pvz., keli praleisti skambučiai) gali būti automatiškai sugrupuoti į vieną kompaktišką langą, todėl norint peržiūrėti naujausius pranešimus nereikės tiek daug slinkti."
   }
 }

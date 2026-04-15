@@ -747,7 +747,7 @@
     "messageformat": "Rất tiếc, tập tin đã chọn vượt quá giới hạn kích thước của tin nhắn. {limit,number} {units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "Rất tiếc, tập tin video đã chọn vượt quá giới hạn dung lượng của tin nhắn. {limit,number}{units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Không thể tải tập tin đính kèm đã chọn."
@@ -2558,9 +2558,6 @@
   "icu:youUpdatedTheGroup": {
     "messageformat": "Bạn đã cập nhật nhóm."
   },
-  "icu:collapsedContainer": {
-    "messageformat": "{leadingIcon} {text} {trailingIcon}"
-  },
   "icu:collapsedGroupUpdates": {
     "messageformat": "{count, plural, other {{count,number} cập nhật về nhóm}}"
   },
@@ -2581,12 +2578,6 @@
   },
   "icu:collapsedCallEvents": {
     "messageformat": "{count, plural, other {{count,number} sự kiện gọi}}"
-  },
-  "icu:collapsedItems--collapsed": {
-    "messageformat": "Danh sách đã được thu gọn - bấm để mở rộng"
-  },
-  "icu:collapsedItems--expanded": {
-    "messageformat": "Danh sách đã được mở rộng - bấm để thu gọn"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "Ảnh đại diện của nhóm đã được cập nhật."
@@ -3055,6 +3046,9 @@
   },
   "icu:Message--tap-to-view--outgoing--expired-toast": {
     "messageformat": "Tin nhắn xem một lần không được lưu trong lịch sử trò chuyện."
+  },
+  "icu:Message--tap-to-view--outgoing--expired-toast-2": {
+    "messageformat": "View-once media is deleted after sending"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "Video xem một lần"
@@ -4898,6 +4892,9 @@
   "icu:ConversationDetailsActions--unblock-group": {
     "messageformat": "Bỏ chặn nhóm"
   },
+  "icu:ConversationDetailsActions--report-spam": {
+    "messageformat": "Report spam"
+  },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "Lưu trữ cuộc trò chuyện"
   },
@@ -4948,6 +4945,21 @@
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "Bỏ chặn"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-title": {
+    "messageformat": "Report spam?"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
+    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-group": {
+    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
+    "messageformat": "Report spam"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
+    "messageformat": "Report and block"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, other {{number,number} thành viên}}"
@@ -8111,8 +8123,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Các tinh chỉnh, sửa lỗi, và cải thiện hiệu năng. Cảm ơn bạn đã sử dụng Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.6--0": {
-    "messageformat": "Các sự kiện trò chuyện lặp lại (như nhiều cuộc gọi nhỡ) có thể được tự động nhóm lại thành một bảng hiển thị nhỏ gọn, giúp bạn không cần phải cuộn quá nhiều để xem các tin nhắn mới nhất."
   }
 }

@@ -747,7 +747,7 @@
     "messageformat": "Ár leithscéal, sáraíonn an comhad roghnaithe srianta le méid na teachtaireachta. {limit,number} {units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "Ár leithscéal, sáraíonn an físchomhad roghnaithe srianta le méid na teachtaireachta. {limit,number}{units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Ní féidir an ceangaltán roghnaithe a lódáil."
@@ -2558,9 +2558,6 @@
   "icu:youUpdatedTheGroup": {
     "messageformat": "Nuashonraigh tú an grúpa."
   },
-  "icu:collapsedContainer": {
-    "messageformat": "{leadingIcon} {text} {trailingIcon}"
-  },
   "icu:collapsedGroupUpdates": {
     "messageformat": "{count, plural, one {{count,number} nuashonrú grúpa} two {{count,number} nuashonrú grúpa} few {{count,number} nuashonrú grúpa} many {{count,number} nuashonrú grúpa} other {{count,number} nuashonrú grúpa}}"
   },
@@ -2581,12 +2578,6 @@
   },
   "icu:collapsedCallEvents": {
     "messageformat": "{count, plural, one {{count,number} imeacht glao} two {{count,number} imeacht glao} few {{count,number} imeacht glao} many {{count,number} n-imeacht glao} other {{count,number} imeacht glao}}"
-  },
-  "icu:collapsedItems--collapsed": {
-    "messageformat": "Tá an tacar míreanna leacaithe – cliceáil lena fhairsing"
-  },
-  "icu:collapsedItems--expanded": {
-    "messageformat": "Tá an tacar míreanna fairsingithe – cliceáil lena leacú"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "Nuashonraíodh abhatár an ghrúpa."
@@ -3055,6 +3046,9 @@
   },
   "icu:Message--tap-to-view--outgoing--expired-toast": {
     "messageformat": "Ní stóráiltear teachtaireachtaí amhairc aonuaire i stair do chomhráite."
+  },
+  "icu:Message--tap-to-view--outgoing--expired-toast-2": {
+    "messageformat": "View-once media is deleted after sending"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "Físeán Amhairc Aonuaire"
@@ -4898,6 +4892,9 @@
   "icu:ConversationDetailsActions--unblock-group": {
     "messageformat": "Bain an bac den ghrúpa"
   },
+  "icu:ConversationDetailsActions--report-spam": {
+    "messageformat": "Report spam"
+  },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "Cuir comhrá sa chartlann"
   },
@@ -4948,6 +4945,21 @@
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "Bain an bac"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-title": {
+    "messageformat": "Report spam?"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
+    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-group": {
+    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
+    "messageformat": "Report spam"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
+    "messageformat": "Report and block"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} bhall} two {{number,number} bhall} few {{number,number} bhall} many {{number,number} mball} other {{number,number} ball}}"
@@ -8111,8 +8123,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Mionathruithe, paistí fabhtanna agus feabhsuithe ar fheidhmíocht. Go raibh maith agat as Signal a úsáid!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.6--0": {
-    "messageformat": "Is féidir imeachtaí comhráite a tharlaíonn go min minic (amhail go leor glaonna caillte) a ghrúpáil le chéile go huathoibríoch mar dhlúth-thaispeáint ionas nach mbeidh ort scrollú chomh fada leis na teachtaireachtaí is déanaí a fháil."
   }
 }

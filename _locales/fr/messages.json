@@ -747,7 +747,7 @@
     "messageformat": "La taille du fichier sélectionné dépasse la limite autorisée. "
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "La taille de la vidéo sélectionnée dépasse la limite autorisée. {limit,number} {units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Impossible de charger la pièce jointe sélectionnée."
@@ -2558,9 +2558,6 @@
   "icu:youUpdatedTheGroup": {
     "messageformat": "Vous avez apporté des modifications au groupe."
   },
-  "icu:collapsedContainer": {
-    "messageformat": "{leadingIcon} {text} {trailingIcon}"
-  },
   "icu:collapsedGroupUpdates": {
     "messageformat": "{count, plural, one {{count,number} mise à jour du groupe} other {{count,number} mises à jour du groupe}}"
   },
@@ -2581,12 +2578,6 @@
   },
   "icu:collapsedCallEvents": {
     "messageformat": "{count, plural, one {{count,number} appel} other {{count,number} appels}}"
-  },
-  "icu:collapsedItems--collapsed": {
-    "messageformat": "La liste est réduite - cliquez pour la dérouler"
-  },
-  "icu:collapsedItems--expanded": {
-    "messageformat": "La liste est déroulée - cliquez pour la réduire"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "La photo du groupe a été mise à jour."
@@ -3055,6 +3046,9 @@
   },
   "icu:Message--tap-to-view--outgoing--expired-toast": {
     "messageformat": "Les messages éphémères ne sont pas conservés dans l'historique des conversations."
+  },
+  "icu:Message--tap-to-view--outgoing--expired-toast-2": {
+    "messageformat": "View-once media is deleted after sending"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "Vidéo à vue unique"
@@ -4898,6 +4892,9 @@
   "icu:ConversationDetailsActions--unblock-group": {
     "messageformat": "Débloquer le groupe"
   },
+  "icu:ConversationDetailsActions--report-spam": {
+    "messageformat": "Report spam"
+  },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "Archiver la conversation"
   },
@@ -4948,6 +4945,21 @@
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "Débloquer"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-title": {
+    "messageformat": "Report spam?"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
+    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-group": {
+    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
+    "messageformat": "Report spam"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
+    "messageformat": "Report and block"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} membre} other {{number,number} membres}}"
@@ -8111,8 +8123,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Au menu de cette version : quelques ajustements de plus, quelques petits bugs en moins et des gains de performance. Merci d'utiliser Signal !",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.6--0": {
-    "messageformat": "Ne vous laissez plus dépasser par les événements. Plusieurs personnes ont rejoint une conversation de groupe ? Vous avez manqué plusieurs appels à la suite ? Ces événements répétés sont maintenant regroupés et affichés sous forme de liste compacte. Pour consulter toutes les mises à jour dans le détail, il vous suffit de dérouler la liste."
   }
 }

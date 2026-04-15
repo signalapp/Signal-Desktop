@@ -747,7 +747,7 @@
     "messageformat": "ဝမ်းနည်းပါသည်၊ ရွေးချယ်ထားသော ဖိုင်မှာ မက်ဆေ့ချ်အရွယ်အစား သတ်မှတ်ချက်ထက် ကျော်နေပါသည်။ {limit,number}{units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "ရွေးချယ်ထားသော ဗီဒီယိုဖိုင်သည် မက်ဆေ့ချ်အရွယ်အစား ကန့်သတ်ချက်ထက် ကျော်လွန်နေပါသည်။ {limit,number}{units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "ရွေးချယ်ထား‌သော ပူးတွဲဖိုင်ကို ထည့်သွင်းလုပ်ဆောင်၍ မရနိုင်ပါ။"
@@ -2558,9 +2558,6 @@
   "icu:youUpdatedTheGroup": {
     "messageformat": "အဖွဲ့အား သင်ပြောင်းလဲမှုပြုလိုက်သည်။"
   },
-  "icu:collapsedContainer": {
-    "messageformat": "{leadingIcon} {text} {trailingIcon}"
-  },
   "icu:collapsedGroupUpdates": {
     "messageformat": "{count, plural, other {အဖွဲ့အပ်ဒိတ် {count,number} ခု}}"
   },
@@ -2581,12 +2578,6 @@
   },
   "icu:collapsedCallEvents": {
     "messageformat": "{count, plural, other {ခေါ်ဆိုမှု အခြေအနေ {count,number} ခု}}"
-  },
-  "icu:collapsedItems--collapsed": {
-    "messageformat": "အကြောင်းအရာများကို စုစည်းထားသည် - ဖြန့်ချရန် နှိပ်ပါ"
-  },
-  "icu:collapsedItems--expanded": {
-    "messageformat": "အကြောင်းအရာများကို ဖြန့်ချထားသည် - စုစည်းရန် နှိပ်ပါ"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "အဖွဲ့ရုပ်ပုံကို အပ်ဒိတ်လုပ်ထားသည်။"
@@ -3055,6 +3046,9 @@
   },
   "icu:Message--tap-to-view--outgoing--expired-toast": {
     "messageformat": "တစ်ကြိမ်ကြည့် မက်ဆေ့ချ်များကို သင့်ချက်(တ်)မှတ်တမ်းတွင် မသိမ်းဆည်းပါ။"
+  },
+  "icu:Message--tap-to-view--outgoing--expired-toast-2": {
+    "messageformat": "View-once media is deleted after sending"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "တစ်ခါကြည့် ဗီဒီယို"
@@ -4898,6 +4892,9 @@
   "icu:ConversationDetailsActions--unblock-group": {
     "messageformat": "အဖွဲ့ကို ဘလော့ခ်ဖြေရန်"
   },
+  "icu:ConversationDetailsActions--report-spam": {
+    "messageformat": "Report spam"
+  },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "ချက်(တ်)ကို စုစည်းရန်"
   },
@@ -4948,6 +4945,21 @@
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "ဘလော့ခ်ဖြေရန်"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-title": {
+    "messageformat": "Report spam?"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
+    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-group": {
+    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
+    "messageformat": "Report spam"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
+    "messageformat": "Report and block"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, other {မန်ဘာ {number,number} ဦး}}"
@@ -8111,8 +8123,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "အနေအထား ပြုပြင်မှုလေးများ၊ ချို့ယွင်းချက် ပြင်ဆင်မှုများနှင့် စွမ်းဆောင်ရည် မြှင့်တင်မှုများ။ Signal ကို သုံးသည့်အတွက် ကျေးဇူးတင်ပါသည်။",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.6--0": {
-    "messageformat": "ထပ်တလဲလဲဖြစ်သော ခေါ်ဆိုမှု အခြေအနေများ (လွတ်သွားသော ဖုန်းခေါ်ဆိုမှုများစွာကဲ့သို့) ကို အလိုအလျောက် စုစည်း၍ ကျစ်လျစ်စွာ ဖော်ပြမှုကြောင့် နောက်ဆုံးရမက်ဆေ့ချ်များကို ကြည့်ရှုရန် ဝေးဝေးသို့ Scroll လုပ်ရန် မလိုအပ်တော့ပါ။"
   }
 }

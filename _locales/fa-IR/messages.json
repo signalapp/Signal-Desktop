@@ -747,7 +747,7 @@
     "messageformat": "متاسفانه حجم فایل انتخاب‌شده از حداکثر طول پیام بیشتر است. {limit,number} {units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "متاسفانه حجم فایل ویدئویی انتخاب‌شده از حداکثر مجاز حجم پیام بیشتر است. {limit,number}{units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "ناتوانی در بارگیری پیوست انتخابی."
@@ -2558,9 +2558,6 @@
   "icu:youUpdatedTheGroup": {
     "messageformat": "شما گروه را به‌روزرسانی کردید."
   },
-  "icu:collapsedContainer": {
-    "messageformat": "{leadingIcon} {text} {trailingIcon}"
-  },
   "icu:collapsedGroupUpdates": {
     "messageformat": "{count, plural, one {{count,number} به‌روزرسانی گروه} other {{count,number} به‌روزرسانی گروه}}"
   },
@@ -2581,12 +2578,6 @@
   },
   "icu:collapsedCallEvents": {
     "messageformat": "{count, plural, one {{count,number} رویداد تماس} other {{count,number} رویداد تماس}}"
-  },
-  "icu:collapsedItems--collapsed": {
-    "messageformat": "مجموعه موارد جمع شده است - برای گسترش دادن، کلیک کنید"
-  },
-  "icu:collapsedItems--expanded": {
-    "messageformat": "مجموعه موارد گسترش یافته است - برای جمع کردن، کلیک کنید"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "آواتار گروه به‌روز شد."
@@ -3055,6 +3046,9 @@
   },
   "icu:Message--tap-to-view--outgoing--expired-toast": {
     "messageformat": "پیام‌های یک‌بار مصرف در تاریخچه گفتگوی شما ذخیره نمی‌شوند."
+  },
+  "icu:Message--tap-to-view--outgoing--expired-toast-2": {
+    "messageformat": "View-once media is deleted after sending"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "ویدئو با قابلیت یک‌بار مشاهده"
@@ -4898,6 +4892,9 @@
   "icu:ConversationDetailsActions--unblock-group": {
     "messageformat": "رفع مسدودیت گروه"
   },
+  "icu:ConversationDetailsActions--report-spam": {
+    "messageformat": "Report spam"
+  },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "بایگانی گفتگو"
   },
@@ -4948,6 +4945,21 @@
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "رفع مسدودیت"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-title": {
+    "messageformat": "Report spam?"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
+    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-group": {
+    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
+    "messageformat": "Report spam"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
+    "messageformat": "Report and block"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} عضو} other {{number,number} عضو}}"
@@ -8111,8 +8123,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "تغییرات کوچک، رفع اشکالات و بهبود عملکرد. بابت استفاده از سیگنال سپاسگزاریم!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.6--0": {
-    "messageformat": "رویدادهای تکراری گفتگو (مانند تماس‌های ازدست‌رفته متعدد) را می‌توان به‌طور خودکار با هم در نمایشی فشرده گروه‌بندی کرد تا دیگر نیاز نباشد برای رسیدن به آخرین پیام‌ها، پیمایش زیادی در صفحه کنید."
   }
 }

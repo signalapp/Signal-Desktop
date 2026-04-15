@@ -747,7 +747,7 @@
     "messageformat": "უკაცრავად, არჩეული ფაილი აჭარბებს შეტყობინების ზომის შეზღუდვებს. {limit,number}{units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "ვწუხვართ, არჩეული ვიდეო ფაილი წერილის ზომის შეზღუდვას აჭარბებს. {limit,number}{units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "არჩეული დანართის ჩატვირთვა ვერ მოხერხდა."
@@ -2558,9 +2558,6 @@
   "icu:youUpdatedTheGroup": {
     "messageformat": "შენ გაანახლე ჯგუფი."
   },
-  "icu:collapsedContainer": {
-    "messageformat": "{leadingIcon} {text} {trailingIcon}"
-  },
   "icu:collapsedGroupUpdates": {
     "messageformat": "{count, plural, one {ჯგუფის {count,number} განახლება} other {ჯგუფის {count,number} განახლება}}"
   },
@@ -2581,12 +2578,6 @@
   },
   "icu:collapsedCallEvents": {
     "messageformat": "{count, plural, one {ზარის {count,number} აქტივობა} other {ზარის {count,number} აქტივობა}}"
-  },
-  "icu:collapsedItems--collapsed": {
-    "messageformat": "ელემენტების ერთობლიობა დაპატარავებულია - გასადიდებლად დააწკაპუნე"
-  },
-  "icu:collapsedItems--expanded": {
-    "messageformat": "ელემენტების ერთობლიობა გადიდებულია - დასაპატარავებლად დააწკაპუნე"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "ჯგუფის ავატარი განახლებულია."
@@ -3055,6 +3046,9 @@
   },
   "icu:Message--tap-to-view--outgoing--expired-toast": {
     "messageformat": "ერთხელ სანახავი შეტყობინებები არ ინახება შენი მიმოწერის ისტორიაში."
+  },
+  "icu:Message--tap-to-view--outgoing--expired-toast-2": {
+    "messageformat": "View-once media is deleted after sending"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "ერთხელ სანახავი ვიდეო"
@@ -4898,6 +4892,9 @@
   "icu:ConversationDetailsActions--unblock-group": {
     "messageformat": "ჯგუფის განბლოკვა"
   },
+  "icu:ConversationDetailsActions--report-spam": {
+    "messageformat": "Report spam"
+  },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "ჩატის დაარქივება"
   },
@@ -4948,6 +4945,21 @@
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "განბლოკვა"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-title": {
+    "messageformat": "Report spam?"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
+    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-group": {
+    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
+    "messageformat": "Report spam"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
+    "messageformat": "Report and block"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} წევრი} other {{number,number} წევრი}}"
@@ -8111,8 +8123,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "მცირე შესწორებები, ბაგების გამოსწორება და წარმადობის გაუმჯობესება. მადლობას გიხდით სიგნალის გამოყენებისთვის!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.6--0": {
-    "messageformat": "ახლა ბოლო წერილების წასაკითხად დიდხანს სქროლვა აღარ მოგიწევს. ახლა უკვე ჩატის განმეორებითი ქმედებების (მაგალითად, რამდენიმე გამოტოვებული ზარის) ავტომატურად კომპაქტურად დაჯგუფება შეიძლება. ამ სიების გაშლას ან დაპატარავებას ნებისმიერ დროს შეძლებ."
   }
 }
