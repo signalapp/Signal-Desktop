@@ -76,8 +76,8 @@ importers:
         specifier: 2.0.16
         version: 2.0.16
       '@signalapp/libsignal-client':
-        specifier: 0.91.0
-        version: 0.91.0
+        specifier: 0.92.1
+        version: 0.92.1
       '@signalapp/mute-state-change':
         specifier: workspace:1.0.0
         version: link:packages/mute-state-change
@@ -182,8 +182,8 @@ importers:
         specifier: 1.0.1
         version: 1.0.1
       '@signalapp/mock-server':
-        specifier: 21.0.1
-        version: 21.0.1(bufferutil@4.0.9)(utf-8-validate@5.0.10)
+        specifier: 21.1.2
+        version: 21.1.2(bufferutil@4.0.9)(utf-8-validate@5.0.10)
       '@signalapp/quill-cjs':
         specifier: 2.1.2
         version: 2.1.2
@@ -4110,17 +4110,14 @@ packages:
   '@sideway/pinpoint@2.0.0':
     resolution: {integrity: sha512-RNiOoTPkptFtSVzQevY/yWtZwf/RxyVnPy/OcA9HBM3MlGDnBEYL5B41H0MTn0Uec8Hi+2qUtTfG2WWZBmMejQ==}
 
-  '@signalapp/libsignal-client@0.89.2':
-    resolution: {integrity: sha512-LGvE50XxiCB7vXHtx/TElPXl8sFr6kLO6CkZVh33pc5FME3j/PMtdTZnUE7bFDV15yxW//pCntFrpV0XzV5lSA==}
-
-  '@signalapp/libsignal-client@0.91.0':
-    resolution: {integrity: sha512-Gk/fq7Ki3sNfyTIfJ+46Eo0qt8dJoLVuVMMVb6P2utnab2J0zpQWlNFUXyFJkiftrHtdcVS8cKwaJf9Od1hAVA==}
+  '@signalapp/libsignal-client@0.92.1':
+    resolution: {integrity: sha512-vLGxN+WFLPXvg3RP3rmrPLk+CuYyd6F42RZ6c9YKHquwQe7jHjQN85iHuKpX4zjf8g7DLMXqa3I2qK//tMiahA==}
 
   '@signalapp/minimask@1.0.1':
     resolution: {integrity: sha512-QAwo0joA60urTNbW9RIz6vLKQjy+jdVtH7cvY0wD9PVooD46MAjE40MLssp4xUJrph91n2XvtJ3pbEUDrmT2AA==}
 
-  '@signalapp/mock-server@21.0.1':
-    resolution: {integrity: sha512-mH05E0Eorov3CEAU/bpvGuQ3g8ZqOsdBT+NvZ0zNxRoSuyIrWb7on3M5CEpHYDaFLCXrnjg3nAbZmKGgbFdefg==}
+  '@signalapp/mock-server@21.1.2':
+    resolution: {integrity: sha512-rCK/LvEiQps8zdPecnY1vhX/wGLXyXnMiL5rkiMg+rGg52zgbNoCG/sOScbAsmaDUKG+oMiSRmphQkeveDDbaQ==}
 
   '@signalapp/parchment-cjs@3.0.1':
     resolution: {integrity: sha512-hSBMQ1M7wE4GcC8ZeNtvpJF+DAJg3eIRRf1SiHS3I3Algav/sgJJNm6HIYm6muHuK7IJmuEjkL3ILSXgmu0RfQ==}
@@ -10025,10 +10022,6 @@ packages:
   utila@0.4.0:
     resolution: {integrity: sha512-Z0DbgELS9/L/75wZbro8xAnT50pBVFQZ+hUEueGDU5FN51YSCYM+jdxsfCiHjwNP/4LCDD0i/graKpeBnOXKRA==}
 
-  uuid@11.0.2:
-    resolution: {integrity: sha512-14FfcOJmqdjbBPdDjFQyk/SdT4NySW4eM0zcG+HqbHP5jzuH56xO3J1DGhgs/cEMCfwYi3HQI1gnTO62iaG+tQ==}
-    hasBin: true
-
   uuid@13.0.0:
     resolution: {integrity: sha512-XQegIaBTVUjSHliKqcnFqYypAd4S+WCYt5NIeRs6w/UAry7z8Y9j5ZwRRL4kzq9U3sD6v+85er9FvkEaBpji2w==}
     hasBin: true
@@ -13997,24 +13990,18 @@ snapshots:
 
   '@sideway/pinpoint@2.0.0': {}
 
-  '@signalapp/libsignal-client@0.89.2':
-    dependencies:
-      node-gyp-build: 4.8.4
-      type-fest: 4.26.1
-      uuid: 11.0.2
-
-  '@signalapp/libsignal-client@0.91.0':
+  '@signalapp/libsignal-client@0.92.1':
     dependencies:
       node-gyp-build: 4.8.4
       type-fest: 4.26.1
 
   '@signalapp/minimask@1.0.1': {}
 
-  '@signalapp/mock-server@21.0.1(bufferutil@4.0.9)(utf-8-validate@5.0.10)':
+  '@signalapp/mock-server@21.1.2(bufferutil@4.0.9)(utf-8-validate@5.0.10)':
     dependencies:
       '@indutny/parallel-prettier': 3.0.0(prettier@3.8.1)
       '@indutny/protopiler': 4.0.0
-      '@signalapp/libsignal-client': 0.89.2
+      '@signalapp/libsignal-client': 0.92.1
       '@tus/file-store': 1.5.1
       '@tus/server': 1.10.2
       debug: 4.4.3(supports-color@8.1.1)
@@ -20777,8 +20764,6 @@ snapshots:
       which-typed-array: 1.1.18
 
   utila@0.4.0: {}
-
-  uuid@11.0.2: {}
 
   uuid@13.0.0: {}
 

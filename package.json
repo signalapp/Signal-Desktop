@@ -117,7 +117,7 @@
   "dependencies": {
     "@indutny/mac-screen-share": "1.0.13",
     "@indutny/simple-windows-notifications": "2.0.16",
-    "@signalapp/libsignal-client": "0.91.0",
+    "@signalapp/libsignal-client": "0.92.1",
     "@signalapp/mute-state-change": "workspace:1.0.0",
     "@signalapp/ringrtc": "2.67.0",
     "@signalapp/sqlcipher": "3.2.1",
@@ -154,7 +154,7 @@
     "@react-aria/utils": "3.33.1",
     "@react-spring/web": "10.0.3",
     "@signalapp/minimask": "1.0.1",
-    "@signalapp/mock-server": "21.0.1",
+    "@signalapp/mock-server": "21.1.2",
     "@signalapp/quill-cjs": "2.1.2",
     "@storybook/addon-a11y": "8.4.4",
     "@storybook/addon-actions": "8.4.4",
