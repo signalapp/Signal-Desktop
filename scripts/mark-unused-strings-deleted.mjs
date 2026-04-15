@@ -27,6 +27,7 @@ function getIcuLikeStrings() {
       'ts/',
       'app/',
       'js/',
+      'scripts/',
     ],
     {
       cwd: rootDir,
