@@ -54,6 +54,7 @@ import type {
 import { tw } from '../../axo/tw.dom.js';
 import { generateSafetyNumber } from '../../util/safetyNumber.preload.js';
 import { itemStorage } from '../../textsecure/Storage.preload.js';
+import { signalProtocolStore } from '../../SignalProtocolStore.preload.js';
 
 function HeaderInfoTitle({
   name,
@@ -266,30 +267,63 @@ export const ConversationHeader = memo(function ConversationHeader({
 
   const [sasNumber, setSasNumber] = useState<string | null>(null);
   const [selectedMemberId, setSelectedMemberId] = useState<string | null>(null);
+  const [selectedMemberName, setSelectedMemberName] = useState<string | null>(null);
   const [showGroupSASModal, setShowGroupSASModal] = useState(false);
 
+  // user device name
+  const ourDeviceName = itemStorage.get('device_name');
+  console.log('Our device name:', ourDeviceName);
+
   const handleShowSASModal = useCallback(async () => {
-    if (conversation.type === 'group') {
-      setShowGroupSASModal(true);
-    } else {
+    console.log('handleShowSASModal called for conversation:', conversation.id, 'type:', conversation.type);
+  if (conversation.type === 'group') {
+    setShowGroupSASModal(true);
+    return;
+  }
+
+  try {
+    const fullConversation = window.ConversationController.get(conversation.id)?.format();
+    if (!fullConversation) {
+      console.error('Could not find full conversation');
+      return;
+    }
+    if (!fullConversation.serviceId) {
+      console.error('Contact has no serviceId');
+      return;
+    }
+
+    // temporary to check for device IDs
+    const ourConversationId = window.ConversationController.getOurConversationId();
+    const ourConversation = ourConversationId
+      ? window.ConversationController.get(ourConversationId)
+      : null;
+    const ourAci = ourConversation?.get('serviceId');
+    console.log('Our ACI:', ourAci);
+    console.log('Their serviceId:', fullConversation.serviceId);
+
+    if (ourAci) {
       try {
-        const fullConversation = window.ConversationController.get(conversation.id)?.format();
-        if (!fullConversation) {
-          console.error('Could not find full conversation');
-          return;
-        }
-        if (!fullConversation.serviceId) {
-          console.error('Contact has no serviceId? cannot generate safety number');
-          return;
-        }
-        const result = await generateSafetyNumber(fullConversation);
-        const total = result.numberBlocks.reduce((sum, block) => sum + parseInt(block, 10), 0) % 1000000;
-        setSasNumber(total.toString().padStart(6, '0'));
-      } catch (err) {
-        console.error('Failed to generate safety number', err);
+        const deviceIds = await signalProtocolStore.getDeviceIds({
+          ourServiceId: ourAci as any,
+          serviceId: fullConversation.serviceId as any,
+        });
+        console.log('Their device IDs:', deviceIds);
+        deviceIds.forEach((id: number) => {
+          console.log(`  Device ${id}: ${id === 1 ? 'Primary Device (Phone)' : `Linked Device ${id}`}`);
+        });
+      } catch (deviceErr) {
+        console.error('Failed to get device IDs:', deviceErr);
       }
     }
-  }, [conversation]); 
+    // end check
+
+    const result = await generateSafetyNumber(fullConversation);
+    const total = result.numberBlocks.reduce((sum, block) => sum + parseInt(block, 10), 0) % 1000000;
+    setSasNumber(total.toString().padStart(6, '0'));
+  } catch (err) {
+    console.error('Failed to generate safety number', err);
+  }
+}, [conversation]);
 
   const handleVerifyMember = useCallback(async (memberId: string) => {
     try {
@@ -297,6 +331,8 @@ export const ConversationHeader = memo(function ConversationHeader({
       if (!fullConversation?.serviceId) return;
       const result = await generateSafetyNumber(fullConversation);
       setSelectedMemberId(memberId);
+      const memberName = groupMembers.find(m => m.id === memberId)?.name ?? 'Unknown';
+      setSelectedMemberName(memberName);
       const total = result.numberBlocks.reduce((sum, block) => sum + parseInt(block, 10), 0) % 1000000;
       setSasNumber(total.toString().padStart(6, '0'));
       setShowGroupSASModal(false);
@@ -308,23 +344,44 @@ export const ConversationHeader = memo(function ConversationHeader({
   const groupMembers = useMemo(() => {
     if (conversation.type !== 'group') return [];
     try {
-    const conv = window.ConversationController.get(conversation.id);
-    if (!conv) return [];
+      const conv = window.ConversationController.get(conversation.id);
+      if (!conv) return [];
+      const ourConversationId = window.ConversationController.getOurConversationId();
+      const ourConversation = ourConversationId ? window.ConversationController.get(ourConversationId) : null;
+      const ourAci = ourConversation?.get('serviceId');
+      const ourE164 = ourConversation?.get('e164');
 
-    const userId = window.ConversationController.getOurConversationId();
-    const members = conv.getMembers?.() ??
-                    conv.get('membersV2') ??
-                    conv.get('members') ??
-                    [];
-    return members
-      .filter((m: any) => {
-        const memberId = m.id ?? m.get?.('id');
-        return memberId !== userId;
-      })
-      .map((m: any) => ({
-        id: m.id ?? m.get?.('id'),
-        name: m.get?.('profileName') ?? m.get?.('name') ?? m.get?.('e164') ?? m.id ?? 'Unknown',
-      }));
+      // const members = conv.getMembers?.({ includePendingMembers: true }) ??
+      //                 conv.get('membersV2') ??
+      //                 conv.get('members') ??
+      //                 [];
+
+      const memberIds: Array<string> = (conv.get('membersV2') ?? []).map((m: any) => m.aci ?? m.uuid ?? m.id)
+      .concat(conv.get('members') ?? [])
+      .filter((id: string, index: number, arr: Array<string>) => arr.indexOf(id) === index);
+      // conv.getMembers() contain all non blocked members
+      // conv.get('membersV2') contain all members but not the conversationType id but in UUIDs format?
+      // conv.get('members') is undefined?
+
+      return memberIds
+        .filter((id: string) => {
+          if (id === ourConversationId) return false;
+          if (ourAci && id === ourAci) return false;
+          if (ourE164 && id === ourE164) return false;
+          const memberConv = window.ConversationController.get(id);
+          const memberServiceId = memberConv?.get('serviceId');
+          if (ourAci && ourAci === memberServiceId) return false;
+          return true;
+        })
+        .map((id: string) => {
+          const memberConv = window.ConversationController.get(id);
+          return {
+            id,
+            name: memberConv?.get('profileName') ?? memberConv?.get('name') ?? memberConv?.get('e164') ?? id ?? 'Unknown',
+            isBlocked: memberConv?.isBlocked() === true,
+          }
+        })
+      
     } catch (err) {
       console.error('Failed to get group members', err);
       return [];
@@ -336,7 +393,10 @@ export const ConversationHeader = memo(function ConversationHeader({
     try {
       const verifiedMap = (itemStorage.get('sas-verified-conversations') ?? {}) as Record<string, boolean>;
       if (conversation.type === 'group') {
-        const allVerified = groupMembers.length > 0 && groupMembers.every(m => verifiedMap[m.id] === true);
+        const allVerified = groupMembers.length > 0 && groupMembers.every(m => {
+          if (m.isBlocked) return false;
+          return verifiedMap[m.id] === true;
+        });
         setSasVerified(allVerified);
       } else {
         setSasVerified(verifiedMap[conversation.id] === true);
@@ -356,6 +416,7 @@ export const ConversationHeader = memo(function ConversationHeader({
     if (selectedMemberId) {
       // group modal verification after verifying a member
       setSelectedMemberId(null);
+      setSelectedMemberName(null);
       setShowGroupSASModal(true);
     } else {
       // individual verification
@@ -435,7 +496,7 @@ export const ConversationHeader = memo(function ConversationHeader({
             setSasNumber(null);
             setShowMismatchWarning(true);
           }}
-          contactName={conversation.title}
+          contactName={selectedMemberName ?? conversation.title}
           i18n={i18n}
         />
       )}
@@ -745,6 +806,10 @@ function HeaderContent({
                   Verify Group SAS
                 </button>
               )
+            ) : conversation.isBlocked ? (
+              <span className="module-ConversationHeader__header__info__button" style={{ color: 'gray' }}>
+                Blocked cannot verify SAS with this contact
+              </span>
             ) : (
               sasVerified ? (
                 <span className="module-ConversationHeader__header__info__button">
@@ -1595,13 +1660,15 @@ function GroupSASModal ({
   i18n,
 }: {
   conversationId: string;
-  members: Array<{ id: string; name: string }>;
+  members: Array<{ id: string; name: string; isBlocked: boolean }>;
   verifiedMap: Record<string, boolean>;
   onVerifyMember: (memberId: string) => void;
   onClose: () => void;
   i18n: LocalizerType;
 }) {
-  const allVerified = members.every(member => verifiedMap[member.id] === true);
+  const allVerified = members
+    .filter(m => !m.isBlocked)
+    .every(m => verifiedMap[m.id] === true);
 
   return (
     <ConfirmationDialog
@@ -1620,7 +1687,9 @@ function GroupSASModal ({
       {members.map(member => (
         <div key={member.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
           <span>{member.name}</span>
-          {verifiedMap[member.id] ? (
+          {member.isBlocked ? (
+            <span style={{ color: 'gray' }}>Blocked</span>
+          ) : verifiedMap[member.id] ? (
             <span style={{ color: 'green' }}>✓ Verified</span>
           ) : (
             <button
