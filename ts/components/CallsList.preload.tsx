@@ -800,7 +800,8 @@ export function CallsList({
 
       const isAdhoc = item?.type === CallType.Adhoc;
       const isCallButtonVisible = Boolean(
-        !isAdhoc || (isAdhoc && getCallLink(item.peerId))
+        (!isAdhoc && !conversation?.terminated) ||
+        (isAdhoc && getCallLink(item.peerId))
       );
       const isActiveVisible = Boolean(
         isCallButtonVisible && item && isAnybodyInCall
