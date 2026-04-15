@@ -56,6 +56,11 @@ import { generateSafetyNumber } from '../../util/safetyNumber.preload.js';
 import { itemStorage } from '../../textsecure/Storage.preload.js';
 import { signalProtocolStore } from '../../SignalProtocolStore.preload.js';
 
+// Test SAS setting toggle
+export function isSASEnabled(): boolean {
+  return itemStorage.get('sas-enabled', true);
+}
+
 function HeaderInfoTitle({
   name,
   title,
@@ -715,12 +720,7 @@ function HeaderContent({
       throw missingCaseError(type);
   }
 
-  const [showSASButton, setShowSASButton] = useState(false);
-
-  useEffect(() => {
-    const value = itemStorage.get('sas-enabled');
-    setShowSASButton(value === true);
-  }, []);
+ const showSASButton = itemStorage.get('sas-enabled', true);
 
   const avatar = (
     <span className="module-ConversationHeader__header__avatar">
