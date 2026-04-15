@@ -654,12 +654,7 @@ function HeaderContent({
       throw missingCaseError(type);
   }
 
-  const [showSASButton, setShowSASButton] = useState(false);
-
-  useEffect(() => {
-    const value = itemStorage.get('sas-enabled');
-    setShowSASButton(value === true);
-  }, []);
+ const showSASButton = itemStorage.get('sas-enabled', true);
 
   const avatar = (
     <span className="module-ConversationHeader__header__avatar">
