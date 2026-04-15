@@ -13,9 +13,9 @@ export async function sendStickerPackSync(
   packKey: string,
   installed: boolean
 ): Promise<void> {
-  if (window.ConversationController.areWePrimaryDevice()) {
+  if (!window.ConversationController.doWeHaveOtherDevices()) {
     log.warn(
-      'shims/sendStickerPackSync: We are primary device; not sending sync'
+      'shims/sendStickerPackSync: We have no other devices; not sending sync'
     );
     return;
   }

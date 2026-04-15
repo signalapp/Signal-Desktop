@@ -93,6 +93,12 @@ export async function runSyncJob({
     log.info("skipping this job because there's nothing to sync");
     return;
   }
+  if (!window.ConversationController.doWeHaveOtherDevices()) {
+    log.error(
+      `runSyncJob(${type}): We have no other devices; this job should not have been queued`
+    );
+    return;
+  }
 
   let sendType: SendTypesType;
   switch (type) {

@@ -452,7 +452,7 @@ function markStoryRead(
 
     if (
       !isSignalOnboardingStory &&
-      !window.ConversationController.areWePrimaryDevice()
+      window.ConversationController.doWeHaveOtherDevices()
     ) {
       drop(viewSyncJobQueue.add({ viewSyncs }));
     }

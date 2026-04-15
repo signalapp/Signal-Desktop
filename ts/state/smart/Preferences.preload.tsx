@@ -33,10 +33,10 @@ import { DEFAULT_CONVERSATION_COLOR } from '../../types/Colors.std.ts';
 import { saveAttachmentToDisk } from '../../util/migrations.preload.ts';
 import { format } from '../../types/PhoneNumber.std.ts';
 import {
+  areWePrimaryDevice,
   getIntl,
   getTheme,
   getUser,
-  getUserDeviceId,
   getUserNumber,
 } from '../selectors/user.std.ts';
 import { EmojiSkinTone } from '../../components/fun/data/emojis.std.ts';
@@ -252,6 +252,7 @@ export function SmartPreferences(): React.JSX.Element | null {
     (state: StateType) => state.donations.receipts
   );
   const notificationProfileCount = useSelector(getProfiles).length;
+  const weArePrimaryDevice = useSelector(areWePrimaryDevice);
 
   const shouldShowUpdateDialog = dialogType !== DialogType.None;
   const badge = getPreferredBadge(me.badges);
@@ -272,6 +273,12 @@ export function SmartPreferences(): React.JSX.Element | null {
   // The weird ones
 
   const makeSyncRequest = async () => {
+    if (weArePrimaryDevice) {
+      throw new Error(
+        'Preferences/makeSyncRequest: We are primary device; no sync requests!'
+      );
+    }
+
     const contactSyncComplete = waitForEvent('contactSync:complete');
     return Promise.all([sendSyncRequests(), contactSyncComplete]);
   };
@@ -328,8 +335,7 @@ export function SmartPreferences(): React.JSX.Element | null {
   // Textsecure - user can change number and change this device's name
 
   const phoneNumber = format(useSelector(getUserNumber) ?? '', {});
-  const isPrimary = useSelector(getUserDeviceId) === 1;
-  const isSyncSupported = !isPrimary;
+  const isSyncSupported = !weArePrimaryDevice;
 
   const [deviceName, setDeviceName] = React.useState(
     itemStorage.user.getDeviceName()

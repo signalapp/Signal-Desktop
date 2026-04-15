@@ -5,7 +5,10 @@ import { ContentHint } from '@signalapp/libsignal-client';
 
 import { handleMessageSend } from '../../util/handleMessageSend.preload.ts';
 import { getSendOptions } from '../../util/getSendOptions.preload.ts';
-import { isDirectConversation } from '../../util/whatTypeOfConversation.dom.ts';
+import {
+  isDirectConversation,
+  isMe,
+} from '../../util/whatTypeOfConversation.dom.ts';
 import {
   handleMultipleSendErrors,
   maybeExpandErrors,
@@ -79,6 +82,13 @@ export async function sendNullMessage(
         log.info(
           `conversation ${conversation.idForLogging()} is unregistered; refusing to send null message`
         );
+        return;
+      }
+      if (
+        isMe(conversation.attributes) &&
+        !window.ConversationController.doWeHaveOtherDevices()
+      ) {
+        log.info(`We have no other devices; not sending to ourselves`);
         return;
       }
 

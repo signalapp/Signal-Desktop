@@ -744,7 +744,9 @@ async function doGetProfile(
     }
 
     await itemStorage.put('observedCapabilities', observedCapabilities);
-    if (hasChanged) {
+    if (hasChanged && !window.ConversationController.doWeHaveOtherDevices()) {
+      log.info(`${logId}: We have no other devices; not sending fetch profile`);
+    } else if (hasChanged) {
       log.info(
         'getProfile: detected a capability flip, sending fetch profile',
         newKeys

@@ -1325,6 +1325,12 @@ async function updateRemoteCallHistory(
     );
     return;
   }
+  if (!window.ConversationController.doWeHaveOtherDevices()) {
+    log.info(
+      'updateRemoteCallHistory: We have no other devices; not sending sync'
+    );
+    return;
+  }
 
   log.info(
     'updateRemoteCallHistory: syncing call history:',
@@ -1435,10 +1441,13 @@ export async function clearCallHistoryDataAndSync(
       storageServiceUploadJob({ reason: 'clearCallHistoryDataAndSync' });
     }
     updateDeletedMessages(messageIds);
-    log.info('clearCallHistory: Queueing sync message');
-    await singleProtoJobQueue.add(
-      MessageSender.getClearCallHistoryMessage(latestCall)
-    );
+
+    if (window.ConversationController.doWeHaveOtherDevices()) {
+      log.info('clearCallHistory: Queueing sync message');
+      await singleProtoJobQueue.add(
+        MessageSender.getClearCallHistoryMessage(latestCall)
+      );
+    }
 
     const adminCallLinks = await DataReader.getAllAdminCallLinks();
     const callLinkCount = adminCallLinks.length;
@@ -1518,23 +1527,25 @@ export async function markAllCallHistoryReadAndSync(
       },
     });
 
-    log.info('markAllCallHistoryReadAndSync: Queueing sync message');
-    await singleProtoJobQueue.add({
-      contentHint: ContentHint.Resendable,
-      serviceId: ourAci,
-      isSyncMessage: true,
-      protoBase64: Bytes.toBase64(
-        Proto.Content.encode({
-          content: {
-            syncMessage,
-          },
-          senderKeyDistributionMessage: null,
-          pniSignatureMessage: null,
-        })
-      ),
-      type: 'callLogEventSync',
-      urgent: false,
-    });
+    if (window.ConversationController.doWeHaveOtherDevices()) {
+      log.info('markAllCallHistoryReadAndSync: Queueing sync message');
+      await singleProtoJobQueue.add({
+        contentHint: ContentHint.Resendable,
+        serviceId: ourAci,
+        isSyncMessage: true,
+        protoBase64: Bytes.toBase64(
+          Proto.Content.encode({
+            content: {
+              syncMessage,
+            },
+            senderKeyDistributionMessage: null,
+            pniSignatureMessage: null,
+          })
+        ),
+        type: 'callLogEventSync',
+        urgent: false,
+      });
+    }
   } catch (error) {
     log.error(
       'markAllCallHistoryReadAndSync: Failed to mark call history read',

@@ -575,6 +575,8 @@ export async function sendStory(
     log.warn(
       'No successful sends; will not send a sync message for this attempt'
     );
+  } else if (!window.ConversationController.doWeHaveOtherDevices()) {
+    log.info('We have no other devices; not sending sync message');
   } else {
     const options = await getSendOptions(conversation.attributes, {
       syncMessage: true,

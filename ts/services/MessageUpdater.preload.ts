@@ -140,9 +140,9 @@ export async function markViewOnceMessageViewed(
       );
     }
 
-    if (window.ConversationController.areWePrimaryDevice()) {
-      log.warn(
-        'markViewOnceMessageViewed: We are primary device; not sending view once open sync'
+    if (!window.ConversationController.doWeHaveOtherDevices()) {
+      log.info(
+        'markViewOnceMessageViewed: We have no other devices; not sending view once open sync'
       );
       return;
     }

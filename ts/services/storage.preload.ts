@@ -1120,7 +1120,9 @@ async function uploadManifest(
   conflictBackOff.reset();
   backOff.reset();
 
-  await singleProtoJobQueue.add(MessageSender.getFetchManifestSyncMessage());
+  if (window.ConversationController.doWeHaveOtherDevices()) {
+    await singleProtoJobQueue.add(MessageSender.getFetchManifestSyncMessage());
+  }
 }
 
 async function stopStorageServiceSync(reason: Error) {
@@ -1137,7 +1139,7 @@ async function stopStorageServiceSync(reason: Error) {
   log.info('stopStorageServiceSync: requesting new keys');
   setTimeout(async () => {
     if (window.ConversationController.areWePrimaryDevice()) {
-      log.warn(
+      log.info(
         'stopStorageServiceSync: We are primary device; not sending key sync request'
       );
       return;
@@ -2353,7 +2355,7 @@ async function upload({
     backOff.reset();
 
     if (window.ConversationController.areWePrimaryDevice()) {
-      log.warn(`${logId}: We are primary device; not sending key sync request`);
+      log.info(`${logId}: We are primary device; not sending key sync request`);
       return;
     }
 

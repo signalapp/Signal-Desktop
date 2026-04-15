@@ -92,6 +92,11 @@ export function createSendMessageJob<Data>(
 
     try {
       if (recipientServiceIdsWithoutMe.length === 0) {
+        if (!window.ConversationController.doWeHaveOtherDevices()) {
+          log.info('We have no other devices; not sending to ourselves');
+          return;
+        }
+
         const ourConversation =
           window.ConversationController.getOurConversationOrThrow();
         const sendOptions = await getSendOptions(ourConversation.attributes, {

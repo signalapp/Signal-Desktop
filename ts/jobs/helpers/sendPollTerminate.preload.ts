@@ -92,6 +92,13 @@ export async function sendPollTerminate(
       (isGroupV2Conversation && recipients.length === 0);
 
     if (shouldSendSyncOnly) {
+      if (!window.ConversationController.doWeHaveOtherDevices()) {
+        jobLog.info(
+          `${logId}: We have no other devices; not sending sync message`
+        );
+        return;
+      }
+
       jobLog.info(
         `${logId}: Sending poll terminate for poll timestamp ${targetTimestamp} (sync only)`
       );

@@ -244,8 +244,8 @@ export async function markConversationRead(
     log.info(logId, `Sending ${readSyncs.length} read syncs`);
     // Because syncReadMessages sends to our other devices, and sendReadReceipts goes
     //   to a contact, we need accessKeys for both.
-    if (window.ConversationController.areWePrimaryDevice()) {
-      log.warn(logId, 'We are primary device; not sending read syncs');
+    if (!window.ConversationController.doWeHaveOtherDevices()) {
+      log.info(logId, 'We have no other devices; not sending read syncs');
     } else {
       drop(readSyncJobQueue.add({ readSyncs }));
     }

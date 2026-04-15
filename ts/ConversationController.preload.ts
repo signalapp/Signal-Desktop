@@ -724,6 +724,10 @@ export class ConversationController {
     return ourDeviceId === 1;
   }
 
+  doWeHaveOtherDevices(): boolean {
+    return !this.areWePrimaryDevice();
+  }
+
   // Note: If you don't know what kind of serviceId it is, put it in the 'aci' param.
   maybeMergeContacts({
     aci: providedAci,

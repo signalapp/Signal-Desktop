@@ -334,9 +334,9 @@ async function sendSyncMessage(
     syncMessage: true,
   });
 
-  if (window.ConversationController.areWePrimaryDevice()) {
+  if (!window.ConversationController.doWeHaveOtherDevices()) {
     log.warn(
-      'sendSyncMessage: We are primary device; not sending sync message'
+      'sendSyncMessage: We have no other devices; not sending sync message'
     );
     message.set({ dataMessage: undefined });
     return;

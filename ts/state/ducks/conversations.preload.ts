@@ -1907,6 +1907,10 @@ function deleteMessages({
       return;
     }
 
+    if (!window.ConversationController.doWeHaveOtherDevices()) {
+      return;
+    }
+
     const chunks = chunk(messages, MAX_MESSAGE_COUNT);
     const conversationToDelete = getConversationIdentifier(
       conversation.attributes
@@ -3752,9 +3756,9 @@ async function syncMessageRequestResponse(
 
   const groupId = conversation.getGroupIdBuffer();
 
-  if (window.ConversationController.areWePrimaryDevice()) {
+  if (!window.ConversationController.doWeHaveOtherDevices()) {
     log.warn(
-      'syncMessageRequestResponse: We are primary device; not sending message request sync'
+      'syncMessageRequestResponse: We have no other devices; not sending message request sync'
     );
     return;
   }
@@ -3932,7 +3936,7 @@ function blockAndReportSpam(
           },
         })
       );
-    } else {
+    } else if (window.ConversationController.doWeHaveOtherDevices()) {
       try {
         await singleProtoJobQueue.add(
           MessageSender.getBlockSync(itemStorage.blocked.getBlockedData())

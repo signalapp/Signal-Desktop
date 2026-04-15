@@ -10,6 +10,7 @@ import {
   isDirectConversation,
   isGroup,
   isGroupV2,
+  isMe,
 } from '../../util/whatTypeOfConversation.dom.ts';
 import { SignalService as Proto } from '../../protobuf/index.std.ts';
 import {
@@ -115,6 +116,15 @@ export async function sendProfileKey(
     if (isConversationUnregistered(conversation.attributes)) {
       log.info(
         `conversation ${conversation.idForLogging()} is unregistered; refusing to send`
+      );
+      return;
+    }
+    if (
+      isMe(conversation.attributes) &&
+      !window.ConversationController.doWeHaveOtherDevices()
+    ) {
+      log.info(
+        'sendProfileKey: We have no other devices; not sending sync message'
       );
       return;
     }

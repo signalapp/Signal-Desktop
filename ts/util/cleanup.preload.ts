@@ -281,7 +281,7 @@ async function maybeDeleteCall(
     return;
   }
 
-  if (!fromSync) {
+  if (!fromSync && window.ConversationController.doWeHaveOtherDevices()) {
     await singleProtoJobQueue.add(
       MessageSender.getDeleteCallEvent(callHistory)
     );
