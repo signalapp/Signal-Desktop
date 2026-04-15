@@ -747,7 +747,7 @@
     "messageformat": "Təəssüf ki, seçilmiş fayl, mesaj həcm məhdudiyyətlərini aşır. {limit,number} {units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "Təəssüf ki, seçilmiş video faylı mesaj həcminə qoyulmuş məhdudiyyətləri aşır. {limit,number}{units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Seçilmiş qoşma yüklənilə bilmir."
@@ -2558,9 +2558,6 @@
   "icu:youUpdatedTheGroup": {
     "messageformat": "Qrupu yenilədiniz."
   },
-  "icu:collapsedContainer": {
-    "messageformat": "{leadingIcon} {text} {trailingIcon}"
-  },
   "icu:collapsedGroupUpdates": {
     "messageformat": "{count, plural, one {{count,number} qrup yeniləməsi} other {{count,number} qrup yeniləməsi}}"
   },
@@ -2581,12 +2578,6 @@
   },
   "icu:collapsedCallEvents": {
     "messageformat": "{count, plural, one {{count,number} zəng etmə} other {{count,number} zəng etmə}}"
-  },
-  "icu:collapsedItems--collapsed": {
-    "messageformat": "Bir sıra elementlər daraldıldı - genişləndirmək üçün klikləyin"
-  },
-  "icu:collapsedItems--expanded": {
-    "messageformat": "Bir sıra elementlər artırıldı - daraltmaq üçün klikləyin"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "Qrup avatarı yeniləndi."
@@ -3055,6 +3046,9 @@
   },
   "icu:Message--tap-to-view--outgoing--expired-toast": {
     "messageformat": "Birdəfəlik mesajlar çat tarixçənizdə saxlanmır."
+  },
+  "icu:Message--tap-to-view--outgoing--expired-toast-2": {
+    "messageformat": "View-once media is deleted after sending"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "Bir dəfə baxıla bilən video"
@@ -4898,6 +4892,9 @@
   "icu:ConversationDetailsActions--unblock-group": {
     "messageformat": "Qrupu blokdan çıxart"
   },
+  "icu:ConversationDetailsActions--report-spam": {
+    "messageformat": "Report spam"
+  },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "Çatı arxivləşdir"
   },
@@ -4948,6 +4945,21 @@
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "Blokdan çıxart"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-title": {
+    "messageformat": "Report spam?"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
+    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-group": {
+    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
+    "messageformat": "Report spam"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
+    "messageformat": "Report and block"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} üzv} other {{number,number} üzv}}"
@@ -8111,8 +8123,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Kiçik spesifik tənzimləmələr, xəta düzəlişləri və məhsuldarlığın artırılması. Signal istifadə etdiyiniz üçün təşəkkürlər!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.6--0": {
-    "messageformat": "Artıq ən son mesajı tapana qədər ekranı sürüşdürməyə ehtiyac yoxdur. Qrup çatına bir neçə yeni insan qoşulduqda, yaxud da arxa-arxaya bir neçə cavabsız zəng aldığınız zaman həmin təkrarlanan çat hadisələri avtomatik qruplaşdırılaraq göstərilir. Bəzən az daha yaxşıdır, amma bu siyahını istədiyiniz zaman daralda və artıra bilərsiniz."
   }
 }

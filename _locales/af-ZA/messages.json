@@ -747,7 +747,7 @@
     "messageformat": "Jammer, die geselekteerde lêer oorskry die boodskap se groottebeperkings. {limit,number} {units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "Jammer, die geselekteerde videolêer oorskry die boodskapgroottebeperkings. {limit,number}{units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Kan nie die geselekteerde aanhegsel laai nie."
@@ -2558,9 +2558,6 @@
   "icu:youUpdatedTheGroup": {
     "messageformat": "Jy het die groep bygewerk."
   },
-  "icu:collapsedContainer": {
-    "messageformat": "{leadingIcon} {text} {trailingIcon}"
-  },
   "icu:collapsedGroupUpdates": {
     "messageformat": "{count, plural, one {{count,number} groepopdatering} other {{count,number} groepopdaterings}}"
   },
@@ -2581,12 +2578,6 @@
   },
   "icu:collapsedCallEvents": {
     "messageformat": "{count, plural, one {{count,number} oproepgebeurtenis} other {{count,number} oproepgebeurtenisse}}"
-  },
-  "icu:collapsedItems--collapsed": {
-    "messageformat": "Stel items is saamgroepeer - klik om oop te maak"
-  },
-  "icu:collapsedItems--expanded": {
-    "messageformat": "Stel items is oopgemaak - klik om saam te groepeer"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "Groepavatar is bygewerk"
@@ -3055,6 +3046,9 @@
   },
   "icu:Message--tap-to-view--outgoing--expired-toast": {
     "messageformat": "Eenkeerkyk-boodskappe word nie in jou kletsgeskiedenis gestoor nie."
+  },
+  "icu:Message--tap-to-view--outgoing--expired-toast-2": {
+    "messageformat": "View-once media is deleted after sending"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "Eenkeerkyk-video"
@@ -4898,6 +4892,9 @@
   "icu:ConversationDetailsActions--unblock-group": {
     "messageformat": "Ontsper groep"
   },
+  "icu:ConversationDetailsActions--report-spam": {
+    "messageformat": "Report spam"
+  },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "Argiveer klets"
   },
@@ -4948,6 +4945,21 @@
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "Ontsper"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-title": {
+    "messageformat": "Report spam?"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
+    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-group": {
+    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
+    "messageformat": "Report spam"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
+    "messageformat": "Report and block"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} lid} other {{number,number} lede}}"
@@ -8111,8 +8123,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Klein veranderings, foutregstellings en prestasieverbeterings. Dankie dat jy Signal gebruik!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.6--0": {
-    "messageformat": "Herhaalde kletsgebeurtenisse (soos veelvuldige gemiste oproepe) kan outomaties in 'n kompakte skermbeeld saamgroepeer word sodat jy nie so ver op of af hoef te rol om op hoogte van die jongste boodskappe te kom nie."
   }
 }

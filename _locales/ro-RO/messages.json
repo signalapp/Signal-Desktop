@@ -747,7 +747,7 @@
     "messageformat": "Ne pare rău, fișierul selectat depășește limita de mărime a mesajului. {limit,number} {units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "Ne pare rău, fișierul video selectat depășește limita de mărime pentru mesaje. {limit,number}{units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Nu s-a putut încărca atașamentul selectat."
@@ -2558,9 +2558,6 @@
   "icu:youUpdatedTheGroup": {
     "messageformat": "Ai actualizat grupul."
   },
-  "icu:collapsedContainer": {
-    "messageformat": "{leadingIcon} {text} {trailingIcon}"
-  },
   "icu:collapsedGroupUpdates": {
     "messageformat": "{count, plural, one {{count,number} actualizare a grupului} few {{count,number} actualizări ale grupului} other {{count,number} de actualizări ale grupului}}"
   },
@@ -2581,12 +2578,6 @@
   },
   "icu:collapsedCallEvents": {
     "messageformat": "{count, plural, one {{count,number} eveniment de apel} few {{count,number} evenimente de apel} other {{count,number} de evenimente de apel}}"
-  },
-  "icu:collapsedItems--collapsed": {
-    "messageformat": "Setul de elemente este restrâns - dă clic și extinde"
-  },
-  "icu:collapsedItems--expanded": {
-    "messageformat": "Setul de elemente este extins - dă clic și restrânge"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "Avatarul grupului a fost actualizat."
@@ -3055,6 +3046,9 @@
   },
   "icu:Message--tap-to-view--outgoing--expired-toast": {
     "messageformat": "Mesajele vizibile o singură dată nu sunt stocate în istoricul conversației."
+  },
+  "icu:Message--tap-to-view--outgoing--expired-toast-2": {
+    "messageformat": "View-once media is deleted after sending"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "Videoclip vizibil o singură dată"
@@ -4898,6 +4892,9 @@
   "icu:ConversationDetailsActions--unblock-group": {
     "messageformat": "Deblochează grup"
   },
+  "icu:ConversationDetailsActions--report-spam": {
+    "messageformat": "Report spam"
+  },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "Arhivează conversația"
   },
@@ -4948,6 +4945,21 @@
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "Deblochează"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-title": {
+    "messageformat": "Report spam?"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
+    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-group": {
+    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
+    "messageformat": "Report spam"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
+    "messageformat": "Report and block"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} membru} few {{number,number} membri} other {{number,number} de membri}}"
@@ -8111,8 +8123,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Mici ajustări, soluționări de bug-uri și îmbunătățiri ale performanței. Mersi că folosești Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.6--0": {
-    "messageformat": "Acum nu va mai trebui să derulezi atât de mult pentru a vedea cele mai recente mesaje. Dacă mai multe persoane noi se alătură unei conversații de grup aglomerate sau dacă primești mai multe apeluri pierdute la rând, aceste evenimente repetate din chat pot fi grupate automat într-un afișaj compact. Uneori, mai puțin înseamnă mai mult, dar poți extinde și reduce cu ușurință aceste liste în orice moment."
   }
 }

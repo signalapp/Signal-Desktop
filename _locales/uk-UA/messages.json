@@ -747,7 +747,7 @@
     "messageformat": "На жаль, розмір обраного файлу перевищує обмеження. {limit,number} {units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "На жаль, розмір обраного відео перевищує обмеження. {limit,number}{units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Не вдається вивантажити обране вкладення."
@@ -2558,9 +2558,6 @@
   "icu:youUpdatedTheGroup": {
     "messageformat": "Ви оновили групу."
   },
-  "icu:collapsedContainer": {
-    "messageformat": "{leadingIcon} {text} {trailingIcon}"
-  },
   "icu:collapsedGroupUpdates": {
     "messageformat": "{count, plural, one {{count,number} оновлення в групі} few {{count,number} оновлення в групі} many {{count,number} оновлень у групі} other {{count,number} оновлення в групі}}"
   },
@@ -2581,12 +2578,6 @@
   },
   "icu:collapsedCallEvents": {
     "messageformat": "{count, plural, one {{count,number} сповіщення про виклики} few {{count,number} сповіщення про виклики} many {{count,number} сповіщень про виклики} other {{count,number} сповіщення про виклики}}"
-  },
-  "icu:collapsedItems--collapsed": {
-    "messageformat": "Список згорнуто. Натисніть, щоб розгорнути"
-  },
-  "icu:collapsedItems--expanded": {
-    "messageformat": "Список розгорнуто. Натисніть, щоб згорнути"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "Оновлено зображення групи."
@@ -3055,6 +3046,9 @@
   },
   "icu:Message--tap-to-view--outgoing--expired-toast": {
     "messageformat": "Одноразові повідомлення не зберігаються у вашій історії чатів."
+  },
+  "icu:Message--tap-to-view--outgoing--expired-toast-2": {
+    "messageformat": "View-once media is deleted after sending"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "Одноразове відео"
@@ -4898,6 +4892,9 @@
   "icu:ConversationDetailsActions--unblock-group": {
     "messageformat": "Розблокувати групу"
   },
+  "icu:ConversationDetailsActions--report-spam": {
+    "messageformat": "Report spam"
+  },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "Архівувати чат"
   },
@@ -4948,6 +4945,21 @@
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "Розблокувати"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-title": {
+    "messageformat": "Report spam?"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
+    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-group": {
+    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
+    "messageformat": "Report spam"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
+    "messageformat": "Report and block"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} учасник} few {{number,number} учасники} many {{number,number} учасників} other {{number,number} учасника}}"
@@ -8111,8 +8123,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Дрібні поліпшення, виправлення помилок і покращення роботи застосунку. Дякуємо, що ви з Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.6--0": {
-    "messageformat": "Тепер вам не доведеться довго гортати, щоб переглянути всі оновлення в чаті. Якщо до групи приєдналося багато нових учасників або ви пропустили кілька викликів, Signal автоматично згрупує такі однотипні сповіщення для зручності. Іноді менше означає краще, але за потреби ви можете розгорнути список і прочитати кожне сповіщення окремо."
   }
 }

@@ -747,7 +747,7 @@
     "messageformat": "ਅਫ਼ਸੋਸ, ਚੁਣੀ ਹੋਈ ਫ਼ਾਈਲ ਦਾ ਅਕਾਰ ਸੁਨੇਹੇ ਦੇ ਅਕਾਰ ਸਬੰਧੀ ਪਾਬੰਦੀਆਂ ਤੋਂ ਵੱਧ ਗਿਆ ਹੈ। {limit,number} {units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "ਮੁਆਫ਼ ਕਰਨਾ, ਚੁਣੀ ਗਈ ਵੀਡੀਓ ਫ਼ਾਈਲ ਦਾ ਆਕਾਰ ਸੁਨੇਹੇ ਦੀਆਂ ਆਕਾਰ ਸਬੰਧੀ ਪਾਬੰਦੀਆਂ ਤੋਂ ਵੱਧ ਹੈ। {limit,number}{units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "ਚੁਣੀ ਅਟੈਚਮੈਂਟ ਲੋਡ ਕਰਨ ਵਿੱਚ ਅਸਮਰੱਥ।"
@@ -2558,9 +2558,6 @@
   "icu:youUpdatedTheGroup": {
     "messageformat": "ਤੁਸੀਂ ਗਰੁੱਪ ਨੂੰ ਅੱਪਡੇਟ ਕੀਤਾ।"
   },
-  "icu:collapsedContainer": {
-    "messageformat": "{leadingIcon} {text} {trailingIcon}"
-  },
   "icu:collapsedGroupUpdates": {
     "messageformat": "{count, plural, one {{count,number} ਗਰੁੱਪ ਅੱਪਡੇਟ} other {{count,number} ਗਰੁੱਪ ਅੱਪਡੇਟਾਂ}}"
   },
@@ -2581,12 +2578,6 @@
   },
   "icu:collapsedCallEvents": {
     "messageformat": "{count, plural, one {{count,number} ਕਾਲ ਇਵੈਂਟ} other {{count,number} ਕਾਲ ਇਵੈਂਟ}}"
-  },
-  "icu:collapsedItems--collapsed": {
-    "messageformat": "ਆਈਟਮਾਂ ਦਾ ਸੈੱਟ ਸਮੇਟਿਆ ਗਿਆ ਹੈ - ਫੈਲਾਉਣ ਲਈ ਕਲਿੱਕ ਕਰੋ"
-  },
-  "icu:collapsedItems--expanded": {
-    "messageformat": "ਆਈਟਮਾਂ ਦਾ ਸੈੱਟ ਫੈਲਾਇਆ ਗਿਆ - ਸਮੇਟਣ ਲਈ ਕਲਿੱਕ ਕਰੋ"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "ਗਰੁੱਪ ਅਵਤਾਰ ਨੂੰ ਅੱਪਡੇਟ ਕੀਤਾ ਗਿਆ।"
@@ -3055,6 +3046,9 @@
   },
   "icu:Message--tap-to-view--outgoing--expired-toast": {
     "messageformat": "ਇੱਕ-ਵਾਰ ਦੇਖੇ ਜਾ ਸਕਣ ਵਾਲੇ ਸੁਨੇਹੇ ਤੁਹਾਡੀ ਪੁਰਾਣੀ ਚੈਟ ਵਿੱਚ ਸਟੋਰ ਨਹੀਂ ਕੀਤੇ ਜਾਣਗੇ।"
+  },
+  "icu:Message--tap-to-view--outgoing--expired-toast-2": {
+    "messageformat": "View-once media is deleted after sending"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "ਇੱਕ ਵਾਰ ਦੇਖੀ ਜਾ ਸਕਣ ਵਾਲੀ ਵੀਡੀਓ"
@@ -4898,6 +4892,9 @@
   "icu:ConversationDetailsActions--unblock-group": {
     "messageformat": "ਗਰੁੱਪ ਉੱਤੋਂ ਪਾਬੰਦੀ ਹਟਾਓ"
   },
+  "icu:ConversationDetailsActions--report-spam": {
+    "messageformat": "Report spam"
+  },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "ਚੈਟ ਆਰਕਾਈਵ ਕਰੋ"
   },
@@ -4948,6 +4945,21 @@
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "ਪਾਬੰਦੀ ਹਟਾਓ"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-title": {
+    "messageformat": "Report spam?"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
+    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-group": {
+    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
+    "messageformat": "Report spam"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
+    "messageformat": "Report and block"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} ਮੈਂਬਰ} other {{number,number} ਮੈਂਬਰ}}"
@@ -8111,8 +8123,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "ਛੋਟੇ-ਮੋਟੇ ਸੁਧਾਰ, ਖ਼ਰਾਬੀਆਂ ਨੂੰ ਦਰੁਸਤ ਅਤੇ ਪ੍ਰਦਰਸ਼ਨ ਨੂੰ ਬਿਹਤਰ ਬਣਾਇਆ ਗਿਆ ਹੈ। Signal ਦੀ ਵਰਤੋਂ ਕਰਨ ਲਈ ਤੁਹਾਡਾ ਧੰਨਵਾਦ!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.6--0": {
-    "messageformat": "ਵਾਰ-ਵਾਰ ਹੋਣ ਵਾਲੇ ਚੈਟ ਇਵੈਂਟ (ਜਿਵੇਂ ਕਿ ਕਈ ਮਿਸਡ ਕਾਲਾਂ) ਨੂੰ ਆਪਣੇ-ਆਪ ਇੱਕ ਸੰਖੇਪ ਡਿਸਪਲੇ ਵਿੱਚ ਇਕੱਠਾ ਕੀਤਾ ਜਾ ਸਕਦਾ ਹੈ ਤਾਂ ਜੋ ਤੁਹਾਨੂੰ ਨਵੇਂ ਸੁਨੇਹਿਆਂ ਤੱਕ ਪਹੁੰਚਣ ਲਈ ਜ਼ਿਆਦਾ ਸਕ੍ਰੌਲ ਨਾ ਕਰਨਾ ਪਵੇ।"
   }
 }

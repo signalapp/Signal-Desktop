@@ -747,7 +747,7 @@
     "messageformat": "Tyvärr, filen du har valt överstiger maximalt tillåten filstorlek. {limit,number} {units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "Tyvärr, den valda videofilen överskrider storleksgränsen för meddelanden. {limit,number} {units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Det gick inte att läsa in vald bilaga"
@@ -2558,9 +2558,6 @@
   "icu:youUpdatedTheGroup": {
     "messageformat": "Du uppdaterade gruppen."
   },
-  "icu:collapsedContainer": {
-    "messageformat": "{leadingIcon} {text} {trailingIcon}"
-  },
   "icu:collapsedGroupUpdates": {
     "messageformat": "{count, plural, one {{count,number} gruppuppdatering} other {{count,number} gruppuppdateringar}}"
   },
@@ -2581,12 +2578,6 @@
   },
   "icu:collapsedCallEvents": {
     "messageformat": "{count, plural, one {{count,number} samtalshändelse} other {{count,number} samtalshändelser}}"
-  },
-  "icu:collapsedItems--collapsed": {
-    "messageformat": "En uppsättning objekt är hopfälld – klicka för att expandera"
-  },
-  "icu:collapsedItems--expanded": {
-    "messageformat": "En uppsättning objekt är expanderad – klicka för att fälla ihop"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "Gruppavatar uppdaterades."
@@ -3055,6 +3046,9 @@
   },
   "icu:Message--tap-to-view--outgoing--expired-toast": {
     "messageformat": "Visa en gång-meddelanden lagras inte i chatthistoriken."
+  },
+  "icu:Message--tap-to-view--outgoing--expired-toast-2": {
+    "messageformat": "View-once media is deleted after sending"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "Visa tillfällig video"
@@ -4898,6 +4892,9 @@
   "icu:ConversationDetailsActions--unblock-group": {
     "messageformat": "Avblockera grupp"
   },
+  "icu:ConversationDetailsActions--report-spam": {
+    "messageformat": "Report spam"
+  },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "Arkivera chatt"
   },
@@ -4948,6 +4945,21 @@
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "Avblockera"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-title": {
+    "messageformat": "Report spam?"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
+    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-group": {
+    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
+    "messageformat": "Report spam"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
+    "messageformat": "Report and block"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} medlem} other {{number,number} medlemmar}}"
@@ -8111,8 +8123,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Små justeringer, buggfixar och prestandaförbättringar. Tack för att du använder Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.6--0": {
-    "messageformat": "Upprepade chatthändelser (som flera missade samtal) kan automatiskt grupperas i en kompakt vy så att du inte behöver skrolla lika långt för att komma ikapp med de senaste meddelandena."
   }
 }

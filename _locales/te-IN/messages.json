@@ -747,7 +747,7 @@
     "messageformat": "క్షమించండి, ఎంచుకున్న పంక్తి సందేశ పరిమాణ పరిమితులను మించిపోయింది. {limit,number} {units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "క్షమించండి, ఎంచుకున్న వీడియో ఫైల్ సందేశ పరిమాణ పరిమితులను మించిపోయింది. {limit,number}{units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "ఎంచుకున్న అటాచ్‌మెంట్‌ను లోడ్ చేయడం సాధ్యం కాలేదు."
@@ -2558,9 +2558,6 @@
   "icu:youUpdatedTheGroup": {
     "messageformat": "మీరు ఈ సమూహాన్ని నవీకరించారు."
   },
-  "icu:collapsedContainer": {
-    "messageformat": "{leadingIcon} {text} {trailingIcon}"
-  },
   "icu:collapsedGroupUpdates": {
     "messageformat": "{count, plural, one {{count,number} గ్రూప్ అప్‌డేట్} other {{count,number}గ్రూప్ అప్‌డేట్‌లు}}"
   },
@@ -2581,12 +2578,6 @@
   },
   "icu:collapsedCallEvents": {
     "messageformat": "{count, plural, one {{count,number} కాల్ ఈవెంట్} other {{count,number} కాల్ ఈవెంట్‌లు}}"
-  },
-  "icu:collapsedItems--collapsed": {
-    "messageformat": "అంశాల సమితి కుదించబడింది - విస్తరించడానికి క్లిక్ చేయండి"
-  },
-  "icu:collapsedItems--expanded": {
-    "messageformat": "అంశాల సమితి విస్తరించబడింది - కుదించడానికి క్లిక్ చేయండి"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "సమూహ అవతార్ నవీకరించబడింది."
@@ -3055,6 +3046,9 @@
   },
   "icu:Message--tap-to-view--outgoing--expired-toast": {
     "messageformat": "ఒకసారి-వీక్షణ సందేశాలు మీ చాట్ చరిత్రలో నిల్వ చేయబడవు."
+  },
+  "icu:Message--tap-to-view--outgoing--expired-toast-2": {
+    "messageformat": "View-once media is deleted after sending"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "ఒకసారి చూసే వీడియో"
@@ -4898,6 +4892,9 @@
   "icu:ConversationDetailsActions--unblock-group": {
     "messageformat": "గ్రూప్‌ను అన్‌బ్లాక్ చేయండి"
   },
+  "icu:ConversationDetailsActions--report-spam": {
+    "messageformat": "Report spam"
+  },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "చాట్‌ను ఆర్కైవ్ చేయండి"
   },
@@ -4948,6 +4945,21 @@
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "అన్‌బ్లాక్"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-title": {
+    "messageformat": "Report spam?"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
+    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-group": {
+    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
+    "messageformat": "Report spam"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
+    "messageformat": "Report and block"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} సభ్యుడు} other {{number,number} సభ్యులు}}"
@@ -8111,8 +8123,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "చిన్న ట్వీక్‌లు, బగ్ ఫిక్స్‌లు, మరియు పనితీరు మెరుగుదలలు. Signal ఉపయోగించినందుకు మీకు ధన్యవాదాలు!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.6--0": {
-    "messageformat": "ఇప్పుడు తాజా సందేశాలను అందుకోవడానికి మీరు అంతగా స్క్రోల్ చేయాల్సిన అవసరం ఉండదు. పునరావృతమయ్యే చాట్ ఈవెంట్‌లను (అనేక మిస్డ్ కాల్స్ వంటివి) స్వయంచాలకంగా ఒక సంగ్రహించబడిన డిస్‌ప్లేగా సమూహపరచవచ్చు. కొన్నిసార్లు తక్కువగా ఉండటమే మేలు, కానీ మీరు ఈ జాబితాలను ఎప్పుడైనా సులభంగా విస్తరించవచ్చు లేదా కుదించవచ్చు."
   }
 }

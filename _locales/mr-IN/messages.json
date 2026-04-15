@@ -747,7 +747,7 @@
     "messageformat": "क्षमस्व, निवडलेली फाईल आकार प्रतिबंधने ओलांडते. {limit,number} {units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "क्षमस्व, निवडलेली व्हिडिओ फाईल संदेशाच्या आकारावरील निर्बंध ओलांडते. {limit,number}{units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "निवडलेले संलग्न जोडण्यात अक्षम."
@@ -2558,9 +2558,6 @@
   "icu:youUpdatedTheGroup": {
     "messageformat": "आपण गट अद्ययावत केले."
   },
-  "icu:collapsedContainer": {
-    "messageformat": "{leadingIcon} {text} {trailingIcon}"
-  },
   "icu:collapsedGroupUpdates": {
     "messageformat": "{count, plural, one {{count,number} गट अद्यतन} other {{count,number} गट अद्यतने}}"
   },
@@ -2581,12 +2578,6 @@
   },
   "icu:collapsedCallEvents": {
     "messageformat": "{count, plural, one {{count,number} कॉलचा प्रसंग} other {{count,number} कॉलचे प्रसंग}}"
-  },
-  "icu:collapsedItems--collapsed": {
-    "messageformat": "आयटम्सचा सेट मिटवला - उघडण्यासाठी क्लिक करा"
-  },
-  "icu:collapsedItems--expanded": {
-    "messageformat": "आयटम्सचा सेट उघडला - मिटवण्यासाठी क्लिक करा"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "गट अद्यतनित केला गेला आहे."
@@ -3055,6 +3046,9 @@
   },
   "icu:Message--tap-to-view--outgoing--expired-toast": {
     "messageformat": "आपल्या चॅट्स इतिहासामध्ये एकदा-पहा संदेश संग्रहित केले जाणार नाहीत."
+  },
+  "icu:Message--tap-to-view--outgoing--expired-toast-2": {
+    "messageformat": "View-once media is deleted after sending"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "एकदा व्हिडिओ पहा"
@@ -4898,6 +4892,9 @@
   "icu:ConversationDetailsActions--unblock-group": {
     "messageformat": "गट अनवरोधित करा"
   },
+  "icu:ConversationDetailsActions--report-spam": {
+    "messageformat": "Report spam"
+  },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "चॅट आर्काईव्ह करा"
   },
@@ -4948,6 +4945,21 @@
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "अनवरोधित करा"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-title": {
+    "messageformat": "Report spam?"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
+    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-group": {
+    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
+    "messageformat": "Report spam"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
+    "messageformat": "Report and block"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} सदस्य} other {{number,number} सदस्य}}"
@@ -8111,8 +8123,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "लहान ट्विक्स, दोष निवारण, आणि कामगिरी सुधारणा. Signal वापरल्याबद्दल आभारी आहोत!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.6--0": {
-    "messageformat": "आता तुम्हाला नवे संदेश पाहण्यासाठी एवढे स्क्रोल करावे लागणार नाही. जर अनेक लोक एखाद्या गजबजलेल्या गट चॅटमध्ये सामील झाले, किंवा तुम्हाला सलग अनेक मिस्ड कॉल्स आले, तर ते वारंवार उद्भवणारे चॅटचे प्रसंग आपोआप एका छोट्या दृश्यात मावतील असे एकत्रित करता येतात. कधीकधी छोट्या गोष्टी मोठी सोय करतात, पण तुम्ही या याद्यांची कधीही उघडमिट करू शकता."
   }
 }

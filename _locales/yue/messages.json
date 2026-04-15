@@ -747,7 +747,7 @@
     "messageformat": "唔好意思，你揀嘅檔案超過咗訊息容量限制。 {limit,number} {units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "唔好意思，你揀嘅影片檔案超過咗訊息容量限制。{limit,number}{units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "載入唔到你揀嘅附件。"
@@ -2558,9 +2558,6 @@
   "icu:youUpdatedTheGroup": {
     "messageformat": "你更新咗群組。"
   },
-  "icu:collapsedContainer": {
-    "messageformat": "{leadingIcon} {text} {trailingIcon}"
-  },
   "icu:collapsedGroupUpdates": {
     "messageformat": "{count, plural, other {{count,number} 個谷嘅更新}}"
   },
@@ -2581,12 +2578,6 @@
   },
   "icu:collapsedCallEvents": {
     "messageformat": "{count, plural, other {{count,number} 個有關通話嘅事件}}"
-  },
-  "icu:collapsedItems--collapsed": {
-    "messageformat": "項目清單收埋咗 - 㩒一吓展開"
-  },
-  "icu:collapsedItems--expanded": {
-    "messageformat": "項目清單展開咗 - 㩒一吓收埋"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "群組頭像已經更新咗。"
@@ -3055,6 +3046,9 @@
   },
   "icu:Message--tap-to-view--outgoing--expired-toast": {
     "messageformat": "「閱後即毀」嘅訊息唔會儲存喺你嘅對話紀錄入面。"
+  },
+  "icu:Message--tap-to-view--outgoing--expired-toast-2": {
+    "messageformat": "View-once media is deleted after sending"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "閱後即焚影片"
@@ -4898,6 +4892,9 @@
   "icu:ConversationDetailsActions--unblock-group": {
     "messageformat": "解除封鎖群組"
   },
+  "icu:ConversationDetailsActions--report-spam": {
+    "messageformat": "Report spam"
+  },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "封存聊天"
   },
@@ -4948,6 +4945,21 @@
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "解除封鎖"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-title": {
+    "messageformat": "Report spam?"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
+    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-group": {
+    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
+    "messageformat": "Report spam"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
+    "messageformat": "Report and block"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, other {{number,number} 位成員}}"
@@ -8111,8 +8123,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "我哋做咗啲調整、修復咗一啲錯誤，同埋加強咗程式功能。多謝你使用 Signal！",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.6--0": {
-    "messageformat": "而家你唔使再向下碌咁耐都可以睇到最新訊息。如果有幾個新人加入個熱熱鬧鬧嘅聊天谷，或者連續收到幾個未接來電，呢類重複嘅聊天事件會自動歸類做簡潔嘅列表顯示。「簡單就是美」係無錯，但係你隨時都可以輕鬆展開或者收埋呢啲列表。"
   }
 }

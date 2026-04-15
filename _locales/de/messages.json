@@ -747,7 +747,7 @@
     "messageformat": "Die ausgewählte Datei überschreitet leider die maximal erlaubte Nachrichtengröße."
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "Die ausgewählte Videodatei überschreitet leider die maximal erlaubte Nachrichtengröße. {limit,number}{units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Ausgewählter Anhang kann nicht geladen werden."
@@ -2558,9 +2558,6 @@
   "icu:youUpdatedTheGroup": {
     "messageformat": "Du hast die Gruppe aktualisiert."
   },
-  "icu:collapsedContainer": {
-    "messageformat": "{leadingIcon} {text} {trailingIcon}"
-  },
   "icu:collapsedGroupUpdates": {
     "messageformat": "{count, plural, one {{count,number} Gruppen-Update} other {{count,number} Gruppen-Updates}}"
   },
@@ -2581,12 +2578,6 @@
   },
   "icu:collapsedCallEvents": {
     "messageformat": "{count, plural, one {{count,number} Anrufereignis} other {{count,number} Anrufereignisse}}"
-  },
-  "icu:collapsedItems--collapsed": {
-    "messageformat": "Die Liste ist ausgeblendet – zum Ausklappen bitte anklicken"
-  },
-  "icu:collapsedItems--expanded": {
-    "messageformat": "Die Liste ist ausgeklappt – zum Ausblenden bitte anklicken"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "Das Gruppenbild wurde aktualisiert."
@@ -3055,6 +3046,9 @@
   },
   "icu:Message--tap-to-view--outgoing--expired-toast": {
     "messageformat": "Nachrichten zur Einmalansicht werden nicht in deinem Chatverlauf gespeichert."
+  },
+  "icu:Message--tap-to-view--outgoing--expired-toast-2": {
+    "messageformat": "View-once media is deleted after sending"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "Video zur Einmalansicht"
@@ -4898,6 +4892,9 @@
   "icu:ConversationDetailsActions--unblock-group": {
     "messageformat": "Gruppe freigeben"
   },
+  "icu:ConversationDetailsActions--report-spam": {
+    "messageformat": "Report spam"
+  },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "Chat archivieren"
   },
@@ -4948,6 +4945,21 @@
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "Freigeben"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-title": {
+    "messageformat": "Report spam?"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
+    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-group": {
+    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
+    "messageformat": "Report spam"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
+    "messageformat": "Report and block"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} Mitglied} other {{number,number} Mitglieder}}"
@@ -8111,8 +8123,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Kleine Optimierungen, Fehlerbehebungen und Leistungsverbesserungen. Danke, dass du Signal nutzt!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.6--0": {
-    "messageformat": "Jetzt musst du nicht mehr so weit nach unten scrollen, um die neuesten Nachrichten zu sehen. Wenn mehrere neue Teilnehmer einem gut besuchten Gruppenchat beitreten oder du mehrere verpasste Anrufe hintereinander erhältst, können diese häufigen Chat-Ereignisse automatisch zu einer übersichtlichen Ansicht zusammengefasst werden. Manchmal ist weniger mehr, aber diese Listen kannst du jederzeit ganz einfach ein- und ausklappen."
   }
 }

@@ -747,7 +747,7 @@
     "messageformat": "Wybrany plik jest za duży, aby załączyć go do wiadomości. Limit rozmiaru to {limit,number}{units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "Wybrany plik wideo jest za duży, aby załączyć go do wiadomości. Limit rozmiaru to {limit,number} {units}."
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Nie można załadować wybranego załącznika."
@@ -2558,9 +2558,6 @@
   "icu:youUpdatedTheGroup": {
     "messageformat": "Wprowadzasz zmiany w grupie."
   },
-  "icu:collapsedContainer": {
-    "messageformat": "{leadingIcon} {text} {trailingIcon}"
-  },
   "icu:collapsedGroupUpdates": {
     "messageformat": "{count, plural, one {{count,number} aktualizacje w grupie} few {{count,number} aktualizacje w grupie} many {{count,number} aktualizacji w grupie} other {{count,number} aktualizacji w grupie}}"
   },
@@ -2581,12 +2578,6 @@
   },
   "icu:collapsedCallEvents": {
     "messageformat": "{count, plural, one {{count,number} powiadomienie o połączeniach} few {{count,number} powiadomienia o połączeniach} many {{count,number} powiadomień o połączeniach} other {{count,number} powiadomienia o połączeniach}}"
-  },
-  "icu:collapsedItems--collapsed": {
-    "messageformat": "Lista zwinięta – kliknij, aby rozwinąć"
-  },
-  "icu:collapsedItems--expanded": {
-    "messageformat": "Lista rozwinięta – kliknij, aby zwinąć"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "Grupa ma nowy awatar."
@@ -3055,6 +3046,9 @@
   },
   "icu:Message--tap-to-view--outgoing--expired-toast": {
     "messageformat": "Wiadomości jednorazowe nie są przechowywane w historii czatu."
+  },
+  "icu:Message--tap-to-view--outgoing--expired-toast-2": {
+    "messageformat": "View-once media is deleted after sending"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "Wideo jednorazowe"
@@ -4898,6 +4892,9 @@
   "icu:ConversationDetailsActions--unblock-group": {
     "messageformat": "Odblokuj grupę"
   },
+  "icu:ConversationDetailsActions--report-spam": {
+    "messageformat": "Report spam"
+  },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "Zarchiwizuj czat"
   },
@@ -4948,6 +4945,21 @@
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "Odblokuj"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-title": {
+    "messageformat": "Report spam?"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
+    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-group": {
+    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
+    "messageformat": "Report spam"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
+    "messageformat": "Report and block"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} osoba} few {{number,number} osoby} many {{number,number} osób} other {{number,number} osoby}}"
@@ -8111,8 +8123,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Drobne ulepszenia, poprawki błędów i większa funkcjonalność. Cieszymy się, że korzystasz z aplikacji Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.6--0": {
-    "messageformat": "Od teraz nie trzeba już dużo przewijać, aby nadrobić zaległości w wiadomościach. Jeśli do czatu grupowego dołączy kilka nowych osób lub będziesz w nim mieć kilka nieodebranych połączeń, powtarzające się powiadomienia mogą zostać automatycznie zgrupowane w kompaktową listę. Czasem mniej znaczy więcej, a listę powiadomień w razie potrzeby możesz w każdej chwili łatwo rozwinąć lub zwinąć."
   }
 }

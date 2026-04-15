@@ -747,7 +747,7 @@
     "messageformat": "Izbrana datoteka presega največjo dovoljeno velikost. {limit,number} {units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "Izbran videoposnetek presega največjo dovoljeno velikost. {limit,number} {units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Izbrane priponke ni bilo mogoče zagnati."
@@ -2558,9 +2558,6 @@
   "icu:youUpdatedTheGroup": {
     "messageformat": "Posodobili ste skupino."
   },
-  "icu:collapsedContainer": {
-    "messageformat": "{leadingIcon} {text} {trailingIcon}"
-  },
   "icu:collapsedGroupUpdates": {
     "messageformat": "{count, plural, one {{count,number} posodobitev skupine} two {{count,number} posodobitvi skupine} few {{count,number} posodobitve skupine} other {{count,number} posodobitev skupine}}"
   },
@@ -2581,12 +2578,6 @@
   },
   "icu:collapsedCallEvents": {
     "messageformat": "{count, plural, one {{count,number} aktivnost v zvezi s klici} two {{count,number} aktivnosti v zvezi s klici} few {{count,number} aktivnosti v zvezi s klici} other {{count,number} aktivnosti v zvezi s klici}}"
-  },
-  "icu:collapsedItems--collapsed": {
-    "messageformat": "Nabor je strnjen – kliknite za razširitev"
-  },
-  "icu:collapsedItems--expanded": {
-    "messageformat": "Nabor je razširjen – kliknite za strnitev"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "Avatar skupine je bil posodobljen."
@@ -3055,6 +3046,9 @@
   },
   "icu:Message--tap-to-view--outgoing--expired-toast": {
     "messageformat": "Sporočila za enkratni ogled se ne shranjujejo v zgodovino vaših klepetov."
+  },
+  "icu:Message--tap-to-view--outgoing--expired-toast-2": {
+    "messageformat": "View-once media is deleted after sending"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "Ogled videa za enkratni ogled"
@@ -4898,6 +4892,9 @@
   "icu:ConversationDetailsActions--unblock-group": {
     "messageformat": "Odblokiraj skupino"
   },
+  "icu:ConversationDetailsActions--report-spam": {
+    "messageformat": "Report spam"
+  },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "Arhiviraj klepet"
   },
@@ -4948,6 +4945,21 @@
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "Odblokiraj"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-title": {
+    "messageformat": "Report spam?"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
+    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-group": {
+    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
+    "messageformat": "Report spam"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
+    "messageformat": "Report and block"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} član_ica} two {{number,number} člana_ici} few {{number,number} člani_ce} other {{number,number} članov_ic}}"
@@ -8111,8 +8123,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Majhne prilagoditve, popravki napak in izboljšave zmogljivosti. Hvala, da uporabljate Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.6--0": {
-    "messageformat": "Ponavljajoče se aktivnosti v zvezi s klepeti (na primer več zgrešenih klicev) je mogoče samodejno združiti v kompakten prikaz, da se vam ni treba pomikati tako daleč, da bi si ogledali najnovejša sporočila."
   }
 }

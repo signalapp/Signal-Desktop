@@ -747,7 +747,7 @@
     "messageformat": "Paumanhin, masyadong malaki ang pinili mong file. {limit,number} {units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "Paumanhin, masyadong malaki ang pinili mong file. {limit,number}{units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Unable to load selected attachment."
@@ -2376,7 +2376,7 @@
     "messageformat": "Support center"
   },
   "icu:ConversationDetails__GroupTerminatedBanner": {
-    "messageformat": "Natapos na ang group na ito"
+    "messageformat": "Sinara na ang group na ito."
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "Tingnan ang Safety Number"
@@ -2558,11 +2558,8 @@
   "icu:youUpdatedTheGroup": {
     "messageformat": "In-update mo ang grupo."
   },
-  "icu:collapsedContainer": {
-    "messageformat": "{leadingIcon} {text} {trailingIcon}"
-  },
   "icu:collapsedGroupUpdates": {
-    "messageformat": "{count, plural, one {{count,number} na group update} other {{count,number} na group updates}}"
+    "messageformat": "{count, plural, one {{count,number} group update} other {{count,number} group updates}}"
   },
   "icu:multidayCollapse__container": {
     "messageformat": "{containerDescription} · {dayCountSummary}"
@@ -2574,19 +2571,13 @@
     "messageformat": "{count, plural, one {{count,number} chat update} other {{count,number} chat updates}}"
   },
   "icu:collapsedTimerChanges": {
-    "messageformat": "{count, plural, one {{count,number} disappearing timer change · {endingState}} other {{count,number} disappearing timer changes · {endingState}}}"
+    "messageformat": "{count, plural, one {{count,number} pagbabago sa timer ng disappearing messages · {endingState}} other {{count,number} pagbabago sa timer ng disappearing messages · {endingState}}}"
   },
   "icu:collapsedTimerChanges--disabled": {
-    "messageformat": "{count, plural, one {{count,number} disappearing timer change · Naka-disable} other {{count,number} disappearing timer changes · Naka-disable}}"
+    "messageformat": "{count, plural, one {{count,number} pagbabago sa disappearing timer · Naka-disable} other {{count,number} pagbabago sa disappearing timer · Naka-disable}}"
   },
   "icu:collapsedCallEvents": {
     "messageformat": "{count, plural, one {{count,number} call event} other {{count,number} call events}}"
-  },
-  "icu:collapsedItems--collapsed": {
-    "messageformat": "Naka-collapse ang set of items - i-click para i-expand"
-  },
-  "icu:collapsedItems--expanded": {
-    "messageformat": "Naka-expand ang set of items - i-click para i-collapse"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "Updated na ang group avatar."
@@ -3055,6 +3046,9 @@
   },
   "icu:Message--tap-to-view--outgoing--expired-toast": {
     "messageformat": "Hindi nakalagay sa iyong chat history ang view-once messages."
+  },
+  "icu:Message--tap-to-view--outgoing--expired-toast-2": {
+    "messageformat": "View-once media is deleted after sending"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "View Once Video"
@@ -3975,13 +3969,13 @@
     "messageformat": "Hindi maka-join sa group. Subukan ulit mamaya."
   },
   "icu:GroupV2--terminate-group-in-progress": {
-    "messageformat": "Tinatapos ang group..."
+    "messageformat": "Sinasara ang group..."
   },
   "icu:TerminateGroupFailedModal__description": {
-    "messageformat": "Hindi matapos ang group na ito. I-check ang iyong connection at subukan ulit."
+    "messageformat": "Hindi masara ang group na ito. I-check ang iyong connection at subukan ulit."
   },
   "icu:TerminateGroupFailedModal__try-again": {
-    "messageformat": "Subukang muli"
+    "messageformat": "Subukan ulit"
   },
   "icu:GroupV2--admin": {
     "messageformat": "Admin"
@@ -4425,13 +4419,13 @@
     "messageformat": "Nagbago ang members o settings ng group na ito."
   },
   "icu:GroupV2--terminated--you": {
-    "messageformat": "Tinapos mo ang group"
+    "messageformat": "Sinara mo ang group"
   },
   "icu:GroupV2--terminated--other": {
-    "messageformat": "Tinapos ni {memberName} ang group"
+    "messageformat": "Sinara ni {memberName} ang group"
   },
   "icu:GroupV2--terminated--unknown": {
-    "messageformat": "Natapos na ang group na ito"
+    "messageformat": "Sinara na ang group na ito"
   },
   "icu:GroupV1--Migration--disabled--link": {
     "messageformat": "I-upgrade ang group na ito para ma-activate ang bagong features gaya ng @mentions at admins. Ang members na hindi nag-share ng kanilang name o photo sa group na ito ay iimbitahang mag-join. <learnMoreLink>Matuto pa.</learnMoreLink>"
@@ -4710,7 +4704,7 @@
     "messageformat": "Palitan"
   },
   "icu:CompositionArea--group-terminated": {
-    "messageformat": "Hindi ka makakapag-send ng messages dahil natapos na ang group."
+    "messageformat": "Hindi ka makakapag-send ng messages dahil sinara na ang group."
   },
   "icu:CompositionArea--viewOnceToggle": {
     "messageformat": "View once"
@@ -4890,13 +4884,16 @@
     "messageformat": "Umalis sa grupo"
   },
   "icu:ConversationDetailsActions--terminate-group": {
-    "messageformat": "Tapusin ang group"
+    "messageformat": "Isara ang group"
   },
   "icu:ConversationDetailsActions--block-group": {
     "messageformat": "I-block ang group"
   },
   "icu:ConversationDetailsActions--unblock-group": {
     "messageformat": "I-unblock ang group"
+  },
+  "icu:ConversationDetailsActions--report-spam": {
+    "messageformat": "Report spam"
   },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "I-archive ang chat"
@@ -4920,16 +4917,16 @@
     "messageformat": "Umalis"
   },
   "icu:ConversationDetailsActions--prompt-terminate-group-modal-title": {
-    "messageformat": "Tapusin ang \"{groupName}\"?"
+    "messageformat": "Isara ang \"{groupName}\"?"
   },
   "icu:ConversationDetailsActions--prompt-terminate-group-modal-content": {
-    "messageformat": "Hindi na makakapag-send ng messages o makakapagsimula ng tawag ang members sa group na ito. Ino-notify silang tinapos mo na ang group, at magkakaroon pa rin sila ng access sa message history."
+    "messageformat": "Hindi na makakapag-send ng messages o makakapagsimula ng tawag ang members sa group na ito. Ino-notify silang sinara mo na ang group, at magkakaroon pa rin sila ng access sa message history."
   },
   "icu:ConversationDetailsActions--terminate-group-modal-confirm": {
-    "messageformat": "Tapusin ang group"
+    "messageformat": "Isara ang group"
   },
   "icu:ConversationDetailsActions--confirm-terminate-group-confirm-modal-content": {
-    "messageformat": "Permanenteng tatapusin ang group na ito. Sigurado ka bang gusto mong magpatuloy?"
+    "messageformat": "Permanenteng isasara ang group na ito. Sigurado ka bang gusto mong magpatuloy?"
   },
   "icu:ConversationDetailsActions--unblock-group-modal-title": {
     "messageformat": "Gusto mo bang i-unblock ang \"{groupName}\" Group?"
@@ -4948,6 +4945,21 @@
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "I-unblock"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-title": {
+    "messageformat": "Report spam?"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
+    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-group": {
+    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
+    "messageformat": "Report spam"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
+    "messageformat": "Report and block"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} member} other {{number,number} members}}"
@@ -6401,7 +6413,7 @@
     "messageformat": "Kinakailangan ng authentication para i-enable ang backups."
   },
   "icu:Preferences__local-backups-auth-error--unauthorized": {
-    "messageformat": "Hindi matatapos ang action na ito dahil failed ang system authentication. Subukan ulit o buksan ang Signal app sa mobile device mo at pumunta sa Backup Settings para makita ang iyong recovery key."
+    "messageformat": "Hindi magawa ang action na ito dahil failed ang system authentication. Subukan ulit o buksan ang Signal app sa mobile device mo at pumunta sa Backup Settings para makita ang iyong recovery key."
   },
   "icu:Preferences__view-key": {
     "messageformat": "Tignan ang key"
@@ -6416,10 +6428,10 @@
     "messageformat": "Iba pang paraan ng pag-backup"
   },
   "icu:Preferences__recovery-key-updated__title": {
-    "messageformat": "Nabago ang iyong recovery key"
+    "messageformat": "Nagbago ang iyong recovery key"
   },
   "icu:Preferences__recovery-key-updated__description": {
-    "messageformat": "Updated na ang iyong recovery key. Anumang bagong backups na gagawin mo ay mare-restore lamang gamit ang bago mong recovery key."
+    "messageformat": "In-update ang iyong recovery key. Anumang bagong backups na gagawin mo ay mare-restore lang gamit ang bago mong recovery key."
   },
   "icu:Preferences__recovery-key-updated__view-key": {
     "messageformat": "Tignan ang bagong key"
@@ -6776,7 +6788,7 @@
     "messageformat": "Gusto mo bang burahin ang story? Mabubura ang story na ito sa 'yo at sa lahat ng naka-receive nito."
   },
   "icu:MyStories__delete-group-story-for-me": {
-    "messageformat": "Gusto mo bang burahin ang story na ito? Mabubura lamang ito sa'yo dahil natapos na ang group na ito."
+    "messageformat": "Gusto mo bang burahin ang story na ito? Sa 'yo lang mabubura ito dahil sinara na ang group na ito."
   },
   "icu:payment-event-notification-message-you-label": {
     "messageformat": "Nagsimula ka ng isang payment kay {receiver}"
@@ -8111,8 +8123,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Dagdag na maliliit na pag-aayos, pag-alis ng bugs, at pagpapaganda ng takbo ng app. Maraming salamat sa paggamit ng Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.6--0": {
-    "messageformat": "Ngayon, ang inulit na chat events ay automatically pinagsama para sa isang compact display para hindi mo na kailangang mag-scroll nang mahaba to catch up on the latest messages."
   }
 }

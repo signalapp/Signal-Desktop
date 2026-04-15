@@ -747,7 +747,7 @@
     "messageformat": "សុំទោស, ឯកសារដែលបានជ្រើសរើស លើសពីទំហំសារដែលបានកំណត់។ {limit,number} {units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "សូមអភ័យទោស ឯកសារវីដេអូដែលបានជ្រើសរើសគឺលើសពីទំហំសារដែលបានកំហិត។ {limit,number}{units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "មិនអាចផ្ទុកឯកសារភ្ជាប់ដែលបានជ្រើសរើស។"
@@ -2558,9 +2558,6 @@
   "icu:youUpdatedTheGroup": {
     "messageformat": "អ្នកបានធ្វើបច្ចុប្បន្នភាពក្រុម។"
   },
-  "icu:collapsedContainer": {
-    "messageformat": "{leadingIcon} {text} {trailingIcon}"
-  },
   "icu:collapsedGroupUpdates": {
     "messageformat": "{count, plural, other {ការធ្វើបច្ចុប្បន្នភាពក្រុមចំនួន {count,number}}}"
   },
@@ -2581,12 +2578,6 @@
   },
   "icu:collapsedCallEvents": {
     "messageformat": "{count, plural, other {ព្រឹត្តិការណ៍ហៅទូរសព្ទ {count,number}}}"
-  },
-  "icu:collapsedItems--collapsed": {
-    "messageformat": "សំណុំនៃធាតុត្រូវបានបង្រួម - ចុចដើម្បីពង្រីក"
-  },
-  "icu:collapsedItems--expanded": {
-    "messageformat": "សំណុំនៃធាតុត្រូវបានពង្រីក - ចុចដើម្បីបង្រួម"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "រូបតំណាងក្រុមត្រូវបានធ្វើបច្ចុប្បន្នភាព។"
@@ -3055,6 +3046,9 @@
   },
   "icu:Message--tap-to-view--outgoing--expired-toast": {
     "messageformat": "សារដែលមើលបានតែម្តងមិនត្រូវបានរក្សាទុកក្នុងប្រវត្តិជជែករបស់អ្នកទេ។"
+  },
+  "icu:Message--tap-to-view--outgoing--expired-toast-2": {
+    "messageformat": "View-once media is deleted after sending"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "វីដេអូមើលបានតែម្តង"
@@ -4898,6 +4892,9 @@
   "icu:ConversationDetailsActions--unblock-group": {
     "messageformat": "ឈប់ទប់ស្កាត់ក្រុម"
   },
+  "icu:ConversationDetailsActions--report-spam": {
+    "messageformat": "Report spam"
+  },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "ទុកការជជែកក្នុងបណ្ណសារ"
   },
@@ -4948,6 +4945,21 @@
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "ឈប់ទប់ស្កាត់"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-title": {
+    "messageformat": "Report spam?"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
+    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-group": {
+    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
+    "messageformat": "Report spam"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
+    "messageformat": "Report and block"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, other {សមាជិក {number,number} នាក់}}"
@@ -8111,8 +8123,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "ការកែប្រែបន្តិចបន្តួច ការដោះស្រាយបញ្ហា និងការបង្កើនប្រតិបត្តិការ។ សូមអរគុណចំពោះការប្រើប្រាស់ Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.6--0": {
-    "messageformat": "ឥឡូវនេះ អ្នកមិនចាំបាច់អូសទៅឆ្ងាយដើម្បីតាមដានសារថ្មីៗបំផុតនោះទេ។ ប្រសិនបើមនុស្សថ្មីៗមួយចំនួនចូលរួមការជជែកជាក្រុមដែលមមាញឹក ឬអ្នកមានការហៅទូរសព្ទដែលខកមិនបានទទួលជាច្រើនជាប់ៗគ្នា ព្រឹត្តិការណ៍ជជែកដដែលៗទាំងនោះអាចត្រូវបានដាក់ជាក្រុមដោយស្វ័យប្រវត្តិទៅក្នុងអេក្រង់បង្ហាញតូចមួយ។ ពេលខ្លះតិចល្អជាងច្រើន ប៉ុន្តែអ្នកអាចពង្រីក និងបង្រួមបញ្ជីទាំងនេះបានយ៉ាងងាយស្រួលនៅពេលណាក៏បាន។"
   }
 }

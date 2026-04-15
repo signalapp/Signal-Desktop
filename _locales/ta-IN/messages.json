@@ -747,7 +747,7 @@
     "messageformat": "மன்னிக்கவும், தேர்ந்தெடுக்கப்பட்ட கோப்பு செய்தி அளவு கட்டுப்பாடுகளை மீறுகிறது. {limit,number} {units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "மன்னிக்கவும், தேர்ந்தெடுக்கப்பட்ட வீடியோ கோப்பு மெசேஜ் அளவு கட்டுப்பாடுகளை மீறுகிறது. {limit,number}{units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "தேர்ந்தெடுக்கப்பட்ட இணைப்பு ஏற்ற முடியவில்லை."
@@ -2558,9 +2558,6 @@
   "icu:youUpdatedTheGroup": {
     "messageformat": "நீங்கள் குழுவைப் புதுப்பித்தீர்கள்."
   },
-  "icu:collapsedContainer": {
-    "messageformat": "{leadingIcon} {text} {trailingIcon}"
-  },
   "icu:collapsedGroupUpdates": {
     "messageformat": "{count, plural, one {{count,number} தொகுப்பு புதுப்பிப்பு} other {{count,number} தொகுப்பு புதுப்பிப்புகள்}}"
   },
@@ -2581,12 +2578,6 @@
   },
   "icu:collapsedCallEvents": {
     "messageformat": "{count, plural, one {{count,number} அழைப்பு நிகழ்வு} other {{count,number} அழைப்பு நிகழ்வுகள்}}"
-  },
-  "icu:collapsedItems--collapsed": {
-    "messageformat": "உருப்படிகளின் தொகுப்பு சுருக்கப்பட்டுள்ளது - விரிவாக்குவதற்குக் கிளிக் செய்யவும்"
-  },
-  "icu:collapsedItems--expanded": {
-    "messageformat": "உருப்படிகளின் தொகுப்பு விரிவாக்கப்பட்டுள்ளது - சுருக்குவதற்குக் கிளிக் செய்யவும்"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "குழு அவதார் புதுப்பிக்கப்பட்டது."
@@ -3055,6 +3046,9 @@
   },
   "icu:Message--tap-to-view--outgoing--expired-toast": {
     "messageformat": "\"பார்வைக்கு ஒரு முறை மட்டுமே\" மெசேஜ்கள் உங்கள் சாட் வரலாற்றில் சேமிக்கப்படவில்லை."
+  },
+  "icu:Message--tap-to-view--outgoing--expired-toast-2": {
+    "messageformat": "View-once media is deleted after sending"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "ஒரு முறை-காணும் காணொளி"
@@ -4898,6 +4892,9 @@
   "icu:ConversationDetailsActions--unblock-group": {
     "messageformat": "குழுவைத் தடைநீக்கு"
   },
+  "icu:ConversationDetailsActions--report-spam": {
+    "messageformat": "Report spam"
+  },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "சாட்டைக் காப்பகப்படுத்தவும்"
   },
@@ -4948,6 +4945,21 @@
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "தடைநீக்கு"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-title": {
+    "messageformat": "Report spam?"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
+    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-group": {
+    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
+    "messageformat": "Report spam"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
+    "messageformat": "Report and block"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} உறுப்பினர்} other {{number,number} உறுப்பினர்கள்}}"
@@ -8111,8 +8123,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "சிறு மாற்றங்கள், பிழை திருத்தங்கள் மற்றும் செயல்திறன் மேம்பாடுகள். சிக்னலைப் பயன்படுத்தியதற்கு நன்றி!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.6--0": {
-    "messageformat": "தொடர்ந்து பெரும் அரட்டை நிகழ்வுகள் (பல தவறிய அழைப்புகள் போல) தானாகவே ஒன்றுசேர்க்கப்பட்டு சுருக்கமான காட்சியாகத் தொகுக்கப்படும். எனவே அண்மைய செய்திகளைப் படிக்க நீங்கள் அதிகமாக ஸ்க்ரோல் செய்ய வேண்டியதில்லை."
   }
 }

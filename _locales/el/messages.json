@@ -747,7 +747,7 @@
     "messageformat": "Δυστυχώς το επιλεγμένο αρχείο υπερβαίνει το όριο μεγέθους μηνυμάτων. {limit,number} {units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "Δυστυχώς το επιλεγμένο αρχείο βίντεο υπερβαίνει το όριο μεγέθους μηνυμάτων. {limit,number}{units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Δεν είναι δυνατή η φόρτωση του επιλεγμένου συνημμένου."
@@ -2558,9 +2558,6 @@
   "icu:youUpdatedTheGroup": {
     "messageformat": "Ενημέρωσες την ομάδα"
   },
-  "icu:collapsedContainer": {
-    "messageformat": "{leadingIcon} {text} {trailingIcon}"
-  },
   "icu:collapsedGroupUpdates": {
     "messageformat": "{count, plural, one {{count,number} ενημέρωση ομάδας} other {{count,number} ενημερώσεις ομάδας}}"
   },
@@ -2581,12 +2578,6 @@
   },
   "icu:collapsedCallEvents": {
     "messageformat": "{count, plural, one {{count,number} εκδήλωση για κλήση} other {{count,number} εκδηλώσεις για κλήση}}"
-  },
-  "icu:collapsedItems--collapsed": {
-    "messageformat": "Η λίστα στοιχείων είναι συμπτυγμένη - κάνε κλικ για να την αναπτύξεις"
-  },
-  "icu:collapsedItems--expanded": {
-    "messageformat": "Η λίστα στοιχείων είναι αναπτυγμένη - κάνε κλικ για να την κλείσεις"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "Το εικονίδιο της ομάδας ανανεώθηκε."
@@ -3055,6 +3046,9 @@
   },
   "icu:Message--tap-to-view--outgoing--expired-toast": {
     "messageformat": "Τα μηνύματα μεμονωμένης προβολής δεν αποθηκεύονται στο ιστορικό συνομιλιών σου."
+  },
+  "icu:Message--tap-to-view--outgoing--expired-toast-2": {
+    "messageformat": "View-once media is deleted after sending"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "Βίντεο μιας μόνο προβολής"
@@ -4898,6 +4892,9 @@
   "icu:ConversationDetailsActions--unblock-group": {
     "messageformat": "Κατάργηση αποκλεισμού ομάδας"
   },
+  "icu:ConversationDetailsActions--report-spam": {
+    "messageformat": "Report spam"
+  },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "Αρχειοθέτηση συνομιλίας"
   },
@@ -4948,6 +4945,21 @@
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "Κατάργηση αποκλεισμού"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-title": {
+    "messageformat": "Report spam?"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
+    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-group": {
+    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
+    "messageformat": "Report spam"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
+    "messageformat": "Report and block"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} μέλος} other {{number,number} μέλη}}"
@@ -8111,8 +8123,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Μικρές τροποποιήσεις, επιδιορθώσεις σφαλμάτων και βελτιώσεις απόδοσης. Ευχαριστούμε που χρησιμοποιείς το Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.6--0": {
-    "messageformat": "Οι επαναλαμβανόμενες εκδηλώσεις συνομιλίας (όπως οι πολλαπλές αναπάντητες κλήσεις) μπορούν να ομαδοποιηθούν αυτόματα σε μια συνοπτική προβολή, ώστε να μην χρειάζεται να σκρολάρεις πολύ για να δεις τα πιο πρόσφατα μηνύματα."
   }
 }

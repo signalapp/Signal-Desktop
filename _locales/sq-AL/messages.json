@@ -747,7 +747,7 @@
     "messageformat": "Na ndjeni, kartela e përzgjedhur tejkalon kufizimet për madhësi mesazhesh. {limit,number} {units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "Ju kërkojmë ndjesë, por skedari i përzgjedhur i videos i tejkalon kufizimet për madhësi mesazhesh. {limit,number}{units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "S’arrihet të ngarkohet bashkëngjitja e përzgjedhur."
@@ -2558,9 +2558,6 @@
   "icu:youUpdatedTheGroup": {
     "messageformat": "E përditësuat grupin."
   },
-  "icu:collapsedContainer": {
-    "messageformat": "{leadingIcon} {text} {trailingIcon}"
-  },
   "icu:collapsedGroupUpdates": {
     "messageformat": "{count, plural, one {{count,number} përditësim grupi} other {{count,number} përditësime grupi}}"
   },
@@ -2581,12 +2578,6 @@
   },
   "icu:collapsedCallEvents": {
     "messageformat": "{count, plural, one {{count,number} aktivitet thirrjeje} other {{count,number} aktivitete thirrjeje}}"
-  },
-  "icu:collapsedItems--collapsed": {
-    "messageformat": "Lista e artikujve është ngushtuar - kliko për ta zgjeruar"
-  },
-  "icu:collapsedItems--expanded": {
-    "messageformat": "Lista e artikujve është zgjeruar - kliko për ta mbledhur"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "Avatari i grupit u përditësua."
@@ -3055,6 +3046,9 @@
   },
   "icu:Message--tap-to-view--outgoing--expired-toast": {
     "messageformat": "Mesazhet me vetëm një shikim nuk ruhen në historikun e bisedës."
+  },
+  "icu:Message--tap-to-view--outgoing--expired-toast-2": {
+    "messageformat": "View-once media is deleted after sending"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "Video që mund të shihet vetë një herë"
@@ -4898,6 +4892,9 @@
   "icu:ConversationDetailsActions--unblock-group": {
     "messageformat": "Zhblloko grupin"
   },
+  "icu:ConversationDetailsActions--report-spam": {
+    "messageformat": "Report spam"
+  },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "Arkivo bisedën"
   },
@@ -4948,6 +4945,21 @@
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "Zhbllokoje"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-title": {
+    "messageformat": "Report spam?"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
+    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-group": {
+    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
+    "messageformat": "Report spam"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
+    "messageformat": "Report and block"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} anëtar} other {{number,number} anëtarë}}"
@@ -8111,8 +8123,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Rregullme të vogla, riparime të gabimeve dhe përmirësime të mbarëvajtjes.  Faleminderit që përdorni Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.6--0": {
-    "messageformat": "Aktivitetet e përsëritura të thirrjeve (si thirrjet e shumta të humbura) mund të grupohen automatikisht, duke kursyer hapësirë dhe duke e bërë më të lehtë ndjekjen e mesazheve të fundit."
   }
 }

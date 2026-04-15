@@ -747,7 +747,7 @@
     "messageformat": "معذرت، منتخب شدہ فائل پیغام کے حجم کی پابندیوں سے بڑھ چکی ہے۔ {limit,number} {units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "معذرت، منتخب شدہ ویڈیو فائل میسج کے سائز کی حدود سے تجاوز کر گئی ہے۔ {limit,number}{units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "منتخب کردہ اٹیچمنٹ لوڈ ہونے کے قابل نہیں ہے۔"
@@ -2558,9 +2558,6 @@
   "icu:youUpdatedTheGroup": {
     "messageformat": "آپ نے گروپ کی تجدید کی۔"
   },
-  "icu:collapsedContainer": {
-    "messageformat": "{leadingIcon} {text} {trailingIcon}"
-  },
   "icu:collapsedGroupUpdates": {
     "messageformat": "{count, plural, one {{count,number} گروپ کی اپ ڈیٹ} other {{count,number} گروپ کی اپ ڈیٹس}}"
   },
@@ -2581,12 +2578,6 @@
   },
   "icu:collapsedCallEvents": {
     "messageformat": "{count, plural, one {{count,number} کال ایونٹ} other {{count,number} کال ایونٹس}}"
-  },
-  "icu:collapsedItems--collapsed": {
-    "messageformat": "آئٹمز کا سیٹ سکڑ گیا ہے - وسعت دینے کے لیے کلک کریں"
-  },
-  "icu:collapsedItems--expanded": {
-    "messageformat": "آئٹمز کا سیٹ پھیل گیا ہے - سمیٹنے کے لیے کلک کریں"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "گروپ اوتار کو اپ ڈیٹ کیا گیا۔"
@@ -3055,6 +3046,9 @@
   },
   "icu:Message--tap-to-view--outgoing--expired-toast": {
     "messageformat": "ایک وقتی دیکھے جانے والے میسجز آپ کی چیٹ ہسٹری میں اسٹور نہیں ہوتے۔"
+  },
+  "icu:Message--tap-to-view--outgoing--expired-toast-2": {
+    "messageformat": "View-once media is deleted after sending"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "ایک بار دیکھنے کی ویڈیو"
@@ -4898,6 +4892,9 @@
   "icu:ConversationDetailsActions--unblock-group": {
     "messageformat": "گروپ کو اَن بلاک کریں"
   },
+  "icu:ConversationDetailsActions--report-spam": {
+    "messageformat": "Report spam"
+  },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "چیٹ آرکائیو کریں"
   },
@@ -4948,6 +4945,21 @@
   },
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "اَن بلاک کریں"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-title": {
+    "messageformat": "Report spam?"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
+    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-group": {
+    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
+    "messageformat": "Report spam"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
+    "messageformat": "Report and block"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} ممبر} other {{number,number} ممبرز}}"
@@ -8111,8 +8123,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "معمولی تبدیلیاں کی گئیں، بگ ٹھیک کیے گئے، اور کارکردگی اور بھی بہتر بنائی گئی ہے۔ Signal استعمال کرنے کے لیے شکریہ!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.6--0": {
-    "messageformat": "اب آپ کو تازہ ترین میسج دیکھنے کے لیے زیادہ سکرول کرنے کی ضرورت نہیں۔ اگر کسی مصروف گروپ چیٹ میں زیادہ لوگ جوائن ہو جائیں یا آپ کو بار بار مس کالز آئیں گے بار بار ہونے والے چیٹ ایونٹس (جیسے متعدد مسڈ کالز) خودکار طور پر ایک مختصر ڈسپلے میں اکٹھے ہو سکتے ہیں تاکہ آپ کو تازہ ترین میسجز دیکھنے کے لیے زیادہ اسکرول نہ کرنا پڑے۔ کبھی کبھی کم بھی بہت زیادہ لگتا ہے، لیکن آپ کبھی بھی ان فہرستوں کو کھول یا بند کر سکتے ہیں۔"
   }
 }
