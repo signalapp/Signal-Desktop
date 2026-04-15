@@ -6410,7 +6410,7 @@
     "messageformat": "Herstelsleutel"
   },
   "icu:Preferences__recovery-key-description": {
-    "messageformat": "Je herstelsleutel is een code van 64 tekens die je nodig hebt om je back-upgegevens terug te zetten"
+    "messageformat": "Je herstelsleutel is een code van 64 tekens waarmee je je back-upgegevens terugzet"
   },
   "icu:Preferences__backup-other-ways": {
     "messageformat": "Andere manieren om een back-up te maken"

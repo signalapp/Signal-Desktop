@@ -747,7 +747,7 @@
     "messageformat": "Rất tiếc, tập tin đã chọn vượt quá giới hạn kích thước của tin nhắn. {limit,number} {units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "Rất tiếc, tập tin video đã chọn vượt quá giới hạn dung lượng của tin nhắn. {limit,number}{units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Không thể tải tập tin đính kèm đã chọn."

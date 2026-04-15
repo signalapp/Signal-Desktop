@@ -747,7 +747,7 @@
     "messageformat": "Извините, выбранный файл превышает ограничение на размер сообщений. {limit,number} {units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "Извините, выбранный видеофайл превышает ограничение на размер сообщений. {limit,number}{units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Не удалось загрузить выбранное вложение."

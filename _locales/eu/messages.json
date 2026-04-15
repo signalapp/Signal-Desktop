@@ -747,7 +747,7 @@
     "messageformat": "Barkatu, aukeratutako fitxategiak ezarri den tamaina muga gainditzen du. {limit,number} {units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "Barkatu, hautatutako bideo-fitxategiak mezuen tamaina-murriztapenak gainditzen ditu. {limit,number} {units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Ezin izan da hautatutako eranskina kargatu."

@@ -369,7 +369,7 @@
     "messageformat": "アーカイブ済みのチャットはありません。"
   },
   "icu:archiveConversation": {
-    "messageformat": "アーカイブする"
+    "messageformat": "アーカイブ"
   },
   "icu:markUnread": {
     "messageformat": "未読にする"

@@ -747,7 +747,7 @@
     "messageformat": "Δυστυχώς το επιλεγμένο αρχείο υπερβαίνει το όριο μεγέθους μηνυμάτων. {limit,number} {units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "Δυστυχώς το επιλεγμένο αρχείο βίντεο υπερβαίνει το όριο μεγέθους μηνυμάτων. {limit,number}{units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Δεν είναι δυνατή η φόρτωση του επιλεγμένου συνημμένου."

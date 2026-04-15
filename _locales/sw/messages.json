@@ -747,7 +747,7 @@
     "messageformat": "Samahani, faili lililochaguliwa limepita vikwazo vya ukubwa wa ujumbe. {limit,number} {units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "Samahani, faili ya video iliyochaguliwa imepita kikomo cha ukubwa wa ujumbe. {limit,number}{units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Imeshindwa kupakia kiambatisho kilichochaguliwa."

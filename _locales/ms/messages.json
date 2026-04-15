@@ -747,7 +747,7 @@
     "messageformat": "Maaf, fail yang dipilih melebihi sekatan saiz mesej. {limit,number} {units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "Maaf, fail video yang dipilih melebihi sekatan saiz mesej. {limit,number}{units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Tidak dapat memuatkan lampiran yang dipilih."

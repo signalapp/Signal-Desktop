@@ -747,7 +747,7 @@
     "messageformat": "Die ausgewählte Datei überschreitet leider die maximal erlaubte Nachrichtengröße."
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "Die ausgewählte Videodatei überschreitet leider die maximal erlaubte Nachrichtengröße. {limit,number}{units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Ausgewählter Anhang kann nicht geladen werden."

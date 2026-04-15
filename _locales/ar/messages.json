@@ -747,7 +747,7 @@
     "messageformat": "عُذرًا، حجم الملف المُحدَّد يتجاوز قيود الحجم الأقصى للرسالة. {limit,number}{units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "عذرًا، يتجاوز ملف الفيديو المُحدَّد الحد الأقصى لِحجم الرسالة. {limit,number}{units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "فشل تنزيل الملفات المُرفَقة المُحدَّدة."
@@ -7674,7 +7674,7 @@
     "messageformat": "تبرَّع لدعم المراسلة الخصوصية. ساعِد في إبقاء سيجنال مستقلًا وخاليًا من الإعلانات. <readMoreLink>اقرأ المزيد</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
-    "messageformat": "التبرُّع"
+    "messageformat": "تبرَّع"
   },
   "icu:PreferencesDonations__my-support": {
     "messageformat": "الدعم الخاص بي"
@@ -7698,7 +7698,7 @@
     "messageformat": "<paragraph>لا يقوم سيجنال بجمع أو تخزين معلوماتك الشخصية عند قيامك بتبرُّع.</paragraph><paragraph>نستخدم Stripe كمعالج عمليات الدفع الخاصة بنا لتلقي تبرُّعاتك. لا يُمكننا الوصول إلى أو تخزين أو حفظ أي من المعلومات التي تُقدمها.</paragraph><paragraph>لا يقوم تطبيق سيجنال ولا يمكنه ربط تبرُّعاتك بحسابك على سيجنال.</paragraph><paragraph>شكرًا لدعمك!</paragraph>"
   },
   "icu:PreferencesDonations__privacy-modal-intro": {
-    "messageformat": "بصفتها شركة غير ربحية،  سيجنال مُلتزمة بدعم المراسلة والمكالمات الخاصة. بدون إعلانات، وبدون تعقُّب، وبدون مراقبة. تبرَّع اليوم لدعم سيجنال."
+    "messageformat": "بصفتها شركة غير ربحية، سيجنال مُلتزمة بدعم المراسلة والمكالمات الخاصة. بدون إعلانات، وبدون تعقُّب، وبدون مراقبة. تبرَّع اليوم لدعم سيجنال."
   },
   "icu:PreferencesDonations__privacy-modal-list-1": {
     "messageformat": "احصل على شارة اختيارية على حسابك الشخصي عند التبرُّع."

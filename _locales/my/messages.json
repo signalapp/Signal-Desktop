@@ -747,7 +747,7 @@
     "messageformat": "ဝမ်းနည်းပါသည်၊ ရွေးချယ်ထားသော ဖိုင်မှာ မက်ဆေ့ချ်အရွယ်အစား သတ်မှတ်ချက်ထက် ကျော်နေပါသည်။ {limit,number}{units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "ရွေးချယ်ထားသော ဗီဒီယိုဖိုင်သည် မက်ဆေ့ချ်အရွယ်အစား ကန့်သတ်ချက်ထက် ကျော်လွန်နေပါသည်။ {limit,number}{units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "ရွေးချယ်ထား‌သော ပူးတွဲဖိုင်ကို ထည့်သွင်းလုပ်ဆောင်၍ မရနိုင်ပါ။"

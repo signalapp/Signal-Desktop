@@ -747,7 +747,7 @@
     "messageformat": "Ár leithscéal, sáraíonn an comhad roghnaithe srianta le méid na teachtaireachta. {limit,number} {units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "Ár leithscéal, sáraíonn an físchomhad roghnaithe srianta le méid na teachtaireachta. {limit,number}{units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Ní féidir an ceangaltán roghnaithe a lódáil."

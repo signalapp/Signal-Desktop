@@ -747,7 +747,7 @@
     "messageformat": "На жаль, розмір обраного файлу перевищує обмеження. {limit,number} {units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "На жаль, розмір обраного відео перевищує обмеження. {limit,number}{units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Не вдається вивантажити обране вкладення."

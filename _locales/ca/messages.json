@@ -747,7 +747,7 @@
     "messageformat": "Perdoneu, el fitxer seleccionat excedeix les restriccions de mida dels missatges. {limit,number} {units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "Vaja, el vídeo seleccionat excedeix les restriccions de mida dels missatges. {limit,number}{units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "No s'ha pogut carregar l'adjunt seleccionat"

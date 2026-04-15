@@ -747,7 +747,7 @@
     "messageformat": "Üzgünüz, seçilen dosya ileti boyutu kısıtlamalarını aşıyor. {limit,number} {units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "Üzgünüz, seçilen video dosyası mesaj boyutu kısıtlamalarını aşıyor. {limit,number}{units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Seçilen eklenti yüklenemedi."

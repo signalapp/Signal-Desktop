@@ -747,7 +747,7 @@
     "messageformat": "Wybrany plik jest za duży, aby załączyć go do wiadomości. Limit rozmiaru to {limit,number}{units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "Wybrany plik wideo jest za duży, aby załączyć go do wiadomości. Limit rozmiaru to {limit,number} {units}."
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Nie można załadować wybranego załącznika."

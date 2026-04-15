@@ -747,7 +747,7 @@
     "messageformat": "Кечиресиз, тандалган файл билдирүү өлчөмүнүн чегинен ашып кетти. {limit,number} {units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "Кечиресиз, тандалган видео файл билдирүүнүн чегинен ашып кетти. {limit,number}{units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Тандалган тиркемени жүктөп алуу мүмкүн эмес."

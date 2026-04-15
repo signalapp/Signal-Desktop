@@ -747,7 +747,7 @@
     "messageformat": "Ne pare rău, fișierul selectat depășește limita de mărime a mesajului. {limit,number} {units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit,number}{units}"
+    "messageformat": "Ne pare rău, fișierul video selectat depășește limita de mărime pentru mesaje. {limit,number}{units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Nu s-a putut încărca atașamentul selectat."

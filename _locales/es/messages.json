@@ -459,7 +459,7 @@
     "messageformat": "Este grupo no es válido. Crea un nuevo grupo."
   },
   "icu:scrollDown": {
-    "messageformat": "Ir al final del chat"
+    "messageformat": "Desplazarse al final del chat"
   },
   "icu:messagesBelow": {
     "messageformat": "Nuevos mensajes abajo"
