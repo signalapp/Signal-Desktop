@@ -422,8 +422,8 @@ importers:
         specifier: 0.7.1
         version: 0.7.1
       electron:
-        specifier: 41.1.1
-        version: 41.1.1
+        specifier: 41.2.0
+        version: 41.2.0
       electron-builder:
         specifier: 26.0.14
         version: 26.0.14(electron-builder-squirrel-windows@26.0.14)
@@ -6142,8 +6142,8 @@ packages:
     engines: {node: '>= 12.20.55'}
     hasBin: true
 
-  electron@41.1.1:
-    resolution: {integrity: sha512-8bgvDhBjli+3Z2YCKgzzoBPh6391pr7Xv2h/tTJG4ETgvPvUxZomObbZLs31mUzYb6VrlcDDd9cyWyNKtPm3tA==}
+  electron@41.2.0:
+    resolution: {integrity: sha512-0OKLiymqfV0WK68RBXqAm3Myad2TpI5wwxLCBEUcH5Nugo3YfSk7p1Js/AL9266qTz5xZioUnxt9hG8FFwax0g==}
     engines: {node: '>= 12.20.55'}
     hasBin: true
 
@@ -6812,6 +6812,10 @@ packages:
 
   got@11.8.5:
     resolution: {integrity: sha512-o0Je4NvQObAuZPHLFoRSkdG2lTgtcynqymzg2Vupdx6PorhaT5MCbIyXG6d4D94kk8ZG57QeosgdiqfJWhEhlQ==}
+    engines: {node: '>=10.19.0'}
+
+  got@11.8.6:
+    resolution: {integrity: sha512-6tfZ91bOr7bOXnK7PRDCGBLa1H4U080YHNaAQ2KsMGlLEzRbk44nsZF2E1IeRc3vtJHPVbKCYgdFbaGO2ljd8g==}
     engines: {node: '>=10.19.0'}
 
   got@14.6.6:
@@ -8775,6 +8779,9 @@ packages:
 
   pump@3.0.3:
     resolution: {integrity: sha512-todwxLMY7/heScKmntwQG8CXVkWUOdYxIvY2s0VWAAMh/nd8SoYiRaKjlr7+iCs984f2P8zvrfWcDDYVb73NfA==}
+
+  pump@3.0.4:
+    resolution: {integrity: sha512-VS7sjc6KR7e1ukRFhQSY5LM2uBWAUPiOPa/A3mkKmiMwSmRFUITt0xuj+/lesgnCv+dPIEYlkzrcyXgquIHMcA==}
 
   pumpify@2.0.1:
     resolution: {integrity: sha512-m7KOje7jZxrmutanlkS1daj1dS6z6BgslzOXmcSEpIlCxM3VJH7lG5QLeck/6hgF6F4crFf01UtQmNsJfweTAw==}
@@ -10800,7 +10807,7 @@ snapshots:
       debug: 4.4.3(supports-color@8.1.1)
       env-paths: 2.2.1
       fs-extra: 8.1.0
-      got: 11.8.5
+      got: 11.8.6
       progress: 2.0.3
       semver: 6.3.1
       sumchecker: 3.0.1
@@ -10860,7 +10867,7 @@ snapshots:
       debug: 4.4.3(supports-color@8.1.1)
       detect-libc: 2.1.2
       fs-extra: 10.1.0
-      got: 11.8.5
+      got: 11.8.6
       node-abi: 3.87.0
       node-api-version: 0.2.1
       ora: 5.4.1
@@ -16371,7 +16378,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  electron@41.1.1:
+  electron@41.2.0:
     dependencies:
       '@electron/get': 2.0.3
       '@types/node': 24.12.0
@@ -17033,7 +17040,7 @@ snapshots:
 
   get-stream@5.2.0:
     dependencies:
-      pump: 3.0.3
+      pump: 3.0.4
 
   get-stream@6.0.1: {}
 
@@ -17159,6 +17166,20 @@ snapshots:
   gopd@1.2.0: {}
 
   got@11.8.5:
+    dependencies:
+      '@sindresorhus/is': 4.6.0
+      '@szmarczak/http-timer': 4.0.6
+      '@types/cacheable-request': 6.0.3
+      '@types/responselike': 1.0.3
+      cacheable-lookup: 5.0.4
+      cacheable-request: 7.0.4
+      decompress-response: 6.0.0
+      http2-wrapper: 1.0.3
+      lowercase-keys: 2.0.0
+      p-cancelable: 2.1.1
+      responselike: 2.0.1
+
+  got@11.8.6:
     dependencies:
       '@sindresorhus/is': 4.6.0
       '@szmarczak/http-timer': 4.0.6
@@ -19322,6 +19343,11 @@ snapshots:
   pseudomap@1.0.2: {}
 
   pump@3.0.3:
+    dependencies:
+      end-of-stream: 1.4.5
+      once: 1.4.0
+
+  pump@3.0.4:
     dependencies:
       end-of-stream: 1.4.5
       once: 1.4.0
