@@ -94,7 +94,11 @@ import { HOUR, MINUTE, SECOND } from '../util/durations/index.std.ts';
 import { safeParseNumber } from '../util/numbers.std.ts';
 import { getLibsignalNet } from './preconnect.preload.ts';
 import type { GroupSendToken } from '../types/GroupSendEndorsements.std.ts';
-import { parseUnknown, safeParseUnknown } from '../util/schemas.std.ts';
+import {
+  parseUnknown,
+  parseLoose,
+  safeParseUnknown,
+} from '../util/schemas.std.ts';
 import type {
   ProfileFetchAuthRequestOptions,
   ProfileFetchUnauthRequestOptions,
@@ -4059,13 +4063,25 @@ async function _getAttachment({
   return combinedStream;
 }
 
-export async function getAttachmentUploadForm(): Promise<AttachmentUploadFormResponseType> {
-  return _ajax({
-    host: 'chatService',
-    call: 'attachmentUploadForm',
-    httpType: 'GET',
-    responseType: 'json',
-    zodSchema: attachmentUploadFormResponse,
+export type GetAttachmentUploadFormOptionsType = Readonly<{
+  uploadSize: number;
+}>;
+
+export async function getAttachmentUploadForm({
+  uploadSize,
+}: GetAttachmentUploadFormOptionsType): Promise<AttachmentUploadFormResponseType> {
+  return _retry(async () => {
+    const chat = await socketManager.getAuthenticatedApi();
+    const { cdn, key, headers, signedUploadUrl } = await chat.getUploadForm({
+      uploadSize: BigInt(uploadSize),
+    });
+
+    return parseLoose(attachmentUploadFormResponse, {
+      cdn,
+      key,
+      headers: Object.fromEntries(headers.entries()),
+      signedUploadLocation: signedUploadUrl.toString(),
+    });
   });
 }
 

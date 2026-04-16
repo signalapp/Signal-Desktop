@@ -153,17 +153,6 @@ export async function encryptAndUploadAttachment({
   let absoluteCiphertextPath: string | undefined;
 
   try {
-    switch (uploadType) {
-      case 'standard':
-        uploadForm = await getAttachmentUploadForm();
-        break;
-      case 'backup':
-        uploadForm = await backupsService.api.getMediaUploadForm();
-        break;
-      default:
-        throw missingCaseError(uploadType);
-    }
-
     const encrypted = await encryptAttachmentV2ToDisk({
       getAbsoluteAttachmentPath,
       keys,
@@ -172,6 +161,19 @@ export async function encryptAndUploadAttachment({
     });
 
     absoluteCiphertextPath = getAbsoluteAttachmentPath(encrypted.path);
+
+    switch (uploadType) {
+      case 'standard':
+        uploadForm = await getAttachmentUploadForm({
+          uploadSize: encrypted.ciphertextSize,
+        });
+        break;
+      case 'backup':
+        uploadForm = await backupsService.api.getMediaUploadForm();
+        break;
+      default:
+        throw missingCaseError(uploadType);
+    }
 
     await uploadFile({
       absoluteCiphertextPath,

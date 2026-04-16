@@ -153,7 +153,7 @@
     "@react-aria/utils": "3.33.1",
     "@react-spring/web": "10.0.3",
     "@signalapp/minimask": "1.0.1",
-    "@signalapp/mock-server": "21.1.2",
+    "@signalapp/mock-server": "22.0.0",
     "@signalapp/quill-cjs": "2.1.2",
     "@storybook/addon-a11y": "8.4.4",
     "@storybook/addon-actions": "8.4.4",
