@@ -79,8 +79,8 @@ importers:
         specifier: workspace:1.0.0
         version: link:packages/mute-state-change
       '@signalapp/ringrtc':
-        specifier: 2.67.0
-        version: 2.67.0
+        specifier: 2.68.0
+        version: 2.68.0
       '@signalapp/sqlcipher':
         specifier: 3.2.1
         version: 3.2.1
@@ -4120,8 +4120,8 @@ packages:
     resolution: {integrity: sha512-y2sgqdivlrG41J4Zvt/82xtH/PZjDlgItqlD2g/Cv3ZbjlR6cGhTNXbfNygCJB8nXj+C7I28pjt1Zm3k0pv2mg==}
     engines: {npm: '>=8.2.3'}
 
-  '@signalapp/ringrtc@2.67.0':
-    resolution: {integrity: sha512-ddRhFzbQibBbU1b85eWYXRgLZ1JfY0ZYzG3NPlQmjB1TFCXcBIPi8pEdWEA6FXoGRQ+EHHi009uqkqCJwYBHfQ==}
+  '@signalapp/ringrtc@2.68.0':
+    resolution: {integrity: sha512-9+uBZIO/AMCHl6aFrAG91vITwiHK2lfklXRONz/3moGXjjI+aC58VXuqIQi3LN8yb643j7WW3u5ml/yKMNAkDw==}
     hasBin: true
 
   '@signalapp/sqlcipher@3.2.1':
@@ -8033,10 +8033,6 @@ packages:
     resolution: {integrity: sha512-3FnjYuehv9k6ovOEbyOswadCDPX1piCfhV8ncmYtHOjuPwylVWsghTLo7rabjC3Rx5xD4HDx8Wm1xnMF7S5qFQ==}
     engines: {node: '>=8'}
 
-  minipass@7.1.2:
-    resolution: {integrity: sha512-qOOzS1cBTWYF4BH8fVePDBOO9iptMnGUEZwNc/cMWnTV2nVLZ7VoNWEPHkYczZA0pdoA7dl6e7FL659nX9S2aw==}
-    engines: {node: '>=16 || 14 >=14.17'}
-
   minipass@7.1.3:
     resolution: {integrity: sha512-tEBHqDnIoM/1rXME1zgka9g6Q2lcoCkxHLuc7ODJ5BxbP5d4c2Z5cGgtXAku59200Cx7diuHTOYfSBD8n6mm8A==}
     engines: {node: '>=16 || 14 >=14.17'}
@@ -11324,7 +11320,7 @@ snapshots:
 
   '@isaacs/fs-minipass@4.0.1':
     dependencies:
-      minipass: 7.1.2
+      minipass: 7.1.3
 
   '@istanbuljs/load-nyc-config@1.1.0':
     dependencies:
@@ -14033,7 +14029,7 @@ snapshots:
       lodash: 4.17.23
       quill-delta: 5.1.0
 
-  '@signalapp/ringrtc@2.67.0':
+  '@signalapp/ringrtc@2.68.0':
     dependencies:
       https-proxy-agent: 7.0.6
       tar: 7.5.2
@@ -18614,8 +18610,6 @@ snapshots:
 
   minipass@5.0.0: {}
 
-  minipass@7.1.2: {}
-
   minipass@7.1.3: {}
 
   minizlib@2.1.2:
@@ -18625,7 +18619,7 @@ snapshots:
 
   minizlib@3.1.0:
     dependencies:
-      minipass: 7.1.2
+      minipass: 7.1.3
 
   mkdirp@0.5.6:
     dependencies:
@@ -20456,7 +20450,7 @@ snapshots:
     dependencies:
       '@isaacs/fs-minipass': 4.0.1
       chownr: 3.0.0
-      minipass: 7.1.2
+      minipass: 7.1.3
       minizlib: 3.1.0
       yallist: 5.0.0
 

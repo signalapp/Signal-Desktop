@@ -179,7 +179,6 @@ describe('backup/calling', () => {
     beforeEach(async () => {
       const adminRootKey = CallLinkRootKey.generate();
       const adminKey = CallLinkRootKey.generateAdminPassKey();
-      // @ts-expect-error needs ringrtc update
       const adminKeyBytes: Uint8Array<ArrayBuffer> = adminKey;
       adminCallLink = {
         rootKey: adminRootKey.toString(),

@@ -565,7 +565,6 @@ export class BackupExportStream extends Readable {
 
       const id = this.#getNextRecipientId();
       const rootKey = CallLinkRootKey.parse(rootKeyString);
-      // @ts-expect-error needs ringrtc update
       const rootKeyBytes: Uint8Array<ArrayBuffer> = rootKey.bytes;
       const roomId = getRoomIdFromRootKey(rootKey);
 

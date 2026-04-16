@@ -118,7 +118,7 @@
     "@indutny/simple-windows-notifications": "2.0.16",
     "@signalapp/libsignal-client": "0.92.2",
     "@signalapp/mute-state-change": "workspace:1.0.0",
-    "@signalapp/ringrtc": "2.67.0",
+    "@signalapp/ringrtc": "2.68.0",
     "@signalapp/sqlcipher": "3.2.1",
     "@signalapp/windows-ucv": "1.0.1",
     "emoji-datasource": "16.0.0",

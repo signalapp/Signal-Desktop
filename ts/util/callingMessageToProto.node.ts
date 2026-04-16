@@ -89,7 +89,6 @@ export function callingMessageToProto(
 function opaqueToBytes(
   opaque: AnswerMessage['opaque']
 ): Uint8Array<ArrayBuffer> {
-  // @ts-expect-error needs ringrtc update
   const bytes: Uint8Array<ArrayBuffer> = opaque;
   return bytes;
 }
