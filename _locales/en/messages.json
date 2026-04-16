@@ -4664,9 +4664,21 @@
     "messageformat": "<clickable>Profile names</clickable> are not verified",
     "description": "Label for profile names in the name verification warning in conversation hero"
   },
+  "icu:ConversationHero--name-not-verified": {
+    "messageformat": "Name not verified",
+    "description": "Label for profile names and group names in the name verification warning in conversation hero"
+  },
   "icu:ConversationHero--signal-official-chat": {
     "messageformat": "This is the official and only chat from Signal",
     "description": "Text indicating that this is the official Signal conversation"
+  },
+  "icu:ConversationHero--signal-official-account": {
+    "messageformat": "Official account",
+    "description": "Text indicating that this is the official Signal conversation"
+  },
+  "icu:ConversationHero--signal-official-account--description": {
+    "messageformat": "The only official chat from Signal. Keep up to date with news and release notes.",
+    "description": "Description text at the top of the official Signal conversation"
   },
   "icu:ConversationHero--release-notes": {
     "messageformat": "Keep up to date with news and release notes.",
@@ -7031,6 +7043,10 @@
   },
   "icu:MessageRequestWarning__safety-tips": {
     "messageformat": "Safety Tips",
+    "description": "Shown on the message request warning. Clicking this button will open a dialog with safety tips"
+  },
+  "icu:MessageRequestWarning__safety-tips-v2": {
+    "messageformat": "Safety tips",
     "description": "Shown on the message request warning. Clicking this button will open a dialog with safety tips"
   },
   "icu:ContactSpoofing__same-name--link": {
@@ -10188,6 +10204,23 @@
     "messageformat": "Don't share personal information with people you don't know",
     "description": "Third list item in profile name warning modal for direct conversations"
   },
+  "icu:ProfileNameWarningModal__warning--signal-cant-verify": {
+    "messageformat": "Signal can’t verify names and photos",
+    "description": "List item in profile name warning modal for direct conversations"
+  },
+  "icu:ProfileNameWarningModal__warning--signal-wont-contact": {
+    "messageformat": "Signal will never contact you for your registration code, PIN, or recovery key",
+    "description": "List item in profile name warning modal for direct conversations"
+  },
+  "icu:ProfileNameWarningModal__warning--be-cautious": {
+    "messageformat": "Be cautious of accounts that impersonate others",
+    "description": "Third list item in profile name warning modal for direct conversations"
+  },
+  "icu:ProfileNameWarningModal__warning--dont-share-info": {
+    "messageformat": "Don't share personal information with people you don't know",
+    "description": "List item in profile name warning modal for direct conversations"
+  },
+
   "icu:ProfileNameWarningModal__description--group": {
     "messageformat": "Group names are chosen by members of the group.",
     "description": "Description of how group names work in the profile name warning modal for group conversations"

@@ -2,11 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { type ReactNode, useState } from 'react';
-import classNames from 'classnames';
 import type { Props as AvatarProps } from '../Avatar.dom.tsx';
 import { Avatar, AvatarSize, AvatarBlur } from '../Avatar.dom.tsx';
 import { ContactName } from './ContactName.dom.tsx';
-import { About } from './About.dom.tsx';
 import { GroupDescription } from './GroupDescription.dom.tsx';
 import { SharedGroupNames } from '../SharedGroupNames.dom.tsx';
 import { GroupMembersNames } from '../GroupMembersNames.dom.tsx';
@@ -15,10 +13,11 @@ import type { HasStories } from '../../types/Stories.std.ts';
 import type { ViewUserStoriesActionCreatorType } from '../../state/ducks/stories.preload.ts';
 import type { GroupV2Membership } from './conversation-details/ConversationDetailsMembershipList.dom.tsx';
 import { StoryViewModeType } from '../../types/Stories.std.ts';
-import { Button, ButtonVariant } from '../Button.dom.tsx';
 import { SafetyTipsModal } from '../SafetyTipsModal.dom.tsx';
-import { I18n } from '../I18n.dom.tsx';
 import type { ContactModalStateType } from '../../types/globalModals.std.ts';
+import { tw } from '../../axo/tw.dom.tsx';
+import { AxoSymbol } from '../../axo/AxoSymbol.dom.tsx';
+import { AxoButton } from '../../axo/AxoButton.dom.tsx';
 
 export type Props = {
   about?: string;
@@ -26,10 +25,12 @@ export type Props = {
   fromOrAddedByTrustedContact?: boolean;
   groupDescription?: string;
   hasAvatar?: boolean;
+  hasNickname: boolean;
+  hasProfileName: boolean;
   hasStories?: HasStories;
   id: string;
   i18n: LocalizerType;
-  isDirectConvoAndHasNickname?: boolean;
+  isInSystemContacts: boolean;
   isMe: boolean;
   invitesCount?: number;
   isSignalConversation?: boolean;
@@ -37,7 +38,6 @@ export type Props = {
   memberships: ReadonlyArray<GroupV2Membership>;
   openConversationDetails?: () => unknown;
   pendingAvatarDownload?: boolean;
-  phoneNumber?: string;
   sharedGroupNames?: ReadonlyArray<string>;
   startAvatarDownload: () => void;
   theme: ThemeType;
@@ -46,193 +46,13 @@ export type Props = {
   toggleProfileNameWarningModal: (conversationType?: string) => unknown;
 } & Omit<AvatarProps, 'onClick' | 'size' | 'noteToSelf'>;
 
-const renderExtraInformation = ({
-  acceptedMessageRequest,
-  conversationType,
-  fromOrAddedByTrustedContact,
-  i18n,
-  isDirectConvoAndHasNickname,
-  isMe,
-  invitesCount,
-  memberships,
-  onClickProfileNameWarning,
-  onToggleSafetyTips,
-  openConversationDetails,
-  phoneNumber,
-  sharedGroupNames,
-}: Pick<
-  Props,
-  | 'avatarPlaceholderGradient'
-  | 'acceptedMessageRequest'
-  | 'conversationType'
-  | 'fromOrAddedByTrustedContact'
-  | 'i18n'
-  | 'isDirectConvoAndHasNickname'
-  | 'isMe'
-  | 'invitesCount'
-  | 'membersCount'
-  | 'memberships'
-  | 'openConversationDetails'
-  | 'phoneNumber'
-  | 'sharedGroupNames'
-> & {
-  onClickProfileNameWarning: () => void;
-  onToggleSafetyTips: (showSafetyTips: boolean) => void;
-}) => {
-  if (conversationType !== 'direct' && conversationType !== 'group') {
-    return null;
-  }
-
-  if (isMe) {
-    return (
-      <div className="module-conversation-hero__note-to-self">
-        {i18n('icu:noteToSelfHero')}
-      </div>
-    );
-  }
-
-  const safetyTipsButton = !acceptedMessageRequest ? (
-    <div>
-      <Button
-        className="module-conversation-hero__safety-tips-button"
-        variant={ButtonVariant.SecondaryAffirmative}
-        onClick={() => {
-          onToggleSafetyTips(true);
-        }}
-      >
-        {i18n('icu:MessageRequestWarning__safety-tips')}
-      </Button>
-    </div>
-  ) : null;
-
-  const shouldShowReviewCarefully =
-    !acceptedMessageRequest &&
-    (conversationType === 'group' || (sharedGroupNames?.length ?? 0) <= 1);
-
-  const reviewCarefullyLabel = shouldShowReviewCarefully ? (
-    <div className="module-conversation-hero__review-carefully">
-      <i className="module-conversation-hero__membership__review-carefully-icon" />
-      {i18n('icu:ConversationHero--review-carefully')}
-    </div>
-  ) : null;
-
-  const sharedGroupsLabel =
-    conversationType === 'direct' ? (
-      <div>
-        <i className="module-conversation-hero__membership__chevron" />
-        <SharedGroupNames
-          i18n={i18n}
-          nameClassName="module-conversation-hero__membership__name"
-          sharedGroupNames={sharedGroupNames ?? []}
-        />
-      </div>
-    ) : null;
-
-  const nameNotVerifiedLabel =
-    !fromOrAddedByTrustedContact && !isDirectConvoAndHasNickname ? (
-      <div className="module-conversation-hero__name-not-verified">
-        <i
-          className={classNames({
-            'module-conversation-hero__group-question-icon':
-              conversationType === 'group',
-            'module-conversation-hero__direct-question-icon':
-              conversationType === 'direct',
-          })}
-        />
-        <I18n
-          components={{
-            clickable: (parts: ReactNode) => (
-              <button
-                className="module-conversation-hero__name-not-verified__button"
-                type="button"
-                onClick={ev => {
-                  ev.preventDefault();
-                  onClickProfileNameWarning();
-                }}
-              >
-                {parts}
-              </button>
-            ),
-          }}
-          i18n={i18n}
-          id={
-            conversationType === 'group'
-              ? 'icu:ConversationHero--group-names'
-              : 'icu:ConversationHero--profile-names'
-          }
-        />
-      </div>
-    ) : null;
-
-  const membersCountLabel =
-    conversationType === 'group' ? (
-      <div className="module-conversation-hero__membership__members-count">
-        <i className="module-conversation-hero__members-count-icon" />
-        <GroupMembersNames
-          i18n={i18n}
-          nameClassName="module-conversation-hero__membership__name"
-          memberships={memberships}
-          invitesCount={invitesCount}
-          onOtherMembersClick={openConversationDetails}
-        />
-      </div>
-    ) : null;
-
-  if (
-    conversationType === 'direct' &&
-    (sharedGroupNames?.length ?? 0) === 0 &&
-    acceptedMessageRequest &&
-    phoneNumber
-  ) {
-    return null;
-  }
-
-  // Check if we should show anything at all
-  const shouldShowAnything =
-    Boolean(reviewCarefullyLabel) ||
-    Boolean(nameNotVerifiedLabel) ||
-    Boolean(sharedGroupsLabel) ||
-    Boolean(safetyTipsButton) ||
-    Boolean(membersCountLabel);
-
-  if (!shouldShowAnything) {
-    return null;
-  }
-
-  return (
-    <div className="module-conversation-hero__membership">
-      {reviewCarefullyLabel}
-      {nameNotVerifiedLabel}
-      {sharedGroupsLabel}
-      {membersCountLabel}
-      {safetyTipsButton}
-    </div>
-  );
-};
-
-function ReleaseNotesExtraInformation({
-  i18n,
-}: {
-  i18n: LocalizerType;
-}): React.JSX.Element {
-  return (
-    <div className="module-conversation-hero--release-notes-notice">
-      <div className="module-conversation-hero__release-notes-notice-content">
-        <i className="module-conversation-hero__release-notes-notice-check-icon" />
-        {i18n('icu:ConversationHero--signal-official-chat')}
-      </div>
-      <div className="module-conversation-hero__release-notes-notice-content">
-        <i className="module-conversation-hero__release-notes-notice-bell-icon" />
-        {i18n('icu:ConversationHero--release-notes')}
-      </div>
-    </div>
-  );
-}
+type DistributiveOmit<T, K extends PropertyKey> = T extends unknown
+  ? Omit<T, K>
+  : never;
 
 export function ConversationHero({
   avatarPlaceholderGradient,
   i18n,
-  about,
   acceptedMessageRequest,
   avatarUrl,
   badge,
@@ -241,26 +61,26 @@ export function ConversationHero({
   fromOrAddedByTrustedContact,
   groupDescription,
   hasAvatar,
+  hasNickname,
+  hasProfileName,
   hasStories,
   id,
-  isDirectConvoAndHasNickname,
+  isInSystemContacts,
   isMe,
   invitesCount,
   openConversationDetails,
   isSignalConversation,
-  membersCount,
   memberships,
   pendingAvatarDownload,
-  sharedGroupNames = [],
-  phoneNumber,
   profileName,
+  sharedGroupNames = [],
   startAvatarDownload,
   theme,
   title,
   viewUserStories,
   toggleAboutContactModal,
   toggleProfileNameWarningModal,
-}: Props): React.JSX.Element {
+}: Props): React.JSX.Element | null {
   const [isShowingSafetyTips, setIsShowingSafetyTips] = useState(false);
 
   let avatarBlur: AvatarBlur = AvatarBlur.NoBlur;
@@ -282,71 +102,129 @@ export function ConversationHero({
     };
   }
 
-  let titleElem: React.JSX.Element | undefined;
+  const maybeSafetyTips = isShowingSafetyTips ? (
+    <SafetyTipsModal
+      i18n={i18n}
+      onClose={() => {
+        setIsShowingSafetyTips(false);
+      }}
+    />
+  ) : null;
+
+  const avatar = (
+    <ConversationAvatar
+      avatarPlaceholderGradient={avatarPlaceholderGradient}
+      avatarUrl={avatarUrl}
+      badge={badge}
+      blur={avatarBlur}
+      conversationType={conversationType}
+      color={color}
+      i18n={i18n}
+      hasAvatar={hasAvatar}
+      loading={pendingAvatarDownload && !avatarUrl}
+      noteToSelf={isMe}
+      onClick={avatarOnClick}
+      profileName={profileName}
+      storyRing={isMe ? undefined : hasStories}
+      theme={theme}
+      title={title}
+    />
+  );
 
   if (isMe) {
-    titleElem = (
-      <ContactName
-        isMe={isMe}
-        title={i18n('icu:noteToSelf')}
-        largeVerifiedBadge={isMe}
-      />
-    );
-  } else if (isSignalConversation || conversationType !== 'direct') {
-    titleElem = (
-      <ContactName
-        isSignalConversation={isSignalConversation}
-        title={title}
-        largeVerifiedBadge={isSignalConversation}
-      />
-    );
-  } else if (title) {
-    titleElem = (
-      <button
-        type="button"
-        className="module-conversation-hero__title"
-        onClick={ev => {
-          ev.preventDefault();
-          toggleAboutContactModal({ contactId: id });
-        }}
-      >
-        <ContactName title={title} />
-        <i className="module-conversation-hero__title__chevron" />
-      </button>
+    return (
+      <Root>
+        {avatar}
+        <Title title={i18n('icu:noteToSelf')} isMe />
+        <div
+          className={tw(
+            'mt-2 text-center type-body-medium text-label-secondary'
+          )}
+        >
+          {i18n('icu:noteToSelfHero')}
+        </div>
+      </Root>
     );
   }
 
-  return (
-    <>
-      <div className="module-conversation-hero">
-        <Avatar
-          avatarPlaceholderGradient={avatarPlaceholderGradient}
-          avatarUrl={avatarUrl}
-          badge={badge}
-          blur={avatarBlur}
-          className="module-conversation-hero__avatar"
-          color={color}
-          conversationType={conversationType}
-          i18n={i18n}
-          hasAvatar={hasAvatar}
-          loading={pendingAvatarDownload && !avatarUrl}
-          noteToSelf={isMe}
-          onClick={avatarOnClick}
-          profileName={profileName}
-          size={AvatarSize.EIGHTY}
-          // user may have stories, but we don't show that on Note to Self conversation
-          storyRing={isMe ? undefined : hasStories}
-          theme={theme}
+  if (isSignalConversation) {
+    return (
+      <Root>
+        {avatar}
+        <Title title={title} isSignalConversation />
+        <div
+          className={tw(
+            'my-2 rounded-3xl bg-color-fill-primary/12 px-2.5 py-1 type-body-medium font-medium text-color-fill-primary'
+          )}
+        >
+          <AxoSymbol.InlineGlyph symbol="officialbadge" label={null} />
+          &nbsp;{i18n('icu:ConversationHero--signal-official-account')}
+        </div>
+        <div className={tw('text-center type-body-medium text-label-primary')}>
+          {i18n('icu:ConversationHero--signal-official-account--description')}
+        </div>
+      </Root>
+    );
+  }
+
+  if (conversationType === 'direct') {
+    const nameIsVerified = hasNickname || isInSystemContacts;
+    return (
+      <Root>
+        {avatar}
+        <Title
           title={title}
+          onClick={() => toggleAboutContactModal({ contactId: id })}
         />
-        <h1 className="module-conversation-hero__profile-name">{titleElem}</h1>
-        {about && !isMe && (
-          <div className="module-about__container">
-            <About text={about} />
-          </div>
-        )}
-        {!isMe && groupDescription ? (
-          <div className="module-conversation-hero__with">
+
+        {hasProfileName && !nameIsVerified ? (
+          <NameNotVerifiedWarning
+            conversationType={conversationType}
+            onClick={() => toggleProfileNameWarningModal(conversationType)}
+            i18n={i18n}
+          />
+        ) : null}
+
+        <div
+          className={tw(
+            'mt-2.5 text-center type-body-medium text-label-primary'
+          )}
+        >
+          <AxoSymbol.InlineGlyph symbol="group" label={null} />
+          &nbsp;
+          <SharedGroupNames
+            i18n={i18n}
+            sharedGroupNames={sharedGroupNames ?? []}
+          />
+        </div>
+
+        {!acceptedMessageRequest ? (
+          <SafetyTips
+            onShowSafetyTips={() => setIsShowingSafetyTips(true)}
+            i18n={i18n}
+          />
+        ) : null}
+        {maybeSafetyTips}
+      </Root>
+    );
+  }
+
+  if (conversationType === 'group') {
+    const nameIsVerified = Boolean(fromOrAddedByTrustedContact);
+    return (
+      <Root>
+        {avatar}
+        <Title title={title} />
+        {!nameIsVerified ? (
+          <NameNotVerifiedWarning
+            conversationType={conversationType}
+            onClick={() => toggleProfileNameWarningModal(conversationType)}
+            i18n={i18n}
+          />
+        ) : null}
+
+        {groupDescription ? (
+          <div className={tw('mt-2 w-full text-center text-label-secondary')}>
             <GroupDescription
               i18n={i18n}
               title={title}
@@ -354,38 +232,140 @@ export function ConversationHero({
             />
           </div>
         ) : null}
-        {!isSignalConversation &&
-          renderExtraInformation({
-            acceptedMessageRequest,
-            conversationType,
-            fromOrAddedByTrustedContact,
-            i18n,
-            isDirectConvoAndHasNickname,
-            isMe,
-            invitesCount,
-            membersCount,
-            memberships,
-            onClickProfileNameWarning() {
-              toggleProfileNameWarningModal(conversationType);
-            },
-            onToggleSafetyTips(showSafetyTips: boolean) {
-              setIsShowingSafetyTips(showSafetyTips);
-            },
-            openConversationDetails,
-            phoneNumber,
-            sharedGroupNames: sharedGroupNames ?? [],
-          })}
-        {isSignalConversation && <ReleaseNotesExtraInformation i18n={i18n} />}
-      </div>
 
-      {isShowingSafetyTips && (
-        <SafetyTipsModal
-          i18n={i18n}
-          onClose={() => {
-            setIsShowingSafetyTips(false);
-          }}
-        />
-      )}
-    </>
-  );
+        <div
+          className={tw(
+            'mt-2.5 w-full text-center type-body-medium text-label-primary'
+          )}
+        >
+          <AxoSymbol.InlineGlyph symbol="group" label={null} />
+          &nbsp;
+          <GroupMembersNames
+            i18n={i18n}
+            memberships={memberships}
+            invitesCount={invitesCount}
+            onOtherMembersClick={openConversationDetails}
+          />
+        </div>
+        {!acceptedMessageRequest ? (
+          <SafetyTips
+            onShowSafetyTips={() => setIsShowingSafetyTips(true)}
+            i18n={i18n}
+          />
+        ) : null}
+        {maybeSafetyTips}
+      </Root>
+    );
+  }
+  return null;
 }
+
+type RootProps = {
+  children: ReactNode;
+};
+const Root: React.FC<RootProps> = props => {
+  return (
+    <div
+      data-testid="conversation-hero"
+      className={tw(
+        'flex w-3xs flex-col items-center rounded-4xl border-2 border-background-secondary p-5 pt-0'
+      )}
+    >
+      {props.children}
+    </div>
+  );
+};
+
+const ConversationAvatar: React.FC<
+  DistributiveOmit<AvatarProps, 'size'>
+> = props => {
+  return (
+    <Avatar
+      {...props}
+      size={AvatarSize.SEVENTY_TWO}
+      className={tw('-mt-4.5')}
+    />
+  );
+};
+
+type TitleProps = {
+  isMe?: boolean;
+  isSignalConversation?: boolean;
+  title: string;
+  onClick?: () => void;
+};
+
+const Title: React.FC<TitleProps> = props => {
+  const className = tw('mt-3 text-center text-[20px] font-medium');
+  const { onClick, title, isMe, isSignalConversation } = props;
+  const contactName = (
+    <ContactName
+      title={title}
+      isMe={isMe}
+      isSignalConversation={isSignalConversation}
+    />
+  );
+
+  if (onClick) {
+    return (
+      <button
+        type="button"
+        className={className}
+        onClick={ev => {
+          ev.preventDefault();
+          onClick();
+        }}
+      >
+        {contactName}
+        &nbsp;
+        <span className={tw('text-[18px] text-label-secondary')}>
+          <AxoSymbol.InlineGlyph symbol="chevron-[end]" label={null} />
+        </span>
+      </button>
+    );
+  }
+
+  return <div className={className}>{contactName}</div>;
+};
+
+const NameNotVerifiedWarning: React.FC<{
+  conversationType: 'direct' | 'group';
+  onClick: () => void;
+  i18n: LocalizerType;
+}> = ({ conversationType, onClick, i18n }) => {
+  return (
+    <button
+      className={tw(
+        'mt-2 rounded-3xl bg-color-fill-destructive/12 px-2.5 py-1',
+        // oxlint-disable-next-line better-tailwindcss/no-restricted-classes
+        'type-body-medium font-medium text-[#C84118]'
+      )}
+      type="button"
+      onClick={ev => {
+        ev.preventDefault();
+        onClick();
+      }}
+    >
+      {conversationType === 'direct' ? (
+        <AxoSymbol.InlineGlyph symbol="person-question" label={null} />
+      ) : (
+        // TODO: DESKTOP-10050
+        <AxoSymbol.InlineGlyph symbol="person-question" label={null} />
+      )}
+      &nbsp; {i18n('icu:ConversationHero--name-not-verified')}
+    </button>
+  );
+};
+
+const SafetyTips: React.FC<{
+  onShowSafetyTips: () => void;
+  i18n: LocalizerType;
+}> = ({ i18n, onShowSafetyTips }) => {
+  return (
+    <div className={tw('mt-3')}>
+      <AxoButton.Root variant="secondary" size="md" onClick={onShowSafetyTips}>
+        {i18n('icu:MessageRequestWarning__safety-tips-v2')}
+      </AxoButton.Root>
+    </div>
+  );
+};

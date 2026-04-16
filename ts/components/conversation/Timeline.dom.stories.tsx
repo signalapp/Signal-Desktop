@@ -411,9 +411,12 @@ const renderHeroRow = () => {
         avatarUrl={getAvatarPath()}
         badge={undefined}
         conversationType="direct"
+        hasNickname={false}
+        hasProfileName
         id={getDefaultConversation().id}
         i18n={i18n}
         isMe={false}
+        isInSystemContacts={false}
         phoneNumber={getPhoneNumber()}
         profileName={getProfileName()}
         sharedGroupNames={['NYC Rock Climbers', 'Dinner Party']}

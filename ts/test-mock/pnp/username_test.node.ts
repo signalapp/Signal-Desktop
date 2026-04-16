@@ -381,7 +381,8 @@ describe('pnp/username', function (this: Mocha.Suite) {
 
     debug('waiting for conversation to open');
     await window
-      .locator(`.module-conversation-hero >> "${CARL_USERNAME}"`)
+      .getByTestId('conversation-hero')
+      .getByText(CARL_USERNAME)
       .waitFor();
 
     debug('sending a message');

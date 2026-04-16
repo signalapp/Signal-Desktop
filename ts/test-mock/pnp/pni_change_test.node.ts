@@ -93,7 +93,7 @@ describe('pnp/PNI Change', function (this: Mocha.Suite) {
         )
         .click();
 
-      await window.locator('.module-conversation-hero').waitFor();
+      await window.getByTestId('conversation-hero').waitFor();
     }
 
     debug('Verify starting state');
@@ -198,7 +198,7 @@ describe('pnp/PNI Change', function (this: Mocha.Suite) {
         )
         .click();
 
-      await window.locator('.module-conversation-hero').waitFor();
+      await window.getByTestId('conversation-hero').waitFor();
     }
 
     debug('Verify starting state');
@@ -307,7 +307,7 @@ describe('pnp/PNI Change', function (this: Mocha.Suite) {
         )
         .click();
 
-      await window.locator('.module-conversation-hero').waitFor();
+      await window.getByTestId('conversation-hero').waitFor();
     }
 
     debug('Verify starting state');
@@ -446,7 +446,7 @@ describe('pnp/PNI Change', function (this: Mocha.Suite) {
         )
         .click();
 
-      await window.locator('.module-conversation-hero').waitFor();
+      await window.getByTestId('conversation-hero').waitFor();
     }
 
     debug('Verify starting state');
