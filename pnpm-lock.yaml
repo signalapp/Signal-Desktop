@@ -58,9 +58,6 @@ patchedDependencies:
   tsx:
     hash: 251027c4cc25615da4cf5b54757ba1af5ecae4256a23772bcc2c1284f6aa1251
     path: patches/tsx.patch
-  zod@3.23.8:
-    hash: 239818e5d88990616205c8cdc1de1660bf5e18b157d00c4a5f726dde6094af4d
-    path: patches/zod+3.23.8.patch
   zod@4.3.6:
     hash: b73d41a74cc629065f913f4e44c1b9b6378bc83ff18895380028b2e4798a261c
     path: patches/zod@4.3.6.patch
@@ -14021,7 +14018,7 @@ snapshots:
       url-pattern: 1.0.3
       uuid: 8.3.2
       ws: 8.18.0(bufferutil@4.0.9)(utf-8-validate@5.0.10)
-      zod: 3.23.8(patch_hash=239818e5d88990616205c8cdc1de1660bf5e18b157d00c4a5f726dde6094af4d)
+      zod: 3.23.8
     transitivePeerDependencies:
       - bufferutil
       - supports-color
@@ -21120,6 +21117,6 @@ snapshots:
 
   yoctocolors@2.1.2: {}
 
-  zod@3.23.8(patch_hash=239818e5d88990616205c8cdc1de1660bf5e18b157d00c4a5f726dde6094af4d): {}
+  zod@3.23.8: {}
 
   zod@4.3.6(patch_hash=b73d41a74cc629065f913f4e44c1b9b6378bc83ff18895380028b2e4798a261c): {}
