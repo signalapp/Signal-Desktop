@@ -1656,9 +1656,32 @@ function SASModal({
     >
       <div className="module-ConversationHeader__SASModal__content">
         <p>Verify your SAS with {contactName}: </p>
-        <code className="module-ConversationHeader__SASModal__sasValue">
-          {sasValue} 
-        </code>
+        <div style={{
+          display: 'flex',
+          gap: '8px',
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: '#1b1b1b',
+          borderRadius: '12px',
+          padding: '16px 24px',
+          marginTop: '12px',
+        }}>
+          {sasValue.replace(/\s/g, '').split('').map((digit, index) => (
+            <span 
+              key={index}
+              style={{
+                fontSize: '32px',
+                fontWeight: 'bold',
+                fontFamily: 'monospace',
+                width: '36px',
+                textAlign: 'center',
+                lineHeight: '1',
+              }}
+              >
+                {digit}
+              </span>
+          ))}
+        </div>
       </div>
     </ConfirmationDialog>
   )
