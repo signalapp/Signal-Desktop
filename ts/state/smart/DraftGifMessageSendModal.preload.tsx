@@ -12,7 +12,6 @@ import { getDraftGifMessageSendModalProps } from '../selectors/globalModals.std.
 import { useGlobalModalActions } from '../ducks/globalModals.preload.ts';
 import { useComposerActions } from '../ducks/composer.preload.ts';
 import type { FunGifSelection } from '../../components/fun/panels/FunPanelGifs.dom.tsx';
-import { fetchGiphyFile } from '../../components/fun/data/giphy.preload.ts';
 import { drop } from '../../util/drop.std.ts';
 import { processAttachment } from '../../util/processAttachment.preload.ts';
 import { SignalService as Proto } from '../../protobuf/index.std.ts';
@@ -22,6 +21,7 @@ import { createLogger } from '../../logging/log.std.ts';
 import * as Errors from '../../types/errors.std.ts';
 import { type Loadable, LoadingState } from '../../util/loadable.std.ts';
 import { isAbortError } from '../../util/isAbortError.std.ts';
+import { fetchGiphyFile } from './fun/giphy.preload.ts';
 
 const log = createLogger('DraftGifMessageSendModal');
 

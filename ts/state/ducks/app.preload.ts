@@ -7,6 +7,7 @@ import type { StateType as RootStateType } from '../reducer.preload.ts';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.ts';
 import { useBoundActions } from '../../hooks/useBoundActions.std.ts';
 import { createLogger } from '../../logging/log.std.ts';
+import { AppViewType } from '../../types/app.std.ts';
 import { getEnvironment, Environment } from '../../environment.std.ts';
 import {
   START_INSTALLER,
@@ -18,13 +19,6 @@ import {
 const log = createLogger('app');
 
 // State
-
-export enum AppViewType {
-  Blank = 'Blank',
-  Inbox = 'Inbox',
-  Installer = 'Installer',
-  Standalone = 'Standalone',
-}
 
 export type AppStateType = ReadonlyDeep<{
   hasInitialLoadCompleted: boolean;

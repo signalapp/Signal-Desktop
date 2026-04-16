@@ -6,9 +6,9 @@ import {
   fetchJsonViaProxy,
   fetchBytesViaProxy,
 } from '../../../textsecure/WebAPI.preload.ts';
-import { fetchInSegments } from './segments.std.ts';
+import { fetchInSegments } from '../../../components/fun/data/segments.std.ts';
 import { safeParseInteger } from '../../../util/numbers.std.ts';
-import type { PaginatedGifResults } from '../panels/FunPanelGifs.dom.tsx';
+import type { PaginatedGifResults } from '../../../components/fun/panels/FunPanelGifs.dom.tsx';
 import {
   getGifCdnUrlOrigin,
   isGifCdnUrlOriginAllowed,

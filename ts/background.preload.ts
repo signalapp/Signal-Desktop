@@ -158,7 +158,7 @@ import { UpdateKeysListener } from './textsecure/UpdateKeysListener.preload.ts';
 import { isGroup } from './util/whatTypeOfConversation.dom.ts';
 import { BackOff, FIBONACCI_TIMEOUTS } from './util/BackOff.std.ts';
 import { createApp as createAppRoot } from './state/roots/createApp.preload.tsx';
-import { AppViewType } from './state/ducks/app.preload.ts';
+import { AppViewType } from './types/app.std.ts';
 import { areAnyCallsActiveOrRinging } from './state/selectors/calling.std.ts';
 import { badgeImageFileDownloader } from './badges/badgeImageFileDownloader.preload.ts';
 import * as Deletes from './messageModifiers/Deletes.preload.ts';

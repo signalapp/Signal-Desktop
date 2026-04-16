@@ -19,7 +19,7 @@ import { Avatar, AvatarSize } from './Avatar.dom.tsx';
 import { I18n } from './I18n.dom.tsx';
 import { SizeObserver } from '../hooks/useSizeObserver.dom.tsx';
 import { CallType } from '../types/CallDisposition.std.ts';
-import type { CallsTabSelectedView } from './CallsTab.preload.tsx';
+import type { CallsTabSelectedView } from './CallsTab.dom.tsx';
 import {
   InAnotherCallTooltip,
   getTooltipContent,

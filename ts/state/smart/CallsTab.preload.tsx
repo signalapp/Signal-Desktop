@@ -9,7 +9,7 @@ import {
   getPreferredLeftPaneWidth,
 } from '../selectors/items.dom.ts';
 import { getIntl, getRegionCode } from '../selectors/user.std.ts';
-import { CallsTab } from '../../components/CallsTab.preload.tsx';
+import { CallsTab } from '../../components/CallsTab.dom.tsx';
 import {
   getAllConversations,
   getConversationSelector,
@@ -41,6 +41,7 @@ import { getHasAnyFailedStorySends } from '../selectors/stories.preload.ts';
 import { SmartCallLinkDetails } from './CallLinkDetails.preload.tsx';
 import type { CallLinkType } from '../../types/CallLink.std.ts';
 import { filterCallLinks } from '../../util/filterCallLinks.dom.ts';
+import { getCallIdFromEra } from '../../util/callDisposition.preload.ts';
 import { useGlobalModalActions } from '../ducks/globalModals.preload.ts';
 
 function getCallHistoryFilter({
@@ -224,6 +225,7 @@ export const SmartCallsTab = memo(function SmartCallsTab() {
       allConversations={allConversations}
       otherTabsUnreadStats={otherTabsUnreadStats}
       getConversation={getConversation}
+      getCallIdFromEra={getCallIdFromEra}
       getCallHistoryGroupsCount={getCallHistoryGroupsCount}
       getCallHistoryGroups={getCallHistoryGroups}
       getAdhocCall={getAdhocCall}

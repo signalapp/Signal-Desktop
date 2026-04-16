@@ -5,11 +5,11 @@ import React, { useEffect } from 'react';
 import classNames from 'classnames';
 
 import type { ViewStoryActionCreatorType } from '../state/ducks/stories.preload.ts';
+import type { AppStateType } from '../state/ducks/app.preload.ts';
 import type { VerificationTransport } from '../types/VerificationTransport.std.ts';
 import { ThemeType } from '../types/Util.std.ts';
+import { AppViewType } from '../types/app.std.ts';
 import { missingCaseError } from '../util/missingCaseError.std.ts';
-import { type AppStateType, AppViewType } from '../state/ducks/app.preload.ts';
-import { SmartInstallScreen } from '../state/smart/InstallScreen.preload.tsx';
 import { StandaloneRegistration } from './StandaloneRegistration.dom.tsx';
 import { usePageVisibility } from '../hooks/usePageVisibility.dom.ts';
 import { TitlebarDragArea } from './TitlebarDragArea.dom.tsx';
@@ -32,6 +32,7 @@ type PropsType = {
   hasSelectedStoryData: boolean;
   readyForUpdates: () => void;
   renderStoryViewer: (closeView: () => unknown) => React.JSX.Element;
+  renderInstallScreen: () => React.JSX.Element;
   renderLightbox: () => React.JSX.Element | null;
   requestVerification: (
     number: string,
@@ -61,6 +62,7 @@ export function App({
   renderCallManager,
   renderGlobalModalContainer,
   renderInbox,
+  renderInstallScreen,
   renderLightbox,
   renderStoryViewer,
   requestVerification,
@@ -71,7 +73,7 @@ export function App({
   let contents;
 
   if (state.appView === AppViewType.Installer) {
-    contents = <SmartInstallScreen />;
+    contents = renderInstallScreen();
   } else if (state.appView === AppViewType.Standalone) {
     const onComplete = () => {
       window.IPC.removeSetupMenuItems();
