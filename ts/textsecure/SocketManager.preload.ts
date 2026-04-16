@@ -13,6 +13,7 @@ import EventListener from 'node:events';
 import { setTimeout as sleep } from 'node:timers/promises';
 
 import type {
+  AuthenticatedChatConnection,
   UnauthenticatedChatConnection,
   ProvisioningConnection,
   ProvisioningConnectionListener,
@@ -390,6 +391,11 @@ export class SocketManager extends EventListener {
     } finally {
       clearTimeout(timer);
     }
+  }
+
+  public async getAuthenticatedApi(): Promise<AuthenticatedChatConnection> {
+    const resource = await this.getAuthenticatedResource();
+    return resource.libsignalWebsocket;
   }
 
   public async getUnauthenticatedApi(): Promise<UnauthenticatedChatConnection> {

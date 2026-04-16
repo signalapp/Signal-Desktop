@@ -193,6 +193,7 @@ const DEFAULT_REMOTE_CONFIG = [
     'desktop.libsignalNet.grpc.MessagesAnonymousSendMultiRecipientMessage.2',
     { enabled: true },
   ],
+  ['desktop.libsignalNet.grpc.AttachmentsGetUploadForm', { enabled: true }],
 ] as const;
 
 //
