@@ -332,10 +332,17 @@ export const ConversationHeader = memo(function ConversationHeader({
 
   const handleVerifyMember = useCallback(async (memberId: string) => {
     try {
-      const fullConversation = window.ConversationController.get(memberId)?.format();
-      if (!fullConversation?.serviceId) return;
+      const memberConv = window.ConversationController.get(memberId);
+      const resolvedId = memberConv?.id ?? memberId;
+
+      const fullConversation = memberConv?.format();
+      if (!fullConversation?.serviceId) {
+        console.error('Member conversation has no serviceId');
+        return;
+      }
+
       const result = await generateSafetyNumber(fullConversation);
-      setSelectedMemberId(memberId);
+      setSelectedMemberId(resolvedId);
       const memberName = groupMembers.find(m => m.id === memberId)?.name ?? 'Unknown';
       setSelectedMemberName(memberName);
       const total = result.numberBlocks.reduce((sum, block) => sum + parseInt(block, 10), 0) % 1000000;
@@ -381,7 +388,7 @@ export const ConversationHeader = memo(function ConversationHeader({
         .map((id: string) => {
           const memberConv = window.ConversationController.get(id);
           return {
-            id,
+            id: memberConv?.id ?? id,
             name: memberConv?.get('profileName') ?? memberConv?.get('name') ?? memberConv?.get('e164') ?? id ?? 'Unknown',
             isBlocked: memberConv?.isBlocked() === true,
           }
@@ -410,7 +417,7 @@ export const ConversationHeader = memo(function ConversationHeader({
       console.error('Failed to check SAS verified status', err);
       setSasVerified(false);
     }
-  }, [conversation.id, conversation.type]);
+  }, [conversation.id, conversation.type, groupMembers]);
 
   const handleSASNumbersMatch = useCallback(() => {
     const verifiedMap = (itemStorage.get('sas-verified-conversations') ?? {}) as Record<string, boolean>;
@@ -423,13 +430,18 @@ export const ConversationHeader = memo(function ConversationHeader({
       setSelectedMemberId(null);
       setSelectedMemberName(null);
       setShowGroupSASModal(true);
+
+      // update right away to reflect the changes instead of doing it later
+      const nonBlockedMembers = groupMembers.filter(m => !m.isBlocked);
+      const allVerified = nonBlockedMembers.length > 0 && nonBlockedMembers.every(m => verifiedMap[m.id] === true);
+      setSasVerified(allVerified);
     } else {
       // individual verification
       setSasVerified(true);
     }
 
     setSasNumber(null);
-  }, [conversation.id, selectedMemberId]);
+  }, [conversation.id, selectedMemberId, groupMembers]);
 
   const [showMismatchWarning, setShowMismatchWarning] = useState(false);
 
