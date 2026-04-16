@@ -27,7 +27,6 @@ function renderClickableButton(
 ): React.JSX.Element {
   return (
     <button
-      className="module-conversation-hero__members-count__button"
       type="button"
       onClick={ev => {
         ev.preventDefault();

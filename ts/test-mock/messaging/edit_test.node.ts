@@ -201,7 +201,7 @@ describe('editing', function (this: Mocha.Suite) {
         .locator('.module-conversation-list__item--contact-or-conversation')
         .first()
         .click();
-      await window.locator('.module-conversation-hero').waitFor();
+      await window.getByTestId('conversation-hero').waitFor();
 
       debug('checking for message');
       await window
@@ -272,7 +272,7 @@ describe('editing', function (this: Mocha.Suite) {
         .locator('.module-conversation-list__item--contact-or-conversation')
         .first()
         .click();
-      await window.locator('.module-conversation-hero').waitFor();
+      await window.getByTestId('conversation-hero').waitFor();
 
       debug('checking for message');
       await window
@@ -352,7 +352,7 @@ describe('editing', function (this: Mocha.Suite) {
         .locator('.module-conversation-list__item--contact-or-conversation')
         .first()
         .click();
-      await window.locator('.module-conversation-hero').waitFor();
+      await window.getByTestId('conversation-hero').waitFor();
 
       debug('checking for message');
       await window.locator('.module-message__text >> "hello"').waitFor();
@@ -494,7 +494,7 @@ describe('editing', function (this: Mocha.Suite) {
         .locator('.module-conversation-list__item--contact-or-conversation')
         .first()
         .click();
-      await window.locator('.module-conversation-hero').waitFor();
+      await window.getByTestId('conversation-hero').waitFor();
 
       debug('checking for latest message');
       await window.locator('.module-message__text >> "v5"').waitFor();
@@ -540,7 +540,7 @@ describe('editing', function (this: Mocha.Suite) {
         .locator('.module-conversation-list__item--contact-or-conversation')
         .first()
         .click();
-      await window.locator('.module-conversation-hero').waitFor();
+      await window.getByTestId('conversation-hero').waitFor();
 
       debug('checking for latest message');
       await window.locator('.module-message__text >> "v2"').waitFor();
@@ -583,7 +583,7 @@ describe('editing', function (this: Mocha.Suite) {
         .locator('.module-conversation-list__item--contact-or-conversation')
         .first()
         .click();
-      await page.locator('.module-conversation-hero').waitFor();
+      await page.getByTestId('conversation-hero').waitFor();
 
       const { dataMessage: profileKeyMsg } = await friend.waitForMessage();
       assert(profileKeyMsg.profileKey != null, 'Profile key message');
@@ -894,7 +894,7 @@ describe('editing', function (this: Mocha.Suite) {
         .locator('.module-conversation-list__item--contact-or-conversation')
         .first()
         .click();
-      await window.locator('.module-conversation-hero').waitFor();
+      await window.getByTestId('conversation-hero').waitFor();
 
       debug('checking for latest message');
       await window.locator('.module-message__text >> "v2"').waitFor();
@@ -966,7 +966,7 @@ describe('editing', function (this: Mocha.Suite) {
         .locator('.module-conversation-list__item--contact-or-conversation')
         .first()
         .click();
-      await window.locator('.module-conversation-hero').waitFor();
+      await window.getByTestId('conversation-hero').waitFor();
 
       debug('checking for latest message');
       await window.locator('.module-message__text >> "v5"').waitFor();

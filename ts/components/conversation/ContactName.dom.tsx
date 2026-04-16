@@ -22,6 +22,8 @@ import type { ConversationType } from '../../state/ducks/conversations.preload.t
 import type { ContactNameColorType } from '../../types/Colors.std.ts';
 import type { FunStaticEmojiSize } from '../fun/FunEmoji.dom.tsx';
 import { UserText } from '../UserText.dom.tsx';
+import { AxoSymbol } from '../../axo/AxoSymbol.dom.tsx';
+import { tw } from '../../axo/tw.dom.tsx';
 
 export type ContactNameData = {
   contactNameColor?: ContactNameColorType;
@@ -58,7 +60,6 @@ export type PropsType = ContactNameData & {
   module?: string;
   preferFirstName?: boolean;
   onClick?: VoidFunction;
-  largeVerifiedBadge?: boolean;
 };
 
 export function ContactName({
@@ -71,7 +72,6 @@ export function ContactName({
   preferFirstName,
   title,
   onClick,
-  largeVerifiedBadge,
 }: PropsType): React.JSX.Element {
   const getClassName = getClassNamesFor('module-contact-name', module);
 
@@ -98,15 +98,16 @@ export function ContactName({
       }}
     >
       <UserText text={text} />
+
       {(isSignalConversation || isMe) && (
-        <span
-          className={
-            largeVerifiedBadge
-              ? 'ContactModal__official-badge__large'
-              : 'ContactModal__official-badge'
-          }
-        />
+        <>
+          &nbsp;
+          <span className={tw('text-color-fill-primary')}>
+            <AxoSymbol.InlineGlyph symbol="officialbadge-fill" label={null} />
+          </span>
+        </>
       )}
+
       {contactLabel && (
         <>
           {' '}

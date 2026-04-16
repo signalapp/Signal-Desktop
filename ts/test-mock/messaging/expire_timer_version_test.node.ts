@@ -273,7 +273,7 @@ describe('messaging/expireTimerVersion', function (this: Mocha.Suite) {
 
       await expectSystemMessages(window, scenario.systemMessages);
 
-      await window.locator('.module-conversation-hero').waitFor();
+      await window.getByTestId('conversation-hero').waitFor();
 
       debug('Send message to merged contact');
       {
@@ -304,7 +304,7 @@ describe('messaging/expireTimerVersion', function (this: Mocha.Suite) {
       )
       .click();
 
-    await window.locator('.module-conversation-hero').waitFor();
+    await window.getByTestId('conversation-hero').waitFor();
 
     const conversationStack = window.locator('.Inbox__conversation-stack');
 

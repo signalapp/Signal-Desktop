@@ -132,7 +132,7 @@ describe('pnp/merge', function (this: Mocha.Suite) {
         .locator(`[data-testid="${pniContact.device.aci}"]`)
         .click();
 
-      await window.locator('.module-conversation-hero').waitFor();
+      await window.getByTestId('conversation-hero').waitFor();
 
       debug('Send message to ACI');
       {
@@ -148,7 +148,7 @@ describe('pnp/merge', function (this: Mocha.Suite) {
         .first()
         .click();
 
-      await window.locator('.module-conversation-hero').waitFor();
+      await window.getByTestId('conversation-hero').waitFor();
 
       debug('Verify starting state');
       {
@@ -175,7 +175,7 @@ describe('pnp/merge', function (this: Mocha.Suite) {
           .locator(`[data-testid="${pniContact.device.aci}"]`)
           .click();
 
-        await window.locator('.module-conversation-hero').waitFor();
+        await window.getByTestId('conversation-hero').waitFor();
       }
 
       debug(
@@ -272,7 +272,7 @@ describe('pnp/merge', function (this: Mocha.Suite) {
         )
         .click();
 
-      await window.locator('.module-conversation-hero').waitFor();
+      await window.getByTestId('conversation-hero').waitFor();
 
       debug('Send message to merged contact');
       {
@@ -377,7 +377,7 @@ describe('pnp/merge', function (this: Mocha.Suite) {
       )
       .click();
 
-    await window.locator('.module-conversation-hero').waitFor();
+    await window.getByTestId('conversation-hero').waitFor();
 
     debug('Unregistering ACI');
     server.unregister(pniContact);
@@ -460,7 +460,8 @@ describe('pnp/merge', function (this: Mocha.Suite) {
 
     debug('Wait for ACI conversation to go away');
     await window
-      .locator(`.module-conversation-hero >> "${pniContact.profileName}"`)
+      .getByTestId('conversation-hero')
+      .getByText(pniContact.profileName)
       .waitFor({
         state: 'hidden',
       });
@@ -522,7 +523,7 @@ describe('pnp/merge', function (this: Mocha.Suite) {
       )
       .click();
 
-    await window.locator('.module-conversation-hero').waitFor();
+    await window.getByTestId('conversation-hero').waitFor();
 
     debug('Verify that the message is in the ACI conversation');
     {
@@ -638,7 +639,7 @@ describe('pnp/merge', function (this: Mocha.Suite) {
       )
       .click();
 
-    await window.locator('.module-conversation-hero').waitFor();
+    await window.getByTestId('conversation-hero').waitFor();
 
     debug('Send message to merged contact');
     {

@@ -23,6 +23,8 @@ import { useStoriesActions } from '../ducks/stories.preload.ts';
 import { getAddedByForGroup } from '../../util/getAddedByForGroup.preload.ts';
 import { getGroupMemberships } from '../../util/getGroupMemberships.dom.ts';
 import { useNavActions } from '../ducks/nav.std.ts';
+import { tw } from '../../axo/tw.dom.tsx';
+import { isInSystemContacts } from '../../util/isInSystemContacts.std.ts';
 
 type SmartHeroRowProps = Readonly<{
   id: string;
@@ -83,7 +85,6 @@ export const SmartHeroRow = memo(function SmartHeroRow({
   const { viewUserStories } = useStoriesActions();
   const {
     avatarPlaceholderGradient,
-    about,
     acceptedMessageRequest,
     avatarUrl,
     color,
@@ -93,50 +94,46 @@ export const SmartHeroRow = memo(function SmartHeroRow({
     membersCount,
     nicknameGivenName,
     nicknameFamilyName,
-    phoneNumber,
     profileName,
     title,
     type,
   } = conversation;
-
-  const isDirectConvoAndHasNickname =
-    type === 'direct' && Boolean(nicknameGivenName || nicknameFamilyName);
-
   const invitesCount =
     pendingMemberships.length + pendingApprovalMemberships.length;
-
   return (
-    <ConversationHero
-      avatarPlaceholderGradient={avatarPlaceholderGradient}
-      about={about}
-      acceptedMessageRequest={acceptedMessageRequest}
-      avatarUrl={avatarUrl}
-      badge={badge}
-      color={color}
-      conversationType={type}
-      fromOrAddedByTrustedContact={fromOrAddedByTrustedContact}
-      groupDescription={groupDescription}
-      hasAvatar={hasAvatar}
-      hasStories={hasStories}
-      i18n={i18n}
-      id={id}
-      isDirectConvoAndHasNickname={isDirectConvoAndHasNickname}
-      isMe={isMe}
-      invitesCount={invitesCount}
-      isSignalConversation={isSignalConversationValue}
-      membersCount={membersCount}
-      memberships={memberships}
-      openConversationDetails={openConversationDetails}
-      pendingAvatarDownload={isPendingAvatarDownload(id)}
-      phoneNumber={phoneNumber}
-      profileName={profileName}
-      sharedGroupNames={sharedGroupNames}
-      startAvatarDownload={() => startAvatarDownload(id)}
-      theme={theme}
-      title={title}
-      toggleAboutContactModal={toggleAboutContactModal}
-      toggleProfileNameWarningModal={toggleProfileNameWarningModal}
-      viewUserStories={viewUserStories}
-    />
+    <div className={tw('mt-10 flex justify-center')}>
+      <ConversationHero
+        avatarPlaceholderGradient={avatarPlaceholderGradient}
+        acceptedMessageRequest={acceptedMessageRequest}
+        avatarUrl={avatarUrl}
+        badge={badge}
+        color={color}
+        conversationType={type}
+        fromOrAddedByTrustedContact={fromOrAddedByTrustedContact}
+        groupDescription={groupDescription}
+        hasAvatar={hasAvatar}
+        hasNickname={Boolean(nicknameGivenName || nicknameFamilyName)}
+        hasProfileName={Boolean(profileName)}
+        hasStories={hasStories}
+        i18n={i18n}
+        id={id}
+        isMe={isMe}
+        invitesCount={invitesCount}
+        isInSystemContacts={isInSystemContacts(conversation)}
+        isSignalConversation={isSignalConversationValue}
+        membersCount={membersCount}
+        memberships={memberships}
+        openConversationDetails={openConversationDetails}
+        pendingAvatarDownload={isPendingAvatarDownload(id)}
+        profileName={profileName}
+        sharedGroupNames={sharedGroupNames}
+        startAvatarDownload={() => startAvatarDownload(id)}
+        theme={theme}
+        title={title}
+        toggleAboutContactModal={toggleAboutContactModal}
+        toggleProfileNameWarningModal={toggleProfileNameWarningModal}
+        viewUserStories={viewUserStories}
+      />
+    </div>
   );
 });

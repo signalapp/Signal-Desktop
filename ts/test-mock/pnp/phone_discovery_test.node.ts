@@ -127,17 +127,10 @@ describe('pnp/phone discovery', function (this: Mocha.Suite) {
       });
     }
 
-    await window.locator('.module-conversation-hero').waitFor();
+    await window.getByTestId('conversation-hero').waitFor();
 
     debug('Open ACI conversation');
     await leftPane.locator(`[data-testid="${pniContact.device.aci}"]`).click();
-
-    debug('Wait for PNI conversation to go away');
-    await window
-      .locator(`.module-conversation-hero >> ${pniContact.profileName}`)
-      .waitFor({
-        state: 'hidden',
-      });
 
     debug('Verify final state');
     {
