@@ -24,6 +24,7 @@ import {
   useStrictContext,
 } from './_internal/StrictContext.dom.tsx';
 import { AxoDragRegion } from './AxoDragRegion.dom.tsx';
+import { AxoTheme } from './AxoTheme.dom.tsx';
 
 const { useDisableDragRegions } = AxoDragRegion;
 
@@ -239,15 +240,17 @@ export namespace AxoContextMenu {
     const { open } = useStrictContext(RootContext);
     return (
       <ContextMenu.Portal>
-        <ContextMenu.Content
-          className={AxoBaseMenu.menuContentStyles}
-          alignOffset={-6}
-          collisionPadding={6}
-          onCloseAutoFocus={props.onCloseAutoFocus}
-          inert={!open}
-        >
-          {props.children}
-        </ContextMenu.Content>
+        <AxoTheme.Inherit>
+          <ContextMenu.Content
+            className={AxoBaseMenu.menuContentStyles}
+            alignOffset={-6}
+            collisionPadding={6}
+            onCloseAutoFocus={props.onCloseAutoFocus}
+            inert={!open}
+          >
+            {props.children}
+          </ContextMenu.Content>
+        </AxoTheme.Inherit>
       </ContextMenu.Portal>
     );
   });

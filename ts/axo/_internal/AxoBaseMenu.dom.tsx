@@ -41,6 +41,7 @@ export namespace AxoBaseMenu {
   const navigableItemStyles = tw(
     labeledItemStyles,
     'curved-md type-body-medium',
+    'text-label-primary',
     'outline-0 data-highlighted:bg-fill-secondary-pressed',
     'data-disabled:text-label-disabled',
     'outline-0 outline-border-focused focused:outline-[2.5px]',

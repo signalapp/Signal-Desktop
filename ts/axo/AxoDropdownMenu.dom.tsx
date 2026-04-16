@@ -31,6 +31,7 @@ import {
 } from './_internal/StrictContext.dom.tsx';
 import { isTestOrMockEnvironment } from '../environment.std.ts';
 import { AxoDragRegion } from './AxoDragRegion.dom.tsx';
+import { AxoTheme } from './AxoTheme.dom.tsx';
 
 const { useDisableDragRegions } = AxoDragRegion;
 
@@ -200,18 +201,20 @@ export namespace AxoDropdownMenu {
     return (
       <AriaLabellingProvider value={context}>
         <DropdownMenu.Portal>
-          <DropdownMenu.Content
-            sideOffset={4}
-            align="start"
-            collisionPadding={6}
-            className={AxoBaseMenu.menuContentStyles}
-            aria-labelledby={labelId}
-            aria-describedby={descriptionId}
-            onCloseAutoFocus={props.onCloseAutoFocus}
-            inert={!open}
-          >
-            {props.children}
-          </DropdownMenu.Content>
+          <AxoTheme.Inherit>
+            <DropdownMenu.Content
+              sideOffset={4}
+              align="start"
+              collisionPadding={6}
+              className={AxoBaseMenu.menuContentStyles}
+              aria-labelledby={labelId}
+              aria-describedby={descriptionId}
+              onCloseAutoFocus={props.onCloseAutoFocus}
+              inert={!open}
+            >
+              {props.children}
+            </DropdownMenu.Content>
+          </AxoTheme.Inherit>
         </DropdownMenu.Portal>
       </AriaLabellingProvider>
     );

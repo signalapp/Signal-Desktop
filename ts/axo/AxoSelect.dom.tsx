@@ -8,6 +8,7 @@ import { AxoSymbol } from './AxoSymbol.dom.tsx';
 import type { TailwindStyles } from './tw.dom.tsx';
 import { tw } from './tw.dom.tsx';
 import { ExperimentalAxoBadge } from './AxoBadge.dom.tsx';
+import { AxoTheme } from './AxoTheme.dom.tsx';
 
 const Namespace = 'AxoSelect';
 
@@ -88,8 +89,8 @@ export namespace AxoSelect {
   export type TriggerChevron = 'always' | 'on-hover';
 
   const baseTriggerStyles = tw(
-    'group relative flex items-center',
-    'rounded-full text-start type-body-medium text-label-primary',
+    'group relative inline-flex items-center',
+    'rounded-full text-start type-body-medium font-medium text-label-primary',
     'disabled:text-label-disabled',
     'outline-0 outline-border-focused focused:outline-[2.5px]',
     'forced-colors:border'
@@ -233,31 +234,37 @@ export namespace AxoSelect {
     const positionConfig = ContentPositions[position];
     return (
       <Select.Portal>
-        <Select.Content
-          className={AxoBaseMenu.selectContentStyles}
-          position={positionConfig.position}
-          alignOffset={positionConfig.alignOffset}
-          collisionPadding={positionConfig.collisionPadding}
-          sideOffset={positionConfig.sideOffset}
-        >
-          <Select.ScrollUpButton
-            className={tw(
-              'flex items-center justify-center p-1 text-label-primary'
-            )}
+        <AxoTheme.Inherit>
+          <Select.Content
+            className={AxoBaseMenu.selectContentStyles}
+            position={positionConfig.position}
+            alignOffset={positionConfig.alignOffset}
+            collisionPadding={positionConfig.collisionPadding}
+            sideOffset={positionConfig.sideOffset}
           >
-            <AxoSymbol.Icon symbol="chevron-up" size={14} label={null} />
-          </Select.ScrollUpButton>
-          <Select.Viewport className={AxoBaseMenu.selectContentViewportStyles}>
-            <div className={AxoBaseMenu.menuGroupStyles}>{props.children}</div>
-          </Select.Viewport>
-          <Select.ScrollDownButton
-            className={tw(
-              'flex items-center justify-center p-1 text-label-primary'
-            )}
-          >
-            <AxoSymbol.Icon symbol="chevron-down" size={14} label={null} />
-          </Select.ScrollDownButton>
-        </Select.Content>
+            <Select.ScrollUpButton
+              className={tw(
+                'flex items-center justify-center p-1 text-label-primary'
+              )}
+            >
+              <AxoSymbol.Icon symbol="chevron-up" size={14} label={null} />
+            </Select.ScrollUpButton>
+            <Select.Viewport
+              className={AxoBaseMenu.selectContentViewportStyles}
+            >
+              <div className={AxoBaseMenu.menuGroupStyles}>
+                {props.children}
+              </div>
+            </Select.Viewport>
+            <Select.ScrollDownButton
+              className={tw(
+                'flex items-center justify-center p-1 text-label-primary'
+              )}
+            >
+              <AxoSymbol.Icon symbol="chevron-down" size={14} label={null} />
+            </Select.ScrollDownButton>
+          </Select.Content>
+        </AxoTheme.Inherit>
       </Select.Portal>
     );
   });

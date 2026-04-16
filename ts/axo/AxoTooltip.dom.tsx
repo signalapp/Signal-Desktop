@@ -18,6 +18,7 @@ import {
   isAriaWidgetRole,
 } from './_internal/ariaRoles.dom.tsx';
 import { isTestOrMockEnvironment } from '../environment.std.ts';
+import { AxoTheme } from './AxoTheme.dom.tsx';
 
 const { useDirection } = Direction;
 
@@ -286,66 +287,70 @@ export namespace AxoTooltip {
           {props.children}
         </Tooltip.Trigger>
         <Tooltip.Portal>
-          <Tooltip.Content
-            side={physicalDirection}
-            align={Aligns[align]}
-            sideOffset={6}
-            arrowPadding={14}
-            collisionBoundary={collisionBoundary.elements}
-            collisionPadding={collisionBoundary.padding}
-            hideWhenDetached
-            className={tw(
-              'group flex items-baseline justify-center gap-2 overflow-hidden',
-              'rounded-[14px] px-2.5 py-1.5 type-body-small select-none',
-              'legacy-z-index-above-popup',
-              'bg-elevated-background-quaternary text-label-primary-on-color',
-              'shadow-elevation-3 shadow-no-outline',
-              'min-w-12',
-              hasAccessory ? 'max-w-[228px]' : 'max-w-[192px]'
-            )}
-          >
-            {hasArrow && (
-              <Tooltip.Arrow
-                asChild
-                width={TOOLTIP_ARROW_WIDTH}
-                height={TOOLTIP_ARROW_HEIGHT}
-              >
-                <svg
-                  className={tw('fill-elevated-background-quaternary')}
-                  xmlns="http://www.w3.org/2000/svg"
-                  width={TOOLTIP_ARROW_WIDTH}
-                  height={TOOLTIP_ARROW_HEIGHT}
-                  viewBox={`0 0 ${TOOLTIP_ARROW_WIDTH} ${TOOLTIP_ARROW_HEIGHT}`}
-                >
-                  <path d={TOOLTIP_ARROW_PATH} />
-                </svg>
-              </Tooltip.Arrow>
-            )}
-            <div
-              aria-hidden={props.tooltipRepeatsTriggerAccessibleName}
+          <AxoTheme.Inherit>
+            <Tooltip.Content
+              side={physicalDirection}
+              align={Aligns[align]}
+              sideOffset={6}
+              arrowPadding={14}
+              collisionBoundary={collisionBoundary.elements}
+              collisionPadding={collisionBoundary.padding}
+              hideWhenDetached
               className={tw(
-                'line-clamp-4 max-h-full text-balance text-ellipsis hyphens-auto'
+                'group flex items-baseline justify-center gap-2 overflow-hidden',
+                'rounded-[14px] px-2.5 py-1.5 type-body-small select-none',
+                'legacy-z-index-above-popup',
+                'bg-elevated-background-quaternary text-label-primary-on-color',
+                'shadow-elevation-3 shadow-no-outline',
+                'min-w-12',
+                hasAccessory ? 'max-w-[228px]' : 'max-w-[192px]'
               )}
             >
-              {props.label}
-            </div>
-            {keyboardShortcut != null && (
+              {hasArrow && (
+                <Tooltip.Arrow
+                  asChild
+                  width={TOOLTIP_ARROW_WIDTH}
+                  height={TOOLTIP_ARROW_HEIGHT}
+                >
+                  <svg
+                    className={tw('fill-elevated-background-quaternary')}
+                    xmlns="http://www.w3.org/2000/svg"
+                    width={TOOLTIP_ARROW_WIDTH}
+                    height={TOOLTIP_ARROW_HEIGHT}
+                    viewBox={`0 0 ${TOOLTIP_ARROW_WIDTH} ${TOOLTIP_ARROW_HEIGHT}`}
+                  >
+                    <path d={TOOLTIP_ARROW_PATH} />
+                  </svg>
+                </Tooltip.Arrow>
+              )}
               <div
-                className={tw('type-body-small text-label-secondary-on-color')}
-              >
-                {keyboardShortcut}
-              </div>
-            )}
-            {formattedTimestamp != null && (
-              <div
+                aria-hidden={props.tooltipRepeatsTriggerAccessibleName}
                 className={tw(
-                  'type-caption whitespace-nowrap text-label-secondary-on-color'
+                  'line-clamp-4 max-h-full text-balance text-ellipsis hyphens-auto'
                 )}
               >
-                {formattedTimestamp}
+                {props.label}
               </div>
-            )}
-          </Tooltip.Content>
+              {keyboardShortcut != null && (
+                <div
+                  className={tw(
+                    'type-body-small text-label-secondary-on-color'
+                  )}
+                >
+                  {keyboardShortcut}
+                </div>
+              )}
+              {formattedTimestamp != null && (
+                <div
+                  className={tw(
+                    'type-caption whitespace-nowrap text-label-secondary-on-color'
+                  )}
+                >
+                  {formattedTimestamp}
+                </div>
+              )}
+            </Tooltip.Content>
+          </AxoTheme.Inherit>
         </Tooltip.Portal>
       </Tooltip.Root>
     );
