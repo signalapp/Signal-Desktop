@@ -332,7 +332,7 @@
     "typescript": "6.0.2",
     "url": "0.11.4",
     "uuid": "13.0.0",
-    "wait-on": "9.0.4",
+    "wait-on": "9.0.5",
     "webpack": "5.96.1",
     "write-file-atomic": "7.0.1",
     "zod": "4.3.6"
