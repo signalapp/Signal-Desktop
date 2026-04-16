@@ -52,7 +52,7 @@ textarea {
   font-family: inherit;
 }
 
-[contenteditable] {
+[contenteditable]:not([contenteditable='false']) {
   /* stylelint-disable-next-line property-no-deprecated */
   -webkit-user-modify: read-write-plaintext-only;
 }
