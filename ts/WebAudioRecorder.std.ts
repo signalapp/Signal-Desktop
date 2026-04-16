@@ -131,7 +131,7 @@ export class WebAudioRecorder {
     }
 
     // oxlint-disable-next-line no-undef FIXME
-    this.worker = new Worker('js/WebAudioRecorderMp3.js');
+    this.worker = new Worker('bundles/workers/WebAudioRecorderMp3.js');
     this.worker.onmessage = event => {
       const { data } = event;
       switch (data.command) {

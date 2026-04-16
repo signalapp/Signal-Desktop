@@ -78,9 +78,6 @@ const excludedFilesRegexp = RegExp(
     '^ts/workers/heicConverter.bundle.js',
     '^ts/sql/mainWorker.bundle.js',
 
-    // Copied from dependency
-    '^js/WebAudioRecorderMp3.js',
-
     // Test files
     '^libtextsecure/test/.+',
     '^test/.+',

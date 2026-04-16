@@ -159,4 +159,29 @@ export default defineConfig([
       'workers/heic': 'ts/workers/heicConverterWorker.node.ts',
     },
   },
+
+  // Voice Note Worker
+  {
+    input: 'components/webaudiorecorder/lib/WebAudioRecorderMp3.js',
+    transform: {
+      define: {
+        process: 'undefined',
+        require: 'undefined',
+        eval: 'undefined',
+      },
+      inject: {
+        Mp3LameEncoder: '../../mp3lameencoder/lib/Mp3LameEncoder.js',
+      },
+    },
+    output: {
+      file: 'bundles/workers/WebAudioRecorderMp3.js',
+      exports: 'named',
+      generatedCode: {
+        symbols: false,
+      },
+    },
+    watch: {
+      clearScreen: false,
+    },
+  },
 ]);

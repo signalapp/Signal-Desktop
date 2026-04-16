@@ -1619,8 +1619,7 @@
     "sticker-creator/**",
     // Third-party files
     "components/mp3lameencoder/lib/Mp3LameEncoder.js",
-    "components/webaudiorecorder/lib/WebAudioRecorderMp3.js",
-    "js/WebAudioRecorderMp3.js"
+    "components/webaudiorecorder/lib/WebAudioRecorderMp3.js"
   ],
   "overrides": [
     // envs
