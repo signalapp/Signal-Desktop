@@ -1,4 +1,4 @@
-(function(self) {
+export default (function(self) {
   var Module = self.Mp3LameEncoderConfig;
 
 // The Module object: Our interface to the outside world. We import
@@ -46682,6 +46682,6 @@ run();
     delete this.srcPtr;
   };
 
-  self.Mp3LameEncoder = Encoder;
+  return Encoder;
 })(self);
 
