@@ -13,17 +13,17 @@ import type {
   StickerPackType,
   StickerType,
 } from '../../state/ducks/stickers.preload.ts';
+import type {
+  fetchGiphyFile,
+  fetchGiphySearch,
+  fetchGiphyTrending,
+} from '../../state/smart/fun/giphy.preload.ts';
 import type { EmojiSkinTone, EmojiParentKey } from './data/emojis.std.ts';
 import type { FunGifSelection, GifType } from './panels/FunPanelGifs.dom.tsx';
 import { FunPickerTabKey } from './constants.dom.tsx';
 import type { FunEmojiSelection } from './panels/FunPanelEmojis.dom.tsx';
 import type { FunStickerSelection } from './panels/FunPanelStickers.dom.tsx';
 import { FunEmojiLocalizationProvider } from './FunEmojiLocalizationProvider.dom.tsx';
-import type {
-  fetchGiphyFile,
-  fetchGiphySearch,
-  fetchGiphyTrending,
-} from './data/giphy.preload.ts';
 
 export type FunContextSmartProps = Readonly<{
   i18n: LocalizerType;

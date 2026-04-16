@@ -55,7 +55,6 @@ import type {
   CallEvent,
   CallEventDetails,
   CallHistoryDetails,
-  CallHistoryGroup,
   CallLogEventDetails,
   CallStatus,
   GroupCallMeta,
@@ -115,13 +114,6 @@ function formatCallHistory(callHistory: CallHistoryDetails): string {
   } = callHistory;
   const peerIdLog = peerIdToLog(peerId, mode);
   return `CallHistory (${callId}, ${peerIdLog}, ${mode}, ${status}, ${direction}, ${type}, ${mode}, ${timestamp}, ${ringerId}, ${startedById})`;
-}
-
-export function formatCallHistoryGroup(
-  callHistoryGroup: CallHistoryGroup
-): string {
-  const { peerId, direction, status, type, mode, timestamp } = callHistoryGroup;
-  return `CallHistoryGroup (${peerId}, ${mode}, ${status}, ${direction}, ${type}, ${mode}, ${timestamp})`;
 }
 
 export function formatPeekInfo(peekInfo: PeekInfo): string {

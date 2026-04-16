@@ -41,10 +41,7 @@ import { UserText } from './UserText.dom.tsx';
 import { I18n } from './I18n.dom.tsx';
 import { NavSidebarSearchHeader, NavSidebarEmpty } from './NavSidebar.dom.tsx';
 import { SizeObserver } from '../hooks/useSizeObserver.dom.tsx';
-import {
-  formatCallHistoryGroup,
-  getCallIdFromEra,
-} from '../util/callDisposition.preload.ts';
+import type { getCallIdFromEra } from '../util/callDisposition.preload.ts';
 import { CallsNewCallButton } from './CallsNewCallButton.dom.tsx';
 import { Tooltip, TooltipPlacement } from './Tooltip.dom.tsx';
 import { Theme } from '../util/theme.std.ts';
@@ -54,7 +51,7 @@ import {
   callLinkToConversation,
   getPlaceholderCallLinkConversation,
 } from '../util/callLinks.std.ts';
-import type { CallsTabSelectedView } from './CallsTab.preload.tsx';
+import type { CallsTabSelectedView } from './CallsTab.dom.tsx';
 import type { CallStateType } from '../state/selectors/calling.std.ts';
 import {
   isGroupOrAdhocCallMode,
@@ -155,6 +152,7 @@ type CallsListProps = Readonly<{
   startCallLinkLobbyByRoomId: (options: { roomId: string }) => void;
   toggleConfirmLeaveCallModal: (options: StartCallData | null) => void;
   togglePip: () => void;
+  getCallIdFromEra: typeof getCallIdFromEra;
 }>;
 
 const FILTER_HEADER_ROW_HEIGHT = 50;
@@ -198,6 +196,7 @@ export function CallsList({
   startCallLinkLobbyByRoomId,
   toggleConfirmLeaveCallModal,
   togglePip,
+  getCallIdFromEra,
 }: CallsListProps): React.JSX.Element {
   const infiniteLoaderRef = useRef<InfiniteLoader>(null);
   const listRef = useRef<List>(null);
@@ -346,7 +345,7 @@ export function CallsList({
       // Call links only show once in the calls list, so we can just return active.
       return true;
     },
-    [getCallByPeerId]
+    [getCallByPeerId, getCallIdFromEra]
   );
 
   const getIsAnybodyInCall = useCallback(
@@ -923,10 +922,7 @@ export function CallsList({
             }
             trailing={isCallButtonVisible ? callButton : undefined}
             title={
-              <span
-                className="CallsList__ItemTitle"
-                data-call={formatCallHistoryGroup(item)}
-              >
+              <span className="CallsList__ItemTitle">
                 <UserText text={conversation.title} />
               </span>
             }

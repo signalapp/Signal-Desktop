@@ -6,7 +6,7 @@ import { requestVerification as doRequestVerification } from '../../textsecure/W
 import { accountManager } from '../../textsecure/AccountManager.preload.ts';
 import type { VerificationTransport } from '../../types/VerificationTransport.std.ts';
 import { DataWriter } from '../../sql/Client.preload.ts';
-import { App } from '../../components/App.preload.tsx';
+import { App } from '../../components/App.dom.tsx';
 import OS from '../../util/os/osMain.node.ts';
 import { getConversation } from '../../util/getConversation.preload.ts';
 import { getChallengeURL } from '../../challenge.dom.ts';
@@ -28,6 +28,7 @@ import { useStoriesActions } from '../ducks/stories.preload.ts';
 import { ErrorBoundary } from '../../components/ErrorBoundary.dom.tsx';
 import { ModalContainer } from '../../components/ModalContainer.dom.tsx';
 import { SmartInbox } from './Inbox.preload.tsx';
+import { SmartInstallScreen } from './InstallScreen.preload.tsx';
 import { getApp } from '../selectors/app.std.ts';
 import { SmartFunProvider } from './FunProvider.preload.tsx';
 
@@ -45,6 +46,10 @@ function renderCallManager(): React.JSX.Element {
 
 function renderGlobalModalContainer(): React.JSX.Element {
   return <SmartGlobalModalContainer />;
+}
+
+function renderInstallScreen(): React.JSX.Element {
+  return <SmartInstallScreen />;
 }
 
 function renderLightbox(): React.JSX.Element {
@@ -127,6 +132,7 @@ export const SmartApp = memo(function SmartApp() {
         osClassName={osClassName}
         renderCallManager={renderCallManager}
         renderGlobalModalContainer={renderGlobalModalContainer}
+        renderInstallScreen={renderInstallScreen}
         renderLightbox={renderLightbox}
         hasSelectedStoryData={hasSelectedStoryData}
         readyForUpdates={readyForUpdates}

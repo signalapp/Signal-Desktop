@@ -68,7 +68,7 @@ import {
   EMOJI_VARIANT_KEY_CONSTANTS,
   getEmojiVariantByKey,
 } from '../data/emojis.std.ts';
-import type { fetchGiphyFile } from '../data/giphy.preload.ts';
+import type { fetchGiphyFile } from '../../../state/smart/fun/giphy.preload.ts';
 import {
   getGifCdnUrlOrigin,
   isGifCdnUrlOriginAllowed,

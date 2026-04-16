@@ -28,7 +28,7 @@ import {
   fetchGiphySearch,
   fetchGiphyTrending,
   fetchGiphyFile,
-} from '../../components/fun/data/giphy.preload.ts';
+} from './fun/giphy.preload.ts';
 import { usePreferredReactionsActions } from '../ducks/preferredReactions.preload.ts';
 import { useEmojisActions } from '../ducks/emojis.preload.ts';
 import { useStickersActions } from '../ducks/stickers.preload.ts';

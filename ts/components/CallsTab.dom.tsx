@@ -4,7 +4,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import type { LocalizerType } from '../types/I18N.std.ts';
 import { NavSidebar, NavSidebarActionButton } from './NavSidebar.dom.tsx';
-import { CallsList } from './CallsList.preload.tsx';
+import { CallsList } from './CallsList.dom.tsx';
 import type { ConversationType } from '../state/ducks/conversations.preload.ts';
 import type {
   CallHistoryFilterOptions,
@@ -19,6 +19,7 @@ import type {
 } from '../state/ducks/calling.preload.ts';
 import { ConfirmationDialog } from './ConfirmationDialog.dom.tsx';
 import type { UnreadStats } from '../util/countUnreadStats.std.ts';
+import type { getCallIdFromEra } from '../util/callDisposition.preload.ts';
 import type { CallLinkType } from '../types/CallLink.std.ts';
 import type { CallStateType } from '../state/selectors/calling.std.ts';
 import type { StartCallData } from './ConfirmLeaveCallModal.dom.tsx';
@@ -46,6 +47,7 @@ type CallsTabProps = Readonly<{
   getAdhocCall: (roomId: string) => CallStateType | undefined;
   getCall: (id: string) => CallStateType | undefined;
   getCallLink: (id: string) => CallLinkType | undefined;
+  getCallIdFromEra: typeof getCallIdFromEra;
   getConversation: (id: string) => ConversationType | void;
   hangUpActiveCall: (reason: string) => void;
   hasAnyAdminCallLinks: boolean;
@@ -96,6 +98,7 @@ export function CallsTab({
   otherTabsUnreadStats,
   getCallHistoryGroupsCount,
   getCallHistoryGroups,
+  getCallIdFromEra,
   callHistoryEdition,
   getAdhocCall,
   getCall,
@@ -263,6 +266,7 @@ export function CallsTab({
               callHistoryEdition={callHistoryEdition}
               getAdhocCall={getAdhocCall}
               getCall={getCall}
+              getCallIdFromEra={getCallIdFromEra}
               getCallLink={getCallLink}
               getConversation={getConversation}
               hangUpActiveCall={hangUpActiveCall}
