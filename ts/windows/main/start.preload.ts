@@ -77,6 +77,10 @@ if (
         conversationId
       );
     },
+    getConversations: () =>
+      window.ConversationController.getAll().map(
+        conversation => conversation.attributes
+      ),
     getConversation: (id: string) => window.ConversationController.get(id),
     getMessageById: (id: string) => window.MessageCache.getById(id)?.attributes,
     getMessageBySentAt: async (timestamp: number) => {

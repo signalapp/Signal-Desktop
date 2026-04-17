@@ -149,10 +149,12 @@ export type PropsDataType = {
   hasMediaCameraPermissions: boolean | undefined;
   hasMediaPermissions: boolean | undefined;
   hasMessageAudio: boolean;
+  hasSealedSenderIndicators: boolean;
   hasMinimizeToAndStartInSystemTray: boolean | undefined;
   hasMinimizeToSystemTray: boolean | undefined;
   hasNotificationAttention: boolean;
   hasNotifications: boolean;
+  hasPreferContactAvatars: boolean;
   hasReadReceipts: boolean;
   hasRelayCalls?: boolean;
   hasSpellCheck: boolean | undefined;
@@ -327,6 +329,7 @@ type PropsFunctionType = {
   onIncomingCallNotificationsChange: CheckboxChangeHandlerType;
   onKeepMutedChatsArchivedChange: CheckboxChangeHandlerType;
   onLastSyncTimeChange: (time: number) => unknown;
+  onLinkPreviewsChange: CheckboxChangeHandlerType;
   onLocaleChange: (locale: string | null | undefined) => void;
   onMediaCameraPermissionsChange: CheckboxChangeHandlerType;
   onMediaPermissionsChange: CheckboxChangeHandlerType;
@@ -336,7 +339,10 @@ type PropsFunctionType = {
   onNotificationAttentionChange: CheckboxChangeHandlerType;
   onNotificationContentChange: SelectChangeHandlerType<NotificationSettingType>;
   onNotificationsChange: CheckboxChangeHandlerType;
+  onPreferContactAvatarsChange: CheckboxChangeHandlerType;
+  onReadReceiptsChange: CheckboxChangeHandlerType;
   onRelayCallsChange: CheckboxChangeHandlerType;
+  onSealedSenderIndicatorsChange: CheckboxChangeHandlerType;
   onSelectedCameraChange: SelectChangeHandlerType<string | undefined>;
   onSelectedMicrophoneChange: SelectChangeHandlerType<AudioDevice | undefined>;
   onSelectedSpeakerChange: SelectChangeHandlerType<AudioDevice | undefined>;
@@ -345,9 +351,10 @@ type PropsFunctionType = {
   onTextFormattingChange: CheckboxChangeHandlerType;
   onThemeChange: SelectChangeHandlerType<ThemeType>;
   onToggleNavTabsCollapse: (navTabsCollapsed: boolean) => void;
+  onTypingIndicatorsChange: CheckboxChangeHandlerType;
   onUniversalExpireTimerChange: SelectChangeHandlerType<number>;
-  onWhoCanSeeMeChange: SelectChangeHandlerType<PhoneNumberSharingMode>;
   onWhoCanFindMeChange: SelectChangeHandlerType<PhoneNumberDiscoverability>;
+  onWhoCanSeeMeChange: SelectChangeHandlerType<PhoneNumberSharingMode>;
   onZoomFactorChange: SelectChangeHandlerType<ZoomFactorType>;
   openFileInFolder: (path: string) => void;
   internalDeleteAllMegaphones: () => Promise<number>;
@@ -453,8 +460,10 @@ export function Preferences({
   hasMinimizeToSystemTray,
   hasNotificationAttention,
   hasNotifications,
+  hasPreferContactAvatars,
   hasReadReceipts,
   hasRelayCalls,
+  hasSealedSenderIndicators,
   hasSpellCheck,
   hasStoriesDisabled,
   hasTextFormatting,
@@ -499,6 +508,7 @@ export function Preferences({
   onIncomingCallNotificationsChange,
   onKeepMutedChatsArchivedChange,
   onLastSyncTimeChange,
+  onLinkPreviewsChange,
   onLocaleChange,
   onMediaCameraPermissionsChange,
   onMediaPermissionsChange,
@@ -508,7 +518,10 @@ export function Preferences({
   onNotificationAttentionChange,
   onNotificationContentChange,
   onNotificationsChange,
+  onPreferContactAvatarsChange,
+  onReadReceiptsChange,
   onRelayCallsChange,
+  onSealedSenderIndicatorsChange,
   onSelectedCameraChange,
   onSelectedMicrophoneChange,
   onSelectedSpeakerChange,
@@ -517,9 +530,10 @@ export function Preferences({
   onTextFormattingChange,
   onThemeChange,
   onToggleNavTabsCollapse,
+  onTypingIndicatorsChange,
   onUniversalExpireTimerChange,
-  onWhoCanSeeMeChange,
   onWhoCanFindMeChange,
+  onWhoCanSeeMeChange,
   onZoomFactorChange,
   otherTabsUnreadStats,
   settingsLocation,
@@ -1186,12 +1200,23 @@ export function Preferences({
           />
           <Checkbox
             checked={hasLinkPreviews}
-            description={i18n('icu:Preferences__link-previews--description')}
-            disabled
+            description={i18n(
+              'icu:Preferences__link-previews--new-description'
+            )}
             label={i18n('icu:Preferences__link-previews--title')}
             moduleClassName="Preferences__checkbox"
             name="linkPreviews"
-            onChange={noop}
+            onChange={onLinkPreviewsChange}
+          />
+          <Checkbox
+            checked={hasPreferContactAvatars}
+            label={i18n('icu:Preferences__address-book-photos--title')}
+            description={i18n(
+              'icu:Preferences__address-book-photos--description'
+            )}
+            moduleClassName="Preferences__checkbox"
+            name="typingIndicators"
+            onChange={onPreferContactAvatarsChange}
           />
           <Checkbox
             checked={hasAutoConvertEmoji}
@@ -1697,25 +1722,22 @@ export function Preferences({
         <SettingsRow title={i18n('icu:Preferences--messaging')}>
           <Checkbox
             checked={hasReadReceipts}
-            disabled
             label={i18n('icu:Preferences--read-receipts')}
+            description={i18n('icu:Preferences--read-receipts--description')}
             moduleClassName="Preferences__checkbox"
             name="readReceipts"
-            onChange={noop}
+            onChange={onReadReceiptsChange}
           />
           <Checkbox
             checked={hasTypingIndicators}
-            disabled
             label={i18n('icu:Preferences--typing-indicators')}
+            description={i18n(
+              'icu:Preferences--typing-indicators--description'
+            )}
             moduleClassName="Preferences__checkbox"
             name="typingIndicators"
-            onChange={noop}
+            onChange={onTypingIndicatorsChange}
           />
-          <div className="Preferences__padding">
-            <div className="Preferences__description">
-              {i18n('icu:Preferences__privacy--description')}
-            </div>
-          </div>
         </SettingsRow>
         {showDisappearingTimerDialog && (
           <DisappearingTimeDialog
@@ -1853,40 +1875,55 @@ export function Preferences({
             </div>
           </FlowingControl>
         </SettingsRow>
-        {isKeyTransparencyAvailable && (
-          <SettingsRow>
+        <SettingsRow title={i18n('icu:Preferences--advanced')}>
+          <Checkbox
+            checked={hasSealedSenderIndicators}
+            label={
+              <>
+                {i18n('icu:Preferences__PrivacyPage__ShowStatusIcon__Label')}
+                <div className="Preferences__Privacy__StatusIcon" />
+              </>
+            }
+            description={i18n(
+              'icu:Preferences__PrivacyPage__ShowStatusIcon__Description'
+            )}
+            moduleClassName="Preferences__checkbox"
+            name="showStatusIcon"
+            onChange={onSealedSenderIndicatorsChange}
+          />
+          {isKeyTransparencyAvailable && (
             <Checkbox
               checked={!hasKeyTransparencyDisabled}
               label={i18n(
                 'icu:Preferences__PrivacyPage__KeyTransparency__Label'
               )}
+              description={
+                <>
+                  {i18n(
+                    'icu:Preferences__PrivacyPage__KeyTransparency__Description'
+                  )}
+                  &ensp;
+                  <a
+                    href={KEY_TRANSPARENCY_URL}
+                    rel="noreferrer"
+                    target="_blank"
+                    className={tw('text-label-primary')}
+                  >
+                    <I18n
+                      i18n={i18n}
+                      id="icu:Preferences__PrivacyPage__KeyTransparency__LearnMore"
+                    />
+                  </a>
+                </>
+              }
               moduleClassName="Preferences__checkbox"
               name="keyTransparency"
               onChange={() =>
                 onHasKeyTransparencyDisabledChanged(!hasKeyTransparencyDisabled)
               }
             />
-            <div className="Preferences__padding">
-              <div className="Preferences__description">
-                {i18n(
-                  'icu:Preferences__PrivacyPage__KeyTransparency__Description'
-                )}
-                &ensp;
-                <a
-                  href={KEY_TRANSPARENCY_URL}
-                  rel="noreferrer"
-                  target="_blank"
-                  className={tw('text-label-primary')}
-                >
-                  <I18n
-                    i18n={i18n}
-                    id="icu:Preferences__PrivacyPage__KeyTransparency__LearnMore"
-                  />
-                </a>
-              </div>
-            </div>
-          </SettingsRow>
-        )}
+          )}
+        </SettingsRow>
         <SettingsRow>
           <FlowingControl>
             <div
