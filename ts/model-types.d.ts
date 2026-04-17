@@ -486,6 +486,7 @@ export type ConversationAttributesType = {
   left?: boolean;
   groupVersion?: number;
   storySendMode?: StorySendMode;
+  groupVerifiedNameHash?: string;
 
   // GroupV1 only
   members?: Array<string>;

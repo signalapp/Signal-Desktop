@@ -191,6 +191,7 @@ export function getConversation(model: ConversationModel): ConversationType {
     familyName: attributes.nicknameFamilyName ?? attributes.profileFamilyName,
     firstName: attributes.nicknameGivenName ?? attributes.profileName,
     groupDescription: attributes.description,
+    groupVerifiedNameHash: attributes.groupVerifiedNameHash,
     groupVersion,
     groupId: attributes.groupId,
     groupLink: buildGroupLink(attributes),

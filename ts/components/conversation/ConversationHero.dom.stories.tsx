@@ -48,10 +48,10 @@ export default {
   component: ConversationHero,
   args: {
     conversationType: 'direct',
-    fromOrAddedByTrustedContact: false,
-    i18n,
     hasNickname: false,
     hasProfileName: true,
+    i18n,
+    isGroupNameVerified: false,
     isInSystemContacts: false,
     theme: ThemeType.light,
     sharedGroupNames: [],
@@ -178,10 +178,10 @@ GroupMessageRequest.args = {
   acceptedMessageRequest: false,
 };
 
-export const GroupFromTrustedContact = Template.bind({});
-GroupFromTrustedContact.args = {
+export const GroupVerifiedName = Template.bind({});
+GroupVerifiedName.args = {
   ...groupArgs,
-  fromOrAddedByTrustedContact: true,
+  isGroupNameVerified: true,
 };
 
 export function GroupMemberNames(args: Props): React.JSX.Element {

@@ -627,8 +627,8 @@ export function toGroupV2Record(
   }
 
   const avatarColor = conversation.get('colorFromPrimary');
-
   const masterKey = conversation.get('masterKey');
+  const verifiedNameHash = conversation.get('groupVerifiedNameHash');
 
   return {
     masterKey: masterKey != null ? Bytes.fromBase64(masterKey) : null,
@@ -646,7 +646,9 @@ export function toGroupV2Record(
     hideStory: Boolean(conversation.get('hideStory')),
     avatarColor: avatarColor ?? null,
     storySendMode,
-
+    verifiedNameHash: verifiedNameHash
+      ? Bytes.fromBase64(verifiedNameHash)
+      : null,
     $unknown: conversationUnknownFieldsToRecord(conversation),
   };
 }
@@ -1243,8 +1245,18 @@ export async function mergeGroupV2Record(
     storageID,
     storageVersion,
     storySendMode,
+
     needsStorageServiceSync: false,
   });
+
+  // We only update verified name hash if it is truthy, to avoid races where a linked
+  // device creates the GroupV2Record (with nullish hash) before the creating device
+  // updates storage service with the verified name hash.
+  if (Bytes.isNotEmpty(groupV2Record.verifiedNameHash)) {
+    conversation.set({
+      groupVerifiedNameHash: Bytes.toBase64(groupV2Record.verifiedNameHash),
+    });
+  }
 
   conversation.setMuteExpiration(
     getTimestampFromLong(
