@@ -1577,17 +1577,18 @@ export class ConversationController {
     return this.#_initialPromise;
   }
 
-  // A number of things outside conversation.attributes affect conversation re-rendering.
-  //   If it's scoped to a given conversation, it's easy to trigger('change'). There are
-  //   important values in storage and the storage service which change rendering pretty
-  //   radically, so this function is necessary to force regeneration of props.
-  async forceRerender(identifiers?: Array<string>): Promise<void> {
+  // When the user changes their avatar preferences (address book vs. signal profile), we
+  // need to regenerate all cached conversation props. But only if that contact had an
+  // avatar taken from the address book.
+  async rerenderAfterAvatarChange(): Promise<void> {
     let count = 0;
-    const conversations = identifiers
-      ? identifiers.map(identifier => this.get(identifier)).filter(isNotNil)
-      : this.#_conversations.slice();
+    const conversations = this.#_conversations.filter(
+      conversation =>
+        conversation.get('avatar') &&
+        isDirectConversation(conversation.attributes)
+    );
     log.info(
-      `forceRerender: Starting to loop through ${conversations.length} conversations`
+      `rerenderAfterAvatarChange: Starting to loop through ${conversations.length} conversations`
     );
 
     for (const conversation of conversations) {
@@ -1604,7 +1605,7 @@ export class ConversationController {
         await sleep(300);
       }
     }
-    log.info(`forceRerender: Updated ${count} conversations`);
+    log.info(`rerenderAfterAvatarChange: Updated ${count} conversations`);
   }
 
   onConvoOpenStart(conversationId: string): void {

@@ -587,9 +587,7 @@ export function SmartPreferences(): React.JSX.Element | null {
   } = items;
   const defaultConversationColor =
     items.defaultConversationColor || DEFAULT_CONVERSATION_COLOR;
-  const hasLinkPreviews = items.linkPreviews ?? false;
-  const hasReadReceipts = items['read-receipt-setting'] ?? false;
-  const hasTypingIndicators = items.typingIndicators ?? false;
+
   const blockedCount =
     (items['blocked-groups']?.length ?? 0) +
     (items['blocked-uuids']?.length ?? 0);
@@ -637,6 +635,43 @@ export function SmartPreferences(): React.JSX.Element | null {
     return [value, setter];
   }
 
+  const [hasLinkPreviews, onLinkPreviewsChange] = createItemsAccess(
+    'linkPreviews',
+    false,
+    () => {
+      const account = window.ConversationController.getOurConversationOrThrow();
+      account.captureChange('linkPreviews');
+    }
+  );
+  const [hasPreferContactAvatars, onPreferContactAvatarsChange] =
+    createItemsAccess('preferContactAvatars', false, () => {
+      const account = window.ConversationController.getOurConversationOrThrow();
+      account.captureChange('preferContactAvatars');
+      drop(window.ConversationController.rerenderAfterAvatarChange());
+    });
+
+  const [hasReadReceipts, onReadReceiptsChange] = createItemsAccess(
+    'read-receipt-setting',
+    false,
+    () => {
+      const account = window.ConversationController.getOurConversationOrThrow();
+      account.captureChange('read-receipt-setting');
+    }
+  );
+  const [hasTypingIndicators, onTypingIndicatorsChange] = createItemsAccess(
+    'typingIndicators',
+    false,
+    () => {
+      const account = window.ConversationController.getOurConversationOrThrow();
+      account.captureChange('typingIndicators');
+    }
+  );
+  const [hasSealedSenderIndicators, onSealedSenderIndicatorsChange] =
+    createItemsAccess('sealedSenderIndicators', false, () => {
+      const account = window.ConversationController.getOurConversationOrThrow();
+      account.captureChange('sealedSenderIndicators');
+    });
+
   const [autoDownloadAttachment, onAutoDownloadAttachmentChange] =
     createItemsAccess(
       'auto-download-attachment',
@@ -654,6 +689,7 @@ export function SmartPreferences(): React.JSX.Element | null {
     'autoConvertEmoji',
     true
   );
+
   const [hasKeepMutedChatsArchived, onKeepMutedChatsArchivedChange] =
     createItemsAccess('keepMutedChatsArchived', false, () => {
       const account = window.ConversationController.getOurConversationOrThrow();
@@ -900,8 +936,10 @@ export function SmartPreferences(): React.JSX.Element | null {
           hasMinimizeToSystemTray={hasMinimizeToSystemTray}
           hasNotificationAttention={hasNotificationAttention}
           hasNotifications={hasNotifications}
+          hasPreferContactAvatars={hasPreferContactAvatars}
           hasReadReceipts={hasReadReceipts}
           hasRelayCalls={hasRelayCalls}
+          hasSealedSenderIndicators={hasSealedSenderIndicators}
           hasSpellCheck={hasSpellCheck}
           hasStoriesDisabled={hasStoriesDisabled}
           hasTextFormatting={hasTextFormatting}
@@ -950,6 +988,7 @@ export function SmartPreferences(): React.JSX.Element | null {
           onIncomingCallNotificationsChange={onIncomingCallNotificationsChange}
           onKeepMutedChatsArchivedChange={onKeepMutedChatsArchivedChange}
           onLastSyncTimeChange={onLastSyncTimeChange}
+          onLinkPreviewsChange={onLinkPreviewsChange}
           onLocaleChange={onLocaleChange}
           onMediaCameraPermissionsChange={onMediaCameraPermissionsChange}
           onMediaPermissionsChange={onMediaPermissionsChange}
@@ -962,7 +1001,10 @@ export function SmartPreferences(): React.JSX.Element | null {
           onNotificationContentChange={onNotificationContentChange}
           onNotificationsChange={onNotificationsChange}
           onStartUpdate={startUpdate}
+          onPreferContactAvatarsChange={onPreferContactAvatarsChange}
+          onReadReceiptsChange={onReadReceiptsChange}
           onRelayCallsChange={onRelayCallsChange}
+          onSealedSenderIndicatorsChange={onSealedSenderIndicatorsChange}
           onSelectedCameraChange={onSelectedCameraChange}
           onSelectedMicrophoneChange={onSelectedMicrophoneChange}
           onSelectedSpeakerChange={onSelectedSpeakerChange}
@@ -971,6 +1013,7 @@ export function SmartPreferences(): React.JSX.Element | null {
           onTextFormattingChange={onTextFormattingChange}
           onThemeChange={onThemeChange}
           onToggleNavTabsCollapse={toggleNavTabsCollapse}
+          onTypingIndicatorsChange={onTypingIndicatorsChange}
           onUniversalExpireTimerChange={onUniversalExpireTimerChange}
           onWhoCanFindMeChange={onWhoCanFindMeChange}
           onWhoCanSeeMeChange={onWhoCanSeeMeChange}
