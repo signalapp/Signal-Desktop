@@ -18,7 +18,7 @@ export type PropsType = {
   description?: ReactNode;
   disabled?: boolean;
   isRadio?: boolean;
-  label: string;
+  label: ReactNode;
   moduleClassName?: string;
   name: string;
   onChange: (value: boolean) => unknown;

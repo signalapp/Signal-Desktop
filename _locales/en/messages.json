@@ -2382,6 +2382,15 @@
     "messageformat": "Cancel",
     "description": "Preferences > Edit Chat Folder Page > Cancel Button"
   },
+  "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
+    "messageformat": "Show status icon",
+    "description": "Preferences > Privacy Page > Show Status Icon Checkbox > Label"
+  },
+  "icu:Preferences__PrivacyPage__ShowStatusIcon__Description": {
+    "messageformat": "Show an icon in message details when they were delivered using sealed sender.",
+    "description": "Preferences > Privacy Page > Show Status Icon Checkbox > Description"
+  },
+
   "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
     "messageformat": "Automatic key verification",
     "description": "Preferences > Privacy Page > Key Transparency Checkbox > Label"
@@ -7834,6 +7843,18 @@
     "messageformat": "To change this setting, open the Signal app on your mobile device and navigate to Settings > Chats",
     "description": "Description for the generate link previews setting"
   },
+  "icu:Preferences__link-previews--new-description": {
+    "messageformat": "Retrieve link previews directly from websites for messages you send.",
+    "description": "Description for the generate link previews setting"
+  },
+  "icu:Preferences__address-book-photos--title": {
+    "messageformat": "Use address book photos",
+    "description": "Title for the generate link previews setting"
+  },
+  "icu:Preferences__address-book-photos--description": {
+    "messageformat": "Display contact photos from your address book if available.",
+    "description": "Description for the generate link previews setting"
+  },
   "icu:Preferences__auto-convert-emoji--title": {
     "messageformat": "Convert typed emoticons to emoji",
     "description": "Title for the auto convert emoji setting"
@@ -8642,9 +8663,17 @@
     "messageformat": "Read receipts",
     "description": "Label for the read receipts setting"
   },
+  "icu:Preferences--read-receipts--description": {
+    "messageformat": "If disabled, you won't see read receipts from others.",
+    "description": "Description for the read receipts setting"
+  },
   "icu:Preferences--typing-indicators": {
     "messageformat": "Typing indicators",
     "description": "Label for the typing indicators setting"
+  },
+  "icu:Preferences--typing-indicators--description": {
+    "messageformat": "If disabled, you won't see typing indicators from others.",
+    "description": "Description for the typing indicators setting"
   },
   "icu:Preferences--updates": {
     "messageformat": "Updates",
@@ -9322,6 +9351,10 @@
   },
   "icu:StoriesSettings__view-receipts--label": {
     "messageformat": "View Receipts",
+    "description": "Label of view receipts checkbox in story settings"
+  },
+  "icu:StoriesSettings__view-receipts--new-description": {
+    "messageformat": "See and share when stories are viewed. If disabled, you won't see when others view your story.",
     "description": "Label of view receipts checkbox in story settings"
   },
   "icu:StoriesSettings__view-receipts--description": {

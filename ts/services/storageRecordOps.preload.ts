@@ -1595,7 +1595,7 @@ export async function mergeAccountRecord(
       itemStorage.get('postRegistrationSyncsStatus') !== 'incomplete';
 
     if (previous !== preferContactAvatars && postRegistrationSyncsComplete) {
-      await window.ConversationController.forceRerender();
+      await window.ConversationController.rerenderAfterAvatarChange();
     }
   }
 

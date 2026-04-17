@@ -19,6 +19,7 @@ import { useGlobalModalActions } from '../ducks/globalModals.preload.ts';
 import { useStoryDistributionListsActions } from '../ducks/storyDistributionLists.preload.ts';
 import { useStoriesActions } from '../ducks/stories.preload.ts';
 import { useConversationsActions } from '../ducks/conversations.preload.ts';
+import { useItemsActions } from '../ducks/items.preload.ts';
 
 export const SmartStoriesSettingsModal = memo(
   function SmartStoriesSettingsModal() {
@@ -35,10 +36,16 @@ export const SmartStoriesSettingsModal = memo(
       updateStoryViewers,
     } = useStoryDistributionListsActions();
     const { toggleGroupsForStorySend } = useConversationsActions();
+    const { putItem } = useItemsActions();
 
     const signalConnections = useSelector(getAllSignalConnections);
     const getPreferredBadge = useSelector(getPreferredBadgeSelector);
     const storyViewReceiptsEnabled = useSelector(getHasStoryViewReceiptSetting);
+    const onStoryViewReceiptsChange = (value: boolean) => {
+      putItem('storyViewReceiptsEnabled', value);
+      const account = window.ConversationController.getOurConversationOrThrow();
+      account.captureChange('storyViewReceiptsEnabled');
+    };
     const i18n = useSelector(getIntl);
     const me = useSelector(getMe);
     const candidateConversations = useSelector(getCandidateContactsForNewGroup);
@@ -68,6 +75,7 @@ export const SmartStoriesSettingsModal = memo(
         onRemoveMembers={removeMembersFromDistributionList}
         onRepliesNReactionsChanged={allowsRepliesChanged}
         onViewersUpdated={updateStoryViewers}
+        onStoryViewReceiptsChange={onStoryViewReceiptsChange}
         setMyStoriesToAllSignalConnections={setMyStoriesToAllSignalConnections}
         storyViewReceiptsEnabled={storyViewReceiptsEnabled}
         theme={theme}

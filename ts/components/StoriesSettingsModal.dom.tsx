@@ -74,6 +74,7 @@ export type PropsType = {
     listId: string,
     allowsReplies: boolean
   ) => unknown;
+  onStoryViewReceiptsChange: (value: boolean) => unknown;
   onViewersUpdated: (
     listId: string,
     viewerServiceIds: Array<ServiceIdString>
@@ -262,6 +263,7 @@ export function StoriesSettingsModal({
   onHideMyStoriesFrom,
   onRemoveMembers,
   onRepliesNReactionsChanged,
+  onStoryViewReceiptsChange,
   onViewersUpdated,
   setMyStoriesToAllSignalConnections,
   storyViewReceiptsEnabled,
@@ -466,13 +468,14 @@ export function StoriesSettingsModal({
         <hr className="StoriesSettingsModal__divider" />
 
         <Checkbox
-          disabled
           checked={storyViewReceiptsEnabled}
-          description={i18n('icu:StoriesSettings__view-receipts--description')}
+          description={i18n(
+            'icu:StoriesSettings__view-receipts--new-description'
+          )}
           label={i18n('icu:StoriesSettings__view-receipts--label')}
           moduleClassName="StoriesSettingsModal__checkbox"
           name="view-receipts"
-          onChange={noop}
+          onChange={onStoryViewReceiptsChange}
         />
 
         <div className="StoriesSettingsModal__stories-off-container">

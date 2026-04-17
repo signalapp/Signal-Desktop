@@ -49,7 +49,7 @@ describe('settings', function (this: Mocha.Suite) {
     await window.getByText('Notification content').waitFor();
 
     await window.getByRole('button', { name: 'Privacy' }).click();
-    await window.getByText('Read receipts').waitFor();
+    await window.getByText('Read receipts', { exact: true }).waitFor();
 
     await window.getByRole('button', { name: 'Data usage' }).click();
     await window.getByText('Sent media quality').waitFor();
