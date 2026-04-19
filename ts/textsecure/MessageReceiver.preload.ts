@@ -172,6 +172,7 @@ import {
   type MessageRequestResponseInfo,
   MessageRequestResponseSource,
 } from '../types/MessageRequestResponseEvent.std.js';
+import { getBobProof, setBobProof } from './pvrfBobProofStorage.preload.js';
 
 const { isBoolean, isNumber, isString, noop, omit } = lodash;
 
@@ -1070,6 +1071,7 @@ export default class MessageReceiver
             `${decrypted.length} decrypted envelopes, keeping ` +
             `${failed.length} failed envelopes.`
         );
+        log.info('decryptadncahce', decrypted, items)
 
         // Store both decrypted and failed unprocessed envelopes
         const unprocesseds: Array<UnprocessedType> = decrypted.map(
@@ -1468,6 +1470,7 @@ export default class MessageReceiver
     let inProgressMessageType = '';
     try {
       const content = Proto.Content.decode(plaintext);
+      log.info('decryptenvelope, content', content);
       if (!wasEncrypted && Bytes.isEmpty(content.decryptionErrorMessage)) {
         log.warn(
           `${logId}: dropping plaintext envelope without decryption error message`
@@ -1501,6 +1504,11 @@ export default class MessageReceiver
       isGroupV2 =
         Boolean(content.dataMessage?.groupV2) ||
         Boolean(content.storyMessage?.group);
+      if (content.dataMessage) {
+        log.info('datamessage found', content.dataMessage);
+        //this is where alice would read bob's proof then call to libsignal to compute sas
+        //assuming that the proof data is sent correctly
+      }
 
       if (
         wasEncrypted &&
@@ -1960,8 +1968,30 @@ export default class MessageReceiver
       );
       const temp = await sessionStore.getSession(protocolAddress);
       log.info('got session', temp, temp?.getBobResponse);
-      try { log.info('bob response value, z is the true sas', temp?.getBobResponse()); } catch (e) { log.error('error getting bob response', e); log.error('errorstack getting bob response', e.stack); }
-      try { log.info('VTS value', temp?.getVTS?.()); } catch (e) { log.error('error getting VTS', e); }
+      let bobResponseObject = {
+        response: null,
+        demoVts: null,
+        metadata: null
+      };
+      try { 
+        let tempResponse = temp?.getBobResponse();
+        log.info('bob response value, z is the true sas', tempResponse); 
+
+        bobResponseObject.response = tempResponse;
+        
+      } catch (e) { log.error('error getting bob response', e); log.error('errorstack getting bob response', e.stack); }
+      try { 
+        log.info('VTS value', temp?.getVTS());
+        bobResponseObject.demoVts = temp?.getVTS();
+       } catch (e) { log.error('error getting VTS', e); }
+      const deviceId = envelope.sourceDevice ?? 1;
+      const serviceId = envelope.sourceServiceId ?? 'unknown';
+      log.info('setting bob proof in memory for', serviceId, deviceId, "but deviceid faked to 1");
+      await setBobProof(serviceId, 1, JSON.stringify(bobResponseObject));
+
+      log.info('demonstrate what was save');
+      const storedBobProof = await getBobProof(serviceId, 1);
+      log.info('stored bob proof', storedBobProof);
 
       return { plaintext: this.#unpad(plaintext), wasEncrypted };
     }
@@ -2425,6 +2455,8 @@ export default class MessageReceiver
   ): Promise<void> {
     const logId = `handleDataMessage/${getEnvelopeId(envelope)}`;
     log.info(logId);
+    log.info('envelope content', envelope, JSON.stringify(envelope));
+    log.info('data message content', msg, JSON.stringify(msg));
 
     if (getStoriesBlocked() && msg.storyContext) {
       log.info(
@@ -2601,6 +2633,7 @@ export default class MessageReceiver
       this.#handleDecryptionError(envelope, content.decryptionErrorMessage);
       return;
     }
+    log.info('the content is ', content, JSON.stringify(content));
     if (content.syncMessage) {
       await this.#handleSyncMessage(
         envelope,
