@@ -5,10 +5,9 @@ import * as Bytes from '../Bytes.std.js';
 import lodash from 'lodash';
 import type { z } from 'zod';
 import { pvrfComputeZbDemo, pvrfComputeSasDemo } from '@signalapp/libsignal-client';
-
-import { createLogger } from '../logging/log.std.ts';
-import * as Errors from '../types/errors.std.ts';
-import * as LinkPreview from '../types/LinkPreview.std.ts';
+import { createLogger } from '../logging/log.std.js';
+import * as Errors from '../types/errors.std.js';
+import * as LinkPreview from '../types/LinkPreview.std.js';
 
 import { isStory } from './helpers.std.ts';
 import { getAuthor } from './sources.preload.ts';
@@ -557,7 +556,16 @@ export async function handleDataMessage(
         if (typeof strippedBody === 'string') {dataMessage.body = strippedBody;}
       }
     }*/
-
+      log.info('got datamessage in handledatamessage', dataMessage, JSON.stringify(dataMessage));
+      log.info('but we might need better', initialMessage, JSON.stringify(initialMessage));
+      log.info('orr', message, JSON.stringify(message), message.attributes, JSON.stringify(message.attributes));
+      log.info('ideally', message.attributes.dataMessage, JSON.stringify(message.attributes.dataMessage));
+      // if (dataMessage.bobProofMaybe) {
+      //   log.info(`${idLog}: PVRF demo: got bob proof in message options`, dataMessage.bobProofMaybe);
+      //   const nonce_b64 = dataMessage.bobProofMaybe;
+      //   const senderServiceId = sourceServiceId;
+      //   const senderDeviceId = message.get('sourceDevice');
+      // }
       if (typeof dataMessage.body === 'string') {
         const extracted = tryExtractPvrfPayload(dataMessage.body);
       

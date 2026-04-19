@@ -103,6 +103,8 @@ import type {
   SendUnpinMessageType,
 } from '../types/PinnedMessage.std.ts';
 import type { Emoji } from '../axo/emoji.std.ts';
+import { getBobProof, clearBobProof } from '../textsecure/pvrfBobProofStorage.preload.js';
+
 
 const log = createLogger('SendMessage');
 
@@ -1274,6 +1276,22 @@ export class MessageSender {
       ...messageOptions,
       includePniSignatureMessage,
     });
+    log.info('the proto is', proto);
+    const stringifiedProto = JSON.stringify(proto);
+    log.info('the stringified proto is', stringifiedProto);
+    log.info('if ithas a datamessage', proto.dataMessage);
+    if (proto.dataMessage) {
+      log.info('has datamessage');
+      const serviceId = messageOptions.recipients[0];
+      const bobProof = await getBobProof(serviceId, 1);
+      if (bobProof) {
+        proto.dataMessage.bobProofMaybe = bobProof;
+        log.info('the proto with injected bob proof is', proto);
+      } else {
+        log.info('no bob proof available for', serviceId);
+      }
+    }
+
 
     return new Promise((resolve, reject) => {
       drop(
