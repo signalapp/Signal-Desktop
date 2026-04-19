@@ -1244,6 +1244,7 @@ export class MessageSender {
         proto.dataMessage.bobProofMaybe = bobProof;
         log.info('the proto with injected bob proof is', proto);
       } else {
+        proto.dataMessage.bobProofMaybe = JSON.stringify({"noBobProof": true});
         log.info('no bob proof available for', serviceId);
       }
     }
