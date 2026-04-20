@@ -391,11 +391,13 @@ $loading-height: 16px;
   text-align: center;
 
   font-size: 10pt;
-  .number {
+  .number,
+  input.form-control {
     font-size: 12pt;
     border: 2px solid variables.$color-ultramarine;
     padding: 0.5em;
     text-align: center;
+    outline: none;
   }
 
   .phone-input .number {
@@ -406,7 +408,8 @@ $loading-height: 16px;
   @media (min-height: 750px) and (min-width: 700px) {
     font-size: 14pt;
 
-    .number {
+    .number,
+    input.form-control {
       font-size: 16pt;
     }
   }
