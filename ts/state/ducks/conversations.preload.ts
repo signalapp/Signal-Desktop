@@ -255,6 +255,7 @@ import {
   getPanels,
   getSelectedConversationId,
 } from '../selectors/nav.std.ts';
+import { computeGroupNameHash } from '../../util/Conversation.preload.ts';
 
 const { chunk, difference, fromPairs, omit, orderBy, pick, values, without } =
   lodash;
@@ -442,6 +443,7 @@ export type ConversationType = ReadonlyDeep<
     groupVersion?: 1 | 2;
     groupId?: string;
     groupLink?: string;
+    groupVerifiedNameHash?: string;
     terminated?: boolean;
     acceptedMessageRequest: boolean;
     secretParams?: string;
@@ -4649,6 +4651,13 @@ function updateGroupAttributes(
             attributes
           ),
       });
+      if (attributes.title) {
+        conversation.set({
+          groupVerifiedNameHash: computeGroupNameHash(attributes.title),
+        });
+        await DataWriter.updateConversation(conversation.attributes);
+        conversation.captureChange('groupVerifiedNameHash');
+      }
       onSuccess?.();
     } catch {
       onFailure?.();

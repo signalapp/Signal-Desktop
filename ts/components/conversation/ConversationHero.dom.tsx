@@ -22,7 +22,6 @@ import { AxoButton } from '../../axo/AxoButton.dom.tsx';
 export type Props = {
   about?: string;
   acceptedMessageRequest?: boolean;
-  fromOrAddedByTrustedContact?: boolean;
   groupDescription?: string;
   hasAvatar?: boolean;
   hasNickname: boolean;
@@ -30,6 +29,7 @@ export type Props = {
   hasStories?: HasStories;
   id: string;
   i18n: LocalizerType;
+  isGroupNameVerified: boolean;
   isInSystemContacts: boolean;
   isMe: boolean;
   invitesCount?: number;
@@ -58,13 +58,13 @@ export function ConversationHero({
   badge,
   color,
   conversationType,
-  fromOrAddedByTrustedContact,
   groupDescription,
   hasAvatar,
   hasNickname,
   hasProfileName,
   hasStories,
   id,
+  isGroupNameVerified,
   isInSystemContacts,
   isMe,
   invitesCount,
@@ -210,12 +210,11 @@ export function ConversationHero({
   }
 
   if (conversationType === 'group') {
-    const nameIsVerified = Boolean(fromOrAddedByTrustedContact);
     return (
       <Root>
         {avatar}
         <Title title={title} />
-        {!nameIsVerified ? (
+        {!isGroupNameVerified ? (
           <NameNotVerifiedWarning
             conversationType={conversationType}
             onClick={() => toggleProfileNameWarningModal(conversationType)}

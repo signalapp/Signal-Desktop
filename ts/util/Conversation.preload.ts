@@ -4,6 +4,8 @@
 import { DataReader, DataWriter } from '../sql/Client.preload.ts';
 import type { ConversationAttributesType } from '../model-types.d.ts';
 import { maybeDeleteAttachmentFile } from './migrations.preload.ts';
+import * as Bytes from '../Bytes.std.ts';
+import { sha256 } from '../Crypto.node.ts';
 
 async function deleteExternalFiles(
   conversation: ConversationAttributesType
@@ -32,4 +34,8 @@ export async function removeConversation(id: string): Promise<void> {
     await DataWriter._removeConversation(id);
     await deleteExternalFiles(existing);
   }
+}
+
+export function computeGroupNameHash(name: string): string {
+  return Bytes.toBase64(sha256(Bytes.fromString(name)));
 }

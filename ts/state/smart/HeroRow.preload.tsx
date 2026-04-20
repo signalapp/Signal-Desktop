@@ -1,6 +1,6 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import React, { memo, useCallback } from 'react';
+import React, { memo, useCallback, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { PanelType } from '../../types/Panels.std.ts';
 import { ConversationHero } from '../../components/conversation/ConversationHero.dom.tsx';
@@ -14,38 +14,18 @@ import {
   getPendingAvatarDownloadSelector,
 } from '../selectors/conversations.dom.ts';
 import { useSharedGroupNamesOnMount } from '../../util/sharedGroupNames.dom.ts';
-import {
-  type ConversationType,
-  useConversationsActions,
-} from '../ducks/conversations.preload.ts';
+import { useConversationsActions } from '../ducks/conversations.preload.ts';
 import { useGlobalModalActions } from '../ducks/globalModals.preload.ts';
 import { useStoriesActions } from '../ducks/stories.preload.ts';
-import { getAddedByForGroup } from '../../util/getAddedByForGroup.preload.ts';
 import { getGroupMemberships } from '../../util/getGroupMemberships.dom.ts';
 import { useNavActions } from '../ducks/nav.std.ts';
 import { tw } from '../../axo/tw.dom.tsx';
 import { isInSystemContacts } from '../../util/isInSystemContacts.std.ts';
+import { computeGroupNameHash } from '../../util/Conversation.preload.ts';
 
 type SmartHeroRowProps = Readonly<{
   id: string;
 }>;
-
-function isFromOrAddedByTrustedContact(
-  conversation: ConversationType
-): boolean {
-  if (conversation.type === 'direct') {
-    return Boolean(conversation.name) || Boolean(conversation.profileSharing);
-  }
-
-  const addedByConv = getAddedByForGroup(conversation);
-  if (!addedByConv) {
-    return false;
-  }
-
-  return Boolean(
-    addedByConv.isMe || addedByConv.name || addedByConv.profileSharing
-  );
-}
 
 export const SmartHeroRow = memo(function SmartHeroRow({
   id,
@@ -73,8 +53,6 @@ export const SmartHeroRow = memo(function SmartHeroRow({
   const badge = getPreferredBadge(conversation.badges);
   const hasStories = hasStoriesSelector(id);
   const isSignalConversationValue = isSignalConversation(conversation);
-  const fromOrAddedByTrustedContact =
-    isFromOrAddedByTrustedContact(conversation);
   const { startAvatarDownload } = useConversationsActions();
   const { pushPanelForConversation } = useNavActions();
   const { toggleAboutContactModal, toggleProfileNameWarningModal } =
@@ -89,6 +67,7 @@ export const SmartHeroRow = memo(function SmartHeroRow({
     avatarUrl,
     color,
     groupDescription,
+    groupVerifiedNameHash,
     hasAvatar,
     isMe,
     membersCount,
@@ -96,10 +75,24 @@ export const SmartHeroRow = memo(function SmartHeroRow({
     nicknameFamilyName,
     profileName,
     title,
+    titleNoDefault,
     type,
   } = conversation;
   const invitesCount =
     pendingMemberships.length + pendingApprovalMemberships.length;
+
+  const isGroupNameVerified = useMemo(() => {
+    if (type !== 'group') {
+      return false;
+    }
+
+    if (!groupVerifiedNameHash || !titleNoDefault) {
+      return false;
+    }
+
+    return computeGroupNameHash(titleNoDefault) === groupVerifiedNameHash;
+  }, [groupVerifiedNameHash, titleNoDefault, type]);
+
   return (
     <div className={tw('mt-10 flex justify-center')}>
       <ConversationHero
@@ -109,7 +102,6 @@ export const SmartHeroRow = memo(function SmartHeroRow({
         badge={badge}
         color={color}
         conversationType={type}
-        fromOrAddedByTrustedContact={fromOrAddedByTrustedContact}
         groupDescription={groupDescription}
         hasAvatar={hasAvatar}
         hasNickname={Boolean(nicknameGivenName || nicknameFamilyName)}
@@ -120,6 +112,7 @@ export const SmartHeroRow = memo(function SmartHeroRow({
         isMe={isMe}
         invitesCount={invitesCount}
         isInSystemContacts={isInSystemContacts(conversation)}
+        isGroupNameVerified={isGroupNameVerified}
         isSignalConversation={isSignalConversationValue}
         membersCount={membersCount}
         memberships={memberships}

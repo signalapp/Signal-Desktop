@@ -137,6 +137,7 @@ import { toNumber } from './util/toNumber.std.ts';
 import Actions = Proto.GroupChange.Actions;
 import AccessRequired = Proto.AccessControl.AccessRequired;
 import MemberRole = Proto.Member.Role;
+import { computeGroupNameHash } from './util/Conversation.preload.ts';
 
 const { compact, difference, flatten, fromPairs, isNumber, omit, values } =
   lodash;
@@ -2030,6 +2031,7 @@ export async function createGroupV2(
       avatar: avatarAttribute,
       avatars,
       groupVersion: 2,
+      groupVerifiedNameHash: computeGroupNameHash(name),
       masterKey,
       profileSharing: true,
       timestamp: now,
@@ -5543,6 +5545,13 @@ async function applyGroupChange({
     const title = actions.modifyTitle.title?.content?.title;
     if (title != null) {
       result.name = title.trim();
+      if (ourAci === sourceServiceId) {
+        result.groupVerifiedNameHash = computeGroupNameHash(result.name);
+        // TODO (DESKTOP-10060)
+        window.ConversationController.get(group.id)?.captureChange(
+          'groupVerifiedNameHash'
+        );
+      }
     } else {
       log.warn(
         `applyGroupChange/${logId}: Clearing group title due to missing data.`
@@ -6238,6 +6247,10 @@ async function applyGroupState({
 
     return member;
   });
+
+  if (groupState.version === 0 && sourceServiceId === ourAci && result.name) {
+    result.groupVerifiedNameHash = computeGroupNameHash(result.name);
+  }
 
   // avatar
   result = {

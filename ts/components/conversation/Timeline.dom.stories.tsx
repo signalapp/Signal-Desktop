@@ -413,10 +413,11 @@ const renderHeroRow = () => {
         conversationType="direct"
         hasNickname={false}
         hasProfileName
-        id={getDefaultConversation().id}
         i18n={i18n}
-        isMe={false}
+        id={getDefaultConversation().id}
+        isGroupNameVerified={false}
         isInSystemContacts={false}
+        isMe={false}
         phoneNumber={getPhoneNumber()}
         profileName={getProfileName()}
         sharedGroupNames={['NYC Rock Climbers', 'Dinner Party']}
