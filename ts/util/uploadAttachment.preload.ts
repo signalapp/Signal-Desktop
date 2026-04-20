@@ -1,6 +1,7 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import { createReadStream } from 'node:fs';
+import { LibSignalErrorBase, ErrorCode } from '@signalapp/libsignal-client';
 import type {
   AttachmentType,
   AttachmentWithHydratedData,
@@ -18,7 +19,9 @@ import {
   getAttachmentUploadForm,
   createFetchForAttachmentUpload,
   putEncryptedAttachment,
+  getConfig,
 } from '../textsecure/WebAPI.preload.ts';
+import { itemStorage } from '../textsecure/Storage.preload.ts';
 import {
   type EncryptedAttachmentV2,
   encryptAttachmentV2ToDisk,
@@ -38,6 +41,7 @@ import {
   isValidPlaintextHash,
 } from '../types/Crypto.std.ts';
 import type { ExistingAttachmentUploadData } from '../sql/Interface.std.ts';
+import { maybeRefreshRemoteConfig } from '../RemoteConfig.dom.ts';
 import { assertDev } from './assert.std.ts';
 
 const CDNS_SUPPORTING_TUS = new Set([3]);
@@ -182,6 +186,17 @@ export async function encryptAndUploadAttachment({
     });
 
     return { cdnKey: uploadForm.key, cdnNumber: uploadForm.cdn, encrypted };
+  } catch (error) {
+    if (
+      error instanceof LibSignalErrorBase &&
+      error.code === ErrorCode.UploadTooLarge
+    ) {
+      await maybeRefreshRemoteConfig({
+        getConfig,
+        storage: itemStorage,
+      });
+    }
+    throw error;
   } finally {
     if (absoluteCiphertextPath) {
       await safeUnlink(absoluteCiphertextPath);
