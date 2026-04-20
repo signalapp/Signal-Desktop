@@ -2084,16 +2084,6 @@ export default class MessageReceiver
       throw new Error(`${logId}: message was falsey!`);
     }
 
-    // TODO: DESKTOP-5804
-    // oxlint-disable-next-line no-bitwise
-    if (msg.flags && msg.flags & Proto.DataMessage.Flags.END_SESSION) {
-      if (destinationServiceId) {
-        await this.#handleEndSession(envelope, destinationServiceId);
-      } else {
-        throw new Error(`${logId}: Cannot end session with falsey destination`);
-      }
-    }
-
     const message = this.#processDecrypted(envelope, msg);
 
     if (message.body && isBodyTooLong(message.body)) {
@@ -2426,7 +2416,6 @@ export default class MessageReceiver
       return;
     }
 
-    let p: Promise<void> = Promise.resolve();
     const { sourceServiceId: sourceAci } = envelope;
     if (!sourceAci) {
       throw new Error(`${logId}: sourceAci was falsey`);
@@ -2437,11 +2426,6 @@ export default class MessageReceiver
     if (this.#isInvalidGroupData(msg, envelope)) {
       this.#removeFromCache(envelope);
       return undefined;
-    }
-
-    // oxlint-disable-next-line no-bitwise
-    if (msg.flags && msg.flags & Proto.DataMessage.Flags.END_SESSION) {
-      p = this.#handleEndSession(envelope, sourceAci);
     }
 
     const { profileKey } = msg;
@@ -2472,7 +2456,6 @@ export default class MessageReceiver
 
       drop(this.#dispatchAndWait(getEnvelopeId(envelope), ev));
     }
-    await p;
 
     let type: SendTypesType = 'message';
 
@@ -4064,17 +4047,6 @@ export default class MessageReceiver
 
   #isGroupBlocked(groupId: string): boolean {
     return this.#storage.blocked.isGroupBlocked(groupId);
-  }
-
-  async #handleEndSession(
-    envelope: ProcessedEnvelope,
-    theirServiceId: ServiceIdString
-  ): Promise<void> {
-    log.info(`handleEndSession: closing sessions for ${theirServiceId}`);
-
-    logUnexpectedUrgentValue(envelope, 'resetSession');
-
-    await signalProtocolStore.archiveAllSessions(theirServiceId);
   }
 
   #processDecrypted(
