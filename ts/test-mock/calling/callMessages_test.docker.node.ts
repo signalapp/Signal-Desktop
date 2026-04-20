@@ -240,14 +240,22 @@ describe('callMessages', function callMessages(this: Mocha.Suite) {
     const window1 = await app1.getWindow();
     await startAudioCallWith(window1, bootstrap2.phone.device.aci);
 
+    // First, set to non-default audio devices and hang up...
+    await setInputAndOutput(window1, INPUT2, OUTPUT2);
+
     const window2 = await app2.getWindow();
+    await window2
+      .locator('.IncomingCallBar__button--decline')
+      .click({ timeout: 3000 });
+
+    // Then, verify that that persists across calls
+    await startAudioCallWith(window1, bootstrap2.phone.device.aci);
     await acceptAudioCall(window2);
 
     try {
-      await setInputAndOutput(window1, INPUT1, OUTPUT1);
-      await setInputAndOutput(window2, INPUT2, OUTPUT2);
+      await setInputAndOutput(window2, INPUT1, OUTPUT1);
 
-      playAudio(INPUT1, OUTPUT1, theRaven);
+      playAudio(INPUT2, OUTPUT2, theRaven);
 
       // Wait for audio levels indicator to be visible.
       await expect(
@@ -266,7 +274,7 @@ describe('callMessages', function callMessages(this: Mocha.Suite) {
       // hang up after we detect audio (or fail to)
       await hangupCall(window2);
 
-      await stopAudio(INPUT1, OUTPUT1);
+      await stopAudio(INPUT2, OUTPUT2);
 
       await awaitNoCall(window1);
       await awaitNoCall(window2);
