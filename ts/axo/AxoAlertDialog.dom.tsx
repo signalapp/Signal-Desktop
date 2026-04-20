@@ -10,6 +10,7 @@ import { AxoBaseDialog } from './_internal/AxoBaseDialog.dom.tsx';
 import { AxoScrollArea } from './AxoScrollArea.dom.tsx';
 import type { AxoSymbol } from './AxoSymbol.dom.tsx';
 import { FlexWrapDetector } from './_internal/FlexWrapDetector.dom.tsx';
+import { AxoTheme } from './AxoTheme.dom.tsx';
 
 const Namespace = 'AxoAlertDialog';
 
@@ -85,18 +86,20 @@ export namespace AxoAlertDialog {
     const handleContentEscapeEvent = useContentEscapeBehavior(props.escape);
     return (
       <AlertDialog.Portal>
-        <AlertDialog.Overlay className={AxoBaseDialog.overlayStyles}>
-          <AlertDialog.Content
-            onEscapeKeyDown={handleContentEscapeEvent}
-            className={AxoBaseDialog.contentStyles}
-            style={{
-              minWidth: 300,
-              width: 300,
-            }}
-          >
-            {props.children}
-          </AlertDialog.Content>
-        </AlertDialog.Overlay>
+        <AxoTheme.Inherit>
+          <AlertDialog.Overlay className={AxoBaseDialog.overlayStyles}>
+            <AlertDialog.Content
+              onEscapeKeyDown={handleContentEscapeEvent}
+              className={AxoBaseDialog.contentStyles}
+              style={{
+                minWidth: 300,
+                width: 300,
+              }}
+            >
+              {props.children}
+            </AlertDialog.Content>
+          </AlertDialog.Overlay>
+        </AxoTheme.Inherit>
       </AlertDialog.Portal>
     );
   });

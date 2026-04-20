@@ -11,6 +11,7 @@ import { AxoScrollArea } from './AxoScrollArea.dom.tsx';
 import { AxoButton } from './AxoButton.dom.tsx';
 import { AxoIconButton } from './AxoIconButton.dom.tsx';
 import { AxoTooltip } from './AxoTooltip.dom.tsx';
+import { AxoTheme } from './AxoTheme.dom.tsx';
 
 const Namespace = 'AxoDialog';
 
@@ -96,23 +97,25 @@ export namespace AxoDialog {
 
     return (
       <Dialog.Portal>
-        <Dialog.Overlay className={AxoBaseDialog.overlayStyles}>
-          <AxoTooltip.CollisionBoundary boundary={boundary} padding={4}>
-            <Dialog.Content
-              ref={setBoundary}
-              className={AxoBaseDialog.contentStyles}
-              onEscapeKeyDown={handleContentEscapeEvent}
-              onInteractOutside={handleContentEscapeEvent}
-              style={{
-                width: sizeConfig.width,
-                minWidth: 320,
-              }}
-              {...descriptionProps}
-            >
-              {props.children}
-            </Dialog.Content>
-          </AxoTooltip.CollisionBoundary>
-        </Dialog.Overlay>
+        <AxoTheme.Inherit>
+          <Dialog.Overlay className={AxoBaseDialog.overlayStyles}>
+            <AxoTooltip.CollisionBoundary boundary={boundary} padding={4}>
+              <Dialog.Content
+                ref={setBoundary}
+                className={AxoBaseDialog.contentStyles}
+                onEscapeKeyDown={handleContentEscapeEvent}
+                onInteractOutside={handleContentEscapeEvent}
+                style={{
+                  width: sizeConfig.width,
+                  minWidth: 320,
+                }}
+                {...descriptionProps}
+              >
+                {props.children}
+              </Dialog.Content>
+            </AxoTooltip.CollisionBoundary>
+          </Dialog.Overlay>
+        </AxoTheme.Inherit>
       </Dialog.Portal>
     );
   });
