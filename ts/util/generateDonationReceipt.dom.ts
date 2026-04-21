@@ -387,27 +387,15 @@ export async function generateDonationReceiptBlob(
 
   canvas.renderAll();
 
-  // Convert canvas to PNG blob
-  // First, get the canvas as a data URL (base64 encoded string)
-  const dataURL = canvas.toDataURL({
-    format: 'png',
-    multiplier: 1,
+  const canvasEl = canvas.getElement();
+
+  return new Promise<Blob>((resolve, reject) => {
+    canvasEl.toBlob(blob => {
+      if (blob) {
+        resolve(blob);
+      } else {
+        reject(new Error('canvasEl toBlob() failed'));
+      }
+    }, 'image/png');
   });
-
-  // Extract the base64 encoded data from the data URL
-  // Data URL format: "data:image/png;base64,iVBORw0KGgoAAAANS..."
-  const [base64Data] = dataURL.split(',');
-
-  // Decode the base64 string to binary data
-  const binaryString = atob(base64Data);
-
-  // Convert the binary string directly to a typed array
-  const byteArray = new Uint8Array(binaryString.length);
-  for (let i = 0; i < binaryString.length; i += 1) {
-    byteArray[i] = binaryString.charCodeAt(i);
-  }
-
-  const blob = new Blob([byteArray], { type: 'image/png' });
-
-  return blob;
 }
