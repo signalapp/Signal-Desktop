@@ -4,41 +4,24 @@
 import React, { useEffect } from 'react';
 import classNames from 'classnames';
 
-import type { ViewStoryActionCreatorType } from '../state/ducks/stories.preload.ts';
-import type { AppStateType } from '../state/ducks/app.preload.ts';
-import type { VerificationTransport } from '../types/VerificationTransport.std.ts';
-import { ThemeType } from '../types/Util.std.ts';
 import { AppViewType } from '../types/app.std.ts';
 import { missingCaseError } from '../util/missingCaseError.std.ts';
-import { StandaloneRegistration } from './StandaloneRegistration.dom.tsx';
 import { usePageVisibility } from '../hooks/usePageVisibility.dom.ts';
 import { TitlebarDragArea } from './TitlebarDragArea.dom.tsx';
+import { ThemeType } from '../types/Util.std.ts';
+
+import type { ViewStoryActionCreatorType } from '../state/ducks/stories.preload.ts';
+import type { AppStateType } from '../state/ducks/app.preload.ts';
 
 type PropsType = {
   state: AppStateType;
-  openInbox: () => void;
-  getCaptchaToken: () => Promise<string>;
-  registerSingleDevice: (
-    number: string,
-    code: string,
-    sessionId: string
-  ) => Promise<void>;
-  uploadProfile: (opts: {
-    firstName: string;
-    lastName: string;
-  }) => Promise<void>;
   renderCallManager: () => React.JSX.Element;
   renderGlobalModalContainer: () => React.JSX.Element;
   hasSelectedStoryData: boolean;
-  readyForUpdates: () => void;
+  renderStandaloneRegistration: () => React.JSX.Element;
   renderStoryViewer: (closeView: () => unknown) => React.JSX.Element;
   renderInstallScreen: () => React.JSX.Element;
   renderLightbox: () => React.JSX.Element | null;
-  requestVerification: (
-    number: string,
-    captcha: string,
-    transport: VerificationTransport
-  ) => Promise<{ sessionId: string }>;
   theme: ThemeType;
   isMaximized: boolean;
   isFullScreen: boolean;
@@ -51,23 +34,18 @@ type PropsType = {
 
 export function App({
   state,
-  getCaptchaToken,
   hasSelectedStoryData,
   isFullScreen,
   isMaximized,
-  openInbox,
   osClassName,
-  readyForUpdates,
-  registerSingleDevice,
   renderCallManager,
   renderGlobalModalContainer,
   renderInbox,
   renderInstallScreen,
   renderLightbox,
+  renderStandaloneRegistration,
   renderStoryViewer,
-  requestVerification,
   theme,
-  uploadProfile,
   viewStory,
 }: PropsType): React.JSX.Element {
   let contents;
@@ -75,20 +53,7 @@ export function App({
   if (state.appView === AppViewType.Installer) {
     contents = renderInstallScreen();
   } else if (state.appView === AppViewType.Standalone) {
-    const onComplete = () => {
-      window.IPC.removeSetupMenuItems();
-      openInbox();
-    };
-    contents = (
-      <StandaloneRegistration
-        onComplete={onComplete}
-        getCaptchaToken={getCaptchaToken}
-        readyForUpdates={readyForUpdates}
-        requestVerification={requestVerification}
-        registerSingleDevice={registerSingleDevice}
-        uploadProfile={uploadProfile}
-      />
-    );
+    contents = renderStandaloneRegistration();
   } else if (state.appView === AppViewType.Inbox) {
     contents = renderInbox();
   } else if (state.appView === AppViewType.Blank) {
