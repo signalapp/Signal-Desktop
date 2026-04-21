@@ -222,6 +222,12 @@ describe('util/CollapseSets', () => {
             targetSentTimestamp: yesterday,
           },
         },
+        {
+          ...getDefaultMessage('unused'),
+          type: 'verified-change' as const,
+          verified: true,
+          verifiedChanged: generateAci(),
+        },
         // From here on, they should not be included
         {
           ...getDefaultMessage('unused'),
@@ -269,10 +275,6 @@ describe('util/CollapseSets', () => {
         {
           ...getDefaultMessage('unused'),
           type: 'title-transition-notification' as const,
-        },
-        {
-          ...getDefaultMessage('unused'),
-          type: 'verified-change' as const,
         },
         {
           ...getDefaultMessage('unused'),
@@ -373,17 +375,19 @@ describe('util/CollapseSets', () => {
               extraItems: undefined,
               atDateBoundary: false,
             },
+            {
+              id: 'id11',
+              isUnseen: false,
+              extraItems: undefined,
+              atDateBoundary: false,
+            },
+            {
+              id: 'id12',
+              isUnseen: false,
+              extraItems: undefined,
+              atDateBoundary: false,
+            },
           ],
-        },
-        {
-          id: 'id11',
-          type: 'none',
-          messages: undefined,
-        },
-        {
-          id: 'id12',
-          type: 'none',
-          messages: undefined,
         },
         {
           id: 'id13',
