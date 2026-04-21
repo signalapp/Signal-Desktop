@@ -72,7 +72,7 @@ const defaults = {
   plugins: [
     {
       name: 'NODE_ENV',
-      async transform(code, id) {
+      transform(code, id) {
         if (id.endsWith('.json')) {
           return;
         }
@@ -82,13 +82,12 @@ const defaults = {
           return;
         }
 
-        const { code: newCode } = await transform(id, code, {
+        return transform(id, code, {
           define: {
             'process.env.NODE_ENV': isProd ? '"production"' : '"development"',
           },
+          sourcemap: !isProd,
         });
-
-        return { code: newCode };
       },
     },
   ],
@@ -100,6 +99,28 @@ const defaults = {
     chunkFileNames: 'chunks/[name]-[hash].js',
     generatedCode: {
       symbols: false,
+    },
+    sourcemap: !isProd,
+    sourcemapBaseUrl: 'bundles:///',
+    postBanner: ({ fileName }) => {
+      // See preload.wrapper.ts
+      if (fileName === 'preload/main.js') {
+        return '(function(require, __dirname, exports){';
+      }
+
+      return '';
+    },
+    postFooter: ({ fileName }) => {
+      const lines = new Array<string>();
+
+      // See preload.wrapper.ts
+      if (fileName === 'preload/main.js') {
+        lines.push('})');
+      }
+
+      lines.push(`//# sourceURL=bundles:///${fileName}`);
+
+      return lines.join('\n');
     },
   },
   watch: {

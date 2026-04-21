@@ -23,7 +23,7 @@ try {
   }
 }
 
-const source = readFileSync(srcPath);
+const source = readFileSync(srcPath, 'utf8');
 
 window.preloadCompileStartTime = Date.now();
 
@@ -38,27 +38,22 @@ window.preloadCompileStartTime = Date.now();
 // path-independent value for reproducibility, and otherwise use full absolute
 // path in the packaged app.
 const filename = process.env.GENERATE_PRELOAD_CACHE
-  ? 'preload.bundle.js'
+  ? 'bundles/preload/main.js'
   : srcPath;
 
-const script = new Script(
-  `(function(require, __dirname, exports){${source.toString()}})`,
-  {
-    filename,
-    lineOffset: 0,
-    cachedData,
-    importModuleDynamically: constants.USE_MAIN_CONTEXT_DEFAULT_LOADER,
-  }
-);
+// Note: we wrap with (function(require, __dirname, exports){}) in
+// `rolldown.config.ts` to preserve correct offsets in the sourcemap.
+const script = new Script(source, {
+  filename,
+  lineOffset: 0,
+  cachedData,
+  importModuleDynamically: constants.USE_MAIN_CONTEXT_DEFAULT_LOADER,
+});
 
 const { cachedDataRejected } = script;
 
 const fn = script.runInThisContext({
-  filename,
-  lineOffset: 0,
-  columnOffset: 0,
   displayErrors: true,
-  importModuleDynamically: constants.USE_MAIN_CONTEXT_DEFAULT_LOADER,
 });
 
 // See `scripts/generate-preload-cache.mjs`

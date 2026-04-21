@@ -86,6 +86,7 @@ import { SystemTraySettingCache } from './SystemTraySettingCache.node.ts';
 import { OptionalResourceService } from './OptionalResourceService.main.ts';
 import { EmojiService } from './EmojiService.main.ts';
 import { AssetService } from './AssetService.main.ts';
+import * as DevelopmentService from './DevelopmentService.main.ts';
 import {
   SystemTraySetting,
   shouldMinimizeToSystemTray,
@@ -2092,6 +2093,9 @@ app.on('ready', async () => {
   );
   await EmojiService.create(resourceService);
   AssetService.create(resourceService);
+  DevelopmentService.start({
+    isDevelopment: development && !app.isPackaged,
+  });
 
   if (!resolvedTranslationsLocale) {
     preferredSystemLocales = resolveCanonicalLocales(
