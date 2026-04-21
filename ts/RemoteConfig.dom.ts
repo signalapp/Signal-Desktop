@@ -62,6 +62,7 @@ const ScalarKeys = [
   'desktop.calling.dredDuration.beta',
   'desktop.calling.dredDuration.prod',
   'desktop.clientExpiration',
+  'desktop.heapSizeWarning',
   'desktop.internalUser',
   'desktop.loggingErrorToasts',
   'desktop.mediaQuality.levels',

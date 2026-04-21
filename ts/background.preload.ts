@@ -25,6 +25,7 @@ import type { MessageAttributesType } from './model-types.d.ts';
 import * as Bytes from './Bytes.std.ts';
 import * as Timers from './Timers.preload.ts';
 import * as indexedDb from './indexeddb.dom.ts';
+import { ToastType } from './types/Toast.dom.tsx';
 import type { MenuOptionsType } from './types/menu.std.ts';
 import { SocketStatus } from './types/SocketStatus.std.ts';
 import { DEFAULT_CONVERSATION_COLOR } from './types/Colors.std.ts';
@@ -36,11 +37,13 @@ import { deliveryReceiptQueue } from './util/deliveryReceipt.preload.ts';
 import type { ExplodePromiseResultType } from './util/explodePromise.std.ts';
 import { isWindowDragElement } from './util/isWindowDragElement.std.ts';
 import { assertDev, strictAssert } from './util/assert.std.ts';
+import { isProduction, isBeta } from './util/version.std.ts';
 import { filter } from './util/iterables.std.ts';
 import { isNotNil } from './util/isNotNil.std.ts';
 import { isAdminDeleteReceiveEnabled } from './util/isAdminDeleteEnabled.dom.ts';
 import { areRemoteBackupsTurnedOn } from './util/isBackupEnabled.preload.ts';
 import { lightSessionResetQueue } from './util/lightSessionResetQueue.std.ts';
+import { trackHeapSize } from './util/oomNotifier.node.ts';
 import { setAppLoadingScreenMessage } from './setAppLoadingScreenMessage.dom.ts';
 import { IdleDetector } from './IdleDetector.preload.ts';
 import { challengeHandler } from './services/challengeHandler.preload.ts';
@@ -1039,6 +1042,21 @@ async function startApp(): Promise<void> {
         await itemStorage.remove('backupKeyViewed');
       }
     }
+
+    trackHeapSize(() => {
+      if (isProduction(currentVersion) || isBeta(currentVersion)) {
+        // Log line is sufficient
+        return;
+      }
+
+      if (!isRemoteConfigValueEnabled('desktop.heapSizeWarning')) {
+        return;
+      }
+
+      window.reduxActions?.toast.showToast({
+        toastType: ToastType._InternalHeapSizeWarning,
+      });
+    });
 
     setAppLoadingScreenMessage(i18n('icu:optimizingApplication'), i18n);
 

@@ -313,6 +313,7 @@ const useProps = (overrideProps: OverridePropsType = {}): PropsType => {
         onUndoArchive={action('onUndoArchive')}
         retryCallQualitySurvey={action('retryCallQualitySurvey')}
         openFileInFolder={action('openFileInFolder')}
+        saveHeapSnapshot={action('saveHeapSnapshot')}
         setDidResumeDonation={action('setDidResumeDonation')}
         toast={undefined}
         megaphone={undefined}

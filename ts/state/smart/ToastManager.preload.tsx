@@ -3,6 +3,8 @@
 
 import React, { memo } from 'react';
 import { useSelector } from 'react-redux';
+import { getHeapSnapshot } from 'node:v8';
+
 import type { AnyActionableMegaphone } from '../../types/Megaphone.std.ts';
 import { MegaphoneType } from '../../types/Megaphone.std.ts';
 import { UsernameOnboardingState } from '../../types/globalModals.std.ts';
@@ -36,6 +38,8 @@ import { itemStorage } from '../../textsecure/Storage.preload.ts';
 import { getVisibleMegaphonesForDisplay } from '../selectors/megaphones.preload.ts';
 import { useMegaphonesActions } from '../ducks/megaphones.preload.ts';
 import { shouldNeverBeCalled } from '../../util/shouldNeverBeCalled.std.ts';
+import { saveAttachmentToDisk } from '../../windows/main/attachments.preload.ts';
+import * as Bytes from '../../Bytes.std.ts';
 
 export type SmartPropsType = Readonly<{
   disableMegaphone?: boolean;
@@ -45,6 +49,21 @@ export type SmartPropsType = Readonly<{
 
 function handleShowDebugLog() {
   window.IPC.showDebugLog();
+}
+
+async function saveHeapSnapshot() {
+  const stream = getHeapSnapshot();
+
+  const chunks = new Array<Uint8Array<ArrayBuffer>>();
+  for await (const chunk of stream) {
+    chunks.push(chunk);
+  }
+  const data = Bytes.concatenate(chunks);
+
+  await saveAttachmentToDisk({
+    data,
+    name: `signal-desktop-${Date.now()}.heapsnapshot`,
+  });
 }
 
 export function renderToastManagerWithoutMegaphone(props: {
@@ -131,6 +150,7 @@ export const SmartToastManager = memo(function SmartToastManager({
       onUndoArchive={onUndoArchive}
       retryCallQualitySurvey={retryCallQualitySurvey}
       openFileInFolder={openFileInFolder}
+      saveHeapSnapshot={saveHeapSnapshot}
       hideToast={hideToast}
       setDidResumeDonation={setDidResume}
       centerToast={centerToast}
