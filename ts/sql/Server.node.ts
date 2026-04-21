@@ -5583,8 +5583,6 @@ function getSortedMedia(
     // see 'isFile' in ts/util/Attachment.std.ts
     contentFilter = sqlFragment`
       message_attachments.flags IS NOT ${VOICE_MESSAGE} AND
-      message_attachments.contentType IS NOT NULL AND
-      message_attachments.contentType IS NOT '' AND
       message_attachments.contentType IS NOT 'text/x-signal-plain' AND
       message_attachments.contentType NOT LIKE 'audio/%' AND
       message_attachments.contentType NOT LIKE 'image/%' AND

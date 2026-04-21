@@ -542,10 +542,6 @@ export const isVisualMedia = (attachment: AttachmentType): boolean => {
 export const isFile = (attachment: AttachmentType): boolean => {
   const { contentType } = attachment;
 
-  if (isUndefined(contentType)) {
-    return false;
-  }
-
   if (isVisualMedia(attachment)) {
     return false;
   }
