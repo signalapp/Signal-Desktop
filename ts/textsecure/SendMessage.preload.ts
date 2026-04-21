@@ -366,21 +366,12 @@ class Message {
         throw new Error('Invalid message flags');
       }
     }
-    if (this.isEndSession()) {
-      if (this.body != null || this.attachments.length !== 0) {
-        throw new Error('Invalid end session message');
-      }
-    } else if (
+    if (
       typeof this.timestamp !== 'number' ||
       (this.body && typeof this.body !== 'string')
     ) {
       throw new Error('Invalid message body');
     }
-  }
-
-  isEndSession() {
-    // oxlint-disable-next-line no-bitwise
-    return (this.flags || 0) & Proto.DataMessage.Flags.END_SESSION;
   }
 
   toProto(): Proto.DataMessage.Params {
