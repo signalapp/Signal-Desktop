@@ -191,6 +191,10 @@ function getToast(toastType: ToastType): AnyToast {
         toastType: ToastType._InternalMainProcessLoggingError,
         parameters: { logLines: ['error1', 'error2'], count: 2 },
       };
+    case ToastType._InternalHeapSizeWarning:
+      return {
+        toastType: ToastType._InternalHeapSizeWarning,
+      };
     case ToastType.MaxAttachments:
       return { toastType: ToastType.MaxAttachments };
     case ToastType.MediaNoLongerAvailable:
@@ -343,6 +347,7 @@ export default {
     changeLocation: action('changeLocation'),
     hideToast: action('hideToast'),
     openFileInFolder: action('openFileInFolder'),
+    saveHeapSnapshot: action('saveHeapSnapshot'),
     onShowDebugLog: action('onShowDebugLog'),
     onUndoArchive: action('onUndoArchive'),
     retryCallQualitySurvey: action('retryCallQualitySurvey'),

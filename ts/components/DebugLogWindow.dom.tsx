@@ -160,6 +160,7 @@ export function DebugLogWindow({
           onUndoArchive={shouldNeverBeCalled}
           retryCallQualitySurvey={shouldNeverBeCalled}
           openFileInFolder={shouldNeverBeCalled}
+          saveHeapSnapshot={shouldNeverBeCalled}
           setDidResumeDonation={shouldNeverBeCalled}
           toast={toast}
           containerWidthBreakpoint={null}
@@ -227,6 +228,7 @@ export function DebugLogWindow({
         onUndoArchive={shouldNeverBeCalled}
         retryCallQualitySurvey={shouldNeverBeCalled}
         openFileInFolder={shouldNeverBeCalled}
+        saveHeapSnapshot={shouldNeverBeCalled}
         setDidResumeDonation={shouldNeverBeCalled}
         toast={toast}
         containerWidthBreakpoint={null}

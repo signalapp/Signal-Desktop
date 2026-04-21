@@ -137,6 +137,7 @@ import { getAppErrorIcon } from '../ts/util/getAppErrorIcon.node.ts';
 import { promptOSAuth } from '../ts/util/os/promptOSAuthMain.main.ts';
 import { appRelaunch } from '../ts/util/relaunch.main.ts';
 import { getAppRootDir } from '../ts/util/appRootDir.main.ts';
+import { trackHeapSize } from '../ts/util/oomNotifier.node.ts';
 import { sendDummyKeystroke } from './WindowsNotifications.main.ts';
 
 const { chmod, realpath, writeFile } = fsExtra;
@@ -2096,6 +2097,9 @@ app.on('ready', async () => {
   DevelopmentService.start({
     isDevelopment: development && !app.isPackaged,
   });
+
+  // ERROR-level logging is sufficient for main process.
+  trackHeapSize();
 
   if (!resolvedTranslationsLocale) {
     preferredSystemLocales = resolveCanonicalLocales(

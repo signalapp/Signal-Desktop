@@ -64,6 +64,7 @@ export enum ToastType {
   LinkCopied = 'LinkCopied',
   LoadingFullLogs = 'LoadingFullLogs',
   _InternalMainProcessLoggingError = '_InternalMainProcessLoggingError',
+  _InternalHeapSizeWarning = '_InternalHeapSizeWarning',
   MaxAttachments = 'MaxAttachments',
   MediaNoLongerAvailable = 'MediaNoLongerAvailable',
   MessageBodyTooLong = 'MessageBodyTooLong',
@@ -206,6 +207,7 @@ export type AnyToast =
       toastType: ToastType._InternalMainProcessLoggingError;
       parameters: { count: number; logLines: Array<string> };
     }
+  | { toastType: ToastType._InternalHeapSizeWarning }
   | { toastType: ToastType.MaxAttachments }
   | { toastType: ToastType.MediaNoLongerAvailable }
   | { toastType: ToastType.MessageBodyTooLong }

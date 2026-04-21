@@ -31,6 +31,7 @@ export type PropsType = {
   hideToast: () => unknown;
   i18n: LocalizerType;
   openFileInFolder: (target: string) => unknown;
+  saveHeapSnapshot: () => unknown;
   OS: string;
   onShowDebugLog: () => unknown;
   onUndoArchive: (
@@ -54,6 +55,7 @@ function renderToast({
   hideToast,
   i18n,
   openFileInFolder,
+  saveHeapSnapshot,
   onShowDebugLog,
   onUndoArchive,
   retryCallQualitySurvey,
@@ -763,6 +765,23 @@ function renderToast({
         >
           {toast.parameters.logLines.join('\n')}
         </pre>
+      </Toast>
+    );
+  }
+
+  if (toastType === ToastType._InternalHeapSizeWarning) {
+    return (
+      <Toast
+        onClose={hideToast}
+        toastAction={{
+          label: 'Save Heap Snapshot',
+          onClick: () => {
+            saveHeapSnapshot();
+          },
+        }}
+      >
+        [INTERNAL] Detected high memory usage. Please save heap snapshot
+        locally, and submit log.
       </Toast>
     );
   }
