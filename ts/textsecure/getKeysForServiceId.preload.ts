@@ -275,54 +275,23 @@ async function handleServerKeys(
           try { log.info('VTS value', temp?.getVTS?.()); } catch (e) { log.error('error getting VTS', e); }
           //try { log.info('bob response value, z is the true sas', temp?.getBobResponse()); } catch (e) { log.error('error getting bob response', e); log.error('errorstack getting bob response', e.stack); }
           const buf = temp?.getVTS?.();
-          let offset = 0;
 
-          const read32 = () => {
-            const slice = buf.slice(offset, offset + 32);
-            offset += 32;
-            return slice;
-          };
-
-          const readU32 = () => {
-            const view = new DataView(buf.buffer, buf.byteOffset + offset, 4);
-            const val = view.getUint32(0, true); // little endian
-            offset += 4;
-            return val;
-          };
-
-          const readBytes = (len: number) => {
-            const slice = buf.slice(offset, offset + len);
-            offset += len;
-            return slice;
-          };
+        
 
           // fixed-size fields
-          const A = read32();      // RistrettoPoint (compressed)
-          const B = read32();
+          try {
+          const s1 = buf.vt.tau[0]
+          const s2_1 = buf.vt.tau[1][0]
+          const s2_2 = buf.vt.tau[1][1]
 
-          const s1 = read32();     // Scalar
-          const s2_1 = read32();
-          const s2_2 = read32();
-
-          // variable-length fields
-          const bytes1Len = readU32();
-          const bytes1 = readBytes(bytes1Len);
-
-          const bytes2Len = readU32();
-          const bytes2 = readBytes(bytes2Len);
-
-          // final scalars
-          const r1 = read32();
-          const r2 = read32();
-
-          const h = A;
-          const hprime = B;
+          const h = buf.vt.h;
+          const hprime = buf.vt.hprime;
           const tau = { c: s1, s: [s2_1, s2_2] };
           const vt = { h, hprime, tau };
-          const vk = bytes1;
-          const secrets = bytes2;
-          const alpha = r1;
-          const beta = r2;
+          const vk = buf.vk;
+          const secrets = buf.x;
+          const alpha = buf.r1;
+          const beta = buf.r2;
           const vts = { vt, vk, secrets, alpha, beta };
 
 
@@ -334,6 +303,9 @@ async function handleServerKeys(
           console.log('loading what was stored');
           const stored_vts = await getLocalNonce(serviceId, deviceId, 'vts');
           console.log('stored vts', stored_vts);
+          } catch (err){
+            log.error('error parsing VTS', err, err.stack);
+          }
           // below stuff doesnt really work feel free to try
           // contextBridge.exposeInMainWorld('preKeyBundle', preKeyBundle);
           // contextBridge.exposeInMainWorld('protocolAddress', protocolAddress);
