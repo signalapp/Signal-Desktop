@@ -1,8 +1,6 @@
 // Copyright 2017 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { fabric } from 'fabric';
-import lodash from 'lodash';
 import { contextBridge } from 'electron';
 
 import { createLogger } from '../../logging/log.std.ts';
@@ -31,10 +29,7 @@ import { Environment, getEnvironment } from '../../environment.std.ts';
 import { isProduction } from '../../util/version.std.ts';
 import { benchmarkConversationOpen } from '../../CI/benchmarkConversationOpen.preload.ts';
 import { itemStorage } from '../../textsecure/Storage.preload.ts';
-import { IMAGE_PNG } from '../../types/MIME.std.ts';
 import { getSelectedConversationId } from '../../state/selectors/nav.std.ts';
-
-const { has } = lodash;
 
 const log = createLogger('start');
 
@@ -100,7 +95,7 @@ if (
       value: StorageAccessType[K]
     ) => itemStorage.put(name, value),
     setFlag: (name: keyof FeatureFlagType, value: boolean) => {
-      if (!has(window.Flags, name)) {
+      if (!Object.hasOwn(window.Flags, name)) {
         return;
       }
       window.Flags[name] = value;
@@ -120,41 +115,6 @@ if (
       }
 
       calling._iceServerOverride = override;
-    },
-    sendViewOnceImageInSelectedConversation: async () => {
-      const conversationId = getSelectedConversationId(
-        window.reduxStore.getState()
-      );
-      const conversation = window.ConversationController.get(conversationId);
-      if (!conversation) {
-        throw new Error('No conversation selected');
-      }
-
-      const canvas = new fabric.StaticCanvas(null, {
-        width: 100,
-        height: 100,
-        backgroundColor: '#3b82f6',
-      });
-      const dataURL = canvas.toDataURL({ format: 'png' });
-      const [base64Data] = dataURL.split(',');
-      const data = Uint8Array.from(atob(base64Data), c => c.charCodeAt(0));
-
-      await conversation.enqueueMessageForSend(
-        {
-          body: undefined,
-          attachments: [
-            {
-              contentType: IMAGE_PNG,
-              size: data.byteLength,
-              data,
-            },
-          ],
-          isViewOnce: true,
-        },
-        {}
-      );
-
-      log.info('Sent view-once test image');
     },
     ...(window.SignalContext.config.ciMode === 'benchmark'
       ? {
