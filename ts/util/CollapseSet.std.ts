@@ -57,11 +57,12 @@ function canCollapseForGroupSet(message: MessageType): boolean {
   const { type, groupV2Change } = message;
 
   if (
-    type === 'keychange' ||
-    type === 'profile-change' ||
-    type === 'poll-terminate' ||
     type === 'change-number-notification' ||
-    type === 'pinned-message-notification'
+    type === 'keychange' ||
+    type === 'pinned-message-notification' ||
+    type === 'poll-terminate' ||
+    type === 'profile-change' ||
+    type === 'verified-change'
   ) {
     return true;
   }
