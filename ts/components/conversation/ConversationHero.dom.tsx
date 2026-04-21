@@ -137,9 +137,7 @@ export function ConversationHero({
         {avatar}
         <Title title={i18n('icu:noteToSelf')} isMe />
         <div
-          className={tw(
-            'mt-2 text-center type-body-medium text-label-secondary'
-          )}
+          className={tw('mt-2 text-center type-body-medium text-label-primary')}
         >
           {i18n('icu:noteToSelfHero')}
         </div>
@@ -223,7 +221,7 @@ export function ConversationHero({
         ) : null}
 
         {groupDescription ? (
-          <div className={tw('mt-2 w-full text-center text-label-secondary')}>
+          <div className={tw('mt-2 w-full text-center text-label-primary')}>
             <GroupDescription
               i18n={i18n}
               title={title}
@@ -295,7 +293,7 @@ type TitleProps = {
 };
 
 const Title: React.FC<TitleProps> = props => {
-  const className = tw('mt-3 text-center text-[20px] font-medium');
+  const className = tw('mt-3 text-center text-[20px] leading-6 font-medium');
   const { onClick, title, isMe, isSignalConversation } = props;
   const contactName = (
     <ContactName
@@ -337,7 +335,7 @@ const NameNotVerifiedWarning: React.FC<{
       className={tw(
         'mt-2 rounded-3xl bg-color-fill-destructive/12 px-2.5 py-1',
         // oxlint-disable-next-line better-tailwindcss/no-restricted-classes
-        'type-body-medium font-medium text-[#C84118]'
+        'type-body-medium font-medium text-[#C84118] dark:bg-[#EB977D]/20 dark:text-[#EB977D]'
       )}
       type="button"
       onClick={ev => {
