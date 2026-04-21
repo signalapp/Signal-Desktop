@@ -419,8 +419,8 @@ importers:
         specifier: 0.7.1
         version: 0.7.1
       electron:
-        specifier: 41.2.1
-        version: 41.2.1
+        specifier: 41.2.2
+        version: 41.2.2
       electron-builder:
         specifier: 26.0.14
         version: 26.0.14(electron-builder-squirrel-windows@26.0.14)
@@ -6142,8 +6142,8 @@ packages:
     engines: {node: '>= 12.20.55'}
     hasBin: true
 
-  electron@41.2.1:
-    resolution: {integrity: sha512-teeRThiYGTPKf/2yOW7zZA1bhb91KEQ4yLBPOg7GxpmnkLFLugKgQaAKOrCgdzwsXh/5mFIfmkm+4+wACJKwaA==}
+  electron@41.2.2:
+    resolution: {integrity: sha512-3rzz/hVIpF726W9g7nleQzyF2IOEZbzZnUTUYGhMaEfsoab8fDyOYAWbdBdo4+DczS1Ifz11rdYo8IAAGcRx/g==}
     engines: {node: '>= 12.20.55'}
     hasBin: true
 
@@ -16385,7 +16385,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  electron@41.2.1:
+  electron@41.2.2:
     dependencies:
       '@electron/get': 2.0.3
       '@types/node': 24.12.0
