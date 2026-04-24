@@ -177,7 +177,8 @@ import { getBobProof, setBobProof } from './pvrfBobProofStorage.preload.js';
 
 import { toNumber } from '../util/toNumber.std.ts';
 
-const { isBoolean, isNumber, isString, noop } = lodash;
+import { getLocalNonce, setLocalNonce } from './pvrfLocalNonceStorage.preload.js';
+const { isBoolean, isNumber, isString, noop, omit } = lodash;
 
 const log = createLogger('MessageReceiver');
 
@@ -1492,6 +1493,34 @@ export default class MessageReceiver
       isGroupV2 =
         Boolean(content.content?.dataMessage?.groupV2) ||
         Boolean(content.content?.storyMessage?.group);
+      if (content.content?.dataMessage && content.content?.dataMessage.bobProofMaybe) {
+        log.info('datamessage found', content.content.dataMessage);
+        //this is where alice would read bob's proof then call to libsignal to compute sas
+        //assuming that the proof data is sent correctly
+        const serviceId = envelope.sourceServiceId;
+        const deviceId = envelope.sourceDevice;
+        const vts = await getLocalNonce(serviceId, deviceId, 'vts');
+        const bob = JSON.parse(content.content.dataMessage.bobProofMaybe);
+        console.log('the stored vts', vts);
+        console.log('the bob proof', bob);
+        //the vts and bobproof are objects/dicts of the human-readable values (not bytes)
+        //for pvrfverify as it is right now, they need to be broken back down in to the byte array
+        //or we can try to make pvrfverify work with the stuff in the objets
+        /*
+
+        */
+        if (vts && bob) {
+      
+          const result = pvrfVerify(vts, bob);
+          console.log('VERIFY:', result.ok);
+
+          if (result.ok) {
+            console.log('SAS/debug z:', result.z);
+            log.info('PVRF SAS/debug z:', Bytes.toBase64(result.z));
+          }
+
+        }
+      }
 
       if (
         wasEncrypted &&
@@ -1983,18 +2012,6 @@ export default class MessageReceiver
       try { 
         log.info('VTS value', temp?.getVTS());
         bobResponseObject.demoVts = temp?.getVTS();
-        const vts = temp?.getVTS();
-        const bob = temp?.getBobResponse();
-        if (vts && bob) {
-          const result = pvrfVerify(vts, bob);
-          console.log('VERIFY:', result.ok);
-
-          if (result.ok) {
-            console.log('SAS/debug z:', result.z);
-            log.info('PVRF SAS/debug z:', Bytes.toBase64(result.z));
-          }
-
-        }
        } catch (e) { log.error('error getting VTS', e); }
       const deviceId = envelope.sourceDevice ?? 1;
       const serviceId = envelope.sourceServiceId ?? 'unknown';
