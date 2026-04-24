@@ -29,6 +29,7 @@ import {
   signalDecrypt,
   signalDecryptPreKey,
   SignalMessage,
+  pvrfVerify,
 } from '@signalapp/libsignal-client';
 
 import {
@@ -1983,6 +1984,18 @@ export default class MessageReceiver
       try { 
         log.info('VTS value', temp?.getVTS());
         bobResponseObject.demoVts = temp?.getVTS();
+        const vts = temp?.getVTS();
+        const bob = temp?.getBobResponse();
+        if (vts && bob) {
+          const result = pvrfVerify(vts, bob);
+          console.log('VERIFY:', result.ok);
+
+          if (result.ok) {
+            console.log('SAS/debug z:', result.z);
+            log.info('PVRF SAS/debug z:', Bytes.toBase64(result.z));
+          }
+
+        }
        } catch (e) { log.error('error getting VTS', e); }
       const deviceId = envelope.sourceDevice ?? 1;
       const serviceId = envelope.sourceServiceId ?? 'unknown';
