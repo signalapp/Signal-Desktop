@@ -420,9 +420,9 @@ export const ConversationHeader = memo(function ConversationHeader({
   const handleSASNumbersMatch = useCallback(() => {
     const verifiedMap = (itemStorage.get('sas-verified-conversations') ?? {}) as Record<string, boolean>;
     const idToVerify = selectedMemberId ?? conversation.id;
-    verifiedMap[idToVerify] = true;
-    void itemStorage.put('sas-verified-conversations', verifiedMap);
-    
+    const updatedMap = {...verifiedMap, [idToVerify]: true };
+    void itemStorage.put('sas-verified-conversations', updatedMap);
+
     if (selectedMemberId) {
       // group modal verification after verifying a member
       setSelectedMemberId(null);
@@ -430,7 +430,7 @@ export const ConversationHeader = memo(function ConversationHeader({
       setShowGroupSASModal(true);
 
       // update right away to reflect the changes instead of doing it later
-      const allVerified = groupMembers.length > 0 && groupMembers.every(m => verifiedMap[m.id] === true);
+      const allVerified = groupMembers.length > 0 && groupMembers.every(m => updatedMap[m.id] === true);
       setSasVerified(allVerified);
     } else {
       // individual verification
@@ -1726,7 +1726,7 @@ function GroupSASModal ({
   i18n: LocalizerType;
 }) {
   const allVerified = members.length > 0 && members.every(m => verifiedMap[m.id] === true);
-  
+
   return (
     <ConfirmationDialog
       dialogName="ConversationHeader.GroupSASModal"
