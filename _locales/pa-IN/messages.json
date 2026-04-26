@@ -3048,7 +3048,7 @@
     "messageformat": "ਇੱਕ-ਵਾਰ ਦੇਖੇ ਜਾ ਸਕਣ ਵਾਲੇ ਸੁਨੇਹੇ ਤੁਹਾਡੀ ਪੁਰਾਣੀ ਚੈਟ ਵਿੱਚ ਸਟੋਰ ਨਹੀਂ ਕੀਤੇ ਜਾਣਗੇ।"
   },
   "icu:Message--tap-to-view--outgoing--expired-toast-2": {
-    "messageformat": "View-once media is deleted after sending"
+    "messageformat": "ਭੇਜਣ ਤੋਂ ਬਾਅਦ ਇੱਕ ਵਾਰ ਦੇਖਿਆ ਜਾ ਸਕਣ ਵਾਲਾ ਮੀਡੀਆ ਮਿਟਾ ਦਿੱਤਾ ਜਾਂਦਾ ਹੈ"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "ਇੱਕ ਵਾਰ ਦੇਖੀ ਜਾ ਸਕਣ ਵਾਲੀ ਵੀਡੀਓ"
@@ -4893,7 +4893,7 @@
     "messageformat": "ਗਰੁੱਪ ਉੱਤੋਂ ਪਾਬੰਦੀ ਹਟਾਓ"
   },
   "icu:ConversationDetailsActions--report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "ਸਪੈਮ ਦੀ ਰਿਪੋਰਟ ਕਰੋ"
   },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "ਚੈਟ ਆਰਕਾਈਵ ਕਰੋ"
@@ -4947,19 +4947,19 @@
     "messageformat": "ਪਾਬੰਦੀ ਹਟਾਓ"
   },
   "icu:ConversationDetailsActions--report-spam-modal-title": {
-    "messageformat": "Report spam?"
+    "messageformat": "ਕੀ ਸਪੈਮ ਦੀ ਰਿਪੋਰਟ ਕਰਨੀ ਹੈ?"
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
-    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+    "messageformat": "Signal ਨੂੰ ਸੂਚਿਤ ਕੀਤਾ ਜਾਵੇਗਾ ਕਿ ਇਹ ਵਿਅਕਤੀ ਸ਼ਾਇਦ ਸਪੈਮ ਭੇਜ ਰਿਹਾ ਹੈ। Signal ਕਿਸੇ ਵੀ ਚੈਟ ਦੀ ਸਮੱਗਰੀ ਨੂੰ ਨਹੀਂ ਦੇਖ ਸਕਦਾ ਹੈ।"
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-group": {
-    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+    "messageformat": "Signal ਨੂੰ ਸੂਚਿਤ ਕੀਤਾ ਜਾਵੇਗਾ ਕਿ ਜਿਸ ਵਿਅਕਤੀ ਨੇ ਤੁਹਾਨੂੰ ਇਸ ਗਰੁੱਪ ਵਿੱਚ ਸ਼ਾਮਲ ਹੋਣ ਦਾ ਸੱਦਾ ਦਿੱਤਾ ਸੀ ਉਹ ਸ਼ਾਇਦ ਸਪੈਮ ਭੇਜ ਰਹੇ ਹਨ। Signal ਕਿਸੇ ਵੀ ਚੈਟ ਦੀ ਸਮੱਗਰੀ ਨੂੰ ਨਹੀਂ ਦੇਖ ਸਕਦਾ ਹੈ।"
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "ਸਪੈਮ ਦੀ ਰਿਪੋਰਟ ਕਰੋ"
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
-    "messageformat": "Report and block"
+    "messageformat": "ਰਿਪੋਰਟ ਕਰੋ ਅਤੇ ਪਾਬੰਦੀ ਲਗਾਓ"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} ਮੈਂਬਰ} other {{number,number} ਮੈਂਬਰ}}"

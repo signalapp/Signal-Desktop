@@ -3048,7 +3048,7 @@
     "messageformat": "တစ်ကြိမ်ကြည့် မက်ဆေ့ချ်များကို သင့်ချက်(တ်)မှတ်တမ်းတွင် မသိမ်းဆည်းပါ။"
   },
   "icu:Message--tap-to-view--outgoing--expired-toast-2": {
-    "messageformat": "View-once media is deleted after sending"
+    "messageformat": "တစ်ကြိမ်ကြည့် မီဒီယာကို ပေးပို့ပြီးနောက် ပြန်ဖျက်သည်"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "တစ်ခါကြည့် ဗီဒီယို"
@@ -4893,7 +4893,7 @@
     "messageformat": "အဖွဲ့ကို ဘလော့ခ်ဖြေရန်"
   },
   "icu:ConversationDetailsActions--report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "လိမ်လည်မှုအဖြစ် ရီပို့(တ်)လုပ်မည်"
   },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "ချက်(တ်)ကို စုစည်းရန်"
@@ -4947,19 +4947,19 @@
     "messageformat": "ဘလော့ခ်ဖြေရန်"
   },
   "icu:ConversationDetailsActions--report-spam-modal-title": {
-    "messageformat": "Report spam?"
+    "messageformat": "လိမ်လည်မှုအဖြစ် ရီပို့(တ်)လုပ်မည်လား။"
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
-    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+    "messageformat": "ဤပုဂ္ဂိုလ်သည် လိမ်လည်ရန် စာပို့နေခြင်း ဖြစ်နိုင်ကြောင်း Signal ထံ အကြောင်းကြားပါမည်။ Signal သည် မည်သည့်ချက်(တ်)၏ အကြောင်းအရာကိုမျှ မမြင်နိုင်ပါ။"
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-group": {
-    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+    "messageformat": "ဤအဖွဲ့သို့ သင့်ကို ဖိတ်ခေါ်ခဲ့သူသည် လိမ်လည်ရန် စာပို့နေခြင်း ဖြစ်နိုင်ကြောင်း Signal ထံ အကြောင်းကြားပါမည်။ Signal သည် မည်သည့်ချက်(တ်)၏ အကြောင်းအရာကိုမျှ မမြင်နိုင်ပါ။"
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "လိမ်လည်မှုအဖြစ် ရီပို့(တ်)လုပ်မည်"
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
-    "messageformat": "Report and block"
+    "messageformat": "ရီပို့(တ်) လုပ်ပြီး ဘလော့ခ်မည်"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, other {မန်ဘာ {number,number} ဦး}}"

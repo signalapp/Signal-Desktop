@@ -3048,7 +3048,7 @@
     "messageformat": "একবার দেখার উপযোগী ম্যাসেজ আপনার চ্যাট-এর ইতিহাসে সংরক্ষিত হয় না।"
   },
   "icu:Message--tap-to-view--outgoing--expired-toast-2": {
-    "messageformat": "View-once media is deleted after sending"
+    "messageformat": "'শুধুমাত্র-একবার-দেখা-যাবে' এমন মিডিয়া ফাইল পাঠানোর পর মুছে ফেলা হয়"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "একবার দেখা যাবে এমন ভিডিও"
@@ -4893,7 +4893,7 @@
     "messageformat": "গ্রুপটি আনব্লক করুন"
   },
   "icu:ConversationDetailsActions--report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "স্প্যাম রিপোর্ট করা হয়েছে"
   },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "চ্যাট আর্কাইভ করুন"
@@ -4947,19 +4947,19 @@
     "messageformat": "আনব্লক করুন"
   },
   "icu:ConversationDetailsActions--report-spam-modal-title": {
-    "messageformat": "Report spam?"
+    "messageformat": "স্প্যাম হিসেবে রিপোর্ট করবেন?"
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
-    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+    "messageformat": "Signal-কে জানানো হবে যে এই ব্যক্তি সম্ভবত স্প্যাম মেসেজ পাঠাচ্ছেন। Signal কোনো চ্যাটের কন্টেন্ট দেখতে পারে না।"
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-group": {
-    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+    "messageformat": "Signal-কে জানানো হবে যে যেই ব্যক্তি আপনাকে গ্ৰুপটিতে আমন্ত্রণ করেছেন তিনি সম্ভবত স্প্যাম মেসেজ পাঠাচ্ছেন। Signal কোনো চ্যাটের কন্টেন্ট দেখতে পারে না।"
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "স্প্যাম রিপোর্ট করা হয়েছে"
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
-    "messageformat": "Report and block"
+    "messageformat": "রিপোর্ট করুন এবং ব্লক করুন"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} জন সদস্য} other {{number,number} জন সদস্য}}"

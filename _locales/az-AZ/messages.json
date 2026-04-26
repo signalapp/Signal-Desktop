@@ -3048,7 +3048,7 @@
     "messageformat": "Birdəfəlik mesajlar çat tarixçənizdə saxlanmır."
   },
   "icu:Message--tap-to-view--outgoing--expired-toast-2": {
-    "messageformat": "View-once media is deleted after sending"
+    "messageformat": "Bir dəfə göstərilən media faylı göndərişdən sonra silindi"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "Bir dəfə baxıla bilən video"
@@ -4893,7 +4893,7 @@
     "messageformat": "Qrupu blokdan çıxart"
   },
   "icu:ConversationDetailsActions--report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "Spam şikayəti et"
   },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "Çatı arxivləşdir"
@@ -4947,19 +4947,19 @@
     "messageformat": "Blokdan çıxart"
   },
   "icu:ConversationDetailsActions--report-spam-modal-title": {
-    "messageformat": "Report spam?"
+    "messageformat": "Spam şikayəti edilsin?"
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
-    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+    "messageformat": "Bu şəxsin spam göndərmə ehtimalı haqqında Signal bildiriş alacaq. Signal çatların məzmununu görə bilmir."
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-group": {
-    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+    "messageformat": "Sizi bu qrupa dəvət edən şəxsin spam göndərmə ehtimalı haqqında Signal bildiriş alacaq. Signal heç bir çatın məzmununu görə bilmir."
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "Spam şikayəti et"
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
-    "messageformat": "Report and block"
+    "messageformat": "Şikayət et və blokla"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} üzv} other {{number,number} üzv}}"

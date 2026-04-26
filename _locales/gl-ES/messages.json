@@ -3048,7 +3048,7 @@
     "messageformat": "As mensaxes temporais non se almacenan no teu historial da conversa."
   },
   "icu:Message--tap-to-view--outgoing--expired-toast-2": {
-    "messageformat": "View-once media is deleted after sending"
+    "messageformat": "O contido multimedia dunha soa visualización elimínase despois do seu envío"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "Vídeo dunha soa visualización"
@@ -4893,7 +4893,7 @@
     "messageformat": "Desbloquear grupo"
   },
   "icu:ConversationDetailsActions--report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "Denunciar correo lixo"
   },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "Arquivar conversa"
@@ -4947,19 +4947,19 @@
     "messageformat": "Desbloquear"
   },
   "icu:ConversationDetailsActions--report-spam-modal-title": {
-    "messageformat": "Report spam?"
+    "messageformat": "Denunciar correo lixo?"
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
-    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+    "messageformat": "Enviarase un aviso a Signal no que se informará de que esta persoa pode estar a enviar correo lixo. Signal non pode ler o contido de ningunha conversa."
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-group": {
-    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+    "messageformat": "Enviarase un aviso a Signal no que se informará de que a persoa que che convidou a este grupo pode estar a enviar correo lixo. Signal non pode ler o contido de ningunha conversa."
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "Denunciar correo lixo"
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
-    "messageformat": "Report and block"
+    "messageformat": "Denunciar e bloquear"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} membro} other {{number,number} membros}}"

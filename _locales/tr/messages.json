@@ -3048,7 +3048,7 @@
     "messageformat": "Bir kez görüntülenebilen mesajlar sohbet geçmişinde saklanmaz."
   },
   "icu:Message--tap-to-view--outgoing--expired-toast-2": {
-    "messageformat": "View-once media is deleted after sending"
+    "messageformat": "Bir kez görünür medya, gönderildikten sonra silinir"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "Tek Seferlik Video"
@@ -4893,7 +4893,7 @@
     "messageformat": "Grubun engelini kaldır"
   },
   "icu:ConversationDetailsActions--report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "Spam bildir"
   },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "Sohbeti arşivle"
@@ -4947,19 +4947,19 @@
     "messageformat": "Engeli kaldır"
   },
   "icu:ConversationDetailsActions--report-spam-modal-title": {
-    "messageformat": "Report spam?"
+    "messageformat": "Spam bildirilsin mi?"
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
-    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+    "messageformat": "Signal, bu kişinin spam gönderiyor olabileceği konusunda bilgilendirilecektir. Signal hiçbir sohbetin içeriğini göremez."
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-group": {
-    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+    "messageformat": "Signal, seni bu gruba davet eden kişinin spam gönderiyor olabileceği konusunda bilgilendirilecektir. Signal hiçbir sohbetin içeriğini göremez."
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "Spam bildir"
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
-    "messageformat": "Report and block"
+    "messageformat": "Bildir ve engelle"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} üye} other {{number,number} üye}}"

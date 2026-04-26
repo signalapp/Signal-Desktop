@@ -2568,7 +2568,7 @@
     "messageformat": "{dayCount, plural, one {{dayCount,number} jour} other {{dayCount,number} jours}}"
   },
   "icu:collapsedChatUpdates": {
-    "messageformat": "{count, plural, one {{count,number} mise à jour de conversation} other {{count,number} mises à jour de conversation}}"
+    "messageformat": "{count, plural, one {{count,number} mise à jour de la conversation} other {{count,number} mises à jour de la conversation}}"
   },
   "icu:collapsedTimerChanges": {
     "messageformat": "{count, plural, one {{count,number} modification du délai avant disparition des messages éphémères · {endingState}} other {{count,number} modifications du délai avant disparition des messages éphémères · {endingState}}}"
@@ -3048,7 +3048,7 @@
     "messageformat": "Les messages éphémères ne sont pas conservés dans l'historique des conversations."
   },
   "icu:Message--tap-to-view--outgoing--expired-toast-2": {
-    "messageformat": "View-once media is deleted after sending"
+    "messageformat": "Une fois envoyés, les médias à vue unique sont supprimés."
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "Vidéo à vue unique"
@@ -4893,7 +4893,7 @@
     "messageformat": "Débloquer le groupe"
   },
   "icu:ConversationDetailsActions--report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "Signaler comme spam"
   },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "Archiver la conversation"
@@ -4947,19 +4947,19 @@
     "messageformat": "Débloquer"
   },
   "icu:ConversationDetailsActions--report-spam-modal-title": {
-    "messageformat": "Report spam?"
+    "messageformat": "Signaler comme spam ?"
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
-    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+    "messageformat": "Signal sera informé que cette personne envoie peut-être des spams. Nous n’avons cependant jamais accès au contenu des conversations."
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-group": {
-    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+    "messageformat": "Signal sera informé que la personne qui vous a invité à rejoindre ce groupe envoie peut-être des spams. Nous n'avons cependant jamais accès au contenu des conversations."
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "Signaler comme spam"
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
-    "messageformat": "Report and block"
+    "messageformat": "Signaler et bloquer"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} membre} other {{number,number} membres}}"

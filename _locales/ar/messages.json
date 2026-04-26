@@ -2559,7 +2559,7 @@
     "messageformat": "قُمتَ بتحديث المجموعة."
   },
   "icu:collapsedGroupUpdates": {
-    "messageformat": "{count, plural, zero {{count,number} تحديثات للمجموعة} one {{count,number} تحديث للمجموعة} two {{count,number} تحديثان للمجموعة} few {{count,number} تحديثات للمجموعة} many {{count,number} تحديث للمجموعة} other {{count,number} تحديث للمجموعة}}"
+    "messageformat": "{count, plural, zero {{count,number} تحديثات للمجموعة} one {{count,number} تحديث للمجموعة} two {{count,number} تحديثان للمجموعة} few {{count,number} تحديثات للمجموعة} many {{count,number} تحديثًا للمجموعة} other {{count,number} تحديثٍ للمجموعة}}"
   },
   "icu:multidayCollapse__container": {
     "messageformat": "{containerDescription} · {dayCountSummary}"
@@ -3048,7 +3048,7 @@
     "messageformat": "لن تُحفَظ رسائل العرض لمرّة واحدة في سجل الدردشة لديك."
   },
   "icu:Message--tap-to-view--outgoing--expired-toast-2": {
-    "messageformat": "View-once media is deleted after sending"
+    "messageformat": "تُحذف \"ملفات وسائط العرض لِمرّة واحدة\" بعد الإرسال."
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "فيديو للمشاهدة مرّة واحدة"
@@ -3411,7 +3411,7 @@
     "messageformat": "الإبلاغ…"
   },
   "icu:MessageRequests--ReportAndMaybeBlockModal-title": {
-    "messageformat": "هل تريد الإبلاغ عنها؟"
+    "messageformat": "هل تريد الإبلاغ عن جهة الاتصال؟"
   },
   "icu:MessageRequests--ReportAndMaybeBlockModal-body--direct": {
     "messageformat": "سَيتمُّ إشعار سيجنال أن هذا الشخص قد يكون يرسِل رسائل غير مرغوب فيها. لا يُمكن لسيجنال رؤية محتوى أي دردشات."
@@ -3432,7 +3432,7 @@
     "messageformat": "قبلتَ طلب مراسلة من {name}. إذا حدث هذا عن طريق الخطأ، يمكنك اختيار إجراء ممّا يلي."
   },
   "icu:MessageRequests--report-spam-success-toast": {
-    "messageformat": "تمَّ الإبلاغ عنه."
+    "messageformat": "تمَّ الإبلاغ عن جهة الاتصال."
   },
   "icu:MessageRequests--delete": {
     "messageformat": "حذف"
@@ -3507,7 +3507,7 @@
     "messageformat": "{remainingCount, plural, zero {{member1} و{member2} و{member3} و<clickable>{remainingCount,number} آخرين</clickable>} one {{member1} و{member2} و{member3} و<clickable>{remainingCount,number} آخر</clickable>} two {{member1} و{member2} و{member3} و<clickable>{remainingCount,number} آخريْن</clickable>} few {{member1} و{member2} و{member3} و<clickable>{remainingCount,number} آخرين</clickable>} many {{member1} و{member2} و{member3} و<clickable>{remainingCount,number} آخرين</clickable>} other {{member1} و{member2} و{member3} و<clickable>{remainingCount,number} آخرين</clickable>}}"
   },
   "icu:ConversationHero--review-carefully": {
-    "messageformat": "مراجعة بحذر"
+    "messageformat": "راجِع بحذر"
   },
   "icu:ConversationHero--group-names": {
     "messageformat": "<clickable>أسماء المجموعات</clickable> غير خاضعة لعملية التحقُّق"
@@ -4893,7 +4893,7 @@
     "messageformat": "رفع حَظر المجموعة"
   },
   "icu:ConversationDetailsActions--report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "الإبلاغ"
   },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "أرشفة الدردشة"
@@ -4947,19 +4947,19 @@
     "messageformat": "رفع الحظر"
   },
   "icu:ConversationDetailsActions--report-spam-modal-title": {
-    "messageformat": "Report spam?"
+    "messageformat": "هل ترغبُ بالإبلاغ؟"
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
-    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+    "messageformat": "سَيتم إشعار سيجنال أن هذا الشخص قد يكون أرسل رسائل غير مرغوب فيها. لا يُمكن لسيجنال رؤية محتوى أي دردشات."
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-group": {
-    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+    "messageformat": "سَيتم إشعار سيجنال بأن الشخص، الذي دعاك للانضمام إلى هذه المجموعة، قد يكون أرسل رسائل غير مرغوب فيها. لا يُمكن لسيجنال رؤية محتوى أي دردشات."
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "الإبلاغ"
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
-    "messageformat": "Report and block"
+    "messageformat": "الإبلاغ والحظر"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, zero {{number,number} عضو} one {{number,number} عضو} two {{number,number} عضوان} few {{number,number} أعضاء} many {{number,number} عضوًا} other {{number,number} عضوٍ}}"

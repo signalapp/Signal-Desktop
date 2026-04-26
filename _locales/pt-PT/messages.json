@@ -3048,7 +3048,7 @@
     "messageformat": "As mensagens de visualização única não são guardadas no histórico do seu chat."
   },
   "icu:Message--tap-to-view--outgoing--expired-toast-2": {
-    "messageformat": "View-once media is deleted after sending"
+    "messageformat": "Os ficheiros de visualização única são apagados após envio"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "Vídeo de visualização única"
@@ -4893,7 +4893,7 @@
     "messageformat": "Desbloquear grupo"
   },
   "icu:ConversationDetailsActions--report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "Denunciar spam"
   },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "Arquivar chat"
@@ -4947,19 +4947,19 @@
     "messageformat": "Desbloquear"
   },
   "icu:ConversationDetailsActions--report-spam-modal-title": {
-    "messageformat": "Report spam?"
+    "messageformat": "Denunciar spam?"
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
-    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+    "messageformat": "O Signal será notificado de que esta pessoa pode estar a enviar spam. O Signal não consegue ver o conteúdo de nenhum chat."
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-group": {
-    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+    "messageformat": "O Signal será notificado de que a pessoa que o convidou para este grupo pode estar a enviar spam. O Signal não consegue ver o conteúdo de nenhum chat."
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "Denunciar spam"
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
-    "messageformat": "Report and block"
+    "messageformat": "Denunciar e bloquear"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} membro} other {{number,number} membros}}"

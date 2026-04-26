@@ -2559,7 +2559,7 @@
     "messageformat": "您已更新该群组"
   },
   "icu:collapsedGroupUpdates": {
-    "messageformat": "{count, plural, other {{count,number} 个群组更新}}"
+    "messageformat": "{count, plural, other {群组有 {count,number} 项更新}}"
   },
   "icu:multidayCollapse__container": {
     "messageformat": "{containerDescription} · {dayCountSummary}"
@@ -2568,7 +2568,7 @@
     "messageformat": "{dayCount, plural, other {{dayCount,number} 天}}"
   },
   "icu:collapsedChatUpdates": {
-    "messageformat": "{count, plural, other {{count,number} 个聊天更新}}"
+    "messageformat": "{count, plural, other {聊天有 {count,number} 项更新}}"
   },
   "icu:collapsedTimerChanges": {
     "messageformat": "{count, plural, other {{count,number} 个限时消息定时器更改 · {endingState}}}"
@@ -3048,7 +3048,7 @@
     "messageformat": "阅后即焚消息不会保存在您的聊天记录中。"
   },
   "icu:Message--tap-to-view--outgoing--expired-toast-2": {
-    "messageformat": "View-once media is deleted after sending"
+    "messageformat": "阅后即焚媒体发送后已被删除"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "阅后即焚视频"
@@ -4893,7 +4893,7 @@
     "messageformat": "取消屏蔽群组"
   },
   "icu:ConversationDetailsActions--report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "举报垃圾消息"
   },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "存档聊天"
@@ -4947,19 +4947,19 @@
     "messageformat": "取消屏蔽"
   },
   "icu:ConversationDetailsActions--report-spam-modal-title": {
-    "messageformat": "Report spam?"
+    "messageformat": "要举报垃圾消息吗？"
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
-    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+    "messageformat": "此操作将通知 Signal，此用户可能发送了垃圾消息。Signal 无法看到任何聊天的内容。"
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-group": {
-    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+    "messageformat": "此操作将通知 Signal，邀请您加入此群组的用户可能发送了垃圾消息。Signal 无法看到任何聊天的内容。"
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "举报垃圾消息"
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
-    "messageformat": "Report and block"
+    "messageformat": "举报和屏蔽"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, other {{number,number} 名成员}}"

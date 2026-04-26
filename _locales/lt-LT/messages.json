@@ -3048,7 +3048,7 @@
     "messageformat": "Vienkartinės peržiūros žinutės nesaugomos tavo pokalbio istorijoje."
   },
   "icu:Message--tap-to-view--outgoing--expired-toast-2": {
-    "messageformat": "View-once media is deleted after sending"
+    "messageformat": "Vienkartinės peržiūros įrašas ištrinamas po išsiuntimo"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "Vienkartinės peržiūros vaizdo įrašas"
@@ -4893,7 +4893,7 @@
     "messageformat": "Atblokuoti grupę"
   },
   "icu:ConversationDetailsActions--report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "Pranešti apie šlamštą"
   },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "Archyvuoti pokalbį"
@@ -4947,19 +4947,19 @@
     "messageformat": "Atblokuoti"
   },
   "icu:ConversationDetailsActions--report-spam-modal-title": {
-    "messageformat": "Report spam?"
+    "messageformat": "Pranešti apie šlamštą?"
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
-    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+    "messageformat": "„Signal“ bus pranešta, kad šis asmuo gali siųsti šlamštą. „Signal“ nemato jokių pokalbių turinio."
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-group": {
-    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+    "messageformat": "„Signal“ bus pranešta, kad asmuo, pakvietęs jus į šią grupę, gali siųsti šlamštą. „Signal“ nemato jokių pokalbių turinio."
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "Pranešti apie šlamštą"
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
-    "messageformat": "Report and block"
+    "messageformat": "Pranešti ir užblokuoti"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} narys} few {{number,number} nariai} many {{number,number} nario} other {{number,number} narių}}"

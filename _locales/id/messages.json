@@ -3048,7 +3048,7 @@
     "messageformat": "Pesan sekali-lihat tidak disimpan di riwayat obrolan."
   },
   "icu:Message--tap-to-view--outgoing--expired-toast-2": {
-    "messageformat": "View-once media is deleted after sending"
+    "messageformat": "Media sekali lihat dihapus setelah pengiriman"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "Video Sekali Lihat"
@@ -4893,7 +4893,7 @@
     "messageformat": "Buka blokir grup"
   },
   "icu:ConversationDetailsActions--report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "Laporkan spam"
   },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "Arsipkan chat"
@@ -4947,19 +4947,19 @@
     "messageformat": "Buka blokir"
   },
   "icu:ConversationDetailsActions--report-spam-modal-title": {
-    "messageformat": "Report spam?"
+    "messageformat": "Laporkan spam?"
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
-    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+    "messageformat": "Signal akan diberi tahu bahwa orang ini mungkin mengirim spam. Signal tidak bisa melihat isi chat apa pun."
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-group": {
-    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+    "messageformat": "Signal akan diberi tahu bahwa orang yang mengundang Anda ke grup ini mungkin mengirim spam. Signal tidak bisa melihat isi chat apa pun."
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "Laporkan spam"
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
-    "messageformat": "Report and block"
+    "messageformat": "Laporkan dan blokir"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, other {{number,number} anggota}}"

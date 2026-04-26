@@ -3048,7 +3048,7 @@
     "messageformat": "आपल्या चॅट्स इतिहासामध्ये एकदा-पहा संदेश संग्रहित केले जाणार नाहीत."
   },
   "icu:Message--tap-to-view--outgoing--expired-toast-2": {
-    "messageformat": "View-once media is deleted after sending"
+    "messageformat": "पाठवल्यानंतर-एकदा मिडीया हटवला असल्याचे पहा"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "एकदा व्हिडिओ पहा"
@@ -4893,7 +4893,7 @@
     "messageformat": "गट अनवरोधित करा"
   },
   "icu:ConversationDetailsActions--report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "स्पॅम रिपोर्ट करा"
   },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "चॅट आर्काईव्ह करा"
@@ -4947,19 +4947,19 @@
     "messageformat": "अनवरोधित करा"
   },
   "icu:ConversationDetailsActions--report-spam-modal-title": {
-    "messageformat": "Report spam?"
+    "messageformat": "स्पॅम रिपोर्ट करायचा?"
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
-    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+    "messageformat": "Signal सूचित करेल की कदाचित ही व्यक्ती स्पॅम पाठवत असेल. Signal कोणत्याही चॅट्सचा मजकूर पाहू शकत नाही."
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-group": {
-    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+    "messageformat": "तुम्हाला या गटामध्ये बोलवणारी व्यक्ती कदाचित स्पॅम असू शकते अशी सूचना Signalला मिळेल. Signal कोणत्याही चॅट्सचा मजकूर पाहू शकत नाही."
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "स्पॅम रिपोर्ट करा"
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
-    "messageformat": "Report and block"
+    "messageformat": "रिपोर्ट करा आणि अवरोधित करा"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} सदस्य} other {{number,number} सदस्य}}"

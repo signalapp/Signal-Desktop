@@ -3048,7 +3048,7 @@
     "messageformat": "Бир жолу көрүлүүчү билдирүүлөр маектин таржымалында сакталбайт."
   },
   "icu:Message--tap-to-view--outgoing--expired-toast-2": {
-    "messageformat": "View-once media is deleted after sending"
+    "messageformat": "Бир жолу көрүлүүчү нерсе жөнөтүлгөндөн кийин өчүп калат"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "Бир жолу көрүлүүчү видео"
@@ -4893,7 +4893,7 @@
     "messageformat": "Топту бөгөттөн чыгаруу"
   },
   "icu:ConversationDetailsActions--report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "Спам деп кабарлоо"
   },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "Маекти архивдөө"
@@ -4947,19 +4947,19 @@
     "messageformat": "Бөгөттөн чыгаруу"
   },
   "icu:ConversationDetailsActions--report-spam-modal-title": {
-    "messageformat": "Report spam?"
+    "messageformat": "Спам деп кабарлайсызбы?"
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
-    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+    "messageformat": "Signal ушул адам спам жөнөтүп жатышы мүмкүн деген кабар алат. Signal маектердеги билдирүүлөрдү көрбөйт."
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-group": {
-    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+    "messageformat": "Signal ушул топко чакырылган адам спам жөнөтүп жатат окшойт деген билдирүү алат. Signal маектердеги билдирүүлөрдү көрбөйт."
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "Спам деп кабарлоо"
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
-    "messageformat": "Report and block"
+    "messageformat": "Кабарлап, бөгөттөө"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, other {{number,number} мүчө}}"

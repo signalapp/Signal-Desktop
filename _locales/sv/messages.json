@@ -3048,7 +3048,7 @@
     "messageformat": "Visa en gång-meddelanden lagras inte i chatthistoriken."
   },
   "icu:Message--tap-to-view--outgoing--expired-toast-2": {
-    "messageformat": "View-once media is deleted after sending"
+    "messageformat": "Visa en gång-media raderas efter att ha skickats"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "Visa tillfällig video"
@@ -4893,7 +4893,7 @@
     "messageformat": "Avblockera grupp"
   },
   "icu:ConversationDetailsActions--report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "Rapportera skräppost"
   },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "Arkivera chatt"
@@ -4947,19 +4947,19 @@
     "messageformat": "Avblockera"
   },
   "icu:ConversationDetailsActions--report-spam-modal-title": {
-    "messageformat": "Report spam?"
+    "messageformat": "Rapportera skräppost?"
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
-    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+    "messageformat": "Signal kommer att meddelas om att denna person kanske skickar skräppost. Signal kan inte se innehållet i några chattar."
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-group": {
-    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+    "messageformat": "Signal kommer att meddelas om att den person som bjöd in dig till denna grupp kanske skickar spam. Signal kan inte se innehållet i några chattar."
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "Rapportera skräppost"
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
-    "messageformat": "Report and block"
+    "messageformat": "Rapportera och blockera"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} medlem} other {{number,number} medlemmar}}"

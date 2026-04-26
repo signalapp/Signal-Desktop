@@ -3048,7 +3048,7 @@
     "messageformat": "ერთხელ სანახავი შეტყობინებები არ ინახება შენი მიმოწერის ისტორიაში."
   },
   "icu:Message--tap-to-view--outgoing--expired-toast-2": {
-    "messageformat": "View-once media is deleted after sending"
+    "messageformat": "ერთხელ სანახავი მედია ფაილი გაგზავნის შემდეგ წაიშლება"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "ერთხელ სანახავი ვიდეო"
@@ -4893,7 +4893,7 @@
     "messageformat": "ჯგუფის განბლოკვა"
   },
   "icu:ConversationDetailsActions--report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "სპამის დარეპორტება"
   },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "ჩატის დაარქივება"
@@ -4947,19 +4947,19 @@
     "messageformat": "განბლოკვა"
   },
   "icu:ConversationDetailsActions--report-spam-modal-title": {
-    "messageformat": "Report spam?"
+    "messageformat": "გსურს დაარეპორტო სპამი?"
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
-    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+    "messageformat": "Signal-ი შეტყობინებას მიიღებს, რომ ეს ადამიანი შესაძლოა სპამს აგზავნიდეს. Signal-ს არც ერთი ჩატის შინაარსის ნახვა არ შეუძლია."
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-group": {
-    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+    "messageformat": "Signal-ი შეტყობინებას მიიღებს, რომ ადამიანი, ვინც ამ ჯგუფში მოგიწვია, შესაძლოა სპამს აგზავნიდეს. Signal-ს არც ერთი ჩატის შინაარსის ნახვა არ შეუძლია."
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "სპამის დარეპორტება"
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
-    "messageformat": "Report and block"
+    "messageformat": "დარეპორტება და დაბლოკვა"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} წევრი} other {{number,number} წევრი}}"

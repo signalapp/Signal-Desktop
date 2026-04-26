@@ -2390,7 +2390,6 @@
     "messageformat": "Show an icon in message details when they were delivered using sealed sender.",
     "description": "Preferences > Privacy Page > Show Status Icon Checkbox > Description"
   },
-
   "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
     "messageformat": "Automatic key verification",
     "description": "Preferences > Privacy Page > Key Transparency Checkbox > Label"
@@ -7841,7 +7840,7 @@
   },
   "icu:Preferences__link-previews--description": {
     "messageformat": "To change this setting, open the Signal app on your mobile device and navigate to Settings > Chats",
-    "description": "Description for the generate link previews setting"
+    "description": "(Deleted 2026/04/26) Description for the generate link previews setting"
   },
   "icu:Preferences__link-previews--new-description": {
     "messageformat": "Retrieve link previews directly from websites for messages you send.",
@@ -8585,7 +8584,7 @@
   },
   "icu:Preferences__privacy--description": {
     "messageformat": "To change these settings, open the Signal app on your mobile device and navigate to Settings > Privacy",
-    "description": "Description for the 'who can do X' setting"
+    "description": "(Deleted 2026/04/26) Description for the 'who can do X' setting"
   },
   "icu:Preferences__pnp__row--title": {
     "messageformat": "Phone Number",
@@ -9359,7 +9358,7 @@
   },
   "icu:StoriesSettings__view-receipts--description": {
     "messageformat": "To change this setting, open the Signal app on your mobile device and navigate to Settings -> Stories",
-    "description": "Description of how view receipts can be changed in story settings"
+    "description": "(Deleted 2026/04/26) Description of how view receipts can be changed in story settings"
   },
   "icu:GroupStorySettingsModal__members_title": {
     "messageformat": "Who can view this story",

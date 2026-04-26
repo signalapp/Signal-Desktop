@@ -3048,7 +3048,7 @@
     "messageformat": "ನಿಮ್ಮ ಚಾಟ್ ಇತಿಹಾಸದಲ್ಲಿ ಏಕ ವೀಕ್ಷಣೆ ಮೆಸೇಜ್‌ಗಳನ್ನು ಸಂಗ್ರಹಿಸಲಾಗಿಲ್ಲ."
   },
   "icu:Message--tap-to-view--outgoing--expired-toast-2": {
-    "messageformat": "View-once media is deleted after sending"
+    "messageformat": "ಒಂದು ಬಾರಿ ವೀಕ್ಷಿಸಿ ಮೀಡಿಯಾವನ್ನು ಕಳುಹಿಸಿದ ನಂತರ ಅಳಿಸಲಾಗುತ್ತದೆ"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "ಏಕ ವೀಕ್ಷಣೆ ವೀಡಿಯೊ"
@@ -4893,7 +4893,7 @@
     "messageformat": "ಗ್ರೂಪ್‌ನ ನಿರ್ಬಂಧ ತೆಗೆಯಿರಿ"
   },
   "icu:ConversationDetailsActions--report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "ಸ್ಪ್ಯಾಮ್ ವರದಿ ಮಾಡಿ"
   },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "ಚಾಟ್ ಆರ್ಕೈವ್ ಮಾಡಿ"
@@ -4947,19 +4947,19 @@
     "messageformat": "ನಿರ್ಬಂಧ ತೆಗೆಯಿರಿ"
   },
   "icu:ConversationDetailsActions--report-spam-modal-title": {
-    "messageformat": "Report spam?"
+    "messageformat": "ಸ್ಪ್ಯಾಮ್ ವರದಿ ಮಾಡುವುದೇ?"
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
-    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+    "messageformat": "ಈ ವ್ಯಕ್ತಿ ಸ್ಪ್ಯಾಮ್ ಕಳುಹಿಸುತ್ತಿರಬಹುದು ಎಂಬುದಾಗಿ Signal ಗೆ ಸೂಚಿಸಲಾಗುತ್ತದೆ. Signal ಗೆ ಯಾವುದೇ ಚಾಟ್ ಗಳ ಕಂಟೆಂಟ್ ಅನ್ನು ನೋಡಲು ಸಾಧ್ಯವಾಗುವುದಿಲ್ಲ."
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-group": {
-    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+    "messageformat": "ನಿಮ್ಮನ್ನು ಈ ಗುಂಪಿಗೆ ಆಹ್ವಾನಿಸಿದ ವ್ಯಕ್ತಿ ಸ್ಪ್ಯಾಮ್ ಕಳುಹಿಸುತ್ತಿರಬಹುದು ಎಂಬುದಾಗಿ Signal ಗೆ ಸೂಚಿಸಲಾಗುತ್ತದೆ. Signal ಗೆ ಯಾವುದೇ ಚಾಟ್‌ಗಳ ಕಂಟೆಂಟ್ ಅನ್ನು ನೋಡಲು ಸಾಧ್ಯವಾಗುವುದಿಲ್ಲ."
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "ಸ್ಪ್ಯಾಮ್ ವರದಿ ಮಾಡಿ"
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
-    "messageformat": "Report and block"
+    "messageformat": "ವರದಿ ಮಾಡಿ ಮತ್ತು ಬ್ಲಾಕ್ ಮಾಡಿ"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} ಸದಸ್ಯ} other {{number,number} ಸದಸ್ಯರು}}"

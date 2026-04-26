@@ -3048,7 +3048,7 @@
     "messageformat": "Mesazhet me vetëm një shikim nuk ruhen në historikun e bisedës."
   },
   "icu:Message--tap-to-view--outgoing--expired-toast-2": {
-    "messageformat": "View-once media is deleted after sending"
+    "messageformat": "Media me vetëm një parje fshihet pas dërgimit"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "Video që mund të shihet vetë një herë"
@@ -4893,7 +4893,7 @@
     "messageformat": "Zhblloko grupin"
   },
   "icu:ConversationDetailsActions--report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "Raporto si të padëshiruar"
   },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "Arkivo bisedën"
@@ -4947,19 +4947,19 @@
     "messageformat": "Zhbllokoje"
   },
   "icu:ConversationDetailsActions--report-spam-modal-title": {
-    "messageformat": "Report spam?"
+    "messageformat": "Të raportohet si i padëshiruar?"
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
-    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+    "messageformat": "Signal do të njoftohet se ky person mund të jetë duke dërguar mesazhe të padëshiruara. Signal nuk mund të shohë përmbajtjen e asnjë bisede."
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-group": {
-    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+    "messageformat": "Signal do të njoftohet se personi që të ftoi në këtë grup mund të jetë duke dërguar mesazhe të padëshiruara. Signal nuk mund të shohë përmbajtjen e asnjë bisede."
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "Raporto si të padëshiruar"
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
-    "messageformat": "Report and block"
+    "messageformat": "Raporto dhe blloko"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} anëtar} other {{number,number} anëtarë}}"

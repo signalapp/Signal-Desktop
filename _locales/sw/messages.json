@@ -3048,7 +3048,7 @@
     "messageformat": "Jumbe za kuonwa mara moja hazihifadhiwi kwenye historia yako ya gumzo."
   },
   "icu:Message--tap-to-view--outgoing--expired-toast-2": {
-    "messageformat": "View-once media is deleted after sending"
+    "messageformat": "Media za kuangalia mara moja hufutwa baada ya kutuma"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "Video ya Kutazama Mara Moja"
@@ -4893,7 +4893,7 @@
     "messageformat": "Ondoa kizuizi kwa kikundi"
   },
   "icu:ConversationDetailsActions--report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "Toa ripoti ya spam"
   },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "Hifadhi Gumzo"
@@ -4947,19 +4947,19 @@
     "messageformat": "Ondoa kizuizi"
   },
   "icu:ConversationDetailsActions--report-spam-modal-title": {
-    "messageformat": "Report spam?"
+    "messageformat": "Ripoti kuwa spam?"
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
-    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+    "messageformat": "Signal itataarifiwa kuwa mtu huyu inawezekana anatuma jumbe za spam. Signal haiwezi kuona maudhui ya gumzo lolote."
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-group": {
-    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+    "messageformat": "Signal itataarifiwa kuwa mtu aliyekualika kwenye kikundi hiki, inawezekana anakutumia barua taka. Signal haiwezi kuona maudhui ya gumzo zozote."
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "Toa ripoti ya spam"
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
-    "messageformat": "Report and block"
+    "messageformat": "Toa ripoti na uzuie"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {Mwanachama {number,number}} other {Wanachama {number,number}}}"

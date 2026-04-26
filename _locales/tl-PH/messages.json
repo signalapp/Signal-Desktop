@@ -2568,7 +2568,7 @@
     "messageformat": "{dayCount, plural, one {{dayCount,number} araw} other {{dayCount,number} araw}}"
   },
   "icu:collapsedChatUpdates": {
-    "messageformat": "{count, plural, one {{count,number} chat update} other {{count,number} chat updates}}"
+    "messageformat": "{count, plural, one {{count,number} update sa chat} other {{count,number} updates sa chat}}"
   },
   "icu:collapsedTimerChanges": {
     "messageformat": "{count, plural, one {{count,number} pagbabago sa timer ng disappearing messages · {endingState}} other {{count,number} pagbabago sa timer ng disappearing messages · {endingState}}}"
@@ -3048,7 +3048,7 @@
     "messageformat": "Hindi nakalagay sa iyong chat history ang view-once messages."
   },
   "icu:Message--tap-to-view--outgoing--expired-toast-2": {
-    "messageformat": "View-once media is deleted after sending"
+    "messageformat": "Ang view-once media ay mabubura pagkatapos itong ma-send"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "View Once Video"
@@ -4893,7 +4893,7 @@
     "messageformat": "I-unblock ang group"
   },
   "icu:ConversationDetailsActions--report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "I-report  bilang spam"
   },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "I-archive ang chat"
@@ -4947,19 +4947,19 @@
     "messageformat": "I-unblock"
   },
   "icu:ConversationDetailsActions--report-spam-modal-title": {
-    "messageformat": "Report spam?"
+    "messageformat": "I-report bilang spam?"
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
-    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+    "messageformat": "Ino-notify ang Signal na maaaring nagpapadala ng spam ang taong ito. Hindi nababasa ng Signal ang nilalaman ng anumang chat."
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-group": {
-    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+    "messageformat": "Aabisuhan ang Signal na ang taong nag-invite sa 'yo sa group na ito ay maaaring nagpapadala ng spam. Hindi nababasa ng Signal ang nilalaman ng anumang chats."
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "I-report  bilang spam"
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
-    "messageformat": "Report and block"
+    "messageformat": "I-report at i-block"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} member} other {{number,number} members}}"

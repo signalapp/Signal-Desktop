@@ -3048,7 +3048,7 @@
     "messageformat": "הודעות לצפייה חד–פעמית לא מאוחסנות בהיסטוריית הצ'אט שלך."
   },
   "icu:Message--tap-to-view--outgoing--expired-toast-2": {
-    "messageformat": "View-once media is deleted after sending"
+    "messageformat": "מדיה לצפייה חד–פעמית נמחקת לאחר השליחה"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "סרטון לצפייה חד–פעמית"
@@ -4893,7 +4893,7 @@
     "messageformat": "ביטול חסימת קבוצה"
   },
   "icu:ConversationDetailsActions--report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "דיווח כספאם"
   },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "אחסון צ'אט בארכיון"
@@ -4947,19 +4947,19 @@
     "messageformat": "ביטול חסימה"
   },
   "icu:ConversationDetailsActions--report-spam-modal-title": {
-    "messageformat": "Report spam?"
+    "messageformat": "לדווח על ספאם?"
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
-    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+    "messageformat": "Signal תקבל הודעה שהאדם הזה חשוד בשליחת ספאם. Signal לא יכולה לראות את התוכן של אף צ׳אט."
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-group": {
-    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+    "messageformat": "Signal תקבל הודעה שהאדם שהזמין אותך לקבוצה הזו חשוד בשליחת ספאם. Signal לא יכולה לראות את התוכן של אף צ׳אט."
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "דיווח כספאם"
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
-    "messageformat": "Report and block"
+    "messageformat": "דיווח וחסימה"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {חבר/ה {number,number}} two {{number,number} חברים} many {{number,number} חברים} other {{number,number} חברים}}"

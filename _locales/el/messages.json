@@ -3048,7 +3048,7 @@
     "messageformat": "Τα μηνύματα μεμονωμένης προβολής δεν αποθηκεύονται στο ιστορικό συνομιλιών σου."
   },
   "icu:Message--tap-to-view--outgoing--expired-toast-2": {
-    "messageformat": "View-once media is deleted after sending"
+    "messageformat": "Τα πολυμέσα μιας μόνο προβολής διαγράφονται μετά την αποστολή"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "Βίντεο μιας μόνο προβολής"
@@ -4893,7 +4893,7 @@
     "messageformat": "Κατάργηση αποκλεισμού ομάδας"
   },
   "icu:ConversationDetailsActions--report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "Αναφορά ως ανεπιθύμητο"
   },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "Αρχειοθέτηση συνομιλίας"
@@ -4947,19 +4947,19 @@
     "messageformat": "Κατάργηση αποκλεισμού"
   },
   "icu:ConversationDetailsActions--report-spam-modal-title": {
-    "messageformat": "Report spam?"
+    "messageformat": "Αναφορά ως ανεπιθύμητο;"
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
-    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+    "messageformat": "Το Signal θα ειδοποιηθεί ότι αυτό το άτομο ενδέχεται να στέλνει spam. Το Signal δεν μπορεί να δει το περιεχόμενο οποιασδήποτε συνομιλίας."
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-group": {
-    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+    "messageformat": "Το Signal θα ειδοποιηθεί ότι το άτομο που σε προσκάλεσε σε αυτή την ομάδα, ενδέχεται να στέλνει spam. Το Signal δεν μπορεί να δει το περιεχόμενο οποιασδήποτε συνομιλίας."
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "Αναφορά ως ανεπιθύμητο"
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
-    "messageformat": "Report and block"
+    "messageformat": "Αναφορά και αποκλεισμός"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} μέλος} other {{number,number} μέλη}}"

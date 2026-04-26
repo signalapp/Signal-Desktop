@@ -3048,7 +3048,7 @@
     "messageformat": "Los mensajes de visualización única no se almacenan en tu historial de chat."
   },
   "icu:Message--tap-to-view--outgoing--expired-toast-2": {
-    "messageformat": "View-once media is deleted after sending"
+    "messageformat": "Los archivos multimedia de visualización única se eliminan automáticamente tras el envío"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "Vídeo de visualización única"
@@ -3363,13 +3363,13 @@
     "messageformat": "Listo"
   },
   "icu:MessageRequests--message-direct": {
-    "messageformat": "¿Permitir que {name} te envíe mensajes y compartir tu nombre y foto de perfil con esta persona? No sabrá que has visto sus mensajes hasta que aceptes."
+    "messageformat": "¿Quieres compartir tu nombre y foto de perfil con {name} y permitir que te envíe mensajes? No sabrá que has visto sus mensajes hasta que aceptes."
   },
   "icu:MessageRequests--message-direct-hidden": {
-    "messageformat": "¿Compartir tu nombre y foto de perfil con {name} y permitir que te envíe mensajes? Has eliminado a esta persona anteriormente."
+    "messageformat": "¿Quieres compartir tu nombre y foto de perfil con {name} y permitir que te envíe mensajes? Has eliminado a esta persona anteriormente."
   },
   "icu:MessageRequests--message-direct-blocked": {
-    "messageformat": "¿Permitir que {name} te envíe mensajes y compartir tu nombre y foto de perfil con esta persona? No recibirás ninguno de sus mensajes hasta la desbloquees."
+    "messageformat": "¿Quieres compartir tu nombre y foto de perfil con {name} y permitir que te envíe mensajes? No recibirás ninguno de sus mensajes hasta la desbloquees."
   },
   "icu:MessageRequests--message-group": {
     "messageformat": "¿Quieres unirte a este grupo y compartir tu nombre y foto de perfil con sus participantes? No sabrán que has visto sus mensajes hasta que aceptes."
@@ -4893,7 +4893,7 @@
     "messageformat": "Desbloquear grupo"
   },
   "icu:ConversationDetailsActions--report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "Denunciar spam"
   },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "Archivar chat"
@@ -4947,19 +4947,19 @@
     "messageformat": "Desbloquear"
   },
   "icu:ConversationDetailsActions--report-spam-modal-title": {
-    "messageformat": "Report spam?"
+    "messageformat": "¿Denunciar spam?"
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
-    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+    "messageformat": "Se notificará a Signal que esta persona podría estar enviando spam. Signal no puede ver el contenido de ningún chat."
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-group": {
-    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+    "messageformat": "Se notificará a Signal que la persona que te ha invitado a este grupo podría estar enviando spam. Signal no puede ver el contenido de ningún chat."
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "Denunciar spam"
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
-    "messageformat": "Report and block"
+    "messageformat": "Denunciar y bloquear"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} participante} other {{number,number} participantes}}"

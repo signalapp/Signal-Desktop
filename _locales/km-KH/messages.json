@@ -3048,7 +3048,7 @@
     "messageformat": "សារដែលមើលបានតែម្តងមិនត្រូវបានរក្សាទុកក្នុងប្រវត្តិជជែករបស់អ្នកទេ។"
   },
   "icu:Message--tap-to-view--outgoing--expired-toast-2": {
-    "messageformat": "View-once media is deleted after sending"
+    "messageformat": "មេឌៀដែលមើលបានតែម្តងត្រូវបានលុបបន្ទាប់ពីផ្ញើ"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "វីដេអូមើលបានតែម្តង"
@@ -4893,7 +4893,7 @@
     "messageformat": "ឈប់ទប់ស្កាត់ក្រុម"
   },
   "icu:ConversationDetailsActions--report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "រាយការណ៍សារឥតបានការ"
   },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "ទុកការជជែកក្នុងបណ្ណសារ"
@@ -4947,19 +4947,19 @@
     "messageformat": "ឈប់ទប់ស្កាត់"
   },
   "icu:ConversationDetailsActions--report-spam-modal-title": {
-    "messageformat": "Report spam?"
+    "messageformat": "រាយការណ៍សារឥតបានការឬ?"
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
-    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+    "messageformat": "Signal អាចនឹងត្រូវបានជូនដំណឹងថាបុគ្គលនេះប្រហែលជាកំពុងផ្ញើសារឥតបានការ។ Signal មិនអាចមើលឃើញខ្លឹមសារនៃការជជែកណាមួយឡើយ។"
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-group": {
-    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+    "messageformat": "Signal នឹងត្រូវបានជូនដំណឹងថាបុគ្គលដែលបានអញ្ជើញអ្នកឱ្យចូលរួមក្នុងក្រុមនេះ ប្រហែលជាកំពុងផ្ញើសារឥតបានការ។ Signal មិនអាចមើលឃើញខ្លឹមសារនៃការជជែកណាមួយឡើយ។"
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "រាយការណ៍សារឥតបានការ"
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
-    "messageformat": "Report and block"
+    "messageformat": "រាយការណ៍ និងទប់ស្កាត់"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, other {សមាជិក {number,number} នាក់}}"

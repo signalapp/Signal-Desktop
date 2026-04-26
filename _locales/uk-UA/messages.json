@@ -3048,7 +3048,7 @@
     "messageformat": "Одноразові повідомлення не зберігаються у вашій історії чатів."
   },
   "icu:Message--tap-to-view--outgoing--expired-toast-2": {
-    "messageformat": "View-once media is deleted after sending"
+    "messageformat": "Одноразові медіафайли видаляються після надсилання"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "Одноразове відео"
@@ -4893,7 +4893,7 @@
     "messageformat": "Розблокувати групу"
   },
   "icu:ConversationDetailsActions--report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "Повідомити про спам"
   },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "Архівувати чат"
@@ -4947,19 +4947,19 @@
     "messageformat": "Розблокувати"
   },
   "icu:ConversationDetailsActions--report-spam-modal-title": {
-    "messageformat": "Report spam?"
+    "messageformat": "Повідомити про спам?"
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
-    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+    "messageformat": "Signal буде повідомлено, що ця людина може надсилати спам. Signal ніколи не бачить вмісту чатів."
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-group": {
-    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+    "messageformat": "Signal буде повідомлено, що людина, яка запросила вас у цю групу, може надсилати спам. Signal ніколи не бачить вмісту чатів."
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "Повідомити про спам"
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
-    "messageformat": "Report and block"
+    "messageformat": "Повідомити й заблокувати"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} учасник} few {{number,number} учасники} many {{number,number} учасників} other {{number,number} учасника}}"

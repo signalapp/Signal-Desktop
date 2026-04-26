@@ -3048,7 +3048,7 @@
     "messageformat": "بىر قېتىملا كۆرۈشكە بولىدىغان ئۇچۇرلار پاراڭ خاتىرىڭىزدە ساقلانمايدۇ."
   },
   "icu:Message--tap-to-view--outgoing--expired-toast-2": {
-    "messageformat": "View-once media is deleted after sending"
+    "messageformat": "ئەۋەتىلگەندىن كىيىن ئۆچۈرىۋېتىلگەن مېدىيا-كۆرۈلۈش سانى"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "بىر قېتىملا كۆرۈلىدىغان سىن"
@@ -4893,7 +4893,7 @@
     "messageformat": "گۇرۇپپىنى چەكلەشنى بىكار قىلىش"
   },
   "icu:ConversationDetailsActions--report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "ئالدامچى مەلۇم قىلىش"
   },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "سۆھبەتلەرنى ئارخىپلاڭ"
@@ -4947,19 +4947,19 @@
     "messageformat": "چەكلەشنى بىكار قىلىش"
   },
   "icu:ConversationDetailsActions--report-spam-modal-title": {
-    "messageformat": "Report spam?"
+    "messageformat": "ئالدامچى مەلۇم قىلامسىز؟"
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
-    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+    "messageformat": "Signal بۇ كىشىنىڭ بەلكىم ئالدامچى ئۇچۇرى يوللاۋاتقانلىقى ھەققىدە ئۇقتۇرۇش تاپشۇرۇۋالىدۇ. Signal ھەرقانداق پاراڭ مەزمۇنىنى كۆرەلمەيدۇ."
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-group": {
-    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+    "messageformat": "Signal سىزنى بۇ گۇرۇپپىغا تەكلىپ قىلغان كىشىنىڭ بەلكىم ئالدامچىلىق ئۇچۇرى يوللاۋاتقانلىقى توغرىسىدا ئۇقتۇرۇش تاپشۇرۇۋالىدۇ. Signal ھەرقانداق پاراڭ مەزمۇنىنى كۆرەلمەيدۇ."
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "ئالدامچى مەلۇم قىلىش"
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
-    "messageformat": "Report and block"
+    "messageformat": "مەلۇم قىلىش ۋە توسۇش"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, other {{number,number} ئەزا}}"

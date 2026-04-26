@@ -3048,7 +3048,7 @@
     "messageformat": "Једнократне поруке се не чувају у историји ћаскања."
   },
   "icu:Message--tap-to-view--outgoing--expired-toast-2": {
-    "messageformat": "View-once media is deleted after sending"
+    "messageformat": "Једнократни медији се бришу након слања"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "Једнократни видео"
@@ -4893,7 +4893,7 @@
     "messageformat": "Одблокирај групу"
   },
   "icu:ConversationDetailsActions--report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "Пријави спам"
   },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "Архивирај ћаскање"
@@ -4947,19 +4947,19 @@
     "messageformat": "Одблокирај"
   },
   "icu:ConversationDetailsActions--report-spam-modal-title": {
-    "messageformat": "Report spam?"
+    "messageformat": "Желите ли да пријавите спам?"
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
-    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+    "messageformat": "Signal ће бити обавештен да ова особа можда шаље спам. Signal не може да види садржај ниједног ћаскања."
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-group": {
-    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+    "messageformat": "Signal ће бити обавештен да особа која вас је позвала у групу можда шаље спам. Signal не може да види садржај ниједног ћаскања."
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "Пријави спам"
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
-    "messageformat": "Report and block"
+    "messageformat": "Пријави и блокирај"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {Чланова: {number,number}} other {Чланова: {number,number}}}"

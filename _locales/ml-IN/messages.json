@@ -3048,7 +3048,7 @@
     "messageformat": "ഒരിക്കൽ മാത്രം കാണുന്നതിനുള്ള സന്ദേശങ്ങൾ നിങ്ങളുടെ ചാറ്റ് ചരിത്രത്തിൽ സംഭരിക്കില്ല."
   },
   "icu:Message--tap-to-view--outgoing--expired-toast-2": {
-    "messageformat": "View-once media is deleted after sending"
+    "messageformat": "അയച്ചതിന് ശേഷം, ഒറ്റത്തവണ കാണാൻ മാത്രമുള്ള മീഡിയ ഇല്ലാതാക്കും"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "ഒരു തവണ-ദൃശ്യമാകുന്ന വീഡിയോ"
@@ -4893,7 +4893,7 @@
     "messageformat": "ഗ്രൂപ്പ് അൺബ്ലോക്ക് ചെയ്യുക"
   },
   "icu:ConversationDetailsActions--report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "സ്പാം റിപ്പോർട്ട് ചെയ്യുക"
   },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "ചാറ്റ് ആർക്കൈവ് ചെയ്യുക"
@@ -4947,19 +4947,19 @@
     "messageformat": "അൺബ്ലോക്ക് ചെയ്യുക"
   },
   "icu:ConversationDetailsActions--report-spam-modal-title": {
-    "messageformat": "Report spam?"
+    "messageformat": "സ്പാം റിപ്പോർട്ട് ചെയ്യണോ?"
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
-    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+    "messageformat": "ഈ വ്യക്തി സ്‌പാം ആകാം അയയ്ക്കുന്നതെന്ന് Signal-ന് അറിയിപ്പ് ലഭിക്കും. Signal-ന് ഒരു ചാറ്റിന്റെയും ഉള്ളടക്കം കാണാൻ കഴിയില്ല."
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-group": {
-    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+    "messageformat": "നിങ്ങളെ ഈ ഗ്രൂപ്പിലേക്ക് ക്ഷണിച്ച വ്യക്തി, സ്‌പാം ആകാം അയയ്ക്കുന്നതെന്ന് Signal-ന് അറിയിപ്പ് ലഭിക്കും. Signal-ന് ഒരു ചാറ്റിന്റെയും ഉള്ളടക്കം കാണാൻ കഴിയില്ല."
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "സ്പാം റിപ്പോർട്ട് ചെയ്യുക"
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
-    "messageformat": "Report and block"
+    "messageformat": "റിപ്പോർട്ട് ചെയ്ത് ബ്ലോക്ക് ചെയ്യുക"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} അംഗം} other {{number,number} അംഗങ്ങൾ}}"

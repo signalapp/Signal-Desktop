@@ -3048,7 +3048,7 @@
     "messageformat": "一次性訊息將不會儲存在你的聊天紀錄中。"
   },
   "icu:Message--tap-to-view--outgoing--expired-toast-2": {
-    "messageformat": "View-once media is deleted after sending"
+    "messageformat": "閱後即焚媒體在發送後被刪除"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "閱後即焚影片"
@@ -4893,7 +4893,7 @@
     "messageformat": "解除封鎖群組"
   },
   "icu:ConversationDetailsActions--report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "舉報垃圾訊息"
   },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "封存聊天"
@@ -4947,19 +4947,19 @@
     "messageformat": "解除封鎖"
   },
   "icu:ConversationDetailsActions--report-spam-modal-title": {
-    "messageformat": "Report spam?"
+    "messageformat": "是否舉報垃圾訊息？"
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
-    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+    "messageformat": "Signal 將收到通知，此人可能正在發送垃圾訊息。Signal 不能看到任何聊天內容。"
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-group": {
-    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+    "messageformat": "Signal 將收到通知，指出邀請你加入此群組的人可能正在發送垃圾訊息。Signal 不能看到任何聊天內容。"
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "舉報垃圾訊息"
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
-    "messageformat": "Report and block"
+    "messageformat": "舉報垃圾訊息並封鎖"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, other {{number,number} 位成員}}"

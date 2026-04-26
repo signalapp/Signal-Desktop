@@ -3048,7 +3048,7 @@
     "messageformat": "ఒకసారి-వీక్షణ సందేశాలు మీ చాట్ చరిత్రలో నిల్వ చేయబడవు."
   },
   "icu:Message--tap-to-view--outgoing--expired-toast-2": {
-    "messageformat": "View-once media is deleted after sending"
+    "messageformat": "పంపిన తర్వాత ఒకసారి వీక్షించండి మీడియా తొలగించబడింది"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "ఒకసారి చూసే వీడియో"
@@ -4893,7 +4893,7 @@
     "messageformat": "గ్రూప్‌ను అన్‌బ్లాక్ చేయండి"
   },
   "icu:ConversationDetailsActions--report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "స్పామ్‌ను నివేదించండి"
   },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "చాట్‌ను ఆర్కైవ్ చేయండి"
@@ -4947,19 +4947,19 @@
     "messageformat": "అన్‌బ్లాక్"
   },
   "icu:ConversationDetailsActions--report-spam-modal-title": {
-    "messageformat": "Report spam?"
+    "messageformat": "స్పామ్‌ను నివేదించేదా?"
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
-    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+    "messageformat": "ఈ వ్యక్తి స్పామ్‌ని పంపుతుండవచ్చని Signal కు తెలియజేయబడుతుంది. Signal ఏ చాట్‌ల కంటెంట్‌నూ చూడలేదు."
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-group": {
-    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+    "messageformat": "మిమ్మల్ని ఈ గ్రూప్‌కు ఆహ్వానించిన వ్యక్తి, స్పామ్‌ను పంపుతుండవచ్చని Signal కు తెలియజేయబడుతుంది. Signal ఏ చాట్‌ల కంటెంట్‌ను చూడలేదు."
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "స్పామ్‌ను నివేదించండి"
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
-    "messageformat": "Report and block"
+    "messageformat": "నివేదించి, బ్లాక్ చేయండి"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} సభ్యుడు} other {{number,number} సభ్యులు}}"

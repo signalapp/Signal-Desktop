@@ -3048,7 +3048,7 @@
     "messageformat": "'એકવાર જુઓ' મેસેજ તમારી ચેટ હિસ્ટ્રીમાં સ્ટોર થતાં નથી."
   },
   "icu:Message--tap-to-view--outgoing--expired-toast-2": {
-    "messageformat": "View-once media is deleted after sending"
+    "messageformat": "એકવાર જોઈ શકાય તેવા મીડિયા મોકલ્યા પછી ડિલીટ થાય છે"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "એકવાર જોઈ શકાય તેવો વીડિયો"
@@ -4893,7 +4893,7 @@
     "messageformat": "ગ્રૂપને અનબ્લૉક કરો"
   },
   "icu:ConversationDetailsActions--report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "સ્પામ તરીકે જાણ કરો"
   },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "ચેટને આર્કાઇવ કરો"
@@ -4947,19 +4947,19 @@
     "messageformat": "અનબ્લૉક કરો"
   },
   "icu:ConversationDetailsActions--report-spam-modal-title": {
-    "messageformat": "Report spam?"
+    "messageformat": "સ્પામ તરીકે જાણ કરવી છે?"
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
-    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+    "messageformat": "Signalને જાણ કરવામાં આવશે કે આ વ્યક્તિ સ્પામ મોકલતા હોઈ શકે છે. Signal કોઈ પણ ચેટની કન્ટેન્ટ જોઈ શકતું નથી."
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-group": {
-    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+    "messageformat": "Signalને જાણ કરવામાં આવશે કે જે વ્યક્તિએ તમને આ ગ્રૂપમાં આમંત્રિત કર્યા છે, તે સ્પામ મોકલતા હોઈ શકે છે. Signal કોઈ પણ ચેટનું કન્ટેન્ટ જોઈ શકતું નથી."
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "સ્પામ તરીકે જાણ કરો"
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
-    "messageformat": "Report and block"
+    "messageformat": "જાણ કરો અને બ્લૉક કરો"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} સભ્યો} other {{number,number} સભ્યો}}"

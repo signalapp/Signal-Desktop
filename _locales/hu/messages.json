@@ -2559,7 +2559,7 @@
     "messageformat": "Módosítottad a csoportot."
   },
   "icu:collapsedGroupUpdates": {
-    "messageformat": "{count, plural, one {{count,number} csoport frissítése} other {{count,number} csoport frissítése}}"
+    "messageformat": "{count, plural, one {{count,number} csoportfrissítés} other {{count,number} csoportfrissítés}}"
   },
   "icu:multidayCollapse__container": {
     "messageformat": "{containerDescription} · {dayCountSummary}"
@@ -2568,7 +2568,7 @@
     "messageformat": "{dayCount, plural, one {{dayCount,number} nap} other {{dayCount,number} nap}}"
   },
   "icu:collapsedChatUpdates": {
-    "messageformat": "{count, plural, one {{count,number} csevegés frissítése} other {{count,number} csevegés frissítése}}"
+    "messageformat": "{count, plural, one {{count,number} csevegésfrissítés} other {{count,number} csevegésfrissítés}}"
   },
   "icu:collapsedTimerChanges": {
     "messageformat": "{count, plural, one {{count,number} eltűnő üzenet időzítőjének módosítása · {endingState}} other {{count,number} eltűnő üzenet időzítőjének módosítása · {endingState}}}"
@@ -3048,7 +3048,7 @@
     "messageformat": "Az egyszer megjelenő üzenetek nem kerülnek tárolásra a csevegési előzményekben."
   },
   "icu:Message--tap-to-view--outgoing--expired-toast-2": {
-    "messageformat": "View-once media is deleted after sending"
+    "messageformat": "Az egyszer megtekinthető médiafájl elküldés után törlődik"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "Egyszeri videó megtekintése"
@@ -4893,7 +4893,7 @@
     "messageformat": "Csoport blokkolásának feloldása"
   },
   "icu:ConversationDetailsActions--report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "Kéretlen üzenet jelentése"
   },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "Csevegés archiválása"
@@ -4947,19 +4947,19 @@
     "messageformat": "Tiltás feloldása"
   },
   "icu:ConversationDetailsActions--report-spam-modal-title": {
-    "messageformat": "Report spam?"
+    "messageformat": "Kéretlen üzenet jelentése?"
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
-    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+    "messageformat": "A Signal értesítést kap arról, hogy ez a személy esetleg kéretlen üzeneteket küldözget. A Signal nem látja a csevegések tartalmát."
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-group": {
-    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+    "messageformat": "A Signal értesítést kap arról, hogy az a személy, aki meghívott téged ebbe a csoportba, esetleg kéretlen üzeneteket küldözget. A Signal nem látja a csevegések tartalmát."
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "Kéretlen üzenet jelentése"
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
-    "messageformat": "Report and block"
+    "messageformat": "Jelentés és tiltás"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} tag} other {{number,number} tag}}"

@@ -3048,7 +3048,7 @@
     "messageformat": "As mensagens temporárias não ficam armazenadas no seu histórico de chats."
   },
   "icu:Message--tap-to-view--outgoing--expired-toast-2": {
-    "messageformat": "View-once media is deleted after sending"
+    "messageformat": "Mídias de visualização única são excluídas após o envio"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "Ver vídeo temporário"
@@ -4893,7 +4893,7 @@
     "messageformat": "Desbloquear o grupo"
   },
   "icu:ConversationDetailsActions--report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "Denunciar spam"
   },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "Arquivar chat"
@@ -4947,19 +4947,19 @@
     "messageformat": "Desbloquear"
   },
   "icu:ConversationDetailsActions--report-spam-modal-title": {
-    "messageformat": "Report spam?"
+    "messageformat": "Denunciar spam?"
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
-    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+    "messageformat": "O Signal será notificado de que esta pessoa pode estar enviando spam.  O Signal não pode ver o conteúdo das conversas. "
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-group": {
-    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+    "messageformat": "O Signal será notificado de que a pessoa que convidou você para esse grupo pode estar enviando spam. O Signal não pode ver o conteúdo de conversas."
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "Denunciar spam"
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
-    "messageformat": "Report and block"
+    "messageformat": "Denunciar e bloquear"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} membro} other {{number,number} membros}}"

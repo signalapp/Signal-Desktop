@@ -3048,7 +3048,7 @@
     "messageformat": "Správy na jedno pozretie sa neukladajú do histórie četu."
   },
   "icu:Message--tap-to-view--outgoing--expired-toast-2": {
-    "messageformat": "View-once media is deleted after sending"
+    "messageformat": "Médiá na jedno pozretie sa po odoslaní vymažú"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "Video na jedno pozretie"
@@ -4893,7 +4893,7 @@
     "messageformat": "Odblokovať skupinu"
   },
   "icu:ConversationDetailsActions--report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "Nahlásiť spam"
   },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "Archivovať čet"
@@ -4947,19 +4947,19 @@
     "messageformat": "Odblokovať"
   },
   "icu:ConversationDetailsActions--report-spam-modal-title": {
-    "messageformat": "Report spam?"
+    "messageformat": "Nahlásiť spam?"
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
-    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+    "messageformat": "Signal bude upozornený na to, že tento používateľ môže rozposielať spam. Signal nevidí obsah žiadneho četu."
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-group": {
-    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+    "messageformat": "Signal bude upozornený na to, že používateľ, ktorý vás pozval do tejto skupiny, môže rozposielať spam. Signal nevidí obsah žiadneho četu."
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "Nahlásiť spam"
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
-    "messageformat": "Report and block"
+    "messageformat": "Nahlásiť a zablokovať"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} člen} few {{number,number} členovia} many {{number,number} člena} other {{number,number} členov}}"

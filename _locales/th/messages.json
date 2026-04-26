@@ -3048,7 +3048,7 @@
     "messageformat": "ข้อความแบบที่ดูได้ครั้งเดียวจะไม่ถูกจัดเก็บในประวัติการแชทของคุณ"
   },
   "icu:Message--tap-to-view--outgoing--expired-toast-2": {
-    "messageformat": "View-once media is deleted after sending"
+    "messageformat": "ไฟล์สื่อแบบที่ดูได้ครั้งเดียวจะถูกลบหลังการส่ง"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "ไฟล์วิดีโอแบบที่ดูได้ครั้งเดียว"
@@ -4893,7 +4893,7 @@
     "messageformat": "เลิกบล็อกกลุ่ม"
   },
   "icu:ConversationDetailsActions--report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "รายงานว่าเป็นสแปม"
   },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "จัดเก็บแชทในที่เก็บถาวร"
@@ -4947,19 +4947,19 @@
     "messageformat": "เลิกบล็อก"
   },
   "icu:ConversationDetailsActions--report-spam-modal-title": {
-    "messageformat": "Report spam?"
+    "messageformat": "รายงานว่าเป็นสแปมหรือไม่"
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
-    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+    "messageformat": "Signal จะได้รับแจ้งว่าบุคคลนี้อาจส่งข้อความสแปม โดย Signal จะไม่สามารถเห็นเนื้อหาใดๆ ของแชท"
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-group": {
-    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+    "messageformat": "Signal จะได้รับแจ้งว่าคนที่เชิญคุณเข้ากลุ่มนี้อาจส่งข้อความสแปม โดย Signal จะไม่สามารถเห็นเนื้อหาใดๆ ของแชท"
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "รายงานว่าเป็นสแปม"
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
-    "messageformat": "Report and block"
+    "messageformat": "รายงานและบล็อก"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, other {สมาชิก {number,number} คน}}"

@@ -3048,7 +3048,7 @@
     "messageformat": "Tin nhắn xem một lần không được lưu trong lịch sử trò chuyện."
   },
   "icu:Message--tap-to-view--outgoing--expired-toast-2": {
-    "messageformat": "View-once media is deleted after sending"
+    "messageformat": "Tệp phương tiện xem một lần được xóa sau khi gửi"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "Video xem một lần"
@@ -4893,7 +4893,7 @@
     "messageformat": "Bỏ chặn nhóm"
   },
   "icu:ConversationDetailsActions--report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "Báo cáo spam"
   },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "Lưu trữ cuộc trò chuyện"
@@ -4947,19 +4947,19 @@
     "messageformat": "Bỏ chặn"
   },
   "icu:ConversationDetailsActions--report-spam-modal-title": {
-    "messageformat": "Report spam?"
+    "messageformat": "Báo cáo spam?"
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
-    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+    "messageformat": "Signal sẽ nhận được thông báo rằng người này có thể đang gửi spam. Signal không thể xem nội dung của bất kỳ cuộc trò chuyện nào."
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-group": {
-    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+    "messageformat": "Signal sẽ nhận được thông báo rằng người đã mời bạn vào nhóm này có thể đang gửi spam. Signal không thể xem nội dung của bất kỳ cuộc trò chuyện nào."
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "Báo cáo spam"
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
-    "messageformat": "Report and block"
+    "messageformat": "Báo cáo và chặn"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, other {{number,number} thành viên}}"

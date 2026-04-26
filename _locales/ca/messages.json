@@ -3048,7 +3048,7 @@
     "messageformat": "Els missatges d'una sola visualització no es desen a l'historial del xat"
   },
   "icu:Message--tap-to-view--outgoing--expired-toast-2": {
-    "messageformat": "View-once media is deleted after sending"
+    "messageformat": "Els arxius multimèdia d'una sola visualització s'eliminen un cop han estat enviats"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "Vídeo d'una sola visualització"
@@ -4893,7 +4893,7 @@
     "messageformat": "Desbloquejar el grup"
   },
   "icu:ConversationDetailsActions--report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "Denunciar com a spam"
   },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "Arxivar xat"
@@ -4947,19 +4947,19 @@
     "messageformat": "Desbloquejar"
   },
   "icu:ConversationDetailsActions--report-spam-modal-title": {
-    "messageformat": "Report spam?"
+    "messageformat": "Denunciar com a spam?"
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
-    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+    "messageformat": "Signal rebrà una notificació que la persona pot estar enviant spam. Signal no pot veure el contingut de cap xat."
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-group": {
-    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+    "messageformat": "Signal rebrà una notificació que la persona que t'ha convidat a aquest grup pot estar enviant spam. Signal no pot veure el contingut de cap xat."
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "Denunciar com a spam"
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
-    "messageformat": "Report and block"
+    "messageformat": "Denunciar i bloquejar"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} membre} other {{number,number} membres}}"

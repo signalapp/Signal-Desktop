@@ -3048,7 +3048,7 @@
     "messageformat": "Beskeder, der vises én gang, gemmes ikke i din chathistorik."
   },
   "icu:Message--tap-to-view--outgoing--expired-toast-2": {
-    "messageformat": "View-once media is deleted after sending"
+    "messageformat": "Mediefiler med engangsvisning slettes efter afsendelse"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "Video med engangsvisning"
@@ -4893,7 +4893,7 @@
     "messageformat": "Fjern blokering af gruppe"
   },
   "icu:ConversationDetailsActions--report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "Rapportér spam"
   },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "Arkivér chat"
@@ -4947,19 +4947,19 @@
     "messageformat": "Fjern blokering"
   },
   "icu:ConversationDetailsActions--report-spam-modal-title": {
-    "messageformat": "Report spam?"
+    "messageformat": "Rapportér spam?"
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
-    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+    "messageformat": "Signal får besked om at denne person muligvis sender spam. Signal kan ikke se indholdet af chats."
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-group": {
-    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+    "messageformat": "Signal får besked om at den person, der inviterede dig til denne gruppe, muligvis sender spam. Signal kan ikke se indholdet af chats."
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "Rapportér spam"
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
-    "messageformat": "Report and block"
+    "messageformat": "Rapportér og blokér"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} medlem} other {{number,number} medlemmer}}"

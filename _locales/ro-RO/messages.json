@@ -3048,7 +3048,7 @@
     "messageformat": "Mesajele vizibile o singură dată nu sunt stocate în istoricul conversației."
   },
   "icu:Message--tap-to-view--outgoing--expired-toast-2": {
-    "messageformat": "View-once media is deleted after sending"
+    "messageformat": "Media Vizualizare unică este ștearsă după trimitere"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "Videoclip vizibil o singură dată"
@@ -4893,7 +4893,7 @@
     "messageformat": "Deblochează grup"
   },
   "icu:ConversationDetailsActions--report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "Raportează spam"
   },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "Arhivează conversația"
@@ -4947,19 +4947,19 @@
     "messageformat": "Deblochează"
   },
   "icu:ConversationDetailsActions--report-spam-modal-title": {
-    "messageformat": "Report spam?"
+    "messageformat": "Raportezi spam-ul?"
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
-    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+    "messageformat": "Signal va fi notificat că această persoană poate trimite spam. Signal nu poate vedea conținutul niciunei conversații."
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-group": {
-    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+    "messageformat": "Signal va fi notificat că persoana care te-a invitat în acest grup, ar putea trimite spam. Signal nu poate vedea conținutul niciunei conversații."
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "Raportează spam"
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
-    "messageformat": "Report and block"
+    "messageformat": "Raportează și blochează"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} membru} few {{number,number} membri} other {{number,number} de membri}}"

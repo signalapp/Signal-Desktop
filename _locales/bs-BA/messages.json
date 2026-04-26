@@ -3048,7 +3048,7 @@
     "messageformat": "Poruke za jednokratni prikaz se ne pohranjuju u historiji chata."
   },
   "icu:Message--tap-to-view--outgoing--expired-toast-2": {
-    "messageformat": "View-once media is deleted after sending"
+    "messageformat": "Medij View-once se briše nakon slanja"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "Jednokratni videozapis"
@@ -4893,7 +4893,7 @@
     "messageformat": "Odblokiraj grupu"
   },
   "icu:ConversationDetailsActions--report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "Prijavi neželjenu poštu"
   },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "Arhiviraj chat"
@@ -4947,19 +4947,19 @@
     "messageformat": "Odblokiraj"
   },
   "icu:ConversationDetailsActions--report-spam-modal-title": {
-    "messageformat": "Report spam?"
+    "messageformat": "Prijaviti neželjenu poštu?"
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
-    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+    "messageformat": "Signal će biti obaviješten da ova osoba možda šalje neželjenu poštu. Signal ne može vidjeti sadržaj nijednog razgovora."
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-group": {
-    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+    "messageformat": "Signal će biti obaviješten da osoba koja vas je pozvala u ovu grupu možda šalje neželjenu poštu. Signal ne može vidjeti sadržaj nijednog razgovora."
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "Prijavi neželjenu poštu"
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
-    "messageformat": "Report and block"
+    "messageformat": "Prijavi i blokiraj"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} član} few {{number,number} člana} many {{number,number} članova} other {{number,number} članova}}"

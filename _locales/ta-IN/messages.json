@@ -3048,7 +3048,7 @@
     "messageformat": "\"பார்வைக்கு ஒரு முறை மட்டுமே\" மெசேஜ்கள் உங்கள் சாட் வரலாற்றில் சேமிக்கப்படவில்லை."
   },
   "icu:Message--tap-to-view--outgoing--expired-toast-2": {
-    "messageformat": "View-once media is deleted after sending"
+    "messageformat": "அனுப்பிய பிறகு ஒருமுறை-காண்பித்தல் மீடியா நீக்கப்படும்"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "ஒரு முறை-காணும் காணொளி"
@@ -4893,7 +4893,7 @@
     "messageformat": "குழுவைத் தடைநீக்கு"
   },
   "icu:ConversationDetailsActions--report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "ஸ்பேம் எனப் புகாரளி"
   },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "சாட்டைக் காப்பகப்படுத்தவும்"
@@ -4947,19 +4947,19 @@
     "messageformat": "தடைநீக்கு"
   },
   "icu:ConversationDetailsActions--report-spam-modal-title": {
-    "messageformat": "Report spam?"
+    "messageformat": "ஸ்பேம் எனப் புகாரளிப்பதா?"
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
-    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+    "messageformat": "இந்த நபர் உங்களுக்கு ஸ்பேம் அனுப்புவதாக சிக்னலுக்குத் தெரிவிக்கப்படும். சாட்களின் உள்ளடக்கம் எதையும் சிக்னலால் பார்க்க முடியவில்லை."
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-group": {
-    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+    "messageformat": "இந்தத் தொகுப்பிற்கு உங்களுக்கான அழைப்பை விடுத்தவர் ஸ்பேம் அனுப்புபவராக இருக்கலாம் என்பது சிக்னலுக்குத் தெரிவிக்கப்படும். எந்தவொரு உரையாடல்களின் உள்ளடக்கத்தையும் சிக்னலால் பார்க்க முடியாது."
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "ஸ்பேம் எனப் புகாரளி"
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
-    "messageformat": "Report and block"
+    "messageformat": "புகாரளித்து தடு"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} உறுப்பினர்} other {{number,number} உறுப்பினர்கள்}}"

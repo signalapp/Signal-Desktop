@@ -2559,7 +2559,7 @@
     "messageformat": "Вы обновили группу."
   },
   "icu:collapsedGroupUpdates": {
-    "messageformat": "{count, plural, one {{count,number} группа обновлена} few {{count,number} группы обновлены} many {{count,number} групп обновлены} other {{count,number} группы обновлены}}"
+    "messageformat": "{count, plural, one {{count,number} обновление в группе} few {{count,number} обновления в группе} many {{count,number} обновлений в группе} other {{count,number} обновления в группе}}"
   },
   "icu:multidayCollapse__container": {
     "messageformat": "{containerDescription} · {dayCountSummary}"
@@ -2568,7 +2568,7 @@
     "messageformat": "{dayCount, plural, one {{dayCount,number} день} few {{dayCount,number} дня} many {{dayCount,number} дней} other {{dayCount,number} дней}}"
   },
   "icu:collapsedChatUpdates": {
-    "messageformat": "{count, plural, one {{count,number} чат обновлён} few {{count,number} чата обновлены} many {{count,number} чатов обновлены} other {{count,number} чата обновлены}}"
+    "messageformat": "{count, plural, one {{count,number} обновление в чате} few {{count,number} обновления в чате} many {{count,number} обновлений в чате} other {{count,number} обновления в чате}}"
   },
   "icu:collapsedTimerChanges": {
     "messageformat": "{count, plural, one {{count,number} изменение таймера исчезающего сообщения · {endingState}} few {{count,number} изменения таймера исчезающего сообщения · {endingState}} many {{count,number} изменений таймера исчезающего сообщения · {endingState}} other {{count,number} изменения таймера исчезающего сообщения · {endingState}}}"
@@ -3048,7 +3048,7 @@
     "messageformat": "Одноразовые сообщения не сохраняются в истории вашего чата."
   },
   "icu:Message--tap-to-view--outgoing--expired-toast-2": {
-    "messageformat": "View-once media is deleted after sending"
+    "messageformat": "Одноразовое медиасообщение удалено после отправки"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "Одноразовое видео"
@@ -4893,7 +4893,7 @@
     "messageformat": "Разблокировать группу"
   },
   "icu:ConversationDetailsActions--report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "Сообщить о спаме"
   },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "Архивировать чат"
@@ -4947,19 +4947,19 @@
     "messageformat": "Разблокировать"
   },
   "icu:ConversationDetailsActions--report-spam-modal-title": {
-    "messageformat": "Report spam?"
+    "messageformat": "Сообщить о спаме?"
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
-    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+    "messageformat": "Signal будет уведомлен о том, что этот человек может рассылать спам. Signal не видит содержимое чатов."
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-group": {
-    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+    "messageformat": "Signal будет уведомлён о том, что человек, пригласивший вас в эту группу, может рассылать спам. Signal не видит содержимое чатов."
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "Сообщить о спаме"
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
-    "messageformat": "Report and block"
+    "messageformat": "Сообщить и заблокировать"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} участник} few {{number,number} участника} many {{number,number} участников} other {{number,number} участника}}"

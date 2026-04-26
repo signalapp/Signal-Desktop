@@ -3048,7 +3048,7 @@
     "messageformat": "Vis-én-gang-meldinger blir ikke lagret i meldingsloggen."
   },
   "icu:Message--tap-to-view--outgoing--expired-toast-2": {
-    "messageformat": "View-once media is deleted after sending"
+    "messageformat": "Flyktige mediefiler slettes når de er sendt"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "Flyktig video"
@@ -4893,7 +4893,7 @@
     "messageformat": "Fjern blokkering av gruppen"
   },
   "icu:ConversationDetailsActions--report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "Rapporter som søppelpost"
   },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "Arkiver samtale"
@@ -4947,19 +4947,19 @@
     "messageformat": "Fjern blokkering"
   },
   "icu:ConversationDetailsActions--report-spam-modal-title": {
-    "messageformat": "Report spam?"
+    "messageformat": "Vil du rapportere som søppelpost?"
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
-    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+    "messageformat": "Signal blir varslet om at denne personen kan ha sendt søppelpost. Signal kan ikke se innholdet i samtaler."
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-group": {
-    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+    "messageformat": "Signal blir varslet om at personen som inviterte deg inn i gruppen, kan ha sendt søppelpost. Signal kan ikke se innholdet i samtaler."
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "Rapporter som søppelpost"
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
-    "messageformat": "Report and block"
+    "messageformat": "Rapportér og blokkér"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} medlem} other {{number,number} medlemmer}}"

@@ -2559,7 +2559,7 @@
     "messageformat": "Hai aggiornato il gruppo."
   },
   "icu:collapsedGroupUpdates": {
-    "messageformat": "{count, plural, one {{count,number} novità dai gruppi} other {{count,number} novità dai gruppi}}"
+    "messageformat": "{count, plural, one {{count,number} novità dal gruppo} other {{count,number} novità dal gruppo}}"
   },
   "icu:multidayCollapse__container": {
     "messageformat": "{containerDescription} · {dayCountSummary}"
@@ -2568,7 +2568,7 @@
     "messageformat": "{dayCount, plural, one {{dayCount,number} giorno} other {{dayCount,number} giorni}}"
   },
   "icu:collapsedChatUpdates": {
-    "messageformat": "{count, plural, one {{count,number} novità dalle chat} other {{count,number} novità dalle chat}}"
+    "messageformat": "{count, plural, one {{count,number} novità dalla chat} other {{count,number} novità dalla chat}}"
   },
   "icu:collapsedTimerChanges": {
     "messageformat": "{count, plural, one {{count,number} modifica alla durata dei messaggi temporanei · {endingState}} other {{count,number} modifiche alla durata dei messaggi temporanei · {endingState}}}"
@@ -3048,7 +3048,7 @@
     "messageformat": "I messaggi visualizzabili solo una volta non sono memorizzati nella tua cronologia delle chat."
   },
   "icu:Message--tap-to-view--outgoing--expired-toast-2": {
-    "messageformat": "View-once media is deleted after sending"
+    "messageformat": "I media visualizzabili una volta vengono eliminati dopo l'invio"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "Vedi il video visualizzabile una volta"
@@ -4893,7 +4893,7 @@
     "messageformat": "Sblocca il gruppo"
   },
   "icu:ConversationDetailsActions--report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "Segnala come spam"
   },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "Archivia chat"
@@ -4947,19 +4947,19 @@
     "messageformat": "Sblocca"
   },
   "icu:ConversationDetailsActions--report-spam-modal-title": {
-    "messageformat": "Report spam?"
+    "messageformat": "Segnalare come spam?"
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
-    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+    "messageformat": "Se procedi, Signal saprà che questa persona sta inviando contenuti spam. Ricorda che Signal non può vedere il contenuto delle chat."
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-group": {
-    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+    "messageformat": "Se procedi, Signal saprà che la persona che ti ha invitato in questo gruppo sta inviando contenuti spam. Ricorda che Signal non può vedere il contenuto delle chat."
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "Segnala come spam"
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
-    "messageformat": "Report and block"
+    "messageformat": "Segnala e blocca"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} persona} other {{number,number} persone}}"

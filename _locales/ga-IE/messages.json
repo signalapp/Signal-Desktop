@@ -3048,7 +3048,7 @@
     "messageformat": "Ní stóráiltear teachtaireachtaí amhairc aonuaire i stair do chomhráite."
   },
   "icu:Message--tap-to-view--outgoing--expired-toast-2": {
-    "messageformat": "View-once media is deleted after sending"
+    "messageformat": "Scriostar meáin amhairc aonuaire tar éis a seoladh"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "Físeán Amhairc Aonuaire"
@@ -4893,7 +4893,7 @@
     "messageformat": "Bain an bac den ghrúpa"
   },
   "icu:ConversationDetailsActions--report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "Tuairiscigh turscar"
   },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "Cuir comhrá sa chartlann"
@@ -4947,19 +4947,19 @@
     "messageformat": "Bain an bac"
   },
   "icu:ConversationDetailsActions--report-spam-modal-title": {
-    "messageformat": "Report spam?"
+    "messageformat": "Tuairiscigh turscar?"
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
-    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+    "messageformat": "Cuirfear in iúl do Signal go bhféadfadh go bhfuil an duine seo ag seoladh turscair. Ní féidir le Signal inneachar comhráite a fheiceáil."
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-group": {
-    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+    "messageformat": "Cuirfear in iúl do Signal go bhféadfadh go bhfuil an duine a thug cuireadh duit chuig an ngrúpa seo ag seoladh turscair. Ní féidir le Signal inneachar comhráite a fheiceáil."
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "Tuairiscigh turscar"
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
-    "messageformat": "Report and block"
+    "messageformat": "Tuairiscigh agus cuir bac air nó uirthi"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} bhall} two {{number,number} bhall} few {{number,number} bhall} many {{number,number} mball} other {{number,number} ball}}"

@@ -3048,7 +3048,7 @@
     "messageformat": "Vienreiz skatāmās ziņas netiek saglabātas jūsu sarunu vēsturē."
   },
   "icu:Message--tap-to-view--outgoing--expired-toast-2": {
-    "messageformat": "View-once media is deleted after sending"
+    "messageformat": "Vienreiz skatāmie multivides faili tiek dzēsti pēc nosūtīšanas"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "Vienreiz skatāms video"
@@ -4893,7 +4893,7 @@
     "messageformat": "Atbloķēt grupu"
   },
   "icu:ConversationDetailsActions--report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "Ziņot par surogātpastu"
   },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "Arhivēt sarunu"
@@ -4947,19 +4947,19 @@
     "messageformat": "Atbloķēt"
   },
   "icu:ConversationDetailsActions--report-spam-modal-title": {
-    "messageformat": "Report spam?"
+    "messageformat": "Vai ziņot par surogātpastu?"
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
-    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+    "messageformat": "Signal saņems ziņu, ka šī persona, iespējams, sūta surogātpastu. Signal pārstāvjiem nav redzams nevienas sarunas saturs."
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-group": {
-    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+    "messageformat": "Signal tiks informēts, ka persona, kura aicināja jūs pievienoties šai grupai, iespējams, sūta surogātpastu. Signal pārstāvjiem nav pieejams nevienas sarunas saturs."
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "Ziņot par surogātpastu"
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
-    "messageformat": "Report and block"
+    "messageformat": "Ziņot un bloķēt"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, zero {{number,number} dalībnieki} one {{number,number} dalībnieks} other {{number,number} dalībnieki}}"

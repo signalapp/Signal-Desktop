@@ -3048,7 +3048,7 @@
     "messageformat": "Eenkeerkyk-boodskappe word nie in jou kletsgeskiedenis gestoor nie."
   },
   "icu:Message--tap-to-view--outgoing--expired-toast-2": {
-    "messageformat": "View-once media is deleted after sending"
+    "messageformat": "Eenkeerkyk-media word uitgevee nadat dit gestuur is"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "Eenkeerkyk-video"
@@ -4893,7 +4893,7 @@
     "messageformat": "Ontsper groep"
   },
   "icu:ConversationDetailsActions--report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "Rapporteer slenterpos"
   },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "Argiveer klets"
@@ -4947,19 +4947,19 @@
     "messageformat": "Ontsper"
   },
   "icu:ConversationDetailsActions--report-spam-modal-title": {
-    "messageformat": "Report spam?"
+    "messageformat": "Rapporteer slenterpos?"
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
-    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+    "messageformat": "Signal sal verwittig word dat hierdie persoon dalk besig is om slenterpos te stuur. Signal kan nie die inhoud van enige kletse sien nie."
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-group": {
-    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+    "messageformat": "Signal sal verwittig word dat die persoon wat jou na hierdie groep genooi het, dalk besig is om slenterpos te stuur. Signal kan nie die inhoud van enige kletse sien nie."
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "Rapporteer slenterpos"
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
-    "messageformat": "Report and block"
+    "messageformat": "Rapporteer en versper"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} lid} other {{number,number} lede}}"

@@ -2559,7 +2559,7 @@
     "messageformat": "グループを更新しました。"
   },
   "icu:collapsedGroupUpdates": {
-    "messageformat": "{count, plural, other {{count,number} 件のグループ更新}}"
+    "messageformat": "{count, plural, other {{count,number} 件のグループ内更新}}"
   },
   "icu:multidayCollapse__container": {
     "messageformat": "{containerDescription} · {dayCountSummary}"
@@ -2568,7 +2568,7 @@
     "messageformat": "{dayCount, plural, other {{dayCount,number}日前}}"
   },
   "icu:collapsedChatUpdates": {
-    "messageformat": "{count, plural, other {{count,number} 件のチャット更新}}"
+    "messageformat": "{count, plural, other {{count,number} 件のチャット内更新}}"
   },
   "icu:collapsedTimerChanges": {
     "messageformat": "{count, plural, other {{count,number} 件の消えるメッセージのタイマー変更：{endingState}}}"
@@ -3048,7 +3048,7 @@
     "messageformat": "使い捨てメッセージはチャット履歴に保存されません。"
   },
   "icu:Message--tap-to-view--outgoing--expired-toast-2": {
-    "messageformat": "View-once media is deleted after sending"
+    "messageformat": "使い捨てメディアは送信後に削除されます"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "使い捨て動画"
@@ -4893,7 +4893,7 @@
     "messageformat": "グループのブロックを解除"
   },
   "icu:ConversationDetailsActions--report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "スパムとして報告"
   },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "チャットをアーカイブ"
@@ -4947,19 +4947,19 @@
     "messageformat": "ブロックを解除"
   },
   "icu:ConversationDetailsActions--report-spam-modal-title": {
-    "messageformat": "Report spam?"
+    "messageformat": "スパムとして報告しますか？"
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
-    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+    "messageformat": "この人物がスパムを送信している可能性をSignalに通知します。Signalはチャットの内容を見ることはできません。"
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-group": {
-    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+    "messageformat": "このグループへあなたを招待している相手がスパムを送信している可能性をSignalに通知します。Signalはチャットの内容を見ることはできません。"
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "スパムとして報告"
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
-    "messageformat": "Report and block"
+    "messageformat": "報告してブロック"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, other {メンバー{number,number}人}}"

@@ -3048,7 +3048,7 @@
     "messageformat": "Еднократните съобщения не се запазват в хронологията на чата ви."
   },
   "icu:Message--tap-to-view--outgoing--expired-toast-2": {
-    "messageformat": "View-once media is deleted after sending"
+    "messageformat": "Мултимедията за еднократен преглед се изтрива след изпращане"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "Видео за еднократно гледане"
@@ -4893,7 +4893,7 @@
     "messageformat": "Отблокиране на групата"
   },
   "icu:ConversationDetailsActions--report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "Докладване на спам"
   },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "Архивиране на чата"
@@ -4947,19 +4947,19 @@
     "messageformat": "Отблокиране"
   },
   "icu:ConversationDetailsActions--report-spam-modal-title": {
-    "messageformat": "Report spam?"
+    "messageformat": "Докладване на спам?"
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
-    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+    "messageformat": "Signal ще получи известие, че този човек може би изпраща спам. Signal няма как да види съдържанието на никой чат."
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-group": {
-    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+    "messageformat": "Signal ще получи известие, че човекът, който ви е поканил в тази група, може би изпраща спам. Signal не може да вижда съдържанието на чатовете."
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "Докладване на спам"
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
-    "messageformat": "Report and block"
+    "messageformat": "Докладване и блокиране"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} член} other {{number,number} членове}}"

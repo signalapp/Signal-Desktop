@@ -747,7 +747,7 @@
     "messageformat": "Maaf, fail yang dipilih melebihi sekatan saiz mesej. {limit,number} {units}"
   },
   "icu:videoFileSizeWarning": {
-    "messageformat": "Maaf, fail video yang dipilih melebihi sekatan saiz mesej. {limit,number}{units}"
+    "messageformat": "Maaf, fail video yang dipilih melebihi had saiz mesej. {limit,number}{units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Tidak dapat memuatkan lampiran yang dipilih."
@@ -2214,13 +2214,13 @@
     "messageformat": "Gagal dipadam"
   },
   "icu:deleteFailedClickForDetails": {
-    "messageformat": "Padam gagal, klik untuk butiran"
+    "messageformat": "Pemadaman gagal, klik untuk butiran"
   },
   "icu:retryDeleteForEveryone--title": {
-    "messageformat": "Cuba semula gagal memadam?"
+    "messageformat": "Cuba padam semula?"
   },
   "icu:retryDeleteForEveryone--body": {
-    "messageformat": "Mesej gagal dipadamkan. Periksa sambungan anda dan cuba lagi."
+    "messageformat": "Mesej gagal dipadam. Periksa sambungan anda dan cuba lagi."
   },
   "icu:retryDeleteForEveryone--tryAgain": {
     "messageformat": "Cuba lagi"
@@ -2238,7 +2238,7 @@
     "messageformat": "Sebahagiannya telah dipadamkan, klik untuk cuba semula"
   },
   "icu:partiallyDeleted--clickForDetails": {
-    "messageformat": "Sebahagiannya dipadamkan, klik untuk butiran"
+    "messageformat": "Sebahagiannya dipadam, klik untuk butiran"
   },
   "icu:expiredWarning": {
     "messageformat": "Versi Signal Desktop telah tamat tempoh. Sila naik taraf kepada versi terkini untuk meneruskan pemesejan."
@@ -3048,7 +3048,7 @@
     "messageformat": "Mesej lihat sekali tidak disimpan dalam sejarah sembang anda."
   },
   "icu:Message--tap-to-view--outgoing--expired-toast-2": {
-    "messageformat": "View-once media is deleted after sending"
+    "messageformat": "Media lihat sekali dipadamkan selepas dihantar"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "Video Lihat Sekali"
@@ -4749,7 +4749,7 @@
     "messageformat": "Redamkan audio"
   },
   "icu:ContactModal--confirm-mute-body": {
-    "messageformat": "Adakah anda pasti anda mahu meredamkan {contact}?"
+    "messageformat": "Adakah anda pasti mahu meredamkan {contact}?"
   },
   "icu:ContactModal--confirm-mute-primary-button": {
     "messageformat": "Redamkan"
@@ -4893,7 +4893,7 @@
     "messageformat": "Nyahsekat kumpulan"
   },
   "icu:ConversationDetailsActions--report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "Laporkan spam"
   },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "Arkibkan Sembang"
@@ -4947,19 +4947,19 @@
     "messageformat": "Nyahsekat"
   },
   "icu:ConversationDetailsActions--report-spam-modal-title": {
-    "messageformat": "Report spam?"
+    "messageformat": "Laporkan spam?"
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
-    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+    "messageformat": "Signal akan dimaklumkan bahawa orang ini mungkin menghantar spam. Signal tidak dapat melihat kandungan dalam mana-mana sembang."
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-group": {
-    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+    "messageformat": "Signal akan dimaklumkan bahawa orang yang menjemput anda ke kumpulan ini, mungkin menghantar spam. Signal tidak dapat melihat kandungan dalam mana-mana sembang."
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "Laporkan spam"
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
-    "messageformat": "Report and block"
+    "messageformat": "Laporkan dan sekat"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, other {{number,number} ahli}}"
@@ -5167,7 +5167,7 @@
     "messageformat": "{count, plural, other {Anda hanya boleh memilih sehingga {count,number} mesej untuk dipadamkan untuk semua orang}}"
   },
   "icu:DiscardDraftDialog__title": {
-    "messageformat": "Buang Draf?"
+    "messageformat": "Buang draf?"
   },
   "icu:DiscardDraftDialog__description": {
     "messageformat": "Tindakan ini tidak boleh dibatalkan."

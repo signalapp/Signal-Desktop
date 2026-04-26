@@ -3048,7 +3048,7 @@
     "messageformat": "ایک وقتی دیکھے جانے والے میسجز آپ کی چیٹ ہسٹری میں اسٹور نہیں ہوتے۔"
   },
   "icu:Message--tap-to-view--outgoing--expired-toast-2": {
-    "messageformat": "View-once media is deleted after sending"
+    "messageformat": "ایک مرتبہ دیکھا جانے والا میڈیا بھیجنے کے بعد حذف کر دیا جاتا ہے"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "ایک بار دیکھنے کی ویڈیو"
@@ -4893,7 +4893,7 @@
     "messageformat": "گروپ کو اَن بلاک کریں"
   },
   "icu:ConversationDetailsActions--report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "اسپام کو رپورٹ کریں"
   },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "چیٹ آرکائیو کریں"
@@ -4947,19 +4947,19 @@
     "messageformat": "اَن بلاک کریں"
   },
   "icu:ConversationDetailsActions--report-spam-modal-title": {
-    "messageformat": "Report spam?"
+    "messageformat": "اسپام کو رپورٹ کریں؟"
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
-    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+    "messageformat": "Signal کو مطلع کیا جائے گا کہ یہ فرد اسپام بھیج رہا ہو سکتا ہے۔ Signal کسی چیٹس کا مواد نہیں دیکھ سکتا۔"
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-group": {
-    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+    "messageformat": "Signal کو اطلاع دی جائے گی کہ جس شخص نے آپ کو اس گروپ میں مدعو کیا ہے وہ شاید اسپام بھیج رہا ہو۔ Signal کسی بھی چیٹس کا مواد نہیں دیکھ سکتا۔"
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "اسپام کو رپورٹ کریں"
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
-    "messageformat": "Report and block"
+    "messageformat": "رپورٹ کریں اور بلاک کریں"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} ممبر} other {{number,number} ممبرز}}"

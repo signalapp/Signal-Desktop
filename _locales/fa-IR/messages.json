@@ -3048,7 +3048,7 @@
     "messageformat": "پیام‌های یک‌بار مصرف در تاریخچه گفتگوی شما ذخیره نمی‌شوند."
   },
   "icu:Message--tap-to-view--outgoing--expired-toast-2": {
-    "messageformat": "View-once media is deleted after sending"
+    "messageformat": "رسانه یک‌بار قابل مشاهده پس از ارسال پاک می‌شود"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "ویدئو با قابلیت یک‌بار مشاهده"
@@ -4893,7 +4893,7 @@
     "messageformat": "رفع مسدودیت گروه"
   },
   "icu:ConversationDetailsActions--report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "به‌عنوان هرزنامه گزارش شود"
   },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "بایگانی گفتگو"
@@ -4947,19 +4947,19 @@
     "messageformat": "رفع مسدودیت"
   },
   "icu:ConversationDetailsActions--report-spam-modal-title": {
-    "messageformat": "Report spam?"
+    "messageformat": "به‌عنوان هرزنامه گزارش شود؟"
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
-    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+    "messageformat": "سیگنال مطلع خواهد شد که این فرد ممکن است در حال ارسال هرزنامه باشد. سیگنال نمی‌تواند محتوای هیچ گفتگویی را ببیند."
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-group": {
-    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+    "messageformat": "سیگنال مطلع خواهد شد که فردی که شما را به این گروه دعوت کرده ممکن است در حال ارسال هرزنامه باشد. سیگنال نمی‌تواند محتوای هیچ گفتگویی را ببیند."
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "به‌عنوان هرزنامه گزارش شود"
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
-    "messageformat": "Report and block"
+    "messageformat": "گزارش و مسدود شود"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} عضو} other {{number,number} عضو}}"

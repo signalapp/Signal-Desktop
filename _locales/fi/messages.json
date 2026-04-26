@@ -3048,7 +3048,7 @@
     "messageformat": "Kerran katsottavia viestejä ei tallenneta keskusteluhistoriaasi."
   },
   "icu:Message--tap-to-view--outgoing--expired-toast-2": {
-    "messageformat": "View-once media is deleted after sending"
+    "messageformat": "Kertaluontoinen media poistetaan lähettämisen jälkeen"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "Kerran katsottava video"
@@ -4893,7 +4893,7 @@
     "messageformat": "Poista ryhmän esto"
   },
   "icu:ConversationDetailsActions--report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "Ilmoita roskapostista"
   },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "Arkistoi keskustelu"
@@ -4947,19 +4947,19 @@
     "messageformat": "Poista esto"
   },
   "icu:ConversationDetailsActions--report-spam-modal-title": {
-    "messageformat": "Report spam?"
+    "messageformat": "Ilmoita roskapostista?"
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
-    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+    "messageformat": "Signal saa ilmoituksen, että tämä henkilö saattaa lähettää roskapostia. Signal ei näe keskustelujen sisältöä."
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-group": {
-    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+    "messageformat": "Signal saa ilmoituksen, että sinut ryhmään kutsunut henkilö saattaa lähettää roskapostia. Signal ei näe keskustelujen sisältöä."
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "Ilmoita roskapostista"
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
-    "messageformat": "Report and block"
+    "messageformat": "Ilmoita ja estä"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} jäsen} other {{number,number} jäsentä}}"

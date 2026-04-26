@@ -3048,7 +3048,7 @@
     "messageformat": "Еднократно видливите пораки не се зачувани во историјата на разговорот."
   },
   "icu:Message--tap-to-view--outgoing--expired-toast-2": {
-    "messageformat": "View-once media is deleted after sending"
+    "messageformat": "Еднократно видливите медиумски датотеки се бришат по праќањето"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "Еднократно видливо видео"
@@ -4893,7 +4893,7 @@
     "messageformat": "Деблокирај ја групата"
   },
   "icu:ConversationDetailsActions--report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "Пријави како спам"
   },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "Архивирај разговор"
@@ -4947,19 +4947,19 @@
     "messageformat": "Деблокирај"
   },
   "icu:ConversationDetailsActions--report-spam-modal-title": {
-    "messageformat": "Report spam?"
+    "messageformat": "Сакате да пријавите како спам?"
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
-    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+    "messageformat": "Signal е известен дека оваа личност можеби испраќа спам. Signal не може да ја види содржината на ниеден разговор."
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-group": {
-    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+    "messageformat": "Signal ќе биде известен дека личноста која ве покани во оваа група можеби испраќа спам. Signal не може да ја види содржината на ниеден разговор."
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "Пријави како спам"
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
-    "messageformat": "Report and block"
+    "messageformat": "Пријави и блокирај"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} член} other {{number,number} членови}}"

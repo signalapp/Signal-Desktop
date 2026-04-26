@@ -3048,7 +3048,7 @@
     "messageformat": "Ühekordselt nähtavaid sõnumeid ei salvestata vestluse ajalukku."
   },
   "icu:Message--tap-to-view--outgoing--expired-toast-2": {
-    "messageformat": "View-once media is deleted after sending"
+    "messageformat": "Ühekordselt vaadatav sisu kustutatakse pärast saatmist"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "Ühekordselt vaadatav video"
@@ -4893,7 +4893,7 @@
     "messageformat": "Eemalda grupi blokeering"
   },
   "icu:ConversationDetailsActions--report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "Teata rämpspostist"
   },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "Arhiveeri vestlus"
@@ -4947,19 +4947,19 @@
     "messageformat": "Eemalda blokeering"
   },
   "icu:ConversationDetailsActions--report-spam-modal-title": {
-    "messageformat": "Report spam?"
+    "messageformat": "Kas teatada rämpspostist?"
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
-    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+    "messageformat": "Signalit teavitatakse, et see isik võib olla rämpsposti edastaja. Signal ei näe ühegi vestluse sisu."
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-group": {
-    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+    "messageformat": "Signalit teavitatakse, et isik, kes sind sellesse gruppi kutsus, võib olla rämpsposti edastaja. Signal ei näe ühegi vestluse sisu."
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "Teata rämpspostist"
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
-    "messageformat": "Report and block"
+    "messageformat": "Teata ja blokeeri"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} liige} other {{number,number} liiget}}"

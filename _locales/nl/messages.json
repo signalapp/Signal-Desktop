@@ -3048,7 +3048,7 @@
     "messageformat": "Eenmalig te bekijken berichten worden niet opgeslagen in je chatgeschiedenis."
   },
   "icu:Message--tap-to-view--outgoing--expired-toast-2": {
-    "messageformat": "View-once media is deleted after sending"
+    "messageformat": "Eenmaligeweergave-media worden verwijderd na verzenden"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "Eenmaligeweergave-video"
@@ -4893,7 +4893,7 @@
     "messageformat": "Groep deblokkeren"
   },
   "icu:ConversationDetailsActions--report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "Spam melden"
   },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "Chat archiveren"
@@ -4947,19 +4947,19 @@
     "messageformat": "Deblokkeren"
   },
   "icu:ConversationDetailsActions--report-spam-modal-title": {
-    "messageformat": "Report spam?"
+    "messageformat": "Spam melden?"
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
-    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+    "messageformat": "Signal wordt op de hoogte gebracht dat deze persoon mogelijk spam verstuurt. Signal kan de inhoud van chats niet zien."
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-group": {
-    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+    "messageformat": "Signal wordt op de hoogte gebracht dat de persoon die je voor deze groep heeft uitgenodigd mogelijk spam verstuurt. Signal kan de inhoud van chats niet zien."
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "Spam melden"
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
-    "messageformat": "Report and block"
+    "messageformat": "Melden en blokkeren"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} lid} other {{number,number} leden}}"
