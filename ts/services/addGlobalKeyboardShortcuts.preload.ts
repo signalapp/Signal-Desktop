@@ -223,40 +223,13 @@ export function addGlobalKeyboardShortcuts(): void {
       shiftKey &&
       (key === 'l' || key === 'L')
     ) {
-      const button = document.querySelector(
+      const trigger = document.querySelector<HTMLElement>(
         '.module-ConversationHeader__button--more'
       );
-      if (!button) {
-        return;
-      }
 
-      // Because the menu is shown at a location based on the initiating click, we need
-      //   to fake up a mouse event to get the menu to show somewhere other than (0,0).
-      const { x, y, width, height } = button.getBoundingClientRect();
-      const mouseEvent = document.createEvent('MouseEvents');
-      // Types do not match signature
-      mouseEvent.initMouseEvent(
-        'click',
-        true, // bubbles
-        false, // cancelable
-        // oxlint-disable-next-line typescript/no-explicit-any
-        null as any, // view
-        // oxlint-disable-next-line typescript/no-explicit-any
-        null as any, // detail
-        0, // screenX,
-        0, // screenY,
-        x + width / 2,
-        y + height / 2,
-        false, // ctrlKey,
-        false, // altKey,
-        false, // shiftKey,
-        false, // metaKey,
-        // oxlint-disable-next-line typescript/no-explicit-any
-        false as any, // button,
-        document.body
-      );
-
-      button.dispatchEvent(mouseEvent);
+      // The conversation header menu is a Radix DropdownMenu trigger, which
+      //   opens on pointerdown.
+      trigger?.dispatchEvent(new MouseEvent('pointerdown', { bubbles: true }));
 
       event.preventDefault();
       event.stopPropagation();
