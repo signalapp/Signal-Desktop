@@ -34,3 +34,7 @@ contextBridge.exposeInMainWorld(
 contextBridge.exposeInMainWorld('getFilePath', (file: File) =>
   webUtils.getPathForFile(file)
 );
+
+contextBridge.exposeInMainWorld('getResolvedMessagesLocale', () =>
+  ipcRenderer.sendSync('art-creator:locale')
+);
