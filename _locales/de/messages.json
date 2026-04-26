@@ -1044,7 +1044,7 @@
     "messageformat": "Diese Nachricht wird von diesem Gerät gelöscht."
   },
   "icu:deleteForEveryoneWarning": {
-    "messageformat": "Diese Nachricht wird für alle Chat-Teilnehmer gelöscht, die eine aktuelle Version von Signal verwenden. Sie werden sehen können, dass du eine Nachricht gelöscht hast."
+    "messageformat": "Diese Nachricht wird für alle Chat-Teilnehmenden gelöscht, die eine aktuelle Version von Signal verwenden. Sie werden sehen können, dass du eine Nachricht gelöscht hast."
   },
   "icu:from": {
     "messageformat": "Von"
@@ -1790,6 +1790,12 @@
   "icu:Preferences__EditChatFolderPage__CancelButton": {
     "messageformat": "Abbrechen"
   },
+  "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
+    "messageformat": "Show status icon"
+  },
+  "icu:Preferences__PrivacyPage__ShowStatusIcon__Description": {
+    "messageformat": "Show an icon in message details when they were delivered using sealed sender."
+  },
   "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
     "messageformat": "Automatische Schlüssel-Verifizierung"
   },
@@ -1842,7 +1848,7 @@
     "messageformat": "Zurück zum Anruf"
   },
   "icu:calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
-    "messageformat": "Mikrofon stummgeschaltet aufgrund der Anzahl der Anrufteilnehmer"
+    "messageformat": "Mikrofon stummgeschaltet aufgrund der Anzahl der Anrufteilnehmenden"
   },
   "icu:calling__toasts--aria-label": {
     "messageformat": "Benachrichtigungen für Anrufe"
@@ -1881,7 +1887,7 @@
     "messageformat": "Aus dem Anruf entfernt"
   },
   "icu:calling__has-max-devices": {
-    "messageformat": "Für diesen Anruf wurde die maximale Teilnehmeranzahl erreicht. Bitte versuche es später erneut."
+    "messageformat": "Für diesen Anruf wurde die maximale Anzahl der Teilnehmenden erreicht. Bitte versuche es später erneut."
   },
   "icu:calling__has-max-devices--title": {
     "messageformat": "Anruf ist voll"
@@ -1938,7 +1944,7 @@
     "messageformat": "Reagieren"
   },
   "icu:calling__button--ring__disabled-because-group-is-too-large": {
-    "messageformat": "Gruppe ist zu groß, um bei den Teilnehmern zu klingeln."
+    "messageformat": "Gruppe ist zu groß, um bei den Mitgliedern zu klingeln."
   },
   "icu:CallingButton__ring-off": {
     "messageformat": "Klingelton ausschalten"
@@ -2055,7 +2061,7 @@
     "messageformat": "{name} ist blockiert"
   },
   "icu:calling__block-info": {
-    "messageformat": "Weder du noch dieser Teilnehmer werden gegenseitig Audio- oder Videodaten empfangen."
+    "messageformat": "Weder du noch diese teilnehmende Person werden gegenseitig Audio- oder Videodaten empfangen."
   },
   "icu:calling__missing-media-keys": {
     "messageformat": "Audio- und Videodaten von {name} können nicht empfangen werden"
@@ -2064,7 +2070,7 @@
     "messageformat": "Audio und Video können nicht empfangen werden"
   },
   "icu:calling__missing-media-keys-info": {
-    "messageformat": "Dies kann daran liegen, dass der Teilnehmer die Änderung deiner Sicherheitsnummer nicht verifiziert hat, ein Problem mit dessen Gerät besteht oder er dich blockiert hat."
+    "messageformat": "Dies kann daran liegen, dass die Person die Änderung deiner Sicherheitsnummer nicht verifiziert hat, ein Problem mit dessen Gerät besteht oder er dich blockiert hat."
   },
   "icu:calling__overflow__scroll-up": {
     "messageformat": "Hochscrollen"
@@ -2445,7 +2451,7 @@
     "messageformat": "Attachment missing from backup CDN"
   },
   "icu:ToastManager__CannotAddMemberLabel": {
-    "messageformat": "In dieser Gruppe können nur Administratoren Mitgliedslabels hinzufügen."
+    "messageformat": "In dieser Gruppe können nur Admins Mitgliedslabels hinzufügen."
   },
   "icu:Toast--viewOnceEnabled": {
     "messageformat": "Einmalansicht aktiviert"
@@ -2661,7 +2667,7 @@
     "messageformat": "Diese Nachricht wurde gelöscht."
   },
   "icu:message--deletedByAdmin": {
-    "messageformat": "Administrator {admin} hat diese Nachricht gelöscht"
+    "messageformat": "Admin {admin} hat diese Nachricht gelöscht"
   },
   "icu:message--deletedForEveryone--incoming": {
     "messageformat": "{name} hat diese Nachricht gelöscht"
@@ -3044,11 +3050,8 @@
   "icu:Message--tap-to-view--incoming--expired-toast": {
     "messageformat": "Du hast diese Nachricht bereits angezeigt."
   },
-  "icu:Message--tap-to-view--outgoing--expired-toast": {
-    "messageformat": "Nachrichten zur Einmalansicht werden nicht in deinem Chatverlauf gespeichert."
-  },
   "icu:Message--tap-to-view--outgoing--expired-toast-2": {
-    "messageformat": "View-once media is deleted after sending"
+    "messageformat": "Medien zur Einmalansicht werden nach dem Senden gelöscht"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "Video zur Einmalansicht"
@@ -3515,8 +3518,17 @@
   "icu:ConversationHero--profile-names": {
     "messageformat": "<clickable>Profilnamen</clickable> werden nicht verifiziert"
   },
+  "icu:ConversationHero--name-not-verified": {
+    "messageformat": "Name not verified"
+  },
   "icu:ConversationHero--signal-official-chat": {
     "messageformat": "Das ist der offizielle und einzige Chat von Signal"
+  },
+  "icu:ConversationHero--signal-official-account": {
+    "messageformat": "Official account"
+  },
+  "icu:ConversationHero--signal-official-account--description": {
+    "messageformat": "The only official chat from Signal. Keep up to date with news and release notes."
   },
   "icu:ConversationHero--release-notes": {
     "messageformat": "Bleib auf dem Laufenden mit Neuigkeiten und Versionshinweisen."
@@ -3744,7 +3756,7 @@
     "messageformat": "Du nimmst bereits an einem Anruf teil"
   },
   "icu:calling__call-notification__button__call-full-tooltip": {
-    "messageformat": "Anruf hat die maximale Teilnehmerzahl von {max,number} erreicht"
+    "messageformat": "Anruf hat die maximale Teilnehmendenzahl von {max,number} erreicht"
   },
   "icu:calling__pip--on": {
     "messageformat": "Anruf minimieren"
@@ -4077,7 +4089,7 @@
     "messageformat": "{adminName} hat die Berechtigung zum Hinzufügen von Mitgliedslabels zu »Nur Admins« geändert."
   },
   "icu:GroupV2--access-member-label--admins--unknown": {
-    "messageformat": "Ein Administrator hat die Berechtigung zum Hinzufügen von Mitgliedslabels zu »Nur Admins« geändert."
+    "messageformat": "Ein Admin hat die Berechtigung zum Hinzufügen von Mitgliedslabels zu »Nur Admins« geändert."
   },
   "icu:GroupV2--access-member-label--all--you": {
     "messageformat": "Du hast die Berechtigung zum Hinzufügen von Mitgliedslabels zu »Alle Mitglieder« geändert."
@@ -4086,7 +4098,7 @@
     "messageformat": "{adminName} hat die Berechtigung zum Hinzufügen von Mitgliedslabels zu »Alle Mitglieder« geändert."
   },
   "icu:GroupV2--access-member-label--all--unknown": {
-    "messageformat": "Ein Administrator hat die Berechtigung zum Hinzufügen von Mitgliedslabels zu »Alle Mitglieder« geändert."
+    "messageformat": "Ein Admin hat die Berechtigung zum Hinzufügen von Mitgliedslabels zu »Alle Mitglieder« geändert."
   },
   "icu:GroupV2--access-invite-link--disabled--you": {
     "messageformat": "Du hast Admin-Bestätigungen für den Gruppen-Link deaktiviert."
@@ -4815,7 +4827,7 @@
     "messageformat": "Überprüfe deine Internetverbindung und versuche es erneut."
   },
   "icu:ConversationDetails--member-label--error-permissions": {
-    "messageformat": "In dieser Gruppe können nur Administratoren Mitgliedslabels festlegen."
+    "messageformat": "In dieser Gruppe können nur Admins Mitgliedslabels festlegen."
   },
   "icu:ConversationDetails--disappearing-messages-label": {
     "messageformat": "Verschwindende Nachrichten"
@@ -4893,7 +4905,7 @@
     "messageformat": "Gruppe freigeben"
   },
   "icu:ConversationDetailsActions--report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "Spam melden"
   },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "Chat archivieren"
@@ -4946,20 +4958,17 @@
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "Freigeben"
   },
-  "icu:ConversationDetailsActions--report-spam-modal-title": {
-    "messageformat": "Report spam?"
-  },
   "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
-    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+    "messageformat": "Signal wird benachrichtigt, dass diese Person möglicherweise Spam versendet. Signal kann den Inhalt von Chats nicht sehen."
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-group": {
-    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+    "messageformat": "Signal wird benachrichtigt, dass die Person, die dich zu dieser Gruppe eingeladen hat, möglicherweise Spam versendet. Signal kann den Inhalt von Chats nicht sehen."
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "Spam melden"
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
-    "messageformat": "Report and block"
+    "messageformat": "Melden und blockieren"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} Mitglied} other {{number,number} Mitglieder}}"
@@ -5043,7 +5052,7 @@
     "messageformat": "Link zurücksetzen"
   },
   "icu:GroupLinkManagement--approve-label": {
-    "messageformat": "Administrator-Genehmigung benötigt"
+    "messageformat": "Admin-Genehmigung benötigt"
   },
   "icu:GroupLinkManagement--approve-info": {
     "messageformat": "Ein Admin muss Beitrittsanfragen von neuen Mitgliedern über den Gruppen-Link bestätigen."
@@ -5151,7 +5160,7 @@
     "messageformat": "Für alle löschen?"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
-    "messageformat": "{count, plural, one {Gruppenmitglieder können sehen, dass du als Administrator diese Nachricht gelöscht hast.} other {Gruppenmitglieder können sehen, dass du als Administrator diese Nachrichten gelöscht hast.}}",
+    "messageformat": "{count, plural, one {Gruppenmitglieder können sehen, dass du als Admin diese Nachricht gelöscht hast.} other {Gruppenmitglieder können sehen, dass du als Admin diese Nachrichten gelöscht hast.}}",
     "ignoreUnused": true
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
@@ -5291,6 +5300,9 @@
   },
   "icu:MessageRequestWarning__safety-tips": {
     "messageformat": "Sicherheitstipps"
+  },
+  "icu:MessageRequestWarning__safety-tips-v2": {
+    "messageformat": "Safety tips"
   },
   "icu:ContactSpoofing__same-name--link": {
     "messageformat": "Prüfe Anfragen sorgfältig. Signal hat einen weiteren Kontakt mit demselben Namen gefunden. <reviewRequestLink>Anfrage prüfen</reviewRequestLink>"
@@ -5892,6 +5904,15 @@
   },
   "icu:Preferences__link-previews--description": {
     "messageformat": "Um diese Einstellung zu ändern, öffne die Signal-App auf deinem Mobilgerät und gehe dort zu »Einstellungen« > »Chats«"
+  },
+  "icu:Preferences__link-previews--new-description": {
+    "messageformat": "Retrieve link previews directly from websites for messages you send."
+  },
+  "icu:Preferences__address-book-photos--title": {
+    "messageformat": "Use address book photos"
+  },
+  "icu:Preferences__address-book-photos--description": {
+    "messageformat": "Display contact photos from your address book if available."
   },
   "icu:Preferences__auto-convert-emoji--title": {
     "messageformat": "Eingegebene Emoticons in Emojis umwandeln"
@@ -6499,8 +6520,14 @@
   "icu:Preferences--read-receipts": {
     "messageformat": "Lesebestätigungen"
   },
+  "icu:Preferences--read-receipts--description": {
+    "messageformat": "If disabled, you won't see read receipts from others."
+  },
   "icu:Preferences--typing-indicators": {
     "messageformat": "Tipp-Indikatoren"
+  },
+  "icu:Preferences--typing-indicators--description": {
+    "messageformat": "If disabled, you won't see typing indicators from others."
   },
   "icu:Preferences--updates": {
     "messageformat": "Aktualisierungen"
@@ -6935,7 +6962,7 @@
     "messageformat": "Story-Datenschutz"
   },
   "icu:StoriesSettings__description": {
-    "messageformat": "Storys verschwinden automatisch nach 24 Stunden. Lege fest, wer deine Story sehen kann, oder erstelle neue Storys mit bestimmten Betrachtern oder Gruppen."
+    "messageformat": "Storys verschwinden automatisch nach 24 Stunden. Lege fest, wer deine Story sehen kann, oder erstelle neue Storys mit bestimmtem Publikum oder Gruppen."
   },
   "icu:StoriesSettings__my_stories": {
     "messageformat": "Meine Storys"
@@ -6956,7 +6983,7 @@
     "messageformat": "Wer diese Story sehen kann"
   },
   "icu:StoriesSettings__add-viewer": {
-    "messageformat": "Betrachter hinzufügen"
+    "messageformat": "Publikum hinzufügen"
   },
   "icu:StoriesSettings__remove--action": {
     "messageformat": "Entfernen"
@@ -6983,7 +7010,7 @@
     "messageformat": "Bist du sicher, dass du »{name}« löschen willst? Aktualisierungen, die zu dieser Story geteilt werden, werden ebenfalls gelöscht."
   },
   "icu:StoriesSettings__choose-viewers": {
-    "messageformat": "Betrachter auswählen"
+    "messageformat": "Publikum auswählen"
   },
   "icu:StoriesSettings__name-story": {
     "messageformat": "Story benennen"
@@ -7011,6 +7038,9 @@
   },
   "icu:StoriesSettings__view-receipts--label": {
     "messageformat": "Lesebestätigungen ansehen"
+  },
+  "icu:StoriesSettings__view-receipts--new-description": {
+    "messageformat": "See and share when stories are viewed. If disabled, you won't see when others view your story."
   },
   "icu:StoriesSettings__view-receipts--description": {
     "messageformat": "Um diese Einstellung zu ändern, öffne die Signal-App auf deinem Mobilgerät und gehe dort zu »Einstellungen« -> »Storys«"
@@ -7259,7 +7289,7 @@
     "messageformat": "URL eingeben oder einfügen"
   },
   "icu:StoryCreator__link-preview-empty": {
-    "messageformat": "Füge einen Link für die Betrachter deiner Story hinzu."
+    "messageformat": "Füge einen Link für das Publikum deiner Story hinzu."
   },
   "icu:Stories__failed-send--full": {
     "messageformat": "Story konnte nicht gesendet werden"
@@ -7575,7 +7605,7 @@
     "messageformat": "Anrufnamen bearbeiten"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "Administrator-Genehmigung benötigt"
+    "messageformat": "Admin-Genehmigung benötigt"
   },
   "icu:CallLinkDetails__SettingTooltip--disabled-for-active-call": {
     "messageformat": "Diese Einstellung kann nicht geändert werden, solange der Anruf aktiv ist"
@@ -7617,7 +7647,7 @@
     "messageformat": "Anrufnamen bearbeiten"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "Administrator-Genehmigung benötigt"
+    "messageformat": "Admin-Genehmigung benötigt"
   },
   "icu:CallLinkPendingParticipantModal__ApproveButtonLabel": {
     "messageformat": "Beitritt zulassen"
@@ -7660,6 +7690,18 @@
   },
   "icu:ProfileNameWarningModal__list--item3--direct": {
     "messageformat": "Gib keine persönlichen Informationen an Leute weiter, die du nicht kennst"
+  },
+  "icu:ProfileNameWarningModal__warning--signal-cant-verify": {
+    "messageformat": "Signal can’t verify names and photos"
+  },
+  "icu:ProfileNameWarningModal__warning--signal-wont-contact": {
+    "messageformat": "Signal will never contact you for your registration code, PIN, or recovery key"
+  },
+  "icu:ProfileNameWarningModal__warning--be-cautious": {
+    "messageformat": "Be cautious of accounts that impersonate others"
+  },
+  "icu:ProfileNameWarningModal__warning--dont-share-info": {
+    "messageformat": "Don't share personal information with people you don't know"
   },
   "icu:ProfileNameWarningModal__description--group": {
     "messageformat": "Gruppennamen werden von Gruppenmitgliedern gewählt."

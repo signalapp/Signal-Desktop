@@ -1790,6 +1790,12 @@
   "icu:Preferences__EditChatFolderPage__CancelButton": {
     "messageformat": "취소"
   },
+  "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
+    "messageformat": "Show status icon"
+  },
+  "icu:Preferences__PrivacyPage__ShowStatusIcon__Description": {
+    "messageformat": "Show an icon in message details when they were delivered using sealed sender."
+  },
   "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
     "messageformat": "자동 키 인증"
   },
@@ -3044,11 +3050,8 @@
   "icu:Message--tap-to-view--incoming--expired-toast": {
     "messageformat": "이미 확인한 메시지입니다."
   },
-  "icu:Message--tap-to-view--outgoing--expired-toast": {
-    "messageformat": "한 번만 볼 수 있는 메시지는 대화 기록에 저장되지 않습니다."
-  },
   "icu:Message--tap-to-view--outgoing--expired-toast-2": {
-    "messageformat": "View-once media is deleted after sending"
+    "messageformat": "한 번만 볼 수 있는 미디어는 전송 후 삭제됩니다."
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "한 번만 볼 수 있는 동영상"
@@ -3342,7 +3345,7 @@
     "messageformat": "링크가 있는 메시지"
   },
   "icu:SafetyTipsModal__TipDescription--Links": {
-    "messageformat": "모르는 사람이 보낸 웹사이트 링크가 포함된 메시지에 주의하세요. 신뢰할 수 없는 출처의 링크는 절대 클릭하지 마시기 바랍니다."
+    "messageformat": "모르는 사람이 보낸 웹사이트 링크가 포함된 메시지에 주의하세요. 신뢰할 수 없는 출처의 링크는 절대 방문하지 마세요."
   },
   "icu:SafetyTipsModal__TipTitle--Business": {
     "messageformat": "가짜 비즈니스 또는 기관"
@@ -3363,7 +3366,7 @@
     "messageformat": "확인"
   },
   "icu:MessageRequests--message-direct": {
-    "messageformat": "{name} 님이 나에게 메시지를 보내고, 내 이름과 사진을 공유하도록 허용할까요? 내가 수락하기 전까지는 상대방이 내가 메시지를 확인했는지 알 수 없어요."
+    "messageformat": "{name} 님이 나에게 메시지를 보내고, 내 이름과 사진을 볼 수 있도록 허용할까요? 내가 수락하기 전까지 상대방은 내가 메시지를 확인했는지 알 수 없습니다."
   },
   "icu:MessageRequests--message-direct-hidden": {
     "messageformat": "{name} 님이 나에게 메시지를 보내고, 내 이름과 사진을 공유하도록 허용할까요? 이 사용자는 내가 이전에 삭제했던 사용자입니다."
@@ -3372,7 +3375,7 @@
     "messageformat": "{name} 님이 나에게 메시지를 보내고, 내 이름과 사진을 공유할 수 있도록 허용할까요? 차단을 해제하기 전까지는 메시지가 전달되지 않습니다."
   },
   "icu:MessageRequests--message-group": {
-    "messageformat": "이 그룹에 참가하고 내 이름과 사진을 멤버들과 공유할까요? 수락하기 전까지는 상대방이 내가 메시지를 확인했는지 알 수 없습니다."
+    "messageformat": "그룹에 참가하고 내 이름과 사진을 멤버들과 공유하시겠어요? 내가 수락하기 전까지 그룹 멤버들은 내가 메시지를 확인했는지 알 수 없습니다."
   },
   "icu:MessageRequests--message-group-blocked": {
     "messageformat": "이 그룹을 차단 해제하고 그룹 멤버에게 내 이름과 사진을 공유할까요? 차단을 해제하기 전까지는 메시지를 받을 수 없습니다."
@@ -3462,7 +3465,7 @@
     "messageformat": "요청을 수락하시겠어요?"
   },
   "icu:MessageRequests--accept-confirm-body": {
-    "messageformat": "신중하게 요청을 검토하세요. 프로필 이름은 해당 계정 소유자가 선택하며, 프로필 이름이 확인되지 않았습니다."
+    "messageformat": "신중하게 요청을 검토하세요. 프로필 이름은 계정 소유자가 직접 설정하며 별도의 인증 과정을 거치지 않습니다."
   },
   "icu:MessageRequests--continue": {
     "messageformat": "계속"
@@ -3515,8 +3518,17 @@
   "icu:ConversationHero--profile-names": {
     "messageformat": "<clickable>프로필 이름</clickable>이 확인되지 않음"
   },
+  "icu:ConversationHero--name-not-verified": {
+    "messageformat": "Name not verified"
+  },
   "icu:ConversationHero--signal-official-chat": {
     "messageformat": "Signal이 운영하는 유일한 공식 채널입니다."
+  },
+  "icu:ConversationHero--signal-official-account": {
+    "messageformat": "Official account"
+  },
+  "icu:ConversationHero--signal-official-account--description": {
+    "messageformat": "The only official chat from Signal. Keep up to date with news and release notes."
   },
   "icu:ConversationHero--release-notes": {
     "messageformat": "최신 소식과 릴리스 노트를 확인하세요."
@@ -4893,7 +4905,7 @@
     "messageformat": "그룹 차단 해제"
   },
   "icu:ConversationDetailsActions--report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "스팸 신고"
   },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "대화 보관"
@@ -4946,20 +4958,17 @@
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "차단 해제"
   },
-  "icu:ConversationDetailsActions--report-spam-modal-title": {
-    "messageformat": "Report spam?"
-  },
   "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
-    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+    "messageformat": "해당 사용자에 대한 스팸 신고가 Signal에 전달됩니다. Signal은 대화 내용을 확인할 수 없습니다."
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-group": {
-    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+    "messageformat": "이 그룹 초대를 보낸 해당 사용자에 대한 스팸 신고가 Signal에 전달됩니다. Signal은 대화 내용을 확인할 수 없습니다."
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "스팸 신고"
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
-    "messageformat": "Report and block"
+    "messageformat": "신고 및 차단"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, other {멤버 {number,number}명}}"
@@ -5064,7 +5073,7 @@
     "messageformat": "''{name}' 님의 요청을 거절할까요?"
   },
   "icu:PendingRequests--deny-for--with-link": {
-    "messageformat": "''{name}' 님의 요청을 거부할까요? 그룹 링크를 통한 참가를 더 이상 요청할 수 없게 됩니다."
+    "messageformat": "''{name}' 님의 요청을 거부할까요? 이 사용자는 앞으로 그룹 링크로 참가를 요청할 수 없게 됩니다."
   },
   "icu:PendingInvites--invited-by-you": {
     "messageformat": "내가 초대한 멤버"
@@ -5215,7 +5224,7 @@
     "messageformat": "업데이트"
   },
   "icu:AddGroupMembersModal--confirm-title--one": {
-    "messageformat": "{person}를 {group}에 추가할까요?"
+    "messageformat": "{person} 님을' {group}'에 추가할까요?"
   },
   "icu:AddGroupMembersModal--confirm-title--many": {
     "messageformat": "{count,number}명의 멤버를 {group}에 추가할까요?"
@@ -5291,6 +5300,9 @@
   },
   "icu:MessageRequestWarning__safety-tips": {
     "messageformat": "안전 팁"
+  },
+  "icu:MessageRequestWarning__safety-tips-v2": {
+    "messageformat": "Safety tips"
   },
   "icu:ContactSpoofing__same-name--link": {
     "messageformat": "신중하게 요청을 검토하세요. Signal에서 같은 이름을 가진 다른 연락처를 찾았습니다. <reviewRequestLink>요청 검토</reviewRequestLink>"
@@ -5482,7 +5494,7 @@
     "messageformat": "새 대화를 위한 기본 타이머"
   },
   "icu:UniversalTimerNotification__text": {
-    "messageformat": "메시지가 사라지는 시간은 메시지를 전송할 때 {timeValue}(으)로 설정됩니다."
+    "messageformat": "자동 삭제 메시지 시간은 메시지를 보낼 때 {timeValue}(으)로 설정됩니다."
   },
   "icu:ContactRemovedNotification__text": {
     "messageformat": "이전에 삭제한 사용자입니다. 해당 사용자에게 메시지를 보내면 사용자가 목록에 다시 추가됩니다."
@@ -5614,7 +5626,7 @@
     "messageformat": "조회자"
   },
   "icu:MessageDetail--disappears-in": {
-    "messageformat": "사라지기까지 남은 시간"
+    "messageformat": "자동 삭제까지 남은 시간"
   },
   "icu:MessageDetail__view-edits": {
     "messageformat": "수정 기록 보기"
@@ -5892,6 +5904,15 @@
   },
   "icu:Preferences__link-previews--description": {
     "messageformat": "이 설정을 변경하려면 모바일 기기에서 Signal 앱을 열고 '설정' > '대화'로 이동하세요."
+  },
+  "icu:Preferences__link-previews--new-description": {
+    "messageformat": "Retrieve link previews directly from websites for messages you send."
+  },
+  "icu:Preferences__address-book-photos--title": {
+    "messageformat": "Use address book photos"
+  },
+  "icu:Preferences__address-book-photos--description": {
+    "messageformat": "Display contact photos from your address book if available."
   },
   "icu:Preferences__auto-convert-emoji--title": {
     "messageformat": "글로 입력한 이모티콘을 이모지로 변환"
@@ -6499,8 +6520,14 @@
   "icu:Preferences--read-receipts": {
     "messageformat": "읽음 표시"
   },
+  "icu:Preferences--read-receipts--description": {
+    "messageformat": "If disabled, you won't see read receipts from others."
+  },
   "icu:Preferences--typing-indicators": {
     "messageformat": "메시지 입력 중 표시"
+  },
+  "icu:Preferences--typing-indicators--description": {
+    "messageformat": "If disabled, you won't see typing indicators from others."
   },
   "icu:Preferences--updates": {
     "messageformat": "업데이트"
@@ -7011,6 +7038,9 @@
   },
   "icu:StoriesSettings__view-receipts--label": {
     "messageformat": "열람 확인"
+  },
+  "icu:StoriesSettings__view-receipts--new-description": {
+    "messageformat": "See and share when stories are viewed. If disabled, you won't see when others view your story."
   },
   "icu:StoriesSettings__view-receipts--description": {
     "messageformat": "이 설정을 변경하려면 모바일 장치에서 Signal 앱을 열고 설정 -> 스토리로 이동합니다."
@@ -7661,6 +7691,18 @@
   "icu:ProfileNameWarningModal__list--item3--direct": {
     "messageformat": "모르는 사람과 개인 정보를 공유하지 마세요"
   },
+  "icu:ProfileNameWarningModal__warning--signal-cant-verify": {
+    "messageformat": "Signal can’t verify names and photos"
+  },
+  "icu:ProfileNameWarningModal__warning--signal-wont-contact": {
+    "messageformat": "Signal will never contact you for your registration code, PIN, or recovery key"
+  },
+  "icu:ProfileNameWarningModal__warning--be-cautious": {
+    "messageformat": "Be cautious of accounts that impersonate others"
+  },
+  "icu:ProfileNameWarningModal__warning--dont-share-info": {
+    "messageformat": "Don't share personal information with people you don't know"
+  },
   "icu:ProfileNameWarningModal__description--group": {
     "messageformat": "그룹 이름은 해당 그룹의 구성원이 선택합니다."
   },
@@ -7764,10 +7806,10 @@
     "messageformat": "직접 금액 입력하기"
   },
   "icu:DonateFlow__credit-or-debit-card": {
-    "messageformat": "신용 또는 직불 카드"
+    "messageformat": "신용카드 또는 체크카드"
   },
   "icu:DonateFlow__card-form-instructions": {
-    "messageformat": "신용 카드 또는 체크 카드 세부 정보를 입력하세요. Signal은 개인 정보를 수집하거나 저장하지 않습니다. <learnMoreLink>자세히 알아보기</learnMoreLink>"
+    "messageformat": "신용카드 또는 체크카드 세부 정보를 입력하세요. Signal은 개인 정보를 수집하거나 저장하지 않습니다. <learnMoreLink>자세히 알아보기</learnMoreLink>"
   },
   "icu:DonateFlow__card-form-card-number": {
     "messageformat": "카드 번호"
@@ -7905,7 +7947,7 @@
     "messageformat": "결제 카드 아이콘"
   },
   "icu:DonateFlow__CreditOrDebitCard": {
-    "messageformat": "신용 또는 직불 카드"
+    "messageformat": "신용카드 또는 체크카드"
   },
   "icu:DonateFlow__Paypal__AccessibilityLabel": {
     "messageformat": "PayPal"

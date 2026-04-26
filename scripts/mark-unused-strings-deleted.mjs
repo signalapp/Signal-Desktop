@@ -26,7 +26,6 @@ function getIcuLikeStrings() {
       '--recursive',
       'ts/',
       'app/',
-      'js/',
       'scripts/',
     ],
     {
