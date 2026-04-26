@@ -1790,6 +1790,12 @@
   "icu:Preferences__EditChatFolderPage__CancelButton": {
     "messageformat": "Atcelt"
   },
+  "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
+    "messageformat": "Show status icon"
+  },
+  "icu:Preferences__PrivacyPage__ShowStatusIcon__Description": {
+    "messageformat": "Show an icon in message details when they were delivered using sealed sender."
+  },
   "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
     "messageformat": "Automātiskā atslēgas verifikācija"
   },
@@ -3044,11 +3050,8 @@
   "icu:Message--tap-to-view--incoming--expired-toast": {
     "messageformat": "Jūs jau skatījāt šo ziņu."
   },
-  "icu:Message--tap-to-view--outgoing--expired-toast": {
-    "messageformat": "Vienreiz skatāmās ziņas netiek saglabātas jūsu sarunu vēsturē."
-  },
   "icu:Message--tap-to-view--outgoing--expired-toast-2": {
-    "messageformat": "View-once media is deleted after sending"
+    "messageformat": "Vienreiz skatāmie multivides faili tiek dzēsti pēc nosūtīšanas"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "Vienreiz skatāms video"
@@ -3515,8 +3518,17 @@
   "icu:ConversationHero--profile-names": {
     "messageformat": "<clickable>Profilu nosaukumi</clickable> netiek pārbaudīti"
   },
+  "icu:ConversationHero--name-not-verified": {
+    "messageformat": "Name not verified"
+  },
   "icu:ConversationHero--signal-official-chat": {
     "messageformat": "Šis ir oficiālais un vienīgais sarunu kanāls ar Signal"
+  },
+  "icu:ConversationHero--signal-official-account": {
+    "messageformat": "Official account"
+  },
+  "icu:ConversationHero--signal-official-account--description": {
+    "messageformat": "The only official chat from Signal. Keep up to date with news and release notes."
   },
   "icu:ConversationHero--release-notes": {
     "messageformat": "Sekojiet līdzi jaunumiem un informācijai par lietotnes atjauninājumiem."
@@ -4893,7 +4905,7 @@
     "messageformat": "Atbloķēt grupu"
   },
   "icu:ConversationDetailsActions--report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "Ziņot par surogātpastu"
   },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "Arhivēt sarunu"
@@ -4946,20 +4958,17 @@
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "Atbloķēt"
   },
-  "icu:ConversationDetailsActions--report-spam-modal-title": {
-    "messageformat": "Report spam?"
-  },
   "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
-    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+    "messageformat": "Signal saņems ziņu, ka šī persona, iespējams, sūta surogātpastu. Signal pārstāvjiem nav redzams nevienas sarunas saturs."
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-group": {
-    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+    "messageformat": "Signal tiks informēts, ka persona, kura aicināja jūs pievienoties šai grupai, iespējams, sūta surogātpastu. Signal pārstāvjiem nav pieejams nevienas sarunas saturs."
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "Ziņot par surogātpastu"
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
-    "messageformat": "Report and block"
+    "messageformat": "Ziņot un bloķēt"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, zero {{number,number} dalībnieki} one {{number,number} dalībnieks} other {{number,number} dalībnieki}}"
@@ -5291,6 +5300,9 @@
   },
   "icu:MessageRequestWarning__safety-tips": {
     "messageformat": "Padomi par drošību"
+  },
+  "icu:MessageRequestWarning__safety-tips-v2": {
+    "messageformat": "Safety tips"
   },
   "icu:ContactSpoofing__same-name--link": {
     "messageformat": "Rūpīgi pārskatiet pieprasījumus. Signal atrada citu kontaktu ar tādu pašu vārdu. <reviewRequestLink>Pārskatīt pieprasījumu</reviewRequestLink>"
@@ -5892,6 +5904,15 @@
   },
   "icu:Preferences__link-previews--description": {
     "messageformat": "Lai mainītu šo iestatījumu, mobilajā ierīcē atveriet lietotni Signal un pārejiet uz sadaļu Iestatījumi > Sarunas"
+  },
+  "icu:Preferences__link-previews--new-description": {
+    "messageformat": "Retrieve link previews directly from websites for messages you send."
+  },
+  "icu:Preferences__address-book-photos--title": {
+    "messageformat": "Use address book photos"
+  },
+  "icu:Preferences__address-book-photos--description": {
+    "messageformat": "Display contact photos from your address book if available."
   },
   "icu:Preferences__auto-convert-emoji--title": {
     "messageformat": "Pārvērst visas ievadītās emocijzīmes par emocijikonām"
@@ -6499,8 +6520,14 @@
   "icu:Preferences--read-receipts": {
     "messageformat": "Lasīšanas apliecinājumi"
   },
+  "icu:Preferences--read-receipts--description": {
+    "messageformat": "If disabled, you won't see read receipts from others."
+  },
   "icu:Preferences--typing-indicators": {
     "messageformat": "rakstīšanas indikatori"
+  },
+  "icu:Preferences--typing-indicators--description": {
+    "messageformat": "If disabled, you won't see typing indicators from others."
   },
   "icu:Preferences--updates": {
     "messageformat": "Atjauninājumi"
@@ -7011,6 +7038,9 @@
   },
   "icu:StoriesSettings__view-receipts--label": {
     "messageformat": "Skatīšanas apliecinājumi"
+  },
+  "icu:StoriesSettings__view-receipts--new-description": {
+    "messageformat": "See and share when stories are viewed. If disabled, you won't see when others view your story."
   },
   "icu:StoriesSettings__view-receipts--description": {
     "messageformat": "Lai mainītu šo iestatījumu, mobilajā ierīcē atveriet Signal lietotni un pārejiet uz sadaļu Iestatījumi -> Stāsti"
@@ -7660,6 +7690,18 @@
   },
   "icu:ProfileNameWarningModal__list--item3--direct": {
     "messageformat": "Neizpaudiet personas informāciju nepazīstamām personām"
+  },
+  "icu:ProfileNameWarningModal__warning--signal-cant-verify": {
+    "messageformat": "Signal can’t verify names and photos"
+  },
+  "icu:ProfileNameWarningModal__warning--signal-wont-contact": {
+    "messageformat": "Signal will never contact you for your registration code, PIN, or recovery key"
+  },
+  "icu:ProfileNameWarningModal__warning--be-cautious": {
+    "messageformat": "Be cautious of accounts that impersonate others"
+  },
+  "icu:ProfileNameWarningModal__warning--dont-share-info": {
+    "messageformat": "Don't share personal information with people you don't know"
   },
   "icu:ProfileNameWarningModal__description--group": {
     "messageformat": "Grupu nosaukumus izvēlas grupas dalībnieki."

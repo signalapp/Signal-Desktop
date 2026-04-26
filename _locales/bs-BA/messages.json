@@ -1790,6 +1790,12 @@
   "icu:Preferences__EditChatFolderPage__CancelButton": {
     "messageformat": "Otkaži"
   },
+  "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
+    "messageformat": "Show status icon"
+  },
+  "icu:Preferences__PrivacyPage__ShowStatusIcon__Description": {
+    "messageformat": "Show an icon in message details when they were delivered using sealed sender."
+  },
   "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
     "messageformat": "Automatska verifikacija ključa"
   },
@@ -3044,11 +3050,8 @@
   "icu:Message--tap-to-view--incoming--expired-toast": {
     "messageformat": "Već ste pregledali ovu poruku."
   },
-  "icu:Message--tap-to-view--outgoing--expired-toast": {
-    "messageformat": "Poruke za jednokratni prikaz se ne pohranjuju u historiji chata."
-  },
   "icu:Message--tap-to-view--outgoing--expired-toast-2": {
-    "messageformat": "View-once media is deleted after sending"
+    "messageformat": "Medij View-once se briše nakon slanja"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "Jednokratni videozapis"
@@ -3515,8 +3518,17 @@
   "icu:ConversationHero--profile-names": {
     "messageformat": "<clickable>Imena profila</clickable> nisu potvrđeni"
   },
+  "icu:ConversationHero--name-not-verified": {
+    "messageformat": "Name not verified"
+  },
   "icu:ConversationHero--signal-official-chat": {
     "messageformat": "Ovo je službeni i jedini chat od Signala"
+  },
+  "icu:ConversationHero--signal-official-account": {
+    "messageformat": "Official account"
+  },
+  "icu:ConversationHero--signal-official-account--description": {
+    "messageformat": "The only official chat from Signal. Keep up to date with news and release notes."
   },
   "icu:ConversationHero--release-notes": {
     "messageformat": "Budite u toku s vijestima i napomenama o izdanjima."
@@ -4893,7 +4905,7 @@
     "messageformat": "Odblokiraj grupu"
   },
   "icu:ConversationDetailsActions--report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "Prijavi neželjenu poštu"
   },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "Arhiviraj chat"
@@ -4946,20 +4958,17 @@
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "Odblokiraj"
   },
-  "icu:ConversationDetailsActions--report-spam-modal-title": {
-    "messageformat": "Report spam?"
-  },
   "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
-    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+    "messageformat": "Signal će biti obaviješten da ova osoba možda šalje neželjenu poštu. Signal ne može vidjeti sadržaj nijednog razgovora."
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-group": {
-    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+    "messageformat": "Signal će biti obaviješten da osoba koja vas je pozvala u ovu grupu možda šalje neželjenu poštu. Signal ne može vidjeti sadržaj nijednog razgovora."
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "Prijavi neželjenu poštu"
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
-    "messageformat": "Report and block"
+    "messageformat": "Prijavi i blokiraj"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} član} few {{number,number} člana} many {{number,number} članova} other {{number,number} članova}}"
@@ -5291,6 +5300,9 @@
   },
   "icu:MessageRequestWarning__safety-tips": {
     "messageformat": "Sigurnosni savjeti"
+  },
+  "icu:MessageRequestWarning__safety-tips-v2": {
+    "messageformat": "Safety tips"
   },
   "icu:ContactSpoofing__same-name--link": {
     "messageformat": "Pažljivo pregledajte zahtjeve. Signal je među kontaktima pronašao još jednu osobu s istim imenom. <reviewRequestLink>Pregledajte zahtjev</reviewRequestLink>"
@@ -5892,6 +5904,15 @@
   },
   "icu:Preferences__link-previews--description": {
     "messageformat": "Da promijenite ovu postavku, otvorite aplikaciju Signal na mobilnom uređaju i idite na Postavke > Chatovi"
+  },
+  "icu:Preferences__link-previews--new-description": {
+    "messageformat": "Retrieve link previews directly from websites for messages you send."
+  },
+  "icu:Preferences__address-book-photos--title": {
+    "messageformat": "Use address book photos"
+  },
+  "icu:Preferences__address-book-photos--description": {
+    "messageformat": "Display contact photos from your address book if available."
   },
   "icu:Preferences__auto-convert-emoji--title": {
     "messageformat": "Pretvorite otkucane emotikone u emoji naljepnice"
@@ -6499,8 +6520,14 @@
   "icu:Preferences--read-receipts": {
     "messageformat": "Potvrda čitanja"
   },
+  "icu:Preferences--read-receipts--description": {
+    "messageformat": "If disabled, you won't see read receipts from others."
+  },
   "icu:Preferences--typing-indicators": {
     "messageformat": "Indikatori kucanja"
+  },
+  "icu:Preferences--typing-indicators--description": {
+    "messageformat": "If disabled, you won't see typing indicators from others."
   },
   "icu:Preferences--updates": {
     "messageformat": "Ažuriranja"
@@ -7011,6 +7038,9 @@
   },
   "icu:StoriesSettings__view-receipts--label": {
     "messageformat": "Potvrde o čitanju"
+  },
+  "icu:StoriesSettings__view-receipts--new-description": {
+    "messageformat": "See and share when stories are viewed. If disabled, you won't see when others view your story."
   },
   "icu:StoriesSettings__view-receipts--description": {
     "messageformat": "Da promijenite ovu postavku, otvorite aplikaciju Signal na mobilnom uređaju i idite na Postavke -> Priče"
@@ -7660,6 +7690,18 @@
   },
   "icu:ProfileNameWarningModal__list--item3--direct": {
     "messageformat": "Ne dijelite lične podatke s ljudima koje ne poznajete"
+  },
+  "icu:ProfileNameWarningModal__warning--signal-cant-verify": {
+    "messageformat": "Signal can’t verify names and photos"
+  },
+  "icu:ProfileNameWarningModal__warning--signal-wont-contact": {
+    "messageformat": "Signal will never contact you for your registration code, PIN, or recovery key"
+  },
+  "icu:ProfileNameWarningModal__warning--be-cautious": {
+    "messageformat": "Be cautious of accounts that impersonate others"
+  },
+  "icu:ProfileNameWarningModal__warning--dont-share-info": {
+    "messageformat": "Don't share personal information with people you don't know"
   },
   "icu:ProfileNameWarningModal__description--group": {
     "messageformat": "Imena grupa biraju članovi grupe."

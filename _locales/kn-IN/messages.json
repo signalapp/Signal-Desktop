@@ -1790,6 +1790,12 @@
   "icu:Preferences__EditChatFolderPage__CancelButton": {
     "messageformat": "ರದ್ದುಮಾಡಿ"
   },
+  "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
+    "messageformat": "Show status icon"
+  },
+  "icu:Preferences__PrivacyPage__ShowStatusIcon__Description": {
+    "messageformat": "Show an icon in message details when they were delivered using sealed sender."
+  },
   "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
     "messageformat": "ಸ್ವಯಂಚಾಲಿತ ಕೀ ದೃಢೀಕರಣ"
   },
@@ -3044,11 +3050,8 @@
   "icu:Message--tap-to-view--incoming--expired-toast": {
     "messageformat": "ನೀವು ಈಗಾಗಲೇ ಈ ಸಂದೇಶವನ್ನು ವೀಕ್ಷಿಸಿದ್ದೀರಿ."
   },
-  "icu:Message--tap-to-view--outgoing--expired-toast": {
-    "messageformat": "ನಿಮ್ಮ ಚಾಟ್ ಇತಿಹಾಸದಲ್ಲಿ ಏಕ ವೀಕ್ಷಣೆ ಮೆಸೇಜ್‌ಗಳನ್ನು ಸಂಗ್ರಹಿಸಲಾಗಿಲ್ಲ."
-  },
   "icu:Message--tap-to-view--outgoing--expired-toast-2": {
-    "messageformat": "View-once media is deleted after sending"
+    "messageformat": "ಒಂದು ಬಾರಿ ವೀಕ್ಷಿಸಿ ಮೀಡಿಯಾವನ್ನು ಕಳುಹಿಸಿದ ನಂತರ ಅಳಿಸಲಾಗುತ್ತದೆ"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "ಏಕ ವೀಕ್ಷಣೆ ವೀಡಿಯೊ"
@@ -3515,8 +3518,17 @@
   "icu:ConversationHero--profile-names": {
     "messageformat": "<clickable>ಪ್ರೊಫೈಲ್ ಹೆಸರುಗಳನ್ನು</clickable> ಪರಿಶೀಲಿಸಲಾಗಿಲ್ಲ"
   },
+  "icu:ConversationHero--name-not-verified": {
+    "messageformat": "Name not verified"
+  },
   "icu:ConversationHero--signal-official-chat": {
     "messageformat": "ಇದು Signal ನ ಅಧಿಕೃತ ಮತ್ತು ಏಕೈಕ ಚಾಟ್ ಆಗಿದೆ"
+  },
+  "icu:ConversationHero--signal-official-account": {
+    "messageformat": "Official account"
+  },
+  "icu:ConversationHero--signal-official-account--description": {
+    "messageformat": "The only official chat from Signal. Keep up to date with news and release notes."
   },
   "icu:ConversationHero--release-notes": {
     "messageformat": "ಸುದ್ದಿ ಮತ್ತು ಆವೃತ್ತಿ ಟಿಪ್ಪಣಿಗಳೊಂದಿಗೆ ಅಪ್ ಟು ಡೇಟ್ ಆಗಿರಿ."
@@ -4893,7 +4905,7 @@
     "messageformat": "ಗ್ರೂಪ್‌ನ ನಿರ್ಬಂಧ ತೆಗೆಯಿರಿ"
   },
   "icu:ConversationDetailsActions--report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "ಸ್ಪ್ಯಾಮ್ ವರದಿ ಮಾಡಿ"
   },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "ಚಾಟ್ ಆರ್ಕೈವ್ ಮಾಡಿ"
@@ -4946,20 +4958,17 @@
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "ನಿರ್ಬಂಧ ತೆಗೆಯಿರಿ"
   },
-  "icu:ConversationDetailsActions--report-spam-modal-title": {
-    "messageformat": "Report spam?"
-  },
   "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
-    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+    "messageformat": "ಈ ವ್ಯಕ್ತಿ ಸ್ಪ್ಯಾಮ್ ಕಳುಹಿಸುತ್ತಿರಬಹುದು ಎಂಬುದಾಗಿ Signal ಗೆ ಸೂಚಿಸಲಾಗುತ್ತದೆ. Signal ಗೆ ಯಾವುದೇ ಚಾಟ್ ಗಳ ಕಂಟೆಂಟ್ ಅನ್ನು ನೋಡಲು ಸಾಧ್ಯವಾಗುವುದಿಲ್ಲ."
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-group": {
-    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+    "messageformat": "ನಿಮ್ಮನ್ನು ಈ ಗುಂಪಿಗೆ ಆಹ್ವಾನಿಸಿದ ವ್ಯಕ್ತಿ ಸ್ಪ್ಯಾಮ್ ಕಳುಹಿಸುತ್ತಿರಬಹುದು ಎಂಬುದಾಗಿ Signal ಗೆ ಸೂಚಿಸಲಾಗುತ್ತದೆ. Signal ಗೆ ಯಾವುದೇ ಚಾಟ್‌ಗಳ ಕಂಟೆಂಟ್ ಅನ್ನು ನೋಡಲು ಸಾಧ್ಯವಾಗುವುದಿಲ್ಲ."
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "ಸ್ಪ್ಯಾಮ್ ವರದಿ ಮಾಡಿ"
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
-    "messageformat": "Report and block"
+    "messageformat": "ವರದಿ ಮಾಡಿ ಮತ್ತು ಬ್ಲಾಕ್ ಮಾಡಿ"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} ಸದಸ್ಯ} other {{number,number} ಸದಸ್ಯರು}}"
@@ -5291,6 +5300,9 @@
   },
   "icu:MessageRequestWarning__safety-tips": {
     "messageformat": "ಸುರಕ್ಷತಾ ಸಲಹೆಗಳು"
+  },
+  "icu:MessageRequestWarning__safety-tips-v2": {
+    "messageformat": "Safety tips"
   },
   "icu:ContactSpoofing__same-name--link": {
     "messageformat": "ವಿನಂತಿಗಳನ್ನು ಎಚ್ಚರಿಕೆಯಿಂದ ಪರಿಶೀಲಿಸಿ. ಅದೇ ಹೆಸರಿನ ಇನ್ನೊಂದು ಸಂಪರ್ಕವು Signal ಗೆ ಕಂಡುಬಂದಿದೆ. <reviewRequestLink>ವಿನಂತಿಯನ್ನು ಪರಿಶೀಲಿಸಿ</reviewRequestLink>"
@@ -5892,6 +5904,15 @@
   },
   "icu:Preferences__link-previews--description": {
     "messageformat": "ಈ ಸೆಟ್ಟಿಂಗ್ ಬದಲಾಯಿಸಲು, ನಿಮ್ಮ ಮೊಬೈಲ್ ಸಾಧನದಲ್ಲಿ Signal ಆ್ಯಪ್ ತೆರೆಯಿರಿ ಮತ್ತು ಸೆಟ್ಟಿಂಗ್‌ಗಳು > ಚಾಟ್‌ಗಳು ಗೆ ನ್ಯಾವಿಗೇಟ್ ಮಾಡಿ"
+  },
+  "icu:Preferences__link-previews--new-description": {
+    "messageformat": "Retrieve link previews directly from websites for messages you send."
+  },
+  "icu:Preferences__address-book-photos--title": {
+    "messageformat": "Use address book photos"
+  },
+  "icu:Preferences__address-book-photos--description": {
+    "messageformat": "Display contact photos from your address book if available."
   },
   "icu:Preferences__auto-convert-emoji--title": {
     "messageformat": "ಟೈಪ್ ಮಾಡಿದ ಎಮೋಟಿಕಾನ್‌ಗಳನ್ನು ಎಮೋಜಿಗೆ ಪರಿವರ್ತಿಸಿ"
@@ -6499,8 +6520,14 @@
   "icu:Preferences--read-receipts": {
     "messageformat": "ಓದಿರುವ ಸ್ವೀಕೃತಿಗಳು"
   },
+  "icu:Preferences--read-receipts--description": {
+    "messageformat": "If disabled, you won't see read receipts from others."
+  },
   "icu:Preferences--typing-indicators": {
     "messageformat": "ಟೈಪಿಂಗ್ ಇಂಡಿಕೇಟರ್ ಗಳು"
+  },
+  "icu:Preferences--typing-indicators--description": {
+    "messageformat": "If disabled, you won't see typing indicators from others."
   },
   "icu:Preferences--updates": {
     "messageformat": "ಅಪ್‌ಡೇಟ್‌ಗಳು"
@@ -7011,6 +7038,9 @@
   },
   "icu:StoriesSettings__view-receipts--label": {
     "messageformat": "ವೀಕ್ಷಣೆ ರಸೀದಿಗಳು"
+  },
+  "icu:StoriesSettings__view-receipts--new-description": {
+    "messageformat": "See and share when stories are viewed. If disabled, you won't see when others view your story."
   },
   "icu:StoriesSettings__view-receipts--description": {
     "messageformat": "ಈ ಸೆಟ್ಟಿಂಗ್ ಬದಲಾಯಿಸಲು, ನಿಮ್ಮ ಮೊಬೈಲ್ ಸಾಧನದಲ್ಲಿ Signal ಆ್ಯಪ್ ತೆರೆಯಿರಿ ಮತ್ತು ಸೆಟ್ಟಿಂಗ್‌ಗಳು -> ಸ್ಟೋರೀಸ್ ಗೆ ನ್ಯಾವಿಗೇಟ್ ಮಾಡಿ"
@@ -7660,6 +7690,18 @@
   },
   "icu:ProfileNameWarningModal__list--item3--direct": {
     "messageformat": "ನಿಮಗೆ ಪರಿಚಯವಿಲ್ಲದ ಜನರೊಂದಿಗೆ ವೈಯಕ್ತಿಕ ಮಾಹಿತಿಯನ್ನು ಹಂಚಿಕೊಳ್ಳಬೇಡಿ"
+  },
+  "icu:ProfileNameWarningModal__warning--signal-cant-verify": {
+    "messageformat": "Signal can’t verify names and photos"
+  },
+  "icu:ProfileNameWarningModal__warning--signal-wont-contact": {
+    "messageformat": "Signal will never contact you for your registration code, PIN, or recovery key"
+  },
+  "icu:ProfileNameWarningModal__warning--be-cautious": {
+    "messageformat": "Be cautious of accounts that impersonate others"
+  },
+  "icu:ProfileNameWarningModal__warning--dont-share-info": {
+    "messageformat": "Don't share personal information with people you don't know"
   },
   "icu:ProfileNameWarningModal__description--group": {
     "messageformat": "ಗುಂಪಿನ ಹೆಸರುಗಳನ್ನು ಗುಂಪಿನ ಸದಸ್ಯರು ಆಯ್ಕೆ ಮಾಡುತ್ತಾರೆ."

@@ -1790,6 +1790,12 @@
   "icu:Preferences__EditChatFolderPage__CancelButton": {
     "messageformat": "إلغاء"
   },
+  "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
+    "messageformat": "Show status icon"
+  },
+  "icu:Preferences__PrivacyPage__ShowStatusIcon__Description": {
+    "messageformat": "Show an icon in message details when they were delivered using sealed sender."
+  },
   "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
     "messageformat": "التحقُّق التلقائي من المفاتيح"
   },
@@ -2559,7 +2565,7 @@
     "messageformat": "قُمتَ بتحديث المجموعة."
   },
   "icu:collapsedGroupUpdates": {
-    "messageformat": "{count, plural, zero {{count,number} تحديثات للمجموعة} one {{count,number} تحديث للمجموعة} two {{count,number} تحديثان للمجموعة} few {{count,number} تحديثات للمجموعة} many {{count,number} تحديث للمجموعة} other {{count,number} تحديث للمجموعة}}"
+    "messageformat": "{count, plural, zero {{count,number} تحديثات للمجموعة} one {{count,number} تحديث للمجموعة} two {{count,number} تحديثان للمجموعة} few {{count,number} تحديثات للمجموعة} many {{count,number} تحديثًا للمجموعة} other {{count,number} تحديثٍ للمجموعة}}"
   },
   "icu:multidayCollapse__container": {
     "messageformat": "{containerDescription} · {dayCountSummary}"
@@ -3044,11 +3050,8 @@
   "icu:Message--tap-to-view--incoming--expired-toast": {
     "messageformat": "سبق لك رؤية هذه الرسالة."
   },
-  "icu:Message--tap-to-view--outgoing--expired-toast": {
-    "messageformat": "لن تُحفَظ رسائل العرض لمرّة واحدة في سجل الدردشة لديك."
-  },
   "icu:Message--tap-to-view--outgoing--expired-toast-2": {
-    "messageformat": "View-once media is deleted after sending"
+    "messageformat": "تُحذف \"ملفات وسائط العرض لِمرّة واحدة\" بعد الإرسال."
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "فيديو للمشاهدة مرّة واحدة"
@@ -3411,7 +3414,7 @@
     "messageformat": "الإبلاغ…"
   },
   "icu:MessageRequests--ReportAndMaybeBlockModal-title": {
-    "messageformat": "هل تريد الإبلاغ عنها؟"
+    "messageformat": "هل تريد الإبلاغ عن جهة الاتصال؟"
   },
   "icu:MessageRequests--ReportAndMaybeBlockModal-body--direct": {
     "messageformat": "سَيتمُّ إشعار سيجنال أن هذا الشخص قد يكون يرسِل رسائل غير مرغوب فيها. لا يُمكن لسيجنال رؤية محتوى أي دردشات."
@@ -3432,7 +3435,7 @@
     "messageformat": "قبلتَ طلب مراسلة من {name}. إذا حدث هذا عن طريق الخطأ، يمكنك اختيار إجراء ممّا يلي."
   },
   "icu:MessageRequests--report-spam-success-toast": {
-    "messageformat": "تمَّ الإبلاغ عنه."
+    "messageformat": "تمَّ الإبلاغ عن جهة الاتصال."
   },
   "icu:MessageRequests--delete": {
     "messageformat": "حذف"
@@ -3507,7 +3510,7 @@
     "messageformat": "{remainingCount, plural, zero {{member1} و{member2} و{member3} و<clickable>{remainingCount,number} آخرين</clickable>} one {{member1} و{member2} و{member3} و<clickable>{remainingCount,number} آخر</clickable>} two {{member1} و{member2} و{member3} و<clickable>{remainingCount,number} آخريْن</clickable>} few {{member1} و{member2} و{member3} و<clickable>{remainingCount,number} آخرين</clickable>} many {{member1} و{member2} و{member3} و<clickable>{remainingCount,number} آخرين</clickable>} other {{member1} و{member2} و{member3} و<clickable>{remainingCount,number} آخرين</clickable>}}"
   },
   "icu:ConversationHero--review-carefully": {
-    "messageformat": "مراجعة بحذر"
+    "messageformat": "راجِع بحذر"
   },
   "icu:ConversationHero--group-names": {
     "messageformat": "<clickable>أسماء المجموعات</clickable> غير خاضعة لعملية التحقُّق"
@@ -3515,8 +3518,17 @@
   "icu:ConversationHero--profile-names": {
     "messageformat": "<clickable>أسماء الحسابات</clickable> الشخصية غير خاضعة لعملية التحقُّق"
   },
+  "icu:ConversationHero--name-not-verified": {
+    "messageformat": "Name not verified"
+  },
   "icu:ConversationHero--signal-official-chat": {
     "messageformat": "هذه هي الدردشة الوحيدة والرسمية من سيجنال."
+  },
+  "icu:ConversationHero--signal-official-account": {
+    "messageformat": "Official account"
+  },
+  "icu:ConversationHero--signal-official-account--description": {
+    "messageformat": "The only official chat from Signal. Keep up to date with news and release notes."
   },
   "icu:ConversationHero--release-notes": {
     "messageformat": "ابقَ على اطِّلاع على آخر الأخبار وملاحظات الإصدارات."
@@ -4893,7 +4905,7 @@
     "messageformat": "رفع حَظر المجموعة"
   },
   "icu:ConversationDetailsActions--report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "الإبلاغ"
   },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "أرشفة الدردشة"
@@ -4946,20 +4958,17 @@
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "رفع الحظر"
   },
-  "icu:ConversationDetailsActions--report-spam-modal-title": {
-    "messageformat": "Report spam?"
-  },
   "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
-    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+    "messageformat": "سَيتم إشعار سيجنال أن هذا الشخص قد يكون أرسل رسائل غير مرغوب فيها. لا يُمكن لسيجنال رؤية محتوى أي دردشات."
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-group": {
-    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+    "messageformat": "سَيتم إشعار سيجنال بأن الشخص، الذي دعاك للانضمام إلى هذه المجموعة، قد يكون أرسل رسائل غير مرغوب فيها. لا يُمكن لسيجنال رؤية محتوى أي دردشات."
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "الإبلاغ"
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
-    "messageformat": "Report and block"
+    "messageformat": "الإبلاغ والحظر"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, zero {{number,number} عضو} one {{number,number} عضو} two {{number,number} عضوان} few {{number,number} أعضاء} many {{number,number} عضوًا} other {{number,number} عضوٍ}}"
@@ -5291,6 +5300,9 @@
   },
   "icu:MessageRequestWarning__safety-tips": {
     "messageformat": "نصائح السلامة"
+  },
+  "icu:MessageRequestWarning__safety-tips-v2": {
+    "messageformat": "Safety tips"
   },
   "icu:ContactSpoofing__same-name--link": {
     "messageformat": "مراجعة الطلبات بعناية. وجد سيجنال جهة اتصال أخرى بنفس الاسم. <reviewRequestLink>مُراجعة الطلب</reviewRequestLink>"
@@ -5892,6 +5904,15 @@
   },
   "icu:Preferences__link-previews--description": {
     "messageformat": "‫لتعديل هذا الإعداد، يُرجى فتح تطبيق سيجنال في جهازك المحمول ثم الانتقال إلى \"الإعدادات\" ثم \"الدردشات\"."
+  },
+  "icu:Preferences__link-previews--new-description": {
+    "messageformat": "Retrieve link previews directly from websites for messages you send."
+  },
+  "icu:Preferences__address-book-photos--title": {
+    "messageformat": "Use address book photos"
+  },
+  "icu:Preferences__address-book-photos--description": {
+    "messageformat": "Display contact photos from your address book if available."
   },
   "icu:Preferences__auto-convert-emoji--title": {
     "messageformat": "تحويل الأيقونات التعبيرية المكتوبة إلى رموز تعبيرية (إيموجي)"
@@ -6499,8 +6520,14 @@
   "icu:Preferences--read-receipts": {
     "messageformat": "إيصالات تأكيد القراءة"
   },
+  "icu:Preferences--read-receipts--description": {
+    "messageformat": "If disabled, you won't see read receipts from others."
+  },
   "icu:Preferences--typing-indicators": {
     "messageformat": "مؤشِّرات الكتابة"
+  },
+  "icu:Preferences--typing-indicators--description": {
+    "messageformat": "If disabled, you won't see typing indicators from others."
   },
   "icu:Preferences--updates": {
     "messageformat": "التحديثات"
@@ -7011,6 +7038,9 @@
   },
   "icu:StoriesSettings__view-receipts--label": {
     "messageformat": "عرض إيصالات القراءة"
+  },
+  "icu:StoriesSettings__view-receipts--new-description": {
+    "messageformat": "See and share when stories are viewed. If disabled, you won't see when others view your story."
   },
   "icu:StoriesSettings__view-receipts--description": {
     "messageformat": "‫لتعديل هذا الإعداد، افتح تطبيق سيجنال في جهاز الهاتف المحمول ثم الذهاب إلى الإعدادات -> القصص"
@@ -7660,6 +7690,18 @@
   },
   "icu:ProfileNameWarningModal__list--item3--direct": {
     "messageformat": "لا تشارِك معلومات شخصية مع أشخاص لا تعرفهم"
+  },
+  "icu:ProfileNameWarningModal__warning--signal-cant-verify": {
+    "messageformat": "Signal can’t verify names and photos"
+  },
+  "icu:ProfileNameWarningModal__warning--signal-wont-contact": {
+    "messageformat": "Signal will never contact you for your registration code, PIN, or recovery key"
+  },
+  "icu:ProfileNameWarningModal__warning--be-cautious": {
+    "messageformat": "Be cautious of accounts that impersonate others"
+  },
+  "icu:ProfileNameWarningModal__warning--dont-share-info": {
+    "messageformat": "Don't share personal information with people you don't know"
   },
   "icu:ProfileNameWarningModal__description--group": {
     "messageformat": "يقوم أصحاب المجموعات باختيار أسماء المجموعات."

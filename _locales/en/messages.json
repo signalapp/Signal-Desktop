@@ -2390,7 +2390,6 @@
     "messageformat": "Show an icon in message details when they were delivered using sealed sender.",
     "description": "Preferences > Privacy Page > Show Status Icon Checkbox > Description"
   },
-
   "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
     "messageformat": "Automatic key verification",
     "description": "Preferences > Privacy Page > Key Transparency Checkbox > Label"
@@ -4045,10 +4044,6 @@
     "messageformat": "You already viewed this message.",
     "description": "Shown when user clicks on an expired incoming view-once bubble"
   },
-  "icu:Message--tap-to-view--outgoing--expired-toast": {
-    "messageformat": "View-once messages are not stored in your chat history.",
-    "description": "(Deleted 2026/04/15) Shown when user clicks on an expired outgoing view-once bubble"
-  },
   "icu:Message--tap-to-view--outgoing--expired-toast-2": {
     "messageformat": "View-once media is deleted after sending",
     "description": "Shown when user clicks on an expired outgoing view-once bubble"
@@ -4663,7 +4658,7 @@
   },
   "icu:ConversationHero--review-carefully": {
     "messageformat": "Review carefully",
-    "description": "Label shown in conversation hero to advise users to review the conversation carefully"
+    "description": "(Deleted 2026/04/26) Label shown in conversation hero to advise users to review the conversation carefully"
   },
   "icu:ConversationHero--group-names": {
     "messageformat": "<clickable>Group names</clickable> are not verified",
@@ -6593,10 +6588,6 @@
     "messageformat": "Unblock",
     "description": "This is the modal button to confirm unblock of a group"
   },
-  "icu:ConversationDetailsActions--report-spam-modal-title": {
-    "messageformat": "Report spam?",
-    "description": "(Deleted 2026/04/15) This is the modal title for confirming reporting spam"
-  },
   "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
     "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats.",
     "description": "This is the modal content for confirming reporting a 1-1 chat as spam"
@@ -7052,7 +7043,7 @@
   },
   "icu:MessageRequestWarning__safety-tips": {
     "messageformat": "Safety Tips",
-    "description": "Shown on the message request warning. Clicking this button will open a dialog with safety tips"
+    "description": "(Deleted 2026/04/26) Shown on the message request warning. Clicking this button will open a dialog with safety tips"
   },
   "icu:MessageRequestWarning__safety-tips-v2": {
     "messageformat": "Safety tips",
@@ -7857,7 +7848,7 @@
   },
   "icu:Preferences__link-previews--description": {
     "messageformat": "To change this setting, open the Signal app on your mobile device and navigate to Settings > Chats",
-    "description": "Description for the generate link previews setting"
+    "description": "(Deleted 2026/04/26) Description for the generate link previews setting"
   },
   "icu:Preferences__link-previews--new-description": {
     "messageformat": "Retrieve link previews directly from websites for messages you send.",
@@ -8601,7 +8592,7 @@
   },
   "icu:Preferences__privacy--description": {
     "messageformat": "To change these settings, open the Signal app on your mobile device and navigate to Settings > Privacy",
-    "description": "Description for the 'who can do X' setting"
+    "description": "(Deleted 2026/04/26) Description for the 'who can do X' setting"
   },
   "icu:Preferences__pnp__row--title": {
     "messageformat": "Phone Number",
@@ -9375,7 +9366,7 @@
   },
   "icu:StoriesSettings__view-receipts--description": {
     "messageformat": "To change this setting, open the Signal app on your mobile device and navigate to Settings -> Stories",
-    "description": "Description of how view receipts can be changed in story settings"
+    "description": "(Deleted 2026/04/26) Description of how view receipts can be changed in story settings"
   },
   "icu:GroupStorySettingsModal__members_title": {
     "messageformat": "Who can view this story",
@@ -10227,15 +10218,15 @@
   },
   "icu:ProfileNameWarningModal__list--item1--direct": {
     "messageformat": "Profile names aren't verified",
-    "description": "First list item in profile name warning modal for direct conversations"
+    "description": "(Deleted 2026/04/26) First list item in profile name warning modal for direct conversations"
   },
   "icu:ProfileNameWarningModal__list--item2--direct": {
     "messageformat": "Be cautious of accounts that impersonate others",
-    "description": "Second list item in profile name warning modal for direct conversations"
+    "description": "(Deleted 2026/04/26) Second list item in profile name warning modal for direct conversations"
   },
   "icu:ProfileNameWarningModal__list--item3--direct": {
     "messageformat": "Don't share personal information with people you don't know",
-    "description": "Third list item in profile name warning modal for direct conversations"
+    "description": "(Deleted 2026/04/26) Third list item in profile name warning modal for direct conversations"
   },
   "icu:ProfileNameWarningModal__warning--signal-cant-verify": {
     "messageformat": "Signal can’t verify names and photos",
@@ -10253,7 +10244,6 @@
     "messageformat": "Don't share personal information with people you don't know",
     "description": "List item in profile name warning modal for direct conversations"
   },
-
   "icu:ProfileNameWarningModal__description--group": {
     "messageformat": "Group names are chosen by members of the group.",
     "description": "Description of how group names work in the profile name warning modal for group conversations"

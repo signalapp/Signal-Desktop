@@ -1790,6 +1790,12 @@
   "icu:Preferences__EditChatFolderPage__CancelButton": {
     "messageformat": "ยกเลิก"
   },
+  "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
+    "messageformat": "Show status icon"
+  },
+  "icu:Preferences__PrivacyPage__ShowStatusIcon__Description": {
+    "messageformat": "Show an icon in message details when they were delivered using sealed sender."
+  },
   "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
     "messageformat": "การตรวจยืนยันโดยอัตโนมัติ"
   },
@@ -3044,11 +3050,8 @@
   "icu:Message--tap-to-view--incoming--expired-toast": {
     "messageformat": "คุณเคยดูข้อความนี้แล้ว"
   },
-  "icu:Message--tap-to-view--outgoing--expired-toast": {
-    "messageformat": "ข้อความแบบที่ดูได้ครั้งเดียวจะไม่ถูกจัดเก็บในประวัติการแชทของคุณ"
-  },
   "icu:Message--tap-to-view--outgoing--expired-toast-2": {
-    "messageformat": "View-once media is deleted after sending"
+    "messageformat": "ไฟล์สื่อแบบที่ดูได้ครั้งเดียวจะถูกลบหลังการส่ง"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "ไฟล์วิดีโอแบบที่ดูได้ครั้งเดียว"
@@ -3515,8 +3518,17 @@
   "icu:ConversationHero--profile-names": {
     "messageformat": "<clickable>ชื่อโปรไฟล์</clickable>ไม่ได้ผ่านการตรวจยืนยัน"
   },
+  "icu:ConversationHero--name-not-verified": {
+    "messageformat": "Name not verified"
+  },
   "icu:ConversationHero--signal-official-chat": {
     "messageformat": "นี่คือแชทอย่างเป็นทางการและแชทเดียวจาก Signal"
+  },
+  "icu:ConversationHero--signal-official-account": {
+    "messageformat": "Official account"
+  },
+  "icu:ConversationHero--signal-official-account--description": {
+    "messageformat": "The only official chat from Signal. Keep up to date with news and release notes."
   },
   "icu:ConversationHero--release-notes": {
     "messageformat": "ติดตามข่าวสารและบันทึกรุ่นอัปเดตล่าสุด"
@@ -4893,7 +4905,7 @@
     "messageformat": "เลิกบล็อกกลุ่ม"
   },
   "icu:ConversationDetailsActions--report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "รายงานว่าเป็นสแปม"
   },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "จัดเก็บแชทในที่เก็บถาวร"
@@ -4946,20 +4958,17 @@
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "เลิกบล็อก"
   },
-  "icu:ConversationDetailsActions--report-spam-modal-title": {
-    "messageformat": "Report spam?"
-  },
   "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
-    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+    "messageformat": "Signal จะได้รับแจ้งว่าบุคคลนี้อาจส่งข้อความสแปม โดย Signal จะไม่สามารถเห็นเนื้อหาใดๆ ของแชท"
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-group": {
-    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+    "messageformat": "Signal จะได้รับแจ้งว่าคนที่เชิญคุณเข้ากลุ่มนี้อาจส่งข้อความสแปม โดย Signal จะไม่สามารถเห็นเนื้อหาใดๆ ของแชท"
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "รายงานว่าเป็นสแปม"
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
-    "messageformat": "Report and block"
+    "messageformat": "รายงานและบล็อก"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, other {สมาชิก {number,number} คน}}"
@@ -5291,6 +5300,9 @@
   },
   "icu:MessageRequestWarning__safety-tips": {
     "messageformat": "คำแนะนำเพื่อความปลอดภัย"
+  },
+  "icu:MessageRequestWarning__safety-tips-v2": {
+    "messageformat": "Safety tips"
   },
   "icu:ContactSpoofing__same-name--link": {
     "messageformat": "โปรดตรวจสอบคำขออย่างถี่ถ้วน Signal พบผู้ติดต่ออีกคนที่ใช้ชื่อเหมือนกัน <reviewRequestLink>ตรวจสอบคำขอ</reviewRequestLink>"
@@ -5892,6 +5904,15 @@
   },
   "icu:Preferences__link-previews--description": {
     "messageformat": "เพื่อเปลี่ยนแปลงการตั้งค่านี้ เปิดแอป Signal บนอุปกรณ์เคลื่อนที่ของคุณ แล้วไปที่การตั้งค่า > แชท"
+  },
+  "icu:Preferences__link-previews--new-description": {
+    "messageformat": "Retrieve link previews directly from websites for messages you send."
+  },
+  "icu:Preferences__address-book-photos--title": {
+    "messageformat": "Use address book photos"
+  },
+  "icu:Preferences__address-book-photos--description": {
+    "messageformat": "Display contact photos from your address book if available."
   },
   "icu:Preferences__auto-convert-emoji--title": {
     "messageformat": "เปลี่ยนอีโมติคอนที่พิมพ์ให้กลายเป็นอีโมจิ"
@@ -6499,8 +6520,14 @@
   "icu:Preferences--read-receipts": {
     "messageformat": "ใบตอบรับเมื่ออ่าน"
   },
+  "icu:Preferences--read-receipts--description": {
+    "messageformat": "If disabled, you won't see read receipts from others."
+  },
   "icu:Preferences--typing-indicators": {
     "messageformat": "แสดงว่ากำลังพิมพ์"
+  },
+  "icu:Preferences--typing-indicators--description": {
+    "messageformat": "If disabled, you won't see typing indicators from others."
   },
   "icu:Preferences--updates": {
     "messageformat": "การปรับรุ่น"
@@ -7011,6 +7038,9 @@
   },
   "icu:StoriesSettings__view-receipts--label": {
     "messageformat": "ตัวแจ้งการรับชมสตอรี่"
+  },
+  "icu:StoriesSettings__view-receipts--new-description": {
+    "messageformat": "See and share when stories are viewed. If disabled, you won't see when others view your story."
   },
   "icu:StoriesSettings__view-receipts--description": {
     "messageformat": "หากต้องการเปลี่ยนแปลงการตั้งค่านี้ ให้เปิดแอป Signal บนอุปกรณ์เคลื่อนที่ของคุณ แล้วไปที่การตั้งค่า -> สตอรี่"
@@ -7660,6 +7690,18 @@
   },
   "icu:ProfileNameWarningModal__list--item3--direct": {
     "messageformat": "อย่าให้ข้อมูลส่วนตัวกับบุคคลที่คุณไม่รู้จัก"
+  },
+  "icu:ProfileNameWarningModal__warning--signal-cant-verify": {
+    "messageformat": "Signal can’t verify names and photos"
+  },
+  "icu:ProfileNameWarningModal__warning--signal-wont-contact": {
+    "messageformat": "Signal will never contact you for your registration code, PIN, or recovery key"
+  },
+  "icu:ProfileNameWarningModal__warning--be-cautious": {
+    "messageformat": "Be cautious of accounts that impersonate others"
+  },
+  "icu:ProfileNameWarningModal__warning--dont-share-info": {
+    "messageformat": "Don't share personal information with people you don't know"
   },
   "icu:ProfileNameWarningModal__description--group": {
     "messageformat": "ชื่อกลุ่มเป็นชื่อที่สมาชิกกลุ่มนั้นตั้งเอง"

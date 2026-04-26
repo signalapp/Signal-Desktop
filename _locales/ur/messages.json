@@ -1790,6 +1790,12 @@
   "icu:Preferences__EditChatFolderPage__CancelButton": {
     "messageformat": "منسوخ کریں"
   },
+  "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
+    "messageformat": "Show status icon"
+  },
+  "icu:Preferences__PrivacyPage__ShowStatusIcon__Description": {
+    "messageformat": "Show an icon in message details when they were delivered using sealed sender."
+  },
   "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
     "messageformat": "خودکار کیی کی تصدیق"
   },
@@ -3044,11 +3050,8 @@
   "icu:Message--tap-to-view--incoming--expired-toast": {
     "messageformat": "آپ یہ پیغام پہلے ہی دیکھ چکے ہیں۔"
   },
-  "icu:Message--tap-to-view--outgoing--expired-toast": {
-    "messageformat": "ایک وقتی دیکھے جانے والے میسجز آپ کی چیٹ ہسٹری میں اسٹور نہیں ہوتے۔"
-  },
   "icu:Message--tap-to-view--outgoing--expired-toast-2": {
-    "messageformat": "View-once media is deleted after sending"
+    "messageformat": "ایک مرتبہ دیکھا جانے والا میڈیا بھیجنے کے بعد حذف کر دیا جاتا ہے"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "ایک بار دیکھنے کی ویڈیو"
@@ -3515,8 +3518,17 @@
   "icu:ConversationHero--profile-names": {
     "messageformat": "<clickable>پروفائل نیمز</clickable> تصدیق شدہ نہیں ہیں"
   },
+  "icu:ConversationHero--name-not-verified": {
+    "messageformat": "Name not verified"
+  },
   "icu:ConversationHero--signal-official-chat": {
     "messageformat": "یہ Signal کی آفیشل اور واحد چیٹ ہے"
+  },
+  "icu:ConversationHero--signal-official-account": {
+    "messageformat": "Official account"
+  },
+  "icu:ConversationHero--signal-official-account--description": {
+    "messageformat": "The only official chat from Signal. Keep up to date with news and release notes."
   },
   "icu:ConversationHero--release-notes": {
     "messageformat": "خبروں اور ریلیز نوٹس کے ساتھ باخبر رہیں۔"
@@ -4893,7 +4905,7 @@
     "messageformat": "گروپ کو اَن بلاک کریں"
   },
   "icu:ConversationDetailsActions--report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "اسپام کو رپورٹ کریں"
   },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "چیٹ آرکائیو کریں"
@@ -4946,20 +4958,17 @@
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "اَن بلاک کریں"
   },
-  "icu:ConversationDetailsActions--report-spam-modal-title": {
-    "messageformat": "Report spam?"
-  },
   "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
-    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+    "messageformat": "Signal کو مطلع کیا جائے گا کہ یہ فرد اسپام بھیج رہا ہو سکتا ہے۔ Signal کسی چیٹس کا مواد نہیں دیکھ سکتا۔"
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-group": {
-    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+    "messageformat": "Signal کو اطلاع دی جائے گی کہ جس شخص نے آپ کو اس گروپ میں مدعو کیا ہے وہ شاید اسپام بھیج رہا ہو۔ Signal کسی بھی چیٹس کا مواد نہیں دیکھ سکتا۔"
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "اسپام کو رپورٹ کریں"
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
-    "messageformat": "Report and block"
+    "messageformat": "رپورٹ کریں اور بلاک کریں"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} ممبر} other {{number,number} ممبرز}}"
@@ -5291,6 +5300,9 @@
   },
   "icu:MessageRequestWarning__safety-tips": {
     "messageformat": "حفاظتی تجاویز"
+  },
+  "icu:MessageRequestWarning__safety-tips-v2": {
+    "messageformat": "Safety tips"
   },
   "icu:ContactSpoofing__same-name--link": {
     "messageformat": "درخواستوں کا بغور جائزہ لیں۔ Signal کو یکساں نام کا حامل ایک دوسرا رابطہ ملا ہے۔ <reviewRequestLink>جائزے کی درخواست</reviewRequestLink>"
@@ -5892,6 +5904,15 @@
   },
   "icu:Preferences__link-previews--description": {
     "messageformat": "اس سیٹنگ کو تبدیل کرنے کے لیے، اپنی موبائل ڈیوائس پر Signal ایپ کھولیں اور سیٹنگز > چیٹس پر نیویگیٹ کریں"
+  },
+  "icu:Preferences__link-previews--new-description": {
+    "messageformat": "Retrieve link previews directly from websites for messages you send."
+  },
+  "icu:Preferences__address-book-photos--title": {
+    "messageformat": "Use address book photos"
+  },
+  "icu:Preferences__address-book-photos--description": {
+    "messageformat": "Display contact photos from your address book if available."
   },
   "icu:Preferences__auto-convert-emoji--title": {
     "messageformat": "ٹائپ کردہ ایموٹیکنز کو ایموجی میں تبدیل کریں"
@@ -6499,8 +6520,14 @@
   "icu:Preferences--read-receipts": {
     "messageformat": "رسیدیں پڑھیں"
   },
+  "icu:Preferences--read-receipts--description": {
+    "messageformat": "If disabled, you won't see read receipts from others."
+  },
   "icu:Preferences--typing-indicators": {
     "messageformat": "ٹائپنگ انڈیکیٹرز"
+  },
+  "icu:Preferences--typing-indicators--description": {
+    "messageformat": "If disabled, you won't see typing indicators from others."
   },
   "icu:Preferences--updates": {
     "messageformat": "اپ ڈیٹس"
@@ -7011,6 +7038,9 @@
   },
   "icu:StoriesSettings__view-receipts--label": {
     "messageformat": "رسیدیں دیکھیں"
+  },
+  "icu:StoriesSettings__view-receipts--new-description": {
+    "messageformat": "See and share when stories are viewed. If disabled, you won't see when others view your story."
   },
   "icu:StoriesSettings__view-receipts--description": {
     "messageformat": "اس سیٹنگ کو تبدیل کرنے کے لیے، اپنی موبائل ڈیوائس پر Signal ایپ کھولیں اور سیٹنگز -> سٹوریز پر نیویگیٹ کریں"
@@ -7660,6 +7690,18 @@
   },
   "icu:ProfileNameWarningModal__list--item3--direct": {
     "messageformat": "ان لوگوں کے ساتھ ذاتی معلومات شیئر نہ کریں جنہیں آپ جانتے نہیں ہیں"
+  },
+  "icu:ProfileNameWarningModal__warning--signal-cant-verify": {
+    "messageformat": "Signal can’t verify names and photos"
+  },
+  "icu:ProfileNameWarningModal__warning--signal-wont-contact": {
+    "messageformat": "Signal will never contact you for your registration code, PIN, or recovery key"
+  },
+  "icu:ProfileNameWarningModal__warning--be-cautious": {
+    "messageformat": "Be cautious of accounts that impersonate others"
+  },
+  "icu:ProfileNameWarningModal__warning--dont-share-info": {
+    "messageformat": "Don't share personal information with people you don't know"
   },
   "icu:ProfileNameWarningModal__description--group": {
     "messageformat": "گروپ کے نام گروپ کے ممبرز کی جانب سے منتخب کیے جاتے ہیں۔"

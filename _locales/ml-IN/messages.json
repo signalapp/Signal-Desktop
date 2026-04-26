@@ -1790,6 +1790,12 @@
   "icu:Preferences__EditChatFolderPage__CancelButton": {
     "messageformat": "റദ്ദാക്കുക"
   },
+  "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
+    "messageformat": "Show status icon"
+  },
+  "icu:Preferences__PrivacyPage__ShowStatusIcon__Description": {
+    "messageformat": "Show an icon in message details when they were delivered using sealed sender."
+  },
   "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
     "messageformat": "ഓട്ടോമാറ്റിക്ക് കീ വെരിഫിക്കേഷന്‍"
   },
@@ -3044,11 +3050,8 @@
   "icu:Message--tap-to-view--incoming--expired-toast": {
     "messageformat": "നിങ്ങൾ ഇതിനകം തന്നെ ഈ സന്ദേശം കണ്ടിരിക്കുന്നു."
   },
-  "icu:Message--tap-to-view--outgoing--expired-toast": {
-    "messageformat": "ഒരിക്കൽ മാത്രം കാണുന്നതിനുള്ള സന്ദേശങ്ങൾ നിങ്ങളുടെ ചാറ്റ് ചരിത്രത്തിൽ സംഭരിക്കില്ല."
-  },
   "icu:Message--tap-to-view--outgoing--expired-toast-2": {
-    "messageformat": "View-once media is deleted after sending"
+    "messageformat": "അയച്ചതിന് ശേഷം, ഒറ്റത്തവണ കാണാൻ മാത്രമുള്ള മീഡിയ ഇല്ലാതാക്കും"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "ഒരു തവണ-ദൃശ്യമാകുന്ന വീഡിയോ"
@@ -3515,8 +3518,17 @@
   "icu:ConversationHero--profile-names": {
     "messageformat": "<clickable>പ്രൊഫൈൽ നാമങ്ങൾ</clickable> പരിശോധിച്ചുറപ്പിച്ചിട്ടില്ല"
   },
+  "icu:ConversationHero--name-not-verified": {
+    "messageformat": "Name not verified"
+  },
   "icu:ConversationHero--signal-official-chat": {
     "messageformat": "ഇതാണ്, ഔദ്യോഗികവും Signal-ൽ നിന്ന് മാത്രമുള്ളതുമായ ഒരൊറ്റ ചാറ്റ്"
+  },
+  "icu:ConversationHero--signal-official-account": {
+    "messageformat": "Official account"
+  },
+  "icu:ConversationHero--signal-official-account--description": {
+    "messageformat": "The only official chat from Signal. Keep up to date with news and release notes."
   },
   "icu:ConversationHero--release-notes": {
     "messageformat": "വാർത്തകളും റിലീസ് നോട്ടുകളും വഴി അപ്-ടു-ഡേറ്റ് ആയിരിക്കുക."
@@ -4893,7 +4905,7 @@
     "messageformat": "ഗ്രൂപ്പ് അൺബ്ലോക്ക് ചെയ്യുക"
   },
   "icu:ConversationDetailsActions--report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "സ്പാം റിപ്പോർട്ട് ചെയ്യുക"
   },
   "icu:ConversationDetailsActions--archive": {
     "messageformat": "ചാറ്റ് ആർക്കൈവ് ചെയ്യുക"
@@ -4946,20 +4958,17 @@
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "അൺബ്ലോക്ക് ചെയ്യുക"
   },
-  "icu:ConversationDetailsActions--report-spam-modal-title": {
-    "messageformat": "Report spam?"
-  },
   "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
-    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats."
+    "messageformat": "ഈ വ്യക്തി സ്‌പാം ആകാം അയയ്ക്കുന്നതെന്ന് Signal-ന് അറിയിപ്പ് ലഭിക്കും. Signal-ന് ഒരു ചാറ്റിന്റെയും ഉള്ളടക്കം കാണാൻ കഴിയില്ല."
   },
   "icu:ConversationDetailsActions--report-spam-modal-content-group": {
-    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats."
+    "messageformat": "നിങ്ങളെ ഈ ഗ്രൂപ്പിലേക്ക് ക്ഷണിച്ച വ്യക്തി, സ്‌പാം ആകാം അയയ്ക്കുന്നതെന്ന് Signal-ന് അറിയിപ്പ് ലഭിക്കും. Signal-ന് ഒരു ചാറ്റിന്റെയും ഉള്ളടക്കം കാണാൻ കഴിയില്ല."
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
-    "messageformat": "Report spam"
+    "messageformat": "സ്പാം റിപ്പോർട്ട് ചെയ്യുക"
   },
   "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
-    "messageformat": "Report and block"
+    "messageformat": "റിപ്പോർട്ട് ചെയ്ത് ബ്ലോക്ക് ചെയ്യുക"
   },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} അംഗം} other {{number,number} അംഗങ്ങൾ}}"
@@ -5291,6 +5300,9 @@
   },
   "icu:MessageRequestWarning__safety-tips": {
     "messageformat": "സുരക്ഷാ നുറുങ്ങുകൾ"
+  },
+  "icu:MessageRequestWarning__safety-tips-v2": {
+    "messageformat": "Safety tips"
   },
   "icu:ContactSpoofing__same-name--link": {
     "messageformat": "അഭ്യർത്ഥനകൾ ശ്രദ്ധാപൂർവ്വം അവലോകനം ചെയ്യുക. Signal ഇതേ പേരിൽ മറ്റൊരു കോൺ‌ടാക്റ്റ് കണ്ടെത്തി. <reviewRequestLink>അവലോകന അഭ്യർത്ഥന</reviewRequestLink>"
@@ -5892,6 +5904,15 @@
   },
   "icu:Preferences__link-previews--description": {
     "messageformat": "ഈ ക്രമീകരണം മാറ്റുന്നതിന്, നിങ്ങളുടെ മൊബൈലിൽ Signal ആപ്പ് തുറന്ന് ക്രമീകരണങ്ങൾ > ചാറ്റുകൾ എന്നതിലേക്ക് നാവിഗേറ്റ് ചെയ്യുക"
+  },
+  "icu:Preferences__link-previews--new-description": {
+    "messageformat": "Retrieve link previews directly from websites for messages you send."
+  },
+  "icu:Preferences__address-book-photos--title": {
+    "messageformat": "Use address book photos"
+  },
+  "icu:Preferences__address-book-photos--description": {
+    "messageformat": "Display contact photos from your address book if available."
   },
   "icu:Preferences__auto-convert-emoji--title": {
     "messageformat": "ടൈപ്പ് ചെയ്ത ഇമോട്ടിക്കോണുകൾ ഇമോജിയിലേക്ക് പരിവർത്തനം ചെയ്യുക"
@@ -6499,8 +6520,14 @@
   "icu:Preferences--read-receipts": {
     "messageformat": "വായന രസീതുകൾ"
   },
+  "icu:Preferences--read-receipts--description": {
+    "messageformat": "If disabled, you won't see read receipts from others."
+  },
   "icu:Preferences--typing-indicators": {
     "messageformat": "ടൈപ്പിംഗ് സൂചകങ്ങൾ"
+  },
+  "icu:Preferences--typing-indicators--description": {
+    "messageformat": "If disabled, you won't see typing indicators from others."
   },
   "icu:Preferences--updates": {
     "messageformat": "അപ്‌ഡേറ്റുകൾ"
@@ -7011,6 +7038,9 @@
   },
   "icu:StoriesSettings__view-receipts--label": {
     "messageformat": "സ്റ്റോറി കണ്ടതിന്റെ രസീതുകൾ"
+  },
+  "icu:StoriesSettings__view-receipts--new-description": {
+    "messageformat": "See and share when stories are viewed. If disabled, you won't see when others view your story."
   },
   "icu:StoriesSettings__view-receipts--description": {
     "messageformat": "ഈ ക്രമീകരണം മാറ്റുന്നതിന്, നിങ്ങളുടെ മൊബൈലിൽ Signal ആപ്പ് തുറന്ന് ക്രമീകരണങ്ങൾ > സ്റ്റോറികൾ എന്നതിലേക്ക് നാവിഗേറ്റ് ചെയ്യുക"
@@ -7660,6 +7690,18 @@
   },
   "icu:ProfileNameWarningModal__list--item3--direct": {
     "messageformat": "പരിചയമില്ലാത്ത ആളുകളുമായി സ്വകാര്യ വിവരങ്ങൾ പങ്കിടരുത്"
+  },
+  "icu:ProfileNameWarningModal__warning--signal-cant-verify": {
+    "messageformat": "Signal can’t verify names and photos"
+  },
+  "icu:ProfileNameWarningModal__warning--signal-wont-contact": {
+    "messageformat": "Signal will never contact you for your registration code, PIN, or recovery key"
+  },
+  "icu:ProfileNameWarningModal__warning--be-cautious": {
+    "messageformat": "Be cautious of accounts that impersonate others"
+  },
+  "icu:ProfileNameWarningModal__warning--dont-share-info": {
+    "messageformat": "Don't share personal information with people you don't know"
   },
   "icu:ProfileNameWarningModal__description--group": {
     "messageformat": "ഗ്രൂപ്പിലെ അംഗങ്ങളാണ് ഗ്രൂപ്പ് നാമങ്ങൾ തിരഞ്ഞെടുക്കുന്നത്."

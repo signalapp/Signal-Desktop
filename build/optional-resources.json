@@ -1,8 +1,8 @@
 {
   "emoji-font.woff2": {
+    "digest": "DTFJd7ArQkm7EQfOA7yHq7J89Ehf03g3jzCi7WLCUtYfJANE0nc/CL4NqJsCNrImIJnUGMbLliXBQgmSQupXLg==",
     "url": "https://updates2.signal.org/static/android/emoji/font/desktop-32-64-v2.0.4.woff2",
-    "size": 8989556,
-    "digest": "DTFJd7ArQkm7EQfOA7yHq7J89Ehf03g3jzCi7WLCUtYfJANE0nc/CL4NqJsCNrImIJnUGMbLliXBQgmSQupXLg=="
+    "size": 8989556
   },
   "emoji-index-ar.json": {
     "url": "https://updates2.signal.org/static/android/emoji/search/17/ar.json",
