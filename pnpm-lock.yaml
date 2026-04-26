@@ -62,7 +62,7 @@ patchedDependencies:
     hash: 239818e5d88990616205c8cdc1de1660bf5e18b157d00c4a5f726dde6094af4d
     path: patches/zod+3.23.8.patch
   zod@4.3.6:
-    hash: b73d41a74cc629065f913f4e44c1b9b6378bc83ff18895380028b2e4798a261c
+    hash: ab3dbef13a3a4a50b2a2fcab2bdabd3ef94a4b1607e046308492e88bdd9d5553
     path: patches/zod@4.3.6.patch
 
 importers:
@@ -729,7 +729,7 @@ importers:
         version: 7.0.1
       zod:
         specifier: 4.3.6
-        version: 4.3.6(patch_hash=b73d41a74cc629065f913f4e44c1b9b6378bc83ff18895380028b2e4798a261c)
+        version: 4.3.6(patch_hash=ab3dbef13a3a4a50b2a2fcab2bdabd3ef94a4b1607e046308492e88bdd9d5553)
     optionalDependencies:
       fs-xattr:
         specifier: 0.4.0
@@ -18228,7 +18228,7 @@ snapshots:
       strip-json-comments: 5.0.3
       unbash: 2.2.0
       yaml: 2.8.3
-      zod: 4.3.6(patch_hash=b73d41a74cc629065f913f4e44c1b9b6378bc83ff18895380028b2e4798a261c)
+      zod: 4.3.6(patch_hash=ab3dbef13a3a4a50b2a2fcab2bdabd3ef94a4b1607e046308492e88bdd9d5553)
     transitivePeerDependencies:
       - '@emnapi/core'
       - '@emnapi/runtime'
@@ -21101,4 +21101,4 @@ snapshots:
 
   zod@3.23.8(patch_hash=239818e5d88990616205c8cdc1de1660bf5e18b157d00c4a5f726dde6094af4d): {}
 
-  zod@4.3.6(patch_hash=b73d41a74cc629065f913f4e44c1b9b6378bc83ff18895380028b2e4798a261c): {}
+  zod@4.3.6(patch_hash=ab3dbef13a3a4a50b2a2fcab2bdabd3ef94a4b1607e046308492e88bdd9d5553): {}

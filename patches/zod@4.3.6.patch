@@ -1,3 +1,31 @@
+diff --git a/v4/core/core.cjs b/v4/core/core.cjs
+index 937f35e921cc9e5db8b717699293fed65a5f0d33..120d5597b8475c12b8da96a2ea3185ce13112f9e 100644
+--- a/v4/core/core.cjs
++++ b/v4/core/core.cjs
+@@ -75,7 +75,8 @@ class $ZodEncodeError extends Error {
+     }
+ }
+ exports.$ZodEncodeError = $ZodEncodeError;
+-exports.globalConfig = {};
++// SIGNAL CHANGE
++exports.globalConfig = { jitless: true };
+ function config(newConfig) {
+     if (newConfig)
+         Object.assign(exports.globalConfig, newConfig);
+diff --git a/v4/core/core.js b/v4/core/core.js
+index 2a32024b30237ea02204319642a4619c03ed82d1..613aa7b86d4df72ae5d3bceaed2b74ab787c660d 100644
+--- a/v4/core/core.js
++++ b/v4/core/core.js
+@@ -68,7 +68,8 @@ export class $ZodEncodeError extends Error {
+         this.name = "ZodEncodeError";
+     }
+ }
+-export const globalConfig = {};
++// SIGNAL CHANGE
++export const globalConfig = { jitless: true };
+ export function config(newConfig) {
+     if (newConfig)
+         Object.assign(globalConfig, newConfig);
 diff --git a/v4/core/registries.cjs b/v4/core/registries.cjs
 index 3ab67ce0c138764cc5194e6f85881d9518cb0487..fc5994b29787bb8a1cb97db7ae2f65802f375a58 100644
 --- a/v4/core/registries.cjs
