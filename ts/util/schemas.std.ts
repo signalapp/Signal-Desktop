@@ -11,12 +11,7 @@ import type {
   Primitive,
 } from 'type-fest';
 import type { ZodSafeParseResult, ZodError, ZodType } from 'zod';
-import { z } from 'zod';
-
-// Prevent EvalError
-z.config({
-  jitless: true,
-});
+import type { z } from 'zod';
 
 type LooseInput<T> =
   IsLiteral<T> extends true ? LiteralToPrimitive<T> : Record<keyof T, unknown>;
