@@ -169,6 +169,7 @@ const ALLOWED_DLLS = new Set([
   'userenv.dll',
   'uxtheme.dll',
   'version.dll',
+  'wevtapi.dll',
   'winhttp.dll',
   'winmm.dll',
   'winspool.drv',
