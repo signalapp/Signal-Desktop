@@ -79,7 +79,10 @@ export const ModalHost = React.memo(function ModalHostInner({
         // ignore clicks that originate in the calling/pip
         // when we're not handling a component in the calling/pip
         if (
-          modalContainer === document.body &&
+          (modalContainer === document.body ||
+            modalContainer.classList.contains(
+              'module-calling__modal-container'
+            )) &&
           node instanceof Element &&
           node.closest(
             [

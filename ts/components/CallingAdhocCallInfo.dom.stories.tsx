@@ -14,6 +14,7 @@ import { getDefaultConversation } from '../test-helpers/getDefaultConversation.s
 import type { CallLinkType } from '../types/CallLink.std.ts';
 import { CallLinkRestrictions } from '../types/CallLink.std.ts';
 import { generateAci } from '../test-helpers/serviceIdUtils.std.ts';
+import { renderCallingParticipantMenu } from './CallingParticipantMenu.dom.stories.tsx';
 
 const { sample } = lodash;
 
@@ -75,6 +76,7 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   onCopyCallLink: action('on-copy-call-link'),
   onShareCallLinkViaSignal: action('on-share-call-link-via-signal'),
   showContactModal: action('show-contact-modal'),
+  renderCallingParticipantMenu,
 });
 
 export default {

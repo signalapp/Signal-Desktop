@@ -11,6 +11,9 @@ import { isTestOrMockEnvironment } from '../../environment.std.ts';
 const LEGACY_CONTEXT_MENU_Z_INDEX = tw('legacy-z-index-context-menu');
 
 export namespace AxoBaseMenu {
+  export type Align = 'center' | 'end' | 'start';
+  export type Side = 'top' | 'right' | 'bottom' | 'left';
+
   // <Content/SubContent>
   const baseContentStyles = tw(
     LEGACY_CONTEXT_MENU_Z_INDEX,
@@ -183,6 +186,7 @@ export namespace AxoBaseMenu {
     // Note: Radix context menus don't have an `open` prop
     // so we have to push it down to the dropdown menu props
     onOpenChange?: (open: boolean) => void;
+    modal?: boolean;
     children: ReactNode;
   }>;
 
@@ -206,6 +210,8 @@ export namespace AxoBaseMenu {
    */
 
   export type MenuContentProps = Readonly<{
+    align?: Align;
+    side?: Side;
     onCloseAutoFocus?: (e: Event) => void;
     children: ReactNode;
   }>;
