@@ -114,7 +114,14 @@ export function _createFunEmojiSearch(
   const fuseExact = new Fuse(emojiSearchIndex, FuseExactOptions, fuseIndex);
 
   return function emojiSearch(rawQuery, limit = 200) {
-    const query = normalizeShortNameCompletionQuery(rawQuery);
+    const trimmed = rawQuery.trim();
+    let resolvedQuery = rawQuery;
+    if (isEmojiParentValue(trimmed)) {
+      const parentKey = getEmojiParentKeyByValue(trimmed);
+      const entry = emojiSearchIndex.find(e => e.key === parentKey);
+      resolvedQuery = entry?.shortName ?? rawQuery;
+    }
+    const query = normalizeShortNameCompletionQuery(resolvedQuery);
 
     // Prefer exact matches at 2 characters
     const fuse = query.length < 2 ? fuseExact : fuseFuzzy;
