@@ -56,6 +56,9 @@ const PLACEHOLDER_ATTACHMENT: AttachmentType = {
 };
 
 function isBackfillEnabled(): boolean {
+  if (window.ConversationController.areWePrimaryDevice()) {
+    return false;
+  }
   if (isStagingServer() || isTestOrMockEnvironment()) {
     return true;
   }

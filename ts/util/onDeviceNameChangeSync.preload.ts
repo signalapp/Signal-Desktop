@@ -34,8 +34,16 @@ export async function onDeviceNameChangeSync(
 }
 
 export async function maybeQueueDeviceInfoFetch(): Promise<void> {
+  if (window.ConversationController.areWePrimaryDevice()) {
+    log.info(
+      'maybeQueueDeviceInfoFetch: We are primary device; no need to fetch device name'
+    );
+    return;
+  }
+
   if (deviceNameFetchQueue.size >= 1) {
     log.info('maybeQueueDeviceInfoFetch: skipping; fetch already queued');
+    return;
   }
 
   try {
