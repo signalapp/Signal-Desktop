@@ -2092,7 +2092,14 @@ function TimePicker({
         <DateInput className={tw('inline-flex min-w-[5em] items-center')}>
           {segment => {
             // We don't need the space between the time and the am/pm
-            if (segment.type === 'literal' && segment.text === ' ') {
+            // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/formatToParts#using_formattoparts
+            // https://github.com/adobe/react-spectrum/blob/36fdd8bca2df281fa955117d946e6dd9718241e4/packages/react-stately/src/datepicker/useDateFieldState.ts#L443-L470
+            if (
+              segment.type === 'literal' &&
+              (segment.text === ' ' ||
+                segment.text === '\u2066' ||
+                segment.text === '\u2069')
+            ) {
               return <span />;
             }
             if (segment.type === 'literal') {
