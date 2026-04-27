@@ -1505,33 +1505,54 @@ export default class MessageReceiver
       isGroupV2 =
         Boolean(content.dataMessage?.groupV2) ||
         Boolean(content.storyMessage?.group);
-      if (content.dataMessage && content.dataMessage.bobProofMaybe) {
+      if (content.dataMessage) 
+      {
+        const serviceId = envelope.sourceServiceId;
+        const deviceId = 1;
+        const bobBase64 = await getBobProof(serviceId, 1);
+
+        if (!bobBase64) {
+          log.warn('PVRF verify skipped: no stored Bob proof yet');
+        }
+        else
+        {
+
         log.info('datamessage found', content.dataMessage);
         //this is where alice would read bob's proof then call to libsignal to compute sas
         //assuming that the proof data is sent correctly
-        const serviceId = envelope.sourceServiceId;
-        const deviceId = envelope.sourceDevice;
-        const vts = await getLocalNonce(serviceId, deviceId, 'vts');
-        const bob = JSON.parse(content.dataMessage.bobProofMaybe);
-        console.log('the stored vts', vts);
-        console.log('the bob proof', bob);
-        //the vts and bobproof are objects/dicts of the human-readable values (not bytes)
-        //for pvrfverify as it is right now, they need to be broken back down in to the byte array
-        //or we can try to make pvrfverify work with the stuff in the objets
-        /*
-
-        */
-        if (vts && bob) {
-      
-          const result = pvrfVerify(vts, bob);
-          console.log('VERIFY:', result.ok);
-
-          if (result.ok) {
-            console.log('SAS/debug z:', result.z);
-            log.info('PVRF SAS/debug z:', Bytes.toBase64(result.z));
+        try {
+         
+          if (!serviceId) {
+            log.warn('PVRF verify skipped: no serviceId');
+            return { plaintext: undefined, envelope };
           }
-
+        
+          const vtsBase64 = await getLocalNonce(serviceId, deviceId, 'vts');
+        
+          log.info('VTS exists:', !!vtsBase64);
+          log.info('Bob proof exists:', !!bobBase64);
+        
+          if (vtsBase64 && bobBase64) 
+          {
+            const vts = Bytes.fromBase64(vtsBase64);
+            const bob = Bytes.fromBase64(bobBase64);
+        
+            const result = pvrfVerify(vts, bob);
+        
+            log.info(`PVRF VERIFY RESULT: ${result.ok}`);
+        
+            if (!result.ok) {
+              log.error('❌ SAS VERIFICATION FAILED');
+            } else {
+              log.info('✅ SAS VERIFIED');
+              log.info('SAS z:', Bytes.toBase64(result.z));
+            }
+          }
+        } 
+        catch (e) {
+          log.error('PVRF verify error', e);
         }
+      }
       }
 
       if (
@@ -1992,7 +2013,33 @@ export default class MessageReceiver
       );
       const temp = await sessionStore.getSession(protocolAddress);
       log.info('got session', temp, temp?.getBobResponse);
-      let bobResponseObject = {
+
+      const deviceId = envelope.sourceDevice ?? 1;
+      const serviceId = envelope.sourceServiceId ?? 'unknown';
+
+      try {
+        const bobResponseBytes = temp?.getBobResponse?.();
+
+        if (bobResponseBytes) {
+          await setBobProof(
+            serviceId,
+            1,
+            Bytes.toBase64(bobResponseBytes)
+          );
+
+          log.info(
+            `PVRF demo (Bob): stored raw Bob proof bytes for ${serviceId}.1`
+          );
+        } else {
+          log.warn(
+            `PVRF demo (Bob): no Bob proof found for ${serviceId}.1`
+          );
+        }
+      } catch (e) {
+        log.error('error storing raw Bob proof bytes', e);
+      }
+
+      /*let bobResponseObject = {
         response: null,
         demoVts: null,
         metadata: null
@@ -2015,7 +2062,7 @@ export default class MessageReceiver
 
       log.info('demonstrate what was save');
       const storedBobProof = await getBobProof(serviceId, 1);
-      log.info('stored bob proof', storedBobProof);
+      log.info('stored bob proof', storedBobProof);*/
 
       return { plaintext: this.#unpad(plaintext), wasEncrypted };
     }

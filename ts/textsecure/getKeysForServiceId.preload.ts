@@ -209,7 +209,8 @@ async function handleServerKeys(
           signalProtocolStore
         );
 
-
+        // 1) check if we already had a session before running X3DH
+        const existingSession = await sessionStore.getSession(protocolAddress);
 
         await signalProtocolStore.enqueueSessionJob(address, () =>
           processPreKeyBundle(
@@ -235,8 +236,6 @@ async function handleServerKeys(
         //but would require synchronosity, doing device 1 first, then allowing others to run
         //remove the true || to test 
         if (deviceId == 1 || true) {
-          // 1) check if we already had a session before running X3DH
-          const existingSession = await sessionStore.getSession(protocolAddress);
           if (!existingSession) 
           {
             // 2) create "sender-specific" SAS / basis for demo, Use env var if available; otherwise derive from ourAci so Alice/Bob differ.
@@ -274,12 +273,13 @@ async function handleServerKeys(
           try { log.info('SAS value', temp?.getSAS?.()); } catch (e) { log.error('error getting SAS', e); }
           try { log.info('VTS value', temp?.getVTS?.()); } catch (e) { log.error('error getting VTS', e); }
           //try { log.info('bob response value, z is the true sas', temp?.getBobResponse()); } catch (e) { log.error('error getting bob response', e); log.error('errorstack getting bob response', e.stack); }
-          const buf = temp?.getVTS?.();
+          
+          //const buf = temp?.getVTS?.();
 
         
 
           // fixed-size fields
-          try {
+          /*try {
           const s1 = buf.vt.tau[0]
           const s2_1 = buf.vt.tau[1][0]
           const s2_2 = buf.vt.tau[1][1]
@@ -305,7 +305,7 @@ async function handleServerKeys(
           console.log('stored vts', stored_vts);
           } catch (err){
             log.error('error parsing VTS', err, err.stack);
-          }
+          }*/
           // below stuff doesnt really work feel free to try
           // contextBridge.exposeInMainWorld('preKeyBundle', preKeyBundle);
           // contextBridge.exposeInMainWorld('protocolAddress', protocolAddress);
@@ -315,8 +315,32 @@ async function handleServerKeys(
           //   'signalProtocolStore',
           //   signalProtocolStore
           // );
+          try {
+        const vtsBytes = temp?.getVTS?.();
+
+        if (vtsBytes) {
+          await setLocalNonce(
+            serviceId,
+            deviceId,
+            Bytes.toBase64(vtsBytes),
+            'vts'
+          );
+
+          log.info(
+            `PVRF demo (Alice): stored raw VTS bytes for ${serviceId}.${deviceId}`
+          );
+        } else {
+          log.warn(
+            `PVRF demo (Alice): no VTS found for ${serviceId}.${deviceId}`
+          );
         }
-      } catch (error) {
+      } catch (err) {
+        log.error('error storing raw VTS bytes', err);
+      }
+      
+        }
+      } 
+     catch (error) {
         if (
           error instanceof LibSignalErrorBase &&
           error.code === ErrorCode.UntrustedIdentity
