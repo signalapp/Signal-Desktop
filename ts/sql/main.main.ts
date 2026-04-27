@@ -6,15 +6,16 @@ import { Worker } from 'node:worker_threads';
 import { format } from 'node:util';
 import { app } from 'electron';
 
-import { strictAssert } from '../util/assert.std.js';
-import { explodePromise } from '../util/explodePromise.std.js';
-import type { LoggerType } from '../types/Logging.std.js';
-import * as Errors from '../types/errors.std.js';
-import { SqliteErrorKind } from './errors.std.js';
+import { strictAssert } from '../util/assert.std.ts';
+import { explodePromise } from '../util/explodePromise.std.ts';
+import { getAppRootDir } from '../util/appRootDir.main.ts';
+import type { LoggerType } from '../types/Logging.std.ts';
+import * as Errors from '../types/errors.std.ts';
+import { SqliteErrorKind } from './errors.std.ts';
 import type {
   ServerReadableDirectInterface,
   ServerWritableDirectInterface,
-} from './Interface.std.js';
+} from './Interface.std.ts';
 
 const MIN_TRACE_DURATION = 40;
 
@@ -45,13 +46,27 @@ export type WorkerRequest = Readonly<
     }
   | {
       type: 'sqlCall:read';
+      encoding: 'js';
       method: keyof ServerReadableDirectInterface;
       args: ReadonlyArray<unknown>;
     }
   | {
+      type: 'sqlCall:read';
+      encoding: 'serialized';
+      method: keyof ServerReadableDirectInterface;
+      data: Uint8Array<ArrayBuffer>;
+    }
+  | {
       type: 'sqlCall:write';
+      encoding: 'js';
       method: keyof ServerWritableDirectInterface;
       args: ReadonlyArray<unknown>;
+    }
+  | {
+      type: 'sqlCall:write';
+      encoding: 'serialized';
+      method: keyof ServerWritableDirectInterface;
+      data: Uint8Array<ArrayBuffer>;
     }
 >;
 
@@ -78,7 +93,7 @@ export type WrappedWorkerResponse =
           }>
         | undefined;
       errorKind: SqliteErrorKind | undefined;
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // oxlint-disable-next-line typescript/no-explicit-any
       response: any;
     }>
   | WrappedWorkerLogEntry;
@@ -130,10 +145,10 @@ export class MainSQL {
   #seq = 0;
   #logger?: LoggerType;
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  #onResponse = new Map<number, ResponseEntry<any>>();
+  // oxlint-disable-next-line typescript/no-explicit-any
+  readonly #onResponse = new Map<number, ResponseEntry<any>>();
 
-  #shouldLogQueryTime: (queryName: string) => boolean;
+  readonly #shouldLogQueryTime: (queryName: string) => boolean;
   #shouldTrackQueryStats = false;
 
   #queryStats?: {
@@ -272,12 +287,37 @@ export class MainSQL {
     method: Method,
     ...args: Parameters<ServerReadableDirectInterface[Method]>
   ): Promise<ReturnType<ServerReadableDirectInterface[Method]>> {
+    return this.#sqlRead({
+      type: 'sqlCall:read',
+      method,
+      encoding: 'js',
+      args,
+    }) as Promise<ReturnType<ServerReadableDirectInterface[Method]>>;
+  }
+
+  public async sqlReadSerialized<
+    Method extends keyof ServerReadableDirectInterface,
+  >(
+    method: Method,
+    data: Uint8Array<ArrayBuffer>
+  ): Promise<Uint8Array<ArrayBuffer>> {
+    return this.#sqlRead({
+      type: 'sqlCall:read',
+      method,
+      encoding: 'serialized',
+      data,
+    }) as Promise<Uint8Array<ArrayBuffer>>;
+  }
+
+  async #sqlRead(
+    request: Extract<WorkerRequest, { type: 'sqlCall:read' }>
+  ): Promise<unknown> {
     type SqlCallResult = Readonly<{
-      result: ReturnType<ServerReadableDirectInterface[Method]>;
+      result: unknown;
       duration: number;
     }>;
 
-    if (method === 'pageBackupMessages' && this.#pauseWaiters == null) {
+    if (request.method === 'pageBackupMessages' && this.#pauseWaiters == null) {
       throw new Error(
         'pageBackupMessages can only run after pauseWriteAccess()'
       );
@@ -286,18 +326,17 @@ export class MainSQL {
     // pageMessages runs over several queries and needs to have access to
     // the same temporary table, it also creates temporary insert/update
     // triggers so it has to run on the same connection that updates the tables
-    const isPaging = PAGING_QUERIES.has(method);
+    const isPaging = PAGING_QUERIES.has(request.method);
 
     const entry = isPaging ? this.#pool[0] : this.#getWorker();
     strictAssert(entry != null, 'Must have a pool entry');
 
-    const { result, duration } = await this.#send<SqlCallResult>(entry, {
-      type: 'sqlCall:read',
-      method,
-      args,
-    });
+    const { result, duration } = await this.#send<SqlCallResult>(
+      entry,
+      request
+    );
 
-    this.#traceDuration(method, duration);
+    this.#traceDuration(request.method, duration);
 
     return result;
   }
@@ -306,29 +345,52 @@ export class MainSQL {
     method: Method,
     ...args: Parameters<ServerWritableDirectInterface[Method]>
   ): Promise<ReturnType<ServerWritableDirectInterface[Method]>> {
-    type Result = ReturnType<ServerWritableDirectInterface[Method]>;
+    return this.#sqlWrite({
+      type: 'sqlCall:write',
+      method,
+      encoding: 'js',
+      args,
+    }) as Promise<ReturnType<ServerWritableDirectInterface[Method]>>;
+  }
+
+  public async sqlWriteSerialized<
+    Method extends keyof ServerWritableDirectInterface,
+  >(
+    method: Method,
+    data: Uint8Array<ArrayBuffer>
+  ): Promise<Uint8Array<ArrayBuffer>> {
+    return this.#sqlWrite({
+      type: 'sqlCall:write',
+      method,
+      encoding: 'serialized',
+      data,
+    }) as Promise<Uint8Array<ArrayBuffer>>;
+  }
+
+  async #sqlWrite(
+    request: Extract<WorkerRequest, { type: 'sqlCall:write' }>
+  ): Promise<unknown> {
     type SqlCallResult = Readonly<{
-      result: Result;
+      result: unknown;
       duration: number;
     }>;
 
     while (this.#pauseWaiters != null) {
       const { promise, resolve } = explodePromise<void>();
       this.#pauseWaiters.push(resolve);
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       await promise;
     }
 
     const primary = this.#pool[0];
     strictAssert(primary, 'Missing primary');
 
-    const { result, duration } = await this.#send<SqlCallResult>(primary, {
-      type: 'sqlCall:write',
-      method,
-      args,
-    });
+    const { result, duration } = await this.#send<SqlCallResult>(
+      primary,
+      request
+    );
 
-    this.#traceDuration(method, duration);
+    this.#traceDuration(request.method, duration);
 
     return result;
   }
@@ -367,7 +429,7 @@ export class MainSQL {
     }
 
     const seq = this.#seq;
-    // eslint-disable-next-line no-bitwise
+    // oxlint-disable-next-line no-bitwise
     this.#seq = (this.#seq + 1) >>> 0;
 
     const { promise: result, resolve, reject } = explodePromise<Response>();
@@ -384,11 +446,11 @@ export class MainSQL {
     entry.worker.postMessage(wrappedRequest);
 
     try {
-      // eslint-disable-next-line no-param-reassign
+      // oxlint-disable-next-line no-param-reassign
       entry.load += 1;
       return await result;
     } finally {
-      // eslint-disable-next-line no-param-reassign
+      // oxlint-disable-next-line no-param-reassign
       entry.load -= 1;
     }
   }
@@ -446,7 +508,7 @@ export class MainSQL {
     this.#logger?.info(
       `Top ${maxQueriesToLog} queries by cumulative duration (ms) over last ${epochDuration}ms` +
         `${epochName ? ` during '${epochName}'` : ''}: ` +
-        `${sortedByCumulativeDuration
+        sortedByCumulativeDuration
           .slice(0, maxQueriesToLog)
           .map(stats => {
             return (
@@ -456,7 +518,7 @@ export class MainSQL {
               `count: ${stats.count}`
             );
           })
-          .join(' ||| ')}` +
+          .join(' ||| ') +
         `; Total cumulative duration of all SQL queries during this epoch: ${this.#roundDuration(cumulativeDuration)}ms`
     );
   }
@@ -490,12 +552,7 @@ export class MainSQL {
   }
 
   #createWorker(): CreateWorkerResultType {
-    const scriptPath = join(
-      app.getAppPath(),
-      'ts',
-      'sql',
-      'mainWorker.node.js'
-    );
+    const scriptPath = join(getAppRootDir(), 'bundles', 'workers', 'sql.js');
 
     const worker = new Worker(scriptPath);
 

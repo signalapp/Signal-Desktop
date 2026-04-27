@@ -1,6 +1,6 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import { itemStorage } from '../textsecure/Storage.preload.js';
+import { itemStorage } from '../textsecure/Storage.preload.ts';
 
 export function getLinkPreviewSetting(): boolean {
   return itemStorage.get('linkPreviews', false);
@@ -22,12 +22,4 @@ export function areStoryViewReceiptsEnabled(): boolean {
     itemStorage.get('read-receipt-setting') ??
     false
   );
-}
-
-export async function setStoryViewReceiptsEnabled(
-  value: boolean
-): Promise<void> {
-  await itemStorage.put('storyViewReceiptsEnabled', value);
-  const account = window.ConversationController.getOurConversationOrThrow();
-  account.captureChange('storyViewReceiptsEnabled');
 }

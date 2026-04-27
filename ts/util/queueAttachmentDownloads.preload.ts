@@ -1,24 +1,23 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { createLogger } from '../logging/log.std.js';
-import { isAudio, isImage, isLongMessage, isVideo } from '../types/MIME.std.js';
-import { getMessageIdForLogging } from './idForLogging.preload.js';
+import { createLogger } from '../logging/log.std.ts';
+import { isAudio, isImage, isLongMessage, isVideo } from '../types/MIME.std.ts';
+import { getMessageIdForLogging } from './idForLogging.preload.ts';
 import {
   copyStickerToAttachments,
   savePackMetadata,
   getStickerPackStatus,
-} from '../types/Stickers.preload.js';
-import { DataWriter } from '../sql/Client.preload.js';
+} from '../types/Stickers.preload.ts';
+import { DataWriter } from '../sql/Client.preload.ts';
 
-import type { AttachmentType, ThumbnailType } from '../types/Attachment.std.js';
-import type { EmbeddedContactType } from '../types/EmbeddedContact.std.js';
+import type { AttachmentType, ThumbnailType } from '../types/Attachment.std.ts';
 import type {
   EditHistoryType,
   MessageAttributesType,
   QuotedMessageType,
 } from '../model-types.d.ts';
-import * as Errors from '../types/errors.std.js';
+import * as Errors from '../types/errors.std.ts';
 import {
   isDownloading,
   isDownloaded,
@@ -27,41 +26,30 @@ import {
   getCachedAttachmentBySignature,
   cacheAttachmentBySignature,
   getUndownloadedAttachmentSignature,
-} from './Attachment.std.js';
-import { AttachmentDownloadUrgency } from '../types/AttachmentDownload.std.js';
-import type { StickerType } from '../types/Stickers.preload.js';
-import type { LinkPreviewType } from '../types/message/LinkPreviews.std.js';
-import { strictAssert } from './assert.std.js';
-import { isNotNil } from './isNotNil.std.js';
-import { AttachmentDownloadManager } from '../jobs/AttachmentDownloadManager.preload.js';
-import { AttachmentDownloadSource } from '../sql/Interface.std.js';
-import type { MessageModel } from '../models/messages.preload.js';
-import type { ConversationModel } from '../models/conversations.preload.js';
-import { isOutgoing, isStory } from '../messages/helpers.std.js';
-import { shouldDownloadStory } from './shouldDownloadStory.preload.js';
-import { hasAttachmentDownloads } from './hasAttachmentDownloads.std.js';
+} from './Attachment.std.ts';
+import { AttachmentDownloadUrgency } from '../types/AttachmentDownload.std.ts';
+import type { LinkPreviewType } from '../types/message/LinkPreviews.std.ts';
+import { strictAssert } from './assert.std.ts';
+import { isNotNil } from './isNotNil.std.ts';
+import { AttachmentDownloadManager } from '../jobs/AttachmentDownloadManager.preload.ts';
+import { AttachmentDownloadSource } from '../sql/Interface.std.ts';
+import type { MessageModel } from '../models/messages.preload.ts';
+import type { ConversationModel } from '../models/conversations.preload.ts';
+import { isOutgoing, isStory } from '../messages/helpers.std.ts';
+import { shouldDownloadStory } from './shouldDownloadStory.preload.ts';
+import { hasAttachmentDownloads } from './hasAttachmentDownloads.std.ts';
 import {
   addToAttachmentDownloadQueue,
   shouldUseAttachmentDownloadQueue,
-} from './attachmentDownloadQueue.preload.js';
-import { queueUpdateMessage } from './messageBatcher.preload.js';
-import type { LoggerType } from '../types/Logging.std.js';
+} from './attachmentDownloadQueue.preload.ts';
+import { queueUpdateMessage } from './messageBatcher.preload.ts';
+import type { LoggerType } from '../types/Logging.std.ts';
 import {
   itemStorage,
   DEFAULT_AUTO_DOWNLOAD_ATTACHMENT,
-} from '../textsecure/Storage.preload.js';
+} from '../textsecure/Storage.preload.ts';
 
 const defaultLogger = createLogger('queueAttachmentDownloads');
-
-export type MessageAttachmentsDownloadedType = {
-  bodyAttachment?: AttachmentType;
-  attachments: ReadonlyArray<AttachmentType>;
-  editHistory?: ReadonlyArray<EditHistoryType>;
-  preview: ReadonlyArray<LinkPreviewType>;
-  contact: ReadonlyArray<EmbeddedContactType>;
-  quote?: QuotedMessageType;
-  sticker?: StickerType;
-};
 
 function getLogger(source: AttachmentDownloadSource) {
   const verbose =
@@ -75,9 +63,7 @@ export async function handleAttachmentDownloadsForNewMessage(
   message: MessageModel,
   conversation: ConversationModel
 ): Promise<void> {
-  const logId =
-    `handleAttachmentDownloadsForNewMessage/${conversation.idForLogging()} ` +
-    `${getMessageIdForLogging(message.attributes)}`;
+  const logId = `handleAttachmentDownloadsForNewMessage/${conversation.idForLogging()} ${getMessageIdForLogging(message.attributes)}`;
 
   // Only queue attachments for downloads if this is a story (with additional logic), or
   // if it's either an outgoing message or we've accepted the conversation
@@ -295,7 +281,7 @@ export async function queueAttachmentDownloads(
       }
 
       if (!isManualDownload) {
-        if (autoDownloadAttachment.photos === false) {
+        if (!autoDownloadAttachment.photos) {
           return item;
         }
       }
@@ -475,7 +461,7 @@ export async function queueAttachmentDownloads(
   return false;
 }
 
-export async function queueNormalAttachments({
+async function queueNormalAttachments({
   attachments = [],
   isManualDownload,
   logId,
@@ -510,7 +496,7 @@ export async function queueNormalAttachments({
   // than once.
   // We don't also register the signatures for "attachments" because they would
   // then not be added to the AttachmentDownloads job.
-  const attachmentSignatures: Map<string, AttachmentType> = new Map();
+  const attachmentSignatures = new Map<string, AttachmentType>();
   otherAttachments?.forEach(attachment => {
     cacheAttachmentBySignature(attachmentSignatures, attachment);
   });
@@ -564,21 +550,18 @@ export async function queueNormalAttachments({
         );
 
         if (isVideo(contentType)) {
-          if (autoDownloadAttachment.videos === false) {
+          if (!autoDownloadAttachment.videos) {
             return attachment;
           }
         } else if (isImage(contentType)) {
-          if (autoDownloadAttachment.photos === false) {
+          if (!autoDownloadAttachment.photos) {
             return attachment;
           }
         } else if (isAudio(contentType)) {
-          if (
-            autoDownloadAttachment.audio === false &&
-            !isVoiceMessage(attachment)
-          ) {
+          if (!autoDownloadAttachment.audio && !isVoiceMessage(attachment)) {
             return attachment;
           }
-        } else if (autoDownloadAttachment.documents === false) {
+        } else if (!autoDownloadAttachment.documents) {
           return attachment;
         }
       }
@@ -630,7 +613,7 @@ async function queuePreviews({
   ) => boolean;
 }): Promise<{ preview: Array<LinkPreviewType>; count: number }> {
   const log = getLogger(source);
-  const previewSignatures: Map<string, AttachmentType> = new Map();
+  const previewSignatures = new Map<string, AttachmentType>();
   otherPreviews?.forEach(preview => {
     if (preview.image) {
       cacheAttachmentBySignature(previewSignatures, preview.image);
@@ -678,7 +661,7 @@ async function queuePreviews({
           DEFAULT_AUTO_DOWNLOAD_ATTACHMENT
         );
 
-        if (autoDownloadAttachment.photos === false) {
+        if (!autoDownloadAttachment.photos) {
           return item;
         }
       }
@@ -745,7 +728,7 @@ async function queueQuoteAttachments({
 
   // Similar to queueNormalAttachments' logic for detecting same attachments
   // except here we also pick by quote sent timestamp.
-  const thumbnailSignatures: Map<string, ThumbnailType> = new Map();
+  const thumbnailSignatures = new Map<string, ThumbnailType>();
   otherQuotes.forEach(otherQuote => {
     for (const attachment of otherQuote.attachments) {
       if (attachment.thumbnail) {

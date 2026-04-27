@@ -4,16 +4,16 @@
 import { assert } from 'chai';
 import { v1 as getGuid } from 'uuid';
 
-import { sql } from '../../sql/util.std.js';
+import { sql } from '../../sql/util.std.ts';
 import {
   updateToVersion,
   createDB,
   explain,
   insertData,
   getTableData,
-} from './helpers.node.js';
+} from './helpers.node.ts';
 
-import type { WritableDB } from '../../sql/Interface.std.js';
+import type { WritableDB } from '../../sql/Interface.std.ts';
 
 describe('SQL/updateToSchemaVersion1380', () => {
   let db: WritableDB;

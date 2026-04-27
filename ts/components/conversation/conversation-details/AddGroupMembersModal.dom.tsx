@@ -4,19 +4,19 @@
 import React, { useReducer } from 'react';
 import lodash from 'lodash';
 
-import type { LocalizerType } from '../../../types/Util.std.js';
+import type { LocalizerType } from '../../../types/Util.std.ts';
 import {
   AddGroupMemberErrorDialog,
   AddGroupMemberErrorDialogMode,
-} from '../../AddGroupMemberErrorDialog.dom.js';
-import type { SmartChooseGroupMembersModalPropsType } from '../../../state/smart/ChooseGroupMembersModal.preload.js';
-import type { SmartConfirmAdditionsModalPropsType } from '../../../state/smart/ConfirmAdditionsModal.dom.js';
+} from '../../AddGroupMemberErrorDialog.dom.tsx';
+import type { SmartChooseGroupMembersModalPropsType } from '../../../state/smart/ChooseGroupMembersModal.preload.tsx';
+import type { SmartConfirmAdditionsModalPropsType } from '../../../state/smart/ConfirmAdditionsModal.dom.tsx';
 import {
   toggleSelectedContactForGroupAddition,
   OneTimeModalState,
-} from '../../../groups/toggleSelectedContactForGroupAddition.std.js';
-import { missingCaseError } from '../../../util/missingCaseError.std.js';
-import type { RequestState } from './util.std.js';
+} from '../../../groups/toggleSelectedContactForGroupAddition.std.ts';
+import { missingCaseError } from '../../../util/missingCaseError.std.ts';
+import type { RequestState } from './util.std.ts';
 
 const { without } = lodash;
 

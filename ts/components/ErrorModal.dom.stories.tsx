@@ -5,10 +5,10 @@ import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './ErrorModal.dom.js';
-import { ErrorModal } from './ErrorModal.dom.js';
+import type { PropsType } from './ErrorModal.dom.tsx';
+import { ErrorModal } from './ErrorModal.dom.tsx';
 
-import { ButtonVariant } from './Button.dom.js';
+import { ButtonVariant } from './Button.dom.tsx';
 
 const { i18n } = window.SignalContext;
 

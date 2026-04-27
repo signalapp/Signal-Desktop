@@ -1,15 +1,11 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* eslint-disable max-classes-per-file */
-/* eslint-disable no-restricted-syntax */
-/* eslint-disable no-await-in-loop */
-
 import { videoPixelFormatToEnum } from '@signalapp/ringrtc';
 import type { VideoFrameSender, VideoFrameSource } from '@signalapp/ringrtc';
 import type { RefObject } from 'react';
-import { createLogger } from '../logging/log.std.js';
-import { toLogFormat } from '../types/errors.std.js';
+import { createLogger } from '../logging/log.std.ts';
+import { toLogFormat } from '../types/errors.std.ts';
 
 const log = createLogger('VideoSupport');
 
@@ -23,6 +19,7 @@ export class GumVideoCaptureOptions {
   onEnded?: () => void;
 }
 
+// oxlint-disable-next-line typescript/consistent-type-definitions
 interface GumTrackConstraints extends MediaTrackConstraints {
   mandatory?: GumTrackConstraintSet;
 }
@@ -46,6 +43,7 @@ export type SetLocalPreviewType = {
   sizeCallback: SizeCallbackType | undefined;
 };
 
+// oxlint-disable-next-line max-classes-per-file
 export class GumVideoCapturer {
   private localPreview?: HTMLVideoElement;
   private sizeCallback?: SizeCallbackType;
@@ -54,7 +52,7 @@ export class GumVideoCapturer {
   private mediaStream?: MediaStream;
   private spawnedSenderRunning = false;
   private preferredDeviceId?: string;
-  private reportVideoSizeCallback = this.reportVideoSize.bind(this);
+  private readonly reportVideoSizeCallback = this.reportVideoSize.bind(this);
 
   capturing(): boolean {
     return this.captureOptions !== undefined;
@@ -329,10 +327,11 @@ export class GumVideoCapturer {
     }).readable.getReader();
     const buffer = new Uint8Array(MAX_VIDEO_CAPTURE_BUFFER_SIZE);
     this.spawnedSenderRunning = true;
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    // oxlint-disable-next-line typescript/no-floating-promises
     (async () => {
       try {
         while (mediaStream === this.mediaStream) {
+          // oxlint-disable-next-line no-await-in-loop
           const { done, value: frame } = await reader.read();
           if (done) {
             break;
@@ -352,6 +351,7 @@ export class GumVideoCapturer {
               continue;
             }
 
+            // oxlint-disable-next-line no-await-in-loop
             await frame.copyTo(buffer);
             if (sender !== this.sender) {
               break;
@@ -409,16 +409,16 @@ export class GumVideoCapturer {
   }
 }
 
-export const MAX_VIDEO_CAPTURE_WIDTH = 2880;
-export const MAX_VIDEO_CAPTURE_HEIGHT = 1800;
-export const MAX_VIDEO_CAPTURE_AREA =
+const MAX_VIDEO_CAPTURE_WIDTH = 2880;
+const MAX_VIDEO_CAPTURE_HEIGHT = 1800;
+const MAX_VIDEO_CAPTURE_AREA =
   MAX_VIDEO_CAPTURE_WIDTH * MAX_VIDEO_CAPTURE_HEIGHT;
-export const MAX_VIDEO_CAPTURE_BUFFER_SIZE = MAX_VIDEO_CAPTURE_AREA * 4;
+const MAX_VIDEO_CAPTURE_BUFFER_SIZE = MAX_VIDEO_CAPTURE_AREA * 4;
 
 export class CanvasVideoRenderer {
   private canvas?: RefObject<HTMLCanvasElement | null>;
   private sizeCallback?: SizeCallbackType;
-  private buffer: Uint8Array<ArrayBuffer>;
+  private readonly buffer: Uint8Array<ArrayBuffer>;
   private imageData?: ImageData;
   private source?: VideoFrameSource;
   private rafId?: ReturnType<typeof requestAnimationFrame>;

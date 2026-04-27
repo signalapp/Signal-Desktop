@@ -4,14 +4,14 @@
 import { ipcRenderer } from 'electron';
 
 import type { ReadonlyDeep } from 'type-fest';
-import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.js';
-import type { NoopActionType } from './noop.std.js';
-import { useBoundActions } from '../../hooks/useBoundActions.std.js';
-import type { AnyToast } from '../../types/Toast.dom.js';
+import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.ts';
+import { noopAction, type NoopActionType } from './noop.std.ts';
+import { useBoundActions } from '../../hooks/useBoundActions.std.ts';
+import type { AnyToast } from '../../types/Toast.dom.tsx';
 
 // State
 
-// eslint-disable-next-line local-rules/type-alias-readonlydeep
+// oxlint-disable-next-line signal-desktop/enforce-type-alias-readonlydeep
 export type ToastStateType = {
   toast?: AnyToast;
 };
@@ -26,13 +26,13 @@ type HideToastActionType = ReadonlyDeep<{
   payload: AnyToast | undefined;
 }>;
 
-// eslint-disable-next-line local-rules/type-alias-readonlydeep
+// oxlint-disable-next-line signal-desktop/enforce-type-alias-readonlydeep
 export type ShowToastActionType = {
   type: typeof SHOW_TOAST;
   payload: AnyToast;
 };
 
-// eslint-disable-next-line local-rules/type-alias-readonlydeep
+// oxlint-disable-next-line signal-desktop/enforce-type-alias-readonlydeep
 export type ToastActionType = HideToastActionType | ShowToastActionType;
 
 // Action Creators
@@ -48,10 +48,7 @@ function hideToast(toast?: AnyToast): HideToastActionType {
 
 function openFileInFolder(target: string): NoopActionType {
   ipcRenderer.send('show-item-in-folder', target);
-  return {
-    type: 'NOOP',
-    payload: null,
-  };
+  return noopAction('openFileInFolder');
 }
 
 export type ShowToastAction = ReadonlyDeep<(toast: AnyToast) => void>;

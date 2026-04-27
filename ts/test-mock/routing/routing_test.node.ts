@@ -1,23 +1,20 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-
-// `window` use below is actually executed in the browser.
-// eslint-disable-next-line local-rules/file-suffix
 import { assert } from 'chai';
 
 import type { PrimaryDevice } from '@signalapp/mock-server';
-import * as durations from '../../util/durations/index.std.js';
-import type { Bootstrap, App } from '../bootstrap.node.js';
+import * as durations from '../../util/durations/index.std.ts';
+import type { Bootstrap, App } from '../bootstrap.node.ts';
 import {
   artAddStickersRoute,
   showConversationRoute,
-} from '../../util/signalRoutes.std.js';
+} from '../../util/signalRoutes.std.ts';
 import {
   initStorage,
   STICKER_PACKS,
   storeStickerPacks,
-} from '../storage/fixtures.node.js';
-import { strictAssert } from '../../util/assert.std.js';
+} from '../storage/fixtures.node.ts';
+import { strictAssert } from '../../util/assert.std.ts';
 
 describe('routing', function (this: Mocha.Suite) {
   this.timeout(durations.MINUTE);
@@ -59,6 +56,7 @@ describe('routing', function (this: Mocha.Suite) {
     const page = await app.getWindow();
     await page.locator('#LeftPane').waitFor();
     const token = await page.evaluate(
+      // oxlint-disable-next-line no-undef FIXME
       serviceId => window.SignalCI?.createNotificationToken(serviceId),
       friend.device.aci
     );

@@ -2,7 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 // Global Settings, Variables, and Mixins
-@use 'fontfaces';
+$is-storybook: false !default;
+@use 'fontfaces' with (
+  $is-storybook: $is-storybook
+);
 @use 'variables';
 @use 'mixins';
 @use 'global';
@@ -84,7 +87,6 @@
 @use 'components/ConversationDetails.scss';
 @use 'components/ConversationDetailsHeader.scss';
 @use 'components/ConversationHeader.scss';
-@use 'components/ConversationHero.scss';
 @use 'components/ConversationMergeNotification.scss';
 @use 'components/ConversationPanel.scss';
 @use 'components/ConversationView.scss';

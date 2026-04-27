@@ -2,12 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import lodash from 'lodash';
-import { AsyncQueue } from '../util/AsyncQueue.std.js';
-import { concat, wrapPromise } from '../util/asyncIterables.std.js';
-import type { JobQueueStore, StoredJob } from './types.std.js';
-import { formatJobForInsert } from './formatJobForInsert.std.js';
-import { DataReader, DataWriter } from '../sql/Client.preload.js';
-import { createLogger } from '../logging/log.std.js';
+import { AsyncQueue } from '../util/AsyncQueue.std.ts';
+import { concat, wrapPromise } from '../util/asyncIterables.std.ts';
+import type { JobQueueStore, StoredJob } from './types.std.ts';
+import { formatJobForInsert } from './formatJobForInsert.std.ts';
+import { DataReader, DataWriter } from '../sql/Client.preload.ts';
+import { createLogger } from '../logging/log.std.ts';
 
 const { noop } = lodash;
 
@@ -20,11 +20,14 @@ type Database = {
 };
 
 export class JobQueueDatabaseStore implements JobQueueStore {
-  #activeQueueTypes = new Set<string>();
-  #queues = new Map<string, AsyncQueue<StoredJob>>();
-  #initialFetchPromises = new Map<string, Promise<void>>();
+  readonly #db: Database;
+  readonly #activeQueueTypes = new Set<string>();
+  readonly #queues = new Map<string, AsyncQueue<StoredJob>>();
+  readonly #initialFetchPromises = new Map<string, Promise<void>>();
 
-  constructor(private readonly db: Database) {}
+  constructor(db: Database) {
+    this.#db = db;
+  }
 
   async insert(
     job: Readonly<StoredJob>,
@@ -42,7 +45,7 @@ export class JobQueueDatabaseStore implements JobQueueStore {
     }
 
     if (shouldPersist) {
-      await this.db.insertJob(formatJobForInsert(job));
+      await this.#db.insertJob(formatJobForInsert(job));
     }
 
     if (initialFetchPromise) {
@@ -51,7 +54,7 @@ export class JobQueueDatabaseStore implements JobQueueStore {
   }
 
   async delete(id: string): Promise<void> {
-    await this.db.deleteJob(id);
+    await this.#db.deleteJob(id);
   }
 
   stream(queueType: string): AsyncIterable<StoredJob> {
@@ -90,7 +93,7 @@ export class JobQueueDatabaseStore implements JobQueueStore {
     });
     this.#initialFetchPromises.set(queueType, initialFetchPromise);
 
-    const result = await this.db.getJobsInQueue(queueType);
+    const result = await this.#db.getJobsInQueue(queueType);
     log.info(
       `finished fetching existing ${
         result.length

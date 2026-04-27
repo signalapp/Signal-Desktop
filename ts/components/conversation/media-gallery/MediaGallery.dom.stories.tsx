@@ -7,10 +7,10 @@ import type { Meta } from '@storybook/react';
 import type {
   MediaTabType,
   MediaSortOrderType,
-} from '../../../types/MediaItem.std.js';
-import type { Props } from './MediaGallery.dom.js';
-import { MediaGallery } from './MediaGallery.dom.js';
-import { PanelHeader } from './PanelHeader.dom.js';
+} from '../../../types/MediaItem.std.ts';
+import type { Props } from './MediaGallery.dom.tsx';
+import { MediaGallery } from './MediaGallery.dom.tsx';
+import { PanelHeader } from './PanelHeader.dom.tsx';
 import {
   createPreparedMediaItems,
   createRandomDocuments,
@@ -18,8 +18,8 @@ import {
   createRandomAudio,
   createRandomLinks,
   days,
-} from './utils/mocks.std.js';
-import { MediaItem } from './utils/storybook.dom.js';
+} from '../../../test-helpers/mediaGalleryMocks.std.ts';
+import { MediaItem } from '../../../test-helpers/mediaGalleryStorybook.dom.tsx';
 
 const { i18n } = window.SignalContext;
 

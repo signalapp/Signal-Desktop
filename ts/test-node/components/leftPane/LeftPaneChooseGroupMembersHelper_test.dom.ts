@@ -7,11 +7,11 @@ import lodash from 'lodash';
 import {
   RowType,
   _testHeaderText,
-} from '../../../components/ConversationList.dom.js';
-import { ContactCheckboxDisabledReason } from '../../../components/conversationList/ContactCheckbox.dom.js';
-import { getDefaultConversation } from '../../../test-helpers/getDefaultConversation.std.js';
+} from '../../../components/ConversationList.dom.tsx';
+import { ContactCheckboxDisabledReason } from '../../../components/conversationList/ContactCheckbox.dom.tsx';
+import { getDefaultConversation } from '../../../test-helpers/getDefaultConversation.std.ts';
 
-import { LeftPaneChooseGroupMembersHelper } from '../../../components/leftPane/LeftPaneChooseGroupMembersHelper.dom.js';
+import { LeftPaneChooseGroupMembersHelper } from '../../../components/leftPane/LeftPaneChooseGroupMembersHelper.dom.tsx';
 
 const { times } = lodash;
 

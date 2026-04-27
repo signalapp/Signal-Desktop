@@ -5,14 +5,14 @@ import React from 'react';
 import lodash from 'lodash';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './GroupCallOverflowArea.dom.js';
-import { GroupCallOverflowArea } from './GroupCallOverflowArea.dom.js';
-import { getDefaultConversationWithServiceId } from '../test-helpers/getDefaultConversation.std.js';
-import { fakeGetGroupCallVideoFrameSource } from '../test-helpers/fakeGetGroupCallVideoFrameSource.std.js';
-import { FRAME_BUFFER_SIZE } from '../calling/constants.std.js';
-import { generateAci } from '../types/ServiceId.std.js';
-import type { CallingImageDataCache } from './CallManager.dom.js';
-import { MINUTE } from '../util/durations/index.std.js';
+import type { PropsType } from './GroupCallOverflowArea.dom.tsx';
+import { GroupCallOverflowArea } from './GroupCallOverflowArea.dom.tsx';
+import { getDefaultConversationWithServiceId } from '../test-helpers/getDefaultConversation.std.ts';
+import { fakeGetGroupCallVideoFrameSource } from '../test-helpers/fakeGetGroupCallVideoFrameSource.std.ts';
+import { FRAME_BUFFER_SIZE } from '../calling/constants.std.ts';
+import type { CallingImageDataCache } from './CallManager.dom.tsx';
+import { MINUTE } from '../util/durations/index.std.ts';
+import { generateAci } from '../test-helpers/serviceIdUtils.std.ts';
 
 const { memoize, times } = lodash;
 

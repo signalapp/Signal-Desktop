@@ -6,10 +6,10 @@ import { autoUpdater } from 'electron';
 import { writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 
-import { Updater, createTempDir, deleteTempDir } from './common.main.js';
-import { explodePromise } from '../util/explodePromise.std.js';
-import * as Errors from '../types/errors.std.js';
-import { DialogType } from '../types/Dialogs.std.js';
+import { Updater, createTempDir, deleteTempDir } from './common.main.ts';
+import { explodePromise } from '../util/explodePromise.std.ts';
+import * as Errors from '../types/errors.std.ts';
+import { DialogType } from '../types/Dialogs.std.ts';
 
 export class MacOSUpdater extends Updater {
   protected async deletePreviousInstallers(): Promise<void> {

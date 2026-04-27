@@ -3,23 +3,23 @@
 
 import { assert } from 'chai';
 
-import type { StateType } from '../../../state/reducer.preload.js';
-import type { ConversationType } from '../../../state/ducks/conversations.preload.js';
-import type { StoryDistributionListDataType } from '../../../state/ducks/storyDistributionLists.preload.js';
-import type { StoryDistributionIdString } from '../../../types/StoryDistributionId.std.js';
-import type { ServiceIdString } from '../../../types/ServiceId.std.js';
-import type { ContactsByStory } from '../../../components/SafetyNumberChangeDialog.dom.js';
+import type { StateType } from '../../../state/reducer.preload.ts';
+import type { ConversationType } from '../../../state/ducks/conversations.preload.ts';
+import type { StoryDistributionListDataType } from '../../../state/ducks/storyDistributionLists.preload.ts';
+import type { StoryDistributionIdString } from '../../../types/StoryDistributionId.std.ts';
+import type { ServiceIdString } from '../../../types/ServiceId.std.ts';
+import type { ContactsByStory } from '../../../components/SafetyNumberChangeDialog.dom.tsx';
 
-import * as Bytes from '../../../Bytes.std.js';
-import { reducer as rootReducer } from '../../../state/reducer.preload.js';
-import { getDefaultConversation } from '../../../test-helpers/getDefaultConversation.std.js';
-import { getEmptyState } from '../../../state/ducks/conversations.preload.js';
-import { getByDistributionListConversationsStoppingSend } from '../../../state/selectors/conversations-extra.preload.js';
-import { generateAci } from '../../../types/ServiceId.std.js';
-import { generateStoryDistributionId } from '../../../types/StoryDistributionId.std.js';
-import { noopAction } from '../../../state/ducks/noop.std.js';
-import { ID_LENGTH } from '../../../types/groups.std.js';
-import { ConversationVerificationState } from '../../../state/ducks/conversationsEnums.std.js';
+import * as Bytes from '../../../Bytes.std.ts';
+import { reducer as rootReducer } from '../../../state/reducer.preload.ts';
+import { getDefaultConversation } from '../../../test-helpers/getDefaultConversation.std.ts';
+import { getEmptyState } from '../../../state/ducks/conversations.preload.ts';
+import { getByDistributionListConversationsStoppingSend } from '../../../state/selectors/conversations-extra.preload.ts';
+import { generateStoryDistributionId } from '../../../types/StoryDistributionId.std.ts';
+import { noopAction } from '../../../state/ducks/noop.std.ts';
+import { ID_LENGTH } from '../../../types/groups.std.ts';
+import { ConversationVerificationState } from '../../../state/ducks/conversationsEnums.std.ts';
+import { generateAci } from '../../../test-helpers/serviceIdUtils.std.ts';
 
 describe('both/state/selectors/conversations-extra', () => {
   const SERVICE_ID_1 = generateAci();
@@ -29,7 +29,7 @@ describe('both/state/selectors/conversations-extra', () => {
   const GROUP_ID = Bytes.toBase64(new Uint8Array(ID_LENGTH));
 
   const getEmptyRootState = (): StateType => {
-    return rootReducer(undefined, noopAction());
+    return rootReducer(undefined, noopAction('getEmptyRootState'));
   };
 
   function makeConversation(

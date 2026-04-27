@@ -8,9 +8,9 @@ import FormData from 'form-data';
 import * as util from 'node:util';
 import * as zlib from 'node:zlib';
 
-import * as durations from '../../util/durations/index.std.js';
-import { upload } from '../../logging/uploadDebugLog.node.js';
-import { createLogger } from '../../logging/log.std.js';
+import * as durations from '../../util/durations/index.std.ts';
+import { upload } from '../../logging/uploadDebugLog.node.ts';
+import { createLogger } from '../../logging/log.std.ts';
 
 const logger = createLogger('uploadDebugLogs_test');
 
@@ -108,7 +108,7 @@ describe('upload', () => {
       let err: unknown;
       try {
         // Again, these should be run serially.
-        // eslint-disable-next-line no-await-in-loop
+        // oxlint-disable-next-line no-await-in-loop
         await upload({ content: 'hello world', appVersion: '1.2.3', logger });
       } catch (e) {
         err = e;

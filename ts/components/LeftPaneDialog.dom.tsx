@@ -4,8 +4,8 @@
 import type { ReactNode } from 'react';
 import React from 'react';
 import classNames from 'classnames';
-import { Tooltip, TooltipPlacement } from './Tooltip.dom.js';
-import { WidthBreakpoint } from './_util.std.js';
+import { Tooltip, TooltipPlacement } from './Tooltip.dom.tsx';
+import { WidthBreakpoint } from './_util.std.ts';
 
 const BASE_CLASS_NAME = 'LeftPaneDialog';
 const TOOLTIP_CLASS_NAME = `${BASE_CLASS_NAME}__tooltip`;

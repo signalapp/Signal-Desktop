@@ -2,12 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import React, { memo, forwardRef } from 'react';
 import type { ButtonHTMLAttributes, FC, ForwardedRef, ReactNode } from 'react';
-import type { TailwindStyles } from './tw.dom.js';
-import { tw } from './tw.dom.js';
-import { AxoSymbol } from './AxoSymbol.dom.js';
-import { assert } from './_internal/assert.std.js';
-import type { SpinnerVariant } from '../components/SpinnerV2.dom.js';
-import { SpinnerV2 } from '../components/SpinnerV2.dom.js';
+import type { TailwindStyles } from './tw.dom.tsx';
+import { tw } from './tw.dom.tsx';
+import { AxoSymbol } from './AxoSymbol.dom.tsx';
+import { assert } from './_internal/assert.std.tsx';
+import type { SpinnerVariant } from '../components/SpinnerV2.dom.tsx';
+import { SpinnerV2 } from '../components/SpinnerV2.dom.tsx';
 
 const Namespace = 'AxoButton';
 
@@ -138,10 +138,12 @@ const AxoButtonSizes = {
 type AxoButtonVariant = keyof typeof AxoButtonVariants;
 type AxoButtonSize = keyof typeof AxoButtonSizes;
 
+/** @testexport */
 export function _getAllAxoButtonVariants(): ReadonlyArray<AxoButtonVariant> {
   return Object.keys(AxoButtonVariants) as Array<AxoButtonVariant>;
 }
 
+/** @testexport */
 export function _getAllAxoButtonSizes(): ReadonlyArray<AxoButtonSize> {
   return Object.keys(AxoButtonSizes) as Array<AxoButtonSize>;
 }
@@ -203,6 +205,10 @@ export namespace AxoButton {
 
   export type Width = 'fit' | 'grow' | 'full';
 
+  // Note: Omitted 'prev' because arrow appears on trailing side,
+  // back buttons should probably all use AxoIconButton.
+  export type Arrow = 'collapse' | 'expand' | 'next';
+
   const Widths: Record<Width, TailwindStyles> = {
     /* Always try to fit to the content of the button */
     fit: tw(''),
@@ -212,16 +218,24 @@ export namespace AxoButton {
     full: tw('w-full'),
   };
 
+  const Arrows: Record<Arrow, AxoSymbol.InlineGlyphName> = {
+    collapse: 'chevron-up',
+    expand: 'chevron-down',
+    next: 'chevron-[end]',
+  };
+
   export type RootProps = Readonly<{
     variant: AxoButtonVariant;
     size: AxoButtonSize;
     width?: Width;
     symbol?: AxoSymbol.InlineGlyphName;
-    arrow?: boolean;
+    arrow?: Arrow | null;
     experimentalSpinner?: { 'aria-label': string } | null;
     disabled?: GenericButtonProps['disabled'];
     focusableWhenDisabled?: boolean;
     onClick?: GenericButtonProps['onClick'];
+    'aria-expanded'?: boolean | null;
+    'aria-controls'?: string | null;
     children: ReactNode;
     // Note: Technically we forward all props for Radix, but we restrict the
     // props that the type accepts
@@ -238,6 +252,8 @@ export namespace AxoButton {
         experimentalSpinner,
         disabled,
         focusableWhenDisabled,
+        'aria-expanded': ariaExpanded,
+        'aria-controls': ariaControls,
         children,
         ...rest
       } = props;
@@ -254,8 +270,10 @@ export namespace AxoButton {
       return (
         <button
           ref={ref}
-          disabled={(disabled && !focusableWhenDisabled) || undefined}
-          aria-disabled={(focusableWhenDisabled && disabled) || undefined}
+          disabled={disabled && !focusableWhenDisabled}
+          aria-disabled={focusableWhenDisabled && disabled}
+          aria-expanded={ariaExpanded ?? undefined}
+          aria-controls={ariaControls ?? undefined}
           {...rest}
           type="button"
           className={tw(variantStyles, sizeStyles, widthStyles)}
@@ -272,8 +290,8 @@ export namespace AxoButton {
             <span className={tw('min-w-0 shrink grow truncate')}>
               {children}
             </span>
-            {arrow && (
-              <AxoSymbol.InlineGlyph symbol="chevron-[end]" label={null} />
+            {arrow != null && (
+              <AxoSymbol.InlineGlyph symbol={Arrows[arrow]} label={null} />
             )}
           </span>
           {experimentalSpinner != null && (

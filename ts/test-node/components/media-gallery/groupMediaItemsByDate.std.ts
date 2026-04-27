@@ -4,10 +4,10 @@
 import { assert } from 'chai';
 import lodash from 'lodash';
 
-import { IMAGE_JPEG } from '../../../types/MIME.std.js';
-import { groupMediaItemsByDate } from '../../../components/conversation/media-gallery/groupMediaItemsByDate.std.js';
-import type { MediaItemType } from '../../../types/MediaItem.std.js';
-import { fakeAttachment } from '../../../test-helpers/fakeAttachment.std.js';
+import { IMAGE_JPEG } from '../../../types/MIME.std.ts';
+import { groupMediaItemsByDate } from '../../../components/conversation/media-gallery/groupMediaItemsByDate.std.ts';
+import type { MediaItemType } from '../../../types/MediaItem.std.ts';
+import { fakeAttachment } from '../../../test-helpers/fakeAttachment.std.ts';
 
 const { shuffle } = lodash;
 
@@ -71,36 +71,36 @@ describe('groupMediaItemsByDate', () => {
     const actual = groupMediaItemsByDate(referenceTime, input);
 
     assert.strictEqual(actual[0]?.type, 'today');
-    assert.strictEqual(actual[0].mediaItems.length, 2, 'today');
-    assert.strictEqual(actual[0].mediaItems[0]?.message.id, 'today-1');
-    assert.strictEqual(actual[0].mediaItems[1]?.message.id, 'today-2');
+    assert.strictEqual(actual[0]?.mediaItems.length, 2, 'today');
+    assert.strictEqual(actual[0]?.mediaItems[0]?.message.id, 'today-1');
+    assert.strictEqual(actual[0]?.mediaItems[1]?.message.id, 'today-2');
 
     assert.strictEqual(actual[1]?.type, 'yesterday');
     assert.strictEqual(actual[1]?.mediaItems.length, 2, 'yesterday');
-    assert.strictEqual(actual[1].mediaItems[0]?.message.id, 'yesterday-1');
-    assert.strictEqual(actual[1].mediaItems[1]?.message.id, 'yesterday-2');
+    assert.strictEqual(actual[1]?.mediaItems[0]?.message.id, 'yesterday-1');
+    assert.strictEqual(actual[1]?.mediaItems[1]?.message.id, 'yesterday-2');
 
     assert.strictEqual(actual[2]?.type, 'thisWeek');
     assert.strictEqual(actual[2]?.mediaItems.length, 4, 'thisWeek');
-    assert.strictEqual(actual[2].mediaItems[0]?.message.id, 'thisWeek-1');
-    assert.strictEqual(actual[2].mediaItems[1]?.message.id, 'thisWeek-2');
-    assert.strictEqual(actual[2].mediaItems[2]?.message.id, 'thisWeek-3');
-    assert.strictEqual(actual[2].mediaItems[3]?.message.id, 'thisWeek-4');
+    assert.strictEqual(actual[2]?.mediaItems[0]?.message.id, 'thisWeek-1');
+    assert.strictEqual(actual[2]?.mediaItems[1]?.message.id, 'thisWeek-2');
+    assert.strictEqual(actual[2]?.mediaItems[2]?.message.id, 'thisWeek-3');
+    assert.strictEqual(actual[2]?.mediaItems[3]?.message.id, 'thisWeek-4');
 
     assert.strictEqual(actual[3]?.type, 'thisMonth');
-    assert.strictEqual(actual[3].mediaItems.length, 2, 'thisMonth');
-    assert.strictEqual(actual[3].mediaItems[0]?.message.id, 'thisMonth-1');
-    assert.strictEqual(actual[3].mediaItems[1]?.message.id, 'thisMonth-2');
+    assert.strictEqual(actual[3]?.mediaItems.length, 2, 'thisMonth');
+    assert.strictEqual(actual[3]?.mediaItems[0]?.message.id, 'thisMonth-1');
+    assert.strictEqual(actual[3]?.mediaItems[1]?.message.id, 'thisMonth-2');
 
     assert.strictEqual(actual[4]?.type, 'yearMonth');
-    assert.strictEqual(actual[4].mediaItems.length, 2, 'mar2024');
-    assert.strictEqual(actual[4].mediaItems[0]?.message.id, 'mar2024-1');
-    assert.strictEqual(actual[4].mediaItems[1]?.message.id, 'mar2024-2');
+    assert.strictEqual(actual[4]?.mediaItems.length, 2, 'mar2024');
+    assert.strictEqual(actual[4]?.mediaItems[0]?.message.id, 'mar2024-1');
+    assert.strictEqual(actual[4]?.mediaItems[1]?.message.id, 'mar2024-2');
 
     assert.strictEqual(actual[5]?.type, 'yearMonth');
-    assert.strictEqual(actual[5].mediaItems.length, 2, 'feb2011');
-    assert.strictEqual(actual[5].mediaItems[0]?.message.id, 'feb2011-1');
-    assert.strictEqual(actual[5].mediaItems[1]?.message.id, 'feb2011-2');
+    assert.strictEqual(actual[5]?.mediaItems.length, 2, 'feb2011');
+    assert.strictEqual(actual[5]?.mediaItems[0]?.message.id, 'feb2011-1');
+    assert.strictEqual(actual[5]?.mediaItems[1]?.message.id, 'feb2011-2');
 
     assert.strictEqual(actual.length, 6, 'total sections');
   });

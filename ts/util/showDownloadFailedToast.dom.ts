@@ -1,13 +1,13 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { ToastType } from '../types/Toast.dom.js';
-import { SECOND } from './durations/index.std.js';
-import { isOlderThan } from './timestamp.std.js';
+import { ToastType } from '../types/Toast.dom.tsx';
+import { SECOND } from './durations/index.std.ts';
+import { isOlderThan } from './timestamp.std.ts';
 
 const DOWNLOAD_FAILED_TIMESTAMP_REST = 10 * SECOND;
 
-export const lastErrorsByMessageId = new Map<string, number>();
+const lastErrorsByMessageId = new Map<string, number>();
 
 export function showDownloadFailedToast(messageId: string): void {
   const now = Date.now();

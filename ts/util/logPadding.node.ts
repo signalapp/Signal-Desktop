@@ -4,7 +4,7 @@
 import { Transform } from 'node:stream';
 import type { Duplex, Readable } from 'node:stream';
 
-import { logPadSize } from './logPadSize.std.js';
+import { logPadSize } from './logPadSize.std.ts';
 
 const PADDING_CHUNK_SIZE = 64 * 1024;
 
@@ -32,7 +32,7 @@ function pushPadding(
   paddingIterator: Iterator<Uint8Array<ArrayBuffer>>,
   readable: Readable
 ): boolean {
-  // eslint-disable-next-line no-constant-condition
+  // oxlint-disable-next-line no-constant-condition
   while (true) {
     const result = paddingIterator.next();
     if (result.done) {

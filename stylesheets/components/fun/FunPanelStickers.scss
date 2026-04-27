@@ -20,6 +20,7 @@
     color: variables.$color-white;
     font-size: 256px;
     margin-top: -16px;
+    // stylelint-disable-next-line property-no-unknown
     font-display: block;
   }
 }

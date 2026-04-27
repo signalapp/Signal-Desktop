@@ -2,16 +2,16 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import EmbedBlot from '@signalapp/quill-cjs/blots/embed.js';
-import type { EmojiVariantValue } from '../../components/fun/data/emojis.std.js';
+import type { EmojiVariantValue } from '../../components/fun/data/emojis.std.ts';
 import {
   getEmojiVariantByKey,
   getEmojiVariantKeyByValue,
-} from '../../components/fun/data/emojis.std.js';
+} from '../../components/fun/data/emojis.std.ts';
 import {
   createStaticEmojiBlot,
   FUN_STATIC_EMOJI_CLASS,
   getFunEmojiElementValue,
-} from '../../components/fun/FunEmoji.dom.js';
+} from '../../components/fun/FunEmoji.dom.tsx';
 
 // the DOM structure of this EmojiBlot should match the other emoji implementations:
 // ts/components/fun/FunEmoji.tsx
@@ -25,12 +25,12 @@ export class EmojiBlot extends EmbedBlot {
   static override blotName = 'emoji';
 
   // See `createStaticEmojiBlot()`
-  static override tagName = 'img';
+  static override tagName = 'span';
 
   static override className = FUN_STATIC_EMOJI_CLASS;
 
   static override create({ value: emoji, source }: EmojiBlotValue): Node {
-    const node = super.create(undefined) as HTMLImageElement;
+    const node = super.create(undefined) as HTMLSpanElement;
 
     const variantKey = getEmojiVariantKeyByValue(emoji);
     const variant = getEmojiVariantByKey(variantKey);

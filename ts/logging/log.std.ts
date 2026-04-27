@@ -2,14 +2,14 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 // We use `window` below, but it is guarded by type checks
-// eslint-disable-next-line local-rules/file-suffix
+// oxlint-disable-next-line signal-desktop/enforce-file-suffix
 import pino from 'pino';
 import { LRUCache } from 'lru-cache';
 
-import type { LoggerType } from '../types/Logging.std.js';
-import { Environment, getEnvironment } from '../environment.std.js';
-import { reallyJsonStringify } from '../util/reallyJsonStringify.std.js';
-import { getLogLevelString, type LogLevel } from './shared.std.js';
+import type { LoggerType } from '../types/Logging.std.ts';
+import { Environment, getEnvironment } from '../environment.std.ts';
+import { reallyJsonStringify } from '../util/reallyJsonStringify.std.ts';
+import { getLogLevelString, type LogLevel } from './shared.std.ts';
 
 // This file is imported by some components so we can't import `ts/util/privacy`
 let redactAll = (value: string) => value;
@@ -57,19 +57,24 @@ function getSubsystemColor(name: string): string {
   // Jenkins hash
   let hash = 0;
 
-  /* eslint-disable no-bitwise */
   for (let i = 0; i < name.length; i += 1) {
+    // oxlint-disable-next-line no-bitwise
     hash += name.charCodeAt(i) & 0xff;
+    // oxlint-disable-next-line no-bitwise
     hash += hash << 10;
+    // oxlint-disable-next-line no-bitwise
     hash ^= hash >>> 6;
   }
+  // oxlint-disable-next-line no-bitwise
   hash += hash << 3;
+  // oxlint-disable-next-line no-bitwise
   hash ^= hash >>> 11;
+  // oxlint-disable-next-line no-bitwise
   hash += hash << 15;
+  // oxlint-disable-next-line no-bitwise
   hash >>>= 0;
-  /* eslint-enable no-bitwise */
 
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  // oxlint-disable-next-line typescript/no-non-null-assertion
   const result = COLORS[hash % COLORS.length]!;
   SUBSYSTEM_COLORS.set(name, result);
 
@@ -149,8 +154,8 @@ function debugLog(
   const color = getSubsystemColor(msgPrefix ?? '');
 
   // `fatal` has no respective analog in `console`
-  // eslint-disable-next-line no-console
   console[consoleMethod === 'fatal' ? 'error' : consoleMethod](
+    // oxlint-disable-next-line typescript/restrict-template-expressions
     `%c${msgPrefix ?? ''}%c${message}`,
     `color: ${color}; font-weight: bold`,
     'color: inherit; font-weight: inherit',
@@ -186,7 +191,7 @@ const pinoInstance = pino(
     timestamp: pino.stdTimeFunctions.isoTime,
     redact: {
       paths: ['*'],
-      censor: item => redactAll(item),
+      censor: item => redactAll(String(item)),
     },
   },
   {

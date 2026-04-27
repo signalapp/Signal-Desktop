@@ -1,9 +1,9 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { strictAssert } from '../util/assert.std.js';
-import { ChatFolderType } from './ChatFolder.std.js';
-import type { ChatFolder, ChatFolderId } from './ChatFolder.std.js';
+import { strictAssert } from '../util/assert.std.ts';
+import { ChatFolderType } from './ChatFolder.std.ts';
+import type { ChatFolder, ChatFolderId } from './ChatFolder.std.ts';
 
 export type CurrentChatFolder = ChatFolder &
   Readonly<{
@@ -39,7 +39,7 @@ export function isCurrentAllChatFolder(
   );
 }
 
-export function isCurrentCustomChatFolder(
+function isCurrentCustomChatFolder(
   chatFolder: ChatFolder
 ): chatFolder is CurrentCustomChatFolder {
   return (
@@ -55,8 +55,6 @@ export type CurrentChatFolders = Readonly<{
   hasAnyCurrentCustomChatFolders: boolean;
 }>;
 
-// eslint-disable-next-line max-len
-// eslint-disable-next-line @typescript-eslint/no-namespace, @typescript-eslint/no-redeclare
 export namespace CurrentChatFolders {
   export function createEmpty(): CurrentChatFolders {
     return {

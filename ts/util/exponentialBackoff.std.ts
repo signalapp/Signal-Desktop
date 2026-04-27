@@ -1,8 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { strictAssert } from './assert.std.js';
-import * as durations from './durations/index.std.js';
+import { strictAssert } from './assert.std.ts';
+import * as durations from './durations/index.std.ts';
 
 const BACKOFF_FACTOR = 1.9;
 const MAX_BACKOFF = 15 * durations.MINUTE;
@@ -38,7 +38,7 @@ export function exponentialBackoffSleepTime(
   );
 
   if (attempt - 1 < numHardcodedBackoffs) {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    // oxlint-disable-next-line typescript/no-non-null-assertion
     return options.firstBackoffs[attempt - 1]!;
   }
 

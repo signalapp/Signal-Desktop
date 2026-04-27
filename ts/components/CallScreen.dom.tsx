@@ -7,7 +7,6 @@ import lodash from 'lodash';
 import classNames from 'classnames';
 import type { VideoFrameSource } from '@signalapp/ringrtc';
 import type {
-  ActiveCallStateType,
   BatchUserActionPayloadType,
   PendingUserActionPayloadType,
   SendGroupCallRaiseHandType,
@@ -16,82 +15,82 @@ import type {
   SetLocalVideoType,
   SetRendererCanvasType,
   SetMutedByType,
-} from '../state/ducks/calling.preload.js';
-import { Avatar, AvatarSize } from './Avatar.dom.js';
+} from '../state/ducks/calling.preload.ts';
+import { Avatar, AvatarSize } from './Avatar.dom.tsx';
 import {
   CallingHeader,
   getCallViewIconClassname,
-} from './CallingHeader.dom.js';
-import { CallingPreCallInfo, RingMode } from './CallingPreCallInfo.dom.js';
-import { CallingButton, CallingButtonType } from './CallingButton.dom.js';
-import { Button, ButtonVariant } from './Button.dom.js';
-import { TooltipPlacement } from './Tooltip.dom.js';
-import { CallBackgroundBlur } from './CallBackgroundBlur.dom.js';
+} from './CallingHeader.dom.tsx';
+import { CallingPreCallInfo, RingMode } from './CallingPreCallInfo.dom.tsx';
+import { CallingButton, CallingButtonType } from './CallingButton.dom.tsx';
+import { Button, ButtonVariant } from './Button.dom.tsx';
+import { TooltipPlacement } from './Tooltip.dom.tsx';
+import { CallBackgroundBlur } from './CallBackgroundBlur.dom.tsx';
 import type {
   ActiveCallType,
   ActiveCallReactionsType,
   ConversationsByDemuxIdType,
   GroupCallVideoRequest,
-} from '../types/Calling.std.js';
+} from '../types/Calling.std.ts';
 import {
   CALLING_REACTIONS_LIFETIME,
   CallViewMode,
   CallState,
   GroupCallConnectionState,
   GroupCallJoinState,
-} from '../types/Calling.std.js';
-import { CallMode } from '../types/CallDisposition.std.js';
-import type { ServiceIdString } from '../types/ServiceId.std.js';
-import { AvatarColors } from '../types/Colors.std.js';
-import type { ConversationType } from '../state/ducks/conversations.preload.js';
+} from '../types/Calling.std.ts';
+import { CallMode } from '../types/CallDisposition.std.ts';
+import type { ServiceIdString } from '../types/ServiceId.std.ts';
+import { AvatarColors } from '../types/Colors.std.ts';
+import type { ConversationType } from '../state/ducks/conversations.preload.ts';
 import {
   CallingButtonToastsContainer,
   useScreenSharingStoppedToast,
-} from './CallingToastManager.dom.js';
-import { DirectCallRemoteParticipant } from './DirectCallRemoteParticipant.dom.js';
-import { GroupCallRemoteParticipants } from './GroupCallRemoteParticipants.dom.js';
-import { CallParticipantCount } from './CallParticipantCount.dom.js';
-import type { LocalizerType } from '../types/Util.std.js';
-import { NeedsScreenRecordingPermissionsModal } from './NeedsScreenRecordingPermissionsModal.dom.js';
-import { missingCaseError } from '../util/missingCaseError.std.js';
-import * as KeyboardLayout from '../services/keyboardLayout.dom.js';
+} from './CallingToastManager.dom.tsx';
+import { DirectCallRemoteParticipant } from './DirectCallRemoteParticipant.dom.tsx';
+import { GroupCallRemoteParticipants } from './GroupCallRemoteParticipants.dom.tsx';
+import { CallParticipantCount } from './CallParticipantCount.dom.tsx';
+import type { LocalizerType } from '../types/Util.std.ts';
+import { NeedsScreenRecordingPermissionsModal } from './NeedsScreenRecordingPermissionsModal.dom.tsx';
+import { missingCaseError } from '../util/missingCaseError.std.ts';
+import * as KeyboardLayout from '../services/keyboardLayout.dom.ts';
 import {
   usePresenter,
   useActivateSpeakerViewOnPresenting,
-} from '../hooks/useActivateSpeakerViewOnPresenting.std.js';
+} from '../hooks/useActivateSpeakerViewOnPresenting.std.ts';
 import {
   CallingAudioIndicator,
   SPEAKING_LINGER_MS,
-} from './CallingAudioIndicator.dom.js';
+} from './CallingAudioIndicator.dom.tsx';
 import {
   useActiveCallShortcuts,
   useKeyboardShortcuts,
-} from '../hooks/useKeyboardShortcuts.dom.js';
-import { useValueAtFixedRate } from '../hooks/useValueAtFixedRate.std.js';
-import { isReconnecting as callingIsReconnecting } from '../util/callingIsReconnecting.std.js';
-import { usePrevious } from '../hooks/usePrevious.std.js';
+} from '../hooks/useKeyboardShortcuts.dom.tsx';
+import { useValueAtFixedRate } from '../hooks/useValueAtFixedRate.std.ts';
+import { isReconnecting as callingIsReconnecting } from '../util/callingIsReconnecting.std.ts';
+import { usePrevious } from '../hooks/usePrevious.std.ts';
 import {
   CallingToastProvider,
   PersistentCallingToast,
   useCallingToasts,
-} from './CallingToast.dom.js';
-import { handleOutsideClick } from '../util/handleOutsideClick.dom.js';
-import { Spinner } from './Spinner.dom.js';
-import type { SmartReactionPicker } from '../state/smart/ReactionPicker.dom.js';
+} from './CallingToast.dom.tsx';
+import { handleOutsideClick } from '../util/handleOutsideClick.dom.ts';
+import { Spinner } from './Spinner.dom.tsx';
+import type { SmartReactionPicker } from '../state/smart/ReactionPicker.dom.tsx';
 import {
   CallingRaisedHandsList,
   CallingRaisedHandsListButton,
-} from './CallingRaisedHandsList.dom.js';
-import type { CallReactionBurstType } from './CallReactionBurst.dom.js';
+} from './CallingRaisedHandsList.dom.tsx';
+import type { CallReactionBurstType } from './CallReactionBurst.dom.tsx';
 import {
   CallReactionBurstProvider,
   useCallReactionBursts,
-} from './CallReactionBurst.dom.js';
-import { isGroupOrAdhocActiveCall } from '../util/isGroupOrAdhocCall.std.js';
-import { assertDev } from '../util/assert.std.js';
-import { CallingPendingParticipants } from './CallingPendingParticipants.dom.js';
-import type { CallingImageDataCache } from './CallManager.dom.js';
-import { FunStaticEmoji } from './fun/FunEmoji.dom.js';
+} from './CallReactionBurst.dom.tsx';
+import { isGroupOrAdhocActiveCall } from '../util/isGroupOrAdhocCall.std.ts';
+import { assertDev } from '../util/assert.std.ts';
+import { CallingPendingParticipants } from './CallingPendingParticipants.dom.tsx';
+import type { CallingImageDataCache } from './CallManager.dom.tsx';
+import { FunStaticEmoji } from './fun/FunEmoji.dom.tsx';
 import {
   getEmojiDebugLabel,
   getEmojiParentByKey,
@@ -99,19 +98,19 @@ import {
   getEmojiVariantByKey,
   getEmojiVariantKeyByValue,
   isEmojiVariantValue,
-} from './fun/data/emojis.std.js';
-import { useFunEmojiLocalizer } from './fun/useFunEmojiLocalizer.dom.js';
+} from './fun/data/emojis.std.ts';
+import { useFunEmojiLocalizer } from './fun/useFunEmojiLocalizer.dom.tsx';
 import {
   BeforeNavigateResponse,
   beforeNavigateService,
-} from '../services/BeforeNavigate.std.js';
-import { createLogger } from '../logging/log.std.js';
-import type { SetLocalPreviewContainerType } from '../services/calling.preload.js';
-import type { SizeCallbackType } from '../calling/VideoSupport.preload.js';
+} from '../services/BeforeNavigate.std.ts';
+import { createLogger } from '../logging/log.std.ts';
+import type { SetLocalPreviewContainerType } from '../services/calling.preload.ts';
+import type { SizeCallbackType } from '../calling/VideoSupport.preload.ts';
 import {
   PIP_MAXIMUM_LOCAL_VIDEO_HEIGHT_MULTIPLIER,
   PIP_MINIMUM_LOCAL_VIDEO_HEIGHT_MULTIPLIER,
-} from './CallingPip.dom.js';
+} from './CallingPip.dom.tsx';
 
 const { isEqual, noop } = lodash;
 
@@ -156,15 +155,6 @@ export type PropsType = {
   toggleSettings: () => void;
   changeCallView: (mode: CallViewMode) => void;
   setLocalAudioRemoteMuted: SetMutedByType;
-};
-
-export const isInSpeakerView = (
-  call: Pick<ActiveCallStateType, 'viewMode'> | undefined
-): boolean => {
-  return Boolean(
-    call?.viewMode === CallViewMode.Presentation ||
-    call?.viewMode === CallViewMode.Speaker
-  );
 };
 
 const REACTIONS_TOASTS_TRANSITION_FROM = {
@@ -483,7 +473,7 @@ export function CallScreen({
       isRinging =
         activeCall.outgoingRing &&
         !activeCall.remoteParticipants.length &&
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        // oxlint-disable-next-line typescript/no-non-null-assertion
         !(groupMembers?.length === 1 && groupMembers[0]!.id === me.id);
       hasCallStarted = activeCall.joinState !== GroupCallJoinState.NotJoined;
       participantCount = activeCall.remoteParticipants.length + 1;
@@ -661,8 +651,7 @@ export function CallScreen({
     );
     localPreviewNode = (
       // Keyboard shortcuts are available for this gesture, no need for keyboard support
-      /* eslint-disable-next-line max-len */
-      /* eslint-disable-next-line jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */
+      // oxlint-disable-next-line jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events
       <div
         className={classNames(
           'module-ongoing-call__local-preview',

@@ -6,9 +6,10 @@ import path from 'node:path';
 import fs from 'node:fs';
 import os from 'node:os';
 import fse from 'fs-extra';
-import * as Attachments from '../../windows/main/attachments.preload.js';
-import * as Bytes from '../../Bytes.std.js';
-import { createName, getRelativePath } from '../../util/attachmentPath.node.js';
+import * as Attachments from '../../windows/main/attachments.preload.ts';
+import { createDeleter } from '../../../app/attachments.node.ts';
+import * as Bytes from '../../Bytes.std.ts';
+import { createName, getRelativePath } from '../../util/attachmentPath.node.ts';
 
 const PREFIX_LENGTH = 2;
 const NUM_SEPARATORS = 1;
@@ -70,16 +71,16 @@ describe('Attachments', () => {
 
     it('returns a function that rejects if the source path is not a string', async () => {
       const copier = Attachments.copyIntoAttachmentsDirectory({
-        sourceDir: await getFakeAttachmentsDirectory(),
-        targetDir: await getFakeAttachmentsDirectory(),
+        sourceDir: getFakeAttachmentsDirectory(),
+        targetDir: getFakeAttachmentsDirectory(),
       });
       await assert.isRejected(copier(123 as unknown as string));
     });
 
     it('returns a function that rejects if the source path is not in the user config directory', async () => {
       const copier = Attachments.copyIntoAttachmentsDirectory({
-        sourceDir: await getFakeAttachmentsDirectory(),
-        targetDir: await getFakeAttachmentsDirectory(),
+        sourceDir: getFakeAttachmentsDirectory(),
+        targetDir: getFakeAttachmentsDirectory(),
       });
       await assert.isRejected(
         copier(path.join(tempRootDirectory, 'hello.txt')),
@@ -88,7 +89,7 @@ describe('Attachments', () => {
     });
 
     it('returns a function that copies the source path into the attachments directory and returns its path and size', async () => {
-      const attachmentsPath = await getFakeAttachmentsDirectory();
+      const attachmentsPath = getFakeAttachmentsDirectory();
       const someOtherPath = path.join(USER_DATA, 'somethingElse');
       await fse.outputFile(someOtherPath, 'hello world');
       filesToRemove.push(someOtherPath);
@@ -194,7 +195,7 @@ describe('Attachments', () => {
       const inputBuffer = Buffer.from(input);
       await fse.ensureFile(fullPath);
       await fse.writeFile(fullPath, inputBuffer);
-      await Attachments.createDeleter(tempDirectory)(relativePath);
+      await createDeleter(tempDirectory)(relativePath);
 
       const existsFile = await fse.pathExists(fullPath);
       assert.isFalse(existsFile);
@@ -209,7 +210,7 @@ describe('Attachments', () => {
       const relativePath = '../../parent';
 
       try {
-        await Attachments.createDeleter(tempDirectory)(relativePath);
+        await createDeleter(tempDirectory)(relativePath);
       } catch (error) {
         assert.strictEqual(error.message, 'Invalid relative path');
         return;

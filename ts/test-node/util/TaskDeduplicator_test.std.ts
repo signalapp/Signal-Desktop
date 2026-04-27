@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import { TaskDeduplicator } from '../../util/TaskDeduplicator.std.js';
-import { explodePromise } from '../../util/explodePromise.std.js';
-import { drop } from '../../util/drop.std.js';
+import { TaskDeduplicator } from '../../util/TaskDeduplicator.std.ts';
+import { explodePromise } from '../../util/explodePromise.std.ts';
+import { drop } from '../../util/drop.std.ts';
 
 describe('TaskDeduplicator', () => {
   it('should run a task', async () => {

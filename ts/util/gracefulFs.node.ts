@@ -3,10 +3,10 @@
 
 import { rename, rm } from 'node:fs/promises';
 
-import type { LoggerType } from '../types/Logging.std.js';
-import { SECOND, MINUTE } from './durations/index.std.js';
-import { isOlderThan } from './timestamp.std.js';
-import { sleep } from './sleep.std.js';
+import type { LoggerType } from '../types/Logging.std.ts';
+import { SECOND, MINUTE } from './durations/index.std.ts';
+import { isOlderThan } from './timestamp.std.ts';
+import { sleep } from './sleep.std.ts';
 
 async function doGracefulFSOperation<Args extends ReadonlyArray<unknown>>({
   name,

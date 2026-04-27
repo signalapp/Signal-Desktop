@@ -20,12 +20,12 @@ type OptionsType = {
 };
 
 export class WebAudioRecorder {
-  #buffer: Array<Float32Array>;
-  #options: OptionsType;
-  #context: BaseAudioContext;
-  #input: GainNode;
-  #onComplete: (recorder: WebAudioRecorder, blob: Blob) => unknown;
-  #onError: (recorder: WebAudioRecorder, error: string) => unknown;
+  readonly #buffer: Array<Float32Array>;
+  readonly #options: OptionsType;
+  readonly #context: BaseAudioContext;
+  readonly #input: GainNode;
+  readonly #onComplete: (recorder: WebAudioRecorder, blob: Blob) => unknown;
+  readonly #onError: (recorder: WebAudioRecorder, error: string) => unknown;
   private processor?: ScriptProcessorNode;
   public worker?: Worker;
 
@@ -79,7 +79,7 @@ export class WebAudioRecorder {
     this.#input.connect(this.processor);
     this.processor.connect(this.#context.destination);
     this.processor.onaudioprocess = event => {
-      // eslint-disable-next-line no-plusplus
+      // oxlint-disable-next-line no-plusplus
       for (let ch = 0; ch < numChannels; ++ch) {
         buffer[ch] = event.inputBuffer.getChannelData(ch);
       }
@@ -130,7 +130,8 @@ export class WebAudioRecorder {
       this.worker.terminate();
     }
 
-    this.worker = new Worker('js/WebAudioRecorderMp3.js');
+    // oxlint-disable-next-line no-undef FIXME
+    this.worker = new Worker('bundles/workers/WebAudioRecorderMp3.js');
     this.worker.onmessage = event => {
       const { data } = event;
       switch (data.command) {

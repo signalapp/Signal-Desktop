@@ -3,7 +3,7 @@
 
 import lodash from 'lodash';
 import type { MessageReactionType } from '../model-types.d.ts';
-import { areObjectEntriesEqual } from '../util/areObjectEntriesEqual.std.js';
+import { areObjectEntriesEqual } from '../util/areObjectEntriesEqual.std.ts';
 
 const { findLastIndex, has, identity, omit, negate } = lodash;
 
@@ -27,8 +27,7 @@ const isOutgoingReactionPending = negate(isOutgoingReactionFullySent);
 const isOutgoingReactionCompletelyUnsent = ({
   isSentByConversationId = {},
 }: Readonly<Pick<MessageReactionType, 'isSentByConversationId'>>): boolean => {
-  const sendStates = Object.values(isSentByConversationId);
-  return sendStates.length > 0 && sendStates.every(state => state === false);
+  return !Object.values(isSentByConversationId).includes(true);
 };
 
 export function addOutgoingReaction(

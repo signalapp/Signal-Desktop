@@ -4,7 +4,7 @@ import type { BrowserWindow } from 'electron';
 import { ipcMain } from 'electron';
 import EventEmitter from 'node:events';
 
-import { createLogger } from '../logging/log.std.js';
+import { createLogger } from '../logging/log.std.ts';
 
 const log = createLogger('ZoomFactorService');
 
@@ -31,7 +31,7 @@ type ZoomFactorServiceConfig = Readonly<{
 }>;
 
 export class ZoomFactorService extends EventEmitter {
-  #config: ZoomFactorServiceConfig;
+  readonly #config: ZoomFactorServiceConfig;
   #cachedZoomFactor: number | null = null;
   #isListeningForZoom = false;
 

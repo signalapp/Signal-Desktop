@@ -5,18 +5,18 @@ import { v7 as generateUuid } from 'uuid';
 import {
   conversationJobQueue,
   conversationQueueJobEnum,
-} from '../jobs/conversationJobQueue.preload.js';
-import { getMessageById } from '../messages/getMessageById.preload.js';
+} from '../jobs/conversationJobQueue.preload.ts';
+import { getMessageById } from '../messages/getMessageById.preload.ts';
 import {
   handlePollVote,
   PollSource,
-} from '../messageModifiers/Polls.preload.js';
-import type { PollVoteAttributesType } from '../messageModifiers/Polls.preload.js';
-import { getMessageSentTimestamp } from '../util/getMessageSentTimestamp.std.js';
-import { getSourceServiceId } from '../messages/sources.preload.js';
-import { isAciString } from '../util/isAciString.std.js';
-import { strictAssert } from '../util/assert.std.js';
-import { createLogger } from '../logging/log.std.js';
+} from '../messageModifiers/Polls.preload.ts';
+import type { PollVoteAttributesType } from '../messageModifiers/Polls.preload.ts';
+import { getMessageSentTimestamp } from '../util/getMessageSentTimestamp.std.ts';
+import { getSourceServiceId } from '../messages/sources.preload.ts';
+import { isAciString } from '../util/isAciString.std.ts';
+import { strictAssert } from '../util/assert.std.ts';
+import { createLogger } from '../logging/log.std.ts';
 
 const log = createLogger('enqueuePollVoteForSend');
 

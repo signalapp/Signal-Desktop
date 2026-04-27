@@ -2,23 +2,23 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as z from 'zod';
-import * as durations from '../util/durations/index.std.js';
-import { strictAssert } from '../util/assert.std.js';
-import { waitForOnline } from '../util/waitForOnline.dom.js';
-import { isDone as isDeviceLinked } from '../util/registration.preload.js';
-import type { LoggerType } from '../types/Logging.std.js';
-import { aciSchema } from '../types/ServiceId.std.js';
-import { map } from '../util/iterables.std.js';
+import * as durations from '../util/durations/index.std.ts';
+import { strictAssert } from '../util/assert.std.ts';
+import { waitForOnline } from '../util/waitForOnline.dom.ts';
+import { isDone as isDeviceLinked } from '../util/registration.preload.ts';
+import type { LoggerType } from '../types/Logging.std.ts';
+import { aciSchema } from '../types/ServiceId.std.ts';
+import { map } from '../util/iterables.std.ts';
 
-import type { JOB_STATUS } from './JobQueue.std.js';
-import { JobQueue } from './JobQueue.std.js';
-import { jobQueueDatabaseStore } from './JobQueueDatabaseStore.preload.js';
-import { parseIntWithFallback } from '../util/parseIntWithFallback.std.js';
-import type { reportMessage, isOnline } from '../textsecure/WebAPI.preload.js';
-import { HTTPError } from '../types/HTTPError.std.js';
-import { sleeper } from '../util/sleeper.std.js';
-import { parseUnknown } from '../util/schemas.std.js';
-import { itemStorage } from '../textsecure/Storage.preload.js';
+import type { JOB_STATUS } from './JobQueue.std.ts';
+import { JobQueue } from './JobQueue.std.ts';
+import { jobQueueDatabaseStore } from './JobQueueDatabaseStore.preload.ts';
+import { parseIntWithFallback } from '../util/parseIntWithFallback.std.ts';
+import type { reportMessage, isOnline } from '../textsecure/WebAPI.preload.ts';
+import { HTTPError } from '../types/HTTPError.std.ts';
+import { sleeper } from '../util/sleeper.std.ts';
+import { parseUnknown } from '../util/schemas.std.ts';
+import { itemStorage } from '../textsecure/Storage.preload.ts';
 
 const RETRY_WAIT_TIME = durations.MINUTE;
 const RETRYABLE_4XX_FAILURE_STATUSES = new Set([
@@ -43,7 +43,7 @@ type ServerType = Readonly<{
   isOnline: typeof isOnline;
 }>;
 
-export class ReportSpamJobQueue extends JobQueue<ReportSpamJobData> {
+class ReportSpamJobQueue extends JobQueue<ReportSpamJobData> {
   #server?: ServerType;
 
   public initialize({ server }: { server: ServerType }): void {

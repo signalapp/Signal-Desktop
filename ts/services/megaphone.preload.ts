@@ -1,8 +1,8 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { createLogger } from '../logging/log.std.js';
-import * as Errors from '../types/errors.std.js';
+import { createLogger } from '../logging/log.std.ts';
+import * as Errors from '../types/errors.std.ts';
 import {
   getMegaphoneLastSnoozeDurationMs,
   MegaphoneCtaId,
@@ -10,17 +10,17 @@ import {
   type RemoteMegaphoneId,
   type RemoteMegaphoneType,
   type VisibleRemoteMegaphoneType,
-} from '../types/Megaphone.std.js';
-import { DAY, HOUR } from '../util/durations/index.std.js';
-import { DataReader, DataWriter } from '../sql/Client.preload.js';
-import { drop } from '../util/drop.std.js';
-import { isMockEnvironment } from '../environment.std.js';
-import { isEnabled } from '../RemoteConfig.dom.js';
-import { safeSetTimeout } from '../util/timeout.std.js';
-import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary.std.js';
-import { itemStorage } from '../textsecure/Storage.preload.js';
-import { isMoreRecentThan } from '../util/timestamp.std.js';
-import { maybeHydrateDonationConfigCache } from '../util/subscriptionConfiguration.preload.js';
+} from '../types/Megaphone.std.ts';
+import { DAY, HOUR } from '../util/durations/index.std.ts';
+import { DataReader, DataWriter } from '../sql/Client.preload.ts';
+import { drop } from '../util/drop.std.ts';
+import { isMockEnvironment } from '../environment.std.ts';
+import { isEnabled } from '../RemoteConfig.dom.ts';
+import { safeSetTimeout } from '../util/timeout.std.ts';
+import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary.std.ts';
+import { itemStorage } from '../textsecure/Storage.preload.ts';
+import { isMoreRecentThan } from '../util/timestamp.std.ts';
+import { maybeHydrateDonationConfigCache } from '../util/subscriptionConfiguration.preload.ts';
 
 const log = createLogger('megaphoneService');
 
@@ -48,14 +48,14 @@ export function initMegaphoneCheckService(): void {
 export async function runMegaphoneCheck(): Promise<void> {
   try {
     const megaphones = await DataReader.getAllMegaphones();
-    const shownIds: Set<RemoteMegaphoneId> = new Set();
+    const shownIds = new Set<RemoteMegaphoneId>();
 
     log.info(
       `runMegaphoneCheck: Checking ${megaphones.length} locally saved megaphones`
     );
     for (const megaphone of megaphones) {
       try {
-        // eslint-disable-next-line no-await-in-loop
+        // oxlint-disable-next-line no-await-in-loop
         const result = await processMegaphone(megaphone);
         if (result === 'shown') {
           shownIds.add(megaphone.id);
@@ -86,7 +86,7 @@ export async function runMegaphoneCheck(): Promise<void> {
   }
 }
 
-export function isConditionalActive(conditionalId: string | null): boolean {
+function isConditionalActive(conditionalId: string | null): boolean {
   if (conditionalId == null) {
     return true;
   }

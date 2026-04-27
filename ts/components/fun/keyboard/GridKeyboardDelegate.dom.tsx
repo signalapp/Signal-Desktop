@@ -2,14 +2,14 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import type { VirtualItem, Virtualizer } from '@tanstack/react-virtual';
 import lodash from 'lodash';
-import { strictAssert } from '../../../util/assert.std.js';
+import { strictAssert } from '../../../util/assert.std.ts';
 import type {
   CellKey,
   Layout,
   RowKey,
   SectionKey,
-} from '../virtual/useFunVirtualGrid.dom.js';
-import { KeyboardDelegate } from './FunKeyboard.dom.js';
+} from '../virtual/useFunVirtualGrid.dom.tsx';
+import { KeyboardDelegate } from './FunKeyboard.dom.tsx';
 
 const { findLast, sortBy } = lodash;
 
@@ -38,8 +38,8 @@ function toState(state: State, cell: Cell | null): State {
 }
 
 export class GridKeyboardDelegate extends KeyboardDelegate<State> {
-  #virtualizer: Virtualizer<HTMLDivElement, HTMLDivElement>;
-  #layout: Layout;
+  readonly #virtualizer: Virtualizer<HTMLDivElement, HTMLDivElement>;
+  readonly #layout: Layout;
 
   constructor(
     virtualizer: Virtualizer<HTMLDivElement, HTMLDivElement>,

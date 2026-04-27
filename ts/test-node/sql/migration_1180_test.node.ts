@@ -3,18 +3,18 @@
 
 import { assert } from 'chai';
 import lodash from 'lodash';
-import type { WritableDB } from '../../sql/Interface.std.js';
-import { createDB, updateToVersion, explain } from './helpers.node.js';
-import { jsonToObject, objectToJSON, sql } from '../../sql/util.std.js';
-import { IMAGE_BMP } from '../../types/MIME.std.js';
-import type { _AttachmentDownloadJobTypeV1040 } from '../../sql/migrations/1040-undownloaded-backed-up-media.std.js';
+import type { WritableDB } from '../../sql/Interface.std.ts';
+import { createDB, updateToVersion, explain } from './helpers.node.ts';
+import { jsonToObject, objectToJSON, sql } from '../../sql/util.std.ts';
+import { IMAGE_BMP } from '../../types/MIME.std.ts';
+import type { _AttachmentDownloadJobTypeV1040 } from '../../sql/migrations/1040-undownloaded-backed-up-media.std.ts';
 
 const { omit } = lodash;
 
 function insertOldJob(
   db: WritableDB,
   job: Omit<_AttachmentDownloadJobTypeV1040, 'source' | 'ciphertextSize'>,
-  addMessageFirst: boolean = true
+  addMessageFirst = true
 ): void {
   if (addMessageFirst) {
     try {
@@ -34,9 +34,9 @@ function insertOldJob(
         digest,
         contentType,
         size,
-        receivedAt, 
+        receivedAt,
         sentAt,
-        active, 
+        active,
         attempts,
         retryAfter,
         lastAttemptTimestamp
@@ -116,7 +116,7 @@ describe('SQL/updateToSchemaVersion1180', () => {
     const details = explain(
       db,
       sql`
-          SELECT SUM(ciphertextSize) FROM attachment_downloads 
+          SELECT SUM(ciphertextSize) FROM attachment_downloads
           WHERE source = 'backup_import';
         `
     );
@@ -131,8 +131,8 @@ describe('SQL/updateToSchemaVersion1180', () => {
     const details = explain(
       db,
       sql`
-          DELETE FROM attachment_downloads 
-          WHERE source = 'backup_import'; 
+          DELETE FROM attachment_downloads
+          WHERE source = 'backup_import';
         `
     );
 

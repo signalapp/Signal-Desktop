@@ -1,14 +1,14 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { StorySendStateType } from '../types/Stories.std.js';
-import { ResolvedSendStatus } from '../types/Stories.std.js';
+import type { StorySendStateType } from '../types/Stories.std.ts';
+import { ResolvedSendStatus } from '../types/Stories.std.ts';
 import {
   isFailed,
   isPending,
   isSent,
-} from '../messages/MessageSendState.std.js';
-import { softAssert } from './assert.std.js';
+} from '../messages/MessageSendState.std.ts';
+import { softAssert } from './assert.std.ts';
 
 export function resolveStorySendStatus(
   sendStates: Array<StorySendStateType>

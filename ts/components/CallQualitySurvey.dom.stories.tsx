@@ -3,7 +3,7 @@
 import type { Meta } from '@storybook/react';
 import React, { useState } from 'react';
 import { action } from '@storybook/addon-actions';
-import { CallQualitySurveyDialog } from './CallQualitySurveyDialog.dom.js';
+import { CallQualitySurveyDialog } from './CallQualitySurveyDialog.dom.tsx';
 
 const { i18n } = window.SignalContext;
 

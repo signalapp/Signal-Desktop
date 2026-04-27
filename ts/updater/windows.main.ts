@@ -4,15 +4,10 @@
 import { join } from 'node:path';
 import type { SpawnOptions } from 'node:child_process';
 import { spawn as spawnEmitter } from 'node:child_process';
-import { readdir as readdirCallback, unlink as unlinkCallback } from 'node:fs';
-
+import { readdir, unlink } from 'node:fs/promises';
 import { app } from 'electron';
-import pify from 'pify';
-
-import { Updater } from './common.main.js';
-
-const readdir = pify(readdirCallback);
-const unlink = pify(unlinkCallback);
+import { getAppRootDir } from '../util/appRootDir.main.ts';
+import { Updater } from './common.main.ts';
 
 const IS_EXE = /\.exe$/i;
 
@@ -112,7 +107,7 @@ export class WindowsUpdater extends Updater {
 // Helpers
 
 function getElevatePath() {
-  const installPath = app.getAppPath();
+  const installPath = getAppRootDir();
 
   return join(installPath, 'resources', 'elevate.exe');
 }

@@ -3,26 +3,26 @@
 
 import { ContentHint } from '@signalapp/libsignal-client';
 
-import { getSendOptionsForRecipients } from '../../util/getSendOptions.preload.js';
-import { isGroupV2 } from '../../util/whatTypeOfConversation.dom.js';
+import { getSendOptionsForRecipients } from '../../util/getSendOptions.preload.ts';
+import { isGroupV2 } from '../../util/whatTypeOfConversation.dom.ts';
 import {
   handleMultipleSendErrors,
   maybeExpandErrors,
-} from './handleMultipleSendErrors.std.js';
-import { wrapWithSyncMessageSend } from '../../util/wrapWithSyncMessageSend.preload.js';
-import * as Bytes from '../../Bytes.std.js';
-import { strictAssert } from '../../util/assert.std.js';
-import { ourProfileKeyService } from '../../services/ourProfileKey.std.js';
+} from './handleMultipleSendErrors.std.ts';
+import { wrapWithSyncMessageSend } from '../../util/wrapWithSyncMessageSend.preload.ts';
+import * as Bytes from '../../Bytes.std.ts';
+import { strictAssert } from '../../util/assert.std.ts';
+import { ourProfileKeyService } from '../../services/ourProfileKey.std.ts';
 
-import type { ConversationModel } from '../../models/conversations.preload.js';
-import type { GroupV2InfoType } from '../../textsecure/SendMessage.preload.js';
+import type { ConversationModel } from '../../models/conversations.preload.ts';
+import type { GroupV2InfoType } from '../../textsecure/SendMessage.preload.ts';
 import type {
   GroupUpdateJobData,
   ConversationQueueJobBundle,
-} from '../conversationJobQueue.preload.js';
-import { getUntrustedConversationServiceIds } from './getUntrustedConversationServiceIds.dom.js';
-import { sendToGroup } from '../../util/sendToGroup.preload.js';
-import { getValidRecipients } from './getValidRecipients.dom.js';
+} from '../conversationJobQueue.preload.ts';
+import { getUntrustedConversationServiceIds } from './getUntrustedConversationServiceIds.dom.ts';
+import { sendToGroup } from '../../util/sendToGroup.preload.ts';
+import { getValidRecipients } from './getValidRecipients.dom.ts';
 
 // Note: because we don't have a recipient map, if some sends fail, we will resend this
 //   message to folks that got it on the first go-round. This is okay, because receivers
@@ -92,6 +92,8 @@ export async function sendGroupUpdate(
     groupChange,
   };
 
+  // Note: in the lonely group scenario, we 'send' to zero recipients, then
+  // wrapWithSyncMessageSend sends to our other devices.
   try {
     await conversation.queueJob(
       'conversationQueue/sendGroupUpdate',

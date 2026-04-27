@@ -5,16 +5,16 @@ import type { Meta, StoryFn } from '@storybook/react';
 import React from 'react';
 
 import { action } from '@storybook/addon-actions';
-import type { PropsType } from './StoriesSettingsModal.dom.js';
-import { StoriesSettingsModal } from './StoriesSettingsModal.dom.js';
+import type { PropsType } from './StoriesSettingsModal.dom.tsx';
+import { StoriesSettingsModal } from './StoriesSettingsModal.dom.tsx';
 import {
   getDefaultConversation,
   getDefaultGroup,
-} from '../test-helpers/getDefaultConversation.std.js';
+} from '../test-helpers/getDefaultConversation.std.ts';
 import {
   getMyStories,
   getFakeDistributionList,
-} from '../test-helpers/getFakeDistributionLists.std.js';
+} from '../test-helpers/getFakeDistributionLists.std.ts';
 
 const { i18n } = window.SignalContext;
 
@@ -51,7 +51,6 @@ export default {
   },
 } satisfies Meta<PropsType>;
 
-// eslint-disable-next-line react/function-component-definition
 const Template: StoryFn<PropsType> = args => <StoriesSettingsModal {...args} />;
 
 export const MyStories = Template.bind({});

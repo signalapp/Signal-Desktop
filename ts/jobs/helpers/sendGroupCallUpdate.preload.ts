@@ -3,22 +3,22 @@
 
 import { ContentHint } from '@signalapp/libsignal-client';
 
-import { getSendOptions } from '../../util/getSendOptions.preload.js';
-import { isGroup } from '../../util/whatTypeOfConversation.dom.js';
+import { getSendOptions } from '../../util/getSendOptions.preload.ts';
+import { isGroup } from '../../util/whatTypeOfConversation.dom.ts';
 import {
   handleMultipleSendErrors,
   maybeExpandErrors,
-} from './handleMultipleSendErrors.std.js';
+} from './handleMultipleSendErrors.std.ts';
 
-import type { ConversationModel } from '../../models/conversations.preload.js';
+import type { ConversationModel } from '../../models/conversations.preload.ts';
 import type {
   ConversationQueueJobBundle,
   GroupCallUpdateJobData,
-} from '../conversationJobQueue.preload.js';
-import { getUntrustedConversationServiceIds } from './getUntrustedConversationServiceIds.dom.js';
-import { sendToGroup } from '../../util/sendToGroup.preload.js';
-import { wrapWithSyncMessageSend } from '../../util/wrapWithSyncMessageSend.preload.js';
-import { getValidRecipients } from './getValidRecipients.dom.js';
+} from '../conversationJobQueue.preload.ts';
+import { getUntrustedConversationServiceIds } from './getUntrustedConversationServiceIds.dom.ts';
+import { sendToGroup } from '../../util/sendToGroup.preload.ts';
+import { wrapWithSyncMessageSend } from '../../util/wrapWithSyncMessageSend.preload.ts';
+import { getValidRecipients } from './getValidRecipients.dom.ts';
 
 export async function sendGroupCallUpdate(
   conversation: ConversationModel,

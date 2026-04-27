@@ -15,67 +15,67 @@ import React, {
 import { VisuallyHidden } from 'react-aria';
 import { LRUCache } from 'lru-cache';
 import { AnimatePresence, motion } from 'motion/react';
-import { FunItemButton } from '../base/FunItem.dom.js';
+import { FunItemButton } from '../base/FunItem.dom.tsx';
 import {
   FunPanel,
   FunPanelBody,
   FunPanelFooter,
   FunPanelHeader,
-} from '../base/FunPanel.dom.js';
-import { FunScroller } from '../base/FunScroller.dom.js';
-import { FunSearch } from '../base/FunSearch.dom.js';
+} from '../base/FunPanel.dom.tsx';
+import { FunScroller } from '../base/FunScroller.dom.tsx';
+import { FunSearch } from '../base/FunSearch.dom.tsx';
 import {
   FunSubNav,
   FunSubNavIcon,
   FunSubNavListBox,
   FunSubNavListBoxItem,
-} from '../base/FunSubNav.dom.js';
+} from '../base/FunSubNav.dom.tsx';
 import {
   FunWaterfallContainer,
   FunWaterfallItem,
-} from '../base/FunWaterfall.dom.js';
-import type { FunGifsSection } from '../constants.dom.js';
-import { FunGifsCategory, FunSectionCommon } from '../constants.dom.js';
-import { FunKeyboard } from '../keyboard/FunKeyboard.dom.js';
-import type { WaterfallKeyboardState } from '../keyboard/WaterfallKeyboardDelegate.dom.js';
-import { WaterfallKeyboardDelegate } from '../keyboard/WaterfallKeyboardDelegate.dom.js';
-import { useInfiniteQuery } from '../data/infinite.std.js';
-import { missingCaseError } from '../../../util/missingCaseError.std.js';
-import { strictAssert } from '../../../util/assert.std.js';
-import { drop } from '../../../util/drop.std.js';
-import { useFunContext } from '../FunProvider.dom.js';
+} from '../base/FunWaterfall.dom.tsx';
+import type { FunGifsSection } from '../constants.dom.tsx';
+import { FunGifsCategory, FunSectionCommon } from '../constants.dom.tsx';
+import { FunKeyboard } from '../keyboard/FunKeyboard.dom.tsx';
+import type { WaterfallKeyboardState } from '../keyboard/WaterfallKeyboardDelegate.dom.tsx';
+import { WaterfallKeyboardDelegate } from '../keyboard/WaterfallKeyboardDelegate.dom.tsx';
+import { useInfiniteQuery } from '../data/infinite.std.ts';
+import { missingCaseError } from '../../../util/missingCaseError.std.ts';
+import { strictAssert } from '../../../util/assert.std.ts';
+import { drop } from '../../../util/drop.std.ts';
+import { useFunContext } from '../FunProvider.dom.tsx';
 import {
   FunResults,
   FunResultsButton,
   FunResultsFigure,
   FunResultsHeader,
   FunResultsSpinner,
-} from '../base/FunResults.dom.js';
-import { FunStaticEmoji } from '../FunEmoji.dom.js';
+} from '../base/FunResults.dom.tsx';
+import { FunStaticEmoji } from '../FunEmoji.dom.tsx';
 import {
   FunLightboxPortal,
   FunLightboxBackdrop,
   FunLightboxDialog,
   FunLightboxProvider,
   useFunLightboxKey,
-} from '../base/FunLightbox.dom.js';
-import { FunGif } from '../FunGif.dom.js';
-import type { LocalizerType } from '../../../types/I18N.std.js';
-import { isAbortError } from '../../../util/isAbortError.std.js';
-import { createLogger } from '../../../logging/log.std.js';
-import * as Errors from '../../../types/errors.std.js';
+} from '../base/FunLightbox.dom.tsx';
+import { FunGif } from '../FunGif.dom.tsx';
+import type { LocalizerType } from '../../../types/I18N.std.ts';
+import { isAbortError } from '../../../util/isAbortError.std.ts';
+import { createLogger } from '../../../logging/log.std.ts';
+import * as Errors from '../../../types/errors.std.ts';
 import {
   EMOJI_VARIANT_KEY_CONSTANTS,
   getEmojiVariantByKey,
-} from '../data/emojis.std.js';
-import type { fetchGiphyFile } from '../data/giphy.preload.js';
+} from '../data/emojis.std.ts';
+import type { fetchGiphyFile } from '../../../state/smart/fun/giphy.preload.ts';
 import {
   getGifCdnUrlOrigin,
   isGifCdnUrlOriginAllowed,
   isTenorCdnUrlOrigin,
-} from '../../../util/gifCdnUrls.dom.js';
-import { tw } from '../../../axo/tw.dom.js';
-import { isScrollAtTop } from '../../../hooks/useSizeObserver.dom.js';
+} from '../../../util/gifCdnUrls.dom.ts';
+import { tw } from '../../../axo/tw.dom.tsx';
+import { isScrollAtTop } from '../../../hooks/useSizeObserver.dom.tsx';
 
 const log = createLogger('FunPanelGifs');
 
@@ -351,7 +351,7 @@ export function FunPanelGifs({
 
   const getItemKey = useCallback(
     (index: number) => {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      // oxlint-disable-next-line typescript/no-non-null-assertion
       return items[index]!.id;
     },
     [items]
@@ -613,7 +613,7 @@ export function FunPanelGifs({
               exit={{ opacity: 0 }}
               className={tw(
                 'absolute bottom-1',
-                // eslint-disable-next-line better-tailwindcss/no-restricted-classes
+                // oxlint-disable-next-line better-tailwindcss/no-restricted-classes
                 'left-1/2 -translate-x-1/2',
                 'rounded-full bg-[black]/70 px-4.5 py-1.5',
                 'pointer-events-none'

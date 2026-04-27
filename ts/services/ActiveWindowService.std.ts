@@ -1,8 +1,8 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { SECOND } from '../util/durations/constants.std.js';
-import { throttle } from '../util/throttle.std.js';
+import { SECOND } from '../util/durations/constants.std.ts';
+import { throttle } from '../util/throttle.std.ts';
 
 // Idle timer - you're active for ACTIVE_TIMEOUT after one of these events
 const ACTIVE_TIMEOUT = 15 * SECOND;
@@ -36,7 +36,7 @@ class ActiveWindowService {
   #lastActiveEventAt = -Infinity;
   #lastActiveNonFocusingEventAt = -Infinity;
   #lastBlurredAt = -Infinity;
-  #callActiveCallbacks: () => void;
+  readonly #callActiveCallbacks: () => void;
 
   constructor() {
     this.#callActiveCallbacks = throttle(() => {

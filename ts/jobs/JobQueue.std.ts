@@ -5,17 +5,17 @@ import PQueue from 'p-queue';
 import { v7 as uuid } from 'uuid';
 import lodash from 'lodash';
 
-import { Job } from './Job.std.js';
-import { JobError } from './JobError.std.js';
-import type { ParsedJob, StoredJob, JobQueueStore } from './types.std.js';
-import { assertDev } from '../util/assert.std.js';
-import { createLogger } from '../logging/log.std.js';
-import { JobLogger } from './JobLogger.std.js';
-import * as Errors from '../types/errors.std.js';
-import type { LoggerType } from '../types/Logging.std.js';
-import { drop } from '../util/drop.std.js';
-import { sleep } from '../util/sleep.std.js';
-import { SECOND } from '../util/durations/index.std.js';
+import { Job } from './Job.std.ts';
+import { JobError } from './JobError.std.ts';
+import type { ParsedJob, StoredJob, JobQueueStore } from './types.std.ts';
+import { assertDev } from '../util/assert.std.ts';
+import { createLogger } from '../logging/log.std.ts';
+import { JobLogger } from './JobLogger.std.ts';
+import * as Errors from '../types/errors.std.ts';
+import type { LoggerType } from '../types/Logging.std.ts';
+import { drop } from '../util/drop.std.ts';
+import { sleep } from '../util/sleep.std.ts';
+import { SECOND } from '../util/durations/index.std.ts';
 
 const { noop } = lodash;
 
@@ -161,7 +161,7 @@ export abstract class JobQueue<T> {
       if (this.#paused) {
         log.info(`${this.#logPrefix} is paused. Waiting until resume.`);
         while (this.#paused) {
-          // eslint-disable-next-line no-await-in-loop
+          // oxlint-disable-next-line no-await-in-loop
           await sleep(SECOND);
         }
         log.info(`${this.#logPrefix} has been resumed. Queuing job.`);
@@ -292,7 +292,7 @@ export abstract class JobQueue<T> {
           try {
             // We want an `await` in the loop, as we don't want a single job running more
             //   than once at a time. Ideally, the job will succeed on the first attempt.
-            // eslint-disable-next-line no-await-in-loop
+            // oxlint-disable-next-line no-await-in-loop
             const jobStatus = await this.run(parsedJob, {
               attempt,
               log: logger,

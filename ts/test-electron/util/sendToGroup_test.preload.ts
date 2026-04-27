@@ -7,9 +7,7 @@ import { LibSignalErrorBase } from '@signalapp/libsignal-client';
 import {
   _analyzeSenderKeyDevices,
   _shouldFailSend,
-} from '../../util/sendToGroup.preload.js';
-import { generateAci } from '../../types/ServiceId.std.js';
-
+} from '../../util/sendToGroup.preload.ts';
 import type { DeviceType } from '../../textsecure/Types.d.ts';
 import {
   ConnectTimeoutError,
@@ -22,8 +20,9 @@ import {
   SendMessageProtoError,
   UnknownRecipientError,
   UnregisteredUserError,
-} from '../../textsecure/Errors.std.js';
-import { HTTPError } from '../../types/HTTPError.std.js';
+} from '../../textsecure/Errors.std.ts';
+import { HTTPError } from '../../types/HTTPError.std.ts';
+import { generateAci } from '../../test-helpers/serviceIdUtils.std.ts';
 
 describe('sendToGroup', () => {
   const serviceIdOne = generateAci();
@@ -198,7 +197,7 @@ describe('sendToGroup', () => {
     });
 
     it('returns false for unspecified error codes', () => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // oxlint-disable-next-line typescript/no-explicit-any
       const error: any = new Error('generic');
 
       error.code = 422;
@@ -219,7 +218,7 @@ describe('sendToGroup', () => {
     });
 
     it('returns true for a specified error codes', () => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // oxlint-disable-next-line typescript/no-explicit-any
       const error: any = new Error('generic');
       error.code = 428;
 
@@ -310,7 +309,7 @@ describe('sendToGroup', () => {
         )
       );
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // oxlint-disable-next-line typescript/no-explicit-any
       const error: any = new Error('generic');
       error.code = 428;
 

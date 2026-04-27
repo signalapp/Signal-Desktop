@@ -1,8 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-// eslint-disable-next-line import/no-restricted-paths
-import { getEmojifyData } from '../components/fun/data/emojis.std.js';
+// oxlint-disable-next-line signal-desktop/no-restricted-paths
+import { getEmojifyData } from '../components/fun/data/emojis.std.ts';
 
 type FontSizes = {
   diameter: number;

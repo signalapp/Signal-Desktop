@@ -4,8 +4,8 @@
 import type { KeyboardEvent } from 'react';
 import React, { useState } from 'react';
 import classNames from 'classnames';
-import { assertDev } from '../util/assert.std.js';
-import { getClassNamesFor } from '../util/getClassNamesFor.std.js';
+import { assertDev } from '../util/assert.std.ts';
+import { getClassNamesFor } from '../util/getClassNamesFor.std.ts';
 
 type Tab = {
   id: string;
@@ -50,9 +50,9 @@ export function useTabs(options: TabsOptionsType): TabsProps {
   } else {
     // useTabs should always be either controlled or uncontrolled.
     // This is enforced by the type system.
-    // eslint-disable-next-line react-hooks/rules-of-hooks
+    // oxlint-disable-next-line react-hooks/rules-of-hooks
     const [tabState, setTabState] = useState<string>(
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      // oxlint-disable-next-line typescript/no-non-null-assertion
       options.initialSelectedTab || options.tabs[0]!.id
     );
 

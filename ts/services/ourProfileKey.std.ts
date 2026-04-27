@@ -1,8 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { assertDev, strictAssert } from '../util/assert.std.js';
-import { createLogger } from '../logging/log.std.js';
+import { assertDev, strictAssert } from '../util/assert.std.ts';
+import { createLogger } from '../logging/log.std.ts';
 
 import type { StorageInterface } from '../types/Storage.d.ts';
 
@@ -22,7 +22,6 @@ export class OurProfileKeyService {
         resolve();
       });
     });
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     this.#promisesBlockingGet = [storageReadyPromise];
 
     this.#storage = storage;

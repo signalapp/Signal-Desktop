@@ -8,10 +8,10 @@ import { StorageState } from '@signalapp/mock-server';
 import { expect } from 'playwright/test';
 import type { Page } from 'playwright';
 import { promisify } from 'node:util';
-import * as durations from '../../util/durations/index.std.js';
-import type { App } from '../playwright.node.js';
-import { Bootstrap } from '../bootstrap.node.js';
-import { runTurnInContainer, tearDownTurnContainer } from './helpers.node.js';
+import * as durations from '../../util/durations/index.std.ts';
+import type { App } from '../playwright.node.ts';
+import { Bootstrap } from '../bootstrap.node.ts';
+import { runTurnInContainer, tearDownTurnContainer } from './helpers.node.ts';
 
 const FIXTURES = join(__dirname, '..', '..', '..', 'fixtures');
 const VIRTUAL_AUDIO = join(
@@ -81,6 +81,7 @@ describe('callMessages', function callMessages(this: Mocha.Suite) {
       ],
       (error, stdout, stderr) => {
         if (error) {
+          // oxlint-disable-next-line typescript/only-throw-error
           throw error;
         }
         debug(stdout);
@@ -239,14 +240,22 @@ describe('callMessages', function callMessages(this: Mocha.Suite) {
     const window1 = await app1.getWindow();
     await startAudioCallWith(window1, bootstrap2.phone.device.aci);
 
+    // First, set to non-default audio devices and hang up...
+    await setInputAndOutput(window1, INPUT2, OUTPUT2);
+
     const window2 = await app2.getWindow();
+    await window2
+      .locator('.IncomingCallBar__button--decline')
+      .click({ timeout: 3000 });
+
+    // Then, verify that that persists across calls
+    await startAudioCallWith(window1, bootstrap2.phone.device.aci);
     await acceptAudioCall(window2);
 
     try {
-      await setInputAndOutput(window1, INPUT1, OUTPUT1);
-      await setInputAndOutput(window2, INPUT2, OUTPUT2);
+      await setInputAndOutput(window2, INPUT1, OUTPUT1);
 
-      playAudio(INPUT1, OUTPUT1, theRaven);
+      playAudio(INPUT2, OUTPUT2, theRaven);
 
       // Wait for audio levels indicator to be visible.
       await expect(
@@ -265,7 +274,7 @@ describe('callMessages', function callMessages(this: Mocha.Suite) {
       // hang up after we detect audio (or fail to)
       await hangupCall(window2);
 
-      await stopAudio(INPUT1, OUTPUT1);
+      await stopAudio(INPUT2, OUTPUT2);
 
       await awaitNoCall(window1);
       await awaitNoCall(window2);

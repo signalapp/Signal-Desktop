@@ -3,16 +3,16 @@
 
 import * as z from 'zod';
 import lodash from 'lodash';
-import { isRecord } from '../util/isRecord.std.js';
-import { isNormalNumber } from '../util/isNormalNumber.std.js';
-import { createLogger } from '../logging/log.std.js';
-import type { BadgeType, BadgeImageType } from './types.std.js';
-import { parseBadgeCategory } from './BadgeCategory.std.js';
+import { isRecord } from '../util/isRecord.std.ts';
+import { isNormalNumber } from '../util/isNormalNumber.std.ts';
+import { createLogger } from '../logging/log.std.ts';
+import type { BadgeType, BadgeImageType } from './types.std.ts';
+import { parseBadgeCategory } from './BadgeCategory.std.ts';
 import {
   BadgeImageTheme,
   parseBadgeImageTheme,
-} from './BadgeImageTheme.std.js';
-import { safeParseUnknown } from '../util/schemas.std.js';
+} from './BadgeImageTheme.std.ts';
+import { safeParseUnknown } from '../util/schemas.std.ts';
 
 const { isEmpty } = lodash;
 
@@ -26,14 +26,15 @@ export const badgeFromServerSchema = z.object({
   id: z.string(),
   name: z.string(),
   svg: z.string(),
-  svgs: z.array(z.record(z.string())).length(3),
+  svgs: z.array(z.record(z.string(), z.string())).length(3),
   expiration: z.number().optional(),
   visible: z.boolean().optional(),
 });
 
 // GET /v1/subscription/configuration
-export const boostBadgesFromServerSchema = z.object({
+const boostBadgesFromServerSchema = z.object({
   levels: z.record(
+    z.string(),
     z
       .object({
         badge: z.unknown(),
@@ -77,7 +78,7 @@ export function parseBoostBadgeListFromServer(
   return result;
 }
 
-export function parseBadgeFromServer(
+function parseBadgeFromServer(
   value: unknown,
   updatesUrl: string
 ): BadgeType | undefined {

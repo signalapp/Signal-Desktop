@@ -6,19 +6,19 @@ import { Aci, Pni, hkdf } from '@signalapp/libsignal-client';
 import type { PublicKey, PrivateKey } from '@signalapp/libsignal-client';
 import { AccountEntropyPool } from '@signalapp/libsignal-client/dist/AccountKeys.js';
 
-import * as Bytes from './Bytes.std.js';
-import { Crypto } from './context/Crypto.node.js';
-import { calculateAgreement, generateKeyPair } from './Curve.node.js';
-import { HashType, CipherType } from './types/Crypto.std.js';
-import { AVATAR_COLOR_COUNT, AvatarColors } from './types/Colors.std.js';
-import { ProfileDecryptError } from './types/errors.std.js';
-import { getBytesSubarray } from './util/uuidToBytes.std.js';
-import { logPadSize } from './util/logPadSize.std.js';
-import { Environment, getEnvironment } from './environment.std.js';
-import { toWebSafeBase64 } from './util/webSafeBase64.std.js';
+import * as Bytes from './Bytes.std.ts';
+import { Crypto } from './context/Crypto.node.ts';
+import { calculateAgreement, generateKeyPair } from './Curve.node.ts';
+import { HashType, CipherType } from './types/Crypto.std.ts';
+import { AVATAR_COLOR_COUNT, AvatarColors } from './types/Colors.std.ts';
+import { ProfileDecryptError } from './types/errors.std.ts';
+import { getBytesSubarray } from './util/uuidToBytes.std.ts';
+import { logPadSize } from './util/logPadSize.std.ts';
+import { Environment, getEnvironment } from './environment.std.ts';
+import { toWebSafeBase64 } from './util/webSafeBase64.std.ts';
 
-import type { AciString, PniString } from './types/ServiceId.std.js';
-import type { AvatarColorType } from './types/Colors.std.js';
+import type { AciString, PniString } from './types/ServiceId.std.ts';
+import type { AvatarColorType } from './types/Colors.std.ts';
 
 const { sample } = lodash;
 
@@ -291,6 +291,7 @@ const IV_LENGTH = 16;
 const NONCE_LENGTH = 16;
 const SYMMETRIC_MAC_LENGTH = 16;
 
+/** @testexport */
 export function encryptSymmetric(
   key: Uint8Array<ArrayBuffer>,
   plaintext: Uint8Array<ArrayBuffer>
@@ -310,6 +311,7 @@ export function encryptSymmetric(
   return Bytes.concatenate([nonce, ciphertext, mac]);
 }
 
+/** @testexport */
 export function decryptSymmetric(
   key: Uint8Array<ArrayBuffer>,
   data: Uint8Array<ArrayBuffer>
@@ -370,7 +372,7 @@ export function verifyHmacSha256(
   let result = 0;
 
   for (let i = 0; i < theirMac.byteLength; i += 1) {
-    // eslint-disable-next-line no-bitwise, @typescript-eslint/no-non-null-assertion
+    // oxlint-disable-next-line no-bitwise, typescript/no-non-null-assertion
     result |= ourMac[i]! ^ theirMac[i]!;
   }
   if (result !== 0) {
@@ -378,7 +380,7 @@ export function verifyHmacSha256(
   }
 }
 
-export function encryptAes256CbcPkcsPadding(
+function encryptAes256CbcPkcsPadding(
   key: Uint8Array<ArrayBuffer>,
   plaintext: Uint8Array<ArrayBuffer>,
   iv: Uint8Array<ArrayBuffer>
@@ -426,7 +428,7 @@ export function decryptAesCtr(
   });
 }
 
-export function encryptAesGcm(
+function encryptAesGcm(
   key: Uint8Array<ArrayBuffer>,
   iv: Uint8Array<ArrayBuffer>,
   plaintext: Uint8Array<ArrayBuffer>,
@@ -440,7 +442,7 @@ export function encryptAesGcm(
   });
 }
 
-export function decryptAesGcm(
+function decryptAesGcm(
   key: Uint8Array<ArrayBuffer>,
   iv: Uint8Array<ArrayBuffer>,
   ciphertext: Uint8Array<ArrayBuffer>
@@ -460,24 +462,11 @@ export function sha256(data: Uint8Array<ArrayBuffer>): Uint8Array<ArrayBuffer> {
 
 // Utility
 
-export function getZeroes(n: number): Uint8Array<ArrayBuffer> {
+function getZeroes(n: number): Uint8Array<ArrayBuffer> {
   return new Uint8Array(n);
 }
 
-export function highBitsToInt(byte: number): number {
-  // eslint-disable-next-line no-bitwise
-  return (byte & 0xff) >> 4;
-}
-
-export function intsToByteHighAndLow(
-  highValue: number,
-  lowValue: number
-): number {
-  // eslint-disable-next-line no-bitwise
-  return ((highValue << 4) | lowValue) & 0xff;
-}
-
-export function getFirstBytes(
+function getFirstBytes(
   data: Uint8Array<ArrayBuffer>,
   n: number
 ): Uint8Array<ArrayBuffer> {
@@ -503,7 +492,7 @@ function verifyDigest(
   const ourDigest = sha256(data);
   let result = 0;
   for (let i = 0; i < theirDigest.byteLength; i += 1) {
-    // eslint-disable-next-line no-bitwise, @typescript-eslint/no-non-null-assertion
+    // oxlint-disable-next-line no-bitwise, typescript/no-non-null-assertion
     result |= ourDigest[i]! ^ theirDigest[i]!;
   }
   if (result !== 0) {
@@ -589,6 +578,7 @@ export function encryptAttachment({
   };
 }
 
+/** @testexport */
 export function padAndEncryptAttachment({
   plaintext,
   keys,
@@ -777,7 +767,7 @@ export function getIdentifierHash({
   }
 
   const digest = hash(HashType.size256, identifier);
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  // oxlint-disable-next-line typescript/no-non-null-assertion
   return digest[0]!;
 }
 
@@ -795,10 +785,10 @@ export function generateAvatarColor({
   const hashValue = getIdentifierHash({ aci, e164, pni, groupId });
 
   if (hashValue == null) {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    // oxlint-disable-next-line typescript/no-non-null-assertion
     return sample(AvatarColors) || AvatarColors[0]!;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  // oxlint-disable-next-line typescript/no-non-null-assertion
   return AvatarColors[hashValue % AVATAR_COLOR_COUNT]!;
 }

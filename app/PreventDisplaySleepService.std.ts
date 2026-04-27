@@ -2,14 +2,17 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { PowerSaveBlocker } from 'electron';
-import { createLogger } from '../ts/logging/log.std.js';
+import { createLogger } from '../ts/logging/log.std.ts';
 
 const log = createLogger('PreventDisplaySleepService');
 
 export class PreventDisplaySleepService {
+  readonly #powerSaveBlocker: PowerSaveBlocker;
   private blockerId: undefined | number;
 
-  constructor(private powerSaveBlocker: PowerSaveBlocker) {}
+  constructor(powerSaveBlocker: PowerSaveBlocker) {
+    this.#powerSaveBlocker = powerSaveBlocker;
+  }
 
   isEnabled(): boolean {
     return this.blockerId !== undefined;
@@ -33,14 +36,14 @@ export class PreventDisplaySleepService {
     if (this.blockerId !== undefined) {
       return;
     }
-    this.blockerId = this.powerSaveBlocker.start('prevent-display-sleep');
+    this.blockerId = this.#powerSaveBlocker.start('prevent-display-sleep');
   }
 
   #disable(): void {
     if (this.blockerId === undefined) {
       return;
     }
-    this.powerSaveBlocker.stop(this.blockerId);
+    this.#powerSaveBlocker.stop(this.blockerId);
     delete this.blockerId;
   }
 }

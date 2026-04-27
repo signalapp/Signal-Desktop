@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import * as Stickers from '../../types/Stickers.preload.js';
-import { isPackIdValid, redactPackId } from '../../util/Stickers.std.js';
+import * as Stickers from '../../types/Stickers.preload.ts';
+import { isPackIdValid, redactPackId } from '../../util/Stickers.std.ts';
 
 describe('Stickers', () => {
   describe('getDataFromLink', () => {
@@ -110,7 +110,7 @@ describe('Stickers', () => {
       assert.isFalse(isPackIdValid(123));
       assert.isFalse(isPackIdValid(['b9439fa5fdc8b9873fe64f01b88b8ccf']));
       assert.isFalse(
-        // eslint-disable-next-line no-new-wrappers
+        // oxlint-disable-next-line no-new-wrappers
         isPackIdValid(new String('b9439fa5fdc8b9873fe64f01b88b8ccf'))
       );
     });

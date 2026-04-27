@@ -3,13 +3,13 @@
 
 import PQueue from 'p-queue';
 
-import { sleep } from './sleep.std.js';
-import { createLogger } from '../logging/log.std.js';
-import * as Errors from '../types/errors.std.js';
-import { clearTimeoutIfNecessary } from './clearTimeoutIfNecessary.std.js';
-import { MINUTE } from './durations/index.std.js';
-import { drop } from './drop.std.js';
-import { explodePromise } from './explodePromise.std.js';
+import { sleep } from './sleep.std.ts';
+import { createLogger } from '../logging/log.std.ts';
+import * as Errors from '../types/errors.std.ts';
+import { clearTimeoutIfNecessary } from './clearTimeoutIfNecessary.std.ts';
+import { MINUTE } from './durations/index.std.ts';
+import { drop } from './drop.std.ts';
+import { explodePromise } from './explodePromise.std.ts';
 
 const log = createLogger('waitBatcher');
 
@@ -64,13 +64,13 @@ type BatcherType<ItemType> = {
 export function createWaitBatcher<ItemType>(
   options: BatcherOptionsType<ItemType>
 ): BatcherType<ItemType> {
+  // oxlint-disable-next-line prefer-const
   let waitBatcher: BatcherType<ItemType>;
   let timeout: NodeJS.Timeout | null;
   let items: Array<ItemHolderType<ItemType>> = [];
   const queue = new PQueue({
     concurrency: 1,
     timeout: MINUTE * 30,
-    throwOnTimeout: true,
   });
 
   async function _kickBatchOff() {
@@ -132,12 +132,12 @@ export function createWaitBatcher<ItemType>(
   async function onIdle() {
     while (anyPending()) {
       if (queue.size > 0 || queue.pending > 0) {
-        // eslint-disable-next-line no-await-in-loop
+        // oxlint-disable-next-line no-await-in-loop
         await queue.onIdle();
       }
 
       if (items.length > 0) {
-        // eslint-disable-next-line no-await-in-loop
+        // oxlint-disable-next-line no-await-in-loop
         await sleep(options.wait * 2);
       }
     }
@@ -157,11 +157,11 @@ export function createWaitBatcher<ItemType>(
     timeout = null;
 
     while (anyPending()) {
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       await _kickBatchOff();
 
       if (queue.size > 0 || queue.pending > 0) {
-        // eslint-disable-next-line no-await-in-loop
+        // oxlint-disable-next-line no-await-in-loop
         await queue.onIdle();
       }
     }

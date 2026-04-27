@@ -1,6 +1,6 @@
 // Copyright 2026 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import * as RemoteConfig from '../RemoteConfig.dom.js';
+import * as RemoteConfig from '../RemoteConfig.dom.ts';
 
 const GIPHY_CDN_ORIGINS = new Set([
   'https://media0.giphy.com',
@@ -29,7 +29,7 @@ export function isTenorCdnUrlOrigin(origin: string): boolean {
   return TENOR_CDN_ORIGINS.has(origin);
 }
 
-export function isTenorCdnUrlOriginAllowed(): boolean {
+function isTenorCdnUrlOriginAllowed(): boolean {
   return RemoteConfig.isEnabled('desktop.recentGifs.allowLegacyTenorCdnUrls');
 }
 

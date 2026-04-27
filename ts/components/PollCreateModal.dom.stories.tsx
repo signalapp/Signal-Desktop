@@ -4,8 +4,8 @@
 import React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { PollCreateModalProps } from './PollCreateModal.dom.js';
-import { PollCreateModal } from './PollCreateModal.dom.js';
+import type { PollCreateModalProps } from './PollCreateModal.dom.tsx';
+import { PollCreateModal } from './PollCreateModal.dom.tsx';
 
 const { i18n } = window.SignalContext;
 

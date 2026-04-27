@@ -3,7 +3,7 @@
 
 import type { Moment } from 'moment';
 import moment from 'moment';
-import { DAY } from './durations/index.std.js';
+import { DAY } from './durations/index.std.ts';
 
 export type RawTimestamp = Readonly<number | Date | Moment>;
 
@@ -37,7 +37,7 @@ export const isYesterday = (rawTimestamp: RawTimestamp): boolean =>
   isSameDay(rawTimestamp, moment().subtract(1, 'day'));
 
 export const MAX_SAFE_DATE = 8640000000000000;
-export const MIN_SAFE_DATE = -8640000000000000;
+const MIN_SAFE_DATE = -8640000000000000;
 
 export function toBoundedDate(timestamp: number): Date {
   return new Date(Math.max(MIN_SAFE_DATE, Math.min(timestamp, MAX_SAFE_DATE)));

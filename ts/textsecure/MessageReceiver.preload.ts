@@ -1,8 +1,6 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* eslint-disable no-bitwise */
-
 import lodash from 'lodash';
 import PQueue from 'p-queue';
 import { v7 as getGuid } from 'uuid';
@@ -38,23 +36,24 @@ import {
   SenderKeys,
   Sessions,
   SignedPreKeys,
-} from '../LibSignalStores.preload.js';
-import { createName } from '../util/attachmentPath.node.js';
-import { assertDev, strictAssert } from '../util/assert.std.js';
-import type { BatcherType } from '../util/batcher.std.js';
-import { createBatcher } from '../util/batcher.std.js';
-import { drop } from '../util/drop.std.js';
-import { dropNull } from '../util/dropNull.std.js';
-import { parseIntOrThrow } from '../util/parseIntOrThrow.std.js';
-import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary.std.js';
-import { Zone } from '../util/Zone.std.js';
-import * as durations from '../util/durations/index.std.js';
-import { DurationInSeconds } from '../util/durations/index.std.js';
-import { isKnownProtoEnumMember } from '../util/isKnownProtoEnumMember.std.js';
-import { Address } from '../types/Address.std.js';
-import { QualifiedAddress } from '../types/QualifiedAddress.std.js';
-import { normalizeStoryDistributionId } from '../types/StoryDistributionId.std.js';
-import type { ServiceIdString, AciString } from '../types/ServiceId.std.js';
+} from '../LibSignalStores.node.ts';
+import { createName } from '../util/attachmentPath.node.ts';
+import { assertDev, strictAssert } from '../util/assert.std.ts';
+import type { BatcherType } from '../util/batcher.std.ts';
+import { createBatcher } from '../util/batcher.std.ts';
+import { drop } from '../util/drop.std.ts';
+import { dropNull } from '../util/dropNull.std.ts';
+import { parseIntOrThrow } from '../util/parseIntOrThrow.std.ts';
+import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary.std.ts';
+import { Zone } from '../util/Zone.std.ts';
+import * as durations from '../util/durations/index.std.ts';
+import { DurationInSeconds } from '../util/durations/index.std.ts';
+import { isKnownProtoEnumMember } from '../util/isKnownProtoEnumMember.std.ts';
+import { Address } from '../types/Address.std.ts';
+import { QualifiedAddress } from '../types/QualifiedAddress.std.ts';
+import { normalizeStoryDistributionId } from '../types/StoryDistributionId.std.ts';
+import type { ServiceIdString, AciString } from '../types/ServiceId.std.ts';
+import type { TextAttachmentType } from '../types/Attachment.std.ts';
 import {
   fromPniObject,
   isPniString,
@@ -64,34 +63,34 @@ import {
   normalizeServiceId,
   ServiceIdKind,
   toTaggedPni,
-} from '../types/ServiceId.std.js';
-import { normalizeAci } from '../util/normalizeAci.std.js';
-import { isAciString } from '../util/isAciString.std.js';
-import { calling } from '../services/calling.preload.js';
-import { retryPlaceholders } from '../services/retryPlaceholders.std.js';
-import * as Errors from '../types/errors.std.js';
-import { signalProtocolStore } from '../SignalProtocolStore.preload.js';
+} from '../types/ServiceId.std.ts';
+import { normalizeAci } from '../util/normalizeAci.std.ts';
+import { isAciString } from '../util/isAciString.std.ts';
+import { calling } from '../services/calling.preload.ts';
+import { retryPlaceholders } from '../services/retryPlaceholders.std.ts';
+import * as Errors from '../types/errors.std.ts';
+import { signalProtocolStore } from '../SignalProtocolStore.preload.ts';
 
-import { SignalService as Proto } from '../protobuf/index.std.js';
-import { deriveGroupFields, MASTER_KEY_LENGTH } from '../groups.preload.js';
+import { SignalService as Proto } from '../protobuf/index.std.ts';
+import { deriveGroupFields, MASTER_KEY_LENGTH } from '../groups.preload.ts';
 
-import createTaskWithTimeout from './TaskWithTimeout.std.js';
+import { runTaskWithTimeout } from './TaskWithTimeout.std.ts';
 import {
   processAttachment,
   processDataMessage,
   processBodyRange,
   processGroupV2Context,
   processPreview,
-} from './processDataMessage.preload.js';
-import { processSent } from './processSyncMessage.node.js';
-import type { EventHandler } from './EventTarget.std.js';
-import EventTarget from './EventTarget.std.js';
-import type { IncomingWebSocketRequest } from './WebsocketResources.preload.js';
-import { ServerRequestType } from './WebsocketResources.preload.js';
-import { type Storage } from './Storage.preload.js';
-import { accountManager } from './AccountManager.preload.js';
-import { WarnOnlyError } from './Errors.std.js';
-import * as Bytes from '../Bytes.std.js';
+} from './processDataMessage.preload.ts';
+import { processSent } from './processSyncMessage.node.ts';
+import type { EventHandler } from './EventTarget.std.ts';
+import EventTarget from './EventTarget.std.ts';
+import type { IncomingWebSocketRequest } from './WebsocketResources.preload.ts';
+import { ServerRequestType } from './WebsocketResources.preload.ts';
+import { type Storage } from './Storage.preload.ts';
+import { accountManager } from './AccountManager.preload.ts';
+import { WarnOnlyError } from './Errors.std.ts';
+import * as Bytes from '../Bytes.std.ts';
 import type {
   IRequestHandler,
   ProcessedAttachment,
@@ -110,7 +109,7 @@ import type {
   AddressableMessage,
   ReadSyncEventData,
   ViewSyncEventData,
-} from './messageReceiverEvents.std.js';
+} from './messageReceiverEvents.std.ts';
 import {
   AttachmentBackfillResponseSyncEvent,
   CallEventSyncEvent,
@@ -143,40 +142,40 @@ import {
   ViewEvent,
   ViewOnceOpenSyncEvent,
   ViewSyncEvent,
-} from './messageReceiverEvents.std.js';
-import { createLogger } from '../logging/log.std.js';
-import { diffArraysAsSets } from '../util/diffArraysAsSets.std.js';
-import { generateBlurHash } from '../util/generateBlurHash.std.js';
-import { TEXT_ATTACHMENT } from '../types/MIME.std.js';
-import type { SendTypesType } from '../util/handleMessageSend.preload.js';
-import { getStoriesBlocked } from '../util/stories.preload.js';
-import { isNotNil } from '../util/isNotNil.std.js';
-import { chunk } from '../util/iterables.std.js';
-import { inspectUnknownFieldTags } from '../util/inspectProtobufs.std.js';
-import { incrementMessageCounter } from '../util/incrementMessageCounter.preload.js';
-import { filterAndClean } from '../util/BodyRange.node.js';
+} from './messageReceiverEvents.std.ts';
+import { createLogger } from '../logging/log.std.ts';
+import { diffArraysAsSets } from '../util/diffArraysAsSets.std.ts';
+import { generateBlurHash } from '../util/generateBlurHash.std.ts';
+import { TEXT_ATTACHMENT } from '../types/MIME.std.ts';
+import type { SendTypesType } from '../util/handleMessageSend.preload.ts';
+import { getStoriesBlocked } from '../util/stories.preload.ts';
+import { isNotNil } from '../util/isNotNil.std.ts';
+import { chunk } from '../util/iterables.std.ts';
+import { inspectUnknownFieldTags } from '../util/inspectProtobufs.std.ts';
+import { incrementMessageCounter } from '../util/incrementMessageCounter.preload.ts';
+import { filterAndClean } from '../util/BodyRange.node.ts';
 import {
   getCallEventForProto,
   getCallLogEventForProto,
-} from '../util/callDisposition.preload.js';
-import { checkOurPniIdentityKey } from '../util/checkOurPniIdentityKey.preload.js';
-import { CallLinkUpdateSyncType } from '../types/CallLink.std.js';
-import { bytesToUuid } from '../util/uuidToBytes.std.js';
-import { isBodyTooLong } from '../util/longAttachment.std.js';
+} from '../util/callDisposition.preload.ts';
+import { checkOurPniIdentityKey } from '../util/checkOurPniIdentityKey.preload.ts';
+import { CallLinkUpdateSyncType } from '../types/CallLink.std.ts';
+import { bytesToUuid } from '../util/uuidToBytes.std.ts';
+import { isBodyTooLong } from '../util/longAttachment.std.ts';
 import {
   fromServiceIdBinaryOrString,
   fromAciUuidBytes,
   fromAciUuidBytesOrString,
   fromPniUuidBytesOrUntaggedString,
-} from '../util/ServiceId.node.js';
+} from '../util/ServiceId.node.ts';
 import {
   type MessageRequestResponseInfo,
   MessageRequestResponseSource,
-} from '../types/MessageRequestResponseEvent.std.js';
+} from '../types/MessageRequestResponseEvent.std.ts';
 
-import { toNumber } from '../util/toNumber.std.js';
+import { toNumber } from '../util/toNumber.std.ts';
 
-const { isBoolean, isNumber, isString, noop, omit } = lodash;
+const { isBoolean, isNumber, isString, noop } = lodash;
 
 const log = createLogger('MessageReceiver');
 
@@ -244,10 +243,6 @@ export type MessageReceiverOptions = {
   serverTrustRoots: Array<string>;
 };
 
-const TASK_WITH_TIMEOUT_OPTIONS = {
-  timeout: 2 * durations.MINUTE,
-};
-
 const LOG_UNEXPECTED_URGENT_VALUES = false;
 const MUST_BE_URGENT_TYPES: Array<SendTypesType> = [
   'message',
@@ -304,25 +299,22 @@ function getEnvelopeId(envelope: ProcessedEnvelope): string {
   return `${prefix} ${timestamp} (${envelope.id})`;
 }
 
-/* eslint-disable @typescript-eslint/brace-style -- Prettier conflicts with ESLint */
 export default class MessageReceiver
   extends EventTarget
   implements IRequestHandler
 {
-  /* eslint-enable @typescript-eslint/brace-style */
+  readonly #storage: Storage;
 
-  #storage: Storage;
-
-  #appQueue: PQueue;
-  #decryptAndCacheBatcher: BatcherType<CacheAddItemType>;
-  #cacheRemoveBatcher: BatcherType<string>;
+  readonly #appQueue: PQueue;
+  readonly #decryptAndCacheBatcher: BatcherType<CacheAddItemType>;
+  readonly #cacheRemoveBatcher: BatcherType<string>;
   #processedCount: number;
-  #incomingQueue: PQueue;
+  readonly #incomingQueue: PQueue;
   #isEmptied?: boolean;
-  #encryptedQueue: PQueue;
-  #decryptedQueue: PQueue;
+  readonly #encryptedQueue: PQueue;
+  readonly #decryptedQueue: PQueue;
   #retryCachedTimeout: NodeJS.Timeout | undefined;
-  #serverTrustRoots: Array<PublicKey>;
+  readonly #serverTrustRoots: Array<PublicKey>;
   #stoppingProcessing?: boolean;
   #pniIdentityKeyCheckRequired?: boolean;
 
@@ -342,21 +334,17 @@ export default class MessageReceiver
 
     this.#incomingQueue = new PQueue({
       concurrency: 1,
-      throwOnTimeout: true,
     });
     this.#appQueue = new PQueue({
       concurrency: 1,
-      throwOnTimeout: true,
     });
 
     // All envelopes start in encryptedQueue and progress to decryptedQueue
     this.#encryptedQueue = new PQueue({
       concurrency: 1,
-      throwOnTimeout: true,
     });
     this.#decryptedQueue = new PQueue({
       concurrency: 1,
-      throwOnTimeout: true,
     });
 
     this.#decryptAndCacheBatcher = createBatcher<CacheAddItemType>({
@@ -390,13 +378,13 @@ export default class MessageReceiver
 
       if (request.requestType === ServerRequestType.ApiEmptyQueue) {
         drop(
-          this.#incomingQueue.add(
-            createTaskWithTimeout(
+          this.#incomingQueue.add(() =>
+            runTaskWithTimeout(
               async () => {
                 this.#onEmpty();
               },
               'incomingQueue/onEmpty',
-              TASK_WITH_TIMEOUT_OPTIONS
+              'short-lived'
             )
           )
         );
@@ -486,12 +474,8 @@ export default class MessageReceiver
     };
 
     drop(
-      this.#incomingQueue.add(
-        createTaskWithTimeout(
-          job,
-          'incomingQueue/websocket',
-          TASK_WITH_TIMEOUT_OPTIONS
-        )
+      this.#incomingQueue.add(() =>
+        runTaskWithTimeout(job, 'incomingQueue/websocket', 'short-lived')
       )
     );
   }
@@ -509,13 +493,11 @@ export default class MessageReceiver
 
   #addCachedMessagesToQueue(): Promise<void> {
     log.info('addCachedMessagesToQueue');
-    return this.#incomingQueue.add(
-      createTaskWithTimeout(
+    return this.#incomingQueue.add(() =>
+      runTaskWithTimeout(
         async () => this.#queueAllCached(),
         'incomingQueue/queueAllCached',
-        {
-          timeout: 10 * durations.MINUTE,
-        }
+        'long-running'
       )
     );
   }
@@ -546,11 +528,11 @@ export default class MessageReceiver
         TaskType.Encrypted
       );
 
-    return this.#incomingQueue.add(
-      createTaskWithTimeout(
+    return this.#incomingQueue.add(() =>
+      runTaskWithTimeout(
         waitForIncomingQueue,
         'drain/waitForIncoming',
-        TASK_WITH_TIMEOUT_OPTIONS
+        'short-lived'
       )
     );
   }
@@ -731,11 +713,11 @@ export default class MessageReceiver
 
   async #dispatchAndWait(id: string, event: Event): Promise<void> {
     drop(
-      this.#appQueue.add(
-        createTaskWithTimeout(
+      this.#appQueue.add(() =>
+        runTaskWithTimeout(
           async () => Promise.all(this.dispatchEvent(event)),
           `dispatchEvent(${event.type}, ${id})`,
-          TASK_WITH_TIMEOUT_OPTIONS
+          'short-lived'
         )
       )
     );
@@ -763,9 +745,7 @@ export default class MessageReceiver
         ? this.#encryptedQueue
         : this.#decryptedQueue;
 
-    return queue.add(
-      createTaskWithTimeout(task, id, TASK_WITH_TIMEOUT_OPTIONS)
-    );
+    return queue.add(() => runTaskWithTimeout(task, id, 'short-lived'));
   }
 
   #onEmpty(): void {
@@ -795,12 +775,8 @@ export default class MessageReceiver
 
       // We don't await here because we don't want this to gate future message processing
       drop(
-        this.#appQueue.add(
-          createTaskWithTimeout(
-            emitEmpty,
-            'emitEmpty',
-            TASK_WITH_TIMEOUT_OPTIONS
-          )
+        this.#appQueue.add(() =>
+          runTaskWithTimeout(emitEmpty, 'emitEmpty', 'short-lived')
         )
       );
     };
@@ -828,11 +804,11 @@ export default class MessageReceiver
     const waitForCacheAddBatcher = async () => {
       await this.#decryptAndCacheBatcher.onIdle();
       drop(
-        this.#incomingQueue.add(
-          createTaskWithTimeout(
+        this.#incomingQueue.add(() =>
+          runTaskWithTimeout(
             waitForIncomingQueue,
             'onEmpty/waitForIncoming',
-            TASK_WITH_TIMEOUT_OPTIONS
+            'short-lived'
           )
         )
       );
@@ -849,7 +825,7 @@ export default class MessageReceiver
 
     for await (const batch of this.#getAllFromCache()) {
       for (const item of batch) {
-        // eslint-disable-next-line no-await-in-loop
+        // oxlint-disable-next-line no-await-in-loop
         await this.#queueCached(item);
       }
     }
@@ -890,7 +866,7 @@ export default class MessageReceiver
         serverGuid: item.serverGuid,
         serverTimestamp: item.serverTimestamp,
         urgent: isBoolean(item.urgent) ? item.urgent : true,
-        story: Boolean(item.story),
+        story: item.story,
         reportingToken: item.reportingToken,
         groupId: item.groupId,
       };
@@ -968,11 +944,11 @@ export default class MessageReceiver
       this.#clearRetryTimeout();
       this.#retryCachedTimeout = setTimeout(() => {
         drop(
-          this.#incomingQueue.add(
-            createTaskWithTimeout(
+          this.#incomingQueue.add(() =>
+            runTaskWithTimeout(
               async () => this.#queueAllCached(),
               'queueAllCached',
-              TASK_WITH_TIMEOUT_OPTIONS
+              'short-lived'
             )
           )
         );
@@ -1037,6 +1013,7 @@ export default class MessageReceiver
               let stores = storesMap.get(destinationServiceId);
               if (!stores) {
                 const sharedParams = {
+                  signalProtocolStore,
                   ourServiceId: destinationServiceId,
                   zone,
                 };
@@ -1213,15 +1190,15 @@ export default class MessageReceiver
     log.info('queueing decrypted envelope', id);
 
     const task = this.#handleDecryptedEnvelope.bind(this, envelope, plaintext);
-    const taskWithTimeout = createTaskWithTimeout(
-      task,
-      `queueDecryptedEnvelope ${id}`,
-      TASK_WITH_TIMEOUT_OPTIONS
-    );
 
     try {
       await this.#addToQueue(
-        taskWithTimeout,
+        () =>
+          runTaskWithTimeout(
+            task,
+            `queueDecryptedEnvelope ${id}`,
+            'short-lived'
+          ),
         `handleDecryptedEnvelope(${id})`,
         TaskType.Decrypted
       );
@@ -1795,7 +1772,10 @@ export default class MessageReceiver
       destinationServiceId,
       Address.create(sealedSenderIdentifier, envelope.sourceDevice)
     );
-    const protocolAddress = ProtocolAddress.new(
+
+    const ourDeviceID = this.#storage.user.getCheckedDeviceId();
+    const localAddress = ProtocolAddress.new(destinationServiceId, ourDeviceID);
+    const sourceAddress = ProtocolAddress.new(
       sealedSenderIdentifier,
       envelope.sourceDevice
     );
@@ -1809,7 +1789,8 @@ export default class MessageReceiver
         if (message instanceof PreKeySignalMessage) {
           return signalDecryptPreKey(
             message,
-            protocolAddress,
+            sourceAddress,
+            localAddress,
             sessionStore,
             identityKeyStore,
             preKeyStore,
@@ -1819,7 +1800,7 @@ export default class MessageReceiver
         }
         return signalDecrypt(
           message,
-          protocolAddress,
+          sourceAddress,
           sessionStore,
           identityKeyStore
         );
@@ -1927,13 +1908,21 @@ export default class MessageReceiver
       }
       const preKeySignalMessage = PreKeySignalMessage.deserialize(ciphertext);
 
+      const ourDeviceID = this.#storage.user.getCheckedDeviceId();
+      const localAddress = ProtocolAddress.new(
+        destinationServiceId,
+        ourDeviceID
+      );
+      const sourceAddress = ProtocolAddress.new(identifier, sourceDevice);
+
       const plaintext = await signalProtocolStore.enqueueSessionJob(
         address,
         async () =>
           this.#unpad(
             await signalDecryptPreKey(
               preKeySignalMessage,
-              ProtocolAddress.new(identifier, sourceDevice),
+              sourceAddress,
+              localAddress,
               sessionStore,
               identityKeyStore,
               preKeyStore,
@@ -2095,15 +2084,6 @@ export default class MessageReceiver
       throw new Error(`${logId}: message was falsey!`);
     }
 
-    // TODO: DESKTOP-5804
-    if (msg.flags && msg.flags & Proto.DataMessage.Flags.END_SESSION) {
-      if (destinationServiceId) {
-        await this.#handleEndSession(envelope, destinationServiceId);
-      } else {
-        throw new Error(`${logId}: Cannot end session with falsey destination`);
-      }
-    }
-
     const message = this.#processDecrypted(envelope, msg);
 
     if (message.body && isBodyTooLong(message.body)) {
@@ -2124,7 +2104,7 @@ export default class MessageReceiver
         device: envelope.sourceDevice,
         unidentifiedStatus,
         message,
-        isRecipientUpdate: Boolean(isRecipientUpdate),
+        isRecipientUpdate: isRecipientUpdate,
         receivedAtCounter: envelope.receivedAtCounter,
         receivedAtDate: envelope.receivedAtDate,
         expirationStartTimestamp: toNumber(expirationStartTimestamp) ?? 0,
@@ -2170,30 +2150,33 @@ export default class MessageReceiver
       // If a text attachment has a link preview we remove it from the
       // textAttachment data structure and instead process the preview and add
       // it as a "preview" property for the message attributes.
-      const { text, preview: unprocessedPreview } =
-        msg.attachment.textAttachment;
+      const {
+        preview: unprocessedPreview,
+        background,
+        ...textAttachment
+      } = msg.attachment.textAttachment;
       if (unprocessedPreview) {
         preview = processPreview([unprocessedPreview]);
-      } else if (!text) {
+      } else if (!textAttachment.text) {
         throw new Error('Text attachments must have text or link preview!');
       }
 
       attachments.push({
-        size: text?.length ?? 0,
+        size: textAttachment.text?.length ?? 0,
         contentType: TEXT_ATTACHMENT,
         textAttachment: {
-          ...omit(msg.attachment.textAttachment, 'preview'),
+          ...textAttachment,
           textStyle: isKnownProtoEnumMember(
             Proto.TextAttachment.Style,
-            msg.attachment.textAttachment.textStyle
+            textAttachment.textStyle
           )
-            ? msg.attachment.textAttachment.textStyle
+            ? textAttachment.textStyle
             : 0,
-        },
+          gradient: background?.gradient,
+          color: background?.color,
+        } satisfies TextAttachmentType,
         blurHash: generateBlurHash(
-          (msg.attachment.textAttachment.background?.color ||
-            msg.attachment.textAttachment.background?.gradient?.startColor) ??
-            undefined
+          background?.color ?? background?.gradient?.startColor ?? undefined
         ),
       });
     }
@@ -2240,7 +2223,7 @@ export default class MessageReceiver
           envelopeId: envelope.id,
           destinationServiceId: envelope.destinationServiceId,
           device: envelope.sourceDevice,
-          isRecipientUpdate: Boolean(sentMessage.isRecipientUpdate),
+          isRecipientUpdate: sentMessage.isRecipientUpdate,
           message,
           receivedAtCounter: envelope.receivedAtCounter,
           receivedAtDate: envelope.receivedAtDate,
@@ -2254,7 +2237,7 @@ export default class MessageReceiver
 
               return {
                 destinationServiceId,
-                isAllowedToReplyToStory: Boolean(isAllowedToReply),
+                isAllowedToReplyToStory: isAllowedToReply,
                 destinationPniIdentityKey: undefined,
                 unidentified: false,
               };
@@ -2298,10 +2281,7 @@ export default class MessageReceiver
           );
         }
 
-        isAllowedToReply.set(
-          destinationServiceId,
-          recipient.isAllowedToReply !== false
-        );
+        isAllowedToReply.set(destinationServiceId, recipient.isAllowedToReply);
       });
 
       distributionListToSentServiceId.forEach((sentToServiceIds, listId) => {
@@ -2321,7 +2301,7 @@ export default class MessageReceiver
               })
             ),
             message,
-            isRecipientUpdate: Boolean(sentMessage.isRecipientUpdate),
+            isRecipientUpdate: sentMessage.isRecipientUpdate,
             receivedAtCounter: envelope.receivedAtCounter,
             receivedAtDate: envelope.receivedAtDate,
             storyDistributionListId: normalizeStoryDistributionId(
@@ -2436,7 +2416,6 @@ export default class MessageReceiver
       return;
     }
 
-    let p: Promise<void> = Promise.resolve();
     const { sourceServiceId: sourceAci } = envelope;
     if (!sourceAci) {
       throw new Error(`${logId}: sourceAci was falsey`);
@@ -2449,13 +2428,10 @@ export default class MessageReceiver
       return undefined;
     }
 
-    if (msg.flags && msg.flags & Proto.DataMessage.Flags.END_SESSION) {
-      p = this.#handleEndSession(envelope, sourceAci);
-    }
-
     const { profileKey } = msg;
     const hasProfileKey = profileKey && profileKey.length > 0;
     const isProfileKeyUpdate =
+      // oxlint-disable-next-line no-bitwise
       msg.flags && msg.flags & Proto.DataMessage.Flags.PROFILE_KEY_UPDATE;
 
     if (isProfileKeyUpdate) {
@@ -2480,7 +2456,6 @@ export default class MessageReceiver
 
       drop(this.#dispatchAndWait(getEnvelopeId(envelope), ev));
     }
-    await p;
 
     let type: SendTypesType = 'message';
 
@@ -2492,6 +2467,7 @@ export default class MessageReceiver
       type = 'deleteForEveryone';
     } else if (
       msg.flags &&
+      // oxlint-disable-next-line no-bitwise
       msg.flags & Proto.DataMessage.Flags.EXPIRATION_TIMER_UPDATE
     ) {
       type = 'expirationTimerUpdate';
@@ -2964,18 +2940,14 @@ export default class MessageReceiver
     envelope: UnsealedEnvelope,
     syncMessage: Proto.SyncMessage
   ): Promise<void> {
-    const ourNumber = this.#storage.user.getNumber();
     const ourAci = this.#storage.user.getCheckedAci();
 
-    const fromSelfSource = envelope.source && envelope.source === ourNumber;
-    const fromSelfSourceUuid =
-      envelope.sourceServiceId && envelope.sourceServiceId === ourAci;
-    if (!fromSelfSource && !fromSelfSourceUuid) {
-      throw new Error('Received sync message from another number');
+    if (envelope.sourceServiceId !== ourAci) {
+      throw new Error('Received sync message from a different account');
     }
 
     const ourDeviceId = this.#storage.user.getDeviceId();
-    // eslint-disable-next-line eqeqeq
+    // oxlint-disable-next-line eqeqeq
     if (envelope.sourceDevice == ourDeviceId) {
       throw new Error('Received sync message from our own device');
     }
@@ -3196,7 +3168,7 @@ export default class MessageReceiver
           ...message,
           editedMessageTimestamp: toNumber(editMessage.targetSentTimestamp),
         },
-        isRecipientUpdate: Boolean(isRecipientUpdate),
+        isRecipientUpdate: isRecipientUpdate,
         receivedAtCounter: envelope.receivedAtCounter,
         receivedAtDate: envelope.receivedAtDate,
         expirationStartTimestamp: toNumber(expirationStartTimestamp) ?? 0,
@@ -3907,7 +3879,7 @@ export default class MessageReceiver
 
     const contactSync = new ContactSyncEvent(
       processAttachment(blob),
-      Boolean(contactSyncProto.complete),
+      contactSyncProto.complete,
       envelope.receivedAtCounter,
       envelope.timestamp
     );
@@ -4075,17 +4047,6 @@ export default class MessageReceiver
 
   #isGroupBlocked(groupId: string): boolean {
     return this.#storage.blocked.isGroupBlocked(groupId);
-  }
-
-  async #handleEndSession(
-    envelope: ProcessedEnvelope,
-    theirServiceId: ServiceIdString
-  ): Promise<void> {
-    log.info(`handleEndSession: closing sessions for ${theirServiceId}`);
-
-    logUnexpectedUrgentValue(envelope, 'resetSession');
-
-    await signalProtocolStore.archiveAllSessions(theirServiceId);
   }
 
   #processDecrypted(

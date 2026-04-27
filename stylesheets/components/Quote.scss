@@ -230,8 +230,7 @@
 
   & {
     overflow-wrap: break-word;
-    word-wrap: break-word;
-    word-break: break-word;
+    word-break: auto-phrase;
     white-space: pre-wrap;
 
     overflow: hidden;

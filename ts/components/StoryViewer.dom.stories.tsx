@@ -4,17 +4,17 @@
 import type { Meta } from '@storybook/react';
 import React from 'react';
 import { action } from '@storybook/addon-actions';
-import type { PropsType } from './StoryViewer.dom.js';
-import { SendStatus } from '../messages/MessageSendState.std.js';
-import { StoryViewModeType } from '../types/Stories.std.js';
-import { generateStoryDistributionId } from '../types/StoryDistributionId.std.js';
-import { StoryViewer } from './StoryViewer.dom.js';
-import { VIDEO_MP4 } from '../types/MIME.std.js';
-import { fakeAttachment } from '../test-helpers/fakeAttachment.std.js';
-import { getDefaultConversation } from '../test-helpers/getDefaultConversation.std.js';
-import { getFakeStoryView } from '../test-helpers/getFakeStory.dom.js';
-import { DEFAULT_PREFERRED_REACTION_EMOJI } from '../reactions/constants.std.js';
-import { EmojiSkinTone } from './fun/data/emojis.std.js';
+import type { PropsType } from './StoryViewer.dom.tsx';
+import { SendStatus } from '../messages/MessageSendState.std.ts';
+import { StoryViewModeType } from '../types/Stories.std.ts';
+import { generateStoryDistributionId } from '../types/StoryDistributionId.std.ts';
+import { StoryViewer } from './StoryViewer.dom.tsx';
+import { VIDEO_MP4 } from '../types/MIME.std.ts';
+import { fakeAttachment } from '../test-helpers/fakeAttachment.std.ts';
+import { getDefaultConversation } from '../test-helpers/getDefaultConversation.std.ts';
+import { getFakeStoryView } from '../test-helpers/getFakeStory.dom.tsx';
+import { DEFAULT_PREFERRED_REACTION_EMOJI } from '../reactions/constants.std.ts';
+import { EmojiSkinTone } from './fun/data/emojis.std.ts';
 
 const { i18n } = window.SignalContext;
 

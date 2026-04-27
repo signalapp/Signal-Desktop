@@ -4,12 +4,12 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { Props } from './ContactListItem.dom.js';
-import { ContactListItem } from './ContactListItem.dom.js';
+import type { Props } from './ContactListItem.dom.tsx';
+import { ContactListItem } from './ContactListItem.dom.tsx';
 import {
   createPreparedMediaItems,
   createRandomContacts,
-} from './utils/mocks.std.js';
+} from '../../../test-helpers/mediaGalleryMocks.std.ts';
 
 export default {
   title: 'Components/Conversation/MediaGallery/ContactListItem',

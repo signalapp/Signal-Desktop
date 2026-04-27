@@ -4,8 +4,8 @@
 import type { Meta } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import React, { useState } from 'react';
-import { AxoAlertDialog } from './AxoAlertDialog.dom.js';
-import { AxoButton } from './AxoButton.dom.js';
+import { AxoAlertDialog } from './AxoAlertDialog.dom.tsx';
+import { AxoButton } from './AxoButton.dom.tsx';
 
 export default {
   title: 'Axo/AxoAlertDialog',

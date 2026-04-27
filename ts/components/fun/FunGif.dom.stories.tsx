@@ -3,8 +3,8 @@
 import React, { useEffect, useState, useId } from 'react';
 import type { Meta } from '@storybook/react';
 import { VisuallyHidden } from 'react-aria';
-import { FunGif, FunGifPreview } from './FunGif.dom.js';
-import { LoadingState } from '../../util/loadable.std.js';
+import { FunGif, FunGifPreview } from './FunGif.dom.tsx';
+import { LoadingState } from '../../util/loadable.std.ts';
 
 export default {
   title: 'Components/Fun/FunGif',
@@ -19,7 +19,6 @@ export function Basic(): React.JSX.Element {
   const id = useId();
   return (
     <>
-      {/* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */}
       <div tabIndex={0}>
         <FunGif
           src={MOCK_GIF_URL}

@@ -1,11 +1,11 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { LoggerType } from '../../types/Logging.std.js';
-import { isValidUuid } from '../../util/isValidUuid.std.js';
-import Helpers from '../../textsecure/Helpers.std.js';
-import { createOrUpdate, getById, removeById } from '../util.std.js';
-import type { ItemKeyType, ReadableDB, WritableDB } from '../Interface.std.js';
+import type { LoggerType } from '../../types/Logging.std.ts';
+import { isValidUuid } from '../../util/isValidUuid.std.ts';
+import { createOrUpdate, getById, removeById } from '../util.std.ts';
+import type { ItemKeyType, ReadableDB, WritableDB } from '../Interface.std.ts';
+import { unencodeNumber } from '../../util/unencodeNumber.std.ts';
 
 export function getOurUuid(db: ReadableDB): string | undefined {
   const UUID_ID: ItemKeyType = 'uuid_id';
@@ -20,7 +20,7 @@ export function getOurUuid(db: ReadableDB): string | undefined {
 
   const { value } = JSON.parse(row.json);
 
-  const [ourUuid] = Helpers.unencodeNumber(String(value).toLowerCase());
+  const [ourUuid] = unencodeNumber(String(value).toLowerCase());
   return ourUuid;
 }
 
@@ -197,7 +197,7 @@ export default function updateToSchemaVersion41(
     let deleted = 0;
     let skipped = 0;
     for (const { id, senderId, lastUpdatedDate } of senderKeys) {
-      const [conversationId] = Helpers.unencodeNumber(senderId);
+      const [conversationId] = unencodeNumber(senderId);
       const uuid = getConversationUuid.get<string>({ conversationId });
 
       if (!uuid) {
@@ -233,7 +233,7 @@ export default function updateToSchemaVersion41(
       updateSenderKey.run({
         id,
         newId,
-        newSenderId: `${senderId.replace(conversationId, uuid)}`,
+        newSenderId: senderId.replace(conversationId, uuid),
       });
     }
 

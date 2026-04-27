@@ -4,19 +4,19 @@
 import type { IpcMainEvent } from 'electron';
 import { ipcMain as ipc } from 'electron';
 
-import { createLogger } from '../logging/log.std.js';
+import { createLogger } from '../logging/log.std.ts';
 import type {
   IPCRequest,
   IPCResponse,
   ChallengeResponse,
-} from '../challenge.dom.js';
-import { getEnvironment, Environment } from '../environment.std.js';
+} from '../challenge.dom.ts';
+import { getEnvironment, Environment } from '../environment.std.ts';
 
 const log = createLogger('challengeMain');
 
 export class ChallengeMainHandler {
   #handlers: Array<(response: ChallengeResponse) => void> = [];
-  #hardcodedResult?: ChallengeResponse;
+  readonly #hardcodedResult?: ChallengeResponse;
 
   constructor(hardcodedResult?: string) {
     if (hardcodedResult && getEnvironment() === Environment.Development) {

@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import lodash from 'lodash';
-import { strictAssert } from './assert.std.js';
+import { strictAssert } from './assert.std.ts';
 
-import type { AttachmentType } from '../types/Attachment.std.js';
+import type { AttachmentType } from '../types/Attachment.std.ts';
 
 const { isNumber } = lodash;
 
@@ -27,6 +27,7 @@ export function getLocalAttachmentUrl(
       AttachmentType,
       | 'contentType'
       | 'digest'
+      | 'plaintextHash'
       | 'downloadPath'
       | 'incrementalMac'
       | 'chunkSize'
@@ -87,10 +88,17 @@ export function getLocalAttachmentUrl(
     }
     url.searchParams.set('key', attachment.key);
 
-    if (!attachment.digest) {
-      throw new Error('getLocalAttachmentUrl: Missing attachment digest!');
+    // Attachments restored from backup / link & sync may have plaintextHash but not
+    // digest
+    if (attachment.plaintextHash) {
+      url.searchParams.set('plaintextHash', attachment.plaintextHash);
+    } else if (attachment.digest) {
+      url.searchParams.set('digest', attachment.digest);
+    } else {
+      throw new Error(
+        'getLocalAttachmentUrl: Missing attachment plaintextHash and digest!'
+      );
     }
-    url.searchParams.set('digest', attachment.digest);
 
     if (!attachment.incrementalMac) {
       throw new Error(

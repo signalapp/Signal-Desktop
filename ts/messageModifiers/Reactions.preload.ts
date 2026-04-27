@@ -3,52 +3,52 @@
 
 import lodash from 'lodash';
 
-import type { AciString } from '../types/ServiceId.std.js';
+import type { AciString } from '../types/ServiceId.std.ts';
 import type {
   MessageAttributesType,
   MessageReactionType,
   ReadonlyMessageAttributesType,
 } from '../model-types.d.ts';
-import { MessageModel } from '../models/messages.preload.js';
-import { ReactionSource } from '../reactions/ReactionSource.std.js';
-import { DataReader, DataWriter } from '../sql/Client.preload.js';
-import * as Errors from '../types/errors.std.js';
-import { createLogger } from '../logging/log.std.js';
+import { MessageModel } from '../models/messages.preload.ts';
+import { ReactionSource } from '../reactions/ReactionSource.std.ts';
+import { DataReader, DataWriter } from '../sql/Client.preload.ts';
+import * as Errors from '../types/errors.std.ts';
+import { createLogger } from '../logging/log.std.ts';
 import {
   isIncoming,
   isIncomingStory,
   isOutgoing,
   isOutgoingStory,
-} from '../messages/helpers.std.js';
-import { getAuthor } from '../messages/sources.preload.js';
-import { getMessageSentTimestampSet } from '../util/getMessageSentTimestampSet.std.js';
+} from '../messages/helpers.std.ts';
+import { getAuthor } from '../messages/sources.preload.ts';
+import { getMessageSentTimestampSet } from '../util/getMessageSentTimestampSet.std.ts';
 import {
   isDirectConversation,
   isMe,
-} from '../util/whatTypeOfConversation.dom.js';
+} from '../util/whatTypeOfConversation.dom.ts';
 import {
   getMessagePropStatus,
   hasErrors,
   isStory,
-} from '../state/selectors/message.preload.js';
-import { getPropForTimestamp } from '../util/editHelpers.std.js';
-import { isSent } from '../messages/MessageSendState.std.js';
-import { strictAssert } from '../util/assert.std.js';
-import { repeat, zipObject } from '../util/iterables.std.js';
-import { getMessageIdForLogging } from '../util/idForLogging.preload.js';
-import { hydrateStoryContext } from '../util/hydrateStoryContext.preload.js';
-import { drop } from '../util/drop.std.js';
-import * as reactionUtil from '../reactions/util.std.js';
-import { isNewReactionReplacingPrevious } from '../reactions/util.std.js';
-import { notificationService } from '../services/notifications.preload.js';
-import { ReactionReadStatus } from '../types/Reactions.std.js';
-import type { ConversationQueueJobData } from '../jobs/conversationJobQueue.preload.js';
+} from '../state/selectors/message.preload.ts';
+import { getPropForTimestamp } from '../util/editHelpers.std.ts';
+import { isSent } from '../messages/MessageSendState.std.ts';
+import { strictAssert } from '../util/assert.std.ts';
+import { repeat, zipObject } from '../util/iterables.std.ts';
+import { getMessageIdForLogging } from '../util/idForLogging.preload.ts';
+import { hydrateStoryContext } from '../util/hydrateStoryContext.preload.ts';
+import { drop } from '../util/drop.std.ts';
+import * as reactionUtil from '../reactions/util.std.ts';
+import { isNewReactionReplacingPrevious } from '../reactions/util.std.ts';
+import { notificationService } from '../services/notifications.preload.ts';
+import { ReactionReadStatus } from '../types/Reactions.std.ts';
+import type { ConversationQueueJobData } from '../jobs/conversationJobQueue.preload.ts';
 import {
   conversationJobQueue,
   conversationQueueJobEnum,
-} from '../jobs/conversationJobQueue.preload.js';
-import { maybeNotify } from '../messages/maybeNotify.preload.js';
-import { itemStorage } from '../textsecure/Storage.preload.js';
+} from '../jobs/conversationJobQueue.preload.ts';
+import { maybeNotify } from '../messages/maybeNotify.preload.ts';
+import { itemStorage } from '../textsecure/Storage.preload.ts';
 
 const { maxBy } = lodash;
 

@@ -2,18 +2,18 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import React from 'react';
 import type { CSSProperties } from 'react';
-import type { RenderTextCallbackType } from '../../types/Util.std.js';
-import { splitByEmoji } from '../../util/emoji.std.js';
-import { missingCaseError } from '../../util/missingCaseError.std.js';
-import { FunInlineEmoji } from '../fun/FunEmoji.dom.js';
+import type { RenderTextCallbackType } from '../../types/Util.std.ts';
+import { splitByEmoji } from '../../util/emoji.std.ts';
+import { missingCaseError } from '../../util/missingCaseError.std.ts';
+import { FunInlineEmoji } from '../fun/FunEmoji.dom.tsx';
 import {
   getEmojiVariantByKey,
   getEmojiVariantKeyByValue,
   isEmojiVariantValue,
   isEmojiVariantValueNonQualified,
-} from '../fun/data/emojis.std.js';
-import { createLogger } from '../../logging/log.std.js';
-import { useFunEmojiLocalizer } from '../fun/useFunEmojiLocalizer.dom.js';
+} from '../fun/data/emojis.std.ts';
+import { createLogger } from '../../logging/log.std.ts';
+import { useFunEmojiLocalizer } from '../fun/useFunEmojiLocalizer.dom.tsx';
 
 const log = createLogger('Emojify');
 
@@ -56,7 +56,7 @@ export function Emojify({
 
           return (
             <FunInlineEmoji
-              // eslint-disable-next-line react/no-array-index-key
+              // oxlint-disable-next-line react/no-array-index-key
               key={index}
               role="img"
               aria-label={emojiLocalizer.getLocaleShortName(variantKey)}

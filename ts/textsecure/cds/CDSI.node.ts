@@ -10,24 +10,23 @@ import {
   LibSignalErrorBase,
 } from '@signalapp/libsignal-client';
 import pTimeout from 'p-timeout';
-import type { CDSBaseOptionsType } from './CDSBase.node.js';
-import { CDSBase } from './CDSBase.node.js';
+import type { CDSBaseOptionsType } from './CDSBase.node.ts';
+import { CDSBase } from './CDSBase.node.ts';
 import type { CDSRequestOptionsType, CDSResponseType } from './Types.d.ts';
-import { sleep } from '../../util/sleep.std.js';
-import * as durations from '../../util/durations/index.std.js';
+import { sleep } from '../../util/sleep.std.ts';
+import * as durations from '../../util/durations/index.std.ts';
 
 export type CDSIOptionsType = CDSBaseOptionsType;
 
 const REQUEST_TIMEOUT = 10 * durations.SECOND;
 
-export class CDSI extends CDSBase<CDSIOptionsType> {
+export class CDSI extends CDSBase {
+  readonly #libsignalNet: Net.Net;
   #retryAfter?: number;
 
-  constructor(
-    private readonly libsignalNet: Net.Net,
-    options: CDSIOptionsType
-  ) {
+  constructor(libsignalNet: Net.Net, options: CDSIOptionsType) {
     super(options);
+    this.#libsignalNet = libsignalNet;
   }
 
   public async request(
@@ -51,11 +50,11 @@ export class CDSI extends CDSBase<CDSIOptionsType> {
 
       const { timeout = REQUEST_TIMEOUT } = options;
       const response = await pTimeout(
-        this.libsignalNet.cdsiLookup(auth, {
+        this.#libsignalNet.cdsiLookup(auth, {
           acisAndAccessKeys,
           e164s,
         }),
-        timeout
+        { milliseconds: timeout }
       );
 
       log.info('CDSSocketManager: lookup request finished');

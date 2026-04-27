@@ -3,62 +3,62 @@
 
 import { z } from 'zod';
 import type PQueue from 'p-queue';
-import { createLogger } from '../logging/log.std.js';
+import { createLogger } from '../logging/log.std.ts';
 
-import * as durations from '../util/durations/index.std.js';
-import { exponentialBackoffMaxAttempts } from '../util/exponentialBackoff.std.js';
-import { InMemoryQueues } from './helpers/InMemoryQueues.std.js';
-import { jobQueueDatabaseStore } from './JobQueueDatabaseStore.preload.js';
-import { JOB_STATUS, JobQueue } from './JobQueue.std.js';
+import * as durations from '../util/durations/index.std.ts';
+import { exponentialBackoffMaxAttempts } from '../util/exponentialBackoff.std.ts';
+import { InMemoryQueues } from './helpers/InMemoryQueues.std.ts';
+import { jobQueueDatabaseStore } from './JobQueueDatabaseStore.preload.ts';
+import { JOB_STATUS, JobQueue } from './JobQueue.std.ts';
 
-import { sendNormalMessage } from './helpers/sendNormalMessage.preload.js';
-import { sendCallingMessage } from './helpers/sendCallingMessage.preload.js';
-import { sendDirectExpirationTimerUpdate } from './helpers/sendDirectExpirationTimerUpdate.preload.js';
-import { sendGroupCallUpdate } from './helpers/sendGroupCallUpdate.preload.js';
-import { sendGroupUpdate } from './helpers/sendGroupUpdate.preload.js';
-import { sendDeleteForEveryone } from './helpers/sendDeleteForEveryone.preload.js';
-import { sendDeleteStoryForEveryone } from './helpers/sendDeleteStoryForEveryone.preload.js';
-import { sendProfileKey } from './helpers/sendProfileKey.preload.js';
-import { sendReaction } from './helpers/sendReaction.preload.js';
-import { sendPollTerminate } from './helpers/sendPollTerminate.preload.js';
-import { sendPollVote } from './helpers/sendPollVote.preload.js';
-import { sendStory } from './helpers/sendStory.preload.js';
-import { sendReceipts } from './helpers/sendReceipts.preload.js';
+import { sendNormalMessage } from './helpers/sendNormalMessage.preload.ts';
+import { sendCallingMessage } from './helpers/sendCallingMessage.preload.ts';
+import { sendDirectExpirationTimerUpdate } from './helpers/sendDirectExpirationTimerUpdate.preload.ts';
+import { sendGroupCallUpdate } from './helpers/sendGroupCallUpdate.preload.ts';
+import { sendGroupUpdate } from './helpers/sendGroupUpdate.preload.ts';
+import { sendDeleteForEveryone } from './helpers/sendDeleteForEveryone.preload.ts';
+import { sendDeleteStoryForEveryone } from './helpers/sendDeleteStoryForEveryone.preload.ts';
+import { sendProfileKey } from './helpers/sendProfileKey.preload.ts';
+import { sendReaction } from './helpers/sendReaction.preload.ts';
+import { sendPollTerminate } from './helpers/sendPollTerminate.preload.ts';
+import { sendPollVote } from './helpers/sendPollVote.preload.ts';
+import { sendStory } from './helpers/sendStory.preload.ts';
+import { sendReceipts } from './helpers/sendReceipts.preload.ts';
 
-import type { LoggerType } from '../types/Logging.std.js';
-import { ConversationVerificationState } from '../state/ducks/conversationsEnums.std.js';
-import { MINUTE } from '../util/durations/index.std.js';
+import type { LoggerType } from '../types/Logging.std.ts';
+import { ConversationVerificationState } from '../state/ducks/conversationsEnums.std.ts';
+import { MINUTE } from '../util/durations/index.std.ts';
 import {
   OutgoingIdentityKeyError,
   SendMessageChallengeError,
   SendMessageProtoError,
-} from '../textsecure/Errors.std.js';
-import { strictAssert } from '../util/assert.std.js';
-import { missingCaseError } from '../util/missingCaseError.std.js';
-import { explodePromise } from '../util/explodePromise.std.js';
-import type { Job } from './Job.std.js';
-import type { ParsedJob, StoredJob } from './types.std.js';
+} from '../textsecure/Errors.std.ts';
+import { strictAssert } from '../util/assert.std.ts';
+import { missingCaseError } from '../util/missingCaseError.std.ts';
+import { explodePromise } from '../util/explodePromise.std.ts';
+import type { Job } from './Job.std.ts';
+import type { ParsedJob, StoredJob } from './types.std.ts';
 import {
   type MessageSender,
   messageSender,
-} from '../textsecure/SendMessage.preload.js';
-import type { ServiceIdString } from '../types/ServiceId.std.js';
-import { commonShouldJobContinue } from './helpers/commonShouldJobContinue.preload.js';
-import { sleeper } from '../util/sleeper.std.js';
-import { receiptSchema, ReceiptType } from '../types/Receipt.std.js';
-import { serviceIdSchema, aciSchema } from '../types/ServiceId.std.js';
-import { sendResendRequest } from './helpers/sendResendRequest.preload.js';
-import { sendNullMessage } from './helpers/sendNullMessage.preload.js';
-import { sendSenderKeyDistribution } from './helpers/sendSenderKeyDistribution.preload.js';
-import { sendSavedProto } from './helpers/sendSavedProto.preload.js';
-import { drop } from '../util/drop.std.js';
-import { isInPast } from '../util/timestamp.std.js';
-import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary.std.js';
-import { FIBONACCI } from '../util/BackOff.std.js';
-import { parseUnknown } from '../util/schemas.std.js';
-import { challengeHandler } from '../services/challengeHandler.preload.js';
-import { sendPinMessage } from './helpers/sendPinMessage.preload.js';
-import { sendUnpinMessage } from './helpers/sendUnpinMessage.preload.js';
+} from '../textsecure/SendMessage.preload.ts';
+import type { ServiceIdString } from '../types/ServiceId.std.ts';
+import { commonShouldJobContinue } from './helpers/commonShouldJobContinue.preload.ts';
+import { sleeper } from '../util/sleeper.std.ts';
+import { receiptSchema, ReceiptType } from '../types/Receipt.std.ts';
+import { serviceIdSchema, aciSchema } from '../types/ServiceId.std.ts';
+import { sendResendRequest } from './helpers/sendResendRequest.preload.ts';
+import { sendNullMessage } from './helpers/sendNullMessage.preload.ts';
+import { sendSenderKeyDistribution } from './helpers/sendSenderKeyDistribution.preload.ts';
+import { sendSavedProto } from './helpers/sendSavedProto.preload.ts';
+import { drop } from '../util/drop.std.ts';
+import { isInPast } from '../util/timestamp.std.ts';
+import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary.std.ts';
+import { FIBONACCI } from '../util/BackOff.std.ts';
+import { parseUnknown } from '../util/schemas.std.ts';
+import { challengeHandler } from '../services/challengeHandler.preload.ts';
+import { sendPinMessage } from './helpers/sendPinMessage.preload.ts';
+import { sendUnpinMessage } from './helpers/sendUnpinMessage.preload.ts';
 
 const globalLogger = createLogger('conversationJobQueue');
 
@@ -454,7 +454,7 @@ type ConversationData = Readonly<
     }
 >;
 
-export class ConversationJobQueue extends JobQueue<ConversationQueueJobData> {
+class ConversationJobQueue extends JobQueue<ConversationQueueJobData> {
   readonly #perConversationData = new Map<
     string,
     ConversationData | undefined
@@ -615,7 +615,7 @@ export class ConversationJobQueue extends JobQueue<ConversationQueueJobData> {
   #getRetryWithBackoff(attempts: number) {
     return (
       Date.now() +
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      // oxlint-disable-next-line typescript/no-non-null-assertion
       MINUTE * (FIBONACCI[attempts] ?? FIBONACCI[FIBONACCI.length - 1]!)
     );
   }
@@ -763,7 +763,7 @@ export class ConversationJobQueue extends JobQueue<ConversationQueueJobData> {
     if (newCallback !== callback) {
       const queue = this.getInMemoryQueue(job);
       drop(
-        // eslint-disable-next-line more/no-then
+        // oxlint-disable-next-line promise/prefer-await-to-then, signal-desktop/no-then
         queue.onIdle().then(() => {
           globalLogger.info(`${logId}: Running callback due to queue.onIdle`);
           newCallback();
@@ -869,12 +869,12 @@ export class ConversationJobQueue extends JobQueue<ConversationQueueJobData> {
     let shouldContinue: boolean;
     let count = 0;
 
-    // eslint-disable-next-line no-constant-condition
+    // oxlint-disable-next-line no-constant-condition
     while (true) {
       count += 1;
       log.info('calculating timeRemaining and shouldContinue...');
       timeRemaining = timestamp + MAX_RETRY_TIME - Date.now();
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       shouldContinue = await commonShouldJobContinue({
         attempt,
         log,
@@ -907,7 +907,7 @@ export class ConversationJobQueue extends JobQueue<ConversationQueueJobData> {
         log.info(
           'captcha challenge is pending for this conversation; waiting at most 5m...'
         );
-        // eslint-disable-next-line no-await-in-loop
+        // oxlint-disable-next-line no-await-in-loop
         await Promise.race([
           this.#startVerificationWaiter(conversation.id),
           // don't resolve on shutdown, otherwise we end up in an infinite loop
@@ -946,7 +946,7 @@ export class ConversationJobQueue extends JobQueue<ConversationQueueJobData> {
         log.info(
           'verification is pending for this conversation; waiting at most 5m...'
         );
-        // eslint-disable-next-line no-await-in-loop
+        // oxlint-disable-next-line no-await-in-loop
         await Promise.race([
           this.#startVerificationWaiter(conversation.id),
           // don't resolve on shutdown, otherwise we end up in an infinite loop

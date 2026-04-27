@@ -1,19 +1,19 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { MessageModel } from '../models/messages.preload.js';
+import type { MessageModel } from '../models/messages.preload.ts';
 import type { MessageAttributesType } from '../model-types.d.ts';
-import type { AttachmentType } from '../types/Attachment.std.js';
+import type { AttachmentType } from '../types/Attachment.std.ts';
 
-import { createLogger } from '../logging/log.std.js';
-import * as MIME from '../types/MIME.std.js';
+import { createLogger } from '../logging/log.std.ts';
+import * as MIME from '../types/MIME.std.ts';
 
-import { DataWriter } from '../sql/Client.preload.js';
-import { isMoreRecentThan } from './timestamp.std.js';
-import { isNotNil } from './isNotNil.std.js';
-import { queueAttachmentDownloads } from './queueAttachmentDownloads.preload.js';
-import { postSaveUpdates } from './cleanup.preload.js';
-import { itemStorage } from '../textsecure/Storage.preload.js';
+import { DataWriter } from '../sql/Client.preload.ts';
+import { isMoreRecentThan } from './timestamp.std.ts';
+import { isNotNil } from './isNotNil.std.ts';
+import { queueAttachmentDownloads } from './queueAttachmentDownloads.preload.ts';
+import { postSaveUpdates } from './cleanup.preload.ts';
+import { itemStorage } from '../textsecure/Storage.preload.ts';
 
 const log = createLogger('attachmentDownloadQueue');
 
@@ -22,7 +22,7 @@ const MAX_ATTACHMENT_MSGS_TO_DOWNLOAD = 250;
 
 let isEnabled = true;
 let attachmentDownloadQueue: Array<string> | undefined = [];
-const queueEmptyCallbacks: Set<() => void> = new Set();
+const queueEmptyCallbacks = new Set<() => void>();
 
 export function shouldUseAttachmentDownloadQueue(): boolean {
   return isEnabled;

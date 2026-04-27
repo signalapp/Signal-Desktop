@@ -746,6 +746,9 @@
   "icu:fileSizeWarning": {
     "messageformat": "عُذرًا، حجم الملف المُحدَّد يتجاوز قيود الحجم الأقصى للرسالة. {limit,number}{units}"
   },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "عذرًا، يتجاوز ملف الفيديو المُحدَّد الحد الأقصى لِحجم الرسالة. {limit,number}{units}"
+  },
   "icu:unableToLoadAttachment": {
     "messageformat": "فشل تنزيل الملفات المُرفَقة المُحدَّدة."
   },
@@ -1787,6 +1790,12 @@
   "icu:Preferences__EditChatFolderPage__CancelButton": {
     "messageformat": "إلغاء"
   },
+  "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
+    "messageformat": "Show status icon"
+  },
+  "icu:Preferences__PrivacyPage__ShowStatusIcon__Description": {
+    "messageformat": "Show an icon in message details when they were delivered using sealed sender."
+  },
   "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
     "messageformat": "التحقُّق التلقائي من المفاتيح"
   },
@@ -2372,6 +2381,9 @@
   "icu:ConversationDetails--support-center": {
     "messageformat": "مركز الدعم"
   },
+  "icu:ConversationDetails__GroupTerminatedBanner": {
+    "messageformat": "أُغلِقت هذه المجموعة"
+  },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "عرض رقم اﻷمان"
   },
@@ -2551,6 +2563,27 @@
   },
   "icu:youUpdatedTheGroup": {
     "messageformat": "قُمتَ بتحديث المجموعة."
+  },
+  "icu:collapsedGroupUpdates": {
+    "messageformat": "{count, plural, zero {{count,number} تحديثات للمجموعة} one {{count,number} تحديث للمجموعة} two {{count,number} تحديثان للمجموعة} few {{count,number} تحديثات للمجموعة} many {{count,number} تحديثًا للمجموعة} other {{count,number} تحديثٍ للمجموعة}}"
+  },
+  "icu:multidayCollapse__container": {
+    "messageformat": "{containerDescription} · {dayCountSummary}"
+  },
+  "icu:multidayCollapse__dayCountSummary": {
+    "messageformat": "{dayCount, plural, zero {{dayCount,number} يوم} one {{dayCount,number} يوم} two {{dayCount,number} يومين} few {{dayCount,number} أيام} many {{dayCount,number} يومًا} other {{dayCount,number} يومٍ}}"
+  },
+  "icu:collapsedChatUpdates": {
+    "messageformat": "{count, plural, zero {{count,number} تحديثات للدردشة} one {{count,number} تحديث للدردشة} two {{count,number} تحديثان للدردشة} few {{count,number} تحديثات للدردشة} many {{count,number} تحديثًا للدردشة} other {{count,number} تحديثٍ للدردشة}}"
+  },
+  "icu:collapsedTimerChanges": {
+    "messageformat": "{count, plural, zero {{count,number} تغييرات في مُؤقِّت الرسائل المؤقَّتة · {endingState}} one {{count,number} تغيير في مُؤقِّت الرسائل المؤقَّتة · {endingState}} two {{count,number} تغييران في مُؤقِّت الرسائل المؤقَّتة · {endingState}} few {{count,number} تغييرات في مُؤقِّت الرسائل المؤقَّتة · {endingState}} many {{count,number} تغييرًا في مُؤقِّت الرسائل المؤقَّتة · {endingState}} other {{count,number} تغيير في مُؤقِّت الرسائل المؤقَّتة · {endingState}}}"
+  },
+  "icu:collapsedTimerChanges--disabled": {
+    "messageformat": "{count, plural, zero {{count,number} تعديلات على مُؤقِّت الرسائل المُؤقَّتة · مُعطَّلة} one {{count,number} تعديل واحد على مُؤقِّت الرسائل المُؤقَّتة · مُعطَّل} two {{count,number} تعديلان على مُؤقِّت الرسائل المُؤقَّتة · مُعطَّلان} few {{count,number} تعديلات على مُؤقِّت الرسائل المُؤقَّتة · مُعطَّلة} many {{count,number} تعديلًا على مُؤقِّت الرسائل المُؤقَّتة · مُعطَّل} other {{count,number} تعديل على مُؤقِّت الرسائل المُؤقَّتة · مُعطَّل}}"
+  },
+  "icu:collapsedCallEvents": {
+    "messageformat": "{count, plural, zero {{count,number} أحداث مكالمة} one {{count,number} حدث مكالمة} two {{count,number} حدثا مكالمة} few {{count,number} أحداث مكالمة} many {{count,number} حدث مكالمة} other {{count,number} حدث مكالمة}}"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "تمَّ تحديث صورة المجموعة."
@@ -3017,8 +3050,8 @@
   "icu:Message--tap-to-view--incoming--expired-toast": {
     "messageformat": "سبق لك رؤية هذه الرسالة."
   },
-  "icu:Message--tap-to-view--outgoing--expired-toast": {
-    "messageformat": "لن تُحفَظ رسائل العرض لمرّة واحدة في سجل الدردشة لديك."
+  "icu:Message--tap-to-view--outgoing--expired-toast-2": {
+    "messageformat": "تُحذف \"ملفات وسائط العرض لِمرّة واحدة\" بعد الإرسال."
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "فيديو للمشاهدة مرّة واحدة"
@@ -3381,7 +3414,7 @@
     "messageformat": "الإبلاغ…"
   },
   "icu:MessageRequests--ReportAndMaybeBlockModal-title": {
-    "messageformat": "هل تريد الإبلاغ عنها؟"
+    "messageformat": "هل تريد الإبلاغ عن جهة الاتصال؟"
   },
   "icu:MessageRequests--ReportAndMaybeBlockModal-body--direct": {
     "messageformat": "سَيتمُّ إشعار سيجنال أن هذا الشخص قد يكون يرسِل رسائل غير مرغوب فيها. لا يُمكن لسيجنال رؤية محتوى أي دردشات."
@@ -3402,7 +3435,7 @@
     "messageformat": "قبلتَ طلب مراسلة من {name}. إذا حدث هذا عن طريق الخطأ، يمكنك اختيار إجراء ممّا يلي."
   },
   "icu:MessageRequests--report-spam-success-toast": {
-    "messageformat": "تمَّ الإبلاغ عنه."
+    "messageformat": "تمَّ الإبلاغ عن جهة الاتصال."
   },
   "icu:MessageRequests--delete": {
     "messageformat": "حذف"
@@ -3477,7 +3510,7 @@
     "messageformat": "{remainingCount, plural, zero {{member1} و{member2} و{member3} و<clickable>{remainingCount,number} آخرين</clickable>} one {{member1} و{member2} و{member3} و<clickable>{remainingCount,number} آخر</clickable>} two {{member1} و{member2} و{member3} و<clickable>{remainingCount,number} آخريْن</clickable>} few {{member1} و{member2} و{member3} و<clickable>{remainingCount,number} آخرين</clickable>} many {{member1} و{member2} و{member3} و<clickable>{remainingCount,number} آخرين</clickable>} other {{member1} و{member2} و{member3} و<clickable>{remainingCount,number} آخرين</clickable>}}"
   },
   "icu:ConversationHero--review-carefully": {
-    "messageformat": "مراجعة بحذر"
+    "messageformat": "راجِع بحذر"
   },
   "icu:ConversationHero--group-names": {
     "messageformat": "<clickable>أسماء المجموعات</clickable> غير خاضعة لعملية التحقُّق"
@@ -3485,8 +3518,17 @@
   "icu:ConversationHero--profile-names": {
     "messageformat": "<clickable>أسماء الحسابات</clickable> الشخصية غير خاضعة لعملية التحقُّق"
   },
+  "icu:ConversationHero--name-not-verified": {
+    "messageformat": "Name not verified"
+  },
   "icu:ConversationHero--signal-official-chat": {
     "messageformat": "هذه هي الدردشة الوحيدة والرسمية من سيجنال."
+  },
+  "icu:ConversationHero--signal-official-account": {
+    "messageformat": "Official account"
+  },
+  "icu:ConversationHero--signal-official-account--description": {
+    "messageformat": "The only official chat from Signal. Keep up to date with news and release notes."
   },
   "icu:ConversationHero--release-notes": {
     "messageformat": "ابقَ على اطِّلاع على آخر الأخبار وملاحظات الإصدارات."
@@ -3767,9 +3809,6 @@
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
     "messageformat": "مشاركة رابط المكالمة عبر سيجنال"
   },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "إزالة هذا الشخص من المكالمة"
-  },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "هل ترغبُ بإزالة {name} من المكالمة؟"
   },
@@ -3932,11 +3971,23 @@
   "icu:GroupV2--join--requested": {
     "messageformat": "تمَّ إرسال طلبك للانضمام إلى مُشرِف المجموعة. سيتمُّ إشعارك عند اتخاذه للإجراء."
   },
+  "icu:GroupV2--join--group-terminated": {
+    "messageformat": "تعذَّر الانضمام إلى هذه المجموعة."
+  },
   "icu:GroupV2--join--general-join-failure--title": {
     "messageformat": "خطأ في الرابط"
   },
   "icu:GroupV2--join--general-join-failure": {
     "messageformat": "تعذَّر الانضمام إلى المجموعة. حاوِل مرّة أخرى لاحقًا."
+  },
+  "icu:GroupV2--terminate-group-in-progress": {
+    "messageformat": "جارٍ إغلاق المجموعة…"
+  },
+  "icu:TerminateGroupFailedModal__description": {
+    "messageformat": "تعذَّر إغلاق المجموعة. تحقَّق من اتصالك بالشبكة ثم حاوِل مرّة أخرى."
+  },
+  "icu:TerminateGroupFailedModal__try-again": {
+    "messageformat": "حاوِل مُجدَّدًا"
   },
   "icu:GroupV2--admin": {
     "messageformat": "المُشرِف"
@@ -4379,6 +4430,15 @@
   "icu:GroupV2--summary": {
     "messageformat": "تمَّ تغيير أعضاء هذه المجموعة أو إعداداتِها."
   },
+  "icu:GroupV2--terminated--you": {
+    "messageformat": "لقد أنهيتَ المجموعة."
+  },
+  "icu:GroupV2--terminated--other": {
+    "messageformat": "{memberName} أنهى المجموعة"
+  },
+  "icu:GroupV2--terminated--unknown": {
+    "messageformat": "أُغلِقت هذه المجموعة."
+  },
   "icu:GroupV1--Migration--disabled--link": {
     "messageformat": "قُم بتحديث هذه المجموعة لتفعيل مزايا جديدة مثل الإشارة بتاغ mentions@ والمُشرِفين. سَتتمُّ دعوة الأعضاء الذين لم يشاركوا اسمهم أو صورتهم في هذه المجموعة للانضمام. <learnMoreLink>اعرف المزيد.</learnMoreLink>"
   },
@@ -4655,6 +4715,9 @@
   "icu:CompositionArea__ConfirmGifSelection__ReplaceButton": {
     "messageformat": "استبدال"
   },
+  "icu:CompositionArea--group-terminated": {
+    "messageformat": "لا يمكنك إرسال رسائل لأن المجموعة أُغلِقت."
+  },
   "icu:CompositionArea--viewOnceToggle": {
     "messageformat": "عرض لمرة واحدة"
   },
@@ -4832,11 +4895,26 @@
   "icu:ConversationDetailsActions--leave-group": {
     "messageformat": "مغادرة المجموعة"
   },
+  "icu:ConversationDetailsActions--terminate-group": {
+    "messageformat": "إنهاء المجموعة"
+  },
   "icu:ConversationDetailsActions--block-group": {
     "messageformat": "حظر المجموعة"
   },
   "icu:ConversationDetailsActions--unblock-group": {
     "messageformat": "رفع حَظر المجموعة"
+  },
+  "icu:ConversationDetailsActions--report-spam": {
+    "messageformat": "الإبلاغ"
+  },
+  "icu:ConversationDetailsActions--archive": {
+    "messageformat": "أرشفة الدردشة"
+  },
+  "icu:ConversationDetailsActions--unarchive": {
+    "messageformat": "إلغاء أرشفة الدردشة"
+  },
+  "icu:ConversationDetailsActions--delete": {
+    "messageformat": "حذف الدردشة"
   },
   "icu:ConversationDetailsActions--leave-group-must-choose-new-admin": {
     "messageformat": "قبل أن تغادر، يجب عليك أن تختار على الأقل مُشرِفًا واحدًا لهذه المجموعة."
@@ -4849,6 +4927,18 @@
   },
   "icu:ConversationDetailsActions--leave-group-modal-confirm": {
     "messageformat": "مغادرة"
+  },
+  "icu:ConversationDetailsActions--prompt-terminate-group-modal-title": {
+    "messageformat": "هل ترغبُ بإنهاء \"{groupName}\"؟"
+  },
+  "icu:ConversationDetailsActions--prompt-terminate-group-modal-content": {
+    "messageformat": "لن يبقى بإمكان الأعضاء إرسال الرسائل أو بدء مكالمات في المجموعة. سَيتم إشعارهم أنك أنهيت المجموعة، وسَيبقى بإمكانهم الوصول إلى سِجل الرسائل."
+  },
+  "icu:ConversationDetailsActions--terminate-group-modal-confirm": {
+    "messageformat": "إنهاء المجموعة"
+  },
+  "icu:ConversationDetailsActions--confirm-terminate-group-confirm-modal-content": {
+    "messageformat": "سيُنهي هذا المجموعة بصفة نهائية. هل أنت مُتأكِّد من أنك تريد المواصلة؟"
   },
   "icu:ConversationDetailsActions--unblock-group-modal-title": {
     "messageformat": "هل تريد إلغاء الحظر على مجموعة \"{groupName}\"؟"
@@ -4868,6 +4958,18 @@
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "رفع الحظر"
   },
+  "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
+    "messageformat": "سَيتم إشعار سيجنال أن هذا الشخص قد يكون أرسل رسائل غير مرغوب فيها. لا يُمكن لسيجنال رؤية محتوى أي دردشات."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-group": {
+    "messageformat": "سَيتم إشعار سيجنال بأن الشخص، الذي دعاك للانضمام إلى هذه المجموعة، قد يكون أرسل رسائل غير مرغوب فيها. لا يُمكن لسيجنال رؤية محتوى أي دردشات."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
+    "messageformat": "الإبلاغ"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
+    "messageformat": "الإبلاغ والحظر"
+  },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, zero {{number,number} عضو} one {{number,number} عضو} two {{number,number} عضوان} few {{number,number} أعضاء} many {{number,number} عضوًا} other {{number,number} عضوٍ}}"
   },
@@ -4876,6 +4978,9 @@
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, zero {{number,number} عضو} one {{number,number} عضو} two {{number,number} عضوان} few {{number,number} أعضاء} many {{number,number} عضوًا} other {{number,number} عضوٍ}}"
+  },
+  "icu:ConversationDetailsMembershipList--terminated-title": {
+    "messageformat": "{number, plural, zero {{number,number} أعضاء سابقين} one {{number,number} عضو سابق} two {{number,number} عضوان سابقين} few {{number,number} أعضاء سابقين} many {{number,number} عضوًا سابقًا} other {{number,number} عضو سابق}}"
   },
   "icu:ConversationDetailsMembershipList--add-members": {
     "messageformat": "إضافة أعضاء"
@@ -5059,7 +5164,7 @@
     "ignoreUnused": true
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
-    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, zero {سيرى أعضاء المجموعة الذين يستخدمون آخر الإصدارات من سيجنال أنك حذفت هذه الرسائل.} one {سيرى أعضاء المجموعة الذين يستخدمون آخر الإصدارات من سيجنال أنك حذفت هذه الرسالة.} two {سيرى أعضاء المجموعة الذين يستخدمون آخر الإصدارات من سيجنال أنك حذفت هتين الرسالتين.} few {سيرى أعضاء المجموعة الذين يستخدمون آخر الإصدارات من سيجنال أنك حذفت هذه الرسائل.} many {سيرى أعضاء المجموعة الذين يستخدمون آخر الإصدارات من سيجنال أنك حذفت هذه الرسائل.} other {سيرى أعضاء المجموعة الذين يستخدمون آخر الإصدارات من سيجنال أنك حذفت هذه الرسائل.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "احذف من كل الأجهزة"
@@ -5195,6 +5300,9 @@
   },
   "icu:MessageRequestWarning__safety-tips": {
     "messageformat": "نصائح السلامة"
+  },
+  "icu:MessageRequestWarning__safety-tips-v2": {
+    "messageformat": "Safety tips"
   },
   "icu:ContactSpoofing__same-name--link": {
     "messageformat": "مراجعة الطلبات بعناية. وجد سيجنال جهة اتصال أخرى بنفس الاسم. <reviewRequestLink>مُراجعة الطلب</reviewRequestLink>"
@@ -5797,6 +5905,15 @@
   "icu:Preferences__link-previews--description": {
     "messageformat": "‫لتعديل هذا الإعداد، يُرجى فتح تطبيق سيجنال في جهازك المحمول ثم الانتقال إلى \"الإعدادات\" ثم \"الدردشات\"."
   },
+  "icu:Preferences__link-previews--new-description": {
+    "messageformat": "Retrieve link previews directly from websites for messages you send."
+  },
+  "icu:Preferences__address-book-photos--title": {
+    "messageformat": "Use address book photos"
+  },
+  "icu:Preferences__address-book-photos--description": {
+    "messageformat": "Display contact photos from your address book if available."
+  },
   "icu:Preferences__auto-convert-emoji--title": {
     "messageformat": "تحويل الأيقونات التعبيرية المكتوبة إلى رموز تعبيرية (إيموجي)"
   },
@@ -6232,35 +6349,35 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "تمّ"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "عرض مفتاح النسخ الاحتياطي"
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
+    "messageformat": "إظهار مفتاح الاستعادة الخاص بك"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "تحقَّق من هويتك لعرض مفتاح النسخ الاحتياطي الخاص بك."
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
+    "messageformat": "تحقَّق من هويتك لعرض مفتاح الاستعادة الخاص بك."
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "عرض مفتاح النسخة الاحتياطية"
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
+    "messageformat": "عرض مفتاح الاستعادة"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "المصادقة مطلوبة لعرض مفتاح النسخ الاحتياطي."
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
+    "messageformat": "المصادقة مطلوبة لعرض مفتاح الاستعادة الخاص بك."
   },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "مربع نص مفتاح النسخة الاحتياطية"
+  "icu:Preferences--local-backups-recovery-key-text-box": {
+    "messageformat": "مفتاح الاستعادة"
   },
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "أدخِل المفتاح"
   },
-  "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "احتفِظ بنسخة عن مفتاح النسخة الاحتياطية الخاص بك."
+  "icu:Preferences--local-backups-record-recovery-key": {
+    "messageformat": "قُم بتسجيل مفتاح الاستعادة الخاص بك"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "هذا المفتاح مطلوب لاسترجاع بياناتك وحسابك. احتفِظ بهذا المفتاح في مكانٍ آمن. إذا فقدته، لن تتمكّن من استرجاع حسابك. <learnMoreLink>اعرف المزيد.</learnMoreLink>"
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "تأكَّد من مفتاح نسختك الاحتياطية"
+  "icu:Preferences--local-backups-confirm-recovery-key": {
+    "messageformat": "قُم بتأكيد مفتاح الاستعادة الخاص بك"
   },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "أدخِل مفتاح النسخة الاحتياطية الذي سجّلته للتو"
+  "icu:Preferences--local-backups-confirm-recovery-key-description": {
+    "messageformat": "أدخِل مفتاح الاستعادة الذي سجّلته للتو"
   },
   "icu:Preferences__local-backups-confirm-key-modal-title": {
     "messageformat": "حافِظ على مفتاحك في مكانٍ آمن."
@@ -6286,26 +6403,23 @@
   "icu:Preferences__local-backups-folder": {
     "messageformat": "مجلد النسخ الاحتياطية"
   },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "تغيير"
-  },
   "icu:Preferences__local-backups-turn-off": {
-    "messageformat": "Turn off backups"
+    "messageformat": "إيقاف النسخ الاحتياطية"
   },
   "icu:Preferences__local-backups-turn-off-action": {
-    "messageformat": "Turn off"
+    "messageformat": "إيقاف"
   },
   "icu:Preferences__local-backups-turn-off-confirmation": {
-    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+    "messageformat": "لن تبقى قادرًا على إنشاء نسخ احتياطية على هذا الحاسوب دون إعادة التفعيل."
   },
   "icu:Preferences__local-backups-turn-off-delete": {
-    "messageformat": "Delete my backup from this computer"
+    "messageformat": "حذف نسختي الاحتياطية من هذا الحاسوب"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "نسخ إلى الحافظة"
   },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "تمَّ نسخ مفتاح النسخ الاحتياطي"
+  "icu:Preferences__local-backups-copied-recovery-key": {
+    "messageformat": "تمَّ نسخ مفتاح الاستعادة"
   },
   "icu:Preferences__local-backups--enable--os-prompt--mac": {
     "messageformat": "تفعيل النسخ الاحتياطية"
@@ -6319,17 +6433,29 @@
   "icu:Preferences__local-backups--enable--os-prompt-message--linux": {
     "messageformat": "المصادقة مطلوبة لتفعيل النسخ الاحتياطية."
   },
+  "icu:Preferences__local-backups-auth-error--unauthorized": {
+    "messageformat": "تعذّر إكمال هذا الإجراء بسبب فشل المصادقة. يُرجى المحاولة من جديد أو فتح تطبيق سيجنال على جهازك المحمول والانتقال إلى إعدادات النسخ الاحتياطي لعرض مفتاح الاستعادة الخاص بك."
+  },
   "icu:Preferences__view-key": {
     "messageformat": "عرض المفتاح"
   },
-  "icu:Preferences__backup-key": {
-    "messageformat": "مفتاح النسخة الاحتياطية"
+  "icu:Preferences__recovery-key": {
+    "messageformat": "مفتاح الاستعادة"
   },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "مفتاح النسخ الاحتياطي الخاص بك هو عبارة عن كود مُكوَّن من 64 رقمًا، ويُستخدَم لاستعادة نسختك الاحتياطية."
+  "icu:Preferences__recovery-key-description": {
+    "messageformat": "مفتاح الاستعادة هو عبارة عن كود مُكوَّن من 64 رمزًا، ويُستخدَم لاستعادة نسختك الاحتياطية"
   },
   "icu:Preferences__backup-other-ways": {
     "messageformat": "طرق أخرى للنسخ الاحتياطي"
+  },
+  "icu:Preferences__recovery-key-updated__title": {
+    "messageformat": "تغيَّر مفتاح الاستعادة الخاص بك."
+  },
+  "icu:Preferences__recovery-key-updated__description": {
+    "messageformat": "تمَّ تحديث مفتاح الاستعادة الخاص بك. لا يمكن استعادة أي نسخ احتياطية جديدة تصنعها إلّا باستخدام مفتاح الاستعادة الخاص بك."
+  },
+  "icu:Preferences__recovery-key-updated__view-key": {
+    "messageformat": "عرض المفتاح الجديد"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, zero {{num,number} جهات اتصال} one {{num,number} جهة اتصال} two {{num,number} جهتيْ اتصال} few {{num,number} جهات اتصال} many {{num,number} جهة اتصال} other {{num,number} جهة اتصال}}"
@@ -6394,8 +6520,14 @@
   "icu:Preferences--read-receipts": {
     "messageformat": "إيصالات تأكيد القراءة"
   },
+  "icu:Preferences--read-receipts--description": {
+    "messageformat": "If disabled, you won't see read receipts from others."
+  },
   "icu:Preferences--typing-indicators": {
     "messageformat": "مؤشِّرات الكتابة"
+  },
+  "icu:Preferences--typing-indicators--description": {
+    "messageformat": "If disabled, you won't see typing indicators from others."
   },
   "icu:Preferences--updates": {
     "messageformat": "التحديثات"
@@ -6682,6 +6814,9 @@
   "icu:MyStories__delete": {
     "messageformat": "‫هل ترغبُ بحذف هذه القصة؟ سَتُحذَف أيضًا من عند جميع من استلموها."
   },
+  "icu:MyStories__delete-group-story-for-me": {
+    "messageformat": "هل ترغبُ بحذف هذه القصة؟ ستُحذَف لديك فقط لأن المجموعة أُغلِقت."
+  },
   "icu:payment-event-notification-message-you-label": {
     "messageformat": "بدأتَ بعملية الدفع لـ {receiver}"
   },
@@ -6827,7 +6962,7 @@
     "messageformat": "إعدادات خصوصية القصة"
   },
   "icu:StoriesSettings__description": {
-    "messageformat": "تختفي القصص تلقائيًا بعد 24 ساعة. اختر من يمكنه مشاهدة قصتك أو إنشاء قصص جديدة مع مشاهدين أو مجموعات معينة."
+    "messageformat": "تختفي القصص تلقائيًا بعد 24 ساعة. اختر من يمكنه مشاهدة قصتك أو أنشِئ قصص جديدة مع مشاهدين أو مجموعات معينة."
   },
   "icu:StoriesSettings__my_stories": {
     "messageformat": "قِصصي"
@@ -6903,6 +7038,9 @@
   },
   "icu:StoriesSettings__view-receipts--label": {
     "messageformat": "عرض إيصالات القراءة"
+  },
+  "icu:StoriesSettings__view-receipts--new-description": {
+    "messageformat": "See and share when stories are viewed. If disabled, you won't see when others view your story."
   },
   "icu:StoriesSettings__view-receipts--description": {
     "messageformat": "‫لتعديل هذا الإعداد، افتح تطبيق سيجنال في جهاز الهاتف المحمول ثم الذهاب إلى الإعدادات -> القصص"
@@ -7553,6 +7691,18 @@
   "icu:ProfileNameWarningModal__list--item3--direct": {
     "messageformat": "لا تشارِك معلومات شخصية مع أشخاص لا تعرفهم"
   },
+  "icu:ProfileNameWarningModal__warning--signal-cant-verify": {
+    "messageformat": "Signal can’t verify names and photos"
+  },
+  "icu:ProfileNameWarningModal__warning--signal-wont-contact": {
+    "messageformat": "Signal will never contact you for your registration code, PIN, or recovery key"
+  },
+  "icu:ProfileNameWarningModal__warning--be-cautious": {
+    "messageformat": "Be cautious of accounts that impersonate others"
+  },
+  "icu:ProfileNameWarningModal__warning--dont-share-info": {
+    "messageformat": "Don't share personal information with people you don't know"
+  },
   "icu:ProfileNameWarningModal__description--group": {
     "messageformat": "يقوم أصحاب المجموعات باختيار أسماء المجموعات."
   },
@@ -7578,7 +7728,7 @@
     "messageformat": "تبرَّع لدعم المراسلة الخصوصية. ساعِد في إبقاء سيجنال مستقلًا وخاليًا من الإعلانات. <readMoreLink>اقرأ المزيد</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
-    "messageformat": "التبرُّع"
+    "messageformat": "تبرَّع"
   },
   "icu:PreferencesDonations__my-support": {
     "messageformat": "الدعم الخاص بي"
@@ -7602,7 +7752,7 @@
     "messageformat": "<paragraph>لا يقوم سيجنال بجمع أو تخزين معلوماتك الشخصية عند قيامك بتبرُّع.</paragraph><paragraph>نستخدم Stripe كمعالج عمليات الدفع الخاصة بنا لتلقي تبرُّعاتك. لا يُمكننا الوصول إلى أو تخزين أو حفظ أي من المعلومات التي تُقدمها.</paragraph><paragraph>لا يقوم تطبيق سيجنال ولا يمكنه ربط تبرُّعاتك بحسابك على سيجنال.</paragraph><paragraph>شكرًا لدعمك!</paragraph>"
   },
   "icu:PreferencesDonations__privacy-modal-intro": {
-    "messageformat": "بصفتها شركة غير ربحية،  سيجنال مُلتزمة بدعم المراسلة والمكالمات الخاصة. بدون إعلانات، وبدون تعقُّب، وبدون مراقبة. تبرَّع اليوم لدعم سيجنال."
+    "messageformat": "بصفتها شركة غير ربحية، سيجنال مُلتزمة بدعم المراسلة والمكالمات الخاصة. بدون إعلانات، وبدون تعقُّب، وبدون مراقبة. تبرَّع اليوم لدعم سيجنال."
   },
   "icu:PreferencesDonations__privacy-modal-list-1": {
     "messageformat": "احصل على شارة اختيارية على حسابك الشخصي عند التبرُّع."
@@ -8015,17 +8165,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "تعديلات صغيرة، وإصلاح أعطال، وتحسينات للأداء. شكرًا على استخدامك سيجنال!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__7.90--0": {
-    "messageformat": "• خمس حزم مُلصَقات رسمية جديدة للفنانين."
-  },
-  "icu:WhatsNew__8.0--0": {
-    "messageformat": "النسخ الاحتياطية الآمنة لسيجنال أصبحت متوفِّرة الآن! يُمكنك الآن اختيار تفعيل النسخ الاحتياطي التلقائي والمُشفَّر تمامًا من طرف إلى طرف، لِضمان عدم فقدان أي رسالة عند اقتناء هاتف جديد أو إعادة تثبيت سيجنال. يُمكنك إجراء نسخ احتياطي لجميع رسائلك وللوسائط الخاصة بآخر 45 يومًا مجانًا، أو يمكنك دفع رسوم شهرية بسيطة للحصول على مساحة 100 جيجابايت لنسخ كافة الملفات المُرفَقة. انقر على النسخ الاحتياطية في إعدادات سيجنال للبدء. شكرًا لِكل من ساهم في اختبار هذه الميزة خلال الفترة التجريبية!"
-  },
-  "icu:WhatsNew__8.2--0": {
-    "messageformat": "يمكنك الآن إرسال ملف وسائط للعرض لمرّة واحدة عبر سيجنال Desktop أيضًا. يتم حذف الصور ومقاطع الفيديو المُرسَلة كرسائل تُعرض لمرّة واحدة تلقائيًا من المحادثة بعد مشاهدتها."
-  },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "يمكنك الآن إضافة دور عضو بشكل اختياري لتصِف نفسك أو دورك في دردشة جماعية. عيِّن دور عضو المجموعة إلى \"حكم\" أو \"حارس مرمى\" في دردشة دوري كرة القدم المحلي للمساعدة على كسر الجليد عند انضمام زملاء جُدُد، ثم اختر دور مختلف يعكس مُسمَّاك الوظيفي في دردشة الشركة. تظهر أدوار الأعضاء بجوار اسم الحساب الشخصي الخاص بك في تلك المجموعة، ويمكن لِمُشرِفي المجموعات التحكُّم فيما إذا ستكون مُفعَّلة للجميع."
   }
 }

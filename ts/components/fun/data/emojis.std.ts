@@ -1,25 +1,20 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import { z } from 'zod';
 import emojiRegex from 'emoji-regex';
-import { strictAssert } from '../../../util/assert.std.js';
-import { parseUnknown } from '../../../util/schemas.std.js';
+import { strictAssert } from '../../../util/assert.std.ts';
 import type {
   FunEmojiSearchIndex,
   FunEmojiSearchIndexEntry,
-} from '../useFunEmojiSearch.dom.js';
-import type { FunEmojiLocalizerIndex } from '../useFunEmojiLocalizer.dom.js';
-import { removeDiacritics } from '../../../util/removeDiacritics.std.js';
-import { createLogger } from '../../../logging/log.std.js';
-import { EmojiSkinTone } from '../../../types/emoji.std.js';
+} from '../useFunEmojiSearch.dom.tsx';
+import type { FunEmojiLocalizerIndex } from '../useFunEmojiLocalizer.dom.tsx';
+import { removeDiacritics } from '../../../util/removeDiacritics.std.ts';
+import { createLogger } from '../../../logging/log.std.ts';
+import { EmojiSkinTone } from '../../../types/emoji.std.ts';
+import RAW_EMOJI_DATA from 'emoji-datasource';
 
-export { EmojiSkinTone } from '../../../types/emoji.std.js';
+export { EmojiSkinTone } from '../../../types/emoji.std.ts';
 
 const log = createLogger('fun/data/emojis');
-
-// Import emoji-datasource dynamically to avoid costly typechecking.
-// eslint-disable-next-line import/no-dynamic-require, @typescript-eslint/no-var-requires
-const RAW_UNTYPED_DATA: unknown = require('emoji-datasource' as string);
 
 /**
  * Types
@@ -66,31 +61,12 @@ export const EMOJI_SKIN_TONE_ORDER: ReadonlyArray<EmojiSkinTone> = [
 ];
 
 /** @deprecated We should use `EmojiSkinTone` everywhere */
-export const EMOJI_SKIN_TONE_TO_NUMBER: Map<EmojiSkinTone, number> = new Map([
-  [EmojiSkinTone.None, 0],
-  [EmojiSkinTone.Type1, 1],
-  [EmojiSkinTone.Type2, 2],
-  [EmojiSkinTone.Type3, 3],
-  [EmojiSkinTone.Type4, 4],
-  [EmojiSkinTone.Type5, 5],
-]);
-
-/** @deprecated We should use `EmojiSkinTone` everywhere */
-export const KEY_TO_EMOJI_SKIN_TONE = new Map<string, EmojiSkinTone>([
+const KEY_TO_EMOJI_SKIN_TONE = new Map<string, EmojiSkinTone>([
   ['1F3FB', EmojiSkinTone.Type1],
   ['1F3FC', EmojiSkinTone.Type2],
   ['1F3FD', EmojiSkinTone.Type3],
   ['1F3FE', EmojiSkinTone.Type4],
   ['1F3FF', EmojiSkinTone.Type5],
-]);
-
-/** @deprecated We should use `EmojiSkinTone` everywhere */
-export const EMOJI_SKIN_TONE_TO_KEY: Map<EmojiSkinTone, string> = new Map([
-  [EmojiSkinTone.Type1, '1F3FB'],
-  [EmojiSkinTone.Type2, '1F3FC'],
-  [EmojiSkinTone.Type3, '1F3FD'],
-  [EmojiSkinTone.Type4, '1F3FE'],
-  [EmojiSkinTone.Type5, '1F3FF'],
 ]);
 
 export type EmojiParentKey = string & { EmojiParentKey: never };
@@ -131,31 +107,6 @@ export type EmojiParentData = Readonly<{
 /**
  * Schemas
  */
-
-const RawEmojiSkinToneSchema = z.object({
-  unified: z.string(),
-  non_qualified: z.union([z.string(), z.null()]),
-  sheet_x: z.number(),
-  sheet_y: z.number(),
-  has_img_apple: z.boolean(),
-});
-
-const RawEmojiSkinToneMapSchema = z.record(z.string(), RawEmojiSkinToneSchema);
-
-const RawEmojiSchema = z.object({
-  unified: z.string(),
-  non_qualified: z.union([z.string(), z.null()]),
-  category: z.string(),
-  sort_order: z.number(),
-  sheet_x: z.number(),
-  sheet_y: z.number(),
-  has_img_apple: z.boolean(),
-  short_name: z.string(),
-  short_names: z.array(z.string()),
-  text: z.nullable(z.string()),
-  texts: z.nullable(z.array(z.string())),
-  skin_variations: RawEmojiSkinToneMapSchema.optional(),
-});
 
 const RAW_UNICODE_CATEGORY_MAP: Record<string, EmojiUnicodeCategory> = {
   'Smileys & Emotion': EmojiUnicodeCategory.SmileysAndEmotion,
@@ -274,13 +225,6 @@ const UNICODE_DEPRECATED_EMOJI = new Set<EmojiParentValue>([
   `${MAN}${ZWJ}${MAN}${ZWJ}${GIRL}${ZWJ}${BOY}`,
   `${MAN}${ZWJ}${MAN}${ZWJ}${BOY}${ZWJ}${BOY}`,
 ] as Array<EmojiParentValue>);
-
-const RAW_EMOJI_DATA = parseUnknown(
-  z.array(RawEmojiSchema),
-  RAW_UNTYPED_DATA
-).sort((a, b) => {
-  return a.sort_order - b.sort_order;
-});
 
 /** @internal */
 type EmojiIndex = Readonly<{
@@ -402,7 +346,11 @@ function addVariant(parentKey: EmojiParentKey, variant: EmojiVariantData) {
   }
 }
 
-for (const rawEmoji of RAW_EMOJI_DATA) {
+const SORTED_EMOJI_DATA = RAW_EMOJI_DATA.toSorted((a, b) => {
+  return a.sort_order - b.sort_order;
+});
+
+for (const rawEmoji of SORTED_EMOJI_DATA) {
   if (!rawEmoji.has_img_apple) {
     continue;
   }
@@ -453,7 +401,9 @@ for (const rawEmoji of RAW_EMOJI_DATA) {
       const variantKey = one ?? two;
       if (variantKey == null) {
         const keys = Object.keys(rawEmoji.skin_variations);
-        throw new Error(`Missing variant key ${parentKey} -> ${key} (${keys})`);
+        throw new Error(
+          `Missing variant key ${parentKey} -> ${key} (${keys.join(', ')})`
+        );
       }
       result[skinTone] = variantKey;
       EMOJI_INDEX.variantKeyToSkinTone.set(variantKey, skinTone);
@@ -488,10 +438,6 @@ export function getEmojiDebugLabel(input: string): string {
     const hex = num.toString(16).toUpperCase().padStart(4, '0');
     return `U+${hex}`;
   }).join(' ');
-}
-
-export function isEmojiParentKey(input: string): input is EmojiParentKey {
-  return EMOJI_INDEX.parentByKey.has(input as EmojiParentKey);
 }
 
 export function isEmojiParentValueDeprecated(input: EmojiParentValue): boolean {
@@ -559,14 +505,6 @@ export function getEmojiParentKeyByVariantKey(
   return parentKey;
 }
 
-export function getEmojiUnicodeCategoryParentKeys(
-  category: EmojiUnicodeCategory
-): ReadonlyArray<EmojiParentKey> {
-  const parents = EMOJI_INDEX.unicodeCategories[category];
-  strictAssert(parents, `Missing category emojis for ${category}`);
-  return parents;
-}
-
 export function getEmojiPickerCategoryParentKeys(
   category: EmojiPickerCategory
 ): ReadonlyArray<EmojiParentKey> {
@@ -604,12 +542,6 @@ export function getEmojiVariantByParentKeyAndSkinTone(
   );
 }
 
-export function getEmojiSkinToneByVariantKey(
-  variantKey: EmojiVariantKey
-): EmojiSkinTone {
-  return EMOJI_INDEX.variantKeyToSkinTone.get(variantKey) ?? EmojiSkinTone.None;
-}
-
 /** @deprecated */
 export function getEmojiParentKeyByEnglishShortName(
   englishShortName: EmojiEnglishShortName
@@ -627,7 +559,7 @@ export function getEmojiDefaultEnglishLocalizerIndex(): FunEmojiLocalizerIndex {
   return EMOJI_INDEX.defaultEnglishLocalizerIndex;
 }
 
-/** Exported for testing */
+/** @testexport */
 export function _getAllEmojiVariantKeys(): Iterable<EmojiVariantKey> {
   return EMOJI_INDEX.variantByKey.keys();
 }
@@ -705,12 +637,6 @@ export function normalizeShortNameCompletionQuery(query: string): string {
 export function isSafeEmojifyEmoji(value: string): value is EmojiVariantValue {
   return isEmojiVariantValue(value) && !isEmojiVariantValueNonQualified(value);
 }
-
-export type EmojiSpan = Readonly<{
-  index: number;
-  length: number;
-  emoji: EmojiVariantValue;
-}>;
 
 export type EmojifyData = Readonly<{
   text: string;

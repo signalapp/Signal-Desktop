@@ -1,22 +1,20 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* eslint-disable @typescript-eslint/no-namespace */
-
 import lodash from 'lodash';
 import * as z from 'zod';
 
-import { SignalService as Proto } from '../protobuf/index.std.js';
-import { createLogger } from '../logging/log.std.js';
-import { missingCaseError } from '../util/missingCaseError.std.js';
-import { isNotNil } from '../util/isNotNil.std.js';
+import { SignalService as Proto } from '../protobuf/index.std.ts';
+import { createLogger } from '../logging/log.std.ts';
+import { missingCaseError } from '../util/missingCaseError.std.ts';
+import { isNotNil } from '../util/isNotNil.std.ts';
 import {
   SNIPPET_LEFT_PLACEHOLDER,
   SNIPPET_RIGHT_PLACEHOLDER,
   SNIPPET_TRUNCATION_PLACEHOLDER,
-} from '../util/search.std.js';
-import { assertDev } from '../util/assert.std.js';
-import { aciSchema, type AciString } from './ServiceId.std.js';
+} from '../util/search.std.ts';
+import { assertDev } from '../util/assert.std.ts';
+import { aciSchema, type AciString } from './ServiceId.std.ts';
 import { signalservice } from '../protobuf/compiled.std.js';
 
 const { isEqual, isNumber, omit, orderBy, partition } = lodash;
@@ -37,7 +35,6 @@ export enum DisplayStyle {
   SearchKeywordHighlight = 'SearchKeywordHighlight',
 }
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export namespace BodyRange {
   // re-export for convenience
   export type Style = Proto.BodyRange.Style;
@@ -258,6 +255,7 @@ export function insertRange(
     ];
   }
 
+  // oxlint-disable-next-line typescript/no-base-to-string, typescript/restrict-template-expressions
   log.error(`MessageTextRenderer: unhandled range ${range}`);
   throw new Error('unhandled range');
 }
@@ -546,7 +544,7 @@ export function processBodyRangesForSearchResult({
   };
 }
 
-export const SPOILER_REPLACEMENT = '■■■■';
+const SPOILER_REPLACEMENT = '■■■■';
 
 /**
  * Replace text in a string at a given range, returning the new string. The

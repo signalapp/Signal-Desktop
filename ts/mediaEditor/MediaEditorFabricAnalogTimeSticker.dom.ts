@@ -3,10 +3,10 @@
 
 import lodash from 'lodash';
 import { fabric } from 'fabric';
-import { customFabricObjectControls } from './util/customFabricObjectControls.dom.js';
-import { getAnalogTime } from '../util/getAnalogTime.std.js';
-import { strictAssert } from '../util/assert.std.js';
-import { moreStyles } from './util/moreStyles.dom.js';
+import { customFabricObjectControls } from './util/customFabricObjectControls.dom.ts';
+import { getAnalogTime } from '../util/getAnalogTime.std.ts';
+import { strictAssert } from '../util/assert.std.ts';
+import { moreStyles } from './util/moreStyles.dom.ts';
 
 const { get } = lodash;
 
@@ -248,8 +248,7 @@ export class MediaEditorFabricAnalogTimeSticker extends fabric.Image {
   }
 
   static fromObject(
-    // eslint-disable-next-line max-len
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
+    // oxlint-disable-next-line typescript/no-explicit-any, typescript/explicit-module-boundary-types
     options: any,
     callback: (_: MediaEditorFabricAnalogTimeSticker) => unknown
   ): void {

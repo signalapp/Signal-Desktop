@@ -1,9 +1,6 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-// NOTE: Temporarily allow `then` until we convert the entire file to `async` / `await`:
-/* eslint-disable more/no-then */
-
 import * as fs from 'node:fs';
 import * as fse from 'fs-extra';
 import * as os from 'node:os';
@@ -16,7 +13,7 @@ import {
   isLineAfterDate,
   fetchLog,
   fetchLogs,
-} from '../logging/main_process_logging.main.js';
+} from '../logging/main_process_logging.main.ts';
 
 describe('logging', () => {
   const fakeLogEntry = ({
@@ -87,6 +84,7 @@ describe('logging', () => {
       const target = path.join(tmpDir, 'log.log');
       fs.writeFileSync(target, log);
 
+      // oxlint-disable-next-line signal-desktop/no-then
       return eliminateOutOfDateFiles(tmpDir, date).then(() => {
         assert.isFalse(fs.existsSync(target));
       });
@@ -97,6 +95,7 @@ describe('logging', () => {
       const target = path.join(tmpDir, 'log.log');
       fs.writeFileSync(target, log);
 
+      // oxlint-disable-next-line signal-desktop/no-then
       return eliminateOutOfDateFiles(tmpDir, date).then(() => {
         assert.isFalse(fs.existsSync(target));
       });
@@ -112,6 +111,7 @@ describe('logging', () => {
       const target = path.join(tmpDir, 'log.log');
       fs.writeFileSync(target, contents);
 
+      // oxlint-disable-next-line signal-desktop/no-then
       return eliminateOutOfDateFiles(tmpDir, date).then(() => {
         assert.isFalse(fs.existsSync(target));
       });
@@ -127,6 +127,7 @@ describe('logging', () => {
       const target = path.join(tmpDir, 'log.log');
       fs.writeFileSync(target, contents);
 
+      // oxlint-disable-next-line signal-desktop/no-then
       return eliminateOutOfDateFiles(tmpDir, date).then(() => {
         assert.isTrue(fs.existsSync(target));
       });
@@ -142,6 +143,7 @@ describe('logging', () => {
       const target = path.join(tmpDir, 'log.log');
       fs.writeFileSync(target, contents);
 
+      // oxlint-disable-next-line signal-desktop/no-then
       return eliminateOutOfDateFiles(tmpDir, date).then(() => {
         assert.isTrue(fs.existsSync(target));
       });
@@ -172,6 +174,7 @@ describe('logging', () => {
 
       fs.writeFileSync(target, contents);
 
+      // oxlint-disable-next-line signal-desktop/no-then
       return eliminateOldEntries(files, date).then(() => {
         const actualEntries = fs
           .readFileSync(target, 'utf8')
@@ -201,6 +204,7 @@ describe('logging', () => {
 
       fs.writeFileSync(target, contents);
 
+      // oxlint-disable-next-line signal-desktop/no-then
       return eliminateOldEntries(files, date).then(() => {
         // There should only be 1 line, so we can parse it safely.
         assert.deepStrictEqual(
@@ -214,6 +218,7 @@ describe('logging', () => {
   describe('#fetchLog', () => {
     it('returns error if file does not exist', () => {
       const target = 'random_file';
+      // oxlint-disable-next-line signal-desktop/no-then
       return fetchLog(target).then(
         () => {
           throw new Error('Expected an error!');
@@ -229,6 +234,7 @@ describe('logging', () => {
 
       fs.writeFileSync(target, contents);
 
+      // oxlint-disable-next-line signal-desktop/no-then
       return fetchLog(target).then(result => {
         assert.isEmpty(result);
       });
@@ -268,6 +274,7 @@ describe('logging', () => {
 
       fs.writeFileSync(target, contents);
 
+      // oxlint-disable-next-line signal-desktop/no-then
       return fetchLog(target).then(result => {
         assert.deepStrictEqual(result, expected);
       });
@@ -276,6 +283,7 @@ describe('logging', () => {
 
   describe('#fetchLogs', () => {
     it('returns single entry if no files', () => {
+      // oxlint-disable-next-line signal-desktop/no-then
       return fetchLogs(tmpDir).then(results => {
         assert.lengthOf(results, 1);
         assert.match(results[0]?.msg || '', /Loaded this list/);
@@ -295,6 +303,7 @@ describe('logging', () => {
       fs.writeFileSync(path.join(tmpDir, 'first.log'), first);
       fs.writeFileSync(path.join(tmpDir, 'second.log'), second);
 
+      // oxlint-disable-next-line signal-desktop/no-then
       return fetchLogs(tmpDir).then(results => {
         assert.lengthOf(results, 4);
         assert.strictEqual(results[0]?.msg, '1');

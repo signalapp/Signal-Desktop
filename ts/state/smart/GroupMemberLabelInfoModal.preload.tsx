@@ -3,19 +3,19 @@
 import React, { memo } from 'react';
 import { useSelector } from 'react-redux';
 
-import { GroupMemberLabelInfoModal } from '../../components/GroupMemberLabelInfoModal.dom.js';
-import { getIntl, getUser, getVersion } from '../selectors/user.std.js';
-import { getGroupMemberLabelInfoModalState } from '../selectors/globalModals.std.js';
-import { getConversationSelector } from '../selectors/conversations.dom.js';
-import { useGlobalModalActions } from '../ducks/globalModals.preload.js';
-import { getItems } from '../selectors/items.dom.js';
-import { isFeaturedEnabledSelector } from '../../util/isFeatureEnabled.dom.js';
-import { getCanAddLabel } from '../../types/GroupMemberLabels.std.js';
-import { useNavActions } from '../ducks/nav.std.js';
-import { NavTab } from '../../types/Nav.std.js';
-import { PanelType } from '../../types/Panels.std.js';
-import { getSelectedLocation } from '../selectors/nav.std.js';
-import { getLeafPanelOnly } from '../../components/conversation/conversation-details/GroupMemberLabelEditor.dom.js';
+import { GroupMemberLabelInfoModal } from '../../components/GroupMemberLabelInfoModal.dom.tsx';
+import { getIntl, getUser, getVersion } from '../selectors/user.std.ts';
+import { getGroupMemberLabelInfoModalState } from '../selectors/globalModals.std.ts';
+import { getConversationSelector } from '../selectors/conversations.dom.ts';
+import { useGlobalModalActions } from '../ducks/globalModals.preload.ts';
+import { getItems } from '../selectors/items.dom.ts';
+import { isFeaturedEnabledSelector } from '../../util/isFeatureEnabled.dom.ts';
+import { getCanAddLabel } from '../../types/GroupMemberLabels.std.ts';
+import { useNavActions } from '../ducks/nav.std.ts';
+import { NavTab } from '../../types/Nav.std.ts';
+import { PanelType } from '../../types/Panels.std.ts';
+import { getSelectedLocation } from '../selectors/nav.std.ts';
+import { getLeafPanelOnly } from '../../components/conversation/conversation-details/GroupMemberLabelEditor.dom.tsx';
 
 export const SmartGroupMemberLabelInfoModal = memo(
   function SmartGroupMemberLabelInfoModal() {

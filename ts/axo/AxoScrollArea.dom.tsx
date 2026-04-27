@@ -2,13 +2,13 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import React, { memo, useMemo, useState } from 'react';
 import type { CSSProperties, FC, ReactNode } from 'react';
-import type { TailwindStyles } from './tw.dom.js';
-import { tw } from './tw.dom.js';
+import type { TailwindStyles } from './tw.dom.tsx';
+import { tw } from './tw.dom.tsx';
 import {
   createStrictContext,
   useStrictContext,
-} from './_internal/StrictContext.dom.js';
-import { AxoTooltip } from './AxoTooltip.dom.js';
+} from './_internal/StrictContext.dom.tsx';
+import { AxoTooltip } from './AxoTooltip.dom.tsx';
 
 const Namespace = 'AxoScrollArea';
 
@@ -21,7 +21,7 @@ type AxoScrollAreaOrientation = 'vertical' | 'horizontal' | 'both';
 const AxoScrollAreaOrientationContext =
   createStrictContext<AxoScrollAreaOrientation>(`${Namespace}.Root`);
 
-export function useAxoScrollAreaOrientation(): AxoScrollArea.Orientation {
+function useAxoScrollAreaOrientation(): AxoScrollArea.Orientation {
   return useStrictContext(AxoScrollAreaOrientationContext);
 }
 
@@ -100,7 +100,7 @@ export namespace AxoScrollArea {
       orientation = 'vertical',
       maxWidth,
       maxHeight,
-      scrollbarWidth = 'thin',
+      scrollbarWidth,
       scrollbarGutter = 'stable-both-edges',
       scrollbarVisibility = 'auto',
       scrollBehavior = 'auto',
@@ -341,28 +341,28 @@ export namespace AxoScrollArea {
       edgeYStyles,
       edgeStartStyles,
       'top-0',
-      'bg-gradient-to-b'
+      'bg-linear-to-b'
     ),
     bottom: tw(
       edgeStyles,
       edgeYStyles,
       edgeEndStyles,
       'bottom-0',
-      'bg-gradient-to-t'
+      'bg-linear-to-t'
     ),
     'inline-start': tw(
       edgeStyles,
       edgeXStyles,
       edgeStartStyles,
-      'start-0',
-      'bg-gradient-to-r rtl:bg-gradient-to-l'
+      'inset-s-0',
+      'bg-linear-to-r rtl:bg-linear-to-l'
     ),
     'inline-end': tw(
       edgeStyles,
       edgeXStyles,
       edgeEndStyles,
-      'end-0',
-      'bg-gradient-to-l rtl:bg-gradient-to-r'
+      'inset-e-0',
+      'bg-linear-to-l rtl:bg-linear-to-r'
     ),
   };
 

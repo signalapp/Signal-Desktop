@@ -5,8 +5,8 @@ import React from 'react';
 import { animated, useSpring } from '@react-spring/web';
 import lodash from 'lodash';
 import { v4 as uuid } from 'uuid';
-import { Emojify } from './conversation/Emojify.dom.js';
-import { useReducedMotion } from '../hooks/useReducedMotion.dom.js';
+import { Emojify } from './conversation/Emojify.dom.tsx';
+import { useReducedMotion } from '../hooks/useReducedMotion.dom.ts';
 
 const { random } = lodash;
 
@@ -40,7 +40,7 @@ export function CallReactionBurstEmoji({
     (index: number) => {
       return {
         key: uuid(),
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        // oxlint-disable-next-line typescript/no-non-null-assertion
         value: values[index % values.length]!,
         springConfig: {
           mass: random(10, 20),
@@ -116,7 +116,7 @@ type AnimatedEmojiProps = {
   onAnimationEnd?: () => unknown;
 };
 
-export function AnimatedEmoji({
+function AnimatedEmoji({
   value,
   fromRotate,
   fromX,

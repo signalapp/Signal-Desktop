@@ -4,20 +4,20 @@
 import { z } from 'zod';
 
 import type { ReadonlyMessageAttributesType } from '../model-types.d.ts';
-import * as Errors from '../types/errors.std.js';
-import { createLogger } from '../logging/log.std.js';
-import { GiftBadgeStates } from '../types/GiftBadgeStates.std.js';
-import { ReadStatus } from '../messages/MessageReadStatus.std.js';
-import { getMessageIdForLogging } from '../util/idForLogging.preload.js';
-import { getMessageSentTimestamp } from '../util/getMessageSentTimestamp.std.js';
-import { isIncoming } from '../state/selectors/message.preload.js';
-import { markViewed } from '../services/MessageUpdater.preload.js';
-import { notificationService } from '../services/notifications.preload.js';
-import { queueUpdateMessage } from '../util/messageBatcher.preload.js';
-import { isAciString } from '../util/isAciString.std.js';
-import { DataReader, DataWriter } from '../sql/Client.preload.js';
-import { MessageModel } from '../models/messages.preload.js';
-import { drop } from '../util/drop.std.js';
+import * as Errors from '../types/errors.std.ts';
+import { createLogger } from '../logging/log.std.ts';
+import { GiftBadgeStates } from '../types/GiftBadgeStates.std.ts';
+import { ReadStatus } from '../messages/MessageReadStatus.std.ts';
+import { getMessageIdForLogging } from '../util/idForLogging.preload.ts';
+import { getMessageSentTimestamp } from '../util/getMessageSentTimestamp.std.ts';
+import { isIncoming } from '../state/selectors/message.preload.ts';
+import { markViewed } from '../services/MessageUpdater.preload.ts';
+import { notificationService } from '../services/notifications.preload.ts';
+import { queueUpdateMessage } from '../util/messageBatcher.preload.ts';
+import { isAciString } from '../util/isAciString.std.ts';
+import { DataReader, DataWriter } from '../sql/Client.preload.ts';
+import { MessageModel } from '../models/messages.preload.ts';
+import { drop } from '../util/drop.std.ts';
 
 const log = createLogger('ViewSyncs');
 

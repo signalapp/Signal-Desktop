@@ -3,10 +3,12 @@
 
 import React, { memo, useCallback } from 'react';
 import { useSelector } from 'react-redux';
-import { Timeline } from '../../components/conversation/Timeline.dom.js';
-import { useCallingActions } from '../ducks/calling.preload.js';
-import { useConversationsActions } from '../ducks/conversations.preload.js';
-import { getPreferredBadgeSelector } from '../selectors/badges.preload.js';
+import { isEqual } from 'lodash';
+
+import { Timeline } from '../../components/conversation/Timeline.dom.tsx';
+import { useCallingActions } from '../ducks/calling.preload.ts';
+import { useConversationsActions } from '../ducks/conversations.preload.ts';
+import { getPreferredBadgeSelector } from '../selectors/badges.preload.ts';
 import {
   getConversationMessagesSelector,
   getConversationSelector,
@@ -14,51 +16,35 @@ import {
   getInvitedContactsForNewlyCreatedGroup,
   getMessages,
   getTargetedMessage,
-} from '../selectors/conversations.dom.js';
-import { getSelectedConversationId } from '../selectors/nav.std.js';
-import { getIntl, getTheme } from '../selectors/user.std.js';
-import type { PropsType as SmartContactSpoofingReviewDialogPropsType } from './ContactSpoofingReviewDialog.preload.js';
-import { SmartContactSpoofingReviewDialog } from './ContactSpoofingReviewDialog.preload.js';
-import { SmartHeroRow } from './HeroRow.preload.js';
+} from '../selectors/conversations.dom.ts';
+import { getSelectedConversationId } from '../selectors/nav.std.ts';
+import { getIntl, getTheme } from '../selectors/user.std.ts';
+import { SmartContactSpoofingReviewDialog } from './ContactSpoofingReviewDialog.preload.tsx';
+import { SmartHeroRow } from './HeroRow.preload.tsx';
+import { SmartTimelineItem } from './TimelineItem.preload.tsx';
+import { SmartTypingBubble } from './TypingBubble.preload.tsx';
+import { AttachmentDownloadManager } from '../../jobs/AttachmentDownloadManager.preload.ts';
 import {
-  SmartTimelineItem,
-  type SmartTimelineItemProps,
-} from './TimelineItem.preload.js';
-import { SmartTypingBubble } from './TypingBubble.preload.js';
-import { AttachmentDownloadManager } from '../../jobs/AttachmentDownloadManager.preload.js';
-import { isInFullScreenCall as getIsInFullScreenCall } from '../selectors/calling.std.js';
+  getActiveCall,
+  getCallSelector,
+  isInFullScreenCall as getIsInFullScreenCall,
+} from '../selectors/calling.std.ts';
+import { getMidnight } from '../../types/NotificationProfile.std.ts';
+
+import type { PropsType as SmartContactSpoofingReviewDialogPropsType } from './ContactSpoofingReviewDialog.preload.tsx';
+import type { RenderItemProps } from './TimelineItem.preload.tsx';
+import { getCallHistorySelector } from '../selectors/callHistory.std.ts';
+import { getCallIdFromEra } from '../../util/callDisposition.preload.ts';
+import { mapItemsIntoCollapseSets } from '../../util/CollapseSet.std.ts';
+import type { CollapseSet } from '../../util/CollapseSet.std.ts';
 
 type ExternalProps = {
   id: string;
 };
 
-function renderItem({
-  containerElementRef,
-  containerWidthBreakpoint,
-  conversationId,
-  interactivity,
-  isBlocked,
-  isGroup,
-  isOldestTimelineItem,
-  messageId,
-  nextMessageId,
-  previousMessageId,
-  unreadIndicatorPlacement,
-}: SmartTimelineItemProps): React.JSX.Element {
+function renderItem(props: RenderItemProps): React.JSX.Element {
   return (
-    <SmartTimelineItem
-      containerElementRef={containerElementRef}
-      containerWidthBreakpoint={containerWidthBreakpoint}
-      conversationId={conversationId}
-      interactivity={interactivity}
-      isBlocked={isBlocked}
-      isGroup={isGroup}
-      isOldestTimelineItem={isOldestTimelineItem}
-      messageId={messageId}
-      previousMessageId={previousMessageId}
-      nextMessageId={nextMessageId}
-      unreadIndicatorPlacement={unreadIndicatorPlacement}
-    />
+    <SmartTimelineItem key={props.item.id} {...props} renderItem={renderItem} />
   );
 }
 
@@ -95,6 +81,9 @@ export const SmartTimeline = memo(function SmartTimeline({
   const isInFullScreenCall = useSelector(getIsInFullScreenCall);
   const conversation = conversationSelector(id);
   const conversationMessages = conversationMessagesSelector(id);
+  const callHistorySelector = useSelector(getCallHistorySelector);
+  const activeCall = useSelector(getActiveCall);
+  const callSelector = useSelector(getCallSelector);
 
   const {
     clearInvitedServiceIdsForNewlyCreatedGroup,
@@ -123,6 +112,7 @@ export const SmartTimeline = memo(function SmartTimeline({
     acceptedMessageRequest,
     isBlocked = false,
     isGroupV1AndDisabled,
+    terminated: isGroupTerminated = false,
     removalStage,
     typingContactIdTimestamps = {},
     unreadCount,
@@ -141,6 +131,56 @@ export const SmartTimeline = memo(function SmartTimeline({
     scrollToIndexCounter,
     totalUnseen,
   } = conversationMessages;
+
+  const previousCollapseSet = React.useRef<Array<CollapseSet> | undefined>(
+    undefined
+  );
+  const midnightToday = getMidnight(Date.now());
+  const { collapseSets, updatedOldestLastSeenIndex, updatedScrollToIndex } =
+    React.useMemo(() => {
+      const result = mapItemsIntoCollapseSets({
+        activeCall,
+        allowMultidaySets: false,
+        callHistorySelector,
+        callSelector,
+        getCallIdFromEra,
+        items,
+        messages,
+        midnightToday,
+        oldestUnseenIndex,
+        scrollToIndex,
+      });
+
+      const { resultUnseenIndex, resultScrollToIndex } = result;
+      let { resultSets } = result;
+
+      // Params messages changes a lot, items less often, call selectors possibly a lot.
+      // But we need to massage items based on the values from these params. So, if we
+      // generate the same data, we would like to return the same object.
+      if (
+        previousCollapseSet.current &&
+        isEqual(resultSets, previousCollapseSet.current)
+      ) {
+        resultSets = previousCollapseSet.current;
+      }
+
+      previousCollapseSet.current = resultSets;
+
+      return {
+        collapseSets: resultSets,
+        updatedOldestLastSeenIndex: resultUnseenIndex,
+        updatedScrollToIndex: resultScrollToIndex,
+      };
+    }, [
+      activeCall,
+      callHistorySelector,
+      callSelector,
+      items,
+      messages,
+      midnightToday,
+      oldestUnseenIndex,
+      scrollToIndex,
+    ]);
 
   const isConversationSelected = selectedConversationId === id;
   const isIncomingMessageRequest =
@@ -168,11 +208,12 @@ export const SmartTimeline = memo(function SmartTimeline({
       isBlocked={isBlocked}
       isConversationSelected={isConversationSelected}
       isGroupV1AndDisabled={isGroupV1AndDisabled}
+      isGroupTerminated={isGroupTerminated}
       isInFullScreenCall={isInFullScreenCall}
       isIncomingMessageRequest={isIncomingMessageRequest}
       isNearBottom={isNearBottom}
       isSomeoneTyping={isSomeoneTyping}
-      items={items}
+      items={collapseSets}
       loadNewerMessages={loadNewerMessages}
       loadNewestMessages={loadNewestMessages}
       loadOlderMessages={loadOlderMessages}
@@ -183,12 +224,12 @@ export const SmartTimeline = memo(function SmartTimeline({
       updateVisibleMessages={
         AttachmentDownloadManager.updateVisibleTimelineMessages
       }
-      oldestUnseenIndex={oldestUnseenIndex}
+      oldestUnseenIndex={updatedOldestLastSeenIndex}
       renderContactSpoofingReviewDialog={renderContactSpoofingReviewDialog}
       renderHeroRow={renderHeroRow}
       renderItem={renderItem}
       renderTypingBubble={renderTypingBubble}
-      scrollToIndex={scrollToIndex}
+      scrollToIndex={updatedScrollToIndex}
       scrollToIndexCounter={scrollToIndexCounter}
       scrollToOldestUnreadMention={scrollToOldestUnreadMention}
       setCenterMessage={setCenterMessage}

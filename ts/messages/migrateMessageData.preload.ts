@@ -5,17 +5,17 @@ import lodash from 'lodash';
 import pMap from 'p-map';
 import PQueue from 'p-queue';
 
-import { CURRENT_SCHEMA_VERSION } from '../types/Message2.preload.js';
-import { isNotNil } from '../util/isNotNil.std.js';
-import { MINUTE } from '../util/durations/index.std.js';
+import { CURRENT_SCHEMA_VERSION } from '../types/Message2.preload.ts';
+import { isNotNil } from '../util/isNotNil.std.ts';
+import { MINUTE } from '../util/durations/index.std.ts';
 import type { MessageAttributesType } from '../model-types.d.ts';
-import type { AciString } from '../types/ServiceId.std.js';
-import * as Errors from '../types/errors.std.js';
-import { DataReader, DataWriter } from '../sql/Client.preload.js';
-import { postSaveUpdates } from '../util/cleanup.preload.js';
-import { upgradeMessageSchema as doUpgradeMessageSchema } from '../util/migrations.preload.js';
-import { createLogger } from '../logging/log.std.js';
-import { itemStorage } from '../textsecure/Storage.preload.js';
+import type { AciString } from '../types/ServiceId.std.ts';
+import * as Errors from '../types/errors.std.ts';
+import { DataReader, DataWriter } from '../sql/Client.preload.ts';
+import { postSaveUpdates } from '../util/cleanup.preload.ts';
+import { upgradeMessageSchema as doUpgradeMessageSchema } from '../util/migrations.preload.ts';
+import { createLogger } from '../logging/log.std.ts';
+import { itemStorage } from '../textsecure/Storage.preload.ts';
 
 const { isFunction, isNumber } = lodash;
 
@@ -129,7 +129,7 @@ export async function _migrateMessageData({
   );
 
   const failedToSaveMessageIds = failedToSaveIndices.map(
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    // oxlint-disable-next-line typescript/no-non-null-assertion
     idx => upgradedMessages[idx]!.id
   );
 
@@ -162,8 +162,10 @@ export async function _migrateMessageData({
 
 export async function migrateBatchOfMessages({
   numMessagesPerBatch,
+  maxVersion,
 }: {
   numMessagesPerBatch: number;
+  maxVersion?: number;
 }): ReturnType<typeof _migrateMessageData> {
   return migrationQueue.add(() =>
     _migrateMessageData({
@@ -173,22 +175,28 @@ export async function migrateBatchOfMessages({
       saveMessagesIndividually: DataWriter.saveMessagesIndividually,
       incrementMessagesMigrationAttempts:
         DataWriter.incrementMessagesMigrationAttempts,
+      maxVersion,
     })
   );
 }
 
-export async function migrateAllMessages(): Promise<void> {
+export async function migrateAllMessages({
+  maxVersion,
+}: {
+  maxVersion?: number;
+} = {}): Promise<void> {
+  const logId = `migrateAllMessages${maxVersion != null ? `[maxVersion=${maxVersion}]` : ''}`;
+
   let batch: BatchResultType | undefined;
   let total = 0;
   while (!batch?.done) {
-    // eslint-disable-next-line no-await-in-loop
+    // oxlint-disable-next-line no-await-in-loop
     batch = await migrateBatchOfMessages({
       numMessagesPerBatch: 1000,
+      maxVersion,
     });
     total += batch.numProcessed;
-    log.info(`migrateAllMessages: Migrated batch of ${batch.numProcessed}`);
+    log.info(`${logId}: Migrated batch of ${batch.numProcessed}`);
   }
-  log.info(
-    `migrateAllMessages: message migration complete; ${total} messages migrated`
-  );
+  log.info(`${logId}: message migration complete; ${total} messages migrated`);
 }

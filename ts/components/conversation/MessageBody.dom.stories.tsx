@@ -4,11 +4,11 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { Props } from './MessageBody.dom.js';
-import { MessageBody } from './MessageBody.dom.js';
-import { BodyRange } from '../../types/BodyRange.std.js';
-import { generateAci } from '../../types/ServiceId.std.js';
-import { RenderLocation } from './MessageTextRenderer.dom.js';
+import type { Props } from './MessageBody.dom.tsx';
+import { MessageBody } from './MessageBody.dom.tsx';
+import { BodyRange } from '../../types/BodyRange.std.ts';
+import { RenderLocation } from './MessageTextRenderer.dom.tsx';
+import { generateAci } from '../../test-helpers/serviceIdUtils.std.ts';
 
 const SERVICE_ID_1 = generateAci();
 const SERVICE_ID_2 = generateAci();
@@ -411,11 +411,10 @@ export function FormattingNesting(): React.JSX.Element {
         replacementText: 'Eve',
       },
     ],
-    /* eslint-disable max-len */
+
     //                                                                     m            m
     //     b                                      bs                                                          s
     //     i                                                                                                             i
-    /* eslint-enable max-len */
     text: 'Italic Start and Bold Start .\uFFFC. Bold EndStrikethrough Start .\uFFFC. Mono\uFFFCpace Pop! .\uFFFC. Strikethrough End Ital\uFFFCc End',
   });
 

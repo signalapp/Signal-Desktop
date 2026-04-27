@@ -3,7 +3,7 @@
 
 import InlineBlot from '@signalapp/quill-cjs/blots/inline.js';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+// oxlint-disable-next-line typescript/no-explicit-any
 type AnyRecord = Record<string, any>;
 
 export class MonospaceBlot extends InlineBlot {

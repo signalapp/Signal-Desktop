@@ -1,7 +1,7 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { getFunEmojiElementValue } from '../../components/fun/FunEmoji.dom.js';
+import { getFunEmojiElementValue } from '../../components/fun/FunEmoji.dom.tsx';
 
 const QUILL_EMBED_GUARD = '\uFEFF';
 
@@ -97,7 +97,7 @@ function getStringFromNode(
   }
   let result = '';
   for (let i = 0; i < childCount; i += 1) {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    // oxlint-disable-next-line typescript/no-non-null-assertion
     const child = element.childNodes[i]!;
     const nextChild = element.childNodes[i + 1];
     result += getStringFromNode(child, node, nextChild);
@@ -192,10 +192,10 @@ function getRangeWithContainer(range: Range): Node {
     return fragment;
   }
 
-  currentNode = startContainer.parentElement as HTMLElement;
+  // oxlint-disable-next-line typescript/no-non-null-assertion
+  currentNode = startContainer.parentElement!;
   while (
     currentNode &&
-    // eslint-disable-next-line no-loop-func
     CONTAINER_CLASSES.every(item => !currentNode?.classList.contains(item))
   ) {
     const tagName = currentNode.tagName.toLowerCase();
@@ -212,7 +212,7 @@ function getRangeWithContainer(range: Range): Node {
       newNode.appendChild(finalNode);
       finalNode = newNode;
     } else if (
-      // eslint-disable-next-line no-loop-func
+      // oxlint-disable-next-line no-loop-func
       MONOSPACE_CLASSES.some(item => currentNode?.classList.contains(item))
     ) {
       const newNode = document.createElement('span');
@@ -221,7 +221,7 @@ function getRangeWithContainer(range: Range): Node {
       newNode.appendChild(finalNode);
       finalNode = newNode;
     } else if (
-      // eslint-disable-next-line no-loop-func
+      // oxlint-disable-next-line no-loop-func
       SPOILER_CLASSES.some(item => currentNode?.classList.contains(item))
     ) {
       const newNode = document.createElement('span');

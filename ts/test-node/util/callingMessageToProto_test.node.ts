@@ -10,9 +10,9 @@ import {
   HangupType,
   OpaqueMessage,
 } from '@signalapp/ringrtc';
-import { SignalService as Proto } from '../../protobuf/index.std.js';
+import { SignalService as Proto } from '../../protobuf/index.std.ts';
 
-import { callingMessageToProto } from '../../util/callingMessageToProto.node.js';
+import { callingMessageToProto } from '../../util/callingMessageToProto.node.ts';
 
 describe('callingMessageToProto', () => {
   // NOTE: These tests are incomplete.

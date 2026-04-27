@@ -4,9 +4,9 @@ import type { ReactNode } from 'react';
 import React, { useId } from 'react';
 import type { Meta } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
-import { AriaClickable } from './AriaClickable.dom.js';
-import { AxoButton } from './AxoButton.dom.js';
-import { tw } from './tw.dom.js';
+import { AriaClickable } from './AriaClickable.dom.tsx';
+import { AxoButton } from './AxoButton.dom.tsx';
+import { tw } from './tw.dom.tsx';
 
 export default {
   title: 'Axo/AriaClickable',
@@ -17,10 +17,10 @@ function Card(props: { children: ReactNode }) {
     <AriaClickable.Root
       className={tw(
         'group flex items-center gap-4 rounded-md border border-border-secondary p-4',
-        'data-[hovered]:bg-background-secondary',
-        'data-[pressed]:bg-fill-secondary-pressed',
+        'data-hovered:bg-background-secondary',
+        'data-pressed:bg-fill-secondary-pressed',
         'outline-0 outline-border-focused',
-        'data-[focused]:outline-[2.5px]'
+        'data-focused:outline-[2.5px]'
       )}
     >
       {props.children}
@@ -48,7 +48,7 @@ function CardSeeMoreLink(props: { onClick: () => void; children: ReactNode }) {
         id={id}
         className={tw(
           'text-color-label-primary',
-          'group-data-[hovered]:underline'
+          'group-data-hovered:underline'
         )}
       >
         {props.children}

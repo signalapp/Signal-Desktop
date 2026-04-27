@@ -746,6 +746,9 @@
   "icu:fileSizeWarning": {
     "messageformat": "ಕ್ಷಮಿಸಿ, ಆಯ್ಕೆಮಾಡಿದ ಕಡತ ಸಂದೇಶದ ಗಾತ್ರ ನಿರ್ಬಂಧಗಳನ್ನು ಮೀರಿದೆ. {limit,number} {units}"
   },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "ಕ್ಷಮಿಸಿ, ಆಯ್ಕೆಮಾಡಿದ ವಿಡಿಯೋ ಫೈಲ್, ಮೆಸೇಜ್ ಗಾತ್ರದ ನಿರ್ಬಂಧಗಳನ್ನು ಮೀರಿದೆ. {limit,number}{units}"
+  },
   "icu:unableToLoadAttachment": {
     "messageformat": "ಆಯ್ಕೆಮಾಡಿದ ಲಗತ್ತನ್ನು ಲೋಡ್ ಮಾಡಲು ಸಾಧ್ಯವಿಲ್ಲ."
   },
@@ -1787,6 +1790,12 @@
   "icu:Preferences__EditChatFolderPage__CancelButton": {
     "messageformat": "ರದ್ದುಮಾಡಿ"
   },
+  "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
+    "messageformat": "Show status icon"
+  },
+  "icu:Preferences__PrivacyPage__ShowStatusIcon__Description": {
+    "messageformat": "Show an icon in message details when they were delivered using sealed sender."
+  },
   "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
     "messageformat": "ಸ್ವಯಂಚಾಲಿತ ಕೀ ದೃಢೀಕರಣ"
   },
@@ -2372,6 +2381,9 @@
   "icu:ConversationDetails--support-center": {
     "messageformat": "ಬೆಂಬಲ ಕೇಂದ್ರ"
   },
+  "icu:ConversationDetails__GroupTerminatedBanner": {
+    "messageformat": "ಈ ಗುಂಪು ಕೊನೆಗೊಂಡಿದೆ"
+  },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "ಸುರಕ್ಷತಾ ಸಂಖ್ಯೆ ವೀಕ್ಷಿಸಿ"
   },
@@ -2551,6 +2563,27 @@
   },
   "icu:youUpdatedTheGroup": {
     "messageformat": "ನೀವು ಗುಂಪನ್ನು ನವೀಕರಿಸಿದ್ದೀರಿ."
+  },
+  "icu:collapsedGroupUpdates": {
+    "messageformat": "{count, plural, one {{count,number} ಗುಂಪು ಅಪ್‌ಡೇಟ್} other {{count,number} ಗುಂಪು ಅಪ್‌ಡೇಟ್‌ಗಳು}}"
+  },
+  "icu:multidayCollapse__container": {
+    "messageformat": "{containerDescription} · {dayCountSummary}"
+  },
+  "icu:multidayCollapse__dayCountSummary": {
+    "messageformat": "{dayCount, plural, one {{dayCount,number} ದಿನ} other {{dayCount,number} ದಿನಗಳು}}"
+  },
+  "icu:collapsedChatUpdates": {
+    "messageformat": "{count, plural, one {{count,number} ಚಾಟ್ ಅಪ್‌ಡೇಟ್} other {{count,number} ಚಾಟ್ ಅಪ್‌ಡೇಟ್‌ಗಳು}}"
+  },
+  "icu:collapsedTimerChanges": {
+    "messageformat": "{count, plural, one {{count,number} ಕಣ್ಮರೆಯಾಗುವ ಟೈಮರ್ ಬದಲಾವಣೆ · {endingState}} other {{count,number} ಕಣ್ಮರೆಯಾಗುವ ಮೆಸೇಜ್ ಟೈಮರ್ ಬದಲಾವಣೆಗಳು · {endingState}}}"
+  },
+  "icu:collapsedTimerChanges--disabled": {
+    "messageformat": "{count, plural, one {{count,number} ಕಣ್ಮರೆಯಾಗುವ ಟೈಮರ್ ಬದಲಾವಣೆ · ನಿಷ್ಕ್ರಿಯಗೊಳಿಸಲಾಗಿದೆ} other {{count,number} ಕಣ್ಮರೆಯಾಗುವ ಮೆಸೇಜ್ ಟೈಮರ್ ಬದಲಾವಣೆಗಳು · ನಿಷ್ಕ್ರಿಯಗೊಳಿಸಲಾಗಿದೆ}}"
+  },
+  "icu:collapsedCallEvents": {
+    "messageformat": "{count, plural, one {{count,number} ಕಾಲ್ ಇವೆಂಟ್} other {{count,number} ಕಾಲ್ ಇವೆಂಟ್‌ಗಳು}}"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "ಗ್ರೂಪ್ ಅವತಾರ್ ಅಪ್‌ಡೇಟ್ ಆಗಿದೆ."
@@ -3017,8 +3050,8 @@
   "icu:Message--tap-to-view--incoming--expired-toast": {
     "messageformat": "ನೀವು ಈಗಾಗಲೇ ಈ ಸಂದೇಶವನ್ನು ವೀಕ್ಷಿಸಿದ್ದೀರಿ."
   },
-  "icu:Message--tap-to-view--outgoing--expired-toast": {
-    "messageformat": "ನಿಮ್ಮ ಚಾಟ್ ಇತಿಹಾಸದಲ್ಲಿ ಏಕ ವೀಕ್ಷಣೆ ಮೆಸೇಜ್‌ಗಳನ್ನು ಸಂಗ್ರಹಿಸಲಾಗಿಲ್ಲ."
+  "icu:Message--tap-to-view--outgoing--expired-toast-2": {
+    "messageformat": "ಒಂದು ಬಾರಿ ವೀಕ್ಷಿಸಿ ಮೀಡಿಯಾವನ್ನು ಕಳುಹಿಸಿದ ನಂತರ ಅಳಿಸಲಾಗುತ್ತದೆ"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "ಏಕ ವೀಕ್ಷಣೆ ವೀಡಿಯೊ"
@@ -3485,8 +3518,17 @@
   "icu:ConversationHero--profile-names": {
     "messageformat": "<clickable>ಪ್ರೊಫೈಲ್ ಹೆಸರುಗಳನ್ನು</clickable> ಪರಿಶೀಲಿಸಲಾಗಿಲ್ಲ"
   },
+  "icu:ConversationHero--name-not-verified": {
+    "messageformat": "Name not verified"
+  },
   "icu:ConversationHero--signal-official-chat": {
     "messageformat": "ಇದು Signal ನ ಅಧಿಕೃತ ಮತ್ತು ಏಕೈಕ ಚಾಟ್ ಆಗಿದೆ"
+  },
+  "icu:ConversationHero--signal-official-account": {
+    "messageformat": "Official account"
+  },
+  "icu:ConversationHero--signal-official-account--description": {
+    "messageformat": "The only official chat from Signal. Keep up to date with news and release notes."
   },
   "icu:ConversationHero--release-notes": {
     "messageformat": "ಸುದ್ದಿ ಮತ್ತು ಆವೃತ್ತಿ ಟಿಪ್ಪಣಿಗಳೊಂದಿಗೆ ಅಪ್ ಟು ಡೇಟ್ ಆಗಿರಿ."
@@ -3767,9 +3809,6 @@
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
     "messageformat": "Signal ಮೂಲಕ ಕಾಲ್ ಲಿಂಕ್ ಅನ್ನು ಹಂಚಿಕೊಳ್ಳಿ"
   },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "ಈ ವ್ಯಕ್ತಿಯನ್ನು ಕರೆಯಿಂದ ತೆಗೆದುಹಾಕಿ"
-  },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "{name} ಅವರನ್ನು ಕರೆಯಿಂದ ತೆಗೆದುಹಾಕಬೇಕೆ?"
   },
@@ -3932,11 +3971,23 @@
   "icu:GroupV2--join--requested": {
     "messageformat": "ಗುಂಪನ್ನು ಸೇರಲು ನಿಮ್ಮ ವಿನಂತಿಯನ್ನು ಅಡ್ಮಿನ್‌ಗೆ ಕಳುಹಿಸಲಾಗಿದೆ. ಅವರು ಕ್ರಮ ಕೈಗೊಂಡಾಗ ನಿಮಗೆ ಸೂಚಿಸಲಾಗುತ್ತದೆ."
   },
+  "icu:GroupV2--join--group-terminated": {
+    "messageformat": "ಈ ಗುಂಪಿಗೆ ಸೇರಿಕೊಳ್ಳಲು ಸಾಧ್ಯವಾಗುತ್ತಿಲ್ಲ."
+  },
   "icu:GroupV2--join--general-join-failure--title": {
     "messageformat": "ಲಿಂಕ್ ದೋಷ"
   },
   "icu:GroupV2--join--general-join-failure": {
     "messageformat": "ಗ್ರೂಪ್‌ಗೆ ಸೇರಲಾಗದು. ನಂತರ ಪುನಃ ಪ್ರಯತ್ನಿಸಿ."
+  },
+  "icu:GroupV2--terminate-group-in-progress": {
+    "messageformat": "ಗುಂಪನ್ನು ಕೊನೆಗೊಳಿಸಲಾಗುತ್ತಿದೆ..."
+  },
+  "icu:TerminateGroupFailedModal__description": {
+    "messageformat": "ಗುಂಪನ್ನು ಕೊನೆಗೊಳಿಸಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ. ನಿಮ್ಮ ಕನೆಕ್ಷನ್ ಅನ್ನು ಪರಿಶೀಲಿಸಿ ಹಾಗೂ ಪುನಃ ಪ್ರಯತ್ನಿಸಿ."
+  },
+  "icu:TerminateGroupFailedModal__try-again": {
+    "messageformat": "ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ"
   },
   "icu:GroupV2--admin": {
     "messageformat": "ಅಡ್ಮಿನ್‌‌"
@@ -4379,6 +4430,15 @@
   "icu:GroupV2--summary": {
     "messageformat": "ಈ ಗ್ರೂಪ್‌ನ ಸದಸ್ಯರು ಅಥವಾ ಸೆಟ್ಟಿಂಗ್‌ಗಳು ಬದಲಾಗಿವೆ."
   },
+  "icu:GroupV2--terminated--you": {
+    "messageformat": "ನೀವು ಗುಂಪನ್ನು ಕೊನೆಗೊಳಿಸಿದ್ದೀರಿ"
+  },
+  "icu:GroupV2--terminated--other": {
+    "messageformat": "{memberName} ಗುಂಪನ್ನು ಕೊನೆಗೊಳಿಸಿದ್ದಾರೆ"
+  },
+  "icu:GroupV2--terminated--unknown": {
+    "messageformat": "ಈ ಗುಂಪು ಕೊನೆಗೊಂಡಿದೆ"
+  },
   "icu:GroupV1--Migration--disabled--link": {
     "messageformat": "@ಉಲ್ಲೇಖಗಳು ಮತ್ತು ಅಡ್ಮಿನ್‌ಗಳಂತಹ ಹೊಸ ಫೀಚರ್‌ಗಳನ್ನು ಸಕ್ರಿಯಗೊಳಿಸಲು ಈ ಗ್ರೂಪ್ ಅನ್ನು ಅಪ್‌ಗ್ರೇಡ್ ಮಾಡಿ. ಈ ಗ್ರೂಪ್‌ನಲ್ಲಿ ತಮ್ಮ ಹೆಸರು ಮತ್ತು ಫೋಟೋ ಹಂಚಿಕೊಳ್ಳದ ಸದಸ್ಯರನ್ನು ಸೇರಿಕೊಳ್ಳುವಂತೆ ಆಹ್ವಾನಿಲಾಗುತ್ತದೆ. <learnMoreLink>ಇನ್ನಷ್ಟು ತಿಳಿಯಿರಿ.</learnMoreLink>"
   },
@@ -4655,6 +4715,9 @@
   "icu:CompositionArea__ConfirmGifSelection__ReplaceButton": {
     "messageformat": "ಬದಲಾಯಿಸಿ"
   },
+  "icu:CompositionArea--group-terminated": {
+    "messageformat": "ಗುಂಪು ಕೊನೆಗೊಂಡಿರುವುದರಿಂದ ನೀವು ಮೆಸೇಜ್‌ಗಳನ್ನು ಕಳುಹಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ."
+  },
   "icu:CompositionArea--viewOnceToggle": {
     "messageformat": "ಒಮ್ಮೆ ವೀಕ್ಷಿಸಿ"
   },
@@ -4832,11 +4895,26 @@
   "icu:ConversationDetailsActions--leave-group": {
     "messageformat": "ಗುಂಪನ್ನು ತೊರೆಯಿರಿ"
   },
+  "icu:ConversationDetailsActions--terminate-group": {
+    "messageformat": "ಗುಂಪನ್ನು ಕೊನೆಗೊಳಿಸಿ"
+  },
   "icu:ConversationDetailsActions--block-group": {
     "messageformat": "ಗ್ರೂಪ್ ಅನ್ನು ನಿರ್ಬಂಧಿಸಿ"
   },
   "icu:ConversationDetailsActions--unblock-group": {
     "messageformat": "ಗ್ರೂಪ್‌ನ ನಿರ್ಬಂಧ ತೆಗೆಯಿರಿ"
+  },
+  "icu:ConversationDetailsActions--report-spam": {
+    "messageformat": "ಸ್ಪ್ಯಾಮ್ ವರದಿ ಮಾಡಿ"
+  },
+  "icu:ConversationDetailsActions--archive": {
+    "messageformat": "ಚಾಟ್ ಆರ್ಕೈವ್ ಮಾಡಿ"
+  },
+  "icu:ConversationDetailsActions--unarchive": {
+    "messageformat": "ಅನ್‌ಆರ್ಕೈವ್ ಚಾಟ್"
+  },
+  "icu:ConversationDetailsActions--delete": {
+    "messageformat": "ಚಾಟ್ ಅಳಿಸಿ"
   },
   "icu:ConversationDetailsActions--leave-group-must-choose-new-admin": {
     "messageformat": "ನೀವು ತೊರೆಯುವ ಮೊದಲು, ಈ ಗುಂಪಿಗೆ ಹೊಸ ಅಡ್ಮಿನ್ ಆರಿಸಿ."
@@ -4849,6 +4927,18 @@
   },
   "icu:ConversationDetailsActions--leave-group-modal-confirm": {
     "messageformat": "ತೊರೆಯಿರಿ"
+  },
+  "icu:ConversationDetailsActions--prompt-terminate-group-modal-title": {
+    "messageformat": "\"{groupName}\" ಕೊನೆಗೊಳಿಸಬೇಕೇ?"
+  },
+  "icu:ConversationDetailsActions--prompt-terminate-group-modal-content": {
+    "messageformat": "ಸದಸ್ಯರು ಇನ್ನು ಮುಂದೆ ಗುಂಪಿನಲ್ಲಿ ಮೆಸೇಜ್‌ಗಳನ್ನು ಕಳುಹಿಸಲು ಅಥವಾ ಕರೆಗಳನ್ನು ಪ್ರಾರಂಭಿಸಲು ಸಾಧ್ಯವಾಗುವುದಿಲ್ಲ. ನೀವು ಗುಂಪನ್ನು ಕೊನೆಗೊಳಿಸಿದ್ದೀರಿ ಎಂದು ಅವರಿಗೆ ತಿಳಿಸಲಾಗುವುದು ಮತ್ತು ಸಂದೇಶ ಇತಿಹಾಸಕ್ಕೆ ಇನ್ನೂ ಆ್ಯಕ್ಸೆಸ್ ಇರುತ್ತದೆ."
+  },
+  "icu:ConversationDetailsActions--terminate-group-modal-confirm": {
+    "messageformat": "ಗುಂಪನ್ನು ಕೊನೆಗೊಳಿಸಿ"
+  },
+  "icu:ConversationDetailsActions--confirm-terminate-group-confirm-modal-content": {
+    "messageformat": "ಇದು ಗುಂಪನ್ನು ಶಾಶ್ವತವಾಗಿ ಕೊನೆಗೊಳಿಸುತ್ತದೆ. ನೀವು ಮುಂದುವರಿಸಲು ಖಚಿತವಾಗಿ ಬಯಸುತ್ತೀರಾ?"
   },
   "icu:ConversationDetailsActions--unblock-group-modal-title": {
     "messageformat": "\"{groupName}\" ಗ್ರೂಪ್ ಅನ್ನು ಅನ್‌ಬ್ಲಾಕ್ ಮಾಡಬೇಕೇ?"
@@ -4868,6 +4958,18 @@
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "ನಿರ್ಬಂಧ ತೆಗೆಯಿರಿ"
   },
+  "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
+    "messageformat": "ಈ ವ್ಯಕ್ತಿ ಸ್ಪ್ಯಾಮ್ ಕಳುಹಿಸುತ್ತಿರಬಹುದು ಎಂಬುದಾಗಿ Signal ಗೆ ಸೂಚಿಸಲಾಗುತ್ತದೆ. Signal ಗೆ ಯಾವುದೇ ಚಾಟ್ ಗಳ ಕಂಟೆಂಟ್ ಅನ್ನು ನೋಡಲು ಸಾಧ್ಯವಾಗುವುದಿಲ್ಲ."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-group": {
+    "messageformat": "ನಿಮ್ಮನ್ನು ಈ ಗುಂಪಿಗೆ ಆಹ್ವಾನಿಸಿದ ವ್ಯಕ್ತಿ ಸ್ಪ್ಯಾಮ್ ಕಳುಹಿಸುತ್ತಿರಬಹುದು ಎಂಬುದಾಗಿ Signal ಗೆ ಸೂಚಿಸಲಾಗುತ್ತದೆ. Signal ಗೆ ಯಾವುದೇ ಚಾಟ್‌ಗಳ ಕಂಟೆಂಟ್ ಅನ್ನು ನೋಡಲು ಸಾಧ್ಯವಾಗುವುದಿಲ್ಲ."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
+    "messageformat": "ಸ್ಪ್ಯಾಮ್ ವರದಿ ಮಾಡಿ"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
+    "messageformat": "ವರದಿ ಮಾಡಿ ಮತ್ತು ಬ್ಲಾಕ್ ಮಾಡಿ"
+  },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} ಸದಸ್ಯ} other {{number,number} ಸದಸ್ಯರು}}"
   },
@@ -4876,6 +4978,9 @@
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} ಸದಸ್ಯ} other {{number,number} ಸದಸ್ಯರು}}"
+  },
+  "icu:ConversationDetailsMembershipList--terminated-title": {
+    "messageformat": "{number, plural, one {{number,number} ಮಾಜಿ ಸದಸ್ಯರು} other {{number,number} ಮಾಜಿ ಸದಸ್ಯರುಗಳು}}"
   },
   "icu:ConversationDetailsMembershipList--add-members": {
     "messageformat": "ಸದಸ್ಯರನ್ನು ಸೇರಿಸಿ"
@@ -5059,7 +5164,7 @@
     "ignoreUnused": true
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
-    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Signal ನ ಇತ್ತೀಚಿನ ಆವೃತ್ತಿಗಳಲ್ಲಿರುವ ಗುಂಪಿನ ಸದಸ್ಯರು ನೀವು ಈ ಮೆಸೇಜ್ ಅನ್ನು ಅಳಿಸಿದ್ದೀರಿ ಎಂಬುದನ್ನು ನೋಡುತ್ತಾರೆ.} other {Signal ನ ಇತ್ತೀಚಿನ ಆವೃತ್ತಿಗಳಲ್ಲಿರುವ ಗುಂಪಿನ ಸದಸ್ಯರು ನೀವು ಈ ಮೆಸೇಜ್‌ಗಳನ್ನು ಅಳಿಸಿದ್ದೀರಿ ಎಂಬುದನ್ನು ನೋಡುತ್ತಾರೆ.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "ಎಲ್ಲಾ ಸಾಧನಗಳಿಂದ ಅಳಿಸಿ"
@@ -5195,6 +5300,9 @@
   },
   "icu:MessageRequestWarning__safety-tips": {
     "messageformat": "ಸುರಕ್ಷತಾ ಸಲಹೆಗಳು"
+  },
+  "icu:MessageRequestWarning__safety-tips-v2": {
+    "messageformat": "Safety tips"
   },
   "icu:ContactSpoofing__same-name--link": {
     "messageformat": "ವಿನಂತಿಗಳನ್ನು ಎಚ್ಚರಿಕೆಯಿಂದ ಪರಿಶೀಲಿಸಿ. ಅದೇ ಹೆಸರಿನ ಇನ್ನೊಂದು ಸಂಪರ್ಕವು Signal ಗೆ ಕಂಡುಬಂದಿದೆ. <reviewRequestLink>ವಿನಂತಿಯನ್ನು ಪರಿಶೀಲಿಸಿ</reviewRequestLink>"
@@ -5797,6 +5905,15 @@
   "icu:Preferences__link-previews--description": {
     "messageformat": "ಈ ಸೆಟ್ಟಿಂಗ್ ಬದಲಾಯಿಸಲು, ನಿಮ್ಮ ಮೊಬೈಲ್ ಸಾಧನದಲ್ಲಿ Signal ಆ್ಯಪ್ ತೆರೆಯಿರಿ ಮತ್ತು ಸೆಟ್ಟಿಂಗ್‌ಗಳು > ಚಾಟ್‌ಗಳು ಗೆ ನ್ಯಾವಿಗೇಟ್ ಮಾಡಿ"
   },
+  "icu:Preferences__link-previews--new-description": {
+    "messageformat": "Retrieve link previews directly from websites for messages you send."
+  },
+  "icu:Preferences__address-book-photos--title": {
+    "messageformat": "Use address book photos"
+  },
+  "icu:Preferences__address-book-photos--description": {
+    "messageformat": "Display contact photos from your address book if available."
+  },
   "icu:Preferences__auto-convert-emoji--title": {
     "messageformat": "ಟೈಪ್ ಮಾಡಿದ ಎಮೋಟಿಕಾನ್‌ಗಳನ್ನು ಎಮೋಜಿಗೆ ಪರಿವರ್ತಿಸಿ"
   },
@@ -6232,35 +6349,35 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "ಮುಗಿದಿದೆ"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "ನಿಮ್ಮ ಬ್ಯಾಕಪ್ ಕೀ ತೋರಿಸಿ"
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
+    "messageformat": "ನಿಮ್ಮ ರಿಕವರಿ ಕೀ ತೋರಿಸಿ"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "ನಿಮ್ಮ ಬ್ಯಾಕಪ್ ಕೀಯನ್ನು ವೀಕ್ಷಿಸಲು ನಿಮ್ಮ ಗುರುತನ್ನು ದೃಢೀಕರಿಸಿ."
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
+    "messageformat": "ನಿಮ್ಮ ರಿಕವರಿ ಕೀ ಅನ್ನು ವೀಕ್ಷಿಸಲು ನಿಮ್ಮ ಗುರುತನ್ನು ದೃಢೀಕರಿಸಿ."
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "ಬ್ಯಾಕಪ್ ಕೀ ವೀಕ್ಷಿಸಿ"
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
+    "messageformat": "ರಿಕವರಿ ಕೀ ವೀಕ್ಷಿಸಿ"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "ನಿಮ್ಮ ಬ್ಯಾಕಪ್ ಕೀಯನ್ನು ವೀಕ್ಷಿಸಲು ದೃಢೀಕರಣದ ಅಗತ್ಯವಿದೆ."
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
+    "messageformat": "ನಿಮ್ಮ ರಿಕವರಿ ಕೀ ಅನ್ನು ವೀಕ್ಷಿಸಲು ದೃಢೀಕರಣದ ಅಗತ್ಯವಿದೆ."
   },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "ಬ್ಯಾಕಪ್‌ ಕೀ ಟೆಕ್ಸ್ಟ್ ಬಾಕ್ಸ್"
+  "icu:Preferences--local-backups-recovery-key-text-box": {
+    "messageformat": "ರಿಕವರಿ ಕೀ"
   },
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "ಕೀ ನಮೂದಿಸಿ"
   },
-  "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "ನಿಮ್ಮ ಬ್ಯಾಕಪ್ ಕೀಯನ್ನು ರೆಕಾರ್ಡ್ ಮಾಡಿ"
+  "icu:Preferences--local-backups-record-recovery-key": {
+    "messageformat": "ನಿಮ್ಮ ರಿಕವರಿ ಕೀಯನ್ನು ರೆಕಾರ್ಡ್ ಮಾಡಿ"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "ನಿಮ್ಮ ಖಾತೆ ಮತ್ತು ಡೇಟಾವನ್ನು ರಿಕವರ್ ಮಾಡಲು ಈ ಕೀ ಅಗತ್ಯವಿದೆ. ಈ ಕೀಯನ್ನು ಎಲ್ಲಾದರೂ ಸುರಕ್ಷಿತವಾಗಿ ಸಂಗ್ರಹಿಸಿ. ನೀವು ಅದನ್ನು ಕಳೆದುಕೊಂಡರೆ, ನಿಮ್ಮ ಖಾತೆಯನ್ನು ರಿಕವರ್ ಮಾಡಲು ನಿಮಗೆ ಸಾಧ್ಯವಾಗುವುದಿಲ್ಲ. <learnMoreLink>ಇನ್ನಷ್ಟು ತಿಳಿಯಿರಿ.</learnMoreLink>"
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "ನಿಮ್ಮ ಬ್ಯಾಕಪ್‌ ಕೀ ಅನ್ನು ಖಚಿತಪಡಿಸಿ"
+  "icu:Preferences--local-backups-confirm-recovery-key": {
+    "messageformat": "ನಿಮ್ಮ ರಿಕವರಿ ಕೀಯನ್ನು ದೃಢೀಕರಿಸಿ"
   },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "ನೀವು ಈಗ ತಾನೇ ರೆಕಾರ್ಡ್ ಮಾಡಿದ ಬ್ಯಾಕಪ್ ಕೀಯನ್ನು ನಮೂದಿಸಿ"
+  "icu:Preferences--local-backups-confirm-recovery-key-description": {
+    "messageformat": "ನೀವು ಈಗ ತಾನೇ ರೆಕಾರ್ಡ್ ಮಾಡಿದ ರಿಕವರಿ ಕೀಯನ್ನು ನಮೂದಿಸಿ"
   },
   "icu:Preferences__local-backups-confirm-key-modal-title": {
     "messageformat": "ನಿಮ್ಮ ಕೀಯನ್ನು ಸುರಕ್ಷಿತವಾಗಿರಿಸಿ"
@@ -6286,26 +6403,23 @@
   "icu:Preferences__local-backups-folder": {
     "messageformat": "ಬ್ಯಾಕಪ್‌ ಫೋಲ್ಡರ್‌"
   },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "ಬದಲಾಯಿಸಿ"
-  },
   "icu:Preferences__local-backups-turn-off": {
-    "messageformat": "Turn off backups"
+    "messageformat": "ಬ್ಯಾಕಪ್‌ಗಳನ್ನು ಆಫ್ ಮಾಡಿ"
   },
   "icu:Preferences__local-backups-turn-off-action": {
-    "messageformat": "Turn off"
+    "messageformat": "ಆಫ್ ಮಾಡಿ"
   },
   "icu:Preferences__local-backups-turn-off-confirmation": {
-    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+    "messageformat": "ಮರು-ಸಕ್ರಿಯಗೊಳಿಸದೆ ನೀವು ಇನ್ನು ಈ ಕಂಪ್ಯೂಟರ್‌ನಲ್ಲಿ ಬ್ಯಾಕಪ್‌ಗಳನ್ನು ರಚಿಸಲು ಸಾಧ್ಯವಾಗುವುದಿಲ್ಲ."
   },
   "icu:Preferences__local-backups-turn-off-delete": {
-    "messageformat": "Delete my backup from this computer"
+    "messageformat": "ಈ ಕಂಪ್ಯೂಟರ್‌ನಿಂದ ನನ್ನ ಬ್ಯಾಕಪ್ ಅನ್ನು ಅಳಿಸಿ"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "ಕ್ಲಿಪ್‌ಬೋರ್ಡ್‌ಗೆ ನಕಲಿಸು"
   },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "ಬ್ಯಾಕಪ್ ಕೀ ಕಾಪಿ ಮಾಡಲಾಗಿದೆ"
+  "icu:Preferences__local-backups-copied-recovery-key": {
+    "messageformat": "ರಿಕವರಿ ಕೀ ಕಾಪಿ ಮಾಡಲಾಗಿದೆ"
   },
   "icu:Preferences__local-backups--enable--os-prompt--mac": {
     "messageformat": "ಬ್ಯಾಕಪ್‌ಗಳನ್ನು ಸಕ್ರಿಯಗೊಳಿಸಿ"
@@ -6319,17 +6433,29 @@
   "icu:Preferences__local-backups--enable--os-prompt-message--linux": {
     "messageformat": "ಬ್ಯಾಕಪ್‌ಗಳನ್ನು ಸಕ್ರಿಯಗೊಳಿಸಲು ದೃಢೀಕರಣದ ಅಗತ್ಯವಿದೆ."
   },
+  "icu:Preferences__local-backups-auth-error--unauthorized": {
+    "messageformat": "ಸಿಸ್ಟಂ ದೃಢೀಕರಣ ವಿಫಲವಾದ ಕಾರಣ ಈ ಕ್ರಿಯೆಯನ್ನು ಪೂರ್ಣಗೊಳಿಸಲಾಗಲಿಲ್ಲ. ಪುನಃ ಪ್ರಯತ್ನಿಸಿ ಅಥವಾ ನಿಮ್ಮ ಮೊಬೈಲ್ ಸಾಧನದಲ್ಲಿ Signal ಆ್ಯಪ್ ತೆರೆಯಿರಿ ಮತ್ತು ನಿಮ್ಮ ರಿಕವರಿ ಕೀ ಅನ್ನು ವೀಕ್ಷಿಸಲು ಬ್ಯಾಕಪ್ ಸೆಟ್ಟಿಂಗ್‌ಗಳಿಗೆ ಹೋಗಿ."
+  },
   "icu:Preferences__view-key": {
     "messageformat": "ಕೀ ವೀಕ್ಷಿಸಿ"
   },
-  "icu:Preferences__backup-key": {
-    "messageformat": "ಬ್ಯಾಕಪ್ ಕೀ"
+  "icu:Preferences__recovery-key": {
+    "messageformat": "ರಿಕವರಿ ಕೀ"
   },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "ನಿಮ್ಮ ಬ್ಯಾಕಪ್ ಕೀ ನಿಮ್ಮ ಬ್ಯಾಕಪ್ ಅನ್ನು ರಿಸ್ಟೋರ್ ಮಾಡಲು ಬಳಸುವ 64-ಅಂಕಿಯ ಕೋಡ್ ಆಗಿದೆ"
+  "icu:Preferences__recovery-key-description": {
+    "messageformat": "ನಿಮ್ಮ ರಿಕವರಿ ಕೀ ನಿಮ್ಮ ಬ್ಯಾಕಪ್ ಅನ್ನು ರಿಸ್ಟೋರ್ ಮಾಡಲು ಬಳಸಲಾಗುವ 64-ಅಕ್ಷರಗಳ ಕೋಡ್ ಆಗಿದೆ"
   },
   "icu:Preferences__backup-other-ways": {
     "messageformat": "ಬ್ಯಾಕಪ್ ಮಾಡುವ ಇತರೆ ಮಾರ್ಗಗಳು"
+  },
+  "icu:Preferences__recovery-key-updated__title": {
+    "messageformat": "ನಿಮ್ಮ ರಿಕವರಿ ಕೀ ಬದಲಾಗಿದೆ"
+  },
+  "icu:Preferences__recovery-key-updated__description": {
+    "messageformat": "ನಿಮ್ಮ ರಿಕವರಿ ಕೀ ಅನ್ನು ಅಪ್‌ಡೇಟ್ ಮಾಡಲಾಗಿದೆ. ನೀವು ಮಾಡುವ ಯಾವುದೇ ಹೊಸ ಬ್ಯಾಕಪ್‌ಗಳನ್ನು ನಿಮ್ಮ ಹೊಸ ರಿಕವರಿ ಕೀ ಬಳಸಿಕೊಂಡು ಮಾತ್ರ ರಿಸ್ಟೋರ್ ಮಾಡಬಹುದು."
+  },
+  "icu:Preferences__recovery-key-updated__view-key": {
+    "messageformat": "ಹೊಸ ಕೀ ವೀಕ್ಷಿಸಿ"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {{num,number} ಸಂಪರ್ಕ} other {{num,number} ಸಂಪರ್ಕಗಳು}}"
@@ -6394,8 +6520,14 @@
   "icu:Preferences--read-receipts": {
     "messageformat": "ಓದಿರುವ ಸ್ವೀಕೃತಿಗಳು"
   },
+  "icu:Preferences--read-receipts--description": {
+    "messageformat": "If disabled, you won't see read receipts from others."
+  },
   "icu:Preferences--typing-indicators": {
     "messageformat": "ಟೈಪಿಂಗ್ ಇಂಡಿಕೇಟರ್ ಗಳು"
+  },
+  "icu:Preferences--typing-indicators--description": {
+    "messageformat": "If disabled, you won't see typing indicators from others."
   },
   "icu:Preferences--updates": {
     "messageformat": "ಅಪ್‌ಡೇಟ್‌ಗಳು"
@@ -6682,6 +6814,9 @@
   "icu:MyStories__delete": {
     "messageformat": "ಈ ಸ್ಟೋರಿ ಅಳಿಸಿಹಾಕುವುದೇ? ಇದನ್ನು ಸ್ವೀಕರಿಸಿದ ಎಲ್ಲರಿಗೂ ಇದನ್ನು ಅಳಿಸಲಾಗುತ್ತದೆ."
   },
+  "icu:MyStories__delete-group-story-for-me": {
+    "messageformat": "ಈ ಸ್ಟೋರಿ ಅನ್ನು ಅಳಿಸಬೇಕೇ? ಗುಂಪು ಕೊನೆಗೊಂಡಿರುವುದರಿಂದ ಅದನ್ನು ನಿಮಗಾಗಿ ಮಾತ್ರ ಅಳಿಸಲಾಗುತ್ತದೆ."
+  },
   "icu:payment-event-notification-message-you-label": {
     "messageformat": "ನೀವು {receiver} ಅವರಿಗೆ ಪಾವತಿಯನ್ನು ಪ್ರಾರಂಭಿಸಿದ್ದೀರಿ"
   },
@@ -6903,6 +7038,9 @@
   },
   "icu:StoriesSettings__view-receipts--label": {
     "messageformat": "ವೀಕ್ಷಣೆ ರಸೀದಿಗಳು"
+  },
+  "icu:StoriesSettings__view-receipts--new-description": {
+    "messageformat": "See and share when stories are viewed. If disabled, you won't see when others view your story."
   },
   "icu:StoriesSettings__view-receipts--description": {
     "messageformat": "ಈ ಸೆಟ್ಟಿಂಗ್ ಬದಲಾಯಿಸಲು, ನಿಮ್ಮ ಮೊಬೈಲ್ ಸಾಧನದಲ್ಲಿ Signal ಆ್ಯಪ್ ತೆರೆಯಿರಿ ಮತ್ತು ಸೆಟ್ಟಿಂಗ್‌ಗಳು -> ಸ್ಟೋರೀಸ್ ಗೆ ನ್ಯಾವಿಗೇಟ್ ಮಾಡಿ"
@@ -7553,6 +7691,18 @@
   "icu:ProfileNameWarningModal__list--item3--direct": {
     "messageformat": "ನಿಮಗೆ ಪರಿಚಯವಿಲ್ಲದ ಜನರೊಂದಿಗೆ ವೈಯಕ್ತಿಕ ಮಾಹಿತಿಯನ್ನು ಹಂಚಿಕೊಳ್ಳಬೇಡಿ"
   },
+  "icu:ProfileNameWarningModal__warning--signal-cant-verify": {
+    "messageformat": "Signal can’t verify names and photos"
+  },
+  "icu:ProfileNameWarningModal__warning--signal-wont-contact": {
+    "messageformat": "Signal will never contact you for your registration code, PIN, or recovery key"
+  },
+  "icu:ProfileNameWarningModal__warning--be-cautious": {
+    "messageformat": "Be cautious of accounts that impersonate others"
+  },
+  "icu:ProfileNameWarningModal__warning--dont-share-info": {
+    "messageformat": "Don't share personal information with people you don't know"
+  },
   "icu:ProfileNameWarningModal__description--group": {
     "messageformat": "ಗುಂಪಿನ ಹೆಸರುಗಳನ್ನು ಗುಂಪಿನ ಸದಸ್ಯರು ಆಯ್ಕೆ ಮಾಡುತ್ತಾರೆ."
   },
@@ -8015,17 +8165,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "ಸಣ್ಣ ಟ್ವೀಕ್‌ಗಳು, ಬಗ್ ಫಿಕ್ಸ್‌ಗಳು ಮತ್ತು ಕಾರ್ಯಕ್ಷಮತೆ ವರ್ಧನೆಗಳು. Signal ಬಳಸುತ್ತಿರುವುದಕ್ಕಾಗಿ ಧನ್ಯವಾದಗಳು!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__7.90--0": {
-    "messageformat": "Signal Artist ಸೀರೀಸ್‌ನಲ್ಲಿ ಐದು ಹೊಸ ಅಧಿಕೃತ ಸ್ಟಿಕ್ಕರ್ ಪ್ಯಾಕ್‌ಗಳೊಂದಿಗೆ ಗೌಪ್ಯತೆಯನ್ನು ಉಳಿಸಿಕೊಳ್ಳಿ: ಅಮಂಡಾ ಕೋಟನ್ ಅವರ \"Chug the Mouse\", ಮಿಗೆಲ್ ಏಂಜೆಲ್ ಕ್ಯಾಂಪ್‌ರುಬಿ ಅವರ \"Cozy Season\", ಟಿಫಾನಿ ಬ್ಯೂಚರ್ ಅವರ \"Croco's Feelings\", ಪ್ಲಾಸ್ಟಿಕ್ ಥಿಂಗ್ ಅವರ \"My Daily Life 2\" ಮತ್ತು ಲೆಕ್ಸಿ ವೇ ಅವರ \"Rocky Talk\"."
-  },
-  "icu:WhatsNew__8.0--0": {
-    "messageformat": "Signal ಸುರಕ್ಷಿತ ಬ್ಯಾಕಪ್‌ಗಳು ಇಲ್ಲಿವೆ! ನೀವು ಸ್ವಯಂಚಾಲಿತ ಎಂಡ್-ಟು-ಎಂಡ್ ಎನ್ಕ್ರಿಪ್ಟ್ ಆಗಿರುವ ಬ್ಯಾಕಪ್ ಸಕ್ರಿಯಗೊಳಿಲು ಆಯ್ಕೆಮಾಡಬಹುದು, ಇದರಿಂದ ಹೊಸ ಫೋನ್ ಪಡೆದಾಗ ಅಥವಾ Signal ರೀಇನ್‌ಸ್ಟಾಲ್ ಮಾಡಿದಾಗ ನೀವು ಮೆಸೇಜ್ ಕಳೆದುಕೊಳ್ಳುವುದಿಲ್ಲ. ನೀವು ನಿಮ್ಮ ಎಲ್ಲಾ ಮೆಸೇಜ್‍ಗಳನ್ನು ಮತ್ತು ಕಳೆದ 45 ದಿನಗಳ ಮೀಡಿಯಾವನ್ನು ಉಚಿತವಾಗಿ ಬ್ಯಾಕಪ್ ಮಾಡಬಹುದು ಅಥವಾ ಪ್ರತಿ ಅಟ್ಯಾಚ್‌ಮೆಂಟ್ ಬ್ಯಾಕಪ್ ಮಾಡಲು 100 GB ಸಂಗ್ರಹಣೆಗಾಗಿ ಸಣ್ಣ ಮಾಸಿಕ ಶುಲ್ಕ ಪಾವತಿಸಬಹುದು. ಪ್ರಾರಂಭಿಸಲು Signal ಸೆಟ್ಟಿಂಗ್‌ಗಳು ಎಂಬುದರಲ್ಲಿ ಬ್ಯಾಕಪ್ ಟ್ಯಾಪ್ ಮಾಡಿ. ಬೀಟಾ ಅವಧಿಯಲ್ಲಿ ಈ ಫೀಚರ್ ಪರೀಕ್ಷಿಸಲು ಸಹಾಯಮಾಡಿದ ಎಲ್ಲರಿಗೂ ಧನ್ಯವಾದ!"
-  },
-  "icu:WhatsNew__8.2--0": {
-    "messageformat": "ಈಗ ನೀವು Signal ಡೆಸ್ಕ್‌ಟಾಪ್‌ನಿಂದಲೂ ಏಕ ವೀಕ್ಷಣೆ ಮೀಡಿಯಾ ಮೆಸೇಜ್‌ಗಳನ್ನು ಕಳುಹಿಸಬಹುದು. ಏಕ ವೀಕ್ಷಣೆ ಸಂದೇಶಗಳು ಎಂಬುದಾಗಿ ಕಳುಹಿಸಲಾದ ಮೆಸೇಜ್‌ಗಳನ್ನು ವೈಯಕ್ತಿಕ ಫೋಟೋಗಳು ಮತ್ತು ವೀಡಿಯೊಗಳನ್ನು ವೀಕ್ಷಿಸಿದ ನಂತರ ಸಂಭಾಷಣೆಯ ಥ್ರೆಡ್‌ನಿಂದ ಸ್ವಯಂಚಾಲಿತವಾಗಿ ತೆಗೆದುಹಾಕಲಾಗುತ್ತದೆ."
-  },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "ಈಗ ನೀವು ಗುಂಪು ಚಾಟ್‌ನಲ್ಲಿ ನಿಮ್ಮನ್ನು ಅಥವಾ ನಿಮ್ಮ ಪಾತ್ರವನ್ನು ವಿವರಿಸಲು ಐಚ್ಛಿಕವಾಗಿ ಸದಸ್ಯರ ಲೇಬಲ್ ಸೇರಿಸಬಹುದು. ನಿಮ್ಮ ಸ್ಥಳೀಯ ರೆಕ್ ಲೀಗ್ ಸಾಕರ್ ಚಾಟ್‌ನಲ್ಲಿ ತಂಡದ ಹೊಸ ಸದಸ್ಯರು ಸೇರಿದಾಗ ಆರಂಭಿಸಲು ಸಹಾಯವಾಗುವಂತೆ ಗುಂಪಿನ ಸದಸ್ಯರ ಲೇಬಲ್ ಅನ್ನು \"ರೆಫರಿ\" ಅಥವಾ \"ಗೋಲಿ\" ಎಂದು ಸೆಟ್ ಮಾಡಿ, ನಂತರ ಕಂಪನಿ ಚಾಟ್‌ನಲ್ಲಿ ಕೆಲಸದ ಶೀರ್ಷಿಕೆಯೊಂದಿಗೆ ಬೇರೆ ಲೇಬಲ್ ಆಯ್ಕೆಮಾಡಿ. ಆ ಗುಂಪಿನಲ್ಲಿ ನಿಮ್ಮ ಪ್ರೊಫೈಲ್ ಹೆಸರಿನ ಪಕ್ಕದಲ್ಲಿ ಸದಸ್ಯರ ಲೇಬಲ್‌ಗಳು ಕಾಣಿಸಿಕೊಳ್ಳುತ್ತವೆ ಮತ್ತು ಗುಂಪಿನ ಅಡ್ಮಿನ್‌ಗಳು ಅವುಗಳನ್ನು ಎಲ್ಲರಿಗೂ ಸಕ್ರಿಯಗೊಳಿಸಬೇಕೇ ಅಥವಾ ಬೇಡವೇ ಎಂಬುದನ್ನು ನಿಯಂತ್ರಿಸಬಹುದು."
   }
 }

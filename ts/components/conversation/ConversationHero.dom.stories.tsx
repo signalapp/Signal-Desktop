@@ -5,13 +5,13 @@ import type { Meta, StoryFn } from '@storybook/react';
 import React, { useContext } from 'react';
 import casual from 'casual';
 import { action } from '@storybook/addon-actions';
-import type { Props } from './ConversationHero.dom.js';
-import { ConversationHero } from './ConversationHero.dom.js';
-import { HasStories } from '../../types/Stories.std.js';
-import { StorybookThemeContext } from '../../../.storybook/StorybookThemeContext.std.js';
-import { getDefaultConversation } from '../../test-helpers/getDefaultConversation.std.js';
-import { ThemeType } from '../../types/Util.std.js';
-import type { GroupV2Membership } from './conversation-details/ConversationDetailsMembershipList.dom.js';
+import type { Props } from './ConversationHero.dom.tsx';
+import { ConversationHero } from './ConversationHero.dom.tsx';
+import { HasStories } from '../../types/Stories.std.ts';
+import { StorybookThemeContext } from '../../../.storybook/StorybookThemeContext.std.ts';
+import { getDefaultConversation } from '../../test-helpers/getDefaultConversation.std.ts';
+import { ThemeType } from '../../types/Util.std.ts';
+import type { GroupV2Membership } from './conversation-details/ConversationDetailsMembershipList.dom.tsx';
 
 const { i18n } = window.SignalContext;
 
@@ -48,9 +48,11 @@ export default {
   component: ConversationHero,
   args: {
     conversationType: 'direct',
-    fromOrAddedByTrustedContact: true,
+    hasNickname: false,
+    hasProfileName: true,
     i18n,
-    isDirectConvoAndHasNickname: false,
+    isGroupNameVerified: false,
+    isInSystemContacts: false,
     theme: ThemeType.light,
     sharedGroupNames: [],
     viewUserStories: action('viewUserStories'),
@@ -62,12 +64,11 @@ export default {
   },
 } satisfies Meta<Props>;
 
-// eslint-disable-next-line react/function-component-definition
 const Template: StoryFn<Props> = args => {
   const theme = useContext(StorybookThemeContext);
   const baseProps = {
-    ...args,
     ...getDefaultConversation(),
+    ...args,
   };
 
   const memberships = createMemberships({
@@ -110,77 +111,35 @@ DirectOneOtherGroup.args = {
   sharedGroupNames: [casual.title],
 };
 
-export const DirectNoGroupsName = Template.bind({});
-DirectNoGroupsName.args = {
-  about: '👍 Free to chat',
+export const DirectNoGroups = Template.bind({});
+DirectNoGroups.args = {};
+
+export const DirectWithNickname = Template.bind({});
+DirectWithNickname.args = { hasNickname: true };
+
+export const DirectInSystemContacts = Template.bind({});
+DirectInSystemContacts.args = { hasNickname: true, isInSystemContacts: true };
+
+export const DirectNoProfileName = Template.bind({});
+DirectNoProfileName.args = { title: '123-555-1234', hasProfileName: false };
+
+export const DirectMessageRequest = Template.bind({});
+DirectMessageRequest.args = { acceptedMessageRequest: false };
+
+export const DirectUnreadStories = Template.bind({});
+DirectUnreadStories.args = {
+  hasStories: HasStories.Unread,
 };
 
-export const DirectNoGroupsJustProfile = Template.bind({});
-DirectNoGroupsJustProfile.args = {
-  phoneNumber: casual.phone,
+export const DirectReadStories = Template.bind({});
+DirectReadStories.args = {
+  hasStories: HasStories.Read,
 };
-
 export const SignalConversation = Template.bind({});
 SignalConversation.args = {
   avatarUrl: 'images/profile-avatar.svg',
   title: 'Signal',
   isSignalConversation: true,
-  phoneNumber: casual.phone,
-};
-
-export const DirectNoGroupsJustPhoneNumber = Template.bind({});
-DirectNoGroupsJustPhoneNumber.args = {
-  phoneNumber: casual.phone,
-  profileName: '',
-  title: casual.phone,
-};
-
-export const DirectNoGroupsNoData = Template.bind({});
-DirectNoGroupsNoData.args = {
-  avatarUrl: undefined,
-  phoneNumber: '',
-  profileName: '',
-  title: casual.phone,
-};
-
-export const DirectNoGroupsNoDataNotAccepted = Template.bind({});
-DirectNoGroupsNoDataNotAccepted.args = {
-  acceptedMessageRequest: false,
-  avatarUrl: undefined,
-  phoneNumber: '',
-  profileName: '',
-  title: '',
-};
-
-export const DirectNoGroupsNotAcceptedWithAvatar = Template.bind({});
-DirectNoGroupsNotAcceptedWithAvatar.args = {
-  acceptedMessageRequest: false,
-  profileName: '',
-};
-
-export const GroupLongGroupDescription = Template.bind({});
-GroupLongGroupDescription.args = {
-  conversationType: 'group',
-  groupDescription:
-    "This is a group for all the rock climbers of NYC. We really like to climb rocks and these NYC people climb any rock. No rock is too small or too big to be climbed. We will ascend upon all rocks, and not just in NYC, in the whole world. We are just getting started, NYC is just the beginning, watch out rocks in the galaxy. Kuiper belt I'm looking at you. We will put on a space suit and climb all your rocks. No rock is near nor far for the rock climbers of NYC.",
-  membersCount: casual.integer(1, 10),
-  title: casual.title,
-};
-
-export const GroupNoName = Template.bind({});
-GroupNoName.args = {
-  conversationType: 'group',
-  membersCount: 0,
-  title: '',
-};
-
-export const GroupNotAccepted = Template.bind({});
-GroupNotAccepted.args = {
-  conversationType: 'group',
-  groupDescription: casual.sentence,
-  membersCount: casual.integer(20, 100),
-  title: casual.title,
-  acceptedMessageRequest: false,
 };
 
 export const NoteToSelf = Template.bind({});
@@ -188,37 +147,41 @@ NoteToSelf.args = {
   isMe: true,
 };
 
-export const UnreadStories = Template.bind({});
-UnreadStories.args = {
-  hasStories: HasStories.Unread,
-};
-
-export const ReadStories = Template.bind({});
-ReadStories.args = {
-  hasStories: HasStories.Read,
-};
-
-export const DirectNotFromTrustedContact = Template.bind({});
-DirectNotFromTrustedContact.args = {
-  conversationType: 'direct',
-  title: casual.full_name,
-  fromOrAddedByTrustedContact: false,
-};
-
-export const DirectWithNickname = Template.bind({});
-DirectWithNickname.args = {
-  conversationType: 'direct',
-  title: casual.full_name,
-  fromOrAddedByTrustedContact: false,
-  isDirectConvoAndHasNickname: true,
-};
-
-export const GroupNotFromTrustedContact = Template.bind({});
-GroupNotFromTrustedContact.args = {
+const groupArgs = {
   conversationType: 'group',
-  title: casual.title,
-  membersCount: casual.integer(5, 20),
-  fromOrAddedByTrustedContact: false,
+  membersCount: casual.integer(1, 10),
+  title: 'Group title',
+} as const;
+
+export const Group = Template.bind({});
+Group.args = {
+  ...groupArgs,
+  title: 'This is the title that never ends',
+};
+export const GroupLongTitle = Template.bind({});
+GroupLongTitle.args = {
+  ...groupArgs,
+  title: 'This is the title that never ends',
+};
+
+export const GroupLongGroupDescription = Template.bind({});
+GroupLongGroupDescription.args = {
+  ...groupArgs,
+  groupDescription:
+    "This is anextremelylargewordinaverylargegroupdescriptionandagroup for all the rock climbers of NYC. We really like to climb rocks and these NYC people climb any rock. No rock is too small or too big to be climbed. We will ascend upon all rocks, and not just in NYC, in the whole world. We are just getting started, NYC is just the beginning, watch out rocks in the galaxy. Kuiper belt I'm looking at you. We will put on a space suit and climb all your rocks. No rock is near nor far for the rock climbers of NYC.",
+};
+
+export const GroupMessageRequest = Template.bind({});
+GroupMessageRequest.args = {
+  ...groupArgs,
+  groupDescription: casual.sentence,
+  acceptedMessageRequest: false,
+};
+
+export const GroupVerifiedName = Template.bind({});
+GroupVerifiedName.args = {
+  ...groupArgs,
+  isGroupNameVerified: true,
 };
 
 export function GroupMemberNames(args: Props): React.JSX.Element {

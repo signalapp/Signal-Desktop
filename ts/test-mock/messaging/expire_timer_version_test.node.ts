@@ -10,17 +10,17 @@ import {
 } from '@signalapp/mock-server';
 import createDebug from 'debug';
 
-import * as durations from '../../util/durations/index.std.js';
-import { uuidToBytes } from '../../util/uuidToBytes.std.js';
-import { MY_STORY_ID } from '../../types/Stories.std.js';
-import { Bootstrap } from '../bootstrap.node.js';
-import type { App } from '../bootstrap.node.js';
+import * as durations from '../../util/durations/index.std.ts';
+import { uuidToBytes } from '../../util/uuidToBytes.std.ts';
+import { MY_STORY_ID } from '../../types/Stories.std.ts';
+import { Bootstrap } from '../bootstrap.node.ts';
+import type { App } from '../bootstrap.node.ts';
 import {
   expectSystemMessages,
   typeIntoInput,
   waitForEnabledComposer,
   waitForNonProfileKeyUpdateMessage,
-} from '../helpers.node.js';
+} from '../helpers.node.ts';
 
 export const debug = createDebug('mock:test:messaging');
 
@@ -175,7 +175,7 @@ describe('messaging/expireTimerVersion', function (this: Mocha.Suite) {
     const testName =
       `sets correct version after ${scenario.name}, ` +
       `theyFirst=${scenario.theyFirst}`;
-    // eslint-disable-next-line no-loop-func
+    // oxlint-disable-next-line no-loop-func
     it(testName, async () => {
       const { phone, desktop } = bootstrap;
 
@@ -273,7 +273,7 @@ describe('messaging/expireTimerVersion', function (this: Mocha.Suite) {
 
       await expectSystemMessages(window, scenario.systemMessages);
 
-      await window.locator('.module-conversation-hero').waitFor();
+      await window.getByTestId('conversation-hero').waitFor();
 
       debug('Send message to merged contact');
       {
@@ -304,7 +304,7 @@ describe('messaging/expireTimerVersion', function (this: Mocha.Suite) {
       )
       .click();
 
-    await window.locator('.module-conversation-hero').waitFor();
+    await window.getByTestId('conversation-hero').waitFor();
 
     const conversationStack = window.locator('.Inbox__conversation-stack');
 

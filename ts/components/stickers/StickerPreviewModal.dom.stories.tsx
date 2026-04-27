@@ -4,13 +4,13 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { Props } from './StickerPreviewModal.dom.js';
-import { StickerPreviewModal } from './StickerPreviewModal.dom.js';
+import type { Props } from './StickerPreviewModal.dom.tsx';
+import { StickerPreviewModal } from './StickerPreviewModal.dom.tsx';
 import {
   landscapeGreenUrl,
   portraitTealUrl,
   squareStickerUrl,
-} from '../../storybook/Fixtures.std.js';
+} from '../../storybook/Fixtures.std.ts';
 
 const { i18n } = window.SignalContext;
 
@@ -112,7 +112,7 @@ export function InitialDownload(): React.JSX.Element {
       uninstallStickerPack={action('uninstallStickerPack')}
       downloadStickerPack={action('downloadStickerPack')}
       i18n={i18n}
-      //  eslint-disable-next-line @typescript-eslint/no-explicit-any
+      //  oxlint-disable-next-line typescript/no-explicit-any
       pack={{} as any}
     />
   );

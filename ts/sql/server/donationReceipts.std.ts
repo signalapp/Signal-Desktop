@@ -1,10 +1,10 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { sql } from '../util.std.js';
+import { sql } from '../util.std.ts';
 
-import type { DonationReceipt } from '../../types/Donations.std.js';
-import type { ReadableDB, WritableDB } from '../Interface.std.js';
+import type { DonationReceipt } from '../../types/Donations.std.ts';
+import type { ReadableDB, WritableDB } from '../Interface.std.ts';
 
 export function getAllDonationReceipts(db: ReadableDB): Array<DonationReceipt> {
   const donationReceipts = db

@@ -4,13 +4,16 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import { generateAci, generatePni } from '../../types/ServiceId.std.js';
-import type { ServiceIdString, AciString } from '../../types/ServiceId.std.js';
-import type { GroupV2ChangeType } from '../../types/groups.std.js';
-import { SignalService as Proto } from '../../protobuf/index.std.js';
-import type { SmartContactRendererType } from '../../groupChange.std.js';
-import type { PropsType } from './GroupV2Change.dom.js';
-import { GroupV2Change } from './GroupV2Change.dom.js';
+import type { ServiceIdString, AciString } from '../../types/ServiceId.std.ts';
+import type { GroupV2ChangeType } from '../../types/groups.std.ts';
+import { SignalService as Proto } from '../../protobuf/index.std.ts';
+import type { SmartContactRendererType } from '../../groupChange.std.ts';
+import type { PropsType } from './GroupV2Change.dom.tsx';
+import { GroupV2Change } from './GroupV2Change.dom.tsx';
+import {
+  generateAci,
+  generatePni,
+} from '../../test-helpers/serviceIdUtils.std.ts';
 
 // Note: this should be kept up to date with backup_groupv2_notifications_test.ts, to
 //   maintain the comprehensive set of GroupV2 notifications we need to handle
@@ -1789,6 +1792,36 @@ export function AnnouncementGroupChange(): React.JSX.Element {
           {
             type: 'announcements-only',
             announcementsOnly: false,
+          },
+        ],
+      })}
+    </>
+  );
+}
+
+export function GroupTerminated(): React.JSX.Element {
+  return (
+    <>
+      {renderChange({
+        from: OUR_ACI,
+        details: [
+          {
+            type: 'terminated',
+          },
+        ],
+      })}
+      {renderChange({
+        from: ADMIN_A,
+        details: [
+          {
+            type: 'terminated',
+          },
+        ],
+      })}
+      {renderChange({
+        details: [
+          {
+            type: 'terminated',
           },
         ],
       })}

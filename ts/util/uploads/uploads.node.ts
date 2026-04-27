@@ -3,9 +3,9 @@
 import fetch from 'node-fetch';
 import { createReadStream, createWriteStream } from 'node:fs';
 import { pipeline } from 'node:stream/promises';
-import type { TusFileReader, FetchFunctionType } from './tusProtocol.node.js';
-import { tusResumeUpload, tusUpload } from './tusProtocol.node.js';
-import { HTTPError } from '../../types/HTTPError.std.js';
+import type { TusFileReader, FetchFunctionType } from './tusProtocol.node.ts';
+import { tusResumeUpload, tusUpload } from './tusProtocol.node.ts';
+import { HTTPError } from '../../types/HTTPError.std.ts';
 
 export const defaultFileReader: TusFileReader = (filePath, offset) => {
   return createReadStream(filePath, { start: offset });
@@ -83,7 +83,7 @@ export async function resumeUploadAttachment({
  * @throws {ResponseError} If the server responded with an error.
  * @throws {Error} If the response has no body.
  */
-export async function _doDownload({
+async function _doDownload({
   endpoint,
   headers = {},
   filePath,

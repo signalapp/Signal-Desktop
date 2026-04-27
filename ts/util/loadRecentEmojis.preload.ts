@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import lodash from 'lodash';
-import { DataReader } from '../sql/Client.preload.js';
+import { DataReader } from '../sql/Client.preload.ts';
 
 const { take } = lodash;
 

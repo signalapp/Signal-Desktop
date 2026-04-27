@@ -4,33 +4,33 @@ import type { ReadonlyDeep } from 'type-fest';
 import { v4 as generateUuid } from 'uuid';
 import type { ThunkAction } from 'redux-thunk';
 import { throttle } from 'lodash';
-import type { StateType as RootStateType } from '../reducer.preload.js';
-import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.js';
-import { useBoundActions } from '../../hooks/useBoundActions.std.js';
+import type { StateType as RootStateType } from '../reducer.preload.ts';
+import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.ts';
+import { useBoundActions } from '../../hooks/useBoundActions.std.ts';
 import {
   ChatFolderParamsSchema,
   isConversationInChatFolder,
   type ChatFolder,
   type ChatFolderId,
   type ChatFolderParams,
-} from '../../types/ChatFolder.std.js';
+} from '../../types/ChatFolder.std.ts';
 import {
   getCurrentChatFolders,
   getSelectedChatFolder,
-} from '../selectors/chatFolders.std.js';
-import { DataReader, DataWriter } from '../../sql/Client.preload.js';
-import { storageServiceUploadJob } from '../../services/storage.preload.js';
-import { parseStrict } from '../../util/schemas.std.js';
-import { chatFolderCleanupService } from '../../services/expiring/chatFolderCleanupService.preload.js';
-import { drop } from '../../util/drop.std.js';
-import type { ShowToastActionType } from './toast.preload.js';
-import { showToast } from './toast.preload.js';
-import { ToastType } from '../../types/Toast.dom.js';
-import type { CurrentChatFolder } from '../../types/CurrentChatFolders.std.js';
-import { CurrentChatFolders } from '../../types/CurrentChatFolders.std.js';
-import { getConversationLookup } from '../selectors/conversations.dom.js';
-import { getOwn } from '../../util/getOwn.std.js';
-import { strictAssert } from '../../util/assert.std.js';
+} from '../selectors/chatFolders.std.ts';
+import { DataReader, DataWriter } from '../../sql/Client.preload.ts';
+import { storageServiceUploadJob } from '../../services/storage.preload.ts';
+import { parseStrict } from '../../util/schemas.std.ts';
+import { chatFolderCleanupService } from '../../services/expiring/chatFolderCleanupService.preload.ts';
+import { drop } from '../../util/drop.std.ts';
+import type { ShowToastActionType } from './toast.preload.ts';
+import { showToast } from './toast.preload.ts';
+import { ToastType } from '../../types/Toast.dom.tsx';
+import type { CurrentChatFolder } from '../../types/CurrentChatFolders.std.ts';
+import { CurrentChatFolders } from '../../types/CurrentChatFolders.std.ts';
+import { getConversationLookup } from '../selectors/conversations.dom.ts';
+import { getOwn } from '../../util/getOwn.std.ts';
+import { strictAssert } from '../../util/assert.std.ts';
 
 export type ChatFoldersState = ReadonlyDeep<{
   currentChatFolders: CurrentChatFolders;

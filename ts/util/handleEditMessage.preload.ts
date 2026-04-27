@@ -1,38 +1,38 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { AttachmentType } from '../types/Attachment.std.js';
-import type { EditAttributesType } from '../messageModifiers/Edits.preload.js';
+import type { AttachmentType } from '../types/Attachment.std.ts';
+import type { EditAttributesType } from '../messageModifiers/Edits.preload.ts';
 import type {
   EditHistoryType,
   MessageAttributesType,
 } from '../model-types.d.ts';
-import * as Edits from '../messageModifiers/Edits.preload.js';
-import { createLogger } from '../logging/log.std.js';
-import { ReadStatus } from '../messages/MessageReadStatus.std.js';
-import { DataWriter } from '../sql/Client.preload.js';
-import { drop } from './drop.std.js';
-import { upgradeMessageSchema } from './migrations.preload.js';
+import * as Edits from '../messageModifiers/Edits.preload.ts';
+import { createLogger } from '../logging/log.std.ts';
+import { ReadStatus } from '../messages/MessageReadStatus.std.ts';
+import { DataWriter } from '../sql/Client.preload.ts';
+import { drop } from './drop.std.ts';
+import { upgradeMessageSchema } from './migrations.preload.ts';
 import {
   deliveryReceiptQueue,
   deliveryReceiptBatcher,
-} from './deliveryReceipt.preload.js';
+} from './deliveryReceipt.preload.ts';
 import {
   cacheAttachmentBySignature,
   getCachedAttachmentBySignature,
   isVoiceMessage,
-} from './Attachment.std.js';
-import { isAciString } from './isAciString.std.js';
-import { getMessageIdForLogging } from './idForLogging.preload.js';
-import { hasErrors } from '../state/selectors/message.preload.js';
-import { isIncoming, isOutgoing } from '../messages/helpers.std.js';
-import { isDirectConversation } from './whatTypeOfConversation.dom.js';
-import { isTooOldToEditMessage } from './isTooOldToEditMessage.std.js';
-import { queueAttachmentDownloads } from './queueAttachmentDownloads.preload.js';
-import { modifyTargetMessage } from './modifyTargetMessage.preload.js';
-import { isMessageNoteToSelf } from './isMessageNoteToSelf.dom.js';
-import { MessageModel } from '../models/messages.preload.js';
-import { itemStorage } from '../textsecure/Storage.preload.js';
+} from './Attachment.std.ts';
+import { isAciString } from './isAciString.std.ts';
+import { getMessageIdForLogging } from './idForLogging.preload.ts';
+import { hasErrors } from '../state/selectors/message.preload.ts';
+import { isIncoming, isOutgoing } from '../messages/helpers.std.ts';
+import { isDirectConversation } from './whatTypeOfConversation.dom.ts';
+import { isTooOldToEditMessage } from './isTooOldToEditMessage.std.ts';
+import { queueAttachmentDownloads } from './queueAttachmentDownloads.preload.ts';
+import { modifyTargetMessage } from './modifyTargetMessage.preload.ts';
+import { isMessageNoteToSelf } from './isMessageNoteToSelf.dom.ts';
+import { MessageModel } from '../models/messages.preload.ts';
+import { itemStorage } from '../textsecure/Storage.preload.ts';
 
 const log = createLogger('handleEditMessage');
 
@@ -137,7 +137,7 @@ export async function handleEditMessage(
     editAttributes.message
   );
 
-  const previewSignatures: Map<string, AttachmentType> = new Map();
+  const previewSignatures = new Map<string, AttachmentType>();
   mainMessage.preview?.forEach(preview => {
     if (!preview.image) {
       return;

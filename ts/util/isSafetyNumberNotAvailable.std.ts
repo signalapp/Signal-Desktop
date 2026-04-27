@@ -1,8 +1,8 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ConversationType } from '../state/ducks/conversations.preload.js';
-import { isAciString } from './isAciString.std.js';
+import type { ConversationType } from '../state/ducks/conversations.preload.ts';
+import { isAciString } from './isAciString.std.ts';
 
 export const isSafetyNumberNotAvailable = (
   contact?: ConversationType

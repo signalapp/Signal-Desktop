@@ -12,10 +12,10 @@ import type { Op } from '@signalapp/quill-cjs';
 import type { Context as KeyboardContext } from '@signalapp/quill-cjs/modules/keyboard.js';
 import type { VirtualElement } from '@popperjs/core';
 
-import { createLogger } from '../../logging/log.std.js';
-import * as Errors from '../../types/errors.std.js';
-import type { LocalizerType } from '../../types/Util.std.js';
-import { handleOutsideClick } from '../../util/handleOutsideClick.dom.js';
+import { createLogger } from '../../logging/log.std.ts';
+import * as Errors from '../../types/errors.std.ts';
+import type { LocalizerType } from '../../types/Util.std.ts';
+import { handleOutsideClick } from '../../util/handleOutsideClick.dom.ts';
 
 const { isString } = lodash;
 

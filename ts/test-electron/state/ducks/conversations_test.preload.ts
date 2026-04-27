@@ -7,13 +7,13 @@ import { v4 as generateUuid } from 'uuid';
 import lodash from 'lodash';
 import type { ReadonlyDeep } from 'type-fest';
 
-import { reducer as rootReducer } from '../../../state/reducer.preload.js';
-import { noopAction } from '../../../state/ducks/noop.std.js';
+import { reducer as rootReducer } from '../../../state/reducer.preload.ts';
+import { noopAction } from '../../../state/ducks/noop.std.ts';
 import {
   ComposerStep,
   ConversationVerificationState,
   OneTimeModalState,
-} from '../../../state/ducks/conversationsEnums.std.js';
+} from '../../../state/ducks/conversationsEnums.std.ts';
 import type {
   CancelVerificationDataByConversationActionType,
   ConversationMessageType,
@@ -24,52 +24,51 @@ import type {
   ToggleConversationInChooseMembersActionType,
   MessageChangedActionType,
   ConversationsUpdatedActionType,
-} from '../../../state/ducks/conversations.preload.js';
+} from '../../../state/ducks/conversations.preload.ts';
 import {
   TARGETED_CONVERSATION_CHANGED,
   actions,
   cancelConversationVerification,
   clearCanceledConversationVerification,
-  getConversationCallMode,
   getEmptyState,
   reducer,
   updateConversationLookups,
-} from '../../../state/ducks/conversations.preload.js';
-import { ReadStatus } from '../../../messages/MessageReadStatus.std.js';
-import type { SingleServePromiseIdString } from '../../../services/singleServePromise.std.js';
-import { CallMode } from '../../../types/CallDisposition.std.js';
-import {
-  type AciString,
-  type PniString,
-  generateAci,
-  getAciFromPrefix,
-} from '../../../types/ServiceId.std.js';
-import { generateStoryDistributionId } from '../../../types/StoryDistributionId.std.js';
+} from '../../../state/ducks/conversations.preload.ts';
+import { ReadStatus } from '../../../messages/MessageReadStatus.std.ts';
+import type { SingleServePromiseIdString } from '../../../services/singleServePromise.std.ts';
+import { CallMode } from '../../../types/CallDisposition.std.ts';
+import type { AciString, PniString } from '../../../types/ServiceId.std.ts';
+import { generateStoryDistributionId } from '../../../types/StoryDistributionId.std.ts';
 import {
   getDefaultConversation,
   getDefaultConversationWithServiceId,
   getDefaultGroup,
-} from '../../../test-helpers/getDefaultConversation.std.js';
-import { getDefaultAvatars } from '../../../types/Avatar.std.js';
+} from '../../../test-helpers/getDefaultConversation.std.ts';
+import { getDefaultAvatars } from '../../../types/Avatar.std.ts';
 import {
   defaultStartDirectConversationComposerState,
   defaultChooseGroupMembersComposerState,
   defaultSetGroupMetadataComposerState,
-} from '../../../test-helpers/defaultComposerStates.std.js';
-import { updateRemoteConfig } from '../../../test-helpers/RemoteConfigStub.dom.js';
-import type { ShowSendAnywayDialogActionType } from '../../../state/ducks/globalModals.preload.js';
-import { SHOW_SEND_ANYWAY_DIALOG } from '../../../state/ducks/globalModals.preload.js';
-import type { StoryDistributionListsActionType } from '../../../state/ducks/storyDistributionLists.preload.js';
+} from '../../../test-helpers/defaultComposerStates.std.ts';
+import { updateRemoteConfig } from '../../../test-helpers/RemoteConfigStub.dom.ts';
+import type { ShowSendAnywayDialogActionType } from '../../../state/ducks/globalModals.preload.ts';
+import { SHOW_SEND_ANYWAY_DIALOG } from '../../../state/ducks/globalModals.preload.ts';
+import type { StoryDistributionListsActionType } from '../../../state/ducks/storyDistributionLists.preload.ts';
 import {
   DELETE_LIST,
   HIDE_MY_STORIES_FROM,
   MODIFY_LIST,
   VIEWERS_CHANGED,
-} from '../../../state/ducks/storyDistributionLists.preload.js';
-import { MY_STORY_ID } from '../../../types/Stories.std.js';
+} from '../../../state/ducks/storyDistributionLists.preload.ts';
+import { MY_STORY_ID } from '../../../types/Stories.std.ts';
 import type { ReadonlyMessageAttributesType } from '../../../model-types.d.ts';
-import { strictAssert } from '../../../util/assert.std.js';
-import { itemStorage } from '../../../textsecure/Storage.preload.js';
+import { strictAssert } from '../../../util/assert.std.ts';
+import { getConversationCallMode } from '../../../util/getConversationCallMode.std.ts';
+import { itemStorage } from '../../../textsecure/Storage.preload.ts';
+import {
+  generateAci,
+  getAciFromPrefix,
+} from '../../../test-helpers/serviceIdUtils.std.ts';
 
 const { times } = lodash;
 
@@ -123,7 +122,8 @@ describe('both/state/ducks/conversations', () => {
   const SERVICE_ID_3 = generateAci();
   const SERVICE_ID_4 = generateAci();
 
-  const getEmptyRootState = () => rootReducer(undefined, noopAction());
+  const getEmptyRootState = () =>
+    rootReducer(undefined, noopAction('getEmptyRootState'));
 
   let sinonSandbox: sinon.SinonSandbox;
   let createGroupStub: sinon.SinonStub;
@@ -567,6 +567,7 @@ describe('both/state/ducks/conversations', () => {
 
         assert(
           result.composer?.step === ComposerStep.SetGroupMetadata &&
+            // oxlint-disable-next-line typescript/no-unnecessary-boolean-literal-compare
             result.composer.hasError === false
         );
       });
@@ -2028,7 +2029,7 @@ describe('both/state/ducks/conversations', () => {
 
       it('defaults the maximum recommended size to 151', async () => {
         for (const value of [null, 'xyz']) {
-          // eslint-disable-next-line no-await-in-loop
+          // oxlint-disable-next-line no-await-in-loop
           await updateRemoteConfig(
             [
               {
@@ -2121,7 +2122,7 @@ describe('both/state/ducks/conversations', () => {
 
       it('defaults the maximum group size to 1001 if the recommended maximum is smaller', async () => {
         for (const value of [null, 'xyz']) {
-          // eslint-disable-next-line no-await-in-loop
+          // oxlint-disable-next-line no-await-in-loop
           await updateRemoteConfig(
             [{ name: 'global.groupsv2.maxGroupSize', value: '2' }].concat(
               value

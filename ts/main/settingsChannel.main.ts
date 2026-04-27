@@ -5,13 +5,13 @@ import type { BrowserWindow } from 'electron';
 import { ipcMain as ipc, session } from 'electron';
 import { EventEmitter } from 'node:events';
 
-import { createLogger } from '../logging/log.std.js';
-import { userConfig } from '../../app/user_config.main.js';
-import { ephemeralConfig } from '../../app/ephemeral_config.main.js';
-import { installPermissionsHandler } from '../../app/permissions.std.js';
-import { strictAssert } from '../util/assert.std.js';
+import { createLogger } from '../logging/log.std.ts';
+import { userConfig } from '../../app/user_config.main.ts';
+import { ephemeralConfig } from '../../app/ephemeral_config.main.ts';
+import { installPermissionsHandler } from '../../app/permissions.std.ts';
+import { strictAssert } from '../util/assert.std.ts';
 
-import type { EphemeralSettings } from '../util/preload.preload.js';
+import type { EphemeralSettings } from '../util/preload.preload.ts';
 
 const log = createLogger('settingsChannel');
 
@@ -130,7 +130,7 @@ export class SettingsChannel extends EventEmitter {
 
   public override on(
     type: string | symbol,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // oxlint-disable-next-line typescript/no-explicit-any
     listener: (...args: Array<any>) => void
   ): this {
     return super.on(type, listener);
@@ -146,7 +146,7 @@ export class SettingsChannel extends EventEmitter {
     name: string
   ): boolean;
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // oxlint-disable-next-line typescript/no-explicit-any
   public override emit(type: string | symbol, ...args: Array<any>): boolean {
     return super.emit(type, ...args);
   }

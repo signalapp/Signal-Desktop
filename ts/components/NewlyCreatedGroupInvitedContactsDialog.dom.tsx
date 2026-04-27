@@ -4,13 +4,13 @@
 import type { ReactNode } from 'react';
 import React from 'react';
 
-import type { LocalizerType, ThemeType } from '../types/Util.std.js';
-import type { ConversationType } from '../state/ducks/conversations.preload.js';
-import type { PreferredBadgeSelectorType } from '../state/selectors/badges.preload.js';
-import { I18n } from './I18n.dom.js';
-import { ContactName } from './conversation/ContactName.dom.js';
-import { GroupDialog } from './GroupDialog.dom.js';
-import { openLinkInWebBrowser } from '../util/openLinkInWebBrowser.dom.js';
+import type { LocalizerType, ThemeType } from '../types/Util.std.ts';
+import type { ConversationType } from '../state/ducks/conversations.preload.ts';
+import type { PreferredBadgeSelectorType } from '../state/selectors/badges.preload.ts';
+import { I18n } from './I18n.dom.tsx';
+import { ContactName } from './conversation/ContactName.dom.tsx';
+import { GroupDialog } from './GroupDialog.dom.tsx';
+import { openLinkInWebBrowser } from '../util/openLinkInWebBrowser.dom.ts';
 
 export type PropsType = {
   contacts: Array<ConversationType>;
@@ -29,7 +29,7 @@ export function NewlyCreatedGroupInvitedContactsDialog({
 }: PropsType): React.JSX.Element {
   let body: ReactNode;
   if (contacts.length === 1) {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    // oxlint-disable-next-line typescript/no-non-null-assertion
     const contact = contacts[0]!;
 
     body = (

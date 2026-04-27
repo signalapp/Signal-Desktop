@@ -1,9 +1,6 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* eslint-disable no-bitwise */
-/* eslint-disable max-classes-per-file */
-
 import { z } from 'zod';
 import PQueue from 'p-queue';
 import pMap from 'p-map';
@@ -18,97 +15,98 @@ import type { RequireExactlyOne } from 'type-fest';
 import {
   GLOBAL_ZONE,
   signalProtocolStore,
-} from '../SignalProtocolStore.preload.js';
-import { DataWriter } from '../sql/Client.preload.js';
-import type { ConversationModel } from '../models/conversations.preload.js';
-import { assertDev, strictAssert } from '../util/assert.std.js';
-import { parseIntOrThrow } from '../util/parseIntOrThrow.std.js';
-import { uuidToBytes } from '../util/uuidToBytes.std.js';
-import { Address } from '../types/Address.std.js';
-import { QualifiedAddress } from '../types/QualifiedAddress.std.js';
-import type { StoryMessageRecipientsType } from '../types/Stories.std.js';
-import { SenderKeys } from '../LibSignalStores.preload.js';
+} from '../SignalProtocolStore.preload.ts';
+import { DataWriter } from '../sql/Client.preload.ts';
+import type { ConversationModel } from '../models/conversations.preload.ts';
+import { assertDev, strictAssert } from '../util/assert.std.ts';
+import { parseIntOrThrow } from '../util/parseIntOrThrow.std.ts';
+import { uuidToBytes } from '../util/uuidToBytes.std.ts';
+import { Address } from '../types/Address.std.ts';
+import { QualifiedAddress } from '../types/QualifiedAddress.std.ts';
+import type { StoryMessageRecipientsType } from '../types/Stories.std.ts';
+import { SenderKeys } from '../LibSignalStores.node.ts';
 import type {
   TextAttachmentType,
   UploadedAttachmentType,
-} from '../types/Attachment.std.js';
-import type { AciString, ServiceIdString } from '../types/ServiceId.std.js';
+} from '../types/Attachment.std.ts';
+import type { AciString, ServiceIdString } from '../types/ServiceId.std.ts';
 import {
   ServiceIdKind,
   serviceIdSchema,
   isPniString,
-} from '../types/ServiceId.std.js';
+} from '../types/ServiceId.std.ts';
 import {
   toAciObject,
   toPniObject,
   toServiceIdObject,
-} from '../util/ServiceId.node.js';
-import createTaskWithTimeout from './TaskWithTimeout.std.js';
+} from '../util/ServiceId.node.ts';
+import { runTaskWithTimeout } from './TaskWithTimeout.std.ts';
 import type { CallbackResultType } from './Types.d.ts';
 import type {
   SerializedCertificateType,
   SendLogCallbackType,
-} from './OutgoingMessage.preload.js';
-import OutgoingMessage from './OutgoingMessage.preload.js';
-import * as Bytes from '../Bytes.std.js';
-import { getRandomBytes } from '../Crypto.node.js';
-import { SendMessageProtoError, NoSenderKeyError } from './Errors.std.js';
-import { BodyRange } from '../types/BodyRange.std.js';
-import type { RawBodyRange } from '../types/BodyRange.std.js';
-import type { StoryContextType } from '../types/Util.std.js';
-import { concat, isEmpty } from '../util/iterables.std.js';
-import type { SendTypesType } from '../util/handleMessageSend.preload.js';
+} from './OutgoingMessage.preload.ts';
+import OutgoingMessage from './OutgoingMessage.preload.ts';
+import * as Bytes from '../Bytes.std.ts';
+import { getRandomBytes } from '../Crypto.node.ts';
+import { SendMessageProtoError, NoSenderKeyError } from './Errors.std.ts';
+import { BodyRange } from '../types/BodyRange.std.ts';
+import type { RawBodyRange } from '../types/BodyRange.std.ts';
+import type { StoryContextType } from '../types/Util.std.ts';
+import { concat, isEmpty } from '../util/iterables.std.ts';
+import type { SendTypesType } from '../util/handleMessageSend.preload.ts';
 import {
   shouldSaveProto,
   sendTypesEnum,
-} from '../util/handleMessageSend.preload.js';
-import type { DurationInSeconds } from '../util/durations/index.std.js';
-import { SignalService as Proto } from '../protobuf/index.std.js';
-import { createLogger } from '../logging/log.std.js';
-import type { EmbeddedContactWithUploadedAvatar } from '../types/EmbeddedContact.std.js';
+} from '../util/handleMessageSend.preload.ts';
+import type { DurationInSeconds } from '../util/durations/index.std.ts';
+import { SignalService as Proto } from '../protobuf/index.std.ts';
+import { createLogger } from '../logging/log.std.ts';
+import type { EmbeddedContactWithUploadedAvatar } from '../types/EmbeddedContact.std.ts';
 import {
   numberToPhoneType,
   numberToEmailType,
   numberToAddressType,
-} from '../types/EmbeddedContact.std.js';
-import { missingCaseError } from '../util/missingCaseError.std.js';
-import { drop } from '../util/drop.std.js';
+} from '../types/EmbeddedContact.std.ts';
+import { missingCaseError } from '../util/missingCaseError.std.ts';
+import { drop } from '../util/drop.std.ts';
 import type {
   ConversationIdentifier,
   DeleteForMeSyncEventData,
   DeleteMessageSyncTarget,
   AddressableMessage,
-} from './messageReceiverEvents.std.js';
-import { getConversationFromTarget } from '../util/syncIdentifiers.preload.js';
+} from './messageReceiverEvents.std.ts';
+import { getConversationFromTarget } from '../util/syncIdentifiers.preload.ts';
 import type {
   CallDetails,
   CallHistoryDetails,
-} from '../types/CallDisposition.std.js';
+} from '../types/CallDisposition.std.ts';
 import {
   AdhocCallStatus,
   DirectCallStatus,
   GroupCallStatus,
   CallMode,
-} from '../types/CallDisposition.std.js';
+} from '../types/CallDisposition.std.ts';
 import {
   getBytesForPeerId,
   getCallIdForProto,
   getProtoForCallHistory,
-} from '../util/callDisposition.preload.js';
-import { MAX_MESSAGE_COUNT } from '../util/deleteForMe.types.std.js';
-import { isProtoBinaryEncodingEnabled } from '../util/isProtoBinaryEncodingEnabled.dom.js';
-import type { GroupSendToken } from '../types/GroupSendEndorsements.std.js';
-import type { OutgoingPollVote, PollCreateType } from '../types/Polls.dom.js';
-import { itemStorage } from './Storage.preload.js';
-import { accountManager } from './AccountManager.preload.js';
+} from '../util/callDisposition.preload.ts';
+import { MAX_MESSAGE_COUNT } from '../util/deleteForMe.types.std.ts';
+import { isProtoBinaryEncodingEnabled } from '../util/isProtoBinaryEncodingEnabled.dom.ts';
+import type { GroupSendToken } from '../types/GroupSendEndorsements.std.ts';
+import type { OutgoingPollVote, PollCreateType } from '../types/Polls.dom.ts';
+import { itemStorage } from './Storage.preload.ts';
+import { accountManager } from './AccountManager.preload.ts';
 import type {
   SendPinMessageType,
   SendUnpinMessageType,
-} from '../types/PinnedMessage.std.js';
+} from '../types/PinnedMessage.std.ts';
 
 const log = createLogger('SendMessage');
 
 const MAX_EMBEDDED_GROUP_CHANGE_BYTES = 2048;
+const MAX_INCREMENTAL_MAC_ATTACHMENTS = 10;
 
 export type SendIdentifierData =
   | {
@@ -368,20 +366,12 @@ class Message {
         throw new Error('Invalid message flags');
       }
     }
-    if (this.isEndSession()) {
-      if (this.body != null || this.attachments.length !== 0) {
-        throw new Error('Invalid end session message');
-      }
-    } else if (
+    if (
       typeof this.timestamp !== 'number' ||
       (this.body && typeof this.body !== 'string')
     ) {
       throw new Error('Invalid message body');
     }
-  }
-
-  isEndSession() {
-    return (this.flags || 0) & Proto.DataMessage.Flags.END_SESSION;
   }
 
   toProto(): Proto.DataMessage.Params {
@@ -486,7 +476,7 @@ class Message {
           if (contactEntry.avatar?.avatar) {
             avatar = {
               avatar: contactEntry.avatar.avatar,
-              isProfile: Boolean(contactEntry.avatar.isProfile),
+              isProfile: contactEntry.avatar.isProfile,
             };
           }
 
@@ -589,7 +579,7 @@ class Message {
     if (this.pollCreate) {
       pollCreate = {
         question: this.pollCreate.question,
-        allowMultiple: Boolean(this.pollCreate.allowMultiple),
+        allowMultiple: this.pollCreate.allowMultiple,
         options: this.pollCreate.options.slice(),
       };
       requiredProtocolVersion = Math.max(
@@ -627,9 +617,22 @@ class Message {
       };
     }
 
+    let incrementalMacsIncluded = 0;
     const dataMessage: Proto.DataMessage.Params = {
       timestamp: BigInt(this.timestamp),
-      attachments: this.attachments.slice(),
+      attachments: this.attachments.map(attachment => {
+        if (attachment.incrementalMac != null) {
+          if (incrementalMacsIncluded >= MAX_INCREMENTAL_MAC_ATTACHMENTS) {
+            log.warn(
+              `message.toProto${this.timestamp}: Dropping incremental mac`
+            );
+            return { ...attachment, incrementalMac: null, chunkSize: null };
+          }
+          incrementalMacsIncluded += 1;
+        }
+
+        return attachment;
+      }),
       flags: this.flags ?? 0,
       body: this.body ?? null,
       bodyRanges: this.bodyRanges?.map(toBodyRange) ?? null,
@@ -736,13 +739,14 @@ export function addPniSignatureMessageToProto({
       `adding pni signature for ${conversation.idForLogging()}`
   );
 
-  // eslint-disable-next-line no-param-reassign
+  // oxlint-disable-next-line no-param-reassign
   proto.pniSignatureMessage = {
     pni: toPniObject(pniSignatureMessage.pni).getRawUuidBytes(),
     signature: pniSignatureMessage.signature,
   };
 }
 
+// oxlint-disable-next-line max-classes-per-file
 export class MessageSender {
   pendingMessages: {
     [id: string]: PQueue;
@@ -765,12 +769,9 @@ export class MessageSender {
 
     const queue = this.pendingMessages[id];
 
-    const taskWithTimeout = createTaskWithTimeout(
-      runJob,
-      `queueJobForServiceId ${serviceId} ${id}`
+    return queue.add(() =>
+      runTaskWithTimeout(runJob, `queueJobForServiceId ${serviceId} ${id}`)
     );
-
-    return queue.add(taskWithTimeout);
   }
 
   // Attachment upload functions
@@ -778,7 +779,7 @@ export class MessageSender {
   static getRandomPadding(): Uint8Array<ArrayBuffer> {
     // Generate a random int from 1 and 512
     const buffer = getRandomBytes(2);
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    // oxlint-disable-next-line typescript/no-non-null-assertion, no-bitwise
     const paddingLength = (new Uint16Array(buffer)[0]! & 0x1ff) + 1;
 
     // Generate a random padding buffer of the chosen size
@@ -813,9 +814,7 @@ export class MessageSender {
 
     return {
       text: attachmentAttrs.text ?? null,
-      textStyle: attachmentAttrs.textStyle
-        ? Number(attachmentAttrs.textStyle)
-        : 0,
+      textStyle: attachmentAttrs.textStyle ?? 0,
 
       textForegroundColor: attachmentAttrs.textForegroundColor ?? null,
       textBackgroundColor: attachmentAttrs.textBackgroundColor ?? null,
@@ -1849,10 +1848,7 @@ export class MessageSender {
         new Array<Proto.SyncMessage.DeleteForMe.AttachmentDelete.Params>(),
     } satisfies Proto.SyncMessage.DeleteForMe.Params;
 
-    const messageDeletes: Map<
-      string,
-      Array<DeleteMessageSyncTarget>
-    > = new Map();
+    const messageDeletes = new Map<string, Array<DeleteMessageSyncTarget>>();
 
     data.forEach(item => {
       if (item.type === 'delete-message') {
@@ -2175,7 +2171,7 @@ export class MessageSender {
         `syncViewOnceOpen: ${viewOnceOpens.length} opens provided. Can only handle one.`
       );
     }
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    // oxlint-disable-next-line typescript/no-non-null-assertion
     const { senderAci, timestamp } = viewOnceOpens[0]!;
 
     if (!senderAci) {
@@ -2639,7 +2635,7 @@ export class MessageSender {
     recipients,
     sendLogCallback,
     story,
-    timestamp = Date.now(),
+    timestamp,
     urgent,
   }: Readonly<{
     contentHint: number;
@@ -2725,6 +2721,7 @@ export class MessageSender {
     const senderKeyDistributionMessage =
       await signalProtocolStore.enqueueSenderKeyJob(address, async () => {
         const senderKeyStore = new SenderKeys({
+          signalProtocolStore,
           ourServiceId: ourAci,
           zone: GLOBAL_ZONE,
         });

@@ -12,24 +12,28 @@ import React, {
 import { DropdownMenu } from 'radix-ui';
 import type { FC, ReactNode } from 'react';
 import { computeAccessibleName } from 'dom-accessibility-api';
-import { AxoSymbol } from './AxoSymbol.dom.js';
-import { AxoBaseMenu } from './_internal/AxoBaseMenu.dom.js';
-import { tw } from './tw.dom.js';
+import { AxoSymbol } from './AxoSymbol.dom.tsx';
+import { AxoBaseMenu } from './_internal/AxoBaseMenu.dom.tsx';
+import { tw } from './tw.dom.tsx';
 import {
   AriaLabellingProvider,
   useAriaLabellingContext,
   useCreateAriaLabellingContext,
-} from './_internal/AriaLabellingContext.dom.js';
-import { assert } from './_internal/assert.std.js';
+} from './_internal/AriaLabellingContext.dom.tsx';
+import { assert } from './_internal/assert.std.tsx';
 import {
   getElementAriaRole,
   isAriaWidgetRole,
-} from './_internal/ariaRoles.dom.js';
+} from './_internal/ariaRoles.dom.tsx';
 import {
   createStrictContext,
   useStrictContext,
-} from './_internal/StrictContext.dom.js';
-import { isTestOrMockEnvironment } from '../environment.std.js';
+} from './_internal/StrictContext.dom.tsx';
+import { isTestOrMockEnvironment } from '../environment.std.ts';
+import { AxoDragRegion } from './AxoDragRegion.dom.tsx';
+import { AxoTheme } from './AxoTheme.dom.tsx';
+
+const { useDisableDragRegions } = AxoDragRegion;
 
 const Namespace = 'AxoDropdownMenu';
 
@@ -117,6 +121,8 @@ export namespace AxoDropdownMenu {
       return { open };
     }, [open]);
 
+    useDisableDragRegions(open);
+
     return (
       <RootContext.Provider value={context}>
         <DropdownMenu.Root open={open} onOpenChange={handleOpenChange}>
@@ -195,19 +201,20 @@ export namespace AxoDropdownMenu {
     return (
       <AriaLabellingProvider value={context}>
         <DropdownMenu.Portal>
-          <DropdownMenu.Content
-            sideOffset={4}
-            align="start"
-            collisionPadding={6}
-            className={AxoBaseMenu.menuContentStyles}
-            aria-labelledby={labelId}
-            aria-describedby={descriptionId}
-            onCloseAutoFocus={props.onCloseAutoFocus}
-            // @ts-expect-error -- React/TS doesn't know about inert
-            inert={open ? undefined : 'true'}
-          >
-            {props.children}
-          </DropdownMenu.Content>
+          <AxoTheme.Inherit>
+            <DropdownMenu.Content
+              sideOffset={4}
+              align="start"
+              collisionPadding={6}
+              className={AxoBaseMenu.menuContentStyles}
+              aria-labelledby={labelId}
+              aria-describedby={descriptionId}
+              onCloseAutoFocus={props.onCloseAutoFocus}
+              inert={!open}
+            >
+              {props.children}
+            </DropdownMenu.Content>
+          </AxoTheme.Inherit>
         </DropdownMenu.Portal>
       </AriaLabellingProvider>
     );
@@ -502,12 +509,10 @@ export namespace AxoDropdownMenu {
    * --------------------------------------
    */
 
-  export type SeparatorProps = AxoBaseMenu.MenuSeparatorProps;
-
   /**
    * Used to visually separate items in the dropdown menu.
    */
-  export const Separator: FC<SeparatorProps> = memo(() => {
+  export const Separator: FC = memo(() => {
     return (
       <DropdownMenu.Separator className={AxoBaseMenu.menuSeparatorStyles} />
     );
@@ -519,7 +524,7 @@ export namespace AxoDropdownMenu {
    * Component: <AxoDropdownMenu.ContentSeparator>
    */
 
-  export const ContentSeparator: FC<SeparatorProps> = memo(() => {
+  export const ContentSeparator: FC = memo(() => {
     return (
       <DropdownMenu.Separator
         className={AxoBaseMenu.menuContentSeparatorStyles}

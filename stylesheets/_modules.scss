@@ -21,7 +21,6 @@
 }
 
 .module-title-bar-drag-area {
-  -webkit-app-region: drag;
   height: var(--title-bar-drag-area-height);
   inset-inline-start: 0;
   position: fixed;
@@ -1027,8 +1026,7 @@ $message-padding-horizontal: 12px;
   -webkit-line-clamp: 5;
   -webkit-box-orient: vertical;
   overflow-wrap: break-word;
-  word-wrap: break-word;
-  word-break: break-word;
+  word-break: auto-phrase;
 
   @include mixins.light-theme {
     color: variables.$color-gray-90;
@@ -1106,8 +1104,7 @@ $message-padding-horizontal: 12px;
 
   text-align: start;
   overflow-wrap: break-word;
-  word-wrap: break-word;
-  word-break: break-word;
+  word-break: auto-phrase;
   white-space: pre-wrap;
 
   @include mixins.light-theme {
@@ -2143,6 +2140,7 @@ $timer-icons:
 
 .module-inline-notification-wrapper {
   outline: none;
+  position: relative;
 
   &:focus {
     @include mixins.keyboard-mode {
@@ -5777,6 +5775,54 @@ button.module-calling-participants-list__contact {
 
 .ReactVirtualized__List {
   outline: none;
+}
+
+.CollapseSet__height-container {
+  overflow: hidden;
+  height: 0px;
+  display: none;
+  /* stylelint-disable-next-line property-no-unknown */
+  interpolate-size: allow-keywords;
+  transition-property: display, height;
+  transition-behavior: allow-discrete;
+  transition-duration: 200ms;
+  transition-timing-function: linear(
+    0,
+    0.024 1.7%,
+    0.097 3.7%,
+    0.55 12%,
+    0.75 16.6%,
+    0.887 21.4%,
+    0.935 24%,
+    0.97 26.8%,
+    1.002 31.5%,
+    1.013 37.5%,
+    1.001 62.7%,
+    1
+  );
+}
+
+.CollapseSet__height-container--expanded {
+  display: block;
+  height: auto;
+
+  @starting-style {
+    height: 0;
+  }
+}
+
+.CollapseSet__transparency-container {
+  opacity: 0;
+  transition: opacity 25ms linear;
+}
+
+.CollapseSet__transparency-container--expanded {
+  transition-duration: 120ms;
+  transition-delay: 200ms;
+  opacity: 1;
+  @starting-style {
+    opacity: 0;
+  }
 }
 
 // Module: Last Seen Indicator

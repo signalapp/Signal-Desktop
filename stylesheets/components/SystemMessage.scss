@@ -143,6 +143,15 @@
       @include system-message-icon('../images/icons/v3/info/info-compact.svg');
     }
 
+    &--icon-group-terminate::before {
+      @include system-message-icon(
+        '../images/icons/v3/group/group-x-inline.svg'
+      );
+      & {
+        width: 24px;
+      }
+    }
+
     &--icon-info::before {
       @include system-message-icon('../images/icons/v3/info/info-compact.svg');
     }

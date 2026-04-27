@@ -9,11 +9,14 @@ import classNames from 'classnames';
 import { usePopper } from 'react-popper';
 import lodash from 'lodash';
 
-import type { Theme } from '../util/theme.std.js';
-import type { LocalizerType } from '../types/Util.std.js';
-import { getClassNamesFor } from '../util/getClassNamesFor.std.js';
-import { themeClassName } from '../util/theme.std.js';
-import { handleOutsideClick } from '../util/handleOutsideClick.dom.js';
+import type { Theme } from '../util/theme.std.ts';
+import type { LocalizerType } from '../types/Util.std.ts';
+import { getClassNamesFor } from '../util/getClassNamesFor.std.ts';
+import { themeClassName } from '../util/theme.std.ts';
+import { handleOutsideClick } from '../util/handleOutsideClick.dom.ts';
+import { AxoDragRegion } from '../axo/AxoDragRegion.dom.tsx';
+
+const { useDisableDragRegions } = AxoDragRegion;
 
 const { noop } = lodash;
 
@@ -99,21 +102,7 @@ export function ContextMenu<T>({
     }
   );
 
-  // In Electron v23+, new elements added to the DOM may not trigger a recalculation of
-  // draggable regions, so if a ContextMenu is shown on top of a draggable region, its
-  // buttons may be unclickable. We add a class so that we can disable those draggable
-  // regions while the context menu is shown. It has the added benefit of ensuring that
-  // click events outside of the context menu onto an otherwise draggable region are
-  // propagated and trigger the menu to close.
-  useEffect(() => {
-    document.body.classList.toggle('context-menu-open', isMenuShowing);
-  }, [isMenuShowing]);
-
-  useEffect(() => {
-    // Remove it on unmount in case the component is unmounted when the menu is open
-    return () => document.body.classList.remove('context-menu-open');
-  }, []);
-
+  useDisableDragRegions(isMenuShowing);
   useEffect(() => {
     if (onMenuShowingChanged) {
       onMenuShowingChanged(isMenuShowing);
@@ -191,7 +180,7 @@ export function ContextMenu<T>({
 
     if (ev.key === 'Enter') {
       if (focusedIndex !== undefined) {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        // oxlint-disable-next-line typescript/no-non-null-assertion
         const focusedOption = menuOptions[focusedIndex]!;
         focusedOption.onClick(focusedOption.value);
       }
@@ -242,7 +231,7 @@ export function ContextMenu<T>({
       );
     }
 
-    // eslint-disable-next-line no-loop-func
+    // oxlint-disable-next-line no-loop-func
     const onElementClick = (ev: React.MouseEvent): void => {
       ev.preventDefault();
       ev.stopPropagation();

@@ -6,8 +6,8 @@ import { assert } from 'chai';
 import {
   fontSniffer,
   getFontNameByTextScript,
-} from '../../util/getFontNameByTextScript.std.js';
-import { setupI18n } from '../../util/setupI18n.dom.js';
+} from '../../util/getFontNameByTextScript.std.ts';
+import { setupI18n } from '../../util/setupI18n.dom.tsx';
 
 describe('getFontNameByTextScript', () => {
   it('has arabic', () => {
@@ -74,12 +74,13 @@ describe('getFontNameByTextScript', () => {
     });
   });
 
+  const defaultFonts = '"Signal Emoji Large", "Signal Emoji Small", sans-serif';
+
   it('returns the correct font names in the right order (japanese)', () => {
     const text = '速い茶色のキツネは怠惰な犬を飛び越えます';
 
     const actual = getFontNameByTextScript(text, 0);
-    const expected =
-      '"Hiragino Sans W3", "PingFang SC Regular", SimHei, sans-serif';
+    const expected = `"Hiragino Sans W3", "PingFang SC Regular", SimHei, ${defaultFonts}`;
     assert.equal(actual, expected);
   });
 
@@ -87,7 +88,7 @@ describe('getFontNameByTextScript', () => {
     const text = 'The quick brown fox jumps over the lazy dog';
 
     const actual = getFontNameByTextScript(text, 0);
-    const expected = 'Inter, sans-serif';
+    const expected = `Inter, ${defaultFonts}`;
     assert.equal(actual, expected);
   });
 
@@ -95,7 +96,7 @@ describe('getFontNameByTextScript', () => {
     const text = '敏捷的棕色狐狸跳过了懒狗';
 
     const actual = getFontNameByTextScript(text, 0, setupI18n('zh-CN', {}));
-    const expected = '"PingFang SC Regular", SimHei, sans-serif';
+    const expected = `"PingFang SC Regular", SimHei, ${defaultFonts}`;
     assert.equal(actual, expected);
   });
 
@@ -103,7 +104,7 @@ describe('getFontNameByTextScript', () => {
     const text = '敏捷的棕色狐狸跳過了懶狗';
 
     const actual = getFontNameByTextScript(text, 0, setupI18n('zh-TW', {}));
-    const expected = '"PingFang TC Regular", "JhengHei TC Regular", sans-serif';
+    const expected = `"PingFang TC Regular", "JhengHei TC Regular", ${defaultFonts}`;
     assert.equal(actual, expected);
   });
 });

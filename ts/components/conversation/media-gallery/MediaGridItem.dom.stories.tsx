@@ -4,17 +4,17 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import { StorybookThemeContext } from '../../../../.storybook/StorybookThemeContext.std.js';
-import type { MediaItemType } from '../../../types/MediaItem.std.js';
-import { SignalService } from '../../../protobuf/index.std.js';
+import { StorybookThemeContext } from '../../../../.storybook/StorybookThemeContext.std.ts';
+import type { MediaItemType } from '../../../types/MediaItem.std.ts';
+import { SignalService } from '../../../protobuf/index.std.ts';
 import {
   IMAGE_JPEG,
   VIDEO_MP4,
   APPLICATION_OCTET_STREAM,
   type MIMEType,
-} from '../../../types/MIME.std.js';
-import type { Props } from './MediaGridItem.dom.js';
-import { MediaGridItem } from './MediaGridItem.dom.js';
+} from '../../../types/MIME.std.ts';
+import type { Props } from './MediaGridItem.dom.tsx';
+import { MediaGridItem } from './MediaGridItem.dom.tsx';
 
 const { i18n } = window.SignalContext;
 
@@ -25,7 +25,7 @@ export default {
 const createProps = (
   overrideProps: Partial<Props> & { mediaItem: MediaItemType }
 ): Props => {
-  // eslint-disable-next-line react-hooks/rules-of-hooks
+  // oxlint-disable-next-line react-hooks/rules-of-hooks
   const theme = React.useContext(StorybookThemeContext);
 
   return {

@@ -4,55 +4,55 @@
 import lodash from 'lodash';
 import { ContentHint } from '@signalapp/libsignal-client';
 
-import type { UploadedAttachmentType } from '../../types/Attachment.std.js';
-import type { ConversationModel } from '../../models/conversations.preload.js';
+import type { UploadedAttachmentType } from '../../types/Attachment.std.ts';
+import type { ConversationModel } from '../../models/conversations.preload.ts';
 import type {
   ConversationQueueJobBundle,
   StoryJobData,
-} from '../conversationJobQueue.preload.js';
-import type { LoggerType } from '../../types/Logging.std.js';
-import type { MessageModel } from '../../models/messages.preload.js';
+} from '../conversationJobQueue.preload.ts';
+import type { LoggerType } from '../../types/Logging.std.ts';
+import type { MessageModel } from '../../models/messages.preload.ts';
 import type {
   SendState,
   SendStateByConversationId,
-} from '../../messages/MessageSendState.std.js';
+} from '../../messages/MessageSendState.std.ts';
 import {
   isSent,
   SendActionType,
   sendStateReducer,
-} from '../../messages/MessageSendState.std.js';
-import type { ServiceIdString } from '../../types/ServiceId.std.js';
-import type { StoryDistributionIdString } from '../../types/StoryDistributionId.std.js';
-import * as Errors from '../../types/errors.std.js';
-import type { StoryMessageRecipientsType } from '../../types/Stories.std.js';
-import { DataReader } from '../../sql/Client.preload.js';
-import type { SignalService as Proto } from '../../protobuf/index.std.js';
-import { getMessagesById } from '../../messages/getMessagesById.preload.js';
+} from '../../messages/MessageSendState.std.ts';
+import type { ServiceIdString } from '../../types/ServiceId.std.ts';
+import type { StoryDistributionIdString } from '../../types/StoryDistributionId.std.ts';
+import * as Errors from '../../types/errors.std.ts';
+import type { StoryMessageRecipientsType } from '../../types/Stories.std.ts';
+import { DataReader } from '../../sql/Client.preload.ts';
+import type { SignalService as Proto } from '../../protobuf/index.std.ts';
+import { getMessagesById } from '../../messages/getMessagesById.preload.ts';
 import {
   getSendOptions,
   getSendOptionsForRecipients,
-} from '../../util/getSendOptions.preload.js';
+} from '../../util/getSendOptions.preload.ts';
 import {
   loadPreviewData,
   loadAttachmentData,
-} from '../../util/migrations.preload.js';
-import { handleMessageSend } from '../../util/handleMessageSend.preload.js';
-import { handleMultipleSendErrors } from './handleMultipleSendErrors.std.js';
-import { isGroupV2, isMe } from '../../util/whatTypeOfConversation.dom.js';
-import { ourProfileKeyService } from '../../services/ourProfileKey.std.js';
-import { challengeHandler } from '../../services/challengeHandler.preload.js';
-import { sendContentMessageToGroup } from '../../util/sendToGroup.preload.js';
-import { distributionListToSendTarget } from '../../util/distributionListToSendTarget.preload.js';
-import { uploadAttachment } from '../../util/uploadAttachment.preload.js';
-import { SendMessageChallengeError } from '../../textsecure/Errors.std.js';
-import type { OutgoingTextAttachmentType } from '../../textsecure/SendMessage.preload.js';
+} from '../../util/migrations.preload.ts';
+import { handleMessageSend } from '../../util/handleMessageSend.preload.ts';
+import { handleMultipleSendErrors } from './handleMultipleSendErrors.std.ts';
+import { isGroupV2, isMe } from '../../util/whatTypeOfConversation.dom.ts';
+import { ourProfileKeyService } from '../../services/ourProfileKey.std.ts';
+import { challengeHandler } from '../../services/challengeHandler.preload.ts';
+import { sendContentMessageToGroup } from '../../util/sendToGroup.preload.ts';
+import { distributionListToSendTarget } from '../../util/distributionListToSendTarget.preload.ts';
+import { uploadAttachment } from '../../util/uploadAttachment.preload.ts';
+import { SendMessageChallengeError } from '../../textsecure/Errors.std.ts';
+import type { OutgoingTextAttachmentType } from '../../textsecure/SendMessage.preload.ts';
 import {
   markFailed,
   notifyStorySendFailed,
   saveErrorsOnMessage,
-} from '../../test-node/util/messageFailures.preload.js';
-import { send } from '../../messages/send.preload.js';
-import { strictAssert } from '../../util/assert.std.js';
+} from '../../test-node/util/messageFailures.preload.ts';
+import { send } from '../../messages/send.preload.ts';
+import { strictAssert } from '../../util/assert.std.ts';
 
 const { isEqual } = lodash;
 
@@ -378,7 +378,7 @@ export async function sendStory(
         });
 
         // Don't send normal sync messages; a story sync is sent at the end of the process
-        // eslint-disable-next-line no-param-reassign
+        // oxlint-disable-next-line no-param-reassign
         message.doNotSendSyncMessage = true;
 
         const messageSendPromise = send(message, {
@@ -575,6 +575,8 @@ export async function sendStory(
     log.warn(
       'No successful sends; will not send a sync message for this attempt'
     );
+  } else if (!window.ConversationController.doWeHaveOtherDevices()) {
+    log.info('We have no other devices; not sending sync message');
   } else {
     const options = await getSendOptions(conversation.attributes, {
       syncMessage: true,

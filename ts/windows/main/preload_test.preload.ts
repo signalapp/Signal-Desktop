@@ -1,28 +1,23 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* eslint-disable no-console */
-
 import { inspect, parseArgs } from 'node:util';
 import { ipcRenderer as ipc } from 'electron';
 import { sync } from 'fast-glob';
 
-// eslint-disable-next-line import/no-extraneous-dependencies
-import chai, { assert, config as chaiConfig } from 'chai';
-// eslint-disable-next-line import/no-extraneous-dependencies
+import { assert, use as chaiUse, config as chaiConfig } from 'chai';
 import chaiAsPromised from 'chai-as-promised';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { reporters, type MochaOptions } from 'mocha';
 
-import { initializeMessageCounter } from '../../util/incrementMessageCounter.preload.js';
-import { initializeRedux } from '../../state/initializeRedux.preload.js';
-import * as Stickers from '../../types/Stickers.preload.js';
-import { ThemeType } from '../../types/Util.std.js';
-import { itemStorage } from '../../textsecure/Storage.preload.js';
-import { MessageCache } from '../../services/MessageCache.preload.js';
-import { updateRemoteConfig } from '../../test-helpers/RemoteConfigStub.dom.js';
+import { initializeMessageCounter } from '../../util/incrementMessageCounter.preload.ts';
+import { initializeRedux } from '../../state/initializeRedux.preload.ts';
+import * as Stickers from '../../types/Stickers.preload.ts';
+import { ThemeType } from '../../types/Util.std.ts';
+import { itemStorage } from '../../textsecure/Storage.preload.ts';
+import { MessageCache } from '../../services/MessageCache.preload.ts';
+import { updateRemoteConfig } from '../../test-helpers/RemoteConfigStub.dom.ts';
 
-chai.use(chaiAsPromised);
+chaiUse(chaiAsPromised);
 
 // Show actual objects instead of abbreviated errors
 chaiConfig.truncateThreshold = 0;
@@ -154,8 +149,9 @@ window.testUtilities = {
   },
 
   prepareTests() {
+    // oxlint-disable-next-line no-console
     console.log('Preparing tests...');
-    const files = sync('../../test-{both,electron}/**/*_test.*.js', {
+    const files = sync('../../test-{both,electron}/**/*_test.*.ts', {
       absolute: true,
       cwd: __dirname,
     });
@@ -163,7 +159,7 @@ window.testUtilities = {
     for (const [i, file] of files.entries()) {
       if (i % workerCount === worker) {
         try {
-          // eslint-disable-next-line import/no-dynamic-require, global-require
+          // oxlint-disable-next-line import/no-dynamic-require, global-require
           require(file);
         } catch (error) {
           window.testUtilities.onTestEvent({

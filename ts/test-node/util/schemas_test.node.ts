@@ -9,7 +9,7 @@ import {
   parseStrict,
   parseUnknown,
   SchemaParseError,
-} from '../../util/schemas.std.js';
+} from '../../util/schemas.std.ts';
 
 describe('schemas', () => {
   const schema = z.object({ prop: z.literal('value') });
@@ -49,7 +49,7 @@ describe('schemas', () => {
     }
     // any
     {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // oxlint-disable-next-line typescript/no-explicit-any
       const input = valid as unknown as any;
       // @ts-expect-error: not unknown
       assertShape(parseUnknown(schema, input));
@@ -62,7 +62,7 @@ describe('schemas', () => {
     }
     // {}
     {
-      // eslint-disable-next-line @typescript-eslint/ban-types
+      // oxlint-disable-next-line typescript/ban-types, typescript/no-empty-object-type
       const input = valid as unknown as {};
       // @ts-expect-error: not unknown
       assertShape(parseUnknown(schema, input));
@@ -202,7 +202,7 @@ describe('schemas', () => {
     }
     // { prop: any }
     {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // oxlint-disable-next-line typescript/no-explicit-any
       const input = valid as { prop: any };
       // @ts-expect-error: not unknown
       assertShape(parseUnknown(schema, input));
@@ -215,7 +215,7 @@ describe('schemas', () => {
     }
     // { prop: {} }
     {
-      // eslint-disable-next-line @typescript-eslint/ban-types
+      // oxlint-disable-next-line typescript/ban-types, typescript/no-empty-object-type
       const input = valid as { prop: {} };
       // @ts-expect-error: not unknown
       assertShape(parseUnknown(schema, input));

@@ -12,15 +12,15 @@ import React, {
 
 import classNames from 'classnames';
 import type { ReadonlyDeep } from 'type-fest';
-import type { LocalizerType } from '../types/Util.std.js';
-import { useConfirmDiscard } from '../hooks/useConfirmDiscard.dom.js';
+import type { LocalizerType } from '../types/Util.std.ts';
+import { useConfirmDiscard } from '../hooks/useConfirmDiscard.dom.tsx';
 import {
   donationErrorTypeSchema,
   DonationProcessor,
   donationStateSchema,
   ONE_TIME_DONATION_CONFIG_ID,
   PaymentMethod,
-} from '../types/Donations.std.js';
+} from '../types/Donations.std.ts';
 import type {
   CardDetail,
   DonationErrorType,
@@ -28,12 +28,12 @@ import type {
   HumanDonationAmount,
   DonationWorkflow,
   OneTimeDonationHumanAmounts,
-} from '../types/Donations.std.js';
+} from '../types/Donations.std.ts';
 import type {
   CardCvcError,
   CardExpirationError,
   CardNumberError,
-} from '../types/DonationsCardForm.std.js';
+} from '../types/DonationsCardForm.std.ts';
 import {
   cardFormToCardDetail,
   getCardFormSettings,
@@ -42,7 +42,7 @@ import {
   parseCardExpiration,
   parseCardForm,
   parseCardNumber,
-} from '../types/DonationsCardForm.std.js';
+} from '../types/DonationsCardForm.std.ts';
 import {
   brandHumanDonationAmount,
   brandStripeDonationAmount,
@@ -53,33 +53,33 @@ import {
   toHumanCurrencyString,
   toHumanDonationAmount,
   toStripeDonationAmount,
-} from '../util/currency.dom.js';
-import { PreferencesContent } from './Preferences.dom.js';
-import type { SubmitDonationType } from '../state/ducks/donations.preload.js';
-import { Select } from './Select.dom.js';
+} from '../util/currency.dom.ts';
+import { PreferencesContent } from './Preferences.dom.tsx';
+import type { SubmitDonationType } from '../state/ducks/donations.preload.ts';
+import { Select } from './Select.dom.tsx';
 import {
   DonateInputCardNumber,
   getCardNumberErrorMessage,
-} from './preferences/donations/DonateInputCardNumber.dom.js';
+} from './preferences/donations/DonateInputCardNumber.dom.tsx';
 import {
   DonateInputCardExp,
   getCardExpirationErrorMessage,
-} from './preferences/donations/DonateInputCardExp.dom.js';
+} from './preferences/donations/DonateInputCardExp.dom.tsx';
 import {
   DonateInputCardCvc,
   getCardCvcErrorMessage,
-} from './preferences/donations/DonateInputCardCvc.dom.js';
-import { I18n } from './I18n.dom.js';
-import { strictAssert } from '../util/assert.std.js';
-import { DonationsOfflineTooltip } from './conversation/DonationsOfflineTooltip.dom.js';
-import { DonateInputAmount } from './preferences/donations/DonateInputAmount.dom.js';
-import { Tooltip, TooltipPlacement } from './Tooltip.dom.js';
-import { offsetDistanceModifier } from '../util/popperUtil.std.js';
-import { AxoButton } from '../axo/AxoButton.dom.js';
-import { missingCaseError } from '../util/missingCaseError.std.js';
-import { openLinkInWebBrowser } from '../util/openLinkInWebBrowser.dom.js';
-import { usePrevious } from '../hooks/usePrevious.std.js';
-import { tw } from '../axo/tw.dom.js';
+} from './preferences/donations/DonateInputCardCvc.dom.tsx';
+import { I18n } from './I18n.dom.tsx';
+import { strictAssert } from '../util/assert.std.ts';
+import { DonationsOfflineTooltip } from './conversation/DonationsOfflineTooltip.dom.tsx';
+import { DonateInputAmount } from './preferences/donations/DonateInputAmount.dom.tsx';
+import { Tooltip, TooltipPlacement } from './Tooltip.dom.tsx';
+import { offsetDistanceModifier } from '../util/popperUtil.std.ts';
+import { AxoButton } from '../axo/AxoButton.dom.tsx';
+import { missingCaseError } from '../util/missingCaseError.std.ts';
+import { openLinkInWebBrowser } from '../util/openLinkInWebBrowser.dom.ts';
+import { usePrevious } from '../hooks/usePrevious.std.ts';
+import { tw } from '../axo/tw.dom.tsx';
 
 const SUPPORT_URL = 'https://support.signal.org/hc/requests/new?desktop';
 
@@ -109,12 +109,12 @@ export type PropsType = PropsDataType & PropsActionType & PropsHousekeepingType;
 
 const isPaymentDetailFinalizedInWorkflow = (workflow: DonationWorkflow) => {
   const finalizedStates: Array<DonationStateType> = [
-    donationStateSchema.Enum.INTENT_CONFIRMED,
-    donationStateSchema.Enum.INTENT_REDIRECT,
-    donationStateSchema.Enum.PAYPAL_APPROVED,
-    donationStateSchema.Enum.PAYMENT_CONFIRMED,
-    donationStateSchema.Enum.RECEIPT,
-    donationStateSchema.Enum.DONE,
+    donationStateSchema.enum.INTENT_CONFIRMED,
+    donationStateSchema.enum.INTENT_REDIRECT,
+    donationStateSchema.enum.PAYPAL_APPROVED,
+    donationStateSchema.enum.PAYMENT_CONFIRMED,
+    donationStateSchema.enum.RECEIPT,
+    donationStateSchema.enum.DONE,
   ];
   return finalizedStates.includes(workflow.type);
 };
@@ -143,8 +143,8 @@ export function PreferencesDonateFlow({
     initialAmount: HumanDonationAmount | undefined;
   } => {
     if (
-      workflow?.type === donationStateSchema.Enum.PAYPAL_INTENT ||
-      workflow?.type === donationStateSchema.Enum.PAYPAL_APPROVED
+      workflow?.type === donationStateSchema.enum.PAYPAL_INTENT ||
+      workflow?.type === donationStateSchema.enum.PAYPAL_APPROVED
     ) {
       const savedAmount = brandStripeDonationAmount(workflow.paymentAmount);
       const humanAmount = toHumanDonationAmount({
@@ -158,7 +158,7 @@ export function PreferencesDonateFlow({
       initialStep: 'amount',
       initialAmount: undefined,
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // oxlint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const [step, setStep] = useState<
@@ -300,7 +300,7 @@ export function PreferencesDonateFlow({
     // which contains the approvalUrl.
     if (
       prevStep === 'paymentProcessor' &&
-      workflow?.type === donationStateSchema.Enum.PAYPAL_INTENT
+      workflow?.type === donationStateSchema.enum.PAYPAL_INTENT
     ) {
       setStep('paypal');
       openLinkInWebBrowser(workflow.approvalUrl);
@@ -360,7 +360,7 @@ export function PreferencesDonateFlow({
     const isConfirmationNeeded =
       ((hasCardFormData && !isCardFormDisabled) ||
         (step === 'paypal' &&
-          lastError !== donationErrorTypeSchema.Enum.PaypalCanceled)) &&
+          lastError !== donationErrorTypeSchema.enum.PaypalCanceled)) &&
       (!workflow || !isPaymentDetailFinalizedInWorkflow(workflow));
 
     confirmDiscardIf(isConfirmationNeeded, onDiscard);
@@ -467,13 +467,13 @@ export function PreferencesDonateFlow({
   } else if (step === 'paypal') {
     strictAssert(amount, 'Amount is required for Paypal page');
     const isDisabled =
-      workflow?.type !== donationStateSchema.Enum.PAYPAL_INTENT;
+      workflow?.type !== donationStateSchema.enum.PAYPAL_INTENT;
     innerContent = (
       <>
         <CardFormHero i18n={i18n} amount={amount} currency={currency} />
         <hr className="PreferencesDonations__separator PreferencesDonations__separator--card-form" />
         <div className={tw('my-4 flex min-w-[400px] py-4 type-body-large')}>
-          <div className={tw('flex flex-grow items-center')}>
+          <div className={tw('flex grow items-center')}>
             {i18n('icu:Donations__PaymentMethod')}
           </div>
           <img
@@ -499,7 +499,7 @@ export function PreferencesDonateFlow({
             size="lg"
             disabled={isDisabled}
             onClick={() => {
-              if (workflow?.type === donationStateSchema.Enum.PAYPAL_INTENT) {
+              if (workflow?.type === donationStateSchema.enum.PAYPAL_INTENT) {
                 openLinkInWebBrowser(workflow.approvalUrl);
               }
             }}

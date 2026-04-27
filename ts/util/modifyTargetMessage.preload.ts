@@ -3,50 +3,50 @@
 
 import lodash from 'lodash';
 import PQueue from 'p-queue';
-import type { ConversationModel } from '../models/conversations.preload.js';
-import type { MessageModel } from '../models/messages.preload.js';
-import type { SendStateByConversationId } from '../messages/MessageSendState.std.js';
+import type { ConversationModel } from '../models/conversations.preload.ts';
+import type { MessageModel } from '../models/messages.preload.ts';
+import type { SendStateByConversationId } from '../messages/MessageSendState.std.ts';
 
-import * as Edits from '../messageModifiers/Edits.preload.js';
-import { createLogger } from '../logging/log.std.js';
-import * as Deletes from '../messageModifiers/Deletes.preload.js';
-import * as DeletesForMe from '../messageModifiers/DeletesForMe.preload.js';
-import * as MessageReceipts from '../messageModifiers/MessageReceipts.preload.js';
-import * as Reactions from '../messageModifiers/Reactions.preload.js';
-import * as ReadSyncs from '../messageModifiers/ReadSyncs.preload.js';
-import * as ViewOnceOpenSyncs from '../messageModifiers/ViewOnceOpenSyncs.preload.js';
-import * as ViewSyncs from '../messageModifiers/ViewSyncs.preload.js';
-import { ReadStatus } from '../messages/MessageReadStatus.std.js';
-import { SeenStatus } from '../MessageSeenStatus.std.js';
+import * as Edits from '../messageModifiers/Edits.preload.ts';
+import { createLogger } from '../logging/log.std.ts';
+import * as Deletes from '../messageModifiers/Deletes.preload.ts';
+import * as DeletesForMe from '../messageModifiers/DeletesForMe.preload.ts';
+import * as MessageReceipts from '../messageModifiers/MessageReceipts.preload.ts';
+import * as Reactions from '../messageModifiers/Reactions.preload.ts';
+import * as ReadSyncs from '../messageModifiers/ReadSyncs.preload.ts';
+import * as ViewOnceOpenSyncs from '../messageModifiers/ViewOnceOpenSyncs.preload.ts';
+import * as ViewSyncs from '../messageModifiers/ViewSyncs.preload.ts';
+import { ReadStatus } from '../messages/MessageReadStatus.std.ts';
+import { SeenStatus } from '../MessageSeenStatus.std.ts';
 import {
   SendActionType,
   sendStateReducer,
-} from '../messages/MessageSendState.std.js';
-import { canConversationBeUnarchived } from './canConversationBeUnarchived.preload.js';
-import { receiveDeleteForEveryone } from './deleteForEveryone.preload.js';
-import { drop } from './drop.std.js';
-import { handleEditMessage } from './handleEditMessage.preload.js';
-import { isGroup } from './whatTypeOfConversation.dom.js';
-import { isStory, isTapToView } from '../state/selectors/message.preload.js';
-import { getOwn } from './getOwn.std.js';
-import { getSourceServiceId } from '../messages/sources.preload.js';
-import { missingCaseError } from './missingCaseError.std.js';
-import { reduce } from './iterables.std.js';
-import { strictAssert } from './assert.std.js';
+} from '../messages/MessageSendState.std.ts';
+import { canConversationBeUnarchived } from './canConversationBeUnarchived.preload.ts';
+import { receiveDeleteForEveryone } from './deleteForEveryone.preload.ts';
+import { drop } from './drop.std.ts';
+import { handleEditMessage } from './handleEditMessage.preload.ts';
+import { isGroup } from './whatTypeOfConversation.dom.ts';
+import { isStory, isTapToView } from '../state/selectors/message.preload.ts';
+import { getOwn } from './getOwn.std.ts';
+import { getSourceServiceId } from '../messages/sources.preload.ts';
+import { missingCaseError } from './missingCaseError.std.ts';
+import { reduce } from './iterables.std.ts';
+import { strictAssert } from './assert.std.ts';
 import {
   applyDeleteAttachmentFromMessage,
   applyDeleteMessage,
-} from './deleteForMe.preload.js';
-import { getMessageIdForLogging } from './idForLogging.preload.js';
-import { markViewOnceMessageViewed } from '../services/MessageUpdater.preload.js';
-import { handleReaction } from '../messageModifiers/Reactions.preload.js';
+} from './deleteForMe.preload.ts';
+import { getMessageIdForLogging } from './idForLogging.preload.ts';
+import { markViewOnceMessageViewed } from '../services/MessageUpdater.preload.ts';
+import { handleReaction } from '../messageModifiers/Reactions.preload.ts';
 import {
   drainCachedTerminatesForMessage as drainCachedPollTerminatesForMessage,
   drainCachedVotesForMessage as drainCachedPollVotesForMessage,
   handlePollTerminate,
   handlePollVote,
-} from '../messageModifiers/Polls.preload.js';
-import { itemStorage } from '../textsecure/Storage.preload.js';
+} from '../messageModifiers/Polls.preload.ts';
+import { itemStorage } from '../textsecure/Storage.preload.ts';
 
 const { isEqual } = lodash;
 
@@ -224,7 +224,7 @@ export async function modifyTargetMessage(
       });
       changed = true;
 
-      // eslint-disable-next-line no-param-reassign
+      // oxlint-disable-next-line no-param-reassign
       message.pendingMarkRead = Math.min(
         message.pendingMarkRead ?? Date.now(),
         markReadAt
@@ -239,7 +239,7 @@ export async function modifyTargetMessage(
 
     if (!isFirstRun && message.pendingMarkRead) {
       const markReadAt = message.pendingMarkRead;
-      // eslint-disable-next-line no-param-reassign
+      // oxlint-disable-next-line no-param-reassign
       message.pendingMarkRead = undefined;
 
       // This is primarily to allow the conversation to mark all older
@@ -280,7 +280,7 @@ export async function modifyTargetMessage(
         Date.now(),
         ...viewSyncs.map(({ viewSync }) => viewSync.viewedAt)
       );
-      // eslint-disable-next-line no-param-reassign
+      // oxlint-disable-next-line no-param-reassign
       message.pendingMarkRead = Math.min(
         message.pendingMarkRead ?? Date.now(),
         markReadAt

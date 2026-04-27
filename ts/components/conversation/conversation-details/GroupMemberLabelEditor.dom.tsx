@@ -4,45 +4,45 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { noop } from 'lodash';
 
-import { Input } from '../../Input.dom.js';
-import { FunEmojiPicker } from '../../fun/FunEmojiPicker.dom.js';
+import { Input } from '../../Input.dom.tsx';
+import { FunEmojiPicker } from '../../fun/FunEmojiPicker.dom.tsx';
 import {
   getEmojiVariantByKey,
   getEmojiVariantKeyByValue,
   isEmojiVariantValue,
-} from '../../fun/data/emojis.std.js';
-import { FunEmojiPickerButton } from '../../fun/FunButton.dom.js';
-import { tw } from '../../../axo/tw.dom.js';
-import { AxoButton } from '../../../axo/AxoButton.dom.js';
+} from '../../fun/data/emojis.std.ts';
+import { FunEmojiPickerButton } from '../../fun/FunButton.dom.tsx';
+import { tw } from '../../../axo/tw.dom.tsx';
+import { AxoButton } from '../../../axo/AxoButton.dom.tsx';
 import {
   STRING_BYTE_LIMIT,
   STRING_GRAPHEME_LIMIT,
-} from '../../../types/GroupMemberLabels.std.js';
+} from '../../../types/GroupMemberLabels.std.ts';
 import {
   Message,
   MessageInteractivity,
   TextDirection,
-} from '../Message.dom.js';
-import type { ContactNameColorType } from '../../../types/Colors.std.js';
-import { ConversationColors } from '../../../types/Colors.std.js';
-import { WidthBreakpoint } from '../../_util.std.js';
-import { AxoAlertDialog } from '../../../axo/AxoAlertDialog.dom.js';
-import { Avatar, AvatarSize } from '../../Avatar.dom.js';
-import { UserText } from '../../UserText.dom.js';
-import { GroupMemberLabel } from '../ContactName.dom.js';
-import { useConfirmDiscard } from '../../../hooks/useConfirmDiscard.dom.js';
-import { NavTab } from '../../../types/Nav.std.js';
-import { PanelType } from '../../../types/Panels.std.js';
+} from '../Message.dom.tsx';
+import type { ContactNameColorType } from '../../../types/Colors.std.ts';
+import { ConversationColors } from '../../../types/Colors.std.ts';
+import { WidthBreakpoint } from '../../_util.std.ts';
+import { AxoAlertDialog } from '../../../axo/AxoAlertDialog.dom.tsx';
+import { Avatar, AvatarSize } from '../../Avatar.dom.tsx';
+import { UserText } from '../../UserText.dom.tsx';
+import { GroupMemberLabel } from '../ContactName.dom.tsx';
+import { useConfirmDiscard } from '../../../hooks/useConfirmDiscard.dom.tsx';
+import { NavTab } from '../../../types/Nav.std.ts';
+import { PanelType } from '../../../types/Panels.std.ts';
 
-import type { EmojiVariantKey } from '../../fun/data/emojis.std.js';
+import type { EmojiVariantKey } from '../../fun/data/emojis.std.ts';
 import type {
   ConversationType,
   UpdateGroupMemberLabelType,
-} from '../../../state/ducks/conversations.preload.js';
-import type { LocalizerType, ThemeType } from '../../../types/Util.std.js';
-import type { PreferredBadgeSelectorType } from '../../../state/selectors/badges.preload.js';
-import type { Location } from '../../../types/Nav.std.js';
-import { usePrevious } from '../../../hooks/usePrevious.std.js';
+} from '../../../state/ducks/conversations.preload.ts';
+import type { LocalizerType, ThemeType } from '../../../types/Util.std.ts';
+import type { PreferredBadgeSelectorType } from '../../../state/selectors/badges.preload.ts';
+import type { Location } from '../../../types/Nav.std.ts';
+import { usePrevious } from '../../../hooks/usePrevious.std.ts';
 
 export type PropsDataType = {
   canAddLabel: boolean;
@@ -139,7 +139,7 @@ export function GroupMemberLabelEditor({
     : undefined;
 
   useEffect(() => {
-    if (!canAddLabel && isActive) {
+    if (!canAddLabel && isActive && !isShowingPermissionsError) {
       setIsShowingPermissionsError(true);
     }
   }, [
@@ -158,15 +158,16 @@ export function GroupMemberLabelEditor({
 
   const onTryClose = React.useCallback(() => {
     const discardChanges = noop;
-    confirmDiscardIf(isDirty, discardChanges);
-  }, [confirmDiscardIf, isDirty]);
+    // If leaving the screen because we no longer have permission, no confirm discard
+    confirmDiscardIf(isDirty && canAddLabel, discardChanges);
+  }, [canAddLabel, confirmDiscardIf, isDirty]);
   tryClose.current = onTryClose;
 
   // Popping the panel here after a save is far safer; we may not have re-rendered with
   // the new existing values yet when the onSuccess callback down-file is called.
   const previousIsSaving = usePrevious(isSaving, isSaving);
   useEffect(() => {
-    if (isSaving === false && previousIsSaving !== isSaving && !isDirty) {
+    if (!isSaving && previousIsSaving !== isSaving && !isDirty) {
       popPanelForConversation();
     }
   }, [isDirty, isSaving, popPanelForConversation, previousIsSaving]);
@@ -250,6 +251,7 @@ export function GroupMemberLabelEditor({
               isPinned={false}
               canDeleteForEveryone={false}
               canRetryDeleteForEveryone={false}
+              canSendPollVote={false}
               retryDeleteForEveryone={noop}
               isBlocked={false}
               isMessageRequestAccepted={false}
@@ -415,7 +417,7 @@ export function GroupMemberLabelEditor({
       </div>
       {confirmDiscardModal}
       <AxoAlertDialog.Root
-        open={isShowingGeneralError && isActive}
+        open={isShowingGeneralError && isActive && !confirmDiscardModal}
         onOpenChange={value => {
           if (!value) {
             setIsShowingGeneralError(false);
@@ -434,7 +436,6 @@ export function GroupMemberLabelEditor({
           <AxoAlertDialog.Footer>
             <AxoAlertDialog.Action
               variant="primary"
-              arrow={false}
               onClick={() => {
                 setIsShowingGeneralError(false);
               }}
@@ -445,7 +446,7 @@ export function GroupMemberLabelEditor({
         </AxoAlertDialog.Content>
       </AxoAlertDialog.Root>
       <AxoAlertDialog.Root
-        open={isShowingPermissionsError && isActive}
+        open={isShowingPermissionsError && isActive && !confirmDiscardModal}
         onOpenChange={value => {
           if (!value) {
             setIsShowingPermissionsError(false);
@@ -465,10 +466,9 @@ export function GroupMemberLabelEditor({
           <AxoAlertDialog.Footer>
             <AxoAlertDialog.Action
               variant="primary"
-              arrow={false}
               onClick={() => {
-                popPanelForConversation();
                 setIsShowingPermissionsError(false);
+                popPanelForConversation();
               }}
             >
               {i18n('icu:ok')}

@@ -4,56 +4,56 @@
 import lodash from 'lodash';
 import React, { memo, useCallback, useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { ConversationDetails } from '../../components/conversation/conversation-details/ConversationDetails.dom.js';
+import { ConversationDetails } from '../../components/conversation/conversation-details/ConversationDetails.dom.tsx';
 import {
   getGroupSizeHardLimit,
   getGroupSizeRecommendedLimit,
-} from '../../groups/limits.dom.js';
-import { SignalService as Proto } from '../../protobuf/index.std.js';
-import type { CallHistoryGroup } from '../../types/CallDisposition.std.js';
-import { assertDev } from '../../util/assert.std.js';
-import { getConversationColorAttributes } from '../../util/getConversationColorAttributes.std.js';
-import { getGroupMemberships } from '../../util/getGroupMemberships.dom.js';
+} from '../../groups/limits.dom.ts';
+import { SignalService as Proto } from '../../protobuf/index.std.ts';
+import type { CallHistoryGroup } from '../../types/CallDisposition.std.ts';
+import { assertDev } from '../../util/assert.std.ts';
+import { getConversationColorAttributes } from '../../util/getConversationColorAttributes.std.ts';
+import { getGroupMemberships } from '../../util/getGroupMemberships.dom.ts';
 import {
   getBadgesSelector,
   getPreferredBadgeSelector,
-} from '../selectors/badges.preload.js';
-import { getActiveCallState } from '../selectors/calling.std.js';
+} from '../selectors/badges.preload.ts';
+import { getActiveCallState } from '../selectors/calling.std.ts';
 import {
   getAllComposableConversations,
   getCachedConversationMemberColorsSelector,
   getConversationByIdSelector,
   getConversationByServiceIdSelector,
   getPendingAvatarDownloadSelector,
-} from '../selectors/conversations.dom.js';
+} from '../selectors/conversations.dom.ts';
 import {
   getAreWeASubscriber,
   getDefaultConversationColor,
   getItems,
-} from '../selectors/items.dom.js';
-import { getSelectedNavTab } from '../selectors/nav.std.js';
+} from '../selectors/items.dom.ts';
+import { getSelectedNavTab } from '../selectors/nav.std.ts';
 import {
   getIntl,
   getTheme,
   getUserACI,
   getVersion,
-} from '../selectors/user.std.js';
-import type { SmartChooseGroupMembersModalPropsType } from './ChooseGroupMembersModal.preload.js';
-import { SmartChooseGroupMembersModal } from './ChooseGroupMembersModal.preload.js';
-import type { SmartConfirmAdditionsModalPropsType } from './ConfirmAdditionsModal.dom.js';
-import { SmartConfirmAdditionsModal } from './ConfirmAdditionsModal.dom.js';
-import type { ConversationType } from '../ducks/conversations.preload.js';
-import { useConversationsActions } from '../ducks/conversations.preload.js';
-import { useCallingActions } from '../ducks/calling.preload.js';
-import { useSearchActions } from '../ducks/search.preload.js';
-import { useGlobalModalActions } from '../ducks/globalModals.preload.js';
-import { isSignalConversation } from '../../util/isSignalConversation.dom.js';
-import { drop } from '../../util/drop.std.js';
-import { DataReader } from '../../sql/Client.preload.js';
-import { isFeaturedEnabledSelector } from '../../util/isFeatureEnabled.dom.js';
-import { getCanAddLabel } from '../../types/GroupMemberLabels.std.js';
-import { useToastActions } from '../ducks/toast.preload.js';
-import { useNavActions } from '../ducks/nav.std.js';
+} from '../selectors/user.std.ts';
+import type { SmartChooseGroupMembersModalPropsType } from './ChooseGroupMembersModal.preload.tsx';
+import { SmartChooseGroupMembersModal } from './ChooseGroupMembersModal.preload.tsx';
+import type { SmartConfirmAdditionsModalPropsType } from './ConfirmAdditionsModal.dom.tsx';
+import { SmartConfirmAdditionsModal } from './ConfirmAdditionsModal.dom.tsx';
+import type { ConversationType } from '../ducks/conversations.preload.ts';
+import { useConversationsActions } from '../ducks/conversations.preload.ts';
+import { useCallingActions } from '../ducks/calling.preload.ts';
+import { useSearchActions } from '../ducks/search.preload.ts';
+import { useGlobalModalActions } from '../ducks/globalModals.preload.ts';
+import { isSignalConversation } from '../../util/isSignalConversation.dom.ts';
+import { drop } from '../../util/drop.std.ts';
+import { DataReader } from '../../sql/Client.preload.ts';
+import { isFeaturedEnabledSelector } from '../../util/isFeatureEnabled.dom.ts';
+import { getCanAddLabel } from '../../types/GroupMemberLabels.std.ts';
+import { useToastActions } from '../ducks/toast.preload.ts';
+import { useNavActions } from '../ducks/nav.std.ts';
 
 const { sortBy } = lodash;
 
@@ -127,14 +127,19 @@ export const SmartConversationDetails = memo(function SmartConversationDetails({
     addMembersToGroup,
     blockConversation,
     deleteAvatarFromDisk,
+    destroyMessages,
     getProfilesForConversation,
     leaveGroup,
+    onArchive,
+    onMoveToInbox,
     replaceAvatar,
+    reportSpam,
     saveAvatarToDisk,
     setDisappearingMessages,
     setMuteExpiration,
     showConversation,
     startAvatarDownload,
+    terminateGroup,
     updateGroupAttributes,
     updateNicknameAndNote,
   } = useConversationsActions();
@@ -179,6 +184,12 @@ export const SmartConversationDetails = memo(function SmartConversationDetails({
     remoteConfig: items.remoteConfig,
     prodKey: 'desktop.groupMemberLabels.edit.prod',
   });
+  const isTerminateGroupEnabled = isFeaturedEnabledSelector({
+    betaKey: 'desktop.groupTerminate.send.beta',
+    currentVersion: version,
+    remoteConfig: items.remoteConfig,
+    prodKey: 'desktop.groupTerminate.send.prod',
+  });
 
   const groupsInCommon = getGroupsInCommonSorted(
     conversation,
@@ -208,6 +219,18 @@ export const SmartConversationDetails = memo(function SmartConversationDetails({
   const handleOpenEditNicknameAndNoteModal = useCallback(() => {
     toggleEditNicknameAndNoteModal({ conversationId });
   }, [conversationId, toggleEditNicknameAndNoteModal]);
+
+  const onConversationArchive = useCallback(() => {
+    onArchive(conversationId);
+  }, [onArchive, conversationId]);
+
+  const onConversationUnarchive = useCallback(() => {
+    onMoveToInbox(conversationId);
+  }, [onMoveToInbox, conversationId]);
+
+  const onConversationDeleteMessages = useCallback(() => {
+    destroyMessages(conversationId);
+  }, [destroyMessages, conversationId]);
 
   const [hasMedia, setHasMedia] = useState(false);
 
@@ -252,12 +275,16 @@ export const SmartConversationDetails = memo(function SmartConversationDetails({
       isEditMemberLabelEnabled={isEditMemberLabelEnabled}
       isGroup={isGroup}
       isSignalConversation={isSignalConversation(conversation)}
+      isTerminateGroupEnabled={isTerminateGroupEnabled}
       leaveGroup={leaveGroup}
       hasMedia={hasMedia}
       maxGroupSize={maxGroupSize}
       maxRecommendedGroupSize={maxRecommendedGroupSize}
       memberColors={memberColors}
       memberships={memberships}
+      onConversationArchive={onConversationArchive}
+      onConversationDeleteMessages={onConversationDeleteMessages}
+      onConversationUnarchive={onConversationUnarchive}
       onDeleteNicknameAndNote={handleDeleteNicknameAndNote}
       onOpenEditNicknameAndNoteModal={handleOpenEditNicknameAndNoteModal}
       onOutgoingAudioCallInConversation={onOutgoingAudioCallInConversation}
@@ -269,6 +296,7 @@ export const SmartConversationDetails = memo(function SmartConversationDetails({
       renderChooseGroupMembersModal={renderChooseGroupMembersModal}
       renderConfirmAdditionsModal={renderConfirmAdditionsModal}
       replaceAvatar={replaceAvatar}
+      reportSpam={reportSpam}
       saveAvatarToDisk={saveAvatarToDisk}
       searchInConversation={searchInConversation}
       selectedNavTab={selectedNavTab}
@@ -278,6 +306,7 @@ export const SmartConversationDetails = memo(function SmartConversationDetails({
       showConversation={showConversation}
       showToast={showToast}
       startAvatarDownload={() => startAvatarDownload(conversationId)}
+      terminateGroup={terminateGroup}
       theme={theme}
       toggleAboutContactModal={toggleAboutContactModal}
       toggleAddUserToAnotherGroupModal={toggleAddUserToAnotherGroupModal}

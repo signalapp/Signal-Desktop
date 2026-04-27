@@ -2,30 +2,34 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { z } from 'zod';
-import { convertUndefinedToNull } from '../../util/dropNull.std.js';
-import { messageAttachmentTypeSchema } from '../../types/AttachmentDownload.std.js';
-import { APPLICATION_OCTET_STREAM } from '../../types/MIME.std.js';
-import type { MessageAttachmentDBType } from '../Interface.std.js';
+import { convertUndefinedToNull } from '../../util/dropNull.std.ts';
+import { messageAttachmentTypeSchema } from '../../types/AttachmentDownload.std.ts';
+import { APPLICATION_OCTET_STREAM } from '../../types/MIME.std.ts';
+import type { MessageAttachmentDBType } from '../Interface.std.ts';
 
 const permissiveStringOrNull = z
   .string()
   .optional()
   .transform(convertUndefinedToNull)
+  // oxlint-disable-next-line promise/prefer-await-to-then
   .catch(null);
 const permissiveNumberOrNull = z
   .number()
   .optional()
   .transform(convertUndefinedToNull)
+  // oxlint-disable-next-line promise/prefer-await-to-then
   .catch(null);
 const permissiveAttachmentVersion = z
   .union([z.literal(1), z.literal(2)])
   .optional()
   .transform(convertUndefinedToNull)
+  // oxlint-disable-next-line promise/prefer-await-to-then
   .catch(null);
 const permissiveOptionalBool = z
   .union([z.literal(0), z.literal(1)])
   .optional()
   .transform(convertUndefinedToNull)
+  // oxlint-disable-next-line promise/prefer-await-to-then
   .catch(null);
 
 // A schema which converts invalid values to null, to handle bad data when
@@ -38,9 +42,13 @@ export const permissiveMessageAttachmentSchema = z.object({
   attachmentType: messageAttachmentTypeSchema,
   orderInMessage: z.number(),
   conversationId: z.string(),
+  // oxlint-disable-next-line promise/prefer-await-to-then
   sentAt: z.number().catch(0),
+  // oxlint-disable-next-line promise/prefer-await-to-then
   receivedAt: z.number().catch(0),
+  // oxlint-disable-next-line promise/prefer-await-to-then
   size: z.number().catch(0),
+  // oxlint-disable-next-line promise/prefer-await-to-then
   contentType: z.string().catch(APPLICATION_OCTET_STREAM),
 
   // Fields allowing NULL
@@ -90,4 +98,4 @@ export const permissiveMessageAttachmentSchema = z.object({
   copiedFromQuotedAttachment: permissiveOptionalBool,
   version: permissiveAttachmentVersion,
   pending: permissiveOptionalBool,
-}) satisfies z.ZodType<MessageAttachmentDBType, z.ZodTypeDef, unknown>;
+}) satisfies z.ZodType<MessageAttachmentDBType>;

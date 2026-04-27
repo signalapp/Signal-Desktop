@@ -4,14 +4,14 @@
 import { assert } from 'chai';
 import * as sinon from 'sinon';
 import lodash from 'lodash';
-import { SendMessageProtoError } from '../../../textsecure/Errors.std.js';
-import { HTTPError } from '../../../types/HTTPError.std.js';
-import { SECOND } from '../../../util/durations/index.std.js';
+import { SendMessageProtoError } from '../../../textsecure/Errors.std.ts';
+import { HTTPError } from '../../../types/HTTPError.std.ts';
+import { SECOND } from '../../../util/durations/index.std.ts';
 
 import {
   handleMultipleSendErrors,
   maybeExpandErrors,
-} from '../../../jobs/helpers/handleMultipleSendErrors.std.js';
+} from '../../../jobs/helpers/handleMultipleSendErrors.std.ts';
 
 const { noop, omit } = lodash;
 
@@ -112,7 +112,7 @@ describe('handleMultipleSendErrors', () => {
   });
 
   for (const code of [413, 429] as const) {
-    // eslint-disable-next-line no-loop-func
+    // oxlint-disable-next-line no-loop-func
     describe(`${code} handling`, () => {
       it(`sleeps for the longest ${code} Retry-After time`, async () => {
         let done = false;

@@ -2,12 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import lodash from 'lodash';
-import { createLogger } from '../logging/log.std.js';
+import { createLogger } from '../logging/log.std.ts';
 
-import { isIterable } from '../util/iterables.std.js';
+import { isIterable } from '../util/iterables.std.ts';
 
-import { toNumber } from '../util/toNumber.std.js';
-import { isNonSharedUint8Array } from '../Bytes.std.js';
+import { toNumber } from '../util/toNumber.std.ts';
+import { isNonSharedUint8Array } from '../Bytes.std.ts';
 
 const { isPlainObject } = lodash;
 
@@ -25,7 +25,7 @@ const log = createLogger('cleanDataForIpc');
  */
 export function cleanDataForIpc(data: unknown): {
   // `any`s are dangerous but it's difficult (impossible?) to type this with generics.
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // oxlint-disable-next-line typescript/no-explicit-any
   cleaned: any;
   pathsChanged: Array<string>;
 } {
@@ -45,14 +45,14 @@ type CleanedDataValue =
   | undefined
   | Uint8Array<ArrayBuffer>
   | CleanedObject
-  | CleanedArray;
-/* eslint-disable no-restricted-syntax */
+  | Array<CleanedDataValue>;
+
+// oxlint-disable-next-line typescript/consistent-type-definitions
 interface CleanedObject {
   [x: string]: CleanedDataValue;
 }
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface CleanedArray extends Array<CleanedDataValue> {}
-/* eslint-enable no-restricted-syntax */
+
+type CleanedArray = Array<CleanedDataValue>;
 
 function cleanDataInner(
   data: unknown,
@@ -64,7 +64,7 @@ function cleanDataInner(
     log.error(
       `cleanDataInner: Reached maximum depth ${depth}; path is ${path}`
     );
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // oxlint-disable-next-line typescript/no-explicit-any
     return { cleaned: data as any, pathsChanged };
   }
 
@@ -82,7 +82,7 @@ function cleanDataInner(
       //   functions but don't mark them as cleaned.
       return undefined;
     case 'object': {
-      // eslint-disable-next-line eqeqeq
+      // oxlint-disable-next-line eqeqeq
       if (data === null) {
         return null;
       }

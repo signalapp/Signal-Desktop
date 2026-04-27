@@ -4,21 +4,21 @@
 import type { ThunkAction } from 'redux-thunk';
 
 import type { ReadonlyDeep } from 'type-fest';
-import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.js';
+import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.ts';
 import type {
   LinkPreviewType,
   LinkPreviewForUIType,
-} from '../../types/message/LinkPreviews.std.js';
-import type { AttachmentForUIType } from '../../types/Attachment.std.js';
-import type { MaybeGrabLinkPreviewOptionsType } from '../../types/LinkPreview.std.js';
-import type { NoopActionType } from './noop.std.js';
-import type { StateType as RootStateType } from '../reducer.preload.js';
-import { LinkPreviewSourceType } from '../../types/LinkPreview.std.js';
-import { assignWithNoUnnecessaryAllocation } from '../../util/assignWithNoUnnecessaryAllocation.std.js';
-import { maybeGrabLinkPreview } from '../../services/LinkPreview.preload.js';
-import { strictAssert } from '../../util/assert.std.js';
-import { useBoundActions } from '../../hooks/useBoundActions.std.js';
-import { getPropsForAttachment } from '../selectors/message.preload.js';
+} from '../../types/message/LinkPreviews.std.ts';
+import type { AttachmentForUIType } from '../../types/Attachment.std.ts';
+import type { MaybeGrabLinkPreviewOptionsType } from '../../types/LinkPreview.std.ts';
+import { noopAction, type NoopActionType } from './noop.std.ts';
+import type { StateType as RootStateType } from '../reducer.preload.ts';
+import { LinkPreviewSourceType } from '../../types/LinkPreview.std.ts';
+import { assignWithNoUnnecessaryAllocation } from '../../util/assignWithNoUnnecessaryAllocation.std.ts';
+import { maybeGrabLinkPreview } from '../../services/LinkPreview.preload.ts';
+import { strictAssert } from '../../util/assert.std.ts';
+import { useBoundActions } from '../../hooks/useBoundActions.std.ts';
+import { getPropsForAttachment } from '../selectors/message.preload.ts';
 
 // State
 
@@ -62,10 +62,7 @@ function debouncedMaybeGrabLinkPreview(
   return dispatch => {
     maybeGrabLinkPreview(message, source, options);
 
-    dispatch({
-      type: 'NOOP',
-      payload: null,
-    });
+    dispatch(noopAction('debouncedMaybeGrabLinkPreview'));
   };
 }
 

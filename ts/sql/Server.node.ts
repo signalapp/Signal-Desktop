@@ -1,8 +1,6 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* eslint-disable camelcase */
-
 // TODO(indutny): format queries
 import type { RowType } from '@signalapp/sqlcipher';
 import SQL, { setLogger as setSqliteLogger } from '@signalapp/sqlcipher';
@@ -15,41 +13,41 @@ import { z } from 'zod';
 import type { Dictionary } from 'lodash';
 import lodash from 'lodash';
 
-import { parseBadgeCategory } from '../badges/BadgeCategory.std.js';
+import { parseBadgeCategory } from '../badges/BadgeCategory.std.ts';
 import {
   parseBadgeImageTheme,
   type BadgeImageTheme,
-} from '../badges/BadgeImageTheme.std.js';
-import type { BadgeImageType, BadgeType } from '../badges/types.std.js';
-import type { StoredJob } from '../jobs/types.std.js';
-import { formatCountForLogging } from '../logging/formatCountForLogging.std.js';
-import { ReadStatus } from '../messages/MessageReadStatus.std.js';
+} from '../badges/BadgeImageTheme.std.ts';
+import type { BadgeImageType, BadgeType } from '../badges/types.std.ts';
+import type { StoredJob } from '../jobs/types.std.ts';
+import { formatCountForLogging } from '../logging/formatCountForLogging.std.ts';
+import { ReadStatus } from '../messages/MessageReadStatus.std.ts';
 import type {
   GroupV2MemberType,
   MessageAttributesType,
 } from '../model-types.d.ts';
-import type { ReactionType } from '../types/Reactions.std.js';
-import { ReactionReadStatus } from '../types/Reactions.std.js';
-import type { AciString, ServiceIdString } from '../types/ServiceId.std.js';
-import { isServiceIdString } from '../types/ServiceId.std.js';
-import { STORAGE_KEYS_TO_PRESERVE_AFTER_UNLINK } from '../types/StorageKeys.std.js';
-import type { StoryDistributionIdString } from '../types/StoryDistributionId.std.js';
-import * as Errors from '../types/errors.std.js';
-import { assertDev, strictAssert } from '../util/assert.std.js';
-import { missingCaseError } from '../util/missingCaseError.std.js';
-import { combineNames } from '../util/combineNames.std.js';
-import { consoleLogger } from '../util/consoleLogger.std.js';
+import type { ReactionType } from '../types/Reactions.std.ts';
+import { ReactionReadStatus } from '../types/Reactions.std.ts';
+import type { AciString, ServiceIdString } from '../types/ServiceId.std.ts';
+import { isServiceIdString } from '../types/ServiceId.std.ts';
+import { STORAGE_KEYS_TO_PRESERVE_AFTER_UNLINK } from '../types/StorageKeys.std.ts';
+import type { StoryDistributionIdString } from '../types/StoryDistributionId.std.ts';
+import * as Errors from '../types/errors.std.ts';
+import { assertDev, strictAssert } from '../util/assert.std.ts';
+import { missingCaseError } from '../util/missingCaseError.std.ts';
+import { combineNames } from '../util/combineNames.std.ts';
+import { consoleLogger } from '../util/consoleLogger.std.ts';
 import {
   dropNull,
   shallowConvertUndefinedToNull,
   type ShallowNullToUndefined,
   type ShallowUndefinedToNull,
-} from '../util/dropNull.std.js';
-import { isNormalNumber } from '../util/isNormalNumber.std.js';
-import { isNotNil } from '../util/isNotNil.std.js';
-import { parseIntOrThrow } from '../util/parseIntOrThrow.std.js';
-import { updateSchema } from './migrations/index.node.js';
-import type { JSONRows, QueryTemplate, QueryFragment } from './util.std.js';
+} from '../util/dropNull.std.ts';
+import { isNormalNumber } from '../util/isNormalNumber.std.ts';
+import { isNotNil } from '../util/isNotNil.std.ts';
+import { parseIntOrThrow } from '../util/parseIntOrThrow.std.ts';
+import { updateSchema } from './migrations/index.node.ts';
+import type { JSONRows, QueryTemplate, QueryFragment } from './util.std.ts';
 import {
   batchMultiVarQuery,
   bulkAdd,
@@ -70,33 +68,33 @@ import {
   sqlJoin,
   convertOptionalBooleanToInteger,
   sqlId,
-} from './util.std.js';
+} from './util.std.ts';
 import {
   hydrateMessage,
   hydrateMessages,
   convertAttachmentDBFieldsToAttachmentType,
   getAttachmentReferencesForMessages,
   ROOT_MESSAGE_ATTACHMENT_EDIT_HISTORY_INDEX,
-} from './hydration.std.js';
+} from './hydration.std.ts';
 
-import { SignalService } from '../protobuf/index.std.js';
-import { SeenStatus } from '../MessageSeenStatus.std.js';
+import { SignalService } from '../protobuf/index.std.ts';
+import { SeenStatus } from '../MessageSeenStatus.std.ts';
 import {
   attachmentBackupJobSchema,
   type AttachmentBackupJobType,
-} from '../types/AttachmentBackup.std.js';
+} from '../types/AttachmentBackup.std.ts';
 import {
   attachmentDownloadJobSchema,
   type MessageAttachmentType,
   type AttachmentDownloadJobType,
-} from '../types/AttachmentDownload.std.js';
+} from '../types/AttachmentDownload.std.ts';
 import type {
   CallHistoryDetails,
   CallHistoryFilter,
   CallHistoryGroup,
   CallHistoryPagination,
   CallLogEventTarget,
-} from '../types/CallDisposition.std.js';
+} from '../types/CallDisposition.std.ts';
 import {
   CallDirection,
   CallHistoryFilterStatus,
@@ -107,21 +105,21 @@ import {
   GroupCallStatus,
   callHistoryDetailsSchema,
   callHistoryGroupSchema,
-} from '../types/CallDisposition.std.js';
-import { redactGenericText } from '../util/privacy.node.js';
+} from '../types/CallDisposition.std.ts';
+import { redactGenericText } from '../util/privacy.node.ts';
 import {
   parseLoose,
   parseStrict,
   parseUnknown,
   safeParseUnknown,
-} from '../util/schemas.std.js';
+} from '../util/schemas.std.ts';
 import {
   SNIPPET_LEFT_PLACEHOLDER,
   SNIPPET_RIGHT_PLACEHOLDER,
   SNIPPET_TRUNCATION_PLACEHOLDER,
-} from '../util/search.std.js';
-import type { SyncTaskType } from '../util/syncTasks.preload.js';
-import { MAX_SYNC_TASK_ATTEMPTS } from '../util/syncTasks.types.std.js';
+} from '../util/search.std.ts';
+import type { SyncTaskType } from '../util/syncTasks.preload.ts';
+import { MAX_SYNC_TASK_ATTEMPTS } from '../util/syncTasks.types.std.ts';
 import type {
   AdjacentMessagesByConversationOptionsType,
   BackupCdnMediaObjectType,
@@ -201,14 +199,14 @@ import type {
   MaybeStaleCallHistory,
   ExistingAttachmentData,
   ExistingAttachmentUploadData,
-} from './Interface.std.js';
+} from './Interface.std.ts';
 import {
   AttachmentDownloadSource,
   MESSAGE_COLUMNS,
   MESSAGE_COLUMNS_FRAGMENT,
   MESSAGE_ATTACHMENT_COLUMNS,
   MESSAGE_NON_PRIMARY_KEY_COLUMNS,
-} from './Interface.std.js';
+} from './Interface.std.ts';
 import {
   _removeAllCallLinks,
   beginDeleteAllCallLinks,
@@ -232,21 +230,21 @@ import {
   updateCallLink,
   updateCallLinkState,
   updateDefunctCallLink,
-} from './server/callLinks.node.js';
+} from './server/callLinks.node.ts';
 import {
   _deleteAllDonationReceipts,
   createDonationReceipt,
   deleteDonationReceiptById,
   getAllDonationReceipts,
   getDonationReceiptById,
-} from './server/donationReceipts.std.js';
+} from './server/donationReceipts.std.ts';
 import {
   deleteAllEndorsementsForGroup,
   getGroupSendCombinedEndorsementExpiration,
   getGroupSendEndorsementsData,
   getGroupSendMemberEndorsement,
   replaceAllEndorsementsForGroup,
-} from './server/groupSendEndorsements.std.js';
+} from './server/groupSendEndorsements.std.ts';
 import {
   getAllChatFolders,
   getCurrentChatFolders,
@@ -262,7 +260,7 @@ import {
   updateChatFolderPositions,
   updateChatFolderDeletedAtTimestampMsFromSync,
   deleteExpiredChatFolders,
-} from './server/chatFolders.std.js';
+} from './server/chatFolders.std.ts';
 import {
   getAllPinnedMessages,
   getPinnedMessagesPreloadDataForConversation,
@@ -270,7 +268,7 @@ import {
   appendPinnedMessage,
   deletePinnedMessageByMessageId,
   deleteAllExpiredPinnedMessagesBefore,
-} from './server/pinnedMessages.std.js';
+} from './server/pinnedMessages.std.ts';
 import {
   getAllMegaphones,
   getAllMegaphoneIds,
@@ -282,29 +280,29 @@ import {
   internalDeleteAllMegaphones,
   getAllMegaphoneImageLocalPaths,
   hasMegaphone,
-} from './server/megaphones.std.js';
+} from './server/megaphones.std.ts';
 import {
   getAllKTAcis,
   getKTAccountData,
   setKTAccountData,
   removeAllKTAccountData,
-} from './server/keyTransparency.std.js';
-import { INITIAL_EXPIRE_TIMER_VERSION } from '../util/expirationTimer.std.js';
-import type { GifType } from '../components/fun/panels/FunPanelGifs.dom.js';
-import type { NotificationProfileType } from '../types/NotificationProfile.std.js';
-import * as durations from '../util/durations/index.std.js';
-import type { AttachmentType } from '../types/Attachment.std.js';
-import { isFile, isVisualMedia } from '../util/Attachment.std.js';
-import { generateMessageId } from '../util/generateMessageId.node.js';
+} from './server/keyTransparency.std.ts';
+import { INITIAL_EXPIRE_TIMER_VERSION } from '../util/expirationTimer.std.ts';
+import type { GifType } from '../components/fun/panels/FunPanelGifs.dom.tsx';
+import type { NotificationProfileType } from '../types/NotificationProfile.std.ts';
+import * as durations from '../util/durations/index.std.ts';
+import type { AttachmentType } from '../types/Attachment.std.ts';
+import { isFile, isVisualMedia } from '../util/Attachment.std.ts';
+import { generateMessageId } from '../util/generateMessageId.node.ts';
 import type {
   ConversationColorType,
   CustomColorType,
-} from '../types/Colors.std.js';
-import { sqlLogger } from './sqlLogger.node.js';
-import { permissiveMessageAttachmentSchema } from './server/messageAttachments.std.js';
-import { getFilePathsReferencedByMessage } from '../util/messageFilePaths.std.js';
-import { createMessagesOnInsertTrigger } from './migrations/1500-search-polls.std.js';
-import { isValidPlaintextHash } from '../types/Crypto.std.js';
+} from '../types/Colors.std.ts';
+import { sqlLogger } from './sqlLogger.node.ts';
+import { permissiveMessageAttachmentSchema } from './server/messageAttachments.std.ts';
+import { getFilePathsReferencedByMessage } from '../util/messageFilePaths.std.ts';
+import { createMessagesOnInsertTrigger } from './migrations/1500-search-polls.std.ts';
+import { isValidPlaintextHash } from '../types/Crypto.std.ts';
 
 const {
   forEach,
@@ -637,7 +635,7 @@ export const DataWriter: ServerWritableInterface = {
   saveConversations,
   updateConversation,
   updateConversations,
-  removeConversation,
+  _removeConversation,
   _removeAllConversations,
   updateAllConversationColors,
   removeAllProfileKeyCredentials,
@@ -1034,6 +1032,7 @@ export function initialize({
   }
 }
 
+/** @testexport */
 export function setupTests(db: WritableDB): void {
   const silentLogger = {
     ...consoleLogger,
@@ -2046,37 +2045,10 @@ function updateConversations(
   })();
 }
 
-function removeConversations(
-  db: WritableDB,
-  ids: ReadonlyArray<string>,
-  persistent: boolean
-): void {
-  // Our node interface doesn't seem to allow you to replace one single ? with an array
-  db.prepare(
-    `
-    DELETE FROM conversations
-    WHERE id IN ( ${ids.map(() => '?').join(', ')} );
-    `,
-    { persistent }
-  ).run(ids);
-}
-
-function removeConversation(db: WritableDB, id: Array<string> | string): void {
-  if (!Array.isArray(id)) {
-    db.prepare('DELETE FROM conversations WHERE id = $id;').run({
-      id,
-    });
-
-    return;
-  }
-
-  if (!id.length) {
-    throw new Error('removeConversation: No ids to delete!');
-  }
-
-  batchMultiVarQuery(db, id, (ids, persistent) =>
-    removeConversations(db, ids, persistent)
-  );
+function _removeConversation(db: WritableDB, id: string): void {
+  db.prepare('DELETE FROM conversations WHERE id = $id;').run({
+    id,
+  });
 }
 
 function _removeAllConversations(db: WritableDB): void {
@@ -2391,7 +2363,7 @@ function hasUserInitiatedMessages(
   return exists !== 0;
 }
 
-export function getMostRecentAddressableMessages(
+function getMostRecentAddressableMessages(
   db: ReadableDB,
   conversationId: string,
   limit = 5
@@ -2414,7 +2386,7 @@ export function getMostRecentAddressableMessages(
   })();
 }
 
-export function getMostRecentAddressableNondisappearingMessages(
+function getMostRecentAddressableNondisappearingMessages(
   db: ReadableDB,
   conversationId: string,
   limit = 5
@@ -2566,7 +2538,7 @@ export function dequeueOldestSyncTasks(
     strictAssert(lastRowId, 'dequeueOldestSyncTasks: lastRowId is null');
 
     let tasks: Array<SyncTaskType> = rows.map(row => {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      // oxlint-disable-next-line typescript/no-unused-vars
       const { rowid: _rowid, ...rest } = row;
       return {
         ...rest,
@@ -3166,7 +3138,7 @@ function saveMessage(
       `saveMessage: Message ${id}/${type} is unread but had seenStatus=${seenStatus}. Forcing to UnseenStatus.Unseen.`
     );
 
-    // eslint-disable-next-line no-param-reassign
+    // oxlint-disable-next-line no-param-reassign
     message = {
       ...message,
       seenStatus: SeenStatus.Unseen,
@@ -3411,10 +3383,7 @@ function removeMessages(db: WritableDB, ids: ReadonlyArray<string>): void {
   );
 }
 
-export function getMessageById(
-  db: ReadableDB,
-  id: string
-): MessageType | undefined {
+function getMessageById(db: ReadableDB, id: string): MessageType | undefined {
   return db.transaction(() => {
     const row = db
       .prepare(
@@ -4146,8 +4115,8 @@ function getAllStories(
 
     return hydrateMessages(db, rows).map(msg => ({
       ...msg,
-      hasReplies: Boolean(repliesLookup.has(msg.id)),
-      hasRepliesFromSelf: Boolean(repliesFromSelfLookup.has(msg.id)),
+      hasReplies: repliesLookup.has(msg.id),
+      hasRepliesFromSelf: repliesFromSelfLookup.has(msg.id),
     }));
   })();
 }
@@ -5614,8 +5583,6 @@ function getSortedMedia(
     // see 'isFile' in ts/util/Attachment.std.ts
     contentFilter = sqlFragment`
       message_attachments.flags IS NOT ${VOICE_MESSAGE} AND
-      message_attachments.contentType IS NOT NULL AND
-      message_attachments.contentType IS NOT '' AND
       message_attachments.contentType IS NOT 'text/x-signal-plain' AND
       message_attachments.contentType NOT LIKE 'audio/%' AND
       message_attachments.contentType NOT LIKE 'image/%' AND
@@ -5935,7 +5902,7 @@ export function migrateConversationMessages(
   `);
 
   db.transaction(() => {
-    // eslint-disable-next-line no-constant-condition
+    // oxlint-disable-next-line no-constant-condition
     for (let offset = 0; true; offset += PAGE_SIZE) {
       const parts: Array<{
         rowid: number;
@@ -6445,7 +6412,7 @@ function getBackupAttachmentDownloadProgress(
 function getNextAttachmentDownloadJobs(
   db: WritableDB,
   {
-    limit = 3,
+    limit,
     sources,
     prioritizeMessageIds,
     timestamp = Date.now(),
@@ -6564,6 +6531,7 @@ function saveAttachmentDownloadJobs(
     return;
   }
   if (errors.length === 1) {
+    // oxlint-disable-next-line typescript/only-throw-error
     throw errors[0];
   }
   throw new AggregateError(
@@ -7371,7 +7339,9 @@ function getAllStickerPacks(db: ReadableDB): Array<StickerPackType> {
 
       // The columns have STRING type so if they have numeric value, sqlite
       // will return integers.
+      // oxlint-disable-next-line typescript/no-unnecessary-type-conversion
       author: String(row.author),
+      // oxlint-disable-next-line typescript/no-unnecessary-type-conversion
       title: String(row.title),
     };
   });
@@ -7759,7 +7729,7 @@ function getAllBadges(db: ReadableDB): Array<BadgeType> {
       const { badgeId, order, localPath, url, theme } = badgeImageFileRow;
       const badgeImages = badgeImagesByBadge.get(badgeId) || [];
       badgeImages[order] = {
-        ...(badgeImages[order] || {}),
+        ...badgeImages[order],
         [parseBadgeImageTheme(theme)]: {
           localPath: dropNull(localPath),
           url,
@@ -8754,26 +8724,50 @@ export function incrementMessagesMigrationAttempts(
 
 function getMessageServerGuidsForSpam(
   db: ReadableDB,
-  conversationId: string
+  conversationId: string,
+  sourceServiceId?: string
 ): Array<string> {
-  // The server's maximum is 3, which is why you see `LIMIT 3` in this query. Note that we
-  //   use `pluck` here to only get the first column!
+  // The server's maximum is 3.
+  const limit = 3;
+
+  // Group reports -- sourceServiceId should be Aci matching addedBy of user who
+  // added you to a group
+  if (sourceServiceId != null) {
+    return db
+      .prepare(
+        `
+    SELECT DISTINCT serverGuid
+    FROM messages
+    WHERE conversationId = $conversationId
+    AND sourceServiceId = $sourceServiceId
+    AND type IS NOT 'outgoing'
+    AND serverGuid IS NOT NULL
+    ORDER BY received_at DESC, sent_at DESC
+    LIMIT $limit;
+    `,
+        {
+          pluck: true,
+        }
+      )
+      .all({ conversationId, sourceServiceId, limit });
+  }
+
   return db
     .prepare(
       `
-  SELECT serverGuid
-  FROM messages
-  WHERE conversationId = $conversationId
-  AND type = 'incoming'
-  AND serverGuid IS NOT NULL
-  ORDER BY received_at DESC, sent_at DESC
-  LIMIT 3;
-  `,
+    SELECT DISTINCT serverGuid
+    FROM messages
+    WHERE conversationId = $conversationId
+    AND type IS NOT 'outgoing'
+    AND serverGuid IS NOT NULL
+    ORDER BY received_at DESC, sent_at DESC
+    LIMIT $limit;
+    `,
       {
         pluck: true,
       }
     )
-    .all({ conversationId });
+    .all({ conversationId, limit });
 }
 
 function getExternalFilesForConversation(

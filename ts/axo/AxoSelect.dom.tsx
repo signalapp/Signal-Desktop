@@ -3,11 +3,12 @@
 import React, { memo } from 'react';
 import type { FC, ReactNode } from 'react';
 import { Select } from 'radix-ui';
-import { AxoBaseMenu } from './_internal/AxoBaseMenu.dom.js';
-import { AxoSymbol } from './AxoSymbol.dom.js';
-import type { TailwindStyles } from './tw.dom.js';
-import { tw } from './tw.dom.js';
-import { ExperimentalAxoBadge } from './AxoBadge.dom.js';
+import { AxoBaseMenu } from './_internal/AxoBaseMenu.dom.tsx';
+import { AxoSymbol } from './AxoSymbol.dom.tsx';
+import type { TailwindStyles } from './tw.dom.tsx';
+import { tw } from './tw.dom.tsx';
+import { ExperimentalAxoBadge } from './AxoBadge.dom.tsx';
+import { AxoTheme } from './AxoTheme.dom.tsx';
 
 const Namespace = 'AxoSelect';
 
@@ -88,8 +89,8 @@ export namespace AxoSelect {
   export type TriggerChevron = 'always' | 'on-hover';
 
   const baseTriggerStyles = tw(
-    'group relative flex items-center',
-    'rounded-full text-start type-body-medium text-label-primary',
+    'group relative inline-flex items-center',
+    'rounded-full text-start type-body-medium font-medium text-label-primary',
     'disabled:text-label-disabled',
     'outline-0 outline-border-focused focused:outline-[2.5px]',
     'forced-colors:border'
@@ -134,7 +135,7 @@ export namespace AxoSelect {
     },
     'on-hover': {
       chevronStyles: tw(
-        'absolute inset-y-0 end-0 w-9.5',
+        'absolute inset-y-0 inset-e-0 w-9.5',
         'flex items-center justify-end pe-2',
         'opacity-0 group-focus:opacity-100 group-data-[state=open]:opacity-100 group-hovered:opacity-100',
         'transition-opacity duration-150'
@@ -146,10 +147,10 @@ export namespace AxoSelect {
         'group-hovered:[--axo-select-trigger-mask-start:transparent]',
         'group-focus:[--axo-select-trigger-mask-start:transparent]',
         'group-data-[state=open]:[--axo-select-trigger-mask-start:transparent]',
-        '[mask-image:linear-gradient(to_left,var(--axo-select-trigger-mask-start)_19px,black_38px)]',
-        'rtl:[mask-image:linear-gradient(to_right,var(--axo-select-trigger-mask-start)_19px,black_38px)]',
-        '[mask-repeat:no-repeat]',
-        '[mask-position:right] rtl:[mask-position:left]',
+        'mask-[linear-gradient(to_left,var(--axo-select-trigger-mask-start)_19px,black_38px)]',
+        'rtl:mask-[linear-gradient(to_right,var(--axo-select-trigger-mask-start)_19px,black_38px)]',
+        'mask-no-repeat',
+        'mask-right rtl:mask-left',
         '[transition-property:--axo-select-trigger-mask-start] duration-150'
       ),
     },
@@ -233,31 +234,37 @@ export namespace AxoSelect {
     const positionConfig = ContentPositions[position];
     return (
       <Select.Portal>
-        <Select.Content
-          className={AxoBaseMenu.selectContentStyles}
-          position={positionConfig.position}
-          alignOffset={positionConfig.alignOffset}
-          collisionPadding={positionConfig.collisionPadding}
-          sideOffset={positionConfig.sideOffset}
-        >
-          <Select.ScrollUpButton
-            className={tw(
-              'flex items-center justify-center p-1 text-label-primary'
-            )}
+        <AxoTheme.Inherit>
+          <Select.Content
+            className={AxoBaseMenu.selectContentStyles}
+            position={positionConfig.position}
+            alignOffset={positionConfig.alignOffset}
+            collisionPadding={positionConfig.collisionPadding}
+            sideOffset={positionConfig.sideOffset}
           >
-            <AxoSymbol.Icon symbol="chevron-up" size={14} label={null} />
-          </Select.ScrollUpButton>
-          <Select.Viewport className={AxoBaseMenu.selectContentViewportStyles}>
-            <div className={AxoBaseMenu.menuGroupStyles}>{props.children}</div>
-          </Select.Viewport>
-          <Select.ScrollDownButton
-            className={tw(
-              'flex items-center justify-center p-1 text-label-primary'
-            )}
-          >
-            <AxoSymbol.Icon symbol="chevron-down" size={14} label={null} />
-          </Select.ScrollDownButton>
-        </Select.Content>
+            <Select.ScrollUpButton
+              className={tw(
+                'flex items-center justify-center p-1 text-label-primary'
+              )}
+            >
+              <AxoSymbol.Icon symbol="chevron-up" size={14} label={null} />
+            </Select.ScrollUpButton>
+            <Select.Viewport
+              className={AxoBaseMenu.selectContentViewportStyles}
+            >
+              <div className={AxoBaseMenu.menuGroupStyles}>
+                {props.children}
+              </div>
+            </Select.Viewport>
+            <Select.ScrollDownButton
+              className={tw(
+                'flex items-center justify-center p-1 text-label-primary'
+              )}
+            >
+              <AxoSymbol.Icon symbol="chevron-down" size={14} label={null} />
+            </Select.ScrollDownButton>
+          </Select.Content>
+        </AxoTheme.Inherit>
       </Select.Portal>
     );
   });
@@ -408,14 +415,10 @@ export namespace AxoSelect {
    * ---------------------------
    */
 
-  export type SeparatorProps = Readonly<{
-    // N/A
-  }>;
-
   /**
    * Used to visually separate items in the select.
    */
-  export const Separator: FC<SeparatorProps> = memo(() => {
+  export const Separator: FC = memo(() => {
     return <Select.Separator className={AxoBaseMenu.selectSeperatorStyles} />;
   });
 

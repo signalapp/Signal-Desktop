@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ServiceIdString } from '@signalapp/mock-server/src/types';
-import type { ConversationModel } from '../../models/conversations.preload.js';
-import type { LoggerType } from '../../types/Logging.std.js';
-import { isMe } from '../../util/whatTypeOfConversation.dom.js';
-import { isSignalConversation } from '../../util/isSignalConversation.dom.js';
+import type { ConversationModel } from '../../models/conversations.preload.ts';
+import type { LoggerType } from '../../types/Logging.std.ts';
+import { isMe } from '../../util/whatTypeOfConversation.dom.ts';
+import { isSignalConversation } from '../../util/isSignalConversation.dom.ts';
 
 export type SendRecipientLists = Readonly<{
   allRecipientServiceIds: Array<ServiceIdString>;

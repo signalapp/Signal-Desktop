@@ -1,7 +1,7 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { isTestOrMockEnvironment } from '../environment.std.js';
+import { isTestOrMockEnvironment } from '../environment.std.ts';
 
 /**
  * Left-to-Right Isolate
@@ -10,6 +10,7 @@ import { isTestOrMockEnvironment } from '../environment.std.js';
  * ```html
  * <div dir="ltr">...</div>
  * ```
+ * @testexport
  */
 export const LTR_ISOLATE = '\u2066';
 
@@ -20,6 +21,7 @@ export const LTR_ISOLATE = '\u2066';
  * ```html
  * <div dir="rtl">...</div>
  * ```
+ * @testexport
  */
 export const RTL_ISOLATE = '\u2067';
 
@@ -31,6 +33,7 @@ export const RTL_ISOLATE = '\u2067';
  * ```html
  * <div dir="auto">...</div>
  * ```
+ * @testexport
  */
 export const FIRST_STRONG_ISOLATE = '\u2068';
 
@@ -42,6 +45,7 @@ export const FIRST_STRONG_ISOLATE = '\u2068';
  * ```html
  * </div>
  * ```
+ * @testexport
  */
 export const POP_DIRECTIONAL_ISOLATE = '\u2069';
 
@@ -53,6 +57,7 @@ export const POP_DIRECTIONAL_ISOLATE = '\u2069';
  * ```html
  * <bdo dir="ltr">...</bdo>
  * ```
+ * @testexport
  */
 export const LTR_EMBEDDING = '\u202A';
 
@@ -64,6 +69,7 @@ export const LTR_EMBEDDING = '\u202A';
  * ```html
  * <bdo dir="rtl">...</bdo>
  * ```
+ * @testexport
  */
 export const RTL_EMBEDDING = '\u202B';
 
@@ -75,6 +81,7 @@ export const RTL_EMBEDDING = '\u202B';
  * ```html
  * </bdo>
  * ```
+ * @testexport
  */
 export const POP_DIRECTIONAL_FORMATTING = '\u202C';
 
@@ -85,6 +92,7 @@ export const POP_DIRECTIONAL_FORMATTING = '\u202C';
  * ```html
  * <bdo dir="ltr">...</bdo>
  * ```
+ * @testexport
  */
 export const LTR_OVERRIDE = '\u202D';
 
@@ -95,10 +103,11 @@ export const LTR_OVERRIDE = '\u202D';
  * ```html
  * <bdo dir="rtl">...</bdo>
  * ```
+ * @testexport
  */
 export const RTL_OVERRIDE = '\u202E';
 
-export const ANY_UNICODE_DIR_CONTROL_CHAR_REGEX = new RegExp(
+const ANY_UNICODE_DIR_CONTROL_CHAR_REGEX = new RegExp(
   [
     LTR_ISOLATE,
     RTL_ISOLATE,
@@ -113,7 +122,7 @@ export const ANY_UNICODE_DIR_CONTROL_CHAR_REGEX = new RegExp(
   'g'
 );
 
-export function hasAnyUnicodeDirControlChars(input: string): boolean {
+function hasAnyUnicodeDirControlChars(input: string): boolean {
   return input.match(ANY_UNICODE_DIR_CONTROL_CHAR_REGEX) != null;
 }
 
@@ -137,6 +146,7 @@ function balanceUnicodeDirControlChars(input: string): string {
 
   // We need to scan the entire input string and drop some characters as we
   // go in case they are closing something that was never opened.
+  // oxlint-disable-next-line typescript/prefer-for-of
   for (let index = 0; index < input.length; index += 1) {
     const char = input[index];
     switch (char) {

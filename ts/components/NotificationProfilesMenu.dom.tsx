@@ -3,17 +3,17 @@
 
 import React from 'react';
 
-import type { LocalizerType } from '../types/Util.std.js';
+import type { LocalizerType } from '../types/Util.std.ts';
 import {
   getMidnight,
   type NotificationProfileIdString,
   type NotificationProfileOverride,
   type NotificationProfileType,
-} from '../types/NotificationProfile.std.js';
-import { DAY, HOUR, SECOND } from '../util/durations/index.std.js';
-import { formatTimestamp } from '../util/formatTimestamp.dom.js';
-import { AxoDropdownMenu } from '../axo/AxoDropdownMenu.dom.js';
-import { ProfileAvatar } from './PreferencesNotificationProfiles.dom.js';
+} from '../types/NotificationProfile.std.ts';
+import { DAY, HOUR, SECOND } from '../util/durations/index.std.ts';
+import { formatTimestamp } from '../util/formatTimestamp.dom.ts';
+import { AxoDropdownMenu } from '../axo/AxoDropdownMenu.dom.tsx';
+import { ProfileAvatar } from './PreferencesNotificationProfiles.dom.tsx';
 
 export type Props = Readonly<{
   activeProfileId: NotificationProfileIdString | undefined;

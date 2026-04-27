@@ -1,0 +1,39 @@
+diff --git a/dist/qrcode.d.ts b/dist/qrcode.d.ts
+index b34952e420da449f8e9b13f199ecc2f9a42033ec..b394c44fbff1ed3b7b89eec800387fae1d31d876 100644
+--- a/dist/qrcode.d.ts
++++ b/dist/qrcode.d.ts
+@@ -36,7 +36,7 @@ interface QRCodeFactory {
+ }
+ 
+ interface QRCode {
+-  addData(data: string, mode?: Mode) : void;
++  addData(data: string | Uint8Array, mode?: Mode) : void;
+   make() : void;
+   getModuleCount() : number;
+   isDark(row: number, col: number) : boolean;
+diff --git a/dist/qrcode.js b/dist/qrcode.js
+index df13f829bf41f36b82f0ed85751ed3b4c39cfeb8..7044b0ea8fc08d4a26915583ff068db09057c15a 100644
+--- a/dist/qrcode.js
++++ b/dist/qrcode.js
+@@ -1728,7 +1728,7 @@ var qrcode = function() {
+ 
+     var _mode = QRMode.MODE_8BIT_BYTE;
+     var _data = data;
+-    var _bytes = qrcode.stringToBytes(data);
++    var _bytes = data instanceof Uint8Array ? data : qrcode.stringToBytes(data);
+ 
+     var _this = {};
+ 
+diff --git a/dist/qrcode.mjs b/dist/qrcode.mjs
+index 444522524987df3a4e37c2a5150dc5c8a052bd44..86aeba510dea9f7e76a93df6f646aa030eb30e38 100644
+--- a/dist/qrcode.mjs
++++ b/dist/qrcode.mjs
+@@ -1722,7 +1722,7 @@ const qr8BitByte = function(data) {
+ 
+   const _mode = QRMode.MODE_8BIT_BYTE;
+   const _data = data;
+-  const _bytes = qrcode.stringToBytes(data);
++  const _bytes = data instanceof Uint8Array ? data : qrcode.stringToBytes(data);
+ 
+   const _this = {};
+ 

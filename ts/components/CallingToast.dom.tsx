@@ -14,11 +14,11 @@ import { createPortal } from 'react-dom';
 import { useTransition, animated } from '@react-spring/web';
 import classNames from 'classnames';
 import { v4 as uuid } from 'uuid';
-import { useIsMounted } from '../hooks/useIsMounted.std.js';
-import type { LocalizerType } from '../types/I18N.std.js';
-import { usePrevious } from '../hooks/usePrevious.std.js';
-import { difference } from '../util/setUtil.std.js';
-import { useReducedMotion } from '../hooks/useReducedMotion.dom.js';
+import { useIsMounted } from '../hooks/useIsMounted.std.ts';
+import type { LocalizerType } from '../types/I18N.std.ts';
+import { usePrevious } from '../hooks/usePrevious.std.ts';
+import { difference } from '../util/setUtil.std.ts';
+import { useReducedMotion } from '../hooks/useReducedMotion.dom.ts';
 
 const DEFAULT_LIFETIME = 5000;
 const DEFAULT_TRANSITION_FROM = {
@@ -235,7 +235,7 @@ export function CallingToastProvider({
         toast => toast.key === item.key
       );
       const isToastReplacingAnExistingOneAtThisPosition = toastsRemoved.has(
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        // oxlint-disable-next-line typescript/no-non-null-assertion
         previousToasts[enteringItemIndex]!
       );
       return {
@@ -276,7 +276,7 @@ export function CallingToastProvider({
         toast => toast.key === item.key
       );
       const isToastBeingReplacedByANewOneAtThisPosition = toastsAdded.has(
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        // oxlint-disable-next-line typescript/no-non-null-assertion
         toasts[leavingItemIndex]!
       );
       return {

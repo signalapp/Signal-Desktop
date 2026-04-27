@@ -5,69 +5,69 @@ import React, { useEffect, useCallback, useMemo, useRef } from 'react';
 import classNames from 'classnames';
 import lodash from 'lodash';
 
-import type { ToFindType } from './leftPane/LeftPaneHelper.dom.js';
-import { FindDirection } from './leftPane/LeftPaneHelper.dom.js';
-import type { LeftPaneInboxPropsType } from './leftPane/LeftPaneInboxHelper.dom.js';
-import { LeftPaneInboxHelper } from './leftPane/LeftPaneInboxHelper.dom.js';
-import type { LeftPaneSearchPropsType } from './leftPane/LeftPaneSearchHelper.dom.js';
-import { LeftPaneSearchHelper } from './leftPane/LeftPaneSearchHelper.dom.js';
-import type { LeftPaneArchivePropsType } from './leftPane/LeftPaneArchiveHelper.dom.js';
-import { LeftPaneArchiveHelper } from './leftPane/LeftPaneArchiveHelper.dom.js';
-import type { LeftPaneComposePropsType } from './leftPane/LeftPaneComposeHelper.dom.js';
-import { LeftPaneComposeHelper } from './leftPane/LeftPaneComposeHelper.dom.js';
-import type { LeftPaneFindByUsernamePropsType } from './leftPane/LeftPaneFindByUsernameHelper.dom.js';
-import { LeftPaneFindByUsernameHelper } from './leftPane/LeftPaneFindByUsernameHelper.dom.js';
-import type { LeftPaneFindByPhoneNumberPropsType } from './leftPane/LeftPaneFindByPhoneNumberHelper.dom.js';
-import { LeftPaneFindByPhoneNumberHelper } from './leftPane/LeftPaneFindByPhoneNumberHelper.dom.js';
-import type { LeftPaneChooseGroupMembersPropsType } from './leftPane/LeftPaneChooseGroupMembersHelper.dom.js';
-import { LeftPaneChooseGroupMembersHelper } from './leftPane/LeftPaneChooseGroupMembersHelper.dom.js';
-import type { LeftPaneSetGroupMetadataPropsType } from './leftPane/LeftPaneSetGroupMetadataHelper.dom.js';
-import { LeftPaneSetGroupMetadataHelper } from './leftPane/LeftPaneSetGroupMetadataHelper.dom.js';
+import type { ToFindType } from './leftPane/LeftPaneHelper.dom.tsx';
+import { FindDirection } from './leftPane/LeftPaneHelper.dom.tsx';
+import type { LeftPaneInboxPropsType } from './leftPane/LeftPaneInboxHelper.dom.tsx';
+import { LeftPaneInboxHelper } from './leftPane/LeftPaneInboxHelper.dom.tsx';
+import type { LeftPaneSearchPropsType } from './leftPane/LeftPaneSearchHelper.dom.tsx';
+import { LeftPaneSearchHelper } from './leftPane/LeftPaneSearchHelper.dom.tsx';
+import type { LeftPaneArchivePropsType } from './leftPane/LeftPaneArchiveHelper.dom.tsx';
+import { LeftPaneArchiveHelper } from './leftPane/LeftPaneArchiveHelper.dom.tsx';
+import type { LeftPaneComposePropsType } from './leftPane/LeftPaneComposeHelper.dom.tsx';
+import { LeftPaneComposeHelper } from './leftPane/LeftPaneComposeHelper.dom.tsx';
+import type { LeftPaneFindByUsernamePropsType } from './leftPane/LeftPaneFindByUsernameHelper.dom.tsx';
+import { LeftPaneFindByUsernameHelper } from './leftPane/LeftPaneFindByUsernameHelper.dom.tsx';
+import type { LeftPaneFindByPhoneNumberPropsType } from './leftPane/LeftPaneFindByPhoneNumberHelper.dom.tsx';
+import { LeftPaneFindByPhoneNumberHelper } from './leftPane/LeftPaneFindByPhoneNumberHelper.dom.tsx';
+import type { LeftPaneChooseGroupMembersPropsType } from './leftPane/LeftPaneChooseGroupMembersHelper.dom.tsx';
+import { LeftPaneChooseGroupMembersHelper } from './leftPane/LeftPaneChooseGroupMembersHelper.dom.tsx';
+import type { LeftPaneSetGroupMetadataPropsType } from './leftPane/LeftPaneSetGroupMetadataHelper.dom.tsx';
+import { LeftPaneSetGroupMetadataHelper } from './leftPane/LeftPaneSetGroupMetadataHelper.dom.tsx';
 
-import { LeftPaneMode } from '../types/leftPane.std.js';
-import type { LocalizerType, ThemeType } from '../types/Util.std.js';
-import { ScrollBehavior } from '../types/Util.std.js';
-import type { PreferredBadgeSelectorType } from '../state/selectors/badges.preload.js';
-import { usePrevious } from '../hooks/usePrevious.std.js';
-import { missingCaseError } from '../util/missingCaseError.std.js';
-import type { DurationInSeconds } from '../util/durations/index.std.js';
-import { WidthBreakpoint, getNavSidebarWidthBreakpoint } from './_util.std.js';
-import * as KeyboardLayout from '../services/keyboardLayout.dom.js';
-import type { LookupConversationWithoutServiceIdActionsType } from '../util/lookupConversationWithoutServiceId.preload.js';
-import type { ShowConversationType } from '../state/ducks/conversations.preload.js';
-import type { PropsType as UnsupportedOSDialogPropsType } from '../state/smart/UnsupportedOSDialog.preload.js';
-import type { SmartPropsType as SmartToastManagerPropsType } from '../state/smart/ToastManager.preload.js';
+import { LeftPaneMode } from '../types/leftPane.std.ts';
+import type { LocalizerType, ThemeType } from '../types/Util.std.ts';
+import { ScrollBehavior } from '../types/Util.std.ts';
+import type { PreferredBadgeSelectorType } from '../state/selectors/badges.preload.ts';
+import { usePrevious } from '../hooks/usePrevious.std.ts';
+import { missingCaseError } from '../util/missingCaseError.std.ts';
+import type { DurationInSeconds } from '../util/durations/index.std.ts';
+import { WidthBreakpoint, getNavSidebarWidthBreakpoint } from './_util.std.ts';
+import * as KeyboardLayout from '../services/keyboardLayout.dom.ts';
+import type { LookupConversationWithoutServiceIdActionsType } from '../util/lookupConversationWithoutServiceId.preload.ts';
+import type { ShowConversationType } from '../state/ducks/conversations.preload.ts';
+import type { PropsType as UnsupportedOSDialogPropsType } from '../state/smart/UnsupportedOSDialog.preload.tsx';
+import type { SmartPropsType as SmartToastManagerPropsType } from '../state/smart/ToastManager.preload.tsx';
 
-import { ConversationList } from './ConversationList.dom.js';
-import { ContactCheckboxDisabledReason } from './conversationList/ContactCheckbox.dom.js';
-import type { PropsType as DialogExpiredBuildPropsType } from './DialogExpiredBuild.dom.js';
-import { LeftPaneBanner } from './LeftPaneBanner.dom.js';
+import { ConversationList } from './ConversationList.dom.tsx';
+import { ContactCheckboxDisabledReason } from './conversationList/ContactCheckbox.dom.tsx';
+import type { PropsType as DialogExpiredBuildPropsType } from './DialogExpiredBuild.dom.tsx';
+import { LeftPaneBanner } from './LeftPaneBanner.dom.tsx';
 
 import type {
   DeleteAvatarFromDiskActionType,
   ReplaceAvatarActionType,
   SaveAvatarToDiskActionType,
-} from '../types/Avatar.std.js';
-import { useSizeObserver } from '../hooks/useSizeObserver.dom.js';
+} from '../types/Avatar.std.ts';
+import { useSizeObserver } from '../hooks/useSizeObserver.dom.tsx';
 import {
   NavSidebar,
   NavSidebarActionButton,
   NavSidebarSearchHeader,
-} from './NavSidebar.dom.js';
-import type { UnreadStats } from '../util/countUnreadStats.std.js';
-import { BackupMediaDownloadProgress } from './BackupMediaDownloadProgress.dom.js';
+} from './NavSidebar.dom.tsx';
+import type { UnreadStats } from '../util/countUnreadStats.std.ts';
+import { BackupMediaDownloadProgress } from './BackupMediaDownloadProgress.dom.tsx';
 import type {
   ServerAlertsType,
   ServerAlert,
-} from '../types/ServerAlert.std.js';
-import { getServerAlertDialog } from './ServerAlerts.dom.js';
-import { NavTab, SettingsPage, ProfileEditorPage } from '../types/Nav.std.js';
-import type { Location } from '../types/Nav.std.js';
-import type { RenderConversationListItemContextMenuProps } from './conversationList/BaseConversationListItem.dom.js';
-import { AxoDropdownMenu } from '../axo/AxoDropdownMenu.dom.js';
-import type { ChatFolder } from '../types/ChatFolder.std.js';
-import { ProfileAvatar } from './PreferencesNotificationProfiles.dom.js';
-import { tw } from '../axo/tw.dom.js';
+} from '../types/ServerAlert.std.ts';
+import { getServerAlertDialog } from './ServerAlerts.dom.tsx';
+import { NavTab, SettingsPage, ProfileEditorPage } from '../types/Nav.std.ts';
+import type { Location } from '../types/Nav.std.ts';
+import type { RenderConversationListItemContextMenuProps } from './conversationList/BaseConversationListItem.dom.tsx';
+import { AxoDropdownMenu } from '../axo/AxoDropdownMenu.dom.tsx';
+import type { ChatFolder } from '../types/ChatFolder.std.ts';
+import { ProfileAvatar } from './PreferencesNotificationProfiles.dom.tsx';
+import { tw } from '../axo/tw.dom.tsx';
 
 const { isNumber } = lodash;
 

@@ -4,10 +4,10 @@
 import classNames from 'classnames';
 import React, { forwardRef } from 'react';
 import type { ForwardedRef, HTMLAttributes, ReactNode } from 'react';
-import { tw } from '../../../axo/tw.dom.js';
-import type { LocalizerType } from '../../../types/I18N.std.js';
-import { AxoSymbol } from '../../../axo/AxoSymbol.dom.js';
-import type { ChatFolderPresetId } from './PreferencesChatFoldersPage.dom.js';
+import { tw } from '../../../axo/tw.dom.tsx';
+import type { LocalizerType } from '../../../types/I18N.std.ts';
+import { AxoSymbol } from '../../../axo/AxoSymbol.dom.tsx';
+import type { ChatFolderPresetId } from './PreferencesChatFoldersPage.dom.tsx';
 
 export const itemClassName = classNames(
   tw('group'),

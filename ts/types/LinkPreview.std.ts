@@ -4,22 +4,22 @@
 import lodash from 'lodash';
 // This file gets imported into renderer that does not have access to Node.js
 // builtins, use an `npm` package.
-// eslint-disable-next-line import/enforce-node-protocol-usage
+// oxlint-disable-next-line unicorn/prefer-node-protocol
 import nodeUrl from 'url';
 import LinkifyIt from 'linkify-it';
 
-import { maybeParseUrl } from '../util/url.std.js';
-import { replaceEmojiWithSpaces } from '../util/emoji.std.js';
-import { count } from '../util/grapheme.std.js';
+import { maybeParseUrl } from '../util/url.std.ts';
+import { replaceEmojiWithSpaces } from '../util/emoji.std.ts';
+import { count } from '../util/grapheme.std.ts';
 
-import type { AttachmentWithHydratedData } from './Attachment.std.js';
+import type { AttachmentWithHydratedData } from './Attachment.std.ts';
 import {
   artAddStickersRoute,
   groupInvitesRoute,
   linkCallRoute,
-} from '../util/signalRoutes.std.js';
-import type { Backups } from '../protobuf/index.std.js';
-import type { LinkPreviewType } from './message/LinkPreviews.std.js';
+} from '../util/signalRoutes.std.ts';
+import type { Backups } from '../protobuf/index.std.ts';
+import type { LinkPreviewType } from './message/LinkPreviews.std.ts';
 
 const { isNumber, compact, isEmpty, range } = lodash;
 
@@ -32,10 +32,6 @@ export type LinkPreviewResult = {
   description: string | null;
   date: number | null;
 };
-
-export type LinkPreviewWithDomain = {
-  domain: string;
-} & LinkPreviewResult;
 
 export enum LinkPreviewSourceType {
   Composer,
@@ -231,6 +227,7 @@ const VALID_URI_CHARACTERS = new Set([
   ';',
   '=',
   // unreserved
+  // oxlint-disable-next-line typescript/no-misused-spread
   ...String.fromCharCode(...range(65, 91), ...range(97, 123)),
   ...range(10).map(String),
   '-',
@@ -309,6 +306,7 @@ export function isLinkSneaky(href: string): boolean {
   const startOfPathAndHash = href.indexOf('/', url.protocol.length + 4);
   const pathAndHash =
     startOfPathAndHash === -1 ? '' : href.substr(startOfPathAndHash);
+  // oxlint-disable-next-line typescript/no-misused-spread
   return [...pathAndHash].some(
     character => !VALID_URI_CHARACTERS.has(character)
   );

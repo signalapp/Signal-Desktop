@@ -1,8 +1,6 @@
 // Copyright 2017 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* eslint-env node */
-
 import { ipcRenderer as ipc } from 'electron';
 import * as path from 'node:path';
 
@@ -11,10 +9,10 @@ import {
   LogLevel as SignalClientLogLevel,
 } from '@signalapp/libsignal-client';
 
-import { setPinoDestination, log } from './log.std.js';
-import * as Errors from '../types/errors.std.js';
-import { createRotatingPinoDest } from '../util/rotatingPinoDest.node.js';
-import { redactAll } from '../util/privacy.node.js';
+import { setPinoDestination, log } from './log.std.ts';
+import * as Errors from '../types/errors.std.ts';
+import { createRotatingPinoDest } from '../util/rotatingPinoDest.node.ts';
+import { redactAll } from '../util/privacy.node.ts';
 
 let isInitialized = false;
 let shouldRestart = false;
@@ -51,6 +49,7 @@ export function initialize(): void {
 window.onerror = (message, source, line, column, error) => {
   const errorInfo = Errors.toLogFormat(error);
   log.error(
+    // oxlint-disable-next-line typescript/no-base-to-string, typescript/restrict-template-expressions
     `Top-level unhandled error: ${message}, ${errorInfo}`,
     Errors.toLocation(source, line, column)
   );
@@ -92,6 +91,7 @@ initLogger(
     } else if (level === SignalClientLogLevel.Error) {
       libSignalLog.error(logString);
     } else {
+      // oxlint-disable-next-line typescript/restrict-template-expressions
       libSignalLog.error(`${logString} (unknown log level ${level})`);
     }
   }

@@ -4,22 +4,22 @@
 import type { ReactNode } from 'react';
 import React from 'react';
 
-import type { ToFindType } from './LeftPaneHelper.dom.js';
-import { LeftPaneHelper } from './LeftPaneHelper.dom.js';
-import type { LocalizerType } from '../../types/Util.std.js';
-import type { Row } from '../ConversationList.dom.js';
-import { RowType } from '../ConversationList.dom.js';
-import type { PropsData as ConversationListItemPropsType } from '../conversationList/ConversationListItem.dom.js';
-import { handleKeydownForSearch } from './handleKeydownForSearch.dom.js';
+import type { ToFindType } from './LeftPaneHelper.dom.tsx';
+import { LeftPaneHelper } from './LeftPaneHelper.dom.tsx';
+import type { LocalizerType } from '../../types/Util.std.ts';
+import type { Row } from '../ConversationList.dom.tsx';
+import { RowType } from '../ConversationList.dom.tsx';
+import type { PropsData as ConversationListItemPropsType } from '../conversationList/ConversationListItem.dom.tsx';
+import { handleKeydownForSearch } from './handleKeydownForSearch.dom.ts';
 import type {
   ConversationType,
   ShowConversationType,
-} from '../../state/ducks/conversations.preload.js';
-import { LeftPaneSearchInput } from '../LeftPaneSearchInput.dom.js';
+} from '../../state/ducks/conversations.preload.ts';
+import { LeftPaneSearchInput } from '../LeftPaneSearchInput.dom.tsx';
 
-import { I18n } from '../I18n.dom.js';
-import { assertDev, strictAssert } from '../../util/assert.std.js';
-import { UserText } from '../UserText.dom.js';
+import { I18n } from '../I18n.dom.tsx';
+import { assertDev, strictAssert } from '../../util/assert.std.ts';
+import { UserText } from '../UserText.dom.tsx';
 
 // The "correct" thing to do is to measure the size of the left pane and render enough
 //   search results for the container height. But (1) that's slow (2) the list is
@@ -426,7 +426,7 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType
     return this.#allResults().some(results => results.isLoading);
   }
 
-  #onEnterKeyDown = (
+  readonly #onEnterKeyDown = (
     clearSearchQuery: () => unknown,
     showConversation: ShowConversationType
   ): void => {

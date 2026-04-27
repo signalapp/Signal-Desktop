@@ -3,17 +3,17 @@
 
 import React, { useCallback, useState, useEffect } from 'react';
 import { Button } from 'react-aria-components';
-import { useDelayedRestoreFocus } from '../../hooks/useRestoreFocus.dom.js';
-import type { LocalizerType, ThemeType } from '../../types/Util.std.js';
+import { useDelayedRestoreFocus } from '../../hooks/useRestoreFocus.dom.ts';
+import type { LocalizerType, ThemeType } from '../../types/Util.std.ts';
 import {
   ReactionPickerPicker,
   ReactionPickerPickerEmojiButton,
   ReactionPickerPickerStyle,
-} from '../ReactionPickerPicker.dom.js';
-import type { EmojiVariantKey } from '../fun/data/emojis.std.js';
-import { getEmojiVariantByKey } from '../fun/data/emojis.std.js';
-import { FunEmojiPicker } from '../fun/FunEmojiPicker.dom.js';
-import type { FunEmojiSelection } from '../fun/panels/FunPanelEmojis.dom.js';
+} from '../ReactionPickerPicker.dom.tsx';
+import type { EmojiVariantKey } from '../fun/data/emojis.std.ts';
+import { getEmojiVariantByKey } from '../fun/data/emojis.std.ts';
+import { FunEmojiPicker } from '../fun/FunEmojiPicker.dom.tsx';
+import type { FunEmojiSelection } from '../fun/panels/FunPanelEmojis.dom.tsx';
 
 export type OwnProps = {
   i18n: LocalizerType;
@@ -93,7 +93,7 @@ export const ReactionPicker = React.forwardRef<HTMLDivElement, Props>(
               isSelected={isSelected}
               // The index is the only thing that uniquely identifies the emoji, because
               //   there can be duplicates in the list.
-              // eslint-disable-next-line react/no-array-index-key
+              // oxlint-disable-next-line react/no-array-index-key
               key={index}
               onClick={() => {
                 onPick(emoji);

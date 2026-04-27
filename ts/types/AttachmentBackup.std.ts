@@ -4,8 +4,8 @@ import { z } from 'zod';
 import {
   type JobManagerJobType,
   jobManagerJobSchema,
-} from '../jobs/JobManager.std.js';
-import { type MIMEType, MIMETypeSchema } from './MIME.std.js';
+} from '../jobs/JobManager.std.ts';
+import { type MIMEType, MIMETypeSchema } from './MIME.std.ts';
 
 export type CoreAttachmentBackupJobType =
   | StandardAttachmentBackupJobType
@@ -106,7 +106,6 @@ export const attachmentBackupJobSchema = z
   )
   .and(jobManagerJobSchema) satisfies z.ZodType<
   AttachmentBackupJobType,
-  z.ZodTypeDef,
   // With branded types, we need to specify that the input type of the schema is just a
   // string
   Omit<AttachmentBackupJobType, 'data'> & {
@@ -115,12 +114,6 @@ export const attachmentBackupJobSchema = z
     };
   }
 >;
-
-export const thumbnailBackupJobRecordSchema = z.object({
-  mediaName: thumbnailMediaNameSchema,
-  type: z.literal('standard'),
-  json: thumbnailBackupJobDataSchema.omit({ type: true }),
-});
 
 export type AttachmentBackupJobType = CoreAttachmentBackupJobType &
   JobManagerJobType;

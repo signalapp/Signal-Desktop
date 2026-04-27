@@ -2,14 +2,14 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { IntlShape } from 'react-intl';
-import type { AciString } from './ServiceId.std.js';
-import type { LocaleDirection } from '../../app/locale.node.js';
+import type { AciString } from './ServiceId.std.ts';
+import type { LocaleDirection } from '../../app/locale.node.ts';
 import type {
   ICUJSXMessageParamsByKeyType,
   ICUStringMessageParamsByKeyType,
 } from '../../build/ICUMessageParams.d.ts';
 
-import type { HourCyclePreference, LocaleMessagesType } from './I18N.std.js';
+import type { HourCyclePreference, LocaleMessagesType } from './I18N.std.ts';
 
 export type StoryContextType = {
   authorAci?: AciString;
@@ -21,7 +21,7 @@ export type RenderTextCallbackType = (options: {
   key: number;
 }) => React.JSX.Element | string;
 
-export { ICUJSXMessageParamsByKeyType, ICUStringMessageParamsByKeyType };
+export type { ICUJSXMessageParamsByKeyType, ICUStringMessageParamsByKeyType };
 
 export type LocalizerOptions = {
   /**
@@ -78,6 +78,7 @@ export enum ScrollBehavior {
 type InternalAssertProps<
   Result,
   Value,
+  // oxlint-disable-next-line no-shadow
   Missing = Omit<Result, keyof Value>,
 > = keyof Missing extends never
   ? Result

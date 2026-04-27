@@ -1,9 +1,9 @@
 // Copyright 2026 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { getValue } from '../RemoteConfig.dom.js';
-import { safeParseInteger } from './numbers.std.js';
-import { DAY, SECOND } from './durations/index.std.js';
+import { getValue } from '../RemoteConfig.dom.ts';
+import { safeParseInteger } from './numbers.std.ts';
+import { DAY, SECOND } from './durations/index.std.ts';
 
 const DEFAULT_DELETE_MAX_AGE_MS = DAY;
 

@@ -6,22 +6,22 @@ import lodash from 'lodash';
 import type { CustomError } from '../../textsecure/Types.d.ts';
 
 import type { MessageAttributesType } from '../../model-types.d.ts';
-import { createLogger } from '../../logging/log.std.js';
-import * as Errors from '../../types/errors.std.js';
-import { NotificationType } from '../../types/notifications.std.js';
+import { createLogger } from '../../logging/log.std.ts';
+import * as Errors from '../../types/errors.std.ts';
+import { NotificationType } from '../../types/notifications.std.ts';
 import {
   getChangesForPropAtTimestamp,
   getPropForTimestamp,
-} from '../../util/editHelpers.std.js';
+} from '../../util/editHelpers.std.ts';
 import {
   isSent,
   SendActionType,
   sendStateReducer,
   someRecipientSendStatus,
-} from '../../messages/MessageSendState.std.js';
-import { isStory } from '../../messages/helpers.std.js';
-import { notificationService } from '../../services/notifications.preload.js';
-import type { MessageModel } from '../../models/messages.preload.js';
+} from '../../messages/MessageSendState.std.ts';
+import { isStory } from '../../messages/helpers.std.ts';
+import { notificationService } from '../../services/notifications.preload.ts';
+import type { MessageModel } from '../../models/messages.preload.ts';
 
 const { mapValues, pick } = lodash;
 

@@ -4,13 +4,13 @@
 import type { ConditionalKeys } from 'type-fest';
 
 import type { StorageAccessType } from '../types/Storage.d.ts';
-import { toLogFormat } from '../types/errors.std.js';
-import { itemStorage } from '../textsecure/Storage.preload.js';
-import { createLogger } from '../logging/log.std.js';
-import { LongTimeout } from './timeout.std.js';
-import { drop } from './drop.std.js';
-import { strictAssert } from './assert.std.js';
-import { BackOff, FIBONACCI_TIMEOUTS } from './BackOff.std.js';
+import { toLogFormat } from '../types/errors.std.ts';
+import { itemStorage } from '../textsecure/Storage.preload.ts';
+import { createLogger } from '../logging/log.std.ts';
+import { LongTimeout } from './timeout.std.ts';
+import { drop } from './drop.std.ts';
+import { strictAssert } from './assert.std.ts';
+import { BackOff, FIBONACCI_TIMEOUTS } from './BackOff.std.ts';
 
 const log = createLogger('CheckScheduler');
 
@@ -23,8 +23,8 @@ export type CheckSchedulerOptionsType = Readonly<{
 }>;
 
 export class CheckScheduler {
-  #options: CheckSchedulerOptionsType;
-  #log: ReturnType<typeof createLogger>;
+  readonly #options: CheckSchedulerOptionsType;
+  readonly #log: ReturnType<typeof createLogger>;
   #timer: LongTimeout | undefined;
   #isRunning = false;
 

@@ -8,20 +8,20 @@ import lodash from 'lodash';
 import { animated } from '@react-spring/web';
 
 import { v4 as uuid } from 'uuid';
-import type { LocalizerType } from '../types/Util.std.js';
-import { ModalHost } from './ModalHost.dom.js';
-import type { Theme } from '../util/theme.std.js';
-import { assertDev } from '../util/assert.std.js';
-import { getClassNamesFor } from '../util/getClassNamesFor.std.js';
-import { useAnimated } from '../hooks/useAnimated.dom.js';
-import { useHasWrapped } from '../hooks/useHasWrapped.std.js';
-import { createLogger } from '../logging/log.std.js';
+import type { LocalizerType } from '../types/Util.std.ts';
+import { ModalHost } from './ModalHost.dom.tsx';
+import type { Theme } from '../util/theme.std.ts';
+import { assertDev } from '../util/assert.std.ts';
+import { getClassNamesFor } from '../util/getClassNamesFor.std.ts';
+import { useAnimated } from '../hooks/useAnimated.dom.tsx';
+import { useHasWrapped } from '../hooks/useHasWrapped.std.ts';
+import { createLogger } from '../logging/log.std.ts';
 import {
   isScrollOverflowVertical,
   isScrollAtTop,
   isScrollAtBottom,
   useScrollObserver,
-} from '../hooks/useSizeObserver.dom.js';
+} from '../hooks/useSizeObserver.dom.tsx';
 
 const { noop } = lodash;
 
@@ -209,8 +209,7 @@ export function ModalPage({
   return (
     <>
       {/* We don't want the click event to propagate to its container node. */}
-      {/* eslint-disable-next-line max-len */}
-      {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions */}
+      {/* oxlint-disable-next-line jsx-a11y/click-events-have-key-events */}
       <div
         className={classNames(
           getClassName(''),

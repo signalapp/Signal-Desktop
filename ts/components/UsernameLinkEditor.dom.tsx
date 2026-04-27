@@ -7,22 +7,22 @@ import classnames from 'classnames';
 import { changeDpiBlob } from 'changedpi';
 import lodash from 'lodash';
 
-import { SignalService as Proto } from '../protobuf/index.std.js';
-import type { SaveAttachmentActionCreatorType } from '../state/ducks/conversations.preload.js';
-import { UsernameLinkState } from '../state/ducks/usernameEnums.std.js';
-import { ToastType } from '../types/Toast.dom.js';
-import type { ShowToastAction } from '../state/ducks/toast.preload.js';
-import type { LocalizerType } from '../types/Util.std.js';
-import { IMAGE_PNG } from '../types/MIME.std.js';
-import { strictAssert } from '../util/assert.std.js';
-import { drop } from '../util/drop.std.js';
-import { splitText } from '../util/splitText.std.js';
-import { loadImage } from '../util/loadImage.std.js';
-import { Button, ButtonVariant } from './Button.dom.js';
-import { ConfirmationDialog } from './ConfirmationDialog.dom.js';
-import { Spinner } from './Spinner.dom.js';
-import { BrandedQRCode } from './BrandedQRCode.dom.js';
-import { useConfirmDiscard } from '../hooks/useConfirmDiscard.dom.js';
+import { SignalService as Proto } from '../protobuf/index.std.ts';
+import type { SaveAttachmentActionCreatorType } from '../state/ducks/conversations.preload.ts';
+import { UsernameLinkState } from '../state/ducks/usernameEnums.std.ts';
+import { ToastType } from '../types/Toast.dom.tsx';
+import type { ShowToastAction } from '../state/ducks/toast.preload.ts';
+import type { LocalizerType } from '../types/Util.std.ts';
+import { IMAGE_PNG } from '../types/MIME.std.ts';
+import { strictAssert } from '../util/assert.std.ts';
+import { drop } from '../util/drop.std.ts';
+import { splitText } from '../util/splitText.std.ts';
+import { loadImage } from '../util/loadImage.std.ts';
+import { Button, ButtonVariant } from './Button.dom.tsx';
+import { ConfirmationDialog } from './ConfirmationDialog.dom.tsx';
+import { Spinner } from './Spinner.dom.tsx';
+import { BrandedQRCode } from './BrandedQRCode.dom.tsx';
+import { useConfirmDiscard } from '../hooks/useConfirmDiscard.dom.tsx';
 
 const { noop } = lodash;
 
@@ -55,7 +55,7 @@ const DEFAULT_PRESET: ColorMapEntryType = {
   tint: '#ecf0fb',
 };
 
-export const COLOR_MAP: ReadonlyMap<number, ColorMapEntryType> = new Map([
+const COLOR_MAP: ReadonlyMap<number, ColorMapEntryType> = new Map([
   [ColorEnum.BLUE, DEFAULT_PRESET],
   [ColorEnum.WHITE, { fg: '#000000', bg: '#ffffff', tint: '#f5f5f5' }],
   [ColorEnum.GREY, { fg: '#464852', bg: '#6a6c75', tint: '#f0f0f1' }],
@@ -214,8 +214,7 @@ type GenerateImageURLOptionsType = Readonly<{
   colorId: number;
 }>;
 
-// Exported for testing
-export async function _generateImageBlob({
+async function _generateImageBlob({
   link,
   username,
   hint,

@@ -746,6 +746,9 @@
   "icu:fileSizeWarning": {
     "messageformat": "Kahjuks ületab valitud fail sõnumi suuruse piirangu. {limit,number} {units}"
   },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "Kahjuks ületab valitud videofail sõnumi suuruse piirangu. {limit,number} {units}"
+  },
   "icu:unableToLoadAttachment": {
     "messageformat": "Valitud manuse laadimine ei õnnestunud."
   },
@@ -1787,6 +1790,12 @@
   "icu:Preferences__EditChatFolderPage__CancelButton": {
     "messageformat": "Loobu"
   },
+  "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
+    "messageformat": "Show status icon"
+  },
+  "icu:Preferences__PrivacyPage__ShowStatusIcon__Description": {
+    "messageformat": "Show an icon in message details when they were delivered using sealed sender."
+  },
   "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
     "messageformat": "Võtme automaatne kontroll"
   },
@@ -2372,6 +2381,9 @@
   "icu:ConversationDetails--support-center": {
     "messageformat": "Kasutajatugi"
   },
+  "icu:ConversationDetails__GroupTerminatedBanner": {
+    "messageformat": "See grupp on lõpetatud"
+  },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "Näita turvanumbrit"
   },
@@ -2551,6 +2563,27 @@
   },
   "icu:youUpdatedTheGroup": {
     "messageformat": "Sa uuendasid gruppi."
+  },
+  "icu:collapsedGroupUpdates": {
+    "messageformat": "{count, plural, one {{count,number} grupi uuendus} other {{count,number} grupi uuendust}}"
+  },
+  "icu:multidayCollapse__container": {
+    "messageformat": "{containerDescription} · {dayCountSummary}"
+  },
+  "icu:multidayCollapse__dayCountSummary": {
+    "messageformat": "{dayCount, plural, one {{dayCount,number} päev} other {{dayCount,number} päeva}}"
+  },
+  "icu:collapsedChatUpdates": {
+    "messageformat": "{count, plural, one {{count,number} vestluse uuendus} other {{count,number} vestluse uuendust}}"
+  },
+  "icu:collapsedTimerChanges": {
+    "messageformat": "{count, plural, one {{count,number} kaduva sõnumi taimeri muudatus · {endingState}} other {{count,number} kaduva sõnumi taimeri muudatust · {endingState}}}"
+  },
+  "icu:collapsedTimerChanges--disabled": {
+    "messageformat": "{count, plural, one {{count,number} kaduva sõnumi taimeri muudatus · Välja lülitatud} other {{count,number} kaduva sõnumi taimeri muudatust · Välja lülitatud}}"
+  },
+  "icu:collapsedCallEvents": {
+    "messageformat": "{count, plural, one {{count,number} kõne sündmus} other {{count,number} kõne sündmust}}"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "Grupi pilti muudeti."
@@ -3017,8 +3050,8 @@
   "icu:Message--tap-to-view--incoming--expired-toast": {
     "messageformat": "Sa vaatasid juba seda sõnumit."
   },
-  "icu:Message--tap-to-view--outgoing--expired-toast": {
-    "messageformat": "Ühekordselt nähtavaid sõnumeid ei salvestata vestluse ajalukku."
+  "icu:Message--tap-to-view--outgoing--expired-toast-2": {
+    "messageformat": "Ühekordselt vaadatav sisu kustutatakse pärast saatmist"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "Ühekordselt vaadatav video"
@@ -3485,8 +3518,17 @@
   "icu:ConversationHero--profile-names": {
     "messageformat": "<clickable>Profiilinimesid</clickable> ei kinnitata"
   },
+  "icu:ConversationHero--name-not-verified": {
+    "messageformat": "Name not verified"
+  },
   "icu:ConversationHero--signal-official-chat": {
     "messageformat": "See on üks ja ainus ametlik vestlus Signaliga"
+  },
+  "icu:ConversationHero--signal-official-account": {
+    "messageformat": "Official account"
+  },
+  "icu:ConversationHero--signal-official-account--description": {
+    "messageformat": "The only official chat from Signal. Keep up to date with news and release notes."
   },
   "icu:ConversationHero--release-notes": {
     "messageformat": "Hoia end kursis uudiste ja väljalaskeinfoga."
@@ -3767,9 +3809,6 @@
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
     "messageformat": "Jaga kõnelinki Signali kaudu"
   },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "Eemalda see isik kõnest"
-  },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "Kas eemaldada {name} kõnest?"
   },
@@ -3932,11 +3971,23 @@
   "icu:GroupV2--join--requested": {
     "messageformat": "Sinu taotlus grupiga liituda on grupi administraatoritele saadetud. Sulle antakse teada, kui nad vastavad."
   },
+  "icu:GroupV2--join--group-terminated": {
+    "messageformat": "Selle grupiga ei saa liituda."
+  },
   "icu:GroupV2--join--general-join-failure--title": {
     "messageformat": "Lingi tõrge"
   },
   "icu:GroupV2--join--general-join-failure": {
     "messageformat": "Grupiga liitumine ei õnnestunud. Proovi hiljem uuesti."
+  },
+  "icu:GroupV2--terminate-group-in-progress": {
+    "messageformat": "Grupi lõpetamine …"
+  },
+  "icu:TerminateGroupFailedModal__description": {
+    "messageformat": "Gruppi ei saanud lõpetada. Kontrolli oma ühendust ja proovi uuesti."
+  },
+  "icu:TerminateGroupFailedModal__try-again": {
+    "messageformat": "Proovi uuesti"
   },
   "icu:GroupV2--admin": {
     "messageformat": "Administraator"
@@ -4379,6 +4430,15 @@
   "icu:GroupV2--summary": {
     "messageformat": "Selle grupi liikmed või sätted on muutunud."
   },
+  "icu:GroupV2--terminated--you": {
+    "messageformat": "Sa lõpetasid grupi"
+  },
+  "icu:GroupV2--terminated--other": {
+    "messageformat": "{memberName} lõpetas grupi"
+  },
+  "icu:GroupV2--terminated--unknown": {
+    "messageformat": "See grupp on lõpetatud"
+  },
   "icu:GroupV1--Migration--disabled--link": {
     "messageformat": "Uuenda seda gruppi, et aktiveerida uued funktsioonid nagu @mainimised ja administraatorid. Kasutajad, kes ei ole selle grupiga oma nime ja fotot jaganud, kutsutakse liituma. <learnMoreLink>Rohkem teavet.</learnMoreLink>"
   },
@@ -4655,6 +4715,9 @@
   "icu:CompositionArea__ConfirmGifSelection__ReplaceButton": {
     "messageformat": "Asenda"
   },
+  "icu:CompositionArea--group-terminated": {
+    "messageformat": "Sa ei saa sõnumeid saata, sest grupp on lõpetatud."
+  },
   "icu:CompositionArea--viewOnceToggle": {
     "messageformat": "Ühekordne vaatamine"
   },
@@ -4832,11 +4895,26 @@
   "icu:ConversationDetailsActions--leave-group": {
     "messageformat": "Lahku grupist"
   },
+  "icu:ConversationDetailsActions--terminate-group": {
+    "messageformat": "Lõpeta grupp"
+  },
   "icu:ConversationDetailsActions--block-group": {
     "messageformat": "Blokeeri grupp"
   },
   "icu:ConversationDetailsActions--unblock-group": {
     "messageformat": "Eemalda grupi blokeering"
+  },
+  "icu:ConversationDetailsActions--report-spam": {
+    "messageformat": "Teata rämpspostist"
+  },
+  "icu:ConversationDetailsActions--archive": {
+    "messageformat": "Arhiveeri vestlus"
+  },
+  "icu:ConversationDetailsActions--unarchive": {
+    "messageformat": "Eemalda vestlus arhiivist"
+  },
+  "icu:ConversationDetailsActions--delete": {
+    "messageformat": "Kustuta vestlus"
   },
   "icu:ConversationDetailsActions--leave-group-must-choose-new-admin": {
     "messageformat": "Enne lahkumist pead valima sellele grupile vähemalt ühe uue administraatori."
@@ -4849,6 +4927,18 @@
   },
   "icu:ConversationDetailsActions--leave-group-modal-confirm": {
     "messageformat": "Lahku"
+  },
+  "icu:ConversationDetailsActions--prompt-terminate-group-modal-title": {
+    "messageformat": "Kas lõpetada „{groupName}“?"
+  },
+  "icu:ConversationDetailsActions--prompt-terminate-group-modal-content": {
+    "messageformat": "Liikmetel pole enam võimalik sõnumeid saata ega grupis kõnesid alustada. Neid teavitatakse sellest, et sa lõpetasid grupi ning et sul on endiselt ligipääs sõnumiajaloole."
+  },
+  "icu:ConversationDetailsActions--terminate-group-modal-confirm": {
+    "messageformat": "Lõpeta grupp"
+  },
+  "icu:ConversationDetailsActions--confirm-terminate-group-confirm-modal-content": {
+    "messageformat": "See lõpetab grupi lõplikult. Kas oled kindel, et soovid jätkata?"
   },
   "icu:ConversationDetailsActions--unblock-group-modal-title": {
     "messageformat": "Kas eemaldada blokeering grupilt {groupName}?"
@@ -4868,6 +4958,18 @@
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "Eemalda blokeering"
   },
+  "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
+    "messageformat": "Signalit teavitatakse, et see isik võib olla rämpsposti edastaja. Signal ei näe ühegi vestluse sisu."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-group": {
+    "messageformat": "Signalit teavitatakse, et isik, kes sind sellesse gruppi kutsus, võib olla rämpsposti edastaja. Signal ei näe ühegi vestluse sisu."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
+    "messageformat": "Teata rämpspostist"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
+    "messageformat": "Teata ja blokeeri"
+  },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} liige} other {{number,number} liiget}}"
   },
@@ -4876,6 +4978,9 @@
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} liige} other {{number,number} liiget}}"
+  },
+  "icu:ConversationDetailsMembershipList--terminated-title": {
+    "messageformat": "{number, plural, one {{number,number} endine liige} other {{number,number} endist liiget}}"
   },
   "icu:ConversationDetailsMembershipList--add-members": {
     "messageformat": "Lisa liikmed"
@@ -5059,7 +5164,7 @@
     "ignoreUnused": true
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
-    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Signali uuemates versioonides näevad grupiliikmed, et sa kustutasid selle sõnumi.} other {Signali uuemates versioonides näevad grupiliikmed, et sa kustutasid need sõnumid.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Kustuta kõigist seadmetest"
@@ -5195,6 +5300,9 @@
   },
   "icu:MessageRequestWarning__safety-tips": {
     "messageformat": "Ohutusnõuanded"
+  },
+  "icu:MessageRequestWarning__safety-tips-v2": {
+    "messageformat": "Safety tips"
   },
   "icu:ContactSpoofing__same-name--link": {
     "messageformat": "Vaata taotlused tähelepanelikult üle. Signal leidis teise samanimelise kontakti. <reviewRequestLink>Vaata taotlus üle</reviewRequestLink>"
@@ -5797,6 +5905,15 @@
   "icu:Preferences__link-previews--description": {
     "messageformat": "Selle sätte muutmiseks ava enda nutiseadmes Signal äpp ja liigu Sätted -> Vestlused"
   },
+  "icu:Preferences__link-previews--new-description": {
+    "messageformat": "Retrieve link previews directly from websites for messages you send."
+  },
+  "icu:Preferences__address-book-photos--title": {
+    "messageformat": "Use address book photos"
+  },
+  "icu:Preferences__address-book-photos--description": {
+    "messageformat": "Display contact photos from your address book if available."
+  },
   "icu:Preferences__auto-convert-emoji--title": {
     "messageformat": "Muuda trükitud emotikonid emojideks"
   },
@@ -6232,35 +6349,35 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "Valmis"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "näidata sinu varukoopia võtit"
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
+    "messageformat": "sinu varukoopia võtit"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
     "messageformat": "Oma varukoopia võtme vaatamiseks kinnita oma isik."
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
     "messageformat": "Vaata varukoopia võtit"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
     "messageformat": "Oma varukoopia võtme vaatamiseks on vajalik autentimine."
   },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Varukoopia võtme tekstiväli"
+  "icu:Preferences--local-backups-recovery-key-text-box": {
+    "messageformat": "Varukoopia võti"
   },
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "Sisesta võti"
   },
-  "icu:Preferences--local-backups-record-backup-key": {
+  "icu:Preferences--local-backups-record-recovery-key": {
     "messageformat": "Pane oma varukoopia võti kirja"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "Seda võtit on vaja sinu andmete ja konto taastamiseks. Hoia seda turvalises kohas. Kui selle kaotad, ei ole sul võimalik oma kontot taastada. <learnMoreLink>Rohkem teavet.</learnMoreLink>"
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
+  "icu:Preferences--local-backups-confirm-recovery-key": {
     "messageformat": "Kinnita oma varukoopia võti"
   },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "Sisesta just salvestatud varukoopia võti"
+  "icu:Preferences--local-backups-confirm-recovery-key-description": {
+    "messageformat": "Sisesta just kirja pandud varukoopia võti"
   },
   "icu:Preferences__local-backups-confirm-key-modal-title": {
     "messageformat": "Hoia oma võtit turvaliselt"
@@ -6286,26 +6403,23 @@
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Varunduste kaust"
   },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "Muuda"
-  },
   "icu:Preferences__local-backups-turn-off": {
-    "messageformat": "Turn off backups"
+    "messageformat": "Lülita varukoopiad välja"
   },
   "icu:Preferences__local-backups-turn-off-action": {
-    "messageformat": "Turn off"
+    "messageformat": "Lülita välja"
   },
   "icu:Preferences__local-backups-turn-off-confirmation": {
-    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+    "messageformat": "Sa ei saa selles arvutis enam varukoopiaid luua ilma neid uuesti sisse lülitamata."
   },
   "icu:Preferences__local-backups-turn-off-delete": {
-    "messageformat": "Delete my backup from this computer"
+    "messageformat": "Kustuta mu varukoopia sellest arvutist"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Kopeeri lõikelauale"
   },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "Varukoopia võti kopeeritud"
+  "icu:Preferences__local-backups-copied-recovery-key": {
+    "messageformat": "Varukoopia võti on kopeeritud"
   },
   "icu:Preferences__local-backups--enable--os-prompt--mac": {
     "messageformat": "Luba varundamine"
@@ -6319,17 +6433,29 @@
   "icu:Preferences__local-backups--enable--os-prompt-message--linux": {
     "messageformat": "Varundamise võimaldamiseks on vajalik autentimine."
   },
+  "icu:Preferences__local-backups-auth-error--unauthorized": {
+    "messageformat": "Seda tegevust ei saanud lõpule viia, sest süsteemi autentimine ebaõnnestus. Palun proovi uuesti või ava Signali äpp oma mobiiliseadmes ja mine varukoopia sätete alla, et oma varukoopia võtit vaadata."
+  },
   "icu:Preferences__view-key": {
     "messageformat": "Vaata võtit"
   },
-  "icu:Preferences__backup-key": {
+  "icu:Preferences__recovery-key": {
     "messageformat": "Varukoopia võti"
   },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "Sinu varukoopia võti on 64-kohaline kood, mida kasutatakse su varukoopia taastamiseks"
+  "icu:Preferences__recovery-key-description": {
+    "messageformat": "Sinu varukoopia võti on 64-kohaline kood, mida on vaja varukoopia taastamiseks"
   },
   "icu:Preferences__backup-other-ways": {
     "messageformat": "Muud viisid varundamiseks"
+  },
+  "icu:Preferences__recovery-key-updated__title": {
+    "messageformat": "Sinu varukoopia võti on muutunud"
+  },
+  "icu:Preferences__recovery-key-updated__description": {
+    "messageformat": "Sinu varukoopia võtit on uuendatud. Kõigi uute loodavate varukoopiate taastamiseks on vaja uut varukoopia võtit."
+  },
+  "icu:Preferences__recovery-key-updated__view-key": {
+    "messageformat": "Vaata uut võtit"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {{num,number} kontakt} other {{num,number} kontakti}}"
@@ -6394,8 +6520,14 @@
   "icu:Preferences--read-receipts": {
     "messageformat": "Lugemiskinnitused"
   },
+  "icu:Preferences--read-receipts--description": {
+    "messageformat": "If disabled, you won't see read receipts from others."
+  },
   "icu:Preferences--typing-indicators": {
     "messageformat": "Kirjutamisindikaatorid"
+  },
+  "icu:Preferences--typing-indicators--description": {
+    "messageformat": "If disabled, you won't see typing indicators from others."
   },
   "icu:Preferences--updates": {
     "messageformat": "Uuendused"
@@ -6682,6 +6814,9 @@
   "icu:MyStories__delete": {
     "messageformat": "Kas kustutada see lugu? See kustutatakse ka kõigi jaoks, kellele see saadeti."
   },
+  "icu:MyStories__delete-group-story-for-me": {
+    "messageformat": "Kas kustutada see lugu? See kustutatakse vaid sinu jaoks, sest grupp on lõpetatud."
+  },
   "icu:payment-event-notification-message-you-label": {
     "messageformat": "Alustasid makset saajale {receiver}"
   },
@@ -6903,6 +7038,9 @@
   },
   "icu:StoriesSettings__view-receipts--label": {
     "messageformat": "Vaata kviitungeid"
+  },
+  "icu:StoriesSettings__view-receipts--new-description": {
+    "messageformat": "See and share when stories are viewed. If disabled, you won't see when others view your story."
   },
   "icu:StoriesSettings__view-receipts--description": {
     "messageformat": "Selle sätte muutmiseks ava enda nutiseadmes Signali äpp ja vali Sätted -> Lood"
@@ -7553,6 +7691,18 @@
   "icu:ProfileNameWarningModal__list--item3--direct": {
     "messageformat": "Ära jaga võõraste inimestega oma isikuandmeid"
   },
+  "icu:ProfileNameWarningModal__warning--signal-cant-verify": {
+    "messageformat": "Signal can’t verify names and photos"
+  },
+  "icu:ProfileNameWarningModal__warning--signal-wont-contact": {
+    "messageformat": "Signal will never contact you for your registration code, PIN, or recovery key"
+  },
+  "icu:ProfileNameWarningModal__warning--be-cautious": {
+    "messageformat": "Be cautious of accounts that impersonate others"
+  },
+  "icu:ProfileNameWarningModal__warning--dont-share-info": {
+    "messageformat": "Don't share personal information with people you don't know"
+  },
   "icu:ProfileNameWarningModal__description--group": {
     "messageformat": "Grupinimed valivad grupi liikmed ise."
   },
@@ -8015,17 +8165,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Väikesed muudatused, vigade parandused ja jõudluse täiustused. Aitäh, et kasutad Signalit!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__7.90--0": {
-    "messageformat": "Viis uut ametlikku kleebisekomplekti: „Chug the Mouse“ (Amanda Cotan), „Cozy Season“ (Miguel Ángel Camprubí), „Croco's Feelings“ (Tiffany Beucher), „My Daily Life 2“ (Plastic Thing), ja „Rocky Talk“ (Lexi Vay)."
-  },
-  "icu:WhatsNew__8.0--0": {
-    "messageformat": "Signali turvalised varukoopiad on kohal! Nüüd saad lubada automaatsed otspunktkrüptitud varukoopiad, et kunagi ükski sõnum kaotsi ei läheks, kui sa uue telefoni saad või Signali uuesti paigaldad. Saad tasuta varundada kõik oma sõnumid ja viimase 45 päeva meediafailid või maksta väikese kuutasu, mille eest anname sulle 100 GB salvestusruumi kõigi manuste varundamiseks. Alustamiseks vali oma Signali sätete alt varukoopiad. Aitäh kõigile, kes aitasid seda funktsiooni beetaperioodil testida!"
-  },
-  "icu:WhatsNew__8.2--0": {
-    "messageformat": "Nüüd saad ka Signal Desktopist ühekordselt vaadatavaid meediasõnumeid saata. Ühekordseks vaatamiseks saadetud fotod ja videod eemaldatakse vestluslõimest automaatselt pärast nende vaatamist."
-  },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "Nüüd on sul võimalus lisada liikme silt, et kirjeldada ennast või oma rolli selles grupivestluses. Liikme silte kuvatakse grupis sinu profiilinime kõrval ning grupi administraatorid otsustavad, kas igaüks saab neid lisada või mitte."
   }
 }

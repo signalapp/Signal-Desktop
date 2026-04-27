@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { getSelectedConversationId } from '../state/selectors/nav.std.js';
+import { getSelectedConversationId } from '../state/selectors/nav.std.ts';
 
 export function reloadSelectedConversation(): void {
   const selectedConversationId = getSelectedConversationId(

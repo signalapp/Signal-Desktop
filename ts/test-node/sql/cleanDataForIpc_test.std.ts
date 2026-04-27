@@ -4,7 +4,7 @@
 import { assert } from 'chai';
 import lodash from 'lodash';
 
-import { cleanDataForIpc } from '../../sql/cleanDataForIpc.std.js';
+import { cleanDataForIpc } from '../../sql/cleanDataForIpc.std.ts';
 
 const { noop } = lodash;
 
@@ -214,12 +214,15 @@ describe('cleanDataForIpc', () => {
 
   it('deeply cleans class instances', () => {
     class Person {
+      public firstName: string;
+      public lastName: string;
+
       public toBeDiscarded = Symbol('to be discarded');
 
-      constructor(
-        public firstName: string,
-        public lastName: string
-      ) {}
+      constructor(firstName: string, lastName: string) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+      }
 
       get name() {
         return this.getName();

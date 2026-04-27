@@ -2,19 +2,19 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import lodash from 'lodash';
-import { getOwn } from '../util/getOwn.std.js';
-import { map, concat, repeat, zipObject } from '../util/iterables.std.js';
-import { isOutgoing } from '../state/selectors/message.preload.js';
+import { getOwn } from '../util/getOwn.std.ts';
+import { map, concat, repeat, zipObject } from '../util/iterables.std.ts';
+import { isOutgoing } from '../state/selectors/message.preload.ts';
 import type { MessageAttributesType } from '../model-types.d.ts';
 import type {
   SendState,
   SendStateByConversationId,
-} from './MessageSendState.std.js';
+} from './MessageSendState.std.ts';
 import {
   SendActionType,
   sendStateReducer,
   SendStatus,
-} from './MessageSendState.std.js';
+} from './MessageSendState.std.ts';
 
 const { get, isEmpty } = lodash;
 

@@ -3,8 +3,8 @@
 
 import { createSelector } from 'reselect';
 
-import type { StateType } from '../reducer.preload.js';
-import type { PreferredReactionsStateType } from '../ducks/preferredReactions.preload.js';
+import type { StateType } from '../reducer.preload.ts';
+import type { PreferredReactionsStateType } from '../ducks/preferredReactions.preload.ts';
 
 const getPreferredReactionsState = (
   state: Readonly<StateType>

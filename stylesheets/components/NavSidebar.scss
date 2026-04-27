@@ -28,7 +28,6 @@
   align-items: start;
   flex-shrink: 0;
   padding-bottom: 6px;
-  @include mixins.draggable-region;
 
   .NavTabs__Toggle {
     width: variables.$NavTabs__width;

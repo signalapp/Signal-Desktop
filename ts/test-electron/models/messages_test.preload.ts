@@ -5,19 +5,18 @@ import { assert } from 'chai';
 import * as sinon from 'sinon';
 import { v4 as generateUuid } from 'uuid';
 
-import type { AttachmentType } from '../../types/Attachment.std.js';
+import type { AttachmentType } from '../../types/Attachment.std.ts';
 import type { CallbackResultType } from '../../textsecure/Types.d.ts';
-import type { ConversationModel } from '../../models/conversations.preload.js';
+import type { ConversationModel } from '../../models/conversations.preload.ts';
 import type { MessageAttributesType } from '../../model-types.d.ts';
-import { MessageModel } from '../../models/messages.preload.js';
-import type { RawBodyRange } from '../../types/BodyRange.std.js';
-import { DataWriter } from '../../sql/Client.preload.js';
+import { MessageModel } from '../../models/messages.preload.ts';
+import type { RawBodyRange } from '../../types/BodyRange.std.ts';
+import { DataWriter } from '../../sql/Client.preload.ts';
 import enMessages from '../../../_locales/en/messages.json';
-import { SendStatus } from '../../messages/MessageSendState.std.js';
-import { SignalService as Proto } from '../../protobuf/index.std.js';
-import { generateAci } from '../../types/ServiceId.std.js';
-import { getAuthor } from '../../messages/sources.preload.js';
-import { setupI18n } from '../../util/setupI18n.dom.js';
+import { SendStatus } from '../../messages/MessageSendState.std.ts';
+import { SignalService as Proto } from '../../protobuf/index.std.ts';
+import { getAuthor } from '../../messages/sources.preload.ts';
+import { setupI18n } from '../../util/setupI18n.dom.tsx';
 import {
   APPLICATION_JSON,
   AUDIO_MP3,
@@ -26,12 +25,13 @@ import {
   LONG_MESSAGE,
   TEXT_ATTACHMENT,
   VIDEO_MP4,
-} from '../../types/MIME.std.js';
-import { getNotificationDataForMessage } from '../../util/getNotificationDataForMessage.preload.js';
-import { getNotificationTextForMessage } from '../../util/getNotificationTextForMessage.preload.js';
-import { send } from '../../messages/send.preload.js';
-import { messageSender } from '../../textsecure/SendMessage.preload.js';
-import { itemStorage } from '../../textsecure/Storage.preload.js';
+} from '../../types/MIME.std.ts';
+import { getNotificationDataForMessage } from '../../util/getNotificationDataForMessage.preload.ts';
+import { getNotificationTextForMessage } from '../../util/getNotificationTextForMessage.preload.ts';
+import { send } from '../../messages/send.preload.ts';
+import { messageSender } from '../../textsecure/SendMessage.preload.ts';
+import { itemStorage } from '../../textsecure/Storage.preload.ts';
+import { generateAci } from '../../test-helpers/serviceIdUtils.std.ts';
 
 describe('Message', () => {
   const i18n = setupI18n('en', enMessages);

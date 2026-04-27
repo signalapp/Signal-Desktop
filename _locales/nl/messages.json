@@ -597,7 +597,7 @@
     "messageformat": "Automatische verificatie is niet beschikbaar voor alle chats."
   },
   "icu:SafetyNumberViewer__KeyTransparency__learn_more": {
-    "messageformat": "Meer lezen"
+    "messageformat": "Meer informatie"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__title": {
     "messageformat": "Versleuteling automatisch geverifieerd voor deze chat "
@@ -651,7 +651,7 @@
     "messageformat": "Doorgaan"
   },
   "icu:KeyTransparencyOnboardingDialog__LearnMore": {
-    "messageformat": "Meer lezen"
+    "messageformat": "Meer informatie"
   },
   "icu:KeyTransparencyOnboardingDialog__CloseButton__AccessibilityLabel": {
     "messageformat": "Sluiten"
@@ -745,6 +745,9 @@
   },
   "icu:fileSizeWarning": {
     "messageformat": "Sorry, het geselecteerde bestand overschrijdt de maximale grootte. {limit,number} {units}"
+  },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "Sorry, het geselecteerde videobestand overschrijdt de maximale grootte. {limit,number}{units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Kan geselecteerde bijlage niet laden."
@@ -1455,7 +1458,7 @@
     "messageformat": "Je chatgeschiedenis met {conversationTitle} en een andere chat met deze persoon zijn samengevoegd."
   },
   "icu:ConversationMerge--learn-more": {
-    "messageformat": "Meer lezen"
+    "messageformat": "Meer informatie"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "Na het uitwisselen van berichten met {obsoleteConversationTitle} heb je begrepen dat dit nummer van {conversationTitle} is. Hun telefoonnummer is privé."
@@ -1786,6 +1789,12 @@
   },
   "icu:Preferences__EditChatFolderPage__CancelButton": {
     "messageformat": "Annuleren"
+  },
+  "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
+    "messageformat": "Show status icon"
+  },
+  "icu:Preferences__PrivacyPage__ShowStatusIcon__Description": {
+    "messageformat": "Show an icon in message details when they were delivered using sealed sender."
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
     "messageformat": "Automatische sleutelverificatie"
@@ -2372,6 +2381,9 @@
   "icu:ConversationDetails--support-center": {
     "messageformat": "Ondersteuningscentrum"
   },
+  "icu:ConversationDetails__GroupTerminatedBanner": {
+    "messageformat": "Deze groep is beëindigd"
+  },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "Veiligheidsnummer weergeven"
   },
@@ -2551,6 +2563,27 @@
   },
   "icu:youUpdatedTheGroup": {
     "messageformat": "Je hebt de groep aangepast."
+  },
+  "icu:collapsedGroupUpdates": {
+    "messageformat": "{count, plural, one {{count,number} groepsupdate} other {{count,number} groepsupdates}}"
+  },
+  "icu:multidayCollapse__container": {
+    "messageformat": "{containerDescription} · {dayCountSummary}"
+  },
+  "icu:multidayCollapse__dayCountSummary": {
+    "messageformat": "{dayCount, plural, one {{dayCount,number} dag} other {{dayCount,number} dagen}}"
+  },
+  "icu:collapsedChatUpdates": {
+    "messageformat": "{count, plural, one {{count,number} chatupdate} other {{count,number} chatupdates}}"
+  },
+  "icu:collapsedTimerChanges": {
+    "messageformat": "{count, plural, one {{count,number} wijziging in timer voor verdwijnende berichten · {endingState}} other {{count,number} wijzigingen in timer voor verdwijnende berichten · {endingState}}}"
+  },
+  "icu:collapsedTimerChanges--disabled": {
+    "messageformat": "{count, plural, one {{count,number} wijziging in timer voor verdwijnende berichten · Uitgeschakeld} other {{count,number} wijzigingen in timer voor verdwijnende berichten · Uitgeschakeld}}"
+  },
+  "icu:collapsedCallEvents": {
+    "messageformat": "{count, plural, one {{count,number} oproep} other {{count,number} oproepen}}"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "De groepsafbeelding is gewijzigd."
@@ -3017,8 +3050,8 @@
   "icu:Message--tap-to-view--incoming--expired-toast": {
     "messageformat": "Je hebt dit bericht al bekeken."
   },
-  "icu:Message--tap-to-view--outgoing--expired-toast": {
-    "messageformat": "Eenmalig te bekijken berichten worden niet opgeslagen in je chatgeschiedenis."
+  "icu:Message--tap-to-view--outgoing--expired-toast-2": {
+    "messageformat": "Eenmaligeweergave-media worden verwijderd na verzenden"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "Eenmaligeweergave-video"
@@ -3485,8 +3518,17 @@
   "icu:ConversationHero--profile-names": {
     "messageformat": "<clickable>Profielnamen</clickable> zijn niet geverifieerd"
   },
+  "icu:ConversationHero--name-not-verified": {
+    "messageformat": "Name not verified"
+  },
   "icu:ConversationHero--signal-official-chat": {
     "messageformat": "Dit is de officiële en enige chat van Signal"
+  },
+  "icu:ConversationHero--signal-official-account": {
+    "messageformat": "Official account"
+  },
+  "icu:ConversationHero--signal-official-account--description": {
+    "messageformat": "The only official chat from Signal. Keep up to date with news and release notes."
   },
   "icu:ConversationHero--release-notes": {
     "messageformat": "Blijf op de hoogte van nieuws en uitgaveopmerkingen."
@@ -3767,9 +3809,6 @@
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
     "messageformat": "Oproeplink delen via Signal"
   },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "Deze persoon uit de oproep verwijderen"
-  },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "{name} uit deze oproep verwijderen?"
   },
@@ -3932,11 +3971,23 @@
   "icu:GroupV2--join--requested": {
     "messageformat": "Je verzoek om lid te worden van de groep is doorgestuurd naar een beheerder. Je krijgt een melding zodra deze een besluit heeft genomen."
   },
+  "icu:GroupV2--join--group-terminated": {
+    "messageformat": "Je kunt niet meer deelnemen aan deze groep."
+  },
   "icu:GroupV2--join--general-join-failure--title": {
     "messageformat": "Fout bij groepslink"
   },
   "icu:GroupV2--join--general-join-failure": {
     "messageformat": "Je kunt niet lid worden van deze groep. Probeer het later opnieuw."
+  },
+  "icu:GroupV2--terminate-group-in-progress": {
+    "messageformat": "Groep opheffen…"
+  },
+  "icu:TerminateGroupFailedModal__description": {
+    "messageformat": "De groep kon niet worden beëindigd. Controleer je internetverbinding en probeer het opnieuw."
+  },
+  "icu:TerminateGroupFailedModal__try-again": {
+    "messageformat": "Opnieuw proberen"
   },
   "icu:GroupV2--admin": {
     "messageformat": "Beheerder"
@@ -4379,6 +4430,15 @@
   "icu:GroupV2--summary": {
     "messageformat": "De leden of instellingen van deze groep zijn gewijzigd."
   },
+  "icu:GroupV2--terminated--you": {
+    "messageformat": "Je hebt de groep beëindigd"
+  },
+  "icu:GroupV2--terminated--other": {
+    "messageformat": "{memberName} heeft de groep beëindigd"
+  },
+  "icu:GroupV2--terminated--unknown": {
+    "messageformat": "Deze groep is beëindigd"
+  },
   "icu:GroupV1--Migration--disabled--link": {
     "messageformat": "Werk deze groep bij om nieuwe functies zoals @vermeldingen en beheerders te activeren. Leden die hun naam of profielfoto niet in deze groep hebben gedeeld, worden uitgenodigd om lid te worden. <learnMoreLink>Meer informatie.</learnMoreLink>"
   },
@@ -4655,6 +4715,9 @@
   "icu:CompositionArea__ConfirmGifSelection__ReplaceButton": {
     "messageformat": "Vervangen"
   },
+  "icu:CompositionArea--group-terminated": {
+    "messageformat": "Je kunt geen berichten sturen omdat de groep is beëindigd."
+  },
   "icu:CompositionArea--viewOnceToggle": {
     "messageformat": "Eenmalige weergave"
   },
@@ -4832,11 +4895,26 @@
   "icu:ConversationDetailsActions--leave-group": {
     "messageformat": "Groep verlaten"
   },
+  "icu:ConversationDetailsActions--terminate-group": {
+    "messageformat": "Groep opheffen"
+  },
   "icu:ConversationDetailsActions--block-group": {
     "messageformat": "Groep blokkeren"
   },
   "icu:ConversationDetailsActions--unblock-group": {
     "messageformat": "Groep deblokkeren"
+  },
+  "icu:ConversationDetailsActions--report-spam": {
+    "messageformat": "Spam melden"
+  },
+  "icu:ConversationDetailsActions--archive": {
+    "messageformat": "Chat archiveren"
+  },
+  "icu:ConversationDetailsActions--unarchive": {
+    "messageformat": "Chat dearchiveren"
+  },
+  "icu:ConversationDetailsActions--delete": {
+    "messageformat": "Chat verwijderen"
   },
   "icu:ConversationDetailsActions--leave-group-must-choose-new-admin": {
     "messageformat": "Voordat je de groep verlaat moet je ten minste één beheerder aanwijzen voor deze groep."
@@ -4849,6 +4927,18 @@
   },
   "icu:ConversationDetailsActions--leave-group-modal-confirm": {
     "messageformat": "Verlaten"
+  },
+  "icu:ConversationDetailsActions--prompt-terminate-group-modal-title": {
+    "messageformat": "‘{groupName}’ opheffen?"
+  },
+  "icu:ConversationDetailsActions--prompt-terminate-group-modal-content": {
+    "messageformat": "Leden kunnen in deze groep geen berichten meer verzenden of oproepen starten. Ze krijgen een melding dat je de groep hebt beëindigd en blijven toegang houden tot de chatgeschiedenis."
+  },
+  "icu:ConversationDetailsActions--terminate-group-modal-confirm": {
+    "messageformat": "Groep opheffen"
+  },
+  "icu:ConversationDetailsActions--confirm-terminate-group-confirm-modal-content": {
+    "messageformat": "Hiermee wordt de groep definitief beëindigd. Weet je zeker dat je door wilt gaan?"
   },
   "icu:ConversationDetailsActions--unblock-group-modal-title": {
     "messageformat": "De groep ‘{groupName}’ deblokkeren?"
@@ -4868,6 +4958,18 @@
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "Deblokkeren"
   },
+  "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
+    "messageformat": "Signal wordt op de hoogte gebracht dat deze persoon mogelijk spam verstuurt. Signal kan de inhoud van chats niet zien."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-group": {
+    "messageformat": "Signal wordt op de hoogte gebracht dat de persoon die je voor deze groep heeft uitgenodigd mogelijk spam verstuurt. Signal kan de inhoud van chats niet zien."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
+    "messageformat": "Spam melden"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
+    "messageformat": "Melden en blokkeren"
+  },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} lid} other {{number,number} leden}}"
   },
@@ -4876,6 +4978,9 @@
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} lid} other {{number,number} leden}}"
+  },
+  "icu:ConversationDetailsMembershipList--terminated-title": {
+    "messageformat": "{number, plural, one {{number,number} voormalig lid} other {{number,number} voormalige leden}}"
   },
   "icu:ConversationDetailsMembershipList--add-members": {
     "messageformat": "Leden toevoegen"
@@ -5059,7 +5164,7 @@
     "ignoreUnused": true
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
-    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Groepsleden die een recente versie van Signal gebruiken, kunnen zien dat je dit bericht hebt verwijderd.} other {Groepsleden die een recente versie van Signal gebruiken, kunnen zien dat je deze berichten hebt verwijderd.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Verwijderen van alle apparaten"
@@ -5195,6 +5300,9 @@
   },
   "icu:MessageRequestWarning__safety-tips": {
     "messageformat": "Veiligheidstips"
+  },
+  "icu:MessageRequestWarning__safety-tips-v2": {
+    "messageformat": "Safety tips"
   },
   "icu:ContactSpoofing__same-name--link": {
     "messageformat": "Beoordeel verzoeken zorgvuldig. Signal heeft een ander contact gevonden met dezelfde naam. <reviewRequestLink>Personen vergelijken</reviewRequestLink>"
@@ -5797,6 +5905,15 @@
   "icu:Preferences__link-previews--description": {
     "messageformat": "Open de Signal-app op je mobiele telefoon en ga naar Instellingen > Chats om deze instelling te veranderen"
   },
+  "icu:Preferences__link-previews--new-description": {
+    "messageformat": "Retrieve link previews directly from websites for messages you send."
+  },
+  "icu:Preferences__address-book-photos--title": {
+    "messageformat": "Use address book photos"
+  },
+  "icu:Preferences__address-book-photos--description": {
+    "messageformat": "Display contact photos from your address book if available."
+  },
   "icu:Preferences__auto-convert-emoji--title": {
     "messageformat": "Converteer getypte emoticons naar emoji"
   },
@@ -6232,35 +6349,35 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "Klaar"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "je back-upsleutel weer te geven"
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
+    "messageformat": "je herstelsleutel weer te geven"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "Verifieer je identiteit om je back-upsleutel te bekijken."
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
+    "messageformat": "Verifieer je identiteit om je herstelsleutel te bekijken."
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "Back-upsleutel weergeven"
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
+    "messageformat": "Herstelsleutel weergeven"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "Authenticatie is vereist om je back-upsleutel te bekijken."
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
+    "messageformat": "Authenticatie is vereist om je herstelsleutel te bekijken."
   },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Tekstvak back-upsleutel"
+  "icu:Preferences--local-backups-recovery-key-text-box": {
+    "messageformat": "Herstelsleutel"
   },
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "Sleutel invoeren"
   },
-  "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "Je back-upsleutel vastleggen"
+  "icu:Preferences--local-backups-record-recovery-key": {
+    "messageformat": "Je herstelsleutel vastleggen"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "Deze sleutel is nodig om je account en gegevens te herstellen. Bewaar deze sleutel op een veilige manier. Als je hem kwijtraakt, kun je je account niet meer herstellen. <learnMoreLink>Meer informatie.</learnMoreLink>"
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "Bevestig je back-upsleutel"
+  "icu:Preferences--local-backups-confirm-recovery-key": {
+    "messageformat": "Bevestig je herstelsleutel"
   },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "Voer de back-upsleutel in die je zojuist hebt vastgelegd"
+  "icu:Preferences--local-backups-confirm-recovery-key-description": {
+    "messageformat": "Voer de herstelsleutel in die je zojuist hebt vastgelegd"
   },
   "icu:Preferences__local-backups-confirm-key-modal-title": {
     "messageformat": "Bewaar je sleutel op een veilige manier"
@@ -6286,26 +6403,23 @@
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Back-uplocatie"
   },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "Aanpassen"
-  },
   "icu:Preferences__local-backups-turn-off": {
-    "messageformat": "Turn off backups"
+    "messageformat": "Back-ups uitschakelen"
   },
   "icu:Preferences__local-backups-turn-off-action": {
-    "messageformat": "Turn off"
+    "messageformat": "Uitschakelen"
   },
   "icu:Preferences__local-backups-turn-off-confirmation": {
-    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+    "messageformat": "Je kunt op deze computer geen back-ups meer maken zonder deze functie opnieuw in te schakelen."
   },
   "icu:Preferences__local-backups-turn-off-delete": {
-    "messageformat": "Delete my backup from this computer"
+    "messageformat": "Verwijder mijn back-up van deze computer"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Kopiëren naar klembord"
   },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "Back-upsleutel gekopieerd"
+  "icu:Preferences__local-backups-copied-recovery-key": {
+    "messageformat": "Herstelsleutel gekopieerd"
   },
   "icu:Preferences__local-backups--enable--os-prompt--mac": {
     "messageformat": "back-ups in te schakelen"
@@ -6319,17 +6433,29 @@
   "icu:Preferences__local-backups--enable--os-prompt-message--linux": {
     "messageformat": "Authenticatie is vereist om back-ups in te schakelen."
   },
+  "icu:Preferences__local-backups-auth-error--unauthorized": {
+    "messageformat": "Deze actie kon niet worden voltooid omdat de systeemverificatie is mislukt. Probeer het nog eens of open de Signal-app op je mobiele apparaat en ga naar de back-upinstellingen om je herstelsleutel te bekijken."
+  },
   "icu:Preferences__view-key": {
     "messageformat": "Sleutel weergeven"
   },
-  "icu:Preferences__backup-key": {
-    "messageformat": "Back-upsleutel"
+  "icu:Preferences__recovery-key": {
+    "messageformat": "Herstelsleutel"
   },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "Je back-upsleutel is een code van 64 tekens die je nodig hebt om je back-up te herstellen"
+  "icu:Preferences__recovery-key-description": {
+    "messageformat": "Je herstelsleutel is een code van 64 tekens waarmee je je back-upgegevens terugzet"
   },
   "icu:Preferences__backup-other-ways": {
     "messageformat": "Andere manieren om een back-up te maken"
+  },
+  "icu:Preferences__recovery-key-updated__title": {
+    "messageformat": "Je herstelsleutel is gewijzigd"
+  },
+  "icu:Preferences__recovery-key-updated__description": {
+    "messageformat": "Je hebt een nieuwe herstelsleutel. Alle nieuwe back-ups die je maakt, kunnen alleen worden hersteld met je nieuwe herstelsleutel."
+  },
+  "icu:Preferences__recovery-key-updated__view-key": {
+    "messageformat": "Nieuwe sleutel bekijken"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {{num,number} contact} other {{num,number} contacten}}"
@@ -6394,8 +6520,14 @@
   "icu:Preferences--read-receipts": {
     "messageformat": "Leesbevestigingen"
   },
+  "icu:Preferences--read-receipts--description": {
+    "messageformat": "If disabled, you won't see read receipts from others."
+  },
   "icu:Preferences--typing-indicators": {
     "messageformat": "Typindicatoren"
+  },
+  "icu:Preferences--typing-indicators--description": {
+    "messageformat": "If disabled, you won't see typing indicators from others."
   },
   "icu:Preferences--updates": {
     "messageformat": "Nieuwe versies"
@@ -6485,7 +6617,7 @@
     "messageformat": "Open Signal op je telefoon om je account actief te houden"
   },
   "icu:IdlePrimaryDevice__learnMore": {
-    "messageformat": "Meer lezen"
+    "messageformat": "Meer informatie"
   },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signal ondervindt momenteel technische problemen. We zijn hard aan het werk om de service zo snel mogelijk te herstellen."
@@ -6681,6 +6813,9 @@
   },
   "icu:MyStories__delete": {
     "messageformat": "Dit verhaal verwijderen? Het zal ook worden verwijderd voor iedereen die het al heeft ontvangen."
+  },
+  "icu:MyStories__delete-group-story-for-me": {
+    "messageformat": "Dit verhaal verwijderen? Het wordt alleen voor jou verwijderd omdat de groep is beëindigd."
   },
   "icu:payment-event-notification-message-you-label": {
     "messageformat": "Je hebt een betaling aan {receiver} geïnitieerd"
@@ -6903,6 +7038,9 @@
   },
   "icu:StoriesSettings__view-receipts--label": {
     "messageformat": "Kijkbevestigingen"
+  },
+  "icu:StoriesSettings__view-receipts--new-description": {
+    "messageformat": "See and share when stories are viewed. If disabled, you won't see when others view your story."
   },
   "icu:StoriesSettings__view-receipts--description": {
     "messageformat": "Open de Signal-app op je mobiele telefoon en navigeer naar Instellingen > Verhalen om deze instelling te veranderen"
@@ -7553,6 +7691,18 @@
   "icu:ProfileNameWarningModal__list--item3--direct": {
     "messageformat": "Deel geen persoonlijke informatie met mensen die je niet kent"
   },
+  "icu:ProfileNameWarningModal__warning--signal-cant-verify": {
+    "messageformat": "Signal can’t verify names and photos"
+  },
+  "icu:ProfileNameWarningModal__warning--signal-wont-contact": {
+    "messageformat": "Signal will never contact you for your registration code, PIN, or recovery key"
+  },
+  "icu:ProfileNameWarningModal__warning--be-cautious": {
+    "messageformat": "Be cautious of accounts that impersonate others"
+  },
+  "icu:ProfileNameWarningModal__warning--dont-share-info": {
+    "messageformat": "Don't share personal information with people you don't know"
+  },
   "icu:ProfileNameWarningModal__description--group": {
     "messageformat": "Groepsnamen worden gekozen door leden van de groep."
   },
@@ -8015,17 +8165,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Kleine aanpassingen, bugfixes en prestatieverbeteringen. Bedankt dat je Signal gebruikt!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__7.90--0": {
-    "messageformat": "Vijf nieuwe Signal Artist stickerpakketten: ‘Chug the Mouse’ van Amanda Cotan, ‘Cozy Season’ van Miguel Ángel Camprubí, ‘Croco's Feelings’ van Tiffany Beucher, ‘My Daily Life 2’ van Plastic Thing, en ‘Rocky Talk’ van Lexi Vay."
-  },
-  "icu:WhatsNew__8.0--0": {
-    "messageformat": "Signal Secure Backups is nu beschikbaar! Je kunt nu automatische end-to-end versleutelde back-ups inschakelen zodat je nooit berichten kwijtraakt als je overstapt op een nieuwe telefoon of als je Signal opnieuw installeert. Je kunt gratis een back-up maken van al je berichten en de laatste 45 dagen aan media. Voor een klein maandelijks bedrag ontvang je 100 GB opslag zodat je van al je bijlages een back-up kunt maken. Tik op Back-ups in Signal-instellingen om te beginnen. Iedereen bedankt die deze functie in de bètaperiode heeft getest!"
-  },
-  "icu:WhatsNew__8.2--0": {
-    "messageformat": "Je kunt media voor eenmalige weergave nu ook vanuit Signal Desktop verzenden. Foto's en video's die als eenmaligeweergave-berichten worden verzonden, worden automatisch uit de chat verwijderd nadat ze zijn bekeken."
-  },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "Je kunt in groepschats nu een ledenlabel aanmaken waarmee je iets over jezelf zegt of over je rol. Maak een label aan met ‘Coach’ in de groepschat van je voetbalteam, dan weten nieuwe teamgenoten direct wie je bent. Voor de groepschat met je collega's maak je een ander label aan, bijvoorbeeld met je functietitel. Ledenlabels verschijnen naast je profielnaam in de betreffende groep. Groepsbeheerders kunnen bepalen of iedereen een label mag aanmaken."
   }
 }

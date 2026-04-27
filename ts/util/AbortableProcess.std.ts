@@ -1,23 +1,28 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-/* eslint-disable no-restricted-syntax */
 
-import { explodePromise } from './explodePromise.std.js';
+import { explodePromise } from './explodePromise.std.ts';
 
-export interface IController {
+export type IController = {
   abort(): void;
-}
+};
 
 export class AbortableProcess<Result> implements IController {
-  #abortReject: (error: Error) => void;
+  readonly #name: string;
+  readonly #controller: IController;
+
+  readonly #abortReject: (error: Error) => void;
 
   public readonly resultPromise: Promise<Result>;
 
   constructor(
-    private readonly name: string,
-    private readonly controller: IController,
+    name: string,
+    controller: IController,
     resultPromise: Promise<Result>
   ) {
+    this.#name = name;
+    this.#controller = controller;
+
     const { promise: abortPromise, reject: abortReject } =
       explodePromise<Result>();
 
@@ -26,8 +31,8 @@ export class AbortableProcess<Result> implements IController {
   }
 
   public abort(): void {
-    this.controller.abort();
-    this.#abortReject(new Error(`Process "${this.name}" was aborted`));
+    this.#controller.abort();
+    this.#abortReject(new Error(`Process "${this.#name}" was aborted`));
   }
 
   public getResult(): Promise<Result> {

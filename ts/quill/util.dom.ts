@@ -9,23 +9,23 @@ import type {
   DisplayNode,
   DraftBodyRange,
   DraftBodyRanges,
-} from '../types/BodyRange.std.js';
-import { BodyRange } from '../types/BodyRange.std.js';
-import type { MentionBlot } from './mentions/blot.dom.js';
-import type { EmojiBlot } from './emoji/blot.dom.js';
+} from '../types/BodyRange.std.ts';
+import { BodyRange } from '../types/BodyRange.std.ts';
+import type { MentionBlot } from './mentions/blot.dom.tsx';
+import type { EmojiBlot } from './emoji/blot.dom.tsx';
 import {
   isNewlineOnlyOp,
   QuillFormattingStyle,
-} from './formatting/menu.dom.js';
-import { isNotNil } from '../util/isNotNil.std.js';
-import type { AciString } from '../types/ServiceId.std.js';
+} from './formatting/menu.dom.tsx';
+import { isNotNil } from '../util/isNotNil.std.ts';
+import type { AciString } from '../types/ServiceId.std.ts';
 import {
   getEmojiDebugLabel,
   getEmojiVariantByKey,
   getEmojiVariantKeyByValue,
   isSafeEmojifyEmoji,
-} from '../components/fun/data/emojis.std.js';
-import { createLogger } from '../logging/log.std.js';
+} from '../components/fun/data/emojis.std.ts';
+import { createLogger } from '../logging/log.std.ts';
 
 const log = createLogger('quill/util');
 
@@ -42,18 +42,11 @@ export type MentionBlotValue = {
   title: string;
 };
 
-export type FormattingBlotValue = {
-  style: BodyRange.Style;
-};
-
 export const isEmojiBlot = (blot: Parchment.LeafBlot): blot is EmojiBlot =>
   blot.value() && blot.value().emoji;
 
 export const isMentionBlot = (blot: Parchment.LeafBlot): blot is MentionBlot =>
   blot.value() && blot.value().mention;
-
-export const isFormatting = (blot: Parchment.LeafBlot): blot is MentionBlot =>
-  blot.value() && blot.value().style;
 
 export type RetainOp = Op & { retain: number };
 export type InsertOp<K extends string, T> = Op & { insert: { [V in K]: T } };
@@ -64,10 +57,7 @@ export type InsertEmojiOp = InsertOp<
   { value: string; source?: string }
 >;
 
-export const isRetainOp = (op?: Op): op is RetainOp =>
-  op !== undefined && op.retain !== undefined;
-
-export const isSpecificInsertOp = (op: Op, type: string): boolean => {
+const isSpecificInsertOp = (op: Op, type: string): boolean => {
   return (
     op.insert !== undefined &&
     typeof op.insert === 'object' &&
@@ -75,30 +65,11 @@ export const isSpecificInsertOp = (op: Op, type: string): boolean => {
   );
 };
 
-export const isInsertEmojiOp = (op: Op): op is InsertEmojiOp =>
+const isInsertEmojiOp = (op: Op): op is InsertEmojiOp =>
   isSpecificInsertOp(op, 'emoji');
 
 export const isInsertMentionOp = (op: Op): op is InsertMentionOp =>
   isSpecificInsertOp(op, 'mention');
-
-export const getTextFromOps = (ops: Array<Op>): string =>
-  ops
-    .reduce((acc, op) => {
-      if (typeof op.insert === 'string') {
-        return acc + op.insert;
-      }
-
-      if (isInsertEmojiOp(op)) {
-        return acc + op.insert.emoji.value;
-      }
-
-      if (isInsertMentionOp(op)) {
-        return `${acc}@${op.insert.mention.title}`;
-      }
-
-      return acc;
-    }, '')
-    .trim();
 
 const { BOLD, ITALIC, MONOSPACE, SPOILER, STRIKETHROUGH, NONE } =
   BodyRange.Style;
@@ -195,6 +166,7 @@ export const getTextAndRangesFromOps = (
   const preTrimText = ops.reduce((acc, op) => {
     // We special-case all-newline ops because Quill doesn't apply styles to them
     if (isNewlineOnlyOp(op)) {
+      // oxlint-disable-next-line typescript/no-base-to-string, typescript/restrict-plus-operands
       return acc + op.insert;
     }
 
@@ -408,7 +380,7 @@ export const insertFormattingAndMentionsOps = (
   return ops;
 };
 
-export const insertMentionOps = (
+const insertMentionOps = (
   incomingOps: Array<Op>,
   bodyRanges: DraftBodyRanges
 ): Array<Op> => {
@@ -459,7 +431,7 @@ export const insertEmojiOps = (
   incomingOps: ReadonlyArray<Op>,
   existingAttributes: AttributeMap
 ): Array<Op> => {
-  return incomingOps.reduce((ops, op) => {
+  return incomingOps.reduce<Array<Op>>((ops, op) => {
     if (typeof op.insert === 'string') {
       const text = op.insert;
       const { attributes } = op;
@@ -467,7 +439,7 @@ export const insertEmojiOps = (
       let index = 0;
       let match: RegExpExecArray | null;
 
-      // eslint-disable-next-line no-cond-assign
+      // oxlint-disable-next-line no-cond-assign
       while ((match = re.exec(text))) {
         const [emojiMatch] = match;
         if (!isSafeEmojifyEmoji(emojiMatch)) {
@@ -493,5 +465,5 @@ export const insertEmojiOps = (
     }
 
     return ops;
-  }, [] as Array<Op>);
+  }, []);
 };

@@ -6,20 +6,20 @@ import * as sinon from 'sinon';
 import lodash from 'lodash';
 import { v4 as generateUuid } from 'uuid';
 
-import type { ReduxActions } from '../../../state/types.std.js';
+import type { ReduxActions } from '../../../state/types.std.ts';
 import {
   actions,
   getComposerStateForConversation,
   getEmptyState,
   reducer,
-} from '../../../state/ducks/composer.preload.js';
-import { noopAction } from '../../../state/ducks/noop.std.js';
-import { reducer as rootReducer } from '../../../state/reducer.preload.js';
+} from '../../../state/ducks/composer.preload.ts';
+import { noopAction } from '../../../state/ducks/noop.std.ts';
+import { reducer as rootReducer } from '../../../state/reducer.preload.ts';
 
-import { IMAGE_JPEG } from '../../../types/MIME.std.js';
-import type { AttachmentDraftType } from '../../../types/Attachment.std.js';
-import { fakeDraftAttachment } from '../../../test-helpers/fakeAttachment.std.js';
-import { NavTab } from '../../../types/Nav.std.js';
+import { IMAGE_JPEG } from '../../../types/MIME.std.ts';
+import type { AttachmentDraftType } from '../../../types/Attachment.std.ts';
+import { fakeDraftAttachment } from '../../../test-helpers/fakeAttachment.std.ts';
+import { NavTab } from '../../../types/Nav.std.ts';
 
 const { noop } = lodash;
 
@@ -38,7 +38,7 @@ describe('both/state/ducks/composer', () => {
   };
 
   function getRootStateFunction(conversationId?: string) {
-    const state = rootReducer(undefined, noopAction());
+    const state = rootReducer(undefined, noopAction('getRootStateFunction'));
     return () => ({
       ...state,
       nav: {
@@ -63,7 +63,7 @@ describe('both/state/ducks/composer', () => {
         ...oldReduxActions,
         linkPreviews: {
           ...oldReduxActions?.linkPreviews,
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          // oxlint-disable-next-line typescript/no-explicit-any
           removeLinkPreview: noop as any,
         },
       };
@@ -152,10 +152,7 @@ describe('both/state/ducks/composer', () => {
       assert.deepEqual(nextState, {
         ...getEmptyState(),
         conversations: {
-          '456': {
-            ...composerState,
-            messageCompositionId: composerState.messageCompositionId,
-          },
+          '456': composerState,
         },
       });
     });

@@ -4,12 +4,13 @@
 import { AlertDialog } from 'radix-ui';
 import type { FC, MouseEvent, ReactNode } from 'react';
 import React, { memo } from 'react';
-import { AxoButton } from './AxoButton.dom.js';
-import { tw } from './tw.dom.js';
-import { AxoBaseDialog } from './_internal/AxoBaseDialog.dom.js';
-import { AxoScrollArea } from './AxoScrollArea.dom.js';
-import type { AxoSymbol } from './AxoSymbol.dom.js';
-import { FlexWrapDetector } from './_internal/FlexWrapDetector.dom.js';
+import { AxoButton } from './AxoButton.dom.tsx';
+import { tw } from './tw.dom.tsx';
+import { AxoBaseDialog } from './_internal/AxoBaseDialog.dom.tsx';
+import { AxoScrollArea } from './AxoScrollArea.dom.tsx';
+import type { AxoSymbol } from './AxoSymbol.dom.tsx';
+import { FlexWrapDetector } from './_internal/FlexWrapDetector.dom.tsx';
+import { AxoTheme } from './AxoTheme.dom.tsx';
 
 const Namespace = 'AxoAlertDialog';
 
@@ -85,18 +86,20 @@ export namespace AxoAlertDialog {
     const handleContentEscapeEvent = useContentEscapeBehavior(props.escape);
     return (
       <AlertDialog.Portal>
-        <AlertDialog.Overlay className={AxoBaseDialog.overlayStyles}>
-          <AlertDialog.Content
-            onEscapeKeyDown={handleContentEscapeEvent}
-            className={AxoBaseDialog.contentStyles}
-            style={{
-              minWidth: 300,
-              width: 300,
-            }}
-          >
-            {props.children}
-          </AlertDialog.Content>
-        </AlertDialog.Overlay>
+        <AxoTheme.Inherit>
+          <AlertDialog.Overlay className={AxoBaseDialog.overlayStyles}>
+            <AlertDialog.Content
+              onEscapeKeyDown={handleContentEscapeEvent}
+              className={AxoBaseDialog.contentStyles}
+              style={{
+                minWidth: 300,
+                width: 300,
+              }}
+            >
+              {props.children}
+            </AlertDialog.Content>
+          </AlertDialog.Overlay>
+        </AxoTheme.Inherit>
       </AlertDialog.Portal>
     );
   });
@@ -267,7 +270,7 @@ export namespace AxoAlertDialog {
         <AxoButton.Root
           variant={props.variant}
           symbol={props.symbol}
-          arrow={props.arrow}
+          arrow={props.arrow ? 'next' : null}
           size="md"
           width="grow"
           focusableWhenDisabled

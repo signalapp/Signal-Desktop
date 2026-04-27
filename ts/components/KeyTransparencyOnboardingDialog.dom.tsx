@@ -1,11 +1,11 @@
 // Copyright 2026 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import React from 'react';
-import { openLinkInWebBrowser } from '../util/openLinkInWebBrowser.dom.js';
-import { KEY_TRANSPARENCY_URL } from '../types/support.std.js';
-import type { LocalizerType } from '../types/I18N.std.js';
-import { AxoDialog } from '../axo/AxoDialog.dom.js';
-import { tw } from '../axo/tw.dom.js';
+import { openLinkInWebBrowser } from '../util/openLinkInWebBrowser.dom.ts';
+import { KEY_TRANSPARENCY_URL } from '../types/support.std.ts';
+import type { LocalizerType } from '../types/I18N.std.ts';
+import { AxoDialog } from '../axo/AxoDialog.dom.tsx';
+import { tw } from '../axo/tw.dom.tsx';
 
 export type KeyTransparencyOnboardingDialogProps = Readonly<{
   i18n: LocalizerType;

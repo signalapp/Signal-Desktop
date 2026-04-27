@@ -1,10 +1,10 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-// eslint-disable-next-line @typescript-eslint/ban-types
+// oxlint-disable-next-line typescript/ban-types, typescript/no-unsafe-function-type
 export function throttle(func: Function, wait: number): () => void {
   let lastCallTime: number;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // oxlint-disable-next-line typescript/no-explicit-any
   let lastArgs: Array<any> | undefined;
   let timerId: NodeJS.Timeout | undefined;
 

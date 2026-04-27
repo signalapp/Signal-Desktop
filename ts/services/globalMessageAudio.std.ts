@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import lodash from 'lodash';
-import { isAbortError } from '../util/isAbortError.std.js';
+import { isAbortError } from '../util/isAbortError.std.ts';
 
 const { noop } = lodash;
 
@@ -11,7 +11,8 @@ const { noop } = lodash;
  * source and callbacks without requiring removeEventListener
  */
 class GlobalMessageAudio {
-  #audio: HTMLAudioElement = new Audio();
+  // oxlint-disable-next-line no-undef FIXME
+  readonly #audio: HTMLAudioElement = new Audio();
   #url: string | undefined;
 
   // true immediately after play() is called, even if still loading
@@ -69,6 +70,7 @@ class GlobalMessageAudio {
 
   play(): void {
     this.#playing = true;
+    // oxlint-disable-next-line promise/prefer-await-to-then
     this.#audio.play().catch(error => {
       // If `audio.pause()` is called before `audio.play()` resolves
       if (!isAbortError(error)) {

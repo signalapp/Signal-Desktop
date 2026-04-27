@@ -3,31 +3,31 @@
 import React, { memo, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 
-import { ChatsTab } from '../../components/ChatsTab.dom.js';
-import type { SmartConversationViewProps } from './ConversationView.preload.js';
-import { SmartConversationView } from './ConversationView.preload.js';
-import { SmartMiniPlayer } from './MiniPlayer.preload.js';
-import { SmartLeftPane } from './LeftPane.preload.js';
-import type { NavTabPanelProps } from '../../components/NavTabs.dom.js';
-import { useGlobalModalActions } from '../ducks/globalModals.preload.js';
-import { getIntl } from '../selectors/user.std.js';
-import { TargetedMessageSource } from '../ducks/conversationsEnums.std.js';
-import { useConversationsActions } from '../ducks/conversations.preload.js';
-import { useToastActions } from '../ducks/toast.preload.js';
-import { isStagingServer } from '../../util/isStagingServer.dom.js';
-import { ToastType } from '../../types/Toast.dom.js';
-import { getNavTabsCollapsed } from '../selectors/items.dom.js';
-import { useItemsActions } from '../ducks/items.preload.js';
-import { getHasAnyFailedStorySends } from '../selectors/stories.preload.js';
-import { getHasPendingUpdate } from '../selectors/updates.std.js';
-import { getSelectedConversationId } from '../selectors/nav.std.js';
+import { ChatsTab } from '../../components/ChatsTab.dom.tsx';
+import type { SmartConversationViewProps } from './ConversationView.preload.tsx';
+import { SmartConversationView } from './ConversationView.preload.tsx';
+import { SmartMiniPlayer } from './MiniPlayer.preload.tsx';
+import { SmartLeftPane } from './LeftPane.preload.tsx';
+import type { NavTabPanelProps } from '../../components/NavTabs.dom.tsx';
+import { useGlobalModalActions } from '../ducks/globalModals.preload.ts';
+import { getIntl } from '../selectors/user.std.ts';
+import { TargetedMessageSource } from '../ducks/conversationsEnums.std.ts';
+import { useConversationsActions } from '../ducks/conversations.preload.ts';
+import { useToastActions } from '../ducks/toast.preload.ts';
+import { isStagingServer } from '../../util/isStagingServer.dom.ts';
+import { ToastType } from '../../types/Toast.dom.tsx';
+import { getNavTabsCollapsed } from '../selectors/items.dom.ts';
+import { useItemsActions } from '../ducks/items.preload.ts';
+import { getHasAnyFailedStorySends } from '../selectors/stories.preload.ts';
+import { getHasPendingUpdate } from '../selectors/updates.std.ts';
+import { getSelectedConversationId } from '../selectors/nav.std.ts';
 import {
   getOtherTabsUnreadStats,
   getTargetedMessage,
   getTargetedMessageSource,
-} from '../selectors/conversations.dom.js';
-import { useChatFolderActions } from '../ducks/chatFolders.preload.js';
-import { useComposerActions } from '../ducks/composer.preload.js';
+} from '../selectors/conversations.dom.ts';
+import { useChatFolderActions } from '../ducks/chatFolders.preload.ts';
+import { useComposerActions } from '../ducks/composer.preload.ts';
 
 function renderConversationView(props: SmartConversationViewProps) {
   return <SmartConversationView {...props} />;
@@ -84,7 +84,7 @@ export const SmartChatsTab = memo(function SmartChatsTab() {
     } else if (
       selectedConversationId &&
       targetedMessageId &&
-      targetedMessageSource !== TargetedMessageSource.Focus
+      targetedMessageSource === TargetedMessageSource.NavigateToMessage
     ) {
       scrollToMessage(selectedConversationId, targetedMessageId);
     }

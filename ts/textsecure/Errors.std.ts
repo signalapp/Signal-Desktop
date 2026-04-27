@@ -1,23 +1,21 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* eslint-disable max-classes-per-file */
-
 import type { LibSignalErrorBase } from '@signalapp/libsignal-client';
 
-import { parseRetryAfter } from '../util/parseRetryAfter.std.js';
-import type { ServiceIdString } from '../types/ServiceId.std.js';
-import type { HTTPError } from '../types/HTTPError.std.js';
+import { parseRetryAfter } from '../util/parseRetryAfter.std.ts';
+import type { ServiceIdString } from '../types/ServiceId.std.ts';
+import type { HTTPError } from '../types/HTTPError.std.ts';
 import type { HeaderListType } from '../types/WebAPI.d.ts';
 
 import type { CallbackResultType } from './Types.d.ts';
 
 function appendStack(newError: Error, originalError: Error) {
-  // eslint-disable-next-line no-param-reassign
+  // oxlint-disable-next-line no-param-reassign
   newError.stack += `\nOriginal stack:\n${originalError.stack}`;
 }
 
-export class ReplayableError extends Error {
+class ReplayableError extends Error {
   functionCode?: number;
 
   constructor(options: {
@@ -41,6 +39,7 @@ export class ReplayableError extends Error {
   }
 }
 
+// oxlint-disable-next-line max-classes-per-file
 export class OutgoingIdentityKeyError extends ReplayableError {
   public readonly identifier: string;
 
@@ -220,6 +219,7 @@ export class SendMessageProtoError extends Error implements CallbackResultType {
   }
 }
 
+/** @testexport */
 export class MessageError extends ReplayableError {
   readonly httpError: HTTPError;
 

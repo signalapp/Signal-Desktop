@@ -25,6 +25,6 @@
 .sticker-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, 186px);
-  grid-gap: 8px;
+  gap: 8px;
   justify-content: center;
 }

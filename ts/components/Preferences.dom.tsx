@@ -16,92 +16,94 @@ import * as LocaleMatcher from '@formatjs/intl-localematcher';
 import type { MutableRefObject, ReactNode } from 'react';
 import type { RowType } from '@signalapp/sqlcipher';
 import type { BackupLevel } from '@signalapp/libsignal-client/zkgroup.js';
-import { ChatColorPicker } from './ChatColorPicker.dom.js';
-import { Checkbox } from './Checkbox.dom.js';
-import { WidthBreakpoint } from './_util.std.js';
-import { ConfirmationDialog } from './ConfirmationDialog.dom.js';
-import { DisappearingTimeDialog } from './DisappearingTimeDialog.dom.js';
-import { PhoneNumberDiscoverability } from '../util/phoneNumberDiscoverability.std.js';
-import { PhoneNumberSharingMode } from '../types/PhoneNumberSharingMode.std.js';
-import { KEY_TRANSPARENCY_URL } from '../types/support.std.js';
-import { Select } from './Select.dom.js';
-import { getCustomColorStyle } from '../util/getCustomColorStyle.dom.js';
+import { ChatColorPicker } from './ChatColorPicker.dom.tsx';
+import { Checkbox } from './Checkbox.dom.tsx';
+import { WidthBreakpoint } from './_util.std.ts';
+import { ConfirmationDialog } from './ConfirmationDialog.dom.tsx';
+import { DisappearingTimeDialog } from './DisappearingTimeDialog.dom.tsx';
+import { PhoneNumberDiscoverability } from '../util/phoneNumberDiscoverability.std.ts';
+import { PhoneNumberSharingMode } from '../types/PhoneNumberSharingMode.std.ts';
+import { KEY_TRANSPARENCY_URL } from '../types/support.std.ts';
+import { Select } from './Select.dom.tsx';
+import { getCustomColorStyle } from '../util/getCustomColorStyle.dom.ts';
 import {
   DEFAULT_DURATIONS_IN_SECONDS,
   DEFAULT_DURATIONS_SET,
   format as formatExpirationTimer,
-} from '../util/expirationTimer.std.js';
-import { DurationInSeconds } from '../util/durations/index.std.js';
-import { focusableSelector } from '../util/focusableSelectors.std.js';
-import { Modal } from './Modal.dom.js';
-import { SearchInput } from './SearchInput.dom.js';
-import { removeDiacritics } from '../util/removeDiacritics.std.js';
-import { assertDev } from '../util/assert.std.js';
-import { I18n } from './I18n.dom.js';
-import { FunSkinTonesList } from './fun/FunSkinTones.dom.js';
-import { EMOJI_PARENT_KEY_CONSTANTS } from './fun/data/emojis.std.js';
+} from '../util/expirationTimer.std.ts';
+import { DurationInSeconds } from '../util/durations/index.std.ts';
+import { focusableSelector } from '../util/focusableSelectors.std.ts';
+import { Modal } from './Modal.dom.tsx';
+import { SearchInput } from './SearchInput.dom.tsx';
+import { removeDiacritics } from '../util/removeDiacritics.std.ts';
+import { assertDev } from '../util/assert.std.ts';
+import { I18n } from './I18n.dom.tsx';
+import { FunSkinTonesList } from './fun/FunSkinTones.dom.tsx';
+import { EMOJI_PARENT_KEY_CONSTANTS } from './fun/data/emojis.std.ts';
 import {
   SettingsControl as Control,
   FlowingSettingsControl as FlowingControl,
   SettingsRadio,
   SettingsRow,
-} from './PreferencesUtil.dom.js';
-import { PreferencesBackups } from './PreferencesBackups.dom.js';
-import { PreferencesInternal } from './PreferencesInternal.dom.js';
-import { FunEmojiLocalizationProvider } from './fun/FunEmojiLocalizationProvider.dom.js';
-import { Avatar, AvatarSize } from './Avatar.dom.js';
-import { NavSidebar } from './NavSidebar.dom.js';
-import type { SettingsLocation } from '../types/Nav.std.js';
-import { SettingsPage, ProfileEditorPage } from '../types/Nav.std.js';
-import { tw } from '../axo/tw.dom.js';
-import { FullWidthButton } from './PreferencesNotificationProfiles.dom.js';
-import type { EmojiSkinTone } from './fun/data/emojis.std.js';
-import type { MediaDeviceSettings } from '../types/Calling.std.js';
-import type { ValidationResultType as BackupValidationResultType } from '../services/backups/index.preload.js';
+} from './PreferencesUtil.dom.tsx';
+import { PreferencesBackups } from './PreferencesBackups.dom.tsx';
+import { PreferencesInternal } from './PreferencesInternal.dom.tsx';
+import { FunEmojiLocalizationProvider } from './fun/FunEmojiLocalizationProvider.dom.tsx';
+import { Avatar, AvatarSize } from './Avatar.dom.tsx';
+import { NavSidebar } from './NavSidebar.dom.tsx';
+import type { SettingsLocation } from '../types/Nav.std.ts';
+import { SettingsPage, ProfileEditorPage } from '../types/Nav.std.ts';
+import { tw } from '../axo/tw.dom.tsx';
+import { FullWidthButton } from './PreferencesNotificationProfiles.dom.tsx';
+import type { EmojiSkinTone } from './fun/data/emojis.std.ts';
+import type { MediaDeviceSettings } from '../types/Calling.std.ts';
+import type { ValidationResultType as BackupValidationResultType } from '../services/backups/index.preload.ts';
 import type {
   AutoDownloadAttachmentType,
   NotificationSettingType,
   SentMediaQualitySettingType,
   ZoomFactorType,
-} from '../types/StorageKeys.std.js';
-import type { ThemeSettingType } from '../util/theme.std.js';
-import type { AnyToast } from '../types/Toast.dom.js';
-import { ToastType } from '../types/Toast.dom.js';
-import type { ConversationType } from '../state/ducks/conversations.preload.js';
+  StorageAccessType,
+} from '../types/StorageKeys.std.ts';
+import type { ThemeSettingType } from '../util/theme.std.ts';
+import type { AnyToast } from '../types/Toast.dom.tsx';
+import { ToastType } from '../types/Toast.dom.tsx';
+import type { ConversationType } from '../state/ducks/conversations.preload.ts';
 import type {
   ConversationColorType,
   CustomColorType,
   DefaultConversationColorType,
-} from '../types/Colors.std.js';
+} from '../types/Colors.std.ts';
 import type {
   LocalizerType,
   SentMediaQualityType,
   ThemeType,
-} from '../types/Util.std.js';
+} from '../types/Util.std.ts';
 import type {
   BackupMediaDownloadStatusType,
   BackupsSubscriptionType,
   BackupStatusType,
-} from '../types/backups.node.js';
-import type { UnreadStats } from '../util/countUnreadStats.std.js';
-import type { BadgeType } from '../badges/types.std.js';
-import type { MessageCountBySchemaVersionType } from '../sql/Interface.std.js';
+} from '../types/backups.node.ts';
+import type { UnreadStats } from '../util/countUnreadStats.std.ts';
+import type { BadgeType } from '../badges/types.std.ts';
+import type { MessageCountBySchemaVersionType } from '../sql/Interface.std.ts';
 import type { MessageAttributesType } from '../model-types.d.ts';
-import { isBackupPage } from '../types/PreferencesBackupPage.std.js';
-import type { PreferencesBackupPage } from '../types/PreferencesBackupPage.std.js';
+import { isBackupPage } from '../types/PreferencesBackupPage.std.ts';
+import type { PreferencesBackupPage } from '../types/PreferencesBackupPage.std.ts';
 import type {
   PromptOSAuthReasonType,
   PromptOSAuthResultType,
-} from '../util/os/promptOSAuthMain.main.js';
-import type { DonationReceipt } from '../types/Donations.std.js';
-import type { ChatFolderId } from '../types/ChatFolder.std.js';
-import type { SmartPreferencesEditChatFolderPageProps } from '../state/smart/PreferencesEditChatFolderPage.preload.js';
-import type { SmartPreferencesChatFoldersPageProps } from '../state/smart/PreferencesChatFoldersPage.preload.js';
-import { AxoButton } from '../axo/AxoButton.dom.js';
-import type { ExternalProps as SmartNotificationProfilesProps } from '../state/smart/PreferencesNotificationProfiles.preload.js';
-import type { LocalBackupExportMetadata } from '../types/LocalExport.std.js';
-import { isDonationsPage } from './PreferencesDonations.dom.js';
-import type { VisibleRemoteMegaphoneType } from '../types/Megaphone.std.js';
+} from '../util/os/promptOSAuthMain.main.ts';
+import type { DonationReceipt } from '../types/Donations.std.ts';
+import type { ChatFolderId } from '../types/ChatFolder.std.ts';
+import type { SmartPreferencesEditChatFolderPageProps } from '../state/smart/PreferencesEditChatFolderPage.preload.tsx';
+import type { SmartPreferencesChatFoldersPageProps } from '../state/smart/PreferencesChatFoldersPage.preload.tsx';
+import { AxoButton } from '../axo/AxoButton.dom.tsx';
+import type { ExternalProps as SmartNotificationProfilesProps } from '../state/smart/PreferencesNotificationProfiles.preload.tsx';
+import type { LocalBackupExportMetadata } from '../types/LocalExport.std.ts';
+import { isDonationsPage } from './PreferencesDonations.dom.tsx';
+import type { VisibleRemoteMegaphoneType } from '../types/Megaphone.std.ts';
+import { TitlebarDragArea } from './TitlebarDragArea.dom.tsx';
 
 const { isNumber, noop, partition } = lodash;
 
@@ -110,10 +112,11 @@ type SelectChangeHandlerType<T = string | number> = (value: T) => unknown;
 
 export type PropsDataType = {
   // Settings
-  accountEntropyPool: string | undefined;
+  backupKey: string | undefined;
+  backupKeyHash: string | undefined;
   autoDownloadAttachment: AutoDownloadAttachmentType;
   backupFreeMediaDays: number;
-  backupKeyViewed: boolean;
+  previouslyViewedBackupKeyHash: string | undefined;
   backupLocalBackupsEnabled: boolean;
   backupTier: BackupLevel | null;
   lastLocalBackup: LocalBackupExportMetadata | undefined;
@@ -146,10 +149,12 @@ export type PropsDataType = {
   hasMediaCameraPermissions: boolean | undefined;
   hasMediaPermissions: boolean | undefined;
   hasMessageAudio: boolean;
+  hasSealedSenderIndicators: boolean;
   hasMinimizeToAndStartInSystemTray: boolean | undefined;
   hasMinimizeToSystemTray: boolean | undefined;
   hasNotificationAttention: boolean;
   hasNotifications: boolean;
+  hasPreferContactAvatars: boolean;
   hasReadReceipts: boolean;
   hasRelayCalls?: boolean;
   hasSpellCheck: boolean | undefined;
@@ -210,6 +215,14 @@ export type PropsDataType = {
   >;
 
   donationReceipts: ReadonlyArray<DonationReceipt>;
+
+  // calling internal preferences
+  dredDuration: number | undefined;
+  isDirectVp9Enabled: boolean | undefined;
+  directMaxBitrate: number | undefined;
+  isGroupVp9Enabled: boolean | undefined;
+  groupMaxBitrate: number | undefined;
+  sfuUrl: string | undefined;
 } & Omit<MediaDeviceSettings, 'availableCameras'>;
 
 type PropsFunctionType = {
@@ -304,7 +317,7 @@ type PropsFunctionType = {
   ) => unknown;
   onAutoDownloadUpdateChange: CheckboxChangeHandlerType;
   onAutoLaunchChange: CheckboxChangeHandlerType;
-  onBackupKeyViewedChange: (keyViewed: boolean) => void;
+  onBackupKeyViewed: ({ backupKeyHash }: { backupKeyHash: string }) => void;
   onCallNotificationsChange: CheckboxChangeHandlerType;
   onCallRingtoneNotificationChange: CheckboxChangeHandlerType;
   onContentProtectionChange: CheckboxChangeHandlerType;
@@ -316,6 +329,7 @@ type PropsFunctionType = {
   onIncomingCallNotificationsChange: CheckboxChangeHandlerType;
   onKeepMutedChatsArchivedChange: CheckboxChangeHandlerType;
   onLastSyncTimeChange: (time: number) => unknown;
+  onLinkPreviewsChange: CheckboxChangeHandlerType;
   onLocaleChange: (locale: string | null | undefined) => void;
   onMediaCameraPermissionsChange: CheckboxChangeHandlerType;
   onMediaPermissionsChange: CheckboxChangeHandlerType;
@@ -325,7 +339,10 @@ type PropsFunctionType = {
   onNotificationAttentionChange: CheckboxChangeHandlerType;
   onNotificationContentChange: SelectChangeHandlerType<NotificationSettingType>;
   onNotificationsChange: CheckboxChangeHandlerType;
+  onPreferContactAvatarsChange: CheckboxChangeHandlerType;
+  onReadReceiptsChange: CheckboxChangeHandlerType;
   onRelayCallsChange: CheckboxChangeHandlerType;
+  onSealedSenderIndicatorsChange: CheckboxChangeHandlerType;
   onSelectedCameraChange: SelectChangeHandlerType<string | undefined>;
   onSelectedMicrophoneChange: SelectChangeHandlerType<AudioDevice | undefined>;
   onSelectedSpeakerChange: SelectChangeHandlerType<AudioDevice | undefined>;
@@ -334,9 +351,10 @@ type PropsFunctionType = {
   onTextFormattingChange: CheckboxChangeHandlerType;
   onThemeChange: SelectChangeHandlerType<ThemeType>;
   onToggleNavTabsCollapse: (navTabsCollapsed: boolean) => void;
+  onTypingIndicatorsChange: CheckboxChangeHandlerType;
   onUniversalExpireTimerChange: SelectChangeHandlerType<number>;
-  onWhoCanSeeMeChange: SelectChangeHandlerType<PhoneNumberSharingMode>;
   onWhoCanFindMeChange: SelectChangeHandlerType<PhoneNumberDiscoverability>;
+  onWhoCanSeeMeChange: SelectChangeHandlerType<PhoneNumberSharingMode>;
   onZoomFactorChange: SelectChangeHandlerType<ZoomFactorType>;
   openFileInFolder: (path: string) => void;
   internalDeleteAllMegaphones: () => Promise<number>;
@@ -345,6 +363,14 @@ type PropsFunctionType = {
   ) => Promise<ReadonlyArray<RowType<object>>>;
   cqsTestMode: boolean;
   setCqsTestMode: (value: boolean) => void;
+  setDredDuration: (value: number | undefined) => void;
+  setIsDirectVp9Enabled: (value: boolean | undefined) => void;
+  setDirectMaxBitrate: (value: number | undefined) => void;
+  setIsGroupVp9Enabled: (value: boolean | undefined) => void;
+  setGroupMaxBitrate: (value: number | undefined) => void;
+  setSfuUrl: (value: string | undefined) => void;
+  forceKeyTransparencyCheck: () => Promise<void>;
+  keyTransparencySelfHealth: StorageAccessType['keyTransparencySelfHealth'];
 
   // Localization
   i18n: LocalizerType;
@@ -383,7 +409,6 @@ const DEFAULT_ZOOM_FACTORS = [
 ];
 
 export function Preferences({
-  accountEntropyPool,
   addCustomColor,
   autoDownloadAttachment,
   availableCameras,
@@ -395,7 +420,8 @@ export function Preferences({
   resumeBackupMediaDownload,
   cancelBackupMediaDownload,
   backupFreeMediaDays,
-  backupKeyViewed,
+  backupKey,
+  backupKeyHash,
   backupTier,
   backupSubscriptionStatus,
   backupLocalBackupsEnabled,
@@ -434,8 +460,10 @@ export function Preferences({
   hasMinimizeToSystemTray,
   hasNotificationAttention,
   hasNotifications,
+  hasPreferContactAvatars,
   hasReadReceipts,
   hasRelayCalls,
+  hasSealedSenderIndicators,
   hasSpellCheck,
   hasStoriesDisabled,
   hasTextFormatting,
@@ -468,7 +496,7 @@ export function Preferences({
   onAutoDownloadAttachmentChange,
   onAutoDownloadUpdateChange,
   onAutoLaunchChange,
-  onBackupKeyViewedChange,
+  onBackupKeyViewed,
   onCallNotificationsChange,
   onCallRingtoneNotificationChange,
   onContentProtectionChange,
@@ -480,6 +508,7 @@ export function Preferences({
   onIncomingCallNotificationsChange,
   onKeepMutedChatsArchivedChange,
   onLastSyncTimeChange,
+  onLinkPreviewsChange,
   onLocaleChange,
   onMediaCameraPermissionsChange,
   onMediaPermissionsChange,
@@ -489,7 +518,10 @@ export function Preferences({
   onNotificationAttentionChange,
   onNotificationContentChange,
   onNotificationsChange,
+  onPreferContactAvatarsChange,
+  onReadReceiptsChange,
   onRelayCallsChange,
+  onSealedSenderIndicatorsChange,
   onSelectedCameraChange,
   onSelectedMicrophoneChange,
   onSelectedSpeakerChange,
@@ -498,9 +530,10 @@ export function Preferences({
   onTextFormattingChange,
   onThemeChange,
   onToggleNavTabsCollapse,
+  onTypingIndicatorsChange,
   onUniversalExpireTimerChange,
-  onWhoCanSeeMeChange,
   onWhoCanFindMeChange,
+  onWhoCanSeeMeChange,
   onZoomFactorChange,
   otherTabsUnreadStats,
   settingsLocation,
@@ -522,6 +555,7 @@ export function Preferences({
   renderPreferencesEditChatFolderPage,
   openFileInFolder,
   osName,
+  previouslyViewedBackupKeyHash,
   promptOSAuth,
   resetAllChatColors,
   resetDefaultChatColor,
@@ -540,7 +574,7 @@ export function Preferences({
   localeOverride,
   theme,
   themeSetting,
-  universalExpireTimer = DurationInSeconds.ZERO,
+  universalExpireTimer,
   validateBackup,
   whoCanFindMe,
   whoCanSeeMe,
@@ -554,6 +588,20 @@ export function Preferences({
   __dangerouslyRunAbitraryReadOnlySqlQuery,
   cqsTestMode,
   setCqsTestMode,
+  setDredDuration,
+  dredDuration,
+  setIsDirectVp9Enabled,
+  isDirectVp9Enabled,
+  setDirectMaxBitrate,
+  directMaxBitrate,
+  setIsGroupVp9Enabled,
+  isGroupVp9Enabled,
+  setGroupMaxBitrate,
+  groupMaxBitrate,
+  setSfuUrl,
+  sfuUrl,
+  forceKeyTransparencyCheck,
+  keyTransparencySelfHealth,
 }: PropsType): React.JSX.Element {
   const storiesId = useId();
   const themeSelectId = useId();
@@ -627,7 +675,7 @@ export function Preferences({
 
   const handleContentProtectionChange = useCallback(
     (value: boolean) => {
-      if (value === true || !isContentProtectionNeeded) {
+      if (value || !isContentProtectionNeeded) {
         onContentProtectionChange(value);
       } else {
         setConfirmContentProtection(true);
@@ -1152,12 +1200,23 @@ export function Preferences({
           />
           <Checkbox
             checked={hasLinkPreviews}
-            description={i18n('icu:Preferences__link-previews--description')}
-            disabled
+            description={i18n(
+              'icu:Preferences__link-previews--new-description'
+            )}
             label={i18n('icu:Preferences__link-previews--title')}
             moduleClassName="Preferences__checkbox"
             name="linkPreviews"
-            onChange={noop}
+            onChange={onLinkPreviewsChange}
+          />
+          <Checkbox
+            checked={hasPreferContactAvatars}
+            label={i18n('icu:Preferences__address-book-photos--title')}
+            description={i18n(
+              'icu:Preferences__address-book-photos--description'
+            )}
+            moduleClassName="Preferences__checkbox"
+            name="typingIndicators"
+            onChange={onPreferContactAvatarsChange}
           />
           <Checkbox
             checked={hasAutoConvertEmoji}
@@ -1663,25 +1722,22 @@ export function Preferences({
         <SettingsRow title={i18n('icu:Preferences--messaging')}>
           <Checkbox
             checked={hasReadReceipts}
-            disabled
             label={i18n('icu:Preferences--read-receipts')}
+            description={i18n('icu:Preferences--read-receipts--description')}
             moduleClassName="Preferences__checkbox"
             name="readReceipts"
-            onChange={noop}
+            onChange={onReadReceiptsChange}
           />
           <Checkbox
             checked={hasTypingIndicators}
-            disabled
             label={i18n('icu:Preferences--typing-indicators')}
+            description={i18n(
+              'icu:Preferences--typing-indicators--description'
+            )}
             moduleClassName="Preferences__checkbox"
             name="typingIndicators"
-            onChange={noop}
+            onChange={onTypingIndicatorsChange}
           />
-          <div className="Preferences__padding">
-            <div className="Preferences__description">
-              {i18n('icu:Preferences__privacy--description')}
-            </div>
-          </div>
         </SettingsRow>
         {showDisappearingTimerDialog && (
           <DisappearingTimeDialog
@@ -1819,40 +1875,55 @@ export function Preferences({
             </div>
           </FlowingControl>
         </SettingsRow>
-        {isKeyTransparencyAvailable && (
-          <SettingsRow>
+        <SettingsRow title={i18n('icu:Preferences--advanced')}>
+          <Checkbox
+            checked={hasSealedSenderIndicators}
+            label={
+              <>
+                {i18n('icu:Preferences__PrivacyPage__ShowStatusIcon__Label')}
+                <div className="Preferences__Privacy__StatusIcon" />
+              </>
+            }
+            description={i18n(
+              'icu:Preferences__PrivacyPage__ShowStatusIcon__Description'
+            )}
+            moduleClassName="Preferences__checkbox"
+            name="showStatusIcon"
+            onChange={onSealedSenderIndicatorsChange}
+          />
+          {isKeyTransparencyAvailable && (
             <Checkbox
               checked={!hasKeyTransparencyDisabled}
               label={i18n(
                 'icu:Preferences__PrivacyPage__KeyTransparency__Label'
               )}
+              description={
+                <>
+                  {i18n(
+                    'icu:Preferences__PrivacyPage__KeyTransparency__Description'
+                  )}
+                  &ensp;
+                  <a
+                    href={KEY_TRANSPARENCY_URL}
+                    rel="noreferrer"
+                    target="_blank"
+                    className={tw('text-label-primary')}
+                  >
+                    <I18n
+                      i18n={i18n}
+                      id="icu:Preferences__PrivacyPage__KeyTransparency__LearnMore"
+                    />
+                  </a>
+                </>
+              }
               moduleClassName="Preferences__checkbox"
               name="keyTransparency"
               onChange={() =>
                 onHasKeyTransparencyDisabledChanged(!hasKeyTransparencyDisabled)
               }
             />
-            <div className="Preferences__padding">
-              <div className="Preferences__description">
-                {i18n(
-                  'icu:Preferences__PrivacyPage__KeyTransparency__Description'
-                )}
-                &ensp;
-                <a
-                  href={KEY_TRANSPARENCY_URL}
-                  rel="noreferrer"
-                  target="_blank"
-                  className={tw('text-label-primary')}
-                >
-                  <I18n
-                    i18n={i18n}
-                    id="icu:Preferences__PrivacyPage__KeyTransparency__LearnMore"
-                  />
-                </a>
-              </div>
-            </div>
-          </SettingsRow>
-        )}
+          )}
+        </SettingsRow>
         <SettingsRow>
           <FlowingControl>
             <div
@@ -1936,7 +2007,7 @@ export function Preferences({
       <>
         <SettingsRow title={i18n('icu:Preferences__media-auto-download')}>
           <Checkbox
-            checked={autoDownloadAttachment.photos !== false}
+            checked={autoDownloadAttachment.photos}
             label={i18n('icu:Preferences__media-auto-download__photos')}
             moduleClassName="Preferences__checkbox"
             name="autoLaunch"
@@ -1948,7 +2019,7 @@ export function Preferences({
             }
           />
           <Checkbox
-            checked={autoDownloadAttachment.videos !== false}
+            checked={autoDownloadAttachment.videos}
             label={i18n('icu:Preferences__media-auto-download__videos')}
             moduleClassName="Preferences__checkbox"
             name="autoLaunch"
@@ -1960,7 +2031,7 @@ export function Preferences({
             }
           />
           <Checkbox
-            checked={autoDownloadAttachment.audio !== false}
+            checked={autoDownloadAttachment.audio}
             label={i18n('icu:Preferences__media-auto-download__audio')}
             moduleClassName="Preferences__checkbox"
             name="autoLaunch"
@@ -1972,7 +2043,7 @@ export function Preferences({
             }
           />
           <Checkbox
-            checked={autoDownloadAttachment.documents !== false}
+            checked={autoDownloadAttachment.documents}
             label={i18n('icu:Preferences__media-auto-download__documents')}
             moduleClassName="Preferences__checkbox"
             name="autoLaunch"
@@ -2244,7 +2315,6 @@ export function Preferences({
       pageTitle = i18n('icu:Preferences__local-backups');
     }
     // Local backups setup page titles intentionally left blank
-
     let backPage: PreferencesBackupPage | undefined;
     if (settingsLocation.page === SettingsPage.LocalBackupsKeyReference) {
       backPage = SettingsPage.LocalBackups;
@@ -2264,9 +2334,9 @@ export function Preferences({
     }
     const pageContents = (
       <PreferencesBackups
-        accountEntropyPool={accountEntropyPool}
+        backupKey={backupKey}
+        backupKeyHash={backupKeyHash}
         backupFreeMediaDays={backupFreeMediaDays}
-        backupKeyViewed={backupKeyViewed}
         backupTier={backupTier}
         backupSubscriptionStatus={backupSubscriptionStatus}
         backupMediaDownloadStatus={backupMediaDownloadStatus}
@@ -2279,10 +2349,11 @@ export function Preferences({
         lastLocalBackup={lastLocalBackup}
         locale={resolvedLocale}
         localBackupFolder={localBackupFolder}
-        onBackupKeyViewedChange={onBackupKeyViewedChange}
+        onBackupKeyViewed={onBackupKeyViewed}
         openFileInFolder={openFileInFolder}
         osName={osName}
         pickLocalBackupFolder={pickLocalBackupFolder}
+        previouslyViewedBackupKeyHash={previouslyViewedBackupKeyHash}
         disableLocalBackups={disableLocalBackups}
         settingsLocation={settingsLocation}
         promptOSAuth={promptOSAuth}
@@ -2333,6 +2404,20 @@ export function Preferences({
             }
             cqsTestMode={cqsTestMode}
             setCqsTestMode={setCqsTestMode}
+            dredDuration={dredDuration}
+            setDredDuration={setDredDuration}
+            setIsDirectVp9Enabled={setIsDirectVp9Enabled}
+            isDirectVp9Enabled={isDirectVp9Enabled}
+            setDirectMaxBitrate={setDirectMaxBitrate}
+            directMaxBitrate={directMaxBitrate}
+            setIsGroupVp9Enabled={setIsGroupVp9Enabled}
+            isGroupVp9Enabled={isGroupVp9Enabled}
+            setGroupMaxBitrate={setGroupMaxBitrate}
+            groupMaxBitrate={groupMaxBitrate}
+            sfuUrl={sfuUrl}
+            setSfuUrl={setSfuUrl}
+            forceKeyTransparencyCheck={forceKeyTransparencyCheck}
+            keyTransparencySelfHealth={keyTransparencySelfHealth}
           />
         }
         contentsRef={settingsPaneRef}
@@ -2342,7 +2427,6 @@ export function Preferences({
   }
   return (
     <FunEmojiLocalizationProvider i18n={i18n}>
-      <div className="module-title-bar-drag-area" />
       <div className="Preferences">
         <NavSidebar
           title={i18n('icu:Preferences--header')}
@@ -2583,6 +2667,7 @@ export function Preferences({
         </NavSidebar>
         {content}
       </div>
+      <TitlebarDragArea />
     </FunEmojiLocalizationProvider>
   );
 }

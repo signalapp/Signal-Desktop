@@ -4,20 +4,20 @@
 import type { ReactNode } from 'react';
 import React, { useState, useCallback } from 'react';
 
-import type { LocalizerType } from '../types/Util.std.js';
-import type { ShowToastAction } from '../state/ducks/toast.preload.js';
-import { ContextMenu } from './ContextMenu.dom.js';
-import { ToastType } from '../types/Toast.dom.js';
+import type { LocalizerType } from '../types/Util.std.ts';
+import type { ShowToastAction } from '../state/ducks/toast.preload.ts';
+import { ContextMenu } from './ContextMenu.dom.tsx';
+import { ToastType } from '../types/Toast.dom.tsx';
 import {
   isVideoGoodForStories,
   ReasonVideoNotGood,
-} from '../util/isVideoGoodForStories.std.js';
-import { ConfirmationDialog } from './ConfirmationDialog.dom.js';
+} from '../util/isVideoGoodForStories.std.ts';
+import { ConfirmationDialog } from './ConfirmationDialog.dom.tsx';
 
 export type PropsType = {
   children?: ReactNode;
   i18n: LocalizerType;
-  maxAttachmentSizeInKb: number;
+  maxAttachmentVideoSize: number;
   moduleClassName?: string;
   onAddStory: (file?: File) => unknown;
   onContextMenuShowingChanged?: (value: boolean) => void;
@@ -27,7 +27,7 @@ export type PropsType = {
 export function StoriesAddStoryButton({
   children,
   i18n,
-  maxAttachmentSizeInKb,
+  maxAttachmentVideoSize,
   moduleClassName,
   onAddStory,
   showToast,
@@ -47,7 +47,7 @@ export function StoriesAddStoryButton({
       }
 
       const result = await isVideoGoodForStories(file, {
-        maxAttachmentSizeInKb,
+        maxAttachmentVideoSize,
       });
 
       if (
@@ -85,7 +85,7 @@ export function StoriesAddStoryButton({
       onAddStory(file);
     };
     input.click();
-  }, [setError, showToast, i18n, maxAttachmentSizeInKb, onAddStory]);
+  }, [setError, showToast, i18n, maxAttachmentVideoSize, onAddStory]);
 
   return (
     <>

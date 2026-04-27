@@ -1,8 +1,6 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* eslint-disable max-classes-per-file */
-
 import { assert } from 'chai';
 import * as sinon from 'sinon';
 import EventEmitter, { once } from 'node:events';
@@ -10,21 +8,21 @@ import { z } from 'zod';
 import lodash from 'lodash';
 import { v4 as uuid } from 'uuid';
 import PQueue from 'p-queue';
-import { JobError } from '../../jobs/JobError.std.js';
-import { TestJobQueueStore } from './TestJobQueueStore.node.js';
-import { missingCaseError } from '../../util/missingCaseError.std.js';
-import { drop } from '../../util/drop.std.js';
-import type { LoggerType } from '../../types/Logging.std.js';
+import { JobError } from '../../jobs/JobError.std.ts';
+import { TestJobQueueStore } from './TestJobQueueStore.node.ts';
+import { missingCaseError } from '../../util/missingCaseError.std.ts';
+import { drop } from '../../util/drop.std.ts';
+import type { LoggerType } from '../../types/Logging.std.ts';
 
-import type { JOB_STATUS } from '../../jobs/JobQueue.std.js';
-import { JobQueue } from '../../jobs/JobQueue.std.js';
+import type { JOB_STATUS } from '../../jobs/JobQueue.std.ts';
+import { JobQueue } from '../../jobs/JobQueue.std.ts';
 import type {
   ParsedJob,
   StoredJob,
   JobQueueStore,
-} from '../../jobs/types.std.js';
-import { sleep } from '../../util/sleep.std.js';
-import { parseUnknown } from '../../util/schemas.std.js';
+} from '../../jobs/types.std.ts';
+import { sleep } from '../../util/sleep.std.ts';
+import { parseUnknown } from '../../util/schemas.std.ts';
 
 const { noop, groupBy } = lodash;
 
@@ -91,6 +89,7 @@ describe('JobQueue', () => {
         maxActive = Math.max(activeJobCount, maxActive);
       };
 
+      // oxlint-disable-next-line max-classes-per-file
       class Queue extends JobQueue<number> {
         parseData(data: unknown): number {
           return parseUnknown(z.number(), data);
@@ -530,10 +529,14 @@ describe('JobQueue', () => {
 
       drop(queue.streamJobs());
 
+      // oxlint-disable-next-line promise/prefer-await-to-then
       (await queue.add('invalid')).completion.catch(noop);
+      // oxlint-disable-next-line promise/prefer-await-to-then
       (await queue.add('invalid')).completion.catch(noop);
       await queue.add('valid');
+      // oxlint-disable-next-line promise/prefer-await-to-then
       (await queue.add('invalid')).completion.catch(noop);
+      // oxlint-disable-next-line promise/prefer-await-to-then
       (await queue.add('invalid')).completion.catch(noop);
 
       sinon.assert.calledOnce(run);
@@ -668,7 +671,7 @@ describe('JobQueue', () => {
 
       store.pauseStream('test queue');
       const job = await queue.add(undefined);
-      // eslint-disable-next-line more/no-then
+      // oxlint-disable-next-line promise/prefer-await-to-then, signal-desktop/no-then
       const jobCompletionPromise = job.completion.then(() => {
         events.push('resolved');
       });
@@ -710,6 +713,7 @@ describe('JobQueue', () => {
 
       store.pauseStream('test queue');
       const job = await queue.add(undefined);
+      // oxlint-disable-next-line promise/prefer-await-to-then
       const jobCompletionPromise = job.completion.catch(() => {
         events.push('rejected');
       });
@@ -740,11 +744,12 @@ describe('JobQueue', () => {
     });
 
     class FakeStream implements AsyncIterable<StoredJob> {
-      #eventEmitter = new EventEmitter();
+      readonly #eventEmitter = new EventEmitter();
 
       async *[Symbol.asyncIterator]() {
+        // oxlint-disable-next-line no-constant-condition
         while (true) {
-          // eslint-disable-next-line no-await-in-loop
+          // oxlint-disable-next-line no-await-in-loop
           const [job] = await once(this.#eventEmitter, 'drip');
           yield parseUnknown(storedJobSchema, job as unknown);
         }
@@ -869,7 +874,7 @@ describe('JobQueue', () => {
 
       await noopQueue.add(undefined);
 
-      sinon.assert.notCalled(fakeStore.stream as sinon.SinonStub);
+      sinon.assert.notCalled(fakeStore.stream);
     });
   });
 });

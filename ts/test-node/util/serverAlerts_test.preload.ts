@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import { getServerAlertToShow } from '../../util/handleServerAlerts.preload.js';
-import { ServerAlert } from '../../types/ServerAlert.std.js';
-import { DAY, MONTH, WEEK } from '../../util/durations/index.std.js';
+import { getServerAlertToShow } from '../../util/handleServerAlerts.preload.ts';
+import { ServerAlert } from '../../types/ServerAlert.std.ts';
+import { DAY, MONTH, WEEK } from '../../util/durations/index.std.ts';
 
 describe('serverAlerts', () => {
   it('should prefer critical alerts', () => {

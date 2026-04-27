@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { useContext, createContext, useEffect, useRef } from 'react';
-import { createLogger } from '../logging/log.std.js';
+import { createLogger } from '../logging/log.std.ts';
 
 const log = createLogger('useScrollLock');
 

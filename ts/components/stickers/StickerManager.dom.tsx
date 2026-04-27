@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { StickerManagerPackRow } from './StickerManagerPackRow.dom.js';
-import { StickerPreviewModal } from './StickerPreviewModal.dom.js';
-import type { LocalizerType } from '../../types/Util.std.js';
-import type { StickerPackType } from '../../state/ducks/stickers.preload.js';
-import { Tabs } from '../Tabs.dom.js';
+import { StickerManagerPackRow } from './StickerManagerPackRow.dom.tsx';
+import { StickerPreviewModal } from './StickerPreviewModal.dom.tsx';
+import type { LocalizerType } from '../../types/Util.std.ts';
+import type { StickerPackType } from '../../state/ducks/stickers.preload.ts';
+import { Tabs } from '../Tabs.dom.tsx';
 
 export type OwnProps = {
   readonly blessedPacks: ReadonlyArray<StickerPackType>;
@@ -70,7 +70,7 @@ export const StickerManager = React.memo(function StickerManagerInner({
       }
     });
     // We only want to attempt downloads on initial load
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // oxlint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const clearPackToPreview = React.useCallback(() => {

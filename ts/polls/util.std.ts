@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { omit } from 'lodash';
-import type { MessagePollVoteType } from '../types/Polls.dom.js';
-import { isSent } from '../messages/MessageSendState.std.js';
-import type { SendStateByConversationId } from '../messages/MessageSendState.std.js';
+import type { MessagePollVoteType } from '../types/Polls.dom.ts';
+import { isSent } from '../messages/MessageSendState.std.ts';
+import type { SendStateByConversationId } from '../messages/MessageSendState.std.ts';
 
 export function* getUnsentConversationIds(
   pollVote: Readonly<Pick<MessagePollVoteType, 'sendStateByConversationId'>>
@@ -17,7 +17,7 @@ export function* getUnsentConversationIds(
   }
 }
 
-export function isOutgoingPollVoteCompletelyUnsent(
+function isOutgoingPollVoteCompletelyUnsent(
   pollVote: Readonly<Pick<MessagePollVoteType, 'sendStateByConversationId'>>
 ): boolean {
   if (!pollVote.sendStateByConversationId) {

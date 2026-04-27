@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 
-import { isConversationNameKnown } from '../../util/isConversationNameKnown.std.js';
+import { isConversationNameKnown } from '../../util/isConversationNameKnown.std.ts';
 
 describe('isConversationNameKnown', () => {
   describe('for direct conversations', () => {

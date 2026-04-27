@@ -2,12 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import type { LocalizerType, ThemeType } from '../types/Util.std.js';
-import type { ConversationType } from '../state/ducks/conversations.preload.js';
-import type { PreferredBadgeSelectorType } from '../state/selectors/badges.preload.js';
-import { GroupDialog } from './GroupDialog.dom.js';
-import { sortByTitle } from '../util/sortByTitle.std.js';
-import { missingCaseError } from '../util/missingCaseError.std.js';
+import type { LocalizerType, ThemeType } from '../types/Util.std.ts';
+import type { ConversationType } from '../state/ducks/conversations.preload.ts';
+import type { PreferredBadgeSelectorType } from '../state/selectors/badges.preload.ts';
+import { GroupDialog } from './GroupDialog.dom.tsx';
+import { sortByTitle } from '../util/sortByTitle.std.ts';
+import { missingCaseError } from '../util/missingCaseError.std.ts';
 
 export type DataPropsType = {
   readonly areWeInvited: boolean;
@@ -51,22 +51,16 @@ export const GroupV1MigrationDialog: React.FunctionComponent<PropsType> =
 
     let primaryButtonText: string;
     let onClickPrimaryButton: () => void;
-    let secondaryButtonProps:
-      | undefined
-      | {
-          secondaryButtonText: string;
-          onClickSecondaryButton: () => void;
-        };
+    let secondaryButtonText: string | undefined;
+    let onClickSecondaryButton: (() => void) | undefined;
     if (hasMigrated) {
       primaryButtonText = i18n('icu:Confirmation--confirm');
       onClickPrimaryButton = onClose;
     } else {
       primaryButtonText = i18n('icu:GroupV1--Migration--migrate');
       onClickPrimaryButton = onMigrate;
-      secondaryButtonProps = {
-        secondaryButtonText: i18n('icu:cancel'),
-        onClickSecondaryButton: onClose,
-      };
+      secondaryButtonText = i18n('icu:cancel');
+      onClickSecondaryButton = onClose;
     }
 
     return (
@@ -76,7 +70,8 @@ export const GroupV1MigrationDialog: React.FunctionComponent<PropsType> =
         onClose={onClose}
         primaryButtonText={primaryButtonText}
         title={title}
-        {...secondaryButtonProps}
+        secondaryButtonText={secondaryButtonText}
+        onClickSecondaryButton={onClickSecondaryButton}
       >
         <GroupDialog.Paragraph>
           {i18n('icu:GroupV1--Migration--info--summary')}

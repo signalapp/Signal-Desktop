@@ -1,8 +1,8 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { SIGNAL_ACI } from '../types/SignalConversation.std.js';
-import type { ServiceIdString } from '../types/ServiceId.std.js';
+import { SIGNAL_ACI } from '../types/SignalConversation.std.ts';
+import type { ServiceIdString } from '../types/ServiceId.std.ts';
 
 export function isSignalConversation(conversation: {
   id: string;

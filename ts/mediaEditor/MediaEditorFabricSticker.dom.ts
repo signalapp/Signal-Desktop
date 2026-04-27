@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { fabric } from 'fabric';
-import { loadImage } from '../util/loadImage.std.js';
-import { customFabricObjectControls } from './util/customFabricObjectControls.dom.js';
+import { loadImage } from '../util/loadImage.std.ts';
+import { customFabricObjectControls } from './util/customFabricObjectControls.dom.ts';
 
 export class MediaEditorFabricSticker extends fabric.Image {
   constructor(
@@ -25,8 +25,7 @@ export class MediaEditorFabricSticker extends fabric.Image {
   }
 
   static async fromObject(
-    // eslint-disable-next-line max-len
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
+    // oxlint-disable-next-line typescript/no-explicit-any, typescript/explicit-module-boundary-types
     options: any,
     callback: (_: MediaEditorFabricSticker | null, isError: boolean) => unknown
   ): Promise<void> {

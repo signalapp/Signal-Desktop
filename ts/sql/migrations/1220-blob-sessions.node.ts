@@ -3,16 +3,14 @@
 import assert from 'node:assert';
 import z from 'zod';
 import type { Database } from '@signalapp/sqlcipher';
-import type { LoggerType } from '../../types/Logging.std.js';
-import * as Errors from '../../types/errors.std.js';
+import type { LoggerType } from '../../types/Logging.std.ts';
+import * as Errors from '../../types/errors.std.ts';
 import {
   sessionRecordToProtobuf,
   sessionStructureToBytes,
-} from '../../util/sessionTranslation.node.js';
-import { getOwn } from '../../util/getOwn.std.js';
-import { missingCaseError } from '../../util/missingCaseError.std.js';
-
-export const version = 1220;
+} from '../../util/sessionTranslation.node.ts';
+import { getOwn } from '../../util/getOwn.std.ts';
+import { missingCaseError } from '../../util/missingCaseError.std.ts';
 
 const identityKeyMapSchema = z.record(
   z.string(),
@@ -177,7 +175,7 @@ export default function updateToSchemaVersion1220(
   let migrated = 0;
   let failed = 0;
 
-  // eslint-disable-next-line no-constant-condition
+  // oxlint-disable-next-line no-constant-condition
   while (true) {
     const rows: Array<PreviousSessionRowType> = getSessionsPage.all();
     if (rows.length === 0) {

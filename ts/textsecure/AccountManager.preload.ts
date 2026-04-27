@@ -9,7 +9,7 @@ import {
   BackupKey,
 } from '@signalapp/libsignal-client/dist/AccountKeys.js';
 
-import EventTarget from './EventTarget.std.js';
+import EventTarget from './EventTarget.std.ts';
 import {
   type UploadKeysType,
   type UploadKyberPreKeyType,
@@ -23,7 +23,7 @@ import {
   createAccount,
   linkDevice,
   authenticate,
-} from './WebAPI.preload.js';
+} from './WebAPI.preload.ts';
 import type {
   CompatPreKeyType,
   CompatSignedPreKeyType,
@@ -31,15 +31,15 @@ import type {
   KyberPreKeyType,
   PniKeyMaterialType,
 } from './Types.d.ts';
-import createTaskWithTimeout from './TaskWithTimeout.std.js';
-import * as Bytes from '../Bytes.std.js';
-import * as Errors from '../types/errors.std.js';
+import { runTaskWithTimeout } from './TaskWithTimeout.std.ts';
+import * as Bytes from '../Bytes.std.ts';
+import * as Errors from '../types/errors.std.ts';
 import {
   isTestEnvironment,
   isMockEnvironment,
   getEnvironment,
-} from '../environment.std.js';
-import { senderCertificateService } from '../services/senderCertificate.preload.js';
+} from '../environment.std.ts';
+import { senderCertificateService } from '../services/senderCertificate.preload.ts';
 import {
   decryptDeviceName,
   deriveStorageServiceKey,
@@ -49,53 +49,51 @@ import {
   getRandomBytes,
   decryptDeviceCreatedAt,
   encryptDeviceCreatedAt,
-} from '../Crypto.node.js';
+} from '../Crypto.node.ts';
 import {
   generateKeyPair,
   generateKyberPreKey,
   generatePreKey,
   generateSignedPreKey,
-} from '../Curve.node.js';
+} from '../Curve.node.ts';
 import type {
   AciString,
   PniString,
   ServiceIdString,
-} from '../types/ServiceId.std.js';
+} from '../types/ServiceId.std.ts';
 import {
   isUntaggedPniString,
   normalizePni,
   ServiceIdKind,
   toTaggedPni,
-} from '../types/ServiceId.std.js';
-import { normalizeAci } from '../util/normalizeAci.std.js';
-import { drop } from '../util/drop.std.js';
-import { isMoreRecentThan, isOlderThan } from '../util/timestamp.std.js';
-import { ourProfileKeyService } from '../services/ourProfileKey.std.js';
-import { strictAssert } from '../util/assert.std.js';
-import { getRegionCodeForNumber } from '../util/libphonenumberUtil.std.js';
-import { isNotNil } from '../util/isNotNil.std.js';
-import { missingCaseError } from '../util/missingCaseError.std.js';
-import { SignalService as Proto } from '../protobuf/index.std.js';
-import { createLogger } from '../logging/log.std.js';
+} from '../types/ServiceId.std.ts';
+import { normalizeAci } from '../util/normalizeAci.std.ts';
+import { drop } from '../util/drop.std.ts';
+import { isMoreRecentThan, isOlderThan } from '../util/timestamp.std.ts';
+import { ourProfileKeyService } from '../services/ourProfileKey.std.ts';
+import { strictAssert } from '../util/assert.std.ts';
+import { getRegionCodeForNumber } from '../util/libphonenumberUtil.std.ts';
+import { isNotNil } from '../util/isNotNil.std.ts';
+import { missingCaseError } from '../util/missingCaseError.std.ts';
+import { SignalService as Proto } from '../protobuf/index.std.ts';
+import { createLogger } from '../logging/log.std.ts';
 import type { StorageAccessType } from '../types/Storage.d.ts';
-import { getRelativePath, createName } from '../util/attachmentPath.node.js';
-import { isLinkAndSyncEnabled } from '../util/isLinkAndSyncEnabled.preload.js';
-import { getMessageQueueTime } from '../util/getMessageQueueTime.dom.js';
-import { canAttemptRemoteBackupDownload } from '../util/isBackupEnabled.preload.js';
-import { signalProtocolStore } from '../SignalProtocolStore.preload.js';
-import { itemStorage } from './Storage.preload.js';
-import { deriveAccessKeyFromProfileKey } from '../util/zkgroup.node.js';
-import { wrappingAdd24 } from '../util/wrappingAdd.std.js';
-import { everDone as registrationEverDone } from '../util/registration.preload.js';
-import { isAciString } from '../util/isAciString.std.js';
+import { getRelativePath, createName } from '../util/attachmentPath.node.ts';
+import { isLinkAndSyncEnabled } from '../util/isLinkAndSyncEnabled.preload.ts';
+import { getMessageQueueTime } from '../util/getMessageQueueTime.dom.ts';
+import { canAttemptRemoteBackupDownload } from '../util/isBackupEnabled.preload.ts';
+import { signalProtocolStore } from '../SignalProtocolStore.preload.ts';
+import { itemStorage } from './Storage.preload.ts';
+import { deriveAccessKeyFromProfileKey } from '../util/zkgroup.node.ts';
+import { wrappingAdd24 } from '../util/wrappingAdd.std.ts';
+import { everDone as registrationEverDone } from '../util/registration.preload.ts';
+import { isAciString } from '../util/isAciString.std.ts';
 
 const { isNumber, omit, orderBy } = lodash;
 
 const log = createLogger('AccountManager');
 
-type StorageKeyByServiceIdKind = {
-  [kind in ServiceIdKind]: keyof StorageAccessType;
-};
+type StorageKeyByServiceIdKind = Record<ServiceIdKind, keyof StorageAccessType>;
 
 const DAY = 24 * 60 * 60 * 1000;
 
@@ -103,45 +101,45 @@ const PROFILE_KEY_LENGTH = 32;
 const MASTER_KEY_LENGTH = 32;
 const KEY_TOO_OLD_THRESHOLD = 14 * DAY;
 
-export const KYBER_KEY_ID_KEY: StorageKeyByServiceIdKind = {
+export const KYBER_KEY_ID_KEY = {
   [ServiceIdKind.ACI]: 'maxKyberPreKeyId',
   [ServiceIdKind.Unknown]: 'maxKyberPreKeyId',
   [ServiceIdKind.PNI]: 'maxKyberPreKeyIdPNI',
-};
+} as const satisfies StorageKeyByServiceIdKind;
 
 const LAST_RESORT_KEY_ROTATION_AGE = DAY * 1.5;
 const LAST_RESORT_KEY_MINIMUM = 5;
-const LAST_RESORT_KEY_UPDATE_TIME_KEY: StorageKeyByServiceIdKind = {
+const LAST_RESORT_KEY_UPDATE_TIME_KEY = {
   [ServiceIdKind.ACI]: 'lastResortKeyUpdateTime',
   [ServiceIdKind.Unknown]: 'lastResortKeyUpdateTime',
   [ServiceIdKind.PNI]: 'lastResortKeyUpdateTimePNI',
-};
+} as const satisfies StorageKeyByServiceIdKind;
 
 const PRE_KEY_ARCHIVE_AGE = 90 * DAY;
 // Use 20 keys for mock tests which is above the minimum, but takes much less
 // time to generate and store in the database (especially for PQ keys)
 const PRE_KEY_GEN_BATCH_SIZE = isMockEnvironment() ? 20 : 100;
 const PRE_KEY_MAX_COUNT = 200;
-const PRE_KEY_ID_KEY: StorageKeyByServiceIdKind = {
+const PRE_KEY_ID_KEY = {
   [ServiceIdKind.ACI]: 'maxPreKeyId',
   [ServiceIdKind.Unknown]: 'maxPreKeyId',
   [ServiceIdKind.PNI]: 'maxPreKeyIdPNI',
-};
+} as const satisfies StorageKeyByServiceIdKind;
 const PRE_KEY_MINIMUM = 10;
 
-export const SIGNED_PRE_KEY_ID_KEY: StorageKeyByServiceIdKind = {
+export const SIGNED_PRE_KEY_ID_KEY = {
   [ServiceIdKind.ACI]: 'signedKeyId',
   [ServiceIdKind.Unknown]: 'signedKeyId',
   [ServiceIdKind.PNI]: 'signedKeyIdPNI',
-};
+} as const satisfies StorageKeyByServiceIdKind;
 
 const SIGNED_PRE_KEY_ROTATION_AGE = DAY * 1.5;
 const SIGNED_PRE_KEY_MINIMUM = 5;
-const SIGNED_PRE_KEY_UPDATE_TIME_KEY: StorageKeyByServiceIdKind = {
+const SIGNED_PRE_KEY_UPDATE_TIME_KEY = {
   [ServiceIdKind.ACI]: 'signedKeyUpdateTime',
   [ServiceIdKind.Unknown]: 'signedKeyUpdateTime',
   [ServiceIdKind.PNI]: 'signedKeyUpdateTimePNI',
-};
+} as const satisfies StorageKeyByServiceIdKind;
 
 export enum AccountType {
   Primary = 'Primary',
@@ -210,7 +208,7 @@ function getNextKeyId(
     return 1;
   }
 
-  // eslint-disable-next-line no-bitwise
+  // oxlint-disable-next-line no-bitwise
   return Buffer.from(getRandomBytes(4)).readUint32LE(0) & 0xffffff;
 }
 
@@ -255,6 +253,7 @@ export type ConfirmNumberResultType = Readonly<{
   backupFile: Uint8Array<ArrayBuffer> | undefined;
 }>;
 
+/** @testexport */
 export default class AccountManager extends EventTarget {
   pending: Promise<void>;
 
@@ -268,9 +267,10 @@ export default class AccountManager extends EventTarget {
 
   async #queueTask<T>(task: () => Promise<T>): Promise<T> {
     this.pendingQueue = this.pendingQueue || new PQueue({ concurrency: 1 });
-    const taskWithTimeout = createTaskWithTimeout(task, 'AccountManager task');
 
-    return this.pendingQueue.add(taskWithTimeout);
+    return this.pendingQueue.add(() =>
+      runTaskWithTimeout(task, 'AccountManager task')
+    );
   }
 
   encryptDeviceName(
@@ -685,7 +685,7 @@ export default class AccountManager extends EventTarget {
       );
     }
 
-    const key = await generateSignedPreKey(identityKey, signedKeyId);
+    const key = generateSignedPreKey(identityKey, signedKeyId);
     log.info(`${logId}: Saving new signed prekey`, key.keyId);
 
     await itemStorage.put(
@@ -704,7 +704,7 @@ export default class AccountManager extends EventTarget {
     const identityKey = this.#getIdentityKeyOrThrow(ourServiceId);
     const logId = `AccountManager.maybeUpdateSignedPreKey(${serviceIdKind}, ${ourServiceId})`;
 
-    const keys = await signalProtocolStore.loadSignedPreKeys(ourServiceId);
+    const keys = signalProtocolStore.loadSignedPreKeys(ourServiceId);
     const sortedKeys = orderBy(keys, ['created_at'], ['desc']);
     const confirmedKeys = sortedKeys.filter(key => key.confirmed);
     const mostRecent = confirmedKeys[0];
@@ -757,7 +757,7 @@ export default class AccountManager extends EventTarget {
     }
 
     const keyId = kyberKeyId;
-    const record = await generateKyberPreKey(identityKey, keyId);
+    const record = generateKyberPreKey(identityKey, keyId);
     log.info(`${logId}: Saving new last resort prekey`, keyId);
 
     await itemStorage.put(
@@ -1303,7 +1303,7 @@ export default class AccountManager extends EventTarget {
       Bytes.toBase64(deriveStorageServiceKey(derivedMasterKey))
     );
 
-    await itemStorage.put('read-receipt-setting', Boolean(readReceipts));
+    await itemStorage.put('read-receipt-setting', readReceipts);
 
     const regionCode = getRegionCodeForNumber(number);
     await itemStorage.put('regionCode', regionCode);

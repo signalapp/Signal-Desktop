@@ -4,14 +4,14 @@
 import lodash from 'lodash';
 import type { ReadonlyDeep } from 'type-fest';
 
-import { strictAssert } from './assert.std.js';
+import { strictAssert } from './assert.std.ts';
 
 import type {
   EditHistoryType,
   MessageAttributesType,
   ReadonlyMessageAttributesType,
 } from '../model-types.d.ts';
-import type { LoggerType } from '../types/Logging.std.js';
+import type { LoggerType } from '../types/Logging.std.ts';
 
 const { isNumber, sortBy } = lodash;
 
@@ -41,12 +41,12 @@ export function getTargetOfThisEditTimestamp({
 
   // We want the second-to-last item, because we may have partially sent targetTimestamp
   if (length > 1) {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    // oxlint-disable-next-line typescript/no-non-null-assertion
     return mostRecent[length - 2]!.timestamp;
   }
   // If there's only one item, we'll use it
   if (length > 0) {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    // oxlint-disable-next-line typescript/no-non-null-assertion
     return mostRecent[length - 1]!.timestamp;
   }
 

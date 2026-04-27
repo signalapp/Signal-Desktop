@@ -4,13 +4,13 @@
 import React from 'react';
 import type { ReactNode } from 'react';
 
-import { missingCaseError } from '../util/missingCaseError.std.js';
-import { donationErrorTypeSchema } from '../types/Donations.std.js';
+import { missingCaseError } from '../util/missingCaseError.std.ts';
+import { donationErrorTypeSchema } from '../types/Donations.std.ts';
 
-import type { LocalizerType } from '../types/Util.std.js';
-import type { DonationErrorType } from '../types/Donations.std.js';
-import { Button } from './Button.dom.js';
-import { Modal } from './Modal.dom.js';
+import type { LocalizerType } from '../types/Util.std.ts';
+import type { DonationErrorType } from '../types/Donations.std.ts';
+import { Button } from './Button.dom.tsx';
+import { Modal } from './Modal.dom.tsx';
 
 export type PropsType = {
   i18n: LocalizerType;
@@ -25,37 +25,37 @@ export function DonationErrorModal(props: PropsType): React.JSX.Element {
   let body: ReactNode;
 
   switch (props.errorType) {
-    case donationErrorTypeSchema.Enum.Failed3dsValidation: {
+    case donationErrorTypeSchema.enum.Failed3dsValidation: {
       title = i18n('icu:Donations__Failed3dsValidation');
       body = i18n('icu:Donations__Failed3dsValidation__Description');
       break;
     }
-    case donationErrorTypeSchema.Enum.GeneralError: {
+    case donationErrorTypeSchema.enum.GeneralError: {
       title = i18n('icu:Donations__GenericError');
       body = i18n('icu:Donations__GenericError__Description');
       break;
     }
-    case donationErrorTypeSchema.Enum.PaymentDeclined: {
+    case donationErrorTypeSchema.enum.PaymentDeclined: {
       title = i18n('icu:Donations__PaymentMethodDeclined');
       body = i18n('icu:Donations__PaymentMethodDeclined__Description');
       break;
     }
-    case donationErrorTypeSchema.Enum.PaypalCanceled: {
+    case donationErrorTypeSchema.enum.PaypalCanceled: {
       title = i18n('icu:Donations__PaypalCanceled');
       body = i18n('icu:Donations__PaypalCanceled__Description');
       break;
     }
-    case donationErrorTypeSchema.Enum.PaypalError: {
+    case donationErrorTypeSchema.enum.PaypalError: {
       title = i18n('icu:Donations__PaypalError');
       body = i18n('icu:Donations__PaypalError__Description');
       break;
     }
-    case donationErrorTypeSchema.Enum.TimedOut: {
+    case donationErrorTypeSchema.enum.TimedOut: {
       title = i18n('icu:Donations__TimedOut');
       body = i18n('icu:Donations__TimedOut__Description');
       break;
     }
-    case donationErrorTypeSchema.Enum.BadgeApplicationFailed: {
+    case donationErrorTypeSchema.enum.BadgeApplicationFailed: {
       title = i18n('icu:Donations__BadgeApplicationFailed__Title');
       body = i18n('icu:Donations__BadgeApplicationFailed__Description');
       break;

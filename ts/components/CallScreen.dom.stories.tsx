@@ -11,32 +11,32 @@ import type {
   ActiveGroupCallType,
   GroupCallRemoteParticipantType,
   ObservedRemoteMuteType,
-} from '../types/Calling.std.js';
+} from '../types/Calling.std.ts';
 import {
   CallViewMode,
   CallState,
   GroupCallConnectionState,
   GroupCallJoinState,
-} from '../types/Calling.std.js';
-import { CallMode } from '../types/CallDisposition.std.js';
-import { generateAci } from '../types/ServiceId.std.js';
-import type { AciString } from '../types/ServiceId.std.js';
-import type { ConversationType } from '../state/ducks/conversations.preload.js';
-import { AvatarColors } from '../types/Colors.std.js';
-import type { PropsType } from './CallScreen.dom.js';
-import { CallScreen as UnwrappedCallScreen } from './CallScreen.dom.js';
-import { DEFAULT_PREFERRED_REACTION_EMOJI } from '../reactions/constants.std.js';
-import { missingCaseError } from '../util/missingCaseError.std.js';
+} from '../types/Calling.std.ts';
+import { CallMode } from '../types/CallDisposition.std.ts';
+import type { AciString } from '../types/ServiceId.std.ts';
+import type { ConversationType } from '../state/ducks/conversations.preload.ts';
+import { AvatarColors } from '../types/Colors.std.ts';
+import type { PropsType } from './CallScreen.dom.tsx';
+import { CallScreen as UnwrappedCallScreen } from './CallScreen.dom.tsx';
+import { DEFAULT_PREFERRED_REACTION_EMOJI } from '../reactions/constants.std.ts';
+import { missingCaseError } from '../util/missingCaseError.std.ts';
 import {
   getAvatarPath,
   getDefaultConversation,
   getDefaultConversationWithServiceId,
-} from '../test-helpers/getDefaultConversation.std.js';
-import { fakeGetGroupCallVideoFrameSource } from '../test-helpers/fakeGetGroupCallVideoFrameSource.std.js';
-import { CallingToastProvider, useCallingToasts } from './CallingToast.dom.js';
-import type { CallingImageDataCache } from './CallManager.dom.js';
-import { MINUTE } from '../util/durations/index.std.js';
-import { strictAssert } from '../util/assert.std.js';
+} from '../test-helpers/getDefaultConversation.std.ts';
+import { fakeGetGroupCallVideoFrameSource } from '../test-helpers/fakeGetGroupCallVideoFrameSource.std.ts';
+import { CallingToastProvider, useCallingToasts } from './CallingToast.dom.tsx';
+import type { CallingImageDataCache } from './CallManager.dom.tsx';
+import { MINUTE } from '../util/durations/index.std.ts';
+import { strictAssert } from '../util/assert.std.ts';
+import { generateAci } from '../test-helpers/serviceIdUtils.std.ts';
 
 const { sample, shuffle, times } = lodash;
 
@@ -753,11 +753,9 @@ function useMakeEveryoneTalk(
         Math.random() * call.remoteParticipants.length
       );
 
-      const demuxIdToStartSpeaking = (
-        call.remoteParticipants[
-          idxToStartSpeaking
-        ] as GroupCallRemoteParticipantType
-      ).demuxId;
+      const demuxIdToStartSpeaking =
+        // oxlint-disable-next-line typescript/no-non-null-assertion
+        call.remoteParticipants[idxToStartSpeaking]!.demuxId;
 
       const remoteAudioLevels = new Map();
 
@@ -776,9 +774,7 @@ function useMakeEveryoneTalk(
             hasRemoteAudio:
               idx === idxToStartSpeaking ? true : part.hasRemoteAudio,
             speakerTime:
-              idx === idxToStartSpeaking
-                ? Date.now()
-                : (part as GroupCallRemoteParticipantType).speakerTime,
+              idx === idxToStartSpeaking ? Date.now() : part.speakerTime,
           };
         }),
         remoteAudioLevels,
@@ -899,7 +895,8 @@ function useReactionsEmitter({
           {
             timestamp: timeNow,
             demuxId,
-            value: sample(emojis) as string,
+            // oxlint-disable-next-line typescript/no-non-null-assertion
+            value: sample(emojis)!,
           },
         ];
 

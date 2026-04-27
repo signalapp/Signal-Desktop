@@ -5,15 +5,15 @@ import type { Meta, StoryFn } from '@storybook/react';
 import React from 'react';
 
 import { action } from '@storybook/addon-actions';
-import type { PropsType } from './StoryCreator.dom.js';
-import { StoryCreator } from './StoryCreator.dom.js';
-import { fakeAttachment } from '../test-helpers/fakeAttachment.std.js';
+import type { PropsType } from './StoryCreator.dom.tsx';
+import { StoryCreator } from './StoryCreator.dom.tsx';
+import { fakeAttachment } from '../test-helpers/fakeAttachment.std.ts';
 import {
   getDefaultConversation,
   getDefaultGroup,
-} from '../test-helpers/getDefaultConversation.std.js';
-import { getFakeDistributionListsWithMembers } from '../test-helpers/getFakeDistributionLists.std.js';
-import { EmojiSkinTone } from './fun/data/emojis.std.js';
+} from '../test-helpers/getDefaultConversation.std.ts';
+import { getFakeDistributionListsWithMembers } from '../test-helpers/getFakeDistributionLists.std.ts';
+import { EmojiSkinTone } from './fun/data/emojis.std.ts';
 
 const { i18n } = window.SignalContext;
 
@@ -51,7 +51,6 @@ export default {
   },
 } satisfies Meta<PropsType>;
 
-// eslint-disable-next-line react/function-component-definition
 const Template: StoryFn<PropsType> = args => <StoryCreator {...args} />;
 
 export const Default = Template.bind({});

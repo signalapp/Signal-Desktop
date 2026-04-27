@@ -11,7 +11,7 @@ const EXTERNALS = new Set(builtinModules);
 EXTERNALS.delete('buffer');
 EXTERNALS.delete('url');
 
-const config: StorybookConfig = {
+const storybookConfig: StorybookConfig = {
   typescript: {
     reactDocgen: false,
   },
@@ -44,62 +44,71 @@ const config: StorybookConfig = {
     { from: '../images', to: 'images' },
     { from: '../fixtures', to: 'fixtures' },
     {
-      from: '../node_modules/emoji-datasource-apple/img',
-      to: 'node_modules/emoji-datasource-apple/img',
-    },
-    {
       from: '../node_modules/intl-tel-input/build/img',
       to: 'node_modules/intl-tel-input/build/img',
     },
   ],
 
-  webpackFinal(config) {
-    config.cache = {
+  webpackFinal(webpackConfig) {
+    // oxlint-disable-next-line no-param-reassign
+    webpackConfig.cache = {
       type: 'filesystem',
     };
 
-    config.resolve!.extensionAlias = {
+    // oxlint-disable-next-line no-param-reassign, typescript/no-non-null-assertion
+    webpackConfig.resolve!.extensionAlias = {
       '.js': ['.tsx', '.ts', '.js'],
     };
 
-    config.module!.rules!.unshift({
+    // oxlint-disable-next-line typescript/no-non-null-assertion
+    webpackConfig.module!.rules!.unshift({
       test: /\.scss$/,
       use: [
-        { loader: 'style-loader' },
-        { loader: 'css-loader', options: { modules: false, url: false } },
-        { loader: 'sass-loader' },
+        { loader: require.resolve('style-loader') },
+        {
+          loader: require.resolve('css-loader'),
+          options: { modules: false, url: false },
+        },
+        {
+          loader: require.resolve('sass-loader'),
+          options: {
+            additionalData: '$is-storybook: true;',
+          },
+        },
       ],
     });
 
-    config.module!.rules!.unshift({
+    // oxlint-disable-next-line typescript/no-non-null-assertion
+    webpackConfig.module!.rules!.unshift({
       test: /\.css$/,
       use: [
         // prevent storybook defaults from being applied
       ],
     });
 
-    config.module!.rules!.push({
+    // oxlint-disable-next-line typescript/no-non-null-assertion
+    webpackConfig.module!.rules!.push({
       test: /tailwind-config\.css$/,
       use: [
         {
-          loader: 'postcss-loader',
+          loader: require.resolve('postcss-loader'),
           options: {
             postcssOptions: {
               config: false,
-              plugins: {
-                '@tailwindcss/postcss': {},
-              },
+              plugins: [require.resolve('@tailwindcss/postcss')],
             },
           },
         },
       ],
     });
 
-    config.node = { global: true };
+    // oxlint-disable-next-line no-param-reassign
+    webpackConfig.node = { global: true };
 
-    config.externals = ({ request }, callback) => {
+    // oxlint-disable-next-line no-param-reassign
+    webpackConfig.externals = ({ request }, callback) => {
       if (
-        (/^node:/.test(request) && request !== 'node:buffer') ||
+        (request.startsWith('node:') && request !== 'node:buffer') ||
         EXTERNALS.has(request)
       ) {
         // Keep Node.js imports unchanged
@@ -108,16 +117,17 @@ const config: StorybookConfig = {
       callback();
     };
 
-    config.plugins!.push(
+    // oxlint-disable-next-line typescript/no-non-null-assertion
+    webpackConfig.plugins!.push(
       new ProvidePlugin({
         Buffer: ['buffer', 'Buffer'],
       })
     );
 
-    return config;
+    return webpackConfig;
   },
 
   docs: {},
 };
 
-export default config;
+export default storybookConfig;

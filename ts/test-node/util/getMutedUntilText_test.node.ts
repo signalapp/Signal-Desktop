@@ -3,9 +3,9 @@
 
 import { assert } from 'chai';
 import * as sinon from 'sinon';
-import i18n from './i18n.node.js';
+import i18n from './i18n.node.ts';
 
-import { getMutedUntilText } from '../../util/getMutedUntilText.std.js';
+import { getMutedUntilText } from '../../util/getMutedUntilText.std.ts';
 
 describe('getMutedUntilText', () => {
   let sandbox: sinon.SinonSandbox;

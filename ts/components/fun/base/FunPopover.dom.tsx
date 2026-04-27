@@ -6,7 +6,7 @@ import type { Placement } from 'react-aria';
 import { Dialog, Popover } from 'react-aria-components';
 import classNames from 'classnames';
 import { Tooltip } from 'radix-ui';
-import { ThemeType } from '../../../types/Util.std.js';
+import { ThemeType } from '../../../types/Util.std.ts';
 
 export type FunPopoverProps = Readonly<{
   placement?: Placement;
@@ -40,7 +40,7 @@ export function FunPopover(props: FunPopoverProps): React.JSX.Element {
   return (
     <Tooltip.Provider>
       {/* Prevents keyboard events from bubbling up outside of the popover */}
-      {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
+      {/* oxlint-disable-next-line jsx-a11y/no-static-element-interactions */}
       <div onKeyDown={handleKeyDown}>
         <Popover
           data-fun-overlay

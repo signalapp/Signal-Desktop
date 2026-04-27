@@ -7,17 +7,17 @@ import { useSelector } from 'react-redux';
 import type {
   DirectIncomingCall,
   GroupIncomingCall,
-} from '../../components/CallManager.dom.js';
-import { CallManager } from '../../components/CallManager.dom.js';
-import { isConversationTooBigToRing as getIsConversationTooBigToRing } from '../../conversations/isConversationTooBigToRing.dom.js';
-import { createLogger } from '../../logging/log.std.js';
-import { calling as callingService } from '../../services/calling.preload.js';
-import type { SetLocalPreviewContainerType } from '../../services/calling.preload.js';
+} from '../../components/CallManager.dom.tsx';
+import { CallManager } from '../../components/CallManager.dom.tsx';
+import { isConversationTooBigToRing as getIsConversationTooBigToRing } from '../../conversations/isConversationTooBigToRing.dom.ts';
+import { createLogger } from '../../logging/log.std.ts';
+import { calling as callingService } from '../../services/calling.preload.ts';
+import type { SetLocalPreviewContainerType } from '../../services/calling.preload.ts';
 import {
   bounceAppIconStart,
   bounceAppIconStop,
-} from '../../shims/bounceAppIcon.preload.js';
-import type { CallLinkType } from '../../types/CallLink.std.js';
+} from '../../shims/bounceAppIcon.preload.ts';
+import type { CallLinkType } from '../../types/CallLink.std.ts';
 import type {
   ActiveCallBaseType,
   ActiveCallType,
@@ -26,36 +26,36 @@ import type {
   CallingConversationType,
   ConversationsByDemuxIdType,
   GroupCallRemoteParticipantType,
-} from '../../types/Calling.std.js';
-import { CallState } from '../../types/Calling.std.js';
-import { CallMode } from '../../types/CallDisposition.std.js';
-import type { AciString } from '../../types/ServiceId.std.js';
-import { callLinkToConversation } from '../../util/callLinks.std.js';
-import { callingTones } from '../../util/callingTones.preload.js';
-import { missingCaseError } from '../../util/missingCaseError.std.js';
-import { useAudioPlayerActions } from '../ducks/audioPlayer.preload.js';
-import { getActiveCall, useCallingActions } from '../ducks/calling.preload.js';
-import type { ConversationType } from '../ducks/conversations.preload.js';
-import type { StateType } from '../reducer.preload.js';
-import { getHasInitialLoadCompleted } from '../selectors/app.std.js';
+} from '../../types/Calling.std.ts';
+import { CallState } from '../../types/Calling.std.ts';
+import { CallMode } from '../../types/CallDisposition.std.ts';
+import type { AciString } from '../../types/ServiceId.std.ts';
+import { callLinkToConversation } from '../../util/callLinks.std.ts';
+import { callingTones } from '../../util/callingTones.preload.ts';
+import { missingCaseError } from '../../util/missingCaseError.std.ts';
+import { useAudioPlayerActions } from '../ducks/audioPlayer.preload.ts';
+import { getActiveCall, useCallingActions } from '../ducks/calling.preload.ts';
+import type { ConversationType } from '../ducks/conversations.preload.ts';
+import type { StateType } from '../reducer.preload.ts';
+import { getHasInitialLoadCompleted } from '../selectors/app.std.ts';
 import {
   getActiveCallState,
   getAvailableCameras,
   getCallLinkSelector,
   getRingingCall,
-} from '../selectors/calling.std.js';
+} from '../selectors/calling.std.ts';
 import {
   getConversationSelector,
   getMe,
-} from '../selectors/conversations.dom.js';
-import { getIntl, getUserACI } from '../selectors/user.std.js';
-import { SmartCallingDeviceSelection } from './CallingDeviceSelection.preload.js';
-import { renderReactionPicker } from './renderReactionPicker.dom.js';
-import { isSharingPhoneNumberWithEverybody as getIsSharingPhoneNumberWithEverybody } from '../../util/phoneNumberSharingMode.preload.js';
-import { useGlobalModalActions } from '../ducks/globalModals.preload.js';
-import { isLonelyGroup } from '../ducks/callingHelpers.std.js';
-import { getActiveProfile } from '../selectors/notificationProfiles.dom.js';
-import { isOnline as isWebAPIOnline } from '../../textsecure/WebAPI.preload.js';
+} from '../selectors/conversations.dom.ts';
+import { getIntl, getUserACI } from '../selectors/user.std.ts';
+import { SmartCallingDeviceSelection } from './CallingDeviceSelection.preload.tsx';
+import { renderReactionPicker } from './renderReactionPicker.dom.tsx';
+import { isSharingPhoneNumberWithEverybody as getIsSharingPhoneNumberWithEverybody } from '../../util/phoneNumberSharingMode.preload.ts';
+import { useGlobalModalActions } from '../ducks/globalModals.preload.ts';
+import { isLonelyGroup } from '../ducks/callingHelpers.std.ts';
+import { getActiveProfile } from '../selectors/notificationProfiles.dom.ts';
+import { isOnline as isWebAPIOnline } from '../../textsecure/WebAPI.preload.ts';
 
 const { memoize } = lodash;
 
@@ -179,7 +179,7 @@ const mapStateToActiveCallProp = (
       const pendingParticipants: Array<ConversationType> = [];
       const conversationsByDemuxId: ConversationsByDemuxIdType = new Map();
       const { localDemuxId } = call;
-      const raisedHands: Set<number> = new Set(call.raisedHands ?? []);
+      const raisedHands = new Set<number>(call.raisedHands ?? []);
 
       const { memberships = [] } = conversation;
 

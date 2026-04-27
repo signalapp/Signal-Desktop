@@ -1004,6 +1004,10 @@
     "messageformat": "Sorry, the selected file exceeds message size restrictions. {limit, number}{units}",
     "description": "Shown in a toast if the user tries to attach too-large file"
   },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit, number}{units}",
+    "description": "Shown in a toast if the user tries to attach too-large video file"
+  },
   "icu:unableToLoadAttachment": {
     "messageformat": "Unable to load selected attachment."
   },
@@ -2378,6 +2382,14 @@
     "messageformat": "Cancel",
     "description": "Preferences > Edit Chat Folder Page > Cancel Button"
   },
+  "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
+    "messageformat": "Show status icon",
+    "description": "Preferences > Privacy Page > Show Status Icon Checkbox > Label"
+  },
+  "icu:Preferences__PrivacyPage__ShowStatusIcon__Description": {
+    "messageformat": "Show an icon in message details when they were delivered using sealed sender.",
+    "description": "Preferences > Privacy Page > Show Status Icon Checkbox > Description"
+  },
   "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
     "messageformat": "Automatic key verification",
     "description": "Preferences > Privacy Page > Key Transparency Checkbox > Label"
@@ -3152,6 +3164,10 @@
     "messageformat": "Support Center",
     "description": "Label for the support center link in conversation details"
   },
+  "icu:ConversationDetails__GroupTerminatedBanner": {
+    "messageformat": "This group has ended",
+    "description": "Conversation Header banner in conversation details for terminated groups"
+  },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "View Safety Number",
     "description": "In conversation, safety number change notification, label for button to view safety number, opens safety number modal"
@@ -3383,6 +3399,34 @@
   "icu:youUpdatedTheGroup": {
     "messageformat": "You updated the group.",
     "description": "Shown in the conversation history when you update a group"
+  },
+  "icu:collapsedGroupUpdates": {
+    "messageformat": "{count, plural, one {# group update} other {# group updates}}",
+    "description": "Label for a button giving access to a collection of group updates (count will always be 2+"
+  },
+  "icu:multidayCollapse__container": {
+    "messageformat": "{containerDescription} · {dayCountSummary}",
+    "description": "For collapsed multiday sets, this is how the overall summary will be combined with the day count summary."
+  },
+  "icu:multidayCollapse__dayCountSummary": {
+    "messageformat": "{dayCount, plural, one {# day} other {# days}}",
+    "description": "Will be appended to the end of the other collapse strings. dayCount will always be 2+"
+  },
+  "icu:collapsedChatUpdates": {
+    "messageformat": "{count, plural, one {# chat update} other {# chat updates}}",
+    "description": "Label for a button giving access to a collection of chat updates (only in 1:1 conversations, count will always be 2+)"
+  },
+  "icu:collapsedTimerChanges": {
+    "messageformat": "{count, plural, one {# disappearing timer change} other {# disappearing message timer changes}} · {endingState}",
+    "description": "Label for a button giving access to a collection of timer updates, also showing the ending state of the timer - like '15 minutes' (count will always be 2+)"
+  },
+  "icu:collapsedTimerChanges--disabled": {
+    "messageformat": "{count, plural, one {# disappearing timer change} other {# disappearing message timer changes}} · Disabled",
+    "description": "Label for a button giving access to a collection of timer updates when the final state of the timer is 'Disabled' (count will always be 2+)"
+  },
+  "icu:collapsedCallEvents": {
+    "messageformat": "{count, plural, one {# call event} other {# call events}}",
+    "description": "Label for button giving access to a collection of call events (count will always be 2+)"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "Group avatar was updated.",
@@ -4000,8 +4044,8 @@
     "messageformat": "You already viewed this message.",
     "description": "Shown when user clicks on an expired incoming view-once bubble"
   },
-  "icu:Message--tap-to-view--outgoing--expired-toast": {
-    "messageformat": "View-once messages are not stored in your chat history.",
+  "icu:Message--tap-to-view--outgoing--expired-toast-2": {
+    "messageformat": "View-once media is deleted after sending",
     "description": "Shown when user clicks on an expired outgoing view-once bubble"
   },
   "icu:Message--tap-to-view--video": {
@@ -4614,7 +4658,7 @@
   },
   "icu:ConversationHero--review-carefully": {
     "messageformat": "Review carefully",
-    "description": "Label shown in conversation hero to advise users to review the conversation carefully"
+    "description": "(Deleted 2026/04/26) Label shown in conversation hero to advise users to review the conversation carefully"
   },
   "icu:ConversationHero--group-names": {
     "messageformat": "<clickable>Group names</clickable> are not verified",
@@ -4624,9 +4668,21 @@
     "messageformat": "<clickable>Profile names</clickable> are not verified",
     "description": "Label for profile names in the name verification warning in conversation hero"
   },
+  "icu:ConversationHero--name-not-verified": {
+    "messageformat": "Name not verified",
+    "description": "Label for profile names and group names in the name verification warning in conversation hero"
+  },
   "icu:ConversationHero--signal-official-chat": {
     "messageformat": "This is the official and only chat from Signal",
     "description": "Text indicating that this is the official Signal conversation"
+  },
+  "icu:ConversationHero--signal-official-account": {
+    "messageformat": "Official account",
+    "description": "Text indicating that this is the official Signal conversation"
+  },
+  "icu:ConversationHero--signal-official-account--description": {
+    "messageformat": "The only official chat from Signal. Keep up to date with news and release notes.",
+    "description": "Description text at the top of the official Signal conversation"
   },
   "icu:ConversationHero--release-notes": {
     "messageformat": "Keep up to date with news and release notes.",
@@ -5000,10 +5056,6 @@
     "messageformat": "Share call link via Signal",
     "description": "Menu item in the in-call info popup for call link calls. Clicking the item opens the sharing dialog where you can send the call link to your Signal contacts or groups."
   },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "Remove this person from the call",
-    "description": "(Deleted 2026/03/11) Button in the in-call info popup for call link calls showing all participants. The action is to remove the participant from the call."
-  },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "Remove {name} from the call?",
     "description": "Info text in confirmation dialog when removing or blocking someone from an ongoing call for a call link."
@@ -5220,6 +5272,10 @@
     "messageformat": "Your request to join has been sent to the group admin. You’ll be notified when they take action.",
     "description": "Shown in composition area when you've requested to join a group"
   },
+  "icu:GroupV2--join--group-terminated": {
+    "messageformat": "Unable to join this group.",
+    "description": "Shown if you click a group link for a group which was terminated"
+  },
   "icu:GroupV2--join--general-join-failure--title": {
     "messageformat": "Link Error",
     "description": "Shown if something went wrong when you try to join via a group link"
@@ -5227,6 +5283,18 @@
   "icu:GroupV2--join--general-join-failure": {
     "messageformat": "Couldn't join group. Try again later.",
     "description": "Shown if something went wrong when you try to join via a group link"
+  },
+  "icu:GroupV2--terminate-group-in-progress": {
+    "messageformat": "Ending group...",
+    "description": "Shown while waiting for a group terminate request to finish"
+  },
+  "icu:TerminateGroupFailedModal__description": {
+    "messageformat": "Couldn't end the group. Check your connection and try again.",
+    "description": "Shown when a group terminate request failed"
+  },
+  "icu:TerminateGroupFailedModal__try-again": {
+    "messageformat": "Try again",
+    "description": "Shown when a group terminate request failed"
   },
   "icu:GroupV2--admin": {
     "messageformat": "Admin",
@@ -5816,6 +5884,18 @@
     "messageformat": "This group's members or settings have changed.",
     "description": "When rejoining a group, any detected changes are collapsed down into this summary"
   },
+  "icu:GroupV2--terminated--you": {
+    "messageformat": "You ended the group",
+    "description": "Shown in timeline or conversation preview when group is terminated by you"
+  },
+  "icu:GroupV2--terminated--other": {
+    "messageformat": "{memberName} ended the group",
+    "description": "Shown in timeline or conversation preview when group is terminated by someone else"
+  },
+  "icu:GroupV2--terminated--unknown": {
+    "messageformat": "This group has ended",
+    "description": "Shown in timeline or conversation preview when group is terminated"
+  },
   "icu:GroupV1--Migration--disabled--link": {
     "messageformat": "Upgrade this group to activate new features like @mentions and admins. Members who have not shared their name or photo in this group will be invited to join. <learnMoreLink>Learn more.</learnMoreLink>",
     "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1)."
@@ -6184,6 +6264,10 @@
     "messageformat": "Replace",
     "description": "Composition Area > GIF Picker > After selecting a GIF > When you already have an attachment > Confirm Dialog > Replace Button"
   },
+  "icu:CompositionArea--group-terminated": {
+    "messageformat": "You can't send messages because the group has ended.",
+    "description": "Shown instead of message composer when group is terminated"
+  },
   "icu:CompositionArea--viewOnceToggle": {
     "messageformat": "View once",
     "description": "Aria label for the view once toggle button in the composition input"
@@ -6420,6 +6504,10 @@
     "messageformat": "Leave group",
     "description": "This is a button to leave a group"
   },
+  "icu:ConversationDetailsActions--terminate-group": {
+    "messageformat": "End group",
+    "description": "This is a button to terminate a group permanently"
+  },
   "icu:ConversationDetailsActions--block-group": {
     "messageformat": "Block group",
     "description": "This is a button to block a group"
@@ -6427,6 +6515,22 @@
   "icu:ConversationDetailsActions--unblock-group": {
     "messageformat": "Unblock group",
     "description": "This is a button to unblock a group"
+  },
+  "icu:ConversationDetailsActions--report-spam": {
+    "messageformat": "Report spam",
+    "description": "This is a button to report spam"
+  },
+  "icu:ConversationDetailsActions--archive": {
+    "messageformat": "Archive chat",
+    "description": "This is a button to archive a chat"
+  },
+  "icu:ConversationDetailsActions--unarchive": {
+    "messageformat": "Unarchive chat",
+    "description": "This is a button to unarchive a chat"
+  },
+  "icu:ConversationDetailsActions--delete": {
+    "messageformat": "Delete chat",
+    "description": "This is a button to delete a chat"
   },
   "icu:ConversationDetailsActions--leave-group-must-choose-new-admin": {
     "messageformat": "Before you leave, you must choose at least one new admin for this group.",
@@ -6443,6 +6547,22 @@
   "icu:ConversationDetailsActions--leave-group-modal-confirm": {
     "messageformat": "Leave",
     "description": "This is the modal button to confirm leaving a group"
+  },
+  "icu:ConversationDetailsActions--prompt-terminate-group-modal-title": {
+    "messageformat": "End \"{groupName}\"?",
+    "description": "This is the modal title for confirming terminating a group"
+  },
+  "icu:ConversationDetailsActions--prompt-terminate-group-modal-content": {
+    "messageformat": "Members will no longer be able to send messages or start calls in the group. They will be notified that you ended the group, and will still have access to message history.",
+    "description": "This is the modal content for terminating a group. After this modal, a second confirmation modal will show."
+  },
+  "icu:ConversationDetailsActions--terminate-group-modal-confirm": {
+    "messageformat": "End group",
+    "description": "This is the modal button to confirm terminating a group"
+  },
+  "icu:ConversationDetailsActions--confirm-terminate-group-confirm-modal-content": {
+    "messageformat": "This will end the group permanently. Are you sure you want to proceed?",
+    "description": "This is the modal content for confirming terminating a group"
   },
   "icu:ConversationDetailsActions--unblock-group-modal-title": {
     "messageformat": "Unblock the \"{groupName}\" Group?",
@@ -6468,6 +6588,22 @@
     "messageformat": "Unblock",
     "description": "This is the modal button to confirm unblock of a group"
   },
+  "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
+    "messageformat": "Signal will be notified that this person may be sending spam. Signal can’t see the content of any chats.",
+    "description": "This is the modal content for confirming reporting a 1-1 chat as spam"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-group": {
+    "messageformat": "Signal will be notified that the person who invited you to this group may be sending spam. Signal can't see the content of any chats.",
+    "description": "This is the modal content for confirming reporting a group as spam"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
+    "messageformat": "Report spam",
+    "description": "This is the modal button to confirm reporting spam"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
+    "messageformat": "Report and block",
+    "description": "This is the modal button to confirm reporting spam and block"
+  },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {# member} other {# members}}",
     "description": "This is the number of members in a group"
@@ -6479,6 +6615,10 @@
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {# member} other {# members}}",
     "description": "The title of the membership list panel"
+  },
+  "icu:ConversationDetailsMembershipList--terminated-title": {
+    "messageformat": "{number, plural, one {# former member} other {# former members}}",
+    "description": "The title of the membership list panel for a terminated group"
   },
   "icu:ConversationDetailsMembershipList--add-members": {
     "messageformat": "Add members",
@@ -6903,6 +7043,10 @@
   },
   "icu:MessageRequestWarning__safety-tips": {
     "messageformat": "Safety Tips",
+    "description": "(Deleted 2026/04/26) Shown on the message request warning. Clicking this button will open a dialog with safety tips"
+  },
+  "icu:MessageRequestWarning__safety-tips-v2": {
+    "messageformat": "Safety tips",
     "description": "Shown on the message request warning. Clicking this button will open a dialog with safety tips"
   },
   "icu:ContactSpoofing__same-name--link": {
@@ -7704,6 +7848,18 @@
   },
   "icu:Preferences__link-previews--description": {
     "messageformat": "To change this setting, open the Signal app on your mobile device and navigate to Settings > Chats",
+    "description": "(Deleted 2026/04/26) Description for the generate link previews setting"
+  },
+  "icu:Preferences__link-previews--new-description": {
+    "messageformat": "Retrieve link previews directly from websites for messages you send.",
+    "description": "Description for the generate link previews setting"
+  },
+  "icu:Preferences__address-book-photos--title": {
+    "messageformat": "Use address book photos",
+    "description": "Title for the generate link previews setting"
+  },
+  "icu:Preferences__address-book-photos--description": {
+    "messageformat": "Display contact photos from your address book if available.",
     "description": "Description for the generate link previews setting"
   },
   "icu:Preferences__auto-convert-emoji--title": {
@@ -8286,61 +8442,61 @@
     "messageformat": "Done",
     "description": "Button to dismiss the backup key viewer, shown when reviewing your backup key for local on-device backups."
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "show your backup key",
-    "description": "Shown as part of an OS prompt with a final string like 'Signal Desktop is trying to show your backup key'"
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
+    "messageformat": "show your recovery key",
+    "description": "Shown as part of an OS prompt with a final string like 'Signal Desktop is trying to show your recovery (backup) key'"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "Verify your identity to view your backup key.",
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
+    "messageformat": "Verify your identity to view your recovery key.",
     "description": "Shown as the body text of an OS prompt with a title like \"Making sure it's you\""
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "View backup key",
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
+    "messageformat": "View recovery key",
     "description": "If linux system has pkcheck and we were able to install .policy files, this is the dialog header the user will see on the polkit prompt before showing the key"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "Authentication is required to view your backup key.",
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
+    "messageformat": "Authentication is required to view your recovery key.",
     "description": "If linux system has pkcheck and we were able to install .policy files, this is the dialog text the user will see on the polkit prompt before showing the key"
   },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Backup key text box",
-    "description": "ARIA label for the text box used to view or confirm the backup key for local message backups."
+  "icu:Preferences--local-backups-recovery-key-text-box": {
+    "messageformat": "Recovery key",
+    "description": "ARIA label for the text box used to view or confirm the recovery (backup) key for local message backups."
   },
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "Enter key",
     "description": "Placeholder text for the text box used to confirm the backup key for local message backups."
   },
-  "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "Record your backup key",
-    "description": "Title for viewing the backup key for local message backups."
+  "icu:Preferences--local-backups-record-recovery-key": {
+    "messageformat": "Record your recovery key",
+    "description": "Title for viewing the recovery (backup) key for local message backups."
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "This key is required to recover your account and data. Store this key somewhere safe. If you lose it, you won’t be able to recover your account. <learnMoreLink>Learn more.</learnMoreLink>",
-    "description": "Description for viewing the backup key for local message backups."
+    "description": "Description for viewing the recovery (backup) key for local message backups."
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "Confirm your backup key",
-    "description": "Title for confirming the backup key for local message backups by re-entering it into a text box."
+  "icu:Preferences--local-backups-confirm-recovery-key": {
+    "messageformat": "Confirm your recovery key",
+    "description": "Title for confirming the recovery (backup) key for local message backups by re-entering it into a text box."
   },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "Enter the backup key that you just recorded",
-    "description": "Description for confirming the backup key for local message backups by re-entering it into a text box."
+  "icu:Preferences--local-backups-confirm-recovery-key-description": {
+    "messageformat": "Enter the recovery key that you just recorded",
+    "description": "Description for confirming the recovery (backup) key for local message backups by re-entering it into a text box."
   },
   "icu:Preferences__local-backups-confirm-key-modal-title": {
     "messageformat": "Keep your key safe",
-    "description": "Title of modal shown after you confirmed the backup key for local on-device backups in settings"
+    "description": "Title of modal shown after you confirmed the recovery (backup) key for local on-device backups in settings"
   },
   "icu:Preferences__local-backups-confirm-key-modal-body": {
     "messageformat": "Signal will not be able to help you restore your backup if you lose your key. Store it somewhere safe and secure, and do not share it with others.",
-    "description": "Body text of modal shown after you confirmed the backup key for local on-device backups in settings"
+    "description": "Body text of modal shown after you confirmed the recovery (backup) key for local on-device backups in settings"
   },
   "icu:Preferences__local-backups-confirm-key-modal-continue": {
     "messageformat": "Continue",
-    "description": "Text of the primary button on modal shown after you confirmed the backup key for local on-device backups in settings"
+    "description": "Text of the primary button on modal shown after you confirmed the recovery (backup) key for local on-device backups in settings"
   },
   "icu:Preferences--local-backups-see-backup-key-again": {
     "messageformat": "See key again",
-    "description": "Link text to return to the previous backup key page, shown when confirming the backup key for local message backups."
+    "description": "Link text to return to the previous recovery key page, shown when confirming the recovery (backup) key for local message backups."
   },
   "icu:Preferences__local-backups-last-backup": {
     "messageformat": "Last backup",
@@ -8357,10 +8513,6 @@
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Backup folder",
     "description": "Label for current folder in which local on-device backups are stored."
-  },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "Change",
-    "description": "(Deleted 2026/03/11) Button to change the folder in which local on-device backups are stored."
   },
   "icu:Preferences__local-backups-turn-off": {
     "messageformat": "Turn off backups",
@@ -8380,10 +8532,10 @@
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Copy to clipboard",
-    "description": "Button label for copying the backup key to clipboard in the settings for local on-device backups"
+    "description": "Button label for copying the recovery (backup) key to clipboard in the settings for local on-device backups"
   },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "Backup key copied",
+  "icu:Preferences__local-backups-copied-recovery-key": {
+    "messageformat": "Recovery key copied",
     "description": "Toast message after you copied the backup key to clipboard from settings for local on-device backups"
   },
   "icu:Preferences__local-backups--enable--os-prompt--mac": {
@@ -8402,21 +8554,37 @@
     "messageformat": "Authentication is required to enable backups.",
     "description": "If linux system has pkcheck and we were able to install .policy files, this is the dialog text the user will see on the polkit prompt before enabling backups"
   },
+  "icu:Preferences__local-backups-auth-error--unauthorized": {
+    "messageformat": "This action could not be completed because system authentication failed. Please try again or open the Signal app on your mobile device and go to Backup Settings to view your recovery key.",
+    "description": "Error shown in local backups settings when system authentication fails while trying to view the recovery key."
+  },
   "icu:Preferences__view-key": {
     "messageformat": "View key",
     "description": "Button to view the backup key which is used to restore a message history backup"
   },
-  "icu:Preferences__backup-key": {
-    "messageformat": "Backup key",
+  "icu:Preferences__recovery-key": {
+    "messageformat": "Recovery key",
     "description": "Name for the key code used to restore a message history backup"
   },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "Your backup key is a 64-digit code used to restore your backup",
+  "icu:Preferences__recovery-key-description": {
+    "messageformat": "Your recovery key is a 64-character code used to restore your backup",
     "description": "Description for the key code used to restore a message history backup"
   },
   "icu:Preferences__backup-other-ways": {
     "messageformat": "Other ways to back up",
     "description": "Heading on the backups settings view for alternative backup methods such as on-device backups."
+  },
+  "icu:Preferences__recovery-key-updated__title": {
+    "messageformat": "Your recovery key has changed",
+    "description": "Title in modal warning the user that their recovery key (backup key) has been changed"
+  },
+  "icu:Preferences__recovery-key-updated__description": {
+    "messageformat": "Your recovery key has been updated. Any new backups you make can only be restored using your new recovery key.",
+    "description": "Text in modal warning the user that their recovery key (backup key) has been changed"
+  },
+  "icu:Preferences__recovery-key-updated__view-key": {
+    "messageformat": "View new key",
+    "description": "Button text to view the new updated recovery key"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {# contact} other {# contacts}}",
@@ -8424,7 +8592,7 @@
   },
   "icu:Preferences__privacy--description": {
     "messageformat": "To change these settings, open the Signal app on your mobile device and navigate to Settings > Privacy",
-    "description": "Description for the 'who can do X' setting"
+    "description": "(Deleted 2026/04/26) Description for the 'who can do X' setting"
   },
   "icu:Preferences__pnp__row--title": {
     "messageformat": "Phone Number",
@@ -8502,9 +8670,17 @@
     "messageformat": "Read receipts",
     "description": "Label for the read receipts setting"
   },
+  "icu:Preferences--read-receipts--description": {
+    "messageformat": "If disabled, you won't see read receipts from others.",
+    "description": "Description for the read receipts setting"
+  },
   "icu:Preferences--typing-indicators": {
     "messageformat": "Typing indicators",
     "description": "Label for the typing indicators setting"
+  },
+  "icu:Preferences--typing-indicators--description": {
+    "messageformat": "If disabled, you won't see typing indicators from others.",
+    "description": "Description for the typing indicators setting"
   },
   "icu:Preferences--updates": {
     "messageformat": "Updates",
@@ -8884,6 +9060,10 @@
     "messageformat": "Delete this story? It will also be deleted for everyone who received it.",
     "description": "Confirmation dialog description text for deleting a story"
   },
+  "icu:MyStories__delete-group-story-for-me": {
+    "messageformat": "Delete this story? It will only be deleted for you because the group has ended.",
+    "description": "Confirmation dialog description text for deleting a story"
+  },
   "icu:payment-event-notification-message-you-label": {
     "messageformat": "You started a payment to {receiver}",
     "description": "Payment event notification from you message bubble label"
@@ -9180,9 +9360,13 @@
     "messageformat": "View Receipts",
     "description": "Label of view receipts checkbox in story settings"
   },
+  "icu:StoriesSettings__view-receipts--new-description": {
+    "messageformat": "See and share when stories are viewed. If disabled, you won't see when others view your story.",
+    "description": "Label of view receipts checkbox in story settings"
+  },
   "icu:StoriesSettings__view-receipts--description": {
     "messageformat": "To change this setting, open the Signal app on your mobile device and navigate to Settings -> Stories",
-    "description": "Description of how view receipts can be changed in story settings"
+    "description": "(Deleted 2026/04/26) Description of how view receipts can be changed in story settings"
   },
   "icu:GroupStorySettingsModal__members_title": {
     "messageformat": "Who can view this story",
@@ -10034,15 +10218,31 @@
   },
   "icu:ProfileNameWarningModal__list--item1--direct": {
     "messageformat": "Profile names aren't verified",
-    "description": "First list item in profile name warning modal for direct conversations"
+    "description": "(Deleted 2026/04/26) First list item in profile name warning modal for direct conversations"
   },
   "icu:ProfileNameWarningModal__list--item2--direct": {
     "messageformat": "Be cautious of accounts that impersonate others",
-    "description": "Second list item in profile name warning modal for direct conversations"
+    "description": "(Deleted 2026/04/26) Second list item in profile name warning modal for direct conversations"
   },
   "icu:ProfileNameWarningModal__list--item3--direct": {
     "messageformat": "Don't share personal information with people you don't know",
+    "description": "(Deleted 2026/04/26) Third list item in profile name warning modal for direct conversations"
+  },
+  "icu:ProfileNameWarningModal__warning--signal-cant-verify": {
+    "messageformat": "Signal can’t verify names and photos",
+    "description": "List item in profile name warning modal for direct conversations"
+  },
+  "icu:ProfileNameWarningModal__warning--signal-wont-contact": {
+    "messageformat": "Signal will never contact you for your registration code, PIN, or recovery key",
+    "description": "List item in profile name warning modal for direct conversations"
+  },
+  "icu:ProfileNameWarningModal__warning--be-cautious": {
+    "messageformat": "Be cautious of accounts that impersonate others",
     "description": "Third list item in profile name warning modal for direct conversations"
+  },
+  "icu:ProfileNameWarningModal__warning--dont-share-info": {
+    "messageformat": "Don't share personal information with people you don't know",
+    "description": "List item in profile name warning modal for direct conversations"
   },
   "icu:ProfileNameWarningModal__description--group": {
     "messageformat": "Group names are chosen by members of the group.",
@@ -10658,21 +10858,5 @@
     "messageformat": "Small tweaks, bug fixes, and performance enhancements. Thanks for using Signal!",
     "description": "Release notes for releases that only include bug fixes",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__7.90--0": {
-    "messageformat": "Make privacy stick with five new official sticker packs in the Signal Artist Series: \"Chug the Mouse\" by Amanda Cotan, \"Cozy Season\" by Miguel Ángel Camprubí, \"Croco's Feelings\" by Tiffany Beucher, \"My Daily Life 2\" by Plastic Thing, and \"Rocky Talk\" by Lexi Vay.",
-    "description": "(Deleted 2026/02/18) Release notes for 7.90 release"
-  },
-  "icu:WhatsNew__8.0--0": {
-    "messageformat": "Signal secure backups are here! Now you can choose to enable automatic end-to-end encrypted backups so you'll never lose a message when you get a new phone or reinstall Signal. You can back up all of your messages and the last 45 days of media for free, or you can pay a small monthly fee to get 100 GB of storage to back up every attachment. Tap on backups in your Signal settings to get started. Thanks to everyone who helped test this feature during the beta period!",
-    "description": "(Deleted 2026/03/04) Release notes for 8.0 release"
-  },
-  "icu:WhatsNew__8.2--0": {
-    "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed.",
-    "description": "(Deleted 2026/03/11) Release notes for 8.2 release"
-  },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control whether or not they are enabled for everyone.",
-    "description": "Release notes for 8.3 release"
   }
 }

@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import moment from 'moment';
-import type { LocalizerType } from '../types/Util.std.js';
-import { isToday } from './timestamp.std.js';
+import type { LocalizerType } from '../types/Util.std.ts';
+import { isToday } from './timestamp.std.ts';
 
 /**
  * Returns something like "Muted until 6:09 PM", localized.
@@ -14,7 +14,7 @@ export function getMutedUntilText(
   muteExpiresAt: number,
   i18n: LocalizerType
 ): string {
-  if (Number(muteExpiresAt) >= Number.MAX_SAFE_INTEGER) {
+  if (muteExpiresAt >= Number.MAX_SAFE_INTEGER) {
     return i18n('icu:muteExpirationLabelAlways');
   }
 

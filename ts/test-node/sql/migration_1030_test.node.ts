@@ -3,10 +3,10 @@
 
 import { assert } from 'chai';
 import { v4 as generateGuid } from 'uuid';
-import { sql } from '../../sql/util.std.js';
-import { createDB, updateToVersion } from './helpers.node.js';
-import type { WritableDB, MessageType } from '../../sql/Interface.std.js';
-import { MessageRequestResponseEvent } from '../../types/MessageRequestResponseEvent.std.js';
+import { sql } from '../../sql/util.std.ts';
+import { createDB, updateToVersion } from './helpers.node.ts';
+import type { WritableDB, MessageType } from '../../sql/Interface.std.ts';
+import { MessageRequestResponseEvent } from '../../types/MessageRequestResponseEvent.std.ts';
 
 describe('SQL/updateToSchemaVersion1030', () => {
   let db: WritableDB;
@@ -74,7 +74,7 @@ describe('SQL/updateToSchemaVersion1030', () => {
     'conversation-merge',
     'group-v1-migration',
     'keychange',
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- legacy type
+    // oxlint-disable-next-line typescript/no-explicit-any -- legacy type
     'message-history-unsynced' as any,
     'profile-change',
     'story',

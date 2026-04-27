@@ -7,14 +7,9 @@ app/**/*.js
 config/local-*.json
 config/local.json
 dist/**
-js/components.js
-js/util_worker.js
 libtextsecure/components.js
-libtextsecure/test/test.js
 stylesheets/*.css
-test/test.js
 ts/**/*.js
-!ts/**/.eslintrc.js
 ts/protobuf/*.d.ts
 ts/protobuf/*.js
 stylesheets/manifest.css
@@ -33,10 +28,6 @@ packages/*/node_modules/**
 danger/node_modules/**
 sticker-creator/node_modules/**
 components/**
-js/curve/**
-js/Mp3LameEncoder.min.js
-js/WebAudioRecorderMp3.js
-js/calling-tools/**
 
 # Assets
 /images/

@@ -2,14 +2,13 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import PQueue from 'p-queue';
-import { MINUTE } from './durations/index.std.js';
-import { Sound, SoundType } from './Sound.std.js';
-import { itemStorage } from '../textsecure/Storage.preload.js';
+import { MINUTE } from './durations/index.std.ts';
+import { Sound, SoundType } from './Sound.std.ts';
+import { itemStorage } from '../textsecure/Storage.preload.ts';
 
 const ringtoneEventQueue = new PQueue({
   concurrency: 1,
   timeout: MINUTE * 30,
-  throwOnTimeout: true,
 });
 
 function getCallRingtoneNotificationSetting(): boolean {

@@ -13,53 +13,53 @@ import {
   isEmojiVariantValue,
   getEmojiVariantByKey,
   getEmojiVariantKeyByValue,
-} from './fun/data/emojis.std.js';
-import { FunStaticEmoji } from './fun/FunEmoji.dom.js';
-import { FunEmojiPicker } from './fun/FunEmojiPicker.dom.js';
-import { useFunEmojiLocalizer } from './fun/useFunEmojiLocalizer.dom.js';
-import { FunEmojiPickerButton } from './fun/FunButton.dom.js';
-import { tw } from '../axo/tw.dom.js';
-import { AxoButton } from '../axo/AxoButton.dom.js';
-import { AxoSelect } from '../axo/AxoSelect.dom.js';
-import { AxoSwitch } from '../axo/AxoSwitch.dom.js';
-import { AxoSymbol } from '../axo/AxoSymbol.dom.js';
-import { Input } from './Input.dom.js';
-import { Checkbox } from './Checkbox.dom.js';
-import { AvatarColorMap, AvatarColors } from '../types/Colors.std.js';
-import { PreferencesSelectChatsDialog } from './preferences/PreferencesSelectChatsDialog.dom.js';
+} from './fun/data/emojis.std.ts';
+import { FunStaticEmoji } from './fun/FunEmoji.dom.tsx';
+import { FunEmojiPicker } from './fun/FunEmojiPicker.dom.tsx';
+import { useFunEmojiLocalizer } from './fun/useFunEmojiLocalizer.dom.tsx';
+import { FunEmojiPickerButton } from './fun/FunButton.dom.tsx';
+import { tw } from '../axo/tw.dom.tsx';
+import { AxoButton } from '../axo/AxoButton.dom.tsx';
+import { AxoSelect } from '../axo/AxoSelect.dom.tsx';
+import { AxoSwitch } from '../axo/AxoSwitch.dom.tsx';
+import { AxoSymbol } from '../axo/AxoSymbol.dom.tsx';
+import { Input } from './Input.dom.tsx';
+import { Checkbox } from './Checkbox.dom.tsx';
+import { AvatarColorMap, AvatarColors } from '../types/Colors.std.ts';
+import { PreferencesSelectChatsDialog } from './preferences/PreferencesSelectChatsDialog.dom.tsx';
 import {
   DayOfWeek,
   getMidnight,
   scheduleToTime,
-} from '../types/NotificationProfile.std.js';
-import { Avatar } from './Avatar.dom.js';
-import { missingCaseError } from '../util/missingCaseError.std.js';
-import { formatTimestamp } from '../util/formatTimestamp.dom.js';
-import { strictAssert } from '../util/assert.std.js';
-import { ConfirmationDialog } from './ConfirmationDialog.dom.js';
-import { SettingsPage } from '../types/Nav.std.js';
-import { useConfirmDiscard } from '../hooks/useConfirmDiscard.dom.js';
-import { AriaClickable } from '../axo/AriaClickable.dom.js';
-import { offsetDistanceModifier } from '../util/popperUtil.std.js';
-import { themeClassName2 } from '../util/theme.std.js';
-import { useRefMerger } from '../hooks/useRefMerger.std.js';
-import { handleOutsideClick } from '../util/handleOutsideClick.dom.js';
-import { useEscapeHandling } from '../hooks/useEscapeHandling.dom.js';
-import { Modal } from './Modal.dom.js';
+} from '../types/NotificationProfile.std.ts';
+import { Avatar } from './Avatar.dom.tsx';
+import { missingCaseError } from '../util/missingCaseError.std.ts';
+import { formatTimestamp } from '../util/formatTimestamp.dom.ts';
+import { strictAssert } from '../util/assert.std.ts';
+import { ConfirmationDialog } from './ConfirmationDialog.dom.tsx';
+import { SettingsPage } from '../types/Nav.std.ts';
+import { useConfirmDiscard } from '../hooks/useConfirmDiscard.dom.tsx';
+import { AriaClickable } from '../axo/AriaClickable.dom.tsx';
+import { offsetDistanceModifier } from '../util/popperUtil.std.ts';
+import { themeClassName2 } from '../util/theme.std.ts';
+import { useRefMerger } from '../hooks/useRefMerger.std.ts';
+import { handleOutsideClick } from '../util/handleOutsideClick.dom.ts';
+import { useEscapeHandling } from '../hooks/useEscapeHandling.dom.ts';
+import { Modal } from './Modal.dom.tsx';
 
-import type { EmojiVariantKey } from './fun/data/emojis.std.js';
-import type { LocalizerType } from '../types/I18N.std.js';
-import type { ThemeType } from '../types/Util.std.js';
-import type { ConversationType } from '../state/ducks/conversations.preload.js';
-import type { GetConversationByIdType } from '../state/selectors/conversations.dom.js';
-import type { PreferredBadgeSelectorType } from '../state/selectors/badges.preload.js';
+import type { EmojiVariantKey } from './fun/data/emojis.std.ts';
+import type { LocalizerType } from '../types/I18N.std.ts';
+import type { ThemeType } from '../types/Util.std.ts';
+import type { ConversationType } from '../state/ducks/conversations.preload.ts';
+import type { GetConversationByIdType } from '../state/selectors/conversations.dom.ts';
+import type { PreferredBadgeSelectorType } from '../state/selectors/badges.preload.ts';
 import type {
   NotificationProfileIdString,
   NotificationProfileType,
   ScheduleDays,
-} from '../types/NotificationProfile.std.js';
-import type { SettingsLocation } from '../types/Nav.std.js';
-import { addLeadingZero } from '../util/timestamp.std.js';
+} from '../types/NotificationProfile.std.ts';
+import type { SettingsLocation } from '../types/Nav.std.ts';
+import { addLeadingZero } from '../util/timestamp.std.ts';
 
 enum CreateFlowPage {
   Name = 'Name',
@@ -243,7 +243,7 @@ const ARGB_BITS = 0xff000000;
 const A100_BACKGROUND_ARGB = 0xffe3e3fe;
 
 function getRandomColor(): number {
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  // oxlint-disable-next-line typescript/no-non-null-assertion
   const colorName = sample(AvatarColors) || AvatarColors[0]!;
   const color = AvatarColorMap.get(colorName);
   if (!color) {
@@ -256,7 +256,7 @@ function getRandomColor(): number {
   return argb;
 }
 
-export function getColorFromProfile(argb: number): string {
+function getColorFromProfile(argb: number): string {
   const rgb = argb - ARGB_BITS;
   return `#${rgb.toString(16)}`;
 }
@@ -1254,7 +1254,7 @@ function NotificationProfilesEditPage({
       <Container contentsRef={contentsRef}>
         <AriaClickable.Root
           className={tw(
-            'group mb-3 flex min-h-[80px] w-full items-center rounded-md border-[2.5px] border-transparent px-[11.5px] outline-none data-[focused]:border-color-label-light'
+            'group mb-3 flex min-h-[80px] w-full items-center rounded-md border-[2.5px] border-transparent px-[11.5px] outline-none data-focused:border-color-label-light'
           )}
         >
           <ProfileAvatar i18n={i18n} profile={profile} size="medium" />
@@ -1262,7 +1262,7 @@ function NotificationProfilesEditPage({
           <span
             id="edit-icon"
             className={tw(
-              'ms-2 opacity-0 group-hover:opacity-100 group-data-[focused]:opacity-100'
+              'ms-2 opacity-0 group-hover:opacity-100 group-data-focused:opacity-100'
             )}
           >
             <AxoSymbol.Icon
@@ -1589,7 +1589,7 @@ function EmojiOrMoon({
     return (
       <div
         className={tw(
-          'absolute start-1/2 top-1/2 -translate-1/2 text-color-label-primary'
+          'absolute inset-s-1/2 top-1/2 -translate-1/2 text-color-label-primary'
         )}
         style={
           forceLightTheme
@@ -1611,7 +1611,9 @@ function EmojiOrMoon({
   const emojiData = getEmojiVariantByKey(emoji);
 
   return (
-    <span className={tw('absolute start-1/2 top-1/2 -translate-1/2 leading-0')}>
+    <span
+      className={tw('absolute inset-s-1/2 top-1/2 -translate-1/2 leading-0')}
+    >
       <FunStaticEmoji
         role="img"
         aria-label={emojiLocalizer.getLocaleShortName(emojiData.key)}
@@ -2094,18 +2096,18 @@ function TimePicker({
               return <span />;
             }
             if (segment.type === 'literal') {
-              // eslint-disable-next-line no-param-reassign
+              // oxlint-disable-next-line no-param-reassign
               segment.text = i18n('icu:NotificationProfile--time-separator');
             }
             return (
               <DateSegment
                 className={classNames(
                   tw(
-                    'inline-block px-[1px] type-body-medium outline-none focus:bg-fill-selected'
+                    'inline-block px-px type-body-medium outline-none focus:bg-fill-selected'
                   ),
                   segment.type === 'literal' ? tw('px-[3px]') : null,
                   segment.type === 'dayPeriod' ? tw('ps-[2px]') : null,
-                  segment.type === 'hour' ? tw('flex-grow text-end') : null,
+                  segment.type === 'hour' ? tw('grow text-end') : null,
                   isDisabled ? tw('text-label-placeholder') : null
                 )}
                 segment={segment}

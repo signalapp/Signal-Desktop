@@ -2,24 +2,24 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import React, { memo, useCallback } from 'react';
 import { useSelector } from 'react-redux';
-import type { CompositionTextAreaProps } from '../../components/CompositionTextArea.dom.js';
-import { CompositionTextArea } from '../../components/CompositionTextArea.dom.js';
+import type { CompositionTextAreaProps } from '../../components/CompositionTextArea.dom.tsx';
+import { CompositionTextArea } from '../../components/CompositionTextArea.dom.tsx';
 import type {
   DraftBodyRanges,
   HydratedBodyRangesType,
-} from '../../types/BodyRange.std.js';
-import { hydrateRanges } from '../../util/BodyRange.node.js';
+} from '../../types/BodyRange.std.ts';
+import { hydrateRanges } from '../../util/BodyRange.node.ts';
 import {
   getIntl,
   getPlatform,
   getUserConversationId,
-} from '../selectors/user.std.js';
-import { useEmojisActions as useEmojiActions } from '../ducks/emojis.preload.js';
-import { useItemsActions } from '../ducks/items.preload.js';
-import { getPreferredBadgeSelector } from '../selectors/badges.preload.js';
-import { useComposerActions } from '../ducks/composer.preload.js';
-import { getTextFormattingEnabled } from '../selectors/items.dom.js';
-import { getConversationSelector } from '../selectors/conversations.dom.js';
+} from '../selectors/user.std.ts';
+import { useEmojisActions as useEmojiActions } from '../ducks/emojis.preload.ts';
+import { useItemsActions } from '../ducks/items.preload.ts';
+import { getPreferredBadgeSelector } from '../selectors/badges.preload.ts';
+import { useComposerActions } from '../ducks/composer.preload.ts';
+import { getTextFormattingEnabled } from '../selectors/items.dom.ts';
+import { getConversationSelector } from '../selectors/conversations.dom.ts';
 
 export type SmartCompositionTextAreaProps = Pick<
   CompositionTextAreaProps,

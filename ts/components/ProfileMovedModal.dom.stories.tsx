@@ -7,10 +7,10 @@ import { action } from '@storybook/addon-actions';
 import type { ComponentProps } from 'react';
 import type { Meta } from '@storybook/react';
 
-import { ProfileMovedModal } from './ProfileMovedModal.dom.js';
-import { ThemeType } from '../types/Util.std.js';
+import { ProfileMovedModal } from './ProfileMovedModal.dom.tsx';
+import { ThemeType } from '../types/Util.std.ts';
 
-import type { PropsType } from './ProfileMovedModal.dom.js';
+import type { PropsType } from './ProfileMovedModal.dom.tsx';
 
 const { i18n } = window.SignalContext;
 

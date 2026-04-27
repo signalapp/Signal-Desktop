@@ -4,40 +4,40 @@
 import memoizee from 'memoizee';
 import { createSelector } from 'reselect';
 
-import { deconstructLookup } from '../../util/deconstructLookup.std.js';
+import { deconstructLookup } from '../../util/deconstructLookup.std.ts';
 
-import type { StateType } from '../reducer.preload.js';
+import type { StateType } from '../reducer.preload.ts';
 
 import type {
   MessageSearchResultLookupType,
   MessageSearchResultType,
   SearchStateType,
-} from '../ducks/search.preload.js';
+} from '../ducks/search.preload.ts';
 import type {
   ConversationLookupType,
   ConversationType,
-} from '../ducks/conversations.preload.js';
+} from '../ducks/conversations.preload.ts';
 
-import type { LeftPaneSearchPropsType } from '../../components/leftPane/LeftPaneSearchHelper.dom.js';
-import type { PropsDataType as MessageSearchResultPropsDataType } from '../../components/conversationList/MessageSearchResult.dom.js';
+import type { LeftPaneSearchPropsType } from '../../components/leftPane/LeftPaneSearchHelper.dom.tsx';
+import type { PropsDataType as MessageSearchResultPropsDataType } from '../../components/conversationList/MessageSearchResult.dom.tsx';
 
-import { getIntl, getUserConversationId } from './user.std.js';
-import type { GetConversationByIdType } from './conversations.dom.js';
+import { getIntl, getUserConversationId } from './user.std.ts';
+import type { GetConversationByIdType } from './conversations.dom.ts';
 import {
   getConversationLookup,
   getConversationSelector,
-} from './conversations.dom.js';
+} from './conversations.dom.ts';
 
-import { hydrateRanges } from '../../util/BodyRange.node.js';
-import type { RawBodyRange } from '../../types/BodyRange.std.js';
-import { createLogger } from '../../logging/log.std.js';
-import { getOwn } from '../../util/getOwn.std.js';
-import type { MessageAttributesType } from '../../model-types.js';
-import { getSelectedConversationId } from './nav.std.js';
+import { hydrateRanges } from '../../util/BodyRange.node.ts';
+import type { RawBodyRange } from '../../types/BodyRange.std.ts';
+import { createLogger } from '../../logging/log.std.ts';
+import { getOwn } from '../../util/getOwn.std.ts';
+import type { MessageAttributesType } from '../../model-types.d.ts';
+import { getSelectedConversationId } from './nav.std.ts';
 
 const log = createLogger('search');
 
-export const getSearch = (state: StateType): SearchStateType => state.search;
+const getSearch = (state: StateType): SearchStateType => state.search;
 
 export const getFilterByUnread = createSelector(
   getSearch,
@@ -49,7 +49,7 @@ export const getQuery = createSelector(
   (state: SearchStateType): string => state.query
 );
 
-export const getSelectedMessage = createSelector(
+const getSelectedMessage = createSelector(
   getSearch,
   (state: SearchStateType): string | undefined => state.targetedMessage
 );
@@ -85,7 +85,7 @@ export const getSearchConversation = createSelector(
       : undefined
 );
 
-export const getSearchConversationName = createSelector(
+const getSearchConversationName = createSelector(
   getSearchConversation,
   getIntl,
   (conversation, i18n): undefined | string => {
@@ -112,7 +112,7 @@ export const getIsActivelySearching = createSelector(
     filterByUnread || hasSearchQuery
 );
 
-export const getMessageSearchResultLookup = createSelector(
+const getMessageSearchResultLookup = createSelector(
   getSearch,
   (state: SearchStateType) => state.messageLookup
 );
@@ -171,10 +171,7 @@ export const getSearchResults = createSelector(
       filterByUnread: state.filterByUnread,
     };
 
-    if (
-      state.filterByUnread &&
-      searchResults.conversationResults.isLoading === false
-    ) {
+    if (state.filterByUnread && !searchResults.conversationResults.isLoading) {
       searchResults.conversationResults.results =
         searchResults.conversationResults.results.map(conversation => {
           return {
@@ -215,7 +212,7 @@ function getSearchableTextAndBodyRanges(message: MessageAttributesType): {
     bodyRanges: message.bodyRanges,
   };
 }
-export const getCachedSelectorForMessageSearchResult = createSelector(
+const getCachedSelectorForMessageSearchResult = createSelector(
   getUserConversationId,
   getConversationSelector,
   (

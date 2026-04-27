@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { fabric } from 'fabric';
-import { customFabricObjectControls } from './util/customFabricObjectControls.dom.js';
-import { moreStyles } from './util/moreStyles.dom.js';
-import { getDateTimeFormatter } from '../util/formatTimestamp.dom.js';
+import { customFabricObjectControls } from './util/customFabricObjectControls.dom.ts';
+import { moreStyles } from './util/moreStyles.dom.ts';
+import { getDateTimeFormatter } from '../util/formatTimestamp.dom.ts';
 
 export enum DigitalClockStickerStyle {
   White = 'White',
@@ -138,8 +138,7 @@ export class MediaEditorFabricDigitalTimeSticker extends fabric.Group {
   }
 
   static override fromObject(
-    // eslint-disable-next-line max-len
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
+    // oxlint-disable-next-line typescript/no-explicit-any, typescript/explicit-module-boundary-types
     options: any,
     callback: (_: MediaEditorFabricDigitalTimeSticker) => unknown
   ): MediaEditorFabricDigitalTimeSticker {

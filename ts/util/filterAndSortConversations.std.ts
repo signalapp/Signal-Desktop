@@ -1,16 +1,16 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type Fuse from 'fuse.js';
-import type { ConversationType } from '../state/ducks/conversations.preload.js';
-import { parseAndFormatPhoneNumber } from './libphonenumberInstance.std.js';
-import { WEEK } from './durations/index.std.js';
-import { fuseGetFnRemoveDiacritics, getCachedFuseIndex } from './fuse.std.js';
-import type { UnreadStatsIncludeMuted } from './countUnreadStats.std.js';
-import { isConversationUnread } from './countUnreadStats.std.js';
-import { getE164 } from './getE164.std.js';
-import { removeDiacritics } from './removeDiacritics.std.js';
-import { isAciString } from './isAciString.std.js';
+import type { FuseResult, IFuseOptions } from 'fuse.js';
+import type { ConversationType } from '../state/ducks/conversations.preload.ts';
+import { parseAndFormatPhoneNumber } from './libphonenumberInstance.std.ts';
+import { WEEK } from './durations/index.std.ts';
+import { fuseGetFnRemoveDiacritics, getCachedFuseIndex } from './fuse.std.ts';
+import type { UnreadStatsIncludeMuted } from './countUnreadStats.std.ts';
+import { isConversationUnread } from './countUnreadStats.std.ts';
+import { getE164 } from './getE164.std.ts';
+import { removeDiacritics } from './removeDiacritics.std.ts';
+import { isAciString } from './isAciString.std.ts';
 
 // See: https://fusejs.io/api/options.html#includescore
 // 0 score is a perfect match, 1 - complete mismatch
@@ -18,7 +18,7 @@ const ACTIVE_AT_SCORE_FACTOR = (1 / WEEK) * 0.01;
 const ARCHIVED_PENALTY = 0.3;
 const LEFT_GROUP_PENALTY = 1;
 
-const FUSE_OPTIONS: Fuse.IFuseOptions<ConversationType> = {
+const FUSE_OPTIONS: IFuseOptions<ConversationType> = {
   // A small-but-nonzero threshold lets us match parts of E164s better, and makes the
   //   search a little more forgiving.
   threshold: 0.2,
@@ -40,6 +40,10 @@ const FUSE_OPTIONS: Fuse.IFuseOptions<ConversationType> = {
     },
     {
       name: 'name',
+      weight: 1,
+    },
+    {
+      name: 'profileName',
       weight: 1,
     },
     {
@@ -119,7 +123,7 @@ function searchConversations(
   conversations: ReadonlyArray<ConversationType>,
   searchTerm: string,
   regionCode: string | undefined
-): ReadonlyArray<Pick<Fuse.FuseResult<ConversationType>, 'item' | 'score'>> {
+): ReadonlyArray<Pick<FuseResult<ConversationType>, 'item' | 'score'>> {
   type CommandMatch = RegExpMatchArray & { 1: string; 2: string | undefined };
   const maybeCommand = searchTerm.match(/^!([^\s:]+)(?::(.*))?$/);
   if (maybeCommand) {
@@ -170,7 +174,7 @@ export function filterAndSortConversations(
   conversations: ReadonlyArray<ConversationType>,
   searchTerm: string,
   regionCode: string | undefined,
-  filterByUnread: boolean = false,
+  filterByUnread = false,
   conversationToInject?: ConversationType
 ): Array<ConversationType> {
   let filteredConversations = filterByUnread

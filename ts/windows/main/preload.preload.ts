@@ -1,20 +1,18 @@
 // Copyright 2017 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* eslint-disable global-require */
-
-import { createLogger } from '../../logging/log.std.js';
+import { createLogger } from '../../logging/log.std.ts';
 
 const log = createLogger('preload');
 
 window.preloadStartTime = Date.now();
 
 try {
-  require('./start.preload.js');
+  // oxlint-disable-next-line node/global-require
+  require('./start.preload.ts');
 } catch (error) {
-  /* eslint-disable no-console */
+  // oxlint-disable-next-line no-console
   console.log('preload error!', error.stack);
-  /* eslint-enable no-console */
   try {
     log.info('error!', error.stack);
   } catch {

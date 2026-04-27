@@ -3,10 +3,10 @@
 
 import { createSelector } from 'reselect';
 
-import { DialogType } from '../../types/Dialogs.std.js';
+import { DialogType } from '../../types/Dialogs.std.ts';
 
-import type { StateType } from '../reducer.preload.js';
-import type { UpdatesStateType } from '../ducks/updates.preload.js';
+import type { StateType } from '../reducer.preload.ts';
+import type { UpdatesStateType } from '../ducks/updates.preload.ts';
 
 export const getUpdatesState = (state: Readonly<StateType>): UpdatesStateType =>
   state.updates;
@@ -65,5 +65,5 @@ export const isOSUnsupported = createSelector(
 
 export const getHasPendingUpdate = createSelector(
   getUpdatesState,
-  ({ didSnooze }) => didSnooze === true
+  ({ didSnooze }) => didSnooze
 );

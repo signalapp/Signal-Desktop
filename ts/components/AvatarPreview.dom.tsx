@@ -5,14 +5,14 @@ import type { CSSProperties } from 'react';
 import React, { useEffect, useState } from 'react';
 import lodash from 'lodash';
 
-import { createLogger } from '../logging/log.std.js';
-import type { LocalizerType } from '../types/Util.std.js';
-import { Spinner } from './Spinner.dom.js';
-import type { AvatarColorType } from '../types/Colors.std.js';
-import { AvatarColors } from '../types/Colors.std.js';
-import { getInitials } from '../util/getInitials.std.js';
-import { imagePathToBytes } from '../util/imagePathToBytes.dom.js';
-import { type ConversationType } from '../state/ducks/conversations.preload.js';
+import { createLogger } from '../logging/log.std.ts';
+import type { LocalizerType } from '../types/Util.std.ts';
+import { Spinner } from './Spinner.dom.tsx';
+import type { AvatarColorType } from '../types/Colors.std.ts';
+import { AvatarColors } from '../types/Colors.std.ts';
+import { getInitials } from '../util/getInitials.std.ts';
+import { imagePathToBytes } from '../util/imagePathToBytes.dom.ts';
+import { type ConversationType } from '../state/ducks/conversations.preload.ts';
 
 const { noop } = lodash;
 

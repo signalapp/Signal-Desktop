@@ -11,26 +11,25 @@ import type {
   AttachmentWithHydratedData,
   BackupableAttachmentType,
   AttachmentDownloadableFromTransitTier,
-  LocallySavedAttachment,
   AttachmentReadyForLocalBackup,
-} from '../types/Attachment.std.js';
-import type { LoggerType } from '../types/Logging.std.js';
-import { createLogger } from '../logging/log.std.js';
-import * as MIME from '../types/MIME.std.js';
-import { SignalService } from '../protobuf/index.std.js';
+} from '../types/Attachment.std.ts';
+import type { LoggerType } from '../types/Logging.std.ts';
+import { createLogger } from '../logging/log.std.ts';
+import * as MIME from '../types/MIME.std.ts';
+import { SignalService } from '../protobuf/index.std.ts';
 import {
   isImageTypeSupported,
   isVideoTypeSupported,
-} from './GoogleChrome.std.js';
-import type { LocalizerType } from '../types/Util.std.js';
-import { ThemeType } from '../types/Util.std.js';
+} from './GoogleChrome.std.ts';
+import type { LocalizerType } from '../types/Util.std.ts';
+import { ThemeType } from '../types/Util.std.ts';
 import {
   isValidAttachmentKey,
   isValidDigest,
   isValidPlaintextHash,
-} from '../types/Crypto.std.js';
-import { missingCaseError } from './missingCaseError.std.js';
-import type { MessageAttachmentType } from '../types/AttachmentDownload.std.js';
+} from '../types/Crypto.std.ts';
+import { missingCaseError } from './missingCaseError.std.ts';
+import type { MessageAttachmentType } from '../types/AttachmentDownload.std.ts';
 
 const {
   isNumber,
@@ -76,7 +75,7 @@ const MAX_DISPLAYABLE_IMAGE_HEIGHT = 8192;
 // Returns true if `rawAttachment` is a valid attachment based on our current schema.
 // Over time, we can expand this definition to become more narrow, e.g. require certain
 // fields, etc.
-export function isValid(
+function isValid(
   rawAttachment?: Pick<AttachmentType, 'data' | 'path'>
 ): rawAttachment is AttachmentType {
   // NOTE: We cannot use `_.isPlainObject` because `rawAttachment` is
@@ -164,10 +163,6 @@ export function removeSchemaVersion({
   return omit(attachment, 'schemaVersion');
 }
 
-export function hasData(attachment: AttachmentType): boolean {
-  return attachment.data instanceof Uint8Array;
-}
-
 export function loadData(
   readAttachmentV2Data: (
     attachment: Partial<AddressableAttachmentType>
@@ -207,7 +202,7 @@ export function getExtensionForDisplay({
   fileName?: string;
   contentType: MIME.MIMEType;
 }): string | undefined {
-  if (fileName && fileName.indexOf('.') >= 0) {
+  if (fileName && fileName.includes('.')) {
     const lastPeriod = fileName.lastIndexOf('.');
     const extension = fileName.slice(lastPeriod + 1);
     if (extension.length) {
@@ -234,20 +229,6 @@ export function isAudio(attachments?: ReadonlyArray<AttachmentType>): boolean {
     attachments[0].contentType &&
     !attachments[0].isCorrupted &&
     MIME.isAudio(attachments[0].contentType)
-  );
-}
-
-export function canRenderAudio(
-  attachments?: ReadonlyArray<AttachmentType>
-): boolean {
-  const firstAttachment = attachments && attachments[0];
-  if (!firstAttachment) {
-    return false;
-  }
-
-  return (
-    isAudio(attachments) &&
-    (isDownloaded(firstAttachment) || isDownloadable(firstAttachment))
   );
 }
 
@@ -353,7 +334,7 @@ export function isGIF(attachments?: ReadonlyArray<AttachmentType>): boolean {
 
   const flag = SignalService.AttachmentPointer.Flags.GIF;
   const hasFlag =
-    // eslint-disable-next-line no-bitwise
+    // oxlint-disable-next-line no-bitwise
     !isUndefined(attachment?.flags) && (attachment.flags & flag) === flag;
 
   return hasFlag && isVideoAttachment(attachment);
@@ -412,14 +393,6 @@ export function isDownloading(attachment?: AttachmentType): boolean {
 export function hasFailed(attachment?: AttachmentType): boolean {
   const resolved = resolveNestedAttachment(attachment);
   return Boolean(resolved && resolved.error);
-}
-
-export function hasVideoBlurHash(
-  attachments?: ReadonlyArray<AttachmentType>
-): boolean {
-  const firstAttachment = attachments ? attachments[0] : null;
-
-  return Boolean(firstAttachment && firstAttachment.blurHash);
 }
 
 export function hasVideoScreenshot(
@@ -499,7 +472,7 @@ export function getGridDimensions(
   }
 
   if (attachments.length === 1) {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    // oxlint-disable-next-line typescript/no-non-null-assertion
     return getImageDimensionsForTimeline(attachments[0]!);
   }
 
@@ -569,10 +542,6 @@ export const isVisualMedia = (attachment: AttachmentType): boolean => {
 export const isFile = (attachment: AttachmentType): boolean => {
   const { contentType } = attachment;
 
-  if (isUndefined(contentType)) {
-    return false;
-  }
-
   if (isVisualMedia(attachment)) {
     return false;
   }
@@ -593,7 +562,7 @@ export const isVoiceMessage = (
 ): boolean => {
   const flag = SignalService.AttachmentPointer.Flags.VOICE_MESSAGE;
   const hasFlag =
-    // eslint-disable-next-line no-bitwise
+    // oxlint-disable-next-line no-bitwise
     !isUndefined(attachment.flags) && (attachment.flags & flag) === flag;
   if (hasFlag) {
     return true;
@@ -882,12 +851,6 @@ export function isDownloadable(attachment: AttachmentType): boolean {
   );
 }
 
-export function isAttachmentLocallySaved(
-  attachment: AttachmentType
-): attachment is LocallySavedAttachment {
-  return Boolean(attachment.path);
-}
-
 // We now partition out the bodyAttachment on receipt, but older
 // messages may still have a bodyAttachment in the normal attachments field
 export function partitionBodyAndNormalAttachments<
@@ -933,8 +896,8 @@ export function partitionBodyAndNormalAttachments<
   };
 }
 
-const MESSAGE_ATTACHMENT_TYPES_NEEDING_THUMBNAILS: Set<MessageAttachmentType> =
-  new Set(['attachment', 'sticker']);
+const MESSAGE_ATTACHMENT_TYPES_NEEDING_THUMBNAILS =
+  new Set<MessageAttachmentType>(['attachment', 'sticker']);
 
 export function shouldGenerateThumbnailForAttachmentType(
   type: MessageAttachmentType

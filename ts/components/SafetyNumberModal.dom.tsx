@@ -3,12 +3,12 @@
 
 import React from 'react';
 
-import { isSafetyNumberNotAvailable } from '../util/isSafetyNumberNotAvailable.std.js';
-import type { ConversationType } from '../state/ducks/conversations.preload.js';
-import type { LocalizerType } from '../types/Util.std.js';
-import { AxoDialog } from '../axo/AxoDialog.dom.js';
-import type { SafetyNumberProps as SafetyNumberViewerPropsType } from './SafetyNumberChangeDialog.dom.js';
-import { SafetyNumberNotReady } from './SafetyNumberNotReady.dom.js';
+import { isSafetyNumberNotAvailable } from '../util/isSafetyNumberNotAvailable.std.ts';
+import type { ConversationType } from '../state/ducks/conversations.preload.ts';
+import type { LocalizerType } from '../types/Util.std.ts';
+import { AxoDialog } from '../axo/AxoDialog.dom.tsx';
+import type { SafetyNumberProps as SafetyNumberViewerPropsType } from './SafetyNumberChangeDialog.dom.tsx';
+import { SafetyNumberNotReady } from './SafetyNumberNotReady.dom.tsx';
 
 export type PropsType = Readonly<{
   i18n: LocalizerType;

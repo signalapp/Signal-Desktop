@@ -1,5 +1,18 @@
 {
-  "include": ["ts/**/*", "app/**/*", "package.json", "build/intl-linter/**/*"],
+  "include": [
+    "ts/**/*",
+    "app/**/*",
+    "package.json",
+    "build/intl-linter/**/*.ts",
+    ".oxlint/**/*",
+    "scripts/**/*",
+    "codemods/**/*",
+    "test/test.mjs",
+    ".babelrc.mjs",
+    ".prettierrc.mjs",
+    ".stylelintrc.mjs",
+    "knip.js"
+  ],
   "compilerOptions": {
     /*
      * Visit https://aka.ms/tsconfig to read more about this file
@@ -60,11 +73,11 @@
      */
 
     /* Specify what module code is generated. */
-    "module": "ES2022",
+    "module": "ESNext",
     /* Specify the root folder within your source files. */
     "rootDir": "./",
     /* Specify how TypeScript looks up a file from a given module specifier. */
-    "moduleResolution": "Node",
+    "moduleResolution": "Bundler",
     /* Specify the base directory to resolve non-relative module names. */
     // "baseUrl": "./",
     /* Specify a set of entries that re-map imports to additional lookup locations. */
@@ -74,17 +87,17 @@
     /* Specify multiple folders that act like './node_modules/@types'. */
     // "typeRoots": [],
     /* Specify type package names to be included without being referenced in a source file. */
-    // "types": [],
+    "types": ["@types/dom-mediacapture-transform"],
     /* Allow accessing UMD globals from modules. */
     // "allowUmdGlobalAccess": true,
     /* List of file name suffixes to search when resolving a module. */
     // "moduleSuffixes": [],
     /* Allow imports to include TypeScript file extensions. Requires '--moduleResolution bundler' and either '--noEmit' or '--emitDeclarationOnly' to be set. */
-    // "allowImportingTsExtensions": true,
+    "allowImportingTsExtensions": true,
     /* Use the package.json 'exports' field when resolving package imports. */
-    // "resolvePackageJsonExports": true,
+    "resolvePackageJsonExports": true,
     /* Use the package.json 'imports' field when resolving imports. */
-    // "resolvePackageJsonImports": true,
+    "resolvePackageJsonImports": true,
     /* Conditions to set in addition to the resolver-specific defaults when resolving imports. */
     // "customConditions": [],
     /* Check side effect imports. */
@@ -101,7 +114,7 @@
      */
 
     /* Allow JavaScript files to be a part of your program. Use the 'checkJS' option to get errors from these files. */
-    // "allowJs": true,
+    "allowJs": true,
     /* Enable error reporting in type-checked JavaScript files. */
     // "checkJs": true,
     /* Specify the maximum folder depth used for checking JavaScript files from 'node_modules'. Only applicable with 'allowJs'. */
@@ -226,17 +239,5 @@
     // "skipDefaultLibCheck": true,
     /* Skip type checking all .d.ts files. */
     "skipLibCheck": true
-  },
-
-  /**
-   * ts-node
-   */
-  "ts-node": {
-    "transpileOnly": true,
-    // Override TypeScript options for `ts-node` only
-    "compilerOptions": {
-      // Necessary for `ts-node` to work with CommonJS modules until we migrate to package.json#type: "module"
-      "module": "CommonJS"
-    }
   }
 }

@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ParsedJob, StoredJob } from './types.std.js';
+import type { ParsedJob, StoredJob } from './types.std.ts';
 
 /**
  * Format a job to be inserted into the database.

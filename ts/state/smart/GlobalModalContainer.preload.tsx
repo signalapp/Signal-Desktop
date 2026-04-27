@@ -3,46 +3,47 @@
 
 import React, { memo, useCallback } from 'react';
 import { useSelector } from 'react-redux';
-import type { ButtonVariant } from '../../components/Button.dom.js';
-import { ErrorModal } from '../../components/ErrorModal.dom.js';
-import { GlobalModalContainer } from '../../components/GlobalModalContainer.dom.js';
-import { SmartAboutContactModal } from './AboutContactModal.preload.js';
-import { SmartAddUserToAnotherGroupModal } from './AddUserToAnotherGroupModal.preload.js';
-import { SmartContactModal } from './ContactModal.preload.js';
-import { SmartEditHistoryMessagesModal } from './EditHistoryMessagesModal.preload.js';
-import { SmartForwardMessagesModal } from './ForwardMessagesModal.preload.js';
-import { SmartUsernameOnboardingModal } from './UsernameOnboardingModal.preload.js';
-import { SmartSafetyNumberModal } from './SafetyNumberModal.preload.js';
-import { SmartSendAnywayDialog } from './SendAnywayDialog.preload.js';
-import { SmartShortcutGuideModal } from './ShortcutGuideModal.preload.js';
-import { SmartStickerPreviewModal } from './StickerPreviewModal.preload.js';
-import { SmartStoriesSettingsModal } from './StoriesSettingsModal.preload.js';
-import { getConversationsStoppingSend } from '../selectors/conversations.dom.js';
-import { getIntl, getTheme } from '../selectors/user.std.js';
-import { useGlobalModalActions } from '../ducks/globalModals.preload.js';
-import { SmartDeleteMessagesModal } from './DeleteMessagesModal.preload.js';
-import { SmartDiscardDraftDialog } from './DiscardDraftDialog.preload.js';
-import { SmartMessageRequestActionsConfirmation } from './MessageRequestActionsConfirmation.preload.js';
-import { getGlobalModalsState } from '../selectors/globalModals.std.js';
-import { SmartEditNicknameAndNoteModal } from './EditNicknameAndNoteModal.preload.js';
-import { SmartNotePreviewModal } from './NotePreviewModal.preload.js';
-import { SmartCallLinkEditModal } from './CallLinkEditModal.preload.js';
-import { SmartCallQualitySurveyDialog } from './CallQualitySurveyDialog.preload.js';
-import { SmartCallLinkAddNameModal } from './CallLinkAddNameModal.preload.js';
-import { SmartConfirmLeaveCallModal } from './ConfirmLeaveCallModal.preload.js';
-import { SmartCallLinkPendingParticipantModal } from './CallLinkPendingParticipantModal.preload.js';
-import { SmartProfileNameWarningModal } from './ProfileNameWarningModal.preload.js';
-import { SmartDraftGifMessageSendModal } from './DraftGifMessageSendModal.preload.js';
-import { SmartKeyTransparencyErrorDialog } from './KeyTransparencyErrorDialog.preload.js';
-import { DebugLogErrorModal } from '../../components/DebugLogErrorModal.dom.js';
-import { SmartPlaintextExportWorkflow } from './PlaintextExportWorkflow.preload.js';
-import { SmartLocalBackupExportWorkflow } from './LocalBackupExportWorkflow.preload.js';
+import type { ButtonVariant } from '../../components/Button.dom.tsx';
+import { ErrorModal } from '../../components/ErrorModal.dom.tsx';
+import { GlobalModalContainer } from '../../components/GlobalModalContainer.dom.tsx';
+import { SmartAboutContactModal } from './AboutContactModal.preload.tsx';
+import { SmartAddUserToAnotherGroupModal } from './AddUserToAnotherGroupModal.preload.tsx';
+import { SmartContactModal } from './ContactModal.preload.tsx';
+import { SmartEditHistoryMessagesModal } from './EditHistoryMessagesModal.preload.tsx';
+import { SmartForwardMessagesModal } from './ForwardMessagesModal.preload.tsx';
+import { SmartUsernameOnboardingModal } from './UsernameOnboardingModal.preload.tsx';
+import { SmartSafetyNumberModal } from './SafetyNumberModal.preload.tsx';
+import { SmartSendAnywayDialog } from './SendAnywayDialog.preload.tsx';
+import { SmartShortcutGuideModal } from './ShortcutGuideModal.preload.tsx';
+import { SmartStickerPreviewModal } from './StickerPreviewModal.preload.tsx';
+import { SmartStoriesSettingsModal } from './StoriesSettingsModal.preload.tsx';
+import { getConversationsStoppingSend } from '../selectors/conversations.dom.ts';
+import { getIntl, getTheme } from '../selectors/user.std.ts';
+import { useGlobalModalActions } from '../ducks/globalModals.preload.ts';
+import { SmartDeleteMessagesModal } from './DeleteMessagesModal.preload.tsx';
+import { SmartDiscardDraftDialog } from './DiscardDraftDialog.preload.tsx';
+import { SmartMessageRequestActionsConfirmation } from './MessageRequestActionsConfirmation.preload.tsx';
+import { getGlobalModalsState } from '../selectors/globalModals.std.ts';
+import { SmartEditNicknameAndNoteModal } from './EditNicknameAndNoteModal.preload.tsx';
+import { SmartNotePreviewModal } from './NotePreviewModal.preload.tsx';
+import { SmartCallLinkEditModal } from './CallLinkEditModal.preload.tsx';
+import { SmartCallQualitySurveyDialog } from './CallQualitySurveyDialog.preload.tsx';
+import { SmartCallLinkAddNameModal } from './CallLinkAddNameModal.preload.tsx';
+import { SmartConfirmLeaveCallModal } from './ConfirmLeaveCallModal.preload.tsx';
+import { SmartCallLinkPendingParticipantModal } from './CallLinkPendingParticipantModal.preload.tsx';
+import { SmartProfileNameWarningModal } from './ProfileNameWarningModal.preload.tsx';
+import { SmartDraftGifMessageSendModal } from './DraftGifMessageSendModal.preload.tsx';
+import { SmartKeyTransparencyErrorDialog } from './KeyTransparencyErrorDialog.preload.tsx';
+import { DebugLogErrorModal } from '../../components/DebugLogErrorModal.dom.tsx';
+import { SmartPlaintextExportWorkflow } from './PlaintextExportWorkflow.preload.tsx';
+import { SmartLocalBackupExportWorkflow } from './LocalBackupExportWorkflow.preload.tsx';
 import {
   shouldShowPlaintextWorkflow,
   shouldShowLocalBackupWorkflow,
-} from '../selectors/backups.std.js';
-import { SmartPinMessageDialog } from './PinMessageDialog.preload.js';
-import { SmartGroupMemberLabelInfoModal } from './GroupMemberLabelInfoModal.preload.js';
+} from '../selectors/backups.std.ts';
+import { SmartPinMessageDialog } from './PinMessageDialog.preload.tsx';
+import { SmartGroupMemberLabelInfoModal } from './GroupMemberLabelInfoModal.preload.tsx';
+import { SmartTerminateGroupFailedModal } from './TerminateGroupFailedModal.preload.tsx';
 
 function renderCallLinkAddNameModal(): React.JSX.Element {
   return <SmartCallLinkAddNameModal />;
@@ -196,6 +197,7 @@ export const SmartGlobalModalContainer = memo(
       safetyNumberModalContactId,
       stickerPackPreviewId,
       tapToViewNotAvailableModalProps,
+      terminateGroupFailedModal,
       userNotFoundModalState,
     } = useSelector(getGlobalModalsState);
 
@@ -272,6 +274,16 @@ export const SmartGlobalModalContainer = memo(
       [closeDebugLogErrorModal, i18n]
     );
 
+    const renderTerminateGroupFailedModal = useCallback(
+      () =>
+        terminateGroupFailedModal ? (
+          <SmartTerminateGroupFailedModal
+            conversationId={terminateGroupFailedModal.conversationId}
+          />
+        ) : null,
+      [terminateGroupFailedModal]
+    );
+
     return (
       <GlobalModalContainer
         addUserToAnotherGroupModalContactId={
@@ -300,6 +312,7 @@ export const SmartGlobalModalContainer = memo(
         hideCriticalIdlePrimaryDeviceModal={hideCriticalIdlePrimaryDeviceModal}
         hideLowDiskSpaceBackupImportModal={hideLowDiskSpaceBackupImportModal}
         lowDiskSpaceBackupImportModal={lowDiskSpaceBackupImportModal}
+        terminateGroupFailedModal={terminateGroupFailedModal}
         messageRequestActionsConfirmationProps={
           messageRequestActionsConfirmationProps
         }
@@ -359,6 +372,7 @@ export const SmartGlobalModalContainer = memo(
         renderShortcutGuideModal={renderShortcutGuideModal}
         renderStickerPreviewModal={renderStickerPreviewModal}
         renderStoriesSettings={renderStoriesSettings}
+        renderTerminateGroupFailedModal={renderTerminateGroupFailedModal}
         safetyNumberChangedBlockingData={safetyNumberChangedBlockingData}
         safetyNumberModalContactId={safetyNumberModalContactId}
         shouldShowPlaintextExportWorkflow={shouldShowPlaintextExportWorkflow}

@@ -3,8 +3,8 @@
 
 import React, { useId } from 'react';
 import classNames from 'classnames';
-import { bemGenerator } from './util.std.js';
-import { AriaClickable } from '../../../axo/AriaClickable.dom.js';
+import { bemGenerator } from './util.std.ts';
+import { AriaClickable } from '../../../axo/AriaClickable.dom.tsx';
 
 export type Props = {
   alwaysShowActions?: boolean;

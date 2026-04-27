@@ -4,17 +4,17 @@
 import { ReceiptCredentialPresentation } from '@signalapp/libsignal-client/zkgroup.js';
 import lodash from 'lodash';
 
-import { assertDev, strictAssert } from '../util/assert.std.js';
-import { dropNull } from '../util/dropNull.std.js';
+import { assertDev, strictAssert } from '../util/assert.std.ts';
+import { dropNull } from '../util/dropNull.std.ts';
 import {
   fromAciUuidBytes,
   fromAciUuidBytesOrString,
-} from '../util/ServiceId.node.js';
-import { getTimestampFromLong } from '../util/timestampLongUtils.std.js';
-import { isKnownProtoEnumMember } from '../util/isKnownProtoEnumMember.std.js';
-import { SignalService as Proto } from '../protobuf/index.std.js';
-import { deriveGroupFields } from '../groups.preload.js';
-import * as Bytes from '../Bytes.std.js';
+} from '../util/ServiceId.node.ts';
+import { getTimestampFromLong } from '../util/timestampLongUtils.std.ts';
+import { isKnownProtoEnumMember } from '../util/isKnownProtoEnumMember.std.ts';
+import { SignalService as Proto } from '../protobuf/index.std.ts';
+import { deriveGroupFields } from '../groups.preload.ts';
+import * as Bytes from '../Bytes.std.ts';
 
 import type {
   ProcessedAttachment,
@@ -35,27 +35,27 @@ import type {
   ProcessedPinMessage,
   ProcessedUnpinMessage,
 } from './Types.d.ts';
-import { GiftBadgeStates } from '../types/GiftBadgeStates.std.js';
-import type { RawBodyRange } from '../types/BodyRange.std.js';
+import { GiftBadgeStates } from '../types/GiftBadgeStates.std.ts';
+import type { RawBodyRange } from '../types/BodyRange.std.ts';
 import {
   APPLICATION_OCTET_STREAM,
   stringToMIMEType,
-} from '../types/MIME.std.js';
+} from '../types/MIME.std.ts';
 import {
   SECOND,
   DurationInSeconds,
   HOUR,
-} from '../util/durations/index.std.js';
-import type { AnyPaymentEvent } from '../types/Payment.std.js';
-import { PaymentEventKind } from '../types/Payment.std.js';
-import { filterAndClean } from '../util/BodyRange.node.js';
-import { bytesToUuid } from '../util/uuidToBytes.std.js';
-import { createName } from '../util/attachmentPath.node.js';
-import { partitionBodyAndNormalAttachments } from '../util/Attachment.std.js';
-import { isNotNil } from '../util/isNotNil.std.js';
-import { createLogger } from '../logging/log.std.js';
+} from '../util/durations/index.std.ts';
+import type { AnyPaymentEvent } from '../types/Payment.std.ts';
+import { PaymentEventKind } from '../types/Payment.std.ts';
+import { filterAndClean } from '../util/BodyRange.node.ts';
+import { bytesToUuid } from '../util/uuidToBytes.std.ts';
+import { createName } from '../util/attachmentPath.node.ts';
+import { partitionBodyAndNormalAttachments } from '../util/Attachment.std.ts';
+import { isNotNil } from '../util/isNotNil.std.ts';
+import { createLogger } from '../logging/log.std.ts';
 
-import { toNumber } from '../util/toNumber.std.js';
+import { toNumber } from '../util/toNumber.std.ts';
 
 const { isNumber } = lodash;
 
@@ -162,7 +162,7 @@ export function processGroupV2Context(
   };
 }
 
-export function processPayment(
+function processPayment(
   payment?: Proto.DataMessage.Payment | null
 ): AnyPaymentEvent | undefined {
   if (!payment) {
@@ -194,7 +194,7 @@ export function processPayment(
   return undefined;
 }
 
-export function processQuote(
+function processQuote(
   quote?: Proto.DataMessage.Quote | null
 ): ProcessedQuote | undefined {
   if (!quote) {
@@ -230,7 +230,7 @@ export function processQuote(
   };
 }
 
-export function processStoryContext(
+function processStoryContext(
   storyContext?: Proto.DataMessage.StoryContext | null
 ): ProcessedStoryContext | undefined {
   if (!storyContext) {
@@ -254,7 +254,7 @@ export function processStoryContext(
   };
 }
 
-export function processContact(
+function processContact(
   contact?: ReadonlyArray<Proto.DataMessage.Contact> | null
 ): ReadonlyArray<ProcessedContact> | undefined {
   if (!contact) {
@@ -306,7 +306,7 @@ export function processPreview(
   });
 }
 
-export function processSticker(
+function processSticker(
   sticker?: Proto.DataMessage.Sticker | null
 ): ProcessedSticker | undefined {
   if (!sticker) {
@@ -322,7 +322,7 @@ export function processSticker(
   };
 }
 
-export function processReaction(
+function processReaction(
   reaction?: Proto.DataMessage.Reaction | null
 ): ProcessedReaction | undefined {
   if (!reaction) {
@@ -345,7 +345,7 @@ export function processReaction(
   };
 }
 
-export function processPinMessage(
+function processPinMessage(
   pinMessage?: Proto.DataMessage.PinMessage | null
 ): ProcessedPinMessage | undefined {
   if (pinMessage == null) {
@@ -378,7 +378,7 @@ export function processPinMessage(
   };
 }
 
-export function processPollCreate(
+function processPollCreate(
   pollCreate?: Proto.DataMessage.PollCreate | null
 ): ProcessedPollCreate | undefined {
   if (!pollCreate) {
@@ -392,7 +392,7 @@ export function processPollCreate(
   };
 }
 
-export function processPollVote(
+function processPollVote(
   pollVote?: Proto.DataMessage.PollVote | null
 ): ProcessedPollVote | undefined {
   if (!pollVote) {
@@ -413,7 +413,7 @@ export function processPollVote(
   };
 }
 
-export function processPollTerminate(
+function processPollTerminate(
   pollTerminate?: Proto.DataMessage.PollTerminate | null
 ): ProcessedPollTerminate | undefined {
   if (!pollTerminate) {
@@ -425,7 +425,7 @@ export function processPollTerminate(
   };
 }
 
-export function processDelete(
+function processDelete(
   del?: Proto.DataMessage.Delete | null
 ): ProcessedDelete | undefined {
   if (!del) {
@@ -437,7 +437,7 @@ export function processDelete(
   };
 }
 
-export function processAdminDelete(
+function processAdminDelete(
   adminDelete?: Proto.DataMessage.AdminDelete | null
 ): ProcessedAdminDelete | undefined {
   if (!adminDelete) {
@@ -456,7 +456,7 @@ export function processAdminDelete(
   };
 }
 
-export function processGiftBadge(
+function processGiftBadge(
   giftBadge: Proto.DataMessage.GiftBadge | null | undefined
 ): ProcessedGiftBadge | undefined {
   if (
@@ -472,7 +472,7 @@ export function processGiftBadge(
   );
 
   return {
-    expiration: Number(receipt.getReceiptExpirationTime()) * SECOND,
+    expiration: receipt.getReceiptExpirationTime() * SECOND,
     id: undefined,
     level: Number(receipt.getReceiptLevel()),
     receiptCredentialPresentation: Bytes.toBase64(
@@ -482,7 +482,7 @@ export function processGiftBadge(
   };
 }
 
-export function processUnpinMessage(
+function processUnpinMessage(
   unpinMessage?: Proto.DataMessage.UnpinMessage | null
 ): ProcessedUnpinMessage | undefined {
   if (unpinMessage == null) {
@@ -508,8 +508,6 @@ export function processDataMessage(
   // Only for testing
   { _createName: doCreateName = createName } = {}
 ): ProcessedDataMessage {
-  /* eslint-disable no-bitwise */
-
   // Now that its decrypted, validate the message and clean it up for consumer
   //   processing
   // Note that messages may (generally) only perform one action and we ignore remaining
@@ -576,10 +574,13 @@ export function processDataMessage(
     unpinMessage: processUnpinMessage(message.unpinMessage),
   };
 
+  // oxlint-disable-next-line no-bitwise
   const isEndSession = Boolean(result.flags & FLAGS.END_SESSION);
   const isExpirationTimerUpdate = Boolean(
+    // oxlint-disable-next-line no-bitwise
     result.flags & FLAGS.EXPIRATION_TIMER_UPDATE
   );
+  // oxlint-disable-next-line no-bitwise
   const isProfileKeyUpdate = Boolean(result.flags & FLAGS.PROFILE_KEY_UPDATE);
   // The following assertion codifies an assumption: 0 or 1 flags are set, but never
   //   more. This assumption is fine as of this writing, but may not always be.

@@ -15,14 +15,18 @@ import type {
   KeyboardEventHandler,
   MouseEvent as ReactMouseEvent,
 } from 'react';
-import { AxoSymbol } from './AxoSymbol.dom.js';
-import { AxoBaseMenu } from './_internal/AxoBaseMenu.dom.js';
-import { tw } from './tw.dom.js';
-import { assert } from './_internal/assert.std.js';
+import { AxoSymbol } from './AxoSymbol.dom.tsx';
+import { AxoBaseMenu } from './_internal/AxoBaseMenu.dom.tsx';
+import { tw } from './tw.dom.tsx';
+import { assert } from './_internal/assert.std.tsx';
 import {
   createStrictContext,
   useStrictContext,
-} from './_internal/StrictContext.dom.js';
+} from './_internal/StrictContext.dom.tsx';
+import { AxoDragRegion } from './AxoDragRegion.dom.tsx';
+import { AxoTheme } from './AxoTheme.dom.tsx';
+
+const { useDisableDragRegions } = AxoDragRegion;
 
 const Namespace = 'AxoContextMenu';
 
@@ -96,6 +100,8 @@ export namespace AxoContextMenu {
     const context = useMemo(() => {
       return { open };
     }, [open]);
+
+    useDisableDragRegions(open);
 
     return (
       <RootContext.Provider value={context}>
@@ -234,16 +240,17 @@ export namespace AxoContextMenu {
     const { open } = useStrictContext(RootContext);
     return (
       <ContextMenu.Portal>
-        <ContextMenu.Content
-          className={AxoBaseMenu.menuContentStyles}
-          alignOffset={-6}
-          collisionPadding={6}
-          onCloseAutoFocus={props.onCloseAutoFocus}
-          // @ts-expect-error -- React/TS doesn't know about inert
-          inert={open ? undefined : 'true'}
-        >
-          {props.children}
-        </ContextMenu.Content>
+        <AxoTheme.Inherit>
+          <ContextMenu.Content
+            className={AxoBaseMenu.menuContentStyles}
+            alignOffset={-6}
+            collisionPadding={6}
+            onCloseAutoFocus={props.onCloseAutoFocus}
+            inert={!open}
+          >
+            {props.children}
+          </ContextMenu.Content>
+        </AxoTheme.Inherit>
       </ContextMenu.Portal>
     );
   });
@@ -453,12 +460,10 @@ export namespace AxoContextMenu {
    * -------------------------------------
    */
 
-  export type SeparatorProps = AxoBaseMenu.MenuSeparatorProps;
-
   /**
    * Used to visually separate items in the context menu.
    */
-  export const Separator: FC<SeparatorProps> = memo(() => {
+  export const Separator: FC = memo(() => {
     return (
       <ContextMenu.Separator className={AxoBaseMenu.menuSeparatorStyles} />
     );

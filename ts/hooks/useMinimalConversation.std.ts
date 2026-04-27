@@ -1,7 +1,7 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import { useMemo } from 'react';
-import type { ConversationType } from '../state/ducks/conversations.preload.js';
+import type { ConversationType } from '../state/ducks/conversations.preload.ts';
 
 type Primitive = undefined | null | boolean | number | bigint | string;
 type PrimitiveObject = Record<string, Primitive>;
@@ -42,6 +42,7 @@ export type MinimalConversation = Satisfies<
     | 'name'
     | 'phoneNumber'
     | 'profileName'
+    | 'terminated'
     | 'title'
     | 'type'
   > & {
@@ -76,6 +77,7 @@ export function useMinimalConversation(
     name,
     phoneNumber,
     profileName,
+    terminated,
     title,
     type,
   } = conversation;
@@ -107,6 +109,7 @@ export function useMinimalConversation(
       name,
       phoneNumber,
       profileName,
+      terminated,
       title,
       type,
     };
@@ -135,6 +138,7 @@ export function useMinimalConversation(
     name,
     phoneNumber,
     profileName,
+    terminated,
     title,
     type,
   ]);

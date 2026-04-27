@@ -3,13 +3,13 @@
 
 import React, { useCallback, useEffect, useState } from 'react';
 
-import { AvatarColorPicker } from './AvatarColorPicker.dom.js';
-import type { AvatarColorType } from '../types/Colors.std.js';
-import type { AvatarDataType } from '../types/Avatar.std.js';
-import { AvatarModalButtons } from './AvatarModalButtons.dom.js';
-import { AvatarPreview } from './AvatarPreview.dom.js';
-import type { LocalizerType } from '../types/Util.std.js';
-import { avatarDataToBytes } from '../util/avatarDataToBytes.dom.js';
+import { AvatarColorPicker } from './AvatarColorPicker.dom.tsx';
+import type { AvatarColorType } from '../types/Colors.std.ts';
+import type { AvatarDataType } from '../types/Avatar.std.ts';
+import { AvatarModalButtons } from './AvatarModalButtons.dom.tsx';
+import { AvatarPreview } from './AvatarPreview.dom.tsx';
+import type { LocalizerType } from '../types/Util.std.ts';
+import { avatarDataToBytes } from '../util/avatarDataToBytes.dom.ts';
 
 export type PropsType = {
   avatarData: AvatarDataType;

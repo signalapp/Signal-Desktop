@@ -746,6 +746,9 @@
   "icu:fileSizeWarning": {
     "messageformat": "Barkatu, aukeratutako fitxategiak ezarri den tamaina muga gainditzen du. {limit,number} {units}"
   },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "Barkatu, hautatutako bideo-fitxategiak mezuen tamaina-murriztapenak gainditzen ditu. {limit,number} {units}"
+  },
   "icu:unableToLoadAttachment": {
     "messageformat": "Ezin izan da hautatutako eranskina kargatu."
   },
@@ -1787,6 +1790,12 @@
   "icu:Preferences__EditChatFolderPage__CancelButton": {
     "messageformat": "Utzi"
   },
+  "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
+    "messageformat": "Show status icon"
+  },
+  "icu:Preferences__PrivacyPage__ShowStatusIcon__Description": {
+    "messageformat": "Show an icon in message details when they were delivered using sealed sender."
+  },
   "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
     "messageformat": "Gakoen egiaztapen automatikoa"
   },
@@ -2372,6 +2381,9 @@
   "icu:ConversationDetails--support-center": {
     "messageformat": "Laguntzarako Zentroa"
   },
+  "icu:ConversationDetails__GroupTerminatedBanner": {
+    "messageformat": "Talde hau amaituta dago"
+  },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "Erakutsi segurtasun-zenbakia"
   },
@@ -2551,6 +2563,27 @@
   },
   "icu:youUpdatedTheGroup": {
     "messageformat": "Taldea eguneratu duzu"
+  },
+  "icu:collapsedGroupUpdates": {
+    "messageformat": "{count, plural, one {Taldeko {count,number} eguneratze} other {Taldeko {count,number} eguneratze}}"
+  },
+  "icu:multidayCollapse__container": {
+    "messageformat": "{containerDescription} · {dayCountSummary}"
+  },
+  "icu:multidayCollapse__dayCountSummary": {
+    "messageformat": "{dayCount, plural, one {Egun {dayCount,number}} other {{dayCount,number} egun}}"
+  },
+  "icu:collapsedChatUpdates": {
+    "messageformat": "{count, plural, one {Txateko {count,number} eguneratze} other {Txateko {count,number} eguneratze}}"
+  },
+  "icu:collapsedTimerChanges": {
+    "messageformat": "{count, plural, one {Desagertzen diren mezuen tenporizadorearen {count,number} aldaketa · {endingState}} other {Desagertzen diren mezuen tenporizadorearen {count,number} aldaketa · {endingState}}}"
+  },
+  "icu:collapsedTimerChanges--disabled": {
+    "messageformat": "{count, plural, one {Desagertzen diren mezuen tenporizadorearen {count,number} aldaketa · Desgaituta} other {Desagertzen diren mezuen tenporizadorearen {count,number} aldaketa · Desgaituta}}"
+  },
+  "icu:collapsedCallEvents": {
+    "messageformat": "{count, plural, one {Deiekin lotutako {count,number} gertaera} other {Deiekin lotutako {count,number} gertaera}}"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "Taldeko abatarra eguneratu da."
@@ -3017,8 +3050,8 @@
   "icu:Message--tap-to-view--incoming--expired-toast": {
     "messageformat": "Mezu hau ikusia duzu jadanik."
   },
-  "icu:Message--tap-to-view--outgoing--expired-toast": {
-    "messageformat": "Ikustaldi bakarreko mezuak ez dira txat-historian gordetzen."
+  "icu:Message--tap-to-view--outgoing--expired-toast-2": {
+    "messageformat": "Behin bakarrik ikusteko multimedia-edukia ezabatu egiten da bidali ondoren"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "Behin ikusteko bideoa"
@@ -3485,8 +3518,17 @@
   "icu:ConversationHero--profile-names": {
     "messageformat": "<clickable>Profileko izenak</clickable> ez dira egiaztatzen"
   },
+  "icu:ConversationHero--name-not-verified": {
+    "messageformat": "Name not verified"
+  },
   "icu:ConversationHero--signal-official-chat": {
     "messageformat": "Signal-en txat ofiziala eta bakarra da hau"
+  },
+  "icu:ConversationHero--signal-official-account": {
+    "messageformat": "Official account"
+  },
+  "icu:ConversationHero--signal-official-account--description": {
+    "messageformat": "The only official chat from Signal. Keep up to date with news and release notes."
   },
   "icu:ConversationHero--release-notes": {
     "messageformat": "Jaso azken albiste eta kaleratze-oharrak."
@@ -3767,9 +3809,6 @@
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
     "messageformat": "Partekatu deiaren esteka Signal bidez"
   },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "Kendu pertsona hau deitik"
-  },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "{name} deitik kendu?"
   },
@@ -3932,11 +3971,23 @@
   "icu:GroupV2--join--requested": {
     "messageformat": "Taldean sartzeko zure eskaera taldeko administratzaileari bidali zaio. Jakinaraziko zaizu erabaki bat hartzen duenean."
   },
+  "icu:GroupV2--join--group-terminated": {
+    "messageformat": "Ezin zara sartu talde honetan."
+  },
   "icu:GroupV2--join--general-join-failure--title": {
     "messageformat": "Estekaren errorea"
   },
   "icu:GroupV2--join--general-join-failure": {
     "messageformat": "Ezin izan zara sartu taldean. Saiatu berriro geroago."
+  },
+  "icu:GroupV2--terminate-group-in-progress": {
+    "messageformat": "Taldea amaitzen…"
+  },
+  "icu:TerminateGroupFailedModal__description": {
+    "messageformat": "Ezin izan da amaitu taldea. Egiaztatu Internetera konektatuta zaudela eta saiatu berriro."
+  },
+  "icu:TerminateGroupFailedModal__try-again": {
+    "messageformat": "Saiatu berriro"
   },
   "icu:GroupV2--admin": {
     "messageformat": "Administratzailea"
@@ -4379,6 +4430,15 @@
   "icu:GroupV2--summary": {
     "messageformat": "Talde honen kideak edo ezarpenak aldatu egin dira."
   },
+  "icu:GroupV2--terminated--you": {
+    "messageformat": "Taldea amaitu duzu"
+  },
+  "icu:GroupV2--terminated--other": {
+    "messageformat": "{memberName} erabiltzaileak taldea amaitu du"
+  },
+  "icu:GroupV2--terminated--unknown": {
+    "messageformat": "Talde hau amaituta dago"
+  },
   "icu:GroupV1--Migration--disabled--link": {
     "messageformat": "Eguneratu talde hau @aipamenak eta administratzaileak bezalako eginbide berriak aktibatzeko. Talde honetan izena edo argazkia partekatu ez duten kideak sartzera gonbidatuko dira. <learnMoreLink>Gehiago ikasi.</learnMoreLink>"
   },
@@ -4655,6 +4715,9 @@
   "icu:CompositionArea__ConfirmGifSelection__ReplaceButton": {
     "messageformat": "Ordeztu"
   },
+  "icu:CompositionArea--group-terminated": {
+    "messageformat": "Ezin duzu mezurik bidali, taldea amaitu egin delako."
+  },
   "icu:CompositionArea--viewOnceToggle": {
     "messageformat": "Ikusi behin"
   },
@@ -4832,11 +4895,26 @@
   "icu:ConversationDetailsActions--leave-group": {
     "messageformat": "Utzi taldea"
   },
+  "icu:ConversationDetailsActions--terminate-group": {
+    "messageformat": "Amaitu taldea"
+  },
   "icu:ConversationDetailsActions--block-group": {
     "messageformat": "Blokeatu taldea"
   },
   "icu:ConversationDetailsActions--unblock-group": {
     "messageformat": "Desblokeatu taldea"
+  },
+  "icu:ConversationDetailsActions--report-spam": {
+    "messageformat": "Salatu spama dela"
+  },
+  "icu:ConversationDetailsActions--archive": {
+    "messageformat": "Artxibatu txata"
+  },
+  "icu:ConversationDetailsActions--unarchive": {
+    "messageformat": "Atera txata artxibotik"
+  },
+  "icu:ConversationDetailsActions--delete": {
+    "messageformat": "Ezabatu txata"
   },
   "icu:ConversationDetailsActions--leave-group-must-choose-new-admin": {
     "messageformat": "Irten baino lehen, gutxienez administratzaile berri bat aukeratu behar duzu talde honetarako."
@@ -4849,6 +4927,18 @@
   },
   "icu:ConversationDetailsActions--leave-group-modal-confirm": {
     "messageformat": "Utzi"
+  },
+  "icu:ConversationDetailsActions--prompt-terminate-group-modal-title": {
+    "messageformat": "\"{groupName}\" amaitu nahi duzu?"
+  },
+  "icu:ConversationDetailsActions--prompt-terminate-group-modal-content": {
+    "messageformat": "Aurrerantzean, kideek ezingo dituzte bidali mezuak taldean, ez eta deiak hasi ere. Taldea amaitu duzula jakinaraziko zaie, eta mezu-historia ikusten jarraitu ahalko dute."
+  },
+  "icu:ConversationDetailsActions--terminate-group-modal-confirm": {
+    "messageformat": "Amaitu taldea"
+  },
+  "icu:ConversationDetailsActions--confirm-terminate-group-confirm-modal-content": {
+    "messageformat": "Taldea betiko amaituko da. Aurrera egin nahi duzu?"
   },
   "icu:ConversationDetailsActions--unblock-group-modal-title": {
     "messageformat": "\"{groupName}\" taldea desblokeatu nahi duzu?"
@@ -4868,6 +4958,18 @@
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "Desblokeatu"
   },
+  "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
+    "messageformat": "Pertsona hau spama bidaltzen ari omen dela jakinaraziko zaio Signal-i. Signal-ek ezin du ikusi txatetako edukia."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-group": {
+    "messageformat": "Talde honetara gonbidatu zaituen pertsona spama bidaltzen ari omen dela jakinaraziko zaio Signal-i. Signal-ek ezin du ikusi txatetako edukia."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
+    "messageformat": "Salatu spama dela"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
+    "messageformat": "Salatu eta blokeatu"
+  },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} kide} other {{number,number} kide}}"
   },
@@ -4876,6 +4978,9 @@
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} kide} other {{number,number} kide}}"
+  },
+  "icu:ConversationDetailsMembershipList--terminated-title": {
+    "messageformat": "{number, plural, one {{number,number} kide ohi} other {{number,number} kide ohi}}"
   },
   "icu:ConversationDetailsMembershipList--add-members": {
     "messageformat": "Gehitu kideak"
@@ -5059,7 +5164,7 @@
     "ignoreUnused": true
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
-    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Signal-eko azken bertsioetako taldeko kideek mezu hau ezabatu duzula ikusiko dute.} other {Signal-eko azken bertsioetako taldeko kideek mezu hauek ezabatu dituzula ikusiko dute.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Ezabatu gailu guztietatik"
@@ -5195,6 +5300,9 @@
   },
   "icu:MessageRequestWarning__safety-tips": {
     "messageformat": "Segurtasun-aholkuak"
+  },
+  "icu:MessageRequestWarning__safety-tips-v2": {
+    "messageformat": "Safety tips"
   },
   "icu:ContactSpoofing__same-name--link": {
     "messageformat": "Berrikusi eskaerak kontu handiz. Signal-ek izen bereko beste kontaktu bat aurkitu du. <reviewRequestLink>Berrikusi eskaera</reviewRequestLink>"
@@ -5797,6 +5905,15 @@
   "icu:Preferences__link-previews--description": {
     "messageformat": "Ezarpen hau aldatzeko, ireki Signal aplikazioa gailu mugikorrean eta joan Ezarpenak > Txatak atalera"
   },
+  "icu:Preferences__link-previews--new-description": {
+    "messageformat": "Retrieve link previews directly from websites for messages you send."
+  },
+  "icu:Preferences__address-book-photos--title": {
+    "messageformat": "Use address book photos"
+  },
+  "icu:Preferences__address-book-photos--description": {
+    "messageformat": "Display contact photos from your address book if available."
+  },
   "icu:Preferences__auto-convert-emoji--title": {
     "messageformat": "Bihurtu idazten dituzun emotikonoak emoji"
   },
@@ -6232,35 +6349,35 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "Eginda"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "erakutsi babeskopia-gakoa"
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
+    "messageformat": "erakutsi zure berreskuratze-gakoa"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "Babeskopia-gakoa ikusteko, egiaztatu zure identitatea."
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
+    "messageformat": "Berreskuratze-gakoa ikusteko, egiaztatu zure identitatea."
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "Ikusi babeskopia-gakoa"
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
+    "messageformat": "Ikusi berreskuratze-gakoa"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "Babeskopia-gakoa ikusteko, autentifikatu egin behar zara."
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
+    "messageformat": "Berreskuratze-gakoa ikusteko, autentifikatu egin behar zara."
   },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Babeskopia-gakoaren testu-koadroa"
+  "icu:Preferences--local-backups-recovery-key-text-box": {
+    "messageformat": "Berreskuratze-gakoa"
   },
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "Idatzi gakoa"
   },
-  "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "Apuntatu babeskopia-gakoa"
+  "icu:Preferences--local-backups-record-recovery-key": {
+    "messageformat": "Gorde berreskuratze-gakoa"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "Zure kontua eta datuak berreskuratzeko behar da gako hori. Gorde gakoa toki seguru batean. Galduz gero, ezingo duzu berreskuratu kontua.<learnMoreLink>Gehiago ikasi.</learnMoreLink>"
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "Berretsi babeskopia-gakoa"
+  "icu:Preferences--local-backups-confirm-recovery-key": {
+    "messageformat": "Berretsi berreskuratze-gakoa"
   },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "Idatzi grabatu berri duzun babeskopia-gakoa"
+  "icu:Preferences--local-backups-confirm-recovery-key-description": {
+    "messageformat": "Idatzi erregistratu berri duzun berreskuratze-gakoa"
   },
   "icu:Preferences__local-backups-confirm-key-modal-title": {
     "messageformat": "Mantendu gakoa seguru"
@@ -6286,26 +6403,23 @@
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Babeskopiak gordetzeko karpeta"
   },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "Aldatu"
-  },
   "icu:Preferences__local-backups-turn-off": {
-    "messageformat": "Turn off backups"
+    "messageformat": "Desaktibatu babeskopiak"
   },
   "icu:Preferences__local-backups-turn-off-action": {
-    "messageformat": "Turn off"
+    "messageformat": "Desaktibatu"
   },
   "icu:Preferences__local-backups-turn-off-confirmation": {
-    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+    "messageformat": "Haiek berriro gaitu ezean, ezingo duzu babeskopiarik sortu ordenagailu honetan."
   },
   "icu:Preferences__local-backups-turn-off-delete": {
-    "messageformat": "Delete my backup from this computer"
+    "messageformat": "Ezabatu nire babeskopia ordenagailu honetatik"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Kopiatu arbelera"
   },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "Kopiatu da babeskopia-gakoa"
+  "icu:Preferences__local-backups-copied-recovery-key": {
+    "messageformat": "Kopiatu da berreskuratze-gakoa"
   },
   "icu:Preferences__local-backups--enable--os-prompt--mac": {
     "messageformat": "Gaitu babeskopiak"
@@ -6319,17 +6433,29 @@
   "icu:Preferences__local-backups--enable--os-prompt-message--linux": {
     "messageformat": "Babeskopiak gaitzeko, autentifikatu egin behar zara."
   },
+  "icu:Preferences__local-backups-auth-error--unauthorized": {
+    "messageformat": "Ezin izan da osatu ekintza, sistemaren autentifikazioak huts egin baitu. Saiatu berriro, edo ireki Signal aplikazioa gailu mugikorrean eta joan babeskopien ezarpenetara berreskuratze-gakoa ikusteko."
+  },
   "icu:Preferences__view-key": {
     "messageformat": "Ikusi gakoa"
   },
-  "icu:Preferences__backup-key": {
-    "messageformat": "Babeskopia-gakoa"
+  "icu:Preferences__recovery-key": {
+    "messageformat": "Berreskuratze-gakoa"
   },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "Babeskopia leheneratzeko erabiltzen den 64 digituko kode bat da babeskopia-gakoa"
+  "icu:Preferences__recovery-key-description": {
+    "messageformat": "Babeskopia leheneratzeko erabiltzen den 64 karaktereko kodea da berreskuratze-gakoa"
   },
   "icu:Preferences__backup-other-ways": {
     "messageformat": "Babeskopiak egiteko beste modu batzuk"
+  },
+  "icu:Preferences__recovery-key-updated__title": {
+    "messageformat": "Zure berreskuratze-gakoa aldatu egin da"
+  },
+  "icu:Preferences__recovery-key-updated__description": {
+    "messageformat": "Zure berreskuratze-gakoa eguneratu egin da. Aurrerantzean egiten dituzun babeskopiak berreskuratze-gako berriarekin bakarrik leheneratu ahalko dira."
+  },
+  "icu:Preferences__recovery-key-updated__view-key": {
+    "messageformat": "Ikusi gako berria"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {Kontaktu 1} other {{num,number} kontaktu}}"
@@ -6394,8 +6520,14 @@
   "icu:Preferences--read-receipts": {
     "messageformat": "Irakurketaren hartu-agiriak"
   },
+  "icu:Preferences--read-receipts--description": {
+    "messageformat": "If disabled, you won't see read receipts from others."
+  },
   "icu:Preferences--typing-indicators": {
     "messageformat": "Idazketa jakinarazleak"
+  },
+  "icu:Preferences--typing-indicators--description": {
+    "messageformat": "If disabled, you won't see typing indicators from others."
   },
   "icu:Preferences--updates": {
     "messageformat": "Eguneraketak"
@@ -6682,6 +6814,9 @@
   "icu:MyStories__delete": {
     "messageformat": "Istorio hau ezabatu nahi duzu? Jaso duten guztientzat ere ezabatuko da."
   },
+  "icu:MyStories__delete-group-story-for-me": {
+    "messageformat": "Istorio hau ezabatu nahi duzu? Zuretzat bakarrik ezabatuko da, taldea amaituta dagoelako."
+  },
   "icu:payment-event-notification-message-you-label": {
     "messageformat": "{receiver}(r)i ordainketa bat egiteko prozesua hasi duzu"
   },
@@ -6903,6 +7038,9 @@
   },
   "icu:StoriesSettings__view-receipts--label": {
     "messageformat": "Ikusi irakurragiriak"
+  },
+  "icu:StoriesSettings__view-receipts--new-description": {
+    "messageformat": "See and share when stories are viewed. If disabled, you won't see when others view your story."
   },
   "icu:StoriesSettings__view-receipts--description": {
     "messageformat": "Ezarpen hau aldatzeko, ireki Signal aplikazioa gailu mugikorrean eta joan Ezarpenak -> Istorioak atalera"
@@ -7553,6 +7691,18 @@
   "icu:ProfileNameWarningModal__list--item3--direct": {
     "messageformat": "Ez partekatu informazio pertsonala ezagutzen ez dituzun pertsonekin"
   },
+  "icu:ProfileNameWarningModal__warning--signal-cant-verify": {
+    "messageformat": "Signal can’t verify names and photos"
+  },
+  "icu:ProfileNameWarningModal__warning--signal-wont-contact": {
+    "messageformat": "Signal will never contact you for your registration code, PIN, or recovery key"
+  },
+  "icu:ProfileNameWarningModal__warning--be-cautious": {
+    "messageformat": "Be cautious of accounts that impersonate others"
+  },
+  "icu:ProfileNameWarningModal__warning--dont-share-info": {
+    "messageformat": "Don't share personal information with people you don't know"
+  },
   "icu:ProfileNameWarningModal__description--group": {
     "messageformat": "Taldeen izenak taldeko kideek aukeratzen dituzte."
   },
@@ -8015,17 +8165,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Doikuntza txikiak, akats-konponketak eta errendimendu-hobekuntzak. Eskerrik asko Signal erabiltzeagatik!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__7.90--0": {
-    "messageformat": "Artista ofizialen bost eranskailu-pakete berri."
-  },
-  "icu:WhatsNew__8.0--0": {
-    "messageformat": "Hemen dira Babeskopia seguruak! Orain, muturretik muturrera enkriptatutako babeskopia automatikoak gai ditzakezu, telefonoz aldatzean edo Signal berriro instalatzean mezurik ez galtzeko. Mezu guztien eta azken 45 egunetako multimedia-edukien babeskopiak egin ditzakezu doan, edo hilean kuota txiki bat ordain dezakezu 100 GB lortzeko eta den-denaren babeskopiak egiteko, eranskinak barne. Hasteko, sakatu \"Babeskopiak\" Signal-en ezarpenetan. Eskerrik asko beta-eginbidea probatu duzuenoi!"
-  },
-  "icu:WhatsNew__8.2--0": {
-    "messageformat": "Orain, Signal Desktop-etik ere bidal ditzakezu behin ikusteko multimedia-elementuak. Behin ikusteko mezu gisa bidaltzen diren banako argazki eta bideoak automatikoki kenduko dira elkarrizketa-haritik haiek ikusi ondoren."
-  },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "Orain, nahi baduzu, kide-etiketa bat gehi dezakezu zeure burua deskribatzeko edo taldeko txatean duzun funtzioa azaltzeko. Kide-Talde horretan duzun profil-izenaren alboan agertzen dira kide-etiketak, eta denentzat gaituta dauden ala ez kontrola dezakete taldeko adminek."
   }
 }

@@ -1,13 +1,12 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as Constants from './constants.std.js';
+import * as Constants from './constants.std.ts';
 
 export type DurationInSeconds = number & {
   __time_difference_in_seconds: never;
 };
 
-/* eslint-disable @typescript-eslint/no-namespace, @typescript-eslint/no-redeclare */
 export namespace DurationInSeconds {
   export const fromMillis = (ms: number): DurationInSeconds =>
     (ms / Constants.SECOND) as DurationInSeconds;
@@ -30,10 +29,9 @@ export namespace DurationInSeconds {
   export const toHours = (d: DurationInSeconds): number =>
     (d * Constants.SECOND) / Constants.HOUR;
 
-  export const ZERO = DurationInSeconds.fromSeconds(0);
-  export const HOUR = DurationInSeconds.fromHours(1);
-  export const MINUTE = DurationInSeconds.fromMinutes(1);
-  export const DAY = DurationInSeconds.fromDays(1);
-  export const WEEK = DurationInSeconds.fromWeeks(1);
+  export const ZERO = fromSeconds(0);
+  export const HOUR = fromHours(1);
+  export const MINUTE = fromMinutes(1);
+  export const DAY = fromDays(1);
+  export const WEEK = fromWeeks(1);
 }
-/* eslint-enable @typescript-eslint/no-namespace, @typescript-eslint/no-redeclare */

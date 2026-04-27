@@ -12,17 +12,17 @@ import {
 } from '@signalapp/libsignal-client/dist/MessageBackup.js';
 import assert from 'node:assert/strict';
 
-import { clearData } from './helpers.preload.js';
-import { loadAllAndReinitializeRedux } from '../../services/allLoaders.preload.js';
-import { backupsService } from '../../services/backups/index.preload.js';
-import { initialize as initializeExpiringMessageService } from '../../services/expiringMessagesDeletion.preload.js';
-import { MemoryStream } from '../../util/MemoryStream.node.js';
+import { clearData } from './helpers.preload.ts';
+import { loadAllAndReinitializeRedux } from '../../services/allLoaders.preload.ts';
+import { backupsService } from '../../services/backups/index.preload.ts';
+import { initialize as initializeExpiringMessageService } from '../../services/expiringMessagesDeletion.preload.ts';
+import { MemoryStream } from '../../util/MemoryStream.node.ts';
 
 const { BACKUP_INTEGRATION_DIR } = process.env;
 
 describe('backup/integration', () => {
   before(async () => {
-    await initializeExpiringMessageService();
+    initializeExpiringMessageService();
   });
 
   beforeEach(async () => {

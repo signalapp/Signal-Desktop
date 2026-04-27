@@ -5,8 +5,8 @@ import * as React from 'react';
 import PQueue from 'p-queue';
 import { LRUCache } from 'lru-cache';
 
-import type { WaveformCache } from '../types/Audio.dom.js';
-import { createLogger } from '../logging/log.std.js';
+import type { WaveformCache } from '../types/Audio.dom.tsx';
+import { createLogger } from '../logging/log.std.ts';
 
 const log = createLogger('VoiceNotesPlaybackContext');
 
@@ -39,7 +39,7 @@ const computeQueue = new PQueue({
   concurrency: MAX_PARALLEL_COMPUTE,
 });
 
-export async function getAudioDuration(buffer: ArrayBuffer): Promise<number> {
+async function getAudioDuration(buffer: ArrayBuffer): Promise<number> {
   const blob = new Blob([buffer]);
   const blobURL = URL.createObjectURL(blob);
   const audio = new Audio();

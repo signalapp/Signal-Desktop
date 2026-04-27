@@ -1,61 +1,104 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-@font-face {
-  font-family: 'Inter';
-  src: url('../fonts/inter-v3.19/Inter-BoldItalic.woff2');
-  font-weight: bolder;
-  font-style: italic;
-}
-@font-face {
-  font-family: 'Inter';
-  src: url('../fonts/inter-v3.19/Inter-Bold.woff2');
-  font-weight: bolder;
+$is-storybook: false !default;
+$protocol: 'asset://';
+@if $is-storybook {
+  $protocol: '..';
 }
 
 @font-face {
   font-family: 'Inter';
-  src: url('../fonts/inter-v3.19/Inter-SemiBoldItalic.woff2');
+  src: url('#{$protocol}/fonts/inter-v3.19/Inter-BoldItalic.woff2');
+  font-weight: bolder;
+  font-style: italic;
+  // Let "WHITE LARGE SQUARE" be an emoji
+  unicode-range: U+0-2B1B, U+2B1D-10FFFF;
+}
+@font-face {
+  font-family: 'Inter';
+  src: url('#{$protocol}/fonts/inter-v3.19/Inter-Bold.woff2');
+  font-weight: bolder;
+  unicode-range: U+0-2B1B, U+2B1D-10FFFF;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('#{$protocol}/fonts/inter-v3.19/Inter-SemiBoldItalic.woff2');
   font-weight: bold;
   font-style: italic;
+  unicode-range: U+0-2B1B, U+2B1D-10FFFF;
 }
 @font-face {
   font-family: 'Inter';
-  src: url('../fonts/inter-v3.19/Inter-Italic.woff2');
+  src: url('#{$protocol}/fonts/inter-v3.19/Inter-Italic.woff2');
   font-style: italic;
+  unicode-range: U+0-2B1B, U+2B1D-10FFFF;
 }
 @font-face {
   font-family: 'Inter';
-  src: url('../fonts/inter-v3.19/Inter-SemiBold.woff2');
+  src: url('#{$protocol}/fonts/inter-v3.19/Inter-SemiBold.woff2');
   font-weight: bold;
+  unicode-range: U+0-2B1B, U+2B1D-10FFFF;
 }
 @font-face {
   font-family: 'Inter';
-  src: url('../fonts/inter-v3.19/Inter-Medium.woff2');
+  src: url('#{$protocol}/fonts/inter-v3.19/Inter-Medium.woff2');
   font-weight: 500;
+  unicode-range: U+0-2B1B, U+2B1D-10FFFF;
 }
 
 @font-face {
   font-family: 'Inter';
-  src: url('../fonts/inter-v3.19/Inter-Regular.woff2');
+  src: url('#{$protocol}/fonts/inter-v3.19/Inter-Regular.woff2');
+  unicode-range: U+0-2B1B, U+2B1D-10FFFF;
 }
 
 @font-face {
   font-family: 'Parisienne';
-  src: url('../fonts/stories/Parisienne-Regular.ttf');
+  src: url('#{$protocol}/fonts/stories/Parisienne-Regular.ttf');
 }
 
 @font-face {
   font-family: 'Barlow Condensed';
-  src: url('../fonts/stories/BarlowCondensed-Medium.ttf');
+  src: url('#{$protocol}/fonts/stories/BarlowCondensed-Medium.ttf');
 }
 
 @font-face {
   font-family: 'EB Garamond';
-  src: url('../fonts/stories/EBGaramond-Regular.ttf');
+  src: url('#{$protocol}/fonts/stories/EBGaramond-Regular.ttf');
 }
 
 @font-face {
   font-family: 'Hatsuishi';
-  src: url('../fonts/stories/Hatsuishi-Regular.woff2');
+  src: url('#{$protocol}/fonts/stories/Hatsuishi-Regular.woff2');
+}
+
+@font-face {
+  font-family: 'MonoSpecial';
+  src: url('#{$protocol}/fonts/mono-special/MonoSpecial-Regular.woff2');
+}
+
+@font-face {
+  font-family: 'SignalSymbols';
+  font-style: normal;
+  font-weight: 300 400 700;
+  font-display: block;
+  src: url('#{$protocol}/fonts/signal-symbols/SignalSymbolsVariable.woff2');
+}
+
+@font-face {
+  font-family: 'Signal Emoji Small';
+  src: url('#{$protocol}/fonts/emoji.woff2');
+}
+
+$largeEmojiFont: 'asset:///optional-fonts/emoji-large.woff2';
+@if $is-storybook {
+  $largeEmojiFont: 'https://updates.signal.org/static/android/emoji/font/desktop-32-64-v2.0.4.woff2';
+}
+
+@font-face {
+  font-family: 'Signal Emoji Large';
+  src: url($largeEmojiFont);
+  font-display: swap;
 }

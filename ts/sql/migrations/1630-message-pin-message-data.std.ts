@@ -1,9 +1,9 @@
 // Copyright 2026 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import type { LoggerType } from '../../types/Logging.std.js';
-import { isAciString } from '../../util/isAciString.std.js';
-import type { WritableDB } from '../Interface.std.js';
-import { sql } from '../util.std.js';
+import type { LoggerType } from '../../types/Logging.std.ts';
+import { isAciString } from '../../util/isAciString.std.ts';
+import type { WritableDB } from '../Interface.std.ts';
+import { sql } from '../util.std.ts';
 
 type Pin = Readonly<{
   pinMessageId: string;

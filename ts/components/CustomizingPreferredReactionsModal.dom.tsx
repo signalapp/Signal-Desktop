@@ -4,22 +4,22 @@
 import React, { useState, useCallback, useRef } from 'react';
 import lodash from 'lodash';
 
-import type { LocalizerType } from '../types/Util.std.js';
-import { Modal } from './Modal.dom.js';
-import { Button, ButtonVariant } from './Button.dom.js';
+import type { LocalizerType } from '../types/Util.std.ts';
+import { Modal } from './Modal.dom.tsx';
+import { Button, ButtonVariant } from './Button.dom.tsx';
 import {
   ReactionPickerPicker,
   ReactionPickerPickerEmojiButton,
   ReactionPickerPickerStyle,
-} from './ReactionPickerPicker.dom.js';
-import { DEFAULT_PREFERRED_REACTION_EMOJI_PARENT_KEYS } from '../reactions/constants.std.js';
+} from './ReactionPickerPicker.dom.tsx';
+import { DEFAULT_PREFERRED_REACTION_EMOJI_PARENT_KEYS } from '../reactions/constants.std.ts';
 import {
   EmojiSkinTone,
   getEmojiVariantByKey,
   getEmojiVariantByParentKeyAndSkinTone,
-} from './fun/data/emojis.std.js';
-import { FunEmojiPicker } from './fun/FunEmojiPicker.dom.js';
-import type { FunEmojiSelection } from './fun/panels/FunPanelEmojis.dom.js';
+} from './fun/data/emojis.std.ts';
+import { FunEmojiPicker } from './fun/FunEmojiPicker.dom.tsx';
+import type { FunEmojiSelection } from './fun/panels/FunPanelEmojis.dom.tsx';
 
 const { isEqual } = lodash;
 
@@ -136,7 +136,7 @@ export function CustomizingPreferredReactionsModal({
               <CustomizingPreferredReactionsModalItem
                 // The index is the only thing that uniquely identifies the emoji, because
                 //   there can be duplicates in the list.
-                // eslint-disable-next-line react/no-array-index-key
+                // oxlint-disable-next-line react/no-array-index-key
                 key={index}
                 emoji={emoji}
                 isSelected={index === selectedDraftEmojiIndex}

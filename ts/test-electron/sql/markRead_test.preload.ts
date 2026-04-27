@@ -4,15 +4,14 @@
 import { assert } from 'chai';
 import { v4 as generateUuid } from 'uuid';
 
-import { DataReader, DataWriter } from '../../sql/Client.preload.js';
-import { generateAci } from '../../types/ServiceId.std.js';
-
-import type { ReactionType } from '../../types/Reactions.std.js';
-import { ReactionReadStatus } from '../../types/Reactions.std.js';
-import { DurationInSeconds } from '../../util/durations/index.std.js';
+import { DataReader, DataWriter } from '../../sql/Client.preload.ts';
+import type { ReactionType } from '../../types/Reactions.std.ts';
+import { ReactionReadStatus } from '../../types/Reactions.std.ts';
+import { DurationInSeconds } from '../../util/durations/index.std.ts';
 import type { MessageAttributesType } from '../../model-types.d.ts';
-import { ReadStatus } from '../../messages/MessageReadStatus.std.js';
-import { postSaveUpdates } from '../../util/cleanup.preload.js';
+import { ReadStatus } from '../../messages/MessageReadStatus.std.ts';
+import { postSaveUpdates } from '../../util/cleanup.preload.ts';
+import { generateAci } from '../../test-helpers/serviceIdUtils.std.ts';
 
 const { _getAllReactions, _getAllMessages, getTotalUnreadForConversation } =
   DataReader;
@@ -438,21 +437,21 @@ describe('sql/markRead', () => {
 
     assert.strictEqual(sorted[0]?.id, message1.id, 'checking message 1');
     assert.strictEqual(
-      sorted[0].expirationStartTimestamp,
+      sorted[0]?.expirationStartTimestamp,
       now,
       "message1's expirationStartTimestamp was moved earlier"
     );
 
     assert.strictEqual(sorted[1]?.id, message2.id, 'checking message 2');
     assert.strictEqual(
-      sorted[1].expirationStartTimestamp,
+      sorted[1]?.expirationStartTimestamp,
       now,
       'checking message 2 expirationStartTimestamp'
     );
 
     assert.strictEqual(sorted[3]?.id, message4.id, 'checking message 4');
     assert.strictEqual(
-      sorted[3].expirationStartTimestamp,
+      sorted[3]?.expirationStartTimestamp,
       now,
       'checking message 4 expirationStartTimestamp'
     );

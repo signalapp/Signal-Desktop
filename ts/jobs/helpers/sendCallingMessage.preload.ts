@@ -3,32 +3,32 @@
 
 import { ContentHint } from '@signalapp/libsignal-client';
 
-import { handleMessageSend } from '../../util/handleMessageSend.preload.js';
-import { getSendOptions } from '../../util/getSendOptions.preload.js';
+import { handleMessageSend } from '../../util/handleMessageSend.preload.ts';
+import { getSendOptions } from '../../util/getSendOptions.preload.ts';
 import {
   isDirectConversation,
   isGroup,
-} from '../../util/whatTypeOfConversation.dom.js';
-import { SignalService as Proto } from '../../protobuf/index.std.js';
+} from '../../util/whatTypeOfConversation.dom.ts';
+import { SignalService as Proto } from '../../protobuf/index.std.ts';
 import {
   handleMultipleSendErrors,
   maybeExpandErrors,
-} from './handleMultipleSendErrors.std.js';
+} from './handleMultipleSendErrors.std.ts';
 
-import type { ConversationModel } from '../../models/conversations.preload.js';
+import type { ConversationModel } from '../../models/conversations.preload.ts';
 import type {
   ConversationQueueJobBundle,
   CallingMessageJobData,
-} from '../conversationJobQueue.preload.js';
-import { isConversationUnregistered } from '../../util/isConversationUnregistered.dom.js';
+} from '../conversationJobQueue.preload.ts';
+import { isConversationUnregistered } from '../../util/isConversationUnregistered.dom.ts';
 import {
   OutgoingIdentityKeyError,
   UnregisteredUserError,
-} from '../../textsecure/Errors.std.js';
-import { getUntrustedConversationServiceIds } from './getUntrustedConversationServiceIds.dom.js';
-import { sendContentMessageToGroup } from '../../util/sendToGroup.preload.js';
-import * as Bytes from '../../Bytes.std.js';
-import { getValidRecipients } from './getValidRecipients.dom.js';
+} from '../../textsecure/Errors.std.ts';
+import { getUntrustedConversationServiceIds } from './getUntrustedConversationServiceIds.dom.ts';
+import { sendContentMessageToGroup } from '../../util/sendToGroup.preload.ts';
+import * as Bytes from '../../Bytes.std.ts';
+import { getValidRecipients } from './getValidRecipients.dom.ts';
 
 export async function sendCallingMessage(
   conversation: ConversationModel,

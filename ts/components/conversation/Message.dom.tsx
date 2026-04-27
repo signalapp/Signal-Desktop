@@ -1,8 +1,6 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* eslint-disable react/jsx-pascal-case */
-
 import type {
   DetailedHTMLProps,
   HTMLAttributes,
@@ -12,7 +10,7 @@ import type {
 import React, { forwardRef, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import classNames from 'classnames';
-import getDirection from 'direction';
+import { direction as getDirection } from 'direction';
 import lodash from 'lodash';
 import { Manager, Popper, Reference } from 'react-popper';
 import type { PreventOverflowModifier } from '@popperjs/core/lib/modifiers/preventOverflow.js';
@@ -25,41 +23,41 @@ import type {
   SaveAttachmentActionCreatorType,
   SaveAttachmentsActionCreatorType,
   ShowConversationType,
-} from '../../state/ducks/conversations.preload.js';
-import type { ViewStoryActionCreatorType } from '../../state/ducks/stories.preload.js';
-import { ReadStatus } from '../../messages/MessageReadStatus.std.js';
-import { Avatar, AvatarSize } from '../Avatar.dom.js';
-import { AvatarSpacer } from '../AvatarSpacer.dom.js';
-import { MessageBodyReadMore } from './MessageBodyReadMore.dom.js';
-import { MessageMetadata } from './MessageMetadata.dom.js';
-import { MessageTextMetadataSpacer } from './MessageTextMetadataSpacer.dom.js';
-import { ImageGrid } from './ImageGrid.dom.js';
-import { GIF } from './GIF.dom.js';
-import { CurveType, Image } from './Image.dom.js';
-import { ContactName } from './ContactName.dom.js';
-import { I18n } from '../I18n.dom.js';
-import type { QuotedAttachmentForUIType } from './Quote.dom.js';
-import { Quote } from './Quote.dom.js';
-import { EmbeddedContact } from './EmbeddedContact.dom.js';
+} from '../../state/ducks/conversations.preload.ts';
+import type { ViewStoryActionCreatorType } from '../../state/ducks/stories.preload.ts';
+import { ReadStatus } from '../../messages/MessageReadStatus.std.ts';
+import { Avatar, AvatarSize } from '../Avatar.dom.tsx';
+import { AvatarSpacer } from '../AvatarSpacer.dom.tsx';
+import { MessageBodyReadMore } from './MessageBodyReadMore.dom.tsx';
+import { MessageMetadata } from './MessageMetadata.dom.tsx';
+import { MessageTextMetadataSpacer } from './MessageTextMetadataSpacer.dom.tsx';
+import { ImageGrid } from './ImageGrid.dom.tsx';
+import { GIF } from './GIF.dom.tsx';
+import { CurveType, Image } from './Image.dom.tsx';
+import { ContactName } from './ContactName.dom.tsx';
+import { I18n } from '../I18n.dom.tsx';
+import type { QuotedAttachmentForUIType } from './Quote.dom.tsx';
+import { Quote } from './Quote.dom.tsx';
+import { EmbeddedContact } from './EmbeddedContact.dom.tsx';
 import type {
   OwnProps as ReactionViewerProps,
   Reaction,
-} from './ReactionViewer.dom.js';
-import { ReactionViewer } from './ReactionViewer.dom.js';
-import { LinkPreviewDate } from './LinkPreviewDate.dom.js';
+} from './ReactionViewer.dom.tsx';
+import { ReactionViewer } from './ReactionViewer.dom.tsx';
+import { LinkPreviewDate } from './LinkPreviewDate.dom.tsx';
 import type { RenderingContextType } from '../../types/RenderingContext.d.ts';
-import type { LinkPreviewForUIType } from '../../types/message/LinkPreviews.std.js';
-import type { MessageStatusType } from '../../types/message/MessageStatus.std.js';
-import { shouldUseFullSizeLinkPreviewImage } from '../../linkPreviews/shouldUseFullSizeLinkPreviewImage.std.js';
-import type { WidthBreakpoint } from '../_util.std.js';
-import { OutgoingGiftBadgeModal } from '../OutgoingGiftBadgeModal.dom.js';
-import { createLogger } from '../../logging/log.std.js';
-import { StoryViewModeType } from '../../types/Stories.std.js';
-import { GiftBadgeStates } from '../../types/GiftBadgeStates.std.js';
+import type { LinkPreviewForUIType } from '../../types/message/LinkPreviews.std.ts';
+import type { MessageStatusType } from '../../types/message/MessageStatus.std.ts';
+import { shouldUseFullSizeLinkPreviewImage } from '../../linkPreviews/shouldUseFullSizeLinkPreviewImage.std.ts';
+import type { WidthBreakpoint } from '../_util.std.ts';
+import { OutgoingGiftBadgeModal } from '../OutgoingGiftBadgeModal.dom.tsx';
+import { createLogger } from '../../logging/log.std.ts';
+import { StoryViewModeType } from '../../types/Stories.std.ts';
+import { GiftBadgeStates } from '../../types/GiftBadgeStates.std.ts';
 import type {
   AttachmentForUIType,
   AttachmentType,
-} from '../../types/Attachment.std.js';
+} from '../../types/Attachment.std.ts';
 import {
   canDisplayImage,
   getGridDimensions,
@@ -73,47 +71,47 @@ import {
   isImage,
   isImageAttachment,
   isVideo,
-} from '../../util/Attachment.std.js';
-import type { EmbeddedContactForUIType } from '../../types/EmbeddedContact.std.js';
+} from '../../util/Attachment.std.ts';
+import type { EmbeddedContactForUIType } from '../../types/EmbeddedContact.std.ts';
 
-import { getIncrement } from '../../util/timer.std.js';
-import { clearTimeoutIfNecessary } from '../../util/clearTimeoutIfNecessary.std.js';
-import { missingCaseError } from '../../util/missingCaseError.std.js';
-import type { HydratedBodyRangesType } from '../../types/BodyRange.std.js';
-import type { LocalizerType, ThemeType } from '../../types/Util.std.js';
+import { getIncrement } from '../../util/timer.std.ts';
+import { clearTimeoutIfNecessary } from '../../util/clearTimeoutIfNecessary.std.ts';
+import { missingCaseError } from '../../util/missingCaseError.std.ts';
+import type { HydratedBodyRangesType } from '../../types/BodyRange.std.ts';
+import type { LocalizerType, ThemeType } from '../../types/Util.std.ts';
 
-import type { PreferredBadgeSelectorType } from '../../state/selectors/badges.preload.js';
+import type { PreferredBadgeSelectorType } from '../../state/selectors/badges.preload.ts';
 import type {
   ContactNameColorType,
   ConversationColorType,
   CustomColorType,
-} from '../../types/Colors.std.js';
-import { createRefMerger } from '../../util/refMerger.std.js';
-import { getCustomColorStyle } from '../../util/getCustomColorStyle.dom.js';
-import type { ServiceIdString } from '../../types/ServiceId.std.js';
-import { DAY, HOUR, MINUTE, SECOND } from '../../util/durations/index.std.js';
-import { BadgeImageTheme } from '../../badges/BadgeImageTheme.std.js';
-import { getBadgeImageFileLocalPath } from '../../badges/getBadgeImageFileLocalPath.std.js';
-import { handleOutsideClick } from '../../util/handleOutsideClick.dom.js';
-import { isPaymentNotificationEvent } from '../../types/Payment.std.js';
-import type { AnyPaymentEvent } from '../../types/Payment.std.js';
-import { getPaymentEventDescription } from '../../messages/payments.std.js';
-import { PanelType } from '../../types/Panels.std.js';
-import type { PollWithResolvedVotersType } from '../../state/selectors/message.preload.js';
-import { PollMessageContents } from './poll-message/PollMessageContents.dom.js';
-import { openLinkInWebBrowser } from '../../util/openLinkInWebBrowser.dom.js';
-import { RenderLocation } from './MessageTextRenderer.dom.js';
-import { UserText } from '../UserText.dom.js';
-import { getColorForCallLink } from '../../util/getColorForCallLink.std.js';
-import { getKeyFromCallLink } from '../../util/callLinks.std.js';
-import { InAnotherCallTooltip } from './InAnotherCallTooltip.dom.js';
-import { formatFileSize } from '../../util/formatFileSize.std.js';
-import { assertDev, strictAssert } from '../../util/assert.std.js';
-import { AttachmentStatusIcon } from './AttachmentStatusIcon.dom.js';
-import { TapToViewNotAvailableType } from '../TapToViewNotAvailableModal.dom.js';
-import type { DataPropsType as TapToViewNotAvailablePropsType } from '../TapToViewNotAvailableModal.dom.js';
-import { FileThumbnail } from '../FileThumbnail.dom.js';
-import { FunStaticEmoji } from '../fun/FunEmoji.dom.js';
+} from '../../types/Colors.std.ts';
+import { createRefMerger } from '../../util/refMerger.std.ts';
+import { getCustomColorStyle } from '../../util/getCustomColorStyle.dom.ts';
+import type { ServiceIdString } from '../../types/ServiceId.std.ts';
+import { DAY, HOUR, MINUTE, SECOND } from '../../util/durations/index.std.ts';
+import { BadgeImageTheme } from '../../badges/BadgeImageTheme.std.ts';
+import { getBadgeImageFileLocalPath } from '../../badges/getBadgeImageFileLocalPath.std.ts';
+import { handleOutsideClick } from '../../util/handleOutsideClick.dom.ts';
+import { isPaymentNotificationEvent } from '../../types/Payment.std.ts';
+import type { AnyPaymentEvent } from '../../types/Payment.std.ts';
+import { getPaymentEventDescription } from '../../messages/payments.std.ts';
+import { PanelType } from '../../types/Panels.std.ts';
+import type { PollWithResolvedVotersType } from '../../state/selectors/message.preload.ts';
+import { PollMessageContents } from './poll-message/PollMessageContents.dom.tsx';
+import { openLinkInWebBrowser } from '../../util/openLinkInWebBrowser.dom.ts';
+import { RenderLocation } from './MessageTextRenderer.dom.tsx';
+import { UserText } from '../UserText.dom.tsx';
+import { getColorForCallLink } from '../../util/getColorForCallLink.std.ts';
+import { getKeyFromCallLink } from '../../util/callLinks.std.ts';
+import { InAnotherCallTooltip } from './InAnotherCallTooltip.dom.tsx';
+import { formatFileSize } from '../../util/formatFileSize.std.ts';
+import { assertDev, strictAssert } from '../../util/assert.std.ts';
+import { AttachmentStatusIcon } from './AttachmentStatusIcon.dom.tsx';
+import { TapToViewNotAvailableType } from '../TapToViewNotAvailableModal.dom.tsx';
+import type { DataPropsType as TapToViewNotAvailablePropsType } from '../TapToViewNotAvailableModal.dom.tsx';
+import { FileThumbnail } from '../FileThumbnail.dom.tsx';
+import { FunStaticEmoji } from '../fun/FunEmoji.dom.tsx';
 import {
   type EmojifyData,
   getEmojiDebugLabel,
@@ -123,13 +121,13 @@ import {
   getEmojiVariantByKey,
   getEmojiVariantKeyByValue,
   isEmojiVariantValue,
-} from '../fun/data/emojis.std.js';
-import { useGroupedAndOrderedReactions } from '../../util/groupAndOrderReactions.dom.js';
-import type { AxoMenuBuilder } from '../../axo/AxoMenuBuilder.dom.js';
-import { AxoSymbol } from '../../axo/AxoSymbol.dom.js';
-import type { RenderAudioAttachmentProps } from '../../state/smart/renderAudioAttachment.preload.js';
-import type { MemberLabelType } from '../../types/GroupMemberLabels.std.js';
-import type { ContactModalStateType } from '../../types/globalModals.std.js';
+} from '../fun/data/emojis.std.ts';
+import { useGroupedAndOrderedReactions } from '../../util/groupAndOrderReactions.dom.ts';
+import type { AxoMenuBuilder } from '../../axo/AxoMenuBuilder.dom.tsx';
+import { AxoSymbol } from '../../axo/AxoSymbol.dom.tsx';
+import type { RenderAudioAttachmentProps } from '../../state/smart/renderAudioAttachment.preload.tsx';
+import type { MemberLabelType } from '../../types/GroupMemberLabels.std.ts';
+import type { ContactModalStateType } from '../../types/globalModals.std.ts';
 
 const { drop, take, unescape } = lodash;
 
@@ -181,33 +179,9 @@ export enum MessageInteractivity {
   Static = 'Static',
   /** Enable some interactions for embedded messages (ex: PinnedMessagesPanel) */
   Embed = 'Embed',
+  /** Hidden, like in a collapsed CollapseSet */
+  Hidden = 'Hidden',
 }
-
-export type AudioAttachmentProps = {
-  renderingContext: RenderingContextType;
-  i18n: LocalizerType;
-  buttonRef: React.RefObject<HTMLButtonElement>;
-  theme: ThemeType | undefined;
-  attachment: AttachmentForUIType;
-  collapseMetadata: boolean;
-  withContentAbove: boolean;
-  withContentBelow: boolean;
-
-  direction: DirectionType;
-  expirationLength?: number;
-  expirationTimestamp?: number;
-  id: string;
-  conversationId: string;
-  played: boolean;
-  pushPanelForConversation: PushPanelForConversationActionType;
-  status?: MessageStatusType;
-  textPending?: boolean;
-  timestamp: number;
-
-  kickOffAttachmentDownload(): void;
-  cancelAttachmentDownload(): void;
-  onCorrupted(): void;
-};
 
 export type GiftBadgeType =
   | {
@@ -270,6 +244,7 @@ export type PropsData = {
   isSpoilerExpanded?: Record<number, boolean>;
   isVoiceMessagePlayed: boolean;
   canEndPoll?: boolean;
+  canSendPollVote: boolean;
   direction: DirectionType;
   timestamp: number;
   receivedAtMS?: number;
@@ -492,7 +467,7 @@ const MessageReactions = forwardRef(function MessageReactions(
 
   // Take the first three groups for rendering
   const toRender = take(ordered, 3).map(group => {
-    const isMe = group.some(re => Boolean(re.from.isMe));
+    const isMe = group.some(re => re.from.isMe);
     const count = group.length;
     const firstReaction = group[0];
     strictAssert(firstReaction, 'Missing firstReaction');
@@ -530,7 +505,7 @@ const MessageReactions = forwardRef(function MessageReactions(
   );
   const notRenderedIsMe =
     someNotRendered &&
-    maybeNotRendered.some(res => res.some(re => Boolean(re.from.isMe)));
+    maybeNotRendered.some(res => res.some(re => re.from.isMe));
 
   const popperPlacement = outgoing ? 'bottom-end' : 'bottom-start';
 
@@ -559,7 +534,7 @@ const MessageReactions = forwardRef(function MessageReactions(
                 <button
                   aria-label={re.label}
                   type="button"
-                  // eslint-disable-next-line react/no-array-index-key
+                  // oxlint-disable-next-line react/no-array-index-key
                   key={`${re.emoji}-${i}`}
                   className={classNames(
                     'module-message__reactions__reaction',
@@ -657,11 +632,12 @@ export class Message extends React.PureComponent<Props, State> {
   public reactionsContainerRef: React.RefObject<HTMLDivElement | null> =
     React.createRef();
 
-  #hasSelectedTextRef: React.MutableRefObject<boolean> = {
+  readonly #hasSelectedTextRef: React.MutableRefObject<boolean> = {
     current: false,
   };
 
-  #metadataRef: React.RefObject<HTMLDivElement | null> = React.createRef();
+  readonly #metadataRef: React.RefObject<HTMLDivElement | null> =
+    React.createRef();
 
   public expirationCheckInterval: NodeJS.Timeout | undefined;
 
@@ -1065,7 +1041,7 @@ export class Message extends React.PureComponent<Props, State> {
     return true;
   }
 
-  #updateMetadataWidth = (newMetadataWidth: number): void => {
+  readonly #updateMetadataWidth = (newMetadataWidth: number): void => {
     this.setState(({ metadataWidth }) => ({
       // We don't want text to jump around if the metadata shrinks, but we want to make
       //   sure we have enough room.
@@ -1073,7 +1049,7 @@ export class Message extends React.PureComponent<Props, State> {
     }));
   };
 
-  #handleSelectionChange = () => {
+  readonly #handleSelectionChange = () => {
     const selection = document.getSelection();
     if (selection != null && !selection.isCollapsed) {
       this.#hasSelectedTextRef.current = true;
@@ -1259,6 +1235,7 @@ export class Message extends React.PureComponent<Props, State> {
       if (isGIF(attachments)) {
         return (
           <div className={containerClassName}>
+            {/* oxlint-disable-next-line react/jsx-pascal-case */}
             <GIF
               attachment={firstAttachment}
               size={GIF_SIZE}
@@ -2081,7 +2058,8 @@ export class Message extends React.PureComponent<Props, State> {
   }
 
   public renderPoll(): React.JSX.Element | null {
-    const { poll, direction, i18n, id, endPoll, canEndPoll } = this.props;
+    const { poll, direction, i18n, id, endPoll, canEndPoll, canSendPollVote } =
+      this.props;
     if (!poll) {
       return null;
     }
@@ -2094,11 +2072,12 @@ export class Message extends React.PureComponent<Props, State> {
         sendPollVote={this.props.sendPollVote}
         endPoll={endPoll}
         canEndPoll={canEndPoll}
+        canSendPollVote={canSendPollVote}
       />
     );
   }
 
-  #doubleCheckMissingQuoteReference = () => {
+  readonly #doubleCheckMissingQuoteReference = () => {
     return this.props.doubleCheckMissingQuoteReference(this.props.id);
   };
 
@@ -2322,6 +2301,7 @@ export class Message extends React.PureComponent<Props, State> {
       direction,
       getPreferredBadge,
       i18n,
+      isSelectMode,
       shouldCollapseBelow,
       showContactModal,
       theme,
@@ -2337,6 +2317,7 @@ export class Message extends React.PureComponent<Props, State> {
           'module-message__author-avatar-container--with-reactions':
             this.#hasReactions(),
         })}
+        inert={isSelectMode ? true : undefined}
       >
         {shouldCollapseBelow ? (
           <AvatarSpacer size={GROUP_AVATAR_SIZE} />
@@ -2427,9 +2408,13 @@ export class Message extends React.PureComponent<Props, State> {
         );
       }
       return (
-        <>
-          <AxoSymbol.InlineGlyph symbol="x-circle" label={null} /> {text}
-        </>
+        <span dir="auto">
+          <span dir="auto">
+            <AxoSymbol.InlineGlyph symbol="x-circle" label={null} />
+          </span>
+          &nbsp;
+          {text}
+        </span>
       );
     }
     if (direction === 'incoming' && status === 'error') {
@@ -2472,7 +2457,7 @@ export class Message extends React.PureComponent<Props, State> {
     }
 
     return (
-      <div // eslint-disable-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions
+      <div // oxlint-disable-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions
         className={classNames(
           'module-message__text',
           `module-message__text--${direction}`,
@@ -2965,22 +2950,23 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  #popperPreventOverflowModifier = (): Partial<PreventOverflowModifier> => {
-    const { containerElementRef } = this.props;
-    return {
-      name: 'preventOverflow',
-      options: {
-        altAxis: true,
-        boundary: containerElementRef.current || undefined,
-        padding: {
-          bottom: 16,
-          left: 8,
-          right: 8,
-          top: 16,
+  readonly #popperPreventOverflowModifier =
+    (): Partial<PreventOverflowModifier> => {
+      const { containerElementRef } = this.props;
+      return {
+        name: 'preventOverflow',
+        options: {
+          altAxis: true,
+          boundary: containerElementRef.current || undefined,
+          padding: {
+            bottom: 16,
+            left: 8,
+            right: 8,
+            top: 16,
+          },
         },
-      },
+      };
     };
-  };
 
   public toggleReactionViewer = (onlyRemove = false): void => {
     this.setState(oldState => {
@@ -3309,6 +3295,7 @@ export class Message extends React.PureComponent<Props, State> {
       deletedForEveryone,
       direction,
       id,
+      isSelectMode,
       isSticker,
       isTapToView,
       renderMessageContextMenu,
@@ -3371,7 +3358,7 @@ export class Message extends React.PureComponent<Props, State> {
     }
 
     function maybeWrapWithContextMenu(children: ReactNode): ReactNode {
-      if (renderMessageContextMenu) {
+      if (renderMessageContextMenu && !isSelectMode) {
         return renderMessageContextMenu('AxoContextMenu', children);
       }
       return children;
@@ -3381,7 +3368,7 @@ export class Message extends React.PureComponent<Props, State> {
       <div className="module-message__container-outer">
         {maybeWrapWithContextMenu(
           // the keyboard handler is a level higher in hierarchy due to selection
-          //  eslint-disable-next-line jsx-a11y/click-events-have-key-events
+          //  oxlint-disable-next-line jsx-a11y/click-events-have-key-events
           <div
             className={containerClassnames}
             id={`message-accessibility-contents:${id}`}
@@ -3393,6 +3380,7 @@ export class Message extends React.PureComponent<Props, State> {
               ev.stopPropagation();
             }}
             tabIndex={-1}
+            inert={isSelectMode ? true : undefined}
           >
             {this.#renderAuthor()}
             <div dir={TextDirectionToDirAttribute[textDirection]}>
@@ -3465,7 +3453,7 @@ export class Message extends React.PureComponent<Props, State> {
         'aria-checked': isSelected,
         'aria-labelledby': `message-accessibility-label:${id}`,
         'aria-describedby': `message-accessibility-description:${id}`,
-        tabIndex: 0,
+        tabIndex: interactivity !== MessageInteractivity.Hidden ? 0 : undefined,
         onClick: event => {
           event.preventDefault();
           onToggleSelect(!isSelected, event.shiftKey);
@@ -3557,9 +3545,6 @@ export class Message extends React.PureComponent<Props, State> {
           role="row"
           onFocus={this.handleFocus}
           ref={this.focusRef}
-          // @ts-expect-error -- React/TS doesn't know about inert
-          // eslint-disable-next-line react/no-unknown-property
-          inert={isSelectMode ? '' : undefined}
         >
           {this.#renderError()}
           {this.#renderAvatar()}

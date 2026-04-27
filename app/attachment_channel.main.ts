@@ -20,35 +20,36 @@ import GrowingFile from 'growing-file';
 import lodash from 'lodash';
 import { pathExists } from 'fs-extra';
 import pMap from 'p-map';
-import { access } from 'node:fs/promises';
+import { stat } from 'node:fs/promises';
 
 import {
   type DecryptAttachmentToSinkOptionsType,
   decryptAttachmentV2ToSink,
-} from '../ts/AttachmentCrypto.node.js';
-import * as Bytes from '../ts/Bytes.std.js';
-import type { MessageAttachmentsCursorType } from '../ts/sql/Interface.std.js';
-import type { MainSQL } from '../ts/sql/main.main.js';
+  type IntegrityCheckType,
+} from '../ts/AttachmentCrypto.node.ts';
+import * as Bytes from '../ts/Bytes.std.ts';
+import type { MessageAttachmentsCursorType } from '../ts/sql/Interface.std.ts';
+import type { MainSQL } from '../ts/sql/main.main.ts';
 import {
   APPLICATION_OCTET_STREAM,
   MIMETypeToString,
   stringToMIMEType,
-} from '../ts/types/MIME.std.js';
-import * as Errors from '../ts/types/errors.std.js';
+} from '../ts/types/MIME.std.ts';
+import * as Errors from '../ts/types/errors.std.ts';
 import {
   isImageTypeSupported,
   isVideoTypeSupported,
-} from '../ts/util/GoogleChrome.std.js';
-import { strictAssert } from '../ts/util/assert.std.js';
-import { drop } from '../ts/util/drop.std.js';
-import { SECOND } from '../ts/util/durations/index.std.js';
-import { isPathInside } from '../ts/util/isPathInside.node.js';
-import { missingCaseError } from '../ts/util/missingCaseError.std.js';
-import { safeParseInteger } from '../ts/util/numbers.std.js';
-import { parseLoose } from '../ts/util/schemas.std.js';
-import { sleep } from '../ts/util/sleep.std.js';
-import { toWebStream } from '../ts/util/toWebStream.node.js';
-import { createLogger } from '../ts/logging/log.std.js';
+} from '../ts/util/GoogleChrome.std.ts';
+import { strictAssert } from '../ts/util/assert.std.ts';
+import { drop } from '../ts/util/drop.std.ts';
+import { SECOND } from '../ts/util/durations/index.std.ts';
+import { isPathInside } from '../ts/util/isPathInside.node.ts';
+import { missingCaseError } from '../ts/util/missingCaseError.std.ts';
+import { safeParseInteger } from '../ts/util/numbers.std.ts';
+import { parseLoose } from '../ts/util/schemas.std.ts';
+import { sleep } from '../ts/util/sleep.std.ts';
+import { toWebStream } from '../ts/util/toWebStream.node.ts';
+import { createLogger } from '../ts/logging/log.std.ts';
 import {
   deleteAllAttachments,
   deleteAllBadges,
@@ -67,7 +68,9 @@ import {
   getAttachmentsPath,
   getStickersPath,
   getTempPath,
-} from './attachments.node.js';
+} from './attachments.node.ts';
+import { isValidDigest, isValidPlaintextHash } from '../ts/types/Crypto.std.ts';
+import { isNotNil } from '../ts/util/isNotNil.std.ts';
 
 const { isNumber } = lodash;
 
@@ -98,7 +101,7 @@ type RangeFinderContextType = Readonly<
       }
     | {
         type: 'incremental';
-        digest: Uint8Array<ArrayBuffer>;
+        integrityCheck: IntegrityCheckType;
         incrementalMac: Uint8Array<ArrayBuffer>;
         chunkSize: number;
         keysBase64: string;
@@ -154,10 +157,7 @@ async function safeDecryptToSink(
         theirChunkSize: ctx.chunkSize,
         theirIncrementalMac: ctx.incrementalMac,
         type: 'standard',
-        integrityCheck: {
-          type: 'encrypted',
-          digest: ctx.digest,
-        },
+        integrityCheck: ctx.integrityCheck,
       };
 
       const controller = new AbortController();
@@ -419,7 +419,7 @@ function deleteOrphanedAttachments({
         let attachments: ReadonlyArray<string>;
         let downloads: ReadonlyArray<string>;
 
-        // eslint-disable-next-line no-await-in-loop
+        // oxlint-disable-next-line no-await-in-loop
         ({ attachments, downloads, cursor } = await sql.sqlRead(
           'getKnownMessageAttachments',
           cursor
@@ -444,7 +444,7 @@ function deleteOrphanedAttachments({
 
         // Let other SQL calls come through. There are hundreds of thousands of
         // messages in the database and it might take time to go through them all.
-        // eslint-disable-next-line no-await-in-loop
+        // oxlint-disable-next-line no-await-in-loop
         await sleep(INTERACTIVITY_DELAY);
       } while (cursor !== undefined && !cursor.done);
     } finally {
@@ -469,20 +469,36 @@ function deleteOrphanedAttachments({
     // It's possible that messages and attachments have been deleted since we first
     // checked the contents of the attachments folder, so for better accounting, we
     // check once more that they still exist.
-    await pMap(
-      orphanedAttachments,
-      async path => {
-        try {
-          await access(join(attachmentsFolder, path));
-        } catch (e) {
-          orphanedAttachments.delete(path);
-        }
-      },
-      { concurrency: 20 }
-    );
+    const orphanedCTimes: Array<number> = (
+      await pMap(
+        orphanedAttachments,
+        async path => {
+          // Ignore the orphaned file if it does not exist
+          try {
+            const stats = await stat(join(attachmentsFolder, path));
+            return Math.floor(stats.ctimeMs);
+          } catch (e) {
+            // Ignore attachments that do not exist on disk
+            if ('code' in e && e.code === 'ENOENT') {
+              orphanedAttachments.delete(path);
+              return;
+            }
+            log.error(
+              "Unable to access orphaned file's stats",
+              Errors.toLogFormat(e)
+            );
+            return;
+          }
+        },
+        { concurrency: 20 }
+      )
+    ).filter(isNotNil);
 
     if (orphanedAttachments.size > 0) {
-      log.error(`${orphanedAttachments.size} orphaned attachment(s) found`);
+      log.error(
+        `${orphanedAttachments.size} orphaned attachment(s) found, cTimes:`,
+        orphanedCTimes
+      );
     }
 
     if (totalMissing > 0) {
@@ -644,7 +660,7 @@ export async function handleAttachmentRequest(req: Request): Promise<Response> {
     return new Response('Access denied', { status: 401 });
   }
 
-  // Some attachments have weak references (e.g. copied quotes) and we
+  // Some attachments have weak references (e.g. old copied quotes) and we
   // don't want to treat those attachments missing as an error
   const weakReferenceParam = url.searchParams.get('weakReference');
   if (weakReferenceParam != null) {
@@ -703,9 +719,26 @@ export async function handleAttachmentRequest(req: Request): Promise<Response> {
       // When trying to view in-progress downloads, we need more information
       // to validate the file before returning data.
 
-      const digestBase64 = url.searchParams.get('digest');
-      if (digestBase64 == null) {
-        return new Response('Missing digest', { status: 400 });
+      const digestBase64 = url.searchParams.get('digest') ?? undefined;
+      const plaintextHashHex =
+        url.searchParams.get('plaintextHash') ?? undefined;
+
+      let integrityCheck: IntegrityCheckType;
+
+      if (isValidPlaintextHash(plaintextHashHex)) {
+        integrityCheck = {
+          type: 'plaintext',
+          plaintextHash: Bytes.fromHex(plaintextHashHex),
+        };
+      } else if (isValidDigest(digestBase64)) {
+        integrityCheck = {
+          type: 'encrypted',
+          digest: Bytes.fromBase64(digestBase64),
+        };
+      } else {
+        return new Response('Missing/invalid plaintextHash or digest', {
+          status: 400,
+        });
       }
 
       const incrementalMacBase64 = url.searchParams.get('incrementalMac');
@@ -724,7 +757,7 @@ export async function handleAttachmentRequest(req: Request): Promise<Response> {
       context = {
         type: 'incremental',
         chunkSize,
-        digest: Bytes.fromBase64(digestBase64),
+        integrityCheck,
         incrementalMac: Bytes.fromBase64(incrementalMacBase64),
         keysBase64,
         path,

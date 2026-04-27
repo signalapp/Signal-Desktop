@@ -4,9 +4,9 @@
 import type { ReactNode, ErrorInfo } from 'react';
 import React from 'react';
 
-import * as Errors from '../types/errors.std.js';
-import { createLogger } from '../logging/log.std.js';
-import { ToastType } from '../types/Toast.dom.js';
+import * as Errors from '../types/errors.std.ts';
+import { createLogger } from '../logging/log.std.ts';
+import { ToastType } from '../types/Toast.dom.tsx';
 
 const log = createLogger('ErrorBoundary');
 

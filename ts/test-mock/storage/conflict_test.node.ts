@@ -11,14 +11,14 @@ import type {
 } from '@signalapp/mock-server';
 import { Proto } from '@signalapp/mock-server';
 
-import * as durations from '../../util/durations/index.std.js';
-import { createCallLink } from '../helpers.node.js';
-import type { App, Bootstrap } from './fixtures.node.js';
+import * as durations from '../../util/durations/index.std.ts';
+import { createCallLink } from '../helpers.node.ts';
+import type { App, Bootstrap } from './fixtures.node.ts';
 import {
   initStorage,
   debug,
   getCallLinkRecordPredicate,
-} from './fixtures.node.js';
+} from './fixtures.node.ts';
 
 const IdentifierType = Proto.ManifestRecord.Identifier.Type;
 
@@ -44,7 +44,7 @@ describe('storage service', function (this: Mocha.Suite) {
   });
 
   for (const kind of ['contact', 'group']) {
-    // eslint-disable-next-line no-loop-func
+    // oxlint-disable-next-line no-loop-func
     it(`should handle ${kind} conflicts`, async () => {
       const { phone, contacts } = bootstrap;
       const [first] = contacts as [PrimaryDevice];
@@ -74,8 +74,8 @@ describe('storage service', function (this: Mocha.Suite) {
 
         const record =
           kind === 'contact'
-            ? await newState.getContact(first)
-            : await newState.getGroup(group);
+            ? newState.getContact(first)
+            : newState.getGroup(group);
 
         assert.ok(record, 'contact record not found');
         assert.ok(record?.archived, 'contact archived');
@@ -303,7 +303,7 @@ describe('storage service', function (this: Mocha.Suite) {
       .getByRole('button', { name: 'Delete link' })
       .click();
 
-    const confirmModal = await window.getByTestId(
+    const confirmModal = window.getByTestId(
       'ConfirmationDialog.CallLinkDetails__DeleteLinkModal'
     );
     await confirmModal.locator('.module-Button').getByText('Delete').click();

@@ -158,7 +158,11 @@
       cursor: pointer;
     }
 
-    &::after {
+    &:disabled {
+      cursor: auto;
+    }
+
+    &:not(:disabled)::after {
       content: '';
       display: inline-block;
       height: 20px;

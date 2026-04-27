@@ -2,37 +2,34 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import lodash from 'lodash';
-import type { ReadStatus } from '../messages/MessageReadStatus.std.js';
-import type { SeenStatus } from '../MessageSeenStatus.std.js';
-import type { ServiceIdString } from '../types/ServiceId.std.js';
-import { dropNull, shallowDropNull } from '../util/dropNull.std.js';
-
-/* eslint-disable camelcase */
-
+import type { ReadStatus } from '../messages/MessageReadStatus.std.ts';
+import type { SeenStatus } from '../MessageSeenStatus.std.ts';
+import type { ServiceIdString } from '../types/ServiceId.std.ts';
+import { dropNull, shallowDropNull } from '../util/dropNull.std.ts';
 import type {
   MessageTypeUnhydrated,
   MessageType,
   MESSAGE_COLUMNS,
   ReadableDB,
   MessageAttachmentDBType,
-} from './Interface.std.js';
+} from './Interface.std.ts';
 import {
   batchMultiVarQuery,
   convertOptionalIntegerToBoolean,
   jsonToObject,
   sql,
   sqlJoin,
-} from './util.std.js';
-import type { AttachmentType } from '../types/Attachment.std.js';
+} from './util.std.ts';
+import type { AttachmentType } from '../types/Attachment.std.ts';
 import {
   APPLICATION_OCTET_STREAM,
   IMAGE_JPEG,
   IMAGE_PNG,
   stringToMIMEType,
-} from '../types/MIME.std.js';
-import { strictAssert } from '../util/assert.std.js';
+} from '../types/MIME.std.ts';
+import { strictAssert } from '../util/assert.std.ts';
 import type { MessageAttributesType } from '../model-types.d.ts';
-import { createLogger } from '../logging/log.std.js';
+import { createLogger } from '../logging/log.std.ts';
 
 const { groupBy } = lodash;
 
@@ -50,7 +47,7 @@ export function hydrateMessage(
   db: ReadableDB,
   row: MessageTypeUnhydrated
 ): MessageType {
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  // oxlint-disable-next-line typescript/no-non-null-assertion
   return hydrateMessages(db, [row])[0]!;
 }
 
@@ -76,9 +73,7 @@ export function hydrateMessages(
   return hydrateMessagesWithAttachments(db, messagesWithColumnsHydrated);
 }
 
-export function hydrateMessageTableColumns(
-  row: MessageTypeUnhydrated
-): MessageType {
+function hydrateMessageTableColumns(row: MessageTypeUnhydrated): MessageType {
   const {
     json,
     id,
@@ -150,7 +145,7 @@ export function getAttachmentReferencesForMessages(
       persistent: boolean
     ): Array<MessageAttachmentDBType> => {
       const [query, params] = sql`
-      SELECT * FROM message_attachments 
+      SELECT * FROM message_attachments
       WHERE messageId IN (${sqlJoin(messageIdBatch)});
     `;
 
@@ -304,7 +299,7 @@ function hydrateMessageRootOrRevisionWithAttachments<
       attachment => attachment.orderInMessage === idx
     );
     if (quoteThumbnail) {
-      // eslint-disable-next-line no-param-reassign
+      // oxlint-disable-next-line no-param-reassign
       quoteAttachment.thumbnail =
         convertAttachmentDBFieldsToAttachmentType(quoteThumbnail);
     }
@@ -316,7 +311,7 @@ function hydrateMessageRootOrRevisionWithAttachments<
     );
 
     if (previewAttachment) {
-      // eslint-disable-next-line no-param-reassign
+      // oxlint-disable-next-line no-param-reassign
       preview.image =
         convertAttachmentDBFieldsToAttachmentType(previewAttachment);
     }
@@ -327,7 +322,7 @@ function hydrateMessageRootOrRevisionWithAttachments<
       attachment => attachment.orderInMessage === idx
     );
     if (contactAttachment && contact.avatar) {
-      // eslint-disable-next-line no-param-reassign
+      // oxlint-disable-next-line no-param-reassign
       contact.avatar.avatar =
         convertAttachmentDBFieldsToAttachmentType(contactAttachment);
     }

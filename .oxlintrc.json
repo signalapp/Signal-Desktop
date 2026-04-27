@@ -1,0 +1,1847 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "options": {
+    "typeAware": true,
+    "reportUnusedDisableDirectives": "error"
+  },
+  "plugins": [
+    "eslint",
+    "import",
+    // "jsdoc",
+    // "jest",
+    "jsx-a11y",
+    // "nextjs",
+    "node",
+    "oxc",
+    "promise",
+    "react",
+    "react-perf",
+    "typescript",
+    "unicorn"
+    // "vitest",
+    // "vue"
+  ],
+  "jsPlugins": ["./.oxlint/plugin.mjs"],
+  "categories": {
+    "correctness": "warn",
+    "nursery": "warn",
+    "pedantic": "warn",
+    "perf": "warn",
+    "restriction": "warn",
+    "style": "warn",
+    "suspicious": "warn"
+  },
+  "rules": {
+    // ------------------------------------------------------------------------
+    // Local Rules
+    // ------------------------------------------------------------------------
+
+    // [local] (🛠️ autofix)
+    "signal-desktop/enforce-array-buffer": "error",
+    // [local]
+    "signal-desktop/enforce-file-suffix": "error",
+    // [local] (🛠️ autofix)
+    "signal-desktop/enforce-license-comments": "error",
+    // [local]
+    "signal-desktop/enforce-tw": "error",
+    // [local]
+    "signal-desktop/enforce-type-alias-readonlydeep": "off", // [reason: Only enabled in specific files]
+    // [local] (💡 suggestion)
+    "signal-desktop/no-disabled-tests": "error",
+    // [local]
+    "signal-desktop/no-extraneous-dependencies": "error",
+    // [local] (🛠️ autofix)
+    "signal-desktop/no-focused-tests": "error",
+    // [local]
+    "signal-desktop/no-for-in": "error",
+    "signal-desktop/no-restricted-paths": [
+      "error",
+      {
+        "zones": [
+          {
+            "target": ["ts/util/**", "ts/types/**"],
+            "from": ["ts/components/**", "ts/axo/**/*.dom.*"],
+            "message": "Importing components is forbidden from ts/{util,types}"
+          },
+          {
+            "target": ["scripts/**", "codemods/**"],
+            "from": ["ts/**"],
+            "message": "Scripts should not import from ts/**"
+          },
+          {
+            "target": ["ts/**"],
+            "from": ["scripts/**", "codemods/**"],
+            "message": "App should not import from scripts"
+          }
+        ]
+      }
+    ],
+    // [local]
+    "signal-desktop/no-then": "error",
+
+    // ------------------------------------------------------------------------
+    // Category: Correctness
+    // ------------------------------------------------------------------------
+
+    // [correctness] (✅ recommended) Require super() calls in constructors
+    "eslint/constructor-super": "error",
+    // [correctness] (✅ recommended) (⚠️ 🛠️ dangerous autofix) Enforce for loop update clause moving the counter in the right direction
+    "eslint/for-direction": "error",
+    // [correctness] (✅ recommended) Disallow using an async function as a Promise executor
+    "eslint/no-async-promise-executor": "error",
+    // [correctness] (✅ recommended) Disallow the use of arguments.caller or arguments.callee
+    "eslint/no-caller": "error",
+    // [correctness] (✅ recommended) Disallow reassigning class members
+    "eslint/no-class-assign": "error",
+    // [correctness] (✅ recommended) (🛠️ autofix) (💡 suggestion) Disallow comparing against -0
+    "eslint/no-compare-neg-zero": "error",
+    // [correctness] (✅ recommended) Disallow assignment operators in conditional expressions
+    "eslint/no-cond-assign": ["error", "always"],
+    // [correctness] (✅ recommended) Disallow reassigning const, using, and await using variables
+    "eslint/no-const-assign": "error",
+    // [correctness] (✅ recommended) Disallow expressions where the operation doesn't affect the value
+    "eslint/no-constant-binary-expression": "off",
+    // [correctness] (✅ recommended) Disallow constant expressions in conditions
+    "eslint/no-constant-condition": [
+      "error",
+      {
+        "checkLoops": "all"
+      }
+    ],
+    // [correctness] (✅ recommended) Disallow control characters in regular expressions
+    "eslint/no-control-regex": "off",
+    // [correctness] (✅ recommended) (🛠️ autofix) Disallow the use of debugger
+    "eslint/no-debugger": "error",
+    // [correctness] (✅ recommended) Disallow deleting variables
+    "eslint/no-delete-var": "error",
+    // [correctness] (✅ recommended) Disallow duplicate class members
+    "eslint/no-dupe-class-members": "error",
+    // [correctness] (✅ recommended) Disallow duplicate conditions in if-else-if chains
+    "eslint/no-dupe-else-if": "error",
+    // [correctness] (✅ recommended) Disallow duplicate keys in object literals
+    "eslint/no-dupe-keys": "error",
+    // [correctness] (✅ recommended) Disallow duplicate case labels
+    "eslint/no-duplicate-case": "error",
+    // [correctness] (✅ recommended) Disallow empty character classes in regular expressions
+    "eslint/no-empty-character-class": "error",
+    // [correctness] (✅ recommended) Disallow empty destructuring patterns
+    "eslint/no-empty-pattern": "error",
+    // [correctness] (✅ recommended) (💡 suggestion) Disallow empty static blocks
+    "eslint/no-empty-static-block": "error",
+    // [correctness] (✅ recommended) Disallow the use of eval()
+    "eslint/no-eval": "error",
+    // [correctness] (✅ recommended) Disallow reassigning exceptions in catch clauses
+    "eslint/no-ex-assign": "error",
+    // [correctness] (✅ recommended) (🛠️ autofix) (💡 suggestion) Disallow unnecessary boolean casts
+    "eslint/no-extra-boolean-cast": "error",
+    // [correctness] (✅ recommended) Disallow reassigning function declarations
+    "eslint/no-func-assign": "error",
+    // [correctness] (✅ recommended) Disallow assignments to native objects or read-only global variables
+    "eslint/no-global-assign": "error",
+    // [correctness] (✅ recommended) Disallow assigning to imported bindings
+    "eslint/no-import-assign": "error",
+    // [correctness] (✅ recommended) Disallow invalid regular expression strings in RegExp constructors
+    "eslint/no-invalid-regexp": "error",
+    // [correctness] (✅ recommended) Disallow irregular whitespace
+    "eslint/no-irregular-whitespace": "error",
+    // [correctness] (✅ recommended) (💡 suggestion) Disallow the use of the __iterator__ property
+    "eslint/no-iterator": "error",
+    // [correctness] (✅ recommended) Disallow literal numbers that lose precision
+    "eslint/no-loss-of-precision": "error",
+    // [correctness] (✅ recommended) (🚧 planned autofix) Disallow characters which are made with multiple code points in character class syntax
+    "eslint/no-misleading-character-class": "error",
+    // [correctness] (✅ recommended) Disallow new operators with global non-constructor functions
+    "eslint/no-new-native-nonconstructor": "error",
+    // [correctness] (✅ recommended) (💡 suggestion) Disallow \8 and \9 escape sequences in string literals
+    "eslint/no-nonoctal-decimal-escape": "error",
+    // [correctness] (✅ recommended) Disallow calling global object properties as functions
+    "eslint/no-obj-calls": "error",
+    // [correctness] (✅ recommended) Disallow assignments where both sides are exactly the same
+    "eslint/no-self-assign": "error",
+    // [correctness] (✅ recommended) Disallow returning values from setters
+    "eslint/no-setter-return": "error",
+    // [correctness] (✅ recommended) Disallow identifiers from shadowing restricted names
+    "eslint/no-shadow-restricted-names": "error",
+    // [correctness] (✅ recommended) Disallow sparse arrays
+    "eslint/no-sparse-arrays": "error",
+    // [correctness] (✅ recommended) Disallow this/super before calling super() in constructors
+    "eslint/no-this-before-super": "error",
+    // [correctness] (✅ recommended) Disallow let or var variables that are read but never assigned
+    "eslint/no-unassigned-vars": "error",
+    // [correctness] (✅ recommended) Disallow control flow statements in finally blocks
+    "eslint/no-unsafe-finally": "error",
+    // [correctness] (✅ recommended) (🛠️ autofix) Disallow negating the left operand of relational operators
+    "eslint/no-unsafe-negation": "error",
+    // [correctness] (✅ recommended) Disallow use of optional chaining in contexts where the undefined value is not allowed
+    "eslint/no-unsafe-optional-chaining": "error",
+    // [correctness] (✅ recommended) Disallow unused expressions
+    "eslint/no-unused-expressions": "error",
+    // [correctness] (✅ recommended) (🛠️ autofix) Disallow unused labels
+    "eslint/no-unused-labels": "error",
+    // [correctness] (✅ recommended) Disallow unused private class members
+    "eslint/no-unused-private-class-members": "off",
+    // [correctness] (✅ recommended) ⚠️ 🛠 (💡 suggestion) Disallow unused variables
+    "eslint/no-unused-vars": [
+      "error", // [reason: FILLMEIN]
+      { "argsIgnorePattern": "^_", "caughtErrors": "none" }
+    ],
+    // [correctness] (✅ recommended) Disallow useless backreferences in regular expressions
+    "eslint/no-useless-backreference": "error",
+    // [correctness] (✅ recommended) Disallow unnecessary catch clauses
+    "eslint/no-useless-catch": "error",
+    // [correctness] (✅ recommended) (🛠️ autofix) Disallow unnecessary escape characters
+    "eslint/no-useless-escape": "off",
+    // [correctness] (✅ recommended) (🛠️ autofix) Disallow renaming import, export, and destructured assignments to the same name
+    "eslint/no-useless-rename": "error",
+    // [correctness] (✅ recommended) Disallow with statements
+    "eslint/no-with": "error",
+    // [correctness] (✅ recommended) Require generator functions to contain yield
+    "eslint/require-yield": "error",
+    // [correctness] (✅ recommended) (🛠️ autofix) Require calls to isNaN() when checking for NaN
+    "eslint/use-isnan": "error",
+    // [correctness] (✅ recommended) (🛠️ autofix) Enforce comparing typeof expressions against valid strings
+    "eslint/valid-typeof": [
+      "error",
+      {
+        "requireStringLiterals": true
+      }
+    ],
+    // [correctness] Ensure a default export is present, given a default import.
+    "import/default": "error",
+    // [correctness] Ensure imported namespaces contain dereferenced properties as they are dereferenced.
+    "import/namespace": "error",
+    // [correctness] Enforce assertion to be made in a test body
+    // "jest/expect-expect": "error",
+    // [correctness] Disallow calling expect conditionally
+    // "jest/no-conditional-expect": "error",
+    // [correctness] Disallow disabled tests
+    // "jest/no-disabled-tests": "error",
+    // [correctness] Disallow using exports in files containing tests
+    // "jest/no-export": "error",
+    // [correctness] (🛠️ autofix) Disallow focused tests
+    // "jest/no-focused-tests": "error",
+    // [correctness] Disallow using expect outside of it or test blocks
+    // "jest/no-standalone-expect": "error",
+    // [correctness] Require a message for toThrow()
+    // "jest/require-to-throw-message": "error",
+    // [correctness] Enforce valid describe() callback
+    // "jest/valid-describe-callback": "error",
+    // [correctness] (🚧 planned autofix) Enforce valid expect() usage
+    // "jest/valid-expect": "error",
+    // [correctness] (🛠️ autofix) Enforce valid titles
+    // "jest/valid-title": "error",
+    // [correctness] (🚧 planned autofix) Ensures that property names in JSDoc are not duplicated on the same block and that nested properties have defined roots.
+    // "jsdoc/check-property-names": "error",
+    // [correctness] (🚧 planned autofix) Reports invalid block tag names.
+    // "jsdoc/check-tag-names": "error",
+    // [correctness] Prohibits use of @implements on non-constructor functions (to enforce the tag only being used on classes/constructors).
+    // "jsdoc/implements-on-classes": "error",
+    // [correctness] (🚧 planned autofix) This rule reports defaults being used on the relevant portion of @param or @default.
+    // "jsdoc/no-defaults": "error",
+    // [correctness] (🚧 planned autofix) Requires that all @typedef and @namespace tags have @property when their type is a plain object, Object, or PlainObject.
+    // "jsdoc/require-property": "error",
+    // [correctness] Requires that each @property tag has a description value.
+    // "jsdoc/require-property-description": "error",
+    // [correctness] Requires that all @property tags have names.
+    // "jsdoc/require-property-name": "error",
+    // [correctness] Requires that each @property tag has a type value (in curly brackets).
+    // "jsdoc/require-property-type": "error",
+    // [correctness] Requires yields are documented with @yields tags.
+    // "jsdoc/require-yields": "error",
+    // [correctness] Enforce all elements that require alternative text have meaningful information to relay back to end user.
+    "jsx-a11y/alt-text": "error",
+    // [correctness] (💡 suggestion) Enforce all anchors to contain accessible content.
+    "jsx-a11y/anchor-has-content": "error",
+    // [correctness] Enforce all anchors are valid, navigable elements.
+    "jsx-a11y/anchor-is-valid": "error",
+    // [correctness] Enforce elements with aria-activedescendant are tabbable.
+    "jsx-a11y/aria-activedescendent-has-tabindex": "error",
+    // [correctness] (🛠️ autofix) Enforce all aria-* props are valid.
+    "jsx-a11y/aria-props": "error",
+    // [correctness] Enforce ARIA state and property values are valid.
+    "jsx-a11y/aria-proptypes": "off",
+    // [correctness] Enforce that elements with ARIA roles must use a valid, non-abstract ARIA role.
+    "jsx-a11y/aria-role": "error",
+    // [correctness] (🛠️ autofix) Enforce that elements that do not support ARIA roles, states, and properties do not have those attributes.
+    "jsx-a11y/aria-unsupported-elements": "error",
+    // [correctness] Enforce that autocomplete attributes are used correctly.
+    "jsx-a11y/autocomplete-valid": "error",
+    // [correctness] Enforce a clickable non-interactive element has at least one keyboard event listener.
+    "jsx-a11y/click-events-have-key-events": "error",
+    // [correctness] Enforce heading (h1, h2, etc) elements contain accessible content.
+    "jsx-a11y/heading-has-content": "error",
+    // [correctness] Enforce <html> element has lang prop.
+    "jsx-a11y/html-has-lang": "error",
+    // [correctness] Enforce iframe elements have a title attribute.
+    "jsx-a11y/iframe-has-title": "error",
+    // [correctness] Enforce <img> alt prop does not contain the word "image", "picture", or "photo".
+    "jsx-a11y/img-redundant-alt": "error",
+    // [correctness] Enforce that a label tag has a text label and an associated control.
+    "jsx-a11y/label-has-associated-control": "error",
+    // [correctness] Enforce lang attribute has a valid value.
+    "jsx-a11y/lang": "error",
+    // [correctness] Enforces that <audio> and <video> elements must have a <track> for captions.
+    "jsx-a11y/media-has-caption": "off", // [reason: Cannot caption user-generated audio or video content]
+    // [correctness] Enforce that onMouseOver/onMouseOut are accompanied by onFocus/onBlur for keyboard-only users.
+    "jsx-a11y/mouse-events-have-key-events": "error",
+    // [correctness] (💡 suggestion) Enforce that the accessKey prop is not used on any element to avoid complications with keyboard commands used by a screen reader.
+    "jsx-a11y/no-access-key": "error",
+    // [correctness] (🛠️ autofix) Disallow aria-hidden="true" from being set on focusable elements.
+    "jsx-a11y/no-aria-hidden-on-focusable": "error",
+    // [correctness] (💡 suggestion) Enforce autoFocus prop is not used.
+    "jsx-a11y/no-autofocus": "off",
+    // [correctness] Enforce distracting elements are not used.
+    "jsx-a11y/no-distracting-elements": "error",
+    // [correctness] tabIndex should only be declared on interactive elements.
+    "jsx-a11y/no-noninteractive-tabindex": "off",
+    // [correctness] (🛠️ autofix) Enforce explicit role property is not the same as implicit/default role property on element.
+    "jsx-a11y/no-redundant-roles": "off",
+    // [correctness] Enforce that non-interactive, visible elements (such as <div>) that have click handlers use the role attribute.
+    "jsx-a11y/no-static-element-interactions": "error",
+    // [correctness] Enforces using semantic DOM elements over the ARIA role property.
+    "jsx-a11y/prefer-tag-over-role": "off",
+    // [correctness] Enforce that elements with ARIA roles must have all required attributes for that role.
+    "jsx-a11y/role-has-required-aria-props": "off",
+    // [correctness] Enforce that elements with explicit or implicit roles defined contain only aria-* properties supported by that role.
+    "jsx-a11y/role-supports-aria-props": "error",
+    // [correctness] (🛠️ autofix) Enforce scope prop is only used on <th> elements.
+    "jsx-a11y/scope": "error",
+    // [correctness] (⚠️ 💡 dangerous suggestion) Enforce tabIndex value is not greater than zero.
+    "jsx-a11y/tabindex-no-positive": "error",
+    // [correctness] Enforce font-display behavior with Google Fonts.
+    // "nextjs/google-font-display": "error",
+    // [correctness] Ensure preconnect is used with Google Fonts.
+    // "nextjs/google-font-preconnect": "error",
+    // [correctness] Enforce id attribute on next/script components with inline content.
+    // "nextjs/inline-script-id": "error",
+    // [correctness] Prefer next/script component when using the inline script for Google Analytics.
+    // "nextjs/next-script-for-ga": "error",
+    // [correctness] Prevent assignment to the module variable.
+    // "nextjs/no-assign-module-variable": "error",
+    // [correctness] Prevent Client Components from being async functions.
+    // "nextjs/no-async-client-component": "error",
+    // [correctness] Prevent usage of next/script's beforeInteractive strategy outside of pages/_document.js.
+    // "nextjs/no-before-interactive-script-outside-document": "error",
+    // [correctness] Prevent manual stylesheet tags.
+    // "nextjs/no-css-tags": "error",
+    // [correctness] Prevent importing next/document outside of pages/_document.js.
+    // "nextjs/no-document-import-in-page": "error",
+    // [correctness] Prevent duplicate usage of <Head> in pages/_document.js.
+    // "nextjs/no-duplicate-head": "error",
+    // [correctness] Prevent usage of <head> element.
+    // "nextjs/no-head-element": "error",
+    // [correctness] Prevent usage of next/head in pages/_document.js.
+    // "nextjs/no-head-import-in-document": "error",
+    // [correctness] Prevent usage of <a> elements to navigate to internal Next.js pages.
+    // "nextjs/no-html-link-for-pages": "error",
+    // [correctness] (🚧 planned autofix) Prevent usage of <img> element due to slower LCP and higher bandwidth.
+    // "nextjs/no-img-element": "error",
+    // [correctness] Prevent page-only custom fonts.
+    // "nextjs/no-page-custom-font": "error",
+    // [correctness] Prevent usage of next/script in next/head component.
+    // "nextjs/no-script-component-in-head": "error",
+    // [correctness] Prevent usage of styled-jsx in pages/_document.js.
+    // "nextjs/no-styled-jsx-in-document": "error",
+    // [correctness] Prevent synchronous scripts.
+    // "nextjs/no-sync-scripts": "error",
+    // [correctness] Prevent usage of <title> with Head component from next/document.
+    // "nextjs/no-title-in-document-head": "error",
+    // [correctness] (🚧 planned autofix) Prevent common typos in Next.js's data fetching functions
+    // "nextjs/no-typos": "error",
+    // [correctness] Prevent duplicate polyfills from Polyfill.io.
+    // "nextjs/no-unwanted-polyfillio": "error",
+    // [correctness] (✅ recommended) Disallow array method called on arguments.
+    "oxc/bad-array-method-on-arguments": "error",
+    // [correctness] (✅ recommended) This rule warns when the return value of the charAt method is used to compare a string of length greater than 1.
+    "oxc/bad-char-at-comparison": "error",
+    // [correctness] (✅ recommended) This rule applies when the comparison operator is applied two or more times in a row.
+    "oxc/bad-comparison-sequence": "error",
+    // [correctness] (✅ recommended) Checks whether the clamp function Math.min(Math.max(x, y), z) always evaluate to a constant result because the arguments are in the wrong order.
+    "oxc/bad-min-max-func": "error",
+    // [correctness] (✅ recommended) Checks for comparisons between object and array literals.
+    "oxc/bad-object-literal-comparison": "error",
+    // [correctness] (✅ recommended) This rule warns when the replaceAll method is called with a regular expression that does not have the global flag (g).
+    "oxc/bad-replace-all-arg": "error",
+    // [correctness] (✅ recommended) Checks for redundant or logically impossible comparisons.
+    "oxc/const-comparisons": "error",
+    // [correctness] (✅ recommended) (🛠️ autofix) This rule checks for double comparisons in logical expressions.
+    "oxc/double-comparisons": "error",
+    // [correctness] (✅ recommended) (⚠️ 🛠️ dangerous autofix) Checks for erasing operations, e.g., x * 0.
+    "oxc/erasing-op": "error",
+    // [correctness] (✅ recommended) (💡 suggestion) Checks whether the throw keyword is missing in front of a new expression.
+    "oxc/missing-throw": "error",
+    // [correctness] (✅ recommended) Checks whether the radix or precision arguments of number-related functions exceeds the limit.
+    "oxc/number-arg-out-of-range": "error",
+    // [correctness] (✅ recommended) (⚠️ 🛠️ dangerous autofix) Checks for arguments that are only used in recursion with no side-effects.
+    "oxc/only-used-in-recursion": "error",
+    // [correctness] (✅ recommended) This rule applies when an Array function has a callback argument used for an array with empty slots.
+    "oxc/uninvoked-array-callback": "error",
+    // [correctness] Disallow calling cb() inside of a then() (use util.callbackify instead).
+    "promise/no-callback-in-promise": "error",
+    // [correctness] (🛠️ autofix) Disallow calling new on a Promise static method.
+    "promise/no-new-statics": "error",
+    // [correctness] Enforces the proper number of arguments are passed to Promise functions.
+    "promise/valid-params": "error",
+    // [correctness] ⚠️ 🛠 (💡 suggestion) Verifies the list of dependencies for Hooks like useEffect and similar.
+    "react/exhaustive-deps": [
+      "error",
+      { "additionalHooks": "^(useSpring|useSprings)$" }
+    ],
+    // [correctness] (💡 suggestion) Require all forwardRef components include a ref parameter
+    "react/forward-ref-uses-ref": "error",
+    // [correctness] Disallow missing key props in iterators/collection literals
+    "react/jsx-key": "off",
+    // [correctness] Disallow duplicate properties in JSX
+    "react/jsx-no-duplicate-props": "error",
+    // [correctness] Disallow undeclared variables in JSX
+    "react/jsx-no-undef": "error",
+    // [correctness] (🛠️ autofix) Disallow JSX prop spreading the same identifier multiple times
+    "react/jsx-props-no-spread-multi": "error",
+    // [correctness] Disallow passing of children as props
+    "react/no-children-prop": "error",
+    // [correctness] Disallow when a DOM element is using both children and dangerouslySetInnerHTML
+    "react/no-danger-with-children": "error",
+    // [correctness] Disallow usage of setState in componentDidMount
+    "react/no-did-mount-set-state": "off",
+    // [correctness] Disallow direct mutation of this.state
+    "react/no-direct-mutation-state": "error",
+    // [correctness] Disallow usage of findDOMNode
+    "react/no-find-dom-node": "error",
+    // [correctness] Disallow usage of isMounted
+    "react/no-is-mounted": "error",
+    // [correctness] Disallow usage of the return value of ReactDOM.render
+    "react/no-render-return-value": "error",
+    // [correctness] Disallow using string references
+    "react/no-string-refs": "error",
+    // [correctness] Disallow this from being used in stateless functional components
+    "react/no-this-in-sfc": "error",
+    // [correctness] Disallow usage of unsafe lifecycle methods
+    "react/no-unsafe": "error",
+    // [correctness] Disallow usage of setState in componentWillUpdate
+    "react/no-will-update-set-state": "error",
+    // [correctness] Disallow void DOM elements (e.g. <img />, <br />) from receiving children
+    "react/void-dom-elements-no-children": "error",
+    // [correctness] (✅ recommended) (💡 suggestion) (💭 needs type info)
+    "typescript/await-thenable": "error",
+    // [correctness] (✅ recommended) (💡 suggestion) (💭 needs type info) Disallow using the delete operator on array values
+    "typescript/no-array-delete": "error",
+    // [correctness] (✅ recommended) (💭 needs type info) Require .toString() and .toLocaleString() to only be called on objects which provide useful information when stringified
+    "typescript/no-base-to-string": "error",
+    // [correctness] (✅ recommended) Disallow duplicate enum member values
+    "typescript/no-duplicate-enum-values": "error",
+    // [correctness] (✅ recommended) (🛠️ autofix) (💭 needs type info) Disallow duplicate constituents of union or intersection types
+    "typescript/no-duplicate-type-constituents": "error",
+    // [correctness] (✅ recommended) (🚧 planned autofix) Disallow extra non-null assertions
+    "typescript/no-extra-non-null-assertion": "error",
+    // [correctness] (✅ recommended) (💡 suggestion) (💭 needs type info) Require Promise-like statements to be handled appropriately
+    "typescript/no-floating-promises": "error",
+    // [correctness] (✅ recommended) (💭 needs type info) Disallow iterating over an array with a for-in loop
+    "typescript/no-for-in-array": "error",
+    // [correctness] (✅ recommended) (💭 needs type info) Disallow the use of eval()-like functions
+    "typescript/no-implied-eval": "error",
+    // [correctness] (✅ recommended) (🛠️ autofix) (💡 suggestion) (💭 needs type info) Disallow the void operator except when used to discard a value
+    "typescript/no-meaningless-void-operator": "error",
+    // [correctness] (✅ recommended) Enforce valid definition of new and constructor
+    "typescript/no-misused-new": "error",
+    // [correctness] (✅ recommended) (💡 suggestion) (💭 needs type info) Disallow using the spread operator when it might cause unexpected behavior
+    "typescript/no-misused-spread": "error",
+    // [correctness] (✅ recommended) (💡 suggestion) Disallow non-null assertions after an optional chain expression
+    "typescript/no-non-null-asserted-optional-chain": "error",
+    // [correctness] (✅ recommended) (💭 needs type info) Disallow members of unions and intersections that do nothing or override type information
+    "typescript/no-redundant-type-constituents": "error",
+    // [correctness] (✅ recommended) Disallow aliasing this
+    "typescript/no-this-alias": "error",
+    // [correctness] (✅ recommended) (💡 suggestion) Disallow unnecessary assignment of constructor property parameter
+    "typescript/no-unnecessary-parameter-property-assignment": "error",
+    // [correctness] (✅ recommended) Disallow unsafe declaration merging
+    "typescript/no-unsafe-declaration-merging": "error",
+    // [correctness] (✅ recommended) (💭 needs type info) Require unary negation to take a number
+    "typescript/no-unsafe-unary-minus": "error",
+    // [correctness] (✅ recommended) (🛠️ autofix) Disallow empty exports that don't change anything in a module file
+    "typescript/no-useless-empty-export": "error",
+    // [correctness] (✅ recommended) (🛠️ autofix) Disallow using confusing built-in primitive class wrappers
+    "typescript/no-wrapper-object-types": "error",
+    // [correctness] (✅ recommended) (🛠️ autofix) Enforce the use of as const over literal type
+    "typescript/prefer-as-const": "error",
+    // [correctness] (✅ recommended) (🛠️ autofix) Require using namespace keyword over module keyword to declare custom TypeScript modules
+    "typescript/prefer-namespace-keyword": "error",
+    // [correctness] (✅ recommended) (💭 needs type info) Require Array#sort and Array#toSorted calls to always provide a compareFunction
+    "typescript/require-array-sort-compare": "error",
+    // [correctness] (✅ recommended) (💭 needs type info) Enforce template literal expressions to be of string type
+    "typescript/restrict-template-expressions": [
+      "error",
+      {
+        "allowNever": true // FIXME
+      }
+    ],
+    // [correctness] (✅ recommended) Disallow certain triple slash directives in favor of ES6-style import declarations
+    "typescript/triple-slash-reference": "error",
+    // [correctness] (✅ recommended) (💭 needs type info) Enforce unbound methods are called with their expected scope
+    "typescript/unbound-method": "off", // [reason: Issues with lodash, sinon, etc]
+    // [correctness] (✅ recommended) (💡 suggestion) Disallow using await in Promise method parameters.
+    "unicorn/no-await-in-promise-methods": "off",
+    // [correctness] (✅ recommended) Disallow empty files.
+    "unicorn/no-empty-file": "error",
+    // [correctness] (✅ recommended) Disallow invalid options in fetch() and new Request().
+    "unicorn/no-invalid-fetch-options": "error",
+    // [correctness] (✅ recommended) Prevent calling EventTarget#removeEventListener() with the result of an expression.
+    "unicorn/no-invalid-remove-event-listener": "error",
+    // [correctness] (✅ recommended) (🚧 planned autofix) Disallow new Array().
+    "unicorn/no-new-array": "off",
+    // [correctness] (✅ recommended) (🛠️ autofix) Disallow passing single-element arrays to Promise methods.
+    "unicorn/no-single-promise-in-promise-methods": "error",
+    // [correctness] (✅ recommended) Disallow then property.
+    "unicorn/no-thenable": "error",
+    // [correctness] (✅ recommended) (🛠️ autofix) Disallow awaiting non-promise values.
+    "unicorn/no-unnecessary-await": "error",
+    // [correctness] (✅ recommended) (🛠️ autofix) Disallow useless fallback when spreading in object literals.
+    "unicorn/no-useless-fallback-in-spread": "off",
+    // [correctness] (✅ recommended) (🚧 planned autofix) Disallow useless array length check.
+    "unicorn/no-useless-length-check": "off",
+    // [correctness] (✅ recommended) (⚠️ 🛠️ dangerous autofix) Disallow unnecessary spread.
+    "unicorn/no-useless-spread": "off",
+    // [correctness] (✅ recommended) (🛠️ autofix) Prefer using Set#size instead of Array#length.
+    "unicorn/prefer-set-size": "error",
+    // [correctness] (✅ recommended) (🛠️ autofix) Prefer String#startsWith() & String#endsWith() over RegExp#test().
+    "unicorn/prefer-string-starts-ends-with": "off",
+    // [correctness] Enforce using .each or .for consistently
+    // "vitest/consistent-each-for": "error",
+    // [correctness] (💡 suggestion) Enforce hoisted APIs to be on top of the file
+    // "vitest/hoisted-apis-on-top": "error",
+    // [correctness] Disallow conditional tests
+    // "vitest/no-conditional-tests": "error",
+    // [correctness] (🚧 planned autofix) Require local Test Context for concurrent snapshot tests
+    // "vitest/require-local-test-context-for-concurrent-snapshots": "error",
+    // [correctness] Disallow .todo usage
+    // "vitest/warn-todo": "error",
+    // [correctness] Disallow using arrow functions to define watcher
+    // "vue/no-arrow-functions-in-watch": "error",
+    // [correctness] (🛠️ autofix) Disallow using deprecated destroyed and beforeDestroy lifecycle hooks (in Vue.js 3.0.0+)
+    // "vue/no-deprecated-destroyed-lifecycle": "error",
+    // [correctness] Disallow export in <script setup>
+    // "vue/no-export-in-script-setup": "error",
+    // [correctness] Disallow asynchronously registered lifecycle hooks
+    // "vue/no-lifecycle-after-await": "error",
+    // [correctness] Disallow this usage in a beforeRouteEnter method
+    // "vue/no-this-in-before-route-enter": "error",
+    // [correctness] (🛠️ autofix) Enforce import from 'vue' instead of import from '@vue/*'
+    // "vue/prefer-import-from-vue": "error",
+    // [correctness] (🚧 planned autofix) Enforce valid defineEmits compiler macro
+    // "vue/valid-define-emits": "error",
+    // [correctness] (🚧 planned autofix) Enforce valid defineProps compiler macro
+    // "vue/valid-define-props": "error",
+
+    // ------------------------------------------------------------------------
+    // Category: Nursery
+    // ------------------------------------------------------------------------
+
+    // [nursery] Enforce return statements in getters
+    "eslint/getter-return": "error",
+    // [nursery] Disallow the use of undeclared variables unless mentioned in /*global */ comments
+    "eslint/no-undef": "error",
+    // [nursery] Disallow unreachable code after return, throw, continue, and break statements
+    "eslint/no-unreachable": "error", // [reason: Cannot enable `tsconfig.json#allowUnreachableCode` yet]
+    // [nursery] Forbid any invalid exports, i.e. re-export of the same name.
+    "import/export": "off",
+    // [nursery] Ensure named imports correspond to a named export in the remote file.
+    "import/named": "error",
+    // [nursery] Checks if the if and else blocks contain shared code that can be moved out of the blocks.
+    "oxc/branches-sharing-code": "off", // FIXME [reason: Seems useful for simple if-else, but don't like it pushing us to create nested if-else branches]
+    // [nursery] Disallow return statements in finally().
+    "promise/no-return-in-finally": "error",
+    // [nursery] Require return statements to either always or never specify values
+    "typescript/consistent-return": "off", // [reason: Doesn't seem like it would catch many bugs]
+    // [nursery] Enforce consistent usage of type exports
+    "typescript/consistent-type-exports": "error",
+    // [nursery] Enforce dot notation whenever possible
+    "typescript/dot-notation": "error",
+    // [nursery] Disallow conditionals where the type is always truthy or always falsy
+    "typescript/no-unnecessary-condition": "off", // FIXME (errors: 1560) [reason: This is a big project, and we should make sure we're not removing conditional checks that are dealing with bad data (improved types)]
+    // [nursery] Disallow unnecessary namespace qualifiers
+    "typescript/no-unnecessary-qualifier": "error",
+    // [nursery] Disallow conversion idioms when they do not change the type or value of the expression
+    "typescript/no-unnecessary-type-conversion": "error",
+    // [nursery] Disallow type parameters that aren't used multiple times
+    "typescript/no-unnecessary-type-parameters": "off", // TODO: Has issues with disable comments
+    // [nursery] Disallow default values that will never be used
+    "typescript/no-useless-default-assignment": "error",
+    // [nursery] Enforce the use of Array.prototype.find() over Array.prototype.filter() followed by [0] when looking for a single result
+    "typescript/prefer-find": "error",
+    // [nursery] ⚠️ 🛠 (💡 suggestion) Enforce using concise optional chain expressions instead of chained logical ands, negated logical ors, or empty objects
+    "typescript/prefer-optional-chain": "off", // DECIDEME (errors: 251)
+    // [nursery] Require private members to be marked as readonly if they're never modified outside of the constructor
+    "typescript/prefer-readonly": "error",
+    // [nursery] Require function parameters to be typed as readonly to prevent accidental mutation of inputs
+    "typescript/prefer-readonly-parameter-types": "off", // DECIDEME (errors: 10694)
+    // [nursery] Enforce RegExp#exec over String#match if no global flag is provided
+    "typescript/prefer-regexp-exec": "off", // DECIDEME (errors: 19)
+    // [nursery] (✅ recommended) Enforce using String#startsWith and String#endsWith over other equivalent methods of checking substrings
+    "typescript/prefer-string-starts-ends-with": "error",
+    // [nursery] Enforce ES5 or ES6 class for returning value in render function
+    "react/require-render-return": "error",
+    // [nursery] (💭 needs type info) Disallow passing a value-returning function in a position accepting a void function
+    "typescript/strict-void-return": "off", // DECIDEME (errors: 2200)
+
+    // ------------------------------------------------------------------------
+    // Category: Pedantic
+    // ------------------------------------------------------------------------
+
+    // [pedantic] Enforce getter and setter pairs in objects and classes
+    "eslint/accessor-pairs": "off", // DECIDEME (errors: 2)
+    // [pedantic] (🚧 planned autofix) Enforce return statements in callbacks of array methods
+    "eslint/array-callback-return": "off", // DECIDEME (errors: 7)
+    // [pedantic] (⚠️ 🛠️ dangerous autofix) Require the use of === and !==
+    "eslint/eqeqeq": [
+      "error",
+      "always",
+      {
+        "null": "never" // [reason: `value == null` refines both null and undefined at the same time]
+      }
+    ],
+    // [pedantic] Enforce a maximum number of classes per file
+    "eslint/max-classes-per-file": "error",
+    // [pedantic] Enforce a maximum depth that blocks can be nested
+    "eslint/max-depth": "off", // DECIDEME (errors: 22)
+    // [pedantic] Enforce a maximum number of lines per file
+    "eslint/max-lines": "off", // DECIDEME (errors: 404)
+    // [pedantic] Enforce a maximum number of lines of code in a function
+    "eslint/max-lines-per-function": "off", // DECIDEME (errors: 2698)
+    // [pedantic] Enforce a maximum depth that callbacks can be nested
+    "eslint/max-nested-callbacks": "error",
+    // [pedantic] (🛠️ autofix) Disallow Array constructors
+    "eslint/no-array-constructor": "error",
+    // [pedantic] (🚧 planned autofix) Disallow lexical declarations in case clauses
+    "eslint/no-case-declarations": "error",
+    // [pedantic] Disallow returning value from constructor
+    "eslint/no-constructor-return": "error",
+    // [pedantic] (🛠️ autofix) Disallow else blocks after return statements in if statements
+    "eslint/no-else-return": "error",
+    // [pedantic] (🚧 planned autofix) Disallow fallthrough of case statements
+    "eslint/no-fallthrough": "error",
+    // [pedantic] Disallow inline comments after code
+    "eslint/no-inline-comments": "off", // DECIDEME (errors: 333)
+    // [pedantic] Disallow variable or function declarations in nested blocks
+    "eslint/no-inner-declarations": [
+      "error",
+      {
+        "blockScopedFunctions": "disallow"
+      }
+    ],
+    // [pedantic] (🚧 planned autofix) Disallow if statements as the only statement in else blocks
+    "eslint/no-lonely-if": "error",
+    // [pedantic] Disallow function declarations that contain unsafe references inside loop statements
+    "eslint/no-loop-func": "error",
+    // [pedantic] (🚧 planned autofix) Disallow negated conditions
+    "eslint/no-negated-condition": "off", // DECIDEME (errors: 260)
+    // [pedantic] (🛠️ autofix) Disallow new operators with the String, Number, and Boolean objects
+    "eslint/no-new-wrappers": "error",
+    // [pedantic] (🚧 planned autofix) Disallow calls to the Object constructor without an argument
+    "eslint/no-object-constructor": "error",
+    // [pedantic] (🚧 planned autofix) Disallow returning values from Promise executor functions
+    "eslint/no-promise-executor-return": "off", // DECIDEME (errors: 11)
+    // [pedantic] (🚧 planned autofix) Disallow calling some Object.prototype methods directly on objects
+    "eslint/no-prototype-builtins": "error",
+    // [pedantic] Disallow variable redeclaration
+    "eslint/no-redeclare": "error",
+    // [pedantic] Disallow comparisons where both sides are exactly the same
+    "eslint/no-self-compare": "error",
+    // [pedantic] (💡 suggestion) Disallow throwing literals as exceptions
+    "eslint/no-throw-literal": "off",
+    // [pedantic] (🚧 planned autofix) Disallow redundant return statements
+    "eslint/no-useless-return": "off", // DECIDEME (errors: 1)
+    // [pedantic] Disallow specified warning terms in comments
+    "eslint/no-warning-comments": "off", // DECIDEME (errors: 97)
+    // [pedantic] (⚠️ 🛠️ dangerous autofix) Enforce the use of the radix argument when using parseInt()
+    "eslint/radix": "error",
+    // [pedantic] (⚠️ 🛠️ dangerous autofix) Disallow async functions which have no await expression
+    "eslint/require-await": "off", // DECIDEME (errors: 662)
+    // [pedantic] (🚧 planned autofix) Require variables within the same declaration block to be sorted
+    "eslint/sort-vars": "off", // DECIDEME (errors: 1)
+    // [pedantic] Require symbol descriptions
+    "eslint/symbol-description": "error",
+    // [pedantic] Enforce the maximum number of dependencies a module can have.
+    "import/max-dependencies": "off", // DECIDEME (errors: 476)
+    // [pedantic] Disallow conditional logic in tests
+    // "jest/no-conditional-in-test": "error",
+    // [pedantic] (🚧 planned autofix) Requires that all function parameters are documented with a @param tag.
+    // "jsdoc/require-param": "error",
+    // [pedantic] (🚧 planned autofix) Requires that each @param tag has a description value.
+    // "jsdoc/require-param-description": "error",
+    // [pedantic] Requires that all @param tags have names.
+    // "jsdoc/require-param-name": "error",
+    // [pedantic] (🚧 planned autofix) Requires that each @param tag has a type value (in curly brackets).
+    // "jsdoc/require-param-type": "error",
+    // [pedantic] (🚧 planned autofix) Requires that returns are documented with @returns.
+    // "jsdoc/require-returns": "error",
+    // [pedantic] Requires that the @returns tag has a description value (not including void/undefined type returns).
+    // "jsdoc/require-returns-description": "error",
+    // [pedantic] Requires that @returns tag has type value (in curly brackets).
+    // "jsdoc/require-returns-type": "error",
+    // [pedantic] Enforce using onChange or readonly attribute when checked is used
+    "react/checked-requires-onchange-or-readonly": "error",
+    // [pedantic] Disallow missing displayName in a React component definition
+    "react/display-name": "error",
+    // [pedantic] (🚧 planned autofix) Disallow target="_blank" attribute without rel="noreferrer"
+    "react/jsx-no-target-blank": "error",
+    // [pedantic] (💡 suggestion) Disallow unnecessary fragments
+    "react/jsx-no-useless-fragment": ["error", { "allowExpressions": true }], // [reason: FILLMEIN]
+    // [pedantic] (🚧 planned autofix) Disallow unescaped HTML entities from appearing in markup
+    "react/no-unescaped-entities": "error",
+    // [pedantic] Enforces the Rules of Hooks, ensuring that React Hooks are only called in valid contexts and in the correct order.
+    "react/rules-of-hooks": "error",
+    // [pedantic] (🛠️ autofix) Disallow @ts-<directive> comments or require descriptions after directives
+    "typescript/ban-ts-comment": "error",
+    // [pedantic] This rule bans specific types and can suggest alternatives. Note that it does not ban the corresponding runtime objects from being used.
+    "typescript/ban-types": "error",
+    // [pedantic] (🛠️ autofix) (💡 suggestion) Require expressions of type void to appear in statement position
+    "typescript/no-confusing-void-expression": "off", // DECIDEME (errors: 621)
+    // [pedantic] Disallow using code marked as @deprecated
+    "typescript/no-deprecated": "off", // FIXME (errors: 187)
+    // [pedantic] Disallow Promises in places not designed to handle them
+    "typescript/no-misused-promises": ["error", { "checksVoidReturn": false }], // [reason: FILLMEIN] (errors: 352)
+    // [pedantic] Disallow enums from having both number and string members
+    "typescript/no-mixed-enums": "error",
+    // [pedantic] Disallow calling a function with a value with type any
+    "typescript/no-unsafe-argument": "off", // LATER (errors: 531)
+    // [pedantic] Disallow assigning a value with type any to variables and properties
+    "typescript/no-unsafe-assignment": "off", // LATER (errors: 817)
+    // [pedantic] Disallow calling a value with type any
+    "typescript/no-unsafe-call": "off", // LATER (errors: 364)
+    // [pedantic] Disallow using the unsafe built-in Function type
+    "typescript/no-unsafe-function-type": "error",
+    // [pedantic] Disallow member access on a value with type any
+    "typescript/no-unsafe-member-access": "off", // LATER (errors: 1087)
+    // [pedantic] Disallow returning a value with type any from a function
+    "typescript/no-unsafe-return": "off", // LATER (errors: 123)
+    // [pedantic] Disallow throwing non-Error values as exceptions
+    "typescript/only-throw-error": "error",
+    // [pedantic] (💡 suggestion) Require each enum member value to be explicitly initialized
+    "typescript/prefer-enum-initializers": "off", // DECIDEME (errors: 180)
+    // [pedantic] (🛠️ autofix) Enforce includes method over indexOf method
+    "typescript/prefer-includes": "error",
+    // [pedantic] (🛠️ autofix) Enforce using the nullish coalescing operator instead of logical assignments or chaining
+    "typescript/prefer-nullish-coalescing": "off", // DECIDEME (errors: 1199)
+    // [pedantic] Require using Error objects as Promise rejection reasons
+    "typescript/prefer-promise-reject-errors": "off", // DECIDEME (errors: 20)
+    // [pedantic] (🛠️ autofix) Enforce using @ts-expect-error over @ts-ignore
+    "typescript/prefer-ts-expect-error": "error",
+    // [pedantic] Enforce that get() types should be assignable to their equivalent set() type
+    "typescript/related-getter-setter-pairs": "error",
+    // [pedantic] (🚧 planned autofix) Disallow async functions which do not return promises and have no await expression
+    "typescript/require-await": "off", // DECIDEME (errors: 373)
+    // [pedantic] Require both operands of addition to be the same type and be bigint, number, or string
+    "typescript/restrict-plus-operands": "error",
+    // [pedantic] (🛠️ autofix) (💡 suggestion) Enforce consistent awaiting of returned promises
+    "typescript/return-await": "error",
+    // [pedantic] (🚧 planned autofix) Disallow certain types in boolean expressions
+    "typescript/strict-boolean-expressions": "off", // DECIDEME (errors: 4219)
+    // [pedantic] (💡 suggestion) Require switch-case statements to be exhaustive
+    "typescript/switch-exhaustiveness-check": "off", // DECIDEME (errors: 35)
+    // [pedantic] (🛠️ autofix) Enforce consistent assertion style with node:assert.
+    "unicorn/consistent-assert": "off", // DECIDEME (errors: 18)
+    // [pedantic] (💡 suggestion) consistent-empty-array-spread
+    "unicorn/consistent-empty-array-spread": "error",
+    // [pedantic] (🛠️ autofix) Require escape sequences to use uppercase or lowercase values.
+    "unicorn/escape-case": "off", // DECIDEME (errors: 93)
+    // [pedantic] (🛠️ autofix) Enforce explicitly comparing the length or size property of a value.
+    "unicorn/explicit-length-check": "off", // DECIDEME (errors: 352)
+    // [pedantic] (🚧 planned autofix) Enforce the use of new for all builtins, except String, Number, Boolean, Symbol and BigInt.
+    "unicorn/new-for-builtins": "off", // DECIDEME (errors: 68)
+    // [pedantic] (🚧 planned autofix) (errors: 248) Prevent passing a function reference directly to iterator methods.
+    "unicorn/no-array-callback-reference": "off", // DECIDEME (errors: 254)
+    // [pedantic] (🛠️ autofix) Enforce the use of Unicode escapes instead of hexadecimal escapes.
+    "unicorn/no-hex-escape": "off", // DECIDEME (errors: 4)
+    // [pedantic] (🚧 planned autofix) Disallow immediate mutation after variable assignment.
+    "unicorn/no-immediate-mutation": "off", // DECIDEME (errors: 12)
+    // [pedantic] (🛠️ autofix) Require Array.isArray() instead of instanceof Array.
+    "unicorn/no-instanceof-array": "off", // DECIDEME (errors: 4)
+    // [pedantic] (🚧 planned autofix) Disallow if statements as the only statement in if blocks without else.
+    "unicorn/no-lonely-if": "off", // DECIDEME (errors: 41)
+    // [pedantic] (💡 suggestion) Disallow negated expression in equality check.
+    "unicorn/no-negation-in-equality-check": "error",
+    // [pedantic] (💡 suggestion) Enforce the use of Buffer.from() and Buffer.alloc() instead of the deprecated new Buffer().
+    "unicorn/no-new-buffer": "error",
+    // [pedantic] Disallow the use of objects as default parameters.
+    "unicorn/no-object-as-default-parameter": "off", // DECIDEME (errors: 19)
+    // [pedantic] (⚠️ 🛠️ dangerous autofix) Disallow classes that only have static members.
+    "unicorn/no-static-only-class": "off", // DECIDEME (errors: 1)
+    // [pedantic] Disallow assigning this to a variable.
+    "unicorn/no-this-assignment": "error",
+    // [pedantic] (🛠️ autofix) (💡 suggestion) Disallow comparing undefined using typeof.
+    "unicorn/no-typeof-undefined": "off", // DECIDEME (errors: 3)
+    // [pedantic] (💡 suggestion) Disallow using 1 as the depth argument of Array#flat().
+    "unicorn/no-unnecessary-array-flat-depth": "off", // DECIDEME (errors: 1)
+    // [pedantic] (🛠️ autofix) Disallow using .length or Infinity as the deleteCount or skipCount argument of Array#{splice,toSpliced}().
+    "unicorn/no-unnecessary-array-splice-count": "error",
+    // [pedantic] (🛠️ autofix) Disallow using .length or Infinity as the end argument of {Array,String,TypedArray}#slice().
+    "unicorn/no-unnecessary-slice-end": "off", // DECIDEME (errors: 3)
+    // [pedantic] Disallow unreadable IIFEs.
+    "unicorn/no-unreadable-iife": "error",
+    // [pedantic] (🛠️ autofix) Disallow returning/yielding Promise.resolve/reject() in async functions or promise callbacks
+    "unicorn/no-useless-promise-resolve-reject": "off", // DECIDEME (errors: 15)
+    // [pedantic] (🚧 planned autofix) Disallow useless case in switch statements.
+    "unicorn/no-useless-switch-case": "off", // DECIDEME (errors: 6)
+    // [pedantic] (🛠️ autofix) Disallow useless undefined.
+    "unicorn/no-useless-undefined": "off", // DECIDEME (errors: 343)
+    // [pedantic] (⚠️ 🛠️ dangerous autofix) Prefer .flatMap(…) over .map(…).flat().
+    "unicorn/prefer-array-flat": "error",
+    // [pedantic] (🛠️ autofix) Prefer .some(…) over .filter(…).length check and .{find,findLast,findIndex,findLastIndex}(…).
+    "unicorn/prefer-array-some": "off", // DECIDEME (errors: 2)
+    // [pedantic] (⚠️ 🛠️ dangerous autofix) Prefer .at() method for index access and String#charAt().
+    "unicorn/prefer-at": "off", // DECIDEME (errors: 20)
+    // [pedantic] (🚧 planned autofix) Prefer Blob#arrayBuffer() over FileReader#readAsArrayBuffer(…) and Blob#text() over FileReader#readAsText(…).
+    "unicorn/prefer-blob-reading-methods": "off", // DECIDEME (errors: 3)
+    // [pedantic] (🛠️ autofix) Prefer String#codePointAt(…) over String#charCodeAt(…) and String.fromCodePoint(…) over String.fromCharCode(…).
+    "unicorn/prefer-code-point": "off", // DECIDEME (errors: 8)
+    // [pedantic] (🛠️ autofix) Prefer Date.now() to get the number of milliseconds since the Unix Epoch.
+    "unicorn/prefer-date-now": "off", // DECIDEME (errors: 15)
+    // [pedantic] (🛠️ autofix) Prefer Node#append() over Node#appendChild().
+    "unicorn/prefer-dom-node-append": "off", // DECIDEME (errors: 38)
+    // [pedantic] (🛠️ autofix) Prefer using .dataset on DOM elements over calling attribute methods.
+    "unicorn/prefer-dom-node-dataset": "off", // DECIDEME (errors: 5)
+    // [pedantic] (🚧 planned autofix) Prefer childNode.remove() over parentNode.removeChild(childNode).
+    "unicorn/prefer-dom-node-remove": "off", // DECIDEME (errors: 12)
+    // [pedantic] Prefer EventTarget over EventEmitter.
+    "unicorn/prefer-event-target": "off", // DECIDEME (errors: 29)
+    // [pedantic] (🛠️ autofix) Prefer Math.min() and Math.max() over ternaries for simple comparisons.
+    "unicorn/prefer-math-min-max": "error",
+    // [pedantic] (💡 suggestion) Enforce the use of Math.trunc instead of bitwise operators.
+    "unicorn/prefer-math-trunc": "off", // DECIDEME (errors: 6)
+    // [pedantic] (🚧 planned autofix) Prefer using String, Number, BigInt, Boolean, and Symbol directly.
+    "unicorn/prefer-native-coercion-functions": "off", // DECIDEME (errors: 10)
+    // [pedantic] (🛠️ autofix) Prefer borrowing methods from the prototype instead of the instance.
+    "unicorn/prefer-prototype-methods": "error",
+    // [pedantic] (🛠️ autofix) Prefer .querySelector() over .getElementById(), .querySelectorAll() over .getElementsByClassName() and .getElementsByTagName() and .getElementsByName().
+    "unicorn/prefer-query-selector": "off", // DECIDEME (errors: 9)
+    // [pedantic] (🛠️ autofix) Prefer RegExp#test() over String#match() and RegExp#exec().
+    "unicorn/prefer-regexp-test": "error",
+    // [pedantic] (🛠️ autofix) Prefer String#replaceAll() over regex searches with the global flag.
+    "unicorn/prefer-string-replace-all": "off", // DECIDEME (errors: 52)
+    // [pedantic] (🛠️ autofix) Prefer String#slice() over String#substr() and String#substring().
+    "unicorn/prefer-string-slice": "off", // DECIDEME (errors: 33)
+    // [pedantic] (🚧 planned autofix) Prefer top-level await over top-level promises and async function calls.
+    "unicorn/prefer-top-level-await": "off", // DECIDEME (errors: 41)
+    // [pedantic] (🛠️ autofix) Enforce throwing TypeError in type checking conditions.
+    "unicorn/prefer-type-error": "off", // DECIDEME (errors: 27)
+    // [pedantic] (🛠️ autofix) Enforce using the digits argument with Number#toFixed().
+    "unicorn/require-number-to-fixed-digits-argument": "error",
+
+    // ------------------------------------------------------------------------
+    // Category: Perf
+    // ------------------------------------------------------------------------
+
+    // [perf] Disallow await inside of loops
+    "eslint/no-await-in-loop": "error",
+    // [perf] Disallow unnecessary calls to .call() and .apply()
+    "eslint/no-useless-call": "off", // DECIDEME (errors: 1)
+    // [perf] Prevents using object or array spreads on accumulators in Array.prototype.reduce() and in loops.
+    "oxc/no-accumulating-spread": "off", // DECIDEME (errors: 11)
+    // [perf] (🛠️ autofix) (💡 suggestion) Disallow the use of object or array spreads in Array.prototype.map and Array.prototype.flatMap to add properties/elements to array items.
+    "oxc/no-map-spread": "off", // DECIDEME (errors: 102)
+    // [perf] Prevent JSX that are local to the current method from being used as values of JSX props
+    "react-perf/jsx-no-jsx-as-prop": "off", // DECIDEME (errors: 218)
+    // [perf] Prevent Arrays that are local to the current method from being used as values of JSX props
+    "react-perf/jsx-no-new-array-as-prop": "off", // DECIDEME (errors: 296)
+    // [perf] Prevent Functions that are local to the current method from being used as values of JSX props
+    "react-perf/jsx-no-new-function-as-prop": "off", // DECIDEME (errors: 1088)
+    // [perf] Prevent Objects that are local to the current method from being used as values of JSX props
+    "react-perf/jsx-no-new-object-as-prop": "off", // DECIDEME (errors: 579)
+    // [perf] Disallows JSX context provider values from taking values that will cause needless rerenders
+    "react/jsx-no-constructed-context-values": "off", // DECIDEME (errors: 1)
+    // [perf] Disallow usage of Array index in keys
+    "react/no-array-index-key": "error",
+    // [perf] (🚧 planned autofix) Prefer .find(…) and .findLast(…) over the first or last element from .filter(…).
+    "unicorn/prefer-array-find": "off", // DECIDEME (errors: 7)
+    // [perf] (🛠️ autofix) Prefer .flatMap(…) over .map(…).flat().
+    "unicorn/prefer-array-flat-map": "off", // DECIDEME (errors: 10)
+    // [perf] (⚠️ 🛠️ dangerous autofix) Prefer Set#has() over Array#includes() when checking for existence or non-existence.
+    "unicorn/prefer-set-has": "off", // DECIDEME (errors: 7)
+
+    // ------------------------------------------------------------------------
+    // Category: Restriction
+    // ------------------------------------------------------------------------
+
+    // [restriction] Enforce that class methods utilize this
+    "eslint/class-methods-use-this": "off", // DECIDEME (errors: 271)
+    // [restriction] Enforce a maximum cyclomatic complexity allowed in a program
+    "eslint/complexity": "off", // DECIDEME (errors: 211)
+    // [restriction] Require default cases in switch statements
+    "eslint/default-case": "error",
+    // [restriction] Disallow the use of alert, confirm, and prompt
+    "eslint/no-alert": "error",
+    // [restriction] Disallow bitwise operators
+    "eslint/no-bitwise": "error",
+    // [restriction] (💡 suggestion) Disallow the use of console
+    "eslint/no-console": "error", // [reason: We should use our own logger]
+    // [restriction] (🛠️ autofix) Disallow equal signs explicitly at the beginning of regular expressions
+    "eslint/no-div-regex": "off", // DECIDEME (errors: 1)
+    // [restriction] (💡 suggestion) Disallow empty block statements
+    "eslint/no-empty": "error",
+    // [restriction] (🚧 planned autofix) Disallow empty functions
+    "eslint/no-empty-function": "error",
+    // [restriction] (⚠️ 🛠️ dangerous autofix) Disallow null comparisons without type-checking operators
+    "eslint/no-eq-null": "off", // DECIDEME (errors: 1678)
+    // [restriction] Disallow reassigning function parameters
+    "eslint/no-param-reassign": [
+      "error",
+      {
+        "props": true,
+        "ignorePropertyModificationsFor": ["acc", "ctx", "context"]
+      }
+    ],
+    // [restriction] (💡 suggestion) Disallow the unary operators ++ and --
+    "eslint/no-plusplus": "error",
+    // [restriction] (🚧 planned autofix) Disallow the use of the __proto__ property
+    "eslint/no-proto": "error",
+    // [restriction] (🛠️ autofix) Disallow multiple spaces in regular expressions
+    "eslint/no-regex-spaces": "error",
+    // [restriction] Disallow specified global variables
+    "eslint/no-restricted-globals": [
+      "error",
+      {
+        "name": "__dirname",
+        "message": "Use getAppRootDir() instead of __dirname"
+      }
+    ],
+    // [restriction] Disallow specified modules when loaded by import
+    "eslint/no-restricted-imports": [
+      "error",
+      {
+        "paths": [
+          {
+            "name": "chai",
+            "importNames": ["expect", "should", "Should"],
+            "message": "Please use assert",
+            "allowTypeImports": true
+          }
+        ]
+      }
+    ],
+    // [restriction] Disallow comma operators
+    "eslint/no-sequences": "error",
+    // [restriction] Disallow the use of undefined as an identifier
+    "eslint/no-undefined": "off", // DECIDEME (errors: 4148)
+    // [restriction] Disallow the use of variables before they are defined
+    "eslint/no-use-before-define": "off", // DECIDEME (errors: 2397)
+    // [restriction] (🛠️ autofix) Require let or const instead of var
+    "eslint/no-var": "error",
+    // [restriction] (💡 suggestion) Disallow void operators
+    "eslint/no-void": ["error", { "allowAsStatement": true }], // [reason: Deprecated, either await promises or use the drop() util to ignore them]
+    // [restriction] (🛠️ autofix) Require or disallow Unicode byte order mark (BOM)
+    "eslint/unicode-bom": "error",
+    // [restriction] Ensure consistent use of file extension within the import path.
+    "import/extensions": [
+      "error",
+      "always",
+      { "ignorePackages": true, "checkTypeImports": true }
+    ],
+    // [restriction] Forbid AMD require and define calls.
+    "import/no-amd": "error",
+    // [restriction] Forbid CommonJS require calls and module.exports or exports.*.
+    "import/no-commonjs": "off", // DECIDEME (errors: 100)
+    // [restriction] Forbid a module from importing a module with a dependency path back to itself.
+    "import/no-cycle": "off", // TODO
+    // [restriction] Forbid default exports.
+    "import/no-default-export": "off", // DECIDEME (errors: 450)
+    // [restriction] Forbid require() calls with expressions.
+    "import/no-dynamic-require": "error",
+    // [restriction] Forbid importing modules from parent directories.
+    "import/no-relative-parent-imports": "off", // DECIDEME (errors: 11412)
+    // [restriction] Forbid webpack loader syntax in imports.
+    "import/no-webpack-loader-syntax": "error",
+    // [restriction] unambiguous Forbid potentially ambiguous parse goal (script vs. module).
+    "import/unambiguous": "off", // DECIDEME (errors: 37)
+    // [restriction] Checks that @access tags have a valid value.
+    "jsdoc/check-access": "error",
+    // [restriction] (🚧 planned autofix) Checks tags that are expected to be empty (e.g., @abstract or @async), reporting if they have content
+    "jsdoc/empty-tags": "error",
+    // [restriction] Enforce <a> text to not exactly match "click here", "here", "link", or "a link".
+    "jsx-a11y/anchor-ambiguous-text": "error",
+    // [restriction] Disallow new operators with calls to require
+    "node/no-new-require": "error",
+    // [restriction] Disallow string concatenation with __dirname and __filename
+    "node/no-path-concat": "error",
+    // [restriction] Disallow the use of process.env
+    "node/no-process-env": "off", // DECIDEME (errors: 101)
+    // [restriction] (💡 suggestion) Disallows bitwise operators where logical operators are expected.
+    "oxc/bad-bitwise-operator": "error",
+    // [restriction] Disallows the use of async/await.
+    "oxc/no-async-await": "off", // DECIDEME (errors: 4227)
+    // [restriction] Disallow the use of barrel files where the file contains export * statements, and the total number of modules exceed a threshold.
+    "oxc/no-barrel-file": "error",
+    // [restriction] (🛠️ autofix) Disallow TypeScript const enum
+    "oxc/no-const-enum": "off", // DECIDEME (errors: 1)
+    // [restriction] Disallow optional chaining.
+    "oxc/no-optional-chaining": "off", // DECIDEME (errors: 3068)
+    // [restriction] Disallow Object Rest/Spread Properties.
+    "oxc/no-rest-spread-properties": "off", // DECIDEME (errors: 3313)
+    // [restriction] Enforce the use of catch() on un-returned promises.
+    "promise/catch-or-return": "off", // DECIDEME (errors: 6)
+    // [restriction] Disallow use of non-standard Promise static methods.
+    "promise/spec-only": "error",
+    // [restriction] Disallow usage of button elements without an explicit type attribute
+    "react/button-has-type": "error",
+    // [restriction] Disallow certain props on DOM Nodes
+    "react/forbid-dom-props": "error",
+    // [restriction] Disallow certain elements
+    "react/forbid-elements": "error",
+    // [restriction] (🚧 planned autofix) Disallow file extensions that may contain JSX
+    "react/jsx-filename-extension": "off", // DECIDEME (errors: 884)
+    // [restriction] Disallows cloneElement
+    "react/no-clone-element": "error",
+    // [restriction] Disallow usage of dangerous JSX properties
+    "react/no-danger": "error",
+    // [restriction] Disallow multiple component definition per file
+    "react/no-multi-comp": "off", // DECIDEME (errors: 1509)
+    // [restriction] Disallows the usage of React.Children, as it is considered a bad practice.
+    "react/no-react-children": "error",
+    // [restriction] (🚧 planned autofix) Disallow usage of unknown DOM property
+    "react/no-unknown-property": "error",
+    // [restriction] Ensures that modules only export React components (and related HMR-safe items) so that Fast Refresh (a.k.a. hot reloading) can safely preserve component state.
+    "react/only-export-components": "off", // DECIDEME (errors: 172)
+    // [restriction] Require explicit return types on functions and class methods
+    "typescript/explicit-function-return-type": "off", // DECIDEME (errors: 2062)
+    // [restriction] Require explicit return and argument types on exported functions' and classes' public class methods
+    "typescript/explicit-module-boundary-types": [
+      "error",
+      { "allowHigherOrderFunctions": true }
+    ],
+    // [restriction] Disallow using the delete operator on computed key expressions
+    "typescript/no-dynamic-delete": "off", // DECIDEME (errors: 34)
+    // [restriction] (🚧 planned autofix) Disallow accidentally using the "empty object" type
+    "typescript/no-empty-object-type": "error",
+    // [restriction] (🛠️ autofix) Disallow the any type
+    "typescript/no-explicit-any": "error",
+    // [restriction] (🛠️ autofix) Enforce the use of top-level import type qualifier when an import only has specifiers with inline type qualifiers
+    "typescript/no-import-type-side-effects": "off", // DECIDEME (errors: 48)
+    // [restriction] Disallow void type outside of generic or return types
+    "typescript/no-invalid-void-type": "off", // DECIDEME (errors: 71)
+    // [restriction] Disallow TypeScript namespaces
+    "typescript/no-namespace": "off", // DECIDEME (errors: 23)
+    // [restriction] (🚧 planned autofix) Disallow non-null assertions in the left operand of a nullish coalescing operator
+    "typescript/no-non-null-asserted-nullish-coalescing": "error",
+    // [restriction] (🚧 planned autofix) Disallow non-null assertions using the ! postfix operator
+    "typescript/no-non-null-assertion": "error",
+    // [restriction] (🚧 planned autofix) Disallow invocation of require()
+    "typescript/no-require-imports": "off", // DECIDEME (errors: 86)
+    // [restriction] (🛠️ autofix) (💡 suggestion) Disallow certain types
+    "typescript/no-restricted-types": "error",
+    // [restriction] Disallow require statements except in import statements
+    "typescript/no-var-requires": "error",
+    // [restriction] (🛠️ autofix) (💭 needcs type info) Enforce non-null assertions over explicit type assertions
+    "typescript/non-nullable-type-assertion-style": "error",
+    // [restriction] Require all enum members to be literal values
+    "typescript/prefer-literal-enum-member": "off", // DECIDEME (errors: 21)
+    // [restriction] (🛠️ autofix) (💭 needs type info) Require any function or method that returns a Promise to be marked async
+    "typescript/promise-function-async": "off", // DECIDEME (errors: 440)
+    // [restriction] (💡 suggestion) (💭 needs type info) Enforce typing arguments in Promise rejection callbacks as unknown
+    "typescript/use-unknown-in-catch-callback-variable": "off", // DECIDEME (errors: 41)
+    // [restriction] Enforce specifying rules to disable in eslint-disable comments.
+    "unicorn/no-abusive-eslint-disable": "off", // DECIDEME (errors: 1)
+    // [restriction] (🚧 planned autofix) Disallow anonymous functions and classes as the default export.
+    "unicorn/no-anonymous-default-export": "error",
+    // [restriction] (🚧 planned autofix) Prefer for…of over the forEach method.
+    "unicorn/no-array-for-each": "off", // DECIDEME (errors: 395)
+    // [restriction] Disallow Array#reduce() and Array#reduceRight().
+    "unicorn/no-array-reduce": "off", // DECIDEME (errors: 33)
+    // [restriction] Do not use document.cookie directly.
+    "unicorn/no-document-cookie": "error",
+    // [restriction] (🛠️ autofix) Disallow using length as the end argument of a slice call.
+    "unicorn/no-length-as-slice-end": "off", // [reason: Superseded by unicorn/no-unnecessary-slice-end]
+    // [restriction] Disallow a magic number as the depth argument in Array#flat(…).
+    "unicorn/no-magic-array-flat-depth": "error",
+    // [restriction] (🚧 planned autofix) Disallow process.exit().
+    "unicorn/no-process-exit": "off", // DECIDEME (errors: 48)
+    // [restriction] (💡 suggestion) Disallow unnecessary Error.captureStackTrace(…).
+    "unicorn/no-useless-error-capture-stack-trace": "error",
+    // [restriction] (🚧 planned autofix) Prefer modern Math APIs over legacy patterns.
+    "unicorn/prefer-modern-math-apis": "off", // DECIDEME (errors: 1)
+    // [restriction] (🚧 planned autofix) Prefer JavaScript modules (ESM) over CommonJS.
+    "unicorn/prefer-module": "off", // DECIDEME (errors: 216)
+    // [restriction] (🛠️ autofix) Prefer using the node: protocol when importing Node.js builtin modules.
+    "unicorn/prefer-node-protocol": "error",
+    // [restriction] (⚠️ 🛠️ dangerous autofix) Prefer Number static properties over global ones.
+    "unicorn/prefer-number-properties": "off", // DECIDEME (errors: 59)
+    // [restriction] Enforce maximum number of props in Vue component
+    // "vue/max-props": "error",
+    // [restriction] (⚠️ 🛠️ dangerous autofix) Disallow importing Vue compiler macros
+    // "vue/no-import-compiler-macros": "error",
+    // [restriction] (🚧 planned autofix) Disallow passing multiple arguments to scoped slots
+    // "vue/no-multiple-slot-args": "error",
+
+    // ------------------------------------------------------------------------
+    // Category: Style
+    // ------------------------------------------------------------------------
+
+    // [style] (🛠️ autofix) Require braces around arrow function bodies
+    "eslint/arrow-body-style": "off", // DECIDEME (errors: 897)
+    // [style] (🛠️ autofix) Enforce or disallow capitalization of the first letter of a comment
+    "eslint/capitalized-comments": "off", // DECIDEME (errors: 3026)
+    // [style] (🛠️ autofix) Enforce consistent brace style for all control statements
+    "eslint/curly": ["off", "all"],
+    // [style] Enforce default clauses in switch statements to be last
+    "eslint/default-case-last": "error",
+    // [style] Enforce default parameters to be last
+    "eslint/default-param-last": "off", // DECIDEME (errors: 38)
+    // [style] (🛠️ autofix) (💡 suggestion) Require or disallow named function expressions
+    "eslint/func-names": "off", // DECIDEME (errors: 203)
+    // [style] (🚧 planned autofix) Enforce the consistent use of either function declarations or expressions assigned to variables
+    "eslint/func-style": "off", // DECIDEME (errors: 7136)
+    // [style] (🚧 planned autofix) Require grouped accessor pairs in object literals and classes
+    "eslint/grouped-accessor-pairs": "error",
+    // [style] Require for-in loops to include an if statement
+    "eslint/guard-for-in": "error",
+    // [style] Enforce minimum and maximum identifier lengths
+    "eslint/id-length": "off", // DECIDEME (errors: 1393)
+    // [style] Require or disallow initialization in variable declarations
+    "eslint/init-declarations": "off", // DECIDEME (errors: 1572)
+    // [style] Enforce a maximum number of parameters in function definitions
+    "eslint/max-params": "off", // DECIDEME (errors: 171)
+    // [style] Enforce a maximum number of statements allowed in function blocks
+    "eslint/max-statements": "off", // DECIDEME (errors: 2329)
+    // [style] (🚧 planned autofix) Require constructor names to begin with a capital letter
+    "eslint/new-cap": "off", // DECIDEME (errors: 24)
+    // [style] Disallow continue statements
+    "eslint/no-continue": "off", // DECIDEME (errors: 232)
+    // [style] (🚧 planned autofix) Disallow duplicate module imports
+    "eslint/no-duplicate-imports": "off", // DECIDEME (errors: 1341)
+    // [style] (🛠️ autofix) Disallow unnecessary labels
+    "eslint/no-extra-label": "error",
+    // [style] (🛠️ autofix) Disallow shorthand type conversions
+    "eslint/no-implicit-coercion": "off", // DECIDEME (errors: 36)
+    // [style] Disallow labels that share a name with a variable
+    "eslint/no-label-var": "error",
+    // [style] Disallow labeled statements
+    "eslint/no-labels": "error",
+    // [style] Disallow unnecessary nested blocks
+    "eslint/no-lone-blocks": "error",
+    // [style] (🚧 planned autofix) Disallow magic numbers
+    "eslint/no-magic-numbers": "off", // DECIDEME (errors: 13789)
+    // [style] Disallow use of chained assignment expressions
+    "eslint/no-multi-assign": "error",
+    // stylpe Disallow multiline strings
+    "eslint/no-multi-str": "error",
+    // [style] Disallow nested ternary expressions
+    "eslint/no-nested-ternary": "error",
+    // [style] Disallow new operators with the Function object
+    "eslint/no-new-func": "error",
+    // [style] Disallow assignment operators in return statements
+    "eslint/no-return-assign": "error",
+    // [style] Disallow javascript: URLs
+    "eslint/no-script-url": "error",
+    // [style] Disallow template literal placeholder syntax in regular strings
+    "eslint/no-template-curly-in-string": "error",
+    // [style] Disallow ternary operators
+    "eslint/no-ternary": "off", // DECIDEME (errors: 2947)
+    // [style] (🚧 planned autofix) Disallow unnecessary computed property keys in objects and classes
+    "eslint/no-useless-computed-key": "error",
+    // [style] (⚠️ 🛠️ dangerous autofix) Require or disallow assignment operator shorthand where possible
+    "eslint/operator-assignment": "error",
+    // [style] (🛠️ autofix) Require const declarations for variables that are never reassigned after declared
+    "eslint/prefer-const": "error",
+    // [style] (🛠️ autofix) Require destructuring from arrays and/or objects
+    "eslint/prefer-destructuring": "off", // DECIDEME (errors: 218)
+    // [style] (🛠️ autofix) Disallow the use of Math.pow in favor of the ** operator
+    "eslint/prefer-exponentiation-operator": "error",
+    // [style] (🛠️ autofix) Disallow parseInt() and Number.parseInt() in favor of binary, octal, and hexadecimal literals
+    "eslint/prefer-numeric-literals": "error",
+    // [style] (🛠️ autofix) Disallow use of Object.prototype.hasOwnProperty.call() and prefer use of Object.hasOwn()
+    "eslint/prefer-object-has-own": "off", // DECIDEME (errors: 2)
+    // [style] (🛠️ autofix) Disallow using Object.assign with an object literal as the first argument and prefer the use of object spread instead
+    "eslint/prefer-object-spread": "error",
+    // [style] Require using Error objects as Promise rejection reasons
+    "eslint/prefer-promise-reject-errors": "off", // DECIDEME (errors: 9)
+    // [style] Require rest parameters instead of arguments
+    "eslint/prefer-rest-params": "error",
+    // [style] Require spread operators instead of .apply()
+    "eslint/prefer-spread": "error",
+    // [style] (🚧 planned autofix) Require template literals instead of string concatenation
+    "eslint/prefer-template": "off", // DECIDEME (errors: 1)
+    // [style] (🛠️ autofix) Enforce sorted import declarations within modules
+    "eslint/sort-imports": "off", // DECIDEME (errors: 9152)
+    // [style] (🛠️ autofix) Require object keys to be sorted
+    "eslint/sort-keys": "off", // DECIDEME (errors: 10868)
+    // [style] Require var declarations be placed at the top of their containing scope
+    "eslint/vars-on-top": "error",
+    // [style] (🛠️ autofix) Require or disallow "Yoda" conditions
+    "eslint/yoda": "error",
+    // [style] (🛠️ autofix) Enforce or ban the use of inline type-only markers for named imports.
+    "import/consistent-type-specifier-style": "off", // DECIDEME (errors: 327)
+    // [style] Ensure all exports appear after other statements.
+    "import/exports-last": "off", // DECIDEME (errors: 3698)
+    // [style] (🚧 planned autofix) Ensure all imports appear before other statements.
+    "import/first": "error",
+    // [style] Prefer named exports to be grouped together in a single export declaration
+    "import/group-exports": "off", // DECIDEME (errors: 7192)
+    // [style] Forbid anonymous values as default exports.
+    "import/no-anonymous-default-export": "error",
+    // [style] Forbid repeated import of the same module in multiple places.
+    "import/no-duplicates": "off", // DECIDEME (errors: 1)
+    // [style] Forbid the use of mutable exports with var or let.
+    "import/no-mutable-exports": "error",
+    // [style] Forbid named default exports.
+    "import/no-named-default": "error",
+    // [style] Forbid named exports.
+    "import/no-named-export": "off", // DECIDEME (errors: 8827)
+    // [style] (🚧 planned autofix) Forbid namespace (a.k.a. "wildcard" *) imports.
+    "import/no-namespace": "off", // DECIDEME (errors: 743)
+    // [style] Forbid Node.js builtin modules.
+    "import/no-nodejs-modules": "off", // DECIDEME (errors: 479)
+    // [style] Prefer a default export if module exports a single name or multiple names.
+    "import/prefer-default-export": "off", // DECIDEME (errors: 631)
+    // [style] (🛠️ autofix) Enforce test and it usage conventions
+    // "jest/consistent-test-it": "error",
+    // [style] Enforces a maximum number assertion calls in a test body
+    // "jest/max-expects": "error",
+    // [style] Enforces a maximum depth to nested describe calls
+    // "jest/max-nested-describe": "error",
+    // [style] (🛠️ autofix) Disallow alias methods
+    // "jest/no-alias-methods": "error",
+    // [style] Disallow confusing usages of jest.setTimeout
+    // "jest/no-confusing-set-timeout": "error",
+    // [style] (🛠️ autofix) Disallow use of deprecated functions
+    // "jest/no-deprecated-functions": "error",
+    // [style] (🚧 planned autofix) Disallow using a callback in asynchronous tests and hooks
+    // "jest/no-done-callback": "error",
+    // [style] Disallow duplicate setup and teardown hooks
+    // "jest/no-duplicate-hooks": "error",
+    // [style] Disallow setup and teardown hooks
+    // "jest/no-hooks": "error",
+    // [style] Disallow identical titles
+    // "jest/no-identical-title": "error",
+    // [style] Disallow string interpolation inside snapshots
+    // "jest/no-interpolation-in-snapshots": "error",
+    // [style] (🛠️ autofix) Disallow Jasmine globals
+    // "jest/no-jasmine-globals": "error",
+    // [style] Disallow large snapshots
+    // "jest/no-large-snapshots": "error",
+    // [style] Disallow manually importing from __mocks__
+    // "jest/no-mocks-import": "error",
+    // [style] Disallow specific jest. methods
+    // "jest/no-restricted-jest-methods": "error",
+    // [style] Disallow specific matchers & modifiers
+    // "jest/no-restricted-matchers": "error",
+    // [style] (🛠️ autofix) Require using .only and .skip over f and x
+    // "jest/no-test-prefixes": "error",
+    // [style] Disallow explicitly returning from tests
+    // "jest/no-test-return-statement": "error",
+    // [style] (🛠️ autofix) Disallow unnecessary async function wrapper for expected promises
+    // "jest/no-unneeded-async-expect-function": "error",
+    // [style] (🛠️ autofix) Disallow using jest.mock() factories without an explicit type parameter
+    // "jest/no-untyped-mock-factory": "error",
+    // [style] (🛠️ autofix) Enforce padding around test and it blocks
+    // "jest/padding-around-test-blocks": "error",
+    // [style] (🛠️ autofix) Suggest using toHaveBeenCalledWith()
+    // "jest/prefer-called-with": "error",
+    // [style] (🛠️ autofix) Suggest using the built-in comparison matchers
+    // "jest/prefer-comparison-matcher": "error",
+    // [style] Prefer using .each rather than manual loops
+    // "jest/prefer-each": "error",
+    // [style] (🚧 planned autofix) Suggest using the built-in equality matchers
+    // "jest/prefer-equality-matcher": "error",
+    // [style] (🛠️ autofix) Prefer await expect(...).resolves over expect(await ...) syntax
+    // "jest/prefer-expect-resolves": "error",
+    // [style] Prefer having hooks in a consistent order
+    // "jest/prefer-hooks-in-order": "error",
+    // [style] Suggest having hooks before any test cases
+    // "jest/prefer-hooks-on-top": "error",
+    // [style] (🛠️ autofix) Prefer jest.mocked() over fn as jest.Mock
+    // "jest/prefer-jest-mocked": "error",
+    // [style] (🛠️ autofix) Enforce lowercase test names
+    // "jest/prefer-lowercase-title": "error",
+    // [style] (🛠️ autofix) Prefer mock resolved/rejected shorthands for promises
+    // "jest/prefer-mock-promise-shorthand": "error",
+    // [style] (🛠️ autofix) Prefer mock return shorthands
+    // "jest/prefer-mock-return-shorthand": "error",
+    // [style] (💡 suggestion) Suggest using jest.spyOn()
+    // "jest/prefer-spy-on": "error",
+    // [style] (🛠️ autofix) Suggest using toStrictEqual()
+    // "jest/prefer-strict-equal": "error",
+    // [style] (🛠️ autofix) Suggest using toBe() for primitive literals
+    // "jest/prefer-to-be": "error",
+    // [style] (🛠️ autofix) Suggest using toContain()
+    // "jest/prefer-to-contain": "error",
+    // [style] (🛠️ autofix) Suggest using toHaveBeenCalled
+    // "jest/prefer-to-have-been-called": "error",
+    // [style] (🛠️ autofix) Suggest using toHaveBeenCalledTimes()
+    // "jest/prefer-to-have-been-called-times": "error",
+    // [style] (🛠️ autofix) Suggest using toHaveLength()
+    // "jest/prefer-to-have-length": "error",
+    // [style] (🛠️ autofix) Suggest using test.todo
+    // "jest/prefer-todo": "error",
+    // [style] Require setup and teardown code to be within a hook
+    // "jest/require-hook": "error",
+    // [style] Require test cases and hooks to be inside a describe block
+    // "jest/require-top-level-describe": "error",
+    // [style] Require require() calls to be placed at top-level module scope
+    "node/global-require": "error",
+    // [style] (🛠️ autofix) Disallow the assignment to exports
+    "node/no-exports-assign": "error",
+    // [style] Disallow creating new promises outside of utility libs (use util.promisify instead).
+    "promise/avoid-new": "off", // DECIDEME (errors: 88)
+    // [style] (🚧 planned autofix) Disallow nested then() or catch() statements.
+    "promise/no-nesting": "off", // DECIDEME (errors: 3)
+    // [style] (🚧 planned autofix) no-return-wrap Disallow wrapping values in Promise.resolve or Promise.reject when not needed.
+    "promise/no-return-wrap": "off", // DECIDEME (errors: 1)
+    // [style] Enforce consistent param names and ordering when creating new promises.
+    "promise/param-names": "off", // DECIDEME (errors: 13)
+    // [style] Prefer async/await to the callback pattern.
+    "promise/prefer-await-to-callbacks": "off", // DECIDEME (errors: 211)
+    // [style] Prefer await to then()/catch()/finally() for reading Promise values.
+    "promise/prefer-await-to-then": "error",
+    // [style] (🚧 planned autofix) Prefer catch to then(a, b)/then(null, b) for handling errors.
+    "promise/prefer-catch": "off", // DECIDEME (errors: 1)
+    // [style] (🛠️ autofix) Enforce boolean attributes notation in JSX
+    "react/jsx-boolean-value": "error",
+    // [style] (🛠️ autofix) Disallow unnecessary JSX expressions when literals alone are sufficient or enforce JSX expressions on literals in JSX children or attributes
+    "react/jsx-curly-brace-presence": "error",
+    // [style] (🛠️ autofix) jsx-fragments Enforce shorthand or standard form for React fragments
+    "react/jsx-fragments": "error",
+    // [style] Enforce event handler naming conventions in JSX
+    "react/jsx-handler-names": "off", // DECIDEME (errors: 14)
+    // [style] Enforce JSX maximum depth
+    "react/jsx-max-depth": "off", // DECIDEME (errors: 1653)
+    // [style] Enforce PascalCase for user-defined JSX components
+    "react/jsx-pascal-case": ["error", { "allowNamespace": true }],
+    // [style] Disallow JSX prop spreading
+    "react/jsx-props-no-spreading": "off", // DECIDEME (errors: 1472)
+    // [style] Disallow usage of shouldComponentUpdate when extending React.PureComponent
+    "react/no-redundant-should-component-update": "error",
+    // [style] Disallow usage of setState
+    "react/no-set-state": "off", // DECIDEME (errors: 17)
+    // [style] Enforce ES5 or ES6 class for React Components
+    "react/prefer-es6-class": "error",
+    // [style] (🛠️ autofix) Disallow extra closing tags for components without children
+    "react/self-closing-comp": "error",
+    // [style] Enforce class component state initialization style
+    "react/state-in-constructor": "error",
+    // [style] (🛠️ autofix) Require consistently using either T[] or Array<T> for arrays
+    "typescript/array-type": ["error", { "default": "generic" }],
+    // [style] (🛠️ autofix) Disallow // tslint:<rule-flag> comments
+    "typescript/ban-tslint-comment": "error",
+    // [style] (🚧 planned autofix) Enforce that literals on classes are exposed in a consistent style
+    "typescript/class-literal-property-style": "error",
+    // [style] (🛠️ autofix) Enforce specifying generic type arguments on type annotation or constructor name of a constructor call
+    "typescript/consistent-generic-constructors": "error",
+    // [style] (🛠️ autofix) Require or disallow the Record type
+    "typescript/consistent-indexed-object-style": "off", // DECIDEME (errors: 40)
+    // [style] (🛠️ autofix) (💡 suggestion) Enforce consistent usage of type assertions
+    "typescript/consistent-type-assertions": "error",
+    // [style] (⚠️ 🛠️ dangerous autofix) Enforce type definitions to consistently use either interface or type
+    "typescript/consistent-type-definitions": ["error", "type"],
+    // [style] (🛠️ autofix) Enforce consistent usage of type imports
+    "typescript/consistent-type-imports": "error",
+    // [style] (🚧 planned autofix) Disallow the declaration of empty interfaces
+    "typescript/no-empty-interface": "error", // [reason: FILLMEIN]
+    // [style] (💡 suggestion) Disallow explicit type declarations for variables or parameters initialized to a number, string, or boolean
+    "typescript/no-inferrable-types": "error",
+    // [style] Require or disallow parameter properties in class constructors
+    "typescript/parameter-properties": "error",
+    // [style] (🚧 planned autofix) Enforce the use of for-of loop over the standard for loop where possible
+    "typescript/prefer-for-of": "error",
+    // [style] (🛠️ autofix) Enforce using function types instead of interfaces with call signatures
+    "typescript/prefer-function-type": "error",
+    // [style] (🛠️ autofix) (💭 needs type info) Enforce using type parameter when calling Array#reduce instead of using a type assertion
+    "typescript/prefer-reduce-type-parameter": "error",
+    // [style] (🛠️ autofix) (💭 needs type info) Enforce that this is used when only this type is returned
+    "typescript/prefer-return-this-type": "error",
+    // [style] Require that function overload signatures be consecutive
+    "typescript/adjacent-overload-signatures": "error",
+    // [style] Disallow two overloads that could be unified into one with a union or an optional/rest parameter
+    "typescript/unified-signatures": "off", // DECIDEME (errors: 18)
+    // [style] (🛠️ autofix) Enforce a specific parameter name in catch clauses.
+    "unicorn/catch-error-name": "off", // DECIDEME (errors: 168)
+    // [style] (🛠️ autofix) Prefer passing Date directly to the constructor when cloning.
+    "unicorn/consistent-date-clone": "error",
+    // [style] (🛠️ autofix) Enforce consistent style for element existence checks with indexOf(), lastIndexOf(), findIndex(), and findLastIndex().
+    "unicorn/consistent-existence-index-check": "off", // DECIDEME (errors: 15)
+    // [style] (🚧 planned autofix) Enforces the only valid way of Error subclassing. It works with any super class that ends in Error.
+    "custom-error-definition": "off", // TODO
+    // [style] (🛠️ autofix) Enforce no spaces between braces.
+    "unicorn/empty-brace-spaces": "off", // DECIDEME (errors: 0)
+    // [style] Enforce passing a message value when creating a built-in error.
+    "unicorn/error-message": "off", // DECIDEME (errors: 13)
+    // [style] Enforce a case style for filenames.
+    "unicorn/filename-case": "off", // DECIDEME (errors: 666)
+    // [style] (🚧 planned autofix) Disallow using the this argument in array methods.
+    "unicorn/no-array-method-this-argument": "off", // DECIDEME (errors: 2)
+    // [style] (⚠️ 🛠️ dangerous autofix) Disallow member access from await expression.
+    "unicorn/no-await-expression-member": "off", // DECIDEME (errors: 69)
+    // [style] (🛠️ autofix) Do not use leading/trailing space between console.log parameters.
+    "unicorn/no-console-spaces": "error",
+    // [style] (🛠️ autofix) Disallow nested ternary expressions.
+    "unicorn/no-nested-ternary": "off", // DECIDEME (errors: 2)
+    // [style] (⚠️ 🛠️ dangerous autofix) Disallow the use of the null literal.
+    "unicorn/no-null": "off", // DECIDEME (errors: 5576)
+    // [style] (🚧 planned autofix) Disallow unreadable array destructuring.
+    "unicorn/no-unreadable-array-destructuring": "off", // DECIDEME (errors: 1)
+    // [style] (💡 suggestion) Disallow useless values or fallbacks in Set, Map, WeakSet, or WeakMap.
+    "unicorn/no-useless-collection-argument": "off", // DECIDEME (errors: 17)
+    // [style] (🛠️ autofix) Disallow number literals with zero fractions or dangling dots.
+    "unicorn/no-zero-fractions": "off", // DECIDEME (errors: 7)
+    // [style] (🛠️ autofix) Enforce proper case for numeric literals.
+    "unicorn/number-literal-case": "off", // DECIDEME (errors: 156)
+    // [style] (🛠️ autofix) Enforce the style of numeric separators by correctly grouping digits.
+    "unicorn/numeric-separators-style": "off", // DECIDEME (errors: 641)
+    // [style] (🚧 planned autofix) Prefer Array#{indexOf,lastIndexOf}() over Array#{findIndex,findLastIndex}() when looking for the index of an item.
+    "unicorn/prefer-array-index-of": "off", // DECIDEME (errors: 7)
+    // [style] (🛠️ autofix) Prefer BigInt literals over the constructor.
+    "unicorn/prefer-bigint-literals": "off", // DECIDEME (errors: 24)
+    // [style] (🛠️ autofix) (💡 suggestion) Prefer class field declarations over this assignments in constructors.
+    "unicorn/prefer-class-fields": "off", // DECIDEME (errors: 1)
+    // [style] (🛠️ autofix) Prefer using Element#classList.toggle() to toggle class names.
+    "unicorn/prefer-classlist-toggle": "off",
+    // [style] (🚧 planned autofix) Prefer default parameters over reassignment.
+    "unicorn/prefer-default-parameters": "error",
+    // [style] (🛠️ autofix) Prefer .textContent over .innerText.
+    "unicorn/prefer-dom-node-text-content": "off", // DECIDEME (errors: 9)
+    // [style] (💡 suggestion) Prefer globalThis over window, self, and global.
+    "unicorn/prefer-global-this": "off", // DECIDEME (errors: 2242)
+    // [style] (💡 suggestion) Prefer .includes() over .indexOf(), .lastIndexOf(), and Array#some() when checking for existence or non-existence.
+    "unicorn/prefer-includes": "off", // DECIDEME (errors: 3)
+    // [style] (🛠️ autofix) Prefer KeyboardEvent#key over KeyboardEvent#keyCode.
+    "unicorn/prefer-keyboard-event-key": "error",
+    // [style] (💡 suggestion) Prefer using a logical operator over a ternary.
+    "unicorn/prefer-logical-operator-over-ternary": "off", // DECIDEME (errors: 9)
+    // [style] (💡 suggestion) Prefer .before() over .insertBefore(), .replaceWith() over .replaceChild(), prefer one of .before(), .after(), .append() or .prepend() over insertAdjacentText() and insertAdjacentElement().
+    "unicorn/prefer-modern-dom-apis": "error",
+    // [style] (🛠️ autofix) Prefer negative index over .length - index when possible.
+    "unicorn/prefer-negative-index": "error",
+    // [style] (🚧 planned autofix) Prefer using Object.fromEntries(…) to transform a list of key-value pairs into an object.
+    "unicorn/prefer-object-from-entries": "error",
+    // [style] (🛠️ autofix) Prefer omitting the catch binding parameter.
+    "unicorn/prefer-optional-catch-binding": "off", // DECIDEME (errors: 75)
+    // [style] (💡 suggestion) Prefer Reflect.apply() over Function#apply().
+    "unicorn/prefer-reflect-apply": "error",
+    // [style] (💡 suggestion) Prefer Response.json() over new Response(JSON.stringify()).
+    "unicorn/prefer-response-static-json": "error",
+    // [style] (🛠️ autofix) Prefer the spread operator over Array.from(…), Array#concat(…), Array#{slice,toSpliced}() and String#split('').
+    "unicorn/prefer-spread": "off", // DECIDEME (errors: 226)
+    // [style] (🛠️ autofix) Prefer using the String.raw tag to avoid escaping \.
+    "unicorn/prefer-string-raw": "off", // DECIDEME (errors: 26)
+    // [style] (🛠️ autofix) Prefer String#trimStart() / String#trimEnd() over String#trimLeft() / String#trimRight().
+    "unicorn/prefer-string-trim-start-end": "off", // DECIDEME (errors: 1)
+    // [style] (💡 suggestion) Prefer using structuredClone to create a deep clone.
+    "unicorn/prefer-structured-clone": "off", // DECIDEME (errors: 5)
+    // [style] (🚧 planned autofix) Prefer ternary expressions over simple if-else statements.
+    "unicorn/prefer-ternary": "off", // DECIDEME (errors: 156)
+    // [style] (🛠️ autofix) (💡 suggestion) Enforce consistent relative URL style.
+    "unicorn/relative-url-style": "off", // DECIDEME (errors: 3)
+    // [style] (🛠️ autofix) Enforce using the separator argument with Array#join().
+    "unicorn/require-array-join-separator": "off", // [reason: False positives]
+    // [style] (💡 suggestion) Require non-empty module attributes for imports and exports
+    "unicorn/require-module-attributes": "error",
+    // [style] (🛠️ autofix) Enforce consistent brace style for case clauses.
+    "unicorn/switch-case-braces": "off", // DECIDEME (errors: 1045)
+    // [style] (🛠️ autofix) Enforce consistent case for text encoding identifiers.
+    "unicorn/text-encoding-identifier-case": "off", // DECIDEME (errors: 20)
+    // [style] (🛠️ autofix) Require new when creating an error.
+    "unicorn/throw-new-error": "error",
+    // [style] Require test file pattern
+    // "vitest/consistent-test-filename": "error",
+    // [style] (🛠️ autofix) Enforce using vitest or vi but not both
+    // "vitest/consistent-vitest-vi": "error",
+    // [style] (💡 suggestion) Disallow importing node:test
+    // "vitest/no-import-node-test": "error",
+    // [style] (🛠️ autofix) Disallow importing Vitest globals
+    // "vitest/no-importing-vitest-globals": "error",
+    // [style] (🛠️ autofix) Enforce using toBeCalledOnce() or toHaveBeenCalledOnce()
+    // "vitest/prefer-called-once": "error",
+    // [style] (🛠️ autofix) Enforce using toBeCalledTimes(1) or toHaveBeenCalledTimes(1)
+    // "vitest/prefer-called-times": "error",
+    // [style] (🛠️ autofix) Enforce using a function as a describe title over an equivalent string
+    // "vitest/prefer-describe-function-title": "error",
+    // [style] (🛠️ autofix) Enforce using expectTypeOf instead of expect(typeof ...)
+    // "vitest/prefer-expect-type-of": "error",
+    // [style] (🛠️ autofix) Prefer dynamic import in mock
+    // "vitest/prefer-import-in-mock": "error",
+    // [style] (🛠️ autofix) Enforce using toBeFalsy()
+    // "vitest/prefer-to-be-falsy": "error",
+    // [style] (🛠️ autofix) Enforce using toBeObject()
+    // "vitest/prefer-to-be-object": "error",
+    // [style] (🛠️ autofix) Enforce using toBeTruthy
+    // "vitest/prefer-to-be-truthy": "error",
+    // [style] (🚧 planned autofix) Enforce declaration style of defineEmits
+    // "vue/define-emits-declaration": "error",
+    // [style] Enforce declaration style of defineProps
+    // "vue/define-props-declaration": "error",
+    // [style] Enforce consistent style for props destructuring
+    // "vue/define-props-destructuring": "error",
+    // [style] Require ref and shallowRef functions to be strongly typed
+    // "vue/require-typed-ref": "error"
+
+    // ------------------------------------------------------------------------
+    // Category: Suspicious
+    // ------------------------------------------------------------------------
+    // [suspicious] Enforce the use of variables within the scope they are defined
+    "eslint/block-scoped-var": "error",
+    // [suspicious] Disallow extending native types
+    "eslint/no-extend-native": "error",
+    // [suspicious] (🚧 planned autofix) Disallow unnecessary calls to .bind()
+    "eslint/no-extra-bind": "error",
+    // [suspicious] Disallow new operators outside of assignments or comparisons
+    "eslint/no-new": "off",
+    // [suspicious] Disallow variable declarations from shadowing variables declared in the outer scope
+    "eslint/no-shadow": "error",
+    // [suspicious] (⚠️ 🛠 dangerous autofix)️ Disallow variable declarations from shadowing variables declared in the outer scope
+    "eslint/no-unexpected-multiline": "error",
+    // [suspicious] Disallow unmodified loop conditions
+    "eslint/no-unmodified-loop-condition": "off", // FIXME [reason: FILLMEIN] (errors: 3)
+    // [suspicious] (⚠️ 🛠️ dangerous autofix) Disallow ternary operators when simpler alternatives exist
+    "eslint/no-unneeded-ternary": "error",
+    // [suspicious] (🚧 planned autofix) Disallow unnecessary concatenation of literals or template literals
+    "eslint/no-useless-concat": "error",
+    // [suspicious] (💡 suggestion) Disallow unnecessary constructors
+    "eslint/no-useless-constructor": "error",
+    // [suspicious] (🛠️ autofix) Disallow losing originally caught error when re-throwing custom errors
+    "eslint/preserve-caught-error": "off", // FIXME [reason: FILLMEIN] (errors: 9)
+    // [suspicious] (🚧 planned autofix) Forbid import of modules using absolute paths.
+    "import/no-absolute-path": "error",
+    // [suspicious] (🛠️ autofix) Forbid empty named import blocks.
+    "import/no-empty-named-blocks": "error",
+    // [suspicious] Forbid use of exported name as identifier of default export.
+    "import/no-named-as-default": "off", // FIXME [reason: FILLMEIN] (errors: 14)
+    // [suspicious] Forbid use of exported name as property of default export.
+    "import/no-named-as-default-member": "off", // DECIDEME (errors: 143)
+    // [suspicious] Forbid a module from importing itself.
+    "import/no-self-import": "error",
+    // [suspicious] Forbid unassigned imports
+    "import/no-unassigned-import": "off", // DECIDEME (errors: 34)
+    // [suspicious] Disallow commented out tests
+    // "jest/no-commented-out-tests": "error",
+    // [suspicious] (💡 suggestion) Disallows the use of approximate constants, instead preferring the use of the constants in the Math object.
+    "oxc/approx-constant": "error",
+    // [suspicious] (💡 suggestion) Checks for a op= a op b or a op= b op a patterns.
+    "oxc/misrefactored-assign-op": "error",
+    // [suspicious] Disallows the use of async functions as Express endpoint handlers.
+    "oxc/no-async-endpoint-handlers": "error",
+    // [suspicious] Disallows the use of this in exported functions.
+    "oxc/no-this-in-exported-function": "error",
+    // [suspicious] Require returning inside each then() to create readable and reusable Promise chains.
+    "promise/always-return": "off", // DECIDEME (errors: 21)
+    // [suspicious] Disallow creating new promises with paths that resolve multiple times.
+    "promise/no-multiple-resolved": "error",
+    // [suspicious] Disallow using promises inside of callbacks.
+    "promise/no-promise-in-callback": "error",
+    // [suspicious] (🚧 planned autofix) Enforce sandbox attribute on iframe elements
+    "react/iframe-missing-sandbox": "error",
+    // [suspicious] Disallow comments from being inserted as text nodes
+    "react/jsx-no-comment-textnodes": "error",
+    // [suspicious] (🚧 planned autofix) Disallow usage of javascript: URLs
+    "react/jsx-no-script-url": "error",
+    // [suspicious] Enforce that namespaces are not used in React elements
+    "react/no-namespace": "error",
+    // [suspicious] Disallow missing React when using JSX
+    "react/react-in-jsx-scope": "error",
+    // [suspicious] Enforce style prop value is an object
+    "react/style-prop-object": "error",
+    // [suspicious] (🚧 planned autofix) Disallow non-null assertion in locations that may be confusing
+    "typescript/no-confusing-non-null-assertion": "error",
+    // [suspicious] (⚠️ 💡 dangerous suggestion) Disallow classes used as namespaces
+    "typescript/no-extraneous-class": "error",
+    // [suspicious] (🚧 planned autofix) (💭 needs type info) Disallow unnecessary equality comparisons against boolean literals
+    "typescript/no-unnecessary-boolean-literal-compare": "error", // DECIDEME (errors: 38)
+    // [suspicious] (🚧 planned autofix) (💭 needs type info) Disallow unnecessary template expressions
+    "typescript/no-unnecessary-template-expression": "error",
+    // [suspicious] (🛠️ autofix) (💭 needs type info) Disallow type arguments that are equal to the default
+    "typescript/no-unnecessary-type-arguments": "error",
+    // [suspicious] (🛠️ autofix) (💭 needs type info) Disallow type assertions that do not change the type of an expression
+    "typescript/no-unnecessary-type-assertion": "error",
+    // [suspicious] (🚧 planned autofix) Disallow unnecessary constraints on generic types
+    "typescript/no-unnecessary-type-constraint": "error",
+    // [suspicious] (🚧 planned autofix) (💭 needs type info) Disallow comparing an enum value with a non-enum value
+    "typescript/no-unsafe-enum-comparison": "off", // DECIDEME (errors: 105)
+    // [suspicious] (💭 needs type info) Disallow type assertions that narrow a type
+    "typescript/no-unsafe-type-assertion": "off", // DECIDEME (errors: 586)
+    // [suspicious] (🚧 planned autofix) Move function definitions to the highest possible scope.
+    "unicorn/consistent-function-scoping": "off", // DECIDEME (errors: 86)
+    // [suspicious] Disallow recursive access to this within getters and setters.
+    "unicorn/no-accessor-recursion": "error",
+    // [suspicious] (🛠️ autofix) Prefer Array#toReversed() over Array#reverse().
+    "unicorn/no-array-reverse": "off", // DECIDEME (errors: 20)
+    // [suspicious] (🛠️ autofix) Prefer Array#toSorted() over Array#sort().
+    "unicorn/no-array-sort": "off", // DECIDEME (errors: 54)
+    // [suspicious] (💡 suggestion) Disallow instanceof with built-in objects
+    "unicorn/no-instanceof-builtins": "off", // DECIDEME (errors: 4)
+    // [suspicious] (🚧 planned autofix) Prefer .addEventListener() and .removeEventListener() over on-functions.
+    "unicorn/prefer-add-event-listener": "off", // DECIDEME (errors: 24)
+    // [suspicious] (🛠️ autofix) Require non-empty specifier list in import and export statements.
+    "unicorn/require-module-specifiers": "off", // DECIDEME (errors: x)
+    // [suspicious] (💡 suggestion) Enforce using the targetOrigin argument with window.postMessage().
+    "unicorn/require-post-message-target-origin": "off" // DECIDEME (errors: 11)
+    // [suspicious] (💡 suggestion) Enforce props with default values to be optional
+    // "vue/no-required-prop-with-default": "error",
+    // [suspicious] Require components to be the default export
+    // "vue/require-default-export": "error",
+  },
+  "settings": {
+    "jsx-a11y": {
+      "polymorphicPropName": null,
+      "components": {},
+      "attributes": {}
+    },
+    "next": {
+      "rootDir": []
+    },
+    "react": {
+      "formComponents": [],
+      "linkComponents": [],
+      "version": null,
+      "componentWrapperFunctions": []
+    },
+    "jsdoc": {
+      "ignorePrivate": false,
+      "ignoreInternal": false,
+      "ignoreReplacesDocs": true,
+      "overrideReplacesDocs": true,
+      "augmentsExtendsReplacesDocs": false,
+      "implementsReplacesDocs": false,
+      "exemptDestructuredRootsFromChecks": false,
+      "tagNamePreference": {}
+    },
+    "vitest": {
+      "typecheck": false
+    },
+    "better-tailwindcss": {
+      "entryPoint": "./stylesheets/tailwind-config.css",
+      "selectors": [
+        { "kind": "callee", "name": "tw", "match": [{ "type": "strings" }] }
+      ]
+    }
+  },
+  "env": {
+    "builtin": true,
+    "es2024": true
+  },
+  "globals": {},
+  "ignorePatterns": [
+    // Sticker Creator has its own eslint config
+    "sticker-creator/**",
+    // Third-party files
+    "components/mp3lameencoder/lib/Mp3LameEncoder.js",
+    "components/webaudiorecorder/lib/WebAudioRecorderMp3.js"
+  ],
+  "overrides": [
+    // envs
+    {
+      "files": [
+        // file suffixes
+        "{ts,app}/**/*.std.*"
+      ],
+      "env": { "shared-node-browser": true },
+      "globals": {
+        "window": "readonly",
+        "process": "readonly",
+        "Buffer": "readonly"
+      }
+    },
+    {
+      "files": [
+        // file suffixes
+        "ts/**/*.dom.*",
+        "ts/**/*.preload.*",
+        // misc
+        ".storybook/preview.tsx",
+        "preload.wrapper.ts",
+        "test/test.mjs"
+      ],
+      "env": { "browser": true }
+    },
+    {
+      "files": [
+        // file suffixes
+        "{ts,app}/**/*.main.*",
+        "ts/**/*.preload.*",
+        "{ts,app}/**/*.node.*",
+        // misc
+        ".oxlint/**",
+        "build/**",
+        "codemods/**",
+        "danger/**",
+        "scripts/**",
+        "test/test.m",
+        ".babelrc.mjs",
+        ".prettierrc.mjs",
+        ".storybook/main.ts",
+        ".storybook/test-runner.ts",
+        ".stylelintrc.mjs",
+        "ci.js",
+        "dangerfile.mjs",
+        "knip.js",
+        "preload.wrapper.ts",
+        "rolldown.config.ts"
+      ],
+      "env": { "node": true }
+    },
+    {
+      "files": [
+        "ts/test-node/**",
+        "ts/test-electron/**",
+        "ts/test-mock/**",
+        "test/test.mjs",
+        "scripts/**/*_test.mjs"
+      ],
+      "env": { "mocha": true }
+    },
+
+    // disables
+    {
+      "files": ["scripts/**", "danger/**", "ts/util/lint/**"],
+      "rules": {
+        "no-console": "off"
+      }
+    },
+    {
+      "files": [".oxlint/**", "danger/**"],
+      "rules": {
+        "import/extensions": "off"
+      }
+    },
+    {
+      "files": ["ts/axo/**"],
+      "rules": {
+        "eslint/no-inner-declarations": "off"
+      }
+    },
+    {
+      "files": [
+        "ts/test-node/state/ducks/**",
+        "ts/test-electron/state/ducks/**"
+      ],
+      "rules": {
+        "typescript/await-thenable": "off"
+      }
+    },
+    {
+      "files": [
+        ".oxlint/**",
+        ".storybook/**",
+        "codemods/**",
+        "danger/**",
+        "packages/**",
+        "scripts/**",
+        "test/test.mjs",
+        ".babelrc.mjs",
+        ".prettierrc.mjs",
+        ".stylelintrc.mjs",
+        "ci.js",
+        "dangerfile.mjs",
+        "knip.js",
+        "preload.wrapper.ts",
+        "rolldown.config.ts"
+      ],
+      "rules": {
+        "signal-desktop/enforce-file-suffix": "off"
+      }
+    },
+    {
+      "files": ["*.stories.tsx"],
+      "rules": {
+        "react/no-array-index-key": "off"
+      }
+    },
+    {
+      "files": [
+        ".oxlint/**",
+        ".storybook/**",
+        "build/intl-linter/**",
+        "danger/**",
+        "ts/test-electron/**",
+        "ts/test-mock/**",
+        "ts/test-node/**",
+        "ts/util/lint/**",
+        "ts/windows/main/*_test.*",
+        "test/test.mjs",
+        "dangerfile.mjs",
+        "preload.wrapper.ts",
+        "rolldown.config.ts"
+      ],
+      "rules": {
+        "eslint/no-restricted-globals": [
+          "error"
+          // This needs to repeat things we still want to ban:
+          //   ...
+          // These were explicitly excluded:
+          //   1. "__dirname"
+        ]
+      }
+    },
+
+    // special cases
+    {
+      "files": ["ts/state/ducks/**/*.ts"],
+      "rules": {
+        "signal-desktop/enforce-type-alias-readonlydeep": "error"
+      }
+    },
+    {
+      "files": ["*.tsx"],
+      "jsPlugins": ["eslint-plugin-better-tailwindcss"],
+      "rules": {
+        // [correctness] (✅ recommended) Report classes not registered with tailwindcss.
+        "better-tailwindcss/no-unknown-classes": "error",
+        // [correctness] (✅ recommended) Report classes that produce conflicting styles.
+        "better-tailwindcss/no-conflicting-classes": "error",
+        // [correctness] (🛠️ autofix) Disallow restricted classes.
+        "better-tailwindcss/no-restricted-classes": [
+          "error",
+          {
+            // prettier-ignore
+            "restrict": [
+              // ex: "text-[#fff]"
+              { "pattern": "\\[#[a-fA-F0-9]{3,8}?\\]", "message": "No arbitrary hex values" },
+              // ex: "text-[rgb(255,255,255)]"
+              { "pattern": "\\[rgba?\\(.*\\)\\]", "message": "No arbitrary rgb values" },
+              // ex: "text-[hsl(255,255,255)]"
+              { "pattern": "\\[hsla?\\(.*\\)\\]", "message": "No arbitrary hsl values" },
+              // ex: "p-4!"
+              { "pattern": "^.*!$", "message": "No !important modifiers" },
+              // ex: "*:mx-0",
+              { "pattern": "^\\*+:.*", "message": "No child variants" },
+              // Logical Selectors
+              { "pattern": "^(.*:)?left-(.*)$", "fix": "start-$2", "message": "Use logical property left-* instead of start-*" },
+              { "pattern": "^(.*:)?right-(.*)$", "fix": "end-$2", "message": "Use logical property right-* instead of end-*" },
+              { "pattern": "^(.*:)?ml-(.*)$", "fix": "ms-$2", "message": "Use logical property ml-* instead of ms-*" },
+              { "pattern": "^(.*:)?mr-(.*)$", "fix": "me-$2", "message": "Use logical property mr-* instead of me-*" },
+              { "pattern": "^(.*:)?pl-(.*)$", "fix": "ps-$2", "message": "Use logical property pl-* instead of ps-*" },
+              { "pattern": "^(.*:)?pr-(.*)$", "fix": "pe-$2", "message": "Use logical property pr-* instead of pe-*" },
+              { "pattern": "^(.*:)?border-l-(.*)$", "fix": "border-s-$2", "message": "Use logical property border-s-* instead of border-l-*" },
+              { "pattern": "^(.*:)?border-r-(.*)$", "fix": "border-e-$2", "message": "Use logical property border-e-* instead of border-r-*" },
+              { "pattern": "^(.*:)?rounded-l-(.*)$", "fix": "rounded-s-$2", "message": "Use logical property rounded-s-* instead of rounded-l-*" },
+              { "pattern": "^(.*:)?rounded-r-(.*)$", "fix": "rounded-e-$2", "message": "Use logical property rounded-e-* instead of rounded-r-*" },
+              { "pattern": "^(.*:)?rounded-tl-(.*)$", "fix": "rounded-ss-$2", "message": "Use logical property rounded-ss-* instead of rounded-tl-*" },
+              { "pattern": "^(.*:)?rounded-tr-(.*)$", "fix": "rounded-se-$2", "message": "Use logical property rounded-se-* instead of rounded-tr-*" },
+              { "pattern": "^(.*:)?rounded-bl-(.*)$", "fix": "rounded-es-$2", "message": "Use logical property rounded-es-* instead of rounded-bl-*" },
+              { "pattern": "^(.*:)?rounded-br-(.*)$", "fix": "rounded-ee-$2", "message": "Use logical property rounded-ee-* instead of rounded-br-*" },
+              { "pattern": "^(.*:)?text-left$", "fix": "text-start", "message": "Use logical property text-start instead of text-left" },
+              { "pattern": "^(.*:)?text-right$", "fix": "text-end", "message": "Use logical property text-end instead of text-right" },
+              { "pattern": "^(.*:)?float-left$", "fix": "float-start", "message": "Use logical property float-start instead of float-left" },
+              { "pattern": "^(.*:)?float-right$", "fix": "float-end", "message": "Use logical property float-end instead of float-right" },
+              { "pattern": "^(.*:)?clear-left$", "fix": "clear-start", "message": "Use logical property clear-start instead of clear-left" },
+              { "pattern": "^(.*:)?clear-right$", "fix": "clear-end", "message": "Use logical property clear-end instead of clear-right" },
+            ]
+          }
+        ],
+
+        // [style] (✅ recommended) (🛠️ autofix) Enforce canonical class names.
+        "better-tailwindcss/enforce-canonical-classes": "error",
+        // [style] (✅ recommended) (🛠️ autofix) Enforce a consistent order for tailwind classes.
+        "better-tailwindcss/enforce-consistent-class-order": "error",
+        // [style] (🛠️ autofix) Enforce consistent position of the important modifier.
+        "better-tailwindcss/enforce-consistent-important-position": "off", // [reason: Superseded by enforce-canonical-classes]
+        // [style] (✅ recommended) (🛠️ autofix) Enforce consistent line wrapping for tailwind classes.
+        "better-tailwindcss/enforce-consistent-line-wrapping": "off",
+        // [style] (🛠️ autofix) Enforce consistent variable syntax.
+        "better-tailwindcss/enforce-consistent-variable-syntax": "off", // [reason: Superseded by enforce-canonical-classes]
+        // [style] (🛠️ autofix) Enforce shorthand class names.
+        "better-tailwindcss/enforce-shorthand-classes": "off", // [reason: Superseded by enforce-canonical-classes]
+        // [style] (✅ recommended) (🛠️ autofix) Remove deprecated classes.
+        "better-tailwindcss/no-deprecated-classes": "error",
+        // [style] (🛠️ autofix) Remove duplicate classes.
+        "better-tailwindcss/no-duplicate-classes": "error",
+        // [style] (✅ recommended) (🛠️ autofix) Disallow unnecessary whitespace in tailwind classes.
+        "better-tailwindcss/no-unnecessary-whitespace": "error"
+      }
+    }
+  ]
+}

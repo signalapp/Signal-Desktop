@@ -1,15 +1,15 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { createLogger } from '../logging/log.std.js';
-import { DataWriter } from '../sql/Client.preload.js';
-import { getMessageById } from '../messages/getMessageById.preload.js';
-import { isNotNil } from './isNotNil.std.js';
-import { DurationInSeconds } from './durations/index.std.js';
-import { markViewed } from '../services/MessageUpdater.preload.js';
-import { storageServiceUploadJob } from '../services/storage.preload.js';
-import { postSaveUpdates } from './cleanup.preload.js';
-import { itemStorage } from '../textsecure/Storage.preload.js';
+import { createLogger } from '../logging/log.std.ts';
+import { DataWriter } from '../sql/Client.preload.ts';
+import { getMessageById } from '../messages/getMessageById.preload.ts';
+import { isNotNil } from './isNotNil.std.ts';
+import { DurationInSeconds } from './durations/index.std.ts';
+import { markViewed } from '../services/MessageUpdater.preload.ts';
+import { storageServiceUploadJob } from '../services/storage.preload.ts';
+import { postSaveUpdates } from './cleanup.preload.ts';
+import { itemStorage } from '../textsecure/Storage.preload.ts';
 
 const log = createLogger('markOnboardingStoryAsRead');
 

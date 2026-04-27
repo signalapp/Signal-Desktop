@@ -2,35 +2,35 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import React, { useCallback, type ReactNode } from 'react';
 import { useSelector } from 'react-redux';
-import { MediaContextMenu } from '../../components/conversation/media-gallery/MediaContextMenu.dom.js';
-import { ForwardMessagesModalType } from '../../components/ForwardMessagesModal.dom.js';
+import { MediaContextMenu } from '../../components/conversation/media-gallery/MediaContextMenu.dom.tsx';
+import { ForwardMessagesModalType } from '../../components/ForwardMessagesModal.dom.tsx';
 import type {
   GenericMediaItemType,
   MediaItemType,
   LinkPreviewMediaItemType,
   ContactMediaItemType,
-} from '../../types/MediaItem.std.js';
-import type { LocalizerType } from '../../types/Util.std.js';
-import { missingCaseError } from '../../util/missingCaseError.std.js';
-import { strictAssert } from '../../util/assert.std.js';
-import { startConversation } from '../../util/startConversation.dom.js';
-import { drop } from '../../util/drop.std.js';
+} from '../../types/MediaItem.std.ts';
+import type { LocalizerType } from '../../types/Util.std.ts';
+import { missingCaseError } from '../../util/missingCaseError.std.ts';
+import { strictAssert } from '../../util/assert.std.ts';
+import { startConversation } from '../../util/startConversation.dom.ts';
+import { drop } from '../../util/drop.std.ts';
 import {
   applyDeleteMessage,
   applyDeleteAttachmentFromMessage,
-} from '../../util/deleteForMe.preload.js';
+} from '../../util/deleteForMe.preload.ts';
 import {
   getConversationIdentifier,
   getAddressableMessage,
-} from '../../util/syncIdentifiers.preload.js';
-import { getMessageById } from '../../messages/getMessageById.preload.js';
-import { createLogger } from '../../logging/log.std.js';
-import { singleProtoJobQueue } from '../../jobs/singleProtoJobQueue.preload.js';
-import { MessageSender } from '../../textsecure/SendMessage.preload.js';
-import { getIntl } from '../selectors/user.std.js';
-import { useConversationsActions } from '../ducks/conversations.preload.js';
-import { useGlobalModalActions } from '../ducks/globalModals.preload.js';
-import { useLookupContact } from './ContactDetail.preload.js';
+} from '../../util/syncIdentifiers.preload.ts';
+import { getMessageById } from '../../messages/getMessageById.preload.ts';
+import { createLogger } from '../../logging/log.std.ts';
+import { singleProtoJobQueue } from '../../jobs/singleProtoJobQueue.preload.ts';
+import { MessageSender } from '../../textsecure/SendMessage.preload.ts';
+import { getIntl } from '../selectors/user.std.ts';
+import { useConversationsActions } from '../ducks/conversations.preload.ts';
+import { useGlobalModalActions } from '../ducks/globalModals.preload.ts';
+import { useLookupContact } from './ContactDetail.preload.tsx';
 
 const log = createLogger('MediaContextMenu');
 
@@ -82,16 +82,18 @@ async function doRemoveAttachment(
     log.info(`Deleting whole message ${mediaItem.message.id}`);
     await applyDeleteMessage(message.attributes);
 
-    await singleProtoJobQueue.add(
-      MessageSender.getDeleteForMeSyncMessage([
-        {
-          type: 'delete-message',
-          conversation: conversationIdentifier,
-          message: addressableMessage,
-          timestamp: Date.now(),
-        },
-      ])
-    );
+    if (window.ConversationController.doWeHaveOtherDevices()) {
+      await singleProtoJobQueue.add(
+        MessageSender.getDeleteForMeSyncMessage([
+          {
+            type: 'delete-message',
+            conversation: conversationIdentifier,
+            message: addressableMessage,
+            timestamp: Date.now(),
+          },
+        ])
+      );
+    }
   } else {
     log.info(`Deleting a single attachment for ${mediaItem.message.id}`);
     const attachmentData = {
@@ -114,17 +116,19 @@ async function doRemoveAttachment(
       return;
     }
 
-    await singleProtoJobQueue.add(
-      MessageSender.getDeleteForMeSyncMessage([
-        {
-          type: 'delete-single-attachment',
-          conversation: conversationIdentifier,
-          message: addressableMessage,
-          ...attachmentData,
-          timestamp: Date.now(),
-        },
-      ])
-    );
+    if (window.ConversationController.doWeHaveOtherDevices()) {
+      await singleProtoJobQueue.add(
+        MessageSender.getDeleteForMeSyncMessage([
+          {
+            type: 'delete-single-attachment',
+            conversation: conversationIdentifier,
+            message: addressableMessage,
+            ...attachmentData,
+            timestamp: Date.now(),
+          },
+        ])
+      );
+    }
   }
 }
 

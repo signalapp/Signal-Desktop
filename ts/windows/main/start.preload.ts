@@ -1,40 +1,35 @@
 // Copyright 2017 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { fabric } from 'fabric';
-import lodash from 'lodash';
 import { contextBridge } from 'electron';
 
-import { createLogger } from '../../logging/log.std.js';
+import { createLogger } from '../../logging/log.std.ts';
 
-import '../context.preload.js';
+import '../context.preload.ts';
 
 // Connect websocket early
-import '../../textsecure/preconnect.preload.js';
+import '../../textsecure/preconnect.preload.ts';
 
-import './phase0-devtools.node.js';
-import './phase1-ipc.preload.js';
-import '../preload.preload.js';
-import './phase2-dependencies.preload.js';
-import './phase3-post-signal.preload.js';
-import './phase4-test.preload.js';
+import './phase0-devtools.node.ts';
+import './phase1-ipc.preload.ts';
+import '../preload.preload.ts';
+import './phase2-dependencies.preload.ts';
+import './phase3-post-signal.preload.ts';
+import './phase4-test.preload.ts';
 
 import type {
   CdsLookupOptionsType,
   GetIceServersResultType,
-} from '../../textsecure/WebAPI.preload.js';
-import { cdsLookup, getSocketStatus } from '../../textsecure/WebAPI.preload.js';
+} from '../../textsecure/WebAPI.preload.ts';
+import { cdsLookup, getSocketStatus } from '../../textsecure/WebAPI.preload.ts';
 import type { FeatureFlagType } from '../../window.d.ts';
 import type { StorageAccessType } from '../../types/Storage.d.ts';
-import { calling } from '../../services/calling.preload.js';
-import { Environment, getEnvironment } from '../../environment.std.js';
-import { isProduction } from '../../util/version.std.js';
-import { benchmarkConversationOpen } from '../../CI/benchmarkConversationOpen.preload.js';
-import { itemStorage } from '../../textsecure/Storage.preload.js';
-import { IMAGE_PNG } from '../../types/MIME.std.js';
-import { getSelectedConversationId } from '../../state/selectors/nav.std.js';
-
-const { has } = lodash;
+import { calling } from '../../services/calling.preload.ts';
+import { Environment, getEnvironment } from '../../environment.std.ts';
+import { isProduction } from '../../util/version.std.ts';
+import { benchmarkConversationOpen } from '../../CI/benchmarkConversationOpen.preload.ts';
+import { itemStorage } from '../../textsecure/Storage.preload.ts';
+import { getSelectedConversationId } from '../../state/selectors/nav.std.ts';
 
 const log = createLogger('start');
 
@@ -77,6 +72,10 @@ if (
         conversationId
       );
     },
+    getConversations: () =>
+      window.ConversationController.getAll().map(
+        conversation => conversation.attributes
+      ),
     getConversation: (id: string) => window.ConversationController.get(id),
     getMessageById: (id: string) => window.MessageCache.getById(id)?.attributes,
     getMessageBySentAt: async (timestamp: number) => {
@@ -87,7 +86,7 @@ if (
       return message?.attributes;
     },
     getReduxState: () => window.reduxStore.getState(),
-    getSfuUrl: () => calling._sfuUrl,
+    getSfuUrl: () => calling.sfuUrl,
     getIceServerOverride: () => calling._iceServerOverride,
     getSocketStatus: () => getSocketStatus(),
     getStorageItem: (name: keyof StorageAccessType) => itemStorage.get(name),
@@ -96,13 +95,13 @@ if (
       value: StorageAccessType[K]
     ) => itemStorage.put(name, value),
     setFlag: (name: keyof FeatureFlagType, value: boolean) => {
-      if (!has(window.Flags, name)) {
+      if (!Object.hasOwn(window.Flags, name)) {
         return;
       }
       window.Flags[name] = value;
     },
-    setSfuUrl: (url: string) => {
-      calling._sfuUrl = url;
+    setSfuUrl: async (url: string) => {
+      await itemStorage.put('sfuUrl', url);
     },
     setIceServerOverride: (
       override: GetIceServersResultType | string | undefined
@@ -117,41 +116,6 @@ if (
 
       calling._iceServerOverride = override;
     },
-    sendViewOnceImageInSelectedConversation: async () => {
-      const conversationId = getSelectedConversationId(
-        window.reduxStore.getState()
-      );
-      const conversation = window.ConversationController.get(conversationId);
-      if (!conversation) {
-        throw new Error('No conversation selected');
-      }
-
-      const canvas = new fabric.StaticCanvas(null, {
-        width: 100,
-        height: 100,
-        backgroundColor: '#3b82f6',
-      });
-      const dataURL = canvas.toDataURL({ format: 'png' });
-      const [base64Data] = dataURL.split(',');
-      const data = Uint8Array.from(atob(base64Data), c => c.charCodeAt(0));
-
-      await conversation.enqueueMessageForSend(
-        {
-          body: undefined,
-          attachments: [
-            {
-              contentType: IMAGE_PNG,
-              size: data.byteLength,
-              data,
-            },
-          ],
-          isViewOnce: true,
-        },
-        {}
-      );
-
-      log.info('Sent view-once test image');
-    },
     ...(window.SignalContext.config.ciMode === 'benchmark'
       ? {
           benchmarkConversationOpen,
@@ -159,17 +123,16 @@ if (
       : {}),
   };
 
-  contextBridge.exposeInMainWorld('SignalDebug', SignalDebug);
-}
-
-if (getEnvironment() === Environment.Test) {
-  contextBridge.exposeInMainWorld('RETRY_DELAY', window.RETRY_DELAY);
-  contextBridge.exposeInMainWorld('assert', window.assert);
-  contextBridge.exposeInMainWorld('testUtilities', window.testUtilities);
+  if (getEnvironment() !== Environment.Test) {
+    contextBridge.exposeInMainWorld('SignalDebug', SignalDebug);
+  }
 }
 
 // See ts/logging/log.ts
-if (getEnvironment() !== Environment.PackagedApp) {
+if (
+  getEnvironment() !== Environment.PackagedApp &&
+  getEnvironment() !== Environment.Test
+) {
   const debug = (...args: Array<string>) => {
     localStorage.setItem('debug', args.join(','));
   };
@@ -180,5 +143,7 @@ if (window.SignalContext.config.ciMode === 'full') {
   contextBridge.exposeInMainWorld('SignalCI', window.SignalCI);
 }
 
-contextBridge.exposeInMainWorld('showDebugLog', window.IPC.showDebugLog);
-contextBridge.exposeInMainWorld('startApp', window.startApp);
+if (getEnvironment() !== Environment.Test) {
+  contextBridge.exposeInMainWorld('showDebugLog', window.IPC.showDebugLog);
+  contextBridge.exposeInMainWorld('startApp', window.startApp);
+}

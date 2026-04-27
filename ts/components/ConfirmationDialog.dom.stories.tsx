@@ -5,8 +5,8 @@ import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 
 import type { Meta } from '@storybook/react';
-import type { Props } from './ConfirmationDialog.dom.js';
-import { ConfirmationDialog } from './ConfirmationDialog.dom.js';
+import type { Props } from './ConfirmationDialog.dom.tsx';
+import { ConfirmationDialog } from './ConfirmationDialog.dom.tsx';
 
 const { i18n } = window.SignalContext;
 

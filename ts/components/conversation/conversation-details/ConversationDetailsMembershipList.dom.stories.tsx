@@ -4,16 +4,16 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import { getDefaultConversation } from '../../../test-helpers/getDefaultConversation.std.js';
-import { ThemeType } from '../../../types/Util.std.js';
+import { getDefaultConversation } from '../../../test-helpers/getDefaultConversation.std.ts';
+import { ThemeType } from '../../../types/Util.std.ts';
 
 import type {
   Props,
   GroupV2Membership,
-} from './ConversationDetailsMembershipList.dom.js';
-import { ConversationDetailsMembershipList } from './ConversationDetailsMembershipList.dom.js';
-import type { ContactNameColorType } from '../../../types/Colors.std.js';
-import { ContactNameColors } from '../../../types/Colors.std.js';
+} from './ConversationDetailsMembershipList.dom.tsx';
+import { ConversationDetailsMembershipList } from './ConversationDetailsMembershipList.dom.tsx';
+import type { ContactNameColorType } from '../../../types/Colors.std.ts';
+import { ContactNameColors } from '../../../types/Colors.std.ts';
 
 const { i18n } = window.SignalContext;
 
@@ -38,7 +38,7 @@ const getMemberColors = (
   new Map(
     memberships.map((membership, i) => [
       membership.member.id,
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      // oxlint-disable-next-line typescript/no-non-null-assertion
       ContactNameColors[i % ContactNameColors.length]!,
     ])
   );
@@ -54,6 +54,7 @@ export default {
     conversationId: '123',
     getPreferredBadge: () => undefined,
     i18n,
+    isTerminated: false,
     memberships: defaultMemberships,
     memberColors: getMemberColors(defaultMemberships),
     showContactModal: action('showContactModal'),

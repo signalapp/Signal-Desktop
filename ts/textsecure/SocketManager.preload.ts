@@ -13,41 +13,42 @@ import EventListener from 'node:events';
 import { setTimeout as sleep } from 'node:timers/promises';
 
 import type {
+  AuthenticatedChatConnection,
   UnauthenticatedChatConnection,
   ProvisioningConnection,
   ProvisioningConnectionListener,
 } from '@signalapp/libsignal-client/dist/net/Chat.js';
 
-import { strictAssert } from '../util/assert.std.js';
-import { explodePromise } from '../util/explodePromise.std.js';
+import { strictAssert } from '../util/assert.std.ts';
+import { explodePromise } from '../util/explodePromise.std.ts';
 import {
   BackOff,
   EXTENDED_FIBONACCI_TIMEOUTS,
   FIBONACCI_TIMEOUTS,
-} from '../util/BackOff.std.js';
-import * as durations from '../util/durations/index.std.js';
-import { drop } from '../util/drop.std.js';
-import { type SocketInfo, SocketStatus } from '../types/SocketStatus.std.js';
-import { HTTPError } from '../types/HTTPError.std.js';
-import * as Errors from '../types/errors.std.js';
-import * as Bytes from '../Bytes.std.js';
-import { createLogger } from '../logging/log.std.js';
+} from '../util/BackOff.std.ts';
+import * as durations from '../util/durations/index.std.ts';
+import { drop } from '../util/drop.std.ts';
+import { type SocketInfo, SocketStatus } from '../types/SocketStatus.std.ts';
+import { HTTPError } from '../types/HTTPError.std.ts';
+import * as Errors from '../types/errors.std.ts';
+import * as Bytes from '../Bytes.std.ts';
+import { createLogger } from '../logging/log.std.ts';
 
-import type { AbortableProcess } from '../util/AbortableProcess.std.js';
+import type { AbortableProcess } from '../util/AbortableProcess.std.ts';
 import type {
   ChatKind,
   IChatConnection,
   IncomingWebSocketRequest,
-} from './WebsocketResources.preload.js';
+} from './WebsocketResources.preload.ts';
 import {
   connectAuthenticated,
   connectUnauthenticated,
   ServerRequestType,
-} from './WebsocketResources.preload.js';
-import { ConnectTimeoutError } from './Errors.std.js';
+} from './WebsocketResources.preload.ts';
+import { ConnectTimeoutError } from './Errors.std.ts';
 import type { IRequestHandler, WebAPICredentials } from './Types.d.ts';
-import type { ServerAlert } from '../types/ServerAlert.std.js';
-import { getUserLanguages } from '../util/userLanguages.std.js';
+import type { ServerAlert } from '../types/ServerAlert.std.ts';
+import { getUserLanguages } from '../util/userLanguages.std.ts';
 
 const log = createLogger('SocketManager');
 
@@ -58,7 +59,7 @@ const JITTER = 5 * durations.SECOND;
 const OFFLINE_KEEPALIVE_TIMEOUT_MS = 5 * durations.SECOND;
 export const UNAUTHENTICATED_CHANNEL_NAME = 'unauthenticated';
 
-export const AUTHENTICATED_CHANNEL_NAME = 'authenticated';
+const AUTHENTICATED_CHANNEL_NAME = 'authenticated';
 
 export const NORMAL_DISCONNECT_CODE = 3000;
 
@@ -86,7 +87,8 @@ export type SocketExpirationReason = 'remote' | 'build';
 // Incoming requests on unauthenticated resource are not currently supported.
 // IChatConnection is responsible for their immediate termination.
 export class SocketManager extends EventListener {
-  #backOff = new BackOff(FIBONACCI_TIMEOUTS, {
+  readonly #libsignalNet: Net.Net;
+  readonly #backOff = new BackOff(FIBONACCI_TIMEOUTS, {
     jitter: JITTER,
   });
 
@@ -94,13 +96,13 @@ export class SocketManager extends EventListener {
   #unauthenticated?: AbortableProcess<IChatConnection<'unauth'>>;
   #unauthenticatedExpirationTimer?: NodeJS.Timeout;
   #credentials?: WebAPICredentials;
-  #authenticatedStatus: SocketInfo = {
+  readonly #authenticatedStatus: SocketInfo = {
     status: SocketStatus.CLOSED,
   };
-  #unathenticatedStatus: SocketInfo = {
+  readonly #unathenticatedStatus: SocketInfo = {
     status: SocketStatus.CLOSED,
   };
-  #requestHandlers = new Set<IRequestHandler>();
+  readonly #requestHandlers = new Set<IRequestHandler>();
   #incomingRequestQueue = new Array<IncomingWebSocketRequest>();
   #isNavigatorOffline = false;
   #privIsOnline: boolean | undefined;
@@ -109,8 +111,9 @@ export class SocketManager extends EventListener {
   #reconnectController: AbortController | undefined;
   #envelopeCount = 0;
 
-  constructor(private readonly libsignalNet: Net.Net) {
+  constructor(libsignalNet: Net.Net) {
     super();
+    this.#libsignalNet = libsignalNet;
   }
 
   public getStatus(): SocketStatuses {
@@ -188,7 +191,7 @@ export class SocketManager extends EventListener {
     );
 
     const process = connectAuthenticated({
-      libsignalNet: this.libsignalNet,
+      libsignalNet: this.#libsignalNet,
       name: AUTHENTICATED_CHANNEL_NAME,
       credentials: this.#credentials,
       handler: (req: IncomingWebSocketRequest): void => {
@@ -382,12 +385,17 @@ export class SocketManager extends EventListener {
     }, timeout);
 
     try {
-      return await this.libsignalNet.connectProvisioning(listener, {
+      return await this.#libsignalNet.connectProvisioning(listener, {
         abortSignal: abortController.signal,
       });
     } finally {
       clearTimeout(timer);
     }
+  }
+
+  public async getAuthenticatedApi(): Promise<AuthenticatedChatConnection> {
+    const resource = await this.getAuthenticatedResource();
+    return resource.libsignalWebsocket;
   }
 
   public async getUnauthenticatedApi(): Promise<UnauthenticatedChatConnection> {
@@ -398,7 +406,10 @@ export class SocketManager extends EventListener {
   // Fetch-compatible wrapper around underlying unauthenticated/authenticated
   // websocket resources. This wrapper supports only limited number of features
   // of node-fetch despite being API compatible.
-  public async fetch(url: string, init: RequestInit): Promise<Response> {
+  public async fetch(
+    url: string,
+    init: RequestInit & { timeout?: number }
+  ): Promise<Response> {
     const headers = new Headers(init.headers);
 
     let resource: IChatConnection<'auth'> | IChatConnection<'unauth'>;
@@ -432,7 +443,7 @@ export class SocketManager extends EventListener {
     const onAbort = () => reject(new Error('Aborted'));
     const cleanup = () => signal?.removeEventListener('abort', onAbort);
 
-    signal?.addEventListener('abort', onAbort, { once: true });
+    signal?.addEventListener('abort', onAbort);
 
     const responsePromise = resource.sendRequest({
       verb: method,
@@ -518,7 +529,7 @@ export class SocketManager extends EventListener {
     log.info('onNavigatorOnline');
     this.#isNavigatorOffline = false;
     this.#backOff.reset(FIBONACCI_TIMEOUTS);
-    this.libsignalNet.onNetworkChange();
+    this.#libsignalNet.onNetworkChange();
 
     // Reconnect earlier if waiting
     if (this.#credentials !== undefined) {
@@ -612,7 +623,7 @@ export class SocketManager extends EventListener {
 
     const process: AbortableProcess<IChatConnection<'unauth'>> =
       connectUnauthenticated({
-        libsignalNet: this.libsignalNet,
+        libsignalNet: this.#libsignalNet,
         name: UNAUTHENTICATED_CHANNEL_NAME,
         userLanguages,
         keepalive: { path: '/v1/keepalive' },
@@ -852,7 +863,7 @@ export class SocketManager extends EventListener {
 
   public override on(
     type: string | symbol,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // oxlint-disable-next-line typescript/no-explicit-any
     listener: (...args: Array<any>) => void
   ): this {
     return super.on(type, listener);
@@ -871,7 +882,7 @@ export class SocketManager extends EventListener {
     alerts: Array<ServerAlert>
   ): boolean;
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // oxlint-disable-next-line typescript/no-explicit-any
   public override emit(type: string | symbol, ...args: Array<any>): boolean {
     return super.emit(type, ...args);
   }

@@ -4,39 +4,39 @@
 import PQueue from 'p-queue';
 import lodash from 'lodash';
 
-import { DataWriter } from '../sql/Client.preload.js';
-import type { ContactSyncEvent } from '../textsecure/messageReceiverEvents.std.js';
+import { DataWriter } from '../sql/Client.preload.ts';
+import type { ContactSyncEvent } from '../textsecure/messageReceiverEvents.std.ts';
 import {
   parseContactsV2,
   type ContactDetailsWithAvatar,
-} from '../textsecure/ContactsParser.preload.js';
+} from '../textsecure/ContactsParser.preload.ts';
 import {
   isOnline,
   getAttachment,
   getAttachmentFromBackupTier,
-} from '../textsecure/WebAPI.preload.js';
-import * as Errors from '../types/errors.std.js';
+} from '../textsecure/WebAPI.preload.ts';
+import * as Errors from '../types/errors.std.ts';
 import type { ValidateConversationType } from '../model-types.d.ts';
-import type { ConversationModel } from '../models/conversations.preload.js';
-import { validateConversation } from '../util/validateConversation.dom.js';
+import type { ConversationModel } from '../models/conversations.preload.ts';
+import { validateConversation } from '../util/validateConversation.dom.ts';
 import {
   maybeDeleteAttachmentFile,
   doesAttachmentExist,
-} from '../util/migrations.preload.js';
+} from '../util/migrations.preload.ts';
 import {
   isDirectConversation,
   isMe,
-} from '../util/whatTypeOfConversation.dom.js';
-import { createLogger } from '../logging/log.std.js';
-import { dropNull } from '../util/dropNull.std.js';
+} from '../util/whatTypeOfConversation.dom.ts';
+import { createLogger } from '../logging/log.std.ts';
+import { dropNull } from '../util/dropNull.std.ts';
 import type { ProcessedAttachment } from '../textsecure/Types.d.ts';
-import { downloadAttachment } from '../textsecure/downloadAttachment.preload.js';
-import type { ReencryptedAttachmentV2 } from '../AttachmentCrypto.node.js';
-import { SECOND } from '../util/durations/index.std.js';
-import { AttachmentVariant } from '../types/Attachment.std.js';
-import { MediaTier } from '../types/AttachmentDownload.std.js';
-import { waitForOnline } from '../util/waitForOnline.dom.js';
-import { itemStorage } from '../textsecure/Storage.preload.js';
+import { downloadAttachment } from '../textsecure/downloadAttachment.preload.ts';
+import type { ReencryptedAttachmentV2 } from '../AttachmentCrypto.node.ts';
+import { SECOND } from '../util/durations/index.std.ts';
+import { AttachmentVariant } from '../types/Attachment.std.ts';
+import { MediaTier } from '../types/AttachmentDownload.std.ts';
+import { waitForOnline } from '../util/waitForOnline.dom.ts';
+import { itemStorage } from '../textsecure/Storage.preload.ts';
 
 const { noop } = lodash;
 
@@ -88,7 +88,7 @@ async function updateConversationFromContactSync(
     await conversation.updateExpirationTimer(details.expireTimer, {
       // Note: because it's our conversationId, this notification will be marked read. But
       //   setting this will make 'isSetByOther' check true.
-      source: window.ConversationController.getOurConversationId(),
+      source: window.ConversationController.getOurConversationIdOrThrow(),
       receivedAt: receivedAtCounter,
       version: details.expireTimerVersion ?? 1,
       fromSync: true,
@@ -160,12 +160,12 @@ async function doContactSync({
     try {
       if (!isOnline()) {
         log.info(`${logId}: We are not online; waiting until we are online`);
-        // eslint-disable-next-line no-await-in-loop
+        // oxlint-disable-next-line no-await-in-loop
         await waitForOnline({ server: { isOnline } });
         log.info(`${logId}: We are back online; starting up again`);
       }
 
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       contacts = await downloadAndParseContactAttachment(contactAttachment);
     } catch (error) {
       if (attempts >= ATTEMPT_LIMIT) {

@@ -6,16 +6,16 @@ import { ServiceIdKind, Proto, StorageState } from '@signalapp/mock-server';
 import type { PrimaryDevice } from '@signalapp/mock-server';
 import createDebug from 'debug';
 
-import * as durations from '../../util/durations/index.std.js';
-import { uuidToBytes } from '../../util/uuidToBytes.std.js';
-import { MY_STORY_ID } from '../../types/Stories.std.js';
-import { Bootstrap } from '../bootstrap.node.js';
-import type { App } from '../bootstrap.node.js';
+import * as durations from '../../util/durations/index.std.ts';
+import { uuidToBytes } from '../../util/uuidToBytes.std.ts';
+import { MY_STORY_ID } from '../../types/Stories.std.ts';
+import { Bootstrap } from '../bootstrap.node.ts';
+import type { App } from '../bootstrap.node.ts';
 import {
   expectSystemMessages,
   typeIntoInput,
   waitForEnabledComposer,
-} from '../helpers.node.js';
+} from '../helpers.node.ts';
 
 export const debug = createDebug('mock:test:merge');
 
@@ -127,17 +127,10 @@ describe('pnp/phone discovery', function (this: Mocha.Suite) {
       });
     }
 
-    await window.locator('.module-conversation-hero').waitFor();
+    await window.getByTestId('conversation-hero').waitFor();
 
     debug('Open ACI conversation');
     await leftPane.locator(`[data-testid="${pniContact.device.aci}"]`).click();
-
-    debug('Wait for PNI conversation to go away');
-    await window
-      .locator(`.module-conversation-hero >> ${pniContact.profileName}`)
-      .waitFor({
-        state: 'hidden',
-      });
 
     debug('Verify final state');
     {

@@ -1,29 +1,27 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* eslint-disable react/no-array-index-key */
-
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import lodash from 'lodash';
 import classNames from 'classnames';
 import { AnimatePresence, motion } from 'motion/react';
 
-import { Avatar, AvatarSize } from './Avatar.dom.js';
-import { ContactName } from './conversation/ContactName.dom.js';
-import { InContactsIcon } from './InContactsIcon.dom.js';
-import type { LocalizerType } from '../types/Util.std.js';
-import type { ConversationType } from '../state/ducks/conversations.preload.js';
-import { isInSystemContacts } from '../util/isInSystemContacts.std.js';
+import { Avatar, AvatarSize } from './Avatar.dom.tsx';
+import { ContactName } from './conversation/ContactName.dom.tsx';
+import { InContactsIcon } from './InContactsIcon.dom.tsx';
+import type { LocalizerType } from '../types/Util.std.ts';
+import type { ConversationType } from '../state/ducks/conversations.preload.ts';
+import { isInSystemContacts } from '../util/isInSystemContacts.std.ts';
 import type {
   BatchUserActionPayloadType,
   PendingUserActionPayloadType,
-} from '../state/ducks/calling.preload.js';
-import { Button, ButtonVariant } from './Button.dom.js';
-import type { ServiceIdString } from '../types/ServiceId.std.js';
-import { handleOutsideClick } from '../util/handleOutsideClick.dom.js';
-import { Theme } from '../util/theme.std.js';
-import { ConfirmationDialog } from './ConfirmationDialog.dom.js';
-import { useReducedMotion } from '../hooks/useReducedMotion.dom.js';
+} from '../state/ducks/calling.preload.ts';
+import { Button, ButtonVariant } from './Button.dom.tsx';
+import type { ServiceIdString } from '../types/ServiceId.std.ts';
+import { handleOutsideClick } from '../util/handleOutsideClick.dom.ts';
+import { Theme } from '../util/theme.std.ts';
+import { ConfirmationDialog } from './ConfirmationDialog.dom.tsx';
+import { useReducedMotion } from '../hooks/useReducedMotion.dom.ts';
 
 const { noop } = lodash;
 
@@ -130,7 +128,7 @@ export function CallingPendingParticipants({
   }, [serviceIdsStagedForAction, batchUserAction, hideConfirmDialog]);
 
   const renderApprovalButtons = useCallback(
-    (participant: ConversationType, isEnabled: boolean = true) => {
+    (participant: ConversationType, isEnabled = true) => {
       if (participant.serviceId == null) {
         return null;
       }
@@ -253,6 +251,7 @@ export function CallingPendingParticipants({
           {participants.map((participant: ConversationType, index: number) => (
             <li
               className="module-calling-participants-list__contact"
+              // oxlint-disable-next-line react/no-array-index-key
               key={index}
             >
               <button

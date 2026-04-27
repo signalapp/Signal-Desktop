@@ -1,12 +1,12 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { strictAssert } from '../util/assert.std.js';
+import { strictAssert } from '../util/assert.std.ts';
 
-import type { ServiceIdString } from './ServiceId.std.js';
-import { isServiceIdString } from './ServiceId.std.js';
-import type { AddressStringType } from './Address.std.js';
-import { Address } from './Address.std.js';
+import type { ServiceIdString } from './ServiceId.std.ts';
+import { isServiceIdString } from './ServiceId.std.ts';
+import type { AddressStringType } from './Address.std.ts';
+import { Address } from './Address.std.ts';
 
 type QualifiedAddressMatch = RegExpMatchArray & {
   1: string;
@@ -26,10 +26,13 @@ export type QualifiedAddressStringType =
   `${ServiceIdString}:${AddressStringType}`;
 
 export class QualifiedAddress {
-  constructor(
-    public readonly ourServiceId: ServiceIdString,
-    public readonly address: Address
-  ) {}
+  public readonly ourServiceId: ServiceIdString;
+  public readonly address: Address;
+
+  constructor(ourServiceId: ServiceIdString, address: Address) {
+    this.ourServiceId = ourServiceId;
+    this.address = address;
+  }
 
   public get serviceId(): ServiceIdString {
     return this.address.serviceId;

@@ -1,17 +1,17 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import React, { useCallback, useId, useMemo, useState } from 'react';
-import type { LocalizerType } from '../types/I18N.std.js';
-import { AxoSymbol } from '../axo/AxoSymbol.dom.js';
-import { AxoButton } from '../axo/AxoButton.dom.js';
-import { AxoDialog } from '../axo/AxoDialog.dom.js';
-import { CallQualitySurvey } from '../types/CallQualitySurvey.std.js';
-import { tw } from '../axo/tw.dom.js';
-import { missingCaseError } from '../util/missingCaseError.std.js';
-import { AxoCheckbox } from '../axo/AxoCheckbox.dom.js';
-import { strictAssert } from '../util/assert.std.js';
-import { Tooltip, TooltipPlacement } from './Tooltip.dom.js';
-import { I18n } from './I18n.dom.js';
+import type { LocalizerType } from '../types/I18N.std.ts';
+import { AxoSymbol } from '../axo/AxoSymbol.dom.tsx';
+import { AxoButton } from '../axo/AxoButton.dom.tsx';
+import { AxoDialog } from '../axo/AxoDialog.dom.tsx';
+import { CallQualitySurvey } from '../types/CallQualitySurvey.std.ts';
+import { tw } from '../axo/tw.dom.tsx';
+import { missingCaseError } from '../util/missingCaseError.std.ts';
+import { AxoCheckbox } from '../axo/AxoCheckbox.dom.tsx';
+import { strictAssert } from '../util/assert.std.ts';
+import { Tooltip, TooltipPlacement } from './Tooltip.dom.tsx';
+import { I18n } from './I18n.dom.tsx';
 
 import Issue = CallQualitySurvey.Issue;
 

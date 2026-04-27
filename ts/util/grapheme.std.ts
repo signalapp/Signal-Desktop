@@ -3,7 +3,7 @@
 
 import memoizee from 'memoizee';
 
-import { map, size, take, join } from './iterables.std.js';
+import { map, size, take, join } from './iterables.std.ts';
 
 const getSegmenter = memoizee((): Intl.Segmenter => new Intl.Segmenter());
 
@@ -36,22 +36,13 @@ export function truncateAndSize(
   ];
 }
 
-export function isSingleGrapheme(str: string): boolean {
-  if (str === '') {
-    return false;
-  }
-  const segments = getSegmenter().segment(str);
-  const first = segments.containing(0);
-  return first != null && first.segment === str;
-}
-
 export function hasAtMostGraphemes(str: string, max: number): boolean {
   if (max < 0) {
     return false;
   }
 
   let countSoFar = 0;
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  // oxlint-disable-next-line typescript/no-unused-vars
   for (const _ of getSegmenter().segment(str)) {
     countSoFar += 1;
     if (countSoFar > max) {

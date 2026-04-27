@@ -88,9 +88,13 @@
     }
   }
 
-  &__block-group {
+  &__block-group,
+  &__report-spam,
+  &__terminate-group,
+  &__delete {
     color: variables.$color-accent-red;
   }
+
   &__unblock-group {
     color: variables.$color-accent-blue;
   }
@@ -192,6 +196,12 @@
         }
       }
 
+      &--archive {
+        &::after {
+          @include details-icon('../images/icons/v3/archive/archive.svg');
+        }
+      }
+
       &--approve {
         &::after {
           @include details-icon('../images/icons/v3/check/check.svg');
@@ -233,6 +243,16 @@
       &--trash {
         &::after {
           @include details-icon('../images/icons/v3/trash/trash.svg');
+        }
+      }
+
+      &--delete {
+        &::after {
+          @include details-icon(
+            '../images/icons/v3/trash/trash.svg',
+            variables.$color-accent-red,
+            variables.$color-accent-red
+          );
         }
       }
 
@@ -336,6 +356,26 @@
 
         &--disabled {
           opacity: 0.5;
+        }
+      }
+
+      &--spam {
+        &::after {
+          @include details-icon(
+            '../images/icons/v3/spam/spam.svg',
+            variables.$color-accent-red,
+            variables.$color-accent-red
+          );
+        }
+      }
+
+      &--terminate {
+        &::after {
+          @include details-icon(
+            '../images/icons/v3/x/x-circle.svg',
+            variables.$color-accent-red,
+            variables.$color-accent-red
+          );
         }
       }
     }

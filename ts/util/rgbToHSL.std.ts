@@ -49,11 +49,11 @@ export function rgbIntToHSL(intValue: number): {
   s: number;
   l: number;
 } {
-  // eslint-disable-next-line no-bitwise
+  // oxlint-disable-next-line no-bitwise
   const r = (intValue >>> 16) & 0xff;
-  // eslint-disable-next-line no-bitwise
+  // oxlint-disable-next-line no-bitwise
   const g = (intValue >>> 8) & 0xff;
-  // eslint-disable-next-line no-bitwise
+  // oxlint-disable-next-line no-bitwise
   const b = intValue & 0xff;
   return rgbToHSL(r, g, b);
 }

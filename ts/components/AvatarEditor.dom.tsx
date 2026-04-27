@@ -4,25 +4,25 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import lodash from 'lodash';
 
-import type { AvatarColorType } from '../types/Colors.std.js';
+import type { AvatarColorType } from '../types/Colors.std.ts';
 import type {
   AvatarDataType,
   DeleteAvatarFromDiskActionType,
   ReplaceAvatarActionType,
   SaveAvatarToDiskActionType,
-} from '../types/Avatar.std.js';
-import { AvatarIconEditor } from './AvatarIconEditor.dom.js';
-import { AvatarModalButtons } from './AvatarModalButtons.dom.js';
-import { AvatarPreview } from './AvatarPreview.dom.js';
-import { AvatarTextEditor } from './AvatarTextEditor.dom.js';
-import { AvatarUploadButton } from './AvatarUploadButton.dom.js';
-import { BetterAvatar } from './BetterAvatar.dom.js';
-import type { LocalizerType } from '../types/Util.std.js';
-import { avatarDataToBytes } from '../util/avatarDataToBytes.dom.js';
-import { createAvatarData } from '../util/createAvatarData.std.js';
-import { isSameAvatarData } from '../util/isSameAvatarData.std.js';
-import { missingCaseError } from '../util/missingCaseError.std.js';
-import { useConfirmDiscard } from '../hooks/useConfirmDiscard.dom.js';
+} from '../types/Avatar.std.ts';
+import { AvatarIconEditor } from './AvatarIconEditor.dom.tsx';
+import { AvatarModalButtons } from './AvatarModalButtons.dom.tsx';
+import { AvatarPreview } from './AvatarPreview.dom.tsx';
+import { AvatarTextEditor } from './AvatarTextEditor.dom.tsx';
+import { AvatarUploadButton } from './AvatarUploadButton.dom.tsx';
+import { BetterAvatar } from './BetterAvatar.dom.tsx';
+import type { LocalizerType } from '../types/Util.std.ts';
+import { avatarDataToBytes } from '../util/avatarDataToBytes.dom.ts';
+import { createAvatarData } from '../util/createAvatarData.std.ts';
+import { isSameAvatarData } from '../util/isSameAvatarData.std.ts';
+import { missingCaseError } from '../util/missingCaseError.std.ts';
+import { useConfirmDiscard } from '../hooks/useConfirmDiscard.dom.tsx';
 
 const { isEqual } = lodash;
 

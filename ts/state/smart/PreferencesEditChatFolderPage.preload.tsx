@@ -2,21 +2,21 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import type { PreferencesEditChatFolderPageProps } from '../../components/preferences/chatFolders/PreferencesEditChatFoldersPage.dom.js';
-import { PreferencesEditChatFolderPage } from '../../components/preferences/chatFolders/PreferencesEditChatFoldersPage.dom.js';
-import { getIntl, getTheme } from '../selectors/user.std.js';
-import type { ChatFolderParams } from '../../types/ChatFolder.std.js';
-import { CHAT_FOLDER_DEFAULTS } from '../../types/ChatFolder.std.js';
+import type { PreferencesEditChatFolderPageProps } from '../../components/preferences/chatFolders/PreferencesEditChatFoldersPage.dom.tsx';
+import { PreferencesEditChatFolderPage } from '../../components/preferences/chatFolders/PreferencesEditChatFoldersPage.dom.tsx';
+import { getIntl, getTheme } from '../selectors/user.std.ts';
+import type { ChatFolderParams } from '../../types/ChatFolder.std.ts';
+import { CHAT_FOLDER_DEFAULTS } from '../../types/ChatFolder.std.ts';
 import {
   getAllComposableConversations,
   getConversationSelector,
-} from '../selectors/conversations.dom.js';
-import { getPreferredBadgeSelector } from '../selectors/badges.preload.js';
-import { useChatFolderActions } from '../ducks/chatFolders.preload.js';
-import { getCurrentChatFolders } from '../selectors/chatFolders.std.js';
-import { useNavActions } from '../ducks/nav.std.js';
-import type { Location } from '../../types/Nav.std.js';
-import { CurrentChatFolders } from '../../types/CurrentChatFolders.std.js';
+} from '../selectors/conversations.dom.ts';
+import { getPreferredBadgeSelector } from '../selectors/badges.preload.ts';
+import { useChatFolderActions } from '../ducks/chatFolders.preload.ts';
+import { getCurrentChatFolders } from '../selectors/chatFolders.std.ts';
+import { useNavActions } from '../ducks/nav.std.ts';
+import type { Location } from '../../types/Nav.std.ts';
+import { CurrentChatFolders } from '../../types/CurrentChatFolders.std.ts';
 
 export type SmartPreferencesEditChatFolderPageProps = Readonly<{
   previousLocation: Location | null;

@@ -3,20 +3,20 @@
 
 import React, { useMemo } from 'react';
 
-import { CurveType, Image } from './Image.dom.js';
-import { StagedGenericAttachment } from './StagedGenericAttachment.dom.js';
-import { StagedPlaceholderAttachment } from './StagedPlaceholderAttachment.dom.js';
-import type { LocalizerType } from '../../types/Util.std.js';
+import { CurveType, Image } from './Image.dom.tsx';
+import { StagedGenericAttachment } from './StagedGenericAttachment.dom.tsx';
+import { StagedPlaceholderAttachment } from './StagedPlaceholderAttachment.dom.tsx';
+import type { LocalizerType } from '../../types/Util.std.ts';
 import type {
   AttachmentForUIType,
   AttachmentDraftType,
-} from '../../types/Attachment.std.js';
+} from '../../types/Attachment.std.ts';
 import {
   areAllAttachmentsVisual,
   canDisplayImage,
   isImageAttachment,
   isVideoAttachment,
-} from '../../util/Attachment.std.js';
+} from '../../util/Attachment.std.ts';
 
 export type Props<T extends AttachmentForUIType | AttachmentDraftType> =
   Readonly<{
@@ -97,7 +97,7 @@ export function AttachmentList<
       <div className="module-attachments__rail">
         {attachments.map((attachment, index) => {
           const url = getUrl(attachment);
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          // oxlint-disable-next-line typescript/no-non-null-assertion
           const forUI = attachmentsForUI[index]!;
 
           const key =

@@ -4,13 +4,14 @@
 import { Dialog } from 'radix-ui';
 import type { CSSProperties, FC, ReactNode } from 'react';
 import React, { memo, useMemo, useState } from 'react';
-import { AxoBaseDialog } from './_internal/AxoBaseDialog.dom.js';
-import type { AxoSymbol } from './AxoSymbol.dom.js';
-import { tw } from './tw.dom.js';
-import { AxoScrollArea } from './AxoScrollArea.dom.js';
-import { AxoButton } from './AxoButton.dom.js';
-import { AxoIconButton } from './AxoIconButton.dom.js';
-import { AxoTooltip } from './AxoTooltip.dom.js';
+import { AxoBaseDialog } from './_internal/AxoBaseDialog.dom.tsx';
+import type { AxoSymbol } from './AxoSymbol.dom.tsx';
+import { tw } from './tw.dom.tsx';
+import { AxoScrollArea } from './AxoScrollArea.dom.tsx';
+import { AxoButton } from './AxoButton.dom.tsx';
+import { AxoIconButton } from './AxoIconButton.dom.tsx';
+import { AxoTooltip } from './AxoTooltip.dom.tsx';
+import { AxoTheme } from './AxoTheme.dom.tsx';
 
 const Namespace = 'AxoDialog';
 
@@ -96,23 +97,25 @@ export namespace AxoDialog {
 
     return (
       <Dialog.Portal>
-        <Dialog.Overlay className={AxoBaseDialog.overlayStyles}>
-          <AxoTooltip.CollisionBoundary boundary={boundary} padding={4}>
-            <Dialog.Content
-              ref={setBoundary}
-              className={AxoBaseDialog.contentStyles}
-              onEscapeKeyDown={handleContentEscapeEvent}
-              onInteractOutside={handleContentEscapeEvent}
-              style={{
-                width: sizeConfig.width,
-                minWidth: 320,
-              }}
-              {...descriptionProps}
-            >
-              {props.children}
-            </Dialog.Content>
-          </AxoTooltip.CollisionBoundary>
-        </Dialog.Overlay>
+        <AxoTheme.Inherit>
+          <Dialog.Overlay className={AxoBaseDialog.overlayStyles}>
+            <AxoTooltip.CollisionBoundary boundary={boundary} padding={4}>
+              <Dialog.Content
+                ref={setBoundary}
+                className={AxoBaseDialog.contentStyles}
+                onEscapeKeyDown={handleContentEscapeEvent}
+                onInteractOutside={handleContentEscapeEvent}
+                style={{
+                  width: sizeConfig.width,
+                  minWidth: 320,
+                }}
+                {...descriptionProps}
+              >
+                {props.children}
+              </Dialog.Content>
+            </AxoTooltip.CollisionBoundary>
+          </Dialog.Overlay>
+        </AxoTheme.Inherit>
       </Dialog.Portal>
     );
   });
@@ -334,7 +337,7 @@ export namespace AxoDialog {
           // fit 1-2 words per line, push it up into its own row:
           'min-w-[calc-size(fit-content,min(20ch,size))]',
           // Allow it to fill its own row
-          'flex-grow',
+          'grow',
           'type-body-large text-label-primary'
         )}
       >
@@ -397,7 +400,7 @@ export namespace AxoDialog {
       <AxoButton.Root
         variant={props.variant}
         symbol={props.symbol}
-        arrow={props.arrow}
+        arrow={props.arrow ? 'next' : null}
         experimentalSpinner={props.experimentalSpinner}
         disabled={props.disabled}
         focusableWhenDisabled={props.focusableWhenDisabled}
@@ -413,8 +416,8 @@ export namespace AxoDialog {
   Action.displayName = `${Namespace}.Action`;
 
   /**
-   * Component: <AxoDialog.Actions>
-   * ------------------------------
+   * Component: <AxoDialog.IconAction>
+   * ---------------------------------
    */
 
   export type IconActionVariant = 'primary' | 'destructive' | 'secondary';

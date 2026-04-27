@@ -5,22 +5,22 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 import { Blurhash } from 'react-blurhash';
 
-import type { LocalizerType, ThemeType } from '../../types/Util.std.js';
+import type { LocalizerType, ThemeType } from '../../types/Util.std.ts';
 
-import type { AttachmentForUIType } from '../../types/Attachment.std.js';
+import type { AttachmentForUIType } from '../../types/Attachment.std.ts';
 import {
   hasNotResolved,
   getImageDimensionsForTimeline,
   defaultBlurHash,
   isDownloadable,
-} from '../../util/Attachment.std.js';
-import * as Errors from '../../types/errors.std.js';
-import { createLogger } from '../../logging/log.std.js';
-import { useReducedMotion } from '../../hooks/useReducedMotion.dom.js';
-import { AttachmentDetailPill } from './AttachmentDetailPill.dom.js';
-import { getSpinner } from './Image.dom.js';
-import { useUndownloadableMediaHandler } from '../../hooks/useUndownloadableMediaHandler.dom.js';
-import { isAbortError } from '../../util/isAbortError.std.js';
+} from '../../util/Attachment.std.ts';
+import * as Errors from '../../types/errors.std.ts';
+import { createLogger } from '../../logging/log.std.ts';
+import { useReducedMotion } from '../../hooks/useReducedMotion.dom.ts';
+import { AttachmentDetailPill } from './AttachmentDetailPill.dom.tsx';
+import { getSpinner } from './Image.dom.tsx';
+import { useUndownloadableMediaHandler } from '../../hooks/useUndownloadableMediaHandler.dom.tsx';
+import { isAbortError } from '../../util/isAbortError.std.ts';
 
 const log = createLogger('GIF');
 
@@ -44,7 +44,7 @@ export type Props = {
   cancelDownload(): void;
 };
 
-type MediaEvent = React.SyntheticEvent<HTMLVideoElement, Event>;
+type MediaEvent = React.SyntheticEvent<HTMLVideoElement>;
 
 export function GIF(props: Props): React.JSX.Element {
   const {
@@ -96,6 +96,7 @@ export function GIF(props: Props): React.JSX.Element {
     }
 
     if (isPlaying) {
+      // oxlint-disable-next-line promise/prefer-await-to-then
       video.play().catch(error => {
         if (!isAbortError(error)) {
           log.error(

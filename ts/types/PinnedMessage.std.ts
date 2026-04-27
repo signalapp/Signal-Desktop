@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { AciString } from '@signalapp/mock-server/src/types.js';
-import type { ReadonlyMessageAttributesType } from '../model-types.js';
+import type { ReadonlyMessageAttributesType } from '../model-types.d.ts';
 
 export type PinnedMessageId = number & { PinnedMessageId: never };
 

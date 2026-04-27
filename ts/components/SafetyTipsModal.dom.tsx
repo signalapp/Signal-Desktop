@@ -3,10 +3,10 @@
 import type { UIEvent } from 'react';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { v4 as uuid } from 'uuid';
-import type { LocalizerType } from '../types/I18N.std.js';
-import { Modal } from './Modal.dom.js';
-import { Button, ButtonVariant } from './Button.dom.js';
-import { useReducedMotion } from '../hooks/useReducedMotion.dom.js';
+import type { LocalizerType } from '../types/I18N.std.ts';
+import { Modal } from './Modal.dom.tsx';
+import { Button, ButtonVariant } from './Button.dom.tsx';
+import { useReducedMotion } from '../hooks/useReducedMotion.dom.ts';
 
 export type SafetyTipsModalProps = Readonly<{
   i18n: LocalizerType;
@@ -56,7 +56,7 @@ export function SafetyTipsModal({
   const [cardWrapperId] = useState(() => uuid());
 
   function getCardIdForPage(pageIndex: number) {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    // oxlint-disable-next-line typescript/no-non-null-assertion
     return `${cardWrapperId}_${pages[pageIndex]!.key}`;
   }
 

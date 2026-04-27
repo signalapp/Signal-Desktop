@@ -5,17 +5,17 @@ import React from 'react';
 import classNames from 'classnames';
 import lodash from 'lodash';
 
-import { CurveType, Image } from './Image.dom.js';
-import { LinkPreviewDate } from './LinkPreviewDate.dom.js';
+import { CurveType, Image } from './Image.dom.tsx';
+import { LinkPreviewDate } from './LinkPreviewDate.dom.tsx';
 
-import type { LinkPreviewForUIType } from '../../types/message/LinkPreviews.std.js';
-import type { LocalizerType } from '../../types/Util.std.js';
-import { getClassNamesFor } from '../../util/getClassNamesFor.std.js';
-import { isImageAttachment } from '../../util/Attachment.std.js';
-import { isCallLink } from '../../types/LinkPreview.std.js';
-import { Avatar } from '../Avatar.dom.js';
-import { getColorForCallLink } from '../../util/getColorForCallLink.std.js';
-import { getKeyFromCallLink } from '../../util/callLinks.std.js';
+import type { LinkPreviewForUIType } from '../../types/message/LinkPreviews.std.ts';
+import type { LocalizerType } from '../../types/Util.std.ts';
+import { getClassNamesFor } from '../../util/getClassNamesFor.std.ts';
+import { isImageAttachment } from '../../util/Attachment.std.ts';
+import { isCallLink } from '../../types/LinkPreview.std.ts';
+import { Avatar } from '../Avatar.dom.tsx';
+import { getColorForCallLink } from '../../util/getColorForCallLink.std.ts';
+import { getKeyFromCallLink } from '../../util/callLinks.std.ts';
 
 const { unescape } = lodash;
 
@@ -90,7 +90,7 @@ export function StagedLinkPreview(props: Props): React.JSX.Element {
   );
 }
 
-export function Thumbnail({
+function Thumbnail({
   domain,
   i18n,
   image,

@@ -3,32 +3,32 @@
 
 import { v4 as generateGuid } from 'uuid';
 
-import { SendStatus } from '../../messages/MessageSendState.std.js';
-import type { ConversationModel } from '../../models/conversations.preload.js';
-import { GiftBadgeStates } from '../../types/GiftBadgeStates.std.js';
+import { SendStatus } from '../../messages/MessageSendState.std.ts';
+import type { ConversationModel } from '../../models/conversations.preload.ts';
+import { GiftBadgeStates } from '../../types/GiftBadgeStates.std.ts';
 
-import { DataWriter } from '../../sql/Client.preload.js';
-import { getRandomBytes } from '../../Crypto.node.js';
-import * as Bytes from '../../Bytes.std.js';
-import { generateAci } from '../../types/ServiceId.std.js';
-import { ReadStatus } from '../../messages/MessageReadStatus.std.js';
-import { SeenStatus } from '../../MessageSeenStatus.std.js';
-import { ID_V1_LENGTH } from '../../types/groups.std.js';
-import { DurationInSeconds, WEEK } from '../../util/durations/index.std.js';
+import { DataWriter } from '../../sql/Client.preload.ts';
+import { getRandomBytes } from '../../Crypto.node.ts';
+import * as Bytes from '../../Bytes.std.ts';
+import { ReadStatus } from '../../messages/MessageReadStatus.std.ts';
+import { SeenStatus } from '../../MessageSeenStatus.std.ts';
+import { ID_V1_LENGTH } from '../../types/groups.std.ts';
+import { DurationInSeconds, WEEK } from '../../util/durations/index.std.ts';
 import {
   setupBasics,
   asymmetricRoundtripHarness,
   symmetricRoundtripHarness,
   OUR_ACI,
-} from './helpers.preload.js';
-import { loadAllAndReinitializeRedux } from '../../services/allLoaders.preload.js';
-import { strictAssert } from '../../util/assert.std.js';
+} from './helpers.preload.ts';
+import { loadAllAndReinitializeRedux } from '../../services/allLoaders.preload.ts';
+import { strictAssert } from '../../util/assert.std.ts';
 import type { MessageAttributesType } from '../../model-types.d.ts';
-import { IMAGE_PNG, TEXT_ATTACHMENT } from '../../types/MIME.std.js';
-import { MY_STORY_ID } from '../../types/Stories.std.js';
-import { generateAttachmentKeys } from '../../AttachmentCrypto.node.js';
-import { itemStorage } from '../../textsecure/Storage.preload.js';
-import { BodyRange } from '../../types/BodyRange.std.js';
+import { IMAGE_PNG, TEXT_ATTACHMENT } from '../../types/MIME.std.ts';
+import { MY_STORY_ID } from '../../types/Stories.std.ts';
+import { generateAttachmentKeys } from '../../AttachmentCrypto.node.ts';
+import { itemStorage } from '../../textsecure/Storage.preload.ts';
+import { BodyRange } from '../../types/BodyRange.std.ts';
+import { generateAci } from '../../test-helpers/serviceIdUtils.std.ts';
 
 const CONTACT_A = generateAci();
 const CONTACT_B = generateAci();
@@ -384,6 +384,63 @@ describe('backup/bubble messages', () => {
           body: 'hello',
         },
       ]
+    );
+  });
+
+  it('fixes source-missing incoming 1:1 messages', async () => {
+    await asymmetricRoundtripHarness(
+      [
+        {
+          conversationId: contactA.id,
+          id: generateGuid(),
+          type: 'incoming',
+          received_at: 3,
+          received_at_ms: 3,
+          sent_at: 3,
+          readStatus: ReadStatus.Unread,
+          seenStatus: SeenStatus.Unseen,
+          unidentifiedDeliveryReceived: true,
+          timestamp: 3,
+          body: 'hello',
+        },
+      ],
+      [
+        {
+          conversationId: contactA.id,
+          id: generateGuid(),
+          type: 'incoming',
+          received_at: 3,
+          received_at_ms: 3,
+          sent_at: 3,
+          sourceServiceId: CONTACT_A,
+          readStatus: ReadStatus.Unread,
+          seenStatus: SeenStatus.Unseen,
+          unidentifiedDeliveryReceived: true,
+          timestamp: 3,
+          body: 'hello',
+        },
+      ]
+    );
+  });
+
+  it('drops source-missing incoming group messages', async () => {
+    await asymmetricRoundtripHarness(
+      [
+        {
+          conversationId: gv2.id,
+          id: generateGuid(),
+          type: 'incoming',
+          received_at: 3,
+          received_at_ms: 3,
+          sent_at: 3,
+          readStatus: ReadStatus.Unread,
+          seenStatus: SeenStatus.Unseen,
+          unidentifiedDeliveryReceived: true,
+          timestamp: 3,
+          body: 'hello',
+        },
+      ],
+      []
     );
   });
 

@@ -1,22 +1,22 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-/* eslint-disable no-restricted-syntax */
 
 import type { NativeThemeState } from '../types/NativeThemeNotifier.d.ts';
-import { SystemThemeType } from '../types/Util.std.js';
+import { SystemThemeType } from '../types/Util.std.ts';
 
 export type Callback = (change: NativeThemeState) => void;
 
+// oxlint-disable-next-line typescript/consistent-type-definitions
 export interface MinimalIPC {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // oxlint-disable-next-line typescript/no-explicit-any
   send(channel: string, ...args: ReadonlyArray<any>): void;
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // oxlint-disable-next-line typescript/no-explicit-any
   sendSync(channel: string): any;
 
   on(
     channel: string,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // oxlint-disable-next-line typescript/no-explicit-any
     listener: (event: unknown, ...args: ReadonlyArray<any>) => void
   ): this;
 }
@@ -42,7 +42,7 @@ export function createNativeThemeListener(
     const nextSystemTheme = theme.shouldUseDarkColors
       ? SystemThemeType.dark
       : SystemThemeType.light;
-    // eslint-disable-next-line no-param-reassign
+    // oxlint-disable-next-line no-param-reassign
     holder.systemTheme = nextSystemTheme;
     return nextSystemTheme;
   }

@@ -2,10 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { ipcRenderer } from 'electron';
-import { createLogger } from '../logging/log.std.js';
-import createTaskWithTimeout from '../textsecure/TaskWithTimeout.std.js';
-import { explodePromise } from '../util/explodePromise.std.js';
-import { missingCaseError } from '../util/missingCaseError.std.js';
+import { serialize, deserialize } from 'node:v8';
+import { createLogger } from '../logging/log.std.ts';
+import { runTaskWithTimeout } from '../textsecure/TaskWithTimeout.std.ts';
+import { explodePromise } from '../util/explodePromise.std.ts';
+import { missingCaseError } from '../util/missingCaseError.std.ts';
 
 const log = createLogger('channels');
 
@@ -26,11 +27,9 @@ export async function ipcInvoke<T>(
   name: string,
   args: ReadonlyArray<unknown>
 ): Promise<T> {
-  const fnName = String(name);
-
   if (shutdownPromise && name !== 'close') {
     throw new Error(
-      `Rejecting SQL channel job (${access}, ${fnName}); ` +
+      `Rejecting SQL channel job (${access}, ${name}); ` +
         'application is shutting down'
     );
   }
@@ -45,20 +44,20 @@ export async function ipcInvoke<T>(
   }
 
   activeJobCount += 1;
-  return createTaskWithTimeout(async () => {
+  return runTaskWithTimeout(async () => {
     try {
-      const result = await ipcRenderer.invoke(channel, name, ...args);
+      const result = await ipcRenderer.invoke(channel, name, serialize(args));
       if (!result.ok) {
         throw result.error;
       }
-      return result.value;
+      return deserialize(result.value);
     } finally {
       activeJobCount -= 1;
       if (activeJobCount === 0) {
         resolveShutdown?.();
       }
     }
-  }, `SQL channel call (${access}, ${fnName})`)();
+  }, `SQL channel call (${access}, ${name})`);
 }
 
 export async function doShutdown(): Promise<void> {

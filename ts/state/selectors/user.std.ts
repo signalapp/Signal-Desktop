@@ -3,16 +3,14 @@
 
 import { createSelector } from 'reselect';
 
-import { type LocalizerType, ThemeType } from '../../types/Util.std.js';
-import type { AciString, PniString } from '../../types/ServiceId.std.js';
-import type { LocaleMessagesType } from '../../types/I18N.std.js';
-import type { MenuOptionsType } from '../../types/menu.std.js';
+import { type LocalizerType, ThemeType } from '../../types/Util.std.ts';
+import type { AciString, PniString } from '../../types/ServiceId.std.ts';
 
-import type { StateType } from '../reducer.preload.js';
-import type { CallingStateType } from '../ducks/calling.preload.js';
-import type { UserStateType } from '../ducks/user.preload.js';
+import type { StateType } from '../reducer.preload.ts';
+import type { CallingStateType } from '../ducks/calling.preload.ts';
+import type { UserStateType } from '../ducks/user.preload.ts';
 
-import { isNightly, isBeta } from '../../util/version.std.js';
+import { isNightly } from '../../util/version.std.ts';
 
 export const getUser = (state: StateType): UserStateType => state.user;
 
@@ -21,7 +19,7 @@ export const getUserNumber = createSelector(
   (state: UserStateType): string | undefined => state.ourNumber
 );
 
-export const getUserDeviceId = createSelector(
+const getUserDeviceId = createSelector(
   getUser,
   (state: UserStateType): number | undefined => state.ourDeviceId
 );
@@ -46,14 +44,14 @@ export const getUserPNI = createSelector(
   (state: UserStateType): PniString | undefined => state.ourPni
 );
 
+export const areWePrimaryDevice = createSelector(
+  getUserDeviceId,
+  (deviceId: number | undefined): boolean => deviceId === 1
+);
+
 export const getIntl = createSelector(
   getUser,
   (state: UserStateType): LocalizerType => state.i18n
-);
-
-export const getLocaleMessages = createSelector(
-  getUser,
-  (state: UserStateType): LocaleMessagesType => state.localeMessages
 );
 
 export const getInteractionMode = createSelector(
@@ -61,27 +59,12 @@ export const getInteractionMode = createSelector(
   (state: UserStateType) => state.interactionMode
 );
 
-export const getAttachmentsPath = createSelector(
-  getUser,
-  (state: UserStateType): string => state.attachmentsPath
-);
-
-export const getStickersPath = createSelector(
-  getUser,
-  (state: UserStateType): string => state.stickersPath
-);
-
 export const getPlatform = createSelector(
   getUser,
   (state: UserStateType): string => state.platform
 );
 
-export const getTempPath = createSelector(
-  getUser,
-  (state: UserStateType): string => state.tempPath
-);
-
-export const getPreferredTheme = createSelector(
+const getPreferredTheme = createSelector(
   getUser,
   (state: UserStateType): ThemeType => state.theme
 );
@@ -90,9 +73,7 @@ export const getPreferredTheme = createSelector(
 const getIsInFullScreenCall = createSelector(
   (state: StateType): CallingStateType => state.calling,
   (state: CallingStateType): boolean =>
-    Boolean(
-      state.activeCallState?.state === 'Active' && !state.activeCallState.pip
-    )
+    state.activeCallState?.state === 'Active' && !state.activeCallState.pip
 );
 
 export const getTheme = createSelector(
@@ -110,8 +91,6 @@ export const getVersion = createSelector(
 
 export const getIsNightly = createSelector(getVersion, isNightly);
 
-export const getIsBeta = createSelector(getVersion, isBeta);
-
 export const getIsMainWindowMaximized = createSelector(
   getUser,
   (state: UserStateType): boolean => state.isMainWindowMaximized
@@ -120,11 +99,6 @@ export const getIsMainWindowMaximized = createSelector(
 export const getIsMainWindowFullScreen = createSelector(
   getUser,
   (state: UserStateType): boolean => state.isMainWindowFullScreen
-);
-
-export const getMenuOptions = createSelector(
-  getUser,
-  (state: UserStateType): MenuOptionsType => state.menuOptions
 );
 
 export const getIsMacOS = createSelector(

@@ -5,9 +5,9 @@ import React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta, StoryFn } from '@storybook/react';
 
-import type { PropsType } from './DonationThanksModal.dom.js';
-import { DonationThanksModal } from './DonationThanksModal.dom.js';
-import { getFakeBadge } from '../test-helpers/getFakeBadge.std.js';
+import type { PropsType } from './DonationThanksModal.dom.tsx';
+import { DonationThanksModal } from './DonationThanksModal.dom.tsx';
+import { getFakeBadge } from '../test-helpers/getFakeBadge.std.ts';
 
 const { i18n } = window.SignalContext;
 
@@ -37,7 +37,6 @@ const defaultProps = {
   },
 };
 
-// eslint-disable-next-line react/function-component-definition
 const Template: StoryFn<PropsType> = args => <DonationThanksModal {...args} />;
 
 export const Default = Template.bind({});

@@ -5,7 +5,7 @@ import type { Meta, StoryFn } from '@storybook/react';
 import React, { type ComponentProps } from 'react';
 
 import { action } from '@storybook/addon-actions';
-import { CriticalIdlePrimaryDeviceModal } from './CriticalIdlePrimaryDeviceModal.dom.js';
+import { CriticalIdlePrimaryDeviceModal } from './CriticalIdlePrimaryDeviceModal.dom.tsx';
 
 const { i18n } = window.SignalContext;
 
@@ -19,7 +19,6 @@ export default {
   },
 } satisfies Meta<PropsType>;
 
-// eslint-disable-next-line react/function-component-definition
 const Template: StoryFn<PropsType> = args => (
   <CriticalIdlePrimaryDeviceModal {...args} />
 );

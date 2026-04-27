@@ -5,12 +5,12 @@ import type {
   ReadonlyMessageAttributesType,
   ConversationAttributesType,
 } from '../model-types.d.ts';
-import { type AciString } from '../types/ServiceId.std.js';
+import { type AciString } from '../types/ServiceId.std.ts';
 import type { ProcessedStoryContext } from '../textsecure/Types.d.ts';
-import { createLogger } from '../logging/log.std.js';
-import { getAuthorId } from '../messages/sources.preload.js';
-import { itemStorage } from '../textsecure/Storage.preload.js';
-import { isDirectConversation } from './whatTypeOfConversation.dom.js';
+import { createLogger } from '../logging/log.std.ts';
+import { getAuthorId } from '../messages/sources.preload.ts';
+import { itemStorage } from '../textsecure/Storage.preload.ts';
+import { isDirectConversation } from './whatTypeOfConversation.dom.ts';
 
 const log = createLogger('findStoryMessage');
 

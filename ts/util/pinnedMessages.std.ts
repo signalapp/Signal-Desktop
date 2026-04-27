@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { DurationInSeconds } from './durations/duration-in-seconds.std.js';
+import { DurationInSeconds } from './durations/duration-in-seconds.std.ts';
 
 export function getPinnedMessageExpiresAt(
   receivedAtTimestamp: number,

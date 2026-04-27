@@ -4,16 +4,16 @@
 import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 
-import { strictAssert } from '../util/assert.std.js';
-import type { LocalizerType } from '../types/Util.std.js';
-import type { BadgeType } from '../badges/types.std.js';
-import { BadgeCategory } from '../badges/BadgeCategory.std.js';
-import { Modal } from './Modal.dom.js';
-import { Button, ButtonSize } from './Button.dom.js';
-import { BadgeDescription } from './BadgeDescription.dom.js';
-import { BadgeImage } from './BadgeImage.dom.js';
-import { BadgeCarouselIndex } from './BadgeCarouselIndex.dom.js';
-import { BadgeSustainerInstructionsDialog } from './BadgeSustainerInstructionsDialog.dom.js';
+import { strictAssert } from '../util/assert.std.ts';
+import type { LocalizerType } from '../types/Util.std.ts';
+import type { BadgeType } from '../badges/types.std.ts';
+import { BadgeCategory } from '../badges/BadgeCategory.std.ts';
+import { Modal } from './Modal.dom.tsx';
+import { Button, ButtonSize } from './Button.dom.tsx';
+import { BadgeDescription } from './BadgeDescription.dom.tsx';
+import { BadgeImage } from './BadgeImage.dom.tsx';
+import { BadgeCarouselIndex } from './BadgeCarouselIndex.dom.tsx';
+import { BadgeSustainerInstructionsDialog } from './BadgeSustainerInstructionsDialog.dom.tsx';
 
 export type PropsType = Readonly<{
   areWeASubscriber: boolean;
@@ -78,7 +78,7 @@ function BadgeDialogWithBadges({
     currentBadgeIndex = 0;
     currentBadge = firstBadge;
   } else {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    // oxlint-disable-next-line typescript/no-non-null-assertion
     currentBadge = badges[currentBadgeIndex]!;
   }
 

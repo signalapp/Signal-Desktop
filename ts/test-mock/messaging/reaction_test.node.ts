@@ -8,17 +8,17 @@ import { type Page } from 'playwright';
 import { expect } from 'playwright/test';
 import { assert } from 'chai';
 
-import type { App } from '../playwright.node.js';
-import { Bootstrap } from '../bootstrap.node.js';
-import { MINUTE } from '../../util/durations/index.std.js';
-import { strictAssert } from '../../util/assert.std.js';
+import type { App } from '../playwright.node.ts';
+import { Bootstrap } from '../bootstrap.node.ts';
+import { MINUTE } from '../../util/durations/index.std.ts';
+import { strictAssert } from '../../util/assert.std.ts';
 import {
   clickOnConversation,
   getMessageInTimelineByTimestamp,
   sendTextMessage,
   sendReaction,
   createGroup,
-} from '../helpers.node.js';
+} from '../helpers.node.ts';
 
 export const debug = createDebug('mock:test:reactions');
 
@@ -26,7 +26,7 @@ async function getReactionsForMessage(page: Page, timestamp: number) {
   const reactionsByEmoji: Record<string, Array<string>> = {};
 
   try {
-    const message = await getMessageInTimelineByTimestamp(page, timestamp);
+    const message = getMessageInTimelineByTimestamp(page, timestamp);
 
     await message.locator('.module-message__reactions').click();
 
@@ -35,11 +35,11 @@ async function getReactionsForMessage(page: Page, timestamp: number) {
       .all();
 
     for (const row of reactionRows) {
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       const emoji = await row
         .locator('.FunStaticEmoji')
         .getAttribute('data-emoji-value');
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       const reactor = await row
         .locator('.module-reaction-viewer__body__row__name')
         .innerText();
@@ -417,7 +417,7 @@ describe('reactions', function (this: Mocha.Suite) {
     await leftPane.getByText('ThumbsToneGroup').click();
 
     // Click the reaction button on that message
-    const msg = await getMessageInTimelineByTimestamp(window, ts);
+    const msg = getMessageInTimelineByTimestamp(window, ts);
     await msg.locator('.module-message__reactions').click();
 
     // Grab the header emoji in the overlay (next to the total count)

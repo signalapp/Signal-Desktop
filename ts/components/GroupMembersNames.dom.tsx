@@ -5,10 +5,10 @@ import React, { useMemo } from 'react';
 import type { ReactNode } from 'react';
 import lodash from 'lodash';
 
-import { I18n } from './I18n.dom.js';
-import type { LocalizerType } from '../types/Util.std.js';
-import { UserText } from './UserText.dom.js';
-import type { GroupV2Membership } from './conversation/conversation-details/ConversationDetailsMembershipList.dom.js';
+import { I18n } from './I18n.dom.tsx';
+import type { LocalizerType } from '../types/Util.std.ts';
+import { UserText } from './UserText.dom.tsx';
+import type { GroupV2Membership } from './conversation/conversation-details/ConversationDetailsMembershipList.dom.tsx';
 
 const { take } = lodash;
 
@@ -27,7 +27,6 @@ function renderClickableButton(
 ): React.JSX.Element {
   return (
     <button
-      className="module-conversation-hero__members-count__button"
       type="button"
       onClick={ev => {
         ev.preventDefault();
@@ -203,10 +202,10 @@ export function GroupMembersNames({
       3
     ).map((name, i) => (
       // We cannot guarantee uniqueness of member names
-      // eslint-disable-next-line react/no-array-index-key
-      <strong key={i} className={nameClassName}>
+      // oxlint-disable-next-line react/no-array-index-key
+      <span key={i} className={nameClassName}>
         <UserText text={name ?? i18n('icu:unknownContactShort')} />
-      </strong>
+      </span>
     ));
   }, [otherMemberNames, nameClassName, i18n]);
 

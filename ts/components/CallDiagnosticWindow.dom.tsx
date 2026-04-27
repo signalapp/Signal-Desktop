@@ -3,10 +3,10 @@
 
 import React, { useMemo } from 'react';
 
-import type { LocalizerType } from '../types/Util.std.js';
-import { tw } from '../axo/tw.dom.js';
-import { AxoButton } from '../axo/AxoButton.dom.js';
-import { useEscapeHandling } from '../hooks/useEscapeHandling.dom.js';
+import type { LocalizerType } from '../types/Util.std.ts';
+import { tw } from '../axo/tw.dom.tsx';
+import { AxoButton } from '../axo/AxoButton.dom.tsx';
+import { useEscapeHandling } from '../hooks/useEscapeHandling.dom.ts';
 
 export type PropsType = {
   closeWindow: () => unknown;
@@ -24,7 +24,7 @@ export function CallDiagnosticWindow({
   const formattedData = useMemo(() => {
     try {
       const parsed = JSON.parse(diagnosticData);
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      // oxlint-disable-next-line typescript/no-unused-vars
       const { rawStats, rawStatsText, ...rest } = parsed;
       const pretty = {
         ...rest,

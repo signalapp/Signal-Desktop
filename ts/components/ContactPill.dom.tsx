@@ -3,10 +3,10 @@
 
 import React from 'react';
 
-import type { ConversationType } from '../state/ducks/conversations.preload.js';
-import type { LocalizerType } from '../types/Util.std.js';
-import { ContactName } from './conversation/ContactName.dom.js';
-import { Avatar, AvatarSize } from './Avatar.dom.js';
+import type { ConversationType } from '../state/ducks/conversations.preload.ts';
+import type { LocalizerType } from '../types/Util.std.ts';
+import { ContactName } from './conversation/ContactName.dom.tsx';
+import { Avatar, AvatarSize } from './Avatar.dom.tsx';
 
 export type PropsType = {
   i18n: LocalizerType;

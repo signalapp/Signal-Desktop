@@ -7,16 +7,16 @@ import classNames from 'classnames';
 import lodash from 'lodash';
 import { v4 as generateUuid } from 'uuid';
 
-import { Avatar, AvatarSize } from '../Avatar.dom.js';
-import type { BadgeType } from '../../badges/types.std.js';
-import { isConversationUnread } from '../../util/isConversationUnread.std.js';
-import { cleanId } from '../_util.std.js';
-import type { LocalizerType, ThemeType } from '../../types/Util.std.js';
-import type { ConversationType } from '../../state/ducks/conversations.preload.js';
-import { Spinner } from '../Spinner.dom.js';
-import { Time } from '../Time.dom.js';
-import { formatDateTimeShort } from '../../util/formatTimestamp.dom.js';
-import * as durations from '../../util/durations/index.std.js';
+import { Avatar, AvatarSize } from '../Avatar.dom.tsx';
+import type { BadgeType } from '../../badges/types.std.ts';
+import { isConversationUnread } from '../../util/isConversationUnread.std.ts';
+import { cleanId } from '../_util.std.ts';
+import type { LocalizerType, ThemeType } from '../../types/Util.std.ts';
+import type { ConversationType } from '../../state/ducks/conversations.preload.ts';
+import { Spinner } from '../Spinner.dom.tsx';
+import { Time } from '../Time.dom.tsx';
+import { formatDateTimeShort } from '../../util/formatTimestamp.dom.ts';
+import * as durations from '../../util/durations/index.std.ts';
 
 const { isBoolean, isNumber } = lodash;
 
@@ -27,7 +27,7 @@ const CONTENT_CLASS_NAME = `${BASE_CLASS_NAME}__content`;
 const HEADER_CLASS_NAME = `${CONTENT_CLASS_NAME}__header`;
 export const HEADER_NAME_CLASS_NAME = `${HEADER_CLASS_NAME}__name`;
 export const HEADER_CONTACT_NAME_CLASS_NAME = `${HEADER_NAME_CLASS_NAME}__contact-name`;
-export const DATE_CLASS_NAME = `${HEADER_CLASS_NAME}__date`;
+const DATE_CLASS_NAME = `${HEADER_CLASS_NAME}__date`;
 const MESSAGE_CLASS_NAME = `${CONTENT_CLASS_NAME}__message`;
 export const MESSAGE_TEXT_CLASS_NAME = `${MESSAGE_CLASS_NAME}__text`;
 const CHECKBOX_CONTAINER_CLASS_NAME = `${BASE_CLASS_NAME}__checkbox--container`;
@@ -128,9 +128,7 @@ export const BaseConversationListItem: FunctionComponent<PropsType> =
     const testId = overrideTestId || groupId || serviceId;
     const isUnread = isConversationUnread({ markedUnread, unreadCount });
 
-    const isAvatarNoteToSelf = isBoolean(isNoteToSelf)
-      ? isNoteToSelf
-      : Boolean(isMe);
+    const isAvatarNoteToSelf = isBoolean(isNoteToSelf) ? isNoteToSelf : isMe;
 
     const isCheckbox = isBoolean(checked);
 

@@ -13,34 +13,34 @@ import type {
   MessageRequestActionsConfirmationPropsType,
   SafetyNumberChangedBlockingDataType,
   UserNotFoundModalStateType,
-} from '../state/ducks/globalModals.preload.js';
-import type { LocalizerType, ThemeType } from '../types/Util.std.js';
+} from '../state/ducks/globalModals.preload.ts';
+import type { LocalizerType, ThemeType } from '../types/Util.std.ts';
 import {
   type ContactModalStateType,
   UsernameOnboardingState,
-} from '../types/globalModals.std.js';
-import { missingCaseError } from '../util/missingCaseError.std.js';
+} from '../types/globalModals.std.ts';
+import { missingCaseError } from '../util/missingCaseError.std.ts';
 
-import { ButtonVariant } from './Button.dom.js';
-import { ConfirmationDialog } from './ConfirmationDialog.dom.js';
-import { SignalConnectionsModal } from './SignalConnectionsModal.dom.js';
-import { WhatsNewModal } from './WhatsNewModal.dom.js';
-import { MediaPermissionsModal } from './MediaPermissionsModal.dom.js';
-import type { StartCallData } from './ConfirmLeaveCallModal.dom.js';
+import { ButtonVariant } from './Button.dom.tsx';
+import { ConfirmationDialog } from './ConfirmationDialog.dom.tsx';
+import { SignalConnectionsModal } from './SignalConnectionsModal.dom.tsx';
+import { WhatsNewModal } from './WhatsNewModal.dom.tsx';
+import { MediaPermissionsModal } from './MediaPermissionsModal.dom.tsx';
+import type { StartCallData } from './ConfirmLeaveCallModal.dom.tsx';
 import {
   TapToViewNotAvailableModal,
   type DataPropsType as TapToViewNotAvailablePropsType,
-} from './TapToViewNotAvailableModal.dom.js';
+} from './TapToViewNotAvailableModal.dom.tsx';
 import {
   BackfillFailureModal,
   type DataPropsType as BackfillFailureModalPropsType,
-} from './BackfillFailureModal.dom.js';
-import type { SmartDraftGifMessageSendModalProps } from '../state/smart/DraftGifMessageSendModal.preload.js';
-import { CriticalIdlePrimaryDeviceModal } from './CriticalIdlePrimaryDeviceModal.dom.js';
-import { LowDiskSpaceBackupImportModal } from './LowDiskSpaceBackupImportModal.dom.js';
-import { KeyTransparencyOnboardingDialog } from './KeyTransparencyOnboardingDialog.dom.js';
-import { isUsernameValid } from '../util/Username.dom.js';
-import type { PinMessageDialogData } from '../state/smart/PinMessageDialog.preload.js';
+} from './BackfillFailureModal.dom.tsx';
+import type { SmartDraftGifMessageSendModalProps } from '../state/smart/DraftGifMessageSendModal.preload.tsx';
+import { CriticalIdlePrimaryDeviceModal } from './CriticalIdlePrimaryDeviceModal.dom.tsx';
+import { LowDiskSpaceBackupImportModal } from './LowDiskSpaceBackupImportModal.dom.tsx';
+import { KeyTransparencyOnboardingDialog } from './KeyTransparencyOnboardingDialog.dom.tsx';
+import { isUsernameValid } from '../util/Username.dom.ts';
+import type { PinMessageDialogData } from '../state/smart/PinMessageDialog.preload.tsx';
 
 // NOTE: All types should be required for this component so that the smart
 // component gives you type errors when adding/removing props.
@@ -190,6 +190,9 @@ export type PropsType = {
   // LocalBackupExportWorkflow
   shouldShowLocalBackupExportWorkflow: boolean;
   renderLocalBackupExportWorkflow: () => React.JSX.Element;
+  // TerminateGroupFailedModal
+  terminateGroupFailedModal: { conversationId: string } | null;
+  renderTerminateGroupFailedModal: () => React.JSX.Element | null;
 };
 
 export function GlobalModalContainer({
@@ -314,6 +317,9 @@ export function GlobalModalContainer({
   // LocalBackupExportWorkflow
   shouldShowLocalBackupExportWorkflow,
   renderLocalBackupExportWorkflow,
+  // TerminateGroupFailedModal
+  terminateGroupFailedModal,
+  renderTerminateGroupFailedModal,
 }: PropsType): React.JSX.Element | null {
   // We want the following dialogs to show in this order:
   // 0. Stateful multi-modal workflows
@@ -563,6 +569,10 @@ export function GlobalModalContainer({
         onClose={hideLowDiskSpaceBackupImportModal}
       />
     );
+  }
+
+  if (terminateGroupFailedModal) {
+    return renderTerminateGroupFailedModal();
   }
 
   return null;

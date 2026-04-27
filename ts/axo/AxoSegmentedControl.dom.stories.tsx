@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import type { Meta } from '@storybook/react';
 import React, { useState } from 'react';
-import { ExperimentalAxoSegmentedControl } from './AxoSegmentedControl.dom.js';
-import { tw } from './tw.dom.js';
+import { ExperimentalAxoSegmentedControl } from './AxoSegmentedControl.dom.tsx';
+import { tw } from './tw.dom.tsx';
 
 export default {
   title: 'Axo/AxoSegmentedControl (Experimental)',

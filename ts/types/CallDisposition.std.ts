@@ -2,14 +2,14 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { z } from 'zod';
-import type { AciString } from './ServiceId.std.js';
-import { aciSchema } from './ServiceId.std.js';
-import { bytesToUuid } from '../util/uuidToBytes.std.js';
-import { SignalService as Proto } from '../protobuf/index.std.js';
-import * as Bytes from '../Bytes.std.js';
-import { UUID_BYTE_SIZE } from './Crypto.std.js';
+import type { AciString } from './ServiceId.std.ts';
+import { aciSchema } from './ServiceId.std.ts';
+import { bytesToUuid } from '../util/uuidToBytes.std.ts';
+import { SignalService as Proto } from '../protobuf/index.std.ts';
+import * as Bytes from '../Bytes.std.ts';
+import { UUID_BYTE_SIZE } from './Crypto.std.ts';
 
-import { toNumber } from '../util/toNumber.std.js';
+import { toNumber } from '../util/toNumber.std.ts';
 
 // These are strings (1) for the backup (2) for Storybook.
 export enum CallMode {

@@ -1,8 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { canvasToBlob } from './canvasToBlob.std.js';
-import type { MIMEType } from '../types/MIME.std.js';
+import { canvasToBlob } from './canvasToBlob.std.ts';
+import type { MIMEType } from '../types/MIME.std.ts';
 
 export async function canvasToBytes(
   canvas: HTMLCanvasElement,

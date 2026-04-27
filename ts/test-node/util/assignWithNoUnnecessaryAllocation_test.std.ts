@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 
-import { assignWithNoUnnecessaryAllocation } from '../../util/assignWithNoUnnecessaryAllocation.std.js';
+import { assignWithNoUnnecessaryAllocation } from '../../util/assignWithNoUnnecessaryAllocation.std.ts';
 
 describe('assignWithNoUnnecessaryAllocation', () => {
   type Person = {

@@ -16,56 +16,56 @@ import lodash from 'lodash';
 import type {
   DraftBodyRanges,
   HydratedBodyRangesType,
-} from '../types/BodyRange.std.js';
-import type { ImageStateType } from '../mediaEditor/ImageStateType.std.js';
+} from '../types/BodyRange.std.ts';
+import type { ImageStateType } from '../mediaEditor/ImageStateType.std.ts';
 import type {
   InputApi,
   Props as CompositionInputProps,
-} from './CompositionInput.dom.js';
-import type { LocalizerType } from '../types/Util.std.js';
-import type { MIMEType } from '../types/MIME.std.js';
-import type { imageToBlurHash } from '../util/imageToBlurHash.dom.js';
-import { MediaEditorFabricAnalogTimeSticker } from '../mediaEditor/MediaEditorFabricAnalogTimeSticker.dom.js';
-import { MediaEditorFabricCropRect } from '../mediaEditor/MediaEditorFabricCropRect.dom.js';
-import { MediaEditorFabricDigitalTimeSticker } from '../mediaEditor/MediaEditorFabricDigitalTimeSticker.dom.js';
-import { MediaEditorFabricIText } from '../mediaEditor/MediaEditorFabricIText.dom.js';
-import { MediaEditorFabricPencilBrush } from '../mediaEditor/MediaEditorFabricPencilBrush.dom.js';
-import { MediaEditorFabricSticker } from '../mediaEditor/MediaEditorFabricSticker.dom.js';
-import { fabricEffectListener } from '../mediaEditor/fabricEffectListener.std.js';
-import { getRGBA, getHSL } from '../mediaEditor/util/color.std.js';
+} from './CompositionInput.dom.tsx';
+import type { LocalizerType } from '../types/Util.std.ts';
+import type { MIMEType } from '../types/MIME.std.ts';
+import type { imageToBlurHash } from '../util/imageToBlurHash.dom.ts';
+import { MediaEditorFabricAnalogTimeSticker } from '../mediaEditor/MediaEditorFabricAnalogTimeSticker.dom.ts';
+import { MediaEditorFabricCropRect } from '../mediaEditor/MediaEditorFabricCropRect.dom.ts';
+import { MediaEditorFabricDigitalTimeSticker } from '../mediaEditor/MediaEditorFabricDigitalTimeSticker.dom.ts';
+import { MediaEditorFabricIText } from '../mediaEditor/MediaEditorFabricIText.dom.ts';
+import { MediaEditorFabricPencilBrush } from '../mediaEditor/MediaEditorFabricPencilBrush.dom.ts';
+import { MediaEditorFabricSticker } from '../mediaEditor/MediaEditorFabricSticker.dom.ts';
+import { fabricEffectListener } from '../mediaEditor/fabricEffectListener.std.ts';
+import { getRGBA, getHSL } from '../mediaEditor/util/color.std.ts';
 import {
   getTextStyleAttributes,
   TextStyle,
-} from '../mediaEditor/util/getTextStyleAttributes.std.js';
-import { createLogger } from '../logging/log.std.js';
-import { Button, ButtonVariant } from './Button.dom.js';
-import { CompositionInput } from './CompositionInput.dom.js';
-import { ContextMenu } from './ContextMenu.dom.js';
-import { IMAGE_PNG } from '../types/MIME.std.js';
-import { SizeObserver } from '../hooks/useSizeObserver.dom.js';
-import { Slider } from './Slider.dom.js';
-import { Theme } from '../util/theme.std.js';
-import { ThemeType } from '../types/Util.std.js';
-import { arrow } from '../util/keyboard.dom.js';
-import { canvasToBytes } from '../util/canvasToBytes.std.js';
-import { loadImage } from '../util/loadImage.std.js';
-import { useConfirmDiscard } from '../hooks/useConfirmDiscard.dom.js';
-import { useFabricHistory } from '../mediaEditor/useFabricHistory.dom.js';
-import { usePortal } from '../hooks/usePortal.dom.js';
-import { FunEmojiPicker } from './fun/FunEmojiPicker.dom.js';
+} from '../mediaEditor/util/getTextStyleAttributes.std.ts';
+import { createLogger } from '../logging/log.std.ts';
+import { Button, ButtonVariant } from './Button.dom.tsx';
+import { CompositionInput } from './CompositionInput.dom.tsx';
+import { ContextMenu } from './ContextMenu.dom.tsx';
+import { IMAGE_PNG } from '../types/MIME.std.ts';
+import { SizeObserver } from '../hooks/useSizeObserver.dom.tsx';
+import { Slider } from './Slider.dom.tsx';
+import { Theme } from '../util/theme.std.ts';
+import { ThemeType } from '../types/Util.std.ts';
+import { arrow } from '../util/keyboard.dom.ts';
+import { canvasToBytes } from '../util/canvasToBytes.std.ts';
+import { loadImage } from '../util/loadImage.std.ts';
+import { useConfirmDiscard } from '../hooks/useConfirmDiscard.dom.tsx';
+import { useFabricHistory } from '../mediaEditor/useFabricHistory.dom.ts';
+import { usePortal } from '../hooks/usePortal.dom.ts';
+import { FunEmojiPicker } from './fun/FunEmojiPicker.dom.tsx';
 import {
   FunEmojiPickerButton,
   FunStickerPickerButton,
-} from './fun/FunButton.dom.js';
-import type { FunEmojiSelection } from './fun/panels/FunPanelEmojis.dom.js';
-import { FunStickerPicker } from './fun/FunStickerPicker.dom.js';
-import type { FunStickerSelection } from './fun/panels/FunPanelStickers.dom.js';
-import { drop } from '../util/drop.std.js';
-import { MediaQualitySelector } from './MediaQualitySelector.dom.js';
-import { AxoButton } from '../axo/AxoButton.dom.js';
-import { tw } from '../axo/tw.dom.js';
-import type { FunTimeStickerStyle } from './fun/constants.dom.js';
-import * as Errors from '../types/errors.std.js';
+} from './fun/FunButton.dom.tsx';
+import type { FunEmojiSelection } from './fun/panels/FunPanelEmojis.dom.tsx';
+import { FunStickerPicker } from './fun/FunStickerPicker.dom.tsx';
+import type { FunStickerSelection } from './fun/panels/FunPanelStickers.dom.tsx';
+import { drop } from '../util/drop.std.ts';
+import { MediaQualitySelector } from './MediaQualitySelector.dom.tsx';
+import { AxoButton } from '../axo/AxoButton.dom.tsx';
+import { tw } from '../axo/tw.dom.tsx';
+import type { FunTimeStickerStyle } from './fun/constants.dom.tsx';
+import * as Errors from '../types/errors.std.ts';
 
 const { get, has, noop } = lodash;
 

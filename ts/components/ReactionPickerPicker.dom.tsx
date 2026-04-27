@@ -6,15 +6,14 @@ import React, { forwardRef } from 'react';
 import classNames from 'classnames';
 
 import { Button } from 'react-aria-components';
-import type { LocalizerType } from '../types/Util.std.js';
-import { FunStaticEmoji } from './fun/FunEmoji.dom.js';
+import { FunStaticEmoji } from './fun/FunEmoji.dom.tsx';
 import {
   getEmojiDebugLabel,
   getEmojiVariantByKey,
   getEmojiVariantKeyByValue,
   isEmojiVariantValue,
-} from './fun/data/emojis.std.js';
-import { createLogger } from '../logging/log.std.js';
+} from './fun/data/emojis.std.ts';
+import { createLogger } from '../logging/log.std.ts';
 
 const log = createLogger('ReactionPickerPicker');
 
@@ -64,35 +63,6 @@ export const ReactionPickerPickerEmojiButton = React.forwardRef<
     </Button>
   );
 });
-
-export function ReactionPickerPickerMoreButton({
-  i18n,
-  onClick,
-}: Readonly<{
-  i18n: LocalizerType;
-  onClick: () => unknown;
-}>): React.JSX.Element {
-  return (
-    <button
-      aria-label={i18n('icu:Reactions--more')}
-      className="module-ReactionPickerPicker__button module-ReactionPickerPicker__button--more"
-      onClick={event => {
-        event.stopPropagation();
-        onClick();
-      }}
-      onKeyDown={event => {
-        if (event.key === 'Enter' || event.key === 'Space') {
-          event.stopPropagation();
-          event.preventDefault();
-          onClick();
-        }
-      }}
-      tabIndex={0}
-      title={i18n('icu:Reactions--more')}
-      type="button"
-    />
-  );
-}
 
 export const ReactionPickerPicker = forwardRef<
   HTMLDivElement,

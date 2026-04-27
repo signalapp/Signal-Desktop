@@ -3,7 +3,7 @@
 
 import lodash from 'lodash';
 import { createSelector } from 'reselect';
-import getDirection from 'direction';
+import { direction as getDirection } from 'direction';
 import emojiRegex from 'emoji-regex';
 import LinkifyIt from 'linkify-it';
 import type { ReadonlyDeep } from 'type-fest';
@@ -20,90 +20,93 @@ import type {
 import type {
   Contact as SmartMessageDetailContact,
   OwnProps as SmartMessageDetailPropsType,
-} from '../smart/MessageDetail.preload.js';
-import type { TimelineItemType } from '../../components/conversation/TimelineItem.dom.js';
-import type { PropsData } from '../../components/conversation/Message.dom.js';
-import type { PropsData as TimelineMessagePropsData } from '../../components/conversation/TimelineMessage.dom.js';
-import { TextDirection } from '../../components/conversation/Message.dom.js';
-import type { PropsData as TimerNotificationProps } from '../../components/conversation/TimerNotification.dom.js';
-import type { PropsData as ChangeNumberNotificationProps } from '../../components/conversation/ChangeNumberNotification.dom.js';
-import type { PropsData as JoinedSignalNotificationProps } from '../../components/conversation/JoinedSignalNotification.dom.js';
-import type { PropsData as SafetyNumberNotificationProps } from '../../components/conversation/SafetyNumberNotification.dom.js';
-import type { PropsData as VerificationNotificationProps } from '../../components/conversation/VerificationNotification.dom.js';
-import type { PropsData as TitleTransitionNotificationProps } from '../../components/conversation/TitleTransitionNotification.dom.js';
-import type { PropsDataType as GroupsV2Props } from '../../components/conversation/GroupV2Change.dom.js';
-import type { PropsDataType as GroupV1MigrationPropsType } from '../../components/conversation/GroupV1Migration.dom.js';
-import type { PropsDataType as DeliveryIssuePropsType } from '../../components/conversation/DeliveryIssueNotification.dom.js';
-import type { PropsType as PaymentEventNotificationPropsType } from '../../components/conversation/PaymentEventNotification.dom.js';
-import type { PropsDataType as ConversationMergePropsType } from '../../components/conversation/ConversationMergeNotification.dom.js';
-import type { PropsDataType as PhoneNumberDiscoveryPropsType } from '../../components/conversation/PhoneNumberDiscoveryNotification.dom.js';
+} from '../smart/MessageDetail.preload.tsx';
+import type { TimelineItemType } from '../../components/conversation/TimelineItem.dom.tsx';
+import type { PropsData } from '../../components/conversation/Message.dom.tsx';
+import type { PropsData as TimelineMessagePropsData } from '../../components/conversation/TimelineMessage.dom.tsx';
+import { TextDirection } from '../../components/conversation/Message.dom.tsx';
+import type { PropsData as TimerNotificationProps } from '../../components/conversation/TimerNotification.dom.tsx';
+import type { PropsData as ChangeNumberNotificationProps } from '../../components/conversation/ChangeNumberNotification.dom.tsx';
+import type { PropsData as JoinedSignalNotificationProps } from '../../components/conversation/JoinedSignalNotification.dom.tsx';
+import type { PropsData as SafetyNumberNotificationProps } from '../../components/conversation/SafetyNumberNotification.dom.tsx';
+import type { PropsData as VerificationNotificationProps } from '../../components/conversation/VerificationNotification.dom.tsx';
+import type { PropsData as TitleTransitionNotificationProps } from '../../components/conversation/TitleTransitionNotification.dom.tsx';
+import type { PropsDataType as GroupsV2Props } from '../../components/conversation/GroupV2Change.dom.tsx';
+import type { PropsDataType as GroupV1MigrationPropsType } from '../../components/conversation/GroupV1Migration.dom.tsx';
+import type { PropsDataType as DeliveryIssuePropsType } from '../../components/conversation/DeliveryIssueNotification.dom.tsx';
+import type { PropsType as PaymentEventNotificationPropsType } from '../../components/conversation/PaymentEventNotification.dom.tsx';
+import type { PropsDataType as ConversationMergePropsType } from '../../components/conversation/ConversationMergeNotification.dom.tsx';
+import type { PropsDataType as PhoneNumberDiscoveryPropsType } from '../../components/conversation/PhoneNumberDiscoveryNotification.dom.tsx';
 import type {
   PropsData as GroupNotificationProps,
   ChangeType,
-} from '../../components/conversation/GroupNotification.dom.js';
-import type { PropsType as ProfileChangeNotificationPropsType } from '../../components/conversation/ProfileChangeNotification.dom.js';
+} from '../../components/conversation/GroupNotification.dom.tsx';
+import type { PropsType as ProfileChangeNotificationPropsType } from '../../components/conversation/ProfileChangeNotification.dom.tsx';
 
 import {
   getSafeDomain,
   isCallLink,
   isStickerPack,
-} from '../../types/LinkPreview.std.js';
+} from '../../types/LinkPreview.std.ts';
 import type {
   AciString,
   PniString,
   ServiceIdString,
-} from '../../types/ServiceId.std.js';
+} from '../../types/ServiceId.std.ts';
 
-import type { EmbeddedContactForUIType } from '../../types/EmbeddedContact.std.js';
-import { embeddedContactSelector } from '../../types/EmbeddedContact.std.js';
-import type { HydratedBodyRangesType } from '../../types/BodyRange.std.js';
-import { hydrateRanges } from '../../util/BodyRange.node.js';
-import type { AssertProps, LocalizerType } from '../../types/Util.std.js';
-import type { LinkPreviewForUIType } from '../../types/message/LinkPreviews.std.js';
-import { getMentionsRegex } from '../../types/Message.std.js';
-import { SignalService as Proto } from '../../protobuf/index.std.js';
+import type { EmbeddedContactForUIType } from '../../types/EmbeddedContact.std.ts';
+import { embeddedContactSelector } from '../../types/EmbeddedContact.std.ts';
+import {
+  BodyRange,
+  type HydratedBodyRangesType,
+} from '../../types/BodyRange.std.ts';
+import { hydrateRanges } from '../../util/BodyRange.node.ts';
+import type { AssertProps, LocalizerType } from '../../types/Util.std.ts';
+import type { LinkPreviewForUIType } from '../../types/message/LinkPreviews.std.ts';
+import { getMentionsRegex } from '../../types/Message.std.ts';
+import { SignalService as Proto } from '../../protobuf/index.std.ts';
 import type {
   AttachmentForUIType,
   AttachmentType,
-} from '../../types/Attachment.std.js';
+} from '../../types/Attachment.std.ts';
 import {
   isVoiceMessage,
   isIncremental,
   defaultBlurHash,
-} from '../../util/Attachment.std.js';
-import type { MessageAttachmentType } from '../../types/AttachmentDownload.std.js';
+} from '../../util/Attachment.std.ts';
+import type { MessageAttachmentType } from '../../types/AttachmentDownload.std.ts';
 import type {
   ContactNameColorType,
   DefaultConversationColorType,
-} from '../../types/Colors.std.js';
-import { ReadStatus } from '../../messages/MessageReadStatus.std.js';
+} from '../../types/Colors.std.ts';
+import { ReadStatus } from '../../messages/MessageReadStatus.std.ts';
 
-import type { CallingNotificationType } from '../../util/callingNotification.std.js';
-import { getRecipients } from '../../util/getRecipients.dom.js';
-import { getOwn } from '../../util/getOwn.std.js';
-import { isNotNil } from '../../util/isNotNil.std.js';
+import type { CallingNotificationType } from '../../util/callingNotification.std.ts';
+import { getRecipients } from '../../util/getRecipients.dom.ts';
+import { getOwn } from '../../util/getOwn.std.ts';
+import { isNotNil } from '../../util/isNotNil.std.ts';
 import {
   canSendDeleteForEveryone,
   canRetrySendDeleteForEveryone,
-} from '../../util/canDeleteForEveryone.preload.js';
-import { isAdminDeleteSendEnabled } from '../../util/isAdminDeleteEnabled.dom.js';
-import { isAciString } from '../../util/isAciString.std.js';
-import { isSignalConversation } from '../../util/isSignalConversation.dom.js';
-import * as iterables from '../../util/iterables.std.js';
-import { strictAssert } from '../../util/assert.std.js';
-import { canEditMessage } from '../../util/canEditMessage.dom.js';
+} from '../../util/canDeleteForEveryone.preload.ts';
+import { isAdminDeleteSendEnabled } from '../../util/isAdminDeleteEnabled.dom.ts';
+import { isAciString } from '../../util/isAciString.std.ts';
+import { isSignalConversation } from '../../util/isSignalConversation.dom.ts';
+import * as iterables from '../../util/iterables.std.ts';
+import { strictAssert } from '../../util/assert.std.ts';
+import { canEditMessage } from '../../util/canEditMessage.dom.ts';
 import {
   getLocalAttachmentUrl,
   AttachmentDisposition,
-} from '../../util/getLocalAttachmentUrl.std.js';
-import { isVoiceMessagePlayed } from '../../util/isVoiceMessagePlayed.std.js';
-import { isPermanentlyUndownloadable } from '../../jobs/AttachmentDownloadManager.preload.js';
+} from '../../util/getLocalAttachmentUrl.std.ts';
+import { isVoiceMessagePlayed } from '../../util/isVoiceMessagePlayed.std.ts';
+import { isPermanentlyUndownloadable } from '../../jobs/helpers/attachmentBackfill.preload.ts';
 
-import { getAccountSelector } from './accounts.std.js';
+import { getAccountSelector } from './accounts.std.ts';
 import {
   getDefaultConversationColor,
   getHasUnidentifiedDeliveryIndicators,
-} from './items.dom.js';
+} from './items.dom.ts';
 import {
   getConversationSelector,
   getSelectedMessageIds,
@@ -113,7 +116,7 @@ import {
   getCachedConversationMemberColorsSelector,
   getContactNameColor,
   getPinnedMessagesMessageIds,
-} from './conversations.dom.js';
+} from './conversations.dom.ts';
 import {
   getIntl,
   getRegionCode,
@@ -121,16 +124,16 @@ import {
   getUserPNI,
   getUserConversationId,
   getUserNumber,
-} from './user.std.js';
+} from './user.std.ts';
 
 import type {
   ConversationType,
   MessageWithUIFieldsType,
-} from '../ducks/conversations.preload.js';
+} from '../ducks/conversations.preload.ts';
 
-import type { AccountSelectorType } from './accounts.std.js';
-import type { CallSelectorType, CallStateType } from './calling.std.js';
-import type { GetConversationByIdType } from './conversations.dom.js';
+import type { AccountSelectorType } from './accounts.std.ts';
+import type { CallSelectorType, CallStateType } from './calling.std.ts';
+import type { GetConversationByIdType } from './conversations.dom.ts';
 import {
   SendStatus,
   isDelivered,
@@ -142,41 +145,41 @@ import {
   someRecipientSendStatus,
   getHighestSuccessfulRecipientStatus,
   someSendStatus,
-} from '../../messages/MessageSendState.std.js';
-import { createLogger } from '../../logging/log.std.js';
-import { getConversationColorAttributes } from '../../util/getConversationColorAttributes.std.js';
-import { DurationInSeconds } from '../../util/durations/index.std.js';
-import { getStoryReplyText } from '../../util/getStoryReplyText.std.js';
-import type { MessageAttributesWithPaymentEvent } from '../../messages/payments.std.js';
+} from '../../messages/MessageSendState.std.ts';
+import { createLogger } from '../../logging/log.std.ts';
+import { getConversationColorAttributes } from '../../util/getConversationColorAttributes.std.ts';
+import { DurationInSeconds } from '../../util/durations/index.std.ts';
+import { getStoryReplyText } from '../../util/getStoryReplyText.std.ts';
+import type { MessageAttributesWithPaymentEvent } from '../../messages/payments.std.ts';
 import {
   isIncoming,
   isOutgoing,
   isPoll,
   isStory,
-} from '../../messages/helpers.std.js';
-import { messageHasPaymentEvent } from '../../messages/payments.std.js';
+} from '../../messages/helpers.std.ts';
+import { messageHasPaymentEvent } from '../../messages/payments.std.ts';
 
-import { calculateExpirationTimestamp } from '../../util/expirationTimer.std.js';
-import type { AnyPaymentEvent } from '../../types/Payment.std.js';
-import { isPaymentNotificationEvent } from '../../types/Payment.std.js';
+import { calculateExpirationTimestamp } from '../../util/expirationTimer.std.ts';
+import type { AnyPaymentEvent } from '../../types/Payment.std.ts';
+import { isPaymentNotificationEvent } from '../../types/Payment.std.ts';
 import type {
   MessagePollVoteType,
   PollMessageAttribute,
-} from '../../types/Polls.dom.js';
+} from '../../types/Polls.dom.ts';
 import {
   getTitleNoDefault,
   getTitle,
   getNumber,
   renderNumber,
-} from '../../util/getTitle.preload.js';
-import { getMessageSentTimestamp } from '../../util/getMessageSentTimestamp.std.js';
-import type { CallHistorySelectorType } from './callHistory.std.js';
-import { CallMode, CallDirection } from '../../types/CallDisposition.std.js';
-import { getCallIdFromEra } from '../../util/callDisposition.preload.js';
-import { LONG_MESSAGE } from '../../types/MIME.std.js';
-import type { MessageRequestResponseNotificationData } from '../../components/conversation/MessageRequestResponseNotification.dom.js';
-import type { PinnedMessageNotificationData } from '../../components/conversation/pinned-messages/PinnedMessageNotification.dom.js';
-import type { PollTerminateNotificationDataType } from '../../components/conversation/PollTerminateNotification.dom.js';
+} from '../../util/getTitle.preload.ts';
+import { getMessageSentTimestamp } from '../../util/getMessageSentTimestamp.std.ts';
+import type { CallHistorySelectorType } from './callHistory.std.ts';
+import { CallMode, CallDirection } from '../../types/CallDisposition.std.ts';
+import { getCallIdFromEra } from '../../util/callDisposition.preload.ts';
+import { LONG_MESSAGE } from '../../types/MIME.std.ts';
+import type { MessageRequestResponseNotificationData } from '../../components/conversation/MessageRequestResponseNotification.dom.tsx';
+import type { PinnedMessageNotificationData } from '../../components/conversation/pinned-messages/PinnedMessageNotification.dom.tsx';
+import type { PollTerminateNotificationDataType } from '../../components/conversation/PollTerminateNotification.dom.tsx';
 
 const { groupBy, isEmpty, isNumber, isObject, map } = lodash;
 
@@ -239,22 +242,6 @@ export function getSource(
   return ourNumber;
 }
 
-export function getSourceDevice(
-  message: MessageWithUIFieldsType,
-  ourDeviceId: number
-): string | number | undefined {
-  const { sourceDevice } = message;
-
-  if (isIncoming(message)) {
-    return sourceDevice;
-  }
-  if (!isOutgoing(message)) {
-    log.warn('getSourceDevice: Called for non-incoming/non-outoing message');
-  }
-
-  return sourceDevice || ourDeviceId;
-}
-
 export function getSourceServiceId(
   message: Pick<ReadonlyMessageAttributesType, 'type' | 'sourceServiceId'>,
   ourAci: AciString | undefined
@@ -274,7 +261,7 @@ export type GetContactOptions = Pick<
   'conversationSelector' | 'ourConversationId' | 'ourNumber' | 'ourAci'
 >;
 
-export function getAuthorId(
+function getAuthorId(
   message: MessageWithUIFieldsType,
   {
     conversationSelector,
@@ -295,7 +282,7 @@ export function getAuthorId(
 }
 
 // TODO: DESKTOP-2145
-export function getContact(
+function getContact(
   message: MessageWithUIFieldsType,
   {
     conversationSelector,
@@ -314,7 +301,7 @@ export function getContact(
   return conversationSelector(sourceServiceId || source);
 }
 
-export function getConversation(
+function getConversation(
   message: Pick<MessageWithUIFieldsType, 'conversationId'>,
   conversationSelector: GetConversationByIdType
 ): ConversationType {
@@ -356,13 +343,20 @@ export const getAttachmentsForMessage = (
 
 export const processBodyRanges = (
   { bodyRanges }: Pick<MessageWithUIFieldsType, 'bodyRanges'>,
+  isGroup: boolean,
   options: { conversationSelector: GetConversationByIdType }
 ): HydratedBodyRangesType | undefined => {
   if (!bodyRanges) {
     return undefined;
   }
 
-  return hydrateRanges(bodyRanges, options.conversationSelector)?.sort(
+  let toHydrate = bodyRanges;
+
+  if (!isGroup) {
+    toHydrate = toHydrate.filter(range => !BodyRange.isMention(range));
+  }
+
+  return hydrateRanges(toHydrate, options.conversationSelector)?.sort(
     (a, b) => b.start - a.start
   );
 };
@@ -702,10 +696,12 @@ export const getPropsForQuote = (
     conversationSelector,
     ourConversationId,
     defaultConversationColor,
+    isGroup,
   }: {
     conversationSelector: GetConversationByIdType;
     ourConversationId?: string;
     defaultConversationColor: DefaultConversationColorType;
+    isGroup: boolean;
   }
 ): PropsData['quote'] => {
   const { quote } = message;
@@ -758,7 +754,7 @@ export const getPropsForQuote = (
     authorPhoneNumber,
     authorProfileName,
     authorTitle,
-    bodyRanges: processBodyRanges(quote, { conversationSelector }),
+    bodyRanges: processBodyRanges(quote, isGroup, { conversationSelector }),
     conversationColor,
     conversationTitle: conversation.title,
     customColor,
@@ -861,7 +857,7 @@ function getTextDirection(body?: string): TextDirection {
   }
 }
 
-export const getPropsForMessage = (
+const getPropsForMessage = (
   message: MessageWithUIFieldsType,
   options: GetPropsForMessageOptions
 ): MessagePropsType => {
@@ -869,11 +865,10 @@ export const getPropsForMessage = (
     item => item.wasTooBig
   );
   const attachments = getAttachmentsForMessage(message);
-  const bodyRanges = processBodyRanges(message, options);
   const author = getAuthorForMessage(message, options);
   const previews = getPreviewsForMessage(message);
   const reactions = getReactionsForMessage(message, options);
-  const quote = getPropsForQuote(message, options);
+
   const storyReplyContext = getPropsForStoryReplyContext(message, options);
   const textAttachment = getTextAttachment(message);
   const payment = getPayment(message);
@@ -901,6 +896,10 @@ export const getPropsForMessage = (
 
   const conversation = getConversation(message, conversationSelector);
   const isGroup = conversation.type === 'group';
+  const bodyRanges = processBodyRanges(message, isGroup, options);
+  const quote = getPropsForQuote(message, { ...options, isGroup });
+
+  const isGroupTerminated = isGroup && conversation.terminated;
   const { sticker } = message;
 
   const isMessageTapToView = isTapToView(message);
@@ -956,13 +955,13 @@ export const getPropsForMessage = (
         : getPropsForAttachment(textAttachment, 'long-message', message),
     payment,
     canCopy: canCopy(message),
-    canEditMessage: canEditMessage(message),
+    canEditMessage: canEditMessage(message) && !isGroupTerminated,
     canDeleteForEveryone: canDeleteForEveryoneInSelector(message, {
       conversation,
       ourAci,
     }),
     canDownload: canDownload(message, conversationSelector),
-    canEndPoll: canEndPoll(message),
+    canEndPoll: canEndPoll(message) && !isGroupTerminated,
     canForward: canForward(message),
     canPinMessage: canPinMessage(conversation, message),
     canReact: canReact(message, ourConversationId, conversationSelector),
@@ -972,6 +971,7 @@ export const getPropsForMessage = (
       conversation,
       ourAci,
     }),
+    canSendPollVote: !isGroupTerminated,
     contact: getPropsForEmbeddedContact(message, regionCode, accountSelector),
     contactLabel,
     contactNameColor,
@@ -1437,7 +1437,7 @@ export function isExpirationTimerUpdate(
   message: Pick<MessageWithUIFieldsType, 'flags'>
 ): boolean {
   const flag = Proto.DataMessage.Flags.EXPIRATION_TIMER_UPDATE;
-  // eslint-disable-next-line no-bitwise
+  // oxlint-disable-next-line no-bitwise
   return Boolean(message.flags && message.flags & flag);
 }
 
@@ -1646,7 +1646,7 @@ export function isEndSession(
   message: Pick<MessageWithUIFieldsType, 'flags'>
 ): boolean {
   const flag = Proto.DataMessage.Flags.END_SESSION;
-  // eslint-disable-next-line no-bitwise
+  // oxlint-disable-next-line no-bitwise
   return Boolean(message.flags && message.flags & flag);
 }
 
@@ -1768,7 +1768,7 @@ export function isPinnedMessageNotification(
   return message.type === 'pinned-message-notification';
 }
 
-export function getPropsForPinnedMessageNotification(
+function getPropsForPinnedMessageNotification(
   message: MessageWithUIFieldsType,
   { conversationSelector }: GetPropsForBubbleOptions
 ): PinnedMessageNotificationData {
@@ -1943,7 +1943,7 @@ export function isChatSessionRefreshed(
 export function isConversationMerge(message: MessageWithUIFieldsType): boolean {
   return message.type === 'conversation-merge';
 }
-export function getPropsForConversationMerge(
+function getPropsForConversationMerge(
   message: MessageWithUIFieldsType,
   { conversationSelector }: GetPropsForBubbleOptions
 ): ConversationMergePropsType {
@@ -1973,7 +1973,7 @@ export function isPhoneNumberDiscovery(
 ): boolean {
   return message.type === 'phone-number-discovery';
 }
-export function getPropsForPhoneNumberDiscovery(
+function getPropsForPhoneNumberDiscovery(
   message: MessageWithUIFieldsType,
   { conversationSelector }: GetPropsForBubbleOptions
 ): PhoneNumberDiscoveryPropsType {
@@ -2152,7 +2152,7 @@ function getDeletedForEveryoneByAdmin(
   };
 }
 
-export function getPropsForEmbeddedContact(
+function getPropsForEmbeddedContact(
   message: MessageWithUIFieldsType,
   regionCode: string | undefined,
   accountSelector: (identifier?: string) => ServiceIdString | undefined
@@ -2162,7 +2162,7 @@ export function getPropsForEmbeddedContact(
     return undefined;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  // oxlint-disable-next-line typescript/no-non-null-assertion
   const firstContact = contacts[0]!;
   const numbers = firstContact?.number;
   const firstNumber = numbers && numbers[0] ? numbers[0].value : undefined;
@@ -2277,6 +2277,10 @@ function canReplyOrReact(
     return false;
   }
 
+  if (conversation.terminated) {
+    return false;
+  }
+
   if (deletedForEveryone) {
     return false;
   }
@@ -2332,6 +2336,7 @@ export function canReply(
   const conversation = getConversation(message, conversationSelector);
   if (
     !conversation ||
+    conversation.terminated ||
     (conversation.announcementsOnly && !conversation.areWeAdmin)
   ) {
     return false;
@@ -2355,7 +2360,7 @@ export function canReact(
   return canReplyOrReact(message, ourConversationId, conversation);
 }
 
-export function canCopy(
+function canCopy(
   message: Pick<MessageWithUIFieldsType, 'body' | 'deletedForEveryone'>
 ): boolean {
   return !message.deletedForEveryone && Boolean(message.body);
@@ -2363,7 +2368,13 @@ export function canCopy(
 
 type CanDeleteForEveryoneConversation = Pick<
   ConversationType,
-  'id' | 'e164' | 'serviceId' | 'groupId' | 'groupVersion' | 'areWeAdmin'
+  | 'id'
+  | 'e164'
+  | 'serviceId'
+  | 'groupId'
+  | 'groupVersion'
+  | 'areWeAdmin'
+  | 'terminated'
 >;
 
 type MessageCanDeleteForEveryoneResult = Readonly<{
@@ -2391,7 +2402,7 @@ function getMessageCanDeleteForEveryone(
   const { conversation, ourAci } = options;
   const isDeletingOwnMessage = isOutgoing(message);
 
-  if (!ourAci) {
+  if (!ourAci || conversation.terminated) {
     return {
       canDeleteForEveryone: false,
       needsAdminDelete: false,
@@ -2526,7 +2537,7 @@ export const getMessagesCanDeleteForEveryone = createSelector(
   }
 );
 
-export function canRetryDeleteForEveryone(
+function canRetryDeleteForEveryone(
   message: Pick<
     MessageWithUIFieldsType,
     | 'type'
@@ -2558,7 +2569,7 @@ export function canRetryDeleteForEveryone(
   return result.ok;
 }
 
-export function canEndPoll(
+function canEndPoll(
   message: Pick<MessageWithUIFieldsType, 'type' | 'poll'>
 ): boolean {
   if (message.type !== 'outgoing') {
@@ -2577,14 +2588,12 @@ export function canEndPoll(
   return true;
 }
 
-export function canDownload(
+function canDownload(
   message: MessageWithUIFieldsType,
   conversationSelector: GetConversationByIdType
 ): boolean {
   const conversation = getConversation(message, conversationSelector);
-  const isAccepted = Boolean(
-    conversation && conversation.acceptedMessageRequest
-  );
+  const isAccepted = conversation.acceptedMessageRequest;
   if (isIncoming(message) && !isAccepted) {
     return false;
   }
@@ -2618,11 +2627,12 @@ export function canForward(message: ReadonlyMessageAttributesType): boolean {
 
 export function canPinMessages(conversation: ConversationType): boolean {
   return (
-    conversation.type === 'direct' || conversation.canEditGroupInfo === true
+    conversation.type === 'direct' ||
+    (conversation.canEditGroupInfo === true && !conversation.terminated)
   );
 }
 
-export function canPinMessage(
+function canPinMessage(
   conversation: ConversationType,
   message: ReadonlyMessageAttributesType
 ): boolean {
@@ -2638,7 +2648,7 @@ export function canPinMessage(
   return true;
 }
 
-export function getLastChallengeError(
+function getLastChallengeError(
   message: Pick<MessageWithUIFieldsType, 'errors'>
 ): ShallowChallengeError | undefined {
   const { errors } = message;
@@ -2897,7 +2907,7 @@ export const getMessageDetailsSelector = createSelector(
           selectedMessageIds,
           defaultConversationColor,
         }),
-        receivedAt: Number(message.received_at_ms || message.received_at),
+        receivedAt: message.received_at_ms ?? message.received_at ?? 0,
       };
     }
 );

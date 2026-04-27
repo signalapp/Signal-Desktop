@@ -7,16 +7,17 @@ import { encode } from 'blurhash';
  *
  * The color is specified as an ARGB value, where the alpha channel is ignored.
  */
-export function generateBlurHash(argb: number = 0xff_fbfbfb): string {
+export function generateBlurHash(argb = 0xff_fbfbfb): string {
   return encode(
     new Uint8ClampedArray([
-      /* eslint-disable no-bitwise */
       // Flipping from argb to rgba
+      // oxlint-disable-next-line no-bitwise
       0xff & (argb >> 16), // R
+      // oxlint-disable-next-line no-bitwise
       0xff & (argb >> 8), // G
+      // oxlint-disable-next-line no-bitwise
       0xff & (argb >> 0), // B
       0xff, // A (ignored)
-      /* eslint-enable no-bitwise */
     ]),
     1, // width (data is just one pixel)
     1, // height (data is just one pixel)

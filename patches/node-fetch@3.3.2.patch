@@ -1,0 +1,98 @@
+diff --git a/@types/index.d.ts b/@types/index.d.ts
+index 274ca03a837fbbf88f6be7d59dfdd4b67c2c1bca..18c8fdcff33b743f2bbd14f7c239a34a4a95a19d 100644
+--- a/@types/index.d.ts
++++ b/@types/index.d.ts
+@@ -11,12 +11,13 @@ import {
+ 	fileFromSync
+ } from 'fetch-blob/from.js';
+ 
+-type AbortSignal = {
+-	readonly aborted: boolean;
++// Avoid type conflicts!
++// type AbortSignal = {
++// 	readonly aborted: boolean;
+ 
+-	addEventListener: (type: 'abort', listener: (this: AbortSignal) => void) => void;
+-	removeEventListener: (type: 'abort', listener: (this: AbortSignal) => void) => void;
+-};
++// 	addEventListener: (type: 'abort', listener: (this: AbortSignal) => void) => void;
++// 	removeEventListener: (type: 'abort', listener: (this: AbortSignal) => void) => void;
++// };
+ 
+ export type HeadersInit = Headers | Record<string, string> | Iterable<readonly [string, string]> | Iterable<Iterable<string>>;
+ 
+@@ -132,7 +133,7 @@ declare class BodyMixin {
+ 	readonly size: number;
+ 
+ 	/** @deprecated Use `body.arrayBuffer()` instead. */
+-	buffer(): Promise<Buffer>;
++	buffer(): Promise<Buffer<ArrayBuffer>>;
+ 	arrayBuffer(): Promise<ArrayBuffer>;
+ 	formData(): Promise<FormData>;
+ 	blob(): Promise<Blob>;
+diff --git a/src/index.js b/src/index.js
+index 7c4aee87b68f7b3613ce7dad4a570c17ec3630b9..ec69705929ec21da2e1bd28a24f45e45a8b8f5f7 100644
+--- a/src/index.js
++++ b/src/index.js
+@@ -194,7 +194,8 @@ export default async function fetch(url, options_) {
+ 							signal: request.signal,
+ 							size: request.size,
+ 							referrer: request.referrer,
+-							referrerPolicy: request.referrerPolicy
++							referrerPolicy: request.referrerPolicy,
++							ca: request.ca,
+ 						};
+ 
+ 						// when forwarding sensitive headers like "Authorization",
+diff --git a/src/request.js b/src/request.js
+index af2ebc8e9b6f11783435d3c951eaef500fabbfdc..f45149a76f2940f6a4e1fd2b768a5bdb468de3e6 100644
+--- a/src/request.js
++++ b/src/request.js
+@@ -141,6 +141,9 @@ export default class Request extends Body {
+ 		// §5.4, Request constructor steps, step 16.
+ 		// Default is empty string per https://fetch.spec.whatwg.org/#concept-request-referrer-policy
+ 		this.referrerPolicy = init.referrerPolicy || input.referrerPolicy || '';
++
++		// Custom Signal Desktop option
++		this.ca = init.ca || input.ca;
+ 	}
+ 
+ 	/** @returns {string} */
+@@ -302,7 +305,8 @@ export const getNodeRequestOptions = request => {
+ 		method: request.method,
+ 		headers: headers[Symbol.for('nodejs.util.inspect.custom')](),
+ 		insecureHTTPParser: request.insecureHTTPParser,
+-		agent
++		agent,
++		ca: request.ca,
+ 	};
+ 
+ 	return {
+diff --git a/src/utils/is.js b/src/utils/is.js
+index f9e467e45fe7f214725f49f2bed3f137ddc06e20..c38567519697f8165586754657aaeda0b432e519 100644
+--- a/src/utils/is.js
++++ b/src/utils/is.js
+@@ -57,6 +57,10 @@ export const isAbortSignal = object => {
+ 	);
+ };
+ 
++function isSignalVoipUrl(hostname) {
++	return hostname.endsWith('.voip.signal.org');
++}
++
+ /**
+  * isDomainOrSubdomain reports whether sub is a subdomain (or exact match) of
+  * the parent domain.
+@@ -69,7 +73,11 @@ export const isDomainOrSubdomain = (destination, original) => {
+ 	const orig = new URL(original).hostname;
+ 	const dest = new URL(destination).hostname;
+ 
+-	return orig === dest || orig.endsWith(`.${dest}`);
++	return (
++		orig === dest || orig.endsWith(`.${dest}`) ||
++		// An additional check to keep Authorization for Signal's voip URLs.
++		(isSignalVoipUrl(orig) && isSignalVoipUrl(dest))
++	);
+ };
+ 
+ /**

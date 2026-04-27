@@ -1,10 +1,10 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as durations from './durations/index.std.js';
-import type { LocalizerType } from '../types/Util.std.js';
-import { getMutedUntilText } from './getMutedUntilText.std.js';
-import { isConversationMuted } from './isConversationMuted.std.js';
+import * as durations from './durations/index.std.ts';
+import type { LocalizerType } from '../types/Util.std.ts';
+import { getMutedUntilText } from './getMutedUntilText.std.ts';
+import { isConversationMuted } from './isConversationMuted.std.ts';
 
 export type MuteOption = {
   name: string;

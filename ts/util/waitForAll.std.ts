@@ -3,7 +3,7 @@
 
 import PQueue from 'p-queue';
 
-import { MINUTE } from './durations/index.std.js';
+import { MINUTE } from './durations/index.std.ts';
 
 const MAX_CONCURRENCY = 5;
 
@@ -17,7 +17,6 @@ export async function waitForAll<T>({
   const queue = new PQueue({
     concurrency: maxConcurrency,
     timeout: MINUTE * 30,
-    throwOnTimeout: true,
   });
   return queue.addAll(tasks);
 }

@@ -1,21 +1,21 @@
 // Copyright 2026 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { AciString, ServiceIdString } from '../types/ServiceId.std.js';
+import type { AciString, ServiceIdString } from '../types/ServiceId.std.ts';
 import type {
   ConversationAttributesType,
   ReadonlyMessageAttributesType,
-} from '../model-types.js';
-import { getMessageAge } from './getMessageAge.std.js';
+} from '../model-types.d.ts';
+import { getMessageAge } from './getMessageAge.std.ts';
 import {
   getAdminDeleteMaxAgeMs,
   getNormalDeleteMaxAgeMs,
-} from './getDeleteMaxAgeMs.dom.js';
-import { DAY } from './durations/index.std.js';
-import { isGroupV2, isMe } from './whatTypeOfConversation.dom.js';
-import { isSignalConversation } from './isSignalConversation.dom.js';
-import { getSourceServiceId } from '../messages/sources.preload.js';
-import { SignalService as Proto } from '../protobuf/index.std.js';
+} from './getDeleteMaxAgeMs.dom.ts';
+import { DAY } from './durations/index.std.ts';
+import { isGroupV2, isMe } from './whatTypeOfConversation.dom.ts';
+import { isSignalConversation } from './isSignalConversation.dom.ts';
+import { getSourceServiceId } from '../messages/sources.preload.ts';
+import { SignalService as Proto } from '../protobuf/index.std.ts';
 
 export type DeleteForEveryoneMessage = Pick<
   ReadonlyMessageAttributesType,
@@ -29,7 +29,7 @@ export type DeleteForEveryoneMessage = Pick<
 
 export type DeleteForEveryoneConversation = Pick<
   ConversationAttributesType,
-  'id' | 'e164' | 'serviceId' | 'groupId' | 'groupVersion'
+  'id' | 'e164' | 'serviceId' | 'groupId' | 'groupVersion' | 'terminated'
 >;
 
 type Result<T extends object = Record<never, never>> =
@@ -46,6 +46,9 @@ function checkCommon(
   }
   if (isMe(targetConversation)) {
     return { ok: false, reason: 'note to self conversation' };
+  }
+  if (targetConversation.terminated) {
+    return { ok: false, reason: 'terminated conversation' };
   }
   if (!options?.allowAlreadyDeleted && targetMessage.deletedForEveryone) {
     return { ok: false, reason: 'already deleted' };

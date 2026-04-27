@@ -5,7 +5,7 @@ import { assert } from 'chai';
 import type {
   HydratedBodyRangeMention,
   RangeNode,
-} from '../../types/BodyRange.std.js';
+} from '../../types/BodyRange.std.ts';
 import {
   BodyRange,
   DisplayStyle,
@@ -15,8 +15,8 @@ import {
   insertRange,
   processBodyRangesForSearchResult,
   trimMessageWhitespace,
-} from '../../types/BodyRange.std.js';
-import { generateAci } from '../../types/ServiceId.std.js';
+} from '../../types/BodyRange.std.ts';
+import { generateAci } from '../../test-helpers/serviceIdUtils.std.ts';
 
 const SERVICE_ID_1 = generateAci();
 const SERVICE_ID_2 = generateAci();
@@ -114,12 +114,10 @@ describe('BodyRanges', () => {
     });
 
     it('handles triple-nesting', () => {
-      /* eslint-disable max-len */
       //                                                                 m            m
       // b                                      bs                                                          s
       // i                                                                                                             i
       // Italic Start and Bold Start ... Bold EndStrikethrough Start ... Monospace Pop! ... Strikethrough End Italic End',
-      /* eslint-enable max-len */
       const ranges = [
         {
           start: 0,
@@ -186,12 +184,10 @@ describe('BodyRanges', () => {
     });
 
     it('handles triple-nesting, with out-of-order inputs', () => {
-      /* eslint-disable max-len */
       //                                                                 m            m
       // b                                      bs                                                          s
       // i                                                                                                             i
       // Italic Start and Bold Start ... Bold EndStrikethrough Start ... Monospace Pop! ... Strikethrough End Italic End',
-      /* eslint-enable max-len */
       const ranges = [
         {
           start: 64,

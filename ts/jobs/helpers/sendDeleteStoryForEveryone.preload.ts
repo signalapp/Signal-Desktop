@@ -3,36 +3,36 @@
 
 import { ContentHint } from '@signalapp/libsignal-client';
 
-import * as Errors from '../../types/errors.std.js';
-import { getSendOptions } from '../../util/getSendOptions.preload.js';
+import * as Errors from '../../types/errors.std.ts';
+import { getSendOptions } from '../../util/getSendOptions.preload.ts';
 import {
   isDirectConversation,
   isMe,
-} from '../../util/whatTypeOfConversation.dom.js';
+} from '../../util/whatTypeOfConversation.dom.ts';
 import {
   handleMultipleSendErrors,
   maybeExpandErrors,
-} from './handleMultipleSendErrors.std.js';
-import { ourProfileKeyService } from '../../services/ourProfileKey.std.js';
+} from './handleMultipleSendErrors.std.ts';
+import { ourProfileKeyService } from '../../services/ourProfileKey.std.ts';
 
-import type { ConversationModel } from '../../models/conversations.preload.js';
+import type { ConversationModel } from '../../models/conversations.preload.ts';
 import type {
   ConversationQueueJobBundle,
   DeleteStoryForEveryoneJobData,
-} from '../conversationJobQueue.preload.js';
-import { getUntrustedConversationServiceIds } from './getUntrustedConversationServiceIds.dom.js';
-import { handleMessageSend } from '../../util/handleMessageSend.preload.js';
-import { getMessageById } from '../../messages/getMessageById.preload.js';
-import { isNotNil } from '../../util/isNotNil.std.js';
+} from '../conversationJobQueue.preload.ts';
+import { getUntrustedConversationServiceIds } from './getUntrustedConversationServiceIds.dom.ts';
+import { handleMessageSend } from '../../util/handleMessageSend.preload.ts';
+import { getMessageById } from '../../messages/getMessageById.preload.ts';
+import { isNotNil } from '../../util/isNotNil.std.ts';
 import type { CallbackResultType } from '../../textsecure/Types.d.ts';
-import type { MessageModel } from '../../models/messages.preload.js';
-import { SendMessageProtoError } from '../../textsecure/Errors.std.js';
-import { strictAssert } from '../../util/assert.std.js';
-import type { LoggerType } from '../../types/Logging.std.js';
-import { normalizeStoryDistributionId } from '../../types/StoryDistributionId.std.js';
-import { isStory } from '../../messages/helpers.std.js';
-import { itemStorage } from '../../textsecure/Storage.preload.js';
-import { shouldSendToDirectConversation } from './shouldSendToConversation.preload.js';
+import type { MessageModel } from '../../models/messages.preload.ts';
+import { SendMessageProtoError } from '../../textsecure/Errors.std.ts';
+import { strictAssert } from '../../util/assert.std.ts';
+import type { LoggerType } from '../../types/Logging.std.ts';
+import { normalizeStoryDistributionId } from '../../types/StoryDistributionId.std.ts';
+import { isStory } from '../../messages/helpers.std.ts';
+import { itemStorage } from '../../textsecure/Storage.preload.ts';
+import { shouldSendToDirectConversation } from './shouldSendToConversation.preload.ts';
 
 export async function sendDeleteStoryForEveryone(
   ourConversation: ConversationModel,
@@ -203,6 +203,11 @@ export async function sendDeleteStoryForEveryone(
     })
   );
 
+  if (!window.ConversationController.doWeHaveOtherDevices()) {
+    log.info(`${logId}: We have no other devices; not sending sync`);
+    return;
+  }
+
   // Send sync message exactly once per job. If any of the sends are successful
   // and we didn't send the DOE itself before - it is a good time to send the
   // sync message.
@@ -255,7 +260,7 @@ export async function sendDeleteStoryForEveryone(
 function doesMessageHaveSuccessfulSends(message: MessageModel): boolean {
   const map = message.get('deletedForEveryoneSendStatus') ?? {};
 
-  return Object.values(map).some(value => value === true);
+  return Object.values(map).includes(true);
 }
 
 async function updateMessageWithSuccessfulSends(

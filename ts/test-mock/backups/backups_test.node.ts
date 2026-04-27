@@ -11,25 +11,25 @@ import { Proto, StorageState } from '@signalapp/mock-server';
 import { assert } from 'chai';
 import { expect } from 'playwright/test';
 
-import * as Bytes from '../../Bytes.std.js';
-import { generateStoryDistributionId } from '../../types/StoryDistributionId.std.js';
-import { MY_STORY_ID } from '../../types/Stories.std.js';
-import { generateAci } from '../../types/ServiceId.std.js';
-import { generateBackup } from '../../test-helpers/generateBackup.node.js';
-import { IMAGE_JPEG } from '../../types/MIME.std.js';
-import { uuidToBytes } from '../../util/uuidToBytes.std.js';
-import * as durations from '../../util/durations/index.std.js';
-import type { App } from '../playwright.node.js';
-import { Bootstrap, type LinkOptionsType } from '../bootstrap.node.js';
+import * as Bytes from '../../Bytes.std.ts';
+import { generateStoryDistributionId } from '../../types/StoryDistributionId.std.ts';
+import { MY_STORY_ID } from '../../types/Stories.std.ts';
+import { generateBackup } from '../../test-helpers/generateBackup.node.ts';
+import { IMAGE_JPEG } from '../../types/MIME.std.ts';
+import { uuidToBytes } from '../../util/uuidToBytes.std.ts';
+import * as durations from '../../util/durations/index.std.ts';
+import type { App } from '../playwright.node.ts';
+import { Bootstrap, type LinkOptionsType } from '../bootstrap.node.ts';
 import {
   getMessageInTimelineByTimestamp,
   sendTextMessage,
   sendReaction,
-} from '../helpers.node.js';
-import { toBase64 } from '../../Bytes.std.js';
-import { strictAssert } from '../../util/assert.std.js';
-import { BackupLevel } from '../../services/backups/types.std.js';
-import { generateNotificationProfileId } from '../../types/NotificationProfile-node.node.js';
+} from '../helpers.node.ts';
+import { toBase64 } from '../../Bytes.std.ts';
+import { strictAssert } from '../../util/assert.std.ts';
+import { BackupLevel } from '../../services/backups/types.std.ts';
+import { generateNotificationProfileId } from '../../types/NotificationProfile-node.node.ts';
+import { generateAci } from '../../test-helpers/serviceIdUtils.std.ts';
 
 export const debug = createDebug('mock:test:backups');
 
@@ -69,7 +69,7 @@ describe('backups', function (this: Mocha.Suite) {
 
   async function generateTestDataThenRestoreBackup(
     thisVal: Mocha.Context,
-    exportBackupFn: () => void,
+    exportBackupFn: () => Promise<void>,
     getBootstrapLinkParams: () => LinkOptionsType
   ) {
     let state = StorageState.getEmpty();
@@ -324,7 +324,7 @@ describe('backups', function (this: Mocha.Suite) {
         await snapshot('styled bubbles');
 
         debug('Waiting for unread count');
-        const unreadCount = await leftPane
+        const unreadCount = leftPane
           .locator(
             '.module-conversation-list__item--contact-or-conversation__unread-indicator.module-conversation-list__item--contact-or-conversation__unread-indicator--unread-messages'
           )

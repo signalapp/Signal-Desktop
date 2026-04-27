@@ -1,8 +1,8 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { createLogger } from '../logging/log.std.js';
-import * as Errors from '../types/errors.std.js';
+import { createLogger } from '../logging/log.std.ts';
+import * as Errors from '../types/errors.std.ts';
 
 const log = createLogger('sleeper');
 
@@ -10,9 +10,9 @@ const log = createLogger('sleeper');
  * Provides a way to delay tasks
  * but also a way to force sleeping tasks to immediately resolve/reject on shutdown
  */
-export class Sleeper {
+class Sleeper {
   #shuttingDown = false;
-  #shutdownCallbacks: Set<() => void> = new Set();
+  readonly #shutdownCallbacks = new Set<() => void>();
 
   /**
    * delay by ms, careful when using on a loop if resolving on shutdown (default)
@@ -26,6 +26,7 @@ export class Sleeper {
     const resolveOnShutdown = options?.resolveOnShutdown ?? true;
 
     return new Promise((resolve, reject) => {
+      // oxlint-disable-next-line prefer-const
       let timeout: NodeJS.Timeout | undefined;
 
       const shutdownCallback = () => {

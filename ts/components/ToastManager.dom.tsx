@@ -5,25 +5,25 @@ import classNames from 'classnames';
 import React from 'react';
 import { createPortal } from 'react-dom';
 
-import { SECOND } from '../util/durations/index.std.js';
-import { Toast } from './Toast.dom.js';
-import { WidthBreakpoint } from './_util.std.js';
-import { UsernameMegaphone } from './UsernameMegaphone.dom.js';
-import { assertDev } from '../util/assert.std.js';
-import { missingCaseError } from '../util/missingCaseError.std.js';
-import { ToastType } from '../types/Toast.dom.js';
-import { MegaphoneType } from '../types/Megaphone.std.js';
-import { NavTab, SettingsPage } from '../types/Nav.std.js';
-import { AxoSymbol } from '../axo/AxoSymbol.dom.js';
-import { tw } from '../axo/tw.dom.js';
+import { SECOND } from '../util/durations/index.std.ts';
+import { Toast } from './Toast.dom.tsx';
+import { WidthBreakpoint } from './_util.std.ts';
+import { UsernameMegaphone } from './UsernameMegaphone.dom.tsx';
+import { assertDev } from '../util/assert.std.ts';
+import { missingCaseError } from '../util/missingCaseError.std.ts';
+import { ToastType } from '../types/Toast.dom.tsx';
+import { MegaphoneType } from '../types/Megaphone.std.ts';
+import { NavTab, SettingsPage } from '../types/Nav.std.ts';
+import { AxoSymbol } from '../axo/AxoSymbol.dom.tsx';
+import { tw } from '../axo/tw.dom.tsx';
 
-import type { LocalizerType } from '../types/Util.std.js';
-import type { AnyToast } from '../types/Toast.dom.js';
-import type { AnyActionableMegaphone } from '../types/Megaphone.std.js';
-import type { Location } from '../types/Nav.std.js';
-import { I18n } from './I18n.dom.js';
-import { UserText } from './UserText.dom.js';
-import { RemoteMegaphone } from './RemoteMegaphone.dom.js';
+import type { LocalizerType } from '../types/Util.std.ts';
+import type { AnyToast } from '../types/Toast.dom.tsx';
+import type { AnyActionableMegaphone } from '../types/Megaphone.std.ts';
+import type { Location } from '../types/Nav.std.ts';
+import { I18n } from './I18n.dom.tsx';
+import { UserText } from './UserText.dom.tsx';
+import { RemoteMegaphone } from './RemoteMegaphone.dom.tsx';
 
 export type PropsType = {
   changeLocation: (newLocation: Location) => unknown;
@@ -31,6 +31,7 @@ export type PropsType = {
   hideToast: () => unknown;
   i18n: LocalizerType;
   openFileInFolder: (target: string) => unknown;
+  saveHeapSnapshot: () => unknown;
   OS: string;
   onShowDebugLog: () => unknown;
   onUndoArchive: (
@@ -49,11 +50,12 @@ export type PropsType = {
 
 const SHORT_TIMEOUT = 3 * SECOND;
 
-export function renderToast({
+function renderToast({
   changeLocation,
   hideToast,
   i18n,
   openFileInFolder,
+  saveHeapSnapshot,
   onShowDebugLog,
   onUndoArchive,
   retryCallQualitySurvey,
@@ -280,7 +282,7 @@ export function renderToast({
         toastAction={{
           label: i18n('icu:conversationArchivedUndo'),
           onClick: () => {
-            onUndoArchive(String(toast.parameters.conversationId), {
+            onUndoArchive(toast.parameters.conversationId, {
               wasPinned: toast.parameters.wasPinned,
             });
           },
@@ -318,7 +320,7 @@ export function renderToast({
   if (toastType === ToastType.CopiedBackupKey) {
     return (
       <Toast onClose={hideToast} timeout={3 * SECOND}>
-        {i18n('icu:Preferences__local-backups-copied-key')}
+        {i18n('icu:Preferences__local-backups-copied-recovery-key')}
       </Toast>
     );
   }
@@ -607,6 +609,16 @@ export function renderToast({
       </Toast>
     );
   }
+  if (toastType === ToastType.VideoFileSize) {
+    return (
+      <Toast onClose={hideToast}>
+        {i18n('icu:videoFileSizeWarning', {
+          limit: toast.parameters.limit,
+          units: toast.parameters.units,
+        })}
+      </Toast>
+    );
+  }
 
   if (toastType === ToastType.GroupLinkCopied) {
     return (
@@ -732,7 +744,7 @@ export function renderToast({
           label: i18n('icu:Toast__ActionLabel--SubmitLog'),
           onClick: onShowDebugLog,
         }}
-        // eslint-disable-next-line better-tailwindcss/no-restricted-classes
+        // oxlint-disable-next-line better-tailwindcss/no-restricted-classes
         className={tw('max-w-[640px]!')}
       >
         <h2>
@@ -748,11 +760,28 @@ export function renderToast({
 
         <pre
           className={tw(
-            'my-2 max-h-48 min-h-24 max-w-[520px] overflow-auto border-1 border-solid p-2'
+            'my-2 max-h-48 min-h-24 max-w-[520px] overflow-auto border border-solid p-2'
           )}
         >
           {toast.parameters.logLines.join('\n')}
         </pre>
+      </Toast>
+    );
+  }
+
+  if (toastType === ToastType._InternalHeapSizeWarning) {
+    return (
+      <Toast
+        onClose={hideToast}
+        toastAction={{
+          label: 'Save Heap Snapshot',
+          onClick: () => {
+            saveHeapSnapshot();
+          },
+        }}
+      >
+        [INTERNAL] Detected high memory usage. Please save heap snapshot
+        locally, and submit log.
       </Toast>
     );
   }
@@ -878,7 +907,7 @@ export function renderToast({
   if (toastType === ToastType.TapToViewExpiredOutgoing) {
     return (
       <Toast onClose={hideToast}>
-        {i18n('icu:Message--tap-to-view--outgoing--expired-toast')}
+        {i18n('icu:Message--tap-to-view--outgoing--expired-toast-2')}
       </Toast>
     );
   }
@@ -986,7 +1015,7 @@ export function renderToast({
   throw missingCaseError(toastType);
 }
 
-export function renderMegaphone({
+function renderMegaphone({
   i18n,
   megaphone,
   containerWidthBreakpoint,

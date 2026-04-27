@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import lodash from 'lodash';
-import type { BadgeType } from '../badges/types.std.js';
-import { BadgeCategory } from '../badges/BadgeCategory.std.js';
-import { BadgeImageTheme } from '../badges/BadgeImageTheme.std.js';
-import { repeat, zipObject } from '../util/iterables.std.js';
+import type { BadgeType } from '../badges/types.std.ts';
+import { BadgeCategory } from '../badges/BadgeCategory.std.ts';
+import { BadgeImageTheme } from '../badges/BadgeImageTheme.std.ts';
+import { repeat, zipObject } from '../util/iterables.std.ts';
 
 const { times } = lodash;
 

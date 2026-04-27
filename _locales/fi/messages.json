@@ -746,6 +746,9 @@
   "icu:fileSizeWarning": {
     "messageformat": "Tiedosto ylittää viestin kokorajoituksen. {limit,number} {units}"
   },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "Pahoittelut. Valittu videotiedosto ylittää viestin kokorajoituksen. {limit,number}{units}"
+  },
   "icu:unableToLoadAttachment": {
     "messageformat": "Valittua liitettä ei voitu ladata."
   },
@@ -1787,6 +1790,12 @@
   "icu:Preferences__EditChatFolderPage__CancelButton": {
     "messageformat": "Peruuta"
   },
+  "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
+    "messageformat": "Show status icon"
+  },
+  "icu:Preferences__PrivacyPage__ShowStatusIcon__Description": {
+    "messageformat": "Show an icon in message details when they were delivered using sealed sender."
+  },
   "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
     "messageformat": "Automaattinen avaimen vahvistus"
   },
@@ -2372,6 +2381,9 @@
   "icu:ConversationDetails--support-center": {
     "messageformat": "Tukikeskus"
   },
+  "icu:ConversationDetails__GroupTerminatedBanner": {
+    "messageformat": "Tämä ryhmä on suljettu."
+  },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "Näytä turvanumero"
   },
@@ -2551,6 +2563,27 @@
   },
   "icu:youUpdatedTheGroup": {
     "messageformat": "Päivitit ryhmää."
+  },
+  "icu:collapsedGroupUpdates": {
+    "messageformat": "{count, plural, one {{count,number} päivitys ryhmissä} other {{count,number} päivitystä ryhmissä}}"
+  },
+  "icu:multidayCollapse__container": {
+    "messageformat": "{containerDescription} · {dayCountSummary}"
+  },
+  "icu:multidayCollapse__dayCountSummary": {
+    "messageformat": "{dayCount, plural, one {{dayCount,number} päivä} other {{dayCount,number} päivää}}"
+  },
+  "icu:collapsedChatUpdates": {
+    "messageformat": "{count, plural, one {{count,number} päivitys keskusteluissa} other {{count,number} päivitystä keskusteluissa}}"
+  },
+  "icu:collapsedTimerChanges": {
+    "messageformat": "{count, plural, one {{count,number} muutos katoavien viestien ajastimessa · {endingState}} other {{count,number} muutosta katoavien viestien ajastimessa · {endingState}}}"
+  },
+  "icu:collapsedTimerChanges--disabled": {
+    "messageformat": "{count, plural, one {{count,number} muutos katoavien viestien ajastimessa · Poistettu käytöstä} other {{count,number} muutosta katoavien viestien ajastimessa · Poistettu käytöstä}}"
+  },
+  "icu:collapsedCallEvents": {
+    "messageformat": "{count, plural, one {{count,number} puhelutapahtuma} other {{count,number} puhelutapahtumaa}}"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "Ryhmän kuvake päivitettiin."
@@ -3017,8 +3050,8 @@
   "icu:Message--tap-to-view--incoming--expired-toast": {
     "messageformat": "Olet jo katsonut tämän viestin."
   },
-  "icu:Message--tap-to-view--outgoing--expired-toast": {
-    "messageformat": "Kerran katsottavia viestejä ei tallenneta keskusteluhistoriaasi."
+  "icu:Message--tap-to-view--outgoing--expired-toast-2": {
+    "messageformat": "Kertaluontoinen media poistetaan lähettämisen jälkeen"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "Kerran katsottava video"
@@ -3485,8 +3518,17 @@
   "icu:ConversationHero--profile-names": {
     "messageformat": "<clickable>Profiilin nimiä</clickable> ei vahvisteta"
   },
+  "icu:ConversationHero--name-not-verified": {
+    "messageformat": "Name not verified"
+  },
   "icu:ConversationHero--signal-official-chat": {
     "messageformat": "Tämä on ainoa virallinen Signal-keskustelu"
+  },
+  "icu:ConversationHero--signal-official-account": {
+    "messageformat": "Official account"
+  },
+  "icu:ConversationHero--signal-official-account--description": {
+    "messageformat": "The only official chat from Signal. Keep up to date with news and release notes."
   },
   "icu:ConversationHero--release-notes": {
     "messageformat": "Pysy ajan tasalla uutisista ja julkaisutiedotteista."
@@ -3767,9 +3809,6 @@
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
     "messageformat": "Jaa puhelulinkki Signalissa"
   },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "Poista tämä henkilö puhelusta"
-  },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "Poistetaanko {name} puhelusta?"
   },
@@ -3932,11 +3971,23 @@
   "icu:GroupV2--join--requested": {
     "messageformat": "Liittymispyyntösi on lähetetty ryhmän ylläpitäjille. Saat ilmoituksen, kun he tekevät päätöksen."
   },
+  "icu:GroupV2--join--group-terminated": {
+    "messageformat": "Tähän ryhmään ei voi liittyä."
+  },
   "icu:GroupV2--join--general-join-failure--title": {
     "messageformat": "Linkkivirhe"
   },
   "icu:GroupV2--join--general-join-failure": {
     "messageformat": "Et voinut liittyä ryhmään. Yritä uudelleen myöhemmin."
+  },
+  "icu:GroupV2--terminate-group-in-progress": {
+    "messageformat": "Suljetaan ryhmää..."
+  },
+  "icu:TerminateGroupFailedModal__description": {
+    "messageformat": "Ryhmää ei voitu sulkea. Tarkista verkkoyhteys ja yritä uudelleen."
+  },
+  "icu:TerminateGroupFailedModal__try-again": {
+    "messageformat": "Yritä uudelleen"
   },
   "icu:GroupV2--admin": {
     "messageformat": "Ylläpitäjä"
@@ -4379,6 +4430,15 @@
   "icu:GroupV2--summary": {
     "messageformat": "Tämän ryhmän jäsenet tai asetukset ovat muuttuneet."
   },
+  "icu:GroupV2--terminated--you": {
+    "messageformat": "Suljit ryhmän"
+  },
+  "icu:GroupV2--terminated--other": {
+    "messageformat": "{memberName} sulki ryhmän"
+  },
+  "icu:GroupV2--terminated--unknown": {
+    "messageformat": "Tämä ryhmä on suljettu."
+  },
   "icu:GroupV1--Migration--disabled--link": {
     "messageformat": "Päivitä tämä ryhmä ottaaksesi käyttöön uudet ominaisuudet, kuten @maininnat ja ylläpitäjät. Jäsenille, jotka eivät ole jakaneet nimeään tai kuvaansa tässä ryhmässä, lähetetään kutsu. <learnMoreLink>Lue lisää.</learnMoreLink>"
   },
@@ -4655,6 +4715,9 @@
   "icu:CompositionArea__ConfirmGifSelection__ReplaceButton": {
     "messageformat": "Korvaa"
   },
+  "icu:CompositionArea--group-terminated": {
+    "messageformat": "Et voi lähettää viestejä tälle ryhmälle, koska se on suljettu."
+  },
   "icu:CompositionArea--viewOnceToggle": {
     "messageformat": "Kerran katsottava sisältö"
   },
@@ -4832,11 +4895,26 @@
   "icu:ConversationDetailsActions--leave-group": {
     "messageformat": "Poistu ryhmästä"
   },
+  "icu:ConversationDetailsActions--terminate-group": {
+    "messageformat": "Sulje ryhmä"
+  },
   "icu:ConversationDetailsActions--block-group": {
     "messageformat": "Estä ryhmä"
   },
   "icu:ConversationDetailsActions--unblock-group": {
     "messageformat": "Poista ryhmän esto"
+  },
+  "icu:ConversationDetailsActions--report-spam": {
+    "messageformat": "Ilmoita roskapostista"
+  },
+  "icu:ConversationDetailsActions--archive": {
+    "messageformat": "Arkistoi keskustelu"
+  },
+  "icu:ConversationDetailsActions--unarchive": {
+    "messageformat": "Palauta keskustelu arkistosta"
+  },
+  "icu:ConversationDetailsActions--delete": {
+    "messageformat": "Poista keskustelu"
   },
   "icu:ConversationDetailsActions--leave-group-must-choose-new-admin": {
     "messageformat": "Ennen kuin poistut ryhmästä, valitse uusi ylläpitäjä tälle ryhmälle."
@@ -4849,6 +4927,18 @@
   },
   "icu:ConversationDetailsActions--leave-group-modal-confirm": {
     "messageformat": "Poistu"
+  },
+  "icu:ConversationDetailsActions--prompt-terminate-group-modal-title": {
+    "messageformat": "Suljetaanko {groupName}?"
+  },
+  "icu:ConversationDetailsActions--prompt-terminate-group-modal-content": {
+    "messageformat": "Jäsenet eivät enää voi lähettää ryhmään viestejä tai aloittaa siinä puheluita. He saavat ilmoituksen, että olet sulkenut ryhmän. Pääsy ryhmän viestihistoriaan säilyy."
+  },
+  "icu:ConversationDetailsActions--terminate-group-modal-confirm": {
+    "messageformat": "Sulje ryhmä"
+  },
+  "icu:ConversationDetailsActions--confirm-terminate-group-confirm-modal-content": {
+    "messageformat": "Toiminto sulkee ryhmän pysyvästi. Haluatko varmasti jatkaa?"
   },
   "icu:ConversationDetailsActions--unblock-group-modal-title": {
     "messageformat": "Poistetaanko ryhmän {groupName} esto?"
@@ -4868,6 +4958,18 @@
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "Poista esto"
   },
+  "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
+    "messageformat": "Signal saa ilmoituksen, että tämä henkilö saattaa lähettää roskapostia. Signal ei näe keskustelujen sisältöä."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-group": {
+    "messageformat": "Signal saa ilmoituksen, että sinut ryhmään kutsunut henkilö saattaa lähettää roskapostia. Signal ei näe keskustelujen sisältöä."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
+    "messageformat": "Ilmoita roskapostista"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
+    "messageformat": "Ilmoita ja estä"
+  },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} jäsen} other {{number,number} jäsentä}}"
   },
@@ -4876,6 +4978,9 @@
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} jäsen} other {{number,number} jäsentä}}"
+  },
+  "icu:ConversationDetailsMembershipList--terminated-title": {
+    "messageformat": "{number, plural, one {{number,number} aiempi jäsen} other {{number,number} aiempaa jäsentä}}"
   },
   "icu:ConversationDetailsMembershipList--add-members": {
     "messageformat": "Lisää jäseniä"
@@ -5059,7 +5164,7 @@
     "ignoreUnused": true
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
-    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Uusimpia Signal-versioita käyttävät ryhmän jäsenet näkevät, että poistit viestin.} other {Uusimpia Signal-versioita käyttävät ryhmän jäsenet näkevät, että poistit viestit.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Poista kaikilta laitteilta"
@@ -5195,6 +5300,9 @@
   },
   "icu:MessageRequestWarning__safety-tips": {
     "messageformat": "Turvallisuusvinkkejä"
+  },
+  "icu:MessageRequestWarning__safety-tips-v2": {
+    "messageformat": "Safety tips"
   },
   "icu:ContactSpoofing__same-name--link": {
     "messageformat": "Tarkista pyynnöt huolellisesti. Signal löysi toisen yhteystiedon samalla nimellä. <reviewRequestLink>Tarkista pyyntö</reviewRequestLink>"
@@ -5797,6 +5905,15 @@
   "icu:Preferences__link-previews--description": {
     "messageformat": "Tätä asetusta voi muuttaa Signal-mobiilisovelluksessa kohdassa Asetukset > Keskustelut."
   },
+  "icu:Preferences__link-previews--new-description": {
+    "messageformat": "Retrieve link previews directly from websites for messages you send."
+  },
+  "icu:Preferences__address-book-photos--title": {
+    "messageformat": "Use address book photos"
+  },
+  "icu:Preferences__address-book-photos--description": {
+    "messageformat": "Display contact photos from your address book if available."
+  },
   "icu:Preferences__auto-convert-emoji--title": {
     "messageformat": "Muunna tekstihymiöt graafisiksi hymiöiksi"
   },
@@ -6232,35 +6349,35 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "Valmis"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "näytä varmuuskopion avain"
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
+    "messageformat": "näyttää palautusavaimesi"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "Vahvista henkilöllisyytesi nähdäksesi varmuuskopioavaimesi."
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
+    "messageformat": "Vahvista henkilöllisyytesi nähdäksesi palautusavaimesi."
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "Näytä varmuuskopion avain"
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
+    "messageformat": "Näytä palautusavain"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "Todentaminen vaaditaan varmuuskopion avaimen näyttämiseksi."
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
+    "messageformat": "Todentaminen vaaditaan palautusavaimen näyttämiseksi."
   },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Varmuuskopion avaimen tekstilaatikko"
+  "icu:Preferences--local-backups-recovery-key-text-box": {
+    "messageformat": "Palautusavain"
   },
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "Anna avain"
   },
-  "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "Tallenna varmuuskopion avain"
+  "icu:Preferences--local-backups-record-recovery-key": {
+    "messageformat": "Tallenna palautusavain"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "Tätä avainta tarvitaan tilisi ja tietojesi palauttamiseen. Säilytä avain turvallisessa paikassa. Jos kadotat sen, et voi palauttaa tiliäsi. <learnMoreLink>Lue lisää.</learnMoreLink>"
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "Vahvista varmuuskopion avain"
+  "icu:Preferences--local-backups-confirm-recovery-key": {
+    "messageformat": "Vahvista palautusavain"
   },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "Anna juuri tallentamasi varmuuskopion avain"
+  "icu:Preferences--local-backups-confirm-recovery-key-description": {
+    "messageformat": "Anna juuri tallentamasi palautusavain"
   },
   "icu:Preferences__local-backups-confirm-key-modal-title": {
     "messageformat": "Pidä avain turvassa"
@@ -6286,26 +6403,23 @@
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Varmuuskopiokansio"
   },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "Vaihda"
-  },
   "icu:Preferences__local-backups-turn-off": {
-    "messageformat": "Turn off backups"
+    "messageformat": "Poista varmuuskopiointi käytöstä"
   },
   "icu:Preferences__local-backups-turn-off-action": {
-    "messageformat": "Turn off"
+    "messageformat": "Poista käytöstä"
   },
   "icu:Preferences__local-backups-turn-off-confirmation": {
-    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+    "messageformat": "Et voi luoda varmuuskopioita tällä tietokoneella ennen kuin otat ne uudelleen käyttöön."
   },
   "icu:Preferences__local-backups-turn-off-delete": {
-    "messageformat": "Delete my backup from this computer"
+    "messageformat": "Poista varmuuskopioni tältä tietokoneelta"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Kopioi leikepöydälle"
   },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "Varmuuskopion avain kopioitu"
+  "icu:Preferences__local-backups-copied-recovery-key": {
+    "messageformat": "Palautusavain kopioitu"
   },
   "icu:Preferences__local-backups--enable--os-prompt--mac": {
     "messageformat": "Ota varmuuskopiot käyttöön"
@@ -6319,17 +6433,29 @@
   "icu:Preferences__local-backups--enable--os-prompt-message--linux": {
     "messageformat": "Todentaminen vaaditaan varmuuskopioiden käyttöönottamiseksi."
   },
+  "icu:Preferences__local-backups-auth-error--unauthorized": {
+    "messageformat": "Tätä toimintoa ei voitu suorittaa, koska järjestelmän todennus epäonnistui. Yritä uudelleen tai avaa Signal-sovellus mobiililaitteellasi ja avaa varmuuskopiointiasetukset nähdäksesi palautusavaimesi."
+  },
   "icu:Preferences__view-key": {
     "messageformat": "Näytä avain"
   },
-  "icu:Preferences__backup-key": {
-    "messageformat": "Varmuuskopion avain"
+  "icu:Preferences__recovery-key": {
+    "messageformat": "Palautusavain"
   },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "Varmuuskopion avain on 64-numeroinen koodi, jota tarvitaan varmuuskopion palauttamiseen"
+  "icu:Preferences__recovery-key-description": {
+    "messageformat": "Palautusavain on 64-numeroinen koodi, jota käytetään varmuuskopion palauttamiseen."
   },
   "icu:Preferences__backup-other-ways": {
     "messageformat": "Muita tapoja varmuuskopioida"
+  },
+  "icu:Preferences__recovery-key-updated__title": {
+    "messageformat": "Palautusavaintasi muutettiin"
+  },
+  "icu:Preferences__recovery-key-updated__description": {
+    "messageformat": "Palautusavaimesi on päivitetty. Uudet tekemäsi varmuuskopiot voidaan palauttaa vain uudella palautusavaimella."
+  },
+  "icu:Preferences__recovery-key-updated__view-key": {
+    "messageformat": "Näytä uusi avain"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {1 yhteystieto} other {{num,number} yhteystietoa}}"
@@ -6394,8 +6520,14 @@
   "icu:Preferences--read-receipts": {
     "messageformat": "Lukukuittaukset"
   },
+  "icu:Preferences--read-receipts--description": {
+    "messageformat": "If disabled, you won't see read receipts from others."
+  },
   "icu:Preferences--typing-indicators": {
     "messageformat": "Kirjoitusilmaisimet"
+  },
+  "icu:Preferences--typing-indicators--description": {
+    "messageformat": "If disabled, you won't see typing indicators from others."
   },
   "icu:Preferences--updates": {
     "messageformat": "Päivitykset"
@@ -6682,6 +6814,9 @@
   "icu:MyStories__delete": {
     "messageformat": "Poistetaanko tarina? Se poistetaan myös kaikilta sen vastaanottaneilta."
   },
+  "icu:MyStories__delete-group-story-for-me": {
+    "messageformat": "Haluatko poistaa tämän tarinan? Se poistetaan vain sinulta, koska ryhmä on suljettu."
+  },
   "icu:payment-event-notification-message-you-label": {
     "messageformat": "Aloitit maksun henkilölle {receiver}"
   },
@@ -6903,6 +7038,9 @@
   },
   "icu:StoriesSettings__view-receipts--label": {
     "messageformat": "Katselukuittaukset"
+  },
+  "icu:StoriesSettings__view-receipts--new-description": {
+    "messageformat": "See and share when stories are viewed. If disabled, you won't see when others view your story."
   },
   "icu:StoriesSettings__view-receipts--description": {
     "messageformat": "Tätä asetusta voi muuttaa Signal-mobiilisovelluksessa kohdassa Asetukset > Tarinat"
@@ -7553,6 +7691,18 @@
   "icu:ProfileNameWarningModal__list--item3--direct": {
     "messageformat": "Älä jaa henkilökohtaisia tietoja tuntemattomille ihmisille"
   },
+  "icu:ProfileNameWarningModal__warning--signal-cant-verify": {
+    "messageformat": "Signal can’t verify names and photos"
+  },
+  "icu:ProfileNameWarningModal__warning--signal-wont-contact": {
+    "messageformat": "Signal will never contact you for your registration code, PIN, or recovery key"
+  },
+  "icu:ProfileNameWarningModal__warning--be-cautious": {
+    "messageformat": "Be cautious of accounts that impersonate others"
+  },
+  "icu:ProfileNameWarningModal__warning--dont-share-info": {
+    "messageformat": "Don't share personal information with people you don't know"
+  },
   "icu:ProfileNameWarningModal__description--group": {
     "messageformat": "Ryhmän nimet ovat ryhmän jäsenten valittavissa."
   },
@@ -8015,17 +8165,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Pieniä säätöjä, virheenkorjauksia ja suorituskykyparannuksia. Kiitos, että käytät Signalia!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__7.90--0": {
-    "messageformat": "• Suojaa yksityisyyttäsi Signal Artist -sarjan viidellä uudella virallisella tarrapakkauksella: ”Chug the Mouse” Amanda Cotanilta, ”Cozy Season” Miguel Ángel Camprubílta, ”Croco's Feelings” Tiffany Beucherilta, ”My Daily Life 2” Plastic Thingilta ja ”Rocky Talk” Lexi Vaylta."
-  },
-  "icu:WhatsNew__8.0--0": {
-    "messageformat": "Signal Secure -varmuuskopiointi on nyt saatavilla! Nyt voit ottaa käyttöön automaattisen, päästä päähän salatun varmuuskopioinnin. Näin et koskaan menetä viestejä, kun hankit uuden puhelimen tai asennat Signalin uudelleen. Voit varmuuskopioida kaikki viestisi ja viimeisten 45 päivän mediasisällön veloituksetta. Pienellä kuukausimaksulla saat 100 Gt tallennustilaa kaikkien liitteiden varmuuskopiointiin. Aloita napauttamalla Varmuuskopiointi Signal-asetuksissa. Kiitos beta-vaiheen testaajille!"
-  },
-  "icu:WhatsNew__8.2--0": {
-    "messageformat": "Nyt voit lähettää kerran katsottavia mediaviestejä myös Signal Desktopista. Yksittäiset valokuvat ja videot, jotka lähetetään kerran katsottavina viesteinä, poistetaan keskusteluketjusta automaattisesti niiden katselun jälkeen."
-  },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "Voit nyt halutessasi lisätä ryhmäkeskustelussa jäsenroolin kuvaamaan itseäsi tai rooliasi. Jäsenroolit näkyvät ryhmän profiilin nimen vieressä. Ryhmän ylläpitäjät voivat hallita, voivatko kaikki käyttäjät asettaa niitä."
   }
 }

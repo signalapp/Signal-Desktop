@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import React from 'react';
 import type { ReactNode } from 'react';
-import { tw } from '../tw.dom.js';
-import { AxoSymbol } from '../AxoSymbol.dom.js';
-import { isTestOrMockEnvironment } from '../../environment.std.js';
+import { tw } from '../tw.dom.tsx';
+import { AxoSymbol } from '../AxoSymbol.dom.tsx';
+import { isTestOrMockEnvironment } from '../../environment.std.ts';
 
 // In the future we should be relying more on insert order of
 // dialogs/popovers/menus into portals
@@ -41,13 +41,14 @@ export namespace AxoBaseMenu {
   const navigableItemStyles = tw(
     labeledItemStyles,
     'curved-md type-body-medium',
-    'outline-0 data-[highlighted]:bg-fill-secondary-pressed',
-    'data-[disabled]:text-label-disabled',
+    'text-label-primary',
+    'outline-0 data-highlighted:bg-fill-secondary-pressed',
+    'data-disabled:text-label-disabled',
     'outline-0 outline-border-focused focused:outline-[2.5px]',
     'forced-colors:text-[CanvasText]',
-    'forced-colors:data-[highlighted]:bg-[Highlight]',
-    'forced-colors:data-[highlighted]:text-[HighlightText]',
-    'forced-colors:data-[disabled]:text-[GrayText]',
+    'forced-colors:data-highlighted:bg-[Highlight]',
+    'forced-colors:data-highlighted:text-[HighlightText]',
+    'forced-colors:data-disabled:text-[GrayText]',
     'forced-color-adjust-none'
   );
 
@@ -165,7 +166,7 @@ export namespace AxoBaseMenu {
       <span
         dir="auto"
         className={tw(
-          'ms-auto px-1 type-body-medium text-label-secondary forced-colors:text-[inherit]'
+          'ms-auto px-1 type-body-medium text-label-secondary forced-colors:text-inherit'
         )}
       >
         {props.keyboardShortcut}
@@ -212,8 +213,8 @@ export namespace AxoBaseMenu {
   export const menuContentStyles = tw(
     baseContentStyles,
     baseContentGridStyles,
-    'max-h-(--radix-popper-available-height) overflow-auto [scrollbar-width:none]',
-    'overflow-auto [scrollbar-width:none]'
+    'max-h-(--radix-popper-available-height) overflow-auto scrollbar-width-none',
+    'overflow-auto scrollbar-width-none'
   );
 
   export const selectContentStyles = tw(baseContentStyles);
@@ -338,10 +339,6 @@ export namespace AxoBaseMenu {
    * ----------------------
    */
 
-  export type MenuSeparatorProps = Readonly<{
-    // N/A
-  }>;
-
   const baseSeparatorStyles = tw('my-1 border-t-[0.5px] border-border-primary');
 
   export const menuSeparatorStyles = tw(
@@ -375,9 +372,9 @@ export namespace AxoBaseMenu {
 
   export const menuSubTriggerStyles = tw(
     navigableItemStyles,
-    'data-[state=open]:not-data-[highlighted]:bg-fill-secondary',
-    'forced-colors:data-[state=open]:not-data-[highlighted]:bg-[Highlight]',
-    'forced-colors:data-[state=open]:not-data-[highlighted]:text-[HighlightText]'
+    'data-[state=open]:not-data-highlighted:bg-fill-secondary',
+    'forced-colors:data-[state=open]:not-data-highlighted:bg-[Highlight]',
+    'forced-colors:data-[state=open]:not-data-highlighted:text-[HighlightText]'
   );
 
   /**
@@ -391,7 +388,7 @@ export namespace AxoBaseMenu {
 
   export const menuSubContentStyles = tw(
     baseContentStyles,
-    'max-h-(--radix-popper-available-height) overflow-auto [scrollbar-width:none]',
+    'max-h-(--radix-popper-available-height) overflow-auto scrollbar-width-none',
     baseContentGridStyles
   );
 }

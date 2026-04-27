@@ -3,28 +3,11 @@
 
 import { createSelector } from 'reselect';
 
-import type { StateType } from '../reducer.preload.js';
-import type {
-  SafetyNumberContactType,
-  SafetyNumberStateType,
-} from '../ducks/safetyNumber.preload.js';
+import type { StateType } from '../reducer.preload.ts';
+import type { SafetyNumberStateType } from '../ducks/safetyNumber.preload.ts';
 
 const getSafetyNumber = (state: StateType): SafetyNumberStateType =>
   state.safetyNumber;
-
-type Props = {
-  contactID: string;
-};
-
-const getContactID = (_: StateType, props: Props): string => props.contactID;
-
-export const getContactSafetyNumber = createSelector(
-  [getSafetyNumber, getContactID],
-  (
-    { contacts }: SafetyNumberStateType,
-    contactID: string
-  ): SafetyNumberContactType | void => contacts[contactID]
-);
 
 export const getContactSafetyNumberSelector = createSelector(
   [getSafetyNumber],

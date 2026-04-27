@@ -4,8 +4,8 @@
 import React, { useState } from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { Props } from './CompositionRecordingDraft.dom.js';
-import { CompositionRecordingDraft } from './CompositionRecordingDraft.dom.js';
+import type { Props } from './CompositionRecordingDraft.dom.tsx';
+import { CompositionRecordingDraft } from './CompositionRecordingDraft.dom.tsx';
 
 const { i18n } = window.SignalContext;
 
@@ -42,7 +42,7 @@ export function Default(): React.JSX.Element {
     });
 
     return a;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // oxlint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handlePlay = (positionAsRatio?: number) => {

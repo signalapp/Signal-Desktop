@@ -3,28 +3,22 @@
 
 import type { ThunkAction } from 'redux-thunk';
 import type { ReadonlyDeep } from 'type-fest';
-import type { StateType as RootStateType } from '../reducer.preload.js';
-import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.js';
-import { useBoundActions } from '../../hooks/useBoundActions.std.js';
-import { createLogger } from '../../logging/log.std.js';
-import { getEnvironment, Environment } from '../../environment.std.js';
+import type { StateType as RootStateType } from '../reducer.preload.ts';
+import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.ts';
+import { useBoundActions } from '../../hooks/useBoundActions.std.ts';
+import { createLogger } from '../../logging/log.std.ts';
+import { AppViewType } from '../../types/app.std.ts';
+import { getEnvironment, Environment } from '../../environment.std.ts';
 import {
   START_INSTALLER,
   type StartInstallerActionType,
   SHOW_BACKUP_IMPORT,
   type ShowBackupImportActionType,
-} from './installer.preload.js';
+} from './installer.preload.ts';
 
 const log = createLogger('app');
 
 // State
-
-export enum AppViewType {
-  Blank = 'Blank',
-  Inbox = 'Inbox',
-  Installer = 'Installer',
-  Standalone = 'Standalone',
-}
 
 export type AppStateType = ReadonlyDeep<{
   hasInitialLoadCompleted: boolean;
@@ -35,7 +29,6 @@ export type AppStateType = ReadonlyDeep<{
 
 const INITIAL_LOAD_COMPLETE = 'app/INITIAL_LOAD_COMPLETE';
 const OPEN_INBOX = 'app/OPEN_INBOX';
-export const OPEN_INSTALLER = 'app/OPEN_INSTALLER';
 const OPEN_STANDALONE = 'app/OPEN_STANDALONE';
 
 type InitialLoadCompleteActionType = ReadonlyDeep<{

@@ -6,17 +6,17 @@ import type { PrimaryDevice } from '@signalapp/mock-server';
 import { StorageState, Proto } from '@signalapp/mock-server';
 import { assert } from 'chai';
 
-import type { App } from '../playwright.node.js';
-import { Bootstrap } from '../bootstrap.node.js';
-import { MINUTE } from '../../util/durations/index.std.js';
-import { uuidToBytes } from '../../util/uuidToBytes.std.js';
-import { MY_STORY_ID } from '../../types/Stories.std.js';
+import type { App } from '../playwright.node.ts';
+import { Bootstrap } from '../bootstrap.node.ts';
+import { MINUTE } from '../../util/durations/index.std.ts';
+import { uuidToBytes } from '../../util/uuidToBytes.std.ts';
+import { MY_STORY_ID } from '../../types/Stories.std.ts';
 import {
   clickOnConversation,
   typeIntoInput,
   expectSystemMessages,
   waitForEnabledComposer,
-} from '../helpers.node.js';
+} from '../helpers.node.ts';
 
 export const debug = createDebug('mock:test:safetyNumber');
 

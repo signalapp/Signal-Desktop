@@ -2,12 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import MP4Box from 'mp4box';
-import { VIDEO_MP4, isVideo } from '../types/MIME.std.js';
+import { VIDEO_MP4, isVideo } from '../types/MIME.std.ts';
 import {
-  KIBIBYTE,
   getRenderDetailsForLimit,
-} from '../types/AttachmentSize.std.js';
-import { explodePromise } from './explodePromise.std.js';
+  isAttachmentTooLargeToSend,
+} from '../types/AttachmentSize.std.ts';
+import { explodePromise } from './explodePromise.std.ts';
 
 const MAX_VIDEO_DURATION_IN_SEC = 30;
 
@@ -48,12 +48,12 @@ export type IsVideoGoodForStoriesResultType = Readonly<
 >;
 
 export type IsVideoGoodForStoriesOptionsType = Readonly<{
-  maxAttachmentSizeInKb: number;
+  maxAttachmentVideoSize: number;
 }>;
 
 export async function isVideoGoodForStories(
   file: File,
-  { maxAttachmentSizeInKb }: IsVideoGoodForStoriesOptionsType
+  { maxAttachmentVideoSize }: IsVideoGoodForStoriesOptionsType
 ): Promise<IsVideoGoodForStoriesResultType> {
   if (!isVideo(file.type)) {
     return { reason: ReasonVideoNotGood.AllGoodNevermind };
@@ -68,6 +68,7 @@ export async function isVideoGoodForStories(
   {
     const { promise, resolve } = explodePromise<ArrayBuffer | undefined>();
 
+    // oxlint-disable-next-line no-undef FIXME
     const reader = new FileReader();
     reader.onload = () => {
       if (reader.result) {
@@ -86,10 +87,15 @@ export async function isVideoGoodForStories(
     src = maybeSrc;
   }
 
-  if (src.byteLength / KIBIBYTE > maxAttachmentSizeInKb) {
+  if (
+    isAttachmentTooLargeToSend({
+      plaintextSize: src.byteLength,
+      limit: maxAttachmentVideoSize,
+    })
+  ) {
     return {
       reason: ReasonVideoNotGood.TooBig,
-      renderDetails: getRenderDetailsForLimit(maxAttachmentSizeInKb),
+      renderDetails: getRenderDetailsForLimit(maxAttachmentVideoSize),
     };
   }
 

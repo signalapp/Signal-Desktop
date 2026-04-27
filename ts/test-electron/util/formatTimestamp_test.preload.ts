@@ -10,9 +10,9 @@ import {
   formatDateTimeLong,
   formatDateTimeShort,
   formatTime,
-} from '../../util/formatTimestamp.dom.js';
-import { HourCyclePreference } from '../../types/I18N.std.js';
-import i18n from '../../test-node/util/i18n.node.js';
+} from '../../util/formatTimestamp.dom.ts';
+import { HourCyclePreference } from '../../types/I18N.std.ts';
+import i18n from '../../test-node/util/i18n.node.ts';
 
 const min = new Date(2023, 0, 1, 0).getTime();
 const max = new Date(2023, 0, 1, 23).getTime();

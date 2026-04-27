@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import { graphemeAndLinkAwareSlice } from '../../util/graphemeAndLinkAwareSlice.std.js';
+import { graphemeAndLinkAwareSlice } from '../../util/graphemeAndLinkAwareSlice.std.ts';
 
 describe('graphemeAndLinkAwareSlice', () => {
   it('returns entire string when shorter than maximum', () => {

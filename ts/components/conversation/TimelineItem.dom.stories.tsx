@@ -4,18 +4,18 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import { DurationInSeconds } from '../../util/durations/index.std.js';
-import type { PropsType as TimelineItemProps } from './TimelineItem.dom.js';
-import { TimelineItem } from './TimelineItem.dom.js';
-import { UniversalTimerNotification } from './UniversalTimerNotification.dom.js';
-import { CallMode } from '../../types/CallDisposition.std.js';
-import { AvatarColors } from '../../types/Colors.std.js';
-import { getDefaultConversation } from '../../test-helpers/getDefaultConversation.std.js';
-import { WidthBreakpoint } from '../_util.std.js';
-import { ThemeType } from '../../types/Util.std.js';
-import { PaymentEventKind } from '../../types/Payment.std.js';
-import { ErrorBoundary } from './ErrorBoundary.dom.js';
-import { MessageInteractivity } from './Message.dom.js';
+import { DurationInSeconds } from '../../util/durations/index.std.ts';
+import type { PropsType as TimelineItemProps } from './TimelineItem.dom.tsx';
+import { TimelineItem } from './TimelineItem.dom.tsx';
+import { UniversalTimerNotification } from './UniversalTimerNotification.dom.tsx';
+import { CallMode } from '../../types/CallDisposition.std.ts';
+import { AvatarColors } from '../../types/Colors.std.ts';
+import { getDefaultConversation } from '../../test-helpers/getDefaultConversation.std.ts';
+import { WidthBreakpoint } from '../_util.std.ts';
+import { ThemeType } from '../../types/Util.std.ts';
+import { PaymentEventKind } from '../../types/Payment.std.ts';
+import { ErrorBoundary } from './ErrorBoundary.dom.tsx';
+import { MessageInteractivity } from './Message.dom.tsx';
 
 const { i18n } = window.SignalContext;
 
@@ -43,11 +43,14 @@ const getDefaultProps = () => ({
   id: 'asdf',
   isNextItemCallingNotification: false,
   isPinned: false,
+  isSelectMode: false,
+  isSelected: false,
   isTargeted: false,
   isBlocked: false,
   isGroup: false,
   interactivity: MessageInteractivity.Normal,
   interactionMode: 'keyboard' as const,
+  targetedMessage: undefined,
   theme: ThemeType.light,
   platform: 'darwin',
   handleDebugMessage: action('handleDebugMessage'),
@@ -104,6 +107,9 @@ const getDefaultProps = () => ({
   scrollToQuotedMessage: action('scrollToQuotedMessage'),
   showSpoiler: action('showSpoiler'),
   startConversation: action('startConversation'),
+  renderItem: () => {
+    throw new Error('not implemented');
+  },
   returnToActiveCall: action('returnToActiveCall'),
   shouldCollapseAbove: false,
   shouldCollapseBelow: false,
@@ -606,7 +612,7 @@ export function UnknownType(): React.JSX.Element {
     data: {
       somethin: 'somethin',
     },
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // oxlint-disable-next-line typescript/no-explicit-any
   } as any as TimelineItemProps['item'];
 
   return (
@@ -617,7 +623,7 @@ export function UnknownType(): React.JSX.Element {
 }
 
 export function MissingItem(): React.JSX.Element {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // oxlint-disable-next-line typescript/no-explicit-any
   const item = null as any as TimelineItemProps['item'];
 
   return <TimelineItem {...getDefaultProps()} item={item} i18n={i18n} />;

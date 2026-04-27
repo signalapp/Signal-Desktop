@@ -5,24 +5,24 @@ import { assert } from 'chai';
 import * as sinon from 'sinon';
 import lodash from 'lodash';
 
-import { DataWriter } from '../../sql/Client.preload.js';
-import { IMAGE_PNG } from '../../types/MIME.std.js';
-import { downloadAttachment } from '../../util/downloadAttachment.preload.js';
-import { MediaTier } from '../../types/AttachmentDownload.std.js';
-import { HTTPError } from '../../types/HTTPError.std.js';
-import { getCdnNumberForBackupTier } from '../../textsecure/downloadAttachment.preload.js';
-import { MASTER_KEY, MEDIA_ROOT_KEY } from '../backup/helpers.preload.js';
-import { getMediaIdFromMediaName } from '../../services/backups/util/mediaId.preload.js';
+import { DataWriter } from '../../sql/Client.preload.ts';
+import { IMAGE_PNG } from '../../types/MIME.std.ts';
+import { downloadAttachment } from '../../util/downloadAttachment.preload.ts';
+import { MediaTier } from '../../types/AttachmentDownload.std.ts';
+import { HTTPError } from '../../types/HTTPError.std.ts';
+import { getCdnNumberForBackupTier } from '../../textsecure/downloadAttachment.preload.ts';
+import { MASTER_KEY, MEDIA_ROOT_KEY } from '../backup/helpers.preload.ts';
+import { getMediaIdFromMediaName } from '../../services/backups/util/mediaId.preload.ts';
 import {
   AttachmentVariant,
   AttachmentPermanentlyUndownloadableError,
-} from '../../types/Attachment.std.js';
-import { updateRemoteConfig } from '../../test-helpers/RemoteConfigStub.dom.js';
-import { toHex, toBase64 } from '../../Bytes.std.js';
-import { generateAttachmentKeys } from '../../AttachmentCrypto.node.js';
-import { getRandomBytes } from '../../Crypto.node.js';
-import { itemStorage } from '../../textsecure/Storage.preload.js';
-import { DAY, HOUR } from '../../util/durations/constants.std.js';
+} from '../../types/Attachment.std.ts';
+import { updateRemoteConfig } from '../../test-helpers/RemoteConfigStub.dom.ts';
+import { toHex, toBase64 } from '../../Bytes.std.ts';
+import { generateAttachmentKeys } from '../../AttachmentCrypto.node.ts';
+import { getRandomBytes } from '../../Crypto.node.ts';
+import { itemStorage } from '../../textsecure/Storage.preload.ts';
+import { DAY, HOUR } from '../../util/durations/constants.std.ts';
 
 const { noop } = lodash;
 

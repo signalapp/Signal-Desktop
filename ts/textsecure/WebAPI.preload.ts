@@ -1,18 +1,14 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* eslint-disable no-param-reassign */
-/* eslint-disable guard-for-in */
-/* eslint-disable no-restricted-syntax */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
-import type { RequestInit, Response } from 'node-fetch';
+import type { BodyInit, Headers, RequestInit, Response } from 'node-fetch';
 import fetch from 'node-fetch';
 import type { Agent } from 'node:https';
 import lodash from 'lodash';
 import PQueue from 'p-queue';
 import { v4 as getGuid } from 'uuid';
 import { z } from 'zod';
+import type { ZodType } from 'zod';
 import type { Readable } from 'node:stream';
 import qs from 'node:querystring';
 import {
@@ -30,40 +26,37 @@ import type {
   ProvisioningConnectionListener,
 } from '@signalapp/libsignal-client/dist/net.js';
 import { GroupSendFullToken } from '@signalapp/libsignal-client/zkgroup.js';
-import type {
-  Request as KTRequest,
-  MonitorMode as KTMonitorMode,
-} from '@signalapp/libsignal-client/dist/net/KeyTransparency.js';
+import type { Request as KTRequest } from '@signalapp/libsignal-client/dist/net/KeyTransparency.js';
 
-import { assertDev, strictAssert } from '../util/assert.std.js';
-import * as durations from '../util/durations/index.std.js';
-import type { ExplodePromiseResultType } from '../util/explodePromise.std.js';
-import { explodePromise } from '../util/explodePromise.std.js';
-import { getUserAgent } from '../util/getUserAgent.node.js';
-import { getTimeoutStream } from '../util/getStreamWithTimeout.node.js';
+import { assertDev, strictAssert } from '../util/assert.std.ts';
+import * as durations from '../util/durations/index.std.ts';
+import type { ExplodePromiseResultType } from '../util/explodePromise.std.ts';
+import { explodePromise } from '../util/explodePromise.std.ts';
+import { getUserAgent } from '../util/getUserAgent.node.ts';
+import { getTimeoutStream } from '../util/getStreamWithTimeout.node.ts';
 import {
   toWebSafeBase64,
   fromWebSafeBase64,
-} from '../util/webSafeBase64.std.js';
-import { getBasicAuth } from '../util/getBasicAuth.std.js';
-import { createHTTPSAgent } from '../util/createHTTPSAgent.node.js';
-import { createProxyAgent } from '../util/createProxyAgent.node.js';
-import type { ProxyAgent } from '../util/createProxyAgent.node.js';
-import type { FetchFunctionType } from '../util/uploads/tusProtocol.node.js';
-import { VerificationTransport } from '../types/VerificationTransport.std.js';
+} from '../util/webSafeBase64.std.ts';
+import { getBasicAuth } from '../util/getBasicAuth.std.ts';
+import { createHTTPSAgent } from '../util/createHTTPSAgent.node.ts';
+import { createProxyAgent } from '../util/createProxyAgent.node.ts';
+import type { ProxyAgent } from '../util/createProxyAgent.node.ts';
+import type { FetchFunctionType } from '../util/uploads/tusProtocol.node.ts';
+import { VerificationTransport } from '../types/VerificationTransport.std.ts';
 import type {
   CapabilitiesType,
   CapabilitiesUploadType,
 } from '../types/Capabilities.d.ts';
 import type { HeaderListType } from '../types/WebAPI.d.ts';
-import { ZERO_ACCESS_KEY } from '../types/SealedSender.std.js';
-import { toLogFormat } from '../types/errors.std.js';
-import { isPackIdValid, redactPackId } from '../util/Stickers.std.js';
+import { ZERO_ACCESS_KEY } from '../types/SealedSender.std.ts';
+import { toLogFormat } from '../types/errors.std.ts';
+import { isPackIdValid, redactPackId } from '../util/Stickers.std.ts';
 import type {
   ServiceIdString,
   AciString,
   UntaggedPniString,
-} from '../types/ServiceId.std.js';
+} from '../types/ServiceId.std.ts';
 import {
   fromAciObject,
   ServiceIdKind,
@@ -71,22 +64,22 @@ import {
   aciSchema,
   untaggedPniSchema,
   fromServiceIdObject,
-} from '../types/ServiceId.std.js';
-import type { BackupPresentationHeadersType } from '../types/backups.node.js';
-import { HTTPError } from '../types/HTTPError.std.js';
-import * as Bytes from '../Bytes.std.js';
-import { getRandomBytes, randomInt } from '../Crypto.node.js';
-import * as linkPreviewFetch from '../linkPreviews/linkPreviewFetch.preload.js';
-import { isBadgeImageFileUrlValid } from '../badges/isBadgeImageFileUrlValid.std.js';
+} from '../types/ServiceId.std.ts';
+import type { BackupPresentationHeadersType } from '../types/backups.node.ts';
+import { HTTPError } from '../types/HTTPError.std.ts';
+import * as Bytes from '../Bytes.std.ts';
+import { getRandomBytes, randomInt } from '../Crypto.node.ts';
+import * as linkPreviewFetch from '../linkPreviews/linkPreviewFetch.preload.ts';
+import { isBadgeImageFileUrlValid } from '../badges/isBadgeImageFileUrlValid.std.ts';
 
 import {
   SocketManager,
   type SocketStatuses,
   type SocketExpirationReason,
-} from './SocketManager.preload.js';
+} from './SocketManager.preload.ts';
 import type { CDSAuthType, CDSResponseType } from './cds/Types.d.ts';
-import { CDSI } from './cds/CDSI.node.js';
-import { SignalService as Proto } from '../protobuf/index.std.js';
+import { CDSI } from './cds/CDSI.node.ts';
+import { SignalService as Proto } from '../protobuf/index.std.ts';
 
 import type {
   WebAPICredentials,
@@ -94,42 +87,43 @@ import type {
   StorageServiceCallOptionsType,
   StorageServiceCredentials,
 } from './Types.d.ts';
-import { handleStatusCode, translateError } from './Utils.dom.js';
-import { createLogger } from '../logging/log.std.js';
-import { maybeParseUrl, urlPathFromComponents } from '../util/url.std.js';
-import { HOUR, MINUTE, SECOND } from '../util/durations/index.std.js';
-import { safeParseNumber } from '../util/numbers.std.js';
-import { getLibsignalNet } from './preconnect.preload.js';
-import type { GroupSendToken } from '../types/GroupSendEndorsements.std.js';
+import { handleStatusCode, translateError } from './Utils.dom.ts';
+import { createLogger } from '../logging/log.std.ts';
+import { maybeParseUrl, urlPathFromComponents } from '../util/url.std.ts';
+import { HOUR, MINUTE, SECOND } from '../util/durations/index.std.ts';
+import { safeParseNumber } from '../util/numbers.std.ts';
+import { getLibsignalNet } from './preconnect.preload.ts';
+import type { GroupSendToken } from '../types/GroupSendEndorsements.std.ts';
 import {
   parseUnknown,
+  parseLoose,
   safeParseUnknown,
-  type Schema,
-} from '../util/schemas.std.js';
+} from '../util/schemas.std.ts';
 import type {
   ProfileFetchAuthRequestOptions,
   ProfileFetchUnauthRequestOptions,
-} from '../services/profiles.preload.js';
-import { ToastType } from '../types/Toast.dom.js';
-import { isProduction } from '../util/version.std.js';
-import type { ServerAlert } from '../types/ServerAlert.std.js';
-import { isAbortError } from '../util/isAbortError.std.js';
-import { missingCaseError } from '../util/missingCaseError.std.js';
-import { drop } from '../util/drop.std.js';
-import { subscriptionConfigurationCurrencyZod } from '../types/Donations.std.js';
+} from '../services/profiles.preload.ts';
+import { ToastType } from '../types/Toast.dom.tsx';
+import { isProduction } from '../util/version.std.ts';
+import type { ServerAlert } from '../types/ServerAlert.std.ts';
+import { isAbortError } from '../util/isAbortError.std.ts';
+import { missingCaseError } from '../util/missingCaseError.std.ts';
+import { drop } from '../util/drop.std.ts';
+import { subscriptionConfigurationCurrencyZod } from '../types/Donations.std.ts';
 import type {
   StripeDonationAmount,
   CardDetail,
-} from '../types/Donations.std.js';
-import { badgeFromServerSchema } from '../badges/parseBadgesFromServer.std.js';
-import { ZERO_DECIMAL_CURRENCIES } from '../util/currency.dom.js';
-import type { JobCancelReason } from '../jobs/types.std.js';
+} from '../types/Donations.std.ts';
+import { badgeFromServerSchema } from '../badges/parseBadgesFromServer.std.ts';
+import { ZERO_DECIMAL_CURRENCIES } from '../util/currency.dom.ts';
+import type { JobCancelReason } from '../jobs/types.std.ts';
 import {
   RemoteMegaphoneCtaDataSchema,
   type RemoteMegaphoneId,
-} from '../types/Megaphone.std.js';
-import { bindRemoteConfigToLibsignalNet } from '../LibsignalNetRemoteConfig.preload.js';
-import { KeyTransparencyStore } from '../LibSignalStores.preload.js';
+} from '../types/Megaphone.std.ts';
+import { bindRemoteConfigToLibsignalNet } from '../LibsignalNetRemoteConfig.preload.ts';
+import { KeyTransparencyStore } from '../LibSignalStores.node.ts';
+import { signalProtocolStore } from '../SignalProtocolStore.preload.ts';
 
 const { escapeRegExp, isNumber, throttle } = lodash;
 
@@ -158,14 +152,16 @@ function _createRedactor(
     }, href);
 }
 
+// oxlint-disable-next-line typescript/no-explicit-any
 function _validateResponse(response: any, schema: any) {
   try {
+    // oxlint-disable-next-line signal-desktop/no-for-in, guard-for-in
     for (const i in schema) {
       switch (schema[i]) {
         case 'object':
         case 'string':
         case 'number':
-          // eslint-disable-next-line valid-typeof
+          // oxlint-disable-next-line valid-typeof
           if (typeof response[i] !== schema[i]) {
             return false;
           }
@@ -235,6 +231,7 @@ type PromiseAjaxOptionsType<Type extends ResponseType, OutputShape> = {
   timeout?: number;
   type: HTTPCodeType;
   user?: string;
+  // oxlint-disable-next-line typescript/no-explicit-any
   validateResponse?: any;
   version: string;
   abortSignal?: AbortSignal;
@@ -252,7 +249,7 @@ type PromiseAjaxOptionsType<Type extends ResponseType, OutputShape> = {
 ) &
   (Type extends 'json' | 'jsonwithdetails'
     ? {
-        zodSchema: Schema<unknown, OutputShape>;
+        zodSchema: ZodType<OutputShape>;
       }
     : {
         zodSchema?: never;
@@ -348,6 +345,7 @@ function getHostname(url: string): string {
 
 type FetchOptionsType = Omit<RequestInit, 'headers'> & {
   headers: Record<string, string>;
+  timeout?: number;
   // This is patch-packaged
   ca?: string;
 };
@@ -381,9 +379,20 @@ async function getFetchOptions<Type extends ResponseType, OutputShape>(
   const agentEntry = agents[cacheKey];
   const agent = agentEntry?.agent ?? undefined;
 
+  let body: BodyInit | undefined;
+  if (typeof options.data === 'string') {
+    body = options.data;
+  } else if (typeof options.data === 'function') {
+    body = options.data();
+  } else if (options.data instanceof Uint8Array) {
+    body = Buffer.from(options.data);
+  } else if (options.data != null) {
+    throw missingCaseError(options.data);
+  }
+
   const fetchOptions: FetchOptionsType = {
     method: options.type,
-    body: typeof options.data === 'function' ? options.data() : options.data,
+    body,
     headers: {
       'User-Agent': options.socketManager
         ? undefined
@@ -511,11 +520,12 @@ async function _promiseAjax<Type extends ResponseType, OutputShape>(
     }
   }
 
+  // oxlint-disable-next-line typescript/no-redundant-type-constituents
   let result: string | Uint8Array<ArrayBuffer> | Readable | unknown;
   try {
     if (DEBUG && !isSuccess(response.status)) {
       result = await response.text();
-      // eslint-disable-next-line no-console
+      // oxlint-disable-next-line no-console
       console.error(result);
     } else if (
       (options.responseType === 'json' ||
@@ -538,7 +548,7 @@ async function _promiseAjax<Type extends ResponseType, OutputShape>(
     } else if (options.responseType === 'raw') {
       result = response;
     } else {
-      result = await response.textConverted();
+      result = await response.text();
     }
   } catch (error) {
     if (isAbortError(error)) {
@@ -593,10 +603,10 @@ async function _promiseAjax<Type extends ResponseType, OutputShape>(
 
   if (options.responseType === 'stream') {
     log.info(logId, response.status, 'Streaming');
-    response.body.on('error', e => {
+    response.body?.on('error', e => {
       log.info(logId, 'Errored while streaming:', e.message);
     });
-    response.body.on('end', () => {
+    response.body?.on('end', () => {
       log.info(logId, response.status, 'Streaming ended');
     });
     return result;
@@ -604,10 +614,10 @@ async function _promiseAjax<Type extends ResponseType, OutputShape>(
 
   if (options.responseType === 'streamwithdetails') {
     log.info(logId, response.status, 'Streaming with details');
-    response.body.on('error', e => {
+    response.body?.on('error', e => {
       log.info(logId, 'Errored while streaming:', e.message);
     });
-    response.body.on('end', () => {
+    response.body?.on('end', () => {
       log.info(logId, response.status, 'Streaming ended');
     });
 
@@ -703,6 +713,7 @@ async function _outerAjax<Type extends ResponseType, OutputShape>(
   url: string | null,
   options: PromiseAjaxOptionsType<Type, OutputShape>
 ): Promise<unknown> {
+  // oxlint-disable-next-line no-param-reassign
   options.stack = new Error().stack; // just in case, save stack here.
 
   if (options.disableRetries) {
@@ -860,11 +871,12 @@ type AjaxOptionsType<Type extends AjaxResponseType, OutputShape = unknown> = (
   responseType?: Type;
   timeout?: number;
   urlParameters?: string;
+  // oxlint-disable-next-line typescript/no-explicit-any
   validateResponse?: any;
   abortSignal?: AbortSignal;
 } & (Type extends 'json' | 'jsonwithdetails'
     ? {
-        zodSchema: Schema<unknown, OutputShape>;
+        zodSchema: ZodType<OutputShape>;
       }
     : {
         zodSchema?: never;
@@ -1006,7 +1018,7 @@ export type GetSenderCertificateResultType = Readonly<{ certificate: string }>;
 
 const whoamiResultZod = z.object({
   uuid: z.string(),
-  pni: z.string(),
+  pni: untaggedPniSchema,
   number: z.string(),
   usernameHash: z.string().nullish(),
   usernameLinkHandle: z.string().nullish(),
@@ -1142,7 +1154,7 @@ export type ReportMessageOptionsType = Readonly<{
 const attachmentUploadFormResponse = z.object({
   cdn: z.literal(2).or(z.literal(3)),
   key: z.string(),
-  headers: z.record(z.string()),
+  headers: z.record(z.string(), z.string()),
   signedUploadLocation: z.string(),
 });
 
@@ -1150,7 +1162,7 @@ export type AttachmentUploadFormResponseType = z.infer<
   typeof attachmentUploadFormResponse
 >;
 
-export const ServerKeyCountSchema = z.object({
+const ServerKeyCountSchema = z.object({
   count: z.number(),
   pqCount: z.number(),
 });
@@ -1371,7 +1383,7 @@ export type GetBackupCredentialsOptionsType = Readonly<{
   endDayInMs: number;
 }>;
 
-export const backupCredentialListSchema = z
+const backupCredentialListSchema = z
   .object({
     credential: z.string().transform(x => Bytes.fromBase64(x)),
     redemptionTime: z
@@ -1516,12 +1528,12 @@ export type CallLinkCreateAuthResponseType = Readonly<{
   credential: string;
 }>;
 
-export const StorageServiceCredentialsSchema = z.object({
+const StorageServiceCredentialsSchema = z.object({
   username: z.string(),
   password: z.string(),
 });
 
-export const callLinkCreateAuthResponseSchema = z.object({
+const callLinkCreateAuthResponseSchema = z.object({
   credential: z.string(),
 }) satisfies z.ZodSchema<CallLinkCreateAuthResponseType>;
 
@@ -1795,7 +1807,11 @@ export async function connect({
   hasStoriesDisabled,
   hasBuildExpired,
 }: WebAPIConnectOptionsType): Promise<void> {
-  bindRemoteConfigToLibsignalNet(getLibsignalNet(), window.getVersion());
+  bindRemoteConfigToLibsignalNet(
+    getLibsignalNet(),
+    window.getVersion(),
+    reconnect
+  );
 
   username = initialUsername;
   password = initialPassword;
@@ -1872,6 +1888,7 @@ async function _ajax<Type extends AjaxResponseType, OutputShape>(
   }
 
   if (!param.urlParameters) {
+    // oxlint-disable-next-line no-param-reassign
     param.urlParameters = '';
   }
 
@@ -2446,7 +2463,7 @@ export async function getTransferArchive({
       ? `?timeout=${encodeURIComponent(requestTimeoutInSecs)}`
       : undefined;
 
-    // eslint-disable-next-line no-await-in-loop
+    // oxlint-disable-next-line no-await-in-loop
     const { data, response } = await _ajax({
       host: 'chatService',
       call: 'transferArchive',
@@ -2491,7 +2508,7 @@ export async function getAccountForUsername({
   return aci ? fromAciObject(aci) : null;
 }
 
-export async function keyTransparencySearch(
+export async function keyTransparencyCheck(
   request: KTRequest,
   abortSignal?: AbortSignal
 ): Promise<void> {
@@ -2501,31 +2518,8 @@ export async function keyTransparencySearch(
       throw new Error('Aborted');
     }
     const kt = chat.keyTransparencyClient();
-    const store = new KeyTransparencyStore();
-    return kt.search(request, store, { abortSignal });
-  });
-}
-
-export async function keyTransparencyMonitor(
-  request: KTRequest,
-  mode: KTMonitorMode,
-  abortSignal?: AbortSignal
-): Promise<void> {
-  return _retry(async () => {
-    const chat = await socketManager.getUnauthenticatedApi();
-    if (abortSignal?.aborted) {
-      throw new Error('Aborted');
-    }
-    const kt = chat.keyTransparencyClient();
-    const store = new KeyTransparencyStore();
-    return kt.monitor(
-      {
-        ...request,
-        mode,
-      },
-      store,
-      { abortSignal }
-    );
+    const store = new KeyTransparencyStore(signalProtocolStore);
+    return kt.check(request, store, { abortSignal });
   });
 }
 
@@ -2726,14 +2720,6 @@ export async function replaceUsernameLink({
   });
 }
 
-export async function deleteUsernameLink(): Promise<void> {
-  await _ajax({
-    host: 'chatService',
-    call: 'usernameLink',
-    httpType: 'DELETE',
-  });
-}
-
 export async function resolveUsernameLink({
   entropy,
   uuid,
@@ -2843,6 +2829,7 @@ async function _withNewCredentials<
 
   const result = await callback();
 
+  // oxlint-disable-next-line typescript/no-useless-default-assignment FIXME
   const { uuid: aci = newUsername, deviceId = 1 } = result;
 
   // Set final REST credentials to let `registerKeys` succeed.
@@ -3222,6 +3209,7 @@ export function createFetchForAttachmentUpload({
       ...init,
       headers: {
         ...fetchOptions.headers,
+        // oxlint-disable-next-line typescript/no-misused-spread FIXME
         ...init.headers,
       },
     });
@@ -3367,29 +3355,6 @@ export async function backupMediaBatch({
       }),
     },
     zodSchema: backupMediaBatchResponseSchema,
-  });
-}
-
-export async function backupDeleteMedia({
-  headers,
-  mediaToDelete,
-}: BackupDeleteMediaOptionsType): Promise<void> {
-  await _ajax({
-    host: 'chatService',
-    call: 'backupMediaDelete',
-    httpType: 'POST',
-    unauthenticated: true,
-    accessKey: undefined,
-    groupSendToken: undefined,
-    headers,
-    jsonData: {
-      mediaToDelete: mediaToDelete.map(({ cdn, mediaId }) => {
-        return {
-          cdn,
-          mediaId,
-        };
-      }),
-    },
   });
 }
 
@@ -3879,7 +3844,6 @@ export async function putStickers(
   const queue = new PQueue({
     concurrency: 3,
     timeout: MINUTE * 30,
-    throwOnTimeout: true,
   });
   await Promise.all(
     stickers.map(async (sticker: ServerV2AttachmentType, index: number) => {
@@ -3963,7 +3927,7 @@ async function _getAttachmentHeaders({
   cdnNumber,
   headers = {},
   redactor,
-}: Omit<GetAttachmentArgsType, 'options'>): Promise<fetch.Headers> {
+}: Omit<GetAttachmentArgsType, 'options'>): Promise<Headers> {
   const fullCdnUrl = getCheckedCdnUrl(cdnNumber, cdnPath);
   const response = await _outerAjax(fullCdnUrl, {
     headers,
@@ -4052,7 +4016,7 @@ async function _getAttachment({
 
       const match = PARSE_RANGE_HEADER.exec(range);
       strictAssert(match != null, 'Attachment Content-Range is invalid');
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      // oxlint-disable-next-line typescript/no-non-null-assertion
       const maybeSize = safeParseNumber(match[1]!);
       strictAssert(
         maybeSize != null,
@@ -4099,13 +4063,25 @@ async function _getAttachment({
   return combinedStream;
 }
 
-export async function getAttachmentUploadForm(): Promise<AttachmentUploadFormResponseType> {
-  return _ajax({
-    host: 'chatService',
-    call: 'attachmentUploadForm',
-    httpType: 'GET',
-    responseType: 'json',
-    zodSchema: attachmentUploadFormResponse,
+export type GetAttachmentUploadFormOptionsType = Readonly<{
+  uploadSize: number;
+}>;
+
+export async function getAttachmentUploadForm({
+  uploadSize,
+}: GetAttachmentUploadFormOptionsType): Promise<AttachmentUploadFormResponseType> {
+  return _retry(async () => {
+    const chat = await socketManager.getAuthenticatedApi();
+    const { cdn, key, headers, signedUploadUrl } = await chat.getUploadForm({
+      uploadSize: BigInt(uploadSize),
+    });
+
+    return parseLoose(attachmentUploadFormResponse, {
+      cdn,
+      key,
+      headers: Object.fromEntries(headers.entries()),
+      signedUploadLocation: signedUploadUrl.toString(),
+    });
   });
 }
 
@@ -4157,7 +4133,7 @@ export async function putEncryptedAttachment(
 
     try {
       // This is going to the CDN, not the service, so we use _outerAjax
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       await _outerAjax(uploadLocation, {
         disableRetries: true,
         certificateAuthority,
@@ -4183,7 +4159,7 @@ export async function putEncryptedAttachment(
       );
     }
 
-    // eslint-disable-next-line no-await-in-loop
+    // oxlint-disable-next-line no-await-in-loop
     const result: BytesWithDetailsType = await _outerAjax(uploadLocation, {
       certificateAuthority,
       proxyUrl,
@@ -4202,7 +4178,7 @@ export async function putEncryptedAttachment(
     if (range != null) {
       const match = range.match(/^bytes=0-(\d+)$/);
       strictAssert(match != null, `Invalid range header: ${range}`);
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      // oxlint-disable-next-line typescript/no-non-null-assertion
       start = parseInt(match[1]!, 10);
     } else {
       log.warn(`${logId}: No range header`);
@@ -4657,9 +4633,7 @@ export async function getGroupFromLink(
     disableSessionResumption: true,
     httpType: 'GET',
     responseType: 'bytes',
-    urlParameters: safeInviteLinkPassword
-      ? `${safeInviteLinkPassword}`
-      : undefined,
+    urlParameters: safeInviteLinkPassword,
     redactUrl: _createRedactor(safeInviteLinkPassword),
   });
 
@@ -4753,9 +4727,9 @@ export async function getGroupLog(
     },
     urlParameters:
       `/${startVersion}?` +
-      `includeFirstState=${Boolean(includeFirstState)}&` +
-      `includeLastState=${Boolean(includeLastState)}&` +
-      `maxSupportedChangeEpoch=${Number(maxSupportedChangeEpoch)}`,
+      `includeFirstState=${includeFirstState}&` +
+      `includeLastState=${includeLastState}&` +
+      `maxSupportedChangeEpoch=${maxSupportedChangeEpoch}`,
   });
   const { data, response } = withDetails;
   const changes = Proto.GroupChanges.decode(data);
@@ -4765,11 +4739,11 @@ export async function getGroupLog(
     const range = response.headers.get('Content-Range');
     const match = PARSE_GROUP_LOG_RANGE_HEADER.exec(range || '');
 
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    // oxlint-disable-next-line typescript/no-non-null-assertion
     const start = match ? parseInt(match[1]!, 10) : undefined;
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    // oxlint-disable-next-line typescript/no-non-null-assertion
     const end = match ? parseInt(match[2]!, 10) : undefined;
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    // oxlint-disable-next-line typescript/no-non-null-assertion
     const currentRevision = match ? parseInt(match[3]!, 10) : undefined;
 
     if (

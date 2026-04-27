@@ -3,35 +3,35 @@
 
 import type { ReadonlyDeep } from 'type-fest';
 
-import type { RawBodyRange } from '../types/BodyRange.std.js';
+import type { RawBodyRange } from '../types/BodyRange.std.ts';
 import type { ReadonlyMessageAttributesType } from '../model-types.d.ts';
-import type { ICUStringMessageParamsByKeyType } from '../types/Util.std.js';
-import * as Attachment from './Attachment.std.js';
-import * as EmbeddedContact from '../types/EmbeddedContact.std.js';
-import * as GroupChange from '../groupChange.std.js';
-import * as MIME from '../types/MIME.std.js';
-import * as Stickers from '../types/Stickers.preload.js';
-import * as expirationTimer from './expirationTimer.std.js';
-import { createLogger } from '../logging/log.std.js';
-import { GiftBadgeStates } from '../types/GiftBadgeStates.std.js';
-import { dropNull } from './dropNull.std.js';
-import { getCallHistorySelector } from '../state/selectors/callHistory.std.js';
+import type { ICUStringMessageParamsByKeyType } from '../types/Util.std.ts';
+import * as Attachment from './Attachment.std.ts';
+import * as EmbeddedContact from '../types/EmbeddedContact.std.ts';
+import * as GroupChange from '../groupChange.std.ts';
+import * as MIME from '../types/MIME.std.ts';
+import * as Stickers from '../types/Stickers.preload.ts';
+import * as expirationTimer from './expirationTimer.std.ts';
+import { createLogger } from '../logging/log.std.ts';
+import { GiftBadgeStates } from '../types/GiftBadgeStates.std.ts';
+import { dropNull } from './dropNull.std.ts';
+import { getCallHistorySelector } from '../state/selectors/callHistory.std.ts';
 import {
   getCallSelector,
   getActiveCall,
-} from '../state/selectors/calling.std.js';
-import { getCallingNotificationText } from './callingNotification.std.js';
+} from '../state/selectors/calling.std.ts';
+import { getCallingNotificationText } from './callingNotification.std.ts';
 import {
   getConversationSelector,
   getSelectedMessageIds,
   getTargetedMessage,
-} from '../state/selectors/conversations.dom.js';
-import { getStringForConversationMerge } from './getStringForConversationMerge.std.js';
-import { getStringForProfileChange } from './getStringForProfileChange.std.js';
-import { getTitleNoDefault, getNumber } from './getTitle.preload.js';
-import { findAndFormatContact } from './findAndFormatContact.preload.js';
-import { isGroup, isMe } from './whatTypeOfConversation.dom.js';
-import { strictAssert } from './assert.std.js';
+} from '../state/selectors/conversations.dom.ts';
+import { getStringForConversationMerge } from './getStringForConversationMerge.std.ts';
+import { getStringForProfileChange } from './getStringForProfileChange.std.ts';
+import { getTitleNoDefault, getNumber } from './getTitle.preload.ts';
+import { findAndFormatContact } from './findAndFormatContact.preload.ts';
+import { isGroup, isMe } from './whatTypeOfConversation.dom.ts';
+import { strictAssert } from './assert.std.ts';
 import {
   getPropsForCallHistory,
   hasErrors,
@@ -52,16 +52,16 @@ import {
   isConversationMerge,
   isMessageRequestResponse,
   isPinnedMessageNotification,
-} from '../state/selectors/message.preload.js';
-import { getAuthor } from '../messages/sources.preload.js';
+} from '../state/selectors/message.preload.ts';
+import { getAuthor } from '../messages/sources.preload.ts';
 import {
   messageHasPaymentEvent,
   getPaymentEventNotificationText,
-} from '../messages/payments.std.js';
-import { MessageRequestResponseEvent } from '../types/MessageRequestResponseEvent.std.js';
-import { missingCaseError } from './missingCaseError.std.js';
-import { getUserConversationId } from '../state/selectors/user.std.js';
-import { itemStorage } from '../textsecure/Storage.preload.js';
+} from '../messages/payments.std.ts';
+import { MessageRequestResponseEvent } from '../types/MessageRequestResponseEvent.std.ts';
+import { missingCaseError } from './missingCaseError.std.ts';
+import { getUserConversationId } from '../state/selectors/user.std.ts';
+import { itemStorage } from '../textsecure/Storage.preload.ts';
 
 const log = createLogger('getNotificationDataForMessage');
 const { i18n } = window.SignalContext;
@@ -168,7 +168,7 @@ export function getNotificationDataForMessage(
         _i18n: unknown,
         components: ICUStringMessageParamsByKeyType[Key]
       ) => {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        // oxlint-disable-next-line typescript/no-explicit-any
         return i18n(key, components as any);
       },
     });
@@ -318,7 +318,7 @@ export function getNotificationDataForMessage(
         }
       } else {
         const joinedContact = window.ConversationController.getOrCreate(
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          // oxlint-disable-next-line typescript/no-non-null-assertion
           groupUpdate.joined[0]!,
           'private'
         );
@@ -327,7 +327,7 @@ export function getNotificationDataForMessage(
         } else {
           messages.push(
             i18n('icu:joinedTheGroup', {
-              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+              // oxlint-disable-next-line typescript/no-non-null-assertion
               name: joinedContacts[0]!.getTitle(),
             })
           );
@@ -478,7 +478,7 @@ export function getNotificationDataForMessage(
   const { contact: contacts } = attributes;
   if (contacts && contacts.length) {
     return {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      // oxlint-disable-next-line typescript/no-non-null-assertion
       text: EmbeddedContact.getName(contacts[0]!) || i18n('icu:unknownContact'),
       emoji: '👤',
     };

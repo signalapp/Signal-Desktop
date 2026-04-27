@@ -4,15 +4,15 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { PropsData as MessageDataPropsType } from './Message.dom.js';
-import { TextDirection } from './Message.dom.js';
-import type { Props } from './MessageDetail.dom.js';
-import { MessageDetail } from './MessageDetail.dom.js';
-import { SendStatus } from '../../messages/MessageSendState.std.js';
-import { ReadStatus } from '../../messages/MessageReadStatus.std.js';
-import { getDefaultConversation } from '../../test-helpers/getDefaultConversation.std.js';
-import { getFakeBadge } from '../../test-helpers/getFakeBadge.std.js';
-import { ThemeType } from '../../types/Util.std.js';
+import type { PropsData as MessageDataPropsType } from './Message.dom.tsx';
+import { TextDirection } from './Message.dom.tsx';
+import type { Props } from './MessageDetail.dom.tsx';
+import { MessageDetail } from './MessageDetail.dom.tsx';
+import { SendStatus } from '../../messages/MessageSendState.std.ts';
+import { ReadStatus } from '../../messages/MessageReadStatus.std.ts';
+import { getDefaultConversation } from '../../test-helpers/getDefaultConversation.std.ts';
+import { getFakeBadge } from '../../test-helpers/getFakeBadge.std.ts';
+import { ThemeType } from '../../types/Util.std.ts';
 
 const { i18n } = window.SignalContext;
 
@@ -23,6 +23,7 @@ const defaultMessage: MessageDataPropsType = {
   }),
   canDeleteForEveryone: true,
   canRetryDeleteForEveryone: false,
+  canSendPollVote: true,
   conversationColor: 'crimson',
   conversationId: 'my-convo',
   conversationTitle: 'Conversation Title',
@@ -198,7 +199,7 @@ export function NotDelivered(args: Props): React.JSX.Element {
   return (
     <MessageDetail
       {...args}
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // oxlint-disable-next-line typescript/no-explicit-any
       receivedAt={undefined as any}
       message={{
         ...defaultMessage,

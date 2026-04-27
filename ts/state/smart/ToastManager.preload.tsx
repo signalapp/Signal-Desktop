@@ -3,39 +3,43 @@
 
 import React, { memo } from 'react';
 import { useSelector } from 'react-redux';
-import type { AnyActionableMegaphone } from '../../types/Megaphone.std.js';
-import { MegaphoneType } from '../../types/Megaphone.std.js';
-import { UsernameOnboardingState } from '../../types/globalModals.std.js';
-import OS from '../../util/os/osMain.node.js';
-import { drop } from '../../util/drop.std.js';
-import { getIntl } from '../selectors/user.std.js';
+import { getHeapSnapshot } from 'node:v8';
+
+import type { AnyActionableMegaphone } from '../../types/Megaphone.std.ts';
+import { MegaphoneType } from '../../types/Megaphone.std.ts';
+import { UsernameOnboardingState } from '../../types/globalModals.std.ts';
+import OS from '../../util/os/osMain.node.ts';
+import { drop } from '../../util/drop.std.ts';
+import { getIntl } from '../selectors/user.std.ts';
 import {
   getGlobalModalsState,
   isShowingAnyModal as getIsShowingAnyModal,
-} from '../selectors/globalModals.std.js';
-import { hasSelectedStoryData } from '../selectors/stories.preload.js';
-import { shouldShowLightbox } from '../selectors/lightbox.std.js';
-import { isInFullScreenCall as getIsInFullScreenCall } from '../selectors/calling.std.js';
+} from '../selectors/globalModals.std.ts';
+import { hasSelectedStoryData } from '../selectors/stories.preload.ts';
+import { shouldShowLightbox } from '../selectors/lightbox.std.ts';
+import { isInFullScreenCall as getIsInFullScreenCall } from '../selectors/calling.std.ts';
 import {
   getSelectedConversationId,
   getSelectedNavTab,
-} from '../selectors/nav.std.js';
-import { getMe } from '../selectors/conversations.dom.js';
-import { useConversationsActions } from '../ducks/conversations.preload.js';
-import { useCallingActions } from '../ducks/calling.preload.js';
-import { useToastActions } from '../ducks/toast.preload.js';
-import { useGlobalModalActions } from '../ducks/globalModals.preload.js';
-import { useNavActions } from '../ducks/nav.std.js';
-import { NavTab } from '../../types/Nav.std.js';
-import { getHasCompletedUsernameOnboarding } from '../selectors/items.dom.js';
-import { ToastManager } from '../../components/ToastManager.dom.js';
-import type { WidthBreakpoint } from '../../components/_util.std.js';
-import { getToast } from '../selectors/toast.std.js';
-import { useDonationsActions } from '../ducks/donations.preload.js';
-import { itemStorage } from '../../textsecure/Storage.preload.js';
-import { getVisibleMegaphonesForDisplay } from '../selectors/megaphones.preload.js';
-import { useMegaphonesActions } from '../ducks/megaphones.preload.js';
-import { shouldNeverBeCalled } from '../../util/shouldNeverBeCalled.std.js';
+} from '../selectors/nav.std.ts';
+import { getMe } from '../selectors/conversations.dom.ts';
+import { useConversationsActions } from '../ducks/conversations.preload.ts';
+import { useCallingActions } from '../ducks/calling.preload.ts';
+import { useToastActions } from '../ducks/toast.preload.ts';
+import { useGlobalModalActions } from '../ducks/globalModals.preload.ts';
+import { useNavActions } from '../ducks/nav.std.ts';
+import { NavTab } from '../../types/Nav.std.ts';
+import { getHasCompletedUsernameOnboarding } from '../selectors/items.dom.ts';
+import { ToastManager } from '../../components/ToastManager.dom.tsx';
+import type { WidthBreakpoint } from '../../components/_util.std.ts';
+import { getToast } from '../selectors/toast.std.ts';
+import { useDonationsActions } from '../ducks/donations.preload.ts';
+import { itemStorage } from '../../textsecure/Storage.preload.ts';
+import { getVisibleMegaphonesForDisplay } from '../selectors/megaphones.preload.ts';
+import { useMegaphonesActions } from '../ducks/megaphones.preload.ts';
+import { shouldNeverBeCalled } from '../../util/shouldNeverBeCalled.std.ts';
+import { saveAttachmentToDisk } from '../../windows/main/attachments.preload.ts';
+import * as Bytes from '../../Bytes.std.ts';
 
 export type SmartPropsType = Readonly<{
   disableMegaphone?: boolean;
@@ -45,6 +49,21 @@ export type SmartPropsType = Readonly<{
 
 function handleShowDebugLog() {
   window.IPC.showDebugLog();
+}
+
+async function saveHeapSnapshot() {
+  const stream = getHeapSnapshot();
+
+  const chunks = new Array<Uint8Array<ArrayBuffer>>();
+  for await (const chunk of stream) {
+    chunks.push(chunk);
+  }
+  const data = Bytes.concatenate(chunks);
+
+  await saveAttachmentToDisk({
+    data,
+    name: `signal-desktop-${Date.now()}.heapsnapshot`,
+  });
 }
 
 export function renderToastManagerWithoutMegaphone(props: {
@@ -104,7 +123,7 @@ export const SmartToastManager = memo(function SmartToastManager({
     };
   } else if (megaphones.length > 0) {
     megaphone = {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      // oxlint-disable-next-line typescript/no-non-null-assertion
       ...megaphones[0]!,
       type: MegaphoneType.Remote,
       onInteractWithMegaphone: interactWithMegaphone,
@@ -131,6 +150,7 @@ export const SmartToastManager = memo(function SmartToastManager({
       onUndoArchive={onUndoArchive}
       retryCallQualitySurvey={retryCallQualitySurvey}
       openFileInFolder={openFileInFolder}
+      saveHeapSnapshot={saveHeapSnapshot}
       hideToast={hideToast}
       setDidResumeDonation={setDidResume}
       centerToast={centerToast}

@@ -4,25 +4,28 @@
 import type { MenuItemConstructorOptions } from 'electron';
 import { ipcRenderer } from 'electron';
 
-import type { NativeThemeType } from '../context/createNativeThemeListener.std.js';
-import type { MenuOptionsType } from '../types/menu.std.js';
-import type { RendererConfigType } from '../types/RendererConfig.std.js';
-import type { LocalizerType } from '../types/Util.std.js';
+import { Emojify } from '../components/conversation/Emojify.dom.tsx';
+import type { NativeThemeType } from '../context/createNativeThemeListener.std.ts';
+import type { MenuOptionsType } from '../types/menu.std.ts';
+import type { RendererConfigType } from '../types/RendererConfig.std.ts';
+import type { LocalizerType } from '../types/Util.std.ts';
+import { parseUnknown } from '../util/schemas.std.ts';
 import type {
   SettingType,
   SettingsValuesType,
-} from '../util/preload.preload.js';
+} from '../util/preload.preload.ts';
 
-import { Bytes } from '../context/Bytes.std.js';
-import { Crypto } from '../context/Crypto.node.js';
-import { Timers } from '../context/Timers.node.js';
+import { Bytes } from '../context/Bytes.std.ts';
+import { Crypto } from '../context/Crypto.node.ts';
+import { Timers } from '../context/Timers.node.ts';
 
-import type { LocaleDirection } from '../../app/locale.node.js';
-import { i18n } from '../context/i18n.preload.js';
-import type { ActiveWindowServiceType } from '../services/ActiveWindowService.std.js';
-import type { LocaleEmojiListType } from '../types/emoji.std.js';
-import type { HourCyclePreference } from '../types/I18N.std.js';
-import { MinimalSignalContext } from './minimalContext.preload.js';
+import type { LocaleDirection } from '../../app/locale.node.ts';
+import { i18n } from '../context/i18n.preload.ts';
+import type { ActiveWindowServiceType } from '../services/ActiveWindowService.std.ts';
+import type { LocaleEmojiListType } from '../types/emoji.std.ts';
+import { LocaleEmojiListSchema } from '../types/emoji.std.ts';
+import type { HourCyclePreference } from '../types/I18N.std.ts';
+import { MinimalSignalContext } from './minimalContext.preload.ts';
 
 export type MainWindowStatsType = Readonly<{
   isMaximized: boolean;
@@ -46,7 +49,6 @@ export type MinimalSignalContextType = {
   getResolvedMessagesLocale: () => string;
   getPreferredSystemLocales: () => Array<string>;
   getLocaleOverride: () => string | null;
-  getLocalizedEmojiList: (locale: string) => Promise<LocaleEmojiListType>;
   getMainWindowStats: () => Promise<MainWindowStatsType>;
   getMenuOptions: () => Promise<MenuOptionsType>;
   getNodeVersion: () => string;
@@ -64,6 +66,7 @@ export type MinimalSignalContextType = {
     platform: string;
     release: string;
   };
+  Emojify: typeof Emojify | undefined;
 };
 
 export type SignalContextType = {
@@ -71,7 +74,11 @@ export type SignalContextType = {
   crypto: Crypto;
   setIsCallActive: (isCallActive: boolean) => unknown;
   timers: Timers;
+  Emojify: typeof Emojify;
+  getLocalizedEmojiList: (locale: string) => Promise<LocaleEmojiListType>;
 } & MinimalSignalContextType;
+
+const emojiListCache = new Map<string, LocaleEmojiListType>();
 
 export const SignalContext: SignalContextType = {
   ...MinimalSignalContext,
@@ -82,6 +89,22 @@ export const SignalContext: SignalContextType = {
     ipcRenderer.send('set-is-call-active', isCallActive);
   },
   timers: new Timers(),
+  Emojify,
+  async getLocalizedEmojiList(locale: string) {
+    const cached = emojiListCache.get(locale);
+    if (cached) {
+      return cached;
+    }
+
+    const buf = await ipcRenderer.invoke(
+      'OptionalResourceService:getData',
+      `emoji-index-${locale}.json`
+    );
+    const json: unknown = JSON.parse(Buffer.from(buf).toString());
+    const result = parseUnknown(LocaleEmojiListSchema, json);
+    emojiListCache.set(locale, result);
+    return result;
+  },
 };
 
 window.SignalContext = SignalContext;

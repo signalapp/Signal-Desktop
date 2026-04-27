@@ -5,10 +5,10 @@ import { join } from 'node:path';
 import { mkdirSync } from 'node:fs';
 import { app } from 'electron';
 
-import { start } from './base_config.node.js';
-import config from './config.main.js';
-import * as Errors from '../ts/types/errors.std.js';
-import OS from '../ts/util/os/osMain.node.js';
+import { start } from './base_config.node.ts';
+import config from './config.main.ts';
+import * as Errors from '../ts/types/errors.std.ts';
+import OS from '../ts/util/os/osMain.node.ts';
 
 let userData: string | undefined;
 // Use separate data directory for benchmarks & development
@@ -17,6 +17,7 @@ if (config.has('storagePath')) {
 } else if (config.has('storageProfile')) {
   userData = join(
     app.getPath('appData'),
+    // oxlint-disable-next-line typescript/restrict-template-expressions
     `Signal-${config.get('storageProfile')}`
   );
 } else if (OS.isAppImage()) {
@@ -27,6 +28,7 @@ if (userData !== undefined) {
   try {
     mkdirSync(userData, { recursive: true });
   } catch (error) {
+    // oxlint-disable-next-line no-console
     console.error('Failed to create userData', Errors.toLogFormat(error));
   }
 
@@ -34,6 +36,7 @@ if (userData !== undefined) {
 }
 
 // Use console.log because logger isn't fully initialized yet
+// oxlint-disable-next-line no-console
 console.log(`userData: ${app.getPath('userData')}`);
 
 const userDataPath = app.getPath('userData');

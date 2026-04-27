@@ -4,87 +4,88 @@
 import lodash, { omit, partition, without } from 'lodash';
 
 import { ServiceId } from '@signalapp/libsignal-client';
-import { uuidToBytes, bytesToUuid } from '../util/uuidToBytes.std.js';
-import { deriveMasterKeyFromGroupV1 } from '../Crypto.node.js';
-import * as Bytes from '../Bytes.std.js';
+import { uuidToBytes, bytesToUuid } from '../util/uuidToBytes.std.ts';
+import { deriveMasterKeyFromGroupV1 } from '../Crypto.node.ts';
+import * as Bytes from '../Bytes.std.ts';
 import {
   deriveGroupFields,
   waitThenMaybeUpdateGroup,
   waitThenRespondToGroupV2Migration,
-} from '../groups.preload.js';
-import { assertDev, strictAssert } from '../util/assert.std.js';
-import { dropNull } from '../util/dropNull.std.js';
-import { missingCaseError } from '../util/missingCaseError.std.js';
-import { isNotNil } from '../util/isNotNil.std.js';
+} from '../groups.preload.ts';
+import { assertDev, strictAssert } from '../util/assert.std.ts';
+import { dropNull } from '../util/dropNull.std.ts';
+import { normalizeProfileName } from '../util/normalizeProfileName.std.ts';
+import { missingCaseError } from '../util/missingCaseError.std.ts';
+import { isNotNil } from '../util/isNotNil.std.ts';
 import {
   PhoneNumberSharingMode,
   parsePhoneNumberSharingMode,
-} from '../types/PhoneNumberSharingMode.std.js';
+} from '../types/PhoneNumberSharingMode.std.ts';
 import {
   PhoneNumberDiscoverability,
   parsePhoneNumberDiscoverability,
-} from '../util/phoneNumberDiscoverability.std.js';
-import { arePinnedConversationsEqual } from '../util/arePinnedConversationsEqual.node.js';
-import type { ConversationModel } from '../models/conversations.preload.js';
+} from '../util/phoneNumberDiscoverability.std.ts';
+import { arePinnedConversationsEqual } from '../util/arePinnedConversationsEqual.node.ts';
+import type { ConversationModel } from '../models/conversations.preload.ts';
 import {
   getSafeLongFromTimestamp,
   getTimestampFromLong,
-} from '../util/timestampLongUtils.std.js';
-import { canHaveUsername } from '../util/getTitle.preload.js';
+} from '../util/timestampLongUtils.std.ts';
+import { canHaveUsername } from '../util/getTitle.preload.ts';
 import {
   get as getUniversalExpireTimer,
   set as setUniversalExpireTimer,
-} from '../util/universalExpireTimer.preload.js';
-import { ourProfileKeyService } from './ourProfileKey.std.js';
+} from '../util/universalExpireTimer.preload.ts';
+import { ourProfileKeyService } from './ourProfileKey.std.ts';
 import {
   isDirectConversation,
   isGroupV1,
   isGroupV2,
-} from '../util/whatTypeOfConversation.dom.js';
-import { DurationInSeconds } from '../util/durations/index.std.js';
-import * as preferredReactionEmoji from '../reactions/preferredReactionEmoji.std.js';
-import { SignalService as Proto } from '../protobuf/index.std.js';
-import { createLogger } from '../logging/log.std.js';
-import { normalizeStoryDistributionId } from '../types/StoryDistributionId.std.js';
-import type { StoryDistributionIdString } from '../types/StoryDistributionId.std.js';
-import type { ServiceIdString } from '../types/ServiceId.std.js';
+} from '../util/whatTypeOfConversation.dom.ts';
+import { DurationInSeconds } from '../util/durations/index.std.ts';
+import * as preferredReactionEmoji from '../reactions/preferredReactionEmoji.std.ts';
+import { SignalService as Proto } from '../protobuf/index.std.ts';
+import { createLogger } from '../logging/log.std.ts';
+import { normalizeStoryDistributionId } from '../types/StoryDistributionId.std.ts';
+import type { StoryDistributionIdString } from '../types/StoryDistributionId.std.ts';
+import type { ServiceIdString } from '../types/ServiceId.std.ts';
 import {
   ServiceIdKind,
   normalizeServiceId,
   toUntaggedPni,
-} from '../types/ServiceId.std.js';
-import { isAciString } from '../util/isAciString.std.js';
-import * as Stickers from '../types/Stickers.preload.js';
+} from '../types/ServiceId.std.ts';
+import { isAciString } from '../util/isAciString.std.ts';
+import * as Stickers from '../types/Stickers.preload.ts';
 import type {
   StoryDistributionWithMembersType,
   StickerPackInfoType,
-} from '../sql/Interface.std.js';
-import { DataReader, DataWriter } from '../sql/Client.preload.js';
-import { MY_STORY_ID, StorySendMode } from '../types/Stories.std.js';
-import { findAndDeleteOnboardingStoryIfExists } from '../util/findAndDeleteOnboardingStoryIfExists.preload.js';
-import { downloadOnboardingStory } from '../util/downloadOnboardingStory.preload.js';
-import { drop } from '../util/drop.std.js';
-import { redactExtendedStorageID } from '../util/privacy.node.js';
+} from '../sql/Interface.std.ts';
+import { DataReader, DataWriter } from '../sql/Client.preload.ts';
+import { MY_STORY_ID, StorySendMode } from '../types/Stories.std.ts';
+import { findAndDeleteOnboardingStoryIfExists } from '../util/findAndDeleteOnboardingStoryIfExists.preload.ts';
+import { downloadOnboardingStory } from '../util/downloadOnboardingStory.preload.ts';
+import { drop } from '../util/drop.std.ts';
+import { redactExtendedStorageID } from '../util/privacy.node.ts';
 import type {
   CallLinkRecord,
   DefunctCallLinkType,
   PendingCallLinkType,
-} from '../types/CallLink.std.js';
+} from '../types/CallLink.std.ts';
 import {
   callLinkFromRecord,
   fromRootKeyBytes,
   getRoomIdFromRootKeyString,
   toRootKeyBytes,
-} from '../util/callLinksRingrtc.node.js';
-import { fromAdminKeyBytes, toAdminKeyBytes } from '../util/callLinks.std.js';
-import { isOlderThan } from '../util/timestamp.std.js';
-import { getMessageQueueTime } from '../util/getMessageQueueTime.dom.js';
-import { callLinkRefreshJobQueue } from '../jobs/callLinkRefreshJobQueue.preload.js';
+} from '../util/callLinksRingrtc.node.ts';
+import { fromAdminKeyBytes, toAdminKeyBytes } from '../util/callLinks.std.ts';
+import { isOlderThan } from '../util/timestamp.std.ts';
+import { getMessageQueueTime } from '../util/getMessageQueueTime.dom.ts';
+import { callLinkRefreshJobQueue } from '../jobs/callLinkRefreshJobQueue.preload.ts';
 import {
   generateBackupsSubscriberData,
   saveBackupsSubscriberData,
   saveBackupTier,
-} from '../util/backupSubscriptionData.preload.js';
+} from '../util/backupSubscriptionData.preload.ts';
 import {
   toAciObject,
   toPniObject,
@@ -92,46 +93,46 @@ import {
   fromServiceIdBinaryOrString,
   fromAciUuidBytesOrString,
   fromPniUuidBytesOrUntaggedString,
-} from '../util/ServiceId.node.js';
-import { isProtoBinaryEncodingEnabled } from '../util/isProtoBinaryEncodingEnabled.dom.js';
+} from '../util/ServiceId.node.ts';
+import { isProtoBinaryEncodingEnabled } from '../util/isProtoBinaryEncodingEnabled.dom.ts';
 import {
   getLinkPreviewSetting,
   getReadReceiptSetting,
   getSealedSenderIndicatorSetting,
   getTypingIndicatorSetting,
-} from '../util/Settings.preload.js';
-import { MessageRequestResponseSource } from '../types/MessageRequestResponseEvent.std.js';
-import type { ChatFolder, ChatFolderId } from '../types/ChatFolder.std.js';
+} from '../util/Settings.preload.ts';
+import { MessageRequestResponseSource } from '../types/MessageRequestResponseEvent.std.ts';
+import type { ChatFolder, ChatFolderId } from '../types/ChatFolder.std.ts';
 import {
   CHAT_FOLDER_DELETED_POSITION,
   ChatFolderType,
-} from '../types/ChatFolder.std.js';
+} from '../types/ChatFolder.std.ts';
 import {
   deriveGroupID,
   deriveGroupSecretParams,
-} from '../util/zkgroup.node.js';
-import { chatFolderCleanupService } from './expiring/chatFolderCleanupService.preload.js';
-import { signalProtocolStore } from '../SignalProtocolStore.preload.js';
+} from '../util/zkgroup.node.ts';
+import { chatFolderCleanupService } from './expiring/chatFolderCleanupService.preload.ts';
+import { signalProtocolStore } from '../SignalProtocolStore.preload.ts';
 import type {
   NotificationProfileOverride,
   NotificationProfileType,
-} from '../types/NotificationProfile.std.js';
+} from '../types/NotificationProfile.std.ts';
 import {
   DEFAULT_PROFILE_COLOR,
   fromDayOfWeekArray,
   redactNotificationProfileId,
   toDayOfWeekArray,
-} from '../types/NotificationProfile.std.js';
+} from '../types/NotificationProfile.std.ts';
 import {
   generateNotificationProfileId,
   normalizeNotificationProfileId,
-} from '../types/NotificationProfile-node.node.js';
-import { itemStorage } from '../textsecure/Storage.preload.js';
-import { onHasStoriesDisabledChange } from '../textsecure/WebAPI.preload.js';
-import { keyTransparency } from './keyTransparency.preload.js';
-import { toNumber } from '../util/toNumber.std.js';
-import { MAX_VALUE } from '../util/long.std.js';
-import { isKnownProtoEnumMember } from '../util/isKnownProtoEnumMember.std.js';
+} from '../types/NotificationProfile-node.node.ts';
+import { itemStorage } from '../textsecure/Storage.preload.ts';
+import { onHasStoriesDisabledChange } from '../textsecure/WebAPI.preload.ts';
+import { keyTransparency } from './keyTransparency.preload.ts';
+import { toNumber } from '../util/toNumber.std.ts';
+import { MAX_VALUE } from '../util/long.std.ts';
+import { isKnownProtoEnumMember } from '../util/isKnownProtoEnumMember.std.ts';
 
 const { isEqual } = lodash;
 
@@ -327,9 +328,9 @@ export async function toContactRecord(
     identityKey: serviceId
       ? ((await signalProtocolStore.loadIdentityKey(serviceId)) ?? null)
       : null,
-    identityState: verified ? toRecordVerified(Number(verified)) : null,
+    identityState: verified ? toRecordVerified(verified) : null,
     pniSignatureVerified: conversation.get('pniSignatureVerified') ?? false,
-    profileKey: profileKey ? Bytes.fromBase64(String(profileKey)) : null,
+    profileKey: profileKey ? Bytes.fromBase64(profileKey) : null,
     givenName: conversation.get('profileName') || null,
     familyName: conversation.get('profileFamilyName') || null,
     nickname:
@@ -353,7 +354,7 @@ export async function toContactRecord(
       MAX_VALUE
     ),
     avatarColor: conversation.get('colorFromPrimary') ?? null,
-    hideStory: hideStory != null ? Boolean(hideStory) : null,
+    hideStory: hideStory ?? null,
     unregisteredAtTimestamp: getSafeLongFromTimestamp(
       conversation.get('firstUnregisteredAt')
     ),
@@ -528,7 +529,7 @@ export function toAccountRecord(
   }
 
   return {
-    profileKey: profileKey ? Bytes.fromBase64(String(profileKey)) : null,
+    profileKey: profileKey ? Bytes.fromBase64(profileKey) : null,
     givenName: conversation.get('profileName') || null,
     familyName: conversation.get('profileFamilyName') || null,
     avatarUrlPath: itemStorage.get('avatarUrl') || null,
@@ -540,8 +541,7 @@ export function toAccountRecord(
     typingIndicators: getTypingIndicatorSetting(),
     linkPreviews: getLinkPreviewSetting(),
 
-    preferContactAvatars:
-      preferContactAvatars != null ? Boolean(preferContactAvatars) : null,
+    preferContactAvatars: preferContactAvatars ?? null,
     preferredReactionEmoji: preferredReactionEmoji.canBeSynced(
       rawPreferredReactionEmoji
     )
@@ -627,8 +627,8 @@ export function toGroupV2Record(
   }
 
   const avatarColor = conversation.get('colorFromPrimary');
-
   const masterKey = conversation.get('masterKey');
+  const verifiedNameHash = conversation.get('groupVerifiedNameHash');
 
   return {
     masterKey: masterKey != null ? Bytes.fromBase64(masterKey) : null,
@@ -646,7 +646,9 @@ export function toGroupV2Record(
     hideStory: Boolean(conversation.get('hideStory')),
     avatarColor: avatarColor ?? null,
     storySendMode,
-
+    verifiedNameHash: verifiedNameHash
+      ? Bytes.fromBase64(verifiedNameHash)
+      : null,
     $unknown: conversationUnknownFieldsToRecord(conversation),
   };
 }
@@ -660,8 +662,8 @@ export function toStoryDistributionListRecord(
     deletedAtTimestamp: getSafeLongFromTimestamp(
       storyDistributionList.deletedAtTimestamp
     ),
-    allowsReplies: Boolean(storyDistributionList.allowsReplies),
-    isBlockList: Boolean(storyDistributionList.isBlockList),
+    allowsReplies: storyDistributionList.allowsReplies,
+    isBlockList: storyDistributionList.isBlockList,
     recipientServiceIdsBinary: isProtoBinaryEncodingEnabled()
       ? storyDistributionList.members.map(serviceId => {
           return toServiceIdObject(serviceId).getServiceIdBinary();
@@ -942,7 +944,7 @@ async function applyMessageRequestState(
 }
 
 type RecordClassObject = {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // oxlint-disable-next-line typescript/no-explicit-any
   [key: string]: any;
 };
 
@@ -1236,17 +1238,25 @@ export async function mergeGroupV2Record(
   );
 
   conversation.set({
-    hideStory: Boolean(groupV2Record.hideStory),
-    isArchived: Boolean(groupV2Record.archived),
-    markedUnread: Boolean(groupV2Record.markedUnread),
-    dontNotifyForMentionsIfMuted: Boolean(
-      groupV2Record.dontNotifyForMentionsIfMuted
-    ),
+    hideStory: groupV2Record.hideStory,
+    isArchived: groupV2Record.archived,
+    markedUnread: groupV2Record.markedUnread,
+    dontNotifyForMentionsIfMuted: groupV2Record.dontNotifyForMentionsIfMuted,
     storageID,
     storageVersion,
     storySendMode,
+
     needsStorageServiceSync: false,
   });
+
+  // We only update verified name hash if it is truthy, to avoid races where a linked
+  // device creates the GroupV2Record (with nullish hash) before the creating device
+  // updates storage service with the verified name hash.
+  if (Bytes.isNotEmpty(groupV2Record.verifiedNameHash)) {
+    conversation.set({
+      groupVerifiedNameHash: Bytes.toBase64(groupV2Record.verifiedNameHash),
+    });
+  }
 
   conversation.setMuteExpiration(
     getTimestampFromLong(
@@ -1391,8 +1401,8 @@ export async function mergeContactRecord(
     );
   }
 
-  const remoteName = dropNull(contactRecord.givenName || null);
-  const remoteFamilyName = dropNull(contactRecord.familyName || null);
+  const remoteName = normalizeProfileName(contactRecord.givenName);
+  const remoteFamilyName = normalizeProfileName(contactRecord.familyName);
   const localName = conversation.get('profileName');
   const localFamilyName = conversation.get('profileFamilyName');
   if (
@@ -1468,9 +1478,9 @@ export async function mergeContactRecord(
   const oldStorageVersion = conversation.get('storageVersion');
 
   conversation.set({
-    hideStory: Boolean(contactRecord.hideStory),
-    isArchived: Boolean(contactRecord.archived),
-    markedUnread: Boolean(contactRecord.markedUnread),
+    hideStory: contactRecord.hideStory,
+    isArchived: contactRecord.archived,
+    markedUnread: contactRecord.markedUnread,
     storageID,
     storageVersion,
     needsStorageServiceSync: false,
@@ -1568,14 +1578,14 @@ export async function mergeAccountRecord(
 
   const details = logRecordChanges(
     toAccountRecord(conversation, {
-      notificationProfileSyncDisabled: Boolean(notificationProfileSyncDisabled),
+      notificationProfileSyncDisabled,
     }),
     accountRecord
   );
 
   const updatedConversations = new Array<ConversationModel>();
 
-  await itemStorage.put('read-receipt-setting', Boolean(readReceipts));
+  await itemStorage.put('read-receipt-setting', readReceipts);
 
   if (typeof sealedSenderIndicators === 'boolean') {
     await itemStorage.put('sealedSenderIndicators', sealedSenderIndicators);
@@ -1596,11 +1606,8 @@ export async function mergeAccountRecord(
     const postRegistrationSyncsComplete =
       itemStorage.get('postRegistrationSyncsStatus') !== 'incomplete';
 
-    if (
-      Boolean(previous) !== Boolean(preferContactAvatars) &&
-      postRegistrationSyncsComplete
-    ) {
-      await window.ConversationController.forceRerender();
+    if (previous !== preferContactAvatars && postRegistrationSyncsComplete) {
+      await window.ConversationController.rerenderAfterAvatarChange();
     }
   }
 
@@ -1800,66 +1807,40 @@ export async function mergeAccountRecord(
   await saveBackupsSubscriberData(backupSubscriberData);
   await saveBackupTier(toNumber(backupTier) ?? undefined);
 
-  await itemStorage.put(
-    'displayBadgesOnProfile',
-    Boolean(displayBadgesOnProfile)
-  );
-  await itemStorage.put(
-    'keepMutedChatsArchived',
-    Boolean(keepMutedChatsArchived)
-  );
-  await itemStorage.put(
-    'hasSetMyStoriesPrivacy',
-    Boolean(hasSetMyStoriesPrivacy)
-  );
+  await itemStorage.put('displayBadgesOnProfile', displayBadgesOnProfile);
+  await itemStorage.put('keepMutedChatsArchived', keepMutedChatsArchived);
+  await itemStorage.put('hasSetMyStoriesPrivacy', hasSetMyStoriesPrivacy);
   {
-    const hasViewedOnboardingStoryBool = Boolean(hasViewedOnboardingStory);
-    await itemStorage.put(
-      'hasViewedOnboardingStory',
-      hasViewedOnboardingStoryBool
-    );
-    if (hasViewedOnboardingStoryBool) {
+    await itemStorage.put('hasViewedOnboardingStory', hasViewedOnboardingStory);
+    if (hasViewedOnboardingStory) {
       drop(findAndDeleteOnboardingStoryIfExists());
     } else {
       drop(downloadOnboardingStory());
     }
   }
-  {
-    const hasCompletedUsernameOnboardingBool = Boolean(
-      hasCompletedUsernameOnboarding
-    );
-    await itemStorage.put(
-      'hasCompletedUsernameOnboarding',
-      hasCompletedUsernameOnboardingBool
-    );
-  }
-  {
-    const hasCompletedUsernameOnboardingBool = Boolean(
-      hasSeenGroupStoryEducationSheet
-    );
-    await itemStorage.put(
-      'hasSeenGroupStoryEducationSheet',
-      hasCompletedUsernameOnboardingBool
-    );
-  }
+  await itemStorage.put(
+    'hasCompletedUsernameOnboarding',
+    hasCompletedUsernameOnboarding
+  );
+  await itemStorage.put(
+    'hasSeenGroupStoryEducationSheet',
+    hasSeenGroupStoryEducationSheet
+  );
   await itemStorage.put(
     'hasSeenAdminDeleteEducationDialog',
     hasSeenAdminDeleteEducationDialog ?? false
   );
   {
-    const hasKeyTransparencyDisabled = Boolean(
-      automaticKeyVerificationDisabled
-    );
     await itemStorage.put(
       'hasKeyTransparencyDisabled',
-      hasKeyTransparencyDisabled
+      automaticKeyVerificationDisabled
     );
-    if (hasKeyTransparencyDisabled) {
+    if (automaticKeyVerificationDisabled) {
       await keyTransparency.disable();
     }
   }
   {
-    const hasStoriesDisabled = Boolean(storiesDisabled);
+    const hasStoriesDisabled = storiesDisabled;
     await itemStorage.put('hasStoriesDisabled', hasStoriesDisabled);
     onHasStoriesDisabledChange(hasStoriesDisabled);
   }
@@ -1918,6 +1899,7 @@ export async function mergeAccountRecord(
     log.info(
       `process(${storageVersion}): Account just flipped from notificationProfileSyncDisabled=${previousSyncDisabled} to ${notificationProfileSyncDisabled}`
     );
+    // oxlint-disable-next-line typescript/await-thenable
     await window.reduxActions.notificationProfiles.setIsSyncEnabled(
       !notificationProfileSyncDisabled,
       { fromStorageService: true }
@@ -1979,8 +1961,8 @@ export async function mergeAccountRecord(
   }
 
   conversation.set({
-    isArchived: Boolean(noteToSelfArchived),
-    markedUnread: Boolean(noteToSelfMarkedUnread),
+    isArchived: noteToSelfArchived,
+    markedUnread: noteToSelfMarkedUnread,
     storageID,
     storageVersion,
     needsStorageServiceSync: false,
@@ -2087,10 +2069,10 @@ export async function mergeStoryDistributionListRecord(
 
   const storyDistribution: StoryDistributionWithMembersType = {
     id: listId,
-    name: String(storyDistributionListRecord.name),
+    name: storyDistributionListRecord.name,
     deletedAtTimestamp: isMyStory ? undefined : deletedAtTimestamp,
-    allowsReplies: Boolean(storyDistributionListRecord.allowsReplies),
-    isBlockList: Boolean(storyDistributionListRecord.isBlockList),
+    allowsReplies: storyDistributionListRecord.allowsReplies,
+    isBlockList: storyDistributionListRecord.isBlockList,
     members: remoteListMembers,
     senderKeyInfo: localStoryDistributionList?.senderKeyInfo,
 
@@ -2154,10 +2136,10 @@ export async function mergeStoryDistributionListRecord(
     toRemove,
   });
   window.reduxActions.storyDistributionLists.modifyDistributionList({
-    allowsReplies: Boolean(storyDistribution.allowsReplies),
+    allowsReplies: storyDistribution.allowsReplies,
     deletedAtTimestamp: storyDistribution.deletedAtTimestamp,
     id: storyDistribution.id,
-    isBlockList: Boolean(storyDistribution.isBlockList),
+    isBlockList: storyDistribution.isBlockList,
     membersToAdd: toAdd,
     membersToRemove: toRemove,
     name: storyDistribution.name,
@@ -2865,10 +2847,10 @@ export async function mergeNotificationProfileRecord(
     emoji: dropNull(emoji),
     color: dropNull(color) ?? DEFAULT_PROFILE_COLOR,
     createdAtMs: toNumber(createdAtMs) ?? Date.now(),
-    allowAllCalls: Boolean(allowAllCalls),
-    allowAllMentions: Boolean(allowAllMentions),
+    allowAllCalls,
+    allowAllMentions,
     allowedMembers: new Set(allowedMemberConversationIds),
-    scheduleEnabled: Boolean(scheduleEnabled),
+    scheduleEnabled,
     scheduleStartTime: dropNull(scheduleStartTime),
     scheduleEndTime: dropNull(scheduleEndTime),
     scheduleDaysEnabled: fromDayOfWeekArray(

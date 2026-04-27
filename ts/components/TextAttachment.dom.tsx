@@ -7,23 +7,23 @@ import classNames from 'classnames';
 import type {
   LocalizerType,
   RenderTextCallbackType,
-} from '../types/Util.std.js';
-import type { TextAttachmentType } from '../types/Attachment.std.js';
-import { AddNewLines } from './conversation/AddNewLines.dom.js';
-import { Emojify } from './conversation/Emojify.dom.js';
-import { StoryLinkPreview } from './StoryLinkPreview.dom.js';
-import { TextAttachmentStyleType } from '../types/Attachment.std.js';
-import { count } from '../util/grapheme.std.js';
-import { isValidLink, getSafeDomain } from '../types/LinkPreview.std.js';
-import { getFontNameByTextScript } from '../util/getFontNameByTextScript.std.js';
+} from '../types/Util.std.ts';
+import type { TextAttachmentType } from '../types/Attachment.std.ts';
+import { AddNewLines } from './conversation/AddNewLines.dom.tsx';
+import { Emojify } from './conversation/Emojify.dom.tsx';
+import { StoryLinkPreview } from './StoryLinkPreview.dom.tsx';
+import { TextAttachmentStyleType } from '../types/Attachment.std.ts';
+import { count } from '../util/grapheme.std.ts';
+import { isValidLink, getSafeDomain } from '../types/LinkPreview.std.ts';
+import { getFontNameByTextScript } from '../util/getFontNameByTextScript.std.ts';
 import {
   COLOR_WHITE_INT,
   getHexFromNumber,
   getBackgroundColor,
-} from '../util/getStoryBackground.std.js';
-import { SECOND } from '../util/durations/index.std.js';
-import { useRefMerger } from '../hooks/useRefMerger.std.js';
-import { useSizeObserver } from '../hooks/useSizeObserver.dom.js';
+} from '../util/getStoryBackground.std.ts';
+import { SECOND } from '../util/durations/index.std.ts';
+import { useRefMerger } from '../hooks/useRefMerger.std.ts';
+import { useSizeObserver } from '../hooks/useSizeObserver.dom.tsx';
 
 const renderNewLines: RenderTextCallbackType = ({
   text: textWithNewLines,
@@ -177,7 +177,7 @@ export const TextAttachment = forwardRef<HTMLTextAreaElement, PropsType>(
     const scaleFactor = (size?.hidden === false ? size.height : 1) / 1280;
 
     return (
-      // eslint-disable-next-line jsx-a11y/no-static-element-interactions
+      // oxlint-disable-next-line jsx-a11y/no-static-element-interactions
       <div
         className="TextAttachment"
         onClick={() => {
@@ -297,7 +297,7 @@ export const TextAttachment = forwardRef<HTMLTextAreaElement, PropsType>(
               )}
               <StoryLinkPreview
                 {...textAttachment.preview}
-                domain={getSafeDomain(String(textAttachment.preview.url))}
+                domain={getSafeDomain(textAttachment.preview.url)}
                 forceCompactMode={getTextSize(textContent) !== TextSize.Large}
                 i18n={i18n}
                 title={textAttachment.preview.title || undefined}

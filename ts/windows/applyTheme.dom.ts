@@ -15,12 +15,12 @@ async function applyTheme() {
 }
 
 async function applyThemeLoop() {
-  // eslint-disable-next-line no-constant-condition
+  // oxlint-disable-next-line no-constant-condition
   while (true) {
-    // eslint-disable-next-line no-await-in-loop
+    // oxlint-disable-next-line no-await-in-loop
     await window.SignalContext.Settings.waitForChange();
 
-    // eslint-disable-next-line no-await-in-loop
+    // oxlint-disable-next-line no-await-in-loop
     await applyTheme();
   }
 }

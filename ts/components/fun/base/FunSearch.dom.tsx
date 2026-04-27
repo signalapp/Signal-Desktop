@@ -4,8 +4,8 @@ import type { ChangeEvent } from 'react';
 import React, { useCallback } from 'react';
 import { VisuallyHidden } from 'react-aria';
 import { getInteractionModality } from '@react-aria/interactions';
-import type { LocalizerType } from '../../../types/I18N.std.js';
-import { useFunContext } from '../FunProvider.dom.js';
+import type { LocalizerType } from '../../../types/I18N.std.ts';
+import { useFunContext } from '../FunProvider.dom.tsx';
 
 export type FunSearchProps = Readonly<{
   i18n: LocalizerType;
@@ -52,7 +52,6 @@ export function FunSearch(props: FunSearchProps): React.JSX.Element {
         onFocus={handleFocus}
         onBlur={handleBlur}
         placeholder={props.placeholder}
-        // eslint-disable-next-line jsx-a11y/no-autofocus
         autoFocus={shouldAutoFocus}
       />
       {props.searchInput !== '' && (

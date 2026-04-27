@@ -4,13 +4,13 @@
 import * as React from 'react';
 import lodash from 'lodash';
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './GroupCallRemoteParticipant.dom.js';
-import { GroupCallRemoteParticipant } from './GroupCallRemoteParticipant.dom.js';
-import { getDefaultConversation } from '../test-helpers/getDefaultConversation.std.js';
-import { FRAME_BUFFER_SIZE } from '../calling/constants.std.js';
-import { generateAci } from '../types/ServiceId.std.js';
-import type { CallingImageDataCache } from './CallManager.dom.js';
-import { MINUTE } from '../util/durations/index.std.js';
+import type { PropsType } from './GroupCallRemoteParticipant.dom.tsx';
+import { GroupCallRemoteParticipant } from './GroupCallRemoteParticipant.dom.tsx';
+import { getDefaultConversation } from '../test-helpers/getDefaultConversation.std.ts';
+import { FRAME_BUFFER_SIZE } from '../calling/constants.std.ts';
+import type { CallingImageDataCache } from './CallManager.dom.tsx';
+import { MINUTE } from '../util/durations/index.std.ts';
+import { generateAci } from '../test-helpers/serviceIdUtils.std.ts';
 
 const { memoize } = lodash;
 
@@ -71,7 +71,7 @@ const createProps = (
     sharingScreen: false,
     videoAspectRatio: 1.3,
     ...getDefaultConversation({
-      isBlocked: Boolean(isBlocked),
+      isBlocked,
       title:
         'Pablo Diego José Francisco de Paula Juan Nepomuceno María de los Remedios Cipriano de la Santísima Trinidad Ruiz y Picasso',
       serviceId: generateAci(),

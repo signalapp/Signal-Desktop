@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import type { VirtualItem, Virtualizer } from '@tanstack/react-virtual';
 import lodash from 'lodash';
-import { strictAssert } from '../../../util/assert.std.js';
-import { KeyboardDelegate } from './FunKeyboard.dom.js';
+import { strictAssert } from '../../../util/assert.std.ts';
+import { KeyboardDelegate } from './FunKeyboard.dom.tsx';
 
 const { findLast, maxBy } = lodash;
 
@@ -48,7 +48,7 @@ function toKey(item: VirtualItem | null): Key | null {
 }
 
 export class WaterfallKeyboardDelegate extends KeyboardDelegate<State> {
-  #virtualizer: Virtualizer<HTMLDivElement, HTMLDivElement>;
+  readonly #virtualizer: Virtualizer<HTMLDivElement, HTMLDivElement>;
 
   constructor(virtualizer: Virtualizer<HTMLDivElement, HTMLDivElement>) {
     super();

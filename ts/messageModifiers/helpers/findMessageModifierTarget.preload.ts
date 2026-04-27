@@ -1,11 +1,11 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { AciString } from '../../types/ServiceId.std.js';
-import { getAuthorId } from '../../messages/sources.preload.js';
-import type { ConversationModel } from '../../models/conversations.preload.js';
-import { strictAssert } from '../../util/assert.std.js';
-import type { MessageModel } from '../../models/messages.preload.js';
+import type { AciString } from '../../types/ServiceId.std.ts';
+import { getAuthorId } from '../../messages/sources.preload.ts';
+import type { ConversationModel } from '../../models/conversations.preload.ts';
+import { strictAssert } from '../../util/assert.std.ts';
+import type { MessageModel } from '../../models/messages.preload.ts';
 
 export type MessageModifierTarget = Readonly<{
   targetMessage: MessageModel;

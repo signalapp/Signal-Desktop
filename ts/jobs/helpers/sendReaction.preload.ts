@@ -4,43 +4,43 @@
 import lodash from 'lodash';
 import { ContentHint } from '@signalapp/libsignal-client';
 
-import * as Errors from '../../types/errors.std.js';
-import { strictAssert } from '../../util/assert.std.js';
-import { repeat, zipObject } from '../../util/iterables.std.js';
+import * as Errors from '../../types/errors.std.ts';
+import { strictAssert } from '../../util/assert.std.ts';
+import { repeat, zipObject } from '../../util/iterables.std.ts';
 import type { CallbackResultType } from '../../textsecure/Types.d.ts';
-import { MessageModel } from '../../models/messages.preload.js';
+import { MessageModel } from '../../models/messages.preload.ts';
 import type { MessageReactionType } from '../../model-types.d.ts';
-import type { ConversationModel } from '../../models/conversations.preload.js';
+import type { ConversationModel } from '../../models/conversations.preload.ts';
 
-import * as reactionUtil from '../../reactions/util.std.js';
-import { isSent, SendStatus } from '../../messages/MessageSendState.std.js';
-import { getMessageById } from '../../messages/getMessageById.preload.js';
-import { isIncoming } from '../../messages/helpers.std.js';
+import * as reactionUtil from '../../reactions/util.std.ts';
+import { isSent, SendStatus } from '../../messages/MessageSendState.std.ts';
+import { getMessageById } from '../../messages/getMessageById.preload.ts';
+import { isIncoming } from '../../messages/helpers.std.ts';
 import {
   isDirectConversation,
   isGroupV2,
-} from '../../util/whatTypeOfConversation.dom.js';
-import { getSendOptions } from '../../util/getSendOptions.preload.js';
-import { handleMessageSend } from '../../util/handleMessageSend.preload.js';
-import { ourProfileKeyService } from '../../services/ourProfileKey.std.js';
-import { canReact, isStory } from '../../state/selectors/message.preload.js';
-import { findAndFormatContact } from '../../util/findAndFormatContact.preload.js';
-import type { AciString } from '../../types/ServiceId.std.js';
-import { isAciString } from '../../util/isAciString.std.js';
-import { handleMultipleSendErrors } from './handleMultipleSendErrors.std.js';
-import { incrementMessageCounter } from '../../util/incrementMessageCounter.preload.js';
-import { generateMessageId } from '../../util/generateMessageId.node.js';
+} from '../../util/whatTypeOfConversation.dom.ts';
+import { getSendOptions } from '../../util/getSendOptions.preload.ts';
+import { handleMessageSend } from '../../util/handleMessageSend.preload.ts';
+import { ourProfileKeyService } from '../../services/ourProfileKey.std.ts';
+import { canReact, isStory } from '../../state/selectors/message.preload.ts';
+import { findAndFormatContact } from '../../util/findAndFormatContact.preload.ts';
+import type { AciString } from '../../types/ServiceId.std.ts';
+import { isAciString } from '../../util/isAciString.std.ts';
+import { handleMultipleSendErrors } from './handleMultipleSendErrors.std.ts';
+import { incrementMessageCounter } from '../../util/incrementMessageCounter.preload.ts';
+import { generateMessageId } from '../../util/generateMessageId.node.ts';
 
 import type {
   ConversationQueueJobBundle,
   ReactionJobData,
-} from '../conversationJobQueue.preload.js';
-import { sendToGroup } from '../../util/sendToGroup.preload.js';
-import { hydrateStoryContext } from '../../util/hydrateStoryContext.preload.js';
-import { send, sendSyncMessageOnly } from '../../messages/send.preload.js';
-import { itemStorage } from '../../textsecure/Storage.preload.js';
-import { getSendRecipientLists } from './getSendRecipientLists.dom.js';
-import { shouldSendToDirectConversation } from './shouldSendToConversation.preload.js';
+} from '../conversationJobQueue.preload.ts';
+import { sendToGroup } from '../../util/sendToGroup.preload.ts';
+import { hydrateStoryContext } from '../../util/hydrateStoryContext.preload.ts';
+import { send, sendSyncMessageOnly } from '../../messages/send.preload.ts';
+import { itemStorage } from '../../textsecure/Storage.preload.ts';
+import { getSendRecipientLists } from './getSendRecipientLists.dom.ts';
+import { shouldSendToDirectConversation } from './shouldSendToConversation.preload.ts';
 
 const { isNumber } = lodash;
 
@@ -195,6 +195,13 @@ export async function sendReaction(
     const successfulConversationIds = new Set<string>();
 
     if (recipientServiceIdsWithoutMe.length === 0) {
+      if (!window.ConversationController.doWeHaveOtherDevices()) {
+        log.info(
+          'sendReaction: We have no other devices; not sending sync message'
+        );
+        return;
+      }
+
       log.info('sending sync reaction message only');
       const dataMessage = await messaging.getDataOrEditMessage({
         attachments: [],
@@ -231,7 +238,7 @@ export async function sendReaction(
 
         log.info('sending direct reaction message');
         promise = messaging.sendMessageToServiceId({
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          // oxlint-disable-next-line typescript/no-non-null-assertion
           serviceId: recipientServiceIdsWithoutMe[0]!,
           messageOptions: {
             reaction: reactionForSend,

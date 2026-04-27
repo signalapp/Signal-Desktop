@@ -3,23 +3,23 @@
 
 import React, { useState, useCallback } from 'react';
 
-import type { LocalizerType } from '../../types/Util.std.js';
-import type { UpdatesStateType } from '../../state/ducks/updates.preload.js';
+import type { LocalizerType } from '../../types/Util.std.ts';
+import type { UpdatesStateType } from '../../state/ducks/updates.preload.ts';
 import {
   InstallScreenStep,
   InstallScreenBackupStep,
   InstallScreenBackupError,
-} from '../../types/InstallScreen.std.js';
-import { formatFileSize } from '../../util/formatFileSize.std.js';
-import { TitlebarDragArea } from '../TitlebarDragArea.dom.js';
-import { ProgressBar } from '../ProgressBar.dom.js';
-import { ConfirmationDialog } from '../ConfirmationDialog.dom.js';
-import { InstallScreenSignalLogo } from './InstallScreenSignalLogo.dom.js';
-import { roundFractionForProgressBar } from '../../util/numbers.std.js';
-import { missingCaseError } from '../../util/missingCaseError.std.js';
-import { SYNCING_MESSAGES_SECURITY_URL } from '../../types/support.std.js';
-import { I18n } from '../I18n.dom.js';
-import { InstallScreenUpdateDialog } from './InstallScreenUpdateDialog.dom.js';
+} from '../../types/InstallScreen.std.ts';
+import { formatFileSize } from '../../util/formatFileSize.std.ts';
+import { TitlebarDragArea } from '../TitlebarDragArea.dom.tsx';
+import { ProgressBar } from '../ProgressBar.dom.tsx';
+import { ConfirmationDialog } from '../ConfirmationDialog.dom.tsx';
+import { InstallScreenSignalLogo } from './InstallScreenSignalLogo.dom.tsx';
+import { roundFractionForProgressBar } from '../../util/numbers.std.ts';
+import { missingCaseError } from '../../util/missingCaseError.std.ts';
+import { SYNCING_MESSAGES_SECURITY_URL } from '../../types/support.std.ts';
+import { I18n } from '../I18n.dom.tsx';
+import { InstallScreenUpdateDialog } from './InstallScreenUpdateDialog.dom.tsx';
 
 // We can't always use destructuring assignment because of the complexity of this props
 //   type.
@@ -307,8 +307,8 @@ function ProgressBarAndDescription(
         </div>
       </>
     );
-    // eslint-disable-next-line no-else-return
   } else if (backupStep === InstallScreenBackupStep.Process) {
+    // oxlint-disable-next-line no-else-return
     return (
       <>
         <ProgressBar

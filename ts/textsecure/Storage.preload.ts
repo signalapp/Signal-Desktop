@@ -5,11 +5,11 @@ import type {
   StorageAccessType as Access,
   StorageInterface,
 } from '../types/Storage.d.ts';
-import { User } from './storage/User.dom.js';
-import { Blocked } from './storage/Blocked.std.js';
+import { User } from './storage/User.dom.ts';
+import { Blocked } from './storage/Blocked.std.ts';
 
-import { DataReader, DataWriter } from '../sql/Client.preload.js';
-import { createLogger } from '../logging/log.std.js';
+import { DataReader, DataWriter } from '../sql/Client.preload.ts';
+import { createLogger } from '../logging/log.std.ts';
 
 const log = createLogger('Storage');
 
@@ -40,10 +40,10 @@ export class Storage implements StorageInterface {
     key: K
   ): V | undefined;
 
-  public get<K extends keyof Access, V extends Access[K]>(
+  public get<K extends keyof Access>(
     key: K,
-    defaultValue: V
-  ): V;
+    defaultValue: Exclude<Access[K], undefined>
+  ): Exclude<Access[K], undefined>;
 
   public get<K extends keyof Access>(
     key: K,

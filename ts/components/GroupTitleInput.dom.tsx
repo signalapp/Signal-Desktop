@@ -3,8 +3,8 @@
 
 import React, { forwardRef } from 'react';
 
-import { Input } from './Input.dom.js';
-import type { LocalizerType } from '../types/Util.std.js';
+import { Input } from './Input.dom.tsx';
+import type { LocalizerType } from '../types/Util.std.ts';
 
 export type PropsType = {
   disabled?: boolean;

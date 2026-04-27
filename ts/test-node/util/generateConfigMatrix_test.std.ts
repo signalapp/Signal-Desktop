@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 
-import { generateConfigMatrix } from '../../util/generateConfigMatrix.std.js';
+import { generateConfigMatrix } from '../../test-helpers/generateConfigMatrix.std.ts';
 
 describe('generateConfigMatrix', () => {
   it('generates an empty list', () => {

@@ -1,15 +1,13 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-
-import type Fuse from 'fuse.js';
-
-import type { ConversationType } from '../state/ducks/conversations.preload.js';
-import { fuseGetFnRemoveDiacritics, getCachedFuseIndex } from './fuse.std.js';
+import type { IFuseOptions, Expression } from 'fuse.js';
+import type { ConversationType } from '../state/ducks/conversations.preload.ts';
+import { fuseGetFnRemoveDiacritics, getCachedFuseIndex } from './fuse.std.ts';
 
 const CONVERSATION_TITLE = 'title';
 const MIN_SEARCH_TERM_LENGTH = 2;
 const segmenter = new Intl.Segmenter([], { granularity: 'word' });
-const FUSE_OPTIONS: Fuse.IFuseOptions<ConversationType> = {
+const FUSE_OPTIONS: IFuseOptions<ConversationType> = {
   keys: [CONVERSATION_TITLE],
   getFn: (...args) => {
     const text = fuseGetFnRemoveDiacritics(...args);
@@ -33,7 +31,7 @@ export function searchConversationTitles(
 ): Array<ConversationType> {
   // Searches all conversation titles where
   const index = getCachedFuseIndex(conversations, FUSE_OPTIONS);
-  const searchQuery: Fuse.Expression = {
+  const searchQuery: Expression = {
     $or: searchTerms
       .filter(term => term.length >= MIN_SEARCH_TERM_LENGTH)
       .map(term => ({ [CONVERSATION_TITLE]: term })),

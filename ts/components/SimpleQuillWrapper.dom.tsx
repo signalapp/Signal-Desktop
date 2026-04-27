@@ -66,7 +66,6 @@ export class SimpleQuillWrapper extends React.Component<Props> {
     });
   }
 
-  // eslint-disable-next-line react/no-unused-class-component-methods
   public getQuill(): Quill | undefined {
     return this.quill;
   }

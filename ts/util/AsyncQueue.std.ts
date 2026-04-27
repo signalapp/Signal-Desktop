@@ -33,13 +33,14 @@ export class AsyncQueue<T> implements AsyncIterable<T> {
     }
     this.#isReading = true;
 
+    // oxlint-disable-next-line no-constant-condition
     while (true) {
       yield* this.#queue;
 
       this.#queue = [];
 
       // We want to iterate over the queue in series.
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       await new Promise<void>(resolve => {
         this.#onAdd = once(resolve);
       });

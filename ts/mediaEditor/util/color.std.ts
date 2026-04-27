@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { hslToRGB } from '../../util/hslToRGB.std.js';
+import { hslToRGB } from '../../util/hslToRGB.std.ts';
 
 function getRatio(min: number, max: number, value: number) {
   return (value - min) / (max - min);
@@ -33,7 +33,7 @@ export function getRGBANumber(percentage: number): number {
   const [h, s, l] = getHSLValues(percentage);
   const { r, g, b } = hslToRGB(h, s, l);
 
-  // eslint-disable-next-line no-bitwise
+  // oxlint-disable-next-line no-bitwise
   return 0x100000000 + ((255 << 24) | ((255 & r) << 16) | ((255 & g) << 8) | b);
 }
 

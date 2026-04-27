@@ -3,11 +3,11 @@
 
 import config from 'config';
 import { app } from 'electron';
-import type { Updater, UpdaterOptionsType } from './common.main.js';
-import { MacOSUpdater } from './macos.main.js';
-import { WindowsUpdater } from './windows.main.js';
-import { LinuxAppImageUpdater } from './linuxAppImage.main.js';
-import { initLinux } from './linux.main.js';
+import type { Updater, UpdaterOptionsType } from './common.main.ts';
+import { MacOSUpdater } from './macos.main.ts';
+import { WindowsUpdater } from './windows.main.ts';
+import { LinuxAppImageUpdater } from './linuxAppImage.main.ts';
+import { initLinux } from './linux.main.ts';
 
 let initialized = false;
 

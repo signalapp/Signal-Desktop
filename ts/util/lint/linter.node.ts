@@ -1,21 +1,20 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* eslint-disable no-console */
 import * as fs from 'node:fs';
 import { join, relative } from 'node:path';
 import normalizePath from 'normalize-path';
 import pMap from 'p-map';
 import FastGlob from 'fast-glob';
 
-import type { ExceptionType, RuleType } from './types.std.js';
-import { REASONS } from './types.std.js';
+import type { ExceptionType, RuleType } from './types.std.ts';
+import { REASONS } from './types.std.ts';
 import {
   ENCODING,
   loadJSON,
   sortExceptions,
   writeExceptions,
-} from './util.node.js';
+} from './util.node.ts';
 
 const ALL_REASONS = REASONS.join('|');
 
@@ -76,13 +75,8 @@ const excludedFilesRegexp = RegExp(
     '^js/components.js',
     '^js/curve/',
     '^js/util_worker.js',
-    '^libtextsecure/test/test.js',
-    '^test/test.js',
     '^ts/workers/heicConverter.bundle.js',
     '^ts/sql/mainWorker.bundle.js',
-
-    // Copied from dependency
-    '^js/Mp3LameEncoder.min.js',
 
     // Test files
     '^libtextsecure/test/.+',
@@ -183,7 +177,6 @@ const excludedFilesRegexp = RegExp(
     '^node_modules/es-abstract/.+',
     '^node_modules/es5-shim/.+', // Currently only used in storybook
     '^node_modules/es6-shim/.+', // Currently only used in storybook
-    '^node_modules/esbuild/.+',
     '^node_modules/escodegen/.+',
     '^node_modules/eslint.+',
     '^node_modules/espree.+',
@@ -276,7 +269,6 @@ const excludedFilesRegexp = RegExp(
     '^node_modules/to-ast/.+',
     '^node_modules/trough/.+',
     '^node_modules/ts-loader/.+',
-    '^node_modules/ts-node/.+',
     '^node_modules/tweetnacl/.+',
     '^node_modules/typed-scss-modules/.+',
     '^node_modules/typescript/.+',
@@ -291,8 +283,6 @@ const excludedFilesRegexp = RegExp(
     '^node_modules/xml-parse-from-string/.+',
     '^node_modules/xmlbuilder/.+',
     '^node_modules/xmldom/.+',
-    '^node_modules/yargs-unparser/',
-    '^node_modules/yargs/.+',
     '^node_modules/find-yarn-workspace-root/.+',
     '^node_modules/unzipper/node_modules/bluebird/.+',
     '^node_modules/update-notifier/.+',
@@ -326,7 +316,6 @@ const excludedFilesRegexp = RegExp(
     '^node_modules/fork-ts-checker-webpack-plugin/.+',
     '^node_modules/gzip-size/.+',
     '^node_modules/markdown-to-jsx/.+',
-    '^node_modules/mini-css-extract-plugin/.+',
     '^node_modules/polished.+',
     '^node_modules/prismjs/.+',
     '^node_modules/react-draggable/.+',
@@ -373,7 +362,7 @@ function setupRules(allRules: Array<RuleType>) {
       throw new Error(`Rule '${rule.name}' is missing an expression`);
     }
 
-    // eslint-disable-next-line no-param-reassign
+    // oxlint-disable-next-line no-param-reassign
     rule.regex = new RegExp(rule.expression, 'g');
   });
 }
@@ -427,7 +416,7 @@ async function main(argv: ReadonlyArray<string>): Promise<void> {
           }
           // recreate this rule since it has g flag, and carries local state
           if (rule.expression) {
-            // eslint-disable-next-line no-param-reassign
+            // oxlint-disable-next-line no-param-reassign
             rule.regex = new RegExp(rule.expression, 'g');
           }
 
@@ -503,6 +492,7 @@ async function main(argv: ReadonlyArray<string>): Promise<void> {
   process.exit(1);
 }
 
+// oxlint-disable-next-line promise/prefer-await-to-then
 main(process.argv).catch(err => {
   console.error(err);
   process.exit(1);

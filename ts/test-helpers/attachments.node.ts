@@ -1,8 +1,8 @@
 // Copyright 2026 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as Bytes from '../Bytes.std.js';
-import { getRandomBytes } from '../Crypto.node.js';
+import * as Bytes from '../Bytes.std.ts';
+import { getRandomBytes } from '../Crypto.node.ts';
 
 export function testPlaintextHash(): string {
   return Bytes.toHex(getRandomBytes(32));

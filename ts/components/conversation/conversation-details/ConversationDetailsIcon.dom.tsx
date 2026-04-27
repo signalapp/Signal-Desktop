@@ -4,16 +4,18 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { Spinner } from '../../Spinner.dom.js';
-import { bemGenerator } from './util.std.js';
+import { Spinner } from '../../Spinner.dom.tsx';
+import { bemGenerator } from './util.std.ts';
 
 export enum IconType {
+  'archive' = 'archive',
   'approveAllMembers' = 'approveAllMembers',
   'bell' = 'bell',
   'block' = 'block',
   'edit' = 'edit',
   'unblock' = 'unblock',
   'color' = 'color',
+  'delete' = 'delete',
   'down' = 'down',
   'forward' = 'forward',
   'heart' = 'heart',
@@ -30,8 +32,10 @@ export enum IconType {
   'official' = 'official',
   'reset' = 'reset',
   'share' = 'share',
+  'spam' = 'spam',
   'spinner' = 'spinner',
   'tag' = 'tag',
+  'terminate' = 'terminate',
   'timer' = 'timer',
   'trash' = 'trash',
   'verify' = 'verify',
@@ -78,7 +82,7 @@ export function ConversationDetailsIcon({
         role="button"
         className={bem('button')}
         tabIndex={0}
-        onClick={(event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        onClick={(event: React.MouseEvent<HTMLDivElement>) => {
           event.preventDefault();
           event.stopPropagation();
           onClick();
@@ -103,7 +107,7 @@ export function ConversationDetailsIcon({
         className={bem('button')}
         disabled={disabled}
         type="button"
-        onClick={(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
           event.preventDefault();
           event.stopPropagation();
           onClick();

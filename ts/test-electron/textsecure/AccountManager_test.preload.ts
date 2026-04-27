@@ -5,26 +5,24 @@ import { assert } from 'chai';
 import lodash from 'lodash';
 import * as sinon from 'sinon';
 
-import { generateRegistrationId, getRandomBytes } from '../../Crypto.node.js';
-import { generateKeyPair } from '../../Curve.node.js';
-import AccountManager from '../../textsecure/AccountManager.preload.js';
+import { generateRegistrationId, getRandomBytes } from '../../Crypto.node.ts';
+import { generateKeyPair } from '../../Curve.node.ts';
+import AccountManager from '../../textsecure/AccountManager.preload.ts';
 import type {
   KyberPreKeyType,
   OuterSignedPrekeyType,
   PreKeyType,
 } from '../../textsecure/Types.d.ts';
+import { ServiceIdKind } from '../../types/ServiceId.std.ts';
+import { DAY } from '../../util/durations/index.std.ts';
+import { signalProtocolStore } from '../../SignalProtocolStore.preload.ts';
+import { itemStorage } from '../../textsecure/Storage.preload.ts';
 import {
-  ServiceIdKind,
   generateAci,
   generatePni,
-} from '../../types/ServiceId.std.js';
-import { DAY } from '../../util/durations/index.std.js';
-import { signalProtocolStore } from '../../SignalProtocolStore.preload.js';
-import { itemStorage } from '../../textsecure/Storage.preload.js';
+} from '../../test-helpers/serviceIdUtils.std.ts';
 
 const { range } = lodash;
-
-/* eslint-disable @typescript-eslint/no-explicit-any */
 
 describe('AccountManager', () => {
   let sandbox: sinon.SinonSandbox;
@@ -105,7 +103,9 @@ describe('AccountManager', () => {
   });
 
   describe('#_cleanSignedPreKeys', () => {
+    // oxlint-disable-next-line typescript/no-explicit-any
     let originalLoadSignedPreKeys: any;
+    // oxlint-disable-next-line typescript/no-explicit-any
     let originalRemoveSignedPreKey: any;
     let signedPreKeys: Array<OuterSignedPrekeyType>;
 
@@ -224,7 +224,9 @@ describe('AccountManager', () => {
   });
 
   describe('#_cleanLastResortKeys', () => {
+    // oxlint-disable-next-line typescript/no-explicit-any
     let originalLoadKyberPreKeys: any;
+    // oxlint-disable-next-line typescript/no-explicit-any
     let originalRemoveKyberPreKey: any;
     let kyberPreKeys: Array<KyberPreKeyType>;
 
@@ -376,7 +378,9 @@ describe('AccountManager', () => {
   });
 
   describe('#_cleanPreKeys', () => {
+    // oxlint-disable-next-line typescript/no-explicit-any
     let originalLoadPreKeys: any;
+    // oxlint-disable-next-line typescript/no-explicit-any
     let originalRemovePreKeys: any;
     let preKeys: Array<PreKeyType>;
 
@@ -496,7 +500,9 @@ describe('AccountManager', () => {
   });
 
   describe('#_cleanKyberPreKeys', () => {
+    // oxlint-disable-next-line typescript/no-explicit-any
     let originalLoadKyberPreKeys: any;
+    // oxlint-disable-next-line typescript/no-explicit-any
     let originalRemoveKyberPreKeys: any;
     let kyberPreKeys: Array<KyberPreKeyType>;
 

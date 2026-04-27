@@ -1,14 +1,14 @@
 // Copyright 2017 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { createLogger } from '../ts/logging/log.std.js';
-import OS from '../ts/util/os/osMain.node.js';
+import { createLogger } from '../ts/logging/log.std.ts';
+import OS from '../ts/util/os/osMain.node.ts';
 import {
   parseSystemTraySetting,
   SystemTraySetting,
-} from '../ts/types/SystemTraySetting.std.js';
-import { isSystemTraySupported } from '../ts/types/Settings.std.js';
-import type { ConfigType } from './base_config.node.js';
+} from '../ts/types/SystemTraySetting.std.ts';
+import { isSystemTraySupported } from '../ts/types/Settings.std.ts';
+import type { ConfigType } from './base_config.node.ts';
 
 const log = createLogger('SystemTraySettingCache');
 
@@ -17,13 +17,18 @@ const log = createLogger('SystemTraySettingCache');
  * process.
  */
 export class SystemTraySettingCache {
+  readonly #ephemeralConfig: Pick<ConfigType, 'get' | 'set'>;
+  readonly #argv: Array<string>;
   #cachedValue: undefined | SystemTraySetting;
   #getPromise: undefined | Promise<SystemTraySetting>;
 
   constructor(
-    private readonly ephemeralConfig: Pick<ConfigType, 'get' | 'set'>,
-    private readonly argv: Array<string>
-  ) {}
+    ephemeralConfig: Pick<ConfigType, 'get' | 'set'>,
+    argv: Array<string>
+  ) {
+    this.#ephemeralConfig = ephemeralConfig;
+    this.#argv = argv;
+  }
 
   async get(): Promise<SystemTraySetting> {
     if (this.#cachedValue !== undefined) {
@@ -43,18 +48,18 @@ export class SystemTraySettingCache {
 
     // These command line flags are not officially supported, but many users rely on them.
     //   Be careful when removing them or making changes.
-    if (this.argv.some(arg => arg === '--start-in-tray')) {
+    if (this.#argv.some(arg => arg === '--start-in-tray')) {
       result = SystemTraySetting.MinimizeToAndStartInSystemTray;
       log.info(
         `getSystemTraySetting saw --start-in-tray flag. Returning ${result}`
       );
-    } else if (this.argv.some(arg => arg === '--use-tray-icon')) {
+    } else if (this.#argv.some(arg => arg === '--use-tray-icon')) {
       result = SystemTraySetting.MinimizeToSystemTray;
       log.info(
         `getSystemTraySetting saw --use-tray-icon flag. Returning ${result}`
       );
     } else if (isSystemTraySupported(OS)) {
-      const value = this.ephemeralConfig.get('system-tray-setting');
+      const value = this.#ephemeralConfig.get('system-tray-setting');
       if (value !== undefined) {
         log.info('getSystemTraySetting got value', value);
       }
@@ -68,7 +73,7 @@ export class SystemTraySettingCache {
       }
 
       if (result !== value) {
-        this.ephemeralConfig.set('system-tray-setting', result);
+        this.#ephemeralConfig.set('system-tray-setting', result);
       }
     } else {
       result = SystemTraySetting.DoNotUseSystemTray;

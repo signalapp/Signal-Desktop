@@ -3,9 +3,9 @@
 
 import type { CSSProperties } from 'react';
 import React from 'react';
-import type { ConversationColorType } from '../types/Colors.std.js';
-import type { LocalizerType } from '../types/Util.std.js';
-import { formatTime } from '../util/formatTimestamp.dom.js';
+import type { ConversationColorType } from '../types/Colors.std.ts';
+import type { LocalizerType } from '../types/Util.std.ts';
+import { formatTime } from '../util/formatTimestamp.dom.ts';
 
 export type PropsType = {
   backgroundStyle?: CSSProperties;

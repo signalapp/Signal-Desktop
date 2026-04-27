@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import lodash from 'lodash';
-import type { BadgeType } from './types.std.js';
-import { BadgeImageTheme } from './BadgeImageTheme.std.js';
+import type { BadgeType } from './types.std.ts';
+import { BadgeImageTheme } from './BadgeImageTheme.std.ts';
 
 const { find, findLast, first, last } = lodash;
 

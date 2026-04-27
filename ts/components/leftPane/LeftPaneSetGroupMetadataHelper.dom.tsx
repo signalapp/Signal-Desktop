@@ -4,27 +4,27 @@
 import type { ReactNode } from 'react';
 import React from 'react';
 
-import { LeftPaneHelper } from './LeftPaneHelper.dom.js';
-import type { Row } from '../ConversationList.dom.js';
-import { RowType } from '../ConversationList.dom.js';
-import type { ContactListItemConversationType } from '../conversationList/ContactListItem.dom.js';
-import { DisappearingTimerSelect } from '../DisappearingTimerSelect.dom.js';
-import type { LocalizerType } from '../../types/Util.std.js';
-import type { DurationInSeconds } from '../../util/durations/index.std.js';
-import { Alert } from '../Alert.dom.js';
-import { AvatarEditor } from '../AvatarEditor.dom.js';
-import { AvatarPreview } from '../AvatarPreview.dom.js';
-import { Spinner } from '../Spinner.dom.js';
-import { Button } from '../Button.dom.js';
-import { Modal } from '../Modal.dom.js';
-import { GroupTitleInput } from '../GroupTitleInput.dom.js';
+import { LeftPaneHelper } from './LeftPaneHelper.dom.tsx';
+import type { Row } from '../ConversationList.dom.tsx';
+import { RowType } from '../ConversationList.dom.tsx';
+import type { ContactListItemConversationType } from '../conversationList/ContactListItem.dom.tsx';
+import { DisappearingTimerSelect } from '../DisappearingTimerSelect.dom.tsx';
+import type { LocalizerType } from '../../types/Util.std.ts';
+import type { DurationInSeconds } from '../../util/durations/index.std.ts';
+import { Alert } from '../Alert.dom.tsx';
+import { AvatarEditor } from '../AvatarEditor.dom.tsx';
+import { AvatarPreview } from '../AvatarPreview.dom.tsx';
+import { Spinner } from '../Spinner.dom.tsx';
+import { Button } from '../Button.dom.tsx';
+import { Modal } from '../Modal.dom.tsx';
+import { GroupTitleInput } from '../GroupTitleInput.dom.tsx';
 import type {
   AvatarDataType,
   DeleteAvatarFromDiskActionType,
   ReplaceAvatarActionType,
   SaveAvatarToDiskActionType,
-} from '../../types/Avatar.std.js';
-import { AvatarColors } from '../../types/Colors.std.js';
+} from '../../types/Avatar.std.ts';
+import { AvatarColors } from '../../types/Colors.std.ts';
 
 export type LeftPaneSetGroupMetadataPropsType = {
   groupAvatar: undefined | Uint8Array<ArrayBuffer>;

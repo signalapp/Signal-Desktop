@@ -3,31 +3,31 @@
 
 import memoizee from 'memoizee';
 import lodash from 'lodash';
-import type { ConversationModel } from '../models/conversations.preload.js';
-import type { ConversationType } from '../state/ducks/conversations.preload.js';
+import type { ConversationModel } from '../models/conversations.preload.ts';
+import type { ConversationType } from '../state/ducks/conversations.preload.ts';
 import type { ConversationAttributesType } from '../model-types.d.ts';
-import type { GroupNameCollisionsWithIdsByTitle } from './groupMemberNameCollisions.std.js';
-import { StorySendMode } from '../types/Stories.std.js';
-import { areWeAdmin } from './areWeAdmin.preload.js';
-import { buildGroupLink } from '../groups.preload.js';
-import { canAddNewMembers } from './canAddNewMembers.preload.js';
-import { canBeAnnouncementGroup } from './canBeAnnouncementGroup.dom.js';
-import { canChangeTimer } from './canChangeTimer.preload.js';
-import { canEditGroupInfo } from './canEditGroupInfo.preload.js';
-import { dropNull } from './dropNull.std.js';
-import { getAboutText } from './getAboutText.dom.js';
+import type { GroupNameCollisionsWithIdsByTitle } from './groupMemberNameCollisions.std.ts';
+import { StorySendMode } from '../types/Stories.std.ts';
+import { areWeAdmin } from './areWeAdmin.preload.ts';
+import { buildGroupLink } from '../groups.preload.ts';
+import { canAddNewMembers } from './canAddNewMembers.preload.ts';
+import { canBeAnnouncementGroup } from './canBeAnnouncementGroup.dom.ts';
+import { canChangeTimer } from './canChangeTimer.preload.ts';
+import { canEditGroupInfo } from './canEditGroupInfo.preload.ts';
+import { dropNull } from './dropNull.std.ts';
+import { getAboutText } from './getAboutText.dom.ts';
 import {
   getAvatarHash,
   getLocalAvatarUrl,
   getLocalProfileAvatarUrl,
   getRawAvatarPath,
   hasAvatar,
-} from './avatarUtils.preload.js';
-import { getAvatarData } from './getAvatarData.dom.js';
-import { getConversationMembers } from './getConversationMembers.dom.js';
-import { getCustomColorData, migrateColor } from './migrateColor.node.js';
-import { getDraftPreview } from './getDraftPreview.preload.js';
-import { getLastMessage } from './getLastMessage.preload.js';
+} from './avatarUtils.preload.ts';
+import { getAvatarData } from './getAvatarData.dom.ts';
+import { getConversationMembers } from './getConversationMembers.dom.ts';
+import { getCustomColorData, migrateColor } from './migrateColor.node.ts';
+import { getDraftPreview } from './getDraftPreview.preload.ts';
+import { getLastMessage } from './getLastMessage.preload.ts';
 import {
   getNumber,
   getProfileName,
@@ -35,17 +35,17 @@ import {
   getTitleNoDefault,
   canHaveUsername,
   renderNumber,
-} from './getTitle.preload.js';
-import { hasDraft } from './hasDraft.std.js';
-import { isAciString } from './isAciString.std.js';
-import { isBlocked } from './isBlocked.preload.js';
-import { isConversationAccepted } from './isConversationAccepted.preload.js';
+} from './getTitle.preload.ts';
+import { hasDraft } from './hasDraft.std.ts';
+import { isAciString } from './isAciString.std.ts';
+import { isBlocked } from './isBlocked.preload.ts';
+import { isConversationAccepted } from './isConversationAccepted.preload.ts';
 import {
   isDirectConversation,
   isGroupV1,
   isGroupV2,
   isMe,
-} from './whatTypeOfConversation.dom.js';
+} from './whatTypeOfConversation.dom.ts';
 import {
   areWePending,
   getBannedMemberships,
@@ -54,11 +54,11 @@ import {
   getPendingApprovalMemberships,
   getPendingMemberships,
   isMemberAwaitingApproval,
-} from './groupMembershipUtils.preload.js';
-import { isNotNil } from './isNotNil.std.js';
-import { getIdentifierHash } from '../Crypto.node.js';
-import { getAvatarPlaceholderGradient } from '../utils/getAvatarPlaceholderGradient.std.js';
-import { itemStorage } from '../textsecure/Storage.preload.js';
+} from './groupMembershipUtils.preload.ts';
+import { isNotNil } from './isNotNil.std.ts';
+import { getIdentifierHash } from '../Crypto.node.ts';
+import { getAvatarPlaceholderGradient } from '../utils/getAvatarPlaceholderGradient.std.ts';
+import { itemStorage } from '../textsecure/Storage.preload.ts';
 
 const { sortBy } = lodash;
 
@@ -158,7 +158,7 @@ export function getConversation(model: ConversationModel): ConversationType {
     aboutText: attributes.about,
     aboutEmoji: attributes.aboutEmoji,
     acceptedMessageRequest: isConversationAccepted(attributes),
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    // oxlint-disable-next-line typescript/no-non-null-assertion
     activeAt: attributes.active_at!,
     areWePending: areWePending(attributes),
     areWePendingApproval: Boolean(
@@ -191,6 +191,7 @@ export function getConversation(model: ConversationModel): ConversationType {
     familyName: attributes.nicknameFamilyName ?? attributes.profileFamilyName,
     firstName: attributes.nicknameGivenName ?? attributes.profileName,
     groupDescription: attributes.description,
+    groupVerifiedNameHash: attributes.groupVerifiedNameHash,
     groupVersion,
     groupId: attributes.groupId,
     groupLink: buildGroupLink(attributes),
@@ -250,6 +251,7 @@ export function getConversation(model: ConversationModel): ConversationType {
     secretParams: attributes.secretParams,
     shouldShowDraft,
     sortedGroupMembers,
+    terminated: Boolean(attributes.terminated),
     timestamp: dropNull(timestamp),
     title: getTitle(attributes),
     titleNoDefault: getTitleNoDefault(attributes),

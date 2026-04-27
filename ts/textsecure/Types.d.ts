@@ -3,22 +3,22 @@
 
 import type * as client from '@signalapp/libsignal-client';
 
-import type { SignalService as Proto } from '../protobuf/index.std.js';
-import type { IncomingWebSocketRequest } from './WebsocketResources.preload.js';
+import type { SignalService as Proto } from '../protobuf/index.std.ts';
+import type { IncomingWebSocketRequest } from './WebsocketResources.preload.ts';
 import type {
   ServiceIdString,
   AciString,
   PniString,
-} from '../types/ServiceId.std.js';
-import type { TextAttachmentType } from '../types/Attachment.std.js';
-import type { GiftBadgeStates } from '../types/GiftBadgeStates.std.js';
-import type { MIMEType } from '../types/MIME.std.js';
-import type { DurationInSeconds } from '../util/durations/index.std.js';
-import type { AnyPaymentEvent } from '../types/Payment.std.js';
-import type { RawBodyRange } from '../types/BodyRange.std.js';
-import type { StoryMessageRecipientsType } from '../types/Stories.std.js';
+} from '../types/ServiceId.std.ts';
+import type { TextAttachmentType } from '../types/Attachment.std.ts';
+import type { GiftBadgeStates } from '../types/GiftBadgeStates.std.ts';
+import type { MIMEType } from '../types/MIME.std.ts';
+import type { DurationInSeconds } from '../util/durations/index.std.ts';
+import type { AnyPaymentEvent } from '../types/Payment.std.ts';
+import type { RawBodyRange } from '../types/BodyRange.std.ts';
+import type { StoryMessageRecipientsType } from '../types/Stories.std.ts';
 
-export {
+export type {
   IdentityKeyType,
   IdentityKeyIdType,
   KyberPreKeyType,
@@ -31,7 +31,7 @@ export {
   SignedPreKeyIdType,
   SignedPreKeyType,
   UnprocessedType,
-} from '../sql/Interface.std.js';
+} from '../sql/Interface.std.ts';
 
 export type StorageServiceCallOptionsType = {
   credentials?: StorageServiceCredentials;
@@ -92,7 +92,7 @@ export type ProcessedEnvelope = Readonly<{
   type: Proto.Envelope.Type;
   source: string | undefined;
   sourceServiceId: ServiceIdString | undefined;
-  sourceDevice: number | Undefined;
+  sourceDevice: number | undefined;
   destinationServiceId: ServiceIdString;
   updatedPni: PniString | undefined;
   timestamp: number;

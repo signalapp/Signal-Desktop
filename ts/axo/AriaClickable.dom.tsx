@@ -11,13 +11,13 @@ import React, {
 import type { ReactNode, MouseEvent, FC, ForwardedRef } from 'react';
 import { useLayoutEffect, mergeRefs } from '@react-aria/utils';
 import { computeAccessibleName } from 'dom-accessibility-api';
-import { tw } from './tw.dom.js';
-import { assert } from './_internal/assert.std.js';
+import { tw } from './tw.dom.tsx';
+import { assert } from './_internal/assert.std.tsx';
 import {
   createStrictContext,
   useStrictContext,
-} from './_internal/StrictContext.dom.js';
-import { isTestOrMockEnvironment } from '../environment.std.js';
+} from './_internal/StrictContext.dom.tsx';
+import { isTestOrMockEnvironment } from '../environment.std.ts';
 
 const Namespace = 'AriaClickable';
 
@@ -85,7 +85,7 @@ export namespace AriaClickable {
     return (
       <TriggerStateUpdateContext.Provider value={handleTriggerStateUpdate}>
         <div
-          // eslint-disable-next-line better-tailwindcss/no-restricted-classes
+          // oxlint-disable-next-line better-tailwindcss/no-restricted-classes
           className={tw('relative!', props.className)}
           // For styling based on the HiddenTrigger state.
           data-hovered={hovered ? true : null}
@@ -136,7 +136,7 @@ export namespace AriaClickable {
         // [css-position-3: Painting Order and Stacking Contexts]: https://drafts.csswg.org/css-position-3/#stacking
         // [css-flexbox-1: Flex Item Z-Ordering]: https://drafts.csswg.org/css-flexbox-1/#painting
         //
-        // eslint-disable-next-line better-tailwindcss/no-restricted-classes
+        // oxlint-disable-next-line better-tailwindcss/no-restricted-classes
         className={tw('contents *:relative *:z-20')}
       >
         {props.children}
@@ -160,7 +160,7 @@ export namespace AriaClickable {
    */
   export const DeadArea: FC<DeadAreaProps> = memo(props => {
     return (
-      // eslint-disable-next-line better-tailwindcss/no-restricted-classes
+      // oxlint-disable-next-line better-tailwindcss/no-restricted-classes
       <div className={tw('relative! z-20!', props.className)}>
         {props.children}
       </div>

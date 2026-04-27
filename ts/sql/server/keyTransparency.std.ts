@@ -1,8 +1,8 @@
 // Copyright 2026 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import type { AciString } from '../../types/ServiceId.std.js';
-import type { ReadableDB, WritableDB } from '../Interface.std.js';
-import { sql } from '../util.std.js';
+import type { AciString } from '../../types/ServiceId.std.ts';
+import type { ReadableDB, WritableDB } from '../Interface.std.ts';
+import { sql } from '../util.std.ts';
 
 export function getAllKTAcis(db: ReadableDB): Array<AciString> {
   const [query, params] = sql`

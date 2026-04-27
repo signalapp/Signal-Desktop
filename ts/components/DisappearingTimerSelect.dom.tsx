@@ -3,22 +3,23 @@
 
 import type { ReactNode } from 'react';
 import React, { useCallback, useState, useMemo } from 'react';
-import type { LocalizerType } from '../types/Util.std.js';
-import * as expirationTimer from '../util/expirationTimer.std.js';
-import { DurationInSeconds } from '../util/durations/index.std.js';
-import { DisappearingTimeDialog } from './DisappearingTimeDialog.dom.js';
-import { AxoSelect } from '../axo/AxoSelect.dom.js';
-import { tw } from '../axo/tw.dom.js';
+import type { LocalizerType } from '../types/Util.std.ts';
+import * as expirationTimer from '../util/expirationTimer.std.ts';
+import { DurationInSeconds } from '../util/durations/index.std.ts';
+import { DisappearingTimeDialog } from './DisappearingTimeDialog.dom.tsx';
+import { AxoSelect } from '../axo/AxoSelect.dom.tsx';
+import { tw } from '../axo/tw.dom.tsx';
 
 export type Props = {
   i18n: LocalizerType;
 
+  disabled?: boolean;
   value?: DurationInSeconds;
   onChange(value: DurationInSeconds): void;
 };
 
 export function DisappearingTimerSelect(props: Props): React.JSX.Element {
-  const { i18n, value = DurationInSeconds.ZERO, onChange } = props;
+  const { i18n, disabled, value = DurationInSeconds.ZERO, onChange } = props;
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -99,6 +100,7 @@ export function DisappearingTimerSelect(props: Props): React.JSX.Element {
   return (
     <div className={tw('relative')}>
       <AxoSelect.Root
+        disabled={disabled}
         value={String(isCustomTimeSelected ? -1 : value)}
         onValueChange={onSelectChange}
       >

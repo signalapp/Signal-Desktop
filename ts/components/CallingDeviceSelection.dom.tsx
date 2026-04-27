@@ -4,16 +4,16 @@
 import * as React from 'react';
 import type { AudioDevice } from '@signalapp/ringrtc';
 
-import type { Option } from './Select.dom.js';
-import { Modal } from './Modal.dom.js';
-import { Select } from './Select.dom.js';
-import type { LocalizerType } from '../types/Util.std.js';
+import type { Option } from './Select.dom.tsx';
+import { Modal } from './Modal.dom.tsx';
+import { Select } from './Select.dom.tsx';
+import type { LocalizerType } from '../types/Util.std.ts';
 import type {
   ChangeIODevicePayloadType,
   MediaDeviceSettings,
-} from '../types/Calling.std.js';
-import { CallingDeviceType } from '../types/Calling.std.js';
-import { Theme } from '../util/theme.std.js';
+} from '../types/Calling.std.ts';
+import { CallingDeviceType } from '../types/Calling.std.ts';
+import { Theme } from '../util/theme.std.ts';
 
 export type Props = MediaDeviceSettings & {
   changeIODevice: (payload: ChangeIODevicePayloadType) => void;
@@ -80,7 +80,7 @@ function createAudioChangeHandler(
   return (value: string): void => {
     changeIODevice({
       type,
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      // oxlint-disable-next-line typescript/no-non-null-assertion
       selectedDevice: devices[Number(value)]!,
     });
   };

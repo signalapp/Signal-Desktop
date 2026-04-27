@@ -3,14 +3,14 @@
 
 import { createSelector } from 'reselect';
 
-import type { StateType } from '../reducer.preload.js';
+import type { StateType } from '../reducer.preload.ts';
 import type {
   ComposerStateType,
   QuotedMessageForComposerType,
-} from '../ducks/composer.preload.js';
-import { getComposerStateForConversation } from '../ducks/composer.preload.js';
+} from '../ducks/composer.preload.ts';
+import { getComposerStateForConversation } from '../ducks/composer.preload.ts';
 
-export const getComposerState = (state: StateType): ComposerStateType =>
+const getComposerState = (state: StateType): ComposerStateType =>
   state.composer;
 
 export const getComposerStateForConversationIdSelector = createSelector(
@@ -24,11 +24,4 @@ export const getQuotedMessageSelector = createSelector(
   composerStateForConversationIdSelector =>
     (conversationId: string): QuotedMessageForComposerType | undefined =>
       composerStateForConversationIdSelector(conversationId).quotedMessage
-);
-
-export const getViewOnceSelector = createSelector(
-  getComposerStateForConversationIdSelector,
-  composerStateForConversationIdSelector =>
-    (conversationId: string): boolean =>
-      composerStateForConversationIdSelector(conversationId).isViewOnce
 );

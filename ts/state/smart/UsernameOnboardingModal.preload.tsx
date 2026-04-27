@@ -4,17 +4,17 @@
 import React, { memo, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 
-import { UsernameOnboardingModal } from '../../components/UsernameOnboardingModal.dom.js';
-import { getIntl } from '../selectors/user.std.js';
-import { useGlobalModalActions } from '../ducks/globalModals.preload.js';
-import { useUsernameActions } from '../ducks/username.preload.js';
-import { useNavActions } from '../ducks/nav.std.js';
+import { UsernameOnboardingModal } from '../../components/UsernameOnboardingModal.dom.tsx';
+import { getIntl } from '../selectors/user.std.ts';
+import { useGlobalModalActions } from '../ducks/globalModals.preload.ts';
+import { useUsernameActions } from '../ducks/username.preload.ts';
+import { useNavActions } from '../ducks/nav.std.ts';
 import {
   NavTab,
   SettingsPage,
   ProfileEditorPage,
-} from '../../types/Nav.std.js';
-import { itemStorage } from '../../textsecure/Storage.preload.js';
+} from '../../types/Nav.std.ts';
+import { itemStorage } from '../../textsecure/Storage.preload.ts';
 
 export const SmartUsernameOnboardingModal = memo(
   function SmartUsernameOnboardingModal(): React.JSX.Element {

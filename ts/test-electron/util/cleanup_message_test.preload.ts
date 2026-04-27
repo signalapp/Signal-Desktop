@@ -8,17 +8,17 @@ import { emptyDir, ensureFile, readdirSync } from 'fs-extra';
 import {
   eraseMessageContents,
   cleanupFilesAndReferencesToMessage,
-} from '../../util/cleanup.preload.js';
-import { MessageModel } from '../../models/messages.preload.js';
-import type { PollMessageAttribute } from '../../types/Polls.dom.js';
-import { DataReader, DataWriter } from '../../sql/Client.preload.js';
-import { itemStorage } from '../../textsecure/Storage.preload.js';
-import { generateAci } from '../../types/ServiceId.std.js';
-import type { MessageAttributesType } from '../../model-types.js';
-import { IMAGE_BMP, IMAGE_JPEG } from '../../types/MIME.std.js';
-import { SendStatus } from '../../messages/MessageSendState.std.js';
-import { getAbsoluteAttachmentPath } from '../../util/migrations.preload.js';
-import { getAttachmentsPath } from '../../../app/attachments.node.js';
+} from '../../util/cleanup.preload.ts';
+import { MessageModel } from '../../models/messages.preload.ts';
+import type { PollMessageAttribute } from '../../types/Polls.dom.ts';
+import { DataReader, DataWriter } from '../../sql/Client.preload.ts';
+import { itemStorage } from '../../textsecure/Storage.preload.ts';
+import type { MessageAttributesType } from '../../model-types.d.ts';
+import { IMAGE_BMP, IMAGE_JPEG } from '../../types/MIME.std.ts';
+import { SendStatus } from '../../messages/MessageSendState.std.ts';
+import { getAbsoluteAttachmentPath } from '../../util/migrations.preload.ts';
+import { getAttachmentsPath } from '../../../app/attachments.node.ts';
+import { generateAci } from '../../test-helpers/serviceIdUtils.std.ts';
 
 async function writeAttachmentFile(path: string) {
   await ensureFile(getAbsoluteAttachmentPath(path));

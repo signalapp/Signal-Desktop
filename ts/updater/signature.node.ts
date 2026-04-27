@@ -2,22 +2,13 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { createHash } from 'node:crypto';
-import {
-  createReadStream,
-  readFile as readFileCallback,
-  writeFile as writeFileCallback,
-} from 'node:fs';
+import { createReadStream } from 'node:fs';
+import { readFile, writeFile } from 'node:fs/promises';
 import { pipeline } from 'node:stream/promises';
 import { basename, dirname, join, resolve as resolvePath } from 'node:path';
+import { sign, verify } from './curve.node.ts';
 
-import pify from 'pify';
-
-import { sign, verify } from './curve.node.js';
-
-const readFile = pify(readFileCallback);
-const writeFile = pify(writeFileCallback);
-
-export async function generateSignature(
+async function generateSignature(
   updatePackagePath: string,
   version: string,
   privateKeyPath: string
@@ -51,6 +42,7 @@ async function generateMessage(
   return Buffer.from(messageString);
 }
 
+/** @testexport */
 export async function writeSignature(
   updatePackagePath: string,
   version: string,
@@ -92,7 +84,7 @@ export function hexToBinary(target: string): Buffer<ArrayBuffer> {
   return Buffer.from(target, 'hex');
 }
 
-export function binaryToHex(data: Uint8Array<ArrayBuffer>): string {
+function binaryToHex(data: Uint8Array<ArrayBuffer>): string {
   return Buffer.from(data).toString('hex');
 }
 

@@ -3,7 +3,7 @@
 
 import { fabric } from 'fabric';
 import lodash from 'lodash';
-import { strictAssert } from '../util/assert.std.js';
+import { strictAssert } from '../util/assert.std.ts';
 
 const { clamp } = lodash;
 
@@ -21,7 +21,7 @@ export class MediaEditorFabricCropRect extends fabric.Rect {
     this.on('moving', this.#containBounds);
   }
 
-  #containBounds = () => {
+  readonly #containBounds = () => {
     if (!this.canvas) {
       return;
     }

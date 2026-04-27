@@ -4,33 +4,33 @@
 import { assert } from 'chai';
 import { v4 as generateGuid } from 'uuid';
 
-import * as Bytes from '../Bytes.std.js';
+import * as Bytes from '../Bytes.std.ts';
 import type {
   EphemeralAttachmentFields,
   ScreenshotType,
   AttachmentType,
   ThumbnailType,
   BackupThumbnailType,
-} from '../types/Attachment.std.js';
+} from '../types/Attachment.std.ts';
 import {
   APPLICATION_OCTET_STREAM,
   IMAGE_JPEG,
   IMAGE_PNG,
   LONG_MESSAGE,
-} from '../types/MIME.std.js';
+} from '../types/MIME.std.ts';
 import type { MessageAttributesType } from '../model-types.d.ts';
-import { generateAci } from '../types/ServiceId.std.js';
-import { ReadStatus } from '../messages/MessageReadStatus.std.js';
-import { SeenStatus } from '../MessageSeenStatus.std.js';
-import { DataWriter, DataReader } from '../sql/Client.preload.js';
-import { strictAssert } from '../util/assert.std.js';
-import { HOUR, MINUTE } from '../util/durations/index.std.js';
+import { ReadStatus } from '../messages/MessageReadStatus.std.ts';
+import { SeenStatus } from '../MessageSeenStatus.std.ts';
+import { DataWriter, DataReader } from '../sql/Client.preload.ts';
+import { strictAssert } from '../util/assert.std.ts';
+import { HOUR, MINUTE } from '../util/durations/index.std.ts';
 import {
   testAttachmentDigest,
   testAttachmentKey,
   testAttachmentLocalKey,
   testPlaintextHash,
-} from '../test-helpers/attachments.node.js';
+} from '../test-helpers/attachments.node.ts';
+import { generateAci } from '../test-helpers/serviceIdUtils.std.ts';
 
 const CONTACT_A = generateAci();
 const contactAConversationId = generateGuid();

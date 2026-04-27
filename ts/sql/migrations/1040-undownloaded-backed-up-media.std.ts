@@ -4,21 +4,21 @@
 import type { Database } from '@signalapp/sqlcipher';
 import * as z from 'zod';
 
-import type { LoggerType } from '../../types/Logging.std.js';
+import type { LoggerType } from '../../types/Logging.std.ts';
 import {
   messageAttachmentTypeSchema,
   type AttachmentDownloadJobType,
   type MessageAttachmentType,
-} from '../../types/AttachmentDownload.std.js';
-import type { AttachmentType } from '../../types/Attachment.std.js';
-import { jsonToObject, objectToJSON, sql } from '../util.std.js';
-import { AttachmentDownloadSource } from '../Interface.std.js';
-import { parsePartial } from '../../util/schemas.std.js';
-import { MIMETypeSchema } from '../../types/MIME.std.js';
+} from '../../types/AttachmentDownload.std.ts';
+import type { AttachmentType } from '../../types/Attachment.std.ts';
+import { jsonToObject, objectToJSON, sql } from '../util.std.ts';
+import { AttachmentDownloadSource } from '../Interface.std.ts';
+import { parsePartial } from '../../util/schemas.std.ts';
+import { MIMETypeSchema } from '../../types/MIME.std.ts';
 import {
   jobManagerJobSchema,
   type JobManagerJobType,
-} from '../../jobs/JobManager.std.js';
+} from '../../jobs/JobManager.std.ts';
 
 export type _AttachmentDownloadJobTypeV1030 = {
   attachment: AttachmentType;

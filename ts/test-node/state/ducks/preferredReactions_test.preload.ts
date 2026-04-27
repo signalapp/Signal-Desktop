@@ -3,22 +3,22 @@
 
 import { assert } from 'chai';
 import * as sinon from 'sinon';
-import type { StateType } from '../../../state/reducer.preload.js';
-import { reducer as rootReducer } from '../../../state/reducer.preload.js';
-import { noopAction } from '../../../state/ducks/noop.std.js';
+import type { StateType } from '../../../state/reducer.preload.ts';
+import { reducer as rootReducer } from '../../../state/reducer.preload.ts';
+import { noopAction } from '../../../state/ducks/noop.std.ts';
 
-import type { PreferredReactionsStateType } from '../../../state/ducks/preferredReactions.preload.js';
+import type { PreferredReactionsStateType } from '../../../state/ducks/preferredReactions.preload.ts';
 import {
   actions,
   getEmptyState,
   reducer,
-} from '../../../state/ducks/preferredReactions.preload.js';
-import { EmojiSkinTone } from '../../../components/fun/data/emojis.std.js';
-import { itemStorage } from '../../../textsecure/Storage.preload.js';
+} from '../../../state/ducks/preferredReactions.preload.ts';
+import { EmojiSkinTone } from '../../../components/fun/data/emojis.std.ts';
+import { itemStorage } from '../../../textsecure/Storage.preload.ts';
 
 describe('preferred reactions duck', () => {
   const getEmptyRootState = (): StateType =>
-    rootReducer(undefined, noopAction());
+    rootReducer(undefined, noopAction('getEmptyRootState'));
 
   const getRootState = (
     preferredReactions: PreferredReactionsStateType
@@ -248,10 +248,10 @@ describe('preferred reactions duck', () => {
 
     // We want to create a fake ConversationController for testing purposes, and we need
     //   to sidestep typechecking to do that.
-    /* eslint-disable @typescript-eslint/no-explicit-any */
 
     let storagePutStub: sinon.SinonStub;
     let captureChangeStub: sinon.SinonStub;
+    // oxlint-disable-next-line typescript/no-explicit-any
     let oldConversationController: any;
 
     beforeEach(() => {
@@ -261,9 +261,11 @@ describe('preferred reactions duck', () => {
 
       captureChangeStub = sinonSandbox.stub();
       window.ConversationController = {
+        // oxlint-disable-next-line typescript/no-explicit-any
         getOurConversationOrThrow: (): any => ({
           captureChange: captureChangeStub,
         }),
+        // oxlint-disable-next-line typescript/no-explicit-any
       } as any;
     });
 

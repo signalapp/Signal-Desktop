@@ -1,26 +1,26 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { createLogger } from '../logging/log.std.js';
-import * as Errors from '../types/errors.std.js';
-import { drop } from '../util/drop.std.js';
-import { getMessageSentTimestampSet } from '../util/getMessageSentTimestampSet.std.js';
+import { createLogger } from '../logging/log.std.ts';
+import * as Errors from '../types/errors.std.ts';
+import { drop } from '../util/drop.std.ts';
+import { getMessageSentTimestampSet } from '../util/getMessageSentTimestampSet.std.ts';
 
 import type { MessageAttributesType } from '../model-types.d.ts';
 import type {
   ConversationIdentifier,
   AddressableMessage,
-} from '../textsecure/messageReceiverEvents.std.js';
+} from '../textsecure/messageReceiverEvents.std.ts';
 import {
   deleteAttachmentFromMessage,
   deleteMessage,
-} from '../util/deleteForMe.preload.js';
+} from '../util/deleteForMe.preload.ts';
 import {
   doesMessageMatch,
   getConversationFromTarget,
   getMessageQueryFromTarget,
-} from '../util/syncIdentifiers.preload.js';
-import { DataWriter } from '../sql/Client.preload.js';
+} from '../util/syncIdentifiers.preload.ts';
+import { DataWriter } from '../sql/Client.preload.ts';
 
 const log = createLogger('DeletesForMe');
 

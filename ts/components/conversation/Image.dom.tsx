@@ -5,16 +5,16 @@ import type { CSSProperties } from 'react';
 import React, { useCallback } from 'react';
 import classNames from 'classnames';
 
-import { ImageOrBlurhash } from '../ImageOrBlurhash.dom.js';
-import type { LocalizerType, ThemeType } from '../../types/Util.std.js';
-import type { AttachmentForUIType } from '../../types/Attachment.std.js';
+import { ImageOrBlurhash } from '../ImageOrBlurhash.dom.tsx';
+import type { LocalizerType, ThemeType } from '../../types/Util.std.ts';
+import type { AttachmentForUIType } from '../../types/Attachment.std.ts';
 import {
   defaultBlurHash,
   isIncremental,
   isReadyToView,
-} from '../../util/Attachment.std.js';
-import { SpinnerV2 } from '../SpinnerV2.dom.js';
-import { useUndownloadableMediaHandler } from '../../hooks/useUndownloadableMediaHandler.dom.js';
+} from '../../util/Attachment.std.ts';
+import { SpinnerV2 } from '../SpinnerV2.dom.tsx';
+import { useUndownloadableMediaHandler } from '../../hooks/useUndownloadableMediaHandler.dom.tsx';
 
 export enum CurveType {
   None = 0,
@@ -49,6 +49,7 @@ export type Props = {
   darkOverlay?: boolean;
   playIconOverlay?: boolean;
   blurHash?: string;
+  fallbackToBlurhashOnError?: boolean;
 
   i18n: LocalizerType;
   theme?: ThemeType;
@@ -72,6 +73,7 @@ export function Image({
   curveTopLeft,
   curveTopRight,
   darkOverlay,
+  fallbackToBlurhashOnError,
   height = 0,
   i18n,
   noBackground,
@@ -169,7 +171,6 @@ export function Image({
 
   const imageOrBlurHash = (
     <ImageOrBlurhash
-      onError={onError}
       className="module-image__image"
       alt={alt}
       height={height}
@@ -178,6 +179,9 @@ export function Image({
       intrinsicHeight={attachment.height}
       src={url}
       blurHash={noBackground && url ? undefined : resolvedBlurHash}
+      fallbackToBlurhashOnError={fallbackToBlurhashOnError}
+      onError={onError}
+      key={url}
     />
   );
 
@@ -197,7 +201,7 @@ export function Image({
 
   const isUndownloadable = attachment.isPermanentlyUndownloadable;
 
-  // eslint-disable-next-line no-nested-ternary
+  // oxlint-disable-next-line no-nested-ternary
   const startDownloadOrUnavailableButton = startDownload ? (
     isUndownloadable ? (
       <button

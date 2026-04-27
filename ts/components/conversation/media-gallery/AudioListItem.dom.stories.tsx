@@ -4,12 +4,12 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { Props } from './AudioListItem.dom.js';
-import { AudioListItem } from './AudioListItem.dom.js';
+import type { Props } from './AudioListItem.dom.tsx';
+import { AudioListItem } from './AudioListItem.dom.tsx';
 import {
   createPreparedMediaItems,
   createRandomAudio,
-} from './utils/mocks.std.js';
+} from '../../../test-helpers/mediaGalleryMocks.std.ts';
 
 export default {
   title: 'Components/Conversation/MediaGallery/AudioListItem',

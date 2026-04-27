@@ -746,6 +746,9 @@
   "icu:fileSizeWarning": {
     "messageformat": "הקובץ עובר את מגבלת הגודל המקסימלי. {limit,number} {units}"
   },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "מצטערים, הסרטון שנבחר חורג ממגבלת גודל ההודעה המקסימלי. {limit,number}{units}"
+  },
   "icu:unableToLoadAttachment": {
     "messageformat": "לא היה ניתן לטעון את הצרופה הנבחרת."
   },
@@ -1787,6 +1790,12 @@
   "icu:Preferences__EditChatFolderPage__CancelButton": {
     "messageformat": "ביטול"
   },
+  "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
+    "messageformat": "Show status icon"
+  },
+  "icu:Preferences__PrivacyPage__ShowStatusIcon__Description": {
+    "messageformat": "Show an icon in message details when they were delivered using sealed sender."
+  },
   "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
     "messageformat": "אימות מפתח אוטומטי"
   },
@@ -2372,6 +2381,9 @@
   "icu:ConversationDetails--support-center": {
     "messageformat": "מרכז תמיכה"
   },
+  "icu:ConversationDetails__GroupTerminatedBanner": {
+    "messageformat": "הקבוצה הזו נסגרה"
+  },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "הצגת מספר בטיחות"
   },
@@ -2551,6 +2563,27 @@
   },
   "icu:youUpdatedTheGroup": {
     "messageformat": "עדכנת את הקבוצה."
+  },
+  "icu:collapsedGroupUpdates": {
+    "messageformat": "{count, plural, one {עדכון קבוצה {count,number}} two {{count,number} עדכוני קבוצה} many {{count,number} עדכוני קבוצה} other {{count,number} עדכוני קבוצה}}"
+  },
+  "icu:multidayCollapse__container": {
+    "messageformat": "{containerDescription} · {dayCountSummary}"
+  },
+  "icu:multidayCollapse__dayCountSummary": {
+    "messageformat": "{dayCount, plural, one {יום {dayCount,number}} two {{dayCount,number} ימים} many {{dayCount,number} ימים} other {{dayCount,number} ימים}}"
+  },
+  "icu:collapsedChatUpdates": {
+    "messageformat": "{count, plural, one {עדכון צ׳אט {count,number}} two {{count,number} עדכוני צ׳אט} many {{count,number} עדכוני צ׳אט} other {{count,number} עדכוני צ׳אט}}"
+  },
+  "icu:collapsedTimerChanges": {
+    "messageformat": "{count, plural, one {שינוי {count,number} בטיימר של הודעה נעלמת · {endingState}} two {{count,number} שינויים בטיימר של הודעות נעלמות · {endingState}} many {{count,number} שינויים בטיימר של הודעות נעלמות · {endingState}} other {{count,number} שינויים בטיימר של הודעות נעלמות · {endingState}}}"
+  },
+  "icu:collapsedTimerChanges--disabled": {
+    "messageformat": "{count, plural, one {שינוי {count,number} בטיימר של הודעה נעלמת · הושבת} two {{count,number} שינויים בטיימר של הודעות נעלמות · הושבת} many {{count,number} שינויים בטיימר של הודעות נעלמות · הושבת} other {{count,number} שינויים בטיימר של הודעות נעלמות · הושבת}}"
+  },
+  "icu:collapsedCallEvents": {
+    "messageformat": "{count, plural, one {אירוע שיחה {count,number}} two {{count,number} אירועי שיחה} many {{count,number} אירועי שיחה} other {{count,number} אירועי שיחה}}"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "יצגן הקבוצה עודכן."
@@ -3017,8 +3050,8 @@
   "icu:Message--tap-to-view--incoming--expired-toast": {
     "messageformat": "צפית כבר בהודעה זו."
   },
-  "icu:Message--tap-to-view--outgoing--expired-toast": {
-    "messageformat": "הודעות לצפייה חד–פעמית לא מאוחסנות בהיסטוריית הצ'אט שלך."
+  "icu:Message--tap-to-view--outgoing--expired-toast-2": {
+    "messageformat": "מדיה לצפייה חד–פעמית נמחקת לאחר השליחה"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "סרטון לצפייה חד–פעמית"
@@ -3485,8 +3518,17 @@
   "icu:ConversationHero--profile-names": {
     "messageformat": "<clickable>שמות פרופילים</clickable> אינם מאומתים"
   },
+  "icu:ConversationHero--name-not-verified": {
+    "messageformat": "Name not verified"
+  },
   "icu:ConversationHero--signal-official-chat": {
     "messageformat": "זה הצ׳אט הרשמי והיחיד של Signal"
+  },
+  "icu:ConversationHero--signal-official-account": {
+    "messageformat": "Official account"
+  },
+  "icu:ConversationHero--signal-official-account--description": {
+    "messageformat": "The only official chat from Signal. Keep up to date with news and release notes."
   },
   "icu:ConversationHero--release-notes": {
     "messageformat": "להתעדכן בחדשות והערות עדכון גרסה."
@@ -3767,9 +3809,6 @@
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
     "messageformat": "שיתוף לינק שיחה דרך Signal"
   },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "להסיר את אדם זה מהשיחה"
-  },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "להסיר את {name} מהשיחה?"
   },
@@ -3932,11 +3971,23 @@
   "icu:GroupV2--join--requested": {
     "messageformat": "בקשתך להצטרף נשלחה אל מנהלן הקבוצה. תיודע כאשר הוא מחליט."
   },
+  "icu:GroupV2--join--group-terminated": {
+    "messageformat": "לא ניתן להצטרף לקבוצה זו."
+  },
   "icu:GroupV2--join--general-join-failure--title": {
     "messageformat": "שגיאת קישור"
   },
   "icu:GroupV2--join--general-join-failure": {
     "messageformat": "לא היה ניתן להצטרף אל הקבוצה. נסה שוב מאוחר יותר."
+  },
+  "icu:GroupV2--terminate-group-in-progress": {
+    "messageformat": "קבוצה בסגירה…"
+  },
+  "icu:TerminateGroupFailedModal__description": {
+    "messageformat": "לא ניתן לסגור את הקבוצה. כדאי לבדוק את החיבור שלך ולנסות שוב."
+  },
+  "icu:TerminateGroupFailedModal__try-again": {
+    "messageformat": "נסה שוב"
   },
   "icu:GroupV2--admin": {
     "messageformat": "מנהלן"
@@ -4379,6 +4430,15 @@
   "icu:GroupV2--summary": {
     "messageformat": "החברים או ההגדרות של קבוצה זו השתנו."
   },
+  "icu:GroupV2--terminated--you": {
+    "messageformat": "הקבוצה נסגרה על ידך"
+  },
+  "icu:GroupV2--terminated--other": {
+    "messageformat": "הקבוצה נסגרה על ידי {memberName}"
+  },
+  "icu:GroupV2--terminated--unknown": {
+    "messageformat": "הקבוצה הזו נסגרה"
+  },
   "icu:GroupV1--Migration--disabled--link": {
     "messageformat": "צריך לשדרג את הקבוצה כדי להפעיל פיצ׳רים חדשים כמו @אזכורים ומנהלים. חברים שלא שיתפו את השם או התמונה שלהם בקבוצה זו יוזמנו להצטרף. <learnMoreLink>מידע נוסף.</learnMoreLink>"
   },
@@ -4655,6 +4715,9 @@
   "icu:CompositionArea__ConfirmGifSelection__ReplaceButton": {
     "messageformat": "החלפה"
   },
+  "icu:CompositionArea--group-terminated": {
+    "messageformat": "אי אפשר לשלוח הודעות כי הקבוצה הזו נסגרה."
+  },
   "icu:CompositionArea--viewOnceToggle": {
     "messageformat": "צפייה חד–פעמית"
   },
@@ -4832,11 +4895,26 @@
   "icu:ConversationDetailsActions--leave-group": {
     "messageformat": "עזוב קבוצה"
   },
+  "icu:ConversationDetailsActions--terminate-group": {
+    "messageformat": "סגירת קבוצה"
+  },
   "icu:ConversationDetailsActions--block-group": {
     "messageformat": "חסימת קבוצה"
   },
   "icu:ConversationDetailsActions--unblock-group": {
     "messageformat": "ביטול חסימת קבוצה"
+  },
+  "icu:ConversationDetailsActions--report-spam": {
+    "messageformat": "דיווח כספאם"
+  },
+  "icu:ConversationDetailsActions--archive": {
+    "messageformat": "אחסון צ'אט בארכיון"
+  },
+  "icu:ConversationDetailsActions--unarchive": {
+    "messageformat": "הוצאת צ'אט מארכיון"
+  },
+  "icu:ConversationDetailsActions--delete": {
+    "messageformat": "מחיקת צ׳אט"
   },
   "icu:ConversationDetailsActions--leave-group-must-choose-new-admin": {
     "messageformat": "לפני שאתה עוזב, אתה חייב לבחור לפחות מנהלן חדש אחד עבור קבוצה זו."
@@ -4849,6 +4927,18 @@
   },
   "icu:ConversationDetailsActions--leave-group-modal-confirm": {
     "messageformat": "עזוב"
+  },
+  "icu:ConversationDetailsActions--prompt-terminate-group-modal-title": {
+    "messageformat": "לסגור את ״{groupName}״?"
+  },
+  "icu:ConversationDetailsActions--prompt-terminate-group-modal-content": {
+    "messageformat": "חברי הקבוצה לא יוכלו יותר לשלוח הודעות או להתחיל שיחות בקבוצה זו. הם יעודכנו שסגרת את הקבוצה, ועדיין תהיה להם גישה להיסטוריית ההודעות."
+  },
+  "icu:ConversationDetailsActions--terminate-group-modal-confirm": {
+    "messageformat": "סגירת קבוצה"
+  },
+  "icu:ConversationDetailsActions--confirm-terminate-group-confirm-modal-content": {
+    "messageformat": "זה יסגור את הקבוצה לצמיתות. בטוח שבא לך להמשיך?"
   },
   "icu:ConversationDetailsActions--unblock-group-modal-title": {
     "messageformat": "לבטל את החסימה של הקבוצה ״{groupName}״?"
@@ -4868,6 +4958,18 @@
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "ביטול חסימה"
   },
+  "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
+    "messageformat": "Signal תקבל הודעה שהאדם הזה חשוד בשליחת ספאם. Signal לא יכולה לראות את התוכן של אף צ׳אט."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-group": {
+    "messageformat": "Signal תקבל הודעה שהאדם שהזמין אותך לקבוצה הזו חשוד בשליחת ספאם. Signal לא יכולה לראות את התוכן של אף צ׳אט."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
+    "messageformat": "דיווח כספאם"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
+    "messageformat": "דיווח וחסימה"
+  },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {חבר/ה {number,number}} two {{number,number} חברים} many {{number,number} חברים} other {{number,number} חברים}}"
   },
@@ -4876,6 +4978,9 @@
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {חבר/ה {number,number}} two {{number,number} חברים} many {{number,number} חברים} other {{number,number} חברים}}"
+  },
+  "icu:ConversationDetailsMembershipList--terminated-title": {
+    "messageformat": "{number, plural, one {חבר/ה {number,number} לשעבר} two {{number,number} חברים לשעבר} many {{number,number} חברים לשעבר} other {{number,number} חברים לשעבר}}"
   },
   "icu:ConversationDetailsMembershipList--add-members": {
     "messageformat": "הוסף חברי קבוצה"
@@ -5059,7 +5164,7 @@
     "ignoreUnused": true
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
-    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {חברי קבוצה בגרסאות העדכניות ביותר של Signal יוכלו לראות שמחקת את ההודעה הזו.} two {חברי קבוצה בגרסאות העדכניות ביותר של Signal יוכלו לראות שמחקת את ההודעות האלה.} many {חברי קבוצה בגרסאות העדכניות ביותר של Signal יוכלו לראות שמחקת את ההודעות האלה.} other {חברי קבוצה בגרסאות העדכניות ביותר של Signal יוכלו לראות שמחקת את ההודעות האלה.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "מחיקה מכל המכשירים"
@@ -5195,6 +5300,9 @@
   },
   "icu:MessageRequestWarning__safety-tips": {
     "messageformat": "טיפים לבטיחות"
+  },
+  "icu:MessageRequestWarning__safety-tips-v2": {
+    "messageformat": "Safety tips"
   },
   "icu:ContactSpoofing__same-name--link": {
     "messageformat": "כדאי לסקור בקשות בזהירות. Signal מצאה איש קשר אחר עם אותו שם. <reviewRequestLink>סקירת בקשה</reviewRequestLink>"
@@ -5797,6 +5905,15 @@
   "icu:Preferences__link-previews--description": {
     "messageformat": "כדי לשנות הגדרה זו, צריך לפתוח את אפליקציית Signal במכשיר הנייד שלך ולנווט אל הגדרות > צ'אטים"
   },
+  "icu:Preferences__link-previews--new-description": {
+    "messageformat": "Retrieve link previews directly from websites for messages you send."
+  },
+  "icu:Preferences__address-book-photos--title": {
+    "messageformat": "Use address book photos"
+  },
+  "icu:Preferences__address-book-photos--description": {
+    "messageformat": "Display contact photos from your address book if available."
+  },
   "icu:Preferences__auto-convert-emoji--title": {
     "messageformat": "המרת אמוטיקונים מוקלדים לאימוג׳ים"
   },
@@ -6232,35 +6349,35 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "סיים"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "להציג את מפתח הגיבוי שלך"
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
+    "messageformat": "להציג את מפתח השחזור שלך"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "יש לאמת את הזהות שלך על מנת להציג את מפתח הגיבוי."
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
+    "messageformat": "יש לאמת את הזהות שלך על מנת להציג את מפתח השחזור."
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "הצגת מפתח גיבוי"
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
+    "messageformat": "הצגת מפתח שחזור"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "נדרש אימות כדי להציג את מפתח הגיבוי שלך."
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
+    "messageformat": "נדרש אימות כדי להציג את מפתח השחזור שלך."
   },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "תיבת טקסט של מפתח גיבוי"
+  "icu:Preferences--local-backups-recovery-key-text-box": {
+    "messageformat": "מפתח שחזור"
   },
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "הזנת מפתח"
   },
-  "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "תיעוד מפתח הגיבוי שלך"
+  "icu:Preferences--local-backups-record-recovery-key": {
+    "messageformat": "תיעוד מפתח השחזור שלך"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "המפתח הזה נדרש כדי לשחזר את החשבון והנתונים שלך. חשוב לאחסן את המפתח הזה במקום בטוח. אם הוא נאבד, אי אפשר לשחזר את החשבון שלך. <learnMoreLink>מידע נוסף.</learnMoreLink>"
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "אישור מפתח הגיבוי שלך"
+  "icu:Preferences--local-backups-confirm-recovery-key": {
+    "messageformat": "אישור מפתח השחזור שלך"
   },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "יש להזין את מפתח הגיבוי שזה עתה הקלטת"
+  "icu:Preferences--local-backups-confirm-recovery-key-description": {
+    "messageformat": "יש להזין את מפתח השחזור שזה עתה תיעדת"
   },
   "icu:Preferences__local-backups-confirm-key-modal-title": {
     "messageformat": "יש לשמור על בטיחות המפתח שלך"
@@ -6286,26 +6403,23 @@
   "icu:Preferences__local-backups-folder": {
     "messageformat": "תיקיית גיבוי"
   },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "שינוי"
-  },
   "icu:Preferences__local-backups-turn-off": {
-    "messageformat": "Turn off backups"
+    "messageformat": "השבתת גיבויים"
   },
   "icu:Preferences__local-backups-turn-off-action": {
-    "messageformat": "Turn off"
+    "messageformat": "כבה"
   },
   "icu:Preferences__local-backups-turn-off-confirmation": {
-    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+    "messageformat": "לא תהיה לך יותר אפשרות ליצור גיבויים במחשב זה מבלי להפעיל אותם מחדש."
   },
   "icu:Preferences__local-backups-turn-off-delete": {
-    "messageformat": "Delete my backup from this computer"
+    "messageformat": "מחיקת הגיבוי שלי ממחשב זה"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "העתק ללוח העריכה"
   },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "מפתח הגיבוי הועתק"
+  "icu:Preferences__local-backups-copied-recovery-key": {
+    "messageformat": "מפתח שחזור הועתק"
   },
   "icu:Preferences__local-backups--enable--os-prompt--mac": {
     "messageformat": "להפעיל גיבויים"
@@ -6319,17 +6433,29 @@
   "icu:Preferences__local-backups--enable--os-prompt-message--linux": {
     "messageformat": "נדרש אימות כדי להפעיל גיבויים."
   },
+  "icu:Preferences__local-backups-auth-error--unauthorized": {
+    "messageformat": "לא ניתן להשלים את הפעולה הזו כי אימות המערכת נכשל. נא לנסות שוב או לפתוח את אפליקציית Signal בנייד שלך ולנווט אל הגדרות הגיבוי כדי להציג את מפתח השחזור שלך."
+  },
   "icu:Preferences__view-key": {
     "messageformat": "הצגת מפתח"
   },
-  "icu:Preferences__backup-key": {
-    "messageformat": "מפתח גיבוי"
+  "icu:Preferences__recovery-key": {
+    "messageformat": "מפתח שחזור"
   },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "מפתח הגיבוי שלך הוא קוד בן 64 ספרות שמשמש לשחזור הגיבוי שלך"
+  "icu:Preferences__recovery-key-description": {
+    "messageformat": "מפתח השחזור שלך הוא קוד בן 64 ספרות שמשמש לשחזור הגיבוי שלך"
   },
   "icu:Preferences__backup-other-ways": {
     "messageformat": "דרכים אחרות לגיבוי"
+  },
+  "icu:Preferences__recovery-key-updated__title": {
+    "messageformat": "מפתח השחזור שלך השתנה"
+  },
+  "icu:Preferences__recovery-key-updated__description": {
+    "messageformat": "מפתח השחזור שלך עודכן. תהיה לך אפשרות לשחזר כל גיבוי חדש שייווצר רק באמצעות מפתח השחזור החדש."
+  },
+  "icu:Preferences__recovery-key-updated__view-key": {
+    "messageformat": "הצגת מפתח חדש"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {איש קשר {num,number}} two {{num,number} אנשי קשר} many {{num,number} אנשי קשר} other {{num,number} אנשי קשר}}"
@@ -6394,8 +6520,14 @@
   "icu:Preferences--read-receipts": {
     "messageformat": "אישורי קריאה"
   },
+  "icu:Preferences--read-receipts--description": {
+    "messageformat": "If disabled, you won't see read receipts from others."
+  },
   "icu:Preferences--typing-indicators": {
     "messageformat": "מחווני הקלדה"
+  },
+  "icu:Preferences--typing-indicators--description": {
+    "messageformat": "If disabled, you won't see typing indicators from others."
   },
   "icu:Preferences--updates": {
     "messageformat": "עדכונים"
@@ -6682,6 +6814,9 @@
   "icu:MyStories__delete": {
     "messageformat": "למחוק את הסטורי הזה? הוא יימחק גם עבור כל מי שקיבל אותו."
   },
+  "icu:MyStories__delete-group-story-for-me": {
+    "messageformat": "למחוק את הסטורי הזה? הוא יימחק רק עבורך כי הקבוצה הזו נסגרה."
+  },
   "icu:payment-event-notification-message-you-label": {
     "messageformat": "התחלת תשלום ל{receiver}"
   },
@@ -6903,6 +7038,9 @@
   },
   "icu:StoriesSettings__view-receipts--label": {
     "messageformat": "אישורי צפייה"
+  },
+  "icu:StoriesSettings__view-receipts--new-description": {
+    "messageformat": "See and share when stories are viewed. If disabled, you won't see when others view your story."
   },
   "icu:StoriesSettings__view-receipts--description": {
     "messageformat": "כדי לשנות הגדרה זו, יש לפתוח את אפליקציית Signal בנייד שלך ולנווט אל הגדרות ← סטוריז"
@@ -7553,6 +7691,18 @@
   "icu:ProfileNameWarningModal__list--item3--direct": {
     "messageformat": "אין לשתף מידע אישי עם אנשים שלא מוכרים לך"
   },
+  "icu:ProfileNameWarningModal__warning--signal-cant-verify": {
+    "messageformat": "Signal can’t verify names and photos"
+  },
+  "icu:ProfileNameWarningModal__warning--signal-wont-contact": {
+    "messageformat": "Signal will never contact you for your registration code, PIN, or recovery key"
+  },
+  "icu:ProfileNameWarningModal__warning--be-cautious": {
+    "messageformat": "Be cautious of accounts that impersonate others"
+  },
+  "icu:ProfileNameWarningModal__warning--dont-share-info": {
+    "messageformat": "Don't share personal information with people you don't know"
+  },
   "icu:ProfileNameWarningModal__description--group": {
     "messageformat": "שמות קבוצות נבחרים על ידי חברי הקבוצה."
   },
@@ -8015,17 +8165,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "התאמות קטנות, תיקוני באגים ושיפורי ביצועים. תודה על השימוש ב-Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__7.90--0": {
-    "messageformat": "שמירה על הפרטיות עם חמש חבילות סטיקרים רשמיות חדשות מסדרת האמנים של Signal."
-  },
-  "icu:WhatsNew__8.0--0": {
-    "messageformat": "הגיבויים המאובטחים של Signal כבר כאן! אפשר להפעיל גיבויים אוטומטיים מוצפנים מקצה לקצה כדי שלא תאבדו הודעות במעבר לטלפון חדש או בהתקנה מחדש של Signal. אפשר לגבות את כל ההודעות ואת 45 ימי המדיה האחרונים בחינם, או לשלם תשלום חודשי קטן כדי לקבל 100GB של אחסון לגיבוי כל הקבצים המצורפים. יש ללחוץ על גיבויים בהגדרות Signal שלך כדי להתחיל. תודה לכל מי שעזרו לבדוק את הפיצ׳ר הזה במהלך תקופת הבטא!"
-  },
-  "icu:WhatsNew__8.2--0": {
-    "messageformat": "עכשיו אפשר לשלוח מדיה לצפייה חד–פעמית גם מ–Signal לשולחן העבודה. תמונות וסרטונים בודדים שנשלחו כהודעות לצפייה חד–פעמית יוסרו אוטומטית משרשור השיחה לאחר שנצפו."
-  },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "עכשיו אפשר להוסיף תווית חבר/ה כדי לתאר את עצמך או את התפקיד שלך בצ׳אט הקבוצתי. תוויות חברים מופיעות ליד שם הפרופיל באותה קבוצה, ומנהלי קבוצות יכולים לשלוט במי שיכולים להגדיר תווית (כל חברי הקבוצה או רק חלק)."
   }
 }

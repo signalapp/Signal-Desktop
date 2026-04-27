@@ -4,26 +4,26 @@
 import { assert } from 'chai';
 import sinon from 'sinon';
 
-import { EmojiCompletion } from '../../../quill/emoji/completion.dom.js';
+import { EmojiCompletion } from '../../../quill/emoji/completion.dom.tsx';
 import type {
   EmojiCompletionOptions,
   InsertEmojiOptionsType,
-} from '../../../quill/emoji/completion.dom.js';
+} from '../../../quill/emoji/completion.dom.tsx';
 import {
   EMOJI_VARIANT_KEY_CONSTANTS,
   EmojiSkinTone,
   getEmojiParentKeyByVariantKey,
   getEmojiVariantByKey,
-} from '../../../components/fun/data/emojis.std.js';
+} from '../../../components/fun/data/emojis.std.ts';
 import {
   _createFunEmojiSearch,
   createFunEmojiSearchIndex,
-} from '../../../components/fun/useFunEmojiSearch.dom.js';
+} from '../../../components/fun/useFunEmojiSearch.dom.tsx';
 import {
   _createFunEmojiLocalizer,
   createFunEmojiLocalizerIndex,
-} from '../../../components/fun/useFunEmojiLocalizer.dom.js';
-import type { LocaleEmojiListType } from '../../../types/emoji.std.js';
+} from '../../../components/fun/useFunEmojiLocalizer.dom.tsx';
+import type { LocaleEmojiListType } from '../../../types/emoji.std.ts';
 
 const EMOJI_VARIANTS = {
   SMILE: getEmojiVariantByKey(
@@ -64,7 +64,7 @@ const EMOJI_LIST: LocaleEmojiListType = [
 
 describe('emojiCompletion', () => {
   let emojiCompletion: EmojiCompletion;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // oxlint-disable-next-line typescript/no-explicit-any
   let mockQuill: any;
 
   beforeEach(function (this: Mocha.Context) {
@@ -94,8 +94,7 @@ describe('emojiCompletion', () => {
       emojiLocalizer,
     };
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    emojiCompletion = new EmojiCompletion(mockQuill as any, options);
+    emojiCompletion = new EmojiCompletion(mockQuill, options);
 
     // Stub rendering to avoid missing DOM until we bring in Enzyme
     emojiCompletion.render = sinon.stub();

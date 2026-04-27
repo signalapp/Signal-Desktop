@@ -8,7 +8,7 @@ import React, {
   type ReactNode,
 } from 'react';
 import { Tooltip } from 'radix-ui';
-import { strictAssert } from '../../../util/assert.std.js';
+import { strictAssert } from '../../../util/assert.std.ts';
 
 export type FunTooltipProps = Readonly<{
   open?: boolean;

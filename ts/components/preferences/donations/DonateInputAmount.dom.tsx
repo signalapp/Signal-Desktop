@@ -3,12 +3,12 @@
 import type { FormEvent } from 'react';
 import React, { memo, useCallback, useEffect, useMemo, useRef } from 'react';
 import type { Formatter, FormatterToken } from '@signalapp/minimask';
-import { useInputMask } from '../../../hooks/useInputMask.dom.js';
-import type { CurrencyFormatResult } from '../../../util/currency.dom.js';
+import { useInputMask } from '../../../hooks/useInputMask.dom.tsx';
+import type { CurrencyFormatResult } from '../../../util/currency.dom.ts';
 import {
   getCurrencyFormat,
   ZERO_DECIMAL_CURRENCIES,
-} from '../../../util/currency.dom.js';
+} from '../../../util/currency.dom.ts';
 
 export type DonateInputAmountProps = Readonly<{
   className: string;

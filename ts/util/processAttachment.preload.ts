@@ -3,36 +3,32 @@
 
 import { v4 as generateUuid } from 'uuid';
 
-import { createLogger } from '../logging/log.std.js';
-import type {
-  AttachmentType,
-  InMemoryAttachmentDraftType,
-} from '../types/Attachment.std.js';
+import { createLogger } from '../logging/log.std.ts';
+import type { InMemoryAttachmentDraftType } from '../types/Attachment.std.ts';
 import {
-  getMaximumOutgoingAttachmentSizeInKb,
+  getAttachmentSizeLimit,
   getRenderDetailsForLimit,
-  KIBIBYTE,
-} from '../types/AttachmentSize.std.js';
-import * as Errors from '../types/errors.std.js';
-import { getValue as getRemoteConfigValue } from '../RemoteConfig.dom.js';
-import { fileToBytes } from './fileToBytes.std.js';
-import { handleImageAttachment } from './handleImageAttachment.preload.js';
-import { handleVideoAttachment } from './handleVideoAttachment.preload.js';
-import { isHeic, stringToMIMEType } from '../types/MIME.std.js';
-import { ToastType } from '../types/Toast.dom.js';
+  isAttachmentTooLargeToSend,
+} from '../types/AttachmentSize.std.ts';
+import * as Errors from '../types/errors.std.ts';
+import { getValue as getRemoteConfigValue } from '../RemoteConfig.dom.ts';
+import { fileToBytes } from './fileToBytes.std.ts';
+import { handleImageAttachment } from './handleImageAttachment.preload.ts';
+import { handleVideoAttachment } from './handleVideoAttachment.preload.ts';
+import { isHeic, stringToMIMEType } from '../types/MIME.std.ts';
 import {
   isImageTypeSupported,
   isVideoTypeSupported,
-} from './GoogleChrome.std.js';
-import { getAttachmentCiphertextSize } from './AttachmentCrypto.std.js';
-import { MediaTier } from '../types/AttachmentDownload.std.js';
+} from './GoogleChrome.std.ts';
+import { isVideoAttachment } from './Attachment.std.ts';
+import { ToastType } from '../types/Toast.dom.tsx';
 
 const log = createLogger('processAttachment');
 
 export async function processAttachment(
   file: File,
   options: { generateScreenshot: boolean; flags: number | null }
-): Promise<InMemoryAttachmentDraftType | void> {
+): Promise<InMemoryAttachmentDraftType | undefined> {
   const fileType = stringToMIMEType(file.type);
 
   let attachment: InMemoryAttachmentDraftType;
@@ -70,36 +66,25 @@ export async function processAttachment(
     };
   }
 
-  try {
-    if (isAttachmentSizeOkay(attachment)) {
-      return attachment;
-    }
-  } catch (error) {
-    log.error(
-      'Error ensuring that image is properly sized:',
-      Errors.toLogFormat(error)
-    );
-
-    throw error;
-  }
-}
-
-function isAttachmentSizeOkay(attachment: Readonly<AttachmentType>): boolean {
-  const limitKb = getMaximumOutgoingAttachmentSizeInKb(getRemoteConfigValue);
-  const limitBytes =
-    getMaximumOutgoingAttachmentSizeInKb(getRemoteConfigValue) * KIBIBYTE;
-
-  const paddedAndEncryptedSize = getAttachmentCiphertextSize({
-    unpaddedPlaintextSize: attachment.size,
-    mediaTier: MediaTier.STANDARD,
+  const sizeLimit = getAttachmentSizeLimit({
+    contentType: fileType,
+    getRemoteConfigValue,
   });
-  if (paddedAndEncryptedSize > limitBytes) {
+
+  if (
+    isAttachmentTooLargeToSend({
+      plaintextSize: attachment.size,
+      limit: sizeLimit,
+    })
+  ) {
     window.reduxActions.toast.showToast({
-      toastType: ToastType.FileSize,
-      parameters: getRenderDetailsForLimit(limitKb),
+      toastType: isVideoAttachment(attachment)
+        ? ToastType.VideoFileSize
+        : ToastType.FileSize,
+      parameters: getRenderDetailsForLimit(sizeLimit),
     });
-    return false;
+    return undefined;
   }
 
-  return true;
+  return attachment;
 }

@@ -1,30 +1,30 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
-
 import { assert } from 'chai';
 import { v4 as generateUuid } from 'uuid';
 import sinon from 'sinon';
-import { DataWriter } from '../sql/Client.preload.js';
-import { ConversationModel } from '../models/conversations.preload.js';
+import { DataWriter } from '../sql/Client.preload.ts';
+import { ConversationModel } from '../models/conversations.preload.ts';
 import type { ConversationAttributesType } from '../model-types.d.ts';
-import { generateAci, normalizeServiceId } from '../types/ServiceId.std.js';
-import { normalizeAci } from '../util/normalizeAci.std.js';
+import { normalizeServiceId } from '../types/ServiceId.std.ts';
+import { normalizeAci } from '../util/normalizeAci.std.ts';
 
 import {
   updateConversationsWithUuidLookup,
   type ServerType,
-} from '../updateConversationsWithUuidLookup.dom.js';
+} from '../updateConversationsWithUuidLookup.dom.ts';
+import { generateAci } from '../test-helpers/serviceIdUtils.std.ts';
 
 describe('updateConversationsWithUuidLookup', () => {
   class FakeConversationController {
-    constructor(
-      private readonly conversations: Array<ConversationModel> = []
-    ) {}
+    readonly #conversations: Array<ConversationModel>;
+
+    constructor(conversations: Array<ConversationModel> = []) {
+      this.#conversations = conversations;
+    }
 
     get(id?: string | null): ConversationModel | undefined {
-      return this.conversations.find(
+      return this.#conversations.find(
         conversation =>
           conversation.id === id ||
           conversation.get('e164') === id ||
@@ -56,7 +56,7 @@ describe('updateConversationsWithUuidLookup', () => {
         reason,
         'FakeConversationController must be provided a reason when merging'
       );
-      const normalizedAci = normalizeAci(aciFromServer!, 'test');
+      const normalizedAci = normalizeAci(aciFromServer, 'test');
 
       const convoE164 = this.get(e164);
       const convoUuid = this.get(normalizedAci);
@@ -99,7 +99,7 @@ describe('updateConversationsWithUuidLookup', () => {
         'FakeConversationController is not set up for this case (UUID must be provided)'
       );
       const normalizedServiceId = normalizeServiceId(
-        serviceIdFromServer!,
+        serviceIdFromServer,
         'test'
       );
 

@@ -4,14 +4,13 @@
 import * as client from '@signalapp/libsignal-client';
 import type { KyberPreKeyRecord } from '@signalapp/libsignal-client';
 
-import * as Bytes from './Bytes.std.js';
-import { constantTimeEqual } from './Crypto.node.js';
+import { constantTimeEqual } from './Crypto.node.ts';
 import type {
   KeyPairType,
   CompatPreKeyType,
   CompatSignedPreKeyType,
 } from './textsecure/Types.d.ts';
-import { createLogger } from './logging/log.std.js';
+import { createLogger } from './logging/log.std.ts';
 
 const log = createLogger('Curve');
 
@@ -98,15 +97,6 @@ export function createKeyPair(
   return new client.IdentityKeyPair(pubKey, privKey);
 }
 
-export function prefixPublicKey(
-  pubKey: Uint8Array<ArrayBuffer>
-): Uint8Array<ArrayBuffer> {
-  return Bytes.concatenate([
-    new Uint8Array([0x05]),
-    validatePubKeyFormat(pubKey),
-  ]);
-}
-
 export function calculateAgreement(
   pubKey: client.PublicKey,
   privKey: client.PrivateKey
@@ -114,6 +104,7 @@ export function calculateAgreement(
   return privKey.agree(pubKey);
 }
 
+/** @testexport */
 export function verifySignature(
   pubKey: client.PublicKey,
   message: Uint8Array<ArrayBuffer>,
@@ -129,33 +120,17 @@ export function calculateSignature(
   return privKey.sign(plaintext);
 }
 
-function validatePubKeyFormat(
-  pubKey: Uint8Array<ArrayBuffer>
-): Uint8Array<ArrayBuffer> {
-  if (
-    pubKey === undefined ||
-    ((pubKey.byteLength !== 33 || pubKey[0] !== 5) && pubKey.byteLength !== 32)
-  ) {
-    throw new Error('Invalid public key');
-  }
-  if (pubKey.byteLength === 33) {
-    return pubKey.subarray(1);
-  }
-
-  return pubKey;
-}
-
+/** @testexport */
 export function setPublicKeyTypeByte(publicKey: Uint8Array<ArrayBuffer>): void {
-  // eslint-disable-next-line no-param-reassign
+  // oxlint-disable-next-line no-param-reassign
   publicKey[0] = 5;
 }
 
 export function clampPrivateKey(privateKey: Uint8Array<ArrayBuffer>): void {
-  /* eslint-disable no-bitwise, no-param-reassign */
-  /* eslint-disable @typescript-eslint/no-non-null-assertion */
+  // oxlint-disable-next-line no-bitwise, no-param-reassign, typescript/no-non-null-assertion
   privateKey[0]! &= 248;
+  // oxlint-disable-next-line no-bitwise, no-param-reassign, typescript/no-non-null-assertion
   privateKey[31]! &= 127;
+  // oxlint-disable-next-line no-bitwise, no-param-reassign, typescript/no-non-null-assertion
   privateKey[31]! |= 64;
-  /* eslint-enable no-bitwise, no-param-reassign */
-  /* eslint-enable @typescript-eslint/no-non-null-assertion */
 }

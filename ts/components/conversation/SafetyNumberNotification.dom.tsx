@@ -3,11 +3,11 @@
 
 import React from 'react';
 
-import { Button, ButtonSize, ButtonVariant } from '../Button.dom.js';
-import { SystemMessage } from './SystemMessage.dom.js';
-import { ContactName } from './ContactName.dom.js';
-import { I18n } from '../I18n.dom.js';
-import type { LocalizerType } from '../../types/Util.std.js';
+import { Button, ButtonSize, ButtonVariant } from '../Button.dom.tsx';
+import { SystemMessage } from './SystemMessage.dom.tsx';
+import { ContactName } from './ContactName.dom.tsx';
+import { I18n } from '../I18n.dom.tsx';
+import type { LocalizerType } from '../../types/Util.std.ts';
 
 export type ContactType = {
   id: string;

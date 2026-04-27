@@ -4,8 +4,8 @@
 import classNames from 'classnames';
 import React, { useMemo } from 'react';
 import { v4 as uuid } from 'uuid';
-import { getClassNamesFor } from '../util/getClassNamesFor.std.js';
-import { CircleCheckbox } from './CircleCheckbox.dom.js';
+import { getClassNamesFor } from '../util/getClassNamesFor.std.ts';
+import { CircleCheckbox } from './CircleCheckbox.dom.tsx';
 
 export type Props = {
   title: string | React.JSX.Element;
@@ -14,7 +14,7 @@ export type Props = {
   trailing?: string | React.JSX.Element;
   moduleClassName?: string;
   onClick?: () => void;
-  onContextMenu?: (ev: React.MouseEvent<Element, MouseEvent>) => void;
+  onContextMenu?: (ev: React.MouseEvent) => void;
   // show hover highlight,
   // defaults to true if onClick is defined
   clickable?: boolean;
@@ -153,7 +153,7 @@ ListTile.heightCompact = 52;
 ListTile.checkbox = (
   props: Omit<Props, 'trailing'> & { isChecked: boolean }
 ) => {
-  // eslint-disable-next-line react-hooks/rules-of-hooks
+  // oxlint-disable-next-line react-hooks/rules-of-hooks
   const htmlId: string = useMemo(() => uuid(), []);
 
   const { onClick, disabled, isChecked, ...otherProps } = props;

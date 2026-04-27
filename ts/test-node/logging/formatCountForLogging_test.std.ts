@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 
-import { formatCountForLogging } from '../../logging/formatCountForLogging.std.js';
+import { formatCountForLogging } from '../../logging/formatCountForLogging.std.ts';
 
 describe('formatCountForLogging', () => {
   it('returns "0" if passed zero', () => {

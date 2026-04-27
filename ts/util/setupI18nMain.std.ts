@@ -7,23 +7,21 @@ import type { ReactNode } from 'react';
 import type {
   LocaleMessageType,
   LocaleMessagesType,
-} from '../types/I18N.std.js';
+} from '../types/I18N.std.ts';
 import type {
   LocalizerType,
   ICUStringMessageParamsByKeyType,
   LocalizerOptions,
-} from '../types/Util.std.js';
-import { strictAssert } from './assert.std.js';
-import { createLogger } from '../logging/log.std.js';
-import * as Errors from '../types/errors.std.js';
-import { Environment, getEnvironment } from '../environment.std.js';
-import { bidiIsolate, bidiStrip } from './unicodeBidi.std.js';
+} from '../types/Util.std.ts';
+import { strictAssert } from './assert.std.ts';
+import { createLogger } from '../logging/log.std.ts';
+import * as Errors from '../types/errors.std.ts';
+import { Environment, getEnvironment } from '../environment.std.ts';
+import { bidiIsolate, bidiStrip } from './unicodeBidi.std.ts';
 
 const log = createLogger('setupI18nMain');
 
-export function isLocaleMessageType(
-  value: unknown
-): value is LocaleMessageType {
+function isLocaleMessageType(value: unknown): value is LocaleMessageType {
   return (
     typeof value === 'object' &&
     value != null &&
@@ -37,7 +35,7 @@ export type SetupI18nOptionsType = Readonly<{
   getHourCyclePreference: LocalizerType['getHourCyclePreference'];
 }>;
 
-export function createCachedIntl(
+function createCachedIntl(
   locale: string,
   icuMessages: Record<string, string>,
   { renderEmojify }: SetupI18nOptionsType

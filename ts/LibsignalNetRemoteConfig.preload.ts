@@ -6,10 +6,11 @@ import {
   REMOTE_CONFIG_KEYS as KeysExpectedByLibsignalNet,
 } from '@signalapp/libsignal-client/dist/net.js';
 
-import { isProduction } from './util/version.std.js';
-import * as RemoteConfig from './RemoteConfig.dom.js';
-import type { AddPrefix, ArrayValues } from './types/Util.std.js';
-import { createLogger } from './logging/log.std.js';
+import { isProduction } from './util/version.std.ts';
+import { drop } from './util/drop.std.ts';
+import * as RemoteConfig from './RemoteConfig.dom.ts';
+import type { AddPrefix, ArrayValues } from './types/Util.std.ts';
+import { createLogger } from './logging/log.std.ts';
 
 const log = createLogger('LibsignalNetRemoteConfig');
 
@@ -21,13 +22,9 @@ function convertToDesktopRemoteConfigKey<
 
 export function bindRemoteConfigToLibsignalNet(
   libsignalNet: Net,
-  appVersion: string
+  appVersion: string,
+  reconnect: () => Promise<void>
 ): void {
-  // Calls setLibsignalRemoteConfig and is reset when any libsignal remote
-  // config key changes. Doing that asynchronously allows the callbacks for
-  // multiple keys that are triggered by the same config fetch from the server
-  // to be coalesced into a single timeout.
-  let reloadRemoteConfig: NodeJS.Immediate | undefined;
   const libsignalBuildVariant = isProduction(appVersion)
     ? BuildVariant.Production
     : BuildVariant.Beta;
@@ -46,18 +43,24 @@ export function bindRemoteConfigToLibsignalNet(
       Object.fromEntries(remoteConfigs)
     );
     libsignalNet.setRemoteConfig(remoteConfigs, libsignalBuildVariant);
-    reloadRemoteConfig = undefined;
   };
 
   setLibsignalRemoteConfig();
 
-  KeysExpectedByLibsignalNet.map(convertToDesktopRemoteConfigKey).forEach(
-    key => {
-      RemoteConfig.onChange(key, () => {
-        if (reloadRemoteConfig === undefined) {
-          reloadRemoteConfig = setImmediate(setLibsignalRemoteConfig);
-        }
-      });
+  RemoteConfig.onChange(
+    KeysExpectedByLibsignalNet.map(convertToDesktopRemoteConfigKey),
+    () => {
+      setLibsignalRemoteConfig();
+
+      // When linking for the first time in mock tests we start with an empty
+      // remote config and fetch the latest values only when we connect the
+      // socket. However, new values won't be applied until we reconnect so
+      // we need to reconnect immediately to use remote config dependent
+      // features like gRPC.
+      if (window.SignalCI) {
+        log.info('Reconnecting socket after remote config change');
+        drop(reconnect());
+      }
     }
   );
 }

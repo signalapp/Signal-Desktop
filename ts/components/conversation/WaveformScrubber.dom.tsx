@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useCallback, useRef } from 'react';
-import { useRefMerger } from '../../hooks/useRefMerger.std.js';
-import type { LocalizerType } from '../../types/Util.std.js';
-import { durationToPlaybackText } from '../../util/durationToPlaybackText.std.js';
-import { Waveform } from './Waveform.dom.js';
-import { arrow } from '../../util/keyboard.dom.js';
+import { useRefMerger } from '../../hooks/useRefMerger.std.ts';
+import type { LocalizerType } from '../../types/Util.std.ts';
+import { durationToPlaybackText } from '../../util/durationToPlaybackText.std.ts';
+import { Waveform } from './Waveform.dom.tsx';
+import { arrow } from '../../util/keyboard.dom.ts';
 
 type Props = Readonly<{
   i18n: LocalizerType;
@@ -76,11 +76,11 @@ export const WaveformScrubber = React.forwardRef(function WaveformScrubber(
     let increment: number;
 
     if (event.key === 'ArrowUp' || event.key === arrow('end')) {
-      increment = +SMALL_INCREMENT;
+      increment = SMALL_INCREMENT;
     } else if (event.key === 'ArrowDown' || event.key === arrow('start')) {
       increment = -SMALL_INCREMENT;
     } else if (event.key === 'PageUp') {
-      increment = +BIG_INCREMENT;
+      increment = BIG_INCREMENT;
     } else if (event.key === 'PageDown') {
       increment = -BIG_INCREMENT;
     } else {

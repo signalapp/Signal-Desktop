@@ -4,8 +4,8 @@
 import humanizeDuration from 'humanize-duration';
 import type { Unit } from 'humanize-duration';
 import lodash from 'lodash';
-import type { LocalizerType } from '../types/Util.std.js';
-import { SECOND, DurationInSeconds } from './durations/index.std.js';
+import type { LocalizerType } from '../types/Util.std.ts';
+import { SECOND, DurationInSeconds } from './durations/index.std.ts';
 
 const { isNumber } = lodash;
 
@@ -75,7 +75,7 @@ export function format(
     // if we have an explicit `largest` specified,
     // allow it to pick from all the units
     units: largest ? allUnits : defaultUnits,
-    largest,
+    largest: largest ?? defaultUnits.length,
     language: locale,
     ...(fallbacks.length ? { fallbacks } : {}),
   });

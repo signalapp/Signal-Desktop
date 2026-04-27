@@ -5,8 +5,8 @@ import { assert } from 'chai';
 import { Readable, Writable } from 'node:stream';
 import { pipeline } from 'node:stream/promises';
 
-import { DelimitedStream } from '../../util/DelimitedStream.node.js';
-import { encodeDelimited } from '../../util/encodeDelimited.std.js';
+import { DelimitedStream } from '../../util/DelimitedStream.node.ts';
+import { encodeDelimited } from '../../util/encodeDelimited.std.ts';
 
 describe('DelimitedStream', () => {
   function collect(out: Array<string>): Writable {
@@ -28,7 +28,7 @@ describe('DelimitedStream', () => {
     for (let stride = data.length; stride > 0; stride -= decrease) {
       const out = new Array<string>();
 
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       await pipeline(
         Readable.from(
           (function* () {

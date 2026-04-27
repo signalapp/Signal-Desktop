@@ -3,16 +3,9 @@
 
 import semver from 'semver';
 
-import type { OSType } from '../util/os/shared.std.js';
-import { SystemTraySetting } from './SystemTraySetting.std.js';
-import { isNotUpdatable, isProduction } from '../util/version.std.js';
-
-const MIN_WINDOWS_VERSION = '8.0.0';
-
-// Using `Notification::tag` has a bug on Windows 7:
-// https://github.com/electron/electron/issues/11189
-export const isNotificationGroupingSupported = (OS: OSType): boolean =>
-  !OS.isWindows() || OS.isWindows(MIN_WINDOWS_VERSION);
+import type { OSType } from '../util/os/shared.std.ts';
+import { SystemTraySetting } from './SystemTraySetting.std.ts';
+import { isNotUpdatable, isProduction } from '../util/version.std.ts';
 
 // Login item settings are only supported on macOS and Windows, according to [Electron's
 //   docs][0].

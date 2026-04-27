@@ -1,25 +1,24 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-/* eslint-disable max-classes-per-file */
 
 import { ipcRenderer, type DesktopCapturerSource } from 'electron';
 import type { Stream, StreamOptions } from '@indutny/mac-screen-share';
 
-import { createLogger } from '../logging/log.std.js';
-import * as Errors from '../types/errors.std.js';
-import type { PresentableSource } from '../types/Calling.std.js';
-import type { LocalizerType } from '../types/Util.std.js';
+import { createLogger } from '../logging/log.std.ts';
+import * as Errors from '../types/errors.std.ts';
+import type { PresentableSource } from '../types/Calling.std.ts';
+import type { LocalizerType } from '../types/Util.std.ts';
 import {
   REQUESTED_SCREEN_SHARE_WIDTH,
   REQUESTED_SCREEN_SHARE_HEIGHT,
   REQUESTED_SCREEN_SHARE_FRAMERATE,
-} from '../calling/constants.std.js';
-import { strictAssert } from './assert.std.js';
-import { explodePromise } from './explodePromise.std.js';
-import { isNotNil } from './isNotNil.std.js';
-import { drop } from './drop.std.js';
-import { SECOND } from './durations/index.std.js';
-import { isOlderThan } from './timestamp.std.js';
+} from '../calling/constants.std.ts';
+import { strictAssert } from './assert.std.ts';
+import { explodePromise } from './explodePromise.std.ts';
+import { isNotNil } from './isNotNil.std.ts';
+import { drop } from './drop.std.ts';
+import { SECOND } from './durations/index.std.ts';
+import { isOlderThan } from './timestamp.std.ts';
 
 const log = createLogger('desktopCapturer');
 
@@ -70,7 +69,7 @@ type State = Readonly<
     }
 >;
 
-export const liveCapturers = new Set<DesktopCapturer>();
+const liveCapturers = new Set<DesktopCapturer>();
 
 export type IpcResponseType = Readonly<{
   id: string;
@@ -88,7 +87,9 @@ export type DesktopCapturerBaton = Readonly<{
   __desktop_capturer_baton: never;
 }>;
 
+// oxlint-disable-next-line max-classes-per-file
 export class DesktopCapturer {
+  readonly #options: DesktopCapturerOptionsType;
   #state: State;
 
   private static getDisplayMediaPromise: Promise<MediaStream> | undefined;
@@ -98,7 +99,9 @@ export class DesktopCapturer {
   // For use as a key in weak maps
   public readonly baton = {} as DesktopCapturerBaton;
 
-  constructor(private readonly options: DesktopCapturerOptionsType) {
+  constructor(options: DesktopCapturerOptionsType) {
+    this.#options = options;
+
     if (!DesktopCapturer.isInitialized) {
       DesktopCapturer.initialize();
     }
@@ -183,7 +186,7 @@ export class DesktopCapturer {
     >();
     this.#state = { step: Step.SelectingSource, promise, sources, onSource };
 
-    this.options.onPresentableSources(presentableSources);
+    this.#options.onPresentableSources(presentableSources);
     return source;
   }
 
@@ -226,7 +229,7 @@ export class DesktopCapturer {
         `Invalid state in "getStream.success" ${this.#state.step}`
       );
 
-      this.options.onMediaStream(stream);
+      this.#options.onMediaStream(stream);
       this.#state = { step: Step.Done };
     } catch (error) {
       strictAssert(
@@ -234,7 +237,7 @@ export class DesktopCapturer {
           this.#state.step === Step.SelectedSource,
         `Invalid state in "getStream.error" ${this.#state.step}`
       );
-      this.options.onError(error);
+      this.#options.onError(error);
       this.#state = { step: Step.Error };
     } finally {
       liveCapturers.delete(this);
@@ -267,7 +270,7 @@ export class DesktopCapturer {
 
     // process.dlopen() for the addon takes roughly 34ms so avoid running it
     // until requested by user.
-    // eslint-disable-next-line global-require, @typescript-eslint/no-var-requires
+    // oxlint-disable-next-line global-require, typescript/no-var-requires
     const macScreenShare = require('@indutny/mac-screen-share');
     const stream: Stream = new macScreenShare.Stream({
       width: REQUESTED_SCREEN_SHARE_WIDTH,
@@ -288,7 +291,7 @@ export class DesktopCapturer {
           }
         }, SECOND);
 
-        this.options.onMediaStream(mediaStream);
+        this.#options.onMediaStream(mediaStream);
       },
       onStop() {
         if (!isRunning) {
@@ -327,7 +330,7 @@ export class DesktopCapturer {
   }
 
   #translateSourceName(source: DesktopCapturerSource): string {
-    const { i18n } = this.options;
+    const { i18n } = this.#options;
 
     const { name } = source;
     if (!isScreenSource(source)) {
@@ -380,6 +383,6 @@ function isScreenSource(source: DesktopCapturerSource): boolean {
 export function isNativeMacScreenShareSupported(): boolean {
   // process.dlopen() for the addon takes roughly 34ms so avoid running it
   // until requested by user.
-  // eslint-disable-next-line global-require, @typescript-eslint/no-var-requires
+  // oxlint-disable-next-line global-require, typescript/no-var-requires
   return require('@indutny/mac-screen-share').isSupported;
 }

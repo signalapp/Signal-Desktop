@@ -4,19 +4,21 @@
 import type { ReactNode } from 'react';
 import React, { useState } from 'react';
 
-import { Avatar, AvatarBlur, AvatarSize } from '../../Avatar.dom.js';
-import { AvatarLightbox } from '../../AvatarLightbox.dom.js';
-import type { ConversationType } from '../../../state/ducks/conversations.preload.js';
-import { GroupDescription } from '../GroupDescription.dom.js';
-import { About } from '../About.dom.js';
-import type { LocalizerType, ThemeType } from '../../../types/Util.std.js';
-import { assertDev } from '../../../util/assert.std.js';
-import { BadgeDialog } from '../../BadgeDialog.dom.js';
-import type { BadgeType } from '../../../badges/types.std.js';
-import { UserText } from '../../UserText.dom.js';
-import { isInSystemContacts } from '../../../util/isInSystemContacts.std.js';
-import { InContactsIcon } from '../../InContactsIcon.dom.js';
-import type { ContactModalStateType } from '../../../types/globalModals.std.js';
+import { Avatar, AvatarBlur, AvatarSize } from '../../Avatar.dom.tsx';
+import { AvatarLightbox } from '../../AvatarLightbox.dom.tsx';
+import type { ConversationType } from '../../../state/ducks/conversations.preload.ts';
+import { GroupDescription } from '../GroupDescription.dom.tsx';
+import { About } from '../About.dom.tsx';
+import type { LocalizerType, ThemeType } from '../../../types/Util.std.ts';
+import { assertDev } from '../../../util/assert.std.ts';
+import { BadgeDialog } from '../../BadgeDialog.dom.tsx';
+import type { BadgeType } from '../../../badges/types.std.ts';
+import { UserText } from '../../UserText.dom.tsx';
+import { isInSystemContacts } from '../../../util/isInSystemContacts.std.ts';
+import { InContactsIcon } from '../../InContactsIcon.dom.tsx';
+import type { ContactModalStateType } from '../../../types/globalModals.std.ts';
+import { tw } from '../../../axo/tw.dom.tsx';
+import { AxoSymbol } from '../../../axo/AxoSymbol.dom.tsx';
 
 export type Props = {
   areWeASubscriber: boolean;
@@ -267,6 +269,20 @@ export function ConversationDetailsHeader({
       {modal}
       {avatar}
       {title}
+      {conversation.terminated && (
+        <div
+          className={tw(
+            'mb-3 px-2 py-[5px]',
+            'curved-xl bg-fill-secondary text-label-primary',
+            'text-start type-body-small'
+          )}
+        >
+          <AxoSymbol.InlineGlyph symbol="group-x" label={null} />
+          <span className={tw('ms-1')}>
+            {i18n('icu:ConversationDetails__GroupTerminatedBanner')}
+          </span>
+        </div>
+      )}
       <div className="ConversationDetailsHeader__subtitle">{subtitle}</div>
     </div>
   );

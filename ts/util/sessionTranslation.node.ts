@@ -4,8 +4,8 @@
 import lodash from 'lodash';
 
 import { signal } from '../protobuf/compiled.std.js';
-import * as Bytes from '../Bytes.std.js';
-import { deriveSecrets } from '../Crypto.node.js';
+import * as Bytes from '../Bytes.std.ts';
+import { deriveSecrets } from '../Crypto.node.ts';
 
 const { get, isFinite, isInteger, isString } = lodash;
 
@@ -134,7 +134,7 @@ function toProtobufSession(
   if (!senderBaseKey) {
     throw new Error('toProtobufSession: No sender base key!');
   }
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // oxlint-disable-next-line typescript/no-explicit-any
   const senderChain = (session as any)[senderBaseKey] as ChainType | undefined;
   if (!senderChain) {
     throw new Error(
@@ -169,7 +169,7 @@ function toProtobufSession(
     throw new Error('toProtobufSession: No receiver base key!');
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // oxlint-disable-next-line typescript/no-explicit-any
   const firstReceiverChain = (session as any)[firstReceiverChainBaseKey] as
     | ChainType
     | undefined;
@@ -207,7 +207,7 @@ function toProtobufSession(
       throw new Error('toProtobufSession: No base key for old receiver chain!');
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // oxlint-disable-next-line typescript/no-explicit-any
     const chain = (session as any)[baseKey] as ChainType | undefined;
     if (!chain) {
       throw new Error(
@@ -323,7 +323,7 @@ function translateMessageKey(key: Uint8Array<ArrayBuffer>) {
 }
 
 function binaryToUint8Array(
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // oxlint-disable-next-line typescript/no-explicit-any
   object: any,
   path: string,
   length: number
@@ -347,7 +347,7 @@ function binaryToUint8Array(
   return buffer;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+// oxlint-disable-next-line typescript/no-explicit-any
 function getInteger(object: any, path: string): number {
   const target = get(object, path);
   if (target == null) {

@@ -1,18 +1,19 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import net from 'node:net';
-import type { ProxyAgent } from 'proxy-agent';
+import net, { type TcpSocketConnectOpts } from 'node:net';
+import { HttpsProxyAgent } from 'https-proxy-agent';
+import { SocksProxyAgent } from 'socks-proxy-agent';
 import { URL } from 'node:url';
 import type { LookupOptions, LookupAddress } from 'node:dns';
 import { lookup } from 'node:dns/promises';
 
-import { createLogger } from '../logging/log.std.js';
-import { happyEyeballs } from './createHTTPSAgent.node.js';
-import type { ConnectOptionsType } from './createHTTPSAgent.node.js';
-import { explodePromise } from './explodePromise.std.js';
-import { SECOND } from './durations/index.std.js';
-import { drop } from './drop.std.js';
+import { createLogger } from '../logging/log.std.ts';
+import { happyEyeballs } from './createHTTPSAgent.node.ts';
+import type { ConnectOptionsType } from './createHTTPSAgent.node.ts';
+import { explodePromise } from './explodePromise.std.ts';
+import { SECOND } from './durations/index.std.ts';
+import { drop } from './drop.std.ts';
 
 const log = createLogger('createProxyAgent');
 
@@ -27,17 +28,26 @@ const SOCKS_PROTOCOLS = new Set([
   'socks5h:',
 ]);
 
-export type { ProxyAgent };
+export type ProxyAgent =
+  | HttpsProxyAgent<'http:'>
+  | HttpsProxyAgent<'https:'>
+  | SocksProxyAgent;
 
 export async function createProxyAgent(proxyUrl: string): Promise<ProxyAgent> {
   const { port: portStr, hostname: proxyHost, protocol } = new URL(proxyUrl);
   let defaultPort: number | undefined;
+  let agentClass: typeof HttpsProxyAgent | typeof SocksProxyAgent;
   if (protocol === 'http:') {
     defaultPort = 80;
+    agentClass = HttpsProxyAgent;
   } else if (protocol === 'https:') {
     defaultPort = 443;
+    agentClass = HttpsProxyAgent;
   } else if (SOCKS_PROTOCOLS.has(protocol)) {
     defaultPort = 1080;
+    agentClass = SocksProxyAgent;
+  } else {
+    throw new Error(`Unsupported proxy protocol: ${protocol}`);
   }
   const port = portStr ? parseInt(portStr, 10) : defaultPort;
 
@@ -47,7 +57,7 @@ export async function createProxyAgent(proxyUrl: string): Promise<ProxyAgent> {
     // SOCKS 4/5 resolve target host before sending it to the proxy.
     if (host !== proxyHost) {
       const idx = Math.floor(Math.random() * addresses.length);
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      // oxlint-disable-next-line typescript/no-non-null-assertion
       return addresses[idx]!;
     }
 
@@ -101,9 +111,7 @@ export async function createProxyAgent(proxyUrl: string): Promise<ProxyAgent> {
     }
   }
 
-  const { ProxyAgent } = await import('proxy-agent');
-
-  return new ProxyAgent({
+  return new agentClass(proxyUrl, {
     lookup:
       port !== undefined
         ? (host, opts, callback) =>
@@ -115,10 +123,7 @@ export async function createProxyAgent(proxyUrl: string): Promise<ProxyAgent> {
               )
             )
         : undefined,
-    getProxyForUrl() {
-      return proxyUrl;
-    },
-  });
+  } satisfies Pick<TcpSocketConnectOpts, 'lookup'>);
 }
 
 async function connect({

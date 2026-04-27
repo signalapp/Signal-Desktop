@@ -6,8 +6,9 @@ import { Menu, Tray, app, nativeImage, nativeTheme, screen } from 'electron';
 import os from 'node:os';
 import { join } from 'node:path';
 import { readFileSync } from 'node:fs';
-import { createLogger } from '../ts/logging/log.std.js';
-import type { LocalizerType } from '../ts/types/I18N.std.js';
+import { createLogger } from '../ts/logging/log.std.ts';
+import type { LocalizerType } from '../ts/types/I18N.std.ts';
+import { getAppRootDir } from '../ts/util/appRootDir.main.ts';
 
 const log = createLogger('SystemTrayService');
 
@@ -32,7 +33,7 @@ export class SystemTrayService {
   #isEnabled = false;
   #isQuitting = false;
   #unreadCount = 0;
-  #createTrayInstance: (icon: NativeImage) => Tray;
+  readonly #createTrayInstance: (icon: NativeImage) => Tray;
 
   constructor({ i18n, createTrayInstance }: SystemTrayServiceOptionsType) {
     log.info('System tray service: created');
@@ -119,7 +120,7 @@ export class SystemTrayService {
     return this.#tray !== undefined;
   }
 
-  #render = (): void => {
+  readonly #render = (): void => {
     if (this.#isEnabled && this.#browserWindow) {
       this.#renderEnabled();
       return;
@@ -285,8 +286,7 @@ function getTrayIconImagePath(size: number, unreadCount: number): string {
   }
 
   const iconPath = join(
-    __dirname,
-    '..',
+    getAppRootDir(),
     'images',
     'tray-icons',
     dirName,

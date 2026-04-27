@@ -3,7 +3,7 @@
 
 import lodash from 'lodash';
 
-import type { AttachmentType } from '../../types/Attachment.std.js';
+import type { AttachmentType } from '../../types/Attachment.std.ts';
 
 const { omit } = lodash;
 

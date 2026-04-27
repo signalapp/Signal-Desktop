@@ -746,6 +746,9 @@
   "icu:fileSizeWarning": {
     "messageformat": "Spiacente, il file selezionato supera la dimensione predefinita per il messaggio. {limit,number} {units}"
   },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "Purtroppo il file video selezionato supera la dimensione massima consentita per il messaggio. {limit,number}{units}"
+  },
   "icu:unableToLoadAttachment": {
     "messageformat": "Non è stato possibile caricare l'allegato selezionato."
   },
@@ -1787,6 +1790,12 @@
   "icu:Preferences__EditChatFolderPage__CancelButton": {
     "messageformat": "Annulla"
   },
+  "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
+    "messageformat": "Show status icon"
+  },
+  "icu:Preferences__PrivacyPage__ShowStatusIcon__Description": {
+    "messageformat": "Show an icon in message details when they were delivered using sealed sender."
+  },
   "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
     "messageformat": "Verifica automatica della chiave"
   },
@@ -2372,6 +2381,9 @@
   "icu:ConversationDetails--support-center": {
     "messageformat": "Centro assistenza"
   },
+  "icu:ConversationDetails__GroupTerminatedBanner": {
+    "messageformat": "Questo gruppo è stato chiuso"
+  },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "Visualizza numero di sicurezza"
   },
@@ -2551,6 +2563,27 @@
   },
   "icu:youUpdatedTheGroup": {
     "messageformat": "Hai aggiornato il gruppo."
+  },
+  "icu:collapsedGroupUpdates": {
+    "messageformat": "{count, plural, one {{count,number} novità dal gruppo} other {{count,number} novità dal gruppo}}"
+  },
+  "icu:multidayCollapse__container": {
+    "messageformat": "{containerDescription} · {dayCountSummary}"
+  },
+  "icu:multidayCollapse__dayCountSummary": {
+    "messageformat": "{dayCount, plural, one {{dayCount,number} giorno} other {{dayCount,number} giorni}}"
+  },
+  "icu:collapsedChatUpdates": {
+    "messageformat": "{count, plural, one {{count,number} novità dalla chat} other {{count,number} novità dalla chat}}"
+  },
+  "icu:collapsedTimerChanges": {
+    "messageformat": "{count, plural, one {{count,number} modifica alla durata dei messaggi temporanei · {endingState}} other {{count,number} modifiche alla durata dei messaggi temporanei · {endingState}}}"
+  },
+  "icu:collapsedTimerChanges--disabled": {
+    "messageformat": "{count, plural, one {{count,number} modifica alla durata del messaggio temporaneo · Disattivato} other {{count,number} modifiche alla durata dei messaggi temporanei · Disattivati}}"
+  },
+  "icu:collapsedCallEvents": {
+    "messageformat": "{count, plural, one {{count,number} novità dalle chiamate} other {{count,number} novità dalle chiamate}}"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "L'avatar del gruppo è stato aggiornato."
@@ -3017,8 +3050,8 @@
   "icu:Message--tap-to-view--incoming--expired-toast": {
     "messageformat": "Hai già visualizzato questo messaggio."
   },
-  "icu:Message--tap-to-view--outgoing--expired-toast": {
-    "messageformat": "I messaggi visualizzabili solo una volta non sono memorizzati nella tua cronologia delle chat."
+  "icu:Message--tap-to-view--outgoing--expired-toast-2": {
+    "messageformat": "I media visualizzabili una volta vengono eliminati dopo l'invio"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "Vedi il video visualizzabile una volta"
@@ -3485,8 +3518,17 @@
   "icu:ConversationHero--profile-names": {
     "messageformat": "<clickable>I nomi dei profili</clickable> non sono verificati"
   },
+  "icu:ConversationHero--name-not-verified": {
+    "messageformat": "Name not verified"
+  },
   "icu:ConversationHero--signal-official-chat": {
     "messageformat": "Questa è l'unica chat ufficiale con Signal"
+  },
+  "icu:ConversationHero--signal-official-account": {
+    "messageformat": "Official account"
+  },
+  "icu:ConversationHero--signal-official-account--description": {
+    "messageformat": "The only official chat from Signal. Keep up to date with news and release notes."
   },
   "icu:ConversationHero--release-notes": {
     "messageformat": "Non perderti neanche una novità o le note degli aggiornamenti."
@@ -3767,9 +3809,6 @@
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
     "messageformat": "Condividi il link chiamata via Signal"
   },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "Rimuovi questa persona dalla chiamata"
-  },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "Rimuovi {name} dalla chiamata?"
   },
@@ -3932,11 +3971,23 @@
   "icu:GroupV2--join--requested": {
     "messageformat": "La tua richiesta di unirti è stata inviata agli admin del gruppo. Riceverai una notifica quando interverranno."
   },
+  "icu:GroupV2--join--group-terminated": {
+    "messageformat": "Impossibile unirsi a questo gruppo."
+  },
   "icu:GroupV2--join--general-join-failure--title": {
     "messageformat": "Errore link"
   },
   "icu:GroupV2--join--general-join-failure": {
     "messageformat": "Impossibile unirsi al gruppo. Riprova più tardi."
+  },
+  "icu:GroupV2--terminate-group-in-progress": {
+    "messageformat": "Chiusura del gruppo…"
+  },
+  "icu:TerminateGroupFailedModal__description": {
+    "messageformat": "Impossibile chiudere il gruppo. Controlla la tua connessione e riprova."
+  },
+  "icu:TerminateGroupFailedModal__try-again": {
+    "messageformat": "Riprova"
   },
   "icu:GroupV2--admin": {
     "messageformat": "Admin"
@@ -4379,6 +4430,15 @@
   "icu:GroupV2--summary": {
     "messageformat": "L'elenco di persone o le impostazioni del gruppo sono state cambiate."
   },
+  "icu:GroupV2--terminated--you": {
+    "messageformat": "Hai chiuso il gruppo"
+  },
+  "icu:GroupV2--terminated--other": {
+    "messageformat": "{memberName} ha chiuso il gruppo"
+  },
+  "icu:GroupV2--terminated--unknown": {
+    "messageformat": "Questo gruppo è stato chiuso"
+  },
   "icu:GroupV1--Migration--disabled--link": {
     "messageformat": "Aggiorna questo gruppo per attivare nuove funzioni come le @menzioni e i ruoli da admin. Le persone che non hanno condiviso il proprio nome o la foto del profilo con il gruppo riceveranno l'invito a unirsi. <learnMoreLink>Scopri di più.</learnMoreLink>"
   },
@@ -4655,6 +4715,9 @@
   "icu:CompositionArea__ConfirmGifSelection__ReplaceButton": {
     "messageformat": "Sostituisci"
   },
+  "icu:CompositionArea--group-terminated": {
+    "messageformat": "Non puoi inviare messaggi perché il gruppo è stato chiuso."
+  },
   "icu:CompositionArea--viewOnceToggle": {
     "messageformat": "Visibile solo una volta"
   },
@@ -4832,11 +4895,26 @@
   "icu:ConversationDetailsActions--leave-group": {
     "messageformat": "Abbandona il gruppo"
   },
+  "icu:ConversationDetailsActions--terminate-group": {
+    "messageformat": "Chiudi gruppo"
+  },
   "icu:ConversationDetailsActions--block-group": {
     "messageformat": "Blocca il gruppo"
   },
   "icu:ConversationDetailsActions--unblock-group": {
     "messageformat": "Sblocca il gruppo"
+  },
+  "icu:ConversationDetailsActions--report-spam": {
+    "messageformat": "Segnala come spam"
+  },
+  "icu:ConversationDetailsActions--archive": {
+    "messageformat": "Archivia chat"
+  },
+  "icu:ConversationDetailsActions--unarchive": {
+    "messageformat": "Estrai chat dall'archivio"
+  },
+  "icu:ConversationDetailsActions--delete": {
+    "messageformat": "Elimina chat"
   },
   "icu:ConversationDetailsActions--leave-group-must-choose-new-admin": {
     "messageformat": "Prima di abbandonare il gruppo, devi scegliere almeno un nuovo admin."
@@ -4849,6 +4927,18 @@
   },
   "icu:ConversationDetailsActions--leave-group-modal-confirm": {
     "messageformat": "Abbandona"
+  },
+  "icu:ConversationDetailsActions--prompt-terminate-group-modal-title": {
+    "messageformat": "Chiudere il gruppo \"{groupName}\"?"
+  },
+  "icu:ConversationDetailsActions--prompt-terminate-group-modal-content": {
+    "messageformat": "Gli utenti facenti parte del gruppo non potranno più inviare messaggi o avviare delle chiamate all'interno del gruppo. Verranno avvisati quando sceglierai di chiudere il gruppo. Tuttavia, potranno continuare ad accedere alla cronologia dei messaggi in chat."
+  },
+  "icu:ConversationDetailsActions--terminate-group-modal-confirm": {
+    "messageformat": "Chiudi gruppo"
+  },
+  "icu:ConversationDetailsActions--confirm-terminate-group-confirm-modal-content": {
+    "messageformat": "Quest'azione chiuderà il gruppo in modo definitivo. Confermi di voler procedere?"
   },
   "icu:ConversationDetailsActions--unblock-group-modal-title": {
     "messageformat": "Vuoi sbloccare il gruppo \"{groupName}\"?"
@@ -4868,6 +4958,18 @@
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "Sblocca"
   },
+  "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
+    "messageformat": "Se procedi, Signal saprà che questa persona sta inviando contenuti spam. Ricorda che Signal non può vedere il contenuto delle chat."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-group": {
+    "messageformat": "Se procedi, Signal saprà che la persona che ti ha invitato in questo gruppo sta inviando contenuti spam. Ricorda che Signal non può vedere il contenuto delle chat."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
+    "messageformat": "Segnala come spam"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
+    "messageformat": "Segnala e blocca"
+  },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} persona} other {{number,number} persone}}"
   },
@@ -4876,6 +4978,9 @@
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} persona} other {{number,number} persone}}"
+  },
+  "icu:ConversationDetailsMembershipList--terminated-title": {
+    "messageformat": "{number, plural, one {{number,number} utente precedente} other {{number,number} utenti precedenti}}"
   },
   "icu:ConversationDetailsMembershipList--add-members": {
     "messageformat": "Aggiungi membri"
@@ -5059,7 +5164,7 @@
     "ignoreUnused": true
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
-    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Gli utenti del gruppo con le versioni più recenti di Signal vedranno che hai eliminato questo messaggio.} other {Gli utenti del gruppo con le versioni più recenti di Signal vedranno che hai eliminato questi messaggi.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Elimina da tutti i dispositivi"
@@ -5195,6 +5300,9 @@
   },
   "icu:MessageRequestWarning__safety-tips": {
     "messageformat": "Consigli sulla sicurezza"
+  },
+  "icu:MessageRequestWarning__safety-tips-v2": {
+    "messageformat": "Safety tips"
   },
   "icu:ContactSpoofing__same-name--link": {
     "messageformat": "Controlla attentamente le richieste. Signal ha trovato un altro contatto con lo stesso nome. <reviewRequestLink>Controlla la richiesta</reviewRequestLink>"
@@ -5797,6 +5905,15 @@
   "icu:Preferences__link-previews--description": {
     "messageformat": "Per cambiare questa impostazione, apri l'app Signal sul tuo dispositivo mobile e vai su Impostazioni > Chat"
   },
+  "icu:Preferences__link-previews--new-description": {
+    "messageformat": "Retrieve link previews directly from websites for messages you send."
+  },
+  "icu:Preferences__address-book-photos--title": {
+    "messageformat": "Use address book photos"
+  },
+  "icu:Preferences__address-book-photos--description": {
+    "messageformat": "Display contact photos from your address book if available."
+  },
   "icu:Preferences__auto-convert-emoji--title": {
     "messageformat": "Converti le emoticon \"scritte\" in emoji"
   },
@@ -6232,35 +6349,35 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "Fatto"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "Mostra la tua chiave di backup"
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
+    "messageformat": "mostra la tua chiave di ripristino"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "Verifica la tua identità per vedere la tua chiave di backup."
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
+    "messageformat": "Verifica la tua identità per vedere la tua chiave di ripristino."
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "Vedi la chiave per i backup"
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
+    "messageformat": "Vedi la chiave di ripristino"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "È necessaria l'autenticazione per vedere la tua chiave di backup."
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
+    "messageformat": "È necessaria l'autenticazione per vedere la tua chiave di ripristino."
   },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Box testuale con la chiave di backup"
+  "icu:Preferences--local-backups-recovery-key-text-box": {
+    "messageformat": "Chiave di ripristino"
   },
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "Inserisci chiave"
   },
-  "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "Annota la tua chiave di backup"
+  "icu:Preferences--local-backups-record-recovery-key": {
+    "messageformat": "Salva la tua chiave di ripristino"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "Questa chiave ti servirà per recuperare il tuo account e i tuoi dati. Salvala in un posto sicuro. Se la perdi, non potremo aiutarti a ripristinare il tuo account. <learnMoreLink>Scopri di più.</learnMoreLink>"
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "Conferma la tua chiave di backup"
+  "icu:Preferences--local-backups-confirm-recovery-key": {
+    "messageformat": "Conferma la tua chiave di ripristino"
   },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "Inserisci la chiave di backup che hai appena registrato"
+  "icu:Preferences--local-backups-confirm-recovery-key-description": {
+    "messageformat": "Inserisci la chiave di ripristino che hai appena salvato"
   },
   "icu:Preferences__local-backups-confirm-key-modal-title": {
     "messageformat": "Tieni la tua chiave al sicuro"
@@ -6286,26 +6403,23 @@
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Cartella dei backup"
   },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "Modifica"
-  },
   "icu:Preferences__local-backups-turn-off": {
-    "messageformat": "Turn off backups"
+    "messageformat": "Disattiva i backup"
   },
   "icu:Preferences__local-backups-turn-off-action": {
-    "messageformat": "Turn off"
+    "messageformat": "Disattiva"
   },
   "icu:Preferences__local-backups-turn-off-confirmation": {
-    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+    "messageformat": "Non potrai più creare dei backup su questo computer senza prima riabilitare questa opzione."
   },
   "icu:Preferences__local-backups-turn-off-delete": {
-    "messageformat": "Delete my backup from this computer"
+    "messageformat": "Elimina il mio backup da questo computer"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Copia negli appunti"
   },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "Chiave del backup copiata"
+  "icu:Preferences__local-backups-copied-recovery-key": {
+    "messageformat": "Chiave di ripristino copiata"
   },
   "icu:Preferences__local-backups--enable--os-prompt--mac": {
     "messageformat": "Abilitare i backup"
@@ -6319,17 +6433,29 @@
   "icu:Preferences__local-backups--enable--os-prompt-message--linux": {
     "messageformat": "È necessaria l'autenticazione per attivare i backup."
   },
+  "icu:Preferences__local-backups-auth-error--unauthorized": {
+    "messageformat": "Non è stato possibile completare quest'azione per via di un errore nel sistema di autenticazione. Riprova oppure apri l'app di Signal sul tuo dispositivo mobile, vai nelle Impostazioni del backup e vedi la tua chiave di ripristino."
+  },
   "icu:Preferences__view-key": {
     "messageformat": "Visualizza chiave"
   },
-  "icu:Preferences__backup-key": {
-    "messageformat": "Chiave di backup"
+  "icu:Preferences__recovery-key": {
+    "messageformat": "Chiave di ripristino"
   },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "La tua chiave di backup è un codice di 64 cifre che puoi usare per ripristinare il tuo backup"
+  "icu:Preferences__recovery-key-description": {
+    "messageformat": "La tua chiave di ripristino è un codice di 64 cifre che puoi usare per ripristinare il tuo backup"
   },
   "icu:Preferences__backup-other-ways": {
     "messageformat": "Altre modalità di backup"
+  },
+  "icu:Preferences__recovery-key-updated__title": {
+    "messageformat": "La tua chiave di ripristino è stata cambiata"
+  },
+  "icu:Preferences__recovery-key-updated__description": {
+    "messageformat": "La tua chiave di ripristino è stata aggiornata. Potrai ripristinare eventuali nuovi backup solamente usando la tua nuova chiave di ripristino."
+  },
+  "icu:Preferences__recovery-key-updated__view-key": {
+    "messageformat": "Vedi la nuova chiave"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {{num,number} contatto} other {{num,number} contatti}}"
@@ -6394,8 +6520,14 @@
   "icu:Preferences--read-receipts": {
     "messageformat": "Conferme di lettura"
   },
+  "icu:Preferences--read-receipts--description": {
+    "messageformat": "If disabled, you won't see read receipts from others."
+  },
   "icu:Preferences--typing-indicators": {
     "messageformat": "Indicatori di scrittura"
+  },
+  "icu:Preferences--typing-indicators--description": {
+    "messageformat": "If disabled, you won't see typing indicators from others."
   },
   "icu:Preferences--updates": {
     "messageformat": "Aggiornamenti"
@@ -6682,6 +6814,9 @@
   "icu:MyStories__delete": {
     "messageformat": "Vuoi eliminare questa Storia? Verrà rimossa anche per tutte le persone che l'hanno ricevuta."
   },
+  "icu:MyStories__delete-group-story-for-me": {
+    "messageformat": "Vuoi eliminare questa storia? Verrà rimossa solo per te, perché il gruppo è stato chiuso."
+  },
   "icu:payment-event-notification-message-you-label": {
     "messageformat": "Hai iniziato un pagamento a favore di {receiver}"
   },
@@ -6903,6 +7038,9 @@
   },
   "icu:StoriesSettings__view-receipts--label": {
     "messageformat": "Vedi conferme di lettura"
+  },
+  "icu:StoriesSettings__view-receipts--new-description": {
+    "messageformat": "See and share when stories are viewed. If disabled, you won't see when others view your story."
   },
   "icu:StoriesSettings__view-receipts--description": {
     "messageformat": "Per cambiare questa impostazione, apri l'app Signal sul tuo dispositivo mobile e vai su Impostazioni -> Storie"
@@ -7553,6 +7691,18 @@
   "icu:ProfileNameWarningModal__list--item3--direct": {
     "messageformat": "Non condividere mai dati sensibili con persone che non conosci"
   },
+  "icu:ProfileNameWarningModal__warning--signal-cant-verify": {
+    "messageformat": "Signal can’t verify names and photos"
+  },
+  "icu:ProfileNameWarningModal__warning--signal-wont-contact": {
+    "messageformat": "Signal will never contact you for your registration code, PIN, or recovery key"
+  },
+  "icu:ProfileNameWarningModal__warning--be-cautious": {
+    "messageformat": "Be cautious of accounts that impersonate others"
+  },
+  "icu:ProfileNameWarningModal__warning--dont-share-info": {
+    "messageformat": "Don't share personal information with people you don't know"
+  },
   "icu:ProfileNameWarningModal__description--group": {
     "messageformat": "I nomi dei gruppi vengono scelti dalle persone che ne fanno parte."
   },
@@ -8015,17 +8165,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Altre piccole modifiche e correzioni di bug per far funzionare l'app senza problemi. Grazie per usare Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__7.90--0": {
-    "messageformat": "Da oggi la privacy diventa ancora più divertente con cinque nuovi pacchetti di sticker della serie Signal Artist: \"Chug the Mouse\" di Amanda Cotan, \"Cozy Season\" di Miguel Ángel Camprubí, \"Croco's Feelings\" di Tiffany Beucher, \"My Daily Life 2\" di Plastic Thing e \"Rocky Talk\" di Lexi Vay."
-  },
-  "icu:WhatsNew__8.0--0": {
-    "messageformat": "I backup sicuri di Signal sono arrivati! Da ora puoi scegliere di abilitare i backup automatici crittografati end-to-end così non perderai neanche un messaggio se cambi telefono o reinstalli Signal. Puoi salvare sul backup tutti i tuoi messaggi e gli ultimi 45 giorni di media gratuitamente. Oppure, per un piccolo costo mensile, puoi ricevere 100 GB di archiviazione per il backup di tutti gli allegati. Tocca sull'opzione backup nelle Impostazioni di Signal per cominciare. Grazie a tutti gli utenti che ci hanno aiutato a testare questa funzione nel periodo di beta!"
-  },
-  "icu:WhatsNew__8.2--0": {
-    "messageformat": "Da ora puoi inviare messaggi con media visualizzabili una volta anche da Signal Desktop. Le foto e i video che vengono inviati in questo modo verranno poi rimossi in automatico dalla chat dopo la visualizzazione."
-  },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "Da ora puoi aggiungere un tag per il ruolo dell'utente per descrivere il tuo ruolo in una chat di gruppo o per dare delle info su di te. Per esempio, nel gruppo del calcetto potrai impostare un ruolo per ogni persona che gioca (scommettiamo che trovare il portiere sarà difficile come al solito). Ricorda che i ruoli degli utenti appaiono vicino al nome del profilo all'interno di una chat di gruppo. Gli admin possono decidere se tali ruoli sono attivi per tutti gli utenti o meno di un gruppo."
   }
 }

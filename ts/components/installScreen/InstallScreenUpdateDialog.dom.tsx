@@ -4,22 +4,22 @@
 import React from 'react';
 import lodash from 'lodash';
 
-import { DialogType } from '../../types/Dialogs.std.js';
-import { InstallScreenStep } from '../../types/InstallScreen.std.js';
-import type { LocalizerType } from '../../types/Util.std.js';
+import { DialogType } from '../../types/Dialogs.std.ts';
+import { InstallScreenStep } from '../../types/InstallScreen.std.ts';
+import type { LocalizerType } from '../../types/Util.std.ts';
 import {
   PRODUCTION_DOWNLOAD_URL,
   BETA_DOWNLOAD_URL,
   UNSUPPORTED_OS_URL,
-} from '../../types/support.std.js';
-import type { UpdatesStateType } from '../../state/ducks/updates.preload.js';
-import { isBeta } from '../../util/version.std.js';
-import { missingCaseError } from '../../util/missingCaseError.std.js';
-import { roundFractionForProgressBar } from '../../util/numbers.std.js';
-import { ConfirmationDialog } from '../ConfirmationDialog.dom.js';
-import { Modal } from '../Modal.dom.js';
-import { I18n } from '../I18n.dom.js';
-import { formatFileSize } from '../../util/formatFileSize.std.js';
+} from '../../types/support.std.ts';
+import type { UpdatesStateType } from '../../state/ducks/updates.preload.ts';
+import { isBeta } from '../../util/version.std.ts';
+import { missingCaseError } from '../../util/missingCaseError.std.ts';
+import { roundFractionForProgressBar } from '../../util/numbers.std.ts';
+import { ConfirmationDialog } from '../ConfirmationDialog.dom.tsx';
+import { Modal } from '../Modal.dom.tsx';
+import { I18n } from '../I18n.dom.tsx';
+import { formatFileSize } from '../../util/formatFileSize.std.ts';
 
 const { noop } = lodash;
 
@@ -263,7 +263,7 @@ export function InstallScreenUpdateDialog({
   throw missingCaseError(dialogType);
 }
 
-export function DownloadingModal({
+function DownloadingModal({
   i18n,
   width,
 }: {

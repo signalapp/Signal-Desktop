@@ -4,9 +4,9 @@
 import { assert } from 'chai';
 import { v1 as getGuid } from 'uuid';
 
-import { DataReader, DataWriter } from '../../sql/Client.preload.js';
+import { DataReader, DataWriter } from '../../sql/Client.preload.ts';
 
-import type { DonationReceipt } from '../../types/Donations.std.js';
+import type { DonationReceipt } from '../../types/Donations.std.ts';
 
 const { getAllDonationReceipts, getDonationReceiptById } = DataReader;
 const {

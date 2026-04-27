@@ -2,13 +2,13 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import type { MouseEvent } from 'react';
 import React, { memo, useCallback, useMemo, useState } from 'react';
-import { AxoDialog } from '../../../axo/AxoDialog.dom.js';
-import type { LocalizerType } from '../../../types/I18N.std.js';
-import { AxoRadioGroup } from '../../../axo/AxoRadioGroup.dom.js';
-import { DurationInSeconds } from '../../../util/durations/duration-in-seconds.std.js';
-import { strictAssert } from '../../../util/assert.std.js';
-import { AxoAlertDialog } from '../../../axo/AxoAlertDialog.dom.js';
-import { isInternalFeaturesEnabled } from '../../../util/isInternalFeaturesEnabled.dom.js';
+import { AxoDialog } from '../../../axo/AxoDialog.dom.tsx';
+import type { LocalizerType } from '../../../types/I18N.std.ts';
+import { AxoRadioGroup } from '../../../axo/AxoRadioGroup.dom.tsx';
+import { DurationInSeconds } from '../../../util/durations/duration-in-seconds.std.ts';
+import { strictAssert } from '../../../util/assert.std.ts';
+import { AxoAlertDialog } from '../../../axo/AxoAlertDialog.dom.tsx';
+import { isInternalFeaturesEnabled } from '../../../util/isInternalFeaturesEnabled.dom.ts';
 
 enum DurationOption {
   TIME_24_HOURS = 'TIME_24_HOURS',

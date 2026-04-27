@@ -3,7 +3,7 @@
 
 import { join } from 'node:path';
 import { Worker } from 'node:worker_threads';
-import { app } from 'electron';
+import { getAppRootDir } from '../util/appRootDir.main.ts';
 
 export type WrappedWorkerRequest = {
   readonly uuid: string;
@@ -20,12 +20,7 @@ export function getHeicConverter(): (
   uuid: string,
   data: Uint8Array<ArrayBuffer>
 ) => Promise<WrappedWorkerResponse> {
-  const scriptDir = join(
-    app.getAppPath(),
-    'ts',
-    'workers',
-    'heicConverterWorker.node.js'
-  );
+  const scriptDir = join(getAppRootDir(), 'bundles', 'workers', 'heic.js');
   const worker = new Worker(scriptDir);
 
   const ResponseMap = new Map<

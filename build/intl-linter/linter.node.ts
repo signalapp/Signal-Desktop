@@ -9,19 +9,19 @@ import type {
 import parseJsonToAst from 'json-to-ast';
 import { readFile } from 'node:fs/promises';
 import { join as pathJoin, relative as pathRelative } from 'node:path';
-import chalk from 'chalk';
+import { styleText } from 'node:util';
 import { deepEqual } from 'node:assert';
-import type { Rule } from './utils/rule.std.js';
+import type { Rule } from './utils/rule.std.ts';
 
-import icuPrefix from './rules/icuPrefix.std.js';
-import wrapEmoji from './rules/wrapEmoji.std.js';
-import onePlural from './rules/onePlural.std.js';
-import noLegacyVariables from './rules/noLegacyVariables.std.js';
-import noNestedChoice from './rules/noNestedChoice.std.js';
-import noOffset from './rules/noOffset.std.js';
-import noOneChoice from './rules/noOneChoice.std.js';
-import noOrdinal from './rules/noOrdinal.std.js';
-import pluralPound from './rules/pluralPound.std.js';
+import icuPrefix from './rules/icuPrefix.std.ts';
+import wrapEmoji from './rules/wrapEmoji.std.ts';
+import onePlural from './rules/onePlural.std.ts';
+import noLegacyVariables from './rules/noLegacyVariables.std.ts';
+import noNestedChoice from './rules/noNestedChoice.std.ts';
+import noOffset from './rules/noOffset.std.ts';
+import noOneChoice from './rules/noOneChoice.std.ts';
+import noOrdinal from './rules/noOrdinal.std.ts';
+import pluralPound from './rules/pluralPound.std.ts';
 
 const RULES = [
   icuPrefix,
@@ -174,7 +174,7 @@ async function lintMessages() {
     const key = topProp.key.value;
 
     if (process.argv.includes('--test')) {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      // oxlint-disable-next-line typescript/no-non-null-assertion
       const test = tests[key]!;
       const actualErrors = reports.map(report => report.id);
       deepEqual(actualErrors, test.expectErrors);
@@ -197,13 +197,19 @@ async function lintMessages() {
         loc = `:${line}:${column + report.locationOffset}`;
       }
 
-      // eslint-disable-next-line no-console
+      // oxlint-disable-next-line no-console
       console.error(
-        chalk`{bold.cyan ${relativePath}${loc}} ${report.message} {magenta ({underline ${report.id}})}`
+        styleText(['bold', 'cyan'], `${relativePath}${loc}`) +
+          `${report.message} ` +
+          styleText('magenta', `(${styleText('underline', report.id)})`)
       );
-      // eslint-disable-next-line no-console
-      console.error(chalk`  {dim in ${key} is "}{red ${icuMessage}}{dim "}`);
-      // eslint-disable-next-line no-console
+      // oxlint-disable-next-line no-console
+      console.error(
+        styleText('dim', `in ${key} is "`) +
+          styleText('red', icuMessage) +
+          styleText('dim', '"')
+      );
+      // oxlint-disable-next-line no-console
       console.error();
 
       failed = true;
@@ -215,8 +221,9 @@ async function lintMessages() {
   }
 }
 
+// oxlint-disable-next-line promise/prefer-await-to-then
 lintMessages().catch(error => {
-  // eslint-disable-next-line no-console
+  // oxlint-disable-next-line no-console
   console.error(error);
   process.exit(1);
 });

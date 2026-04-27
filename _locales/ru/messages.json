@@ -746,6 +746,9 @@
   "icu:fileSizeWarning": {
     "messageformat": "Извините, выбранный файл превышает ограничение на размер сообщений. {limit,number} {units}"
   },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "Извините, выбранный видеофайл превышает ограничение на размер сообщений. {limit,number}{units}"
+  },
   "icu:unableToLoadAttachment": {
     "messageformat": "Не удалось загрузить выбранное вложение."
   },
@@ -1787,6 +1790,12 @@
   "icu:Preferences__EditChatFolderPage__CancelButton": {
     "messageformat": "Отменить"
   },
+  "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
+    "messageformat": "Show status icon"
+  },
+  "icu:Preferences__PrivacyPage__ShowStatusIcon__Description": {
+    "messageformat": "Show an icon in message details when they were delivered using sealed sender."
+  },
   "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
     "messageformat": "Автоматическое подтверждение ключа"
   },
@@ -2372,6 +2381,9 @@
   "icu:ConversationDetails--support-center": {
     "messageformat": "Центр поддержки"
   },
+  "icu:ConversationDetails__GroupTerminatedBanner": {
+    "messageformat": "Эта группа закрыта"
+  },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "Посмотреть код безопасности"
   },
@@ -2551,6 +2563,27 @@
   },
   "icu:youUpdatedTheGroup": {
     "messageformat": "Вы обновили группу."
+  },
+  "icu:collapsedGroupUpdates": {
+    "messageformat": "{count, plural, one {{count,number} обновление в группе} few {{count,number} обновления в группе} many {{count,number} обновлений в группе} other {{count,number} обновления в группе}}"
+  },
+  "icu:multidayCollapse__container": {
+    "messageformat": "{containerDescription} · {dayCountSummary}"
+  },
+  "icu:multidayCollapse__dayCountSummary": {
+    "messageformat": "{dayCount, plural, one {{dayCount,number} день} few {{dayCount,number} дня} many {{dayCount,number} дней} other {{dayCount,number} дней}}"
+  },
+  "icu:collapsedChatUpdates": {
+    "messageformat": "{count, plural, one {{count,number} обновление в чате} few {{count,number} обновления в чате} many {{count,number} обновлений в чате} other {{count,number} обновления в чате}}"
+  },
+  "icu:collapsedTimerChanges": {
+    "messageformat": "{count, plural, one {{count,number} изменение таймера исчезающего сообщения · {endingState}} few {{count,number} изменения таймера исчезающего сообщения · {endingState}} many {{count,number} изменений таймера исчезающего сообщения · {endingState}} other {{count,number} изменения таймера исчезающего сообщения · {endingState}}}"
+  },
+  "icu:collapsedTimerChanges--disabled": {
+    "messageformat": "{count, plural, one {{count,number} изменение таймера исчезающего сообщения · Отключён} few {{count,number} изменения таймера исчезающего сообщения · Отключён} many {{count,number} изменений таймера исчезающего сообщения · Отключён} other {{count,number} изменения таймера исчезающего сообщения · Отключён}}"
+  },
+  "icu:collapsedCallEvents": {
+    "messageformat": "{count, plural, one {{count,number} звонок} few {{count,number} звонка} many {{count,number} звонков} other {{count,number} звонка}}"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "Аватар группы был обновлен."
@@ -3017,8 +3050,8 @@
   "icu:Message--tap-to-view--incoming--expired-toast": {
     "messageformat": "Вы уже просмотрели это сообщение."
   },
-  "icu:Message--tap-to-view--outgoing--expired-toast": {
-    "messageformat": "Одноразовые сообщения не сохраняются в истории вашего чата."
+  "icu:Message--tap-to-view--outgoing--expired-toast-2": {
+    "messageformat": "Одноразовое медиасообщение удалено после отправки"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "Одноразовое видео"
@@ -3485,8 +3518,17 @@
   "icu:ConversationHero--profile-names": {
     "messageformat": "<clickable>Имена профилей</clickable> не проверяются"
   },
+  "icu:ConversationHero--name-not-verified": {
+    "messageformat": "Name not verified"
+  },
   "icu:ConversationHero--signal-official-chat": {
     "messageformat": "Это официальный и единственный чат от Signal"
+  },
+  "icu:ConversationHero--signal-official-account": {
+    "messageformat": "Official account"
+  },
+  "icu:ConversationHero--signal-official-account--description": {
+    "messageformat": "The only official chat from Signal. Keep up to date with news and release notes."
   },
   "icu:ConversationHero--release-notes": {
     "messageformat": "Будьте в курсе новостей и свежих релизов."
@@ -3767,9 +3809,6 @@
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
     "messageformat": "Поделиться ссылкой на звонок через Signal"
   },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "Удалить этого человека из звонка"
-  },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "Удалить {name} из звонка?"
   },
@@ -3932,11 +3971,23 @@
   "icu:GroupV2--join--requested": {
     "messageformat": "Ваш запрос на присоединение был отправлен администратору группы. Вы будете уведомлены, когда он примет решение."
   },
+  "icu:GroupV2--join--group-terminated": {
+    "messageformat": "Не удалось присоединиться к этой группе."
+  },
   "icu:GroupV2--join--general-join-failure--title": {
     "messageformat": "Ошибка ссылки"
   },
   "icu:GroupV2--join--general-join-failure": {
     "messageformat": "Не удалось присоединиться к группе. Попробуйте еще раз позже."
+  },
+  "icu:GroupV2--terminate-group-in-progress": {
+    "messageformat": "Закрываем группу..."
+  },
+  "icu:TerminateGroupFailedModal__description": {
+    "messageformat": "Не удалось закрыть группу. Проверьте ваше подключение к интернету и попробуйте ещё раз."
+  },
+  "icu:TerminateGroupFailedModal__try-again": {
+    "messageformat": "Попробовать ещё раз"
   },
   "icu:GroupV2--admin": {
     "messageformat": "Администратор"
@@ -4379,6 +4430,15 @@
   "icu:GroupV2--summary": {
     "messageformat": "Состав участников или настройки этой группы изменились."
   },
+  "icu:GroupV2--terminated--you": {
+    "messageformat": "Вы закрыли группу"
+  },
+  "icu:GroupV2--terminated--other": {
+    "messageformat": "{memberName} закрыл(а) группу"
+  },
+  "icu:GroupV2--terminated--unknown": {
+    "messageformat": "Эта группа закрыта"
+  },
   "icu:GroupV1--Migration--disabled--link": {
     "messageformat": "Обновите эту группу, чтобы активировать такие новые функции, как @упоминания и администраторы групп. Участники, которые ещё не поделились своими именем или фото с этой группой, будут приглашены присоединиться. <learnMoreLink>Узнать больше.</learnMoreLink>"
   },
@@ -4655,6 +4715,9 @@
   "icu:CompositionArea__ConfirmGifSelection__ReplaceButton": {
     "messageformat": "Заменить"
   },
+  "icu:CompositionArea--group-terminated": {
+    "messageformat": "Вы не можете отправлять сообщения в группе, поскольку она закрыта."
+  },
   "icu:CompositionArea--viewOnceToggle": {
     "messageformat": "Одноразовый просмотр"
   },
@@ -4832,11 +4895,26 @@
   "icu:ConversationDetailsActions--leave-group": {
     "messageformat": "Покинуть группу"
   },
+  "icu:ConversationDetailsActions--terminate-group": {
+    "messageformat": "Закрыть группу"
+  },
   "icu:ConversationDetailsActions--block-group": {
     "messageformat": "Заблокировать группу"
   },
   "icu:ConversationDetailsActions--unblock-group": {
     "messageformat": "Разблокировать группу"
+  },
+  "icu:ConversationDetailsActions--report-spam": {
+    "messageformat": "Сообщить о спаме"
+  },
+  "icu:ConversationDetailsActions--archive": {
+    "messageformat": "Архивировать чат"
+  },
+  "icu:ConversationDetailsActions--unarchive": {
+    "messageformat": "Разархивировать чат"
+  },
+  "icu:ConversationDetailsActions--delete": {
+    "messageformat": "Удалить чат"
   },
   "icu:ConversationDetailsActions--leave-group-must-choose-new-admin": {
     "messageformat": "Прежде чем покинуть эту группу, вы должны назначить для неё как минимум одного нового администратора."
@@ -4849,6 +4927,18 @@
   },
   "icu:ConversationDetailsActions--leave-group-modal-confirm": {
     "messageformat": "Покинуть"
+  },
+  "icu:ConversationDetailsActions--prompt-terminate-group-modal-title": {
+    "messageformat": "Закрыть «{groupName}»?"
+  },
+  "icu:ConversationDetailsActions--prompt-terminate-group-modal-content": {
+    "messageformat": "Участники больше не смогут отправлять сообщения или начинать звонки в этой группе. Они получат уведомление о том, что вы закрыли группу, и по-прежнему будут иметь доступ к истории сообщений."
+  },
+  "icu:ConversationDetailsActions--terminate-group-modal-confirm": {
+    "messageformat": "Закрыть группу"
+  },
+  "icu:ConversationDetailsActions--confirm-terminate-group-confirm-modal-content": {
+    "messageformat": "Это действие закроет группу навсегда. Вы действительно хотите продолжить?"
   },
   "icu:ConversationDetailsActions--unblock-group-modal-title": {
     "messageformat": "Разблокировать группу «{groupName}»?"
@@ -4868,6 +4958,18 @@
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "Разблокировать"
   },
+  "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
+    "messageformat": "Signal будет уведомлен о том, что этот человек может рассылать спам. Signal не видит содержимое чатов."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-group": {
+    "messageformat": "Signal будет уведомлён о том, что человек, пригласивший вас в эту группу, может рассылать спам. Signal не видит содержимое чатов."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
+    "messageformat": "Сообщить о спаме"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
+    "messageformat": "Сообщить и заблокировать"
+  },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} участник} few {{number,number} участника} many {{number,number} участников} other {{number,number} участника}}"
   },
@@ -4876,6 +4978,9 @@
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} участник} few {{number,number} участника} many {{number,number} участников} other {{number,number} участника}}"
+  },
+  "icu:ConversationDetailsMembershipList--terminated-title": {
+    "messageformat": "{number, plural, one {{number,number} бывший участник} few {{number,number} бывших участника} many {{number,number} бывших участников} other {{number,number} бывшего участника}}"
   },
   "icu:ConversationDetailsMembershipList--add-members": {
     "messageformat": "Добавить участников"
@@ -5059,7 +5164,7 @@
     "ignoreUnused": true
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
-    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Участники группы с последними версиями Signal увидят, что вы удалили это сообщение.} few {Участники группы с последними версиями Signal увидят, что вы удалили эти сообщения.} many {Участники группы с последними версиями Signal увидят, что вы удалили эти сообщения.} other {Участники группы с последними версиями Signal увидят, что вы удалили эти сообщения.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Удалить со всех устройств"
@@ -5195,6 +5300,9 @@
   },
   "icu:MessageRequestWarning__safety-tips": {
     "messageformat": "Советы по безопасности"
+  },
+  "icu:MessageRequestWarning__safety-tips-v2": {
+    "messageformat": "Safety tips"
   },
   "icu:ContactSpoofing__same-name--link": {
     "messageformat": "Внимательно проверяйте запросы. Signal нашёл другой контакт с тем же именем. <reviewRequestLink>Проверить запрос</reviewRequestLink>"
@@ -5797,6 +5905,15 @@
   "icu:Preferences__link-previews--description": {
     "messageformat": "Чтобы изменить эту настройку, откройте приложение Signal на своем мобильном устройстве и перейдите в Настройки > Чаты"
   },
+  "icu:Preferences__link-previews--new-description": {
+    "messageformat": "Retrieve link previews directly from websites for messages you send."
+  },
+  "icu:Preferences__address-book-photos--title": {
+    "messageformat": "Use address book photos"
+  },
+  "icu:Preferences__address-book-photos--description": {
+    "messageformat": "Display contact photos from your address book if available."
+  },
   "icu:Preferences__auto-convert-emoji--title": {
     "messageformat": "Преобразование набранных смайликов в эмодзи"
   },
@@ -6232,35 +6349,35 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "Готово"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "показать резервный ключ"
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
+    "messageformat": "показать ваш ключ восстановления"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "Подтвердите свою личность, чтобы просмотреть резервный ключ."
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
+    "messageformat": "Подтвердите свою личность, чтобы просмотреть ключ восстановления."
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "Просмотреть резервный ключ"
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
+    "messageformat": "Просмотреть ключ восстановления"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "Для просмотра вашего резервного ключа требуется аутентификация."
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
+    "messageformat": "Для просмотра вашего ключа восстановления требуется аутентификация."
   },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Текстовое поле для резервного ключа"
+  "icu:Preferences--local-backups-recovery-key-text-box": {
+    "messageformat": "Ключ восстановления"
   },
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "Ввести ключ"
   },
-  "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "Запишите резервный ключ"
+  "icu:Preferences--local-backups-record-recovery-key": {
+    "messageformat": "Запишите ключ восстановления"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "Этот ключ необходим для восстановления вашей учётной записи и данных. Храните этот ключ в безопасном месте. Если вы потеряете его, то не сможете восстановить свою учётную запись. <learnMoreLink>Узнать больше.</learnMoreLink>"
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "Подтвердите резервный ключ"
+  "icu:Preferences--local-backups-confirm-recovery-key": {
+    "messageformat": "Подтвердите ключ восстановления"
   },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "Введите резервный ключ, который вы только что записали"
+  "icu:Preferences--local-backups-confirm-recovery-key-description": {
+    "messageformat": "Введите ключ восстановления, который вы только что записали"
   },
   "icu:Preferences__local-backups-confirm-key-modal-title": {
     "messageformat": "Храните ключ в безопасности"
@@ -6286,26 +6403,23 @@
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Папка резервных копий"
   },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "Изменить"
-  },
   "icu:Preferences__local-backups-turn-off": {
-    "messageformat": "Turn off backups"
+    "messageformat": "Отключить резервное копирование"
   },
   "icu:Preferences__local-backups-turn-off-action": {
-    "messageformat": "Turn off"
+    "messageformat": "Отключить"
   },
   "icu:Preferences__local-backups-turn-off-confirmation": {
-    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+    "messageformat": "Вы больше не сможете создавать резервные копии на этом компьютере без повторного включения."
   },
   "icu:Preferences__local-backups-turn-off-delete": {
-    "messageformat": "Delete my backup from this computer"
+    "messageformat": "Удалить резервную копию с этого компьютера"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Копировать в буфер обмена"
   },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "Резервный ключ скопирован"
+  "icu:Preferences__local-backups-copied-recovery-key": {
+    "messageformat": "Ключ восстановления скопирован"
   },
   "icu:Preferences__local-backups--enable--os-prompt--mac": {
     "messageformat": "Включить резервные копии"
@@ -6319,17 +6433,29 @@
   "icu:Preferences__local-backups--enable--os-prompt-message--linux": {
     "messageformat": "Для включения резервного копирования требуется аутентификация."
   },
+  "icu:Preferences__local-backups-auth-error--unauthorized": {
+    "messageformat": "Это действие не удалось выполнить из-за ошибки аутентификация системы. Пожалуйста, попробуйте ещё раз или откройте приложение Signal на своём мобильном устройстве и перейдите в Настройки резервного копирования, чтобы просмотреть ключ восстановления."
+  },
   "icu:Preferences__view-key": {
     "messageformat": "Просмотреть ключ"
   },
-  "icu:Preferences__backup-key": {
-    "messageformat": "Резервный ключ"
+  "icu:Preferences__recovery-key": {
+    "messageformat": "Ключ восстановления"
   },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "Резервный ключ представляет собой 64-значный код, необходимый для восстановления резервной копии"
+  "icu:Preferences__recovery-key-description": {
+    "messageformat": "Ключ восстановления представляет собой 64-значный код, предназначенный для восстановления резервной копии"
   },
   "icu:Preferences__backup-other-ways": {
     "messageformat": "Другие способы резервного копирования"
+  },
+  "icu:Preferences__recovery-key-updated__title": {
+    "messageformat": "Ваш ключ восстановления изменён"
+  },
+  "icu:Preferences__recovery-key-updated__description": {
+    "messageformat": "Ваш ключ восстановления был обновлён. Все новые резервные копии, которые вы создаёте, могут быть восстановлены только с помощью вашего нового ключа восстановления."
+  },
+  "icu:Preferences__recovery-key-updated__view-key": {
+    "messageformat": "Просмотреть ключ восстановления"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {{num,number} контакт} few {{num,number} контакта} many {{num,number} контактов} other {{num,number} контакта}}"
@@ -6394,8 +6520,14 @@
   "icu:Preferences--read-receipts": {
     "messageformat": "Уведомления о прочтении"
   },
+  "icu:Preferences--read-receipts--description": {
+    "messageformat": "If disabled, you won't see read receipts from others."
+  },
   "icu:Preferences--typing-indicators": {
     "messageformat": "Индикаторы набора текста"
+  },
+  "icu:Preferences--typing-indicators--description": {
+    "messageformat": "If disabled, you won't see typing indicators from others."
   },
   "icu:Preferences--updates": {
     "messageformat": "Обновления"
@@ -6682,6 +6814,9 @@
   "icu:MyStories__delete": {
     "messageformat": "Удалить эту историю? Она также будет удалена для всех, кто её получил."
   },
+  "icu:MyStories__delete-group-story-for-me": {
+    "messageformat": "Удалить эту историю? Она будет удалена только для вас, поскольку эта группа закрыта."
+  },
   "icu:payment-event-notification-message-you-label": {
     "messageformat": "Вы инициировали платёж {receiver}"
   },
@@ -6903,6 +7038,9 @@
   },
   "icu:StoriesSettings__view-receipts--label": {
     "messageformat": "Уведомления о просмотрах"
+  },
+  "icu:StoriesSettings__view-receipts--new-description": {
+    "messageformat": "See and share when stories are viewed. If disabled, you won't see when others view your story."
   },
   "icu:StoriesSettings__view-receipts--description": {
     "messageformat": "Чтобы изменить эту настройку, откройте приложение Signal на своем мобильном устройстве и перейдите в Настройки -> Истории"
@@ -7553,6 +7691,18 @@
   "icu:ProfileNameWarningModal__list--item3--direct": {
     "messageformat": "Не делитесь личной информацией с незнакомыми людьми"
   },
+  "icu:ProfileNameWarningModal__warning--signal-cant-verify": {
+    "messageformat": "Signal can’t verify names and photos"
+  },
+  "icu:ProfileNameWarningModal__warning--signal-wont-contact": {
+    "messageformat": "Signal will never contact you for your registration code, PIN, or recovery key"
+  },
+  "icu:ProfileNameWarningModal__warning--be-cautious": {
+    "messageformat": "Be cautious of accounts that impersonate others"
+  },
+  "icu:ProfileNameWarningModal__warning--dont-share-info": {
+    "messageformat": "Don't share personal information with people you don't know"
+  },
   "icu:ProfileNameWarningModal__description--group": {
     "messageformat": "Имена групп выбираются их участниками."
   },
@@ -8015,17 +8165,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Небольшие изменения, исправления ошибок и улучшения производительности. Спасибо за то, что пользуетесь Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__7.90--0": {
-    "messageformat": "Закрепите конфиденциальность с помощью пяти новых официальных наборов стикеров из серии Signal Artist: «Chug the Mouse» Аманды Котан, «Cozy Season» Мигеля Анхеля Кампруби, «Croco's Feelings» Тиффани Бойчер, «My Everyday Life 2» Plastic Thing и «Rocky Talk» Лекси Вэй."
-  },
-  "icu:WhatsNew__8.0--0": {
-    "messageformat": "Безопасное резервное копирование уже здесь! Теперь вам доступно резервное копирование со сквозным автошифрованием, и вы не потеряете ни одно сообщение при покупке нового телефона или переустановке Signal. Бесплатно создавайте резервные копии всех ваших сообщений, а также медиафайлов за последние 45 дней или за небольшую ежемесячную плату получите 100 ГБ для всех вложений. Нажмите на резервное копирование в настройках Signal, чтобы начать. Спасибо всем, кто помогал тестировать эту функцию!"
-  },
-  "icu:WhatsNew__8.2--0": {
-    "messageformat": "Теперь можно отправлять одноразовое медиа также с Signal Desktop. Отдельные фото и видео, отправленные в виде одноразовых сообщений, автоматически удаляются из ветви дискуссии после просмотра."
-  },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "Теперь вы можете по желанию добавить значок участника, чтобы описать себя или свою роль в этом групповом чате. Установите себе значок участника группы «Судья» или «Вратарь» в чате местной футбольной лиги, а затем выберите себе другой значок с должностью уже в корпоративном чате. Значки участников появляются рядом с вашим именем профиля в этой группе, при этом её администраторы могут разрешать или не разрешать участникам устанавливать значки."
   }
 }

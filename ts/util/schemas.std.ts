@@ -10,10 +10,8 @@ import type {
   LiteralToPrimitive,
   Primitive,
 } from 'type-fest';
-import type { SafeParseReturnType, ZodError, ZodType, ZodTypeDef } from 'zod';
-
-export type Schema<Input, Output> = ZodType<Output, ZodTypeDef, Input>;
-type SafeResult<Output> = SafeParseReturnType<unknown, Output>;
+import type { ZodSafeParseResult, ZodError, ZodType } from 'zod';
+import type { z } from 'zod';
 
 type LooseInput<T> =
   IsLiteral<T> extends true ? LiteralToPrimitive<T> : Record<keyof T, unknown>;
@@ -23,7 +21,7 @@ type PartialInput<T> = T extends Primitive
   : { [Key in keyof T]?: T[Key] | null | void };
 
 export class SchemaParseError extends TypeError {
-  constructor(schema: Schema<unknown, unknown>, error: ZodError<unknown>) {
+  constructor(schema: ZodType, error: ZodError) {
     let message = 'zod: issues found when parsing with schema';
     if (schema.description) {
       message += ` (${schema.description})`;
@@ -36,10 +34,10 @@ export class SchemaParseError extends TypeError {
   }
 }
 
-function parse<Output>(
-  schema: Schema<unknown, Output>,
+function parse<Schema extends ZodType>(
+  schema: Schema,
   input: unknown
-): Output {
+): z.output<Schema> {
   const result = schema.safeParse(input);
   if (result.success) {
     return result.data;
@@ -47,10 +45,10 @@ function parse<Output>(
   throw new SchemaParseError(schema, result.error);
 }
 
-function safeParse<Output>(
-  schema: Schema<unknown, Output>,
+function safeParse<Schema extends ZodType>(
+  schema: Schema,
   input: unknown
-): SafeResult<Output> {
+): ZodSafeParseResult<z.output<Schema>> {
   return schema.safeParse(input);
 }
 
@@ -86,21 +84,21 @@ type TypedArgs<Data> =
           : [data: Data];
 
 // prettier-ignore
-type ParseUnknown     = <Input, Output, Data>(schema: Schema<Input, Output>, ...args: UnknownArgs<Data>) => Output;
+type ParseUnknown     = <Schema extends ZodType, Data>(schema: Schema, ...args: UnknownArgs<Data>) => z.output<Schema>;
 // prettier-ignore
-type SafeParseUnknown = <Input, Output, Data>(schema: Schema<Input, Output>, ...args: UnknownArgs<Data>) => SafeResult<Output>;
+type SafeParseUnknown = <Schema extends ZodType, Data>(schema: Schema, ...args: UnknownArgs<Data>) => ZodSafeParseResult<z.output<Schema>>;
 // prettier-ignore
-type ParseStrict      = <Input, Output, Data extends Input>(schema: Schema<Input, Output>, ...args: TypedArgs<Data>) => Output;
+type ParseStrict      = <Schema extends ZodType, Data extends z.input<Schema>>(schema: Schema, ...args: TypedArgs<Data>) => z.output<Schema>;
 // prettier-ignore
-type SafeParseStrict  = <Input, Output, Data extends Input>(schema: Schema<Input, Output>, ...args: TypedArgs<Data>) => SafeResult<Output>;
+type SafeParseStrict  = <Schema extends ZodType, Data extends z.input<Schema>>(schema: Schema, ...args: TypedArgs<Data>) => ZodSafeParseResult<z.output<Schema>>;
 // prettier-ignore
-type ParseLoose       = <Input, Output, Data extends LooseInput<Input>>(schema: Schema<Input, Output>, ...args: TypedArgs<Data>) => Output;
+type ParseLoose       = <Schema extends ZodType, Data extends LooseInput<z.input<Schema>>>(schema: Schema, ...args: TypedArgs<Data>) => z.output<Schema>;
 // prettier-ignore
-type SafeParseLoose   = <Input, Output, Data extends LooseInput<Input>>(schema: Schema<Input, Output>, ...args: TypedArgs<Data>) => SafeResult<Output>;
+type SafeParseLoose   = <Schema extends ZodType, Data extends LooseInput<z.input<Schema>>>(schema: Schema, ...args: TypedArgs<Data>) => ZodSafeParseResult<z.output<Schema>>;
 // prettier-ignore
-type ParsePartial     = <Input, Output, Data extends PartialInput<Input>>(schema: Schema<Input, Output>, ...args: TypedArgs<Data>) => Output;
+type ParsePartial     = <Schema extends ZodType, Data extends PartialInput<z.input<Schema>>>(schema: Schema, ...args: TypedArgs<Data>) => z.output<Schema>;
 // prettier-ignore
-type SafeParsePartial = <Input, Output, Data extends PartialInput<Input>>(schema: Schema<Input, Output>, ...args: TypedArgs<Data>) => SafeResult<Output>;
+type SafeParsePartial = <Schema extends ZodType, Data extends PartialInput<z.input<Schema>>>(schema: Schema, ...args: TypedArgs<Data>) => ZodSafeParseResult<z.output<Schema>>;
 
 /**
  * Parse an *unknown* value with a zod schema.

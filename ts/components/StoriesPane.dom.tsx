@@ -2,28 +2,29 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import Fuse from 'fuse.js';
+import type { IFuseOptions } from 'fuse.js';
 import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 
 import type {
   ConversationType,
   ShowConversationType,
-} from '../state/ducks/conversations.preload.js';
+} from '../state/ducks/conversations.preload.ts';
 import type {
   ConversationStoryType,
   MyStoryType,
-} from '../types/Stories.std.js';
-import type { LocalizerType, ThemeType } from '../types/Util.std.js';
-import type { PreferredBadgeSelectorType } from '../state/selectors/badges.preload.js';
-import type { ShowToastAction } from '../state/ducks/toast.preload.js';
-import type { ViewUserStoriesActionCreatorType } from '../state/ducks/stories.preload.js';
-import { MyStoryButton } from './MyStoryButton.dom.js';
-import { SearchInput } from './SearchInput.dom.js';
-import { StoryListItem } from './StoryListItem.dom.js';
-import { isNotNil } from '../util/isNotNil.std.js';
-import { NavSidebarSearchHeader, NavSidebarEmpty } from './NavSidebar.dom.js';
+} from '../types/Stories.std.ts';
+import type { LocalizerType, ThemeType } from '../types/Util.std.ts';
+import type { PreferredBadgeSelectorType } from '../state/selectors/badges.preload.ts';
+import type { ShowToastAction } from '../state/ducks/toast.preload.ts';
+import type { ViewUserStoriesActionCreatorType } from '../state/ducks/stories.preload.ts';
+import { MyStoryButton } from './MyStoryButton.dom.tsx';
+import { SearchInput } from './SearchInput.dom.tsx';
+import { StoryListItem } from './StoryListItem.dom.tsx';
+import { isNotNil } from '../util/isNotNil.std.ts';
+import { NavSidebarSearchHeader, NavSidebarEmpty } from './NavSidebar.dom.tsx';
 
-const FUSE_OPTIONS: Fuse.IFuseOptions<ConversationStoryType> = {
+const FUSE_OPTIONS: IFuseOptions<ConversationStoryType> = {
   getFn: (story, path) => {
     if (path[0] === 'searchNames' || path === 'searchNames') {
       return [story.storyView.sender.title, story.storyView.sender.name].filter(
@@ -59,7 +60,7 @@ export type PropsType = {
   getPreferredBadge: PreferredBadgeSelectorType;
   hiddenStories: Array<ConversationStoryType>;
   i18n: LocalizerType;
-  maxAttachmentSizeInKb: number;
+  maxAttachmentVideoSize: number;
   me: ConversationType;
   myStories: Array<MyStoryType>;
   onAddStory: (file?: File) => unknown;
@@ -79,7 +80,7 @@ export function StoriesPane({
   getPreferredBadge,
   hiddenStories,
   i18n,
-  maxAttachmentSizeInKb,
+  maxAttachmentVideoSize,
   me,
   myStories,
   onAddStory,
@@ -126,7 +127,7 @@ export function StoriesPane({
       <div className="Stories__pane__list">
         <MyStoryButton
           i18n={i18n}
-          maxAttachmentSizeInKb={maxAttachmentSizeInKb}
+          maxAttachmentVideoSize={maxAttachmentVideoSize}
           me={me}
           myStories={myStories}
           onAddStory={onAddStory}

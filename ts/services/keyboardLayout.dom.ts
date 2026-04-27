@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { strictAssert } from '../util/assert.std.js';
+import { strictAssert } from '../util/assert.std.ts';
 
 type LayoutMapType = { get(code: string): string | undefined };
 

@@ -1,18 +1,18 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { DeleteAttributesType } from '../messageModifiers/Deletes.preload.js';
+import type { DeleteAttributesType } from '../messageModifiers/Deletes.preload.ts';
 import type { MessageAttributesType } from '../model-types.d.ts';
-import type { MessageModel } from '../models/messages.preload.js';
-import { createLogger } from '../logging/log.std.js';
-import { isMe } from './whatTypeOfConversation.dom.js';
-import { getSourceServiceId } from '../messages/sources.preload.js';
-import { isStory } from '../state/selectors/message.preload.js';
-import { canReceiveDeleteForEveryone } from './canDeleteForEveryone.preload.js';
-import { isAciString } from './isAciString.std.js';
-import { eraseMessageContents } from './cleanup.preload.js';
-import { notificationService } from '../services/notifications.preload.js';
-import { DataWriter } from '../sql/Client.preload.js';
+import type { MessageModel } from '../models/messages.preload.ts';
+import { createLogger } from '../logging/log.std.ts';
+import { isMe } from './whatTypeOfConversation.dom.ts';
+import { getSourceServiceId } from '../messages/sources.preload.ts';
+import { isStory } from '../state/selectors/message.preload.ts';
+import { canReceiveDeleteForEveryone } from './canDeleteForEveryone.preload.ts';
+import { isAciString } from './isAciString.std.ts';
+import { eraseMessageContents } from './cleanup.preload.ts';
+import { notificationService } from '../services/notifications.preload.ts';
+import { DataWriter } from '../sql/Client.preload.ts';
 
 const log = createLogger('deleteForEveryone');
 
@@ -108,7 +108,7 @@ export async function applyDeleteForEveryone(
   });
 
   try {
-    // eslint-disable-next-line no-param-reassign
+    // oxlint-disable-next-line no-param-reassign
     message.deletingForEveryone = true;
 
     // Remove any notifications for this message
@@ -137,7 +137,7 @@ export async function applyDeleteForEveryone(
       });
     }
   } finally {
-    // eslint-disable-next-line no-param-reassign
+    // oxlint-disable-next-line no-param-reassign
     message.deletingForEveryone = undefined;
   }
 }

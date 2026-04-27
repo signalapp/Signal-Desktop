@@ -8,13 +8,13 @@ import {
   getPinnedConversationIds,
   getPreferredLeftPaneWidth,
   getPreferredReactionEmoji,
-} from '../../../state/selectors/items.dom.js';
-import type { StateType } from '../../../state/reducer.preload.js';
-import type { ItemsStateType } from '../../../state/ducks/items.preload.js';
+} from '../../../state/selectors/items.dom.ts';
+import type { StateType } from '../../../state/reducer.preload.ts';
+import type { ItemsStateType } from '../../../state/ducks/items.preload.ts';
 import {
   EMOJI_SKIN_TONE_ORDER,
   EmojiSkinTone,
-} from '../../../components/fun/data/emojis.std.js';
+} from '../../../components/fun/data/emojis.std.ts';
 
 describe('both/state/selectors/items', () => {
   // Note: we would like to use the full reducer here, to get a real empty state object
@@ -22,7 +22,7 @@ describe('both/state/selectors/items', () => {
   function getRootState(items: ItemsStateType): StateType {
     return {
       items,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // oxlint-disable-next-line typescript/no-explicit-any
     } as any;
   }
 
@@ -57,7 +57,7 @@ describe('both/state/selectors/items', () => {
         0.1,
         1.2,
         NaN,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any -- for testing
+        // oxlint-disable-next-line typescript/no-explicit-any -- for testing
       ].forEach((emojiSkinToneDefault: any) => {
         const state = getRootState({ emojiSkinToneDefault });
         assert.strictEqual(getEmojiSkinToneDefault(state), null);
@@ -82,7 +82,7 @@ describe('both/state/selectors/items', () => {
       [undefined, null, '250', [250], 250.123].forEach(
         preferredLeftPaneWidth => {
           const state = getRootState({
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            // oxlint-disable-next-line typescript/no-explicit-any
             preferredLeftPaneWidth: preferredLeftPaneWidth as any,
           });
           assert.strictEqual(getPreferredLeftPaneWidth(state), 320);

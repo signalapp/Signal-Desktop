@@ -3,12 +3,12 @@
 
 import { assert } from 'chai';
 
-import type { WritableDB } from '../../sql/Interface.std.js';
+import type { WritableDB } from '../../sql/Interface.std.ts';
 import {
   migrateConversationMessages,
   setupTests,
-} from '../../sql/Server.node.js';
-import { createDB, insertData, getTableData } from './helpers.node.js';
+} from '../../sql/Server.node.ts';
+import { createDB, insertData, getTableData } from './helpers.node.ts';
 
 describe('SQL/migrateConversationMessages', () => {
   let db: WritableDB;

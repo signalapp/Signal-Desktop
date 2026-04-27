@@ -15,33 +15,33 @@ import Emitter from '@signalapp/quill-cjs/core/emitter.js';
 import type { Context } from '@signalapp/quill-cjs/modules/keyboard.js';
 import type { Range as RangeStatic } from '@signalapp/quill-cjs';
 
-import { MentionCompletion } from '../quill/mentions/completion.dom.js';
+import { MentionCompletion } from '../quill/mentions/completion.dom.tsx';
 import {
   FormattingMenu,
   QuillFormattingStyle,
-} from '../quill/formatting/menu.dom.js';
-import { MonospaceBlot } from '../quill/formatting/monospaceBlot.std.js';
-import { SpoilerBlot } from '../quill/formatting/spoilerBlot.std.js';
-import { EmojiBlot, EmojiCompletion } from '../quill/emoji/index.dom.js';
+} from '../quill/formatting/menu.dom.tsx';
+import { MonospaceBlot } from '../quill/formatting/monospaceBlot.std.ts';
+import { SpoilerBlot } from '../quill/formatting/spoilerBlot.std.ts';
+import { EmojiBlot, EmojiCompletion } from '../quill/emoji/index.dom.tsx';
 import type {
   DraftBodyRanges,
   HydratedBodyRangesType,
   RangeNode,
-} from '../types/BodyRange.std.js';
+} from '../types/BodyRange.std.ts';
 import {
   BodyRange,
   areBodyRangesEqual,
   collapseRangeTree,
   insertRange,
-} from '../types/BodyRange.std.js';
-import type { LocalizerType, ThemeType } from '../types/Util.std.js';
-import type { ConversationType } from '../state/ducks/conversations.preload.js';
-import type { PreferredBadgeSelectorType } from '../state/selectors/badges.preload.js';
-import { isAciString } from '../util/isAciString.std.js';
-import { MentionBlot } from '../quill/mentions/blot.dom.js';
-import { matchEmojiBlot, matchEmojiText } from '../quill/emoji/matchers.dom.js';
-import { matchMention } from '../quill/mentions/matchers.std.js';
-import { MemberRepository } from '../quill/memberRepository.std.js';
+} from '../types/BodyRange.std.ts';
+import type { LocalizerType, ThemeType } from '../types/Util.std.ts';
+import type { ConversationType } from '../state/ducks/conversations.preload.ts';
+import type { PreferredBadgeSelectorType } from '../state/selectors/badges.preload.ts';
+import { isAciString } from '../util/isAciString.std.ts';
+import { MentionBlot } from '../quill/mentions/blot.dom.tsx';
+import { matchEmojiBlot, matchEmojiText } from '../quill/emoji/matchers.dom.ts';
+import { matchMention } from '../quill/mentions/matchers.std.ts';
+import { MemberRepository } from '../quill/memberRepository.std.ts';
 import {
   getDeltaToRemoveStaleMentions,
   getTextAndRangesFromOps,
@@ -52,41 +52,41 @@ import {
   insertEmojiOps,
   insertFormattingAndMentionsOps,
   isInsertMentionOp,
-} from '../quill/util.dom.js';
-import { SignalClipboard } from '../quill/signal-clipboard/index.dom.js';
-import { DirectionalBlot } from '../quill/block/blot.dom.js';
-import { getClassNamesFor } from '../util/getClassNamesFor.std.js';
-import { isNotNil } from '../util/isNotNil.std.js';
-import { createLogger } from '../logging/log.std.js';
-import type { LinkPreviewForUIType } from '../types/message/LinkPreviews.std.js';
-import { StagedLinkPreview } from './conversation/StagedLinkPreview.dom.js';
+} from '../quill/util.dom.ts';
+import { SignalClipboard } from '../quill/signal-clipboard/index.dom.ts';
+import { DirectionalBlot } from '../quill/block/blot.dom.tsx';
+import { getClassNamesFor } from '../util/getClassNamesFor.std.ts';
+import { isNotNil } from '../util/isNotNil.std.ts';
+import { createLogger } from '../logging/log.std.ts';
+import type { LinkPreviewForUIType } from '../types/message/LinkPreviews.std.ts';
+import { StagedLinkPreview } from './conversation/StagedLinkPreview.dom.tsx';
 import type { DraftEditMessageType } from '../model-types.d.ts';
-import { usePrevious } from '../hooks/usePrevious.std.js';
+import { usePrevious } from '../hooks/usePrevious.std.ts';
 import {
   matchBold,
   matchItalic,
   matchMonospace,
   matchSpoiler,
   matchStrikethrough,
-} from '../quill/formatting/matchers.dom.js';
-import { missingCaseError } from '../util/missingCaseError.std.js';
-import type { AutoSubstituteAsciiEmojisOptions } from '../quill/auto-substitute-ascii-emojis/index.dom.js';
-import { AutoSubstituteAsciiEmojis } from '../quill/auto-substitute-ascii-emojis/index.dom.js';
-import { dropNull } from '../util/dropNull.std.js';
-import { SimpleQuillWrapper } from './SimpleQuillWrapper.dom.js';
+} from '../quill/formatting/matchers.dom.ts';
+import { missingCaseError } from '../util/missingCaseError.std.ts';
+import type { AutoSubstituteAsciiEmojisOptions } from '../quill/auto-substitute-ascii-emojis/index.dom.tsx';
+import { AutoSubstituteAsciiEmojis } from '../quill/auto-substitute-ascii-emojis/index.dom.tsx';
+import { dropNull } from '../util/dropNull.std.ts';
+import { SimpleQuillWrapper } from './SimpleQuillWrapper.dom.tsx';
 import {
   getEmojiVariantByKey,
   type EmojiSkinTone,
-} from './fun/data/emojis.std.js';
-import { FUN_STATIC_EMOJI_CLASS } from './fun/FunEmoji.dom.js';
-import { useFunEmojiSearch } from './fun/useFunEmojiSearch.dom.js';
-import type { EmojiCompletionOptions } from '../quill/emoji/completion.dom.js';
-import { useFunEmojiLocalizer } from './fun/useFunEmojiLocalizer.dom.js';
-import { MAX_BODY_ATTACHMENT_BYTE_LENGTH } from '../util/longAttachment.std.js';
-import type { FunEmojiSelection } from './fun/panels/FunPanelEmojis.dom.js';
-import { AxoSymbol } from '../axo/AxoSymbol.dom.js';
-import { AxoTooltip } from '../axo/AxoTooltip.dom.js';
-import { tw } from '../axo/tw.dom.js';
+} from './fun/data/emojis.std.ts';
+import { FUN_STATIC_EMOJI_CLASS } from './fun/FunEmoji.dom.tsx';
+import { useFunEmojiSearch } from './fun/useFunEmojiSearch.dom.tsx';
+import type { EmojiCompletionOptions } from '../quill/emoji/completion.dom.tsx';
+import { useFunEmojiLocalizer } from './fun/useFunEmojiLocalizer.dom.tsx';
+import { MAX_BODY_ATTACHMENT_BYTE_LENGTH } from '../util/longAttachment.std.ts';
+import type { FunEmojiSelection } from './fun/panels/FunPanelEmojis.dom.tsx';
+import { AxoSymbol } from '../axo/AxoSymbol.dom.tsx';
+import { AxoTooltip } from '../axo/AxoTooltip.dom.tsx';
+import { tw } from '../axo/tw.dom.tsx';
 
 const log = createLogger('CompositionInput');
 
@@ -635,6 +635,7 @@ export function CompositionInput(props: Props): React.ReactElement {
         node.attributes.removeNamedItem('style');
       }
 
+      // oxlint-disable-next-line no-undef FIXME
       if (Buffer.byteLength(text) > MAX_BODY_ATTACHMENT_BYTE_LENGTH) {
         quill.history.undo();
         propsRef.current.onTextTooLong();
@@ -664,7 +665,7 @@ export function CompositionInput(props: Props): React.ReactElement {
     }
 
     if (propsRef.current.onDirtyChange) {
-      let isDirty: boolean = false;
+      let isDirty = false;
 
       if (!draftEditMessage) {
         isDirty = text.length > 0;
@@ -766,7 +767,7 @@ export function CompositionInput(props: Props): React.ReactElement {
 
     const newDelta = getDeltaToRemoveStaleMentions(ops, currentMemberAcis);
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // oxlint-disable-next-line typescript/no-explicit-any
     quill.updateContents(newDelta as any);
   };
 
@@ -960,7 +961,7 @@ export function CompositionInput(props: Props): React.ReactElement {
     },
     // quill shouldn't re-render, all changes should take place exclusively
     // through mutating the quill state directly instead of through props
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // oxlint-disable-next-line react-hooks/exhaustive-deps
     []
   );
 
@@ -968,8 +969,6 @@ export function CompositionInput(props: Props): React.ReactElement {
   //   message box. In 'large' mode, the actual Quill text box can be one line while the
   //   visual text box is much larger. Clicking that should allow you to start typing,
   //   hence the click handler.
-  // eslint-disable-next-line max-len
-  /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 
   const getClassName = getClassNamesFor(BASE_CLASS_NAME, moduleClassName);
 
@@ -1007,6 +1006,7 @@ export function CompositionInput(props: Props): React.ReactElement {
     <Manager>
       <Reference>
         {({ ref }) => (
+          // oxlint-disable-next-line jsx_a11y/no-static-element-interactions
           <div
             className={classNames(
               getClassName('__input'),
@@ -1048,6 +1048,7 @@ export function CompositionInput(props: Props): React.ReactElement {
                 {i18n('icu:CompositionArea--viewOnceMediaPlaceholder')}
               </div>
             )}
+            {/* oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
             <div
               onClick={focus}
               onScroll={onScroll}

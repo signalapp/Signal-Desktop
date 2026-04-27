@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { Environment, getEnvironment } from '../../environment.std.js';
+import { Environment, getEnvironment } from '../../environment.std.ts';
 
 if (
   process.env.NODE_ENV !== 'production' &&
@@ -9,8 +9,7 @@ if (
   Boolean(process.env.REACT_DEVTOOLS)
 ) {
   // Not bundled in the production app
-  // eslint-disable-next-line max-len
-  // eslint-disable-next-line global-require, import/no-extraneous-dependencies, @typescript-eslint/no-var-requires
+  // oxlint-disable-next-line global-require, typescript/no-var-requires
   const { initialize, connectToDevTools } = require('react-devtools-core');
 
   initialize();

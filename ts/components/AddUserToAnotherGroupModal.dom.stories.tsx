@@ -5,12 +5,12 @@ import React from 'react';
 import type { Meta, StoryFn } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
-import type { Props } from './AddUserToAnotherGroupModal.dom.js';
+import type { Props } from './AddUserToAnotherGroupModal.dom.tsx';
 import {
   getDefaultConversation,
   getDefaultGroup,
-} from '../test-helpers/getDefaultConversation.std.js';
-import { AddUserToAnotherGroupModal } from './AddUserToAnotherGroupModal.dom.js';
+} from '../test-helpers/getDefaultConversation.std.ts';
+import { AddUserToAnotherGroupModal } from './AddUserToAnotherGroupModal.dom.tsx';
 
 const { i18n } = window.SignalContext;
 
@@ -24,7 +24,6 @@ export default {
   },
 } satisfies Meta<Props>;
 
-// eslint-disable-next-line react/function-component-definition
 const Template: StoryFn<Props> = args => {
   return (
     <AddUserToAnotherGroupModal

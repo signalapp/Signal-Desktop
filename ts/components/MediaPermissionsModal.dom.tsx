@@ -3,11 +3,11 @@
 
 import React, { useCallback } from 'react';
 
-import { Modal } from './Modal.dom.js';
-import { tw } from '../axo/tw.dom.js';
-import type { LocalizerType } from '../types/Util.std.js';
-import { missingCaseError } from '../util/missingCaseError.std.js';
-import { Button } from './Button.dom.js';
+import { Modal } from './Modal.dom.tsx';
+import { tw } from '../axo/tw.dom.tsx';
+import type { LocalizerType } from '../types/Util.std.ts';
+import { missingCaseError } from '../util/missingCaseError.std.ts';
+import { Button } from './Button.dom.tsx';
 
 export type PropsType = {
   i18n: LocalizerType;

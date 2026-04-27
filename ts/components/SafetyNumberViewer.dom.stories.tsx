@@ -4,9 +4,9 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './SafetyNumberViewer.dom.js';
-import { SafetyNumberViewer } from './SafetyNumberViewer.dom.js';
-import { getDefaultConversation } from '../test-helpers/getDefaultConversation.std.js';
+import type { PropsType } from './SafetyNumberViewer.dom.tsx';
+import { SafetyNumberViewer } from './SafetyNumberViewer.dom.tsx';
+import { getDefaultConversation } from '../test-helpers/getDefaultConversation.std.ts';
 
 function generateQRData() {
   const data = new Uint8Array(128);

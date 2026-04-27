@@ -3,11 +3,11 @@
 
 import React from 'react';
 
-import { Modal } from './Modal.dom.js';
-import { Button } from './Button.dom.js';
-import { ThemeType } from '../types/Util.std.js';
+import { Modal } from './Modal.dom.tsx';
+import { Button } from './Button.dom.tsx';
+import { ThemeType } from '../types/Util.std.ts';
 
-import type { LocalizerType } from '../types/Util.std.js';
+import type { LocalizerType } from '../types/Util.std.ts';
 
 export type PropsType = Readonly<{
   i18n: LocalizerType;

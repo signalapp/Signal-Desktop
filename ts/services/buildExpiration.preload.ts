@@ -6,10 +6,10 @@ import EventEmitter from 'node:events';
 import {
   hasBuildExpired,
   getBuildExpirationTimestamp,
-} from '../util/buildExpiration.std.js';
-import { LongTimeout } from '../util/timeout.std.js';
-import { createLogger } from '../logging/log.std.js';
-import { itemStorage } from '../textsecure/Storage.preload.js';
+} from '../util/buildExpiration.std.ts';
+import { LongTimeout } from '../util/timeout.std.ts';
+import { createLogger } from '../logging/log.std.ts';
+import { itemStorage } from '../textsecure/Storage.preload.ts';
 
 const log = createLogger('buildExpiration');
 
@@ -60,7 +60,6 @@ export class BuildExpirationService extends EventEmitter {
     const delayMs = timestamp - now;
     log.info(`expires in ${delayMs}ms`);
 
-    // eslint-disable-next-line no-new
     new LongTimeout(() => {
       if (this.hasBuildExpired()) {
         log.warn('expired');
@@ -77,7 +76,7 @@ export class BuildExpirationService extends EventEmitter {
 
   public override on(
     type: string | symbol,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // oxlint-disable-next-line typescript/no-explicit-any
     listener: (...args: Array<any>) => void
   ): this {
     return super.on(type, listener);
@@ -85,7 +84,7 @@ export class BuildExpirationService extends EventEmitter {
 
   public override emit(type: 'expired'): boolean;
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // oxlint-disable-next-line typescript/no-explicit-any
   public override emit(type: string | symbol, ...args: Array<any>): boolean {
     return super.emit(type, ...args);
   }

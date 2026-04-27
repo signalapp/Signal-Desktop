@@ -1,12 +1,12 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { IV_LENGTH, ATTACHMENT_MAC_LENGTH } from '../types/Crypto.std.js';
-import { MediaTier } from '../types/AttachmentDownload.std.js';
-import { logPadSize } from './logPadSize.std.js';
-import { missingCaseError } from './missingCaseError.std.js';
+import { IV_LENGTH, ATTACHMENT_MAC_LENGTH } from '../types/Crypto.std.ts';
+import { MediaTier } from '../types/AttachmentDownload.std.ts';
+import { logPadSize } from './logPadSize.std.ts';
+import { missingCaseError } from './missingCaseError.std.ts';
 
-export function getCiphertextSize(plaintextLength: number): number {
+function getCiphertextSize(plaintextLength: number): number {
   const paddedPlaintextSize = logPadSize(plaintextLength);
 
   return (

@@ -1,15 +1,12 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { Bytes } from './context/Bytes.std.js';
+import { Bytes } from './context/Bytes.std.ts';
 
 const bytes = globalThis.window?.SignalContext?.bytes || new Bytes();
 
 export function fromBase64(value: string): Uint8Array<ArrayBuffer> {
   return bytes.fromBase64(value);
-}
-export function fromBase64url(value: string): Uint8Array<ArrayBuffer> {
-  return bytes.fromBase64url(value);
 }
 
 export function fromHex(value: string): Uint8Array<ArrayBuffer> {

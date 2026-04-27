@@ -1,9 +1,9 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ConversationType } from '../state/ducks/conversations.preload.js';
-import { StorySendMode } from '../types/Stories.std.js';
-import { assertDev } from './assert.std.js';
+import type { ConversationType } from '../state/ducks/conversations.preload.ts';
+import { StorySendMode } from '../types/Stories.std.ts';
+import { assertDev } from './assert.std.ts';
 
 export function isGroupInStoryMode(
   { id, type, storySendMode }: ConversationType,

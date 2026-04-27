@@ -5,30 +5,30 @@ import type { AudioDevice } from '@signalapp/ringrtc';
 import type {
   CustomColorsItemType,
   DefaultConversationColorType,
-} from './Colors.std.js';
-import type { PhoneNumberDiscoverability } from '../util/phoneNumberDiscoverability.std.js';
-import type { RetryItemType } from '../services/retryPlaceholders.std.js';
-import type { ConfigMapType as RemoteConfigType } from '../RemoteConfig.dom.js';
-import type { ExtendedStorageID, UnknownRecord } from './StorageService.js';
+} from './Colors.std.ts';
+import type { PhoneNumberDiscoverability } from '../util/phoneNumberDiscoverability.std.ts';
+import type { RetryItemType } from '../services/retryPlaceholders.std.ts';
+import type { ConfigMapType as RemoteConfigType } from '../RemoteConfig.dom.ts';
+import type { ExtendedStorageID, UnknownRecord } from './StorageService.d.ts';
 
-import type { GroupCredentialType } from '../textsecure/WebAPI.preload.js';
+import type { GroupCredentialType } from '../textsecure/WebAPI.preload.ts';
 import type {
   SessionResetsType,
   StorageServiceCredentials,
-} from '../textsecure/Types.js';
+} from '../textsecure/Types.d.ts';
 import type {
   BackupCredentialWrapperType,
   BackupsSubscriptionType,
   BackupStatusType,
-} from './backups.node.js';
-import type { ServiceIdString } from './ServiceId.std.js';
-import type { RegisteredChallengeType } from '../challenge.dom.js';
-import type { NotificationProfileOverride } from './NotificationProfile.std.js';
-import type { PhoneNumberSharingMode } from './PhoneNumberSharingMode.std.js';
-import type { LocalBackupExportMetadata } from './LocalExport.std.js';
-import type { ServerAlertsType } from './ServerAlert.std.js';
-import type { EmojiSkinTone } from './emoji.std.js';
-import type { AssertSameMembers } from './Util.std.js';
+} from './backups.node.ts';
+import type { ServiceIdString } from './ServiceId.std.ts';
+import type { RegisteredChallengeType } from '../challenge.dom.ts';
+import type { NotificationProfileOverride } from './NotificationProfile.std.ts';
+import type { PhoneNumberSharingMode } from './PhoneNumberSharingMode.std.ts';
+import type { LocalBackupExportMetadata } from './LocalExport.std.ts';
+import type { ServerAlertsType } from './ServerAlert.std.ts';
+import type { EmojiSkinTone } from './emoji.std.ts';
+import type { AssertSameMembers } from './Util.std.ts';
 
 export type AutoDownloadAttachmentType = {
   photos: boolean;
@@ -42,7 +42,8 @@ export type SerializedCertificateType = {
   serialized: Uint8Array<ArrayBuffer>;
 };
 
-export type ZoomFactorType = 0.75 | 1 | 1.25 | 1.5 | 2 | number;
+// oxlint-disable-next-line typescript/ban-types
+export type ZoomFactorType = 0.75 | 1 | 1.25 | 1.5 | 2 | (number & {});
 
 export type SentMediaQualitySettingType = 'standard' | 'high';
 
@@ -242,9 +243,9 @@ export type StorageAccessType = {
   cloudBackupStatus: BackupStatusType | undefined;
   backupSubscriptionStatus: BackupsSubscriptionType | undefined;
 
-  backupKeyViewed: boolean;
   lastLocalBackup: LocalBackupExportMetadata;
   localBackupFolder: string | undefined;
+  backupKeyViewedHash: string | undefined;
 
   // If true Desktop message history was restored from backup
   isRestoredFromBackup: boolean;
@@ -273,6 +274,8 @@ export type StorageAccessType = {
 
   avatarsHaveBeenMigrated: boolean;
 
+  blockedMessageMigrationVersion: number | undefined;
+
   // Key Transparency
   lastDistinguishedTreeHead: Uint8Array<ArrayBuffer>;
   // Meaning of values:
@@ -290,6 +293,14 @@ export type StorageAccessType = {
   defaultWallpaperPreset: number;
   defaultDimWallpaperInDarkMode: boolean;
   defaultAutoBubbleColor: boolean;
+
+  // Used for manually controlling calling settings
+  dredDuration: number | undefined;
+  isDirectVp9Enabled: boolean | undefined;
+  directMaxBitrate: number | undefined;
+  isGroupVp9Enabled: boolean | undefined;
+  groupMaxBitrate: number | undefined;
+  sfuUrl: string | undefined;
 
   // Deprecated
   'challenge:retry-message-ids': never;
@@ -309,6 +320,7 @@ export type StorageAccessType = {
   backupMediaDownloadIdle: never;
   callQualitySurveyCooldownDisabled: never;
   localDeleteWarningShown: never;
+  backupKeyViewed: never;
 };
 
 export const STORAGE_KEYS_TO_PRESERVE_AFTER_UNLINK = [
@@ -347,11 +359,56 @@ export const STORAGE_KEYS_TO_PRESERVE_AFTER_UNLINK = [
   // Bookkeeping keys
   'attachmentMigration_lastProcessedIndex',
   'attachmentMigration_isComplete',
+  'blockedMessageMigrationVersion',
   'chromiumRegistrationDoneEver',
   'version',
   'number_id',
   'uuid_id',
   'pni',
+
+  // Items required for local backups
+  'accountEntropyPool',
+  'backupKeyViewedHash',
+  'backupMediaRootKey',
+  'lastLocalBackup',
+  'localBackupFolder',
+
+  // Items included in local backups
+  'profileKey',
+  'avatarUrl',
+  'usernameLinkColor',
+  'androidSpecificSettings',
+  'subscriberId',
+  'subscriberCurrencyCode',
+  'auto-download-attachment-primary',
+  'phoneNumberSharingMode',
+  'phoneNumberDiscoverability',
+  'preferContactAvatars',
+  'universalExpireTimer',
+  'displayBadgesOnProfile',
+  'keepMutedChatsArchived',
+  'hasSetMyStoriesPrivacy',
+  'hasViewedOnboardingStory',
+  'hasKeyTransparencyDisabled',
+  'hasStoriesDisabled',
+  'preferredReactionEmoji',
+  'androidSpecificSettings',
+  'sealedSenderIndicators',
+  'storyViewReceiptsEnabled',
+  'hasCompletedUsernameOnboarding',
+  'hasSeenGroupStoryEducationSheet',
+  'hasSeenAdminDeleteEducationDialog',
+  'callsUseLessDataSetting',
+  'optimizeOnDeviceStorage',
+  'allowSealedSenderFromAnyone',
+  'pinReminders',
+  'screenLockTimeoutMinutes',
+  'sent-media-quality',
+  'defaultWallpaperPreset',
+  'defaultWallpaperPhotoPointer',
+  'defaultDimWallpaperInDarkMode',
+  'defaultAutoBubbleColor',
+  'restoredBackupFirstAppVersion',
 ] as const satisfies ReadonlyArray<keyof StorageAccessType>;
 
 const STORAGE_KEYS_TO_REMOVE_AFTER_UNLINK = [
@@ -365,20 +422,12 @@ const STORAGE_KEYS_TO_REMOVE_AFTER_UNLINK = [
   'blocked',
   'device_name',
   'deviceCreatedAt',
-  'hasSetMyStoriesPrivacy',
-  'hasCompletedUsernameOnboarding',
-  'hasSeenGroupStoryEducationSheet',
   'hasSeenNotificationProfileOnboarding',
   'hasSeenKeyTransparencyOnboarding',
-  'hasViewedOnboardingStory',
-  'hasStoriesDisabled',
-  'hasKeyTransparencyDisabled',
-  'storyViewReceiptsEnabled',
   'identityKeyMap',
   'lastAttemptedToRefreshProfilesAt',
   'lastResortKeyUpdateTime',
   'lastResortKeyUpdateTimePNI',
-  'accountEntropyPool',
   'masterKey',
   'accountEntropyPoolLastRequestTime',
   'maxPreKeyId',
@@ -386,13 +435,11 @@ const STORAGE_KEYS_TO_REMOVE_AFTER_UNLINK = [
   'maxKyberPreKeyId',
   'maxKyberPreKeyIdPNI',
   'password',
-  'profileKey',
   'regionCode',
   'registrationIdMap',
   'remoteBuildExpiration',
   'sessionResets',
   'seenPinMessageDisappearingMessagesWarningCount',
-  'hasSeenAdminDeleteEducationDialog',
   'signedKeyId',
   'signedKeyIdPNI',
   'signedKeyUpdateTime',
@@ -402,17 +449,11 @@ const STORAGE_KEYS_TO_REMOVE_AFTER_UNLINK = [
   'userAgent',
   'useRingrtcAdm',
   'linkPreviews',
-  'universalExpireTimer',
   'retryPlaceholders',
   'donationWorkflow',
   'chromiumRegistrationDone',
-  'phoneNumberSharingMode',
-  'phoneNumberDiscoverability',
-  'preferContactAvatars',
   'typingIndicators',
-  'sealedSenderIndicators',
   'storageFetchComplete',
-  'avatarUrl',
   'manifestVersion',
   'manifestRecordIkm',
   'storageCredentials',
@@ -427,7 +468,6 @@ const STORAGE_KEYS_TO_REMOVE_AFTER_UNLINK = [
   'callLinkAuthCredentials',
   'backupCombinedCredentials',
   'backupCombinedCredentialsLastRequestTime',
-  'backupMediaRootKey',
   'backupMediaDownloadTotalBytes',
   'backupMediaDownloadCompletedBytes',
   'backupMediaDownloadPaused',
@@ -446,18 +486,13 @@ const STORAGE_KEYS_TO_REMOVE_AFTER_UNLINK = [
   'paymentAddress',
   'nextScheduledUpdateKeyTime',
   'areWeASubscriber',
-  'subscriberId',
-  'subscriberCurrencyCode',
   'donorSubscriptionManuallyCancelled',
   'backupsSubscriberId',
   'backupsSubscriberPurchaseToken',
   'backupsSubscriberOriginalTransactionId',
-  'displayBadgesOnProfile',
-  'keepMutedChatsArchived',
   'usernameLastIntegrityCheck',
   'usernameCorrupted',
   'usernameLinkCorrupted',
-  'usernameLinkColor',
   'usernameLink',
   'serverAlerts',
   'needOrphanedAttachmentCheck',
@@ -475,28 +510,12 @@ const STORAGE_KEYS_TO_REMOVE_AFTER_UNLINK = [
   'backupTier',
   'cloudBackupStatus',
   'backupSubscriptionStatus',
-  'backupKeyViewed',
-  'lastLocalBackup',
-  'localBackupFolder',
   'isRestoredFromBackup',
-  'restoredBackupFirstAppVersion',
-  'svrPin',
-  'optimizeOnDeviceStorage',
-  'pinReminders',
-  'screenLockTimeoutMinutes',
-  'auto-download-attachment-primary',
-  'androidSpecificSettings',
-  'callsUseLessDataSetting',
-  'allowSealedSenderFromAnyone',
   'postRegistrationSyncsStatus',
   'avatarsHaveBeenMigrated',
   'lastDistinguishedTreeHead',
   'keyTransparencySelfHealth',
   'lastKeyTransparencySelfCheck',
-  'defaultWallpaperPhotoPointer',
-  'defaultWallpaperPreset',
-  'defaultDimWallpaperInDarkMode',
-  'defaultAutoBubbleColor',
   'challenge:retry-message-ids',
   'nextSignedKeyRotationTime',
   'previousAudioDeviceModule',
@@ -514,6 +533,14 @@ const STORAGE_KEYS_TO_REMOVE_AFTER_UNLINK = [
   'backupMediaDownloadIdle',
   'callQualitySurveyCooldownDisabled',
   'localDeleteWarningShown',
+  'dredDuration',
+  'directMaxBitrate',
+  'isDirectVp9Enabled',
+  'groupMaxBitrate',
+  'isGroupVp9Enabled',
+  'sfuUrl',
+  'svrPin',
+  'backupKeyViewed',
 ] as const satisfies ReadonlyArray<keyof StorageAccessType>;
 
 // Ensure every storage key is explicitly marked to be preserved or removed on unlink.

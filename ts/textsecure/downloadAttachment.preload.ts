@@ -9,22 +9,22 @@ import { Transform } from 'node:stream';
 import { pipeline } from 'node:stream/promises';
 import fsExtra from 'fs-extra';
 
-import { createLogger } from '../logging/log.std.js';
-import * as Errors from '../types/errors.std.js';
-import { strictAssert } from '../util/assert.std.js';
+import { createLogger } from '../logging/log.std.ts';
+import * as Errors from '../types/errors.std.ts';
+import { strictAssert } from '../util/assert.std.ts';
 import {
   getAbsoluteDownloadsPath,
   getAbsoluteAttachmentPath,
-} from '../util/migrations.preload.js';
-import { hasRequiredInformationForRemoteBackup } from '../util/Attachment.std.js';
+} from '../util/migrations.preload.ts';
+import { hasRequiredInformationForRemoteBackup } from '../util/Attachment.std.ts';
 import {
   AttachmentSizeError,
   type AttachmentType,
   AttachmentVariant,
   AttachmentPermanentlyUndownloadableError,
   type BackupableAttachmentType,
-} from '../types/Attachment.std.js';
-import * as Bytes from '../Bytes.std.js';
+} from '../types/Attachment.std.ts';
+import * as Bytes from '../Bytes.std.ts';
 import {
   safeUnlink,
   splitKeys,
@@ -32,33 +32,33 @@ import {
   decryptAndReencryptLocally,
   measureSize,
   type IntegrityCheckType,
-} from '../AttachmentCrypto.node.js';
+} from '../AttachmentCrypto.node.ts';
 import type { ProcessedAttachment } from './Types.d.ts';
 import type {
   getAttachment,
   getAttachmentFromBackupTier,
-} from './WebAPI.preload.js';
-import { getAttachmentCiphertextSize } from '../util/AttachmentCrypto.std.js';
-import { createName, getRelativePath } from '../util/attachmentPath.node.js';
-import { MediaTier } from '../types/AttachmentDownload.std.js';
+} from './WebAPI.preload.ts';
+import { getAttachmentCiphertextSize } from '../util/AttachmentCrypto.std.ts';
+import { createName, getRelativePath } from '../util/attachmentPath.node.ts';
+import { MediaTier } from '../types/AttachmentDownload.std.ts';
 import {
   getBackupMediaRootKey,
   deriveBackupMediaKeyMaterial,
   type BackupMediaKeyMaterialType,
   deriveBackupThumbnailTransitKeyMaterial,
-} from '../services/backups/crypto.preload.js';
-import { backupsService } from '../services/backups/index.preload.js';
+} from '../services/backups/crypto.preload.ts';
+import { backupsService } from '../services/backups/index.preload.ts';
 import {
   getMediaIdForAttachment,
   getMediaIdForAttachmentThumbnail,
-} from '../services/backups/util/mediaId.preload.js';
-import { MAX_BACKUP_THUMBNAIL_SIZE } from '../types/VisualAttachment.dom.js';
-import { missingCaseError } from '../util/missingCaseError.std.js';
-import { IV_LENGTH, MAC_LENGTH } from '../types/Crypto.std.js';
-import { BackupCredentialType } from '../types/backups.node.js';
-import { HTTPError } from '../types/HTTPError.std.js';
-import { getValue } from '../RemoteConfig.dom.js';
-import { parseIntOrThrow } from '../util/parseIntOrThrow.std.js';
+} from '../services/backups/util/mediaId.preload.ts';
+import { MAX_BACKUP_THUMBNAIL_SIZE } from '../types/VisualAttachment.dom.ts';
+import { missingCaseError } from '../util/missingCaseError.std.ts';
+import { IV_LENGTH, MAC_LENGTH } from '../types/Crypto.std.ts';
+import { BackupCredentialType } from '../types/backups.node.ts';
+import { HTTPError } from '../types/HTTPError.std.ts';
+import { getValue } from '../RemoteConfig.dom.ts';
+import { parseIntOrThrow } from '../util/parseIntOrThrow.std.ts';
 
 const { ensureFile } = fsExtra;
 
@@ -66,13 +66,13 @@ const { isNumber } = lodash;
 
 const log = createLogger('downloadAttachment');
 
-export function getCdnKey(attachment: ProcessedAttachment): string {
+function getCdnKey(attachment: ProcessedAttachment): string {
   const cdnKey = attachment.cdnId || attachment.cdnKey;
   strictAssert(cdnKey, 'Attachment was missing cdnId or cdnKey');
   return cdnKey;
 }
 
-export function getBackupMediaOuterEncryptionKeyMaterial(
+function getBackupMediaOuterEncryptionKeyMaterial(
   attachment: BackupableAttachmentType
 ): BackupMediaKeyMaterialType {
   const mediaId = getMediaIdForAttachment(attachment);

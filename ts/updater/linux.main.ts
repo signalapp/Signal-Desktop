@@ -8,12 +8,13 @@ import { app, ipcMain } from 'electron';
 import { extractFile } from '@electron/asar';
 import z from 'zod';
 
-import { markShouldQuit } from '../../app/window_state.std.js';
-import type { LoggerType } from '../types/Logging.std.js';
-import { DialogType } from '../types/Dialogs.std.js';
-import * as Errors from '../types/errors.std.js';
-import type { UpdaterOptionsType } from './common.main.js';
-import { appRelaunch } from '../util/relaunch.main.js';
+import { markShouldQuit } from '../../app/window_state.std.ts';
+import type { LoggerType } from '../types/Logging.std.ts';
+import { DialogType } from '../types/Dialogs.std.ts';
+import * as Errors from '../types/errors.std.ts';
+import type { UpdaterOptionsType } from './common.main.ts';
+import { appRelaunch } from '../util/relaunch.main.ts';
+import { getAppRootDir } from '../util/appRootDir.main.ts';
 
 const MIN_UBUNTU_VERSION = '22.04';
 
@@ -21,7 +22,7 @@ const PackageSchema = z.object({
   version: z.string(),
 });
 
-export function getUbuntuVersion(): string | undefined {
+function getUbuntuVersion(): string | undefined {
   if (process.platform !== 'linux') {
     return undefined;
   }
@@ -34,7 +35,7 @@ export function getUbuntuVersion(): string | undefined {
   return match[1];
 }
 
-export function isLinuxVersionSupported(logger?: LoggerType): boolean {
+function isLinuxVersionSupported(logger?: LoggerType): boolean {
   const ubuntu = getUbuntuVersion();
   if (ubuntu !== undefined && ubuntu < MIN_UBUNTU_VERSION) {
     logger?.warn(
@@ -69,7 +70,7 @@ export function initLinux({ logger, getMainWindow }: UpdaterOptionsType): void {
   // See our patch for app-builder-lib.
   //
   // /opt/Signal/resources/app.asar
-  const asarPath = join(__dirname, '..', '..');
+  const asarPath = getAppRootDir();
   if (!asarPath.endsWith('.asar')) {
     throw new Error('updater/linux: not running from ASAR');
   }

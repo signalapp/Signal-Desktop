@@ -746,6 +746,9 @@
   "icu:fileSizeWarning": {
     "messageformat": "Sorry, the selected file exceeds message size restrictions. {limit,number} {units}"
   },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "O vídeo seleccionado supera o tamaño permitido. {limit,number} {units}"
+  },
   "icu:unableToLoadAttachment": {
     "messageformat": "Non se puido abrir o anexo escollido."
   },
@@ -1787,6 +1790,12 @@
   "icu:Preferences__EditChatFolderPage__CancelButton": {
     "messageformat": "Cancelar"
   },
+  "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
+    "messageformat": "Show status icon"
+  },
+  "icu:Preferences__PrivacyPage__ShowStatusIcon__Description": {
+    "messageformat": "Show an icon in message details when they were delivered using sealed sender."
+  },
   "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
     "messageformat": "Verificación automática da clave"
   },
@@ -2372,6 +2381,9 @@
   "icu:ConversationDetails--support-center": {
     "messageformat": "Centro de axuda"
   },
+  "icu:ConversationDetails__GroupTerminatedBanner": {
+    "messageformat": "Este grupo desfíxose"
+  },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "Ver número de seguranza"
   },
@@ -2551,6 +2563,27 @@
   },
   "icu:youUpdatedTheGroup": {
     "messageformat": "Actualizaches o grupo."
+  },
+  "icu:collapsedGroupUpdates": {
+    "messageformat": "{count, plural, one {{count,number} actualización do grupo} other {{count,number} actualizacións do grupo}}"
+  },
+  "icu:multidayCollapse__container": {
+    "messageformat": "{containerDescription} · {dayCountSummary}"
+  },
+  "icu:multidayCollapse__dayCountSummary": {
+    "messageformat": "{dayCount, plural, one {{dayCount,number} día} other {{dayCount,number} días}}"
+  },
+  "icu:collapsedChatUpdates": {
+    "messageformat": "{count, plural, one {{count,number} actualización da conversa} other {{count,number} actualizacións da conversa}}"
+  },
+  "icu:collapsedTimerChanges": {
+    "messageformat": "{count, plural, one {{count,number} cambio na duración das mensaxes temporais · {endingState}} other {{count,number} cambios na duración das mensaxes temporais · {endingState}}}"
+  },
+  "icu:collapsedTimerChanges--disabled": {
+    "messageformat": "{count, plural, one {{count,number} cambio na duración das mensaxes temporais · Desactivadas} other {{count,number} cambios na duración das mensaxes temporais · Desactivadas}}"
+  },
+  "icu:collapsedCallEvents": {
+    "messageformat": "{count, plural, one {{count,number} chamada} other {{count,number} chamadas}}"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "Cambiouse o avatar do grupo."
@@ -3017,8 +3050,8 @@
   "icu:Message--tap-to-view--incoming--expired-toast": {
     "messageformat": "Xa viches esta mensaxe"
   },
-  "icu:Message--tap-to-view--outgoing--expired-toast": {
-    "messageformat": "As mensaxes temporais non se almacenan no teu historial da conversa."
+  "icu:Message--tap-to-view--outgoing--expired-toast-2": {
+    "messageformat": "O contido multimedia dunha soa visualización elimínase despois do seu envío"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "Vídeo dunha soa visualización"
@@ -3485,8 +3518,17 @@
   "icu:ConversationHero--profile-names": {
     "messageformat": "Os <clickable>nomes de perfil</clickable> non se verifican"
   },
+  "icu:ConversationHero--name-not-verified": {
+    "messageformat": "Name not verified"
+  },
   "icu:ConversationHero--signal-official-chat": {
     "messageformat": "Esta é a única conversa oficial de Signal"
+  },
+  "icu:ConversationHero--signal-official-account": {
+    "messageformat": "Official account"
+  },
+  "icu:ConversationHero--signal-official-account--description": {
+    "messageformat": "The only official chat from Signal. Keep up to date with news and release notes."
   },
   "icu:ConversationHero--release-notes": {
     "messageformat": "Segue as últimas novidades e actualizacións."
@@ -3767,9 +3809,6 @@
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
     "messageformat": "Compartir ligazón da chamada por Signal"
   },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "Expulsar esta persoa da chamada"
-  },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "Eliminar a {name} da chamada?"
   },
@@ -3932,11 +3971,23 @@
   "icu:GroupV2--join--requested": {
     "messageformat": "A túa solicitude enviouse aos administradores do grupo. Recibirás unha notificación cando tomen unha decisión."
   },
+  "icu:GroupV2--join--group-terminated": {
+    "messageformat": "Non é posible unirse a este grupo."
+  },
   "icu:GroupV2--join--general-join-failure--title": {
     "messageformat": "Erro na ligazón"
   },
   "icu:GroupV2--join--general-join-failure": {
     "messageformat": "Non te podes unir ao grupo. Inténtao de novo máis tarde."
+  },
+  "icu:GroupV2--terminate-group-in-progress": {
+    "messageformat": "Desfacendo grupo…"
+  },
+  "icu:TerminateGroupFailedModal__description": {
+    "messageformat": "Non se puido desfacer o grupo. Comproba a túa conexión e inténtao de novo."
+  },
+  "icu:TerminateGroupFailedModal__try-again": {
+    "messageformat": "Volver tentar"
   },
   "icu:GroupV2--admin": {
     "messageformat": "Administrador"
@@ -4379,6 +4430,15 @@
   "icu:GroupV2--summary": {
     "messageformat": "A configuración ou membros deste grupo cambiaron."
   },
+  "icu:GroupV2--terminated--you": {
+    "messageformat": "Desfixeches o grupo"
+  },
+  "icu:GroupV2--terminated--other": {
+    "messageformat": "{memberName} desfixo o grupo"
+  },
+  "icu:GroupV2--terminated--unknown": {
+    "messageformat": "Este grupo desfíxose"
+  },
   "icu:GroupV1--Migration--disabled--link": {
     "messageformat": "Actualizar este grupo para activar as novas funcións como @mencións e administradores. Os membros que non compartiron o seu nome ou foto neste grupo recibirán unha invitación para unirse ao grupo. <learnMoreLink>Saber máis.</learnMoreLink>"
   },
@@ -4655,6 +4715,9 @@
   "icu:CompositionArea__ConfirmGifSelection__ReplaceButton": {
     "messageformat": "Substituír"
   },
+  "icu:CompositionArea--group-terminated": {
+    "messageformat": "Non podes enviar máis mensaxes porque se desfixo o grupo."
+  },
   "icu:CompositionArea--viewOnceToggle": {
     "messageformat": "Unha soa visualización"
   },
@@ -4832,11 +4895,26 @@
   "icu:ConversationDetailsActions--leave-group": {
     "messageformat": "Abandonar grupo"
   },
+  "icu:ConversationDetailsActions--terminate-group": {
+    "messageformat": "Desfacer grupo"
+  },
   "icu:ConversationDetailsActions--block-group": {
     "messageformat": "Bloquear grupo"
   },
   "icu:ConversationDetailsActions--unblock-group": {
     "messageformat": "Desbloquear grupo"
+  },
+  "icu:ConversationDetailsActions--report-spam": {
+    "messageformat": "Denunciar correo lixo"
+  },
+  "icu:ConversationDetailsActions--archive": {
+    "messageformat": "Arquivar conversa"
+  },
+  "icu:ConversationDetailsActions--unarchive": {
+    "messageformat": "Desarquivar conversa"
+  },
+  "icu:ConversationDetailsActions--delete": {
+    "messageformat": "Borrar conversa"
   },
   "icu:ConversationDetailsActions--leave-group-must-choose-new-admin": {
     "messageformat": "Antes de saír, debes escoller polo menos un novo administrador para o grupo."
@@ -4849,6 +4927,18 @@
   },
   "icu:ConversationDetailsActions--leave-group-modal-confirm": {
     "messageformat": "Abandonar"
+  },
+  "icu:ConversationDetailsActions--prompt-terminate-group-modal-title": {
+    "messageformat": "Desfacer «{groupName}»?"
+  },
+  "icu:ConversationDetailsActions--prompt-terminate-group-modal-content": {
+    "messageformat": "Os membros xa non poderán enviar mensaxes nin iniciar chamadas neste grupo. Recibirán unha notificación de que desfixeches este grupo, mais seguirán tendo acceso ao historial de mensaxes."
+  },
+  "icu:ConversationDetailsActions--terminate-group-modal-confirm": {
+    "messageformat": "Desfacer grupo"
+  },
+  "icu:ConversationDetailsActions--confirm-terminate-group-confirm-modal-content": {
+    "messageformat": "Isto desfará o grupo de forma permanente. Queres continuar?"
   },
   "icu:ConversationDetailsActions--unblock-group-modal-title": {
     "messageformat": "Desbloquear o grupo «{groupName}»?"
@@ -4868,6 +4958,18 @@
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "Desbloquear"
   },
+  "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
+    "messageformat": "Enviarase un aviso a Signal no que se informará de que esta persoa pode estar a enviar correo lixo. Signal non pode ler o contido de ningunha conversa."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-group": {
+    "messageformat": "Enviarase un aviso a Signal no que se informará de que a persoa que che convidou a este grupo pode estar a enviar correo lixo. Signal non pode ler o contido de ningunha conversa."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
+    "messageformat": "Denunciar correo lixo"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
+    "messageformat": "Denunciar e bloquear"
+  },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} membro} other {{number,number} membros}}"
   },
@@ -4876,6 +4978,9 @@
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} membro} other {{number,number} membros}}"
+  },
+  "icu:ConversationDetailsMembershipList--terminated-title": {
+    "messageformat": "{number, plural, one {{number,number} antigo membro} other {{number,number} antigos membros}}"
   },
   "icu:ConversationDetailsMembershipList--add-members": {
     "messageformat": "Engadir membros"
@@ -5059,7 +5164,7 @@
     "ignoreUnused": true
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
-    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Os membros do grupo que teñan a última versión de Signal verán que borraches esta mensaxe.} other {Os membros do grupo que teñan a última versión de Signal verán que borraches estas mensaxes.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Borrar en todos os dispositivos"
@@ -5195,6 +5300,9 @@
   },
   "icu:MessageRequestWarning__safety-tips": {
     "messageformat": "Consellos de seguridade"
+  },
+  "icu:MessageRequestWarning__safety-tips-v2": {
+    "messageformat": "Safety tips"
   },
   "icu:ContactSpoofing__same-name--link": {
     "messageformat": "Revisa as solicitudes con atención. Signal atopou outro contacto co mesmo nome. <reviewRequestLink>Revisar solicitude</reviewRequestLink>"
@@ -5797,6 +5905,15 @@
   "icu:Preferences__link-previews--description": {
     "messageformat": "Para cambiar esta configuración, abre Signal no teu móbil e vai a Configuración > Conversas"
   },
+  "icu:Preferences__link-previews--new-description": {
+    "messageformat": "Retrieve link previews directly from websites for messages you send."
+  },
+  "icu:Preferences__address-book-photos--title": {
+    "messageformat": "Use address book photos"
+  },
+  "icu:Preferences__address-book-photos--description": {
+    "messageformat": "Display contact photos from your address book if available."
+  },
   "icu:Preferences__auto-convert-emoji--title": {
     "messageformat": "Converter emoticonas escritas en emoji"
   },
@@ -6232,35 +6349,35 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "Feito"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "mostrar a clave de seguranza"
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
+    "messageformat": "mostrar a túa clave de recuperación"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "Verifica a túa identidade para ver a clave de seguranza."
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
+    "messageformat": "Verifica a túa identidade para ver a clave de recuperación."
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "Ver clave de seguranza"
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
+    "messageformat": "Consultar a clave de recuperación"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "Precísase autenticación para ver a clave de seguranza."
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
+    "messageformat": "Precísase autenticación para ver a clave de recuperación."
   },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Cadro de texto da clave de copia de seguranza"
+  "icu:Preferences--local-backups-recovery-key-text-box": {
+    "messageformat": "Clave de recuperación"
   },
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "Escribe a clave"
   },
-  "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "Garda a túa clave de seguranza"
+  "icu:Preferences--local-backups-record-recovery-key": {
+    "messageformat": "Garda a túa clave de recuperación"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "Esta clave é necesaria para recuperar a túa conta e os datos asociados. Gárdaa nun lugar seguro. Se a perdes, non poderás recuperar a túa conta. <learnMoreLink>Máis información.</learnMoreLink>"
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "Confirma a túa clave de seguranza"
+  "icu:Preferences--local-backups-confirm-recovery-key": {
+    "messageformat": "Confirma a túa clave de recuperación"
   },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "Introduce a clave de seguranza que acabas de rexistrar"
+  "icu:Preferences--local-backups-confirm-recovery-key-description": {
+    "messageformat": "Introduce a clave de recuperación que acabas de rexistrar"
   },
   "icu:Preferences__local-backups-confirm-key-modal-title": {
     "messageformat": "Non perdas a clave"
@@ -6286,26 +6403,23 @@
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Cartafol da copia"
   },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "Cambiar"
-  },
   "icu:Preferences__local-backups-turn-off": {
-    "messageformat": "Turn off backups"
+    "messageformat": "Desactivar copias de seguranza"
   },
   "icu:Preferences__local-backups-turn-off-action": {
-    "messageformat": "Turn off"
+    "messageformat": "Desactivar"
   },
   "icu:Preferences__local-backups-turn-off-confirmation": {
-    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+    "messageformat": "Xa non poderás crear copias de seguranza neste ordenador se non o volves activar."
   },
   "icu:Preferences__local-backups-turn-off-delete": {
-    "messageformat": "Delete my backup from this computer"
+    "messageformat": "Eliminar a copia de seguranza do ordenador"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Copiar ao portapapeis"
   },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "Clave de seguranza copiada"
+  "icu:Preferences__local-backups-copied-recovery-key": {
+    "messageformat": "Clave de recuperación copiada"
   },
   "icu:Preferences__local-backups--enable--os-prompt--mac": {
     "messageformat": "Activar copias de seguranza"
@@ -6319,17 +6433,29 @@
   "icu:Preferences__local-backups--enable--os-prompt-message--linux": {
     "messageformat": "Precísase autenticación para activar as copias de seguranza."
   },
+  "icu:Preferences__local-backups-auth-error--unauthorized": {
+    "messageformat": "Non se puido completar a acción porque fallou a autenticación do sistema. Inténtao de novo ou abre Signal no teu móbil e accede á configuración das copias de seguranza para consultar a túa clave de recuperación."
+  },
   "icu:Preferences__view-key": {
     "messageformat": "Ver clave"
   },
-  "icu:Preferences__backup-key": {
-    "messageformat": "Clave de seguranza"
+  "icu:Preferences__recovery-key": {
+    "messageformat": "Clave de recuperación"
   },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "A túa clave de seguranza é un código de 64 díxitos que permite recuperar a copia de seguranza"
+  "icu:Preferences__recovery-key-description": {
+    "messageformat": "A túa clave de recuperación é un código de 64 díxitos que debes usar para restaurar a copia de seguranza"
   },
   "icu:Preferences__backup-other-ways": {
     "messageformat": "Outras formas de realizar copias de seguranza"
+  },
+  "icu:Preferences__recovery-key-updated__title": {
+    "messageformat": "A túa clave de recuperación cambiou"
+  },
+  "icu:Preferences__recovery-key-updated__description": {
+    "messageformat": "Actualizouse a túa clave de recuperación. Só poderás restaurar as copias de seguranza que fagas coa nova clave de recuperación."
+  },
+  "icu:Preferences__recovery-key-updated__view-key": {
+    "messageformat": "Ver clave nova"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {{num,number} contacto} other {{num,number} contactos}}"
@@ -6394,8 +6520,14 @@
   "icu:Preferences--read-receipts": {
     "messageformat": "Confirmacións de lectura"
   },
+  "icu:Preferences--read-receipts--description": {
+    "messageformat": "If disabled, you won't see read receipts from others."
+  },
   "icu:Preferences--typing-indicators": {
     "messageformat": "Indicador de escritura"
+  },
+  "icu:Preferences--typing-indicators--description": {
+    "messageformat": "If disabled, you won't see typing indicators from others."
   },
   "icu:Preferences--updates": {
     "messageformat": "Actualizacións"
@@ -6682,6 +6814,9 @@
   "icu:MyStories__delete": {
     "messageformat": "Borrar historia? Desaparecerá para todos os que a recibiron."
   },
+  "icu:MyStories__delete-group-story-for-me": {
+    "messageformat": "Borrar historia? Só se eliminará para ti xa que se desfixo o grupo."
+  },
   "icu:payment-event-notification-message-you-label": {
     "messageformat": "Comezaches un pagamento para {receiver}"
   },
@@ -6903,6 +7038,9 @@
   },
   "icu:StoriesSettings__view-receipts--label": {
     "messageformat": "Confirmacións de visualización"
+  },
+  "icu:StoriesSettings__view-receipts--new-description": {
+    "messageformat": "See and share when stories are viewed. If disabled, you won't see when others view your story."
   },
   "icu:StoriesSettings__view-receipts--description": {
     "messageformat": "Para cambiar esta configuración, abre Signal no teu móbil e vai a Configuración -> Historias"
@@ -7553,6 +7691,18 @@
   "icu:ProfileNameWarningModal__list--item3--direct": {
     "messageformat": "Non compartas a túa información persoal con xente que non coñeces"
   },
+  "icu:ProfileNameWarningModal__warning--signal-cant-verify": {
+    "messageformat": "Signal can’t verify names and photos"
+  },
+  "icu:ProfileNameWarningModal__warning--signal-wont-contact": {
+    "messageformat": "Signal will never contact you for your registration code, PIN, or recovery key"
+  },
+  "icu:ProfileNameWarningModal__warning--be-cautious": {
+    "messageformat": "Be cautious of accounts that impersonate others"
+  },
+  "icu:ProfileNameWarningModal__warning--dont-share-info": {
+    "messageformat": "Don't share personal information with people you don't know"
+  },
   "icu:ProfileNameWarningModal__description--group": {
     "messageformat": "Os membros do grupo escollen o nome do grupo."
   },
@@ -8015,17 +8165,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Comprende pequenas modificacións e melloras no rendemento. Moitas grazas por empregar Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__7.90--0": {
-    "messageformat": "Fai que a privacidade teña protagonismo cos cinco novos paquetes de stickers oficiais da Serie de artistas de Signal: «Chug the Mouse» de Amanda Cotan, «Cozy Season\" de Miguel Ángel Camprubí, «Croco's Feelings» de Tiffany Beucher, «My Daily Life 2» de Plastic Thing e «Rocky Talk» de Lexi Vay."
-  },
-  "icu:WhatsNew__8.0--0": {
-    "messageformat": "Xa podes usar as Copias seguras de Signal! Activa as copias automáticas cifradas de extremo a extremo para non perder as mensaxes ao cambiar de dispositivo ou reinstalar Signal. Podes facer unha copia das mensaxes e dos arquivos multimedia dos últimos 45 días de balde, ou pagar unha pequena tarifa mensual para ter 100 GB de almacenamento. Vai a «Copias de seguranza» na configuración de Signal para comezar. Graciñas a quen axudou a probar esta función durante a fase beta!"
-  },
-  "icu:WhatsNew__8.2--0": {
-    "messageformat": "Agora tamén podes enviar mensaxes multimedia dunha soa visualización dende Signal Desktop. As fotos e vídeos enviados como mensaxes dunha soa visualización eliminaranse automaticamente unha vez vistos."
-  },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "Agora tes a opción de configurar unha categoría de membro para describirte a ti ou o teu rol dentro da conversa grupal. As categorías de membro aparecen ao carón do teu nome de perfil no grupo, e os administradores poden controlar se están activadas ou non para todos."
   }
 }

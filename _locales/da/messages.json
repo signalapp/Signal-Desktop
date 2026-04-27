@@ -746,6 +746,9 @@
   "icu:fileSizeWarning": {
     "messageformat": "Beklager, den valgte fil overskrider begrænsninger for beskedstørrelse. {limit,number} {units}"
   },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "Beklager, videofilen overskrider begrænsninger for beskedstørrelse. {limit,number}{units}"
+  },
   "icu:unableToLoadAttachment": {
     "messageformat": "Ude af stand til at indlæse den valgte vedhæftning."
   },
@@ -1787,6 +1790,12 @@
   "icu:Preferences__EditChatFolderPage__CancelButton": {
     "messageformat": "Annullér"
   },
+  "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
+    "messageformat": "Show status icon"
+  },
+  "icu:Preferences__PrivacyPage__ShowStatusIcon__Description": {
+    "messageformat": "Show an icon in message details when they were delivered using sealed sender."
+  },
   "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
     "messageformat": "Automatisk nøgleverifikation"
   },
@@ -2372,6 +2381,9 @@
   "icu:ConversationDetails--support-center": {
     "messageformat": "Hjælpecenter"
   },
+  "icu:ConversationDetails__GroupTerminatedBanner": {
+    "messageformat": "Denne gruppe er afsluttet"
+  },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "Vis sikkerhedsnummer"
   },
@@ -2551,6 +2563,27 @@
   },
   "icu:youUpdatedTheGroup": {
     "messageformat": "Du opdaterede gruppen"
+  },
+  "icu:collapsedGroupUpdates": {
+    "messageformat": "{count, plural, one {{count,number} gruppeopdatering} other {{count,number} gruppeopdateringer}}"
+  },
+  "icu:multidayCollapse__container": {
+    "messageformat": "{containerDescription} · {dayCountSummary}"
+  },
+  "icu:multidayCollapse__dayCountSummary": {
+    "messageformat": "{dayCount, plural, one {{dayCount,number} dag} other {{dayCount,number} dage}}"
+  },
+  "icu:collapsedChatUpdates": {
+    "messageformat": "{count, plural, one {{count,number} chatopdatering} other {{count,number} chatopdateringer}}"
+  },
+  "icu:collapsedTimerChanges": {
+    "messageformat": "{count, plural, one {{count,number} ændring af timer for forsvindende beskeder · {endingState}} other {{count,number} ændringer af timer for forsvindende beskeder · {endingState}}}"
+  },
+  "icu:collapsedTimerChanges--disabled": {
+    "messageformat": "{count, plural, one {{count,number} ændring af timer for forsvindende beskeder · Deaktiveret} other {{count,number} ændringer af timer for forsvindende beskeder · Deaktiveret}}"
+  },
+  "icu:collapsedCallEvents": {
+    "messageformat": "{count, plural, one {{count,number} opkaldsbegivenhed} other {{count,number} opkaldsbegivenheder}}"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "Avataren for gruppen er blevet opdateret."
@@ -3017,8 +3050,8 @@
   "icu:Message--tap-to-view--incoming--expired-toast": {
     "messageformat": "Du har allerede læst denne besked"
   },
-  "icu:Message--tap-to-view--outgoing--expired-toast": {
-    "messageformat": "Beskeder, der vises én gang, gemmes ikke i din chathistorik."
+  "icu:Message--tap-to-view--outgoing--expired-toast-2": {
+    "messageformat": "Mediefiler med engangsvisning slettes efter afsendelse"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "Video med engangsvisning"
@@ -3485,8 +3518,17 @@
   "icu:ConversationHero--profile-names": {
     "messageformat": "<clickable>Profilnavne</clickable> er ikke verificerede"
   },
+  "icu:ConversationHero--name-not-verified": {
+    "messageformat": "Name not verified"
+  },
   "icu:ConversationHero--signal-official-chat": {
     "messageformat": "Dette er den officielle og eneste Signal-chat"
+  },
+  "icu:ConversationHero--signal-official-account": {
+    "messageformat": "Official account"
+  },
+  "icu:ConversationHero--signal-official-account--description": {
+    "messageformat": "The only official chat from Signal. Keep up to date with news and release notes."
   },
   "icu:ConversationHero--release-notes": {
     "messageformat": "Få alle nyheder og udgivelsesbemærkninger."
@@ -3767,9 +3809,6 @@
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
     "messageformat": "Del opkaldslink via Signal"
   },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "Fjern denne person fra opkaldet"
-  },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "Fjern {name} fra dette opkald?"
   },
@@ -3932,11 +3971,23 @@
   "icu:GroupV2--join--requested": {
     "messageformat": "Din anmodning om at deltage er sendt til gruppeadministratoren. Du får besked, når den er behandlet."
   },
+  "icu:GroupV2--join--group-terminated": {
+    "messageformat": "Kunne ikke deltage i denne gruppe."
+  },
   "icu:GroupV2--join--general-join-failure--title": {
     "messageformat": "Link-fejl"
   },
   "icu:GroupV2--join--general-join-failure": {
     "messageformat": "Kunne ikke blive medlem af gruppen. Prøv igen senere."
+  },
+  "icu:GroupV2--terminate-group-in-progress": {
+    "messageformat": "Afslutter gruppe..."
+  },
+  "icu:TerminateGroupFailedModal__description": {
+    "messageformat": "Kunne ikke afslutte gruppen. Tjek din forbindelse, og prøv igen."
+  },
+  "icu:TerminateGroupFailedModal__try-again": {
+    "messageformat": "Prøv igen"
   },
   "icu:GroupV2--admin": {
     "messageformat": "Administrator"
@@ -4379,6 +4430,15 @@
   "icu:GroupV2--summary": {
     "messageformat": "Medlemmerne i eller indstillingerne for denne gruppe er blevet ændret."
   },
+  "icu:GroupV2--terminated--you": {
+    "messageformat": "Du har afsluttet gruppen"
+  },
+  "icu:GroupV2--terminated--other": {
+    "messageformat": "{memberName} har afsluttet gruppen"
+  },
+  "icu:GroupV2--terminated--unknown": {
+    "messageformat": "Denne gruppe er afsluttet"
+  },
   "icu:GroupV1--Migration--disabled--link": {
     "messageformat": "Opgrader gruppen for at tilgå nye funktioner, som @omtaler og administratorer. Medlemmer, som ikke har delt deres navn eller billede i gruppen, vil blive inviteret til at deltage. <learnMoreLink>Få mere at vide.</learnMoreLink>"
   },
@@ -4655,6 +4715,9 @@
   "icu:CompositionArea__ConfirmGifSelection__ReplaceButton": {
     "messageformat": "Erstat"
   },
+  "icu:CompositionArea--group-terminated": {
+    "messageformat": "Du kan ikke sende beskeder, fordi denne gruppe er afsluttet."
+  },
   "icu:CompositionArea--viewOnceToggle": {
     "messageformat": "Engangsvisning"
   },
@@ -4832,11 +4895,26 @@
   "icu:ConversationDetailsActions--leave-group": {
     "messageformat": "Forlad gruppe"
   },
+  "icu:ConversationDetailsActions--terminate-group": {
+    "messageformat": "Afslut gruppe"
+  },
   "icu:ConversationDetailsActions--block-group": {
     "messageformat": "Blokér gruppe"
   },
   "icu:ConversationDetailsActions--unblock-group": {
     "messageformat": "Fjern blokering af gruppe"
+  },
+  "icu:ConversationDetailsActions--report-spam": {
+    "messageformat": "Rapportér spam"
+  },
+  "icu:ConversationDetailsActions--archive": {
+    "messageformat": "Arkivér chat"
+  },
+  "icu:ConversationDetailsActions--unarchive": {
+    "messageformat": "Fjern arkivering af chat"
+  },
+  "icu:ConversationDetailsActions--delete": {
+    "messageformat": "Slet chat"
   },
   "icu:ConversationDetailsActions--leave-group-must-choose-new-admin": {
     "messageformat": "Før du forlader gruppen, skal du vælge mindst én ny administrator"
@@ -4849,6 +4927,18 @@
   },
   "icu:ConversationDetailsActions--leave-group-modal-confirm": {
     "messageformat": "Forlad"
+  },
+  "icu:ConversationDetailsActions--prompt-terminate-group-modal-title": {
+    "messageformat": "Vil du afslutte \"{groupName}\"?"
+  },
+  "icu:ConversationDetailsActions--prompt-terminate-group-modal-content": {
+    "messageformat": "Medlemmer vil ikke længere kunne sende beskeder eller starte opkald i gruppen. De vil blive underrettet om, at du har afsluttet gruppen, og de vil stadig have adgang til beskedhistorikken."
+  },
+  "icu:ConversationDetailsActions--terminate-group-modal-confirm": {
+    "messageformat": "Afslut gruppe"
+  },
+  "icu:ConversationDetailsActions--confirm-terminate-group-confirm-modal-content": {
+    "messageformat": "Dette vil afslutte gruppen permanent. Er du sikker på, at du vil fortsætte?"
   },
   "icu:ConversationDetailsActions--unblock-group-modal-title": {
     "messageformat": "Fjern blokeringen fra gruppen \"{groupName}\"?"
@@ -4868,6 +4958,18 @@
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "Fjern blokering"
   },
+  "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
+    "messageformat": "Signal får besked om at denne person muligvis sender spam. Signal kan ikke se indholdet af chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-group": {
+    "messageformat": "Signal får besked om at den person, der inviterede dig til denne gruppe, muligvis sender spam. Signal kan ikke se indholdet af chats."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
+    "messageformat": "Rapportér spam"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
+    "messageformat": "Rapportér og blokér"
+  },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} medlem} other {{number,number} medlemmer}}"
   },
@@ -4876,6 +4978,9 @@
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} medlem} other {{number,number} medlemmer}}"
+  },
+  "icu:ConversationDetailsMembershipList--terminated-title": {
+    "messageformat": "{number, plural, one {{number,number} tidligere medlem} other {{number,number} tidligere medlemmer}}"
   },
   "icu:ConversationDetailsMembershipList--add-members": {
     "messageformat": "Tilføj medlemmer"
@@ -5059,7 +5164,7 @@
     "ignoreUnused": true
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
-    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Gruppemedlemmer på de nyeste versioner af Signal vil se, at du har slettet denne besked.} other {Gruppemedlemmer på de nyeste versioner af Signal vil se, at du har slettet disse beskeder.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Slet fra alle enheder"
@@ -5195,6 +5300,9 @@
   },
   "icu:MessageRequestWarning__safety-tips": {
     "messageformat": "Sikkerhedstips"
+  },
+  "icu:MessageRequestWarning__safety-tips-v2": {
+    "messageformat": "Safety tips"
   },
   "icu:ContactSpoofing__same-name--link": {
     "messageformat": "Gennemgå anmodninger omhyggeligt. Signal fandt en anden kontakt med samme navn. <reviewRequestLink>Gennemgå anmodning</reviewRequestLink>"
@@ -5797,6 +5905,15 @@
   "icu:Preferences__link-previews--description": {
     "messageformat": "Hvis du vil ændre denne indstilling, skal du åbne Signal-appen på din mobilenhed og gå til Indstillinger > Chats"
   },
+  "icu:Preferences__link-previews--new-description": {
+    "messageformat": "Retrieve link previews directly from websites for messages you send."
+  },
+  "icu:Preferences__address-book-photos--title": {
+    "messageformat": "Use address book photos"
+  },
+  "icu:Preferences__address-book-photos--description": {
+    "messageformat": "Display contact photos from your address book if available."
+  },
   "icu:Preferences__auto-convert-emoji--title": {
     "messageformat": "Konvertér indtastede humørikoner til emoji"
   },
@@ -6232,35 +6349,35 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "Udført"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "vis din sikkerhedskopinøgle"
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
+    "messageformat": "vise din gendannelsesnøgle"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "Verificer din identitet for at se din sikkerhedskopinøgle."
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
+    "messageformat": "Verificer din identitet for at se din gendannelsesnøgle."
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "Se sikkerhedskopieringsnøgle"
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
+    "messageformat": "Se gendannelsesnøgle"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "Autentificering kræves for at se din sikkerhedskopinøgle."
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
+    "messageformat": "Autentificering kræves for at se din gendannelsesnøgle."
   },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Tekstfelt til sikkerhedskopinøgle"
+  "icu:Preferences--local-backups-recovery-key-text-box": {
+    "messageformat": "Gendannelsesnøgle"
   },
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "Angiv nøgle"
   },
-  "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "Skriv din sikkerhedskopinøgle ned"
+  "icu:Preferences--local-backups-record-recovery-key": {
+    "messageformat": "Skriv din gendannelsesnøgle ned"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "Denne nøgle er påkrævet for at gendanne din konto og dine data. Opbevar denne nøgle et sikkert sted. Hvis du mister den, vil du ikke kunne gendanne din konto. <learnMoreLink>Få mere at vide.</learnMoreLink>"
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "Bekræft din sikkerhedskopinøgle"
+  "icu:Preferences--local-backups-confirm-recovery-key": {
+    "messageformat": "Bekræft din gendannelsesnøgle"
   },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "Angiv den sikkerhedskopinøgle, du lige har registreret"
+  "icu:Preferences--local-backups-confirm-recovery-key-description": {
+    "messageformat": "Angiv den gendannelsesnøgle, du lige har registreret."
   },
   "icu:Preferences__local-backups-confirm-key-modal-title": {
     "messageformat": "Opbevar din nøgle sikkert"
@@ -6286,26 +6403,23 @@
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Mappe til sikkerhedskopi"
   },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "Skift"
-  },
   "icu:Preferences__local-backups-turn-off": {
-    "messageformat": "Turn off backups"
+    "messageformat": "Slå sikkerhedskopier fra"
   },
   "icu:Preferences__local-backups-turn-off-action": {
-    "messageformat": "Turn off"
+    "messageformat": "Deaktiver"
   },
   "icu:Preferences__local-backups-turn-off-confirmation": {
-    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+    "messageformat": "Du vil ikke længere kunne oprette sikkerhedskopier på denne computer uden at aktivere det igen."
   },
   "icu:Preferences__local-backups-turn-off-delete": {
-    "messageformat": "Delete my backup from this computer"
+    "messageformat": "Slet sikkerhedskopi fra denne computer"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Kopiér til udklipsholder"
   },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "Sikkerhedskopinøglen er kopieret"
+  "icu:Preferences__local-backups-copied-recovery-key": {
+    "messageformat": "Gendannelsesnøgle kopieret"
   },
   "icu:Preferences__local-backups--enable--os-prompt--mac": {
     "messageformat": "Aktivér sikkerhedskopier"
@@ -6319,17 +6433,29 @@
   "icu:Preferences__local-backups--enable--os-prompt-message--linux": {
     "messageformat": "Autentificering kræves for at aktivere sikkerhedskopier."
   },
+  "icu:Preferences__local-backups-auth-error--unauthorized": {
+    "messageformat": "Handlingen kunne ikke gennemføres, da systemautentificeringen mislykkedes. Prøv igen, eller åbn Signal-appen på din mobil og gå til Sikkerhedskopi-indstillinger for at se din gendannelsesnøgle."
+  },
   "icu:Preferences__view-key": {
     "messageformat": "Se sikkerhedskopieringsnøgle"
   },
-  "icu:Preferences__backup-key": {
-    "messageformat": "Sikkerhedskopinøgle"
+  "icu:Preferences__recovery-key": {
+    "messageformat": "Gendannelsesnøgle"
   },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "Din sikkerhedskopinøgle er en 64-cifret kode, som bruges til at gendanne din sikkerhedskopi."
+  "icu:Preferences__recovery-key-description": {
+    "messageformat": "Din gendannelsesnøgle er en kode på 64-tegn, der bruges til at gendanne din sikkerhedskopi"
   },
   "icu:Preferences__backup-other-ways": {
     "messageformat": "Andre måder at sikkerhedskopiere på"
+  },
+  "icu:Preferences__recovery-key-updated__title": {
+    "messageformat": "Din gendannelsesnøgle er ændret"
+  },
+  "icu:Preferences__recovery-key-updated__description": {
+    "messageformat": "Din gendannelsesnøgle er blevet opdateret. Alle nye sikkerhedskopier, du opretter, kan kun gendannes med din nye gendannelsesnøgle."
+  },
+  "icu:Preferences__recovery-key-updated__view-key": {
+    "messageformat": "Se en ny nøgle"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {{num,number} kontakt} other {{num,number} kontakter}}"
@@ -6394,8 +6520,14 @@
   "icu:Preferences--read-receipts": {
     "messageformat": "Læsekvitteringer"
   },
+  "icu:Preferences--read-receipts--description": {
+    "messageformat": "If disabled, you won't see read receipts from others."
+  },
   "icu:Preferences--typing-indicators": {
     "messageformat": "Skriveindikatorer"
+  },
+  "icu:Preferences--typing-indicators--description": {
+    "messageformat": "If disabled, you won't see typing indicators from others."
   },
   "icu:Preferences--updates": {
     "messageformat": "Opdateringer"
@@ -6682,6 +6814,9 @@
   "icu:MyStories__delete": {
     "messageformat": "Slet historie? Den vil også blive slettet for alle, som modtog den."
   },
+  "icu:MyStories__delete-group-story-for-me": {
+    "messageformat": "Vil du slette denne historie? Den vil kun blive slettet, fordi gruppen er afsluttet."
+  },
   "icu:payment-event-notification-message-you-label": {
     "messageformat": "Du har startet en betaling til {receiver}"
   },
@@ -6903,6 +7038,9 @@
   },
   "icu:StoriesSettings__view-receipts--label": {
     "messageformat": "Vis kvitteringer"
+  },
+  "icu:StoriesSettings__view-receipts--new-description": {
+    "messageformat": "See and share when stories are viewed. If disabled, you won't see when others view your story."
   },
   "icu:StoriesSettings__view-receipts--description": {
     "messageformat": "Hvis du vil ændre denne indstilling, skal du åbne Signal-appen på din mobilenhed og gå til Indstillinger > Historier"
@@ -7553,6 +7691,18 @@
   "icu:ProfileNameWarningModal__list--item3--direct": {
     "messageformat": "Del ikke personlige oplysninger med personer, du ikke kender"
   },
+  "icu:ProfileNameWarningModal__warning--signal-cant-verify": {
+    "messageformat": "Signal can’t verify names and photos"
+  },
+  "icu:ProfileNameWarningModal__warning--signal-wont-contact": {
+    "messageformat": "Signal will never contact you for your registration code, PIN, or recovery key"
+  },
+  "icu:ProfileNameWarningModal__warning--be-cautious": {
+    "messageformat": "Be cautious of accounts that impersonate others"
+  },
+  "icu:ProfileNameWarningModal__warning--dont-share-info": {
+    "messageformat": "Don't share personal information with people you don't know"
+  },
   "icu:ProfileNameWarningModal__description--group": {
     "messageformat": "Gruppenavne vælges af gruppens medlemmer."
   },
@@ -8015,17 +8165,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Små tweaks, rettelser og forbedringer af appens præstation. Tak fordi du bruger Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__7.90--0": {
-    "messageformat": "• Gør privatlivet mere synligt med fem nye officielle klistermærkepakker i Signal Artist Series: \"Chug the Mouse\" af Amanda Cotan, \"Cozy Season\" af Miguel Ángel Camprubí, \"Croco's Feelings\" af Tiffany Beucher, \"My Daily Life 2\" af Plastic Thing og \"Rocky Talk\" af Lexi Vay."
-  },
-  "icu:WhatsNew__8.0--0": {
-    "messageformat": "Sikre sikkerhedskopier er landet! Nu kan du vælge at aktivere automatiske E2E-krypterede sikkerhedskopier, så du aldrig mister en besked, når du får en ny telefon eller geninstallerer Signal. Du kan sikkerhedskopier alle dine beskeder og de sidste 45 dages medier gratis, eller få 100 GB plads til alle vedhæftede filer mod et lille månedligt gebyr. Tryk på Sikkerhedskopier i dine Signal-indstillinger for at komme i gang. Tak til alle, der testede denne funktion under betaperioden!"
-  },
-  "icu:WhatsNew__8.2--0": {
-    "messageformat": "Nu kan du også sende medier, der kun kan ses én gang, fra Signal Desktop. Enkeltbilleder og -videoer, der sendes som engangsbeskeder, fjernes automatisk fra samtalen, når de er blevet set."
-  },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "Nu kan du valgfrit tilføje en medlemstitel for at beskrive dig selv eller din rolle i gruppechatten. Brug medlemstitler som \"Dommer\" eller \"Målmand\" i din lokale fodboldgruppe for at komme i gang, når nye holdkammerater joiner. Skift derefter til en anden titel med din stilling i virksomhedschatten. Medlemstitler vises ved dit profilnavn i gruppen, og gruppeadministratorer kan bestemme, om de skal være synlige for alle."
   }
 }

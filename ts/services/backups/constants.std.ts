@@ -1,14 +1,14 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { Backups } from '../../protobuf/index.std.js';
-import type { ConversationColorType } from '../../types/Colors.std.js';
+import { Backups } from '../../protobuf/index.std.ts';
+import type { ConversationColorType } from '../../types/Colors.std.ts';
 
 export const BACKUP_VERSION = 1n;
 
 export const LOCAL_BACKUP_VERSION = 1;
 
-export const LOCAL_BACKUP_BACKUP_ID_IV_LENGTH = 16;
+export const LOCAL_BACKUP_BACKUP_ID_IV_LENGTH = 12;
 
 const { WallpaperPreset } = Backups.ChatStyle;
 

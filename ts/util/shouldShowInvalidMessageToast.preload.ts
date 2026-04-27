@@ -2,17 +2,17 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ConversationAttributesType } from '../model-types.d.ts';
-import { hasExpired } from '../state/selectors/expiration.dom.js';
-import { isOSUnsupported } from '../state/selectors/updates.std.js';
+import { hasExpired } from '../state/selectors/expiration.dom.ts';
+import { isOSUnsupported } from '../state/selectors/updates.std.ts';
 
-import type { AnyToast } from '../types/Toast.dom.js';
-import { ToastType } from '../types/Toast.dom.js';
+import type { AnyToast } from '../types/Toast.dom.tsx';
+import { ToastType } from '../types/Toast.dom.tsx';
 import {
   isDirectConversation,
   isGroupV1,
   isGroupV2,
-} from './whatTypeOfConversation.dom.js';
-import { itemStorage } from '../textsecure/Storage.preload.js';
+} from './whatTypeOfConversation.dom.ts';
+import { itemStorage } from '../textsecure/Storage.preload.ts';
 
 const MAX_MESSAGE_BODY_LENGTH = 64 * 1024;
 

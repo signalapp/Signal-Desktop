@@ -1,13 +1,13 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { Backups, SignalService } from '../protobuf/index.std.js';
-import * as Bytes from '../Bytes.std.js';
-import { backupsService } from '../services/backups/index.preload.js';
-import { drop } from './drop.std.js';
-import { createLogger } from '../logging/log.std.js';
-import { resetBackupMediaDownloadStats } from './backupMediaDownload.preload.js';
-import { itemStorage } from '../textsecure/Storage.preload.js';
+import type { Backups, SignalService } from '../protobuf/index.std.ts';
+import * as Bytes from '../Bytes.std.ts';
+import { backupsService } from '../services/backups/index.preload.ts';
+import { drop } from './drop.std.ts';
+import { createLogger } from '../logging/log.std.ts';
+import { resetBackupMediaDownloadStats } from './backupMediaDownload.preload.ts';
+import { itemStorage } from '../textsecure/Storage.preload.ts';
 
 const log = createLogger('BackupSubscriptionData');
 

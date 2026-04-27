@@ -24,5 +24,5 @@ export function useIsMounted(): () => boolean {
     };
   }, []);
 
-  return useCallback(() => isMounted.current === true, []);
+  return useCallback(() => isMounted.current, []);
 }

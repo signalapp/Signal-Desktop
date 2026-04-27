@@ -5,8 +5,8 @@ import type { Meta, StoryFn } from '@storybook/react';
 import React, { type ComponentProps } from 'react';
 
 import { action } from '@storybook/addon-actions';
-import { LowDiskSpaceBackupImportModal } from './LowDiskSpaceBackupImportModal.dom.js';
-import { MEBIBYTE } from '../types/AttachmentSize.std.js';
+import { LowDiskSpaceBackupImportModal } from './LowDiskSpaceBackupImportModal.dom.tsx';
+import { MEBIBYTE } from '../types/AttachmentSize.std.ts';
 
 const { i18n } = window.SignalContext;
 
@@ -22,7 +22,6 @@ export default {
   },
 } satisfies Meta<PropsType>;
 
-// eslint-disable-next-line react/function-component-definition
 const Template: StoryFn<PropsType> = args => (
   <LowDiskSpaceBackupImportModal {...args} />
 );

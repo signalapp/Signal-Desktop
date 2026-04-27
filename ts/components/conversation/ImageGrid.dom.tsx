@@ -7,7 +7,7 @@ import classNames from 'classnames';
 import type {
   AttachmentForUIType,
   AttachmentType,
-} from '../../types/Attachment.std.js';
+} from '../../types/Attachment.std.ts';
 import {
   areAllAttachmentsVisual,
   getAlt,
@@ -17,13 +17,13 @@ import {
   isDownloadable,
   isIncremental,
   isVideoAttachment,
-} from '../../util/Attachment.std.js';
+} from '../../util/Attachment.std.ts';
 
-import { Image, CurveType } from './Image.dom.js';
+import { Image, CurveType } from './Image.dom.tsx';
 
-import type { LocalizerType, ThemeType } from '../../types/Util.std.js';
-import { AttachmentDetailPill } from './AttachmentDetailPill.dom.js';
-import { strictAssert } from '../../util/assert.std.js';
+import type { LocalizerType, ThemeType } from '../../types/Util.std.ts';
+import { AttachmentDetailPill } from './AttachmentDetailPill.dom.tsx';
+import { strictAssert } from '../../util/assert.std.ts';
 
 export type DirectionType = 'incoming' | 'outgoing';
 
@@ -262,7 +262,7 @@ export function ImageGrid({
           showVisualAttachment={showAttachmentOrNoLongerAvailableToast(0)}
           cancelDownload={cancelDownload}
           startDownload={downloadPill ? undefined : startDownload}
-          onError={onError}
+          fallbackToBlurhashOnError
         />
         <Image
           alt={getAlt(attachment2, i18n)}
@@ -282,7 +282,7 @@ export function ImageGrid({
           showVisualAttachment={showAttachmentOrNoLongerAvailableToast(1)}
           cancelDownload={cancelDownload}
           startDownload={downloadPill ? undefined : startDownload}
-          onError={onError}
+          fallbackToBlurhashOnError
         />
         {detailPill}
         {downloadPill}
@@ -316,7 +316,7 @@ export function ImageGrid({
           showVisualAttachment={showAttachmentOrNoLongerAvailableToast(0)}
           cancelDownload={cancelDownload}
           startDownload={downloadPill ? undefined : startDownload}
-          onError={onError}
+          fallbackToBlurhashOnError
         />
         <div className="module-image-grid__column">
           <Image
@@ -335,7 +335,7 @@ export function ImageGrid({
             showVisualAttachment={showAttachmentOrNoLongerAvailableToast(1)}
             cancelDownload={cancelDownload}
             startDownload={downloadPill ? undefined : startDownload}
-            onError={onError}
+            fallbackToBlurhashOnError
           />
           <Image
             alt={getAlt(attachment3, i18n)}
@@ -354,7 +354,7 @@ export function ImageGrid({
             showVisualAttachment={showAttachmentOrNoLongerAvailableToast(2)}
             cancelDownload={cancelDownload}
             startDownload={downloadPill ? undefined : startDownload}
-            onError={onError}
+            fallbackToBlurhashOnError
           />
         </div>
         {detailPill}
@@ -391,7 +391,7 @@ export function ImageGrid({
               showVisualAttachment={showAttachmentOrNoLongerAvailableToast(0)}
               cancelDownload={cancelDownload}
               startDownload={downloadPill ? undefined : startDownload}
-              onError={onError}
+              fallbackToBlurhashOnError
             />
             <Image
               alt={getAlt(attachment2, i18n)}
@@ -410,7 +410,7 @@ export function ImageGrid({
               showVisualAttachment={showAttachmentOrNoLongerAvailableToast(1)}
               cancelDownload={cancelDownload}
               startDownload={downloadPill ? undefined : startDownload}
-              onError={onError}
+              fallbackToBlurhashOnError
             />
           </div>
           <div className="module-image-grid__row">
@@ -432,7 +432,7 @@ export function ImageGrid({
               showVisualAttachment={showAttachmentOrNoLongerAvailableToast(2)}
               cancelDownload={cancelDownload}
               startDownload={downloadPill ? undefined : startDownload}
-              onError={onError}
+              fallbackToBlurhashOnError
             />
             <Image
               alt={getAlt(attachment4, i18n)}
@@ -451,7 +451,7 @@ export function ImageGrid({
               showVisualAttachment={showAttachmentOrNoLongerAvailableToast(3)}
               cancelDownload={cancelDownload}
               startDownload={downloadPill ? undefined : startDownload}
-              onError={onError}
+              fallbackToBlurhashOnError
             />
           </div>
         </div>
@@ -494,7 +494,7 @@ export function ImageGrid({
             showVisualAttachment={showVisualAttachment}
             cancelDownload={cancelDownload}
             startDownload={downloadPill ? undefined : startDownload}
-            onError={onError}
+            fallbackToBlurhashOnError
           />
           <Image
             alt={getAlt(attachment2, i18n)}
@@ -511,7 +511,7 @@ export function ImageGrid({
             showVisualAttachment={showVisualAttachment}
             cancelDownload={cancelDownload}
             startDownload={downloadPill ? undefined : startDownload}
-            onError={onError}
+            fallbackToBlurhashOnError
           />
         </div>
         <div className="module-image-grid__row">
@@ -533,7 +533,7 @@ export function ImageGrid({
             showVisualAttachment={showVisualAttachment}
             cancelDownload={cancelDownload}
             startDownload={downloadPill ? undefined : startDownload}
-            onError={onError}
+            fallbackToBlurhashOnError
           />
           <Image
             alt={getAlt(attachment4, i18n)}
@@ -552,7 +552,7 @@ export function ImageGrid({
             showVisualAttachment={showVisualAttachment}
             cancelDownload={cancelDownload}
             startDownload={downloadPill ? undefined : startDownload}
-            onError={onError}
+            fallbackToBlurhashOnError
           />
           <Image
             alt={getAlt(attachment5, i18n)}
@@ -573,7 +573,7 @@ export function ImageGrid({
             showVisualAttachment={showVisualAttachment}
             cancelDownload={undefined}
             startDownload={undefined}
-            onError={onError}
+            fallbackToBlurhashOnError
           />
         </div>
       </div>

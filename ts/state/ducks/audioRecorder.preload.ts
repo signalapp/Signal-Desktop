@@ -5,23 +5,23 @@ import type { ThunkAction } from 'redux-thunk';
 import { v4 as generateUuid } from 'uuid';
 
 import type { ReadonlyDeep } from 'type-fest';
-import { createLogger } from '../../logging/log.std.js';
-import type { InMemoryAttachmentDraftType } from '../../types/Attachment.std.js';
-import { SignalService as Proto } from '../../protobuf/index.std.js';
-import type { StateType as RootStateType } from '../reducer.preload.js';
-import { fileToBytes } from '../../util/fileToBytes.std.js';
-import { recorder } from '../../services/audioRecorder.dom.js';
-import { stringToMIMEType } from '../../types/MIME.std.js';
-import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.js';
-import { useBoundActions } from '../../hooks/useBoundActions.std.js';
-import { getComposerStateForConversation } from './composer.preload.js';
+import { createLogger } from '../../logging/log.std.ts';
+import type { InMemoryAttachmentDraftType } from '../../types/Attachment.std.ts';
+import { SignalService as Proto } from '../../protobuf/index.std.ts';
+import type { StateType as RootStateType } from '../reducer.preload.ts';
+import { fileToBytes } from '../../util/fileToBytes.std.ts';
+import { recorder } from '../../services/audioRecorder.dom.ts';
+import { stringToMIMEType } from '../../types/MIME.std.ts';
+import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.ts';
+import { useBoundActions } from '../../hooks/useBoundActions.std.ts';
+import { getComposerStateForConversation } from './composer.preload.ts';
 
-import * as Errors from '../../types/errors.std.js';
+import * as Errors from '../../types/errors.std.ts';
 import {
   ErrorDialogAudioRecorderType,
   RecordingState,
-} from '../../types/AudioRecorder.std.js';
-import { getSelectedConversationId } from '../selectors/nav.std.js';
+} from '../../types/AudioRecorder.std.ts';
+import { getSelectedConversationId } from '../selectors/nav.std.ts';
 
 const log = createLogger('audioRecorder');
 

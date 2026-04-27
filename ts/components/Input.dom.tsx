@@ -11,11 +11,12 @@ import React, {
 } from 'react';
 import classNames from 'classnames';
 
-import * as grapheme from '../util/grapheme.std.js';
-import type { LocalizerType } from '../types/Util.std.js';
-import { getClassNamesFor } from '../util/getClassNamesFor.std.js';
-import { useRefMerger } from '../hooks/useRefMerger.std.js';
-import { byteLength } from '../Bytes.std.js';
+import * as grapheme from '../util/grapheme.std.ts';
+import type { LocalizerType } from '../types/Util.std.ts';
+import { getClassNamesFor } from '../util/getClassNamesFor.std.ts';
+import { useRefMerger } from '../hooks/useRefMerger.std.ts';
+import { byteLength } from '../Bytes.std.ts';
+import { truncateString } from '../util/truncateString.std.ts';
 
 export type PropsType = {
   autoFocus?: boolean;
@@ -170,7 +171,7 @@ export const Input = forwardRef<
   const handlePaste = useCallback(
     (event: ClipboardEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       const inputEl = innerRef.current;
-      if (!inputEl || !maxLengthCount || !maxByteCount) {
+      if (!inputEl || (!maxLengthCount && !maxByteCount)) {
         return;
       }
 
@@ -181,17 +182,36 @@ export const Input = forwardRef<
 
       const pastedText = event.clipboardData.getData('Text');
 
+      const pastedLength = countLength(pastedText);
       const newLengthCount =
         countLength(textBeforeSelection) +
-        countLength(pastedText) +
+        pastedLength +
         countLength(textAfterSelection);
+      const pastedBytes = countBytes(pastedText);
       const newByteCount =
         countBytes(textBeforeSelection) +
-        countBytes(pastedText) +
+        pastedBytes +
         countBytes(textAfterSelection);
 
-      if (newLengthCount > maxLengthCount || newByteCount > maxByteCount) {
+      const lengthDelta =
+        maxLengthCount > 0 ? newLengthCount - maxLengthCount : 0;
+      const byteDelta = maxByteCount > 0 ? newByteCount - maxByteCount : 0;
+
+      if (lengthDelta > 0 || byteDelta > 0) {
         event.preventDefault();
+
+        const newPastedLength =
+          lengthDelta > 0 ? pastedLength - lengthDelta : pastedLength;
+        const newPastedBytes =
+          byteDelta > 0 ? pastedBytes - byteDelta : pastedBytes;
+
+        const truncatedPaste = truncateString(pastedText, {
+          byteLimit: newPastedBytes,
+          graphemeLimit: newPastedLength,
+        });
+
+        inputEl.value =
+          textBeforeSelection + truncatedPaste + textAfterSelection;
       }
 
       maybeSetLarge();

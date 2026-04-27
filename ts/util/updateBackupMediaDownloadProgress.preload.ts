@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import lodash from 'lodash';
-import type { BackupAttachmentDownloadProgress } from '../sql/Interface.std.js';
-import { itemStorage } from '../textsecure/Storage.preload.js';
+import type { BackupAttachmentDownloadProgress } from '../sql/Interface.std.ts';
+import { itemStorage } from '../textsecure/Storage.preload.ts';
 
 const { throttle } = lodash;
 

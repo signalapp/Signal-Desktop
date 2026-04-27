@@ -6,15 +6,15 @@ import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import { sample } from 'lodash';
 
-import type { PropsType } from './GroupMemberLabelEditor.dom.js';
-import { GroupMemberLabelEditor } from './GroupMemberLabelEditor.dom.js';
-import { getDefaultConversation } from '../../../test-helpers/getDefaultConversation.std.js';
-import { ThemeType } from '../../../types/Util.std.js';
-import { getFakeBadge } from '../../../test-helpers/getFakeBadge.std.js';
-import { SECOND } from '../../../util/durations/constants.std.js';
-import { sleep } from '../../../util/sleep.std.js';
-import { SignalService as Proto } from '../../../protobuf/index.std.js';
-import { ContactNameColors } from '../../../types/Colors.std.js';
+import type { PropsType } from './GroupMemberLabelEditor.dom.tsx';
+import { GroupMemberLabelEditor } from './GroupMemberLabelEditor.dom.tsx';
+import { getDefaultConversation } from '../../../test-helpers/getDefaultConversation.std.ts';
+import { ThemeType } from '../../../types/Util.std.ts';
+import { getFakeBadge } from '../../../test-helpers/getFakeBadge.std.ts';
+import { SECOND } from '../../../util/durations/constants.std.ts';
+import { sleep } from '../../../util/sleep.std.ts';
+import { SignalService as Proto } from '../../../protobuf/index.std.ts';
+import { ContactNameColors } from '../../../types/Colors.std.ts';
 
 const { i18n } = window.SignalContext;
 

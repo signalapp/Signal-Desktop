@@ -2,14 +2,14 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReadonlyMessageAttributesType } from '../model-types.d.ts';
-import { isIncoming, isOutgoing } from '../messages/helpers.std.js';
-import { ReadStatus } from '../messages/MessageReadStatus.std.js';
+import { isIncoming, isOutgoing } from '../messages/helpers.std.ts';
+import { ReadStatus } from '../messages/MessageReadStatus.std.ts';
 import {
   isSent,
   isViewed,
   isMessageJustForMe,
   getHighestSuccessfulRecipientStatus,
-} from '../messages/MessageSendState.std.js';
+} from '../messages/MessageSendState.std.ts';
 
 export function isVoiceMessagePlayed(
   message: Pick<

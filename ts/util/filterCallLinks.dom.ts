@@ -1,13 +1,13 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type Fuse from 'fuse.js';
-import { fuseGetFnRemoveDiacritics, getCachedFuseIndex } from './fuse.std.js';
-import { removeDiacritics } from './removeDiacritics.std.js';
-import type { CallLinkType } from '../types/CallLink.std.js';
+import type { FuseResult, IFuseOptions } from 'fuse.js';
+import { fuseGetFnRemoveDiacritics, getCachedFuseIndex } from './fuse.std.ts';
+import { removeDiacritics } from './removeDiacritics.std.ts';
+import type { CallLinkType } from '../types/CallLink.std.ts';
 
 // Based on parameters in filterAndSortConversations
-const FUSE_OPTIONS: Fuse.IFuseOptions<CallLinkType> = {
+const FUSE_OPTIONS: IFuseOptions<CallLinkType> = {
   threshold: 0.2,
   includeScore: true,
   useExtendedSearch: true,
@@ -36,7 +36,7 @@ const FUSE_OPTIONS: Fuse.IFuseOptions<CallLinkType> = {
 function searchCallLinks(
   callLinks: ReadonlyArray<CallLinkType>,
   searchTerm: string
-): ReadonlyArray<Pick<Fuse.FuseResult<CallLinkType>, 'item' | 'score'>> {
+): ReadonlyArray<Pick<FuseResult<CallLinkType>, 'item' | 'score'>> {
   // TODO: DESKTOP-6974
 
   // Escape the search term

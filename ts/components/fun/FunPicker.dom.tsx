@@ -6,23 +6,23 @@ import type { Placement } from 'react-aria';
 import { DialogTrigger } from 'react-aria-components';
 // @ts-expect-error - Needs tinykeys to update package.json type resolution
 import { createKeybindingsHandler } from 'tinykeys';
-import { FunPickerTabKey } from './constants.dom.js';
-import { FunPopover } from './base/FunPopover.dom.js';
+import { FunPickerTabKey } from './constants.dom.tsx';
+import { FunPopover } from './base/FunPopover.dom.tsx';
 import {
   FunPickerTab,
   FunTabList,
   FunTabPanel,
   FunTabs,
-} from './base/FunTabs.dom.js';
-import type { FunEmojiSelection } from './panels/FunPanelEmojis.dom.js';
-import { FunPanelEmojis } from './panels/FunPanelEmojis.dom.js';
-import type { FunGifSelection } from './panels/FunPanelGifs.dom.js';
-import { FunPanelGifs } from './panels/FunPanelGifs.dom.js';
-import type { FunStickerSelection } from './panels/FunPanelStickers.dom.js';
-import { FunPanelStickers } from './panels/FunPanelStickers.dom.js';
-import { useFunContext } from './FunProvider.dom.js';
-import type { ThemeType } from '../../types/Util.std.js';
-import { FunErrorBoundary } from './base/FunErrorBoundary.dom.js';
+} from './base/FunTabs.dom.tsx';
+import type { FunEmojiSelection } from './panels/FunPanelEmojis.dom.tsx';
+import { FunPanelEmojis } from './panels/FunPanelEmojis.dom.tsx';
+import type { FunGifSelection } from './panels/FunPanelGifs.dom.tsx';
+import { FunPanelGifs } from './panels/FunPanelGifs.dom.tsx';
+import type { FunStickerSelection } from './panels/FunPanelStickers.dom.tsx';
+import { FunPanelStickers } from './panels/FunPanelStickers.dom.tsx';
+import { useFunContext } from './FunProvider.dom.tsx';
+import type { ThemeType } from '../../types/Util.std.ts';
+import { FunErrorBoundary } from './base/FunErrorBoundary.dom.tsx';
 
 /**
  * FunPicker

@@ -9,15 +9,15 @@ import type {
   ReactNode,
 } from 'react';
 import React, { memo, useCallback, useMemo, useRef, useState } from 'react';
-import { AxoSymbol } from './AxoSymbol.dom.js';
-import type { TailwindStyles } from './tw.dom.js';
-import { tw } from './tw.dom.js';
+import { AxoSymbol } from './AxoSymbol.dom.tsx';
+import type { TailwindStyles } from './tw.dom.tsx';
+import { tw } from './tw.dom.tsx';
 import {
   createStrictContext,
   useStrictContext,
-} from './_internal/StrictContext.dom.js';
-import { assert } from './_internal/assert.std.js';
-import { AxoTokens } from './AxoTokens.std.js';
+} from './_internal/StrictContext.dom.tsx';
+import { assert } from './_internal/assert.std.tsx';
+import { AxoTokens } from './AxoTokens.std.ts';
 
 const Namespace = 'AxoAvatar';
 
@@ -75,20 +75,20 @@ export namespace AxoAvatar {
   };
 
   const RingSizes: Record<Size, TailwindStyles | null> = {
-    20: tw('border-[1px] p-[1.5px]'),
-    24: tw('border-[1px] p-[1.5px]'),
+    20: tw('border p-[1.5px]'),
+    24: tw('border p-[1.5px]'),
     28: tw('border-[1.5px] p-[2px]'),
     30: tw('border-[1.5px] p-[2px]'),
     32: tw('border-[1.5px] p-[2px]'),
     36: tw('border-[1.5px] p-[2px]'),
     40: tw('border-[1.5px] p-[2px]'),
-    48: tw('border-[2px] p-[3px]'),
-    52: tw('border-[2px] p-[3px]'),
-    64: tw('border-[2px] p-[3px]'),
+    48: tw('border-2 p-[3px]'),
+    52: tw('border-2 p-[3px]'),
+    64: tw('border-2 p-[3px]'),
     72: tw('border-[2.5px] p-[3.5px]'),
     80: tw('border-[2.5px] p-[3.5px]'),
     96: tw('border-[3px] p-[4px]'),
-    216: tw('border-[4px] p-[6px]'),
+    216: tw('border-4 p-[6px]'),
   };
 
   export function _getAllSizes(): ReadonlyArray<Size> {
@@ -241,14 +241,13 @@ export namespace AxoAvatar {
     }
 
     return (
-      // eslint-disable-next-line jsx-a11y/alt-text
+      // oxlint-disable-next-line jsx-a11y/alt-text
       <img
         ref={ref}
         src={props.src}
         width={props.srcWidth}
         height={props.srcHeight}
         decoding="async"
-        // eslint-disable-next-line react/no-unknown-property
         fetchPriority="low"
         loading="lazy"
         draggable={false}
@@ -288,7 +287,7 @@ export namespace AxoAvatar {
     }, [preset]);
 
     return (
-      // eslint-disable-next-line jsx-a11y/alt-text
+      // oxlint-disable-next-line jsx-a11y/alt-text
       <img
         src={src}
         width={1024}
@@ -325,7 +324,7 @@ export namespace AxoAvatar {
         className={tw(
           'absolute inset-0 rounded-full',
           'flex flex-col items-center-safe justify-center-safe gap-2',
-          // eslint-disable-next-line better-tailwindcss/no-restricted-classes
+          // oxlint-disable-next-line better-tailwindcss/no-restricted-classes
           'bg-[#000]/20 text-[#fff] hover:bg-[#000]/40',
           'outline-0 outline-border-focused focused:outline-[2.5px]'
         )}
@@ -475,13 +474,13 @@ export namespace AxoAvatar {
 
     const children = (
       <>
-        {/* eslint-disable-next-line jsx-a11y/alt-text */}
+        {/* oxlint-disable-next-line jsx-a11y/alt-text */}
         <img
           {...baseImageProps}
           src={badge.light}
           className={tw('size-full dark:hidden')}
         />
-        {/* eslint-disable-next-line jsx-a11y/alt-text */}
+        {/* oxlint-disable-next-line jsx-a11y/alt-text */}
         <img
           {...baseImageProps}
           src={badge.dark}
@@ -493,7 +492,7 @@ export namespace AxoAvatar {
     const baseClassName = tw(
       'absolute rounded-full',
       // Proportionately sized & positioned based on the size of the avatar
-      '-end-[calc(2.75px-3%)] -bottom-[calc(6.25px-1%)] size-[calc(5px+37.5%)]'
+      '-inset-e-[calc(2.75px-3%)] -bottom-[calc(6.25px-1%)] size-[calc(5px+37.5%)]'
     );
 
     let result: ReactNode;

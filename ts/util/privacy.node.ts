@@ -1,17 +1,14 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* eslint-env node */
-
 import path from 'node:path';
 
 import lodashFp from 'lodash/fp.js';
 import lodash from 'lodash';
 
 import type { ExtendedStorageID } from '../types/StorageService.d.ts';
-import type { ConversationModel } from '../models/conversations.preload.js';
+import type { ConversationModel } from '../models/conversations.preload.ts';
 
-export const APP_ROOT_PATH = path.join(__dirname, '..', '..');
 const { escapeRegExp, isString, isRegExp } = lodash;
 
 const { compose } = lodashFp;
@@ -74,7 +71,7 @@ export const _redactPath = (filePath: string): RedactFunction => {
   };
 };
 
-export const _pathToRegExp = (filePath: string): RegExp | undefined => {
+const _pathToRegExp = (filePath: string): RegExp | undefined => {
   try {
     return new RegExp(
       // Any possible prefix that we want to include
@@ -199,22 +196,8 @@ export const redactAttachmentUrlKeys = (text: string): string => {
   return text.replace(ATTACHMENT_URL_KEY_PATTERN, `$1${REDACTION_PLACEHOLDER}`);
 };
 
-export const redactCdnKey = (cdnKey: string): string => {
-  return `${REDACTION_PLACEHOLDER}${cdnKey.slice(-3)}`;
-};
-
 export const redactGenericText = (text: string): string => {
   return `${REDACTION_PLACEHOLDER}${text.slice(-3)}`;
-};
-
-export const redactAttachmentUrl = (urlString: string): string => {
-  try {
-    const url = new URL(urlString);
-    url.search = '';
-    return url.toString();
-  } catch {
-    return REDACTION_PLACEHOLDER;
-  }
 };
 
 const createRedactSensitivePaths = (
@@ -231,8 +214,6 @@ export const addSensitivePath = (filePath: string): void => {
   sensitivePaths.push(filePath);
   redactSensitivePaths = createRedactSensitivePaths(sensitivePaths);
 };
-
-addSensitivePath(APP_ROOT_PATH);
 
 export const redactAll: RedactFunction = text => {
   let result = text;

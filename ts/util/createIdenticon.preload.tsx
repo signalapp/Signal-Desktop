@@ -4,17 +4,17 @@
 import React from 'react';
 import loadImage from 'blueimp-load-image';
 import { renderToString } from 'react-dom/server';
-import type { AvatarColorType } from '../types/Colors.std.js';
-import { AvatarColorMap } from '../types/Colors.std.js';
+import type { AvatarColorType } from '../types/Colors.std.ts';
+import { AvatarColorMap } from '../types/Colors.std.ts';
 import {
   IdenticonSVGForCallLink,
   IdenticonSVGForContact,
   IdenticonSVGForGroup,
-  // eslint-disable-next-line import/no-restricted-paths
-} from '../components/IdenticonSVG.dom.js';
-import { missingCaseError } from './missingCaseError.std.js';
-import { writeNewPlaintextTempData } from './migrations.preload.js';
-import { strictAssert } from './assert.std.js';
+  // oxlint-disable-next-line signal-desktop/no-restricted-paths
+} from '../components/IdenticonSVG.dom.tsx';
+import { missingCaseError } from './missingCaseError.std.ts';
+import { writeNewPlaintextTempData } from './migrations.preload.ts';
+import { strictAssert } from './assert.std.ts';
 
 const TARGET_MIME = 'image/png';
 

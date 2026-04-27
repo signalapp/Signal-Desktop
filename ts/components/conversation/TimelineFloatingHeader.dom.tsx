@@ -6,10 +6,10 @@ import type { CSSProperties, ReactElement } from 'react';
 import React, { useEffect, useState } from 'react';
 import { animated, useSpring } from '@react-spring/web';
 
-import type { LocalizerType } from '../../types/Util.std.js';
-import { drop } from '../../util/drop.std.js';
-import { TimelineDateHeader } from './TimelineDateHeader.dom.js';
-import { Spinner } from '../Spinner.dom.js';
+import type { LocalizerType } from '../../types/Util.std.ts';
+import { drop } from '../../util/drop.std.ts';
+import { TimelineDateHeader } from './TimelineDateHeader.dom.tsx';
+import { Spinner } from '../Spinner.dom.tsx';
 
 export type PropsType = Readonly<{
   i18n: LocalizerType;
@@ -47,7 +47,7 @@ export function TimelineFloatingHeader({
         },
       },
     }),
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- FIXME
+    // oxlint-disable-next-line react-hooks/exhaustive-deps -- FIXME
     [isLoading]
   );
 
@@ -73,7 +73,7 @@ export function TimelineFloatingHeader({
       className={classNames(
         'TimelineFloatingHeader',
         `TimelineFloatingHeader--${
-          // eslint-disable-next-line local-rules/enforce-tw
+          // oxlint-disable-next-line signal-desktop/enforce-tw
           visible && hasRendered ? 'visible' : 'hidden'
         }`
       )}

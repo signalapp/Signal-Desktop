@@ -1,14 +1,14 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import React, { useId } from 'react';
-import type { ConversationType } from '../../../state/ducks/conversations.preload.js';
-import type { LocalizerType } from '../../../types/Util.std.js';
-import { getAccessControlOptions } from '../../../util/getAccessControlOptions.std.js';
-import { SignalService as Proto } from '../../../protobuf/index.std.js';
-import { PanelRow } from './PanelRow.dom.js';
-import { PanelSection } from './PanelSection.dom.js';
-import { Select } from '../../Select.dom.js';
-import { AxoAlertDialog } from '../../../axo/AxoAlertDialog.dom.js';
+import type { ConversationType } from '../../../state/ducks/conversations.preload.ts';
+import type { LocalizerType } from '../../../types/Util.std.ts';
+import { getAccessControlOptions } from '../../../util/getAccessControlOptions.std.ts';
+import { SignalService as Proto } from '../../../protobuf/index.std.ts';
+import { PanelRow } from './PanelRow.dom.tsx';
+import { PanelSection } from './PanelSection.dom.tsx';
+import { Select } from '../../Select.dom.tsx';
+import { AxoAlertDialog } from '../../../axo/AxoAlertDialog.dom.tsx';
 
 export type PropsDataType = {
   conversation?: ConversationType;
@@ -171,7 +171,6 @@ export function GroupV2Permissions({
           <AxoAlertDialog.Footer>
             <AxoAlertDialog.Action
               variant="secondary"
-              arrow={false}
               onClick={() => {
                 setIsWarningAboutClearingLabels(false);
               }}
@@ -180,7 +179,6 @@ export function GroupV2Permissions({
             </AxoAlertDialog.Action>
             <AxoAlertDialog.Action
               variant="primary"
-              arrow={false}
               onClick={() => {
                 setAccessControlMemberLabelSetting(
                   conversation.id,

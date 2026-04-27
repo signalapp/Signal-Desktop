@@ -3,7 +3,7 @@
 
 import React, { useMemo, useCallback, useState, useRef } from 'react';
 
-import { computeBlurHashUrl } from '../util/computeBlurHashUrl.std.js';
+import { computeBlurHashUrl } from '../util/computeBlurHashUrl.std.ts';
 
 export type Props = React.ImgHTMLAttributes<HTMLImageElement> &
   Readonly<{
@@ -11,18 +11,22 @@ export type Props = React.ImgHTMLAttributes<HTMLImageElement> &
     alt: string;
     intrinsicWidth?: number;
     intrinsicHeight?: number;
+    fallbackToBlurhashOnError?: boolean;
   }>;
 
 export function ImageOrBlurhash({
   src: imageSrc,
   blurHash,
   alt,
+  fallbackToBlurhashOnError,
   intrinsicWidth,
   intrinsicHeight,
+  onError,
   ...rest
 }: Props): React.JSX.Element {
   const ref = useRef<HTMLImageElement | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [hasErrored, setHasErrored] = useState(false);
 
   const blurHashUrl = useMemo(() => {
     return blurHash
@@ -39,7 +43,10 @@ export function ImageOrBlurhash({
     setIsLoaded(true);
   }, [ref]);
 
-  const src = imageSrc ?? blurHashUrl;
+  const src =
+    hasErrored && fallbackToBlurhashOnError
+      ? blurHashUrl
+      : (imageSrc ?? blurHashUrl);
   return (
     <img
       {...rest}
@@ -67,6 +74,10 @@ export function ImageOrBlurhash({
         backgroundPosition: 'center',
       }}
       loading={blurHashUrl != null ? 'lazy' : 'eager'}
+      onError={ev => {
+        setHasErrored(true);
+        onError?.(ev);
+      }}
     />
   );
 }

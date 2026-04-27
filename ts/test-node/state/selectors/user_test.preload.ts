@@ -3,11 +3,11 @@
 
 import { assert } from 'chai';
 
-import type { StateType } from '../../../state/reducer.preload.js';
-import type { UserStateType } from '../../../state/ducks/user.preload.js';
-import { getEmptyState } from '../../../state/ducks/user.preload.js';
+import type { StateType } from '../../../state/reducer.preload.ts';
+import type { UserStateType } from '../../../state/ducks/user.preload.ts';
+import { getEmptyState } from '../../../state/ducks/user.preload.ts';
 
-import { getIsNightly, getIsBeta } from '../../../state/selectors/user.std.js';
+import { getIsNightly } from '../../../state/selectors/user.std.ts';
 
 describe('both/state/selectors/user', () => {
   function getRootState(
@@ -18,7 +18,7 @@ describe('both/state/selectors/user', () => {
         ...getEmptyState(),
         ...overrides,
       },
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // oxlint-disable-next-line typescript/no-explicit-any
     } as any;
   }
 
@@ -36,23 +36,6 @@ describe('both/state/selectors/user', () => {
     it('returns true for alpha', () => {
       const state = getRootState({ version: '1.23.4-alpha.987' });
       assert.isTrue(getIsNightly(state));
-    });
-  });
-
-  describe('#getIsBeta', () => {
-    it('returns false for alpha', () => {
-      const state = getRootState({ version: '1.23.4-alpha.987' });
-      assert.isFalse(getIsBeta(state));
-    });
-
-    it('returns false for production', () => {
-      const state = getRootState({ version: '1.23.4' });
-      assert.isFalse(getIsBeta(state));
-    });
-
-    it('returns true for beta', () => {
-      const state = getRootState({ version: '1.23.4-beta.5' });
-      assert.isTrue(getIsBeta(state));
     });
   });
 });

@@ -3,11 +3,11 @@
 
 import type { Database, RunResult } from '@signalapp/sqlcipher';
 
-import type { LoggerType } from '../../types/Logging.std.js';
-import { sql } from '../util.std.js';
-import type { PniString } from '../../types/ServiceId.std.js';
-import { normalizePni } from '../../types/ServiceId.std.js';
-import * as Errors from '../../types/errors.std.js';
+import type { LoggerType } from '../../types/Logging.std.ts';
+import { sql } from '../util.std.ts';
+import type { PniString } from '../../types/ServiceId.std.ts';
+import { normalizePni } from '../../types/ServiceId.std.ts';
+import * as Errors from '../../types/errors.std.ts';
 
 export default function updateToSchemaVersion91(
   db: Database,
@@ -18,38 +18,38 @@ export default function updateToSchemaVersion91(
   db.exec(`
     --- First, prekeys
     DROP INDEX preKeys_ourServiceId;
-    
+
     ALTER TABLE preKeys
       DROP COLUMN ourServiceId;
     ALTER TABLE preKeys
       ADD COLUMN ourServiceId NUMBER
       GENERATED ALWAYS AS (json_extract(json, '$.ourServiceId'));
-    
-    CREATE INDEX preKeys_ourServiceId ON preKeys (ourServiceId);    
+
+    CREATE INDEX preKeys_ourServiceId ON preKeys (ourServiceId);
 
     -- Second, kyber prekeys
 
     DROP INDEX kyberPreKeys_ourServiceId;
-    
+
     ALTER TABLE kyberPreKeys
       DROP COLUMN ourServiceId;
     ALTER TABLE kyberPreKeys
       ADD COLUMN ourServiceId NUMBER
       GENERATED ALWAYS AS (json_extract(json, '$.ourServiceId'));
-    
-    CREATE INDEX kyberPreKeys_ourServiceId ON kyberPreKeys (ourServiceId); 
+
+    CREATE INDEX kyberPreKeys_ourServiceId ON kyberPreKeys (ourServiceId);
 
     -- Finally, signed prekeys
 
     DROP INDEX signedPreKeys_ourServiceId;
-    
+
     ALTER TABLE signedPreKeys
       DROP COLUMN ourServiceId;
     ALTER TABLE signedPreKeys
       ADD COLUMN ourServiceId NUMBER
       GENERATED ALWAYS AS (json_extract(json, '$.ourServiceId'));
-    
-    CREATE INDEX signedPreKeys_ourServiceId ON signedPreKeys (ourServiceId); 
+
+    CREATE INDEX signedPreKeys_ourServiceId ON signedPreKeys (ourServiceId);
   `);
 
   // Do overall count - if it's less than 1000, move on
@@ -94,6 +94,7 @@ export default function updateToSchemaVersion91(
       pluck: true,
     })
     .get(beforeParams);
+  // oxlint-disable-next-line typescript/restrict-template-expressions
   logger.info(`Found ${beforeKeys} preKeys for PNI`);
 
   // Create index to help us with all these queries
@@ -102,7 +103,7 @@ export default function updateToSchemaVersion91(
     ALTER TABLE preKeys
       ADD COLUMN createdAt NUMBER
         GENERATED ALWAYS AS (json_extract(json, '$.createdAt'));
-    
+
     CREATE INDEX preKeys_date
       ON preKeys (ourServiceId, createdAt);
   `);
@@ -113,7 +114,7 @@ export default function updateToSchemaVersion91(
   const [oldQuery, oldParams] = sql`
     SELECT createdAt
     FROM preKeys
-    WHERE 
+    WHERE
       createdAt IS NOT NULL AND
       ourServiceId = ${pni}
     ORDER BY createdAt ASC
@@ -125,6 +126,7 @@ export default function updateToSchemaVersion91(
       pluck: true,
     })
     .get(oldParams);
+  // oxlint-disable-next-line typescript/restrict-template-expressions
   logger.info(`Found 500th-oldest timestamp: ${oldBoundary}`);
 
   // Fetch 500th-newest timestamp for PNI
@@ -132,7 +134,7 @@ export default function updateToSchemaVersion91(
   const [newQuery, newParams] = sql`
     SELECT createdAt
     FROM preKeys
-    WHERE 
+    WHERE
       createdAt IS NOT NULL AND
       ourServiceId = ${pni}
     ORDER BY createdAt DESC
@@ -144,6 +146,7 @@ export default function updateToSchemaVersion91(
       pluck: true,
     })
     .get(newParams);
+  // oxlint-disable-next-line typescript/restrict-template-expressions
   logger.info(`Found 500th-newest timestamp: ${newBoundary}`);
 
   // Delete everything in between for PNI
@@ -180,6 +183,7 @@ export default function updateToSchemaVersion91(
       pluck: true,
     })
     .get(afterParams);
+  // oxlint-disable-next-line typescript/restrict-template-expressions
   logger.info(`Found ${afterCount} preKeys for PNI after delete`);
 
   db.exec(`

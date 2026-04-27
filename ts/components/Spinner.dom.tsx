@@ -4,7 +4,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { getClassNamesFor } from '../util/getClassNamesFor.std.js';
+import { getClassNamesFor } from '../util/getClassNamesFor.std.ts';
 
 export const SpinnerSvgSizes = ['small', 'normal'] as const;
 export type SpinnerSvgSize = (typeof SpinnerSvgSizes)[number];

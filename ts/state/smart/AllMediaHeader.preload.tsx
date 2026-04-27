@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import React, { memo } from 'react';
 import { useSelector } from 'react-redux';
-import { PanelHeader } from '../../components/conversation/media-gallery/PanelHeader.dom.js';
-import { getMediaGalleryState } from '../selectors/mediaGallery.std.js';
-import { getIntl } from '../selectors/user.std.js';
-import { useMediaGalleryActions } from '../ducks/mediaGallery.preload.js';
+import { PanelHeader } from '../../components/conversation/media-gallery/PanelHeader.dom.tsx';
+import { getMediaGalleryState } from '../selectors/mediaGallery.std.ts';
+import { getIntl } from '../selectors/user.std.ts';
+import { useMediaGalleryActions } from '../ducks/mediaGallery.preload.ts';
 
 export const SmartAllMediaHeader = memo(function SmartAllMediaHeader() {
   const { tab, sortOrder } = useSelector(getMediaGalleryState);

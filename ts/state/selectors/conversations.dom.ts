@@ -5,8 +5,8 @@ import memoizee from 'memoizee';
 import { memoize } from '@indutny/sneequals';
 import lodash from 'lodash';
 import { createSelector } from 'reselect';
-import type { StateType } from '../reducer.preload.js';
-import type { StateSelector } from '../types.std.js';
+import type { StateType } from '../reducer.preload.ts';
+import type { StateSelector } from '../types.std.ts';
 import type {
   ConversationLookupType,
   ConversationMessageType,
@@ -17,84 +17,84 @@ import type {
   MessagesByConversationType,
   MessageTimestamps,
   PreJoinConversationType,
-} from '../ducks/conversations.preload.js';
+} from '../ducks/conversations.preload.ts';
 import type {
   StoriesStateType,
   StoryDataType,
-} from '../ducks/stories.preload.js';
+} from '../ducks/stories.preload.ts';
 import {
   ComposerStep,
   OneTimeModalState,
   ConversationVerificationState,
   type TargetedMessageSource,
-} from '../ducks/conversationsEnums.std.js';
-import { getOwn } from '../../util/getOwn.std.js';
-import type { UUIDFetchStateType } from '../../util/uuidFetchState.std.js';
-import { deconstructLookup } from '../../util/deconstructLookup.std.js';
-import type { PropsDataType as TimelinePropsType } from '../../components/conversation/Timeline.dom.js';
-import { assertDev } from '../../util/assert.std.js';
-import { isConversationUnregistered } from '../../util/isConversationUnregistered.dom.js';
-import { filterAndSortConversations } from '../../util/filterAndSortConversations.std.js';
-import type { ContactNameColorType } from '../../types/Colors.std.js';
-import { ContactNameColors } from '../../types/Colors.std.js';
-import type { AvatarDataType } from '../../types/Avatar.std.js';
-import type { AciString, ServiceIdString } from '../../types/ServiceId.std.js';
-import { normalizeServiceId } from '../../types/ServiceId.std.js';
-import { isInSystemContacts } from '../../util/isInSystemContacts.std.js';
-import { sortByTitle } from '../../util/sortByTitle.std.js';
-import { DurationInSeconds } from '../../util/durations/index.std.js';
+} from '../ducks/conversationsEnums.std.ts';
+import { getOwn } from '../../util/getOwn.std.ts';
+import type { UUIDFetchStateType } from '../../util/uuidFetchState.std.ts';
+import { deconstructLookup } from '../../util/deconstructLookup.std.ts';
+import type { PropsDataType as TimelinePropsType } from '../../components/conversation/Timeline.dom.tsx';
+import { assertDev } from '../../util/assert.std.ts';
+import { isConversationUnregistered } from '../../util/isConversationUnregistered.dom.ts';
+import { filterAndSortConversations } from '../../util/filterAndSortConversations.std.ts';
+import type { ContactNameColorType } from '../../types/Colors.std.ts';
+import { ContactNameColors } from '../../types/Colors.std.ts';
+import type { AvatarDataType } from '../../types/Avatar.std.ts';
+import type { AciString, ServiceIdString } from '../../types/ServiceId.std.ts';
+import { normalizeServiceId } from '../../types/ServiceId.std.ts';
+import { isInSystemContacts } from '../../util/isInSystemContacts.std.ts';
+import { sortByTitle } from '../../util/sortByTitle.std.ts';
+import { DurationInSeconds } from '../../util/durations/index.std.ts';
 import {
   isDirectConversation,
   isGroupV1,
   isGroupV2,
-} from '../../util/whatTypeOfConversation.dom.js';
-import { isGroupInStoryMode } from '../../util/isGroupInStoryMode.std.js';
+} from '../../util/whatTypeOfConversation.dom.ts';
+import { isGroupInStoryMode } from '../../util/isGroupInStoryMode.std.ts';
 
 import {
   getIntl,
   getRegionCode,
   getUserConversationId,
   getUserNumber,
-} from './user.std.js';
+} from './user.std.ts';
 import {
   getBadgeCountMutedConversations,
   getPinnedConversationIds,
   getStoriesEnabled,
-} from './items.dom.js';
-import { createLogger } from '../../logging/log.std.js';
-import { TimelineMessageLoadingState } from '../../util/timelineUtil.std.js';
-import { isSignalConversation } from '../../util/isSignalConversation.dom.js';
-import { reduce } from '../../util/iterables.std.js';
-import type { HasStories } from '../../types/Stories.std.js';
-import { getHasStoriesSelector } from './stories2.dom.js';
-import { canEditMessage } from '../../util/canEditMessage.dom.js';
-import { isOutgoing } from '../../messages/helpers.std.js';
+} from './items.dom.ts';
+import { createLogger } from '../../logging/log.std.ts';
+import { TimelineMessageLoadingState } from '../../util/timelineUtil.std.ts';
+import { isSignalConversation } from '../../util/isSignalConversation.dom.ts';
+import { reduce } from '../../util/iterables.std.ts';
+import type { HasStories } from '../../types/Stories.std.ts';
+import { getHasStoriesSelector } from './stories2.dom.ts';
+import { canEditMessage } from '../../util/canEditMessage.dom.ts';
+import { isOutgoing } from '../../messages/helpers.std.ts';
 import type {
   AllChatFoldersUnreadStats,
   UnreadStats,
-} from '../../util/countUnreadStats.std.js';
+} from '../../util/countUnreadStats.std.ts';
 import {
   type ChatFolder,
   isConversationInChatFolder,
-} from '../../types/ChatFolder.std.js';
+} from '../../types/ChatFolder.std.ts';
 import {
   getSelectedChatFolder,
   getCurrentChatFolders,
   getStableSelectedConversationIdInChatFolder,
-} from './chatFolders.std.js';
+} from './chatFolders.std.ts';
 import {
   countAllChatFoldersUnreadStats,
   countAllConversationsUnreadStats,
-} from '../../util/countUnreadStats.std.js';
-import type { AllChatFoldersMutedStats } from '../../util/countMutedStats.std.js';
-import { countAllChatFoldersMutedStats } from '../../util/countMutedStats.std.js';
-import { getActiveProfile } from './notificationProfiles.dom.js';
-import type { PinnedMessage } from '../../types/PinnedMessage.std.js';
-import { getPinnedMessagesLimit } from '../../util/pinnedMessages.dom.js';
-import { getSelectedConversationId, getSelectedNavTab } from './nav.std.js';
-import { getCallHistoryUnreadCount } from './callHistory.std.js';
-import { NavTab } from '../../types/Nav.std.js';
-import { ReadStatus } from '../../messages/MessageReadStatus.std.js';
+} from '../../util/countUnreadStats.std.ts';
+import type { AllChatFoldersMutedStats } from '../../util/countMutedStats.std.ts';
+import { countAllChatFoldersMutedStats } from '../../util/countMutedStats.std.ts';
+import { getActiveProfile } from './notificationProfiles.dom.ts';
+import type { PinnedMessage } from '../../types/PinnedMessage.std.ts';
+import { getPinnedMessagesLimit } from '../../util/pinnedMessages.dom.ts';
+import { getSelectedConversationId, getSelectedNavTab } from './nav.std.ts';
+import { getCallHistoryUnreadCount } from './callHistory.std.ts';
+import { NavTab } from '../../types/Nav.std.ts';
+import { ReadStatus } from '../../messages/MessageReadStatus.std.ts';
 
 const { isNumber, pick } = lodash;
 
@@ -138,31 +138,24 @@ export const getConversationLookup = createSelector(
   }
 );
 
-export const getConversationsByServiceId = createSelector(
+const getConversationsByServiceId = createSelector(
   getConversations,
   (state: ConversationsStateType): ConversationLookupType => {
     return state.conversationsByServiceId;
   }
 );
 
-export const getConversationsByE164 = createSelector(
+const getConversationsByE164 = createSelector(
   getConversations,
   (state: ConversationsStateType): ConversationLookupType => {
     return state.conversationsByE164;
   }
 );
 
-export const getConversationsByGroupId = createSelector(
+const getConversationsByGroupId = createSelector(
   getConversations,
   (state: ConversationsStateType): ConversationLookupType => {
     return state.conversationsByGroupId;
-  }
-);
-
-export const getConversationsByUsername = createSelector(
-  getConversations,
-  (state: ConversationsStateType): ConversationLookupType => {
-    return state.conversationsByUsername;
   }
 );
 
@@ -201,7 +194,7 @@ export const getSafeConversationWithSameTitle = createSelector(
   }
 );
 
-type TargetedMessageType = {
+export type TargetedMessageType = {
   id: string;
   counter: number;
 };
@@ -241,7 +234,7 @@ export const getLastSelectedMessage = createSelector(
 export const getShowArchived = createSelector(
   getConversations,
   (state: ConversationsStateType): boolean => {
-    return Boolean(state.showArchived);
+    return state.showArchived;
   }
 );
 
@@ -300,7 +293,7 @@ export const getMessagesByConversation = createSelector(
   }
 );
 
-export const getConversationMessages = createSelector(
+const getConversationMessages = createSelector(
   getSelectedConversationId,
   getMessagesByConversation,
   (
@@ -394,7 +387,7 @@ export const _getConversationComparator = () => {
     return collator.compare(left.title, right.title);
   };
 };
-export const getConversationComparator = createSelector(
+const getConversationComparator = createSelector(
   getIntl,
   getRegionCode,
   _getConversationComparator
@@ -679,7 +672,7 @@ function isTrusted(
     conversation.serviceId != null &&
     serviceIdsInGroups.has(conversation.serviceId);
 
-  return Boolean(
+  return (
     isInSystemContacts(conversation) ||
     hasSharedGroups ||
     conversation.profileSharing ||
@@ -704,10 +697,11 @@ function canComposeConversation(
   conversation: ConversationType,
   serviceIdsInGroups: Set<string>
 ): boolean {
-  return Boolean(
+  return (
     !isSignalConversation(conversation) &&
     !conversation.isBlocked &&
     !conversation.removalStage &&
+    !conversation.terminated &&
     ((isGroupV2(conversation) && !conversation.left) ||
       !isConversationUnregistered(conversation)) &&
     hasDisplayInfo(conversation) &&
@@ -723,6 +717,7 @@ export const getAllComposableConversations = createSelector(
         !isSignalConversation(conversation) &&
         !conversation.isBlocked &&
         !conversation.removalStage &&
+        !conversation.terminated &&
         !conversation.isGroupV1AndDisabled &&
         ((isGroupV2(conversation) && !conversation.left) ||
           !isConversationUnregistered(conversation)) &&
@@ -809,6 +804,7 @@ export const getAllChatFoldersMutedStats: StateSelector<AllChatFoldersMutedStats
  * Because they filter unregistered contacts and that's (partially) determined by the
  * current time, it's possible for them to return stale contacts that have unregistered
  * if no other conversations change. This should be a rare false positive.
+ * @testexport
  */
 export const getComposableContacts = createSelector(
   getConversationLookup,
@@ -1029,7 +1025,7 @@ export const getComposeSelectedContacts = createSelector(
 //   2) all of the message selectors need to be reselect-based; today those
 //      model-based prop-generation functions expect to get Conversation information
 //      directly via ConversationController
-export function _conversationSelector(
+function _conversationSelector(
   conversation?: ConversationType
   // regionCode: string,
   // userNumber: string
@@ -1046,7 +1042,7 @@ export function _conversationSelector(
 type CachedConversationSelectorType = (
   conversation?: ConversationType
 ) => ConversationType;
-export const getCachedSelectorForConversation = createSelector(
+const getCachedSelectorForConversation = createSelector(
   getRegionCode,
   getUserNumber,
   (): CachedConversationSelectorType => {
@@ -1059,7 +1055,7 @@ export const getCachedSelectorForConversation = createSelector(
 export type GetConversationByAnyIdSelectorType = (
   id?: string
 ) => ConversationType | undefined;
-export const getConversationByAnyIdSelector = createSelector(
+const getConversationByAnyIdSelector = createSelector(
   getConversationLookup,
   getConversationsByServiceId,
   getConversationsByE164,
@@ -1148,7 +1144,7 @@ export const getCachedConversationMemberColorsSelector = createSelector(
   ) => {
     return memoizee(
       (conversationId: string | undefined) => {
-        const contactNameColors: Map<string, ContactNameColorType> = new Map();
+        const contactNameColors = new Map<string, ContactNameColorType>();
         const {
           membersV2 = [],
           type,
@@ -1175,7 +1171,7 @@ export const getCachedConversationMemberColorsSelector = createSelector(
 
             contactNameColors.set(
               conversation.id,
-              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+              // oxlint-disable-next-line typescript/no-non-null-assertion
               ContactNameColors[i % ContactNameColors.length]!
             );
           });
@@ -1223,9 +1219,12 @@ export const getContactNameColor = (
   return color;
 };
 
-export function _conversationMessagesSelector(
+type TimelinePropsWithRawItems = Omit<TimelinePropsType, 'items'> & {
+  items: ReadonlyArray<string>;
+};
+function _conversationMessagesSelector(
   conversation: ConversationMessageType
-): TimelinePropsType {
+): TimelinePropsWithRawItems {
   const {
     isNearBottom = null,
     messageChangeCounter,
@@ -1276,8 +1275,8 @@ export function _conversationMessagesSelector(
 
 type CachedConversationMessagesSelectorType = (
   conversation: ConversationMessageType
-) => TimelinePropsType;
-export const getCachedSelectorForConversationMessages = createSelector(
+) => TimelinePropsWithRawItems;
+const getCachedSelectorForConversationMessages = createSelector(
   getRegionCode,
   getUserNumber,
   (): CachedConversationMessagesSelectorType => {
@@ -1294,7 +1293,7 @@ export const getConversationMessagesSelector = createSelector(
     conversationMessagesSelector: CachedConversationMessagesSelectorType,
     messagesByConversation: MessagesByConversationType
   ) => {
-    return (id: string): TimelinePropsType => {
+    return (id: string): TimelinePropsWithRawItems => {
       const conversation = messagesByConversation[id];
       if (!conversation) {
         // TODO: DESKTOP-2340
@@ -1472,7 +1471,7 @@ export const getHideStoryConversationIds = createSelector(
 export const getStoriesState = (state: StateType): StoriesStateType =>
   state.stories;
 
-export const getStoriesNotificationCount = createSelector(
+const getStoriesNotificationCount = createSelector(
   getStoriesEnabled,
   getHideStoryConversationIds,
   getStoriesState,

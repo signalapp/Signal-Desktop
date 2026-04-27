@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 
-import { isNormalNumber } from '../../util/isNormalNumber.std.js';
+import { isNormalNumber } from '../../util/isNormalNumber.std.ts';
 
 describe('isNormalNumber', () => {
   it('returns false for non-numbers', () => {
@@ -14,7 +14,7 @@ describe('isNormalNumber', () => {
   });
 
   it('returns false for Number objects, which should never be used', () => {
-    // eslint-disable-next-line no-new-wrappers
+    // oxlint-disable-next-line no-new-wrappers
     assert.isFalse(isNormalNumber(new Number(123)));
   });
 

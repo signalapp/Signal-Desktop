@@ -8,30 +8,30 @@ import type {
   BackupMediaDownloadStatusType,
   BackupsSubscriptionType,
   BackupStatusType,
-} from '../types/backups.node.js';
-import type { LocalizerType } from '../types/I18N.std.js';
+} from '../types/backups.node.ts';
+import type { LocalizerType } from '../types/I18N.std.ts';
 import {
   SettingsControl as Control,
   FlowingSettingsControl as FlowingControl,
   LightIconLabel,
   SettingsRow,
-} from './PreferencesUtil.dom.js';
-import type { SettingsLocation } from '../types/Nav.std.js';
-import { SettingsPage } from '../types/Nav.std.js';
-import { I18n } from './I18n.dom.js';
-import { PreferencesLocalBackups } from './PreferencesLocalBackups.dom.js';
-import type { ShowToastAction } from '../state/ducks/toast.preload.js';
+} from './PreferencesUtil.dom.tsx';
+import type { SettingsLocation } from '../types/Nav.std.ts';
+import { SettingsPage } from '../types/Nav.std.ts';
+import { I18n } from './I18n.dom.tsx';
+import { PreferencesLocalBackups } from './PreferencesLocalBackups.dom.tsx';
+import type { ShowToastAction } from '../state/ducks/toast.preload.ts';
 import type {
   PromptOSAuthReasonType,
   PromptOSAuthResultType,
-} from '../util/os/promptOSAuthMain.main.js';
-import { AxoButton } from '../axo/AxoButton.dom.js';
-import { BackupLevel } from '../services/backups/types.std.js';
+} from '../util/os/promptOSAuthMain.main.ts';
+import { AxoButton } from '../axo/AxoButton.dom.tsx';
+import { BackupLevel } from '../services/backups/types.std.ts';
 import {
   BackupsDetailsPage,
   renderSubscriptionDetails,
-} from './PreferencesBackupDetails.dom.js';
-import type { LocalBackupExportMetadata } from '../types/LocalExport.std.js';
+} from './PreferencesBackupDetails.dom.tsx';
+import type { LocalBackupExportMetadata } from '../types/LocalExport.std.ts';
 
 export const SIGNAL_BACKUPS_LEARN_MORE_URL =
   'https://support.signal.org/hc/articles/360007059752-Backup-and-Restore-Messages';
@@ -39,8 +39,6 @@ export const SIGNAL_BACKUPS_LEARN_MORE_URL =
 const LOCAL_BACKUPS_PAGES = new Set([
   SettingsPage.LocalBackups,
   SettingsPage.LocalBackupsKeyReference,
-  SettingsPage.LocalBackupsSetupFolder,
-  SettingsPage.LocalBackupsSetupKey,
 ]);
 
 function isLocalBackupsPage(page: SettingsPage) {
@@ -48,9 +46,9 @@ function isLocalBackupsPage(page: SettingsPage) {
 }
 
 export function PreferencesBackups({
-  accountEntropyPool,
+  backupKey,
+  backupKeyHash,
   backupFreeMediaDays,
-  backupKeyViewed,
   backupSubscriptionStatus,
   backupTier,
   cloudBackupStatus,
@@ -59,7 +57,7 @@ export function PreferencesBackups({
   lastLocalBackup,
   locale,
   localBackupFolder,
-  onBackupKeyViewedChange,
+  onBackupKeyViewed,
   openFileInFolder,
   osName,
   pickLocalBackupFolder,
@@ -69,6 +67,7 @@ export function PreferencesBackups({
   pauseBackupMediaDownload,
   resumeBackupMediaDownload,
   settingsLocation,
+  previouslyViewedBackupKeyHash,
   promptOSAuth,
   refreshCloudBackupStatus,
   refreshBackupSubscriptionStatus,
@@ -76,9 +75,9 @@ export function PreferencesBackups({
   showToast,
   startLocalBackupExport,
 }: {
-  accountEntropyPool: string | undefined;
   backupFreeMediaDays: number;
-  backupKeyViewed: boolean;
+  backupKey: string | undefined;
+  backupKeyHash: string | undefined;
   backupSubscriptionStatus: BackupsSubscriptionType;
   backupTier: BackupLevel | null;
   cloudBackupStatus?: BackupStatusType;
@@ -87,7 +86,7 @@ export function PreferencesBackups({
   isLocalBackupsEnabled: boolean;
   lastLocalBackup: LocalBackupExportMetadata | undefined;
   locale: string;
-  onBackupKeyViewedChange: (keyViewed: boolean) => void;
+  onBackupKeyViewed: ({ backupKeyHash }: { backupKeyHash: string }) => void;
   openFileInFolder: (path: string) => void;
   osName: 'linux' | 'macos' | 'windows' | undefined;
   settingsLocation: SettingsLocation;
@@ -101,6 +100,7 @@ export function PreferencesBackups({
   pauseBackupMediaDownload: () => void;
   resumeBackupMediaDownload: () => void;
   pickLocalBackupFolder: () => Promise<string | undefined>;
+  previouslyViewedBackupKeyHash: string | undefined;
   promptOSAuth: (
     reason: PromptOSAuthReasonType
   ) => Promise<PromptOSAuthResultType>;
@@ -152,19 +152,25 @@ export function PreferencesBackups({
   }
 
   if (isLocalBackupsPage(settingsLocation.page)) {
+    if (!backupKey || !backupKeyHash) {
+      setSettingsLocation({ page: SettingsPage.Backups });
+      return null;
+    }
+
     return (
       <PreferencesLocalBackups
-        accountEntropyPool={accountEntropyPool}
-        backupKeyViewed={backupKeyViewed}
+        backupKey={backupKey}
+        backupKeyHash={backupKeyHash}
         i18n={i18n}
         lastLocalBackup={lastLocalBackup}
         localBackupFolder={localBackupFolder}
-        onBackupKeyViewedChange={onBackupKeyViewedChange}
+        onBackupKeyViewed={onBackupKeyViewed}
         openFileInFolder={openFileInFolder}
         osName={osName}
         settingsLocation={settingsLocation}
         pickLocalBackupFolder={pickLocalBackupFolder}
         disableLocalBackups={disableLocalBackups}
+        previouslyViewedBackupKeyHash={previouslyViewedBackupKeyHash}
         promptOSAuth={promptOSAuth}
         setSettingsLocation={setSettingsLocation}
         showToast={showToast}
@@ -179,7 +185,8 @@ export function PreferencesBackups({
     </a>
   );
 
-  const isLocalBackupsSetup = localBackupFolder && backupKeyViewed;
+  const isLocalBackupsSetup =
+    localBackupFolder != null && previouslyViewedBackupKeyHash != null;
 
   function renderRemoteBackups() {
     return (
@@ -283,18 +290,19 @@ export function PreferencesBackups({
               size="lg"
               disabled={isAuthPending}
               onClick={async () => {
-                if (!isLocalBackupsSetup) {
+                if (isLocalBackupsSetup) {
+                  setSettingsLocation({ page: SettingsPage.LocalBackups });
+                } else {
                   try {
                     setIsAuthPending(true);
                     const result = await promptOSAuth('enable-backups');
-                    if (result !== 'success' && result !== 'unsupported') {
-                      return;
+                    if (result === 'success' || result === 'unsupported') {
+                      setSettingsLocation({ page: SettingsPage.LocalBackups });
                     }
                   } finally {
                     setIsAuthPending(false);
                   }
                 }
-                setSettingsLocation({ page: SettingsPage.LocalBackups });
               }}
             >
               {isLocalBackupsSetup
@@ -320,7 +328,7 @@ export function PreferencesBackups({
   );
 }
 
-export function renderPaidBackupsSummary({
+function renderPaidBackupsSummary({
   subscriptionStatus,
   i18n,
   locale,
@@ -343,7 +351,7 @@ export function renderPaidBackupsSummary({
   );
 }
 
-export function renderFreeBackupsSummary({
+function renderFreeBackupsSummary({
   backupFreeMediaDays,
   i18n,
 }: {

@@ -3,14 +3,14 @@
 
 import React, { useCallback } from 'react';
 
-import type { ShowToastAction } from '../../state/ducks/toast.preload.js';
-import type { AttachmentDraftType } from '../../types/Attachment.std.js';
-import type { LocalizerType } from '../../types/Util.std.js';
-import { ToastType } from '../../types/Toast.dom.js';
+import type { ShowToastAction } from '../../state/ducks/toast.preload.ts';
+import type { AttachmentDraftType } from '../../types/Attachment.std.ts';
+import type { LocalizerType } from '../../types/Util.std.ts';
+import { ToastType } from '../../types/Toast.dom.tsx';
 import {
   useStartRecordingShortcut,
   useKeyboardShortcuts,
-} from '../../hooks/useKeyboardShortcuts.dom.js';
+} from '../../hooks/useKeyboardShortcuts.dom.tsx';
 
 export type PropsType = {
   conversationId: string;

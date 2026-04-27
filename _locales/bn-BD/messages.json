@@ -746,6 +746,9 @@
   "icu:fileSizeWarning": {
     "messageformat": "দুঃখিত, নির্বাচিত ফাইলটি মেসেজের আকারের সীমা অতিক্রম করেছে। {limit,number} {units}"
   },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "দুঃখিত, বেছে নেওয়া ভিডিও ফাইলটি মেসেজের আকারের সীমা অতিক্রম করেছে। {limit,number}{units}"
+  },
   "icu:unableToLoadAttachment": {
     "messageformat": "নির্বাচিত সংযুক্তি লোড করতে অক্ষম।"
   },
@@ -1787,6 +1790,12 @@
   "icu:Preferences__EditChatFolderPage__CancelButton": {
     "messageformat": "বাতিল করুন"
   },
+  "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
+    "messageformat": "Show status icon"
+  },
+  "icu:Preferences__PrivacyPage__ShowStatusIcon__Description": {
+    "messageformat": "Show an icon in message details when they were delivered using sealed sender."
+  },
   "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
     "messageformat": "স্বয়ংক্রিয় 'কি' যাচাইকরণ"
   },
@@ -2372,6 +2381,9 @@
   "icu:ConversationDetails--support-center": {
     "messageformat": "সহায়তা কেন্দ্র"
   },
+  "icu:ConversationDetails__GroupTerminatedBanner": {
+    "messageformat": "এই গ্রুপটি বন্ধ হয়ে গিয়েছে"
+  },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "নিরাপত্তা নম্বর দেখুন"
   },
@@ -2551,6 +2563,27 @@
   },
   "icu:youUpdatedTheGroup": {
     "messageformat": "আপনি গ্রুপটি আপডেট করেছেন।"
+  },
+  "icu:collapsedGroupUpdates": {
+    "messageformat": "{count, plural, one {{count,number}টি গ্রুপ আপডেট} other {{count,number}টি গ্রুপ আপডেট}}"
+  },
+  "icu:multidayCollapse__container": {
+    "messageformat": "{containerDescription} · {dayCountSummary}"
+  },
+  "icu:multidayCollapse__dayCountSummary": {
+    "messageformat": "{dayCount, plural, one {{dayCount,number} দিন} other {{dayCount,number} দিন}}"
+  },
+  "icu:collapsedChatUpdates": {
+    "messageformat": "{count, plural, one {{count,number}টি চ্যাট আপডেট} other {{count,number}টি চ্যাট আপডেট}}"
+  },
+  "icu:collapsedTimerChanges": {
+    "messageformat": "{count, plural, one {{count,number}টি অদৃশ্য হতে যাওয়া মেসেজের টাইমারে পরিবর্তন · {endingState}} other {{count,number}টি অদৃশ্য হতে যাওয়া মেসেজের টাইমারে পরিবর্তন · {endingState}}}"
+  },
+  "icu:collapsedTimerChanges--disabled": {
+    "messageformat": "{count, plural, one {{count,number}টি অদৃশ্য হতে যাওয়া মেসেজের টাইমারে পরিবর্তন · নিষ্ক্রিয় করা হয়েছে} other {{count,number}টি অদৃশ্য হতে যাওয়া মেসেজের টাইমারে পরিবর্তন · নিষ্ক্রিয় করা হয়েছে}}"
+  },
+  "icu:collapsedCallEvents": {
+    "messageformat": "{count, plural, one {{count,number}টি কল ইভেন্ট} other {{count,number}টি কল ইভেন্ট}}"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "গ্রুপ অবতার আপডেট করা হয়েছে।"
@@ -3017,8 +3050,8 @@
   "icu:Message--tap-to-view--incoming--expired-toast": {
     "messageformat": "আপনি ইতিমধ্যেই এই মেসেজটি দেখেছেন।"
   },
-  "icu:Message--tap-to-view--outgoing--expired-toast": {
-    "messageformat": "একবার দেখার উপযোগী ম্যাসেজ আপনার চ্যাট-এর ইতিহাসে সংরক্ষিত হয় না।"
+  "icu:Message--tap-to-view--outgoing--expired-toast-2": {
+    "messageformat": "'শুধুমাত্র-একবার-দেখা-যাবে' এমন মিডিয়া ফাইল পাঠানোর পর মুছে ফেলা হয়"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "একবার দেখা যাবে এমন ভিডিও"
@@ -3485,8 +3518,17 @@
   "icu:ConversationHero--profile-names": {
     "messageformat": "<clickable>প্রোফাইলের নাম</clickable> যাচাই করা হয়নি"
   },
+  "icu:ConversationHero--name-not-verified": {
+    "messageformat": "Name not verified"
+  },
   "icu:ConversationHero--signal-official-chat": {
     "messageformat": "এটি Signal-এর অফিসিয়াল ও একমাত্র চ্যাট"
+  },
+  "icu:ConversationHero--signal-official-account": {
+    "messageformat": "Official account"
+  },
+  "icu:ConversationHero--signal-official-account--description": {
+    "messageformat": "The only official chat from Signal. Keep up to date with news and release notes."
   },
   "icu:ConversationHero--release-notes": {
     "messageformat": "খবর ও রিলিজ নোট পেয়ে আপডেট থাকুন।"
@@ -3767,9 +3809,6 @@
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
     "messageformat": "Signal-এর মাধ্যমে কল লিংক শেয়ার করুন"
   },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "এই ব্যক্তিকে কল থেকে বাদ দিন"
-  },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "{name}-কে কল থেকে সরাতে চান?"
   },
@@ -3932,11 +3971,23 @@
   "icu:GroupV2--join--requested": {
     "messageformat": "যোগদান করার জন্য আপনার অনুরোধ গ্রুপ অ্যাডমিনের কাছে পাঠানো হয়েছে। তারা কোনও পদক্ষেপ নিলে আপনাকে জানানো হবে।"
   },
+  "icu:GroupV2--join--group-terminated": {
+    "messageformat": "এই গ্রুপে যোগ দেওয়া যাচ্ছে না।"
+  },
   "icu:GroupV2--join--general-join-failure--title": {
     "messageformat": "লিংকে ত্রুটি"
   },
   "icu:GroupV2--join--general-join-failure": {
     "messageformat": "গ্রুপে যোগ দেওয়া যায়নি। পরে আবার চেষ্টা করুন।"
+  },
+  "icu:GroupV2--terminate-group-in-progress": {
+    "messageformat": "গ্ৰুপটি বন্ধ করা হচ্ছে..."
+  },
+  "icu:TerminateGroupFailedModal__description": {
+    "messageformat": "গ্রুপটি বন্ধ করা যায়নি। আপনার নেটওয়ার্ক সংযোগ ঠিক আছে কি না দেখুন এবং আবার চেষ্টা করুন।"
+  },
+  "icu:TerminateGroupFailedModal__try-again": {
+    "messageformat": "আবার চেষ্টা করুন"
   },
   "icu:GroupV2--admin": {
     "messageformat": "অ্যাডমিন"
@@ -4379,6 +4430,15 @@
   "icu:GroupV2--summary": {
     "messageformat": "এই গ্রুপের সদস্য বা সেটিংস পরিবর্তন করা হয়েছে।"
   },
+  "icu:GroupV2--terminated--you": {
+    "messageformat": "আপনি গ্ৰুপটি বন্ধ করেছেন"
+  },
+  "icu:GroupV2--terminated--other": {
+    "messageformat": "{memberName} গ্ৰুপটি বন্ধ করেছেন"
+  },
+  "icu:GroupV2--terminated--unknown": {
+    "messageformat": "এই গ্রুপটি বন্ধ হয়ে গিয়েছে"
+  },
   "icu:GroupV1--Migration--disabled--link": {
     "messageformat": "@মেনশন এবং অ্যাডমিন-এর মতো নতুন ফিচার সচল করতে এই গ্রুপটিকে আপগ্রেড করুন। যেসব সদস্যরা এই গ্রুপে তাদের নাম বা ছবি শেয়ার করেননি তাদের যোগ দেওয়ার জন্য আমন্ত্রণ জানানো হবে। <learnMoreLink>আরো জানুন।</learnMoreLink>"
   },
@@ -4655,6 +4715,9 @@
   "icu:CompositionArea__ConfirmGifSelection__ReplaceButton": {
     "messageformat": "প্রতিস্থাপন করুন"
   },
+  "icu:CompositionArea--group-terminated": {
+    "messageformat": "আপনি এই গ্রুপে মেসেজ পাঠাতে পারবেন না, কারণ গ্রুপটি বন্ধ হয়ে গিয়েছে।"
+  },
   "icu:CompositionArea--viewOnceToggle": {
     "messageformat": "একবার দেখুন"
   },
@@ -4832,11 +4895,26 @@
   "icu:ConversationDetailsActions--leave-group": {
     "messageformat": "গ্রুপ ছেড়ে যান"
   },
+  "icu:ConversationDetailsActions--terminate-group": {
+    "messageformat": "গ্ৰুপ বন্ধ করুন"
+  },
   "icu:ConversationDetailsActions--block-group": {
     "messageformat": "গ্রুপটি ব্লক করুন"
   },
   "icu:ConversationDetailsActions--unblock-group": {
     "messageformat": "গ্রুপটি আনব্লক করুন"
+  },
+  "icu:ConversationDetailsActions--report-spam": {
+    "messageformat": "স্প্যাম রিপোর্ট করা হয়েছে"
+  },
+  "icu:ConversationDetailsActions--archive": {
+    "messageformat": "চ্যাট আর্কাইভ করুন"
+  },
+  "icu:ConversationDetailsActions--unarchive": {
+    "messageformat": "চ্যাট আনআর্কাইভ করুন"
+  },
+  "icu:ConversationDetailsActions--delete": {
+    "messageformat": "চ্যাট মুছে ফেলুন"
   },
   "icu:ConversationDetailsActions--leave-group-must-choose-new-admin": {
     "messageformat": "আপনি ছেড়ে চলে যাওয়ার আগে, আপনাকে এই গ্রুপের জন্য অন্তত একজন নতুন অ্যাডমিনকে বেছে নিতে হবে।"
@@ -4849,6 +4927,18 @@
   },
   "icu:ConversationDetailsActions--leave-group-modal-confirm": {
     "messageformat": "ছেড়ে চলে যান"
+  },
+  "icu:ConversationDetailsActions--prompt-terminate-group-modal-title": {
+    "messageformat": "\"{groupName}\" বন্ধ করবেন?"
+  },
+  "icu:ConversationDetailsActions--prompt-terminate-group-modal-content": {
+    "messageformat": "সদস্যরা গ্রুপে আর মেসেজ পাঠাতে বা কল শুরু করতে পারবেন না। আপনি যে গ্রুপটি বন্ধ করে দিয়েছেন, সে বিষয়ে তাদের জানানো হবে এবং তারা আগের মেসেজের ইতিহাস দেখতে পারবেন।"
+  },
+  "icu:ConversationDetailsActions--terminate-group-modal-confirm": {
+    "messageformat": "গ্ৰুপ বন্ধ করুন"
+  },
+  "icu:ConversationDetailsActions--confirm-terminate-group-confirm-modal-content": {
+    "messageformat": "এর মাধ্যমে গ্রুপটি স্থায়ীভাবে বন্ধ হয়ে যাবে। আপনি কি এগিয়ে যাওয়ার ব্যাপারে নিশ্চিত?"
   },
   "icu:ConversationDetailsActions--unblock-group-modal-title": {
     "messageformat": "\"{groupName}\" গ্রুপটি আনব্লক করবেন?"
@@ -4868,6 +4958,18 @@
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "আনব্লক করুন"
   },
+  "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
+    "messageformat": "Signal-কে জানানো হবে যে এই ব্যক্তি সম্ভবত স্প্যাম মেসেজ পাঠাচ্ছেন। Signal কোনো চ্যাটের কন্টেন্ট দেখতে পারে না।"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-group": {
+    "messageformat": "Signal-কে জানানো হবে যে যেই ব্যক্তি আপনাকে গ্ৰুপটিতে আমন্ত্রণ করেছেন তিনি সম্ভবত স্প্যাম মেসেজ পাঠাচ্ছেন। Signal কোনো চ্যাটের কন্টেন্ট দেখতে পারে না।"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
+    "messageformat": "স্প্যাম রিপোর্ট করা হয়েছে"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
+    "messageformat": "রিপোর্ট করুন এবং ব্লক করুন"
+  },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} জন সদস্য} other {{number,number} জন সদস্য}}"
   },
@@ -4876,6 +4978,9 @@
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} জন সদস্য} other {{number,number} জন সদস্য}}"
+  },
+  "icu:ConversationDetailsMembershipList--terminated-title": {
+    "messageformat": "{number, plural, one {{number,number} জন প্রাক্তন সদস্য} other {{number,number} জন প্রাক্তন সদস্য}}"
   },
   "icu:ConversationDetailsMembershipList--add-members": {
     "messageformat": "সদস্যকে যোগ করুন"
@@ -5059,7 +5164,7 @@
     "ignoreUnused": true
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
-    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Signal-এর সর্বশেষ সংস্করণের গ্রুপ সদস্যরা দেখতে পাবেন যে আপনি এই মেসেজ মুছে ফেলেছেন।} other {Signal-এর সর্বশেষ সংস্করণের গ্রুপ সদস্যরা দেখতে পাবেন যে আপনি এই মেসেজগুলি মুছে ফেলেছেন।}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "সকল ডিভাইস থেকে মুছে ফেলুন"
@@ -5195,6 +5300,9 @@
   },
   "icu:MessageRequestWarning__safety-tips": {
     "messageformat": "নিরাপত্তা সংক্রান্ত পরামর্শ"
+  },
+  "icu:MessageRequestWarning__safety-tips-v2": {
+    "messageformat": "Safety tips"
   },
   "icu:ContactSpoofing__same-name--link": {
     "messageformat": "সতর্কতার সাথে অনুরোধ পর্যালোচনা করুন। Signal একই নামের আরেকটি কন্টাক্ট খুঁজে পেয়েছে। <reviewRequestLink>পর্যালোচনা করার অনুরোধ</reviewRequestLink>"
@@ -5797,6 +5905,15 @@
   "icu:Preferences__link-previews--description": {
     "messageformat": "এই সেটিং পরিবর্তন করতে, আপনার মোবাইল ডিভাইসে Signal অ্যাপটি খুলুন এবং সেটিংস > চ্যাট-এ যান"
   },
+  "icu:Preferences__link-previews--new-description": {
+    "messageformat": "Retrieve link previews directly from websites for messages you send."
+  },
+  "icu:Preferences__address-book-photos--title": {
+    "messageformat": "Use address book photos"
+  },
+  "icu:Preferences__address-book-photos--description": {
+    "messageformat": "Display contact photos from your address book if available."
+  },
   "icu:Preferences__auto-convert-emoji--title": {
     "messageformat": "টাইপ করা ইমোটিকনকে ইমোজিতে রূপান্তর করুন"
   },
@@ -6232,35 +6349,35 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "শেষ"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "আপনার ব্যাকআপ 'কি' দেখান"
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
+    "messageformat": "আপনার পুনরুদ্ধার 'কি' দেখান"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "আপনার ব্যাকআপ 'কি' দেখতে পরিচয় যাচাই করুন।"
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
+    "messageformat": "আপনার পুনরুদ্ধার 'কি' দেখতে আপনার পরিচয় যাচাই করুন।"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "ব্যাকআপ কি দেখুন"
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
+    "messageformat": "পুনরুদ্ধার 'কি' দেখুন"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "আপনার ব্যাকআপ 'কি' দেখার জন্য অথেন্টিকেশন প্রয়োজন।"
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
+    "messageformat": "আপনার পুনরুদ্ধার 'কি' দেখার জন্য অথেন্টিকেশন করা প্রয়োজন।"
   },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "ব্যাকআপ 'কি' টেক্সট বক্স"
+  "icu:Preferences--local-backups-recovery-key-text-box": {
+    "messageformat": "পুনরুদ্ধার 'কি'"
   },
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "'কি' লিখুন"
   },
-  "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "আপনার ব্যাকআপ 'কি' সংরক্ষণ করুন"
+  "icu:Preferences--local-backups-record-recovery-key": {
+    "messageformat": "আপনার পুনরুদ্ধার 'কি' সংরক্ষণ করুন"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "আপনার অ্যাকাউন্ট এবং ডেটা পুনরুদ্ধার করতে এই 'কি' প্রয়োজন। এই 'কি'-টি নিরাপদ কোথাও সংরক্ষণ করুন। এটি হারিয়ে ফেললে, আপনি আপনার অ্যাকাউন্টের ব্যাকআপ পুনরুদ্ধার করতে পারবেন না। <learnMoreLink>আরো জানুন।</learnMoreLink>"
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "আপনার ব্যাকআপ 'কি' নিশ্চিত করুন"
+  "icu:Preferences--local-backups-confirm-recovery-key": {
+    "messageformat": "আপনার পুনরুদ্ধার 'কি' নিশ্চিত করুন"
   },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "আপনার রেকর্ড করা ব্যাকআপ 'কি'-টি লিখুন"
+  "icu:Preferences--local-backups-confirm-recovery-key-description": {
+    "messageformat": "আপনার রেকর্ড করা পুনরুদ্ধার 'কি'-টি লিখুন"
   },
   "icu:Preferences__local-backups-confirm-key-modal-title": {
     "messageformat": "আপনার 'কি' নিরাপদ রাখুন"
@@ -6286,26 +6403,23 @@
   "icu:Preferences__local-backups-folder": {
     "messageformat": "ব্যাকআপ ফোল্ডার"
   },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "পরিবর্তন করুন"
-  },
   "icu:Preferences__local-backups-turn-off": {
-    "messageformat": "Turn off backups"
+    "messageformat": "ব্যাকআপ বন্ধ করুন"
   },
   "icu:Preferences__local-backups-turn-off-action": {
-    "messageformat": "Turn off"
+    "messageformat": "বন্ধ করুন"
   },
   "icu:Preferences__local-backups-turn-off-confirmation": {
-    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+    "messageformat": "পুনরায় সচল না করলে আপনি এই কম্পিউটারে আর ব্যাকআপ তৈরি করতে পারবেন না।"
   },
   "icu:Preferences__local-backups-turn-off-delete": {
-    "messageformat": "Delete my backup from this computer"
+    "messageformat": "এই কম্পিউটার থেকে আমার ব্যাকআপ মুছে ফেলুন"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "ক্লিপবোর্ডে অনুলিপি করুন"
   },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "ব্যাকআপ 'কি' কপি করা হয়েছে"
+  "icu:Preferences__local-backups-copied-recovery-key": {
+    "messageformat": "পুনর্বহাল 'কি' কপি করা হয়েছে"
   },
   "icu:Preferences__local-backups--enable--os-prompt--mac": {
     "messageformat": "ব্যাকআপ সক্ষম করুন"
@@ -6319,17 +6433,29 @@
   "icu:Preferences__local-backups--enable--os-prompt-message--linux": {
     "messageformat": "ব্যাকআপ সক্রিয় করার জন্য যাচাইকরণ প্রয়োজন।"
   },
+  "icu:Preferences__local-backups-auth-error--unauthorized": {
+    "messageformat": "সিস্টেম যাচাইকরণ ব্যর্থ হওয়ায় এই কার্যক্রমটি সম্পন্ন করা যায়নি। অনুগ্রহ করে আবার চেষ্টা করুন অথবা আপনার মোবাইল ডিভাইসে Signal অ্যাপটি খুলে ব্যাকআপ সেটিংসে গিয়ে আপনার পুনরুদ্ধার 'কি' দেখুন।"
+  },
   "icu:Preferences__view-key": {
     "messageformat": "'কি' দেখুন"
   },
-  "icu:Preferences__backup-key": {
-    "messageformat": "ব্যাকআপ 'কি'"
+  "icu:Preferences__recovery-key": {
+    "messageformat": "পুনরুদ্ধার 'কি'"
   },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "আপনার ব্যাকআপ 'কি' হলো একটি 64-সংখ্যার কোড যা আপনার ব্যাকআপ পুনর্বহাল করতে ব্যবহৃত হয়"
+  "icu:Preferences__recovery-key-description": {
+    "messageformat": "আপনার পুনরুদ্ধার 'কি' হলো একটি 64-ক্যারেক্টারের কোড, যা আপনার ব্যাকআপ পুনরুদ্ধার করতে ব্যবহৃত হয়"
   },
   "icu:Preferences__backup-other-ways": {
     "messageformat": "ব্যাকআপ রাখার অন্যান্য উপায়"
+  },
+  "icu:Preferences__recovery-key-updated__title": {
+    "messageformat": "আপনার পুনরুদ্ধার 'কি' পরিবর্তন করা হয়েছে"
+  },
+  "icu:Preferences__recovery-key-updated__description": {
+    "messageformat": "আপনার পুনরুদ্ধার 'কি' আপডেট করা হয়েছে। আপনার তৈরি করা যেকোনো নতুন ব্যাকআপ শুধুমাত্র আপনার নতুন পুনরুদ্ধার 'কি' ব্যবহার করেই পুনরুদ্ধার করা যাবে।"
+  },
+  "icu:Preferences__recovery-key-updated__view-key": {
+    "messageformat": "নতুন 'কি' দেখুন"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {{num,number} জন কন্টাক্ট} other {{num,number} জন কন্টাক্ট}}"
@@ -6394,8 +6520,14 @@
   "icu:Preferences--read-receipts": {
     "messageformat": "পড়ার প্রাপ্তিগুলি"
   },
+  "icu:Preferences--read-receipts--description": {
+    "messageformat": "If disabled, you won't see read receipts from others."
+  },
   "icu:Preferences--typing-indicators": {
     "messageformat": "টাইপিং সূচক"
+  },
+  "icu:Preferences--typing-indicators--description": {
+    "messageformat": "If disabled, you won't see typing indicators from others."
   },
   "icu:Preferences--updates": {
     "messageformat": "আপডেট"
@@ -6682,6 +6814,9 @@
   "icu:MyStories__delete": {
     "messageformat": "স্টোরিটি মুছে ফেলবেন? যারা এটি পেয়েছেন তাদের জন্যও এটি মুছে যাবে৷"
   },
+  "icu:MyStories__delete-group-story-for-me": {
+    "messageformat": "এই স্টোরিটি মুছে ফেলবেন? গ্রুপটি বন্ধ হয়ে যাওয়ায় এটি শুধু আপনার জন্য মুছে যাবে।"
+  },
   "icu:payment-event-notification-message-you-label": {
     "messageformat": "আপনি {receiver}-কে পেমেন্ট দিতে শুরু করেছেন"
   },
@@ -6903,6 +7038,9 @@
   },
   "icu:StoriesSettings__view-receipts--label": {
     "messageformat": "রিসিপ্ট দেখুন"
+  },
+  "icu:StoriesSettings__view-receipts--new-description": {
+    "messageformat": "See and share when stories are viewed. If disabled, you won't see when others view your story."
   },
   "icu:StoriesSettings__view-receipts--description": {
     "messageformat": "এই সেটিং পরিবর্তন করতে, আপনার মোবাইল ডিভাইসে Signal অ্যাপটি খুলুন এবং সেটিংস > স্টোরি-তে যান"
@@ -7553,6 +7691,18 @@
   "icu:ProfileNameWarningModal__list--item3--direct": {
     "messageformat": "আপনার পরিচিত নন এমন কোনো ব্যক্তির সাথে ব্যক্তিগত তথ্য শেয়ার করবেন না"
   },
+  "icu:ProfileNameWarningModal__warning--signal-cant-verify": {
+    "messageformat": "Signal can’t verify names and photos"
+  },
+  "icu:ProfileNameWarningModal__warning--signal-wont-contact": {
+    "messageformat": "Signal will never contact you for your registration code, PIN, or recovery key"
+  },
+  "icu:ProfileNameWarningModal__warning--be-cautious": {
+    "messageformat": "Be cautious of accounts that impersonate others"
+  },
+  "icu:ProfileNameWarningModal__warning--dont-share-info": {
+    "messageformat": "Don't share personal information with people you don't know"
+  },
   "icu:ProfileNameWarningModal__description--group": {
     "messageformat": "গ্রুপের নাম গ্রুপের সদস্যরা বেছে নেন।"
   },
@@ -8015,17 +8165,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "ছোট ছোট কিছু পরিবর্তন, বাগ সংশোধন এবং পারফর্মেন্স সমৃদ্ধ করা হয়েছে। Signal ব্যবহার করার জন্য ধন্যবাদ!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__7.90--0": {
-    "messageformat": "পাঁচটি নতুন অফিসিয়াল আর্টিস্ট স্টিকার প্যাক: Amanda Cotan-এর \"Chug the Mouse\", Miguel Ángel Camprubí-এর \"Cozy Season\", Tiffany Beucher-এর \"Croco's Feelings\", Plastic Thing-এর \"My Daily Life 2\", এবং Lexi Vay-এর \"Rocky Talk\"।"
-  },
-  "icu:WhatsNew__8.0--0": {
-    "messageformat": "চলে এলো Signal নিরাপদ ব্যাকআপ! এখন আপনি স্বয়ংক্রিয় এন্ড-টু-এন্ড এনক্রিপ্ট করা ব্যাকআপ সচল করতে পারবেন যাতে আপনি কোনো নতুন ফোন নিলে বা Signal পুনরায় ইনস্টল করলে কোনো মেসেজ হারাবেন না। আপনি আপনার সব মেসেজ এবং গত 45 দিনের মিডিয়া বিনামূল্যে ব্যাকআপ করতে পারবেন, অথবা প্রতিটি সংযুক্তির ব্যাকআপ নেওয়ার জন্য 100 GB স্টোরেজ পেতে আপনি একটি ছোট মাসিক ফি দিতে পারবেন। চালু করতে আপনার Signal সেটিংসে ব্যাকআপ-এ ট্যাপ করুন। বিটা পিরিয়ডের সময় এই ফিচারটি পরীক্ষা করতে সাহায্য করেছেন এমন সবাইকে ধন্যবাদ!"
-  },
-  "icu:WhatsNew__8.2--0": {
-    "messageformat": "এখন আপনি Signal Desktop থেকেও একবার দেখা যাবে এমন মিডিয়া মেসেজ পাঠাতে পারবেন। একবার দেখা যাবে এমন মেসেজ হিসেবে পাঠানো ব্যক্তিগত ছবি ও ভিডিও দেখার পর তা কথোপকথনের থ্রেড থেকে স্বয়ংক্রিয়ভাবে মুছে ফেলা হবে।"
-  },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "এখন আপনি ইচ্ছা হলে একটি সদস্য লেবেল যোগ করতে পারবেন যাতে আপনি নিজেকে বা একটি গ্রুপ চ্যাটে আপনার ভূমিকা সম্পর্কে ধারণা দিতে পারেন। সদস্য লেবেল সেই গ্রুপে আপনার প্রোফাইল নামের পাশে প্রদর্শিত হবে এবং সেগুলি সবার জন্য সচল করা হবে কিনা তা গ্রুপ অ্যাডমিনরা নিয়ন্ত্রণ করতে পারবেন।"
   }
 }

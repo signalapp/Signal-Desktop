@@ -5,8 +5,8 @@ import { assert } from 'chai';
 import { Delta } from '@signalapp/quill-cjs';
 import type Quill from '@signalapp/quill-cjs';
 
-import { SignalClipboard } from '../../quill/signal-clipboard/index.dom.js';
-import { QuillFormattingStyle } from '../../quill/formatting/menu.dom.js';
+import { SignalClipboard } from '../../quill/signal-clipboard/index.dom.ts';
+import { QuillFormattingStyle } from '../../quill/formatting/menu.dom.tsx';
 
 class MockQuill {
   public root: HTMLElement;
@@ -88,7 +88,7 @@ function createMockClipboardEvent(
 
 function createMockQuillWithContent(
   content: string,
-  hasStrike: boolean = false
+  hasStrike = false
 ): MockQuill {
   const mockQuill = new MockQuill();
 

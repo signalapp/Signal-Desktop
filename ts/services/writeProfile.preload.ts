@@ -1,28 +1,29 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { DataWriter } from '../sql/Client.preload.js';
-import type { ConversationType } from '../state/ducks/conversations.preload.js';
-import { putProfile, uploadAvatar } from '../textsecure/WebAPI.preload.js';
-import * as Errors from '../types/errors.std.js';
-import { createLogger } from '../logging/log.std.js';
-import { computeHash } from '../Crypto.node.js';
-import { encryptProfileData } from '../util/encryptProfileData.preload.js';
-import { getProfile } from '../util/getProfile.preload.js';
-import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue.preload.js';
-import { strictAssert } from '../util/assert.std.js';
+import { DataWriter } from '../sql/Client.preload.ts';
+import type { ConversationType } from '../state/ducks/conversations.preload.ts';
+import { putProfile, uploadAvatar } from '../textsecure/WebAPI.preload.ts';
+import * as Errors from '../types/errors.std.ts';
+import { createLogger } from '../logging/log.std.ts';
+import { computeHash } from '../Crypto.node.ts';
+import { encryptProfileData } from '../util/encryptProfileData.preload.ts';
+import { getProfile } from '../util/getProfile.preload.ts';
+import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue.preload.ts';
+import { strictAssert } from '../util/assert.std.ts';
 import {
   writeNewAttachmentData,
   maybeDeleteAttachmentFile,
-} from '../util/migrations.preload.js';
-import { imagePathToBytes } from '../util/imagePathToBytes.dom.js';
-import { getLocalAvatarUrl } from '../util/avatarUtils.preload.js';
+} from '../util/migrations.preload.ts';
+import { imagePathToBytes } from '../util/imagePathToBytes.dom.ts';
+import { getLocalAvatarUrl } from '../util/avatarUtils.preload.ts';
+import { normalizeProfileName } from '../util/normalizeProfileName.std.ts';
 import type {
   AvatarUpdateOptionsType,
   AvatarUpdateType,
-} from '../types/Avatar.std.js';
-import { MessageSender } from '../textsecure/SendMessage.preload.js';
-import { itemStorage } from '../textsecure/Storage.preload.js';
+} from '../types/Avatar.std.ts';
+import { MessageSender } from '../textsecure/SendMessage.preload.ts';
+import { itemStorage } from '../textsecure/Storage.preload.ts';
 
 const log = createLogger('writeProfile');
 
@@ -54,7 +55,7 @@ export async function writeProfile(
   } = conversation;
 
   strictAssert(
-    conversation.firstName != null && conversation.firstName.trim() !== '',
+    normalizeProfileName(firstName) != null,
     'writeProfile: Cannot set an empty profile name'
   );
 
@@ -110,7 +111,7 @@ export async function writeProfile(
       encryptedAvatarData
     );
 
-    const hash = await computeHash(newAvatar);
+    const hash = computeHash(newAvatar);
 
     if (hash !== avatarHash) {
       log.info('removing old avatar and saving the new one');
@@ -146,6 +147,10 @@ export async function writeProfile(
 
   await DataWriter.updateConversation(model.attributes);
   model.captureChange('writeProfile');
+
+  if (!window.ConversationController.doWeHaveOtherDevices()) {
+    return;
+  }
 
   try {
     await singleProtoJobQueue.add(

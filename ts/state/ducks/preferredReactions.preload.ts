@@ -4,20 +4,20 @@
 import type { ThunkAction } from 'redux-thunk';
 import lodash from 'lodash';
 import type { ReadonlyDeep } from 'type-fest';
-import { createLogger } from '../../logging/log.std.js';
-import * as Errors from '../../types/errors.std.js';
-import { replaceIndex } from '../../util/replaceIndex.std.js';
-import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.js';
-import { useBoundActions } from '../../hooks/useBoundActions.std.js';
-import type { StateType as RootStateType } from '../reducer.preload.js';
-import { DEFAULT_PREFERRED_REACTION_EMOJI_PARENT_KEYS } from '../../reactions/constants.std.js';
-import { getPreferredReactionEmoji } from '../../reactions/preferredReactionEmoji.std.js';
-import { getEmojiSkinToneDefault } from '../selectors/items.dom.js';
+import { createLogger } from '../../logging/log.std.ts';
+import * as Errors from '../../types/errors.std.ts';
+import { replaceIndex } from '../../util/replaceIndex.std.ts';
+import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.ts';
+import { useBoundActions } from '../../hooks/useBoundActions.std.ts';
+import type { StateType as RootStateType } from '../reducer.preload.ts';
+import { DEFAULT_PREFERRED_REACTION_EMOJI_PARENT_KEYS } from '../../reactions/constants.std.ts';
+import { getPreferredReactionEmoji } from '../../reactions/preferredReactionEmoji.std.ts';
+import { getEmojiSkinToneDefault } from '../selectors/items.dom.ts';
 import {
   EmojiSkinTone,
   getEmojiVariantByParentKeyAndSkinTone,
-} from '../../components/fun/data/emojis.std.js';
-import { itemStorage } from '../../textsecure/Storage.preload.js';
+} from '../../components/fun/data/emojis.std.ts';
+import { itemStorage } from '../../textsecure/Storage.preload.ts';
 
 const { omit } = lodash;
 

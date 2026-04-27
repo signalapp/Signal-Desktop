@@ -1,15 +1,15 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { AvatarColorType } from '../types/Colors.std.js';
-import { AvatarColorMap } from '../types/Colors.std.js';
-import type { AvatarDataType } from '../types/Avatar.std.js';
-import { canvasToBytes } from './canvasToBytes.std.js';
-import { getFittedFontSize } from './avatarTextSizeCalculator.std.js';
+import type { AvatarColorType } from '../types/Colors.std.ts';
+import { AvatarColorMap } from '../types/Colors.std.ts';
+import type { AvatarDataType } from '../types/Avatar.std.ts';
+import { canvasToBytes } from './canvasToBytes.std.ts';
+import { getFittedFontSize } from './avatarTextSizeCalculator.std.ts';
 import {
   getLocalAttachmentUrl,
   AttachmentDisposition,
-} from './getLocalAttachmentUrl.std.js';
+} from './getLocalAttachmentUrl.std.ts';
 
 const CANVAS_SIZE = 1024;
 
@@ -34,9 +34,9 @@ async function drawImage(
   const image = new Image();
   image.src = src;
   await image.decode();
-  // eslint-disable-next-line no-param-reassign
+  // oxlint-disable-next-line no-param-reassign
   canvas.width = image.width;
-  // eslint-disable-next-line no-param-reassign
+  // oxlint-disable-next-line no-param-reassign
   canvas.height = image.height;
   context.drawImage(image, 0, 0);
 }
@@ -44,7 +44,7 @@ async function drawImage(
 async function getFont(text: string): Promise<string> {
   const font = new window.FontFace(
     'Inter',
-    'url("fonts/inter-v3.19/Inter-Regular.woff2")'
+    'url("asset:///fonts/inter-v3.19/Inter-Regular.woff2")'
   );
   await font.load();
 

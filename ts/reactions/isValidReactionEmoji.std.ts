@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import emojiRegex from 'emoji-regex';
-import { getGraphemes } from '../util/grapheme.std.js';
-import { take, size } from '../util/iterables.std.js';
+import { getGraphemes } from '../util/grapheme.std.ts';
+import { take, size } from '../util/iterables.std.ts';
 
 export function isValidReactionEmoji(value: unknown): value is string {
   if (typeof value !== 'string') {

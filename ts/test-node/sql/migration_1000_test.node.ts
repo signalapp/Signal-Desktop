@@ -4,11 +4,11 @@
 import { assert } from 'chai';
 import { v4 as generateGuid } from 'uuid';
 
-import { jsonToObject, sql } from '../../sql/util.std.js';
-import { createDB, updateToVersion } from './helpers.node.js';
-import type { WritableDB, MessageType } from '../../sql/Interface.std.js';
-import { ReadStatus } from '../../messages/MessageReadStatus.std.js';
-import { SeenStatus } from '../../MessageSeenStatus.std.js';
+import { jsonToObject, sql } from '../../sql/util.std.ts';
+import { createDB, updateToVersion } from './helpers.node.ts';
+import type { WritableDB, MessageType } from '../../sql/Interface.std.ts';
+import { ReadStatus } from '../../messages/MessageReadStatus.std.ts';
+import { SeenStatus } from '../../MessageSeenStatus.std.ts';
 
 describe('SQL/updateToSchemaVersion1000', () => {
   let db: WritableDB;
@@ -135,14 +135,14 @@ describe('SQL/updateToSchemaVersion1000', () => {
     assert.strictEqual(messages.length, 2);
 
     assert.strictEqual(messages[0]?.message.readStatus, ReadStatus.Read);
-    assert.strictEqual(messages[0].message.seenStatus, SeenStatus.Unseen);
-    assert.strictEqual(messages[0].readStatus, ReadStatus.Read);
-    assert.strictEqual(messages[0].seenStatus, SeenStatus.Unseen);
+    assert.strictEqual(messages[0]?.message.seenStatus, SeenStatus.Unseen);
+    assert.strictEqual(messages[0]?.readStatus, ReadStatus.Read);
+    assert.strictEqual(messages[0]?.seenStatus, SeenStatus.Unseen);
 
     assert.strictEqual(messages[1]?.message.readStatus, ReadStatus.Read);
-    assert.strictEqual(messages[1].message.seenStatus, SeenStatus.Unseen);
-    assert.strictEqual(messages[1].readStatus, ReadStatus.Read);
-    assert.strictEqual(messages[1].seenStatus, SeenStatus.Unseen);
+    assert.strictEqual(messages[1]?.message.seenStatus, SeenStatus.Unseen);
+    assert.strictEqual(messages[1]?.readStatus, ReadStatus.Read);
+    assert.strictEqual(messages[1]?.seenStatus, SeenStatus.Unseen);
   });
 
   it('does not mark read call history messages as unseen', () => {
@@ -175,13 +175,13 @@ describe('SQL/updateToSchemaVersion1000', () => {
     assert.strictEqual(messages.length, 2);
 
     assert.strictEqual(messages[0]?.message.readStatus, ReadStatus.Read);
-    assert.strictEqual(messages[0].message.seenStatus, SeenStatus.Seen);
-    assert.strictEqual(messages[0].readStatus, ReadStatus.Read);
-    assert.strictEqual(messages[0].seenStatus, SeenStatus.Seen);
+    assert.strictEqual(messages[0]?.message.seenStatus, SeenStatus.Seen);
+    assert.strictEqual(messages[0]?.readStatus, ReadStatus.Read);
+    assert.strictEqual(messages[0]?.seenStatus, SeenStatus.Seen);
 
     assert.strictEqual(messages[1]?.message.readStatus, ReadStatus.Read);
-    assert.strictEqual(messages[1].message.seenStatus, SeenStatus.Seen);
-    assert.strictEqual(messages[1].readStatus, ReadStatus.Read);
-    assert.strictEqual(messages[1].seenStatus, SeenStatus.Seen);
+    assert.strictEqual(messages[1]?.message.seenStatus, SeenStatus.Seen);
+    assert.strictEqual(messages[1]?.readStatus, ReadStatus.Read);
+    assert.strictEqual(messages[1]?.seenStatus, SeenStatus.Seen);
   });
 });

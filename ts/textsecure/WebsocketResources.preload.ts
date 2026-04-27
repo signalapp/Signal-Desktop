@@ -1,7 +1,6 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* eslint-disable max-classes-per-file */
 /*
  * WebSocket-Resources
  *
@@ -23,11 +22,9 @@
  *
  */
 
-/* eslint-disable @typescript-eslint/no-namespace */
-/* eslint-disable @typescript-eslint/brace-style */
-
 import pTimeout from 'p-timeout';
 import { Response } from 'node-fetch';
+import type { BodyInit } from 'node-fetch';
 import { z } from 'zod';
 
 import type { LibSignalError, Net } from '@signalapp/libsignal-client';
@@ -39,28 +36,28 @@ import type {
   ConnectionEventsListener,
   UnauthenticatedChatConnection,
 } from '@signalapp/libsignal-client/dist/net/Chat.js';
-import type { EventHandler } from './EventTarget.std.js';
-import EventTarget from './EventTarget.std.js';
+import type { EventHandler } from './EventTarget.std.ts';
+import EventTarget from './EventTarget.std.ts';
 
-import * as durations from '../util/durations/index.std.js';
-import { drop } from '../util/drop.std.js';
-import { isOlderThan } from '../util/timestamp.std.js';
-import * as Errors from '../types/errors.std.js';
-import { createLogger } from '../logging/log.std.js';
-import * as Timers from '../Timers.preload.js';
+import * as durations from '../util/durations/index.std.ts';
+import { drop } from '../util/drop.std.ts';
+import { isOlderThan } from '../util/timestamp.std.ts';
+import * as Errors from '../types/errors.std.ts';
+import { createLogger } from '../logging/log.std.ts';
+import * as Timers from '../Timers.preload.ts';
 
-import { AbortableProcess } from '../util/AbortableProcess.std.js';
+import { AbortableProcess } from '../util/AbortableProcess.std.ts';
 import type { WebAPICredentials } from './Types.d.ts';
-import { NORMAL_DISCONNECT_CODE } from './SocketManager.preload.js';
-import { parseUnknown } from '../util/schemas.std.js';
-import { parseServerAlertsFromHeader } from '../util/handleServerAlerts.preload.js';
-import type { ServerAlert } from '../types/ServerAlert.std.js';
+import { NORMAL_DISCONNECT_CODE } from './SocketManager.preload.ts';
+import { parseUnknown } from '../util/schemas.std.ts';
+import { parseServerAlertsFromHeader } from '../util/handleServerAlerts.preload.ts';
+import type { ServerAlert } from '../types/ServerAlert.std.ts';
 
 const log = createLogger('WebsocketResources');
 
 const AGGREGATED_STATS_KEY = 'websocketStats';
 
-export enum IpVersion {
+enum IpVersion {
   IPv4 = 'ipv4',
   IPv6 = 'ipv6',
 }
@@ -76,7 +73,6 @@ const AggregatedStatsSchema = z.object({
 
 export type AggregatedStats = z.infer<typeof AggregatedStatsSchema>;
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export namespace AggregatedStats {
   export function loadOrCreateEmpty(name: string): AggregatedStats {
     const key = localStorageKey(name);
@@ -94,31 +90,7 @@ export namespace AggregatedStats {
     }
   }
 
-  export function store(stats: AggregatedStats, name: string): void {
-    const key = localStorageKey(name);
-    try {
-      const json = JSON.stringify(stats);
-      localStorage.setItem(key, json);
-    } catch (error) {
-      log.warn(
-        `Failed to store key [${key}] to the local storage`,
-        Errors.toLogFormat(error)
-      );
-    }
-  }
-
-  export function add(a: AggregatedStats, b: AggregatedStats): AggregatedStats {
-    return {
-      requestsCompared: a.requestsCompared + b.requestsCompared,
-      connectionFailures: a.connectionFailures + b.connectionFailures,
-      healthcheckFailures: a.healthcheckFailures + b.healthcheckFailures,
-      ipVersionMismatches: a.ipVersionMismatches + b.ipVersionMismatches,
-      healthcheckBadStatus: a.healthcheckBadStatus + b.healthcheckBadStatus,
-      lastToastTimestamp: Math.max(a.lastToastTimestamp, b.lastToastTimestamp),
-    };
-  }
-
-  export function createEmpty(): AggregatedStats {
+  function createEmpty(): AggregatedStats {
     return {
       requestsCompared: 0,
       connectionFailures: 0,
@@ -129,19 +101,7 @@ export namespace AggregatedStats {
     };
   }
 
-  export function shouldReportError(stats: AggregatedStats): boolean {
-    const timeSinceLastToast = Date.now() - stats.lastToastTimestamp;
-    if (timeSinceLastToast < durations.DAY || stats.requestsCompared < 1000) {
-      return false;
-    }
-    const totalFailuresSinceLastToast =
-      stats.healthcheckBadStatus +
-      stats.healthcheckFailures +
-      stats.connectionFailures;
-    return totalFailuresSinceLastToast > 20;
-  }
-
-  export function localStorageKey(name: string): string {
+  function localStorageKey(name: string): string {
     return `${AGGREGATED_STATS_KEY}.${name}`;
   }
 }
@@ -149,21 +109,28 @@ export namespace AggregatedStats {
 export enum ServerRequestType {
   ApiMessage = '/api/v1/message',
   ApiEmptyQueue = '/api/v1/queue/empty',
-  ProvisioningMessage = '/v1/message',
-  ProvisioningAddress = '/v1/address',
-  Unknown = 'unknown',
 }
 
 export class IncomingWebSocketRequest {
+  public readonly requestType: ServerRequestType;
+  public readonly body: Uint8Array<ArrayBuffer> | undefined;
+  public readonly timestamp: number | undefined;
+  readonly #ack: Pick<ChatServerMessageAck, 'send'> | undefined;
+
   constructor(
-    readonly requestType: ServerRequestType,
-    readonly body: Uint8Array<ArrayBuffer> | undefined,
-    readonly timestamp: number | undefined,
-    private readonly ack: Pick<ChatServerMessageAck, 'send'> | undefined
-  ) {}
+    requestType: ServerRequestType,
+    body: Uint8Array<ArrayBuffer> | undefined,
+    timestamp: number | undefined,
+    ack: Pick<ChatServerMessageAck, 'send'> | undefined
+  ) {
+    this.requestType = requestType;
+    this.body = body;
+    this.timestamp = timestamp;
+    this.#ack = ack;
+  }
 
   respond(status: number, _message: string): void {
-    this.ack?.send(status);
+    this.#ack?.send(status);
   }
 }
 
@@ -175,25 +142,15 @@ export type SendRequestOptions = Readonly<{
   headers?: ReadonlyArray<[string, string]>;
 }>;
 
-export type SendRequestResult = Readonly<{
-  status: number;
-  message: string;
-  response?: Uint8Array<ArrayBuffer>;
-  headers: ReadonlyArray<string>;
-}>;
-
-export type WebSocketResourceOptions = {
-  name: string;
-  handleRequest?: (request: IncomingWebSocketRequest) => void;
-  keepalive?: KeepAliveOptionsType;
-};
-
+// oxlint-disable-next-line max-classes-per-file
 export class CloseEvent extends Event {
-  constructor(
-    public readonly code: number,
-    public readonly reason: string
-  ) {
+  public readonly code: number;
+  public readonly reason: string;
+
+  constructor(code: number, reason: string) {
     super('close');
+    this.code = code;
+    this.reason = reason;
   }
 }
 
@@ -203,7 +160,7 @@ type ChatConnection<Kind extends ChatKind> = Kind extends 'auth'
   ? AuthenticatedChatConnection
   : UnauthenticatedChatConnection;
 
-// eslint-disable-next-line no-restricted-syntax
+// oxlint-disable-next-line typescript/consistent-type-definitions
 export interface IWebSocketResource {
   sendRequest(options: SendRequestOptions): Promise<Response>;
 
@@ -367,7 +324,7 @@ function connect<Chat extends ChatKind>(
         resource.close(3000, 'aborted');
         throw new Error('Aborted');
       }
-      // eslint-disable-next-line no-param-reassign
+      // oxlint-disable-next-line no-param-reassign
       resourceHolder.resource = resource;
       return resource;
     } catch (error) {
@@ -392,10 +349,15 @@ function connect<Chat extends ChatKind>(
   );
 }
 
-export class WebSocketResource<Chat extends ChatKind>
+class WebSocketResource<Chat extends ChatKind>
   extends EventTarget
   implements IChatConnection<Chat>
 {
+  readonly #chatService: ChatConnection<Chat>;
+  readonly #socketIpVersion: IpVersion;
+  readonly #localPortNumber: number;
+  readonly #logId: string;
+
   // The reason that the connection was closed, if it was closed.
   //
   // When setting this to anything other than `undefined`, the "close" event
@@ -406,28 +368,32 @@ export class WebSocketResource<Chat extends ChatKind>
   // - Server uses /v1/keepalive requests to do some consistency checks
   // - external events (like waking from sleep) can prompt us to do a shorter keepalive
   // So at least for now, we want to keep this mechanism around too.
-  #keepalive: KeepAlive;
+  readonly #keepalive: KeepAlive;
 
   constructor(
-    private readonly chatService: ChatConnection<Chat>,
-    private readonly socketIpVersion: IpVersion,
-    private readonly localPortNumber: number,
-    private readonly logId: string,
+    chatService: ChatConnection<Chat>,
+    socketIpVersion: IpVersion,
+    localPortNumber: number,
+    logId: string,
     keepalive: KeepAliveOptionsType
   ) {
     super();
+    this.#chatService = chatService;
+    this.#socketIpVersion = socketIpVersion;
+    this.#localPortNumber = localPortNumber;
+    this.#logId = logId;
 
-    this.#keepalive = new KeepAlive(this, this.logId, keepalive);
+    this.#keepalive = new KeepAlive(this, this.#logId, keepalive);
     this.#keepalive.reset();
     this.addEventListener('close', () => this.#keepalive?.stop());
   }
 
   public localPort(): number {
-    return this.localPortNumber;
+    return this.#localPortNumber;
   }
 
   public ipVersion(): IpVersion {
-    return this.socketIpVersion;
+    return this.#socketIpVersion;
   }
 
   public override addEventListener(
@@ -441,12 +407,12 @@ export class WebSocketResource<Chat extends ChatKind>
 
   public close(code = NORMAL_DISCONNECT_CODE, reason?: string): void {
     if (this.#closedReasonCode !== undefined) {
-      log.info(`${this.logId}.close: Already closed! ${code}/${reason}`);
+      log.info(`${this.#logId}.close: Already closed! ${code}/${reason}`);
       return;
     }
 
     this.#closedReasonCode = code;
-    drop(this.chatService.disconnect());
+    drop(this.#chatService.disconnect());
 
     // Since we set `closedReasonCode`, we must dispatch the close event.
     this.dispatchEvent(new CloseEvent(code, reason || 'no reason provided'));
@@ -463,12 +429,12 @@ export class WebSocketResource<Chat extends ChatKind>
         // request and an error on the connection. It's likely benign but in
         // case it's not, make sure we know about it.
         log.info(
-          `${this.logId}: onConnectionInterrupted called after resource is closed: ${cause.message}`
+          `${this.#logId}: onConnectionInterrupted called after resource is closed: ${cause.message}`
         );
       }
       return;
     }
-    log.warn(`${this.logId}: connection closed`);
+    log.warn(`${this.#logId}: connection closed`);
 
     // This is a workaround to map libsignal error codes to close codes that
     // SocketManager's existing clients expect.
@@ -499,20 +465,25 @@ export class WebSocketResource<Chat extends ChatKind>
   }
 
   get libsignalWebsocket(): ChatConnection<Chat> {
-    return this.chatService;
+    return this.#chatService;
   }
 
   public async sendRequestGetDebugInfo(
     options: SendRequestOptions
   ): Promise<Response> {
-    const response = await this.chatService.fetch({
+    const response = await this.#chatService.fetch({
       verb: options.verb,
       path: options.path,
       headers: options.headers ? options.headers : [],
       body: options.body,
       timeoutMillis: options.timeout,
     });
-    return new Response(response.body, {
+    let init: BodyInit | undefined;
+    if (response.body != null) {
+      init = Buffer.from(response.body);
+    }
+
+    return new Response(init, {
       status: response.status,
       statusText: response.message,
       headers: [...response.headers],
@@ -520,7 +491,7 @@ export class WebSocketResource<Chat extends ChatKind>
   }
 }
 
-export type KeepAliveOptionsType = {
+type KeepAliveOptionsType = {
   path?: string;
 };
 
@@ -549,7 +520,7 @@ const LOG_KEEPALIVE_AFTER_MS = 500;
  * intervals.
  */
 class KeepAliveSender {
-  #path: string;
+  readonly #path: string;
 
   protected wsr: IWebSocketResource;
 
@@ -575,7 +546,7 @@ class KeepAliveSender {
           verb: 'GET',
           path: this.#path,
         }),
-        timeout
+        { milliseconds: timeout }
       );
 
       if (status < 200 || status >= 300) {

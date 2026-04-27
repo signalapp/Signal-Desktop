@@ -4,12 +4,12 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { Props } from './PanelRow.dom.js';
-import { PanelRow } from './PanelRow.dom.js';
+import type { Props } from './PanelRow.dom.tsx';
+import { PanelRow } from './PanelRow.dom.tsx';
 import {
   ConversationDetailsIcon,
   IconType,
-} from './ConversationDetailsIcon.dom.js';
+} from './ConversationDetailsIcon.dom.tsx';
 
 export default {
   title: 'Components/Conversation/ConversationDetails/PanelRow',

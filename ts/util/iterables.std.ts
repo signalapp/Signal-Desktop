@@ -1,9 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* eslint-disable max-classes-per-file */
-
-import { getOwn } from './getOwn.std.js';
+import { getOwn } from './getOwn.std.ts';
 
 export function isIterable(value: unknown): value is Iterable<unknown> {
   return (
@@ -37,25 +35,17 @@ export function concat<T>(
 }
 
 class ConcatIterable<T> implements Iterable<T> {
-  constructor(private readonly iterables: ReadonlyArray<Iterable<T>>) {}
+  readonly #iterables: ReadonlyArray<Iterable<T>>;
+
+  constructor(iterables: ReadonlyArray<Iterable<T>>) {
+    this.#iterables = iterables;
+  }
 
   *[Symbol.iterator](): Iterator<T> {
-    for (const iterable of this.iterables) {
+    for (const iterable of this.#iterables) {
       yield* iterable;
     }
   }
-}
-
-export function every<T>(
-  iterable: Iterable<T>,
-  predicate: (value: T) => boolean
-): boolean {
-  for (const value of iterable) {
-    if (!predicate(value)) {
-      return false;
-    }
-  }
-  return true;
 }
 
 export function filter<T, S extends T>(
@@ -73,28 +63,38 @@ export function filter<T>(
   return new FilterIterable(iterable, predicate);
 }
 
+// oxlint-disable-next-line max-classes-per-file
 class FilterIterable<T> implements Iterable<T> {
-  constructor(
-    private readonly iterable: Iterable<T>,
-    private readonly predicate: (value: T) => unknown
-  ) {}
+  readonly #iterable: Iterable<T>;
+  readonly #predicate: (value: T) => unknown;
+
+  constructor(iterable: Iterable<T>, predicate: (value: T) => unknown) {
+    this.#iterable = iterable;
+    this.#predicate = predicate;
+  }
 
   [Symbol.iterator](): Iterator<T> {
-    return new FilterIterator(this.iterable[Symbol.iterator](), this.predicate);
+    return new FilterIterator(
+      this.#iterable[Symbol.iterator](),
+      this.#predicate
+    );
   }
 }
 
 class FilterIterator<T> implements Iterator<T> {
-  constructor(
-    private readonly iterator: Iterator<T>,
-    private readonly predicate: (value: T) => unknown
-  ) {}
+  readonly #iterator: Iterator<T>;
+  readonly #predicate: (value: T) => unknown;
+
+  constructor(iterator: Iterator<T>, predicate: (value: T) => unknown) {
+    this.#iterator = iterator;
+    this.#predicate = predicate;
+  }
 
   next(): IteratorResult<T> {
-    // eslint-disable-next-line no-constant-condition
+    // oxlint-disable-next-line no-constant-condition
     while (true) {
-      const nextIteration = this.iterator.next();
-      if (nextIteration.done || this.predicate(nextIteration.value)) {
+      const nextIteration = this.#iterator.next();
+      if (nextIteration.done || this.#predicate(nextIteration.value)) {
         return nextIteration;
       }
     }
@@ -112,42 +112,37 @@ export function collect<T, S>(
   return new CollectIterable(iterable, fn);
 }
 
-export function collectFirst<T, S>(
-  iterable: Iterable<T>,
-  fn: (value: T) => S | undefined
-): S | undefined {
-  // eslint-disable-next-line no-unreachable-loop
-  for (const v of collect(iterable, fn)) {
-    return v;
-  }
-  return undefined;
-}
-
 class CollectIterable<T, S> implements Iterable<S> {
-  constructor(
-    private readonly iterable: Iterable<T>,
-    private readonly fn: (value: T) => S | undefined
-  ) {}
+  readonly #iterable: Iterable<T>;
+  readonly #fn: (value: T) => S | undefined;
+
+  constructor(iterable: Iterable<T>, fn: (value: T) => S | undefined) {
+    this.#iterable = iterable;
+    this.#fn = fn;
+  }
 
   [Symbol.iterator](): Iterator<S> {
-    return new CollectIterator(this.iterable[Symbol.iterator](), this.fn);
+    return new CollectIterator(this.#iterable[Symbol.iterator](), this.#fn);
   }
 }
 
 class CollectIterator<T, S> implements Iterator<S> {
-  constructor(
-    private readonly iterator: Iterator<T>,
-    private readonly fn: (value: T) => S | undefined
-  ) {}
+  readonly #iterator: Iterator<T>;
+  readonly #fn: (value: T) => S | undefined;
+
+  constructor(iterator: Iterator<T>, fn: (value: T) => S | undefined) {
+    this.#iterator = iterator;
+    this.#fn = fn;
+  }
 
   next(): IteratorResult<S> {
-    // eslint-disable-next-line no-constant-condition
+    // oxlint-disable-next-line no-constant-condition
     while (true) {
-      const nextIteration = this.iterator.next();
+      const nextIteration = this.#iterator.next();
       if (nextIteration.done) {
         return nextIteration;
       }
-      const nextValue = this.fn(nextIteration.value);
+      const nextValue = this.#fn(nextIteration.value);
       if (nextValue !== undefined) {
         return {
           done: false,
@@ -194,6 +189,7 @@ export function join(iterable: Iterable<unknown>, separator: string): string {
   let hasProcessedFirst = false;
   let result = '';
   for (const value of iterable) {
+    // oxlint-disable-next-line typescript/no-base-to-string
     const stringifiedValue = value == null ? '' : String(value);
     if (hasProcessedFirst) {
       result += separator + stringifiedValue;
@@ -213,30 +209,36 @@ export function map<T, ResultT>(
 }
 
 class MapIterable<T, ResultT> implements Iterable<ResultT> {
-  constructor(
-    private readonly iterable: Iterable<T>,
-    private readonly fn: (value: T) => ResultT
-  ) {}
+  readonly #iterable: Iterable<T>;
+  readonly #fn: (value: T) => ResultT;
+
+  constructor(iterable: Iterable<T>, fn: (value: T) => ResultT) {
+    this.#iterable = iterable;
+    this.#fn = fn;
+  }
 
   [Symbol.iterator](): Iterator<ResultT> {
-    return new MapIterator(this.iterable[Symbol.iterator](), this.fn);
+    return new MapIterator(this.#iterable[Symbol.iterator](), this.#fn);
   }
 }
 
 class MapIterator<T, ResultT> implements Iterator<ResultT> {
-  constructor(
-    private readonly iterator: Iterator<T>,
-    private readonly fn: (value: T) => ResultT
-  ) {}
+  readonly #iterator: Iterator<T>;
+  readonly #fn: (value: T) => ResultT;
+
+  constructor(iterator: Iterator<T>, fn: (value: T) => ResultT) {
+    this.#iterator = iterator;
+    this.#fn = fn;
+  }
 
   next(): IteratorResult<ResultT> {
-    const nextIteration = this.iterator.next();
+    const nextIteration = this.#iterator.next();
     if (nextIteration.done) {
       return nextIteration;
     }
     return {
       done: false,
-      value: this.fn(nextIteration.value),
+      value: this.#fn(nextIteration.value),
     };
   }
 }
@@ -275,10 +277,14 @@ export function* chunk<A>(
 }
 
 class RepeatIterable<T> implements Iterable<T> {
-  constructor(private readonly value: T) {}
+  readonly #value: T;
+
+  constructor(value: T) {
+    this.#value = value;
+  }
 
   [Symbol.iterator](): Iterator<T> {
-    return new RepeatIterator(this.value);
+    return new RepeatIterator(this.#value);
   }
 }
 
@@ -302,28 +308,34 @@ export function take<T>(iterable: Iterable<T>, amount: number): Iterable<T> {
 }
 
 class TakeIterable<T> implements Iterable<T> {
-  constructor(
-    private readonly iterable: Iterable<T>,
-    private readonly amount: number
-  ) {}
+  readonly #iterable: Iterable<T>;
+  readonly #amount: number;
+
+  constructor(iterable: Iterable<T>, amount: number) {
+    this.#iterable = iterable;
+    this.#amount = amount;
+  }
 
   [Symbol.iterator](): Iterator<T> {
-    return new TakeIterator(this.iterable[Symbol.iterator](), this.amount);
+    return new TakeIterator(this.#iterable[Symbol.iterator](), this.#amount);
   }
 }
 
 class TakeIterator<T> implements Iterator<T> {
-  constructor(
-    private readonly iterator: Iterator<T>,
-    private amount: number
-  ) {}
+  readonly #iterator: Iterator<T>;
+  #amount: number;
+
+  constructor(iterator: Iterator<T>, amount: number) {
+    this.#iterator = iterator;
+    this.#amount = amount;
+  }
 
   next(): IteratorResult<T> {
-    const nextIteration = this.iterator.next();
-    if (nextIteration.done || this.amount === 0) {
+    const nextIteration = this.#iterator.next();
+    if (nextIteration.done || this.#amount === 0) {
       return { done: true, value: undefined };
     }
-    this.amount -= 1;
+    this.#amount -= 1;
     return nextIteration;
   }
 }
@@ -337,7 +349,7 @@ export function zipObject<ValueT>(
 
   const propsIterator = props[Symbol.iterator]();
   const valuesIterator = values[Symbol.iterator]();
-  // eslint-disable-next-line no-constant-condition
+  // oxlint-disable-next-line no-constant-condition
   while (true) {
     const propIteration = propsIterator.next();
     if (propIteration.done) {

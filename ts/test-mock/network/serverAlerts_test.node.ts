@@ -4,10 +4,10 @@ import createDebug from 'debug';
 import type { Page } from 'playwright';
 import { StorageState, type PrimaryDevice } from '@signalapp/mock-server';
 
-import type { App } from '../playwright.node.js';
-import { Bootstrap } from '../bootstrap.node.js';
-import { getLeftPane } from '../helpers.node.js';
-import { MINUTE } from '../../util/durations/index.std.js';
+import type { App } from '../playwright.node.ts';
+import { Bootstrap } from '../bootstrap.node.ts';
+import { getLeftPane } from '../helpers.node.ts';
+import { MINUTE } from '../../util/durations/index.std.ts';
 
 export const debug = createDebug('mock:test:serverAlerts');
 
@@ -84,8 +84,8 @@ describe('serverAlerts', function (this: Mocha.Suite) {
   ] as const;
 
   for (const testCase of TEST_CASES) {
-    // eslint-disable-next-line no-loop-func
-    it(`${testCase.name}`, async () => {
+    // oxlint-disable-next-line no-loop-func
+    it(testCase.name, async () => {
       bootstrap.server.setWebsocketUpgradeResponseHeaders(testCase.headers);
       app = await bootstrap.link();
       const window = await app.getWindow();

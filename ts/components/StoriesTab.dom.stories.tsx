@@ -5,14 +5,14 @@ import type { Meta, StoryFn } from '@storybook/react';
 import React from 'react';
 
 import { action } from '@storybook/addon-actions';
-import type { PropsType } from './StoriesTab.dom.js';
-import { StoriesTab } from './StoriesTab.dom.js';
-import { getDefaultConversation } from '../test-helpers/getDefaultConversation.std.js';
+import type { PropsType } from './StoriesTab.dom.tsx';
+import { StoriesTab } from './StoriesTab.dom.tsx';
+import { getDefaultConversation } from '../test-helpers/getDefaultConversation.std.ts';
 import {
   getFakeMyStory,
   getFakeStory,
-} from '../test-helpers/getFakeStory.dom.js';
-import * as durations from '../util/durations/index.std.js';
+} from '../test-helpers/getFakeStory.dom.tsx';
+import * as durations from '../util/durations/index.std.ts';
 
 const { i18n } = window.SignalContext;
 
@@ -24,7 +24,7 @@ export default {
     getPreferredBadge: () => undefined,
     hiddenStories: [],
     i18n,
-    maxAttachmentSizeInKb: 100 * 1024,
+    maxAttachmentVideoSize: 100 * 1024 * 1024,
     me: getDefaultConversation(),
     myStories: [],
     onForwardStory: action('onForwardStory'),
@@ -44,7 +44,6 @@ export default {
   },
 } satisfies Meta<PropsType>;
 
-// eslint-disable-next-line react/function-component-definition
 const Template: StoryFn<PropsType> = args => <StoriesTab {...args} />;
 
 export const Blank = Template.bind({});

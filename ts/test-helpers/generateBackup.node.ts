@@ -10,16 +10,16 @@ import {
 } from '@signalapp/libsignal-client/dist/AccountKeys.js';
 import { MessageBackupKey } from '@signalapp/libsignal-client/dist/MessageBackup.js';
 
-import type { AciString } from '../types/ServiceId.std.js';
-import { generateAci } from '../types/ServiceId.std.js';
-import { CipherType } from '../types/Crypto.std.js';
-import { appendPaddingStream } from '../util/logPadding.node.js';
-import { prependStream } from '../util/prependStream.node.js';
-import { appendMacStream } from '../util/appendMacStream.node.js';
-import { toAciObject } from '../util/ServiceId.node.js';
-import { encodeDelimited } from '../util/encodeDelimited.std.js';
-import { BACKUP_VERSION } from '../services/backups/constants.std.js';
-import { Backups } from '../protobuf/index.std.js';
+import type { AciString } from '../types/ServiceId.std.ts';
+import { CipherType } from '../types/Crypto.std.ts';
+import { appendPaddingStream } from '../util/logPadding.node.ts';
+import { prependStream } from '../util/prependStream.node.ts';
+import { appendMacStream } from '../util/appendMacStream.node.ts';
+import { toAciObject } from '../util/ServiceId.node.ts';
+import { encodeDelimited } from '../util/encodeDelimited.std.ts';
+import { BACKUP_VERSION } from '../services/backups/constants.std.ts';
+import { Backups } from '../protobuf/index.std.ts';
+import { generateAci } from './serviceIdUtils.std.ts';
 
 export type BackupGeneratorConfigType = Readonly<
   {
@@ -100,7 +100,7 @@ function* createRecords({
 }: BackupGeneratorConfigType): Iterable<Uint8Array<ArrayBuffer>> {
   yield* encodeDelimited(
     Backups.BackupInfo.encode({
-      version: BigInt(BACKUP_VERSION),
+      version: BACKUP_VERSION,
       backupTimeMs: getTimestamp(),
       mediaRootBackupKey,
       currentAppVersion: null,
@@ -253,7 +253,7 @@ function* createRecords({
   }
 
   for (let i = 0; i < messages; i += 1) {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    // oxlint-disable-next-line typescript/no-non-null-assertion
     const chat = chats[i % chats.length]!;
 
     const isIncoming = i % 2 === 0;

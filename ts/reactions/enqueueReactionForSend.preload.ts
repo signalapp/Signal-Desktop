@@ -4,26 +4,26 @@
 import noop from 'lodash/noop.js';
 import { v7 as generateUuid } from 'uuid';
 
-import { DataWriter } from '../sql/Client.preload.js';
-import { MessageModel } from '../models/messages.preload.js';
+import { DataWriter } from '../sql/Client.preload.ts';
+import { MessageModel } from '../models/messages.preload.ts';
 import {
   handleReaction,
   type ReactionAttributesType,
-} from '../messageModifiers/Reactions.preload.js';
-import { ReactionSource } from './ReactionSource.std.js';
-import { getMessageById } from '../messages/getMessageById.preload.js';
-import { getSourceServiceId } from '../messages/sources.preload.js';
-import { isStory } from '../messages/helpers.std.js';
-import { strictAssert } from '../util/assert.std.js';
-import { isDirectConversation } from '../util/whatTypeOfConversation.dom.js';
-import { incrementMessageCounter } from '../util/incrementMessageCounter.preload.js';
-import { generateMessageId } from '../util/generateMessageId.node.js';
-import { repeat, zipObject } from '../util/iterables.std.js';
-import { getMessageSentTimestamp } from '../util/getMessageSentTimestamp.std.js';
-import { isAciString } from '../util/isAciString.std.js';
-import { SendStatus } from '../messages/MessageSendState.std.js';
-import { createLogger } from '../logging/log.std.js';
-import { getMessageIdForLogging } from '../util/idForLogging.preload.js';
+} from '../messageModifiers/Reactions.preload.ts';
+import { ReactionSource } from './ReactionSource.std.ts';
+import { getMessageById } from '../messages/getMessageById.preload.ts';
+import { getSourceServiceId } from '../messages/sources.preload.ts';
+import { isStory } from '../messages/helpers.std.ts';
+import { strictAssert } from '../util/assert.std.ts';
+import { isDirectConversation } from '../util/whatTypeOfConversation.dom.ts';
+import { incrementMessageCounter } from '../util/incrementMessageCounter.preload.ts';
+import { generateMessageId } from '../util/generateMessageId.node.ts';
+import { repeat, zipObject } from '../util/iterables.std.ts';
+import { getMessageSentTimestamp } from '../util/getMessageSentTimestamp.std.ts';
+import { isAciString } from '../util/isAciString.std.ts';
+import { SendStatus } from '../messages/MessageSendState.std.ts';
+import { createLogger } from '../logging/log.std.ts';
+import { getMessageIdForLogging } from '../util/idForLogging.preload.ts';
 
 const log = createLogger('enqueueReactionForSend');
 

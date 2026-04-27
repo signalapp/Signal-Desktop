@@ -9,21 +9,21 @@ import type { ReadonlyDeep } from 'type-fest';
 import {
   AddressType,
   ContactFormType,
-} from '../../types/EmbeddedContact.std.js';
-import { missingCaseError } from '../../util/missingCaseError.std.js';
+} from '../../types/EmbeddedContact.std.ts';
+import { missingCaseError } from '../../util/missingCaseError.std.ts';
 import {
   renderAvatar,
   renderContactShorthand,
   renderName,
-} from './contactUtil.dom.js';
+} from './contactUtil.dom.tsx';
 
 import type {
   EmbeddedContactForUIType,
   Email,
   Phone,
   PostalAddress,
-} from '../../types/EmbeddedContact.std.js';
-import type { LocalizerType } from '../../types/Util.std.js';
+} from '../../types/EmbeddedContact.std.ts';
+import type { LocalizerType } from '../../types/Util.std.ts';
 
 export type Props = {
   cancelAttachmentDownload: (options: { messageId: string }) => void;
@@ -193,7 +193,7 @@ export function ContactDetail({
       {contact.address?.map((address: PostalAddress, index: number) => {
         return (
           <div
-            // eslint-disable-next-line react/no-array-index-key
+            // oxlint-disable-next-line react/no-array-index-key
             key={index}
             className="module-contact-detail__additional-contact"
           >

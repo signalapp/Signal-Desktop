@@ -8,13 +8,13 @@ import promise from 'redux-promise-middleware';
 import { thunk } from 'redux-thunk';
 import { createLogger as createReduxLogger } from 'redux-logger';
 
-import { createLogger } from '../logging/log.std.js';
-import type { StateType } from './reducer.preload.js';
-import { reducer } from './reducer.preload.js';
-import { dispatchItemsMiddleware } from '../shims/dispatchItemsMiddleware.preload.js';
-import { isOlderThan } from '../util/timestamp.std.js';
-import { SECOND } from '../util/durations/index.std.js';
-import { getEnvironment } from '../environment.std.js';
+import { createLogger } from '../logging/log.std.ts';
+import type { StateType } from './reducer.preload.ts';
+import { reducer } from './reducer.preload.ts';
+import { dispatchItemsMiddleware } from '../shims/dispatchItemsMiddleware.preload.ts';
+import { isOlderThan } from '../util/timestamp.std.ts';
+import { SECOND } from '../util/durations/index.std.ts';
+import { getEnvironment } from '../environment.std.ts';
 
 const log = createLogger('createStore');
 
@@ -47,8 +47,8 @@ const actionStats: ActionStats = {
   timestamp: Date.now(),
   names: [],
 };
-export const actionRateLogger: Middleware = () => next => _action => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+const actionRateLogger: Middleware = () => next => _action => {
+  // oxlint-disable-next-line typescript/no-explicit-any
   const action = _action as any as UnknownAction;
   const name = action.type;
   const lastTimestamp = actionStats.timestamp;
@@ -91,5 +91,5 @@ const enhancer = applyMiddleware(...middlewareList);
 export const createStore = (
   initialState: Readonly<StateType>
 ): Store<StateType> =>
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // oxlint-disable-next-line typescript/no-explicit-any
   reduxCreateStore<any, any>(reducer, initialState, enhancer);

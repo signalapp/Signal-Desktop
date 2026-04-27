@@ -10,47 +10,47 @@ import type { ReadonlyDeep } from 'type-fest';
 import type {
   AddLinkPreviewActionType,
   RemoveLinkPreviewActionType,
-} from './linkPreviews.preload.js';
+} from './linkPreviews.preload.ts';
 import type {
   AttachmentType,
   AttachmentDraftType,
   InMemoryAttachmentDraftType,
-} from '../../types/Attachment.std.js';
+} from '../../types/Attachment.std.ts';
 import {
   isImageAttachment,
   isVideoAttachment,
-} from '../../util/Attachment.std.js';
-import { isViewOnceEligible } from '../../util/viewOnceEligibility.std.js';
-import { DataReader, DataWriter } from '../../sql/Client.preload.js';
-import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.js';
-import type { DraftBodyRanges } from '../../types/BodyRange.std.js';
-import type { LinkPreviewForUIType } from '../../types/message/LinkPreviews.std.js';
+} from '../../util/Attachment.std.ts';
+import { isViewOnceEligible } from '../../util/viewOnceEligibility.std.ts';
+import { DataReader, DataWriter } from '../../sql/Client.preload.ts';
+import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.ts';
+import type { DraftBodyRanges } from '../../types/BodyRange.std.ts';
+import type { LinkPreviewForUIType } from '../../types/message/LinkPreviews.std.ts';
 import type {
   PinMessageData,
   ReadonlyMessageAttributesType,
 } from '../../model-types.d.ts';
-import type { NoopActionType } from './noop.std.js';
-import type { ShowToastActionType } from './toast.preload.js';
-import type { StateType as RootStateType } from '../reducer.preload.js';
-import { createLogger } from '../../logging/log.std.js';
-import * as Errors from '../../types/errors.std.js';
-import type { PollCreateType } from '../../types/Polls.dom.js';
-import { enqueuePollCreateForSend } from '../../util/enqueuePollCreateForSend.dom.js';
+import { noopAction, type NoopActionType } from './noop.std.ts';
+import type { ShowToastActionType } from './toast.preload.ts';
+import type { StateType as RootStateType } from '../reducer.preload.ts';
+import { createLogger } from '../../logging/log.std.ts';
+import * as Errors from '../../types/errors.std.ts';
+import type { PollCreateType } from '../../types/Polls.dom.ts';
+import { enqueuePollCreateForSend } from '../../util/enqueuePollCreateForSend.dom.ts';
 import {
   ADD_PREVIEW as ADD_LINK_PREVIEW,
   REMOVE_PREVIEW as REMOVE_LINK_PREVIEW,
-} from './linkPreviews.preload.js';
-import { LinkPreviewSourceType } from '../../types/LinkPreview.std.js';
-import type { AciString } from '../../types/ServiceId.std.js';
-import { completeRecording, getIsRecording } from './audioRecorder.preload.js';
-import { SHOW_TOAST, showToast } from './toast.preload.js';
-import type { AnyToast } from '../../types/Toast.dom.js';
-import { ToastType } from '../../types/Toast.dom.js';
-import { SafetyNumberChangeSource } from '../../types/SafetyNumberChangeSource.std.js';
-import { assignWithNoUnnecessaryAllocation } from '../../util/assignWithNoUnnecessaryAllocation.std.js';
-import { blockSendUntilConversationsAreVerified } from '../../util/blockSendUntilConversationsAreVerified.dom.js';
-import { clearConversationDraftAttachments } from '../../util/clearConversationDraftAttachments.preload.js';
-import { deleteDraftAttachment } from '../../util/deleteDraftAttachment.preload.js';
+} from './linkPreviews.preload.ts';
+import { LinkPreviewSourceType } from '../../types/LinkPreview.std.ts';
+import type { AciString } from '../../types/ServiceId.std.ts';
+import { completeRecording, getIsRecording } from './audioRecorder.preload.ts';
+import { SHOW_TOAST, showToast } from './toast.preload.ts';
+import type { AnyToast } from '../../types/Toast.dom.tsx';
+import { ToastType } from '../../types/Toast.dom.tsx';
+import { SafetyNumberChangeSource } from '../../types/SafetyNumberChangeSource.std.ts';
+import { assignWithNoUnnecessaryAllocation } from '../../util/assignWithNoUnnecessaryAllocation.std.ts';
+import { blockSendUntilConversationsAreVerified } from '../../util/blockSendUntilConversationsAreVerified.dom.ts';
+import { clearConversationDraftAttachments } from '../../util/clearConversationDraftAttachments.preload.ts';
+import { deleteDraftAttachment } from '../../util/deleteDraftAttachment.preload.ts';
 import {
   getLinkPreviewForSend,
   hasLinkPreviewLoaded,
@@ -58,64 +58,64 @@ import {
   removeLinkPreview,
   resetLinkPreview,
   suspendLinkPreviews,
-} from '../../services/LinkPreview.preload.js';
+} from '../../services/LinkPreview.preload.ts';
 import {
-  getMaximumOutgoingAttachmentSizeInKb,
+  getAttachmentSizeLimit,
   getRenderDetailsForLimit,
-  KIBIBYTE,
-} from '../../types/AttachmentSize.std.js';
-import { getValue as getRemoteConfigValue } from '../../RemoteConfig.dom.js';
-import { getRecipientsByConversation } from '../../util/getRecipientsByConversation.dom.js';
-import { processAttachment } from '../../util/processAttachment.preload.js';
-import { hasDraftAttachments } from '../../util/hasDraftAttachments.std.js';
-import { isFileDangerous } from '../../util/isFileDangerous.std.js';
-import { stringToMIMEType } from '../../types/MIME.std.js';
-import { isNotNil } from '../../util/isNotNil.std.js';
-import { replaceIndex } from '../../util/replaceIndex.std.js';
-import { resolveAttachmentDraftData } from '../../util/resolveAttachmentDraftData.preload.js';
-import { resolveDraftAttachmentOnDisk } from '../../util/resolveDraftAttachmentOnDisk.preload.js';
-import { shouldShowInvalidMessageToast } from '../../util/shouldShowInvalidMessageToast.preload.js';
-import { writeDraftAttachment } from '../../util/writeDraftAttachment.preload.js';
-import { getMessageById } from '../../messages/getMessageById.preload.js';
-import { canReply, isNormalBubble } from '../selectors/message.preload.js';
-import { getAuthorId } from '../../messages/sources.preload.js';
-import { getConversationSelector } from '../selectors/conversations.dom.js';
-import { enqueueReactionForSend } from '../../reactions/enqueueReactionForSend.preload.js';
-import { enqueuePollTerminateForSend } from '../../polls/enqueuePollTerminateForSend.preload.js';
-import { useBoundActions } from '../../hooks/useBoundActions.std.js';
+  isAttachmentTooLargeToSend,
+} from '../../types/AttachmentSize.std.ts';
+import { getValue as getRemoteConfigValue } from '../../RemoteConfig.dom.ts';
+import { getRecipientsByConversation } from '../../util/getRecipientsByConversation.dom.ts';
+import { processAttachment } from '../../util/processAttachment.preload.ts';
+import { hasDraftAttachments } from '../../util/hasDraftAttachments.std.ts';
+import { isFileDangerous } from '../../util/isFileDangerous.std.ts';
+import { stringToMIMEType } from '../../types/MIME.std.ts';
+import { isNotNil } from '../../util/isNotNil.std.ts';
+import { replaceIndex } from '../../util/replaceIndex.std.ts';
+import { resolveAttachmentDraftData } from '../../util/resolveAttachmentDraftData.preload.ts';
+import { resolveDraftAttachmentOnDisk } from '../../util/resolveDraftAttachmentOnDisk.preload.ts';
+import { shouldShowInvalidMessageToast } from '../../util/shouldShowInvalidMessageToast.preload.ts';
+import { writeDraftAttachment } from '../../util/writeDraftAttachment.preload.ts';
+import { getMessageById } from '../../messages/getMessageById.preload.ts';
+import { canReply, isNormalBubble } from '../selectors/message.preload.ts';
+import { getAuthorId } from '../../messages/sources.preload.ts';
+import { getConversationSelector } from '../selectors/conversations.dom.ts';
+import { enqueueReactionForSend } from '../../reactions/enqueueReactionForSend.preload.ts';
+import { enqueuePollTerminateForSend } from '../../polls/enqueuePollTerminateForSend.preload.ts';
+import { useBoundActions } from '../../hooks/useBoundActions.std.ts';
 import {
   CONVERSATION_UNLOADED,
   scrollToMessage,
-} from './conversations.preload.js';
+} from './conversations.preload.ts';
 import type {
   ConversationUnloadedActionType,
   TargetedConversationChangedActionType,
   ScrollToMessageActionType,
-} from './conversations.preload.js';
-import { longRunningTaskWrapper } from '../../util/longRunningTaskWrapper.dom.js';
-import { drop } from '../../util/drop.std.js';
-import { strictAssert } from '../../util/assert.std.js';
-import { makeQuote } from '../../util/makeQuote.preload.js';
-import { sendEditedMessage as doSendEditedMessage } from '../../util/sendEditedMessage.preload.js';
-import { Sound, SoundType } from '../../util/Sound.std.js';
+} from './conversations.preload.ts';
+import { longRunningTaskWrapper } from '../../util/longRunningTaskWrapper.dom.tsx';
+import { drop } from '../../util/drop.std.ts';
+import { strictAssert } from '../../util/assert.std.ts';
+import { makeQuote } from '../../util/makeQuote.preload.ts';
+import { sendEditedMessage as doSendEditedMessage } from '../../util/sendEditedMessage.preload.ts';
+import { Sound, SoundType } from '../../util/Sound.std.ts';
 import {
   isImageTypeSupported,
   isVideoTypeSupported,
-} from '../../util/GoogleChrome.std.js';
-import type { StateThunk } from '../types.std.js';
-import { itemStorage } from '../../textsecure/Storage.preload.js';
+} from '../../util/GoogleChrome.std.ts';
+import type { StateThunk } from '../types.std.ts';
+import { itemStorage } from '../../textsecure/Storage.preload.ts';
 import {
   getActivePanel,
   getSelectedConversationId,
-} from '../selectors/nav.std.js';
-import { isPoll } from '../../messages/helpers.std.js';
+} from '../selectors/nav.std.ts';
+import { isPoll } from '../../messages/helpers.std.ts';
 
 const { debounce, isEqual } = lodash;
 
 const log = createLogger('composer');
 
 // State
-// eslint-disable-next-line local-rules/type-alias-readonlydeep
+// oxlint-disable-next-line signal-desktop/enforce-type-alias-readonlydeep
 type ComposerStateByConversationType = {
   attachments: ReadonlyArray<AttachmentDraftType>;
   focusCounter: number;
@@ -123,7 +123,6 @@ type ComposerStateByConversationType = {
   isViewOnce: boolean;
   linkPreviewLoading: boolean;
   linkPreviewResult?: LinkPreviewForUIType;
-  messageCompositionId: string;
   quotedMessage?: QuotedMessageForComposerType;
   sendCounter: number;
   shouldSendHighQualityAttachments?: boolean;
@@ -136,7 +135,7 @@ export type QuotedMessageForComposerType = ReadonlyDeep<{
   };
 }>;
 
-// eslint-disable-next-line local-rules/type-alias-readonlydeep
+// oxlint-disable-next-line signal-desktop/enforce-type-alias-readonlydeep
 export type ComposerStateType = {
   conversations: Record<string, ComposerStateByConversationType>;
 };
@@ -148,7 +147,6 @@ function getEmptyComposerState(): ComposerStateByConversationType {
     disabledCounter: 0,
     isViewOnce: false,
     linkPreviewLoading: false,
-    messageCompositionId: generateUuid(),
     sendCounter: 0,
   };
 }
@@ -187,7 +185,7 @@ export type IncrementSendActionType = ReadonlyDeep<{
   };
 }>;
 
-// eslint-disable-next-line local-rules/type-alias-readonlydeep
+// oxlint-disable-next-line signal-desktop/enforce-type-alias-readonlydeep
 export type ReplaceAttachmentsActionType = {
   type: typeof REPLACE_ATTACHMENTS;
   payload: {
@@ -226,7 +224,7 @@ type SetHighQualitySettingActionType = ReadonlyDeep<{
   };
 }>;
 
-// eslint-disable-next-line local-rules/type-alias-readonlydeep
+// oxlint-disable-next-line signal-desktop/enforce-type-alias-readonlydeep
 export type SetQuotedMessageActionType = {
   type: typeof SET_QUOTED_MESSAGE;
   payload: {
@@ -243,7 +241,7 @@ export type SetViewOnceActionType = ReadonlyDeep<{
   };
 }>;
 
-// eslint-disable-next-line local-rules/type-alias-readonlydeep
+// oxlint-disable-next-line signal-desktop/enforce-type-alias-readonlydeep
 type ComposerActionType =
   | AddLinkPreviewActionType
   | AddPendingAttachmentActionType
@@ -334,10 +332,7 @@ function onClearAttachments(conversationId: string): NoopActionType {
     conversation.get('draftAttachments')
   );
 
-  return {
-    type: 'NOOP',
-    payload: null,
-  };
+  return noopAction('onClearAttachments');
 }
 
 function cancelJoinRequest(conversationId: string): NoopActionType {
@@ -352,20 +347,14 @@ function cancelJoinRequest(conversationId: string): NoopActionType {
     task: async () => conversation.cancelJoinRequest(),
   });
 
-  return {
-    type: 'NOOP',
-    payload: null,
-  };
+  return noopAction('cancelJoinRequest');
 }
 
 function onCloseLinkPreview(conversationId: string): NoopActionType {
   suspendLinkPreviews();
   removeLinkPreview(conversationId);
 
-  return {
-    type: 'NOOP',
-    payload: null,
-  };
+  return noopAction('onCloseLinkPreview');
 }
 
 function onTextTooLong(): ShowToastActionType {
@@ -521,7 +510,7 @@ export function saveDraftRecordingIfNeeded(
   };
 }
 
-// eslint-disable-next-line local-rules/type-alias-readonlydeep
+// oxlint-disable-next-line signal-desktop/enforce-type-alias-readonlydeep
 type WithPreSendChecksOptions = Readonly<{
   message?: string;
   voiceNoteAttachment?: InMemoryAttachmentDraftType;
@@ -808,10 +797,7 @@ function sendStickerMessage(
       log.error('clickSend error:', Errors.toLogFormat(error));
     }
 
-    dispatch({
-      type: 'NOOP',
-      payload: null,
-    });
+    dispatch(noopAction('sendStickerMessage'));
   };
 }
 
@@ -857,10 +843,7 @@ function sendPoll(
       log.error('sendPoll error:', Errors.toLogFormat(error));
     }
 
-    dispatch({
-      type: 'NOOP',
-      payload: null,
-    });
+    dispatch(noopAction('sendPoll'));
   };
 }
 
@@ -1158,10 +1141,7 @@ function onEditorStateChange({
       conversationId,
     });
 
-    dispatch({
-      type: 'NOOP',
-      payload: null,
-    });
+    dispatch(noopAction('onEditorStateChange'));
   };
 }
 
@@ -1285,10 +1265,7 @@ function processAttachments({
       return;
     }
 
-    dispatch({
-      type: 'NOOP',
-      payload: null,
-    });
+    dispatch(noopAction('processAttachments'));
   };
 }
 
@@ -1329,11 +1306,19 @@ function preProcessAttachment(
 
   // Putting this after everything else because the other checks are more
   // important to show to the user.
-  const limitKb = getMaximumOutgoingAttachmentSizeInKb(getRemoteConfigValue);
-  if (file.size / KIBIBYTE > limitKb) {
+  const sizeLimit = getAttachmentSizeLimit({
+    contentType: fileType,
+    getRemoteConfigValue,
+  });
+
+  if (
+    isAttachmentTooLargeToSend({ plaintextSize: file.size, limit: sizeLimit })
+  ) {
     return {
-      toastType: ToastType.FileSize,
-      parameters: getRenderDetailsForLimit(limitKb),
+      toastType: isVideoAttachment({ contentType: fileType })
+        ? ToastType.VideoFileSize
+        : ToastType.FileSize,
+      parameters: getRenderDetailsForLimit(sizeLimit),
     };
   }
 
@@ -1461,10 +1446,7 @@ function reactToMessage(
         emoji,
         remove,
       });
-      dispatch({
-        type: 'NOOP',
-        payload: null,
-      });
+      dispatch(noopAction('reactToMessage'));
     } catch (error) {
       log.error(
         'reactToMessage: Error sending reaction',
@@ -1493,10 +1475,7 @@ function endPoll(
   return async dispatch => {
     try {
       await enqueuePollTerminateForSend({ messageId });
-      dispatch({
-        type: 'NOOP',
-        payload: null,
-      });
+      dispatch(noopAction('endPoll'));
     } catch (error) {
       log.error('endPoll: Error sending poll terminate', error, messageId);
       dispatch({

@@ -1,9 +1,9 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { TextAttachmentStyleType } from '../types/Attachment.std.js';
-import type { LocalizerType } from '../types/Util.std.js';
-import { strictAssert } from './assert.std.js';
+import { TextAttachmentStyleType } from '../types/Attachment.std.ts';
+import type { LocalizerType } from '../types/Util.std.ts';
+import { strictAssert } from './assert.std.ts';
 
 const TextStyle = TextAttachmentStyleType;
 
@@ -127,6 +127,8 @@ export function getFontNameByTextScript(
 
   const fonts: Array<string> = [FONT_MAP.base[textStyleType]];
 
+  fonts.push('"Signal Emoji Small"', '"Signal Emoji Large"');
+
   if (fontSniffer.hasArabic(text)) {
     fonts.push(FONT_MAP.arabic[textStyleType]);
   }
@@ -155,7 +157,9 @@ export function getFontNameByTextScript(
     fonts.push(FONT_MAP.japanese[textStyleType]);
   }
 
-  if (fontSniffer.hasLatin(text)) {
+  // Push at least one font on top of emoji and serif fonts so that we render
+  // whitespace properly.
+  if (fontSniffer.hasLatin(text) || fonts.length === 3) {
     fonts.push(FONT_MAP.latin[textStyleType]);
   }
 

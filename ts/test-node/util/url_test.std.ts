@@ -2,13 +2,13 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import { size } from '../../util/iterables.std.js';
+import { size } from '../../util/iterables.std.ts';
 
 import {
   maybeParseUrl,
   setUrlSearchParams,
   urlPathFromComponents,
-} from '../../util/url.std.js';
+} from '../../util/url.std.ts';
 
 describe('URL utilities', () => {
   describe('maybeParseUrl', () => {
@@ -30,7 +30,7 @@ describe('URL utilities', () => {
 
     it('handles non-strings for compatibility, returning undefined', () => {
       [undefined, null, 123, ['https://example.com']].forEach(value => {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        // oxlint-disable-next-line typescript/no-explicit-any
         assert.isUndefined(maybeParseUrl(value as any));
       });
     });

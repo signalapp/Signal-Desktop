@@ -4,14 +4,16 @@
 import { assert } from 'chai';
 import * as sinon from 'sinon';
 
-import { sleep } from '../util/sleep.std.js';
-import { explodePromise } from '../util/explodePromise.std.js';
-import createTaskWithTimeout, {
+import { sleep } from '../util/sleep.std.ts';
+import { explodePromise } from '../util/explodePromise.std.ts';
+import { MINUTE } from '../util/durations/index.std.ts';
+import {
+  runTaskWithTimeout,
   suspendTasksWithTimeout,
   resumeTasksWithTimeout,
-} from '../textsecure/TaskWithTimeout.std.js';
+} from '../textsecure/TaskWithTimeout.std.ts';
 
-describe('createTaskWithTimeout', () => {
+describe('runTaskWithTimeout', () => {
   let sandbox: sinon.SinonSandbox;
 
   beforeEach(() => {
@@ -24,18 +26,16 @@ describe('createTaskWithTimeout', () => {
 
   it('resolves when promise resolves', async () => {
     const task = () => Promise.resolve('hi!');
-    const taskWithTimeout = createTaskWithTimeout(task, 'resolving-task');
-
-    const result = await taskWithTimeout();
+    const result = await runTaskWithTimeout(task, 'resolving-task');
     assert.strictEqual(result, 'hi!');
   });
 
   it('flows error from promise back', async () => {
     const error = new Error('original');
     const task = () => Promise.reject(error);
-    const taskWithTimeout = createTaskWithTimeout(task, 'rejecting-task');
+    const taskWithTimeout = runTaskWithTimeout(task, 'rejecting-task');
 
-    await assert.isRejected(taskWithTimeout(), 'original');
+    await assert.isRejected(taskWithTimeout, 'original');
   });
 
   it('rejects if promise takes too long (this one logs error to console)', async () => {
@@ -45,11 +45,11 @@ describe('createTaskWithTimeout', () => {
 
     // Never resolves
     const task = () => pause;
-    const taskWithTimeout = createTaskWithTimeout(task, 'slow-task');
+    const taskWithTimeout = runTaskWithTimeout(task, 'slow-task');
 
-    const promise = assert.isRejected(taskWithTimeout());
+    const promise = assert.isRejected(taskWithTimeout);
 
-    await clock.runToLastAsync();
+    await clock.runAllAsync();
 
     await promise;
   });
@@ -61,17 +61,9 @@ describe('createTaskWithTimeout', () => {
     const task = () => {
       throw error;
     };
-    const taskWithTimeout = createTaskWithTimeout(task, 'throwing-task');
+    const taskWithTimeout = runTaskWithTimeout(task, 'throwing-task');
     await clock.runToLastAsync();
-    await assert.isRejected(taskWithTimeout(), 'Task is throwing!');
-  });
-
-  it('passes arguments to the underlying function', async () => {
-    const task = (arg: string) => Promise.resolve(arg);
-    const taskWithTimeout = createTaskWithTimeout(task, 'arguments-task');
-
-    const result = await taskWithTimeout('hi!');
-    assert.strictEqual(result, 'hi!');
+    await assert.isRejected(taskWithTimeout, 'Task is throwing!');
   });
 
   it('suspends and resumes tasks', async () => {
@@ -81,25 +73,21 @@ describe('createTaskWithTimeout', () => {
 
     const task = async () => {
       state = 1;
-      await sleep(900);
+      await sleep(2 * MINUTE - 100);
       state = 2;
-      await sleep(900);
+      await sleep(2 * MINUTE - 100);
       state = 3;
     };
-    const taskWithTimeout = createTaskWithTimeout(task, 'suspend-task', {
-      timeout: 1000,
-    });
-
-    const promise = taskWithTimeout();
+    const promise = runTaskWithTimeout(task, 'suspend-task', 'short-lived');
 
     assert.strictEqual(state, 1);
 
     suspendTasksWithTimeout();
-    await clock.tickAsync(900);
+    await clock.tickAsync(2 * MINUTE - 100);
     assert.strictEqual(state, 2);
 
     resumeTasksWithTimeout();
-    await clock.tickAsync(900);
+    await clock.tickAsync(2 * MINUTE - 100);
     assert.strictEqual(state, 3);
 
     await promise;
@@ -112,17 +100,17 @@ describe('createTaskWithTimeout', () => {
 
     // Never resolves
     const task = () => pause;
-    const taskWithTimeout = createTaskWithTimeout(task, 'suspend-slow-task');
+    const taskWithTimeout = runTaskWithTimeout(task, 'suspend-slow-task');
 
-    const promise = assert.isRejected(taskWithTimeout());
+    const promise = assert.isRejected(taskWithTimeout);
 
     suspendTasksWithTimeout();
 
-    await clock.runToLastAsync();
+    await clock.runAllAsync();
 
     resumeTasksWithTimeout();
 
-    await clock.runToLastAsync();
+    await clock.runAllAsync();
 
     await promise;
   });

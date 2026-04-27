@@ -42,67 +42,6 @@
   margin: 0;
 }
 
-.Inbox__logo {
-  flex-shrink: 0;
-
-  display: block;
-  width: 128px;
-  height: 128px;
-  margin-block: 24px;
-  position: relative;
-
-  @include mixins.light-theme() {
-    --Inbox__logo__bg: #{variables.$color-ultramarine-logo};
-  }
-  @include mixins.dark-theme() {
-    --Inbox__logo__bg: #{variables.$color-white};
-  }
-
-  .Inbox__logo__part {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-  }
-
-  .Inbox__logo__part--base {
-    @include mixins.color-svg(
-      '../images/logo-parts/base.svg',
-      var(--Inbox__logo__bg)
-    );
-    & {
-      z-index: 1;
-    }
-  }
-
-  .Inbox__logo__part--segment {
-    opacity: 0;
-    z-index: 2;
-  }
-
-  .Inbox__logo__part--animated {
-    transition:
-      opacity 250ms,
-      transform 250ms;
-  }
-
-  @for $i from 1 through 16 {
-    .Inbox__logo__part--segment:nth-child(#{$i + 1}) {
-      @include mixins.color-svg(
-        '../images/logo-parts/p#{$i}.svg',
-        var(--Inbox__logo__bg)
-      );
-      & {
-        transform: rotate(#{(16 - $i) * 22.5}deg);
-      }
-    }
-  }
-
-  .Inbox__logo__part--segment:nth-child(n).Inbox__logo__part--visible {
-    transform: rotate(0deg);
-    opacity: 1;
-  }
-}
-
 .Inbox__welcome {
   margin-block: 20px 6px;
 

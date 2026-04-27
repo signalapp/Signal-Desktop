@@ -746,6 +746,9 @@
   "icu:fileSizeWarning": {
     "messageformat": "معذرت، منتخب شدہ فائل پیغام کے حجم کی پابندیوں سے بڑھ چکی ہے۔ {limit,number} {units}"
   },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "معذرت، منتخب شدہ ویڈیو فائل میسج کے سائز کی حدود سے تجاوز کر گئی ہے۔ {limit,number}{units}"
+  },
   "icu:unableToLoadAttachment": {
     "messageformat": "منتخب کردہ اٹیچمنٹ لوڈ ہونے کے قابل نہیں ہے۔"
   },
@@ -1787,6 +1790,12 @@
   "icu:Preferences__EditChatFolderPage__CancelButton": {
     "messageformat": "منسوخ کریں"
   },
+  "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
+    "messageformat": "Show status icon"
+  },
+  "icu:Preferences__PrivacyPage__ShowStatusIcon__Description": {
+    "messageformat": "Show an icon in message details when they were delivered using sealed sender."
+  },
   "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
     "messageformat": "خودکار کیی کی تصدیق"
   },
@@ -2372,6 +2381,9 @@
   "icu:ConversationDetails--support-center": {
     "messageformat": "مدداور تعاون کا مرکز"
   },
+  "icu:ConversationDetails__GroupTerminatedBanner": {
+    "messageformat": "گروپ ختم کر دیا گیا ہے"
+  },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "حفاظتی نمبر دیکھیں"
   },
@@ -2551,6 +2563,27 @@
   },
   "icu:youUpdatedTheGroup": {
     "messageformat": "آپ نے گروپ کی تجدید کی۔"
+  },
+  "icu:collapsedGroupUpdates": {
+    "messageformat": "{count, plural, one {{count,number} گروپ کی اپ ڈیٹ} other {{count,number} گروپ کی اپ ڈیٹس}}"
+  },
+  "icu:multidayCollapse__container": {
+    "messageformat": "{containerDescription} · {dayCountSummary}"
+  },
+  "icu:multidayCollapse__dayCountSummary": {
+    "messageformat": "{dayCount, plural, one {{dayCount,number}} other {{dayCount,number} دن}}"
+  },
+  "icu:collapsedChatUpdates": {
+    "messageformat": "{count, plural, one {{count,number} چیٹ کی اپ ڈیٹ} other {{count,number} چیٹ کی اپ ڈیٹس}}"
+  },
+  "icu:collapsedTimerChanges": {
+    "messageformat": "{count, plural, one {{count,number} غائب ہونے والے ٹائمر میں تبدیلی · {endingState}} other {{count,number} غائب ہونے والے میسج کے ٹائمر میں تبدیلیاں · {endingState}}}"
+  },
+  "icu:collapsedTimerChanges--disabled": {
+    "messageformat": "{count, plural, one {{count,number} غائب ہونے والے ٹائمر میں تبدیلی · غیر فعال} other {{count,number} غائب ہونے والے میسج کے ٹائمر میں تبدیلیاں · غیر فعال}}"
+  },
+  "icu:collapsedCallEvents": {
+    "messageformat": "{count, plural, one {{count,number} کال ایونٹ} other {{count,number} کال ایونٹس}}"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "گروپ اوتار کو اپ ڈیٹ کیا گیا۔"
@@ -3017,8 +3050,8 @@
   "icu:Message--tap-to-view--incoming--expired-toast": {
     "messageformat": "آپ یہ پیغام پہلے ہی دیکھ چکے ہیں۔"
   },
-  "icu:Message--tap-to-view--outgoing--expired-toast": {
-    "messageformat": "ایک وقتی دیکھے جانے والے میسجز آپ کی چیٹ ہسٹری میں اسٹور نہیں ہوتے۔"
+  "icu:Message--tap-to-view--outgoing--expired-toast-2": {
+    "messageformat": "ایک مرتبہ دیکھا جانے والا میڈیا بھیجنے کے بعد حذف کر دیا جاتا ہے"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "ایک بار دیکھنے کی ویڈیو"
@@ -3485,8 +3518,17 @@
   "icu:ConversationHero--profile-names": {
     "messageformat": "<clickable>پروفائل نیمز</clickable> تصدیق شدہ نہیں ہیں"
   },
+  "icu:ConversationHero--name-not-verified": {
+    "messageformat": "Name not verified"
+  },
   "icu:ConversationHero--signal-official-chat": {
     "messageformat": "یہ Signal کی آفیشل اور واحد چیٹ ہے"
+  },
+  "icu:ConversationHero--signal-official-account": {
+    "messageformat": "Official account"
+  },
+  "icu:ConversationHero--signal-official-account--description": {
+    "messageformat": "The only official chat from Signal. Keep up to date with news and release notes."
   },
   "icu:ConversationHero--release-notes": {
     "messageformat": "خبروں اور ریلیز نوٹس کے ساتھ باخبر رہیں۔"
@@ -3767,9 +3809,6 @@
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
     "messageformat": "کال لنک کا بذریعہ Signal اشتراک کریں"
   },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "کال سے اس فرد کو ہٹائیں"
-  },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "{name} کو کال سے ہٹا دیں؟"
   },
@@ -3932,11 +3971,23 @@
   "icu:GroupV2--join--requested": {
     "messageformat": "آپ کی شمولیت کی درخواست گروپ منتظم کو بھیج دی گئی ہے۔ جب وہ کارروائی کرتے ہیں تو آپ کو مطلع کیا جائے گا۔"
   },
+  "icu:GroupV2--join--group-terminated": {
+    "messageformat": "اس گروپ میں شامل ہونے سے قاصر۔"
+  },
   "icu:GroupV2--join--general-join-failure--title": {
     "messageformat": "لنک کی خرابی"
   },
   "icu:GroupV2--join--general-join-failure": {
     "messageformat": "گروپ میں شامل نہیں ہوسکے۔ بعد میں دوبارہ کوشش کریں۔"
+  },
+  "icu:GroupV2--terminate-group-in-progress": {
+    "messageformat": "گروپ ختم کیا جا رہا ہے…"
+  },
+  "icu:TerminateGroupFailedModal__description": {
+    "messageformat": "گروپ کو ختم نہیں کیا جا سکا۔ اپنا کنکشن چیک کریں اور دوبارہ کوشش کریں۔"
+  },
+  "icu:TerminateGroupFailedModal__try-again": {
+    "messageformat": "دوبارہ کوشش کریں"
   },
   "icu:GroupV2--admin": {
     "messageformat": "منتظم"
@@ -4379,6 +4430,15 @@
   "icu:GroupV2--summary": {
     "messageformat": "اس گروپ کے ممبرز یا سیٹنگز تبدیل ہو گئی ہیں۔"
   },
+  "icu:GroupV2--terminated--you": {
+    "messageformat": "آپ نے گروپ ختم کر دیا"
+  },
+  "icu:GroupV2--terminated--other": {
+    "messageformat": "{memberName} نے گروپ ختم کر دیا"
+  },
+  "icu:GroupV2--terminated--unknown": {
+    "messageformat": "گروپ ختم کر دیا گیا ہے"
+  },
   "icu:GroupV1--Migration--disabled--link": {
     "messageformat": "@مینشنز اور ایڈمنز جیسے نئے فیچرز فعال کرنے کے لیے یہ گروپ اپ گریڈ کریں۔ وہ ممبرز جنہوں نے اس گروپ میں اپنا نام یا تصویر شیئر نہیں کی انہیں شمولیت کے لیے مدعو کیا جائے گا۔ <learnMoreLink>مزید جانیں۔</learnMoreLink>"
   },
@@ -4655,6 +4715,9 @@
   "icu:CompositionArea__ConfirmGifSelection__ReplaceButton": {
     "messageformat": "تبدیل کریں"
   },
+  "icu:CompositionArea--group-terminated": {
+    "messageformat": "آپ میسجز نہیں بھیج سکتے کیونکہ گروپ ختم کر دیا گیا ہے۔"
+  },
   "icu:CompositionArea--viewOnceToggle": {
     "messageformat": "ایک بار دیکھیں"
   },
@@ -4832,11 +4895,26 @@
   "icu:ConversationDetailsActions--leave-group": {
     "messageformat": "گروپ چھوڑ دیں"
   },
+  "icu:ConversationDetailsActions--terminate-group": {
+    "messageformat": "گروپ ختم کریں"
+  },
   "icu:ConversationDetailsActions--block-group": {
     "messageformat": "گروپ کو بلاک کریں"
   },
   "icu:ConversationDetailsActions--unblock-group": {
     "messageformat": "گروپ کو اَن بلاک کریں"
+  },
+  "icu:ConversationDetailsActions--report-spam": {
+    "messageformat": "اسپام کو رپورٹ کریں"
+  },
+  "icu:ConversationDetailsActions--archive": {
+    "messageformat": "چیٹ آرکائیو کریں"
+  },
+  "icu:ConversationDetailsActions--unarchive": {
+    "messageformat": "چیٹ ان آرکائیو کریں"
+  },
+  "icu:ConversationDetailsActions--delete": {
+    "messageformat": "چیٹ حذف کریں"
   },
   "icu:ConversationDetailsActions--leave-group-must-choose-new-admin": {
     "messageformat": "جانے سے پہلے ، آپ کو اس گروپ کے لئے کم از کم ایک نیا منتظم منتخب کرنا ہوگا۔"
@@ -4849,6 +4927,18 @@
   },
   "icu:ConversationDetailsActions--leave-group-modal-confirm": {
     "messageformat": "چھوڑ دیں"
+  },
+  "icu:ConversationDetailsActions--prompt-terminate-group-modal-title": {
+    "messageformat": "\"{groupName}\" ختم کریں؟"
+  },
+  "icu:ConversationDetailsActions--prompt-terminate-group-modal-content": {
+    "messageformat": "ممبرز اب مزید گروپ میں میسجز بھیجنے یا کالز شروع کرنے کے قابل نہیں رہیں گے۔ انہیں اطلاع دی جائے گی کہ آپ نے گروپ ختم کر دیا ہے تاہم ان کی میسج ہسٹری تک رسائی برقرار رہے گی۔"
+  },
+  "icu:ConversationDetailsActions--terminate-group-modal-confirm": {
+    "messageformat": "گروپ ختم کریں"
+  },
+  "icu:ConversationDetailsActions--confirm-terminate-group-confirm-modal-content": {
+    "messageformat": "اس عمل سے گروپ مستقل طور پر ختم ہو جائے گا۔ کیا آپ واقعی آگے بڑھنا چاہتے ہیں؟"
   },
   "icu:ConversationDetailsActions--unblock-group-modal-title": {
     "messageformat": "\"{groupName}\" گروپ کو اَن بلاک کریں؟"
@@ -4868,6 +4958,18 @@
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "اَن بلاک کریں"
   },
+  "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
+    "messageformat": "Signal کو مطلع کیا جائے گا کہ یہ فرد اسپام بھیج رہا ہو سکتا ہے۔ Signal کسی چیٹس کا مواد نہیں دیکھ سکتا۔"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-group": {
+    "messageformat": "Signal کو اطلاع دی جائے گی کہ جس شخص نے آپ کو اس گروپ میں مدعو کیا ہے وہ شاید اسپام بھیج رہا ہو۔ Signal کسی بھی چیٹس کا مواد نہیں دیکھ سکتا۔"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
+    "messageformat": "اسپام کو رپورٹ کریں"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
+    "messageformat": "رپورٹ کریں اور بلاک کریں"
+  },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} ممبر} other {{number,number} ممبرز}}"
   },
@@ -4876,6 +4978,9 @@
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} ممبر} other {{number,number} ممبرز}}"
+  },
+  "icu:ConversationDetailsMembershipList--terminated-title": {
+    "messageformat": "{number, plural, one {{number,number} سابق ممبر} other {{number,number} سابق ممبرز}}"
   },
   "icu:ConversationDetailsMembershipList--add-members": {
     "messageformat": "ممبران شامل کریں"
@@ -5059,7 +5164,7 @@
     "ignoreUnused": true
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
-    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Signal کے تازہ ترین ورژنز پر موجود گروپ ممبرز دیکھ سکیں گے کہ آپ نے یہ میسج حذف کر دیا ہے۔} other {Signal کے تازہ ترین ورژنز پر موجود گروپ ممبرز دیکھ سکیں گے کہ آپ نے یہ میسجز حذف کر دیے ہیں۔}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "تمام ڈیوائسز سے حذف کریں"
@@ -5195,6 +5300,9 @@
   },
   "icu:MessageRequestWarning__safety-tips": {
     "messageformat": "حفاظتی تجاویز"
+  },
+  "icu:MessageRequestWarning__safety-tips-v2": {
+    "messageformat": "Safety tips"
   },
   "icu:ContactSpoofing__same-name--link": {
     "messageformat": "درخواستوں کا بغور جائزہ لیں۔ Signal کو یکساں نام کا حامل ایک دوسرا رابطہ ملا ہے۔ <reviewRequestLink>جائزے کی درخواست</reviewRequestLink>"
@@ -5797,6 +5905,15 @@
   "icu:Preferences__link-previews--description": {
     "messageformat": "اس سیٹنگ کو تبدیل کرنے کے لیے، اپنی موبائل ڈیوائس پر Signal ایپ کھولیں اور سیٹنگز > چیٹس پر نیویگیٹ کریں"
   },
+  "icu:Preferences__link-previews--new-description": {
+    "messageformat": "Retrieve link previews directly from websites for messages you send."
+  },
+  "icu:Preferences__address-book-photos--title": {
+    "messageformat": "Use address book photos"
+  },
+  "icu:Preferences__address-book-photos--description": {
+    "messageformat": "Display contact photos from your address book if available."
+  },
   "icu:Preferences__auto-convert-emoji--title": {
     "messageformat": "ٹائپ کردہ ایموٹیکنز کو ایموجی میں تبدیل کریں"
   },
@@ -6232,35 +6349,35 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "ہو گیا"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "اپنی بیک اپ کیی دکھائیں"
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
+    "messageformat": "اپنی بحالی کی کیی دکھائیں"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "اپنی بیک اپ کیی دیکھنے کے لیے اپنی شناخت کی تصدیق کریں۔"
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
+    "messageformat": "اپنی بحالی کی کیی دیکھنے کے لیے اپنی شناخت کی تصدیق کریں۔"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "بیک اپ کیی دیکھیں"
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
+    "messageformat": "ریکوری کیی دیکھیں"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "اپنی بیک اپ کیی دیکھنے کے لیے توثیق درکار ہے۔"
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
+    "messageformat": "اپنی بحالی کی کیی دیکھنے کے لیے توثیق درکار ہے۔"
   },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "بیک اپ کیی کا ٹیکسٹ باکس"
+  "icu:Preferences--local-backups-recovery-key-text-box": {
+    "messageformat": "ریکوری کیی"
   },
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "کیی درج کریں"
   },
-  "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "اپنی بیک اپ کیی محفوظ کریں"
+  "icu:Preferences--local-backups-record-recovery-key": {
+    "messageformat": "اپنی ریکوری کیی کو ریکارڈ کریں"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "یہ کیی آپ کے اکاؤنٹ اور ڈیٹا کو بحال کرنے کے لیے درکار ہوتی ہے۔ اس کیی کو کسی محفوظ جگہ پر اسٹور کریں۔ اگر آپ اسے کھو دیتے ہیں، تو آپ اپنا اکاؤنٹ بحال نہیں کر سکیں گے۔ <learnMoreLink>مزید جانیں۔</learnMoreLink>"
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "اپنی بیک اپ کیی کی تصدیق کریں"
+  "icu:Preferences--local-backups-confirm-recovery-key": {
+    "messageformat": "اپنی ریکوری کیی کی تصدیق کریں"
   },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "وہ بیک اپ کیی درج کریں جو آپ نے ابھی ریکارڈ کی ہے"
+  "icu:Preferences--local-backups-confirm-recovery-key-description": {
+    "messageformat": "وہ ریکوری کیی درج کریں جو آپ نے ابھی ریکارڈ کی ہے"
   },
   "icu:Preferences__local-backups-confirm-key-modal-title": {
     "messageformat": "اپنی کیی کو محفوظ رکھیں"
@@ -6286,26 +6403,23 @@
   "icu:Preferences__local-backups-folder": {
     "messageformat": "بیک اپ فولڈر"
   },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "تبدیل کریں"
-  },
   "icu:Preferences__local-backups-turn-off": {
-    "messageformat": "Turn off backups"
+    "messageformat": "بیک اپس غیر فعال کریں"
   },
   "icu:Preferences__local-backups-turn-off-action": {
-    "messageformat": "Turn off"
+    "messageformat": "بند کریں"
   },
   "icu:Preferences__local-backups-turn-off-confirmation": {
-    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+    "messageformat": "آپ اس کمپیوٹر پر بیک اپس کو دوبارہ فعال کیے بغیر انہیں تخلیق نہیں کر سکیں گے۔"
   },
   "icu:Preferences__local-backups-turn-off-delete": {
-    "messageformat": "Delete my backup from this computer"
+    "messageformat": "اس کمپیوٹر سے میرا بیک اپ حذف کریں"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "کلپ بورڈ کو کاپی کریں"
   },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "بیک اپ کیی کو کاپی کر لیا گیا"
+  "icu:Preferences__local-backups-copied-recovery-key": {
+    "messageformat": "ریکوری کیی کاپی کر لی گئی"
   },
   "icu:Preferences__local-backups--enable--os-prompt--mac": {
     "messageformat": "بیک اپ فعال کریں"
@@ -6319,17 +6433,29 @@
   "icu:Preferences__local-backups--enable--os-prompt-message--linux": {
     "messageformat": "بیک اپس فعال کرنے کے لیے توثیق درکار ہے۔"
   },
+  "icu:Preferences__local-backups-auth-error--unauthorized": {
+    "messageformat": "یہ کارروائی مکمل نہیں ہو سکی کیونکہ سسٹم کی توثیق ناکام ہو گئی ہے۔ براہ کرم دوبارہ کوشش کریں یا اپنی موبائل ڈیوائس پر Signal ایپ کھولیں اور اپنی بحالی کی کیی دیکھنے کے لیے بیک اپ سیٹنگز پر جائیں۔"
+  },
   "icu:Preferences__view-key": {
     "messageformat": "کیی دیکھیں"
   },
-  "icu:Preferences__backup-key": {
-    "messageformat": "بیک اپ کیی"
+  "icu:Preferences__recovery-key": {
+    "messageformat": "ریکوری کیی"
   },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "آپ کی بیک اپ کیی 64-ہندسے پر مشتمل کوڈ ہے جو آپ کے بیک اپ کو ری اسٹور کرنے کے لیے استعمال ہوتی ہے"
+  "icu:Preferences__recovery-key-description": {
+    "messageformat": "آپ کی بحالی کی کیی 64 حروف پر مشتمل ایک کوڈ ہے جسے آپ کے بیک اپ کو ری اسٹور کرنے کے لیے استعمال کیا جاتا ہے"
   },
   "icu:Preferences__backup-other-ways": {
     "messageformat": "بیک اپ کے دیگر طریقے"
+  },
+  "icu:Preferences__recovery-key-updated__title": {
+    "messageformat": "آپ کی بحالی کی کیی تبدیل ہو گئی ہے"
+  },
+  "icu:Preferences__recovery-key-updated__description": {
+    "messageformat": "آپ کی بحالی کی کیی اپ ڈیٹ کر دی گئی ہے۔ آپ جو بھی نئے بیک اپس بناتے ہیں وہ صرف آپ کی نئی بحالی کی کیی کے ذریعے ری اسٹور کیے جا سکتے ہیں۔"
+  },
+  "icu:Preferences__recovery-key-updated__view-key": {
+    "messageformat": "نئی کیی دیکھیں"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {{num,number} رابطہ} other {{num,number} روابط}}"
@@ -6394,8 +6520,14 @@
   "icu:Preferences--read-receipts": {
     "messageformat": "رسیدیں پڑھیں"
   },
+  "icu:Preferences--read-receipts--description": {
+    "messageformat": "If disabled, you won't see read receipts from others."
+  },
   "icu:Preferences--typing-indicators": {
     "messageformat": "ٹائپنگ انڈیکیٹرز"
+  },
+  "icu:Preferences--typing-indicators--description": {
+    "messageformat": "If disabled, you won't see typing indicators from others."
   },
   "icu:Preferences--updates": {
     "messageformat": "اپ ڈیٹس"
@@ -6682,6 +6814,9 @@
   "icu:MyStories__delete": {
     "messageformat": "یہ سٹوری ڈیلیٹ کریں؟ اسے اس کو وصول کرنے والے ہر فرد کے لیے بھی ڈیلیٹ کر دیا جائے گا۔"
   },
+  "icu:MyStories__delete-group-story-for-me": {
+    "messageformat": "اس سٹوری کو حذف کریں؟ یہ صرف آپ کے لیے حذف کیا جائے گا کیونکہ گروپ ختم کر دیا گیا ہے۔"
+  },
   "icu:payment-event-notification-message-you-label": {
     "messageformat": "آپ نے {receiver} کو پیمنٹ کا آغاز کیا"
   },
@@ -6903,6 +7038,9 @@
   },
   "icu:StoriesSettings__view-receipts--label": {
     "messageformat": "رسیدیں دیکھیں"
+  },
+  "icu:StoriesSettings__view-receipts--new-description": {
+    "messageformat": "See and share when stories are viewed. If disabled, you won't see when others view your story."
   },
   "icu:StoriesSettings__view-receipts--description": {
     "messageformat": "اس سیٹنگ کو تبدیل کرنے کے لیے، اپنی موبائل ڈیوائس پر Signal ایپ کھولیں اور سیٹنگز -> سٹوریز پر نیویگیٹ کریں"
@@ -7553,6 +7691,18 @@
   "icu:ProfileNameWarningModal__list--item3--direct": {
     "messageformat": "ان لوگوں کے ساتھ ذاتی معلومات شیئر نہ کریں جنہیں آپ جانتے نہیں ہیں"
   },
+  "icu:ProfileNameWarningModal__warning--signal-cant-verify": {
+    "messageformat": "Signal can’t verify names and photos"
+  },
+  "icu:ProfileNameWarningModal__warning--signal-wont-contact": {
+    "messageformat": "Signal will never contact you for your registration code, PIN, or recovery key"
+  },
+  "icu:ProfileNameWarningModal__warning--be-cautious": {
+    "messageformat": "Be cautious of accounts that impersonate others"
+  },
+  "icu:ProfileNameWarningModal__warning--dont-share-info": {
+    "messageformat": "Don't share personal information with people you don't know"
+  },
   "icu:ProfileNameWarningModal__description--group": {
     "messageformat": "گروپ کے نام گروپ کے ممبرز کی جانب سے منتخب کیے جاتے ہیں۔"
   },
@@ -8015,17 +8165,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "معمولی تبدیلیاں کی گئیں، بگ ٹھیک کیے گئے، اور کارکردگی اور بھی بہتر بنائی گئی ہے۔ Signal استعمال کرنے کے لیے شکریہ!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__7.90--0": {
-    "messageformat": "پانچ نئے آفیشل آرٹسٹ اسٹیکر پیکس کے ساتھ نئے پرائیویسی سٹک بنائیں: \"Chug the Mouse\" از امانڈا کوٹان، \"Cozy Season\" از میگوئل اینجل کیمپروبی، \"Croco's Feelings\" از ٹفنی بیوچر، \"My Daily Life 2\" از پلاسٹک تھنگ، اور \"Rocky Talk\" از لیکسی وے۔"
-  },
-  "icu:WhatsNew__8.0--0": {
-    "messageformat": "Signal محفوظ بیک اپس یہاں ہیں! اب آپ خودکار آخر سے آخر تک انکرپٹ کردہ بیک اپس کو فعال کرنے کا انتخاب کر سکتے ہیں تاکہ جب آپ نیا فون لیں یا Signal ری انسٹال کریں تو آپ کا میسج کبھی غائب نہ ہو۔ آپ اپنے تمام میسجز اور پچھلے 45 دنوں کا میڈیا مفت میں بیک اپ کر سکتے ہیں، یا آپ ہر منسلکہ کے بیک اپ کیلیے 100 GB کی اسٹوریج حاصل کرنے کے لیے مختصر ماہانہ فیس ادا کر سکتے ہیں۔ آغاز کے لیے اپنے Signal کی سیٹنگز میں بیک اپس پر ٹیپ کریں۔ ہر کسی کا شکریہ جنہوں نے بیٹا پیریڈ کے دوران اس فیچر کو ٹیسٹ کرنے میں مدد کی!"
-  },
-  "icu:WhatsNew__8.2--0": {
-    "messageformat": "اب آپ Signal ڈیسک ٹاپ سے بھی صرف ایک بار دیکھنے والے میڈیا میسجز بھیج سکتے ہیں۔ وہ انفرادی تصاویر اور ویڈیوز جو صرف ایک بار دیکھنے کے میسجز کے طور پر بھیجی جائیں، دیکھے جانے کے بعد خودکار طور پر گفتگو کے سلسلے سے حذف ہو جائیں گی۔"
-  },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "• اب آپ اختیاری طور پر ممبر لیبل شامل کر سکتے ہیں تاکہ گروپ چیٹ میں خود کو یا اپنے کردار کو بیان کریں۔ جیسے، اپنی لوکل فٹبال چیٹ میں اپنا گروپ ممبر لیبل \"ریفری\" یا \"گولی\" رکھیں تاکہ نئے ممبرز آئیں تو بات فوری شروع ہو جائے، اور پھر کمپنی چیٹ میں کوئی نیا لیبل رکھیں۔ ممبر لیبلز اس گروپ میں آپ کے پروفائل نیم کے ساتھ ظاہر ہوتے ہیں، اور گروپ ایڈمنز یہ کنٹرول کر سکتے ہیں کہ وہ سب کے لیے فعال ہوں یا نہیں۔"
   }
 }

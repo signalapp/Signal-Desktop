@@ -3,9 +3,9 @@
 
 import { assert } from 'chai';
 
-import { findRetryAfterTimeFromError } from '../../../jobs/helpers/findRetryAfterTimeFromError.std.js';
-import { HTTPError } from '../../../types/HTTPError.std.js';
-import { MINUTE } from '../../../util/durations/index.std.js';
+import { findRetryAfterTimeFromError } from '../../../jobs/helpers/findRetryAfterTimeFromError.std.ts';
+import { HTTPError } from '../../../types/HTTPError.std.ts';
+import { MINUTE } from '../../../util/durations/index.std.ts';
 
 describe('findRetryAfterTimeFromError', () => {
   it('returns 1 minute or provided default if no Retry-After time is found', () => {

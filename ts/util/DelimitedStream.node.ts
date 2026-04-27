@@ -3,7 +3,7 @@
 
 import { Transform } from 'node:stream';
 
-import { missingCaseError } from './missingCaseError.std.js';
+import { missingCaseError } from './missingCaseError.std.ts';
 
 type State =
   | {
@@ -40,17 +40,17 @@ export class DelimitedStream extends Transform {
     let offset = 0;
     while (offset < chunk.length) {
       if (this.#state.kind === 'prefix') {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        // oxlint-disable-next-line typescript/no-non-null-assertion
         const b = chunk[offset]!;
         offset += 1;
 
         // See: https://protobuf.dev/programming-guides/encoding/
-        // eslint-disable-next-line no-bitwise
+        // oxlint-disable-next-line no-bitwise
         const isLast = (b & 0x80) === 0;
-        // eslint-disable-next-line no-bitwise
+        // oxlint-disable-next-line no-bitwise
         const value = b & 0x7f;
 
-        // eslint-disable-next-line no-bitwise
+        // oxlint-disable-next-line no-bitwise
         this.#state.value |= value << (7 * this.#state.size);
         this.#state.size += 1;
 
@@ -94,7 +94,7 @@ export class DelimitedStream extends Transform {
               value: 0,
             };
 
-            // eslint-disable-next-line no-await-in-loop
+            // oxlint-disable-next-line no-await-in-loop
             await this.pushFrame(frame, EMPTY_TRAILER);
           } else {
             this.#state = {
@@ -114,7 +114,7 @@ export class DelimitedStream extends Transform {
             value: 0,
           };
 
-          // eslint-disable-next-line no-await-in-loop
+          // oxlint-disable-next-line no-await-in-loop
           await this.pushFrame(oldState.frame, trailer);
         } else {
           throw missingCaseError(this.#state);

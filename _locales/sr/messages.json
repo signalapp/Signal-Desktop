@@ -746,6 +746,9 @@
   "icu:fileSizeWarning": {
     "messageformat": "Изабрани фајл превазилази ограничења у погледу величине поруке. {limit,number} {units}"
   },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "Изабрани видео-фајл превазилази ограничења у погледу величине поруке. {limit,number}{units}"
+  },
   "icu:unableToLoadAttachment": {
     "messageformat": "Учитавање изабраног прилога није успело."
   },
@@ -1787,6 +1790,12 @@
   "icu:Preferences__EditChatFolderPage__CancelButton": {
     "messageformat": "Откажи"
   },
+  "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
+    "messageformat": "Show status icon"
+  },
+  "icu:Preferences__PrivacyPage__ShowStatusIcon__Description": {
+    "messageformat": "Show an icon in message details when they were delivered using sealed sender."
+  },
   "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
     "messageformat": "Аутоматска верификација кључа"
   },
@@ -2372,6 +2381,9 @@
   "icu:ConversationDetails--support-center": {
     "messageformat": "Центар за подршку"
   },
+  "icu:ConversationDetails__GroupTerminatedBanner": {
+    "messageformat": "Ова група је угашена"
+  },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "Прикажи сигурносни број"
   },
@@ -2551,6 +2563,27 @@
   },
   "icu:youUpdatedTheGroup": {
     "messageformat": "Ажурирали сте групу."
+  },
+  "icu:collapsedGroupUpdates": {
+    "messageformat": "{count, plural, one {{count,number} ажурирање у групи} other {{count,number} ажурирања у групи}}"
+  },
+  "icu:multidayCollapse__container": {
+    "messageformat": "{containerDescription} · {dayCountSummary}"
+  },
+  "icu:multidayCollapse__dayCountSummary": {
+    "messageformat": "{dayCount, plural, one {{dayCount,number} дан} other {{dayCount,number} дан(а)}}"
+  },
+  "icu:collapsedChatUpdates": {
+    "messageformat": "{count, plural, one {{count,number} ажурирање у ћаскању} other {{count,number} ажурирања у ћаскању}}"
+  },
+  "icu:collapsedTimerChanges": {
+    "messageformat": "{count, plural, one {{count,number} промена времена за нестајуће поруке · {endingState}} other {{count,number} промена/-е времена за нестајуће поруке · {endingState}}}"
+  },
+  "icu:collapsedTimerChanges--disabled": {
+    "messageformat": "{count, plural, one {{count,number} промена времена за нестајуће поруке · Искључено} other {{count,number} промена/-е времена за нестајуће поруке · Искључено}}"
+  },
+  "icu:collapsedCallEvents": {
+    "messageformat": "{count, plural, one {{count,number} активност везана за позиве} other {{count,number} активности везаних за позиве}}"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "Аватар групе је промењен."
@@ -3017,8 +3050,8 @@
   "icu:Message--tap-to-view--incoming--expired-toast": {
     "messageformat": "Већ сте видели ову поруку."
   },
-  "icu:Message--tap-to-view--outgoing--expired-toast": {
-    "messageformat": "Једнократне поруке се не чувају у историји ћаскања."
+  "icu:Message--tap-to-view--outgoing--expired-toast-2": {
+    "messageformat": "Једнократни медији се бришу након слања"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "Једнократни видео"
@@ -3485,8 +3518,17 @@
   "icu:ConversationHero--profile-names": {
     "messageformat": "<clickable>Имена на профилу</clickable> нису верификована"
   },
+  "icu:ConversationHero--name-not-verified": {
+    "messageformat": "Name not verified"
+  },
   "icu:ConversationHero--signal-official-chat": {
     "messageformat": "Ово је званично и једино ћаскање на Signal-у"
+  },
+  "icu:ConversationHero--signal-official-account": {
+    "messageformat": "Official account"
+  },
+  "icu:ConversationHero--signal-official-account--description": {
+    "messageformat": "The only official chat from Signal. Keep up to date with news and release notes."
   },
   "icu:ConversationHero--release-notes": {
     "messageformat": "Будите у току у погледу вести и издања апликације."
@@ -3767,9 +3809,6 @@
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
     "messageformat": "Подели линк за позив преко Signal-а"
   },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "Уклони ову особу из позива"
-  },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "Желите ли да уклоните корисника {name} из позива?"
   },
@@ -3932,11 +3971,23 @@
   "icu:GroupV2--join--requested": {
     "messageformat": "Ваш захтев за придруживање је послат администратору групе. Бићете обавештени када администратор предузме мере."
   },
+  "icu:GroupV2--join--group-terminated": {
+    "messageformat": "Није могуће придружити се овој групи."
+  },
   "icu:GroupV2--join--general-join-failure--title": {
     "messageformat": "Грешка са линком"
   },
   "icu:GroupV2--join--general-join-failure": {
     "messageformat": "Придруживање групи није успело. Пробајте поново касније."
+  },
+  "icu:GroupV2--terminate-group-in-progress": {
+    "messageformat": "Гашење групе..."
+  },
+  "icu:TerminateGroupFailedModal__description": {
+    "messageformat": "Гашење групе није успело. Проверите да ли сте повезани на интернет и пробајте поново."
+  },
+  "icu:TerminateGroupFailedModal__try-again": {
+    "messageformat": "Пробајте поново"
   },
   "icu:GroupV2--admin": {
     "messageformat": "Администратор"
@@ -4379,6 +4430,15 @@
   "icu:GroupV2--summary": {
     "messageformat": "Чланови или подешавања ове групе су се променили."
   },
+  "icu:GroupV2--terminated--you": {
+    "messageformat": "Угасили сте ову групу"
+  },
+  "icu:GroupV2--terminated--other": {
+    "messageformat": "Члан {memberName} је угасио групу"
+  },
+  "icu:GroupV2--terminated--unknown": {
+    "messageformat": "Ова група је угашена"
+  },
   "icu:GroupV1--Migration--disabled--link": {
     "messageformat": "Надоградите ову групу да бисте активирали нове функционалности попут @помињања и администратора. Чланови који нису поделили своје име или слику у овој групи биће позвани да се придруже. <learnMoreLink>Сазнајте више.</learnMoreLink>"
   },
@@ -4655,6 +4715,9 @@
   "icu:CompositionArea__ConfirmGifSelection__ReplaceButton": {
     "messageformat": "Замени"
   },
+  "icu:CompositionArea--group-terminated": {
+    "messageformat": "Не можете да шаљете поруке у овој групи јер је група угашена."
+  },
   "icu:CompositionArea--viewOnceToggle": {
     "messageformat": "Једнократни преглед"
   },
@@ -4832,11 +4895,26 @@
   "icu:ConversationDetailsActions--leave-group": {
     "messageformat": "Напусти групу"
   },
+  "icu:ConversationDetailsActions--terminate-group": {
+    "messageformat": "Угаси групу"
+  },
   "icu:ConversationDetailsActions--block-group": {
     "messageformat": "Блокирај групу"
   },
   "icu:ConversationDetailsActions--unblock-group": {
     "messageformat": "Одблокирај групу"
+  },
+  "icu:ConversationDetailsActions--report-spam": {
+    "messageformat": "Пријави спам"
+  },
+  "icu:ConversationDetailsActions--archive": {
+    "messageformat": "Архивирај ћаскање"
+  },
+  "icu:ConversationDetailsActions--unarchive": {
+    "messageformat": "Врати ћаскање из архиве"
+  },
+  "icu:ConversationDetailsActions--delete": {
+    "messageformat": "Избриши ћаскање"
   },
   "icu:ConversationDetailsActions--leave-group-must-choose-new-admin": {
     "messageformat": "Пре него што напустите ову групу, морате да изаберете бар једног администратора за њу."
@@ -4849,6 +4927,18 @@
   },
   "icu:ConversationDetailsActions--leave-group-modal-confirm": {
     "messageformat": "Напусти"
+  },
+  "icu:ConversationDetailsActions--prompt-terminate-group-modal-title": {
+    "messageformat": "Желите ли да угасите групу „{groupName}“?"
+  },
+  "icu:ConversationDetailsActions--prompt-terminate-group-modal-content": {
+    "messageformat": "Чланови више неће моћи да шаљу поруке, нити да започињу позиве у овој групи. Биће обавештени да сте угасили групу и имаће и даље приступ историји порука."
+  },
+  "icu:ConversationDetailsActions--terminate-group-modal-confirm": {
+    "messageformat": "Угаси групу"
+  },
+  "icu:ConversationDetailsActions--confirm-terminate-group-confirm-modal-content": {
+    "messageformat": "Ово ће трајно угасити групу. Да ли сте сигурни да желите да наставите?"
   },
   "icu:ConversationDetailsActions--unblock-group-modal-title": {
     "messageformat": "Желите ли да одблокирате групу „{groupName}“?"
@@ -4868,6 +4958,18 @@
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "Одблокирај"
   },
+  "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
+    "messageformat": "Signal ће бити обавештен да ова особа можда шаље спам. Signal не може да види садржај ниједног ћаскања."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-group": {
+    "messageformat": "Signal ће бити обавештен да особа која вас је позвала у групу можда шаље спам. Signal не може да види садржај ниједног ћаскања."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
+    "messageformat": "Пријави спам"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
+    "messageformat": "Пријави и блокирај"
+  },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {Чланова: {number,number}} other {Чланова: {number,number}}}"
   },
@@ -4876,6 +4978,9 @@
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {Чланова: {number,number}} other {Чланова: {number,number}}}"
+  },
+  "icu:ConversationDetailsMembershipList--terminated-title": {
+    "messageformat": "{number, plural, one {Бивших чланова: {number,number}} other {Бивших чланова: {number,number}}}"
   },
   "icu:ConversationDetailsMembershipList--add-members": {
     "messageformat": "Додај чланове"
@@ -5059,7 +5164,7 @@
     "ignoreUnused": true
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
-    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Чланови групе који користе најновију верзију Signal-а ће видети да сте обрисали ову поруку.} other {Чланови групе који користе најновију верзију Signal-а ће видети да сте обрисали ове поруке.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Избриши са свих уређаја"
@@ -5195,6 +5300,9 @@
   },
   "icu:MessageRequestWarning__safety-tips": {
     "messageformat": "Савети за безбедност"
+  },
+  "icu:MessageRequestWarning__safety-tips-v2": {
+    "messageformat": "Safety tips"
   },
   "icu:ContactSpoofing__same-name--link": {
     "messageformat": "Пажљиво прегледајте захтеве. Signal је пронашао други контакт са истим именом. <reviewRequestLink>Прегледајте захтев</reviewRequestLink>"
@@ -5797,6 +5905,15 @@
   "icu:Preferences__link-previews--description": {
     "messageformat": "Да бисте променили ово подешавање, отворите апликацију Signal на мобилном уређају и идите на Подешавања > Ћаскања"
   },
+  "icu:Preferences__link-previews--new-description": {
+    "messageformat": "Retrieve link previews directly from websites for messages you send."
+  },
+  "icu:Preferences__address-book-photos--title": {
+    "messageformat": "Use address book photos"
+  },
+  "icu:Preferences__address-book-photos--description": {
+    "messageformat": "Display contact photos from your address book if available."
+  },
   "icu:Preferences__auto-convert-emoji--title": {
     "messageformat": "Претвори откуцане емотиконе у емоџије"
   },
@@ -6232,35 +6349,35 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "Готово"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "прикажи кључ за резервне копије"
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
+    "messageformat": "прикаже ваш кључ за опоравак"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
     "messageformat": "Потврдите свој идентитет да видите свој кључ за резервне копије."
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "Прикажи кључ за резервне копије"
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
+    "messageformat": "Прикажи кључ за опоравак"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "За преглед резервног кључа потребна је потврда идентитета."
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
+    "messageformat": "За преглед кључа за опоравак потребна је потврда идентитета."
   },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Поље кључа за резервне копије"
+  "icu:Preferences--local-backups-recovery-key-text-box": {
+    "messageformat": "Кључ за опоравак"
   },
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "Унесите кључ"
   },
-  "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "Сачувајте кључ за резервне копије"
+  "icu:Preferences--local-backups-record-recovery-key": {
+    "messageformat": "Снимите кључ за опоравак"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "Овај кључ је потребан за враћање вашег налога и података. Чувајте овај кључ негде на сигурном. Ако га изгубите, нећете моћи да повратите свој налог. <learnMoreLink>Сазнајте више.</learnMoreLink>"
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "Потврдите кључ за резервне копије"
+  "icu:Preferences--local-backups-confirm-recovery-key": {
+    "messageformat": "Потврдите кључ за опоравак"
   },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "Унесите кључ за резервне копије који сте управо забележили"
+  "icu:Preferences--local-backups-confirm-recovery-key-description": {
+    "messageformat": "Унесите кључ за опоравак који сте управо забележили"
   },
   "icu:Preferences__local-backups-confirm-key-modal-title": {
     "messageformat": "Чувајте кључ на сигурном"
@@ -6286,26 +6403,23 @@
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Фолдер резервне копије"
   },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "Промени"
-  },
   "icu:Preferences__local-backups-turn-off": {
-    "messageformat": "Turn off backups"
+    "messageformat": "Искључи резервне копије"
   },
   "icu:Preferences__local-backups-turn-off-action": {
-    "messageformat": "Turn off"
+    "messageformat": "Искључи"
   },
   "icu:Preferences__local-backups-turn-off-confirmation": {
-    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+    "messageformat": "Док поново не омогућите резервне копије на овом уређају, нећете моћи да их креирате."
   },
   "icu:Preferences__local-backups-turn-off-delete": {
-    "messageformat": "Delete my backup from this computer"
+    "messageformat": "Избриши моје резервне копије са овог уређаја"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Копирај"
   },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "Кључ за резервне копије је копиран"
+  "icu:Preferences__local-backups-copied-recovery-key": {
+    "messageformat": "Кључ за опоравак је копиран"
   },
   "icu:Preferences__local-backups--enable--os-prompt--mac": {
     "messageformat": "Укључи резервне копије"
@@ -6319,17 +6433,29 @@
   "icu:Preferences__local-backups--enable--os-prompt-message--linux": {
     "messageformat": "За омогућавање резервних копија потребна је потврда идентитета."
   },
+  "icu:Preferences__local-backups-auth-error--unauthorized": {
+    "messageformat": "Ова радња није могла да се доврши због грешке у системској потврди идентитета. Покушајте поново или отворите апликацију Signal на мобилном телефону и идите у Подешавања резервних копија да пронађете кључ за опоравак."
+  },
   "icu:Preferences__view-key": {
     "messageformat": "Прикажи кључ"
   },
-  "icu:Preferences__backup-key": {
-    "messageformat": "Кључ за резервне копије"
+  "icu:Preferences__recovery-key": {
+    "messageformat": "Кључ за опоравак"
   },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "Кључ за резервне копије је 64-цифрена шифра која се користи за враћање резервне копије"
+  "icu:Preferences__recovery-key-description": {
+    "messageformat": "Ваш кључ за опоравак је 64-цифрена шифра која вам је потребна за враћање резервне копије"
   },
   "icu:Preferences__backup-other-ways": {
     "messageformat": "Други начини за прављење резервних копија"
+  },
+  "icu:Preferences__recovery-key-updated__title": {
+    "messageformat": "Ваш кључ за опоравак је промењен"
+  },
+  "icu:Preferences__recovery-key-updated__description": {
+    "messageformat": "Ваш кључ за опоравак је ажуриран. Све нове резервне копије моћи ће да се врате само помоћу новог кључа за опоравак."
+  },
+  "icu:Preferences__recovery-key-updated__view-key": {
+    "messageformat": "Прикажи нови кључ"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {Контаката: {num,number}} other {Контаката: {num,number}}}"
@@ -6394,8 +6520,14 @@
   "icu:Preferences--read-receipts": {
     "messageformat": "Потврде о читању"
   },
+  "icu:Preferences--read-receipts--description": {
+    "messageformat": "If disabled, you won't see read receipts from others."
+  },
   "icu:Preferences--typing-indicators": {
     "messageformat": "Индикатори куцања"
+  },
+  "icu:Preferences--typing-indicators--description": {
+    "messageformat": "If disabled, you won't see typing indicators from others."
   },
   "icu:Preferences--updates": {
     "messageformat": "Ажурирања"
@@ -6682,6 +6814,9 @@
   "icu:MyStories__delete": {
     "messageformat": "Желите ли да избришете ову причу? Такође ће бити избрисана свима који су је примили."
   },
+  "icu:MyStories__delete-group-story-for-me": {
+    "messageformat": "Желите ли да избришете ову причу? Биће избрисана само за вас јер је група угашена."
+  },
   "icu:payment-event-notification-message-you-label": {
     "messageformat": "Започели сте плаћање примаоцу {receiver}"
   },
@@ -6903,6 +7038,9 @@
   },
   "icu:StoriesSettings__view-receipts--label": {
     "messageformat": "Потврде о гледању"
+  },
+  "icu:StoriesSettings__view-receipts--new-description": {
+    "messageformat": "See and share when stories are viewed. If disabled, you won't see when others view your story."
   },
   "icu:StoriesSettings__view-receipts--description": {
     "messageformat": "Да бисте променили ово подешавање, отворите апликацију Signal на мобилном уређају и идите у Подешавања -> Приче"
@@ -7553,6 +7691,18 @@
   "icu:ProfileNameWarningModal__list--item3--direct": {
     "messageformat": "Не дајте информације о личности људима које не познајете"
   },
+  "icu:ProfileNameWarningModal__warning--signal-cant-verify": {
+    "messageformat": "Signal can’t verify names and photos"
+  },
+  "icu:ProfileNameWarningModal__warning--signal-wont-contact": {
+    "messageformat": "Signal will never contact you for your registration code, PIN, or recovery key"
+  },
+  "icu:ProfileNameWarningModal__warning--be-cautious": {
+    "messageformat": "Be cautious of accounts that impersonate others"
+  },
+  "icu:ProfileNameWarningModal__warning--dont-share-info": {
+    "messageformat": "Don't share personal information with people you don't know"
+  },
   "icu:ProfileNameWarningModal__description--group": {
     "messageformat": "Називе група бирају чланови групе."
   },
@@ -8015,17 +8165,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Обавили смо мања фина прилагођавања, исправке грешака и побољшања перформанси. Хвала што користите Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__7.90--0": {
-    "messageformat": "• Пет нових пакета налепница од званичних уметника."
-  },
-  "icu:WhatsNew__8.0--0": {
-    "messageformat": "Стигле су безбедне резервне копије Signal-а! Сада можете одабрати да укључите аутоматске, потпуно шифроване резервне копије тако да вам никада не зафали ни порука када набавите нови телефон или поново инсталирате Signal. Сада можете да направите бесплатну резервну копију свих својих порука и последњих 45 дана медија, или се можете одлучити на симболичну месечну претплату да добијете 100 GB меморијског простора за све медије. Додирните „резервне копије“ у подешавањима Signal-а. Захваљујемо се свима који су допринели тестирању ове функције током бета периода!"
-  },
-  "icu:WhatsNew__8.2--0": {
-    "messageformat": "Сада можеш да шаљеш поруке с једнократним медијима и преко Signal Desktop-а. Појединачне фотографије и видео-записи који се шаљу као једнократне поруке биће аутоматски уклоњени из преписке након што буду прегледани."
-  },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "Сада по жељи можете додати ознаку члана која ће описати вас или вашу улогу у групном ћаскању. Ознака члана ће се појавити поред имена вашег профила у тој групи. Администратори групе контролишу да ли су ознаке чланова омогућене свим члановима."
   }
 }

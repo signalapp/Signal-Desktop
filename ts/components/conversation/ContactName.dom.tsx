@@ -6,22 +6,24 @@ import classNames from 'classnames';
 
 import type { ReactNode } from 'react';
 
-import { getClassNamesFor } from '../../util/getClassNamesFor.std.js';
-import { isSignalConversation as getIsSignalConversation } from '../../util/isSignalConversation.dom.js';
+import { getClassNamesFor } from '../../util/getClassNamesFor.std.ts';
+import { isSignalConversation as getIsSignalConversation } from '../../util/isSignalConversation.dom.ts';
 import {
   getEmojiVariantByKey,
   getEmojiVariantKeyByValue,
   isEmojiVariantValue,
-} from '../fun/data/emojis.std.js';
-import { useFunEmojiLocalizer } from '../fun/useFunEmojiLocalizer.dom.js';
-import { FunStaticEmoji } from '../fun/FunEmoji.dom.js';
-import { missingEmojiPlaceholder } from '../../types/GroupMemberLabels.std.js';
+} from '../fun/data/emojis.std.ts';
+import { useFunEmojiLocalizer } from '../fun/useFunEmojiLocalizer.dom.tsx';
+import { FunStaticEmoji } from '../fun/FunEmoji.dom.tsx';
+import { missingEmojiPlaceholder } from '../../types/GroupMemberLabels.std.ts';
 
-import type { MemberLabelType } from '../../types/GroupMemberLabels.std.js';
-import type { ConversationType } from '../../state/ducks/conversations.preload.js';
-import type { ContactNameColorType } from '../../types/Colors.std.js';
-import type { FunStaticEmojiSize } from '../fun/FunEmoji.dom.js';
-import { UserText } from '../UserText.dom.js';
+import type { MemberLabelType } from '../../types/GroupMemberLabels.std.ts';
+import type { ConversationType } from '../../state/ducks/conversations.preload.ts';
+import type { ContactNameColorType } from '../../types/Colors.std.ts';
+import type { FunStaticEmojiSize } from '../fun/FunEmoji.dom.tsx';
+import { UserText } from '../UserText.dom.tsx';
+import { AxoSymbol } from '../../axo/AxoSymbol.dom.tsx';
+import { tw } from '../../axo/tw.dom.tsx';
 
 export type ContactNameData = {
   contactNameColor?: ContactNameColorType;
@@ -58,7 +60,6 @@ export type PropsType = ContactNameData & {
   module?: string;
   preferFirstName?: boolean;
   onClick?: VoidFunction;
-  largeVerifiedBadge?: boolean;
 };
 
 export function ContactName({
@@ -71,7 +72,6 @@ export function ContactName({
   preferFirstName,
   title,
   onClick,
-  largeVerifiedBadge,
 }: PropsType): React.JSX.Element {
   const getClassName = getClassNamesFor('module-contact-name', module);
 
@@ -89,18 +89,25 @@ export function ContactName({
         contactNameColor ? getClassName(`--${contactNameColor}`) : null
       )}
       dir="auto"
-      onClick={onClick}
+      onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
+        if (onClick) {
+          onClick();
+          event.stopPropagation();
+          event.preventDefault();
+        }
+      }}
     >
       <UserText text={text} />
+
       {(isSignalConversation || isMe) && (
-        <span
-          className={
-            largeVerifiedBadge
-              ? 'ContactModal__official-badge__large'
-              : 'ContactModal__official-badge'
-          }
-        />
+        <>
+          &nbsp;
+          <span className={tw('text-color-fill-primary')}>
+            <AxoSymbol.InlineGlyph symbol="officialbadge-fill" label={null} />
+          </span>
+        </>
       )}
+
       {contactLabel && (
         <>
           {' '}

@@ -7,57 +7,57 @@ import lodash from 'lodash';
 import type { MutableRefObject, ReactNode } from 'react';
 import { ListBox, ListBoxItem } from 'react-aria-components';
 import type { ReadonlyDeep } from 'type-fest';
-import { getDateTimeFormatter } from '../util/formatTimestamp.dom.js';
+import { getDateTimeFormatter } from '../util/formatTimestamp.dom.ts';
 
-import type { LocalizerType, ThemeType } from '../types/Util.std.js';
-import { PreferencesContent } from './Preferences.dom.js';
-import type { SettingsLocation } from '../types/Nav.std.js';
-import { SettingsPage } from '../types/Nav.std.js';
-import { PreferencesDonateFlow } from './PreferencesDonateFlow.dom.js';
+import type { LocalizerType, ThemeType } from '../types/Util.std.ts';
+import { PreferencesContent } from './Preferences.dom.tsx';
+import type { SettingsLocation } from '../types/Nav.std.ts';
+import { SettingsPage } from '../types/Nav.std.ts';
+import { PreferencesDonateFlow } from './PreferencesDonateFlow.dom.tsx';
 import type {
   DonationWorkflow,
   DonationReceipt,
   OneTimeDonationHumanAmounts,
   DonationErrorType,
-} from '../types/Donations.std.js';
+} from '../types/Donations.std.ts';
 import {
   donationErrorTypeSchema,
   donationStateSchema,
-} from '../types/Donations.std.js';
-import type { AvatarColorType } from '../types/Colors.std.js';
-import { Button, ButtonSize, ButtonVariant } from './Button.dom.js';
-import { Modal } from './Modal.dom.js';
-import { Spinner } from './Spinner.dom.js';
-import type { AnyToast } from '../types/Toast.dom.js';
-import { ToastType } from '../types/Toast.dom.js';
-import { createLogger } from '../logging/log.std.js';
-import { toLogFormat } from '../types/errors.std.js';
-import { I18n } from './I18n.dom.js';
-import { openLinkInWebBrowser } from '../util/openLinkInWebBrowser.dom.js';
-import { DonationPrivacyInformationModal } from './DonationPrivacyInformationModal.dom.js';
-import type { SubmitDonationType } from '../state/ducks/donations.preload.js';
+} from '../types/Donations.std.ts';
+import type { AvatarColorType } from '../types/Colors.std.ts';
+import { Button, ButtonSize, ButtonVariant } from './Button.dom.tsx';
+import { Modal } from './Modal.dom.tsx';
+import { Spinner } from './Spinner.dom.tsx';
+import type { AnyToast } from '../types/Toast.dom.tsx';
+import { ToastType } from '../types/Toast.dom.tsx';
+import { createLogger } from '../logging/log.std.ts';
+import { toLogFormat } from '../types/errors.std.ts';
+import { I18n } from './I18n.dom.tsx';
+import { openLinkInWebBrowser } from '../util/openLinkInWebBrowser.dom.ts';
+import { DonationPrivacyInformationModal } from './DonationPrivacyInformationModal.dom.tsx';
+import type { SubmitDonationType } from '../state/ducks/donations.preload.ts';
 import {
   getHumanDonationAmount,
   toHumanCurrencyString,
-} from '../util/currency.dom.js';
-import { Avatar, AvatarSize } from './Avatar.dom.js';
-import type { BadgeType } from '../badges/types.std.js';
-import { DonationInterruptedModal } from './DonationInterruptedModal.dom.js';
-import { DonationErrorModal } from './DonationErrorModal.dom.js';
-import { DonationVerificationModal } from './DonationVerificationModal.dom.js';
-import { DonationProgressModal } from './DonationProgressModal.dom.js';
-import { DonationStillProcessingModal } from './DonationStillProcessingModal.dom.js';
-import { DonationThanksModal } from './DonationThanksModal.dom.js';
+} from '../util/currency.dom.ts';
+import { Avatar, AvatarSize } from './Avatar.dom.tsx';
+import type { BadgeType } from '../badges/types.std.ts';
+import { DonationInterruptedModal } from './DonationInterruptedModal.dom.tsx';
+import { DonationErrorModal } from './DonationErrorModal.dom.tsx';
+import { DonationVerificationModal } from './DonationVerificationModal.dom.tsx';
+import { DonationProgressModal } from './DonationProgressModal.dom.tsx';
+import { DonationStillProcessingModal } from './DonationStillProcessingModal.dom.tsx';
+import { DonationThanksModal } from './DonationThanksModal.dom.tsx';
 import type {
   ConversationType,
   ProfileDataType,
-} from '../state/ducks/conversations.preload.js';
-import type { AvatarUpdateOptionsType } from '../types/Avatar.std.js';
-import { drop } from '../util/drop.std.js';
-import { DonationsOfflineTooltip } from './conversation/DonationsOfflineTooltip.dom.js';
-import { getInProgressDonation } from '../util/donations.dom.js';
-import { AxoButton } from '../axo/AxoButton.dom.js';
-import { tw } from '../axo/tw.dom.js';
+} from '../state/ducks/conversations.preload.ts';
+import type { AvatarUpdateOptionsType } from '../types/Avatar.std.ts';
+import { drop } from '../util/drop.std.ts';
+import { DonationsOfflineTooltip } from './conversation/DonationsOfflineTooltip.dom.tsx';
+import { getInProgressDonation } from '../util/donations.dom.ts';
+import { AxoButton } from '../axo/AxoButton.dom.tsx';
+import { tw } from '../axo/tw.dom.tsx';
 
 const { groupBy, sortBy } = lodash;
 
@@ -580,7 +580,7 @@ export function PreferencesDonations({
   // Fetch badge data when we're about to show the badge modal
   useEffect(() => {
     if (
-      workflow?.type === donationStateSchema.Enum.DONE &&
+      workflow?.type === donationStateSchema.enum.DONE &&
       settingsLocation.page === SettingsPage.Donations &&
       !donationBadge
     ) {
@@ -594,10 +594,10 @@ export function PreferencesDonations({
     }
 
     if (
-      workflow?.type === donationStateSchema.Enum.INTENT_CONFIRMED ||
-      workflow?.type === donationStateSchema.Enum.PAYMENT_CONFIRMED ||
-      workflow?.type === donationStateSchema.Enum.RECEIPT ||
-      workflow?.type === donationStateSchema.Enum.DONE
+      workflow?.type === donationStateSchema.enum.INTENT_CONFIRMED ||
+      workflow?.type === donationStateSchema.enum.PAYMENT_CONFIRMED ||
+      workflow?.type === donationStateSchema.enum.RECEIPT ||
+      workflow?.type === donationStateSchema.enum.DONE
     ) {
       setIsSubmitted(false);
     }
@@ -632,7 +632,7 @@ export function PreferencesDonations({
           setIsSubmitted(false);
           if (
             workflow?.type === 'DONE' &&
-            lastError === donationErrorTypeSchema.Enum.BadgeApplicationFailed
+            lastError === donationErrorTypeSchema.enum.BadgeApplicationFailed
           ) {
             clearWorkflow();
           }
@@ -642,7 +642,7 @@ export function PreferencesDonations({
     );
   } else if (
     didResumeWorkflowAtStartup &&
-    workflow?.type === donationStateSchema.Enum.INTENT_METHOD
+    workflow?.type === donationStateSchema.enum.INTENT_METHOD
   ) {
     dialog = (
       <DonationInterruptedModal
@@ -657,7 +657,7 @@ export function PreferencesDonations({
         }}
       />
     );
-  } else if (workflow?.type === donationStateSchema.Enum.INTENT_REDIRECT) {
+  } else if (workflow?.type === donationStateSchema.enum.INTENT_REDIRECT) {
     dialog = (
       <DonationVerificationModal
         i18n={i18n}
@@ -671,12 +671,12 @@ export function PreferencesDonations({
         }}
         onTimedOut={() => {
           clearWorkflow();
-          updateLastError(donationErrorTypeSchema.Enum.TimedOut);
+          updateLastError(donationErrorTypeSchema.enum.TimedOut);
           setSettingsLocation({ page: SettingsPage.Donations });
         }}
       />
     );
-  } else if (workflow?.type === donationStateSchema.Enum.DONE) {
+  } else if (workflow?.type === donationStateSchema.enum.DONE) {
     dialog = (
       <DonationThanksModal
         i18n={i18n}
@@ -686,7 +686,7 @@ export function PreferencesDonations({
           if (error) {
             log.error('Badge application failed:', error.message);
             updateLastError(
-              donationErrorTypeSchema.Enum.BadgeApplicationFailed
+              donationErrorTypeSchema.enum.BadgeApplicationFailed
             );
           } else {
             clearWorkflow();
@@ -697,17 +697,17 @@ export function PreferencesDonations({
   } else if (
     settingsLocation.page === SettingsPage.DonationsDonateFlow &&
     (isSubmitted ||
-      workflow?.type === donationStateSchema.Enum.INTENT_CONFIRMED ||
-      workflow?.type === donationStateSchema.Enum.PAYMENT_CONFIRMED ||
-      workflow?.type === donationStateSchema.Enum.RECEIPT)
+      workflow?.type === donationStateSchema.enum.INTENT_CONFIRMED ||
+      workflow?.type === donationStateSchema.enum.PAYMENT_CONFIRMED ||
+      workflow?.type === donationStateSchema.enum.RECEIPT)
   ) {
     // We can't transition away from the payment screen until that payment information
     // has been accepted. Even if it takes more than 30 seconds.
     if (
       hasProcessingExpired &&
-      (workflow?.type === donationStateSchema.Enum.INTENT_CONFIRMED ||
-        workflow?.type === donationStateSchema.Enum.PAYMENT_CONFIRMED ||
-        workflow?.type === donationStateSchema.Enum.RECEIPT)
+      (workflow?.type === donationStateSchema.enum.INTENT_CONFIRMED ||
+        workflow?.type === donationStateSchema.enum.PAYMENT_CONFIRMED ||
+        workflow?.type === donationStateSchema.enum.RECEIPT)
     ) {
       dialog = (
         <DonationStillProcessingModal
@@ -720,7 +720,7 @@ export function PreferencesDonations({
           }}
         />
       );
-    } else if (workflow?.type === donationStateSchema.Enum.PAYPAL_INTENT) {
+    } else if (workflow?.type === donationStateSchema.enum.PAYPAL_INTENT) {
       // No need to show the dialog here because PreferencesDonateFlow already
       // initiates a dialog when redirecting to PayPal.
     } else {

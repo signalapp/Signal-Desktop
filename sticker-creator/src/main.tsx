@@ -15,7 +15,6 @@ import {
 import './index.scss';
 import { store } from './store';
 import { Root } from './routes/Root';
-// import { Index } from './routes/Index';
 import { createArtRoutes } from './routes/art';
 import { loadLocale } from './util/i18n';
 

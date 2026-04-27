@@ -4,13 +4,13 @@
 import { assert } from 'chai';
 import { v4 as generateGuid } from 'uuid';
 
-import type { WritableDB } from '../../sql/Interface.std.js';
+import type { WritableDB } from '../../sql/Interface.std.ts';
 import {
   createDB,
   updateToVersion,
   insertData,
   getTableData,
-} from './helpers.node.js';
+} from './helpers.node.ts';
 
 const CONVO_ID = generateGuid();
 const OUR_ACI = generateGuid();
@@ -137,7 +137,7 @@ describe('SQL/updateToSchemaVersion960', () => {
   });
 
   for (const table of ['preKeys', 'signedPreKeys', 'kyberPreKeys']) {
-    // eslint-disable-next-line no-loop-func
+    // oxlint-disable-next-line no-loop-func
     it(`should migrate ${table}`, () => {
       insertData(db, table, [
         {

@@ -3,9 +3,9 @@
 
 import React from 'react';
 import type { Meta } from '@storybook/react';
-import type { Props } from './UniversalTimerNotification.dom.js';
-import { UniversalTimerNotification } from './UniversalTimerNotification.dom.js';
-import { EXPIRE_TIMERS } from '../../test-helpers/expireTimers.std.js';
+import type { Props } from './UniversalTimerNotification.dom.tsx';
+import { UniversalTimerNotification } from './UniversalTimerNotification.dom.tsx';
+import { EXPIRE_TIMERS } from '../../test-helpers/expireTimers.std.ts';
 
 export default {
   title: 'Components/UniversalTimerNotification',

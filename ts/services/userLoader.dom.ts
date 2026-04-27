@@ -1,12 +1,12 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { strictAssert } from '../util/assert.std.js';
-import { getThemeType } from '../util/getThemeType.dom.js';
+import { strictAssert } from '../util/assert.std.ts';
+import { getThemeType } from '../util/getThemeType.dom.ts';
 
-import type { MenuOptionsType } from '../types/menu.std.js';
-import type { MainWindowStatsType } from '../windows/context.preload.js';
-import type { ThemeType } from '../types/Util.std.js';
+import type { MenuOptionsType } from '../types/menu.std.ts';
+import type { MainWindowStatsType } from '../windows/context.preload.ts';
+import type { ThemeType } from '../types/Util.std.ts';
 
 let mainWindowStats: MainWindowStatsType | undefined;
 let menuOptions: MenuOptionsType | undefined;

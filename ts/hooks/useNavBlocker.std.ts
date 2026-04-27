@@ -5,11 +5,11 @@ import { useEffect, useRef, useState } from 'react';
 import {
   beforeNavigateService,
   BeforeNavigateResponse,
-} from '../services/BeforeNavigate.std.js';
+} from '../services/BeforeNavigate.std.ts';
 import type {
   BeforeNavigateCallback,
   BeforeNavigateTransitionDetails,
-} from '../services/BeforeNavigate.std.js';
+} from '../services/BeforeNavigate.std.ts';
 
 type NavBlockerBlocked = Readonly<{
   state: 'blocked';

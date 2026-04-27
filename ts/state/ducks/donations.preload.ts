@@ -4,26 +4,26 @@
 import type { ReadonlyDeep, Simplify } from 'type-fest';
 import type { ThunkAction } from 'redux-thunk';
 
-import { useBoundActions } from '../../hooks/useBoundActions.std.js';
-import { createLogger } from '../../logging/log.std.js';
-import * as Errors from '../../types/errors.std.js';
-import { isStagingServer } from '../../util/isStagingServer.dom.js';
-import { DataWriter } from '../../sql/Client.preload.js';
-import * as donations from '../../services/donations.preload.js';
+import { useBoundActions } from '../../hooks/useBoundActions.std.ts';
+import { createLogger } from '../../logging/log.std.ts';
+import * as Errors from '../../types/errors.std.ts';
+import { isStagingServer } from '../../util/isStagingServer.dom.ts';
+import { DataWriter } from '../../sql/Client.preload.ts';
+import * as donations from '../../services/donations.preload.ts';
 import {
   donationStateSchema,
   DonationProcessor,
-} from '../../types/Donations.std.js';
-import { drop } from '../../util/drop.std.js';
-import { storageServiceUploadJob } from '../../services/storage.preload.js';
-import { getMe } from '../selectors/conversations.dom.js';
-import { actions as conversationActions } from './conversations.preload.js';
+} from '../../types/Donations.std.ts';
+import { drop } from '../../util/drop.std.ts';
+import { storageServiceUploadJob } from '../../services/storage.preload.ts';
+import { getMe } from '../selectors/conversations.dom.ts';
+import { actions as conversationActions } from './conversations.preload.ts';
 import type {
   ProfileDataType,
   SetProfileUpdateErrorActionType,
-} from './conversations.preload.js';
+} from './conversations.preload.ts';
 
-import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.js';
+import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.ts';
 import type {
   CardDetail,
   DonationErrorType,
@@ -31,11 +31,11 @@ import type {
   DonationWorkflow,
   OneTimeDonationHumanAmounts,
   StripeDonationAmount,
-} from '../../types/Donations.std.js';
-import type { BadgeType } from '../../badges/types.std.js';
-import type { StateType as RootStateType } from '../reducer.preload.js';
-import { itemStorage } from '../../textsecure/Storage.preload.js';
-import { missingCaseError } from '../../util/missingCaseError.std.js';
+} from '../../types/Donations.std.ts';
+import type { BadgeType } from '../../badges/types.std.ts';
+import type { StateType as RootStateType } from '../reducer.preload.ts';
+import { itemStorage } from '../../textsecure/Storage.preload.ts';
+import { missingCaseError } from '../../util/missingCaseError.std.ts';
 
 const log = createLogger('donations');
 
@@ -100,7 +100,7 @@ export type DonationsActionType = ReadonlyDeep<
 
 // Action Creators
 
-export function addReceipt(receipt: DonationReceipt): AddReceiptAction {
+function addReceipt(receipt: DonationReceipt): AddReceiptAction {
   return {
     type: ADD_RECEIPT,
     payload: { receipt },
@@ -228,7 +228,7 @@ function _submitStripeDonation({
     try {
       const { currentWorkflow } = getState().donations;
       if (
-        currentWorkflow?.type === donationStateSchema.Enum.INTENT &&
+        currentWorkflow?.type === donationStateSchema.enum.INTENT &&
         currentWorkflow.paymentAmount === paymentAmount &&
         currentWorkflow.currencyType === currencyType
       ) {
@@ -375,7 +375,7 @@ export function applyDonationBadge({
         badges: updatedBadges,
       };
 
-      await dispatch(
+      dispatch(
         conversationActions.myProfileChanged(profileData, { keepAvatar: true })
       );
       newDisplayBadgesOnProfile = true;
@@ -391,7 +391,7 @@ export function applyDonationBadge({
         badges: [],
       };
 
-      await dispatch(
+      dispatch(
         conversationActions.myProfileChanged(profileData, { keepAvatar: true })
       );
       newDisplayBadgesOnProfile = false;
@@ -487,7 +487,7 @@ export function reducer(
 
     // If we've cleared the workflow or are starting afresh, we clear the startup flag
     const didResumeWorkflowAtStartup =
-      !nextWorkflow || nextWorkflow.type === donationStateSchema.Enum.INTENT
+      !nextWorkflow || nextWorkflow.type === donationStateSchema.enum.INTENT
         ? false
         : state.didResumeWorkflowAtStartup;
 

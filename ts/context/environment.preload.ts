@@ -1,12 +1,12 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { config } from './config.preload.js';
+import { config } from './config.preload.ts';
 import {
   getEnvironment,
   parseEnvironment,
   setEnvironment,
-} from '../environment.std.js';
+} from '../environment.std.ts';
 
 setEnvironment(
   parseEnvironment(config.environment),

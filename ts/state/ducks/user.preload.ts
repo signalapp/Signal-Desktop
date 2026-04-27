@@ -2,20 +2,20 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReadonlyDeep } from 'type-fest';
-import { trigger } from '../../shims/events.dom.js';
-import type { LocaleMessagesType } from '../../types/I18N.std.js';
-import type { LocalizerType } from '../../types/Util.std.js';
-import type { MenuOptionsType } from '../../types/menu.std.js';
-import type { NoopActionType } from './noop.std.js';
-import type { AciString, PniString } from '../../types/ServiceId.std.js';
-import OS from '../../util/os/osMain.node.js';
-import { ThemeType } from '../../types/Util.std.js';
-import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.js';
-import { useBoundActions } from '../../hooks/useBoundActions.std.js';
+import { trigger } from '../../shims/events.dom.ts';
+import type { LocaleMessagesType } from '../../types/I18N.std.ts';
+import type { LocalizerType } from '../../types/Util.std.ts';
+import type { MenuOptionsType } from '../../types/menu.std.ts';
+import { noopAction, type NoopActionType } from './noop.std.ts';
+import type { AciString, PniString } from '../../types/ServiceId.std.ts';
+import OS from '../../util/os/osMain.node.ts';
+import { ThemeType } from '../../types/Util.std.ts';
+import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.ts';
+import { useBoundActions } from '../../hooks/useBoundActions.std.ts';
 
 // State
 
-// eslint-disable-next-line local-rules/type-alias-readonlydeep
+// oxlint-disable-next-line signal-desktop/enforce-type-alias-readonlydeep
 export type UserStateType = Readonly<{
   attachmentsPath: string;
   i18n: LocalizerType;
@@ -106,10 +106,7 @@ function userChanged(attributes: {
 function manualReconnect(): NoopActionType {
   trigger('manualConnect');
 
-  return {
-    type: 'NOOP',
-    payload: null,
-  };
+  return noopAction('manualReconnect');
 }
 
 const intlNotSetup = () => {

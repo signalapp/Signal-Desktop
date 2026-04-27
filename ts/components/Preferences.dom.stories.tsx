@@ -7,59 +7,60 @@ import type { MutableRefObject } from 'react';
 import { action } from '@storybook/addon-actions';
 import lodash from 'lodash';
 
-import { Preferences } from './Preferences.dom.js';
-import { DEFAULT_CONVERSATION_COLOR } from '../types/Colors.std.js';
-import { PhoneNumberSharingMode } from '../types/PhoneNumberSharingMode.std.js';
-import { PhoneNumberDiscoverability } from '../util/phoneNumberDiscoverability.std.js';
-import { EmojiSkinTone } from './fun/data/emojis.std.js';
+import { Preferences } from './Preferences.dom.tsx';
+import { DEFAULT_CONVERSATION_COLOR } from '../types/Colors.std.ts';
+import { PhoneNumberSharingMode } from '../types/PhoneNumberSharingMode.std.ts';
+import { PhoneNumberDiscoverability } from '../util/phoneNumberDiscoverability.std.ts';
+import { sleep } from '../util/sleep.std.ts';
+import { EmojiSkinTone } from './fun/data/emojis.std.ts';
 import {
   DAY,
   DurationInSeconds,
   HOUR,
   WEEK,
-} from '../util/durations/index.std.js';
-import { DialogUpdate } from './DialogUpdate.dom.js';
-import { DialogType } from '../types/Dialogs.std.js';
-import { ThemeType } from '../types/Util.std.js';
+} from '../util/durations/index.std.ts';
+import { DialogUpdate } from './DialogUpdate.dom.tsx';
+import { DialogType } from '../types/Dialogs.std.ts';
+import { ThemeType } from '../types/Util.std.ts';
 import {
   getDefaultConversation,
   getDefaultGroup,
-} from '../test-helpers/getDefaultConversation.std.js';
-import { ProfileEditor } from './ProfileEditor.dom.js';
+} from '../test-helpers/getDefaultConversation.std.ts';
+import { ProfileEditor } from './ProfileEditor.dom.tsx';
 import {
   UsernameEditState,
   UsernameLinkState,
-} from '../state/ducks/usernameEnums.std.js';
-import type { SettingsLocation } from '../types/Nav.std.js';
-import { NavTab, ProfileEditorPage, SettingsPage } from '../types/Nav.std.js';
-import { PreferencesDonations } from './PreferencesDonations.dom.js';
-import { strictAssert } from '../util/assert.std.js';
-import { PreferencesChatFoldersPage } from './preferences/chatFolders/PreferencesChatFoldersPage.dom.js';
-import { PreferencesEditChatFolderPage } from './preferences/chatFolders/PreferencesEditChatFoldersPage.dom.js';
-import { CHAT_FOLDER_DEFAULTS } from '../types/ChatFolder.std.js';
+} from '../state/ducks/usernameEnums.std.ts';
+import type { SettingsLocation } from '../types/Nav.std.ts';
+import { NavTab, ProfileEditorPage, SettingsPage } from '../types/Nav.std.ts';
+import { PreferencesDonations } from './PreferencesDonations.dom.tsx';
+import { strictAssert } from '../util/assert.std.ts';
+import { PreferencesChatFoldersPage } from './preferences/chatFolders/PreferencesChatFoldersPage.dom.tsx';
+import { PreferencesEditChatFolderPage } from './preferences/chatFolders/PreferencesEditChatFoldersPage.dom.tsx';
+import { CHAT_FOLDER_DEFAULTS } from '../types/ChatFolder.std.ts';
 import {
   NotificationProfilesHome,
   NotificationProfilesCreateFlow,
-} from './PreferencesNotificationProfiles.dom.js';
-import { DayOfWeek } from '../types/NotificationProfile.std.js';
+} from './PreferencesNotificationProfiles.dom.tsx';
+import { DayOfWeek } from '../types/NotificationProfile.std.ts';
 
-import type { LocalizerType } from '../types/Util.std.js';
-import type { PropsType } from './Preferences.dom.js';
-import type { WidthBreakpoint } from './_util.std.js';
+import type { LocalizerType } from '../types/Util.std.ts';
+import type { PropsType } from './Preferences.dom.tsx';
+import type { WidthBreakpoint } from './_util.std.ts';
 import type { MessageAttributesType } from '../model-types.d.ts';
 import type {
   DonationReceipt,
   DonationWorkflow,
   OneTimeDonationHumanAmounts,
-} from '../types/Donations.std.js';
-import type { AnyToast } from '../types/Toast.dom.js';
-import type { SmartPreferencesChatFoldersPageProps } from '../state/smart/PreferencesChatFoldersPage.preload.js';
-import type { SmartPreferencesEditChatFolderPageProps } from '../state/smart/PreferencesEditChatFolderPage.preload.js';
-import { CurrentChatFolders } from '../types/CurrentChatFolders.std.js';
-import type { ExternalProps as SmartNotificationProfilesProps } from '../state/smart/PreferencesNotificationProfiles.preload.js';
-import type { NotificationProfileIdString } from '../types/NotificationProfile.std.js';
-import type { ExportResultType } from '../services/backups/types.std.js';
-import { BackupLevel } from '../services/backups/types.std.js';
+} from '../types/Donations.std.ts';
+import type { AnyToast } from '../types/Toast.dom.tsx';
+import type { SmartPreferencesChatFoldersPageProps } from '../state/smart/PreferencesChatFoldersPage.preload.tsx';
+import type { SmartPreferencesEditChatFolderPageProps } from '../state/smart/PreferencesEditChatFolderPage.preload.tsx';
+import { CurrentChatFolders } from '../types/CurrentChatFolders.std.ts';
+import type { ExternalProps as SmartNotificationProfilesProps } from '../state/smart/PreferencesNotificationProfiles.preload.tsx';
+import type { NotificationProfileIdString } from '../types/NotificationProfile.std.ts';
+import type { ExportResultType } from '../services/backups/types.std.ts';
+import { BackupLevel } from '../services/backups/types.std.ts';
 
 const { shuffle } = lodash;
 
@@ -388,8 +389,9 @@ export default {
   component: Preferences,
   args: {
     i18n,
-    accountEntropyPool:
+    backupKey:
       'uy38jh2778hjjhj8lk19ga61s672jsj089r023s6a57809bap92j2yh5t326vv7t',
+    backupKeyHash: 'backupkeyhash',
     autoDownloadAttachment: {
       photos: true,
       videos: false,
@@ -418,7 +420,6 @@ export default {
     availableMicrophones,
     availableSpeakers,
     backupFreeMediaDays: 45,
-    backupKeyViewed: false,
     backupLocalBackupsEnabled: false,
     backupSubscriptionStatus: { status: 'not-found' },
     backupTier: null,
@@ -451,8 +452,10 @@ export default {
     hasMinimizeToSystemTray: true,
     hasNotificationAttention: false,
     hasNotifications: true,
+    hasPreferContactAvatars: true,
     hasReadReceipts: true,
     hasRelayCalls: false,
+    hasSealedSenderIndicators: true,
     hasSpellCheck: true,
     hasStoriesDisabled: false,
     hasTextFormatting: true,
@@ -491,6 +494,7 @@ export default {
     },
     preferredSystemLocales: ['en'],
     preferredWidthFromStorage: 300,
+    previouslyViewedBackupKeyHash: 'hash',
     resolvedLocale: 'en',
     selectedCamera:
       'dfbe6effe70b0611ba0fdc2a9ea3f39f6cb110e6687948f7e5f016c111b7329c',
@@ -556,7 +560,7 @@ export default {
     onAutoDownloadAttachmentChange: action('onAutoDownloadAttachmentChange'),
     onAutoDownloadUpdateChange: action('onAutoDownloadUpdateChange'),
     onAutoLaunchChange: action('onAutoLaunchChange'),
-    onBackupKeyViewedChange: action('onBackupKeyViewedChange'),
+    onBackupKeyViewed: action('onBackupKeyViewed'),
     onCallNotificationsChange: action('onCallNotificationsChange'),
     onCallRingtoneNotificationChange: action(
       'onCallRingtoneNotificationChange'
@@ -575,6 +579,7 @@ export default {
     onKeepMutedChatsArchivedChange: action('onKeepMutedChatsArchivedChange'),
     onLocaleChange: action('onLocaleChange'),
     onLastSyncTimeChange: action('onLastSyncTimeChange'),
+    onLinkPreviewsChange: action('onLinkPreviewsChange'),
     onMediaCameraPermissionsChange: action('onMediaCameraPermissionsChange'),
     onMediaPermissionsChange: action('onMediaPermissionsChange'),
     onMessageAudioChange: action('onMessageAudioChange'),
@@ -585,7 +590,10 @@ export default {
     onNotificationAttentionChange: action('onNotificationAttentionChange'),
     onNotificationContentChange: action('onNotificationContentChange'),
     onNotificationsChange: action('onNotificationsChange'),
+    onPreferContactAvatarsChange: action('onPreferContactAvatarsChange'),
+    onReadReceiptsChange: action('onReadReceiptsChange'),
     onRelayCallsChange: action('onRelayCallsChange'),
+    onSealedSenderIndicatorsChange: action('onSealedSenderIndicatorsChange'),
     onSelectedCameraChange: action('onSelectedCameraChange'),
     onSelectedMicrophoneChange: action('onSelectedMicrophoneChange'),
     onSelectedSpeakerChange: action('onSelectedSpeakerChange'),
@@ -595,9 +603,10 @@ export default {
     onTextFormattingChange: action('onTextFormattingChange'),
     onThemeChange: action('onThemeChange'),
     onToggleNavTabsCollapse: action('onToggleNavTabsCollapse'),
+    onTypingIndicatorsChange: action('onTypingIndicatorsChange'),
     onUniversalExpireTimerChange: action('onUniversalExpireTimerChange'),
-    onWhoCanSeeMeChange: action('onWhoCanSeeMeChange'),
     onWhoCanFindMeChange: action('onWhoCanFindMeChange'),
+    onWhoCanSeeMeChange: action('onWhoCanSeeMeChange'),
     onZoomFactorChange: action('onZoomFactorChange'),
     openFileInFolder: action('openFileInFolder'),
     pickLocalBackupFolder: () =>
@@ -647,10 +656,25 @@ export default {
     },
     cqsTestMode: false,
     setCqsTestMode: action('setCqsTestMode'),
+    dredDuration: 0,
+    setDredDuration: action('setDredDuration'),
+    directMaxBitrate: 1000000,
+    setDirectMaxBitrate: action('setDirectMaxBitrate'),
+    isDirectVp9Enabled: true,
+    setIsDirectVp9Enabled: action('setIsDirectVp9Enabled'),
+    groupMaxBitrate: 1000000,
+    setGroupMaxBitrate: action('setGroupMaxBitrate'),
+    isGroupVp9Enabled: false,
+    setIsGroupVp9Enabled: action('setIsDirectVp9Enabled'),
+    sfuUrl: 'https://sfu.voip.signal.org',
+    setSfuUrl: action('setSfuUrl'),
+    forceKeyTransparencyCheck: async () => {
+      await sleep(1000);
+    },
+    keyTransparencySelfHealth: 'ok',
   } satisfies PropsType,
 } satisfies Meta<PropsType>;
 
-// eslint-disable-next-line react/function-component-definition
 const Template: StoryFn<PropsType> = args => {
   const [settingsLocation, setSettingsLocation] = useState(
     args.settingsLocation
@@ -660,7 +684,7 @@ const Template: StoryFn<PropsType> = args => {
       {...args}
       settingsLocation={settingsLocation}
       setSettingsLocation={(newSettingsLocation: SettingsLocation) => {
-        // eslint-disable-next-line no-console
+        // oxlint-disable-next-line no-console
         console.log('setSettingsLocation:', newSettingsLocation);
         setSettingsLocation(newSettingsLocation);
       }}
@@ -1236,7 +1260,7 @@ export const LocalBackups = Template.bind({});
 LocalBackups.args = {
   settingsLocation: { page: SettingsPage.LocalBackups },
   backupLocalBackupsEnabled: true,
-  backupKeyViewed: true,
+  previouslyViewedBackupKeyHash: 'hash',
   lastLocalBackup: {
     timestamp: Date.now() - DAY,
     backupsFolder: 'backups',
@@ -1249,20 +1273,20 @@ export const LocalBackupsNeverBackedUp = Template.bind({});
 LocalBackupsNeverBackedUp.args = {
   settingsLocation: { page: SettingsPage.LocalBackups },
   backupLocalBackupsEnabled: true,
-  backupKeyViewed: true,
+  previouslyViewedBackupKeyHash: 'hash',
   lastLocalBackup: undefined,
   localBackupFolder: '/home/signaluser/Signal Backups/',
 };
 
 export const LocalBackupsSetupChooseFolder = Template.bind({});
 LocalBackupsSetupChooseFolder.args = {
-  settingsLocation: { page: SettingsPage.LocalBackupsSetupFolder },
+  settingsLocation: { page: SettingsPage.LocalBackups },
   backupLocalBackupsEnabled: true,
 };
 
 export const LocalBackupsSetupViewBackupKey = Template.bind({});
 LocalBackupsSetupViewBackupKey.args = {
-  settingsLocation: { page: SettingsPage.LocalBackupsSetupKey },
+  settingsLocation: { page: SettingsPage.LocalBackups },
   backupLocalBackupsEnabled: true,
   localBackupFolder: '/home/signaluser/Signal Backups/',
 };

@@ -5,22 +5,22 @@ import type { ComponentProps } from 'react';
 import React, { memo, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 
-import { getIntl } from '../selectors/user.std.js';
-import { getUpdatesState } from '../selectors/updates.std.js';
-import { getInstallerState } from '../selectors/installer.std.js';
-import { useInstallerActions } from '../ducks/installer.preload.js';
-import { useUpdatesActions } from '../ducks/updates.preload.js';
-import { hasExpired as hasExpiredSelector } from '../selectors/expiration.dom.js';
-import { missingCaseError } from '../../util/missingCaseError.std.js';
-import { backupsService } from '../../services/backups/index.preload.js';
-import { InstallScreen } from '../../components/InstallScreen.dom.js';
-import { WidthBreakpoint } from '../../components/_util.std.js';
-import { InstallScreenStep } from '../../types/InstallScreen.std.js';
-import OS from '../../util/os/osMain.node.js';
-import { isStagingServer } from '../../util/isStagingServer.dom.js';
-import { createLogger } from '../../logging/log.std.js';
-import { SmartToastManager } from './ToastManager.preload.js';
-import { shouldNeverBeCalled } from '../../util/shouldNeverBeCalled.std.js';
+import { getIntl } from '../selectors/user.std.ts';
+import { getUpdatesState } from '../selectors/updates.std.ts';
+import { getInstallerState } from '../selectors/installer.std.ts';
+import { useInstallerActions } from '../ducks/installer.preload.ts';
+import { useUpdatesActions } from '../ducks/updates.preload.ts';
+import { hasExpired as hasExpiredSelector } from '../selectors/expiration.dom.ts';
+import { missingCaseError } from '../../util/missingCaseError.std.ts';
+import { backupsService } from '../../services/backups/index.preload.ts';
+import { InstallScreen } from '../../components/InstallScreen.dom.tsx';
+import { WidthBreakpoint } from '../../components/_util.std.ts';
+import { InstallScreenStep } from '../../types/InstallScreen.std.ts';
+import OS from '../../util/os/osMain.node.ts';
+import { isStagingServer } from '../../util/isStagingServer.dom.ts';
+import { createLogger } from '../../logging/log.std.ts';
+import { SmartToastManager } from './ToastManager.preload.tsx';
+import { shouldNeverBeCalled } from '../../util/shouldNeverBeCalled.std.ts';
 
 const log = createLogger('InstallScreen');
 

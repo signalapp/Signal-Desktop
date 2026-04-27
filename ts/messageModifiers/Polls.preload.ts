@@ -1,29 +1,29 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { AciString } from '../types/ServiceId.std.js';
+import type { AciString } from '../types/ServiceId.std.ts';
 import type {
   MessageAttributesType,
   ReadonlyMessageAttributesType,
 } from '../model-types.d.ts';
-import type { MessagePollVoteType } from '../types/Polls.dom.js';
-import { PollTerminateSendStatus } from '../types/Polls.dom.js';
-import { MessageModel } from '../models/messages.preload.js';
-import { DataReader } from '../sql/Client.preload.js';
-import * as Errors from '../types/errors.std.js';
-import { createLogger } from '../logging/log.std.js';
-import { isIncoming, isOutgoing } from '../messages/helpers.std.js';
-import { getAuthor } from '../messages/sources.preload.js';
+import type { MessagePollVoteType } from '../types/Polls.dom.ts';
+import { PollTerminateSendStatus } from '../types/Polls.dom.ts';
+import { MessageModel } from '../models/messages.preload.ts';
+import { DataReader } from '../sql/Client.preload.ts';
+import * as Errors from '../types/errors.std.ts';
+import { createLogger } from '../logging/log.std.ts';
+import { isIncoming, isOutgoing } from '../messages/helpers.std.ts';
+import { getAuthor } from '../messages/sources.preload.ts';
 
-import { isSent, SendStatus } from '../messages/MessageSendState.std.js';
-import { getPropForTimestamp } from '../util/editHelpers.std.js';
-import { isMe } from '../util/whatTypeOfConversation.dom.js';
+import { isSent, SendStatus } from '../messages/MessageSendState.std.ts';
+import { getPropForTimestamp } from '../util/editHelpers.std.ts';
+import { isMe } from '../util/whatTypeOfConversation.dom.ts';
 
-import { strictAssert } from '../util/assert.std.js';
-import { getMessageIdForLogging } from '../util/idForLogging.preload.js';
-import { drop } from '../util/drop.std.js';
-import { maybeNotify } from '../messages/maybeNotify.preload.js';
-import type { DurationInSeconds } from '../util/durations/duration-in-seconds.std.js';
+import { strictAssert } from '../util/assert.std.ts';
+import { getMessageIdForLogging } from '../util/idForLogging.preload.ts';
+import { drop } from '../util/drop.std.ts';
+import { maybeNotify } from '../messages/maybeNotify.preload.ts';
+import type { DurationInSeconds } from '../util/durations/duration-in-seconds.std.ts';
 
 const log = createLogger('Polls');
 
@@ -436,7 +436,7 @@ export async function handlePollVote(
     );
 
     if (existingVoteIndex !== -1) {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      // oxlint-disable-next-line typescript/no-non-null-assertion
       const existingVote = currentVotes[existingVoteIndex]!;
 
       if (newVote.voteCount > existingVote.voteCount) {

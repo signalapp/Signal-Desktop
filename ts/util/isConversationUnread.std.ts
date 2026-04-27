@@ -11,5 +11,4 @@ export const isConversationUnread = ({
 }: Readonly<{
   unreadCount?: number;
   markedUnread?: boolean;
-}>): boolean =>
-  Boolean(markedUnread || (isNumber(unreadCount) && unreadCount > 0));
+}>): boolean => markedUnread || (isNumber(unreadCount) && unreadCount > 0);

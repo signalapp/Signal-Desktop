@@ -9,8 +9,8 @@ import {
 import lodash from 'lodash';
 import type { RefObject } from 'react';
 import { useCallback, useMemo } from 'react';
-import { strictAssert } from '../../../util/assert.std.js';
-import { missingCaseError } from '../../../util/missingCaseError.std.js';
+import { strictAssert } from '../../../util/assert.std.ts';
+import { missingCaseError } from '../../../util/missingCaseError.std.ts';
 
 const { chunk, groupBy } = lodash;
 
@@ -207,14 +207,14 @@ function buildLayout(
   totalHeight: number
 ): Layout {
   const groups = groupBy(virtualItems, virtualItem => {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    // oxlint-disable-next-line typescript/no-non-null-assertion
     return list.listItems[virtualItem.index]!.sectionMeta.sectionKey;
   });
 
   const sections = Object.keys(groups).map((sectionKey): SectionLayoutNode => {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    // oxlint-disable-next-line typescript/no-non-null-assertion
     const [maybeHeaderVirtualItem, ...rowVirtualItems] = groups[sectionKey]!;
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    // oxlint-disable-next-line typescript/no-non-null-assertion
     const headerVirtualItem = maybeHeaderVirtualItem!;
     const headerListItem = list.listItems.at(headerVirtualItem.index);
 
@@ -298,18 +298,6 @@ function buildLayout(
 /**
  * Component
  */
-
-export type Cell = Readonly<{
-  sectionKey: SectionKey;
-  rowKey: RowKey;
-  cellKey: CellKey;
-
-  sectionIndex: number;
-  rowIndex: number;
-  colIndex: number;
-
-  item: VirtualItem;
-}>;
 
 export type FunVirtualGridOptions = Readonly<{
   scrollerRef: RefObject<HTMLDivElement | null>;
@@ -450,7 +438,7 @@ export function useFunVirtualGrid({
 
   const getItemKey = useCallback(
     (index: number) => {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      // oxlint-disable-next-line typescript/no-non-null-assertion
       return list.listItems[index]!.key;
     },
     [list]

@@ -4,8 +4,8 @@
 import { join } from 'node:path';
 import lodash from 'lodash';
 
-import { getRandomBytes } from '../Crypto.node.js';
-import * as Bytes from '../Bytes.std.js';
+import { getRandomBytes } from '../Crypto.node.ts';
+import * as Bytes from '../Bytes.std.ts';
 
 const { isString } = lodash;
 

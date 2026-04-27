@@ -1,10 +1,10 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { AttachmentDownloadManager } from '../jobs/AttachmentDownloadManager.preload.js';
-import { createLogger } from '../logging/log.std.js';
-import { DataWriter } from '../sql/Client.preload.js';
-import { itemStorage } from '../textsecure/Storage.preload.js';
+import { AttachmentDownloadManager } from '../jobs/AttachmentDownloadManager.preload.ts';
+import { createLogger } from '../logging/log.std.ts';
+import { DataWriter } from '../sql/Client.preload.ts';
+import { itemStorage } from '../textsecure/Storage.preload.ts';
 
 const log = createLogger('backupMediaDownload');
 
@@ -26,7 +26,7 @@ export async function resumeBackupMediaDownload(): Promise<void> {
   return startBackupMediaDownload();
 }
 
-export async function resetBackupMediaDownloadItems(): Promise<void> {
+async function resetBackupMediaDownloadItems(): Promise<void> {
   await Promise.all([
     itemStorage.remove('backupMediaDownloadTotalBytes'),
     itemStorage.remove('backupMediaDownloadCompletedBytes'),

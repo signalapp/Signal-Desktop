@@ -3,10 +3,10 @@
 
 import React from 'react';
 
-import { AxoDialog } from '../axo/AxoDialog.dom.js';
+import { AxoDialog } from '../axo/AxoDialog.dom.tsx';
 
-import type { LocalizerType } from '../types/Util.std.js';
-import { tw } from '../axo/tw.dom.js';
+import type { LocalizerType } from '../types/Util.std.ts';
+import { tw } from '../axo/tw.dom.tsx';
 
 export type PropsType = {
   canAddLabel: boolean;
@@ -61,7 +61,6 @@ export function GroupMemberLabelInfoModal(props: PropsType): React.JSX.Element {
           {isEditMemberLabelEnabled && canAddLabel && (
             <AxoDialog.Action
               variant="secondary"
-              arrow={false}
               onClick={() => {
                 showEditMemberLabelScreen();
                 onClose();
@@ -74,7 +73,6 @@ export function GroupMemberLabelInfoModal(props: PropsType): React.JSX.Element {
           )}
           <AxoDialog.Action
             variant="primary"
-            arrow={false}
             onClick={() => {
               onClose();
             }}

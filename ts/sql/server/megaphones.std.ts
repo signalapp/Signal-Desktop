@@ -1,12 +1,12 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import type { ReadableDB, WritableDB } from '../Interface.std.js';
-import { sql } from '../util.std.js';
+import type { ReadableDB, WritableDB } from '../Interface.std.ts';
+import { sql } from '../util.std.ts';
 import type {
   RemoteMegaphoneId,
   RemoteMegaphoneType,
-} from '../../types/Megaphone.std.js';
-import { strictAssert } from '../../util/assert.std.js';
+} from '../../types/Megaphone.std.ts';
+import { strictAssert } from '../../util/assert.std.ts';
 
 type MegaphoneRow = Readonly<
   Omit<

@@ -5,27 +5,27 @@ import {
   hasRequiredInformationForRemoteBackup,
   hasRequiredInformationToDownloadFromTransitTier,
   wasImportedFromLocalBackup,
-} from './Attachment.std.js';
+} from './Attachment.std.ts';
 import {
   type AttachmentType,
   AttachmentVariant,
   AttachmentPermanentlyUndownloadableError,
-} from '../types/Attachment.std.js';
-import { downloadAttachment as doDownloadAttachment } from '../textsecure/downloadAttachment.preload.js';
+} from '../types/Attachment.std.ts';
+import { downloadAttachment as doDownloadAttachment } from '../textsecure/downloadAttachment.preload.ts';
 import {
   getAttachment,
   getAttachmentFromBackupTier,
-} from '../textsecure/WebAPI.preload.js';
-import { downloadAttachmentFromLocalBackup as doDownloadAttachmentFromLocalBackup } from './downloadAttachmentFromLocalBackup.preload.js';
-import { MediaTier } from '../types/AttachmentDownload.std.js';
-import { createLogger } from '../logging/log.std.js';
-import { HTTPError } from '../types/HTTPError.std.js';
-import { toLogFormat } from '../types/errors.std.js';
-import type { ReencryptedAttachmentV2 } from '../AttachmentCrypto.node.js';
-import * as RemoteConfig from '../RemoteConfig.dom.js';
-import { ToastType } from '../types/Toast.dom.js';
-import { isAbortError } from './isAbortError.std.js';
-import { expiresTooSoonForBackup } from '../services/backups/util/expiration.std.js';
+} from '../textsecure/WebAPI.preload.ts';
+import { downloadAttachmentFromLocalBackup as doDownloadAttachmentFromLocalBackup } from './downloadAttachmentFromLocalBackup.preload.ts';
+import { MediaTier } from '../types/AttachmentDownload.std.ts';
+import { createLogger } from '../logging/log.std.ts';
+import { HTTPError } from '../types/HTTPError.std.ts';
+import { toLogFormat } from '../types/errors.std.ts';
+import type { ReencryptedAttachmentV2 } from '../AttachmentCrypto.node.ts';
+import * as RemoteConfig from '../RemoteConfig.dom.ts';
+import { ToastType } from '../types/Toast.dom.tsx';
+import { isAbortError } from './isAbortError.std.ts';
+import { expiresTooSoonForBackup } from '../services/backups/util/expiration.std.ts';
 
 const log = createLogger('downloadAttachment');
 

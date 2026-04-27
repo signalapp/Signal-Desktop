@@ -3,8 +3,8 @@
 
 import { assert } from 'chai';
 import config from 'config';
-
-import { keyPair, sign, verify } from '../../updater/curve.node.js';
+import { sign, verify } from '../../updater/curve.node.ts';
+import { keyPair } from '../../test-helpers/keyPair.node.ts';
 
 describe('updater/curve', () => {
   it('roundtrips', () => {

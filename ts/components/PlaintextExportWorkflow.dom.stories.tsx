@@ -3,14 +3,14 @@
 
 import React from 'react';
 import { action } from '@storybook/addon-actions';
-import { PlaintextExportWorkflow } from './PlaintextExportWorkflow.dom.js';
+import { PlaintextExportWorkflow } from './PlaintextExportWorkflow.dom.tsx';
 import {
   LocalExportErrors,
   PlaintextExportSteps,
-} from '../types/LocalExport.std.js';
+} from '../types/LocalExport.std.ts';
 
-import type { PropsType } from './PlaintextExportWorkflow.dom.js';
-import type { ComponentMeta } from '../storybook/types.std.js';
+import type { PropsType } from './PlaintextExportWorkflow.dom.tsx';
+import type { ComponentMeta } from '../storybook/types.std.ts';
 
 const { i18n } = window.SignalContext;
 

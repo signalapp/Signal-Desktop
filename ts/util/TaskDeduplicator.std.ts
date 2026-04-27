@@ -1,8 +1,8 @@
 // Copyright 2026 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { strictAssert } from './assert.std.js';
-import { explodePromise } from './explodePromise.std.js';
+import { strictAssert } from './assert.std.ts';
+import { explodePromise } from './explodePromise.std.ts';
 
 // A wrapper class around a task that should not run concurrently.
 // `TaskDeduplicator` takes `abortSignal` for each `run` and thus lets you
@@ -19,15 +19,17 @@ import { explodePromise } from './explodePromise.std.js';
 //   await task.run(otherAbortSignal);
 //
 export class TaskDeduplicator<Result = void> {
-  #task: (abortSignal: AbortSignal) => Promise<Result>;
+  readonly #name: string;
+  readonly #task: (abortSignal: AbortSignal) => Promise<Result>;
   #current: Promise<Result> | undefined;
   #remaining = 0;
   #abortController: AbortController | undefined;
 
   constructor(
-    public readonly name: string,
+    name: string,
     task: (abortSignal: AbortSignal) => Promise<Result>
   ) {
+    this.#name = name;
     this.#task = task;
   }
 
@@ -42,7 +44,7 @@ export class TaskDeduplicator<Result = void> {
         if (this.#remaining === 0) {
           strictAssert(
             this.#abortController != null,
-            `TaskDeduplicator(${this.name}): missing abort controller`
+            `TaskDeduplicator(${this.#name}): missing abort controller`
           );
           this.#abortController.abort();
         }

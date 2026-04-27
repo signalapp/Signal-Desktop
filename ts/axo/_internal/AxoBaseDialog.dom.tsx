@@ -3,7 +3,7 @@
 
 import { useCallback } from 'react';
 import type { ReactNode } from 'react';
-import { tw } from '../tw.dom.js';
+import { tw } from '../tw.dom.tsx';
 
 export namespace AxoBaseDialog {
   /**
@@ -50,6 +50,7 @@ export namespace AxoBaseDialog {
     'relative',
     'max-h-full min-h-fit max-w-full min-w-fit',
     'curved-3xl bg-elevated-background-primary shadow-elevation-3 select-none',
+    'text-label-primary',
     'outline-border-focused not-forced-colors:outline-0 not-forced-colors:focused:outline-[2.5px]',
     'data-[state=closed]:animate-exit data-[state=open]:animate-enter',
     'animate-scale-98 animate-translate-y-1',

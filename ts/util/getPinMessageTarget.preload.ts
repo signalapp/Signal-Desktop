@@ -1,15 +1,15 @@
 // Copyright 2026 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { createLogger } from '../logging/log.std.js';
-import { isIncoming } from '../messages/helpers.std.js';
-import type { ReadonlyMessageAttributesType } from '../model-types.js';
-import { DataReader } from '../sql/Client.preload.js';
-import { itemStorage } from '../textsecure/Storage.preload.js';
-import type { AciString } from '../types/ServiceId.std.js';
-import { strictAssert } from './assert.std.js';
-import { getMessageSentTimestamp } from './getMessageSentTimestamp.std.js';
-import { isAciString } from './isAciString.std.js';
+import { createLogger } from '../logging/log.std.ts';
+import { isIncoming } from '../messages/helpers.std.ts';
+import type { ReadonlyMessageAttributesType } from '../model-types.d.ts';
+import { DataReader } from '../sql/Client.preload.ts';
+import { itemStorage } from '../textsecure/Storage.preload.ts';
+import type { AciString } from '../types/ServiceId.std.ts';
+import { strictAssert } from './assert.std.ts';
+import { getMessageSentTimestamp } from './getMessageSentTimestamp.std.ts';
+import { isAciString } from './isAciString.std.ts';
 
 const log = createLogger('getPinMessageTarget');
 

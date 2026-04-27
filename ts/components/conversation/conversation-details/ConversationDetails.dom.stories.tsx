@@ -7,20 +7,21 @@ import { action } from '@storybook/addon-actions';
 import lodash from 'lodash';
 
 import type { Meta } from '@storybook/react';
-import type { Props } from './ConversationDetails.dom.js';
-import { ConversationDetails } from './ConversationDetails.dom.js';
-import { ChooseGroupMembersModal } from './AddGroupMembersModal/ChooseGroupMembersModal.dom.js';
-import { ConfirmAdditionsModal } from './AddGroupMembersModal/ConfirmAdditionsModal.dom.js';
-import type { ConversationType } from '../../../state/ducks/conversations.preload.js';
-import { getDefaultConversation } from '../../../test-helpers/getDefaultConversation.std.js';
-import { makeFakeLookupConversationWithoutServiceId } from '../../../test-helpers/fakeLookupConversationWithoutServiceId.std.js';
-import { ThemeType } from '../../../types/Util.std.js';
-import { DurationInSeconds } from '../../../util/durations/index.std.js';
-import { NavTab } from '../../../types/Nav.std.js';
-import { getFakeCallHistoryGroup } from '../../../test-helpers/getFakeCallHistoryGroup.std.js';
-import type { ContactNameColorType } from '../../../types/Colors.std.js';
-import { ContactNameColors } from '../../../types/Colors.std.js';
-import { isNotNil } from '../../../util/isNotNil.std.js';
+import type { Props } from './ConversationDetails.dom.tsx';
+import { ConversationDetails } from './ConversationDetails.dom.tsx';
+import { ChooseGroupMembersModal } from './AddGroupMembersModal/ChooseGroupMembersModal.dom.tsx';
+import { ConfirmAdditionsModal } from './AddGroupMembersModal/ConfirmAdditionsModal.dom.tsx';
+import type { ConversationType } from '../../../state/ducks/conversations.preload.ts';
+import { getDefaultConversation } from '../../../test-helpers/getDefaultConversation.std.ts';
+import { makeFakeLookupConversationWithoutServiceId } from '../../../test-helpers/fakeLookupConversationWithoutServiceId.std.ts';
+import { ThemeType } from '../../../types/Util.std.ts';
+import { DurationInSeconds } from '../../../util/durations/index.std.ts';
+import { NavTab } from '../../../types/Nav.std.ts';
+import { getFakeCallHistoryGroup } from '../../../test-helpers/getFakeCallHistoryGroup.std.ts';
+import type { ContactNameColorType } from '../../../types/Colors.std.ts';
+import { ContactNameColors } from '../../../types/Colors.std.ts';
+import { isNotNil } from '../../../util/isNotNil.std.ts';
+import { strictAssert } from '../../../util/assert.std.ts';
 
 const { times } = lodash;
 
@@ -64,7 +65,7 @@ const createProps = (
 
         return [
           serviceId.toString(),
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          // oxlint-disable-next-line typescript/no-non-null-assertion
           ContactNameColors[i % ContactNameColors.length]!,
         ];
       })
@@ -97,6 +98,7 @@ const createProps = (
     isEditMemberLabelEnabled: true,
     isGroup: true,
     isSignalConversation: false,
+    isTerminateGroupEnabled: true,
     leaveGroup: action('leaveGroup'),
     hasMedia: true,
     memberships,
@@ -125,9 +127,14 @@ const createProps = (
     setMuteExpiration: action('setMuteExpiration'),
     showToast: action('showToast'),
     userAvatarData: [],
+    reportSpam: action('reportSpam'),
+    terminateGroup: action('terminateGroup'),
     toggleSafetyNumberModal: action('toggleSafetyNumberModal'),
     toggleAboutContactModal: action('toggleAboutContactModal'),
     toggleAddUserToAnotherGroupModal: action('toggleAddUserToAnotherGroup'),
+    onConversationArchive: action('onConversationArchive'),
+    onConversationDeleteMessages: action('onConversationDeleteMessages'),
+    onConversationUnarchive: action('onConversationUnarchive'),
     onDeleteNicknameAndNote: action('onDeleteNicknameAndNote'),
     onOpenEditNicknameAndNoteModal: action('onOpenEditNicknameAndNoteModal'),
     onOutgoingAudioCallInConversation: action(
@@ -308,5 +315,52 @@ export function SignalConversation(): React.JSX.Element {
 
   return (
     <ConversationDetails {...props} isSignalConversation isGroup={false} />
+  );
+}
+
+export function TerminatedGroup(): React.JSX.Element {
+  const props = createProps();
+  strictAssert(props.conversation, 'conversation must exist');
+
+  return (
+    <ConversationDetails
+      {...props}
+      canAddLabel={false}
+      canAddNewMembers={false}
+      canEditGroupInfo={false}
+      conversation={{
+        ...props.conversation,
+        terminated: true,
+      }}
+    />
+  );
+}
+
+export function TerminatedGroupAsAdmin(): React.JSX.Element {
+  const props = createProps();
+  strictAssert(props.conversation, 'conversation must exist');
+
+  return (
+    <ConversationDetails
+      {...props}
+      conversation={{
+        ...props.conversation,
+        terminated: true,
+      }}
+      canAddLabel={false}
+      canAddNewMembers={false}
+      canEditGroupInfo={false}
+      isAdmin
+      memberships={[
+        {
+          isAdmin: true,
+          labelEmoji: undefined,
+          labelString: undefined,
+          member: getDefaultConversation({
+            isMe: true,
+          }),
+        },
+      ]}
+    />
   );
 }

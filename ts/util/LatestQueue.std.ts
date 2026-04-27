@@ -17,7 +17,7 @@
  *   previously queued task completely.
  */
 
-import { drop } from './drop.std.js';
+import { drop } from './drop.std.ts';
 
 export class LatestQueue {
   #isRunning: boolean;
@@ -42,6 +42,7 @@ export class LatestQueue {
     } else {
       this.#isRunning = true;
       drop(
+        // oxlint-disable-next-line promise/prefer-await-to-then
         task().finally(() => {
           this.#isRunning = false;
 

@@ -8,35 +8,35 @@ import type { ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 import { Manager, Popper, Reference } from 'react-popper';
 import type { PreventOverflowModifier } from '@popperjs/core/lib/modifiers/preventOverflow.js';
-import { isDownloaded } from '../../util/Attachment.std.js';
-import type { LocalizerType } from '../../types/I18N.std.js';
-import { handleOutsideClick } from '../../util/handleOutsideClick.dom.js';
-import { offsetDistanceModifier } from '../../util/popperUtil.std.js';
-import { WidthBreakpoint } from '../_util.std.js';
-import { Message, MessageInteractivity } from './Message.dom.js';
-import type { SmartReactionPicker } from '../../state/smart/ReactionPicker.dom.js';
+import { isDownloaded } from '../../util/Attachment.std.ts';
+import type { LocalizerType } from '../../types/I18N.std.ts';
+import { handleOutsideClick } from '../../util/handleOutsideClick.dom.ts';
+import { offsetDistanceModifier } from '../../util/popperUtil.std.ts';
+import { WidthBreakpoint } from '../_util.std.ts';
+import { Message, MessageInteractivity } from './Message.dom.tsx';
+import type { SmartReactionPicker } from '../../state/smart/ReactionPicker.dom.tsx';
 import type {
   Props as MessageProps,
   PropsActions as MessagePropsActions,
   PropsData as MessagePropsData,
   PropsHousekeeping,
-} from './Message.dom.js';
-import type { PushPanelForConversationActionType } from '../../state/ducks/conversations.preload.js';
-import { doesMessageBodyOverflow } from './MessageBodyReadMore.dom.js';
-import { useToggleReactionPicker } from '../../hooks/useKeyboardShortcuts.dom.js';
-import { PanelType } from '../../types/Panels.std.js';
+} from './Message.dom.tsx';
+import type { PushPanelForConversationActionType } from '../../state/ducks/conversations.preload.ts';
+import { doesMessageBodyOverflow } from './MessageBodyReadMore.dom.tsx';
+import { useToggleReactionPicker } from '../../hooks/useKeyboardShortcuts.dom.tsx';
+import { PanelType } from '../../types/Panels.std.ts';
 import type {
   DeleteMessagesPropsType,
   ForwardMessagesPayload,
-} from '../../state/ducks/globalModals.preload.js';
-import { useScrollerLock } from '../../hooks/useScrollLock.dom.js';
-import { MessageContextMenu } from './MessageContextMenu.dom.js';
-import { ForwardMessagesModalType } from '../ForwardMessagesModal.dom.js';
-import { useGroupedAndOrderedReactions } from '../../util/groupAndOrderReactions.dom.js';
-import { isNotNil } from '../../util/isNotNil.std.js';
-import type { AxoMenuBuilder } from '../../axo/AxoMenuBuilder.dom.js';
-import { AxoContextMenu } from '../../axo/AxoContextMenu.dom.js';
-import { useDocumentKeyDown } from '../../hooks/useDocumentKeyDown.dom.js';
+} from '../../state/ducks/globalModals.preload.ts';
+import { useScrollerLock } from '../../hooks/useScrollLock.dom.tsx';
+import { MessageContextMenu } from './MessageContextMenu.dom.tsx';
+import { ForwardMessagesModalType } from '../ForwardMessagesModal.dom.tsx';
+import { useGroupedAndOrderedReactions } from '../../util/groupAndOrderReactions.dom.ts';
+import { isNotNil } from '../../util/isNotNil.std.ts';
+import type { AxoMenuBuilder } from '../../axo/AxoMenuBuilder.dom.tsx';
+import { AxoContextMenu } from '../../axo/AxoContextMenu.dom.tsx';
+import { useDocumentKeyDown } from '../../hooks/useDocumentKeyDown.dom.ts';
 
 const { useAxoContextMenuOutsideKeyboardTrigger } = AxoContextMenu;
 
@@ -250,7 +250,7 @@ export function TimelineMessage(props: Props): React.JSX.Element {
       if (attachments.length !== 1) {
         saveAttachments(attachments, timestamp);
       } else {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        // oxlint-disable-next-line typescript/no-non-null-assertion
         saveAttachment(attachments[0]!, timestamp);
       }
     },
@@ -530,8 +530,7 @@ function MessageMenu({
 
                 return (
                   // This a menu meant for mouse use only
-                  // eslint-disable-next-line max-len
-                  // eslint-disable-next-line jsx-a11y/interactive-supports-focus, jsx-a11y/click-events-have-key-events
+                  // oxlint-disable-next-line jsx-a11y/click-events-have-key-events
                   <div
                     ref={maybePopperRef}
                     onClick={(event: React.MouseEvent) => {
@@ -555,8 +554,7 @@ function MessageMenu({
 
           {onDownload && (
             // This a menu meant for mouse use only
-            // eslint-disable-next-line max-len
-            // eslint-disable-next-line jsx-a11y/interactive-supports-focus, jsx-a11y/click-events-have-key-events
+            // oxlint-disable-next-line jsx-a11y/click-events-have-key-events
             <div
               onClick={onDownload}
               role="button"
@@ -574,8 +572,7 @@ function MessageMenu({
 
           {onReplyToMessage && (
             // This a menu meant for mouse use only
-            // eslint-disable-next-line max-len
-            // eslint-disable-next-line jsx-a11y/interactive-supports-focus, jsx-a11y/click-events-have-key-events
+            // oxlint-disable-next-line jsx-a11y/click-events-have-key-events
             <div
               onClick={(event: React.MouseEvent) => {
                 event.stopPropagation();

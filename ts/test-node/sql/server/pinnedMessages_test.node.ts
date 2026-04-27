@@ -1,20 +1,20 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import assert from 'node:assert/strict';
-import type { WritableDB } from '../../../sql/Interface.std.js';
-import { setupTests } from '../../../sql/Server.node.js';
+import type { WritableDB } from '../../../sql/Interface.std.ts';
+import { setupTests } from '../../../sql/Server.node.ts';
 import type { AppendPinnedMessageResult } from '../../../sql/server/pinnedMessages.std.ts';
 import {
   appendPinnedMessage,
   deletePinnedMessageByMessageId,
   getNextExpiringPinnedMessageAcrossConversations,
   deleteAllExpiredPinnedMessagesBefore,
-} from '../../../sql/server/pinnedMessages.std.js';
-import { createDB, insertData } from '../helpers.node.js';
+} from '../../../sql/server/pinnedMessages.std.ts';
+import { createDB, insertData } from '../helpers.node.ts';
 import type {
   PinnedMessage,
   PinnedMessageParams,
-} from '../../../types/PinnedMessage.std.js';
+} from '../../../types/PinnedMessage.std.ts';
 
 function setupData(db: WritableDB) {
   insertData(db, 'conversations', [{ id: 'c1' }, { id: 'c2' }]);

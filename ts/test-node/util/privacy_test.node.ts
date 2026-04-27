@@ -3,10 +3,12 @@
 
 import { assert } from 'chai';
 
-import * as Privacy from '../../util/privacy.node.js';
-import { APP_ROOT_PATH } from '../../util/privacy.node.js';
+import * as Privacy from '../../util/privacy.node.ts';
 
 Privacy.addSensitivePath('sensitive-path');
+
+const APP_ROOT_PATH = __dirname;
+Privacy.addSensitivePath(APP_ROOT_PATH);
 
 describe('Privacy', () => {
   describe('redactCardNumbers', () => {
@@ -41,8 +43,7 @@ describe('Privacy', () => {
         '123-4-1-2-3-4-1-2-3-4-1-2-3-4-1-2-3\n' +
         '123-4-1-2-3-4-1-2-3-4-1-2-3-4-1-2-3-4\n' +
         '123a412-3-4-1-2-3-4-1-2-3-4-1-2-3-4\n' +
-        '123-4-1-2-3-4-1-2-3-4-1-2-3-4-1-a-2-3-4\n' +
-        '';
+        '123-4-1-2-3-4-1-2-3-4-1-2-3-4-1-a-2-3-4\n';
 
       const actual = Privacy.redactCardNumbers(text);
       const expected =
@@ -63,8 +64,7 @@ describe('Privacy', () => {
         '[REDACTED]\n' +
         '[REDACTED]-4\n' +
         '123a[REDACTED]\n' +
-        '[REDACTED]-a-2-3-4\n' +
-        '';
+        '[REDACTED]-a-2-3-4\n';
       assert.equal(actual, expected);
     });
 
@@ -206,16 +206,6 @@ describe('Privacy', () => {
       const expected =
         'Log line with url attachment://v2/e6/abcdee64?key=[REDACTED] ' +
         'and another already partially redacted attachment://v2/e6/[REDACTED]?LOCALKEY=[REDACTED]';
-      assert.equal(actual, expected);
-    });
-  });
-
-  describe('redactAttachmentUrl', () => {
-    it('should remove search params ', () => {
-      const url =
-        'attachment://v2/e6/abcdee64?key=hxKJ9cTfK0v3KEsnzJ2j%2F4Crwe0yu&size=39360&contentType=png';
-      const actual = Privacy.redactAttachmentUrl(url);
-      const expected = 'attachment://v2/e6/abcdee64';
       assert.equal(actual, expected);
     });
   });

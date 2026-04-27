@@ -8,23 +8,23 @@ import {
 import lodash from 'lodash';
 import type PQueue from 'p-queue';
 
-import * as Bytes from '../Bytes.std.js';
-import { signalProtocolStore } from '../SignalProtocolStore.preload.js';
-import { DataReader, DataWriter } from '../sql/Client.preload.js';
-import { isProduction } from './version.std.js';
-import { strictAssert } from './assert.std.js';
-import { lightSessionResetQueue } from './lightSessionResetQueue.std.js';
-import { isGroupV2 } from './whatTypeOfConversation.dom.js';
-import { isOlderThan } from './timestamp.std.js';
-import { parseIntOrThrow } from './parseIntOrThrow.std.js';
-import * as RemoteConfig from '../RemoteConfig.dom.js';
-import { Address } from '../types/Address.std.js';
-import { QualifiedAddress } from '../types/QualifiedAddress.std.js';
-import type { AciString, ServiceIdString } from '../types/ServiceId.std.js';
-import { ToastType } from '../types/Toast.dom.js';
-import * as Errors from '../types/errors.std.js';
+import * as Bytes from '../Bytes.std.ts';
+import { signalProtocolStore } from '../SignalProtocolStore.preload.ts';
+import { DataReader, DataWriter } from '../sql/Client.preload.ts';
+import { isProduction } from './version.std.ts';
+import { strictAssert } from './assert.std.ts';
+import { lightSessionResetQueue } from './lightSessionResetQueue.std.ts';
+import { isGroupV2 } from './whatTypeOfConversation.dom.ts';
+import { isOlderThan } from './timestamp.std.ts';
+import { parseIntOrThrow } from './parseIntOrThrow.std.ts';
+import * as RemoteConfig from '../RemoteConfig.dom.ts';
+import { Address } from '../types/Address.std.ts';
+import { QualifiedAddress } from '../types/QualifiedAddress.std.ts';
+import type { AciString, ServiceIdString } from '../types/ServiceId.std.ts';
+import { ToastType } from '../types/Toast.dom.tsx';
+import * as Errors from '../types/errors.std.ts';
 
-import type { ConversationModel } from '../models/conversations.preload.js';
+import type { ConversationModel } from '../models/conversations.preload.ts';
 import type {
   DecryptionErrorEvent,
   DecryptionErrorEventData,
@@ -32,21 +32,21 @@ import type {
   RetryRequestEvent,
   RetryRequestEventData,
   SuccessfulDecryptEvent,
-} from '../textsecure/messageReceiverEvents.std.js';
+} from '../textsecure/messageReceiverEvents.std.ts';
 
-import { SignalService as Proto } from '../protobuf/index.std.js';
-import { createLogger } from '../logging/log.std.js';
+import { SignalService as Proto } from '../protobuf/index.std.ts';
+import { createLogger } from '../logging/log.std.ts';
 import {
   type MessageSender,
   messageSender,
-} from '../textsecure/SendMessage.preload.js';
-import type { StoryDistributionListDataType } from '../state/ducks/storyDistributionLists.preload.js';
-import { drop } from './drop.std.js';
-import { conversationJobQueue } from '../jobs/conversationJobQueue.preload.js';
-import { incrementMessageCounter } from './incrementMessageCounter.preload.js';
-import { SECOND } from './durations/index.std.js';
-import { sleep } from './sleep.std.js';
-import { itemStorage } from '../textsecure/Storage.preload.js';
+} from '../textsecure/SendMessage.preload.ts';
+import type { StoryDistributionListDataType } from '../state/ducks/storyDistributionLists.preload.ts';
+import { drop } from './drop.std.ts';
+import { conversationJobQueue } from '../jobs/conversationJobQueue.preload.ts';
+import { incrementMessageCounter } from './incrementMessageCounter.preload.ts';
+import { SECOND } from './durations/index.std.ts';
+import { sleep } from './sleep.std.ts';
+import { itemStorage } from '../textsecure/Storage.preload.ts';
 
 const { isNumber, random } = lodash;
 
@@ -103,7 +103,7 @@ export function getOnDecryptionError(getDecryptionErrorQueue: () => PQueue) {
   };
 }
 
-export function getRetryKey({
+function getRetryKey({
   senderAci,
   senderDevice,
   timestamp,
@@ -116,18 +116,14 @@ export function getRetryKey({
 }
 
 const registeredErrors = new Set<RetryKeyType>();
-export function registerError(key: RetryKeyType): void {
+function registerError(key: RetryKeyType): void {
   registeredErrors.add(key);
 }
-export function isErrorRegistered(key: RetryKeyType): boolean {
+function isErrorRegistered(key: RetryKeyType): boolean {
   return registeredErrors.has(key);
 }
-export function unregisterError(key: RetryKeyType): void {
+function unregisterError(key: RetryKeyType): void {
   registeredErrors.delete(key);
-}
-
-export function _getRetryRecord(): Map<string, number> {
-  return retryRecord;
 }
 
 export async function onRetryRequest(event: RetryRequestEvent): Promise<void> {
@@ -223,7 +219,6 @@ export async function onRetryRequest(event: RetryRequestEvent): Promise<void> {
     requesterAci,
     timestamp,
   });
-  // eslint-disable-next-line prefer-destructuring
   let contentProto: Proto.Content.Params | undefined =
     addSenderKeyResult.contentProto;
   const { groupId } = addSenderKeyResult;
@@ -301,7 +296,7 @@ export function onInvalidPlaintextMessage({
   maybeShowDecryptionToast(logId, name, senderDevice);
 }
 
-export async function handleDecryptionError(
+async function handleDecryptionError(
   event: DecryptionErrorEvent
 ): Promise<void> {
   const { confirm, decryptionError } = event;
@@ -331,7 +326,7 @@ export async function handleDecryptionError(
   if (RemoteConfig.isEnabled('desktop.senderKey.retry')) {
     await requestResend(decryptionError);
   } else {
-    await startAutomaticSessionReset(decryptionError);
+    startAutomaticSessionReset(decryptionError);
   }
 
   confirm();
@@ -458,7 +453,7 @@ async function getRetryConversation({
     return window.ConversationController.get(requestGroupId);
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  // oxlint-disable-next-line typescript/no-non-null-assertion
   const messageId = messageIds[0]!;
   const message = await DataReader.getMessageById(messageId);
   if (!message) {

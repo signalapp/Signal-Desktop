@@ -5,10 +5,10 @@ import type { ReactNode } from 'react';
 import React from 'react';
 import moment from 'moment';
 
-import { Modal } from './Modal.dom.js';
-import { I18n } from './I18n.dom.js';
-import type { LocalizerType } from '../types/Util.std.js';
-import { tw } from '../axo/tw.dom.js';
+import { Modal } from './Modal.dom.tsx';
+import { I18n } from './I18n.dom.tsx';
+import type { LocalizerType } from '../types/Util.std.ts';
+import { tw } from '../axo/tw.dom.tsx';
 
 export type PropsType = {
   hideWhatsNewModal: () => unknown;
@@ -22,18 +22,6 @@ type ReleaseNotesType = {
   features: Array<React.JSX.Element>;
 };
 
-// Exported so it doesn't get marked unused
-export function ExternalLink(props: {
-  href: string;
-  children: ReactNode;
-}): React.JSX.Element {
-  return (
-    <a href={props.href} target="_blank" rel="noreferrer">
-      {props.children}
-    </a>
-  );
-}
-
 export function WhatsNewModal({
   i18n,
   hideWhatsNewModal,
@@ -43,7 +31,7 @@ export function WhatsNewModal({
   const releaseNotes: ReleaseNotesType = {
     date: new Date(window.getBuildCreation?.() || Date.now()),
     version: window.getVersion?.(),
-    features: [<I18n i18n={i18n} id="icu:WhatsNew__8.3--0" />],
+    features: [<I18n i18n={i18n} id="icu:WhatsNew__bugfixes--4" />],
   };
 
   if (releaseNotes.features.length === 1 && !releaseNotes.header) {

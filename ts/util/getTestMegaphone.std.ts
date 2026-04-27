@@ -4,9 +4,9 @@
 import type {
   RemoteMegaphoneId,
   VisibleRemoteMegaphoneType,
-} from '../types/Megaphone.std.js';
-import { MegaphoneCtaId } from '../types/Megaphone.std.js';
-import { DAY } from './durations/index.std.js';
+} from '../types/Megaphone.std.ts';
+import { MegaphoneCtaId } from '../types/Megaphone.std.ts';
+import { DAY } from './durations/index.std.ts';
 
 const INTERNAL_TEST_ID = 'INTERNAL_TEST' as RemoteMegaphoneId;
 export const TEST_MEGAPHONE_IMAGE = 'images/donate-heart.png';

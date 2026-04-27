@@ -5,7 +5,7 @@ import { useCallback, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { memoize } from '@indutny/sneequals';
 
-import type { StateType } from '../state/reducer.preload.js';
+import type { StateType } from '../state/reducer.preload.ts';
 
 export function useProxySelector<Params extends Array<unknown>, Result>(
   selector: (state: StateType, ...params: Params) => Result,
@@ -16,7 +16,7 @@ export function useProxySelector<Params extends Array<unknown>, Result>(
   return useSelector(
     useCallback(
       (state: StateType) => memoized(state, ...params),
-      // eslint-disable-next-line react-hooks/exhaustive-deps
+      // oxlint-disable-next-line react-hooks/exhaustive-deps
       [memoized, ...params]
     )
   );

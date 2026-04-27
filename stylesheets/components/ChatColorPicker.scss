@@ -30,7 +30,7 @@
   &__bubbles {
     align-items: center;
     display: grid;
-    grid-gap: 24px;
+    gap: 24px;
     grid-template-columns: repeat(auto-fit, $bubble-size);
     justify-content: center;
     margin-block: 20px;

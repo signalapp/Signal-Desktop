@@ -3,42 +3,40 @@
 
 import lodash from 'lodash';
 
-import { filter, map } from '../util/iterables.std.js';
-import { isNotNil } from '../util/isNotNil.std.js';
-import { SendMessageProtoError } from '../textsecure/Errors.std.js';
-import { getOwn } from '../util/getOwn.std.js';
-import { isGroup } from '../util/whatTypeOfConversation.dom.js';
-import { handleMessageSend } from '../util/handleMessageSend.preload.js';
-import { getSendOptions } from '../util/getSendOptions.preload.js';
-import { createLogger } from '../logging/log.std.js';
+import { filter, map } from '../util/iterables.std.ts';
+import { isNotNil } from '../util/isNotNil.std.ts';
+import { SendMessageProtoError } from '../textsecure/Errors.std.ts';
+import { getOwn } from '../util/getOwn.std.ts';
+import { isGroup } from '../util/whatTypeOfConversation.dom.ts';
+import { handleMessageSend } from '../util/handleMessageSend.preload.ts';
+import { getSendOptions } from '../util/getSendOptions.preload.ts';
+import { createLogger } from '../logging/log.std.ts';
 import {
   getPropForTimestamp,
   getChangesForPropAtTimestamp,
-} from '../util/editHelpers.std.js';
-import { getMessageSentTimestamp } from '../util/getMessageSentTimestamp.std.js';
+} from '../util/editHelpers.std.ts';
+import { getMessageSentTimestamp } from '../util/getMessageSentTimestamp.std.ts';
 import {
   notifyStorySendFailed,
   saveErrorsOnMessage,
-} from '../test-node/util/messageFailures.preload.js';
-import { isCustomError } from './helpers.std.js';
+} from '../test-node/util/messageFailures.preload.ts';
+import { isCustomError } from './helpers.std.ts';
 import {
   SendActionType,
   isSent,
   sendStateReducer,
-} from './MessageSendState.std.js';
+} from './MessageSendState.std.ts';
 
 import type { CustomError, MessageAttributesType } from '../model-types.d.ts';
 import type { CallbackResultType } from '../textsecure/Types.d.ts';
-import { messageSender } from '../textsecure/SendMessage.preload.js';
-import type { MessageModel } from '../models/messages.preload.js';
-import type { ServiceIdString } from '../types/ServiceId.std.js';
-import type { SendStateByConversationId } from './MessageSendState.std.js';
+import { messageSender } from '../textsecure/SendMessage.preload.ts';
+import type { MessageModel } from '../models/messages.preload.ts';
+import type { ServiceIdString } from '../types/ServiceId.std.ts';
+import type { SendStateByConversationId } from './MessageSendState.std.ts';
 
 const { noop, union } = lodash;
 
 const log = createLogger('send');
-
-/* eslint-disable more/no-then */
 
 export async function send(
   message: MessageModel,
@@ -326,7 +324,7 @@ export async function sendSyncMessageOnly(
   }
 }
 
-export async function sendSyncMessage(
+async function sendSyncMessage(
   message: MessageModel,
   targetTimestamp: number
 ): Promise<CallbackResultType | void> {
@@ -336,15 +334,15 @@ export async function sendSyncMessage(
     syncMessage: true,
   });
 
-  if (window.ConversationController.areWePrimaryDevice()) {
+  if (!window.ConversationController.doWeHaveOtherDevices()) {
     log.warn(
-      'sendSyncMessage: We are primary device; not sending sync message'
+      'sendSyncMessage: We have no other devices; not sending sync message'
     );
     message.set({ dataMessage: undefined });
     return;
   }
 
-  // eslint-disable-next-line no-param-reassign
+  // oxlint-disable-next-line no-param-reassign
   message.syncPromise = message.syncPromise || Promise.resolve();
   const next = async () => {
     const dataMessage = message.get('dataMessage');
@@ -359,7 +357,7 @@ export async function sendSyncMessage(
     const isSendingEdit = targetTimestamp !== originalTimestamp;
 
     const isUpdate = Boolean(message.get('synced')) && !isSendingEdit;
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    // oxlint-disable-next-line typescript/no-non-null-assertion
     const conv = window.ConversationController.get(
       message.attributes.conversationId
     )!;
@@ -422,6 +420,7 @@ export async function sendSyncMessage(
       // Note: in some situations, for doNotSave messages, the message has no
       //   id, so we provide an empty array here.
       { messageIds: message.id ? [message.id] : [], sendType: 'sentSync' }
+      // oxlint-disable-next-line signal-desktop/no-then
     ).then(async result => {
       let newSendStateByConversationId: undefined | SendStateByConversationId;
       const sendStateByConversationId =
@@ -474,7 +473,7 @@ export async function sendSyncMessage(
     });
   };
 
-  // eslint-disable-next-line no-param-reassign
+  // oxlint-disable-next-line no-param-reassign, promise/no-callback-in-promise, promise/prefer-await-to-then, signal-desktop/no-then
   message.syncPromise = message.syncPromise.then(next, next);
 
   return message.syncPromise;

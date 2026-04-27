@@ -5,8 +5,8 @@ import type {
   MessageFormatElement,
   Location,
 } from '@formatjs/icu-messageformat-parser';
-import type { Visitor } from './traverse.std.js';
-import { traverse } from './traverse.std.js';
+import type { Visitor } from './traverse.std.ts';
+import { traverse } from './traverse.std.ts';
 
 export type Element = MessageFormatElement;
 export type { Location };
@@ -20,9 +20,7 @@ export type Context = {
   ): void;
 };
 
-export type RuleFactory = {
-  (context: Context): Visitor;
-};
+export type RuleFactory = (context: Context) => Visitor;
 
 export type Rule = {
   id: string;

@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 
-import * as MIME from '../../types/MIME.std.js';
+import * as MIME from '../../types/MIME.std.ts';
 
 describe('MIME', () => {
   describe('isGif', () => {
@@ -16,22 +16,6 @@ describe('MIME', () => {
       assert.isFalse(MIME.isGif('gif'));
       assert.isFalse(MIME.isGif('image/jpeg'));
       assert.isFalse(MIME.isGif('text/plain'));
-    });
-  });
-
-  describe('isJPEG', () => {
-    it('should return true for `image/jpeg`', () => {
-      assert.isTrue(MIME.isJPEG('image/jpeg'));
-    });
-
-    it('returns false for non-JPEGs', () => {
-      assert.isFalse(MIME.isJPEG(''));
-      assert.isFalse(MIME.isJPEG('jpg'));
-      assert.isFalse(MIME.isJPEG('jpeg'));
-      assert.isFalse(MIME.isJPEG('image/jpg')); // invalid MIME type: https://stackoverflow.com/a/37266399/125305
-      assert.isFalse(MIME.isJPEG('image/gif'));
-      assert.isFalse(MIME.isJPEG('image/tiff'));
-      assert.isFalse(MIME.isJPEG('application/json'));
     });
   });
 

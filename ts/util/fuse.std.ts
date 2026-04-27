@@ -2,28 +2,27 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import Fuse from 'fuse.js';
+import type { FuseGetFunction, IFuseOptions } from 'fuse.js';
 
-import { removeDiacritics } from './removeDiacritics.std.js';
+import { removeDiacritics } from './removeDiacritics.std.ts';
 
-const cachedIndices: Map<
-  Fuse.IFuseOptions<unknown>,
+const cachedIndices = new Map<
+  IFuseOptions<unknown>,
   WeakMap<ReadonlyArray<unknown>, Fuse<unknown>>
-> = new Map();
+>();
 
 export function getCachedFuseIndex<T>(
   list: ReadonlyArray<T>,
-  options: Fuse.IFuseOptions<T>
+  options: IFuseOptions<T>
 ): Fuse<T> {
   // Helper to retrieve a cached fuse index or create one if needed. Indices are uniquely
   // identified by their `options` and the `list` of values being indexed. Both should
   // remain referentially static in order to avoid unnecessarily re-indexing
-  let indicesForOptions = cachedIndices.get(
-    options as Fuse.IFuseOptions<unknown>
-  );
+  let indicesForOptions = cachedIndices.get(options as IFuseOptions<unknown>);
 
   if (!indicesForOptions) {
     indicesForOptions = new WeakMap();
-    cachedIndices.set(options as Fuse.IFuseOptions<unknown>, indicesForOptions);
+    cachedIndices.set(options as IFuseOptions<unknown>, indicesForOptions);
   }
 
   let index = indicesForOptions.get(list);
@@ -37,7 +36,7 @@ export function getCachedFuseIndex<T>(
   return index as unknown as Fuse<T>;
 }
 
-export const fuseGetFnRemoveDiacritics: Fuse.FuseGetFunction<unknown> = (
+export const fuseGetFnRemoveDiacritics: FuseGetFunction<unknown> = (
   ...args
 ) => {
   const text = Fuse.config.getFn(...args);

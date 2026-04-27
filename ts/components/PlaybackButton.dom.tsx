@@ -4,9 +4,9 @@
 import { animated, useSpring } from '@react-spring/web';
 import classNames from 'classnames';
 import React, { useCallback } from 'react';
-import { useReducedMotion } from '../hooks/useReducedMotion.dom.js';
-import type { AttachmentForUIType } from '../types/Attachment.std.js';
-import { SpinnerV2 } from './SpinnerV2.dom.js';
+import { useReducedMotion } from '../hooks/useReducedMotion.dom.ts';
+import type { AttachmentForUIType } from '../types/Attachment.std.ts';
+import { SpinnerV2 } from './SpinnerV2.dom.tsx';
 
 const SPRING_CONFIG = {
   mass: 0.5,
@@ -49,7 +49,7 @@ export const PlaybackButton = React.forwardRef<PlaybackButtonRef, ButtonProps>(
     }
 
     const reducedMotion = useReducedMotion();
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- FIXME
+    // oxlint-disable-next-line react-hooks/exhaustive-deps -- FIXME
     const [animProps] = useSpring(
       {
         immediate: reducedMotion,

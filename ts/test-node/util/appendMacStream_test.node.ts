@@ -8,8 +8,8 @@ import {
   appendMacStream,
   MAC_KEY_SIZE,
   MAC_SIZE,
-} from '../../util/appendMacStream.node.js';
-import { generateConfigMatrix } from '../../util/generateConfigMatrix.std.js';
+} from '../../util/appendMacStream.node.ts';
+import { generateConfigMatrix } from '../../test-helpers/generateConfigMatrix.std.ts';
 
 describe('appendMacStream', () => {
   generateConfigMatrix({

@@ -5,15 +5,15 @@ import createDebug from 'debug';
 
 import { expect } from 'playwright/test';
 import { assert } from 'chai';
-import type { App } from '../playwright.node.js';
-import { Bootstrap } from '../bootstrap.node.js';
-import { MINUTE } from '../../util/durations/index.std.js';
+import type { App } from '../playwright.node.ts';
+import { Bootstrap } from '../bootstrap.node.ts';
+import { MINUTE } from '../../util/durations/index.std.ts';
 
-import { SIGNAL_ACI } from '../../types/SignalConversation.std.js';
+import { SIGNAL_ACI } from '../../types/SignalConversation.std.ts';
 import {
   clickOnConversationWithAci,
   getTimelineMessageWithText,
-} from '../helpers.node.js';
+} from '../helpers.node.ts';
 
 export const debug = createDebug('mock:test:releaseNotes');
 
@@ -64,7 +64,7 @@ describe('release notes', function (this: Mocha.Suite) {
 
     await clickOnConversationWithAci(secondWindow, SIGNAL_ACI);
 
-    const timelineMessage = await getTimelineMessageWithText(
+    const timelineMessage = getTimelineMessageWithText(
       secondWindow,
       'Call links'
     );
@@ -117,7 +117,7 @@ describe('release notes', function (this: Mocha.Suite) {
       'expected message to have monospace text'
     );
 
-    const secondTimelineMessage = await getTimelineMessageWithText(
+    const secondTimelineMessage = getTimelineMessageWithText(
       secondWindow,
       'Bold text has invalid ranges, italic has valid'
     );

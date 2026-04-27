@@ -3,7 +3,7 @@
 
 import * as Path from 'node:path';
 import { assert } from 'chai';
-import * as Errors from '../../types/errors.std.js';
+import * as Errors from '../../types/errors.std.ts';
 
 const APP_ROOT_PATH = Path.join(__dirname, '..', '..', '..');
 
@@ -14,7 +14,7 @@ describe('Errors', () => {
       assert.typeOf(error, 'Error');
 
       const formattedError = Errors.toLogFormat(error);
-      assert.include(formattedError, 'errors_test.node.js');
+      assert.include(formattedError, 'errors_test.node.ts');
       assert.include(
         formattedError,
         APP_ROOT_PATH,

@@ -3,12 +3,12 @@
 
 import casual from 'casual';
 
-import type { StoryDistributionListDataType } from '../state/ducks/storyDistributionLists.preload.js';
-import type { StoryDistributionListWithMembersDataType } from '../types/Stories.std.js';
-import { MY_STORY_ID } from '../types/Stories.std.js';
-import { generateStoryDistributionId } from '../types/StoryDistributionId.std.js';
-import { generateAci } from '../types/ServiceId.std.js';
-import { getDefaultConversation } from './getDefaultConversation.std.js';
+import type { StoryDistributionListDataType } from '../state/ducks/storyDistributionLists.preload.ts';
+import type { StoryDistributionListWithMembersDataType } from '../types/Stories.std.ts';
+import { MY_STORY_ID } from '../types/Stories.std.ts';
+import { generateStoryDistributionId } from '../types/StoryDistributionId.std.ts';
+import { getDefaultConversation } from './getDefaultConversation.std.ts';
+import { generateAci } from './serviceIdUtils.std.ts';
 
 export function getFakeDistributionListsWithMembers(): Array<StoryDistributionListWithMembersDataType> {
   return [

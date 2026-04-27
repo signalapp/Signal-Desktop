@@ -5,25 +5,25 @@ import type { ReactNode } from 'react';
 import React, { useCallback, useState, useRef } from 'react';
 import lodash from 'lodash';
 
-import type { AttachmentType } from '../types/Attachment.std.js';
-import type { LocalizerType } from '../types/Util.std.js';
-import type { MessagePropsType } from '../state/selectors/message.preload.js';
-import type { PreferredBadgeSelectorType } from '../state/selectors/badges.preload.js';
+import type { AttachmentType } from '../types/Attachment.std.ts';
+import type { LocalizerType } from '../types/Util.std.ts';
+import type { MessagePropsType } from '../state/selectors/message.preload.ts';
+import type { PreferredBadgeSelectorType } from '../state/selectors/badges.preload.ts';
 import {
   Message,
   MessageInteractivity,
   TextDirection,
-} from './conversation/Message.dom.js';
-import { Modal } from './Modal.dom.js';
-import { WidthBreakpoint } from './_util.std.js';
-import { shouldNeverBeCalled } from '../util/shouldNeverBeCalled.std.js';
-import { useTheme } from '../hooks/useTheme.dom.js';
-import { isSameDay } from '../util/timestamp.std.js';
-import { TimelineDateHeader } from './conversation/TimelineDateHeader.dom.js';
-import { AxoContextMenu } from '../axo/AxoContextMenu.dom.js';
-import { drop } from '../util/drop.std.js';
-import type { AxoMenuBuilder } from '../axo/AxoMenuBuilder.dom.js';
-import { strictAssert } from '../util/assert.std.js';
+} from './conversation/Message.dom.tsx';
+import { Modal } from './Modal.dom.tsx';
+import { WidthBreakpoint } from './_util.std.ts';
+import { shouldNeverBeCalled } from '../util/shouldNeverBeCalled.std.ts';
+import { useTheme } from '../hooks/useTheme.dom.ts';
+import { isSameDay } from '../util/timestamp.std.ts';
+import { TimelineDateHeader } from './conversation/TimelineDateHeader.dom.tsx';
+import { AxoContextMenu } from '../axo/AxoContextMenu.dom.tsx';
+import { drop } from '../util/drop.std.ts';
+import type { AxoMenuBuilder } from '../axo/AxoMenuBuilder.dom.tsx';
+import { strictAssert } from '../util/assert.std.ts';
 
 const { noop } = lodash;
 
@@ -191,12 +191,11 @@ export function EditHistoryMessagesModal({
         {pastEdits.map(messageAttributes => {
           const syntheticId = `${messageAttributes.id}.${messageAttributes.timestamp}`;
 
-          const shouldShowDateHeader = Boolean(
+          const shouldShowDateHeader =
             !previousItem ||
             // This comparison avoids strange header behavior for out-of-order messages.
             (messageAttributes.timestamp > previousItem.timestamp &&
-              !isSameDay(previousItem.timestamp, messageAttributes.timestamp))
-          );
+              !isSameDay(previousItem.timestamp, messageAttributes.timestamp));
           const dateHeaderElement = shouldShowDateHeader ? (
             <TimelineDateHeader
               i18n={i18n}

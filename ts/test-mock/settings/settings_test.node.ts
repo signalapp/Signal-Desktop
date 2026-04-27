@@ -1,13 +1,9 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import createDebug from 'debug';
-
-import * as durations from '../../util/durations/index.std.js';
-import type { App } from '../playwright.node.js';
-import { Bootstrap } from '../bootstrap.node.js';
-
-export const debug = createDebug('mock:test:settings');
+import * as durations from '../../util/durations/index.std.ts';
+import type { App } from '../playwright.node.ts';
+import { Bootstrap } from '../bootstrap.node.ts';
 
 describe('settings', function (this: Mocha.Suite) {
   this.timeout(durations.MINUTE);
@@ -53,7 +49,7 @@ describe('settings', function (this: Mocha.Suite) {
     await window.getByText('Notification content').waitFor();
 
     await window.getByRole('button', { name: 'Privacy' }).click();
-    await window.getByText('Read receipts').waitFor();
+    await window.getByText('Read receipts', { exact: true }).waitFor();
 
     await window.getByRole('button', { name: 'Data usage' }).click();
     await window.getByText('Sent media quality').waitFor();

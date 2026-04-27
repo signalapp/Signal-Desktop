@@ -1,0 +1,73 @@
+// Copyright 2024 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+// @ts-check
+import { tmpdir } from 'node:os';
+import { mkdtemp, rm, rename, stat, writeFile } from 'node:fs/promises';
+import { createReadStream } from 'node:fs';
+import { pipeline } from 'node:stream/promises';
+import { createHash } from 'node:crypto';
+import path from 'node:path';
+import { BlockMap } from 'better-blockmap';
+
+/// <reference path="./utils/better-blockmap.d.ts">
+
+/** @import { ArtifactCreated } from 'electron-builder' */
+
+/**
+ * @param {ArtifactCreated} context
+ * @returns {Promise<void>}
+ */
+export async function artifactBuildCompleted({
+  target,
+  file,
+  packager,
+  updateInfo,
+}) {
+  if (packager.platform.name === 'linux' && file.endsWith('.AppImage')) {
+    const blockMapPath = `${file}.blockmap`;
+    console.log(`Generating blockmap ${blockMapPath}`);
+    const blockMapGenerator = new BlockMap({ detectZipBoundary: true });
+    await pipeline(createReadStream(file), blockMapGenerator);
+    await writeFile(blockMapPath, blockMapGenerator.compress());
+  }
+
+  if (packager.platform.name !== 'mac') {
+    return;
+  }
+  if (target?.name !== 'zip') {
+    return;
+  }
+  if (!file.endsWith('.zip')) {
+    return;
+  }
+
+  // ESM module
+  const { optimize } = await import('@indutny/rezip-electron');
+
+  const tmpFolder = await mkdtemp(path.join(tmpdir(), 'rezip'));
+  const optimizedPath = path.join(tmpFolder, path.basename(file));
+
+  try {
+    console.log(`Optimizing ${file} => ${optimizedPath}`);
+
+    await optimize({
+      inputPath: file,
+      outputPath: optimizedPath,
+      blockMapPath: `${file}.blockmap`,
+    });
+
+    console.log(`Replacing ${file}`);
+    await rename(optimizedPath, file);
+  } finally {
+    await rm(tmpFolder, { recursive: true });
+  }
+
+  console.log('Updating hash and size');
+  const sha512 = createHash('sha512');
+  await pipeline(createReadStream(file), sha512);
+  // oxlint-disable-next-line no-param-reassign
+  updateInfo.sha512 = sha512.digest('base64');
+  const { size } = await stat(file);
+  // oxlint-disable-next-line no-param-reassign
+  updateInfo.size = size;
+}

@@ -3,7 +3,7 @@
 
 import os from 'node:os';
 
-import { getOwn } from './getOwn.std.js';
+import { getOwn } from './getOwn.std.ts';
 
 const PLATFORM_STRINGS: { [platform: string]: string } = {
   win32: 'Windows',

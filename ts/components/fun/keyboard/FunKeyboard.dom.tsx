@@ -1,11 +1,11 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import { focusSafely, getFocusableTreeWalker } from '@react-aria/focus';
-import type { ReactNode, RefObject } from 'react';
+import type { ReactNode } from 'react';
 import React, { useEffect, useRef } from 'react';
 // @ts-expect-error - Needs tinykeys to update package.json type resolution
 import { createKeybindingsHandler } from 'tinykeys';
-import { strictAssert } from '../../../util/assert.std.js';
+import { strictAssert } from '../../../util/assert.std.ts';
 
 export abstract class KeyboardDelegate<State> {
   abstract scrollToState(state: State): void;
@@ -24,11 +24,6 @@ export abstract class KeyboardDelegate<State> {
   abstract onModHome(state: State): State;
   abstract onModEnd(state: State): State;
 }
-
-export type FunKeyboardNavigationOptions<State> = Readonly<{
-  scrollerRef: RefObject<HTMLElement | null>;
-  keyboard: KeyboardDelegate<State>;
-}>;
 
 export type FunKeyboardProps<State> = Readonly<{
   scrollerRef: React.RefObject<HTMLElement | null>;

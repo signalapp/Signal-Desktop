@@ -5,22 +5,22 @@ import type { ReactNode } from 'react';
 import React, { forwardRef, useCallback, useState } from 'react';
 import classNames from 'classnames';
 
-import type { LocalizerType } from '../../types/Util.std.js';
-import type { MessageStatusType } from '../../types/message/MessageStatus.std.js';
-import type { DirectionType } from './Message.dom.js';
-import type { PushPanelForConversationActionType } from '../../state/ducks/conversations.preload.js';
-import { missingCaseError } from '../../util/missingCaseError.std.js';
-import { ExpireTimer } from './ExpireTimer.dom.js';
-import { MessageTimestamp } from './MessageTimestamp.dom.js';
-import { PanelType } from '../../types/Panels.std.js';
-import { Spinner } from '../Spinner.dom.js';
-import { AxoAlertDialog } from '../../axo/AxoAlertDialog.dom.js';
-import { ConfirmationDialog } from '../ConfirmationDialog.dom.js';
-import { refMerger } from '../../util/refMerger.std.js';
-import type { Size } from '../../hooks/useSizeObserver.dom.js';
-import { SizeObserver } from '../../hooks/useSizeObserver.dom.js';
-import { AxoSymbol } from '../../axo/AxoSymbol.dom.js';
-import { tw } from '../../axo/tw.dom.js';
+import type { LocalizerType } from '../../types/Util.std.ts';
+import type { MessageStatusType } from '../../types/message/MessageStatus.std.ts';
+import type { DirectionType } from './Message.dom.tsx';
+import type { PushPanelForConversationActionType } from '../../state/ducks/conversations.preload.ts';
+import { missingCaseError } from '../../util/missingCaseError.std.ts';
+import { ExpireTimer } from './ExpireTimer.dom.tsx';
+import { MessageTimestamp } from './MessageTimestamp.dom.tsx';
+import { PanelType } from '../../types/Panels.std.ts';
+import { Spinner } from '../Spinner.dom.tsx';
+import { AxoAlertDialog } from '../../axo/AxoAlertDialog.dom.tsx';
+import { ConfirmationDialog } from '../ConfirmationDialog.dom.tsx';
+import { refMerger } from '../../util/refMerger.std.ts';
+import type { Size } from '../../hooks/useSizeObserver.dom.tsx';
+import { SizeObserver } from '../../hooks/useSizeObserver.dom.tsx';
+import { AxoSymbol } from '../../axo/AxoSymbol.dom.tsx';
+import { tw } from '../../axo/tw.dom.tsx';
 
 type PropsType = {
   canRetryDeleteForEveryone: boolean;
@@ -85,9 +85,7 @@ export const MessageMetadata = forwardRef<HTMLDivElement, Readonly<PropsType>>(
     const [confirmationType, setConfirmationType] = useState<
       ConfirmationType | undefined
     >();
-    const withImageNoCaption = Boolean(
-      !isSticker && !hasText && isShowingImage
-    );
+    const withImageNoCaption = !isSticker && !hasText && isShowingImage;
     const metadataDirection = isSticker ? undefined : direction;
 
     let timestampNode: ReactNode;

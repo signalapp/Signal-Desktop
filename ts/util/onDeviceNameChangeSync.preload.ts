@@ -2,23 +2,22 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import PQueue from 'p-queue';
-import type { DeviceNameChangeSyncEvent } from '../textsecure/messageReceiverEvents.std.js';
-import { getDevices } from '../textsecure/WebAPI.preload.js';
-import { MINUTE } from './durations/index.std.js';
-import { strictAssert } from './assert.std.js';
-import { parseIntOrThrow } from './parseIntOrThrow.std.js';
-import { createLogger } from '../logging/log.std.js';
-import { toLogFormat } from '../types/errors.std.js';
-import { drop } from './drop.std.js';
-import { itemStorage } from '../textsecure/Storage.preload.js';
-import { accountManager } from '../textsecure/AccountManager.preload.js';
+import type { DeviceNameChangeSyncEvent } from '../textsecure/messageReceiverEvents.std.ts';
+import { getDevices } from '../textsecure/WebAPI.preload.ts';
+import { MINUTE } from './durations/index.std.ts';
+import { strictAssert } from './assert.std.ts';
+import { parseIntOrThrow } from './parseIntOrThrow.std.ts';
+import { createLogger } from '../logging/log.std.ts';
+import { toLogFormat } from '../types/errors.std.ts';
+import { drop } from './drop.std.ts';
+import { itemStorage } from '../textsecure/Storage.preload.ts';
+import { accountManager } from '../textsecure/AccountManager.preload.ts';
 
 const log = createLogger('onDeviceNameChangeSync');
 
 const deviceNameFetchQueue = new PQueue({
   concurrency: 1,
   timeout: 5 * MINUTE,
-  throwOnTimeout: true,
 });
 
 export async function onDeviceNameChangeSync(

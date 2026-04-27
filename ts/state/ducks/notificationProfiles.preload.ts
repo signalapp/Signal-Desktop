@@ -6,39 +6,39 @@ import { debounce, difference } from 'lodash';
 import type { ReadonlyDeep } from 'type-fest';
 import type { ThunkAction } from 'redux-thunk';
 
-import { createLogger } from '../../logging/log.std.js';
+import { createLogger } from '../../logging/log.std.ts';
 import {
   update as updateProfileService,
   fastUpdate as fastUpdateProfileService,
-} from '../../services/notificationProfilesService.preload.js';
-import { strictAssert } from '../../util/assert.std.js';
+} from '../../services/notificationProfilesService.preload.ts';
+import { strictAssert } from '../../util/assert.std.ts';
 import {
   type BoundActionCreatorsMapObject,
   useBoundActions,
-} from '../../hooks/useBoundActions.std.js';
-import { DataWriter } from '../../sql/Client.preload.js';
+} from '../../hooks/useBoundActions.std.ts';
+import { DataWriter } from '../../sql/Client.preload.ts';
 import {
   redactNotificationProfileId,
   sortProfiles,
-} from '../../types/NotificationProfile.std.js';
-import { generateNotificationProfileId } from '../../types/NotificationProfile-node.node.js';
-import { getOverride } from '../selectors/notificationProfiles.dom.js';
-import { getItems } from '../selectors/items.dom.js';
+} from '../../types/NotificationProfile.std.ts';
+import { generateNotificationProfileId } from '../../types/NotificationProfile-node.node.ts';
+import { getOverride } from '../selectors/notificationProfiles.dom.ts';
+import { getItems } from '../selectors/items.dom.ts';
 import {
   prepareForDisabledNotificationProfileSync,
   prepareForEnabledNotificationProfileSync,
-} from '../../services/storageRecordOps.preload.js';
-import { storageServiceUploadJob } from '../../services/storage.preload.js';
-import { SECOND } from '../../util/durations/constants.std.js';
+} from '../../services/storageRecordOps.preload.ts';
+import { storageServiceUploadJob } from '../../services/storage.preload.ts';
+import { SECOND } from '../../util/durations/constants.std.ts';
 
 import type {
   NextProfileEvent,
   NotificationProfileIdString,
   NotificationProfileOverride,
   NotificationProfileType,
-} from '../../types/NotificationProfile.std.js';
-import type { StateType } from '../reducer.preload.js';
-import { itemStorage } from '../../textsecure/Storage.preload.js';
+} from '../../types/NotificationProfile.std.ts';
+import type { StateType } from '../reducer.preload.ts';
+import { itemStorage } from '../../textsecure/Storage.preload.ts';
 
 const log = createLogger('ducks/notificationProfiles');
 
@@ -237,9 +237,7 @@ function setIsSyncEnabled(
       await itemStorage.put('notificationProfileSyncDisabled', disabled);
       if (disabled) {
         if (!fromStorageService) {
-          const globalOverride = await itemStorage.get(
-            'notificationProfileOverride'
-          );
+          const globalOverride = itemStorage.get('notificationProfileOverride');
 
           await itemStorage.put(
             'notificationProfileOverrideFromPrimary',
@@ -394,6 +392,7 @@ function updateOverride(
     const enabled = payload?.enabled;
     await itemStorage.put('notificationProfileOverride', payload);
 
+    // oxlint-disable-next-line typescript/no-base-to-string, typescript/restrict-template-expressions
     const logId = `updateOverride/${id ? redactNotificationProfileId(id) : 'undefined'}/enabled=${enabled}`;
 
     dispatch({

@@ -4,20 +4,20 @@
 import lodash from 'lodash';
 import { LRUCache } from 'lru-cache';
 
-import { MessageModel } from '../models/messages.preload.js';
-import { DataReader, DataWriter } from '../sql/Client.preload.js';
-import { getMessageConversation } from '../util/getMessageConversation.dom.js';
-import { upgradeMessageSchema } from '../util/migrations.preload.js';
-import { isNotNil } from '../util/isNotNil.std.js';
-import { isStory } from '../messages/helpers.std.js';
-import { getStoryDataFromMessageAttributes } from './storyLoader.preload.js';
-import { postSaveUpdates } from '../util/cleanup.preload.js';
+import { MessageModel } from '../models/messages.preload.ts';
+import { DataReader, DataWriter } from '../sql/Client.preload.ts';
+import { getMessageConversation } from '../util/getMessageConversation.dom.ts';
+import { upgradeMessageSchema } from '../util/migrations.preload.ts';
+import { isNotNil } from '../util/isNotNil.std.ts';
+import { isStory } from '../messages/helpers.std.ts';
+import { getStoryDataFromMessageAttributes } from './storyLoader.preload.ts';
+import { postSaveUpdates } from '../util/cleanup.preload.ts';
 
 import type { MessageAttributesType } from '../model-types.d.ts';
-import type { SendStateByConversationId } from '../messages/MessageSendState.std.js';
-import type { StoredJob } from '../jobs/types.std.js';
-import { itemStorage } from '../textsecure/Storage.preload.js';
-import { getSelectedConversationId } from '../state/selectors/nav.std.js';
+import type { SendStateByConversationId } from '../messages/MessageSendState.std.ts';
+import type { StoredJob } from '../jobs/types.std.ts';
+import { itemStorage } from '../textsecure/Storage.preload.ts';
+import { getSelectedConversationId } from '../state/selectors/nav.std.ts';
 
 const { throttle } = lodash;
 
@@ -29,7 +29,7 @@ export class MessageCache {
     return instance;
   }
 
-  #state = {
+  readonly #state = {
     messages: new Map<string, MessageModel>(),
     messageIdsBySentAt: new Map<number, Array<string>>(),
     lastAccessedAt: new Map<string, number>(),
@@ -163,7 +163,7 @@ export class MessageCache {
       }
       const { [obsoleteId]: obsoleteSendState, ...rest } = sendState;
       return {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        // oxlint-disable-next-line typescript/no-non-null-assertion
         [conversationId]: obsoleteSendState!,
         ...rest,
       };
@@ -300,7 +300,7 @@ export class MessageCache {
     );
   }
 
-  #throttledReduxUpdaters = new LRUCache<
+  readonly #throttledReduxUpdaters = new LRUCache<
     string,
     (attributes: MessageAttributesType) => void
   >({

@@ -2,26 +2,26 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import React, { memo, useCallback, type ReactNode } from 'react';
 import { useSelector } from 'react-redux';
-import { LinkPreviewItem } from '../../components/conversation/media-gallery/LinkPreviewItem.dom.js';
-import { MediaGridItem } from '../../components/conversation/media-gallery/MediaGridItem.dom.js';
-import { DocumentListItem } from '../../components/conversation/media-gallery/DocumentListItem.dom.js';
-import { ContactListItem } from '../../components/conversation/media-gallery/ContactListItem.dom.js';
-import { AudioListItem } from '../../components/conversation/media-gallery/AudioListItem.dom.js';
-import type { ItemClickEvent } from '../../components/conversation/media-gallery/types/ItemClickEvent.std.js';
-import { getSafeDomain } from '../../types/LinkPreview.std.js';
-import type { GenericMediaItemType } from '../../types/MediaItem.std.js';
-import type { AttachmentStatusType } from '../../hooks/useAttachmentStatus.std.js';
-import { missingCaseError } from '../../util/missingCaseError.std.js';
-import { isVoiceMessagePlayed } from '../../util/isVoiceMessagePlayed.std.js';
+import { LinkPreviewItem } from '../../components/conversation/media-gallery/LinkPreviewItem.dom.tsx';
+import { MediaGridItem } from '../../components/conversation/media-gallery/MediaGridItem.dom.tsx';
+import { DocumentListItem } from '../../components/conversation/media-gallery/DocumentListItem.dom.tsx';
+import { ContactListItem } from '../../components/conversation/media-gallery/ContactListItem.dom.tsx';
+import { AudioListItem } from '../../components/conversation/media-gallery/AudioListItem.dom.tsx';
+import type { ItemClickEvent } from '../../components/conversation/media-gallery/types/ItemClickEvent.std.ts';
+import { getSafeDomain } from '../../types/LinkPreview.std.ts';
+import type { GenericMediaItemType } from '../../types/MediaItem.std.ts';
+import type { AttachmentStatusType } from '../../hooks/useAttachmentStatus.std.ts';
+import { missingCaseError } from '../../util/missingCaseError.std.ts';
+import { isVoiceMessagePlayed } from '../../util/isVoiceMessagePlayed.std.ts';
 import {
   getIntl,
   getTheme,
   getUserConversationId,
-} from '../selectors/user.std.js';
-import { getConversationSelector } from '../selectors/conversations.dom.js';
-import { getMediaGalleryState } from '../selectors/mediaGallery.std.js';
-import { useConversationsActions } from '../ducks/conversations.preload.js';
-import { SmartMediaContextMenu } from './MediaContextMenu.preload.js';
+} from '../selectors/user.std.ts';
+import { getConversationSelector } from '../selectors/conversations.dom.ts';
+import { getMediaGalleryState } from '../selectors/mediaGallery.std.ts';
+import { useConversationsActions } from '../ducks/conversations.preload.ts';
+import { SmartMediaContextMenu } from './MediaContextMenu.preload.tsx';
 
 export type PropsType = Readonly<{
   onItemClick: (event: ItemClickEvent) => unknown;

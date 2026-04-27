@@ -3,14 +3,14 @@
 
 import React, { type ReactElement, useCallback } from 'react';
 
-import type { LocalizerType } from '../../types/Util.std.js';
-import { missingCaseError } from '../../util/missingCaseError.std.js';
-import { openLinkInWebBrowser } from '../../util/openLinkInWebBrowser.dom.js';
-import { Button, ButtonVariant } from '../Button.dom.js';
-import { TitlebarDragArea } from '../TitlebarDragArea.dom.js';
-import { InstallScreenSignalLogo } from './InstallScreenSignalLogo.dom.js';
-import { LINK_SIGNAL_DESKTOP } from '../../types/support.std.js';
-import { InstallScreenError } from '../../types/InstallScreen.std.js';
+import type { LocalizerType } from '../../types/Util.std.ts';
+import { missingCaseError } from '../../util/missingCaseError.std.ts';
+import { openLinkInWebBrowser } from '../../util/openLinkInWebBrowser.dom.ts';
+import { Button, ButtonVariant } from '../Button.dom.tsx';
+import { TitlebarDragArea } from '../TitlebarDragArea.dom.tsx';
+import { InstallScreenSignalLogo } from './InstallScreenSignalLogo.dom.tsx';
+import { LINK_SIGNAL_DESKTOP } from '../../types/support.std.ts';
+import { InstallScreenError } from '../../types/InstallScreen.std.ts';
 
 export type Props = Readonly<{
   error: InstallScreenError;

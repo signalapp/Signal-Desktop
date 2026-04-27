@@ -8,17 +8,17 @@ import {
   getAlt,
   getUrl,
   defaultBlurHash,
-} from '../../../util/Attachment.std.js';
+} from '../../../util/Attachment.std.ts';
 import type {
   GenericMediaItemType,
   LinkPreviewMediaItemType,
-} from '../../../types/MediaItem.std.js';
-import type { LocalizerType, ThemeType } from '../../../types/Util.std.js';
-import { tw } from '../../../axo/tw.dom.js';
-import { AxoSymbol } from '../../../axo/AxoSymbol.dom.js';
-import type { AttachmentStatusType } from '../../../hooks/useAttachmentStatus.std.js';
-import { ImageOrBlurhash } from '../../ImageOrBlurhash.dom.js';
-import { ListItem } from './ListItem.dom.js';
+} from '../../../types/MediaItem.std.ts';
+import type { LocalizerType, ThemeType } from '../../../types/Util.std.ts';
+import { tw } from '../../../axo/tw.dom.tsx';
+import { AxoSymbol } from '../../../axo/AxoSymbol.dom.tsx';
+import type { AttachmentStatusType } from '../../../hooks/useAttachmentStatus.std.ts';
+import { ImageOrBlurhash } from '../../ImageOrBlurhash.dom.tsx';
+import { ListItem } from './ListItem.dom.tsx';
 
 export type DataProps = Readonly<{
   mediaItem: LinkPreviewMediaItemType;

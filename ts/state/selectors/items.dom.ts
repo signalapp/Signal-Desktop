@@ -3,27 +3,27 @@
 
 import { createSelector } from 'reselect';
 
-import { isCountryPpmCsvBucketEnabled } from '../../RemoteConfig.dom.js';
-import type { ConfigKeyType, ConfigMapType } from '../../RemoteConfig.dom.js';
-import type { StateType } from '../reducer.preload.js';
-import type { ItemsStateType } from '../ducks/items.preload.js';
+import { isCountryPpmCsvBucketEnabled } from '../../RemoteConfig.dom.ts';
+import type { ConfigKeyType, ConfigMapType } from '../../RemoteConfig.dom.ts';
+import type { StateType } from '../reducer.preload.ts';
+import type { ItemsStateType } from '../ducks/items.preload.ts';
 import type {
   ConversationColorType,
   CustomColorType,
-} from '../../types/Colors.std.js';
-import type { AciString } from '../../types/ServiceId.std.js';
-import { DEFAULT_CONVERSATION_COLOR } from '../../types/Colors.std.js';
-import { getPreferredReactionEmoji as getPreferredReactionEmojiFromStoredValue } from '../../reactions/preferredReactionEmoji.std.js';
-import { DurationInSeconds } from '../../util/durations/index.std.js';
-import * as Bytes from '../../Bytes.std.js';
-import { contactByEncryptedUsernameRoute } from '../../util/signalRoutes.std.js';
-import { isNotUpdatable } from '../../util/version.std.js';
+} from '../../types/Colors.std.ts';
+import type { AciString } from '../../types/ServiceId.std.ts';
+import { DEFAULT_CONVERSATION_COLOR } from '../../types/Colors.std.ts';
+import { getPreferredReactionEmoji as getPreferredReactionEmojiFromStoredValue } from '../../reactions/preferredReactionEmoji.std.ts';
+import { DurationInSeconds } from '../../util/durations/index.std.ts';
+import * as Bytes from '../../Bytes.std.ts';
+import { contactByEncryptedUsernameRoute } from '../../util/signalRoutes.std.ts';
+import { isNotUpdatable } from '../../util/version.std.ts';
 import {
   EmojiSkinTone,
   isValidEmojiSkinTone,
-} from '../../components/fun/data/emojis.std.js';
-import { BackupLevel } from '../../services/backups/types.std.js';
-import type { StateSelector } from '../types.std.js';
+} from '../../components/fun/data/emojis.std.ts';
+import { BackupLevel } from '../../services/backups/types.std.ts';
+import type { StateSelector } from '../types.std.ts';
 
 const DEFAULT_PREFERRED_LEFT_PANE_WIDTH = 320;
 
@@ -41,11 +41,6 @@ export const getProfileMovedModalNeeded = createSelector(
     Boolean(needProfileMovedModal)
 );
 
-export const getUserAgent = createSelector(
-  getItems,
-  (state: ItemsStateType): string => state.userAgent as string
-);
-
 export const getPinnedConversationIds = createSelector(
   getItems,
   (state: ItemsStateType): Array<string> =>
@@ -58,12 +53,13 @@ export const getUniversalExpireTimer = createSelector(
     DurationInSeconds.fromSeconds(state.universalExpireTimer || 0)
 );
 
-export const isRemoteConfigFlagEnabled = (
+const isRemoteConfigFlagEnabled = (
   config: Readonly<ConfigMapType>,
   key: ConfigKeyType
 ): boolean => Boolean(config[key]?.enabled);
 
 // See isBucketValueEnabled in RemoteConfig.ts
+/** @knipignore Keep around for future features that might need it */
 export const isRemoteConfigBucketEnabled = (
   config: Readonly<ConfigMapType>,
   name: ConfigKeyType,
@@ -77,11 +73,6 @@ export const isRemoteConfigBucketEnabled = (
 export const getRemoteConfig = createSelector(
   getItems,
   (state: ItemsStateType): ConfigMapType => state.remoteConfig || {}
-);
-
-export const getServerTimeSkew = createSelector(
-  getItems,
-  (state: ItemsStateType): number => state.serverTimeSkew || 0
 );
 
 export const getHasCompletedUsernameOnboarding = createSelector(
@@ -196,27 +187,15 @@ export const getPreferredReactionEmoji = createSelector(
     )
 );
 
-export const getHideMenuBar = createSelector(
-  getItems,
-  (state: ItemsStateType): boolean => Boolean(state['hide-menu-bar'])
-);
-
 export const getHasSetMyStoriesPrivacy = createSelector(
   getItems,
   (state: ItemsStateType): boolean => Boolean(state.hasSetMyStoriesPrivacy)
 );
 
-export const getHasReadReceiptSetting = createSelector(
-  getItems,
-  (state: ItemsStateType): boolean => Boolean(state['read-receipt-setting'])
-);
-
 export const getHasStoryViewReceiptSetting = createSelector(
   getItems,
   (state: ItemsStateType): boolean =>
-    Boolean(
-      state.storyViewReceiptsEnabled ?? state['read-receipt-setting'] ?? false
-    )
+    state.storyViewReceiptsEnabled ?? state['read-receipt-setting'] ?? false
 );
 
 export const getNotificationProfileSyncDisabled = createSelector(
@@ -227,10 +206,7 @@ export const getNotificationProfileSyncDisabled = createSelector(
 
 export const getRemoteBuildExpiration = createSelector(
   getItems,
-  (state: ItemsStateType): number | undefined =>
-    state.remoteBuildExpiration === undefined
-      ? undefined
-      : Number(state.remoteBuildExpiration)
+  (state: ItemsStateType): number | undefined => state.remoteBuildExpiration
 );
 
 export const getAutoDownloadUpdate = createSelector(
@@ -240,7 +216,7 @@ export const getAutoDownloadUpdate = createSelector(
       return false;
     }
 
-    return Boolean(state['auto-download-update'] ?? true);
+    return state['auto-download-update'] ?? true;
   }
 );
 
@@ -253,19 +229,12 @@ export const getBadgeCountMutedConversations = createSelector(
 
 export const getTextFormattingEnabled = createSelector(
   getItems,
-  (state: ItemsStateType): boolean => Boolean(state.textFormatting ?? true)
+  (state: ItemsStateType): boolean => state.textFormatting ?? true
 );
 
 export const getNavTabsCollapsed = createSelector(
   getItems,
-  (state: ItemsStateType): boolean => Boolean(state.navTabsCollapsed ?? false)
-);
-
-export const getShowStickersIntroduction = createSelector(
-  getItems,
-  (state: ItemsStateType): boolean => {
-    return state.showStickersIntroduction ?? false;
-  }
+  (state: ItemsStateType): boolean => state.navTabsCollapsed ?? false
 );
 
 export const getShowStickerPickerHint = createSelector(
@@ -301,6 +270,11 @@ export const getBackupMediaDownloadProgress = createSelector(
     isIdle: state.attachmentDownloadManagerIdled ?? false,
     downloadBannerDismissed: state.backupMediaDownloadBannerDismissed ?? false,
   })
+);
+
+export const getBackupKey = createSelector(
+  getItems,
+  (state: ItemsStateType) => state.accountEntropyPool
 );
 
 export const getServerAlerts = createSelector(

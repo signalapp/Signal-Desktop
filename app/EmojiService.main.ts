@@ -7,12 +7,13 @@ import * as z from 'zod';
 import { protocol } from 'electron';
 import { LRUCache } from 'lru-cache';
 
-import type { OptionalResourceService } from './OptionalResourceService.main.js';
-import { SignalService as Proto } from '../ts/protobuf/index.std.js';
-import { parseUnknown } from '../ts/util/schemas.std.js';
-import { utf16ToEmoji } from '../ts/util/utf16ToEmoji.node.js';
+import type { OptionalResourceService } from './OptionalResourceService.main.ts';
+import { SignalService as Proto } from '../ts/protobuf/index.std.ts';
+import { parseUnknown } from '../ts/util/schemas.std.ts';
+import { utf16ToEmoji } from '../ts/util/utf16ToEmoji.node.ts';
+import { getAppRootDir } from '../ts/util/appRootDir.main.ts';
 
-const MANIFEST_PATH = join(__dirname, '..', 'build', 'jumbomoji.json');
+const MANIFEST_PATH = join(getAppRootDir(), 'build', 'jumbomoji.json');
 
 const manifestSchema = z.record(z.string(), z.string().array());
 
@@ -26,6 +27,7 @@ type EmojiEntryType = Readonly<{
 type SheetCacheEntry = Map<string, Uint8Array<ArrayBuffer>>;
 
 export class EmojiService {
+  readonly #resourceService: OptionalResourceService;
   readonly #emojiMap = new Map<string, EmojiEntryType>();
 
   readonly #sheetCache = new LRUCache<string, SheetCacheEntry>({
@@ -34,9 +36,11 @@ export class EmojiService {
   });
 
   private constructor(
-    private readonly resourceService: OptionalResourceService,
+    resourceService: OptionalResourceService,
     manifest: ManifestType
   ) {
+    this.#resourceService = resourceService;
+
     protocol.handle('emoji', async req => {
       const url = new URL(req.url);
       const emoji = url.searchParams.get('emoji');
@@ -73,7 +77,7 @@ export class EmojiService {
 
     let imageMap = this.#sheetCache.get(sheet);
     if (!imageMap) {
-      const proto = await this.resourceService.getData(
+      const proto = await this.#resourceService.getData(
         `emoji-sheet-${sheet}.proto`
       );
       if (!proto) {

@@ -1,51 +1,53 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { LoggerType } from '../types/Logging.std.js';
-import type { ParsedJob } from './types.std.js';
+import type { LoggerType } from '../types/Logging.std.ts';
+import type { ParsedJob } from './types.std.ts';
 
 export class JobLogger implements LoggerType {
-  #id: string;
-  #queueType: string;
+  readonly #id: string;
+  readonly #queueType: string;
+  readonly #logger: LoggerType;
 
   public attempt = -1;
 
   constructor(
     job: Readonly<Pick<ParsedJob<unknown>, 'id' | 'queueType'>>,
-    private logger: LoggerType
+    logger: LoggerType
   ) {
     this.#id = job.id;
     this.#queueType = job.queueType;
+    this.#logger = logger;
   }
 
   fatal(...args: ReadonlyArray<unknown>): void {
-    this.logger.fatal(this.#prefix(), ...args);
+    this.#logger.fatal(this.#prefix(), ...args);
   }
 
   error(...args: ReadonlyArray<unknown>): void {
-    this.logger.error(this.#prefix(), ...args);
+    this.#logger.error(this.#prefix(), ...args);
   }
 
   warn(...args: ReadonlyArray<unknown>): void {
-    this.logger.warn(this.#prefix(), ...args);
+    this.#logger.warn(this.#prefix(), ...args);
   }
 
   info(...args: ReadonlyArray<unknown>): void {
-    this.logger.info(this.#prefix(), ...args);
+    this.#logger.info(this.#prefix(), ...args);
   }
 
   debug(...args: ReadonlyArray<unknown>): void {
-    this.logger.debug(this.#prefix(), ...args);
+    this.#logger.debug(this.#prefix(), ...args);
   }
 
   trace(...args: ReadonlyArray<unknown>): void {
-    this.logger.trace(this.#prefix(), ...args);
+    this.#logger.trace(this.#prefix(), ...args);
   }
 
   child(name: string): JobLogger {
     return new JobLogger(
       { id: this.#id, queueType: this.#queueType },
-      this.logger.child(name)
+      this.#logger.child(name)
     );
   }
 

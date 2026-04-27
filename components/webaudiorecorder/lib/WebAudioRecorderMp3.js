@@ -1,5 +1,3 @@
-importScripts("Mp3LameEncoder.min.js");
-
 var NUM_CH = 2, // constant
     sampleRate = 44100,
     options = undefined,

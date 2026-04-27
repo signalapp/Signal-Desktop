@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import { ReadStatus } from '../../messages/MessageReadStatus.std.js';
+import { ReadStatus } from '../../messages/MessageReadStatus.std.ts';
 
-import { isMessageUnread } from '../../util/isMessageUnread.std.js';
+import { isMessageUnread } from '../../util/isMessageUnread.std.ts';
 
 describe('isMessageUnread', () => {
   it("returns false if the message's `readStatus` field is undefined", () => {

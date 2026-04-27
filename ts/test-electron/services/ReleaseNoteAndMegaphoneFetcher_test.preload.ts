@@ -6,15 +6,15 @@ import * as sinon from 'sinon';
 import { EventEmitter } from 'node:events';
 import { v4 as uuid } from 'uuid';
 
-import { ReleaseNoteAndMegaphoneFetcher } from '../../services/releaseNoteAndMegaphoneFetcher.preload.js';
-import * as durations from '../../util/durations/index.std.js';
-import { generateAci } from '../../types/ServiceId.std.js';
-import { saveNewMessageBatcher } from '../../util/messageBatcher.preload.js';
-import type { CIType } from '../../CI.preload.js';
-import type { ConversationModel } from '../../models/conversations.preload.js';
-import { itemStorage } from '../../textsecure/Storage.preload.js';
-import { DataReader, DataWriter } from '../../sql/Client.preload.js';
-import type { RemoteMegaphoneId } from '../../types/Megaphone.std.js';
+import { ReleaseNoteAndMegaphoneFetcher } from '../../services/releaseNoteAndMegaphoneFetcher.preload.ts';
+import * as durations from '../../util/durations/index.std.ts';
+import { saveNewMessageBatcher } from '../../util/messageBatcher.preload.ts';
+import type { CIType } from '../../CI.preload.ts';
+import type { ConversationModel } from '../../models/conversations.preload.ts';
+import { itemStorage } from '../../textsecure/Storage.preload.ts';
+import { DataReader, DataWriter } from '../../sql/Client.preload.ts';
+import type { RemoteMegaphoneId } from '../../types/Megaphone.std.ts';
+import { generateAci } from '../../test-helpers/serviceIdUtils.std.ts';
 
 const { getAllMegaphones, hasMegaphone } = DataReader;
 
@@ -123,7 +123,6 @@ describe('ReleaseNoteAndMegaphoneFetcher', () => {
   };
 
   let sandbox: sinon.SinonSandbox;
-  let clock: sinon.SinonFakeTimers | undefined;
   let originalSignalCI: CIType | undefined;
   let fakeMegaphoneUuid: string;
 
@@ -307,7 +306,6 @@ describe('ReleaseNoteAndMegaphoneFetcher', () => {
     return {
       // Core objects
       sandbox,
-      clock,
       events,
       fakeConversation,
       serverStubs,
@@ -343,10 +341,10 @@ describe('ReleaseNoteAndMegaphoneFetcher', () => {
     // Restore all stubs and timers
     sandbox.restore();
     sandbox.reset();
-    clock?.restore();
 
     // Restore original global values (even if they were undefined)
-    window.SignalCI = originalSignalCI as CIType;
+    // oxlint-disable-next-line typescript/no-non-null-assertion
+    window.SignalCI = originalSignalCI!;
 
     // Reset storage state
     await itemStorage.fetch();
@@ -396,6 +394,7 @@ describe('ReleaseNoteAndMegaphoneFetcher', () => {
 
     // TODO(DESKTOP-9092): test setup requires isNewVersion=true, but
     // that flag forces a manifest fetch.
+    // oxlint-disable-next-line signal-desktop/no-disabled-tests
     it.skip('does not fetch when hash is the same', async () => {
       const {
         setupStorage,
@@ -510,11 +509,11 @@ describe('ReleaseNoteAndMegaphoneFetcher', () => {
       assert.strictEqual(dbMegaphones.length, 1);
       assert.strictEqual(dbMegaphone?.id, myMegaphone.uuid);
       assert.strictEqual(
-        dbMegaphone.dontShowBeforeEpochMs,
+        dbMegaphone?.dontShowBeforeEpochMs,
         myMegaphone.dontShowBeforeEpochSeconds * 1000
       );
       assert.strictEqual(
-        dbMegaphone.dontShowAfterEpochMs,
+        dbMegaphone?.dontShowAfterEpochMs,
         myMegaphone.dontShowAfterEpochSeconds * 1000
       );
     });

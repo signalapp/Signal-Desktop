@@ -14,16 +14,16 @@ import { exists } from 'fs-extra';
 import {
   getAbsoluteAttachmentPath as doGetAbsoluteAttachmentPath,
   getAbsoluteTempPath as doGetAbsoluteTempPath,
-} from '../util/migrations.preload.js';
-import { decryptAttachmentV2ToSink } from '../AttachmentCrypto.node.js';
+} from '../util/migrations.preload.ts';
+import { decryptAttachmentV2ToSink } from '../AttachmentCrypto.node.ts';
 import {
   getLocalBackupDirectoryForMediaName,
   getLocalBackupPathForMediaName,
-} from '../services/backups/util/localBackup.node.js';
-import { createName } from '../util/attachmentPath.node.js';
-import { redactGenericText } from '../util/privacy.node.js';
+} from '../services/backups/util/localBackup.node.ts';
+import { createName } from '../util/attachmentPath.node.ts';
+import { redactGenericText } from '../util/privacy.node.ts';
 
-import type { CoreAttachmentLocalBackupJobType } from '../types/AttachmentBackup.std.js';
+import type { CoreAttachmentLocalBackupJobType } from '../types/AttachmentBackup.std.ts';
 
 export class AttachmentPermanentlyMissingError extends Error {}
 
@@ -36,7 +36,7 @@ type RunAttachmentBackupJobDependenciesType = {
 export function getJobIdForLogging(
   job: CoreAttachmentLocalBackupJobType
 ): string {
-  return `${redactGenericText(job.mediaName)}`;
+  return redactGenericText(job.mediaName);
 }
 
 export async function runAttachmentBackupJob(

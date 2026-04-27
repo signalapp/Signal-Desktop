@@ -9,15 +9,15 @@ import createDebug from 'debug';
 import type { Page } from 'playwright';
 import assert from 'node:assert';
 
-import { LONG_MESSAGE, IMAGE_JPEG } from '../../types/MIME.std.js';
-import * as durations from '../../util/durations/index.std.js';
-import { toNumber } from '../../util/toNumber.std.js';
-import type { App } from '../playwright.node.js';
-import { Bootstrap } from '../bootstrap.node.js';
+import { LONG_MESSAGE, IMAGE_JPEG } from '../../types/MIME.std.ts';
+import * as durations from '../../util/durations/index.std.ts';
+import { toNumber } from '../../util/toNumber.std.ts';
+import type { App } from '../playwright.node.ts';
+import { Bootstrap } from '../bootstrap.node.ts';
 import {
   sendTextMessage,
   getTimelineMessageWithText,
-} from '../helpers.node.js';
+} from '../helpers.node.ts';
 
 export const debug = createDebug('mock:test:backfill');
 

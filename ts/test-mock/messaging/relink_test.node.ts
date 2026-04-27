@@ -5,10 +5,10 @@ import createDebug from 'debug';
 import type { PrimaryDevice } from '@signalapp/mock-server';
 import { Proto, StorageState } from '@signalapp/mock-server';
 
-import * as durations from '../../util/durations/index.std.js';
-import type { App } from '../playwright.node.js';
-import { Bootstrap } from '../bootstrap.node.js';
-import { expectSystemMessages } from '../helpers.node.js';
+import * as durations from '../../util/durations/index.std.ts';
+import type { App } from '../playwright.node.ts';
+import { Bootstrap } from '../bootstrap.node.ts';
+import { expectSystemMessages } from '../helpers.node.ts';
 
 export const debug = createDebug('mock:test:relink');
 

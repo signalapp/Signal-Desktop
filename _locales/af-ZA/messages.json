@@ -746,6 +746,9 @@
   "icu:fileSizeWarning": {
     "messageformat": "Jammer, die geselekteerde lêer oorskry die boodskap se groottebeperkings. {limit,number} {units}"
   },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "Jammer, die geselekteerde videolêer oorskry die boodskapgroottebeperkings. {limit,number}{units}"
+  },
   "icu:unableToLoadAttachment": {
     "messageformat": "Kan nie die geselekteerde aanhegsel laai nie."
   },
@@ -1787,6 +1790,12 @@
   "icu:Preferences__EditChatFolderPage__CancelButton": {
     "messageformat": "Kanselleer"
   },
+  "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
+    "messageformat": "Show status icon"
+  },
+  "icu:Preferences__PrivacyPage__ShowStatusIcon__Description": {
+    "messageformat": "Show an icon in message details when they were delivered using sealed sender."
+  },
   "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
     "messageformat": "Outomatiese sleutelverifiëring"
   },
@@ -2372,6 +2381,9 @@
   "icu:ConversationDetails--support-center": {
     "messageformat": "Steundienssentrum"
   },
+  "icu:ConversationDetails__GroupTerminatedBanner": {
+    "messageformat": "Hierdie groep is beëindig"
+  },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "Bekyk veiligheidsnommer"
   },
@@ -2551,6 +2563,27 @@
   },
   "icu:youUpdatedTheGroup": {
     "messageformat": "Jy het die groep bygewerk."
+  },
+  "icu:collapsedGroupUpdates": {
+    "messageformat": "{count, plural, one {{count,number} groepopdatering} other {{count,number} groepopdaterings}}"
+  },
+  "icu:multidayCollapse__container": {
+    "messageformat": "{containerDescription} · {dayCountSummary}"
+  },
+  "icu:multidayCollapse__dayCountSummary": {
+    "messageformat": "{dayCount, plural, one {{dayCount,number} dag} other {{dayCount,number} dae}}"
+  },
+  "icu:collapsedChatUpdates": {
+    "messageformat": "{count, plural, one {{count,number} kletsopdatering} other {{count,number} kletsopdaterings}}"
+  },
+  "icu:collapsedTimerChanges": {
+    "messageformat": "{count, plural, one {{count,number} verandering in verdwynboodskap-tydhouer · {endingState}} other {{count,number} veranderinge in verdwynboodskap-tydhouer · {endingState}}}"
+  },
+  "icu:collapsedTimerChanges--disabled": {
+    "messageformat": "{count, plural, one {{count,number} verandering in verdwynboodskap-tydhouer · Gedeaktiveer} other {{count,number} veranderinge in verdwynboodskap-tydhouer · Gedeaktiveer}}"
+  },
+  "icu:collapsedCallEvents": {
+    "messageformat": "{count, plural, one {{count,number} oproepgebeurtenis} other {{count,number} oproepgebeurtenisse}}"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "Groepavatar is bygewerk"
@@ -3017,8 +3050,8 @@
   "icu:Message--tap-to-view--incoming--expired-toast": {
     "messageformat": "Jy het reeds hierdie boodskap gesien."
   },
-  "icu:Message--tap-to-view--outgoing--expired-toast": {
-    "messageformat": "Eenkeerkyk-boodskappe word nie in jou kletsgeskiedenis gestoor nie."
+  "icu:Message--tap-to-view--outgoing--expired-toast-2": {
+    "messageformat": "Eenkeerkyk-media word uitgevee nadat dit gestuur is"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "Eenkeerkyk-video"
@@ -3485,8 +3518,17 @@
   "icu:ConversationHero--profile-names": {
     "messageformat": "<clickable>Profielname</clickable> is nie geverifieer nie"
   },
+  "icu:ConversationHero--name-not-verified": {
+    "messageformat": "Name not verified"
+  },
   "icu:ConversationHero--signal-official-chat": {
     "messageformat": "Hierdie is die amptelike en enigste klets van Signal"
+  },
+  "icu:ConversationHero--signal-official-account": {
+    "messageformat": "Official account"
+  },
+  "icu:ConversationHero--signal-official-account--description": {
+    "messageformat": "The only official chat from Signal. Keep up to date with news and release notes."
   },
   "icu:ConversationHero--release-notes": {
     "messageformat": "Bly op datum met nuus en vrystellingnotas."
@@ -3767,9 +3809,6 @@
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
     "messageformat": "Deel oproepskakel d.m.v. Signal"
   },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "Verwyder hierdie persoon uit die oproep"
-  },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "Verwyder {name} uit die oproep?"
   },
@@ -3932,11 +3971,23 @@
   "icu:GroupV2--join--requested": {
     "messageformat": "Jou versoek om aan te sluit is na die groepadmin gestuur. Jy sal in kennis gestel word wanneer hulle aksie geneem het."
   },
+  "icu:GroupV2--join--group-terminated": {
+    "messageformat": "Kon nie by hierdie groep aansluit nie."
+  },
   "icu:GroupV2--join--general-join-failure--title": {
     "messageformat": "Fout met skakel"
   },
   "icu:GroupV2--join--general-join-failure": {
     "messageformat": "Kon nie by groep aansluit nie. Probeer weer later."
+  },
+  "icu:GroupV2--terminate-group-in-progress": {
+    "messageformat": "Besig om groep te beëindig…"
+  },
+  "icu:TerminateGroupFailedModal__description": {
+    "messageformat": "Kon nie die groep beëindig nie. Gaan jou verbinding na en probeer weer."
+  },
+  "icu:TerminateGroupFailedModal__try-again": {
+    "messageformat": "Probeer weer"
   },
   "icu:GroupV2--admin": {
     "messageformat": "Admin"
@@ -4379,6 +4430,15 @@
   "icu:GroupV2--summary": {
     "messageformat": "Hierdie groep se lede of instellings het verander."
   },
+  "icu:GroupV2--terminated--you": {
+    "messageformat": "Jy het die groep beëindig"
+  },
+  "icu:GroupV2--terminated--other": {
+    "messageformat": "{memberName} het die groep beëindig"
+  },
+  "icu:GroupV2--terminated--unknown": {
+    "messageformat": "Hierdie groep is beëindig"
+  },
   "icu:GroupV1--Migration--disabled--link": {
     "messageformat": "Gradeer hierdie groep op om nuwe funksies soos @vermeldings en admins te aktiveer. Lede wat nie hul naam of foto in hierdie groep gedeel het nie, sal genooi word om aan te sluit. <learnMoreLink>Vind meer uit.</learnMoreLink>"
   },
@@ -4655,6 +4715,9 @@
   "icu:CompositionArea__ConfirmGifSelection__ReplaceButton": {
     "messageformat": "Vervang"
   },
+  "icu:CompositionArea--group-terminated": {
+    "messageformat": "Jy kan nie boodskappe stuur nie, want die groep is beëindig."
+  },
   "icu:CompositionArea--viewOnceToggle": {
     "messageformat": "Eenkeerkyk"
   },
@@ -4832,11 +4895,26 @@
   "icu:ConversationDetailsActions--leave-group": {
     "messageformat": "Verlaat groep"
   },
+  "icu:ConversationDetailsActions--terminate-group": {
+    "messageformat": "Beëindig groep"
+  },
   "icu:ConversationDetailsActions--block-group": {
     "messageformat": "Versper groep"
   },
   "icu:ConversationDetailsActions--unblock-group": {
     "messageformat": "Ontsper groep"
+  },
+  "icu:ConversationDetailsActions--report-spam": {
+    "messageformat": "Rapporteer slenterpos"
+  },
+  "icu:ConversationDetailsActions--archive": {
+    "messageformat": "Argiveer klets"
+  },
+  "icu:ConversationDetailsActions--unarchive": {
+    "messageformat": "Ontargiveer klets"
+  },
+  "icu:ConversationDetailsActions--delete": {
+    "messageformat": "Skrap klets"
   },
   "icu:ConversationDetailsActions--leave-group-must-choose-new-admin": {
     "messageformat": "Voor jy verlaat, moet jy ten minste een nuwe admin vir hierdie groep kies."
@@ -4849,6 +4927,18 @@
   },
   "icu:ConversationDetailsActions--leave-group-modal-confirm": {
     "messageformat": "Verlaat"
+  },
+  "icu:ConversationDetailsActions--prompt-terminate-group-modal-title": {
+    "messageformat": "Beëindig \"{groupName}\"?"
+  },
+  "icu:ConversationDetailsActions--prompt-terminate-group-modal-content": {
+    "messageformat": "Lede sal nie meer in staat wees om boodskappe in die groep te stuur of oproepe te begin nie. Hulle sal in kennis gestel word dat jy die groep beëindig het, en sal steeds toegang tot die boodskapgeskiedenis hê."
+  },
+  "icu:ConversationDetailsActions--terminate-group-modal-confirm": {
+    "messageformat": "Beëindig groep"
+  },
+  "icu:ConversationDetailsActions--confirm-terminate-group-confirm-modal-content": {
+    "messageformat": "Hierdie aksie sal die groep permanent beëindig. Is jy seker jy wil voortgaan?"
   },
   "icu:ConversationDetailsActions--unblock-group-modal-title": {
     "messageformat": "Ontsper die \"{groupName}\"-groep?"
@@ -4868,6 +4958,18 @@
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "Ontsper"
   },
+  "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
+    "messageformat": "Signal sal verwittig word dat hierdie persoon dalk besig is om slenterpos te stuur. Signal kan nie die inhoud van enige kletse sien nie."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-group": {
+    "messageformat": "Signal sal verwittig word dat die persoon wat jou na hierdie groep genooi het, dalk besig is om slenterpos te stuur. Signal kan nie die inhoud van enige kletse sien nie."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
+    "messageformat": "Rapporteer slenterpos"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
+    "messageformat": "Rapporteer en versper"
+  },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} lid} other {{number,number} lede}}"
   },
@@ -4876,6 +4978,9 @@
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} lid} other {{number,number} lede}}"
+  },
+  "icu:ConversationDetailsMembershipList--terminated-title": {
+    "messageformat": "{number, plural, one {{number,number} voormalige lid} other {{number,number} voormalige lede}}"
   },
   "icu:ConversationDetailsMembershipList--add-members": {
     "messageformat": "Voeg lede by"
@@ -5059,7 +5164,7 @@
     "ignoreUnused": true
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
-    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Groeplede op die jongste weergawe van Signal sal sien jy het hierdie boodskap geskrap.} other {Groeplede op die jongste weergawe van Signal sal sien jy het hierdie boodskappe geskrap.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Skrap van alle toestelle"
@@ -5195,6 +5300,9 @@
   },
   "icu:MessageRequestWarning__safety-tips": {
     "messageformat": "Veiligheidswenke"
+  },
+  "icu:MessageRequestWarning__safety-tips-v2": {
+    "messageformat": "Safety tips"
   },
   "icu:ContactSpoofing__same-name--link": {
     "messageformat": "Gaan versoeke noukeurig na. Signal het 'n ander kontak met dieselfde naam gevind. <reviewRequestLink>Gaan versoek na</reviewRequestLink>"
@@ -5797,6 +5905,15 @@
   "icu:Preferences__link-previews--description": {
     "messageformat": "Om hierdie instellings te verander, maak die Signal-toepassing op jou mobiele toestel oop en gaan na Instellings > Kletse"
   },
+  "icu:Preferences__link-previews--new-description": {
+    "messageformat": "Retrieve link previews directly from websites for messages you send."
+  },
+  "icu:Preferences__address-book-photos--title": {
+    "messageformat": "Use address book photos"
+  },
+  "icu:Preferences__address-book-photos--description": {
+    "messageformat": "Display contact photos from your address book if available."
+  },
   "icu:Preferences__auto-convert-emoji--title": {
     "messageformat": "Skakel getikte emotikons om in emoji's"
   },
@@ -6232,35 +6349,35 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "Klaar"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "wys jou rugsteunsleutel"
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
+    "messageformat": "om jou herwinsleutel te vertoon"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "Verifieer jou identiteit om jou rugsteunsleutel te sien."
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
+    "messageformat": "Verifieer jou identiteit om jou herwinsleutel te besigtig."
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "Sien rugsteunsleutel"
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
+    "messageformat": "Bekyk herwinsleutel"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "Bevestiging word vereis om jou rugsteunsleutel te sien."
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
+    "messageformat": "Bevestiging word vereis om jou herwinsleutel te besigtig."
   },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Rugsteunsleutel-teksblokkie"
+  "icu:Preferences--local-backups-recovery-key-text-box": {
+    "messageformat": "Herwinsleutel"
   },
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "Voer sleutel in"
   },
-  "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "Maak 'n aantekening van jou rugsteunsleutel"
+  "icu:Preferences--local-backups-record-recovery-key": {
+    "messageformat": "Maak 'n aantekening van jou herwinsleutel"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "Hierdie sleutel is nodig om jou rekening en data te herstel. Bewaar hierdie sleutel iewers waar dit veilig is. As jy dit verloor, sal jy nie jou rekening kan herstel nie. <learnMoreLink>Vind meer uit.</learnMoreLink>"
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "Bevestig jou rugsteunsleutel"
+  "icu:Preferences--local-backups-confirm-recovery-key": {
+    "messageformat": "Bevestig jou herwinsleutel"
   },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "Voer die rugsteunsleutel in wat jy pas aangeteken het"
+  "icu:Preferences--local-backups-confirm-recovery-key-description": {
+    "messageformat": "Voer die herwinsleutel in wat jy pas aangeteken het"
   },
   "icu:Preferences__local-backups-confirm-key-modal-title": {
     "messageformat": "Hou jou sleutel veilig"
@@ -6286,26 +6403,23 @@
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Rugsteungids"
   },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "Verander"
-  },
   "icu:Preferences__local-backups-turn-off": {
-    "messageformat": "Turn off backups"
+    "messageformat": "Skakel rugsteun af"
   },
   "icu:Preferences__local-backups-turn-off-action": {
-    "messageformat": "Turn off"
+    "messageformat": "Skakel af"
   },
   "icu:Preferences__local-backups-turn-off-confirmation": {
-    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+    "messageformat": "Jy sal nie meer rugsteun op hierdie rekenaar kan skep sonder om dit te heraktiveer nie."
   },
   "icu:Preferences__local-backups-turn-off-delete": {
-    "messageformat": "Delete my backup from this computer"
+    "messageformat": "Skrap my rugsteun op hierdie rekenaar"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Kopieer na knipbord"
   },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "Rugsteunsleutel gekopieer"
+  "icu:Preferences__local-backups-copied-recovery-key": {
+    "messageformat": "Herwinsleutel gekopieer"
   },
   "icu:Preferences__local-backups--enable--os-prompt--mac": {
     "messageformat": "Aktiveer rugsteun"
@@ -6319,17 +6433,29 @@
   "icu:Preferences__local-backups--enable--os-prompt-message--linux": {
     "messageformat": "Bevestiging word vereis om rugsteun te aktiveer."
   },
+  "icu:Preferences__local-backups-auth-error--unauthorized": {
+    "messageformat": "Hierdie aksie kon nie voltooi word nie, omdat stelselbevestiging misluk het. Probeer asseblief weer of maak die Signal-toepassing op jou mobiele toestel oop en gaan na Rugsteuninstellings om jou herwinsleutel te besigtig."
+  },
   "icu:Preferences__view-key": {
     "messageformat": "Besigtig sleutel"
   },
-  "icu:Preferences__backup-key": {
-    "messageformat": "Rugsteunsleutel"
+  "icu:Preferences__recovery-key": {
+    "messageformat": "Herwinsleutel"
   },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "Jou rugsteunsleutel is 'n 64-syfer-kode wat gebruik word om jou rugsteun te herwin"
+  "icu:Preferences__recovery-key-description": {
+    "messageformat": "Jou herwinsleutel is 'n 64-karakter-kode wat gebruik word om jou rugsteun te herstel"
   },
   "icu:Preferences__backup-other-ways": {
     "messageformat": "Ander maniere om te rugsteun"
+  },
+  "icu:Preferences__recovery-key-updated__title": {
+    "messageformat": "Jou herwinsleutel het verander"
+  },
+  "icu:Preferences__recovery-key-updated__description": {
+    "messageformat": "Jou herwinsleutel is opdateer. Enige nuwe rugsteun wat jy maak, kan slegs met gebruik van jou nuwe herwinsleutel herstel word."
+  },
+  "icu:Preferences__recovery-key-updated__view-key": {
+    "messageformat": "Besigtig nuwe sleutel"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {{num,number} kontak} other {{num,number} kontakte}}"
@@ -6394,8 +6520,14 @@
   "icu:Preferences--read-receipts": {
     "messageformat": "Leesbewyse"
   },
+  "icu:Preferences--read-receipts--description": {
+    "messageformat": "If disabled, you won't see read receipts from others."
+  },
   "icu:Preferences--typing-indicators": {
     "messageformat": "Tikaanduiders"
+  },
+  "icu:Preferences--typing-indicators--description": {
+    "messageformat": "If disabled, you won't see typing indicators from others."
   },
   "icu:Preferences--updates": {
     "messageformat": "Bywerkings"
@@ -6682,6 +6814,9 @@
   "icu:MyStories__delete": {
     "messageformat": "Skrap hierdie storie? Dit sal ook geskrap word vir almal wat dit ontvang het."
   },
+  "icu:MyStories__delete-group-story-for-me": {
+    "messageformat": "Skrap hierdie storie? Dit sal slegs vir jou geskrap word, want die groep is beëindig."
+  },
   "icu:payment-event-notification-message-you-label": {
     "messageformat": "Jy het begin met 'n betaling aan {receiver}"
   },
@@ -6903,6 +7038,9 @@
   },
   "icu:StoriesSettings__view-receipts--label": {
     "messageformat": "Kykbewyse"
+  },
+  "icu:StoriesSettings__view-receipts--new-description": {
+    "messageformat": "See and share when stories are viewed. If disabled, you won't see when others view your story."
   },
   "icu:StoriesSettings__view-receipts--description": {
     "messageformat": "Maak die Signal-toepassing op jou mobiele toestel oop en gaan na Instellings -> Stories om hierdie instellings te verander"
@@ -7553,6 +7691,18 @@
   "icu:ProfileNameWarningModal__list--item3--direct": {
     "messageformat": "Moenie persoonlike inligting deel met mense wat jy nie ken nie"
   },
+  "icu:ProfileNameWarningModal__warning--signal-cant-verify": {
+    "messageformat": "Signal can’t verify names and photos"
+  },
+  "icu:ProfileNameWarningModal__warning--signal-wont-contact": {
+    "messageformat": "Signal will never contact you for your registration code, PIN, or recovery key"
+  },
+  "icu:ProfileNameWarningModal__warning--be-cautious": {
+    "messageformat": "Be cautious of accounts that impersonate others"
+  },
+  "icu:ProfileNameWarningModal__warning--dont-share-info": {
+    "messageformat": "Don't share personal information with people you don't know"
+  },
   "icu:ProfileNameWarningModal__description--group": {
     "messageformat": "Groepname word deur lede van die groep gekies."
   },
@@ -8015,17 +8165,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Klein veranderings, foutregstellings en prestasieverbeterings. Dankie dat jy Signal gebruik!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__7.90--0": {
-    "messageformat": "Laat privaatheid in die koppe vassteek met vyf nuwe amptelike plakkerpakkette in die Signal Kunstenaar-reeks: \"Chug the Mouse\" deur Amanda Cotan, \"Cozy Season\" deur Miguel Ángel Camprubí, \"Croco's Feelings\" deur Tiffany Beucher, \"My Daily Life 2\" deur Plastic Thing, en \"Rocky Talk\" deur Lexi Vay."
-  },
-  "icu:WhatsNew__8.0--0": {
-    "messageformat": "Signal se veilige rugsteun is hier! Jy kan nou kies om outomatiese end-tot-end-geënkripteerde rugsteun te aktiveer sodat jy nooit 'n boodskap verloor wanneer jy 'n nuwe foon kry of Signal herinstalleer nie. Jy kan al jou boodskappe en die laaste 45 dae se media gratis rugsteun, of jy kan 'n klein maandelikse bedraggie betaal om 100 GB se stoorruimte te kry om alle aanhangsels te rugsteun. Tik op rugsteun in jou Signal-instellings om te begin. Dankie aan almal wat hierdie kenmerk tydens die beta-tydperk help toets het!"
-  },
-  "icu:WhatsNew__8.2--0": {
-    "messageformat": "Nou kan jy ook eenkeerkyk-mediaboodskappe van Signal Desktop af stuur. Individuele foto's en video's wat as eenkeerkyk-boodskappe gestuur word, sal outomaties uit 'n gesprekstring verwyder word nadat daar na hulle gekyk is."
-  },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "Nou kan jy opsioneel 'n lidfunksie-etiket byvoeg om jouself of jou rol in 'n groepklets te beskryf. Stel jou groeplidfunksie-etiket op \"Skeidsregter\" of \"Doelwagter\" in jou plaaslike ontspanningsliga-sokkerklets om te help om dinge af te skop wanneer nuwe spanmaats by julle aansluit, en kies dan 'n heel ander lidfunksie-etiket met jou postitel in jou maatskappy se klets. Lidfunksie-etikette verskyn langs jou profielnaam in daardie groep, en groepadmins kan beheer of dit vir almal geaktiveer is of nie."
   }
 }

@@ -5,16 +5,16 @@ import { v7 as generateUuid } from 'uuid';
 import {
   conversationJobQueue,
   conversationQueueJobEnum,
-} from '../jobs/conversationJobQueue.preload.js';
-import { getMessageById } from '../messages/getMessageById.preload.js';
+} from '../jobs/conversationJobQueue.preload.ts';
+import { getMessageById } from '../messages/getMessageById.preload.ts';
 import {
   handlePollTerminate,
   PollSource,
   type PollTerminateAttributesType,
-} from '../messageModifiers/Polls.preload.js';
-import { isGroupV1 } from '../util/whatTypeOfConversation.dom.js';
-import { strictAssert } from '../util/assert.std.js';
-import { createLogger } from '../logging/log.std.js';
+} from '../messageModifiers/Polls.preload.ts';
+import { isGroupV1 } from '../util/whatTypeOfConversation.dom.ts';
+import { strictAssert } from '../util/assert.std.ts';
+import { createLogger } from '../logging/log.std.ts';
 
 const log = createLogger('enqueuePollTerminateForSend');
 

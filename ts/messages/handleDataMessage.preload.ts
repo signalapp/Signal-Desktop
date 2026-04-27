@@ -4,37 +4,37 @@
 import lodash from 'lodash';
 import type { z } from 'zod';
 
-import { createLogger } from '../logging/log.std.js';
-import * as Errors from '../types/errors.std.js';
-import * as LinkPreview from '../types/LinkPreview.std.js';
+import { createLogger } from '../logging/log.std.ts';
+import * as Errors from '../types/errors.std.ts';
+import * as LinkPreview from '../types/LinkPreview.std.ts';
 
-import { isStory } from './helpers.std.js';
-import { getAuthor } from './sources.preload.js';
-import { messageHasPaymentEvent } from './payments.std.js';
-import { getMessageIdForLogging } from '../util/idForLogging.preload.js';
+import { isStory } from './helpers.std.ts';
+import { getAuthor } from './sources.preload.ts';
+import { messageHasPaymentEvent } from './payments.std.ts';
+import { getMessageIdForLogging } from '../util/idForLogging.preload.ts';
 import {
   deliveryReceiptQueue,
   deliveryReceiptBatcher,
-} from '../util/deliveryReceipt.preload.js';
-import { upgradeMessageSchema } from '../util/migrations.preload.js';
-import { getOwn } from '../util/getOwn.std.js';
+} from '../util/deliveryReceipt.preload.ts';
+import { upgradeMessageSchema } from '../util/migrations.preload.ts';
+import { getOwn } from '../util/getOwn.std.ts';
 import {
   SendActionType,
   sendStateReducer,
   SendStatus,
-} from './MessageSendState.std.js';
-import { DataReader, DataWriter } from '../sql/Client.preload.js';
-import { eraseMessageContents } from '../util/cleanup.preload.js';
+} from './MessageSendState.std.ts';
+import { DataReader, DataWriter } from '../sql/Client.preload.ts';
+import { eraseMessageContents } from '../util/cleanup.preload.ts';
 import {
   isDirectConversation,
   isGroup,
   isGroupV1,
-} from '../util/whatTypeOfConversation.dom.js';
+} from '../util/whatTypeOfConversation.dom.ts';
 import {
   respondToGroupV2Migration,
   maybeUpdateGroup,
-} from '../groups.preload.js';
-import { generateMessageId } from '../util/generateMessageId.node.js';
+} from '../groups.preload.ts';
+import { generateMessageId } from '../util/generateMessageId.node.ts';
 import {
   hasErrors,
   isEndSession,
@@ -42,45 +42,45 @@ import {
   isGroupUpdate,
   isTapToView,
   isUnsupportedMessage,
-} from '../state/selectors/message.preload.js';
-import { drop } from '../util/drop.std.js';
-import { strictAssert } from '../util/assert.std.js';
-import { isAciString } from '../util/isAciString.std.js';
-import { copyFromQuotedMessage } from './copyQuote.preload.js';
-import { findStoryMessage } from '../util/findStoryMessage.preload.js';
-import { getRoomIdFromCallLink } from '../util/callLinksRingrtc.node.js';
-import { isNotNil } from '../util/isNotNil.std.js';
-import { normalizeServiceId } from '../types/ServiceId.std.js';
-import { BodyRange, trimMessageWhitespace } from '../types/BodyRange.std.js';
-import { hydrateStoryContext } from '../util/hydrateStoryContext.preload.js';
-import { isMessageEmpty } from '../util/isMessageEmpty.preload.js';
-import { isValidTapToView } from '../util/isValidTapToView.std.js';
-import { getNotificationTextForMessage } from '../util/getNotificationTextForMessage.preload.js';
+} from '../state/selectors/message.preload.ts';
+import { drop } from '../util/drop.std.ts';
+import { strictAssert } from '../util/assert.std.ts';
+import { isAciString } from '../util/isAciString.std.ts';
+import { copyFromQuotedMessage } from './copyQuote.preload.ts';
+import { findStoryMessage } from '../util/findStoryMessage.preload.ts';
+import { getRoomIdFromCallLink } from '../util/callLinksRingrtc.node.ts';
+import { isNotNil } from '../util/isNotNil.std.ts';
+import { normalizeServiceId } from '../types/ServiceId.std.ts';
+import { BodyRange, trimMessageWhitespace } from '../types/BodyRange.std.ts';
+import { hydrateStoryContext } from '../util/hydrateStoryContext.preload.ts';
+import { isMessageEmpty } from '../util/isMessageEmpty.preload.ts';
+import { isValidTapToView } from '../util/isValidTapToView.std.ts';
+import { getNotificationTextForMessage } from '../util/getNotificationTextForMessage.preload.ts';
 import {
   getMessageAuthorAci,
   getMessageAuthorText,
-} from '../util/getMessageAuthorText.preload.js';
-import { GiftBadgeStates } from '../types/GiftBadgeStates.std.js';
-import { parseBoostBadgeListFromServer } from '../badges/parseBadgesFromServer.std.js';
-import { SignalService as Proto } from '../protobuf/index.std.js';
+} from '../util/getMessageAuthorText.preload.ts';
+import { GiftBadgeStates } from '../types/GiftBadgeStates.std.ts';
+import { parseBoostBadgeListFromServer } from '../badges/parseBadgesFromServer.std.ts';
+import { SignalService as Proto } from '../protobuf/index.std.ts';
 import {
   modifyTargetMessage,
   ModifyTargetMessageResult,
-} from '../util/modifyTargetMessage.preload.js';
-import type { saveAndNotify } from './saveAndNotify.preload.js';
-import type { MessageModel } from '../models/messages.preload.js';
-import { safeParsePartial } from '../util/schemas.std.js';
-import { PollCreateSchema } from '../types/Polls.dom.js';
+} from '../util/modifyTargetMessage.preload.ts';
+import type { saveAndNotify } from './saveAndNotify.preload.ts';
+import type { MessageModel } from '../models/messages.preload.ts';
+import { safeParsePartial } from '../util/schemas.std.ts';
+import { PollCreateSchema } from '../types/Polls.dom.ts';
 
-import type { SentEventData } from '../textsecure/messageReceiverEvents.std.js';
+import type { SentEventData } from '../textsecure/messageReceiverEvents.std.ts';
 import type {
   ProcessedDataMessage,
   ProcessedUnidentifiedDeliveryStatus,
 } from '../textsecure/Types.d.ts';
-import type { ServiceIdString } from '../types/ServiceId.std.js';
-import type { LinkPreviewType } from '../types/message/LinkPreviews.std.js';
-import { getCachedSubscriptionConfiguration } from '../util/subscriptionConfiguration.preload.js';
-import { itemStorage } from '../textsecure/Storage.preload.js';
+import type { ServiceIdString } from '../types/ServiceId.std.ts';
+import type { LinkPreviewType } from '../types/message/LinkPreviews.std.ts';
+import { getCachedSubscriptionConfiguration } from '../util/subscriptionConfiguration.preload.ts';
+import { itemStorage } from '../textsecure/Storage.preload.ts';
 
 const { isNumber } = lodash;
 
@@ -115,7 +115,7 @@ export async function handleDataMessage(
     fromContact.setRegistered();
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  // oxlint-disable-next-line typescript/no-non-null-assertion
   const conversation = window.ConversationController.get(conversationId)!;
   const idLog = `handleDataMessage/${conversation.idForLogging()} ${getMessageIdForLogging(message.attributes)}`;
   await conversation.queueJob(idLog, async () => {
@@ -158,7 +158,7 @@ export async function handleDataMessage(
           toUpdate.get('unidentifiedDeliveries') ?? []
         );
         const sendStateByConversationId = {
-          ...(toUpdate.get('sendStateByConversationId') || {}),
+          ...toUpdate.get('sendStateByConversationId'),
         };
 
         const unidentifiedStatus: Array<ProcessedUnidentifiedDeliveryStatus> =
@@ -255,7 +255,7 @@ export async function handleDataMessage(
         initialMessage.groupV2.publicParams
       ) {
         // Repair core GroupV2 data if needed
-        await conversation.maybeRepairGroupV2({
+        conversation.maybeRepairGroupV2({
           masterKey: initialMessage.groupV2.masterKey,
           secretParams: initialMessage.groupV2.secretParams,
           publicParams: initialMessage.groupV2.publicParams,
@@ -284,6 +284,7 @@ export async function handleDataMessage(
               newRevision: revision,
               receivedAt: message.get('received_at'),
               sentAt: message.get('sent_at'),
+              serverGuid: message.get('serverGuid'),
             });
           } catch (error) {
             const errorText = Errors.toLogFormat(error);
@@ -297,7 +298,7 @@ export async function handleDataMessage(
     }
 
     const ourAci = itemStorage.user.getCheckedAci();
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    // oxlint-disable-next-line typescript/no-non-null-assertion
     const sender = window.ConversationController.lookupOrCreate({
       e164: source,
       serviceId: sourceServiceId,
@@ -397,6 +398,15 @@ export async function handleDataMessage(
       );
     }
 
+    // Drop incoming messages to terminated groups
+    if (conversation.get('terminated')) {
+      log.warn(
+        `Received message for terminated group ${conversation.idForLogging()}. Dropping.`
+      );
+      confirm();
+      return;
+    }
+
     const { storyContext } = initialMessage;
     let storyContextLogId = 'no storyContext';
     if (storyContext) {
@@ -491,7 +501,7 @@ export async function handleDataMessage(
     };
 
     // There are type conflicts between ModelAttributesType and protos passed in here
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // oxlint-disable-next-line typescript/no-explicit-any
     const dataMessage = await upgradeMessageSchema(withQuoteReference as any);
 
     const isGroupStoryReply =
@@ -532,9 +542,9 @@ export async function handleDataMessage(
       }
 
       const ourPni = itemStorage.user.getCheckedPni();
-      const ourServiceIds: Set<ServiceIdString> = new Set([ourAci, ourPni]);
+      const ourServiceIds = new Set<ServiceIdString>([ourAci, ourPni]);
 
-      // eslint-disable-next-line no-param-reassign
+      // oxlint-disable-next-line no-param-reassign
       message = window.MessageCache.register(message);
 
       message.set({
@@ -753,7 +763,7 @@ export async function handleDataMessage(
         });
       }
 
-      // eslint-disable-next-line no-param-reassign
+      // oxlint-disable-next-line no-param-reassign
       message = window.MessageCache.register(message);
       conversation.incrementMessageCount();
 
@@ -783,7 +793,7 @@ export async function handleDataMessage(
             `${idLog}: gift badge with level ${level} not found on server`
           );
         } else {
-          await window.reduxActions.badges.updateOrCreate([badge]);
+          window.reduxActions.badges.updateOrCreate([badge]);
           giftBadge.id = badge.id;
         }
       }

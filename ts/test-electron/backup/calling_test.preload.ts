@@ -5,16 +5,15 @@ import assert from 'node:assert';
 import { v4 as generateGuid } from 'uuid';
 import { CallLinkRootKey } from '@signalapp/ringrtc';
 
-import type { ConversationModel } from '../../models/conversations.preload.js';
+import type { ConversationModel } from '../../models/conversations.preload.ts';
 import type { MessageAttributesType } from '../../model-types.d.ts';
-import type { CallHistoryDetails } from '../../types/CallDisposition.std.js';
-import type { CallLinkType } from '../../types/CallLink.std.js';
+import type { CallHistoryDetails } from '../../types/CallDisposition.std.ts';
+import type { CallLinkType } from '../../types/CallLink.std.ts';
 
-import * as Bytes from '../../Bytes.std.js';
-import { getRandomBytes } from '../../Crypto.node.js';
-import { DataReader, DataWriter } from '../../sql/Client.preload.js';
-import { generateAci } from '../../types/ServiceId.std.js';
-import { setupBasics, symmetricRoundtripHarness } from './helpers.preload.js';
+import * as Bytes from '../../Bytes.std.ts';
+import { getRandomBytes } from '../../Crypto.node.ts';
+import { DataReader, DataWriter } from '../../sql/Client.preload.ts';
+import { setupBasics, symmetricRoundtripHarness } from './helpers.preload.ts';
 import {
   AdhocCallStatus,
   CallDirection,
@@ -22,18 +21,19 @@ import {
   CallType,
   DirectCallStatus,
   GroupCallStatus,
-} from '../../types/CallDisposition.std.js';
-import { CallLinkRestrictions } from '../../types/CallLink.std.js';
-import { getRoomIdFromRootKey } from '../../util/callLinksRingrtc.node.js';
-import { fromAdminKeyBytes } from '../../util/callLinks.std.js';
-import { ReadStatus } from '../../messages/MessageReadStatus.std.js';
-import { SeenStatus } from '../../MessageSeenStatus.std.js';
+} from '../../types/CallDisposition.std.ts';
+import { CallLinkRestrictions } from '../../types/CallLink.std.ts';
+import { getRoomIdFromRootKey } from '../../util/callLinksRingrtc.node.ts';
+import { fromAdminKeyBytes } from '../../util/callLinks.std.ts';
+import { ReadStatus } from '../../messages/MessageReadStatus.std.ts';
+import { SeenStatus } from '../../MessageSeenStatus.std.ts';
 import {
   deriveGroupID,
   deriveGroupSecretParams,
-} from '../../util/zkgroup.node.js';
-import { loadAllAndReinitializeRedux } from '../../services/allLoaders.preload.js';
-import { itemStorage } from '../../textsecure/Storage.preload.js';
+} from '../../util/zkgroup.node.ts';
+import { loadAllAndReinitializeRedux } from '../../services/allLoaders.preload.ts';
+import { itemStorage } from '../../textsecure/Storage.preload.ts';
+import { generateAci } from '../../test-helpers/serviceIdUtils.std.ts';
 
 const CONTACT_A = generateAci();
 const GROUP_MASTER_KEY = getRandomBytes(32);
@@ -179,7 +179,6 @@ describe('backup/calling', () => {
     beforeEach(async () => {
       const adminRootKey = CallLinkRootKey.generate();
       const adminKey = CallLinkRootKey.generateAdminPassKey();
-      // @ts-expect-error needs ringrtc update
       const adminKeyBytes: Uint8Array<ArrayBuffer> = adminKey;
       adminCallLink = {
         rootKey: adminRootKey.toString(),

@@ -4,18 +4,18 @@
 import lodash from 'lodash';
 import PQueue from 'p-queue';
 
-import { createLogger } from './logging/log.std.js';
-import { assertDev } from './util/assert.std.js';
-import { sleep } from './util/sleep.std.js';
-import { isNormalNumber } from './util/isNormalNumber.std.js';
-import { take } from './util/iterables.std.js';
-import type { ConversationModel } from './models/conversations.preload.js';
+import { createLogger } from './logging/log.std.ts';
+import { assertDev } from './util/assert.std.ts';
+import { sleep } from './util/sleep.std.ts';
+import { isNormalNumber } from './util/isNormalNumber.std.ts';
+import { take } from './util/iterables.std.ts';
+import type { ConversationModel } from './models/conversations.preload.ts';
 import type { StorageInterface } from './types/Storage.d.ts';
-import * as Errors from './types/errors.std.js';
-import { getProfile } from './util/getProfile.preload.js';
-import { drop } from './util/drop.std.js';
-import { MINUTE, HOUR, DAY, WEEK } from './util/durations/index.std.js';
-import { isDirectConversation } from './util/whatTypeOfConversation.dom.js';
+import * as Errors from './types/errors.std.ts';
+import { getProfile } from './util/getProfile.preload.ts';
+import { drop } from './util/drop.std.ts';
+import { MINUTE, HOUR, DAY, WEEK } from './util/durations/index.std.ts';
+import { isDirectConversation } from './util/whatTypeOfConversation.dom.ts';
 
 const { isNil, sortBy } = lodash;
 
@@ -29,17 +29,19 @@ const MIN_REFRESH_DELAY = MINUTE;
 
 let idCounter = 1;
 
-export class RoutineProfileRefresher {
-  #started = false;
-  #id: number;
+type Options = Readonly<{
+  getAllConversations: () => ReadonlyArray<ConversationModel>;
+  getOurConversationId: () => string | undefined;
+  storage: Pick<StorageInterface, 'get' | 'put'>;
+}>;
 
-  constructor(
-    private readonly options: {
-      getAllConversations: () => ReadonlyArray<ConversationModel>;
-      getOurConversationId: () => string | undefined;
-      storage: Pick<StorageInterface, 'get' | 'put'>;
-    }
-  ) {
+export class RoutineProfileRefresher {
+  readonly #options: Options;
+  #started = false;
+  readonly #id: number;
+
+  constructor(options: Options) {
+    this.#options = options;
     // We keep track of how many of these classes we create, because we suspect that
     //   there might be too many...
     idCounter += 1;
@@ -58,29 +60,30 @@ export class RoutineProfileRefresher {
     }
     this.#started = true;
 
-    const { storage, getAllConversations, getOurConversationId } = this.options;
+    const { storage, getAllConversations, getOurConversationId } =
+      this.#options;
 
-    // eslint-disable-next-line no-constant-condition
+    // oxlint-disable-next-line no-constant-condition
     while (true) {
       const refreshInMs = timeUntilNextRefresh(storage);
 
       log.info(`${logId}: waiting for ${refreshInMs}ms`);
 
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       await sleep(refreshInMs);
 
       const ourConversationId = getOurConversationId();
       if (!ourConversationId) {
         log.warn(`${logId}: missing our conversation id`);
 
-        // eslint-disable-next-line no-await-in-loop
+        // oxlint-disable-next-line no-await-in-loop
         await sleep(MIN_REFRESH_DELAY);
 
         continue;
       }
 
       try {
-        // eslint-disable-next-line no-await-in-loop
+        // oxlint-disable-next-line no-await-in-loop
         await routineProfileRefresh({
           allConversations: getAllConversations(),
           ourConversationId,
@@ -90,7 +93,7 @@ export class RoutineProfileRefresher {
       } catch (error) {
         log.error(`${logId}: failure`, Errors.toLogFormat(error));
       } finally {
-        // eslint-disable-next-line no-await-in-loop
+        // oxlint-disable-next-line no-await-in-loop
         await sleep(MIN_REFRESH_DELAY);
       }
     }
@@ -167,7 +170,6 @@ export async function routineProfileRefresh({
   const refreshQueue = new PQueue({
     concurrency: 5,
     timeout: MINUTE * 30,
-    throwOnTimeout: true,
   });
   for (const conversation of conversationsToRefresh) {
     drop(refreshQueue.add(() => refreshConversation(conversation)));

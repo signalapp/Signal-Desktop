@@ -4,7 +4,7 @@
 import { assert } from 'chai';
 import type { Database } from '@signalapp/sqlcipher';
 import SQL from '@signalapp/sqlcipher';
-import { sql, sqlFragment, sqlJoin } from '../../sql/util.std.js';
+import { sql, sqlFragment, sqlJoin } from '../../sql/util.std.ts';
 
 describe('sql/utils/sql', () => {
   let db: Database;

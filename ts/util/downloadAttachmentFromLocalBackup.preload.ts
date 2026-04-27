@@ -3,17 +3,17 @@
 
 import { existsSync } from 'node:fs';
 import lodash from 'lodash';
-import type { BackupableAttachmentType } from '../types/Attachment.std.js';
+import type { BackupableAttachmentType } from '../types/Attachment.std.ts';
 import {
   decryptAndReencryptLocally,
   type ReencryptedAttachmentV2,
-} from '../AttachmentCrypto.node.js';
-import { strictAssert } from './assert.std.js';
-import { getAbsoluteAttachmentPath } from './migrations.preload.js';
+} from '../AttachmentCrypto.node.ts';
+import { strictAssert } from './assert.std.ts';
+import { getAbsoluteAttachmentPath } from './migrations.preload.ts';
 
 const { isNumber } = lodash;
 
-export class AttachmentPermanentlyUndownloadableError extends Error {}
+class AttachmentPermanentlyUndownloadableError extends Error {}
 
 export async function downloadAttachmentFromLocalBackup(
   attachment: BackupableAttachmentType,

@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import { z } from 'zod';
 import type { Simplify } from 'type-fest';
-import * as grapheme from '../util/grapheme.std.js';
-import type { ConversationType } from '../state/ducks/conversations.preload.js';
-import { isConversationUnread } from '../util/isConversationUnread.std.js';
+import * as grapheme from '../util/grapheme.std.ts';
+import type { ConversationType } from '../state/ducks/conversations.preload.ts';
+import { isConversationUnread } from '../util/isConversationUnread.std.ts';
 
 export const CHAT_FOLDER_NAME_MAX_CHAR_LENGTH = 32;
 
@@ -52,7 +52,7 @@ export type ChatFolder = Simplify<
   >
 >;
 
-export const ChatFolderPresetSchema = z.object({
+const ChatFolderPresetSchema = z.object({
   folderType: z.nativeEnum(ChatFolderType),
   showOnlyUnread: z.boolean(),
   showMutedChats: z.boolean(),
@@ -65,16 +65,6 @@ export const ChatFolderPresetSchema = z.object({
 export const ChatFolderParamsSchema = ChatFolderPresetSchema.extend({
   name: z.string().transform(input => input.normalize().trim()),
 }) satisfies z.ZodType<ChatFolderParams>;
-
-export const ChatFolderSchema = ChatFolderParamsSchema.extend({
-  id: z.intersection(z.string(), z.custom<ChatFolderId>()),
-  position: z.number().int().gte(0),
-  deletedAtTimestampMs: z.number().int().positive(),
-  storageID: z.string().nullable(),
-  storageVersion: z.number().nullable(),
-  storageUnknownFields: z.instanceof(Uint8Array).nullable(),
-  storageNeedsSync: z.boolean(),
-}) satisfies z.ZodType<ChatFolder>;
 
 export const CHAT_FOLDER_DEFAULTS: ChatFolderParams = {
   folderType: ChatFolderType.CUSTOM,
@@ -114,8 +104,6 @@ export const CHAT_FOLDER_PRESETS = {
     includeAllGroupChats: true, // all groups
   },
 } as const satisfies Record<string, ChatFolderPreset>;
-
-export type ChatFolderPresetKey = keyof typeof CHAT_FOLDER_PRESETS;
 
 export function validateChatFolderParams(params: ChatFolderParams): boolean {
   return (

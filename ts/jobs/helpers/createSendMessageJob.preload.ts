@@ -2,24 +2,24 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { ContentHint } from '@signalapp/libsignal-client';
-import type { ConversationModel } from '../../models/conversations.preload.js';
-import { getSendOptions } from '../../util/getSendOptions.preload.js';
-import { sendToGroup } from '../../util/sendToGroup.preload.js';
+import type { ConversationModel } from '../../models/conversations.preload.ts';
+import { getSendOptions } from '../../util/getSendOptions.preload.ts';
+import { sendToGroup } from '../../util/sendToGroup.preload.ts';
 import {
   isDirectConversation,
   isGroupV2,
-} from '../../util/whatTypeOfConversation.dom.js';
-import type { ConversationQueueJobBundle } from '../conversationJobQueue.preload.js';
-import { getSendRecipientLists } from './getSendRecipientLists.dom.js';
-import type { SendTypesType } from '../../util/handleMessageSend.preload.js';
-import { handleMessageSend } from '../../util/handleMessageSend.preload.js';
-import type { SharedMessageOptionsType } from '../../textsecure/SendMessage.preload.js';
-import { strictAssert } from '../../util/assert.std.js';
-import { wrapWithSyncMessageSend } from '../../util/wrapWithSyncMessageSend.preload.js';
+} from '../../util/whatTypeOfConversation.dom.ts';
+import type { ConversationQueueJobBundle } from '../conversationJobQueue.preload.ts';
+import { getSendRecipientLists } from './getSendRecipientLists.dom.ts';
+import type { SendTypesType } from '../../util/handleMessageSend.preload.ts';
+import { handleMessageSend } from '../../util/handleMessageSend.preload.ts';
+import type { SharedMessageOptionsType } from '../../textsecure/SendMessage.preload.ts';
+import { strictAssert } from '../../util/assert.std.ts';
+import { wrapWithSyncMessageSend } from '../../util/wrapWithSyncMessageSend.preload.ts';
 import {
   handleMultipleSendErrors,
   maybeExpandErrors,
-} from './handleMultipleSendErrors.std.js';
+} from './handleMultipleSendErrors.std.ts';
 
 export type SendMessageJobOptions<Data> = Readonly<{
   sendName: string; // ex: 'sendExampleMessage'
@@ -92,6 +92,11 @@ export function createSendMessageJob<Data>(
 
     try {
       if (recipientServiceIdsWithoutMe.length === 0) {
+        if (!window.ConversationController.doWeHaveOtherDevices()) {
+          log.info('We have no other devices; not sending to ourselves');
+          return;
+        }
+
         const ourConversation =
           window.ConversationController.getOurConversationOrThrow();
         const sendOptions = await getSendOptions(ourConversation.attributes, {

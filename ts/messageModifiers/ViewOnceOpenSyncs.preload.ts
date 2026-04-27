@@ -1,14 +1,14 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { AciString } from '../types/ServiceId.std.js';
+import type { AciString } from '../types/ServiceId.std.ts';
 import type { ReadonlyMessageAttributesType } from '../model-types.d.ts';
-import { DataReader } from '../sql/Client.preload.js';
-import * as Errors from '../types/errors.std.js';
-import { createLogger } from '../logging/log.std.js';
-import { getMessageIdForLogging } from '../util/idForLogging.preload.js';
-import { markViewOnceMessageViewed } from '../services/MessageUpdater.preload.js';
-import { MessageModel } from '../models/messages.preload.js';
+import { DataReader } from '../sql/Client.preload.ts';
+import * as Errors from '../types/errors.std.ts';
+import { createLogger } from '../logging/log.std.ts';
+import { getMessageIdForLogging } from '../util/idForLogging.preload.ts';
+import { markViewOnceMessageViewed } from '../services/MessageUpdater.preload.ts';
+import { MessageModel } from '../models/messages.preload.ts';
 
 const log = createLogger('ViewOnceOpenSyncs');
 

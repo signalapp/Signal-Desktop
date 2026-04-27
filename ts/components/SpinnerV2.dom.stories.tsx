@@ -3,11 +3,11 @@
 
 import React, { useEffect, useState } from 'react';
 
-import { SpinnerV2 } from './SpinnerV2.dom.js';
-import { tw } from '../axo/tw.dom.js';
+import { SpinnerV2 } from './SpinnerV2.dom.tsx';
+import { tw } from '../axo/tw.dom.tsx';
 
-import type { ComponentMeta } from '../storybook/types.std.js';
-import type { Props } from './SpinnerV2.dom.js';
+import type { ComponentMeta } from '../storybook/types.std.ts';
+import type { Props } from './SpinnerV2.dom.tsx';
 
 export default {
   title: 'Components/SpinnerV2',

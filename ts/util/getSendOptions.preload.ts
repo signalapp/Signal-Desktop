@@ -6,17 +6,17 @@ import type {
   SendIdentifierData,
   SendMetadataType,
   SendOptionsType,
-} from '../textsecure/SendMessage.preload.js';
-import { getConversationMembers } from './getConversationMembers.dom.js';
-import { isDirectConversation, isMe } from './whatTypeOfConversation.dom.js';
-import { senderCertificateService } from '../services/senderCertificate.preload.js';
-import { shouldSharePhoneNumberWith } from './phoneNumberSharingMode.preload.js';
-import type { SerializedCertificateType } from '../textsecure/OutgoingMessage.preload.js';
-import { SenderCertificateMode } from '../textsecure/OutgoingMessage.preload.js';
-import { ZERO_ACCESS_KEY, SEALED_SENDER } from '../types/SealedSender.std.js';
-import { isNotNil } from './isNotNil.std.js';
-import { maybeCreateGroupSendEndorsementState } from './groupSendEndorsements.preload.js';
-import { missingCaseError } from './missingCaseError.std.js';
+} from '../textsecure/SendMessage.preload.ts';
+import { getConversationMembers } from './getConversationMembers.dom.ts';
+import { isDirectConversation, isMe } from './whatTypeOfConversation.dom.ts';
+import { senderCertificateService } from '../services/senderCertificate.preload.ts';
+import { shouldSharePhoneNumberWith } from './phoneNumberSharingMode.preload.ts';
+import type { SerializedCertificateType } from '../textsecure/OutgoingMessage.preload.ts';
+import { SenderCertificateMode } from '../textsecure/OutgoingMessage.preload.ts';
+import { ZERO_ACCESS_KEY, SEALED_SENDER } from '../types/SealedSender.std.ts';
+import { isNotNil } from './isNotNil.std.ts';
+import { maybeCreateGroupSendEndorsementState } from './groupSendEndorsements.preload.ts';
+import { missingCaseError } from './missingCaseError.std.ts';
 
 export async function getSendOptionsForRecipients(
   recipients: ReadonlyArray<string>,
@@ -90,9 +90,7 @@ export async function getSendOptions(
   const { accessKey } = conversationAttrs;
   const { e164, serviceId } = conversationAttrs;
 
-  let sealedSender = conversationAttrs.sealedSender as
-    | SEALED_SENDER
-    | undefined;
+  let sealedSender = conversationAttrs.sealedSender;
 
   const senderCertificate =
     await getSenderCertificateForDirectConversation(conversationAttrs);

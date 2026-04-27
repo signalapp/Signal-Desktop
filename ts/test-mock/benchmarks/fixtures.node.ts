@@ -1,15 +1,14 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-/* eslint-disable no-console */
 
 import createDebug from 'debug';
 
-import { Bootstrap } from '../bootstrap.node.js';
+import { Bootstrap } from '../bootstrap.node.ts';
 
 export const debug = createDebug('mock:benchmarks');
 
 export { Bootstrap };
-export { App } from '../playwright.node.js';
+export { App } from '../playwright.node.ts';
 
 export const RUN_COUNT = process.env.RUN_COUNT
   ? parseInt(process.env.RUN_COUNT, 10)
@@ -45,7 +44,9 @@ export const MAX_CYCLES = process.env.MAX_CYCLES
 
 // Can happen if electron exits prematurely
 process.on('unhandledRejection', reason => {
+  // oxlint-disable-next-line no-console
   console.error('Unhandled rejection:');
+  // oxlint-disable-next-line no-console
   console.error(reason);
   process.exit(1);
 });

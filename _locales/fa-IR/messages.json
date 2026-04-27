@@ -746,6 +746,9 @@
   "icu:fileSizeWarning": {
     "messageformat": "متاسفانه حجم فایل انتخاب‌شده از حداکثر طول پیام بیشتر است. {limit,number} {units}"
   },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "متاسفانه حجم فایل ویدئویی انتخاب‌شده از حداکثر مجاز حجم پیام بیشتر است. {limit,number}{units}"
+  },
   "icu:unableToLoadAttachment": {
     "messageformat": "ناتوانی در بارگیری پیوست انتخابی."
   },
@@ -1787,6 +1790,12 @@
   "icu:Preferences__EditChatFolderPage__CancelButton": {
     "messageformat": "لغو"
   },
+  "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
+    "messageformat": "Show status icon"
+  },
+  "icu:Preferences__PrivacyPage__ShowStatusIcon__Description": {
+    "messageformat": "Show an icon in message details when they were delivered using sealed sender."
+  },
   "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
     "messageformat": "تأیید رمز خودکار"
   },
@@ -2372,6 +2381,9 @@
   "icu:ConversationDetails--support-center": {
     "messageformat": "مرکز پشتیبانی"
   },
+  "icu:ConversationDetails__GroupTerminatedBanner": {
+    "messageformat": "این گروه پایان یافته است"
+  },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "دیدن شمارهٔ ایمنی"
   },
@@ -2551,6 +2563,27 @@
   },
   "icu:youUpdatedTheGroup": {
     "messageformat": "شما گروه را به‌روزرسانی کردید."
+  },
+  "icu:collapsedGroupUpdates": {
+    "messageformat": "{count, plural, one {{count,number} به‌روزرسانی گروه} other {{count,number} به‌روزرسانی گروه}}"
+  },
+  "icu:multidayCollapse__container": {
+    "messageformat": "{containerDescription} · {dayCountSummary}"
+  },
+  "icu:multidayCollapse__dayCountSummary": {
+    "messageformat": "{dayCount, plural, one {{dayCount,number} روز} other {{dayCount,number} روز}}"
+  },
+  "icu:collapsedChatUpdates": {
+    "messageformat": "{count, plural, one {{count,number} به‌روزرسانی گفتگو} other {{count,number} به‌روزرسانی گفتگو}}"
+  },
+  "icu:collapsedTimerChanges": {
+    "messageformat": "{count, plural, one {{count,number} تغییر زمان‌سنج پیام ناپدیدشونده · {endingState}} other {{count,number} تغییر زمان‌سنج پیام ناپدیدشونده · {endingState}}}"
+  },
+  "icu:collapsedTimerChanges--disabled": {
+    "messageformat": "{count, plural, one {{count,number} تغییر زمان‌سنج پیام ناپدیدشونده · غیرفعال} other {{count,number} تغییر زمان‌سنج پیام ناپدیدشونده · غیرفعال}}"
+  },
+  "icu:collapsedCallEvents": {
+    "messageformat": "{count, plural, one {{count,number} رویداد تماس} other {{count,number} رویداد تماس}}"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "آواتار گروه به‌روز شد."
@@ -3017,8 +3050,8 @@
   "icu:Message--tap-to-view--incoming--expired-toast": {
     "messageformat": "شما این پیام را قبلا مشاهده کرده‌اید."
   },
-  "icu:Message--tap-to-view--outgoing--expired-toast": {
-    "messageformat": "پیام‌های یک‌بار مصرف در تاریخچه گفتگوی شما ذخیره نمی‌شوند."
+  "icu:Message--tap-to-view--outgoing--expired-toast-2": {
+    "messageformat": "رسانه یک‌بار قابل مشاهده پس از ارسال پاک می‌شود"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "ویدئو با قابلیت یک‌بار مشاهده"
@@ -3485,8 +3518,17 @@
   "icu:ConversationHero--profile-names": {
     "messageformat": "<clickable>نام‌های نمایه</clickable> نیاز به تأیید ندارند"
   },
+  "icu:ConversationHero--name-not-verified": {
+    "messageformat": "Name not verified"
+  },
   "icu:ConversationHero--signal-official-chat": {
     "messageformat": "این گفتگوی رسمی و انحصاری سیگنال است"
+  },
+  "icu:ConversationHero--signal-official-account": {
+    "messageformat": "Official account"
+  },
+  "icu:ConversationHero--signal-official-account--description": {
+    "messageformat": "The only official chat from Signal. Keep up to date with news and release notes."
   },
   "icu:ConversationHero--release-notes": {
     "messageformat": "از اخبار و تغییرات جدید با خبر شوید."
@@ -3767,9 +3809,6 @@
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
     "messageformat": "اشتراک‌گذاری پیوند تماس از طریق سیگنال"
   },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "این شخص از تماس حذف شود"
-  },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "{name} از تماس حذف شود؟"
   },
@@ -3932,11 +3971,23 @@
   "icu:GroupV2--join--requested": {
     "messageformat": "درخواست شما برای پیوستن به مدیر گروه ارسال شد. هنگامی که اقدامی انجام دهند شما مطلع خواهید شد."
   },
+  "icu:GroupV2--join--group-terminated": {
+    "messageformat": "امکان پیوستن به این گروه وجود ندارد."
+  },
   "icu:GroupV2--join--general-join-failure--title": {
     "messageformat": "خطا پیوند"
   },
   "icu:GroupV2--join--general-join-failure": {
     "messageformat": "امکان پیوستن به گروه وجود نداشت. بعداً دوباره تلاش کنید."
+  },
+  "icu:GroupV2--terminate-group-in-progress": {
+    "messageformat": "در حال پایان دادن به گروه..."
+  },
+  "icu:TerminateGroupFailedModal__description": {
+    "messageformat": "گروه پایان نیافت. اتصال خود را بررسی و دوباره تلاش کنید."
+  },
+  "icu:TerminateGroupFailedModal__try-again": {
+    "messageformat": "دوباره تلاش کنید"
   },
   "icu:GroupV2--admin": {
     "messageformat": "مدیر"
@@ -4379,6 +4430,15 @@
   "icu:GroupV2--summary": {
     "messageformat": "اعضا یا تنظیمات این گروه تغییر کرده است."
   },
+  "icu:GroupV2--terminated--you": {
+    "messageformat": "به گروه پایان دادید"
+  },
+  "icu:GroupV2--terminated--other": {
+    "messageformat": "‏{memberName} به گروه پایان داد"
+  },
+  "icu:GroupV2--terminated--unknown": {
+    "messageformat": "این گروه پایان یافته است"
+  },
   "icu:GroupV1--Migration--disabled--link": {
     "messageformat": "برای فعال‌سازی قابلیت‌های جدیدی مانند @اشاره‌ها و مدیرها، این گروه را ارتقاء دهید. از اعضایی که نام یا عکس‌شان را در این گروه به اشتراک نگذاشته‌اند دعوت خواهد شد که بپیوندند. <learnMoreLink>اطلاعات بیشتر.</learnMoreLink>"
   },
@@ -4655,6 +4715,9 @@
   "icu:CompositionArea__ConfirmGifSelection__ReplaceButton": {
     "messageformat": "جایگزینی"
   },
+  "icu:CompositionArea--group-terminated": {
+    "messageformat": "نمی‌توانید پیام ارسال کنید زیرا این گروه پایان یافته است."
+  },
   "icu:CompositionArea--viewOnceToggle": {
     "messageformat": "یک‌بار مشاهده"
   },
@@ -4832,11 +4895,26 @@
   "icu:ConversationDetailsActions--leave-group": {
     "messageformat": "ترک گروه"
   },
+  "icu:ConversationDetailsActions--terminate-group": {
+    "messageformat": "پایان دادن به گروه"
+  },
   "icu:ConversationDetailsActions--block-group": {
     "messageformat": "مسدود کردن گروه"
   },
   "icu:ConversationDetailsActions--unblock-group": {
     "messageformat": "رفع مسدودیت گروه"
+  },
+  "icu:ConversationDetailsActions--report-spam": {
+    "messageformat": "به‌عنوان هرزنامه گزارش شود"
+  },
+  "icu:ConversationDetailsActions--archive": {
+    "messageformat": "بایگانی گفتگو"
+  },
+  "icu:ConversationDetailsActions--unarchive": {
+    "messageformat": "خارج کردن گفتگو از بایگانی"
+  },
+  "icu:ConversationDetailsActions--delete": {
+    "messageformat": "پاک کردن گفتگو"
   },
   "icu:ConversationDetailsActions--leave-group-must-choose-new-admin": {
     "messageformat": "قبل از ترک کردن، باید حداقل یک مدیر جدید برای این گروه انتخاب کنید."
@@ -4849,6 +4927,18 @@
   },
   "icu:ConversationDetailsActions--leave-group-modal-confirm": {
     "messageformat": "ترک"
+  },
+  "icu:ConversationDetailsActions--prompt-terminate-group-modal-title": {
+    "messageformat": "‏«{groupName}» پایان یابد؟"
+  },
+  "icu:ConversationDetailsActions--prompt-terminate-group-modal-content": {
+    "messageformat": "اعضا دیگر نمی‌توانند در گروه پیام ارسال کنند یا تماس برقرار کنند. به آن‌ها اطلاع داده می‌شود که شما گروه را پایان داده‌اید و همچنان به تاریخچه پیام‌ها دسترسی خواهند داشت."
+  },
+  "icu:ConversationDetailsActions--terminate-group-modal-confirm": {
+    "messageformat": "پایان دادن به گروه"
+  },
+  "icu:ConversationDetailsActions--confirm-terminate-group-confirm-modal-content": {
+    "messageformat": "این کار گروه را به‌طور دائمی پایان می‌دهد. مطمئن هستید که می‌خواهید ادامه دهید؟"
   },
   "icu:ConversationDetailsActions--unblock-group-modal-title": {
     "messageformat": "مسدودیت گروه «{groupName}» رفع شود؟"
@@ -4868,6 +4958,18 @@
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "رفع مسدودیت"
   },
+  "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
+    "messageformat": "سیگنال مطلع خواهد شد که این فرد ممکن است در حال ارسال هرزنامه باشد. سیگنال نمی‌تواند محتوای هیچ گفتگویی را ببیند."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-group": {
+    "messageformat": "سیگنال مطلع خواهد شد که فردی که شما را به این گروه دعوت کرده ممکن است در حال ارسال هرزنامه باشد. سیگنال نمی‌تواند محتوای هیچ گفتگویی را ببیند."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
+    "messageformat": "به‌عنوان هرزنامه گزارش شود"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
+    "messageformat": "گزارش و مسدود شود"
+  },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} عضو} other {{number,number} عضو}}"
   },
@@ -4876,6 +4978,9 @@
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} عضو} other {{number,number} عضو}}"
+  },
+  "icu:ConversationDetailsMembershipList--terminated-title": {
+    "messageformat": "{number, plural, one {‏{number,number} عضو سابق} other {‏{number,number} عضو سابق}}"
   },
   "icu:ConversationDetailsMembershipList--add-members": {
     "messageformat": "افزودن اعضا"
@@ -5059,7 +5164,7 @@
     "ignoreUnused": true
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
-    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {اعضای گروه در جدیدترین نسخه‌های سیگنال خواهند دید که شما این پیام را حذف کردید.} other {اعضای گروه در جدیدترین نسخه‌های سیگنال خواهند دید که شما این پیام‌ها را حذف کردید.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "پاک کردن از همه دستگاه‌ها"
@@ -5195,6 +5300,9 @@
   },
   "icu:MessageRequestWarning__safety-tips": {
     "messageformat": "نکات ایمنی"
+  },
+  "icu:MessageRequestWarning__safety-tips-v2": {
+    "messageformat": "Safety tips"
   },
   "icu:ContactSpoofing__same-name--link": {
     "messageformat": "درخواست‌ها را با دقت بررسی کنید. سیگنال مخاطب دیگری با همین نام پیدا کرد. <reviewRequestLink>درخواست بررسی</reviewRequestLink>"
@@ -5797,6 +5905,15 @@
   "icu:Preferences__link-previews--description": {
     "messageformat": "برای تغییر این تنظیم، برنامهٔ سیگنال را روی دستگاه تلفن همراه باز کنید و به تنظیمات > گفتگوها بروید"
   },
+  "icu:Preferences__link-previews--new-description": {
+    "messageformat": "Retrieve link previews directly from websites for messages you send."
+  },
+  "icu:Preferences__address-book-photos--title": {
+    "messageformat": "Use address book photos"
+  },
+  "icu:Preferences__address-book-photos--description": {
+    "messageformat": "Display contact photos from your address book if available."
+  },
   "icu:Preferences__auto-convert-emoji--title": {
     "messageformat": "تبدیل ایموجی‌های تایپی به ایموجی"
   },
@@ -6232,35 +6349,35 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "تمام"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "نمایش رمز پشتیبان شما"
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
+    "messageformat": "رمز بازیابی شما را نمایش دهد"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "برای مشاهده رمز پشتیبان، احراز هویت کنید."
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
+    "messageformat": "برای مشاهده رمز بازیابی، هویت خود را تأیید کنید."
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "مشاهده کلید پشتیبان"
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
+    "messageformat": "مشاهده رمز بازیابی"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "برای مشاهده رمز پشتیبان، احراز هویت لازم است."
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
+    "messageformat": "مشاهده رمز بازیابی شما مستلرم احراز هویت است."
   },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "کادر متن رمز پشتیبان"
+  "icu:Preferences--local-backups-recovery-key-text-box": {
+    "messageformat": "رمز بازیابی"
   },
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "رمز را وارد کنید"
   },
-  "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "کلید پشتیبان خود را ضبط کنید"
+  "icu:Preferences--local-backups-record-recovery-key": {
+    "messageformat": "رمز بازیابی خود را ثبت کنید"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "این کلید برای بازیابی حساب و اطلاعات شما ضروری است. این کلید را در مکانی امن نگهداری کنید. اگر آن را گم کنید، نمی‌توانید حساب خود را بازیابی کنید. <learnMoreLink>اطلاعات بیشتر.</learnMoreLink>"
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "رمز پشتیبان خود را تأیید کنید"
+  "icu:Preferences--local-backups-confirm-recovery-key": {
+    "messageformat": "رمز بازیابی خود را تأیید کنید"
   },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "رمز پشتیبان را که به‌تازگی ثبت کرده‌اید وارد کنید"
+  "icu:Preferences--local-backups-confirm-recovery-key-description": {
+    "messageformat": "رمز بازیابی که ثبت کردید را وارد کنید"
   },
   "icu:Preferences__local-backups-confirm-key-modal-title": {
     "messageformat": "در مراقبت از کلید خود بکوشید"
@@ -6286,26 +6403,23 @@
   "icu:Preferences__local-backups-folder": {
     "messageformat": "پوشهٔ پشتیبان"
   },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "تغییر"
-  },
   "icu:Preferences__local-backups-turn-off": {
-    "messageformat": "Turn off backups"
+    "messageformat": "خاموش کردن نسخه‌های پشتیبان"
   },
   "icu:Preferences__local-backups-turn-off-action": {
-    "messageformat": "Turn off"
+    "messageformat": "خاموش"
   },
   "icu:Preferences__local-backups-turn-off-confirmation": {
-    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+    "messageformat": "بدون فعال‌سازی مجدد، دیگر قادر به ایجاد نسخه‌های پشتیبان در این رایانه نخواهید بود."
   },
   "icu:Preferences__local-backups-turn-off-delete": {
-    "messageformat": "Delete my backup from this computer"
+    "messageformat": "نسخه پشتیبان من از این رایانه حذف شود"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "کپی به کلیپ‌بورد"
   },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "رمز پشتیبان کپی شد"
+  "icu:Preferences__local-backups-copied-recovery-key": {
+    "messageformat": "رمز بازیابی کپی شد"
   },
   "icu:Preferences__local-backups--enable--os-prompt--mac": {
     "messageformat": "فعال‌سازی پشتیبان‌ها"
@@ -6319,17 +6433,29 @@
   "icu:Preferences__local-backups--enable--os-prompt-message--linux": {
     "messageformat": "برای فعال‌سازی پشتیبان‌گیری، احراز هویت لازم است."
   },
+  "icu:Preferences__local-backups-auth-error--unauthorized": {
+    "messageformat": "این اقدام قابل‌تکمیل نیست، زیرا احراز هویت سیستم انجام نشد. لطفاً دوباره تلاش کنید یا برنامه سیگنال را در دستگاه همراهتان باز کنید و برای مشاهده رمز بازیابی، به «تنظیمات پشتیبان» بروید."
+  },
   "icu:Preferences__view-key": {
     "messageformat": "مشاهده رمز"
   },
-  "icu:Preferences__backup-key": {
-    "messageformat": "رمز پشتیبان"
+  "icu:Preferences__recovery-key": {
+    "messageformat": "رمز بازیابی"
   },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "رمز پشتیبان شما یک کد ۶۴ رقمی است که برای بازیابی نسخه پشتیبان شما استفاده می‌شود"
+  "icu:Preferences__recovery-key-description": {
+    "messageformat": "رمز بازیابی شما یک کد ۶۴ نویسه‌ای است که برای بازیابی نسخه پشتیبان استفاده می‌شود"
   },
   "icu:Preferences__backup-other-ways": {
     "messageformat": "سایر روش‌های پشتیبان‌گیری"
+  },
+  "icu:Preferences__recovery-key-updated__title": {
+    "messageformat": "رمز بازیابی شما تغییر کرده است"
+  },
+  "icu:Preferences__recovery-key-updated__description": {
+    "messageformat": "رمز بازیابی شما به‌روزرسانی شده است. هر نسخه پشتیبان جدیدی که بگیرید را فقط می‌توان با استفاده از رمز بازیابی جدیدتان بازیابی کرد."
+  },
+  "icu:Preferences__recovery-key-updated__view-key": {
+    "messageformat": "مشاهده رمز جدید"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {{num,number} مخاطب} other {{num,number} مخاطب}}"
@@ -6394,8 +6520,14 @@
   "icu:Preferences--read-receipts": {
     "messageformat": "رسیدهای خوانده شدن"
   },
+  "icu:Preferences--read-receipts--description": {
+    "messageformat": "If disabled, you won't see read receipts from others."
+  },
   "icu:Preferences--typing-indicators": {
     "messageformat": "نشانگرهای نوشتن"
+  },
+  "icu:Preferences--typing-indicators--description": {
+    "messageformat": "If disabled, you won't see typing indicators from others."
   },
   "icu:Preferences--updates": {
     "messageformat": "به‌روزرسانی‌ها"
@@ -6682,6 +6814,9 @@
   "icu:MyStories__delete": {
     "messageformat": "این استوری پاک شود؟ این استوری برای تمام افرادی که آن را دریافت کرده‌اند هم پاک خواهد شد."
   },
+  "icu:MyStories__delete-group-story-for-me": {
+    "messageformat": "این استوری حذف شود؟ فقط برای شما حذف خواهد شد زیرا گروه پایان یافته است."
+  },
   "icu:payment-event-notification-message-you-label": {
     "messageformat": "پرداخت به {receiver} را شروع کردید"
   },
@@ -6903,6 +7038,9 @@
   },
   "icu:StoriesSettings__view-receipts--label": {
     "messageformat": "مشاهده رسیدها"
+  },
+  "icu:StoriesSettings__view-receipts--new-description": {
+    "messageformat": "See and share when stories are viewed. If disabled, you won't see when others view your story."
   },
   "icu:StoriesSettings__view-receipts--description": {
     "messageformat": "برای تغییر این تنظیم، برنامه سیگنال را روی دستگاه تلفن همراه باز کنید و به «تنظیمات > استوری‌ها» بروید"
@@ -7553,6 +7691,18 @@
   "icu:ProfileNameWarningModal__list--item3--direct": {
     "messageformat": "اطلاعات شخصی خود را با افرادی که نمی‌شناسید به اشتراک نگذارید"
   },
+  "icu:ProfileNameWarningModal__warning--signal-cant-verify": {
+    "messageformat": "Signal can’t verify names and photos"
+  },
+  "icu:ProfileNameWarningModal__warning--signal-wont-contact": {
+    "messageformat": "Signal will never contact you for your registration code, PIN, or recovery key"
+  },
+  "icu:ProfileNameWarningModal__warning--be-cautious": {
+    "messageformat": "Be cautious of accounts that impersonate others"
+  },
+  "icu:ProfileNameWarningModal__warning--dont-share-info": {
+    "messageformat": "Don't share personal information with people you don't know"
+  },
   "icu:ProfileNameWarningModal__description--group": {
     "messageformat": "نام گروه توسط اعضای گروه انتخاب می‌شود."
   },
@@ -8015,17 +8165,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "تغییرات کوچک، رفع اشکالات و بهبود عملکرد. بابت استفاده از سیگنال سپاسگزاریم!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__7.90--0": {
-    "messageformat": "پنج بسته استیکر جدید از هنرمند رسمی."
-  },
-  "icu:WhatsNew__8.0--0": {
-    "messageformat": "• پشتیبان‌گیری امن سیگنال اینجاست! اکنون می‌توانید پشتیبان‌گیری‌های رمزگذاری‌شده سرتاسری خودکار را فعال کنید تا هنگام دریافت تلفن جدید یا نصب مجدد سیگنال، هیچ‌وقت پیامی را از دست ندهید. می‌توانید رایگان از همه پیام‌ها و ۴۵ روز اخیر فایل‌های رسانه‌ای خود پشتیبان بگیرید، یا با پرداخت مبلغ اندک ماهانه‌ای ۱۰۰ گیگابایت فضای ذخیره‌سازی برای پشتیبان‌گیری از همه پیوست‌ها دریافت کنید. برای شروع، در «تنظیمات سیگنال» روی پشتیبان‌گیری ضربه بزنید. با تشکر از همه کسانی که در دوره بتا به آزمایش این قابلیت کمک کردند!"
-  },
-  "icu:WhatsNew__8.2--0": {
-    "messageformat": "اکنون می‌توانید از سیگنال دسک‌تاپ نیز پیام‌های رسانه‌ای با قابلیت «یک‌بار مشاهده» ارسال کنید. عکس‌ها و ویدئوهای تکی که به‌صورت پیام‌هایی با قابلیت «یک‌بار مشاهده» ارسال می‌شوند، پس از مشاهده به‌طور خودکار از رشته گفت‌وگو حذف خواهند شد."
-  },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "اکنون می‌توانید به‌صورت اختیاری یک برچسب عضو برای معرفی خود یا نقش‌تان در گفتگوی گروهی اضافه کنید. برچسب‌های عضو در آن گروه کنار نام نمایه‌تان نمایش داده می‌شوند و مدیران گروه می‌توانند با استفاده از مجوز «ویرایش اطلاعات گروه» و مدیران گروه می‌توانند کنترل کنند که این برچسب‌ها برای همه فعال باشند یا خیر."
   }
 }

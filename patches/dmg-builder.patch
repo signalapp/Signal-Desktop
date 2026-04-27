@@ -1,5 +1,5 @@
 diff --git a/out/dmgLicense.js b/out/dmgLicense.js
-index cf1dbdf803d3af37e439c7f0fa219b497f8faaef..d727aac55e263486b88801ac04d5b98360b374ce 100644
+index cf1dbdf803d3af37e439c7f0fa219b497f8faaef..d546a96a2857c11e70c6489b33c87a7665399fd7 100644
 --- a/out/dmgLicense.js
 +++ b/out/dmgLicense.js
 @@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
@@ -11,3 +11,16 @@ index cf1dbdf803d3af37e439c7f0fa219b497f8faaef..d727aac55e263486b88801ac04d5b983
  const fs_extra_1 = require("fs-extra");
  const js_yaml_1 = require("js-yaml");
  const licenseButtons_1 = require("./licenseButtons");
+diff --git a/vendor/dmgbuild/core.py b/vendor/dmgbuild/core.py
+index 1adc35289fc604f3dd5545d3d86fbacb6baeaf69..473e70a3a7a4e9285517634a0749d9da82211699 100644
+--- a/vendor/dmgbuild/core.py
++++ b/vendor/dmgbuild/core.py
+@@ -255,7 +255,7 @@ def build_dmg():
+       icvp['backgroundColorBlue'] = float(c.b)
+     elif background_file:
+       alias = Alias.for_file(background_file)
+-      background_bmk = Bookmark.for_file(background_file)
++      # background_bmk = Bookmark.for_file(background_file)
+ 
+       icvp['backgroundType'] = 2
+       icvp['backgroundImageAlias'] = biplist.Data(alias.to_bytes())

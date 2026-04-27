@@ -4,16 +4,16 @@
 import type { ReactNode } from 'react';
 import React from 'react';
 
-import type { LocalizerType } from '../../../../types/Util.std.js';
-import { assertDev } from '../../../../util/assert.std.js';
-import { ModalHost } from '../../../ModalHost.dom.js';
-import { Button, ButtonVariant } from '../../../Button.dom.js';
-import { Spinner } from '../../../Spinner.dom.js';
-import type { ConversationType } from '../../../../state/ducks/conversations.preload.js';
-import { RequestState } from '../util.std.js';
-import { I18n } from '../../../I18n.dom.js';
-import { ContactName } from '../../ContactName.dom.js';
-import { UserText } from '../../../UserText.dom.js';
+import type { LocalizerType } from '../../../../types/Util.std.ts';
+import { assertDev } from '../../../../util/assert.std.ts';
+import { ModalHost } from '../../../ModalHost.dom.tsx';
+import { Button, ButtonVariant } from '../../../Button.dom.tsx';
+import { Spinner } from '../../../Spinner.dom.tsx';
+import type { ConversationType } from '../../../../state/ducks/conversations.preload.ts';
+import { RequestState } from '../util.std.ts';
+import { I18n } from '../../../I18n.dom.tsx';
+import { ContactName } from '../../ContactName.dom.tsx';
+import { UserText } from '../../../UserText.dom.tsx';
 
 export type StatePropsType = {
   groupTitle: string;

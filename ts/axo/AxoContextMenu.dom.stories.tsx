@@ -3,8 +3,8 @@
 import React, { useState } from 'react';
 import type { Meta } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
-import { AxoContextMenu } from './AxoContextMenu.dom.js';
-import { tw } from './tw.dom.js';
+import { AxoContextMenu } from './AxoContextMenu.dom.tsx';
+import { tw } from './tw.dom.tsx';
 
 export default {
   title: 'Axo/AxoContextMenu',

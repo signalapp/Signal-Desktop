@@ -3,9 +3,9 @@
 
 import { v4 as generateUuid } from 'uuid';
 
-import { isValidUuid } from '../util/isValidUuid.std.js';
-import { createLogger } from '../logging/log.std.js';
-import type { LoggerType } from './Logging.std.js';
+import { isValidUuid } from '../util/isValidUuid.std.ts';
+import { createLogger } from '../logging/log.std.ts';
+import type { LoggerType } from './Logging.std.ts';
 
 const log = createLogger('StoryDistributionId');
 

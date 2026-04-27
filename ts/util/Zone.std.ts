@@ -10,28 +10,31 @@ export type ZoneOptions = {
 };
 
 export class Zone {
-  constructor(
-    public readonly name: string,
-    private readonly options: ZoneOptions = {}
-  ) {}
+  public readonly name: string;
+  readonly #options: ZoneOptions = {};
+
+  constructor(name: string, options: ZoneOptions = {}) {
+    this.name = name;
+    this.#options = options;
+  }
 
   public supportsPendingKyberPreKeysToRemove(): boolean {
-    return this.options.pendingKyberPreKeysToRemove === true;
+    return this.#options.pendingKyberPreKeysToRemove === true;
   }
 
   public supportsPendingPreKeysToRemove(): boolean {
-    return this.options.pendingPreKeysToRemove === true;
+    return this.#options.pendingPreKeysToRemove === true;
   }
 
   public supportsPendingSenderKeys(): boolean {
-    return this.options.pendingSenderKeys === true;
+    return this.#options.pendingSenderKeys === true;
   }
 
   public supportsPendingSessions(): boolean {
-    return this.options.pendingSessions === true;
+    return this.#options.pendingSessions === true;
   }
 
   public supportsPendingUnprocessed(): boolean {
-    return this.options.pendingUnprocessed === true;
+    return this.#options.pendingUnprocessed === true;
   }
 }

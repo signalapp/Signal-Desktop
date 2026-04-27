@@ -2,15 +2,15 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { CallSummary } from '@signalapp/ringrtc';
-import { DAY, SECOND } from './durations/index.std.js';
-import { isMockEnvironment } from '../environment.std.js';
+import { DAY, SECOND } from './durations/index.std.ts';
+import { isMockEnvironment } from '../environment.std.ts';
 import {
   COUNTRY_CODE_FALLBACK,
   getCountryCodeValue,
   getValue,
-} from '../RemoteConfig.dom.js';
-import { getCountryCode } from '../types/PhoneNumber.std.js';
-import { createLogger } from '../logging/log.std.js';
+} from '../RemoteConfig.dom.ts';
+import { getCountryCode } from '../types/PhoneNumber.std.ts';
+import { createLogger } from '../logging/log.std.ts';
 
 const log = createLogger('callQualitySurvey');
 

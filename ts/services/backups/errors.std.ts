@@ -1,18 +1,17 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-/* eslint-disable max-classes-per-file */
-
-import { InstallScreenBackupError } from '../../types/InstallScreen.std.js';
+import { InstallScreenBackupError } from '../../types/InstallScreen.std.ts';
 
 export class BackupInstallerError extends Error {
-  constructor(
-    name: string,
-    public readonly installerError: InstallScreenBackupError
-  ) {
+  public readonly installerError: InstallScreenBackupError;
+
+  constructor(name: string, installerError: InstallScreenBackupError) {
     super(name);
+    this.installerError = installerError;
   }
 }
 
+// oxlint-disable-next-line max-classes-per-file
 export class UnsupportedBackupVersion extends BackupInstallerError {
   constructor(version: bigint) {
     super(

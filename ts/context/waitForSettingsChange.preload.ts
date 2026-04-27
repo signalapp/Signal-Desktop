@@ -3,7 +3,7 @@
 
 import { ipcRenderer as ipc } from 'electron';
 
-import { explodePromise } from '../util/explodePromise.std.js';
+import { explodePromise } from '../util/explodePromise.std.ts';
 
 let preferencesChangeResolvers = new Array<() => void>();
 

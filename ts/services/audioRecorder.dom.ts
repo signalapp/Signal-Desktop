@@ -1,14 +1,14 @@
 // Copyright 2016 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { createLogger } from '../logging/log.std.js';
-import * as Errors from '../types/errors.std.js';
-import { requestMicrophonePermissions } from '../util/requestMicrophonePermissions.dom.js';
-import { WebAudioRecorder } from '../WebAudioRecorder.std.js';
+import { createLogger } from '../logging/log.std.ts';
+import * as Errors from '../types/errors.std.ts';
+import { requestMicrophonePermissions } from '../util/requestMicrophonePermissions.dom.ts';
+import { WebAudioRecorder } from '../WebAudioRecorder.std.ts';
 
 const log = createLogger('audioRecorder');
 
-export class RecorderClass {
+class RecorderClass {
   #context?: AudioContext;
   #input?: GainNode;
   #recorder?: WebAudioRecorder;
@@ -55,6 +55,7 @@ export class RecorderClass {
       return false;
     }
 
+    // oxlint-disable-next-line typescript/await-thenable
     await window.reduxActions.globalModals.ensureSystemMediaPermissions(
       'microphone',
       'voiceNote'
@@ -79,7 +80,7 @@ export class RecorderClass {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
         // TypeScript doesn't know about these options.
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        // oxlint-disable-next-line typescript/no-explicit-any
         audio: { mandatory: { googAutoGainControl: false } } as any,
       });
 

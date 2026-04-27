@@ -2,19 +2,19 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import React, { memo } from 'react';
 import { useSelector } from 'react-redux';
-import { UsernameEditor } from '../../components/UsernameEditor.dom.js';
-import { getMinNickname, getMaxNickname } from '../../util/Username.dom.js';
-import { getIntl } from '../selectors/user.std.js';
+import { UsernameEditor } from '../../components/UsernameEditor.dom.tsx';
+import { getMinNickname, getMaxNickname } from '../../util/Username.dom.ts';
+import { getIntl } from '../selectors/user.std.ts';
 import {
   getUsernameReservationState,
   getUsernameReservationObject,
   getUsernameReservationError,
   getRecoveredUsername,
-} from '../selectors/username.std.js';
-import { getUsernameCorrupted } from '../selectors/items.dom.js';
-import { getMe } from '../selectors/conversations.dom.js';
-import { useUsernameActions } from '../ducks/username.preload.js';
-import { useToastActions } from '../ducks/toast.preload.js';
+} from '../selectors/username.std.ts';
+import { getUsernameCorrupted } from '../selectors/items.dom.ts';
+import { getMe } from '../selectors/conversations.dom.ts';
+import { useUsernameActions } from '../ducks/username.preload.ts';
+import { useToastActions } from '../ducks/toast.preload.ts';
 
 export type SmartUsernameEditorProps = Readonly<{
   onClose(): void;

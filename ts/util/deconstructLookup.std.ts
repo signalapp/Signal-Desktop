@@ -1,8 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { getOwn } from './getOwn.std.js';
-import { assertDev } from './assert.std.js';
+import { getOwn } from './getOwn.std.ts';
+import { assertDev } from './assert.std.ts';
 
 export const deconstructLookup = <T>(
   lookup: Record<string, T>,

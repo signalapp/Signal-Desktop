@@ -9,68 +9,68 @@ import { Readable } from 'node:stream';
 import lodash from 'lodash';
 import { CallLinkRootKey } from '@signalapp/ringrtc';
 
-import { Backups, SignalService } from '../../protobuf/index.std.js';
+import { Backups, SignalService } from '../../protobuf/index.std.ts';
 import {
   DataReader,
   DataWriter,
   pauseWriteAccess,
   resumeWriteAccess,
-} from '../../sql/Client.preload.js';
+} from '../../sql/Client.preload.ts';
 import type {
   PageBackupMessagesCursorType,
   IdentityKeyType,
-} from '../../sql/Interface.std.js';
-import { createLogger } from '../../logging/log.std.js';
-import { GiftBadgeStates } from '../../types/GiftBadgeStates.std.js';
-import { type CustomColorType } from '../../types/Colors.std.js';
-import { StorySendMode, MY_STORY_ID } from '../../types/Stories.std.js';
-import { getStickerPacksForBackup } from '../../types/Stickers.preload.js';
+} from '../../sql/Interface.std.ts';
+import { createLogger } from '../../logging/log.std.ts';
+import { GiftBadgeStates } from '../../types/GiftBadgeStates.std.ts';
+import { type CustomColorType } from '../../types/Colors.std.ts';
+import { StorySendMode, MY_STORY_ID } from '../../types/Stories.std.ts';
+import { getStickerPacksForBackup } from '../../types/Stickers.preload.ts';
 import {
   isPniString,
   isServiceIdString,
   type PniString,
   type AciString,
   type ServiceIdString,
-} from '../../types/ServiceId.std.js';
+} from '../../types/ServiceId.std.ts';
 import {
   bodyRangeSchema,
   type RawBodyRange,
-} from '../../types/BodyRange.std.js';
-import { PaymentEventKind } from '../../types/Payment.std.js';
-import { MessageRequestResponseEvent } from '../../types/MessageRequestResponseEvent.std.js';
+} from '../../types/BodyRange.std.ts';
+import { PaymentEventKind } from '../../types/Payment.std.ts';
+import { MessageRequestResponseEvent } from '../../types/MessageRequestResponseEvent.std.ts';
 import type {
   ConversationAttributesType,
   MessageAttributesType,
   QuotedAttachmentType,
 } from '../../model-types.d.ts';
-import { drop } from '../../util/drop.std.js';
-import { isNotNil } from '../../util/isNotNil.std.js';
-import { explodePromise } from '../../util/explodePromise.std.js';
+import { drop } from '../../util/drop.std.ts';
+import { isNotNil } from '../../util/isNotNil.std.ts';
+import { explodePromise } from '../../util/explodePromise.std.ts';
 import {
   isDirectConversation,
   isGroup,
   isGroupV1,
   isGroupV2,
   isMe,
-} from '../../util/whatTypeOfConversation.dom.js';
-import { uuidToBytes } from '../../util/uuidToBytes.std.js';
-import { strictAssert } from '../../util/assert.std.js';
-import { getSafeLongFromTimestamp } from '../../util/timestampLongUtils.std.js';
+} from '../../util/whatTypeOfConversation.dom.ts';
+import { uuidToBytes } from '../../util/uuidToBytes.std.ts';
+import { strictAssert } from '../../util/assert.std.ts';
+import { getSafeLongFromTimestamp } from '../../util/timestampLongUtils.std.ts';
 import {
   DAY,
   MINUTE,
   SECOND,
   DurationInSeconds,
-} from '../../util/durations/index.std.js';
+} from '../../util/durations/index.std.ts';
 import {
   PhoneNumberDiscoverability,
   parsePhoneNumberDiscoverability,
-} from '../../util/phoneNumberDiscoverability.std.js';
+} from '../../util/phoneNumberDiscoverability.std.ts';
 import {
   PhoneNumberSharingMode,
   parsePhoneNumberSharingMode,
-} from '../../types/PhoneNumberSharingMode.std.js';
-import { missingCaseError } from '../../util/missingCaseError.std.js';
+} from '../../types/PhoneNumberSharingMode.std.ts';
+import { missingCaseError } from '../../util/missingCaseError.std.ts';
 import {
   isCallHistory,
   isChatSessionRefreshed,
@@ -97,20 +97,20 @@ import {
   isTitleTransitionNotification,
   isMessageRequestResponse,
   isPinnedMessageNotification,
-} from '../../state/selectors/message.preload.js';
-import * as Bytes from '../../Bytes.std.js';
-import { canBeSynced as canPreferredReactionEmojiBeSynced } from '../../reactions/preferredReactionEmoji.std.js';
-import { SendStatus } from '../../messages/MessageSendState.std.js';
-import { BACKUP_VERSION } from './constants.std.js';
+} from '../../state/selectors/message.preload.ts';
+import * as Bytes from '../../Bytes.std.ts';
+import { canBeSynced as canPreferredReactionEmojiBeSynced } from '../../reactions/preferredReactionEmoji.std.ts';
+import { SendStatus } from '../../messages/MessageSendState.std.ts';
+import { BACKUP_VERSION } from './constants.std.ts';
 import {
   getMessageIdForLogging,
   getConversationIdForLogging,
-} from '../../util/idForLogging.preload.js';
-import { makeLookup } from '../../util/makeLookup.std.js';
+} from '../../util/idForLogging.preload.ts';
+import { makeLookup } from '../../util/makeLookup.std.ts';
 import type {
   CallHistoryDetails,
   CallStatus,
-} from '../../types/CallDisposition.std.js';
+} from '../../types/CallDisposition.std.ts';
 import {
   CallMode,
   CallDirection,
@@ -118,79 +118,79 @@ import {
   DirectCallStatus,
   GroupCallStatus,
   AdhocCallStatus,
-} from '../../types/CallDisposition.std.js';
-import { isAciString } from '../../util/isAciString.std.js';
-import { hslToRGBInt } from '../../util/hslToRGB.std.js';
+} from '../../types/CallDisposition.std.ts';
+import { isAciString } from '../../util/isAciString.std.ts';
+import { hslToRGBInt } from '../../util/hslToRGB.std.ts';
 import type {
   AboutMe,
   BackupExportOptions,
   LocalChatStyle,
   StatsType,
-} from './types.std.js';
-import { messageHasPaymentEvent } from '../../messages/payments.std.js';
+} from './types.std.ts';
+import { messageHasPaymentEvent } from '../../messages/payments.std.ts';
 import {
   numberToAddressType,
   numberToPhoneType,
-} from '../../types/EmbeddedContact.std.js';
-import { toLogFormat } from '../../types/errors.std.js';
-import type { AttachmentType } from '../../types/Attachment.std.js';
+} from '../../types/EmbeddedContact.std.ts';
+import { toLogFormat } from '../../types/errors.std.ts';
+import type { AttachmentType } from '../../types/Attachment.std.ts';
 import {
   isGIF,
   isDownloaded,
   hasRequiredInformationForLocalBackup,
   hasRequiredInformationForRemoteBackup,
-} from '../../util/Attachment.std.js';
-import { getFilePointerForAttachment } from './util/filePointers.preload.js';
-import { getBackupMediaRootKey } from './crypto.preload.js';
+} from '../../util/Attachment.std.ts';
+import { getFilePointerForAttachment } from './util/filePointers.preload.ts';
+import { getBackupMediaRootKey } from './crypto.preload.ts';
 import type {
   CoreAttachmentBackupJobType,
   CoreAttachmentLocalBackupJobType,
-} from '../../types/AttachmentBackup.std.js';
-import { AttachmentBackupManager } from '../../jobs/AttachmentBackupManager.preload.js';
+} from '../../types/AttachmentBackup.std.ts';
+import { AttachmentBackupManager } from '../../jobs/AttachmentBackupManager.preload.ts';
 import {
   getBackupCdnInfo,
   getLocalBackupFileNameForAttachment,
   getMediaNameForAttachment,
-} from './util/mediaId.preload.js';
-import { calculateExpirationTimestamp } from '../../util/expirationTimer.std.js';
-import { ReadStatus } from '../../messages/MessageReadStatus.std.js';
-import { CallLinkRestrictions } from '../../types/CallLink.std.js';
+} from './util/mediaId.preload.ts';
+import { calculateExpirationTimestamp } from '../../util/expirationTimer.std.ts';
+import { ReadStatus } from '../../messages/MessageReadStatus.std.ts';
+import { CallLinkRestrictions } from '../../types/CallLink.std.ts';
 import {
   isCallHistoryForUnusedCallLink,
   toAdminKeyBytes,
-} from '../../util/callLinks.std.js';
-import { getRoomIdFromRootKey } from '../../util/callLinksRingrtc.node.js';
-import { SeenStatus } from '../../MessageSeenStatus.std.js';
-import { migrateAllMessages } from '../../messages/migrateMessageData.preload.js';
+} from '../../util/callLinks.std.ts';
+import { getRoomIdFromRootKey } from '../../util/callLinksRingrtc.node.ts';
+import { SeenStatus } from '../../MessageSeenStatus.std.ts';
+import { migrateAllMessages } from '../../messages/migrateMessageData.preload.ts';
 import {
   isBodyTooLong,
   MAX_MESSAGE_BODY_BYTE_LENGTH,
   trimBody,
-} from '../../util/longAttachment.std.js';
-import { generateBackupsSubscriberData } from '../../util/backupSubscriptionData.preload.js';
+} from '../../util/longAttachment.std.ts';
+import { generateBackupsSubscriberData } from '../../util/backupSubscriptionData.preload.ts';
 import {
   getEnvironment,
   isTestEnvironment,
   isTestOrMockEnvironment,
-} from '../../environment.std.js';
-import { calculateLightness } from '../../util/getHSL.std.js';
-import { isSignalServiceId } from '../../util/isSignalConversation.dom.js';
-import { isValidE164 } from '../../util/isValidE164.std.js';
-import { toDayOfWeekArray } from '../../types/NotificationProfile.std.js';
+} from '../../environment.std.ts';
+import { calculateLightness } from '../../util/getHSL.std.ts';
+import { isSignalServiceId } from '../../util/isSignalConversation.dom.ts';
+import { isValidE164 } from '../../util/isValidE164.std.ts';
+import { toDayOfWeekArray } from '../../types/NotificationProfile.std.ts';
 import {
   getLinkPreviewSetting,
   getTypingIndicatorSetting,
-} from '../../util/Settings.preload.js';
-import { KIBIBYTE } from '../../types/AttachmentSize.std.js';
-import { itemStorage } from '../../textsecure/Storage.preload.js';
-import { ChatFolderType } from '../../types/ChatFolder.std.js';
-import { expiresTooSoonForBackup } from './util/expiration.std.js';
-import type { PinnedMessage } from '../../types/PinnedMessage.std.js';
-import type { ThemeType } from '../../util/preload.preload.js';
-import { MAX_VALUE as LONG_MAX_VALUE } from '../../util/long.std.js';
-import { encodeDelimited } from '../../util/encodeDelimited.std.js';
-import { safeParseStrict } from '../../util/schemas.std.js';
-import type { WithRequiredProperties } from '../../types/Util.std.js';
+} from '../../util/Settings.preload.ts';
+import { KIBIBYTE } from '../../types/AttachmentSize.std.ts';
+import { itemStorage } from '../../textsecure/Storage.preload.ts';
+import { ChatFolderType } from '../../types/ChatFolder.std.ts';
+import { expiresTooSoonForBackup } from './util/expiration.std.ts';
+import type { PinnedMessage } from '../../types/PinnedMessage.std.ts';
+import type { ThemeType } from '../../util/preload.preload.ts';
+import { MAX_VALUE as LONG_MAX_VALUE } from '../../util/long.std.ts';
+import { encodeDelimited } from '../../util/encodeDelimited.std.ts';
+import { safeParseStrict } from '../../util/schemas.std.ts';
+import type { WithRequiredProperties } from '../../types/Util.std.ts';
 
 const { isNumber } = lodash;
 
@@ -266,9 +266,14 @@ type NonBubbleResultType = Readonly<
     }
 >;
 
+type Options = Readonly<BackupExportOptions> & {
+  validationRun?: boolean;
+};
+
 export class BackupExportStream extends Readable {
+  readonly #options: Options;
   // Shared between all methods for consistency.
-  #now = Date.now();
+  readonly #now = Date.now();
 
   readonly #backupTimeMs = getSafeLongFromTimestamp(this.#now);
   readonly #convoIdToRecipientId = new Map<string, bigint>();
@@ -307,14 +312,11 @@ export class BackupExportStream extends Readable {
 
   // Map from custom color uuid to an index in accountSettings.customColors
   // array.
-  #customColorIdByUuid = new Map<string, bigint>();
+  readonly #customColorIdByUuid = new Map<string, bigint>();
 
-  constructor(
-    private readonly options: Readonly<BackupExportOptions> & {
-      validationRun?: boolean;
-    }
-  ) {
+  constructor(options: Options) {
     super();
+    this.#options = options;
   }
 
   async #cleanupAfterError() {
@@ -345,7 +347,7 @@ export class BackupExportStream extends Readable {
           await this.#unsafeRun();
           await resumeWriteAccess();
           // TODO (DESKTOP-7344): Clear & add backup jobs in a single transaction
-          const { type } = this.options;
+          const { type } = this.#options;
           switch (type) {
             case 'remote':
               log.info(
@@ -417,7 +419,7 @@ export class BackupExportStream extends Readable {
       debugInfo: null,
     };
 
-    if (this.options.type === 'plaintext-export') {
+    if (this.#options.type === 'plaintext-export') {
       const { exporter, chunk: initialChunk } = BackupJsonExporter.start(
         Backups.BackupInfo.encode(backupInfo),
         { validate: false }
@@ -455,7 +457,7 @@ export class BackupExportStream extends Readable {
         isAciString(attributes.serviceId) &&
         ktAcis.has(attributes.serviceId)
       ) {
-        // eslint-disable-next-line no-await-in-loop
+        // oxlint-disable-next-line no-await-in-loop
         keyTransparencyData = await DataReader.getKTAccountData(
           attributes.serviceId
         );
@@ -476,7 +478,7 @@ export class BackupExportStream extends Readable {
         recipient,
       });
 
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       await this.#flush();
       this.#stats.conversations += 1;
     }
@@ -540,7 +542,7 @@ export class BackupExportStream extends Readable {
         },
       });
 
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       await this.#flush();
       this.#stats.distributionLists += 1;
     }
@@ -563,7 +565,6 @@ export class BackupExportStream extends Readable {
 
       const id = this.#getNextRecipientId();
       const rootKey = CallLinkRootKey.parse(rootKeyString);
-      // @ts-expect-error needs ringrtc update
       const rootKeyBytes: Uint8Array<ArrayBuffer> = rootKey.bytes;
       const roomId = getRoomIdFromRootKey(rootKey);
 
@@ -586,7 +587,7 @@ export class BackupExportStream extends Readable {
         },
       });
 
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       await this.#flush();
       this.#stats.callLinks += 1;
     }
@@ -601,7 +602,7 @@ export class BackupExportStream extends Readable {
         },
       });
 
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       await this.#flush();
       this.#stats.stickerPacks += 1;
     }
@@ -679,7 +680,7 @@ export class BackupExportStream extends Readable {
         },
       });
 
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       await this.#flush();
       this.#stats.chats += 1;
     }
@@ -728,7 +729,7 @@ export class BackupExportStream extends Readable {
         },
       });
 
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       await this.#flush();
       this.#stats.adHocCalls += 1;
     }
@@ -778,7 +779,7 @@ export class BackupExportStream extends Readable {
         },
       });
 
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       await this.#flush();
       this.#stats.notificationProfiles += 1;
     }
@@ -824,7 +825,7 @@ export class BackupExportStream extends Readable {
         },
       });
 
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       await this.#flush();
       this.#stats.chatFolders += 1;
     }
@@ -876,7 +877,7 @@ export class BackupExportStream extends Readable {
       this.#stats.messages += 1;
 
       if (
-        this.options.validationRun ||
+        this.#options.validationRun ||
         this.#stats.messages % FLUSH_EVERY === 0
       ) {
         // flush every chatItem to expose all validation errors
@@ -912,7 +913,7 @@ export class BackupExportStream extends Readable {
 
   #pushFrame(frame: Backups.Frame.Params['item']): void {
     const encodedFrame = Backups.Frame.encode({ item: frame });
-    if (this.options.type === 'plaintext-export') {
+    if (this.#options.type === 'plaintext-export') {
       const delimitedFrame = Buffer.concat(encodeDelimited(encodedFrame));
       strictAssert(
         this.#jsonExporter != null,
@@ -954,7 +955,9 @@ export class BackupExportStream extends Readable {
     const start = Date.now();
     log.info('flush paused due to pushback');
     try {
-      await pTimeout(promise, FLUSH_TIMEOUT);
+      await pTimeout(promise, {
+        milliseconds: FLUSH_TIMEOUT,
+      });
     } finally {
       const duration = Date.now() - start;
       if (duration > REPORTING_THRESHOLD) {
@@ -1480,6 +1483,7 @@ export class BackupExportStream extends Readable {
                 ? Bytes.fromBase64(convo.groupInviteLinkPassword)
                 : null,
               announcementsOnly: convo.announcementsOnly === true,
+              terminated: convo.terminated === true,
             },
           },
         },
@@ -1585,7 +1589,7 @@ export class BackupExportStream extends Readable {
     }
 
     if (message.expireTimer) {
-      if (this.options.type === 'plaintext-export') {
+      if (this.#options.type === 'plaintext-export') {
         // All disappearing messages are excluded in plaintext export
         return undefined;
       }
@@ -1611,9 +1615,25 @@ export class BackupExportStream extends Readable {
       );
     } else if (message.source) {
       authorId = this.#getRecipientByE164(message.source, 'message.source');
+    } else if (isIncoming) {
+      if (conversation && isDirectConversation(conversation.attributes)) {
+        authorId = this.#getRecipientByConversationId(
+          conversation.id,
+          'message-missing-source'
+        );
+      }
+      if (authorId != null) {
+        log.warn(
+          `${message.sent_at}: Incoming message in group missing source, using conversation`
+        );
+      } else {
+        log.warn(
+          `${message.sent_at}: Incoming message in group or unknown conversation` +
+            ' without source, dropping'
+        );
+        return undefined;
+      }
     } else {
-      strictAssert(!isIncoming, 'Incoming message must have source');
-
       // Author must be always present, even if we are directionless
       authorId = me;
     }
@@ -1626,7 +1646,7 @@ export class BackupExportStream extends Readable {
       isOutgoing = true;
       isIncoming = false;
 
-      // eslint-disable-next-line no-param-reassign
+      // oxlint-disable-next-line no-param-reassign
       message.type = 'outgoing';
 
       this.#stats.fixedDirectMessages += 1;
@@ -2065,7 +2085,7 @@ export class BackupExportStream extends Readable {
 
   /** For fields that can accept either ACI or PNI bytes */
   #serviceIdToBytes(serviceId: ServiceIdString): Uint8Array<ArrayBuffer> {
-    return ServiceId.parseFromServiceIdString(serviceId).getRawUuidBytes();
+    return ServiceId.parseFromServiceIdString(serviceId).getServiceIdBinary();
   }
 
   async #toChatItemFromNonBubble(
@@ -2174,7 +2194,7 @@ export class BackupExportStream extends Readable {
             callHistory.endedTimestamp
           );
         }
-        const read = message.seenStatus === SeenStatus.Seen;
+        const read = message.seenStatus !== SeenStatus.Unseen;
 
         updateMessage.update = {
           groupCall: {
@@ -2212,7 +2232,7 @@ export class BackupExportStream extends Readable {
           direction: toIndividualCallDirectionProto(direction),
           state: toIndividualCallStateProto(status, direction),
           startedCallTimestamp: BigInt(timestamp),
-          read: message.seenStatus === SeenStatus.Seen,
+          read: message.seenStatus !== SeenStatus.Unseen,
         },
       };
       return { kind: NonBubbleResultKind.Directionless, patch };
@@ -3118,6 +3138,14 @@ export class BackupExportStream extends Readable {
             },
           },
         });
+      } else if (type === 'terminated') {
+        updates.push({
+          update: {
+            groupTerminateChangeUpdate: {
+              updaterAci: from ? this.#aciToBytesOrNull(from) : null,
+            },
+          },
+        });
       } else {
         throw missingCaseError(type);
       }
@@ -3248,7 +3276,7 @@ export class BackupExportStream extends Readable {
     attachment: AttachmentType
   ): Backups.MessageAttachment.Flag {
     const flag = SignalService.AttachmentPointer.Flags.VOICE_MESSAGE;
-    // eslint-disable-next-line no-bitwise
+    // oxlint-disable-next-line no-bitwise
     if (((attachment.flags || 0) & flag) === flag) {
       // Legacy data support for iOS
       if (message.body) {
@@ -3262,7 +3290,7 @@ export class BackupExportStream extends Readable {
     }
     if (
       attachment.flags &&
-      // eslint-disable-next-line no-bitwise
+      // oxlint-disable-next-line no-bitwise
       attachment.flags & SignalService.AttachmentPointer.Flags.BORDERLESS
     ) {
       return Backups.MessageAttachment.Flag.BORDERLESS;
@@ -3301,15 +3329,15 @@ export class BackupExportStream extends Readable {
   }): Promise<Backups.FilePointer.Params> {
     const { filePointer, backupJob } = await getFilePointerForAttachment({
       attachment,
-      backupOptions: this.options,
+      backupOptions: this.#options,
       messageReceivedAt,
       getBackupCdnInfo,
     });
 
     let mediaName: string | undefined;
     if (
-      this.options.type === 'local-encrypted' ||
-      this.options.type === 'plaintext-export'
+      this.#options.type === 'local-encrypted' ||
+      this.#options.type === 'plaintext-export'
     ) {
       if (hasRequiredInformationForLocalBackup(attachment)) {
         mediaName = getLocalBackupFileNameForAttachment(attachment);
@@ -3663,7 +3691,7 @@ export class BackupExportStream extends Readable {
     // Integration tests use the 'link-and-sync' version of export, which will include
     // view-once attachments
     const shouldIncludeAttachments =
-      this.options.type !== 'plaintext-export' && isTestOrMockEnvironment();
+      this.#options.type !== 'plaintext-export' && isTestOrMockEnvironment();
     return {
       attachment:
         !shouldIncludeAttachments || attachment == null
@@ -4183,7 +4211,7 @@ async function* getAllMessages(): AsyncIterable<MessageAttributesType> {
   let cursor: PageBackupMessagesCursorType | undefined;
   while (!cursor?.done) {
     const { messages, cursor: newCursor } =
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       await DataReader.pageBackupMessages(cursor);
 
     cursor = newCursor;

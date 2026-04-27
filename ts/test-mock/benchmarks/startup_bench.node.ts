@@ -4,8 +4,8 @@
 import { ReceiptType } from '@signalapp/mock-server';
 import lodash from 'lodash';
 
-import { debug, Bootstrap, MAX_CYCLES } from './fixtures.node.js';
-import { type RegressionSample } from '../bootstrap.node.js';
+import { debug, Bootstrap, MAX_CYCLES } from './fixtures.node.ts';
+import { type RegressionSample } from '../bootstrap.node.ts';
 
 const { omit } = lodash;
 
@@ -25,7 +25,7 @@ Bootstrap.regressionBenchmark(
     debug('started generating messages');
 
     for (let i = 0; i < messageCount; i += 1) {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      // oxlint-disable-next-line typescript/no-non-null-assertion
       const contact = contacts[Math.floor(i / 2) % contacts.length]!;
       const direction = i % 2 ? 'message' : 'reply';
 

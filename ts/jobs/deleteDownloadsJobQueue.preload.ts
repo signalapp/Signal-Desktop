@@ -4,18 +4,18 @@
 import { z } from 'zod';
 import lodash from 'lodash';
 
-import { JobQueue } from './JobQueue.std.js';
-import { jobQueueDatabaseStore } from './JobQueueDatabaseStore.preload.js';
-import { parseUnknown } from '../util/schemas.std.js';
-import { deleteDownloadFile } from '../util/migrations.preload.js';
-import { DataReader } from '../sql/Client.preload.js';
+import { JobQueue } from './JobQueue.std.ts';
+import { jobQueueDatabaseStore } from './JobQueueDatabaseStore.preload.ts';
+import { parseUnknown } from '../util/schemas.std.ts';
+import { deleteDownloadFile } from '../util/migrations.preload.ts';
+import { DataReader } from '../sql/Client.preload.ts';
 
-import type { JOB_STATUS } from './JobQueue.std.js';
-import type { LoggerType } from '../types/Logging.std.js';
-import { commonShouldJobContinue } from './helpers/commonShouldJobContinue.preload.js';
-import { DAY } from '../util/durations/index.std.js';
-import { exponentialBackoffMaxAttempts } from '../util/exponentialBackoff.std.js';
-import { itemStorage } from '../textsecure/Storage.preload.js';
+import type { JOB_STATUS } from './JobQueue.std.ts';
+import type { LoggerType } from '../types/Logging.std.ts';
+import { commonShouldJobContinue } from './helpers/commonShouldJobContinue.preload.ts';
+import { DAY } from '../util/durations/index.std.ts';
+import { exponentialBackoffMaxAttempts } from '../util/exponentialBackoff.std.ts';
+import { itemStorage } from '../textsecure/Storage.preload.ts';
 
 const { omit } = lodash;
 
@@ -31,7 +31,7 @@ type DeleteDownloadsJobData = z.infer<typeof deleteDownloadsJobDataSchema>;
 const MAX_RETRY_TIME = DAY;
 const MAX_ATTEMPTS = exponentialBackoffMaxAttempts(MAX_RETRY_TIME);
 
-export class DeleteDownloadsJobQueue extends JobQueue<DeleteDownloadsJobData> {
+class DeleteDownloadsJobQueue extends JobQueue<DeleteDownloadsJobData> {
   protected parseData(data: unknown): DeleteDownloadsJobData {
     return parseUnknown(deleteDownloadsJobDataSchema, data);
   }

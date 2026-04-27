@@ -1,18 +1,19 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import Fuse from 'fuse.js';
+import type { FuseOptionKey, IFuseOptions } from 'fuse.js';
 import lodash from 'lodash';
 import { useMemo } from 'react';
-import type { EmojiParentKey } from './data/emojis.std.js';
+import type { EmojiParentKey } from './data/emojis.std.ts';
 import {
   getEmojiParentByKey,
   getEmojiParentKeyByValue,
   isEmojiParentValue,
   isEmojiParentValueDeprecated,
   normalizeShortNameCompletionQuery,
-} from './data/emojis.std.js';
-import type { LocaleEmojiListType } from '../../types/emoji.std.js';
-import { useFunEmojiLocalization } from './FunEmojiLocalizationProvider.dom.js';
+} from './data/emojis.std.ts';
+import type { LocaleEmojiListType } from '../../types/emoji.std.ts';
+import { useFunEmojiLocalization } from './FunEmojiLocalizationProvider.dom.tsx';
 
 const { sortBy } = lodash;
 
@@ -79,14 +80,14 @@ export function createFunEmojiSearchIndex(
   return results;
 }
 
-const FuseKeys: Array<Fuse.FuseOptionKey> = [
+const FuseKeys: Array<FuseOptionKey<FunEmojiSearchIndexEntry>> = [
   { name: 'shortName', weight: 100 },
   { name: 'shortNames', weight: 1 },
   { name: 'emoticon', weight: 50 },
   { name: 'emoticons', weight: 1 },
 ];
 
-const FuseFuzzyOptions: Fuse.IFuseOptions<FunEmojiSearchIndexEntry> = {
+const FuseFuzzyOptions: IFuseOptions<FunEmojiSearchIndexEntry> = {
   shouldSort: false,
   threshold: 0.2,
   minMatchCharLength: 1,
@@ -95,7 +96,7 @@ const FuseFuzzyOptions: Fuse.IFuseOptions<FunEmojiSearchIndexEntry> = {
   includeMatches: true,
 };
 
-const FuseExactOptions: Fuse.IFuseOptions<FunEmojiSearchIndexEntry> = {
+const FuseExactOptions: IFuseOptions<FunEmojiSearchIndexEntry> = {
   shouldSort: false,
   threshold: 0,
   minMatchCharLength: 1,

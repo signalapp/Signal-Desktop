@@ -1,10 +1,10 @@
 // Copyright 2026 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { assert } from './_internal/assert.std.js';
+import { assert } from './_internal/assert.std.tsx';
 
 export namespace AxoTokens {
-  export type HexColor = `#${string}` & { HexColor: never };
+  type HexColor = `#${string}` & { HexColor: never };
 
   function hexColor(input: `#${string}`): HexColor {
     return input as HexColor;
@@ -25,7 +25,7 @@ export namespace AxoTokens {
       | 'A200'
       | 'A210';
 
-    export type ColorValues = Readonly<{
+    type ColorValues = Readonly<{
       bg: HexColor;
       fg: HexColor;
     }>;
@@ -60,11 +60,11 @@ export namespace AxoTokens {
         Number.isInteger(hash) && hash >= 0,
         'Hash must be positive integer'
       );
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      // oxlint-disable-next-line typescript/no-non-null-assertion
       return ALL_COLOR_NAMES[hash % ALL_COLOR_NAMES.length]!;
     }
 
-    export type GradientValues = Readonly<{
+    type GradientValues = Readonly<{
       start: HexColor;
       end: HexColor;
     }>;
@@ -97,7 +97,7 @@ export namespace AxoTokens {
         Number.isInteger(hash) && hash >= 0,
         'Hash must be positive integer'
       );
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      // oxlint-disable-next-line typescript/no-non-null-assertion
       return Gradients[hash % Gradients.length]!;
     }
 
@@ -111,7 +111,7 @@ export namespace AxoTokens {
       return `linear-gradient(to bottom, ${gradient.start}, ${gradient.end})`;
     }
 
-    export type ContactPresetName =
+    type ContactPresetName =
       | 'abstract_01'
       | 'abstract_02'
       | 'abstract_03'
@@ -125,7 +125,7 @@ export namespace AxoTokens {
       | 'incognito'
       | 'ghost';
 
-    export type GroupPresetName =
+    type GroupPresetName =
       | 'balloon'
       | 'book'
       | 'briefcase'

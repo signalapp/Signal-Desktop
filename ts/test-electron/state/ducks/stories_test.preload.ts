@@ -8,30 +8,33 @@ import { v4 as generateUuid } from 'uuid';
 import type {
   DispatchableViewStoryType,
   StoryDataType,
-} from '../../../state/ducks/stories.preload.js';
-import type { ConversationType } from '../../../state/ducks/conversations.preload.js';
+} from '../../../state/ducks/stories.preload.ts';
+import type { ConversationType } from '../../../state/ducks/conversations.preload.ts';
 import type { MessageAttributesType } from '../../../model-types.d.ts';
-import type { StateType as RootStateType } from '../../../state/reducer.preload.js';
-import { DurationInSeconds } from '../../../util/durations/index.std.js';
-import { TEXT_ATTACHMENT, IMAGE_JPEG } from '../../../types/MIME.std.js';
-import { ReadStatus } from '../../../messages/MessageReadStatus.std.js';
+import type { StateType as RootStateType } from '../../../state/reducer.preload.ts';
+import { DurationInSeconds } from '../../../util/durations/index.std.ts';
+import { TEXT_ATTACHMENT, IMAGE_JPEG } from '../../../types/MIME.std.ts';
+import { ReadStatus } from '../../../messages/MessageReadStatus.std.ts';
 import {
   StoryViewDirectionType,
   StoryViewModeType,
-} from '../../../types/Stories.std.js';
-import type { StoryDistributionIdString } from '../../../types/StoryDistributionId.std.js';
-import { generateAci, generatePni } from '../../../types/ServiceId.std.js';
-import { generateStoryDistributionId } from '../../../types/StoryDistributionId.std.js';
+} from '../../../types/Stories.std.ts';
+import type { StoryDistributionIdString } from '../../../types/StoryDistributionId.std.ts';
+import { generateStoryDistributionId } from '../../../types/StoryDistributionId.std.ts';
 import {
   actions,
   getEmptyState,
-} from '../../../state/ducks/stories.preload.js';
-import { noopAction } from '../../../state/ducks/noop.std.js';
-import { reducer as rootReducer } from '../../../state/reducer.preload.js';
-import { dropNull } from '../../../util/dropNull.std.js';
-import { MessageModel } from '../../../models/messages.preload.js';
-import { DataWriter } from '../../../sql/Client.preload.js';
-import { itemStorage } from '../../../textsecure/Storage.preload.js';
+} from '../../../state/ducks/stories.preload.ts';
+import { noopAction } from '../../../state/ducks/noop.std.ts';
+import { reducer as rootReducer } from '../../../state/reducer.preload.ts';
+import { dropNull } from '../../../util/dropNull.std.ts';
+import { MessageModel } from '../../../models/messages.preload.ts';
+import { DataWriter } from '../../../sql/Client.preload.ts';
+import { itemStorage } from '../../../textsecure/Storage.preload.ts';
+import {
+  generateAci,
+  generatePni,
+} from '../../../test-helpers/serviceIdUtils.std.ts';
 
 describe('both/state/ducks/stories', () => {
   const ourAci = generateAci();
@@ -47,7 +50,7 @@ describe('both/state/ducks/stories', () => {
   });
 
   const getEmptyRootState = () => ({
-    ...rootReducer(undefined, noopAction()),
+    ...rootReducer(undefined, noopAction('getEmptyRootState')),
     stories: getEmptyState(),
   });
 

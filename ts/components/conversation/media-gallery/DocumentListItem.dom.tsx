@@ -4,19 +4,19 @@
 import React, { type ReactNode } from 'react';
 import type { ReadonlyDeep } from 'type-fest';
 
-import { formatFileSize } from '../../../util/formatFileSize.std.js';
+import { formatFileSize } from '../../../util/formatFileSize.std.ts';
 import type {
   GenericMediaItemType,
   MediaItemType,
-} from '../../../types/MediaItem.std.js';
-import type { LocalizerType } from '../../../types/Util.std.js';
-import { AxoSymbol } from '../../../axo/AxoSymbol.dom.js';
-import { FileThumbnail } from '../../FileThumbnail.dom.js';
+} from '../../../types/MediaItem.std.ts';
+import type { LocalizerType } from '../../../types/Util.std.ts';
+import { AxoSymbol } from '../../../axo/AxoSymbol.dom.tsx';
+import { FileThumbnail } from '../../FileThumbnail.dom.tsx';
 import {
   useAttachmentStatus,
   type AttachmentStatusType,
-} from '../../../hooks/useAttachmentStatus.std.js';
-import { ListItem } from './ListItem.dom.js';
+} from '../../../hooks/useAttachmentStatus.std.ts';
+import { ListItem } from './ListItem.dom.tsx';
 
 export type Props = {
   i18n: LocalizerType;

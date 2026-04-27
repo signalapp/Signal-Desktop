@@ -7,11 +7,11 @@ import { expect } from 'playwright/test';
 import { StorageState } from '@signalapp/mock-server';
 import { BackupLevel } from '@signalapp/libsignal-client/zkgroup.js';
 
-import type { App } from '../playwright.node.js';
-import { Bootstrap } from '../bootstrap.node.js';
-import { MINUTE } from '../../util/durations/index.std.js';
+import type { App } from '../playwright.node.ts';
+import { Bootstrap } from '../bootstrap.node.ts';
+import { MINUTE } from '../../util/durations/index.std.ts';
 
-export const debug = createDebug('mock:test:megaphone');
+const debug = createDebug('mock:test:megaphone');
 
 describe('megaphone', function (this: Mocha.Suite) {
   let bootstrap: Bootstrap;

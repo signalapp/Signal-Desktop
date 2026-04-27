@@ -4,8 +4,8 @@
 import type { CallSummary } from '@signalapp/ringrtc';
 import type { ThunkAction } from 'redux-thunk';
 import type { ReadonlyDeep } from 'type-fest';
-import OS from '../../util/os/osMain.node.js';
-import type { ExplodePromiseResultType } from '../../util/explodePromise.std.js';
+import OS from '../../util/os/osMain.node.ts';
+import type { ExplodePromiseResultType } from '../../util/explodePromise.std.ts';
 import type {
   GroupV2PendingMemberType,
   ReadonlyMessageAttributesType,
@@ -14,59 +14,59 @@ import type {
   ActionCreator,
   MessageChangedActionType,
   MessageDeletedActionType,
-} from './conversations.preload.js';
-import type { MessagePropsType } from '../selectors/message.preload.js';
-import type { RecipientsByConversation } from './stories.preload.js';
-import type { SafetyNumberChangeSource } from '../../types/SafetyNumberChangeSource.std.js';
-import type { StateType as RootStateType } from '../reducer.preload.js';
-import * as SingleServePromise from '../../services/singleServePromise.std.js';
-import { isKeyTransparencyAvailable } from '../../services/keyTransparency.preload.js';
-import * as Stickers from '../../types/Stickers.preload.js';
-import type { ContactModalStateType } from '../../types/globalModals.std.js';
-import { UsernameOnboardingState } from '../../types/globalModals.std.js';
-import { createLogger } from '../../logging/log.std.js';
+} from './conversations.preload.ts';
+import type { MessagePropsType } from '../selectors/message.preload.ts';
+import type { RecipientsByConversation } from './stories.preload.ts';
+import type { SafetyNumberChangeSource } from '../../types/SafetyNumberChangeSource.std.ts';
+import type { StateType as RootStateType } from '../reducer.preload.ts';
+import * as SingleServePromise from '../../services/singleServePromise.std.ts';
+import { isKeyTransparencyAvailable } from '../../services/keyTransparency.preload.ts';
+import * as Stickers from '../../types/Stickers.preload.ts';
+import type { ContactModalStateType } from '../../types/globalModals.std.ts';
+import { UsernameOnboardingState } from '../../types/globalModals.std.ts';
+import { createLogger } from '../../logging/log.std.ts';
 import {
   getMessagePropsSelector,
   getPropsForAttachment,
-} from '../selectors/message.preload.js';
-import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.js';
-import { longRunningTaskWrapper } from '../../util/longRunningTaskWrapper.dom.js';
-import { useBoundActions } from '../../hooks/useBoundActions.std.js';
-import { isGroupV1 } from '../../util/whatTypeOfConversation.dom.js';
-import { sleep } from '../../util/sleep.std.js';
-import { SECOND } from '../../util/durations/index.std.js';
-import { getGroupMigrationMembers } from '../../groups.preload.js';
+} from '../selectors/message.preload.ts';
+import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.ts';
+import { longRunningTaskWrapper } from '../../util/longRunningTaskWrapper.dom.tsx';
+import { useBoundActions } from '../../hooks/useBoundActions.std.ts';
+import { isGroupV1 } from '../../util/whatTypeOfConversation.dom.ts';
+import { sleep } from '../../util/sleep.std.ts';
+import { SECOND } from '../../util/durations/index.std.ts';
+import { getGroupMigrationMembers } from '../../groups.preload.ts';
 import {
   MESSAGE_CHANGED,
   MESSAGE_DELETED,
   actions as conversationsActions,
-} from './conversations.preload.js';
-import { isDownloaded } from '../../util/Attachment.std.js';
-import { isPermanentlyUndownloadable } from '../../jobs/AttachmentDownloadManager.preload.js';
-import type { ButtonVariant } from '../../components/Button.dom.js';
-import type { MessageRequestState } from '../../components/conversation/MessageRequestActionsConfirmation.dom.js';
-import type { MessageForwardDraft } from '../../types/ForwardDraft.std.js';
-import { hydrateRanges } from '../../util/BodyRange.node.js';
+} from './conversations.preload.ts';
+import { isDownloaded } from '../../util/Attachment.std.ts';
+import { isPermanentlyUndownloadable } from '../../jobs/AttachmentDownloadManager.preload.ts';
+import type { ButtonVariant } from '../../components/Button.dom.tsx';
+import type { MessageRequestState } from '../../components/conversation/MessageRequestActionsConfirmation.dom.tsx';
+import type { MessageForwardDraft } from '../../types/ForwardDraft.std.ts';
+import { hydrateRanges } from '../../util/BodyRange.node.ts';
 import {
   getConversationSelector,
   getHasMaxPinnedMessages,
   type GetConversationByIdType,
-} from '../selectors/conversations.dom.js';
-import { missingCaseError } from '../../util/missingCaseError.std.js';
-import { ForwardMessagesModalType } from '../../components/ForwardMessagesModal.dom.js';
-import type { CallLinkType } from '../../types/CallLink.std.js';
-import type { LocalizerType } from '../../types/I18N.std.js';
-import { linkCallRoute } from '../../util/signalRoutes.std.js';
-import type { StartCallData } from '../../components/ConfirmLeaveCallModal.dom.js';
-import type { CallQualitySurvey } from '../../types/CallQualitySurvey.std.js';
-import { getMessageById } from '../../messages/getMessageById.preload.js';
-import type { DataPropsType as TapToViewNotAvailablePropsType } from '../../components/TapToViewNotAvailableModal.dom.js';
-import type { DataPropsType as BackfillFailureModalPropsType } from '../../components/BackfillFailureModal.dom.js';
-import type { SmartDraftGifMessageSendModalProps } from '../smart/DraftGifMessageSendModal.preload.js';
-import { onCriticalIdlePrimaryDeviceModalDismissed } from '../../util/handleServerAlerts.preload.js';
-import type { PinMessageDialogData } from '../smart/PinMessageDialog.preload.js';
-import type { StateThunk } from '../types.std.js';
-import { itemStorage } from '../../textsecure/Storage.preload.js';
+} from '../selectors/conversations.dom.ts';
+import { missingCaseError } from '../../util/missingCaseError.std.ts';
+import { ForwardMessagesModalType } from '../../components/ForwardMessagesModal.dom.tsx';
+import type { CallLinkType } from '../../types/CallLink.std.ts';
+import type { LocalizerType } from '../../types/I18N.std.ts';
+import { linkCallRoute } from '../../util/signalRoutes.std.ts';
+import type { StartCallData } from '../../components/ConfirmLeaveCallModal.dom.tsx';
+import type { CallQualitySurvey } from '../../types/CallQualitySurvey.std.ts';
+import { getMessageById } from '../../messages/getMessageById.preload.ts';
+import type { DataPropsType as TapToViewNotAvailablePropsType } from '../../components/TapToViewNotAvailableModal.dom.tsx';
+import type { DataPropsType as BackfillFailureModalPropsType } from '../../components/BackfillFailureModal.dom.tsx';
+import type { SmartDraftGifMessageSendModalProps } from '../smart/DraftGifMessageSendModal.preload.tsx';
+import { onCriticalIdlePrimaryDeviceModalDismissed } from '../../util/handleServerAlerts.preload.ts';
+import type { PinMessageDialogData } from '../smart/PinMessageDialog.preload.tsx';
+import type { StateThunk } from '../types.std.ts';
+import { itemStorage } from '../../textsecure/Storage.preload.ts';
 
 const log = createLogger('globalModals');
 
@@ -174,6 +174,7 @@ export type GlobalModalsStateType = ReadonlyDeep<{
   safetyNumberModalContactId?: string;
   stickerPackPreviewId?: string;
   tapToViewNotAvailableModalProps?: TapToViewNotAvailablePropsType;
+  terminateGroupFailedModal: { conversationId: string } | null;
   userNotFoundModalState?: UserNotFoundModalStateType;
 }>;
 
@@ -264,6 +265,10 @@ const SHOW_LOW_DISK_SPACE_BACKUP_IMPORT_MODAL =
 const HIDE_LOW_DISK_SPACE_BACKUP_IMPORT_MODAL =
   'globalModals/HIDE_LOW_DISK_SPACE_BACKUP_IMPORT_MODAL';
 const TOGGLE_PIN_MESSAGE_DIALOG = 'globalModals/TOGGLE_PIN_MESSAGE_DIALOG';
+export const SHOW_TERMINATE_GROUP_FAILED_MODAL =
+  'globalModals/SHOW_TERMINATE_GROUP_FAILED_MODAL';
+const HIDE_TERMINATE_GROUP_FAILED_MODAL =
+  'globalModals/HIDE_TERMINATE_GROUP_FAILED_MODAL';
 
 export type UserNotFoundModalStateType = ReadonlyDeep<
   | {
@@ -557,6 +562,17 @@ type TogglePinMessageDialogActionType = ReadonlyDeep<{
   payload: PinMessageDialogData | null;
 }>;
 
+export type ShowTerminateGroupFailedModalActionType = ReadonlyDeep<{
+  type: typeof SHOW_TERMINATE_GROUP_FAILED_MODAL;
+  payload: {
+    conversationId: string;
+  };
+}>;
+
+type HideTerminateGroupFailedModalActionType = ReadonlyDeep<{
+  type: typeof HIDE_TERMINATE_GROUP_FAILED_MODAL;
+}>;
+
 export type GlobalModalsActionType = ReadonlyDeep<
   | CloseEditHistoryModalActionType
   | CloseDebugLogErrorModalActionType
@@ -575,6 +591,7 @@ export type GlobalModalsActionType = ReadonlyDeep<
   | HideSendAnywayDialogActiontype
   | HideStoriesSettingsActionType
   | HideTapToViewNotAvailableModalActionType
+  | HideTerminateGroupFailedModalActionType
   | HideUserNotFoundModalActionType
   | HideWhatsNewModalActionType
   | MessageChangedActionType
@@ -595,6 +612,7 @@ export type GlobalModalsActionType = ReadonlyDeep<
   | ShowStickerPackPreviewActionType
   | ShowStoriesSettingsActionType
   | ShowTapToViewNotAvailableModalActionType
+  | ShowTerminateGroupFailedModalActionType
   | ShowUserNotFoundModalActionType
   | ShowWhatsNewModalActionType
   | StartMigrationToGV2ActionType
@@ -642,6 +660,7 @@ export const actions = {
   hideLowDiskSpaceBackupImportModal,
   hideStoriesSettings,
   hideTapToViewNotAvailableModal,
+  hideTerminateGroupFailedModal,
   hideUserNotFoundModal,
   hideWhatsNewModal,
   showBackfillFailureModal,
@@ -661,6 +680,7 @@ export const actions = {
   showStickerPackPreview,
   showStoriesSettings,
   showTapToViewNotAvailableModal,
+  showTerminateGroupFailedModal,
   showUserNotFoundModal,
   showWhatsNewModal,
   toggleAboutContactModal,
@@ -1283,7 +1303,7 @@ function closeMediaPermissionsModal(): CloseMediaPermissionsModalActionType {
 
 const MEDIA_PERMISSIONS_POLL_INTERVAL = SECOND;
 
-export function ensureSystemMediaPermissions(
+function ensureSystemMediaPermissions(
   mediaType: 'camera' | 'microphone',
   requestor: 'call' | 'voiceNote'
 ): ThunkAction<
@@ -1314,10 +1334,10 @@ export function ensureSystemMediaPermissions(
 
     const { signal } = abortController;
     while (!signal.aborted) {
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       await sleep(MEDIA_PERMISSIONS_POLL_INTERVAL, signal);
 
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       const updatedStatus = await window.IPC.getMediaAccessStatus(mediaType);
       if (signal.aborted) {
         throw new Error('ensureSystemMediaPermissions: modal dismissed');
@@ -1378,6 +1398,23 @@ function showLowDiskSpaceBackupImportModal(
 function hideLowDiskSpaceBackupImportModal(): HideLowDiskSpaceBackupImportModalActionType {
   return {
     type: HIDE_LOW_DISK_SPACE_BACKUP_IMPORT_MODAL,
+  };
+}
+
+function showTerminateGroupFailedModal(
+  conversationId: string
+): ShowTerminateGroupFailedModalActionType {
+  return {
+    type: SHOW_TERMINATE_GROUP_FAILED_MODAL,
+    payload: {
+      conversationId,
+    },
+  };
+}
+
+function hideTerminateGroupFailedModal(): HideTerminateGroupFailedModalActionType {
+  return {
+    type: HIDE_TERMINATE_GROUP_FAILED_MODAL,
   };
 }
 
@@ -1549,6 +1586,7 @@ export function getEmptyState(): GlobalModalsStateType {
     tapToViewNotAvailableModalProps: undefined,
     notePreviewModalProps: null,
     pinMessageDialogData: null,
+    terminateGroupFailedModal: null,
   };
 }
 
@@ -2029,6 +2067,20 @@ export function reducer(
     return {
       ...state,
       lowDiskSpaceBackupImportModal: null,
+    };
+  }
+
+  if (action.type === SHOW_TERMINATE_GROUP_FAILED_MODAL) {
+    return {
+      ...state,
+      terminateGroupFailedModal: action.payload,
+    };
+  }
+
+  if (action.type === HIDE_TERMINATE_GROUP_FAILED_MODAL) {
+    return {
+      ...state,
+      terminateGroupFailedModal: null,
     };
   }
 

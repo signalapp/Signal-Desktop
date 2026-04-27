@@ -4,7 +4,7 @@
 import * as sinon from 'sinon';
 import type { BrowserWindow } from 'electron';
 
-import { toggleMaximizedBrowserWindow } from '../../util/toggleMaximizedBrowserWindow.std.js';
+import { toggleMaximizedBrowserWindow } from '../../util/toggleMaximizedBrowserWindow.std.ts';
 
 describe('toggleMaximizedBrowserWindow', () => {
   const createFakeWindow = () => ({
@@ -17,7 +17,7 @@ describe('toggleMaximizedBrowserWindow', () => {
     const browserWindow = createFakeWindow();
     browserWindow.isMaximized.returns(false);
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // oxlint-disable-next-line typescript/no-explicit-any
     toggleMaximizedBrowserWindow(browserWindow as any as BrowserWindow);
 
     sinon.assert.calledOnce(browserWindow.maximize);
@@ -28,7 +28,7 @@ describe('toggleMaximizedBrowserWindow', () => {
     const browserWindow = createFakeWindow();
     browserWindow.isMaximized.returns(true);
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // oxlint-disable-next-line typescript/no-explicit-any
     toggleMaximizedBrowserWindow(browserWindow as any as BrowserWindow);
 
     sinon.assert.notCalled(browserWindow.maximize);

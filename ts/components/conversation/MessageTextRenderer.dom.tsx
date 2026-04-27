@@ -7,25 +7,25 @@ import classNames from 'classnames';
 import emojiRegex from 'emoji-regex';
 import lodash from 'lodash';
 
-import { linkify, SUPPORTED_PROTOCOLS } from './Linkify.dom.js';
+import { linkify, SUPPORTED_PROTOCOLS } from './Linkify.dom.tsx';
 import type {
   BodyRangesForDisplayType,
   DisplayNode,
   HydratedBodyRangeMention,
   RangeNode,
-} from '../../types/BodyRange.std.js';
+} from '../../types/BodyRange.std.ts';
 import {
   BodyRange,
   insertRange,
   collapseRangeTree,
   groupContiguousSpoilers,
-} from '../../types/BodyRange.std.js';
-import { AtMention } from './AtMention.dom.js';
-import { isLinkSneaky } from '../../types/LinkPreview.std.js';
-import { Emojify } from './Emojify.dom.js';
-import { AddNewLines } from './AddNewLines.dom.js';
-import type { LocalizerType } from '../../types/Util.std.js';
-import type { FunJumboEmojiSize } from '../fun/FunEmoji.dom.js';
+} from '../../types/BodyRange.std.ts';
+import { AtMention } from './AtMention.dom.tsx';
+import { isLinkSneaky } from '../../types/LinkPreview.std.ts';
+import { Emojify } from './Emojify.dom.tsx';
+import { AddNewLines } from './AddNewLines.dom.tsx';
+import type { LocalizerType } from '../../types/Util.std.ts';
+import type { FunJumboEmojiSize } from '../fun/FunEmoji.dom.tsx';
 
 const { sortBy } = lodash;
 
@@ -159,9 +159,8 @@ function renderNode({
   const key = node.start;
 
   if (node.isSpoiler && node.spoilerChildren?.length) {
-    const isSpoilerHidden = Boolean(
-      node.isSpoiler && !isSpoilerExpanded[node.spoilerId || 0]
-    );
+    const isSpoilerHidden =
+      node.isSpoiler && !isSpoilerExpanded[node.spoilerId || 0];
     const content = node.spoilerChildren?.map(spoilerNode =>
       renderNode({
         direction,
@@ -189,6 +188,7 @@ function renderNode({
     }
 
     return (
+      // oxlint-disable-next-line jsx_a11y/no-static-element-interactions
       <span
         key={key}
         tabIndex={disableLinks ? undefined : 0}
@@ -436,7 +436,7 @@ function renderText({
   );
 }
 
-export function extractLinks(
+function extractLinks(
   messageText: string,
   // Full, untruncated message text
   originalMessageText: string

@@ -7,13 +7,13 @@ import {
   BodyRange,
   type RawBodyRange,
   type HydratedBodyRangeType,
-} from '../types/BodyRange.std.js';
-import type { AciString } from '../types/ServiceId.std.js';
-import { createLogger } from '../logging/log.std.js';
-import { isNotNil } from './isNotNil.std.js';
-import { dropNull } from './dropNull.std.js';
-import { fromAciUuidBytesOrString } from './ServiceId.node.js';
-import { isNonSharedUint8Array } from '../Bytes.std.js';
+} from '../types/BodyRange.std.ts';
+import type { AciString } from '../types/ServiceId.std.ts';
+import { createLogger } from '../logging/log.std.ts';
+import { isNotNil } from './isNotNil.std.ts';
+import { dropNull } from './dropNull.std.ts';
+import { fromAciUuidBytesOrString } from './ServiceId.node.ts';
+import { isNonSharedUint8Array } from '../Bytes.std.ts';
 
 const { isNumber } = lodash;
 

@@ -10,17 +10,17 @@ import type { ConnectionOptions } from 'node:tls';
 import { callbackify, promisify } from 'node:util';
 import pTimeout from 'p-timeout';
 
-import { createLogger } from '../logging/log.std.js';
+import { createLogger } from '../logging/log.std.ts';
 import {
   electronLookup as electronLookupWithCb,
   interleaveAddresses,
-} from './dns.node.js';
-import { strictAssert } from './assert.std.js';
-import { parseIntOrThrow } from './parseIntOrThrow.std.js';
-import { sleep } from './sleep.std.js';
-import { SECOND } from './durations/index.std.js';
-import { dropNull } from './dropNull.std.js';
-import { explodePromise } from './explodePromise.std.js';
+} from './dns.node.ts';
+import { strictAssert } from './assert.std.ts';
+import { parseIntOrThrow } from './parseIntOrThrow.std.ts';
+import { sleep } from './sleep.std.ts';
+import { SECOND } from './durations/index.std.ts';
+import { dropNull } from './dropNull.std.ts';
+import { explodePromise } from './explodePromise.std.ts';
 
 const log = createLogger('createHTTPSAgent');
 
@@ -57,7 +57,7 @@ const HOST_LOG_ALLOWLIST = new Set([
   'sfu.voip.signal.org',
 ]);
 
-export class Agent extends HTTPSAgent {
+class Agent extends HTTPSAgent {
   constructor(options: AgentOptions = {}) {
     super({
       ...options,
@@ -158,8 +158,10 @@ export async function happyEyeballs({
             tlsOptions,
             abortSignal: abortController.signal,
           }),
-          CONNECT_TIMEOUT_MS,
-          'createHTTPSAgent.connect: connection timed out'
+          {
+            milliseconds: CONNECT_TIMEOUT_MS,
+            message: 'createHTTPSAgent.connect: connection timed out',
+          }
         );
       } catch (error) {
         abortController.abort();

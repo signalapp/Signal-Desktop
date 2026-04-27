@@ -3,22 +3,23 @@
 
 import React, { memo } from 'react';
 import { useSelector } from 'react-redux';
-import { StoriesSettingsModal } from '../../components/StoriesSettingsModal.dom.js';
+import { StoriesSettingsModal } from '../../components/StoriesSettingsModal.dom.tsx';
 import {
   getCandidateContactsForNewGroup,
   getConversationByServiceIdSelector,
   getGroupStories,
   getMe,
-} from '../selectors/conversations.dom.js';
-import { getAllSignalConnections } from '../selectors/conversations-extra.preload.js';
-import { getDistributionListsWithMembers } from '../selectors/storyDistributionLists.dom.js';
-import { getIntl, getTheme } from '../selectors/user.std.js';
-import { getPreferredBadgeSelector } from '../selectors/badges.preload.js';
-import { getHasStoryViewReceiptSetting } from '../selectors/items.dom.js';
-import { useGlobalModalActions } from '../ducks/globalModals.preload.js';
-import { useStoryDistributionListsActions } from '../ducks/storyDistributionLists.preload.js';
-import { useStoriesActions } from '../ducks/stories.preload.js';
-import { useConversationsActions } from '../ducks/conversations.preload.js';
+} from '../selectors/conversations.dom.ts';
+import { getAllSignalConnections } from '../selectors/conversations-extra.preload.ts';
+import { getDistributionListsWithMembers } from '../selectors/storyDistributionLists.dom.ts';
+import { getIntl, getTheme } from '../selectors/user.std.ts';
+import { getPreferredBadgeSelector } from '../selectors/badges.preload.ts';
+import { getHasStoryViewReceiptSetting } from '../selectors/items.dom.ts';
+import { useGlobalModalActions } from '../ducks/globalModals.preload.ts';
+import { useStoryDistributionListsActions } from '../ducks/storyDistributionLists.preload.ts';
+import { useStoriesActions } from '../ducks/stories.preload.ts';
+import { useConversationsActions } from '../ducks/conversations.preload.ts';
+import { useItemsActions } from '../ducks/items.preload.ts';
 
 export const SmartStoriesSettingsModal = memo(
   function SmartStoriesSettingsModal() {
@@ -35,10 +36,16 @@ export const SmartStoriesSettingsModal = memo(
       updateStoryViewers,
     } = useStoryDistributionListsActions();
     const { toggleGroupsForStorySend } = useConversationsActions();
+    const { putItem } = useItemsActions();
 
     const signalConnections = useSelector(getAllSignalConnections);
     const getPreferredBadge = useSelector(getPreferredBadgeSelector);
     const storyViewReceiptsEnabled = useSelector(getHasStoryViewReceiptSetting);
+    const onStoryViewReceiptsChange = (value: boolean) => {
+      putItem('storyViewReceiptsEnabled', value);
+      const account = window.ConversationController.getOurConversationOrThrow();
+      account.captureChange('storyViewReceiptsEnabled');
+    };
     const i18n = useSelector(getIntl);
     const me = useSelector(getMe);
     const candidateConversations = useSelector(getCandidateContactsForNewGroup);
@@ -68,6 +75,7 @@ export const SmartStoriesSettingsModal = memo(
         onRemoveMembers={removeMembersFromDistributionList}
         onRepliesNReactionsChanged={allowsRepliesChanged}
         onViewersUpdated={updateStoryViewers}
+        onStoryViewReceiptsChange={onStoryViewReceiptsChange}
         setMyStoriesToAllSignalConnections={setMyStoriesToAllSignalConnections}
         storyViewReceiptsEnabled={storyViewReceiptsEnabled}
         theme={theme}

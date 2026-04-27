@@ -5,11 +5,11 @@ import React, { StrictMode } from 'react';
 import EmbedBlot from '@signalapp/quill-cjs/blots/embed.js';
 import { createRoot } from 'react-dom/client';
 
-import { Emojify } from '../../components/conversation/Emojify.dom.js';
-import { normalizeAci } from '../../util/normalizeAci.std.js';
-import type { MentionBlotValue } from '../util.dom.js';
-import { FunEmojiLocalizationProvider } from '../../components/fun/FunEmojiLocalizationProvider.dom.js';
-import { AxoProvider } from '../../axo/AxoProvider.dom.js';
+import { Emojify } from '../../components/conversation/Emojify.dom.tsx';
+import { normalizeAci } from '../../util/normalizeAci.std.ts';
+import type { MentionBlotValue } from '../util.dom.ts';
+import { FunEmojiLocalizationProvider } from '../../components/fun/FunEmojiLocalizationProvider.dom.tsx';
+import { AxoProvider } from '../../axo/AxoProvider.dom.tsx';
 
 const { i18n } = window.SignalContext;
 

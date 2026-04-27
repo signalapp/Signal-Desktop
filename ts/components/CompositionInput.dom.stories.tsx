@@ -2,16 +2,14 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-// @ts-expect-error -- no types
-import '@signalapp/quill-cjs/dist/quill.core.css';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import { getDefaultConversation } from '../test-helpers/getDefaultConversation.std.js';
-import type { Props } from './CompositionInput.dom.js';
-import { CompositionInput } from './CompositionInput.dom.js';
-import { generateAci } from '../types/ServiceId.std.js';
-import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext.std.js';
-import { EmojiSkinTone } from './fun/data/emojis.std.js';
+import { getDefaultConversation } from '../test-helpers/getDefaultConversation.std.ts';
+import type { Props } from './CompositionInput.dom.tsx';
+import { CompositionInput } from './CompositionInput.dom.tsx';
+import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext.std.ts';
+import { EmojiSkinTone } from './fun/data/emojis.std.ts';
+import { generateAci } from '../test-helpers/serviceIdUtils.std.ts';
 
 const { i18n } = window.SignalContext;
 

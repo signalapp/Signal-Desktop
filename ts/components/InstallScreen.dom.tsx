@@ -4,12 +4,12 @@
 import type { ComponentProps, ReactElement } from 'react';
 import React from 'react';
 
-import { missingCaseError } from '../util/missingCaseError.std.js';
-import { InstallScreenStep } from '../types/InstallScreen.std.js';
-import { InstallScreenErrorStep } from './installScreen/InstallScreenErrorStep.dom.js';
-import { InstallScreenLinkInProgressStep } from './installScreen/InstallScreenLinkInProgressStep.dom.js';
-import { InstallScreenQrCodeNotScannedStep } from './installScreen/InstallScreenQrCodeNotScannedStep.dom.js';
-import { InstallScreenBackupImportStep } from './installScreen/InstallScreenBackupImportStep.dom.js';
+import { missingCaseError } from '../util/missingCaseError.std.ts';
+import { InstallScreenStep } from '../types/InstallScreen.std.ts';
+import { InstallScreenErrorStep } from './installScreen/InstallScreenErrorStep.dom.tsx';
+import { InstallScreenLinkInProgressStep } from './installScreen/InstallScreenLinkInProgressStep.dom.tsx';
+import { InstallScreenQrCodeNotScannedStep } from './installScreen/InstallScreenQrCodeNotScannedStep.dom.tsx';
+import { InstallScreenBackupImportStep } from './installScreen/InstallScreenBackupImportStep.dom.tsx';
 
 // We can't always use destructuring assignment because of the complexity of this props
 //   type.

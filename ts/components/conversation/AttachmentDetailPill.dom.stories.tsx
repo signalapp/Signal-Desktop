@@ -6,9 +6,9 @@ import { action } from '@storybook/addon-actions';
 import {
   type PropsType,
   AttachmentDetailPill,
-} from './AttachmentDetailPill.dom.js';
-import { type ComponentMeta } from '../../storybook/types.std.js';
-import { fakeAttachment } from '../../test-helpers/fakeAttachment.std.js';
+} from './AttachmentDetailPill.dom.tsx';
+import { type ComponentMeta } from '../../storybook/types.std.ts';
+import { fakeAttachment } from '../../test-helpers/fakeAttachment.std.ts';
 
 const { i18n } = window.SignalContext;
 

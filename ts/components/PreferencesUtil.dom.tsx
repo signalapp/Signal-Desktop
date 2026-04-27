@@ -8,7 +8,7 @@ import lodash from 'lodash';
 import {
   CircleCheckbox,
   Variant as CircleCheckboxVariant,
-} from './CircleCheckbox.dom.js';
+} from './CircleCheckbox.dom.tsx';
 
 const { noop } = lodash;
 

@@ -180,24 +180,22 @@ $emoji-height: 64px;
 
   @include light-theme() {
     background-color: $color-gray-05;
-    color: $color-gray-90;
   }
 
   @include dark-theme() {
     background-color: $color-gray-75;
-    color: $color-white-alpha-75;
   }
 }
 
 .emoji {
-  font-size: 24px;
+  display: flex;
+  height: 24px;
+  width: 24px;
+  justify-content: center;
+  align-items: center;
 
-  height: 64px;
-  width: 64px;
-  object-fit: none;
-  object-position: calc(-1 * var(--sheet-x) * 66px)
-    calc(-1 * var(--sheet-y) * 66px);
-  transform: scale(calc(24 / 64));
+  font-size: 24px;
+  line-height: 24px;
 }
 
 .emoji-name-input {

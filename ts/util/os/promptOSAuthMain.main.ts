@@ -1,16 +1,17 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { systemPreferences } from 'electron';
+import { app, systemPreferences } from 'electron';
 import { exec } from 'node:child_process';
 import {
   checkAvailability as checkAvailabilityWindowsUcv,
   requestVerification as requestVerificationWindowsUcv,
 } from '@signalapp/windows-ucv';
 
-import { createLogger } from '../../logging/log.std.js';
-import OS from './osMain.node.js';
-import { missingCaseError } from '../missingCaseError.std.js';
+import { createLogger } from '../../logging/log.std.ts';
+import OS from './osMain.node.ts';
+import { missingCaseError } from '../missingCaseError.std.ts';
+import { toLogFormat } from '../../types/errors.std.ts';
 
 const log = createLogger('promptOSAuthMain');
 
@@ -23,7 +24,6 @@ export type PromptOSAuthResultType =
   | 'error'
   | 'success'
   | 'unauthorized'
-  | 'unauthorized-no-windows-ucv'
   | 'unsupported';
 
 /**
@@ -31,9 +31,6 @@ export type PromptOSAuthResultType =
  * before viewing sensitive account credentials.
  * Return values: 'success' indicates successful authentication.
  * 'unauthorized' indicates authentication is possible, but failed or was canceled.
- * 'unauthorized-no-windows-ucv' indicates the Windows API was not available or not setup.
- * Because this is the default case on Windows without Windows Hello enabled,
- * this response should be treated as an auth failure, and not bypassed.
  * 'unsupported' indicates the OS is not supported. Authentication can be skipped
  * or user asked to use a fallback method (e.g. using the primary mobile device).
  */
@@ -74,11 +71,10 @@ async function promptOSAuthWindows(
   text: string
 ): Promise<PromptOSAuthResultType> {
   // For Windows a verification device is required for the UserConsentVerifier API.
-  // If unavailable, then the UI must fail and require the user to setup verification.
   const availability = await checkAvailabilityWindowsUcv();
   log.info(`Windows UCV availability=${availability}`);
   if (availability !== 'available') {
-    return 'unauthorized-no-windows-ucv';
+    return 'unsupported';
   }
 
   const result = await requestVerificationWindowsUcv(text);
@@ -92,9 +88,17 @@ async function promptOSAuthWindows(
 async function promptOSAuthLinux(
   reason: PromptOSAuthReasonType
 ): Promise<PromptOSAuthResultType> {
-  const isAvailable = await isPromptOSAuthAvailableLinux();
-  if (!isAvailable) {
-    return 'unsupported';
+  try {
+    const isAvailable = await isPromptOSAuthAvailableLinux(reason);
+    if (!isAvailable) {
+      return 'unsupported';
+    }
+  } catch (e) {
+    log.error(
+      'promptOSAuthLinux: error when checking for os auth availability',
+      toLogFormat(e)
+    );
+    return 'error';
   }
 
   // Avoid string interpolation in exec() command
@@ -125,10 +129,52 @@ async function promptOSAuthLinux(
   });
 }
 
-async function isPromptOSAuthAvailableLinux(): Promise<boolean> {
-  return new Promise((resolve, _reject) => {
+async function isPromptOSAuthAvailableLinux(
+  reason: PromptOSAuthReasonType
+): Promise<boolean> {
+  const isPkCheckInstalled = await new Promise<boolean>((resolve, _reject) => {
     exec('command -v pkcheck').on('exit', code => {
       resolve(code === 0);
     });
   });
+  if (!isPkCheckInstalled) {
+    log.warn('isPromptOsAuthAvailable: pkcheck not installed');
+    return false;
+  }
+
+  // Avoid string interpolation in exec() command
+  let actionCommand: string;
+  if (reason === 'enable-backups') {
+    actionCommand = 'pkaction --action-id org.signalapp.enable-backups';
+  } else if (reason === 'view-aep') {
+    actionCommand = 'pkaction --action-id org.signalapp.view-aep';
+  } else if (reason === 'plaintext-export') {
+    actionCommand = 'pkaction --action-id org.signalapp.plaintext-export';
+  } else {
+    throw missingCaseError(reason);
+  }
+
+  const isActionRegistered = await new Promise<boolean>((resolve, _reject) => {
+    exec(actionCommand).on('exit', code => {
+      resolve(code === 0);
+    });
+  });
+
+  if (!isActionRegistered) {
+    if (!app.isPackaged) {
+      log.info(
+        'isPromptOsAuthAvailable: action not registered due to non-packaged app'
+      );
+    } else if (OS.isAppImage()) {
+      log.warn(
+        'isPromptOsAuthAvailable: action not registered due to AppImage'
+      );
+    } else {
+      throw new Error(
+        `isPromptOsAuthAvailable: ${reason} action not registered`
+      );
+    }
+  }
+
+  return isActionRegistered;
 }

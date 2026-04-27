@@ -1,4 +1,4 @@
-(function(self) {
+export default (function(self) {
   var Module = self.Mp3LameEncoderConfig;
 
 // The Module object: Our interface to the outside world. We import
@@ -68,10 +68,6 @@ if (ENVIRONMENT_IS_NODE) {
   };
 
   Module['readBinary'] = function readBinary(filename) { return Module['read'](filename, true) };
-
-  Module['load'] = function load(f) {
-    globalEval(read(f));
-  };
 
   if (!Module['thisProgram']) {
     if (process['argv'].length > 1) {
@@ -164,14 +160,6 @@ else {
   throw 'Unknown runtime environment. Where are we?';
 }
 
-function globalEval(x) {
-  eval.call(null, x);
-}
-if (!Module['load'] && Module['read']) {
-  Module['load'] = function load(f) {
-    globalEval(Module['read'](f));
-  };
-}
 if (!Module['print']) {
   Module['print'] = function(){};
 }
@@ -46694,6 +46682,6 @@ run();
     delete this.srcPtr;
   };
 
-  self.Mp3LameEncoder = Encoder;
+  return Encoder;
 })(self);
 

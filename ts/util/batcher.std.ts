@@ -3,12 +3,12 @@
 
 import PQueue from 'p-queue';
 
-import { sleep } from './sleep.std.js';
-import { createLogger } from '../logging/log.std.js';
-import * as Errors from '../types/errors.std.js';
-import { clearTimeoutIfNecessary } from './clearTimeoutIfNecessary.std.js';
-import { MINUTE } from './durations/index.std.js';
-import { drop } from './drop.std.js';
+import { sleep } from './sleep.std.ts';
+import { createLogger } from '../logging/log.std.ts';
+import * as Errors from '../types/errors.std.ts';
+import { clearTimeoutIfNecessary } from './clearTimeoutIfNecessary.std.ts';
+import { MINUTE } from './durations/index.std.ts';
+import { drop } from './drop.std.ts';
 
 const log = createLogger('batcher');
 
@@ -45,6 +45,7 @@ export type BatcherType<ItemType> = {
 export function createBatcher<ItemType>(
   options: BatcherOptionsType<ItemType>
 ): BatcherType<ItemType> {
+  // oxlint-disable-next-line prefer-const
   let batcher: BatcherType<ItemType>;
   let timeout: NodeJS.Timeout | null;
   let items: Array<ItemType> = [];
@@ -52,7 +53,6 @@ export function createBatcher<ItemType>(
   const queue = new PQueue({
     concurrency: 1,
     timeout: MINUTE * 30,
-    throwOnTimeout: true,
   });
 
   function _getWait() {
@@ -98,12 +98,12 @@ export function createBatcher<ItemType>(
   async function onIdle() {
     while (anyPending()) {
       if (queue.size > 0 || queue.pending > 0) {
-        // eslint-disable-next-line no-await-in-loop
+        // oxlint-disable-next-line no-await-in-loop
         await queue.onIdle();
       }
 
       if (items.length > 0) {
-        // eslint-disable-next-line no-await-in-loop
+        // oxlint-disable-next-line no-await-in-loop
         await sleep(_getWait() * 2);
       }
     }
@@ -120,7 +120,7 @@ export function createBatcher<ItemType>(
       _kickBatchOff();
 
       if (queue.size > 0 || queue.pending > 0) {
-        // eslint-disable-next-line no-await-in-loop
+        // oxlint-disable-next-line no-await-in-loop
         await queue.onIdle();
       }
     }

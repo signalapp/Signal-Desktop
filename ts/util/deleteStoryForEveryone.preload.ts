@@ -3,25 +3,25 @@
 
 import lodash from 'lodash';
 
-import type { ConversationQueueJobData } from '../jobs/conversationJobQueue.preload.js';
-import type { StoryDataType } from '../state/ducks/stories.preload.js';
-import * as Errors from '../types/errors.std.js';
-import type { StoryMessageRecipientsType } from '../types/Stories.std.js';
-import type { StoryDistributionIdString } from '../types/StoryDistributionId.std.js';
-import type { ServiceIdString } from '../types/ServiceId.std.js';
-import { createLogger } from '../logging/log.std.js';
-import { DAY } from './durations/index.std.js';
-import { StoryRecipientUpdateEvent } from '../textsecure/messageReceiverEvents.std.js';
+import type { ConversationQueueJobData } from '../jobs/conversationJobQueue.preload.ts';
+import type { StoryDataType } from '../state/ducks/stories.preload.ts';
+import * as Errors from '../types/errors.std.ts';
+import type { StoryMessageRecipientsType } from '../types/Stories.std.ts';
+import type { StoryDistributionIdString } from '../types/StoryDistributionId.std.ts';
+import type { ServiceIdString } from '../types/ServiceId.std.ts';
+import { createLogger } from '../logging/log.std.ts';
+import { DAY } from './durations/index.std.ts';
+import { StoryRecipientUpdateEvent } from '../textsecure/messageReceiverEvents.std.ts';
 import {
   conversationJobQueue,
   conversationQueueJobEnum,
-} from '../jobs/conversationJobQueue.preload.js';
-import { onStoryRecipientUpdate } from './onStoryRecipientUpdate.preload.js';
-import { sendDeleteForEveryoneMessage } from './sendDeleteForEveryoneMessage.preload.js';
-import { isGroupV2 } from './whatTypeOfConversation.dom.js';
-import { getMessageById } from '../messages/getMessageById.preload.js';
-import { repeat, zipObject } from './iterables.std.js';
-import { isOlderThan } from './timestamp.std.js';
+} from '../jobs/conversationJobQueue.preload.ts';
+import { onStoryRecipientUpdate } from './onStoryRecipientUpdate.preload.ts';
+import { sendDeleteForEveryoneMessage } from './sendDeleteForEveryoneMessage.preload.ts';
+import { isGroupV2 } from './whatTypeOfConversation.dom.ts';
+import { getMessageById } from '../messages/getMessageById.preload.ts';
+import { repeat, zipObject } from './iterables.std.ts';
+import { isOlderThan } from './timestamp.std.ts';
 
 const { noop } = lodash;
 
@@ -141,7 +141,7 @@ export async function deleteStoryForEveryone(
       let recipient = newStoryRecipients.get(destinationServiceId);
       if (!recipient) {
         const isAllowedToReply =
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          // oxlint-disable-next-line typescript/no-non-null-assertion
           sendStateByConversationId[conversationId]!.isAllowedToReplyToStory;
         recipient = {
           distributionListIds: new Set(),

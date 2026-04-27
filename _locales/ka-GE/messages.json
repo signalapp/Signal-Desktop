@@ -746,6 +746,9 @@
   "icu:fileSizeWarning": {
     "messageformat": "უკაცრავად, არჩეული ფაილი აჭარბებს შეტყობინების ზომის შეზღუდვებს. {limit,number}{units}"
   },
+  "icu:videoFileSizeWarning": {
+    "messageformat": "ვწუხვართ, არჩეული ვიდეო ფაილი წერილის ზომის შეზღუდვას აჭარბებს. {limit,number}{units}"
+  },
   "icu:unableToLoadAttachment": {
     "messageformat": "არჩეული დანართის ჩატვირთვა ვერ მოხერხდა."
   },
@@ -1787,6 +1790,12 @@
   "icu:Preferences__EditChatFolderPage__CancelButton": {
     "messageformat": "გაუქმება"
   },
+  "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
+    "messageformat": "Show status icon"
+  },
+  "icu:Preferences__PrivacyPage__ShowStatusIcon__Description": {
+    "messageformat": "Show an icon in message details when they were delivered using sealed sender."
+  },
   "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
     "messageformat": "ავტომატური ვერიფიკაცია გასაღებით"
   },
@@ -2372,6 +2381,9 @@
   "icu:ConversationDetails--support-center": {
     "messageformat": "მხარდაჭერის ცენტრი"
   },
+  "icu:ConversationDetails__GroupTerminatedBanner": {
+    "messageformat": "ეს ჯგუფი გაუქმდა"
+  },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "უსაფრთხოების ნომრის ნახვა"
   },
@@ -2551,6 +2563,27 @@
   },
   "icu:youUpdatedTheGroup": {
     "messageformat": "შენ გაანახლე ჯგუფი."
+  },
+  "icu:collapsedGroupUpdates": {
+    "messageformat": "{count, plural, one {ჯგუფის {count,number} განახლება} other {ჯგუფის {count,number} განახლება}}"
+  },
+  "icu:multidayCollapse__container": {
+    "messageformat": "{containerDescription} · {dayCountSummary}"
+  },
+  "icu:multidayCollapse__dayCountSummary": {
+    "messageformat": "{dayCount, plural, one {{dayCount,number} დღე} other {{dayCount,number} დღე}}"
+  },
+  "icu:collapsedChatUpdates": {
+    "messageformat": "{count, plural, one {ჩატის {count,number} განახლება} other {ჩატის {count,number} განახლება}}"
+  },
+  "icu:collapsedTimerChanges": {
+    "messageformat": "{count, plural, one {{count,number} გაქრობადი წერილების წამზომის ცვლილება · {endingState}} other {{count,number} გაქრობადი წერილების წამზომის ცვლილება · {endingState}}}"
+  },
+  "icu:collapsedTimerChanges--disabled": {
+    "messageformat": "{count, plural, one {{count,number} გაქრობადი წერილების წამზომის  ცვლილება · გამორთულია} other {{count,number} გაქრობადი წერილების წამზომის  ცვლილება · გამორთულია}}"
+  },
+  "icu:collapsedCallEvents": {
+    "messageformat": "{count, plural, one {ზარის {count,number} აქტივობა} other {ზარის {count,number} აქტივობა}}"
   },
   "icu:updatedGroupAvatar": {
     "messageformat": "ჯგუფის ავატარი განახლებულია."
@@ -3017,8 +3050,8 @@
   "icu:Message--tap-to-view--incoming--expired-toast": {
     "messageformat": "ეს შეტყობინება უკვე ნანახი გაქვს."
   },
-  "icu:Message--tap-to-view--outgoing--expired-toast": {
-    "messageformat": "ერთხელ სანახავი შეტყობინებები არ ინახება შენი მიმოწერის ისტორიაში."
+  "icu:Message--tap-to-view--outgoing--expired-toast-2": {
+    "messageformat": "ერთხელ სანახავი მედია ფაილი გაგზავნის შემდეგ წაიშლება"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "ერთხელ სანახავი ვიდეო"
@@ -3485,8 +3518,17 @@
   "icu:ConversationHero--profile-names": {
     "messageformat": "<clickable>პროფილის სახელები</clickable> ვერიფიცირებული არაა"
   },
+  "icu:ConversationHero--name-not-verified": {
+    "messageformat": "Name not verified"
+  },
   "icu:ConversationHero--signal-official-chat": {
     "messageformat": "ეს Signal-ის ოფიციალური და ერთადერთი ჩატია"
+  },
+  "icu:ConversationHero--signal-official-account": {
+    "messageformat": "Official account"
+  },
+  "icu:ConversationHero--signal-official-account--description": {
+    "messageformat": "The only official chat from Signal. Keep up to date with news and release notes."
   },
   "icu:ConversationHero--release-notes": {
     "messageformat": "გაიგე სიახლეები და გამოშვების შენიშვნები."
@@ -3767,9 +3809,6 @@
   "icu:CallingAdhocCallInfo__ShareViaSignal": {
     "messageformat": "გააზიარე ზარის ბმული Signal-დან"
   },
-  "icu:CallingAdhocCallInfo__RemoveClient": {
-    "messageformat": "ამ ადამიანის ზარიდან გაგდება"
-  },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "გავთიშოთ {name} ზარიდან?"
   },
@@ -3932,11 +3971,23 @@
   "icu:GroupV2--join--requested": {
     "messageformat": "შენი გაწევრიანების მოთხოვნა გაეგზავნა ჯგუფის ადმინებს. შეტყობინებას მიიღებ, როცა ისინი რამეს მოიმოქმედებენ."
   },
+  "icu:GroupV2--join--group-terminated": {
+    "messageformat": "ამ ჯგუფში გაწევრიანება შეუძლებელია."
+  },
   "icu:GroupV2--join--general-join-failure--title": {
     "messageformat": "ბმულის ხარვეზი"
   },
   "icu:GroupV2--join--general-join-failure": {
     "messageformat": "ჯგუფში გაწევრიანება ვერ მოხერხდა. მოგვიანებით კიდევ სცადე."
+  },
+  "icu:GroupV2--terminate-group-in-progress": {
+    "messageformat": "მიმდინარეობს ჯგუფის გაუქმება..."
+  },
+  "icu:TerminateGroupFailedModal__description": {
+    "messageformat": "ჯგუფის გაუქმება ვერ მოხერხდა. შეამოწმე შენი ინტერნეტ კავშირი და თავიდან სცადე."
+  },
+  "icu:TerminateGroupFailedModal__try-again": {
+    "messageformat": "სცადეთ ახლიდან"
   },
   "icu:GroupV2--admin": {
     "messageformat": "ადმინი"
@@ -4379,6 +4430,15 @@
   "icu:GroupV2--summary": {
     "messageformat": "ამ ჯგუფის წევრები ან პარამეტრები შეიცვალა."
   },
+  "icu:GroupV2--terminated--you": {
+    "messageformat": "შენ გააუქმე ეს ჯგუფი"
+  },
+  "icu:GroupV2--terminated--other": {
+    "messageformat": "{memberName}-მ(ა) ჯგუფი გააუქმა"
+  },
+  "icu:GroupV2--terminated--unknown": {
+    "messageformat": "ეს ჯგუფი გაუქმდა"
+  },
   "icu:GroupV1--Migration--disabled--link": {
     "messageformat": "განაახლე ეს ჯგუფი ისეთი ახალი ფუნქციების გასააქტიურებლად, როგორიცაა @მონიშვნები და ადმინები. წევრები, რომლებსაც არ გაუზიარებიათ თავიანთი სახელი ან ფოტო ამ ჯგუფში, მოწვეულნი იქნებიან გასაწევრიანებლად.. <learnMoreLink>გაიგე მეტი.</learnMoreLink>"
   },
@@ -4655,6 +4715,9 @@
   "icu:CompositionArea__ConfirmGifSelection__ReplaceButton": {
     "messageformat": "ჩანაცვლება"
   },
+  "icu:CompositionArea--group-terminated": {
+    "messageformat": "წერილებს ვეღარ გააგზავნი, რადგან ეს ჯგუფი გაუქმებულია."
+  },
   "icu:CompositionArea--viewOnceToggle": {
     "messageformat": "ერთხელ ნახვა"
   },
@@ -4832,11 +4895,26 @@
   "icu:ConversationDetailsActions--leave-group": {
     "messageformat": "ჯგუფის დატოვება"
   },
+  "icu:ConversationDetailsActions--terminate-group": {
+    "messageformat": "ჯგუფის გაუქმება"
+  },
   "icu:ConversationDetailsActions--block-group": {
     "messageformat": "ჯგუფის დაბლოკვა"
   },
   "icu:ConversationDetailsActions--unblock-group": {
     "messageformat": "ჯგუფის განბლოკვა"
+  },
+  "icu:ConversationDetailsActions--report-spam": {
+    "messageformat": "სპამის დარეპორტება"
+  },
+  "icu:ConversationDetailsActions--archive": {
+    "messageformat": "ჩატის დაარქივება"
+  },
+  "icu:ConversationDetailsActions--unarchive": {
+    "messageformat": "ჩატის არქივიდან ამოღება"
+  },
+  "icu:ConversationDetailsActions--delete": {
+    "messageformat": "ჩატის წაშლა"
   },
   "icu:ConversationDetailsActions--leave-group-must-choose-new-admin": {
     "messageformat": "სანამ დატოვებთ, უნდა აირჩიათ ერთი ახალი ადმინი მაინც ამ ჯგუფისთვის."
@@ -4849,6 +4927,18 @@
   },
   "icu:ConversationDetailsActions--leave-group-modal-confirm": {
     "messageformat": "დატოვება"
+  },
+  "icu:ConversationDetailsActions--prompt-terminate-group-modal-title": {
+    "messageformat": "გსურს, \"{groupName}\" გააუქმო?"
+  },
+  "icu:ConversationDetailsActions--prompt-terminate-group-modal-content": {
+    "messageformat": "წევრები ამ ჯგუფში წერილების გაგზავნასა და ზარების წამოწყებას ვეღარ შეძლებენ. მათ შეტყობინება მიუვათ, რომ ჯგუფი გააუქმე და მიმოწერის ისტორიაზე წვდომა ისევ ექნებათ."
+  },
+  "icu:ConversationDetailsActions--terminate-group-modal-confirm": {
+    "messageformat": "ჯგუფის გაუქმება"
+  },
+  "icu:ConversationDetailsActions--confirm-terminate-group-confirm-modal-content": {
+    "messageformat": "ეს ჯგუფს სამუდამოდ გააუქმებს. დარწმუნებული ხარ, რომ გსურს განაგრძო?"
   },
   "icu:ConversationDetailsActions--unblock-group-modal-title": {
     "messageformat": "გსურს განბლოკო ჯგუფი \"{groupName}\"?"
@@ -4868,6 +4958,18 @@
   "icu:ConversationDetailsActions--unblock-group-modal-confirm": {
     "messageformat": "განბლოკვა"
   },
+  "icu:ConversationDetailsActions--report-spam-modal-content-direct": {
+    "messageformat": "Signal-ი შეტყობინებას მიიღებს, რომ ეს ადამიანი შესაძლოა სპამს აგზავნიდეს. Signal-ს არც ერთი ჩატის შინაარსის ნახვა არ შეუძლია."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-content-group": {
+    "messageformat": "Signal-ი შეტყობინებას მიიღებს, რომ ადამიანი, ვინც ამ ჯგუფში მოგიწვია, შესაძლოა სპამს აგზავნიდეს. Signal-ს არც ერთი ჩატის შინაარსის ნახვა არ შეუძლია."
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-spam": {
+    "messageformat": "სპამის დარეპორტება"
+  },
+  "icu:ConversationDetailsActions--report-spam-modal-report-and-block": {
+    "messageformat": "დარეპორტება და დაბლოკვა"
+  },
   "icu:ConversationDetailsHeader--members": {
     "messageformat": "{number, plural, one {{number,number} წევრი} other {{number,number} წევრი}}"
   },
@@ -4876,6 +4978,9 @@
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {{number,number} წევრი} other {{number,number} წევრი}}"
+  },
+  "icu:ConversationDetailsMembershipList--terminated-title": {
+    "messageformat": "{number, plural, one {{number,number} ყოფილი წევრი} other {{number,number} ყოფილი წევრი}}"
   },
   "icu:ConversationDetailsMembershipList--add-members": {
     "messageformat": "წევრების დამატება"
@@ -5059,7 +5164,7 @@
     "ignoreUnused": true
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
-    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Signal-ის ბოლო ვერსიის მქონე ჯგუფის წევრები ნახავენ, რომ ეს წერილი წაშალე.} other {Signal-ის ბოლო ვერსიის მქონე ჯგუფის წევრები ნახავენ, რომ ეს წერილები წაშალე.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "ყველა მოწყობილობიდან წაშლა"
@@ -5195,6 +5300,9 @@
   },
   "icu:MessageRequestWarning__safety-tips": {
     "messageformat": "რჩევები უსაფრთხოებაზე"
+  },
+  "icu:MessageRequestWarning__safety-tips-v2": {
+    "messageformat": "Safety tips"
   },
   "icu:ContactSpoofing__same-name--link": {
     "messageformat": "ყურადღებით გადახედე მოთხოვნებს. Signal-მა სხვა კონტაქტიც იპოვა იმავე სახელით. <reviewRequestLink>მოთხოვნის განხილვა</reviewRequestLink>"
@@ -5797,6 +5905,15 @@
   "icu:Preferences__link-previews--description": {
     "messageformat": "ამ პარამეტრის შესაცვლელად გახსენი Signal-ის აპი შენს მობილურ მოწყობილობაზე და მიყევი პარამეტრები > ჩატები"
   },
+  "icu:Preferences__link-previews--new-description": {
+    "messageformat": "Retrieve link previews directly from websites for messages you send."
+  },
+  "icu:Preferences__address-book-photos--title": {
+    "messageformat": "Use address book photos"
+  },
+  "icu:Preferences__address-book-photos--description": {
+    "messageformat": "Display contact photos from your address book if available."
+  },
   "icu:Preferences__auto-convert-emoji--title": {
     "messageformat": "აკრეფილი სმაილიკების emoji-ებად გადაქცევა"
   },
@@ -6232,35 +6349,35 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "შესრულებულია"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "შენი სათადარიგო ასლების გასაღების ჩვენება"
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
+    "messageformat": "შენი აღდგენის გასაღების ჩვენება"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "შენი სათადარიგო ასლების გასაღების სანახავად დაადასტურე შენი ვინაობა."
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt--windows": {
+    "messageformat": "დაადასტურე შენი ვინაობა აღდგენის გასაღების სანახავად."
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "სათადარიგო ასლების გასაღების ნახვა"
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt-description--linux": {
+    "messageformat": "აღდგენის გასაღების ნახვა"
   },
-  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "შენი სათადარიგო ასლების გასაღების სანახავად ავტორიზაციაა საჭირო."
+  "icu:Preferences--local-backups--view-recovery-key--os-prompt-message--linux": {
+    "messageformat": "შენი აღდგენის გასაღების სანახავად ავტორიზაციაა საჭირო."
   },
-  "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "სათადარიგო ასლების გასაღები ტექსტის ველი"
+  "icu:Preferences--local-backups-recovery-key-text-box": {
+    "messageformat": "აღდგენის გასაღები"
   },
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "შეიყვანე გასაღები"
   },
-  "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "ჩაიწერე შენი სათადარიგო ჩანაწერების გასაღები"
+  "icu:Preferences--local-backups-record-recovery-key": {
+    "messageformat": "ჩაიწერე შენი აღდგენის გასაღები"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "ეს გასაღები საჭიროა შენი ანგარიშისა და მონაცემების აღსადგენად. შეინახე გასაღები უსაფრთხო ადგილას. თუ მას დაკარგავ, შენი ანგარიშის აღდგენას ვეღარ შეძლებ. <learnMoreLink>გაიგე მეტი.</learnMoreLink>"
   },
-  "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "დაადასტურე შენი სათადარიგო ასლების გასაღები"
+  "icu:Preferences--local-backups-confirm-recovery-key": {
+    "messageformat": "დაადასტურე შენი აღდგენის გასაღები"
   },
-  "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "შეიყვანე სათადარიგო ასლების გასაღები, რომელიც ახლახანს ჩაიწერე"
+  "icu:Preferences--local-backups-confirm-recovery-key-description": {
+    "messageformat": "შეიყვანე შენ მიერ ახლახან ჩაწერილი აღდგენის გასაღები"
   },
   "icu:Preferences__local-backups-confirm-key-modal-title": {
     "messageformat": "უსაფრთხოდ შეინახე შენი გასაღები"
@@ -6286,26 +6403,23 @@
   "icu:Preferences__local-backups-folder": {
     "messageformat": "სარეზერვო კოპიების შენახვის ადგილი"
   },
-  "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "შეცვლა"
-  },
   "icu:Preferences__local-backups-turn-off": {
-    "messageformat": "Turn off backups"
+    "messageformat": "სათადარიგო ასლების გამორთვა"
   },
   "icu:Preferences__local-backups-turn-off-action": {
-    "messageformat": "Turn off"
+    "messageformat": "გამორთვა"
   },
   "icu:Preferences__local-backups-turn-off-confirmation": {
-    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+    "messageformat": "ამ კომპიუტერში სათადარიგო ასლების შექმნას ვეღარ შეძლებ, სანამ მათ ისევ არ ჩართავ."
   },
   "icu:Preferences__local-backups-turn-off-delete": {
-    "messageformat": "Delete my backup from this computer"
+    "messageformat": "წაიშალოს ჩემი სათადარიგო ასლები ჩემი კომპიუტერიდან"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "ბუფერში ჩაკოპირება"
   },
-  "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "სათადარიგო ასლების გასაღები დაკოპირებულია"
+  "icu:Preferences__local-backups-copied-recovery-key": {
+    "messageformat": "აღდგენის გასაღები დაკოპირდა"
   },
   "icu:Preferences__local-backups--enable--os-prompt--mac": {
     "messageformat": "სარეზერვო კოპირების ჩართვა"
@@ -6319,17 +6433,29 @@
   "icu:Preferences__local-backups--enable--os-prompt-message--linux": {
     "messageformat": "სათადარიგო ასლების ჩასართავად ავტორიზაციაა საჭირო."
   },
+  "icu:Preferences__local-backups-auth-error--unauthorized": {
+    "messageformat": "ამ ქმედების დასრულება ვერ შევძელით, რადგან სისტემის ავტორიზაცია ვერ მოხერხდა. გთხოვთ, თავიდან სცადო, ან შენს მობილურზე Signal-ის აპში სათადარიგო ასლების პარამეტრებში შეხვიდე და აღდგენის გასაღები ნახო."
+  },
   "icu:Preferences__view-key": {
     "messageformat": "გასაღების ნახვა"
   },
-  "icu:Preferences__backup-key": {
-    "messageformat": "სათადარიგო ასლების გასაღები"
+  "icu:Preferences__recovery-key": {
+    "messageformat": "აღდგენის გასაღები"
   },
-  "icu:Preferences__backup-key-description": {
-    "messageformat": "შენი სათადარიგო ასლების გასაღები 64 ციფრიანი კოდია, რომელიც შენი ასლების აღსადგენადაა საჭირო"
+  "icu:Preferences__recovery-key-description": {
+    "messageformat": "შენი აღდგენის გასაღები 64 სიმბოლოსგან შემდგარი კოდია, რომელიც შენი სათადარიგო ასლების აღსადგენად გამოიყენება"
   },
   "icu:Preferences__backup-other-ways": {
     "messageformat": "სათადარიგო ასლების შექმნის სხვა გზები"
+  },
+  "icu:Preferences__recovery-key-updated__title": {
+    "messageformat": "შენი აღდგენის გასაღები შეიცვალა"
+  },
+  "icu:Preferences__recovery-key-updated__description": {
+    "messageformat": "შენი აღდგენის გასაღები განახლდა. ნებისმიერი ახალი სათადარიგო ასლის აღდგენა, რომელსაც შექმნი, მხოლოდ შენი ახალი აღდგენის გასაღებით იქნება შესაძლებელი."
+  },
+  "icu:Preferences__recovery-key-updated__view-key": {
+    "messageformat": "ახალი გასაღების ნახვა"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {{num,number} კონტაქტი} other {{num,number} კონტაქტი}}"
@@ -6394,8 +6520,14 @@
   "icu:Preferences--read-receipts": {
     "messageformat": "წაკითხვის დასტური"
   },
+  "icu:Preferences--read-receipts--description": {
+    "messageformat": "If disabled, you won't see read receipts from others."
+  },
   "icu:Preferences--typing-indicators": {
     "messageformat": "ბეჭდვის ინდიკატორი"
+  },
+  "icu:Preferences--typing-indicators--description": {
+    "messageformat": "If disabled, you won't see typing indicators from others."
   },
   "icu:Preferences--updates": {
     "messageformat": "განახლებები"
@@ -6682,6 +6814,9 @@
   "icu:MyStories__delete": {
     "messageformat": "წავშალოთ ეს Story-ი? ის ასევე წაიშლება ყველასთან, ვინც ის მიიღო."
   },
+  "icu:MyStories__delete-group-story-for-me": {
+    "messageformat": "ამ სთორის წაშლა გსურს? ეს მხოლოდ შენთვის წაიშლება, რადგან ჯგუფი გაუქმებულია."
+  },
   "icu:payment-event-notification-message-you-label": {
     "messageformat": "შენ დაიწყე {receiver}-ისთვის გადარიცხვა"
   },
@@ -6903,6 +7038,9 @@
   },
   "icu:StoriesSettings__view-receipts--label": {
     "messageformat": "ნახვის დადასტურებები"
+  },
+  "icu:StoriesSettings__view-receipts--new-description": {
+    "messageformat": "See and share when stories are viewed. If disabled, you won't see when others view your story."
   },
   "icu:StoriesSettings__view-receipts--description": {
     "messageformat": "ამ პარამეტრის შესაცვლელად გახსენი Signal-ის აპი შენს მობილურ მოწყობილობაზე და შედი პარამეტრები -> Stories-ები"
@@ -7553,6 +7691,18 @@
   "icu:ProfileNameWarningModal__list--item3--direct": {
     "messageformat": "არ გაუზიარო პირადი ინფორმაცია უცნობებს"
   },
+  "icu:ProfileNameWarningModal__warning--signal-cant-verify": {
+    "messageformat": "Signal can’t verify names and photos"
+  },
+  "icu:ProfileNameWarningModal__warning--signal-wont-contact": {
+    "messageformat": "Signal will never contact you for your registration code, PIN, or recovery key"
+  },
+  "icu:ProfileNameWarningModal__warning--be-cautious": {
+    "messageformat": "Be cautious of accounts that impersonate others"
+  },
+  "icu:ProfileNameWarningModal__warning--dont-share-info": {
+    "messageformat": "Don't share personal information with people you don't know"
+  },
   "icu:ProfileNameWarningModal__description--group": {
     "messageformat": "ჯგუფის სახელებს ჯგუფის წევრები ირჩევენ."
   },
@@ -8015,17 +8165,5 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "მცირე შესწორებები, ბაგების გამოსწორება და წარმადობის გაუმჯობესება. მადლობას გიხდით სიგნალის გამოყენებისთვის!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__7.90--0": {
-    "messageformat": "5 ახალი ოფიციალური არტისტის სტიკერების ნაკრები: Amanda Cotan-ის \"Chug the Mouse\", Miguel Ángel Camprubí-ის \"Cozy Season\", Tiffany Beucher \"Croco's Feelings\", Plastic Thing-ის \"My Daily Life 2\", და Lexi Vay-ის \"Rocky Talk\"."
-  },
-  "icu:WhatsNew__8.0--0": {
-    "messageformat": "Signal-ის უსაფრთხო სათადარიგო ასლები უკვე აქაა! ახლა უკვე შეგიძლია ავტომატური, ბოლომდე დაშიფრული სათადარიგო ასლები ჩართო, რათა აღარასდროს დაკარგო შეტყობინება, თუ ახალი მობილური გექნება, ან Signal-ს თავიდან გადმოიწერ. შეგიძლია შენი ყველა წერილისა და ბოლო 45 დღის მედია ფაილების სათადარიგო ასლები უფასოდ შექმნა, ან მცირე ყოველთვიური გადასახადი გადაიხადო 100გბ მეხსიერებისთვის და ყველა დანართის სათადარიგო ასლი გააკეთო. დასაწყებად შენი Signal-ის პარამეტრებში სათადარიგო ასლებს დააჭირე. მადლობა ყველას, ვინც ბეტა პერიოდში ამ ფუნქციის ტესტირებაში დაგვეხმარა!"
-  },
-  "icu:WhatsNew__8.2--0": {
-    "messageformat": "ახლა ერთჯერადი მედია-ფაილების შემცველი წერილების გაგზავნას Signal Desktop-იდანაც შეძლებ. ინდივიდუალური ფოტოები და ვიდეოები, რომლებიც ერთჯერადი წერილების სახით გაიგზავნება, მათი ნახვის შემდეგ მიმოწერიდან ავტომატურად ამოიშლება."
-  },
-  "icu:WhatsNew__8.3--0": {
-    "messageformat": "ახლა შეგიძლია, სურვილის შემთხვევაში, წევრის იარლიყი დაამატო, რათა შენი თავი ან შენი როლი აღწერო ჯგუფის ჩატში. დაიყენე ჯგუფის წევრის იარლიყი სამსახურის ჩატში შენი პოზიციის მიხედვით. წევრის იარლიყი იმ ჯგუფში შენი პროფილის სახელის გვერდზე ჩნდება და ჯგუფის ადმინისტრატორებს შეუძლიათ გააკონტროლონ, იქნება თუ არა ის ყველასთვის ჩართული."
   }
 }

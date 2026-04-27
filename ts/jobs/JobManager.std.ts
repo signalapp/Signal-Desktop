@@ -1,22 +1,22 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import * as z from 'zod';
-import { MINUTE, SECOND } from '../util/durations/index.std.js';
+import { MINUTE, SECOND } from '../util/durations/index.std.ts';
 import {
   explodePromise,
   type ExplodePromiseResultType,
-} from '../util/explodePromise.std.js';
-import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary.std.js';
-import { drop } from '../util/drop.std.js';
-import { createLogger } from '../logging/log.std.js';
-import { missingCaseError } from '../util/missingCaseError.std.js';
+} from '../util/explodePromise.std.ts';
+import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary.std.ts';
+import { drop } from '../util/drop.std.ts';
+import { createLogger } from '../logging/log.std.ts';
+import { missingCaseError } from '../util/missingCaseError.std.ts';
 import {
   type ExponentialBackoffOptionsType,
   exponentialBackoffSleepTime,
-} from '../util/exponentialBackoff.std.js';
-import * as Errors from '../types/errors.std.js';
-import { sleep } from '../util/sleep.std.js';
-import type { JobCancelReason } from './types.std.js';
+} from '../util/exponentialBackoff.std.ts';
+import * as Errors from '../types/errors.std.ts';
+import { sleep } from '../util/sleep.std.ts';
+import type { JobCancelReason } from './types.std.ts';
 
 const log = createLogger('JobManager');
 
@@ -78,16 +78,25 @@ export type ActiveJobData<CoreJobType> = {
 };
 
 export abstract class JobManager<CoreJobType> {
-  #enabled: boolean = false;
-  #activeJobs: Map<string, ActiveJobData<CoreJobType>> = new Map();
-  #jobStartPromises: Map<string, ExplodePromiseResultType<void>> = new Map();
-  #jobCompletePromises: Map<string, ExplodePromiseResultType<void>> = new Map();
+  protected readonly params: JobManagerParamsType<CoreJobType>;
+  #enabled = false;
+  readonly #activeJobs = new Map<string, ActiveJobData<CoreJobType>>();
+  readonly #jobStartPromises = new Map<
+    string,
+    ExplodePromiseResultType<void>
+  >();
+  readonly #jobCompletePromises = new Map<
+    string,
+    ExplodePromiseResultType<void>
+  >();
   #tickTimeout: NodeJS.Timeout | null = null;
   #idleCallbacks = new Array<() => void>();
 
   protected logPrefix = 'JobManager';
   public tickInterval = DEFAULT_TICK_INTERVAL;
-  constructor(readonly params: JobManagerParamsType<CoreJobType>) {}
+  constructor(params: JobManagerParamsType<CoreJobType>) {
+    this.params = params;
+  }
 
   async start(): Promise<void> {
     log.info(`${this.logPrefix}: starting`);

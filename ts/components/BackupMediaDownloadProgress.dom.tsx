@@ -3,13 +3,13 @@
 
 import React, { useState } from 'react';
 
-import type { LocalizerType } from '../types/Util.std.js';
-import { formatFileSize } from '../util/formatFileSize.std.js';
-import { SpinnerV2 } from './SpinnerV2.dom.js';
-import { ContextMenu } from './ContextMenu.dom.js';
-import { BackupMediaDownloadCancelConfirmationDialog } from './BackupMediaDownloadCancelConfirmationDialog.dom.js';
-import { LeftPaneDialog } from './LeftPaneDialog.dom.js';
-import { WidthBreakpoint } from './_util.std.js';
+import type { LocalizerType } from '../types/Util.std.ts';
+import { formatFileSize } from '../util/formatFileSize.std.ts';
+import { SpinnerV2 } from './SpinnerV2.dom.tsx';
+import { ContextMenu } from './ContextMenu.dom.tsx';
+import { BackupMediaDownloadCancelConfirmationDialog } from './BackupMediaDownloadCancelConfirmationDialog.dom.tsx';
+import { LeftPaneDialog } from './LeftPaneDialog.dom.tsx';
+import { WidthBreakpoint } from './_util.std.ts';
 
 export type PropsType = Readonly<{
   i18n: LocalizerType;

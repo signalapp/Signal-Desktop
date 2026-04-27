@@ -16,7 +16,7 @@ export class Timers {
     let id: number;
     do {
       id = this.#counter;
-      // eslint-disable-next-line no-bitwise
+      // oxlint-disable-next-line no-bitwise
       this.#counter = (this.#counter + 1) >>> 0;
     } while (this.#timers.has(id));
 

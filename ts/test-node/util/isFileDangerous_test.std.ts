@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 
-import { isFileDangerous } from '../../util/isFileDangerous.std.js';
+import { isFileDangerous } from '../../util/isFileDangerous.std.ts';
 
 describe('isFileDangerous', () => {
   it('returns false for images', () => {
@@ -47,6 +47,13 @@ describe('isFileDangerous', () => {
     assert.strictEqual(isFileDangerous('install.pif   '), true);
     assert.strictEqual(isFileDangerous('install.pif\t\n '), true);
     assert.strictEqual(isFileDangerous('install.pif\t\n\n\n '), true);
+  });
+
+  it('returns true for dangerous files that end in combination of . and whitespace', () => {
+    assert.strictEqual(isFileDangerous('run.exe .  .    .... '), true);
+    assert.strictEqual(isFileDangerous('install.pif   .'), true);
+    assert.strictEqual(isFileDangerous('install.pif\t.\n . '), true);
+    assert.strictEqual(isFileDangerous('install.pif\t\n.\n\n  ..  .'), true);
   });
 
   it('returns false for empty filename', () => {

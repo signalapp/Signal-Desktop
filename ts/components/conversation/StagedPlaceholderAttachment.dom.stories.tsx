@@ -4,8 +4,8 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { Props } from './StagedPlaceholderAttachment.dom.js';
-import { StagedPlaceholderAttachment } from './StagedPlaceholderAttachment.dom.js';
+import type { Props } from './StagedPlaceholderAttachment.dom.tsx';
+import { StagedPlaceholderAttachment } from './StagedPlaceholderAttachment.dom.tsx';
 
 const { i18n } = window.SignalContext;
 

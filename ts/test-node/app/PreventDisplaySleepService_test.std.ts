@@ -5,12 +5,12 @@ import { assert } from 'chai';
 import * as sinon from 'sinon';
 import type { PowerSaveBlocker } from 'electron';
 
-import { PreventDisplaySleepService } from '../../../app/PreventDisplaySleepService.std.js';
+import { PreventDisplaySleepService } from '../../../app/PreventDisplaySleepService.std.ts';
 
 describe('PreventDisplaySleepService', () => {
   class FakePowerSaveBlocker implements PowerSaveBlocker {
     #nextId = 0;
-    #idsStarted = new Set<number>();
+    readonly #idsStarted = new Set<number>();
 
     isStarted(id: number): boolean {
       return this.#idsStarted.has(id);

@@ -6,20 +6,20 @@ import type {
   LocalizerType,
   ICUStringMessageParamsByKeyType,
   ICUJSXMessageParamsByKeyType,
-} from './types/Util.std.js';
+} from './types/Util.std.ts';
 import type {
   ServiceIdString,
   AciString,
   PniString,
-} from './types/ServiceId.std.js';
-import { missingCaseError } from './util/missingCaseError.std.js';
+} from './types/ServiceId.std.ts';
+import { missingCaseError } from './util/missingCaseError.std.ts';
 
 import type {
   GroupV2ChangeDetailType,
   GroupV2ChangeType,
-} from './types/groups.std.js';
-import { SignalService as Proto } from './protobuf/index.std.js';
-import { createLogger } from './logging/log.std.js';
+} from './types/groups.std.ts';
+import { SignalService as Proto } from './protobuf/index.std.ts';
+import { createLogger } from './logging/log.std.ts';
 
 const log = createLogger('groupChange');
 
@@ -911,6 +911,17 @@ function renderChangeDetail<T extends string | React.JSX.Element>(
       });
     }
     return i18n('icu:GroupV2--announcements--member--unknown');
+  }
+  if (detail.type === 'terminated') {
+    if (fromYou) {
+      return i18n('icu:GroupV2--terminated--you');
+    }
+    if (from) {
+      return i18n('icu:GroupV2--terminated--other', {
+        memberName: renderContact(from),
+      });
+    }
+    return i18n('icu:GroupV2--terminated--unknown');
   }
   if (detail.type === 'summary') {
     return i18n('icu:GroupV2--summary');

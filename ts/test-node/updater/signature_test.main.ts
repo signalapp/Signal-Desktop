@@ -14,10 +14,10 @@ import {
   verifySignature,
   writeHexToPath,
   writeSignature,
-} from '../../updater/signature.node.js';
-import { createTempDir, deleteTempDir } from '../../updater/common.main.js';
-import { keyPair } from '../../updater/curve.node.js';
-import { createLogger } from '../../logging/log.std.js';
+} from '../../updater/signature.node.ts';
+import { createTempDir, deleteTempDir } from '../../updater/common.main.ts';
+import { createLogger } from '../../logging/log.std.ts';
+import { keyPair } from '../../test-helpers/keyPair.node.ts';
 
 const { copy } = fsExtra;
 
@@ -154,7 +154,7 @@ describe('updater/signatures', () => {
         version,
         privateKeyPath
       );
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      // oxlint-disable-next-line typescript/no-non-null-assertion
       signature[4]! += 3;
 
       const verified = await verifySignature(

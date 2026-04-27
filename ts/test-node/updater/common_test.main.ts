@@ -16,8 +16,8 @@ import {
   createTempDir,
   getTempDir,
   deleteTempDir,
-} from '../../updater/common.main.js';
-import { createLogger } from '../../logging/log.std.js';
+} from '../../updater/common.main.ts';
+import { createLogger } from '../../logging/log.std.ts';
 
 const { pathExists } = fsExtra;
 

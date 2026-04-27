@@ -7,7 +7,6 @@ import * as sinon from 'sinon';
 import {
   collect,
   concat,
-  every,
   filter,
   find,
   groupBy,
@@ -20,7 +19,7 @@ import {
   size,
   take,
   zipObject,
-} from '../../util/iterables.std.js';
+} from '../../util/iterables.std.ts';
 
 describe('iterable utilities', () => {
   describe('isIterable', () => {
@@ -121,7 +120,7 @@ describe('iterable utilities', () => {
     it('concatenates multiple iterables', () => {
       const everyNumber = {
         *[Symbol.iterator]() {
-          for (let i = 4; true; i += 1) {
+          for (let i = 4; ; i += 1) {
             yield i;
           }
         },
@@ -173,30 +172,6 @@ describe('iterable utilities', () => {
     });
   });
 
-  describe('every', () => {
-    const isOdd = (n: number): boolean => Boolean(n % 2);
-
-    it('returns true for empty iterables and never checks the predicate', () => {
-      const fn = sinon.fake();
-
-      assert.isTrue(every([], fn));
-      assert.isTrue(every(new Set(), fn));
-      assert.isTrue(every(new Map(), fn));
-
-      sinon.assert.notCalled(fn);
-    });
-
-    it('returns false if any values make the predicate return false', () => {
-      assert.isFalse(every([2], isOdd));
-      assert.isFalse(every([1, 2, 3], isOdd));
-    });
-
-    it('returns true if all values make the predicate return true', () => {
-      assert.isTrue(every([1], isOdd));
-      assert.isTrue(every([1, 3, 5], isOdd));
-    });
-  });
-
   describe('filter', () => {
     it('returns an empty iterable when passed an empty iterable', () => {
       const fn = sinon.fake();
@@ -223,7 +198,7 @@ describe('iterable utilities', () => {
     it('can filter an infinite iterable', () => {
       const everyNumber = {
         *[Symbol.iterator]() {
-          for (let i = 0; true; i += 1) {
+          for (let i = 0; ; i += 1) {
             yield i;
           }
         },
@@ -281,7 +256,7 @@ describe('iterable utilities', () => {
     it('can collect an infinite iterable', () => {
       const everyNumber = {
         *[Symbol.iterator]() {
-          for (let i = 0; true; i += 1) {
+          for (let i = 0; ; i += 1) {
             yield { a: 'x', ...(i % 2 ? { b: i } : {}) };
           }
         },
@@ -427,7 +402,7 @@ describe('iterable utilities', () => {
     it('can map over an infinite iterable', () => {
       const everyNumber = {
         *[Symbol.iterator]() {
-          for (let i = 0; true; i += 1) {
+          for (let i = 0; ; i += 1) {
             yield i;
           }
         },
@@ -465,7 +440,7 @@ describe('iterable utilities', () => {
     it('returns the first n elements from an iterable', () => {
       const everyNumber = {
         *[Symbol.iterator]() {
-          for (let i = 0; true; i += 1) {
+          for (let i = 0; ; i += 1) {
             yield i;
           }
         },

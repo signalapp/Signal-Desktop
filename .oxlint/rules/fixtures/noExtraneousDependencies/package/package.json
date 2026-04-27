@@ -1,0 +1,22 @@
+{
+  "dependencies": {
+    "prod-dep": "0.0.0",
+    "@scoped/prod-dep": "0.0.0"
+  },
+  "devDependencies": {
+    "dev-dep": "0.0.0",
+    "@scoped/dev-dep": "0.0.0"
+  },
+  "peerDependencies": {
+    "peer-dep": "0.0.0",
+    "@scoped/peer-dep": "0.0.0"
+  },
+  "optionalDependencies": {
+    "optional-dep": "0.0.0",
+    "@scoped/optional-dep": "0.0.0"
+  },
+  "bundledDependencies": [
+    "bundled-dep",
+    "@scoped/bundled-dep"
+  ]
+}

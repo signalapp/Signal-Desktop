@@ -4,9 +4,13 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { Props } from './StickerManager.dom.js';
-import { StickerManager } from './StickerManager.dom.js';
-import { createPack, sticker1, sticker2 } from './mocks.std.js';
+import type { Props } from './StickerManager.dom.tsx';
+import { StickerManager } from './StickerManager.dom.tsx';
+import {
+  createPack,
+  sticker1,
+  sticker2,
+} from '../../test-helpers/stickersMocks.std.ts';
 
 const { i18n } = window.SignalContext;
 

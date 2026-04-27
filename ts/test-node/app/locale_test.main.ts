@@ -1,12 +1,15 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { join } from 'node:path';
 import { assert } from 'chai';
 import { stub } from 'sinon';
 import * as LocaleMatcher from '@formatjs/intl-localematcher';
-import { load, _getAvailableLocales } from '../../../app/locale.node.js';
-import { FAKE_DEFAULT_LOCALE } from '../../../app/spell_check.main.js';
-import { HourCyclePreference } from '../../types/I18N.std.js';
+import { load, _getAvailableLocales } from '../../../app/locale.node.ts';
+import { FAKE_DEFAULT_LOCALE } from '../../../app/spell_check.main.ts';
+import { HourCyclePreference } from '../../types/I18N.std.ts';
+
+const rootDir = join(__dirname, '..', '..', '..');
 
 describe('locale', async () => {
   describe('load', () => {
@@ -25,7 +28,8 @@ describe('locale', async () => {
         preferredSystemLocales: Array<string>,
         expectedLocale: string
       ) {
-        const actualLocale = await load({
+        const actualLocale = load({
+          rootDir,
           hourCyclePreference: HourCyclePreference.UnknownPreference,
           isPackaged: false,
           localeDirectionTestingOverride: null,
@@ -150,7 +154,7 @@ describe('locale', async () => {
         'VE',
       ];
 
-      const availableLocales = _getAvailableLocales();
+      const availableLocales = _getAvailableLocales(rootDir);
 
       for (const locale of SINGLE_REGION_LOCALES) {
         const { language } = new Intl.Locale(locale);

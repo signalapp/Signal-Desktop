@@ -17,10 +17,6 @@ export type EmojiPickerProps = Readonly<{
   onEmojiClick(clickData: EmojiClickData): void;
 }>;
 
-function getEmojiUrl() {
-  return '../../images/emoji-sheet-64.webp';
-}
-
 export default function EmojiPicker({
   onEmojiClick,
 }: EmojiPickerProps): React.JSX.Element {
@@ -47,8 +43,7 @@ export default function EmojiPicker({
     <RealEmojiPicker
       skinTonesDisabled
       theme={Theme.AUTO}
-      emojiStyle={EmojiStyle.APPLE}
-      getEmojiUrl={getEmojiUrl}
+      emojiStyle={EmojiStyle.NATIVE}
       onEmojiClick={onEmojiClick}
       searchPlaceHolder={i18n('EmojiPicker--search-placeholder')}
       categories={emojiCategories}

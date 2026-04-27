@@ -4,21 +4,21 @@ import type { ForwardedRef, ReactNode } from 'react';
 import React, { forwardRef, memo, useCallback, useMemo, useState } from 'react';
 import { Tabs } from 'radix-ui';
 import { AnimatePresence, motion } from 'motion/react';
-import type { LocalizerType } from '../../../types/I18N.std.js';
-import { tw } from '../../../axo/tw.dom.js';
-import { AxoIconButton } from '../../../axo/AxoIconButton.dom.js';
-import { AxoDropdownMenu } from '../../../axo/AxoDropdownMenu.dom.js';
-import { AriaClickable } from '../../../axo/AriaClickable.dom.js';
-import { UserText } from '../../UserText.dom.js';
-import type { PinnedMessageId } from '../../../types/PinnedMessage.std.js';
+import type { LocalizerType } from '../../../types/I18N.std.ts';
+import { tw } from '../../../axo/tw.dom.tsx';
+import { AxoIconButton } from '../../../axo/AxoIconButton.dom.tsx';
+import { AxoDropdownMenu } from '../../../axo/AxoDropdownMenu.dom.tsx';
+import { AriaClickable } from '../../../axo/AriaClickable.dom.tsx';
+import { UserText } from '../../UserText.dom.tsx';
+import type { PinnedMessageId } from '../../../types/PinnedMessage.std.ts';
 import {
   MessageTextRenderer,
   RenderLocation,
-} from '../MessageTextRenderer.dom.js';
-import type { HydratedBodyRangesType } from '../../../types/BodyRange.std.js';
-import { AxoSymbol } from '../../../axo/AxoSymbol.dom.js';
-import { missingCaseError } from '../../../util/missingCaseError.std.js';
-import { stripNewlinesForLeftPane } from '../../../util/stripNewlinesForLeftPane.std.js';
+} from '../MessageTextRenderer.dom.tsx';
+import type { HydratedBodyRangesType } from '../../../types/BodyRange.std.ts';
+import { AxoSymbol } from '../../../axo/AxoSymbol.dom.tsx';
+import { missingCaseError } from '../../../util/missingCaseError.std.ts';
+import { stripNewlinesForLeftPane } from '../../../util/stripNewlinesForLeftPane.std.ts';
 
 enum Direction {
   None = 0,
@@ -251,7 +251,7 @@ function Row(props: { children: ReactNode }) {
         'flex h-14 items-center pe-3 select-none',
         'rounded-xs',
         'outline-0 outline-border-focused',
-        'data-[focused]:outline-[2.5px]'
+        'data-focused:outline-[2.5px]'
       )}
     >
       {props.children}
@@ -340,7 +340,7 @@ function TabTrigger(props: {
       })}
       className={tw(
         'group flex-1 px-[7px] outline-0',
-        props.pinsCount === 3 ? 'py-[1px]' : 'py-0.5'
+        props.pinsCount === 3 ? 'py-px' : 'py-0.5'
       )}
     >
       <span
@@ -384,7 +384,7 @@ const Content = forwardRef(function Content(
             'data-[state=active]:animate-enter data-[state=active]:animate-translate-y-[100%]',
             'data-[state=inactive]:animate-exit data-[state=inactive]:animate-translate-y-[-100%]',
             // Use !important to override Radix'x logic for preventing mount animations
-            // eslint-disable-next-line better-tailwindcss/no-restricted-classes
+            // oxlint-disable-next-line better-tailwindcss/no-restricted-classes
             'animate-duration-300!'
           ),
         direction === Direction.Backwards &&
@@ -392,7 +392,7 @@ const Content = forwardRef(function Content(
             'data-[state=active]:animate-enter data-[state=active]:animate-translate-y-[-100%]',
             'data-[state=inactive]:animate-exit data-[state=inactive]:animate-translate-y-[100%]',
             // Use !important to override Radix'x logic for preventing mount animations
-            // eslint-disable-next-line better-tailwindcss/no-restricted-classes
+            // oxlint-disable-next-line better-tailwindcss/no-restricted-classes
             'animate-duration-300!'
           )
       )}

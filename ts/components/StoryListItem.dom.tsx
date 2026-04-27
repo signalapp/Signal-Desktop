@@ -6,20 +6,20 @@ import classNames from 'classnames';
 import type {
   ConversationStoryType,
   StoryViewType,
-} from '../types/Stories.std.js';
-import type { ConversationType } from '../state/ducks/conversations.preload.js';
-import type { LocalizerType, ThemeType } from '../types/Util.std.js';
-import type { PreferredBadgeSelectorType } from '../state/selectors/badges.preload.js';
-import type { ViewUserStoriesActionCreatorType } from '../state/ducks/stories.preload.js';
-import { Avatar, AvatarSize } from './Avatar.dom.js';
-import { ConfirmationDialog } from './ConfirmationDialog.dom.js';
-import { ContextMenu } from './ContextMenu.dom.js';
-import { SIGNAL_ACI } from '../types/SignalConversation.std.js';
-import { StoryViewTargetType, HasStories } from '../types/Stories.std.js';
+} from '../types/Stories.std.ts';
+import type { ConversationType } from '../state/ducks/conversations.preload.ts';
+import type { LocalizerType, ThemeType } from '../types/Util.std.ts';
+import type { PreferredBadgeSelectorType } from '../state/selectors/badges.preload.ts';
+import type { ViewUserStoriesActionCreatorType } from '../state/ducks/stories.preload.ts';
+import { Avatar, AvatarSize } from './Avatar.dom.tsx';
+import { ConfirmationDialog } from './ConfirmationDialog.dom.tsx';
+import { ContextMenu } from './ContextMenu.dom.tsx';
+import { SIGNAL_ACI } from '../types/SignalConversation.std.ts';
+import { StoryViewTargetType, HasStories } from '../types/Stories.std.ts';
 
-import { MessageTimestamp } from './conversation/MessageTimestamp.dom.js';
-import { StoryImage } from './StoryImage.dom.js';
-import { getAvatarColor } from '../types/Colors.std.js';
+import { MessageTimestamp } from './conversation/MessageTimestamp.dom.tsx';
+import { StoryImage } from './StoryImage.dom.tsx';
+import { getAvatarColor } from '../types/Colors.std.ts';
 
 export type PropsType = Pick<ConversationStoryType, 'group' | 'isHidden'> & {
   conversationId: string;

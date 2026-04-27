@@ -3,21 +3,24 @@
 
 import lodash from 'lodash';
 
-import { createLogger } from '../logging/log.std.js';
-import { DataReader, DataWriter } from '../sql/Client.preload.js';
+import { createLogger } from '../logging/log.std.ts';
+import { DataReader, DataWriter } from '../sql/Client.preload.ts';
 
 import type { MessageAttributesType } from '../model-types.d.ts';
-import type { ConversationModel } from '../models/conversations.preload.js';
-import type { AddressableMessage } from '../textsecure/messageReceiverEvents.std.js';
-import type { AttachmentType } from '../types/Attachment.std.js';
-import { MessageModel } from '../models/messages.preload.js';
-import { cleanupMessages, postSaveUpdates } from './cleanup.preload.js';
+import type { ConversationModel } from '../models/conversations.preload.ts';
+import type { AddressableMessage } from '../textsecure/messageReceiverEvents.std.ts';
+import type { AttachmentType } from '../types/Attachment.std.ts';
+import { MessageModel } from '../models/messages.preload.ts';
+import {
+  cleanupMessages,
+  cleanupAttachmentFiles,
+  postSaveUpdates,
+} from './cleanup.preload.ts';
 import {
   findMatchingMessage,
   getMessageQueryFromTarget,
-} from './syncIdentifiers.preload.js';
-import { itemStorage } from '../textsecure/Storage.preload.js';
-import { cleanupAttachmentFiles } from '../types/Message2.preload.js';
+} from './syncIdentifiers.preload.ts';
+import { itemStorage } from '../textsecure/Storage.preload.ts';
 
 const { last, sortBy } = lodash;
 

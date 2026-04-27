@@ -1,13 +1,13 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { isConversationInChatFolder } from '../types/ChatFolder.std.js';
-import { CurrentChatFolders } from '../types/CurrentChatFolders.std.js';
-import { isConversationMuted } from './isConversationMuted.std.js';
+import { isConversationInChatFolder } from '../types/ChatFolder.std.ts';
+import { CurrentChatFolders } from '../types/CurrentChatFolders.std.ts';
+import { isConversationMuted } from './isConversationMuted.std.ts';
 
-import type { ConversationType } from '../state/ducks/conversations.preload.js';
-import type { ChatFolderId } from '../types/ChatFolder.std.js';
-import type { NotificationProfileType } from '../types/NotificationProfile.std.js';
+import type { ConversationType } from '../state/ducks/conversations.preload.ts';
+import type { ChatFolderId } from '../types/ChatFolder.std.ts';
+import type { NotificationProfileType } from '../types/NotificationProfile.std.ts';
 
 type MutableUnreadStats = {
   /**
@@ -148,17 +148,6 @@ export function isConversationUnread(
     return true;
   }
   return false;
-}
-
-export function countConversationUnreadStats(
-  conversation: ConversationPropsForUnreadStats,
-  options: UnreadStatsOptions
-): UnreadStats {
-  const unreadStats = _createUnreadStats();
-  if (_canCountConversation(conversation, options)) {
-    _countConversation(unreadStats, conversation);
-  }
-  return unreadStats;
 }
 
 export function countAllConversationsUnreadStats(

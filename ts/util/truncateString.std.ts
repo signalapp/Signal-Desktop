@@ -1,8 +1,8 @@
 // Copyright 2026 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { count, truncateAndSize } from './grapheme.std.js';
-import { isBodyTooLong, trimBody } from './longAttachment.std.js';
+import { count, truncateAndSize } from './grapheme.std.ts';
+import { isBodyTooLong, trimBody } from './longAttachment.std.ts';
 
 export function truncateString(
   target: string,

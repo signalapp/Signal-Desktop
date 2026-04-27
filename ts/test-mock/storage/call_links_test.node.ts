@@ -3,16 +3,16 @@
 
 import { assert } from 'chai';
 import { Proto, StorageState } from '@signalapp/mock-server';
-import * as durations from '../../util/durations/index.std.js';
-import type { App } from './fixtures.node.js';
+import * as durations from '../../util/durations/index.std.ts';
+import type { App } from './fixtures.node.ts';
 import {
   Bootstrap,
   debug,
   getCallLinkRecordPredicate,
-} from './fixtures.node.js';
-import { createCallLink } from '../helpers.node.js';
-import { uuidToBytes } from '../../util/uuidToBytes.std.js';
-import { MY_STORY_ID } from '../../types/Stories.std.js';
+} from './fixtures.node.ts';
+import { createCallLink } from '../helpers.node.ts';
+import { uuidToBytes } from '../../util/uuidToBytes.std.ts';
+import { MY_STORY_ID } from '../../types/Stories.std.ts';
 
 const IdentifierType = Proto.ManifestRecord.Identifier.Type;
 
@@ -106,23 +106,21 @@ describe('storage service', function (this: Mocha.Suite) {
     assert.notOk(deletedAtBeforeDelete, 'deletedAt falsey');
 
     debug('Deleting call link');
-    const callLinkItem = await window.getByText('Link to delete');
+    const callLinkItem = window.getByText('Link to delete');
     await callLinkItem.click();
-    const callLinkDetails = await window.locator(
+    const callLinkDetails = window.locator(
       '.CallsTab__ConversationCallDetails'
     );
     await callLinkDetails.waitFor();
-    const deleteButton = await window.getByRole('button', {
+    const deleteButton = window.getByRole('button', {
       name: 'Delete link',
     });
     await deleteButton.click();
-    const confirmModal = await window.getByTestId(
+    const confirmModal = window.getByTestId(
       'ConfirmationDialog.CallLinkDetails__DeleteLinkModal'
     );
     await confirmModal.waitFor();
-    const deleteConfirm = await window
-      .locator('.module-Button')
-      .getByText('Delete');
+    const deleteConfirm = window.locator('.module-Button').getByText('Delete');
     await deleteConfirm.click();
 
     debug('Waiting for storage update');

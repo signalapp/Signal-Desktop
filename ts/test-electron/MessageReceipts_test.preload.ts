@@ -4,20 +4,21 @@
 import { v4 as uuid } from 'uuid';
 import { assert } from 'chai';
 
-import { type AciString, generateAci } from '../types/ServiceId.std.js';
+import type { AciString } from '../types/ServiceId.std.ts';
 import type { MessageAttributesType } from '../model-types.d.ts';
-import { DataReader, DataWriter } from '../sql/Client.preload.js';
-import { SendStatus } from '../messages/MessageSendState.std.js';
+import { DataReader, DataWriter } from '../sql/Client.preload.ts';
+import { SendStatus } from '../messages/MessageSendState.std.ts';
 import type {
   MessageReceiptAttributesType,
   MessageReceiptType,
-} from '../messageModifiers/MessageReceipts.preload.js';
+} from '../messageModifiers/MessageReceipts.preload.ts';
 import {
   onReceipt,
   messageReceiptTypeSchema,
-} from '../messageModifiers/MessageReceipts.preload.js';
-import { ReadStatus } from '../messages/MessageReadStatus.std.js';
-import { itemStorage } from '../textsecure/Storage.preload.js';
+} from '../messageModifiers/MessageReceipts.preload.ts';
+import { ReadStatus } from '../messages/MessageReadStatus.std.ts';
+import { itemStorage } from '../textsecure/Storage.preload.ts';
+import { generateAci } from '../test-helpers/serviceIdUtils.std.ts';
 
 describe('MessageReceipts', () => {
   let ourAci: AciString;

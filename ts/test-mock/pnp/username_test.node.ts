@@ -7,17 +7,17 @@ import type { PrimaryDevice } from '@signalapp/mock-server';
 import { usernames } from '@signalapp/libsignal-client';
 import createDebug from 'debug';
 
-import * as durations from '../../util/durations/index.std.js';
-import { uuidToBytes } from '../../util/uuidToBytes.std.js';
-import { MY_STORY_ID } from '../../types/Stories.std.js';
-import { Bootstrap } from '../bootstrap.node.js';
-import type { App } from '../bootstrap.node.js';
+import * as durations from '../../util/durations/index.std.ts';
+import { uuidToBytes } from '../../util/uuidToBytes.std.ts';
+import { MY_STORY_ID } from '../../types/Stories.std.ts';
+import { Bootstrap } from '../bootstrap.node.ts';
+import type { App } from '../bootstrap.node.ts';
 import {
   bufferToUuid,
   typeIntoInput,
   waitForEnabledComposer,
-} from '../helpers.node.js';
-import { contactByEncryptedUsernameRoute } from '../../util/signalRoutes.std.js';
+} from '../helpers.node.ts';
+import { contactByEncryptedUsernameRoute } from '../../util/signalRoutes.std.ts';
 
 export const debug = createDebug('mock:test:username');
 
@@ -85,7 +85,7 @@ describe('pnp/username', function (this: Mocha.Suite) {
   });
 
   for (const type of ['profile', 'system']) {
-    // eslint-disable-next-line no-loop-func
+    // oxlint-disable-next-line no-loop-func
     it(`drops username when contact's ${type} name becomes known`, async () => {
       const { phone } = bootstrap;
 
@@ -180,7 +180,7 @@ describe('pnp/username', function (this: Mocha.Suite) {
           'notification count'
         );
 
-        const first = await notifications.first();
+        const first = notifications.first();
         assert.strictEqual(
           await first.innerText(),
           `You started this chat with ${USERNAME}`
@@ -381,7 +381,8 @@ describe('pnp/username', function (this: Mocha.Suite) {
 
     debug('waiting for conversation to open');
     await window
-      .locator(`.module-conversation-hero >> "${CARL_USERNAME}"`)
+      .getByTestId('conversation-hero')
+      .getByText(CARL_USERNAME)
       .waitFor();
 
     debug('sending a message');

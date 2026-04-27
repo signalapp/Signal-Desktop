@@ -5,32 +5,32 @@ import classNames from 'classnames';
 import lodash from 'lodash';
 import { usePopper } from 'react-popper';
 import { FocusScope } from 'react-aria';
-import type { LinkPreviewForUIType } from '../types/message/LinkPreviews.std.js';
-import { ThemeType, type LocalizerType } from '../types/Util.std.js';
-import type { TextAttachmentType } from '../types/Attachment.std.js';
-import { Button, ButtonVariant } from './Button.dom.js';
-import { ContextMenu } from './ContextMenu.dom.js';
-import { LinkPreviewSourceType, findLinks } from '../types/LinkPreview.std.js';
-import type { MaybeGrabLinkPreviewOptionsType } from '../types/LinkPreview.std.js';
-import { Input } from './Input.dom.js';
-import { Slider } from './Slider.dom.js';
-import { StoryLinkPreview } from './StoryLinkPreview.dom.js';
-import { TextAttachment } from './TextAttachment.dom.js';
-import { Theme, themeClassName } from '../util/theme.std.js';
-import { getRGBA, getRGBANumber } from '../mediaEditor/util/color.std.js';
+import type { LinkPreviewForUIType } from '../types/message/LinkPreviews.std.ts';
+import { ThemeType, type LocalizerType } from '../types/Util.std.ts';
+import type { TextAttachmentType } from '../types/Attachment.std.ts';
+import { Button, ButtonVariant } from './Button.dom.tsx';
+import { ContextMenu } from './ContextMenu.dom.tsx';
+import { LinkPreviewSourceType, findLinks } from '../types/LinkPreview.std.ts';
+import type { MaybeGrabLinkPreviewOptionsType } from '../types/LinkPreview.std.ts';
+import { Input } from './Input.dom.tsx';
+import { Slider } from './Slider.dom.tsx';
+import { StoryLinkPreview } from './StoryLinkPreview.dom.tsx';
+import { TextAttachment } from './TextAttachment.dom.tsx';
+import { Theme, themeClassName } from '../util/theme.std.ts';
+import { getRGBA, getRGBANumber } from '../mediaEditor/util/color.std.ts';
 import {
   COLOR_BLACK_INT,
   COLOR_WHITE_INT,
   getBackgroundColor,
-} from '../util/getStoryBackground.std.js';
-import { objectMap } from '../util/objectMap.std.js';
-import { handleOutsideClick } from '../util/handleOutsideClick.dom.js';
-import { Spinner } from './Spinner.dom.js';
-import { FunEmojiPicker } from './fun/FunEmojiPicker.dom.js';
-import type { FunEmojiSelection } from './fun/panels/FunPanelEmojis.dom.js';
-import { getEmojiVariantByKey } from './fun/data/emojis.std.js';
-import { FunEmojiPickerButton } from './fun/FunButton.dom.js';
-import { useConfirmDiscard } from '../hooks/useConfirmDiscard.dom.js';
+} from '../util/getStoryBackground.std.ts';
+import { objectMap } from '../util/objectMap.std.ts';
+import { handleOutsideClick } from '../util/handleOutsideClick.dom.ts';
+import { Spinner } from './Spinner.dom.tsx';
+import { FunEmojiPicker } from './fun/FunEmojiPicker.dom.tsx';
+import type { FunEmojiSelection } from './fun/panels/FunPanelEmojis.dom.tsx';
+import { getEmojiVariantByKey } from './fun/data/emojis.std.ts';
+import { FunEmojiPickerButton } from './fun/FunButton.dom.tsx';
+import { useConfirmDiscard } from '../hooks/useConfirmDiscard.dom.tsx';
 
 const { noop } = lodash;
 
@@ -518,7 +518,7 @@ export function TextStoryCreator({
                         'StoryCreator__bg--selected':
                           selectedBackground === backgroundValue,
                       })}
-                      key={String(bg)}
+                      key={bg}
                       onClick={() => {
                         setSelectedBackground(backgroundValue);
                         setIsColorPickerShowing(false);

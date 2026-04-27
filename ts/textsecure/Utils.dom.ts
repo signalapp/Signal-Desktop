@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { HTTPError } from '../types/HTTPError.std.js';
+import type { HTTPError } from '../types/HTTPError.std.ts';
 
 export async function handleStatusCode(status: number): Promise<void> {
   if (status === 499) {
@@ -41,7 +41,7 @@ export function translateError(error: HTTPError): HTTPError | undefined {
     default:
       message = 'The server rejected our query, please file a bug report.';
   }
-  // eslint-disable-next-line no-param-reassign
+  // oxlint-disable-next-line no-param-reassign
   error.message = `${message} (original: ${error.message})`;
   return error;
 }

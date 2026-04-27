@@ -14,23 +14,23 @@ import {
 import {
   OutgoingIdentityKeyError,
   UnregisteredUserError,
-} from './Errors.std.js';
-import { Sessions, IdentityKeys } from '../LibSignalStores.preload.js';
-import { Address } from '../types/Address.std.js';
-import { QualifiedAddress } from '../types/QualifiedAddress.std.js';
-import type { ServiceIdString } from '../types/ServiceId.std.js';
+} from './Errors.std.ts';
+import { Sessions, IdentityKeys } from '../LibSignalStores.node.ts';
+import { Address } from '../types/Address.std.ts';
+import { QualifiedAddress } from '../types/QualifiedAddress.std.ts';
+import type { ServiceIdString } from '../types/ServiceId.std.ts';
 import type {
   getKeysForServiceId as doGetKeysForServiceId,
   getKeysForServiceIdUnauth,
   ServerKeysType,
-} from './WebAPI.preload.js';
-import { createLogger } from '../logging/log.std.js';
-import { isRecord } from '../util/isRecord.std.js';
-import type { GroupSendToken } from '../types/GroupSendEndorsements.std.js';
-import { HTTPError } from '../types/HTTPError.std.js';
-import { onFailedToSendWithEndorsements } from '../util/groupSendEndorsements.preload.js';
-import { signalProtocolStore } from '../SignalProtocolStore.preload.js';
-import { itemStorage } from './Storage.preload.js';
+} from './WebAPI.preload.ts';
+import { createLogger } from '../logging/log.std.ts';
+import { isRecord } from '../util/isRecord.std.ts';
+import type { GroupSendToken } from '../types/GroupSendEndorsements.std.ts';
+import { HTTPError } from '../types/HTTPError.std.ts';
+import { onFailedToSendWithEndorsements } from '../util/groupSendEndorsements.preload.ts';
+import { signalProtocolStore } from '../SignalProtocolStore.preload.ts';
+import { itemStorage } from './Storage.preload.ts';
 
 const log = createLogger('getKeysForServiceId');
 
@@ -133,8 +133,14 @@ async function handleServerKeys(
   devicesToUpdate: Array<number> | null
 ): Promise<void> {
   const ourAci = itemStorage.user.getCheckedAci();
-  const sessionStore = new Sessions({ ourServiceId: ourAci });
-  const identityKeyStore = new IdentityKeys({ ourServiceId: ourAci });
+  const sessionStore = new Sessions({
+    signalProtocolStore,
+    ourServiceId: ourAci,
+  });
+  const identityKeyStore = new IdentityKeys({
+    signalProtocolStore,
+    ourServiceId: ourAci,
+  });
 
   await Promise.all(
     response.devices.map(async device => {

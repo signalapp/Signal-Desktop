@@ -1,7 +1,7 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { AxoTokens } from '../axo/AxoTokens.std.js';
+import { AxoTokens } from '../axo/AxoTokens.std.ts';
 
 // See https://github.com/signalapp/ringrtc/blob/49b4b8a16f997c7fa9a429e96aa83f80b2065c63/src/rust/src/lite/call_links/base16.rs#L8
 const BASE_16_CONSONANT_ALPHABET = 'bcdfghkmnpqrstxz';
@@ -13,9 +13,9 @@ export function getColorForCallLink(
   const rootKeyStart = rootKey.slice(0, 2);
 
   const upper =
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    // oxlint-disable-next-line typescript/no-non-null-assertion
     (BASE_16_CONSONANT_ALPHABET.indexOf(rootKeyStart[0]!) || 0) * 16;
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  // oxlint-disable-next-line typescript/no-non-null-assertion
   const lower = BASE_16_CONSONANT_ALPHABET.indexOf(rootKeyStart[1]!) || 0;
   const firstByte = upper + lower;
 

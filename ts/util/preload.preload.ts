@@ -3,14 +3,10 @@
 
 import { ipcRenderer } from 'electron';
 
-import { strictAssert } from './assert.std.js';
-import * as Errors from '../types/errors.std.js';
-import type { UnwrapPromise } from '../types/Util.std.js';
-import type {
-  IPCEventsCallbacksType,
-  IPCEventsValuesType,
-} from './createIPCEvents.preload.js';
-import type { SystemTraySetting } from '../types/SystemTraySetting.std.js';
+import { strictAssert } from './assert.std.ts';
+import * as Errors from '../types/errors.std.ts';
+import type { IPCEventsValuesType } from './createIPCEvents.preload.ts';
+import type { SystemTraySetting } from '../types/SystemTraySetting.std.ts';
 
 type SettingOptionsType = {
   getter?: boolean;
@@ -95,23 +91,7 @@ export function createSetting<
   };
 }
 
-type UnwrapReturn<
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  Callback extends (...args: Array<any>) => unknown,
-> = UnwrapPromise<ReturnType<Callback>>;
-
-export function createCallback<
-  Name extends keyof IPCEventsCallbacksType,
-  Callback extends IPCEventsCallbacksType[Name],
->(
-  name: Name
-): (...args: Parameters<Callback>) => Promise<UnwrapReturn<Callback>> {
-  return (...args: Parameters<Callback>): Promise<UnwrapReturn<Callback>> => {
-    return ipcRenderer.invoke(`settings:call:${name}`, args);
-  };
-}
-
-export function installSetting(
+function installSetting(
   name: keyof SettingsValuesType,
   { getter = true, setter = true }: { getter?: boolean; setter?: boolean } = {}
 ): void {
@@ -139,7 +119,7 @@ export function installSetting(
   if (setter) {
     ipcRenderer.on(`settings:set:${name}`, async (_event, { seq, value }) => {
       // Some settings do not have setters...
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // oxlint-disable-next-line typescript/no-explicit-any
       const setFn = (window.Events as any)[setterName] as (
         value: unknown
       ) => Promise<void>;
@@ -167,26 +147,13 @@ export function installEphemeralSetting(name: keyof EphemeralSettings): void {
   const updaterName = getUpdaterName(name);
 
   ipcRenderer.on(`settings:update:${name}`, async (_event, value) => {
-    const updateFn = window.Events[updaterName] as (value: unknown) => void;
+    const updateFn = window.Events[updaterName] as (
+      value: unknown
+    ) => Promise<void> | void;
     if (!updateFn) {
       return;
     }
 
     await updateFn(value);
-  });
-}
-
-export function installCallback<Name extends keyof IPCEventsCallbacksType>(
-  name: Name
-): void {
-  ipcRenderer.on(`settings:call:${name}`, async (_, { seq, args }) => {
-    const hook = window.Events[name] as (
-      ...hookArgs: Array<unknown>
-    ) => Promise<unknown>;
-    try {
-      ipcRenderer.send('settings:response', seq, null, await hook(...args));
-    } catch (error) {
-      ipcRenderer.send('settings:response', seq, Errors.toLogFormat(error));
-    }
   });
 }

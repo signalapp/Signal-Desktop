@@ -1,8 +1,8 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { backupsService } from '../services/backups/index.preload.js';
-import { everDone as wasRegistrationEverDone } from './registration.preload.js';
+import { backupsService } from '../services/backups/index.preload.ts';
+import { everDone as wasRegistrationEverDone } from './registration.preload.ts';
 
 export function isLinkAndSyncEnabled(): boolean {
   // Cannot overwrite existing message history

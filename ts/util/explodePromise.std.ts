@@ -19,9 +19,9 @@ export function explodePromise<T>(): ExplodePromiseResultType<T> {
   return {
     promise,
     // Typescript thinks that resolve and reject can be undefined here.
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    // oxlint-disable-next-line typescript/no-non-null-assertion
     resolve: resolve!,
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    // oxlint-disable-next-line typescript/no-non-null-assertion
     reject: reject!,
   };
 }

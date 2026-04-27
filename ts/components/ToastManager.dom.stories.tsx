@@ -5,17 +5,17 @@ import type { Meta, StoryFn } from '@storybook/react';
 import React from 'react';
 
 import { action } from '@storybook/addon-actions';
-import { ToastManager } from './ToastManager.dom.js';
-import type { AnyToast } from '../types/Toast.dom.js';
-import { ToastType } from '../types/Toast.dom.js';
+import { ToastManager } from './ToastManager.dom.tsx';
+import type { AnyToast } from '../types/Toast.dom.tsx';
+import { ToastType } from '../types/Toast.dom.tsx';
 import type {
   AnyActionableMegaphone,
   MegaphoneCtaId,
   RemoteMegaphoneId,
-} from '../types/Megaphone.std.js';
-import { MegaphoneType } from '../types/Megaphone.std.js';
-import { missingCaseError } from '../util/missingCaseError.std.js';
-import type { PropsType } from './ToastManager.dom.js';
+} from '../types/Megaphone.std.ts';
+import { MegaphoneType } from '../types/Megaphone.std.ts';
+import { missingCaseError } from '../util/missingCaseError.std.ts';
+import type { PropsType } from './ToastManager.dom.tsx';
 
 const { i18n } = window.SignalContext;
 
@@ -191,6 +191,10 @@ function getToast(toastType: ToastType): AnyToast {
         toastType: ToastType._InternalMainProcessLoggingError,
         parameters: { logLines: ['error1', 'error2'], count: 2 },
       };
+    case ToastType._InternalHeapSizeWarning:
+      return {
+        toastType: ToastType._InternalHeapSizeWarning,
+      };
     case ToastType.MaxAttachments:
       return { toastType: ToastType.MaxAttachments };
     case ToastType.MediaNoLongerAvailable:
@@ -275,6 +279,11 @@ function getToast(toastType: ToastType): AnyToast {
           group: 'Hike Group 🏔',
         },
       };
+    case ToastType.VideoFileSize:
+      return {
+        toastType: ToastType.VideoFileSize,
+        parameters: { limit: 100, units: 'MB' },
+      };
     case ToastType.ViewOnceDisabled:
       return { toastType: ToastType.ViewOnceDisabled };
     case ToastType.ViewOnceEnabled:
@@ -338,6 +347,7 @@ export default {
     changeLocation: action('changeLocation'),
     hideToast: action('hideToast'),
     openFileInFolder: action('openFileInFolder'),
+    saveHeapSnapshot: action('saveHeapSnapshot'),
     onShowDebugLog: action('onShowDebugLog'),
     onUndoArchive: action('onUndoArchive'),
     retryCallQualitySurvey: action('retryCallQualitySurvey'),
@@ -349,7 +359,6 @@ export default {
   },
 } satisfies Meta<Args>;
 
-// eslint-disable-next-line react/function-component-definition
 const Template: StoryFn<Args> = args => {
   const { toastType, megaphoneType, ...rest } = args;
   return (

@@ -1,8 +1,5 @@
 // Copyright 2015 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 import { assert } from 'chai';
 import lodash from 'lodash';
 import {
@@ -14,31 +11,34 @@ import {
 } from '@signalapp/libsignal-client';
 import { v4 as generateUuid } from 'uuid';
 
-import { DataReader, DataWriter } from '../sql/Client.preload.js';
+import { DataReader, DataWriter } from '../sql/Client.preload.ts';
 import { signal } from '../protobuf/compiled.std.js';
-import { sessionStructureToBytes } from '../util/sessionTranslation.node.js';
-import * as durations from '../util/durations/index.std.js';
-import { explodePromise } from '../util/explodePromise.std.js';
-import { Zone } from '../util/Zone.std.js';
+import { sessionStructureToBytes } from '../util/sessionTranslation.node.ts';
+import * as durations from '../util/durations/index.std.ts';
+import { explodePromise } from '../util/explodePromise.std.ts';
+import { Zone } from '../util/Zone.std.ts';
 
-import * as Bytes from '../Bytes.std.js';
-import { getRandomBytes, constantTimeEqual } from '../Crypto.node.js';
+import * as Bytes from '../Bytes.std.ts';
+import { getRandomBytes, constantTimeEqual } from '../Crypto.node.ts';
 import {
   clampPrivateKey,
   setPublicKeyTypeByte,
   generateSignedPreKey,
   generateKyberPreKey,
-} from '../Curve.node.js';
-import type { SignalProtocolStore } from '../SignalProtocolStore.preload.js';
+} from '../Curve.node.ts';
+import type { SignalProtocolStore } from '../SignalProtocolStore.preload.ts';
 import {
   GLOBAL_ZONE,
   signalProtocolStore,
-} from '../SignalProtocolStore.preload.js';
-import { Address } from '../types/Address.std.js';
-import { QualifiedAddress } from '../types/QualifiedAddress.std.js';
-import { generateAci, generatePni } from '../types/ServiceId.std.js';
+} from '../SignalProtocolStore.preload.ts';
+import { Address } from '../types/Address.std.ts';
+import { QualifiedAddress } from '../types/QualifiedAddress.std.ts';
 import type { IdentityKeyType, KeyPairType } from '../textsecure/Types.d.ts';
-import { itemStorage } from '../textsecure/Storage.preload.js';
+import { itemStorage } from '../textsecure/Storage.preload.ts';
+import {
+  generateAci,
+  generatePni,
+} from '../test-helpers/serviceIdUtils.std.ts';
 
 const { clone } = lodash;
 
@@ -604,22 +604,27 @@ describe('SignalProtocolStore', () => {
       }
 
       it('rejects an invalid publicKey', async () => {
+        // oxlint-disable-next-line typescript/no-explicit-any
         attributes.publicKey = 'a string' as any;
         await testInvalidAttributes();
       });
       it('rejects invalid firstUse', async () => {
+        // oxlint-disable-next-line typescript/no-explicit-any
         attributes.firstUse = 0 as any;
         await testInvalidAttributes();
       });
       it('rejects invalid timestamp', async () => {
+        // oxlint-disable-next-line typescript/no-explicit-any
         attributes.timestamp = NaN as any;
         await testInvalidAttributes();
       });
       it('rejects invalid verified', async () => {
+        // oxlint-disable-next-line typescript/no-explicit-any
         attributes.verified = null as any;
         await testInvalidAttributes();
       });
       it('rejects invalid nonblockingApproval', async () => {
+        // oxlint-disable-next-line typescript/no-explicit-any
         attributes.nonblockingApproval = 0 as any;
         await testInvalidAttributes();
       });
@@ -798,7 +803,7 @@ describe('SignalProtocolStore', () => {
       });
 
       await store.hydrateCaches();
-      const untrusted = await store.isUntrusted(theirAci);
+      const untrusted = store.isUntrusted(theirAci);
       assert.strictEqual(untrusted, false);
     });
 
@@ -813,7 +818,7 @@ describe('SignalProtocolStore', () => {
       });
       await store.hydrateCaches();
 
-      const untrusted = await store.isUntrusted(theirAci);
+      const untrusted = store.isUntrusted(theirAci);
       assert.strictEqual(untrusted, false);
     });
 
@@ -828,7 +833,7 @@ describe('SignalProtocolStore', () => {
       });
       await store.hydrateCaches();
 
-      const untrusted = await store.isUntrusted(theirAci);
+      const untrusted = store.isUntrusted(theirAci);
       assert.strictEqual(untrusted, false);
     });
 
@@ -843,7 +848,7 @@ describe('SignalProtocolStore', () => {
       });
       await store.hydrateCaches();
 
-      const untrusted = await store.isUntrusted(theirAci);
+      const untrusted = store.isUntrusted(theirAci);
       assert.strictEqual(untrusted, true);
     });
   });
@@ -866,6 +871,7 @@ describe('SignalProtocolStore', () => {
           store.isTrustedIdentity(
             identifier,
             testKey.publicKey.serialize(),
+            // oxlint-disable-next-line typescript/no-explicit-any
             'dir' as any
           )
         );

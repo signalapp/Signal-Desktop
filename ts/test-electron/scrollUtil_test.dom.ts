@@ -7,7 +7,7 @@ import {
   getScrollBottom,
   scrollToBottom,
   setScrollBottom,
-} from '../util/scrollUtil.std.js';
+} from '../util/scrollUtil.std.ts';
 
 describe('scroll utilities', () => {
   let sandbox: HTMLDivElement;
@@ -17,6 +17,7 @@ describe('scroll utilities', () => {
   //   make sense because the test is synchronous, but this quick-and-dirty fix is
   //   probably better than a full investigation.
   before(function (this: Mocha.Context) {
+    // oxlint-disable-next-line no-undef FIXME
     if (process.platform === 'win32') {
       this.skip();
     }

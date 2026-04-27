@@ -11,41 +11,41 @@ import React, {
 } from 'react';
 import classNames from 'classnames';
 import lodash from 'lodash';
-import type { DraftBodyRanges } from '../types/BodyRange.std.js';
-import type { LocalizerType } from '../types/Util.std.js';
-import type { ConversationType } from '../state/ducks/conversations.preload.js';
-import type { InputApi } from './CompositionInput.dom.js';
-import type { PreferredBadgeSelectorType } from '../state/selectors/badges.preload.js';
-import type { ReplyType, StorySendStateType } from '../types/Stories.std.js';
-import { StoryViewTargetType } from '../types/Stories.std.js';
-import { Avatar, AvatarSize } from './Avatar.dom.js';
-import { CompositionInput } from './CompositionInput.dom.js';
-import { ContactName } from './conversation/ContactName.dom.js';
-import { Emojify } from './conversation/Emojify.dom.js';
+import type { DraftBodyRanges } from '../types/BodyRange.std.ts';
+import type { LocalizerType } from '../types/Util.std.ts';
+import type { ConversationType } from '../state/ducks/conversations.preload.ts';
+import type { InputApi } from './CompositionInput.dom.tsx';
+import type { PreferredBadgeSelectorType } from '../state/selectors/badges.preload.ts';
+import type { ReplyType, StorySendStateType } from '../types/Stories.std.ts';
+import { StoryViewTargetType } from '../types/Stories.std.ts';
+import { Avatar, AvatarSize } from './Avatar.dom.tsx';
+import { CompositionInput } from './CompositionInput.dom.tsx';
+import { ContactName } from './conversation/ContactName.dom.tsx';
+import { Emojify } from './conversation/Emojify.dom.tsx';
 import {
   Message,
   MessageInteractivity,
   TextDirection,
-} from './conversation/Message.dom.js';
-import { MessageTimestamp } from './conversation/MessageTimestamp.dom.js';
-import { Modal } from './Modal.dom.js';
-import { ReactionPicker } from './conversation/ReactionPicker.dom.js';
-import { Tabs } from './Tabs.dom.js';
-import { Theme } from '../util/theme.std.js';
-import { ThemeType } from '../types/Util.std.js';
-import { WidthBreakpoint } from './_util.std.js';
-import { getAvatarColor } from '../types/Colors.std.js';
-import { shouldNeverBeCalled } from '../util/shouldNeverBeCalled.std.js';
-import { ConfirmationDialog } from './ConfirmationDialog.dom.js';
-import type { EmojiSkinTone } from './fun/data/emojis.std.js';
-import { FunEmojiPicker } from './fun/FunEmojiPicker.dom.js';
-import { FunEmojiPickerButton } from './fun/FunButton.dom.js';
-import type { FunEmojiSelection } from './fun/panels/FunPanelEmojis.dom.js';
-import { useConfirmDiscard } from '../hooks/useConfirmDiscard.dom.js';
-import { AxoContextMenu } from '../axo/AxoContextMenu.dom.js';
-import type { AxoMenuBuilder } from '../axo/AxoMenuBuilder.dom.js';
-import { drop } from '../util/drop.std.js';
-import type { ContactModalStateType } from '../types/globalModals.std.js';
+} from './conversation/Message.dom.tsx';
+import { MessageTimestamp } from './conversation/MessageTimestamp.dom.tsx';
+import { Modal } from './Modal.dom.tsx';
+import { ReactionPicker } from './conversation/ReactionPicker.dom.tsx';
+import { Tabs } from './Tabs.dom.tsx';
+import { Theme } from '../util/theme.std.ts';
+import { ThemeType } from '../types/Util.std.ts';
+import { WidthBreakpoint } from './_util.std.ts';
+import { getAvatarColor } from '../types/Colors.std.ts';
+import { shouldNeverBeCalled } from '../util/shouldNeverBeCalled.std.ts';
+import { ConfirmationDialog } from './ConfirmationDialog.dom.tsx';
+import type { EmojiSkinTone } from './fun/data/emojis.std.ts';
+import { FunEmojiPicker } from './fun/FunEmojiPicker.dom.tsx';
+import { FunEmojiPickerButton } from './fun/FunButton.dom.tsx';
+import type { FunEmojiSelection } from './fun/panels/FunPanelEmojis.dom.tsx';
+import { useConfirmDiscard } from '../hooks/useConfirmDiscard.dom.tsx';
+import { AxoContextMenu } from '../axo/AxoContextMenu.dom.tsx';
+import type { AxoMenuBuilder } from '../axo/AxoMenuBuilder.dom.tsx';
+import { drop } from '../util/drop.std.ts';
+import type { ContactModalStateType } from '../types/globalModals.std.ts';
 
 const { noop, orderBy } = lodash;
 
@@ -55,6 +55,7 @@ const { noop, orderBy } = lodash;
 const MESSAGE_DEFAULT_PROPS = {
   canDeleteForEveryone: false,
   canRetryDeleteForEveryone: false,
+  canSendPollVote: false,
   retryDeleteForEveryone: shouldNeverBeCalled,
   checkForAccount: shouldNeverBeCalled,
   clearTargetedMessage: shouldNeverBeCalled,

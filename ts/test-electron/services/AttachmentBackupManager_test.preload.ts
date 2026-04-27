@@ -7,30 +7,30 @@ import { join } from 'node:path';
 import { createWriteStream } from 'node:fs';
 import fsExtra from 'fs-extra';
 
-import * as Bytes from '../../Bytes.std.js';
+import * as Bytes from '../../Bytes.std.ts';
 import {
   AttachmentBackupManager,
   FILE_NOT_FOUND_ON_TRANSIT_TIER_STATUS,
   runAttachmentBackupJob,
-} from '../../jobs/AttachmentBackupManager.preload.js';
+} from '../../jobs/AttachmentBackupManager.preload.ts';
 import type {
   AttachmentBackupJobType,
   CoreAttachmentBackupJobType,
   StandardAttachmentBackupJobType,
   ThumbnailAttachmentBackupJobType,
-} from '../../types/AttachmentBackup.std.js';
-import { DataWriter } from '../../sql/Client.preload.js';
-import { getRandomBytes } from '../../Crypto.node.js';
-import { APPLICATION_OCTET_STREAM, VIDEO_MP4 } from '../../types/MIME.std.js';
-import { createName, getRelativePath } from '../../util/attachmentPath.node.js';
-import { getAbsoluteAttachmentPath } from '../../util/migrations.preload.js';
+} from '../../types/AttachmentBackup.std.ts';
+import { DataWriter } from '../../sql/Client.preload.ts';
+import { getRandomBytes } from '../../Crypto.node.ts';
+import { APPLICATION_OCTET_STREAM, IMAGE_JPEG } from '../../types/MIME.std.ts';
+import { createName, getRelativePath } from '../../util/attachmentPath.node.ts';
+import { getAbsoluteAttachmentPath } from '../../util/migrations.preload.ts';
 import {
   encryptAttachmentV2,
   generateKeys,
-} from '../../AttachmentCrypto.node.js';
-import { SECOND } from '../../util/durations/index.std.js';
-import { HTTPError } from '../../types/HTTPError.std.js';
-import { itemStorage } from '../../textsecure/Storage.preload.js';
+} from '../../AttachmentCrypto.node.ts';
+import { SECOND } from '../../util/durations/index.std.ts';
+import { HTTPError } from '../../types/HTTPError.std.ts';
+import { itemStorage } from '../../textsecure/Storage.preload.ts';
 
 const { ensureFile } = fsExtra;
 
@@ -40,7 +40,7 @@ const BACKUP_CDN = 3;
 
 const RELATIVE_ATTACHMENT_PATH = getRelativePath(createName());
 const LOCAL_ENCRYPTION_KEYS = Bytes.toBase64(generateKeys());
-const ATTACHMENT_SIZE = 188610;
+const ATTACHMENT_SIZE = 1476;
 
 describe('AttachmentBackupManager/JobManager', function attachmentBackupManager(this: Mocha.Suite) {
   this.timeout(10 * SECOND);
@@ -65,7 +65,7 @@ describe('AttachmentBackupManager/JobManager', function attachmentBackupManager(
       receivedAt: index,
       data: {
         path: RELATIVE_ATTACHMENT_PATH,
-        contentType: VIDEO_MP4,
+        contentType: IMAGE_JPEG,
         keys: 'keys=',
         version: 2,
         localKey: LOCAL_ENCRYPTION_KEYS,
@@ -93,7 +93,7 @@ describe('AttachmentBackupManager/JobManager', function attachmentBackupManager(
       data: {
         fullsizePath: RELATIVE_ATTACHMENT_PATH,
         fullsizeSize: ATTACHMENT_SIZE,
-        contentType: VIDEO_MP4,
+        contentType: IMAGE_JPEG,
         version: 2,
         localKey: LOCAL_ENCRYPTION_KEYS,
 
@@ -108,7 +108,7 @@ describe('AttachmentBackupManager/JobManager', function attachmentBackupManager(
     await DataWriter.ensureFilePermissions();
     await encryptAttachmentV2({
       plaintext: {
-        absolutePath: join(__dirname, '../../../fixtures/cat-gif.mp4'),
+        absolutePath: join(__dirname, '../../../fixtures/kitten-1-64-64.jpg'),
       },
       keys: Bytes.fromBase64(LOCAL_ENCRYPTION_KEYS),
       needIncrementalMac: false,
@@ -180,7 +180,7 @@ describe('AttachmentBackupManager/JobManager', function attachmentBackupManager(
       index >= 0 && index < array.length,
       `index out of bounds: ${index}`
     );
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    // oxlint-disable-next-line typescript/no-non-null-assertion
     return array[index]!;
   }
 
@@ -192,7 +192,7 @@ describe('AttachmentBackupManager/JobManager', function attachmentBackupManager(
       .fill(null)
       .map((_, idx) => composeJob(idx, overrides));
     for (const job of jobs) {
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       await backupManager?.addJob(job);
     }
     return jobs;
@@ -206,7 +206,7 @@ describe('AttachmentBackupManager/JobManager', function attachmentBackupManager(
       .fill(null)
       .map((_, idx) => composeThumbnailJob(idx, overrides));
     for (const job of jobs) {
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       await backupManager?.addJob(job);
     }
     return jobs;
@@ -214,14 +214,14 @@ describe('AttachmentBackupManager/JobManager', function attachmentBackupManager(
 
   function waitForJobToBeStarted(
     job: CoreAttachmentBackupJobType,
-    attempts: number = 0
+    attempts = 0
   ) {
     return backupManager?.waitForJobToBeStarted({ ...job, attempts });
   }
 
   function waitForJobToBeCompleted(
     job: CoreAttachmentBackupJobType,
-    attempts: number = 0
+    attempts = 0
   ) {
     return backupManager?.waitForJobToBeCompleted({ ...job, attempts });
   }
@@ -244,12 +244,18 @@ describe('AttachmentBackupManager/JobManager', function attachmentBackupManager(
     const jobs = await addJobs(5);
     const thumbnailJobs = await addThumbnailJobs(5);
 
+    const job0Started = waitForJobToBeStarted(assertAt(jobs, 0));
+    const job2Started = waitForJobToBeStarted(assertAt(jobs, 2));
+    const job0ThumbnailCompleted = waitForJobToBeCompleted(
+      assertAt(thumbnailJobs, 0)
+    );
+
     // Confirm they are saved to DB
     const allJobs = await getAllSavedJobs();
     assert.strictEqual(allJobs.length, 10, 'initial setup');
 
     await backupManager?.start();
-    await waitForJobToBeStarted(assertAt(jobs, 2));
+    await job2Started;
 
     assert.strictEqual(runJob.callCount, 3);
     assertRunJobCalledWith([
@@ -258,7 +264,7 @@ describe('AttachmentBackupManager/JobManager', function attachmentBackupManager(
       assertAt(jobs, 2),
     ]);
 
-    await waitForJobToBeStarted(assertAt(jobs, 0));
+    await job0Started;
     assert.strictEqual(runJob.callCount, 5, 'first calls');
     assertRunJobCalledWith([
       assertAt(jobs, 4),
@@ -268,7 +274,7 @@ describe('AttachmentBackupManager/JobManager', function attachmentBackupManager(
       assertAt(jobs, 0),
     ]);
 
-    await waitForJobToBeCompleted(assertAt(thumbnailJobs, 0));
+    await job0ThumbnailCompleted;
     assert.strictEqual(runJob.callCount, 10, 'all calls');
 
     assertRunJobCalledWith([
@@ -288,8 +294,9 @@ describe('AttachmentBackupManager/JobManager', function attachmentBackupManager(
 
   it('with transitCdnInfo, will copy to backup tier', async () => {
     const jobs = await addJobs(1);
+    const jobCompleted = waitForJobToBeCompleted(assertAt(jobs, 0));
     await backupManager?.start();
-    await waitForJobToBeCompleted(assertAt(jobs, 0));
+    await jobCompleted;
     assert.strictEqual(backupMediaBatch.callCount, 1);
     assert.strictEqual(encryptAndUploadAttachment.callCount, 0);
 
@@ -315,8 +322,9 @@ describe('AttachmentBackupManager/JobManager', function attachmentBackupManager(
     );
 
     const jobs = await addJobs(1);
+    const jobCompleted = waitForJobToBeCompleted(assertAt(jobs, 0));
     await backupManager?.start();
-    await waitForJobToBeCompleted(assertAt(jobs, 0));
+    await jobCompleted;
     assert.strictEqual(encryptAndUploadAttachment.callCount, 1);
     assert.strictEqual(backupMediaBatch.callCount, 2);
 
@@ -335,9 +343,10 @@ describe('AttachmentBackupManager/JobManager', function attachmentBackupManager(
 
   it('without transitCdnInfo, will upload then copy', async () => {
     const jobs = await addJobs(1, { transitCdnInfo: undefined });
+    const jobCompleted = waitForJobToBeCompleted(assertAt(jobs, 0));
 
     await backupManager?.start();
-    await waitForJobToBeCompleted(assertAt(jobs, 0));
+    await jobCompleted;
 
     assert.strictEqual(backupMediaBatch.callCount, 1);
     assert.strictEqual(encryptAndUploadAttachment.callCount, 1);
@@ -352,9 +361,10 @@ describe('AttachmentBackupManager/JobManager', function attachmentBackupManager(
       transitCdnInfo: undefined,
       path: 'nothing/here',
     });
+    const jobCompleted = waitForJobToBeCompleted(assertAt(jobs, 0));
 
     await backupManager?.start();
-    await waitForJobToBeCompleted(assertAt(jobs, 0));
+    await jobCompleted;
 
     assert.strictEqual(backupMediaBatch.callCount, 0);
     assert.strictEqual(encryptAndUploadAttachment.callCount, 0);
@@ -366,6 +376,8 @@ describe('AttachmentBackupManager/JobManager', function attachmentBackupManager(
 
   it('pauses if it receives a retryAfter', async () => {
     const jobs = await addJobs(5, { transitCdnInfo: undefined });
+    const job0Started = waitForJobToBeStarted(assertAt(jobs, 0));
+    const job2Started = waitForJobToBeStarted(assertAt(jobs, 2));
 
     encryptAndUploadAttachment.throws(
       new HTTPError('Rate limited', {
@@ -374,7 +386,7 @@ describe('AttachmentBackupManager/JobManager', function attachmentBackupManager(
       })
     );
     await backupManager?.start();
-    await waitForJobToBeStarted(assertAt(jobs, 2));
+    await job2Started;
 
     assert.strictEqual(runJob.callCount, 3);
     assertRunJobCalledWith([
@@ -393,7 +405,7 @@ describe('AttachmentBackupManager/JobManager', function attachmentBackupManager(
     });
 
     await clock.tickAsync(100000);
-    await waitForJobToBeStarted(assertAt(jobs, 0));
+    await job0Started;
     assert.strictEqual(runJob.callCount, 8);
     assertRunJobCalledWith([
       assertAt(jobs, 4),

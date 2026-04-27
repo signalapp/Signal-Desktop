@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import React, { memo } from 'react';
 import { useSelector } from 'react-redux';
-import { DialogRelink } from '../../components/DialogRelink.dom.js';
-import { getIntl } from '../selectors/user.std.js';
-import type { WidthBreakpoint } from '../../components/_util.std.js';
-import { useNetworkActions } from '../ducks/network.dom.js';
+import { DialogRelink } from '../../components/DialogRelink.dom.tsx';
+import { getIntl } from '../selectors/user.std.ts';
+import type { WidthBreakpoint } from '../../components/_util.std.ts';
+import { useNetworkActions } from '../ducks/network.dom.ts';
 
 type SmartRelinkDialogProps = Readonly<{
   containerWidthBreakpoint: WidthBreakpoint;

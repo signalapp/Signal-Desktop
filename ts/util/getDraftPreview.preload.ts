@@ -2,11 +2,13 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ConversationAttributesType } from '../model-types.d.ts';
-import type { DraftPreviewType } from '../state/ducks/conversations.preload.js';
-import { findAndFormatContact } from './findAndFormatContact.preload.js';
-import { hydrateRanges } from './BodyRange.node.js';
-import { isVoiceMessage } from './Attachment.std.js';
-import { stripNewlinesForLeftPane } from './stripNewlinesForLeftPane.std.js';
+import type { DraftPreviewType } from '../state/ducks/conversations.preload.ts';
+import { BodyRange } from '../types/BodyRange.std.ts';
+import { findAndFormatContact } from './findAndFormatContact.preload.ts';
+import { hydrateRanges } from './BodyRange.node.ts';
+import { isVoiceMessage } from './Attachment.std.ts';
+import { stripNewlinesForLeftPane } from './stripNewlinesForLeftPane.std.ts';
+import { isDirectConversation } from './whatTypeOfConversation.dom.ts';
 
 const { i18n } = window.SignalContext;
 
@@ -16,7 +18,10 @@ export function getDraftPreview(
   const { draft } = attributes;
 
   const rawBodyRanges = attributes.draftBodyRanges || [];
-  const bodyRanges = hydrateRanges(rawBodyRanges, findAndFormatContact);
+  const bodyRangesToHydrate = isDirectConversation(attributes)
+    ? rawBodyRanges.filter(range => !BodyRange.isMention(range))
+    : rawBodyRanges;
+  const bodyRanges = hydrateRanges(bodyRangesToHydrate, findAndFormatContact);
 
   if (draft) {
     return {

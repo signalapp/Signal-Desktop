@@ -56,61 +56,61 @@ import { Aci } from '@signalapp/libsignal-client';
 import {
   CanvasVideoRenderer,
   GumVideoCapturer,
-} from '../calling/VideoSupport.preload.js';
+} from '../calling/VideoSupport.preload.ts';
 import type {
   GumVideoCaptureOptions,
   SizeCallbackType,
-} from '../calling/VideoSupport.preload.js';
+} from '../calling/VideoSupport.preload.ts';
 import type {
   ActionsType as CallingReduxActionsType,
   GroupCallParticipantInfoType,
   GroupCallPeekInfoType,
-} from '../state/ducks/calling.preload.js';
-import type { ConversationType } from '../state/ducks/conversations.preload.js';
-import { getConversationCallMode } from '../state/ducks/conversations.preload.js';
-import { isMe } from '../util/whatTypeOfConversation.dom.js';
-import { getAbsoluteTempPath } from '../util/migrations.preload.js';
-import { isKnownProtoEnumMember } from '../util/isKnownProtoEnumMember.std.js';
+} from '../state/ducks/calling.preload.ts';
+import type { ConversationType } from '../state/ducks/conversations.preload.ts';
+import { getConversationCallMode } from '../util/getConversationCallMode.std.ts';
+import { isMe } from '../util/whatTypeOfConversation.dom.ts';
+import { getAbsoluteTempPath } from '../util/migrations.preload.ts';
+import { isKnownProtoEnumMember } from '../util/isKnownProtoEnumMember.std.ts';
 import type {
   AvailableIODevicesType,
   IceServerType,
   IceServerCacheType,
   MediaDeviceSettings,
   PresentedSource,
-} from '../types/Calling.std.js';
+} from '../types/Calling.std.ts';
 import {
   CallEndedReason,
   GroupCallConnectionState,
   GroupCallJoinState,
   ScreenShareStatus,
-} from '../types/Calling.std.js';
-import { CallMode, LocalCallEvent } from '../types/CallDisposition.std.js';
+} from '../types/Calling.std.ts';
+import { CallMode, LocalCallEvent } from '../types/CallDisposition.std.ts';
 import {
   findBestMatchingAudioDeviceIndex,
   findBestMatchingCameraId,
-} from '../calling/findBestMatchingDevice.std.js';
-import { normalizeAci } from '../util/normalizeAci.std.js';
-import { isAciString } from '../util/isAciString.std.js';
-import * as Errors from '../types/errors.std.js';
-import type { ConversationModel } from '../models/conversations.preload.js';
-import * as Bytes from '../Bytes.std.js';
-import { uuidToBytes, bytesToUuid } from '../util/uuidToBytes.std.js';
-import { drop } from '../util/drop.std.js';
-import { dropNull } from '../util/dropNull.std.js';
-import { getOwn } from '../util/getOwn.std.js';
-import * as durations from '../util/durations/index.std.js';
-import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary.std.js';
-import { fetchMembershipProof, getMembershipList } from '../groups.preload.js';
+} from '../calling/findBestMatchingDevice.std.ts';
+import { normalizeAci } from '../util/normalizeAci.std.ts';
+import { isAciString } from '../util/isAciString.std.ts';
+import * as Errors from '../types/errors.std.ts';
+import type { ConversationModel } from '../models/conversations.preload.ts';
+import * as Bytes from '../Bytes.std.ts';
+import { uuidToBytes, bytesToUuid } from '../util/uuidToBytes.std.ts';
+import { drop } from '../util/drop.std.ts';
+import { dropNull } from '../util/dropNull.std.ts';
+import { getOwn } from '../util/getOwn.std.ts';
+import * as durations from '../util/durations/index.std.ts';
+import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary.std.ts';
+import { fetchMembershipProof, getMembershipList } from '../groups.preload.ts';
 import type { ProcessedEnvelope } from '../textsecure/Types.d.ts';
-import type { GetIceServersResultType } from '../textsecure/WebAPI.preload.js';
+import type { GetIceServersResultType } from '../textsecure/WebAPI.preload.ts';
 import {
   callLinkCreateAuth,
   getIceServers,
   makeSfuRequest,
-} from '../textsecure/WebAPI.preload.js';
-import { missingCaseError } from '../util/missingCaseError.std.js';
-import { normalizeGroupCallTimestamp } from '../util/ringrtc/normalizeGroupCallTimestamp.std.js';
-import { requestCameraPermissions } from '../util/callingPermissions.dom.js';
+} from '../textsecure/WebAPI.preload.ts';
+import { missingCaseError } from '../util/missingCaseError.std.ts';
+import { normalizeGroupCallTimestamp } from '../util/ringrtc/normalizeGroupCallTimestamp.std.ts';
+import { requestCameraPermissions } from '../util/callingPermissions.dom.ts';
 import {
   AUDIO_LEVEL_INTERVAL_MS,
   REQUESTED_VIDEO_WIDTH,
@@ -121,19 +121,19 @@ import {
   REQUESTED_SCREEN_SHARE_WIDTH,
   REQUESTED_SCREEN_SHARE_HEIGHT,
   REQUESTED_SCREEN_SHARE_FRAMERATE,
-} from '../calling/constants.std.js';
-import { callingMessageToProto } from '../util/callingMessageToProto.node.js';
-import { requestMicrophonePermissions } from '../util/requestMicrophonePermissions.dom.js';
-import { SignalService as Proto } from '../protobuf/index.std.js';
-import { DataReader, DataWriter } from '../sql/Client.preload.js';
+} from '../calling/constants.std.ts';
+import { callingMessageToProto } from '../util/callingMessageToProto.node.ts';
+import { requestMicrophonePermissions } from '../util/requestMicrophonePermissions.dom.ts';
+import { SignalService as Proto } from '../protobuf/index.std.ts';
+import { DataReader, DataWriter } from '../sql/Client.preload.ts';
 import {
   notificationService,
   NotificationSetting,
   FALLBACK_NOTIFICATION_TITLE,
   shouldSaveNotificationAvatarToDisk,
-} from './notifications.preload.js';
-import { createLogger } from '../logging/log.std.js';
-import { assertDev, strictAssert } from '../util/assert.std.js';
+} from './notifications.preload.ts';
+import { createLogger } from '../logging/log.std.ts';
+import { assertDev, strictAssert } from '../util/assert.std.ts';
 import {
   formatLocalDeviceState,
   formatPeekInfo,
@@ -152,38 +152,41 @@ import {
   updateAdhocCallHistory,
   getCallIdFromEra,
   getCallDetailsForAdhocCall,
-} from '../util/callDisposition.preload.js';
-import { isNormalNumber } from '../util/isNormalNumber.std.js';
-import type { AciString, ServiceIdString } from '../types/ServiceId.std.js';
-import { isServiceIdString, isPniString } from '../types/ServiceId.std.js';
-import { NotificationType } from '../types/notifications.std.js';
-import { isSignalConnection } from '../util/getSignalConnections.preload.js';
-import { toAdminKeyBytes } from '../util/callLinks.std.js';
+} from '../util/callDisposition.preload.ts';
+import { isNormalNumber } from '../util/isNormalNumber.std.ts';
+import type { AciString, ServiceIdString } from '../types/ServiceId.std.ts';
+import { isServiceIdString, isPniString } from '../types/ServiceId.std.ts';
+import { NotificationType } from '../types/notifications.std.ts';
+import { isSignalConnection } from '../util/getSignalConnections.preload.ts';
+import { toAdminKeyBytes } from '../util/callLinks.std.ts';
 import {
   getRoomIdFromRootKey,
   callLinkRestrictionsToRingRTC,
   callLinkStateFromRingRTC,
-} from '../util/callLinksRingrtc.node.js';
-import { getCallLinkAuthCredentialPresentation } from '../util/callLinks/zkgroup.preload.js';
+} from '../util/callLinksRingrtc.node.ts';
+import { getCallLinkAuthCredentialPresentation } from '../util/callLinks/zkgroup.preload.ts';
 import {
   conversationJobQueue,
   conversationQueueJobEnum,
-} from '../jobs/conversationJobQueue.preload.js';
-import type { CallLinkType, CallLinkStateType } from '../types/CallLink.std.js';
-import { CallLinkRestrictions } from '../types/CallLink.std.js';
-import { getConversationIdForLogging } from '../util/idForLogging.preload.js';
-import { sendCallLinkUpdateSync } from '../util/sendCallLinkUpdateSync.preload.js';
-import { createIdenticon } from '../util/createIdenticon.preload.js';
-import { getColorForCallLink } from '../util/getColorForCallLink.std.js';
-import OS from '../util/os/osMain.node.js';
-import { sleep } from '../util/sleep.std.js';
-import { signalProtocolStore } from '../SignalProtocolStore.preload.js';
-import { itemStorage } from '../textsecure/Storage.preload.js';
-import { CallQualitySurvey } from '../types/CallQualitySurvey.std.js';
+} from '../jobs/conversationJobQueue.preload.ts';
+import type { CallLinkType, CallLinkStateType } from '../types/CallLink.std.ts';
+import { CallLinkRestrictions } from '../types/CallLink.std.ts';
+import { getConversationIdForLogging } from '../util/idForLogging.preload.ts';
+import { sendCallLinkUpdateSync } from '../util/sendCallLinkUpdateSync.preload.ts';
+import { createIdenticon } from '../util/createIdenticon.preload.tsx';
+import { getColorForCallLink } from '../util/getColorForCallLink.std.ts';
+import OS from '../util/os/osMain.node.ts';
+import { sleep } from '../util/sleep.std.ts';
+import { signalProtocolStore } from '../SignalProtocolStore.preload.ts';
+import { itemStorage } from '../textsecure/Storage.preload.ts';
+import { CallQualitySurvey } from '../types/CallQualitySurvey.std.ts';
 import {
   isCallFailure,
   shouldShowCallQualitySurvey,
-} from '../util/callQualitySurvey.dom.js';
+} from '../util/callQualitySurvey.dom.ts';
+import * as RemoteConfig from '../RemoteConfig.dom.ts';
+import { isAlpha, isBeta, isProduction } from '../util/version.std.ts';
+import { parseIntOrThrow } from '../util/parseIntOrThrow.std.ts';
 
 const { i18n } = window.SignalContext;
 
@@ -198,10 +201,10 @@ const {
   cleanExpiredGroupCallRingCancellations,
 } = DataWriter;
 
-const RINGRTC_HTTP_METHOD_TO_OUR_HTTP_METHOD: Map<
+const RINGRTC_HTTP_METHOD_TO_OUR_HTTP_METHOD = new Map<
   HttpMethod,
   'GET' | 'PUT' | 'POST' | 'DELETE'
-> = new Map([
+>([
   [HttpMethod.Get, 'GET'],
   [HttpMethod.Put, 'PUT'],
   [HttpMethod.Post, 'POST'],
@@ -483,12 +486,14 @@ async function ensureSystemPermissions({
   hasLocalAudio: boolean;
 }): Promise<void> {
   if (hasLocalAudio) {
+    // oxlint-disable-next-line typescript/await-thenable
     await window.reduxActions.globalModals.ensureSystemMediaPermissions(
       'microphone',
       'call'
     );
   }
   if (hasLocalVideo) {
+    // oxlint-disable-next-line typescript/await-thenable
     await window.reduxActions.globalModals.ensureSystemMediaPermissions(
       'camera',
       'call'
@@ -565,15 +570,18 @@ export type SetLocalPreviewContainerType = {
   sizeCallback: SizeCallbackType | undefined;
 };
 
-export class CallingClass {
+class CallingClass {
   readonly #videoCapturer: GumVideoCapturer;
   readonly videoRenderer: CanvasVideoRenderer;
 
   #localPreviewContainer: HTMLDivElement | undefined;
   #localPreview: HTMLVideoElement | undefined;
   #reduxInterface?: CallingReduxInterface;
+  #_sfuUrl?: string;
 
-  public _sfuUrl?: string;
+  public get sfuUrl(): string | undefined {
+    return itemStorage.get('sfuUrl') ?? this.#_sfuUrl;
+  }
 
   public _iceServerOverride?: GetIceServersResultType | string;
 
@@ -584,13 +592,13 @@ export class CallingClass {
   #deviceReselectionTimer?: NodeJS.Timeout;
   #callsLookup: { [key: string]: Call | GroupCall };
 
-  #cameraEnabled: boolean = false;
+  #cameraEnabled = false;
 
-  #registeredAssets: Map<string, boolean> = new Map();
+  readonly #registeredAssets = new Map<string, boolean>();
 
   // Send our profile key to other participants in call link calls to ensure they
   // can see our profile info. Only send once per aci until the next app start.
-  #sendProfileKeysForAdhocCallCache: Set<AciString>;
+  readonly #sendProfileKeysForAdhocCallCache: Set<AciString>;
 
   constructor() {
     this.#videoCapturer = new GumVideoCapturer();
@@ -606,7 +614,7 @@ export class CallingClass {
       throw new Error('CallingClass.initialize: Invalid uxActions.');
     }
 
-    this._sfuUrl = sfuUrl;
+    this.#_sfuUrl = sfuUrl;
 
     RingRTC.setConfig({
       field_trials: undefined,
@@ -622,14 +630,10 @@ export class CallingClass {
     RingRTC.handleRejectedIncomingCallRequest =
       this.#handleRejectedIncomingCallRequest.bind(this);
     RingRTC.handleLogMessage = this.#handleLogMessage.bind(this);
-    // @ts-expect-error needs ringrtc update
     RingRTC.handleSendHttpRequest = this.#handleSendHttpRequest.bind(this);
-    // @ts-expect-error needs ringrtc update
     RingRTC.handleSendCallMessage = this.#handleSendCallMessage.bind(this);
-    // @ts-expect-error needs ringrtc update
     RingRTC.handleSendCallMessageToGroup =
       this.#handleSendCallMessageToGroup.bind(this);
-    // @ts-expect-error needs ringrtc update
     RingRTC.handleGroupCallRingUpdate =
       this.#handleGroupCallRingUpdate.bind(this);
 
@@ -851,20 +855,18 @@ export class CallingClass {
 
   async createCallLink(): Promise<CallLinkType> {
     strictAssert(
-      this._sfuUrl,
+      this.sfuUrl,
       'createCallLink() missing SFU URL; not creating call link'
     );
 
-    const sfuUrl = this._sfuUrl;
+    const { sfuUrl } = this;
     const userId = Aci.parseFromServiceIdString(
       itemStorage.user.getCheckedAci()
     );
 
     const rootKey = CallLinkRootKey.generate();
-    // @ts-expect-error needs ringrtc update
     const rootKeyBytes: Uint8Array<ArrayBuffer> = rootKey.bytes;
     const roomId = rootKey.deriveRoomId();
-    // @ts-expect-error needs ringrtc update
     const roomIdBytes: Uint8Array<ArrayBuffer> = roomId;
     const roomIdHex = Bytes.toHex(roomIdBytes);
     const logId = `createCallLink(${roomIdHex})`;
@@ -872,7 +874,6 @@ export class CallingClass {
     log.info(`${logId}: Creating call link`);
 
     const adminKey = CallLinkRootKey.generateAdminPassKey();
-    // @ts-expect-error needs ringrtc update
     const adminKeyBytes: Uint8Array<ArrayBuffer> = adminKey;
 
     const context =
@@ -936,11 +937,11 @@ export class CallingClass {
 
   async deleteCallLink(callLink: CallLinkType): Promise<void> {
     strictAssert(
-      this._sfuUrl,
+      this.sfuUrl,
       'createCallLink() missing SFU URL; not deleting call link'
     );
 
-    const sfuUrl = this._sfuUrl;
+    const { sfuUrl } = this;
     const logId = `deleteCallLink(${callLink.roomId})`;
     log.info(logId);
 
@@ -973,10 +974,10 @@ export class CallingClass {
     name: string
   ): Promise<CallLinkStateType> {
     strictAssert(
-      this._sfuUrl,
+      this.sfuUrl,
       'updateCallLinkName() missing SFU URL; not update call link name'
     );
-    const sfuUrl = this._sfuUrl;
+    const { sfuUrl } = this;
     const logId = `updateCallLinkName(${callLink.roomId})`;
 
     log.info(`${logId}: Updating call link name`);
@@ -1011,10 +1012,10 @@ export class CallingClass {
     restrictions: CallLinkRestrictions
   ): Promise<CallLinkStateType> {
     strictAssert(
-      this._sfuUrl,
+      this.sfuUrl,
       'updateCallLinkRestrictions() missing SFU URL; not update call link restrictions'
     );
-    const sfuUrl = this._sfuUrl;
+    const { sfuUrl } = this;
     const logId = `updateCallLinkRestrictions(${callLink.roomId})`;
 
     log.info(`${logId}: Updating call link restrictions`);
@@ -1054,7 +1055,7 @@ export class CallingClass {
   async readCallLink(
     callLinkRootKey: CallLinkRootKey
   ): Promise<CallLinkStateType | null> {
-    if (!this._sfuUrl) {
+    if (!this.sfuUrl) {
       throw new Error('readCallLink() missing SFU URL; not handling call link');
     }
 
@@ -1066,7 +1067,7 @@ export class CallingClass {
       await getCallLinkAuthCredentialPresentation(callLinkRootKey);
 
     const result = await RingRTC.readCallLink(
-      this._sfuUrl,
+      this.sfuUrl,
       authCredentialPresentation.serialize(),
       callLinkRootKey
     );
@@ -1300,7 +1301,9 @@ export class CallingClass {
     await DataWriter.markCallHistoryMissed(staleCallIds);
   }
 
-  public async peekGroupCall(conversationId: string): Promise<PeekInfo> {
+  public async peekGroupCall(
+    conversationId: string
+  ): Promise<PeekInfo | undefined> {
     // This can be undefined in two cases:
     //
     // 1. There is no group call instance. This is "stateless peeking", and is expected
@@ -1315,7 +1318,7 @@ export class CallingClass {
       return statefulPeekInfo;
     }
 
-    if (!this._sfuUrl) {
+    if (!this.sfuUrl) {
       throw new Error('Missing SFU URL; not peeking group call');
     }
 
@@ -1323,6 +1326,11 @@ export class CallingClass {
     if (!conversation) {
       throw new Error('Missing conversation; not peeking group call');
     }
+
+    if (conversation.get('terminated')) {
+      return undefined;
+    }
+
     const publicParams = conversation.get('publicParams');
     const secretParams = conversation.get('secretParams');
     if (!publicParams || !secretParams) {
@@ -1338,7 +1346,7 @@ export class CallingClass {
     const membershipProof = Bytes.fromString(proof);
 
     return RingRTC.peekGroupCall(
-      this._sfuUrl,
+      this.sfuUrl,
       membershipProof,
       this.#getGroupCallMembers(conversationId)
     );
@@ -1360,7 +1368,7 @@ export class CallingClass {
       );
     }
 
-    if (!this._sfuUrl) {
+    if (!this.sfuUrl) {
       throw new Error('Missing SFU URL; not peeking call link call');
     }
 
@@ -1369,7 +1377,7 @@ export class CallingClass {
       await getCallLinkAuthCredentialPresentation(callLinkRootKey);
 
     const result = await RingRTC.peekCallLinkCall(
-      this._sfuUrl,
+      this.sfuUrl,
       authCredentialPresentation.serialize(),
       callLinkRootKey
     );
@@ -1412,7 +1420,7 @@ export class CallingClass {
       return existing;
     }
 
-    if (!this._sfuUrl) {
+    if (!this.sfuUrl) {
       throw new Error('Missing SFU URL; not connecting group call');
     }
 
@@ -1420,16 +1428,16 @@ export class CallingClass {
     log.info(logId);
 
     const groupIdBuffer = Bytes.fromBase64(groupId);
-    const dredDuration = 0;
 
     let isRequestingMembershipProof = false;
+    const config = this.#getRemoteAndOverrideConfigValues();
 
     const outerGroupCall = RingRTC.getGroupCall(
       groupIdBuffer,
-      this._sfuUrl,
+      this.sfuUrl,
       new Uint8Array(),
       AUDIO_LEVEL_INTERVAL_MS,
-      dredDuration,
+      config.dredDuration,
       {
         ...this.#getGroupCallObserver(conversationId, CallMode.Group),
         async requestMembershipProof(groupCall) {
@@ -1496,23 +1504,22 @@ export class CallingClass {
     const logId = `connectCallLinkCall(${roomId}`;
     log.info(logId);
 
-    if (!this._sfuUrl) {
+    if (!this.sfuUrl) {
       throw new Error(
         `${logId}: Missing SFU URL; not connecting group call link call`
       );
     }
-
-    const dredDuration = 0;
+    const config = this.#getRemoteAndOverrideConfigValues();
 
     const outerGroupCall = RingRTC.getCallLinkCall(
-      this._sfuUrl,
+      this.sfuUrl,
       endorsementsPublicKey,
       authCredentialPresentation.serialize(),
       callLinkRootKey,
       adminPasskey,
       new Uint8Array(),
       AUDIO_LEVEL_INTERVAL_MS,
-      dredDuration,
+      config.dredDuration,
       this.#getGroupCallObserver(roomId, CallMode.Adhoc)
     );
 
@@ -1881,7 +1888,6 @@ export class CallingClass {
       let aci: AciString | null = null;
 
       if (device.userId) {
-        // @ts-expect-error needs ringrtc update
         const userIdBytes: Uint8Array<ArrayBuffer> = device.userId;
         aci = this.#formatUserId(userIdBytes);
       }
@@ -2172,7 +2178,6 @@ export class CallingClass {
     let creatorAci: string | undefined;
 
     if (peekInfo.creator) {
-      // @ts-expect-error needs ringrtc update
       const creatorBytes: Uint8Array<ArrayBuffer> = peekInfo.creator;
       creatorAci = bytesToUuid(creatorBytes);
     }
@@ -2180,7 +2185,6 @@ export class CallingClass {
     return {
       acis: peekInfo.devices.map(peekDeviceInfo => {
         if (peekDeviceInfo.userId) {
-          // @ts-expect-error needs ringrtc update
           const userIdBytes: Uint8Array<ArrayBuffer> = peekDeviceInfo.userId;
           const uuid = this.#formatUserId(userIdBytes);
           if (uuid) {
@@ -2198,7 +2202,6 @@ export class CallingClass {
       }),
       pendingAcis: compact(
         peekInfo.pendingUsers.map(userId => {
-          // @ts-expect-error needs ringrtc update;
           const userIdBytes: Uint8Array<ArrayBuffer> = userId;
           return this.#formatUserId(userIdBytes);
         })
@@ -2247,7 +2250,6 @@ export class CallingClass {
         ? this.formatGroupCallPeekInfoForRedux(peekInfo)
         : undefined,
       remoteParticipants: remoteDeviceStates.map(remoteDeviceState => {
-        // @ts-expect-error needs ringrtc update
         const userIdBytes: Uint8Array<ArrayBuffer> = remoteDeviceState.userId;
         let aci = bytesToUuid(userIdBytes);
         if (!aci) {
@@ -2589,6 +2591,7 @@ export class CallingClass {
 
     if (enabled) {
       // Make sure we have access to camera
+      // oxlint-disable-next-line typescript/await-thenable
       await window.reduxActions.globalModals.ensureSystemMediaPermissions(
         'camera',
         'call'
@@ -2845,10 +2848,11 @@ export class CallingClass {
     ) {
       return false;
     }
+    // oxlint-disable-next-line typescript/prefer-for-of
     for (let i = 0; i < a.availableCameras.length; i += 1) {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      // oxlint-disable-next-line typescript/no-non-null-assertion
       const aCamera = a.availableCameras[i]!;
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      // oxlint-disable-next-line typescript/no-non-null-assertion
       const bCamera = a.availableCameras[i]!;
       if (
         aCamera.deviceId !== bCamera.deviceId ||
@@ -2859,9 +2863,9 @@ export class CallingClass {
       }
     }
     for (let i = 0; i < a.availableMicrophones.length; i += 1) {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      // oxlint-disable-next-line typescript/no-non-null-assertion
       const aMicrophone = a.availableMicrophones[i]!;
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      // oxlint-disable-next-line typescript/no-non-null-assertion
       const bMicrophone = b.availableMicrophones[i]!;
       if (
         aMicrophone.name !== bMicrophone.name ||
@@ -2871,9 +2875,9 @@ export class CallingClass {
       }
     }
     for (let i = 0; i < a.availableSpeakers.length; i += 1) {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      // oxlint-disable-next-line typescript/no-non-null-assertion
       const aSpeaker = a.availableSpeakers[i]!;
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      // oxlint-disable-next-line typescript/no-non-null-assertion
       const bSpeaker = b.availableSpeakers[i]!;
       if (
         aSpeaker.name !== bSpeaker.name ||
@@ -3043,6 +3047,7 @@ export class CallingClass {
   }
 
   async enableLocalCamera(mode: CallMode): Promise<void> {
+    // oxlint-disable-next-line typescript/await-thenable
     await window.reduxActions.globalModals.ensureSystemMediaPermissions(
       'camera',
       'call'
@@ -3180,11 +3185,17 @@ export class CallingClass {
         localCallEvent,
         'CallingClass.handleCallingMessage'
       );
-      await updateCallHistoryFromLocalEvent(
+      const {
+        receivedAtCounter,
+        receivedAtDate: receivedAtMS,
+        serverGuid,
+      } = envelope;
+      await updateCallHistoryFromLocalEvent({
         callEvent,
-        envelope.receivedAtCounter,
-        envelope.receivedAtDate
-      );
+        receivedAtCounter,
+        receivedAtMS,
+        serverGuid,
+      });
 
       return;
     }
@@ -3397,6 +3408,11 @@ export class CallingClass {
       return;
     }
 
+    if (conversation.get('terminated')) {
+      log.warn(`${logId}: update to terminated group`);
+      return;
+    }
+
     if (
       conversation.get('announcementsOnly') &&
       !conversation.isAdmin(ringerAci)
@@ -3460,7 +3476,9 @@ export class CallingClass {
         localEventForCall,
         'CallingClass.handleGroupCallRingUpdate'
       );
-      await updateCallHistoryFromLocalEvent(callEvent, null, null);
+      await updateCallHistoryFromLocalEvent({
+        callEvent,
+      });
     }
   }
 
@@ -3555,7 +3573,9 @@ export class CallingClass {
           localCallEvent,
           'CallingClass.handleIncomingCall'
         );
-        await updateCallHistoryFromLocalEvent(callEvent, null, null);
+        await updateCallHistoryFromLocalEvent({
+          callEvent,
+        });
 
         return false;
       }
@@ -3590,7 +3610,7 @@ export class CallingClass {
     ageInSeconds: number,
     wasVideoCall: boolean,
     receivedAtCounter: number | undefined,
-    receivedAtMS: number | undefined = undefined
+    receivedAtMS?: number
   ) {
     const conversation = window.ConversationController.get(remoteUserId);
     if (!conversation) {
@@ -3655,11 +3675,11 @@ export class CallingClass {
       conversationId: conversation.id,
     });
 
-    await updateCallHistoryFromLocalEvent(
+    await updateCallHistoryFromLocalEvent({
       callEvent,
-      receivedAtCounter ?? null,
-      receivedAtMS ?? null
-    );
+      receivedAtCounter,
+      receivedAtMS,
+    });
   }
 
   #attachToCall(conversation: ConversationModel, call: Call): void {
@@ -3679,7 +3699,7 @@ export class CallingClass {
 
     let acceptedTime: number | null = null;
 
-    // eslint-disable-next-line no-param-reassign
+    // oxlint-disable-next-line no-param-reassign
     call.handleStateChanged = async () => {
       if (call.state === CallState.Accepted) {
         acceptedTime = acceptedTime ?? Date.now();
@@ -3718,7 +3738,9 @@ export class CallingClass {
           localCallEvent,
           'call.handleStateChanged'
         );
-        await updateCallHistoryFromLocalEvent(callEvent, null, null);
+        await updateCallHistoryFromLocalEvent({
+          callEvent,
+        });
       }
 
       if (
@@ -3740,14 +3762,14 @@ export class CallingClass {
       });
     };
 
-    // eslint-disable-next-line no-param-reassign
+    // oxlint-disable-next-line no-param-reassign
     call.handleRemoteAudioEnabled = () => {
       reduxInterface.remoteAudioChange({
         conversationId,
         hasAudio: call.remoteAudioEnabled,
       });
     };
-    // eslint-disable-next-line no-param-reassign
+    // oxlint-disable-next-line no-param-reassign
     call.handleRemoteVideoEnabled = () => {
       reduxInterface.remoteVideoChange({
         conversationId,
@@ -3755,15 +3777,15 @@ export class CallingClass {
       });
     };
 
-    // eslint-disable-next-line no-param-reassign
+    // oxlint-disable-next-line no-param-reassign
     call.handleRemoteSharingScreen = () => {
       reduxInterface.remoteSharingScreenChange({
         conversationId,
-        isSharingScreen: Boolean(call.remoteSharingScreen),
+        isSharingScreen: call.remoteSharingScreen,
       });
     };
 
-    // eslint-disable-next-line no-param-reassign
+    // oxlint-disable-next-line no-param-reassign
     call.handleAudioLevels = () => {
       window.SignalCI?.maybeUpdateMaxAudioLevel(call.remoteAudioLevel);
       reduxInterface.directCallAudioLevelsChange({
@@ -3773,7 +3795,7 @@ export class CallingClass {
       });
     };
 
-    // eslint-disable-next-line no-param-reassign
+    // oxlint-disable-next-line no-param-reassign
     call.handleLowBandwidthForVideo = _recovered => {
       // TODO: Implement handling of "low outgoing bandwidth for video" notification.
     };
@@ -3861,6 +3883,59 @@ export class CallingClass {
       return deviceId;
     }
     return null;
+  }
+
+  #getRemoteAndOverrideConfigValues(): {
+    dredDuration: number | undefined;
+    isDirectVp9Enabled: boolean | undefined;
+    directMaxBitrate: number | undefined;
+    isGroupVp9Enabled: boolean | undefined;
+    groupMaxBitrate: number | undefined;
+  } {
+    function dredDuration(version: string): number | undefined {
+      const override = itemStorage.get('dredDuration');
+      if (override) {
+        return override;
+      }
+
+      if (isProduction(version)) {
+        return tryParseInt(
+          RemoteConfig.getValue('desktop.calling.dredDuration.prod')
+        );
+      }
+
+      if (isBeta(version)) {
+        return tryParseInt(
+          RemoteConfig.getValue('desktop.calling.dredDuration.beta')
+        );
+      }
+
+      if (isAlpha(version)) {
+        return tryParseInt(
+          RemoteConfig.getValue('desktop.calling.dredDuration.alpha')
+        );
+      }
+
+      return undefined;
+    }
+
+    function tryParseInt(v: string | undefined): number | undefined {
+      try {
+        return parseIntOrThrow(v, 'invalid');
+      } catch (e) {
+        return undefined;
+      }
+    }
+
+    const version = window.SignalContext.getVersion();
+
+    return {
+      dredDuration: dredDuration(version),
+      isDirectVp9Enabled: itemStorage.get('isDirectVp9Enabled'),
+      directMaxBitrate: itemStorage.get('directMaxBitrate'),
+      isGroupVp9Enabled: itemStorage.get('isGroupVp9Enabled'),
+      groupMaxBitrate: itemStorage.get('directMaxBitrate'),
+    };
   }
 
   async #getIceServers(): Promise<Array<IceServerType>> {
@@ -3964,6 +4039,7 @@ export class CallingClass {
     }
 
     const iceServers = await this.#getIceServers();
+    const config = this.#getRemoteAndOverrideConfigValues();
 
     // We do this again, since getIceServers is a call that can take some time
     if (call.endedReason) {
@@ -3984,7 +4060,7 @@ export class CallingClass {
       hideIp: shouldRelayCalls || isContactUntrusted,
       dataMode: DataMode.Normal,
       audioLevelsIntervalMillis: AUDIO_LEVEL_INTERVAL_MS,
-      dredDuration: 0,
+      dredDuration: config.dredDuration,
     };
 
     log.info('CallingClass.handleStartCall(): Proceeding');
@@ -4080,7 +4156,9 @@ export class CallingClass {
         localCallEvent,
         'CallingClass.updateCallHistoryForGroupCallOnLocalChanged'
       );
-      await updateCallHistoryFromLocalEvent(callEvent, null, null);
+      await updateCallHistoryFromLocalEvent({
+        callEvent,
+      });
     } catch (error) {
       log.error(
         'CallingClass.updateCallHistoryForGroupCallOnLocalChanged: Error updating state',
@@ -4135,7 +4213,9 @@ export class CallingClass {
           localCallEvent,
           'CallingClass.updateCallHistoryForGroupCallOnPeek'
         );
-        await updateCallHistoryFromLocalEvent(callEvent, null, null);
+        await updateCallHistoryFromLocalEvent({
+          callEvent,
+        });
       }
     }
 

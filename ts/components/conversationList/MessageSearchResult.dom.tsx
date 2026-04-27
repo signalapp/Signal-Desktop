@@ -5,22 +5,22 @@ import type { FunctionComponent, ReactNode } from 'react';
 import React, { useCallback } from 'react';
 import lodash from 'lodash';
 
-import { ContactName } from '../conversation/ContactName.dom.js';
+import { ContactName } from '../conversation/ContactName.dom.tsx';
 
-import type { BodyRangesForDisplayType } from '../../types/BodyRange.std.js';
-import { processBodyRangesForSearchResult } from '../../types/BodyRange.std.js';
-import type { LocalizerType, ThemeType } from '../../types/Util.std.js';
-import { BaseConversationListItem } from './BaseConversationListItem.dom.js';
+import type { BodyRangesForDisplayType } from '../../types/BodyRange.std.ts';
+import { processBodyRangesForSearchResult } from '../../types/BodyRange.std.ts';
+import type { LocalizerType, ThemeType } from '../../types/Util.std.ts';
+import { BaseConversationListItem } from './BaseConversationListItem.dom.tsx';
 import type {
   ConversationType,
   ShowConversationType,
-} from '../../state/ducks/conversations.preload.js';
-import type { PreferredBadgeSelectorType } from '../../state/selectors/badges.preload.js';
-import { I18n } from '../I18n.dom.js';
+} from '../../state/ducks/conversations.preload.ts';
+import type { PreferredBadgeSelectorType } from '../../state/selectors/badges.preload.ts';
+import { I18n } from '../I18n.dom.tsx';
 import {
   MessageTextRenderer,
   RenderLocation,
-} from '../conversation/MessageTextRenderer.dom.js';
+} from '../conversation/MessageTextRenderer.dom.tsx';
 
 const { noop } = lodash;
 
@@ -135,7 +135,6 @@ export const MessageSearchResult: FunctionComponent<PropsType> = React.memo(
         );
       }
     } else {
-      // eslint-disable-next-line no-lonely-if
       if (to.type === 'group') {
         headerName = (
           <span>

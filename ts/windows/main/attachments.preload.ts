@@ -8,37 +8,19 @@ import { existsSync } from 'node:fs';
 import fse from 'fs-extra';
 import { v4 as getGuid } from 'uuid';
 
-import { isPathInside } from '../../util/isPathInside.node.js';
-import { writeWindowsZoneIdentifier } from '../../util/windowsZoneIdentifier.node.js';
-import OS from '../../util/os/osMain.node.js';
-import { getRelativePath, createName } from '../../util/attachmentPath.node.js';
-import { toHex } from '../../Bytes.std.js';
-import { getRandomBytes } from '../../Crypto.node.js';
-import { createLogger } from '../../logging/log.std.js';
+import { isPathInside } from '../../util/isPathInside.node.ts';
+import { writeWindowsZoneIdentifier } from '../../util/windowsZoneIdentifier.node.ts';
+import OS from '../../util/os/osMain.node.ts';
+import { getRelativePath, createName } from '../../util/attachmentPath.node.ts';
+import { toHex } from '../../Bytes.std.ts';
+import { getRandomBytes } from '../../Crypto.node.ts';
+import { createLogger } from '../../logging/log.std.ts';
 
 const { isString, isTypedArray } = lodash;
 
 const log = createLogger('attachments');
 
-export * from '../../../app/attachments.node.js';
-
-type FSAttrType = {
-  set: (path: string, attribute: string, value: string) => Promise<void>;
-};
-
 const GET_UNUSED_FILENAME_MAX_ATTEMPTS = 100;
-
-let xattr: FSAttrType | undefined;
-
-try {
-  // eslint-disable-next-line global-require, import/no-extraneous-dependencies
-  xattr = require('fs-xattr');
-} catch (e) {
-  if (process.platform === 'darwin') {
-    throw e;
-  }
-  log.info('x-attr dependency did not load successfully');
-}
 
 export const createPlaintextReader = (
   root: string
@@ -219,7 +201,9 @@ async function writeWithAttributes(
 ): Promise<void> {
   await fse.writeFile(target, Buffer.from(data));
 
-  if (process.platform === 'darwin' && xattr) {
+  if (process.platform === 'darwin') {
+    const xattr = await import('fs-xattr');
+
     // kLSQuarantineTypeInstantMessageAttachment
     const type = '0003';
 
@@ -232,7 +216,7 @@ async function writeWithAttributes(
     // https://ilostmynotes.blogspot.com/2012/06/gatekeeper-xprotect-and-quarantine.html
     const attrValue = `${type};${timestamp};${appName};${guid}`;
 
-    await xattr.set(target, 'com.apple.quarantine', attrValue);
+    await xattr.setAttribute(target, 'com.apple.quarantine', attrValue);
   } else if (OS.isWindows()) {
     // This operation may fail (see the function's comments), which is not a show-stopper.
     try {

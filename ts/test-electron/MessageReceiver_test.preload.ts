@@ -3,20 +3,20 @@
 
 import { assert } from 'chai';
 
-import MessageReceiver from '../textsecure/MessageReceiver.preload.js';
+import MessageReceiver from '../textsecure/MessageReceiver.preload.ts';
 import {
   IncomingWebSocketRequest,
   ServerRequestType,
-} from '../textsecure/WebsocketResources.preload.js';
-import type { DecryptionErrorEvent } from '../textsecure/messageReceiverEvents.std.js';
-import { generateAci } from '../types/ServiceId.std.js';
-import type { AciString } from '../types/ServiceId.std.js';
-import { toAciObject } from '../util/ServiceId.node.js';
-import { SignalService as Proto } from '../protobuf/index.std.js';
-import * as Crypto from '../Crypto.node.js';
-import { toBase64 } from '../Bytes.std.js';
-import { signalProtocolStore } from '../SignalProtocolStore.preload.js';
-import { itemStorage } from '../textsecure/Storage.preload.js';
+} from '../textsecure/WebsocketResources.preload.ts';
+import type { DecryptionErrorEvent } from '../textsecure/messageReceiverEvents.std.ts';
+import type { AciString } from '../types/ServiceId.std.ts';
+import { toAciObject } from '../util/ServiceId.node.ts';
+import { SignalService as Proto } from '../protobuf/index.std.ts';
+import * as Crypto from '../Crypto.node.ts';
+import { toBase64 } from '../Bytes.std.ts';
+import { signalProtocolStore } from '../SignalProtocolStore.preload.ts';
+import { itemStorage } from '../textsecure/Storage.preload.ts';
+import { generateAci } from '../test-helpers/serviceIdUtils.std.ts';
 
 describe('MessageReceiver', () => {
   const someAci = generateAci();

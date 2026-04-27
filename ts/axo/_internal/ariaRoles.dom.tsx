@@ -3,7 +3,7 @@
 
 import type { AriaRole as ReactAriaRole } from 'react';
 import { getRole } from 'dom-accessibility-api';
-import { assert } from './assert.std.js';
+import { assert } from './assert.std.tsx';
 
 const AbstractRoles = {
   /** Abstract Roles: https://www.w3.org/TR/wai-aria-1.2/#abstract_roles */
@@ -168,7 +168,7 @@ function inherits(role: AnyAriaRole, superRole: AnyAriaRole): boolean {
   return false;
 }
 
-export function isValidAriaRole(role: string | null): role is AriaRole {
+function isValidAriaRole(role: string | null): role is AriaRole {
   return role != null && Object.hasOwn(ParentRoles, role);
 }
 

@@ -1,8 +1,8 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { Environment, getEnvironment } from '../environment.std.js';
-import { isStaging } from './version.std.js';
+import { Environment, getEnvironment } from '../environment.std.ts';
+import { isStaging } from './version.std.ts';
 
 export function isStagingServer(
   serverUrl = window.SignalContext.config.serverUrl

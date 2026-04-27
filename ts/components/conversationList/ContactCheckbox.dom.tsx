@@ -4,14 +4,14 @@
 import React from 'react';
 import type { FunctionComponent } from 'react';
 
-import { HEADER_CONTACT_NAME_CLASS_NAME } from './BaseConversationListItem.dom.js';
-import type { ConversationType } from '../../state/ducks/conversations.preload.js';
-import type { BadgeType } from '../../badges/types.std.js';
-import type { LocalizerType, ThemeType } from '../../types/Util.std.js';
-import { ContactName } from '../conversation/ContactName.dom.js';
-import { About } from '../conversation/About.dom.js';
-import { ListTile } from '../ListTile.dom.js';
-import { Avatar, AvatarSize } from '../Avatar.dom.js';
+import { HEADER_CONTACT_NAME_CLASS_NAME } from './BaseConversationListItem.dom.tsx';
+import type { ConversationType } from '../../state/ducks/conversations.preload.ts';
+import type { BadgeType } from '../../badges/types.std.ts';
+import type { LocalizerType, ThemeType } from '../../types/Util.std.ts';
+import { ContactName } from '../conversation/ContactName.dom.tsx';
+import { About } from '../conversation/About.dom.tsx';
+import { ListTile } from '../ListTile.dom.tsx';
+import { Avatar, AvatarSize } from '../Avatar.dom.tsx';
 
 export enum ContactCheckboxDisabledReason {
   // We start the enum at 1 because the default starting value of 0 is falsy.
@@ -101,7 +101,7 @@ export const ContactCheckbox: FunctionComponent<PropsType> = React.memo(
             avatarUrl={avatarUrl}
             color={color}
             conversationType={type}
-            noteToSelf={Boolean(isMe)}
+            noteToSelf={isMe}
             i18n={i18n}
             phoneNumber={phoneNumber}
             profileName={profileName}

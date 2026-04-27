@@ -4,10 +4,10 @@
 import lodash from 'lodash';
 import SQL from '@signalapp/sqlcipher';
 
-import type { ReadableDB, WritableDB } from '../../sql/Interface.std.js';
-import type { QueryTemplate } from '../../sql/util.std.js';
-import { SCHEMA_VERSIONS } from '../../sql/migrations/index.node.js';
-import { consoleLogger } from '../../util/consoleLogger.std.js';
+import type { ReadableDB, WritableDB } from '../../sql/Interface.std.ts';
+import type { QueryTemplate } from '../../sql/util.std.ts';
+import { SCHEMA_VERSIONS } from '../../sql/migrations/index.node.ts';
+import { consoleLogger } from '../../util/consoleLogger.std.ts';
 
 const { noop } = lodash;
 

@@ -6,11 +6,11 @@ import React from 'react';
 import { action } from '@storybook/addon-actions';
 
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './AddGroupMemberErrorDialog.dom.js';
+import type { PropsType } from './AddGroupMemberErrorDialog.dom.tsx';
 import {
   AddGroupMemberErrorDialog,
   AddGroupMemberErrorDialogMode,
-} from './AddGroupMemberErrorDialog.dom.js';
+} from './AddGroupMemberErrorDialog.dom.tsx';
 
 const { i18n } = window.SignalContext;
 

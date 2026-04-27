@@ -4,7 +4,7 @@
 import { assert } from 'chai';
 import { Readable } from 'node:stream';
 import { once } from 'node:events';
-import { toWebStream } from '../../util/toWebStream.node.js';
+import { toWebStream } from '../../util/toWebStream.node.ts';
 
 describe('toWebStream', () => {
   it('only reads what it needs', async () => {
@@ -86,7 +86,7 @@ describe('toWebStream', () => {
 
     // Some sort of mismatch between Node's expectation for ReadStream and
     // what TS says ReadStream is in WebAPIs.
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // oxlint-disable-next-line typescript/no-explicit-any
     const node = Readable.fromWeb(web as any);
     node.on('data', () => {
       node.destroy();

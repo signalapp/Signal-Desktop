@@ -7,95 +7,102 @@ import PQueue from 'p-queue';
 import pMap from 'p-map';
 import { v7 as generateUuid } from 'uuid';
 
-import * as Registration from './util/registration.preload.js';
-import MessageReceiver from './textsecure/MessageReceiver.preload.js';
-import { signalProtocolStore } from './SignalProtocolStore.preload.js';
+import * as Registration from './util/registration.preload.ts';
+import MessageReceiver from './textsecure/MessageReceiver.preload.ts';
+import { signalProtocolStore } from './SignalProtocolStore.preload.ts';
 import type {
   SessionResetsType,
   ProcessedDataMessage,
 } from './textsecure/Types.d.ts';
-import { HTTPError } from './types/HTTPError.std.js';
-import createTaskWithTimeout, {
+import { HTTPError } from './types/HTTPError.std.ts';
+import {
+  runTaskWithTimeout,
   suspendTasksWithTimeout,
   resumeTasksWithTimeout,
   reportLongRunningTasks,
-} from './textsecure/TaskWithTimeout.std.js';
+} from './textsecure/TaskWithTimeout.std.ts';
 import type { MessageAttributesType } from './model-types.d.ts';
-import * as Bytes from './Bytes.std.js';
-import * as Timers from './Timers.preload.js';
-import * as indexedDb from './indexeddb.dom.js';
-import type { MenuOptionsType } from './types/menu.std.js';
-import { SocketStatus } from './types/SocketStatus.std.js';
-import { DEFAULT_CONVERSATION_COLOR } from './types/Colors.std.js';
-import { ThemeType } from './types/Util.std.js';
-import * as durations from './util/durations/index.std.js';
-import { drop } from './util/drop.std.js';
-import { explodePromise } from './util/explodePromise.std.js';
-import { deliveryReceiptQueue } from './util/deliveryReceipt.preload.js';
-import type { ExplodePromiseResultType } from './util/explodePromise.std.js';
-import { isWindowDragElement } from './util/isWindowDragElement.std.js';
-import { assertDev, strictAssert } from './util/assert.std.js';
-import { filter } from './util/iterables.std.js';
-import { isNotNil } from './util/isNotNil.std.js';
-import { isAdminDeleteReceiveEnabled } from './util/isAdminDeleteEnabled.dom.js';
-import { areRemoteBackupsTurnedOn } from './util/isBackupEnabled.preload.js';
-import { lightSessionResetQueue } from './util/lightSessionResetQueue.std.js';
-import { setAppLoadingScreenMessage } from './setAppLoadingScreenMessage.dom.js';
-import { IdleDetector } from './IdleDetector.preload.js';
-import { challengeHandler } from './services/challengeHandler.preload.js';
+import * as Bytes from './Bytes.std.ts';
+import * as Timers from './Timers.preload.ts';
+import * as indexedDb from './indexeddb.dom.ts';
+import { ToastType } from './types/Toast.dom.tsx';
+import type { MenuOptionsType } from './types/menu.std.ts';
+import { SocketStatus } from './types/SocketStatus.std.ts';
+import { DEFAULT_CONVERSATION_COLOR } from './types/Colors.std.ts';
+import { ThemeType } from './types/Util.std.ts';
+import * as durations from './util/durations/index.std.ts';
+import { drop } from './util/drop.std.ts';
+import { explodePromise } from './util/explodePromise.std.ts';
+import { deliveryReceiptQueue } from './util/deliveryReceipt.preload.ts';
+import type { ExplodePromiseResultType } from './util/explodePromise.std.ts';
+import { isWindowDragElement } from './util/isWindowDragElement.std.ts';
+import { assertDev, strictAssert } from './util/assert.std.ts';
+import { isProduction, isBeta } from './util/version.std.ts';
+import { filter } from './util/iterables.std.ts';
+import { isNotNil } from './util/isNotNil.std.ts';
+import { isAdminDeleteReceiveEnabled } from './util/isAdminDeleteEnabled.dom.ts';
+import { areRemoteBackupsTurnedOn } from './util/isBackupEnabled.preload.ts';
+import { lightSessionResetQueue } from './util/lightSessionResetQueue.std.ts';
+import { trackHeapSize } from './util/oomNotifier.node.ts';
+import { setAppLoadingScreenMessage } from './setAppLoadingScreenMessage.dom.ts';
+import { IdleDetector } from './IdleDetector.preload.ts';
+import { challengeHandler } from './services/challengeHandler.preload.ts';
 import {
   initialize as initializeExpiringMessageService,
   update as updateExpiringMessagesService,
-} from './services/expiringMessagesDeletion.preload.js';
-import { keyTransparency } from './services/keyTransparency.preload.js';
+} from './services/expiringMessagesDeletion.preload.ts';
+import { keyTransparency } from './services/keyTransparency.preload.ts';
 import {
   initialize as initializeNotificationProfilesService,
   fastUpdate as updateNotificationProfileService,
-} from './services/notificationProfilesService.preload.js';
-import { tapToViewMessagesDeletionService } from './services/tapToViewMessagesDeletionService.preload.js';
-import { senderCertificateService } from './services/senderCertificate.preload.js';
+} from './services/notificationProfilesService.preload.ts';
+import { tapToViewMessagesDeletionService } from './services/tapToViewMessagesDeletionService.preload.ts';
+import { senderCertificateService } from './services/senderCertificate.preload.ts';
 import {
   GROUP_CREDENTIALS_KEY,
   initializeGroupCredentialFetcher,
-} from './services/groupCredentialFetcher.preload.js';
-import { initializeNetworkObserver } from './services/networkObserver.preload.js';
-import * as KeyboardLayout from './services/keyboardLayout.dom.js';
-import * as StorageService from './services/storage.preload.js';
-import { usernameIntegrity } from './services/usernameIntegrity.preload.js';
-import { updateIdentityKey } from './services/profiles.preload.js';
-import { initializeUpdateListener } from './services/updateListener.preload.js';
-import { RoutineProfileRefresher } from './routineProfileRefresh.preload.js';
-import { isOlderThan } from './util/timestamp.std.js';
-import { isValidReactionEmoji } from './reactions/isValidReactionEmoji.std.js';
-import { safeParsePartial } from './util/schemas.std.js';
-import { PollVoteSchema, PollTerminateSchema } from './types/Polls.dom.js';
-import type { ConversationModel } from './models/conversations.preload.js';
-import { isIncoming } from './messages/helpers.std.js';
-import { getAuthor } from './messages/sources.preload.js';
-import { migrateBatchOfMessages } from './messages/migrateMessageData.preload.js';
-import { createBatcher, waitForAllBatchers } from './util/batcher.std.js';
+} from './services/groupCredentialFetcher.preload.ts';
+import { initializeNetworkObserver } from './services/networkObserver.preload.ts';
+import * as KeyboardLayout from './services/keyboardLayout.dom.ts';
+import * as StorageService from './services/storage.preload.ts';
+import { usernameIntegrity } from './services/usernameIntegrity.preload.ts';
+import { updateIdentityKey } from './services/profiles.preload.ts';
+import { initializeUpdateListener } from './services/updateListener.preload.ts';
+import { RoutineProfileRefresher } from './routineProfileRefresh.preload.ts';
+import { isOlderThan } from './util/timestamp.std.ts';
+import { isValidReactionEmoji } from './reactions/isValidReactionEmoji.std.ts';
+import { safeParsePartial } from './util/schemas.std.ts';
+import { PollVoteSchema, PollTerminateSchema } from './types/Polls.dom.ts';
+import type { ConversationModel } from './models/conversations.preload.ts';
+import { isIncoming } from './messages/helpers.std.ts';
+import { getAuthor } from './messages/sources.preload.ts';
+import {
+  migrateAllMessages,
+  migrateBatchOfMessages,
+} from './messages/migrateMessageData.preload.ts';
+import { createBatcher, waitForAllBatchers } from './util/batcher.std.ts';
 import {
   flushAllWaitBatchers,
   waitForAllWaitBatchers,
-} from './util/waitBatcher.std.js';
+} from './util/waitBatcher.std.ts';
 import {
   initializeAllJobQueues,
   shutdownAllJobQueues,
-} from './jobs/initializeAllJobQueues.preload.js';
-import { removeStorageKeyJobQueue } from './jobs/removeStorageKeyJobQueue.preload.js';
-import { conversationJobQueue } from './jobs/conversationJobQueue.preload.js';
-import { ourProfileKeyService } from './services/ourProfileKey.std.js';
-import { notificationService } from './services/notifications.preload.js';
-import { areWeASubscriberService } from './services/areWeASubscriber.dom.js';
+} from './jobs/initializeAllJobQueues.preload.ts';
+import { removeStorageKeyJobQueue } from './jobs/removeStorageKeyJobQueue.preload.ts';
+import { conversationJobQueue } from './jobs/conversationJobQueue.preload.ts';
+import { ourProfileKeyService } from './services/ourProfileKey.std.ts';
+import { notificationService } from './services/notifications.preload.ts';
+import { areWeASubscriberService } from './services/areWeASubscriber.dom.ts';
 import {
   onContactSync,
   setIsInitialContactSync,
-} from './services/contactSync.preload.js';
-import { startTimeTravelDetector } from './util/startTimeTravelDetector.std.js';
-import { shouldRespondWithProfileKey } from './util/shouldRespondWithProfileKey.dom.js';
-import { LatestQueue } from './util/LatestQueue.std.js';
-import { parseIntOrThrow } from './util/parseIntOrThrow.std.js';
-import { getProfile } from './util/getProfile.preload.js';
+} from './services/contactSync.preload.ts';
+import { startTimeTravelDetector } from './util/startTimeTravelDetector.std.ts';
+import { shouldRespondWithProfileKey } from './util/shouldRespondWithProfileKey.dom.ts';
+import { LatestQueue } from './util/LatestQueue.std.ts';
+import { parseIntOrThrow } from './util/parseIntOrThrow.std.ts';
+import { getProfile } from './util/getProfile.preload.ts';
 import type {
   AttachmentBackfillResponseSyncEvent,
   ConfigurationEvent,
@@ -121,7 +128,7 @@ import type {
   ViewEvent,
   ViewOnceOpenSyncEvent,
   ViewSyncEvent,
-} from './textsecure/messageReceiverEvents.std.js';
+} from './textsecure/messageReceiverEvents.std.ts';
 import {
   cancelInflightRequests,
   checkSockets,
@@ -147,144 +154,147 @@ import {
   registerRequestHandler,
   reportMessage,
   unregisterRequestHandler,
-} from './textsecure/WebAPI.preload.js';
-import { accountManager } from './textsecure/AccountManager.preload.js';
-import * as KeyChangeListener from './textsecure/KeyChangeListener.dom.js';
-import { UpdateKeysListener } from './textsecure/UpdateKeysListener.preload.js';
-import { isGroup } from './util/whatTypeOfConversation.dom.js';
-import { BackOff, FIBONACCI_TIMEOUTS } from './util/BackOff.std.js';
-import { createApp as createAppRoot } from './state/roots/createApp.preload.js';
-import { AppViewType } from './state/ducks/app.preload.js';
-import { areAnyCallsActiveOrRinging } from './state/selectors/calling.std.js';
-import { badgeImageFileDownloader } from './badges/badgeImageFileDownloader.preload.js';
-import * as Deletes from './messageModifiers/Deletes.preload.js';
-import * as Edits from './messageModifiers/Edits.preload.js';
-import * as MessageReceipts from './messageModifiers/MessageReceipts.preload.js';
-import * as MessageRequests from './messageModifiers/MessageRequests.preload.js';
-import * as PinnedMessages from './messageModifiers/PinnedMessages.preload.js';
-import * as Polls from './messageModifiers/Polls.preload.js';
-import * as Reactions from './messageModifiers/Reactions.preload.js';
-import * as ViewOnceOpenSyncs from './messageModifiers/ViewOnceOpenSyncs.preload.js';
-import type { DeleteAttributesType } from './messageModifiers/Deletes.preload.js';
-import type { EditAttributesType } from './messageModifiers/Edits.preload.js';
-import type { MessageRequestAttributesType } from './messageModifiers/MessageRequests.preload.js';
+} from './textsecure/WebAPI.preload.ts';
+import { accountManager } from './textsecure/AccountManager.preload.ts';
+import * as KeyChangeListener from './textsecure/KeyChangeListener.dom.ts';
+import { UpdateKeysListener } from './textsecure/UpdateKeysListener.preload.ts';
+import { isGroup } from './util/whatTypeOfConversation.dom.ts';
+import { BackOff, FIBONACCI_TIMEOUTS } from './util/BackOff.std.ts';
+import { createApp as createAppRoot } from './state/roots/createApp.preload.tsx';
+import { AppViewType } from './types/app.std.ts';
+import { areAnyCallsActiveOrRinging } from './state/selectors/calling.std.ts';
+import { badgeImageFileDownloader } from './badges/badgeImageFileDownloader.preload.ts';
+import * as Deletes from './messageModifiers/Deletes.preload.ts';
+import * as Edits from './messageModifiers/Edits.preload.ts';
+import * as MessageReceipts from './messageModifiers/MessageReceipts.preload.ts';
+import * as MessageRequests from './messageModifiers/MessageRequests.dom.ts';
+import * as PinnedMessages from './messageModifiers/PinnedMessages.preload.ts';
+import * as Polls from './messageModifiers/Polls.preload.ts';
+import * as Reactions from './messageModifiers/Reactions.preload.ts';
+import * as ViewOnceOpenSyncs from './messageModifiers/ViewOnceOpenSyncs.preload.ts';
+import type { DeleteAttributesType } from './messageModifiers/Deletes.preload.ts';
+import type { EditAttributesType } from './messageModifiers/Edits.preload.ts';
+import type { MessageRequestAttributesType } from './messageModifiers/MessageRequests.dom.ts';
 import type {
   PollVoteAttributesType,
   PollTerminateAttributesType,
-} from './messageModifiers/Polls.preload.js';
-import type { ReactionAttributesType } from './messageModifiers/Reactions.preload.js';
-import type { ViewOnceOpenSyncAttributesType } from './messageModifiers/ViewOnceOpenSyncs.preload.js';
-import { ReadStatus } from './messages/MessageReadStatus.std.js';
-import type { SendStateByConversationId } from './messages/MessageSendState.std.js';
-import { SendStatus } from './messages/MessageSendState.std.js';
-import * as Stickers from './types/Stickers.preload.js';
-import * as Errors from './types/errors.std.js';
-import { InstallScreenStep } from './types/InstallScreen.std.js';
-import { getEnvironment } from './environment.std.js';
-import { SignalService as Proto } from './protobuf/index.std.js';
+} from './messageModifiers/Polls.preload.ts';
+import type { ReactionAttributesType } from './messageModifiers/Reactions.preload.ts';
+import type { ViewOnceOpenSyncAttributesType } from './messageModifiers/ViewOnceOpenSyncs.preload.ts';
+import { ReadStatus } from './messages/MessageReadStatus.std.ts';
+import type { SendStateByConversationId } from './messages/MessageSendState.std.ts';
+import { SendStatus } from './messages/MessageSendState.std.ts';
+import * as Stickers from './types/Stickers.preload.ts';
+import * as Errors from './types/errors.std.ts';
+import { InstallScreenStep } from './types/InstallScreen.std.ts';
+import { getEnvironment } from './environment.std.ts';
+import { SignalService as Proto } from './protobuf/index.std.ts';
 import {
   getOnDecryptionError,
   onRetryRequest,
   onInvalidPlaintextMessage,
   onSuccessfulDecrypt,
-} from './util/handleRetry.preload.js';
-import { themeChanged } from './shims/themeChanged.dom.js';
-import { createIPCEvents } from './util/createIPCEvents.preload.js';
-import type { ServiceIdString } from './types/ServiceId.std.js';
+} from './util/handleRetry.preload.ts';
+import { themeChanged } from './shims/themeChanged.dom.ts';
+import { createIPCEvents } from './util/createIPCEvents.preload.ts';
+import type { ServiceIdString } from './types/ServiceId.std.ts';
 import {
   ServiceIdKind,
   isPniString,
   isServiceIdString,
-} from './types/ServiceId.std.js';
-import { isAciString } from './util/isAciString.std.js';
-import { normalizeAci } from './util/normalizeAci.std.js';
-import { createLogger } from './logging/log.std.js';
-import { deleteAllLogs } from './util/deleteAllLogs.preload.js';
-import { startInteractionMode } from './services/InteractionMode.dom.js';
-import { calling } from './services/calling.preload.js';
-import { ReactionSource } from './reactions/ReactionSource.std.js';
-import { singleProtoJobQueue } from './jobs/singleProtoJobQueue.preload.js';
-import { SeenStatus } from './MessageSeenStatus.std.js';
-import { MessageSender } from './textsecure/SendMessage.preload.js';
-import { onStoryRecipientUpdate } from './util/onStoryRecipientUpdate.preload.js';
-import { flushAttachmentDownloadQueue } from './util/attachmentDownloadQueue.preload.js';
-import { initializeRedux } from './state/initializeRedux.preload.js';
-import { StartupQueue } from './util/StartupQueue.std.js';
-import { showConfirmationDialog } from './util/showConfirmationDialog.dom.js';
-import { onCallEventSync } from './util/onCallEventSync.preload.js';
-import { sleeper } from './util/sleeper.std.js';
-import { DAY, HOUR, SECOND } from './util/durations/index.std.js';
-import { copyDataMessageIntoMessage } from './util/copyDataMessageIntoMessage.std.js';
+} from './types/ServiceId.std.ts';
+import { isAciString } from './util/isAciString.std.ts';
+import { normalizeAci } from './util/normalizeAci.std.ts';
+import { createLogger } from './logging/log.std.ts';
+import { deleteAllLogs } from './util/deleteAllLogs.preload.ts';
+import { startInteractionMode } from './services/InteractionMode.dom.ts';
+import { calling } from './services/calling.preload.ts';
+import { ReactionSource } from './reactions/ReactionSource.std.ts';
+import { singleProtoJobQueue } from './jobs/singleProtoJobQueue.preload.ts';
+import { SeenStatus } from './MessageSeenStatus.std.ts';
+import { MessageSender } from './textsecure/SendMessage.preload.ts';
+import { onStoryRecipientUpdate } from './util/onStoryRecipientUpdate.preload.ts';
+import { flushAttachmentDownloadQueue } from './util/attachmentDownloadQueue.preload.ts';
+import { initializeRedux } from './state/initializeRedux.preload.ts';
+import { StartupQueue } from './util/StartupQueue.std.ts';
+import { showConfirmationDialog } from './util/showConfirmationDialog.dom.tsx';
+import { onCallEventSync } from './util/onCallEventSync.preload.ts';
+import { sleeper } from './util/sleeper.std.ts';
+import { DAY, HOUR, SECOND } from './util/durations/index.std.ts';
+import { copyDataMessageIntoMessage } from './util/copyDataMessageIntoMessage.std.ts';
 import {
   flushMessageCounter,
   incrementMessageCounter,
   initializeMessageCounter,
-} from './util/incrementMessageCounter.preload.js';
-import { generateMessageId } from './util/generateMessageId.node.js';
-import { retryPlaceholders } from './services/retryPlaceholders.std.js';
-import { setBatchingStrategy } from './util/messageBatcher.preload.js';
-import { parseRemoteClientExpiration } from './util/parseRemoteClientExpiration.dom.js';
-import { addGlobalKeyboardShortcuts } from './services/addGlobalKeyboardShortcuts.preload.js';
-import { createEventHandler } from './quill/signal-clipboard/util.dom.js';
-import { onCallLogEventSync } from './util/onCallLogEventSync.preload.js';
-import { backupsService } from './services/backups/index.preload.js';
+} from './util/incrementMessageCounter.preload.ts';
+import { generateMessageId } from './util/generateMessageId.node.ts';
+import { retryPlaceholders } from './services/retryPlaceholders.std.ts';
+import { setBatchingStrategy } from './util/messageBatcher.preload.ts';
+import { parseRemoteClientExpiration } from './util/parseRemoteClientExpiration.dom.ts';
+import { addGlobalKeyboardShortcuts } from './services/addGlobalKeyboardShortcuts.preload.ts';
+import { createEventHandler } from './quill/signal-clipboard/util.dom.ts';
+import { onCallLogEventSync } from './util/onCallLogEventSync.preload.ts';
+import { backupsService } from './services/backups/index.preload.ts';
 import {
   getCallIdFromEra,
   updateLocalGroupCallHistoryTimestamp,
-} from './util/callDisposition.preload.js';
-import { deriveStorageServiceKey, deriveMasterKey } from './Crypto.node.js';
-import { AttachmentDownloadManager } from './jobs/AttachmentDownloadManager.preload.js';
-import { onCallLinkUpdateSync } from './util/onCallLinkUpdateSync.preload.js';
-import { CallMode } from './types/CallDisposition.std.js';
-import type { SyncTaskType } from './util/syncTasks.preload.js';
-import { queueSyncTasks, runAllSyncTasks } from './util/syncTasks.preload.js';
-import type { ViewSyncTaskType } from './messageModifiers/ViewSyncs.preload.js';
-import type { ReceiptSyncTaskType } from './messageModifiers/MessageReceipts.preload.js';
-import type { ReadSyncTaskType } from './messageModifiers/ReadSyncs.preload.js';
-import { AttachmentBackupManager } from './jobs/AttachmentBackupManager.preload.js';
-import { getConversationIdForLogging } from './util/idForLogging.preload.js';
-import { encryptConversationAttachments } from './util/encryptConversationAttachments.preload.js';
-import { DataReader, DataWriter } from './sql/Client.preload.js';
+} from './util/callDisposition.preload.ts';
+import { deriveStorageServiceKey, deriveMasterKey } from './Crypto.node.ts';
+import { AttachmentDownloadManager } from './jobs/AttachmentDownloadManager.preload.ts';
+import { onCallLinkUpdateSync } from './util/onCallLinkUpdateSync.preload.ts';
+import { CallMode } from './types/CallDisposition.std.ts';
+import type { SyncTaskType } from './util/syncTasks.preload.ts';
+import { queueSyncTasks, runAllSyncTasks } from './util/syncTasks.preload.ts';
+import type { ViewSyncTaskType } from './messageModifiers/ViewSyncs.preload.ts';
+import type { ReceiptSyncTaskType } from './messageModifiers/MessageReceipts.preload.ts';
+import type { ReadSyncTaskType } from './messageModifiers/ReadSyncs.preload.ts';
+import { AttachmentBackupManager } from './jobs/AttachmentBackupManager.preload.ts';
+import { getConversationIdForLogging } from './util/idForLogging.preload.ts';
+import { encryptConversationAttachments } from './util/encryptConversationAttachments.preload.ts';
+import { DataReader, DataWriter } from './sql/Client.preload.ts';
 import {
   restoreRemoteConfigFromStorage,
+  isEnabled as isRemoteConfigValueEnabled,
   getValue as getRemoteConfigValue,
   onChange as onRemoteConfigChange,
   maybeRefreshRemoteConfig,
   forceRefreshRemoteConfig,
-} from './RemoteConfig.dom.js';
+} from './RemoteConfig.dom.ts';
 import {
   getParametersForRedux,
   loadAll,
-} from './services/allLoaders.preload.js';
-import { checkFirstEnvelope } from './util/checkFirstEnvelope.dom.js';
-import { BLOCKED_UUIDS_ID } from './textsecure/storage/Blocked.std.js';
-import { ReleaseNoteAndMegaphoneFetcher } from './services/releaseNoteAndMegaphoneFetcher.preload.js';
-import { initMegaphoneCheckService } from './services/megaphone.preload.js';
-import { BuildExpirationService } from './services/buildExpiration.preload.js';
+} from './services/allLoaders.preload.ts';
+import { checkFirstEnvelope } from './util/checkFirstEnvelope.dom.ts';
+import { BLOCKED_UUIDS_ID } from './textsecure/storage/Blocked.std.ts';
+import { ReleaseNoteAndMegaphoneFetcher } from './services/releaseNoteAndMegaphoneFetcher.preload.ts';
+import { initMegaphoneCheckService } from './services/megaphone.preload.ts';
+import { BuildExpirationService } from './services/buildExpiration.preload.ts';
 import {
   maybeQueueDeviceInfoFetch,
   onDeviceNameChangeSync,
-} from './util/onDeviceNameChangeSync.preload.js';
-import { postSaveUpdates } from './util/cleanup.preload.js';
-import { handleDataMessage } from './messages/handleDataMessage.preload.js';
-import { MessageModel } from './models/messages.preload.js';
-import { waitForEvent } from './shims/events.dom.js';
-import { sendSyncRequests } from './textsecure/syncRequests.preload.js';
-import { handleServerAlerts } from './util/handleServerAlerts.preload.js';
-import { isLocalBackupsEnabled } from './util/isLocalBackupsEnabled.dom.js';
-import { NavTab, SettingsPage, ProfileEditorPage } from './types/Nav.std.js';
-import { initialize as initializeDonationService } from './services/donations.preload.js';
-import { MessageRequestResponseSource } from './types/MessageRequestResponseEvent.std.js';
+} from './util/onDeviceNameChangeSync.preload.ts';
+import { postSaveUpdates } from './util/cleanup.preload.ts';
+import { handleDataMessage } from './messages/handleDataMessage.preload.ts';
+import { MessageModel } from './models/messages.preload.ts';
+import { waitForEvent } from './shims/events.dom.ts';
+import { sendSyncRequests } from './textsecure/syncRequests.preload.ts';
+import { handleServerAlerts } from './util/handleServerAlerts.preload.ts';
+import { isLocalBackupsEnabled } from './util/isLocalBackupsEnabled.preload.ts';
+import { NavTab, SettingsPage, ProfileEditorPage } from './types/Nav.std.ts';
+import { initialize as initializeDonationService } from './services/donations.preload.ts';
+import { MessageRequestResponseSource } from './types/MessageRequestResponseEvent.std.ts';
 import {
   CURRENT_SCHEMA_VERSION,
   PRIVATE,
   GROUP,
-} from './types/Message2.preload.js';
-import { JobCancelReason } from './jobs/types.std.js';
-import { itemStorage } from './textsecure/Storage.preload.js';
-import { initMessageCleanup } from './services/messageStateCleanup.dom.js';
-import { MessageCache } from './services/MessageCache.preload.js';
-import { saveAndNotify } from './messages/saveAndNotify.preload.js';
+  MESSAGE_VERSION_WITH_NORMALIZED_ATTACHMENTS,
+} from './types/Message2.preload.ts';
+import { JobCancelReason } from './jobs/types.std.ts';
+import { itemStorage } from './textsecure/Storage.preload.ts';
+import { initMessageCleanup } from './services/messageStateCleanup.dom.ts';
+import { MessageCache } from './services/MessageCache.preload.ts';
+import { saveAndNotify } from './messages/saveAndNotify.preload.ts';
+import { getBackupKeyHash } from './services/backups/crypto.preload.ts';
 
 const { isNumber, throttle } = lodash;
 
@@ -312,7 +322,7 @@ export async function cleanupSessionResets(): Promise<void> {
   await itemStorage.put('sessionResets', sessionResets);
 }
 
-export async function startApp(): Promise<void> {
+async function startApp(): Promise<void> {
   if (window.initialTheme === ThemeType.light) {
     document.body.classList.add('light-theme');
   }
@@ -603,8 +613,8 @@ export async function startApp(): Promise<void> {
     ): (event: E) => void {
       return (event: E): void => {
         drop(
-          eventHandlerQueue.add(
-            createTaskWithTimeout(
+          eventHandlerQueue.add(() =>
+            runTaskWithTimeout(
               async () => handler(event),
               `queuedEventListener(${event.type}, ${event.timeStamp})`
             )
@@ -813,6 +823,7 @@ export async function startApp(): Promise<void> {
                 await convo.shutdownJobQueue();
               } catch (err) {
                 log.error(
+                  // oxlint-disable-next-line typescript/restrict-template-expressions
                   `shutdown: error waiting for conversation ${convo.idForLogging} job queue shutdown`,
                   Errors.toLogFormat(err)
                 );
@@ -871,14 +882,6 @@ export async function startApp(): Promise<void> {
         newZoomFactor.toString()
       );
     });
-
-    window.document.body.classList.add('window-focused');
-    window.addEventListener('focus', () => {
-      window.document.body.classList.add('window-focused');
-    });
-    window.addEventListener('blur', () =>
-      window.document.body.classList.remove('window-focused')
-    );
 
     const currentVersion = window.getVersion();
     lastVersion = itemStorage.get('version');
@@ -1024,7 +1027,36 @@ export async function startApp(): Promise<void> {
         await itemStorage.remove('callQualitySurveyCooldownDisabled');
         await itemStorage.remove('localDeleteWarningShown');
       }
+
+      if (
+        itemStorage.get('backupKeyViewed') === true &&
+        itemStorage.get('backupKeyViewedHash') == null
+      ) {
+        const backupKey = itemStorage.get('accountEntropyPool');
+        if (backupKey) {
+          await itemStorage.put(
+            'backupKeyViewedHash',
+            getBackupKeyHash(backupKey)
+          );
+        }
+        await itemStorage.remove('backupKeyViewed');
+      }
     }
+
+    trackHeapSize(() => {
+      if (isProduction(currentVersion) || isBeta(currentVersion)) {
+        // Log line is sufficient
+        return;
+      }
+
+      if (!isRemoteConfigValueEnabled('desktop.heapSizeWarning')) {
+        return;
+      }
+
+      window.reduxActions?.toast.showToast({
+        toastType: ToastType._InternalHeapSizeWarning,
+      });
+    });
 
     setAppLoadingScreenMessage(i18n('icu:optimizingApplication'), i18n);
 
@@ -1183,8 +1215,12 @@ export async function startApp(): Promise<void> {
     } finally {
       setupAppState();
       drop(
+        // oxlint-disable-next-line promise/prefer-await-to-then
         start().catch(error => {
-          log.error('start: threw an unexpected error', error);
+          log.error(
+            'start: threw an unexpected error',
+            Errors.toLogFormat(error)
+          );
         })
       );
       initializeNetworkObserver(
@@ -1358,7 +1394,7 @@ export async function startApp(): Promise<void> {
     StorageService.enableStorageService();
 
     if (andSync != null) {
-      await StorageService.runStorageServiceSyncJob({
+      StorageService.runStorageServiceSyncJob({
         reason: andSync,
       });
       StorageService.runStorageServiceSyncJob.flush();
@@ -1459,6 +1495,23 @@ export async function startApp(): Promise<void> {
     }
     log.info('Expiration start timestamp cleanup: complete');
 
+    if (
+      itemStorage.user.getAci() &&
+      (itemStorage.get('blockedMessageMigrationVersion') ?? 0) <
+        MESSAGE_VERSION_WITH_NORMALIZED_ATTACHMENTS
+    ) {
+      log.warn(
+        `Blocking while migrating all messages to version ${MESSAGE_VERSION_WITH_NORMALIZED_ATTACHMENTS}`
+      );
+      await migrateAllMessages({
+        maxVersion: MESSAGE_VERSION_WITH_NORMALIZED_ATTACHMENTS,
+      });
+      await itemStorage.put(
+        'blockedMessageMigrationVersion',
+        MESSAGE_VERSION_WITH_NORMALIZED_ATTACHMENTS
+      );
+    }
+
     try {
       await runAllSyncTasks();
     } catch (error) {
@@ -1539,8 +1592,12 @@ export async function startApp(): Promise<void> {
     });
 
     // Listen for changes to the `desktop.clientExpiration` remote flag
-    onRemoteConfigChange('desktop.clientExpiration', ({ enabled, value }) => {
-      if (!enabled) {
+    onRemoteConfigChange(['desktop.clientExpiration'], () => {
+      if (!isRemoteConfigValueEnabled('desktop.clientExpiration')) {
+        return;
+      }
+      const value = getRemoteConfigValue('desktop.clientExpiration');
+      if (value == null) {
         return;
       }
       const remoteBuildExpirationTimestamp = parseRemoteClientExpiration(value);
@@ -1649,7 +1706,7 @@ export async function startApp(): Promise<void> {
 
     while (afterAuthSocketConnectPromise?.promise) {
       log.info(`${logId}: waiting for previous run to finish`);
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       await afterAuthSocketConnectPromise.promise;
     }
 
@@ -1665,12 +1722,12 @@ export async function startApp(): Promise<void> {
 
       if (!itemStorage.user.getAci()) {
         log.error(`${logId}: ACI not captured during registration, unlinking`);
-        return unlinkAndDisconnect();
+        return await unlinkAndDisconnect();
       }
 
       if (!itemStorage.user.getPni()) {
         log.error(`${logId}: PNI not captured during registration, unlinking`);
-        return unlinkAndDisconnect();
+        return await unlinkAndDisconnect();
       }
 
       // 2. Fetch remote config, before we process the message queue
@@ -1699,8 +1756,11 @@ export async function startApp(): Promise<void> {
 
         setIsInitialContactSync(true);
         contactSyncComplete = waitForEvent('contactSync:complete');
-        drop(sendSyncRequests());
-        hasSentSyncRequests = true;
+
+        if (!window.ConversationController.areWePrimaryDevice()) {
+          drop(sendSyncRequests());
+          hasSentSyncRequests = true;
+        }
       }
 
       // 4. Download (or resume download) of link & sync backup or local backup
@@ -1840,7 +1900,7 @@ export async function startApp(): Promise<void> {
   }
 
   async function afterEveryLinkedStartupOnNewVersion({
-    skipSyncRequests = false,
+    skipSyncRequests,
   }: {
     skipSyncRequests: boolean;
   }) {
@@ -1851,7 +1911,10 @@ export async function startApp(): Promise<void> {
     }
 
     try {
-      if (!skipSyncRequests) {
+      if (
+        !skipSyncRequests &&
+        !window.ConversationController.areWePrimaryDevice()
+      ) {
         drop(sendSyncRequests());
       }
 
@@ -2110,7 +2173,7 @@ export async function startApp(): Promise<void> {
           let lastRowId: number | null = 0;
           while (lastRowId != null) {
             const result =
-              // eslint-disable-next-line no-await-in-loop
+              // oxlint-disable-next-line no-await-in-loop
               await DataWriter.dequeueOldestSyncTasks({
                 previousRowId: lastRowId,
                 incrementAttempts: false,
@@ -2124,9 +2187,9 @@ export async function startApp(): Promise<void> {
               log.info(
                 `onEmpty/syncTasks: Queueing ${syncTasks.length} sync tasks for reattempt`
               );
-              // eslint-disable-next-line no-await-in-loop
+              // oxlint-disable-next-line no-await-in-loop
               await queueSyncTasks(syncTasks, DataWriter.removeSyncTaskById);
-              // eslint-disable-next-line no-await-in-loop
+              // oxlint-disable-next-line no-await-in-loop
               await Promise.resolve(); // one tick
             }
 
@@ -2239,6 +2302,13 @@ export async function startApp(): Promise<void> {
         );
         return;
       }
+    }
+
+    if (conversation?.get('terminated')) {
+      log.info(
+        `onTyping: conversation ${conversation.idForLogging()} is terminated group, dropping typing message`
+      );
+      return;
     }
 
     if (conversation?.isBlocked()) {
@@ -2425,7 +2495,7 @@ export async function startApp(): Promise<void> {
     });
 
     const { PROFILE_KEY_UPDATE } = Proto.DataMessage.Flags;
-    // eslint-disable-next-line no-bitwise
+    // oxlint-disable-next-line no-bitwise
     const isProfileUpdate = Boolean(data.message.flags & PROFILE_KEY_UPDATE);
     if (isProfileUpdate) {
       return handleMessageReceivedProfileUpdate({
@@ -2764,7 +2834,7 @@ export async function startApp(): Promise<void> {
   }) {
     // First set profileSharing = true for the conversation we sent to
     const { id } = messageDescriptor;
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    // oxlint-disable-next-line typescript/no-non-null-assertion
     const conversation = window.ConversationController.get(id)!;
 
     conversation.enableProfileSharing({
@@ -2774,7 +2844,7 @@ export async function startApp(): Promise<void> {
 
     // Then we update our own profileKey if it's different from what we have
     const ourId = window.ConversationController.getOurConversationId();
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    // oxlint-disable-next-line typescript/no-non-null-assertion
     const me = window.ConversationController.get(ourId)!;
     const { profileKey } = data.message;
     strictAssert(
@@ -3006,7 +3076,7 @@ export async function startApp(): Promise<void> {
     });
 
     const { PROFILE_KEY_UPDATE } = Proto.DataMessage.Flags;
-    // eslint-disable-next-line no-bitwise
+    // oxlint-disable-next-line no-bitwise
     const isProfileUpdate = Boolean(data.message.flags & PROFILE_KEY_UPDATE);
     if (isProfileUpdate) {
       return handleMessageSentProfileUpdate({
@@ -3563,7 +3633,7 @@ export async function startApp(): Promise<void> {
         }
       }
 
-      await StorageService.runStorageServiceSyncJob({ reason: 'onKeysSync' });
+      StorageService.runStorageServiceSyncJob({ reason: 'onKeysSync' });
     }
     ev.confirm();
   }

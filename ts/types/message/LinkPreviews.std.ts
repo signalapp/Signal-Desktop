@@ -5,7 +5,7 @@ import type {
   AttachmentType,
   AttachmentForUIType,
   AttachmentWithHydratedData,
-} from '../Attachment.std.js';
+} from '../Attachment.std.ts';
 
 type GenericLinkPreviewType<Image> = {
   title?: string;

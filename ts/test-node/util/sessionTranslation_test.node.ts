@@ -1,16 +1,15 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 import { assert } from 'chai';
 
-import * as Bytes from '../../Bytes.std.js';
-import type { LocalUserDataType } from '../../util/sessionTranslation.node.js';
-import { sessionRecordToProtobuf } from '../../util/sessionTranslation.node.js';
+import * as Bytes from '../../Bytes.std.ts';
+import type { LocalUserDataType } from '../../util/sessionTranslation.node.ts';
+import { sessionRecordToProtobuf } from '../../util/sessionTranslation.node.ts';
 
-import { toNumber } from '../../util/toNumber.std.js';
+import { toNumber } from '../../util/toNumber.std.ts';
 
+// oxlint-disable-next-line typescript/no-explicit-any
 const getRecordCopy = (record: any): any => JSON.parse(JSON.stringify(record));
 
 export const SESSION_V1_RECORD = {
@@ -190,6 +189,7 @@ export const SESSION_V1_RECORD = {
     },
   },
   version: 'v1',
+  // oxlint-disable-next-line typescript/no-explicit-any
 } as any;
 
 function protoToJSON(value: unknown): unknown {
@@ -237,6 +237,7 @@ describe('sessionTranslation', () => {
   });
 
   it('Throws if given an empty object', () => {
+    // oxlint-disable-next-line typescript/no-explicit-any
     const record: any = {};
     assert.throws(
       () => sessionRecordToProtobuf(record, ourData),
@@ -245,6 +246,7 @@ describe('sessionTranslation', () => {
   });
 
   it('Generates expected protobuf with minimal record', () => {
+    // oxlint-disable-next-line typescript/no-explicit-any
     const record: any = {
       sessions: {
         '\u0005W¿\u0000lÈ\nyª\u000eümB0\u0017j.Û£³-s\u0016Ä(O_M': {
@@ -352,6 +354,7 @@ describe('sessionTranslation', () => {
   });
 
   it('Generates expected protobuf with many old receiver chains', () => {
+    // oxlint-disable-next-line typescript/no-explicit-any
     const record: any = SESSION_V1_RECORD;
 
     const expected = {
@@ -588,6 +591,7 @@ describe('sessionTranslation', () => {
   });
 
   it('Generates expected protobuf with pending prekey', () => {
+    // oxlint-disable-next-line typescript/no-explicit-any
     const record: any = {
       sessions: {
         '\u0005W¿\u0000lÈ\nyª\u000eümB0\u0017j.Û£³-s\u0016Ä(O_M': {
@@ -704,6 +708,7 @@ describe('sessionTranslation', () => {
   });
 
   it('Generates expected protobuf with multiple sessions', () => {
+    // oxlint-disable-next-line typescript/no-explicit-any
     const record: any = {
       sessions: {
         '\u0005W¿\u0000lÈ\nyª\u000eümB0\u0017j.Û£³-s\u0016Ä(O_M': {
@@ -984,6 +989,7 @@ describe('sessionTranslation', () => {
   });
 
   it('Generates expected protobuf with just-initialized session', () => {
+    // oxlint-disable-next-line typescript/no-explicit-any
     const record: any = {
       sessions: {
         '\u00055>=eV¹\u0019Ûn¾¯#ß¶_=\u0013.Nî\u001a¥%-]ù_\n': {

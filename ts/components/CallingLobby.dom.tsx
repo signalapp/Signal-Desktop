@@ -7,28 +7,28 @@ import { FocusScope } from 'react-aria';
 import type {
   SetLocalAudioType,
   SetLocalVideoType,
-} from '../state/ducks/calling.preload.js';
-import { CallingButton, CallingButtonType } from './CallingButton.dom.js';
-import { TooltipPlacement } from './Tooltip.dom.js';
-import { CallBackgroundBlur } from './CallBackgroundBlur.dom.js';
-import { CallParticipantCount } from './CallParticipantCount.dom.js';
-import { CallingHeader } from './CallingHeader.dom.js';
-import { CallingPreCallInfo, RingMode } from './CallingPreCallInfo.dom.js';
+} from '../state/ducks/calling.preload.ts';
+import { CallingButton, CallingButtonType } from './CallingButton.dom.tsx';
+import { TooltipPlacement } from './Tooltip.dom.tsx';
+import { CallBackgroundBlur } from './CallBackgroundBlur.dom.tsx';
+import { CallParticipantCount } from './CallParticipantCount.dom.tsx';
+import { CallingHeader } from './CallingHeader.dom.tsx';
+import { CallingPreCallInfo, RingMode } from './CallingPreCallInfo.dom.tsx';
 import {
   CallingLobbyJoinButton,
   CallingLobbyJoinButtonVariant,
-} from './CallingLobbyJoinButton.dom.js';
-import { CallMode } from '../types/CallDisposition.std.js';
-import type { CallingConversationType } from '../types/Calling.std.js';
-import type { LocalizerType } from '../types/Util.std.js';
-import * as KeyboardLayout from '../services/keyboardLayout.dom.js';
-import type { ConversationType } from '../state/ducks/conversations.preload.js';
-import { useCallingToasts } from './CallingToast.dom.js';
-import { CallingButtonToastsContainer } from './CallingToastManager.dom.js';
-import { isGroupOrAdhocCallMode } from '../util/isGroupOrAdhocCall.std.js';
-import { Button, ButtonVariant } from './Button.dom.js';
-import { SpinnerV2 } from './SpinnerV2.dom.js';
-import type { SetLocalPreviewContainerType } from '../services/calling.preload.js';
+} from './CallingLobbyJoinButton.dom.tsx';
+import { CallMode } from '../types/CallDisposition.std.ts';
+import type { CallingConversationType } from '../types/Calling.std.ts';
+import type { LocalizerType } from '../types/Util.std.ts';
+import * as KeyboardLayout from '../services/keyboardLayout.dom.ts';
+import type { ConversationType } from '../state/ducks/conversations.preload.ts';
+import { useCallingToasts } from './CallingToast.dom.tsx';
+import { CallingButtonToastsContainer } from './CallingToastManager.dom.tsx';
+import { isGroupOrAdhocCallMode } from '../util/isGroupOrAdhocCall.std.ts';
+import { Button, ButtonVariant } from './Button.dom.tsx';
+import { SpinnerV2 } from './SpinnerV2.dom.tsx';
+import type { SetLocalPreviewContainerType } from '../services/calling.preload.ts';
 
 export type PropsType = {
   availableCameras: Array<MediaDeviceInfo>;
@@ -159,7 +159,7 @@ export function CallingLobby({
     isAdhocJoinRequestPending || false
   );
 
-  // eslint-disable-next-line no-nested-ternary
+  // oxlint-disable-next-line no-nested-ternary
   const videoButtonType = hasLocalVideo
     ? CallingButtonType.VIDEO_ON
     : availableCameras.length === 0
@@ -300,7 +300,7 @@ export function CallingLobby({
           className={classNames(
             'module-calling__camera-is-off module-CallingLobby__camera-is-off',
             `module-CallingLobby__camera-is-off--${
-              // eslint-disable-next-line local-rules/enforce-tw
+              // oxlint-disable-next-line signal-desktop/enforce-tw
               shouldShowLocalVideo ? 'invisible' : 'visible'
             }`
           )}
@@ -308,7 +308,7 @@ export function CallingLobby({
           {i18n('icu:calling__your-video-is-off')}
         </div>
 
-        {/* eslint-disable-next-line no-nested-ternary */}
+        {/* oxlint-disable-next-line no-nested-ternary */}
         {callMode === CallMode.Adhoc ? (
           isAdhocJoinRequestPending ? (
             <div className="CallingLobby__CallLinkNotice CallingLobby__CallLinkNotice--join-request-pending">

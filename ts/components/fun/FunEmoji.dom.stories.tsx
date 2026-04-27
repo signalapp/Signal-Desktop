@@ -3,16 +3,16 @@
 import { useVirtualizer } from '@tanstack/react-virtual';
 import lodash from 'lodash';
 import React, { useCallback, useEffect, useRef } from 'react';
-import { type ComponentMeta } from '../../storybook/types.std.js';
-import type { FunStaticEmojiProps } from './FunEmoji.dom.js';
-import { FunInlineEmoji, FunStaticEmoji } from './FunEmoji.dom.js';
+import { type ComponentMeta } from '../../storybook/types.std.ts';
+import type { FunStaticEmojiProps } from './FunEmoji.dom.tsx';
+import { FunInlineEmoji, FunStaticEmoji } from './FunEmoji.dom.tsx';
 import {
   _getAllEmojiVariantKeys,
   EMOJI_VARIANT_KEY_CONSTANTS,
   getEmojiParentByKey,
   getEmojiParentKeyByVariantKey,
   getEmojiVariantByKey,
-} from './data/emojis.std.js';
+} from './data/emojis.std.ts';
 
 const { chunk } = lodash;
 
@@ -23,7 +23,7 @@ export default {
     size: 16,
   },
   argTypes: {
-    size: { control: { type: 'select' }, options: [16, 32] },
+    size: { control: { type: 'select' }, options: [16, 32, 48] },
   },
 } satisfies ComponentMeta<AllProps>;
 
@@ -77,7 +77,7 @@ export function All(props: AllProps): React.JSX.Element {
         }}
       >
         {rowVirtualizer.getVirtualItems().map(rowItem => {
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          // oxlint-disable-next-line typescript/no-non-null-assertion
           const row = rows[rowItem.index]!;
           return (
             <div

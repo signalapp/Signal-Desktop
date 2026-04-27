@@ -5,15 +5,15 @@ import { assert } from 'chai';
 import lodash from 'lodash';
 import { v4 as uuid } from 'uuid';
 import type { LastMessageStatus } from '../../model-types.d.ts';
-import { MINUTE, SECOND } from '../../util/durations/index.std.js';
-import type { MaybeMessageTimelineItemType } from '../../util/timelineUtil.std.js';
+import { MINUTE, SECOND } from '../../util/durations/index.std.ts';
+import type { MaybeMessageTimelineItemType } from '../../util/timelineUtil.std.ts';
 import {
   ScrollAnchor,
   areMessagesInSameGroup,
   getScrollAnchorBeforeUpdate,
   shouldCurrentMessageHideMetadata,
   TimelineMessageLoadingState,
-} from '../../util/timelineUtil.std.js';
+} from '../../util/timelineUtil.std.ts';
 
 const { times } = lodash;
 
@@ -210,7 +210,12 @@ describe('<Timeline> utilities', () => {
   });
 
   describe('getScrollAnchorBeforeUpdate', () => {
-    const fakeItems = (count: number) => times(count, () => uuid());
+    const fakeItems = (count: number) =>
+      times(count, () => ({
+        type: 'none' as const,
+        id: uuid(),
+        messages: undefined,
+      }));
 
     const defaultProps = {
       haveNewest: true,
@@ -400,7 +405,13 @@ describe('<Timeline> utilities', () => {
     describe('when a new message comes in', () => {
       const oldItems = fakeItems(5);
       const prevProps = { ...defaultProps, items: oldItems };
-      const props = { ...defaultProps, items: [...oldItems, uuid()] };
+      const props = {
+        ...defaultProps,
+        items: [
+          ...oldItems,
+          { type: 'none' as const, id: uuid(), messages: undefined },
+        ],
+      };
 
       it('does nothing if not scrolled to the bottom', () => {
         const isAtBottom = false;

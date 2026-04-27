@@ -2,17 +2,17 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import React, { useCallback, useMemo, useState } from 'react';
 import { v4 as generateUuid } from 'uuid';
-import { Modal } from './Modal.dom.js';
-import type { LocalizerType } from '../types/I18N.std.js';
-import { Button, ButtonVariant } from './Button.dom.js';
-import { Avatar, AvatarSize } from './Avatar.dom.js';
-import { Input } from './Input.dom.js';
+import { Modal } from './Modal.dom.tsx';
+import type { LocalizerType } from '../types/I18N.std.ts';
+import { Button, ButtonVariant } from './Button.dom.tsx';
+import { Avatar, AvatarSize } from './Avatar.dom.tsx';
+import { Input } from './Input.dom.tsx';
 import {
   CallLinkNameMaxByteLength,
   CallLinkNameMaxLength,
   type CallLinkType,
-} from '../types/CallLink.std.js';
-import { getColorForCallLink } from '../util/getColorForCallLink.std.js';
+} from '../types/CallLink.std.ts';
+import { getColorForCallLink } from '../util/getColorForCallLink.std.ts';
 
 export type CallLinkAddNameModalProps = Readonly<{
   i18n: LocalizerType;

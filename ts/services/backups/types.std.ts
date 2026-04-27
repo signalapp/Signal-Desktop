@@ -1,12 +1,12 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { AciString, PniString } from '../../types/ServiceId.std.js';
-import type { ConversationColorType } from '../../types/Colors.std.js';
+import type { AciString, PniString } from '../../types/ServiceId.std.ts';
+import type { ConversationColorType } from '../../types/Colors.std.ts';
 import type {
   CoreAttachmentBackupJobType,
   CoreAttachmentLocalBackupJobType,
-} from '../../types/AttachmentBackup.std.js';
+} from '../../types/AttachmentBackup.std.ts';
 
 // Duplicated here to allow loading it in a non-node environment
 export enum BackupLevel {

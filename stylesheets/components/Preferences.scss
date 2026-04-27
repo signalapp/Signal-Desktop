@@ -943,21 +943,32 @@ $secondary-text-color: light-dark(
 }
 
 .Preferences--LocalBackupsBackupKey {
-  width: 274px;
-  height: 201px;
+  --letter-spacing: 0.624px;
+  --line-height: 36.128px;
+  --inline-padding: 36px;
+
+  box-sizing: content-box;
+  // 20 characters per row: 4 groups of (4 chars + 1 trailing space)
+  width: calc(20ch + (19 * var(--letter-spacing)));
+  height: calc(4 * var(--line-height));
+  line-height: var(--line-height);
+  letter-spacing: var(--letter-spacing);
+
+  max-width: 100%;
   padding-block: 28px;
-  padding-inline: 36px;
+  // We include a trailing space at the end of the line, so this keeps the key visually
+  // centered
+  padding-inline-start: calc(var(--inline-padding) + 0.5ch);
+  padding-inline-end: calc(var(--inline-padding) - 0.5ch);
   margin-block: 28px 20px;
   background: variables.$color-gray-02;
   border-radius: 12px;
   border-width: 0;
   outline: none;
   color: variables.$color-gray-90;
-  font-family: variables.$monospace;
+  font-family: 'MonoSpecial', variables.$monospace;
   font-size: 16px;
   font-weight: 400;
-  line-height: 36.128px;
-  letter-spacing: 0.624px;
   overflow: hidden;
   resize: none;
   word-break: break-all;
@@ -1238,4 +1249,26 @@ $secondary-text-color: light-dark(
 
 .TimePickerPopup {
   scrollbar-width: 0;
+}
+
+.Preferences__Privacy__StatusIcon {
+  margin-inline-start: 3px;
+  margin-bottom: -4px;
+
+  width: 18px;
+  height: 18px;
+  display: inline-block;
+
+  @include mixins.light-theme {
+    @include mixins.color-svg(
+      '../images/icons/v2/unidentified-delivery-solid-20.svg',
+      variables.$color-gray-60
+    );
+  }
+  @include mixins.dark-theme {
+    @include mixins.color-svg(
+      '../images/icons/v2/unidentified-delivery-solid-20.svg',
+      variables.$color-gray-25
+    );
+  }
 }

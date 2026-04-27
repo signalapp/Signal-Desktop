@@ -3,27 +3,27 @@
 
 import { ContentHint } from '@signalapp/libsignal-client';
 
-import { getSendOptions } from '../../util/getSendOptions.preload.js';
+import { getSendOptions } from '../../util/getSendOptions.preload.ts';
 import {
   isDirectConversation,
   isMe,
-} from '../../util/whatTypeOfConversation.dom.js';
-import { SignalService as Proto } from '../../protobuf/index.std.js';
+} from '../../util/whatTypeOfConversation.dom.ts';
+import { SignalService as Proto } from '../../protobuf/index.std.ts';
 import {
   handleMultipleSendErrors,
   maybeExpandErrors,
-} from './handleMultipleSendErrors.std.js';
-import { wrapWithSyncMessageSend } from '../../util/wrapWithSyncMessageSend.preload.js';
-import { ourProfileKeyService } from '../../services/ourProfileKey.std.js';
+} from './handleMultipleSendErrors.std.ts';
+import { wrapWithSyncMessageSend } from '../../util/wrapWithSyncMessageSend.preload.ts';
+import { ourProfileKeyService } from '../../services/ourProfileKey.std.ts';
 
-import type { ConversationModel } from '../../models/conversations.preload.js';
+import type { ConversationModel } from '../../models/conversations.preload.ts';
 import type {
   ExpirationTimerUpdateJobData,
   ConversationQueueJobBundle,
-} from '../conversationJobQueue.preload.js';
-import { handleMessageSend } from '../../util/handleMessageSend.preload.js';
-import { DurationInSeconds } from '../../util/durations/index.std.js';
-import { shouldSendToDirectConversation } from './shouldSendToConversation.preload.js';
+} from '../conversationJobQueue.preload.ts';
+import { handleMessageSend } from '../../util/handleMessageSend.preload.ts';
+import { DurationInSeconds } from '../../util/durations/index.std.ts';
+import { shouldSendToDirectConversation } from './shouldSendToConversation.preload.ts';
 
 export async function sendDirectExpirationTimerUpdate(
   conversation: ConversationModel,
@@ -103,6 +103,11 @@ export async function sendDirectExpirationTimerUpdate(
 
   try {
     if (isMe(conversation.attributes)) {
+      if (!window.ConversationController.doWeHaveOtherDevices()) {
+        log.info(`${logId}: We have no other devices; not sending sync`);
+        return;
+      }
+
       await handleMessageSend(
         messaging.sendSyncMessage({
           encodedDataMessage: Proto.DataMessage.encode(

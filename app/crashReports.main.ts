@@ -7,12 +7,12 @@ import { basename, join } from 'node:path';
 import { toJSONString as dumpToJSONString } from '@signalapp/libsignal-client/dist/Minidump.js';
 import z from 'zod';
 
-import type { LoggerType } from '../ts/types/Logging.std.js';
-import * as Errors from '../ts/types/errors.std.js';
-import { isProduction } from '../ts/util/version.std.js';
-import { isNotNil } from '../ts/util/isNotNil.std.js';
-import OS from '../ts/util/os/osMain.node.js';
-import { parseUnknown } from '../ts/util/schemas.std.js';
+import type { LoggerType } from '../ts/types/Logging.std.ts';
+import * as Errors from '../ts/types/errors.std.ts';
+import { isProduction } from '../ts/util/version.std.ts';
+import { isNotNil } from '../ts/util/isNotNil.std.ts';
+import OS from '../ts/util/os/osMain.node.ts';
+import { parseUnknown } from '../ts/util/schemas.std.ts';
 
 const { realpath, readdir, readFile, unlink, stat } = fsExtra;
 
@@ -176,7 +176,10 @@ export function setup(
           const json: unknown = JSON.parse(dumpToJSONString(content));
           const dump = parseUnknown(dumpSchema, json);
 
-          if (dump.crash_info?.type === 'Simulated Exception') {
+          if (
+            dump.crash_info?.type === 'Simulated Exception' ||
+            dump.crash_info?.type === 'DUMP_REQUESTED'
+          ) {
             return undefined;
           }
 
@@ -186,7 +189,7 @@ export function setup(
             }
 
             // Node.js Addons are useful
-            if (/\.node$/.test(filename)) {
+            if (filename.endsWith('.node')) {
               return true;
             }
 

@@ -1,14 +1,14 @@
 // Copyright 2026 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { AttachmentDraftType } from '../types/Attachment.std.js';
-import { isImageAttachment, isVideoAttachment } from './Attachment.std.js';
+import type { AttachmentDraftType } from '../types/Attachment.std.ts';
+import { isImageAttachment, isVideoAttachment } from './Attachment.std.ts';
 
 export function isViewOnceEligible(
   attachments: ReadonlyArray<AttachmentDraftType>,
   hasQuote: boolean
 ): boolean {
-  return Boolean(
+  return (
     attachments.length === 1 &&
     (isImageAttachment(attachments[0]) || isVideoAttachment(attachments[0])) &&
     !hasQuote

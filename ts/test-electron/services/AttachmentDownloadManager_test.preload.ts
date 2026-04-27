@@ -1,8 +1,5 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-
-/* eslint-disable more/no-then */
-/* eslint-disable @typescript-eslint/no-floating-promises */
 import * as sinon from 'sinon';
 import { assert } from 'chai';
 import lodash, { pick } from 'lodash';
@@ -10,52 +7,56 @@ import { type StatsFs } from 'node:fs';
 import { v7 } from 'uuid';
 import { emptyDir, ensureFile } from 'fs-extra';
 
-import * as MIME from '../../types/MIME.std.js';
+import * as MIME from '../../types/MIME.std.ts';
 import {
   AttachmentDownloadManager,
   runDownloadAttachmentJob,
   runDownloadAttachmentJobInner,
   type NewAttachmentDownloadJobType,
-} from '../../jobs/AttachmentDownloadManager.preload.js';
+} from '../../jobs/AttachmentDownloadManager.preload.ts';
 import {
   type AttachmentDownloadJobType,
   AttachmentDownloadUrgency,
   MediaTier,
-} from '../../types/AttachmentDownload.std.js';
-import { DataReader, DataWriter } from '../../sql/Client.preload.js';
-import { DAY, MINUTE, MONTH } from '../../util/durations/index.std.js';
+} from '../../types/AttachmentDownload.std.ts';
+import { DataReader, DataWriter } from '../../sql/Client.preload.ts';
+import { DAY, MINUTE, MONTH } from '../../util/durations/index.std.ts';
 import {
   type AttachmentType,
   AttachmentVariant,
-} from '../../types/Attachment.std.js';
-import { strictAssert } from '../../util/assert.std.js';
-import type { downloadAttachment as downloadAttachmentUtil } from '../../util/downloadAttachment.preload.js';
-import { AttachmentDownloadSource } from '../../sql/Interface.std.js';
-import { generateAttachmentKeys } from '../../AttachmentCrypto.node.js';
-import { getAttachmentCiphertextSize } from '../../util/AttachmentCrypto.std.js';
-import { MEBIBYTE } from '../../types/AttachmentSize.std.js';
-import { generateAci } from '../../types/ServiceId.std.js';
-import { toBase64 } from '../../Bytes.std.js';
-import { JobCancelReason } from '../../jobs/types.std.js';
+} from '../../types/Attachment.std.ts';
+import { strictAssert } from '../../util/assert.std.ts';
+import type { downloadAttachment as downloadAttachmentUtil } from '../../util/downloadAttachment.preload.ts';
+import { AttachmentDownloadSource } from '../../sql/Interface.std.ts';
+import { generateAttachmentKeys } from '../../AttachmentCrypto.node.ts';
+import { getAttachmentCiphertextSize } from '../../util/AttachmentCrypto.std.ts';
+import { KIBIBYTE, MEBIBYTE } from '../../types/AttachmentSize.std.ts';
+import { toBase64 } from '../../Bytes.std.ts';
+import { JobCancelReason } from '../../jobs/types.std.ts';
 import {
   explodePromise,
   type ExplodePromiseResultType,
-} from '../../util/explodePromise.std.js';
-import { itemStorage } from '../../textsecure/Storage.preload.js';
-import { composeAttachment } from '../../test-node/util/queueAttachmentDownloads_test.preload.js';
-import { MessageCache } from '../../services/MessageCache.preload.js';
-import { AttachmentNotNeededForMessageError } from '../../messageModifiers/AttachmentDownloads.preload.js';
+} from '../../util/explodePromise.std.ts';
+import { itemStorage } from '../../textsecure/Storage.preload.ts';
+import { composeAttachment } from '../../test-node/util/queueAttachmentDownloads_test.preload.ts';
+import { MessageCache } from '../../services/MessageCache.preload.ts';
+import { AttachmentNotNeededForMessageError } from '../../messageModifiers/AttachmentDownloads.preload.ts';
 import {
   testAttachmentDigest,
   testAttachmentKey,
   testAttachmentLocalKey,
   testPlaintextHash,
-} from '../../test-helpers/attachments.node.js';
-import type { MessageAttributesType } from '../../model-types.js';
-import { getAttachmentsPath } from '../../../app/attachments.node.js';
-import { getAbsoluteAttachmentPath } from '../../util/migrations.preload.js';
+} from '../../test-helpers/attachments.node.ts';
+import type { MessageAttributesType } from '../../model-types.d.ts';
+import { getAttachmentsPath } from '../../../app/attachments.node.ts';
+import { getAbsoluteAttachmentPath } from '../../util/migrations.preload.ts';
+import { generateAci } from '../../test-helpers/serviceIdUtils.std.ts';
 
 const { omit } = lodash;
+
+const maxAttachmentSize = 100 * MEBIBYTE;
+const maxTextAttachmentSize = 5 * KIBIBYTE;
+const minimumFreeDiskSpace = 500 * MEBIBYTE;
 
 function composeJob({
   messageId,
@@ -70,6 +71,7 @@ function composeJob({
   const plaintextHash = testPlaintextHash();
   const size = 128;
   const contentType = MIME.IMAGE_PNG;
+
   return {
     messageId,
     receivedAt,
@@ -141,6 +143,7 @@ describe('AttachmentDownloadManager', () => {
       >()
       .callsFake(async () => {
         return new Promise<{ status: 'finished' | 'retry' }>(resolve => {
+          // oxlint-disable-next-line promise/prefer-await-to-then, typescript/no-floating-promises, signal-desktop/no-then
           Promise.resolve().then(() => {
             resolve({ status: 'finished' });
           });
@@ -148,8 +151,8 @@ describe('AttachmentDownloadManager', () => {
       });
     statfs = sandbox.stub().callsFake(() =>
       Promise.resolve({
-        bavail: 100_000_000_000,
-        bsize: 100,
+        bavail: minimumFreeDiskSpace * 100,
+        bsize: 8,
       } as StatsFs)
     );
 
@@ -168,6 +171,9 @@ describe('AttachmentDownloadManager', () => {
       }),
       onLowDiskSpaceBackupImport,
       hasMediaBackups,
+      maxAttachmentSize,
+      maxTextAttachmentSize,
+      minimumFreeDiskSpace,
       getMessageQueueTime: () => 45 * DAY,
       statfs,
     });
@@ -185,7 +191,7 @@ describe('AttachmentDownloadManager', () => {
       index >= 0 && index < array.length,
       `index out of bounds: ${index}`
     );
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    // oxlint-disable-next-line typescript/no-non-null-assertion
     return array[index]!;
   }
 
@@ -231,7 +237,7 @@ describe('AttachmentDownloadManager', () => {
       })
     );
     for (const job of jobs) {
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       await addJob(job, AttachmentDownloadUrgency.STANDARD);
     }
     return jobs;
@@ -276,9 +282,9 @@ describe('AttachmentDownloadManager', () => {
     await flushSQLReads();
     const now = Date.now();
     while (Date.now() < now + ms) {
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       await clock.tickAsync(downloadManager?.tickInterval ?? 1000);
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       await flushSQLReads();
     }
   }
@@ -418,7 +424,9 @@ describe('AttachmentDownloadManager', () => {
 
     const jobAttempts = getPromisesForAttempts(assertAt(jobs, 0), 2);
 
-    statfs.callsFake(() => Promise.resolve({ bavail: 0, bsize: 8 }));
+    statfs.callsFake(() =>
+      Promise.resolve({ bavail: minimumFreeDiskSpace / 8 - 1, bsize: 8 })
+    );
 
     await downloadManager?.start();
     await assertAt(jobAttempts, 0).completed;
@@ -428,7 +436,7 @@ describe('AttachmentDownloadManager', () => {
     assert.isTrue(itemStorage.get('backupMediaDownloadPaused'));
 
     statfs.callsFake(() =>
-      Promise.resolve({ bavail: 100_000_000_000, bsize: 8 })
+      Promise.resolve({ bavail: minimumFreeDiskSpace / 8, bsize: 8 })
     );
     await itemStorage.put('backupMediaDownloadPaused', false);
 
@@ -444,6 +452,7 @@ describe('AttachmentDownloadManager', () => {
 
     runJob.callsFake(async ({ job }: { job: AttachmentDownloadJobType }) => {
       return new Promise<{ status: 'finished' | 'retry' }>(resolve => {
+        // oxlint-disable-next-line typescript/no-floating-promises, promise/prefer-await-to-then, signal-desktop/no-then
         Promise.resolve().then(() => {
           if (job.messageId === assertAt(jobs, 0).messageId) {
             resolve({ status: 'finished' });
@@ -507,6 +516,7 @@ describe('AttachmentDownloadManager', () => {
     const jobs = await addJobs(1);
     runJob.callsFake(async () => {
       return new Promise<{ status: 'finished' | 'retry' }>(resolve => {
+        // oxlint-disable-next-line typescript/no-floating-promises, promise/prefer-await-to-then, signal-desktop/no-then
         Promise.resolve().then(() => {
           resolve({ status: 'retry' });
         });
@@ -605,6 +615,7 @@ describe('AttachmentDownloadManager', () => {
 
     runJob.callsFake(async () => {
       return new Promise<{ status: 'finished' | 'retry' }>(resolve => {
+        // oxlint-disable-next-line typescript/no-floating-promises, promise/prefer-await-to-then, signal-desktop/no-then
         Promise.resolve().then(() => {
           resolve({ status: 'retry' });
         });
@@ -631,6 +642,7 @@ describe('AttachmentDownloadManager', () => {
 
     runJob.callsFake(async args => {
       return new Promise(resolve => {
+        // oxlint-disable-next-line typescript/no-floating-promises, promise/prefer-await-to-then, signal-desktop/no-then
         Promise.resolve().then(() => {
           resolve({
             status: 'retry',
@@ -707,6 +719,7 @@ describe('AttachmentDownloadManager', () => {
       await downloadStarted.promise;
 
       // Shutdown behavior
+      // oxlint-disable-next-line typescript/no-floating-promises
       downloadManager?.stop();
       inflightRequestAbortController.abort();
 
@@ -730,11 +743,11 @@ describe('AttachmentDownloadManager', () => {
       await downloadStarted.promise;
 
       // user-canceled behavior
+      // oxlint-disable-next-line typescript/no-floating-promises
       downloadManager?.cancelJobs(JobCancelReason.UserInitiated, () => true);
 
-      await assert.isRejected(
-        assertAt(jobAttempts, 0).completed as Promise<void>
-      );
+      // oxlint-disable-next-line typescript/no-non-null-assertion
+      await assert.isRejected(assertAt(jobAttempts, 0).completed!);
       await downloadManagerIdled;
 
       // Ensure it will not be retried
@@ -879,8 +892,8 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJob', () => {
       options: {
         isForCurrentlyVisibleMessage: false,
         abortSignal: abortController.signal,
-        maxAttachmentSizeInKib: 100000,
-        maxTextAttachmentSizeInKib: 100000,
+        maxAttachmentSize,
+        maxTextAttachmentSize,
         hasMediaBackups: false,
       },
       dependencies: {
@@ -927,7 +940,7 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
   let maybeDeleteAttachmentFile: sinon.SinonStub;
   let deleteDownloadFile: sinon.SinonStub;
   let downloadAttachment: sinon.SinonStub<
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // oxlint-disable-next-line typescript/no-explicit-any
     any,
     ReturnType<typeof downloadAttachmentUtil>
   >;
@@ -963,6 +976,70 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
     sandbox.restore();
   });
 
+  describe('attachment size errors', () => {
+    it('throws AttachmentSizeError if attachment > maxAttachmentSize', async () => {
+      const job = composeJob({
+        messageId: '1',
+        receivedAt: 1,
+        attachmentOverrides: {
+          size: maxAttachmentSize + 1,
+        },
+      });
+
+      await assert.isRejected(
+        runDownloadAttachmentJobInner({
+          job,
+          isForCurrentlyVisibleMessage: false,
+          hasMediaBackups: true,
+          abortSignal: abortController.signal,
+          maxAttachmentSize,
+          maxTextAttachmentSize,
+          messageExpiresAt: null,
+          dependencies: {
+            cleanupAttachmentFiles,
+            maybeDeleteAttachmentFile,
+            deleteDownloadFile,
+            downloadAttachment,
+            processNewAttachment,
+          },
+        }),
+        'AttachmentSizeError'
+      );
+    });
+    it('throws AttachmentSizeError if longText attachment > maxTextAttachmentSize', async () => {
+      const job = composeJob({
+        messageId: '1',
+        receivedAt: 1,
+        attachmentOverrides: {
+          size: maxTextAttachmentSize + 1,
+        },
+        jobOverrides: {
+          attachmentType: 'long-message',
+        },
+      });
+
+      await assert.isRejected(
+        runDownloadAttachmentJobInner({
+          job,
+          isForCurrentlyVisibleMessage: false,
+          hasMediaBackups: true,
+          abortSignal: abortController.signal,
+          maxAttachmentSize,
+          maxTextAttachmentSize,
+          messageExpiresAt: null,
+          dependencies: {
+            cleanupAttachmentFiles,
+            maybeDeleteAttachmentFile,
+            deleteDownloadFile,
+            downloadAttachment,
+            processNewAttachment,
+          },
+        }),
+        'AttachmentSizeError'
+      );
+    });
+  });
+
   describe('visible message', () => {
     it('will only download full-size if attachment not from backup', async () => {
       const job = composeJob({
@@ -978,8 +1055,8 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
         isForCurrentlyVisibleMessage: true,
         hasMediaBackups: true,
         abortSignal: abortController.signal,
-        maxAttachmentSizeInKib: 100 * MEBIBYTE,
-        maxTextAttachmentSizeInKib: 2 * MEBIBYTE,
+        maxAttachmentSize,
+        maxTextAttachmentSize,
         messageExpiresAt: null,
         dependencies: {
           cleanupAttachmentFiles,
@@ -1019,8 +1096,8 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
         isForCurrentlyVisibleMessage: true,
         hasMediaBackups: true,
         abortSignal: abortController.signal,
-        maxAttachmentSizeInKib: 100 * MEBIBYTE,
-        maxTextAttachmentSizeInKib: 2 * MEBIBYTE,
+        maxAttachmentSize,
+        maxTextAttachmentSize,
         messageExpiresAt: null,
         dependencies: {
           cleanupAttachmentFiles,
@@ -1077,8 +1154,8 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
         isForCurrentlyVisibleMessage: true,
         hasMediaBackups: true,
         abortSignal: abortController.signal,
-        maxAttachmentSizeInKib: 100 * MEBIBYTE,
-        maxTextAttachmentSizeInKib: 2 * MEBIBYTE,
+        maxAttachmentSize,
+        maxTextAttachmentSize,
         messageExpiresAt: null,
         dependencies: {
           cleanupAttachmentFiles,
@@ -1117,8 +1194,8 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
         isForCurrentlyVisibleMessage: true,
         hasMediaBackups: true,
         abortSignal: abortController.signal,
-        maxAttachmentSizeInKib: 100 * MEBIBYTE,
-        maxTextAttachmentSizeInKib: 2 * MEBIBYTE,
+        maxAttachmentSize,
+        maxTextAttachmentSize,
         messageExpiresAt: null,
         dependencies: {
           cleanupAttachmentFiles,
@@ -1158,8 +1235,8 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
         isForCurrentlyVisibleMessage: false,
         hasMediaBackups: true,
         abortSignal: abortController.signal,
-        maxAttachmentSizeInKib: 100 * MEBIBYTE,
-        maxTextAttachmentSizeInKib: 2 * MEBIBYTE,
+        maxAttachmentSize,
+        maxTextAttachmentSize,
         messageExpiresAt: null,
         dependencies: {
           cleanupAttachmentFiles,
@@ -1197,8 +1274,8 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
         isForCurrentlyVisibleMessage: false,
         hasMediaBackups: true,
         abortSignal: abortController.signal,
-        maxAttachmentSizeInKib: 100 * MEBIBYTE,
-        maxTextAttachmentSizeInKib: 2 * MEBIBYTE,
+        maxAttachmentSize,
+        maxTextAttachmentSize,
         messageExpiresAt: null,
         dependencies: {
           cleanupAttachmentFiles,
@@ -1255,8 +1332,8 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
           isForCurrentlyVisibleMessage: false,
           hasMediaBackups: true,
           abortSignal: abortController.signal,
-          maxAttachmentSizeInKib: 100 * MEBIBYTE,
-          maxTextAttachmentSizeInKib: 2 * MEBIBYTE,
+          maxAttachmentSize,
+          maxTextAttachmentSize,
           messageExpiresAt: null,
           dependencies: {
             cleanupAttachmentFiles,
@@ -1386,8 +1463,8 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
         isForCurrentlyVisibleMessage: false,
         hasMediaBackups: false,
         abortSignal: abortController.signal,
-        maxAttachmentSizeInKib: 100 * MEBIBYTE,
-        maxTextAttachmentSizeInKib: 2 * MEBIBYTE,
+        maxAttachmentSize,
+        maxTextAttachmentSize,
         messageExpiresAt: null,
         dependencies: {
           cleanupAttachmentFiles,
@@ -1461,8 +1538,8 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
         isForCurrentlyVisibleMessage: false,
         hasMediaBackups: false,
         abortSignal: abortController.signal,
-        maxAttachmentSizeInKib: 100 * MEBIBYTE,
-        maxTextAttachmentSizeInKib: 2 * MEBIBYTE,
+        maxAttachmentSize,
+        maxTextAttachmentSize,
         messageExpiresAt: null,
         dependencies: {
           cleanupAttachmentFiles,
@@ -1521,8 +1598,8 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
         isForCurrentlyVisibleMessage: false,
         hasMediaBackups: false,
         abortSignal: abortController.signal,
-        maxAttachmentSizeInKib: 100 * MEBIBYTE,
-        maxTextAttachmentSizeInKib: 2 * MEBIBYTE,
+        maxAttachmentSize,
+        maxTextAttachmentSize,
         messageExpiresAt: null,
         dependencies: {
           cleanupAttachmentFiles,
@@ -1563,8 +1640,8 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
         isForCurrentlyVisibleMessage: false,
         hasMediaBackups: false,
         abortSignal: abortController.signal,
-        maxAttachmentSizeInKib: 100 * MEBIBYTE,
-        maxTextAttachmentSizeInKib: 2 * MEBIBYTE,
+        maxAttachmentSize,
+        maxTextAttachmentSize,
         messageExpiresAt: null,
         dependencies: {
           cleanupAttachmentFiles,
@@ -1606,8 +1683,8 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
         isForCurrentlyVisibleMessage: false,
         hasMediaBackups: false,
         abortSignal: abortController.signal,
-        maxAttachmentSizeInKib: 100 * MEBIBYTE,
-        maxTextAttachmentSizeInKib: 2 * MEBIBYTE,
+        maxAttachmentSize,
+        maxTextAttachmentSize,
         messageExpiresAt: null,
         dependencies: {
           cleanupAttachmentFiles,

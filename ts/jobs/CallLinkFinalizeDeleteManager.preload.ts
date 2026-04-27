@@ -1,22 +1,16 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import * as durations from '../util/durations/index.std.js';
-import { createLogger } from '../logging/log.std.js';
-import { DataReader, DataWriter } from '../sql/Client.preload.js';
+import * as durations from '../util/durations/index.std.ts';
+import { createLogger } from '../logging/log.std.ts';
+import { DataReader, DataWriter } from '../sql/Client.preload.ts';
 import {
   JobManager,
   type JobManagerParamsType,
   type JobManagerJobResultType,
   type JobManagerJobType,
-} from './JobManager.std.js';
+} from './JobManager.std.ts';
 
 const log = createLogger('CallLinkFinalizeDeleteManager');
-
-// Type for adding a new job
-export type NewCallLinkDeleteJobType = {
-  roomId: string;
-  options?: { delay: number };
-};
 
 export type CoreCallLinkDeleteJobType = {
   roomId: string;
@@ -50,7 +44,7 @@ function getJobId(job: CoreCallLinkDeleteJobType): string {
 // synchronously and prior to running this job, so we can show confirmation
 // or error to the user.
 export class CallLinkFinalizeDeleteManager extends JobManager<CoreCallLinkDeleteJobType> {
-  jobs: Map<string, CallLinkDeleteJobType> = new Map();
+  jobs = new Map<string, CallLinkDeleteJobType>();
   private static _instance: CallLinkFinalizeDeleteManager | undefined;
   override logPrefix = 'CallLinkFinalizeDeleteManager';
 

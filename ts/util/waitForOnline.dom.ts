@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { clearTimeoutIfNecessary } from './clearTimeoutIfNecessary.std.js';
+import { clearTimeoutIfNecessary } from './clearTimeoutIfNecessary.std.ts';
 
 export type WaitForOnlineOptionsType = Readonly<{
   server: Readonly<{ isOnline: () => boolean | undefined }>;

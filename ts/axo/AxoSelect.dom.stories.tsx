@@ -3,8 +3,8 @@
 import type { ReactNode } from 'react';
 import React, { useState } from 'react';
 import type { Meta } from '@storybook/react';
-import { AxoSelect } from './AxoSelect.dom.js';
-import { tw } from './tw.dom.js';
+import { AxoSelect } from './AxoSelect.dom.tsx';
+import { tw } from './tw.dom.tsx';
 
 export default {
   title: 'Axo/AxoSelect',

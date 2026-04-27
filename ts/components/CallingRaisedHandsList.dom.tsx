@@ -4,17 +4,17 @@
 import React, { useEffect, useRef } from 'react';
 import { animated, useSpring } from '@react-spring/web';
 
-import { Avatar, AvatarSize } from './Avatar.dom.js';
-import { ContactName } from './conversation/ContactName.dom.js';
-import type { ConversationsByDemuxIdType } from '../types/Calling.std.js';
-import type { ServiceIdString } from '../types/ServiceId.std.js';
-import type { LocalizerType } from '../types/Util.std.js';
-import type { ConversationType } from '../state/ducks/conversations.preload.js';
-import { ModalHost } from './ModalHost.dom.js';
-import { drop } from '../util/drop.std.js';
-import { createLogger } from '../logging/log.std.js';
-import { usePrevious } from '../hooks/usePrevious.std.js';
-import { useReducedMotion } from '../hooks/useReducedMotion.dom.js';
+import { Avatar, AvatarSize } from './Avatar.dom.tsx';
+import { ContactName } from './conversation/ContactName.dom.tsx';
+import type { ConversationsByDemuxIdType } from '../types/Calling.std.ts';
+import type { ServiceIdString } from '../types/ServiceId.std.ts';
+import type { LocalizerType } from '../types/Util.std.ts';
+import type { ConversationType } from '../state/ducks/conversations.preload.ts';
+import { ModalHost } from './ModalHost.dom.tsx';
+import { drop } from '../util/drop.std.ts';
+import { createLogger } from '../logging/log.std.ts';
+import { usePrevious } from '../hooks/usePrevious.std.ts';
+import { useReducedMotion } from '../hooks/useReducedMotion.dom.ts';
 
 const log = createLogger('CallingRaisedHandsList');
 
@@ -42,7 +42,7 @@ export function CallingRaisedHandsList({
     : undefined;
 
   const participants = React.useMemo<Array<ConversationType>>(() => {
-    const serviceIds: Set<ServiceIdString> = new Set();
+    const serviceIds = new Set<ServiceIdString>();
     const conversations: Array<ConversationType> = [];
     raisedHands.forEach(demuxId => {
       const conversation = conversationsByDemuxId.get(demuxId);
@@ -98,6 +98,7 @@ export function CallingRaisedHandsList({
           {participants.map((participant: ConversationType, index: number) => (
             <li
               className="module-calling-participants-list__contact"
+              // oxlint-disable-next-line react/no-array-index-key
               key={participant.serviceId ?? index}
             >
               <div className="CallingRaisedHandsList__AvatarAndName module-calling-participants-list__avatar-and-name">
@@ -179,7 +180,7 @@ export function CallingRaisedHandsListButton({
 
   const reducedMotion = useReducedMotion();
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps -- FIXME
+  // oxlint-disable-next-line react-hooks/exhaustive-deps -- FIXME
   const [opacitySpringProps, opacitySpringApi] = useSpring(
     {
       from: { opacity: 0 },
@@ -188,7 +189,7 @@ export function CallingRaisedHandsListButton({
     },
     []
   );
-  // eslint-disable-next-line react-hooks/exhaustive-deps -- FIXME
+  // oxlint-disable-next-line react-hooks/exhaustive-deps -- FIXME
   const [scaleSpringProps, scaleSpringApi] = useSpring(
     {
       immediate: reducedMotion,

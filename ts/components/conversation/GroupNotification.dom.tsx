@@ -5,13 +5,13 @@ import type { ReactNode } from 'react';
 import React from 'react';
 import lodash from 'lodash';
 
-import { ContactName } from './ContactName.dom.js';
-import { SystemMessage } from './SystemMessage.dom.js';
-import { I18n } from '../I18n.dom.js';
-import type { LocalizerType } from '../../types/Util.std.js';
+import { ContactName } from './ContactName.dom.tsx';
+import { SystemMessage } from './SystemMessage.dom.tsx';
+import { I18n } from '../I18n.dom.tsx';
+import type { LocalizerType } from '../../types/Util.std.ts';
 
-import { missingCaseError } from '../../util/missingCaseError.std.js';
-import type { ConversationType } from '../../state/ducks/conversations.preload.js';
+import { missingCaseError } from '../../util/missingCaseError.std.ts';
+import type { ConversationType } from '../../state/ducks/conversations.preload.ts';
 
 const { compact, flatten } = lodash;
 
@@ -92,7 +92,7 @@ function GroupNotificationChange({
                 <I18n
                   i18n={i18n}
                   id="icu:joinedTheGroup"
-                  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                  // oxlint-disable-next-line typescript/no-non-null-assertion
                   components={{ name: otherPeople[0]! }}
                 />
               ) : (
@@ -124,7 +124,7 @@ function GroupNotificationChange({
         <I18n
           id="icu:multipleLeftTheGroup"
           i18n={i18n}
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          // oxlint-disable-next-line typescript/no-non-null-assertion
           components={{ name: otherPeople[0]! }}
         />
       ) : (
@@ -174,7 +174,7 @@ export function GroupNotification({
       <>
         <p>{fromLabel}</p>
         {changes.map((change, i) => (
-          // eslint-disable-next-line react/no-array-index-key
+          // oxlint-disable-next-line react/no-array-index-key
           <p key={i} className="module-group-notification__change">
             <GroupNotificationChange change={change} from={from} i18n={i18n} />
           </p>

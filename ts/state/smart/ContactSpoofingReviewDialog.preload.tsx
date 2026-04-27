@@ -4,27 +4,27 @@
 import React, { memo, useCallback } from 'react';
 import { useSelector, useStore } from 'react-redux';
 import lodash from 'lodash';
-import type { StateType } from '../reducer.preload.js';
-import { ContactSpoofingReviewDialog } from '../../components/conversation/ContactSpoofingReviewDialog.dom.js';
-import { useConversationsActions } from '../ducks/conversations.preload.js';
+import type { StateType } from '../reducer.preload.ts';
+import { ContactSpoofingReviewDialog } from '../../components/conversation/ContactSpoofingReviewDialog.dom.tsx';
+import { useConversationsActions } from '../ducks/conversations.preload.ts';
 import {
   getConversationSelector,
   getConversationByServiceIdSelector,
   getSafeConversationWithSameTitle,
-} from '../selectors/conversations.dom.js';
-import { getSharedGroupNames } from '../../util/sharedGroupNames.dom.js';
-import { getOwn } from '../../util/getOwn.std.js';
-import { assertDev } from '../../util/assert.std.js';
-import { ContactSpoofingType } from '../../util/contactSpoofing.std.js';
-import { getGroupMemberships } from '../../util/getGroupMemberships.dom.js';
-import { isSignalConnection } from '../../util/getSignalConnections.preload.js';
+} from '../selectors/conversations.dom.ts';
+import { getSharedGroupNames } from '../../util/sharedGroupNames.dom.ts';
+import { getOwn } from '../../util/getOwn.std.ts';
+import { assertDev } from '../../util/assert.std.ts';
+import { ContactSpoofingType } from '../../util/contactSpoofing.std.ts';
+import { getGroupMemberships } from '../../util/getGroupMemberships.dom.ts';
+import { isSignalConnection } from '../../util/getSignalConnections.preload.ts';
 import {
   getCollisionsFromMemberships,
   invertIdsByTitle,
-} from '../../util/groupMemberNameCollisions.std.js';
-import { useGlobalModalActions } from '../ducks/globalModals.preload.js';
-import { getPreferredBadgeSelector } from '../selectors/badges.preload.js';
-import { getIntl, getTheme } from '../selectors/user.std.js';
+} from '../../util/groupMemberNameCollisions.std.ts';
+import { useGlobalModalActions } from '../ducks/globalModals.preload.ts';
+import { getPreferredBadgeSelector } from '../selectors/badges.preload.ts';
+import { getIntl, getTheme } from '../selectors/user.std.ts';
 
 const { mapValues } = lodash;
 

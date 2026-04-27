@@ -9,12 +9,12 @@ import {
 } from '@signalapp/mock-server';
 import type { Group, PrimaryDevice } from '@signalapp/mock-server';
 
-import * as durations from '../../util/durations/index.std.js';
-import { uuidToBytes } from '../../util/uuidToBytes.std.js';
-import { MY_STORY_ID } from '../../types/Stories.std.js';
-import { generateStoryDistributionId } from '../../types/StoryDistributionId.std.js';
-import type { App } from '../playwright.node.js';
-import { Bootstrap } from '../bootstrap.node.js';
+import * as durations from '../../util/durations/index.std.ts';
+import { uuidToBytes } from '../../util/uuidToBytes.std.ts';
+import { MY_STORY_ID } from '../../types/Stories.std.ts';
+import { generateStoryDistributionId } from '../../types/StoryDistributionId.std.ts';
+import type { App } from '../playwright.node.ts';
+import { Bootstrap } from '../bootstrap.node.ts';
 
 export const debug = createDebug('mock:test:stories');
 

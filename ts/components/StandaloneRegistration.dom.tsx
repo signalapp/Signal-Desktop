@@ -1,15 +1,29 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ChangeEvent } from 'react';
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import type { Iti } from 'intl-tel-input';
 import intlTelInput from 'intl-tel-input';
 
-import { strictAssert } from '../util/assert.std.js';
-import { parseNumber } from '../util/libphonenumberUtil.std.js';
-import { missingCaseError } from '../util/missingCaseError.std.js';
-import { VerificationTransport } from '../types/VerificationTransport.std.js';
+import type { ChangeEvent } from 'react';
+import type { Iti } from 'intl-tel-input';
+
+import { strictAssert } from '../util/assert.std.ts';
+import { parseNumber } from '../util/libphonenumberUtil.std.ts';
+import { missingCaseError } from '../util/missingCaseError.std.ts';
+import { VerificationTransport } from '../types/VerificationTransport.std.ts';
+import { normalizeProfileName } from '../util/normalizeProfileName.std.ts';
+import { TitlebarDragArea } from './TitlebarDragArea.dom.tsx';
+import { AvatarPreview } from './AvatarPreview.dom.tsx';
+import { AvatarColors } from '../types/Colors.std.ts';
+import { AvatarEditor } from './AvatarEditor.dom.tsx';
+
+import type { LocalizerType } from '../types/I18N.std.ts';
+import type {
+  AvatarDataType,
+  DeleteAvatarFromDiskActionType,
+  ReplaceAvatarActionType,
+  SaveAvatarToDiskActionType,
+} from '../types/Avatar.std.ts';
 
 function PhoneInput({
   initialValue,
@@ -33,13 +47,13 @@ function PhoneInput({
       }
 
       if (initialValue !== undefined) {
-        // eslint-disable-next-line no-param-reassign
+        // oxlint-disable-next-line no-param-reassign
         elem.value = initialValue;
       }
 
       pluginRef.current?.destroy();
 
-      const plugin = intlTelInput(elem);
+      const plugin = intlTelInput(elem, { formatAsYouType: true });
       pluginRef.current = plugin;
     },
     [initialValue]
@@ -66,24 +80,20 @@ function PhoneInput({
     [setIsValid, onNumberChange, onValidation]
   );
 
+  // We don't always get change events when expected because of int-tel-input
   const onChange = useCallback(
-    (_: ChangeEvent<HTMLInputElement>) => {
-      if (elemRef.current) {
-        validateNumber(elemRef.current.value);
-      }
+    (event: ChangeEvent<HTMLInputElement>) => {
+      validateNumber(event.target.value);
     },
     [validateNumber]
   );
 
-  const onKeyDown = useCallback(
-    (event: React.KeyboardEvent<HTMLInputElement>) => {
-      // Pacify TypeScript and handle events bubbling up
-      if (event.target instanceof HTMLInputElement) {
-        validateNumber(event.target.value);
-      }
-    },
-    [validateNumber]
-  );
+  // We validate in more scenarios to make things more responsive
+  const validate = useCallback(() => {
+    if (elemRef.current) {
+      validateNumber(elemRef.current.value);
+    }
+  }, [validateNumber]);
 
   return (
     <div className="phone-input">
@@ -94,7 +104,8 @@ function PhoneInput({
             type="tel"
             ref={onRef}
             onChange={onChange}
-            onKeyDown={onKeyDown}
+            onBlur={validate}
+            onKeyUp={validate}
             placeholder="Phone Number"
           />
         </div>
@@ -234,7 +245,7 @@ function PhoneNumberStage({
   );
 }
 
-export function VerificationCodeStage({
+function VerificationCodeStage({
   number,
   sessionId,
   registerSingleDevice,
@@ -339,19 +350,37 @@ export function VerificationCodeStage({
   );
 }
 
-export function ProfileNameStage({
-  uploadProfile,
+function ProfileNameStage({
+  conversationId,
+  deleteAvatarFromDisk,
+  i18n,
   onNext,
+  replaceAvatar,
+  saveAvatarToDisk,
+  uploadInitialProfile,
+  userAvatarData,
 }: {
-  uploadProfile: (opts: {
+  conversationId?: string;
+  deleteAvatarFromDisk: DeleteAvatarFromDiskActionType;
+  i18n: LocalizerType;
+  onNext: () => void;
+  replaceAvatar: ReplaceAvatarActionType;
+  saveAvatarToDisk: SaveAvatarToDiskActionType;
+  uploadInitialProfile: (opts: {
     firstName: string;
     lastName: string;
+    avatarData: Uint8Array<ArrayBuffer>;
   }) => Promise<void>;
-  onNext: () => void;
+  userAvatarData: ReadonlyArray<AvatarDataType>;
 }): React.JSX.Element {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [error, setError] = useState<string | undefined>(undefined);
+  const [isEditingAvatar, setIsEditingAvatar] = useState(false);
+
+  const [avatarData, setAvatarData] = useState<
+    Uint8Array<ArrayBuffer> | undefined
+  >(undefined);
 
   const onChangeFirstName = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => setFirstName(event.target.value),
@@ -365,24 +394,78 @@ export function ProfileNameStage({
 
   const onNextClick = useCallback(
     async (event: React.MouseEvent<HTMLButtonElement>) => {
+      if (!avatarData) {
+        return;
+      }
+
       event.preventDefault();
       event.stopPropagation();
       try {
-        await uploadProfile({ firstName, lastName });
+        await uploadInitialProfile({
+          firstName,
+          lastName,
+          avatarData,
+        });
         onNext();
       } catch (err) {
         setError(err.message);
       }
     },
-    [onNext, firstName, lastName, uploadProfile]
+    [onNext, firstName, lastName, avatarData, uploadInitialProfile]
   );
+
+  const fullName = `${firstName} ${lastName}`;
+
+  if (isEditingAvatar) {
+    return (
+      <div className="step-body">
+        <div className="banner-image module-splash-screen__logo module-img--128" />
+        <div className="header">Set up profile avatar</div>
+        <AvatarEditor
+          avatarColor={AvatarColors[0]}
+          avatarUrl={undefined}
+          avatarValue={avatarData}
+          conversationId={conversationId}
+          conversationTitle={fullName}
+          deleteAvatarFromDisk={deleteAvatarFromDisk}
+          i18n={i18n}
+          onCancel={() => {
+            setIsEditingAvatar(false);
+          }}
+          onSave={(avatar: Uint8Array<ArrayBuffer> | undefined) => {
+            setAvatarData(avatar);
+            setIsEditingAvatar(false);
+          }}
+          userAvatarData={userAvatarData}
+          replaceAvatar={replaceAvatar}
+          saveAvatarToDisk={saveAvatarToDisk}
+        />
+      </div>
+    );
+  }
 
   return (
     <>
       <div className="step-body">
         <div className="banner-image module-splash-screen__logo module-img--128" />
-        <div className="header">Select Profile Name</div>
-
+        <div className="header">Set up profile</div>
+        <AvatarPreview
+          avatarColor={AvatarColors[0]}
+          avatarUrl={undefined}
+          avatarValue={avatarData}
+          conversationTitle={fullName}
+          i18n={i18n}
+          onAvatarLoaded={avatar => {
+            setAvatarData(avatar);
+          }}
+          onClick={() => {
+            setIsEditingAvatar(true);
+          }}
+          style={{
+            height: 80,
+            width: 80,
+          }}
+        />
         <input
           className={`form-control ${firstName ? 'valid' : 'invalid'}`}
           type="text"
@@ -394,6 +477,7 @@ export function ProfileNameStage({
           value={firstName}
           onChange={onChangeFirstName}
         />
+        &nbsp;
         <input
           className="form-control"
           type="text"
@@ -405,15 +489,13 @@ export function ProfileNameStage({
           value={lastName}
           onChange={onChangeLastName}
         />
-
-        {/* TODO(indutny): highlight error */}
-        <div>{error}</div>
+        <div className="StandaloneRegistration__error">{error}</div>
       </div>
       <div className="nav">
         <button
           type="button"
           className="button"
-          disabled={!firstName}
+          disabled={!normalizeProfileName(firstName) || !avatarData}
           onClick={onNextClick}
         >
           Finish
@@ -424,8 +506,12 @@ export function ProfileNameStage({
 }
 
 export type PropsType = Readonly<{
-  onComplete: () => void;
+  conversationId?: string;
+  deleteAvatarFromDisk: DeleteAvatarFromDiskActionType;
+  i18n: LocalizerType;
   getCaptchaToken: () => Promise<string>;
+  onComplete: () => void;
+  readyForUpdates: () => void;
   requestVerification: (
     number: string,
     captcha: string,
@@ -436,20 +522,29 @@ export type PropsType = Readonly<{
     code: string,
     sessionId: string
   ) => Promise<void>;
-  uploadProfile: (opts: {
+  replaceAvatar: ReplaceAvatarActionType;
+  saveAvatarToDisk: SaveAvatarToDiskActionType;
+  uploadInitialProfile: (opts: {
     firstName: string;
     lastName: string;
+    avatarData: Uint8Array<ArrayBuffer>;
   }) => Promise<void>;
-  readyForUpdates: () => void;
+  userAvatarData: ReadonlyArray<AvatarDataType>;
 }>;
 
 export function StandaloneRegistration({
-  onComplete,
+  conversationId,
+  deleteAvatarFromDisk,
   getCaptchaToken,
-  requestVerification,
-  registerSingleDevice,
-  uploadProfile,
+  i18n,
+  onComplete,
   readyForUpdates,
+  registerSingleDevice,
+  replaceAvatar,
+  requestVerification,
+  saveAvatarToDisk,
+  uploadInitialProfile,
+  userAvatarData,
 }: PropsType): React.JSX.Element {
   useEffect(() => {
     readyForUpdates();
@@ -513,8 +608,14 @@ export function StandaloneRegistration({
     body = (
       <ProfileNameStage
         {...stageData}
-        uploadProfile={uploadProfile}
+        conversationId={conversationId}
+        deleteAvatarFromDisk={deleteAvatarFromDisk}
+        i18n={i18n}
         onNext={onComplete}
+        replaceAvatar={replaceAvatar}
+        saveAvatarToDisk={saveAvatarToDisk}
+        uploadInitialProfile={uploadInitialProfile}
+        userAvatarData={userAvatarData}
       />
     );
   } else {
@@ -523,7 +624,7 @@ export function StandaloneRegistration({
 
   return (
     <div className="full-screen-flow">
-      <div className="module-title-bar-drag-area" />
+      <TitlebarDragArea />
 
       <div className="step">
         <div className="inner">{body}</div>

@@ -4,23 +4,23 @@
 import type { MouseEvent, ReactNode } from 'react';
 import React, { useCallback, useState } from 'react';
 import classNames from 'classnames';
-import { ConfirmationDialog } from './ConfirmationDialog.dom.js';
-import { CustomColorEditor } from './CustomColorEditor.dom.js';
-import { Modal } from './Modal.dom.js';
+import { ConfirmationDialog } from './ConfirmationDialog.dom.tsx';
+import { CustomColorEditor } from './CustomColorEditor.dom.tsx';
+import { Modal } from './Modal.dom.tsx';
 import type {
   ConversationColorType,
   CustomColorType,
-} from '../types/Colors.std.js';
-import { ConversationColors } from '../types/Colors.std.js';
-import type { ConversationType } from '../state/ducks/conversations.preload.js';
-import type { LocalizerType } from '../types/Util.std.js';
-import { SampleMessageBubbles } from './SampleMessageBubbles.dom.js';
-import { PanelRow } from './conversation/conversation-details/PanelRow.dom.js';
-import { getCustomColorStyle } from '../util/getCustomColorStyle.dom.js';
+} from '../types/Colors.std.ts';
+import { ConversationColors } from '../types/Colors.std.ts';
+import type { ConversationType } from '../state/ducks/conversations.preload.ts';
+import type { LocalizerType } from '../types/Util.std.ts';
+import { SampleMessageBubbles } from './SampleMessageBubbles.dom.tsx';
+import { PanelRow } from './conversation/conversation-details/PanelRow.dom.tsx';
+import { getCustomColorStyle } from '../util/getCustomColorStyle.dom.ts';
 
-import { useDelayedRestoreFocus } from '../hooks/useRestoreFocus.dom.js';
-import { AxoDropdownMenu } from '../axo/AxoDropdownMenu.dom.js';
-import { tw } from '../axo/tw.dom.js';
+import { useDelayedRestoreFocus } from '../hooks/useRestoreFocus.dom.ts';
+import { AxoDropdownMenu } from '../axo/AxoDropdownMenu.dom.tsx';
+import { tw } from '../axo/tw.dom.tsx';
 
 type CustomColorDataType = {
   id?: string;

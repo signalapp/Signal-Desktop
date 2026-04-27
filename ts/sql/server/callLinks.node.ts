@@ -2,33 +2,33 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { CallLinkRootKey } from '@signalapp/ringrtc';
-import * as Bytes from '../../Bytes.std.js';
+import * as Bytes from '../../Bytes.std.ts';
 import type {
   CallLinkRecord,
   CallLinkStateType,
   CallLinkType,
   DefunctCallLinkType,
-} from '../../types/CallLink.std.js';
+} from '../../types/CallLink.std.ts';
 import {
   callLinkRestrictionsSchema,
   callLinkRecordSchema,
   defunctCallLinkRecordSchema,
-} from '../../types/CallLink.std.js';
-import { toAdminKeyBytes } from '../../util/callLinks.std.js';
+} from '../../types/CallLink.std.ts';
+import { toAdminKeyBytes } from '../../util/callLinks.std.ts';
 import {
   callLinkToRecord,
   callLinkFromRecord,
   defunctCallLinkToRecord,
   defunctCallLinkFromRecord,
-} from '../../util/callLinksRingrtc.node.js';
-import type { ReadableDB, WritableDB } from '../Interface.std.js';
-import { sql } from '../util.std.js';
-import { strictAssert } from '../../util/assert.std.js';
+} from '../../util/callLinksRingrtc.node.ts';
+import type { ReadableDB, WritableDB } from '../Interface.std.ts';
+import { sql } from '../util.std.ts';
+import { strictAssert } from '../../util/assert.std.ts';
 import {
   CallStatusValue,
   DirectCallStatus,
-} from '../../types/CallDisposition.std.js';
-import { parseStrict, parseUnknown } from '../../util/schemas.std.js';
+} from '../../types/CallDisposition.std.ts';
+import { parseStrict, parseUnknown } from '../../util/schemas.std.ts';
 
 export function callLinkExists(db: ReadableDB, roomId: string): boolean {
   const [query, params] = sql`
@@ -208,7 +208,7 @@ export function updateCallLinkState(
   return callLinkFromRecord(parseUnknown(callLinkRecordSchema, row));
 }
 
-export function updateCallLinkAdminKeyByRoomId(
+function updateCallLinkAdminKeyByRoomId(
   db: WritableDB,
   roomId: string,
   adminKey: string
@@ -225,7 +225,6 @@ export function updateCallLinkAdminKeyByRoomId(
 
 function assertRoomIdMatchesRootKey(roomId: string, rootKey: string): void {
   const parsedRoomId = CallLinkRootKey.parse(rootKey).deriveRoomId();
-  // @ts-expect-error needs ringrtc update
   const derivedRoomIdBytes: Uint8Array<ArrayBuffer> = parsedRoomId;
   const derivedRoomId = Bytes.toHex(derivedRoomIdBytes);
   strictAssert(

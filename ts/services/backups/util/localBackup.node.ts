@@ -7,21 +7,21 @@ import { readdir, readFile, rm, stat, writeFile } from 'node:fs/promises';
 import { createReadStream, createWriteStream } from 'node:fs';
 import { Readable, Writable } from 'node:stream';
 import { pipeline } from 'node:stream/promises';
-import { createLogger } from '../../../logging/log.std.js';
-import * as Bytes from '../../../Bytes.std.js';
-import * as Errors from '../../../types/errors.std.js';
-import { Signal } from '../../../protobuf/index.std.js';
-import { DelimitedStream } from '../../../util/DelimitedStream.node.js';
-import { strictAssert } from '../../../util/assert.std.js';
-import { encodeDelimited } from '../../../util/encodeDelimited.std.js';
-import { decryptAesCtr, encryptAesCtr } from '../../../Crypto.node.js';
-import type { LocalBackupMetadataVerificationType } from '../../../types/backups.node.js';
+import { createLogger } from '../../../logging/log.std.ts';
+import * as Bytes from '../../../Bytes.std.ts';
+import * as Errors from '../../../types/errors.std.ts';
+import { Signal } from '../../../protobuf/index.std.ts';
+import { DelimitedStream } from '../../../util/DelimitedStream.node.ts';
+import { strictAssert } from '../../../util/assert.std.ts';
+import { encodeDelimited } from '../../../util/encodeDelimited.std.ts';
+import { decryptAesCtr, encryptAesCtr } from '../../../Crypto.node.ts';
+import type { LocalBackupMetadataVerificationType } from '../../../types/backups.node.ts';
 import {
   LOCAL_BACKUP_VERSION,
   LOCAL_BACKUP_BACKUP_ID_IV_LENGTH,
-} from '../constants.std.js';
-import { getTimestampForFolder } from '../../../util/timestamp.std.js';
-import { isPathInside } from '../../../util/isPathInside.node.js';
+} from '../constants.std.ts';
+import { getTimestampForFolder } from '../../../util/timestamp.std.ts';
+import { isPathInside } from '../../../util/isPathInside.node.ts';
 
 const log = createLogger('localBackup');
 
@@ -49,7 +49,7 @@ export function getLocalBackupFilesDirectory({
   return join(backupsBaseDir, 'files');
 }
 
-export async function getAllPathsInLocalBackupFilesDirectory({
+async function getAllPathsInLocalBackupFilesDirectory({
   backupsBaseDir,
 }: {
   backupsBaseDir: string;
@@ -131,7 +131,7 @@ export async function pruneLocalBackups({
 
   const referencedMediaNames = new Set<string>();
   for (const snapshotDir of snapshotDirsToKeep) {
-    // eslint-disable-next-line no-await-in-loop
+    // oxlint-disable-next-line no-await-in-loop
     const mediaNames = await readLocalBackupFilesList(snapshotDir);
     for (const mediaName of mediaNames) {
       referencedMediaNames.add(mediaName);
@@ -212,13 +212,25 @@ export function getAttachmentLocalBackupPathFromSnapshotDir(
   );
 }
 
+function getBackupIdIvAndCounter({
+  iv,
+}: {
+  iv: Uint8Array<ArrayBuffer>;
+}): Uint8Array<ArrayBuffer> {
+  return Buffer.concat([iv, Buffer.alloc(4)]);
+}
+
 export async function writeLocalBackupMetadata({
   snapshotDir,
   backupId,
   metadataKey,
 }: LocalBackupMetadataVerificationType): Promise<void> {
   const iv = randomBytes(LOCAL_BACKUP_BACKUP_ID_IV_LENGTH);
-  const encryptedId = encryptAesCtr(metadataKey, backupId, iv);
+  const encryptedId = encryptAesCtr(
+    metadataKey,
+    backupId,
+    getBackupIdIvAndCounter({ iv })
+  );
 
   const metadataSerialized = Signal.backup.local.Metadata.encode({
     backupId: {
@@ -257,7 +269,11 @@ export async function verifyLocalBackupMetadata({
     'verifyLocalBackupMetadata: Must have backupId.encryptedId'
   );
 
-  const localBackupBackupId = decryptAesCtr(metadataKey, encryptedId, iv);
+  const localBackupBackupId = decryptAesCtr(
+    metadataKey,
+    encryptedId,
+    getBackupIdIvAndCounter({ iv })
+  );
   strictAssert(
     Bytes.areEqual(backupId, localBackupBackupId),
     'verifyLocalBackupMetadata: backupId must match the local backup backupId'
@@ -364,7 +380,7 @@ export async function validateLocalBackupStructure(
 
   for (const file of ['main', 'metadata', 'files']) {
     try {
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       await stat(join(snapshotDir, 'main'));
     } catch (error) {
       return {

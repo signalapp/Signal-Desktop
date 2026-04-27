@@ -10,7 +10,7 @@ import {
   isTagElement,
   isLiteralElement,
 } from '@formatjs/icu-messageformat-parser';
-import { rule } from '../utils/rule.std.js';
+import { rule } from '../utils/rule.std.ts';
 
 function isEmojifyTag(
   element: MessageFormatElement | null
@@ -37,7 +37,7 @@ export default rule('wrapEmoji', context => {
         return;
       }
 
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      // oxlint-disable-next-line typescript/no-non-null-assertion
       const child = element.children[0]!;
       if (!isLiteralElement(child)) {
         // non-literal

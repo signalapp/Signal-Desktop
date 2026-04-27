@@ -4,16 +4,16 @@
 import type { Database } from '@signalapp/sqlcipher';
 import lodash from 'lodash';
 
-import type { LoggerType } from '../../types/Logging.std.js';
+import type { LoggerType } from '../../types/Logging.std.ts';
 import type {
   ServiceIdString,
   AciString,
   PniString,
-} from '../../types/ServiceId.std.js';
-import { normalizeServiceId, normalizePni } from '../../types/ServiceId.std.js';
-import { normalizeAci } from '../../util/normalizeAci.std.js';
-import type { JSONWithUnknownFields } from '../../types/Util.std.js';
-import { isNotNil } from '../../util/isNotNil.std.js';
+} from '../../types/ServiceId.std.ts';
+import { normalizeServiceId, normalizePni } from '../../types/ServiceId.std.ts';
+import { normalizeAci } from '../../util/normalizeAci.std.ts';
+import type { JSONWithUnknownFields } from '../../types/Util.std.ts';
+import { isNotNil } from '../../util/isNotNil.std.ts';
 
 const { omit } = lodash;
 
@@ -735,7 +735,7 @@ function migrateMessages(db: Database, logger: LoggerType): void {
   logger.info('updating messages');
 
   let totalMessages = 0;
-  // eslint-disable-next-line no-constant-condition
+  // oxlint-disable-next-line no-constant-condition
   for (let offset = 0; true; offset += PAGE_SIZE) {
     const messages: Array<{ id: string; rowid: number; json: string }> =
       getPage.all({
@@ -994,6 +994,7 @@ function migrateJobs(
     try {
       const parsedData: unknown = JSON.parse(data);
 
+      // oxlint-disable-next-line typescript/no-redundant-type-constituents
       let updatedData: unknown | undefined;
       if (queueType === 'conversation') {
         const convoJob = parsedData as LegacyConversationJob;

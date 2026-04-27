@@ -3,10 +3,10 @@
 
 import React from 'react';
 
-import type { BadgeType } from '../badges/types.std.js';
-import { Spinner } from './Spinner.dom.js';
-import { getBadgeImageFileLocalPath } from '../badges/getBadgeImageFileLocalPath.std.js';
-import { BadgeImageTheme } from '../badges/BadgeImageTheme.std.js';
+import type { BadgeType } from '../badges/types.std.ts';
+import { Spinner } from './Spinner.dom.tsx';
+import { getBadgeImageFileLocalPath } from '../badges/getBadgeImageFileLocalPath.std.ts';
+import { BadgeImageTheme } from '../badges/BadgeImageTheme.std.ts';
 
 export function BadgeImage({
   badge,

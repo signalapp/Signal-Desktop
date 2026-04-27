@@ -1,6 +1,6 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import { assert } from './assert.std.js';
+import { assert } from './assert.std.tsx';
 
 export type ScrollbarWidth = 'auto' | 'thin' | 'none';
 
@@ -17,11 +17,11 @@ type Listener = () => void;
 type Unsubscribe = () => void;
 
 class ScrollbarGuttersObserver {
-  #container: HTMLDivElement;
-  #scroller: HTMLDivElement;
+  readonly #container: HTMLDivElement;
+  readonly #scroller: HTMLDivElement;
   #current: ScrollbarGutters | null;
-  #observer: ResizeObserver;
-  #listeners = new Set<Listener>();
+  readonly #observer: ResizeObserver;
+  readonly #listeners = new Set<Listener>();
 
   constructor(scrollbarWidth: Exclude<ScrollbarWidth, 'none'>) {
     const container = document.createElement('div');

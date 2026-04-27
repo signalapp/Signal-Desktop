@@ -20,15 +20,15 @@ import {
   SignedPreKeyRecord,
 } from '@signalapp/libsignal-client';
 
-import { DataReader, DataWriter } from './sql/Client.preload.js';
-import type { ItemType, KyberPreKeyTripleType } from './sql/Interface.std.js';
-import * as Bytes from './Bytes.std.js';
-import { constantTimeEqual, sha256 } from './Crypto.node.js';
-import { assertDev, strictAssert } from './util/assert.std.js';
-import { isNotNil } from './util/isNotNil.std.js';
-import { drop } from './util/drop.std.js';
-import { Zone } from './util/Zone.std.js';
-import { isMoreRecentThan } from './util/timestamp.std.js';
+import { DataReader, DataWriter } from './sql/Client.preload.ts';
+import type { ItemType, KyberPreKeyTripleType } from './sql/Interface.std.ts';
+import * as Bytes from './Bytes.std.ts';
+import { constantTimeEqual, sha256 } from './Crypto.node.ts';
+import { assertDev, strictAssert } from './util/assert.std.ts';
+import { isNotNil } from './util/isNotNil.std.ts';
+import { drop } from './util/drop.std.ts';
+import { Zone } from './util/Zone.std.ts';
+import { isMoreRecentThan } from './util/timestamp.std.ts';
 import type {
   DeviceType,
   IdentityKeyType,
@@ -54,26 +54,26 @@ import type {
   ServiceIdString,
   PniString,
   AciString,
-} from './types/ServiceId.std.js';
+} from './types/ServiceId.std.ts';
 import {
   isServiceIdString,
   ServiceIdKind,
   fromAciObject,
-} from './types/ServiceId.std.js';
-import type { Address } from './types/Address.std.js';
-import type { QualifiedAddressStringType } from './types/QualifiedAddress.std.js';
-import { QualifiedAddress } from './types/QualifiedAddress.std.js';
-import { createLogger } from './logging/log.std.js';
-import * as Errors from './types/errors.std.js';
-import { MINUTE } from './util/durations/index.std.js';
+} from './types/ServiceId.std.ts';
+import type { Address } from './types/Address.std.ts';
+import type { QualifiedAddressStringType } from './types/QualifiedAddress.std.ts';
+import { QualifiedAddress } from './types/QualifiedAddress.std.ts';
+import { createLogger } from './logging/log.std.ts';
+import * as Errors from './types/errors.std.ts';
+import { MINUTE } from './util/durations/index.std.ts';
 import {
   KYBER_KEY_ID_KEY,
   SIGNED_PRE_KEY_ID_KEY,
-} from './textsecure/AccountManager.preload.js';
-import { formatGroups, groupWhile } from './util/groupWhile.std.js';
-import { parseUnknown } from './util/schemas.std.js';
-import { wrappingAdd24 } from './util/wrappingAdd.std.js';
-import { itemStorage } from './textsecure/Storage.preload.js';
+} from './textsecure/AccountManager.preload.ts';
+import { formatGroups, groupWhile } from './util/groupWhile.std.ts';
+import { parseUnknown } from './util/schemas.std.ts';
+import { wrappingAdd24 } from './util/wrappingAdd.std.ts';
+import { itemStorage } from './textsecure/Storage.preload.ts';
 
 const { omit } = lodash;
 
@@ -121,6 +121,7 @@ function validateIdentityKey(attrs: unknown): attrs is IdentityKeyType {
  */
 function formatKeys(keys: Array<number>): string {
   return formatGroups(
+    // oxlint-disable-next-line typescript/require-array-sort-compare
     groupWhile(keys.sort(), (a, b) => a + 1 === b).slice(0, 10),
     '-',
     ', ',
@@ -186,22 +187,19 @@ async function _fillCaches<ID, T extends HasIdType<ID>, HydratedType>(
   }
 
   log.info(`Finished caching ${field} data`);
-  // eslint-disable-next-line no-param-reassign, @typescript-eslint/no-explicit-any
+  // oxlint-disable-next-line no-param-reassign, typescript/no-explicit-any
   object[field] = cache as any;
 }
 
-export function hydrateSession(session: SessionType): SessionRecord {
+function hydrateSession(session: SessionType): SessionRecord {
   return SessionRecord.deserialize(session.record);
 }
-export function hydratePublicKey(identityKey: IdentityKeyType): PublicKey {
-  return PublicKey.deserialize(identityKey.publicKey);
-}
-export function hydratePreKey(preKey: PreKeyType): PreKeyRecord {
+function hydratePreKey(preKey: PreKeyType): PreKeyRecord {
   const publicKey = PublicKey.deserialize(preKey.publicKey);
   const privateKey = PrivateKey.deserialize(preKey.privateKey);
   return PreKeyRecord.new(preKey.keyId, publicKey, privateKey);
 }
-export function hydrateSignedPreKey(
+function hydrateSignedPreKey(
   signedPreKey: SignedPreKeyType
 ): SignedPreKeyRecord {
   const createdAt = signedPreKey.created_at;
@@ -246,9 +244,9 @@ export class SignalProtocolStore extends EventEmitter {
 
   // Cached values
 
-  #ourIdentityKeys = new Map<ServiceIdString, KeyPairType>();
+  readonly #ourIdentityKeys = new Map<ServiceIdString, KeyPairType>();
 
-  #ourRegistrationIds = new Map<ServiceIdString, number>();
+  readonly #ourRegistrationIds = new Map<ServiceIdString, number>();
   #cachedPniSignatureMessage: PniSignatureMessageType | undefined;
 
   identityKeys?: Map<
@@ -927,7 +925,6 @@ export class SignalProtocolStore extends EventEmitter {
     return new PQueue({
       concurrency: 1,
       timeout: MINUTE * 30,
-      throwOnTimeout: true,
     });
   }
 
@@ -1096,7 +1093,6 @@ export class SignalProtocolStore extends EventEmitter {
     return new PQueue({
       concurrency: 1,
       timeout: MINUTE * 30,
-      throwOnTimeout: true,
     });
   }
 
@@ -1117,7 +1113,6 @@ export class SignalProtocolStore extends EventEmitter {
     return new PQueue({
       concurrency: 1,
       timeout: MINUTE * 30,
-      throwOnTimeout: true,
     });
   }
 
@@ -2090,11 +2085,11 @@ export class SignalProtocolStore extends EventEmitter {
       throw new Error('saveIdentity: encodedAddress was undefined/null');
     }
     if (!(publicKey instanceof Uint8Array)) {
-      // eslint-disable-next-line no-param-reassign
+      // oxlint-disable-next-line no-param-reassign
       publicKey = Bytes.fromBinary(publicKey);
     }
     if (typeof nonblockingApproval !== 'boolean') {
-      // eslint-disable-next-line no-param-reassign
+      // oxlint-disable-next-line no-param-reassign
       nonblockingApproval = false;
     }
 
@@ -2636,14 +2631,14 @@ export class SignalProtocolStore extends EventEmitter {
     // Update database
     await Promise.all<void>([
       itemStorage.put('identityKeyMap', {
-        ...(itemStorage.get('identityKeyMap') || {}),
+        ...itemStorage.get('identityKeyMap'),
         [pni]: {
           pubKey: pniPublicKey,
           privKey: pniPrivateKey,
         },
       }),
       itemStorage.put('registrationIdMap', {
-        ...(itemStorage.get('registrationIdMap') || {}),
+        ...itemStorage.get('registrationIdMap'),
         [pni]: registrationId,
       }),
       (async () => {
@@ -2851,7 +2846,7 @@ export class SignalProtocolStore extends EventEmitter {
 
   public override on(
     eventName: string | symbol,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // oxlint-disable-next-line typescript/no-explicit-any
     listener: (...args: Array<any>) => void
   ): this {
     return super.on(eventName, listener);
@@ -2877,7 +2872,7 @@ export class SignalProtocolStore extends EventEmitter {
 
   public override emit(
     eventName: string | symbol,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // oxlint-disable-next-line typescript/no-explicit-any
     ...args: Array<any>
   ): boolean {
     return super.emit(eventName, ...args);

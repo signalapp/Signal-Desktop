@@ -4,15 +4,16 @@
 import { join, basename } from 'node:path';
 import { app } from 'electron';
 
-import type { IConfig } from 'config';
+import type { Config } from 'config';
 
 import {
   Environment,
   getEnvironment,
   setEnvironment,
   parseEnvironment,
-} from '../ts/environment.std.js';
-import { createLogger } from '../ts/logging/log.std.js';
+} from '../ts/environment.std.ts';
+import { createLogger } from '../ts/logging/log.std.ts';
+import { getAppRootDir } from '../ts/util/appRootDir.main.ts';
 
 const log = createLogger('config');
 
@@ -28,7 +29,11 @@ if (app.isPackaged) {
 
 // Set environment vars to configure node-config before requiring it
 process.env.NODE_ENV = getEnvironment();
-process.env.NODE_CONFIG_DIR = join(__dirname, '..', 'config');
+
+if (process.env.NODE_ENV === Environment.Test) {
+  // Necessary for `tsx` to work in preload (there are no worker_threads)
+  process.env.ESBUILD_WORKER_THREADS = '0';
+}
 
 if (getEnvironment() === Environment.PackagedApp) {
   // harden production config against the local env
@@ -43,14 +48,18 @@ if (getEnvironment() === Environment.PackagedApp) {
   process.env.SIGNAL_CI_CONFIG = '';
   process.env.GENERATE_PRELOAD_CACHE = '';
   process.env.REACT_DEVTOOLS = '';
+  process.env.IS_BUNDLED = '1';
 }
+
+// Call `getAppRootDir()` after hardening since it relies on env variables
+process.env.NODE_CONFIG_DIR = join(getAppRootDir(), 'config');
 
 // We load config after we've made our modifications to NODE_ENV
 // Note: we use `require()` because esbuild moves the imports to the top of
 // the module regardless of their actual placement in the file.
 // See: https://github.com/evanw/esbuild/issues/2011
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const config: IConfig = require('config');
+// oxlint-disable-next-line typescript/no-var-requires
+const config: Config = require('config');
 
 if (getEnvironment() !== Environment.PackagedApp) {
   config.util.getConfigSources().forEach(source => {
@@ -69,8 +78,9 @@ if (getEnvironment() !== Environment.PackagedApp) {
   'SUPPRESS_NO_CONFIG_WARNING',
   'SIGNAL_ENABLE_HTTP',
 ].forEach(s => {
+  // oxlint-disable-next-line no-console
   console.log(`${s} ${config.util.getEnv(s)}`);
 });
 
 export default config;
-export type { IConfig as ConfigType };
+export type { Config as ConfigType };

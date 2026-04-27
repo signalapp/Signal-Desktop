@@ -5,11 +5,11 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { assert } from 'chai';
 import * as moment from 'moment';
-import { setupI18n } from '../../util/setupI18n.dom.js';
-import { DurationInSeconds } from '../../util/durations/index.std.js';
-import type { LocaleMessagesType } from '../../types/I18N.std.js';
+import { setupI18n } from '../../util/setupI18n.dom.tsx';
+import { DurationInSeconds } from '../../util/durations/index.std.ts';
+import type { LocaleMessagesType } from '../../types/I18N.std.ts';
 
-import * as expirationTimer from '../../util/expirationTimer.std.js';
+import * as expirationTimer from '../../util/expirationTimer.std.ts';
 
 function loadMessages(locale: string): LocaleMessagesType {
   const localePath = join(

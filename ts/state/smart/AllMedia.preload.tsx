@@ -2,22 +2,22 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import React, { memo, useCallback } from 'react';
 import { useSelector } from 'react-redux';
-import { MediaGallery } from '../../components/conversation/media-gallery/MediaGallery.dom.js';
-import { createLogger } from '../../logging/log.std.js';
-import type { MediaItemType } from '../../types/MediaItem.std.js';
-import { getMessageById } from '../../messages/getMessageById.preload.js';
-import { getMediaGalleryState } from '../selectors/mediaGallery.std.js';
-import { extractVoiceNoteForPlayback } from '../selectors/audioPlayer.preload.js';
-import { getIntl, getUserConversationId } from '../selectors/user.std.js';
-import { useConversationsActions } from '../ducks/conversations.preload.js';
-import { useLightboxActions } from '../ducks/lightbox.preload.js';
-import { useMediaGalleryActions } from '../ducks/mediaGallery.preload.js';
-import { useAudioPlayerActions } from '../ducks/audioPlayer.preload.js';
+import { MediaGallery } from '../../components/conversation/media-gallery/MediaGallery.dom.tsx';
+import { createLogger } from '../../logging/log.std.ts';
+import type { MediaItemType } from '../../types/MediaItem.std.ts';
+import { getMessageById } from '../../messages/getMessageById.preload.ts';
+import { getMediaGalleryState } from '../selectors/mediaGallery.std.ts';
+import { extractVoiceNoteForPlayback } from '../selectors/audioPlayer.preload.ts';
+import { getIntl, getUserConversationId } from '../selectors/user.std.ts';
+import { useConversationsActions } from '../ducks/conversations.preload.ts';
+import { useLightboxActions } from '../ducks/lightbox.preload.ts';
+import { useMediaGalleryActions } from '../ducks/mediaGallery.preload.ts';
+import { useAudioPlayerActions } from '../ducks/audioPlayer.preload.ts';
 import {
   MediaItem,
   type PropsType as MediaItemPropsType,
-} from './MediaItem.preload.js';
-import { useNavActions } from '../ducks/nav.std.js';
+} from './MediaItem.preload.tsx';
+import { useNavActions } from '../ducks/nav.std.ts';
 
 const log = createLogger('AllMedia');
 

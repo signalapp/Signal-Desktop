@@ -1,10 +1,10 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { DataReader } from '../sql/Client.preload.js';
-import type { StoryDistributionWithMembersType } from '../sql/Interface.std.js';
-import type { StoryDistributionListDataType } from '../state/ducks/storyDistributionLists.preload.js';
-import { strictAssert } from '../util/assert.std.js';
+import { DataReader } from '../sql/Client.preload.ts';
+import type { StoryDistributionWithMembersType } from '../sql/Interface.std.ts';
+import type { StoryDistributionListDataType } from '../state/ducks/storyDistributionLists.preload.ts';
+import { strictAssert } from '../util/assert.std.ts';
 
 let distributionLists: Array<StoryDistributionWithMembersType> | undefined;
 
@@ -17,10 +17,10 @@ export function getDistributionListsForRedux(): Array<StoryDistributionListDataT
 
   const lists = distributionLists
     .map(list => ({
-      allowsReplies: Boolean(list.allowsReplies),
+      allowsReplies: list.allowsReplies,
       deletedAtTimestamp: list.deletedAtTimestamp,
       id: list.id,
-      isBlockList: Boolean(list.isBlockList),
+      isBlockList: list.isBlockList,
       name: list.name,
       memberServiceIds: list.members,
     }))

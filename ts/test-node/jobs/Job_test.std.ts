@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 
-import { Job } from '../../jobs/Job.std.js';
+import { Job } from '../../jobs/Job.std.ts';
 
 describe('Job', () => {
   it('stores its arguments', () => {

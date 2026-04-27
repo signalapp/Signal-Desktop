@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import type { LocalizerType } from '../types/Util.std.js';
-import { openLinkInWebBrowser } from '../util/openLinkInWebBrowser.dom.js';
-import { AxoDialog } from '../axo/AxoDialog.dom.js';
-import { tw } from '../axo/tw.dom.js';
-import { AxoSymbol } from '../axo/AxoSymbol.dom.js';
+import type { LocalizerType } from '../types/Util.std.ts';
+import { openLinkInWebBrowser } from '../util/openLinkInWebBrowser.dom.ts';
+import { AxoDialog } from '../axo/AxoDialog.dom.tsx';
+import { tw } from '../axo/tw.dom.tsx';
+import { AxoSymbol } from '../axo/AxoSymbol.dom.tsx';
 
 export type DonationPrivacyInformationModalProps = {
   i18n: LocalizerType;

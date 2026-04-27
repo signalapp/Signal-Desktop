@@ -4,7 +4,7 @@
 import { assert } from 'chai';
 import { useFakeTimers } from 'sinon';
 
-import { sleep } from '../../util/sleep.std.js';
+import { sleep } from '../../util/sleep.std.ts';
 
 describe('sleep', () => {
   beforeEach(function (this: Mocha.Context) {

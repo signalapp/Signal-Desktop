@@ -1,15 +1,13 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-/* eslint-disable no-await-in-loop */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { assert } from 'chai';
 import lodash from 'lodash';
 import * as sinon from 'sinon';
 
-import { STORAGE_KEY, ChallengeHandler } from '../challenge.dom.js';
-import type { RegisteredChallengeType } from '../challenge.dom.js';
-import { DAY, SECOND } from '../util/durations/index.std.js';
+import { STORAGE_KEY, ChallengeHandler } from '../challenge.dom.ts';
+import type { RegisteredChallengeType } from '../challenge.dom.ts';
+import { DAY, SECOND } from '../util/durations/index.std.ts';
 
 const { noop } = lodash;
 
@@ -30,6 +28,7 @@ const DEFAULT_RETRY_AFTER = 25;
 const SOLVE_AFTER = 5;
 
 describe('ChallengeHandler', () => {
+  // oxlint-disable-next-line typescript/no-explicit-any
   const storage = new Map<string, any>();
   let challengeStatus = 'idle';
   let queuesStarted: Array<string> = [];
@@ -166,6 +165,7 @@ describe('ChallengeHandler', () => {
       createChallenge('3'),
     ];
     for (const challenge of challenges) {
+      // oxlint-disable-next-line no-await-in-loop
       await handler.register(challenge);
     }
 
@@ -188,6 +188,7 @@ describe('ChallengeHandler', () => {
     await createHandler();
 
     for (const challenge of challenges) {
+      // oxlint-disable-next-line no-await-in-loop
       await handler.unregister(challenge.conversationId, 'test');
     }
 

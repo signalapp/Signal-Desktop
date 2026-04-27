@@ -2,13 +2,13 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import PQueue from 'p-queue';
-import { DataWriter } from '../sql/Client.preload.js';
-import { createLogger } from '../logging/log.std.js';
-import { MINUTE } from '../util/durations/index.std.js';
-import { missingCaseError } from '../util/missingCaseError.std.js';
-import { waitForOnline } from '../util/waitForOnline.dom.js';
-import { writeNewBadgeImageFileData } from '../util/migrations.preload.js';
-import { getBadgeImageFile, isOnline } from '../textsecure/WebAPI.preload.js';
+import { DataWriter } from '../sql/Client.preload.ts';
+import { createLogger } from '../logging/log.std.ts';
+import { MINUTE } from '../util/durations/index.std.ts';
+import { missingCaseError } from '../util/missingCaseError.std.ts';
+import { waitForOnline } from '../util/waitForOnline.dom.ts';
+import { writeNewBadgeImageFileData } from '../util/migrations.preload.ts';
+import { getBadgeImageFile, isOnline } from '../textsecure/WebAPI.preload.ts';
 
 const log = createLogger('badgeImageFileDownloader');
 
@@ -20,7 +20,7 @@ enum BadgeDownloaderState {
 
 class BadgeImageFileDownloader {
   #state = BadgeDownloaderState.Idle;
-  #queue = new PQueue({ concurrency: 3 });
+  readonly #queue = new PQueue({ concurrency: 3 });
 
   public async checkForFilesToDownload(): Promise<void> {
     switch (this.#state) {

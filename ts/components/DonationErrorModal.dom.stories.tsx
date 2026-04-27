@@ -6,9 +6,9 @@ import React from 'react';
 import { action } from '@storybook/addon-actions';
 
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './DonationErrorModal.dom.js';
-import { DonationErrorModal } from './DonationErrorModal.dom.js';
-import { donationErrorTypeSchema } from '../types/Donations.std.js';
+import type { PropsType } from './DonationErrorModal.dom.tsx';
+import { DonationErrorModal } from './DonationErrorModal.dom.tsx';
+import { donationErrorTypeSchema } from '../types/Donations.std.ts';
 
 const { i18n } = window.SignalContext;
 
@@ -25,7 +25,7 @@ export function Failed3dsValidation(): React.JSX.Element {
   return (
     <DonationErrorModal
       {...defaultProps}
-      errorType={donationErrorTypeSchema.Enum.Failed3dsValidation}
+      errorType={donationErrorTypeSchema.enum.Failed3dsValidation}
     />
   );
 }
@@ -34,7 +34,7 @@ export function GeneralError(): React.JSX.Element {
   return (
     <DonationErrorModal
       {...defaultProps}
-      errorType={donationErrorTypeSchema.Enum.GeneralError}
+      errorType={donationErrorTypeSchema.enum.GeneralError}
     />
   );
 }
@@ -43,7 +43,7 @@ export function PaymentDeclined(): React.JSX.Element {
   return (
     <DonationErrorModal
       {...defaultProps}
-      errorType={donationErrorTypeSchema.Enum.PaymentDeclined}
+      errorType={donationErrorTypeSchema.enum.PaymentDeclined}
     />
   );
 }
@@ -52,7 +52,7 @@ export function PaypalCanceled(): React.JSX.Element {
   return (
     <DonationErrorModal
       {...defaultProps}
-      errorType={donationErrorTypeSchema.Enum.PaypalCanceled}
+      errorType={donationErrorTypeSchema.enum.PaypalCanceled}
     />
   );
 }
@@ -61,7 +61,7 @@ export function PaypalError(): React.JSX.Element {
   return (
     <DonationErrorModal
       {...defaultProps}
-      errorType={donationErrorTypeSchema.Enum.PaypalError}
+      errorType={donationErrorTypeSchema.enum.PaypalError}
     />
   );
 }
@@ -70,7 +70,7 @@ export function TimedOut(): React.JSX.Element {
   return (
     <DonationErrorModal
       {...defaultProps}
-      errorType={donationErrorTypeSchema.Enum.TimedOut}
+      errorType={donationErrorTypeSchema.enum.TimedOut}
     />
   );
 }

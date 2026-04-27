@@ -3,7 +3,7 @@
 
 import { createSelector } from 'reselect';
 
-import type { StateType } from '../reducer.preload.js';
+import type { StateType } from '../reducer.preload.ts';
 import type {
   CallingStateType,
   CallsByConversationType,
@@ -13,18 +13,18 @@ import type {
   GroupCallStateType,
   ActiveCallStateType,
   GroupCallParticipantInfoType,
-} from '../ducks/calling.preload.js';
-import { getRingingCall as getRingingCallHelper } from '../ducks/callingHelpers.std.js';
-import type { PresentedSource } from '../../types/Calling.std.js';
-import { CallMode } from '../../types/CallDisposition.std.js';
+} from '../ducks/calling.preload.ts';
+import { getRingingCall as getRingingCallHelper } from '../ducks/callingHelpers.std.ts';
+import type { PresentedSource } from '../../types/Calling.std.ts';
+import { CallMode } from '../../types/CallDisposition.std.ts';
 import {
   isCallLinkAdmin,
   type CallLinkType,
-} from '../../types/CallLink.std.js';
-import { getUserACI } from './user.std.js';
-import { getOwn } from '../../util/getOwn.std.js';
-import type { AciString } from '../../types/ServiceId.std.js';
-import { isGroupOrAdhocCallState } from '../../util/isGroupOrAdhocCall.std.js';
+} from '../../types/CallLink.std.ts';
+import { getUserACI } from './user.std.ts';
+import { getOwn } from '../../util/getOwn.std.ts';
+import type { AciString } from '../../types/ServiceId.std.ts';
+import { isGroupOrAdhocCallState } from '../../util/isGroupOrAdhocCall.std.ts';
 
 export type CallStateType = DirectCallStateType | GroupCallStateType;
 
@@ -77,7 +77,7 @@ export const getCallsByConversation = createSelector(
     state.callsByConversation
 );
 
-export const getAdhocCalls = createSelector(
+const getAdhocCalls = createSelector(
   getCalling,
   (state: CallingStateType): AdhocCallsType => state.adhocCalls
 );

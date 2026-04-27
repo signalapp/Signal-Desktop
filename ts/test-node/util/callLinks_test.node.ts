@@ -6,11 +6,11 @@ import { assert } from 'chai';
 import {
   callLinkToRecord,
   callLinkFromRecord,
-} from '../../util/callLinksRingrtc.node.js';
+} from '../../util/callLinksRingrtc.node.ts';
 import {
   FAKE_CALL_LINK as CALL_LINK,
   FAKE_CALL_LINK_WITH_ADMIN_KEY as CALL_LINK_WITH_ADMIN_KEY,
-} from '../../test-helpers/fakeCallLink.std.js';
+} from '../../test-helpers/fakeCallLink.std.ts';
 
 describe('callLinks', () => {
   it('callLinkToRecord() and callLinkFromRecord() can convert to record and back', () => {

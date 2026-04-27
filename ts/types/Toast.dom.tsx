@@ -64,6 +64,7 @@ export enum ToastType {
   LinkCopied = 'LinkCopied',
   LoadingFullLogs = 'LoadingFullLogs',
   _InternalMainProcessLoggingError = '_InternalMainProcessLoggingError',
+  _InternalHeapSizeWarning = '_InternalHeapSizeWarning',
   MaxAttachments = 'MaxAttachments',
   MediaNoLongerAvailable = 'MediaNoLongerAvailable',
   MessageBodyTooLong = 'MessageBodyTooLong',
@@ -98,6 +99,7 @@ export enum ToastType {
   UsernameRecovered = 'UsernameRecovered',
   ViewOnceDisabled = 'ViewOnceDisabled',
   ViewOnceEnabled = 'ViewOnceEnabled',
+  VideoFileSize = 'VideoFileSize',
   VoiceNoteLimit = 'VoiceNoteLimit',
   VoiceNoteMustBeTheOnlyAttachment = 'VoiceNoteMustBeTheOnlyAttachment',
   WhoCanFindMeReadOnly = 'WhoCanFindMeReadOnly',
@@ -185,7 +187,7 @@ export type AnyToast =
       parameters: { fullPath: string; countOfFiles?: number };
     }
   | {
-      toastType: ToastType.FileSize;
+      toastType: ToastType.FileSize | ToastType.VideoFileSize;
       parameters: { limit: number; units: string };
     }
   | { toastType: ToastType.GroupLinkCopied }
@@ -205,6 +207,7 @@ export type AnyToast =
       toastType: ToastType._InternalMainProcessLoggingError;
       parameters: { count: number; logLines: Array<string> };
     }
+  | { toastType: ToastType._InternalHeapSizeWarning }
   | { toastType: ToastType.MaxAttachments }
   | { toastType: ToastType.MediaNoLongerAvailable }
   | { toastType: ToastType.MessageBodyTooLong }

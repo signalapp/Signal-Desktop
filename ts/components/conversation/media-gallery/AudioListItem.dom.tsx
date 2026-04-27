@@ -7,17 +7,17 @@ import type { Transition } from 'motion/react';
 import { motion } from 'motion/react';
 import type { ReadonlyDeep } from 'type-fest';
 
-import { tw } from '../../../axo/tw.dom.js';
-import { formatFileSize } from '../../../util/formatFileSize.std.js';
-import { durationToPlaybackText } from '../../../util/durationToPlaybackText.std.js';
+import { tw } from '../../../axo/tw.dom.tsx';
+import { formatFileSize } from '../../../util/formatFileSize.std.ts';
+import { durationToPlaybackText } from '../../../util/durationToPlaybackText.std.ts';
 import type {
   GenericMediaItemType,
   MediaItemType,
-} from '../../../types/MediaItem.std.js';
-import type { LocalizerType, ThemeType } from '../../../types/Util.std.js';
-import { type AttachmentStatusType } from '../../../hooks/useAttachmentStatus.std.js';
-import { useComputePeaks } from '../../../hooks/useComputePeaks.dom.js';
-import { ListItem } from './ListItem.dom.js';
+} from '../../../types/MediaItem.std.ts';
+import type { LocalizerType, ThemeType } from '../../../types/Util.std.ts';
+import { type AttachmentStatusType } from '../../../hooks/useAttachmentStatus.std.ts';
+import { useComputePeaks } from '../../../hooks/useComputePeaks.dom.ts';
+import { ListItem } from './ListItem.dom.tsx';
 
 const { noop } = lodash;
 
@@ -104,10 +104,10 @@ export function AudioListItem({
 
         return (
           <div
-            // eslint-disable-next-line react/no-array-index-key
+            // oxlint-disable-next-line react/no-array-index-key
             key={index}
             className={tw(
-              'rounded bg-label-placeholder p-px',
+              'rounded-sm bg-label-placeholder p-px',
               'transition-[height] duration-250'
             )}
             style={{ height: `${height}px` }}
@@ -119,7 +119,7 @@ export function AudioListItem({
 
   const dot = (
     <motion.div
-      className={tw('size-1.5 shrink-0 rounded bg-label-secondary')}
+      className={tw('size-1.5 shrink-0 rounded-sm bg-label-secondary')}
       initial={false}
       animate={{ scale: isPlayed ? 0 : 1 }}
       transition={DOT_TRANSITION}

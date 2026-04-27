@@ -1,20 +1,20 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { createLogger } from '../logging/log.std.js';
+import { createLogger } from '../logging/log.std.ts';
 
-import { SendMessageProtoError } from '../textsecure/Errors.std.js';
-import { getSendOptions } from './getSendOptions.preload.js';
-import { handleMessageSend } from './handleMessageSend.preload.js';
+import { SendMessageProtoError } from '../textsecure/Errors.std.ts';
+import { getSendOptions } from './getSendOptions.preload.ts';
+import { handleMessageSend } from './handleMessageSend.preload.ts';
 
 import type { CallbackResultType } from '../textsecure/Types.d.ts';
-import type { ConversationModel } from '../models/conversations.preload.js';
-import type { SendTypesType } from './handleMessageSend.preload.js';
+import type { ConversationModel } from '../models/conversations.preload.ts';
+import type { SendTypesType } from './handleMessageSend.preload.ts';
 import {
   type MessageSender,
   messageSender,
-} from '../textsecure/SendMessage.preload.js';
-import { areAllErrorsUnregistered } from '../jobs/helpers/areAllErrorsUnregistered.dom.js';
+} from '../textsecure/SendMessage.preload.ts';
+import { areAllErrorsUnregistered } from '../jobs/helpers/areAllErrorsUnregistered.dom.ts';
 
 const log = createLogger('wrapWithSyncMessageSend');
 
@@ -59,6 +59,7 @@ export async function wrapWithSyncMessageSend({
       error = thrown;
     } else {
       log.error(`${logId}: Thrown value was not an Error, returning early`);
+      // oxlint-disable-next-line typescript/only-throw-error
       throw error;
     }
   }
@@ -74,6 +75,8 @@ export async function wrapWithSyncMessageSend({
   if (didSuccessfullySendOne) {
     if (!dataMessage) {
       log.error(`${logId}: dataMessage was not returned by send!`);
+    } else if (!window.ConversationController.doWeHaveOtherDevices()) {
+      log.info(`${logId}: We have no other devices; not sending sync message`);
     } else {
       log.info(`${logId}: Sending sync message... `);
       const ourConversation =

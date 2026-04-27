@@ -4,42 +4,43 @@
 import lodash from 'lodash';
 import { ContentHint } from '@signalapp/libsignal-client';
 
-import { handleMessageSend } from '../../util/handleMessageSend.preload.js';
-import { getSendOptions } from '../../util/getSendOptions.preload.js';
+import { handleMessageSend } from '../../util/handleMessageSend.preload.ts';
+import { getSendOptions } from '../../util/getSendOptions.preload.ts';
 import {
   isDirectConversation,
   isGroup,
   isGroupV2,
-} from '../../util/whatTypeOfConversation.dom.js';
-import { SignalService as Proto } from '../../protobuf/index.std.js';
+  isMe,
+} from '../../util/whatTypeOfConversation.dom.ts';
+import { SignalService as Proto } from '../../protobuf/index.std.ts';
 import {
   handleMultipleSendErrors,
   maybeExpandErrors,
-} from './handleMultipleSendErrors.std.js';
-import { ourProfileKeyService } from '../../services/ourProfileKey.std.js';
+} from './handleMultipleSendErrors.std.ts';
+import { ourProfileKeyService } from '../../services/ourProfileKey.std.ts';
 
-import type { ConversationModel } from '../../models/conversations.preload.js';
+import type { ConversationModel } from '../../models/conversations.preload.ts';
 import type {
   ConversationQueueJobBundle,
   ProfileKeyJobData,
-} from '../conversationJobQueue.preload.js';
+} from '../conversationJobQueue.preload.ts';
 import type { CallbackResultType } from '../../textsecure/Types.d.ts';
-import { isConversationUnregistered } from '../../util/isConversationUnregistered.dom.js';
+import { isConversationUnregistered } from '../../util/isConversationUnregistered.dom.ts';
 import type { ConversationAttributesType } from '../../model-types.d.ts';
 import {
   OutgoingIdentityKeyError,
   SendMessageChallengeError,
   SendMessageProtoError,
   UnregisteredUserError,
-} from '../../textsecure/Errors.std.js';
-import { shouldSendToConversation } from './shouldSendToConversation.preload.js';
-import { sendToGroup } from '../../util/sendToGroup.preload.js';
-import { itemStorage } from '../../textsecure/Storage.preload.js';
-import { strictAssert } from '../../util/assert.std.js';
+} from '../../textsecure/Errors.std.ts';
+import { shouldSendToConversation } from './shouldSendToConversation.preload.ts';
+import { sendToGroup } from '../../util/sendToGroup.preload.ts';
+import { itemStorage } from '../../textsecure/Storage.preload.ts';
+import { strictAssert } from '../../util/assert.std.ts';
 
 const { isNumber } = lodash;
 
-export function canAllErrorsBeIgnored(
+function canAllErrorsBeIgnored(
   conversation: ConversationAttributesType,
   error: unknown
 ): boolean {
@@ -107,7 +108,7 @@ export async function sendProfileKey(
 
   // Note: flags and the profileKey itself are all that matter in the proto.
 
-  if (!shouldSendToConversation(conversation, log)) {
+  if (!shouldSendToConversation(conversation, { log })) {
     return;
   }
 
@@ -115,6 +116,15 @@ export async function sendProfileKey(
     if (isConversationUnregistered(conversation.attributes)) {
       log.info(
         `conversation ${conversation.idForLogging()} is unregistered; refusing to send`
+      );
+      return;
+    }
+    if (
+      isMe(conversation.attributes) &&
+      !window.ConversationController.doWeHaveOtherDevices()
+    ) {
+      log.info(
+        'sendProfileKey: We have no other devices; not sending sync message'
       );
       return;
     }

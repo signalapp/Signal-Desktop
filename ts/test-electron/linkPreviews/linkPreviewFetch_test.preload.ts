@@ -10,17 +10,17 @@ import {
   IMAGE_JPEG,
   IMAGE_WEBP,
   stringToMIMEType,
-} from '../../types/MIME.std.js';
-import type { LoggerType } from '../../types/Logging.std.js';
+} from '../../types/MIME.std.ts';
+import type { LoggerType } from '../../types/Logging.std.ts';
 
 import {
   fetchLinkPreviewImage,
   fetchLinkPreviewMetadata,
-} from '../../linkPreviews/linkPreviewFetch.preload.js';
+} from '../../linkPreviews/linkPreviewFetch.preload.ts';
 
 async function readFixtureImage(
   filename: string
-): Promise<Uint8Array<ArrayBuffer>> {
+): Promise<Buffer<ArrayBuffer>> {
   const result = await fs.promises.readFile(
     path.join(__dirname, '..', '..', '..', 'fixtures', filename)
   );
@@ -32,7 +32,7 @@ describe('link preview fetching', () => {
   // We'll use this to create a fake `fetch`. We'll want to call `.resolves` or
   //   `.rejects` on it (meaning that it needs to be a Sinon Stub type), but we'll also
   //   want it to be a fake `fetch`. `any` seems like the best "supertype" there.
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // oxlint-disable-next-line typescript/no-explicit-any
   function stub(): any {
     return sinon.stub();
   }
@@ -183,7 +183,7 @@ describe('link preview fetching', () => {
           })
         );
 
-        // eslint-disable-next-line no-await-in-loop
+        // oxlint-disable-next-line no-await-in-loop
         const val = await fetchLinkPreviewMetadata(
           fakeFetch,
           'https://example.com',
@@ -1124,7 +1124,6 @@ describe('link preview fetching', () => {
             'Content-Type': IMAGE_WEBP,
             'Content-Length': fixture.length.toString(),
           },
-          url: 'https://example.com/d/lincoln.webp?spurious=true',
         })
       );
 
@@ -1424,8 +1423,8 @@ describe('link preview fetching', () => {
             'Content-Length': fixture.length.toString(),
           },
         });
-        const oldBufferMethod = response.buffer.bind(response);
-        sinon.stub(response, 'buffer').callsFake(async () => {
+        const oldBufferMethod = response.arrayBuffer.bind(response);
+        sinon.stub(response, 'arrayBuffer').callsFake(async () => {
           const data = await oldBufferMethod();
           abortController.abort();
           return data;

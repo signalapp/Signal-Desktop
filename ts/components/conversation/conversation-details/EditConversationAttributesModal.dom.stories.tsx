@@ -5,8 +5,8 @@ import type { ComponentProps } from 'react';
 import React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import { EditConversationAttributesModal } from './EditConversationAttributesModal.dom.js';
-import { RequestState } from './util.std.js';
+import { EditConversationAttributesModal } from './EditConversationAttributesModal.dom.tsx';
+import { RequestState } from './util.std.ts';
 
 const { i18n } = window.SignalContext;
 

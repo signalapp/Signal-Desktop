@@ -8,13 +8,13 @@ import {
   COLORS_CHANGED,
   COLOR_SELECTED,
   SET_VOICE_NOTE_PLAYBACK_RATE,
-} from '../state/ducks/conversations.preload.js';
+} from '../state/ducks/conversations.preload.ts';
 
 export const dispatchItemsMiddleware: Middleware =
   ({ getState }) =>
   next =>
   _action => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // oxlint-disable-next-line typescript/no-explicit-any
     const action = _action as any as UnknownAction;
     const result = next(action);
     if (

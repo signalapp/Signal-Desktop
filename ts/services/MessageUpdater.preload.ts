@@ -2,31 +2,31 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { MessageAttributesType } from '../model-types.d.ts';
-import type { MessageModel } from '../models/messages.preload.js';
+import type { MessageModel } from '../models/messages.preload.ts';
 import {
   ReadStatus,
   maxReadStatus,
-} from '../messages/MessageReadStatus.std.js';
-import { notificationService } from './notifications.preload.js';
-import { SeenStatus } from '../MessageSeenStatus.std.js';
-import { queueUpdateMessage } from '../util/messageBatcher.preload.js';
-import * as Errors from '../types/errors.std.js';
-import { createLogger } from '../logging/log.std.js';
-import { isValidTapToView } from '../util/isValidTapToView.std.js';
-import { getMessageIdForLogging } from '../util/idForLogging.preload.js';
-import { getMessageSentTimestamp } from '../util/getMessageSentTimestamp.std.js';
-import { eraseMessageContents } from '../util/cleanup.preload.js';
-import { getSource, getSourceServiceId } from '../messages/sources.preload.js';
-import { isAciString } from '../util/isAciString.std.js';
-import { viewOnceOpenJobQueue } from '../jobs/viewOnceOpenJobQueue.preload.js';
-import { drop } from '../util/drop.std.js';
-import { isIncoming } from '../messages/helpers.std.js';
+} from '../messages/MessageReadStatus.std.ts';
+import { notificationService } from './notifications.preload.ts';
+import { SeenStatus } from '../MessageSeenStatus.std.ts';
+import { queueUpdateMessage } from '../util/messageBatcher.preload.ts';
+import * as Errors from '../types/errors.std.ts';
+import { createLogger } from '../logging/log.std.ts';
+import { isValidTapToView } from '../util/isValidTapToView.std.ts';
+import { getMessageIdForLogging } from '../util/idForLogging.preload.ts';
+import { getMessageSentTimestamp } from '../util/getMessageSentTimestamp.std.ts';
+import { eraseMessageContents } from '../util/cleanup.preload.ts';
+import { getSource, getSourceServiceId } from '../messages/sources.preload.ts';
+import { isAciString } from '../util/isAciString.std.ts';
+import { viewOnceOpenJobQueue } from '../jobs/viewOnceOpenJobQueue.preload.ts';
+import { drop } from '../util/drop.std.ts';
+import { isIncoming } from '../messages/helpers.std.ts';
 import {
   conversationJobQueue,
   conversationQueueJobEnum,
-} from '../jobs/conversationJobQueue.preload.js';
-import { ReceiptType } from '../types/Receipt.std.js';
-import { isDirectConversation } from '../util/whatTypeOfConversation.dom.js';
+} from '../jobs/conversationJobQueue.preload.ts';
+import { ReceiptType } from '../types/Receipt.std.ts';
+import { isDirectConversation } from '../util/whatTypeOfConversation.dom.ts';
 
 const log = createLogger('MessageUpdater');
 
@@ -140,9 +140,9 @@ export async function markViewOnceMessageViewed(
       );
     }
 
-    if (window.ConversationController.areWePrimaryDevice()) {
-      log.warn(
-        'markViewOnceMessageViewed: We are primary device; not sending view once open sync'
+    if (!window.ConversationController.doWeHaveOtherDevices()) {
+      log.info(
+        'markViewOnceMessageViewed: We have no other devices; not sending view once open sync'
       );
       return;
     }

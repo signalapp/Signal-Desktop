@@ -12,17 +12,17 @@ import {
 import type { PrimaryDevice } from '@signalapp/mock-server';
 import createDebug from 'debug';
 
-import * as durations from '../../util/durations/index.std.js';
-import { uuidToBytes } from '../../util/uuidToBytes.std.js';
-import { generateConfigMatrix } from '../../util/generateConfigMatrix.std.js';
-import { MY_STORY_ID } from '../../types/Stories.std.js';
-import { Bootstrap } from '../bootstrap.node.js';
-import type { App } from '../bootstrap.node.js';
+import * as durations from '../../util/durations/index.std.ts';
+import { uuidToBytes } from '../../util/uuidToBytes.std.ts';
+import { generateConfigMatrix } from '../../test-helpers/generateConfigMatrix.std.ts';
+import { MY_STORY_ID } from '../../types/Stories.std.ts';
+import { Bootstrap } from '../bootstrap.node.ts';
+import type { App } from '../bootstrap.node.ts';
 import {
   expectSystemMessages,
   typeIntoInput,
   waitForEnabledComposer,
-} from '../helpers.node.js';
+} from '../helpers.node.ts';
 
 export const debug = createDebug('mock:test:merge');
 
@@ -120,7 +120,7 @@ describe('pnp/merge', function (this: Mocha.Suite) {
       `${pniSignatureVerified ? 'with' : 'without'} pniSignatureVerified ` +
       `(${finalContact})`;
 
-    // eslint-disable-next-line no-loop-func
+    // oxlint-disable-next-line no-loop-func
     it(testName, async () => {
       const { phone } = bootstrap;
 
@@ -132,7 +132,7 @@ describe('pnp/merge', function (this: Mocha.Suite) {
         .locator(`[data-testid="${pniContact.device.aci}"]`)
         .click();
 
-      await window.locator('.module-conversation-hero').waitFor();
+      await window.getByTestId('conversation-hero').waitFor();
 
       debug('Send message to ACI');
       {
@@ -148,7 +148,7 @@ describe('pnp/merge', function (this: Mocha.Suite) {
         .first()
         .click();
 
-      await window.locator('.module-conversation-hero').waitFor();
+      await window.getByTestId('conversation-hero').waitFor();
 
       debug('Verify starting state');
       {
@@ -175,7 +175,7 @@ describe('pnp/merge', function (this: Mocha.Suite) {
           .locator(`[data-testid="${pniContact.device.aci}"]`)
           .click();
 
-        await window.locator('.module-conversation-hero').waitFor();
+        await window.getByTestId('conversation-hero').waitFor();
       }
 
       debug(
@@ -235,11 +235,11 @@ describe('pnp/merge', function (this: Mocha.Suite) {
   }
 
   for (const withPniContact of [false, true]) {
-    const testName =
-      'accepts storage service contact splitting ' +
-      `${withPniContact ? 'with PNI contact' : 'without PNI contact'}`;
+    const testName = `accepts storage service contact splitting ${
+      withPniContact ? 'with PNI contact' : 'without PNI contact'
+    }`;
 
-    // eslint-disable-next-line no-loop-func
+    // oxlint-disable-next-line no-loop-func
     it(testName, async () => {
       const { phone } = bootstrap;
 
@@ -272,7 +272,7 @@ describe('pnp/merge', function (this: Mocha.Suite) {
         )
         .click();
 
-      await window.locator('.module-conversation-hero').waitFor();
+      await window.getByTestId('conversation-hero').waitFor();
 
       debug('Send message to merged contact');
       {
@@ -377,7 +377,7 @@ describe('pnp/merge', function (this: Mocha.Suite) {
       )
       .click();
 
-    await window.locator('.module-conversation-hero').waitFor();
+    await window.getByTestId('conversation-hero').waitFor();
 
     debug('Unregistering ACI');
     server.unregister(pniContact);
@@ -460,7 +460,8 @@ describe('pnp/merge', function (this: Mocha.Suite) {
 
     debug('Wait for ACI conversation to go away');
     await window
-      .locator(`.module-conversation-hero >> "${pniContact.profileName}"`)
+      .getByTestId('conversation-hero')
+      .getByText(pniContact.profileName)
       .waitFor({
         state: 'hidden',
       });
@@ -522,7 +523,7 @@ describe('pnp/merge', function (this: Mocha.Suite) {
       )
       .click();
 
-    await window.locator('.module-conversation-hero').waitFor();
+    await window.getByTestId('conversation-hero').waitFor();
 
     debug('Verify that the message is in the ACI conversation');
     {
@@ -541,7 +542,7 @@ describe('pnp/merge', function (this: Mocha.Suite) {
 
     await typeIntoInput(searchBox, aciContact.device.number, '');
 
-    const firstSearchResult = await window.locator(
+    const firstSearchResult = window.locator(
       '.module-left-pane__no-search-results'
     );
     const firstSearchResultText = await firstSearchResult.innerText();
@@ -603,7 +604,7 @@ describe('pnp/merge', function (this: Mocha.Suite) {
       const sendOptions = {
         timestamp,
       };
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       await phone.sendRaw(desktop, content, sendOptions);
     }
 
@@ -638,7 +639,7 @@ describe('pnp/merge', function (this: Mocha.Suite) {
       )
       .click();
 
-    await window.locator('.module-conversation-hero').waitFor();
+    await window.getByTestId('conversation-hero').waitFor();
 
     debug('Send message to merged contact');
     {

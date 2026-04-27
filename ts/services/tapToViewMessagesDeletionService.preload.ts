@@ -2,17 +2,17 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import lodash from 'lodash';
-import { DataReader } from '../sql/Client.preload.js';
-import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary.std.js';
-import { getMessageQueueTime } from '../util/getMessageQueueTime.dom.js';
-import * as Errors from '../types/errors.std.js';
-import { strictAssert } from '../util/assert.std.js';
-import { toBoundedDate } from '../util/timestamp.std.js';
-import { getMessageIdForLogging } from '../util/idForLogging.preload.js';
-import { eraseMessageContents } from '../util/cleanup.preload.js';
-import { drop } from '../util/drop.std.js';
-import { MessageModel } from '../models/messages.preload.js';
-import { createLogger } from '../logging/log.std.js';
+import { DataReader } from '../sql/Client.preload.ts';
+import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary.std.ts';
+import { getMessageQueueTime } from '../util/getMessageQueueTime.dom.ts';
+import * as Errors from '../types/errors.std.ts';
+import { strictAssert } from '../util/assert.std.ts';
+import { toBoundedDate } from '../util/timestamp.std.ts';
+import { getMessageIdForLogging } from '../util/idForLogging.preload.ts';
+import { eraseMessageContents } from '../util/cleanup.preload.ts';
+import { drop } from '../util/drop.std.ts';
+import { MessageModel } from '../models/messages.preload.ts';
+import { createLogger } from '../logging/log.std.ts';
 
 const { debounce } = lodash;
 
@@ -56,7 +56,7 @@ async function eraseTapToViewMessages() {
 class TapToViewMessagesDeletionService {
   #timeout?: ReturnType<typeof setTimeout>;
   #isPaused = false;
-  #debouncedUpdate = debounce(this.#checkTapToViewMessages);
+  readonly #debouncedUpdate = debounce(this.#checkTapToViewMessages);
 
   update() {
     drop(this.#debouncedUpdate());

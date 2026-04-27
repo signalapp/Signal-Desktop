@@ -7,27 +7,27 @@ import type {
   StickerPackStatusType,
   StickerType as StickerDBType,
   StickerPackType as StickerPackDBType,
-} from '../../sql/Interface.std.js';
-import { DataReader, DataWriter } from '../../sql/Client.preload.js';
+} from '../../sql/Interface.std.ts';
+import { DataReader, DataWriter } from '../../sql/Client.preload.ts';
 import type {
   ActionSourceType,
   RecentStickerType,
-} from '../../types/Stickers.preload.js';
+} from '../../types/Stickers.preload.ts';
 import {
   downloadStickerPack as externalDownloadStickerPack,
   maybeDeletePack,
-} from '../../types/Stickers.preload.js';
-import { drop } from '../../util/drop.std.js';
-import { storageServiceUploadJob } from '../../services/storage.preload.js';
-import { sendStickerPackSync } from '../../shims/textsecure.preload.js';
-import { trigger } from '../../shims/events.dom.js';
-import { ERASE_STORAGE_SERVICE } from './user.preload.js';
-import type { EraseStorageServiceStateAction } from './user.preload.js';
+} from '../../types/Stickers.preload.ts';
+import { drop } from '../../util/drop.std.ts';
+import { storageServiceUploadJob } from '../../services/storage.preload.ts';
+import { sendStickerPackSync } from '../../shims/textsecure.preload.ts';
+import { trigger } from '../../shims/events.dom.ts';
+import { ERASE_STORAGE_SERVICE } from './user.preload.ts';
+import type { EraseStorageServiceStateAction } from './user.preload.ts';
 
-import type { NoopActionType } from './noop.std.js';
-import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.js';
-import { useBoundActions } from '../../hooks/useBoundActions.std.js';
-import { strictAssert } from '../../util/assert.std.js';
+import { noopAction, type NoopActionType } from './noop.std.ts';
+import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.ts';
+import { useBoundActions } from '../../hooks/useBoundActions.std.ts';
+import { strictAssert } from '../../util/assert.std.ts';
 
 const { omit, reject } = lodash;
 
@@ -221,10 +221,7 @@ function downloadStickerPack(
     })
   );
 
-  return {
-    type: 'NOOP',
-    payload: null,
-  };
+  return noopAction('downloadStickerPack');
 }
 
 function installStickerPack(
@@ -401,7 +398,7 @@ export function reducer(
   if (action.type === 'stickers/STICKER_PACK_ADDED') {
     // ts complains due to `stickers: {}` being overridden by the payload
     // but without full confidence that that's the case, `any` and ignore
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // oxlint-disable-next-line typescript/no-explicit-any
     const { payload } = action as any;
     const newPack = {
       stickers: {},

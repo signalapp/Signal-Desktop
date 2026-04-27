@@ -3,10 +3,10 @@
 
 import React from 'react';
 
-import { LeftPaneDialog } from './LeftPaneDialog.dom.js';
-import type { WidthBreakpoint } from './_util.std.js';
-import type { LocalizerType } from '../types/I18N.std.js';
-import { I18n } from './I18n.dom.js';
+import { LeftPaneDialog } from './LeftPaneDialog.dom.tsx';
+import type { WidthBreakpoint } from './_util.std.ts';
+import type { LocalizerType } from '../types/I18N.std.ts';
+import { I18n } from './I18n.dom.tsx';
 
 export type PropsType = {
   containerWidthBreakpoint: WidthBreakpoint;

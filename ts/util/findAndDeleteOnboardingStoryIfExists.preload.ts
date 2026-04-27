@@ -1,13 +1,13 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { createLogger } from '../logging/log.std.js';
-import { DataWriter } from '../sql/Client.preload.js';
-import { calculateExpirationTimestamp } from './expirationTimer.std.js';
-import { DAY } from './durations/index.std.js';
-import { cleanupMessages } from './cleanup.preload.js';
-import { getMessageById } from '../messages/getMessageById.preload.js';
-import { itemStorage } from '../textsecure/Storage.preload.js';
+import { createLogger } from '../logging/log.std.ts';
+import { DataWriter } from '../sql/Client.preload.ts';
+import { calculateExpirationTimestamp } from './expirationTimer.std.ts';
+import { DAY } from './durations/index.std.ts';
+import { cleanupMessages } from './cleanup.preload.ts';
+import { getMessageById } from '../messages/getMessageById.preload.ts';
+import { itemStorage } from '../textsecure/Storage.preload.ts';
 
 const log = createLogger('findAndDeleteOnboardingStoryIfExists');
 
@@ -21,7 +21,7 @@ export async function findAndDeleteOnboardingStoryIfExists(): Promise<void> {
   }
 
   const hasExpired = await (async () => {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    // oxlint-disable-next-line typescript/no-non-null-assertion
     const storyId = existingOnboardingStoryMessageIds[0]!;
     try {
       const message = await getMessageById(storyId);
