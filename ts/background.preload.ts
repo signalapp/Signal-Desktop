@@ -1748,6 +1748,7 @@ async function startApp(): Promise<void> {
       }
 
       const postRegistrationSyncsComplete =
+        window.ConversationController.areWePrimaryDevice() ||
         itemStorage.get('postRegistrationSyncsStatus') !== 'incomplete';
 
       // 3. Send any critical sync requests after registration
@@ -1757,10 +1758,8 @@ async function startApp(): Promise<void> {
         setIsInitialContactSync(true);
         contactSyncComplete = waitForEvent('contactSync:complete');
 
-        if (!window.ConversationController.areWePrimaryDevice()) {
-          drop(sendSyncRequests());
-          hasSentSyncRequests = true;
-        }
+        drop(sendSyncRequests());
+        hasSentSyncRequests = true;
       }
 
       // 4. Download (or resume download) of link & sync backup or local backup
