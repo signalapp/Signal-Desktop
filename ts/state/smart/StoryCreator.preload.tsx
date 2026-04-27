@@ -87,14 +87,19 @@ export const SmartStoryCreator = memo(function SmartStoryCreator() {
   );
 
   const addStoryData = useSelector(getAddStoryData);
-  let file: File | undefined;
-  const isSending = addStoryData?.sending || false;
+let file: File | undefined;
+let initialText: string | undefined;
+const isSending = addStoryData?.sending || false;
 
-  if (addStoryData?.type === 'Media') {
-    // Note that the source type is ReadonlyDeep<File>, but browser APIs don't
-    // support that. Hence the cast.
-    file = addStoryData.file as File;
-  }
+if (addStoryData?.type === 'Media') {
+  // Note that the source type is ReadonlyDeep<File>, but browser APIs don't
+  // support that. Hence the cast.
+  file = addStoryData.file as File;
+}
+
+if (addStoryData?.type === 'Text') {
+  initialText = addStoryData.initialText;
+}
 
   const emojiSkinToneDefault = useSelector(getEmojiSkinToneDefault);
   const { onUseEmoji } = useEmojisActions();
@@ -128,6 +133,7 @@ export const SmartStoryCreator = memo(function SmartStoryCreator() {
       groupConversations={groupConversations}
       groupStories={groupStories}
       hasFirstStoryPostExperience={!hasSetMyStoriesPrivacy}
+      initialText={initialText}
       i18n={i18n}
       imageToBlurHash={imageToBlurHash}
       isFormattingEnabled={isFormattingEnabled}

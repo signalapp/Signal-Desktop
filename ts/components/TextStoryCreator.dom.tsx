@@ -41,6 +41,7 @@ export type PropsType = {
     options?: MaybeGrabLinkPreviewOptionsType
   ) => unknown;
   i18n: LocalizerType;
+  initialText: string;
   isSending: boolean;
   linkPreview?: LinkPreviewForUIType;
   onClose: () => unknown;
@@ -133,6 +134,7 @@ function getBgButtonAriaLabel(
 export function TextStoryCreator({
   debouncedMaybeGrabLinkPreview,
   i18n,
+  initialText,
   isSending,
   linkPreview,
   onClose,
@@ -158,7 +160,7 @@ export function TextStoryCreator({
     TextBackground.None
   );
   const [sliderValue, setSliderValue] = useState<number>(100);
-  const [text, setText] = useState<string>('');
+  const [text, setText] = useState<string>(initialText ?? '');
 
   const [isColorPickerShowing, setIsColorPickerShowing] = useState(false);
   const [colorPickerPopperButtonRef, setColorPickerPopperButtonRef] =
