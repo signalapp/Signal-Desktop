@@ -4628,6 +4628,14 @@
     "messageformat": "Review requests carefully. Profile names are chosen by their account owner and aren't verified.",
     "description": "Body text of confirmation dialog shown before accepting a message request"
   },
+  "icu:MessageRequests--accept-confirm-title-v2": {
+    "messageformat": "Accept request?",
+    "description": "Title of confirmation dialog shown before accepting a message request"
+  },
+  "icu:MessageRequests--accept-confirm-body-v2": {
+    "messageformat": "Only accept requests from people you trust. <bold>Signal will never</bold> message you for a registration code, PIN, or recovery key.",
+    "description": "Body text of confirmation dialog shown before accepting a message request"
+  },
   "icu:MessageRequests--continue": {
     "messageformat": "Continue",
     "description": "Shown as a button to share your profile, necessary to continue messaging in a conversation"
@@ -7069,6 +7077,10 @@
     "messageformat": "Use this link to join a Signal call: {url}",
     "description": "Draft message text for sharing a call link"
   },
+  "icu:MessageRequestWarning__review-carefully": {
+    "messageformat": "Review requests carefully",
+    "description": "Shown when conversations in message request state."
+  },
   "icu:MessageRequestWarning__safety-tips": {
     "messageformat": "Safety Tips",
     "description": "(Deleted 2026/04/26) Shown on the message request warning. Clicking this button will open a dialog with safety tips"
@@ -9136,6 +9148,10 @@
     "messageformat": "You accepted the message request",
     "description": "Message request response notification message when the user accepted the message request or unblocked another user"
   },
+  "icu:MessageRequestResponseNotification__Message--Accepted-Contact-Title": {
+    "messageformat": "You accepted {userProfileName}'s message request",
+    "description": "Message request response notification message when the user accepted the message request or unblocked another user."
+  },
   "icu:MessageRequestResponseNotification__Message--Reported": {
     "messageformat": "Reported as spam",
     "description": "Message request response notification message when the user reported the message request as spam"
@@ -9159,6 +9175,10 @@
   "icu:MessageRequestResponseNotification__Button--Options": {
     "messageformat": "Options",
     "description": "Message request response notification button to show options"
+  },
+  "icu:MessageRequestResponseNotification__Button--block-or-report": {
+    "messageformat": "Block or Report...",
+    "description": "Message request response notification button shown after accepting a message request"
   },
   "icu:MessageRequestResponseNotification__Button--LearnMore": {
     "messageformat": "Learn More",

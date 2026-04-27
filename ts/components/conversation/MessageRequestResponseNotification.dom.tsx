@@ -1,12 +1,13 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import React, { useState } from 'react';
+import React, { type JSX, useState } from 'react';
 import type { LocalizerType } from '../../types/I18N.std.ts';
 import { SystemMessage } from './SystemMessage.dom.tsx';
 import { Button, ButtonSize, ButtonVariant } from '../Button.dom.tsx';
 import { MessageRequestState } from './MessageRequestActionsConfirmation.dom.tsx';
 import { SafetyTipsModal } from '../SafetyTipsModal.dom.tsx';
 import { MessageRequestResponseEvent } from '../../types/MessageRequestResponseEvent.std.ts';
+import { I18n } from '../I18n.dom.tsx';
 
 export type MessageRequestResponseNotificationData = {
   messageRequestResponseEvent: MessageRequestResponseEvent;
@@ -18,6 +19,7 @@ export type MessageRequestResponseNotificationProps =
     isBlocked: boolean;
     isGroup: boolean;
     onOpenMessageRequestActionsConfirmation(state: MessageRequestState): void;
+    renderedContact: JSX.Element | null;
   };
 
 export function MessageRequestResponseNotification({
@@ -26,6 +28,7 @@ export function MessageRequestResponseNotification({
   isGroup,
   messageRequestResponseEvent: event,
   onOpenMessageRequestActionsConfirmation,
+  renderedContact,
 }: MessageRequestResponseNotificationProps): React.JSX.Element | null {
   const [isSafetyTipsModalOpen, setIsSafetyTipsModalOpen] = useState(false);
 
@@ -34,9 +37,17 @@ export function MessageRequestResponseNotification({
       {event === MessageRequestResponseEvent.ACCEPT && (
         <SystemMessage
           icon="thread"
-          contents={i18n(
-            'icu:MessageRequestResponseNotification__Message--Accepted'
-          )}
+          contents={
+            isGroup || !renderedContact ? (
+              i18n('icu:MessageRequestResponseNotification__Message--Accepted')
+            ) : (
+              <I18n
+                i18n={i18n}
+                id="icu:MessageRequestResponseNotification__Message--Accepted-Contact-Title"
+                components={{ userProfileName: renderedContact }}
+              />
+            )
+          }
           button={
             isBlocked ? null : (
               <Button
@@ -50,7 +61,7 @@ export function MessageRequestResponseNotification({
                 }}
               >
                 {i18n(
-                  'icu:MessageRequestResponseNotification__Button--Options'
+                  'icu:MessageRequestResponseNotification__Button--block-or-report'
                 )}
               </Button>
             )

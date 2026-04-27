@@ -2295,6 +2295,7 @@ button.ConversationDetails__action-button {
 
   &__message {
     @include mixins.font-body-2;
+    user-select: none;
     text-align: center;
     margin-bottom: 12px;
 
@@ -2312,20 +2313,6 @@ button.ConversationDetails__action-button {
 
     &__learn-more {
       text-decoration: none;
-    }
-  }
-
-  &__buttons {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-
-    .module-Button {
-      min-width: 80px;
-
-      &:not(:last-of-type) {
-        margin-inline-end: 8px;
-      }
     }
   }
 }

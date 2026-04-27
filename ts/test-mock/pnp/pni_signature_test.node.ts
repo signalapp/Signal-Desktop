@@ -244,7 +244,9 @@ describe('pnp/PNI Signature', function (this: Mocha.Suite) {
       const messages = window.locator('.module-message__text');
       assert.strictEqual(await messages.count(), 4, 'message count');
 
-      await expectSystemMessages(window, ['You accepted the message request']);
+      await expectSystemMessages(window, [
+        "You accepted Mysterious Stranger's message request",
+      ]);
     }
   });
 
