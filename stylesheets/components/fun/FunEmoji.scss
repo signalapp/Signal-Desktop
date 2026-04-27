@@ -149,7 +149,20 @@ $inline-emoji-container-name: inline-emoji;
 .FunInlineEmoji__Image {
   visibility: hidden;
   position: absolute;
+<<<<<<< fix/emoji-selection-artifact
+  inset: 0;
+  color: transparent;
+  font-size: 64px;
+  line-height: 64px;
+  user-select: text;
+
+  &::selection {
+    background-color: transparent;
+    color: transparent;
+  }
+=======
   top: 0;
+>>>>>>> main
 }
 
 .FunInlineEmoji__Image--loaded {
