@@ -411,16 +411,31 @@ export const STORAGE_KEYS_TO_PRESERVE_AFTER_UNLINK = [
   'restoredBackupFirstAppVersion',
 ] as const satisfies ReadonlyArray<keyof StorageAccessType>;
 
-const STORAGE_KEYS_TO_REMOVE_AFTER_UNLINK = [
+export const STORAGE_KEYS_TO_PRESERVE_WHEN_PRIMARY = [
   'auto-download-attachment',
   'blocked-groups',
   'blocked-uuids',
-  'lastCallQualitySurveyTime',
-  'lastCallQualityFailureSurveyTime',
-  'cqsTestMode',
   'read-receipt-setting',
   'blocked',
   'device_name',
+  'seenPinMessageDisappearingMessagesWarningCount',
+  'usernameLastIntegrityCheck',
+  'usernameCorrupted',
+  'usernameLinkCorrupted',
+  'usernameLink',
+  'needProfileMovedModal',
+  'notificationProfileOverride',
+  'notificationProfileOverrideFromPrimary',
+  'notificationProfileSyncDisabled',
+  'sendEditWarningShown',
+  'formattingWarningShown',
+  'localDeleteWarningShown',
+] as const satisfies ReadonlyArray<keyof StorageAccessType>;
+
+const STORAGE_KEYS_TO_REMOVE_AFTER_UNLINK = [
+  'lastCallQualitySurveyTime',
+  'lastCallQualityFailureSurveyTime',
+  'cqsTestMode',
   'deviceCreatedAt',
   'hasSeenNotificationProfileOnboarding',
   'hasSeenKeyTransparencyOnboarding',
@@ -439,7 +454,6 @@ const STORAGE_KEYS_TO_REMOVE_AFTER_UNLINK = [
   'registrationIdMap',
   'remoteBuildExpiration',
   'sessionResets',
-  'seenPinMessageDisappearingMessagesWarningCount',
   'signedKeyId',
   'signedKeyIdPNI',
   'signedKeyUpdateTime',
@@ -490,16 +504,8 @@ const STORAGE_KEYS_TO_REMOVE_AFTER_UNLINK = [
   'backupsSubscriberId',
   'backupsSubscriberPurchaseToken',
   'backupsSubscriberOriginalTransactionId',
-  'usernameLastIntegrityCheck',
-  'usernameCorrupted',
-  'usernameLinkCorrupted',
-  'usernameLink',
   'serverAlerts',
   'needOrphanedAttachmentCheck',
-  'needProfileMovedModal',
-  'notificationProfileOverride',
-  'notificationProfileOverrideFromPrimary',
-  'notificationProfileSyncDisabled',
   'observedCapabilities',
   'releaseNotesNextFetchTime',
   'releaseNotesVersionWatermark',
@@ -524,15 +530,12 @@ const STORAGE_KEYS_TO_REMOVE_AFTER_UNLINK = [
   'signedKeyRotationRejected',
   'lastHeartbeat',
   'lastStartup',
-  'sendEditWarningShown',
-  'formattingWarningShown',
   'hasRegisterSupportForUnauthenticatedDelivery',
   'masterKeyLastRequestTime',
   'versionedExpirationTimer',
   'primarySendsSms',
   'backupMediaDownloadIdle',
   'callQualitySurveyCooldownDisabled',
-  'localDeleteWarningShown',
   'dredDuration',
   'directMaxBitrate',
   'isDirectVp9Enabled',
@@ -549,6 +552,8 @@ type AssertTrue<T extends true> = T;
 
 type StorageKeysToPreserveAfterUnlink =
   (typeof STORAGE_KEYS_TO_PRESERVE_AFTER_UNLINK)[number];
+type StorageKeysToKeepWhenPrimary =
+  (typeof STORAGE_KEYS_TO_PRESERVE_WHEN_PRIMARY)[number];
 type StorageKeysToRemoveAfterUnlink =
   (typeof STORAGE_KEYS_TO_REMOVE_AFTER_UNLINK)[number];
 
@@ -558,10 +563,24 @@ export type AssertStorageUnlinkKeysDoNotOverlap = AssertTrue<
     never
   >
 >;
+export type AssertStoragePrimaryKeysDoNotOverlap = AssertTrue<
+  AssertSameMembers<
+    Extract<StorageKeysToPreserveAfterUnlink, StorageKeysToKeepWhenPrimary>,
+    never
+  >
+>;
+export type AssertPrimaryAndUnlinkDoNotOverlap = AssertTrue<
+  AssertSameMembers<
+    Extract<StorageKeysToKeepWhenPrimary, StorageKeysToRemoveAfterUnlink>,
+    never
+  >
+>;
 
 export type AssertStorageUnlinkKeysAreExhaustive = AssertTrue<
   AssertSameMembers<
-    StorageKeysToPreserveAfterUnlink | StorageKeysToRemoveAfterUnlink,
+    | StorageKeysToPreserveAfterUnlink
+    | StorageKeysToKeepWhenPrimary
+    | StorageKeysToRemoveAfterUnlink,
     keyof StorageAccessType
   >
 >;

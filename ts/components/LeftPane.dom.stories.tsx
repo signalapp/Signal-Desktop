@@ -260,6 +260,8 @@ const useProps = (overrideProps: OverridePropsType = {}): PropsType => {
       <DialogRelink
         i18n={i18n}
         relinkDevice={action('relinkDevice')}
+        reregister={action('reregister')}
+        weArePrimaryDevice={false}
         {...props}
       />
     ),

@@ -1486,7 +1486,7 @@ type WritableInterface = {
   resetProtectedAttachmentPaths: () => void;
 
   removeAll: () => void;
-  removeAllConfiguration: () => void;
+  removeAllConfiguration: (isPrimary: boolean) => void;
   eraseStorageServiceState: () => void;
 
   insertJob(job: Readonly<StoredJob>): void;

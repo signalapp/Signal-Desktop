@@ -30,7 +30,10 @@ import type { ReactionType } from '../types/Reactions.std.ts';
 import { ReactionReadStatus } from '../types/Reactions.std.ts';
 import type { AciString, ServiceIdString } from '../types/ServiceId.std.ts';
 import { isServiceIdString } from '../types/ServiceId.std.ts';
-import { STORAGE_KEYS_TO_PRESERVE_AFTER_UNLINK } from '../types/StorageKeys.std.ts';
+import {
+  STORAGE_KEYS_TO_PRESERVE_WHEN_PRIMARY,
+  STORAGE_KEYS_TO_PRESERVE_AFTER_UNLINK,
+} from '../types/StorageKeys.std.ts';
 import type { StoryDistributionIdString } from '../types/StoryDistributionId.std.ts';
 import * as Errors from '../types/errors.std.ts';
 import { assertDev, strictAssert } from '../util/assert.std.ts';
@@ -8546,7 +8549,7 @@ function removeAll(db: WritableDB): void {
 }
 
 // Anything that isn't user-visible data
-function removeAllConfiguration(db: WritableDB): void {
+function removeAllConfiguration(db: WritableDB, isPrimary: boolean): void {
   db.transaction(() => {
     db.exec(
       `
@@ -8576,7 +8579,13 @@ function removeAllConfiguration(db: WritableDB): void {
       })
       .all();
 
-    const allowedSet = new Set<string>(STORAGE_KEYS_TO_PRESERVE_AFTER_UNLINK);
+    let allowedSet = new Set<string>(STORAGE_KEYS_TO_PRESERVE_AFTER_UNLINK);
+
+    if (isPrimary) {
+      allowedSet = allowedSet.union(
+        new Set<string>(STORAGE_KEYS_TO_PRESERVE_WHEN_PRIMARY)
+      );
+    }
     for (const id of itemIds) {
       if (!allowedSet.has(id)) {
         removeById(db, 'items', id);
