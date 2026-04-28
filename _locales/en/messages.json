@@ -2597,6 +2597,34 @@
     "messageformat": "More options",
     "description": "Tooltip label for button in the calling screen that opens a menu with other call actions such as React or Raise Hand."
   },
+  "icu:CallingParticipantMenu__MuteAudio": {
+    "messageformat": "Mute audio",
+    "description": "Shown on the drop-down menu for a participant in a group call. Mutes their audio."
+  },
+  "icu:CallingParticipantMenu__UnmuteAudio": {
+    "messageformat": "Unmute audio",
+    "description": "Shown on the drop-down menu for yourself in a group call. Unmutes your audio."
+  },
+  "icu:CallingParticipantMenu__ViewProfile": {
+    "messageformat": "View profile",
+    "description": "Shown on the drop-down menu for a participant in a group call. Opens their profile details."
+  },
+  "icu:CallingParticipantMenu__GoToChat": {
+    "messageformat": "Go to chat",
+    "description": "Shown on the drop-down menu for a participant in a group call. Minimizes the call and switches to direct chat with the participant."
+  },
+  "icu:CallingParticipantMenu__RemoveFromCall": {
+    "messageformat": "Remove from call",
+    "description": "Shown on the drop-down menu for a participant in a group call for call admins. Removes the participant from the call."
+  },
+  "icu:CallingParticipantListItem__ContextMenuButton": {
+    "messageformat": "More actions",
+    "description": "Accessibility label in the group call participant list item which opens a drop-down menu for a participant."
+  },
+  "icu:CallingParticipantListItem__Presenting": {
+    "messageformat": "Presenting",
+    "description": "Label in the group call list when a call participant is sharing their screen."
+  },
   "icu:CallingPendingParticipants__ApproveUser": {
     "messageformat": "Approve join request",
     "description": "Tooltip label for check mark button to approve a user's request to join a call."

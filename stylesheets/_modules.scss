@@ -4480,19 +4480,13 @@ button.module-image__border-overlay:focus {
       list-style-type: none;
       border-radius: 6px;
       cursor: auto;
+      user-select: none;
+    }
+    &.module-calling-participants-list__clickable {
+      cursor: pointer;
     }
     &:not(.module-calling-participants-list__me):hover {
       background-color: variables.$color-gray-62;
-
-      .module-calling-participants-list__status-icon {
-        display: none;
-      }
-      .module-calling-participants-list__menu-icon {
-        display: flex;
-      }
-    }
-    &[disabled] {
-      cursor: auto;
     }
   }
 
@@ -4504,13 +4498,8 @@ button.module-image__border-overlay:focus {
   }
 
   &__name {
-    display: inline-block;
     font-size: 13px;
     margin-inline-start: 8px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    vertical-align: middle;
-    white-space: nowrap;
   }
 
   &__header {

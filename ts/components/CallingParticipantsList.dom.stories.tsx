@@ -10,6 +10,7 @@ import type { PropsType } from './CallingParticipantsList.dom.tsx';
 import { CallingParticipantsList } from './CallingParticipantsList.dom.tsx';
 import { createCallParticipant } from '../test-helpers/createCallParticipant.std.ts';
 import { generateAci } from '../test-helpers/serviceIdUtils.std.ts';
+import { renderCallingParticipantMenu } from './CallingParticipantMenu.dom.stories.tsx';
 
 const { i18n } = window.SignalContext;
 
@@ -20,6 +21,7 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   ourServiceId: generateAci(),
   participants: overrideProps.participants || [],
   showContactModal: action('show-contact-modal'),
+  renderCallingParticipantMenu,
 });
 
 export default {

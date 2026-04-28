@@ -6,49 +6,35 @@ import classNames from 'classnames';
 
 import lodash from 'lodash';
 import { Avatar, AvatarSize } from './Avatar.dom.tsx';
-import { ContactName } from './conversation/ContactName.dom.tsx';
-import { InContactsIcon } from './InContactsIcon.dom.tsx';
 import type { CallLinkType } from '../types/CallLink.std.ts';
 import type { LocalizerType } from '../types/Util.std.ts';
-import type { ServiceIdString } from '../types/ServiceId.std.ts';
 import { sortByTitle } from '../util/sortByTitle.std.ts';
-import type { ConversationType } from '../state/ducks/conversations.preload.ts';
 import { ModalHost } from './ModalHost.dom.tsx';
-import { isInSystemContacts } from '../util/isInSystemContacts.std.ts';
 import { AVATAR_COLOR_COUNT, AvatarColors } from '../types/Colors.std.ts';
 import { Button } from './Button.dom.tsx';
 import { Modal } from './Modal.dom.tsx';
 import { Theme } from '../util/theme.std.ts';
-import type { ContactModalStateType } from '../types/globalModals.std.ts';
+import { CallingParticipantListItem } from './CallingParticipantListItem.dom.tsx';
+import type {
+  CallingParticipantType,
+  PropsType as CallingParticipantsListPropsType,
+} from './CallingParticipantsList.dom.tsx';
 
 const { partition } = lodash;
 
 const MAX_UNKNOWN_AVATARS_COUNT = 3;
 
-type ParticipantType = ConversationType & {
-  hasRemoteAudio?: boolean;
-  hasRemoteVideo?: boolean;
-  isHandRaised?: boolean;
-  presenting?: boolean;
-  demuxId?: number;
-};
-
-export type PropsType = {
+export type PropsType = CallingParticipantsListPropsType & {
   readonly callLink: CallLinkType;
-  readonly i18n: LocalizerType;
   readonly isUnknownContactDiscrete: boolean;
-  readonly ourServiceId: ServiceIdString | undefined;
-  readonly participants: Array<ParticipantType>;
-  readonly onClose: () => void;
   readonly onCopyCallLink: () => void;
   readonly onShareCallLinkViaSignal: () => void;
-  readonly showContactModal: (payload: ContactModalStateType) => void;
 };
 
 type UnknownContactsPropsType = {
   readonly i18n: LocalizerType;
   readonly isInAdditionToKnownContacts: boolean;
-  readonly participants: Array<ParticipantType>;
+  readonly participants: Array<CallingParticipantType>;
   readonly showUnknownContactDialog: () => void;
 };
 
@@ -64,7 +50,7 @@ function UnknownContacts({
       key,
       size,
     }: {
-      participant: ParticipantType;
+      participant: CallingParticipantType;
       key: React.Key;
       size: AvatarSize;
     }) => {
@@ -141,10 +127,12 @@ export function CallingAdhocCallInfo({
   isUnknownContactDiscrete,
   ourServiceId,
   participants,
+  participantMenuDisabled,
   onClose,
   onCopyCallLink,
   onShareCallLinkViaSignal,
   showContactModal,
+  renderCallingParticipantMenu,
 }: PropsType): React.JSX.Element | null {
   const [isUnknownContactDialogVisible, setIsUnknownContactDialogVisible] =
     React.useState(false);
@@ -159,115 +147,41 @@ export function CallingAdhocCallInfo({
   }, [onClose, onShareCallLinkViaSignal]);
 
   const [visibleParticipants, unknownParticipants] = React.useMemo<
-    [Array<ParticipantType>, Array<ParticipantType>]
+    [Array<CallingParticipantType>, Array<CallingParticipantType>]
   >(
     () =>
       partition(
         participants,
-        (participant: ParticipantType) =>
+        (participant: CallingParticipantType) =>
           isUnknownContactDiscrete || Boolean(participant.titleNoDefault)
       ),
     [isUnknownContactDiscrete, participants]
   );
-  const sortedParticipants = React.useMemo<Array<ParticipantType>>(
+  const sortedParticipants = React.useMemo<Array<CallingParticipantType>>(
     () => sortByTitle(visibleParticipants),
     [visibleParticipants]
   );
 
   const renderParticipant = React.useCallback(
-    (participant: ParticipantType, key: React.Key) => (
-      <button
-        aria-label={i18n('icu:calling__ParticipantInfoButton')}
-        className={classNames(
-          'module-calling-participants-list__contact',
-          participant.isMe && 'module-calling-participants-list__me'
-        )}
-        disabled={participant.isMe}
-        // It's tempting to use `participant.serviceId` as the `key`
-        //   here, but that can result in duplicate keys for
-        //   participants who have joined on multiple devices.
+    (participant: CallingParticipantType, key: React.Key) => (
+      <CallingParticipantListItem
+        callConversationId={undefined}
+        i18n={i18n}
         key={key}
-        onClick={() => {
-          if (participant.isMe) {
-            return;
-          }
-
-          onClose();
-          showContactModal({
-            activeCallDemuxId: participant.demuxId,
-            contactId: participant.id,
-          });
-        }}
-        type="button"
-      >
-        <div className="module-calling-participants-list__avatar-and-name">
-          <Avatar
-            avatarPlaceholderGradient={participant.avatarPlaceholderGradient}
-            avatarUrl={participant.avatarUrl}
-            badge={undefined}
-            color={participant.color}
-            conversationType="direct"
-            i18n={i18n}
-            profileName={participant.profileName}
-            title={participant.title}
-            size={AvatarSize.THIRTY_SIX}
-          />
-          {ourServiceId && participant.serviceId === ourServiceId ? (
-            <span className="module-calling-participants-list__name">
-              {i18n('icu:you')}
-            </span>
-          ) : (
-            <>
-              <ContactName
-                module="module-calling-participants-list__name"
-                title={participant.title}
-              />
-              {isInSystemContacts(participant) ? (
-                <span>
-                  {' '}
-                  <InContactsIcon
-                    className="module-calling-participants-list__contact-icon"
-                    i18n={i18n}
-                  />
-                </span>
-              ) : null}
-            </>
-          )}
-        </div>
-        <span
-          className={classNames(
-            'module-calling-participants-list__status-icon',
-            participant.isHandRaised &&
-              'module-calling-participants-list__hand-raised'
-          )}
-        />
-        <span
-          className={classNames(
-            'module-calling-participants-list__status-icon',
-            participant.presenting &&
-              'module-calling-participants-list__presenting',
-            !participant.hasRemoteVideo &&
-              'module-calling-participants-list__muted--video'
-          )}
-        />
-        <span
-          className={classNames(
-            'module-calling-participants-list__status-icon',
-            !participant.hasRemoteAudio &&
-              'module-calling-participants-list__muted--audio'
-          )}
-        />
-        {!participant.isMe && (
-          <span
-            className={classNames(
-              'module-calling-participants-list__status-icon',
-              'module-calling-participants-list__menu-icon'
-            )}
-          />
-        )}
-      </button>
+        ourServiceId={ourServiceId}
+        participant={participant}
+        participantMenuDisabled={participantMenuDisabled}
+        showContactModal={showContactModal}
+        renderCallingParticipantMenu={renderCallingParticipantMenu}
+      />
     ),
-    [i18n, onClose, ourServiceId, showContactModal]
+    [
+      i18n,
+      ourServiceId,
+      renderCallingParticipantMenu,
+      participantMenuDisabled,
+      showContactModal,
+    ]
   );
 
   return (

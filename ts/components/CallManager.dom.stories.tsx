@@ -33,6 +33,7 @@ import {
 } from '../test-helpers/fakeCallLink.std.ts';
 import { allRemoteParticipants } from './CallScreen.dom.stories.tsx';
 import { generateAci } from '../test-helpers/serviceIdUtils.std.ts';
+import { renderCallingParticipantMenu } from './CallingParticipantMenu.dom.stories.tsx';
 
 const { i18n } = window.SignalContext;
 
@@ -137,6 +138,7 @@ const createProps = (storyProps: Partial<PropsType> = {}): PropsType => ({
   cancelPresenting: action('cancel-presenting'),
   renderDeviceSelection: () => <div />,
   renderReactionPicker: () => <div />,
+  renderCallingParticipantMenu,
   sendGroupCallRaiseHand: action('send-group-call-raise-hand'),
   sendGroupCallReaction: action('send-group-call-reaction'),
   selectPresentingSource: action('select-presenting-source'),

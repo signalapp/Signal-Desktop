@@ -80,6 +80,9 @@ const Namespace = 'AxoDropdownMenu';
  * ```
  */
 export namespace AxoDropdownMenu {
+  export type Align = AxoBaseMenu.Align;
+  export type Side = AxoBaseMenu.Side;
+
   type RootContextType = Readonly<{
     open: boolean;
   }>;
@@ -95,6 +98,7 @@ export namespace AxoDropdownMenu {
 
   export type RootProps = AxoBaseMenu.MenuRootProps &
     Readonly<{
+      modal?: boolean;
       open?: boolean;
     }>;
 
@@ -102,7 +106,7 @@ export namespace AxoDropdownMenu {
    * Contains all the parts of a dropdown menu.
    */
   export const Root: FC<RootProps> = memo(props => {
-    const { onOpenChange } = props;
+    const { modal, onOpenChange } = props;
     const [open, setOpen] = useState(false);
 
     if (typeof props.open === 'boolean' && open !== props.open) {
@@ -125,7 +129,11 @@ export namespace AxoDropdownMenu {
 
     return (
       <RootContext.Provider value={context}>
-        <DropdownMenu.Root open={open} onOpenChange={handleOpenChange}>
+        <DropdownMenu.Root
+          modal={modal}
+          open={open}
+          onOpenChange={handleOpenChange}
+        >
           {props.children}
         </DropdownMenu.Root>
       </RootContext.Provider>
@@ -204,7 +212,8 @@ export namespace AxoDropdownMenu {
           <AxoTheme.Inherit>
             <DropdownMenu.Content
               sideOffset={4}
-              align="start"
+              align={props.align}
+              side={props.side}
               collisionPadding={6}
               className={AxoBaseMenu.menuContentStyles}
               aria-labelledby={labelId}

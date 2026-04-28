@@ -17,6 +17,9 @@ const Namespace = 'AxoMenuBuilder';
 export namespace AxoMenuBuilder {
   export type Renderer = 'AxoDropdownMenu' | 'AxoContextMenu';
 
+  export type Align = AxoBaseMenu.Align;
+  export type Side = AxoBaseMenu.Side;
+
   const MenuBuilderContext = createStrictContext<Renderer>(`${Namespace}.Root`);
 
   export type RootProps = AxoBaseMenu.MenuRootProps &
