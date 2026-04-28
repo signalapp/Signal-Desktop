@@ -9,6 +9,7 @@ import type { SystemPreferences } from 'electron';
 import type { assert } from 'chai';
 import type { MochaOptions } from 'mocha';
 
+import type { WhisperEventMap } from './shims/events.dom.ts';
 import type { IPCRequest as IPCChallengeRequest } from './challenge.dom.ts';
 import type { OSType } from './util/os/shared.std.ts';
 import type { SystemThemeType, ThemeType } from './types/Util.std.ts';
@@ -282,5 +283,5 @@ declare global {
 }
 
 export type WhisperType = {
-  events: EventEmitter;
+  events: EventEmitter<WhisperEventMap>;
 };

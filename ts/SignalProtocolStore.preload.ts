@@ -2692,7 +2692,7 @@ export class SignalProtocolStore extends EventEmitter {
     this.emit('removeAllData');
   }
 
-  async removeAllConfiguration(): Promise<void> {
+  async removeAllConfiguration(isPrimary: boolean): Promise<void> {
     // Conversations. These properties are not present in redux.
     window.ConversationController.getAll().forEach(conversation => {
       conversation.set({
@@ -2703,7 +2703,7 @@ export class SignalProtocolStore extends EventEmitter {
       });
     });
 
-    await DataWriter.removeAllConfiguration();
+    await DataWriter.removeAllConfiguration(isPrimary);
 
     await this.hydrateCaches();
 

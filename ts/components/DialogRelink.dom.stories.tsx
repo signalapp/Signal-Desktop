@@ -15,6 +15,8 @@ const defaultProps = {
   containerWidthBreakpoint: WidthBreakpoint.Wide,
   i18n,
   relinkDevice: action('relink-device'),
+  reregister: action('reregister'),
+  weArePrimaryDevice: false,
 };
 
 const permutations = [
@@ -39,13 +41,32 @@ export default {
 export function Iterations(): React.JSX.Element {
   return (
     <>
-      {permutations.map(({ props, title }) => (
+      {permutations.map(({ props, title }, index) => (
         <>
+          {index > 0 && <br />}
           <h3>{title}</h3>
           <FakeLeftPaneContainer
             containerWidthBreakpoint={props.containerWidthBreakpoint}
           >
             <DialogRelink {...defaultProps} {...props} />
+          </FakeLeftPaneContainer>
+        </>
+      ))}
+    </>
+  );
+}
+
+export function IterationsStandalone(): React.JSX.Element {
+  return (
+    <>
+      {permutations.map(({ props, title }, index) => (
+        <>
+          {index > 0 && <br />}
+          <h3>{title}</h3>
+          <FakeLeftPaneContainer
+            containerWidthBreakpoint={props.containerWidthBreakpoint}
+          >
+            <DialogRelink {...defaultProps} {...props} weArePrimaryDevice />
           </FakeLeftPaneContainer>
         </>
       ))}

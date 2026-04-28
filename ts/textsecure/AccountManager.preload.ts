@@ -1015,6 +1015,7 @@ export default class AccountManager extends EventTarget {
     const previousNumber = itemStorage.user.getNumber();
     const previousACI = itemStorage.user.getAci();
     const previousPNI = itemStorage.user.getPni();
+    const previousDeviceId = itemStorage.user.getDeviceId();
 
     log.info(
       `createAccount: Number is ${number}, password has length: ${
@@ -1077,8 +1078,11 @@ export default class AccountManager extends EventTarget {
         );
       }
     } else {
-      log.info('createAccount: Erasing configuration');
-      await signalProtocolStore.removeAllConfiguration();
+      const weArePrimary = isNumber(previousDeviceId) && previousDeviceId === 1;
+      log.info(
+        `createAccount: Erasing configuration (isPrimary=${weArePrimary})`
+      );
+      await signalProtocolStore.removeAllConfiguration(weArePrimary);
     }
 
     await senderCertificateService.clear();

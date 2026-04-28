@@ -1,12 +1,15 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ReadonlyDeep } from 'type-fest';
 import { SocketStatus } from '../../types/SocketStatus.std.ts';
 import { trigger } from '../../shims/events.dom.ts';
 import { assignWithNoUnnecessaryAllocation } from '../../util/assignWithNoUnnecessaryAllocation.std.ts';
-import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.ts';
 import { useBoundActions } from '../../hooks/useBoundActions.std.ts';
+import { noopAction } from './noop.std.ts';
+
+import type { ReadonlyDeep } from 'type-fest';
+import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.ts';
+import type { NoopActionType } from './noop.std.ts';
 
 // State
 
@@ -20,7 +23,6 @@ export type NetworkStateType = ReadonlyDeep<{
 // Actions
 
 const SET_NETWORK_STATUS = 'network/SET_NETWORK_STATUS';
-const RELINK_DEVICE = 'network/RELINK_DEVICE';
 const SET_CHALLENGE_STATUS = 'network/SET_CHALLENGE_STATUS';
 const SET_OUTAGE = 'network/SET_OUTAGE';
 
@@ -70,12 +72,16 @@ function setNetworkStatus(
   };
 }
 
-function relinkDevice(): RelinkDeviceActionType {
+function relinkDevice(): NoopActionType {
   trigger('setupAsNewDevice');
 
-  return {
-    type: RELINK_DEVICE,
-  };
+  return noopAction('relinkDevice');
+}
+
+function reregister(): NoopActionType {
+  trigger('setupAsStandalone');
+
+  return noopAction('reregister');
 }
 
 function setChallengeStatus(
@@ -100,6 +106,7 @@ function setOutage(isOutage: boolean): SetOutageActionType {
 export const actions = {
   setNetworkStatus,
   relinkDevice,
+  reregister,
   setChallengeStatus,
   setOutage,
 };

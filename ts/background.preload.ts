@@ -3446,14 +3446,18 @@ async function startApp(): Promise<void> {
     try {
       log.info('unlinkAndDisconnect: removing configuration');
 
-      // We use username for integrity check
-      const ourConversation =
-        window.ConversationController.getOurConversation();
-      if (ourConversation) {
-        await ourConversation.updateUsername(undefined, {
-          shouldSave: true,
-          fromStorageService: false,
-        });
+      const weArePrimary = window.ConversationController.areWePrimaryDevice();
+      if (!weArePrimary) {
+        log.info('unlinkAndDisconnect: removing username');
+        // We use username for integrity check
+        const ourConversation =
+          window.ConversationController.getOurConversation();
+        if (ourConversation) {
+          await ourConversation.updateUsername(undefined, {
+            shouldSave: true,
+            fromStorageService: false,
+          });
+        }
       }
 
       // Then make sure outstanding conversation saves are flushed
@@ -3463,7 +3467,7 @@ async function startApp(): Promise<void> {
       await DataReader.getItemById('manifestVersion');
 
       // Finally, conversations in the database, and delete all config tables
-      await signalProtocolStore.removeAllConfiguration();
+      await signalProtocolStore.removeAllConfiguration(weArePrimary);
 
       // Re-hydrate items from memory; removeAllConfiguration above changed database
       await itemStorage.fetch();
