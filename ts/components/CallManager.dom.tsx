@@ -60,6 +60,7 @@ import type { NotificationProfileType } from '../types/NotificationProfile.std.t
 import { strictAssert } from '../util/assert.std.ts';
 import type { SetLocalPreviewContainerType } from '../services/calling.preload.ts';
 import type { ContactModalStateType } from '../types/globalModals.std.ts';
+import type { PropsType as SmartCallingParticipantMenuProps } from '../state/smart/CallingParticipantMenu.preload.tsx';
 
 const { noop } = lodash;
 
@@ -106,6 +107,9 @@ export type PropsType = {
   renderDeviceSelection: () => React.JSX.Element;
   renderReactionPicker: (
     props: React.ComponentProps<typeof SmartReactionPicker>
+  ) => React.JSX.Element;
+  renderCallingParticipantMenu: (
+    props: SmartCallingParticipantMenuProps
   ) => React.JSX.Element;
   showContactModal: (payload: ContactModalStateType) => void;
   startCall: (payload: StartCallType) => void;
@@ -192,6 +196,7 @@ function ActiveCallManager({
   getPresentingSources,
   me,
   openSystemPreferencesAction,
+  renderCallingParticipantMenu,
   renderDeviceSelection,
   renderReactionPicker,
   selectPresentingSource,
@@ -412,10 +417,12 @@ function ActiveCallManager({
               isUnknownContactDiscrete={false}
               ourServiceId={me.serviceId}
               participants={peekedParticipants}
+              participantMenuDisabled
               onClose={toggleParticipants}
               onCopyCallLink={onCopyCallLink}
               onShareCallLinkViaSignal={handleShareCallLinkViaSignal}
               showContactModal={showContactModal}
+              renderCallingParticipantMenu={renderCallingParticipantMenu}
             />
           ) : (
             <CallingParticipantsList
@@ -423,8 +430,10 @@ function ActiveCallManager({
               i18n={i18n}
               onClose={toggleParticipants}
               ourServiceId={me.serviceId}
+              participantMenuDisabled
               participants={peekedParticipants}
               showContactModal={showContactModal}
+              renderCallingParticipantMenu={renderCallingParticipantMenu}
             />
           ))}
       </>
@@ -517,6 +526,7 @@ function ActiveCallManager({
             onCopyCallLink={onCopyCallLink}
             onShareCallLinkViaSignal={handleShareCallLinkViaSignal}
             showContactModal={showContactModal}
+            renderCallingParticipantMenu={renderCallingParticipantMenu}
           />
         ) : (
           <CallingParticipantsList
@@ -526,6 +536,7 @@ function ActiveCallManager({
             ourServiceId={me.serviceId}
             participants={groupCallParticipantsForParticipantsList}
             showContactModal={showContactModal}
+            renderCallingParticipantMenu={renderCallingParticipantMenu}
           />
         ))}
     </>
@@ -560,6 +571,7 @@ export function CallManager({
   openSystemPreferencesAction,
   pauseVoiceNotePlayer,
   playRingtone,
+  renderCallingParticipantMenu,
   renderDeviceSelection,
   renderReactionPicker,
   ringingCall,
@@ -678,6 +690,7 @@ export function CallManager({
           pauseVoiceNotePlayer={pauseVoiceNotePlayer}
           renderDeviceSelection={renderDeviceSelection}
           renderReactionPicker={renderReactionPicker}
+          renderCallingParticipantMenu={renderCallingParticipantMenu}
           selectPresentingSource={selectPresentingSource}
           sendGroupCallRaiseHand={sendGroupCallRaiseHand}
           sendGroupCallReaction={sendGroupCallReaction}

@@ -44,6 +44,7 @@ $is-storybook: false !default;
 @use 'components/Button.scss';
 @use 'components/CallsTab.scss';
 @use 'components/CallingAdhocCallInfo.scss';
+@use 'components/CallingParticipantsList.scss';
 @use 'components/CallingAudioIndicator.scss';
 @use 'components/CallingStatusIndicator.scss';
 @use 'components/CallingButton.scss';

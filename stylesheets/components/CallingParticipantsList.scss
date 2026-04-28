@@ -1,0 +1,43 @@
+// Copyright 2026 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+@use '../mixins';
+@use '../variables';
+
+.CallingParticipantsList {
+  flex-shrink: 0;
+  width: 320px;
+  margin-block-end: auto;
+  padding-block-end: 16px;
+  pointer-events: auto;
+}
+
+.CallingParticipantsList__width-container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  max-width: none;
+  height: auto;
+  padding-block: 1px;
+  padding-inline-start: 15px;
+  margin-block-end: 80px;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.CallingParticipantsList__width-container::after {
+  content: '';
+  display: flex;
+  flex-shrink: 1;
+  flex-basis: 480px;
+}
+
+.CallingParticipantsList__overlay {
+  background: transparent;
+}
+
+.CallingParticipantsList__overlay-container {
+  flex-direction: column;
+  padding: 0;
+  justify-content: flex-end;
+}

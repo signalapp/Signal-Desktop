@@ -56,6 +56,10 @@ import { useGlobalModalActions } from '../ducks/globalModals.preload.ts';
 import { isLonelyGroup } from '../ducks/callingHelpers.std.ts';
 import { getActiveProfile } from '../selectors/notificationProfiles.dom.ts';
 import { isOnline as isWebAPIOnline } from '../../textsecure/WebAPI.preload.ts';
+import {
+  SmartCallingParticipantMenu,
+  type PropsType as SmartCallingParticipantMenuProps,
+} from './CallingParticipantMenu.preload.tsx';
 
 const { memoize } = lodash;
 
@@ -63,6 +67,12 @@ const log = createLogger('CallManager');
 
 function renderDeviceSelection(): React.JSX.Element {
   return <SmartCallingDeviceSelection />;
+}
+
+function renderCallingParticipantMenu(
+  props: SmartCallingParticipantMenuProps
+): React.JSX.Element {
+  return <SmartCallingParticipantMenu {...props} />;
 }
 
 const getGroupCallVideoFrameSource =
@@ -479,6 +489,7 @@ export const SmartCallManager = memo(function SmartCallManager() {
       playRingtone={playRingtone}
       renderDeviceSelection={renderDeviceSelection}
       renderReactionPicker={renderReactionPicker}
+      renderCallingParticipantMenu={renderCallingParticipantMenu}
       ringingCall={ringingCall}
       sendGroupCallRaiseHand={sendGroupCallRaiseHand}
       sendGroupCallReaction={sendGroupCallReaction}
