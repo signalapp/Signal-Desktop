@@ -73,6 +73,7 @@ import {
   isVoiceMessage,
   isIncremental,
   defaultBlurHash,
+  isDownloadable,
 } from '../../util/Attachment.std.ts';
 import type { MessageAttachmentType } from '../../types/AttachmentDownload.std.ts';
 import type {
@@ -2188,7 +2189,9 @@ export function getPropsForAttachment(
     pending,
     url: path ? getLocalAttachmentUrl(attachment) : undefined,
     incrementalUrl:
-      isIncremental(attachment) && attachment.downloadPath
+      isIncremental(attachment) &&
+      attachment.downloadPath &&
+      isDownloadable(attachment)
         ? getLocalAttachmentUrl(attachment, {
             disposition: AttachmentDisposition.Download,
           })
