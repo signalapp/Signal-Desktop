@@ -3526,8 +3526,8 @@ button.module-image__border-overlay:focus {
 }
 .module-ongoing-call {
   &__remote-video-enabled {
-    height: 100%;
-    width: 100%;
+    max-width: 100%;
+    max-height: 100%;
     position: relative;
     &--reconnecting {
       filter: blur(15px);
