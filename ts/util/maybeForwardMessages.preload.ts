@@ -18,7 +18,6 @@ import type { EmbeddedContactWithHydratedAvatar } from '../types/EmbeddedContact
 import type { DraftBodyRanges } from '../types/BodyRange.std.ts';
 import type { StickerWithHydratedData } from '../types/Stickers.preload.ts';
 import { DataReader } from '../sql/Client.preload.ts';
-import { drop } from './drop.std.ts';
 import {
   loadAttachmentData,
   loadContactData,
@@ -180,35 +179,34 @@ export async function maybeForwardMessages(
   );
 
   // Actually send the messages
-  conversations.forEach(conversation => {
-    if (conversation == null) {
-      return;
-    }
+  await Promise.all(
+    conversations.map(async conversation => {
+      if (conversation == null) {
+        return;
+      }
 
-    drop(
-      Promise.all(
+      const stats = await DataReader.getConversationMessageStats({
+        conversationId: conversation.id,
+        // Not used for computing `hasUserInitiatedMessages`
+        includeStoryReplies: false,
+      });
+      // Post a universal disappearing timer notification in case we will
+      // need to set the timer.
+      await conversation.queueJob('maybeSetPendingUniversalTimer', async () =>
+        conversation.maybeSetPendingUniversalTimer(
+          stats.hasUserInitiatedMessages
+        )
+      );
+
+      await Promise.all(
         sortedMessages.map(async entry => {
+          // Note: there should be no awaits between here...
           const timestamp = baseTimestamp + timestampOffset;
           timestampOffset += 1;
 
           const { enqueuedMessage, originalMessage } = entry;
           try {
-            const stats = await DataReader.getConversationMessageStats({
-              conversationId: conversation.id,
-              // Not used for computing `hasUserInitiatedMessages`
-              includeStoryReplies: false,
-            });
-
-            // Post a universal disappearing timer notification in case we will
-            // need to set the timer.
-            await conversation.queueJob(
-              'maybeSetPendingUniversalTimer',
-              async () =>
-                conversation.maybeSetPendingUniversalTimer(
-                  stats.hasUserInitiatedMessages
-                )
-            );
-
+            // ...and here to ensure that messgaes are sent in the right order.
             await conversation.enqueueMessageForSend(enqueuedMessage, {
               ...sendMessageOptions,
               timestamp,
@@ -224,9 +222,9 @@ export async function maybeForwardMessages(
             );
           }
         })
-      )
-    );
-  });
+      );
+    })
+  );
 
   // Cancel any link still pending, even if it didn't make it into the message
   resetLinkPreview();
