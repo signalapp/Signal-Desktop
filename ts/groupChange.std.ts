@@ -29,7 +29,7 @@ type SelectParamsByKeyType<T extends string | React.JSX.Element> =
     : ICUJSXMessageParamsByKeyType;
 
 export type SmartContactRendererType<T extends string | React.JSX.Element> = (
-  serviceId: ServiceIdString
+  serviceId: string
 ) => T extends string ? string : React.JSX.Element;
 
 type StringRendererType<

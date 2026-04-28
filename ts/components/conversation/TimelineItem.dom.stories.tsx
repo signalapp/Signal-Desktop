@@ -16,6 +16,7 @@ import { ThemeType } from '../../types/Util.std.ts';
 import { PaymentEventKind } from '../../types/Payment.std.ts';
 import { ErrorBoundary } from './ErrorBoundary.dom.tsx';
 import { MessageInteractivity } from './Message.dom.tsx';
+import { MessageRequestResponseEvent } from '../../types/MessageRequestResponseEvent.std.ts';
 
 const { i18n } = window.SignalContext;
 
@@ -24,7 +25,7 @@ const renderReactionPicker: TimelineItemProps['renderReactionPicker'] = () => (
 );
 
 const renderContact = (conversationId: string) => (
-  <React.Fragment key={conversationId}>{conversationId}</React.Fragment>
+  <React.Fragment key={conversationId}>Contact name</React.Fragment>
 );
 
 const renderUniversalTimerNotification = () => (
@@ -155,6 +156,12 @@ export function PlainMessage(): React.JSX.Element {
 
 export function Notification(): React.JSX.Element {
   const items = [
+    {
+      type: 'messageRequestResponse',
+      data: {
+        messageRequestResponseEvent: MessageRequestResponseEvent.ACCEPT,
+      },
+    },
     {
       type: 'timerNotification',
       data: {

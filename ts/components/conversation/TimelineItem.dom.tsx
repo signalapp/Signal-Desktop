@@ -284,6 +284,7 @@ export const TimelineItem = memo(function TimelineItem({
   platform,
   renderUniversalTimerNotification,
   returnToActiveCall,
+  renderContact,
   renderItem,
   scrollToPinnedMessage,
   scrollToPollMessage,
@@ -439,7 +440,12 @@ export const TimelineItem = memo(function TimelineItem({
       );
     } else if (item.type === 'groupV2Change') {
       notification = (
-        <GroupV2Change {...reducedProps} {...item.data} i18n={i18n} />
+        <GroupV2Change
+          {...reducedProps}
+          {...item.data}
+          i18n={i18n}
+          renderContact={renderContact}
+        />
       );
     } else if (item.type === 'groupV1Migration') {
       notification = (
@@ -514,6 +520,7 @@ export const TimelineItem = memo(function TimelineItem({
           onOpenMessageRequestActionsConfirmation={
             onOpenMessageRequestActionsConfirmation
           }
+          renderedContact={isGroup ? null : renderContact(conversationId)}
         />
       );
     } else {

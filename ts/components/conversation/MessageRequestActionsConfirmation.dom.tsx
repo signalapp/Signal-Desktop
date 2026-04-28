@@ -39,6 +39,9 @@ export type MessageRequestActionsConfirmationProps =
     onChangeState(state: MessageRequestState): void;
   };
 
+function Bold(parts: Array<string | React.JSX.Element>) {
+  return <strong>{parts}</strong>;
+}
 export function MessageRequestActionsConfirmation({
   addedByName,
   conversationId,
@@ -293,7 +296,7 @@ export function MessageRequestActionsConfirmation({
         onClose={() => {
           onChangeState(MessageRequestState.default);
         }}
-        title={i18n('icu:MessageRequests--accept-confirm-title')}
+        title={i18n('icu:MessageRequests--accept-confirm-title-v2')}
         actions={[
           {
             text: i18n('icu:MessageRequests--accept'),
@@ -302,7 +305,11 @@ export function MessageRequestActionsConfirmation({
           },
         ]}
       >
-        {i18n('icu:MessageRequests--accept-confirm-body')}
+        <I18n
+          i18n={i18n}
+          id="icu:MessageRequests--accept-confirm-body-v2"
+          components={{ bold: Bold }}
+        />
       </ConfirmationDialog>
     );
   }
