@@ -423,6 +423,11 @@ export class CanvasVideoRenderer {
   private source?: VideoFrameSource;
   private rafId?: ReturnType<typeof requestAnimationFrame>;
 
+  private lastCanvas: HTMLCanvasElement | undefined;
+  private lastCanvasWidth: number | undefined;
+  private lastCanvasHeight: number | undefined;
+  private lastCanvasStyle: string | undefined;
+
   constructor() {
     this.buffer = new Uint8Array(MAX_VIDEO_CAPTURE_BUFFER_SIZE);
   }
@@ -493,7 +498,14 @@ export class CanvasVideoRenderer {
     }
     const canvas = this.canvas.current;
     if (!canvas) {
+      this.lastCanvas = undefined;
       return;
+    }
+    if (canvas !== this.lastCanvas) {
+      this.lastCanvas = canvas;
+      this.lastCanvasHeight = canvas.height;
+      this.lastCanvasWidth = canvas.width;
+      this.lastCanvasStyle = canvas.getAttribute('style') ?? undefined;
     }
     const context = canvas.getContext('2d');
     if (!context) {
@@ -514,36 +526,51 @@ export class CanvasVideoRenderer {
       width <= 2 ||
       height <= 2 ||
       width > MAX_VIDEO_CAPTURE_WIDTH ||
-      height > MAX_VIDEO_CAPTURE_HEIGHT
+      height > MAX_VIDEO_CAPTURE_HEIGHT ||
+      canvas.clientWidth <= 0 ||
+      canvas.clientHeight <= 0
     ) {
       return;
     }
 
-    const frameAspectRatio = width / height;
-    const canvasAspectRatio = canvas.clientWidth / canvas.clientHeight;
+    const aspectRatio = width / height;
 
-    let dx = 0;
-    let dy = 0;
+    const { parentElement } = canvas;
+    let parentAspectRatio = 1;
 
-    if (frameAspectRatio > canvasAspectRatio) {
-      // Frame wider than view: We need bars at the top and bottom
-      canvas.width = width;
-      canvas.height = width / canvasAspectRatio;
-      dy = (canvas.height - height) / 2;
-    } else if (frameAspectRatio < canvasAspectRatio) {
-      // Frame narrower than view: We need pillars on the sides
-      canvas.width = height * canvasAspectRatio;
-      canvas.height = height;
-      dx = (canvas.width - width) / 2;
-    } else {
-      // Will stretch perfectly with no bars
-      canvas.width = width;
-      canvas.height = height;
+    if (parentElement) {
+      parentAspectRatio =
+        parentElement.clientWidth / parentElement.clientHeight;
     }
 
-    if (dx > 0 || dy > 0) {
-      context.fillStyle = 'black';
-      context.fillRect(0, 0, canvas.width, canvas.height);
+    let style;
+    if (aspectRatio >= 1) {
+      // landscape
+      style = 'width: 100%';
+    } else {
+      // portrait
+      style = 'height: 100%';
+    }
+    // container is more landscape than video
+    if (aspectRatio > 1 && parentAspectRatio > aspectRatio) {
+      style = 'height: 100%';
+    }
+    // container is more portait than video
+    if (aspectRatio < 1 && parentAspectRatio < aspectRatio) {
+      style = 'width: 100%';
+    }
+
+    if (this.lastCanvasWidth !== width) {
+      canvas.width = width;
+      this.lastCanvasWidth = width;
+    }
+    if (this.lastCanvasHeight !== height) {
+      canvas.height = height;
+      this.lastCanvasHeight = height;
+    }
+    if (this.lastCanvasStyle !== style) {
+      canvas.setAttribute('style', style);
+      this.lastCanvasStyle = style;
     }
 
     const sizeChanged =
@@ -553,7 +580,7 @@ export class CanvasVideoRenderer {
       this.imageData = new ImageData(width, height);
     }
     this.imageData.data.set(this.buffer.subarray(0, width * height * 4));
-    context.putImageData(this.imageData, dx, dy);
+    context.putImageData(this.imageData, 0, 0);
 
     if (sizeChanged) {
       this.sizeCallback?.({ width, height });
