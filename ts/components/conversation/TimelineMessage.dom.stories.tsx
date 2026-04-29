@@ -292,6 +292,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   isSelectMode: isBoolean(overrideProps.isSelectMode)
     ? overrideProps.isSelectMode
     : false,
+  isSignalConversation: false,
   isSMS: isBoolean(overrideProps.isSMS) ? overrideProps.isSMS : false,
   isSpoilerExpanded: overrideProps.isSpoilerExpanded || {},
   isTapToView: overrideProps.isTapToView,
@@ -4026,4 +4027,19 @@ export const PinnedMessages = Template.bind({});
 PinnedMessages.args = {
   text: 'I am pinned',
   isPinned: true,
+};
+
+export const SignalReleaseNoteMessage = Template.bind({});
+SignalReleaseNoteMessage.args = {
+  isSignalConversation: true,
+  text: "Introducing something really special\n\nOne more thing.\nThere's more.",
+  attachments: [
+    fakeAttachment({
+      url: '/fixtures/tina-rolf-269345-unsplash.jpg',
+      fileName: 'tina-rolf-269345-unsplash.jpg',
+      contentType: IMAGE_JPEG,
+      width: 500,
+      height: 400,
+    }),
+  ],
 };

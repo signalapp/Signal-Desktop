@@ -19,6 +19,7 @@ import { InContactsIcon } from '../../InContactsIcon.dom.tsx';
 import type { ContactModalStateType } from '../../../types/globalModals.std.ts';
 import { tw } from '../../../axo/tw.dom.tsx';
 import { AxoSymbol } from '../../../axo/AxoSymbol.dom.tsx';
+import { OfficialChatInlineBadge } from '../OfficialChatInlineBadge.dom.tsx';
 
 export type Props = {
   areWeASubscriber: boolean;
@@ -217,14 +218,16 @@ export function ConversationDetailsHeader({
     title = (
       <div className="ConversationDetailsHeader__title">
         {i18n('icu:noteToSelf')}
-        <span className="ContactModal__official-badge__large" />
+        &nbsp;
+        <OfficialChatInlineBadge />
       </div>
     );
   } else if (isSignalConversation) {
     title = (
       <div className="ConversationDetailsHeader__title">
         <UserText text={conversation.title} />
-        <span className="ContactModal__official-badge__large" />
+        &nbsp;
+        <OfficialChatInlineBadge />
       </div>
     );
   } else if (isGroup) {

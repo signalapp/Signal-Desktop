@@ -45,6 +45,7 @@ import {
 import { MessageInteractivity } from './Message.dom.tsx';
 import type { RenderItemProps } from '../../state/smart/TimelineItem.preload.tsx';
 import type { CollapseSet } from '../../util/CollapseSet.std.ts';
+import { tw } from '../../axo/tw.dom.tsx';
 
 const { first, get, isNumber, last, throttle } = lodash;
 
@@ -79,6 +80,7 @@ type PropsHousekeepingType = {
   isInFullScreenCall: boolean;
   isIncomingMessageRequest: boolean;
   isSomeoneTyping: boolean;
+  isSignalConversation: boolean;
   unreadCount?: number;
   unreadMentionsCount?: number;
   conversationType: 'direct' | 'group';
@@ -1303,6 +1305,11 @@ export class Timeline extends React.Component<
 
                   {messageNodes}
 
+                  {this.props.isSignalConversation ? (
+                    // Spacer at bottom of conversation to give space for the absolutely-positioned
+                    // official-chat chip to not overlap the last message
+                    <div className={tw('h-16')} />
+                  ) : null}
                   {haveNewest && renderTypingBubble(id)}
 
                   <div
@@ -1335,6 +1342,23 @@ export class Timeline extends React.Component<
           )}
         </SizeObserver>
 
+        {this.props.isSignalConversation ? (
+          <div
+            className={tw(
+              'absolute bottom-5 z-10 flex w-full justify-center pe-3.5'
+            )}
+          >
+            <div
+              className={tw(
+                'rounded-3xl bg-legacy-signal-conversation-bg px-4 py-3',
+                'type-body-medium text-label-primary',
+                'border border-border-secondary'
+              )}
+            >
+              {i18n('icu:Timeline--signal-official-chat--chip')}
+            </div>
+          </div>
+        ) : null}
         {Boolean(invitedContactsForNewlyCreatedGroup.length) && (
           <NewlyCreatedGroupInvitedContactsDialog
             contacts={invitedContactsForNewlyCreatedGroup}

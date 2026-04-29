@@ -22,8 +22,7 @@ import type { ConversationType } from '../../state/ducks/conversations.preload.t
 import type { ContactNameColorType } from '../../types/Colors.std.ts';
 import type { FunStaticEmojiSize } from '../fun/FunEmoji.dom.tsx';
 import { UserText } from '../UserText.dom.tsx';
-import { AxoSymbol } from '../../axo/AxoSymbol.dom.tsx';
-import { tw } from '../../axo/tw.dom.tsx';
+import { OfficialChatInlineBadge } from './OfficialChatInlineBadge.dom.tsx';
 
 export type ContactNameData = {
   contactNameColor?: ContactNameColorType;
@@ -102,9 +101,7 @@ export function ContactName({
       {(isSignalConversation || isMe) && (
         <>
           &nbsp;
-          <span className={tw('text-color-fill-primary')}>
-            <AxoSymbol.InlineGlyph symbol="officialbadge-fill" label={null} />
-          </span>
+          <OfficialChatInlineBadge />
         </>
       )}
 

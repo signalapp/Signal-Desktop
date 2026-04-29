@@ -61,6 +61,7 @@ function mockMessageTimelineItem(
       isPinned: false,
       isSelected: false,
       isSelectMode: false,
+      isSignalConversation: false,
       isSMS: false,
       isSpoilerExpanded: {},
       isVoiceMessagePlayed: false,
@@ -363,6 +364,7 @@ const renderItem = ({
     isGroup={false}
     isSelectMode={false}
     isSelected={false}
+    isSignalConversation={false}
     i18n={i18n}
     interactivity={MessageInteractivity.Normal}
     interactionMode="keyboard"
@@ -463,6 +465,7 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   isGroupTerminated: false,
   isIncomingMessageRequest: overrideProps.isIncomingMessageRequest ?? false,
   isInFullScreenCall: false,
+  isSignalConversation: false,
   items:
     overrideProps.items ??
     Object.keys(items).map(id => ({
