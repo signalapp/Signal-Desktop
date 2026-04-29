@@ -337,9 +337,8 @@ const NameNotVerifiedWarning: React.FC<{
   return (
     <button
       className={tw(
-        'mt-2 rounded-3xl bg-color-fill-destructive/12 px-2.5 py-1',
-        // oxlint-disable-next-line better-tailwindcss/no-restricted-classes
-        'type-body-medium font-medium text-[#C84118] dark:bg-[#EB977D]/20 dark:text-[#EB977D]'
+        'mt-2 rounded-3xl bg-legacy-warning-badge/12 px-2.5 py-1',
+        'type-body-medium font-medium text-legacy-warning-badge'
       )}
       type="button"
       onClick={ev => {
