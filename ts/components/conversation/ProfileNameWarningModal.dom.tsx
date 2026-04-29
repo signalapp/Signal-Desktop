@@ -32,8 +32,8 @@ export function ProfileNameWarningModal({
           <div className={tw('flex justify-center')}>
             <div
               className={tw(
-                // oxlint-disable-next-line better-tailwindcss/no-restricted-classes
-                'rounded-3xl bg-color-fill-destructive/12 px-4 py-1.5 type-title-large font-regular text-[#C84118]'
+                'rounded-3xl bg-legacy-warning-badge/12 px-4 py-1.5',
+                'type-title-large font-regular text-legacy-warning-badge'
               )}
             >
               {conversationType === 'direct' ? (
