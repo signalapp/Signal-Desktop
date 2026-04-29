@@ -516,7 +516,7 @@ export const enforceFileSuffix = ESLintUtils.RuleCreator.withoutDocs({
 
     return {
       Program: node => {
-        if (filename.endsWith('.d.ts')) {
+        if (/\.d\.m?ts$/.test(filename)) {
           // Skip types
           return;
         }

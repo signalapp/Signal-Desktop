@@ -1618,8 +1618,7 @@
     // Sticker Creator has its own eslint config
     "sticker-creator/**",
     // Third-party files
-    "components/mp3lameencoder/lib/Mp3LameEncoder.js",
-    "components/webaudiorecorder/lib/WebAudioRecorderMp3.js"
+    "components/mp3lameencoder/lib/Mp3LameEncoder.std.mjs"
   ],
   "overrides": [
     // envs

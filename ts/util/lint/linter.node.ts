@@ -22,7 +22,7 @@ const rulesPath = join(__dirname, 'rules.json');
 const exceptionsPath = join(__dirname, 'exceptions.json');
 const basePath = join(__dirname, '../../..');
 
-const searchPattern = normalizePath(join(basePath, '**/*.{js,ts,tsx}'));
+const searchPattern = normalizePath(join(basePath, '**/*.{js,mjs,ts,tsx}'));
 
 const THIRD_PARTY_PATHS = ['node_modules/', 'js/', 'components/'];
 

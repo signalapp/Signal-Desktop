@@ -9,9 +9,9 @@ import { createLogger } from '../../logging/log.std.ts';
 import type { InMemoryAttachmentDraftType } from '../../types/Attachment.std.ts';
 import { SignalService as Proto } from '../../protobuf/index.std.ts';
 import type { StateType as RootStateType } from '../reducer.preload.ts';
-import { fileToBytes } from '../../util/fileToBytes.std.ts';
-import { recorder } from '../../services/audioRecorder.dom.ts';
-import { stringToMIMEType } from '../../types/MIME.std.ts';
+import { drop } from '../../util/drop.std.ts';
+import { AudioRecorder } from '../../services/audioRecorder.dom.ts';
+import { AUDIO_MPEG } from '../../types/MIME.std.ts';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.ts';
 import { useBoundActions } from '../../hooks/useBoundActions.std.ts';
 import { getComposerStateForConversation } from './composer.preload.ts';
@@ -24,6 +24,8 @@ import {
 import { getSelectedConversationId } from '../selectors/nav.std.ts';
 
 const log = createLogger('audioRecorder');
+
+let recorder: AudioRecorder | undefined;
 
 // State
 
@@ -112,6 +114,9 @@ function startRecording(
       payload: undefined,
     });
 
+    drop(recorder?.stop());
+    recorder = new AudioRecorder();
+
     try {
       const started = await recorder.start();
 
@@ -161,18 +166,18 @@ export function completeRecording(
       );
     }
 
-    const blob = await recorder.stop();
+    const data = await recorder?.stop();
+    recorder = undefined;
 
     try {
-      if (!blob) {
-        throw new Error('completeRecording: no blob returned');
+      if (!data) {
+        throw new Error('completeRecording: no data returned');
       }
-      const data = await fileToBytes(blob);
 
       const voiceNoteAttachment: InMemoryAttachmentDraftType = {
         pending: false,
         clientUuid: generateUuid(),
-        contentType: stringToMIMEType(blob.type),
+        contentType: AUDIO_MPEG,
         data,
         size: data.byteLength,
         flags: Proto.AttachmentPointer.Flags.VOICE_MESSAGE,
@@ -192,8 +197,7 @@ function cancelRecording(): ThunkAction<
   CancelRecordingAction
 > {
   return async dispatch => {
-    await recorder.stop();
-    recorder.clear();
+    await recorder?.stop();
 
     dispatch({
       type: CANCEL_RECORDING,
@@ -205,7 +209,7 @@ function cancelRecording(): ThunkAction<
 function errorRecording(
   errorDialogAudioRecorderType: ErrorDialogAudioRecorderType
 ): ErrorRecordingAction {
-  void recorder.stop();
+  drop(recorder?.stop());
 
   return {
     type: ERROR_RECORDING,

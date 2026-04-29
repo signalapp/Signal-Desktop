@@ -1,6 +1,3 @@
-export default (function(self) {
-  var Module = self.Mp3LameEncoderConfig;
-
 // The Module object: Our interface to the outside world. We import
 // and export values on it, and do the work to get that through
 // closure compiler if necessary. There are various ways Module can be used:
@@ -33,131 +30,45 @@ for (var key in Module) {
 
 // The environment setup code below is customized to use Module.
 // *** Environment setup code ***
-var ENVIRONMENT_IS_WEB = typeof window === 'object';
-var ENVIRONMENT_IS_NODE = typeof process === 'object' && typeof require === 'function' && !ENVIRONMENT_IS_WEB;
+var ENVIRONMENT_IS_WEB = true;
+var ENVIRONMENT_IS_NODE = false;
 // Three configurations we can be running in:
 // 1) We could be the application main() thread running in the main JS UI thread. (ENVIRONMENT_IS_WORKER == false and ENVIRONMENT_IS_PTHREAD == false)
 // 2) We could be the application main() thread proxied to worker. (with Emscripten -s PROXY_TO_WORKER=1) (ENVIRONMENT_IS_WORKER == true, ENVIRONMENT_IS_PTHREAD == false)
 // 3) We could be an application pthread running in a worker. (ENVIRONMENT_IS_WORKER == true and ENVIRONMENT_IS_PTHREAD == true)
-var ENVIRONMENT_IS_WORKER = typeof importScripts === 'function';
-var ENVIRONMENT_IS_SHELL = !ENVIRONMENT_IS_WEB && !ENVIRONMENT_IS_NODE && !ENVIRONMENT_IS_WORKER;
+var ENVIRONMENT_IS_WORKER = false;
+var ENVIRONMENT_IS_SHELL = false;
 
-if (ENVIRONMENT_IS_NODE) {
-  // Expose functionality in the same simple way that the shells work
-  // Note that we pollute the global namespace here, otherwise we break in node
+Module['read'] = function read(url) {
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', url, false);
+  xhr.send(null);
+  return xhr.responseText;
+};
+
+if (typeof arguments != 'undefined') {
+  Module['arguments'] = arguments;
+}
+
+if (typeof console !== 'undefined') {
   if (!Module['print']) Module['print'] = function print(x) {
-    process['stdout'].write(x + '\n');
+    console.log(x);
   };
   if (!Module['printErr']) Module['printErr'] = function printErr(x) {
-    process['stderr'].write(x + '\n');
+    console.log(x);
   };
-
-  var nodeFS = require('fs');
-  var nodePath = require('path');
-
-  Module['read'] = function read(filename, binary) {
-    filename = nodePath['normalize'](filename);
-    var ret = nodeFS['readFileSync'](filename);
-    // The path is absolute if the normalized version is the same as the resolved.
-    if (!ret && filename != nodePath['resolve'](filename)) {
-      filename = path.join(__dirname, '..', 'src', filename);
-      ret = nodeFS['readFileSync'](filename);
-    }
-    if (ret && !binary) ret = ret.toString();
-    return ret;
-  };
-
-  Module['readBinary'] = function readBinary(filename) { return Module['read'](filename, true) };
-
-  if (!Module['thisProgram']) {
-    if (process['argv'].length > 1) {
-      Module['thisProgram'] = process['argv'][1].replace(/\\/g, '/');
-    } else {
-      Module['thisProgram'] = 'unknown-program';
-    }
-  }
-
-  Module['arguments'] = process['argv'].slice(2);
-
-  if (typeof module !== 'undefined') {
-    module['exports'] = Module;
-  }
-
-  process['on']('uncaughtException', function(ex) {
-    // suppress ExitStatus exceptions from showing an error
-    if (!(ex instanceof ExitStatus)) {
-      throw ex;
-    }
-  });
-
-  Module['inspect'] = function () { return '[Emscripten Module object]'; };
+} else {
+  // Probably a worker, and without console.log. We can do very little here...
+  var TRY_USE_DUMP = false;
+  if (!Module['print']) Module['print'] = (TRY_USE_DUMP && (typeof(dump) !== "undefined") ? (function(x) {
+    dump(x);
+  }) : (function(x) {
+    // self.postMessage(x); // enable this if you want stdout to be sent as messages
+  }));
 }
-else if (ENVIRONMENT_IS_SHELL) {
-  if (!Module['print']) Module['print'] = print;
-  if (typeof printErr != 'undefined') Module['printErr'] = printErr; // not present in v8 or older sm
 
-  if (typeof read != 'undefined') {
-    Module['read'] = read;
-  } else {
-    Module['read'] = function read() { throw 'no read() available (jsc?)' };
-  }
-
-  Module['readBinary'] = function readBinary(f) {
-    if (typeof readbuffer === 'function') {
-      return new Uint8Array(readbuffer(f));
-    }
-    var data = read(f, 'binary');
-    assert(typeof data === 'object');
-    return data;
-  };
-
-  if (typeof scriptArgs != 'undefined') {
-    Module['arguments'] = scriptArgs;
-  } else if (typeof arguments != 'undefined') {
-    Module['arguments'] = arguments;
-  }
-
-}
-else if (ENVIRONMENT_IS_WEB || ENVIRONMENT_IS_WORKER) {
-  Module['read'] = function read(url) {
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', url, false);
-    xhr.send(null);
-    return xhr.responseText;
-  };
-
-  if (typeof arguments != 'undefined') {
-    Module['arguments'] = arguments;
-  }
-
-  if (typeof console !== 'undefined') {
-    if (!Module['print']) Module['print'] = function print(x) {
-      console.log(x);
-    };
-    if (!Module['printErr']) Module['printErr'] = function printErr(x) {
-      console.log(x);
-    };
-  } else {
-    // Probably a worker, and without console.log. We can do very little here...
-    var TRY_USE_DUMP = false;
-    if (!Module['print']) Module['print'] = (TRY_USE_DUMP && (typeof(dump) !== "undefined") ? (function(x) {
-      dump(x);
-    }) : (function(x) {
-      // self.postMessage(x); // enable this if you want stdout to be sent as messages
-    }));
-  }
-
-  if (ENVIRONMENT_IS_WORKER) {
-    Module['load'] = importScripts;
-  }
-
-  if (typeof Module['setWindowTitle'] === 'undefined') {
-    Module['setWindowTitle'] = function(title) { document.title = title };
-  }
-}
-else {
-  // Unreachable because SHELL is dependant on the others
-  throw 'Unknown runtime environment. Where are we?';
+if (typeof Module['setWindowTitle'] === 'undefined') {
+  Module['setWindowTitle'] = function(title) { document.title = title };
 }
 
 if (!Module['print']) {
@@ -46604,7 +46515,7 @@ run();
 
 
 
-  var NUM_CH = 2,
+  var NUM_CH = 1,
       HEAPU8 = Module.HEAPU8,
       malloc = Module._malloc,
       free = Module._free,
@@ -46618,7 +46529,7 @@ run();
       lame_encode_flush = Module._lame_encode_flush,
       lame_close = Module._lame_close;
 
-  var Encoder = function(sampleRate, bitRate) {
+  export const Encoder = function(sampleRate, bitRate) {
     this.gfp = lame_init();
     lame_set_mode(this.gfp, 1/*JOINT_STEREO*/);
     lame_set_num_channels(this.gfp, NUM_CH);
@@ -46628,6 +46539,8 @@ run();
     this.allocBuffers(8192);
     this.mp3Buffers = [];
   };
+
+  Encoder.prototype.ondata = undefined;
 
   Encoder.prototype.encode = function(buffers) {
     var length = buffers[0].length;
@@ -46640,15 +46553,13 @@ run();
     var nBytes = lame_encode_buffer_ieee_float(
       this.gfp, this.srcPtr[0], this.srcPtr[1], length,
       this.dstPtr, this.dstSz);
-    this.mp3Buffers.push(new Uint8Array(this.dstBuf.subarray(0, nBytes)));
+    this.ondata(new Uint8Array(this.dstBuf.subarray(0, nBytes)));
   };
 
-  Encoder.prototype.finish = function(mimeType) {
+  Encoder.prototype.finish = function() {
     var nBytes = lame_encode_flush(this.gfp, this.dstPtr, this.dstSz);
-    this.mp3Buffers.push(new Uint8Array(this.dstBuf.subarray(0, nBytes)));
-    var blob = new Blob(this.mp3Buffers, {type: mimeType || 'audio/mpeg'});
+    this.ondata(new Uint8Array(this.dstBuf.subarray(0, nBytes)));
     this.cleanup();
-    return blob;
   };
 
   Encoder.prototype.cancel = Encoder.prototype.cleanup = function() {
@@ -46681,7 +46592,3 @@ run();
     delete this.dstPtr;
     delete this.srcPtr;
   };
-
-  return Encoder;
-})(self);
-

@@ -1,7 +1,7 @@
 [
   {
     "rule": "eval",
-    "path": "components/mp3lameencoder/lib/Mp3LameEncoder.js",
+    "path": "components/mp3lameencoder/lib/Mp3LameEncoder.std.mjs",
     "line": "    return eval(funcstr);",
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-18T19:19:27.699Z",
@@ -9,7 +9,7 @@
   },
   {
     "rule": "eval",
-    "path": "components/mp3lameencoder/lib/Mp3LameEncoder.js",
+    "path": "components/mp3lameencoder/lib/Mp3LameEncoder.std.mjs",
     "line": "      func = eval('_' + ident); // explicit lookup",
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-18T19:19:27.699Z",
@@ -232,10 +232,108 @@
   },
   {
     "rule": "DOM-innerHTML",
+    "path": "node_modules/intl-tel-input/angular/build/IntlTelInput.js",
+    "line": "      this.selectedCountryInner.innerHTML = selectedCountryInner;",
+    "reasonCategory": "usageTrusted",
+    "updated": "2026-04-03T05:56:32.778Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/intl-tel-input/angular/build/IntlTelInput.js",
+    "line": "  __classPrivateFieldGet(this, _UI_searchIcon, \"f\").innerHTML = buildSearchIcon();",
+    "reasonCategory": "usageTrusted",
+    "updated": "2026-04-03T05:56:32.778Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/intl-tel-input/angular/build/IntlTelInput.js",
+    "line": "  this.searchClearButton.innerHTML = buildClearIcon(__classPrivateFieldGet(this, _UI_id, \"f\"));",
+    "reasonCategory": "usageTrusted",
+    "updated": "2026-04-03T05:56:32.778Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/intl-tel-input/angular/build/IntlTelInput.js",
+    "line": "      checkIcon.innerHTML = buildCheckIcon();",
+    "reasonCategory": "usageTrusted",
+    "updated": "2026-04-03T05:56:32.778Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/intl-tel-input/angular/build/IntlTelInput.js",
+    "line": "  this.countryList.innerHTML = \"\";",
+    "reasonCategory": "usageTrusted",
+    "updated": "2026-04-03T05:56:32.778Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/intl-tel-input/angular/build/IntlTelInputWithUtils.js",
+    "line": "      this.selectedCountryInner.innerHTML = selectedCountryInner;",
+    "reasonCategory": "usageTrusted",
+    "updated": "2026-04-03T05:56:32.778Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/intl-tel-input/angular/build/IntlTelInputWithUtils.js",
+    "line": "  __classPrivateFieldGet(this, _UI_searchIcon, \"f\").innerHTML = buildSearchIcon();",
+    "reasonCategory": "usageTrusted",
+    "updated": "2026-04-03T05:56:32.778Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/intl-tel-input/angular/build/IntlTelInputWithUtils.js",
+    "line": "  this.searchClearButton.innerHTML = buildClearIcon(__classPrivateFieldGet(this, _UI_id, \"f\"));",
+    "reasonCategory": "usageTrusted",
+    "updated": "2026-04-03T05:56:32.778Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/intl-tel-input/angular/build/IntlTelInputWithUtils.js",
+    "line": "      checkIcon.innerHTML = buildCheckIcon();",
+    "reasonCategory": "usageTrusted",
+    "updated": "2026-04-03T05:56:32.778Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/intl-tel-input/angular/build/IntlTelInputWithUtils.js",
+    "line": "  this.countryList.innerHTML = \"\";",
+    "reasonCategory": "usageTrusted",
+    "updated": "2026-04-03T05:56:32.778Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
     "path": "node_modules/intl-tel-input/build/js/intlTelInput.js",
     "line": "      this.countryList.innerHTML = \"\";",
     "reasonCategory": "usageTrusted",
     "updated": "2024-11-16T00:33:41.092Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/intl-tel-input/build/js/intlTelInput.js",
+    "line": "      this.#searchIcon.innerHTML = buildSearchIcon();",
+    "reasonCategory": "usageTrusted",
+    "updated": "2026-04-03T05:56:32.778Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/intl-tel-input/build/js/intlTelInput.js",
+    "line": "      this.searchClearButton.innerHTML = buildClearIcon(this.#id);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2026-04-03T05:56:32.778Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/intl-tel-input/build/js/intlTelInput.js",
+    "line": "          checkIcon.innerHTML = buildCheckIcon();",
+    "reasonCategory": "usageTrusted",
+    "updated": "2026-04-03T05:56:32.778Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/intl-tel-input/build/js/intlTelInput.js",
+    "line": "        this.selectedCountryInner.innerHTML = selectedCountryInner;",
+    "reasonCategory": "usageTrusted",
+    "updated": "2026-04-03T05:56:32.778Z"
   },
   {
     "rule": "DOM-innerHTML",
@@ -252,6 +350,34 @@
   },
   {
     "rule": "DOM-innerHTML",
+    "path": "node_modules/intl-tel-input/build/js/intlTelInputWithUtils.js",
+    "line": "      this.#searchIcon.innerHTML = buildSearchIcon();",
+    "reasonCategory": "usageTrusted",
+    "updated": "2026-04-03T05:56:32.778Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/intl-tel-input/build/js/intlTelInputWithUtils.js",
+    "line": "      this.searchClearButton.innerHTML = buildClearIcon(this.#id);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2026-04-03T05:56:32.778Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/intl-tel-input/build/js/intlTelInputWithUtils.js",
+    "line": "          checkIcon.innerHTML = buildCheckIcon();",
+    "reasonCategory": "usageTrusted",
+    "updated": "2026-04-03T05:56:32.778Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/intl-tel-input/build/js/intlTelInputWithUtils.js",
+    "line": "        this.selectedCountryInner.innerHTML = selectedCountryInner;",
+    "reasonCategory": "usageTrusted",
+    "updated": "2026-04-03T05:56:32.778Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
     "path": "node_modules/intl-tel-input/build/js/intlTelInputWithUtils.min.js",
     "reasonCategory": "usageTrusted",
     "updated": "2024-11-16T00:33:41.092Z"
@@ -264,6 +390,34 @@
     "updated": "2024-11-16T00:33:41.092Z"
   },
   {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/intl-tel-input/react/build/IntlTelInput.js",
+    "line": "    this.#searchIcon.innerHTML = buildSearchIcon();",
+    "reasonCategory": "usageTrusted",
+    "updated": "2026-04-03T05:56:32.778Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/intl-tel-input/react/build/IntlTelInput.js",
+    "line": "    this.searchClearButton.innerHTML = buildClearIcon(this.#id);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2026-04-03T05:56:32.778Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/intl-tel-input/react/build/IntlTelInput.js",
+    "line": "        checkIcon.innerHTML = buildCheckIcon();",
+    "reasonCategory": "usageTrusted",
+    "updated": "2026-04-03T05:56:32.778Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/intl-tel-input/react/build/IntlTelInput.js",
+    "line": "      this.selectedCountryInner.innerHTML = selectedCountryInner;",
+    "reasonCategory": "usageTrusted",
+    "updated": "2026-04-03T05:56:32.778Z"
+  },
+  {
     "rule": "React-useRef",
     "path": "node_modules/intl-tel-input/react/build/IntlTelInput.js",
     "line": "  const inputRef = useRef(null);",
@@ -276,6 +430,34 @@
     "line": "  const itiRef = useRef(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2024-11-16T00:33:41.092Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/intl-tel-input/react/build/IntlTelInput.js",
+    "line": "  const lastEmittedNumberRef = useRef();",
+    "reasonCategory": "usageTrusted",
+    "updated": "2026-04-03T05:56:32.778Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/intl-tel-input/react/build/IntlTelInput.js",
+    "line": "  const lastEmittedCountryRef = useRef();",
+    "reasonCategory": "usageTrusted",
+    "updated": "2026-04-03T05:56:32.778Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/intl-tel-input/react/build/IntlTelInput.js",
+    "line": "  const lastEmittedValidityRef = useRef();",
+    "reasonCategory": "usageTrusted",
+    "updated": "2026-04-03T05:56:32.778Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/intl-tel-input/react/build/IntlTelInput.js",
+    "line": "  const lastEmittedErrorCodeRef = useRef();",
+    "reasonCategory": "usageTrusted",
+    "updated": "2026-04-03T05:56:32.778Z"
   },
   {
     "rule": "DOM-innerHTML",
@@ -285,6 +467,34 @@
     "updated": "2024-11-16T00:33:41.092Z"
   },
   {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/intl-tel-input/react/build/IntlTelInputWithUtils.js",
+    "line": "    this.#searchIcon.innerHTML = buildSearchIcon();",
+    "reasonCategory": "usageTrusted",
+    "updated": "2026-04-03T05:56:32.778Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/intl-tel-input/react/build/IntlTelInputWithUtils.js",
+    "line": "    this.searchClearButton.innerHTML = buildClearIcon(this.#id);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2026-04-03T05:56:32.778Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/intl-tel-input/react/build/IntlTelInputWithUtils.js",
+    "line": "        checkIcon.innerHTML = buildCheckIcon();",
+    "reasonCategory": "usageTrusted",
+    "updated": "2026-04-03T05:56:32.778Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/intl-tel-input/react/build/IntlTelInputWithUtils.js",
+    "line": "      this.selectedCountryInner.innerHTML = selectedCountryInner;",
+    "reasonCategory": "usageTrusted",
+    "updated": "2026-04-03T05:56:32.778Z"
+  },
+  {
     "rule": "React-useRef",
     "path": "node_modules/intl-tel-input/react/build/IntlTelInputWithUtils.js",
     "line": "  const inputRef = useRef(null);",
@@ -299,216 +509,6 @@
     "updated": "2024-11-16T00:33:41.092Z"
   },
   {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/intl-tel-input/angular/build/IntlTelInput.js",
-    "line": "      this.selectedCountryInner.innerHTML = selectedCountryInner;",
-    "reasonCategory": "usageTrusted",
-    "updated": "2026-04-03T05:56:32.778Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/intl-tel-input/angular/build/IntlTelInput.js",
-    "line": "  __classPrivateFieldGet(this, _UI_searchIcon, \"f\").innerHTML = buildSearchIcon();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2026-04-03T05:56:32.778Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/intl-tel-input/angular/build/IntlTelInput.js",
-    "line": "  this.searchClearButton.innerHTML = buildClearIcon(__classPrivateFieldGet(this, _UI_id, \"f\"));",
-    "reasonCategory": "usageTrusted",
-    "updated": "2026-04-03T05:56:32.778Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/intl-tel-input/angular/build/IntlTelInput.js",
-    "line": "      checkIcon.innerHTML = buildCheckIcon();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2026-04-03T05:56:32.778Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/intl-tel-input/angular/build/IntlTelInput.js",
-    "line": "  this.countryList.innerHTML = \"\";",
-    "reasonCategory": "usageTrusted",
-    "updated": "2026-04-03T05:56:32.778Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/intl-tel-input/angular/build/IntlTelInputWithUtils.js",
-    "line": "      this.selectedCountryInner.innerHTML = selectedCountryInner;",
-    "reasonCategory": "usageTrusted",
-    "updated": "2026-04-03T05:56:32.778Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/intl-tel-input/angular/build/IntlTelInputWithUtils.js",
-    "line": "  __classPrivateFieldGet(this, _UI_searchIcon, \"f\").innerHTML = buildSearchIcon();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2026-04-03T05:56:32.778Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/intl-tel-input/angular/build/IntlTelInputWithUtils.js",
-    "line": "  this.searchClearButton.innerHTML = buildClearIcon(__classPrivateFieldGet(this, _UI_id, \"f\"));",
-    "reasonCategory": "usageTrusted",
-    "updated": "2026-04-03T05:56:32.778Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/intl-tel-input/angular/build/IntlTelInputWithUtils.js",
-    "line": "      checkIcon.innerHTML = buildCheckIcon();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2026-04-03T05:56:32.778Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/intl-tel-input/angular/build/IntlTelInputWithUtils.js",
-    "line": "  this.countryList.innerHTML = \"\";",
-    "reasonCategory": "usageTrusted",
-    "updated": "2026-04-03T05:56:32.778Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/intl-tel-input/build/js/intlTelInput.js",
-    "line": "      this.#searchIcon.innerHTML = buildSearchIcon();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2026-04-03T05:56:32.778Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/intl-tel-input/build/js/intlTelInput.js",
-    "line": "      this.searchClearButton.innerHTML = buildClearIcon(this.#id);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2026-04-03T05:56:32.778Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/intl-tel-input/build/js/intlTelInput.js",
-    "line": "          checkIcon.innerHTML = buildCheckIcon();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2026-04-03T05:56:32.778Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/intl-tel-input/build/js/intlTelInput.js",
-    "line": "        this.selectedCountryInner.innerHTML = selectedCountryInner;",
-    "reasonCategory": "usageTrusted",
-    "updated": "2026-04-03T05:56:32.778Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/intl-tel-input/build/js/intlTelInputWithUtils.js",
-    "line": "      this.#searchIcon.innerHTML = buildSearchIcon();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2026-04-03T05:56:32.778Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/intl-tel-input/build/js/intlTelInputWithUtils.js",
-    "line": "      this.searchClearButton.innerHTML = buildClearIcon(this.#id);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2026-04-03T05:56:32.778Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/intl-tel-input/build/js/intlTelInputWithUtils.js",
-    "line": "          checkIcon.innerHTML = buildCheckIcon();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2026-04-03T05:56:32.778Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/intl-tel-input/build/js/intlTelInputWithUtils.js",
-    "line": "        this.selectedCountryInner.innerHTML = selectedCountryInner;",
-    "reasonCategory": "usageTrusted",
-    "updated": "2026-04-03T05:56:32.778Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/intl-tel-input/react/build/IntlTelInput.js",
-    "line": "    this.#searchIcon.innerHTML = buildSearchIcon();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2026-04-03T05:56:32.778Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/intl-tel-input/react/build/IntlTelInput.js",
-    "line": "    this.searchClearButton.innerHTML = buildClearIcon(this.#id);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2026-04-03T05:56:32.778Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/intl-tel-input/react/build/IntlTelInput.js",
-    "line": "        checkIcon.innerHTML = buildCheckIcon();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2026-04-03T05:56:32.778Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/intl-tel-input/react/build/IntlTelInput.js",
-    "line": "      this.selectedCountryInner.innerHTML = selectedCountryInner;",
-    "reasonCategory": "usageTrusted",
-    "updated": "2026-04-03T05:56:32.778Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/intl-tel-input/react/build/IntlTelInput.js",
-    "line": "  const lastEmittedNumberRef = useRef();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2026-04-03T05:56:32.778Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/intl-tel-input/react/build/IntlTelInput.js",
-    "line": "  const lastEmittedCountryRef = useRef();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2026-04-03T05:56:32.778Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/intl-tel-input/react/build/IntlTelInput.js",
-    "line": "  const lastEmittedValidityRef = useRef();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2026-04-03T05:56:32.778Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/intl-tel-input/react/build/IntlTelInput.js",
-    "line": "  const lastEmittedErrorCodeRef = useRef();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2026-04-03T05:56:32.778Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/intl-tel-input/react/build/IntlTelInputWithUtils.js",
-    "line": "    this.#searchIcon.innerHTML = buildSearchIcon();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2026-04-03T05:56:32.778Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/intl-tel-input/react/build/IntlTelInputWithUtils.js",
-    "line": "    this.searchClearButton.innerHTML = buildClearIcon(this.#id);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2026-04-03T05:56:32.778Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/intl-tel-input/react/build/IntlTelInputWithUtils.js",
-    "line": "        checkIcon.innerHTML = buildCheckIcon();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2026-04-03T05:56:32.778Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/intl-tel-input/react/build/IntlTelInputWithUtils.js",
-    "line": "      this.selectedCountryInner.innerHTML = selectedCountryInner;",
-    "reasonCategory": "usageTrusted",
-    "updated": "2026-04-03T05:56:32.778Z"
-  },
-  {
     "rule": "React-useRef",
     "path": "node_modules/intl-tel-input/react/build/IntlTelInputWithUtils.js",
     "line": "  const lastEmittedNumberRef = useRef();",
@@ -535,6 +535,122 @@
     "line": "  const lastEmittedErrorCodeRef = useRef();",
     "reasonCategory": "usageTrusted",
     "updated": "2026-04-03T05:56:32.778Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/intl-tel-input/svelte/build/IntlTelInput.mjs",
+    "line": "  return t.innerHTML = e.replaceAll(\"<!>\", \"<!---->\"), t.content;",
+    "reasonCategory": "usageTrusted",
+    "updated": "2026-04-28T23:06:53.011Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/intl-tel-input/svelte/build/IntlTelInput.mjs",
+    "reasonCategory": "usageTrusted",
+    "updated": "2026-04-28T23:06:53.011Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/intl-tel-input/svelte/build/IntlTelInput.mjs",
+    "line": "  )), r(this, ve).innerHTML = ql(), this.searchInput = x(",
+    "reasonCategory": "usageTrusted",
+    "updated": "2026-04-28T23:06:53.011Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/intl-tel-input/svelte/build/IntlTelInput.mjs",
+    "line": "  ), this.searchClearButton.innerHTML = Xl(r(this, Z)), C(this, Ce, x(",
+    "reasonCategory": "usageTrusted",
+    "updated": "2026-04-28T23:06:53.011Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/intl-tel-input/svelte/build/IntlTelInput.mjs",
+    "line": "      s.innerHTML = Ql(), C(this, at, i);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2026-04-28T23:06:53.011Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/intl-tel-input/svelte/build/IntlTelInput.mjs",
+    "line": "  this.countryList.innerHTML = \"\";",
+    "reasonCategory": "usageTrusted",
+    "updated": "2026-04-28T23:06:53.011Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/intl-tel-input/svelte/build/IntlTelInputWithUtils.mjs",
+    "line": "  return d.innerHTML = t.replaceAll(\"<!>\", \"<!---->\"), d.content;",
+    "reasonCategory": "usageTrusted",
+    "updated": "2026-04-28T23:06:53.011Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/intl-tel-input/svelte/build/IntlTelInputWithUtils.mjs",
+    "reasonCategory": "usageTrusted",
+    "updated": "2026-04-28T23:06:53.011Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/intl-tel-input/svelte/build/IntlTelInputWithUtils.mjs",
+    "line": "  )), $(this, W0).innerHTML = k6(), this.searchInput = q(",
+    "reasonCategory": "usageTrusted",
+    "updated": "2026-04-28T23:06:53.011Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/intl-tel-input/svelte/build/IntlTelInputWithUtils.mjs",
+    "line": "  ), this.searchClearButton.innerHTML = H6($(this, y1)), N(this, V0, q(",
+    "reasonCategory": "usageTrusted",
+    "updated": "2026-04-28T23:06:53.011Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/intl-tel-input/svelte/build/IntlTelInputWithUtils.mjs",
+    "line": "      r.innerHTML = G6(), N(this, S1, i);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2026-04-28T23:06:53.011Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/intl-tel-input/svelte/build/IntlTelInputWithUtils.mjs",
+    "line": "  this.countryList.innerHTML = \"\";",
+    "reasonCategory": "usageTrusted",
+    "updated": "2026-04-28T23:06:53.011Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/intl-tel-input/vue/build/intl-tel-input-BMFKRhx-.mjs",
+    "reasonCategory": "usageTrusted",
+    "updated": "2026-04-28T23:06:53.011Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/intl-tel-input/vue/build/intl-tel-input-BMFKRhx-.mjs",
+    "line": "  )), e(this, yt).innerHTML = As(), this.searchInput = L(",
+    "reasonCategory": "usageTrusted",
+    "updated": "2026-04-28T23:06:53.011Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/intl-tel-input/vue/build/intl-tel-input-BMFKRhx-.mjs",
+    "line": "  ), this.searchClearButton.innerHTML = _s(e(this, v)), p(this, mt, L(",
+    "reasonCategory": "usageTrusted",
+    "updated": "2026-04-28T23:06:53.011Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/intl-tel-input/vue/build/intl-tel-input-BMFKRhx-.mjs",
+    "line": "      n.innerHTML = Os(), p(this, H, i);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2026-04-28T23:06:53.011Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/intl-tel-input/vue/build/intl-tel-input-BMFKRhx-.mjs",
+    "line": "  this.countryList.innerHTML = \"\";",
+    "reasonCategory": "usageTrusted",
+    "updated": "2026-04-28T23:06:53.011Z"
   },
   {
     "rule": "eval",
@@ -542,6 +658,12 @@
     "line": "eval(`",
     "reasonCategory": "testCode",
     "updated": "2024-06-24T19:19:28.335Z"
+  },
+  {
+    "rule": "eval",
+    "path": "node_modules/prettier-plugin-tailwindcss/dist/index.mjs",
+    "reasonCategory": "testCode",
+    "updated": "2026-04-28T23:06:53.011Z"
   },
   {
     "rule": "DOM-innerHTML",

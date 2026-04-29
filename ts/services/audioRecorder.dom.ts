@@ -2,56 +2,51 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { createLogger } from '../logging/log.std.ts';
-import * as Errors from '../types/errors.std.ts';
 import { requestMicrophonePermissions } from '../util/requestMicrophonePermissions.dom.ts';
-import { WebAudioRecorder } from '../WebAudioRecorder.std.ts';
+import type { WorkletMessageType } from '../types/AudioRecorder.std.ts';
+import * as Bytes from '../Bytes.std.ts';
 
 const log = createLogger('audioRecorder');
 
-class RecorderClass {
-  #context?: AudioContext;
-  #input?: GainNode;
-  #recorder?: WebAudioRecorder;
-  #source?: MediaStreamAudioSourceNode;
-  #stream?: MediaStream;
-  #blob?: Blob;
-  #resolve?: (blob: Blob) => void;
+let contextPromise: Promise<AudioContext> | undefined;
 
-  clear(): void {
-    this.#blob = undefined;
-    this.#resolve = undefined;
+async function initContext(): Promise<AudioContext> {
+  const context = new AudioContext();
+  await context.audioWorklet.addModule('bundles/workers/mp3Encoder.js');
+  return context;
+}
 
-    if (this.#source) {
-      this.#source.disconnect();
-      this.#source = undefined;
+type State = Readonly<
+  | {
+      type: 'idle';
     }
-
-    if (this.#recorder) {
-      if (this.#recorder.isRecording()) {
-        this.#recorder.cancelRecording();
-      }
-
-      // Reach in and terminate the web worker used by WebAudioRecorder, otherwise
-      // it gets leaked due to a reference cycle with its onmessage listener
-      this.#recorder.worker?.terminate();
-      this.#recorder = undefined;
+  | {
+      type: 'initializing';
     }
-
-    this.#input = undefined;
-    this.#stream = undefined;
-
-    if (this.#context) {
-      void this.#context.close();
-      this.#context = undefined;
+  | {
+      type: 'running';
+      source: MediaStreamAudioSourceNode;
+      promise: Promise<Uint8Array<ArrayBuffer>>;
+      worklet: AudioWorkletNode;
     }
-  }
+>;
+
+export class AudioRecorder {
+  #state: State = { type: 'idle' };
 
   async start(): Promise<boolean> {
+    if (this.#state.type !== 'idle') {
+      throw new Error('Already started');
+    }
+
+    this.#state = { type: 'initializing' };
+
     const hasMicrophonePermission = await requestMicrophonePermissions(false);
     if (!hasMicrophonePermission) {
       log.info(
         'Recorder/start: Microphone permission was denied, new audio recording not allowed.'
       );
+      this.#state = { type: 'idle' };
       return false;
     }
 
@@ -61,98 +56,64 @@ class RecorderClass {
       'voiceNote'
     );
 
-    this.clear();
-
-    this.#context = new AudioContext();
-    this.#input = this.#context.createGain();
-
-    this.#recorder = new WebAudioRecorder(
-      this.#input,
-      {
-        timeLimit: 60 + 3600, // one minute more than our UI-imposed limit
-      },
-      {
-        onComplete: this.onComplete.bind(this),
-        onError: this.onError.bind(this),
-      }
-    );
-
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({
-        // TypeScript doesn't know about these options.
-        // oxlint-disable-next-line typescript/no-explicit-any
-        audio: { mandatory: { googAutoGainControl: false } } as any,
-      });
-
-      if (!this.#context || !this.#input) {
-        const err = new Error(
-          'Recorder/getUserMedia/stream: Missing context or input!'
-        );
-        this.onError(this.#recorder, String(err));
-        throw err;
-      }
-      this.#source = this.#context.createMediaStreamSource(stream);
-      this.#source.connect(this.#input);
-      this.#stream = stream;
-    } catch (err) {
-      log.error('Recorder.onGetUserMediaError:', Errors.toLogFormat(err));
-      this.clear();
-      throw err;
+    // Cache global context so that we don't have to initialize worker twice
+    if (contextPromise == null) {
+      contextPromise = initContext();
     }
+    const context = await contextPromise;
 
-    if (this.#recorder) {
-      this.#recorder.startRecording();
-      return true;
-    }
-
-    return false;
-  }
-
-  async stop(): Promise<Blob | undefined> {
-    if (!this.#recorder) {
-      return;
-    }
-
-    if (this.#stream) {
-      this.#stream.getTracks().forEach(track => track.stop());
-    }
-
-    if (this.#blob) {
-      return this.#blob;
-    }
-
-    const promise = new Promise<Blob>(resolve => {
-      this.#resolve = resolve;
+    const worklet = new AudioWorkletNode(context, 'mp3-encoder', {
+      numberOfInputs: 1,
+      numberOfOutputs: 0,
     });
 
-    this.#recorder.finishRecording();
+    const { promise, resolve } =
+      Promise.withResolvers<Uint8Array<ArrayBuffer>>();
+    const chunks = new Array<Uint8Array<ArrayBuffer>>();
+    worklet.port.onmessage = ({ data }: { data: WorkletMessageType }) => {
+      if (data.type === 'chunk') {
+        chunks.push(data.chunk);
+        return;
+      }
+      if (data.type === 'complete') {
+        this.#state = { type: 'idle' };
+        resolve(Bytes.concatenate(chunks));
+        return;
+      }
+    };
 
-    return promise;
+    const stream = await navigator.mediaDevices.getUserMedia({
+      // TypeScript doesn't know about these options.
+      // oxlint-disable-next-line typescript/no-explicit-any
+      audio: { mandatory: { googAutoGainControl: false } } as any,
+    });
+
+    const source = context.createMediaStreamSource(stream);
+    source.connect(worklet);
+
+    this.#state = {
+      type: 'running',
+      source,
+      promise,
+      worklet,
+    };
+
+    return true;
   }
 
-  onComplete(_recorder: WebAudioRecorder, blob: Blob): void {
-    this.#blob = blob;
-    this.#resolve?.(blob);
-  }
-
-  onError(_recorder: WebAudioRecorder, error: string): void {
-    if (!this.#recorder) {
-      log.warn('Recorder/onError: Called with no recorder');
-      return;
+  async stop(): Promise<Uint8Array<ArrayBuffer> | undefined> {
+    if (this.#state.type !== 'running') {
+      return undefined;
     }
 
-    this.clear();
+    this.#state.worklet.port.postMessage({
+      type: 'stop',
+    });
 
-    log.error('Recorder/onError:', Errors.toLogFormat(error));
-  }
+    // This terminates microphone access
+    this.#state.source.mediaStream.getTracks().forEach(track => track.stop());
+    this.#state.source.disconnect();
 
-  getBlob(): Blob {
-    if (!this.#blob) {
-      throw new Error('no blob found');
-    }
-
-    return this.#blob;
+    return this.#state.promise;
   }
 }
-
-export const recorder = new RecorderClass();

@@ -21,6 +21,7 @@ export const APPLICATION_JSON = stringToMIMEType('application/json');
 export const AUDIO_AAC = stringToMIMEType('audio/aac');
 /** @testexport */
 export const AUDIO_MP3 = stringToMIMEType('audio/mp3');
+export const AUDIO_MPEG = stringToMIMEType('audio/mpeg');
 export const IMAGE_GIF = stringToMIMEType('image/gif');
 export const IMAGE_JPEG = stringToMIMEType('image/jpeg');
 export const IMAGE_PNG = stringToMIMEType('image/png');
