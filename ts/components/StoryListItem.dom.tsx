@@ -20,6 +20,7 @@ import { StoryViewTargetType, HasStories } from '../types/Stories.std.ts';
 import { MessageTimestamp } from './conversation/MessageTimestamp.dom.tsx';
 import { StoryImage } from './StoryImage.dom.tsx';
 import { getAvatarColor } from '../types/Colors.std.ts';
+import { OfficialChatInlineBadge } from './conversation/OfficialChatInlineBadge.dom.tsx';
 
 export type PropsType = Pick<ConversationStoryType, 'group' | 'isHidden'> & {
   conversationId: string;
@@ -173,7 +174,10 @@ export function StoryListItem({
           <div className="StoryListItem__info--title">
             {group ? group.title : title}
             {isSignalOfficial && (
-              <span className="ContactModal__official-badge" />
+              <>
+                &nbsp;
+                <OfficialChatInlineBadge />
+              </>
             )}
           </div>
           {!isSignalOfficial && (

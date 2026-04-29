@@ -37,6 +37,7 @@ import { getCallHistorySelector } from '../selectors/callHistory.std.ts';
 import { getCallIdFromEra } from '../../util/callDisposition.preload.ts';
 import { mapItemsIntoCollapseSets } from '../../util/CollapseSet.std.ts';
 import type { CollapseSet } from '../../util/CollapseSet.std.ts';
+import { isSignalConversation } from '../../util/isSignalConversation.dom.ts';
 
 type ExternalProps = {
   id: string;
@@ -187,6 +188,7 @@ export const SmartTimeline = memo(function SmartTimeline({
     !acceptedMessageRequest && removalStage !== 'justNotification';
   const isSomeoneTyping = Object.keys(typingContactIdTimestamps).length > 0;
   const targetedMessageId = targetedMessage?.id;
+  const isSignalConvo = isSignalConversation(conversation);
 
   return (
     <Timeline
@@ -212,6 +214,7 @@ export const SmartTimeline = memo(function SmartTimeline({
       isInFullScreenCall={isInFullScreenCall}
       isIncomingMessageRequest={isIncomingMessageRequest}
       isNearBottom={isNearBottom}
+      isSignalConversation={isSignalConvo}
       isSomeoneTyping={isSomeoneTyping}
       items={collapseSets}
       loadNewerMessages={loadNewerMessages}

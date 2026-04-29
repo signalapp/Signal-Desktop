@@ -5,10 +5,6 @@
 @use '../variables';
 
 .ConversationView {
-  display: flex;
-  flex-direction: column;
-  overflow: initial;
-
   &__pane {
     display: flex;
     position: relative;
@@ -16,14 +12,6 @@
     flex-direction: column;
     overflow-y: auto;
     z-index: variables.$z-index-base;
-
-    @include mixins.light-theme() {
-      background-color: variables.$color-white;
-    }
-
-    @include mixins.dark-theme() {
-      background-color: variables.$color-gray-95;
-    }
   }
 
   &__timeline {

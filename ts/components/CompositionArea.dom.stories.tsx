@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import { IMAGE_JPEG } from '../types/MIME.std.ts';
@@ -151,6 +151,7 @@ export default {
     cancelJoinRequest: action('cancelJoinRequest'),
     showConversation: action('showConversation'),
     isSmsOnlyOrUnregistered: false,
+    isSignalConversation: false,
     isFetchingUUID: false,
     renderSmartCompositionRecording: () => <div>RECORDING</div>,
     renderSmartCompositionRecordingDraft: _ => <div>RECORDING DRAFT</div>,
@@ -158,10 +159,6 @@ export default {
     selectedMessageIds: undefined,
     toggleSelectMode: action('toggleSelectMode'),
     toggleForwardMessagesModal: action('toggleForwardMessagesModal'),
-    // Signal Conversation
-    isSignalConversation: false,
-    isMuted: false,
-    setMuteExpiration: action('setMuteExpiration'),
   },
 } satisfies Meta<Props>;
 
@@ -315,23 +312,5 @@ export function NoFormattingMenu(args: Props): React.JSX.Element {
   const theme = useContext(StorybookThemeContext);
   return (
     <CompositionArea {...args} theme={theme} isFormattingEnabled={false} />
-  );
-}
-
-export function SignalConversationMuteToggle(args: Props): React.JSX.Element {
-  const theme = useContext(StorybookThemeContext);
-  const [isMuted, setIsMuted] = useState(true);
-
-  function setIsMutedByTime(_: string, muteExpiresAt: number) {
-    setIsMuted(muteExpiresAt > Date.now());
-  }
-  return (
-    <CompositionArea
-      {...args}
-      theme={theme}
-      isSignalConversation
-      isMuted={isMuted}
-      setMuteExpiration={setIsMutedByTime}
-    />
   );
 }

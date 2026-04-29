@@ -55,6 +55,7 @@ export type PropsData = {
   canPinMessage: boolean;
   selectedReaction?: string;
   isTargeted?: boolean;
+  isSignalConversation: boolean;
 } & Omit<MessagePropsData, 'renderingContext' | 'menu'>;
 
 export type PropsActions = {
@@ -121,6 +122,7 @@ export function TimelineMessage(props: Props): React.JSX.Element {
     id,
     interactivity,
     isPinned,
+    isSignalConversation,
     isTargeted,
     kickOffAttachmentDownload,
     copyMessageText,
@@ -476,7 +478,7 @@ export function TimelineMessage(props: Props): React.JSX.Element {
     <Message
       {...props}
       renderingContext="conversation/TimelineItem"
-      renderMenu={renderMenu}
+      renderMenu={isSignalConversation ? undefined : renderMenu}
       renderMessageContextMenu={renderMessageContextMenu}
       onToggleSelect={(selected, shift) => {
         toggleSelectMessage(conversationId, id, shift, selected);

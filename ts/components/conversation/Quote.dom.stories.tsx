@@ -110,6 +110,7 @@ const defaultMessageProps: TimelineMessagesProps = {
   isPinned: false,
   isSelected: false,
   isSelectMode: false,
+  isSignalConversation: false,
   isSMS: false,
   isSpoilerExpanded: {},
   isVoiceMessagePlayed: false,

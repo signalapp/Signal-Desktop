@@ -242,6 +242,7 @@ export function GroupMemberLabelEditor({
               textDirection={TextDirection.LeftToRight}
               isSelected={false}
               isSelectMode={false}
+              isSignalConversation={false}
               isSMS={false}
               isVoiceMessagePlayed={false}
               direction="incoming"

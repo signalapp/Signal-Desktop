@@ -74,7 +74,6 @@ import type { ShowToastAction } from '../state/ducks/toast.preload.ts';
 import type { DraftEditMessageType } from '../model-types.d.ts';
 import type { ForwardMessagesPayload } from '../state/ducks/globalModals.preload.ts';
 import { ForwardMessagesModalType } from './ForwardMessagesModal.dom.tsx';
-import { SignalConversationMuteToggle } from './conversation/SignalConversationMuteToggle.dom.tsx';
 import { FunPicker } from './fun/FunPicker.dom.tsx';
 import type { FunEmojiSelection } from './fun/panels/FunPanelEmojis.dom.tsx';
 import type { FunStickerSelection } from './fun/panels/FunPanelStickers.dom.tsx';
@@ -135,13 +134,12 @@ export type OwnProps = Readonly<{
   isGroupV1AndDisabled: boolean | null;
   isMissingMandatoryProfileSharing: boolean | null;
   isPollSend1to1Enabled: boolean;
-  isSignalConversation: boolean | null;
+  isSignalConversation: boolean;
   isActive: boolean;
   lastEditableMessageId: string | null;
   recordingState: RecordingState;
   memberColors: Map<string, ContactNameColorType>;
   shouldHidePopovers: boolean | null;
-  isMuted: boolean;
   isSmsOnlyOrUnregistered: boolean | null;
   left: boolean | null;
   linkPreviewLoading: boolean;
@@ -155,7 +153,6 @@ export type OwnProps = Readonly<{
     files: ReadonlyArray<File>;
     flags: number | null;
   }) => unknown;
-  setMuteExpiration(conversationId: string, muteExpiresAt: number): unknown;
   setMediaQualitySetting(conversationId: string, isHQ: boolean): unknown;
   sendStickerMessage(
     id: string,
@@ -265,7 +262,6 @@ export const CompositionArea = memo(function CompositionArea({
   isDisabled,
   isPollSend1to1Enabled,
   isSignalConversation,
-  isMuted,
   isActive,
   lastEditableMessageId,
   pushPanelForConversation,
@@ -281,7 +277,6 @@ export const CompositionArea = memo(function CompositionArea({
   shouldHidePopovers,
   showToast,
   theme,
-  setMuteExpiration,
 
   // AttachmentList
   draftAttachments,
@@ -934,17 +929,6 @@ export const CompositionArea = memo(function CompositionArea({
 
   useEscapeHandling(handleEscape);
 
-  if (isSignalConversation) {
-    return (
-      <SignalConversationMuteToggle
-        conversationId={conversationId}
-        isMuted={isMuted}
-        i18n={i18n}
-        setMuteExpiration={setMuteExpiration}
-      />
-    );
-  }
-
   if (selectedMessageIds != null) {
     return (
       <SelectModeActions
@@ -979,6 +963,10 @@ export const CompositionArea = memo(function CompositionArea({
         showToast={showToast}
       />
     );
+  }
+
+  if (isSignalConversation) {
+    return null;
   }
 
   if (terminated) {

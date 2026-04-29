@@ -128,6 +128,7 @@ import { AxoSymbol } from '../../axo/AxoSymbol.dom.tsx';
 import type { RenderAudioAttachmentProps } from '../../state/smart/renderAudioAttachment.preload.tsx';
 import type { MemberLabelType } from '../../types/GroupMemberLabels.std.ts';
 import type { ContactModalStateType } from '../../types/globalModals.std.ts';
+import { tw } from '../../axo/tw.dom.tsx';
 
 const { drop, take, unescape } = lodash;
 
@@ -240,6 +241,7 @@ export type PropsData = {
   isTargetedCounter?: number;
   isSelected: boolean;
   isSelectMode: boolean;
+  isSignalConversation: boolean;
   isSMS: boolean;
   isSpoilerExpanded?: Record<number, boolean>;
   isVoiceMessagePlayed: boolean;
@@ -3343,6 +3345,12 @@ export class Message extends React.PureComponent<Props, State> {
       this.#hasReactions() ? 'module-message__container--with-reactions' : null,
       deletedForEveryone
         ? 'module-message__container--deleted-for-everyone'
+        : null,
+      this.props.isSignalConversation
+        ? tw(
+            // oxlint-disable-next-line better-tailwindcss/no-restricted-classes
+            'bg-legacy-signal-chat-message-bg! **:text-label-primary-on-color!'
+          )
         : null
     );
     const containerStyles = {
@@ -3422,6 +3430,7 @@ export class Message extends React.PureComponent<Props, State> {
       isSticker,
       isSelected,
       isSelectMode,
+      isSignalConversation,
       platform,
       renderMenu,
       shouldCollapseAbove,
@@ -3533,6 +3542,7 @@ export class Message extends React.PureComponent<Props, State> {
           className={classNames(
             'module-message',
             `module-message--${direction}`,
+            isSignalConversation ? tw('justify-center') : null,
             shouldCollapseAbove && 'module-message--collapsed-above',
             shouldCollapseBelow && 'module-message--collapsed-below',
             isTargeted ? 'module-message--targeted' : null,
