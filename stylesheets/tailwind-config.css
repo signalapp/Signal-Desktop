@@ -134,7 +134,7 @@
   --color-legacy-signal-conversation-bg: light-dark(#F6F7FF, #2F3240);
   --color-legacy-official-chat-badge-bg: light-dark(--alpha(#4655FF / 12%), --alpha(#4952F8 / 40%));
   --color-legacy-official-chat-badge-text: light-dark(#030FFC, #C2C5FE);
-  --color-legacy-signal-chat-message-bg: light-dark(#9294BC, #444664);
+  --color-legacy-signal-chat-message-bg: light-dark(#8889B4, #444664);
   --color-legacy-warning-badge: light-dark(#C84118, #EB977D);
 }
 

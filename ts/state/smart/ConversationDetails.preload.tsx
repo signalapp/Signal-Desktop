@@ -54,6 +54,7 @@ import { isFeaturedEnabledSelector } from '../../util/isFeatureEnabled.dom.ts';
 import { getCanAddLabel } from '../../types/GroupMemberLabels.std.ts';
 import { useToastActions } from '../ducks/toast.preload.ts';
 import { useNavActions } from '../ducks/nav.std.ts';
+import { NavTab, SettingsPage } from '../../types/Nav.std.ts';
 
 const { sortBy } = lodash;
 
@@ -143,7 +144,7 @@ export const SmartConversationDetails = memo(function SmartConversationDetails({
     updateGroupAttributes,
     updateNicknameAndNote,
   } = useConversationsActions();
-  const { pushPanelForConversation } = useNavActions();
+  const { pushPanelForConversation, changeLocation } = useNavActions();
   const {
     onOutgoingAudioCallInConversation,
     onOutgoingVideoCallInConversation,
@@ -232,6 +233,15 @@ export const SmartConversationDetails = memo(function SmartConversationDetails({
     destroyMessages(conversationId);
   }, [destroyMessages, conversationId]);
 
+  const onNavigateToDonate = useCallback(() => {
+    changeLocation({
+      tab: NavTab.Settings,
+      details: {
+        page: SettingsPage.DonationsDonateFlow,
+      },
+    });
+  }, [changeLocation]);
+
   const [hasMedia, setHasMedia] = useState(false);
 
   useEffect(() => {
@@ -286,6 +296,7 @@ export const SmartConversationDetails = memo(function SmartConversationDetails({
       onConversationDeleteMessages={onConversationDeleteMessages}
       onConversationUnarchive={onConversationUnarchive}
       onDeleteNicknameAndNote={handleDeleteNicknameAndNote}
+      onNavigateToDonate={onNavigateToDonate}
       onOpenEditNicknameAndNoteModal={handleOpenEditNicknameAndNoteModal}
       onOutgoingAudioCallInConversation={onOutgoingAudioCallInConversation}
       onOutgoingVideoCallInConversation={onOutgoingVideoCallInConversation}

@@ -64,7 +64,6 @@ import {
   InAnotherCallTooltip,
   getTooltipContent,
 } from '../InAnotherCallTooltip.dom.tsx';
-import { BadgeSustainerInstructionsDialog } from '../../BadgeSustainerInstructionsDialog.dom.tsx';
 import type { ContactModalStateType } from '../../../types/globalModals.std.ts';
 import type { ShowToastAction } from '../../../state/ducks/toast.preload.ts';
 import { ToastType } from '../../../types/Toast.dom.tsx';
@@ -72,7 +71,6 @@ import type { ContactNameColorType } from '../../../types/Colors.std.ts';
 
 enum ModalState {
   AddingGroupMembers,
-  BecomeSustainer,
   ConfirmDeleteNicknameAndNote,
   EditingGroupDescription,
   EditingGroupTitle,
@@ -138,6 +136,7 @@ type ActionProps = {
   onConversationDeleteMessages: () => void;
   onConversationUnarchive: () => void;
   onDeleteNicknameAndNote: () => void;
+  onNavigateToDonate: () => void;
   onOpenEditNicknameAndNoteModal: () => void;
   onOutgoingAudioCallInConversation: (conversationId: string) => unknown;
   onOutgoingVideoCallInConversation: (conversationId: string) => unknown;
@@ -206,6 +205,7 @@ export function ConversationDetails({
   onConversationDeleteMessages,
   onConversationUnarchive,
   onDeleteNicknameAndNote,
+  onNavigateToDonate,
   onOpenEditNicknameAndNoteModal,
   onOutgoingAudioCallInConversation,
   onOutgoingVideoCallInConversation,
@@ -269,11 +269,6 @@ export function ConversationDetails({
   switch (modalState) {
     case ModalState.NothingOpen:
       modalNode = undefined;
-      break;
-    case ModalState.BecomeSustainer:
-      modalNode = (
-        <BadgeSustainerInstructionsDialog i18n={i18n} onClose={onCloseModal} />
-      );
       break;
     case ModalState.EditingGroupDescription:
     case ModalState.EditingGroupTitle:
@@ -431,6 +426,7 @@ export function ConversationDetails({
         isGroup={isGroup}
         isSignalConversation={isSignalConversation}
         membersCount={conversation.membersCount ?? null}
+        onNavigateToDonate={onNavigateToDonate}
         pendingAvatarDownload={pendingAvatarDownload ?? false}
         startAvatarDownload={startAvatarDownload}
         startEditing={(isGroupTitle: boolean) => {
@@ -486,6 +482,15 @@ export function ConversationDetails({
         <Button
           icon={isMuted ? ButtonIconType.muted : ButtonIconType.unmuted}
           onClick={() => {
+            if (isSignalConversation) {
+              if (isMuted) {
+                setMuteExpiration(conversation.id, 0);
+              } else {
+                setMuteExpiration(conversation.id, Number.MAX_SAFE_INTEGER);
+              }
+              return;
+            }
+
             if (isMuted) {
               setModalState(ModalState.UnmuteNotifications);
             } else {
@@ -567,7 +572,7 @@ export function ConversationDetails({
                 />
               }
               label={i18n('icu:BadgeDialog__become-a-sustainer-button')}
-              onClick={() => setModalState(ModalState.BecomeSustainer)}
+              onClick={onNavigateToDonate}
             />
           </PanelSection>
         </>
