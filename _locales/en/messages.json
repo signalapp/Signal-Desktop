@@ -4708,9 +4708,17 @@
     "messageformat": "Official account",
     "description": "Text indicating that this is the official Signal conversation"
   },
+  "icu:ConversationHero--signal-official-chat-title": {
+    "messageformat": "Official chat",
+    "description": "Text indicating that this is the official Signal conversation"
+  },
   "icu:ConversationHero--signal-official-account--description": {
     "messageformat": "The only official chat from Signal. Keep up to date with news and release notes.",
     "description": "Description text at the top of the official Signal conversation"
+  },
+  "icu:Timeline--signal-official-chat--chip": {
+    "messageformat": "The only official chat from Signal.",
+    "description": "Description text at the bottom of the official Signal conversation"
   },
   "icu:ConversationHero--release-notes": {
     "messageformat": "Keep up to date with news and release notes.",

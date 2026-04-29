@@ -37,6 +37,7 @@ const defaultMessage: MessageDataPropsType = {
   isPinned: false,
   isSelected: false,
   isSelectMode: false,
+  isSignalConversation: false,
   isSMS: false,
   isSpoilerExpanded: {},
   isVoiceMessagePlayed: false,

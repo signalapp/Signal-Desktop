@@ -47,6 +47,7 @@ import { useNavActions } from '../ducks/nav.std.ts';
 import { DataReader } from '../../sql/Client.preload.ts';
 import { isInternalFeaturesEnabled } from '../../util/isInternalFeaturesEnabled.dom.ts';
 import type { CollapseSet } from '../../util/CollapseSet.std.ts';
+import { isSignalConversation } from '../../util/isSignalConversation.dom.ts';
 
 export type RenderItemProps = Omit<SmartTimelineItemProps, 'renderItem'>;
 
@@ -240,6 +241,7 @@ export const SmartTimelineItem = memo(function SmartTimelineItem(
     );
   }, [messageId]);
 
+  const isSignalConvo = isSignalConversation({ id: conversationId });
   return (
     <TimelineItem
       item={processedTimelineItem}
@@ -253,6 +255,7 @@ export const SmartTimelineItem = memo(function SmartTimelineItem(
       isTargeted={isTargeted}
       isSelectMode={selectedMessageIds != null}
       isSelected={isSelected}
+      isSignalConversation={isSignalConvo}
       renderAudioAttachment={renderAudioAttachment}
       renderContact={renderContact}
       renderReactionPicker={renderReactionPicker}

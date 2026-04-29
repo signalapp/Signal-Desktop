@@ -6,6 +6,8 @@ import classNames from 'classnames';
 import { useEscapeHandling } from '../../hooks/useEscapeHandling.dom.ts';
 import { getSuggestedFilename } from '../../util/Attachment.std.ts';
 import { IMAGE_PNG, type MIMEType } from '../../types/MIME.std.ts';
+import { isSignalConversation } from '../../util/isSignalConversation.dom.ts';
+import { SignalConversationBackground } from './SignalConversationBackground.dom.tsx';
 
 export type PropsType = {
   conversationId: string;
@@ -152,6 +154,7 @@ export function ConversationView({
     isSelectMode && !hasOpenModal ? onExitSelectMode : undefined
   );
 
+  const isSignalConvo = isSignalConversation({ id: conversationId });
   return (
     <div
       className="ConversationView ConversationPanel"
@@ -163,6 +166,7 @@ export function ConversationView({
           ConversationPanel__hidden: shouldHideConversationView,
         })}
       >
+        {isSignalConvo ? <SignalConversationBackground /> : null}
         <div className="ConversationView__header">
           {renderConversationHeader(conversationId)}
         </div>

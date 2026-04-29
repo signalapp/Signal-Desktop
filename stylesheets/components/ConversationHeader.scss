@@ -30,26 +30,12 @@
     }
   }
 
-  --button-spacing: 12px;
-
-  &.module-ConversationHeader--narrow {
-    --button-spacing: 4px;
-  }
-
   padding-top: var(--title-bar-drag-area-height);
   display: flex;
   flex-direction: row;
+  gap: 8px;
   align-items: center;
   height: calc(#{variables.$header-height} + var(--title-bar-drag-area-height));
-
-  @include mixins.light-theme {
-    color: variables.$color-gray-90;
-    background-color: variables.$color-white;
-  }
-  @include mixins.dark-theme {
-    color: variables.$color-gray-02;
-    background-color: variables.$color-gray-95;
-  }
 
   &__header {
     $padding: 4px 12px;
@@ -58,7 +44,7 @@
     display: flex;
     flex-direction: row;
     flex-grow: 1;
-    margin-inline: 4px var(--button-spacing);
+    margin-inline: 4px;
     padding: $padding;
     overflow: hidden;
     min-width: 0;
@@ -72,7 +58,7 @@
         -webkit-app-region: no-drag;
 
         // These are clobbered by button-reset:
-        margin-inline: 4px var(--button-spacing);
+        margin-inline: 4px;
         padding: $padding;
         padding-inline-start: 0;
       }
@@ -118,6 +104,7 @@
 
       &__subtitle {
         display: flex;
+        gap: 12px;
         @include mixins.font-body-2;
 
         @include mixins.light-theme {
@@ -138,184 +125,6 @@
           @include icon-element(
             '../images/icons/v3/safety_number/safety_number-compact.svg'
           );
-        }
-      }
-    }
-  }
-
-  &__button {
-    $icon-size: 32px;
-
-    -webkit-app-region: no-drag;
-    @include mixins.button-reset;
-    & {
-      align-items: center;
-      justify-content: center;
-      border-radius: 4px;
-      border: 2px solid transparent;
-      display: flex;
-      height: $icon-size;
-      margin-inline-end: var(--button-spacing);
-      min-width: $icon-size;
-      padding: 2px;
-      transition:
-        margin-inline-end 200ms ease-out,
-        opacity 200ms ease-out,
-        background 100ms ease-out;
-      width: $icon-size;
-    }
-
-    &:disabled {
-      cursor: default;
-      opacity: 0.5;
-    }
-
-    &--show-disabled {
-      opacity: 0.5;
-    }
-
-    &--in-another-call {
-      @include mixins.light-theme {
-        opacity: 0.5;
-      }
-      @include mixins.dark-theme {
-        opacity: 0.4;
-      }
-    }
-
-    &:not(:disabled) {
-      @include mixins.light-theme {
-        &:hover {
-          background: variables.$color-gray-02;
-        }
-        &:focus {
-          @include mixins.keyboard-mode {
-            background: variables.$color-gray-02;
-          }
-        }
-        &:active {
-          background: variables.$color-gray-05;
-        }
-      }
-      @include mixins.dark-theme {
-        &:hover {
-          background: variables.$color-gray-80;
-        }
-        &:focus {
-          @include mixins.keyboard-mode {
-            background: variables.$color-gray-02;
-          }
-        }
-        &:active {
-          background: variables.$color-gray-75;
-        }
-      }
-
-      @include mixins.keyboard-mode {
-        &:focus {
-          border-color: variables.$color-ultramarine;
-        }
-      }
-      @include mixins.dark-keyboard-mode {
-        &:focus {
-          border-color: variables.$color-ultramarine-light;
-        }
-      }
-    }
-
-    @mixin normal-button($icon, $size) {
-      &::before {
-        content: '';
-        display: block;
-        width: $size;
-        height: $size;
-
-        @include mixins.light-theme {
-          @include mixins.color-svg($icon, variables.$color-gray-75);
-          &:hover,
-          &:active,
-          &:focus {
-            @include mixins.color-svg($icon, variables.$color-gray-90);
-          }
-        }
-        @include mixins.dark-theme {
-          @include mixins.color-svg($icon, variables.$color-gray-15);
-          &:hover,
-          &:active,
-          &:focus {
-            @include mixins.color-svg($icon, variables.$color-gray-02);
-          }
-        }
-      }
-    }
-
-    &--video {
-      @include normal-button('../images/icons/v3/video/video.svg', 20px);
-    }
-
-    &--audio {
-      @include normal-button('../images/icons/v3/phone/phone.svg', 20px);
-    }
-
-    &--search {
-      @include normal-button('../images/icons/v3/search/search.svg', 20px);
-    }
-
-    &--more {
-      @include normal-button('../images/icons/v3/more/more.svg', 20px);
-      & {
-        margin-inline-end: 16px;
-      }
-    }
-
-    &--join-call {
-      $background: variables.$color-accent-green;
-
-      @include mixins.font-body-1;
-      @include mixins.rounded-corners;
-      align-items: center;
-      background-color: $background;
-      color: variables.$color-white;
-      display: flex;
-      outline: none;
-      overflow: hidden;
-      padding-block: 5px;
-      padding-inline: 10px;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      user-select: none;
-      width: auto;
-      height: 28px;
-
-      &:before {
-        $icon-size: 16px;
-
-        @include mixins.color-svg(
-          '../images/icons/v3/video/video-compact-fill.svg',
-          variables.$color-white
-        );
-        & {
-          content: '';
-          display: block;
-          height: $icon-size;
-          margin-inline-end: 4px;
-          min-width: $icon-size;
-          width: $icon-size;
-        }
-      }
-
-      &:not(:disabled) {
-        // Override hover/focus/active state coming from __button above.
-        &:hover,
-        &:active {
-          @include mixins.any-theme {
-            background-color: color.adjust($background, $lightness: -16%);
-          }
-        }
-        &:focus {
-          @include mixins.keyboard-mode {
-            background-color: color.adjust($background, $lightness: -16%);
-          }
         }
       }
     }

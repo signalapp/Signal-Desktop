@@ -59,7 +59,6 @@ import { useToastActions } from '../ducks/toast.preload.ts';
 import { isShowingAnyModal } from '../selectors/globalModals.std.ts';
 import { isConversationEverUnregistered } from '../../util/isConversationUnregistered.dom.ts';
 import { isDirectConversation } from '../../util/whatTypeOfConversation.dom.ts';
-import { isConversationMuted } from '../../util/isConversationMuted.std.ts';
 import { itemStorage } from '../../textsecure/Storage.preload.ts';
 import { useNavActions } from '../ducks/nav.std.ts';
 import { isFeaturedEnabledSelector } from '../../util/isFeatureEnabled.dom.ts';
@@ -228,7 +227,6 @@ export const SmartCompositionArea = memo(function SmartCompositionArea({
     toggleSelectMode,
     scrollToMessage,
     setMessageToEdit,
-    setMuteExpiration,
     showConversation,
   } = useConversationsActions();
   const { pushPanelForConversation } = useNavActions();
@@ -341,8 +339,6 @@ export const SmartCompositionArea = memo(function SmartCompositionArea({
       getSharedGroupNames={getSharedGroupNames}
       // Signal Conversation
       isSignalConversation={isSignalConversation(conversation)}
-      isMuted={isConversationMuted(conversation)}
-      setMuteExpiration={setMuteExpiration}
       // Groups
       groupVersion={conversation.groupVersion ?? null}
       isGroupV1AndDisabled={conversation.isGroupV1AndDisabled ?? null}

@@ -217,6 +217,7 @@ type PropsLocalType = {
   isNextItemCallingNotification: boolean;
   isSelectMode: boolean;
   isSelected: boolean;
+  isSignalConversation: boolean;
   isTargeted: boolean;
   scrollToPinnedMessage: (pinMessage: PinMessageData) => void;
   scrollToPollMessage: (
@@ -275,6 +276,7 @@ export const TimelineItem = memo(function TimelineItem({
   isNextItemCallingNotification,
   isSelectMode,
   isSelected,
+  isSignalConversation,
   isTargeted,
   item,
   onOpenEditNicknameAndNoteModal,
@@ -543,7 +545,11 @@ export const TimelineItem = memo(function TimelineItem({
   if (shouldRenderDateHeader) {
     return (
       <>
-        <TimelineDateHeader i18n={i18n} timestamp={item.timestamp} />
+        <TimelineDateHeader
+          i18n={i18n}
+          timestamp={item.timestamp}
+          isSignalConversation={isSignalConversation}
+        />
         {itemContents}
       </>
     );

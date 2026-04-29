@@ -45,6 +45,7 @@ const getDefaultProps = () => ({
   isPinned: false,
   isSelectMode: false,
   isSelected: false,
+  isSignalConversation: false,
   isTargeted: false,
   isBlocked: false,
   isGroup: false,

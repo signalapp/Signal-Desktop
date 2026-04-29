@@ -1008,6 +1008,7 @@ const getPropsForMessage = (
     isSelectMode,
     isSMS: message.sms === true,
     isSpoilerExpanded: message.isSpoilerExpanded,
+    isSignalConversation: isSignalConversation(author),
     isSticker: Boolean(sticker),
     isTargeted,
     isTargetedCounter: isTargeted ? targetedMessageCounter : undefined,
@@ -2629,6 +2630,9 @@ export function canForward(message: ReadonlyMessageAttributesType): boolean {
 }
 
 export function canPinMessages(conversation: ConversationType): boolean {
+  if (isSignalConversation(conversation)) {
+    return false;
+  }
   return (
     conversation.type === 'direct' ||
     (conversation.canEditGroupInfo === true && !conversation.terminated)
