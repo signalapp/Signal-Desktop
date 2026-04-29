@@ -43,6 +43,7 @@ function Wrapper(overrideProps: Partial<Props>) {
       isGroup
       isMe={false}
       isSignalConversation={false}
+      onNavigateToDonate={action('onNavigateToDonate')}
       pendingAvatarDownload={false}
       startAvatarDownload={action('startAvatarDownload')}
       theme={theme}

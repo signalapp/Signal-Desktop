@@ -27,6 +27,8 @@ import { strictAssert } from '../../util/assert.std.ts';
 import { CallMode } from '../../types/CallDisposition.std.ts';
 import { isCallLinkAdmin } from '../../types/CallLink.std.ts';
 import { isFeaturedEnabledSelector } from '../../util/isFeatureEnabled.dom.ts';
+import { useNavActions } from '../ducks/nav.std.ts';
+import { NavTab, SettingsPage } from '../../types/Nav.std.ts';
 
 export const SmartContactModal = memo(function SmartContactModal() {
   const i18n = useSelector(getIntl);
@@ -105,6 +107,7 @@ export const SmartContactModal = memo(function SmartContactModal() {
     toggleGroupMemberLabelInfoModal,
     toggleSafetyNumberModal,
   } = useGlobalModalActions();
+  const { changeLocation } = useNavActions();
   const {
     blockClient: blockClientFromCall,
     onOutgoingVideoCallInConversation,
@@ -118,6 +121,16 @@ export const SmartContactModal = memo(function SmartContactModal() {
     strictAssert(contactId != null, 'Expected conversationId to be set');
     toggleEditNicknameAndNoteModal({ conversationId: contactId });
   }, [toggleEditNicknameAndNoteModal, contactId]);
+
+  const onNavigateToDonate = useCallback(() => {
+    hideContactModal();
+    changeLocation({
+      tab: NavTab.Settings,
+      details: {
+        page: SettingsPage.DonationsDonateFlow,
+      },
+    });
+  }, [hideContactModal, changeLocation]);
 
   return (
     <ContactModal
@@ -142,6 +155,7 @@ export const SmartContactModal = memo(function SmartContactModal() {
       isRemoteMuteVisible={isRemoteMuteVisible}
       isRemoveFromCallVisible={isRemoveFromCallVisible}
       activeCallDemuxId={activeCallDemuxId}
+      onNavigateToDonate={onNavigateToDonate}
       onOpenEditNicknameAndNoteModal={handleOpenEditNicknameAndNoteModal}
       onOutgoingAudioCallInConversation={onOutgoingAudioCallInConversation}
       onOutgoingVideoCallInConversation={onOutgoingVideoCallInConversation}
