@@ -13,44 +13,28 @@ import { Button, ButtonSize } from './Button.dom.tsx';
 import { BadgeDescription } from './BadgeDescription.dom.tsx';
 import { BadgeImage } from './BadgeImage.dom.tsx';
 import { BadgeCarouselIndex } from './BadgeCarouselIndex.dom.tsx';
-import { BadgeSustainerInstructionsDialog } from './BadgeSustainerInstructionsDialog.dom.tsx';
 
 export type PropsType = Readonly<{
   areWeASubscriber: boolean;
   badges: ReadonlyArray<BadgeType>;
   firstName?: string;
   i18n: LocalizerType;
-  onClose: () => unknown;
+  onClose: () => void;
+  onDonate: () => void;
   title: string;
 }>;
 
 export function BadgeDialog(props: PropsType): null | React.JSX.Element {
-  const { badges, i18n, onClose } = props;
-
-  const [isShowingInstructions, setIsShowingInstructions] = useState(false);
+  const { badges, onClose } = props;
 
   const hasBadges = badges.length > 0;
   useEffect(() => {
-    if (!hasBadges && !isShowingInstructions) {
+    if (!hasBadges) {
       onClose();
     }
-  }, [hasBadges, isShowingInstructions, onClose]);
+  }, [hasBadges, onClose]);
 
-  if (isShowingInstructions) {
-    return (
-      <BadgeSustainerInstructionsDialog
-        i18n={i18n}
-        onClose={() => setIsShowingInstructions(false)}
-      />
-    );
-  }
-
-  return hasBadges ? (
-    <BadgeDialogWithBadges
-      {...props}
-      onShowInstructions={() => setIsShowingInstructions(true)}
-    />
-  ) : null;
+  return hasBadges ? <BadgeDialogWithBadges {...props} /> : null;
 }
 
 function BadgeDialogWithBadges({
@@ -59,9 +43,9 @@ function BadgeDialogWithBadges({
   firstName,
   i18n,
   onClose,
-  onShowInstructions,
+  onDonate,
   title,
-}: PropsType & { onShowInstructions: () => unknown }): React.JSX.Element {
+}: PropsType): React.JSX.Element {
   const firstBadge = badges[0];
   strictAssert(
     firstBadge,
@@ -125,7 +109,7 @@ function BadgeDialogWithBadges({
                 currentBadge.category !== BadgeCategory.Donor &&
                   'BadgeDialog__instructions-button--hidden'
               )}
-              onClick={onShowInstructions}
+              onClick={onDonate}
               size={ButtonSize.Large}
             >
               {i18n('icu:BadgeDialog__become-a-sustainer-button')}

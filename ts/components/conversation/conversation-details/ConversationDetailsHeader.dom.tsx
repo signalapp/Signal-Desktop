@@ -31,6 +31,7 @@ export type Props = {
   isMe: boolean;
   isSignalConversation: boolean;
   membersCount: number | null;
+  onNavigateToDonate: () => void;
   pendingAvatarDownload: boolean;
   startAvatarDownload: () => void;
   startEditing: (isGroupTitle: boolean) => void;
@@ -53,6 +54,7 @@ export function ConversationDetailsHeader({
   isMe,
   isSignalConversation,
   membersCount,
+  onNavigateToDonate,
   pendingAvatarDownload,
   startAvatarDownload,
   startEditing,
@@ -154,6 +156,10 @@ export function ConversationDetailsHeader({
           i18n={i18n}
           onClose={() => {
             setActiveModal(undefined);
+          }}
+          onDonate={() => {
+            setActiveModal(undefined);
+            onNavigateToDonate();
           }}
           title={conversation.title}
         />

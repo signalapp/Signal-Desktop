@@ -105,6 +105,7 @@ const createProps = (
     memberColors,
     maxGroupSize: 1001,
     maxRecommendedGroupSize: 151,
+    onNavigateToDonate: action('onNavigateToDonate'),
     pendingApprovalMemberships: times(8, () => ({
       member: getDefaultConversation(),
     })),

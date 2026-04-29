@@ -71,6 +71,7 @@ type PropsActionType = {
   blockClientFromCall: (payload: RemoveClientType) => void;
   blockConversation: (id: string) => void;
   hideContactModal: () => void;
+  onNavigateToDonate: () => void;
   onOpenEditNicknameAndNoteModal: () => void;
   onOutgoingAudioCallInConversation: (conversationId: string) => unknown;
   onOutgoingVideoCallInConversation: (conversationId: string) => unknown;
@@ -127,6 +128,7 @@ export function ContactModal({
   isMuted,
   isRemoteMuteVisible,
   isRemoveFromCallVisible,
+  onNavigateToDonate,
   onOpenEditNicknameAndNoteModal,
   onOutgoingAudioCallInConversation,
   onOutgoingVideoCallInConversation,
@@ -682,6 +684,7 @@ export function ContactModal({
           firstName={contact.firstName}
           i18n={i18n}
           onClose={() => setView(ContactModalView.Default)}
+          onDonate={onNavigateToDonate}
           title={contact.title}
         />
       );

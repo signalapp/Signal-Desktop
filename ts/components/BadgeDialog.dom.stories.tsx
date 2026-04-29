@@ -27,6 +27,7 @@ const defaultProps: ComponentProps<typeof BadgeDialog> = {
   firstName: 'Alice',
   i18n,
   onClose: action('onClose'),
+  onDonate: action('onDonate'),
   title: 'Alice Levine',
 };
 
