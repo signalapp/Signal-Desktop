@@ -9,7 +9,9 @@ import type { MutableRefObject } from 'react';
 
 import { useItemsActions } from '../ducks/items.preload.ts';
 import { useConversationsActions } from '../ducks/conversations.preload.ts';
+import type { ConversationType } from '../ducks/conversations.preload.ts';
 import {
+  getConversationSelector,
   getConversationsWithCustomColorSelector,
   getMe,
   getOtherTabsUnreadStats,
@@ -253,6 +255,7 @@ export function SmartPreferences(): React.JSX.Element | null {
   );
   const notificationProfileCount = useSelector(getProfiles).length;
   const weArePrimaryDevice = useSelector(areWePrimaryDevice);
+  const conversationSelector = useSelector(getConversationSelector);
 
   const shouldShowUpdateDialog = dialogType !== DialogType.None;
   const badge = getPreferredBadge(me.badges);
@@ -588,9 +591,29 @@ export function SmartPreferences(): React.JSX.Element | null {
   const defaultConversationColor =
     items.defaultConversationColor || DEFAULT_CONVERSATION_COLOR;
 
-  const blockedCount =
-    (items['blocked-groups']?.length ?? 0) +
-    (items['blocked-uuids']?.length ?? 0);
+  const blockedContacts: Array<ConversationType> = useMemo(() => {
+    const result = new Set<ConversationType>();
+
+    (items['blocked-uuids'] ?? []).forEach(item => {
+      result.add(conversationSelector(item));
+    });
+    (items.blocked ?? []).forEach(item => {
+      const conversation = conversationSelector(item);
+      if (!result.has(conversation)) {
+        result.add(conversation);
+      }
+    });
+
+    return Array.from(result);
+  }, [items, conversationSelector]);
+  const blockedGroups: Array<ConversationType> = useMemo(() => {
+    const result: Array<ConversationType> = [];
+    (items['blocked-groups'] ?? []).forEach(item => {
+      result.push(conversationSelector(item));
+    });
+    return result;
+  }, [items, conversationSelector]);
+
   const emojiSkinToneDefault = items.emojiSkinToneDefault ?? EmojiSkinTone.None;
   const isInternalUser =
     items.remoteConfig?.['desktop.internalUser']?.enabled ?? false;
@@ -896,7 +919,8 @@ export function SmartPreferences(): React.JSX.Element | null {
           }}
           backupLocalBackupsEnabled={backupLocalBackupsEnabled}
           badge={badge}
-          blockedCount={blockedCount}
+          blockedContacts={blockedContacts}
+          blockedGroups={blockedGroups}
           currentChatFoldersCount={currentChatFoldersCount}
           cloudBackupStatus={cloudBackupStatus}
           customColors={customColors}
@@ -914,6 +938,7 @@ export function SmartPreferences(): React.JSX.Element | null {
           getMessageSampleForSchemaVersion={
             DataReader.getMessageSampleForSchemaVersion
           }
+          getPreferredBadge={getPreferredBadge}
           hasAnyCurrentCustomChatFolders={hasAnyCurrentCustomChatFolders}
           hasAudioNotifications={hasAudioNotifications}
           hasAutoConvertEmoji={hasAutoConvertEmoji}

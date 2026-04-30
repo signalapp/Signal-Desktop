@@ -424,7 +424,8 @@ export default {
     backupSubscriptionStatus: { status: 'not-found' },
     backupTier: null,
     badge: undefined,
-    blockedCount: 0,
+    blockedContacts: [],
+    blockedGroups: [],
     currentChatFoldersCount: 0,
     customColors: {},
     defaultConversationColor: DEFAULT_CONVERSATION_COLOR,
@@ -554,6 +555,7 @@ export default {
     getMessageSampleForSchemaVersion: async () => [
       { id: 'messageId' } as MessageAttributesType,
     ],
+    getPreferredBadge: () => undefined,
     makeSyncRequest: action('makeSyncRequest'),
     onAudioNotificationsChange: action('onAudioNotificationsChange'),
     onAutoConvertEmojiChange: action('onAutoConvertEmojiChange'),
@@ -1030,15 +1032,49 @@ Internal.args = {
   isInternalUser: true,
 };
 
-export const Blocked1 = Template.bind({});
-Blocked1.args = {
-  blockedCount: 1,
+export const Blocked1Contact = Template.bind({});
+Blocked1Contact.args = {
+  blockedContacts: [getDefaultConversation()],
   settingsLocation: { page: SettingsPage.Privacy },
 };
 
-export const BlockedMany = Template.bind({});
-BlockedMany.args = {
-  blockedCount: 55,
+export const Blocked1Group = Template.bind({});
+Blocked1Group.args = {
+  blockedGroups: [getDefaultConversation()],
+  settingsLocation: { page: SettingsPage.Privacy },
+};
+
+export const Blocked1Both = Template.bind({});
+Blocked1Both.args = {
+  blockedContacts: [getDefaultConversation()],
+  blockedGroups: [getDefaultConversation()],
+  settingsLocation: { page: SettingsPage.Privacy },
+};
+
+export const BlockedManyContacts = Template.bind({});
+BlockedManyContacts.args = {
+  blockedContacts: new Array(55)
+    .fill(undefined)
+    .map(() => getDefaultConversation()),
+  settingsLocation: { page: SettingsPage.Privacy },
+};
+
+export const BlockedManyGroups = Template.bind({});
+BlockedManyGroups.args = {
+  blockedGroups: new Array(55)
+    .fill(undefined)
+    .map(() => getDefaultConversation()),
+  settingsLocation: { page: SettingsPage.Privacy },
+};
+
+export const BlockedManyBoth = Template.bind({});
+BlockedManyBoth.args = {
+  blockedContacts: new Array(20)
+    .fill(undefined)
+    .map(() => getDefaultConversation()),
+  blockedGroups: new Array(20)
+    .fill(undefined)
+    .map(() => getDefaultConversation()),
   settingsLocation: { page: SettingsPage.Privacy },
 };
 

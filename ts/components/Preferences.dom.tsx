@@ -104,6 +104,7 @@ import type { LocalBackupExportMetadata } from '../types/LocalExport.std.ts';
 import { isDonationsPage } from './PreferencesDonations.dom.tsx';
 import type { VisibleRemoteMegaphoneType } from '../types/Megaphone.std.ts';
 import { TitlebarDragArea } from './TitlebarDragArea.dom.tsx';
+import type { PreferredBadgeSelectorType } from '../state/selectors/badges.preload.ts';
 
 const { isNumber, noop, partition } = lodash;
 
@@ -128,7 +129,8 @@ export type PropsDataType = {
   pauseBackupMediaDownload: VoidFunction;
   cancelBackupMediaDownload: VoidFunction;
   resumeBackupMediaDownload: VoidFunction;
-  blockedCount: number;
+  blockedContacts: ReadonlyArray<ConversationType>;
+  blockedGroups: ReadonlyArray<ConversationType>;
   customColors: Record<string, CustomColorType>;
   defaultConversationColor: DefaultConversationColorType;
   deviceName?: string;
@@ -268,6 +270,7 @@ type PropsFunctionType = {
   getMessageSampleForSchemaVersion: (
     version: number
   ) => Promise<Array<MessageAttributesType>>;
+  getPreferredBadge: PreferredBadgeSelectorType;
   resumeBackupMediaDownload: () => void;
   pauseBackupMediaDownload: () => void;
   getConversationsWithCustomColor: (colorId: string) => Array<ConversationType>;
@@ -426,7 +429,8 @@ export function Preferences({
   backupSubscriptionStatus,
   backupLocalBackupsEnabled,
   badge,
-  blockedCount,
+  blockedContacts,
+  blockedGroups,
   currentChatFoldersCount,
   cloudBackupStatus,
   customColors,
@@ -439,6 +443,7 @@ export function Preferences({
   getConversationsWithCustomColor,
   getMessageCountBySchemaVersion,
   getMessageSampleForSchemaVersion,
+  getPreferredBadge,
   hasAnyCurrentCustomChatFolders,
   hasAudioNotifications,
   hasAutoConvertEmoji,
@@ -1678,6 +1683,25 @@ export function Preferences({
   } else if (settingsLocation.page === SettingsPage.Privacy) {
     const isCustomDisappearingMessageValue =
       !DEFAULT_DURATIONS_SET.has(universalExpireTimer);
+    let blockedDescription;
+
+    if (
+      (!blockedContacts.length && !blockedGroups.length) ||
+      (blockedContacts.length && blockedGroups.length)
+    ) {
+      blockedDescription = i18n('icu:Preferences--blocked-count-both-new', {
+        num: blockedContacts.length + blockedGroups.length,
+      });
+    } else if (blockedContacts.length) {
+      blockedDescription = i18n('icu:Preferences--blocked-count-contacts-new', {
+        num: blockedContacts.length,
+      });
+    } else {
+      blockedDescription = i18n('icu:Preferences--blocked-count-groups-new', {
+        num: blockedGroups.length,
+      });
+    }
+
     const pageContents = (
       <>
         <SettingsRow>
@@ -1714,9 +1738,19 @@ export function Preferences({
         <SettingsRow>
           <Control
             left={i18n('icu:Preferences--blocked')}
-            right={i18n('icu:Preferences--blocked-count', {
-              num: blockedCount,
-            })}
+            description={blockedDescription}
+            right={
+              <AxoButton.Root
+                variant="secondary"
+                size="lg"
+                disabled={!blockedContacts.length && !blockedGroups.length}
+                onClick={() =>
+                  setSettingsLocation({ page: SettingsPage.Blocked })
+                }
+              >
+                {i18n('icu:view')}
+              </AxoButton.Root>
+            }
           />
         </SettingsRow>
         <SettingsRow title={i18n('icu:Preferences--messaging')}>
@@ -2163,6 +2197,76 @@ export function Preferences({
       existingChatFolderId: settingsLocation.chatFolderId,
       initChatFolderParams: settingsLocation.initChatFolderParams,
     });
+  } else if (settingsLocation.page === SettingsPage.Blocked) {
+    const backButton = (
+      <button
+        aria-label={i18n('icu:goBack')}
+        className="Preferences__back-icon"
+        onClick={() => setSettingsLocation({ page: SettingsPage.Privacy })}
+        type="button"
+      />
+    );
+    const pageContents = (
+      <>
+        <SettingsRow>
+          <div className="Preferences__padding">
+            <div className="Preferences__description">
+              {i18n('icu:Preferences--blocked-users--description')}
+            </div>
+          </div>
+        </SettingsRow>
+        {blockedContacts.length > 0 ? (
+          <SettingsRow title={i18n('icu:Preferences--blocked-users')}>
+            {blockedContacts.map(item => {
+              return (
+                <div className={tw('flex w-full items-center px-[14px]')}>
+                  <div className={tw('p-2')}>
+                    <Avatar
+                      conversationType={item.type}
+                      badge={getPreferredBadge(item.badges)}
+                      i18n={i18n}
+                      size={AvatarSize.THIRTY_SIX}
+                      theme={theme}
+                      {...item}
+                    />
+                  </div>
+                  <div>{item.title}</div>
+                </div>
+              );
+            })}
+          </SettingsRow>
+        ) : undefined}
+        {blockedGroups.length > 0 ? (
+          <SettingsRow title={i18n('icu:Preferences--blocked-groups')}>
+            {blockedGroups.map(item => {
+              return (
+                <div className={tw('flex w-full items-center px-[14px]')}>
+                  <div className={tw('p-2')}>
+                    <Avatar
+                      conversationType={item.type}
+                      badge={getPreferredBadge(item.badges)}
+                      i18n={i18n}
+                      size={AvatarSize.THIRTY_SIX}
+                      theme={theme}
+                      {...item}
+                    />
+                  </div>
+                  <div>{item.title}</div>
+                </div>
+              );
+            })}
+          </SettingsRow>
+        ) : undefined}
+      </>
+    );
+    content = (
+      <PreferencesContent
+        backButton={backButton}
+        contents={pageContents}
+        contentsRef={settingsPaneRef}
+        title={i18n('icu:Preferences--blocked')}
+      />
+    );
   } else if (settingsLocation.page === SettingsPage.PNP) {
     let sharingDescription: string;
 
@@ -2594,7 +2698,8 @@ export function Preferences({
                   'Preferences__button--privacy': true,
                   'Preferences__button--selected':
                     settingsLocation.page === SettingsPage.Privacy ||
-                    settingsLocation.page === SettingsPage.PNP,
+                    settingsLocation.page === SettingsPage.PNP ||
+                    settingsLocation.page === SettingsPage.Blocked,
                 })}
                 onClick={() =>
                   setSettingsLocation({ page: SettingsPage.Privacy })
