@@ -17,7 +17,7 @@ type GenericButtonProps = ButtonHTMLAttributes<HTMLButtonElement>;
 export namespace AxoIconButton {
   const baseStyles = tw(
     'relative rounded-full leading-none select-none',
-    'outline-border-focused not-forced-colors:outline-0 not-forced-colors:focused:outline-[2.5px]',
+    'not-forced-colors:outline-none keyboard-mode:focus:outline-focus-ring',
     'forced-colors:border forced-colors:border-[ButtonBorder] forced-colors:bg-[ButtonFace] forced-colors:text-[ButtonText]',
     'forced-colors:disabled:text-[GrayText]',
     'forced-colors:aria-pressed:bg-[SelectedItem] forced-colors:aria-pressed:text-[SelectedItemText]'
@@ -25,49 +25,49 @@ export namespace AxoIconButton {
 
   const pressedStyles = {
     fillInverted: tw(
-      'aria-pressed:bg-fill-inverted aria-pressed:pressed:bg-fill-inverted-pressed',
+      'aria-pressed:bg-fill-inverted aria-pressed:enabled:active:bg-fill-inverted-pressed',
       'aria-pressed:text-label-primary-inverted aria-pressed:disabled:text-label-disabled-inverted'
     ),
     colorFillPrimary: tw(
-      'aria-pressed:bg-color-fill-primary aria-pressed:pressed:bg-color-fill-primary-pressed',
+      'aria-pressed:bg-color-fill-primary aria-pressed:enabled:active:bg-color-fill-primary-pressed',
       'aria-pressed:text-label-primary-on-color aria-pressed:disabled:text-label-disabled-on-color'
     ),
   };
 
   const Variants: Record<Variant, TailwindStyles> = {
     secondary: tw(
-      'bg-fill-secondary pressed:bg-fill-secondary-pressed',
+      'bg-fill-secondary enabled:active:bg-fill-secondary-pressed',
       'data-[axo-dropdownmenu-state=open]:bg-fill-secondary-pressed',
       'text-label-primary disabled:text-label-disabled',
       pressedStyles.fillInverted
     ),
     primary: tw(
-      'bg-color-fill-primary pressed:bg-color-fill-primary-pressed',
+      'bg-color-fill-primary enabled:active:bg-color-fill-primary-pressed',
       'data-[axo-dropdownmenu-state=open]:bg-color-fill-primary-pressed',
       'text-label-primary-on-color disabled:text-label-disabled-on-color',
       pressedStyles.fillInverted
     ),
     affirmative: tw(
-      'bg-color-fill-affirmative pressed:bg-color-fill-affirmative-pressed',
+      'bg-color-fill-affirmative enabled:active:bg-color-fill-affirmative-pressed',
       'data-[axo-dropdownmenu-state=open]:bg-color-fill-affirmative-pressed',
       'text-label-primary-on-color disabled:text-label-disabled-on-color',
       pressedStyles.fillInverted
     ),
     destructive: tw(
-      'bg-color-fill-destructive pressed:bg-color-fill-destructive-pressed',
+      'bg-color-fill-destructive enabled:active:bg-color-fill-destructive-pressed',
       'data-[axo-dropdownmenu-state=open]:bg-color-fill-destructive-pressed',
       'text-label-primary-on-color disabled:text-label-disabled-on-color',
       pressedStyles.fillInverted
     ),
     'borderless-secondary': tw(
-      'hovered:bg-fill-secondary pressed:bg-fill-secondary-pressed',
+      'enabled:hover:not-aria-pressed:bg-fill-secondary enabled:active:bg-fill-secondary-pressed',
       'focus:bg-fill-secondary',
       'data-[axo-dropdownmenu-state=open]:bg-fill-secondary-pressed',
       'text-label-primary disabled:text-label-disabled',
       pressedStyles.colorFillPrimary
     ),
     'floating-secondary': tw(
-      'bg-fill-floating pressed:bg-fill-floating-pressed',
+      'bg-fill-floating enabled:active:bg-fill-floating-pressed',
       'data-[axo-dropdownmenu-state=open]:bg-fill-floating-pressed',
       'text-label-primary disabled:text-label-disabled',
       'shadow-elevation-1',

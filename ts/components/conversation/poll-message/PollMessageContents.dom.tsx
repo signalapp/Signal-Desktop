@@ -112,7 +112,7 @@ const PollCheckbox = memo((props: PollCheckboxProps) => {
         className={tw(
           'flex size-6 items-center justify-center rounded-full',
           isPending ? '' : 'border-[1.5px]',
-          'outline-0 outline-border-focused focused:outline-[2.5px]',
+          'outline-none keyboard-mode:focus:outline-focus-ring',
           'overflow-hidden',
           'transition-colors duration-250',
           bgColor,

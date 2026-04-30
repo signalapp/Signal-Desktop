@@ -6102,6 +6102,10 @@
     "messageformat": "Close",
     "description": "Generic close label"
   },
+  "icu:clear": {
+    "messageformat": "Clear",
+    "description": "Generic clear label (ex: text/search inputs)"
+  },
   "icu:previous": {
     "messageformat": "previous",
     "description": "Generic previous label"

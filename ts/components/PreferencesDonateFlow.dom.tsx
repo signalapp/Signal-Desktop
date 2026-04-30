@@ -399,7 +399,7 @@ export function PreferencesDonateFlow({
         <button
           className={tw(
             'flex',
-            'bg-color-fill-primary pressed:bg-color-fill-primary-pressed',
+            'bg-color-fill-primary enabled:active:bg-color-fill-primary-pressed',
             'rounded-md',
             'justify-center type-body-medium text-label-primary-on-color',
             'mt-6 mb-3 h-[36px] w-[280px] py-2'

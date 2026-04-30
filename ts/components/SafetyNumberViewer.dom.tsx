@@ -237,7 +237,7 @@ function KeyTransparency({
         className={tw(
           'h-12 w-full rounded-full px-5 py-3.5',
           'bg-fill-secondary text-label-primary',
-          'pressed:bg-fill-secondary-pressed'
+          'enabled:active:bg-fill-secondary-pressed'
         )}
       >
         <AnimatePresence mode="wait" initial={false}>

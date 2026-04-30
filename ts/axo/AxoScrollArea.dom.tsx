@@ -132,10 +132,10 @@ export namespace AxoScrollArea {
             className={tw(
               'relative z-0',
               'flex size-full flex-col overflow-hidden',
-              'rounded-[2px] outline-border-focused',
+              'rounded-[2px]',
               // Move the outline from the viewport to the parent
               // so it doesn't get cut off by <Mask>
-              '[:where(.keyboard-mode)_&:has([data-axo-scroll-area-viewport]:focus)]:outline-[2.5px]'
+              'keyboard-mode:has-[[data-axo-scroll-area-viewport]:focus]:outline-focus-ring'
             )}
             style={style}
           >
@@ -158,7 +158,7 @@ export namespace AxoScrollArea {
     'flex size-full flex-col',
     'overscroll-contain',
     // <Root> handles the focus ring
-    'outline-0'
+    'outline-none'
   );
 
   const ViewportScrollbarWidths: Record<ScrollbarWidth, TailwindStyles> = {

@@ -92,7 +92,7 @@ export namespace AxoSelect {
     'group relative inline-flex items-center',
     'rounded-full text-start type-body-medium font-medium text-label-primary',
     'disabled:text-label-disabled',
-    'outline-0 outline-border-focused focused:outline-[2.5px]',
+    'outline-none keyboard-mode:focus:outline-focus-ring',
     'forced-colors:border'
   );
 
@@ -100,19 +100,19 @@ export namespace AxoSelect {
     default: tw(
       baseTriggerStyles,
       'bg-fill-secondary',
-      'pressed:bg-fill-secondary-pressed'
+      'enabled:active:bg-fill-secondary-pressed'
     ),
     floating: tw(
       baseTriggerStyles,
       'bg-fill-floating',
       'shadow-elevation-1',
-      'pressed:bg-fill-floating-pressed'
+      'enabled:active:bg-fill-floating-pressed'
     ),
     borderless: tw(
       baseTriggerStyles,
       'bg-transparent',
-      'hovered:bg-fill-secondary',
-      'pressed:bg-fill-secondary-pressed'
+      'enabled:hover:bg-fill-secondary',
+      'enabled:active:bg-fill-secondary-pressed'
     ),
   };
 
@@ -137,15 +137,15 @@ export namespace AxoSelect {
       chevronStyles: tw(
         'absolute inset-y-0 inset-e-0 w-9.5',
         'flex items-center justify-end pe-2',
-        'opacity-0 group-focus:opacity-100 group-data-[state=open]:opacity-100 group-hovered:opacity-100',
+        'opacity-0 group-enabled:group-hover:opacity-100 group-enabled:group-focus:opacity-100 group-data-[state=open]:opacity-100',
         'transition-opacity duration-150'
       ),
       contentStyles: tw(
         baseContentStyles,
         'px-3 py-[5px]',
         '[--axo-select-trigger-mask-start:black]',
-        'group-hovered:[--axo-select-trigger-mask-start:transparent]',
-        'group-focus:[--axo-select-trigger-mask-start:transparent]',
+        'group-enabled:group-hover:[--axo-select-trigger-mask-start:transparent]',
+        'group-enabled:group-focus:[--axo-select-trigger-mask-start:transparent]',
         'group-data-[state=open]:[--axo-select-trigger-mask-start:transparent]',
         'mask-[linear-gradient(to_left,var(--axo-select-trigger-mask-start)_19px,black_38px)]',
         'rtl:mask-[linear-gradient(to_right,var(--axo-select-trigger-mask-start)_19px,black_38px)]',

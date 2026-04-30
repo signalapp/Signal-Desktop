@@ -141,7 +141,7 @@ export function CallQualitySurveyDialog(
                 <BigCircleButton
                   symbol="thumbsdown"
                   className={tw(
-                    'bg-color-fill-destructive/10 text-color-fill-destructive group-hovered:bg-color-fill-destructive/15'
+                    'bg-color-fill-destructive/10 text-color-fill-destructive group-enabled:group-active:bg-color-fill-destructive/15'
                   )}
                   onClick={() => {
                     setUserSatisfied(false);
@@ -155,7 +155,7 @@ export function CallQualitySurveyDialog(
                 <BigCircleButton
                   symbol="thumbsup"
                   className={tw(
-                    'bg-color-fill-primary/10 text-color-fill-primary group-hovered:bg-color-fill-primary/15'
+                    'bg-color-fill-primary/10 text-color-fill-primary group-enabled:group-active:bg-color-fill-primary/15'
                   )}
                   onClick={() => {
                     setUserSatisfied(true);
@@ -231,10 +231,10 @@ export function CallQualitySurveyDialog(
                       'field-sizing-content max-h-50 min-h-20 w-full resize-none',
                       'rounded-lg border-[0.5px] px-3 py-2 shadow-elevation-1',
                       'text-label-primary placeholder:text-label-placeholder disabled:text-label-disabled',
-                      'outline-offset-[-2.5px] not-forced-colors:outline-0 not-forced-colors:focused:outline-[2.5px]',
+                      'outline-focus-ring-inset not-forced-colors:outline-none not-forced-colors:focus:outline-focus-ring',
                       showOtherInputError
-                        ? 'border-border-error outline-[2.5px] outline-border-error'
-                        : 'border-border-primary outline-border-focused'
+                        ? 'border-border-error outline-focus-ring-error'
+                        : 'border-border-primary'
                     )}
                   />
                   {showOtherInputError && (
@@ -401,7 +401,7 @@ function BigCircleButton(props: {
       type="button"
       className={tw(
         'group flex w-24 flex-col items-center gap-3 rounded-lg p-3',
-        'outline-border-focused not-forced-colors:outline-0 not-forced-colors:focused:outline-[2.5px]'
+        'not-forced-colors:outline-none not-forced-colors:keyboard-mode:focus:outline-focus-ring'
       )}
       onClick={props.onClick}
     >

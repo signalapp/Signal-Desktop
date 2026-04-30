@@ -74,7 +74,7 @@ export function ItemDragHandle(props: { i18n: LocalizerType }): JSX.Element {
   return (
     <span
       className={tw(
-        'cursor-grab text-label-primary opacity-0 group-hovered:opacity-100 group-focused:opacity-100'
+        'cursor-grab text-label-primary opacity-0 group-enabled:group-focus:opacity-100 group-enabled:group-active:opacity-100'
       )}
     >
       <AxoSymbol.Icon

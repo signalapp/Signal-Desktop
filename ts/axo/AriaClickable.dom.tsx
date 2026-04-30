@@ -276,7 +276,7 @@ export namespace AriaClickable {
             ref={mergeRefs(ref, innerRef)}
             {...props}
             type="button"
-            className={tw('absolute inset-0 z-10 outline-0')}
+            className={tw('absolute inset-0 z-10 outline-none')}
           />
         );
       }

@@ -2121,7 +2121,7 @@ function TimePicker({
         </DateInput>
         <button
           className={classNames(
-            tw('ms-3 p-0.5 outline-0 focus-visible:bg-fill-selected'),
+            tw('ms-3 p-0.5 outline-none focus-visible:bg-fill-selected'),
             isDisabled ? tw('text-label-placeholder') : null
           )}
           type="button"
