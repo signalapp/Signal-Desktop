@@ -20,6 +20,7 @@ export type WorkletMessageType = Readonly<
     }
   | {
       type: 'complete';
+      lametagFrame: Uint8Array<ArrayBuffer>;
     }
 >;
 

@@ -5,7 +5,6 @@ import type {
   WorkletMessageType,
   RendererMessageType,
 } from '../types/AudioRecorder.std.ts';
-import { Encoder } from '../../components/mp3lameencoder/lib/Mp3LameEncoder.std.mjs';
 
 declare const sampleRate: number;
 
@@ -34,47 +33,76 @@ declare function registerProcessor(
 
 const BIT_RATE = 128;
 
+// Unfortunately `context.audioWorklet.addModule` doesn't wait for top-level
+// awaits to be resolved so we have to call `registerProcessor` immediately
+// and let the import resolve later on.
+const lame = (async () => {
+  const result = await import('@signalapp/lame');
+
+  result.init(sampleRate, BIT_RATE);
+
+  return result;
+})();
+
 class Mp3Encoder
   extends AudioWorkletProcessor
   implements AudioWorkletProcessorImpl
 {
-  readonly #encoder: Encoder;
+  #isStopped = false;
 
   constructor() {
     super();
 
-    this.#encoder = new Encoder(sampleRate, BIT_RATE);
-    this.#encoder.ondata = chunk => {
-      this.port.postMessage(
-        {
-          type: 'chunk',
-          chunk,
-        } satisfies WorkletMessageType,
-        [chunk.buffer]
-      );
-    };
-
-    this.port.onmessage = ({ data }: { data: RendererMessageType }) => {
+    this.port.onmessage = async ({ data }: { data: RendererMessageType }) => {
       if (data.type !== 'stop') {
         throw new Error('Unexpected message');
       }
-      this.#encoder.finish();
-      this.port.postMessage({
-        type: 'complete',
-      } satisfies WorkletMessageType);
+      this.#isStopped = true;
+      const { flush, getLametagFrame } = await lame;
+      this.#sendChunk(flush());
+
+      const lametagFrame = new Uint8Array(getLametagFrame());
+      this.port.postMessage(
+        {
+          type: 'complete',
+          lametagFrame: lametagFrame,
+        } satisfies WorkletMessageType,
+        [lametagFrame.buffer]
+      );
     };
   }
 
   process(inputs: Array<Array<Float32Array<ArrayBuffer>>>): boolean {
+    if (this.#isStopped) {
+      return false;
+    }
+
     const [input] = inputs;
     if (input == null) {
       throw new Error(`Invalid input count: ${inputs.length}`);
     }
 
-    if (input.length > 0) {
-      this.#encoder.encode(input);
+    const [channel] = input;
+    if (channel != null) {
+      void this.#encode(channel);
     }
     return true;
+  }
+
+  async #encode(channel: Float32Array<ArrayBuffer>): Promise<void> {
+    const { encode } = await lame;
+    this.#sendChunk(encode(channel));
+  }
+
+  #sendChunk(chunk: Uint8Array<ArrayBuffer>): void {
+    const copy = new Uint8Array(chunk);
+    this.port.postMessage(
+      {
+        type: 'chunk',
+        chunk: copy,
+      } satisfies WorkletMessageType,
+      [copy.buffer]
+    );
   }
 }
 

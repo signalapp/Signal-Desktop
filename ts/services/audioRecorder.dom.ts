@@ -77,15 +77,19 @@ export class AudioRecorder {
       }
       if (data.type === 'complete') {
         this.#state = { type: 'idle' };
+        // Replace the original placeholder header with the one that has
+        // full audio duration (necessary for VBR encoding).
+        chunks[0] = data.lametagFrame;
         resolve(Bytes.concatenate(chunks));
         return;
       }
     };
 
     const stream = await navigator.mediaDevices.getUserMedia({
-      // TypeScript doesn't know about these options.
-      // oxlint-disable-next-line typescript/no-explicit-any
-      audio: { mandatory: { googAutoGainControl: false } } as any,
+      audio: {
+        channelCount: { ideal: 1 },
+        autoGainControl: { ideal: false },
+      },
     });
 
     const source = context.createMediaStreamSource(stream);

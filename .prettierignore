@@ -25,6 +25,8 @@ pnpm-lock.yaml
 # Third-party files
 node_modules/**
 packages/*/node_modules/**
+packages/lame/wrapper.mjs
+packages/lame/lame-*/
 danger/node_modules/**
 sticker-creator/node_modules/**
 components/**

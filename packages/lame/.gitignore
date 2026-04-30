@@ -1,0 +1,5 @@
+build/
+node_modules/
+lame-*/
+lame-*.tar.gz
+*.wasm
