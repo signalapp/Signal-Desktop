@@ -139,6 +139,7 @@ import { appRelaunch } from '../ts/util/relaunch.main.ts';
 import { getAppRootDir } from '../ts/util/appRootDir.main.ts';
 import { trackHeapSize } from '../ts/util/oomNotifier.node.ts';
 import { sendDummyKeystroke } from './WindowsNotifications.main.ts';
+import { maybeMigrateSafeStorageBackend } from '../ts/util/linuxPasswordStoreMigration.main.ts';
 
 const { chmod, realpath, writeFile } = fsExtra;
 const { get, pick, isNumber, isBoolean, some, debounce, noop } = lodash;
@@ -1892,6 +1893,17 @@ const onDatabaseInitializationError = async (error: Error) => {
     defaultButtonId = copyErrorAndQuitButtonIndex;
   } else if (error instanceof SafeStorageBackendChangeError) {
     const { currentBackend, previousBackend } = error;
+
+    // Attempt automatic migration
+    if (await maybeMigrateSafeStorageBackend(previousBackend, currentBackend)) {
+      log.info(
+        `Performed auto migration of safeStorage backend from ${previousBackend} to ${currentBackend}. Restarting.`
+      );
+      app.relaunch();
+      app.exit(1);
+      return;
+    }
+
     const previousBackendFlag = getOwn(
       LINUX_PASSWORD_STORE_FLAGS,
       previousBackend
