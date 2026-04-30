@@ -479,6 +479,7 @@ function ActiveCallManager({
         isCallLinkAdmin={isCallLinkAdmin}
         me={me}
         openSystemPreferencesAction={openSystemPreferencesAction}
+        renderCallingParticipantMenu={renderCallingParticipantMenu}
         renderReactionPicker={renderReactionPicker}
         sendGroupCallRaiseHand={sendGroupCallRaiseHand}
         sendGroupCallReaction={sendGroupCallReaction}

@@ -28,6 +28,7 @@ import { MAX_FRAME_HEIGHT, MAX_FRAME_WIDTH } from '../calling/constants.std.ts';
 import { SizeObserver } from '../hooks/useSizeObserver.dom.tsx';
 import { strictAssert } from '../util/assert.std.ts';
 import type { CallingImageDataCache } from './CallManager.dom.tsx';
+import type { PropsType as SmartCallingParticipantMenuProps } from '../state/smart/CallingParticipantMenu.preload.tsx';
 
 const { clamp, chunk, maxBy, flatten, noop } = lodash;
 
@@ -62,6 +63,7 @@ type ParticipantTileType =
   | PaginationButtonType;
 
 type PropsType = {
+  callConversationId?: string;
   callViewMode: CallViewMode;
   getGroupCallVideoFrameSource: (demuxId: number) => VideoFrameSource;
   i18n: LocalizerType;
@@ -74,6 +76,9 @@ type PropsType = {
     speakerHeight: number
   ) => void;
   remoteAudioLevels: Map<number, number>;
+  renderCallingParticipantMenu: (
+    props: SmartCallingParticipantMenuProps
+  ) => React.JSX.Element;
   onClickRaisedHand?: () => void;
 };
 
@@ -115,6 +120,7 @@ enum VideoRequestMode {
 // 5. Lay out this arrangement on the screen.
 
 export function GroupCallRemoteParticipants({
+  callConversationId,
   callViewMode,
   getGroupCallVideoFrameSource,
   imageDataCache,
@@ -124,6 +130,7 @@ export function GroupCallRemoteParticipants({
   remoteParticipants,
   setGroupCallVideoRequest,
   remoteAudioLevels,
+  renderCallingParticipantMenu,
   onClickRaisedHand,
 }: PropsType): React.JSX.Element {
   const [gridDimensions, setGridDimensions] = useState<Dimensions>({
@@ -357,6 +364,7 @@ export function GroupCallRemoteParticipants({
 
         return (
           <GroupCallRemoteParticipant
+            callConversationId={callConversationId}
             key={tile.demuxId}
             getFrameBuffer={getFrameBuffer}
             imageDataCache={imageDataCache}
@@ -370,6 +378,7 @@ export function GroupCallRemoteParticipants({
             top={top}
             width={renderedWidth}
             remoteParticipantsCount={remoteParticipants.length}
+            renderCallingParticipantMenu={renderCallingParticipantMenu}
             isActiveSpeakerInSpeakerView={isInSpeakerView}
             isCallReconnecting={isCallReconnecting}
             joinedAt={joinedAt}
@@ -531,6 +540,7 @@ export function GroupCallRemoteParticipants({
 
       {shouldShowOverflow && overflowedParticipants.length > 0 ? (
         <GroupCallOverflowArea
+          callConversationId={callConversationId}
           getFrameBuffer={getFrameBuffer}
           getGroupCallVideoFrameSource={getGroupCallVideoFrameSource}
           imageDataCache={imageDataCache}
@@ -542,6 +552,7 @@ export function GroupCallRemoteParticipants({
           overflowedParticipants={overflowedParticipants}
           remoteAudioLevels={remoteAudioLevels}
           remoteParticipantsCount={remoteParticipants.length}
+          renderCallingParticipantMenu={renderCallingParticipantMenu}
         />
       ) : null}
     </div>

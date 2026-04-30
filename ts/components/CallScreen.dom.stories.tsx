@@ -37,6 +37,7 @@ import type { CallingImageDataCache } from './CallManager.dom.tsx';
 import { MINUTE } from '../util/durations/index.std.ts';
 import { strictAssert } from '../util/assert.std.ts';
 import { generateAci } from '../test-helpers/serviceIdUtils.std.ts';
+import { renderCallingParticipantMenu } from './CallingParticipantMenu.dom.stories.tsx';
 
 const { sample, shuffle, times } = lodash;
 
@@ -248,6 +249,7 @@ const createProps = (
   openSystemPreferencesAction: action('open-system-preferences-action'),
   renderReactionPicker: () => <div />,
   cancelPresenting: action('cancel-presenting'),
+  renderCallingParticipantMenu,
   sendGroupCallRaiseHand: action('send-group-call-raise-hand'),
   sendGroupCallReaction: action('send-group-call-reaction'),
   setGroupCallVideoRequest: action('set-group-call-video-request'),

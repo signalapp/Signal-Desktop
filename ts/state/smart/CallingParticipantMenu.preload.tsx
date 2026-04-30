@@ -27,8 +27,8 @@ export type PropsType = {
   participantConversationId?: string;
   demuxId?: number;
   hasAudio: boolean;
-  align: AxoMenuBuilder.Align;
-  side: AxoMenuBuilder.Side;
+  align?: AxoMenuBuilder.Align;
+  side?: AxoMenuBuilder.Side;
   renderer: AxoMenuBuilder.Renderer;
   children: ReactNode;
 };
@@ -74,8 +74,10 @@ export const SmartCallingParticipantMenu = memo(
 
     const { showContactModal } = useGlobalModalActions();
     const { showConversation } = useConversationsActions();
-    const { setLocalAudio, removeClient, sendRemoteMute } = useCallingActions();
+    const { blockClient, setLocalAudio, removeClient, sendRemoteMute } =
+      useCallingActions();
 
+    let participantTitle: string | undefined;
     let onMuteAudio: (() => void) | null;
     let onUnmuteAudio: (() => void) | null;
     let onViewProfile: (() => void) | null;
@@ -113,12 +115,14 @@ export const SmartCallingParticipantMenu = memo(
             contactId: participantConversation.id,
             conversationId: callConversationId,
           });
+        participantTitle = participantConversation.title;
       } else {
         onGoToChat = null;
         onViewProfile = null;
       }
     }
 
+    let onBlockFromCall: (() => void) | null = null;
     let onRemoveFromCall: (() => void) | null = null;
     if (activeCallState?.callMode === CallMode.Adhoc) {
       const callLink = callLinkSelector(activeCallState.conversationId);
@@ -128,6 +132,7 @@ export const SmartCallingParticipantMenu = memo(
         demuxId !== undefined &&
         demuxId !== localDemuxId
       ) {
+        onBlockFromCall = () => blockClient({ demuxId });
         onRemoveFromCall = () => removeClient({ demuxId });
       }
     }
@@ -139,6 +144,8 @@ export const SmartCallingParticipantMenu = memo(
         renderer={renderer}
         i18n={i18n}
         isMuteAudioDisabled={!hasAudio}
+        participantTitle={participantTitle}
+        onBlockFromCall={onBlockFromCall}
         onMuteAudio={onMuteAudio}
         onUnmuteAudio={onUnmuteAudio}
         onGoToChat={onGoToChat}

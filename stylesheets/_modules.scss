@@ -3991,6 +3991,11 @@ button.module-image__border-overlay:focus {
       }
     }
 
+    &__dropdown button {
+      // Matches CallingAudioIndicator
+      background: rgba(variables.$color-gray-80, 0.7);
+    }
+
     &--hand-raised &__footer {
       background: transparent;
     }

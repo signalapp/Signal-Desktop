@@ -13,7 +13,7 @@ import { AxoButton } from '../axo/AxoButton.dom.tsx';
 const { i18n } = window.SignalContext;
 
 export default {
-  title: 'CallingParticipantMenu',
+  title: 'Components/CallingParticipantMenu',
   excludeStories: ['renderCallingParticipantMenu'],
 } satisfies Meta;
 
@@ -23,11 +23,13 @@ const defaultProps: CallingParticipantMenuProps = {
   i18n,
   renderer: 'AxoContextMenu',
   isMuteAudioDisabled: false,
+  onBlockFromCall: action('on-block-from-call'),
   onMuteAudio: action('on-mute-audio'),
   onUnmuteAudio: null,
   onViewProfile: action('on-view-profile'),
   onGoToChat: action('on-go-to-chat'),
   onRemoveFromCall: action('on-remove-from-call'),
+  participantTitle: 'Participant Name',
   children: <div>Menu</div>,
 };
 

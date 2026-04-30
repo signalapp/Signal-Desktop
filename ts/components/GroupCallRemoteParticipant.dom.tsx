@@ -31,6 +31,10 @@ import { Theme } from '../util/theme.std.ts';
 import { isOlderThan } from '../util/timestamp.std.ts';
 import type { CallingImageDataCache } from './CallManager.dom.tsx';
 import { usePrevious } from '../hooks/usePrevious.std.ts';
+import type { PropsType as SmartCallingParticipantMenuProps } from '../state/smart/CallingParticipantMenu.preload.tsx';
+import type { AxoMenuBuilder } from '../axo/AxoMenuBuilder.dom.tsx';
+import { AxoIconButton } from '../axo/AxoIconButton.dom.tsx';
+import { tw } from '../axo/tw.dom.tsx';
 
 const { debounce, noop } = lodash;
 
@@ -42,6 +46,7 @@ const DELAY_TO_SHOW_MISSING_MEDIA_KEYS = 5000;
 const CONTAINER_TRANSITION_TIME = 200;
 
 type BasePropsType = {
+  callConversationId?: string;
   getFrameBuffer: () => Uint8Array<ArrayBuffer>;
   getGroupCallVideoFrameSource: (demuxId: number) => VideoFrameSource;
   i18n: LocalizerType;
@@ -54,6 +59,9 @@ type BasePropsType = {
   onVisibilityChanged?: (demuxId: number, isVisible: boolean) => unknown;
   remoteParticipant: GroupCallRemoteParticipantType;
   remoteParticipantsCount: number;
+  renderCallingParticipantMenu?: (
+    props: SmartCallingParticipantMenuProps
+  ) => React.JSX.Element;
 };
 
 type InPipPropsType = {
@@ -78,6 +86,7 @@ export type PropsType = BasePropsType &
 export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
   function GroupCallRemoteParticipantInner(props) {
     const {
+      callConversationId,
       getFrameBuffer,
       getGroupCallVideoFrameSource,
       imageDataCache,
@@ -85,6 +94,7 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
       onClickRaisedHand,
       onVisibilityChanged,
       remoteParticipantsCount,
+      renderCallingParticipantMenu,
       isActiveSpeakerInSpeakerView,
       isCallReconnecting,
       isInOverflow,
@@ -97,6 +107,7 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
       avatarUrl,
       color,
       demuxId,
+      id: participantConversationId,
       hasAvatar,
       hasRemoteAudio,
       hasRemoteVideo,
@@ -534,6 +545,31 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
       titleNoDefault,
     ]);
 
+    const maybeWrapWithParticipantMenu = useCallback(
+      (renderer: AxoMenuBuilder.Renderer, children: ReactNode): ReactNode => {
+        if (renderCallingParticipantMenu) {
+          return renderCallingParticipantMenu({
+            callConversationId,
+            participantConversationId,
+            demuxId,
+            hasAudio: hasRemoteAudio,
+            renderer,
+            children,
+            align: isInOverflow ? 'end' : 'start',
+          });
+        }
+        return children;
+      },
+      [
+        callConversationId,
+        demuxId,
+        hasRemoteAudio,
+        isInOverflow,
+        participantConversationId,
+        renderCallingParticipantMenu,
+      ]
+    );
+
     return (
       <>
         {showErrorDialog && (
@@ -548,69 +584,97 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
             {errorDialogBody}
           </ConfirmationDialog>
         )}
-
-        <div
-          className={classNames(
-            'module-ongoing-call__group-call-remote-participant',
-            isSpeaking &&
-              !isActiveSpeakerInSpeakerView &&
-              remoteParticipantsCount > 1 &&
-              'module-ongoing-call__group-call-remote-participant--speaking',
-            isHandRaised &&
-              'module-ongoing-call__group-call-remote-participant--hand-raised',
-            isOnTop &&
-              'module-ongoing-call__group-call-remote-participant--is-on-top'
-          )}
-          ref={intersectionRef}
-          style={containerStyles}
-        >
-          {!props.isInPip && (
-            <>
-              <CallingAudioIndicator
-                hasAudio={hasRemoteAudio}
-                audioLevel={props.audioLevel}
-                shouldShowSpeaking={isSpeaking}
+        {maybeWrapWithParticipantMenu(
+          'AxoContextMenu',
+          <div
+            className={classNames(
+              'module-ongoing-call__group-call-remote-participant',
+              tw('group'),
+              isSpeaking &&
+                !isActiveSpeakerInSpeakerView &&
+                remoteParticipantsCount > 1 &&
+                'module-ongoing-call__group-call-remote-participant--speaking',
+              isHandRaised &&
+                'module-ongoing-call__group-call-remote-participant--hand-raised',
+              isOnTop &&
+                'module-ongoing-call__group-call-remote-participant--is-on-top'
+            )}
+            ref={intersectionRef}
+            style={containerStyles}
+          >
+            {!props.isInPip && (
+              <>
+                {renderCallingParticipantMenu && (
+                  <div
+                    className={classNames(
+                      'module-ongoing-call__group-call-remote-participant__dropdown',
+                      tw(
+                        'absolute inset-s-2 top-2 legacy-z-index-base',
+                        'opacity-0 group-hover:opacity-100 group-data-focused:opacity-100',
+                        'has-data-[axo-dropdownmenu-state="open"]:opacity-100'
+                      )
+                    )}
+                  >
+                    {maybeWrapWithParticipantMenu(
+                      'AxoDropdownMenu',
+                      <AxoIconButton.Root
+                        variant="floating-secondary"
+                        size="sm"
+                        symbol="chevron-down"
+                        label={i18n(
+                          'icu:CallingParticipantListItem__ContextMenuButton'
+                        )}
+                        tooltip={false}
+                      />
+                    )}
+                  </div>
+                )}
+                <CallingAudioIndicator
+                  hasAudio={hasRemoteAudio}
+                  audioLevel={props.audioLevel}
+                  shouldShowSpeaking={isSpeaking}
+                />
+                <div className="module-ongoing-call__group-call-remote-participant__footer">
+                  {footerInfoElement}
+                </div>
+              </>
+            )}
+            {wantsToShowVideo && (
+              <canvas
+                className={classNames(
+                  'module-ongoing-call__group-call-remote-participant__remote-video',
+                  isCallReconnecting &&
+                    'module-ongoing-call__group-call-remote-participant__remote-video--reconnecting'
+                )}
+                style={{
+                  ...canvasStyles,
+                  // If we want to show video but don't have any yet, we still render the
+                  //   canvas invisibly. This lets us render frame data immediately without
+                  //   having to juggle anything.
+                  ...(hasVideoToShow ? {} : { display: 'none' }),
+                }}
+                ref={canvasEl => {
+                  remoteVideoRef.current = canvasEl;
+                  if (canvasEl) {
+                    canvasContextRef.current = canvasEl.getContext('2d', {
+                      alpha: false,
+                    });
+                  } else {
+                    canvasContextRef.current = null;
+                  }
+                }}
               />
-              <div className="module-ongoing-call__group-call-remote-participant__footer">
-                {footerInfoElement}
-              </div>
-            </>
-          )}
-          {wantsToShowVideo && (
-            <canvas
-              className={classNames(
-                'module-ongoing-call__group-call-remote-participant__remote-video',
-                isCallReconnecting &&
-                  'module-ongoing-call__group-call-remote-participant__remote-video--reconnecting'
-              )}
-              style={{
-                ...canvasStyles,
-                // If we want to show video but don't have any yet, we still render the
-                //   canvas invisibly. This lets us render frame data immediately without
-                //   having to juggle anything.
-                ...(hasVideoToShow ? {} : { display: 'none' }),
-              }}
-              ref={canvasEl => {
-                remoteVideoRef.current = canvasEl;
-                if (canvasEl) {
-                  canvasContextRef.current = canvasEl.getContext('2d', {
-                    alpha: false,
-                  });
-                } else {
-                  canvasContextRef.current = null;
-                }
-              }}
-            />
-          )}
-          {noVideoNode && (
-            <CallBackgroundBlur
-              avatarUrl={isBlocked ? undefined : avatarUrl}
-              className="module-ongoing-call__group-call-remote-participant-background"
-            >
-              {noVideoNode}
-            </CallBackgroundBlur>
-          )}
-        </div>
+            )}
+            {noVideoNode && (
+              <CallBackgroundBlur
+                avatarUrl={isBlocked ? undefined : avatarUrl}
+                className="module-ongoing-call__group-call-remote-participant-background"
+              >
+                {noVideoNode}
+              </CallBackgroundBlur>
+            )}
+          </div>
+        )}
       </>
     );
   }

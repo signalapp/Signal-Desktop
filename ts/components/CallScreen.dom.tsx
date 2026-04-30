@@ -110,6 +110,7 @@ import {
   PIP_MAXIMUM_LOCAL_VIDEO_HEIGHT_MULTIPLIER,
   PIP_MINIMUM_LOCAL_VIDEO_HEIGHT_MULTIPLIER,
 } from './CallingPip.dom.tsx';
+import type { PropsType as SmartCallingParticipantMenuProps } from '../state/smart/CallingParticipantMenu.preload.tsx';
 
 const { isEqual, noop } = lodash;
 
@@ -130,6 +131,9 @@ export type PropsType = {
   isCallLinkAdmin: boolean;
   me: ConversationType;
   openSystemPreferencesAction: () => unknown;
+  readonly renderCallingParticipantMenu: (
+    props: SmartCallingParticipantMenuProps
+  ) => React.JSX.Element;
   renderReactionPicker: (
     props: React.ComponentProps<typeof SmartReactionPicker>
   ) => React.JSX.Element;
@@ -220,6 +224,7 @@ export function CallScreen({
   isCallLinkAdmin,
   me,
   openSystemPreferencesAction,
+  renderCallingParticipantMenu,
   renderReactionPicker,
   setGroupCallVideoRequest,
   sendGroupCallRaiseHand,
@@ -972,6 +977,7 @@ export function CallScreen({
     case CallMode.Adhoc:
       remoteParticipantsElement = (
         <GroupCallRemoteParticipants
+          callConversationId={conversation.id}
           callViewMode={activeCall.viewMode}
           getGroupCallVideoFrameSource={getGroupCallVideoFrameSource}
           imageDataCache={imageDataCache}
@@ -980,6 +986,7 @@ export function CallScreen({
           remoteParticipants={activeCall.remoteParticipants}
           setGroupCallVideoRequest={setGroupCallVideoRequest}
           remoteAudioLevels={activeCall.remoteAudioLevels}
+          renderCallingParticipantMenu={renderCallingParticipantMenu}
           isCallReconnecting={isReconnecting}
           onClickRaisedHand={
             raisedHandsCount > 0

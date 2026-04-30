@@ -9,6 +9,7 @@ import type { LocalizerType } from '../types/Util.std.ts';
 import type { GroupCallRemoteParticipantType } from '../types/Calling.std.ts';
 import { GroupCallRemoteParticipant } from './GroupCallRemoteParticipant.dom.tsx';
 import type { CallingImageDataCache } from './CallManager.dom.tsx';
+import type { PropsType as SmartCallingParticipantMenuProps } from '../state/smart/CallingParticipantMenu.preload.tsx';
 
 const OVERFLOW_SCROLLED_TO_EDGE_THRESHOLD = 20;
 const OVERFLOW_SCROLL_BUTTON_RATIO = 0.75;
@@ -17,6 +18,7 @@ const OVERFLOW_SCROLL_BUTTON_RATIO = 0.75;
 export const OVERFLOW_PARTICIPANT_WIDTH = 107;
 
 export type PropsType = {
+  callConversationId?: string;
   getFrameBuffer: () => Uint8Array<ArrayBuffer>;
   getGroupCallVideoFrameSource: (demuxId: number) => VideoFrameSource;
   i18n: LocalizerType;
@@ -31,9 +33,13 @@ export type PropsType = {
   overflowedParticipants: ReadonlyArray<GroupCallRemoteParticipantType>;
   remoteAudioLevels: Map<number, number>;
   remoteParticipantsCount: number;
+  renderCallingParticipantMenu: (
+    props: SmartCallingParticipantMenuProps
+  ) => React.JSX.Element;
 };
 
 export function GroupCallOverflowArea({
+  callConversationId,
   getFrameBuffer,
   getGroupCallVideoFrameSource,
   imageDataCache,
@@ -45,6 +51,7 @@ export function GroupCallOverflowArea({
   overflowedParticipants,
   remoteAudioLevels,
   remoteParticipantsCount,
+  renderCallingParticipantMenu,
 }: PropsType): React.JSX.Element | null {
   const overflowRef = useRef<HTMLDivElement | null>(null);
   const [overflowScrollTop, setOverflowScrollTop] = useState(0);
@@ -123,6 +130,7 @@ export function GroupCallOverflowArea({
       >
         {overflowedParticipants.map(remoteParticipant => (
           <GroupCallRemoteParticipant
+            callConversationId={callConversationId}
             key={remoteParticipant.demuxId}
             getFrameBuffer={getFrameBuffer}
             getGroupCallVideoFrameSource={getGroupCallVideoFrameSource}
@@ -137,6 +145,7 @@ export function GroupCallOverflowArea({
             )}
             remoteParticipant={remoteParticipant}
             remoteParticipantsCount={remoteParticipantsCount}
+            renderCallingParticipantMenu={renderCallingParticipantMenu}
             isActiveSpeakerInSpeakerView={false}
             isCallReconnecting={isCallReconnecting}
             isInOverflow
