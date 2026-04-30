@@ -1,6 +1,6 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import React, { memo, useCallback, type ReactNode } from 'react';
+import { memo, useCallback, type ReactNode, type JSX } from 'react';
 import { useSelector } from 'react-redux';
 import { LinkPreviewItem } from '../../components/conversation/media-gallery/LinkPreviewItem.dom.tsx';
 import { MediaGridItem } from '../../components/conversation/media-gallery/MediaGridItem.dom.tsx';
@@ -31,7 +31,7 @@ export type PropsType = Readonly<{
 function renderContextMenu(
   mediaItem: GenericMediaItemType,
   children: ReactNode
-): React.JSX.Element {
+): JSX.Element {
   return (
     <SmartMediaContextMenu mediaItem={mediaItem}>
       {children}

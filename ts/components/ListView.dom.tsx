@@ -2,7 +2,14 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import classNames from 'classnames';
-import React, { useRef, useCallback, useMemo, useLayoutEffect } from 'react';
+import {
+  useRef,
+  useCallback,
+  useMemo,
+  useLayoutEffect,
+  type JSX,
+  type CSSProperties,
+} from 'react';
 import type { Index, ListRowRenderer } from 'react-virtualized';
 import { List } from 'react-virtualized';
 import { ScrollBehavior } from '../types/Util.std.ts';
@@ -35,7 +42,7 @@ export function ListView({
   scrollable = true,
   shouldRecomputeRowHeights = false,
   scrollBehavior = ScrollBehavior.Default,
-}: Props): React.JSX.Element {
+}: Props): JSX.Element {
   const listRef = useRef<null | List>(null);
 
   useLayoutEffect(() => {
@@ -50,7 +57,7 @@ export function ListView({
     [calculateRowHeight]
   );
 
-  const style: React.CSSProperties = useMemo(() => {
+  const style: CSSProperties = useMemo(() => {
     return {
       overflowY: scrollable ? 'auto' : 'hidden',
       direction: 'inherit',

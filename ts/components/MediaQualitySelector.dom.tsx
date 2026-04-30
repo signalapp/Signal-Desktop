@@ -1,8 +1,8 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { KeyboardEvent } from 'react';
-import React, { useCallback, useRef, useState } from 'react';
+import type { KeyboardEvent, JSX } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import classNames from 'classnames';
 import { Popover } from 'radix-ui';
 import type { LocalizerType } from '../types/Util.std.ts';
@@ -23,7 +23,7 @@ export function MediaQualitySelector({
   isHighQuality,
   onSelectQuality,
   theme,
-}: PropsType): React.JSX.Element {
+}: PropsType): JSX.Element {
   const [open, setOpen] = useState(false);
   const standardRef = useRef<HTMLButtonElement>(null);
   const highRef = useRef<HTMLButtonElement>(null);

@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import type { JSX } from 'react';
 
 import type { LocalizerType } from '../types/Util.std.ts';
 import { missingCaseError } from '../util/missingCaseError.std.ts';
@@ -30,7 +30,7 @@ function focusRef(el: HTMLElement | null) {
   }
 }
 
-export function BackfillFailureModal(props: PropsType): React.JSX.Element {
+export function BackfillFailureModal(props: PropsType): JSX.Element {
   const { i18n, kind, onClose } = props;
 
   const footer = (

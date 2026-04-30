@@ -1,7 +1,7 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { Fragment } from 'react';
+import { Fragment, type JSX } from 'react';
 
 import type { ItemClickEvent } from './types/ItemClickEvent.std.ts';
 import type {
@@ -22,7 +22,7 @@ export type Props = {
   renderMediaItem: (props: {
     onItemClick: (event: ItemClickEvent) => unknown;
     mediaItem: GenericMediaItemType;
-  }) => React.JSX.Element;
+  }) => JSX.Element;
 };
 
 function getMediaItemKey(mediaItem: GenericMediaItemType): string {
@@ -82,7 +82,7 @@ export function AttachmentSection({
   onItemClick,
 
   renderMediaItem,
-}: Props): React.JSX.Element {
+}: Props): JSX.Element {
   const verified = verifyMediaItems(mediaItems);
   switch (verified.type) {
     case 'media':

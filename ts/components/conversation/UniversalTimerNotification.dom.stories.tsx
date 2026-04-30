@@ -1,7 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { JSX } from 'react';
+
 import type { Meta } from '@storybook/react';
 import type { Props } from './UniversalTimerNotification.dom.tsx';
 import { UniversalTimerNotification } from './UniversalTimerNotification.dom.tsx';
@@ -13,7 +14,7 @@ export default {
 
 const { i18n } = window.SignalContext;
 
-export function Seconds(): React.JSX.Element {
+export function Seconds(): JSX.Element {
   return (
     <UniversalTimerNotification
       i18n={i18n}
@@ -22,7 +23,7 @@ export function Seconds(): React.JSX.Element {
   );
 }
 
-export function Minutes(): React.JSX.Element {
+export function Minutes(): JSX.Element {
   return (
     <UniversalTimerNotification
       i18n={i18n}
@@ -31,7 +32,7 @@ export function Minutes(): React.JSX.Element {
   );
 }
 
-export function Hours(): React.JSX.Element {
+export function Hours(): JSX.Element {
   return (
     <UniversalTimerNotification
       i18n={i18n}
@@ -40,7 +41,7 @@ export function Hours(): React.JSX.Element {
   );
 }
 
-export function Days(): React.JSX.Element {
+export function Days(): JSX.Element {
   return (
     <UniversalTimerNotification
       i18n={i18n}
@@ -49,7 +50,7 @@ export function Days(): React.JSX.Element {
   );
 }
 
-export function Weeks(): React.JSX.Element {
+export function Weeks(): JSX.Element {
   return (
     <UniversalTimerNotification
       i18n={i18n}

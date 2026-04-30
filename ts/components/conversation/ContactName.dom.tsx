@@ -1,10 +1,10 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import classNames from 'classnames';
 
-import type { ReactNode } from 'react';
+import type { ReactNode, JSX, MouseEvent } from 'react';
 
 import { getClassNamesFor } from '../../util/getClassNamesFor.std.ts';
 import { isSignalConversation as getIsSignalConversation } from '../../util/isSignalConversation.dom.ts';
@@ -71,7 +71,7 @@ export function ContactName({
   preferFirstName,
   title,
   onClick,
-}: PropsType): React.JSX.Element {
+}: PropsType): JSX.Element {
   const getClassName = getClassNamesFor('module-contact-name', module);
 
   let text: string;
@@ -88,7 +88,7 @@ export function ContactName({
         contactNameColor ? getClassName(`--${contactNameColor}`) : null
       )}
       dir="auto"
-      onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
+      onClick={(event: MouseEvent<HTMLButtonElement>) => {
         if (onClick) {
           onClick();
           event.stopPropagation();

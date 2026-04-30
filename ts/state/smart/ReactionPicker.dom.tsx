@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { Ref } from 'react';
-import React, { forwardRef, memo } from 'react';
+import { forwardRef, memo } from 'react';
 import { useSelector } from 'react-redux';
 import { getIntl } from '../selectors/user.std.ts';
 import { getPreferredReactionEmoji } from '../selectors/items.dom.ts';

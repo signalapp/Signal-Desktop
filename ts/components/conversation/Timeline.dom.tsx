@@ -3,8 +3,8 @@
 
 import lodash from 'lodash';
 import classNames from 'classnames';
-import type { ReactNode, UIEvent } from 'react';
-import React from 'react';
+import type { ReactNode, UIEvent, JSX, FocusEvent, KeyboardEvent } from 'react';
+import { Component, createRef } from 'react';
 
 import {
   ScrollDownButton,
@@ -108,10 +108,10 @@ type PropsHousekeepingType = {
   updateVisibleMessages?: (messageIds: Array<string>) => void;
   renderContactSpoofingReviewDialog: (
     props: SmartContactSpoofingReviewDialogPropsType
-  ) => React.JSX.Element;
-  renderHeroRow: (id: string) => React.JSX.Element;
-  renderItem: (props: RenderItemProps) => React.JSX.Element;
-  renderTypingBubble: (id: string) => React.JSX.Element;
+  ) => JSX.Element;
+  renderHeroRow: (id: string) => JSX.Element;
+  renderItem: (props: RenderItemProps) => JSX.Element;
+  renderTypingBubble: (id: string) => JSX.Element;
 };
 
 export type PropsActionsType = {
@@ -158,15 +158,11 @@ type SnapshotType =
   | { scrollTop: number }
   | { scrollBottom: number };
 
-export class Timeline extends React.Component<
-  PropsType,
-  StateType,
-  SnapshotType
-> {
-  readonly #containerRef = React.createRef<HTMLDivElement>();
-  readonly #messagesRef = React.createRef<HTMLDivElement>();
-  readonly #atBottomDetectorRef = React.createRef<HTMLDivElement>();
-  readonly #lastSeenIndicatorRef = React.createRef<HTMLDivElement>();
+export class Timeline extends Component<PropsType, StateType, SnapshotType> {
+  readonly #containerRef = createRef<HTMLDivElement>();
+  readonly #messagesRef = createRef<HTMLDivElement>();
+  readonly #atBottomDetectorRef = createRef<HTMLDivElement>();
+  readonly #lastSeenIndicatorRef = createRef<HTMLDivElement>();
   #intersectionObserver?: IntersectionObserver;
   #intersectionRatios = new Map<Element, number>();
 
@@ -863,7 +859,7 @@ export class Timeline extends React.Component<
     }
   }
 
-  readonly #handleBlur = (event: React.FocusEvent): void => {
+  readonly #handleBlur = (event: FocusEvent): void => {
     const { clearTargetedMessage } = this.props;
 
     const { currentTarget } = event;
@@ -887,9 +883,7 @@ export class Timeline extends React.Component<
     }, 0);
   };
 
-  readonly #handleKeyDown = (
-    event: React.KeyboardEvent<HTMLDivElement>
-  ): void => {
+  readonly #handleKeyDown = (event: KeyboardEvent<HTMLDivElement>): void => {
     const { targetMessage, targetedMessageId, items, id } = this.props;
     const commandKey = get(window, 'platform') === 'darwin' && event.metaKey;
     const controlKey = get(window, 'platform') !== 'darwin' && event.ctrlKey;
@@ -1073,7 +1067,7 @@ export class Timeline extends React.Component<
     }
   };
 
-  public override render(): React.JSX.Element | null {
+  public override render(): JSX.Element | null {
     const {
       clearInvitedServiceIdsForNewlyCreatedGroup,
       closeContactSpoofingReview,

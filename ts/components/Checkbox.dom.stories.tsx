@@ -1,7 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { JSX } from 'react';
+
 import { action } from '@storybook/addon-actions';
 
 import type { Meta } from '@storybook/react';
@@ -19,17 +20,17 @@ export default {
   title: 'Components/Checkbox',
 } satisfies Meta<PropsType>;
 
-export function Normal(): React.JSX.Element {
+export function Normal(): JSX.Element {
   return <Checkbox {...createProps()} />;
 }
-export function Checked(): React.JSX.Element {
+export function Checked(): JSX.Element {
   return <Checkbox {...createProps()} checked />;
 }
 
-export function Description(): React.JSX.Element {
+export function Description(): JSX.Element {
   return <Checkbox {...createProps()} description="This is a checkbox" />;
 }
 
-export function Disabled(): React.JSX.Element {
+export function Disabled(): JSX.Element {
   return <Checkbox {...createProps()} disabled />;
 }

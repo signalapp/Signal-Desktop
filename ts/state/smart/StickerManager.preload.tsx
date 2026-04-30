@@ -1,7 +1,7 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { memo } from 'react';
+import { memo } from 'react';
 import { useSelector } from 'react-redux';
 import { StickerManager } from '../../components/stickers/StickerManager.dom.tsx';
 import { getIntl } from '../selectors/user.std.ts';

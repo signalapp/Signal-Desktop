@@ -1,7 +1,14 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import {
+  createContext,
+  useMemo,
+  useCallback,
+  useContext,
+  type ReactNode,
+  type JSX,
+} from 'react';
 import createDebug from 'debug';
 import type {
   LocaleMessagesType,
@@ -25,23 +32,19 @@ placeholder.getIntl = () => {
   throw new Error("Can't call getIntl on placeholder");
 };
 
-const I18nContext = React.createContext<LocalizerType>(placeholder);
+const I18nContext = createContext<LocalizerType>(placeholder);
 
 export type I18nProps = {
-  children: React.ReactNode;
+  children: ReactNode;
   locale: string;
   messages: LocaleMessagesType;
 };
 
-export function I18n({
-  messages,
-  locale,
-  children,
-}: I18nProps): React.JSX.Element {
-  const { icuMessages, legacyMessages } = React.useMemo(() => {
+export function I18n({ messages, locale, children }: I18nProps): JSX.Element {
+  const { icuMessages, legacyMessages } = useMemo(() => {
     return classifyMessages(messages);
   }, [messages]);
-  const intl = React.useMemo(() => {
+  const intl = useMemo(() => {
     return createCachedIntl(locale, icuMessages);
   }, [locale, icuMessages]);
 
@@ -110,7 +113,7 @@ export function I18n({
   };
   callback.getIntl = () => intl;
 
-  const getMessage = React.useCallback<LocalizerType>(callback, [
+  const getMessage = useCallback<LocalizerType>(callback, [
     icuMessages,
     legacyMessages,
     intl,
@@ -121,4 +124,4 @@ export function I18n({
   );
 }
 
-export const useI18n = (): LocalizerType => React.useContext(I18nContext);
+export const useI18n = (): LocalizerType => useContext(I18nContext);

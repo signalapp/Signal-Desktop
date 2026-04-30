@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { JSX } from 'react';
 
 import { isSafetyNumberNotAvailable } from '../util/isSafetyNumberNotAvailable.std.ts';
 import type { ConversationType } from '../state/ducks/conversations.preload.ts';
@@ -14,9 +14,7 @@ export type PropsType = Readonly<{
   i18n: LocalizerType;
   contact: ConversationType;
   toggleSafetyNumberModal: () => unknown;
-  renderSafetyNumberViewer: (
-    props: SafetyNumberViewerPropsType
-  ) => React.JSX.Element;
+  renderSafetyNumberViewer: (props: SafetyNumberViewerPropsType) => JSX.Element;
 }>;
 
 export function SafetyNumberModal({
@@ -24,9 +22,9 @@ export function SafetyNumberModal({
   contact,
   toggleSafetyNumberModal,
   renderSafetyNumberViewer,
-}: PropsType): React.JSX.Element | null {
+}: PropsType): JSX.Element | null {
   let title: string | undefined;
-  let content: React.JSX.Element;
+  let content: JSX.Element;
   let hasXButton = true;
   if (isSafetyNumberNotAvailable(contact)) {
     content = (

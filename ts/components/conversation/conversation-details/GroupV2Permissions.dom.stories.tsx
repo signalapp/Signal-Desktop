@@ -1,7 +1,8 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import type { JSX } from 'react';
+
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import type { PropsType } from './GroupV2Permissions.dom.tsx';
@@ -38,13 +39,13 @@ const createProps = (): PropsType => ({
   setAnnouncementsOnly: action('setAnnouncementsOnly'),
 });
 
-export function Basic(): React.JSX.Element {
+export function Basic(): JSX.Element {
   const props = createProps();
 
   return <GroupV2Permissions {...props} />;
 }
 
-export function BasicWithLabels(): React.JSX.Element {
+export function BasicWithLabels(): JSX.Element {
   const props = createProps();
   const conversation = {
     ...defaultConversation,
@@ -73,7 +74,7 @@ export function BasicWithLabels(): React.JSX.Element {
   return <GroupV2Permissions {...props} conversation={conversation} />;
 }
 
-export function BasicWithNonAdminLabels(): React.JSX.Element {
+export function BasicWithNonAdminLabels(): JSX.Element {
   const props = createProps();
   const conversation = {
     ...defaultConversation,
@@ -102,7 +103,7 @@ export function BasicWithNonAdminLabels(): React.JSX.Element {
   return <GroupV2Permissions {...props} conversation={conversation} />;
 }
 
-export function NotAdmin(): React.JSX.Element {
+export function NotAdmin(): JSX.Element {
   return (
     <GroupV2Permissions
       {...createProps()}
@@ -114,7 +115,7 @@ export function NotAdmin(): React.JSX.Element {
   );
 }
 
-export function AdminButNotAnnouncementReady(): React.JSX.Element {
+export function AdminButNotAnnouncementReady(): JSX.Element {
   return (
     <GroupV2Permissions
       {...createProps()}
@@ -126,7 +127,7 @@ export function AdminButNotAnnouncementReady(): React.JSX.Element {
   );
 }
 
-export function AdminNotAnnouncementReadyButItWasOn(): React.JSX.Element {
+export function AdminNotAnnouncementReadyButItWasOn(): JSX.Element {
   return (
     <GroupV2Permissions
       {...createProps()}

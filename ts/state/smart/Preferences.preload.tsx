@@ -1,11 +1,11 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { StrictMode, useCallback, useEffect, useMemo } from 'react';
+import { StrictMode, useCallback, useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import type { AudioDevice } from '@signalapp/ringrtc';
-import type { MutableRefObject } from 'react';
+import type { MutableRefObject, JSX } from 'react';
 
 import { useItemsActions } from '../ducks/items.preload.ts';
 import { useConversationsActions } from '../ducks/conversations.preload.ts';
@@ -127,37 +127,37 @@ const DEFAULT_NOTIFICATION_SETTING = 'message';
 
 function renderUpdateDialog(
   props: Readonly<{ containerWidthBreakpoint: WidthBreakpoint }>
-): React.JSX.Element {
+): JSX.Element {
   return <SmartUpdateDialog {...props} disableDismiss />;
 }
 
 function renderPreferencesChatFoldersPage(
   props: SmartPreferencesChatFoldersPageProps
-): React.JSX.Element {
+): JSX.Element {
   return <SmartPreferencesChatFoldersPage {...props} />;
 }
 
 function renderPreferencesEditChatFolderPage(
   props: SmartPreferencesEditChatFolderPageProps
-): React.JSX.Element {
+): JSX.Element {
   return <SmartPreferencesEditChatFolderPage {...props} />;
 }
 
 function renderNotificationProfilesHome(
   props: SmartNotificationProfilesProps
-): React.JSX.Element {
+): JSX.Element {
   return <SmartNotificationProfilesHome {...props} />;
 }
 
 function renderNotificationProfilesCreateFlow(
   props: SmartNotificationProfilesProps
-): React.JSX.Element {
+): JSX.Element {
   return <SmartNotificationProfilesCreateFlow {...props} />;
 }
 
 function renderProfileEditor(options: {
   contentsRef: MutableRefObject<HTMLDivElement | null>;
-}): React.JSX.Element {
+}): JSX.Element {
   return <SmartProfileEditor contentsRef={options.contentsRef} />;
 }
 
@@ -169,7 +169,7 @@ function renderDonationsPane({
   contentsRef: MutableRefObject<HTMLDivElement | null>;
   settingsLocation: SettingsLocation;
   setSettingsLocation: (settingsLocation: SettingsLocation) => void;
-}): React.JSX.Element {
+}): JSX.Element {
   return (
     <DonationsErrorBoundary>
       <SmartPreferencesDonations
@@ -212,7 +212,7 @@ async function forceKeyTransparencyCheck(): Promise<void> {
   await keyTransparency.selfCheck();
 }
 
-export function SmartPreferences(): React.JSX.Element | null {
+export function SmartPreferences(): JSX.Element | null {
   const {
     addCustomColor,
     editCustomColor,
@@ -340,7 +340,7 @@ export function SmartPreferences(): React.JSX.Element | null {
   const phoneNumber = format(useSelector(getUserNumber) ?? '', {});
   const isSyncSupported = !weArePrimaryDevice;
 
-  const [deviceName, setDeviceName] = React.useState(
+  const [deviceName, setDeviceName] = useState(
     itemStorage.user.getDeviceName()
   );
   useEffect(() => {
@@ -364,13 +364,13 @@ export function SmartPreferences(): React.JSX.Element | null {
   // RingRTC - the list of devices is unchanging while settings window is open
 
   // The select boxes for devices are disabled while these arrays have zero length
-  const [availableCameras, setAvailableCameras] = React.useState<
+  const [availableCameras, setAvailableCameras] = useState<
     Array<MediaDeviceInfo>
   >([]);
-  const [availableMicrophones, setAvailableMicrophones] = React.useState<
+  const [availableMicrophones, setAvailableMicrophones] = useState<
     Array<AudioDevice>
   >([]);
-  const [availableSpeakers, setAvailableSpeakers] = React.useState<
+  const [availableSpeakers, setAvailableSpeakers] = useState<
     Array<AudioDevice>
   >([]);
 
@@ -399,13 +399,12 @@ export function SmartPreferences(): React.JSX.Element | null {
 
   // Ephemeral settings, via async IPC, all can be modiified
 
-  const [localeOverride, setLocaleOverride] = React.useState<string | null>();
+  const [localeOverride, setLocaleOverride] = useState<string | null>();
   const [systemTraySettings, setSystemTraySettings] =
-    React.useState<SystemTraySetting>();
-  const [hasContentProtection, setContentProtection] =
-    React.useState<boolean>();
-  const [hasSpellCheck, setSpellCheck] = React.useState<boolean>();
-  const [themeSetting, setThemeSetting] = React.useState<ThemeType>();
+    useState<SystemTraySetting>();
+  const [hasContentProtection, setContentProtection] = useState<boolean>();
+  const [hasSpellCheck, setSpellCheck] = useState<boolean>();
+  const [themeSetting, setThemeSetting] = useState<ThemeType>();
 
   useEffect(() => {
     let canceled = false;
@@ -495,11 +494,11 @@ export function SmartPreferences(): React.JSX.Element | null {
 
   // Async IPC for electron configuration, all can be modified
 
-  const [hasAutoLaunch, setAutoLaunch] = React.useState<boolean>();
+  const [hasAutoLaunch, setAutoLaunch] = useState<boolean>();
   const [hasMediaCameraPermissions, setMediaCameraPermissions] =
-    React.useState<boolean>();
-  const [hasMediaPermissions, setMediaPermissions] = React.useState<boolean>();
-  const [zoomFactor, setZoomFactor] = React.useState<ZoomFactorType>();
+    useState<boolean>();
+  const [hasMediaPermissions, setMediaPermissions] = useState<boolean>();
+  const [zoomFactor, setZoomFactor] = useState<ZoomFactorType>();
 
   useEffect(() => {
     let canceled = false;

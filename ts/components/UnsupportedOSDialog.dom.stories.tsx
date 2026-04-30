@@ -1,7 +1,8 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import type { JSX } from 'react';
+
 import type { Meta } from '@storybook/react';
 import { UnsupportedOSDialog } from './UnsupportedOSDialog.dom.tsx';
 import type { PropsType } from './UnsupportedOSDialog.dom.tsx';
@@ -57,7 +58,7 @@ export default {
   title: 'Components/UnsupportedOSDialog',
 } satisfies Meta<PropsType>;
 
-export function Iterations(): React.JSX.Element {
+export function Iterations(): JSX.Element {
   return (
     <>
       {permutations.map(({ props, title }) => (

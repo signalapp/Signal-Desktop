@@ -1,11 +1,13 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import React, {
+import {
   createContext,
   memo,
   useCallback,
   useContext,
   useState,
+  type ReactNode,
+  type JSX,
 } from 'react';
 import { strictAssert } from '../../util/assert.std.ts';
 import type { LocalizerType } from '../../types/I18N.std.ts';
@@ -78,24 +80,24 @@ export function useFunContext(): FunContextProps {
 }
 
 type FunProviderInnerProps = FunContextProps & {
-  children: React.ReactNode;
+  children: ReactNode;
 };
 
 const FunProviderInner = memo(function FunProviderInner(
   props: FunProviderInnerProps
-): React.JSX.Element {
+): JSX.Element {
   return (
     <FunContext.Provider value={props}>{props.children}</FunContext.Provider>
   );
 });
 
 export type FunProviderProps = FunContextSmartProps & {
-  children: React.ReactNode;
+  children: ReactNode;
 };
 
 export const FunProvider = memo(function FunProvider(
   props: FunProviderProps
-): React.JSX.Element {
+): JSX.Element {
   // Current Tab
   const [tab, setTab] = useState<FunPickerTabKey>(FunPickerTabKey.Emoji);
   const handleChangeTab = useCallback((key: FunPickerTabKey) => {

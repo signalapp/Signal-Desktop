@@ -1,7 +1,8 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import type { JSX } from 'react';
+
 import type { Meta } from '@storybook/react';
 import type { Props } from './EmptyState.dom.tsx';
 import { EmptyState } from './EmptyState.dom.tsx';
@@ -22,22 +23,22 @@ export default {
   },
 } satisfies Meta<Props>;
 
-export function Default(args: Props): React.JSX.Element {
+export function Default(args: Props): JSX.Element {
   return <EmptyState {...args} />;
 }
 
-export function Media(args: Props): React.JSX.Element {
+export function Media(args: Props): JSX.Element {
   return <EmptyState {...args} tab="media" />;
 }
 
-export function Audio(args: Props): React.JSX.Element {
+export function Audio(args: Props): JSX.Element {
   return <EmptyState {...args} tab="audio" />;
 }
 
-export function Links(args: Props): React.JSX.Element {
+export function Links(args: Props): JSX.Element {
   return <EmptyState {...args} tab="links" />;
 }
 
-export function Documents(args: Props): React.JSX.Element {
+export function Documents(args: Props): JSX.Element {
   return <EmptyState {...args} tab="documents" />;
 }

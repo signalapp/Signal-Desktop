@@ -1,8 +1,8 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ReactNode } from 'react';
-import React, { forwardRef, useCallback, useState } from 'react';
+import type { ReactNode, MouseEvent, JSX } from 'react';
+import { forwardRef, useCallback, useState } from 'react';
 import classNames from 'classnames';
 
 import type { LocalizerType } from '../../types/Util.std.ts';
@@ -98,14 +98,14 @@ export const MessageMetadata = forwardRef<HTMLDivElement, Readonly<PropsType>>(
       const isPaused = status === 'paused';
 
       if (isError || isPartiallySent || isPaused) {
-        let statusInfo: React.ReactNode;
+        let statusInfo: ReactNode;
         if (isError) {
           if (deletedForEveryone && canRetryDeleteForEveryone) {
             statusInfo = (
               <button
                 type="button"
                 className="module-message__metadata__tapable"
-                onClick={(event: React.MouseEvent) => {
+                onClick={(event: MouseEvent) => {
                   event.stopPropagation();
                   event.preventDefault();
 
@@ -122,7 +122,7 @@ export const MessageMetadata = forwardRef<HTMLDivElement, Readonly<PropsType>>(
               <button
                 type="button"
                 className="module-message__metadata__tapable"
-                onClick={(event: React.MouseEvent) => {
+                onClick={(event: MouseEvent) => {
                   event.stopPropagation();
                   event.preventDefault();
 
@@ -142,7 +142,7 @@ export const MessageMetadata = forwardRef<HTMLDivElement, Readonly<PropsType>>(
             <button
               type="button"
               className="module-message__metadata__tapable"
-              onClick={(event: React.MouseEvent) => {
+              onClick={(event: MouseEvent) => {
                 event.stopPropagation();
                 event.preventDefault();
 
@@ -177,7 +177,7 @@ export const MessageMetadata = forwardRef<HTMLDivElement, Readonly<PropsType>>(
       }
     }
 
-    let confirmation: React.JSX.Element | undefined;
+    let confirmation: JSX.Element | undefined;
     if (confirmationType === undefined) {
       // no-op
     } else if (confirmationType === ConfirmationType.EditError) {

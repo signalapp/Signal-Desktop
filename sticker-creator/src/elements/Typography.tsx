@@ -1,24 +1,24 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import { type ReactNode, type HTMLAttributes, memo } from 'react';
 import classnames from 'classnames';
 
 import styles from './Typography.module.scss';
 
 export type Props = {
-  children: React.ReactNode;
+  children: ReactNode;
 };
 
-export type HeadingProps = React.HTMLAttributes<HTMLHeadingElement>;
-export type ParagraphProps = React.HTMLAttributes<HTMLParagraphElement> & {
+export type HeadingProps = HTMLAttributes<HTMLHeadingElement>;
+export type ParagraphProps = HTMLAttributes<HTMLParagraphElement> & {
   center?: boolean;
   wide?: boolean;
   secondary?: boolean;
 };
-export type SpanProps = React.HTMLAttributes<HTMLSpanElement>;
+export type SpanProps = HTMLAttributes<HTMLSpanElement>;
 
-export const H1 = React.memo(function H1Inner({
+export const H1 = memo(function H1Inner({
   children,
   className,
   ...rest
@@ -30,7 +30,7 @@ export const H1 = React.memo(function H1Inner({
   );
 });
 
-export const H2 = React.memo(function H2Inner({
+export const H2 = memo(function H2Inner({
   children,
   className,
   ...rest
@@ -42,7 +42,7 @@ export const H2 = React.memo(function H2Inner({
   );
 });
 
-export const Text = React.memo(function TextInner({
+export const Text = memo(function TextInner({
   children,
   className,
   center,
@@ -63,7 +63,7 @@ export const Text = React.memo(function TextInner({
   );
 });
 
-export const Inline = React.memo(function InlineInner({
+export const Inline = memo(function InlineInner({
   children,
   className,
   ...rest

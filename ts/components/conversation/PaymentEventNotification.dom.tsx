@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { JSX } from 'react';
 
 import type { LocalizerType } from '../../types/Util.std.ts';
 import type { ConversationType } from '../../state/ducks/conversations.preload.ts';
@@ -17,7 +17,7 @@ export type PropsType = {
   i18n: LocalizerType;
 };
 
-export function PaymentEventNotification(props: PropsType): React.JSX.Element {
+export function PaymentEventNotification(props: PropsType): JSX.Element {
   const { event, sender, conversation, i18n } = props;
   const message = getPaymentEventDescription(
     event,

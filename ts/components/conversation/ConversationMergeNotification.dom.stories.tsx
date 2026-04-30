@@ -1,7 +1,8 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import type { JSX } from 'react';
+
 import type { Meta } from '@storybook/react';
 import type { PropsType } from './ConversationMergeNotification.dom.tsx';
 import { ConversationMergeNotification } from './ConversationMergeNotification.dom.tsx';
@@ -21,11 +22,11 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
     overrideProps.obsoleteConversationTitle || 'John Obsolete',
 });
 
-export function Basic(): React.JSX.Element {
+export function Basic(): JSX.Element {
   return <ConversationMergeNotification {...createProps()} />;
 }
 
-export function WithNoObsoleteNumber(): React.JSX.Element {
+export function WithNoObsoleteNumber(): JSX.Element {
   return (
     <ConversationMergeNotification
       {...createProps()}
@@ -34,7 +35,7 @@ export function WithNoObsoleteNumber(): React.JSX.Element {
   );
 }
 
-export function WithNoObsoleteTitle(): React.JSX.Element {
+export function WithNoObsoleteTitle(): JSX.Element {
   return (
     <ConversationMergeNotification
       {...createProps()}

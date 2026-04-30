@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { JSX } from 'react';
 
 import type { LocalizerType } from '../types/Util.std.ts';
 import type { WidthBreakpoint } from './_util.std.ts';
@@ -22,7 +22,7 @@ export function DialogRelink({
   relinkDevice,
   reregister,
   weArePrimaryDevice,
-}: PropsType): React.JSX.Element | null {
+}: PropsType): JSX.Element | null {
   if (weArePrimaryDevice) {
     return (
       <LeftPaneDialog

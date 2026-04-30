@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import { useState, type JSX } from 'react';
 import { ContactName } from './ContactName.dom.tsx';
 import type { MessageRequestActionsConfirmationProps } from './MessageRequestActionsConfirmation.dom.tsx';
 import {
@@ -44,8 +44,8 @@ export function MessageRequestActions({
   blockConversation,
   reportSpam,
   deleteConversation,
-}: Props): React.JSX.Element {
-  const [mrState, setMrState] = React.useState(MessageRequestState.default);
+}: Props): JSX.Element {
+  const [mrState, setMrState] = useState(MessageRequestState.default);
   const sharedGroupNames = useSharedGroupNamesOnMount(
     conversationId,
     getSharedGroupNames
@@ -54,7 +54,7 @@ export function MessageRequestActions({
   const nameValue =
     conversationType === 'direct' ? conversationName : addedByName;
 
-  let message: React.JSX.Element | undefined;
+  let message: JSX.Element | undefined;
   if (conversationType === 'direct') {
     strictAssert(nameValue != null, 'nameValue is null');
     const name = (

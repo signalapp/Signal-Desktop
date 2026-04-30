@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import lodash from 'lodash';
-import React, { memo, useEffect, useState } from 'react';
+import { memo, useEffect, useState, type JSX } from 'react';
 import { useSelector } from 'react-redux';
 import type {
   DirectIncomingCall,
@@ -65,13 +65,13 @@ const { memoize } = lodash;
 
 const log = createLogger('CallManager');
 
-function renderDeviceSelection(): React.JSX.Element {
+function renderDeviceSelection(): JSX.Element {
   return <SmartCallingDeviceSelection />;
 }
 
 function renderCallingParticipantMenu(
   props: SmartCallingParticipantMenuProps
-): React.JSX.Element {
+): JSX.Element {
   return <SmartCallingParticipantMenu {...props} />;
 }
 

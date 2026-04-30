@@ -1,7 +1,8 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import type { JSX } from 'react';
+
 import type { Meta } from '@storybook/react';
 import type { Props } from './Spinner.dom.tsx';
 import { Spinner, SpinnerDirections, SpinnerSvgSizes } from './Spinner.dom.tsx';
@@ -20,11 +21,11 @@ export default {
   },
 } satisfies Meta<Props>;
 
-export function Normal(args: Props): React.JSX.Element {
+export function Normal(args: Props): JSX.Element {
   return <Spinner {...args} />;
 }
 
-export function SvgSizes(args: Props): React.JSX.Element {
+export function SvgSizes(args: Props): JSX.Element {
   return (
     <>
       {SpinnerSvgSizes.map(svgSize => (
@@ -34,7 +35,7 @@ export function SvgSizes(args: Props): React.JSX.Element {
   );
 }
 
-export function Directions(args: Props): React.JSX.Element {
+export function Directions(args: Props): JSX.Element {
   return (
     <>
       {SpinnerDirections.map(direction => (

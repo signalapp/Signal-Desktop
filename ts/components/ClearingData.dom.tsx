@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useEffect } from 'react';
+import { useEffect, type JSX } from 'react';
 
 import type { LocalizerType } from '../types/Util.std.ts';
 import { TitlebarDragArea } from './TitlebarDragArea.dom.tsx';
@@ -13,10 +13,7 @@ export type PropsType = {
   i18n: LocalizerType;
 };
 
-export function ClearingData({
-  deleteAllData,
-  i18n,
-}: PropsType): React.JSX.Element {
+export function ClearingData({ deleteAllData, i18n }: PropsType): JSX.Element {
   useEffect(() => {
     deleteAllData();
   }, [deleteAllData]);

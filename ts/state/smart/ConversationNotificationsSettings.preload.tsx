@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { useSelector } from 'react-redux';
-import React, { memo } from 'react';
+import { memo } from 'react';
 import { ConversationNotificationsSettings } from '../../components/conversation/conversation-details/ConversationNotificationsSettings.dom.tsx';
 import { getIntl } from '../selectors/user.std.ts';
 import { getConversationByIdSelector } from '../selectors/conversations.dom.ts';

@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useState } from 'react';
+import { useState, type JSX } from 'react';
 
 import type { LocalizerType } from '../types/Util.std.ts';
 import { formatFileSize } from '../util/formatFileSize.std.ts';
@@ -28,7 +28,7 @@ export function BackupMediaDownloadProgressSettings({
   handleCancel,
   handleResume,
   handlePause,
-}: PropsType): React.JSX.Element | null {
+}: PropsType): JSX.Element | null {
   const [isShowingCancelConfirmation, setIsShowingCancelConfirmation] =
     useState(false);
   const isRTL = i18n.getLocaleDirection() === 'rtl';
@@ -48,7 +48,7 @@ export function BackupMediaDownloadProgressSettings({
 
   let title: string;
   let description: string;
-  let actionButton: React.JSX.Element | undefined;
+  let actionButton: JSX.Element | undefined;
 
   if (isPaused) {
     title = i18n('icu:BackupMediaDownloadProgressSettings__paused--title');

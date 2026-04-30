@@ -1,7 +1,7 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import { memo } from 'react';
 import styles from './MessageMeta.module.scss';
 import { useI18n } from '../contexts/I18n';
 
@@ -22,7 +22,7 @@ const getItemClass = ({ kind }: Props) => {
   return styles.bubble;
 };
 
-export const MessageMeta = React.memo(function MessageMetaInner(props: Props) {
+export const MessageMeta = memo(function MessageMetaInner(props: Props) {
   const i18n = useI18n();
   const itemClass = getItemClass(props);
 

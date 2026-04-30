@@ -6,6 +6,7 @@ module.exports = {
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:react/recommended',
+    'plugin:react/jsx-runtime',
     'airbnb-typescript-prettier',
   ],
   parser: '@typescript-eslint/parser',
@@ -76,6 +77,8 @@ module.exports = {
         ignoreUrls: true,
       },
     ],
+
+    'react/react-in-jsx-scope': 'off',
 
     'react/jsx-props-no-spreading': 'off',
 

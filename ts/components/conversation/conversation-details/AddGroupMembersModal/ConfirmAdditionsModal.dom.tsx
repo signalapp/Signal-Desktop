@@ -1,8 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ReactNode } from 'react';
-import React from 'react';
+import type { ReactNode, JSX } from 'react';
 
 import type { LocalizerType } from '../../../../types/Util.std.ts';
 import { assertDev } from '../../../../util/assert.std.ts';
@@ -33,14 +32,14 @@ export function ConfirmAdditionsModal({
   onClose,
   requestState,
   selectedContacts,
-}: PropsType): React.JSX.Element {
+}: PropsType): JSX.Element {
   const firstContact = selectedContacts[0];
   assertDev(
     firstContact,
     'Expected at least one conversation to be selected but none were picked'
   );
 
-  const groupTitleNode: React.JSX.Element = <UserText text={groupTitle} />;
+  const groupTitleNode: JSX.Element = <UserText text={groupTitle} />;
 
   let headerText: ReactNode;
   if (selectedContacts.length === 1) {

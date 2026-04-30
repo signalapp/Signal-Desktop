@@ -3,7 +3,7 @@
 
 import { Dialog } from 'radix-ui';
 import type { CSSProperties, FC, ReactNode } from 'react';
-import React, { memo, useMemo, useState } from 'react';
+import { memo, useMemo, useState } from 'react';
 import { AxoBaseDialog } from './_internal/AxoBaseDialog.dom.tsx';
 import type { AxoSymbol } from './AxoSymbol.dom.tsx';
 import { tw } from './tw.dom.tsx';

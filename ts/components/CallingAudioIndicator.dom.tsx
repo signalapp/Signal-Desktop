@@ -3,7 +3,7 @@
 
 import classNames from 'classnames';
 import type { ReactElement } from 'react';
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useSpring, animated } from '@react-spring/web';
 
 import { AUDIO_LEVEL_INTERVAL_MS } from '../calling/constants.std.ts';

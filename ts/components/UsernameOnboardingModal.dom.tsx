@@ -1,7 +1,7 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { JSX } from 'react';
 
 import type { LocalizerType } from '../types/Util.std.ts';
 import { Button, ButtonVariant } from './Button.dom.tsx';
@@ -19,7 +19,7 @@ export function UsernameOnboardingModal({
   onNext,
   onSkip,
   onClose,
-}: PropsType): React.JSX.Element {
+}: PropsType): JSX.Element {
   return (
     <Modal
       modalName="UsernameOnboardingModal"

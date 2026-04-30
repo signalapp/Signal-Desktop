@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReactNode } from 'react';
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 import classNames from 'classnames';
 import { AxoSymbol } from '../../axo/AxoSymbol.dom.tsx';
 import type { AxoSymbolIconName } from '../../axo/_internal/AxoSymbolDefs.generated.std.ts';

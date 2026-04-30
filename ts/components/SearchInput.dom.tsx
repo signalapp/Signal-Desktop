@@ -7,7 +7,7 @@ import type {
   KeyboardEvent,
   ReactNode,
 } from 'react';
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 import classNames from 'classnames';
 import type { LocalizerType } from '../types/Util.std.ts';
 import { getClassNamesFor } from '../util/getClassNamesFor.std.ts';

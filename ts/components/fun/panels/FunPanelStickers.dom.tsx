@@ -1,14 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import type { CSSProperties, PointerEvent } from 'react';
-import React, {
-  memo,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import type { CSSProperties, PointerEvent, JSX } from 'react';
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { VisuallyHidden } from 'react-aria';
 import type {
   StickerPackType,
@@ -201,7 +194,7 @@ export function FunPanelStickers({
   onSelectSticker,
   onAddStickerPack,
   onClose,
-}: FunPanelStickersProps): React.JSX.Element {
+}: FunPanelStickersProps): JSX.Element {
   const fun = useFunContext();
   const {
     i18n,
@@ -571,7 +564,7 @@ const Row = memo(function Row(props: {
     stickerSelection: FunStickerSelection
   ) => void;
   onClickTimeSticker: (event: PointerEvent, style: FunTimeStickerStyle) => void;
-}): React.JSX.Element {
+}): JSX.Element {
   return (
     <FunGridRow rowIndex={props.rowIndex}>
       {props.cells.map(cell => {
@@ -609,7 +602,7 @@ const Cell = memo(function Cell(props: {
     stickerSelection: FunStickerSelection
   ) => void;
   onClickTimeSticker: (event: PointerEvent, style: FunTimeStickerStyle) => void;
-}): React.JSX.Element {
+}): JSX.Element {
   const { onClickSticker, onClickTimeSticker } = props;
   const stickerLookupItem = props.stickerLookup[props.value];
   strictAssert(stickerLookupItem, 'Missing stickerLookupItem');

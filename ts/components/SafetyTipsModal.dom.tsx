@@ -1,6 +1,6 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import React, { type JSX, useId, useMemo, useState } from 'react';
+import { type JSX, useId, useMemo, useState } from 'react';
 import { Tabs } from 'radix-ui';
 import type { LocalizerType } from '../types/I18N.std.ts';
 import { AxoDialog } from '../axo/AxoDialog.dom.tsx';
@@ -41,7 +41,7 @@ function SafetyTipsSummary({
 }: {
   i18n: LocalizerType;
   onViewMore: () => void;
-}): React.JSX.Element {
+}): JSX.Element {
   const tips = useMemo(
     () =>
       [
@@ -121,11 +121,7 @@ function SafetyTipsSummary({
   );
 }
 
-function SafetyTipsDetails({
-  i18n,
-}: {
-  i18n: LocalizerType;
-}): React.JSX.Element {
+function SafetyTipsDetails({ i18n }: { i18n: LocalizerType }): JSX.Element {
   const cardWrapperId = useId();
 
   const tips = useMemo(

@@ -1,7 +1,8 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { JSX } from 'react';
+
 import classNames from 'classnames';
 
 import { getBadgeImageFileLocalPath } from '../badges/getBadgeImageFileLocalPath.std.ts';
@@ -27,7 +28,7 @@ export function OutgoingGiftBadgeModal({
   badgeId,
   hideOutgoingGiftBadgeModal,
   getPreferredBadge,
-}: PropsType): React.JSX.Element {
+}: PropsType): JSX.Element {
   const badge = getPreferredBadge([{ id: badgeId }]);
   const badgeSize = 140;
   const badgeImagePath = getBadgeImageFileLocalPath(

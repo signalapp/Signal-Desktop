@@ -1,8 +1,8 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ChangeEvent } from 'react';
-import React, { useCallback, useMemo, useState } from 'react';
+import type { ChangeEvent, JSX, ReactNode } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import lodash from 'lodash';
 import type { ListRowProps } from 'react-virtualized';
 import { List } from 'react-virtualized';
@@ -55,8 +55,8 @@ export function CallsNewCallButton({
   isInCall: boolean;
   i18n: LocalizerType;
   onClick: () => void;
-}): React.JSX.Element {
-  let innerContent: React.ReactNode | string;
+}): JSX.Element {
+  let innerContent: ReactNode | string;
   let inAnotherCallTooltipContent = '';
   if (!isEnabled) {
     inAnotherCallTooltipContent = getTooltipContent(i18n);
@@ -111,7 +111,7 @@ export function CallsNewCall({
   onOutgoingAudioCallInConversation,
   onOutgoingVideoCallInConversation,
   regionCode,
-}: CallsNewCallProps): React.JSX.Element {
+}: CallsNewCallProps): JSX.Element {
   const [queryInput, setQueryInput] = useState('');
 
   const query = useMemo(() => {

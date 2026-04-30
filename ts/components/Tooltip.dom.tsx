@@ -1,7 +1,15 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useRef } from 'react';
+import {
+  useRef,
+  forwardRef,
+  useCallback,
+  useEffect,
+  useState,
+  type ReactNode,
+  type JSX,
+} from 'react';
 import classNames from 'classnames';
 import lodash from 'lodash';
 import { Manager, Reference, Popper } from 'react-popper';
@@ -17,7 +25,7 @@ const { noop } = lodash;
 
 type EventWrapperPropsType = {
   className?: string;
-  children: React.ReactNode;
+  children: ReactNode;
   onHoverChanged: (_: boolean) => void;
 };
 
@@ -25,56 +33,55 @@ type EventWrapperPropsType = {
 //   disabled button. This uses native browser events to avoid that.
 //
 // See <https://lecstor.com/react-disabled-button-onmouseleave/>.
-const TooltipEventWrapper = React.forwardRef<
-  HTMLSpanElement,
-  EventWrapperPropsType
->(function TooltipEvent(
-  { className, onHoverChanged, children },
-  ref
-): React.JSX.Element {
-  const wrapperRef = React.useRef<HTMLSpanElement | null>(null);
+const TooltipEventWrapper = forwardRef<HTMLSpanElement, EventWrapperPropsType>(
+  function TooltipEvent(
+    { className, onHoverChanged, children },
+    ref
+  ): JSX.Element {
+    const wrapperRef = useRef<HTMLSpanElement | null>(null);
 
-  const on = React.useCallback(() => {
-    onHoverChanged(true);
-  }, [onHoverChanged]);
+    const on = useCallback(() => {
+      onHoverChanged(true);
+    }, [onHoverChanged]);
 
-  const off = React.useCallback(() => {
-    onHoverChanged(false);
-  }, [onHoverChanged]);
+    const off = useCallback(() => {
+      onHoverChanged(false);
+    }, [onHoverChanged]);
 
-  const onFocus = React.useCallback(() => {
-    if (getInteractionMode() === 'keyboard') {
-      on();
-    }
-  }, [on]);
+    const onFocus = useCallback(() => {
+      if (getInteractionMode() === 'keyboard') {
+        on();
+      }
+    }, [on]);
 
-  React.useEffect(() => {
-    const wrapperEl = wrapperRef.current;
+    useEffect(() => {
+      const wrapperEl = wrapperRef.current;
 
-    if (!wrapperEl) {
-      return noop;
-    }
+      if (!wrapperEl) {
+        return noop;
+      }
 
-    wrapperEl.addEventListener('mouseenter', on);
-    wrapperEl.addEventListener('mouseleave', off);
+      wrapperEl.addEventListener('mouseenter', on);
+      wrapperEl.addEventListener('mouseleave', off);
 
-    return () => {
-      wrapperEl.removeEventListener('mouseenter', on);
-      wrapperEl.removeEventListener('mouseleave', off);
-    };
-  }, [on, off]);
+      return () => {
+        wrapperEl.removeEventListener('mouseenter', on);
+        wrapperEl.removeEventListener('mouseleave', off);
+      };
+    }, [on, off]);
 
-  return (
-    <span
-      className={className}
-      onFocus={onFocus}
-      onBlur={off}
-      ref={refMerger<HTMLSpanElement>(ref, wrapperRef)}
-    >
-      {children}
-    </span>
-  );
-});
+    return (
+      <span
+        className={className}
+        onFocus={onFocus}
+        onBlur={off}
+        ref={refMerger<HTMLSpanElement>(ref, wrapperRef)}
+      >
+        {children}
+      </span>
+    );
+  }
+);
 
 export enum TooltipPlacement {
   Top = 'top',
@@ -84,9 +91,9 @@ export enum TooltipPlacement {
 }
 
 export type PropsType = {
-  content: string | React.JSX.Element;
+  content: string | JSX.Element;
   className?: string;
-  children?: React.ReactNode;
+  children?: ReactNode;
   direction?: TooltipPlacement;
   popperModifiers?: Array<StrictModifiers>;
   sticky?: boolean;
@@ -110,9 +117,9 @@ export function Tooltip({
   wrapperClassName,
   delay,
   hideArrow,
-}: PropsType): React.JSX.Element {
+}: PropsType): JSX.Element {
   const timeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
-  const [active, setActive] = React.useState(false);
+  const [active, setActive] = useState(false);
 
   const showTooltip = active || Boolean(sticky);
 

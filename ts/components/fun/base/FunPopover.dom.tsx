@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import type { KeyboardEvent, ReactNode } from 'react';
-import React, { useCallback } from 'react';
+import type { KeyboardEvent, ReactNode, JSX } from 'react';
+import { useCallback } from 'react';
 import type { Placement } from 'react-aria';
 import { Dialog, Popover } from 'react-aria-components';
 import classNames from 'classnames';
@@ -14,7 +14,7 @@ export type FunPopoverProps = Readonly<{
   children: ReactNode;
 }>;
 
-export function FunPopover(props: FunPopoverProps): React.JSX.Element {
+export function FunPopover(props: FunPopoverProps): JSX.Element {
   const shouldCloseOnInteractOutside = useCallback(
     (element: Element): boolean => {
       const match = element.closest(

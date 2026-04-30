@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import type { FormEvent } from 'react';
-import React, { memo, useCallback, useEffect, useMemo, useRef } from 'react';
+import { memo, useCallback, useEffect, useMemo, useRef } from 'react';
 import type { Formatter, FormatterToken } from '@signalapp/minimask';
 import { useInputMask } from '../../../hooks/useInputMask.dom.tsx';
 import type { CurrencyFormatResult } from '../../../util/currency.dom.ts';

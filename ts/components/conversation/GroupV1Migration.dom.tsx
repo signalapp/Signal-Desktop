@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import { useState, useCallback, type ReactElement } from 'react';
 
 import { Button, ButtonSize, ButtonVariant } from '../Button.dom.tsx';
 import { SystemMessage } from './SystemMessage.dom.tsx';
@@ -32,7 +32,7 @@ export type PropsHousekeepingType = {
 
 export type PropsType = PropsDataType & PropsHousekeepingType;
 
-export function GroupV1Migration(props: PropsType): React.ReactElement {
+export function GroupV1Migration(props: PropsType): ReactElement {
   const {
     areWeInvited,
     droppedMembers,
@@ -43,13 +43,13 @@ export function GroupV1Migration(props: PropsType): React.ReactElement {
     invitedMemberCount,
     theme,
   } = props;
-  const [showingDialog, setShowingDialog] = React.useState(false);
+  const [showingDialog, setShowingDialog] = useState(false);
 
-  const showDialog = React.useCallback(() => {
+  const showDialog = useCallback(() => {
     setShowingDialog(true);
   }, [setShowingDialog]);
 
-  const dismissDialog = React.useCallback(() => {
+  const dismissDialog = useCallback(() => {
     setShowingDialog(false);
   }, [setShowingDialog]);
 
@@ -122,7 +122,7 @@ function renderUsers({
   count: number;
   i18n: LocalizerType;
   kind: 'invited' | 'removed';
-}): React.ReactElement | null {
+}): ReactElement | null {
   if (count === 0) {
     return null;
   }

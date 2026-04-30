@@ -1,8 +1,14 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { KeyboardEvent, MouseEvent, ReactNode } from 'react';
-import React, { memo, useEffect } from 'react';
+import type {
+  KeyboardEvent,
+  MouseEvent,
+  ReactNode,
+  CSSProperties,
+  JSX,
+} from 'react';
+import { memo, useEffect } from 'react';
 import classNames from 'classnames';
 import { useRestoreFocus } from '../hooks/useRestoreFocus.dom.ts';
 import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary.std.ts';
@@ -18,7 +24,7 @@ export type PropsType = {
     label: string;
     onClick: () => unknown;
   };
-  style?: React.CSSProperties;
+  style?: CSSProperties;
 };
 
 export const Toast = memo(function ToastInner({
@@ -30,7 +36,7 @@ export const Toast = memo(function ToastInner({
   style,
   timeout = 8000,
   toastAction,
-}: PropsType): React.JSX.Element | null {
+}: PropsType): JSX.Element | null {
   const [focusRef] = useRestoreFocus();
 
   useEffect(() => {

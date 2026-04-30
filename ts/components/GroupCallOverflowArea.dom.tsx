@@ -1,8 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ReactElement } from 'react';
-import React, { useRef, useState, useEffect } from 'react';
+import type { ReactElement, RefObject, JSX } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import classNames from 'classnames';
 import type { VideoFrameSource } from '@signalapp/ringrtc';
 import type { LocalizerType } from '../types/Util.std.ts';
@@ -22,7 +22,7 @@ export type PropsType = {
   getFrameBuffer: () => Uint8Array<ArrayBuffer>;
   getGroupCallVideoFrameSource: (demuxId: number) => VideoFrameSource;
   i18n: LocalizerType;
-  imageDataCache: React.RefObject<CallingImageDataCache | null>;
+  imageDataCache: RefObject<CallingImageDataCache | null>;
   isCallReconnecting: boolean;
   joinedAt: number | null;
   onClickRaisedHand?: () => void;
@@ -35,7 +35,7 @@ export type PropsType = {
   remoteParticipantsCount: number;
   renderCallingParticipantMenu: (
     props: SmartCallingParticipantMenuProps
-  ) => React.JSX.Element;
+  ) => JSX.Element;
 };
 
 export function GroupCallOverflowArea({
@@ -52,7 +52,7 @@ export function GroupCallOverflowArea({
   remoteAudioLevels,
   remoteParticipantsCount,
   renderCallingParticipantMenu,
-}: PropsType): React.JSX.Element | null {
+}: PropsType): JSX.Element | null {
   const overflowRef = useRef<HTMLDivElement | null>(null);
   const [overflowScrollTop, setOverflowScrollTop] = useState(0);
 

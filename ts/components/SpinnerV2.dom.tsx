@@ -1,7 +1,7 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { JSX } from 'react';
 
 import { tw, type TailwindStyles } from '../axo/tw.dom.tsx';
 import { roundFractionForProgressBar } from '../util/numbers.std.ts';
@@ -76,7 +76,7 @@ export function SpinnerV2({
   size,
   strokeWidth,
   ariaLabel,
-}: Props): React.JSX.Element {
+}: Props): JSX.Element {
   const sizeInPixels = `${size}px`;
 
   const radius = Math.min(

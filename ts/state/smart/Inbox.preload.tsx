@@ -1,7 +1,7 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { memo } from 'react';
+import { memo, type JSX } from 'react';
 import { useSelector } from 'react-redux';
 import { Inbox } from '../../components/Inbox.dom.tsx';
 import { SmartCustomizingPreferredReactionsModal } from './CustomizingPreferredReactionsModal.preload.tsx';
@@ -39,7 +39,7 @@ function renderSettingsTab() {
   return <SmartPreferences />;
 }
 
-export const SmartInbox = memo(function SmartInbox(): React.JSX.Element {
+export const SmartInbox = memo(function SmartInbox(): JSX.Element {
   const isCustomizingPreferredReactions = useSelector(
     getIsCustomizingPreferredReactions
   );

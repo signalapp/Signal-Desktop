@@ -1,8 +1,14 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ButtonHTMLAttributes, ReactNode } from 'react';
-import React, { createContext, useCallback, useEffect, useState } from 'react';
+import type { ButtonHTMLAttributes, ReactNode, JSX } from 'react';
+import {
+  createContext,
+  useCallback,
+  useEffect,
+  useState,
+  forwardRef,
+} from 'react';
 import classNames from 'classnames';
 import { useMove } from 'react-aria';
 import { NavTabsToggle } from './NavTabs.dom.tsx';
@@ -27,13 +33,13 @@ type NavSidebarActionButtonProps = ButtonHTMLAttributes<HTMLButtonElement> &
     label: ReactNode;
   }>;
 
-export const NavSidebarActionButton = React.forwardRef<
+export const NavSidebarActionButton = forwardRef<
   HTMLButtonElement,
   NavSidebarActionButtonProps
 >(function NavSidebarActionButtonInner(
   { icon, label, ...rest },
   ref
-): React.JSX.Element {
+): JSX.Element {
   return (
     <button
       {...rest}
@@ -62,7 +68,7 @@ export type NavSidebarProps = Readonly<{
   savePreferredLeftPaneWidth: (width: number) => void;
   title: string;
   otherTabsUnreadStats: UnreadStats;
-  renderToastManager: (_: SmartToastManagerPropsType) => React.JSX.Element;
+  renderToastManager: (_: SmartToastManagerPropsType) => JSX.Element;
 }>;
 
 enum DragState {
@@ -87,7 +93,7 @@ export function NavSidebar({
   title,
   otherTabsUnreadStats,
   renderToastManager,
-}: NavSidebarProps): React.JSX.Element {
+}: NavSidebarProps): JSX.Element {
   const isRTL = i18n.getLocaleDirection() === 'rtl';
   const [dragState, setDragState] = useState(DragState.INITIAL);
 
@@ -251,7 +257,7 @@ export function NavSidebarSearchHeader({
   children,
 }: {
   children: ReactNode;
-}): React.JSX.Element {
+}): JSX.Element {
   return <div className="NavSidebarSearchHeader">{children}</div>;
 }
 
@@ -261,7 +267,7 @@ export function NavSidebarEmpty({
 }: {
   title: string;
   subtitle: string;
-}): React.JSX.Element {
+}): JSX.Element {
   return (
     <div className="NavSidebarEmpty">
       <div className="NavSidebarEmpty__inner">

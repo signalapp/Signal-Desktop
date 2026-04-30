@@ -3,7 +3,7 @@
 
 import classNames from 'classnames';
 import type { CSSProperties, ReactElement } from 'react';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { animated, useSpring } from '@react-spring/web';
 
 import type { LocalizerType } from '../../types/Util.std.ts';

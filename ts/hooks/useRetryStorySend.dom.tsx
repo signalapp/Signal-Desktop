@@ -1,7 +1,7 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, type JSX } from 'react';
 
 import type { LocalizerType } from '../types/Util.std.ts';
 import { Alert } from '../components/Alert.dom.tsx';
@@ -12,7 +12,7 @@ export function useRetryStorySend(
   i18n: LocalizerType,
   sendStatus: ResolvedSendStatus | undefined
 ): {
-  renderAlert: () => React.JSX.Element | null;
+  renderAlert: () => JSX.Element | null;
   setWasManuallyRetried: (value: boolean) => unknown;
   wasManuallyRetried: boolean;
 } {
@@ -38,7 +38,7 @@ export function useRetryStorySend(
     }
   }, [previousSendStatus, sendStatus, wasManuallyRetried]);
 
-  function renderAlert(): React.JSX.Element | null {
+  function renderAlert(): JSX.Element | null {
     return hasSendFailedAlert ? (
       <Alert
         body={i18n('icu:Stories__failed-send')}

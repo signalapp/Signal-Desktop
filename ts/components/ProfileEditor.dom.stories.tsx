@@ -3,7 +3,7 @@
 
 import type { Meta, StoryFn } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
-import React, { useState } from 'react';
+import { useState, type JSX } from 'react';
 import casual from 'casual';
 import { v4 as generateUuid } from 'uuid';
 
@@ -83,9 +83,7 @@ export default {
   },
 } satisfies Meta<PropsType>;
 
-function renderUsernameEditor(props: {
-  onClose: () => void;
-}): React.JSX.Element {
+function renderUsernameEditor(props: { onClose: () => void }): JSX.Element {
   return (
     <UsernameEditor
       i18n={i18n}

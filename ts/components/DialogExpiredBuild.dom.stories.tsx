@@ -1,7 +1,8 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import type { JSX } from 'react';
+
 import type { Meta } from '@storybook/react';
 import type { PropsType } from './DialogExpiredBuild.dom.tsx';
 import { DialogExpiredBuild } from './DialogExpiredBuild.dom.tsx';
@@ -16,7 +17,7 @@ export default {
   args: {},
 } satisfies Meta<PropsType>;
 
-export function Basic(): React.JSX.Element {
+export function Basic(): JSX.Element {
   const containerWidthBreakpoint = WidthBreakpoint.Wide;
 
   return (

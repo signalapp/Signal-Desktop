@@ -1,8 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ComponentProps } from 'react';
-import React from 'react';
+import type { ComponentProps, JSX } from 'react';
 
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
@@ -38,11 +37,11 @@ const defaultProps: ComponentProps<typeof CustomizingPreferredReactionsModal> =
     emojiSkinToneDefault: EmojiSkinTone.Type4,
   };
 
-export function Default(): React.JSX.Element {
+export function Default(): JSX.Element {
   return <CustomizingPreferredReactionsModal {...defaultProps} />;
 }
 
-export function DraftEmojiSelected(): React.JSX.Element {
+export function DraftEmojiSelected(): JSX.Element {
   return (
     <CustomizingPreferredReactionsModal
       {...defaultProps}
@@ -51,10 +50,10 @@ export function DraftEmojiSelected(): React.JSX.Element {
   );
 }
 
-export function Saving(): React.JSX.Element {
+export function Saving(): JSX.Element {
   return <CustomizingPreferredReactionsModal {...defaultProps} isSaving />;
 }
 
-export function HadError(): React.JSX.Element {
+export function HadError(): JSX.Element {
   return <CustomizingPreferredReactionsModal {...defaultProps} hadSaveError />;
 }

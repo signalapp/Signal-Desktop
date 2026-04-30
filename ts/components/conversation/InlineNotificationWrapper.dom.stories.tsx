@@ -1,7 +1,7 @@
 // Copyright 2026 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import type { JSX } from 'react';
 
 import type { Meta } from '@storybook/react';
 
@@ -27,14 +27,14 @@ export default {
   },
 } satisfies Meta<Props>;
 
-export function Default(args: Props): React.JSX.Element {
+export function Default(args: Props): JSX.Element {
   return <InlineNotificationWrapper {...args} />;
 }
 
-export function SelectMode(args: Props): React.JSX.Element {
+export function SelectMode(args: Props): JSX.Element {
   return <InlineNotificationWrapper {...args} isSelectMode />;
 }
 
-export function SelectModeAndSelected(args: Props): React.JSX.Element {
+export function SelectModeAndSelected(args: Props): JSX.Element {
   return <InlineNotificationWrapper {...args} isSelectMode isSelected />;
 }

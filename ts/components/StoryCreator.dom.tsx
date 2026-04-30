@@ -1,7 +1,7 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState, type JSX } from 'react';
 import lodash from 'lodash';
 
 import { createPortal } from 'react-dom';
@@ -136,7 +136,7 @@ export function StoryCreator({
   theme,
   toggleGroupsForStorySend,
   toggleSignalConnectionsModal,
-}: PropsType): React.JSX.Element | null {
+}: PropsType): JSX.Element | null {
   const portalElement = usePortalElement('StoryCreatorPortal');
 
   const [draftAttachment, setDraftAttachment] = useState<

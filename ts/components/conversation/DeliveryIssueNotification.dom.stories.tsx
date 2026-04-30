@@ -1,7 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import type { JSX } from 'react';
+
 import type { Meta } from '@storybook/react';
 import type { PropsType } from './DeliveryIssueNotification.dom.tsx';
 import { DeliveryIssueNotification } from './DeliveryIssueNotification.dom.tsx';
@@ -14,13 +15,13 @@ export default {
 const { i18n } = window.SignalContext;
 const sender = getDefaultConversation();
 
-export function Default(): React.JSX.Element {
+export function Default(): JSX.Element {
   return (
     <DeliveryIssueNotification i18n={i18n} inGroup={false} sender={sender} />
   );
 }
 
-export function WithALongName(): React.JSX.Element {
+export function WithALongName(): JSX.Element {
   const longName = '🤷🏽‍♀️❤️🐞'.repeat(50);
   return (
     <DeliveryIssueNotification
@@ -36,6 +37,6 @@ export function WithALongName(): React.JSX.Element {
   );
 }
 
-export function InGroup(): React.JSX.Element {
+export function InGroup(): JSX.Element {
   return <DeliveryIssueNotification i18n={i18n} inGroup sender={sender} />;
 }

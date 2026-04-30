@@ -1,7 +1,7 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { JSX, MouseEvent } from 'react';
 
 import type { LocalizerType } from '../types/Util.std.ts';
 import { Button, ButtonVariant } from './Button.dom.tsx';
@@ -23,14 +23,14 @@ export function CrashReportDialog({
   isPending,
   writeCrashReportsToLog,
   eraseCrashReports,
-}: Readonly<PropsType>): React.JSX.Element {
-  const onEraseClick = (event: React.MouseEvent) => {
+}: Readonly<PropsType>): JSX.Element {
+  const onEraseClick = (event: MouseEvent) => {
     event.preventDefault();
 
     eraseCrashReports();
   };
 
-  const onSubmitClick = (event: React.MouseEvent) => {
+  const onSubmitClick = (event: MouseEvent) => {
     event.preventDefault();
 
     writeCrashReportsToLog();

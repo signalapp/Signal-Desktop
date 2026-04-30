@@ -1,7 +1,7 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, type JSX } from 'react';
 import type { Meta, StoryFn } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { sleep } from '../../util/sleep.std.ts';
@@ -70,7 +70,7 @@ const Template: StoryFn<PropsType> = (args: PropsType) => {
   );
 };
 
-export function FullFlow(): React.JSX.Element {
+export function FullFlow(): JSX.Element {
   const [backupStep, setBackupStep] = useState<InstallScreenBackupStep>(
     InstallScreenBackupStep.WaitForBackup
   );

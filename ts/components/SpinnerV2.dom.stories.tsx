@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState, type JSX } from 'react';
 
 import { SpinnerV2 } from './SpinnerV2.dom.tsx';
 import { tw } from '../axo/tw.dom.tsx';
@@ -34,7 +34,7 @@ export default {
   },
 } satisfies ComponentMeta<Props>;
 
-export function Default(args: Props): React.JSX.Element {
+export function Default(args: Props): JSX.Element {
   return (
     <div className={tw('bg-background-overlay')}>
       <SpinnerV2 {...args} />
@@ -42,7 +42,7 @@ export function Default(args: Props): React.JSX.Element {
   );
 }
 
-export function Thin(args: Props): React.JSX.Element {
+export function Thin(args: Props): JSX.Element {
   return (
     <div className={tw('bg-background-overlay')}>
       <SpinnerV2 {...args} strokeWidth={1} />
@@ -50,7 +50,7 @@ export function Thin(args: Props): React.JSX.Element {
   );
 }
 
-export function Thick(args: Props): React.JSX.Element {
+export function Thick(args: Props): JSX.Element {
   return (
     <div className={tw('bg-background-overlay')}>
       <SpinnerV2 {...args} strokeWidth={6} />
@@ -58,7 +58,7 @@ export function Thick(args: Props): React.JSX.Element {
   );
 }
 
-export function NoMargin(args: Props): React.JSX.Element {
+export function NoMargin(args: Props): JSX.Element {
   return (
     <div className={tw('bg-background-overlay')}>
       <SpinnerV2 {...args} marginRatio={1} strokeWidth={6} />
@@ -66,7 +66,7 @@ export function NoMargin(args: Props): React.JSX.Element {
   );
 }
 
-export function BigMargin(args: Props): React.JSX.Element {
+export function BigMargin(args: Props): JSX.Element {
   return (
     <div className={tw('bg-background-overlay')}>
       <SpinnerV2 {...args} marginRatio={0.5} strokeWidth={6} />
@@ -74,7 +74,7 @@ export function BigMargin(args: Props): React.JSX.Element {
   );
 }
 
-export function SpinnerToProgress(args: Props): React.JSX.Element {
+export function SpinnerToProgress(args: Props): JSX.Element {
   const [value, setValue] = useState<number | undefined>();
   useEffect(() => {
     const timer = setInterval(() => {

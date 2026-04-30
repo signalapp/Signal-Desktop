@@ -1,8 +1,8 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { RefObject } from 'react';
-import React, { memo, useCallback, useMemo, useRef, useState } from 'react';
+import type { RefObject, JSX } from 'react';
+import { memo, useCallback, useMemo, useRef, useState } from 'react';
 import type { ReadonlyDeep } from 'type-fest';
 import type { BadgeType } from '../../badges/types.std.ts';
 import {
@@ -70,7 +70,7 @@ function HeaderInfoTitle({
   i18n: LocalizerType;
   isMe: boolean;
   isSignalConversation: boolean;
-  headerRef: React.RefObject<HTMLDivElement | null>;
+  headerRef: RefObject<HTMLDivElement | null>;
 }) {
   if (isSignalConversation) {
     return (
@@ -115,12 +115,12 @@ export enum OutgoingCallButtonStyle {
 
 export type RenderCollidingAvatars = (
   props: SmartCollidingAvatarsProps
-) => React.JSX.Element;
+) => JSX.Element;
 
 export type RenderMiniPlayer = (options: {
   shouldFlow: boolean;
-}) => React.JSX.Element;
-export type RenderPinnedMessagesBar = () => React.JSX.Element;
+}) => JSX.Element;
+export type RenderPinnedMessagesBar = () => JSX.Element;
 
 export type AcknowledgeGroupMemberNameCollisions = (
   conversationId: string,
@@ -240,7 +240,7 @@ export const ConversationHeader = memo(function ConversationHeader({
   renderMiniPlayer,
 
   renderPinnedMessagesBar,
-}: PropsType): React.JSX.Element | null {
+}: PropsType): JSX.Element | null {
   // Comes from a third-party dependency
   const headerRef = useRef<HTMLDivElement>(null);
 
@@ -959,7 +959,7 @@ function OutgoingCallButtons({
   | 'onOutgoingAudioCall'
   | 'onOutgoingVideoCall'
   | 'outgoingCallButtonStyle'
->): React.JSX.Element | null {
+>): JSX.Element | null {
   const disabled =
     conversation.type === 'group' &&
     ((conversation.announcementsOnly && !conversation.areWeAdmin) ||

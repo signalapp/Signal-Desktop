@@ -1,8 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ReactNode } from 'react';
-import React from 'react';
+import type { ReactNode, JSX, MouseEvent, KeyboardEvent } from 'react';
 import classNames from 'classnames';
 import { Tooltip, TooltipPlacement } from './Tooltip.dom.tsx';
 import { WidthBreakpoint } from './_util.std.ts';
@@ -23,13 +22,7 @@ export type DismissOptions =
 
 export type PropsType = {
   type?: 'warning' | 'error' | 'info';
-  icon?:
-    | 'update'
-    | 'relink'
-    | 'network'
-    | 'warning'
-    | 'error'
-    | React.JSX.Element;
+  icon?: 'update' | 'relink' | 'network' | 'warning' | 'error' | JSX.Element;
   title?: string;
   subtitle?: string;
   children?: ReactNode;
@@ -64,15 +57,15 @@ export function LeftPaneDialog({
   hasXButton,
   onClose,
   closeLabel,
-}: PropsType): React.JSX.Element {
-  const onClickWrap = (e: React.MouseEvent) => {
+}: PropsType): JSX.Element {
+  const onClickWrap = (e: MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
 
     onClick?.();
   };
 
-  const onKeyDownWrap = (e: React.KeyboardEvent) => {
+  const onKeyDownWrap = (e: KeyboardEvent) => {
     if (e.key !== 'Enter' && e.key !== ' ') {
       return;
     }
@@ -83,7 +76,7 @@ export function LeftPaneDialog({
     onClick?.();
   };
 
-  const onCloseWrap = (e: React.MouseEvent) => {
+  const onCloseWrap = (e: MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
 
@@ -202,7 +195,7 @@ export function LeftPaneDialogIcon({
   type,
 }: {
   type?: 'update' | 'relink' | 'network' | 'warning' | 'error';
-}): React.JSX.Element {
+}): JSX.Element {
   const iconClassName = classNames([
     `${BASE_CLASS_NAME}__icon`,
     `${BASE_CLASS_NAME}__icon--${type}`,
@@ -215,8 +208,8 @@ export function LeftPaneDialogIconBackground({
   children,
 }: {
   type?: 'warning';
-  children: React.ReactNode;
-}): React.JSX.Element {
+  children: ReactNode;
+}): JSX.Element {
   return (
     <div
       className={`${BASE_CLASS_NAME}__icon-background ${BASE_CLASS_NAME}__icon-background--${type}`}

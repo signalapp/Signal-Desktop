@@ -1,7 +1,8 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { JSX } from 'react';
+
 import type { ConversationType } from '../state/ducks/conversations.preload.ts';
 import type { LocalizerType } from '../types/I18N.std.ts';
 import { Button, ButtonVariant } from './Button.dom.tsx';
@@ -26,7 +27,7 @@ export function NotePreviewModal({
   i18n,
   onClose,
   onEdit,
-}: NotePreviewModalProps): React.JSX.Element {
+}: NotePreviewModalProps): JSX.Element {
   return (
     <Modal
       modalName="NotePreviewModal"

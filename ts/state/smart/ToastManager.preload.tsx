@@ -1,7 +1,7 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { memo } from 'react';
+import { memo, type JSX } from 'react';
 import { useSelector } from 'react-redux';
 import { getHeapSnapshot } from 'node:v8';
 
@@ -68,7 +68,7 @@ async function saveHeapSnapshot() {
 
 export function renderToastManagerWithoutMegaphone(props: {
   containerWidthBreakpoint: WidthBreakpoint;
-}): React.JSX.Element {
+}): JSX.Element {
   return (
     <SmartToastManager
       disableMegaphone

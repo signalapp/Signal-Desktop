@@ -1,7 +1,7 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import React, { useMemo } from 'react';
-import type { CSSProperties } from 'react';
+import { useMemo } from 'react';
+import type { CSSProperties, JSX } from 'react';
 import { Emojify } from './conversation/Emojify.dom.tsx';
 import { bidiIsolate } from '../util/unicodeBidi.std.ts';
 
@@ -11,7 +11,7 @@ export type UserTextProps = Readonly<{
   style?: CSSProperties;
 }>;
 
-export function UserText(props: UserTextProps): React.JSX.Element {
+export function UserText(props: UserTextProps): JSX.Element {
   const normalizedText = useMemo(() => {
     return bidiIsolate(props.text);
   }, [props.text]);

@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import type { MouseEvent } from 'react';
-import React, { memo, useCallback, useMemo, useState } from 'react';
+import { memo, useCallback, useMemo, useState } from 'react';
 import { AxoDialog } from '../../../axo/AxoDialog.dom.tsx';
 import type { LocalizerType } from '../../../types/I18N.std.ts';
 import { AxoRadioGroup } from '../../../axo/AxoRadioGroup.dom.tsx';

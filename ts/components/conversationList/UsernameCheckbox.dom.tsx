@@ -1,7 +1,7 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import { memo, useCallback } from 'react';
 import type { FunctionComponent } from 'react';
 
 import type { LocalizerType, ThemeType } from '../../types/Util.std.ts';
@@ -26,7 +26,7 @@ type PropsHousekeepingType = {
 
 type PropsType = PropsDataType & PropsHousekeepingType;
 
-export const UsernameCheckbox: FunctionComponent<PropsType> = React.memo(
+export const UsernameCheckbox: FunctionComponent<PropsType> = memo(
   function UsernameCheckbox({
     username,
     isChecked,
@@ -37,7 +37,7 @@ export const UsernameCheckbox: FunctionComponent<PropsType> = React.memo(
     setIsFetchingUUID,
     toggleConversationInChooseMembers,
   }) {
-    const onClickItem = React.useCallback(async () => {
+    const onClickItem = useCallback(async () => {
       if (isFetching) {
         return;
       }

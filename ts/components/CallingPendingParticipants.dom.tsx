@@ -1,7 +1,7 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState, type JSX } from 'react';
 import lodash from 'lodash';
 import classNames from 'classnames';
 import { AnimatePresence, motion } from 'motion/react';
@@ -52,7 +52,7 @@ export function CallingPendingParticipants({
   batchUserAction,
   denyUser,
   toggleCallLinkPendingParticipantModal,
-}: PropsType): React.JSX.Element | null {
+}: PropsType): JSX.Element | null {
   const reducedMotion = useReducedMotion();
 
   const participantCount = participants.length;

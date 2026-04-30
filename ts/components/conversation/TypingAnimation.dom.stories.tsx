@@ -1,7 +1,8 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import type { JSX } from 'react';
+
 import type { Meta } from '@storybook/react';
 import type { Props } from './TypingAnimation.dom.tsx';
 import { TypingAnimation } from './TypingAnimation.dom.tsx';
@@ -17,13 +18,13 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   color: overrideProps.color || '',
 });
 
-export function Default(): React.JSX.Element {
+export function Default(): JSX.Element {
   const props = createProps();
 
   return <TypingAnimation {...props} />;
 }
 
-export function Light(): React.JSX.Element {
+export function Light(): JSX.Element {
   const props = createProps({
     color: 'light',
   });

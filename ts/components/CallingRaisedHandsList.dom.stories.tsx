@@ -1,7 +1,7 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import { useState, useEffect, type JSX } from 'react';
 import lodash from 'lodash';
 import { action } from '@storybook/addon-actions';
 
@@ -76,7 +76,7 @@ export default {
   title: 'Components/CallingRaisedHandsList',
 } satisfies Meta<PropsType>;
 
-export function Me(): React.JSX.Element {
+export function Me(): JSX.Element {
   const props = createProps({
     localHandRaised: true,
     raisedHands: new Set([LOCAL_DEMUX_ID]),
@@ -84,14 +84,14 @@ export function Me(): React.JSX.Element {
   return <CallingRaisedHandsList {...props} />;
 }
 
-export function MeOnAnotherDevice(): React.JSX.Element {
+export function MeOnAnotherDevice(): JSX.Element {
   const props = createProps({
     raisedHands: new Set([LOCAL_DEMUX_ID]),
   });
   return <CallingRaisedHandsList {...props} />;
 }
 
-export function MeAndOne(): React.JSX.Element {
+export function MeAndOne(): JSX.Element {
   const props = createProps({
     localHandRaised: true,
     raisedHands: new Set([LOCAL_DEMUX_ID, LOCAL_DEMUX_ID + 1]),
@@ -99,28 +99,28 @@ export function MeAndOne(): React.JSX.Element {
   return <CallingRaisedHandsList {...props} />;
 }
 
-export function One(): React.JSX.Element {
+export function One(): JSX.Element {
   const props = createProps({ raisedHands: new Set([LOCAL_DEMUX_ID + 1]) });
   return <CallingRaisedHandsList {...props} />;
 }
 
-export function Many(): React.JSX.Element {
+export function Many(): JSX.Element {
   const props = createProps({
     raisedHands: new Set([...conversationsByDemuxId.keys()]),
   });
   return <CallingRaisedHandsList {...props} />;
 }
 
-export function Button(): React.JSX.Element {
+export function Button(): JSX.Element {
   const props = createPropsForButton();
   return <CallingRaisedHandsListButton {...props} />;
 }
 
-export function ButtonChanging(): React.JSX.Element {
+export function ButtonChanging(): JSX.Element {
   const initialProps = createPropsForButton();
 
-  const [props, setProps] = React.useState(initialProps);
-  React.useEffect(() => {
+  const [props, setProps] = useState(initialProps);
+  useEffect(() => {
     const interval = setInterval(() => {
       const raisedHandsCount = Math.floor(4 * Math.random());
       setProps(prevProps => ({

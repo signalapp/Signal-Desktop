@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import { Fragment, type JSX } from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import type { PropsType } from './Button.dom.tsx';
@@ -11,13 +11,13 @@ export default {
   title: 'Components/Button',
 } satisfies Meta<PropsType>;
 
-export function KitchenSink(): React.JSX.Element {
+export function KitchenSink(): JSX.Element {
   return (
     <>
       {Object.values(ButtonVariant).map(variant => (
-        <React.Fragment key={variant}>
+        <Fragment key={variant}>
           {[ButtonSize.Large, ButtonSize.Medium, ButtonSize.Small].map(size => (
-            <React.Fragment key={size}>
+            <Fragment key={size}>
               <p>
                 <Button
                   onClick={action('onClick')}
@@ -47,15 +47,15 @@ export function KitchenSink(): React.JSX.Element {
                   {variant}
                 </Button>
               </p>
-            </React.Fragment>
+            </Fragment>
           ))}
-        </React.Fragment>
+        </Fragment>
       ))}
     </>
   );
 }
 
-export function AriaLabel(): React.JSX.Element {
+export function AriaLabel(): JSX.Element {
   return (
     <Button
       aria-label="hello"
@@ -65,7 +65,7 @@ export function AriaLabel(): React.JSX.Element {
   );
 }
 
-export function CustomStyles(): React.JSX.Element {
+export function CustomStyles(): JSX.Element {
   return (
     <Button onClick={action('onClick')} style={{ transform: 'rotate(5deg)' }}>
       Hello world

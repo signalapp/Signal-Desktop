@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import type { ReactNode } from 'react';
-import React, { useState } from 'react';
+import type { ReactNode, JSX } from 'react';
+import { useState } from 'react';
 import type { Meta } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import type { Pin, PinMessage } from './PinnedMessagesBar.dom.tsx';
@@ -114,7 +114,7 @@ function Stack(props: { children: ReactNode }) {
   );
 }
 
-export function Default(): React.JSX.Element {
+export function Default(): JSX.Element {
   return (
     <Stack>
       <Template defaultCurrent={PIN_1.id} pins={[PIN_1]} />
@@ -140,7 +140,7 @@ function Variant(props: { title: string; message: MockPinMessageProps }) {
 const SHORT_TEXT = 'Lorem, ipsum dolor sit amet';
 const IMAGE_URL = '/fixtures/tina-rolf-269345-unsplash.jpg';
 
-export function Variants(): React.JSX.Element {
+export function Variants(): JSX.Element {
   return (
     <Stack>
       <Variant

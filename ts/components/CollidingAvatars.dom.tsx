@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { v4 as uuid } from 'uuid';
-import React, { useMemo, useCallback } from 'react';
+import { useMemo, useCallback, type JSX } from 'react';
 
 import type { LocalizerType } from '../types/Util.std.ts';
 import type { ConversationType } from '../state/ducks/conversations.preload.ts';
@@ -18,7 +18,7 @@ const MAX_AVATARS = 2;
 export function CollidingAvatars({
   i18n,
   conversations,
-}: PropsType): React.JSX.Element {
+}: PropsType): JSX.Element {
   const clipId = useMemo(() => uuid(), []);
   const onRef = useCallback(
     (elem: HTMLDivElement | null): void => {

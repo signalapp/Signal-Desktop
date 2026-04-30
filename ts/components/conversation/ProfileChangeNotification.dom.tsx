@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useCallback } from 'react';
+import { useCallback, type JSX } from 'react';
 
 import type { LocalizerType } from '../../types/Util.std.ts';
 import type { ConversationType } from '../../state/ducks/conversations.preload.ts';
@@ -23,7 +23,7 @@ export function ProfileChangeNotification({
   changedContact,
   i18n,
   onOpenEditNicknameAndNoteModal,
-}: PropsType): React.JSX.Element {
+}: PropsType): JSX.Element {
   const message = getStringForProfileChange(change, changedContact, i18n);
   const { id: contactId } = changedContact;
 

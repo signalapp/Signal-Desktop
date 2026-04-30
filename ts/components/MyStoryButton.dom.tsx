@@ -1,7 +1,7 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useState } from 'react';
+import { useState, type JSX } from 'react';
 import classNames from 'classnames';
 import type { ConversationType } from '../state/ducks/conversations.preload.ts';
 import type { LocalizerType } from '../types/Util.std.ts';
@@ -42,7 +42,7 @@ export function MyStoryButton({
   onMediaPlaybackStart,
   queueStoryDownload,
   showToast,
-}: PropsType): React.JSX.Element {
+}: PropsType): JSX.Element {
   const [active, setActive] = useState(false);
 
   const newestStory = myStories.length

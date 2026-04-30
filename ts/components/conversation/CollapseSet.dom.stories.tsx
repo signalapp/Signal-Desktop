@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import { createRef, useState, type JSX } from 'react';
 import type { Meta } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
@@ -33,7 +33,7 @@ const defaultProps: Props = {
   type: 'none',
   messages: undefined,
   // The rest
-  containerElementRef: React.createRef<HTMLElement | null>(),
+  containerElementRef: createRef<HTMLElement | null>(),
   containerWidthBreakpoint: WidthBreakpoint.Wide,
   conversationId: 'c1',
   i18n,
@@ -47,7 +47,7 @@ const defaultProps: Props = {
   toggleSelectMessage: action('toggleSelectMessage'),
 };
 
-export function GroupWithTwo(): React.JSX.Element {
+export function GroupWithTwo(): JSX.Element {
   const props: Props = {
     ...defaultProps,
     type: 'group-updates',
@@ -59,7 +59,7 @@ export function GroupWithTwo(): React.JSX.Element {
   return <CollapseSetViewer {...props} />;
 }
 
-export function GroupWithTwoSelectedCannotCollapse(): React.JSX.Element {
+export function GroupWithTwoSelectedCannotCollapse(): JSX.Element {
   const props: Props = {
     ...defaultProps,
     type: 'group-updates',
@@ -72,7 +72,7 @@ export function GroupWithTwoSelectedCannotCollapse(): React.JSX.Element {
   return <CollapseSetViewer {...props} />;
 }
 
-export function AutoexpandIfTargeted(): React.JSX.Element {
+export function AutoexpandIfTargeted(): JSX.Element {
   const props: Props = {
     ...defaultProps,
     type: 'group-updates',
@@ -88,7 +88,7 @@ export function AutoexpandIfTargeted(): React.JSX.Element {
   return <CollapseSetViewer {...props} />;
 }
 
-export function GroupWithOneThatHasExtra(): React.JSX.Element {
+export function GroupWithOneThatHasExtra(): JSX.Element {
   const props: Props = {
     ...defaultProps,
     type: 'group-updates',
@@ -97,7 +97,7 @@ export function GroupWithOneThatHasExtra(): React.JSX.Element {
   return <CollapseSetViewer {...props} />;
 }
 
-export function GroupWithTwoThatHaveExtra(): React.JSX.Element {
+export function GroupWithTwoThatHaveExtra(): JSX.Element {
   const props: Props = {
     ...defaultProps,
     type: 'group-updates',
@@ -109,7 +109,7 @@ export function GroupWithTwoThatHaveExtra(): React.JSX.Element {
   return <CollapseSetViewer {...props} />;
 }
 
-export function GroupWithTen(): React.JSX.Element {
+export function GroupWithTen(): JSX.Element {
   const props: Props = {
     ...defaultProps,
     type: 'group-updates',
@@ -139,7 +139,7 @@ export function GroupWithTen(): React.JSX.Element {
   );
 }
 
-export function TimerWithTwoUndefined(): React.JSX.Element {
+export function TimerWithTwoUndefined(): JSX.Element {
   const props: Props = {
     ...defaultProps,
     type: 'timer-changes',
@@ -152,7 +152,7 @@ export function TimerWithTwoUndefined(): React.JSX.Element {
   return <CollapseSetViewer {...props} />;
 }
 
-export function TimerWithTwoZero(): React.JSX.Element {
+export function TimerWithTwoZero(): JSX.Element {
   const props: Props = {
     ...defaultProps,
     type: 'timer-changes',
@@ -165,7 +165,7 @@ export function TimerWithTwoZero(): React.JSX.Element {
   return <CollapseSetViewer {...props} />;
 }
 
-export function TimerWithTwoZeroInSelectMode(): React.JSX.Element {
+export function TimerWithTwoZeroInSelectMode(): JSX.Element {
   const props: Props = {
     ...defaultProps,
     type: 'timer-changes',
@@ -179,7 +179,7 @@ export function TimerWithTwoZeroInSelectMode(): React.JSX.Element {
   return <CollapseSetViewer {...props} />;
 }
 
-export function TimerWithTwoAt15m(): React.JSX.Element {
+export function TimerWithTwoAt15m(): JSX.Element {
   const props: Props = {
     ...defaultProps,
     type: 'timer-changes',
@@ -192,7 +192,7 @@ export function TimerWithTwoAt15m(): React.JSX.Element {
   return <CollapseSetViewer {...props} />;
 }
 
-export function TimerWithTenAt1Hr(): React.JSX.Element {
+export function TimerWithTenAt1Hr(): JSX.Element {
   const props: Props = {
     ...defaultProps,
     type: 'timer-changes',
@@ -213,7 +213,7 @@ export function TimerWithTenAt1Hr(): React.JSX.Element {
   return <CollapseSetViewer {...props} />;
 }
 
-export function GroupWithTwoOneUnseen(): React.JSX.Element {
+export function GroupWithTwoOneUnseen(): JSX.Element {
   const props: Props = {
     ...defaultProps,
     type: 'group-updates',
@@ -225,7 +225,7 @@ export function GroupWithTwoOneUnseen(): React.JSX.Element {
   return <CollapseSetViewer {...props} />;
 }
 
-export function GroupWithFourTwoUnseen(): React.JSX.Element {
+export function GroupWithFourTwoUnseen(): JSX.Element {
   const props: Props = {
     ...defaultProps,
     type: 'group-updates',
@@ -239,7 +239,7 @@ export function GroupWithFourTwoUnseen(): React.JSX.Element {
   return <CollapseSetViewer {...props} />;
 }
 
-export function GroupWithFourThreeUnseen(): React.JSX.Element {
+export function GroupWithFourThreeUnseen(): JSX.Element {
   const props: Props = {
     ...defaultProps,
     type: 'group-updates',
@@ -253,8 +253,8 @@ export function GroupWithFourThreeUnseen(): React.JSX.Element {
   return <CollapseSetViewer {...props} />;
 }
 
-export function GroupWithWithUpdateAfterDelay(): React.JSX.Element {
-  const [props, setProps] = React.useState<Props>({
+export function GroupWithWithUpdateAfterDelay(): JSX.Element {
+  const [props, setProps] = useState<Props>({
     ...defaultProps,
     type: 'group-updates',
     messages: [

@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useState } from 'react';
+import { useState, type JSX } from 'react';
 import classNames from 'classnames';
 import lodash from 'lodash';
 import { Button, ButtonVariant } from './Button.dom.tsx';
@@ -31,7 +31,7 @@ function Source({
   onSourceClick: (source: PresentedSource) => void;
   source: PresentableSource;
   sourceToPresent?: PresentedSource;
-}): React.JSX.Element {
+}): JSX.Element {
   return (
     <button
       className={classNames({
@@ -76,7 +76,7 @@ export function CallingSelectPresentingSourcesModal({
   presentingSourcesAvailable,
   selectPresentingSource,
   cancelPresenting,
-}: PropsType): React.JSX.Element | null {
+}: PropsType): JSX.Element | null {
   const [sourceToPresent, setSourceToPresent] = useState<
     PresentedSource | undefined
   >(undefined);

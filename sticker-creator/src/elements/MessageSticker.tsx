@@ -1,7 +1,7 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import { type JSX } from 'react';
 import styles from './MessageSticker.module.scss';
 import type { Props as MessageMetaProps } from './MessageMeta';
 import { MessageMeta } from './MessageMeta';
@@ -14,7 +14,7 @@ export function MessageSticker({
   image,
   kind,
   minutesAgo,
-}: Props): React.JSX.Element {
+}: Props): JSX.Element {
   return (
     <div className={styles.base}>
       <img src={image} alt="Sticker" className={styles.image} />

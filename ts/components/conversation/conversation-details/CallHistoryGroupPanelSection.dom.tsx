@@ -1,6 +1,7 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import React from 'react';
+import type { JSX } from 'react';
+
 import classNames from 'classnames';
 import {
   CallDirection,
@@ -58,7 +59,7 @@ export type CallHistoryPanelSectionProps = Readonly<{
 export function CallHistoryGroupPanelSection({
   callHistoryGroup,
   i18n,
-}: CallHistoryPanelSectionProps): React.JSX.Element {
+}: CallHistoryPanelSectionProps): JSX.Element {
   return (
     <PanelSection title={formatDate(i18n, callHistoryGroup.timestamp)}>
       <ol className="ConversationDetails__CallHistoryGroup__List">

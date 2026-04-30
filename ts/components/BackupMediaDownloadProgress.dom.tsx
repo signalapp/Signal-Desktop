@@ -1,7 +1,7 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useState } from 'react';
+import { useState, type JSX } from 'react';
 
 import type { LocalizerType } from '../types/Util.std.ts';
 import { formatFileSize } from '../util/formatFileSize.std.ts';
@@ -37,7 +37,7 @@ export function BackupMediaDownloadProgress({
   handleResume,
   handlePause,
   widthBreakpoint,
-}: PropsType): React.JSX.Element | null {
+}: PropsType): JSX.Element | null {
   const [isShowingCancelConfirmation, setIsShowingCancelConfirmation] =
     useState(false);
 
@@ -49,8 +49,8 @@ export function BackupMediaDownloadProgress({
     setIsShowingCancelConfirmation(true);
   }
 
-  let content: React.JSX.Element | undefined;
-  let icon: React.JSX.Element | undefined;
+  let content: JSX.Element | undefined;
+  let icon: JSX.Element | undefined;
 
   const isCompleted = downloadedBytes === totalBytes;
 

@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ChangeEvent, ReactNode } from 'react';
+import type { ChangeEvent, ReactNode, JSX } from 'react';
 
 import type { Row } from '../ConversationList.dom.tsx';
 import type { LocalizerType } from '../../types/Util.std.ts';
@@ -88,7 +88,7 @@ export abstract class LeftPaneHelper<T> {
       createGroup: () => unknown;
       i18n: LocalizerType;
       removeSelectedContact: (_: string) => unknown;
-      renderLeftPaneChatFolders: () => React.JSX.Element;
+      renderLeftPaneChatFolders: () => JSX.Element;
       setComposeGroupAvatar: (
         _: undefined | Uint8Array<ArrayBuffer>
       ) => unknown;

@@ -1,7 +1,13 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import React, { memo, forwardRef } from 'react';
-import type { ButtonHTMLAttributes, FC, ForwardedRef, ReactNode } from 'react';
+import { memo, forwardRef } from 'react';
+import type {
+  ButtonHTMLAttributes,
+  FC,
+  ForwardedRef,
+  ReactNode,
+  JSX,
+} from 'react';
 import type { TailwindStyles } from './tw.dom.tsx';
 import { tw } from './tw.dom.tsx';
 import { AxoSymbol } from './AxoSymbol.dom.tsx';
@@ -183,7 +189,7 @@ type ExperimentalButtonSpinnerProps = Readonly<{
 
 function ExperimentalButtonSpinner(
   props: ExperimentalButtonSpinnerProps
-): React.JSX.Element {
+): JSX.Element {
   const variant = AxoButtonSpinnerVariants[props.buttonVariant];
   const sizeConfig = AxoButtonSpinnerSizes[props.buttonSize];
   return (

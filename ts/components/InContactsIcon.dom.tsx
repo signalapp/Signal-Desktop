@@ -1,7 +1,8 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { RefObject, JSX } from 'react';
+
 import classNames from 'classnames';
 
 import { Tooltip } from './Tooltip.dom.tsx';
@@ -9,11 +10,11 @@ import type { LocalizerType } from '../types/Util.std.ts';
 
 export type PropsType = {
   className?: string;
-  tooltipContainerRef?: React.RefObject<HTMLElement | null>;
+  tooltipContainerRef?: RefObject<HTMLElement | null>;
   i18n: LocalizerType;
 };
 
-export function InContactsIcon(props: PropsType): React.JSX.Element {
+export function InContactsIcon(props: PropsType): JSX.Element {
   const { className, i18n, tooltipContainerRef } = props;
 
   return (

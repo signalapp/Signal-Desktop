@@ -2,7 +2,14 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import lodash from 'lodash';
-import React, { useCallback } from 'react';
+import {
+  useCallback,
+  useState,
+  useMemo,
+  useEffect,
+  type JSX,
+  type ChangeEvent,
+} from 'react';
 import type { ListRowProps } from 'react-virtualized';
 
 import type { ConversationType } from '../state/ducks/conversations.preload.ts';
@@ -56,17 +63,17 @@ export function AddUserToAnotherGroupModal({
   showToast,
   candidateConversations,
   regionCode,
-}: Props): React.JSX.Element | null {
-  const [searchTerm, setSearchTerm] = React.useState('');
-  const [filteredConversations, setFilteredConversations] = React.useState(
+}: Props): JSX.Element | null {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filteredConversations, setFilteredConversations] = useState(
     filterAndSortConversations(candidateConversations, '', undefined)
   );
 
-  const [selectedGroupId, setSelectedGroupId] = React.useState<
-    undefined | string
-  >(undefined);
+  const [selectedGroupId, setSelectedGroupId] = useState<undefined | string>(
+    undefined
+  );
 
-  const groupLookup: Map<string, ConversationType> = React.useMemo(() => {
+  const groupLookup: Map<string, ConversationType> = useMemo(() => {
     const map = new Map();
     candidateConversations.forEach(conversation => {
       map.set(conversation.id, conversation);
@@ -78,7 +85,7 @@ export function AddUserToAnotherGroupModal({
 
   const normalizedSearchTerm = searchTerm.trim();
 
-  React.useEffect(() => {
+  useEffect(() => {
     const timeout = setTimeout(() => {
       setFilteredConversations(
         filterAndSortConversations(
@@ -102,14 +109,14 @@ export function AddUserToAnotherGroupModal({
     ? groupLookup.get(selectedGroupId)
     : undefined;
 
-  const handleSearchInputChange = React.useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSearchInputChange = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
       setSearchTerm(event.target.value);
     },
     [setSearchTerm]
   );
 
-  const handleGetRow = React.useCallback(
+  const handleGetRow = useCallback(
     (idx: number): GroupListItemConversationType => {
       const convo = filteredConversations[idx];
       strictAssert(convo, 'Missing conversation');

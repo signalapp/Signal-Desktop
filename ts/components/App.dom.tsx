@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useEffect } from 'react';
+import { useEffect, type JSX } from 'react';
 import classNames from 'classnames';
 
 import { AppViewType } from '../types/app.std.ts';
@@ -15,13 +15,13 @@ import type { AppStateType } from '../state/ducks/app.preload.ts';
 
 type PropsType = {
   state: AppStateType;
-  renderCallManager: () => React.JSX.Element;
-  renderGlobalModalContainer: () => React.JSX.Element;
+  renderCallManager: () => JSX.Element;
+  renderGlobalModalContainer: () => JSX.Element;
   hasSelectedStoryData: boolean;
-  renderStandaloneRegistration: () => React.JSX.Element;
-  renderStoryViewer: (closeView: () => unknown) => React.JSX.Element;
-  renderInstallScreen: () => React.JSX.Element;
-  renderLightbox: () => React.JSX.Element | null;
+  renderStandaloneRegistration: () => JSX.Element;
+  renderStoryViewer: (closeView: () => unknown) => JSX.Element;
+  renderInstallScreen: () => JSX.Element;
+  renderLightbox: () => JSX.Element | null;
   theme: ThemeType;
   isMaximized: boolean;
   isFullScreen: boolean;
@@ -29,7 +29,7 @@ type PropsType = {
 
   scrollToMessage: (conversationId: string, messageId: string) => unknown;
   viewStory: ViewStoryActionCreatorType;
-  renderInbox: () => React.JSX.Element;
+  renderInbox: () => JSX.Element;
 };
 
 export function App({
@@ -47,7 +47,7 @@ export function App({
   renderStoryViewer,
   theme,
   viewStory,
-}: PropsType): React.JSX.Element {
+}: PropsType): JSX.Element {
   let contents;
 
   if (state.appView === AppViewType.Installer) {

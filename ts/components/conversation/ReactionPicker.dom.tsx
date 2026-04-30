@@ -1,7 +1,13 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useCallback, useState, useEffect } from 'react';
+import {
+  useCallback,
+  useState,
+  useEffect,
+  type HTMLProps,
+  forwardRef,
+} from 'react';
 import { Button } from 'react-aria-components';
 import { useDelayedRestoreFocus } from '../../hooks/useRestoreFocus.dom.ts';
 import type { LocalizerType, ThemeType } from '../../types/Util.std.ts';
@@ -25,9 +31,9 @@ export type OwnProps = {
   messageEmojis?: ReadonlyArray<EmojiVariantKey>;
 };
 
-export type Props = OwnProps & Pick<React.HTMLProps<HTMLDivElement>, 'style'>;
+export type Props = OwnProps & Pick<HTMLProps<HTMLDivElement>, 'style'>;
 
-export const ReactionPicker = React.forwardRef<HTMLDivElement, Props>(
+export const ReactionPicker = forwardRef<HTMLDivElement, Props>(
   function ReactionPickerInner(
     {
       i18n,

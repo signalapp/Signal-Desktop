@@ -1,6 +1,6 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import React, { memo } from 'react';
+import { memo } from 'react';
 import { useSelector } from 'react-redux';
 import { UsernameEditor } from '../../components/UsernameEditor.dom.tsx';
 import { getMinNickname, getMaxNickname } from '../../util/Username.dom.ts';

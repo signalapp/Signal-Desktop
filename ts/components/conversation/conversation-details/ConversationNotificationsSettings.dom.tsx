@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useMemo, useId } from 'react';
+import { useMemo, useId, type JSX } from 'react';
 import type { ConversationTypeType } from '../../../state/ducks/conversations.preload.ts';
 import type { LocalizerType } from '../../../types/Util.std.ts';
 import { PanelSection } from './PanelSection.dom.tsx';
@@ -39,7 +39,7 @@ export function ConversationNotificationsSettings({
   muteExpiresAt,
   setMuteExpiration,
   setDontNotifyForMentionsIfMuted,
-}: PropsType): React.JSX.Element {
+}: PropsType): JSX.Element {
   const muteNotificationsSelectId = useId();
   const mentionsSelectId = useId();
   const muteOptions = useMemo(

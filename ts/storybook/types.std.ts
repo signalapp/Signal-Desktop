@@ -1,6 +1,8 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { ComponentType } from 'react';
+
 import type { Meta } from '@storybook/react';
 import type { InputType } from '@storybook/types';
 
@@ -35,7 +37,7 @@ type Defined<T> = {
  */
 export type ComponentMeta<Props extends object> = Meta<Props> & {
   /** Ensure we're talking about the right component */
-  component: React.ComponentType<Props>;
+  component: ComponentType<Props>;
   /** Ensure every prop has a default even if its just `undefined` */
   args: Defined<Props>;
 };

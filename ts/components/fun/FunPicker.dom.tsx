@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import type { ReactNode } from 'react';
-import React, { memo, useCallback, useEffect } from 'react';
+import type { ReactNode, JSX } from 'react';
+import { memo, useCallback, useEffect } from 'react';
 import type { Placement } from 'react-aria';
 import { DialogTrigger } from 'react-aria-components';
 // @ts-expect-error - Needs tinykeys to update package.json type resolution
@@ -42,7 +42,7 @@ export type FunPickerProps = Readonly<{
 
 export const FunPicker = memo(function FunPicker(
   props: FunPickerProps
-): React.JSX.Element {
+): JSX.Element {
   const { onOpenChange } = props;
   const fun = useFunContext();
   const { i18n, onOpenChange: onFunOpenChange, onChangeTab } = fun;

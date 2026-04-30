@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useState } from 'react';
+import { useState, type JSX } from 'react';
 import { ConfirmDiscardDialog } from './ConfirmDiscardDialog.dom.tsx';
 import type { LocalizerType } from '../types/Util.std.ts';
 import { Modal } from './Modal.dom.tsx';
@@ -19,7 +19,7 @@ export function AvatarModalButtons({
   i18n,
   onCancel,
   onSave,
-}: PropsType): React.JSX.Element {
+}: PropsType): JSX.Element {
   const [confirmDiscardAction, setConfirmDiscardAction] = useState<
     (() => unknown) | undefined
   >(undefined);

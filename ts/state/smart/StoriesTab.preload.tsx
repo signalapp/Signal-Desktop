@@ -1,7 +1,7 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { memo, useCallback, useEffect } from 'react';
+import { memo, useCallback, useEffect, type JSX } from 'react';
 import { useSelector } from 'react-redux';
 import { SmartStoryCreator } from './StoryCreator.preload.tsx';
 import { renderToastManagerWithoutMegaphone } from './ToastManager.preload.tsx';
@@ -38,7 +38,7 @@ import { getIsStoriesSettingsVisible } from '../selectors/globalModals.std.ts';
 import type { StoryViewType } from '../../types/Stories.std.ts';
 import { ForwardMessagesModalType } from '../../components/ForwardMessagesModal.dom.tsx';
 
-function renderStoryCreator(): React.JSX.Element {
+function renderStoryCreator(): JSX.Element {
   return <SmartStoryCreator />;
 }
 

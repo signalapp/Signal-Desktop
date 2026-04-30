@@ -1,6 +1,6 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState, type JSX } from 'react';
 import type { Meta } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import {
@@ -45,7 +45,7 @@ function RenderCompositionTextArea(props: SmartCompositionTextAreaProps) {
   );
 }
 
-export function Default(): React.JSX.Element {
+export function Default(): JSX.Element {
   const [file, setFile] = useState<File | null>(null);
 
   useEffect(() => {

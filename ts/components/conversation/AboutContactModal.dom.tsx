@@ -1,7 +1,13 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { type ReactNode, useCallback, useMemo } from 'react';
+import {
+  type ReactNode,
+  useCallback,
+  useMemo,
+  type JSX,
+  type MouseEvent,
+} from 'react';
 
 import { isInSystemContacts } from '../../util/isInSystemContacts.std.ts';
 import { Avatar, AvatarBlur, AvatarSize } from '../Avatar.dom.tsx';
@@ -24,7 +30,7 @@ import { missingEmojiPlaceholder } from '../../types/GroupMemberLabels.std.ts';
 import type { ConversationType } from '../../state/ducks/conversations.preload.ts';
 import type { LocalizerType } from '../../types/Util.std.ts';
 
-function muted(parts: Array<string | React.JSX.Element>) {
+function muted(parts: Array<string | JSX.Element>) {
   return (
     <span className="AboutContactModal__TitleWithoutNickname">{parts}</span>
   );
@@ -74,7 +80,7 @@ export function AboutContactModal({
   toggleProfileNameWarningModal,
   onClose,
   onOpenNotePreviewModal,
-}: PropsType): React.JSX.Element {
+}: PropsType): JSX.Element {
   const { avatarUrl, hasAvatar, isMe } = contact;
 
   // If hasAvatar is true, we show the download button instead of blur
@@ -101,7 +107,7 @@ export function AboutContactModal({
   ]);
 
   const onSignalConnectionClick = useCallback(
-    (ev: React.MouseEvent) => {
+    (ev: MouseEvent) => {
       ev.preventDefault();
       toggleSignalConnectionsModal();
     },
@@ -109,7 +115,7 @@ export function AboutContactModal({
   );
 
   const onVerifiedClick = useCallback(
-    (ev: React.MouseEvent) => {
+    (ev: MouseEvent) => {
       ev.preventDefault();
       toggleSafetyNumberModal(contact.id);
     },
@@ -117,14 +123,14 @@ export function AboutContactModal({
   );
 
   const onProfileNameWarningClick = useCallback(
-    (ev: React.MouseEvent) => {
+    (ev: MouseEvent) => {
       ev.preventDefault();
       toggleProfileNameWarningModal();
     },
     [toggleProfileNameWarningModal]
   );
 
-  let statusRow: React.JSX.Element | undefined;
+  let statusRow: JSX.Element | undefined;
   const hasLabel = contactNameColor && contactLabelString;
   const shouldShowLabel = isMe && hasLabel;
   const shouldShowAddLabel =

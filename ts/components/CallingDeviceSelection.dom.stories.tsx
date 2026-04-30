@@ -1,7 +1,8 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import type { JSX } from 'react';
+
 import { action } from '@storybook/addon-actions';
 
 import type { Meta } from '@storybook/react';
@@ -40,11 +41,11 @@ export default {
   title: 'Components/CallingDeviceSelection',
 } satisfies Meta<Props>;
 
-export function Default(): React.JSX.Element {
+export function Default(): JSX.Element {
   return <CallingDeviceSelection {...createProps()} />;
 }
 
-export function SomeDevices(): React.JSX.Element {
+export function SomeDevices(): JSX.Element {
   const availableSpeakers = [
     {
       name: 'Default',
@@ -73,7 +74,7 @@ export function SomeDevices(): React.JSX.Element {
   return <CallingDeviceSelection {...props} />;
 }
 
-export function DefaultDevices(): React.JSX.Element {
+export function DefaultDevices(): JSX.Element {
   const availableSpeakers = [
     {
       name: 'default (Headphones)',
@@ -104,7 +105,7 @@ export function DefaultDevices(): React.JSX.Element {
   return <CallingDeviceSelection {...props} />;
 }
 
-export function AllDevices(): React.JSX.Element {
+export function AllDevices(): JSX.Element {
   const availableSpeakers = [
     {
       name: 'Default',

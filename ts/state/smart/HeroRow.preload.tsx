@@ -1,6 +1,6 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import React, { memo, useCallback, useMemo } from 'react';
+import { memo, useCallback, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { PanelType } from '../../types/Panels.std.ts';
 import { ConversationHero } from '../../components/conversation/ConversationHero.dom.tsx';

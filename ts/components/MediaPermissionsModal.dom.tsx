@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useCallback } from 'react';
+import { useCallback, type JSX } from 'react';
 
 import { Modal } from './Modal.dom.tsx';
 import { tw } from '../axo/tw.dom.tsx';
@@ -23,7 +23,7 @@ export function MediaPermissionsModal({
   requestor,
   openSystemMediaPermissions,
   onClose,
-}: PropsType): React.JSX.Element {
+}: PropsType): JSX.Element {
   let title: string;
   if (mediaType === 'camera') {
     title = i18n('icu:MediaPermissionsModal__title--camera');

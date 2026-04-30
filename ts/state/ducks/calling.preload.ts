@@ -1,6 +1,8 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { RefObject } from 'react';
+
 import type { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import { ipcRenderer } from 'electron';
 import lodash from 'lodash';
@@ -492,7 +494,7 @@ type StartCallLinkLobbyPayloadType = {
 
 // oxlint-disable-next-line signal-desktop/enforce-type-alias-readonlydeep
 export type SetRendererCanvasType = {
-  element: React.RefObject<HTMLCanvasElement | null> | undefined;
+  element: RefObject<HTMLCanvasElement | null> | undefined;
   sizeCallback: SizeCallbackType | undefined;
 };
 

@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { JSX } from 'react';
 
 import { I18n } from './I18n.dom.tsx';
 
@@ -12,7 +12,7 @@ export type PropsType = {
   showWhatsNewModal: () => unknown;
 };
 
-export function WhatsNewLink(props: PropsType): React.JSX.Element {
+export function WhatsNewLink(props: PropsType): JSX.Element {
   const { i18n, showWhatsNewModal } = props;
 
   return (

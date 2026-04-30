@@ -3,7 +3,7 @@
 
 import '../ts/window.d.ts';
 
-import React, { StrictMode } from 'react';
+import { StrictMode } from 'react';
 
 import '@signalapp/quill-cjs/dist/quill.core.css';
 import '../stylesheets/manifest.scss';

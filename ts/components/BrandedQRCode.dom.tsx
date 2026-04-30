@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useMemo } from 'react';
+import { useMemo, type JSX } from 'react';
 import QR from 'qrcode-generator';
 
 export type PropsType = Readonly<{
@@ -107,11 +107,7 @@ function compute(link: string): ComputeResultType {
   };
 }
 
-export function BrandedQRCode({
-  size,
-  link,
-  color,
-}: PropsType): React.JSX.Element {
+export function BrandedQRCode({ size, link, color }: PropsType): JSX.Element {
   const { path, moduleCount, radius } = useMemo(() => compute(link), [link]);
 
   const QR_SCALE = size / 2 / moduleCount;

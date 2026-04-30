@@ -1,7 +1,8 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { JSX } from 'react';
+
 import { action } from '@storybook/addon-actions';
 import type { PropsType } from './TapToViewNotAvailableModal.dom.tsx';
 import {
@@ -25,7 +26,7 @@ export default {
   },
 } satisfies ComponentMeta<PropsType>;
 
-export function Error(args: PropsType): React.JSX.Element {
+export function Error(args: PropsType): JSX.Element {
   return (
     <TapToViewNotAvailableModal
       {...args}
@@ -34,7 +35,7 @@ export function Error(args: PropsType): React.JSX.Element {
   );
 }
 
-export function Expired(args: PropsType): React.JSX.Element {
+export function Expired(args: PropsType): JSX.Element {
   return (
     <TapToViewNotAvailableModal
       {...args}

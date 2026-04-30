@@ -1,7 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import type { JSX } from 'react';
+
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import {
@@ -106,7 +107,7 @@ const getCommonProps = (options: {
 />
  */
 
-export function AcceptedIncomingAudioCall(): React.JSX.Element {
+export function AcceptedIncomingAudioCall(): JSX.Element {
   return (
     <CallingNotification
       {...getCommonProps({
@@ -122,7 +123,7 @@ export function AcceptedIncomingAudioCall(): React.JSX.Element {
   );
 }
 
-export function AcceptedIncomingAudioCallWithActiveCall(): React.JSX.Element {
+export function AcceptedIncomingAudioCallWithActiveCall(): JSX.Element {
   return (
     <CallingNotification
       {...getCommonProps({
@@ -139,7 +140,7 @@ export function AcceptedIncomingAudioCallWithActiveCall(): React.JSX.Element {
   );
 }
 
-export function AcceptedIncomingAudioCallInCurrentCall(): React.JSX.Element {
+export function AcceptedIncomingAudioCallInCurrentCall(): JSX.Element {
   const props = getCommonProps({
     mode: CallMode.Direct,
     type: CallType.Audio,
@@ -158,7 +159,7 @@ export function AcceptedIncomingAudioCallInCurrentCall(): React.JSX.Element {
   );
 }
 
-export function AcceptedIncomingVideoCall(): React.JSX.Element {
+export function AcceptedIncomingVideoCall(): JSX.Element {
   return (
     <CallingNotification
       {...getCommonProps({
@@ -174,7 +175,7 @@ export function AcceptedIncomingVideoCall(): React.JSX.Element {
   );
 }
 
-export function DeclinedIncomingAudioCall(): React.JSX.Element {
+export function DeclinedIncomingAudioCall(): JSX.Element {
   return (
     <CallingNotification
       {...getCommonProps({
@@ -190,7 +191,7 @@ export function DeclinedIncomingAudioCall(): React.JSX.Element {
   );
 }
 
-export function DeclinedIncomingVideoCall(): React.JSX.Element {
+export function DeclinedIncomingVideoCall(): JSX.Element {
   return (
     <CallingNotification
       {...getCommonProps({
@@ -206,7 +207,7 @@ export function DeclinedIncomingVideoCall(): React.JSX.Element {
   );
 }
 
-export function AcceptedOutgoingAudioCall(): React.JSX.Element {
+export function AcceptedOutgoingAudioCall(): JSX.Element {
   return (
     <CallingNotification
       {...getCommonProps({
@@ -222,7 +223,7 @@ export function AcceptedOutgoingAudioCall(): React.JSX.Element {
   );
 }
 
-export function AcceptedOutgoingVideoCall(): React.JSX.Element {
+export function AcceptedOutgoingVideoCall(): JSX.Element {
   return (
     <CallingNotification
       {...getCommonProps({
@@ -238,7 +239,7 @@ export function AcceptedOutgoingVideoCall(): React.JSX.Element {
   );
 }
 
-export function DeclinedOutgoingAudioCall(): React.JSX.Element {
+export function DeclinedOutgoingAudioCall(): JSX.Element {
   return (
     <CallingNotification
       {...getCommonProps({
@@ -254,7 +255,7 @@ export function DeclinedOutgoingAudioCall(): React.JSX.Element {
   );
 }
 
-export function DeclinedOutgoingVideoCall(): React.JSX.Element {
+export function DeclinedOutgoingVideoCall(): JSX.Element {
   return (
     <CallingNotification
       {...getCommonProps({
@@ -270,7 +271,7 @@ export function DeclinedOutgoingVideoCall(): React.JSX.Element {
   );
 }
 
-export function TwoIncomingDirectCallsBackToBack(): React.JSX.Element {
+export function TwoIncomingDirectCallsBackToBack(): JSX.Element {
   return (
     <>
       <CallingNotification
@@ -300,7 +301,7 @@ export function TwoIncomingDirectCallsBackToBack(): React.JSX.Element {
   );
 }
 
-export function TwoOutgoingDirectCallsBackToBack(): React.JSX.Element {
+export function TwoOutgoingDirectCallsBackToBack(): JSX.Element {
   return (
     <>
       <CallingNotification
@@ -330,7 +331,7 @@ export function TwoOutgoingDirectCallsBackToBack(): React.JSX.Element {
   );
 }
 
-export function GroupCallByUnknown(): React.JSX.Element {
+export function GroupCallByUnknown(): JSX.Element {
   return (
     <CallingNotification
       {...getCommonProps({
@@ -347,7 +348,7 @@ export function GroupCallByUnknown(): React.JSX.Element {
   );
 }
 
-export function GroupCallByYou(): React.JSX.Element {
+export function GroupCallByYou(): JSX.Element {
   return (
     <CallingNotification
       {...getCommonProps({
@@ -363,7 +364,7 @@ export function GroupCallByYou(): React.JSX.Element {
   );
 }
 
-export function GroupCallBySomeone(): React.JSX.Element {
+export function GroupCallBySomeone(): JSX.Element {
   return (
     <CallingNotification
       {...getCommonProps({
@@ -379,7 +380,7 @@ export function GroupCallBySomeone(): React.JSX.Element {
   );
 }
 
-export function GroupCallStartedBySomeoneWithALongName(): React.JSX.Element {
+export function GroupCallStartedBySomeoneWithALongName(): JSX.Element {
   return (
     <CallingNotification
       {...getCommonProps({
@@ -398,7 +399,7 @@ export function GroupCallStartedBySomeoneWithALongName(): React.JSX.Element {
   );
 }
 
-export function GroupCallActiveCallFull(): React.JSX.Element {
+export function GroupCallActiveCallFull(): JSX.Element {
   return (
     <CallingNotification
       {...getCommonProps({
@@ -414,7 +415,7 @@ export function GroupCallActiveCallFull(): React.JSX.Element {
   );
 }
 
-export function GroupCallActiveInAnotherCall(): React.JSX.Element {
+export function GroupCallActiveInAnotherCall(): JSX.Element {
   return (
     <CallingNotification
       {...getCommonProps({
@@ -431,7 +432,7 @@ export function GroupCallActiveInAnotherCall(): React.JSX.Element {
   );
 }
 
-export function GroupCallActiveInCurrentCall(): React.JSX.Element {
+export function GroupCallActiveInCurrentCall(): JSX.Element {
   const props = getCommonProps({
     mode: CallMode.Group,
     type: CallType.Group,
@@ -450,7 +451,7 @@ export function GroupCallActiveInCurrentCall(): React.JSX.Element {
   );
 }
 
-export function GroupCallEnded(): React.JSX.Element {
+export function GroupCallEnded(): JSX.Element {
   return (
     <CallingNotification
       {...getCommonProps({

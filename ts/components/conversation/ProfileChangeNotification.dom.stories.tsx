@@ -1,7 +1,8 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import type { JSX } from 'react';
+
 import type { Meta } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { getDefaultConversation } from '../../test-helpers/getDefaultConversation.std.ts';
@@ -14,7 +15,7 @@ export default {
   title: 'Components/Conversation/ProfileChangeNotification',
 } satisfies Meta<PropsType>;
 
-export function FromContact(): React.JSX.Element {
+export function FromContact(): JSX.Element {
   return (
     <ProfileChangeNotification
       i18n={i18n}
@@ -34,7 +35,7 @@ export function FromContact(): React.JSX.Element {
   );
 }
 
-export function FromNonContact(): React.JSX.Element {
+export function FromNonContact(): JSX.Element {
   return (
     <ProfileChangeNotification
       i18n={i18n}
@@ -53,7 +54,7 @@ export function FromNonContact(): React.JSX.Element {
   );
 }
 
-export function FromContactWithLongNamesBeforeAndAfter(): React.JSX.Element {
+export function FromContactWithLongNamesBeforeAndAfter(): JSX.Element {
   return (
     <ProfileChangeNotification
       i18n={i18n}
@@ -72,7 +73,7 @@ export function FromContactWithLongNamesBeforeAndAfter(): React.JSX.Element {
   );
 }
 
-export function WithNickname(): React.JSX.Element {
+export function WithNickname(): JSX.Element {
   return (
     <ProfileChangeNotification
       i18n={i18n}

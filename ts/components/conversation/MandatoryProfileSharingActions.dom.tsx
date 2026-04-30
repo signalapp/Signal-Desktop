@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import { useState, type JSX } from 'react';
 import { ContactName } from './ContactName.dom.tsx';
 import { Button, ButtonVariant } from '../Button.dom.tsx';
 import type { MessageRequestActionsConfirmationProps } from './MessageRequestActionsConfirmation.dom.tsx';
@@ -29,7 +29,7 @@ export type Props = {
   | 'deleteConversation'
 >;
 
-const learnMoreLink = (parts: Array<React.JSX.Element | string>) => (
+const learnMoreLink = (parts: Array<JSX.Element | string>) => (
   <a
     href="https://support.signal.org/hc/articles/360007459591"
     target="_blank"
@@ -53,8 +53,8 @@ export function MandatoryProfileSharingActions({
   blockAndReportSpam,
   blockConversation,
   deleteConversation,
-}: Props): React.JSX.Element {
-  const [mrState, setMrState] = React.useState(MessageRequestState.default);
+}: Props): JSX.Element {
+  const [mrState, setMrState] = useState(MessageRequestState.default);
 
   const firstNameContact = (
     <strong

@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { memo, useEffect } from 'react';
+import { memo, useEffect, type JSX } from 'react';
 import { useSelector } from 'react-redux';
 
 import type { Props as MessageDetailProps } from '../../components/conversation/MessageDetail.dom.tsx';
@@ -40,7 +40,7 @@ export const SmartMessageDetail = memo(function SmartMessageDetail({
   messageId,
 }: {
   messageId: string | undefined;
-}): React.JSX.Element | null {
+}): JSX.Element | null {
   const getMessageDetails = useSelector(getMessageDetailsSelector);
   const getContactNameColor = useSelector(getContactNameColorSelector);
   const getPreferredBadge = useSelector(getPreferredBadgeSelector);

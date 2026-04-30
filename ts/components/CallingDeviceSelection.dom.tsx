@@ -1,7 +1,8 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import type { JSX } from 'react';
+
 import type { AudioDevice } from '@signalapp/ringrtc';
 
 import type { Option } from './Select.dom.tsx';
@@ -107,7 +108,7 @@ export function CallingDeviceSelection({
   selectedMicrophone,
   selectedSpeaker,
   toggleSettings,
-}: Props): React.JSX.Element {
+}: Props): JSX.Element {
   const selectedMicrophoneIndex = selectedMicrophone
     ? selectedMicrophone.index
     : undefined;

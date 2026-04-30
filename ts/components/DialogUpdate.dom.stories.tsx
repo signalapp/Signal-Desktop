@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import { useState, useEffect, type JSX } from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import type { PropsType } from './DialogUpdate.dom.tsx';
@@ -31,7 +31,7 @@ export default {
   args: {},
 } satisfies Meta<PropsType>;
 
-export function KnobsPlayground(): React.JSX.Element {
+export function KnobsPlayground(): JSX.Element {
   const containerWidthBreakpoint = WidthBreakpoint.Wide;
   const dialogType = DialogType.AutoUpdate;
 
@@ -47,7 +47,7 @@ export function KnobsPlayground(): React.JSX.Element {
   );
 }
 
-export function UpdateWide(): React.JSX.Element {
+export function UpdateWide(): JSX.Element {
   return (
     <FakeLeftPaneContainer containerWidthBreakpoint={WidthBreakpoint.Wide}>
       <DialogUpdate
@@ -60,7 +60,7 @@ export function UpdateWide(): React.JSX.Element {
   );
 }
 
-export function DownloadedWide(): React.JSX.Element {
+export function DownloadedWide(): JSX.Element {
   return (
     <FakeLeftPaneContainer containerWidthBreakpoint={WidthBreakpoint.Wide}>
       <DialogUpdate
@@ -73,7 +73,7 @@ export function DownloadedWide(): React.JSX.Element {
   );
 }
 
-export function DownloadReadyWide(): React.JSX.Element {
+export function DownloadReadyWide(): JSX.Element {
   return (
     <FakeLeftPaneContainer containerWidthBreakpoint={WidthBreakpoint.Wide}>
       <DialogUpdate
@@ -87,7 +87,7 @@ export function DownloadReadyWide(): React.JSX.Element {
   );
 }
 
-export function FullDownloadReadyWide(): React.JSX.Element {
+export function FullDownloadReadyWide(): JSX.Element {
   return (
     <FakeLeftPaneContainer containerWidthBreakpoint={WidthBreakpoint.Wide}>
       <DialogUpdate
@@ -101,12 +101,12 @@ export function FullDownloadReadyWide(): React.JSX.Element {
   );
 }
 
-export function DownloadingWide(): React.JSX.Element {
-  const [downloadedSize, setDownloadedSize] = React.useState(0);
+export function DownloadingWide(): JSX.Element {
+  const [downloadedSize, setDownloadedSize] = useState(0);
 
   const { downloadSize } = defaultProps;
 
-  React.useEffect(() => {
+  useEffect(() => {
     const interval = setInterval(() => {
       setDownloadedSize(x => {
         const newValue = x + 0.25 * downloadSize;
@@ -133,7 +133,7 @@ export function DownloadingWide(): React.JSX.Element {
   );
 }
 
-export function CannotUpdateWide(): React.JSX.Element {
+export function CannotUpdateWide(): JSX.Element {
   return (
     <FakeLeftPaneContainer containerWidthBreakpoint={WidthBreakpoint.Wide}>
       <DialogUpdate
@@ -146,7 +146,7 @@ export function CannotUpdateWide(): React.JSX.Element {
   );
 }
 
-export function CannotUpdateBetaWide(): React.JSX.Element {
+export function CannotUpdateBetaWide(): JSX.Element {
   return (
     <FakeLeftPaneContainer containerWidthBreakpoint={WidthBreakpoint.Wide}>
       <DialogUpdate
@@ -159,7 +159,7 @@ export function CannotUpdateBetaWide(): React.JSX.Element {
   );
 }
 
-export function CannotUpdateRequireManualWide(): React.JSX.Element {
+export function CannotUpdateRequireManualWide(): JSX.Element {
   return (
     <FakeLeftPaneContainer containerWidthBreakpoint={WidthBreakpoint.Wide}>
       <DialogUpdate
@@ -172,7 +172,7 @@ export function CannotUpdateRequireManualWide(): React.JSX.Element {
   );
 }
 
-export function CannotUpdateRequireManualBetaWide(): React.JSX.Element {
+export function CannotUpdateRequireManualBetaWide(): JSX.Element {
   return (
     <FakeLeftPaneContainer containerWidthBreakpoint={WidthBreakpoint.Wide}>
       <DialogUpdate
@@ -185,7 +185,7 @@ export function CannotUpdateRequireManualBetaWide(): React.JSX.Element {
   );
 }
 
-export function MacOSReadOnlyWide(): React.JSX.Element {
+export function MacOSReadOnlyWide(): JSX.Element {
   return (
     <FakeLeftPaneContainer containerWidthBreakpoint={WidthBreakpoint.Wide}>
       <DialogUpdate
@@ -198,7 +198,7 @@ export function MacOSReadOnlyWide(): React.JSX.Element {
   );
 }
 
-export function UnsupportedOSWide(): React.JSX.Element {
+export function UnsupportedOSWide(): JSX.Element {
   return (
     <FakeLeftPaneContainer containerWidthBreakpoint={WidthBreakpoint.Wide}>
       <DialogUpdate
@@ -211,7 +211,7 @@ export function UnsupportedOSWide(): React.JSX.Element {
   );
 }
 
-export function UpdateNarrow(): React.JSX.Element {
+export function UpdateNarrow(): JSX.Element {
   return (
     <FakeLeftPaneContainer containerWidthBreakpoint={WidthBreakpoint.Narrow}>
       <DialogUpdate
@@ -224,7 +224,7 @@ export function UpdateNarrow(): React.JSX.Element {
   );
 }
 
-export function DownloadedNarrow(): React.JSX.Element {
+export function DownloadedNarrow(): JSX.Element {
   return (
     <FakeLeftPaneContainer containerWidthBreakpoint={WidthBreakpoint.Narrow}>
       <DialogUpdate
@@ -237,7 +237,7 @@ export function DownloadedNarrow(): React.JSX.Element {
   );
 }
 
-export function DownloadReadyNarrow(): React.JSX.Element {
+export function DownloadReadyNarrow(): JSX.Element {
   return (
     <FakeLeftPaneContainer containerWidthBreakpoint={WidthBreakpoint.Narrow}>
       <DialogUpdate
@@ -251,7 +251,7 @@ export function DownloadReadyNarrow(): React.JSX.Element {
   );
 }
 
-export function FullDownloadReadyNarrow(): React.JSX.Element {
+export function FullDownloadReadyNarrow(): JSX.Element {
   return (
     <FakeLeftPaneContainer containerWidthBreakpoint={WidthBreakpoint.Narrow}>
       <DialogUpdate
@@ -265,7 +265,7 @@ export function FullDownloadReadyNarrow(): React.JSX.Element {
   );
 }
 
-export function DownloadingNarrow(): React.JSX.Element {
+export function DownloadingNarrow(): JSX.Element {
   return (
     <FakeLeftPaneContainer containerWidthBreakpoint={WidthBreakpoint.Narrow}>
       <DialogUpdate
@@ -278,7 +278,7 @@ export function DownloadingNarrow(): React.JSX.Element {
   );
 }
 
-export function CannotUpdateNarrow(): React.JSX.Element {
+export function CannotUpdateNarrow(): JSX.Element {
   return (
     <FakeLeftPaneContainer containerWidthBreakpoint={WidthBreakpoint.Narrow}>
       <DialogUpdate
@@ -291,7 +291,7 @@ export function CannotUpdateNarrow(): React.JSX.Element {
   );
 }
 
-export function CannotUpdateBetaNarrow(): React.JSX.Element {
+export function CannotUpdateBetaNarrow(): JSX.Element {
   return (
     <FakeLeftPaneContainer containerWidthBreakpoint={WidthBreakpoint.Narrow}>
       <DialogUpdate
@@ -304,7 +304,7 @@ export function CannotUpdateBetaNarrow(): React.JSX.Element {
   );
 }
 
-export function CannotUpdateRequireManualNarrow(): React.JSX.Element {
+export function CannotUpdateRequireManualNarrow(): JSX.Element {
   return (
     <FakeLeftPaneContainer containerWidthBreakpoint={WidthBreakpoint.Narrow}>
       <DialogUpdate
@@ -317,7 +317,7 @@ export function CannotUpdateRequireManualNarrow(): React.JSX.Element {
   );
 }
 
-export function CannotUpdateRequireManualBetaNarrow(): React.JSX.Element {
+export function CannotUpdateRequireManualBetaNarrow(): JSX.Element {
   return (
     <FakeLeftPaneContainer containerWidthBreakpoint={WidthBreakpoint.Narrow}>
       <DialogUpdate
@@ -330,7 +330,7 @@ export function CannotUpdateRequireManualBetaNarrow(): React.JSX.Element {
   );
 }
 
-export function MacOSReadOnlyNarrow(): React.JSX.Element {
+export function MacOSReadOnlyNarrow(): JSX.Element {
   return (
     <FakeLeftPaneContainer containerWidthBreakpoint={WidthBreakpoint.Narrow}>
       <DialogUpdate
@@ -343,7 +343,7 @@ export function MacOSReadOnlyNarrow(): React.JSX.Element {
   );
 }
 
-export function UnsupportedOSNarrow(): React.JSX.Element {
+export function UnsupportedOSNarrow(): JSX.Element {
   return (
     <FakeLeftPaneContainer containerWidthBreakpoint={WidthBreakpoint.Narrow}>
       <DialogUpdate

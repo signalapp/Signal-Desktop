@@ -1,9 +1,10 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { JSX } from 'react';
+
 import { Delta } from '@signalapp/quill-cjs';
 import Emitter from '@signalapp/quill-cjs/core/emitter.js';
-import React from 'react';
 import lodash from 'lodash';
 import type Quill from '@signalapp/quill-cjs';
 import { Popper } from 'react-popper';
@@ -34,7 +35,7 @@ const log = createLogger('completion');
 
 export type EmojiCompletionOptions = {
   onSelectEmoji: (emojiSelection: FunEmojiSelection) => void;
-  setEmojiPickerElement: (element: React.JSX.Element | null) => void;
+  setEmojiPickerElement: (element: JSX.Element | null) => void;
   emojiSkinToneDefault: EmojiSkinTone | null;
   emojiSearch: FunEmojiSearch;
   emojiLocalizer: FunEmojiLocalizer;

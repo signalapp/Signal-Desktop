@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import { createRef, useState, useEffect, type JSX } from 'react';
 import lodash from 'lodash';
 import type { Meta } from '@storybook/react';
 import type { PropsType } from './GroupCallRemoteParticipant.dom.tsx';
@@ -56,7 +56,7 @@ const createProps = (
   getGroupCallVideoFrameSource: () => {
     return { receiveVideoFrame: () => undefined };
   },
-  imageDataCache: React.createRef<CallingImageDataCache | null>(),
+  imageDataCache: createRef<CallingImageDataCache | null>(),
   i18n,
   audioLevel: 0,
   remoteParticipant: {
@@ -90,7 +90,7 @@ export default {
   args: {},
 } satisfies Meta<PropsType>;
 
-export function Default(): React.JSX.Element {
+export function Default(): JSX.Element {
   return (
     <GroupCallRemoteParticipant
       {...createProps({
@@ -104,7 +104,7 @@ export function Default(): React.JSX.Element {
   );
 }
 
-export function Speaking(): React.JSX.Element {
+export function Speaking(): JSX.Element {
   function createSpeakingProps(
     index: number,
     remoteParticipantsCount: number,
@@ -132,7 +132,7 @@ export function Speaking(): React.JSX.Element {
   );
 }
 
-export function HandRaised(): React.JSX.Element {
+export function HandRaised(): JSX.Element {
   return (
     <GroupCallRemoteParticipant
       {...createProps(
@@ -149,7 +149,7 @@ export function HandRaised(): React.JSX.Element {
   );
 }
 
-export function IsInPip(): React.JSX.Element {
+export function IsInPip(): JSX.Element {
   return (
     <GroupCallRemoteParticipant
       {...createProps({
@@ -159,7 +159,7 @@ export function IsInPip(): React.JSX.Element {
   );
 }
 
-export function Blocked(): React.JSX.Element {
+export function Blocked(): JSX.Element {
   return (
     <GroupCallRemoteParticipant
       {...createProps(
@@ -176,7 +176,7 @@ export function Blocked(): React.JSX.Element {
   );
 }
 
-export function NoMediaKeys(): React.JSX.Element {
+export function NoMediaKeys(): JSX.Element {
   return (
     <GroupCallRemoteParticipant
       {...createProps(
@@ -197,9 +197,9 @@ export function NoMediaKeys(): React.JSX.Element {
   );
 }
 
-export function NoMediaKeysBlockedIntermittent(): React.JSX.Element {
-  const [isBlocked, setIsBlocked] = React.useState(false);
-  React.useEffect(() => {
+export function NoMediaKeysBlockedIntermittent(): JSX.Element {
+  const [isBlocked, setIsBlocked] = useState(false);
+  useEffect(() => {
     const interval = setInterval(() => {
       setIsBlocked(value => !value);
     }, 6000);
@@ -207,8 +207,8 @@ export function NoMediaKeysBlockedIntermittent(): React.JSX.Element {
     return () => clearInterval(interval);
   }, [isBlocked]);
 
-  const [mediaKeysReceived, setMediaKeysReceived] = React.useState(false);
-  React.useEffect(() => {
+  const [mediaKeysReceived, setMediaKeysReceived] = useState(false);
+  useEffect(() => {
     const interval = setInterval(() => {
       setMediaKeysReceived(value => !value);
     }, 3000);

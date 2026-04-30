@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { Meta, StoryFn } from '@storybook/react';
-import * as React from 'react';
+import { createRef, type JSX } from 'react';
 
 import { action } from '@storybook/addon-actions';
 
@@ -87,7 +87,7 @@ const defaultMessageProps: TimelineMessagesProps = {
   canDownload: true,
   checkForAccount: action('checkForAccount'),
   clearTargetedMessage: action('default--clearTargetedMessage'),
-  containerElementRef: React.createRef<HTMLElement | null>(),
+  containerElementRef: createRef<HTMLElement | null>(),
   containerWidthBreakpoint: WidthBreakpoint.Wide,
   conversationColor: 'crimson',
   conversationId: 'conversationId',
@@ -243,7 +243,7 @@ IncomingByMe.args = {
   isIncoming: true,
 };
 
-export function IncomingOutgoingColors(args: Props): React.JSX.Element {
+export function IncomingOutgoingColors(args: Props): JSX.Element {
   return (
     <>
       {ConversationColors.map(color =>
@@ -570,7 +570,7 @@ MentionIncomingMe.args = {
   text: '@Tony Stark sure',
 };
 
-export function CustomColor(args: Props): React.JSX.Element {
+export function CustomColor(args: Props): JSX.Element {
   return (
     <>
       <Quote

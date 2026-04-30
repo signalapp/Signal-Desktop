@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useCallback } from 'react';
+import { useCallback, type JSX } from 'react';
 import { Button, ButtonVariant } from './Button.dom.tsx';
 import type { LocalizerType } from '../types/Util.std.ts';
 import { ScreenShareStatus } from '../types/Calling.std.ts';
@@ -21,7 +21,7 @@ export function CallingScreenSharingController({
   onStopSharing,
   status,
   presentedSourceName,
-}: PropsType): React.JSX.Element {
+}: PropsType): JSX.Element {
   let text: string;
 
   if (status === ScreenShareStatus.Reconnecting) {

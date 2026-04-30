@@ -1,7 +1,8 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import type { JSX } from 'react';
+
 import type { Meta } from '@storybook/react';
 import type { Props } from './AddNewLines.dom.tsx';
 import { AddNewLines } from './AddNewLines.dom.tsx';
@@ -15,7 +16,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   text: overrideProps.text || '',
 });
 
-export function AllNewlines(): React.JSX.Element {
+export function AllNewlines(): JSX.Element {
   const props = createProps({
     text: '\n\n\n',
   });
@@ -23,7 +24,7 @@ export function AllNewlines(): React.JSX.Element {
   return <AddNewLines {...props} />;
 }
 
-export function StartingEndingWithNewlines(): React.JSX.Element {
+export function StartingEndingWithNewlines(): JSX.Element {
   const props = createProps({
     text: '\nSome text\n',
   });
@@ -31,7 +32,7 @@ export function StartingEndingWithNewlines(): React.JSX.Element {
   return <AddNewLines {...props} />;
 }
 
-export function NewlinesInTheMiddle(): React.JSX.Element {
+export function NewlinesInTheMiddle(): JSX.Element {
   const props = createProps({
     text: 'Some\ntext',
   });
@@ -39,7 +40,7 @@ export function NewlinesInTheMiddle(): React.JSX.Element {
   return <AddNewLines {...props} />;
 }
 
-export function NoNewlines(): React.JSX.Element {
+export function NoNewlines(): JSX.Element {
   const props = createProps({
     text: 'Some text',
   });
@@ -47,7 +48,7 @@ export function NoNewlines(): React.JSX.Element {
   return <AddNewLines {...props} />;
 }
 
-export function CustomRenderFunction(): React.JSX.Element {
+export function CustomRenderFunction(): JSX.Element {
   const props = createProps({
     text: 'Some text',
     renderNonNewLine: ({ text: theText, key }) => (

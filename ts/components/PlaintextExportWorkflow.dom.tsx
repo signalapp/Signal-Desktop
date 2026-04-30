@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import { useState, type JSX } from 'react';
 
 import {
   LocalExportErrors,
@@ -29,10 +29,10 @@ export type PropsType = {
   workflow: PlaintextExportWorkflowType;
 };
 
-function Bold(parts: Array<string | React.JSX.Element>) {
+function Bold(parts: Array<string | JSX.Element>) {
   return <b>{parts}</b>;
 }
-function Secondary(parts: Array<string | React.JSX.Element>) {
+function Secondary(parts: Array<string | JSX.Element>) {
   return <span className={tw('text-label-secondary')}>{parts}</span>;
 }
 
@@ -44,8 +44,8 @@ export function PlaintextExportWorkflow({
   osName,
   verifyWithOSForExport,
   workflow,
-}: PropsType): React.JSX.Element {
-  const [includeMedia, setIncludeMedia] = React.useState(true);
+}: PropsType): JSX.Element {
+  const [includeMedia, setIncludeMedia] = useState(true);
   const { step } = workflow;
 
   if (

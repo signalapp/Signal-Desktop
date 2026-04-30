@@ -1,6 +1,6 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import React, { memo, useCallback, useEffect } from 'react';
+import { memo, useCallback, useEffect, type JSX } from 'react';
 import { useSelector } from 'react-redux';
 import { DataReader } from '../../sql/Client.preload.ts';
 import { useItemsActions } from '../ducks/items.preload.ts';
@@ -109,7 +109,7 @@ function renderCallLinkDetails(
   roomId: string,
   callHistoryGroup: CallHistoryGroup,
   onClose: () => void
-): React.JSX.Element {
+): JSX.Element {
   return (
     <SmartCallLinkDetails
       roomId={roomId}
@@ -122,7 +122,7 @@ function renderCallLinkDetails(
 function renderConversationDetails(
   conversationId: string,
   callHistoryGroup: CallHistoryGroup | null
-): React.JSX.Element {
+): JSX.Element {
   return (
     <SmartConversationDetails
       conversationId={conversationId}

@@ -1,7 +1,8 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { JSX } from 'react';
+
 import lodash from 'lodash';
 
 import { DialogType } from '../../types/Dialogs.std.ts';
@@ -46,8 +47,8 @@ export function InstallScreenUpdateDialog({
   currentVersion,
   OS,
   onClose = noop,
-}: PropsType): React.JSX.Element | null {
-  const learnMoreLink = (parts: Array<string | React.JSX.Element>) => (
+}: PropsType): JSX.Element | null {
+  const learnMoreLink = (parts: Array<string | JSX.Element>) => (
     <a
       key="signal-support"
       href={UNSUPPORTED_OS_URL}
@@ -122,7 +123,7 @@ export function InstallScreenUpdateDialog({
     dialogType === DialogType.DownloadedUpdate
   ) {
     let title = i18n('icu:autoUpdateNewVersionTitle');
-    let actionText: string | React.JSX.Element = i18n(
+    let actionText: string | JSX.Element = i18n(
       'icu:autoUpdateRestartButtonLabel'
     );
     let bodyText = i18n('icu:InstallScreenUpdateDialog--auto-update__body');
@@ -269,7 +270,7 @@ function DownloadingModal({
 }: {
   i18n: LocalizerType;
   width: number;
-}): React.JSX.Element {
+}): JSX.Element {
   // Focus trap can't be used because there are no elements that can be
   // focused within the modal.
   return (

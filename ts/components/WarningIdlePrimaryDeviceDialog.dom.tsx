@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { JSX } from 'react';
 
 import {
   LeftPaneDialog,
@@ -24,7 +24,7 @@ export function WarningIdlePrimaryDeviceDialog({
   containerWidthBreakpoint,
   i18n,
   handleClose,
-}: Props & { handleClose?: VoidFunction }): React.JSX.Element {
+}: Props & { handleClose?: VoidFunction }): JSX.Element {
   return (
     <LeftPaneDialog
       containerWidthBreakpoint={containerWidthBreakpoint}

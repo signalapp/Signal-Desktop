@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import type { ReactNode } from 'react';
-import React, { memo, useCallback } from 'react';
+import type { ReactNode, JSX } from 'react';
+import { memo, useCallback } from 'react';
 import type { Placement } from 'react-aria';
 import { DialogTrigger } from 'react-aria-components';
 import { FunPopover } from './base/FunPopover.dom.tsx';
@@ -25,7 +25,7 @@ export type FunStickerPickerProps = Readonly<{
 
 export const FunStickerPicker = memo(function FunStickerPicker(
   props: FunStickerPickerProps
-): React.JSX.Element {
+): JSX.Element {
   const { onOpenChange } = props;
   const fun = useFunContext();
   const { onOpenChange: onFunOpenChange } = fun;

@@ -1,7 +1,8 @@
 // Copyright 2026 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { JSX } from 'react';
+
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import type { PropsType } from './GroupMemberLabelInfoModal.dom.tsx';
@@ -22,17 +23,17 @@ const createProps = (): PropsType => ({
   showEditMemberLabelScreen: action('showEditMemberLabelScreen'),
 });
 
-export function NoExistingLabel(): React.JSX.Element {
+export function NoExistingLabel(): JSX.Element {
   return <GroupMemberLabelInfoModal {...createProps()} />;
 }
 
-export function ExistingLabel(): React.JSX.Element {
+export function ExistingLabel(): JSX.Element {
   const props = { ...createProps(), hasLabel: true };
 
   return <GroupMemberLabelInfoModal {...props} />;
 }
 
-export function CannotAddLabel(): React.JSX.Element {
+export function CannotAddLabel(): JSX.Element {
   const props = {
     ...createProps(),
     canAddLabel: false,
@@ -41,7 +42,7 @@ export function CannotAddLabel(): React.JSX.Element {
   return <GroupMemberLabelInfoModal {...props} />;
 }
 
-export function CanAddLabelButFeatureDisabled(): React.JSX.Element {
+export function CanAddLabelButFeatureDisabled(): JSX.Element {
   const props = {
     ...createProps(),
     canAddLabel: false,

@@ -1,16 +1,10 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useSpring, animated } from '@react-spring/web';
 
-import type { MutableRefObject } from 'react';
+import type { MutableRefObject, JSX, ReactNode } from 'react';
 
 import { AvatarColors } from '../types/Colors.std.ts';
 import { AvatarEditor } from './AvatarEditor.dom.tsx';
@@ -79,7 +73,7 @@ type PropsExternalType = {
     profileData: ProfileDataType | undefined,
     avatarUpdateOptions: AvatarUpdateOptionsType
   ) => unknown;
-  renderUsernameEditor: (props: { onClose: () => void }) => React.JSX.Element;
+  renderUsernameEditor: (props: { onClose: () => void }) => JSX.Element;
 };
 
 export type PropsDataType = {
@@ -200,7 +194,7 @@ export function ProfileEditor({
   usernameLinkColor,
   usernameLink,
   usernameLinkCorrupted,
-}: PropsType): React.JSX.Element {
+}: PropsType): JSX.Element {
   const focusInputRef = useRef<HTMLInputElement | null>(null);
   const tryClose = useRef<(() => void) | null>(null);
   const [confirmDiscardModal, confirmDiscardIf] = useConfirmDiscard({
@@ -343,7 +337,7 @@ export function ProfileEditor({
   }, [confirmDiscardIf, stagedProfile, fullName, fullBio, setStagedProfile]);
   tryClose.current = onTryClose;
 
-  let content: React.JSX.Element;
+  let content: JSX.Element;
 
   if (editState === ProfileEditorPage.BetterAvatar) {
     content = (
@@ -567,7 +561,7 @@ export function ProfileEditor({
       />
     );
   } else if (editState === ProfileEditorPage.None) {
-    let actions: React.JSX.Element | undefined;
+    let actions: JSX.Element | undefined;
     let alwaysShowActions = false;
 
     if (usernameEditState === UsernameEditState.Deleting) {
@@ -627,9 +621,9 @@ export function ProfileEditor({
       }
     }
 
-    let maybeUsernameLinkRow: React.JSX.Element | undefined;
+    let maybeUsernameLinkRow: JSX.Element | undefined;
     if (username && !usernameCorrupted) {
-      let linkActions: React.JSX.Element | undefined;
+      let linkActions: JSX.Element | undefined;
 
       if (usernameLinkCorrupted) {
         linkActions = (
@@ -869,7 +863,7 @@ function UsernameLinkTooltip({
   i18n,
 }: {
   handleClose: VoidFunction;
-  children: React.ReactNode;
+  children: ReactNode;
   i18n: LocalizerType;
 }) {
   const reducedMotion = useReducedMotion();

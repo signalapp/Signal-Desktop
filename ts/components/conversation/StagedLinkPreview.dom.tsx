@@ -1,7 +1,8 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { JSX } from 'react';
+
 import classNames from 'classnames';
 import lodash from 'lodash';
 
@@ -26,7 +27,7 @@ export type Props = LinkPreviewForUIType & {
   onClose?: () => void;
 };
 
-export function StagedLinkPreview(props: Props): React.JSX.Element {
+export function StagedLinkPreview(props: Props): JSX.Element {
   const { date, description, domain, i18n, moduleClassName, onClose, title } =
     props;
   const isLoaded = Boolean(domain);
@@ -36,7 +37,7 @@ export function StagedLinkPreview(props: Props): React.JSX.Element {
     moduleClassName
   );
 
-  let maybeContent: React.JSX.Element | undefined;
+  let maybeContent: JSX.Element | undefined;
   if (isLoaded) {
     // No title, no description - display only domain
     if (!title && !description) {
@@ -107,7 +108,7 @@ function Thumbnail({
   | 'moduleClassName'
   | 'title'
   | 'url'
->): React.JSX.Element {
+>): JSX.Element {
   const isImage = isImageAttachment(image);
   const getClassName = getClassNamesFor(
     'module-staged-link-preview',

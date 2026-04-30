@@ -1,8 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useCallback } from 'react';
-import type { RefObject } from 'react';
+import { useCallback, useState } from 'react';
+import type { RefObject, JSX, ReactElement } from 'react';
 import classNames from 'classnames';
 import lodash from 'lodash';
 import { animated, useSpring } from '@react-spring/web';
@@ -143,7 +143,7 @@ function PlayedDot({
  * `context` is required for displaying separate MessageAudio instances in
  * MessageDetails and Message React components.
  */
-export function MessageAudio(props: Props): React.JSX.Element {
+export function MessageAudio(props: Props): JSX.Element {
   const {
     active,
     buttonRef,
@@ -175,7 +175,7 @@ export function MessageAudio(props: Props): React.JSX.Element {
 
   const isPlaying = active?.playing ?? false;
 
-  const [isPlayedDotVisible, setIsPlayedDotVisible] = React.useState(!played);
+  const [isPlayedDotVisible, setIsPlayedDotVisible] = useState(!played);
 
   const audioUrl = isDownloaded(attachment) ? attachment.url : undefined;
 
@@ -284,7 +284,7 @@ export function MessageAudio(props: Props): React.JSX.Element {
     />
   );
 
-  let button: React.ReactElement;
+  let button: ReactElement;
   if (state === State.Computing) {
     // Not really a button, but who cares?
     button = (

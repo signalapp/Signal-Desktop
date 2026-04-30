@@ -1,7 +1,8 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { JSX, KeyboardEvent, MouseEvent } from 'react';
+
 import classNames from 'classnames';
 import type { ReadonlyDeep } from 'type-fest';
 
@@ -24,7 +25,7 @@ export type Props = {
   withContentBelow: boolean;
 };
 
-export function EmbeddedContact(props: Props): React.JSX.Element {
+export function EmbeddedContact(props: Props): JSX.Element {
   const {
     contact,
     i18n,
@@ -49,7 +50,7 @@ export function EmbeddedContact(props: Props): React.JSX.Element {
       <button
         type="button"
         className="module-embedded-contact__avatar-container"
-        onKeyDown={(event: React.KeyboardEvent) => {
+        onKeyDown={(event: KeyboardEvent) => {
           if (event.key !== 'Enter' && event.key !== 'Space') {
             return;
           }
@@ -61,7 +62,7 @@ export function EmbeddedContact(props: Props): React.JSX.Element {
             onClick();
           }
         }}
-        onClick={(event: React.MouseEvent) => {
+        onClick={(event: MouseEvent) => {
           if (onClick) {
             event.stopPropagation();
             event.preventDefault();

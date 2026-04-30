@@ -1,7 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { JSX } from 'react';
+
 import lodash from 'lodash';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
@@ -36,7 +37,7 @@ const getCommonProps = () => ({
   theme: ThemeType.light,
 });
 
-export function DirectConversationsWithSameTitle(): React.JSX.Element {
+export function DirectConversationsWithSameTitle(): JSX.Element {
   return (
     <ContactSpoofingReviewDialog
       {...getCommonProps()}
@@ -55,7 +56,7 @@ export function DirectConversationsWithSameTitle(): React.JSX.Element {
   );
 }
 
-export function NotAdminMany(): React.JSX.Element {
+export function NotAdminMany(): JSX.Element {
   return (
     <ContactSpoofingReviewDialog
       {...getCommonProps()}
@@ -86,7 +87,7 @@ export function NotAdminMany(): React.JSX.Element {
   );
 }
 
-export function NotAdminOne(): React.JSX.Element {
+export function NotAdminOne(): JSX.Element {
   return (
     <ContactSpoofingReviewDialog
       {...getCommonProps()}
@@ -115,7 +116,7 @@ export function NotAdminOne(): React.JSX.Element {
   );
 }
 
-export function AdminMany(): React.JSX.Element {
+export function AdminMany(): JSX.Element {
   return (
     <ContactSpoofingReviewDialog
       {...getCommonProps()}
@@ -146,7 +147,7 @@ export function AdminMany(): React.JSX.Element {
   );
 }
 
-export function AdminOne(): React.JSX.Element {
+export function AdminOne(): JSX.Element {
   return (
     <ContactSpoofingReviewDialog
       {...getCommonProps()}

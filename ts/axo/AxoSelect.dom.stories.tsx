@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import type { ReactNode } from 'react';
-import React, { useState } from 'react';
+import type { ReactNode, JSX } from 'react';
+import { useState } from 'react';
 import type { Meta } from '@storybook/react';
 import { AxoSelect } from './AxoSelect.dom.tsx';
 import { tw } from './tw.dom.tsx';
@@ -14,7 +14,7 @@ function TemplateItem(props: {
   value: string;
   disabled?: boolean;
   children: ReactNode;
-}): React.JSX.Element {
+}): JSX.Element {
   return (
     <AxoSelect.Item value={props.value} disabled={props.disabled}>
       <AxoSelect.ItemText>{props.children}</AxoSelect.ItemText>
@@ -71,7 +71,7 @@ function Template(props: {
   );
 }
 
-export function Basic(): React.JSX.Element {
+export function Basic(): JSX.Element {
   return (
     <div
       className={tw(

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { AudioDevice } from '@signalapp/ringrtc';
-import React, {
+import {
   useCallback,
   useEffect,
   useMemo,
@@ -13,7 +13,7 @@ import React, {
 import lodash from 'lodash';
 import classNames from 'classnames';
 import * as LocaleMatcher from '@formatjs/intl-localematcher';
-import type { MutableRefObject, ReactNode } from 'react';
+import type { MutableRefObject, ReactNode, JSX } from 'react';
 import type { RowType } from '@signalapp/sqlcipher';
 import type { BackupLevel } from '@signalapp/libsignal-client/zkgroup.js';
 import { ChatColorPicker } from './ChatColorPicker.dom.tsx';
@@ -233,29 +233,29 @@ type PropsFunctionType = {
     contentsRef: MutableRefObject<HTMLDivElement | null>;
     settingsLocation: SettingsLocation;
     setSettingsLocation: (settingsLocation: SettingsLocation) => void;
-  }) => React.JSX.Element;
+  }) => JSX.Element;
   renderNotificationProfilesHome: (
     props: SmartNotificationProfilesProps
-  ) => React.JSX.Element;
+  ) => JSX.Element;
   renderNotificationProfilesCreateFlow: (
     props: SmartNotificationProfilesProps
-  ) => React.JSX.Element;
+  ) => JSX.Element;
 
   renderProfileEditor: (options: {
     contentsRef: MutableRefObject<HTMLDivElement | null>;
-  }) => React.JSX.Element;
+  }) => JSX.Element;
   renderToastManager: (
     _: Readonly<{ containerWidthBreakpoint: WidthBreakpoint }>
-  ) => React.JSX.Element;
+  ) => JSX.Element;
   renderUpdateDialog: (
     _: Readonly<{ containerWidthBreakpoint: WidthBreakpoint }>
-  ) => React.JSX.Element;
+  ) => JSX.Element;
   renderPreferencesChatFoldersPage: (
     props: SmartPreferencesChatFoldersPageProps
-  ) => React.JSX.Element;
+  ) => JSX.Element;
   renderPreferencesEditChatFolderPage: (
     props: SmartPreferencesEditChatFolderPageProps
-  ) => React.JSX.Element;
+  ) => JSX.Element;
 
   // Other props
   addCustomColor: (color: CustomColorType) => unknown;
@@ -607,7 +607,7 @@ export function Preferences({
   sfuUrl,
   forceKeyTransparencyCheck,
   keyTransparencySelfHealth,
-}: PropsType): React.JSX.Element {
+}: PropsType): JSX.Element {
   const storiesId = useId();
   const themeSelectId = useId();
   const zoomSelectId = useId();
@@ -652,7 +652,7 @@ export function Preferences({
     setSettingsLocation({ page: SettingsPage.General });
   }
 
-  let maybeUpdateDialog: React.JSX.Element | undefined;
+  let maybeUpdateDialog: JSX.Element | undefined;
   if (shouldShowUpdateDialog) {
     maybeUpdateDialog = renderUpdateDialog({
       containerWidthBreakpoint: WidthBreakpoint.Wide,
@@ -809,7 +809,7 @@ export function Preferences({
     });
   }, [localeSearchOptions, languageSearchInput]);
 
-  let content: React.JSX.Element | undefined;
+  let content: JSX.Element | undefined;
 
   if (settingsLocation.page === SettingsPage.Profile) {
     content = renderProfileEditor({
@@ -2425,7 +2425,7 @@ export function Preferences({
     } else if (settingsLocation.page !== SettingsPage.Backups) {
       backPage = SettingsPage.Backups;
     }
-    let backButton: React.JSX.Element | undefined;
+    let backButton: JSX.Element | undefined;
     if (backPage) {
       backButton = (
         <button
@@ -2793,12 +2793,12 @@ export function PreferencesContent({
   title,
   actions,
 }: {
-  backButton?: React.JSX.Element | undefined;
-  contents: React.JSX.Element | undefined;
+  backButton?: JSX.Element | undefined;
+  contents: JSX.Element | undefined;
   contentsRef: MutableRefObject<HTMLDivElement | null>;
   title: string | undefined;
   actions?: ReactNode;
-}): React.JSX.Element {
+}): JSX.Element {
   return (
     <div className="Preferences__content">
       <div className="Preferences__title">

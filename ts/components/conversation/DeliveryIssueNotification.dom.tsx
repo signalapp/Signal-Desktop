@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReactElement } from 'react';
-import React, { useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import { Button, ButtonSize, ButtonVariant } from '../Button.dom.tsx';
 import { SystemMessage } from './SystemMessage.dom.tsx';

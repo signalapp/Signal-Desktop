@@ -1,6 +1,6 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import React, { type ComponentType, useEffect, useMemo, useId } from 'react';
+import { type ComponentType, useEffect, useMemo, useId, type JSX } from 'react';
 import { VisuallyHidden } from 'react-aria';
 import type { LocalizerType } from '../types/I18N.std.ts';
 import { Button, ButtonVariant } from './Button.dom.tsx';
@@ -33,7 +33,7 @@ export type DraftGifMessageSendModalProps = Readonly<{
 
 export function DraftGifMessageSendModal(
   props: DraftGifMessageSendModalProps
-): React.JSX.Element {
+): JSX.Element {
   const { i18n, RenderCompositionTextArea } = props;
   const descriptionId = useId();
 

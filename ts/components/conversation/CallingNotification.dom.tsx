@@ -1,8 +1,8 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ReactNode } from 'react';
-import React from 'react';
+import type { ReactNode, FC } from 'react';
+import { memo } from 'react';
 import lodash from 'lodash';
 
 import { SystemMessage, SystemMessageKind } from './SystemMessage.dom.tsx';
@@ -52,7 +52,7 @@ export type PropsType = CallingNotificationType &
   PropsActionsType &
   PropsHousekeeping;
 
-export const CallingNotification: React.FC<PropsType> = React.memo(
+export const CallingNotification: FC<PropsType> = memo(
   function CallingNotificationInner(props) {
     const { i18n } = props;
     if (props.callHistory == null) {

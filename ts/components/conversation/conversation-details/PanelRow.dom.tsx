@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useId } from 'react';
+import { useId, type ReactNode } from 'react';
 import classNames from 'classnames';
 import { bemGenerator } from './util.std.ts';
 import { AriaClickable } from '../../../axo/AriaClickable.dom.tsx';
@@ -10,11 +10,11 @@ export type Props = {
   alwaysShowActions?: boolean;
   className?: string;
   disabled?: boolean;
-  icon?: React.ReactNode;
-  label: string | React.ReactNode;
-  info?: string | React.ReactNode;
-  right?: string | React.ReactNode;
-  actions?: React.ReactNode;
+  icon?: ReactNode;
+  label: string | ReactNode;
+  info?: string | ReactNode;
+  right?: string | ReactNode;
+  actions?: ReactNode;
   onClick?: () => void;
 };
 
@@ -30,7 +30,7 @@ export function PanelRow({
   right,
   actions,
   onClick,
-}: Props): React.ReactNode {
+}: Props): ReactNode {
   const labelId = useId();
   const subWidget =
     actions !== undefined ? (

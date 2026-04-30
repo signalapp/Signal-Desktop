@@ -1,7 +1,7 @@
 // Copyright 2026 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import type { FC, ReactNode } from 'react';
-import React, {
+import {
   createContext,
   memo,
   useContext,

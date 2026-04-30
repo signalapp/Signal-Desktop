@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import type { ReactNode } from 'react';
-import React, { useState } from 'react';
+import type { ReactNode, JSX } from 'react';
+import { useState } from 'react';
 import type { Meta } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import {
@@ -16,7 +16,7 @@ export default {
   title: 'Axo/AxoButton',
 } satisfies Meta;
 
-export function Basic(): React.JSX.Element {
+export function Basic(): JSX.Element {
   const variants = _getAllAxoButtonVariants();
   const sizes = _getAllAxoButtonSizes();
   return (
@@ -92,7 +92,7 @@ export function Basic(): React.JSX.Element {
   );
 }
 
-export function Spinner(): React.JSX.Element {
+export function Spinner(): JSX.Element {
   const sizes = _getAllAxoButtonSizes();
   const variants = _getAllAxoButtonVariants();
 
@@ -265,7 +265,7 @@ function WidthTestTemplate(props: {
   );
 }
 
-export function WidthsTest(): React.JSX.Element {
+export function WidthsTest(): JSX.Element {
   return (
     <div className={tw('space-y-16 pb-4')}>
       <WidthTestTemplate title="Block">

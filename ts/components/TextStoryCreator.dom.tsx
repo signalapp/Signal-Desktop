@@ -1,6 +1,6 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState, type JSX } from 'react';
 import classNames from 'classnames';
 import lodash from 'lodash';
 import { usePopper } from 'react-popper';
@@ -138,7 +138,7 @@ export function TextStoryCreator({
   onClose,
   onDone,
   onSelectEmoji,
-}: PropsType): React.JSX.Element {
+}: PropsType): JSX.Element {
   const tryClose = useRef<(() => void) | null>(null);
   const [confirmDiscardModal, confirmDiscardIf] = useConfirmDiscard({
     i18n,

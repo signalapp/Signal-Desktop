@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import classnames from 'classnames';
-import React, { useCallback } from 'react';
+import { useCallback, type JSX } from 'react';
 import type { LocalizerType } from '../types/Util.std.ts';
 import { durationToPlaybackText } from '../util/durationToPlaybackText.std.ts';
 import { PlaybackButton } from './PlaybackButton.dom.tsx';
@@ -43,7 +43,7 @@ export function MiniPlayer({
   onPause,
   onPlaybackRate,
   onClose,
-}: Props): React.JSX.Element {
+}: Props): JSX.Element {
   const updatePlaybackRate = useCallback(() => {
     onPlaybackRate(PlaybackRateButton.nextPlaybackRate(playbackRate));
   }, [playbackRate, onPlaybackRate]);

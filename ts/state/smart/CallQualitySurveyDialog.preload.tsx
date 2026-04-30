@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { memo, useCallback } from 'react';
+import { memo, useCallback, type JSX } from 'react';
 import { useSelector } from 'react-redux';
 import { CallQualitySurveyDialog } from '../../components/CallQualitySurveyDialog.dom.tsx';
 import { useCallingActions } from '../ducks/calling.preload.ts';
@@ -16,7 +16,7 @@ const getCallQualitySurveySubmission = (state: StateType) =>
   state.calling.callQualitySurveySubmission;
 
 export const SmartCallQualitySurveyDialog = memo(
-  function SmartCallQualitySurveyDialog(): React.JSX.Element | null {
+  function SmartCallQualitySurveyDialog(): JSX.Element | null {
     const i18n = useSelector(getIntl);
     const props = useSelector(getCallQualitySurveyProps);
     strictAssert(props, 'Expected callQualitySurveyProps to be set');

@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { JSX } from 'react';
 
 import { action } from '@storybook/addon-actions';
 
@@ -29,7 +29,7 @@ export default {
   title: 'Components/BetterAvatar',
 } satisfies Meta<PropsType>;
 
-export function Text(): React.JSX.Element {
+export function Text(): JSX.Element {
   return (
     <BetterAvatar
       {...createProps({
@@ -42,7 +42,7 @@ export function Text(): React.JSX.Element {
   );
 }
 
-export function PersonalIcon(): React.JSX.Element {
+export function PersonalIcon(): JSX.Element {
   return (
     <BetterAvatar
       {...createProps({
@@ -55,7 +55,7 @@ export function PersonalIcon(): React.JSX.Element {
   );
 }
 
-export function GroupIcon(): React.JSX.Element {
+export function GroupIcon(): JSX.Element {
   return (
     <BetterAvatar
       {...createProps({

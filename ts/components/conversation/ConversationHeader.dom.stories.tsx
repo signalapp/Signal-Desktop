@@ -1,8 +1,8 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ComponentProps } from 'react';
-import React, { useContext } from 'react';
+import type { ComponentProps, JSX } from 'react';
+import { useContext } from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import { times } from 'lodash';
@@ -103,7 +103,7 @@ const commonProps: PropsType = {
   renderPinnedMessagesBar,
 };
 
-export function PrivateConvo(): React.JSX.Element {
+export function PrivateConvo(): JSX.Element {
   const items: ItemsType = [
     {
       title: 'With name and profile, verified',
@@ -264,7 +264,7 @@ export function PrivateConvo(): React.JSX.Element {
   );
 }
 
-export function Group(): React.JSX.Element {
+export function Group(): JSX.Element {
   const items: ItemsType = [
     {
       title: 'Basic',
@@ -355,7 +355,7 @@ export function Group(): React.JSX.Element {
   );
 }
 
-export function NoteToSelf(): React.JSX.Element {
+export function NoteToSelf(): JSX.Element {
   const items: ItemsType = [
     {
       title: 'In chat with yourself',
@@ -391,7 +391,7 @@ export function NoteToSelf(): React.JSX.Element {
   );
 }
 
-export function Unaccepted(): React.JSX.Element {
+export function Unaccepted(): JSX.Element {
   const items: ItemsType = [
     {
       title: '1:1 conversation',
@@ -427,7 +427,7 @@ export function Unaccepted(): React.JSX.Element {
   );
 }
 
-export function Blocked(): React.JSX.Element {
+export function Blocked(): JSX.Element {
   const items: ItemsType = [
     {
       title: 'Unaccepted & Blocked',
@@ -481,7 +481,7 @@ export function Blocked(): React.JSX.Element {
   );
 }
 
-export function DirectConversationInAnotherCall(): React.JSX.Element {
+export function DirectConversationInAnotherCall(): JSX.Element {
   const props = {
     ...commonProps,
     hasActiveCall: true,
@@ -491,7 +491,7 @@ export function DirectConversationInAnotherCall(): React.JSX.Element {
   return <ConversationHeader {...props} theme={theme} />;
 }
 
-export function DirectConversationInCurrentCall(): React.JSX.Element {
+export function DirectConversationInCurrentCall(): JSX.Element {
   const props = {
     ...commonProps,
     hasActiveCall: true,
@@ -502,7 +502,7 @@ export function DirectConversationInCurrentCall(): React.JSX.Element {
   return <ConversationHeader {...props} theme={theme} />;
 }
 
-export function GroupConversationInAnotherCall(): React.JSX.Element {
+export function GroupConversationInAnotherCall(): JSX.Element {
   const props = {
     ...commonProps,
     conversation: getDefaultGroup(),
@@ -514,7 +514,7 @@ export function GroupConversationInAnotherCall(): React.JSX.Element {
   return <ConversationHeader {...props} theme={theme} />;
 }
 
-export function GroupConversationInCurrentCall(): React.JSX.Element {
+export function GroupConversationInCurrentCall(): JSX.Element {
   const props = {
     ...commonProps,
     conversation: getDefaultGroup(),
@@ -526,7 +526,7 @@ export function GroupConversationInCurrentCall(): React.JSX.Element {
   return <ConversationHeader {...props} theme={theme} />;
 }
 
-export function WithSameNameInDirectConversationWarning(): React.JSX.Element {
+export function WithSameNameInDirectConversationWarning(): JSX.Element {
   const props: PropsType = {
     ...commonProps,
     contactSpoofingWarning: {
@@ -539,7 +539,7 @@ export function WithSameNameInDirectConversationWarning(): React.JSX.Element {
   return <ConversationHeader {...props} theme={theme} />;
 }
 
-export function WithSameNameInGroupConversationWarning(): React.JSX.Element {
+export function WithSameNameInGroupConversationWarning(): JSX.Element {
   const props: PropsType = {
     ...commonProps,
     contactSpoofingWarning: {
@@ -555,7 +555,7 @@ export function WithSameNameInGroupConversationWarning(): React.JSX.Element {
   return <ConversationHeader {...props} theme={theme} />;
 }
 
-export function WithSameNamesInGroupConversationWarning(): React.JSX.Element {
+export function WithSameNamesInGroupConversationWarning(): JSX.Element {
   const props: PropsType = {
     ...commonProps,
     contactSpoofingWarning: {
@@ -572,7 +572,7 @@ export function WithSameNamesInGroupConversationWarning(): React.JSX.Element {
   return <ConversationHeader {...props} theme={theme} />;
 }
 
-export function WithJustMiniPlayer(): React.JSX.Element {
+export function WithJustMiniPlayer(): JSX.Element {
   const props: PropsType = {
     ...commonProps,
     shouldShowMiniPlayer: true,
@@ -582,14 +582,14 @@ export function WithJustMiniPlayer(): React.JSX.Element {
   return <ConversationHeader {...props} theme={theme} />;
 }
 
-export function WithJustPinnedMessagesBar(): React.JSX.Element {
+export function WithJustPinnedMessagesBar(): JSX.Element {
   const props: PropsType = commonProps;
   const theme = useContext(StorybookThemeContext);
 
   return <ConversationHeader {...props} theme={theme} />;
 }
 
-export function WithMinPlayerAndPinnedMessagesBar(): React.JSX.Element {
+export function WithMinPlayerAndPinnedMessagesBar(): JSX.Element {
   const props: PropsType = {
     ...commonProps,
     shouldShowMiniPlayer: true,

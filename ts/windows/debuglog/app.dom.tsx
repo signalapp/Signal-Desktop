@@ -1,7 +1,7 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { StrictMode } from 'react';
+import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import '../sandboxedInit.dom.ts';
 import { DebugLogWindow } from '../../components/DebugLogWindow.dom.tsx';

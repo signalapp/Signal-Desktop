@@ -1,6 +1,6 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import React, { useState } from 'react';
+import { useState, type JSX } from 'react';
 import type { Meta } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { AxoContextMenu } from './AxoContextMenu.dom.tsx';
@@ -10,7 +10,7 @@ export default {
   title: 'Axo/AxoContextMenu',
 } satisfies Meta;
 
-export function Basic(): React.JSX.Element {
+export function Basic(): JSX.Element {
   const [showBookmarks, setShowBookmarks] = useState(true);
   const [showFullUrls, setShowFullUrls] = useState(false);
   const [selectedPerson, setSelectedPerson] = useState('jamie');

@@ -1,6 +1,6 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import React, { memo } from 'react';
+import { memo } from 'react';
 import { Checkbox } from 'radix-ui';
 import { AxoSymbol } from './AxoSymbol.dom.tsx';
 import type { TailwindStyles } from './tw.dom.tsx';

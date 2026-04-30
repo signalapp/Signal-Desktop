@@ -1,7 +1,7 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useState } from 'react';
+import { useState, type JSX } from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import type { PropsType } from './AutoSizeInput.dom.tsx';
@@ -21,13 +21,13 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   value: overrideProps.value ?? '',
 });
 
-function Controller(props: PropsType): React.JSX.Element {
+function Controller(props: PropsType): JSX.Element {
   const { value: initialValue } = props;
   const [value, setValue] = useState(initialValue);
 
   return <AutoSizeInput {...props} onChange={setValue} value={value} />;
 }
 
-export function Simple(): React.JSX.Element {
+export function Simple(): JSX.Element {
   return <Controller {...createProps()} />;
 }

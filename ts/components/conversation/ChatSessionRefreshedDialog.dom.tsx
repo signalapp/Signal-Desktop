@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import type { ReactElement } from 'react';
 
 import { Modal } from '../Modal.dom.tsx';
 
@@ -16,9 +16,7 @@ export type PropsType = {
   onClose: () => unknown;
 };
 
-export function ChatSessionRefreshedDialog(
-  props: PropsType
-): React.ReactElement {
+export function ChatSessionRefreshedDialog(props: PropsType): ReactElement {
   const { i18n, contactSupport, onClose } = props;
 
   // Focus first button after initial render, restore focus on teardown

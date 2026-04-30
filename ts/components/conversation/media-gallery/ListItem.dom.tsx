@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useCallback, type ReactNode } from 'react';
+import { useCallback, type ReactNode, type JSX, type MouseEvent } from 'react';
 import type { ReadonlyDeep } from 'type-fest';
 
 import moment from 'moment';
@@ -22,16 +22,16 @@ import {
 export type Props = Readonly<{
   i18n: LocalizerType;
   mediaItem: GenericMediaItemType;
-  thumbnail: React.ReactNode;
+  thumbnail: ReactNode;
   title: string;
-  subtitle: React.ReactNode;
+  subtitle: ReactNode;
   readyLabel: string;
   onClick: (status: AttachmentStatusType['state']) => void;
   showMessage: () => void;
   renderContextMenu: (
     mediaItem: ReadonlyDeep<GenericMediaItemType>,
     children: ReactNode
-  ) => React.JSX.Element;
+  ) => JSX.Element;
 }>;
 
 export function ListItem({
@@ -44,7 +44,7 @@ export function ListItem({
   onClick,
   showMessage,
   renderContextMenu,
-}: Props): React.JSX.Element {
+}: Props): JSX.Element {
   const { message } = mediaItem;
   let attachment: AttachmentForUIType | undefined;
 
@@ -63,7 +63,7 @@ export function ListItem({
   const status = useAttachmentStatus(attachment);
 
   const handleClick = useCallback(
-    (ev: React.MouseEvent) => {
+    (ev: MouseEvent) => {
       ev.preventDefault();
       ev.stopPropagation();
       onClick(status?.state || 'ReadyToShow');
@@ -72,7 +72,7 @@ export function ListItem({
   );
 
   const handleDateClick = useCallback(
-    (ev: React.MouseEvent) => {
+    (ev: MouseEvent) => {
       ev.preventDefault();
       ev.stopPropagation();
       showMessage();
@@ -90,7 +90,7 @@ export function ListItem({
     throw missingCaseError(status);
   }
 
-  let button: React.JSX.Element | undefined;
+  let button: JSX.Element | undefined;
   if (
     status != null &&
     status.state !== 'ReadyToShow' &&

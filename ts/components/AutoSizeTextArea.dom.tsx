@@ -1,7 +1,7 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import type { ForwardedRef } from 'react';
-import React, { forwardRef, useEffect, useLayoutEffect, useRef } from 'react';
+import type { ForwardedRef, JSX } from 'react';
+import { forwardRef, useEffect, useLayoutEffect, useRef } from 'react';
 import { mergeRefs } from '@react-aria/utils';
 import { strictAssert } from '../util/assert.std.ts';
 import type { PropsType } from './Input.dom.tsx';
@@ -10,7 +10,7 @@ import { Input } from './Input.dom.tsx';
 export const AutoSizeTextArea = forwardRef(function AutoSizeTextArea(
   props: PropsType,
   ref: ForwardedRef<HTMLTextAreaElement>
-): React.JSX.Element {
+): JSX.Element {
   const ownRef = useRef<HTMLTextAreaElement | null>(null);
   const textareaRef = mergeRefs(ownRef, ref);
 

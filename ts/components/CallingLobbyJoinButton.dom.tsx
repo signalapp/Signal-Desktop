@@ -1,8 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ReactNode } from 'react';
-import React, { useState } from 'react';
+import type { ReactNode, JSX } from 'react';
+import { useState } from 'react';
 import lodash from 'lodash';
 
 import type { LocalizerType } from '../types/Util.std.ts';
@@ -41,7 +41,7 @@ export function CallingLobbyJoinButton({
   i18n,
   onClick,
   variant,
-}: PropsType): React.JSX.Element {
+}: PropsType): JSX.Element {
   const [width, setWidth] = useState<undefined | number>();
   const [height, setHeight] = useState<undefined | number>();
 

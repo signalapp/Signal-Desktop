@@ -1,8 +1,8 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useState } from 'react';
-import type { ReactNode } from 'react';
+import { useState, useCallback } from 'react';
+import type { ReactNode, JSX } from 'react';
 
 import type {
   ConversationType,
@@ -145,7 +145,7 @@ export function ContactModal({
   togglePip,
   toggleSafetyNumberModal,
   viewUserStories,
-}: PropsType): React.JSX.Element {
+}: PropsType): JSX.Element {
   if (!contact) {
     throw new Error('Contact modal opened without a matching contact');
   }
@@ -156,7 +156,7 @@ export function ContactModal({
   );
   const modalTheme = getThemeByThemeType(theme);
 
-  const renderQuickActions = React.useCallback(
+  const renderQuickActions = useCallback(
     (conversationId: string) => {
       const inAnotherCallTooltipContent = hasActiveCall
         ? getTooltipContent(i18n)

@@ -1,7 +1,7 @@
 // Copyright 2026 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { memo } from 'react';
+import { memo } from 'react';
 import type { ReactNode } from 'react';
 import { useSelector } from 'react-redux';
 import { getItems } from '../selectors/items.dom.ts';

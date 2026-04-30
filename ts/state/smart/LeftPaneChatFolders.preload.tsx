@@ -1,6 +1,6 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import React, { memo, useCallback, useContext } from 'react';
+import { memo, useCallback, useContext } from 'react';
 import { useSelector } from 'react-redux';
 import { LeftPaneChatFolders } from '../../components/leftPane/LeftPaneChatFolders.dom.tsx';
 import {

@@ -1,6 +1,6 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import React, { useCallback, useId, useMemo, useState } from 'react';
+import { useCallback, useId, useMemo, useState, type JSX } from 'react';
 import type { LocalizerType } from '../types/I18N.std.ts';
 import { AxoSymbol } from '../axo/AxoSymbol.dom.tsx';
 import { AxoButton } from '../axo/AxoButton.dom.tsx';
@@ -19,9 +19,9 @@ function DiagnosticInfoLink({
   parts,
   onClick,
 }: {
-  parts: Array<string | React.JSX.Element>;
+  parts: Array<string | JSX.Element>;
   onClick: () => void;
-}): React.JSX.Element {
+}): JSX.Element {
   return (
     <button
       type="button"
@@ -51,7 +51,7 @@ export type CallQualitySurveyDialogProps = Readonly<{
 
 export function CallQualitySurveyDialog(
   props: CallQualitySurveyDialogProps
-): React.JSX.Element {
+): JSX.Element {
   const { i18n, onSubmit, onViewDebugLog, onViewDiagnosticInfo, isSubmitting } =
     props;
 
@@ -101,7 +101,7 @@ export function CallQualitySurveyDialog(
   ]);
 
   const renderDiagnosticInfoLink = useCallback(
-    (parts: Array<string | React.JSX.Element>) => (
+    (parts: Array<string | JSX.Element>) => (
       <DiagnosticInfoLink parts={parts} onClick={onViewDiagnosticInfo} />
     ),
     [onViewDiagnosticInfo]
@@ -500,7 +500,7 @@ function IssueSelector(props: {
   i18n: LocalizerType;
   issues: ReadonlySet<Issue>;
   onIssuesChange: (issues: ReadonlySet<Issue>) => void;
-}): React.JSX.Element {
+}): JSX.Element {
   const { i18n, issues, onIssuesChange } = props;
 
   return (

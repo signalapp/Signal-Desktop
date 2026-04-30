@@ -8,7 +8,7 @@ import type {
   HTMLAttributes,
   ReactNode,
 } from 'react';
-import React, { forwardRef, memo, useId, useMemo } from 'react';
+import { forwardRef, memo, useId, useMemo } from 'react';
 import type { Transition } from 'motion/react';
 import { motion } from 'motion/react';
 import type { TailwindStyles } from '../tw.dom.tsx';

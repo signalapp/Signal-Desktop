@@ -1,7 +1,7 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { JSX } from 'react';
 
 import { ConfirmationDialog } from './ConfirmationDialog.dom.tsx';
 
@@ -33,7 +33,7 @@ export function ConfirmLeaveCallModal({
   data,
   leaveCurrentCallAndStartCallingLobby,
   toggleConfirmLeaveCallModal,
-}: Props): React.JSX.Element | null {
+}: Props): JSX.Element | null {
   return (
     <ConfirmationDialog
       dialogName="GroupCallRemoteParticipant.blockInfo"

@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { Meta, StoryFn } from '@storybook/react';
-import React from 'react';
 import { ListTile } from './ListTile.dom.tsx';
 import type { Props } from './ListTile.dom.tsx';
 import { CircleCheckbox } from './CircleCheckbox.dom.tsx';

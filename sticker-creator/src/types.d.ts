@@ -5,6 +5,8 @@
 // Credentials
 //
 
+import type { JSX } from 'react';
+
 export type Credentials = Readonly<{
   username: string;
   password: string;
@@ -85,4 +87,4 @@ export type LocaleType = Readonly<{
 export type RenderTextCallbackType = (options: {
   text: string;
   key: number;
-}) => React.JSX.Element | string;
+}) => JSX.Element | string;

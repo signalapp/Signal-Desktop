@@ -1,8 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ReactNode } from 'react';
-import React from 'react';
+import type { ReactNode, JSX } from 'react';
 
 import type { LocalizerType } from '../types/Util.std.ts';
 import type { Theme } from '../util/theme.std.ts';
@@ -23,7 +22,7 @@ export function Alert({
   onClose,
   theme,
   title,
-}: PropsType): React.JSX.Element {
+}: PropsType): JSX.Element {
   return (
     <Modal
       i18n={i18n}

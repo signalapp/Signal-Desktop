@@ -1,8 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ReactNode } from 'react';
-import React, { useState } from 'react';
+import type { ReactNode, JSX } from 'react';
+import { useState } from 'react';
 
 import { Avatar, AvatarBlur, AvatarSize } from '../../Avatar.dom.tsx';
 import { AvatarLightbox } from '../../AvatarLightbox.dom.tsx';
@@ -60,7 +60,7 @@ export function ConversationDetailsHeader({
   startEditing,
   toggleAboutContactModal,
   theme,
-}: Props): React.JSX.Element {
+}: Props): JSX.Element {
   const [activeModal, setActiveModal] = useState<
     undefined | ConversationDetailsHeaderActiveModal
   >();
@@ -218,7 +218,7 @@ export function ConversationDetailsHeader({
     );
   }
 
-  let title: React.JSX.Element;
+  let title: JSX.Element;
 
   if (isMe) {
     title = (

@@ -1,7 +1,7 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import { useCallback, useEffect, type JSX } from 'react';
 
 import styles from './DropZone.module.scss';
 import { useI18n } from '../contexts/I18n';
@@ -27,11 +27,11 @@ const getClassName = ({ inner }: Props, isDragActive: boolean) => {
   return styles.standalone;
 };
 
-export function DropZone(props: Props): React.JSX.Element {
+export function DropZone(props: Props): JSX.Element {
   const { inner, label, onDrop, onDragActive } = props;
   const i18n = useI18n();
 
-  const handleDrop = React.useCallback(
+  const handleDrop = useCallback(
     (files: ReadonlyArray<File>) => {
       onDrop(
         files.filter((file): file is File => getFilePath(file) !== undefined)
@@ -43,7 +43,7 @@ export function DropZone(props: Props): React.JSX.Element {
   const { getRootProps, getInputProps, isDragActive } =
     useStickerDropzone(handleDrop);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (onDragActive) {
       onDragActive(isDragActive);
     }

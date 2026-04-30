@@ -1,7 +1,7 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useState } from 'react';
+import { useState, type JSX } from 'react';
 import type {
   ConversationType,
   ShowConversationType,
@@ -51,10 +51,10 @@ export type PropsType = {
   preferredLeftPaneWidth: number;
   preferredWidthFromStorage: number;
   queueStoryDownload: (storyId: string) => unknown;
-  renderStoryCreator: () => React.JSX.Element;
+  renderStoryCreator: () => JSX.Element;
   renderToastManager: (_: {
     containerWidthBreakpoint: WidthBreakpoint;
-  }) => React.JSX.Element;
+  }) => JSX.Element;
   retryMessageSend: (messageId: string) => unknown;
   savePreferredLeftPaneWidth: (preferredLeftPaneWidth: number) => void;
   setAddStoryData: (data: AddStoryData) => unknown;
@@ -101,7 +101,7 @@ export function StoriesTab({
   toggleHideStories,
   viewStory,
   viewUserStories,
-}: PropsType): React.JSX.Element {
+}: PropsType): JSX.Element {
   const [isMyStories, setIsMyStories] = useState(false);
 
   function onAddStory(file?: File) {

@@ -1,8 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ChangeEventHandler } from 'react';
-import React, { useEffect, useRef, useState } from 'react';
+import type { ChangeEventHandler, JSX } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import lodash from 'lodash';
 
 import type { LocalizerType } from '../types/Util.std.ts';
@@ -20,7 +20,7 @@ export function AvatarUploadButton({
   className,
   i18n,
   onChange,
-}: PropsType): React.JSX.Element {
+}: PropsType): JSX.Element {
   const fileInputRef = useRef<null | HTMLInputElement>(null);
 
   const [processingFile, setProcessingFile] = useState<File | undefined>();

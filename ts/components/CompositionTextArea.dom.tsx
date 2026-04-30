@@ -1,7 +1,7 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useRef, useCallback, useState } from 'react';
+import { useRef, useCallback, useState, type UIEvent, type JSX } from 'react';
 import type { LocalizerType } from '../types/I18N.std.ts';
 import type { InputApi } from './CompositionInput.dom.tsx';
 import { CompositionInput } from './CompositionInput.dom.tsx';
@@ -25,7 +25,7 @@ export type CompositionTextAreaProps = {
   maxLength?: number;
   placeholder?: string;
   whenToShowRemainingCount?: number;
-  onScroll?: (ev: React.UIEvent<HTMLElement>) => void;
+  onScroll?: (ev: UIEvent<HTMLElement>) => void;
   onSelectEmoji: (emojiSelection: FunEmojiSelection) => void;
   onChange: (
     messageText: string,
@@ -77,7 +77,7 @@ export function CompositionTextArea({
   theme,
   whenToShowRemainingCount = Infinity,
   convertDraftBodyRangesIntoHydrated,
-}: CompositionTextAreaProps): React.JSX.Element {
+}: CompositionTextAreaProps): JSX.Element {
   const inputApiRef = useRef<InputApi | null>(null);
   const [characterCount, setCharacterCount] = useState(
     grapheme.count(draftText)

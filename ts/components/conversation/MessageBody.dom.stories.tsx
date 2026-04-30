@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import { useState, type JSX } from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import type { Props } from './MessageBody.dom.tsx';
@@ -46,7 +46,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   },
 });
 
-export function LinksEnabled(): React.JSX.Element {
+export function LinksEnabled(): JSX.Element {
   const props = createProps({
     text: 'Check out https://www.signal.org',
   });
@@ -54,7 +54,7 @@ export function LinksEnabled(): React.JSX.Element {
   return <MessageBody {...props} />;
 }
 
-export function LinksDisabled(): React.JSX.Element {
+export function LinksDisabled(): JSX.Element {
   const props = createProps({
     disableLinks: true,
     text: 'Check out https://www.signal.org',
@@ -63,7 +63,7 @@ export function LinksDisabled(): React.JSX.Element {
   return <MessageBody {...props} />;
 }
 
-export function EmojiSizeBasedOnCount(): React.JSX.Element {
+export function EmojiSizeBasedOnCount(): JSX.Element {
   const props = createProps();
 
   return (
@@ -81,7 +81,7 @@ export function EmojiSizeBasedOnCount(): React.JSX.Element {
   );
 }
 
-export function JumbomojiEnabled(): React.JSX.Element {
+export function JumbomojiEnabled(): JSX.Element {
   const props = createProps({
     text: '😹',
   });
@@ -89,7 +89,7 @@ export function JumbomojiEnabled(): React.JSX.Element {
   return <MessageBody {...props} />;
 }
 
-export function JumbomojiDisabled(): React.JSX.Element {
+export function JumbomojiDisabled(): JSX.Element {
   const props = createProps({
     disableJumbomoji: true,
     text: '😹',
@@ -98,7 +98,7 @@ export function JumbomojiDisabled(): React.JSX.Element {
   return <MessageBody {...props} />;
 }
 
-export function JumbomojiDisabledByText(): React.JSX.Element {
+export function JumbomojiDisabledByText(): JSX.Element {
   const props = createProps({
     text: 'not a jumbo kitty 😹',
   });
@@ -106,7 +106,7 @@ export function JumbomojiDisabledByText(): React.JSX.Element {
   return <MessageBody {...props} />;
 }
 
-export function TextPending(): React.JSX.Element {
+export function TextPending(): JSX.Element {
   const props = createProps({
     text: 'Check out https://www.signal.org',
     textAttachment: {
@@ -117,7 +117,7 @@ export function TextPending(): React.JSX.Element {
   return <MessageBody {...props} />;
 }
 
-export function MessageTooLong(): React.JSX.Element {
+export function MessageTooLong(): JSX.Element {
   const props = createProps({
     text: 'Check out https://www.signal.org',
     textAttachment: {
@@ -128,7 +128,7 @@ export function MessageTooLong(): React.JSX.Element {
   return <MessageBody {...props} />;
 }
 
-export function Mention(): React.JSX.Element {
+export function Mention(): JSX.Element {
   const props = createProps({
     bodyRanges: [
       {
@@ -145,7 +145,7 @@ export function Mention(): React.JSX.Element {
   return <MessageBody {...props} />;
 }
 
-export function MultipleMentions(): React.JSX.Element {
+export function MultipleMentions(): JSX.Element {
   const props = createProps({
     // These are intentionally in a mixed order to test how we deal with that
     bodyRanges: [
@@ -183,7 +183,7 @@ export function MultipleMentions(): React.JSX.Element {
   );
 }
 
-export function ComplexMessageBody(): React.JSX.Element {
+export function ComplexMessageBody(): JSX.Element {
   const props = createProps({
     bodyRanges: [
       // These are intentionally in a mixed order to test how we deal with that
@@ -222,8 +222,8 @@ export function ComplexMessageBody(): React.JSX.Element {
   );
 }
 
-export function FormattingBasic(): React.JSX.Element {
-  const [isSpoilerExpanded, setIsSpoilerExpanded] = React.useState({});
+export function FormattingBasic(): JSX.Element {
+  const [isSpoilerExpanded, setIsSpoilerExpanded] = useState({});
 
   const props = createProps({
     bodyRanges: [
@@ -278,8 +278,8 @@ export function FormattingBasic(): React.JSX.Element {
   );
 }
 
-export function FormattingSpoiler(): React.JSX.Element {
-  const [isSpoilerExpanded, setIsSpoilerExpanded] = React.useState({});
+export function FormattingSpoiler(): JSX.Element {
+  const [isSpoilerExpanded, setIsSpoilerExpanded] = useState({});
 
   const props = createProps({
     bodyRanges: [
@@ -352,7 +352,7 @@ export function FormattingSpoiler(): React.JSX.Element {
   );
 }
 
-export function FormattingNesting(): React.JSX.Element {
+export function FormattingNesting(): JSX.Element {
   const props = createProps({
     bodyRanges: [
       {
@@ -427,8 +427,8 @@ export function FormattingNesting(): React.JSX.Element {
   );
 }
 
-export function FormattingComplex(): React.JSX.Element {
-  const [isSpoilerExpanded, setIsSpoilerExpanded] = React.useState({});
+export function FormattingComplex(): JSX.Element {
+  const [isSpoilerExpanded, setIsSpoilerExpanded] = useState({});
   const text =
     'Computational processes \uFFFC are abstract beings that inhabit computers. ' +
     'As they evolve, processes manipulate other abstract things called data. ' +
@@ -490,7 +490,7 @@ export function FormattingComplex(): React.JSX.Element {
   return <MessageBody {...props} />;
 }
 
-export function ZalgoText(): React.JSX.Element {
+export function ZalgoText(): JSX.Element {
   const text = 'T̸͎̆̏̇̊̄͜ͅh̸͙̟͎̯̍͋͜͜i̸̪͚̼̜̦̲̇͒̇͝͝ś̴̡̩͙͜͝ ̴̼̣̩͂͑͠i̸̡̞̯͗s̵͙̔͛͊͑̔ ̶͇̒͝f̴̗͇͙̳͕̅̈́̏̉ò̵̲͉̤̬̖̱ȓ̶̳̫͗͝m̶̗͚̓ą̶̘̳͉̣̿̋t̴͎͎̞̤̱̅̓͝͝t̶̝͊͗é̵̛̥̔̃̀d̸̢̘̹̥̋͆ ̸̘͓͐̓̅̚ẕ̸͉̊̊͝a̴̙̖͎̥̥̅̽́͑͘ͅl̴͔̪͙͔̑̈́g̴͔̝̙̰̊͆̎͌́ǫ̵̪̤̖̖͗̑̎̿̄̎ ̵̪͈̲͇̫̼͌̌͛̚t̸̠́ẽ̴̡̺̖͘x̵͈̰̮͔̃̔͗̑̓͘t';
 
   const props = createProps({
@@ -526,7 +526,7 @@ export function ZalgoText(): React.JSX.Element {
   return <MessageBody {...props} />;
 }
 
-export function LinkOverReadMoreBoundary(): React.JSX.Element {
+export function LinkOverReadMoreBoundary(): JSX.Element {
   const text = 'https://hello.me';
   const originalText = 'https://hello.me123';
 

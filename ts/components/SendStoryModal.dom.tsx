@@ -1,7 +1,7 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState, type JSX } from 'react';
 import lodash from 'lodash';
 
 import { SearchInput } from './SearchInput.dom.tsx';
@@ -157,7 +157,7 @@ export function SendStoryModal({
   mostRecentActiveStoryTimestampByGroupOrDistributionList,
   toggleSignalConnectionsModal,
   onMediaPlaybackStart,
-}: PropsType): React.JSX.Element {
+}: PropsType): JSX.Element {
   const [page, setPage] = useState<PageType>(Page.SendStory);
 
   const [confirmDiscardModal, confirmDiscardIf] = useConfirmDiscard({
@@ -650,7 +650,7 @@ export function SendStoryModal({
 
     const renderDistributionList = (
       list: StoryDistributionListWithMembersDataType
-    ): React.JSX.Element => {
+    ): JSX.Element => {
       return (
         <Checkbox
           checked={selectedListIds.has(list.id)}

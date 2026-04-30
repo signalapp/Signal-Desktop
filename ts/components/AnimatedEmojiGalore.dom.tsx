@@ -1,7 +1,8 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { JSX } from 'react';
+
 import { animated, to as interpolate, useSprings } from '@react-spring/web';
 import lodash from 'lodash';
 import { useReducedMotion } from '../hooks/useReducedMotion.dom.ts';
@@ -46,7 +47,7 @@ function transform(y: number, scale: number, rotate: number): string {
 export function AnimatedEmojiGalore({
   emoji,
   onAnimationEnd,
-}: PropsType): React.JSX.Element {
+}: PropsType): JSX.Element {
   strictAssert(isEmojiVariantValue(emoji), 'Must be valid english short name');
   const emojiVariantKey = getEmojiVariantKeyByValue(emoji);
   const emojiVariant = getEmojiVariantByKey(emojiVariantKey);

@@ -1,7 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { JSX } from 'react';
+
 import lodash from 'lodash';
 
 import { action } from '@storybook/addon-actions';
@@ -41,7 +42,7 @@ export default {
   title: 'Components/AvatarPreview',
 } satisfies Meta<PropsType>;
 
-export function NoStatePersonal(): React.JSX.Element {
+export function NoStatePersonal(): JSX.Element {
   return (
     <AvatarPreview
       {...createProps({
@@ -52,7 +53,7 @@ export function NoStatePersonal(): React.JSX.Element {
   );
 }
 
-export function NoStateGroup(): React.JSX.Element {
+export function NoStateGroup(): JSX.Element {
   return (
     <AvatarPreview
       {...createProps({
@@ -63,7 +64,7 @@ export function NoStateGroup(): React.JSX.Element {
   );
 }
 
-export function NoStateGroupUploadMe(): React.JSX.Element {
+export function NoStateGroupUploadMe(): JSX.Element {
   return (
     <AvatarPreview
       {...createProps({
@@ -76,11 +77,11 @@ export function NoStateGroupUploadMe(): React.JSX.Element {
   );
 }
 
-export function Value(): React.JSX.Element {
+export function Value(): JSX.Element {
   return <AvatarPreview {...createProps({ avatarValue: TEST_IMAGE })} />;
 }
 
-export function Path(): React.JSX.Element {
+export function Path(): JSX.Element {
   return (
     <AvatarPreview
       {...createProps({ avatarUrl: '/fixtures/kitten-3-64-64.jpg' })}
@@ -88,7 +89,7 @@ export function Path(): React.JSX.Element {
   );
 }
 
-export function ValueAndPath(): React.JSX.Element {
+export function ValueAndPath(): JSX.Element {
   return (
     <AvatarPreview
       {...createProps({
@@ -99,7 +100,7 @@ export function ValueAndPath(): React.JSX.Element {
   );
 }
 
-export function Style(): React.JSX.Element {
+export function Style(): JSX.Element {
   return (
     <AvatarPreview
       {...createProps({

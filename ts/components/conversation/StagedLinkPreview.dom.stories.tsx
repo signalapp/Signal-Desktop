@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { Meta, StoryFn } from '@storybook/react';
-import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 
 import type { Props } from './StagedLinkPreview.dom.tsx';

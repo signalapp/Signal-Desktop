@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useRef, useEffect } from 'react';
+import { useRef, useEffect, type JSX } from 'react';
 import type { LocalizerType } from '../types/Util.std.ts';
 import { AvatarColors } from '../types/Colors.std.ts';
 import { Avatar, AvatarSize } from './Avatar.dom.tsx';
@@ -33,7 +33,7 @@ export function CallNeedPermissionScreen({
   conversation,
   i18n,
   close,
-}: Props): React.JSX.Element {
+}: Props): JSX.Element {
   const title = conversation.title || i18n('icu:unknownContact');
 
   const autoCloseAtRef = useRef<number>(Date.now() + AUTO_CLOSE_MS);

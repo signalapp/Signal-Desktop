@@ -7,7 +7,7 @@ import type {
   MouseEventHandler,
   ReactNode,
 } from 'react';
-import React from 'react';
+import { forwardRef } from 'react';
 import classNames from 'classnames';
 
 import type { Theme } from '../util/theme.std.ts';
@@ -101,7 +101,7 @@ const VARIANT_CLASS_NAMES = new Map<ButtonVariant, string>([
   [ButtonVariant.Details, 'module-Button--details'],
 ]);
 
-export const Button = React.forwardRef<HTMLButtonElement, PropsType>(
+export const Button = forwardRef<HTMLButtonElement, PropsType>(
   function ButtonInner(props, ref) {
     const {
       children,

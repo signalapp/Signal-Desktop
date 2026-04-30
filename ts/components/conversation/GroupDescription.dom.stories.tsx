@@ -1,7 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { JSX } from 'react';
+
 import type { Meta } from '@storybook/react';
 import type { PropsType } from './GroupDescription.dom.tsx';
 import { GroupDescription } from './GroupDescription.dom.tsx';
@@ -21,11 +22,11 @@ export default {
   },
 } satisfies Meta<PropsType>;
 
-export function Default(args: PropsType): React.JSX.Element {
+export function Default(args: PropsType): JSX.Element {
   return <GroupDescription {...args} />;
 }
 
-export function Long(args: PropsType): React.JSX.Element {
+export function Long(args: PropsType): JSX.Element {
   return (
     <GroupDescription
       {...args}
@@ -34,7 +35,7 @@ export function Long(args: PropsType): React.JSX.Element {
   );
 }
 
-export function WithNewlines(args: PropsType): React.JSX.Element {
+export function WithNewlines(args: PropsType): JSX.Element {
   return (
     <GroupDescription
       {...args}
@@ -43,11 +44,11 @@ export function WithNewlines(args: PropsType): React.JSX.Element {
   );
 }
 
-export function WithEmoji(args: PropsType): React.JSX.Element {
+export function WithEmoji(args: PropsType): JSX.Element {
   return <GroupDescription {...args} text="🍒🍩🌭" />;
 }
 
-export function WithLink(args: PropsType): React.JSX.Element {
+export function WithLink(args: PropsType): JSX.Element {
   return (
     <GroupDescription
       {...args}
@@ -56,7 +57,7 @@ export function WithLink(args: PropsType): React.JSX.Element {
   );
 }
 
-export function KitchenSink(args: PropsType): React.JSX.Element {
+export function KitchenSink(args: PropsType): JSX.Element {
   return (
     <GroupDescription
       {...args}

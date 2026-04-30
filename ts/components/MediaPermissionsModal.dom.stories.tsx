@@ -1,6 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import React from 'react';
+import type { JSX } from 'react';
+
 import { action } from '@storybook/addon-actions';
 import { type ComponentMeta } from '../storybook/types.std.ts';
 import type { PropsType } from './MediaPermissionsModal.dom.tsx';
@@ -25,14 +26,14 @@ export default {
   },
 } satisfies ComponentMeta<TemplateProps>;
 
-export function Camera(props: TemplateProps): React.JSX.Element {
+export function Camera(props: TemplateProps): JSX.Element {
   return <Template {...props} mediaType="camera" />;
 }
 
-export function Microphone(props: TemplateProps): React.JSX.Element {
+export function Microphone(props: TemplateProps): JSX.Element {
   return <Template {...props} mediaType="microphone" />;
 }
 
-export function VoiceNote(props: TemplateProps): React.JSX.Element {
+export function VoiceNote(props: TemplateProps): JSX.Element {
   return <Template {...props} requestor="voiceNote" mediaType="microphone" />;
 }

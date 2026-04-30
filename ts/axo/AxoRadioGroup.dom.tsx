@@ -3,7 +3,7 @@
 
 import { RadioGroup } from 'radix-ui';
 import type { FC, ReactNode } from 'react';
-import React, { memo, useId, useMemo } from 'react';
+import { memo, useId, useMemo } from 'react';
 import { tw } from './tw.dom.tsx';
 import {
   createStrictContext,

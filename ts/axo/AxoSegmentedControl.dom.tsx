@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import type { ButtonHTMLAttributes, FC, ForwardedRef, ReactNode } from 'react';
-import React, { forwardRef, memo, useCallback } from 'react';
+import { forwardRef, memo, useCallback } from 'react';
 import { ToggleGroup } from 'radix-ui';
 import { ExperimentalAxoBaseSegmentedControl } from './_internal/AxoBaseSegmentedControl.dom.tsx';
 

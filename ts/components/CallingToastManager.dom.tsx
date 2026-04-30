@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef, useState, type JSX } from 'react';
 import type {
   ActiveCallType,
   ObservedRemoteMuteType,
@@ -134,7 +134,7 @@ function useOutgoingRingToast({
   const previousOutgoingRing = usePrevious(outgoingRing, outgoingRing);
   const RINGING_TOAST_KEY = 'ringing';
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (outgoingRing === undefined) {
       return;
     }
@@ -163,7 +163,7 @@ function useRaisedHandsToast({
   raisedHands?: Set<number>;
   renderRaisedHandsToast?: (
     hands: Array<number>
-  ) => React.JSX.Element | string | undefined;
+  ) => JSX.Element | string | undefined;
 }): void {
   const RAISED_HANDS_TOAST_KEY = 'raised-hands';
   const RAISED_HANDS_TOAST_LIFETIME = 4000;
@@ -174,8 +174,8 @@ function useRaisedHandsToast({
   // Hand state is updated after a delay upon joining a call, so it can appear that
   // hands were raised immediately when you join a call. To avoid spurious toasts, add
   // an initial delay before showing toasts.
-  const [isLoaded, setIsLoaded] = React.useState<boolean>(false);
-  React.useEffect(() => {
+  const [isLoaded, setIsLoaded] = useState<boolean>(false);
+  useEffect(() => {
     const timeout = setTimeout(() => {
       setIsLoaded(true);
     }, LOAD_DELAY);
@@ -199,7 +199,7 @@ function useRaisedHandsToast({
   const toastLastShownAt = useRef<number>(0);
   const handsForLastShownToast = useRef<Set<number>>(new Set());
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (raisedHands?.size === 0) {
       hideToast(RAISED_HANDS_TOAST_KEY);
     }
@@ -470,7 +470,7 @@ type CallingButtonToastsType = {
   raisedHands?: Set<number>;
   renderRaisedHandsToast?: (
     hands: Array<number>
-  ) => React.JSX.Element | string | undefined;
+  ) => JSX.Element | string | undefined;
   suggestLowerHand?: boolean;
   isHandRaised?: boolean;
   handleLowerHand?: () => void;
@@ -482,7 +482,7 @@ type CallingButtonToastsType = {
 
 export function CallingButtonToastsContainer(
   props: CallingButtonToastsType
-): React.JSX.Element {
+): JSX.Element {
   const toastRegionRef = useRef<HTMLDivElement>(null);
   return (
     <CallingToastProvider

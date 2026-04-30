@@ -1,7 +1,7 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useEffect, useReducer } from 'react';
+import { useEffect, useReducer, type JSX } from 'react';
 import classNames from 'classnames';
 
 import { getIncrement, getTimerBucket } from '../../util/timer.std.ts';
@@ -14,7 +14,7 @@ export type Props = Readonly<{
 export function ExpireTimer({
   expirationLength,
   expirationTimestamp,
-}: Props): React.JSX.Element {
+}: Props): JSX.Element {
   const [, forceUpdate] = useReducer(() => ({}), {});
 
   useEffect(() => {

@@ -49,6 +49,16 @@ const storybookConfig: StorybookConfig = {
     },
   ],
 
+  swc() {
+    return {
+      jsc: {
+        transform: {
+          react: { runtime: 'automatic' },
+        },
+      },
+    };
+  },
+
   webpackFinal(webpackConfig) {
     // oxlint-disable-next-line no-param-reassign
     webpackConfig.cache = {

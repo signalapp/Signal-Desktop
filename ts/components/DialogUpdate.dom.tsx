@@ -1,8 +1,8 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ReactNode } from 'react';
-import React, { useCallback } from 'react';
+import type { ReactNode, JSX } from 'react';
+import { useCallback } from 'react';
 
 import { isBeta } from '../util/version.std.ts';
 import { DialogType } from '../types/Dialogs.std.ts';
@@ -18,7 +18,7 @@ import type { LocalizerType } from '../types/Util.std.ts';
 import type { DismissOptions } from './LeftPaneDialog.dom.tsx';
 import type { WidthBreakpoint } from './_util.std.ts';
 
-function contactSupportLink(parts: ReactNode): React.JSX.Element {
+function contactSupportLink(parts: ReactNode): JSX.Element {
   return (
     <a
       key="signal-support"
@@ -57,9 +57,9 @@ export function DialogUpdate({
   startUpdate,
   version,
   currentVersion,
-}: PropsType): React.JSX.Element | null {
+}: PropsType): JSX.Element | null {
   const retryUpdateButton = useCallback(
-    (parts: ReactNode): React.JSX.Element => {
+    (parts: ReactNode): JSX.Element => {
       return (
         <button
           className="LeftPaneDialog__retry"

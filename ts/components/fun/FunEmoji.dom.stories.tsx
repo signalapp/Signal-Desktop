@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import { useVirtualizer } from '@tanstack/react-virtual';
 import lodash from 'lodash';
-import React, { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef, type JSX } from 'react';
 import { type ComponentMeta } from '../../storybook/types.std.ts';
 import type { FunStaticEmojiProps } from './FunEmoji.dom.tsx';
 import { FunInlineEmoji, FunStaticEmoji } from './FunEmoji.dom.tsx';
@@ -31,7 +31,7 @@ const COLUMNS = 8;
 
 type AllProps = Pick<FunStaticEmojiProps, 'size'>;
 
-export function All(props: AllProps): React.JSX.Element {
+export function All(props: AllProps): JSX.Element {
   const scrollerRef = useRef<HTMLDivElement>(null);
   const data = Array.from(_getAllEmojiVariantKeys());
   const rows = chunk(data, COLUMNS);
@@ -126,7 +126,7 @@ const FRIED_SHRIMP = getEmojiVariantByKey(
   EMOJI_VARIANT_KEY_CONSTANTS.FRIED_SHRIMP
 );
 
-export function Inline(): React.JSX.Element {
+export function Inline(): JSX.Element {
   return (
     <div style={{ userSelect: 'none' }}>
       <p style={{ userSelect: 'text' }}>

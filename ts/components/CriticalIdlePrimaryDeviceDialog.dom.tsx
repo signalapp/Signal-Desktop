@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { JSX } from 'react';
 
 import { LeftPaneDialog } from './LeftPaneDialog.dom.tsx';
 import type { WidthBreakpoint } from './_util.std.ts';
@@ -19,8 +19,8 @@ export const CRITICAL_IDLE_PRIMARY_DEVICE_SUPPORT_PAGE =
 export function CriticalIdlePrimaryDeviceDialog({
   containerWidthBreakpoint,
   i18n,
-}: PropsType): React.JSX.Element {
-  const learnMoreLink = (parts: Array<string | React.JSX.Element>) => (
+}: PropsType): JSX.Element {
+  const learnMoreLink = (parts: Array<string | JSX.Element>) => (
     <a
       href={CRITICAL_IDLE_PRIMARY_DEVICE_SUPPORT_PAGE}
       rel="noreferrer"

@@ -1,7 +1,7 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useCallback, type ReactNode } from 'react';
+import { useCallback, type ReactNode, type JSX, type MouseEvent } from 'react';
 import type { ReadonlyDeep } from 'type-fest';
 
 import { formatFileSize } from '../../../util/formatFileSize.std.ts';
@@ -35,10 +35,10 @@ export type Props = Readonly<{
   renderContextMenu: (
     mediaItem: ReadonlyDeep<MediaItemType>,
     children: ReactNode
-  ) => React.JSX.Element;
+  ) => JSX.Element;
 }>;
 
-export function MediaGridItem(props: Props): React.JSX.Element {
+export function MediaGridItem(props: Props): JSX.Element {
   const {
     mediaItem: { attachment },
     showSize,
@@ -77,7 +77,7 @@ export function MediaGridItem(props: Props): React.JSX.Element {
   }
 
   const handleClick = useCallback(
-    (ev: React.MouseEvent) => {
+    (ev: MouseEvent) => {
       ev.preventDefault();
 
       onClick?.(status.state);
@@ -116,9 +116,7 @@ type SpinnerOverlayProps = Readonly<{
   status: AttachmentStatusType;
 }>;
 
-function SpinnerOverlay(
-  props: SpinnerOverlayProps
-): React.JSX.Element | undefined {
+function SpinnerOverlay(props: SpinnerOverlayProps): JSX.Element | undefined {
   const { status } = props;
 
   if (status.state === 'ReadyToShow') {
@@ -161,9 +159,7 @@ type MetadataOverlayProps = Readonly<{
   showSize: boolean;
 }>;
 
-function MetadataOverlay(
-  props: MetadataOverlayProps
-): React.JSX.Element | undefined {
+function MetadataOverlay(props: MetadataOverlayProps): JSX.Element | undefined {
   const { i18n, status, attachment, showSize } = props;
 
   if (

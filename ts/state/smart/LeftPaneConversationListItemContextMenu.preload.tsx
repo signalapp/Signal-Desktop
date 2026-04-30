@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { FC } from 'react';
-import React, { memo, useCallback } from 'react';
+import { memo, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { getIntl } from '../selectors/user.std.ts';
 import { getConversationByIdSelector } from '../selectors/conversations.dom.ts';

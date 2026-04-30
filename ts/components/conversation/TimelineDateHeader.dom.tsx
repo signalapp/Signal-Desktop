@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { JSX, ReactElement } from 'react';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import * as durations from '../../util/durations/index.std.ts';
 import type { LocalizerType } from '../../types/Util.std.ts';
 import { formatDate } from '../../util/formatTimestamp.dom.ts';

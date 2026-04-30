@@ -1,6 +1,6 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import React, { memo, useCallback, useEffect, useState } from 'react';
+import { memo, useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { getIntl, getTheme } from '../selectors/user.std.ts';
 import type { DraftGifMessageSendModalProps } from '../../components/DraftGifMessageSendModal.dom.tsx';

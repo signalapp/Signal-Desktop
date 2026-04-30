@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { Meta, StoryFn } from '@storybook/react';
-import React, { useState } from 'react';
-import type { MutableRefObject } from 'react';
+import { useState } from 'react';
+import type { MutableRefObject, JSX } from 'react';
 import { action } from '@storybook/addon-actions';
 import lodash from 'lodash';
 
@@ -177,7 +177,7 @@ const donationAmountsConfig = {
 
 function renderUpdateDialog(
   props: Readonly<{ containerWidthBreakpoint: WidthBreakpoint }>
-): React.JSX.Element {
+): JSX.Element {
   return (
     <DialogUpdate
       i18n={i18n}
@@ -198,7 +198,7 @@ function renderProfileEditor({
   contentsRef,
 }: {
   contentsRef: MutableRefObject<HTMLDivElement | null>;
-}): React.JSX.Element {
+}): JSX.Element {
   return (
     <ProfileEditor
       aboutEmoji={undefined}
@@ -258,7 +258,7 @@ function renderDonationsPane(props: {
   ) => Promise<Blob>;
   showToast: (toast: AnyToast) => void;
   workflow?: DonationWorkflow;
-}): React.JSX.Element {
+}): JSX.Element {
   return (
     <PreferencesDonations
       applyDonationBadge={action('applyDonationBadge')}
@@ -294,13 +294,13 @@ function renderDonationsPane(props: {
   );
 }
 
-function renderToastManager(): React.JSX.Element {
+function renderToastManager(): JSX.Element {
   return <div />;
 }
 
 function renderPreferencesChatFoldersPage(
   props: SmartPreferencesChatFoldersPageProps
-): React.JSX.Element {
+): JSX.Element {
   return (
     <PreferencesChatFoldersPage
       i18n={i18n}
@@ -318,7 +318,7 @@ function renderPreferencesChatFoldersPage(
 
 function renderPreferencesEditChatFolderPage(
   props: SmartPreferencesEditChatFolderPageProps
-): React.JSX.Element {
+): JSX.Element {
   return (
     <PreferencesEditChatFolderPage
       i18n={i18n}
@@ -343,7 +343,7 @@ function renderPreferencesEditChatFolderPage(
 
 function renderNotificationProfilesCreateFlow(
   props: SmartNotificationProfilesProps
-): React.JSX.Element {
+): JSX.Element {
   return (
     <NotificationProfilesCreateFlow
       contentsRef={props.contentsRef}
@@ -360,7 +360,7 @@ function renderNotificationProfilesCreateFlow(
 
 function renderNotificationProfilesHome(
   props: SmartNotificationProfilesProps
-): React.JSX.Element {
+): JSX.Element {
   return (
     <NotificationProfilesHome
       activeProfileId={undefined}

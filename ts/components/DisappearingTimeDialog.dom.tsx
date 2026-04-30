@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useState } from 'react';
+import { useState, type JSX } from 'react';
 
 import { ConfirmationDialog } from './ConfirmationDialog.dom.tsx';
 import { Select } from './Select.dom.tsx';
@@ -41,7 +41,7 @@ const RANGES = new Map<Unit, [number, number]>([
   ['weeks', [1, 5]],
 ]);
 
-export function DisappearingTimeDialog(props: PropsType): React.JSX.Element {
+export function DisappearingTimeDialog(props: PropsType): JSX.Element {
   const {
     i18n,
     theme,

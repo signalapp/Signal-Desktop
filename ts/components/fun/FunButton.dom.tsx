@@ -1,6 +1,6 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import React, { useMemo } from 'react';
+import { useMemo, type JSX } from 'react';
 import { VisuallyHidden } from 'react-aria';
 import { Button } from 'react-aria-components';
 import type { LocalizerType } from '../../types/I18N.std.ts';
@@ -19,9 +19,7 @@ export type FunPickerButtonProps = Readonly<{
   i18n: LocalizerType;
 }>;
 
-export function FunPickerButton(
-  props: FunPickerButtonProps
-): React.JSX.Element {
+export function FunPickerButton(props: FunPickerButtonProps): JSX.Element {
   const { i18n } = props;
   return (
     <Button className="FunButton">
@@ -42,7 +40,7 @@ export type FunEmojiPickerButtonProps = Readonly<{
 
 export function FunEmojiPickerButton(
   props: FunEmojiPickerButtonProps
-): React.JSX.Element {
+): JSX.Element {
   const { i18n } = props;
   const emojiLocalizer = useFunEmojiLocalizer();
 
@@ -85,7 +83,7 @@ export type FunStickerPickerButtonProps = Readonly<{
 
 export function FunStickerPickerButton(
   props: FunStickerPickerButtonProps
-): React.JSX.Element {
+): JSX.Element {
   const { i18n } = props;
   return (
     <Button className="FunButton">

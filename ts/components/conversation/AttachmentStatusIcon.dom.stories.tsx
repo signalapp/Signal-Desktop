@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useCallback, useRef, useState } from 'react';
+import { useCallback, useRef, useState, type JSX } from 'react';
 import type { Meta } from '@storybook/react';
 import type { PropsType } from './AttachmentStatusIcon.dom.tsx';
 import { AttachmentStatusIcon } from './AttachmentStatusIcon.dom.tsx';
@@ -18,7 +18,7 @@ export default {
   },
 } satisfies Meta<PropsType>;
 
-export function Default(args: PropsType): React.JSX.Element {
+export function Default(args: PropsType): JSX.Element {
   return (
     <div style={{ backgroundColor: 'gray' }}>
       <AttachmentStatusIcon {...args}>🔥🔥</AttachmentStatusIcon>
@@ -26,7 +26,7 @@ export function Default(args: PropsType): React.JSX.Element {
   );
 }
 
-export function NeedsDownload(args: PropsType): React.JSX.Element {
+export function NeedsDownload(args: PropsType): JSX.Element {
   return (
     <div style={{ backgroundColor: 'gray' }}>
       <AttachmentStatusIcon
@@ -39,7 +39,7 @@ export function NeedsDownload(args: PropsType): React.JSX.Element {
   );
 }
 
-export function Downloading(args: PropsType): React.JSX.Element {
+export function Downloading(args: PropsType): JSX.Element {
   return (
     <div style={{ backgroundColor: 'gray' }}>
       <AttachmentStatusIcon
@@ -57,7 +57,7 @@ export function Downloading(args: PropsType): React.JSX.Element {
   );
 }
 
-export function Interactive(args: PropsType): React.JSX.Element {
+export function Interactive(args: PropsType): JSX.Element {
   const size = 10000000;
   const [attachment, setAttachment] = useState(
     fakeAttachment({ path: undefined, size })

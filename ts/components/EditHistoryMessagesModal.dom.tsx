@@ -1,8 +1,8 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ReactNode } from 'react';
-import React, { useCallback, useState, useRef } from 'react';
+import type { ReactNode, JSX } from 'react';
+import { useCallback, useState, useRef, Fragment } from 'react';
 import lodash from 'lodash';
 
 import type { AttachmentType } from '../types/Attachment.std.ts';
@@ -95,7 +95,7 @@ export function EditHistoryMessagesModal({
   platform,
   kickOffAttachmentDownload,
   showLightbox,
-}: PropsType): React.JSX.Element {
+}: PropsType): JSX.Element {
   const containerElementRef = useRef<HTMLDivElement | null>(null);
   const theme = useTheme();
 
@@ -206,7 +206,7 @@ export function EditHistoryMessagesModal({
           previousItem = messageAttributes;
 
           return (
-            <React.Fragment key={messageAttributes.timestamp}>
+            <Fragment key={messageAttributes.timestamp}>
               {dateHeaderElement}
               <Message
                 {...MESSAGE_DEFAULT_PROPS}
@@ -255,7 +255,7 @@ export function EditHistoryMessagesModal({
                   );
                 }}
               />
-            </React.Fragment>
+            </Fragment>
           );
         })}
       </div>

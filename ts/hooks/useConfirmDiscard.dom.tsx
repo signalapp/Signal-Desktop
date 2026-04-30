@@ -1,7 +1,7 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type RefObject, type JSX } from 'react';
 
 import { ConfirmDiscardDialog } from '../components/ConfirmDiscardDialog.dom.tsx';
 import {
@@ -29,9 +29,9 @@ export function useConfirmDiscard({
   cancelText?: string;
   discardText?: string;
   name: string;
-  tryClose?: React.RefObject<(() => void) | null>;
+  tryClose?: RefObject<(() => void) | null>;
 }): [
-  React.JSX.Element | null,
+  JSX.Element | null,
   (condition: boolean, discardChanges: () => void, cancel?: () => void) => void,
 ] {
   const [props, setProps] = useState<Omit<

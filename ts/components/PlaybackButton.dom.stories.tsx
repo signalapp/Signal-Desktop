@@ -1,8 +1,8 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useContext } from 'react';
-import type { CSSProperties } from 'react';
+import { useContext } from 'react';
+import type { CSSProperties, JSX } from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import type { ButtonProps } from './PlaybackButton.dom.tsx';
@@ -22,7 +22,7 @@ const rowStyles: CSSProperties = {
   padding: 10,
 };
 
-export function Default(): React.JSX.Element {
+export function Default(): JSX.Element {
   const theme = useContext(StorybookThemeContext);
   const themeIncomingColor = theme === ThemeType.light ? '#e9e9e9' : '#3b3b3b';
 

@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import { useState, type JSX } from 'react';
 
 import type { LocalizerType, ThemeType } from '../../../types/Util.std.ts';
 
@@ -99,8 +99,8 @@ export function ConversationDetailsMembershipList({
   showLabelEditor,
   startAddingNewMembers,
   theme,
-}: Props): React.JSX.Element {
-  const [showAllMembers, setShowAllMembers] = React.useState<boolean>(false);
+}: Props): JSX.Element {
+  const [showAllMembers, setShowAllMembers] = useState<boolean>(false);
   const sortedMemberships = sortMemberships(memberships);
 
   const shouldHideRestMembers =

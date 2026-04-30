@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useContext } from 'react';
+import { type JSX, useContext } from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import { IMAGE_JPEG } from '../types/MIME.std.ts';
@@ -162,12 +162,12 @@ export default {
   },
 } satisfies Meta<Props>;
 
-export function Default(args: Props): React.JSX.Element {
+export function Default(args: Props): JSX.Element {
   const theme = useContext(StorybookThemeContext);
   return <CompositionArea {...args} theme={theme} />;
 }
 
-export function StartingText(args: Props): React.JSX.Element {
+export function StartingText(args: Props): JSX.Element {
   const theme = useContext(StorybookThemeContext);
   return (
     <CompositionArea
@@ -178,19 +178,19 @@ export function StartingText(args: Props): React.JSX.Element {
   );
 }
 
-export function StickerButton(args: Props): React.JSX.Element {
+export function StickerButton(args: Props): JSX.Element {
   const theme = useContext(StorybookThemeContext);
   return <CompositionArea {...args} theme={theme} />;
 }
 
-export function MessageRequest(args: Props): React.JSX.Element {
+export function MessageRequest(args: Props): JSX.Element {
   const theme = useContext(StorybookThemeContext);
   return (
     <CompositionArea {...args} theme={theme} acceptedMessageRequest={false} />
   );
 }
 
-export function SmsOnlyFetchingUuid(args: Props): React.JSX.Element {
+export function SmsOnlyFetchingUuid(args: Props): JSX.Element {
   const theme = useContext(StorybookThemeContext);
   return (
     <CompositionArea
@@ -202,12 +202,12 @@ export function SmsOnlyFetchingUuid(args: Props): React.JSX.Element {
   );
 }
 
-export function SmsOnly(args: Props): React.JSX.Element {
+export function SmsOnly(args: Props): JSX.Element {
   const theme = useContext(StorybookThemeContext);
   return <CompositionArea {...args} theme={theme} isSmsOnlyOrUnregistered />;
 }
 
-export function Attachments(args: Props): React.JSX.Element {
+export function Attachments(args: Props): JSX.Element {
   const theme = useContext(StorybookThemeContext);
   return (
     <CompositionArea
@@ -223,7 +223,7 @@ export function Attachments(args: Props): React.JSX.Element {
   );
 }
 
-export function ViewOnceEnabled(args: Props): React.JSX.Element {
+export function ViewOnceEnabled(args: Props): JSX.Element {
   const theme = useContext(StorybookThemeContext);
   return (
     <CompositionArea
@@ -240,12 +240,12 @@ export function ViewOnceEnabled(args: Props): React.JSX.Element {
   );
 }
 
-export function PendingApproval(args: Props): React.JSX.Element {
+export function PendingApproval(args: Props): JSX.Element {
   const theme = useContext(StorybookThemeContext);
   return <CompositionArea {...args} theme={theme} areWePendingApproval />;
 }
 
-export function AnnouncementsOnlyGroup(args: Props): React.JSX.Element {
+export function AnnouncementsOnlyGroup(args: Props): JSX.Element {
   const theme = useContext(StorybookThemeContext);
   return (
     <CompositionArea
@@ -257,14 +257,14 @@ export function AnnouncementsOnlyGroup(args: Props): React.JSX.Element {
   );
 }
 
-export function TerminatedGroup(args: Props): React.JSX.Element {
+export function TerminatedGroup(args: Props): JSX.Element {
   const theme = useContext(StorybookThemeContext);
   return (
     <CompositionArea {...args} theme={theme} terminated areWeAdmin={false} />
   );
 }
 
-export function Quote(args: Props): React.JSX.Element {
+export function Quote(args: Props): JSX.Element {
   const theme = useContext(StorybookThemeContext);
   return (
     <CompositionArea
@@ -284,7 +284,7 @@ export function Quote(args: Props): React.JSX.Element {
   );
 }
 
-export function QuoteWithPayment(args: Props): React.JSX.Element {
+export function QuoteWithPayment(args: Props): JSX.Element {
   const theme = useContext(StorybookThemeContext);
   return (
     <CompositionArea
@@ -308,7 +308,7 @@ export function QuoteWithPayment(args: Props): React.JSX.Element {
   );
 }
 
-export function NoFormattingMenu(args: Props): React.JSX.Element {
+export function NoFormattingMenu(args: Props): JSX.Element {
   const theme = useContext(StorybookThemeContext);
   return (
     <CompositionArea {...args} theme={theme} isFormattingEnabled={false} />

@@ -1,7 +1,7 @@
 // Copyright 2026 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { memo, useEffect } from 'react';
+import { memo, useEffect } from 'react';
 import type { FC, ReactNode } from 'react';
 import { Slot } from 'radix-ui';
 

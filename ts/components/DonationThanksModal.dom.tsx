@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useState } from 'react';
+import { useState, type JSX } from 'react';
 
 import type { LocalizerType } from '../types/Util.std.ts';
 import type { BadgeType } from '../badges/types.std.ts';
@@ -27,7 +27,7 @@ export function DonationThanksModal({
   onClose,
   badge,
   applyDonationBadge,
-}: PropsType): React.JSX.Element {
+}: PropsType): JSX.Element {
   const [applyBadgeIsChecked, setApplyBadgeIsChecked] = useState(true);
   const [isUpdating, setIsUpdating] = useState(false);
 

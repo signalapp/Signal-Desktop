@@ -1,7 +1,8 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { JSX } from 'react';
+
 import { action } from '@storybook/addon-actions';
 import type { PropsType } from './AboutContactModal.dom.tsx';
 import { AboutContactModal } from './AboutContactModal.dom.tsx';
@@ -84,15 +85,15 @@ export default {
   },
 } satisfies ComponentMeta<PropsType>;
 
-export function Defaults(args: PropsType): React.JSX.Element {
+export function Defaults(args: PropsType): JSX.Element {
   return <AboutContactModal {...args} />;
 }
 
-export function Me(args: PropsType): React.JSX.Element {
+export function Me(args: PropsType): JSX.Element {
   return <AboutContactModal {...args} contact={me} />;
 }
 
-export function MeWithUsername(args: PropsType): React.JSX.Element {
+export function MeWithUsername(args: PropsType): JSX.Element {
   return (
     <AboutContactModal
       {...args}
@@ -101,7 +102,7 @@ export function MeWithUsername(args: PropsType): React.JSX.Element {
   );
 }
 
-export function MeWithLabel(args: PropsType): React.JSX.Element {
+export function MeWithLabel(args: PropsType): JSX.Element {
   return (
     <AboutContactModal
       {...{
@@ -115,7 +116,7 @@ export function MeWithLabel(args: PropsType): React.JSX.Element {
   );
 }
 
-export function LongLabel(args: PropsType): React.JSX.Element {
+export function LongLabel(args: PropsType): JSX.Element {
   return (
     <AboutContactModal
       {...{
@@ -129,7 +130,7 @@ export function LongLabel(args: PropsType): React.JSX.Element {
   );
 }
 
-export function LongLabelAllEmoji(args: PropsType): React.JSX.Element {
+export function LongLabelAllEmoji(args: PropsType): JSX.Element {
   return (
     <AboutContactModal
       {...{
@@ -143,7 +144,7 @@ export function LongLabelAllEmoji(args: PropsType): React.JSX.Element {
   );
 }
 
-export function MeWithInvalidLabelEmoji(args: PropsType): React.JSX.Element {
+export function MeWithInvalidLabelEmoji(args: PropsType): JSX.Element {
   return (
     <AboutContactModal
       {...{
@@ -157,7 +158,7 @@ export function MeWithInvalidLabelEmoji(args: PropsType): React.JSX.Element {
   );
 }
 
-export function MeWithAddLabel(args: PropsType): React.JSX.Element {
+export function MeWithAddLabel(args: PropsType): JSX.Element {
   return (
     <AboutContactModal
       {...{
@@ -169,7 +170,7 @@ export function MeWithAddLabel(args: PropsType): React.JSX.Element {
   );
 }
 
-export function MeWithAddLabelEditDisabled(args: PropsType): React.JSX.Element {
+export function MeWithAddLabelEditDisabled(args: PropsType): JSX.Element {
   return (
     <AboutContactModal
       {...{
@@ -182,37 +183,37 @@ export function MeWithAddLabelEditDisabled(args: PropsType): React.JSX.Element {
   );
 }
 
-export function Verified(args: PropsType): React.JSX.Element {
+export function Verified(args: PropsType): JSX.Element {
   return <AboutContactModal {...args} contact={verifiedConversation} />;
 }
 
-export function Blocked(args: PropsType): React.JSX.Element {
+export function Blocked(args: PropsType): JSX.Element {
   return <AboutContactModal {...args} contact={blockedConversation} />;
 }
 
-export function Pending(args: PropsType): React.JSX.Element {
+export function Pending(args: PropsType): JSX.Element {
   return <AboutContactModal {...args} contact={pendingConversation} />;
 }
 
-export function NoMessages(args: PropsType): React.JSX.Element {
+export function NoMessages(args: PropsType): JSX.Element {
   return <AboutContactModal {...args} contact={noMessages} />;
 }
 
-export function WithAbout(args: PropsType): React.JSX.Element {
+export function WithAbout(args: PropsType): JSX.Element {
   return <AboutContactModal {...args} contact={conversationWithAbout} />;
 }
 
-export function SignalConnection(args: PropsType): React.JSX.Element {
+export function SignalConnection(args: PropsType): JSX.Element {
   return <AboutContactModal {...args} isSignalConnection />;
 }
 
-export function SystemContact(args: PropsType): React.JSX.Element {
+export function SystemContact(args: PropsType): JSX.Element {
   return (
     <AboutContactModal {...args} contact={systemContact} isSignalConnection />
   );
 }
 
-export function WithSharedGroups(args: PropsType): React.JSX.Element {
+export function WithSharedGroups(args: PropsType): JSX.Element {
   return (
     <AboutContactModal
       {...args}
@@ -223,7 +224,7 @@ export function WithSharedGroups(args: PropsType): React.JSX.Element {
   );
 }
 
-export function DirectFromTrustedContact(args: PropsType): React.JSX.Element {
+export function DirectFromTrustedContact(args: PropsType): JSX.Element {
   return (
     <AboutContactModal
       {...args}

@@ -1,14 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ChangeEvent, ClipboardEvent } from 'react';
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import type { ChangeEvent, ClipboardEvent, JSX } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import lodash from 'lodash';
 
 import * as grapheme from '../util/grapheme.std.ts';
@@ -47,7 +41,7 @@ export function AvatarTextEditor({
   i18n,
   onCancel,
   onDone,
-}: PropsType): React.JSX.Element {
+}: PropsType): JSX.Element {
   const initialText = useMemo(() => avatarData?.text || '', [avatarData]);
   const initialColor = useMemo(
     () => avatarData?.color || AvatarColors[0],

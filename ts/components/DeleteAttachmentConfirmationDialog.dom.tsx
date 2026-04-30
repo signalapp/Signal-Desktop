@@ -1,6 +1,6 @@
 // Copyright 2026 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import React, { useCallback } from 'react';
+import { useCallback, type JSX } from 'react';
 import type { LocalizerType } from '../types/I18N.std.ts';
 import { AxoDialog } from '../axo/AxoDialog.dom.tsx';
 
@@ -14,7 +14,7 @@ export function DeleteAttachmentConfirmationDialog({
   onDestroyAttachment: () => void;
   open: boolean;
   onOpenChange: (open: boolean) => void;
-}): React.JSX.Element {
+}): JSX.Element {
   const close = useCallback(() => {
     onOpenChange(false);
   }, [onOpenChange]);

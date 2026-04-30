@@ -1,7 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { JSX } from 'react';
+
 import { useSelector } from 'react-redux';
 
 import { getIntl } from '../selectors/user.std.ts';
@@ -16,7 +17,7 @@ import {
 import { useNavActions } from '../ducks/nav.std.ts';
 import { NavTab, SettingsPage } from '../../types/Nav.std.ts';
 
-export function SmartNotificationProfilesMenu(): React.JSX.Element {
+export function SmartNotificationProfilesMenu(): JSX.Element {
   const i18n = useSelector(getIntl);
 
   const allProfiles = useSelector(getProfiles);

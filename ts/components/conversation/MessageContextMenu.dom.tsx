@@ -1,7 +1,7 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useRef, type ReactNode } from 'react';
+import { useRef, type ReactNode, type JSX } from 'react';
 import type { LocalizerType } from '../../types/I18N.std.ts';
 import { AxoMenuBuilder } from '../../axo/AxoMenuBuilder.dom.tsx';
 import { isInternalFeaturesEnabled } from '../../util/isInternalFeaturesEnabled.dom.ts';
@@ -52,7 +52,7 @@ export function MessageContextMenu({
   onPinMessage,
   onUnpinMessage,
   children,
-}: MessageContextMenuProps): React.JSX.Element {
+}: MessageContextMenuProps): JSX.Element {
   const shouldReturnFocusToTrigger = useRef(true);
 
   return (

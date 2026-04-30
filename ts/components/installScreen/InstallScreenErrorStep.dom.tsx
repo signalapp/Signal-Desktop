@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { type ReactElement, useCallback } from 'react';
+import { type ReactElement, useCallback } from 'react';
 
 import type { LocalizerType } from '../../types/Util.std.ts';
 import { missingCaseError } from '../../util/missingCaseError.std.ts';

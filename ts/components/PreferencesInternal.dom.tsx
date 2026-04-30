@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useState, useCallback, useRef } from 'react';
+import { useState, useCallback, useRef, Fragment, type JSX } from 'react';
 import classNames from 'classnames';
 import { v4 as uuid } from 'uuid';
 
@@ -95,7 +95,7 @@ export function PreferencesInternal({
   setSfuUrl: (value: string | undefined) => void;
   forceKeyTransparencyCheck: () => Promise<void>;
   keyTransparencySelfHealth: StorageAccessType['keyTransparencySelfHealth'];
-}): React.JSX.Element {
+}): JSX.Element {
   const [messageCountBySchemaVersion, setMessageCountBySchemaVersion] =
     useState<MessageCountBySchemaVersionType>();
   const [messageSampleForVersions, setMessageSampleForVersions] = useState<{
@@ -185,7 +185,7 @@ export function PreferencesInternal({
   const renderValidationResult = useCallback(
     (
       backupResult: BackupValidationResultType | undefined
-    ): React.JSX.Element | undefined => {
+    ): JSX.Element | undefined => {
       if (backupResult == null) {
         return;
       }
@@ -195,7 +195,7 @@ export function PreferencesInternal({
           result: { totalBytes, stats, duration },
         } = backupResult;
 
-        let snapshotDirEl: React.JSX.Element | undefined;
+        let snapshotDirEl: JSX.Element | undefined;
         if ('snapshotDir' in backupResult.result) {
           snapshotDirEl = (
             <p>
@@ -407,7 +407,7 @@ export function PreferencesInternal({
                   {messageCountBySchemaVersion.map(
                     ({ schemaVersion, count }) => {
                       return (
-                        <React.Fragment key={schemaVersion}>
+                        <Fragment key={schemaVersion}>
                           <tr>
                             <td>{schemaVersion}</td>
                             <td>{count}</td>
@@ -444,7 +444,7 @@ export function PreferencesInternal({
                               </td>
                             </tr>
                           ) : null}
-                        </React.Fragment>
+                        </Fragment>
                       );
                     }
                   )}

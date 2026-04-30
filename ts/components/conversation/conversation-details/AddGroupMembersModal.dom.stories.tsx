@@ -1,8 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ComponentProps } from 'react';
-import React, { useState } from 'react';
+import type { ComponentProps, JSX } from 'react';
+import { useState } from 'react';
 import lodash from 'lodash';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
@@ -89,11 +89,11 @@ const createProps = (
   ...overrideProps,
 });
 
-export function Default(): React.JSX.Element {
+export function Default(): JSX.Element {
   return <AddGroupMembersModal {...createProps()} />;
 }
 
-export function Only3Contacts(): React.JSX.Element {
+export function Only3Contacts(): JSX.Element {
   return (
     <AddGroupMembersModal
       {...createProps({}, allCandidateContacts.slice(0, 3))}
@@ -101,11 +101,11 @@ export function Only3Contacts(): React.JSX.Element {
   );
 }
 
-export function NoCandidateContacts(): React.JSX.Element {
+export function NoCandidateContacts(): JSX.Element {
   return <AddGroupMembersModal {...createProps({}, [])} />;
 }
 
-export function EveryoneAlreadyAdded(): React.JSX.Element {
+export function EveryoneAlreadyAdded(): JSX.Element {
   return (
     <AddGroupMembersModal
       {...createProps({
@@ -137,6 +137,6 @@ function RequestFailsAfter1SecondWrapper() {
   );
 }
 
-export function RequestFailsAfter1Second(): React.JSX.Element {
+export function RequestFailsAfter1Second(): JSX.Element {
   return <RequestFailsAfter1SecondWrapper />;
 }

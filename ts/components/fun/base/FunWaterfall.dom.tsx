@@ -1,7 +1,6 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import type { CSSProperties, ReactNode } from 'react';
-import React from 'react';
+import type { CSSProperties, ReactNode, JSX } from 'react';
 
 /**
  * Components
@@ -14,7 +13,7 @@ export type FunWaterfallContainerProps = Readonly<{
 
 export function FunWaterfallContainer(
   props: FunWaterfallContainerProps
-): React.JSX.Element {
+): JSX.Element {
   return (
     <div
       className="FunWaterfall__Container"
@@ -38,9 +37,7 @@ export type FunWaterfallItemProps = Readonly<{
   children: ReactNode;
 }>;
 
-export function FunWaterfallItem(
-  props: FunWaterfallItemProps
-): React.JSX.Element {
+export function FunWaterfallItem(props: FunWaterfallItemProps): JSX.Element {
   return (
     <div
       data-key={props['data-key']}

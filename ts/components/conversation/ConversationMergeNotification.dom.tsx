@@ -1,7 +1,7 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import { useState, useCallback, type JSX } from 'react';
 
 import type { LocalizerType } from '../../types/Util.std.ts';
 import { getStringForConversationMerge } from '../../util/getStringForConversationMerge.std.ts';
@@ -20,9 +20,7 @@ export type PropsType = PropsDataType & {
   i18n: LocalizerType;
 };
 
-export function ConversationMergeNotification(
-  props: PropsType
-): React.JSX.Element {
+export function ConversationMergeNotification(props: PropsType): JSX.Element {
   const {
     conversationTitle,
     obsoleteConversationTitle,
@@ -36,13 +34,13 @@ export function ConversationMergeNotification(
     i18n,
   });
 
-  const [showingDialog, setShowingDialog] = React.useState(false);
+  const [showingDialog, setShowingDialog] = useState(false);
 
-  const showDialog = React.useCallback(() => {
+  const showDialog = useCallback(() => {
     setShowingDialog(true);
   }, [setShowingDialog]);
 
-  const dismissDialog = React.useCallback(() => {
+  const dismissDialog = useCallback(() => {
     setShowingDialog(false);
   }, [setShowingDialog]);
 

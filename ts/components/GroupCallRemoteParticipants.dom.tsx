@@ -1,7 +1,14 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useCallback, useState, useMemo, useEffect } from 'react';
+import {
+  useCallback,
+  useState,
+  useMemo,
+  useEffect,
+  type RefObject,
+  type JSX,
+} from 'react';
 import lodash from 'lodash';
 import type { VideoFrameSource } from '@signalapp/ringrtc';
 import { GroupCallRemoteParticipant } from './GroupCallRemoteParticipant.dom.tsx';
@@ -67,7 +74,7 @@ type PropsType = {
   callViewMode: CallViewMode;
   getGroupCallVideoFrameSource: (demuxId: number) => VideoFrameSource;
   i18n: LocalizerType;
-  imageDataCache: React.RefObject<CallingImageDataCache | null>;
+  imageDataCache: RefObject<CallingImageDataCache | null>;
   isCallReconnecting: boolean;
   joinedAt: number | null;
   remoteParticipants: ReadonlyArray<GroupCallRemoteParticipantType>;
@@ -78,7 +85,7 @@ type PropsType = {
   remoteAudioLevels: Map<number, number>;
   renderCallingParticipantMenu: (
     props: SmartCallingParticipantMenuProps
-  ) => React.JSX.Element;
+  ) => JSX.Element;
   onClickRaisedHand?: () => void;
 };
 
@@ -132,7 +139,7 @@ export function GroupCallRemoteParticipants({
   remoteAudioLevels,
   renderCallingParticipantMenu,
   onClickRaisedHand,
-}: PropsType): React.JSX.Element {
+}: PropsType): JSX.Element {
   const [gridDimensions, setGridDimensions] = useState<Dimensions>({
     width: 0,
     height: 0,
@@ -309,7 +316,7 @@ export function GroupCallRemoteParticipants({
     Math.round((gridDimensions.height - gridTotalRowHeightWithMargin) / 2)
   );
 
-  const rowElements: Array<Array<React.JSX.Element>> = gridArrangement.rows.map(
+  const rowElements: Array<Array<JSX.Element>> = gridArrangement.rows.map(
     (tiles, index) => {
       const top = gridTopOffset + index * gridParticipantHeightWithMargin;
 

@@ -1,8 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ComponentProps } from 'react';
-import React from 'react';
+import type { ComponentProps, JSX } from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import { EditConversationAttributesModal } from './EditConversationAttributesModal.dom.tsx';
@@ -33,11 +32,11 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   ...overrideProps,
 });
 
-export function NoAvatarEmptyTitle(): React.JSX.Element {
+export function NoAvatarEmptyTitle(): JSX.Element {
   return <EditConversationAttributesModal {...createProps({ title: '' })} />;
 }
 
-export function AvatarAndTitle(): React.JSX.Element {
+export function AvatarAndTitle(): JSX.Element {
   return (
     <EditConversationAttributesModal
       {...createProps({
@@ -47,7 +46,7 @@ export function AvatarAndTitle(): React.JSX.Element {
   );
 }
 
-export function InitiallyFocusingDescription(): React.JSX.Element {
+export function InitiallyFocusingDescription(): JSX.Element {
   return (
     <EditConversationAttributesModal
       {...createProps({ title: 'Has title', initiallyFocusDescription: true })}
@@ -55,7 +54,7 @@ export function InitiallyFocusingDescription(): React.JSX.Element {
   );
 }
 
-export function RequestActive(): React.JSX.Element {
+export function RequestActive(): JSX.Element {
   return (
     <EditConversationAttributesModal
       {...createProps({ requestState: RequestState.Active })}
@@ -63,7 +62,7 @@ export function RequestActive(): React.JSX.Element {
   );
 }
 
-export function HasError(): React.JSX.Element {
+export function HasError(): JSX.Element {
   return (
     <EditConversationAttributesModal
       {...createProps({ requestState: RequestState.InactiveWithError })}

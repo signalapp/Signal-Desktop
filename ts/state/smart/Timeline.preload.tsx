@@ -1,7 +1,7 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { memo, useCallback } from 'react';
+import { memo, useCallback, useRef, useMemo, type JSX } from 'react';
 import { useSelector } from 'react-redux';
 import { isEqual } from 'lodash';
 
@@ -43,7 +43,7 @@ type ExternalProps = {
   id: string;
 };
 
-function renderItem(props: RenderItemProps): React.JSX.Element {
+function renderItem(props: RenderItemProps): JSX.Element {
   return (
     <SmartTimelineItem key={props.item.id} {...props} renderItem={renderItem} />
   );
@@ -51,14 +51,14 @@ function renderItem(props: RenderItemProps): React.JSX.Element {
 
 function renderContactSpoofingReviewDialog(
   props: SmartContactSpoofingReviewDialogPropsType
-): React.JSX.Element {
+): JSX.Element {
   return <SmartContactSpoofingReviewDialog {...props} />;
 }
 
-function renderHeroRow(id: string): React.JSX.Element {
+function renderHeroRow(id: string): JSX.Element {
   return <SmartHeroRow id={id} />;
 }
-function renderTypingBubble(conversationId: string): React.JSX.Element {
+function renderTypingBubble(conversationId: string): JSX.Element {
   return <SmartTypingBubble conversationId={conversationId} />;
 }
 
@@ -133,12 +133,10 @@ export const SmartTimeline = memo(function SmartTimeline({
     totalUnseen,
   } = conversationMessages;
 
-  const previousCollapseSet = React.useRef<Array<CollapseSet> | undefined>(
-    undefined
-  );
+  const previousCollapseSet = useRef<Array<CollapseSet> | undefined>(undefined);
   const midnightToday = getMidnight(Date.now());
   const { collapseSets, updatedOldestLastSeenIndex, updatedScrollToIndex } =
-    React.useMemo(() => {
+    useMemo(() => {
       const result = mapItemsIntoCollapseSets({
         activeCall,
         allowMultidaySets: false,

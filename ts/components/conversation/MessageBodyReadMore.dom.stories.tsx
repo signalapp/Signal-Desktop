@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useState } from 'react';
+import { useState, type JSX } from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import type { Props } from './MessageBodyReadMore.dom.tsx';
@@ -40,7 +40,7 @@ function MessageBodyReadMoreTest({
   isSpoilerExpanded?: Record<number, boolean>;
   onExpandSpoiler?: (data: Record<number, boolean>) => void;
   text: string;
-}): React.JSX.Element {
+}): JSX.Element {
   const [displayLimit, setDisplayLimit] = useState<number | undefined>();
 
   return (
@@ -57,7 +57,7 @@ function MessageBodyReadMoreTest({
   );
 }
 
-export function LongText100More(): React.JSX.Element {
+export function LongText100More(): JSX.Element {
   return (
     <MessageBodyReadMoreTest
       text={`${'test '.repeat(160)}${'extra '.repeat(10)}`}
@@ -65,17 +65,17 @@ export function LongText100More(): React.JSX.Element {
   );
 }
 
-export function LotsOfCakeWithSomeCherriesOnTop(): React.JSX.Element {
+export function LotsOfCakeWithSomeCherriesOnTop(): JSX.Element {
   return (
     <MessageBodyReadMoreTest text={`x${'🍰'.repeat(399)}${'🍒'.repeat(100)}`} />
   );
 }
 
-export function LeafyNotBuffered(): React.JSX.Element {
+export function LeafyNotBuffered(): JSX.Element {
   return <MessageBodyReadMoreTest text={`x${'🌿'.repeat(450)}`} />;
 }
 
-export function LongTextWithMention(): React.JSX.Element {
+export function LongTextWithMention(): JSX.Element {
   const bodyRanges = [
     // This is right at boundary for better testing
     {
@@ -92,7 +92,7 @@ export function LongTextWithMention(): React.JSX.Element {
   return <MessageBodyReadMoreTest bodyRanges={bodyRanges} text={text} />;
 }
 
-export function LongTextWithFormatting(): React.JSX.Element {
+export function LongTextWithFormatting(): JSX.Element {
   const bodyRanges = [
     {
       start: 0,
@@ -121,8 +121,8 @@ export function LongTextWithFormatting(): React.JSX.Element {
   return <MessageBodyReadMoreTest bodyRanges={bodyRanges} text={text} />;
 }
 
-export function LongTextMostlySpoiler(): React.JSX.Element {
-  const [isSpoilerExpanded, setIsSpoilerExpanded] = React.useState({});
+export function LongTextMostlySpoiler(): JSX.Element {
+  const [isSpoilerExpanded, setIsSpoilerExpanded] = useState({});
   const bodyRanges = [
     {
       start: 7,
@@ -143,7 +143,7 @@ export function LongTextMostlySpoiler(): React.JSX.Element {
   );
 }
 
-export function Links(): React.JSX.Element {
+export function Links(): JSX.Element {
   return (
     <MessageBodyReadMoreTest
       text={`${'test '.repeat(176)}https://www.signal.org`}
@@ -151,11 +151,11 @@ export function Links(): React.JSX.Element {
   );
 }
 
-export function ExcessiveAmountsOfCake(): React.JSX.Element {
+export function ExcessiveAmountsOfCake(): JSX.Element {
   return <MessageBodyReadMoreTest text={`x${'🍰'.repeat(20000)}`} />;
 }
 
-export function LongText(): React.JSX.Element {
+export function LongText(): JSX.Element {
   return (
     <MessageBodyReadMoreTest
       text={`

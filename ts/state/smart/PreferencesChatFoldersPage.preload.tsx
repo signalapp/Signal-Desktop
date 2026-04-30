@@ -1,6 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import React from 'react';
+import type { JSX } from 'react';
+
 import { useSelector } from 'react-redux';
 import type { PreferencesChatFoldersPageProps } from '../../components/preferences/chatFolders/PreferencesChatFoldersPage.dom.tsx';
 import { PreferencesChatFoldersPage } from '../../components/preferences/chatFolders/PreferencesChatFoldersPage.dom.tsx';
@@ -19,7 +20,7 @@ export type SmartPreferencesChatFoldersPageProps = Readonly<{
 
 export function SmartPreferencesChatFoldersPage(
   props: SmartPreferencesChatFoldersPageProps
-): React.JSX.Element {
+): JSX.Element {
   const i18n = useSelector(getIntl);
   const currentChatFolders = useSelector(getCurrentChatFolders);
   const { createChatFolder, deleteChatFolder, updateChatFoldersPositions } =

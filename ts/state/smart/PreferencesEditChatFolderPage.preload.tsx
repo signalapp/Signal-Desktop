@@ -1,6 +1,6 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import React, { useMemo } from 'react';
+import { useMemo, type JSX } from 'react';
 import { useSelector } from 'react-redux';
 import type { PreferencesEditChatFolderPageProps } from '../../components/preferences/chatFolders/PreferencesEditChatFoldersPage.dom.tsx';
 import { PreferencesEditChatFolderPage } from '../../components/preferences/chatFolders/PreferencesEditChatFoldersPage.dom.tsx';
@@ -27,7 +27,7 @@ export type SmartPreferencesEditChatFolderPageProps = Readonly<{
 
 export function SmartPreferencesEditChatFolderPage(
   props: SmartPreferencesEditChatFolderPageProps
-): React.JSX.Element {
+): JSX.Element {
   const { existingChatFolderId, initChatFolderParams } = props;
 
   const i18n = useSelector(getIntl);

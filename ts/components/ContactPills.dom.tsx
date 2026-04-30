@@ -1,8 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ReactNode } from 'react';
-import React, { useRef, useEffect, Children } from 'react';
+import type { ReactNode, JSX } from 'react';
+import { useRef, useEffect, Children } from 'react';
 import classNames from 'classnames';
 
 import { usePrevious } from '../hooks/usePrevious.std.ts';
@@ -16,7 +16,7 @@ type PropsType = {
 export function ContactPills({
   moduleClassName,
   children,
-}: PropsType): React.JSX.Element {
+}: PropsType): JSX.Element {
   const elRef = useRef<null | HTMLDivElement>(null);
 
   // oxlint-disable-next-line no-react-children

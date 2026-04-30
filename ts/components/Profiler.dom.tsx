@@ -1,8 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ProfilerOnRenderCallback, ReactNode } from 'react';
-import React from 'react';
+import type { ProfilerOnRenderCallback, ReactNode, JSX } from 'react';
+import { Profiler as ReactProfiler } from 'react';
 import { createLogger } from '../logging/log.std.ts';
 
 const log = createLogger('Profiler');
@@ -27,10 +27,10 @@ const onRender: ProfilerOnRenderCallback = (
   );
 };
 
-export function Profiler({ id, children }: PropsType): React.JSX.Element {
+export function Profiler({ id, children }: PropsType): JSX.Element {
   return (
-    <React.Profiler id={id} onRender={onRender}>
+    <ReactProfiler id={id} onRender={onRender}>
       {children}
-    </React.Profiler>
+    </ReactProfiler>
   );
 }

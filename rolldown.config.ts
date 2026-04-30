@@ -60,6 +60,7 @@ const sandboxDOM = {
 
 const defaults = {
   transform: {
+    jsx: 'react-jsx',
     define: {
       'process.env.IS_BUNDLED': 'true',
       ...(isProd

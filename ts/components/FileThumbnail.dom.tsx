@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { JSX } from 'react';
 
 import { getExtensionForDisplay } from '../util/Attachment.std.ts';
 import { isFileDangerous } from '../util/isFileDangerous.std.ts';
@@ -9,7 +9,7 @@ import { tw } from '../axo/tw.dom.tsx';
 
 export type PropsType = Readonly<Parameters<typeof getExtensionForDisplay>[0]>;
 
-export function FileThumbnail(props: PropsType): React.JSX.Element {
+export function FileThumbnail(props: PropsType): JSX.Element {
   const extension = getExtensionForDisplay(props) ?? '';
   const isDangerous = isFileDangerous(props.fileName || '');
 

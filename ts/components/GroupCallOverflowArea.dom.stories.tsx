@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import { createRef, type JSX } from 'react';
 import lodash from 'lodash';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
@@ -47,7 +47,7 @@ const defaultProps = {
   getFrameBuffer: memoize(() => new Uint8Array(FRAME_BUFFER_SIZE)),
   getCallingImageDataCache: memoize(() => new Map()),
   getGroupCallVideoFrameSource: fakeGetGroupCallVideoFrameSource,
-  imageDataCache: React.createRef<CallingImageDataCache>(),
+  imageDataCache: createRef<CallingImageDataCache>(),
   i18n,
   isCallReconnecting: false,
   joinedAt: new Date().getTime() - MINUTE,
@@ -58,11 +58,7 @@ const defaultProps = {
 };
 
 // This component is usually rendered on a call screen.
-function Container({
-  children,
-}: {
-  children: React.JSX.Element;
-}): React.JSX.Element {
+function Container({ children }: { children: JSX.Element }): JSX.Element {
   return (
     <div
       style={{
@@ -76,7 +72,7 @@ function Container({
   );
 }
 
-export function NoOverflowedParticipants(): React.JSX.Element {
+export function NoOverflowedParticipants(): JSX.Element {
   return (
     <Container>
       <GroupCallOverflowArea {...defaultProps} overflowedParticipants={[]} />
@@ -84,7 +80,7 @@ export function NoOverflowedParticipants(): React.JSX.Element {
   );
 }
 
-export function OneOverflowedParticipant(): React.JSX.Element {
+export function OneOverflowedParticipant(): JSX.Element {
   return (
     <Container>
       <GroupCallOverflowArea
@@ -95,7 +91,7 @@ export function OneOverflowedParticipant(): React.JSX.Element {
   );
 }
 
-export function ThreeOverflowedParticipants(): React.JSX.Element {
+export function ThreeOverflowedParticipants(): JSX.Element {
   return (
     <Container>
       <GroupCallOverflowArea
@@ -106,7 +102,7 @@ export function ThreeOverflowedParticipants(): React.JSX.Element {
   );
 }
 
-export function ManyOverflowedParticipants(): React.JSX.Element {
+export function ManyOverflowedParticipants(): JSX.Element {
   return (
     <Container>
       <GroupCallOverflowArea

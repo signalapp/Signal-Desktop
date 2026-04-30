@@ -1,7 +1,7 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import { type HTMLProps, memo, forwardRef } from 'react';
 import type { PopperArrowProps } from 'react-popper';
 import type { Placement } from '@popperjs/core';
 import styles from './StickerPreview.module.scss';
@@ -10,7 +10,7 @@ import type { Props as MessageStickerProps } from './MessageSticker';
 import { MessageSticker } from './MessageSticker';
 import { useI18n } from '../contexts/I18n';
 
-export type Props = Pick<React.HTMLProps<HTMLDivElement>, 'style'> & {
+export type Props = Pick<HTMLProps<HTMLDivElement>, 'style'> & {
   image: string;
   arrowProps?: PopperArrowProps;
   placement?: Placement;
@@ -43,8 +43,8 @@ const getArrowClass = (placement?: Placement) => {
   return styles.arrowTop;
 };
 
-export const StickerPreview = React.memo(
-  React.forwardRef<HTMLDivElement, Props>(
+export const StickerPreview = memo(
+  forwardRef<HTMLDivElement, Props>(
     ({ image, style, arrowProps, placement }: Props, ref) => {
       const i18n = useI18n();
 

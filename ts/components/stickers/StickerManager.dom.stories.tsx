@@ -1,7 +1,8 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import type { JSX } from 'react';
+
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import type { Props } from './StickerManager.dom.tsx';
@@ -56,31 +57,31 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   uninstallStickerPack: action('uninstallStickerPack'),
 });
 
-export function Full(): React.JSX.Element {
+export function Full(): JSX.Element {
   const props = createProps({ installedPacks, receivedPacks, blessedPacks });
 
   return <StickerManager {...props} />;
 }
 
-export function InstalledPacks(): React.JSX.Element {
+export function InstalledPacks(): JSX.Element {
   const props = createProps({ installedPacks });
 
   return <StickerManager {...props} />;
 }
 
-export function ReceivedPacks(): React.JSX.Element {
+export function ReceivedPacks(): JSX.Element {
   const props = createProps({ receivedPacks });
 
   return <StickerManager {...props} />;
 }
 
-export function InstalledAndKnownPacks(): React.JSX.Element {
+export function InstalledAndKnownPacks(): JSX.Element {
   const props = createProps({ installedPacks, knownPacks });
 
   return <StickerManager {...props} />;
 }
 
-export function Empty(): React.JSX.Element {
+export function Empty(): JSX.Element {
   const props = createProps();
 
   return <StickerManager {...props} />;

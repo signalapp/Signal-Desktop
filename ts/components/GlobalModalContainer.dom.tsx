@@ -1,7 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { JSX } from 'react';
+
 import type {
   CallQualitySurveyPropsType,
   DeleteMessagesPropsType,
@@ -49,31 +50,31 @@ export type PropsType = {
   theme: ThemeType;
   // AddUserToAnotherGroupModal
   addUserToAnotherGroupModalContactId: string | undefined;
-  renderAddUserToAnotherGroup: () => React.JSX.Element;
+  renderAddUserToAnotherGroup: () => JSX.Element;
   // CallLinkAddNameModal
   callLinkAddNameModalRoomId: string | null;
-  renderCallLinkAddNameModal: () => React.JSX.Element;
+  renderCallLinkAddNameModal: () => JSX.Element;
   // CallLinkEditModal
   callLinkEditModalRoomId: string | null;
-  renderCallLinkEditModal: () => React.JSX.Element;
+  renderCallLinkEditModal: () => JSX.Element;
   // CallQualitySurvey
   callQualitySurveyProps: CallQualitySurveyPropsType | null;
-  renderCallQualitySurvey: () => React.JSX.Element;
+  renderCallQualitySurvey: () => JSX.Element;
   // CallLinkPendingParticipantModal
   callLinkPendingParticipantContactId: string | undefined;
-  renderCallLinkPendingParticipantModal: () => React.JSX.Element;
+  renderCallLinkPendingParticipantModal: () => JSX.Element;
   // ConfirmLeaveCallModal
   confirmLeaveCallModalState: StartCallData | null;
-  renderConfirmLeaveCallModal: () => React.JSX.Element;
+  renderConfirmLeaveCallModal: () => JSX.Element;
   // ContactModal
   contactModalState: ContactModalStateType | undefined;
-  renderContactModal: () => React.JSX.Element;
+  renderContactModal: () => JSX.Element;
   // EditHistoryMessagesModal
   editHistoryMessages: EditHistoryMessagesType | undefined;
-  renderEditHistoryMessagesModal: () => React.JSX.Element;
+  renderEditHistoryMessagesModal: () => JSX.Element;
   // EditNicknameAndNoteModal
   editNicknameAndNoteModalProps: EditNicknameAndNoteModalPropsType | null;
-  renderEditNicknameAndNoteModal: () => React.JSX.Element;
+  renderEditNicknameAndNoteModal: () => JSX.Element;
   // ErrorModal
   errorModalProps:
     | {
@@ -86,31 +87,29 @@ export type PropsType = {
     buttonVariant?: ButtonVariant;
     description?: string;
     title?: string | null;
-  }) => React.JSX.Element;
+  }) => JSX.Element;
   // DebugLogErrorModal
   debugLogErrorModalProps:
     | {
         description?: string;
       }
     | undefined;
-  renderDebugLogErrorModal: (opts: {
-    description?: string;
-  }) => React.JSX.Element;
+  renderDebugLogErrorModal: (opts: { description?: string }) => JSX.Element;
   // DeleteMessageModal
   deleteMessagesProps: DeleteMessagesPropsType | undefined;
-  renderDeleteMessagesModal: () => React.JSX.Element;
+  renderDeleteMessagesModal: () => JSX.Element;
   // DiscardDraftDialog
   discardDraftDialogProps: DiscardDraftDialogPropsType | null;
-  renderDiscardDraftDialog: () => React.JSX.Element;
+  renderDiscardDraftDialog: () => JSX.Element;
   // DraftGifMessageSendModal
   draftGifMessageSendModalProps: SmartDraftGifMessageSendModalProps | null;
-  renderDraftGifMessageSendModal: () => React.JSX.Element;
+  renderDraftGifMessageSendModal: () => JSX.Element;
   // ForwardMessageModal
   forwardMessagesProps: ForwardMessagesPropsType | undefined;
-  renderForwardMessagesModal: () => React.JSX.Element;
+  renderForwardMessagesModal: () => JSX.Element;
   // GroupMemberLabelInfoModal
   groupMemberLabelInfoModalState: GroupMemberLabelInfoPropsType | undefined;
-  renderGroupMemberLabelInfoModal: () => React.JSX.Element;
+  renderGroupMemberLabelInfoModal: () => JSX.Element;
   // MediaPermissionsModal
   mediaPermissionsModalProps:
     | {
@@ -122,34 +121,34 @@ export type PropsType = {
   openSystemMediaPermissions: (mediaType: 'camera' | 'microphone') => void;
   // MessageRequestActionsConfirmation
   messageRequestActionsConfirmationProps: MessageRequestActionsConfirmationPropsType | null;
-  renderMessageRequestActionsConfirmation: () => React.JSX.Element;
+  renderMessageRequestActionsConfirmation: () => JSX.Element;
   // PinMessageDialog
   pinMessageDialogData: PinMessageDialogData | null;
-  renderPinMessageDialog: () => React.JSX.Element;
+  renderPinMessageDialog: () => JSX.Element;
   // NotePreviewModal
   notePreviewModalProps: { conversationId: string } | null;
-  renderNotePreviewModal: () => React.JSX.Element;
+  renderNotePreviewModal: () => JSX.Element;
   // SafetyNumberModal
   safetyNumberModalContactId: string | undefined;
-  renderSafetyNumber: () => React.JSX.Element;
+  renderSafetyNumber: () => JSX.Element;
   // ShortcutGuideModal
   isShortcutGuideModalVisible: boolean;
-  renderShortcutGuideModal: () => React.JSX.Element;
+  renderShortcutGuideModal: () => JSX.Element;
   // SignalConnectionsModal
   isSignalConnectionsVisible: boolean;
   toggleSignalConnectionsModal: () => unknown;
   // AboutContactModal
   isAboutContactModalVisible: boolean;
-  renderAboutContactModal: () => React.JSX.Element | null;
+  renderAboutContactModal: () => JSX.Element | null;
   // StickerPackPreviewModal
   stickerPackPreviewId: string | undefined;
-  renderStickerPreviewModal: () => React.JSX.Element | null;
+  renderStickerPreviewModal: () => JSX.Element | null;
   // StoriesSettings
   isStoriesSettingsVisible: boolean;
-  renderStoriesSettings: () => React.JSX.Element;
+  renderStoriesSettings: () => JSX.Element;
   // KeyTransparencyErrorDialog
   isKeyTransparencyErrorVisible: boolean;
-  renderKeyTransparencyErrorDialog: () => React.JSX.Element;
+  renderKeyTransparencyErrorDialog: () => JSX.Element;
   // KeyTransparencyOnboardingDialog
   isKeyTransparencyOnboardingVisible: boolean;
   hideKeyTransparencyOnboardingDialog: () => void;
@@ -159,7 +158,7 @@ export type PropsType = {
   safetyNumberChangedBlockingData:
     | SafetyNumberChangedBlockingDataType
     | undefined;
-  renderSendAnywayDialog: () => React.JSX.Element;
+  renderSendAnywayDialog: () => JSX.Element;
   // TapToViewNotAvailableModal
   tapToViewNotAvailableModalProps: TapToViewNotAvailablePropsType | undefined;
   hideTapToViewNotAvailableModal: () => void;
@@ -174,10 +173,10 @@ export type PropsType = {
   hideWhatsNewModal: () => unknown;
   // UsernameOnboarding
   usernameOnboardingState: UsernameOnboardingState;
-  renderUsernameOnboarding: () => React.JSX.Element;
+  renderUsernameOnboarding: () => JSX.Element;
   isProfileNameWarningModalVisible: boolean;
   profileNameWarningModalConversationType?: string;
-  renderProfileNameWarningModal: () => React.JSX.Element;
+  renderProfileNameWarningModal: () => JSX.Element;
   // CriticalIdlePrimaryDeviceModal,
   criticalIdlePrimaryDeviceModal: boolean;
   hideCriticalIdlePrimaryDeviceModal: () => void;
@@ -186,13 +185,13 @@ export type PropsType = {
   hideLowDiskSpaceBackupImportModal: () => void;
   // PlaintextExportWorkflow
   shouldShowPlaintextExportWorkflow: boolean;
-  renderPlaintextExportWorkflow: () => React.JSX.Element;
+  renderPlaintextExportWorkflow: () => JSX.Element;
   // LocalBackupExportWorkflow
   shouldShowLocalBackupExportWorkflow: boolean;
-  renderLocalBackupExportWorkflow: () => React.JSX.Element;
+  renderLocalBackupExportWorkflow: () => JSX.Element;
   // TerminateGroupFailedModal
   terminateGroupFailedModal: { conversationId: string } | null;
-  renderTerminateGroupFailedModal: () => React.JSX.Element | null;
+  renderTerminateGroupFailedModal: () => JSX.Element | null;
 };
 
 export function GlobalModalContainer({
@@ -320,7 +319,7 @@ export function GlobalModalContainer({
   // TerminateGroupFailedModal
   terminateGroupFailedModal,
   renderTerminateGroupFailedModal,
-}: PropsType): React.JSX.Element | null {
+}: PropsType): JSX.Element | null {
   // We want the following dialogs to show in this order:
   // 0. Stateful multi-modal workflows
   // 1. Errors

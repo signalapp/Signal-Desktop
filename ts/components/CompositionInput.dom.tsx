@@ -1,8 +1,22 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
-import type { MouseEvent } from 'react';
+import {
+  useState,
+  useRef,
+  useCallback,
+  useImperativeHandle,
+  useEffect,
+  useMemo,
+} from 'react';
+import type {
+  MouseEvent,
+  ReactNode,
+  RefObject,
+  UIEvent,
+  ReactElement,
+  JSX,
+} from 'react';
 import classNames from 'classnames';
 import { Manager, Reference } from 'react-popper';
 import Quill, { Delta } from '@signalapp/quill-cjs';
@@ -120,14 +134,14 @@ export type InputApi = {
 };
 
 export type Props = Readonly<{
-  children?: React.ReactNode;
+  children?: ReactNode;
   conversationId: string | null;
   i18n: LocalizerType;
   disabled?: boolean;
   draftEditMessage: DraftEditMessageType | null;
   getPreferredBadge: PreferredBadgeSelectorType;
   large: boolean | null;
-  inputApi: React.RefObject<InputApi | null> | null;
+  inputApi: RefObject<InputApi | null> | null;
   isFormattingEnabled: boolean;
   isActive: boolean;
   sendCounter: number;
@@ -155,7 +169,7 @@ export type Props = Readonly<{
     bodyRanges: DraftBodyRanges,
     timestamp: number
   ): unknown;
-  onScroll?: (ev: React.UIEvent<HTMLElement>) => void;
+  onScroll?: (ev: UIEvent<HTMLElement>) => void;
   ourConversationId: string | undefined;
   platform: string;
   quotedMessageId: string | null;
@@ -170,7 +184,7 @@ export type Props = Readonly<{
 
 const BASE_CLASS_NAME = 'module-composition-input';
 
-export function CompositionInput(props: Props): React.ReactElement {
+export function CompositionInput(props: Props): ReactElement {
   const {
     children,
     conversationId,
@@ -208,25 +222,23 @@ export function CompositionInput(props: Props): React.ReactElement {
   } = props;
 
   const [emojiCompletionElement, setEmojiCompletionElement] =
-    React.useState<React.JSX.Element | null>();
+    useState<JSX.Element | null>();
   const [formattingChooserElement, setFormattingChooserElement] =
-    React.useState<React.JSX.Element>();
+    useState<JSX.Element>();
   const [lastSelectionRange, setLastSelectionRange] =
-    React.useState<RangeStatic | null>(null);
+    useState<RangeStatic | null>(null);
   const [mentionCompletionElement, setMentionCompletionElement] =
-    React.useState<React.JSX.Element>();
+    useState<JSX.Element>();
 
-  const emojiCompletionRef = React.useRef<EmojiCompletion>(undefined);
-  const mentionCompletionRef = React.useRef<MentionCompletion>(undefined);
-  const quillRef = React.useRef<Quill>(undefined);
+  const emojiCompletionRef = useRef<EmojiCompletion>(undefined);
+  const mentionCompletionRef = useRef<MentionCompletion>(undefined);
+  const quillRef = useRef<Quill>(undefined);
 
-  const propsRef = React.useRef<Props>(props);
-  const canSendRef = React.useRef<boolean>(false);
-  const memberRepositoryRef = React.useRef<MemberRepository>(
-    new MemberRepository()
-  );
+  const propsRef = useRef<Props>(props);
+  const canSendRef = useRef<boolean>(false);
+  const memberRepositoryRef = useRef<MemberRepository>(new MemberRepository());
 
-  const [isMouseDown, setIsMouseDown] = React.useState<boolean>(false);
+  const [isMouseDown, setIsMouseDown] = useState<boolean>(false);
 
   const generateDelta = (
     text: string,
@@ -284,7 +296,7 @@ export function CompositionInput(props: Props): React.ReactElement {
     };
   };
 
-  const focus = React.useCallback(() => {
+  const focus = useCallback(() => {
     const quill = quillRef.current;
 
     if (quill === undefined) {
@@ -294,7 +306,7 @@ export function CompositionInput(props: Props): React.ReactElement {
     quill.focus();
   }, []);
 
-  const insertEmoji = React.useCallback(
+  const insertEmoji = useCallback(
     (emojiSelection: FunEmojiSelection) => {
       const quill = quillRef.current;
 
@@ -322,7 +334,7 @@ export function CompositionInput(props: Props): React.ReactElement {
     [lastSelectionRange]
   );
 
-  const reset = React.useCallback(() => {
+  const reset = useCallback(() => {
     const quill = quillRef.current;
 
     if (quill === undefined) {
@@ -335,7 +347,7 @@ export function CompositionInput(props: Props): React.ReactElement {
     quill.history.clear();
   }, []);
 
-  const setContents = React.useCallback(
+  const setContents = useCallback(
     (
       text: string,
       bodyRanges?: HydratedBodyRangesType,
@@ -358,7 +370,7 @@ export function CompositionInput(props: Props): React.ReactElement {
     []
   );
 
-  const submit = React.useCallback(() => {
+  const submit = useCallback(() => {
     const timestamp = Date.now();
     const quill = quillRef.current;
 
@@ -384,11 +396,11 @@ export function CompositionInput(props: Props): React.ReactElement {
     }
   }, [onSubmit]);
 
-  const hasFocus = React.useCallback(() => {
+  const hasFocus = useCallback(() => {
     return quillRef.current?.hasFocus() ?? false;
   }, []);
 
-  React.useImperativeHandle(inputApi, () => {
+  useImperativeHandle(inputApi, () => {
     return {
       focus,
       hasFocus,
@@ -399,11 +411,11 @@ export function CompositionInput(props: Props): React.ReactElement {
     };
   }, [focus, hasFocus, insertEmoji, reset, setContents, submit]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     propsRef.current = props;
   }, [props]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     canSendRef.current = !disabled;
   }, [disabled]);
 
@@ -418,7 +430,7 @@ export function CompositionInput(props: Props): React.ReactElement {
   );
   const previousIsMouseDown = usePrevious(isMouseDown, isMouseDown);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const formattingChanged =
       typeof previousFormattingEnabled === 'boolean' &&
       previousFormattingEnabled !== isFormattingEnabled;
@@ -446,7 +458,7 @@ export function CompositionInput(props: Props): React.ReactElement {
     previousIsMouseDown,
   ]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const signalClipboard = quillRef.current?.getModule('signalClipboard');
     if (!signalClipboard) {
       return;
@@ -683,7 +695,7 @@ export function CompositionInput(props: Props): React.ReactElement {
     }
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     const quill = quillRef.current;
 
     if (quill === undefined) {
@@ -694,7 +706,7 @@ export function CompositionInput(props: Props): React.ReactElement {
     quill.focus();
   }, [disabled]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const quill = quillRef.current;
 
     if (quill === undefined) {
@@ -717,7 +729,7 @@ export function CompositionInput(props: Props): React.ReactElement {
     };
   }, [onFocus, onBlur]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const emojiCompletion = emojiCompletionRef.current;
 
     if (emojiCompletion == null) {
@@ -727,7 +739,7 @@ export function CompositionInput(props: Props): React.ReactElement {
     emojiCompletion.options.emojiSkinToneDefault = emojiSkinToneDefault;
   }, [emojiSkinToneDefault]);
 
-  React.useEffect(
+  useEffect(
     () => () => {
       const emojiCompletion = emojiCompletionRef.current;
       const mentionCompletion = mentionCompletionRef.current;
@@ -771,12 +783,12 @@ export function CompositionInput(props: Props): React.ReactElement {
     quill.updateContents(newDelta as any);
   };
 
-  const memberIdList = React.useMemo(() => {
+  const memberIdList = useMemo(() => {
     return JSON.stringify(sortedGroupMembers?.map(mem => mem.id));
   }, [sortedGroupMembers]);
   const previousMemberIdList = usePrevious(undefined, memberIdList);
 
-  React.useEffect(() => {
+  useEffect(() => {
     memberRepositoryRef.current.updateMembers(sortedGroupMembers || []);
     if (memberIdList !== previousMemberIdList) {
       removeStaleMentions(sortedGroupMembers || []);
@@ -796,13 +808,13 @@ export function CompositionInput(props: Props): React.ReactElement {
     onShortKeyEnter,
     onTab,
   };
-  const callbacksRef = React.useRef(unstaleCallbacks);
+  const callbacksRef = useRef(unstaleCallbacks);
   callbacksRef.current = unstaleCallbacks;
 
   const emojiSearch = useFunEmojiSearch();
   const emojiLocalizer = useFunEmojiLocalizer();
 
-  const reactQuill = React.useMemo(
+  const reactQuill = useMemo(
     () => {
       const delta = generateDelta(draftText || '', draftBodyRanges || []);
 
@@ -972,7 +984,7 @@ export function CompositionInput(props: Props): React.ReactElement {
 
   const getClassName = getClassNamesFor(BASE_CLASS_NAME, moduleClassName);
 
-  const onMouseDown = React.useCallback(
+  const onMouseDown = useCallback(
     (event: MouseEvent<HTMLDivElement>) => {
       const { currentTarget } = event;
       // If the user is actually clicking the format menu, we drop this event
@@ -984,7 +996,7 @@ export function CompositionInput(props: Props): React.ReactElement {
     [setIsMouseDown]
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!isMouseDown) {
       return;
     }

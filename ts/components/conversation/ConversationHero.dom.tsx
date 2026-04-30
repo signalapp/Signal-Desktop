@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { type ReactNode, useState } from 'react';
+import { type ReactNode, useState, type JSX, type FC } from 'react';
 import type { Props as AvatarProps } from '../Avatar.dom.tsx';
 import { Avatar, AvatarSize, AvatarBlur } from '../Avatar.dom.tsx';
 import { ContactName } from './ContactName.dom.tsx';
@@ -80,7 +80,7 @@ export function ConversationHero({
   viewUserStories,
   toggleAboutContactModal,
   toggleProfileNameWarningModal,
-}: Props): React.JSX.Element | null {
+}: Props): JSX.Element | null {
   const [isShowingSafetyTips, setIsShowingSafetyTips] = useState(false);
 
   let avatarBlur: AvatarBlur = AvatarBlur.NoBlur;
@@ -263,7 +263,7 @@ type RootProps = {
   children: ReactNode;
   className?: TailwindStyles;
 };
-const Root: React.FC<RootProps> = props => {
+const Root: FC<RootProps> = props => {
   return (
     <div
       data-testid="conversation-hero"
@@ -277,9 +277,7 @@ const Root: React.FC<RootProps> = props => {
   );
 };
 
-const ConversationAvatar: React.FC<
-  DistributiveOmit<AvatarProps, 'size'>
-> = props => {
+const ConversationAvatar: FC<DistributiveOmit<AvatarProps, 'size'>> = props => {
   return (
     <Avatar
       {...props}
@@ -296,7 +294,7 @@ type TitleProps = {
   onClick?: () => void;
 };
 
-const Title: React.FC<TitleProps> = props => {
+const Title: FC<TitleProps> = props => {
   const className = tw('mt-3 text-center text-[20px] leading-6 font-medium');
   const { onClick, title, isMe, isSignalConversation } = props;
   const contactName = (
@@ -329,7 +327,7 @@ const Title: React.FC<TitleProps> = props => {
   return <div className={className}>{contactName}</div>;
 };
 
-const NameNotVerifiedWarning: React.FC<{
+const NameNotVerifiedWarning: FC<{
   conversationType: 'direct' | 'group';
   onClick: () => void;
   i18n: LocalizerType;
@@ -357,7 +355,7 @@ const NameNotVerifiedWarning: React.FC<{
   );
 };
 
-const SafetyTips: React.FC<{
+const SafetyTips: FC<{
   onShowSafetyTips: () => void;
   i18n: LocalizerType;
 }> = ({ i18n, onShowSafetyTips }) => {
@@ -370,7 +368,7 @@ const SafetyTips: React.FC<{
   );
 };
 
-const OfficialChatBadge: React.FC<{
+const OfficialChatBadge: FC<{
   i18n: LocalizerType;
 }> = ({ i18n }) => {
   return (

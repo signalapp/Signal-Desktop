@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useMemo, useState } from 'react';
+import { useMemo, useState, type JSX } from 'react';
 import { v4 as uuid } from 'uuid';
 
 import type { LocalizerType } from '../../../types/Util.std.ts';
@@ -28,7 +28,7 @@ export function ConversationNotificationsModal({
   muteExpiresAt,
   onClose,
   setMuteExpiration,
-}: PropsType): React.JSX.Element {
+}: PropsType): JSX.Element {
   const muteOptions = useMemo(
     () =>
       getMuteOptions(muteExpiresAt, i18n)

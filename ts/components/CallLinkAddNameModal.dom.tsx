@@ -1,6 +1,6 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import React, { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState, type JSX } from 'react';
 import { v4 as generateUuid } from 'uuid';
 import { Modal } from './Modal.dom.tsx';
 import type { LocalizerType } from '../types/I18N.std.ts';
@@ -26,7 +26,7 @@ export function CallLinkAddNameModal({
   callLink,
   onClose,
   onUpdateCallLinkName,
-}: CallLinkAddNameModalProps): React.JSX.Element {
+}: CallLinkAddNameModalProps): JSX.Element {
   const [formId] = useState(() => generateUuid());
   const [nameId] = useState(() => generateUuid());
   const [nameInput, setNameInput] = useState(callLink.name);

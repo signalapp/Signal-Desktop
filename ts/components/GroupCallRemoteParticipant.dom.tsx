@@ -1,13 +1,15 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { CSSProperties, ReactNode } from 'react';
-import React, {
+import type { CSSProperties, ReactNode, RefObject, FC } from 'react';
+import {
   useState,
   useRef,
   useMemo,
   useCallback,
   useEffect,
+  memo,
+  type JSX,
 } from 'react';
 import classNames from 'classnames';
 import lodash from 'lodash';
@@ -50,7 +52,7 @@ type BasePropsType = {
   getFrameBuffer: () => Uint8Array<ArrayBuffer>;
   getGroupCallVideoFrameSource: (demuxId: number) => VideoFrameSource;
   i18n: LocalizerType;
-  imageDataCache: React.RefObject<CallingImageDataCache | null>;
+  imageDataCache: RefObject<CallingImageDataCache | null>;
   isActiveSpeakerInSpeakerView: boolean;
   isCallReconnecting: boolean;
   isInOverflow?: boolean;
@@ -61,7 +63,7 @@ type BasePropsType = {
   remoteParticipantsCount: number;
   renderCallingParticipantMenu?: (
     props: SmartCallingParticipantMenuProps
-  ) => React.JSX.Element;
+  ) => JSX.Element;
 };
 
 type InPipPropsType = {
@@ -83,7 +85,7 @@ type InGridPropsType = InOverflowAreaPropsType & {
 export type PropsType = BasePropsType &
   (InPipPropsType | InOverflowAreaPropsType | InGridPropsType);
 
-export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
+export const GroupCallRemoteParticipant: FC<PropsType> = memo(
   function GroupCallRemoteParticipantInner(props) {
     const {
       callConversationId,

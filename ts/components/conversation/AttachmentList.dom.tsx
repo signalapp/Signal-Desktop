@@ -1,7 +1,7 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useMemo } from 'react';
+import { useMemo, type JSX } from 'react';
 
 import { CurveType, Image } from './Image.dom.tsx';
 import { StagedGenericAttachment } from './StagedGenericAttachment.dom.tsx';
@@ -60,7 +60,7 @@ export function AttachmentList<
   onClickAttachment,
   onCloseAttachment,
   onClose,
-}: Props<T>): React.JSX.Element | null {
+}: Props<T>): JSX.Element | null {
   const attachmentsForUI = useMemo(() => {
     return attachments.map((attachment: T): AttachmentForUIType => {
       // Already ForUI attachment

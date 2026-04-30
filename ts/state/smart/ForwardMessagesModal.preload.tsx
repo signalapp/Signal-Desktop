@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useCallback, useState } from 'react';
+import { useCallback, useState, type JSX } from 'react';
 import { useSelector } from 'react-redux';
 import type { ForwardMessagesPropsType } from '../ducks/globalModals.preload.ts';
 import { createLogger } from '../../logging/log.std.ts';
@@ -34,7 +34,7 @@ import { applyRangesToText } from '../../types/BodyRange.std.ts';
 
 const log = createLogger('ForwardMessagesModal');
 
-export function SmartForwardMessagesModal(): React.JSX.Element | null {
+export function SmartForwardMessagesModal(): JSX.Element | null {
   const forwardMessagesProps = useSelector(getForwardMessagesProps);
 
   if (forwardMessagesProps == null) {
@@ -60,7 +60,7 @@ function SmartForwardMessagesModalInner({
   forwardMessagesProps,
 }: {
   forwardMessagesProps: ForwardMessagesPropsType;
-}): React.JSX.Element | null {
+}): JSX.Element | null {
   const { type } = forwardMessagesProps;
 
   const candidateConversations = useSelector(getAllComposableConversations);

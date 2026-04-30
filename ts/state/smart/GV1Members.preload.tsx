@@ -1,7 +1,7 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { memo } from 'react';
+import { memo, type JSX } from 'react';
 import { useSelector } from 'react-redux';
 import { noop } from 'lodash';
 
@@ -23,7 +23,7 @@ export type PropsType = {
 
 export const SmartGV1Members = memo(function SmartGV1Members({
   conversationId,
-}: PropsType): React.JSX.Element {
+}: PropsType): JSX.Element {
   const getPreferredBadge = useSelector(getPreferredBadgeSelector);
   const i18n = useSelector(getIntl);
   const theme = useSelector(getTheme);

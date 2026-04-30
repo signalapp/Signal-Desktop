@@ -1,25 +1,25 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import { type HTMLAttributes, memo, useEffect } from 'react';
 import { noop } from '../util/noop';
 import { Toast } from '../elements/Toast';
 
-export type Props = React.HTMLAttributes<HTMLDivElement> & {
+export type Props = HTMLAttributes<HTMLDivElement> & {
   loaf: Array<{ id: number; text: string }>;
   onDismiss: () => unknown;
 };
 
 const DEFAULT_DISMISS = 1e4;
 
-export const Toaster = React.memo(function ToasterInner({
+export const Toaster = memo(function ToasterInner({
   loaf,
   onDismiss,
   className,
 }: Props) {
   const slice = loaf[loaf.length - 1];
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!slice) {
       return noop;
     }

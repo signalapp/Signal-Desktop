@@ -1,7 +1,7 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState, type JSX } from 'react';
 import type { LocalizerType } from '../types/I18N.std.ts';
 import { NavSidebar, NavSidebarActionButton } from './NavSidebar.dom.tsx';
 import { CallsList } from './CallsList.dom.tsx';
@@ -67,12 +67,12 @@ type CallsTabProps = Readonly<{
     roomId: string,
     callHistoryGroup: CallHistoryGroup,
     onClose: () => void
-  ) => React.JSX.Element;
+  ) => JSX.Element;
   renderConversationDetails: (
     conversationId: string,
     callHistoryGroup: CallHistoryGroup | null
-  ) => React.JSX.Element;
-  renderToastManager: (_: SmartToastManagerPropsType) => React.JSX.Element;
+  ) => JSX.Element;
+  renderToastManager: (_: SmartToastManagerPropsType) => JSX.Element;
   regionCode: string | undefined;
   savePreferredLeftPaneWidth: (preferredLeftPaneWidth: number) => void;
   startCallLinkLobbyByRoomId: (options: { roomId: string }) => void;
@@ -126,7 +126,7 @@ export function CallsTab({
   startCallLinkLobbyByRoomId,
   toggleConfirmLeaveCallModal,
   togglePip,
-}: CallsTabProps): React.JSX.Element {
+}: CallsTabProps): JSX.Element {
   const [sidebarView, setSidebarView] = useState(
     CallsTabSidebarView.CallsListView
   );

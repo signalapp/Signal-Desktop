@@ -1,7 +1,8 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import type { JSX } from 'react';
+
 import type { Meta } from '@storybook/react';
 import type { Props } from './ExpireTimer.dom.tsx';
 import { ExpireTimer } from './ExpireTimer.dom.tsx';
@@ -16,13 +17,13 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
     overrideProps.expirationTimestamp || Date.now() + 30 * 1000,
 });
 
-export const _30Seconds = (): React.JSX.Element => {
+export const _30Seconds = (): JSX.Element => {
   const props = createProps();
 
   return <ExpireTimer {...props} />;
 };
 
-export const _2Minutes = (): React.JSX.Element => {
+export const _2Minutes = (): JSX.Element => {
   const twoMinutes = 60 * 1000 * 2;
   const props = createProps({
     expirationTimestamp: Date.now() + twoMinutes,
@@ -32,7 +33,7 @@ export const _2Minutes = (): React.JSX.Element => {
   return <ExpireTimer {...props} />;
 };
 
-export function InProgress(): React.JSX.Element {
+export function InProgress(): JSX.Element {
   const props = createProps({
     expirationTimestamp: Date.now() + 15 * 1000,
   });
@@ -40,7 +41,7 @@ export function InProgress(): React.JSX.Element {
   return <ExpireTimer {...props} />;
 }
 
-export function Expired(): React.JSX.Element {
+export function Expired(): JSX.Element {
   const props = createProps({
     expirationTimestamp: Date.now() - 30 * 1000,
   });
@@ -48,7 +49,7 @@ export function Expired(): React.JSX.Element {
   return <ExpireTimer {...props} />;
 }
 
-export function ExpirationTooFarOut(): React.JSX.Element {
+export function ExpirationTooFarOut(): JSX.Element {
   const props = createProps({
     expirationTimestamp: Date.now() + 150 * 1000,
   });

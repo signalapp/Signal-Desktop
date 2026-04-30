@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { useSelector } from 'react-redux';
-import React, { memo } from 'react';
+import { memo } from 'react';
 import { DialogUpdate } from '../../components/DialogUpdate.dom.tsx';
 import { getIntl } from '../selectors/user.std.ts';
 import type { WidthBreakpoint } from '../../components/_util.std.ts';

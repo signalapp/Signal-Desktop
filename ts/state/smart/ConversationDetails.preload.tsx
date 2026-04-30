@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import lodash from 'lodash';
-import React, { memo, useCallback, useState, useEffect } from 'react';
+import { memo, useCallback, useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { ConversationDetails } from '../../components/conversation/conversation-details/ConversationDetails.dom.tsx';
 import {

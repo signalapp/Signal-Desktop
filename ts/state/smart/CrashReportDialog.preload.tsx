@@ -1,7 +1,7 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import { useSelector } from 'react-redux';
-import React, { memo } from 'react';
+import { memo } from 'react';
 import { CrashReportDialog } from '../../components/CrashReportDialog.dom.tsx';
 import { getIntl } from '../selectors/user.std.ts';
 import { useCrashReportsActions } from '../ducks/crashReports.preload.ts';

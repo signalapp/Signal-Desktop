@@ -1,7 +1,7 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { type ReactNode } from 'react';
+import { type ReactNode, type JSX } from 'react';
 import type { ReadonlyDeep } from 'type-fest';
 
 import type {
@@ -24,7 +24,7 @@ export type Props = {
   renderContextMenu: (
     mediaItem: ReadonlyDeep<GenericMediaItemType>,
     children: ReactNode
-  ) => React.JSX.Element;
+  ) => JSX.Element;
 };
 
 export function ContactListItem({
@@ -34,7 +34,7 @@ export function ContactListItem({
   onClick,
   showMessage,
   renderContextMenu,
-}: Props): React.JSX.Element {
+}: Props): JSX.Element {
   const { contact } = mediaItem;
   const { avatar } = contact;
 

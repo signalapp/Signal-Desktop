@@ -1,7 +1,7 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import { type ReactNode, type JSX, Fragment, Component } from 'react';
 import createDebug from 'debug';
 
 import type {
@@ -13,9 +13,7 @@ import { assert } from '../util/assert';
 
 const debug = createDebug('signal:components:Intl');
 
-export type IntlComponentsType =
-  | undefined
-  | ReplacementValuesType<React.ReactNode>;
+export type IntlComponentsType = undefined | ReplacementValuesType<ReactNode>;
 
 export type Props = {
   /** The translation string id */
@@ -26,15 +24,15 @@ export type Props = {
 };
 
 const defaultRenderText: RenderTextCallbackType = ({ text, key }) => (
-  <React.Fragment key={key}>{text}</React.Fragment>
+  <Fragment key={key}>{text}</Fragment>
 );
 
-export class Intl extends React.Component<Props> {
+export class Intl extends Component<Props> {
   public getComponent(
     index: number,
     placeholderName: string,
     key: number
-  ): React.JSX.Element | null {
+  ): JSX.Element | null {
     const { id, components } = this.props;
 
     if (!components) {
@@ -55,7 +53,7 @@ export class Intl extends React.Component<Props> {
         return null;
       }
 
-      return <React.Fragment key={key}>{components[index]}</React.Fragment>;
+      return <Fragment key={key}>{components[index]}</Fragment>;
     }
 
     const value = components[placeholderName];
@@ -68,7 +66,7 @@ export class Intl extends React.Component<Props> {
       return null;
     }
 
-    return <React.Fragment key={key}>{value}</React.Fragment>;
+    return <Fragment key={key}>{value}</Fragment>;
   }
 
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -91,7 +89,7 @@ export class Intl extends React.Component<Props> {
 
     const text = i18n(id);
     const results: Array<
-      string | React.JSX.Element | Array<string | React.JSX.Element> | null
+      string | JSX.Element | Array<string | JSX.Element> | null
     > = [];
     const FIND_REPLACEMENTS = /\$([^$]+)\$/g;
 

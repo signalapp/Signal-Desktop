@@ -1,7 +1,13 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useEffect } from 'react';
+import {
+  useEffect,
+  useMemo,
+  useCallback,
+  type JSX,
+  type RefObject,
+} from 'react';
 import lodash from 'lodash';
 import type { VideoFrameSource } from '@signalapp/ringrtc';
 import { Avatar, AvatarSize } from './Avatar.dom.tsx';
@@ -47,7 +53,7 @@ function BlurredBackground({
   avatarSize: AvatarSize;
   darken?: boolean;
   i18n: LocalizerType;
-}): React.JSX.Element {
+}): JSX.Element {
   const {
     avatarPlaceholderGradient,
     color,
@@ -84,7 +90,7 @@ export type PropsType = {
   activeCall: ActiveCallType;
   getGroupCallVideoFrameSource: (demuxId: number) => VideoFrameSource;
   i18n: LocalizerType;
-  imageDataCache: React.RefObject<CallingImageDataCache>;
+  imageDataCache: RefObject<CallingImageDataCache>;
   setGroupCallVideoRequest: (
     _: Array<GroupCallVideoRequest>,
     speakerHeight: number
@@ -105,7 +111,7 @@ export function CallingPipRemoteVideo({
   height,
   width,
   updateHeight,
-}: PropsType): React.JSX.Element {
+}: PropsType): JSX.Element {
   const { conversation } = activeCall;
 
   const getGroupCallFrameBuffer = useGetCallingFrameBuffer();
@@ -113,7 +119,7 @@ export function CallingPipRemoteVideo({
   const isPageVisible = usePageVisibility();
 
   const activeGroupCallSpeaker: undefined | GroupCallRemoteParticipantType =
-    React.useMemo(() => {
+    useMemo(() => {
       if (!isGroupOrAdhocActiveCall(activeCall)) {
         return undefined;
       }
@@ -188,7 +194,7 @@ export function CallingPipRemoteVideo({
     width,
   ]);
 
-  const handleDirectSize = React.useCallback(
+  const handleDirectSize = useCallback(
     (newSize: { width: number; height: number }) => {
       const portraitRatio = newSize.height / newSize.width;
       const newHeight = clamp(

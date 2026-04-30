@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReactElement } from 'react';
-import React from 'react';
 import { Provider } from 'react-redux';
 
 import type { Store } from 'redux';

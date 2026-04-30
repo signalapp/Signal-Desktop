@@ -1,8 +1,8 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ReactNode } from 'react';
-import React, { useRef } from 'react';
+import type { ReactNode, JSX } from 'react';
+import { useRef } from 'react';
 import classNames from 'classnames';
 import lodash from 'lodash';
 
@@ -169,10 +169,10 @@ export function MessageDetail({
   theme,
   toggleSafetyNumberModal,
   viewStory,
-}: Props): React.JSX.Element {
+}: Props): JSX.Element {
   const messageDetailRef = useRef<HTMLDivElement>(null);
 
-  function renderAvatar(contact: Contact): React.JSX.Element {
+  function renderAvatar(contact: Contact): JSX.Element {
     const { avatarUrl, badges, color, phoneNumber, profileName, title } =
       contact;
 
@@ -192,7 +192,7 @@ export function MessageDetail({
     );
   }
 
-  function renderContact(contact: Contact): React.JSX.Element {
+  function renderContact(contact: Contact): JSX.Element {
     const contactErrors = contact.errors || [];
 
     const errorComponent = contact.isOutgoingKeyError ? (

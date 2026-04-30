@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { JSX } from 'react';
 
 import type { Props as MessageBodyPropsType } from './MessageBody.dom.tsx';
 import { MessageBody } from './MessageBody.dom.tsx';
@@ -50,7 +50,7 @@ export function MessageBodyReadMore({
   showConversation,
   text,
   textAttachment,
-}: Props): React.JSX.Element {
+}: Props): JSX.Element {
   const maxLength = displayLimit || INITIAL_LENGTH;
 
   const shouldDisableLinks = disableLinks || !shouldLinkifyMessage(text);

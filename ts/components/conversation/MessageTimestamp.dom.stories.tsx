@@ -1,7 +1,8 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import type { JSX } from 'react';
+
 import type { Meta } from '@storybook/react';
 import type { Props } from './MessageTimestamp.dom.tsx';
 import { MessageTimestamp } from './MessageTimestamp.dom.tsx';
@@ -59,7 +60,7 @@ export default {
   },
 } satisfies Meta<Props>;
 
-export function Normal(args: Props): React.JSX.Element {
+export function Normal(args: Props): JSX.Element {
   return (
     <table cellPadding={5}>
       <tbody>
@@ -84,6 +85,6 @@ export function Normal(args: Props): React.JSX.Element {
   );
 }
 
-export function Knobs(args: Props): React.JSX.Element {
+export function Knobs(args: Props): JSX.Element {
   return <MessageTimestamp {...args} />;
 }

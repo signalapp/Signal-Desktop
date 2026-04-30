@@ -1,7 +1,7 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useCallback, useState } from 'react';
+import { useCallback, useState, type JSX } from 'react';
 import type { Meta } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
@@ -15,7 +15,7 @@ export default {
   title: 'Components/DeleteMessagesModal',
 } satisfies Meta;
 
-function Template(props: Partial<DeleteMessagesModalProps>): React.JSX.Element {
+function Template(props: Partial<DeleteMessagesModalProps>): JSX.Element {
   const [open, setOpen] = useState(true);
 
   const handleOpen = useCallback(() => {
@@ -54,27 +54,27 @@ function Template(props: Partial<DeleteMessagesModalProps>): React.JSX.Element {
   );
 }
 
-export function DeleteForMeOnly(): React.JSX.Element {
+export function DeleteForMeOnly(): JSX.Element {
   return <Template />;
 }
 
-export function DeleteForEveryone(): React.JSX.Element {
+export function DeleteForEveryone(): JSX.Element {
   return <Template canDeleteForEveryone />;
 }
 
-export function DeleteForEveryoneMultiple(): React.JSX.Element {
+export function DeleteForEveryoneMultiple(): JSX.Element {
   return <Template canDeleteForEveryone messageCount={3} />;
 }
 
-export function AdminDelete(): React.JSX.Element {
+export function AdminDelete(): JSX.Element {
   return <Template canDeleteForEveryone needsAdminDelete />;
 }
 
-export function AdminDeleteMultiple(): React.JSX.Element {
+export function AdminDeleteMultiple(): JSX.Element {
   return <Template canDeleteForEveryone needsAdminDelete messageCount={3} />;
 }
 
-export function AdminDeleteAfterOnboarding(): React.JSX.Element {
+export function AdminDeleteAfterOnboarding(): JSX.Element {
   return (
     <Template
       canDeleteForEveryone
@@ -84,14 +84,14 @@ export function AdminDeleteAfterOnboarding(): React.JSX.Element {
   );
 }
 
-export function NoteToSelf(): React.JSX.Element {
+export function NoteToSelf(): JSX.Element {
   return <Template isMe />;
 }
 
-export function NoteToSelfMultiple(): React.JSX.Element {
+export function NoteToSelfMultiple(): JSX.Element {
   return <Template isMe messageCount={3} />;
 }
 
-export function TooManyMessagesForDeleteForEveryone(): React.JSX.Element {
+export function TooManyMessagesForDeleteForEveryone(): JSX.Element {
   return <Template canDeleteForEveryone messageCount={31} />;
 }

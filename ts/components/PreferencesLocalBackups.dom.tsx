@@ -1,14 +1,8 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ChangeEvent, JSX } from 'react';
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-  useRef,
-} from 'react';
+import type { ChangeEvent, JSX, MouseEvent } from 'react';
+import { useCallback, useEffect, useMemo, useState, useRef } from 'react';
 import lodash from 'lodash';
 import classNames from 'classnames';
 
@@ -83,11 +77,9 @@ export function PreferencesLocalBackups({
   setSettingsLocation: (settingsLocation: SettingsLocation) => void;
   showToast: ShowToastAction;
   startLocalBackupExport: () => void;
-}): React.JSX.Element | null {
+}): JSX.Element | null {
   const [authError, setAuthError] =
-    React.useState<
-      Exclude<PromptOSAuthResultType, 'success' | 'unsupported'>
-    >();
+    useState<Exclude<PromptOSAuthResultType, 'success' | 'unsupported'>>();
   const [isAuthPending, setIsAuthPending] = useState<boolean>(false);
   const [isDisablePending, setIsDisablePending] = useState<boolean>(false);
   const [isShowingBackupKeyChangedModal, setIsShowingBackupKeyChangedModal] =
@@ -142,7 +134,7 @@ export function PreferencesLocalBackups({
     }
   }
 
-  const learnMoreLink = (parts: Array<string | React.JSX.Element>) => (
+  const learnMoreLink = (parts: Array<string | JSX.Element>) => (
     <a href={SIGNAL_BACKUPS_LEARN_MORE_URL} rel="noreferrer" target="_blank">
       {parts}
     </a>
@@ -520,7 +512,7 @@ function LocalBackupsSetupFolderPicker({
 }: {
   i18n: LocalizerType;
   pickLocalBackupFolder: () => Promise<string | undefined>;
-}): React.JSX.Element {
+}): JSX.Element {
   return (
     <div className="Preferences--LocalBackupsSetupScreen Preferences__padding">
       <div className="Preferences--LocalBackupsSetupScreenPaneContent">
@@ -557,7 +549,7 @@ function LocalBackupsBackupKeyViewer({
   isReferencing: boolean;
   onBackupKeyViewed: () => void;
   showToast: ShowToastAction;
-}): React.JSX.Element {
+}): JSX.Element {
   const [isBackupKeyConfirmed, setIsBackupKeyConfirmed] =
     useState<boolean>(false);
   const [step, setStep] = useState<BackupKeyStep>(
@@ -573,7 +565,7 @@ function LocalBackupsBackupKeyViewer({
   }, [backupKey]);
 
   const onCopyBackupKey = useCallback(
-    async function handleCopyBackupKey(e: React.MouseEvent) {
+    async function handleCopyBackupKey(e: MouseEvent) {
       e.preventDefault();
       window.SignalClipboard.copyTextTemporarily(
         backupKeyForDisplay,
@@ -584,16 +576,16 @@ function LocalBackupsBackupKeyViewer({
     [backupKeyForDisplay, showToast]
   );
 
-  const learnMoreLink = (parts: Array<string | React.JSX.Element>) => (
+  const learnMoreLink = (parts: Array<string | JSX.Element>) => (
     <a href={SIGNAL_BACKUPS_LEARN_MORE_URL} rel="noreferrer" target="_blank">
       {parts}
     </a>
   );
 
   let title: string;
-  let description: React.JSX.Element | string;
-  let footerLeft: React.JSX.Element | undefined;
-  let footerRight: React.JSX.Element;
+  let description: JSX.Element | string;
+  let footerLeft: JSX.Element | undefined;
+  let footerRight: JSX.Element;
   if (isStepViewOrReference) {
     title = i18n('icu:Preferences--local-backups-record-recovery-key');
     description = (
@@ -733,7 +725,7 @@ function LocalBackupsBackupKeyTextarea({
   i18n: LocalizerType;
   onValidate: (isValid: boolean) => void;
   isStepViewOrReference: boolean;
-}): React.JSX.Element {
+}): JSX.Element {
   const backupKeyTextareaRef = useRef<HTMLTextAreaElement>(null);
   const [backupKeyInput, setBackupKeyInput] = useState<string>('');
 
@@ -743,7 +735,7 @@ function LocalBackupsBackupKeyTextarea({
     }
   }, [backupKeyTextareaRef, isStepViewOrReference]);
 
-  const backupKeyNoSpaces = React.useMemo(() => {
+  const backupKeyNoSpaces = useMemo(() => {
     return backupKey.replace(/\s/g, '');
   }, [backupKey]);
 

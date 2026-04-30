@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import { useState, useEffect, Fragment, type JSX } from 'react';
 
 import type { LocalizerType } from '../types/Util.std.ts';
 import {
@@ -50,14 +50,14 @@ export function NotificationProfilesMenu({
   loading,
   onGoToSettings,
   setProfileOverride,
-}: Props): React.JSX.Element {
+}: Props): JSX.Element {
   const enabledOverrideEndTime = currentOverride?.enabled?.endsAtMs;
-  const [now, setNow] = React.useState(Date.now());
-  const [cachedProfiles, setCachedProfiles] = React.useState<
+  const [now, setNow] = useState(Date.now());
+  const [cachedProfiles, setCachedProfiles] = useState<
     ReadonlyArray<NotificationProfileType>
   >([]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!loading) {
       setCachedProfiles(allProfiles);
     }
@@ -92,7 +92,7 @@ export function NotificationProfilesMenu({
     targetTime = eightAmTomorrow;
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     const interval = setInterval(() => {
       setNow(Date.now());
     }, 30 * SECOND);
@@ -113,7 +113,7 @@ export function NotificationProfilesMenu({
         const isActive = activeProfileId && profile.id === activeProfileId;
 
         return (
-          <React.Fragment key={profile.id}>
+          <Fragment key={profile.id}>
             {index > 0 && <AxoDropdownMenu.ContentSeparator />}
             <AxoDropdownMenu.CustomItem
               key={profile.id}
@@ -157,7 +157,7 @@ export function NotificationProfilesMenu({
                 })}
               </AxoDropdownMenu.Item>
             ) : null}
-          </React.Fragment>
+          </Fragment>
         );
       })}
       <AxoDropdownMenu.Separator />

@@ -1,7 +1,8 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import type { JSX } from 'react';
+
 import { action } from '@storybook/addon-actions';
 
 import type { Meta } from '@storybook/react';
@@ -14,7 +15,7 @@ export default {
   title: 'Components/ConfirmationDialog',
 } satisfies Meta<Props>;
 
-export function Basic(): React.JSX.Element {
+export function Basic(): JSX.Element {
   return (
     <ConfirmationDialog
       dialogName="test"
@@ -39,7 +40,7 @@ export function Basic(): React.JSX.Element {
   );
 }
 
-export function CustomCancelText(): React.JSX.Element {
+export function CustomCancelText(): JSX.Element {
   return (
     <ConfirmationDialog
       dialogName="test"
@@ -60,7 +61,7 @@ export function CustomCancelText(): React.JSX.Element {
   );
 }
 
-export function NoDefaultCancel(): React.JSX.Element {
+export function NoDefaultCancel(): JSX.Element {
   return (
     <ConfirmationDialog
       dialogName="test"

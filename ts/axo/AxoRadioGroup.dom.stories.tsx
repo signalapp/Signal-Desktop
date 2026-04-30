@@ -1,6 +1,6 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import React, { useState } from 'react';
+import { useState, type JSX } from 'react';
 import type { Meta } from '@storybook/react';
 import { AxoRadioGroup } from './AxoRadioGroup.dom.tsx';
 
@@ -8,7 +8,7 @@ export default {
   title: 'Axo/AxoRadioGroup',
 } satisfies Meta;
 
-export function Default(): React.JSX.Element {
+export function Default(): JSX.Element {
   const [value, setValue] = useState('foo');
   return (
     <AxoRadioGroup.Root value={value} onValueChange={setValue}>

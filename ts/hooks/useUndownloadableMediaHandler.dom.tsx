@@ -1,13 +1,13 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { useCallback } from 'react';
+import { useCallback, type MouseEvent } from 'react';
 
 export function useUndownloadableMediaHandler(
   showMediaNoLongerAvailableToast: (() => void) | undefined
-): (event: React.MouseEvent) => void {
+): (event: MouseEvent) => void {
   return useCallback(
-    (event: React.MouseEvent) => {
+    (event: MouseEvent) => {
       if (showMediaNoLongerAvailableToast) {
         event.preventDefault();
         event.stopPropagation();

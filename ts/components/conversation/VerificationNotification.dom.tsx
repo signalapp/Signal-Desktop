@@ -1,7 +1,7 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { JSX } from 'react';
 
 import { SystemMessage } from './SystemMessage.dom.tsx';
 import { ContactName } from './ContactName.dom.tsx';
@@ -68,7 +68,7 @@ function VerificationNotificationContents({
   }
 }
 
-export function VerificationNotification(props: Props): React.JSX.Element {
+export function VerificationNotification(props: Props): JSX.Element {
   const { type } = props;
   return (
     <SystemMessage

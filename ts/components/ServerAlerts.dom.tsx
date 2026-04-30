@@ -1,7 +1,8 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { JSX } from 'react';
+
 import {
   ServerAlert,
   type ServerAlertsType,
@@ -20,7 +21,7 @@ export function getServerAlertDialog(
     containerWidthBreakpoint: WidthBreakpoint;
     i18n: LocalizerType;
   }
-): React.JSX.Element | null {
+): JSX.Element | null {
   if (!alerts) {
     return null;
   }

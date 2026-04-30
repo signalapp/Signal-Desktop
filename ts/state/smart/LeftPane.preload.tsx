@@ -1,7 +1,7 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { memo, useCallback } from 'react';
+import { memo, useCallback, type JSX } from 'react';
 import { useSelector } from 'react-redux';
 import { createSelector } from 'reselect';
 import type { PropsType as DialogExpiredBuildPropsType } from '../../components/DialogExpiredBuild.dom.tsx';
@@ -132,59 +132,55 @@ import { SmartNotificationProfilesMenu } from './NotificationProfilesMenu.preloa
 import { getActiveProfile } from '../selectors/notificationProfiles.dom.ts';
 import type { StateSelector } from '../types.std.ts';
 
-function renderMessageSearchResult(id: string): React.JSX.Element {
+function renderMessageSearchResult(id: string): JSX.Element {
   return <SmartMessageSearchResult id={id} />;
 }
 function renderConversationListItemContextMenu(
   props: RenderConversationListItemContextMenuProps
-): React.JSX.Element {
+): JSX.Element {
   return <SmartLeftPaneConversationListItemContextMenu {...props} />;
 }
 function renderNetworkStatus(
   props: Readonly<{ containerWidthBreakpoint: WidthBreakpoint }>
-): React.JSX.Element {
+): JSX.Element {
   return <SmartNetworkStatus {...props} />;
 }
 function renderRelinkDialog(
   props: Readonly<{ containerWidthBreakpoint: WidthBreakpoint }>
-): React.JSX.Element {
+): JSX.Element {
   return <SmartRelinkDialog {...props} />;
 }
 function renderUpdateDialog(
   props: Readonly<{ containerWidthBreakpoint: WidthBreakpoint }>
-): React.JSX.Element {
+): JSX.Element {
   return <SmartUpdateDialog {...props} />;
 }
-function renderCaptchaDialog({
-  onSkip,
-}: {
-  onSkip(): void;
-}): React.JSX.Element {
+function renderCaptchaDialog({ onSkip }: { onSkip(): void }): JSX.Element {
   return <SmartCaptchaDialog onSkip={onSkip} />;
 }
-function renderCrashReportDialog(): React.JSX.Element {
+function renderCrashReportDialog(): JSX.Element {
   return <SmartCrashReportDialog />;
 }
 function renderExpiredBuildDialog(
   props: DialogExpiredBuildPropsType
-): React.JSX.Element {
+): JSX.Element {
   return <DialogExpiredBuild {...props} />;
 }
-function renderLeftPaneChatFolders(): React.JSX.Element {
+function renderLeftPaneChatFolders(): JSX.Element {
   return <SmartLeftPaneChatFolders />;
 }
 function renderUnsupportedOSDialog(
   props: Readonly<SmartUnsupportedOSDialogPropsType>
-): React.JSX.Element {
+): JSX.Element {
   return <SmartUnsupportedOSDialog {...props} />;
 }
 function renderToastManagerWithMegaphone(
   props: Readonly<SmartToastManagerPropsType>
-): React.JSX.Element {
+): JSX.Element {
   return <SmartToastManager {...props} />;
 }
 
-function renderNotificationProfilesMenu(): React.JSX.Element {
+function renderNotificationProfilesMenu(): JSX.Element {
   return <SmartNotificationProfilesMenu />;
 }
 

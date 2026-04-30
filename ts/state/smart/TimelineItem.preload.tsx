@@ -1,8 +1,8 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { RefObject } from 'react';
-import React, { useCallback, memo } from 'react';
+import type { RefObject, JSX } from 'react';
+import { useCallback, memo } from 'react';
 import { useSelector } from 'react-redux';
 
 import { TimelineItem } from '../../components/conversation/TimelineItem.dom.tsx';
@@ -62,20 +62,20 @@ export type SmartTimelineItemProps = {
   item: CollapseSet;
   nextMessageId: undefined | string;
   previousMessageId: undefined | string;
-  renderItem: (props: RenderItemProps) => React.JSX.Element;
+  renderItem: (props: RenderItemProps) => JSX.Element;
   unreadIndicatorPlacement: undefined | UnreadIndicatorPlacement;
 };
 
-function renderContact(contactId: string): React.JSX.Element {
+function renderContact(contactId: string): JSX.Element {
   return <SmartContactName contactId={contactId} />;
 }
 
-function renderUniversalTimerNotification(): React.JSX.Element {
+function renderUniversalTimerNotification(): JSX.Element {
   return <SmartUniversalTimerNotification />;
 }
 export const SmartTimelineItem = memo(function SmartTimelineItem(
   props: SmartTimelineItemProps
-): React.JSX.Element {
+): JSX.Element {
   const {
     containerElementRef,
     containerWidthBreakpoint,

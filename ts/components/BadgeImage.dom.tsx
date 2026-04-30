@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { JSX } from 'react';
 
 import type { BadgeType } from '../badges/types.std.ts';
 import { Spinner } from './Spinner.dom.tsx';
@@ -14,7 +14,7 @@ export function BadgeImage({
 }: Readonly<{
   badge: BadgeType;
   size: number;
-}>): React.JSX.Element {
+}>): JSX.Element {
   const { name } = badge;
 
   const imagePath = getBadgeImageFileLocalPath(

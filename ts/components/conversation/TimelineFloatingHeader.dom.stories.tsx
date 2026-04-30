@@ -1,7 +1,8 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import type { JSX } from 'react';
+
 import type { Meta } from '@storybook/react';
 import type { PropsType } from './TimelineFloatingHeader.dom.tsx';
 import { TimelineFloatingHeader } from './TimelineFloatingHeader.dom.tsx';
@@ -22,14 +23,14 @@ export default {
   },
 } satisfies Meta<PropsType>;
 
-export function Default(args: PropsType): React.JSX.Element {
+export function Default(args: PropsType): JSX.Element {
   return <TimelineFloatingHeader {...args} />;
 }
 
-export function Visible(args: PropsType): React.JSX.Element {
+export function Visible(args: PropsType): JSX.Element {
   return <TimelineFloatingHeader {...args} visible />;
 }
 
-export function Loading(args: PropsType): React.JSX.Element {
+export function Loading(args: PropsType): JSX.Element {
   return <TimelineFloatingHeader {...args} visible isLoading />;
 }

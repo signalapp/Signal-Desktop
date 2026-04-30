@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReactElement } from 'react';
-import React from 'react';
 import classNames from 'classnames';
 
 import { formatTime } from '../../util/formatTimestamp.dom.ts';

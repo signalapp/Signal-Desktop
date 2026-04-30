@@ -1,7 +1,7 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import { type JSX } from 'react';
 import { AppStage } from './AppStage';
 import styles from './DropStage.module.scss';
 import { H2, Text } from '../../elements/Typography';
@@ -9,7 +9,7 @@ import { ArtGrid } from '../../components/ArtGrid';
 import { useArtType, useEmojisReady } from '../../selectors/art';
 import { useI18n } from '../../contexts/I18n';
 
-export function EmojiStage(): React.JSX.Element {
+export function EmojiStage(): JSX.Element {
   const i18n = useI18n();
   const artType = useArtType();
   const emojisReady = useEmojisReady();

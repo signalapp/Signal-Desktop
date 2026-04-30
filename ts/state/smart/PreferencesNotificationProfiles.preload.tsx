@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { memo } from 'react';
+import { memo, useCallback } from 'react';
 import type { MutableRefObject } from 'react';
 import { useSelector } from 'react-redux';
 
@@ -60,13 +60,13 @@ export const SmartNotificationProfilesHome = memo(
     } = useNotificationProfilesActions();
     const { putItem } = useItemsActions();
 
-    const setIsSyncEnabled = React.useCallback(
+    const setIsSyncEnabled = useCallback(
       (value: boolean) => {
         originalSetIsSyncEnabled(value, { fromStorageService: false });
       },
       [originalSetIsSyncEnabled]
     );
-    const setHasOnboardingBeenSeen = React.useCallback(
+    const setHasOnboardingBeenSeen = useCallback(
       (value: boolean) => {
         putItem('hasSeenNotificationProfileOnboarding', value);
       },

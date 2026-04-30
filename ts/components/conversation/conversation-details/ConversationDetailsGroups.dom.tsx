@@ -1,7 +1,7 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import { useState, type JSX } from 'react';
 import type {
   ConversationType,
   ShowConversationType,
@@ -29,8 +29,8 @@ export function ConversationDetailsGroups({
   groupsInCommon,
   toggleAddUserToAnotherGroupModal,
   showConversation,
-}: Props): React.JSX.Element {
-  const [showAllGroups, setShowAllGroups] = React.useState(false);
+}: Props): JSX.Element {
+  const [showAllGroups, setShowAllGroups] = useState(false);
 
   const maxShownGroupCount = 5;
   const isMoreThanMaxShown = groupsInCommon.length - maxShownGroupCount > 1;

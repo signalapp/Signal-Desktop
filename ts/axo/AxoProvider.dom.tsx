@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import type { FC, ReactNode } from 'react';
-import React, { memo, useInsertionEffect } from 'react';
+import { memo, useInsertionEffect } from 'react';
 import { Direction, Tooltip } from 'radix-ui';
 import { createScrollbarGutterCssProperties } from './_internal/scrollbars.dom.tsx';
 

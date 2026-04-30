@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import type { MutableRefObject } from 'react';
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import type { MutableRefObject, JSX } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import classNames from 'classnames';
 import type { ConversationType } from '../../../state/ducks/conversations.preload.ts';
 import type { PreferredBadgeSelectorType } from '../../../state/selectors/badges.preload.ts';
@@ -73,7 +73,7 @@ export type PreferencesEditChatFolderPageProps = Readonly<{
 
 export function PreferencesEditChatFolderPage(
   props: PreferencesEditChatFolderPageProps
-): React.JSX.Element {
+): JSX.Element {
   const {
     i18n,
     previousLocation,

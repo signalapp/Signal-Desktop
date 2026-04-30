@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import type { ReactElement } from 'react';
 
 import { Button, ButtonSize, ButtonVariant } from '../Button.dom.tsx';
 import type { ConversationType } from '../../state/ducks/conversations.preload.ts';
@@ -21,7 +21,7 @@ export type PropsType = {
   onClose: () => unknown;
 };
 
-export function DeliveryIssueDialog(props: PropsType): React.ReactElement {
+export function DeliveryIssueDialog(props: PropsType): ReactElement {
   const { i18n, inGroup, sender, onClose } = props;
 
   // Focus first button after initial render, restore focus on teardown

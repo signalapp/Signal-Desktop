@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { JSX } from 'react';
 
 export type PropsTypeForContact = {
   backgroundColor: string;
@@ -13,7 +13,7 @@ export function IdenticonSVGForContact({
   backgroundColor,
   text,
   foregroundColor,
-}: PropsTypeForContact): React.JSX.Element {
+}: PropsTypeForContact): JSX.Element {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100">
       <circle cx="50" cy="50" r="40" fill={backgroundColor} />
@@ -40,7 +40,7 @@ export type PropsTypeForGroup = {
 export function IdenticonSVGForGroup({
   backgroundColor,
   foregroundColor,
-}: PropsTypeForGroup): React.JSX.Element {
+}: PropsTypeForGroup): JSX.Element {
   // Note: the inner SVG below is taken from images/icons/v3/group/group.svg, viewBox
   //   added to match the original SVG, new dimensions to create match Avatar.tsx.
   return (
@@ -71,7 +71,7 @@ export function IdenticonSVGForGroup({
 export function IdenticonSVGForCallLink({
   backgroundColor,
   foregroundColor,
-}: PropsTypeForGroup): React.JSX.Element {
+}: PropsTypeForGroup): JSX.Element {
   // Note: the inner SVG below is taken from images/icons/v3/video/video-display-bold.svg,
   //   viewBox added to match the original SVG, new dimensions to create match Avatar.tsx.
   return (

@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { JSX } from 'react';
 
 import type { LocalizerType } from '../types/Util.std.ts';
 import { Modal } from './Modal.dom.tsx';
@@ -12,9 +12,7 @@ export type PropsType = {
   onClose: () => unknown;
 };
 
-export function DonationStillProcessingModal(
-  props: PropsType
-): React.JSX.Element {
+export function DonationStillProcessingModal(props: PropsType): JSX.Element {
   const { i18n, onClose } = props;
 
   return (

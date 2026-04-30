@@ -1,7 +1,14 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useCallback, useState, useEffect, useRef } from 'react';
+import {
+  useCallback,
+  useState,
+  useEffect,
+  useRef,
+  type JSX,
+  type MouseEvent,
+} from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import classnames from 'classnames';
 import { changeDpiBlob } from 'changedpi';
@@ -97,7 +104,7 @@ function ExportedImage({
   link,
   colorId,
   usernameLines,
-}: ExportedImagePropsType): React.JSX.Element {
+}: ExportedImagePropsType): JSX.Element {
   const { fg, bg, tint } = COLOR_MAP.get(colorId) ?? DEFAULT_PRESET;
 
   const isWhiteBackground = colorId === ColorEnum.WHITE;
@@ -318,11 +325,11 @@ function UsernameLinkColorRadio({
   bgColor,
   isSelected,
   onSelect,
-}: UsernameLinkColorRadioPropsType): React.JSX.Element {
+}: UsernameLinkColorRadioPropsType): JSX.Element {
   const className = `${CLASS}__colors__radio`;
 
   const onClick = useCallback(
-    (e: React.MouseEvent) => {
+    (e: MouseEvent) => {
       e.preventDefault();
       onSelect(colorId);
     },
@@ -375,7 +382,7 @@ function UsernameLinkColors({
   onChange,
   onSave,
   onCancel,
-}: UsernameLinkColorsPropsType): React.JSX.Element {
+}: UsernameLinkColorsPropsType): JSX.Element {
   const className = `${CLASS}__colors`;
 
   const normalizedValue = value === ColorEnum.UNKNOWN ? ColorEnum.BLUE : value;
@@ -430,7 +437,7 @@ export function UsernameLinkEditor({
   showToast,
 
   onBack,
-}: PropsType): React.JSX.Element {
+}: PropsType): JSX.Element {
   const [pngData, setPngData] = useState<Uint8Array<ArrayBuffer> | undefined>();
   const [showColors, setShowColors] = useState(false);
   const [confirmReset, setConfirmReset] = useState(false);
@@ -487,7 +494,7 @@ export function UsernameLinkEditor({
   }, [i18n, link, username, colorId, bgColor, fgColor]);
 
   const onSave = useCallback(
-    (e: React.MouseEvent) => {
+    (e: MouseEvent) => {
       e.preventDefault();
       if (!pngData) {
         return;
@@ -503,14 +510,14 @@ export function UsernameLinkEditor({
     [saveAttachment, pngData]
   );
 
-  const onStartColorChange = useCallback((e: React.MouseEvent) => {
+  const onStartColorChange = useCallback((e: MouseEvent) => {
     e.preventDefault();
 
     setShowColors(true);
   }, []);
 
   const onCopyLink = useCallback(
-    (e: React.MouseEvent) => {
+    (e: MouseEvent) => {
       e.preventDefault();
       if (link) {
         drop(window.navigator.clipboard.writeText(link));
@@ -521,7 +528,7 @@ export function UsernameLinkEditor({
   );
 
   const onCopyUsername = useCallback(
-    (e: React.MouseEvent) => {
+    (e: MouseEvent) => {
       e.preventDefault();
       drop(window.navigator.clipboard.writeText(username));
       showToast({ toastType: ToastType.CopiedUsername });
@@ -679,7 +686,7 @@ export function UsernameLinkEditor({
     </>
   );
 
-  let linkImage: React.JSX.Element | undefined;
+  let linkImage: JSX.Element | undefined;
   if (isReady && link) {
     linkImage = (
       <svg

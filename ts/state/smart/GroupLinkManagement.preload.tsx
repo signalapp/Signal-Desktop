@@ -1,6 +1,6 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import React, { memo } from 'react';
+import { memo } from 'react';
 import { useSelector } from 'react-redux';
 import { GroupLinkManagement } from '../../components/conversation/conversation-details/GroupLinkManagement.dom.tsx';
 import { getConversationSelector } from '../selectors/conversations.dom.ts';

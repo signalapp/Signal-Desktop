@@ -1,7 +1,8 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import type { JSX } from 'react';
+
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import type { Props } from './StickerPreviewModal.dom.tsx';
@@ -39,7 +40,7 @@ const tallSticker = {
   packId: 'tall',
 };
 
-export function Full(): React.JSX.Element {
+export function Full(): JSX.Element {
   const title = 'Foo';
   const author = 'Foo McBarrington';
 
@@ -75,7 +76,7 @@ export function Full(): React.JSX.Element {
   );
 }
 
-export function JustFourStickers(): React.JSX.Element {
+export function JustFourStickers(): JSX.Element {
   const title = 'Foo';
   const author = 'Foo McBarrington';
 
@@ -104,7 +105,7 @@ export function JustFourStickers(): React.JSX.Element {
   );
 }
 
-export function InitialDownload(): React.JSX.Element {
+export function InitialDownload(): JSX.Element {
   return (
     <StickerPreviewModal
       closeStickerPackPreview={action('closeStickerPackPreview')}
@@ -118,7 +119,7 @@ export function InitialDownload(): React.JSX.Element {
   );
 }
 
-export function PackDeleted(): React.JSX.Element {
+export function PackDeleted(): JSX.Element {
   return (
     <StickerPreviewModal
       closeStickerPackPreview={action('closeStickerPackPreview')}

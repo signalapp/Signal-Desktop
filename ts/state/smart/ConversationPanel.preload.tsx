@@ -1,8 +1,8 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { MutableRefObject } from 'react';
-import React, {
+import type { MutableRefObject, JSX } from 'react';
+import {
   forwardRef,
   memo,
   useCallback,
@@ -293,7 +293,7 @@ const PanelContainer = forwardRef<HTMLDivElement, PanelPropsType>(
   function PanelContainerInner(
     { conversationId, isActive, panel },
     ref
-  ): React.JSX.Element {
+  ): JSX.Element {
     const i18n = useSelector(getIntl);
     const { popPanelForConversation } = useNavActions();
     const conversationTitle = getConversationTitleForPanelType(
@@ -301,7 +301,7 @@ const PanelContainer = forwardRef<HTMLDivElement, PanelPropsType>(
       panel.type
     );
 
-    let info: React.JSX.Element | undefined;
+    let info: JSX.Element | undefined;
     if (panel.type === PanelType.AllMedia) {
       info = <SmartAllMediaHeader />;
     } else if (conversationTitle != null) {
@@ -374,7 +374,7 @@ function PanelElement({
   conversationId,
   isActive,
   panel,
-}: PanelPropsType): React.JSX.Element | null {
+}: PanelPropsType): JSX.Element | null {
   if (panel.type === PanelType.AllMedia) {
     return <SmartAllMedia conversationId={conversationId} />;
   }

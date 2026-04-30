@@ -1,7 +1,7 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { memo, useCallback } from 'react';
+import { memo, useCallback, type JSX } from 'react';
 import { useSelector } from 'react-redux';
 import { SafetyNumberChangeSource } from '../../types/SafetyNumberChangeSource.std.ts';
 import * as SingleServePromise from '../../services/singleServePromise.std.ts';
@@ -21,7 +21,7 @@ function renderSafetyNumber({ contactID, onClose }: SafetyNumberProps) {
 }
 
 export const SmartSendAnywayDialog = memo(
-  function SmartSendAnywayDialog(): React.JSX.Element {
+  function SmartSendAnywayDialog(): JSX.Element {
     const { hideBlockingSafetyNumberChangeDialog } = useGlobalModalActions();
     const { removeMembersFromDistributionList } =
       useStoryDistributionListsActions();

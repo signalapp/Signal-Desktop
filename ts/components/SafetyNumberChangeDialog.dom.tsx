@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import { useState, createRef, useEffect, type JSX } from 'react';
 import lodash from 'lodash';
 import classNames from 'classnames';
 
@@ -62,7 +62,7 @@ export type Props = Readonly<{
     distributionId: StoryDistributionIdString,
     serviceIds: Array<ServiceIdString>
   ) => unknown;
-  renderSafetyNumber: (props: SafetyNumberProps) => React.JSX.Element;
+  renderSafetyNumber: (props: SafetyNumberProps) => JSX.Element;
   theme: ThemeType;
 }>;
 
@@ -92,7 +92,7 @@ export function SafetyNumberChangeDialog({
   removeFromStory,
   renderSafetyNumber,
   theme,
-}: Props): React.JSX.Element {
+}: Props): JSX.Element {
   const totalCount = contacts.reduce(
     (count, item) => count + item.contacts.length,
     0
@@ -100,21 +100,21 @@ export function SafetyNumberChangeDialog({
   const allVerified = contacts.every(item =>
     item.contacts.every(contact => contact.isVerified)
   );
-  const [dialogState, setDialogState] = React.useState<DialogState>(
+  const [dialogState, setDialogState] = useState<DialogState>(
     getStartingDialogState(totalCount)
   );
-  const [selectedContact, setSelectedContact] = React.useState<
+  const [selectedContact, setSelectedContact] = useState<
     ConversationType | undefined
   >(undefined);
-  const cancelButtonRef = React.createRef<HTMLButtonElement>();
+  const cancelButtonRef = createRef<HTMLButtonElement>();
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (cancelButtonRef && cancelButtonRef.current) {
       cancelButtonRef.current.focus();
     }
   }, [cancelButtonRef, contacts]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (
       dialogState === DialogState.ExplicitReviewStep &&
       (totalCount === 0 || allVerified)
@@ -373,7 +373,7 @@ function SectionButtonWithMenu({
   memberCount: number;
   theme: ThemeType;
 }>) {
-  const [isConfirming, setIsConfirming] = React.useState<boolean>(false);
+  const [isConfirming, setIsConfirming] = useState<boolean>(false);
 
   return (
     <>

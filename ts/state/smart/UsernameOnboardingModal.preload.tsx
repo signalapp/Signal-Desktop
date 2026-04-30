@@ -1,7 +1,7 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { memo, useCallback } from 'react';
+import { memo, useCallback, type JSX } from 'react';
 import { useSelector } from 'react-redux';
 
 import { UsernameOnboardingModal } from '../../components/UsernameOnboardingModal.dom.tsx';
@@ -17,7 +17,7 @@ import {
 import { itemStorage } from '../../textsecure/Storage.preload.ts';
 
 export const SmartUsernameOnboardingModal = memo(
-  function SmartUsernameOnboardingModal(): React.JSX.Element {
+  function SmartUsernameOnboardingModal(): JSX.Element {
     const i18n = useSelector(getIntl);
     const { toggleUsernameOnboarding } = useGlobalModalActions();
     const { openUsernameReservationModal } = useUsernameActions();

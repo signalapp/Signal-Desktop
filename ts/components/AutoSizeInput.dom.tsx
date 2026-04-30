@@ -1,8 +1,8 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ChangeEvent, KeyboardEvent } from 'react';
-import React, { useCallback, useState, useEffect, useRef } from 'react';
+import type { ChangeEvent, KeyboardEvent, JSX } from 'react';
+import { useCallback, useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import classNames from 'classnames';
 
@@ -28,7 +28,7 @@ export function AutoSizeInput({
   placeholder,
   value = '',
   maxLength,
-}: PropsType): React.JSX.Element {
+}: PropsType): JSX.Element {
   const [root, setRoot] = useState<HTMLElement | null>(null);
   const hiddenRef = useRef<HTMLSpanElement | null>(null);
 

@@ -1,8 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { FormEventHandler } from 'react';
-import React, { useCallback, useRef, useState } from 'react';
+import type { FormEventHandler, JSX } from 'react';
+import { useCallback, useRef, useState } from 'react';
 
 import type { LocalizerType } from '../../../types/Util.std.ts';
 import { Modal } from '../../Modal.dom.tsx';
@@ -60,7 +60,7 @@ export function EditConversationAttributesModal({
   replaceAvatar,
   saveAvatarToDisk,
   userAvatarData,
-}: PropsType): React.JSX.Element {
+}: PropsType): JSX.Element {
   const focusDescriptionRef = useRef<undefined | boolean>(
     initiallyFocusDescription
   );
@@ -153,7 +153,7 @@ export function EditConversationAttributesModal({
 
   const avatarUrlForPreview = hasAvatarChanged ? undefined : externalAvatarUrl;
 
-  let content: React.JSX.Element;
+  let content: JSX.Element;
   if (editingAvatar) {
     content = (
       <AvatarEditor

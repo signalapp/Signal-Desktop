@@ -1,7 +1,16 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type SyntheticEvent,
+  type JSX,
+  type MouseEvent,
+  type KeyboardEvent,
+} from 'react';
 import classNames from 'classnames';
 import { Blurhash } from 'react-blurhash';
 
@@ -44,9 +53,9 @@ export type Props = {
   cancelDownload(): void;
 };
 
-type MediaEvent = React.SyntheticEvent<HTMLVideoElement>;
+type MediaEvent = SyntheticEvent<HTMLVideoElement>;
 
-export function GIF(props: Props): React.JSX.Element {
+export function GIF(props: Props): JSX.Element {
   const {
     attachment,
     size,
@@ -157,7 +166,7 @@ export function GIF(props: Props): React.JSX.Element {
     }
   };
 
-  const onOverlayClick = (event: React.MouseEvent): void => {
+  const onOverlayClick = (event: MouseEvent): void => {
     event.preventDefault();
     event.stopPropagation();
 
@@ -170,7 +179,7 @@ export function GIF(props: Props): React.JSX.Element {
     }
   };
 
-  const onOverlayKeyDown = (event: React.KeyboardEvent): void => {
+  const onOverlayKeyDown = (event: KeyboardEvent): void => {
     if (event.key !== 'Enter' && event.key !== 'Space') {
       return;
     }
@@ -191,7 +200,7 @@ export function GIF(props: Props): React.JSX.Element {
   const isNotResolved = hasNotResolved(attachment) && !isPending;
   const isMediaDownloadable = isDownloadable(attachment);
 
-  let gif: React.JSX.Element | undefined;
+  let gif: JSX.Element | undefined;
   if (isNotResolved || isPending || !isMediaDownloadable) {
     gif = (
       <Blurhash
@@ -208,7 +217,7 @@ export function GIF(props: Props): React.JSX.Element {
         onTimeUpdate={onTimeUpdate}
         onEnded={onEnded}
         onError={onError}
-        onClick={(event: React.MouseEvent): void => {
+        onClick={(event: MouseEvent): void => {
           event.preventDefault();
           event.stopPropagation();
 
@@ -227,7 +236,7 @@ export function GIF(props: Props): React.JSX.Element {
   }
 
   const cancelDownloadClick = useCallback(
-    (event: React.MouseEvent) => {
+    (event: MouseEvent) => {
       if (cancelDownload) {
         event.preventDefault();
         event.stopPropagation();
@@ -237,7 +246,7 @@ export function GIF(props: Props): React.JSX.Element {
     [cancelDownload]
   );
   const cancelDownloadKeyDown = useCallback(
-    (event: React.KeyboardEvent<HTMLButtonElement>) => {
+    (event: KeyboardEvent<HTMLButtonElement>) => {
       if (cancelDownload && (event.key === 'Enter' || event.key === 'Space')) {
         event.preventDefault();
         event.stopPropagation();
@@ -255,7 +264,7 @@ export function GIF(props: Props): React.JSX.Element {
     tabIndex,
   });
 
-  let overlay: React.JSX.Element | undefined;
+  let overlay: JSX.Element | undefined;
   if ((tapToPlay && !isPlaying) || (isNotResolved && isMediaDownloadable)) {
     const className = classNames([
       'module-image__border-overlay',

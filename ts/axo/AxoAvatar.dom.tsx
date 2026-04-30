@@ -8,7 +8,7 @@ import type {
   MouseEventHandler,
   ReactNode,
 } from 'react';
-import React, { memo, useCallback, useMemo, useRef, useState } from 'react';
+import { memo, useCallback, useMemo, useRef, useState } from 'react';
 import { AxoSymbol } from './AxoSymbol.dom.tsx';
 import type { TailwindStyles } from './tw.dom.tsx';
 import { tw } from './tw.dom.tsx';

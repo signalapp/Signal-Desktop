@@ -1,8 +1,8 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { MouseEvent } from 'react';
-import React, { useCallback, useState } from 'react';
+import type { MouseEvent, JSX } from 'react';
+import { useCallback, useState } from 'react';
 import type { LocalizerType } from '../types/Util.std.ts';
 import type { ShowToastAction } from '../state/ducks/toast.preload.ts';
 import { ToastType } from '../types/Toast.dom.tsx';
@@ -43,7 +43,7 @@ export default function DeleteMessagesModal({
   onDeleteForEveryone,
   onSeenAdminDeleteEducationDialog,
   showToast,
-}: DeleteMessagesModalProps): React.JSX.Element {
+}: DeleteMessagesModalProps): JSX.Element {
   const [step, setStep] = useState(Step.SELECT_DELETE_TYPE);
 
   const tooManyMessages = messageCount > MAX_DELETE_FOR_EVERYONE;

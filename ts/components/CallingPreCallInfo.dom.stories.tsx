@@ -1,7 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { JSX } from 'react';
+
 import type { Meta } from '@storybook/react';
 import { getDefaultConversation } from '../test-helpers/getDefaultConversation.std.ts';
 import type { PropsType } from './CallingPreCallInfo.dom.tsx';
@@ -43,7 +44,7 @@ export default {
   title: 'Components/CallingPreCallInfo',
 } satisfies Meta<PropsType>;
 
-export function DirectConversation(): React.JSX.Element {
+export function DirectConversation(): JSX.Element {
   return (
     <CallingPreCallInfo
       conversation={getDefaultConversation()}
@@ -54,7 +55,7 @@ export function DirectConversation(): React.JSX.Element {
   );
 }
 
-export function Ring0(): React.JSX.Element {
+export function Ring0(): JSX.Element {
   return (
     <CallingPreCallInfo
       conversation={getDefaultGroupConversation()}
@@ -67,7 +68,7 @@ export function Ring0(): React.JSX.Element {
   );
 }
 
-export function Ring1(): React.JSX.Element {
+export function Ring1(): JSX.Element {
   return (
     <CallingPreCallInfo
       conversation={getDefaultGroupConversation()}
@@ -80,7 +81,7 @@ export function Ring1(): React.JSX.Element {
   );
 }
 
-export function Ring2(): React.JSX.Element {
+export function Ring2(): JSX.Element {
   return (
     <CallingPreCallInfo
       conversation={getDefaultGroupConversation()}
@@ -93,7 +94,7 @@ export function Ring2(): React.JSX.Element {
   );
 }
 
-export function Ring3(): React.JSX.Element {
+export function Ring3(): JSX.Element {
   return (
     <CallingPreCallInfo
       conversation={getDefaultGroupConversation()}
@@ -106,7 +107,7 @@ export function Ring3(): React.JSX.Element {
   );
 }
 
-export function Ring4(): React.JSX.Element {
+export function Ring4(): JSX.Element {
   return (
     <CallingPreCallInfo
       conversation={getDefaultGroupConversation()}
@@ -119,7 +120,7 @@ export function Ring4(): React.JSX.Element {
   );
 }
 
-export function Notify0(): React.JSX.Element {
+export function Notify0(): JSX.Element {
   return (
     <CallingPreCallInfo
       conversation={getDefaultGroupConversation()}
@@ -132,7 +133,7 @@ export function Notify0(): React.JSX.Element {
   );
 }
 
-export function Notify1(): React.JSX.Element {
+export function Notify1(): JSX.Element {
   return (
     <CallingPreCallInfo
       conversation={getDefaultGroupConversation()}
@@ -145,7 +146,7 @@ export function Notify1(): React.JSX.Element {
   );
 }
 
-export function Notify2(): React.JSX.Element {
+export function Notify2(): JSX.Element {
   return (
     <CallingPreCallInfo
       conversation={getDefaultGroupConversation()}
@@ -158,7 +159,7 @@ export function Notify2(): React.JSX.Element {
   );
 }
 
-export function Notify3(): React.JSX.Element {
+export function Notify3(): JSX.Element {
   return (
     <CallingPreCallInfo
       conversation={getDefaultGroupConversation()}
@@ -171,7 +172,7 @@ export function Notify3(): React.JSX.Element {
   );
 }
 
-export function Notify4(): React.JSX.Element {
+export function Notify4(): JSX.Element {
   return (
     <CallingPreCallInfo
       conversation={getDefaultGroupConversation()}
@@ -184,7 +185,7 @@ export function Notify4(): React.JSX.Element {
   );
 }
 
-export function Peek1(): React.JSX.Element {
+export function Peek1(): JSX.Element {
   return (
     <CallingPreCallInfo
       conversation={getDefaultGroupConversation()}
@@ -197,7 +198,7 @@ export function Peek1(): React.JSX.Element {
   );
 }
 
-export function Peek2(): React.JSX.Element {
+export function Peek2(): JSX.Element {
   return (
     <CallingPreCallInfo
       conversation={getDefaultGroupConversation()}
@@ -210,7 +211,7 @@ export function Peek2(): React.JSX.Element {
   );
 }
 
-export function Peek3(): React.JSX.Element {
+export function Peek3(): JSX.Element {
   return (
     <CallingPreCallInfo
       conversation={getDefaultGroupConversation()}
@@ -223,7 +224,7 @@ export function Peek3(): React.JSX.Element {
   );
 }
 
-export function Peek4(): React.JSX.Element {
+export function Peek4(): JSX.Element {
   return (
     <CallingPreCallInfo
       conversation={getDefaultGroupConversation()}
@@ -236,7 +237,7 @@ export function Peek4(): React.JSX.Element {
   );
 }
 
-export function GroupConversationYouOnAnOtherDevice(): React.JSX.Element {
+export function GroupConversationYouOnAnOtherDevice(): JSX.Element {
   const me = getDefaultConversation();
   return (
     <CallingPreCallInfo
@@ -250,7 +251,7 @@ export function GroupConversationYouOnAnOtherDevice(): React.JSX.Element {
   );
 }
 
-export function GroupConversationCallIsFull(): React.JSX.Element {
+export function GroupConversationCallIsFull(): JSX.Element {
   return (
     <CallingPreCallInfo
       conversation={getDefaultGroupConversation()}
@@ -264,7 +265,7 @@ export function GroupConversationCallIsFull(): React.JSX.Element {
   );
 }
 
-export function CallLinkUnknownContact(): React.JSX.Element {
+export function CallLinkUnknownContact(): JSX.Element {
   return (
     <CallingPreCallInfo
       conversation={callLinkToConversation(FAKE_CALL_LINK, i18n)}
@@ -277,7 +278,7 @@ export function CallLinkUnknownContact(): React.JSX.Element {
   );
 }
 
-export function CallLink3UnknownContacts(): React.JSX.Element {
+export function CallLink3UnknownContacts(): JSX.Element {
   return (
     <CallingPreCallInfo
       conversation={callLinkToConversation(FAKE_CALL_LINK, i18n)}
@@ -294,7 +295,7 @@ export function CallLink3UnknownContacts(): React.JSX.Element {
   );
 }
 
-export function CallLink1Known1UnknownContact(): React.JSX.Element {
+export function CallLink1Known1UnknownContact(): JSX.Element {
   return (
     <CallingPreCallInfo
       conversation={callLinkToConversation(FAKE_CALL_LINK, i18n)}
@@ -307,7 +308,7 @@ export function CallLink1Known1UnknownContact(): React.JSX.Element {
   );
 }
 
-export function CallLink1Known2UnknownContacts(): React.JSX.Element {
+export function CallLink1Known2UnknownContacts(): JSX.Element {
   return (
     <CallingPreCallInfo
       conversation={callLinkToConversation(FAKE_CALL_LINK, i18n)}

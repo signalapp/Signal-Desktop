@@ -6,8 +6,11 @@ import type {
   CSSProperties,
   MouseEvent,
   ReactNode,
+  Ref,
+  HTMLProps,
+  JSX,
 } from 'react';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import classNames from 'classnames';
 import lodash from 'lodash';
 
@@ -76,14 +79,14 @@ export type Props = {
   onClickBadge?: (event: MouseEvent<HTMLButtonElement>) => unknown;
 
   // Matches Popper's RefHandler type
-  innerRef?: React.Ref<HTMLDivElement>;
+  innerRef?: Ref<HTMLDivElement>;
 
   i18n: LocalizerType;
 } & (
   | { badge: undefined; theme?: ThemeType }
   | { badge: BadgeType; theme: ThemeType }
 ) &
-  Pick<React.HTMLProps<HTMLDivElement>, 'className'> &
+  Pick<HTMLProps<HTMLDivElement>, 'className'> &
   AriaAttributes;
 
 const BADGE_PLACEMENT_BY_SIZE = new Map<number, BadgePlacementType>([
@@ -123,7 +126,7 @@ export function Avatar({
   storyRing,
   blur = AvatarBlur.NoBlur,
   ...ariaProps
-}: Props): React.JSX.Element {
+}: Props): JSX.Element {
   const [imageBroken, setImageBroken] = useState(false);
 
   useEffect(() => {

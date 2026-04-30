@@ -1,6 +1,7 @@
 // Copyright 2026 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import React from 'react';
+import type { JSX } from 'react';
+
 import type { Meta } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { tw } from '../axo/tw.dom.tsx';
@@ -35,11 +36,11 @@ const defaultProps: CallingParticipantMenuProps = {
 
 export function renderCallingParticipantMenu(
   overrideProps: Partial<CallingParticipantMenuProps>
-): React.JSX.Element {
+): JSX.Element {
   return <CallingParticipantMenu {...defaultProps} {...overrideProps} />;
 }
 
-export function Basic(): React.JSX.Element {
+export function Basic(): JSX.Element {
   return (
     <div className={tw('flex h-96 w-full items-center justify-center gap-8')}>
       {renderCallingParticipantMenu({

@@ -1,7 +1,7 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import { useCallback, type ReactNode, type JSX } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import styles from './AppStage.module.scss';
@@ -14,7 +14,7 @@ import { dismissToast } from '../../slices/art';
 import { useArtOrder, useToasts } from '../../selectors/art';
 
 export type Props = Readonly<{
-  children: React.ReactNode;
+  children: ReactNode;
   empty?: boolean;
   prev?: string;
   prevText?: string;
@@ -41,7 +41,7 @@ const getClassName = ({ noMessage, empty }: Props) => {
   return styles.main;
 };
 
-export function AppStage(props: Props): React.JSX.Element {
+export function AppStage(props: Props): JSX.Element {
   const {
     children,
     next,
@@ -60,13 +60,13 @@ export function AppStage(props: Props): React.JSX.Element {
   const artPaths = useArtOrder();
   const haveStickers = artPaths.length > 0;
 
-  const handleNext = React.useCallback(() => {
+  const handleNext = useCallback(() => {
     if (next) {
       navigate(next);
     }
   }, [next, navigate]);
 
-  const handlePrev = React.useCallback(() => {
+  const handlePrev = useCallback(() => {
     if (prev) {
       navigate(prev);
     }

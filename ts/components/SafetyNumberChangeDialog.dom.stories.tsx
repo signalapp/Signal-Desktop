@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import { useContext, type JSX } from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import type {
@@ -56,17 +56,17 @@ const contactWithNothing = getDefaultConversation({
   title: 'Unknown contact',
 });
 
-const useTheme = () => React.useContext(StorybookThemeContext);
+const useTheme = () => useContext(StorybookThemeContext);
 
 export default {
   title: 'Components/SafetyNumberChangeDialog',
 } satisfies Meta<Props>;
 
-function renderSafetyNumber({ onClose }: SafetyNumberProps): React.JSX.Element {
+function renderSafetyNumber({ onClose }: SafetyNumberProps): JSX.Element {
   return <SafetyNumber onClose={onClose} />;
 }
 
-export function SingleContactDialog(): React.JSX.Element {
+export function SingleContactDialog(): JSX.Element {
   const theme = useTheme();
   return (
     <SafetyNumberChangeDialog
@@ -87,7 +87,7 @@ export function SingleContactDialog(): React.JSX.Element {
   );
 }
 
-export function DifferentConfirmationText(): React.JSX.Element {
+export function DifferentConfirmationText(): JSX.Element {
   const theme = useTheme();
   return (
     <SafetyNumberChangeDialog
@@ -109,7 +109,7 @@ export function DifferentConfirmationText(): React.JSX.Element {
   );
 }
 
-export function MultiContactDialog(): React.JSX.Element {
+export function MultiContactDialog(): JSX.Element {
   const theme = useTheme();
   return (
     <SafetyNumberChangeDialog
@@ -134,7 +134,7 @@ export function MultiContactDialog(): React.JSX.Element {
   );
 }
 
-export function AllVerified(): React.JSX.Element {
+export function AllVerified(): JSX.Element {
   const theme = useTheme();
   return (
     <SafetyNumberChangeDialog
@@ -158,7 +158,7 @@ export function AllVerified(): React.JSX.Element {
   );
 }
 
-export function MultipleContactsAllWithBadges(): React.JSX.Element {
+export function MultipleContactsAllWithBadges(): JSX.Element {
   const theme = useTheme();
   return (
     <SafetyNumberChangeDialog
@@ -184,7 +184,7 @@ export function MultipleContactsAllWithBadges(): React.JSX.Element {
   );
 }
 
-export function TenContacts(): React.JSX.Element {
+export function TenContacts(): JSX.Element {
   const theme = useTheme();
   return (
     <SafetyNumberChangeDialog
@@ -216,7 +216,7 @@ export function TenContacts(): React.JSX.Element {
   );
 }
 
-export function NoContacts(): React.JSX.Element {
+export function NoContacts(): JSX.Element {
   const theme = useTheme();
   return (
     <SafetyNumberChangeDialog
@@ -249,7 +249,7 @@ export function NoContacts(): React.JSX.Element {
   );
 }
 
-export function InMultipleStories(): React.JSX.Element {
+export function InMultipleStories(): JSX.Element {
   const theme = useTheme();
   return (
     <SafetyNumberChangeDialog

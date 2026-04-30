@@ -1,9 +1,9 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { KeyboardEvent, ReactNode } from 'react';
+import type { KeyboardEvent, ReactNode, MouseEvent, Ref, JSX } from 'react';
 import type { Options, VirtualElement } from '@popperjs/core';
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import classNames from 'classnames';
 import { usePopper } from 'react-popper';
@@ -30,22 +30,22 @@ export type ContextMenuOptionType<T> = Readonly<{
 }>;
 
 type RenderButtonProps = Readonly<{
-  onClick: (ev: React.MouseEvent) => void;
+  onClick: (ev: MouseEvent) => void;
   onKeyDown: (ev: KeyboardEvent) => void;
   isMenuShowing: boolean;
-  ref: React.Ref<HTMLButtonElement> | null;
+  ref: Ref<HTMLButtonElement> | null;
   menuNode: ReactNode;
 }>;
 
 export type PropsType<T> = Readonly<{
   ariaLabel?: string;
   // contents of the button OR a function that will render the whole button
-  children?: ReactNode | ((props: RenderButtonProps) => React.JSX.Element);
+  children?: ReactNode | ((props: RenderButtonProps) => JSX.Element);
   i18n: LocalizerType;
   menuOptions: ReadonlyArray<ContextMenuOptionType<T>>;
   moduleClassName?: string;
-  button?: () => React.JSX.Element;
-  onClick?: (ev: React.MouseEvent) => unknown;
+  button?: () => JSX.Element;
+  onClick?: (ev: MouseEvent) => unknown;
   onMenuShowingChanged?: (value: boolean) => unknown;
   popperOptions?: Pick<Options, 'placement' | 'strategy'>;
   portalToRoot?: boolean;
@@ -78,7 +78,7 @@ export function ContextMenu<T>({
   theme,
   title,
   value,
-}: PropsType<T>): React.JSX.Element {
+}: PropsType<T>): JSX.Element {
   const [isMenuShowing, setIsMenuShowing] = useState<boolean>(false);
   const [focusedIndex, setFocusedIndex] = useState<number | undefined>(
     undefined
@@ -127,7 +127,7 @@ export function ContextMenu<T>({
     );
   }, [isMenuShowing, referenceElement, popperElement]);
 
-  const [portalNode, setPortalNode] = React.useState<HTMLElement | null>(null);
+  const [portalNode, setPortalNode] = useState<HTMLElement | null>(null);
   useEffect(() => {
     if (!portalToRoot || !isMenuShowing) {
       return noop;
@@ -198,7 +198,7 @@ export function ContextMenu<T>({
     }
   };
 
-  const handleClick = (ev: React.MouseEvent) => {
+  const handleClick = (ev: MouseEvent) => {
     if (isMenuShowing && ev.type !== 'contextmenu') {
       setIsMenuShowing(false);
       closeCurrentOpenContextMenu = undefined;
@@ -214,7 +214,7 @@ export function ContextMenu<T>({
 
   const getClassName = getClassNamesFor('ContextMenu', moduleClassName);
 
-  const optionElements = new Array<React.JSX.Element>();
+  const optionElements = new Array<JSX.Element>();
   const isAnyOptionSelected = typeof value !== 'undefined';
 
   for (const [index, option] of menuOptions.entries()) {
@@ -232,7 +232,7 @@ export function ContextMenu<T>({
     }
 
     // oxlint-disable-next-line no-loop-func
-    const onElementClick = (ev: React.MouseEvent): void => {
+    const onElementClick = (ev: MouseEvent): void => {
       ev.preventDefault();
       ev.stopPropagation();
 
@@ -307,12 +307,12 @@ export function ContextMenu<T>({
     </div>
   ) : undefined;
 
-  let buttonNode: React.JSX.Element;
+  let buttonNode: JSX.Element;
 
   if (typeof children === 'function') {
     buttonNode = (
       <>
-        {(children as (props: RenderButtonProps) => React.JSX.Element)({
+        {(children as (props: RenderButtonProps) => JSX.Element)({
           onClick: onClick || handleClick,
           onKeyDown: handleKeyDown,
           isMenuShowing,

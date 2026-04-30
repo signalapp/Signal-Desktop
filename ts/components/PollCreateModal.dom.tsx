@@ -1,7 +1,14 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useState, useRef, useCallback, useMemo } from 'react';
+import {
+  useState,
+  useRef,
+  useCallback,
+  useMemo,
+  type JSX,
+  type KeyboardEvent,
+} from 'react';
 import { flushSync } from 'react-dom';
 import { v4 as generateUuid } from 'uuid';
 import { tw } from '../axo/tw.dom.tsx';
@@ -41,7 +48,7 @@ export function PollCreateModal({
   i18n,
   onClose,
   onSendPoll,
-}: PollCreateModalProps): React.JSX.Element {
+}: PollCreateModalProps): JSX.Element {
   const [question, setQuestion] = useState('');
   const [options, setOptions] = useState<Array<PollOption>>([
     { id: generateUuid(), value: '' },
@@ -154,7 +161,7 @@ export function PollCreateModal({
   );
 
   const handleEnterKey = useCallback(
-    (event: React.KeyboardEvent, currentIndex: number) => {
+    (event: KeyboardEvent, currentIndex: number) => {
       event.preventDefault();
 
       const nextOption = options[currentIndex + 1];

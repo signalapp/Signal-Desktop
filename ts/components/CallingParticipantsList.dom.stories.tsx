@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import type { JSX } from 'react';
 
 import { action } from '@storybook/addon-actions';
 
@@ -28,12 +28,12 @@ export default {
   title: 'Components/CallingParticipantsList',
 } satisfies Meta<PropsType>;
 
-export function NoOne(): React.JSX.Element {
+export function NoOne(): JSX.Element {
   const props = createProps();
   return <CallingParticipantsList {...props} />;
 }
 
-export function SoloCall(): React.JSX.Element {
+export function SoloCall(): JSX.Element {
   const props = createProps({
     participants: [
       createCallParticipant({
@@ -44,7 +44,7 @@ export function SoloCall(): React.JSX.Element {
   return <CallingParticipantsList {...props} />;
 }
 
-export function ManyParticipants(): React.JSX.Element {
+export function ManyParticipants(): JSX.Element {
   const props = createProps({
     participants: [
       createCallParticipant({
@@ -85,7 +85,7 @@ export function ManyParticipants(): React.JSX.Element {
   return <CallingParticipantsList {...props} />;
 }
 
-export function Overflow(): React.JSX.Element {
+export function Overflow(): JSX.Element {
   const props = createProps({
     participants: Array(50)
       .fill(null)

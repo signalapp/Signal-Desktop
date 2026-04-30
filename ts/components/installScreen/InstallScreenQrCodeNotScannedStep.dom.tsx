@@ -1,8 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ReactElement, ReactNode } from 'react';
-import React, { useCallback, useState, useEffect } from 'react';
+import type { ReactElement, ReactNode, JSX, KeyboardEvent } from 'react';
+import { useCallback, useState, useEffect } from 'react';
 import classNames from 'classnames';
 import lodash from 'lodash';
 
@@ -266,7 +266,7 @@ function QRCodeImage({
 }: {
   i18n: LocalizerType;
   link: string;
-}): React.JSX.Element {
+}): JSX.Element {
   const [isCopying, setIsCopying] = useState(false);
 
   // Add a development-only feature to copy a QR code to the clipboard by double-clicking.
@@ -318,9 +318,9 @@ function RetryButton({
 }: {
   onClick: () => void;
   children: ReactNode;
-}): React.JSX.Element {
+}): JSX.Element {
   const onKeyDown = useCallback(
-    (ev: React.KeyboardEvent<HTMLButtonElement>) => {
+    (ev: KeyboardEvent<HTMLButtonElement>) => {
       if (ev.key === 'Enter') {
         ev.preventDefault();
         ev.stopPropagation();
@@ -342,6 +342,6 @@ function RetryButton({
   );
 }
 
-function Paragraph(children: React.ReactNode): React.JSX.Element {
+function Paragraph(children: ReactNode): JSX.Element {
   return <p>{children}</p>;
 }

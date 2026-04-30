@@ -1,7 +1,8 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { JSX } from 'react';
+
 import type { PropsType } from './CollidingAvatars.dom.tsx';
 import { CollidingAvatars } from './CollidingAvatars.dom.tsx';
 import { type ComponentMeta } from '../storybook/types.std.ts';
@@ -22,6 +23,6 @@ export default {
   },
 } satisfies ComponentMeta<PropsType>;
 
-export function Defaults(args: PropsType): React.JSX.Element {
+export function Defaults(args: PropsType): JSX.Element {
   return <CollidingAvatars {...args} />;
 }

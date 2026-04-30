@@ -1,7 +1,8 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import type { JSX } from 'react';
+
 import type { Meta } from '@storybook/react';
 import type { Props } from './Linkify.dom.tsx';
 import { Linkify } from './Linkify.dom.tsx';
@@ -15,7 +16,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   text: overrideProps.text || '',
 });
 
-export function OnlyLink(): React.JSX.Element {
+export function OnlyLink(): JSX.Element {
   const props = createProps({
     text: 'https://www.signal.org',
   });
@@ -23,7 +24,7 @@ export function OnlyLink(): React.JSX.Element {
   return <Linkify {...props} />;
 }
 
-export function LinksWithText(): React.JSX.Element {
+export function LinksWithText(): JSX.Element {
   const props = createProps({
     text: 'you should see this: https://www.signal.org - it is good. Also: https://placekitten.com!',
   });
@@ -31,7 +32,7 @@ export function LinksWithText(): React.JSX.Element {
   return <Linkify {...props} />;
 }
 
-export function LinksWithEmojiWithoutSpace(): React.JSX.Element {
+export function LinksWithEmojiWithoutSpace(): JSX.Element {
   const props = createProps({
     text: '👍https://www.signal.org😎',
   });
@@ -39,7 +40,7 @@ export function LinksWithEmojiWithoutSpace(): React.JSX.Element {
   return <Linkify {...props} />;
 }
 
-export function LinksWithEmojiAndText(): React.JSX.Element {
+export function LinksWithEmojiAndText(): JSX.Element {
   const props = createProps({
     text: 'https://example.com ⚠️ 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ https://example.com',
   });
@@ -47,7 +48,7 @@ export function LinksWithEmojiAndText(): React.JSX.Element {
   return <Linkify {...props} />;
 }
 
-export function NoLink(): React.JSX.Element {
+export function NoLink(): JSX.Element {
   const props = createProps({
     text: 'I am fond of cats',
   });
@@ -55,7 +56,7 @@ export function NoLink(): React.JSX.Element {
   return <Linkify {...props} />;
 }
 
-export function BlockedProtocols(): React.JSX.Element {
+export function BlockedProtocols(): JSX.Element {
   const props = createProps({
     text: 'smailto:someone@somewhere.com - ftp://something.com - //local/share - \\localshare',
   });
@@ -63,7 +64,7 @@ export function BlockedProtocols(): React.JSX.Element {
   return <Linkify {...props} />;
 }
 
-export function MissingProtocols(): React.JSX.Element {
+export function MissingProtocols(): JSX.Element {
   const props = createProps({
     text: 'I love example.com. I also love кц.рф. I also love مثال.تونس. But I do not love test.example.',
   });
@@ -71,7 +72,7 @@ export function MissingProtocols(): React.JSX.Element {
   return <Linkify {...props} />;
 }
 
-export function CustomTextRender(): React.JSX.Element {
+export function CustomTextRender(): JSX.Element {
   const props = createProps({
     text: 'you should see this: https://www.signal.org - it is good. Also: https://placekitten.com!',
     renderNonLink: ({ text: theText, key }) => (

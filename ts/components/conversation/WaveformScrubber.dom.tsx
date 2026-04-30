@@ -1,7 +1,14 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useCallback, useRef } from 'react';
+import {
+  useCallback,
+  useRef,
+  forwardRef,
+  type JSX,
+  type MouseEvent,
+  type KeyboardEvent,
+} from 'react';
 import { useRefMerger } from '../../hooks/useRefMerger.std.ts';
 import type { LocalizerType } from '../../types/Util.std.ts';
 import { durationToPlaybackText } from '../../util/durationToPlaybackText.std.ts';
@@ -27,7 +34,7 @@ const REWIND_BAR_COUNT = 2;
 const SMALL_INCREMENT = 1;
 const BIG_INCREMENT = 5;
 
-export const WaveformScrubber = React.forwardRef(function WaveformScrubber(
+export const WaveformScrubber = forwardRef(function WaveformScrubber(
   {
     i18n,
     peaks,
@@ -39,14 +46,14 @@ export const WaveformScrubber = React.forwardRef(function WaveformScrubber(
     onScrub,
   }: Props,
   ref
-): React.JSX.Element {
+): JSX.Element {
   const refMerger = useRefMerger();
 
   const waveformRef = useRef<HTMLDivElement | null>(null);
 
   // Clicking waveform moves playback head position and starts playback.
   const handleClick = useCallback(
-    (event: React.MouseEvent) => {
+    (event: MouseEvent) => {
       event.preventDefault();
       event.stopPropagation();
 
@@ -68,7 +75,7 @@ export const WaveformScrubber = React.forwardRef(function WaveformScrubber(
 
   // Keyboard navigation for waveform. Pressing keys moves playback head
   // forward/backwards.
-  const handleKeyDown = (event: React.KeyboardEvent) => {
+  const handleKeyDown = (event: KeyboardEvent) => {
     if (!duration) {
       return;
     }

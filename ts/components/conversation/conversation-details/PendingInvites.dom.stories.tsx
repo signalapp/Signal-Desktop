@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import { useContext, type JSX } from 'react';
 import lodash from 'lodash';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
@@ -73,17 +73,17 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   revokePendingMembershipsFromGroupV2: action(
     'revokePendingMembershipsFromGroupV2'
   ),
-  theme: React.useContext(StorybookThemeContext),
+  theme: useContext(StorybookThemeContext),
   ...overrideProps,
 });
 
-export function Basic(): React.JSX.Element {
+export function Basic(): JSX.Element {
   const props = useProps();
 
   return <PendingInvites {...props} />;
 }
 
-export function WithBadges(): React.JSX.Element {
+export function WithBadges(): JSX.Element {
   const props = useProps({ getPreferredBadge: () => getFakeBadge() });
 
   return <PendingInvites {...props} />;

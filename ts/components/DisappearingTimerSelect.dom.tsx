@@ -1,8 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ReactNode } from 'react';
-import React, { useCallback, useState, useMemo } from 'react';
+import type { ReactNode, JSX } from 'react';
+import { useCallback, useState, useMemo } from 'react';
 import type { LocalizerType } from '../types/Util.std.ts';
 import * as expirationTimer from '../util/expirationTimer.std.ts';
 import { DurationInSeconds } from '../util/durations/index.std.ts';
@@ -18,7 +18,7 @@ export type Props = {
   onChange(value: DurationInSeconds): void;
 };
 
-export function DisappearingTimerSelect(props: Props): React.JSX.Element {
+export function DisappearingTimerSelect(props: Props): JSX.Element {
   const { i18n, disabled, value = DurationInSeconds.ZERO, onChange } = props;
 
   const [isModalOpen, setIsModalOpen] = useState(false);

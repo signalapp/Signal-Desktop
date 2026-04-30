@@ -1,7 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { JSX } from 'react';
+
 import type { AvatarColorType } from '../types/Colors.std.ts';
 import { AvatarColors } from '../types/Colors.std.ts';
 import type { LocalizerType } from '../types/Util.std.ts';
@@ -17,7 +18,7 @@ export function AvatarColorPicker({
   i18n,
   onColorSelected,
   selectedColor,
-}: PropsType): React.JSX.Element {
+}: PropsType): JSX.Element {
   return (
     <>
       <div className="AvatarEditor__avatar-selector-title">

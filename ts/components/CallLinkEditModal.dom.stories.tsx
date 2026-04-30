@@ -1,7 +1,8 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { JSX } from 'react';
+
 import { action } from '@storybook/addon-actions';
 import type { CallLinkEditModalProps } from './CallLinkEditModal.dom.tsx';
 import { CallLinkEditModal } from './CallLinkEditModal.dom.tsx';
@@ -26,10 +27,10 @@ export default {
   },
 } satisfies ComponentMeta<CallLinkEditModalProps>;
 
-export function Basic(args: CallLinkEditModalProps): React.JSX.Element {
+export function Basic(args: CallLinkEditModalProps): JSX.Element {
   return <CallLinkEditModal {...args} />;
 }
 
-export function InAnotherCall(args: CallLinkEditModalProps): React.JSX.Element {
+export function InAnotherCall(args: CallLinkEditModalProps): JSX.Element {
   return <CallLinkEditModal {...args} hasActiveCall />;
 }

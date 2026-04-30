@@ -1,7 +1,8 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import type { JSX } from 'react';
+
 import { I18n } from '../I18n.dom.tsx';
 import type { LocalizerType } from '../../types/Util.std.ts';
 
@@ -15,7 +16,7 @@ export function GroupV1DisabledActions({
   conversationId,
   i18n,
   showGV2MigrationDialog,
-}: PropsType): React.JSX.Element {
+}: PropsType): JSX.Element {
   return (
     <div className="module-group-v1-disabled-actions">
       <p className="module-group-v1-disabled-actions__message">
