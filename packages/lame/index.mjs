@@ -12,7 +12,7 @@ const {
   _wrapper_encode,
   _wrapper_get_lametag_frame,
   _wrapper_flush,
-} = await initWrapper();
+} = initWrapper();
 
 const input = new Float32Array(
   HEAPU8.buffer,

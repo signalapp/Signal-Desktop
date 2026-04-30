@@ -5,6 +5,7 @@ import type {
   WorkletMessageType,
   RendererMessageType,
 } from '../types/AudioRecorder.std.ts';
+import { init, encode, flush, getLametagFrame } from '@signalapp/lame';
 
 declare const sampleRate: number;
 
@@ -33,16 +34,7 @@ declare function registerProcessor(
 
 const BIT_RATE = 128;
 
-// Unfortunately `context.audioWorklet.addModule` doesn't wait for top-level
-// awaits to be resolved so we have to call `registerProcessor` immediately
-// and let the import resolve later on.
-const lame = (async () => {
-  const result = await import('@signalapp/lame');
-
-  result.init(sampleRate, BIT_RATE);
-
-  return result;
-})();
+init(sampleRate, BIT_RATE);
 
 class Mp3Encoder
   extends AudioWorkletProcessor
@@ -53,21 +45,22 @@ class Mp3Encoder
   constructor() {
     super();
 
-    this.port.onmessage = async ({ data }: { data: RendererMessageType }) => {
+    this.port.onmessage = ({ data }: { data: RendererMessageType }) => {
       if (data.type !== 'stop') {
         throw new Error('Unexpected message');
       }
       this.#isStopped = true;
-      const { flush, getLametagFrame } = await lame;
-      this.#sendChunk(flush());
+
+      const chunk = new Uint8Array(flush());
 
       const lametagFrame = new Uint8Array(getLametagFrame());
       this.port.postMessage(
         {
           type: 'complete',
           lametagFrame: lametagFrame,
+          finalFrame: chunk,
         } satisfies WorkletMessageType,
-        [lametagFrame.buffer]
+        [lametagFrame.buffer, chunk.buffer]
       );
     };
   }
@@ -83,19 +76,16 @@ class Mp3Encoder
     }
 
     const [channel] = input;
-    if (channel != null) {
-      void this.#encode(channel);
+    if (channel == null) {
+      return true;
     }
-    return true;
-  }
 
-  async #encode(channel: Float32Array<ArrayBuffer>): Promise<void> {
-    const { encode } = await lame;
-    this.#sendChunk(encode(channel));
-  }
+    const shared = encode(channel);
+    if (shared.length === 0) {
+      return true;
+    }
 
-  #sendChunk(chunk: Uint8Array<ArrayBuffer>): void {
-    const copy = new Uint8Array(chunk);
+    const copy = new Uint8Array(shared);
     this.port.postMessage(
       {
         type: 'chunk',
@@ -103,6 +93,7 @@ class Mp3Encoder
       } satisfies WorkletMessageType,
       [copy.buffer]
     );
+    return true;
   }
 }
 

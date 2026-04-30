@@ -22,8 +22,9 @@ cd -
 emcc -I lame-3.100/include -Oz -DNDEBUG -flto wrapper.c \
     ./lame-3.100/libmp3lame/.libs/libmp3lame.a -o wrapper.mjs \
     -sEXPORTED_FUNCTIONS=_wrapper_init,_wrapper_get_num_samples,_wrapper_get_in,_wrapper_get_out,_wrapper_encode,_wrapper_flush,_wrapper_get_lametag_frame,_wrapper_close \
-    -sEXPORTED_RUNTIME_METHODS=HEAPU8 \
+    -sEXPORTED_RUNTIME_METHODS=HEAPU8 -sDYNAMIC_EXECUTION=0 \
     -sENVIRONMENT=worklet -sWASM=0 -sWASM_ASYNC_COMPILATION=0
+sed -I '' 's/^async //' wrapper.mjs
 ```
 
 ## License
