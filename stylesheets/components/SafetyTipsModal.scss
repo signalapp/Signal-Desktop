@@ -4,166 +4,7 @@
 @use '../mixins';
 @use '../variables';
 
-$SafetyTipsModal__paddingInline: 32px;
-$SafetyTipsModal__paddingBlock: 24px;
-
-.SafetyTipsModal {
-  .module-Modal__headerTitle {
-    align-items: start;
-  }
-
-  .module-Modal__title {
-    padding-top: 20px;
-    @include mixins.font-title-1;
-    text-align: center;
-  }
-
-  .module-Modal__body {
-    padding-inline: 0;
-  }
-
-  .module-Modal__button-footer {
-    padding-block: $SafetyTipsModal__paddingBlock;
-    padding-inline: $SafetyTipsModal__paddingInline;
-  }
-}
-
-.SafetyTipsModal__width-container {
-  max-width: 420px;
-  width: 95%;
-}
-
-.SafetyTipsModal__Description {
-  margin: 0;
-  padding-inline: $SafetyTipsModal__paddingInline;
-  padding-bottom: 24px;
-  text-align: center;
-  @include mixins.font-body-1;
-  @include mixins.light-theme {
-    color: variables.$color-gray-60;
-  }
-  @include mixins.dark-theme {
-    color: variables.$color-gray-25;
-  }
-}
-
-.SafetyTipsModal__Footer {
-  display: flex;
-  gap: 16px;
-}
-
-.SafetyTipsModal__Button {
-  flex: 1;
-}
-
-.SafetyTipsModal__Button--Previous {
-  &,
-  &:is(:disabled, [aria-disabled='true']) {
-    @include mixins.any-theme {
-      background: transparent;
-    }
-    @include mixins.light-theme {
-      color: variables.$color-accent-blue;
-    }
-    @include mixins.dark-theme {
-      color: variables.$color-white;
-    }
-  }
-
-  &:is(:disabled, [aria-disabled='true']) {
-    opacity: 0.5;
-  }
-
-  &:not(:disabled):not([aria-disabled='true']) {
-    &:hover,
-    &:focus {
-      @include mixins.light-theme {
-        background: variables.$color-gray-15;
-      }
-      @include mixins.dark-theme {
-        background: variables.$color-gray-65;
-      }
-    }
-
-    &:active {
-      @include mixins.light-theme {
-        background: variables.$color-gray-20;
-      }
-      @include mixins.dark-theme {
-        background: variables.$color-gray-60;
-      }
-    }
-  }
-}
-
-.SafetyTipsModal__CardWrapper {
-  display: flex;
-  flex-direction: row;
-  gap: $SafetyTipsModal__paddingInline;
-  overflow: hidden;
-  scroll-snap-type: x mandatory;
-  padding-inline: $SafetyTipsModal__paddingInline;
-}
-
-.SafetyTipsModal__Card {
-  width: 100%;
-  flex-shrink: 0;
-  scroll-snap-align: center;
-  padding-block: 14px 32px;
-  padding-inline: 12px;
-  border-radius: 18px;
-  text-align: center;
-  @include mixins.light-theme {
-    background: variables.$color-gray-02;
-  }
-  @include mixins.dark-theme {
-    background: variables.$color-gray-75;
-  }
-}
-
-.SafetyTipsModal__CardImage {
-  width: 100%;
-  height: auto;
-  vertical-align: top;
-  border-radius: 12px;
-  @include mixins.light-theme {
-    background: white;
-  }
-  @include mixins.dark-theme {
-    background: variables.$color-gray-65;
-  }
-}
-
-.SafetyTipsModal__CardTitle {
-  margin-block: 14px 0;
-  @include mixins.font-title-2;
-  @include mixins.light-theme {
-    color: variables.$color-gray-90;
-  }
-  @include mixins.dark-theme {
-    color: variables.$color-gray-05;
-  }
-}
-
-.SafetyTipsModal__CardDescription {
-  margin-block: 8px 0;
-  @include mixins.font-body-1;
-  @include mixins.light-theme {
-    color: variables.$color-gray-62;
-  }
-  @include mixins.dark-theme {
-    color: variables.$color-gray-20;
-  }
-}
-
-.SafetyTipsModal__Dots {
-  display: flex;
-  justify-content: center;
-  padding-block: 24px 20px;
-}
-
 .SafetyTipsModal__DotsButton {
-  @include mixins.button-reset;
   & {
     padding: 4px;
   }
@@ -175,35 +16,29 @@ $SafetyTipsModal__paddingBlock: 24px;
     height: 8px;
     border-radius: 9999px;
     transition: background 100ms ease;
-    @include mixins.light-theme {
-      background: rgba(variables.$color-black, 30%);
-    }
-    @include mixins.dark-theme {
-      background: rgba(variables.$color-white, 30%);
-    }
+    background: light-dark(
+      rgba(variables.$color-black, 8%),
+      rgba(variables.$color-white, 8%)
+    );
   }
 
-  &:not([aria-current]) {
+  &:not([data-state='active']) {
     &:hover,
     &:focus {
       &::before {
-        @include mixins.light-theme {
-          background: rgba(variables.$color-black, 45%);
-        }
-        @include mixins.dark-theme {
-          background: rgba(variables.$color-white, 45%);
-        }
+        background: light-dark(
+          rgba(variables.$color-black, 30%),
+          rgba(variables.$color-white, 30%)
+        );
       }
     }
   }
 
-  &[aria-current]::before {
-    @include mixins.light-theme {
-      background: variables.$color-black;
-    }
-    @include mixins.dark-theme {
-      background: variables.$color-white;
-    }
+  &[data-state='active']::before {
+    background: light-dark(
+      rgba(variables.$color-black, 85%),
+      rgba(variables.$color-white, 85%)
+    );
   }
 
   &:focus {
@@ -222,8 +57,4 @@ $SafetyTipsModal__paddingBlock: 24px;
       }
     }
   }
-}
-
-.SafetyTipsModal__DotsButtonLabel {
-  @include mixins.sr-only;
 }
