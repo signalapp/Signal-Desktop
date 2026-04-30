@@ -116,6 +116,7 @@ import { addCallHistory, reloadCallHistory } from './callHistory.preload.ts';
 import { saveDraftRecordingIfNeeded } from './composer.preload.ts';
 import type { StartCallData } from '../../components/ConfirmLeaveCallModal.dom.tsx';
 import {
+  getActiveCallState,
   getCallLinksByRoomId,
   getPresentingSource,
 } from '../selectors/calling.std.ts';
@@ -2025,28 +2026,6 @@ function setLocalAudio(
   };
 }
 
-function setLocalAudioRemoteMuted(
-  payload: Parameters<SetMutedByType>[0]
-): ThunkAction<void, RootStateType, unknown, SetLocalAudioActionType> {
-  return (dispatch, getState) => {
-    const activeCall = getActiveCall(getState().calling);
-    if (!activeCall) {
-      log.warn('Trying to set local audio when no call is active');
-      return;
-    }
-
-    calling.setOutgoingAudioRemoteMuted(
-      activeCall.conversationId,
-      payload?.mutedBy
-    );
-
-    dispatch({
-      type: SET_LOCAL_AUDIO_FULFILLED,
-      payload: { enabled: false },
-    });
-  };
-}
-
 function setLocalVideo(
   payload: Parameters<SetLocalVideoType>[0]
 ): ThunkAction<void, RootStateType, unknown, SetLocalVideoFulfilledActionType> {
@@ -2089,11 +2068,25 @@ function setMutedBy(
   payload: Parameters<SetMutedByType>[0]
 ): ThunkAction<void, RootStateType, unknown, SetMutedByActionType> {
   return (dispatch, getState) => {
-    const activeCall = getActiveCall(getState().calling);
+    const state = getState();
+    const activeCall = getActiveCall(state.calling);
     if (!activeCall) {
       log.warn('Trying to set muted by when no call is active');
       return;
     }
+
+    const activeCallState = getActiveCallState(state);
+    if (!activeCallState || !activeCallState.hasLocalAudio) {
+      log.info(
+        'Trying to set muted by when no active call state or already muted'
+      );
+      return;
+    }
+
+    calling.setOutgoingAudioRemoteMuted(
+      activeCall.conversationId,
+      payload.mutedBy
+    );
 
     dispatch({
       type: SET_MUTED_BY,
@@ -3111,7 +3104,6 @@ export const actions = {
   setIsCallActive,
   setLocalAudio,
   setLocalVideo,
-  setLocalAudioRemoteMuted,
   setMutedBy,
   setOutgoingRing,
   setRendererCanvas,
@@ -4365,13 +4357,11 @@ export function reducer(
       return state;
     }
 
-    const newMutedBy = activeCallState.hasLocalAudio ? mutedBy : undefined;
-
     return {
       ...state,
       activeCallState: {
         ...activeCallState,
-        mutedBy: newMutedBy,
+        mutedBy,
       },
     };
   }

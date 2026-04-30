@@ -15,7 +15,6 @@ import { difference as setDifference } from '../util/setUtil.std.ts';
 import { isMoreRecentThan } from '../util/timestamp.std.ts';
 import { isGroupOrAdhocActiveCall } from '../util/isGroupOrAdhocCall.std.ts';
 import { SECOND } from '../util/durations/index.std.ts';
-import type { SetMutedByType } from '../state/ducks/calling.preload.ts';
 
 type PropsType = {
   activeCall: ActiveCallType;
@@ -337,12 +336,10 @@ function useLowerHandSuggestionToast({
 
 function useMutedByToast({
   mutedBy,
-  setLocalAudioRemoteMuted,
   conversationsByDemuxId,
   i18n,
 }: {
   mutedBy: number | undefined;
-  setLocalAudioRemoteMuted?: SetMutedByType;
   conversationsByDemuxId?: Map<number, ConversationType>;
   i18n: LocalizerType;
 }): void {
@@ -352,9 +349,6 @@ function useMutedByToast({
   const MUTED_BY_TOAST_KEY = 'MUTED_BY_TOAST_KEY';
 
   useEffect(() => {
-    if (setLocalAudioRemoteMuted === undefined) {
-      return;
-    }
     if (
       mutedBy === undefined ||
       // if it's undefined, likely we just received a remote mute request
@@ -369,7 +363,6 @@ function useMutedByToast({
     if (title === undefined) {
       return;
     }
-    setLocalAudioRemoteMuted({ mutedBy });
     let content;
     if (otherConversation?.isMe) {
       content = i18n('icu:CallControls__YouMutedYourselfToast');
@@ -394,7 +387,6 @@ function useMutedByToast({
     showToast,
     hideToast,
     MUTED_BY_TOAST_KEY,
-    setLocalAudioRemoteMuted,
   ]);
 }
 
@@ -486,7 +478,6 @@ type CallingButtonToastsType = {
   observedRemoteMute?: ObservedRemoteMuteType;
   conversationsByDemuxId?: Map<number, ConversationType>;
   i18n: LocalizerType;
-  setLocalAudioRemoteMuted?: SetMutedByType;
 };
 
 export function CallingButtonToastsContainer(
@@ -519,7 +510,6 @@ function CallingButtonToasts({
   mutedBy,
   observedRemoteMute,
   conversationsByDemuxId,
-  setLocalAudioRemoteMuted,
 }: CallingButtonToastsType) {
   useMutedToast({ hasLocalAudio, mutedBy, i18n });
   useOutgoingRingToast({ outgoingRing, i18n });
@@ -532,7 +522,6 @@ function CallingButtonToasts({
   });
   useMutedByToast({
     mutedBy,
-    setLocalAudioRemoteMuted,
     conversationsByDemuxId,
     i18n,
   });
