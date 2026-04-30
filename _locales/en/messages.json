@@ -4438,9 +4438,53 @@
     "messageformat": "Safety Tips",
     "description": "Title of the safety tips modal"
   },
+  "icu:SafetyTipsModal__Title-v2": {
+    "messageformat": "Safety tips",
+    "description": "Title of the safety tips modal"
+  },
+  "icu:SafetyTipsModal__TipTitle--SignalChat": {
+    "messageformat": "Don’t respond to chats from Signal",
+    "description": "Title of the signal chat safety tip"
+  },
+  "icu:SafetyTipsModal__TipDescription--SignalChat": {
+    "messageformat": "Signal will never message you for your registration code, PIN, or recovery key. Never respond to a chat pretending to be Signal.",
+    "description": "Text of the signal chat safety tip"
+  },
+  "icu:SafetyTipsModal__TipTitle--NamesAndPhotos": {
+    "messageformat": "Review names and photos",
+    "description": "Title of the names and photos safety tip"
+  },
+  "icu:SafetyTipsModal__TipDescription--NamesAndPhotos": {
+    "messageformat": "Look out for the “Name not verified” notice. Everyone sets their own profile name in Signal.",
+    "description": "Text of the names and photos safety tip"
+  },
+  "icu:SafetyTipsModal__TipTitle--Scams": {
+    "messageformat": "Look out for scams",
+    "description": "Title of the scams safety tip"
+  },
+  "icu:SafetyTipsModal__TipDescription--Scams": {
+    "messageformat": "Avoid vague messages that try to get you to reply. Be aware of financial tips and suspicious web links.",
+    "description": "Text of the scams safety tip"
+  },
   "icu:SafetyTipsModal__Description": {
     "messageformat": "Be careful when accepting message requests from people you don’t know. Watch out for:",
     "description": "Description of the safety tips modal"
+  },
+  "icu:SafetyTipsModal__TipTitle--DontRespond": {
+    "messageformat": "Don’t respond to chats from Signal",
+    "description": "Title of the safety tip"
+  },
+  "icu:SafetyTipsModal__TipDescription--DontRespond": {
+    "messageformat": "Signal will never message you for your registration code, PIN, or recover key. Don't reply to chats pretending to be Signal or Signal Support. Bad actors set up fake names to try to take over your account.",
+    "description": "Description of the safety tip"
+  },
+  "icu:SafetyTipsModal__TipTitle--ReviewNames": {
+    "messageformat": "Review names and photos",
+    "description": "Title of the safety tip"
+  },
+  "icu:SafetyTipsModal__TipDescription--ReviewNames": {
+    "messageformat": "Look out for the “Name not verified” notice. Everyone sets their own profile name and photo in Signal. If you’re unsure who a new request is from it’s safer to ignore it.",
+    "description": "Description of the safety tip"
   },
   "icu:SafetyTipsModal__TipTitle--Fake": {
     "messageformat": "Fake names and accounts",
@@ -4474,8 +4518,16 @@
     "messageformat": "Be careful of messages from people you don’t know that have links to websites. Never visit links from people you don’t trust.",
     "description": "Description of the links safety tip"
   },
+  "icu:SafetyTipsModal__TipTitle--Links-v2": {
+    "messageformat": "Messages with web links",
+    "description": "Title of the links safety tip"
+  },
   "icu:SafetyTipsModal__TipTitle--Business": {
     "messageformat": "Fake businesses and institutions",
+    "description": "Title of the business safety tip"
+  },
+  "icu:SafetyTipsModal__TipTitle--Business-v2": {
+    "messageformat": "Fake businesses",
     "description": "Title of the business safety tip"
   },
   "icu:SafetyTipsModal__TipDescription--Business": {
@@ -4497,6 +4549,10 @@
   "icu:SafetyTipsModal__Button--Done": {
     "messageformat": "Done",
     "description": "Button to close the safety tips modal when you've reached the last tip"
+  },
+  "icu:SafetyTipsModal__Button--ViewMore": {
+    "messageformat": "View more",
+    "description": "Button to view more detailed safety tips"
   },
   "icu:MessageRequests--message-direct": {
     "messageformat": "Let {name} message you and share your name and photo with them? They won’t know you’ve seen their messages until you accept.",
@@ -10909,6 +10965,14 @@
   "icu:Megaphone__ExpandNarrowSidebar": {
     "messageformat": "Expand sidebar to interact with megaphone",
     "description": "Aria label for collapsed megaphone in the narrow sidebar state. Indicates that you can click it to expand the sidebar and the megaphone."
+  },
+  "icu:Carousel--Role": {
+    "messageformat": "Carousel",
+    "description": "aria-label for a carousel UI layout"
+  },
+  "icu:Carousel__Slide--Role": {
+    "messageformat": "Slide",
+    "description": "aria-label for a slide within a carousel UI layout"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "This version contains a number of small tweaks and bug fixes to keep Signal running smoothly.",
