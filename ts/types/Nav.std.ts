@@ -79,6 +79,7 @@ export enum SettingsPage {
   Internal = 'Internal',
 
   // Sub pages
+  Blocked = 'Blocked',
   ChatColor = 'ChatColor',
   ChatFolders = 'ChatFolders',
   DonationsDonateFlow = 'DonationsDonateFlow',

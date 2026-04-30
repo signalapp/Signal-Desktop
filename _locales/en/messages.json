@@ -8450,7 +8450,35 @@
   },
   "icu:Preferences--blocked": {
     "messageformat": "Blocked",
-    "description": "Label for blocked contacts setting"
+    "description": "Label for blocked contacts and groups in preferences"
+  },
+  "icu:Preferences--blocked-count": {
+    "messageformat": "{num, plural, one {# contact} other {# contacts}}",
+    "description": "Number of contacts blocked, plural"
+  },
+  "icu:Preferences--blocked-count-both-new": {
+    "messageformat": "{num, plural, =0 { No users or groups } one {# user or group} other {# users or groups}}",
+    "description": "Number of users or groups blocked, plural"
+  },
+  "icu:Preferences--blocked-count-contacts-new": {
+    "messageformat": "{num, plural, =0 { No users } one {# user} other {# users}}",
+    "description": "Number of users or groups blocked, plural"
+  },
+  "icu:Preferences--blocked-count-groups-new": {
+    "messageformat": "{num, plural, =0 { No groups } one {# group} other {# groups}}",
+    "description": "Number of users or groups blocked, plural"
+  },
+  "icu:Preferences--blocked-users--description": {
+    "messageformat": "Blocked users will not be able to call you or send you messages",
+    "description": "Description at the top of the blocked preferences subpage"
+  },
+  "icu:Preferences--blocked-users": {
+    "messageformat": "Blocked Users",
+    "description": "Header for blocked section on the blocked preferences subpage"
+  },
+  "icu:Preferences--blocked-groups": {
+    "messageformat": "Blocked Groups",
+    "description": "Header for groups section on the blocked preferences subpage"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Signal Secure Backups",
@@ -8695,10 +8723,6 @@
   "icu:Preferences__recovery-key-updated__view-key": {
     "messageformat": "View new key",
     "description": "Button text to view the new updated recovery key"
-  },
-  "icu:Preferences--blocked-count": {
-    "messageformat": "{num, plural, one {# contact} other {# contacts}}",
-    "description": "Number of contacts blocked plural"
   },
   "icu:Preferences__privacy--description": {
     "messageformat": "To change these settings, open the Signal app on your mobile device and navigate to Settings > Privacy",
