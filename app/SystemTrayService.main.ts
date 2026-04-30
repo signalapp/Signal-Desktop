@@ -354,7 +354,13 @@ export function focusAndForceToTop(browserWindow: BrowserWindow): void {
   // On some versions of GNOME the window may not be on top when restored.
   // This trick should fix it.
   // Thanks to: https://github.com/Enrico204/Whatsapp-Desktop/commit/6b0dc86b64e481b455f8fce9b4d797e86d000dc1
-  browserWindow.setAlwaysOnTop(true);
+  // On Wayland, setAlwaysOnTop causes the compositor to misalign input hit-testing
+  // coordinates after restore (title bar drag jumps; click offset ~1 inch from corner).
+  if (!process.env.WAYLAND_DISPLAY) {
+    browserWindow.setAlwaysOnTop(true);
+  }
   browserWindow.focus();
-  browserWindow.setAlwaysOnTop(false);
+  if (!process.env.WAYLAND_DISPLAY) {
+    browserWindow.setAlwaysOnTop(false);
+  }
 }
