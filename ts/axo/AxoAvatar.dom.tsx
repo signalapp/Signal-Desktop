@@ -151,7 +151,7 @@ export namespace AxoAvatar {
           aria-label={ariaLabel}
           className={tw(
             baseClassName,
-            'outline-0 outline-border-focused focused:outline-[2.5px]'
+            'outline-none keyboard-mode:focus:outline-focus-ring'
           )}
           onClick={props.onClick}
         >
@@ -326,7 +326,7 @@ export namespace AxoAvatar {
           'flex flex-col items-center-safe justify-center-safe gap-2',
           // oxlint-disable-next-line better-tailwindcss/no-restricted-classes
           'bg-[#000]/20 text-[#fff] hover:bg-[#000]/40',
-          'outline-0 outline-border-focused focused:outline-[2.5px]'
+          'outline-none keyboard-mode:focus:outline-focus-ring'
         )}
       >
         <AxoSymbol.Icon size={24} symbol="press" label={null} />
@@ -504,7 +504,7 @@ export namespace AxoAvatar {
           onClick={props.onClick}
           className={tw(
             baseClassName,
-            'outline-0 -outline-offset-[2.5px] outline-border-focused focused:outline-[2.5px]'
+            'outline-focus-ring-inset outline-none keyboard-mode:focus:outline-focus-ring'
           )}
         >
           {children}

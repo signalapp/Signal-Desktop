@@ -54,13 +54,13 @@ export namespace AxoCheckbox {
           'flex items-center justify-center',
           'border border-border-primary inset-shadow-on-color',
           'data-[state=unchecked]:bg-fill-primary',
-          'data-[state=unchecked]:pressed:bg-fill-primary-pressed',
+          'data-[state=unchecked]:enabled:active:bg-fill-primary-pressed',
           'data-[state=checked]:bg-color-fill-primary',
           'data-[state=checked]:text-label-primary-on-color',
-          'data-[state=checked]:pressed:bg-color-fill-primary-pressed',
+          'data-[state=checked]:enabled:active:bg-color-fill-primary-pressed',
           'data-disabled:border-border-secondary',
           'data-[state=checked]:data-disabled:text-label-disabled-on-color',
-          'outline-0 outline-border-focused focused:outline-[2.5px]',
+          'outline-none keyboard-mode:focus:outline-focus-ring',
           'overflow-hidden'
         )}
       >

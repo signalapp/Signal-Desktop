@@ -21,7 +21,7 @@ type GenericButtonProps = ButtonHTMLAttributes<HTMLButtonElement>;
 
 const baseAxoButtonStyles = tw(
   'relative inline-flex max-w-full items-center-safe justify-center-safe rounded-full select-none',
-  'outline-0 outline-border-focused focused:outline-[2.5px]',
+  'outline-none keyboard-mode:focus:outline-focus-ring',
   'forced-colors:border'
 );
 
@@ -30,19 +30,19 @@ const AxoButtonTypes = {
   subtle: tw(
     baseAxoButtonStyles,
     'bg-fill-secondary',
-    'pressed:bg-fill-secondary-pressed'
+    'enabled:active:bg-fill-secondary-pressed'
   ),
   floating: tw(
     baseAxoButtonStyles,
     'bg-fill-floating',
     'shadow-elevation-1',
-    'pressed:bg-fill-floating-pressed'
+    'enabled:active:bg-fill-floating-pressed'
   ),
   borderless: tw(
     baseAxoButtonStyles,
     'bg-transparent',
-    'hovered:bg-fill-secondary',
-    'pressed:bg-fill-secondary-pressed'
+    'enabled:hover:bg-fill-secondary',
+    'enabled:active:bg-fill-secondary-pressed'
   ),
 } as const satisfies Record<string, TailwindStyles>;
 
@@ -51,25 +51,25 @@ const AxoButtonVariants = {
   secondary: tw(
     AxoButtonTypes.default,
     'bg-fill-secondary text-label-primary',
-    'pressed:bg-fill-secondary-pressed',
+    'enabled:active:bg-fill-secondary-pressed',
     'disabled:text-label-disabled'
   ),
   primary: tw(
     AxoButtonTypes.default,
     'bg-color-fill-primary text-label-primary-on-color',
-    'pressed:bg-color-fill-primary-pressed',
+    'enabled:active:bg-color-fill-primary-pressed',
     'disabled:text-label-disabled-on-color'
   ),
   affirmative: tw(
     AxoButtonTypes.default,
     'bg-color-fill-affirmative text-label-primary-on-color',
-    'pressed:bg-color-fill-affirmative-pressed',
+    'enabled:active:bg-color-fill-affirmative-pressed',
     'disabled:text-label-disabled-on-color'
   ),
   destructive: tw(
     AxoButtonTypes.default,
     'bg-color-fill-destructive text-label-primary-on-color',
-    'pressed:bg-color-fill-destructive-pressed',
+    'enabled:active:bg-color-fill-destructive-pressed',
     'disabled:text-label-disabled-on-color'
   ),
 

@@ -121,7 +121,7 @@ audio {
 button {
   -webkit-app-region: no-drag;
 }
-button:not(:disabled) {
+button:not(:disabled, [aria-disabled='true']) {
   cursor: pointer;
 }
 

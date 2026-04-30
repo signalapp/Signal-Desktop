@@ -63,6 +63,8 @@ import type { FunEmojiSelection } from './fun/panels/FunPanelEmojis.dom.tsx';
 import { useConfirmDiscard } from '../hooks/useConfirmDiscard.dom.tsx';
 import { AxoButton } from '../axo/AxoButton.dom.tsx';
 import { normalizeProfileName } from '../util/normalizeProfileName.std.ts';
+import { AxoTextField } from '../axo/AxoTextField.dom.tsx';
+import { tw } from '../axo/tw.dom.tsx';
 
 type ProfileEditorData = {
   firstName: string;
@@ -373,33 +375,43 @@ export function ProfileEditor({
 
     content = (
       <>
-        <Input
-          i18n={i18n}
-          maxLengthCount={26}
-          maxByteCount={128}
-          onChange={newFirstName => {
-            setStagedProfile(profileData => ({
-              ...profileData,
-              firstName: newFirstName,
-            }));
-          }}
-          placeholder={i18n('icu:ProfileEditor--first-name')}
-          ref={focusInputRef}
-          value={stagedProfile.firstName}
-        />
-        <Input
-          i18n={i18n}
-          maxLengthCount={26}
-          maxByteCount={128}
-          onChange={newFamilyName => {
-            setStagedProfile(profileData => ({
-              ...profileData,
-              familyName: newFamilyName,
-            }));
-          }}
-          placeholder={i18n('icu:ProfileEditor--last-name')}
-          value={stagedProfile.familyName}
-        />
+        <div className={tw('flex flex-col gap-4')}>
+          <AxoTextField.Root>
+            <AxoTextField.Input
+              placeholder={i18n('icu:ProfileEditor--first-name')}
+              value={stagedProfile.firstName}
+              onValueChange={newFirstName => {
+                setStagedProfile(profileData => ({
+                  ...profileData,
+                  firstName: newFirstName,
+                }));
+              }}
+              maxGraphemes={26}
+              maxBytes={128}
+              autoFocus
+              showCount
+              showClearWithLabel={i18n('icu:clear')}
+            />
+          </AxoTextField.Root>
+
+          <AxoTextField.Root>
+            <AxoTextField.Input
+              placeholder={i18n('icu:ProfileEditor--last-name')}
+              value={stagedProfile.familyName ?? ''}
+              onValueChange={newFamilyName => {
+                setStagedProfile(profileData => ({
+                  ...profileData,
+                  familyName: newFamilyName,
+                }));
+              }}
+              maxGraphemes={26}
+              maxBytes={128}
+              showCount
+              showClearWithLabel={i18n('icu:clear')}
+            />
+          </AxoTextField.Root>
+        </div>
+
         <div className="ProfileEditor__button-footer">
           <AxoButton.Root variant="secondary" size="lg" onClick={handleBack}>
             {i18n('icu:cancel')}

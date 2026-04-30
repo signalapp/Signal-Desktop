@@ -22,10 +22,7 @@
  * ----------------------------------------------------------------------------
  */
 @custom-variant dark (&:where(.dark-theme, .dark-theme *));
-
-@custom-variant hovered (&:where(:hover:not(:disabled)));
-@custom-variant pressed (&:where(:active:not(:disabled)));
-@custom-variant focused (:where(.keyboard-mode) &:where(:focus));
+@custom-variant keyboard-mode (&:where(.keyboard-mode *));
 
 /**
  * Color
@@ -513,4 +510,28 @@
 
 @utility legacy-z-index-* {
   z-index: --value(--legacy-z-index-*);
+}
+
+/**
+ * Focus Rings
+ * ----------------------------------------------------------------------------
+ */
+
+@property --axo-outline-focus-ring-color {
+  syntax: '*';
+  inherits: false;
+}
+
+@utility outline-focus-ring {
+  outline-style: solid;
+  outline-color: var(--axo-outline-focus-ring-color, var(--color-border-focused));
+  outline-width: 2.5px;
+}
+
+@utility outline-focus-ring-inset {
+  outline-offset: -2.5px;
+}
+
+@utility outline-focus-ring-error {
+  --axo-outline-focus-ring-color: var(--color-border-error);
 }

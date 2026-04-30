@@ -105,11 +105,11 @@ export namespace AxoRadioGroup {
           'flex size-5 shrink-0 items-center justify-center rounded-full',
           'border border-border-primary inset-shadow-on-color',
           'data-[state=unchecked]:bg-fill-primary',
-          'data-[state=unchecked]:pressed:bg-fill-primary-pressed',
+          'data-[state=unchecked]:enabled:active:bg-fill-primary-pressed',
           'data-[state=checked]:bg-color-fill-primary',
-          'data-[state=checked]:pressed:bg-color-fill-primary-pressed',
+          'data-[state=checked]:active:bg-color-fill-primary-pressed',
           'data-disabled:border-border-secondary',
-          'outline-0 outline-border-focused focused:outline-[2.5px]',
+          'outline-none keyboard-mode:focus:outline-focus-ring',
           'overflow-hidden',
           'forced-colors:data-[state=checked]:bg-[SelectedItem]'
         )}

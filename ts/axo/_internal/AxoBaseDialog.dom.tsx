@@ -51,7 +51,7 @@ export namespace AxoBaseDialog {
     'max-h-full min-h-fit max-w-full min-w-fit',
     'curved-3xl bg-elevated-background-primary shadow-elevation-3 select-none',
     'text-label-primary',
-    'outline-border-focused not-forced-colors:outline-0 not-forced-colors:focused:outline-[2.5px]',
+    'not-forced-colors:outline-none not-forced-colors:keyboard-mode:focus:outline-focus-ring',
     'data-[state=closed]:animate-exit data-[state=open]:animate-enter',
     'animate-scale-98 animate-translate-y-1',
     'forced-colors:border forced-colors:border-[ButtonBorder] forced-colors:bg-[Canvas] forced-colors:text-[CanvasText]'

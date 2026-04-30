@@ -27,8 +27,8 @@ export namespace AxoSwitch {
           'border border-border-secondary inset-shadow-on-color',
           'bg-fill-secondary',
           'data-disabled:bg-fill-primary',
-          'pressed:bg-fill-secondary-pressed',
-          'outline-0 outline-border-focused focused:outline-[2.5px]',
+          'enabled:active:bg-fill-secondary-pressed',
+          'outline-none keyboard-mode:focus:outline-focus-ring',
           'overflow-hidden'
         )}
       >
@@ -39,7 +39,7 @@ export namespace AxoSwitch {
             'group-data-disabled:w-7.5 group-data-disabled:rounded-full',
             'opacity-0 group-data-[state=checked]:opacity-100',
             '-translate-x-3.5 group-data-[state=checked]:translate-x-0 rtl:translate-x-3.5',
-            'bg-color-fill-primary group-pressed:bg-color-fill-primary-pressed',
+            'bg-color-fill-primary group-enabled:group-active:bg-color-fill-primary-pressed',
             'transition-all duration-200 ease-out-cubic',
             'forced-colors:bg-[AccentColor]',
             'forced-colors:group-data-disabled:bg-[GrayText]'
