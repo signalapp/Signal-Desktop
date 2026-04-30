@@ -77,10 +77,15 @@ export class AudioRecorder {
       }
       if (data.type === 'complete') {
         this.#state = { type: 'idle' };
+        chunks.push(data.finalFrame);
+
+        const result = Bytes.concatenate(chunks);
+
         // Replace the original placeholder header with the one that has
         // full audio duration (necessary for VBR encoding).
-        chunks[0] = data.lametagFrame;
-        resolve(Bytes.concatenate(chunks));
+        result.set(data.lametagFrame);
+
+        resolve(result);
         return;
       }
     };
@@ -88,7 +93,6 @@ export class AudioRecorder {
     const stream = await navigator.mediaDevices.getUserMedia({
       audio: {
         channelCount: { ideal: 1 },
-        autoGainControl: { ideal: false },
       },
     });
 

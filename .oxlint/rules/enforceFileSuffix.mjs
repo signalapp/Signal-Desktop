@@ -209,6 +209,7 @@ const STD_PACKAGES = new Set([
   '@react-types/shared',
   '@signalapp/minimask',
   '@signalapp/quill-cjs',
+  '@signalapp/lame',
   '@typescript-eslint/eslint-plugin',
   '@typescript-eslint/parser',
   'axe-core',
