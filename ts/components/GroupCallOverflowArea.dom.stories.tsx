@@ -13,6 +13,7 @@ import { FRAME_BUFFER_SIZE } from '../calling/constants.std.ts';
 import type { CallingImageDataCache } from './CallManager.dom.tsx';
 import { MINUTE } from '../util/durations/index.std.ts';
 import { generateAci } from '../test-helpers/serviceIdUtils.std.ts';
+import { renderCallingParticipantMenu } from './CallingParticipantMenu.dom.stories.tsx';
 
 const { memoize, times } = lodash;
 
@@ -53,6 +54,7 @@ const defaultProps = {
   onParticipantVisibilityChanged: action('onParticipantVisibilityChanged'),
   remoteAudioLevels: new Map<number, number>(),
   remoteParticipantsCount: 1,
+  renderCallingParticipantMenu,
 };
 
 // This component is usually rendered on a call screen.
