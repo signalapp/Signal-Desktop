@@ -14,7 +14,6 @@ import type {
   SetLocalAudioType,
   SetLocalVideoType,
   SetRendererCanvasType,
-  SetMutedByType,
 } from '../state/ducks/calling.preload.ts';
 import { Avatar, AvatarSize } from './Avatar.dom.tsx';
 import {
@@ -154,7 +153,6 @@ export type PropsType = {
   toggleSelfViewExpanded: () => void;
   toggleSettings: () => void;
   changeCallView: (mode: CallViewMode) => void;
-  setLocalAudioRemoteMuted: SetMutedByType;
 };
 
 const REACTIONS_TOASTS_TRANSITION_FROM = {
@@ -239,7 +237,6 @@ export function CallScreen({
   toggleScreenRecordingPermissionsDialog,
   toggleSelfViewExpanded,
   toggleSettings,
-  setLocalAudioRemoteMuted,
 }: PropsType): React.JSX.Element {
   const {
     conversation,
@@ -1131,7 +1128,6 @@ export function CallScreen({
         }
         conversationsByDemuxId={conversationsByDemuxId}
         i18n={i18n}
-        setLocalAudioRemoteMuted={setLocalAudioRemoteMuted}
       />
       {isCallLinkAdmin ? (
         <CallingPendingParticipants
