@@ -471,16 +471,16 @@
     "messageformat": "{count, plural, zero {{count,number} رسالة غير مقروءة} one {{count,number} رسالة غير مقروءة} two {{count,number} رسالتين غير مقروءتين} few {{count,number} رسائل غير مقروءة} many {{count,number} رسالةً غير مقروءة} other {{count,number} رسالةٍ غير مقروءة}}"
   },
   "icu:youMarkedAsVerified": {
-    "messageformat": "حدَّدت أن رقم أمانك مع {name} كتمَّ التحقُّق منه"
+    "messageformat": "حدَّدت أن رقم أمانك مع {name} قد تمَّ التحقُّق منه."
   },
   "icu:youMarkedAsNotVerified": {
     "messageformat": "حدَّدتَ أن رقم أمانك مع {name} كغير مُتحقُّق منه"
   },
   "icu:youMarkedAsVerifiedOtherDevice": {
-    "messageformat": "حدَّدت أن رقم أمانك مع {name} كتمّ التحقُّق منه من جهازٍ آخر"
+    "messageformat": "حدَّدت أن رقم أمانك مع {name} قد تمَّ التحقُّق منه عن طريق جهازٍ آخر."
   },
   "icu:youMarkedAsNotVerifiedOtherDevice": {
-    "messageformat": "حدَّدت أن رقم أمانك مع {name} كغير مُتحقَّق منه عن طريق جهازٍ آخر"
+    "messageformat": "حدَّدت أن رقم أمانك مع {name} لم يتم التحقُّق منه عن طريق جهازٍ آخر."
   },
   "icu:changedRightAfterVerify": {
     "messageformat": "رقم الأمان الذي تحاول التحقُّق منه قد تغيَّر. يُرجى معاينة رقم الأمان الجديد الخاص بك مع {name1} وتذكّر أن هذا التغيُّر يمكن أن يكون سببه أنّ هناك من يحاول اعتراض رسائلك أو أن {name2} ببساطة أعاد تثبيت سيجنال."

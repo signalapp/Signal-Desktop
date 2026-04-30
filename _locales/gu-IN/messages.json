@@ -2565,7 +2565,7 @@
     "messageformat": "તમે ગ્રુપને અપડેટ કર્યું."
   },
   "icu:collapsedGroupUpdates": {
-    "messageformat": "{count, plural, one {{count,number} ગ્રૂપ અપડેટ} other {{count,number} ગ્રૂપ અપડેટ}}"
+    "messageformat": "{count, plural, one {{count,number} ગ્રૂપ નોટિફિકેશન} other {{count,number} ગ્રૂપ નોટિફિકેશન}}"
   },
   "icu:multidayCollapse__container": {
     "messageformat": "{containerDescription} · {dayCountSummary}"
@@ -2574,7 +2574,7 @@
     "messageformat": "{dayCount, plural, one {{dayCount,number}દિવસ} other {{dayCount,number} દિવસો}}"
   },
   "icu:collapsedChatUpdates": {
-    "messageformat": "{count, plural, one {{count,number} ચેટ અપડેટ} other {{count,number} ચેટ અપડેટ}}"
+    "messageformat": "{count, plural, one {{count,number} ચેટ નોટિફિકેશન} other {{count,number} ચેટ નોટિફિકેશન}}"
   },
   "icu:collapsedTimerChanges": {
     "messageformat": "{count, plural, one {{count,number} ગાયબ થતાં ટાઇમરમાં ફેરફાર · {endingState}} other {{count,number} ગાયબ થતાં મેસેજના ટાઇમરમાં ફેરફારો · {endingState}}}"

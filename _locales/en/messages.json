@@ -4706,7 +4706,7 @@
   },
   "icu:ConversationHero--signal-official-account": {
     "messageformat": "Official account",
-    "description": "Text indicating that this is the official Signal conversation"
+    "description": "(Deleted 2026/04/30) Text indicating that this is the official Signal conversation"
   },
   "icu:ConversationHero--signal-official-chat-title": {
     "messageformat": "Official chat",
@@ -5082,7 +5082,7 @@
   },
   "icu:calling__ParticipantInfoButton": {
     "messageformat": "More info about this contact",
-    "description": "Aria label for clickable contact info button in the in-call participant info popup. When clicked a popup appears with the contact's details and options to message them."
+    "description": "(Deleted 2026/04/30) Aria label for clickable contact info button in the in-call participant info popup. When clicked a popup appears with the contact's details and options to message them."
   },
   "icu:CallingAdhocCallInfo__CopyLink": {
     "messageformat": "Copy call link",
@@ -6050,23 +6050,23 @@
   },
   "icu:BadgeSustainerInstructions__header": {
     "messageformat": "Donate to Signal",
-    "description": "In the instructions for becoming a sustainer. The heading."
+    "description": "(Deleted 2026/04/30) In the instructions for becoming a sustainer. The heading."
   },
   "icu:BadgeSustainerInstructions__subheader": {
     "messageformat": "Signal is powered by people like you. Contribute and receive a badge.",
-    "description": "In the instructions for becoming a sustainer. The subheading."
+    "description": "(Deleted 2026/04/30) In the instructions for becoming a sustainer. The subheading."
   },
   "icu:BadgeSustainerInstructions__instructions__1": {
     "messageformat": "Open Signal on your phone",
-    "description": "In the instructions for becoming a sustainer. First instruction."
+    "description": "(Deleted 2026/04/30) In the instructions for becoming a sustainer. First instruction."
   },
   "icu:BadgeSustainerInstructions__instructions__2": {
     "messageformat": "Tap on your profile photo in the top left to open Settings",
-    "description": "In the instructions for becoming a sustainer. Second instruction."
+    "description": "(Deleted 2026/04/30) In the instructions for becoming a sustainer. Second instruction."
   },
   "icu:BadgeSustainerInstructions__instructions__3": {
     "messageformat": "Tap on \"Donate to Signal\" and subscribe",
-    "description": "In the instructions for becoming a sustainer. Third instruction."
+    "description": "(Deleted 2026/04/30) In the instructions for becoming a sustainer. Third instruction."
   },
   "icu:ProfileMovedModal__title": {
     "messageformat": "Your profile has moved",
