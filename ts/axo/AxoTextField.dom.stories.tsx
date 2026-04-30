@@ -1,7 +1,7 @@
 // Copyright 2026 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import type { ReactNode } from 'react';
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { Meta } from '@storybook/react';
 import { AxoTextField } from './AxoTextField.dom.tsx';
 import { tw } from './tw.dom.tsx';

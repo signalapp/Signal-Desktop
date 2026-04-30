@@ -1,6 +1,6 @@
 // Copyright 2026 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import React, { memo, useCallback, useId, useMemo, useRef } from 'react';
+import { memo, useCallback, useId, useMemo, useRef } from 'react';
 import type { FC, InputEvent, MouseEvent, ReactNode, RefObject } from 'react';
 import { mergeRefs } from '@react-aria/utils';
 import { AxoSymbol } from './AxoSymbol.dom.tsx';
