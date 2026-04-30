@@ -1617,8 +1617,8 @@
   "ignorePatterns": [
     // Sticker Creator has its own eslint config
     "sticker-creator/**",
-    // Third-party files
-    "components/mp3lameencoder/lib/Mp3LameEncoder.std.mjs"
+    // Generated file
+    "packages/lame/wrapper.mjs"
   ],
   "overrides": [
     // envs

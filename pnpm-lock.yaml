@@ -175,6 +175,9 @@ importers:
       '@react-spring/web':
         specifier: 10.0.3
         version: 10.0.3(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      '@signalapp/lame':
+        specifier: workspace:1.0.0
+        version: link:packages/lame
       '@signalapp/minimask':
         specifier: 1.0.1
         version: 1.0.1
@@ -725,6 +728,8 @@ importers:
       fs-xattr:
         specifier: 0.4.0
         version: 0.4.0(patch_hash=325d1e5f73cce8e15671dbd2394e091aadb71600f41d97d1a8cb63960c188112)
+
+  packages/lame: {}
 
   packages/mute-state-change:
     dependencies:

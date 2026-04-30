@@ -1,21 +1,5 @@
 [
   {
-    "rule": "eval",
-    "path": "components/mp3lameencoder/lib/Mp3LameEncoder.std.mjs",
-    "line": "    return eval(funcstr);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-18T19:19:27.699Z",
-    "reasonDetail": "Part of a set of functions to implement C calls"
-  },
-  {
-    "rule": "eval",
-    "path": "components/mp3lameencoder/lib/Mp3LameEncoder.std.mjs",
-    "line": "      func = eval('_' + ident); // explicit lookup",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-18T19:19:27.699Z",
-    "reasonDetail": "Part of runtime library for C++ transpiled code"
-  },
-  {
     "rule": "DOM-innerHTML",
     "path": "node_modules/@signalapp/quill-cjs/core/editor.js",
     "line": "      innerHTML",

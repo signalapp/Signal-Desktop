@@ -38,7 +38,7 @@ const FILES_TO_IGNORE = new Set(
     '.github/PULL_REQUEST_TEMPLATE.md',
     '.smartling-source.sh',
     'packages/mute-state-change/dist/acknowledgments.md',
-    'components/mp3lameencoder/lib/Mp3LameEncoder.std.mjs',
+    'packages/lame/dist/acknowledgments.md',
     'sticker-creator/src/util/protos.d.ts',
     'sticker-creator/src/util/protos.js',
   ].map(

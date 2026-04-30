@@ -19,6 +19,7 @@ const SIGNAL_LIBS = [
   '@signalapp/libsignal-client',
   '@signalapp/ringrtc',
   '@signalapp/mute-state-change',
+  '@signalapp/lame',
 ];
 
 const SKIPPED_DEPENDENCIES = new Set(SIGNAL_LIBS);

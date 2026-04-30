@@ -1,0 +1,17 @@
+{
+  "name": "@signalapp/lame",
+  "description": "LAME MP3 Encoder bindings for Node.js",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "index.mjs",
+  "types": "index.d.mts",
+  "files": [
+    "index.mjs",
+    "README.md"
+  ],
+  "author": {
+    "name": "Signal Messenger, LLC",
+    "email": "support@signal.org"
+  },
+  "license": "AGPL-3.0-only"
+}
