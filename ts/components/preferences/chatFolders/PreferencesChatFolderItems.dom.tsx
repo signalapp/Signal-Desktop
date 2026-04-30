@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import classNames from 'classnames';
-import React, { forwardRef } from 'react';
-import type { ForwardedRef, HTMLAttributes, ReactNode } from 'react';
+import { forwardRef } from 'react';
+import type { ForwardedRef, HTMLAttributes, ReactNode, JSX } from 'react';
 import { tw } from '../../../axo/tw.dom.tsx';
 import type { LocalizerType } from '../../../types/I18N.std.ts';
 import { AxoSymbol } from '../../../axo/AxoSymbol.dom.tsx';
@@ -25,7 +25,7 @@ export type ItemContentProps = HTMLAttributes<HTMLSpanElement>;
 export const ItemContent = forwardRef(function ItemContent(
   props: ItemContentProps,
   ref: ForwardedRef<HTMLSpanElement>
-): React.JSX.Element {
+): JSX.Element {
   return (
     <span
       ref={ref}
@@ -37,7 +37,7 @@ export const ItemContent = forwardRef(function ItemContent(
 
 export function ItemAvatar(props: {
   kind: 'Folder' | 'Add' | ChatFolderPresetId;
-}): React.JSX.Element {
+}): JSX.Element {
   return (
     <span
       className={`Preferences__ChatFolders__ChatSelection__ItemAvatar Preferences__ChatFolders__ChatSelection__ItemAvatar--${props.kind}`}
@@ -45,7 +45,7 @@ export function ItemAvatar(props: {
   );
 }
 
-export function ItemBody(props: { children: ReactNode }): React.JSX.Element {
+export function ItemBody(props: { children: ReactNode }): JSX.Element {
   return (
     <span className="Preferences__ChatFolders__ChatSelection__ItemBody">
       {props.children}
@@ -53,7 +53,7 @@ export function ItemBody(props: { children: ReactNode }): React.JSX.Element {
   );
 }
 
-export function ItemTitle(props: { children: ReactNode }): React.JSX.Element {
+export function ItemTitle(props: { children: ReactNode }): JSX.Element {
   return (
     <span className="Preferences__ChatFolders__ChatSelection__ItemTitle">
       {props.children}
@@ -61,9 +61,7 @@ export function ItemTitle(props: { children: ReactNode }): React.JSX.Element {
   );
 }
 
-export function ItemDescription(props: {
-  children: ReactNode;
-}): React.JSX.Element {
+export function ItemDescription(props: { children: ReactNode }): JSX.Element {
   return (
     <span className="Preferences__ChatFolders__ChatSelection__ItemDescription">
       {props.children}
@@ -71,9 +69,7 @@ export function ItemDescription(props: {
   );
 }
 
-export function ItemDragHandle(props: {
-  i18n: LocalizerType;
-}): React.JSX.Element {
+export function ItemDragHandle(props: { i18n: LocalizerType }): JSX.Element {
   const { i18n } = props;
   return (
     <span

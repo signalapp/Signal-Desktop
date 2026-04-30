@@ -1,7 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { JSX } from 'react';
+
 import lodash from 'lodash';
 
 import { I18n } from './I18n.dom.tsx';
@@ -20,7 +21,7 @@ export function SharedGroupNames({
   i18n,
   nameClassName,
   sharedGroupNames,
-}: PropsType): React.JSX.Element {
+}: PropsType): JSX.Element {
   const firstThreeGroups = take(sharedGroupNames, 3).map((group, i) => (
     // We cannot guarantee uniqueness of group names
     // oxlint-disable-next-line react/no-array-index-key

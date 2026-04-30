@@ -1,7 +1,7 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { memo } from 'react';
+import { memo } from 'react';
 import { useSelector } from 'react-redux';
 import { ShortcutGuideModal } from '../../components/ShortcutGuideModal.dom.tsx';
 import { getIntl, getPlatform } from '../selectors/user.std.ts';

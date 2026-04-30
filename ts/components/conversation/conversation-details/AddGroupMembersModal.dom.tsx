@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useReducer } from 'react';
+import { useReducer, type JSX } from 'react';
 import lodash from 'lodash';
 
 import type { LocalizerType } from '../../../types/Util.std.ts';
@@ -33,10 +33,10 @@ type PropsType = {
 
   renderChooseGroupMembersModal: (
     props: SmartChooseGroupMembersModalPropsType
-  ) => React.JSX.Element;
+  ) => JSX.Element;
   renderConfirmAdditionsModal: (
     props: SmartConfirmAdditionsModalPropsType
-  ) => React.JSX.Element;
+  ) => JSX.Element;
 };
 
 enum Stage {
@@ -147,7 +147,7 @@ export function AddGroupMembersModal({
   requestState,
   renderChooseGroupMembersModal,
   renderConfirmAdditionsModal,
-}: PropsType): React.JSX.Element {
+}: PropsType): JSX.Element {
   const numberOfContactsAlreadyInGroup = conversationIdsAlreadyInGroup.size;
   const isGroupAlreadyFull = numberOfContactsAlreadyInGroup >= maxGroupSize;
   const isGroupAlreadyOverRecommendedMaximum =

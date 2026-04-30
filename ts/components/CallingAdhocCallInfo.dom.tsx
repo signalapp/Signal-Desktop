@@ -1,7 +1,7 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import { useCallback, useState, useMemo, type JSX, type Key } from 'react';
 import classNames from 'classnames';
 
 import lodash from 'lodash';
@@ -43,15 +43,15 @@ function UnknownContacts({
   isInAdditionToKnownContacts,
   participants,
   showUnknownContactDialog,
-}: UnknownContactsPropsType): React.JSX.Element {
-  const renderUnknownAvatar = React.useCallback(
+}: UnknownContactsPropsType): JSX.Element {
+  const renderUnknownAvatar = useCallback(
     ({
       participant,
       key,
       size,
     }: {
       participant: CallingParticipantType;
-      key: React.Key;
+      key: Key;
       size: AvatarSize;
     }) => {
       const colorIndex = participant.serviceId
@@ -133,20 +133,20 @@ export function CallingAdhocCallInfo({
   onShareCallLinkViaSignal,
   showContactModal,
   renderCallingParticipantMenu,
-}: PropsType): React.JSX.Element | null {
+}: PropsType): JSX.Element | null {
   const [isUnknownContactDialogVisible, setIsUnknownContactDialogVisible] =
-    React.useState(false);
+    useState(false);
 
-  const hideUnknownContactDialog = React.useCallback(
+  const hideUnknownContactDialog = useCallback(
     () => setIsUnknownContactDialogVisible(false),
     [setIsUnknownContactDialogVisible]
   );
-  const onClickShareCallLinkViaSignal = React.useCallback(() => {
+  const onClickShareCallLinkViaSignal = useCallback(() => {
     onClose();
     onShareCallLinkViaSignal();
   }, [onClose, onShareCallLinkViaSignal]);
 
-  const [visibleParticipants, unknownParticipants] = React.useMemo<
+  const [visibleParticipants, unknownParticipants] = useMemo<
     [Array<CallingParticipantType>, Array<CallingParticipantType>]
   >(
     () =>
@@ -157,13 +157,13 @@ export function CallingAdhocCallInfo({
       ),
     [isUnknownContactDiscrete, participants]
   );
-  const sortedParticipants = React.useMemo<Array<CallingParticipantType>>(
+  const sortedParticipants = useMemo<Array<CallingParticipantType>>(
     () => sortByTitle(visibleParticipants),
     [visibleParticipants]
   );
 
-  const renderParticipant = React.useCallback(
-    (participant: CallingParticipantType, key: React.Key) => (
+  const renderParticipant = useCallback(
+    (participant: CallingParticipantType, key: Key) => (
       <CallingParticipantListItem
         callConversationId={undefined}
         i18n={i18n}

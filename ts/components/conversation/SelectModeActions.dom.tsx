@@ -1,8 +1,9 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { JSX } from 'react';
+
 import classNames from 'classnames';
-import React from 'react';
 import type { ShowToastAction } from '../../state/ducks/toast.preload.ts';
 import { ToastType } from '../../types/Toast.dom.tsx';
 import type { LocalizerType } from '../../types/Util.std.ts';
@@ -28,7 +29,7 @@ export default function SelectModeActions({
   onForwardMessages,
   showToast,
   i18n,
-}: SelectModeActionsProps): React.JSX.Element {
+}: SelectModeActionsProps): JSX.Element {
   const hasSelectedMessages = selectedMessageIds.length >= 1;
   const tooManyMessagesToForward =
     selectedMessageIds.length > MAX_FORWARD_COUNT;

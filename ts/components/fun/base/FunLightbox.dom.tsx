@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import type { ReactNode, RefObject } from 'react';
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import type { ReactNode, RefObject, JSX } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { strictAssert } from '../../../util/assert.std.ts';
 
@@ -25,7 +25,7 @@ export type FunLightboxProviderProps = Readonly<{
 
 export function FunLightboxProvider(
   props: FunLightboxProviderProps
-): React.JSX.Element {
+): JSX.Element {
   const [lightboxKey, setLightboxKey] = useState<string | null>(null);
 
   useEffect(() => {
@@ -118,9 +118,7 @@ export type FunLightboxPortalProps = Readonly<{
   children: ReactNode;
 }>;
 
-export function FunLightboxPortal(
-  props: FunLightboxPortalProps
-): React.JSX.Element {
+export function FunLightboxPortal(props: FunLightboxPortalProps): JSX.Element {
   return createPortal(props.children, document.body);
 }
 
@@ -134,7 +132,7 @@ export type FunLightboxBackdropProps = Readonly<{
 
 export function FunLightboxBackdrop(
   props: FunLightboxBackdropProps
-): React.JSX.Element {
+): JSX.Element {
   return <div className="FunLightbox__Backdrop">{props.children}</div>;
 }
 
@@ -147,9 +145,7 @@ export type FunLightboxDialogProps = Readonly<{
   children: ReactNode;
 }>;
 
-export function FunLightboxDialog(
-  props: FunLightboxDialogProps
-): React.JSX.Element {
+export function FunLightboxDialog(props: FunLightboxDialogProps): JSX.Element {
   return (
     <div
       role="dialog"

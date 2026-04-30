@@ -1,8 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ComponentProps } from 'react';
-import React from 'react';
+import type { ComponentProps, JSX } from 'react';
 import { action } from '@storybook/addon-actions';
 
 import type { Meta } from '@storybook/react';
@@ -31,15 +30,15 @@ const defaultProps: ComponentProps<typeof BadgeDialog> = {
   title: 'Alice Levine',
 };
 
-export function NoBadgesClosedImmediately(): React.JSX.Element {
+export function NoBadgesClosedImmediately(): JSX.Element {
   return <BadgeDialog {...defaultProps} badges={[]} />;
 }
 
-export function OneBadge(): React.JSX.Element {
+export function OneBadge(): JSX.Element {
   return <BadgeDialog {...defaultProps} badges={getFakeBadges(1)} />;
 }
 
-export function BadgeWithNoImageShouldBeImpossible(): React.JSX.Element {
+export function BadgeWithNoImageShouldBeImpossible(): JSX.Element {
   return (
     <BadgeDialog
       {...defaultProps}
@@ -53,7 +52,7 @@ export function BadgeWithNoImageShouldBeImpossible(): React.JSX.Element {
   );
 }
 
-export function BadgeWithPendingImage(): React.JSX.Element {
+export function BadgeWithPendingImage(): JSX.Element {
   return (
     <BadgeDialog
       {...defaultProps}
@@ -72,7 +71,7 @@ export function BadgeWithPendingImage(): React.JSX.Element {
   );
 }
 
-export function BadgeWithOnlyOneLowDetailImage(): React.JSX.Element {
+export function BadgeWithOnlyOneLowDetailImage(): JSX.Element {
   return (
     <BadgeDialog
       {...defaultProps}
@@ -100,15 +99,15 @@ export function BadgeWithOnlyOneLowDetailImage(): React.JSX.Element {
   );
 }
 
-export function FiveBadges(): React.JSX.Element {
+export function FiveBadges(): JSX.Element {
   return <BadgeDialog {...defaultProps} badges={getFakeBadges(5)} />;
 }
 
-export function ManyBadges(): React.JSX.Element {
+export function ManyBadges(): JSX.Element {
   return <BadgeDialog {...defaultProps} badges={getFakeBadges(50)} />;
 }
 
-export function ManyBadgesUserIsASubscriber(): React.JSX.Element {
+export function ManyBadgesUserIsASubscriber(): JSX.Element {
   return (
     <BadgeDialog
       {...defaultProps}

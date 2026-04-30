@@ -1,8 +1,8 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { FC } from 'react';
-import React, { memo } from 'react';
+import type { FC, JSX } from 'react';
+import { memo } from 'react';
 import type { AxoBaseMenu } from './_internal/AxoBaseMenu.dom.tsx';
 import { unreachable } from './_internal/assert.std.tsx';
 import { AxoDropdownMenu } from './AxoDropdownMenu.dom.tsx';
@@ -30,7 +30,7 @@ export namespace AxoMenuBuilder {
   export const Root: FC<RootProps> = memo(props => {
     const { renderer, ...rest } = props;
 
-    let child: React.JSX.Element;
+    let child: JSX.Element;
     if (renderer === 'AxoDropdownMenu') {
       child = <AxoDropdownMenu.Root {...rest} />;
     } else if (renderer === 'AxoContextMenu') {

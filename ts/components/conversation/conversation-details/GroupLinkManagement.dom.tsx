@@ -1,6 +1,6 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import React, { useId, useState } from 'react';
+import { useId, useState, type JSX } from 'react';
 import type { ConversationType } from '../../../state/ducks/conversations.preload.ts';
 import type { LocalizerType } from '../../../types/Util.std.ts';
 import { ConfirmationDialog } from '../../ConfirmationDialog.dom.tsx';
@@ -40,7 +40,7 @@ export function GroupLinkManagement({
   i18n,
   isAdmin,
   setAccessControlAddFromInviteLinkSetting,
-}: PropsType): React.JSX.Element {
+}: PropsType): JSX.Element {
   const groupLinkSelectId = useId();
   const approveSelectId = useId();
 
@@ -67,7 +67,7 @@ export function GroupLinkManagement({
     conversation.accessControlAddFromInviteLink !==
       AccessControlEnum.UNSATISFIABLE;
 
-  let groupLinkInfo: React.JSX.Element | undefined;
+  let groupLinkInfo: JSX.Element | undefined;
   if (hasGroupLink) {
     groupLinkInfo = (
       <button

@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import type { JSX } from 'react';
 
 import type { ComponentMeta } from '../storybook/types.std.ts';
 import type { Props } from './I18n.dom.tsx';
@@ -21,13 +21,13 @@ export default {
 
 export function NoReplacements(
   args: Props<'icu:deleteAndRestart'>
-): React.JSX.Element {
+): JSX.Element {
   return <I18n {...args} id="icu:deleteAndRestart" />;
 }
 
 export function SingleStringReplacement(
   args: Props<'icu:leftTheGroup'>
-): React.JSX.Element {
+): JSX.Element {
   return (
     <I18n {...args} id="icu:leftTheGroup" components={{ name: 'Theodora' }} />
   );
@@ -35,7 +35,7 @@ export function SingleStringReplacement(
 
 export function SingleTagReplacement(
   args: Props<'icu:leftTheGroup'>
-): React.JSX.Element {
+): JSX.Element {
   return (
     <I18n
       {...args}
@@ -53,7 +53,7 @@ export function SingleTagReplacement(
 
 export function MultipleStringReplacement(
   args: Props<'icu:changedRightAfterVerify'>
-): React.JSX.Element {
+): JSX.Element {
   return (
     <I18n
       {...args}
@@ -65,7 +65,7 @@ export function MultipleStringReplacement(
 
 export function MultipleTagReplacement(
   args: Props<'icu:changedRightAfterVerify'>
-): React.JSX.Element {
+): JSX.Element {
   return (
     <I18n
       {...args}
@@ -77,7 +77,7 @@ export function MultipleTagReplacement(
 
 export function Emoji(
   args: Props<'icu:Message__reaction-emoji-label--you'>
-): React.JSX.Element {
+): JSX.Element {
   return (
     <I18n
       {...args}

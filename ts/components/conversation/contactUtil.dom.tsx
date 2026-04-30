@@ -1,7 +1,8 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { JSX } from 'react';
+
 import classNames from 'classnames';
 import type { ReadonlyDeep } from 'type-fest';
 
@@ -23,7 +24,7 @@ export function renderAvatar({
   direction?: 'outgoing' | 'incoming';
   i18n: LocalizerType;
   size: 52 | 80;
-}): React.JSX.Element {
+}): JSX.Element {
   const { avatar } = contact;
 
   const avatarUrl = avatar && avatar.avatar && avatar.avatar.url;
@@ -64,7 +65,7 @@ export function renderName({
   contact: ReadonlyDeep<EmbeddedContactForUIType>;
   isIncoming: boolean;
   module: string;
-}): React.JSX.Element {
+}): JSX.Element {
   return (
     <div
       className={classNames(
@@ -85,7 +86,7 @@ export function renderContactShorthand({
   contact: ReadonlyDeep<EmbeddedContactForUIType>;
   isIncoming: boolean;
   module: string;
-}): React.JSX.Element {
+}): JSX.Element {
   const { number: phoneNumber, email } = contact;
   const firstNumber = phoneNumber && phoneNumber[0] && phoneNumber[0].value;
   const firstEmail = email && email[0] && email[0].value;

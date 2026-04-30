@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { memo, useState, useEffect, useRef } from 'react';
+import { memo, useState, useEffect, useRef, type JSX } from 'react';
 import { Checkbox } from 'radix-ui';
 import { AnimatePresence, motion } from 'motion/react';
 import { type TailwindStyles, tw } from '../../../axo/tw.dom.tsx';
@@ -21,7 +21,7 @@ function VotedCheckmark({
 }: {
   isIncoming: boolean;
   i18n: LocalizerType;
-}): React.JSX.Element {
+}): JSX.Element {
   return (
     <div
       className={tw(
@@ -165,7 +165,7 @@ export function PollMessageContents({
   canSendPollVote,
   sendPollVote,
   endPoll,
-}: PollMessageContentsProps): React.JSX.Element {
+}: PollMessageContentsProps): JSX.Element {
   const [showVotesModal, setShowVotesModal] = useState(false);
   const [isPending, setIsPending] = useState(false);
 

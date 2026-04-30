@@ -1,8 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ComponentType } from 'react';
-import React, {
+import type { ComponentType, JSX } from 'react';
+import {
   useCallback,
   useEffect,
   useMemo,
@@ -101,7 +101,7 @@ export function ForwardMessagesModal({
   showToast,
   theme,
   regionCode,
-}: PropsType): React.JSX.Element {
+}: PropsType): JSX.Element {
   const inputRef = useRef<null | HTMLInputElement>(null);
   const [selectedContacts, setSelectedContacts] = useState<
     Array<ConversationType>
@@ -134,7 +134,7 @@ export function ForwardMessagesModal({
   const canForwardMessages =
     hasContactsSelected && drafts.every(isDraftForwardable);
 
-  const forwardMessages = React.useCallback(() => {
+  const forwardMessages = useCallback(() => {
     if (!canForwardMessages) {
       showToast({ toastType: ToastType.CannotForwardEmptyMessage });
       return;
@@ -438,7 +438,7 @@ function ForwardMessageEditor({
   onChangeAttachments,
   onSubmit,
   theme,
-}: ForwardMessageEditorProps): React.JSX.Element {
+}: ForwardMessageEditorProps): JSX.Element {
   const { attachments } = draft;
   return (
     <div className="module-ForwardMessageModal__main-body">

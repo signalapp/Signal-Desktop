@@ -1,7 +1,7 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useState, useCallback } from 'react';
+import { useState, useCallback, type JSX } from 'react';
 
 import type { LocalizerType } from '../../types/Util.std.ts';
 import type { UpdatesStateType } from '../../state/ducks/updates.preload.ts';
@@ -52,9 +52,7 @@ export type PropsType = Readonly<
   )
 >;
 
-export function InstallScreenBackupImportStep(
-  props: PropsType
-): React.JSX.Element {
+export function InstallScreenBackupImportStep(props: PropsType): JSX.Element {
   const {
     i18n,
     backupStep,
@@ -88,13 +86,13 @@ export function InstallScreenBackupImportStep(
     setIsConfirmingCancel(false);
   }, [onRetry]);
 
-  const learnMoreLink = (parts: Array<string | React.JSX.Element>) => (
+  const learnMoreLink = (parts: Array<string | JSX.Element>) => (
     <a href={SYNCING_MESSAGES_SECURITY_URL} rel="noreferrer" target="_blank">
       {parts}
     </a>
   );
 
-  let errorElem: React.JSX.Element | undefined;
+  let errorElem: JSX.Element | undefined;
   if (error == null || error === InstallScreenBackupError.Canceled) {
     // no-op
   } else if (error === InstallScreenBackupError.UnsupportedVersion) {
@@ -159,7 +157,7 @@ export function InstallScreenBackupImportStep(
   }
 
   const isCanceled = error === InstallScreenBackupError.Canceled;
-  let cancelButton: React.JSX.Element | undefined;
+  let cancelButton: JSX.Element | undefined;
   if (
     !isCanceled &&
     (backupStep === InstallScreenBackupStep.Download ||
@@ -252,9 +250,7 @@ type ProgressBarPropsType = Readonly<
   )
 >;
 
-function ProgressBarAndDescription(
-  props: ProgressBarPropsType
-): React.JSX.Element {
+function ProgressBarAndDescription(props: ProgressBarPropsType): JSX.Element {
   const { backupStep, i18n, isCanceled } = props;
 
   if (isCanceled) {

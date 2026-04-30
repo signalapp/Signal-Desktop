@@ -1,8 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ReactNode } from 'react';
-import React, { useEffect, useState, useCallback } from 'react';
+import type { ReactNode, JSX } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import classNames from 'classnames';
 
 import { Button, ButtonIconType, ButtonVariant } from '../../Button.dom.tsx';
@@ -112,10 +112,10 @@ export type StateProps = {
   userAvatarData: ReadonlyArray<AvatarDataType>;
   renderChooseGroupMembersModal: (
     props: SmartChooseGroupMembersModalPropsType
-  ) => React.JSX.Element;
+  ) => JSX.Element;
   renderConfirmAdditionsModal: (
     props: SmartConfirmAdditionsModalPropsType
-  ) => React.JSX.Element;
+  ) => JSX.Element;
 };
 
 type ActionProps = {
@@ -233,7 +233,7 @@ export function ConversationDetails({
   toggleAddUserToAnotherGroupModal,
   updateGroupAttributes,
   userAvatarData,
-}: Props): React.JSX.Element {
+}: Props): JSX.Element {
   const [modalState, setModalState] = useState<ModalState>(
     ModalState.NothingOpen
   );

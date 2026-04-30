@@ -1,8 +1,8 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { FunctionComponent } from 'react';
-import React, { useCallback, useState } from 'react';
+import type { FunctionComponent, JSX } from 'react';
+import { useCallback, useState, memo } from 'react';
 
 import { ButtonVariant } from '../Button.dom.tsx';
 import { ConfirmationDialog } from '../ConfirmationDialog.dom.tsx';
@@ -28,7 +28,7 @@ type PropsHousekeeping = {
 
 export type Props = PropsData & PropsHousekeeping;
 
-export const StartNewConversation: FunctionComponent<Props> = React.memo(
+export const StartNewConversation: FunctionComponent<Props> = memo(
   function StartNewConversation({
     i18n,
     phoneNumber,
@@ -70,7 +70,7 @@ export const StartNewConversation: FunctionComponent<Props> = React.memo(
       isFetching,
     ]);
 
-    let modal: React.JSX.Element | undefined;
+    let modal: JSX.Element | undefined;
     if (isModalVisible) {
       modal = (
         <ConfirmationDialog

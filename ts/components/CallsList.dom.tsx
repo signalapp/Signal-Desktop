@@ -1,14 +1,8 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ChangeEvent } from 'react';
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import type { ChangeEvent, JSX } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { Index, IndexRange, ListRowProps } from 'react-virtualized';
 import { InfiniteLoader, List } from 'react-virtualized';
 import classNames from 'classnames';
@@ -75,7 +69,7 @@ function Timestamp({
 }: {
   i18n: LocalizerType;
   timestamp: number;
-}): React.JSX.Element {
+}): JSX.Element {
   const [now, setNow] = useState(() => Date.now());
 
   useEffect(() => {
@@ -197,7 +191,7 @@ export function CallsList({
   toggleConfirmLeaveCallModal,
   togglePip,
   getCallIdFromEra,
-}: CallsListProps): React.JSX.Element {
+}: CallsListProps): JSX.Element {
   const infiniteLoaderRef = useRef<InfiniteLoader>(null);
   const listRef = useRef<List>(null);
   const [queryInput, setQueryInput] = useState('');

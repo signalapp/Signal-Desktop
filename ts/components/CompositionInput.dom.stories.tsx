@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import { useContext, useState, type JSX } from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import { getDefaultConversation } from '../test-helpers/getDefaultConversation.std.ts';
@@ -47,7 +47,7 @@ const useProps = (overrideProps: Partial<Props> = {}): Props => {
     sortedGroupMembers: overrideProps.sortedGroupMembers ?? [],
     emojiSkinToneDefault:
       overrideProps.emojiSkinToneDefault ?? EmojiSkinTone.None,
-    theme: React.useContext(StorybookThemeContext),
+    theme: useContext(StorybookThemeContext),
     inputApi: null,
     shouldHidePopovers: null,
     linkPreviewResult: null,
@@ -57,13 +57,13 @@ const useProps = (overrideProps: Partial<Props> = {}): Props => {
   };
 };
 
-export function Default(): React.JSX.Element {
+export function Default(): JSX.Element {
   const props = useProps();
 
   return <CompositionInput {...props} />;
 }
 
-export function Large(): React.JSX.Element {
+export function Large(): JSX.Element {
   const props = useProps({
     large: true,
   });
@@ -71,7 +71,7 @@ export function Large(): React.JSX.Element {
   return <CompositionInput {...props} />;
 }
 
-export function Disabled(): React.JSX.Element {
+export function Disabled(): JSX.Element {
   const props = useProps({
     disabled: true,
   });
@@ -79,7 +79,7 @@ export function Disabled(): React.JSX.Element {
   return <CompositionInput {...props} />;
 }
 
-export function StartingText(): React.JSX.Element {
+export function StartingText(): JSX.Element {
   const props = useProps({
     draftText: "here's some starting text",
   });
@@ -87,7 +87,7 @@ export function StartingText(): React.JSX.Element {
   return <CompositionInput {...props} />;
 }
 
-export function MultilineText(): React.JSX.Element {
+export function MultilineText(): JSX.Element {
   const props = useProps({
     draftText: `here's some starting text
 and more on another line
@@ -103,7 +103,7 @@ and we're done`,
   return <CompositionInput {...props} />;
 }
 
-export function Emojis(): React.JSX.Element {
+export function Emojis(): JSX.Element {
   const props = useProps({
     draftText: `⁣😐😐😐😐😐😐😐
 😐😐😐😐😐😐😐
@@ -115,7 +115,7 @@ export function Emojis(): React.JSX.Element {
   return <CompositionInput {...props} />;
 }
 
-export function Mentions(): React.JSX.Element {
+export function Mentions(): JSX.Element {
   const props = useProps({
     sortedGroupMembers: [
       getDefaultConversation({
@@ -140,12 +140,12 @@ export function Mentions(): React.JSX.Element {
   return <CompositionInput {...props} />;
 }
 
-export function NoFormattingMenu(): React.JSX.Element {
+export function NoFormattingMenu(): JSX.Element {
   return <CompositionInput {...useProps({ isFormattingEnabled: false })} />;
 }
 
-export function ViewOnceButton(): React.JSX.Element {
-  const [isActive, setIsActive] = React.useState(false);
+export function ViewOnceButton(): JSX.Element {
+  const [isActive, setIsActive] = useState(false);
   const props = useProps();
 
   return (
@@ -158,7 +158,7 @@ export function ViewOnceButton(): React.JSX.Element {
   );
 }
 
-export function ViewOnceButtonActive(): React.JSX.Element {
+export function ViewOnceButtonActive(): JSX.Element {
   const props = useProps();
 
   return (

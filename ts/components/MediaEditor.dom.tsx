@@ -1,13 +1,14 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, {
+import {
   useCallback,
   useEffect,
   useId,
   useMemo,
   useRef,
   useState,
+  type JSX,
 } from 'react';
 import classNames from 'classnames';
 import { createPortal } from 'react-dom';
@@ -183,7 +184,7 @@ export function MediaEditor({
   sortedGroupMembers,
   convertDraftBodyRangesIntoHydrated,
   imageToBlurHash,
-}: PropsType): React.JSX.Element | null {
+}: PropsType): JSX.Element | null {
   const [fabricCanvas, setFabricCanvas] = useState<fabric.Canvas | undefined>();
   const [image, setImage] = useState<HTMLImageElement>(new Image());
   const [stickerPickerOpen, setStickerPickerOpen] = useState(false);
@@ -884,7 +885,7 @@ export function MediaEditor({
     return null;
   }
 
-  let toolElement: React.JSX.Element | undefined;
+  let toolElement: JSX.Element | undefined;
   if (editMode === EditMode.Text) {
     toolElement = (
       <>

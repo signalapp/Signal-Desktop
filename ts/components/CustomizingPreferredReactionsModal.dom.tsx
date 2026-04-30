@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useState, useCallback, useRef } from 'react';
+import { useState, useCallback, useRef, type JSX } from 'react';
 import lodash from 'lodash';
 
 import type { LocalizerType } from '../types/Util.std.ts';
@@ -56,7 +56,7 @@ export function CustomizingPreferredReactionsModal({
   savePreferredReactions,
   selectDraftEmojiToBeReplaced,
   selectedDraftEmojiIndex,
-}: Readonly<PropsType>): React.JSX.Element {
+}: Readonly<PropsType>): JSX.Element {
   const pickerRef = useRef<HTMLDivElement>(null);
 
   const isSomethingSelected = selectedDraftEmojiIndex !== undefined;

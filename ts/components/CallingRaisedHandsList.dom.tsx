@@ -1,7 +1,7 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef, useMemo, useState, type JSX } from 'react';
 import { animated, useSpring } from '@react-spring/web';
 
 import { Avatar, AvatarSize } from './Avatar.dom.tsx';
@@ -36,12 +36,12 @@ export function CallingRaisedHandsList({
   conversationsByDemuxId,
   raisedHands,
   localHandRaised,
-}: PropsType): React.JSX.Element | null {
+}: PropsType): JSX.Element | null {
   const ourServiceId: ServiceIdString | undefined = localDemuxId
     ? conversationsByDemuxId.get(localDemuxId)?.serviceId
     : undefined;
 
-  const participants = React.useMemo<Array<ConversationType>>(() => {
+  const participants = useMemo<Array<ConversationType>>(() => {
     const serviceIds = new Set<ServiceIdString>();
     const conversations: Array<ConversationType> = [];
     raisedHands.forEach(demuxId => {
@@ -175,8 +175,8 @@ export function CallingRaisedHandsListButton({
   syncedLocalHandRaised,
   raisedHandsCount,
   onClick,
-}: CallingRaisedHandsListButtonPropsType): React.JSX.Element | null {
-  const [isVisible, setIsVisible] = React.useState(raisedHandsCount > 0);
+}: CallingRaisedHandsListButtonPropsType): JSX.Element | null {
+  const [isVisible, setIsVisible] = useState(raisedHandsCount > 0);
 
   const reducedMotion = useReducedMotion();
 

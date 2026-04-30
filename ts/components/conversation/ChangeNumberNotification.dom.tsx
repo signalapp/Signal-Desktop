@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { JSX } from 'react';
 
 import type { ConversationType } from '../../state/ducks/conversations.preload.ts';
 import type { LocalizerType } from '../../types/Util.std.ts';
@@ -22,7 +22,7 @@ export type PropsHousekeeping = {
 
 export type Props = PropsData & PropsHousekeeping;
 
-export function ChangeNumberNotification(props: Props): React.JSX.Element {
+export function ChangeNumberNotification(props: Props): JSX.Element {
   const { i18n, sender, timestamp } = props;
 
   return (

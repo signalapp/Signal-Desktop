@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import type { ReactNode, ErrorInfo } from 'react';
-import React, { Component, useCallback } from 'react';
+import type { ReactNode, ErrorInfo, JSX } from 'react';
+import { Component, useCallback } from 'react';
 import { createLogger } from '../../../logging/log.std.ts';
 import * as Errors from '../../../types/errors.std.ts';
 import { ToastType } from '../../../types/Toast.dom.tsx';
@@ -44,9 +44,7 @@ export type FunErrorBoundaryProps = Readonly<{
   children: ReactNode;
 }>;
 
-export function FunErrorBoundary(
-  props: FunErrorBoundaryProps
-): React.JSX.Element {
+export function FunErrorBoundary(props: FunErrorBoundaryProps): JSX.Element {
   const fallback = useCallback(() => {
     return <div className="FunErrorBoundary" />;
   }, []);

@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useState } from 'react';
+import { useState, type JSX } from 'react';
 import type { ShowConversationType } from '../state/ducks/conversations.preload.ts';
 import { I18n } from './I18n.dom.tsx';
 import type { LocalizerType, ThemeType } from '../types/Util.std.ts';
@@ -30,7 +30,7 @@ export function AnnouncementsOnlyGroupBanner({
   memberColors,
   showConversation,
   theme,
-}: PropsType): React.JSX.Element {
+}: PropsType): JSX.Element {
   const [isShowingAdmins, setIsShowingAdmins] = useState(false);
 
   return (

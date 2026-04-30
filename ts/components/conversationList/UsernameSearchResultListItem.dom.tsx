@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useCallback } from 'react';
+import { useCallback, type JSX } from 'react';
 
 import { SPINNER_CLASS_NAME } from './BaseConversationListItem.dom.tsx';
 import { ListTile } from '../ListTile.dom.tsx';
@@ -32,7 +32,7 @@ export function UsernameSearchResultListItem({
   showUserNotFoundModal,
   setIsFetchingUUID,
   showConversation,
-}: Props): React.JSX.Element {
+}: Props): JSX.Element {
   const boundOnClick = useCallback(async () => {
     if (isFetchingUsername) {
       return;

@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import type { Meta } from '@storybook/react';
-import React, { useState } from 'react';
+import { useState, type JSX } from 'react';
 import { ExperimentalAxoSegmentedControl } from './AxoSegmentedControl.dom.tsx';
 import { tw } from './tw.dom.tsx';
 
@@ -103,18 +103,18 @@ function TemplateVariants(props: {
   );
 }
 
-export function Basic(): React.JSX.Element {
+export function Basic(): JSX.Element {
   return <TemplateVariants />;
 }
 
-export function LongNames(): React.JSX.Element {
+export function LongNames(): JSX.Element {
   return <TemplateVariants longNames />;
 }
 
-export function WithBadges(): React.JSX.Element {
+export function WithBadges(): JSX.Element {
   return <TemplateVariants includeBadges />;
 }
 
-export function LongNamesWithBadges(): React.JSX.Element {
+export function LongNamesWithBadges(): JSX.Element {
   return <TemplateVariants longNames includeBadges />;
 }

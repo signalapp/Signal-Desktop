@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState, type JSX } from 'react';
 
 import { AvatarColorPicker } from './AvatarColorPicker.dom.tsx';
 import type { AvatarColorType } from '../types/Colors.std.ts';
@@ -21,7 +21,7 @@ export function AvatarIconEditor({
   avatarData: initialAvatarData,
   i18n,
   onClose,
-}: PropsType): React.JSX.Element {
+}: PropsType): JSX.Element {
   const [avatarBuffer, setAvatarBuffer] = useState<
     Uint8Array<ArrayBuffer> | undefined
   >();

@@ -1,8 +1,9 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { JSX } from 'react';
+
 import classNames from 'classnames';
-import React from 'react';
 
 import type { LocalizerType } from '../../types/Util.std.ts';
 import { getClassNamesFor } from '../../util/getClassNamesFor.std.ts';
@@ -24,7 +25,7 @@ export function ScrollDownButton({
   count,
   onClick,
   i18n,
-}: ScrollDownButtonPropsType): React.JSX.Element {
+}: ScrollDownButtonPropsType): JSX.Element {
   const getClassName = getClassNamesFor('ScrollDownButton');
 
   let badgeText: string | undefined;

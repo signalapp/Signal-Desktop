@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import { useContext, type JSX } from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import { StorybookThemeContext } from '../../../.storybook/StorybookThemeContext.std.ts';
@@ -57,10 +57,10 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   isSelected: overrideProps.isSelected || false,
   showConversation: action('showConversation'),
   isSearchingInConversation: overrideProps.isSearchingInConversation || false,
-  theme: React.useContext(StorybookThemeContext),
+  theme: useContext(StorybookThemeContext),
 });
 
-export function Default(): React.JSX.Element {
+export function Default(): JSX.Element {
   const props = useProps({
     from: someone,
     to: me,
@@ -69,7 +69,7 @@ export function Default(): React.JSX.Element {
   return <MessageSearchResult {...props} />;
 }
 
-export function SenderHasABadge(): React.JSX.Element {
+export function SenderHasABadge(): JSX.Element {
   const props = useProps({
     from: { ...someone, badges: [{ id: 'sender badge' }] },
     to: me,
@@ -85,7 +85,7 @@ export function SenderHasABadge(): React.JSX.Element {
   return <MessageSearchResult {...props} />;
 }
 
-export function Selected(): React.JSX.Element {
+export function Selected(): JSX.Element {
   const props = useProps({
     from: someone,
     to: me,
@@ -95,7 +95,7 @@ export function Selected(): React.JSX.Element {
   return <MessageSearchResult {...props} />;
 }
 
-export function FromYou(): React.JSX.Element {
+export function FromYou(): JSX.Element {
   const props = useProps({
     from: me,
     to: someone,
@@ -104,7 +104,7 @@ export function FromYou(): React.JSX.Element {
   return <MessageSearchResult {...props} />;
 }
 
-export function SearchingInConversation(): React.JSX.Element {
+export function SearchingInConversation(): JSX.Element {
   const props = useProps({
     from: me,
     to: someone,
@@ -114,7 +114,7 @@ export function SearchingInConversation(): React.JSX.Element {
   return <MessageSearchResult {...props} />;
 }
 
-export function FromYouToYourself(): React.JSX.Element {
+export function FromYouToYourself(): JSX.Element {
   const props = useProps({
     from: me,
     to: me,
@@ -123,7 +123,7 @@ export function FromYouToYourself(): React.JSX.Element {
   return <MessageSearchResult {...props} />;
 }
 
-export function FromYouToGroup(): React.JSX.Element {
+export function FromYouToGroup(): JSX.Element {
   const props = useProps({
     from: me,
     to: group,
@@ -132,7 +132,7 @@ export function FromYouToGroup(): React.JSX.Element {
   return <MessageSearchResult {...props} />;
 }
 
-export function FromSomeoneToGroup(): React.JSX.Element {
+export function FromSomeoneToGroup(): JSX.Element {
   const props = useProps({
     from: someone,
     to: group,
@@ -141,7 +141,7 @@ export function FromSomeoneToGroup(): React.JSX.Element {
   return <MessageSearchResult {...props} />;
 }
 
-export function LongSearchResult(): React.JSX.Element {
+export function LongSearchResult(): JSX.Element {
   const props1 = useProps({
     from: someone,
     to: me,
@@ -166,13 +166,13 @@ export function LongSearchResult(): React.JSX.Element {
   );
 }
 
-export function EmptyShouldBeInvalid(): React.JSX.Element {
+export function EmptyShouldBeInvalid(): JSX.Element {
   const props = useProps();
 
   return <MessageSearchResult {...props} />;
 }
 
-export function Mention(): React.JSX.Element {
+export function Mention(): JSX.Element {
   const props = useProps({
     body: 'moss banana twine sound lake zoo brain count vacuum work stairs try power forget hair dry diary years no results \uFFFC elephant sorry umbrella potato igloo kangaroo home Georgia bayonet vector orange forge diary zebra turtle rise front \uFFFC',
     bodyRanges: [
@@ -200,7 +200,7 @@ export function Mention(): React.JSX.Element {
   return <MessageSearchResult {...props} />;
 }
 
-export function MentionRegexp(): React.JSX.Element {
+export function MentionRegexp(): JSX.Element {
   const props = useProps({
     body: '\uFFFC This is a (long) /text/ ^$ that is ... specially **crafted** to (test) our regexp escaping mechanism! Making sure that the code we write works in all sorts of scenarios',
     bodyRanges: [
@@ -221,7 +221,7 @@ export function MentionRegexp(): React.JSX.Element {
   return <MessageSearchResult {...props} />;
 }
 
-export function MentionNoMatches(): React.JSX.Element {
+export function MentionNoMatches(): JSX.Element {
   const props = useProps({
     body: '\uFFFC hello',
     bodyRanges: [
@@ -241,7 +241,7 @@ export function MentionNoMatches(): React.JSX.Element {
   return <MessageSearchResult {...props} />;
 }
 
-export const MentionNoMatches2 = (): React.JSX.Element => {
+export const MentionNoMatches2 = (): JSX.Element => {
   const props = useProps({
     body: 'moss banana twine sound lake zoo brain count vacuum work stairs try power forget hair dry diary years no results \uFFFC elephant sorry umbrella potato igloo kangaroo home Georgia bayonet vector orange forge diary zebra turtle rise front \uFFFC',
     bodyRanges: [
@@ -269,7 +269,7 @@ export const MentionNoMatches2 = (): React.JSX.Element => {
   return <MessageSearchResult {...props} />;
 };
 
-export function DoubleMention(): React.JSX.Element {
+export function DoubleMention(): JSX.Element {
   const props = useProps({
     body: 'Hey \uFFFC \uFFFC --- test! Two mentions!',
     bodyRanges: [
@@ -296,7 +296,7 @@ export function DoubleMention(): React.JSX.Element {
   return <MessageSearchResult {...props} />;
 }
 
-export function WithFormatting(): React.JSX.Element {
+export function WithFormatting(): JSX.Element {
   const props = useProps({
     body: "We're playing with formatting in fun ways like you do!",
     bodyRanges: [

@@ -1,7 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { JSX } from 'react';
+
 import { action } from '@storybook/addon-actions';
 
 import type { Meta } from '@storybook/react';
@@ -24,11 +25,11 @@ export default {
   title: 'Components/CallingScreenSharingController',
 } satisfies Meta<PropsType>;
 
-export function Controller(): React.JSX.Element {
+export function Controller(): JSX.Element {
   return <CallingScreenSharingController {...createProps()} />;
 }
 
-export function ReallyLongAppName(): React.JSX.Element {
+export function ReallyLongAppName(): JSX.Element {
   return (
     <CallingScreenSharingController
       {...createProps({
@@ -39,7 +40,7 @@ export function ReallyLongAppName(): React.JSX.Element {
   );
 }
 
-export function Reconnecting(): React.JSX.Element {
+export function Reconnecting(): JSX.Element {
   return (
     <CallingScreenSharingController
       {...createProps({

@@ -1,7 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { JSX } from 'react';
+
 import type { Meta } from '@storybook/react';
 import {
   IdenticonSVGForCallLink,
@@ -14,8 +15,8 @@ export default {
   title: 'Components/IdenticonSVG',
 } satisfies Meta;
 
-export function AllColorsForContact(): React.JSX.Element {
-  const stories: Array<React.JSX.Element> = [];
+export function AllColorsForContact(): JSX.Element {
+  const stories: Array<JSX.Element> = [];
 
   AvatarColorMap.forEach(value =>
     stories.push(
@@ -30,8 +31,8 @@ export function AllColorsForContact(): React.JSX.Element {
   return <>{stories}</>;
 }
 
-export function AllColorsForGroup(): React.JSX.Element {
-  const stories: Array<React.JSX.Element> = [];
+export function AllColorsForGroup(): JSX.Element {
+  const stories: Array<JSX.Element> = [];
 
   AvatarColorMap.forEach(value =>
     stories.push(
@@ -45,8 +46,8 @@ export function AllColorsForGroup(): React.JSX.Element {
   return <>{stories}</>;
 }
 
-export function AllColorsForCallLink(): React.JSX.Element {
-  const stories: Array<React.JSX.Element> = [];
+export function AllColorsForCallLink(): JSX.Element {
+  const stories: Array<JSX.Element> = [];
 
   AvatarColorMap.forEach(value =>
     stories.push(

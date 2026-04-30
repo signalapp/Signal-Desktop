@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { memo, useState, useEffect, useCallback } from 'react';
+import { memo, useState, useEffect, useCallback } from 'react';
 import lodash from 'lodash';
 import { useSelector } from 'react-redux';
 import { SafetyNumberViewer } from '../../components/SafetyNumberViewer.dom.tsx';

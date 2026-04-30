@@ -1,7 +1,7 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import { memo, type FunctionComponent, type ReactNode } from 'react';
 import type { LocalizerType, ThemeType } from '../types/Util.std.ts';
 import type { ConversationType } from '../state/ducks/conversations.preload.ts';
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges.preload.ts';
@@ -28,8 +28,8 @@ type ActionsPropsType = Readonly<{
 
 export type PropsType = DataPropsType & ActionsPropsType;
 
-export const GroupV1MigrationDialog: React.FunctionComponent<PropsType> =
-  React.memo(function GroupV1MigrationDialogInner({
+export const GroupV1MigrationDialog: FunctionComponent<PropsType> = memo(
+  function GroupV1MigrationDialogInner({
     areWeInvited,
     droppedMembers,
     droppedMemberCount,
@@ -105,7 +105,8 @@ export const GroupV1MigrationDialog: React.FunctionComponent<PropsType> =
         )}
       </GroupDialog>
     );
-  });
+  }
+);
 
 function renderMembers({
   getPreferredBadge,
@@ -123,7 +124,7 @@ function renderMembers({
   hasMigrated: boolean;
   kind: 'invited' | 'dropped';
   theme: ThemeType;
-}>): React.ReactNode {
+}>): ReactNode {
   if (count === 0) {
     return null;
   }

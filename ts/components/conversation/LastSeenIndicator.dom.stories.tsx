@@ -1,7 +1,8 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import type { JSX } from 'react';
+
 import type { Meta } from '@storybook/react';
 import type { Props } from './LastSeenIndicator.dom.tsx';
 import { LastSeenIndicator } from './LastSeenIndicator.dom.tsx';
@@ -19,10 +20,10 @@ export default {
   },
 } satisfies Meta<Props>;
 
-export function One(args: Props): React.JSX.Element {
+export function One(args: Props): JSX.Element {
   return <LastSeenIndicator {...args} />;
 }
 
-export function MoreThanOne(args: Props): React.JSX.Element {
+export function MoreThanOne(args: Props): JSX.Element {
   return <LastSeenIndicator {...args} count={5} />;
 }

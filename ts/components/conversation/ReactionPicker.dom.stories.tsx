@@ -1,7 +1,8 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import type { JSX } from 'react';
+
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import type { Props as ReactionPickerProps } from './ReactionPicker.dom.tsx';
@@ -14,7 +15,7 @@ export default {
   title: 'Components/Conversation/ReactionPicker',
 } satisfies Meta<ReactionPickerProps>;
 
-export function Base(): React.JSX.Element {
+export function Base(): JSX.Element {
   return (
     <ReactionPicker
       i18n={i18n}
@@ -24,7 +25,7 @@ export function Base(): React.JSX.Element {
   );
 }
 
-export function SelectedReaction(): React.JSX.Element {
+export function SelectedReaction(): JSX.Element {
   return (
     <>
       {['❤️', '👍', '👎', '😂', '😮', '😢', '😡'].map(e => (

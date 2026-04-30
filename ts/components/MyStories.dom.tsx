@@ -1,7 +1,7 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useState } from 'react';
+import { useState, type JSX } from 'react';
 import type { MyStoryType, StoryViewType } from '../types/Stories.std.ts';
 import {
   ResolvedSendStatus,
@@ -43,7 +43,7 @@ export type PropsType = {
   preferredLeftPaneWidth: number;
   renderToastManager: (_: {
     containerWidthBreakpoint: WidthBreakpoint;
-  }) => React.JSX.Element;
+  }) => JSX.Element;
   savePreferredLeftPaneWidth: (preferredLeftPaneWidth: number) => void;
   theme: ThemeType;
 };
@@ -69,7 +69,7 @@ export function MyStories({
   renderToastManager,
   savePreferredLeftPaneWidth,
   theme,
-}: PropsType): React.JSX.Element {
+}: PropsType): JSX.Element {
   const [confirmDeleteStory, setConfirmDeleteStory] = useState<
     StoryViewType | undefined
   >();
@@ -173,7 +173,7 @@ function StorySent({
   story,
   theme,
   viewStory,
-}: StorySentPropsType): React.JSX.Element {
+}: StorySentPropsType): JSX.Element {
   const sendStatus = resolveStorySendStatus(story.sendState ?? []);
   const { renderAlert, setWasManuallyRetried, wasManuallyRetried } =
     useRetryStorySend(i18n, sendStatus);

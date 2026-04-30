@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { type ReactNode } from 'react';
+import { type ReactNode, type JSX } from 'react';
 import classNames from 'classnames';
 
 import { SpinnerV2 } from '../SpinnerV2.dom.tsx';
@@ -20,7 +20,7 @@ export function AttachmentStatusIcon({
   attachment,
   isIncoming,
   children,
-}: PropsType): React.JSX.Element | null {
+}: PropsType): JSX.Element | null {
   const status = useAttachmentStatus(attachment);
 
   if (status.state === 'NeedsDownload') {

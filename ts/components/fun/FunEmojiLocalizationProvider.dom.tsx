@@ -1,6 +1,6 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import React, {
+import {
   createContext,
   memo,
   type ReactNode,
@@ -8,6 +8,7 @@ import React, {
   useEffect,
   useMemo,
   useState,
+  type JSX,
 } from 'react';
 import type { LocaleEmojiListType } from '../../types/emoji.std.ts';
 import { createLogger } from '../../logging/log.std.ts';
@@ -79,7 +80,7 @@ export type FunEmptyEmojiLocalizationProviderProps = Readonly<{
 
 export function FunDefaultEnglishEmojiLocalizationProvider(
   props: FunEmptyEmojiLocalizationProviderProps
-): React.JSX.Element {
+): JSX.Element {
   const context = useMemo(() => {
     return {
       emojiSearchIndex: getEmojiDefaultEnglishSearchIndex(),

@@ -1,7 +1,7 @@
 // Copyright 2026 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { type JSX } from 'react';
+import { type JSX } from 'react';
 import { tw } from '../../axo/tw.dom.tsx';
 import { AxoSymbol } from '../../axo/AxoSymbol.dom.tsx';
 

@@ -1,8 +1,9 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { JSX } from 'react';
+
 import classNames from 'classnames';
-import React from 'react';
 import { createPortal } from 'react-dom';
 
 import { SECOND } from '../util/durations/index.std.ts';
@@ -62,7 +63,7 @@ function renderToast({
   setDidResumeDonation,
   OS,
   toast,
-}: PropsType): React.JSX.Element | null {
+}: PropsType): JSX.Element | null {
   if (toast === undefined) {
     return null;
   }
@@ -1020,7 +1021,7 @@ function renderMegaphone({
   megaphone,
   containerWidthBreakpoint,
   expandNarrowLeftPane,
-}: PropsType): React.JSX.Element | null {
+}: PropsType): JSX.Element | null {
   if (!megaphone) {
     return null;
   }
@@ -1043,7 +1044,7 @@ function renderMegaphone({
   throw missingCaseError(megaphone);
 }
 
-export function ToastManager(props: PropsType): React.JSX.Element {
+export function ToastManager(props: PropsType): JSX.Element {
   const {
     centerToast,
     containerWidthBreakpoint,

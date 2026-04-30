@@ -1,6 +1,6 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import React, { memo, useCallback } from 'react';
+import { memo, useCallback, type JSX } from 'react';
 import { useSelector } from 'react-redux';
 import { getConversationSelector } from '../selectors/conversations.dom.ts';
 import { getEditNicknameAndNoteModalProps } from '../selectors/globalModals.std.ts';
@@ -12,7 +12,7 @@ import type { NicknameAndNote } from '../ducks/conversations.preload.ts';
 import { useConversationsActions } from '../ducks/conversations.preload.ts';
 
 export const SmartEditNicknameAndNoteModal = memo(
-  function SmartEditNicknameAndNoteModal(): React.JSX.Element {
+  function SmartEditNicknameAndNoteModal(): JSX.Element {
     const props = useSelector(getEditNicknameAndNoteModalProps);
     strictAssert(props != null, 'EditNicknameAndNoteModal requires props');
     const { conversationId } = props;

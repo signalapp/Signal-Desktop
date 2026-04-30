@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useState } from 'react';
+import { useState, type JSX } from 'react';
 import { Button, ButtonVariant } from './Button.dom.tsx';
 import { GradientDial, KnobType } from './GradientDial.dom.tsx';
 import { SampleMessageBubbles } from './SampleMessageBubbles.dom.tsx';
@@ -47,7 +47,7 @@ export function CustomColorEditor({
   i18n,
   onClose,
   onSave,
-}: PropsType): React.JSX.Element {
+}: PropsType): JSX.Element {
   const [color, setColor] = useState<CustomColorType>(customColor);
   const [selectedColorKnob, setSelectedColorKnob] = useState<KnobType>(
     KnobType.start

@@ -1,7 +1,7 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import { memo, createRef, useState, useEffect, useCallback } from 'react';
 import { StickerManagerPackRow } from './StickerManagerPackRow.dom.tsx';
 import { StickerPreviewModal } from './StickerPreviewModal.dom.tsx';
 import type { LocalizerType } from '../../types/Util.std.ts';
@@ -39,7 +39,7 @@ enum TabViews {
   Installed = 'Installed',
 }
 
-export const StickerManager = React.memo(function StickerManagerInner({
+export const StickerManager = memo(function StickerManagerInner({
   blessedPacks,
   closeStickerPackPreview,
   downloadStickerPack,
@@ -50,11 +50,12 @@ export const StickerManager = React.memo(function StickerManagerInner({
   receivedPacks,
   uninstallStickerPack,
 }: Props) {
-  const focusRef = React.createRef<HTMLDivElement>();
-  const [packToPreview, setPackToPreview] =
-    React.useState<StickerPackType | null>(null);
+  const focusRef = createRef<HTMLDivElement>();
+  const [packToPreview, setPackToPreview] = useState<StickerPackType | null>(
+    null
+  );
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!knownPacks) {
       return;
     }
@@ -73,11 +74,11 @@ export const StickerManager = React.memo(function StickerManagerInner({
     // oxlint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const clearPackToPreview = React.useCallback(() => {
+  const clearPackToPreview = useCallback(() => {
     setPackToPreview(null);
   }, [setPackToPreview]);
 
-  const previewPack = React.useCallback((pack: StickerPackType) => {
+  const previewPack = useCallback((pack: StickerPackType) => {
     setPackToPreview(pack);
   }, []);
 

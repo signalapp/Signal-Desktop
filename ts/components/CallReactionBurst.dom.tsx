@@ -1,7 +1,7 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, {
+import {
   createContext,
   useCallback,
   useContext,
@@ -9,6 +9,10 @@ import React, {
   useMemo,
   useRef,
   useState,
+  useLayoutEffect,
+  type ReactNode,
+  type RefObject,
+  type JSX,
 } from 'react';
 import { createPortal } from 'react-dom';
 import { v4 as uuid } from 'uuid';
@@ -37,9 +41,9 @@ export function CallReactionBurstProvider({
   children,
   region,
 }: {
-  children: React.ReactNode;
-  region?: React.RefObject<HTMLElement | null>;
-}): React.JSX.Element {
+  children: ReactNode;
+  region?: RefObject<HTMLElement | null>;
+}): JSX.Element {
   const [bursts, setBursts] = useState<Array<CallReactionBurstStateType>>([]);
   const timeouts = useRef<Map<string, NodeJS.Timeout>>(new Map());
   const shownBursts = useRef<Set<string>>(new Set());
@@ -114,7 +118,7 @@ export function CallReactionBurstProvider({
   // Immediately trigger a state update before the portal gets shown to prevent
   // DOM jumping on initial render
   const [container, setContainer] = useState(document.body);
-  React.useLayoutEffect(() => {
+  useLayoutEffect(() => {
     if (region?.current) {
       setContainer(region.current);
     }

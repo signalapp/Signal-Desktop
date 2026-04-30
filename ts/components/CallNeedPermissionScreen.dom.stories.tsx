@@ -1,7 +1,8 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { JSX } from 'react';
+
 import { action } from '@storybook/addon-actions';
 import type { ComponentMeta } from '../storybook/types.std.ts';
 import type { Props } from './CallNeedPermissionScreen.dom.tsx';
@@ -20,6 +21,6 @@ export default {
   },
 } satisfies ComponentMeta<Props>;
 
-export function Default(args: Props): React.JSX.Element {
+export function Default(args: Props): JSX.Element {
   return <CallNeedPermissionScreen {...args} />;
 }

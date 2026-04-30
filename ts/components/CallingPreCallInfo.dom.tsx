@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import { useMemo, type JSX } from 'react';
 import lodash from 'lodash';
 import type { ConversationType } from '../state/ducks/conversations.preload.ts';
 import type { CallingConversationType } from '../types/Calling.std.ts';
@@ -70,8 +70,8 @@ export function CallingPreCallInfo({
   me,
   peekedParticipants = [],
   ringMode,
-}: PropsType): React.JSX.Element {
-  const [visibleParticipants, unknownParticipants] = React.useMemo<
+}: PropsType): JSX.Element {
+  const [visibleParticipants, unknownParticipants] = useMemo<
     [Array<PeekedParticipantType>, Array<PeekedParticipantType>]
   >(
     () =>

@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import { memo, useMemo, useCallback, type JSX, type Key } from 'react';
 import type { LocalizerType } from '../types/Util.std.ts';
 import type { ServiceIdString } from '../types/ServiceId.std.ts';
 import { sortByTitle } from '../util/sortByTitle.std.ts';
@@ -28,11 +28,11 @@ export type PropsType = {
   readonly onClose: () => void;
   readonly renderCallingParticipantMenu: (
     props: SmartCallingParticipantMenuProps
-  ) => React.JSX.Element;
+  ) => JSX.Element;
   readonly showContactModal: (payload: ContactModalStateType) => void;
 };
 
-export const CallingParticipantsList = React.memo(
+export const CallingParticipantsList = memo(
   function CallingParticipantsListInner({
     conversationId,
     i18n,
@@ -43,13 +43,13 @@ export const CallingParticipantsList = React.memo(
     showContactModal,
     renderCallingParticipantMenu,
   }: PropsType) {
-    const sortedParticipants = React.useMemo<Array<CallingParticipantType>>(
+    const sortedParticipants = useMemo<Array<CallingParticipantType>>(
       () => sortByTitle(participants),
       [participants]
     );
 
-    const renderParticipant = React.useCallback(
-      (participant: CallingParticipantType, key: React.Key) => (
+    const renderParticipant = useCallback(
+      (participant: CallingParticipantType, key: Key) => (
         <CallingParticipantListItem
           key={key}
           callConversationId={conversationId}

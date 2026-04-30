@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { memo, useCallback, useMemo } from 'react';
+import { memo, useCallback, useMemo, type JSX } from 'react';
 import { useSelector } from 'react-redux';
 import { useContactNameData } from '../../components/conversation/ContactName.dom.tsx';
 import {
@@ -55,15 +55,15 @@ import { useNavActions } from '../ducks/nav.std.ts';
 
 function renderCollidingAvatars(
   props: SmartCollidingAvatarsProps
-): React.JSX.Element {
+): JSX.Element {
   return <SmartCollidingAvatars {...props} />;
 }
 
-function renderMiniPlayer(props: SmartMiniPlayerProps): React.JSX.Element {
+function renderMiniPlayer(props: SmartMiniPlayerProps): JSX.Element {
   return <SmartMiniPlayer {...props} />;
 }
 
-function renderPinnedMessagesBar(): React.JSX.Element {
+function renderPinnedMessagesBar(): JSX.Element {
   return <SmartPinnedMessagesBar />;
 }
 

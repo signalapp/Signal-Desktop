@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type JSX } from 'react';
 import { Modal } from '../Modal.dom.tsx';
 import type { LocalizerType } from '../../types/Util.std.ts';
 import { GroupDescriptionText } from '../GroupDescriptionText.dom.tsx';
@@ -20,7 +20,7 @@ export function GroupDescription({
   i18n,
   title,
   text,
-}: PropsType): React.JSX.Element {
+}: PropsType): JSX.Element {
   const textRef = useRef<HTMLDivElement | null>(null);
   const [hasReadMore, setHasReadMore] = useState(false);
   const [showFullDescription, setShowFullDescription] = useState(false);

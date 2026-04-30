@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import type { ReactNode } from 'react';
-import React, { useState } from 'react';
+import type { ReactNode, JSX } from 'react';
+import { useState } from 'react';
 import type { Meta } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { AxoMenuBuilder } from './AxoMenuBuilder.dom.tsx';
@@ -96,7 +96,7 @@ function Template(props: {
   );
 }
 
-export function Basic(): React.JSX.Element {
+export function Basic(): JSX.Element {
   return (
     <div className={tw('flex h-96 w-full items-center justify-center gap-8')}>
       <Template renderer="AxoDropdownMenu">

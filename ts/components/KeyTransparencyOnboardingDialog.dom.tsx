@@ -1,6 +1,7 @@
 // Copyright 2026 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import React from 'react';
+import type { JSX } from 'react';
+
 import { openLinkInWebBrowser } from '../util/openLinkInWebBrowser.dom.ts';
 import { KEY_TRANSPARENCY_URL } from '../types/support.std.ts';
 import type { LocalizerType } from '../types/I18N.std.ts';
@@ -20,7 +21,7 @@ function openKeyTransparencyUrl() {
 
 export function KeyTransparencyOnboardingDialog(
   props: KeyTransparencyOnboardingDialogProps
-): React.JSX.Element {
+): JSX.Element {
   const { i18n, open, onOpenChange, onContinue } = props;
 
   return (

@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import type { ReactNode } from 'react';
-import React, { useId } from 'react';
+import type { ReactNode, JSX } from 'react';
+import { useId } from 'react';
 import type { Meta } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { AriaClickable } from './AriaClickable.dom.tsx';
@@ -85,7 +85,7 @@ function CardButton(props: {
   );
 }
 
-export function Basic(): React.JSX.Element | null {
+export function Basic(): JSX.Element | null {
   return (
     <Card>
       <CardContent>

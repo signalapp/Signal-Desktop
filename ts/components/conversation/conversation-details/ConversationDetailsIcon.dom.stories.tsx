@@ -1,7 +1,8 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import type { JSX } from 'react';
+
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import type { Props } from './ConversationDetailsIcon.dom.tsx';
@@ -20,7 +21,7 @@ const createProps = (overrideProps: Partial<Props>): Props => ({
   onClick: overrideProps.onClick,
 });
 
-export function All(): React.JSX.Element {
+export function All(): JSX.Element {
   const icons = Object.values(IconType);
 
   return (
@@ -32,7 +33,7 @@ export function All(): React.JSX.Element {
   );
 }
 
-export function ClickableIcons(): React.JSX.Element {
+export function ClickableIcons(): JSX.Element {
   const icons = [
     IconType.timer,
     IconType.trash,

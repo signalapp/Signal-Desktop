@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import { action } from '@storybook/addon-actions';
-import React, { useState } from 'react';
+import { useState, type JSX } from 'react';
 import { DonateInputCardCvc } from './DonateInputCardCvc.dom.tsx';
 import type { DonateInputCardCvcProps } from './DonateInputCardCvc.dom.tsx';
 import type { ComponentMeta } from '../../../storybook/types.std.ts';
@@ -18,7 +18,7 @@ export default {
   },
 } satisfies ComponentMeta<DonateInputCardCvcProps>;
 
-export function Default(props: DonateInputCardCvcProps): React.JSX.Element {
+export function Default(props: DonateInputCardCvcProps): JSX.Element {
   const [value, setValue] = useState('');
   return (
     <DonateInputCardCvc {...props} value={value} onValueChange={setValue} />

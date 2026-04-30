@@ -1,7 +1,7 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import { useState, useEffect, type JSX } from 'react';
 import { useDispatch } from 'react-redux';
 import { AppStage } from './AppStage';
 import styles from './DropStage.module.scss';
@@ -11,14 +11,14 @@ import { resetStatus } from '../../slices/art';
 import { useArtType, useArtReady } from '../../selectors/art';
 import { useI18n } from '../../contexts/I18n';
 
-export function DropStage(): React.JSX.Element {
+export function DropStage(): JSX.Element {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const artType = useArtType();
   const artReady = useArtReady();
-  const [showGuide, setShowGuide] = React.useState<boolean>(true);
+  const [showGuide, setShowGuide] = useState<boolean>(true);
 
-  React.useEffect(() => {
+  useEffect(() => {
     dispatch(resetStatus());
   }, [dispatch]);
 

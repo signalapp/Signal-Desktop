@@ -1,7 +1,12 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import {
+  useCallback,
+  type JSX,
+  type MouseEvent,
+  type KeyboardEvent,
+} from 'react';
 import classNames from 'classnames';
 
 import { formatFileSize } from '../../util/formatFileSize.std.ts';
@@ -25,7 +30,7 @@ export function AttachmentDetailPill({
   i18n,
   isGif,
   startDownload,
-}: PropsType): React.JSX.Element | null {
+}: PropsType): JSX.Element | null {
   const areAllDownloaded = attachments.every(attachment => attachment.path);
   const totalSize = attachments.reduce(
     (total: number, attachment: AttachmentForUIType) => {
@@ -34,8 +39,8 @@ export function AttachmentDetailPill({
     0
   );
 
-  const startDownloadClick = React.useCallback(
-    (event: React.MouseEvent) => {
+  const startDownloadClick = useCallback(
+    (event: MouseEvent) => {
       if (startDownload) {
         event.preventDefault();
         event.stopPropagation();
@@ -44,8 +49,8 @@ export function AttachmentDetailPill({
     },
     [startDownload]
   );
-  const startDownloadKeyDown = React.useCallback(
-    (event: React.KeyboardEvent<HTMLButtonElement>) => {
+  const startDownloadKeyDown = useCallback(
+    (event: KeyboardEvent<HTMLButtonElement>) => {
       if (startDownload && isKeyboardActivation(event.nativeEvent)) {
         event.preventDefault();
         event.stopPropagation();
@@ -54,8 +59,8 @@ export function AttachmentDetailPill({
     },
     [startDownload]
   );
-  const cancelDownloadClick = React.useCallback(
-    (event: React.MouseEvent) => {
+  const cancelDownloadClick = useCallback(
+    (event: MouseEvent) => {
       if (cancelDownload) {
         event.preventDefault();
         event.stopPropagation();
@@ -64,8 +69,8 @@ export function AttachmentDetailPill({
     },
     [cancelDownload]
   );
-  const cancelDownloadKeyDown = React.useCallback(
-    (event: React.KeyboardEvent<HTMLButtonElement>) => {
+  const cancelDownloadKeyDown = useCallback(
+    (event: KeyboardEvent<HTMLButtonElement>) => {
       if (cancelDownload && (event.key === 'Enter' || event.key === 'Space')) {
         event.preventDefault();
         event.stopPropagation();
@@ -95,10 +100,10 @@ export function AttachmentDetailPill({
 
   if (areAnyIncremental) {
     let ariaLabel: string;
-    let onClick: (event: React.MouseEvent) => void;
-    let onKeyDown: (event: React.KeyboardEvent<HTMLButtonElement>) => void;
-    let control: React.JSX.Element;
-    let text: React.JSX.Element;
+    let onClick: (event: MouseEvent) => void;
+    let onKeyDown: (event: KeyboardEvent<HTMLButtonElement>) => void;
+    let control: JSX.Element;
+    let text: JSX.Element;
 
     if (!areAnyPending && totalDownloadedSize > 0) {
       ariaLabel = i18n('icu:AttachmentDetailPill__retryDownload');

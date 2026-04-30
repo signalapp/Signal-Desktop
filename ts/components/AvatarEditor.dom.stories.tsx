@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { JSX } from 'react';
 
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
@@ -80,7 +80,7 @@ export default {
   title: 'Components/AvatarEditor',
 } satisfies Meta<PropsType>;
 
-export function NoAvatarGroup(): React.JSX.Element {
+export function NoAvatarGroup(): JSX.Element {
   return (
     <AvatarEditor
       {...createProps({
@@ -91,13 +91,13 @@ export function NoAvatarGroup(): React.JSX.Element {
   );
 }
 
-export function NoAvatarMe(): React.JSX.Element {
+export function NoAvatarMe(): JSX.Element {
   return (
     <AvatarEditor {...createProps({ userAvatarData: getDefaultAvatars() })} />
   );
 }
 
-export function HasAvatar(): React.JSX.Element {
+export function HasAvatar(): JSX.Element {
   return (
     <AvatarEditor
       {...createProps({

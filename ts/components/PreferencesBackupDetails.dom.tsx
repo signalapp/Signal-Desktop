@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { JSX } from 'react';
 
 import type {
   BackupMediaDownloadStatusType,
@@ -44,7 +44,7 @@ export function BackupsDetailsPage({
   pauseBackupMediaDownload: () => void;
   resumeBackupMediaDownload: () => void;
   backupMediaDownloadStatus?: BackupMediaDownloadStatusType;
-}): React.JSX.Element {
+}): JSX.Element {
   const shouldShowMediaProgress =
     backupMediaDownloadStatus &&
     backupMediaDownloadStatus.completedBytes <
@@ -115,7 +115,7 @@ function renderPaidBackupDetailsSummary({
   locale: string;
   subscriptionStatus?: BackupsSubscriptionType;
   i18n: LocalizerType;
-}): React.JSX.Element | null {
+}): JSX.Element | null {
   return (
     <>
       <div className="Preferences--backups-summary__status-container">
@@ -183,7 +183,7 @@ function renderFreeBackupDetailsSummary({
 }: {
   backupFreeMediaDays: number;
   i18n: LocalizerType;
-}): React.JSX.Element | null {
+}): JSX.Element | null {
   return (
     <>
       <div className="Preferences--backups-summary__status-container">
@@ -214,7 +214,7 @@ export function renderSubscriptionDetails({
   i18n: LocalizerType;
   locale: string;
   subscriptionStatus: BackupsSubscriptionType;
-}): React.JSX.Element | null {
+}): JSX.Element | null {
   const { status } = subscriptionStatus;
   if (
     subscriptionStatus.isFetching &&

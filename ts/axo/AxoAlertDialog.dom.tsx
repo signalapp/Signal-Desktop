@@ -3,7 +3,7 @@
 
 import { AlertDialog } from 'radix-ui';
 import type { FC, MouseEvent, ReactNode } from 'react';
-import React, { memo } from 'react';
+import { memo } from 'react';
 import { AxoButton } from './AxoButton.dom.tsx';
 import { tw } from './tw.dom.tsx';
 import { AxoBaseDialog } from './_internal/AxoBaseDialog.dom.tsx';

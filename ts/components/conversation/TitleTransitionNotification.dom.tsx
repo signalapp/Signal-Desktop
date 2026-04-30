@@ -1,7 +1,7 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { JSX } from 'react';
 
 import type { LocalizerType } from '../../types/Util.std.ts';
 import { I18n } from '../I18n.dom.tsx';
@@ -19,7 +19,7 @@ export type PropsHousekeeping = {
 
 export type Props = PropsData & PropsHousekeeping;
 
-export function TitleTransitionNotification(props: Props): React.JSX.Element {
+export function TitleTransitionNotification(props: Props): JSX.Element {
   const { i18n, oldTitle } = props;
 
   return (

@@ -1,7 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { JSX } from 'react';
+
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import type { PropsType } from './ChatColorPicker.dom.tsx';
@@ -46,7 +47,7 @@ const SAMPLE_CUSTOM_COLOR = {
   start: { hue: 315, saturation: 78 },
 };
 
-export function Default(args: PropsType): React.JSX.Element {
+export function Default(args: PropsType): JSX.Element {
   return <ChatColorPicker {...args} />;
 }
 
@@ -67,7 +68,7 @@ const CUSTOM_COLORS = {
   },
 };
 
-export function CustomColors(args: PropsType): React.JSX.Element {
+export function CustomColors(args: PropsType): JSX.Element {
   return (
     <ChatColorPicker
       {...args}

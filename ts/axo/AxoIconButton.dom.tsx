@@ -1,8 +1,8 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ButtonHTMLAttributes, FC, ForwardedRef } from 'react';
-import React, { forwardRef, memo, useMemo } from 'react';
+import type { ButtonHTMLAttributes, FC, ForwardedRef, JSX } from 'react';
+import { forwardRef, memo, useMemo } from 'react';
 import { AxoSymbol } from './AxoSymbol.dom.tsx';
 import type { TailwindStyles } from './tw.dom.tsx';
 import { tw } from './tw.dom.tsx';
@@ -221,7 +221,7 @@ export namespace AxoIconButton {
     'aria-label': string;
   }>;
 
-  function Spinner(props: SpinnerProps): React.JSX.Element {
+  function Spinner(props: SpinnerProps): JSX.Element {
     const variant = SpinnerVariants[props.buttonVariant];
     const sizeConfig = SpinnerSizes[props.buttonSize];
     return (

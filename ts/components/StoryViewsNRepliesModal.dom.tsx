@@ -1,14 +1,8 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ReactNode } from 'react';
-import React, {
-  useCallback,
-  useLayoutEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import type { ReactNode, JSX, RefObject, MouseEvent } from 'react';
+import { useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import classNames from 'classnames';
 import lodash from 'lodash';
 import type { DraftBodyRanges } from '../types/BodyRange.std.ts';
@@ -162,7 +156,7 @@ export function StoryViewsNRepliesModal({
   sortedGroupMembers,
   viewTarget,
   views,
-}: PropsType): React.JSX.Element | null {
+}: PropsType): JSX.Element | null {
   const [deleteReplyId, setDeleteReplyId] = useState<string | undefined>(
     undefined
   );
@@ -213,7 +207,7 @@ export function StoryViewsNRepliesModal({
     }
   }, []);
 
-  let composerElement: React.JSX.Element | undefined;
+  let composerElement: JSX.Element | undefined;
 
   useLayoutEffect(() => {
     if (
@@ -319,7 +313,7 @@ export function StoryViewsNRepliesModal({
     );
   }
 
-  let repliesElement: React.JSX.Element | undefined;
+  let repliesElement: JSX.Element | undefined;
 
   function shouldCollapse(reply: ReplyType, otherReply?: ReplyType) {
     // deleted reactions get rendered the same as deleted replies
@@ -383,7 +377,7 @@ export function StoryViewsNRepliesModal({
     );
   }
 
-  let viewsElement: React.JSX.Element | undefined;
+  let viewsElement: JSX.Element | undefined;
   if (hasViewsCapability && !hasViewReceiptSetting) {
     viewsElement = (
       <div className="StoryViewsNRepliesModal__read-receipts-off">
@@ -535,7 +529,7 @@ export function StoryViewsNRepliesModal({
 }
 
 type ReplyOrReactionMessageProps = {
-  containerElementRef: React.RefObject<HTMLElement | null>;
+  containerElementRef: RefObject<HTMLElement | null>;
   deleteGroupStoryReply: (replyId: string) => void;
   deleteGroupStoryReplyForEveryone: (replyId: string) => void;
   displayLimit: number | undefined;
@@ -545,7 +539,7 @@ type ReplyOrReactionMessageProps = {
   id: string;
   isInternalUser?: boolean;
   isSpoilerExpanded: Record<number, boolean>;
-  onContextMenu?: (ev: React.MouseEvent) => void;
+  onContextMenu?: (ev: MouseEvent) => void;
   reply: ReplyType;
   shouldCollapseAbove: boolean;
   shouldCollapseBelow: boolean;

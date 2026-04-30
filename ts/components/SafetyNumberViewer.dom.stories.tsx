@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, type JSX } from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import type { PropsType } from './SafetyNumberViewer.dom.tsx';
@@ -87,13 +87,11 @@ export default {
   title: 'Components/SafetyNumberViewer',
 } satisfies Meta<PropsType>;
 
-export function SafetyNumber({
-  onClose,
-}: Partial<PropsType>): React.JSX.Element {
+export function SafetyNumber({ onClose }: Partial<PropsType>): JSX.Element {
   return <SafetyNumberViewer {...createProps({ onClose })} />;
 }
 
-export function SafetyNumberNotVerified(): React.JSX.Element {
+export function SafetyNumberNotVerified(): JSX.Element {
   return (
     <SafetyNumberViewer
       {...createProps({
@@ -106,7 +104,7 @@ export function SafetyNumberNotVerified(): React.JSX.Element {
   );
 }
 
-export function SafetyNumberKeyTransparencyRunning(): React.JSX.Element {
+export function SafetyNumberKeyTransparencyRunning(): JSX.Element {
   return (
     <SafetyNumberViewer
       {...createProps({
@@ -120,7 +118,7 @@ export function SafetyNumberKeyTransparencyRunning(): React.JSX.Element {
   );
 }
 
-export function SafetyNumberKeyTransparencyOk(): React.JSX.Element {
+export function SafetyNumberKeyTransparencyOk(): JSX.Element {
   return (
     <SafetyNumberViewer
       {...createProps({
@@ -134,7 +132,7 @@ export function SafetyNumberKeyTransparencyOk(): React.JSX.Element {
   );
 }
 
-export function SafetyNumberKeyTransparencyFail(): React.JSX.Element {
+export function SafetyNumberKeyTransparencyFail(): JSX.Element {
   return (
     <SafetyNumberViewer
       {...createProps({
@@ -148,7 +146,7 @@ export function SafetyNumberKeyTransparencyFail(): React.JSX.Element {
   );
 }
 
-export function SafetyNumberKeyTransparencyUnavailable(): React.JSX.Element {
+export function SafetyNumberKeyTransparencyUnavailable(): JSX.Element {
   return (
     <SafetyNumberViewer
       {...createProps({
@@ -162,7 +160,7 @@ export function SafetyNumberKeyTransparencyUnavailable(): React.JSX.Element {
   );
 }
 
-export function SafetyNumberKeyTransparencyAnimation(): React.JSX.Element {
+export function SafetyNumberKeyTransparencyAnimation(): JSX.Element {
   const [status, setStatus] = useState<'idle' | 'running' | 'ok' | 'fail'>(
     'idle'
   );
@@ -199,7 +197,7 @@ export function SafetyNumberKeyTransparencyAnimation(): React.JSX.Element {
   return <SafetyNumberViewer {...props} keyTransparencyStatus={status} />;
 }
 
-export function VerificationDisabled(): React.JSX.Element {
+export function VerificationDisabled(): JSX.Element {
   return (
     <SafetyNumberViewer
       {...createProps({
@@ -209,7 +207,7 @@ export function VerificationDisabled(): React.JSX.Element {
   );
 }
 
-export function SafetyNumberDialogClose(): React.JSX.Element {
+export function SafetyNumberDialogClose(): JSX.Element {
   return (
     <SafetyNumberViewer
       {...createProps({
@@ -219,7 +217,7 @@ export function SafetyNumberDialogClose(): React.JSX.Element {
   );
 }
 
-export function JustProfileAndNumber(): React.JSX.Element {
+export function JustProfileAndNumber(): JSX.Element {
   return (
     <SafetyNumberViewer
       {...createProps({
@@ -229,7 +227,7 @@ export function JustProfileAndNumber(): React.JSX.Element {
   );
 }
 
-export function JustNumber(): React.JSX.Element {
+export function JustNumber(): JSX.Element {
   return (
     <SafetyNumberViewer
       {...createProps({
@@ -239,7 +237,7 @@ export function JustNumber(): React.JSX.Element {
   );
 }
 
-export function NoACICannotVerify(): React.JSX.Element {
+export function NoACICannotVerify(): JSX.Element {
   return (
     <SafetyNumberViewer
       {...createProps({

@@ -1,7 +1,7 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { JSX } from 'react';
 
 import { Button, ButtonSize, ButtonVariant } from '../Button.dom.tsx';
 import { SystemMessage } from './SystemMessage.dom.tsx';
@@ -34,7 +34,7 @@ export function SafetyNumberNotification({
   isGroup,
   i18n,
   toggleSafetyNumberModal,
-}: Props): React.JSX.Element {
+}: Props): JSX.Element {
   const name = (
     <span
       key="external-1"

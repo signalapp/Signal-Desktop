@@ -1,8 +1,8 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { FunctionComponent, ReactNode } from 'react';
-import React, { useCallback } from 'react';
+import type { FunctionComponent, ReactNode, JSX } from 'react';
+import { useCallback, memo } from 'react';
 import classNames from 'classnames';
 
 import type { RenderConversationListItemContextMenuProps } from './BaseConversationListItem.dom.tsx';
@@ -68,12 +68,12 @@ type PropsHousekeeping = {
   theme: ThemeType;
   renderConversationListItemContextMenu?: (
     props: RenderConversationListItemContextMenuProps
-  ) => React.JSX.Element;
+  ) => JSX.Element;
 };
 
 export type Props = PropsData & PropsHousekeeping;
 
-export const ConversationListItem: FunctionComponent<Props> = React.memo(
+export const ConversationListItem: FunctionComponent<Props> = memo(
   function ConversationListItem({
     avatarPlaceholderGradient,
     acceptedMessageRequest,

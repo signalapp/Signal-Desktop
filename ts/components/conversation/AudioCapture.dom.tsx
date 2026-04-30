@@ -1,7 +1,7 @@
 // Copyright 2016 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useCallback } from 'react';
+import { useCallback, type JSX } from 'react';
 
 import type { ShowToastAction } from '../../state/ducks/toast.preload.ts';
 import type { AttachmentDraftType } from '../../types/Attachment.std.ts';
@@ -26,7 +26,7 @@ export function AudioCapture({
   i18n,
   startRecording,
   showToast,
-}: PropsType): React.JSX.Element {
+}: PropsType): JSX.Element {
   const recordConversation = useCallback(
     () => startRecording(conversationId),
     [conversationId, startRecording]

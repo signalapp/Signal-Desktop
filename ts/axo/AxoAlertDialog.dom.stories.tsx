@@ -3,7 +3,7 @@
 
 import type { Meta } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
-import React, { useState } from 'react';
+import { useState, type JSX } from 'react';
 import { AxoAlertDialog } from './AxoAlertDialog.dom.tsx';
 import { AxoButton } from './AxoButton.dom.tsx';
 
@@ -116,18 +116,18 @@ function Template(props: {
   );
 }
 
-export function Basic(): React.JSX.Element {
+export function Basic(): JSX.Element {
   return <Template />;
 }
 
-export function VisuallyHiddenTitle(): React.JSX.Element {
+export function VisuallyHiddenTitle(): JSX.Element {
   return <Template visuallyHiddenTitle />;
 }
 
-export function RequireExplicitChoice(): React.JSX.Element {
+export function RequireExplicitChoice(): JSX.Element {
   return <Template requireExplicitChoice />;
 }
 
-export function ExtraLongText(): React.JSX.Element {
+export function ExtraLongText(): JSX.Element {
   return <Template extraLongText />;
 }

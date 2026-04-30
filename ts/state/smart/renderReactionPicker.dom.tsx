@@ -1,11 +1,10 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ComponentProps } from 'react';
-import React from 'react';
+import type { ComponentProps, JSX } from 'react';
 
 import { SmartReactionPicker } from './ReactionPicker.dom.tsx';
 
 export const renderReactionPicker = (
   props: ComponentProps<typeof SmartReactionPicker>
-): React.JSX.Element => <SmartReactionPicker {...props} />;
+): JSX.Element => <SmartReactionPicker {...props} />;

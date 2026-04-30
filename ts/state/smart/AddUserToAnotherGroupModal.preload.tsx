@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { useSelector } from 'react-redux';
-import React, { memo } from 'react';
+import { memo } from 'react';
 import { AddUserToAnotherGroupModal } from '../../components/AddUserToAnotherGroupModal.dom.tsx';
 import {
   getAllGroupsWithInviteAccess,

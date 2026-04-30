@@ -1,8 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { MouseEvent, ReactNode } from 'react';
-import React, { useCallback, useState } from 'react';
+import type { MouseEvent, ReactNode, JSX } from 'react';
+import { useCallback, useState } from 'react';
 import classNames from 'classnames';
 import { ConfirmationDialog } from './ConfirmationDialog.dom.tsx';
 import { CustomColorEditor } from './CustomColorEditor.dom.tsx';
@@ -79,7 +79,7 @@ export function ChatColorPicker({
   selectedColor = ConversationColors[0],
   selectedCustomColor,
   setGlobalDefaultConversationColor,
-}: PropsType): React.JSX.Element {
+}: PropsType): JSX.Element {
   const [confirmResetAll, setConfirmResetAll] = useState(false);
   const [confirmResetWhat, setConfirmResetWhat] = useState(false);
   const [customColorToEdit, setCustomColorToEdit] = useState<
@@ -283,7 +283,7 @@ function CustomColorBubble({
   onDupe,
   onEdit,
   onChoose,
-}: CustomColorBubblePropsType): React.JSX.Element {
+}: CustomColorBubblePropsType): JSX.Element {
   const [confirmDeleteCount, setConfirmDeleteCount] = useState<
     number | undefined
   >(undefined);
@@ -362,7 +362,7 @@ function CustomColorBubbleDropdownMenu(props: {
   onDupe: () => void;
   onDelete: () => void;
   children: ReactNode;
-}): React.JSX.Element {
+}): JSX.Element {
   const { i18n, disabled } = props;
   const [open, setOpen] = useState(false);
 
@@ -405,7 +405,7 @@ function CustomColorEditorWrapper({
   i18n,
   onClose,
   onSave,
-}: CustomColorEditorWrapperPropsType): React.JSX.Element {
+}: CustomColorEditorWrapperPropsType): JSX.Element {
   const editor = (
     <CustomColorEditor
       customColor={customColorToEdit?.value}

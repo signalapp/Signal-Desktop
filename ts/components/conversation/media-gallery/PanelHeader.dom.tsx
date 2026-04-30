@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useCallback } from 'react';
+import { useCallback, type JSX } from 'react';
 
 import { tw } from '../../../axo/tw.dom.tsx';
 import { ExperimentalAxoSegmentedControl } from '../../../axo/AxoSegmentedControl.dom.tsx';
@@ -29,7 +29,7 @@ export function PanelHeader({
   setTab,
   sortOrder,
   setSortOrder,
-}: Props): React.JSX.Element {
+}: Props): JSX.Element {
   const setSelectedTabWithDefault = useCallback(
     (value: string | null) => {
       switch (value) {

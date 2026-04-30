@@ -1,7 +1,7 @@
 // Copyright 2026 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useCallback } from 'react';
+import { useCallback, type JSX } from 'react';
 import classNames from 'classnames';
 
 import { tw } from '../axo/tw.dom.tsx';
@@ -33,7 +33,7 @@ type PropsType = {
   readonly showContactModal: (payload: ContactModalStateType) => void;
   readonly renderCallingParticipantMenu: (
     props: SmartCallingParticipantMenuProps
-  ) => React.JSX.Element;
+  ) => JSX.Element;
 };
 
 export function CallingParticipantListItem({
@@ -44,7 +44,7 @@ export function CallingParticipantListItem({
   participantMenuDisabled,
   renderCallingParticipantMenu,
   showContactModal,
-}: PropsType): React.JSX.Element {
+}: PropsType): JSX.Element {
   const {
     demuxId,
     hasRemoteAudio,

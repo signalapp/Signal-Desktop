@@ -1,7 +1,8 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import type { JSX } from 'react';
+
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import type { PropsType } from './CallingButton.dom.tsx';
@@ -33,7 +34,7 @@ export default {
   },
 } satisfies Meta<PropsType>;
 
-export function KitchenSink(args: PropsType): React.JSX.Element {
+export function KitchenSink(args: PropsType): JSX.Element {
   return (
     <>
       {Object.values(CallingButtonType).map(buttonType => (
@@ -43,45 +44,45 @@ export function KitchenSink(args: PropsType): React.JSX.Element {
   );
 }
 
-export function AudioOn(args: PropsType): React.JSX.Element {
+export function AudioOn(args: PropsType): JSX.Element {
   return <CallingButton {...args} buttonType={CallingButtonType.AUDIO_ON} />;
 }
 
-export function AudioOff(args: PropsType): React.JSX.Element {
+export function AudioOff(args: PropsType): JSX.Element {
   return <CallingButton {...args} buttonType={CallingButtonType.AUDIO_OFF} />;
 }
 
-export function AudioDisabled(args: PropsType): React.JSX.Element {
+export function AudioDisabled(args: PropsType): JSX.Element {
   return (
     <CallingButton {...args} buttonType={CallingButtonType.AUDIO_DISABLED} />
   );
 }
 
-export function VideoOn(args: PropsType): React.JSX.Element {
+export function VideoOn(args: PropsType): JSX.Element {
   return <CallingButton {...args} buttonType={CallingButtonType.VIDEO_ON} />;
 }
 
-export function VideoOff(args: PropsType): React.JSX.Element {
+export function VideoOff(args: PropsType): JSX.Element {
   return <CallingButton {...args} buttonType={CallingButtonType.VIDEO_OFF} />;
 }
 
-export function VideoDisabled(args: PropsType): React.JSX.Element {
+export function VideoDisabled(args: PropsType): JSX.Element {
   return (
     <CallingButton {...args} buttonType={CallingButtonType.VIDEO_DISABLED} />
   );
 }
 
-export function TooltipRight(args: PropsType): React.JSX.Element {
+export function TooltipRight(args: PropsType): JSX.Element {
   return <CallingButton {...args} tooltipDirection={TooltipPlacement.Right} />;
 }
 
-export function PresentingOn(args: PropsType): React.JSX.Element {
+export function PresentingOn(args: PropsType): JSX.Element {
   return (
     <CallingButton {...args} buttonType={CallingButtonType.PRESENTING_ON} />
   );
 }
 
-export function PresentingOff(args: PropsType): React.JSX.Element {
+export function PresentingOff(args: PropsType): JSX.Element {
   return (
     <CallingButton {...args} buttonType={CallingButtonType.PRESENTING_OFF} />
   );

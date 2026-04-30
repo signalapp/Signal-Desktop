@@ -2,8 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { Meta, StoryFn } from '@storybook/react';
-import React from 'react';
-
 import type { Props } from './StoryLinkPreview.dom.tsx';
 import { StoryLinkPreview } from './StoryLinkPreview.dom.tsx';
 import { fakeAttachment } from '../test-helpers/fakeAttachment.std.ts';

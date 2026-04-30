@@ -1,7 +1,7 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useState } from 'react';
+import { useState, type JSX } from 'react';
 import type { PropsType } from './CountryCodeSelect.dom.tsx';
 import { CountryCodeSelect } from './CountryCodeSelect.dom.tsx';
 import { type ComponentMeta } from '../storybook/types.std.ts';
@@ -58,7 +58,7 @@ const DEMO_COUNTRIES = [
   },
 ];
 
-function Template(args: StoryPropsType): React.JSX.Element {
+function Template(args: StoryPropsType): JSX.Element {
   const [value, setValue] = useState('');
 
   return <CountryCodeSelect {...args} value={value} onChange={setValue} />;
@@ -75,6 +75,6 @@ export default {
   },
 } satisfies ComponentMeta<StoryPropsType>;
 
-export function Defaults(args: StoryPropsType): React.JSX.Element {
+export function Defaults(args: StoryPropsType): JSX.Element {
   return <Template {...args} />;
 }

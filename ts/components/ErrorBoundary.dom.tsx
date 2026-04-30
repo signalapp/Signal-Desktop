@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReactNode, ErrorInfo } from 'react';
-import React from 'react';
+import { PureComponent } from 'react';
 
 import * as Errors from '../types/errors.std.ts';
 import { createLogger } from '../logging/log.std.ts';
@@ -20,7 +20,7 @@ export type State = {
   error?: Error;
 };
 
-export class ErrorBoundary extends React.PureComponent<Props, State> {
+export class ErrorBoundary extends PureComponent<Props, State> {
   constructor(props: Props) {
     super(props);
 

@@ -1,7 +1,8 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { JSX } from 'react';
+
 import type { LocalizerType } from '../types/Util.std.ts';
 import { openLinkInWebBrowser } from '../util/openLinkInWebBrowser.dom.ts';
 import { AxoDialog } from '../axo/AxoDialog.dom.tsx';
@@ -16,7 +17,7 @@ export type DonationPrivacyInformationModalProps = {
 export function DonationPrivacyInformationModal({
   i18n,
   onClose,
-}: DonationPrivacyInformationModalProps): React.JSX.Element {
+}: DonationPrivacyInformationModalProps): JSX.Element {
   const handleDonationFAQsClick = () => {
     openLinkInWebBrowser(
       'https://support.signal.org/hc/articles/360031949872-Donor-FAQs'

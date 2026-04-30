@@ -1,11 +1,18 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useMemo, useCallback, useState, useRef } from 'react';
+import {
+  useMemo,
+  useCallback,
+  useState,
+  useRef,
+  type ImgHTMLAttributes,
+  type JSX,
+} from 'react';
 
 import { computeBlurHashUrl } from '../util/computeBlurHashUrl.std.ts';
 
-export type Props = React.ImgHTMLAttributes<HTMLImageElement> &
+export type Props = ImgHTMLAttributes<HTMLImageElement> &
   Readonly<{
     blurHash?: string;
     alt: string;
@@ -23,7 +30,7 @@ export function ImageOrBlurhash({
   intrinsicHeight,
   onError,
   ...rest
-}: Props): React.JSX.Element {
+}: Props): JSX.Element {
   const ref = useRef<HTMLImageElement | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasErrored, setHasErrored] = useState(false);

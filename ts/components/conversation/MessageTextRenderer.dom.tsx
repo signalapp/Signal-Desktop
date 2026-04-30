@@ -1,8 +1,8 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
-import type { ReactElement } from 'react';
+import { useMemo } from 'react';
+import type { ReactElement, JSX } from 'react';
 import classNames from 'classnames';
 import emojiRegex from 'emoji-regex';
 import lodash from 'lodash';
@@ -69,8 +69,8 @@ export function MessageTextRenderer({
   renderLocation,
   textLength,
   originalMessageText,
-}: Props): React.JSX.Element {
-  const finalNodes = React.useMemo(() => {
+}: Props): JSX.Element {
+  const finalNodes = useMemo(() => {
     const links = disableLinks
       ? []
       : extractLinks(messageText, originalMessageText);

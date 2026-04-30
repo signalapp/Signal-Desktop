@@ -1,7 +1,8 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import type { JSX } from 'react';
+
 import type { Meta } from '@storybook/react';
 import type { Props } from './ImageOrBlurhash.dom.tsx';
 import { ImageOrBlurhash } from './ImageOrBlurhash.dom.tsx';
@@ -10,7 +11,7 @@ export default {
   title: 'Components/ImageOrBlurhash',
 } satisfies Meta<Props>;
 
-export function JustImage(): React.JSX.Element {
+export function JustImage(): JSX.Element {
   return (
     <ImageOrBlurhash
       src="/fixtures/kitten-1-64-64.jpg"
@@ -21,7 +22,7 @@ export function JustImage(): React.JSX.Element {
   );
 }
 
-export function JustBlurHash(): React.JSX.Element {
+export function JustBlurHash(): JSX.Element {
   return (
     <ImageOrBlurhash
       blurHash="LDA,FDBnm+I=p{tkIUI;~UkpELV]"
@@ -32,7 +33,7 @@ export function JustBlurHash(): React.JSX.Element {
   );
 }
 
-export function WideBlurHash(): React.JSX.Element {
+export function WideBlurHash(): JSX.Element {
   return (
     <ImageOrBlurhash
       blurHash="LDA,FDBnm+I=p{tkIUI;~UkpELV]"
@@ -43,7 +44,7 @@ export function WideBlurHash(): React.JSX.Element {
   );
 }
 
-export function TallBlurHash(): React.JSX.Element {
+export function TallBlurHash(): JSX.Element {
   return (
     <ImageOrBlurhash
       blurHash="LDA,FDBnm+I=p{tkIUI;~UkpELV]"
@@ -54,7 +55,7 @@ export function TallBlurHash(): React.JSX.Element {
   );
 }
 
-export function FullImage(): React.JSX.Element {
+export function FullImage(): JSX.Element {
   return (
     <ImageOrBlurhash
       src="/fixtures/kitten-1-64-64.jpg"

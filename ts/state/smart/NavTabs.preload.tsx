@@ -1,9 +1,9 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { memo, useCallback } from 'react';
+import { memo, useCallback } from 'react';
 
-import type { ReactNode } from 'react';
+import type { ReactNode, JSX } from 'react';
 
 import { useSelector } from 'react-redux';
 import { NavTabs } from '../../components/NavTabs.dom.tsx';
@@ -46,7 +46,7 @@ export const SmartNavTabs = memo(function SmartNavTabs({
   renderChatsTab,
   renderStoriesTab,
   renderSettingsTab,
-}: SmartNavTabsProps): React.JSX.Element {
+}: SmartNavTabsProps): JSX.Element {
   const i18n = useSelector(getIntl);
   const selectedNavTab = useSelector(getSelectedNavTab);
   const me = useSelector(getMe);

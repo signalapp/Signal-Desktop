@@ -1,8 +1,8 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ReactNode } from 'react';
-import React, { useCallback, useEffect, useRef } from 'react';
+import type { ReactNode, JSX } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { Avatar, AvatarSize } from './Avatar.dom.tsx';
 import { Tooltip } from './Tooltip.dom.tsx';
 import { I18n } from './I18n.dom.tsx';
@@ -83,7 +83,7 @@ function CallButton({
   onClick,
   tabIndex,
   tooltipContent,
-}: CallButtonProps): React.JSX.Element {
+}: CallButtonProps): JSX.Element {
   return (
     <Tooltip
       content={tooltipContent}
@@ -119,7 +119,7 @@ function GroupCallMessage({
     ConversationType,
     'firstName' | 'systemGivenName' | 'systemNickname' | 'title'
   >;
-}>): React.JSX.Element {
+}>): JSX.Element {
   // As an optimization, we only process the first two names.
   const [first, second] = otherMembersRung
     .slice(0, 2)
@@ -194,7 +194,7 @@ function GroupCallMessage({
   }
 }
 
-export function IncomingCallBar(props: PropsType): React.JSX.Element | null {
+export function IncomingCallBar(props: PropsType): JSX.Element | null {
   const {
     acceptCall,
     bounceAppIconStart,

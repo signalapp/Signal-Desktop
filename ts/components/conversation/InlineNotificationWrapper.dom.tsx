@@ -1,10 +1,10 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import classNames from 'classnames';
 
-import type { ReactNode } from 'react';
+import type { ReactNode, JSX, MouseEvent, KeyboardEvent } from 'react';
 
 import { getInteractionMode } from '../../services/InteractionMode.dom.ts';
 
@@ -33,7 +33,7 @@ export function InlineNotificationWrapper({
   targetMessage,
   toggleSelectMessage,
   children,
-}: Props): React.JSX.Element {
+}: Props): JSX.Element {
   const focusRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -62,12 +62,12 @@ export function InlineNotificationWrapper({
         tabIndex={0}
         ref={focusRef}
         onFocus={handleFocus}
-        onClick={(event: React.MouseEvent<HTMLSpanElement>) => {
+        onClick={(event: MouseEvent<HTMLSpanElement>) => {
           toggleSelectMessage(conversationId, id, event.shiftKey, !isSelected);
           event.stopPropagation();
           event.preventDefault();
         }}
-        onKeyDown={(event: React.KeyboardEvent<HTMLSpanElement>) => {
+        onKeyDown={(event: KeyboardEvent<HTMLSpanElement>) => {
           if (event.code === 'Space') {
             toggleSelectMessage(
               conversationId,

@@ -1,8 +1,8 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { MouseEvent } from 'react';
-import React, { useCallback } from 'react';
+import type { MouseEvent, JSX, ReactNode } from 'react';
+import { useCallback, memo } from 'react';
 import { animated } from '@react-spring/web';
 import { Button, ButtonVariant } from './Button.dom.tsx';
 import type { LocalizerType } from '../types/Util.std.ts';
@@ -24,7 +24,7 @@ export type ActionSpec = {
       id?: string;
     }
   | {
-      text: string | React.JSX.Element;
+      text: string | JSX.Element;
       id: string;
     }
 );
@@ -35,7 +35,7 @@ export type OwnProps = Readonly<{
   cancelButtonVariant?: ButtonVariant;
   cancelText?: string;
   isSpinning?: boolean;
-  children?: React.ReactNode;
+  children?: ReactNode;
   hasXButton?: boolean;
   i18n: LocalizerType;
   moduleClassName?: string;
@@ -46,7 +46,7 @@ export type OwnProps = Readonly<{
   onClose: () => unknown;
   onTopOfEverything?: boolean;
   theme?: Theme;
-  title?: React.ReactNode;
+  title?: ReactNode;
 }>;
 
 export type Props = OwnProps;
@@ -71,7 +71,7 @@ function getButtonVariant(
   return ButtonVariant.Secondary;
 }
 
-export const ConfirmationDialog = React.memo(function ConfirmationDialogInner({
+export const ConfirmationDialog = memo(function ConfirmationDialogInner({
   actions = [],
   dialogName,
   cancelButtonVariant,

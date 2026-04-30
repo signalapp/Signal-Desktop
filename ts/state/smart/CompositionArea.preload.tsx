@@ -1,7 +1,7 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useCallback, useMemo, memo } from 'react';
+import { useCallback, useMemo, memo } from 'react';
 import { useSelector } from 'react-redux';
 import { CompositionArea } from '../../components/CompositionArea.dom.tsx';
 import { useContactNameData } from '../../components/conversation/ContactName.dom.tsx';

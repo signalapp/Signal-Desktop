@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { type ReactNode } from 'react';
+import { type ReactNode, type JSX } from 'react';
 import lodash from 'lodash';
 import type { Transition } from 'motion/react';
 import { motion } from 'motion/react';
@@ -39,7 +39,7 @@ export type DataProps = Readonly<{
   renderContextMenu: (
     mediaItem: ReadonlyDeep<GenericMediaItemType>,
     children: ReactNode
-  ) => React.JSX.Element;
+  ) => JSX.Element;
 }>;
 
 // Provided by smart layer
@@ -59,7 +59,7 @@ export function AudioListItem({
   onClick,
   showMessage,
   renderContextMenu,
-}: Props): React.JSX.Element {
+}: Props): JSX.Element {
   const { attachment } = mediaItem;
 
   const { fileName, size: fileSize, url } = attachment;

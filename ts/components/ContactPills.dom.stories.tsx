@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { JSX } from 'react';
 
 import { action } from '@storybook/addon-actions';
 
@@ -49,11 +49,11 @@ const contactPillProps = (
   onClickRemove: action('onClickRemove'),
 });
 
-export function EmptyList(): React.JSX.Element {
+export function EmptyList(): JSX.Element {
   return <ContactPills />;
 }
 
-export function OneContact(): React.JSX.Element {
+export function OneContact(): JSX.Element {
   return (
     <ContactPills>
       <ContactPill {...contactPillProps()} />
@@ -61,7 +61,7 @@ export function OneContact(): React.JSX.Element {
   );
 }
 
-export function ThreeContacts(): React.JSX.Element {
+export function ThreeContacts(): JSX.Element {
   return (
     <ContactPills>
       <ContactPill {...contactPillProps(createContact(0))} />
@@ -71,7 +71,7 @@ export function ThreeContacts(): React.JSX.Element {
   );
 }
 
-export function FourContactsOneWithALongName(): React.JSX.Element {
+export function FourContactsOneWithALongName(): JSX.Element {
   return (
     <ContactPills>
       <ContactPill {...contactPillProps(createContact(0))} />
@@ -88,7 +88,7 @@ export function FourContactsOneWithALongName(): React.JSX.Element {
   );
 }
 
-export function FiftyContacts(): React.JSX.Element {
+export function FiftyContacts(): JSX.Element {
   return (
     <ContactPills>
       {Array.from({ length: 50 }, (_, index) => (

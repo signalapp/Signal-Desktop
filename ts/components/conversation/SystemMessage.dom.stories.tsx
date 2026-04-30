@@ -1,7 +1,8 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import type { JSX } from 'react';
+
 import type { Meta } from '@storybook/react';
 import type { PropsType } from './SystemMessage.dom.tsx';
 import { SystemMessage, SystemMessageKind } from './SystemMessage.dom.tsx';
@@ -10,7 +11,7 @@ export default {
   title: 'Components/Conversation/SystemMessage',
 } satisfies Meta<PropsType>;
 
-export function PlainSystemMessage(): React.JSX.Element {
+export function PlainSystemMessage(): JSX.Element {
   return (
     <SystemMessage
       icon="audio-incoming"
@@ -20,7 +21,7 @@ export function PlainSystemMessage(): React.JSX.Element {
   );
 }
 
-export function DangerSystemMessage(): React.JSX.Element {
+export function DangerSystemMessage(): JSX.Element {
   return (
     <SystemMessage
       icon="audio-missed"
@@ -30,7 +31,7 @@ export function DangerSystemMessage(): React.JSX.Element {
   );
 }
 
-export function ErrorSystemMessage(): React.JSX.Element {
+export function ErrorSystemMessage(): JSX.Element {
   return (
     <SystemMessage
       icon="unsupported"

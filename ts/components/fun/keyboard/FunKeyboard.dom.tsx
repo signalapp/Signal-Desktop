@@ -1,8 +1,8 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import { focusSafely, getFocusableTreeWalker } from '@react-aria/focus';
-import type { ReactNode } from 'react';
-import React, { useEffect, useRef } from 'react';
+import type { ReactNode, RefObject, JSX } from 'react';
+import { useEffect, useRef } from 'react';
 // @ts-expect-error - Needs tinykeys to update package.json type resolution
 import { createKeybindingsHandler } from 'tinykeys';
 import { strictAssert } from '../../../util/assert.std.ts';
@@ -26,7 +26,7 @@ export abstract class KeyboardDelegate<State> {
 }
 
 export type FunKeyboardProps<State> = Readonly<{
-  scrollerRef: React.RefObject<HTMLElement | null>;
+  scrollerRef: RefObject<HTMLElement | null>;
   keyboard: KeyboardDelegate<State>;
   onStateChange: (state: State) => void;
   children: ReactNode;
@@ -34,7 +34,7 @@ export type FunKeyboardProps<State> = Readonly<{
 
 export function FunKeyboard<State>(
   props: FunKeyboardProps<State>
-): React.JSX.Element {
+): JSX.Element {
   const keyboardRef = useRef(props.keyboard);
   useEffect(() => {
     keyboardRef.current = props.keyboard;

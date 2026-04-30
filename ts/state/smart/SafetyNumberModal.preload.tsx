@@ -1,6 +1,6 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import React, { memo } from 'react';
+import { memo, type JSX } from 'react';
 import { useSelector } from 'react-redux';
 import { SafetyNumberModal } from '../../components/SafetyNumberModal.dom.tsx';
 import { getConversationSelector } from '../selectors/conversations.dom.ts';
@@ -13,7 +13,7 @@ export type SmartSafetyNumberModalProps = {
   contactID: string;
 };
 
-function renderSafetyNumberViewer(props: SafetyNumberProps): React.JSX.Element {
+function renderSafetyNumberViewer(props: SafetyNumberProps): JSX.Element {
   return <SmartSafetyNumberViewer key={props.contactID} {...props} />;
 }
 

@@ -1,7 +1,7 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useState, useCallback, useRef } from 'react';
+import { useState, useCallback, useRef, type JSX } from 'react';
 import { useComputePeaks } from '../hooks/useComputePeaks.dom.ts';
 import type { LocalizerType } from '../types/Util.std.ts';
 import { WaveformScrubber } from './conversation/WaveformScrubber.dom.tsx';
@@ -39,7 +39,7 @@ export function CompositionRecordingDraft({
   onPlay,
   onPause,
   onScrub,
-}: Props): React.JSX.Element {
+}: Props): JSX.Element {
   const [state, setState] = useState<{
     calculatingWidth: boolean;
     width: undefined | number;

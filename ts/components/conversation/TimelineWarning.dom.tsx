@@ -1,8 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ReactNode } from 'react';
-import React from 'react';
+import type { ReactNode, JSX } from 'react';
 
 import type { LocalizerType } from '../../types/Util.std.ts';
 
@@ -20,9 +19,7 @@ type TimelineWarningProps = Readonly<{
   onClose: () => void;
 }>;
 
-export function TimelineWarning(
-  props: TimelineWarningProps
-): React.JSX.Element {
+export function TimelineWarning(props: TimelineWarningProps): JSX.Element {
   const { i18n } = props;
   return (
     <div className={CLASS_NAME}>
@@ -50,7 +47,7 @@ type TimelineWarningLinkProps = Readonly<{
 
 export function TimelineWarningLink(
   props: TimelineWarningLinkProps
-): React.JSX.Element {
+): JSX.Element {
   return (
     <button className={LINK_CLASS_NAME} onClick={props.onClick} type="button">
       {props.children}
@@ -62,7 +59,7 @@ export type TimelineWarningCustomInfoProps = Readonly<{ children: ReactNode }>;
 
 export function TimelineWarningCustomInfo(
   props: TimelineWarningCustomInfoProps
-): React.JSX.Element {
+): JSX.Element {
   return (
     <div className="module-TimelineWarning__custom_info">{props.children}</div>
   );

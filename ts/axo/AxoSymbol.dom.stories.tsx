@@ -1,6 +1,6 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import React, { memo, useMemo, useState } from 'react';
+import { memo, useMemo, useState, type JSX } from 'react';
 import type { Meta } from '@storybook/react';
 import { Direction } from 'radix-ui';
 import Fuse from 'fuse.js';
@@ -22,7 +22,7 @@ const fuse = new Fuse(allAxoSymbolNames);
 
 const SymbolInfo = memo(function SymbolInfo(props: {
   symbolName: AxoSymbol.InlineGlyphName;
-}): React.JSX.Element {
+}): JSX.Element {
   const ltr = getAxoSymbolInlineGlyph(props.symbolName, 'ltr');
   const rtl = getAxoSymbolInlineGlyph(props.symbolName, 'rtl');
 
@@ -81,7 +81,7 @@ const SymbolInfo = memo(function SymbolInfo(props: {
   );
 });
 
-export function All(): React.JSX.Element {
+export function All(): JSX.Element {
   const [input, setInput] = useState('');
 
   const results = useMemo(() => {

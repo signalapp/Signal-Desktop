@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import type { ChangeEvent } from 'react';
-import React, { useCallback, useMemo, useState } from 'react';
+import type { ChangeEvent, JSX } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
 import type { ConversationType } from '../../state/ducks/conversations.preload.ts';
 import type { PreferredBadgeSelectorType } from '../../state/selectors/badges.preload.ts';
@@ -47,7 +47,7 @@ export type PreferencesSelectChatsDialogProps = Readonly<{
 
 export function PreferencesSelectChatsDialog(
   props: PreferencesSelectChatsDialogProps
-): React.JSX.Element {
+): JSX.Element {
   const {
     i18n,
     conversations,

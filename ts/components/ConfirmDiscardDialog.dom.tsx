@@ -1,7 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { JSX } from 'react';
+
 import { ConfirmationDialog } from './ConfirmationDialog.dom.tsx';
 import type { LocalizerType } from '../types/Util.std.ts';
 
@@ -21,7 +22,7 @@ export function ConfirmDiscardDialog({
   discardText,
   onClose,
   onDiscard,
-}: ConfirmDialogProps): React.JSX.Element {
+}: ConfirmDialogProps): JSX.Element {
   return (
     <ConfirmationDialog
       dialogName="ConfirmDiscardDialog"

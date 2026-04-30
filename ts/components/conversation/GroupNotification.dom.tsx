@@ -1,8 +1,7 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ReactNode } from 'react';
-import React from 'react';
+import type { ReactNode, JSX } from 'react';
 import lodash from 'lodash';
 
 import { ContactName } from './ContactName.dom.tsx';
@@ -42,10 +41,10 @@ function GroupNotificationChange({
   change: Change;
   from: ConversationType;
   i18n: LocalizerType;
-}): React.JSX.Element | null {
+}): JSX.Element | null {
   const { contacts, type, newName } = change;
 
-  const otherPeople: Array<React.JSX.Element> = compact(
+  const otherPeople: Array<JSX.Element> = compact(
     (contacts || []).map(contact => {
       if (contact.isMe) {
         return null;
@@ -61,7 +60,7 @@ function GroupNotificationChange({
       );
     })
   );
-  const otherPeopleWithCommas: Array<React.JSX.Element | string> = compact(
+  const otherPeopleWithCommas: Array<JSX.Element | string> = compact(
     flatten(
       otherPeople.map((person, index) => [index > 0 ? ', ' : null, person])
     )
@@ -145,7 +144,7 @@ export function GroupNotification({
   changes: rawChanges,
   i18n,
   from,
-}: Props): React.JSX.Element {
+}: Props): JSX.Element {
   // This check is just to be extra careful, and can probably be removed.
   const changes: Array<Change> = Array.isArray(rawChanges) ? rawChanges : [];
 

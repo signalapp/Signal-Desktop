@@ -1,7 +1,6 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import type { ReactNode } from 'react';
-import React from 'react';
+import type { ReactNode, JSX } from 'react';
 import type { Meta } from '@storybook/react';
 import { AxoScrollArea } from './AxoScrollArea.dom.tsx';
 import { tw } from './tw.dom.tsx';
@@ -87,15 +86,15 @@ function VerticalVariants(props: { mask?: boolean; hints?: boolean }) {
   );
 }
 
-export function Vertical(): React.JSX.Element {
+export function Vertical(): JSX.Element {
   return <VerticalVariants />;
 }
 
-export function VerticalWithHints(): React.JSX.Element {
+export function VerticalWithHints(): JSX.Element {
   return <VerticalVariants hints />;
 }
 
-export function VerticalWithMask(): React.JSX.Element {
+export function VerticalWithMask(): JSX.Element {
   return <VerticalVariants mask />;
 }
 
@@ -162,15 +161,15 @@ function HorizontalVariants(props: { mask?: boolean; hints?: boolean }) {
   );
 }
 
-export function Horizontal(): React.JSX.Element {
+export function Horizontal(): JSX.Element {
   return <HorizontalVariants />;
 }
 
-export function HorizontalWithHints(): React.JSX.Element {
+export function HorizontalWithHints(): JSX.Element {
   return <HorizontalVariants hints />;
 }
 
-export function HorizontalWithMask(): React.JSX.Element {
+export function HorizontalWithMask(): JSX.Element {
   return <HorizontalVariants mask />;
 }
 
@@ -249,14 +248,14 @@ function BothVariants(props: { mask?: boolean; hints?: boolean }) {
   );
 }
 
-export function Both(): React.JSX.Element {
+export function Both(): JSX.Element {
   return <BothVariants />;
 }
 
-export function BothWithHints(): React.JSX.Element {
+export function BothWithHints(): JSX.Element {
   return <BothVariants hints />;
 }
 
-export function BothWithMask(): React.JSX.Element {
+export function BothWithMask(): JSX.Element {
   return <BothVariants mask />;
 }

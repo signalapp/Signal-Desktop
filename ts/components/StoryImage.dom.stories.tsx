@@ -1,7 +1,8 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { JSX } from 'react';
+
 import { v4 as uuid } from 'uuid';
 import { action } from '@storybook/addon-actions';
 import lodash from 'lodash';
@@ -38,19 +39,19 @@ function getDefaultProps(): PropsType {
   };
 }
 
-export function GoodStory(): React.JSX.Element {
+export function GoodStory(): JSX.Element {
   return <StoryImage {...getDefaultProps()} />;
 }
 
-export function GoodStoryThumbnail(): React.JSX.Element {
+export function GoodStoryThumbnail(): JSX.Element {
   return <StoryImage {...getDefaultProps()} isThumbnail />;
 }
 
-export function NotDownloaded(): React.JSX.Element {
+export function NotDownloaded(): JSX.Element {
   return <StoryImage {...getDefaultProps()} attachment={fakeAttachment()} />;
 }
 
-export function NotDownloadedThumbnail(): React.JSX.Element {
+export function NotDownloadedThumbnail(): JSX.Element {
   return (
     <StoryImage
       {...getDefaultProps()}
@@ -60,7 +61,7 @@ export function NotDownloadedThumbnail(): React.JSX.Element {
   );
 }
 
-export function PendingDownload(): React.JSX.Element {
+export function PendingDownload(): JSX.Element {
   return (
     <StoryImage
       {...getDefaultProps()}
@@ -71,7 +72,7 @@ export function PendingDownload(): React.JSX.Element {
   );
 }
 
-export function PendingDownloadThumbnail(): React.JSX.Element {
+export function PendingDownloadThumbnail(): JSX.Element {
   return (
     <StoryImage
       {...getDefaultProps()}
@@ -83,7 +84,7 @@ export function PendingDownloadThumbnail(): React.JSX.Element {
   );
 }
 
-export function BrokenImage(): React.JSX.Element {
+export function BrokenImage(): JSX.Element {
   return (
     <StoryImage
       {...getDefaultProps()}
@@ -94,7 +95,7 @@ export function BrokenImage(): React.JSX.Element {
   );
 }
 
-export function BrokenImageThumbnail(): React.JSX.Element {
+export function BrokenImageThumbnail(): JSX.Element {
   return (
     <StoryImage
       {...getDefaultProps()}
@@ -106,7 +107,7 @@ export function BrokenImageThumbnail(): React.JSX.Element {
   );
 }
 
-export function Video(): React.JSX.Element {
+export function Video(): JSX.Element {
   return (
     <StoryImage
       {...getDefaultProps()}
@@ -118,7 +119,7 @@ export function Video(): React.JSX.Element {
   );
 }
 
-export function ErrorImage(): React.JSX.Element {
+export function ErrorImage(): JSX.Element {
   return (
     <StoryImage
       {...getDefaultProps()}
@@ -130,7 +131,7 @@ export function ErrorImage(): React.JSX.Element {
   );
 }
 
-export function ErrorImageThumbnail(): React.JSX.Element {
+export function ErrorImageThumbnail(): JSX.Element {
   return (
     <StoryImage
       {...getDefaultProps()}
@@ -143,7 +144,7 @@ export function ErrorImageThumbnail(): React.JSX.Element {
   );
 }
 
-export function ErrorImageYou(): React.JSX.Element {
+export function ErrorImageYou(): JSX.Element {
   return (
     <StoryImage
       {...getDefaultProps()}

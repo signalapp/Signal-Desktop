@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import React, { memo, useCallback, useMemo, useRef, useState } from 'react';
-import type { MouseEvent, PointerEvent } from 'react';
+import { memo, useCallback, useMemo, useRef, useState } from 'react';
+import type { MouseEvent, PointerEvent, JSX } from 'react';
 import {
   Dialog,
   DialogTrigger,
@@ -184,7 +184,7 @@ export function FunPanelEmojis({
   showCustomizePreferredReactionsButton,
   closeOnSelect,
   messageEmojis: unstableMessageEmojis = [],
-}: FunPanelEmojisProps): React.JSX.Element {
+}: FunPanelEmojisProps): JSX.Element {
   const fun = useFunContext();
   const {
     i18n,
@@ -581,7 +581,7 @@ type RowProps = Readonly<{
   onEmojiSkinToneDefaultChange: (emojiSkinTone: EmojiSkinTone) => void;
 }>;
 
-const Row = memo(function Row(props: RowProps): React.JSX.Element {
+const Row = memo(function Row(props: RowProps): JSX.Element {
   return (
     <FunGridRow rowIndex={props.rowIndex}>
       {props.cells.map(cell => {
@@ -623,7 +623,7 @@ type CellProps = Readonly<{
   onEmojiSkinToneDefaultChange: (emojiSkinTone: EmojiSkinTone) => void;
 }>;
 
-const Cell = memo(function Cell(props: CellProps): React.JSX.Element {
+const Cell = memo(function Cell(props: CellProps): JSX.Element {
   const {
     i18n,
     emojiSkinToneDefault,
@@ -797,7 +797,7 @@ type SectionSkinToneHeaderPopoverProps = Readonly<{
 
 function SectionSkinToneHeaderPopover(
   props: SectionSkinToneHeaderPopoverProps
-): React.JSX.Element {
+): JSX.Element {
   const { i18n, onOpenChange, onSelectSkinTone } = props;
 
   const handleSelectSkinTone = useCallback(

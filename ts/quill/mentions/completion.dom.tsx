@@ -1,12 +1,12 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import { createRef } from 'react';
 import _ from 'lodash';
 import { Delta } from '@signalapp/quill-cjs';
 import Emitter from '@signalapp/quill-cjs/core/emitter.js';
 import type Quill from '@signalapp/quill-cjs';
-import type { RefObject } from 'react';
+import type { RefObject, JSX } from 'react';
 import { Popper } from 'react-popper';
 import classNames from 'classnames';
 import { createPortal } from 'react-dom';
@@ -25,7 +25,7 @@ export type MentionCompletionOptions = {
   getPreferredBadge: PreferredBadgeSelectorType;
   i18n: LocalizerType;
   memberRepositoryRef: RefObject<MemberRepository>;
-  setMentionPickerElement: (element: React.JSX.Element | null) => void;
+  setMentionPickerElement: (element: JSX.Element | null) => void;
   ourConversationId: string | undefined;
   theme: ThemeType;
 };
@@ -54,7 +54,7 @@ export class MentionCompletion {
     this.options = options;
     this.root = document.body.appendChild(document.createElement('div'));
     this.quill = quill;
-    this.suggestionListRef = React.createRef<HTMLDivElement>();
+    this.suggestionListRef = createRef<HTMLDivElement>();
 
     const clearResults = () => {
       if (this.results.length) {

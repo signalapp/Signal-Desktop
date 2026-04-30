@@ -1,7 +1,14 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useEffect, useCallback, useMemo, useRef } from 'react';
+import {
+  useEffect,
+  useCallback,
+  useMemo,
+  useRef,
+  Fragment,
+  type JSX,
+} from 'react';
 import classNames from 'classnames';
 import lodash from 'lodash';
 
@@ -187,32 +194,28 @@ export type PropsType = {
   updateFilterByUnread: (filterByUnread: boolean) => void;
 
   // Render Props
-  renderMessageSearchResult: (id: string) => React.JSX.Element;
+  renderMessageSearchResult: (id: string) => JSX.Element;
   renderConversationListItemContextMenu: (
     props: RenderConversationListItemContextMenuProps
-  ) => React.JSX.Element;
+  ) => JSX.Element;
   renderNetworkStatus: (
     _: Readonly<{ containerWidthBreakpoint: WidthBreakpoint }>
-  ) => React.JSX.Element;
+  ) => JSX.Element;
   renderUnsupportedOSDialog: (
     _: Readonly<UnsupportedOSDialogPropsType>
-  ) => React.JSX.Element;
+  ) => JSX.Element;
   renderRelinkDialog: (
     _: Readonly<{ containerWidthBreakpoint: WidthBreakpoint }>
-  ) => React.JSX.Element;
+  ) => JSX.Element;
   renderUpdateDialog: (
     _: Readonly<{ containerWidthBreakpoint: WidthBreakpoint }>
-  ) => React.JSX.Element;
-  renderCaptchaDialog: (props: { onSkip(): void }) => React.JSX.Element;
-  renderCrashReportDialog: () => React.JSX.Element;
-  renderExpiredBuildDialog: (
-    _: DialogExpiredBuildPropsType
-  ) => React.JSX.Element;
-  renderLeftPaneChatFolders: () => React.JSX.Element;
-  renderNotificationProfilesMenu: () => React.JSX.Element;
-  renderToastManager: (
-    _: Readonly<SmartToastManagerPropsType>
-  ) => React.JSX.Element;
+  ) => JSX.Element;
+  renderCaptchaDialog: (props: { onSkip(): void }) => JSX.Element;
+  renderCrashReportDialog: () => JSX.Element;
+  renderExpiredBuildDialog: (_: DialogExpiredBuildPropsType) => JSX.Element;
+  renderLeftPaneChatFolders: () => JSX.Element;
+  renderNotificationProfilesMenu: () => JSX.Element;
+  renderToastManager: (_: Readonly<SmartToastManagerPropsType>) => JSX.Element;
 } & LookupConversationWithoutServiceIdActionsType;
 
 export function LeftPane({
@@ -308,7 +311,7 @@ export function LeftPane({
   updateSearchTerm,
   dismissBackupMediaDownloadBanner,
   updateFilterByUnread,
-}: PropsType): React.JSX.Element {
+}: PropsType): JSX.Element {
   const previousModeSpecificProps = usePrevious(
     modeSpecificProps,
     modeSpecificProps
@@ -657,7 +660,7 @@ export function LeftPane({
     commonDialogProps
   );
   // Yellow dialogs
-  let maybeYellowDialog: React.JSX.Element | undefined;
+  let maybeYellowDialog: JSX.Element | undefined;
 
   if (unsupportedOSDialogType === 'warning') {
     maybeYellowDialog = renderUnsupportedOSDialog({
@@ -673,13 +676,13 @@ export function LeftPane({
   }
 
   // Update dialog
-  let maybeUpdateDialog: React.JSX.Element | undefined;
+  let maybeUpdateDialog: JSX.Element | undefined;
   if (hasUpdateDialog && (!hasNetworkDialog || isUpdateDownloaded)) {
     maybeUpdateDialog = renderUpdateDialog(commonDialogProps);
   }
 
   // Red dialogs
-  let maybeRedDialog: React.JSX.Element | undefined;
+  let maybeRedDialog: JSX.Element | undefined;
   if (unsupportedOSDialogType === 'error') {
     maybeRedDialog = renderUnsupportedOSDialog({
       type: 'error',
@@ -689,7 +692,7 @@ export function LeftPane({
     maybeRedDialog = renderExpiredBuildDialog(commonDialogProps);
   }
 
-  const dialogs = new Array<{ key: string; dialog: React.JSX.Element }>();
+  const dialogs = new Array<{ key: string; dialog: JSX.Element }>();
 
   if (maybeRedDialog) {
     dialogs.push({ key: 'red', dialog: maybeRedDialog });
@@ -707,7 +710,7 @@ export function LeftPane({
     }
   }
 
-  let maybeBanner: React.JSX.Element | undefined;
+  let maybeBanner: JSX.Element | undefined;
   if (usernameCorrupted) {
     maybeBanner = (
       <LeftPaneBanner
@@ -889,7 +892,7 @@ export function LeftPane({
         {hasDialogs ? (
           <div className="module-left-pane__dialogs">
             {dialogs.map(({ key, dialog }) => (
-              <React.Fragment key={key}>{dialog}</React.Fragment>
+              <Fragment key={key}>{dialog}</Fragment>
             ))}
           </div>
         ) : null}
@@ -905,7 +908,7 @@ export function LeftPane({
             handleCancel={cancelBackupMediaDownload}
           />
         ) : null}
-        {preRowsNode && <React.Fragment key={0}>{preRowsNode}</React.Fragment>}
+        {preRowsNode && <Fragment key={0}>{preRowsNode}</Fragment>}
         <div className="module-left-pane__list--measure" ref={measureRef}>
           {isEmpty &&
             helper.getEmptyViewNode({

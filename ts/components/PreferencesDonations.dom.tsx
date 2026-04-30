@@ -1,10 +1,10 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import lodash from 'lodash';
 
-import type { MutableRefObject, ReactNode } from 'react';
+import type { MutableRefObject, ReactNode, JSX } from 'react';
 import { ListBox, ListBoxItem } from 'react-aria-components';
 import type { ReadonlyDeep } from 'type-fest';
 import { getDateTimeFormatter } from '../util/formatTimestamp.dom.ts';
@@ -132,7 +132,7 @@ type PreferencesHomeProps = Pick<
   | 'donationReceipts'
   | 'workflow'
 > & {
-  renderDonationHero: () => React.JSX.Element;
+  renderDonationHero: () => JSX.Element;
 };
 
 export function isDonationsPage(page: SettingsPage): page is DonationPage {
@@ -158,9 +158,9 @@ function DonationHero({
   profileAvatarUrl,
   theme,
   showPrivacyModal,
-}: DonationHeroProps): React.JSX.Element {
+}: DonationHeroProps): JSX.Element {
   const privacyReadMoreLink = useCallback(
-    (parts: ReactNode): React.JSX.Element => {
+    (parts: ReactNode): JSX.Element => {
       return (
         <button
           type="button"
@@ -211,7 +211,7 @@ function DonationsHome({
   isOnline,
   donationReceipts,
   workflow,
-}: PreferencesHomeProps): React.JSX.Element {
+}: PreferencesHomeProps): JSX.Element {
   const [isInProgressModalVisible, setIsInProgressVisible] = useState(false);
 
   const inProgressDonationAmount = useMemo<string | undefined>(() => {
@@ -353,7 +353,7 @@ function PreferencesReceiptList({
     i18n: LocalizerType
   ) => Promise<Blob>;
   showToast: (toast: AnyToast) => void;
-}): React.JSX.Element {
+}): JSX.Element {
   const [selectedReceipt, setSelectedReceipt] =
     useState<DonationReceipt | null>(null);
   const [isDownloading, setIsDownloading] = useState(false);
@@ -571,7 +571,7 @@ export function PreferencesDonations({
   updateLastError,
   donationBadge,
   fetchBadgeData,
-}: PropsType): React.JSX.Element | null {
+}: PropsType): JSX.Element | null {
   const [hasProcessingExpired, setHasProcessingExpired] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
@@ -796,7 +796,7 @@ export function PreferencesDonations({
   }
 
   let title: string | undefined;
-  let backButton: React.JSX.Element | undefined;
+  let backButton: JSX.Element | undefined;
   if (settingsLocation.page === SettingsPage.Donations) {
     title = i18n('icu:Preferences__DonateTitle');
   } else if (settingsLocation.page === SettingsPage.DonationsReceiptList) {

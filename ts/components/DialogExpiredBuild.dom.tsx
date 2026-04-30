@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { JSX } from 'react';
 
 import type { LocalizerType } from '../types/Util.std.ts';
 import type { WidthBreakpoint } from './_util.std.ts';
@@ -17,7 +17,7 @@ export type PropsType = {
 export function DialogExpiredBuild({
   containerWidthBreakpoint,
   i18n,
-}: PropsType): React.JSX.Element | null {
+}: PropsType): JSX.Element | null {
   return (
     <LeftPaneDialog
       containerWidthBreakpoint={containerWidthBreakpoint}

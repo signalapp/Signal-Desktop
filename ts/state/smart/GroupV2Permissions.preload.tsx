@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { useSelector } from 'react-redux';
-import React, { memo } from 'react';
+import { memo } from 'react';
 import { GroupV2Permissions } from '../../components/conversation/conversation-details/GroupV2Permissions.dom.tsx';
 import { getConversationSelector } from '../selectors/conversations.dom.ts';
 import { getIntl } from '../selectors/user.std.ts';

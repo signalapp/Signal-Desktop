@@ -1,7 +1,8 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import type { JSX } from 'react';
+
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import type { PropsType } from './IncomingCallBar.dom.tsx';
@@ -54,7 +55,7 @@ export default {
   title: 'Components/IncomingCallBar',
 } satisfies Meta<PropsType>;
 
-export function IncomingDirectCallVideo(): React.JSX.Element {
+export function IncomingDirectCallVideo(): JSX.Element {
   return (
     <IncomingCallBar
       {...commonProps}
@@ -65,7 +66,7 @@ export function IncomingDirectCallVideo(): React.JSX.Element {
   );
 }
 
-export function IncomingDirectCallAudio(): React.JSX.Element {
+export function IncomingDirectCallAudio(): JSX.Element {
   return (
     <IncomingCallBar
       {...commonProps}
@@ -76,7 +77,7 @@ export function IncomingDirectCallAudio(): React.JSX.Element {
   );
 }
 
-export function IncomingGroupCallOnlyCallingYou(): React.JSX.Element {
+export function IncomingGroupCallOnlyCallingYou(): JSX.Element {
   return (
     <IncomingCallBar
       {...commonProps}
@@ -88,7 +89,7 @@ export function IncomingGroupCallOnlyCallingYou(): React.JSX.Element {
   );
 }
 
-export function IncomingGroupCallCallingYouAnd1Other(): React.JSX.Element {
+export function IncomingGroupCallCallingYouAnd1Other(): JSX.Element {
   return (
     <IncomingCallBar
       {...commonProps}
@@ -100,7 +101,7 @@ export function IncomingGroupCallCallingYouAnd1Other(): React.JSX.Element {
   );
 }
 
-export function IncomingGroupCallCallingYouAnd2Others(): React.JSX.Element {
+export function IncomingGroupCallCallingYouAnd2Others(): JSX.Element {
   return (
     <IncomingCallBar
       {...commonProps}
@@ -115,7 +116,7 @@ export function IncomingGroupCallCallingYouAnd2Others(): React.JSX.Element {
   );
 }
 
-export function IncomingGroupCallCallingYouAnd3Others(): React.JSX.Element {
+export function IncomingGroupCallCallingYouAnd3Others(): JSX.Element {
   return (
     <IncomingCallBar
       {...commonProps}
@@ -131,7 +132,7 @@ export function IncomingGroupCallCallingYouAnd3Others(): React.JSX.Element {
   );
 }
 
-export function IncomingGroupCallCallingYouAnd4Others(): React.JSX.Element {
+export function IncomingGroupCallCallingYouAnd4Others(): JSX.Element {
   return (
     <IncomingCallBar
       {...commonProps}

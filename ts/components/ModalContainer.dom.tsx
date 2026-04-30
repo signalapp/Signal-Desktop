@@ -1,8 +1,8 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
-import type { ReactNode } from 'react';
+import { useRef } from 'react';
+import type { ReactNode, JSX } from 'react';
 import ReactDOM from 'react-dom';
 import { ModalContainerContext } from './ModalHost.dom.tsx';
 
@@ -17,11 +17,8 @@ type Props = {
  * Useful when you want to control the stacking context of all children, by customizing
  * the styles of the container in way that also applies to modals.
  */
-export const ModalContainer = ({
-  children,
-  className,
-}: Props): React.JSX.Element => {
-  const containerRef = React.useRef<HTMLDivElement | null>(null);
+export const ModalContainer = ({ children, className }: Props): JSX.Element => {
+  const containerRef = useRef<HTMLDivElement | null>(null);
   return ReactDOM.createPortal(
     <div ref={containerRef} className={className}>
       <ModalContainerContext.Provider value={containerRef.current}>

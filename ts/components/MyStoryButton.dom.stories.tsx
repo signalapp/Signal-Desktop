@@ -3,7 +3,6 @@
 
 import type { Meta, ReactRenderer, StoryFn } from '@storybook/react';
 import type { PlayFunction } from '@storybook/csf';
-import React from 'react';
 import { expect, fn, within, userEvent } from '@storybook/test';
 
 import { action } from '@storybook/addon-actions';

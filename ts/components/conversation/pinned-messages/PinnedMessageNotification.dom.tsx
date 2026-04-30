@@ -1,6 +1,6 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import React, { useCallback } from 'react';
+import { useCallback, type JSX } from 'react';
 import type { ConversationType } from '../../../state/ducks/conversations.preload.ts';
 import type { LocalizerType } from '../../../types/Util.std.ts';
 import { I18n } from '../../I18n.dom.tsx';
@@ -22,7 +22,7 @@ export type PinnedMessageNotificationProps = PinnedMessageNotificationData &
 
 export function PinnedMessageNotification(
   props: PinnedMessageNotificationProps
-): React.JSX.Element {
+): JSX.Element {
   const { i18n, sender, pinMessage, onScrollToPinnedMessage } = props;
 
   const onClick = useCallback(() => {

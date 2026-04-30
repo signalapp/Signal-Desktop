@@ -1,7 +1,8 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import type { JSX } from 'react';
+
 import type { Meta } from '@storybook/react';
 import type { PropsType } from './ContactName.dom.tsx';
 import { ContactName } from './ContactName.dom.tsx';
@@ -11,11 +12,11 @@ export default {
   title: 'Components/Conversation/ContactName',
 } satisfies Meta<PropsType>;
 
-export function FirstNameAndTitleTitlePreferred(): React.JSX.Element {
+export function FirstNameAndTitleTitlePreferred(): JSX.Element {
   return <ContactName firstName="Ignored" title="Someone 🔥 Somewhere" />;
 }
 
-export function FirstNameAndTitleFirstNamePreferred(): React.JSX.Element {
+export function FirstNameAndTitleFirstNamePreferred(): JSX.Element {
   return (
     <ContactName
       firstName="Someone 🔥 Somewhere"
@@ -25,7 +26,7 @@ export function FirstNameAndTitleFirstNamePreferred(): React.JSX.Element {
   );
 }
 
-export function WithLongLabel(): React.JSX.Element {
+export function WithLongLabel(): JSX.Element {
   return (
     <div style={{ maxWidth: '400px', overflow: 'hidden' }}>
       <ContactName
@@ -41,7 +42,7 @@ export function WithLongLabel(): React.JSX.Element {
   );
 }
 
-export function WithLabelWithBigUnicode(): React.JSX.Element {
+export function WithLabelWithBigUnicode(): JSX.Element {
   return (
     <div style={{ maxWidth: '400px', overflow: 'hidden' }}>
       <ContactName
@@ -56,7 +57,7 @@ export function WithLabelWithBigUnicode(): React.JSX.Element {
   );
 }
 
-export function Colors(): React.JSX.Element {
+export function Colors(): JSX.Element {
   return (
     <>
       {ContactNameColors.map(color => (
@@ -68,7 +69,7 @@ export function Colors(): React.JSX.Element {
   );
 }
 
-export function ColorsWithLabels(): React.JSX.Element {
+export function ColorsWithLabels(): JSX.Element {
   return (
     <>
       {ContactNameColors.map(color => (
@@ -84,7 +85,7 @@ export function ColorsWithLabels(): React.JSX.Element {
   );
 }
 
-export function ColorsWithNoLabelEmoji(): React.JSX.Element {
+export function ColorsWithNoLabelEmoji(): JSX.Element {
   return (
     <>
       {ContactNameColors.map(color => (
@@ -103,7 +104,7 @@ export function ColorsWithNoLabelEmoji(): React.JSX.Element {
   );
 }
 
-export function ColorsWithInvalidLabelEmoji(): React.JSX.Element {
+export function ColorsWithInvalidLabelEmoji(): JSX.Element {
   return (
     <>
       {ContactNameColors.map(color => (

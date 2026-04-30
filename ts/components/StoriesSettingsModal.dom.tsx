@@ -1,14 +1,8 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ReactNode } from 'react';
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import type { ReactNode, JSX } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import lodash from 'lodash';
 
 import type { ConversationType } from '../state/ducks/conversations.preload.ts';
@@ -271,7 +265,7 @@ export function StoriesSettingsModal({
   theme,
   setStoriesDisabled,
   getConversationByServiceId,
-}: PropsType): React.JSX.Element {
+}: PropsType): JSX.Element {
   const tryClose = useRef<(() => void) | null>(null);
   const [confirmDiscardModal, confirmDiscardIf] = useConfirmDiscard({
     i18n,
@@ -597,7 +591,7 @@ export function DistributionListSettingsModal({
   theme,
   toggleSignalConnectionsModal,
   signalConnectionsCount,
-}: DistributionListSettingsModalPropsType): React.JSX.Element {
+}: DistributionListSettingsModalPropsType): JSX.Element {
   const [confirmRemoveMember, setConfirmRemoveMember] = useState<
     | undefined
     | {
@@ -838,8 +832,8 @@ export function EditMyStoryPrivacy({
   setMyStoriesToAllSignalConnections,
   toggleSignalConnectionsModal,
   signalConnectionsCount,
-}: EditMyStoryPrivacyPropsType): React.JSX.Element {
-  const learnMoreLink = (parts: Array<React.JSX.Element | string>) => (
+}: EditMyStoryPrivacyPropsType): JSX.Element {
+  const learnMoreLink = (parts: Array<JSX.Element | string>) => (
     <button
       className="StoriesSettingsModal__disclaimer__learn-more"
       onClick={toggleSignalConnectionsModal}
@@ -1000,7 +994,7 @@ export function EditDistributionListModal({
   setSelectedContacts,
   theme,
   onBackButtonClick,
-}: EditDistributionListModalPropsType): React.JSX.Element {
+}: EditDistributionListModalPropsType): JSX.Element {
   const [storyName, setStoryName] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -1145,7 +1139,7 @@ export function EditDistributionListModal({
     };
   };
 
-  let footer: React.JSX.Element | undefined;
+  let footer: JSX.Element | undefined;
   if (isChoosingViewers) {
     footer = (
       <Button
@@ -1282,7 +1276,7 @@ function GroupStorySettingsModal({
   onBackButtonClick,
   getConversationByServiceId,
   onRemoveGroup,
-}: GroupStorySettingsModalProps): React.JSX.Element {
+}: GroupStorySettingsModalProps): JSX.Element {
   const groupMemberships = getGroupMemberships(
     group,
     getConversationByServiceId

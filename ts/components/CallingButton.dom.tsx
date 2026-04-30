@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useMemo } from 'react';
+import { useMemo, useCallback, type JSX, type MouseEvent } from 'react';
 import classNames from 'classnames';
 import { v4 as uuid } from 'uuid';
 import type { TooltipPlacement } from './Tooltip.dom.tsx';
@@ -52,7 +52,7 @@ export function CallingButton({
   onMouseEnter,
   onMouseLeave,
   tooltipDirection,
-}: PropsType): React.JSX.Element {
+}: PropsType): JSX.Element {
   const uniqueButtonId = useMemo(() => uuid(), []);
 
   let classNameSuffix = '';
@@ -135,8 +135,8 @@ export function CallingButton({
     );
   }
 
-  const handleClick = React.useCallback(
-    (event: React.MouseEvent) => {
+  const handleClick = useCallback(
+    (event: MouseEvent) => {
       event.preventDefault();
       event.stopPropagation();
 

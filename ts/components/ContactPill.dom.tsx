@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { JSX } from 'react';
 
 import type { ConversationType } from '../state/ducks/conversations.preload.ts';
 import type { LocalizerType } from '../types/Util.std.ts';
@@ -38,7 +38,7 @@ export function ContactPill({
   profileName,
   title,
   onClickRemove,
-}: PropsType): React.JSX.Element {
+}: PropsType): JSX.Element {
   const removeLabel = i18n('icu:ContactPill--remove');
 
   return (

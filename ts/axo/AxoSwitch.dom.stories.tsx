@@ -1,6 +1,6 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import React, { useState } from 'react';
+import { useState, type JSX } from 'react';
 import type { Meta } from '@storybook/react';
 import { AxoSwitch } from './AxoSwitch.dom.tsx';
 import { tw } from './tw.dom.tsx';
@@ -13,7 +13,7 @@ function Template(props: {
   label: string;
   defaultChecked: boolean;
   disabled?: boolean;
-}): React.JSX.Element {
+}): JSX.Element {
   const [checked, setChecked] = useState(props.defaultChecked);
   return (
     <label className={tw('my-2 flex items-center gap-2')}>
@@ -27,7 +27,7 @@ function Template(props: {
   );
 }
 
-export function Basic(): React.JSX.Element {
+export function Basic(): JSX.Element {
   return (
     <>
       <h1 className={tw('type-title-large')}>AxoSwitch</h1>

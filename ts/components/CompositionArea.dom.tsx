@@ -1,13 +1,14 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, {
+import {
   memo,
   useCallback,
   useEffect,
   useMemo,
   useRef,
   useState,
+  type JSX,
 } from 'react';
 import classNames from 'classnames';
 import type { ReadonlyDeep } from 'type-fest';
@@ -212,10 +213,10 @@ export type OwnProps = Readonly<{
   startRecording: (id: string) => unknown;
   terminated: boolean | null;
   theme: ThemeType;
-  renderSmartCompositionRecording: () => React.JSX.Element;
+  renderSmartCompositionRecording: () => JSX.Element;
   renderSmartCompositionRecordingDraft: (
     props: SmartCompositionRecordingDraftProps
-  ) => React.JSX.Element | null;
+  ) => JSX.Element | null;
   selectedMessageIds: ReadonlyArray<string> | undefined;
   areSelectedMessagesForwardable: boolean | undefined;
   toggleSelectMode: (on: boolean) => void;
@@ -357,7 +358,7 @@ export const CompositionArea = memo(function CompositionArea({
   toggleForwardMessagesModal,
   // DraftGifMessageSendModal
   toggleDraftGifMessageSendModal,
-}: Props): React.JSX.Element | null {
+}: Props): JSX.Element | null {
   const [dirty, setDirty] = useState(false);
   const [large, setLarge] = useState(false);
   const [attachmentToEdit, setAttachmentToEdit] = useState<

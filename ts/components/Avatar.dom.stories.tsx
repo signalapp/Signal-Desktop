@@ -1,8 +1,9 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { JSX } from 'react';
+
 import type { Meta, StoryFn } from '@storybook/react';
-import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import { expect, fn, within, userEvent } from '@storybook/test';
 import type { AvatarColorType } from '../types/Colors.std.ts';
@@ -161,7 +162,7 @@ SearchIcon.args = createProps({
   searchResult: true,
 });
 
-export function Colors(): React.JSX.Element {
+export function Colors(): JSX.Element {
   const props = createProps();
 
   return (

@@ -1,7 +1,7 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { JSX } from 'react';
 
 import type { LocalizerType } from '../../types/Util.std.ts';
 import { SystemMessage } from './SystemMessage.dom.tsx';
@@ -25,7 +25,7 @@ export type PropsType = PropsDataType & {
 // Also known as a Session Switchover Event (SSE)
 export function PhoneNumberDiscoveryNotification(
   props: PropsType
-): React.JSX.Element {
+): JSX.Element {
   const {
     conversationId,
     conversationTitle,

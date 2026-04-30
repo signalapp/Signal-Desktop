@@ -1,7 +1,8 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import type { JSX } from 'react';
+
 import type { Meta } from '@storybook/react';
 import type { PropsType } from './Tooltip.dom.tsx';
 import { Tooltip, TooltipPlacement } from './Tooltip.dom.tsx';
@@ -28,7 +29,7 @@ export default {
     sticky: false,
   },
   decorators: [
-    (Story): React.JSX.Element => {
+    (Story): JSX.Element => {
       return (
         <div
           style={{
@@ -58,7 +59,7 @@ const Trigger = (
   </span>
 );
 
-export function Top(args: PropsType): React.JSX.Element {
+export function Top(args: PropsType): JSX.Element {
   return (
     <Tooltip {...args} direction={TooltipPlacement.Top}>
       {Trigger}
@@ -66,7 +67,7 @@ export function Top(args: PropsType): React.JSX.Element {
   );
 }
 
-export function Right(args: PropsType): React.JSX.Element {
+export function Right(args: PropsType): JSX.Element {
   return (
     <Tooltip {...args} direction={TooltipPlacement.Right}>
       {Trigger}
@@ -74,7 +75,7 @@ export function Right(args: PropsType): React.JSX.Element {
   );
 }
 
-export function Bottom(args: PropsType): React.JSX.Element {
+export function Bottom(args: PropsType): JSX.Element {
   return (
     <Tooltip {...args} direction={TooltipPlacement.Bottom}>
       {Trigger}
@@ -82,7 +83,7 @@ export function Bottom(args: PropsType): React.JSX.Element {
   );
 }
 
-export function Left(args: PropsType): React.JSX.Element {
+export function Left(args: PropsType): JSX.Element {
   return (
     <Tooltip {...args} direction={TooltipPlacement.Left}>
       {Trigger}
@@ -90,7 +91,7 @@ export function Left(args: PropsType): React.JSX.Element {
   );
 }
 
-export function Sticky(args: PropsType): React.JSX.Element {
+export function Sticky(args: PropsType): JSX.Element {
   return (
     <Tooltip {...args} sticky>
       {Trigger}
@@ -98,7 +99,7 @@ export function Sticky(args: PropsType): React.JSX.Element {
   );
 }
 
-export function WithAppliedPopperModifiers(args: PropsType): React.JSX.Element {
+export function WithAppliedPopperModifiers(args: PropsType): JSX.Element {
   return (
     <Tooltip
       {...args}
@@ -117,7 +118,7 @@ export function WithAppliedPopperModifiers(args: PropsType): React.JSX.Element {
   );
 }
 
-export function DarkTheme(args: PropsType): React.JSX.Element {
+export function DarkTheme(args: PropsType): JSX.Element {
   return (
     <Tooltip {...args} sticky theme={Theme.Dark}>
       {Trigger}

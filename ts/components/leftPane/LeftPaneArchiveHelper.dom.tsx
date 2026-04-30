@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReactNode } from 'react';
-import React from 'react';
 import lodash from 'lodash';
 
 import type { ToFindType } from './LeftPaneHelper.dom.tsx';

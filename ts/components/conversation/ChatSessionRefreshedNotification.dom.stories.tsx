@@ -1,7 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import type { JSX } from 'react';
+
 import type { Meta } from '@storybook/react';
 import type { PropsType } from './ChatSessionRefreshedNotification.dom.tsx';
 import { ChatSessionRefreshedNotification } from './ChatSessionRefreshedNotification.dom.tsx';
@@ -12,6 +13,6 @@ export default {
   title: 'Components/Conversation/ChatSessionRefreshedNotification',
 } satisfies Meta<PropsType>;
 
-export function Default(): React.JSX.Element {
+export function Default(): JSX.Element {
   return <ChatSessionRefreshedNotification i18n={i18n} />;
 }

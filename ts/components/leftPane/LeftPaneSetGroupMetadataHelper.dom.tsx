@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReactNode } from 'react';
-import React from 'react';
 
 import { LeftPaneHelper } from './LeftPaneHelper.dom.tsx';
 import type { Row } from '../ConversationList.dom.tsx';

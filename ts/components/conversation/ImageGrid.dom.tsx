@@ -1,7 +1,12 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import {
+  useCallback,
+  type JSX,
+  type MouseEvent,
+  type KeyboardEvent,
+} from 'react';
 import classNames from 'classnames';
 
 import type {
@@ -125,7 +130,7 @@ export function ImageGrid({
   theme,
   withContentAbove,
   withContentBelow,
-}: Props): React.JSX.Element | null {
+}: Props): JSX.Element | null {
   const { curveTopLeft, curveTopRight, curveBottomLeft, curveBottomRight } =
     getCurves({
       direction,
@@ -137,8 +142,8 @@ export function ImageGrid({
 
   const withBottomOverlay = Boolean(bottomOverlay && !withContentBelow);
 
-  const startDownloadClick = React.useCallback(
-    (event: React.MouseEvent) => {
+  const startDownloadClick = useCallback(
+    (event: MouseEvent) => {
       if (startDownload) {
         event.preventDefault();
         event.stopPropagation();
@@ -147,8 +152,8 @@ export function ImageGrid({
     },
     [startDownload]
   );
-  const startDownloadKeyDown = React.useCallback(
-    (event: React.KeyboardEvent<HTMLButtonElement>) => {
+  const startDownloadKeyDown = useCallback(
+    (event: KeyboardEvent<HTMLButtonElement>) => {
       if (startDownload && (event.key === 'Enter' || event.key === 'Space')) {
         event.preventDefault();
         event.stopPropagation();
@@ -158,7 +163,7 @@ export function ImageGrid({
     [startDownload]
   );
 
-  const showAttachmentOrNoLongerAvailableToast = React.useCallback(
+  const showAttachmentOrNoLongerAvailableToast = useCallback(
     (attachmentIndex: number) => {
       const attachment = attachments[attachmentIndex];
       strictAssert(attachment, 'Missing attachment');
@@ -591,9 +596,9 @@ function renderDownloadPill({
 }: {
   attachments: ReadonlyArray<AttachmentForUIType>;
   i18n: LocalizerType;
-  startDownloadClick: (event: React.MouseEvent) => void;
-  startDownloadKeyDown: (event: React.KeyboardEvent<HTMLButtonElement>) => void;
-}): React.JSX.Element | null {
+  startDownloadClick: (event: MouseEvent) => void;
+  startDownloadKeyDown: (event: KeyboardEvent<HTMLButtonElement>) => void;
+}): JSX.Element | null {
   const downloadedOrPendingOrIncremental = attachments.some(
     attachment =>
       attachment.path || attachment.pending || isIncremental(attachment)

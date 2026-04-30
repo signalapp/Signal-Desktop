@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ComponentProps, ReactElement } from 'react';
-import React from 'react';
 
 import { missingCaseError } from '../util/missingCaseError.std.ts';
 import { InstallScreenStep } from '../types/InstallScreen.std.ts';

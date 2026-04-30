@@ -1,7 +1,7 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import { useState, useCallback, type JSX } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
@@ -24,7 +24,7 @@ import {
 } from '../../selectors/art';
 import { useI18n } from '../../contexts/I18n';
 
-export function ShareStage(): React.JSX.Element {
+export function ShareStage(): JSX.Element {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -34,15 +34,15 @@ export function ShareStage(): React.JSX.Element {
   const author = useAuthor();
   const images = useOrderedImagePaths();
   const shareUrl = usePackUrl();
-  const [linkCopied, setLinkCopied] = React.useState(false);
-  const onCopy = React.useCallback(() => {
+  const [linkCopied, setLinkCopied] = useState(false);
+  const onCopy = useCallback(() => {
     setLinkCopied(true);
   }, [setLinkCopied]);
-  const resetLinkCopied = React.useCallback(() => {
+  const resetLinkCopied = useCallback(() => {
     setLinkCopied(false);
   }, [setLinkCopied]);
 
-  const handlePrev = React.useCallback(() => {
+  const handlePrev = useCallback(() => {
     dispatch(reset(artType));
     navigate('/');
   }, [dispatch, artType, navigate]);

@@ -1,8 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ReactNode } from 'react';
-import React, { useState } from 'react';
+import type { ReactNode, JSX } from 'react';
+import { useState } from 'react';
 import classNames from 'classnames';
 
 import type { LocalizerType } from '../../../types/Util.std.ts';
@@ -61,7 +61,7 @@ export function ConversationDetailsActions({
   onReportSpamAndBlock,
   onReportSpam,
   onTerminateGroup,
-}: Props): React.JSX.Element {
+}: Props): JSX.Element {
   const [confirmLeave, gLeave] = useState<boolean>(false);
   const [confirmGroupBlock, gGroupBlock] = useState<boolean>(false);
   const [confirmGroupUnblock, gGroupUnblock] = useState<boolean>(false);

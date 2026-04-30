@@ -1,7 +1,8 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { JSX } from 'react';
+
 import type { Meta } from '@storybook/react';
 import type { PropsType } from './LeftPaneDialog.dom.tsx';
 import { LeftPaneDialog } from './LeftPaneDialog.dom.tsx';
@@ -14,7 +15,7 @@ const widths = {
 };
 
 // oxlint-disable-next-line typescript/no-explicit-any
-function WidthDecorator(Story: any, context: any): React.JSX.Element {
+function WidthDecorator(Story: any, context: any): JSX.Element {
   return (
     <div
       style={{

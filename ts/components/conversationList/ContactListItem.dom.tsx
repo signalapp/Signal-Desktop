@@ -1,8 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { FunctionComponent } from 'react';
-import React, { useMemo, useState } from 'react';
+import type { FunctionComponent, JSX } from 'react';
+import { useMemo, useState, memo } from 'react';
 
 import { HEADER_CONTACT_NAME_CLASS_NAME } from './BaseConversationListItem.dom.tsx';
 import type { ConversationType } from '../../state/ducks/conversations.preload.ts';
@@ -58,7 +58,7 @@ type PropsHousekeepingType = {
 
 type PropsType = PropsDataType & PropsHousekeepingType;
 
-export const ContactListItem: FunctionComponent<PropsType> = React.memo(
+export const ContactListItem: FunctionComponent<PropsType> = memo(
   function ContactListItem({
     about,
     avatarUrl,
@@ -154,7 +154,7 @@ export const ContactListItem: FunctionComponent<PropsType> = React.memo(
     const messageText =
       about && !isMe ? <About className="" text={about} /> : undefined;
 
-    let trailing: React.JSX.Element | undefined;
+    let trailing: JSX.Element | undefined;
     if (hasContextMenu) {
       trailing = (
         <ContextMenu
@@ -168,8 +168,8 @@ export const ContactListItem: FunctionComponent<PropsType> = React.memo(
       );
     }
 
-    let blockConfirmation: React.JSX.Element | undefined;
-    let removeConfirmation: React.JSX.Element | undefined;
+    let blockConfirmation: JSX.Element | undefined;
+    let removeConfirmation: JSX.Element | undefined;
 
     if (isConfirmingBlocking) {
       blockConfirmation = (

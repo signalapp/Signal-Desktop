@@ -1,7 +1,8 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import type { JSX } from 'react';
+
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import type { Props } from './DocumentListItem.dom.tsx';
@@ -17,7 +18,7 @@ export default {
 
 const { i18n } = window.SignalContext;
 
-export function Multiple(): React.JSX.Element {
+export function Multiple(): JSX.Element {
   const items = createPreparedMediaItems(createRandomDocuments);
 
   return (

@@ -1,7 +1,12 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useCallback } from 'react';
+import {
+  useCallback,
+  type JSX,
+  type MouseEvent,
+  type KeyboardEvent,
+} from 'react';
 import classNames from 'classnames';
 
 import type { ReadonlyDeep } from 'type-fest';
@@ -89,10 +94,10 @@ export function ContactDetail({
   kickOffAttachmentDownload,
   messageId,
   onSendMessage,
-}: Props): React.JSX.Element {
+}: Props): JSX.Element {
   // We don't want the overall click handler for this element to fire, so we stop
   //   propagation before handing control to the caller's callback.
-  const onClick = (e: React.MouseEvent<HTMLButtonElement>): void => {
+  const onClick = (e: MouseEvent<HTMLButtonElement>): void => {
     e.stopPropagation();
     onSendMessage();
   };
@@ -130,12 +135,12 @@ export function ContactDetail({
           isClickable ? 'module-contact-detail__avatar--clickable' : undefined
         )}
         type="button"
-        onClick={(event: React.MouseEvent) => {
+        onClick={(event: MouseEvent) => {
           event?.stopPropagation();
           event.preventDefault();
           maybeDownload();
         }}
-        onKeyDown={(event: React.KeyboardEvent) => {
+        onKeyDown={(event: KeyboardEvent) => {
           if (event.key !== 'Enter' && event.key !== ' ') {
             return;
           }

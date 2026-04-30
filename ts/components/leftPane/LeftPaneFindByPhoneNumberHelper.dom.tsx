@@ -1,8 +1,7 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ReactNode } from 'react';
-import React from 'react';
+import type { ReactNode, ChangeEvent } from 'react';
 
 import { LeftPaneHelper } from './LeftPaneHelper.dom.tsx';
 import type { Row } from '../ConversationList.dom.tsx';
@@ -106,7 +105,7 @@ export class LeftPaneFindByPhoneNumberHelper extends LeftPaneHelper<LeftPaneFind
   }: Readonly<{
     i18n: LocalizerType;
     onChangeComposeSearchTerm: (
-      event: React.ChangeEvent<HTMLInputElement>
+      event: ChangeEvent<HTMLInputElement>
     ) => unknown;
     onChangeComposeSelectedRegion: (newRegion: string) => void;
   }> &

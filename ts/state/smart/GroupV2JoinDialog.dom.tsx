@@ -1,6 +1,6 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import React, { memo } from 'react';
+import { memo } from 'react';
 import { useSelector } from 'react-redux';
 import type { PropsType as GroupV2JoinDialogPropsType } from '../../components/GroupV2JoinDialog.dom.tsx';
 import { GroupV2JoinDialog } from '../../components/GroupV2JoinDialog.dom.tsx';

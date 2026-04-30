@@ -1,7 +1,7 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { JSX } from 'react';
 
 import { ConfirmationDialog } from './ConfirmationDialog.dom.tsx';
 import type { LocalizerType } from '../types/I18N.std.ts';
@@ -17,8 +17,8 @@ export function BackupMediaDownloadCancelConfirmationDialog({
   i18n: LocalizerType;
   handleConfirmCancel: VoidFunction;
   handleDialogClose: VoidFunction;
-}): React.JSX.Element | null {
-  const learnMoreLink = (parts: Array<string | React.JSX.Element>) => (
+}): JSX.Element | null {
+  const learnMoreLink = (parts: Array<string | JSX.Element>) => (
     <a href={BACKUP_AND_RESTORE_SUPPORT_PAGE} rel="noreferrer" target="_blank">
       {parts}
     </a>

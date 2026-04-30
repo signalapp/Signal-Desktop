@@ -1,7 +1,7 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 
 import type { LocalizerType } from '../../types/Util.std.ts';
 

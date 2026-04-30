@@ -1,7 +1,7 @@
 // Copyright 2026 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback, type JSX } from 'react';
 import { noop } from 'lodash';
 
 import { Input } from '../../Input.dom.tsx';
@@ -106,11 +106,10 @@ export function GroupMemberLabelEditor({
   popPanelForConversation,
   theme,
   updateGroupMemberLabel,
-}: PropsType): React.JSX.Element {
-  const [isShowingGeneralError, setIsShowingGeneralError] =
-    React.useState(false);
+}: PropsType): JSX.Element {
+  const [isShowingGeneralError, setIsShowingGeneralError] = useState(false);
   const [isShowingPermissionsError, setIsShowingPermissionsError] =
-    React.useState(false);
+    useState(false);
 
   const messageContainer = useRef<HTMLDivElement | null>(null);
 
@@ -149,14 +148,14 @@ export function GroupMemberLabelEditor({
     setIsShowingPermissionsError,
   ]);
 
-  const tryClose = React.useRef<(() => void) | null>(null);
+  const tryClose = useRef<(() => void) | null>(null);
   const [confirmDiscardModal, confirmDiscardIf] = useConfirmDiscard({
     i18n,
     name: 'GroupMemberLabelEditor',
     tryClose,
   });
 
-  const onTryClose = React.useCallback(() => {
+  const onTryClose = useCallback(() => {
     const discardChanges = noop;
     // If leaving the screen because we no longer have permission, no confirm discard
     confirmDiscardIf(isDirty && canAddLabel, discardChanges);

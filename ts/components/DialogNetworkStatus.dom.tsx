@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useEffect } from 'react';
+import { useEffect, useState, type JSX } from 'react';
 
 import { LeftPaneDialog } from './LeftPaneDialog.dom.tsx';
 import { Spinner } from './Spinner.dom.tsx';
@@ -29,8 +29,8 @@ export function DialogNetworkStatus({
   isOutage,
   socketStatus,
   manualReconnect,
-}: PropsType): React.JSX.Element | null {
-  const [isConnecting, setIsConnecting] = React.useState<boolean>(
+}: PropsType): JSX.Element | null {
+  const [isConnecting, setIsConnecting] = useState<boolean>(
     socketStatus === SocketStatus.CONNECTING
   );
   useEffect(() => {

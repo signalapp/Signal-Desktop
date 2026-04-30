@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { FC, ReactNode } from 'react';
-import React, { memo, createContext, useContext } from 'react';
+import { memo, createContext, useContext } from 'react';
 import type { TailwindStyles } from './tw.dom.tsx';
 import { tw } from './tw.dom.tsx';
 

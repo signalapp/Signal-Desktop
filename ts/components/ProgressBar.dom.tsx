@@ -1,7 +1,7 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { JSX } from 'react';
 
 export function ProgressBar({
   fractionComplete,
@@ -9,7 +9,7 @@ export function ProgressBar({
 }: {
   fractionComplete: number | null;
   isRTL: boolean;
-}): React.JSX.Element {
+}): JSX.Element {
   if (fractionComplete == null) {
     return (
       <div className="ProgressBar">

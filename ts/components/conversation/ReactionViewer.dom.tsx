@@ -1,7 +1,14 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import {
+  type HTMLProps,
+  type JSX,
+  forwardRef,
+  useMemo,
+  useState,
+  useEffect,
+} from 'react';
 import lodash from 'lodash';
 import classNames from 'classnames';
 import { ContactName } from './ContactName.dom.tsx';
@@ -59,7 +66,7 @@ export type OwnProps = {
 };
 
 export type Props = OwnProps &
-  Pick<React.HTMLProps<HTMLDivElement>, 'style'> &
+  Pick<HTMLProps<HTMLDivElement>, 'style'> &
   Pick<AvatarProps, 'i18n'>;
 
 const DEFAULT_EMOJI_ORDER = [
@@ -87,7 +94,7 @@ type ReactionWithEmojiData = Reaction &
 
 function ReactionViewerEmoji(props: {
   emojiVariantValue: string | undefined;
-}): React.JSX.Element | null {
+}): JSX.Element | null {
   const emojiLocalizer = useFunEmojiLocalizer();
   strictAssert(props.emojiVariantValue != null, 'Expected an emoji');
 
@@ -110,7 +117,7 @@ function ReactionViewerEmoji(props: {
   );
 }
 
-export const ReactionViewer = React.forwardRef<HTMLDivElement, Props>(
+export const ReactionViewer = forwardRef<HTMLDivElement, Props>(
   function ReactionViewerInner(
     {
       getPreferredBadge,
@@ -123,7 +130,7 @@ export const ReactionViewer = React.forwardRef<HTMLDivElement, Props>(
     },
     ref
   ) {
-    const reactionsWithEmojiData = React.useMemo(
+    const reactionsWithEmojiData = useMemo(
       () =>
         reactions
           .map(reaction => {
@@ -140,7 +147,7 @@ export const ReactionViewer = React.forwardRef<HTMLDivElement, Props>(
       [reactions]
     );
 
-    const groupedAndSortedReactions = React.useMemo(() => {
+    const groupedAndSortedReactions = useMemo(() => {
       const groups = Object.groupBy(reactionsWithEmojiData, data => {
         return data.parentKey;
       });
@@ -154,7 +161,7 @@ export const ReactionViewer = React.forwardRef<HTMLDivElement, Props>(
       );
     }, [reactionsWithEmojiData]);
 
-    const reactionCategories: Array<ReactionCategory> = React.useMemo(
+    const reactionCategories: Array<ReactionCategory> = useMemo(
       () =>
         [
           {
@@ -182,8 +189,9 @@ export const ReactionViewer = React.forwardRef<HTMLDivElement, Props>(
       [reactionsWithEmojiData, groupedAndSortedReactions]
     );
 
-    const [selectedReactionCategory, setSelectedReactionCategory] =
-      React.useState(pickedReaction || 'all');
+    const [selectedReactionCategory, setSelectedReactionCategory] = useState(
+      pickedReaction || 'all'
+    );
 
     // Handle escape key
     useEscapeHandling(onClose);
@@ -194,7 +202,7 @@ export const ReactionViewer = React.forwardRef<HTMLDivElement, Props>(
     // If we have previously selected a reaction type that is no longer present
     // (removed on another device, for instance) we should select another
     // reaction type
-    React.useEffect(() => {
+    useEffect(() => {
       if (
         !reactionCategories.find(({ id }) => id === selectedReactionCategory)
       ) {

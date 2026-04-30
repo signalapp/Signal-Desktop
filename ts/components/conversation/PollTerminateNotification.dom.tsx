@@ -1,7 +1,8 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { JSX } from 'react';
+
 import type { LocalizerType } from '../../types/Util.std.ts';
 import type { ConversationType } from '../../state/ducks/conversations.preload.ts';
 import { SystemMessage } from './SystemMessage.dom.tsx';
@@ -35,7 +36,7 @@ export function PollTerminateNotification({
   conversationId,
   i18n,
   scrollToPollMessage,
-}: PollTerminateNotificationPropsType): React.JSX.Element {
+}: PollTerminateNotificationPropsType): JSX.Element {
   const handleViewPoll = () => {
     strictAssert(
       isAciString(sender.serviceId),

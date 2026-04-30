@@ -1,7 +1,8 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { JSX } from 'react';
+
 import type { LocalizerType } from '../types/I18N.std.ts';
 import type { NavTabPanelProps } from './NavTabs.dom.tsx';
 import { WhatsNewLink } from './WhatsNewLink.dom.tsx';
@@ -17,11 +18,9 @@ export type ChatsTabProps = Readonly<{
   hasFailedStorySends: boolean;
   navTabsCollapsed: boolean;
   onToggleNavTabsCollapse: (navTabsCollapsed: boolean) => void;
-  renderConversationView: (
-    props: SmartConversationViewProps
-  ) => React.JSX.Element;
-  renderLeftPane: (props: NavTabPanelProps) => React.JSX.Element;
-  renderMiniPlayer: (options: { shouldFlow: boolean }) => React.JSX.Element;
+  renderConversationView: (props: SmartConversationViewProps) => JSX.Element;
+  renderLeftPane: (props: NavTabPanelProps) => JSX.Element;
+  renderMiniPlayer: (options: { shouldFlow: boolean }) => JSX.Element;
   selectedConversationId: string | undefined;
   showWhatsNewModal: () => unknown;
 }>;
@@ -39,7 +38,7 @@ export function ChatsTab({
   renderMiniPlayer,
   selectedConversationId,
   showWhatsNewModal,
-}: ChatsTabProps): React.JSX.Element {
+}: ChatsTabProps): JSX.Element {
   return (
     <>
       <div id="LeftPane">

@@ -1,6 +1,6 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import React, { memo } from 'react';
+import { memo, type JSX } from 'react';
 import { useSelector } from 'react-redux';
 import { App } from '../../components/App.dom.tsx';
 import OS from '../../util/os/osMain.node.ts';
@@ -24,11 +24,11 @@ import { getApp } from '../selectors/app.std.ts';
 import { SmartFunProvider } from './FunProvider.preload.tsx';
 import { SmartStandaloneRegistration } from './StandaloneRegistration.preload.tsx';
 
-function renderInbox(): React.JSX.Element {
+function renderInbox(): JSX.Element {
   return <SmartInbox />;
 }
 
-function renderCallManager(): React.JSX.Element {
+function renderCallManager(): JSX.Element {
   return (
     <ModalContainer className="module-calling__modal-container">
       <SmartCallManager />
@@ -36,19 +36,19 @@ function renderCallManager(): React.JSX.Element {
   );
 }
 
-function renderGlobalModalContainer(): React.JSX.Element {
+function renderGlobalModalContainer(): JSX.Element {
   return <SmartGlobalModalContainer />;
 }
 
-function renderInstallScreen(): React.JSX.Element {
+function renderInstallScreen(): JSX.Element {
   return <SmartInstallScreen />;
 }
 
-function renderLightbox(): React.JSX.Element {
+function renderLightbox(): JSX.Element {
   return <SmartLightbox />;
 }
 
-function renderStandaloneRegistration(): React.JSX.Element {
+function renderStandaloneRegistration(): JSX.Element {
   return (
     <ErrorBoundary name="App/renderStandaloneRegistration">
       <SmartStandaloneRegistration />
@@ -56,7 +56,7 @@ function renderStandaloneRegistration(): React.JSX.Element {
   );
 }
 
-function renderStoryViewer(closeView: () => unknown): React.JSX.Element {
+function renderStoryViewer(closeView: () => unknown): JSX.Element {
   return (
     <ErrorBoundary name="App/renderStoryViewer" closeView={closeView}>
       <SmartStoryViewer />

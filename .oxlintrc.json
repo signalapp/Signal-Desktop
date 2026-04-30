@@ -1532,7 +1532,7 @@
     // [suspicious] Enforce that namespaces are not used in React elements
     "react/no-namespace": "error",
     // [suspicious] Disallow missing React when using JSX
-    "react/react-in-jsx-scope": "error",
+    "react/react-in-jsx-scope": "off",
     // [suspicious] Enforce style prop value is an object
     "react/style-prop-object": "error",
     // [suspicious] (🚧 planned autofix) Disallow non-null assertion in locations that may be confusing

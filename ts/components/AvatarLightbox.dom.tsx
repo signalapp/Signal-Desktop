@@ -1,7 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { JSX } from 'react';
+
 import lodash from 'lodash';
 
 import type { AvatarColorType } from '../types/Colors.std.ts';
@@ -33,7 +34,7 @@ export function AvatarLightbox({
   isGroup,
   noteToSelf,
   onClose,
-}: PropsType): React.JSX.Element {
+}: PropsType): JSX.Element {
   return (
     <Lightbox
       closeLightbox={onClose}

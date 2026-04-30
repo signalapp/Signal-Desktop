@@ -1,7 +1,7 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import { useState, useEffect, type JSX } from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import type { PropsType } from './CallingPendingParticipants.dom.tsx';
@@ -34,7 +34,7 @@ export default {
   args: {},
 } satisfies Meta<PropsType>;
 
-export function One(): React.JSX.Element {
+export function One(): JSX.Element {
   return (
     <CallingPendingParticipants
       {...createProps({
@@ -44,7 +44,7 @@ export function One(): React.JSX.Element {
   );
 }
 
-export function Two(): React.JSX.Element {
+export function Two(): JSX.Element {
   return (
     <CallingPendingParticipants
       {...createProps({
@@ -54,7 +54,7 @@ export function Two(): React.JSX.Element {
   );
 }
 
-export function Many(): React.JSX.Element {
+export function Many(): JSX.Element {
   return (
     <CallingPendingParticipants
       {...createProps({
@@ -64,10 +64,10 @@ export function Many(): React.JSX.Element {
   );
 }
 
-export function Changing(): React.JSX.Element {
+export function Changing(): JSX.Element {
   const counts = [0, 1, 2, 3, 2, 1];
-  const [countIndex, setCountIndex] = React.useState<number>(0);
-  React.useEffect(() => {
+  const [countIndex, setCountIndex] = useState<number>(0);
+  useEffect(() => {
     const interval = setInterval(() => {
       setCountIndex((countIndex + 1) % counts.length);
     }, 1000);
@@ -84,7 +84,7 @@ export function Changing(): React.JSX.Element {
   );
 }
 
-export function ExpandedOne(): React.JSX.Element {
+export function ExpandedOne(): JSX.Element {
   return (
     <CallingPendingParticipants
       {...createProps({
@@ -95,7 +95,7 @@ export function ExpandedOne(): React.JSX.Element {
   );
 }
 
-export function ExpandedTwo(): React.JSX.Element {
+export function ExpandedTwo(): JSX.Element {
   return (
     <CallingPendingParticipants
       {...createProps({
@@ -106,7 +106,7 @@ export function ExpandedTwo(): React.JSX.Element {
   );
 }
 
-export function ExpandedMany(): React.JSX.Element {
+export function ExpandedMany(): JSX.Element {
   return (
     <CallingPendingParticipants
       {...createProps({

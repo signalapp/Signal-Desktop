@@ -1,7 +1,8 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import type { JSX } from 'react';
+
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import type { Props } from './ReactionViewer.dom.tsx';
@@ -25,7 +26,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   theme: ThemeType.light,
 });
 
-export function AllReactions(): React.JSX.Element {
+export function AllReactions(): JSX.Element {
   const props = createProps({
     reactions: [
       {
@@ -125,7 +126,7 @@ export function AllReactions(): React.JSX.Element {
   return <ReactionViewer {...props} />;
 }
 
-export function PickedReaction(): React.JSX.Element {
+export function PickedReaction(): JSX.Element {
   const props = createProps({
     pickedReaction: '❤️',
     reactions: [
@@ -154,7 +155,7 @@ export function PickedReaction(): React.JSX.Element {
   return <ReactionViewer {...props} />;
 }
 
-export function PickedMissingReaction(): React.JSX.Element {
+export function PickedMissingReaction(): JSX.Element {
   const props = createProps({
     pickedReaction: '😡',
     reactions: [
@@ -207,7 +208,7 @@ const createReaction = (
   timestamp,
 });
 
-export function ReactionSkinTones(): React.JSX.Element {
+export function ReactionSkinTones(): JSX.Element {
   const props = createProps({
     pickedReaction: '😡',
     reactions: [

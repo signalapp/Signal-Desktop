@@ -1,8 +1,9 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { JSX } from 'react';
+
 import classNames from 'classnames';
-import React from 'react';
 import type { LocalizerType } from '../types/Util.std.ts';
 import { CallViewMode } from '../types/Calling.std.ts';
 import { Tooltip } from './Tooltip.dom.tsx';
@@ -29,7 +30,7 @@ export function CallingHeader({
   participantCount,
   togglePip,
   toggleSettings,
-}: PropsType): React.JSX.Element {
+}: PropsType): JSX.Element {
   return (
     <div className="module-calling-tools">
       {isGroupCall &&

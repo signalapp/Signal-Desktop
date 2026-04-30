@@ -3,7 +3,7 @@
 
 /* eslint-disable max-len */
 
-import React from 'react';
+import { memo, useMemo, type ComponentType } from 'react';
 import styles from './ShareButtons.module.scss';
 import { useI18n } from '../contexts/I18n';
 
@@ -11,13 +11,11 @@ export type Props = {
   value: string;
 };
 
-export const ShareButtons: React.ComponentType<Props> = React.memo(
+export const ShareButtons: ComponentType<Props> = memo(
   function ShareButtonsInner({ value }) {
     const i18n = useI18n();
 
-    const buttonPaths = React.useMemo<
-      Array<[string, string, string, string]>
-    >(() => {
+    const buttonPaths = useMemo<Array<[string, string, string, string]>>(() => {
       const packUrl = encodeURIComponent(value);
       const text = encodeURIComponent(
         `${i18n('StickerCreator--ShareStage--socialMessage')} ${value}`

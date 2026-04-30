@@ -1,7 +1,7 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import { useState, useCallback, useEffect, type JSX } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import createDebug from 'debug';
@@ -27,7 +27,7 @@ import {
 
 const debug = createDebug('signal:routes:stickers:UploadStage');
 
-export function UploadStage(): React.JSX.Element {
+export function UploadStage(): JSX.Element {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -37,13 +37,13 @@ export function UploadStage(): React.JSX.Element {
   const author = useAuthor();
   const orderedData = useSelectOrderedData();
   const total = orderedData.length;
-  const [complete, setComplete] = React.useState(0);
+  const [complete, setComplete] = useState(0);
 
-  const handleCancel = React.useCallback(() => {
+  const handleCancel = useCallback(() => {
     navigate('/art/add-meta');
   }, [navigate]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     (async () => {
       const onProgress = () => {
         setComplete(i => i + 1);

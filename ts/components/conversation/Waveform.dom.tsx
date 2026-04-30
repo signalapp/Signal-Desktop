@@ -1,8 +1,9 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { JSX } from 'react';
+
 import classNames from 'classnames';
-import React from 'react';
 import { assertDev } from '../../util/assert.std.ts';
 
 type Props = {
@@ -19,7 +20,7 @@ export function Waveform({
   barMaxHeight,
   currentTime,
   duration,
-}: Props): React.JSX.Element {
+}: Props): JSX.Element {
   const currentTimeOrZero = currentTime ?? 0;
   const peakPosition = peaks.length * (currentTimeOrZero / (duration ?? 1e-23));
 

@@ -1,6 +1,6 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import React, { memo, useCallback, useMemo } from 'react';
+import { memo, useCallback, useMemo, type JSX } from 'react';
 import { useSelector } from 'react-redux';
 import { useCallingActions } from '../ducks/calling.preload.ts';
 import { getCallLinkSelector } from '../selectors/calling.std.ts';
@@ -15,7 +15,7 @@ import { CallLinkAddNameModal } from '../../components/CallLinkAddNameModal.dom.
 const log = createLogger('CallLinkAddNameModal');
 
 export const SmartCallLinkAddNameModal = memo(
-  function SmartCallLinkAddNameModal(): React.JSX.Element | null {
+  function SmartCallLinkAddNameModal(): JSX.Element | null {
     const roomId = useSelector(getCallLinkAddNameModalRoomId);
     strictAssert(roomId, 'Expected roomId to be set');
 

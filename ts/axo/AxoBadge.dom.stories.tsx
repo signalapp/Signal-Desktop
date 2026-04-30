@@ -1,7 +1,8 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
+import type { JSX } from 'react';
+
 import type { Meta } from '@storybook/react';
-import React from 'react';
 import { ExperimentalAxoBadge } from './AxoBadge.dom.tsx';
 import { tw } from './tw.dom.tsx';
 
@@ -9,7 +10,7 @@ export default {
   title: 'Axo/AriaBadge (Experimental)',
 } satisfies Meta;
 
-export function All(): React.JSX.Element {
+export function All(): JSX.Element {
   const values: ReadonlyArray<ExperimentalAxoBadge.BadgeValue> = [
     -1,
     0,

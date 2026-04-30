@@ -1,6 +1,6 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import React, { memo } from 'react';
+import { memo, type JSX } from 'react';
 import { useSelector } from 'react-redux';
 import { CallLinkPendingParticipantModal } from '../../components/CallLinkPendingParticipantModal.dom.tsx';
 import { useCallingActions } from '../ducks/calling.preload.ts';
@@ -12,7 +12,7 @@ import { getCallLinkPendingParticipantContactId } from '../selectors/globalModal
 import { strictAssert } from '../../util/assert.std.ts';
 
 export const SmartCallLinkPendingParticipantModal = memo(
-  function SmartCallLinkPendingParticipantModal(): React.JSX.Element | null {
+  function SmartCallLinkPendingParticipantModal(): JSX.Element | null {
     const contactId = useSelector(getCallLinkPendingParticipantContactId);
     strictAssert(contactId, 'Expected contactId to be set');
 

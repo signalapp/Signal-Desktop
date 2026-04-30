@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { JSX } from 'react';
 
 import { action } from '@storybook/addon-actions';
 
@@ -21,7 +21,7 @@ const defaultProps = {
   onClose: action('onClose'),
 };
 
-export function Failed3dsValidation(): React.JSX.Element {
+export function Failed3dsValidation(): JSX.Element {
   return (
     <DonationErrorModal
       {...defaultProps}
@@ -30,7 +30,7 @@ export function Failed3dsValidation(): React.JSX.Element {
   );
 }
 
-export function GeneralError(): React.JSX.Element {
+export function GeneralError(): JSX.Element {
   return (
     <DonationErrorModal
       {...defaultProps}
@@ -39,7 +39,7 @@ export function GeneralError(): React.JSX.Element {
   );
 }
 
-export function PaymentDeclined(): React.JSX.Element {
+export function PaymentDeclined(): JSX.Element {
   return (
     <DonationErrorModal
       {...defaultProps}
@@ -48,7 +48,7 @@ export function PaymentDeclined(): React.JSX.Element {
   );
 }
 
-export function PaypalCanceled(): React.JSX.Element {
+export function PaypalCanceled(): JSX.Element {
   return (
     <DonationErrorModal
       {...defaultProps}
@@ -57,7 +57,7 @@ export function PaypalCanceled(): React.JSX.Element {
   );
 }
 
-export function PaypalError(): React.JSX.Element {
+export function PaypalError(): JSX.Element {
   return (
     <DonationErrorModal
       {...defaultProps}
@@ -66,7 +66,7 @@ export function PaypalError(): React.JSX.Element {
   );
 }
 
-export function TimedOut(): React.JSX.Element {
+export function TimedOut(): JSX.Element {
   return (
     <DonationErrorModal
       {...defaultProps}

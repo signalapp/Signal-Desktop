@@ -1,7 +1,7 @@
 // Copyright 2015 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { StrictMode } from 'react';
+import { StrictMode } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 // oxlint-disable-next-line signal-desktop/no-restricted-paths
 import { ConfirmationDialog } from '../components/ConfirmationDialog.dom.tsx';

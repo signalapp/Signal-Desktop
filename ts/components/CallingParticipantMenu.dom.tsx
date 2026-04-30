@@ -1,7 +1,7 @@
 // Copyright 2026 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useState, type ReactNode } from 'react';
+import { useState, type JSX, type ReactNode } from 'react';
 import type { LocalizerType } from '../types/I18N.std.ts';
 import { AxoMenuBuilder } from '../axo/AxoMenuBuilder.dom.tsx';
 import { AxoTheme } from '../axo/AxoTheme.dom.tsx';
@@ -38,7 +38,7 @@ export function CallingParticipantMenu({
   onRemoveFromCall,
   participantTitle,
   children,
-}: CallingParticipantMenuProps): React.JSX.Element {
+}: CallingParticipantMenuProps): JSX.Element {
   const [removeFromCallModalVisible, setRemoveFromCallModalVisible] =
     useState(false);
 

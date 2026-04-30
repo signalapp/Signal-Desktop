@@ -1,7 +1,7 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import { memo } from 'react';
 import styles from './ArtPackPreview.module.scss';
 import { useI18n } from '../contexts/I18n';
 import { type ArtType } from '../constants';
@@ -13,7 +13,7 @@ export type Props = {
   author: string;
 };
 
-export const ArtPackPreview = React.memo(function ArtPackPreview({
+export const ArtPackPreview = memo(function ArtPackPreview({
   artType,
   images,
   title,

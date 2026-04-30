@@ -1,7 +1,8 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import type { JSX } from 'react';
+
 import type { Meta } from '@storybook/react';
 import { DurationInSeconds } from '../../util/durations/index.std.ts';
 import type { Props } from './TimerNotification.dom.tsx';
@@ -28,7 +29,7 @@ export default {
   },
 } satisfies Meta<Props>;
 
-export function SetByOther(args: Props): React.JSX.Element {
+export function SetByOther(args: Props): JSX.Element {
   const props: Props = {
     ...args,
     disabled: false,
@@ -46,7 +47,7 @@ export function SetByOther(args: Props): React.JSX.Element {
   );
 }
 
-export function SetByOtherWithALongName(args: Props): React.JSX.Element {
+export function SetByOtherWithALongName(args: Props): JSX.Element {
   const longName = '🦴🧩📴'.repeat(50);
 
   const props: Props = {
@@ -66,7 +67,7 @@ export function SetByOtherWithALongName(args: Props): React.JSX.Element {
   );
 }
 
-export function SetByYou(args: Props): React.JSX.Element {
+export function SetByYou(args: Props): JSX.Element {
   const props: Props = {
     ...args,
     disabled: false,
@@ -84,7 +85,7 @@ export function SetByYou(args: Props): React.JSX.Element {
   );
 }
 
-export function SetBySync(args: Props): React.JSX.Element {
+export function SetBySync(args: Props): JSX.Element {
   const props: Props = {
     ...args,
     disabled: false,
@@ -102,7 +103,7 @@ export function SetBySync(args: Props): React.JSX.Element {
   );
 }
 
-export function SetByUnknownContact(args: Props): React.JSX.Element {
+export function SetByUnknownContact(args: Props): JSX.Element {
   const props: Props = {
     ...args,
     disabled: false,

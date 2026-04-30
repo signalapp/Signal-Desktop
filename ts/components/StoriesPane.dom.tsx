@@ -3,7 +3,7 @@
 
 import Fuse from 'fuse.js';
 import type { IFuseOptions } from 'fuse.js';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState, type JSX } from 'react';
 import classNames from 'classnames';
 
 import type {
@@ -93,7 +93,7 @@ export function StoriesPane({
   theme,
   toggleHideStories,
   viewUserStories,
-}: PropsType): React.JSX.Element {
+}: PropsType): JSX.Element {
   const [searchTerm, setSearchTerm] = useState('');
   const [isShowingHiddenStories, setIsShowingHiddenStories] = useState(false);
   const [renderedStories, setRenderedStories] =

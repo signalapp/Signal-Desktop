@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import type { JSX } from 'react';
 
 import type { LocalizerType } from '../types/Util.std.ts';
 import { Modal } from './Modal.dom.tsx';
@@ -20,7 +20,7 @@ function focusRef(el: HTMLElement | null) {
   }
 }
 
-export function DebugLogErrorModal(props: PropsType): React.JSX.Element {
+export function DebugLogErrorModal(props: PropsType): JSX.Element {
   const { description, i18n, onClose, onSubmitDebugLog } = props;
 
   const footer = (

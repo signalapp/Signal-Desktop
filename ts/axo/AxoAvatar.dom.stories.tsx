@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import type { Meta } from '@storybook/react';
 import type { JSX, ReactNode } from 'react';
-import React from 'react';
 import { action } from '@storybook/addon-actions';
 import { AxoAvatar } from './AxoAvatar.dom.tsx';
 import { tw } from './tw.dom.tsx';

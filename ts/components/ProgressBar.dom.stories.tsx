@@ -1,12 +1,12 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import { type ComponentProps, type JSX, useState, useEffect } from 'react';
 
 import { ProgressBar } from './ProgressBar.dom.tsx';
 import type { ComponentMeta } from '../storybook/types.std.ts';
 
-type Props = React.ComponentProps<typeof ProgressBar>;
+type Props = ComponentProps<typeof ProgressBar>;
 export default {
   title: 'Components/ProgressBar',
   component: ProgressBar,
@@ -16,34 +16,34 @@ export default {
   },
 } satisfies ComponentMeta<Props>;
 
-export function Spinning(args: Props): React.JSX.Element {
+export function Spinning(args: Props): JSX.Element {
   return <ProgressBar {...args} fractionComplete={null} />;
 }
-export function Zero(args: Props): React.JSX.Element {
+export function Zero(args: Props): JSX.Element {
   return <ProgressBar {...args} />;
 }
 
-export function Thirty(args: Props): React.JSX.Element {
+export function Thirty(args: Props): JSX.Element {
   return <ProgressBar {...args} fractionComplete={0.3} />;
 }
 
-export function Done(args: Props): React.JSX.Element {
+export function Done(args: Props): JSX.Element {
   return <ProgressBar {...args} fractionComplete={1} />;
 }
 
-export function Increasing(args: Props): React.JSX.Element {
+export function Increasing(args: Props): JSX.Element {
   const fractionComplete = useIncreasingFractionComplete();
   return <ProgressBar {...args} fractionComplete={fractionComplete} />;
 }
 
-export function RTLIncreasing(args: Props): React.JSX.Element {
+export function RTLIncreasing(args: Props): JSX.Element {
   const fractionComplete = useIncreasingFractionComplete();
   return <ProgressBar {...args} fractionComplete={fractionComplete} isRTL />;
 }
 
 function useIncreasingFractionComplete() {
-  const [fractionComplete, setFractionComplete] = React.useState(0);
-  React.useEffect(() => {
+  const [fractionComplete, setFractionComplete] = useState(0);
+  useEffect(() => {
     if (fractionComplete >= 1) {
       return;
     }

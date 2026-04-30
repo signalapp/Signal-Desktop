@@ -1,11 +1,11 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import lodash from 'lodash';
 import classNames from 'classnames';
 
-import type { ReactNode } from 'react';
+import type { ReactNode, JSX, KeyboardEvent, MouseEvent } from 'react';
 
 import * as MIME from '../../types/MIME.std.ts';
 import * as GoogleChrome from '../../util/GoogleChrome.std.ts';
@@ -151,7 +151,7 @@ function getTypeLabel({
   return MIME.isAudio(contentType) ? i18n('icu:audio') : undefined;
 }
 
-export function Quote(props: Props): React.JSX.Element | null {
+export function Quote(props: Props): JSX.Element | null {
   const {
     conversationColor,
     customColor,
@@ -195,7 +195,7 @@ export function Quote(props: Props): React.JSX.Element | null {
     doubleCheckMissingQuoteReference,
   ]);
 
-  function handleKeyDown(event: React.KeyboardEvent<HTMLButtonElement>) {
+  function handleKeyDown(event: KeyboardEvent<HTMLButtonElement>) {
     // This is important to ensure that using this quote to navigate to the referenced
     //   message doesn't also trigger its parent message's keydown.
     if (onClick && (event.key === 'Enter' || event.key === ' ')) {
@@ -205,7 +205,7 @@ export function Quote(props: Props): React.JSX.Element | null {
     }
   }
 
-  function handleClick(event: React.MouseEvent<HTMLButtonElement>) {
+  function handleClick(event: MouseEvent<HTMLButtonElement>) {
     if (onClick) {
       event.preventDefault();
       event.stopPropagation();
@@ -224,7 +224,7 @@ export function Quote(props: Props): React.JSX.Element | null {
     url: string,
     icon: string | undefined,
     asGiftBadge?: boolean
-  ): React.JSX.Element {
+  ): JSX.Element {
     const iconElement = icon ? (
       <div className={getClassName('__icon-container__inner')}>
         <div className={getClassName('__icon-container__circle-background')}>
@@ -433,13 +433,13 @@ export function Quote(props: Props): React.JSX.Element | null {
       return null;
     }
 
-    const clickHandler = (e: React.MouseEvent): void => {
+    const clickHandler = (e: MouseEvent): void => {
       e.stopPropagation();
       e.preventDefault();
 
       onClose();
     };
-    const keyDownHandler = (e: React.KeyboardEvent): void => {
+    const keyDownHandler = (e: KeyboardEvent): void => {
       if (e.key === 'Enter' || e.key === ' ') {
         e.stopPropagation();
         e.preventDefault();
@@ -616,7 +616,7 @@ function ThumbnailImage({
   src: string;
   onError: () => void;
   children: ReactNode;
-}>): React.JSX.Element {
+}>): JSX.Element {
   const imageRef = useRef(new Image());
   const [loadedSrc, setLoadedSrc] = useState<null | string>(null);
 

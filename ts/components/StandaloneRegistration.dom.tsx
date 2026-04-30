@@ -1,10 +1,10 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import intlTelInput from 'intl-tel-input';
 
-import type { ChangeEvent } from 'react';
+import type { ChangeEvent, JSX, MouseEvent } from 'react';
 import type { Iti } from 'intl-tel-input';
 
 import { strictAssert } from '../util/assert.std.ts';
@@ -33,7 +33,7 @@ function PhoneInput({
   initialValue: string | undefined;
   onValidation: (isValid: boolean) => void;
   onNumberChange: (number?: string) => void;
-}): React.JSX.Element {
+}): JSX.Element {
   const [isValid, setIsValid] = useState(false);
   const pluginRef = useRef<Iti | null>(null);
   const elemRef = useRef<HTMLInputElement | null>(null);
@@ -148,7 +148,7 @@ function PhoneNumberStage({
     transport: VerificationTransport
   ) => Promise<{ sessionId: string }>;
   onNext: (result: { number: string; sessionId: string }) => void;
-}): React.JSX.Element {
+}): JSX.Element {
   const [number, setNumber] = useState<string | undefined>(initialNumber);
 
   const [isValidNumber, setIsValidNumber] = useState(false);
@@ -188,7 +188,7 @@ function PhoneNumberStage({
   );
 
   const onSMSClick = useCallback(
-    (e: React.MouseEvent<HTMLButtonElement>) => {
+    (e: MouseEvent<HTMLButtonElement>) => {
       e.preventDefault();
       e.stopPropagation();
 
@@ -198,7 +198,7 @@ function PhoneNumberStage({
   );
 
   const onVoiceClick = useCallback(
-    (e: React.MouseEvent<HTMLButtonElement>) => {
+    (e: MouseEvent<HTMLButtonElement>) => {
       e.preventDefault();
       e.stopPropagation();
 
@@ -261,7 +261,7 @@ function VerificationCodeStage({
   ) => Promise<void>;
   onNext: () => void;
   onBack: () => void;
-}): React.JSX.Element {
+}): JSX.Element {
   const [code, setCode] = useState('');
   const [isValidCode, setIsValidCode] = useState(false);
   const [error, setError] = useState<string | undefined>(undefined);
@@ -277,7 +277,7 @@ function VerificationCodeStage({
   );
 
   const onBackClick = useCallback(
-    (event: React.MouseEvent<HTMLButtonElement>) => {
+    (event: MouseEvent<HTMLButtonElement>) => {
       event.preventDefault();
       event.stopPropagation();
       onBack();
@@ -286,7 +286,7 @@ function VerificationCodeStage({
   );
 
   const onVerifyCode = useCallback(
-    async (event: React.MouseEvent<HTMLButtonElement>) => {
+    async (event: MouseEvent<HTMLButtonElement>) => {
       event.preventDefault();
       event.stopPropagation();
 
@@ -372,7 +372,7 @@ function ProfileNameStage({
     avatarData: Uint8Array<ArrayBuffer>;
   }) => Promise<void>;
   userAvatarData: ReadonlyArray<AvatarDataType>;
-}): React.JSX.Element {
+}): JSX.Element {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [error, setError] = useState<string | undefined>(undefined);
@@ -393,7 +393,7 @@ function ProfileNameStage({
   );
 
   const onNextClick = useCallback(
-    async (event: React.MouseEvent<HTMLButtonElement>) => {
+    async (event: MouseEvent<HTMLButtonElement>) => {
       if (!avatarData) {
         return;
       }
@@ -545,7 +545,7 @@ export function StandaloneRegistration({
   saveAvatarToDisk,
   uploadInitialProfile,
   userAvatarData,
-}: PropsType): React.JSX.Element {
+}: PropsType): JSX.Element {
   useEffect(() => {
     readyForUpdates();
   }, [readyForUpdates]);
@@ -585,7 +585,7 @@ export function StandaloneRegistration({
     });
   }, []);
 
-  let body: React.JSX.Element;
+  let body: JSX.Element;
   if (stageData.stage === Stage.PhoneNumber) {
     body = (
       <PhoneNumberStage

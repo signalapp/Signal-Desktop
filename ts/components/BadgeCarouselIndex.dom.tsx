@@ -1,7 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { JSX } from 'react';
+
 import classNames from 'classnames';
 import lodash from 'lodash';
 
@@ -15,7 +16,7 @@ export function BadgeCarouselIndex({
 }: Readonly<{
   currentIndex: number;
   totalCount: number;
-}>): React.JSX.Element | null {
+}>): JSX.Element | null {
   strictAssert(totalCount >= 1, 'Expected 1 or more items');
   strictAssert(
     currentIndex < totalCount,

@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import { useState, type JSX } from 'react';
 import type { LocalizerType } from '../../types/Util.std.ts';
 import { ConfirmationDialog } from '../ConfirmationDialog.dom.tsx';
 
@@ -15,8 +15,8 @@ export function GroupV2PendingApprovalActions({
   cancelJoinRequest,
   conversationId,
   i18n,
-}: PropsType): React.JSX.Element {
-  const [isConfirming, setIsConfirming] = React.useState(false);
+}: PropsType): JSX.Element {
+  const [isConfirming, setIsConfirming] = useState(false);
 
   return (
     <div className="module-group-v2-pending-approval-actions">

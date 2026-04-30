@@ -1,7 +1,7 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, type JSX } from 'react';
 import type { Meta } from '@storybook/react';
 import type { Props } from './CallingAudioIndicator.dom.tsx';
 import {
@@ -24,7 +24,7 @@ export default {
   },
 } satisfies Meta<Props>;
 
-export function Extreme(args: Props): React.JSX.Element {
+export function Extreme(args: Props): JSX.Element {
   const [audioLevel, setAudioLevel] = useState(1);
 
   useEffect(() => {
@@ -48,7 +48,7 @@ export function Extreme(args: Props): React.JSX.Element {
   );
 }
 
-export function Random(args: Props): React.JSX.Element {
+export function Random(args: Props): JSX.Element {
   const [audioLevel, setAudioLevel] = useState(1);
 
   useEffect(() => {

@@ -1,6 +1,6 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import React, { memo, useCallback } from 'react';
+import { memo, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import type { CompositionTextAreaProps } from '../../components/CompositionTextArea.dom.tsx';
 import { CompositionTextArea } from '../../components/CompositionTextArea.dom.tsx';

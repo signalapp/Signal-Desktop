@@ -1,7 +1,8 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { JSX } from 'react';
+
 import { action } from '@storybook/addon-actions';
 import type { CallLinkPendingParticipantModalProps } from './CallLinkPendingParticipantModal.dom.tsx';
 import { CallLinkPendingParticipantModal } from './CallLinkPendingParticipantModal.dom.tsx';
@@ -42,13 +43,13 @@ export default {
 
 export function Default(
   args: CallLinkPendingParticipantModalProps
-): React.JSX.Element {
+): JSX.Element {
   return <CallLinkPendingParticipantModal {...args} />;
 }
 
 export function SystemContact(
   args: CallLinkPendingParticipantModalProps
-): React.JSX.Element {
+): JSX.Element {
   return (
     <CallLinkPendingParticipantModal {...args} conversation={systemContact} />
   );
@@ -56,7 +57,7 @@ export function SystemContact(
 
 export function WithSharedGroups(
   args: CallLinkPendingParticipantModalProps
-): React.JSX.Element {
+): JSX.Element {
   return (
     <CallLinkPendingParticipantModal
       {...args}

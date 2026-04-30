@@ -1,8 +1,8 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
-import type { MutableRefObject } from 'react';
+import { useState, useRef, useCallback, useEffect, useMemo } from 'react';
+import type { MutableRefObject, JSX, ReactNode } from 'react';
 import { DateInput, DateSegment, TimeField } from 'react-aria-components';
 import { Time } from '@internationalized/date';
 import { sample, isEqual, noop, range } from 'lodash';
@@ -280,33 +280,33 @@ export function NotificationProfilesCreateFlow({
   preferredBadgeSelector,
   setSettingsLocation,
   theme,
-}: CreateFlowProps): React.JSX.Element {
-  const [page, setPage] = React.useState(CreateFlowPage.Name);
+}: CreateFlowProps): JSX.Element {
+  const [page, setPage] = useState(CreateFlowPage.Name);
 
-  const [name, setName] = React.useState<string | undefined>();
-  const [emoji, setEmoji] = React.useState<string | undefined>();
-  const [allowedMembers, setAllowedMembers] = React.useState<
-    ReadonlySet<string>
-  >(new Set<string>());
-  const [allowAllCalls, setAllowAllCalls] = React.useState(DEFAULT_ALLOW_CALLS);
-  const [allowAllMentions, setAllowAllMentions] = React.useState(
+  const [name, setName] = useState<string | undefined>();
+  const [emoji, setEmoji] = useState<string | undefined>();
+  const [allowedMembers, setAllowedMembers] = useState<ReadonlySet<string>>(
+    new Set<string>()
+  );
+  const [allowAllCalls, setAllowAllCalls] = useState(DEFAULT_ALLOW_CALLS);
+  const [allowAllMentions, setAllowAllMentions] = useState(
     DEFAULT_ALLOW_MENTIONS
   );
-  const [isEnabled, setIsEnabled] = React.useState<boolean>(DEFAULT_ENABLED);
+  const [isEnabled, setIsEnabled] = useState<boolean>(DEFAULT_ENABLED);
   const [scheduleDays, setScheduledDays] =
-    React.useState<ScheduleDays>(DEFAULT_SCHEDULE);
-  const [startTime, setStartTime] = React.useState<number>(DEFAULT_START);
-  const [endTime, setEndTime] = React.useState<number>(DEFAULT_END);
-  const [color] = React.useState<number>(getRandomColor());
+    useState<ScheduleDays>(DEFAULT_SCHEDULE);
+  const [startTime, setStartTime] = useState<number>(DEFAULT_START);
+  const [endTime, setEndTime] = useState<number>(DEFAULT_END);
+  const [color] = useState<number>(getRandomColor());
 
-  const tryClose = React.useRef<(() => void) | null>(null);
+  const tryClose = useRef<(() => void) | null>(null);
   const [confirmDiscardModal, confirmDiscardIf] = useConfirmDiscard({
     i18n,
     name: 'NotificationProfilesCreateFlow',
     tryClose,
   });
 
-  const onTryClose = React.useCallback(() => {
+  const onTryClose = useCallback(() => {
     const isDirty =
       page !== CreateFlowPage.Done && (Boolean(name) || Boolean(emoji));
     const discardChanges = noop;
@@ -339,7 +339,7 @@ export function NotificationProfilesCreateFlow({
     };
   }
 
-  const goToNotificationsProfilesHome = React.useCallback(() => {
+  const goToNotificationsProfilesHome = useCallback(() => {
     setSettingsLocation({ page: SettingsPage.NotificationProfilesHome });
   }, [setSettingsLocation]);
 
@@ -453,22 +453,19 @@ export function NotificationProfilesHome({
   setProfileOverride,
   theme,
   updateProfile,
-}: HomeProps): React.JSX.Element {
-  const [page, setPage] = React.useState(HomePage.List);
-  const [profile, setProfile] = React.useState<
-    NotificationProfileType | undefined
-  >();
-  const [isShowingOnboardModal, setIsShowingOnboardModal] =
-    React.useState(false);
+}: HomeProps): JSX.Element {
+  const [page, setPage] = useState(HomePage.List);
+  const [profile, setProfile] = useState<NotificationProfileType | undefined>();
+  const [isShowingOnboardModal, setIsShowingOnboardModal] = useState(false);
 
-  const goBackToNotifications = React.useCallback(() => {
+  const goBackToNotifications = useCallback(() => {
     setSettingsLocation({ page: SettingsPage.Notifications });
   }, [setSettingsLocation]);
-  const goToNotificationsProfilesCreateFlow = React.useCallback(() => {
+  const goToNotificationsProfilesCreateFlow = useCallback(() => {
     setSettingsLocation({ page: SettingsPage.NotificationProfilesCreateFlow });
   }, [setSettingsLocation]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (page === HomePage.List && !hasOnboardingBeenSeen) {
       if (allProfiles.length === 0) {
         setIsShowingOnboardModal(true);
@@ -694,13 +691,13 @@ function NotificationProfilesNamePage({
   onUpdate: (data: { emoji: string | undefined; name: string }) => void;
   theme: ThemeType;
 }) {
-  const [emojiPickerOpen, setEmojiPickerOpen] = React.useState(false);
-  const [name, setName] = React.useState(initialName);
-  const [emoji, setEmoji] = React.useState<string | undefined>(initialEmoji);
+  const [emojiPickerOpen, setEmojiPickerOpen] = useState(false);
+  const [name, setName] = useState(initialName);
+  const [emoji, setEmoji] = useState<string | undefined>(initialEmoji);
   const emojiLocalizer = useFunEmojiLocalizer();
 
   const isValid = Boolean(name);
-  const sampleProfileNames = React.useMemo(() => {
+  const sampleProfileNames = useMemo(() => {
     return [
       {
         emoji: '💪',
@@ -725,11 +722,11 @@ function NotificationProfilesNamePage({
     ] as const;
   }, [i18n]);
 
-  const handleFunEmojiPickerOpenChange = React.useCallback((open: boolean) => {
+  const handleFunEmojiPickerOpenChange = useCallback((open: boolean) => {
     setEmojiPickerOpen(open);
   }, []);
 
-  const handleInputChange = React.useCallback(
+  const handleInputChange = useCallback(
     (newName: string) => {
       setName(newName);
 
@@ -940,7 +937,7 @@ function NotificationProfilesSchedulePage({
   onSetEndTime: (value: number) => void;
   theme: ThemeType;
 }) {
-  const daysInUIOrder = React.useMemo(() => {
+  const daysInUIOrder = useMemo(() => {
     return [
       {
         dayOfWeek: DayOfWeek.SUNDAY,
@@ -1081,7 +1078,7 @@ function NotificationProfilesDonePage({
   i18n: LocalizerType;
   onNext: () => void;
   profile: ProfileToSave;
-}): React.JSX.Element {
+}): JSX.Element {
   return (
     <>
       <Header i18n={i18n} />
@@ -1122,10 +1119,10 @@ function NotificationProfilesListPage({
   onEditProfile: (profileToEdit: NotificationProfileType) => void;
   setIsSyncEnabled: (value: boolean) => void;
 }) {
-  const [cachedProfiles, setCachedProfiles] = React.useState<
+  const [cachedProfiles, setCachedProfiles] = useState<
     ReadonlyArray<NotificationProfileType>
   >([]);
-  React.useEffect(() => {
+  useEffect(() => {
     if (!loading) {
       setCachedProfiles(allProfiles);
     }
@@ -1221,14 +1218,14 @@ function NotificationProfilesEditPage({
   profile: NotificationProfileType;
   theme: ThemeType;
 }) {
-  const [isConfirmingDelete, setIsConfirmingDelete] = React.useState(false);
+  const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
 
   const activeString = i18n('icu:NotificationProfiles--edit--is-active');
   const notActiveString = i18n('icu:NotificationProfiles--edit--is-not-active');
   const isProfileActive = activeProfileId === profile.id;
   const currentActiveString = isProfileActive ? activeString : notActiveString;
 
-  const allowedMembersArray = React.useMemo(() => {
+  const allowedMembersArray = useMemo(() => {
     return Array.from(profile.allowedMembers);
   }, [profile.allowedMembers]);
 
@@ -1399,11 +1396,11 @@ export function FullWidthButton({
   onClick,
   testId,
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
   className?: string;
   onClick: () => void;
   testId?: string;
-}): React.JSX.Element {
+}): JSX.Element {
   return (
     <button
       className={classNames(
@@ -1425,7 +1422,7 @@ function FullWidthRow({
   children,
   className,
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
   className?: string;
 }) {
   return (
@@ -1474,7 +1471,7 @@ function Container({
   children,
   contentsRef,
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
   contentsRef: MutableRefObject<HTMLDivElement | null>;
 }) {
   return (
@@ -1497,7 +1494,7 @@ function Title({ title }: { title: string }) {
   return <h1 className={tw('type-title-medium')}>{title}</h1>;
 }
 
-function ButtonContainer({ children }: { children: React.ReactNode }) {
+function ButtonContainer({ children }: { children: ReactNode }) {
   return (
     <div
       className={tw(
@@ -1513,7 +1510,7 @@ function MidFloatingContainer({
   children,
   contentsRef,
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
   contentsRef: MutableRefObject<HTMLDivElement | null>;
 }) {
   return (
@@ -1575,7 +1572,7 @@ function EmojiOrMoon({
   size: IconSize;
 }) {
   const emojiLocalizer = useFunEmojiLocalizer();
-  const sizeMap = React.useMemo(
+  const sizeMap = useMemo(
     () => ({
       large: 48 as const,
       medium: 20 as const,
@@ -1655,7 +1652,7 @@ function AllowedMembersSection({
   theme: ThemeType;
   title: string;
 }) {
-  const [showingMemberChooser, setShowingMemberChooser] = React.useState(false);
+  const [showingMemberChooser, setShowingMemberChooser] = useState(false);
 
   return (
     <>
@@ -1777,14 +1774,14 @@ export function ProfileAvatar({
   isActive?: boolean;
   profile?: ProfileToSave;
   size: IconSize;
-}): React.ReactNode {
+}): ReactNode {
   const emoji = profile?.emoji ? getEmojiVariantKey(profile.emoji) : undefined;
   const backgroundColor = profile?.color
     ? getColorFromProfile(profile.color)
     : undefined;
   const forceLightTheme = profile && !profile.emoji;
 
-  const sizeMap = React.useMemo(
+  const sizeMap = useMemo(
     () => ({
       large: tw('size-[80px]'),
       medium: tw('size-[36px]'),
@@ -1822,7 +1819,7 @@ function ScheduleSummary({
   i18n: LocalizerType;
   scheduleDays: ScheduleDays;
 }): string {
-  const daysInUIOrder = React.useMemo(() => {
+  const daysInUIOrder = useMemo(() => {
     return [
       {
         dayOfWeek: DayOfWeek.SUNDAY,
@@ -1900,27 +1897,27 @@ function TimePicker({
   time: number;
   onUpdateTime: (value: number) => void;
 }) {
-  const [isShowingPopup, setIsShowingPopup] = React.useState(false);
+  const [isShowingPopup, setIsShowingPopup] = useState(false);
   const use24HourTime = need24HourTime();
   const AM_PM: Array<PERIOD> = ['AM', 'PM'];
-  const periodLookup = React.useMemo(() => {
+  const periodLookup = useMemo(() => {
     return {
       AM: i18n('icu:NotificationProfile--am'),
       PM: i18n('icu:NotificationProfile--pm'),
     };
   }, [i18n]);
-  const [timeFieldElement, setTimeFieldElement] = React.useState<
+  const [timeFieldElement, setTimeFieldElement] = useState<
     HTMLDivElement | undefined
   >();
-  const [popupElement, setPopupElement] = React.useState<
+  const [popupElement, setPopupElement] = useState<
     HTMLDivElement | undefined
   >();
   const { minutes, hours, period } = getTimeDetails(time, use24HourTime);
   const refMerger = useRefMerger();
-  const selectedHour = React.useRef<HTMLButtonElement | null>(null);
-  const selectedMinute = React.useRef<HTMLButtonElement | null>(null);
+  const selectedHour = useRef<HTMLButtonElement | null>(null);
+  const selectedMinute = useRef<HTMLButtonElement | null>(null);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!isShowingPopup || !popupElement) {
       return noop;
     }
@@ -1938,7 +1935,7 @@ function TimePicker({
     );
   }, [isShowingPopup, popupElement, setIsShowingPopup]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!isShowingPopup || !popupElement) {
       return;
     }

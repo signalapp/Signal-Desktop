@@ -1,6 +1,6 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import type { RefObject } from 'react';
+import type { RefObject, JSX } from 'react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { strictAssert } from '../util/assert.std.ts';
 
@@ -93,13 +93,13 @@ export type SizeObserverProps = Readonly<{
    */
   onSizeChange?: SizeChangeHandler;
   // oxlint-disable-next-line typescript/no-explicit-any
-  children(ref: RefObject<any>, size: Size | null): React.JSX.Element;
+  children(ref: RefObject<any>, size: Size | null): JSX.Element;
 }>;
 
 export function SizeObserver({
   onSizeChange,
   children,
-}: SizeObserverProps): React.JSX.Element {
+}: SizeObserverProps): JSX.Element {
   // oxlint-disable-next-line typescript/no-explicit-any
   const ref = useRef<any>(null);
   const size = useSizeObserver(ref, onSizeChange);

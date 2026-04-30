@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import type { FC, ReactNode } from 'react';
-import React, { memo, useCallback, useMemo, useState } from 'react';
+import type { FC, ReactNode, JSX } from 'react';
+import { memo, useCallback, useMemo, useState } from 'react';
 import { AxoContextMenu } from '../../axo/AxoContextMenu.dom.tsx';
 import type { LocalizerType } from '../../types/I18N.std.ts';
 import type { ConversationType } from '../../state/ducks/conversations.preload.ts';
@@ -301,7 +301,7 @@ function ContextMenuMuteNotificationsItem(props: {
   value: number;
   onSelect: (value: number) => void;
   children: ReactNode;
-}): React.JSX.Element {
+}): JSX.Element {
   const { value, onSelect } = props;
   const handleSelect = useCallback(() => {
     onSelect(value);
@@ -316,7 +316,7 @@ function ContextMenuMuteNotificationsItem(props: {
 function ContextMenuCopyTextItem(props: {
   value: string;
   children: ReactNode;
-}): React.JSX.Element {
+}): JSX.Element {
   const { value } = props;
 
   const handleSelect = useCallback((): void => {

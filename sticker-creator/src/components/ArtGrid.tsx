@@ -1,7 +1,7 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import { useMemo, useCallback, type JSX } from 'react';
 import createDebug from 'debug';
 import { useDispatch } from 'react-redux';
 import type { ItemInterface } from 'react-sortablejs';
@@ -38,7 +38,7 @@ function SmartArtFrame({
   id,
   showGuide,
   mode,
-}: SmartArtFrameProps): React.JSX.Element | null {
+}: SmartArtFrameProps): JSX.Element | null {
   const dispatch = useDispatch();
   const data = useArtData(id);
   if (!data) {
@@ -64,13 +64,13 @@ function SmartArtFrame({
 
 export type Props = Pick<ArtFrameProps, 'showGuide' | 'mode'>;
 
-export function ArtGrid({ mode, showGuide }: Props): React.JSX.Element {
+export function ArtGrid({ mode, showGuide }: Props): JSX.Element {
   const order = useArtOrder();
   const i18n = useI18n();
   const dispatch = useDispatch();
   const artType = useArtType();
 
-  const list = React.useMemo(() => {
+  const list = useMemo(() => {
     assert(artType === ArtType.Sticker, 'Unexpected art type');
     const maxImages = MAX_STICKERS;
     const entries = order.map(id => ({ id, filtered: false }));
@@ -83,7 +83,7 @@ export function ArtGrid({ mode, showGuide }: Props): React.JSX.Element {
 
   const frameMode = mode === 'add' ? 'removable' : 'pick-emoji';
 
-  const setList = React.useCallback(
+  const setList = useCallback(
     (newList: ReadonlyArray<ItemInterface>): void => {
       const newOrder = newList
         .filter(entry => !entry.filtered)
@@ -94,7 +94,7 @@ export function ArtGrid({ mode, showGuide }: Props): React.JSX.Element {
     [dispatch]
   );
 
-  const handleDrop = React.useCallback<DropZoneProps['onDrop']>(
+  const handleDrop = useCallback<DropZoneProps['onDrop']>(
     async files => {
       dispatch(
         initializeImages(files.map(file => getFilePath(file) || file.name))

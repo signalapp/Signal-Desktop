@@ -1,8 +1,7 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { KeyboardEvent } from 'react';
-import React from 'react';
+import type { KeyboardEvent, JSX, ReactNode } from 'react';
 import type { AttachmentType } from '../../types/Attachment.std.ts';
 import { canBeDownloaded, isDownloaded } from '../../util/Attachment.std.ts';
 import type { ShowConversationType } from '../../state/ducks/conversations.preload.ts';
@@ -86,7 +85,7 @@ export function MessageBody({
   text,
   textAttachment,
   originalText,
-}: Props): React.JSX.Element {
+}: Props): JSX.Element {
   const shouldDisableLinks =
     disableLinks || !shouldLinkifyMessage(originalText);
   const textWithSuffix =
@@ -96,7 +95,7 @@ export function MessageBody({
 
   const sizeClass = disableJumbomoji ? null : getSizeClass(text);
 
-  let endNotification: React.ReactNode;
+  let endNotification: ReactNode;
   if (onIncreaseTextLength) {
     endNotification = (
       <button

@@ -3,8 +3,8 @@
 import { mergeRefs } from '@react-aria/utils';
 import classNames from 'classnames';
 import lodash from 'lodash';
-import type { CSSProperties, ReactNode, Ref } from 'react';
-import React, {
+import type { CSSProperties, ReactNode, Ref, JSX } from 'react';
+import {
   createContext,
   forwardRef,
   useCallback,
@@ -38,7 +38,7 @@ const ScrollerSectionObserveContext =
 export const FunScroller = forwardRef(function FunScroller(
   props: FunScrollerProps,
   ref: Ref<HTMLDivElement>
-): React.JSX.Element {
+): JSX.Element {
   const scrollerRef = useRef<HTMLDivElement>(null);
   const scrollerInnerRef = useRef<HTMLDivElement>(null);
 
@@ -153,7 +153,7 @@ export type FunScrollerSectionProps = Readonly<{
 
 export function FunScrollerSection(
   props: FunScrollerSectionProps
-): React.JSX.Element {
+): JSX.Element {
   const ref = useRef<HTMLDivElement>(null);
   const observe = useContext(ScrollerSectionObserveContext);
   strictAssert(observe, 'Expected observe to be defined');

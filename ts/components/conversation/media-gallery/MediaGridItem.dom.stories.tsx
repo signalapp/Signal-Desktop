@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import { useContext, type JSX } from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import { StorybookThemeContext } from '../../../../.storybook/StorybookThemeContext.std.ts';
@@ -26,7 +26,7 @@ const createProps = (
   overrideProps: Partial<Props> & { mediaItem: MediaItemType }
 ): Props => {
   // oxlint-disable-next-line react-hooks/rules-of-hooks
-  const theme = React.useContext(StorybookThemeContext);
+  const theme = useContext(StorybookThemeContext);
 
   return {
     i18n,
@@ -74,7 +74,7 @@ const createMediaItem = (
   },
 });
 
-export function Image(): React.JSX.Element {
+export function Image(): JSX.Element {
   const mediaItem = createMediaItem({
     objectURL: '/fixtures/kitten-1-64-64.jpg',
     contentType: IMAGE_JPEG,
@@ -87,7 +87,7 @@ export function Image(): React.JSX.Element {
   return <MediaGridItem {...props} />;
 }
 
-export function WideImage(): React.JSX.Element {
+export function WideImage(): JSX.Element {
   const mediaItem = createMediaItem({
     objectURL: '/fixtures/wide.jpg',
     contentType: IMAGE_JPEG,
@@ -100,7 +100,7 @@ export function WideImage(): React.JSX.Element {
   return <MediaGridItem {...props} />;
 }
 
-export function TallImage(): React.JSX.Element {
+export function TallImage(): JSX.Element {
   const mediaItem = createMediaItem({
     objectURL: '/fixtures/snow.jpg',
     contentType: IMAGE_JPEG,
@@ -113,7 +113,7 @@ export function TallImage(): React.JSX.Element {
   return <MediaGridItem {...props} />;
 }
 
-export function Video(): React.JSX.Element {
+export function Video(): JSX.Element {
   const mediaItem = createMediaItem({
     attachment: {
       incrementalUrl: 'abc',
@@ -136,7 +136,7 @@ export function Video(): React.JSX.Element {
   return <MediaGridItem {...props} />;
 }
 
-export function GIF(): React.JSX.Element {
+export function GIF(): JSX.Element {
   const mediaItem = createMediaItem({
     attachment: {
       url: 'abc',
@@ -160,7 +160,7 @@ export function GIF(): React.JSX.Element {
   return <MediaGridItem {...props} />;
 }
 
-export function MissingImage(): React.JSX.Element {
+export function MissingImage(): JSX.Element {
   const mediaItem = createMediaItem({
     contentType: IMAGE_JPEG,
     attachment: {
@@ -178,7 +178,7 @@ export function MissingImage(): React.JSX.Element {
   return <MediaGridItem {...props} />;
 }
 
-export function PendingImage(): React.JSX.Element {
+export function PendingImage(): JSX.Element {
   const mediaItem = createMediaItem({
     contentType: IMAGE_JPEG,
     attachment: {
@@ -198,7 +198,7 @@ export function PendingImage(): React.JSX.Element {
   return <MediaGridItem {...props} />;
 }
 
-export function DownloadingImage(): React.JSX.Element {
+export function DownloadingImage(): JSX.Element {
   const mediaItem = createMediaItem({
     contentType: IMAGE_JPEG,
     attachment: {
@@ -218,7 +218,7 @@ export function DownloadingImage(): React.JSX.Element {
   return <MediaGridItem {...props} />;
 }
 
-export function MissingVideo(): React.JSX.Element {
+export function MissingVideo(): JSX.Element {
   const mediaItem = createMediaItem({
     contentType: VIDEO_MP4,
   });
@@ -230,7 +230,7 @@ export function MissingVideo(): React.JSX.Element {
   return <MediaGridItem {...props} />;
 }
 
-export function BrokenImage(): React.JSX.Element {
+export function BrokenImage(): JSX.Element {
   const mediaItem = createMediaItem({
     objectURL: '/missing-fixtures/nope.jpg',
     contentType: IMAGE_JPEG,
@@ -243,7 +243,7 @@ export function BrokenImage(): React.JSX.Element {
   return <MediaGridItem {...props} />;
 }
 
-export function BrokenVideo(): React.JSX.Element {
+export function BrokenVideo(): JSX.Element {
   const mediaItem = createMediaItem({
     objectURL: '/missing-fixtures/nope.mp4',
     contentType: VIDEO_MP4,
@@ -256,7 +256,7 @@ export function BrokenVideo(): React.JSX.Element {
   return <MediaGridItem {...props} />;
 }
 
-export function OtherContentType(): React.JSX.Element {
+export function OtherContentType(): JSX.Element {
   const mediaItem = createMediaItem({
     contentType: APPLICATION_OCTET_STREAM,
   });

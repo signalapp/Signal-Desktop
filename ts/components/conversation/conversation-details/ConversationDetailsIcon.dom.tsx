@@ -1,7 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { JSX, ReactNode, MouseEvent, KeyboardEvent } from 'react';
+
 import classNames from 'classnames';
 
 import { Spinner } from '../../Spinner.dom.tsx';
@@ -57,8 +58,8 @@ export function ConversationDetailsIcon({
   icon,
   fakeButton,
   onClick,
-}: Props): React.JSX.Element {
-  let content: React.ReactNode;
+}: Props): JSX.Element {
+  let content: ReactNode;
 
   if (icon === IconType.spinner) {
     content = <Spinner svgSize="small" size="24" />;
@@ -82,12 +83,12 @@ export function ConversationDetailsIcon({
         role="button"
         className={bem('button')}
         tabIndex={0}
-        onClick={(event: React.MouseEvent<HTMLDivElement>) => {
+        onClick={(event: MouseEvent<HTMLDivElement>) => {
           event.preventDefault();
           event.stopPropagation();
           onClick();
         }}
-        onKeyDown={(event: React.KeyboardEvent<HTMLDivElement>) => {
+        onKeyDown={(event: KeyboardEvent<HTMLDivElement>) => {
           if (event.key === 'Enter' || event.key === ' ') {
             event.preventDefault();
             event.stopPropagation();
@@ -107,7 +108,7 @@ export function ConversationDetailsIcon({
         className={bem('button')}
         disabled={disabled}
         type="button"
-        onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
+        onClick={(event: MouseEvent<HTMLButtonElement>) => {
           event.preventDefault();
           event.stopPropagation();
           onClick();

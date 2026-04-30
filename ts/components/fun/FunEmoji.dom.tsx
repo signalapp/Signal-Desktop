@@ -1,8 +1,8 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import classNames from 'classnames';
-import type { CSSProperties } from 'react';
-import React, { useMemo, useState, useCallback } from 'react';
+import type { CSSProperties, JSX } from 'react';
+import { useMemo, useState, useCallback } from 'react';
 import MANIFEST from '../../../build/jumbomoji.json';
 import {
   getEmojiDebugLabel,
@@ -87,7 +87,7 @@ export type FunStaticEmojiProps = FunImageAriaProps &
     emoji: EmojiVariantData;
   }>;
 
-export function FunStaticEmoji(props: FunStaticEmojiProps): React.JSX.Element {
+export function FunStaticEmoji(props: FunStaticEmojiProps): JSX.Element {
   const [isLoaded, setIsLoaded] = useState(false);
 
   const onLoad = useCallback(() => {
@@ -95,7 +95,7 @@ export function FunStaticEmoji(props: FunStaticEmojiProps): React.JSX.Element {
   }, []);
 
   const jumboImage = getEmojiJumboUrl(props.emoji, props.size);
-  let img: React.JSX.Element | undefined;
+  let img: JSX.Element | undefined;
   if (jumboImage != null) {
     img = (
       <img
@@ -175,7 +175,7 @@ export type FunInlineEmojiProps = FunImageAriaProps &
     style?: CSSProperties;
   }>;
 
-export function FunInlineEmoji(props: FunInlineEmojiProps): React.JSX.Element {
+export function FunInlineEmoji(props: FunInlineEmojiProps): JSX.Element {
   const [isLoaded, setIsLoaded] = useState(false);
 
   const onLoad = useCallback(() => {
@@ -188,7 +188,7 @@ export function FunInlineEmoji(props: FunInlineEmojiProps): React.JSX.Element {
     return getEmojiJumboUrl(props.emoji, undefined);
   }, [props.emoji]);
 
-  let img: React.JSX.Element | undefined;
+  let img: JSX.Element | undefined;
   if (jumboImage) {
     img = (
       <img

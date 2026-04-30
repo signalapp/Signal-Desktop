@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { StrictMode } from 'react';
+import { StrictMode } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 
 import * as Errors from '../types/errors.std.ts';

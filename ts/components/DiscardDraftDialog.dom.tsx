@@ -1,6 +1,6 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import React, { useCallback } from 'react';
+import { useCallback, type JSX } from 'react';
 import type { LocalizerType } from '../types/I18N.std.ts';
 import { AxoAlertDialog } from '../axo/AxoAlertDialog.dom.tsx';
 
@@ -12,7 +12,7 @@ export type DiscardDraftDialogProps = Readonly<{
 
 export function DiscardDraftDialog(
   props: DiscardDraftDialogProps
-): React.JSX.Element {
+): JSX.Element {
   const { i18n, onClose } = props;
   const handleOpenChange = useCallback(
     (open: boolean) => {

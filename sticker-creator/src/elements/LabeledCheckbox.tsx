@@ -1,12 +1,12 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import { memo, useCallback, type ReactNode } from 'react';
 import styles from './LabeledCheckbox.module.scss';
 import { Inline } from './Typography';
 
 export type Props = {
-  children: React.ReactNode;
+  children: ReactNode;
   value?: boolean;
   onChange?: (value: boolean) => unknown;
 };
@@ -17,12 +17,12 @@ const checkSvg = (
   </svg>
 );
 
-export const LabeledCheckbox = React.memo(function LabeledCheckboxInner({
+export const LabeledCheckbox = memo(function LabeledCheckboxInner({
   children,
   value,
   onChange,
 }: Props) {
-  const handleChange = React.useCallback(() => {
+  const handleChange = useCallback(() => {
     if (onChange !== undefined) {
       onChange(!value);
     }

@@ -1,7 +1,8 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import type { JSX } from 'react';
+
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import type { PropsType } from './OutgoingGiftBadgeModal.dom.tsx';
@@ -39,11 +40,11 @@ export default {
   args: {},
 } satisfies Meta<PropsType>;
 
-export function Normal(): React.JSX.Element {
+export function Normal(): JSX.Element {
   return <OutgoingGiftBadgeModal {...createProps()} />;
 }
 
-export function MissingBadge(): React.JSX.Element {
+export function MissingBadge(): JSX.Element {
   const props = {
     ...createProps(),
     getPreferredBadge: () => undefined,

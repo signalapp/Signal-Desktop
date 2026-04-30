@@ -2,7 +2,13 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import classNames from 'classnames';
-import React, { useCallback, useState } from 'react';
+import {
+  useCallback,
+  useState,
+  type JSX,
+  type MouseEvent,
+  type KeyboardEvent,
+} from 'react';
 import { animated, useSpring } from '@react-spring/web';
 import type { LocalizerType } from '../types/Util.std.ts';
 import { useReducedMotion } from '../hooks/useReducedMotion.dom.ts';
@@ -29,7 +35,7 @@ export function PlaybackRateButton({
   visible = true,
   i18n,
   onClick,
-}: Props): React.JSX.Element {
+}: Props): JSX.Element {
   const [isDown, setIsDown] = useState(false);
   const reducedMotion = useReducedMotion();
 
@@ -45,7 +51,7 @@ export function PlaybackRateButton({
 
   // Clicking button toggle playback
   const onButtonClick = useCallback(
-    (event: React.MouseEvent) => {
+    (event: MouseEvent) => {
       event.stopPropagation();
       event.preventDefault();
 
@@ -56,7 +62,7 @@ export function PlaybackRateButton({
 
   // Keyboard playback toggle
   const onButtonKeyDown = useCallback(
-    (event: React.KeyboardEvent) => {
+    (event: KeyboardEvent) => {
       if (event.key !== 'Enter' && event.key !== 'Space') {
         return;
       }

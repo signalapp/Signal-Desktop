@@ -2,13 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ClipboardEvent, KeyboardEvent, ReactNode } from 'react';
-import React, {
-  forwardRef,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 
 import * as grapheme from '../util/grapheme.std.ts';

@@ -1,6 +1,6 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import React, { memo, useMemo } from 'react';
+import { memo, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { strictAssert } from '../../util/assert.std.ts';
 import { lookupConversationWithoutServiceId } from '../../util/lookupConversationWithoutServiceId.preload.ts';

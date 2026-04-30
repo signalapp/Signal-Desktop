@@ -1,7 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import type { JSX } from 'react';
+
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import { sample } from 'lodash';
@@ -45,7 +46,7 @@ const createProps = (): PropsType => ({
   },
 });
 
-export function NoExistingLabel(): React.JSX.Element {
+export function NoExistingLabel(): JSX.Element {
   const props = {
     ...createProps(),
     existingLabelEmoji: undefined,
@@ -55,13 +56,13 @@ export function NoExistingLabel(): React.JSX.Element {
   return <GroupMemberLabelEditor {...props} />;
 }
 
-export function ExistingLabel(): React.JSX.Element {
+export function ExistingLabel(): JSX.Element {
   const props = createProps();
 
   return <GroupMemberLabelEditor {...props} />;
 }
 
-export function StringButNoEmoji(): React.JSX.Element {
+export function StringButNoEmoji(): JSX.Element {
   const props = {
     ...createProps(),
     existingLabelEmoji: undefined,
@@ -70,7 +71,7 @@ export function StringButNoEmoji(): React.JSX.Element {
   return <GroupMemberLabelEditor {...props} />;
 }
 
-export function WithBadge(): React.JSX.Element {
+export function WithBadge(): JSX.Element {
   const props = {
     ...createProps(),
     getPreferredBadge: () => getFakeBadge(),
@@ -79,7 +80,7 @@ export function WithBadge(): React.JSX.Element {
   return <GroupMemberLabelEditor {...props} />;
 }
 
-export function ThrowsErrorOnSave(): React.JSX.Element {
+export function ThrowsErrorOnSave(): JSX.Element {
   const props: PropsType = {
     ...createProps(),
     updateGroupMemberLabel: async (
@@ -95,13 +96,13 @@ export function ThrowsErrorOnSave(): React.JSX.Element {
   return <GroupMemberLabelEditor {...props} />;
 }
 
-export function PermissionsError(): React.JSX.Element {
+export function PermissionsError(): JSX.Element {
   const props: PropsType = createProps();
 
   return <GroupMemberLabelEditor {...props} canAddLabel={false} />;
 }
 
-export function PermissionsRestrictedButAdmin(): React.JSX.Element {
+export function PermissionsRestrictedButAdmin(): JSX.Element {
   const props: PropsType = createProps();
 
   return (
@@ -117,13 +118,13 @@ export function PermissionsRestrictedButAdmin(): React.JSX.Element {
   );
 }
 
-export function NoMembersWithLabel(): React.JSX.Element {
+export function NoMembersWithLabel(): JSX.Element {
   const props: PropsType = createProps();
 
   return <GroupMemberLabelEditor {...props} membersWithLabel={[]} />;
 }
 
-export function AFewMembersWithLabel(): React.JSX.Element {
+export function AFewMembersWithLabel(): JSX.Element {
   const props: PropsType = createProps();
 
   return (
@@ -160,7 +161,7 @@ export function AFewMembersWithLabel(): React.JSX.Element {
   );
 }
 
-export function LotsOfMembersWithLabel(): React.JSX.Element {
+export function LotsOfMembersWithLabel(): JSX.Element {
   const props: PropsType = createProps();
 
   return (

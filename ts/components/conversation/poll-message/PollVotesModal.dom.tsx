@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useMemo } from 'react';
+import { useMemo, Fragment, type JSX } from 'react';
 import { tw } from '../../../axo/tw.dom.tsx';
 import { AxoButton } from '../../../axo/AxoButton.dom.tsx';
 import { AxoSymbol } from '../../../axo/AxoSymbol.dom.tsx';
@@ -31,7 +31,7 @@ export function PollVotesModal({
   endPoll,
   canEndPoll,
   messageId,
-}: PollVotesModalProps): React.JSX.Element {
+}: PollVotesModalProps): JSX.Element {
   const maxVoteCount = useMemo(() => {
     return poll.votesByOption.values().reduce((max, voters) => {
       return Math.max(max, voters.length);
@@ -69,7 +69,7 @@ export function PollVotesModal({
           const isWinning = voters.length > 0 && voters.length === maxVoteCount;
 
           return (
-            <React.Fragment key={optionKey}>
+            <Fragment key={optionKey}>
               <div className={tw('flex flex-col')}>
                 {/* Option Header */}
                 <div
@@ -136,7 +136,7 @@ export function PollVotesModal({
               {!isLastOption && (
                 <hr className={tw('border-t-[0.5px] border-label-secondary')} />
               )}
-            </React.Fragment>
+            </Fragment>
           );
         })}
 

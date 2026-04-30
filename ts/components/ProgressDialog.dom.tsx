@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import { memo } from 'react';
 import type { LocalizerType } from '../types/Util.std.ts';
 import { Spinner } from './Spinner.dom.tsx';
 
@@ -11,7 +11,7 @@ export type PropsType = {
 };
 
 // TODO: This should use <Modal>. See DESKTOP-1038.
-export const ProgressDialog = React.memo(function ProgressDialogInner({
+export const ProgressDialog = memo(function ProgressDialogInner({
   description,
   i18n,
 }: PropsType) {

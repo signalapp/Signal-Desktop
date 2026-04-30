@@ -1,8 +1,8 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { Key, ReactNode } from 'react';
-import React, { useState } from 'react';
+import type { Key, ReactNode, JSX } from 'react';
+import { useState } from 'react';
 import { Tabs, TabList, Tab, TabPanel } from 'react-aria-components';
 import classNames from 'classnames';
 import { Avatar, AvatarSize } from './Avatar.dom.tsx';
@@ -152,7 +152,7 @@ export function NavTabsToggle({
   navTabsCollapsed,
   otherTabsUnreadStats,
   onToggleNavTabsCollapse,
-}: NavTabsToggleProps): React.JSX.Element {
+}: NavTabsToggleProps): JSX.Element {
   function handleToggle() {
     onToggleNavTabsCollapse(!navTabsCollapsed);
   }
@@ -238,7 +238,7 @@ export function NavTabs({
   unreadCallsCount,
   unreadConversationsStats,
   unreadStoriesCount,
-}: NavTabsProps): React.JSX.Element {
+}: NavTabsProps): JSX.Element {
   const [showingProfileMovedModal, setShowingProfileMovedModal] =
     useState(false);
 

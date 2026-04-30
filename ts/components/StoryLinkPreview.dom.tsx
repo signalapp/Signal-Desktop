@@ -1,7 +1,8 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { JSX } from 'react';
+
 import classNames from 'classnames';
 import lodash from 'lodash';
 
@@ -26,12 +27,12 @@ export function StoryLinkPreview({
   image,
   title,
   url,
-}: Props): React.JSX.Element {
+}: Props): JSX.Element {
   const isImage = isImageAttachment(image);
   const location = domain || getSafeDomain(url);
   const isCompact = forceCompactMode || !image;
 
-  let content: React.JSX.Element | undefined;
+  let content: JSX.Element | undefined;
   if (!title && !description) {
     content = (
       <div

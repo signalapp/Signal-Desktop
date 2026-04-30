@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef, type JSX } from 'react';
 import classNames from 'classnames';
 import type {
   ConversationType,
@@ -64,7 +64,7 @@ export function LeftPaneSearchInput({
   filterButtonEnabled = false,
   filterPressed = false,
   onFilterClick,
-}: PropsType): React.JSX.Element {
+}: PropsType): JSX.Element {
   const inputRef = useRef<null | HTMLInputElement>(null);
 
   const prevSearchConversationId = usePrevious(

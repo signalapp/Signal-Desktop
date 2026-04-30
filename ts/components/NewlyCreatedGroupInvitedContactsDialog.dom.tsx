@@ -1,8 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ReactNode } from 'react';
-import React from 'react';
+import type { ReactNode, JSX } from 'react';
 
 import type { LocalizerType, ThemeType } from '../types/Util.std.ts';
 import type { ConversationType } from '../state/ducks/conversations.preload.ts';
@@ -26,7 +25,7 @@ export function NewlyCreatedGroupInvitedContactsDialog({
   i18n,
   onClose,
   theme,
-}: PropsType): React.JSX.Element {
+}: PropsType): JSX.Element {
   let body: ReactNode;
   if (contacts.length === 1) {
     // oxlint-disable-next-line typescript/no-non-null-assertion

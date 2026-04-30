@@ -1,7 +1,8 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { JSX } from 'react';
+
 import classNames from 'classnames';
 
 import type { LocalizerType } from '../../types/Util.std.ts';
@@ -11,7 +12,7 @@ export type Props = {
   color?: string;
 };
 
-export function TypingAnimation({ i18n, color }: Props): React.JSX.Element {
+export function TypingAnimation({ i18n, color }: Props): JSX.Element {
   return (
     <div className="module-typing-animation" title={i18n('icu:typingAlt')}>
       <div

@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import type { Range } from '@tanstack/react-virtual';
 import { defaultRangeExtractor, useVirtualizer } from '@tanstack/react-virtual';
-import type { PointerEvent } from 'react';
-import React, {
+import type { PointerEvent, JSX } from 'react';
+import {
   memo,
   useCallback,
   useEffect,
@@ -164,7 +164,7 @@ export type FunPanelGifsProps = Readonly<{
 export function FunPanelGifs({
   onSelectGif,
   onClose,
-}: FunPanelGifsProps): React.JSX.Element {
+}: FunPanelGifsProps): JSX.Element {
   const fun = useFunContext();
   const {
     i18n,

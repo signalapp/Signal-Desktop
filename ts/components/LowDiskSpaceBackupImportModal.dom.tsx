@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import type { JSX } from 'react';
 
 import type { LocalizerType } from '../types/Util.std.ts';
 import { Modal } from './Modal.dom.tsx';
@@ -14,9 +14,7 @@ export type PropsType = Readonly<{
   onClose: () => void;
 }>;
 
-export function LowDiskSpaceBackupImportModal(
-  props: PropsType
-): React.JSX.Element {
+export function LowDiskSpaceBackupImportModal(props: PropsType): JSX.Element {
   const { i18n, bytesNeeded, onClose } = props;
 
   return (

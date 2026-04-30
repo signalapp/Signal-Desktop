@@ -1,8 +1,7 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
-import type { ReactNode } from 'react';
+import type { ReactNode, JSX } from 'react';
 import type { LocalizerType } from '../types/I18N.std.ts';
 import { Button, ButtonSize, ButtonVariant } from './Button.dom.tsx';
 
@@ -18,7 +17,7 @@ export function RecordingComposer({
   onCancel,
   onSend,
   children,
-}: Props): React.JSX.Element {
+}: Props): JSX.Element {
   return (
     <div className="RecordingComposer">
       <div className="RecordingComposer__content">{children}</div>

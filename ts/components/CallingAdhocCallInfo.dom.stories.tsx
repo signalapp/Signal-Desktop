@@ -1,7 +1,8 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import type { JSX } from 'react';
+
 import lodash from 'lodash';
 import { action } from '@storybook/addon-actions';
 
@@ -83,12 +84,12 @@ export default {
   title: 'Components/CallingAdhocCallInfo',
 } satisfies Meta<PropsType>;
 
-export function NoOne(): React.JSX.Element {
+export function NoOne(): JSX.Element {
   const props = createProps();
   return <CallingAdhocCallInfo {...props} />;
 }
 
-export function SoloCall(): React.JSX.Element {
+export function SoloCall(): JSX.Element {
   const props = createProps({
     participants: [
       createParticipant({
@@ -99,7 +100,7 @@ export function SoloCall(): React.JSX.Element {
   return <CallingAdhocCallInfo {...props} />;
 }
 
-export function ManyParticipants(): React.JSX.Element {
+export function ManyParticipants(): JSX.Element {
   const props = createProps({
     participants: [
       createParticipant({
@@ -145,7 +146,7 @@ export function ManyParticipants(): React.JSX.Element {
   return <CallingAdhocCallInfo {...props} />;
 }
 
-export function Overflow(): React.JSX.Element {
+export function Overflow(): JSX.Element {
   const props = createProps({
     participants: Array(50)
       .fill(null)
@@ -154,7 +155,7 @@ export function Overflow(): React.JSX.Element {
   return <CallingAdhocCallInfo {...props} />;
 }
 
-export function AsAdmin(): React.JSX.Element {
+export function AsAdmin(): JSX.Element {
   const props = createProps({
     participants: [
       createParticipant({

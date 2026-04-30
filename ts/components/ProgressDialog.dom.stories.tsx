@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import type { JSX } from 'react';
 
 import type { Meta } from '@storybook/react';
 import type { PropsType } from './ProgressDialog.dom.tsx';
@@ -17,7 +17,7 @@ const createProps = (): PropsType => ({
   i18n,
 });
 
-export function Normal(): React.JSX.Element {
+export function Normal(): JSX.Element {
   const props = createProps();
 
   return <ProgressDialog {...props} />;

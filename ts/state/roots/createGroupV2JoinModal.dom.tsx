@@ -3,7 +3,8 @@
 
 // TODO DESKTOP-4761
 
-import React from 'react';
+import type { ReactElement } from 'react';
+
 import { Provider } from 'react-redux';
 
 import type { Store } from 'redux';
@@ -16,7 +17,7 @@ import { FunEmojiLocalizationProvider } from '../../components/fun/FunEmojiLocal
 export const createGroupV2JoinModal = (
   store: Store,
   props: SmartGroupV2JoinDialogProps
-): React.ReactElement => {
+): ReactElement => {
   const { onClose } = props;
 
   return (

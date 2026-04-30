@@ -1,6 +1,6 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import React, { memo } from 'react';
+import { memo } from 'react';
 import { useSelector } from 'react-redux';
 import { MessageSearchResult } from '../../components/conversationList/MessageSearchResult.dom.tsx';
 import { getPreferredBadgeSelector } from '../selectors/badges.preload.ts';

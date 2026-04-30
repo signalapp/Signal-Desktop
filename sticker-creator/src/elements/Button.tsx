@@ -1,15 +1,20 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import {
+  type ButtonHTMLAttributes,
+  type RefObject,
+  type PropsWithChildren,
+  type JSX,
+} from 'react';
 import classnames from 'classnames';
 
 import styles from './Button.module.scss';
 
-export type Props = React.ButtonHTMLAttributes<HTMLButtonElement> & {
+export type Props = ButtonHTMLAttributes<HTMLButtonElement> & {
   pill?: boolean;
   primary?: boolean;
-  buttonRef?: React.RefObject<HTMLButtonElement>;
+  buttonRef?: RefObject<HTMLButtonElement>;
 };
 
 const getClassName = ({ primary, pill }: Props) => {
@@ -33,7 +38,7 @@ export function Button({
   children,
   primary,
   ...otherProps
-}: React.PropsWithChildren<Props>): React.JSX.Element {
+}: PropsWithChildren<Props>): JSX.Element {
   return (
     <button
       type="button"

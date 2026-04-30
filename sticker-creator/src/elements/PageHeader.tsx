@@ -1,7 +1,7 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import { type JSX } from 'react';
 import logoUrl from '../assets/signal.svg';
 
 import { useI18n } from '../contexts/I18n';
@@ -9,7 +9,7 @@ import { H1 } from './Typography';
 
 import styles from './PageHeader.module.scss';
 
-export function PageHeader(): React.JSX.Element {
+export function PageHeader(): JSX.Element {
   const i18n = useI18n();
 
   return (

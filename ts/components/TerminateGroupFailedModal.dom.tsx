@@ -1,7 +1,7 @@
 // Copyright 2026 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useCallback } from 'react';
+import { useCallback, type JSX } from 'react';
 import type { LocalizerType } from '../types/Util.std.ts';
 import { AxoAlertDialog } from '../axo/AxoAlertDialog.dom.tsx';
 
@@ -11,7 +11,7 @@ export type PropsType = Readonly<{
   onRetry: () => void;
 }>;
 
-export function TerminateGroupFailedModal(props: PropsType): React.JSX.Element {
+export function TerminateGroupFailedModal(props: PropsType): JSX.Element {
   const { i18n, onClose, onRetry } = props;
   const handleOpenChange = useCallback(
     (open: boolean) => {

@@ -1,25 +1,25 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import { memo, useCallback, type ReactNode, type ChangeEvent } from 'react';
 import styles from './LabeledInput.module.scss';
 import { Inline } from './Typography';
 
 export type Props = {
-  children: React.ReactNode;
+  children: ReactNode;
   placeholder?: string;
   value?: string;
   onChange?: (value: string) => unknown;
 };
 
-export const LabeledInput = React.memo(function LabeledInputInner({
+export const LabeledInput = memo(function LabeledInputInner({
   children,
   value,
   placeholder,
   onChange,
 }: Props) {
-  const handleChange = React.useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
       if (onChange !== undefined) {
         onChange(e.currentTarget.value);
       }

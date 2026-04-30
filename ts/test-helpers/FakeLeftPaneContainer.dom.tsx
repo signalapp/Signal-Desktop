@@ -1,11 +1,12 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { ReactNode, JSX } from 'react';
+
 import { WidthBreakpoint } from '../components/_util.std.ts';
 
 type PropsType = {
-  children?: React.ReactNode;
+  children?: ReactNode;
   containerWidthBreakpoint: WidthBreakpoint;
 };
 
@@ -18,7 +19,7 @@ const WIDTHS = {
 export function FakeLeftPaneContainer({
   children,
   containerWidthBreakpoint,
-}: PropsType): React.JSX.Element {
+}: PropsType): JSX.Element {
   return (
     <div
       className={`module-left-pane--width-${containerWidthBreakpoint}`}

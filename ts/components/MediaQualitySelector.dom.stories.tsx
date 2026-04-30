@@ -1,7 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { JSX } from 'react';
+
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import type { PropsType } from './MediaQualitySelector.dom.tsx';
@@ -22,11 +23,11 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   onSelectQuality: action('onSelectQuality'),
 });
 
-export function StandardQuality(): React.JSX.Element {
+export function StandardQuality(): JSX.Element {
   return <MediaQualitySelector {...createProps()} />;
 }
 
-export function HighQuality(): React.JSX.Element {
+export function HighQuality(): JSX.Element {
   return (
     <MediaQualitySelector
       {...createProps({

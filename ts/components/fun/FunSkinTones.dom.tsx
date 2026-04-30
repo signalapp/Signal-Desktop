@@ -1,6 +1,6 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import React, { useCallback, useMemo } from 'react';
+import { useCallback, useMemo, type JSX } from 'react';
 import type { Selection } from 'react-aria-components';
 import { ListBox, ListBoxItem } from 'react-aria-components';
 import type { EmojiParentKey } from './data/emojis.std.ts';
@@ -19,9 +19,7 @@ export type FunSkinTonesListProps = Readonly<{
   onSelectSkinTone: (skinTone: EmojiSkinTone) => void;
 }>;
 
-export function FunSkinTonesList(
-  props: FunSkinTonesListProps
-): React.JSX.Element {
+export function FunSkinTonesList(props: FunSkinTonesListProps): JSX.Element {
   const { i18n, onSelectSkinTone } = props;
 
   const handleSelectionChange = useCallback(

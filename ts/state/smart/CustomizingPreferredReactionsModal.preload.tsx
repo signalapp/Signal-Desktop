@@ -1,6 +1,6 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import React, { memo } from 'react';
+import { memo, type JSX } from 'react';
 import { useSelector } from 'react-redux';
 import { usePreferredReactionsActions } from '../ducks/preferredReactions.preload.ts';
 import { useItemsActions } from '../ducks/items.preload.ts';
@@ -12,7 +12,7 @@ import { CustomizingPreferredReactionsModal } from '../../components/Customizing
 import { strictAssert } from '../../util/assert.std.ts';
 
 export const SmartCustomizingPreferredReactionsModal = memo(
-  function SmartCustomizingPreferredReactionsModal(): React.JSX.Element {
+  function SmartCustomizingPreferredReactionsModal(): JSX.Element {
     const i18n = useSelector(getIntl);
     const customizeModalState = useSelector(getCustomizeModalState);
     const emojiSkinToneDefault = useSelector(getEmojiSkinToneDefault);

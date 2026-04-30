@@ -1,8 +1,8 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ReactElement, ReactNode } from 'react';
-import React, { useState } from 'react';
+import type { ReactElement, ReactNode, JSX } from 'react';
+import { useState } from 'react';
 import lodash from 'lodash';
 import type { ReadonlyDeep } from 'type-fest';
 
@@ -58,7 +58,7 @@ export type PropsActionsType = {
 
 export type PropsHousekeepingType = {
   i18n: LocalizerType;
-  renderContact: SmartContactRendererType<React.JSX.Element>;
+  renderContact: SmartContactRendererType<JSX.Element>;
 };
 
 export type PropsType = PropsDataType &
@@ -69,7 +69,7 @@ function renderStringToIntl<Key extends keyof ICUJSXMessageParamsByKeyType>(
   id: Key,
   i18n: LocalizerType,
   components: ICUJSXMessageParamsByKeyType[Key]
-): React.JSX.Element {
+): JSX.Element {
   return <I18n id={id} i18n={i18n} components={components} />;
 }
 
@@ -181,9 +181,9 @@ function GroupV2Detail({
   i18n: LocalizerType;
   fromId?: ServiceIdString;
   ourAci: AciString | undefined;
-  renderContact: SmartContactRendererType<React.JSX.Element>;
+  renderContact: SmartContactRendererType<JSX.Element>;
   text: ReactNode;
-}): React.JSX.Element {
+}): JSX.Element {
   const icon = getIcon(detail, isLastText, fromId);
   let buttonNode: ReactNode;
 
@@ -318,7 +318,7 @@ export function GroupV2Change(props: PropsType): ReactElement {
 
   return (
     <>
-      {renderChange<React.JSX.Element>(change, {
+      {renderChange<JSX.Element>(change, {
         i18n,
         ourAci,
         ourPni,

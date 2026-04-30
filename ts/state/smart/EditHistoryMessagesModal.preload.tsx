@@ -1,7 +1,7 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { memo, useMemo } from 'react';
+import { memo, useMemo, type JSX } from 'react';
 import { useSelector } from 'react-redux';
 import type { ReadonlyMessageAttributesType } from '../../model-types.d.ts';
 import { EditHistoryMessagesModal } from '../../components/EditHistoryMessagesModal.dom.tsx';
@@ -15,7 +15,7 @@ import { strictAssert } from '../../util/assert.std.ts';
 import { getEditHistoryMessages } from '../selectors/globalModals.std.ts';
 
 export const SmartEditHistoryMessagesModal = memo(
-  function SmartEditHistoryMessagesModal(): React.JSX.Element {
+  function SmartEditHistoryMessagesModal(): JSX.Element {
     const i18n = useSelector(getIntl);
     const platform = useSelector(getPlatform);
 

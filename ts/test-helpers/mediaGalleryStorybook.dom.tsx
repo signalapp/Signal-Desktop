@@ -1,6 +1,6 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import React, { useCallback, type ReactNode } from 'react';
+import { useCallback, type ReactNode, type JSX } from 'react';
 import { action } from '@storybook/addon-actions';
 import type { PropsType } from '../state/smart/MediaItem.preload.tsx';
 import { getSafeDomain } from '../types/LinkPreview.std.ts';
@@ -19,7 +19,7 @@ const { i18n } = window.SignalContext;
 function renderContextMenu(
   _mediaItem: unknown,
   children: ReactNode
-): React.JSX.Element {
+): JSX.Element {
   return (
     <MediaContextMenu
       i18n={i18n}
@@ -35,10 +35,7 @@ function renderContextMenu(
   );
 }
 
-export function MediaItem({
-  mediaItem,
-  onItemClick,
-}: PropsType): React.JSX.Element {
+export function MediaItem({ mediaItem, onItemClick }: PropsType): JSX.Element {
   const onClick = useCallback(
     (state: AttachmentStatusType['state']) => {
       onItemClick({ mediaItem, state });

@@ -1,7 +1,8 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import type { JSX } from 'react';
+
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import type { ContactType, Props } from './SafetyNumberNotification.dom.tsx';
@@ -27,7 +28,7 @@ export default {
   },
 } satisfies Meta<Props>;
 
-export function GroupConversation(args: Props): React.JSX.Element {
+export function GroupConversation(args: Props): JSX.Element {
   return (
     <SafetyNumberNotification
       {...args}
@@ -39,7 +40,7 @@ export function GroupConversation(args: Props): React.JSX.Element {
   );
 }
 
-export function DirectConversation(args: Props): React.JSX.Element {
+export function DirectConversation(args: Props): JSX.Element {
   return (
     <SafetyNumberNotification
       {...args}
@@ -51,7 +52,7 @@ export function DirectConversation(args: Props): React.JSX.Element {
   );
 }
 
-export function LongNameInGroup(args: Props): React.JSX.Element {
+export function LongNameInGroup(args: Props): JSX.Element {
   return (
     <SafetyNumberNotification
       {...args}

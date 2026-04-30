@@ -1,8 +1,13 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { CSSProperties, KeyboardEvent } from 'react';
-import React, { useEffect, useRef, useState } from 'react';
+import type {
+  CSSProperties,
+  KeyboardEvent,
+  JSX,
+  MouseEvent as ReactMouseEvent,
+} from 'react';
+import { useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 import { arrow } from '../util/keyboard.dom.ts';
 import type { LocalizerType } from '../types/Util.std.ts';
@@ -195,7 +200,7 @@ export function GradientDial({
   onChange,
   onClick,
   selectedKnob,
-}: PropsType): React.JSX.Element {
+}: PropsType): JSX.Element {
   const containerRef = useRef<HTMLDivElement | null>(null);
 
   const [knobDim, setKnobDim] = useState<{
@@ -203,7 +208,7 @@ export function GradientDial({
     end?: CSSPosition;
   }>({});
 
-  const handleMouseMove = (ev: MouseEvent) => {
+  const handleMouseMove = (ev: MouseEvent | ReactMouseEvent) => {
     if (!containerRef || !containerRef.current) {
       return;
     }
@@ -238,7 +243,7 @@ export function GradientDial({
 
   // We want to use React.MouseEvent here because above we
   // use the regular MouseEvent
-  const handleMouseDown = (ev: React.MouseEvent) => {
+  const handleMouseDown = (ev: MouseEvent | ReactMouseEvent) => {
     ev.preventDefault();
     ev.stopPropagation();
 

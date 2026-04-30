@@ -1,12 +1,13 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { ReactNode, JSX } from 'react';
+
 import classNames from 'classnames';
 
 export type PropsType = {
   avatarUrl?: string;
-  children?: React.ReactNode;
+  children?: ReactNode;
   className?: string;
   darken?: boolean;
 };
@@ -16,7 +17,7 @@ export function CallBackgroundBlur({
   children,
   className,
   darken,
-}: PropsType): React.JSX.Element {
+}: PropsType): JSX.Element {
   return (
     <div
       className={classNames(

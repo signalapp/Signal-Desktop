@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import type { ChangeEvent } from 'react';
-import React, { useCallback } from 'react';
+import type { ChangeEvent, JSX } from 'react';
+import { useCallback } from 'react';
 import { VisuallyHidden } from 'react-aria';
 import { getInteractionModality } from '@react-aria/interactions';
 import type { LocalizerType } from '../../../types/I18N.std.ts';
@@ -15,7 +15,7 @@ export type FunSearchProps = Readonly<{
   onSearchInputChange: (newSearchInput: string) => void;
 }>;
 
-export function FunSearch(props: FunSearchProps): React.JSX.Element {
+export function FunSearch(props: FunSearchProps): JSX.Element {
   const { i18n, onSearchInputChange } = props;
   const { shouldAutoFocus, onChangeShouldAutoFocus } = useFunContext();
 

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { CSSProperties, ReactNode } from 'react';
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 import classNames from 'classnames';
 
 import { Button } from 'react-aria-components';
@@ -22,7 +22,7 @@ export enum ReactionPickerPickerStyle {
   Menu,
 }
 
-export const ReactionPickerPickerEmojiButton = React.forwardRef<
+export const ReactionPickerPickerEmojiButton = forwardRef<
   HTMLButtonElement,
   {
     emoji: string;

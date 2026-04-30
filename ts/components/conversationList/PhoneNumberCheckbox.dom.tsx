@@ -1,8 +1,8 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { FunctionComponent } from 'react';
-import React, { useState } from 'react';
+import type { FunctionComponent, JSX } from 'react';
+import { useState, memo, useCallback } from 'react';
 
 import { ButtonVariant } from '../Button.dom.tsx';
 import { ConfirmationDialog } from '../ConfirmationDialog.dom.tsx';
@@ -30,7 +30,7 @@ type PropsHousekeepingType = {
 
 type PropsType = PropsDataType & PropsHousekeepingType;
 
-export const PhoneNumberCheckbox: FunctionComponent<PropsType> = React.memo(
+export const PhoneNumberCheckbox: FunctionComponent<PropsType> = memo(
   function PhoneNumberCheckbox({
     phoneNumber,
     isChecked,
@@ -43,7 +43,7 @@ export const PhoneNumberCheckbox: FunctionComponent<PropsType> = React.memo(
   }) {
     const [isModalVisible, setIsModalVisible] = useState(false);
 
-    const onClickItem = React.useCallback(async () => {
+    const onClickItem = useCallback(async () => {
       if (!phoneNumber.isValid) {
         setIsModalVisible(true);
         return;
@@ -74,7 +74,7 @@ export const PhoneNumberCheckbox: FunctionComponent<PropsType> = React.memo(
       phoneNumber,
     ]);
 
-    let modal: React.JSX.Element | undefined;
+    let modal: JSX.Element | undefined;
     if (isModalVisible) {
       modal = (
         <ConfirmationDialog

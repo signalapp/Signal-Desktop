@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import type { ForwardedRef, ReactNode } from 'react';
-import React, { forwardRef, memo, useCallback, useMemo, useState } from 'react';
+import type { ForwardedRef, ReactNode, JSX } from 'react';
+import { forwardRef, memo, useCallback, useMemo, useState } from 'react';
 import { Tabs } from 'radix-ui';
 import { AnimatePresence, motion } from 'motion/react';
 import type { LocalizerType } from '../../../types/I18N.std.ts';
@@ -366,7 +366,7 @@ type ContentProps = Readonly<{
 const Content = forwardRef(function Content(
   { i18n, pin, direction, pinsCount, ...forwardedProps }: ContentProps,
   ref: ForwardedRef<HTMLDivElement>
-): React.JSX.Element {
+): JSX.Element {
   const thumbnailUrl = useMemo(() => {
     return getThumbnailUrl(pin.message);
   }, [pin.message]);

@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useState, useCallback } from 'react';
+import { useState, useCallback, type JSX, type MouseEvent } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 
 import { AxoSymbol } from '../axo/AxoSymbol.dom.tsx';
@@ -43,7 +43,7 @@ export function SafetyNumberViewer({
   keyTransparencyStatus,
   isKeyTransparencyEnabled,
   checkKeyTransparency,
-}: PropsType): React.JSX.Element | null {
+}: PropsType): JSX.Element | null {
   const containerClassName = tw(
     'flex flex-col items-center justify-center gap-4 pb-8'
   );
@@ -101,7 +101,7 @@ export function SafetyNumberViewer({
     </div>
   );
 
-  let keyTransparency: React.JSX.Element | undefined;
+  let keyTransparency: JSX.Element | undefined;
   if (isKeyTransparencyEnabled) {
     keyTransparency = (
       <KeyTransparency
@@ -151,7 +151,7 @@ function KeyTransparency({
   status,
   contact,
   checkKeyTransparency,
-}: KeyTransparencyPropsType): React.JSX.Element {
+}: KeyTransparencyPropsType): JSX.Element {
   const [popup, setPopup] = useState<undefined | PopupPropsType['type']>();
 
   const resetPopup = useCallback(() => {
@@ -159,7 +159,7 @@ function KeyTransparency({
   }, []);
 
   const onKeyTransparencyClick = useCallback(
-    (e: React.MouseEvent) => {
+    (e: MouseEvent) => {
       e.preventDefault();
 
       switch (status) {
@@ -184,7 +184,7 @@ function KeyTransparency({
   let disabled = false;
   let arrow = false;
   let extraIconStyles: TailwindStyles | undefined;
-  let spinner: React.JSX.Element | undefined;
+  let spinner: JSX.Element | undefined;
   switch (status) {
     case 'idle':
       icon = 'key';
@@ -320,12 +320,7 @@ type PopupPropsType = Readonly<{
   onClose: () => void;
 }>;
 
-function Popup({
-  i18n,
-  contact,
-  type,
-  onClose,
-}: PopupPropsType): React.JSX.Element {
+function Popup({ i18n, contact, type, onClose }: PopupPropsType): JSX.Element {
   let icon: 'check-circle' | 'info';
   let title: string;
   let body: string;

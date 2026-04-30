@@ -1,8 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
-import type { FunctionComponent } from 'react';
+import { memo } from 'react';
+import type { FunctionComponent, JSX } from 'react';
 
 import { HEADER_CONTACT_NAME_CLASS_NAME } from './BaseConversationListItem.dom.tsx';
 import type { ConversationType } from '../../state/ducks/conversations.preload.ts';
@@ -50,7 +50,7 @@ type PropsHousekeepingType = {
 
 type PropsType = PropsDataType & PropsHousekeepingType;
 
-export const ContactCheckbox: FunctionComponent<PropsType> = React.memo(
+export const ContactCheckbox: FunctionComponent<PropsType> = memo(
   function ContactCheckbox({
     about,
     avatarUrl,
@@ -80,7 +80,7 @@ export const ContactCheckbox: FunctionComponent<PropsType> = React.memo(
       <ContactName module={HEADER_CONTACT_NAME_CLASS_NAME} title={title} />
     );
 
-    let messageText: undefined | string | React.JSX.Element;
+    let messageText: undefined | string | JSX.Element;
     if (disabledReason === ContactCheckboxDisabledReason.AlreadyAdded) {
       messageText = i18n('icu:alreadyAMember');
     } else if (about) {

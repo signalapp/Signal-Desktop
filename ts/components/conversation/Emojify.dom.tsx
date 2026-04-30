@@ -1,7 +1,6 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import React from 'react';
-import type { CSSProperties } from 'react';
+import type { CSSProperties, JSX } from 'react';
 import type { RenderTextCallbackType } from '../../types/Util.std.ts';
 import { splitByEmoji } from '../../util/emoji.std.ts';
 import { missingCaseError } from '../../util/missingCaseError.std.ts';
@@ -34,7 +33,7 @@ export function Emojify({
   text,
   renderNonEmoji = defaultRenderNonEmoji,
   style,
-}: Props): React.JSX.Element {
+}: Props): JSX.Element {
   const emojiLocalizer = useFunEmojiLocalizer();
   return (
     <>

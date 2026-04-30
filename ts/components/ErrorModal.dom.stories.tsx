@@ -1,7 +1,8 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import type { JSX } from 'react';
+
 import { action } from '@storybook/addon-actions';
 
 import type { Meta } from '@storybook/react';
@@ -26,17 +27,17 @@ export default {
   args: {},
 } satisfies Meta<PropsType>;
 
-export function Normal(): React.JSX.Element {
+export function Normal(): JSX.Element {
   return <ErrorModal {...createProps()} />;
 }
 
-export function PrimaryButton(): React.JSX.Element {
+export function PrimaryButton(): JSX.Element {
   return (
     <ErrorModal {...createProps({ buttonVariant: ButtonVariant.Primary })} />
   );
 }
 
-export function CustomStrings(): React.JSX.Element {
+export function CustomStrings(): JSX.Element {
   return (
     <ErrorModal
       {...createProps({
@@ -47,7 +48,7 @@ export function CustomStrings(): React.JSX.Element {
   );
 }
 
-export function NoTitle(): React.JSX.Element {
+export function NoTitle(): JSX.Element {
   return (
     <ErrorModal
       {...createProps({

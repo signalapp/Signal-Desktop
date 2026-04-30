@@ -1,7 +1,6 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import React from 'react';
-import type { ReactNode } from 'react';
+import type { ReactNode, JSX } from 'react';
 import { tw } from '../tw.dom.tsx';
 import { AxoSymbol } from '../AxoSymbol.dom.tsx';
 import { isTestOrMockEnvironment } from '../../environment.std.ts';
@@ -97,9 +96,7 @@ export namespace AxoBaseMenu {
     children: ReactNode;
   }>;
 
-  export function ItemLeadingSlot(
-    props: ItemLeadingSlotProps
-  ): React.JSX.Element {
+  export function ItemLeadingSlot(props: ItemLeadingSlotProps): JSX.Element {
     return (
       <span
         className={tw('col-start-1 col-end-1 me-1.5 flex items-center gap-1.5')}
@@ -113,9 +110,7 @@ export namespace AxoBaseMenu {
     children: ReactNode;
   }>;
 
-  export function ItemContentSlot(
-    props: ItemContentSlotProps
-  ): React.JSX.Element {
+  export function ItemContentSlot(props: ItemContentSlotProps): JSX.Element {
     return (
       <span className={tw('col-start-2 col-end-2 flex min-w-0 items-center')}>
         {props.children}
@@ -134,7 +129,7 @@ export namespace AxoBaseMenu {
     children: ReactNode;
   }>;
 
-  export function ItemText(props: ItemTextProps): React.JSX.Element {
+  export function ItemText(props: ItemTextProps): JSX.Element {
     return <span className={itemTextStyles}>{props.children}</span>;
   }
 
@@ -144,17 +139,17 @@ export namespace AxoBaseMenu {
 
   export function ItemCheckPlaceholder(
     props: ItemCheckPlaceholderProps
-  ): React.JSX.Element {
+  ): JSX.Element {
     return <span className={tw('w-3.5')}>{props.children}</span>;
   }
 
-  export function ItemCheck(): React.JSX.Element {
+  export function ItemCheck(): JSX.Element {
     return <AxoSymbol.Icon size={14} symbol="check" label={null} />;
   }
 
   export function ItemSymbol(props: {
     symbol: AxoSymbol.IconName;
-  }): React.JSX.Element {
+  }): JSX.Element {
     return <AxoSymbol.Icon size={16} symbol={props.symbol} label={null} />;
   }
 
@@ -164,7 +159,7 @@ export namespace AxoBaseMenu {
 
   export function ItemKeyboardShortcut(
     props: ItemKeyboardShortcutProps
-  ): React.JSX.Element {
+  ): JSX.Element {
     return (
       <span
         dir="auto"

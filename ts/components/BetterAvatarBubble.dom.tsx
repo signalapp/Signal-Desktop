@@ -1,8 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { CSSProperties, MouseEvent, ReactNode } from 'react';
-import React from 'react';
+import type { CSSProperties, MouseEvent, ReactNode, JSX } from 'react';
 import classNames from 'classnames';
 
 import type { AvatarColorType } from '../types/Colors.std.ts';
@@ -26,7 +25,7 @@ export function BetterAvatarBubble({
   onDelete,
   onSelect,
   style,
-}: PropsType): React.JSX.Element {
+}: PropsType): JSX.Element {
   return (
     <div
       className={classNames(

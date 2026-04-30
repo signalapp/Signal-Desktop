@@ -1,7 +1,7 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import type { FormEvent } from 'react';
-import React, { useCallback, useMemo, useState } from 'react';
+import type { FormEvent, JSX } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { v4 as uuid } from 'uuid';
 import { z } from 'zod';
 import { Modal } from './Modal.dom.tsx';
@@ -44,7 +44,7 @@ export function EditNicknameAndNoteModal({
   i18n,
   onSave,
   onClose,
-}: EditNicknameAndNoteModalProps): React.JSX.Element {
+}: EditNicknameAndNoteModalProps): JSX.Element {
   strictAssert(
     conversation.type === 'direct',
     'Expected a direct conversation'

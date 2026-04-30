@@ -1,7 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import type { JSX } from 'react';
+
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import type { PropsType } from './GroupV2JoinDialog.dom.tsx';
@@ -26,11 +27,11 @@ export default {
   args: {},
 } satisfies Meta<PropsType>;
 
-export function Basic(): React.JSX.Element {
+export function Basic(): JSX.Element {
   return <GroupV2JoinDialog {...createProps()} />;
 }
 
-export function ApprovalRequired(): React.JSX.Element {
+export function ApprovalRequired(): JSX.Element {
   return (
     <GroupV2JoinDialog
       {...createProps({
@@ -41,7 +42,7 @@ export function ApprovalRequired(): React.JSX.Element {
   );
 }
 
-export function WithAvatar(): React.JSX.Element {
+export function WithAvatar(): JSX.Element {
   return (
     <GroupV2JoinDialog
       {...createProps({
@@ -54,7 +55,7 @@ export function WithAvatar(): React.JSX.Element {
   );
 }
 
-export function WithOneMember(): React.JSX.Element {
+export function WithOneMember(): JSX.Element {
   return (
     <GroupV2JoinDialog
       {...createProps({
@@ -65,7 +66,7 @@ export function WithOneMember(): React.JSX.Element {
   );
 }
 
-export function AvatarLoadingState(): React.JSX.Element {
+export function AvatarLoadingState(): JSX.Element {
   return (
     <GroupV2JoinDialog
       {...createProps({
@@ -78,7 +79,7 @@ export function AvatarLoadingState(): React.JSX.Element {
   );
 }
 
-export function Full(): React.JSX.Element {
+export function Full(): JSX.Element {
   return (
     <GroupV2JoinDialog
       {...createProps({

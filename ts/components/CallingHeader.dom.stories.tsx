@@ -1,7 +1,8 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import type { JSX } from 'react';
+
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import type { PropsType } from './CallingHeader.dom.tsx';
@@ -27,11 +28,11 @@ export default {
   },
 } satisfies Meta<PropsType>;
 
-export function Default(args: PropsType): React.JSX.Element {
+export function Default(args: PropsType): JSX.Element {
   return <CallingHeader {...args} />;
 }
 
-export function LobbyStyle(args: PropsType): React.JSX.Element {
+export function LobbyStyle(args: PropsType): JSX.Element {
   return (
     <CallingHeader
       {...args}

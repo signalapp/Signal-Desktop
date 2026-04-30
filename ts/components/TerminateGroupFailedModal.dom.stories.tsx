@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { Meta, StoryFn } from '@storybook/react';
-import React, { type ComponentProps } from 'react';
+import { type ComponentProps } from 'react';
 
 import { action } from '@storybook/addon-actions';
 import { TerminateGroupFailedModal } from './TerminateGroupFailedModal.dom.tsx';

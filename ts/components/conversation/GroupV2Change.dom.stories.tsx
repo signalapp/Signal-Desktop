@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import { Fragment, type JSX } from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import type { ServiceIdString, AciString } from '../../types/ServiceId.std.ts';
@@ -43,12 +43,12 @@ const contactMap = {
 const AccessControlEnum = Proto.AccessControl.AccessRequired;
 const RoleEnum = Proto.Member.Role;
 
-const renderContact: SmartContactRendererType<React.JSX.Element> = (
+const renderContact: SmartContactRendererType<JSX.Element> = (
   conversationId: string
 ) => (
-  <React.Fragment key={conversationId}>
+  <Fragment key={conversationId}>
     {contactMap[conversationId] || 'UNKNOWN'}
-  </React.Fragment>
+  </Fragment>
 );
 
 const renderChange = (
@@ -87,7 +87,7 @@ export default {
   title: 'Components/Conversation/GroupV2Change',
 } satisfies Meta<PropsType>;
 
-export function Multiple(): React.JSX.Element {
+export function Multiple(): JSX.Element {
   return (
     <>
       {renderChange({
@@ -125,7 +125,7 @@ export function Multiple(): React.JSX.Element {
   );
 }
 
-export function Create(): React.JSX.Element {
+export function Create(): JSX.Element {
   return (
     <>
       {renderChange({
@@ -155,7 +155,7 @@ export function Create(): React.JSX.Element {
   );
 }
 
-export function Title(): React.JSX.Element {
+export function Title(): JSX.Element {
   return (
     <>
       {renderChange({
@@ -211,7 +211,7 @@ export function Title(): React.JSX.Element {
   );
 }
 
-export function Avatar(): React.JSX.Element {
+export function Avatar(): JSX.Element {
   return (
     <>
       {renderChange({
@@ -270,7 +270,7 @@ export function Avatar(): React.JSX.Element {
   );
 }
 
-export function AccessAttributes(): React.JSX.Element {
+export function AccessAttributes(): JSX.Element {
   return (
     <>
       {renderChange({
@@ -329,7 +329,7 @@ export function AccessAttributes(): React.JSX.Element {
   );
 }
 
-export function AccessMembers(): React.JSX.Element {
+export function AccessMembers(): JSX.Element {
   return (
     <>
       {renderChange({
@@ -388,7 +388,7 @@ export function AccessMembers(): React.JSX.Element {
   );
 }
 
-export function AccessInviteLink(): React.JSX.Element {
+export function AccessInviteLink(): JSX.Element {
   return (
     <>
       {renderChange({
@@ -447,7 +447,7 @@ export function AccessInviteLink(): React.JSX.Element {
   );
 }
 
-export function MemberAdd(): React.JSX.Element {
+export function MemberAdd(): JSX.Element {
   return (
     <>
       {renderChange({
@@ -506,7 +506,7 @@ export function MemberAdd(): React.JSX.Element {
   );
 }
 
-export function MemberAddFromInvited(): React.JSX.Element {
+export function MemberAddFromInvited(): JSX.Element {
   return (
     <>
       {/* the strings where someone added you - shown like a normal add */}
@@ -673,7 +673,7 @@ export function MemberAddFromInvited(): React.JSX.Element {
   );
 }
 
-export function MemberAddFromLink(): React.JSX.Element {
+export function MemberAddFromLink(): JSX.Element {
   return (
     <>
       {renderChange({
@@ -706,7 +706,7 @@ export function MemberAddFromLink(): React.JSX.Element {
   );
 }
 
-export function MemberAddFromAdminApproval(): React.JSX.Element {
+export function MemberAddFromAdminApproval(): JSX.Element {
   return (
     <>
       {renderChange({
@@ -756,7 +756,7 @@ export function MemberAddFromAdminApproval(): React.JSX.Element {
   );
 }
 
-export function MemberRemove(): React.JSX.Element {
+export function MemberRemove(): JSX.Element {
   return (
     <>
       {renderChange({
@@ -824,7 +824,7 @@ export function MemberRemove(): React.JSX.Element {
   );
 }
 
-export function MemberPrivilege(): React.JSX.Element {
+export function MemberPrivilege(): JSX.Element {
   return (
     <>
       {renderChange({
@@ -927,7 +927,7 @@ export function MemberPrivilege(): React.JSX.Element {
   );
 }
 
-export function PendingAddOne(): React.JSX.Element {
+export function PendingAddOne(): JSX.Element {
   return (
     <>
       {renderChange({
@@ -977,7 +977,7 @@ export function PendingAddOne(): React.JSX.Element {
   );
 }
 
-export function PendingAddMany(): React.JSX.Element {
+export function PendingAddMany(): JSX.Element {
   return (
     <>
       {renderChange({
@@ -1036,7 +1036,7 @@ export function PendingAddMany(): React.JSX.Element {
   );
 }
 
-export function PendingRemoveOne(): React.JSX.Element {
+export function PendingRemoveOne(): JSX.Element {
   return (
     <>
       {renderChange({
@@ -1193,7 +1193,7 @@ export function PendingRemoveOne(): React.JSX.Element {
   );
 }
 
-export function PendingRemoveMany(): React.JSX.Element {
+export function PendingRemoveMany(): JSX.Element {
   return (
     <>
       {renderChange({
@@ -1369,7 +1369,7 @@ export function PendingRemoveMany(): React.JSX.Element {
   );
 }
 
-export function AdminApprovalAdd(): React.JSX.Element {
+export function AdminApprovalAdd(): JSX.Element {
   return (
     <>
       {renderChange({
@@ -1394,7 +1394,7 @@ export function AdminApprovalAdd(): React.JSX.Element {
   );
 }
 
-export function AdminApprovalRemove(): React.JSX.Element {
+export function AdminApprovalRemove(): JSX.Element {
   return (
     <>
       {renderChange({
@@ -1427,7 +1427,7 @@ export function AdminApprovalRemove(): React.JSX.Element {
   );
 }
 
-export function AdminApprovalBounce(): React.JSX.Element {
+export function AdminApprovalBounce(): JSX.Element {
   return (
     <>
       Should show button:
@@ -1543,7 +1543,7 @@ export function AdminApprovalBounce(): React.JSX.Element {
   );
 }
 
-export function GroupLinkAdd(): React.JSX.Element {
+export function GroupLinkAdd(): JSX.Element {
   return (
     <>
       {renderChange({
@@ -1602,7 +1602,7 @@ export function GroupLinkAdd(): React.JSX.Element {
   );
 }
 
-export function GroupLinkReset(): React.JSX.Element {
+export function GroupLinkReset(): JSX.Element {
   return (
     <>
       {renderChange({
@@ -1632,7 +1632,7 @@ export function GroupLinkReset(): React.JSX.Element {
   );
 }
 
-export function GroupLinkRemove(): React.JSX.Element {
+export function GroupLinkRemove(): JSX.Element {
   return (
     <>
       {renderChange({
@@ -1662,7 +1662,7 @@ export function GroupLinkRemove(): React.JSX.Element {
   );
 }
 
-export function DescriptionRemove(): React.JSX.Element {
+export function DescriptionRemove(): JSX.Element {
   return (
     <>
       {renderChange({
@@ -1695,7 +1695,7 @@ export function DescriptionRemove(): React.JSX.Element {
   );
 }
 
-export function DescriptionChange(): React.JSX.Element {
+export function DescriptionChange(): JSX.Element {
   return (
     <>
       {renderChange(
@@ -1740,7 +1740,7 @@ export function DescriptionChange(): React.JSX.Element {
   );
 }
 
-export function AnnouncementGroupChange(): React.JSX.Element {
+export function AnnouncementGroupChange(): JSX.Element {
   return (
     <>
       {renderChange({
@@ -1799,7 +1799,7 @@ export function AnnouncementGroupChange(): React.JSX.Element {
   );
 }
 
-export function GroupTerminated(): React.JSX.Element {
+export function GroupTerminated(): JSX.Element {
   return (
     <>
       {renderChange({
@@ -1829,7 +1829,7 @@ export function GroupTerminated(): React.JSX.Element {
   );
 }
 
-export function Summary(): React.JSX.Element {
+export function Summary(): JSX.Element {
   return (
     <>
       {renderChange({

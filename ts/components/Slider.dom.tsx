@@ -1,8 +1,13 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { CSSProperties, KeyboardEvent } from 'react';
-import React, { useRef } from 'react';
+import type {
+  CSSProperties,
+  KeyboardEvent,
+  JSX,
+  MouseEvent as ReactMouseEvent,
+} from 'react';
+import { useRef } from 'react';
 import { getClassNamesFor } from '../util/getClassNamesFor.std.ts';
 import { arrow } from '../util/keyboard.dom.ts';
 
@@ -22,14 +27,14 @@ export function Slider({
   moduleClassName,
   onChange,
   value,
-}: PropsType): React.JSX.Element {
+}: PropsType): JSX.Element {
   const diff = useRef<number>(0);
   const handleRef = useRef<HTMLDivElement | null>(null);
   const sliderRef = useRef<HTMLDivElement | null>(null);
 
   const getClassName = getClassNamesFor('Slider', moduleClassName);
 
-  const handleValueChange = (ev: MouseEvent | React.MouseEvent) => {
+  const handleValueChange = (ev: MouseEvent | ReactMouseEvent) => {
     if (!sliderRef || !sliderRef.current) {
       return;
     }
@@ -58,7 +63,7 @@ export function Slider({
 
   // We want to use React.MouseEvent here because above we
   // use the regular MouseEvent
-  const handleMouseDown = (ev: React.MouseEvent) => {
+  const handleMouseDown = (ev: ReactMouseEvent) => {
     if (!handleRef || !handleRef.current) {
       return;
     }

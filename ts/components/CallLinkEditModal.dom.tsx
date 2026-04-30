@@ -1,8 +1,8 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ReactNode } from 'react';
-import React, { useMemo, useState } from 'react';
+import type { ReactNode, JSX } from 'react';
+import { useMemo, useState } from 'react';
 import { v4 as generateUuid } from 'uuid';
 import { Modal } from './Modal.dom.tsx';
 import type { LocalizerType } from '../types/I18N.std.ts';
@@ -89,7 +89,7 @@ export function CallLinkEditModal({
   onUpdateCallLinkRestrictions,
   onShareCallLinkViaSignal,
   onStartCallLinkLobby,
-}: CallLinkEditModalProps): React.JSX.Element {
+}: CallLinkEditModalProps): JSX.Element {
   const [restrictionsId] = useState(() => generateUuid());
 
   const callLinkWebUrl = useMemo(() => {

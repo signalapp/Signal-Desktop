@@ -1,7 +1,8 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import type { JSX } from 'react';
+
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import type { Props } from './ImageGrid.dom.tsx';
@@ -60,11 +61,11 @@ export default {
   },
 } satisfies Meta<Props>;
 
-export function OneImage(args: Props): React.JSX.Element {
+export function OneImage(args: Props): JSX.Element {
   return <ImageGrid {...args} />;
 }
 
-export function OneVideo(args: Props): React.JSX.Element {
+export function OneVideo(args: Props): JSX.Element {
   const props = {
     ...args,
     attachments: [
@@ -88,9 +89,7 @@ export function OneVideo(args: Props): React.JSX.Element {
   return <ImageGrid {...props} />;
 }
 
-export function OneVideoNotDownloadedNotPending(
-  args: Props
-): React.JSX.Element {
+export function OneVideoNotDownloadedNotPending(args: Props): JSX.Element {
   const props = {
     ...args,
     attachments: [
@@ -107,7 +106,7 @@ export function OneVideoNotDownloadedNotPending(
   return <ImageGrid {...props} />;
 }
 
-export function OneVideoPendingWDownloadQueued(args: Props): React.JSX.Element {
+export function OneVideoPendingWDownloadQueued(args: Props): JSX.Element {
   const props = {
     ...args,
     attachments: [
@@ -126,9 +125,7 @@ export function OneVideoPendingWDownloadQueued(args: Props): React.JSX.Element {
   return <ImageGrid {...props} />;
 }
 
-export function OneVideoPendingWDownloadProgress(
-  args: Props
-): React.JSX.Element {
+export function OneVideoPendingWDownloadProgress(args: Props): JSX.Element {
   const props = {
     ...args,
     attachments: [
@@ -148,9 +145,7 @@ export function OneVideoPendingWDownloadProgress(
   return <ImageGrid {...props} />;
 }
 
-export function OneVideoDownloadProgressNotPending(
-  args: Props
-): React.JSX.Element {
+export function OneVideoDownloadProgressNotPending(args: Props): JSX.Element {
   const props = {
     ...args,
     attachments: [
@@ -171,7 +166,7 @@ export function OneVideoDownloadProgressNotPending(
 
 export function OneVideoIncrementalNotDownloadedNotPending(
   args: Props
-): React.JSX.Element {
+): JSX.Element {
   const props = {
     ...args,
     attachments: [
@@ -192,7 +187,7 @@ export function OneVideoIncrementalNotDownloadedNotPending(
 
 export function OneVideoIncrementalPendingWDownloadQueued(
   args: Props
-): React.JSX.Element {
+): JSX.Element {
   const props = {
     ...args,
     attachments: [
@@ -215,7 +210,7 @@ export function OneVideoIncrementalPendingWDownloadQueued(
 
 export function OneVideoIncrementalPendingWDownloadProgress(
   args: Props
-): React.JSX.Element {
+): JSX.Element {
   const props = {
     ...args,
     attachments: [
@@ -239,7 +234,7 @@ export function OneVideoIncrementalPendingWDownloadProgress(
 
 export function OneVideoIncrementalDownloadProgressNotPending(
   args: Props
-): React.JSX.Element {
+): JSX.Element {
   const props = {
     ...args,
     attachments: [
@@ -260,7 +255,7 @@ export function OneVideoIncrementalDownloadProgressNotPending(
   return <ImageGrid {...props} />;
 }
 
-export function TwoImages(args: Props): React.JSX.Element {
+export function TwoImages(args: Props): JSX.Element {
   return (
     <ImageGrid
       {...args}
@@ -284,7 +279,7 @@ export function TwoImages(args: Props): React.JSX.Element {
   );
 }
 
-export function TwoImagesNotDownloaded(args: Props): React.JSX.Element {
+export function TwoImagesNotDownloaded(args: Props): JSX.Element {
   return (
     <ImageGrid
       {...args}
@@ -310,9 +305,7 @@ export function TwoImagesNotDownloaded(args: Props): React.JSX.Element {
   );
 }
 
-export function TwoImagesIncrementalNotDownloaded(
-  args: Props
-): React.JSX.Element {
+export function TwoImagesIncrementalNotDownloaded(args: Props): JSX.Element {
   return (
     <ImageGrid
       {...args}
@@ -340,9 +333,7 @@ export function TwoImagesIncrementalNotDownloaded(
   );
 }
 
-export function TwoImagesPendingWDownloadProgress(
-  args: Props
-): React.JSX.Element {
+export function TwoImagesPendingWDownloadProgress(args: Props): JSX.Element {
   const props = {
     ...args,
     attachments: [
@@ -372,7 +363,7 @@ export function TwoImagesPendingWDownloadProgress(
   return <ImageGrid {...props} />;
 }
 
-export function ThreeImages(args: Props): React.JSX.Element {
+export function ThreeImages(args: Props): JSX.Element {
   return (
     <ImageGrid
       {...args}
@@ -403,9 +394,7 @@ export function ThreeImages(args: Props): React.JSX.Element {
   );
 }
 
-export function ThreeImagesPendingWDownloadProgress(
-  args: Props
-): React.JSX.Element {
+export function ThreeImagesPendingWDownloadProgress(args: Props): JSX.Element {
   const props = {
     ...args,
     attachments: [
@@ -439,7 +428,7 @@ export function ThreeImagesPendingWDownloadProgress(
   return <ImageGrid {...props} />;
 }
 
-export function ThreeImagesNotDownloaded(args: Props): React.JSX.Element {
+export function ThreeImagesNotDownloaded(args: Props): JSX.Element {
   return (
     <ImageGrid
       {...args}
@@ -473,7 +462,7 @@ export function ThreeImagesNotDownloaded(args: Props): React.JSX.Element {
   );
 }
 
-export function FourImages(args: Props): React.JSX.Element {
+export function FourImages(args: Props): JSX.Element {
   return (
     <ImageGrid
       {...args}
@@ -511,9 +500,7 @@ export function FourImages(args: Props): React.JSX.Element {
   );
 }
 
-export function FourImagesPendingWDownloadProgress(
-  args: Props
-): React.JSX.Element {
+export function FourImagesPendingWDownloadProgress(args: Props): JSX.Element {
   const props = {
     ...args,
     attachments: [
@@ -554,144 +541,7 @@ export function FourImagesPendingWDownloadProgress(
   return <ImageGrid {...props} />;
 }
 
-export function FourImagesNotDownloaded(args: Props): React.JSX.Element {
-  return (
-    <ImageGrid
-      {...args}
-      attachments={[
-        fakeAttachment({
-          contentType: VIDEO_MP4,
-          fileName: 'sax.png',
-          height: 1200,
-          width: 800,
-          path: undefined,
-          blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
-        }),
-        fakeAttachment({
-          contentType: IMAGE_JPEG,
-          fileName: 'tina-rolf-269345-unsplash.jpg',
-          height: 1680,
-          width: 3000,
-          path: undefined,
-          blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
-        }),
-        fakeAttachment({
-          contentType: IMAGE_JPEG,
-          fileName: 'tina-rolf-269345-unsplash.jpg',
-          height: 1680,
-          width: 3000,
-          path: undefined,
-          blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
-        }),
-        fakeAttachment({
-          contentType: IMAGE_JPEG,
-          fileName: 'tina-rolf-269345-unsplash.jpg',
-          height: 1680,
-          width: 3000,
-          path: undefined,
-          blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
-        }),
-      ]}
-    />
-  );
-}
-
-export function FiveImages(args: Props): React.JSX.Element {
-  return (
-    <ImageGrid
-      {...args}
-      attachments={[
-        fakeAttachment({
-          contentType: IMAGE_PNG,
-          fileName: 'sax.png',
-          height: 1200,
-          url: pngUrl,
-          width: 800,
-        }),
-        fakeAttachment({
-          contentType: IMAGE_JPEG,
-          fileName: 'tina-rolf-269345-unsplash.jpg',
-          height: 1680,
-          url: '/fixtures/tina-rolf-269345-unsplash.jpg',
-          width: 3000,
-        }),
-        fakeAttachment({
-          contentType: IMAGE_PNG,
-          fileName: 'sax.png',
-          height: 1200,
-          url: pngUrl,
-          width: 800,
-        }),
-        fakeAttachment({
-          contentType: IMAGE_JPEG,
-          fileName: 'tina-rolf-269345-unsplash.jpg',
-          height: 1680,
-          url: '/fixtures/tina-rolf-269345-unsplash.jpg',
-          width: 3000,
-        }),
-        fakeAttachment({
-          contentType: IMAGE_PNG,
-          fileName: 'sax.png',
-          height: 1200,
-          url: pngUrl,
-          width: 800,
-        }),
-      ]}
-    />
-  );
-}
-
-export function FiveImagesPendingWDownloadProgress(
-  args: Props
-): React.JSX.Element {
-  const props = {
-    ...args,
-    attachments: [
-      fakeAttachment({
-        contentType: IMAGE_PNG,
-        fileName: 'sax.png',
-        path: undefined,
-        pending: true,
-        size: 1000000,
-        totalDownloaded: 300000,
-        blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
-        url: undefined,
-      }),
-      fakeAttachment({
-        contentType: IMAGE_JPEG,
-        fileName: 'tina-rolf-269345-unsplash.jpg',
-        height: 1680,
-        url: '/fixtures/tina-rolf-269345-unsplash.jpg',
-        width: 3000,
-      }),
-      fakeAttachment({
-        contentType: IMAGE_JPEG,
-        fileName: 'tina-rolf-269345-unsplash.jpg',
-        height: 1680,
-        url: '/fixtures/tina-rolf-269345-unsplash.jpg',
-        width: 3000,
-      }),
-      fakeAttachment({
-        contentType: IMAGE_JPEG,
-        fileName: 'tina-rolf-269345-unsplash.jpg',
-        height: 1680,
-        url: '/fixtures/tina-rolf-269345-unsplash.jpg',
-        width: 3000,
-      }),
-      fakeAttachment({
-        contentType: IMAGE_JPEG,
-        fileName: 'tina-rolf-269345-unsplash.jpg',
-        height: 1680,
-        url: '/fixtures/tina-rolf-269345-unsplash.jpg',
-        width: 3000,
-      }),
-    ],
-  };
-
-  return <ImageGrid {...props} />;
-}
-
-export function FiveImagesNotDownloaded(args: Props): React.JSX.Element {
+export function FourImagesNotDownloaded(args: Props): JSX.Element {
   return (
     <ImageGrid
       {...args}
@@ -728,6 +578,141 @@ export function FiveImagesNotDownloaded(args: Props): React.JSX.Element {
           path: undefined,
           blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
         }),
+      ]}
+    />
+  );
+}
+
+export function FiveImages(args: Props): JSX.Element {
+  return (
+    <ImageGrid
+      {...args}
+      attachments={[
+        fakeAttachment({
+          contentType: IMAGE_PNG,
+          fileName: 'sax.png',
+          height: 1200,
+          url: pngUrl,
+          width: 800,
+        }),
+        fakeAttachment({
+          contentType: IMAGE_JPEG,
+          fileName: 'tina-rolf-269345-unsplash.jpg',
+          height: 1680,
+          url: '/fixtures/tina-rolf-269345-unsplash.jpg',
+          width: 3000,
+        }),
+        fakeAttachment({
+          contentType: IMAGE_PNG,
+          fileName: 'sax.png',
+          height: 1200,
+          url: pngUrl,
+          width: 800,
+        }),
+        fakeAttachment({
+          contentType: IMAGE_JPEG,
+          fileName: 'tina-rolf-269345-unsplash.jpg',
+          height: 1680,
+          url: '/fixtures/tina-rolf-269345-unsplash.jpg',
+          width: 3000,
+        }),
+        fakeAttachment({
+          contentType: IMAGE_PNG,
+          fileName: 'sax.png',
+          height: 1200,
+          url: pngUrl,
+          width: 800,
+        }),
+      ]}
+    />
+  );
+}
+
+export function FiveImagesPendingWDownloadProgress(args: Props): JSX.Element {
+  const props = {
+    ...args,
+    attachments: [
+      fakeAttachment({
+        contentType: IMAGE_PNG,
+        fileName: 'sax.png',
+        path: undefined,
+        pending: true,
+        size: 1000000,
+        totalDownloaded: 300000,
+        blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        url: undefined,
+      }),
+      fakeAttachment({
+        contentType: IMAGE_JPEG,
+        fileName: 'tina-rolf-269345-unsplash.jpg',
+        height: 1680,
+        url: '/fixtures/tina-rolf-269345-unsplash.jpg',
+        width: 3000,
+      }),
+      fakeAttachment({
+        contentType: IMAGE_JPEG,
+        fileName: 'tina-rolf-269345-unsplash.jpg',
+        height: 1680,
+        url: '/fixtures/tina-rolf-269345-unsplash.jpg',
+        width: 3000,
+      }),
+      fakeAttachment({
+        contentType: IMAGE_JPEG,
+        fileName: 'tina-rolf-269345-unsplash.jpg',
+        height: 1680,
+        url: '/fixtures/tina-rolf-269345-unsplash.jpg',
+        width: 3000,
+      }),
+      fakeAttachment({
+        contentType: IMAGE_JPEG,
+        fileName: 'tina-rolf-269345-unsplash.jpg',
+        height: 1680,
+        url: '/fixtures/tina-rolf-269345-unsplash.jpg',
+        width: 3000,
+      }),
+    ],
+  };
+
+  return <ImageGrid {...props} />;
+}
+
+export function FiveImagesNotDownloaded(args: Props): JSX.Element {
+  return (
+    <ImageGrid
+      {...args}
+      attachments={[
+        fakeAttachment({
+          contentType: VIDEO_MP4,
+          fileName: 'sax.png',
+          height: 1200,
+          width: 800,
+          path: undefined,
+          blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        }),
+        fakeAttachment({
+          contentType: IMAGE_JPEG,
+          fileName: 'tina-rolf-269345-unsplash.jpg',
+          height: 1680,
+          width: 3000,
+          path: undefined,
+          blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        }),
+        fakeAttachment({
+          contentType: IMAGE_JPEG,
+          fileName: 'tina-rolf-269345-unsplash.jpg',
+          height: 1680,
+          width: 3000,
+          path: undefined,
+          blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        }),
+        fakeAttachment({
+          contentType: IMAGE_JPEG,
+          fileName: 'tina-rolf-269345-unsplash.jpg',
+          height: 1680,
+          width: 3000,
+          path: undefined,
+          blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        }),
         fakeAttachment({
           contentType: IMAGE_JPEG,
           fileName: 'tina-rolf-269345-unsplash.jpg',
@@ -741,7 +726,7 @@ export function FiveImagesNotDownloaded(args: Props): React.JSX.Element {
   );
 }
 
-export const _6Images = (args: Props): React.JSX.Element => {
+export const _6Images = (args: Props): JSX.Element => {
   return (
     <ImageGrid
       {...args}
@@ -800,9 +785,7 @@ export const _6Images = (args: Props): React.JSX.Element => {
   );
 };
 
-export function _6ImagesPendingWDownloadProgress(
-  args: Props
-): React.JSX.Element {
+export function _6ImagesPendingWDownloadProgress(args: Props): JSX.Element {
   const props = {
     ...args,
     attachments: [
@@ -860,9 +843,7 @@ export function _6ImagesPendingWDownloadProgress(
   return <ImageGrid {...props} />;
 }
 
-export function _6ImagesOneIncrementalNeedDownload(
-  args: Props
-): React.JSX.Element {
+export function _6ImagesOneIncrementalNeedDownload(args: Props): JSX.Element {
   const props = {
     ...args,
     attachments: [
@@ -926,7 +907,7 @@ export function _6ImagesOneIncrementalNeedDownload(
   return <ImageGrid {...props} />;
 }
 
-export function MixedContentTypes(args: Props): React.JSX.Element {
+export function MixedContentTypes(args: Props): JSX.Element {
   return (
     <ImageGrid
       {...args}
@@ -968,7 +949,7 @@ export function MixedContentTypes(args: Props): React.JSX.Element {
   );
 }
 
-export function EightImagesNotDownloaded(args: Props): React.JSX.Element {
+export function EightImagesNotDownloaded(args: Props): JSX.Element {
   return (
     <ImageGrid
       {...args}
@@ -1042,7 +1023,7 @@ export function EightImagesNotDownloaded(args: Props): React.JSX.Element {
   );
 }
 
-export function Sticker(args: Props): React.JSX.Element {
+export function Sticker(args: Props): JSX.Element {
   return (
     <ImageGrid
       {...args}
@@ -1061,15 +1042,15 @@ export function Sticker(args: Props): React.JSX.Element {
   );
 }
 
-export function ContentAboveAndBelow(args: Props): React.JSX.Element {
+export function ContentAboveAndBelow(args: Props): JSX.Element {
   return <ImageGrid {...args} withContentAbove withContentBelow />;
 }
 
-export function BottomOverlay(args: Props): React.JSX.Element {
+export function BottomOverlay(args: Props): JSX.Element {
   return <ImageGrid {...args} bottomOverlay />;
 }
 
-export function DownloadPill(args: Props): React.JSX.Element {
+export function DownloadPill(args: Props): JSX.Element {
   const attachment1 = fakeAttachment({
     contentType: IMAGE_JPEG,
     fileName: 'tina-rolf-269345-unsplash.jpg',

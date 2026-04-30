@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import { useState, useCallback, useRef, useEffect, type JSX } from 'react';
 import classNames from 'classnames';
 import { Popper } from 'react-popper';
 import { createPortal } from 'react-dom';
@@ -39,7 +39,7 @@ type FormattingPickerOptions = {
   isMenuEnabled: boolean;
   isMouseDown?: boolean;
   platform: string;
-  setFormattingChooserElement: (element: React.JSX.Element | null) => void;
+  setFormattingChooserElement: (element: JSX.Element | null) => void;
 };
 
 export enum QuillFormattingStyle {
@@ -341,9 +341,8 @@ export class FormattingMenu {
               ? 1
               : 0;
 
-          const [hasLongHovered, setHasLongHovered] =
-            React.useState<boolean>(false);
-          const onLongHover = React.useCallback(
+          const [hasLongHovered, setHasLongHovered] = useState<boolean>(false);
+          const onLongHover = useCallback(
             (value: boolean) => {
               setHasLongHovered(value);
             },
@@ -458,16 +457,16 @@ function FormattingButton({
   popupGuideShortcut: string;
   style: QuillFormattingStyle;
   toggleForStyle: (style: QuillFormattingStyle) => unknown;
-}): React.JSX.Element {
-  const buttonRef = React.useRef<HTMLButtonElement | null>(null);
+}): JSX.Element {
+  const buttonRef = useRef<HTMLButtonElement | null>(null);
 
-  const [isHovered, setIsHovered] = React.useState<boolean>(false);
-  const hoverTimerRef = React.useRef<NodeJS.Timeout | null>(null);
+  const [isHovered, setIsHovered] = useState<boolean>(false);
+  const hoverTimerRef = useRef<NodeJS.Timeout | null>(null);
 
-  const [isFadingOut, setIsFadingOut] = React.useState<boolean>(false);
-  const fadeOutTimerRef = React.useRef<NodeJS.Timeout | null>(null);
+  const [isFadingOut, setIsFadingOut] = useState<boolean>(false);
+  const fadeOutTimerRef = useRef<NodeJS.Timeout | null>(null);
 
-  React.useEffect(() => {
+  useEffect(() => {
     return () => {
       if (hoverTimerRef.current) {
         clearTimeout(hoverTimerRef.current);

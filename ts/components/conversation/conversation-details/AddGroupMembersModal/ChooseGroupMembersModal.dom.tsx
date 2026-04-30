@@ -1,12 +1,13 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, {
+import {
   useEffect,
   useMemo,
   useState,
   useRef,
   useCallback,
+  type JSX,
 } from 'react';
 import lodash from 'lodash';
 import type { ListRowProps } from 'react-virtualized';
@@ -97,7 +98,7 @@ export function ChooseGroupMembersModal({
   lookupConversationWithoutServiceId,
   showUserNotFoundModal,
   username,
-}: PropsType): React.JSX.Element {
+}: PropsType): JSX.Element {
   const [focusRef] = useRestoreFocus();
 
   const isUsernameChecked = selectedContacts.some(

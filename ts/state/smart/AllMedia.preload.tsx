@@ -1,6 +1,6 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import React, { memo, useCallback } from 'react';
+import { memo, useCallback, type JSX } from 'react';
 import { useSelector } from 'react-redux';
 import { MediaGallery } from '../../components/conversation/media-gallery/MediaGallery.dom.tsx';
 import { createLogger } from '../../logging/log.std.ts';
@@ -25,7 +25,7 @@ export type PropsType = {
   conversationId: string;
 };
 
-function renderMediaItem(props: MediaItemPropsType): React.JSX.Element {
+function renderMediaItem(props: MediaItemPropsType): JSX.Element {
   return <MediaItem {...props} />;
 }
 

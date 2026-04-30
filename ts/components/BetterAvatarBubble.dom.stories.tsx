@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { JSX } from 'react';
 
 import { action } from '@storybook/addon-actions';
 
@@ -26,7 +26,7 @@ export default {
   title: 'Components/BetterAvatarBubble',
 } satisfies Meta<PropsType>;
 
-export function Children(): React.JSX.Element {
+export function Children(): JSX.Element {
   return (
     <BetterAvatarBubble
       {...createProps({
@@ -37,7 +37,7 @@ export function Children(): React.JSX.Element {
   );
 }
 
-export function Selected(): React.JSX.Element {
+export function Selected(): JSX.Element {
   return (
     <BetterAvatarBubble
       {...createProps({
@@ -48,7 +48,7 @@ export function Selected(): React.JSX.Element {
   );
 }
 
-export function Style(): React.JSX.Element {
+export function Style(): JSX.Element {
   return (
     <BetterAvatarBubble
       {...createProps({

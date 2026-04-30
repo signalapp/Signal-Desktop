@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { FocusScope } from 'react-aria';
-import type { UIEvent } from 'react';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import type { UIEvent, JSX, KeyboardEvent as ReactKeyboardEvent } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import classNames from 'classnames';
 import type { DraftBodyRanges } from '../types/BodyRange.std.ts';
 import type { LocalizerType } from '../types/Util.std.ts';
@@ -57,7 +57,7 @@ import type { ContactModalStateType } from '../types/globalModals.std.ts';
 
 const log = createLogger('StoryViewer');
 
-function renderStrong(parts: Array<React.JSX.Element | string>) {
+function renderStrong(parts: Array<JSX.Element | string>) {
   return <strong>{parts}</strong>;
 }
 
@@ -173,7 +173,7 @@ export function StoryViewer({
   storyViewMode,
   viewStory,
   viewTarget,
-}: PropsType): React.JSX.Element {
+}: PropsType): JSX.Element {
   const [isShowingContextMenu, setIsShowingContextMenu] =
     useState<boolean>(false);
   const [storyDuration, setStoryDuration] = useState<number | undefined>();
@@ -701,7 +701,7 @@ export function StoryViewer({
                     onClick={() => {
                       setHasExpandedCaption(true);
                     }}
-                    onKeyDown={(ev: React.KeyboardEvent) => {
+                    onKeyDown={(ev: ReactKeyboardEvent) => {
                       if (ev.key === 'Space' || ev.key === 'Enter') {
                         setHasExpandedCaption(true);
                       }

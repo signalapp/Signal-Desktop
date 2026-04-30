@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import type { FC } from 'react';
-import React, { memo, useMemo } from 'react';
+import type { FC, JSX } from 'react';
+import { memo, useMemo } from 'react';
 import { Direction } from 'radix-ui';
 import { VisuallyHidden } from 'react-aria';
 import type { TailwindStyles } from './tw.dom.tsx';
@@ -33,7 +33,7 @@ export namespace AxoSymbol {
     glyph: string,
     label: string | null,
     weight: Weight
-  ): React.JSX.Element {
+  ): JSX.Element {
     return useMemo(() => {
       return (
         <>

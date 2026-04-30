@@ -1,7 +1,8 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import type { JSX } from 'react';
+
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import type { Props } from './ContactDetail.dom.tsx';
@@ -131,7 +132,7 @@ const fullContact = {
   ],
 };
 
-export function FullyFilledOut(): React.JSX.Element {
+export function FullyFilledOut(): JSX.Element {
   const props = createProps({
     contact: fullContact,
     hasSignalAccount: true,
@@ -139,7 +140,7 @@ export function FullyFilledOut(): React.JSX.Element {
   return <ContactDetail {...props} />;
 }
 
-export function FullyFilledOutNotDownloaded(): React.JSX.Element {
+export function FullyFilledOutNotDownloaded(): JSX.Element {
   const props = createProps({
     contact: fullContact,
     hasSignalAccount: true,
@@ -159,7 +160,7 @@ export function FullyFilledOutNotDownloaded(): React.JSX.Element {
   };
   return <ContactDetail {...propsWithUpdatedAvatar} />;
 }
-export function FullyFilledOutDownloading(): React.JSX.Element {
+export function FullyFilledOutDownloading(): JSX.Element {
   const props = createProps({
     contact: fullContact,
     hasSignalAccount: true,
@@ -182,7 +183,7 @@ export function FullyFilledOutDownloading(): React.JSX.Element {
   };
   return <ContactDetail {...propsWithUpdatedAvatar} />;
 }
-export function FullyFilledOutTransientError(): React.JSX.Element {
+export function FullyFilledOutTransientError(): JSX.Element {
   const props = createProps({
     contact: fullContact,
     hasSignalAccount: true,
@@ -207,7 +208,7 @@ export function FullyFilledOutTransientError(): React.JSX.Element {
   };
   return <ContactDetail {...propsWithUpdatedAvatar} />;
 }
-export function FullyFilledOutPermanentError(): React.JSX.Element {
+export function FullyFilledOutPermanentError(): JSX.Element {
   const props = createProps({
     contact: fullContact,
     hasSignalAccount: true,
@@ -229,7 +230,7 @@ export function FullyFilledOutPermanentError(): React.JSX.Element {
   return <ContactDetail {...propsWithUpdatedAvatar} />;
 }
 
-export function OnlyEmail(): React.JSX.Element {
+export function OnlyEmail(): JSX.Element {
   const props = createProps({
     contact: {
       email: [
@@ -245,7 +246,7 @@ export function OnlyEmail(): React.JSX.Element {
   return <ContactDetail {...props} />;
 }
 
-export function GivenName(): React.JSX.Element {
+export function GivenName(): JSX.Element {
   const props = createProps({
     contact: {
       name: {
@@ -258,7 +259,7 @@ export function GivenName(): React.JSX.Element {
   return <ContactDetail {...props} />;
 }
 
-export function Organization(): React.JSX.Element {
+export function Organization(): JSX.Element {
   const props = createProps({
     contact: {
       organization: 'Company 5',
@@ -269,7 +270,7 @@ export function Organization(): React.JSX.Element {
   return <ContactDetail {...props} />;
 }
 
-export function GivenFamilyName(): React.JSX.Element {
+export function GivenFamilyName(): JSX.Element {
   const props = createProps({
     contact: {
       name: {
@@ -283,7 +284,7 @@ export function GivenFamilyName(): React.JSX.Element {
   return <ContactDetail {...props} />;
 }
 
-export function FamilyName(): React.JSX.Element {
+export function FamilyName(): JSX.Element {
   const props = createProps({
     contact: {
       name: {
@@ -296,7 +297,7 @@ export function FamilyName(): React.JSX.Element {
   return <ContactDetail {...props} />;
 }
 
-export function LoadingAvatar(): React.JSX.Element {
+export function LoadingAvatar(): JSX.Element {
   const props = createProps({
     contact: {
       avatar: {
@@ -312,14 +313,14 @@ export function LoadingAvatar(): React.JSX.Element {
   return <ContactDetail {...props} />;
 }
 
-export function EmptyWithAccount(): React.JSX.Element {
+export function EmptyWithAccount(): JSX.Element {
   const props = createProps({
     hasSignalAccount: true,
   });
   return <ContactDetail {...props} />;
 }
 
-export function EmptyWithoutAccount(): React.JSX.Element {
+export function EmptyWithoutAccount(): JSX.Element {
   const props = createProps({
     hasSignalAccount: false,
   });

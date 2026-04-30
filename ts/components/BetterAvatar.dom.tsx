@@ -1,8 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { MouseEvent } from 'react';
-import React, { useEffect, useState } from 'react';
+import type { MouseEvent, JSX } from 'react';
+import { useEffect, useState } from 'react';
 import lodash from 'lodash';
 import type { AvatarDataType } from '../types/Avatar.std.ts';
 import { BetterAvatarBubble } from './BetterAvatarBubble.dom.tsx';
@@ -30,7 +30,7 @@ export function BetterAvatar({
   onClick,
   onDelete,
   size = 48,
-}: PropsType): React.JSX.Element {
+}: PropsType): JSX.Element {
   const [avatarBuffer, setAvatarBuffer] = useState<
     Uint8Array<ArrayBuffer> | undefined
   >(avatarData.buffer);

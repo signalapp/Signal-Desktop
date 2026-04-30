@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import { useContext, type JSX } from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import { getDefaultConversation } from '../../../test-helpers/getDefaultConversation.std.ts';
@@ -30,7 +30,7 @@ const createConversation = (): ConversationType =>
   });
 
 function Wrapper(overrideProps: Partial<Props>) {
-  const theme = React.useContext(StorybookThemeContext);
+  const theme = useContext(StorybookThemeContext);
 
   return (
     <ConversationDetailsHeader
@@ -53,14 +53,14 @@ function Wrapper(overrideProps: Partial<Props>) {
   );
 }
 
-export function Basic(): React.JSX.Element {
+export function Basic(): JSX.Element {
   return <Wrapper />;
 }
-export function Editable(): React.JSX.Element {
+export function Editable(): JSX.Element {
   return <Wrapper canEdit />;
 }
 
-export function BasicNoDescription(): React.JSX.Element {
+export function BasicNoDescription(): JSX.Element {
   return (
     <Wrapper
       conversation={getDefaultConversation({
@@ -71,7 +71,7 @@ export function BasicNoDescription(): React.JSX.Element {
   );
 }
 
-export function EditableNoDescription(): React.JSX.Element {
+export function EditableNoDescription(): JSX.Element {
   return (
     <Wrapper
       conversation={getDefaultConversation({
@@ -82,7 +82,7 @@ export function EditableNoDescription(): React.JSX.Element {
   );
 }
 
-export function OneOnOne(): React.JSX.Element {
+export function OneOnOne(): JSX.Element {
   return (
     <Wrapper
       isGroup={false}
@@ -95,6 +95,6 @@ export function OneOnOne(): React.JSX.Element {
   );
 }
 
-export function NoteToSelf(): React.JSX.Element {
+export function NoteToSelf(): JSX.Element {
   return <Wrapper isMe />;
 }

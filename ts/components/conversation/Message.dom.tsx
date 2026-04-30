@@ -6,8 +6,12 @@ import type {
   HTMLAttributes,
   ReactNode,
   RefObject,
+  JSX,
+  KeyboardEvent,
+  MutableRefObject,
+  MouseEvent,
 } from 'react';
-import React, { forwardRef, useRef } from 'react';
+import { forwardRef, useRef, PureComponent, createRef } from 'react';
 import { createPortal } from 'react-dom';
 import classNames from 'classnames';
 import { direction as getDirection } from 'direction';
@@ -332,11 +336,11 @@ export type PropsData = {
   isMessageRequestAccepted: boolean;
   bodyRanges?: HydratedBodyRangesType;
 
-  renderMenu?: () => React.JSX.Element | undefined;
+  renderMenu?: () => JSX.Element | undefined;
   renderMessageContextMenu?: (
     renderer: AxoMenuBuilder.Renderer,
     children: ReactNode
-  ) => React.JSX.Element;
+  ) => JSX.Element;
 
   item?: never;
   // test-only, to force GIF's reduced motion experience
@@ -352,13 +356,11 @@ export type PropsHousekeeping = {
   interactivity: MessageInteractivity;
   interactionMode: InteractionModeType;
   platform: string;
-  renderAudioAttachment: (
-    props: RenderAudioAttachmentProps
-  ) => React.JSX.Element;
+  renderAudioAttachment: (props: RenderAudioAttachmentProps) => JSX.Element;
   shouldCollapseAbove: boolean;
   shouldCollapseBelow: boolean;
   shouldHideMetadata: boolean;
-  onWrapperKeyDown?: (event: React.KeyboardEvent) => void;
+  onWrapperKeyDown?: (event: KeyboardEvent) => void;
   theme: ThemeType;
 };
 
@@ -462,7 +464,7 @@ const MessageReactions = forwardRef(function MessageReactions(
     popperPreventOverflowModifier,
   }: MessageReactionsProps,
   parentRef
-): React.JSX.Element {
+): JSX.Element {
   const ordered = useGroupedAndOrderedReactions(reactions, 'parentKey');
 
   const reactionsContainerRefMerger = useRef(createRefMerger());
@@ -625,21 +627,18 @@ const MessageReactions = forwardRef(function MessageReactions(
   );
 });
 
-export class Message extends React.PureComponent<Props, State> {
-  public focusRef: React.RefObject<HTMLDivElement | null> = React.createRef();
+export class Message extends PureComponent<Props, State> {
+  public focusRef: RefObject<HTMLDivElement | null> = createRef();
 
-  public audioButtonRef: React.RefObject<HTMLButtonElement | null> =
-    React.createRef();
+  public audioButtonRef: RefObject<HTMLButtonElement | null> = createRef();
 
-  public reactionsContainerRef: React.RefObject<HTMLDivElement | null> =
-    React.createRef();
+  public reactionsContainerRef: RefObject<HTMLDivElement | null> = createRef();
 
-  readonly #hasSelectedTextRef: React.MutableRefObject<boolean> = {
+  readonly #hasSelectedTextRef: MutableRefObject<boolean> = {
     current: false,
   };
 
-  readonly #metadataRef: React.RefObject<HTMLDivElement | null> =
-    React.createRef();
+  readonly #metadataRef: RefObject<HTMLDivElement | null> = createRef();
 
   public expirationCheckInterval: NodeJS.Timeout | undefined;
 
@@ -1160,7 +1159,7 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  public renderAttachment(): React.JSX.Element | null {
+  public renderAttachment(): JSX.Element | null {
     const {
       _forceTapToPlay,
       attachmentDroppedDueToSize,
@@ -1369,13 +1368,13 @@ export class Message extends React.PureComponent<Props, State> {
             : null
         )}
         type="button"
-        onClick={(event: React.MouseEvent) => {
+        onClick={(event: MouseEvent) => {
           event.stopPropagation();
           event.preventDefault();
 
           this.openGenericAttachment();
         }}
-        onKeyDown={(event: React.KeyboardEvent) => {
+        onKeyDown={(event: KeyboardEvent) => {
           if (event.key !== 'Enter' && event.key !== ' ') {
             return;
           }
@@ -1467,7 +1466,7 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  public renderSimpleAttachmentNotAvailable(): React.JSX.Element | null {
+  public renderSimpleAttachmentNotAvailable(): JSX.Element | null {
     const {
       attachmentDroppedDueToSize,
       attachments,
@@ -1561,7 +1560,7 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  public renderUndownloadableTextAttachment(): React.JSX.Element | null {
+  public renderUndownloadableTextAttachment(): JSX.Element | null {
     const { i18n, textAttachment } = this.props;
     if (!textAttachment || !textAttachment.isPermanentlyUndownloadable) {
       return null;
@@ -1580,7 +1579,7 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  public renderPreview(): React.JSX.Element | null {
+  public renderPreview(): JSX.Element | null {
     const {
       attachments,
       conversationType,
@@ -1750,7 +1749,7 @@ export class Message extends React.PureComponent<Props, State> {
         role="link"
         tabIndex={0}
         className={className}
-        onKeyDown={(event: React.KeyboardEvent) => {
+        onKeyDown={(event: KeyboardEvent) => {
           if (event.key === 'Enter' || event.key === 'Space') {
             event.stopPropagation();
             event.preventDefault();
@@ -1758,7 +1757,7 @@ export class Message extends React.PureComponent<Props, State> {
             openLinkInWebBrowser(first.url);
           }
         }}
-        onClick={(event: React.MouseEvent) => {
+        onClick={(event: MouseEvent) => {
           event.stopPropagation();
           event.preventDefault();
 
@@ -1772,7 +1771,7 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  public renderAttachmentTooBig(): React.JSX.Element | null {
+  public renderAttachmentTooBig(): JSX.Element | null {
     const {
       attachments,
       attachmentDroppedDueToSize,
@@ -1828,7 +1827,7 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  public renderGiftBadge(): React.JSX.Element | null {
+  public renderGiftBadge(): JSX.Element | null {
     const { conversationTitle, direction, getPreferredBadge, giftBadge, i18n } =
       this.props;
     const { showOutgoingGiftBadgeModal } = this.state;
@@ -2017,7 +2016,7 @@ export class Message extends React.PureComponent<Props, State> {
     throw missingCaseError(giftBadge.state);
   }
 
-  public renderPayment(): React.JSX.Element | null {
+  public renderPayment(): JSX.Element | null {
     const {
       payment,
       direction,
@@ -2059,7 +2058,7 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  public renderPoll(): React.JSX.Element | null {
+  public renderPoll(): JSX.Element | null {
     const { poll, direction, i18n, id, endPoll, canEndPoll, canSendPollVote } =
       this.props;
     if (!poll) {
@@ -2083,7 +2082,7 @@ export class Message extends React.PureComponent<Props, State> {
     return this.props.doubleCheckMissingQuoteReference(this.props.id);
   };
 
-  public renderQuote(): React.JSX.Element | null {
+  public renderQuote(): JSX.Element | null {
     const {
       conversationColor,
       conversationId,
@@ -2139,7 +2138,7 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  public renderStoryReplyContext(): React.JSX.Element | null {
+  public renderStoryReplyContext(): JSX.Element | null {
     const {
       conversationTitle,
       conversationColor,
@@ -2197,7 +2196,7 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  public renderEmbeddedContact(): React.JSX.Element | null {
+  public renderEmbeddedContact(): JSX.Element | null {
     const {
       cancelAttachmentDownload,
       contact,
@@ -2260,7 +2259,7 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  public renderSendMessageButton(): React.JSX.Element | null {
+  public renderSendMessageButton(): JSX.Element | null {
     const { contact, direction, shouldCollapseBelow, startConversation, i18n } =
       this.props;
     const noBottomLeftCurve = direction === 'incoming' && shouldCollapseBelow;
@@ -2347,7 +2346,7 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  #getMessageStatusContents(): React.JSX.Element | string | null {
+  #getMessageStatusContents(): JSX.Element | string | null {
     const {
       author,
       conversationId,
@@ -2360,7 +2359,7 @@ export class Message extends React.PureComponent<Props, State> {
     } = this.props;
 
     if (deletedForEveryone) {
-      let text: React.JSX.Element | string;
+      let text: JSX.Element | string;
       if (deletedForEveryoneByAdmin != null) {
         if (deletedForEveryoneByAdmin.isMe) {
           text = i18n('icu:message--deletedForEveryone--outgoing');
@@ -2426,7 +2425,7 @@ export class Message extends React.PureComponent<Props, State> {
     return null;
   }
 
-  public renderText(): React.JSX.Element | null {
+  public renderText(): JSX.Element | null {
     const {
       text,
       bodyRanges,
@@ -2482,7 +2481,7 @@ export class Message extends React.PureComponent<Props, State> {
             range.setEndBefore(this.#metadataRef.current);
           }
         }}
-        onDoubleClick={(event: React.MouseEvent) => {
+        onDoubleClick={(event: MouseEvent) => {
           // Prevent double-click interefering with interactions _inside_
           // the bubble.
           event.stopPropagation();
@@ -2536,7 +2535,7 @@ export class Message extends React.PureComponent<Props, State> {
     return Boolean(onlyPreview.isCallLink);
   }
 
-  #renderAction(): React.JSX.Element | null {
+  #renderAction(): JSX.Element | null {
     const { direction, activeCallConversationId, i18n, previews } = this.props;
 
     if (this.#shouldShowJoinButton()) {
@@ -2685,7 +2684,7 @@ export class Message extends React.PureComponent<Props, State> {
     return Boolean(first.pending);
   }
 
-  public renderTapToViewIcon(): React.JSX.Element {
+  public renderTapToViewIcon(): JSX.Element {
     const { direction, isTapToViewError, isTapToViewExpired, readStatus } =
       this.props;
     const isIncoming = direction === 'incoming';
@@ -2783,7 +2782,7 @@ export class Message extends React.PureComponent<Props, State> {
     };
   }
 
-  public renderTapToView(): React.JSX.Element | null {
+  public renderTapToView(): JSX.Element | null {
     const {
       attachments,
       attachmentDroppedDueToSize,
@@ -2828,7 +2827,7 @@ export class Message extends React.PureComponent<Props, State> {
     }
 
     const text = this.renderTapToViewText();
-    let content: React.JSX.Element;
+    let content: JSX.Element;
     if (text.title && text.detail) {
       content = (
         <div className="module-message__simple-attachment__text">
@@ -3009,7 +3008,7 @@ export class Message extends React.PureComponent<Props, State> {
     });
   };
 
-  public renderReactions(outgoing: boolean): React.JSX.Element | null {
+  public renderReactions(outgoing: boolean): JSX.Element | null {
     const { getPreferredBadge, reactions = [], i18n, theme } = this.props;
 
     if (!this.#hasReactions()) {
@@ -3035,7 +3034,7 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  public renderContents(): React.JSX.Element | null {
+  public renderContents(): JSX.Element | null {
     const { deletedForEveryone, giftBadge, isTapToView } = this.props;
 
     if (deletedForEveryone) {
@@ -3079,7 +3078,7 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  public handleOpen = (event: React.KeyboardEvent | React.MouseEvent): void => {
+  public handleOpen = (event: KeyboardEvent | MouseEvent): void => {
     const {
       attachments,
       cancelAttachmentDownload,
@@ -3216,7 +3215,7 @@ export class Message extends React.PureComponent<Props, State> {
     }
   };
 
-  public openGenericAttachment = (event?: React.MouseEvent): void => {
+  public openGenericAttachment = (event?: MouseEvent): void => {
     const {
       id,
       attachments,
@@ -3257,7 +3256,7 @@ export class Message extends React.PureComponent<Props, State> {
     }
   };
 
-  public handleClick = (event: React.MouseEvent): void => {
+  public handleClick = (event: MouseEvent): void => {
     // We don't want clicks on body text to result in the 'default action' for the message
     const { text } = this.props;
     if (text && text.length > 0) {
@@ -3267,7 +3266,7 @@ export class Message extends React.PureComponent<Props, State> {
     this.handleOpen(event);
   };
 
-  public handleKeyDown = (event: React.KeyboardEvent): void => {
+  public handleKeyDown = (event: KeyboardEvent): void => {
     if (event.key !== 'Enter' && event.key !== ' ') {
       return;
     }
@@ -3287,7 +3286,7 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  public renderContainer(): React.JSX.Element {
+  public renderContainer(): JSX.Element {
     const {
       attachments,
       attachmentDroppedDueToSize,
@@ -3401,7 +3400,7 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  renderAltAccessibilityTree(): React.JSX.Element {
+  renderAltAccessibilityTree(): JSX.Element {
     const { id, i18n, author } = this.props;
     return (
       <span className="module-message__alt-accessibility-tree">
@@ -3420,7 +3419,7 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  public override render(): React.JSX.Element | null {
+  public override render(): JSX.Element | null {
     const {
       id,
       attachments,

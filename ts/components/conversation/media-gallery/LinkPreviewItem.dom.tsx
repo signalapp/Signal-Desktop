@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { type ReactNode } from 'react';
+import { type ReactNode, type JSX } from 'react';
 import type { ReadonlyDeep } from 'type-fest';
 
 import {
@@ -27,7 +27,7 @@ export type DataProps = Readonly<{
   renderContextMenu: (
     mediaItem: ReadonlyDeep<GenericMediaItemType>,
     children: ReactNode
-  ) => React.JSX.Element;
+  ) => JSX.Element;
 }>;
 
 // Provided by smart layer
@@ -46,11 +46,11 @@ export function LinkPreviewItem({
   onClick,
   showMessage,
   renderContextMenu,
-}: Props): React.JSX.Element {
+}: Props): JSX.Element {
   const { preview } = mediaItem;
 
   const url = preview.image == null ? undefined : getUrl(preview.image);
-  let imageOrPlaceholder: React.JSX.Element;
+  let imageOrPlaceholder: JSX.Element;
   if (preview.image != null && url != null) {
     const resolvedBlurHash = preview.image.blurHash || defaultBlurHash(theme);
 

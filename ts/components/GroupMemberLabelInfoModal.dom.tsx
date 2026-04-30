@@ -1,7 +1,7 @@
 // Copyright 2026 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { JSX } from 'react';
 
 import { AxoDialog } from '../axo/AxoDialog.dom.tsx';
 
@@ -17,7 +17,7 @@ export type PropsType = {
   showEditMemberLabelScreen: () => unknown;
 };
 
-export function GroupMemberLabelInfoModal(props: PropsType): React.JSX.Element {
+export function GroupMemberLabelInfoModal(props: PropsType): JSX.Element {
   const {
     canAddLabel,
     hasLabel,

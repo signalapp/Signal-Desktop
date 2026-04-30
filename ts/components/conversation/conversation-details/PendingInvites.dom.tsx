@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import { useState, type JSX } from 'react';
 import _ from 'lodash';
 
 import type { ConversationType } from '../../../state/ducks/conversations.preload.ts';
@@ -79,13 +79,13 @@ export function PendingInvites({
   pendingApprovalMemberships,
   revokePendingMembershipsFromGroupV2,
   theme,
-}: PropsType): React.JSX.Element {
+}: PropsType): JSX.Element {
   if (!conversation || !ourAci) {
     throw new Error('PendingInvites rendered without a conversation or ourAci');
   }
 
   const [stagedMemberships, setStagedMemberships] =
-    React.useState<Array<StagedMembershipType> | null>(null);
+    useState<Array<StagedMembershipType> | null>(null);
 
   return (
     <div className="conversation-details-panel">

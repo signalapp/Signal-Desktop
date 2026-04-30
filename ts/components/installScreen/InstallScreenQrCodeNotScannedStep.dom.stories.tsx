@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState, type JSX } from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta, StoryFn } from '@storybook/react';
 import { DialogType } from '../../types/Dialogs.std.ts';
@@ -69,7 +69,7 @@ function Simulation({
   );
 }
 
-export function QrCodeLoading(): React.JSX.Element {
+export function QrCodeLoading(): JSX.Element {
   return (
     <InstallScreenQrCodeNotScannedStep
       i18n={i18n}
@@ -87,7 +87,7 @@ export function QrCodeLoading(): React.JSX.Element {
   );
 }
 
-export function QrCodeFailedToLoad(): React.JSX.Element {
+export function QrCodeFailedToLoad(): JSX.Element {
   return (
     <InstallScreenQrCodeNotScannedStep
       i18n={i18n}
@@ -106,7 +106,7 @@ export function QrCodeFailedToLoad(): React.JSX.Element {
   );
 }
 
-export function QrCodeLoaded(): React.JSX.Element {
+export function QrCodeLoaded(): JSX.Element {
   return (
     <InstallScreenQrCodeNotScannedStep
       i18n={i18n}
@@ -122,11 +122,11 @@ export function QrCodeLoaded(): React.JSX.Element {
   );
 }
 
-export function SimulatedLoading(): React.JSX.Element {
+export function SimulatedLoading(): JSX.Element {
   return <Simulation finalResult={LOADED_URL} />;
 }
 
-export function SimulatedMaxRotationsError(): React.JSX.Element {
+export function SimulatedMaxRotationsError(): JSX.Element {
   return (
     <Simulation
       finalResult={{
@@ -137,7 +137,7 @@ export function SimulatedMaxRotationsError(): React.JSX.Element {
   );
 }
 
-export function SimulatedUnknownError(): React.JSX.Element {
+export function SimulatedUnknownError(): JSX.Element {
   return (
     <Simulation
       finalResult={{
@@ -148,7 +148,7 @@ export function SimulatedUnknownError(): React.JSX.Element {
   );
 }
 
-export function SimulatedNetworkIssue(): React.JSX.Element {
+export function SimulatedNetworkIssue(): JSX.Element {
   return (
     <Simulation
       finalResult={{
@@ -159,7 +159,7 @@ export function SimulatedNetworkIssue(): React.JSX.Element {
   );
 }
 
-export function SimulatedTimeout(): React.JSX.Element {
+export function SimulatedTimeout(): JSX.Element {
   return (
     <Simulation
       finalResult={{
@@ -177,7 +177,7 @@ export const WithUpdateKnobs: StoryFn<PropsType & { dialogType: DialogType }> =
   }: {
     dialogType: DialogType;
     currentVersion: string;
-  }): React.JSX.Element {
+  }): JSX.Element {
     return (
       <InstallScreenQrCodeNotScannedStep
         i18n={i18n}

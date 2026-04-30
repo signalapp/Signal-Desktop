@@ -1,8 +1,8 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { FunctionComponent, ReactNode } from 'react';
-import React, { useCallback } from 'react';
+import type { FunctionComponent, ReactNode, JSX } from 'react';
+import { useCallback, memo } from 'react';
 import lodash from 'lodash';
 
 import { ContactName } from '../conversation/ContactName.dom.tsx';
@@ -72,14 +72,14 @@ const renderPerson = (
     isMe?: boolean;
     title: string;
   }>
-): React.JSX.Element =>
+): JSX.Element =>
   person.isMe ? (
     <I18n i18n={i18n} id="icu:you" />
   ) : (
     <ContactName title={person.title} />
   );
 
-export const MessageSearchResult: FunctionComponent<PropsType> = React.memo(
+export const MessageSearchResult: FunctionComponent<PropsType> = memo(
   function MessageSearchResult({
     body,
     bodyRanges,

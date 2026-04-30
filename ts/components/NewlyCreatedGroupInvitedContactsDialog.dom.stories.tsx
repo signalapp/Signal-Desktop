@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { JSX } from 'react';
 
 import { action } from '@storybook/addon-actions';
 
@@ -23,7 +23,7 @@ export default {
   title: 'Components/NewlyCreatedGroupInvitedContactsDialog',
 } satisfies Meta<PropsType>;
 
-export function OneContact(): React.JSX.Element {
+export function OneContact(): JSX.Element {
   return (
     <NewlyCreatedGroupInvitedContactsDialog
       contacts={[conversations[0]]}
@@ -35,7 +35,7 @@ export function OneContact(): React.JSX.Element {
   );
 }
 
-export function TwoContacts(): React.JSX.Element {
+export function TwoContacts(): JSX.Element {
   return (
     <NewlyCreatedGroupInvitedContactsDialog
       contacts={conversations}

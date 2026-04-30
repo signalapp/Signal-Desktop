@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { JSX } from 'react';
 
 import { Modal } from './Modal.dom.tsx';
 import { Button } from './Button.dom.tsx';
@@ -19,7 +19,7 @@ export function ProfileMovedModal({
   i18n,
   onClose,
   theme,
-}: PropsType): React.JSX.Element {
+}: PropsType): JSX.Element {
   const imagePath =
     theme === ThemeType.dark
       ? 'images/profile-moved-dark.svg'

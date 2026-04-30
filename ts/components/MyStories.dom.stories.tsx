@@ -3,7 +3,6 @@
 
 import type { Meta, ReactRenderer, StoryFn } from '@storybook/react';
 import type { PlayFunction } from '@storybook/csf';
-import React from 'react';
 import { v4 as uuid } from 'uuid';
 import { expect, fn, within, userEvent } from '@storybook/test';
 

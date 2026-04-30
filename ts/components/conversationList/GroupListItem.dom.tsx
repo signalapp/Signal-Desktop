@@ -1,7 +1,8 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { JSX } from 'react';
+
 import type { ConversationType } from '../../state/ducks/conversations.preload.ts';
 import type { LocalizerType } from '../../types/Util.std.ts';
 import type { AciString } from '../../types/ServiceId.std.ts';
@@ -41,7 +42,7 @@ export function GroupListItem({
   group,
   i18n,
   onSelectGroup,
-}: Props): React.JSX.Element {
+}: Props): JSX.Element {
   let messageText: string;
   switch (group.disabledReason) {
     case DisabledReason.AlreadyMember:

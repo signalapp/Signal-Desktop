@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { JSX } from 'react';
 
 import { SystemMessage } from './SystemMessage.dom.tsx';
 import type { LocalizerType } from '../../types/Util.std.ts';
@@ -13,9 +13,7 @@ export type Props = {
   expireTimer: DurationInSeconds;
 };
 
-export function UniversalTimerNotification(
-  props: Props
-): React.JSX.Element | null {
+export function UniversalTimerNotification(props: Props): JSX.Element | null {
   const { i18n, expireTimer } = props;
 
   if (!expireTimer) {

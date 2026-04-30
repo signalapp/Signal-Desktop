@@ -1,8 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
-import type { ReactNode } from 'react';
+import type { ReactNode, JSX } from 'react';
 
 import { missingCaseError } from '../util/missingCaseError.std.ts';
 import { donationErrorTypeSchema } from '../types/Donations.std.ts';
@@ -18,7 +17,7 @@ export type PropsType = {
   errorType: DonationErrorType;
 };
 
-export function DonationErrorModal(props: PropsType): React.JSX.Element {
+export function DonationErrorModal(props: PropsType): JSX.Element {
   const { i18n, onClose } = props;
 
   let title: string;

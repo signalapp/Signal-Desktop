@@ -1,7 +1,7 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { memo, useCallback } from 'react';
+import { memo, useCallback, type JSX } from 'react';
 import { useSelector } from 'react-redux';
 import { MiniPlayer, PlayerState } from '../../components/MiniPlayer.dom.tsx';
 import type { Props as DumbProps } from '../../components/MiniPlayer.dom.tsx';
@@ -25,7 +25,7 @@ export type SmartMiniPlayerProps = Pick<DumbProps, 'shouldFlow'>;
  */
 export const SmartMiniPlayer = memo(function SmartMiniPlayer({
   shouldFlow,
-}: SmartMiniPlayerProps): React.JSX.Element | null {
+}: SmartMiniPlayerProps): JSX.Element | null {
   const i18n = useSelector(getIntl);
   const active = useSelector(selectAudioPlayerActive);
   const getVoiceNoteTitle = useSelector(selectVoiceNoteTitle);

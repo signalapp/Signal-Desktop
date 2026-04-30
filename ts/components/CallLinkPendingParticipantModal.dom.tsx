@@ -1,7 +1,7 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useCallback, useMemo } from 'react';
+import { useCallback, useMemo, type JSX } from 'react';
 import { Modal } from './Modal.dom.tsx';
 import type { LocalizerType } from '../types/I18N.std.ts';
 import { Avatar, AvatarSize } from './Avatar.dom.tsx';
@@ -33,7 +33,7 @@ export function CallLinkPendingParticipantModal({
   onClose,
   sharedGroupNames,
   toggleAboutContactModal,
-}: CallLinkPendingParticipantModalProps): React.JSX.Element {
+}: CallLinkPendingParticipantModalProps): JSX.Element {
   const serviceId = useMemo(() => {
     return conversation.serviceId;
   }, [conversation]);

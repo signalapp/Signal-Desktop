@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import { useContext, type JSX } from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import type { AttachmentForUIType } from '../types/Attachment.std.ts';
@@ -75,7 +75,7 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   ),
   showToast: action('showToast'),
   type: ForwardMessagesModalType.Forward,
-  theme: React.useContext(StorybookThemeContext),
+  theme: useContext(StorybookThemeContext),
   regionCode: 'US',
 });
 
@@ -92,11 +92,11 @@ function getMessageForwardDraft(
   };
 }
 
-export function Modal(): React.JSX.Element {
+export function Modal(): JSX.Element {
   return <ForwardMessagesModal {...useProps()} />;
 }
 
-export function WithText(): React.JSX.Element {
+export function WithText(): JSX.Element {
   return (
     <ForwardMessagesModal
       {...useProps({
@@ -106,7 +106,7 @@ export function WithText(): React.JSX.Element {
   );
 }
 
-export function ASticker(): React.JSX.Element {
+export function ASticker(): JSX.Element {
   return (
     <ForwardMessagesModal
       {...useProps({
@@ -116,7 +116,7 @@ export function ASticker(): React.JSX.Element {
   );
 }
 
-export function WithAContact(): React.JSX.Element {
+export function WithAContact(): JSX.Element {
   return (
     <ForwardMessagesModal
       {...useProps({
@@ -126,7 +126,7 @@ export function WithAContact(): React.JSX.Element {
   );
 }
 
-export function LinkPreview(): React.JSX.Element {
+export function LinkPreview(): JSX.Element {
   return (
     <ForwardMessagesModal
       {...useProps({
@@ -155,7 +155,7 @@ export function LinkPreview(): React.JSX.Element {
   );
 }
 
-export function MediaAttachments(): React.JSX.Element {
+export function MediaAttachments(): JSX.Element {
   return (
     <ForwardMessagesModal
       {...useProps({
@@ -185,7 +185,7 @@ export function MediaAttachments(): React.JSX.Element {
   );
 }
 
-export function AnnouncementOnlyGroupsNonAdmin(): React.JSX.Element {
+export function AnnouncementOnlyGroupsNonAdmin(): JSX.Element {
   return (
     <ForwardMessagesModal
       {...useProps()}

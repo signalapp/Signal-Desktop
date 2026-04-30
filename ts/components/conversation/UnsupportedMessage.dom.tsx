@@ -1,7 +1,7 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { JSX } from 'react';
 
 import { SystemMessage } from './SystemMessage.dom.tsx';
 import { Button, ButtonSize, ButtonVariant } from '../Button.dom.tsx';
@@ -75,7 +75,7 @@ export function UnsupportedMessage({
   canProcessNow,
   contact,
   i18n,
-}: Props): React.JSX.Element {
+}: Props): JSX.Element {
   return (
     <SystemMessage
       icon={canProcessNow ? 'unsupported--can-process' : 'unsupported'}

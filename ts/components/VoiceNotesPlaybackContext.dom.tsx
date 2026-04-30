@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import { createContext, type ReactNode, type JSX } from 'react';
 import PQueue from 'p-queue';
 import { LRUCache } from 'lru-cache';
 
@@ -175,10 +175,10 @@ const globalContents: Contents = {
 };
 
 export const VoiceNotesPlaybackContext =
-  React.createContext<Contents>(globalContents);
+  createContext<Contents>(globalContents);
 
 export type VoiceNotesPlaybackProps = {
-  children?: React.ReactNode;
+  children?: ReactNode;
 };
 
 /**
@@ -187,7 +187,7 @@ export type VoiceNotesPlaybackProps = {
  */
 export function VoiceNotesPlaybackProvider({
   children,
-}: VoiceNotesPlaybackProps): React.JSX.Element {
+}: VoiceNotesPlaybackProps): JSX.Element {
   return (
     <VoiceNotesPlaybackContext.Provider value={globalContents}>
       {children}

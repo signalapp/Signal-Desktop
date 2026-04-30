@@ -1,7 +1,8 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { JSX } from 'react';
+
 import type { LocalizerType } from '../../types/Util.std.ts';
 
 export type Props = {
@@ -12,7 +13,7 @@ export type Props = {
 export function StagedPlaceholderAttachment({
   i18n,
   onClick,
-}: Props): React.JSX.Element {
+}: Props): JSX.Element {
   return (
     <button
       type="button"

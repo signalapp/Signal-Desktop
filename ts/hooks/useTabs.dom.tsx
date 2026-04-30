@@ -1,8 +1,8 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { KeyboardEvent } from 'react';
-import React, { useState } from 'react';
+import type { KeyboardEvent, JSX } from 'react';
+import { useState } from 'react';
 import classNames from 'classnames';
 import { assertDev } from '../util/assert.std.ts';
 import { getClassNamesFor } from '../util/getClassNamesFor.std.ts';
@@ -33,7 +33,7 @@ export type TabsOptionsType =
 
 type TabsProps = {
   selectedTab: string;
-  tabsHeaderElement: React.JSX.Element;
+  tabsHeaderElement: JSX.Element;
 };
 
 export function useTabs(options: TabsOptionsType): TabsProps {

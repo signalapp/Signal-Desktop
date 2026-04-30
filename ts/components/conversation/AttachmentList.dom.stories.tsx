@@ -1,7 +1,8 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import type { JSX } from 'react';
+
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import type {
@@ -36,7 +37,7 @@ const createProps = (
   onCloseAttachment: action('onCloseAttachment'),
 });
 
-export function OneFile(): React.JSX.Element {
+export function OneFile(): JSX.Element {
   const props = createProps({
     attachments: [
       fakeDraftAttachment({
@@ -49,7 +50,7 @@ export function OneFile(): React.JSX.Element {
   return <AttachmentList {...props} />;
 }
 
-export function MultipleVisualAttachments(): React.JSX.Element {
+export function MultipleVisualAttachments(): JSX.Element {
   const props = createProps({
     attachments: [
       fakeDraftAttachment({
@@ -74,7 +75,7 @@ export function MultipleVisualAttachments(): React.JSX.Element {
   return <AttachmentList {...props} />;
 }
 
-export function MultipleWithNonVisualTypes(): React.JSX.Element {
+export function MultipleWithNonVisualTypes(): JSX.Element {
   const props = createProps({
     attachments: [
       fakeDraftAttachment({
@@ -109,7 +110,7 @@ export function MultipleWithNonVisualTypes(): React.JSX.Element {
   return <AttachmentList {...props} />;
 }
 
-export function EmptyList(): React.JSX.Element {
+export function EmptyList(): JSX.Element {
   const props = createProps();
 
   return <AttachmentList {...props} />;

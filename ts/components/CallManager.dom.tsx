@@ -1,7 +1,13 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useCallback, useEffect } from 'react';
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  type JSX,
+  type ComponentProps,
+} from 'react';
 import lodash from 'lodash';
 import type { VideoFrameSource } from '@signalapp/ringrtc';
 import { CallNeedPermissionScreen } from './CallNeedPermissionScreen.dom.tsx';
@@ -103,13 +109,13 @@ export type PropsType = {
   getPresentingSources: () => void;
   isOnline: boolean;
   ringingCall: DirectIncomingCall | GroupIncomingCall | null;
-  renderDeviceSelection: () => React.JSX.Element;
+  renderDeviceSelection: () => JSX.Element;
   renderReactionPicker: (
-    props: React.ComponentProps<typeof SmartReactionPicker>
-  ) => React.JSX.Element;
+    props: ComponentProps<typeof SmartReactionPicker>
+  ) => JSX.Element;
   renderCallingParticipantMenu: (
     props: SmartCallingParticipantMenuProps
-  ) => React.JSX.Element;
+  ) => JSX.Element;
   showContactModal: (payload: ContactModalStateType) => void;
   startCall: (payload: StartCallType) => void;
   toggleParticipants: () => void;
@@ -218,7 +224,7 @@ function ActiveCallManager({
   toggleSelfViewExpanded,
   toggleSettings,
   pauseVoiceNotePlayer,
-}: ActiveCallManagerPropsType): React.JSX.Element {
+}: ActiveCallManagerPropsType): JSX.Element {
   const {
     conversation,
     hasLocalAudio,
@@ -255,7 +261,7 @@ function ActiveCallManager({
   ]);
 
   // For caching screenshare frames which update slowly, between Pip and CallScreen.
-  const imageDataCache = React.useRef<CallingImageDataCache>(new Map());
+  const imageDataCache = useRef<CallingImageDataCache>(new Map());
 
   const previousConversationId = usePrevious(conversation.id, conversation.id);
   useEffect(() => {
@@ -594,7 +600,7 @@ export function CallManager({
   toggleScreenRecordingPermissionsDialog,
   toggleSelfViewExpanded,
   toggleSettings,
-}: PropsType): React.JSX.Element | null {
+}: PropsType): JSX.Element | null {
   const isCallActive = Boolean(activeCall);
   useEffect(() => {
     setIsCallActive(isCallActive);

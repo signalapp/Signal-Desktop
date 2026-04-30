@@ -1,8 +1,8 @@
 // Copyright 2015 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { MouseEvent } from 'react';
-import React, { useEffect, useState } from 'react';
+import type { MouseEvent, JSX } from 'react';
+import { useEffect, useState } from 'react';
 import type { LocalizerType } from '../types/Util.std.ts';
 import * as Errors from '../types/errors.std.ts';
 import type { AnyToast } from '../types/Toast.dom.tsx';
@@ -41,7 +41,7 @@ export function DebugLogWindow({
   fetchLogs,
   uploadLogs,
   mode = 'submit',
-}: PropsType): React.JSX.Element {
+}: PropsType): JSX.Element {
   const [loadState, setLoadState] = useState<LoadState>(LoadState.NotStarted);
   const [logText, setLogText] = useState<string | undefined>();
   const [publicLogURL, setPublicLogURL] = useState<string | undefined>();

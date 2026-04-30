@@ -1,7 +1,7 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { JSX } from 'react';
 
 import LinkifyIt, { type Match as LinkifyItMatch } from 'linkify-it';
 
@@ -326,7 +326,7 @@ export const SUPPORTED_PROTOCOLS = /^(http|https):/i;
 
 const defaultRenderNonLink: RenderTextCallbackType = ({ text }) => text;
 
-export function Linkify(props: Props): React.JSX.Element {
+export function Linkify(props: Props): JSX.Element {
   const { text, renderNonLink = defaultRenderNonLink } = props;
 
   if (!shouldLinkifyMessage(text)) {
@@ -348,7 +348,7 @@ export function Linkify(props: Props): React.JSX.Element {
     throw missingCaseError(type);
   });
 
-  const results: Array<React.JSX.Element | string> = [];
+  const results: Array<JSX.Element | string> = [];
   let count = 1;
 
   chunkData.forEach(({ chunk, matchData }) => {

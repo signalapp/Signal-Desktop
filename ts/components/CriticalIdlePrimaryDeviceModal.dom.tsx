@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import type { JSX } from 'react';
 
 import type { LocalizerType } from '../types/Util.std.ts';
 import { Modal } from './Modal.dom.tsx';
@@ -17,8 +17,8 @@ type PropsType = Readonly<{
 export function CriticalIdlePrimaryDeviceModal({
   i18n,
   onClose,
-}: PropsType): React.JSX.Element {
-  const learnMoreLink = (parts: Array<string | React.JSX.Element>) => (
+}: PropsType): JSX.Element {
+  const learnMoreLink = (parts: Array<string | JSX.Element>) => (
     <a
       href={CRITICAL_IDLE_PRIMARY_DEVICE_SUPPORT_PAGE}
       rel="noreferrer"

@@ -1,7 +1,7 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useState } from 'react';
+import { useState, type JSX } from 'react';
 import { action } from '@storybook/addon-actions';
 
 import type { Meta } from '@storybook/react';
@@ -15,7 +15,7 @@ export default {
 
 const { i18n } = window.SignalContext;
 
-export function Basic(): React.JSX.Element {
+export function Basic(): JSX.Element {
   const [isPending, setIsPending] = useState(false);
 
   return (

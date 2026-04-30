@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { Meta, StoryFn } from '@storybook/react';
-import React, { useContext } from 'react';
+import { useContext, type JSX } from 'react';
 import casual from 'casual';
 import { action } from '@storybook/addon-actions';
 import type { Props } from './ConversationHero.dom.tsx';
@@ -184,7 +184,7 @@ GroupVerifiedName.args = {
   isGroupNameVerified: true,
 };
 
-export function GroupMemberNames(args: Props): React.JSX.Element {
+export function GroupMemberNames(args: Props): JSX.Element {
   const theme = useContext(StorybookThemeContext);
   const baseProps = {
     ...args,

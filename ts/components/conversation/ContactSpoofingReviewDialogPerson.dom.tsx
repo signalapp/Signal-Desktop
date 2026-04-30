@@ -1,8 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ReactNode } from 'react';
-import React from 'react';
+import type { ReactNode, JSX } from 'react';
 
 import type { ConversationType } from '../../state/ducks/conversations.preload.ts';
 import type { LocalizerType, ThemeType } from '../../types/Util.std.ts';
@@ -39,7 +38,7 @@ export function ContactSpoofingReviewDialogPerson({
   theme,
   oldName,
   isSignalConnection,
-}: PropsType): React.JSX.Element {
+}: PropsType): JSX.Element {
   assertDev(
     conversation.type === 'direct',
     '<ContactSpoofingReviewDialogPerson> expected a direct conversation'
@@ -47,7 +46,7 @@ export function ContactSpoofingReviewDialogPerson({
 
   const newName = conversation.profileName || conversation.title;
 
-  let callout: React.JSX.Element | undefined;
+  let callout: JSX.Element | undefined;
   if (oldName && oldName !== newName) {
     callout = (
       <div className="module-ContactSpoofingReviewDialogPerson__info__property">

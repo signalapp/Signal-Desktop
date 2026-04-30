@@ -1,7 +1,8 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import type { JSX } from 'react';
+
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import type { Props } from './PanelRow.dom.tsx';
@@ -30,11 +31,11 @@ export default {
   },
 } satisfies Meta<Props>;
 
-export function Basic(args: Props): React.JSX.Element {
+export function Basic(args: Props): JSX.Element {
   return <PanelRow {...args} label="this is a panel row" />;
 }
 
-export function Simple(args: Props): React.JSX.Element {
+export function Simple(args: Props): JSX.Element {
   return (
     <PanelRow
       {...args}
@@ -45,7 +46,7 @@ export function Simple(args: Props): React.JSX.Element {
   );
 }
 
-export function Full(args: Props): React.JSX.Element {
+export function Full(args: Props): JSX.Element {
   return (
     <PanelRow
       {...args}
@@ -58,7 +59,7 @@ export function Full(args: Props): React.JSX.Element {
   );
 }
 
-export function Button(args: Props): React.JSX.Element {
+export function Button(args: Props): JSX.Element {
   return (
     <PanelRow
       {...args}

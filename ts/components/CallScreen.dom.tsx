@@ -1,8 +1,21 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ReactNode } from 'react';
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import type {
+  ReactNode,
+  RefObject,
+  ComponentProps,
+  JSX,
+  MouseEvent,
+} from 'react';
+import {
+  useState,
+  useRef,
+  useEffect,
+  useCallback,
+  useLayoutEffect,
+  useMemo,
+} from 'react';
 import lodash from 'lodash';
 import classNames from 'classnames';
 import type { VideoFrameSource } from '@signalapp/ringrtc';
@@ -127,16 +140,16 @@ export type PropsType = {
   groupMembers?: Array<Pick<ConversationType, 'id' | 'firstName' | 'title'>>;
   hangUpActiveCall: (reason: string) => void;
   i18n: LocalizerType;
-  imageDataCache: React.RefObject<CallingImageDataCache | null>;
+  imageDataCache: RefObject<CallingImageDataCache | null>;
   isCallLinkAdmin: boolean;
   me: ConversationType;
   openSystemPreferencesAction: () => unknown;
   readonly renderCallingParticipantMenu: (
     props: SmartCallingParticipantMenuProps
-  ) => React.JSX.Element;
+  ) => JSX.Element;
   renderReactionPicker: (
-    props: React.ComponentProps<typeof SmartReactionPicker>
-  ) => React.JSX.Element;
+    props: ComponentProps<typeof SmartReactionPicker>
+  ) => JSX.Element;
   sendGroupCallRaiseHand: (payload: SendGroupCallRaiseHandType) => void;
   sendGroupCallReaction: (payload: SendGroupCallReactionType) => void;
   setGroupCallVideoRequest: (
@@ -186,7 +199,7 @@ function CallDuration({
   joinedAt,
 }: {
   joinedAt: number | null;
-}): React.JSX.Element | null {
+}): JSX.Element | null {
   const [acceptedDuration, setAcceptedDuration] = useState<
     number | undefined
   >();
@@ -242,7 +255,7 @@ export function CallScreen({
   toggleScreenRecordingPermissionsDialog,
   toggleSelfViewExpanded,
   toggleSettings,
-}: PropsType): React.JSX.Element {
+}: PropsType): JSX.Element {
   const {
     conversation,
     hasLocalAudio,
@@ -292,23 +305,23 @@ export function CallScreen({
     hangUpActiveCall('button click');
   }, [hangUpActiveCall]);
 
-  const localPreviewRef = React.useRef<HTMLDivElement | null>(null);
-  const lonelyCallPreviewRef = React.useRef<HTMLDivElement | null>(null);
+  const localPreviewRef = useRef<HTMLDivElement | null>(null);
+  const lonelyCallPreviewRef = useRef<HTMLDivElement | null>(null);
 
-  const [localPreviewHeight, setLocalPreviewHeight] = React.useState(
+  const [localPreviewHeight, setLocalPreviewHeight] = useState(
     activeCall.selfViewExpanded
       ? LOCAL_PREVIEW_HEIGHT_LARGE
       : LOCAL_PREVIEW_HEIGHT_NORMAL
   );
-  const [localPreviewWidth, setLocalPreviewWidth] = React.useState(
+  const [localPreviewWidth, setLocalPreviewWidth] = useState(
     activeCall.selfViewExpanded
       ? LOCAL_PREVIEW_WIDTH_LARGE
       : LOCAL_PREVIEW_WIDTH_NORMAL
   );
 
-  const reactButtonRef = React.useRef<null | HTMLDivElement>(null);
-  const reactionPickerRef = React.useRef<null | HTMLDivElement>(null);
-  const reactionPickerContainerRef = React.useRef<null | HTMLDivElement>(null);
+  const reactButtonRef = useRef<null | HTMLDivElement>(null);
+  const reactionPickerRef = useRef<null | HTMLDivElement>(null);
+  const reactionPickerContainerRef = useRef<null | HTMLDivElement>(null);
   const [showReactionPicker, setShowReactionPicker] = useState(false);
   const toggleReactionPicker = useCallback(() => {
     setShowReactionPicker(prevValue => !prevValue);
@@ -519,7 +532,7 @@ export function CallScreen({
   });
 
   const handlePreviewClick = useCallback(
-    (event?: React.MouseEvent) => {
+    (event?: MouseEvent) => {
       event?.preventDefault();
       event?.stopPropagation();
 
@@ -528,7 +541,7 @@ export function CallScreen({
     [toggleSelfViewExpanded]
   );
 
-  const handleSize = React.useCallback(
+  const handleSize = useCallback(
     (size: Parameters<SizeCallbackType>[0]) => {
       const ratio = size.width / size.height;
 
@@ -544,7 +557,7 @@ export function CallScreen({
     [localPreviewHeight, localPreviewWidth, setLocalPreviewWidth]
   );
 
-  React.useLayoutEffect(() => {
+  useLayoutEffect(() => {
     if (!isSendingVideo) {
       return;
     }
@@ -574,7 +587,7 @@ export function CallScreen({
     selfViewExpanded,
     selfViewExpanded
   );
-  React.useLayoutEffect(() => {
+  useLayoutEffect(() => {
     if (selfViewExpanded === previousSelfViewExpanded) {
       return;
     }
@@ -790,7 +803,7 @@ export function CallScreen({
       : CallingButtonType.REACT_OFF;
   }
 
-  const renderRaisedHandsToast = React.useCallback(
+  const renderRaisedHandsToast = useCallback(
     (demuxIds: Array<number>) => {
       const names: Array<string> = [];
       let isYourHandRaised = false;
@@ -813,7 +826,7 @@ export function CallScreen({
       const otherName = names[1] ?? '';
 
       let message: string;
-      let buttonOverride: React.JSX.Element | undefined;
+      let buttonOverride: JSX.Element | undefined;
       switch (count) {
         case 0:
           return undefined;
@@ -884,7 +897,7 @@ export function CallScreen({
 
   const raisedHandsCount: number = raisedHands?.size ?? 0;
 
-  const callStatus: ReactNode | string = React.useMemo(() => {
+  const callStatus: ReactNode | string = useMemo(() => {
     if (isConnecting) {
       return i18n('icu:outgoingCallConnecting');
     }
@@ -1378,7 +1391,7 @@ function useReactionsToast(props: UseReactionsToastType): void {
     ? conversationsByDemuxId.get(localDemuxId)?.serviceId
     : undefined;
 
-  const [previousReactions, setPreviousReactions] = React.useState<
+  const [previousReactions, setPreviousReactions] = useState<
     ActiveCallReactionsType | undefined
   >(undefined);
   const reactionsShown = useRef<
@@ -1558,7 +1571,7 @@ function useReactionsToast(props: UseReactionsToastType): void {
 
 function CallingReactionsToastsContainer(
   props: CallingReactionsToastsType
-): React.JSX.Element {
+): JSX.Element {
   const { i18n } = props;
   const toastRegionRef = useRef<HTMLDivElement>(null);
   const burstRegionRef = useRef<HTMLDivElement>(null);

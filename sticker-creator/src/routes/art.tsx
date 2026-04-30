@@ -1,7 +1,7 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import { type JSX } from 'react';
 import { useDispatch } from 'react-redux';
 import {
   useLoaderData,
@@ -46,7 +46,7 @@ function Index() {
   return <Navigate to="/art/drop" replace />;
 }
 
-export function createArtRoutes(): React.JSX.Element {
+export function createArtRoutes(): JSX.Element {
   return (
     <Route path="/art">
       <Route index loader={startFlow} element={<Index />} />

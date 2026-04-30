@@ -1,8 +1,7 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ReactNode } from 'react';
-import React from 'react';
+import type { ReactNode, JSX } from 'react';
 
 import { ContactName } from './ContactName.dom.tsx';
 import { SystemMessage } from './SystemMessage.dom.tsx';
@@ -40,7 +39,7 @@ type PropsHousekeeping = {
 
 export type Props = PropsData & PropsHousekeeping;
 
-export function TimerNotification(props: Props): React.JSX.Element {
+export function TimerNotification(props: Props): JSX.Element {
   const { disabled, i18n, title, type } = props;
 
   let timespan: string;

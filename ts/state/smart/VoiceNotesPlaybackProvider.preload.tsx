@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { memo, useEffect } from 'react';
+import { memo, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import type { VoiceNotesPlaybackProps } from '../../components/VoiceNotesPlaybackContext.dom.tsx';
 import { VoiceNotesPlaybackProvider } from '../../components/VoiceNotesPlaybackContext.dom.tsx';

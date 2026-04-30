@@ -1,7 +1,8 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { JSX } from 'react';
+
 import type { LocalizerType } from '../../types/Util.std.ts';
 import { AxoDialog } from '../../axo/AxoDialog.dom.tsx';
 import { AxoSymbol } from '../../axo/AxoSymbol.dom.tsx';
@@ -17,7 +18,7 @@ export function ProfileNameWarningModal({
   conversationType,
   i18n,
   onClose,
-}: PropsType): React.JSX.Element {
+}: PropsType): JSX.Element {
   return (
     <AxoDialog.Root open onOpenChange={onClose}>
       <AxoDialog.Content

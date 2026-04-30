@@ -1,7 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import type { JSX } from 'react';
+
 import type { Meta } from '@storybook/react';
 import { getDefaultConversation } from '../../test-helpers/getDefaultConversation.std.ts';
 import type { Props } from './ChangeNumberNotification.dom.tsx';
@@ -13,7 +14,7 @@ export default {
 
 const { i18n } = window.SignalContext;
 
-export function Default(): React.JSX.Element {
+export function Default(): JSX.Element {
   return (
     <ChangeNumberNotification
       sender={getDefaultConversation()}
@@ -23,7 +24,7 @@ export function Default(): React.JSX.Element {
   );
 }
 
-export function LongName(): React.JSX.Element {
+export function LongName(): JSX.Element {
   return (
     <ChangeNumberNotification
       sender={getDefaultConversation({

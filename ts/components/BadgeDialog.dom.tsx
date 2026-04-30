@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState, type JSX } from 'react';
 import classNames from 'classnames';
 
 import { strictAssert } from '../util/assert.std.ts';
@@ -24,7 +24,7 @@ export type PropsType = Readonly<{
   title: string;
 }>;
 
-export function BadgeDialog(props: PropsType): null | React.JSX.Element {
+export function BadgeDialog(props: PropsType): null | JSX.Element {
   const { badges, onClose } = props;
 
   const hasBadges = badges.length > 0;
@@ -45,7 +45,7 @@ function BadgeDialogWithBadges({
   onClose,
   onDonate,
   title,
-}: PropsType): React.JSX.Element {
+}: PropsType): JSX.Element {
   const firstBadge = badges[0];
   strictAssert(
     firstBadge,

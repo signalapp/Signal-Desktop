@@ -1,7 +1,7 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { JSX } from 'react';
 
 import { Button, ButtonVariant } from './Button.dom.tsx';
 import { Modal } from './Modal.dom.tsx';
@@ -22,7 +22,7 @@ function onLearnMore() {
 export function SafetyNumberNotReady({
   i18n,
   onClose,
-}: PropsType): React.JSX.Element | null {
+}: PropsType): JSX.Element | null {
   return (
     <div className="module-SafetyNumberNotReady">
       <div>

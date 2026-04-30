@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { memo, useEffect, useMemo } from 'react';
+import { memo, useEffect, useMemo, type JSX } from 'react';
 import { useSelector } from 'react-redux';
 
 import type { Props as ContactDetailProps } from '../../components/conversation/ContactDetail.dom.tsx';
@@ -65,7 +65,7 @@ export function useLookupContact(
 
 export const SmartContactDetail = memo(function SmartContactDetail({
   messageId,
-}: OwnProps): React.JSX.Element | null {
+}: OwnProps): JSX.Element | null {
   const i18n = useSelector(getIntl);
   const messageLookup = useSelector(getMessages);
   const { cancelAttachmentDownload, kickOffAttachmentDownload } =

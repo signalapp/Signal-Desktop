@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import lodash from 'lodash';
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type JSX } from 'react';
 import { useEscapeHandling } from '../hooks/useEscapeHandling.dom.ts';
 import type {
   HideToastAction,
@@ -39,7 +39,7 @@ export function CompositionRecording({
   saveDraftRecordingIfNeeded,
   showToast,
   hideToast,
-}: Props): React.JSX.Element {
+}: Props): JSX.Element {
   useEscapeHandling(onCancel);
 
   // switched to another app
@@ -81,7 +81,7 @@ export function CompositionRecording({
     };
   }, [duration, errorRecording]);
 
-  let confirmationDialog: React.JSX.Element | undefined;
+  let confirmationDialog: JSX.Element | undefined;
   if (errorDialogAudioRecorderType === ErrorDialogAudioRecorderType.Timeout) {
     confirmationDialog = (
       <ConfirmationDialog

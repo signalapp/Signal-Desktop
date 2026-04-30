@@ -1,7 +1,8 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { JSX } from 'react';
+
 import type { RemoteActionableMegaphoneType } from '../types/Megaphone.std.ts';
 import { tw } from '../axo/tw.dom.tsx';
 import { AxoButton } from '../axo/AxoButton.dom.tsx';
@@ -28,7 +29,7 @@ export function RemoteMegaphone({
   isFullSize,
   onClickNarrowMegaphone,
   onInteractWithMegaphone,
-}: PropsType): React.JSX.Element {
+}: PropsType): JSX.Element {
   const isRTL = i18n.getLocaleDirection() === 'rtl';
 
   // We need to provide this to <Tooltip> to render correctly
@@ -39,7 +40,7 @@ export function RemoteMegaphone({
     'shadow-elevation-1',
     isFullSize ? '' : 'size-[76px]'
   );
-  const image: React.JSX.Element = (
+  const image: JSX.Element = (
     <div
       className={tw(
         'size-[48px] shrink-0',
@@ -116,7 +117,7 @@ export function RemoteMegaphone({
   }
 
   // Narrow collapsed sidebar
-  const tooltipContent: React.JSX.Element = (
+  const tooltipContent: JSX.Element = (
     <div className={tw('text-start text-label-primary')}>
       <h2 className={tw('mt-1 type-body-medium font-semibold')}>{title}</h2>
       <p className={tw('mt-1 mb-2 type-body-medium')}>{body}</p>

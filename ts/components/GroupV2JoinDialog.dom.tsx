@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import { memo, useState, useCallback } from 'react';
 import classNames from 'classnames';
 import type { LocalizerType } from '../types/Util.std.ts';
 import { Avatar, AvatarBlur } from './Avatar.dom.tsx';
@@ -30,7 +30,7 @@ function focusRef(el: HTMLElement | null) {
   }
 }
 
-export const GroupV2JoinDialog = React.memo(function GroupV2JoinDialogInner({
+export const GroupV2JoinDialog = memo(function GroupV2JoinDialogInner({
   approvalRequired,
   avatar,
   groupDescription,
@@ -40,20 +40,20 @@ export const GroupV2JoinDialog = React.memo(function GroupV2JoinDialogInner({
   onClose,
   title,
 }: PropsType) {
-  const [isWorking, setIsWorking] = React.useState(false);
-  const [isJoining, setIsJoining] = React.useState(false);
+  const [isWorking, setIsWorking] = useState(false);
+  const [isJoining, setIsJoining] = useState(false);
 
   const joinString = approvalRequired
     ? i18n('icu:GroupV2--join--request-to-join-button')
     : i18n('icu:GroupV2--join--join-button');
 
-  const wrappedJoin = React.useCallback(() => {
+  const wrappedJoin = useCallback(() => {
     setIsWorking(true);
     setIsJoining(true);
     join();
   }, [join, setIsJoining, setIsWorking]);
 
-  const wrappedClose = React.useCallback(() => {
+  const wrappedClose = useCallback(() => {
     setIsWorking(true);
     onClose();
   }, [onClose, setIsWorking]);

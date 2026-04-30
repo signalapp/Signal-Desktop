@@ -1,7 +1,8 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import type { JSX } from 'react';
+
 import type { Meta } from '@storybook/react';
 import type { Props } from './Emojify.dom.tsx';
 import { Emojify } from './Emojify.dom.tsx';
@@ -16,7 +17,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   text: overrideProps.text || '',
 });
 
-export function EmojiOnly(): React.JSX.Element {
+export function EmojiOnly(): JSX.Element {
   const props = createProps({
     text: '😹😹😹',
   });
@@ -24,7 +25,7 @@ export function EmojiOnly(): React.JSX.Element {
   return <Emojify {...props} />;
 }
 
-export function SkinColorModifier(): React.JSX.Element {
+export function SkinColorModifier(): JSX.Element {
   const props = createProps({
     text: '👍🏾',
   });
@@ -32,7 +33,7 @@ export function SkinColorModifier(): React.JSX.Element {
   return <Emojify {...props} />;
 }
 
-export function Jumbo(): React.JSX.Element {
+export function Jumbo(): JSX.Element {
   const props = createProps({
     text: '😹😹😹',
     fontSizeOverride: 56,
@@ -41,7 +42,7 @@ export function Jumbo(): React.JSX.Element {
   return <Emojify {...props} />;
 }
 
-export function ExtraLarge(): React.JSX.Element {
+export function ExtraLarge(): JSX.Element {
   const props = createProps({
     text: '😹😹😹',
     fontSizeOverride: 48,
@@ -50,7 +51,7 @@ export function ExtraLarge(): React.JSX.Element {
   return <Emojify {...props} />;
 }
 
-export function Large(): React.JSX.Element {
+export function Large(): JSX.Element {
   const props = createProps({
     text: '😹😹😹',
     fontSizeOverride: 40,
@@ -59,7 +60,7 @@ export function Large(): React.JSX.Element {
   return <Emojify {...props} />;
 }
 
-export function Medium(): React.JSX.Element {
+export function Medium(): JSX.Element {
   const props = createProps({
     text: '😹😹😹',
     fontSizeOverride: 36,
@@ -68,7 +69,7 @@ export function Medium(): React.JSX.Element {
   return <Emojify {...props} />;
 }
 
-export function Small(): React.JSX.Element {
+export function Small(): JSX.Element {
   const props = createProps({
     text: '😹😹😹',
     fontSizeOverride: 32,
@@ -77,7 +78,7 @@ export function Small(): React.JSX.Element {
   return <Emojify {...props} />;
 }
 
-export function PlusText(): React.JSX.Element {
+export function PlusText(): JSX.Element {
   const props = createProps({
     text: 'this 😹 cat 😹 is 😹 so 😹 joyful',
   });
@@ -85,7 +86,7 @@ export function PlusText(): React.JSX.Element {
   return <Emojify {...props} />;
 }
 
-export function AllTextNoEmoji(): React.JSX.Element {
+export function AllTextNoEmoji(): JSX.Element {
   const props = createProps({
     text: 'this cat is so joyful',
   });
@@ -93,7 +94,7 @@ export function AllTextNoEmoji(): React.JSX.Element {
   return <Emojify {...props} />;
 }
 
-export function CustomTextRender(): React.JSX.Element {
+export function CustomTextRender(): JSX.Element {
   const props = createProps({
     text: 'this 😹 cat 😹 is 😹 so 😹 joyful',
     renderNonEmoji: ({ text: theText, key }) => (
@@ -106,7 +107,7 @@ export function CustomTextRender(): React.JSX.Element {
   return <Emojify {...props} />;
 }
 
-export function TensOfThousandsOfEmoji(): React.JSX.Element {
+export function TensOfThousandsOfEmoji(): JSX.Element {
   const props = createProps({
     text: '💅'.repeat(40000),
   });
@@ -114,7 +115,7 @@ export function TensOfThousandsOfEmoji(): React.JSX.Element {
   return <Emojify {...props} />;
 }
 
-export function TensOfThousandsOfEmojiInterspersedWithText(): React.JSX.Element {
+export function TensOfThousandsOfEmojiInterspersedWithText(): JSX.Element {
   const props = createProps({
     text: '💅 hi '.repeat(40000),
   });
@@ -122,7 +123,7 @@ export function TensOfThousandsOfEmojiInterspersedWithText(): React.JSX.Element 
   return <Emojify {...props} />;
 }
 
-export function NonQualifiedEmoji(): React.JSX.Element {
+export function NonQualifiedEmoji(): JSX.Element {
   const props = createProps({
     text: '\u{00AE}',
   });
@@ -130,7 +131,7 @@ export function NonQualifiedEmoji(): React.JSX.Element {
   return <Emojify {...props} />;
 }
 
-export function OverlyQualifiedEmoji(): React.JSX.Element {
+export function OverlyQualifiedEmoji(): JSX.Element {
   const props = createProps({
     text: '\u{26AA}\u{FE0F}',
   });

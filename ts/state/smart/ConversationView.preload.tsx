@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { memo, useCallback } from 'react';
+import { memo, useCallback, type JSX } from 'react';
 import { useSelector } from 'react-redux';
 import { ConversationPanel } from './ConversationPanel.preload.tsx';
 import { ConversationView } from '../../components/conversation/ConversationView.dom.tsx';
@@ -36,7 +36,7 @@ export type SmartConversationViewProps = Readonly<{
 
 export const SmartConversationView = memo(function SmartConversationView(
   props: SmartConversationViewProps
-): React.JSX.Element {
+): JSX.Element {
   const { toggleSelectMode } = useConversationsActions();
   const selectedMessageIds = useSelector(getSelectedMessageIds);
   const isSelectMode = selectedMessageIds != null;

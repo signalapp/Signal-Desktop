@@ -1,9 +1,9 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import React, { memo } from 'react';
+import { memo } from 'react';
 import { useSelector } from 'react-redux';
 
-import type { MutableRefObject } from 'react';
+import type { MutableRefObject, JSX } from 'react';
 
 import { ProfileEditor } from '../../components/ProfileEditor.dom.tsx';
 import { useConversationsActions } from '../ducks/conversations.preload.ts';
@@ -35,9 +35,7 @@ import type { ProfileEditorPage } from '../../types/Nav.std.ts';
 import type { SmartUsernameEditorProps } from './UsernameEditor.preload.tsx';
 import { ConfirmationDialog } from '../../components/ConfirmationDialog.dom.tsx';
 
-function renderUsernameEditor(
-  props: SmartUsernameEditorProps
-): React.JSX.Element {
+function renderUsernameEditor(props: SmartUsernameEditorProps): JSX.Element {
   return <SmartUsernameEditor {...props} />;
 }
 
@@ -88,7 +86,7 @@ export const SmartProfileEditor = memo(function SmartProfileEditor(props: {
   const { showToast } = useToastActions();
   const { changeLocation } = useNavActions();
 
-  let errorDialog: React.JSX.Element | undefined;
+  let errorDialog: JSX.Element | undefined;
   if (hasError) {
     errorDialog = (
       <ConfirmationDialog

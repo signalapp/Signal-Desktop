@@ -1,6 +1,8 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { JSX } from 'react';
+
 import type { IntlShape } from 'react-intl';
 import { createIntl, createIntlCache } from 'react-intl';
 import createDebug from 'debug';
@@ -62,7 +64,7 @@ export function formatIcuMessage(
   intl: IntlShape,
   id: string,
   substitutions:
-    | ReplacementValuesType<string | number | undefined | React.JSX.Element>
+    | ReplacementValuesType<string | number | undefined | JSX.Element>
     | undefined
 ): string {
   assert(

@@ -1,7 +1,14 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useState, useCallback, useMemo } from 'react';
+import {
+  useState,
+  useCallback,
+  useMemo,
+  type JSX,
+  type MouseEvent,
+  type ChangeEvent,
+} from 'react';
 import Fuse from 'fuse.js';
 
 import type { LocalizerType } from '../types/Util.std.ts';
@@ -23,7 +30,7 @@ export function CountryCodeSelect({
   value,
   defaultRegion,
   countries,
-}: PropsType): React.JSX.Element {
+}: PropsType): JSX.Element {
   const index = useMemo(() => {
     return new Fuse<CountryDataType>(countries, {
       keys: [
@@ -58,7 +65,7 @@ export function CountryCodeSelect({
     return index.search(searchTerm).map(({ item }) => item);
   }, [countries, index, searchTerm]);
 
-  const onShowModal = useCallback((ev: React.MouseEvent) => {
+  const onShowModal = useCallback((ev: MouseEvent) => {
     ev.preventDefault();
     setIsModalOpen(true);
   }, []);
@@ -69,7 +76,7 @@ export function CountryCodeSelect({
   }, []);
 
   const onSearchTermChange = useCallback(
-    (ev: React.ChangeEvent<HTMLInputElement>) => {
+    (ev: ChangeEvent<HTMLInputElement>) => {
       setSearchTerm(ev.target.value);
     },
     []
@@ -146,9 +153,9 @@ function CountryButton({
   displayName,
   code,
   onClick,
-}: CountryButtonPropsType): React.JSX.Element {
+}: CountryButtonPropsType): JSX.Element {
   const onButtonClick = useCallback(
-    (ev: React.MouseEvent) => {
+    (ev: MouseEvent) => {
       ev.preventDefault();
       onClick(region);
     },

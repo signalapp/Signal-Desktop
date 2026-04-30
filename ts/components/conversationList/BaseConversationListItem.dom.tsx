@@ -1,8 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ReactNode, FunctionComponent } from 'react';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import type { ReactNode, FunctionComponent, JSX } from 'react';
+import { useCallback, useEffect, useMemo, useState, memo } from 'react';
 import classNames from 'classnames';
 import lodash from 'lodash';
 import { v4 as generateUuid } from 'uuid';
@@ -65,7 +65,7 @@ type PropsType = {
   testId?: string;
   renderConversationListItemContextMenu?: (
     props: RenderConversationListItemContextMenuProps
-  ) => React.JSX.Element;
+  ) => JSX.Element;
 } & Pick<
   ConversationType,
   | 'avatarPlaceholderGradient'
@@ -85,8 +85,8 @@ type PropsType = {
     | { badge: BadgeType; theme: ThemeType }
   );
 
-export const BaseConversationListItem: FunctionComponent<PropsType> =
-  React.memo(function BaseConversationListItem(props) {
+export const BaseConversationListItem: FunctionComponent<PropsType> = memo(
+  function BaseConversationListItem(props) {
     const {
       avatarPlaceholderGradient,
       avatarUrl,
@@ -279,7 +279,7 @@ export const BaseConversationListItem: FunctionComponent<PropsType> =
       );
     }
 
-    let wrapper: React.JSX.Element;
+    let wrapper: JSX.Element;
 
     if (onClick) {
       wrapper = (
@@ -324,7 +324,8 @@ export const BaseConversationListItem: FunctionComponent<PropsType> =
     }
 
     return wrapper;
-  });
+  }
+);
 
 function Timestamp({
   i18n,
@@ -374,7 +375,7 @@ type UnreadIndicatorPropsType =
   | { variant: UnreadIndicatorVariant.UNREAD_MENTIONS };
 
 function UnreadIndicator(props: UnreadIndicatorPropsType) {
-  let content: React.ReactNode;
+  let content: ReactNode;
 
   switch (props.variant) {
     case UnreadIndicatorVariant.MARKED_UNREAD:

@@ -1,7 +1,8 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { JSX } from 'react';
+
 import { action } from '@storybook/addon-actions';
 import type { PropsType } from './BackfillFailureModal.dom.tsx';
 import {
@@ -22,10 +23,10 @@ export default {
   },
 } satisfies ComponentMeta<PropsType>;
 
-export function Timeout(args: PropsType): React.JSX.Element {
+export function Timeout(args: PropsType): JSX.Element {
   return <BackfillFailureModal {...args} />;
 }
 
-export function NotFound(args: PropsType): React.JSX.Element {
+export function NotFound(args: PropsType): JSX.Element {
   return <BackfillFailureModal {...args} kind={BackfillFailureKind.NotFound} />;
 }

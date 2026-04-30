@@ -1,7 +1,8 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import type { JSX } from 'react';
+
 import type { ContactNameData } from './ContactName.dom.tsx';
 import { ContactName } from './ContactName.dom.tsx';
 import { ConfirmationDialog } from '../ConfirmationDialog.dom.tsx';
@@ -39,7 +40,7 @@ export type MessageRequestActionsConfirmationProps =
     onChangeState(state: MessageRequestState): void;
   };
 
-function Bold(parts: Array<string | React.JSX.Element>) {
+function Bold(parts: Array<string | JSX.Element>) {
   return <strong>{parts}</strong>;
 }
 export function MessageRequestActionsConfirmation({
@@ -56,7 +57,7 @@ export function MessageRequestActionsConfirmation({
   reportSpam,
   deleteConversation,
   onChangeState,
-}: MessageRequestActionsConfirmationProps): React.JSX.Element | null {
+}: MessageRequestActionsConfirmationProps): JSX.Element | null {
   if (state === MessageRequestState.blocking) {
     return (
       <ConfirmationDialog

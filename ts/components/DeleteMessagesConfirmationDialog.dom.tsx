@@ -1,6 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import React from 'react';
+import type { JSX } from 'react';
+
 import type { LocalizerType } from '../types/I18N.std.ts';
 import { ConfirmationDialog } from './ConfirmationDialog.dom.tsx';
 
@@ -12,7 +13,7 @@ export function DeleteMessagesConfirmationDialog({
   i18n: LocalizerType;
   onDestroyMessages: () => void;
   onClose: () => void;
-}): React.JSX.Element {
+}): JSX.Element {
   const dialogBody = i18n(
     'icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync'
   );

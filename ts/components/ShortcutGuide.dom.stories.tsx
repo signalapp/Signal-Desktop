@@ -1,7 +1,8 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import type { JSX } from 'react';
+
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import type { Props } from './ShortcutGuide.dom.tsx';
@@ -19,12 +20,12 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   platform: overrideProps.platform || 'other',
 });
 
-export function Default(): React.JSX.Element {
+export function Default(): JSX.Element {
   const props = createProps({});
   return <ShortcutGuide {...props} />;
 }
 
-export function Mac(): React.JSX.Element {
+export function Mac(): JSX.Element {
   const props = createProps({ platform: 'darwin' });
   return <ShortcutGuide {...props} />;
 }

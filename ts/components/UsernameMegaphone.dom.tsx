@@ -1,7 +1,8 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import type { JSX } from 'react';
+
 import type { LocalizerType } from '../types/Util.std.ts';
 import type { UsernameOnboardingActionableMegaphoneType } from '../types/Megaphone.std.ts';
 import { Button, ButtonSize, ButtonVariant } from './Button.dom.tsx';
@@ -14,7 +15,7 @@ export function UsernameMegaphone({
   i18n,
   onLearnMore,
   onDismiss,
-}: PropsType): React.JSX.Element {
+}: PropsType): JSX.Element {
   return (
     <div className="UsernameMegaphone">
       <div className="UsernameMegaphone__row">

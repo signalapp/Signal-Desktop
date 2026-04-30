@@ -1,6 +1,6 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import React, { useCallback, useState } from 'react';
+import { useCallback, useState, type JSX } from 'react';
 import { Button } from 'react-aria-components';
 import { action } from '@storybook/addon-actions';
 import { type ComponentMeta } from '../../storybook/types.std.ts';
@@ -31,7 +31,7 @@ const skinToneOptions = [
   { value: EmojiSkinTone.Type5, text: 'Dark Skin Tone' },
 ];
 
-function Template(props: TemplateProps): React.JSX.Element {
+function Template(props: TemplateProps): JSX.Element {
   const [open, setOpen] = useState(true);
   const [skinTone, setSkinTone] = useState(EmojiSkinTone.None);
 
@@ -96,12 +96,10 @@ export default {
   },
 } satisfies ComponentMeta<TemplateProps>;
 
-export function Default(props: TemplateProps): React.JSX.Element {
+export function Default(props: TemplateProps): JSX.Element {
   return <Template {...props} />;
 }
 
-export function WithThisMessageReactions(
-  props: TemplateProps
-): React.JSX.Element {
+export function WithThisMessageReactions(props: TemplateProps): JSX.Element {
   return <Template {...props} messageEmojis={MOCK_THIS_MESSAGE_EMOJIS} />;
 }

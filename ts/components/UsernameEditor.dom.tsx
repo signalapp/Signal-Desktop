@@ -1,12 +1,14 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, {
+import {
   useEffect,
   useState,
   useCallback,
   useMemo,
   useRef,
+  type JSX,
+  type MouseEvent,
 } from 'react';
 import classNames from 'classnames';
 import lodash from 'lodash';
@@ -91,7 +93,7 @@ export function UsernameEditor({
   state,
   recoveredUsername,
   onClose,
-}: PropsType): React.JSX.Element {
+}: PropsType): JSX.Element {
   const currentNickname = useMemo(() => {
     if (!currentUsername) {
       return undefined;
@@ -286,7 +288,7 @@ export function UsernameEditor({
     onClose();
   }, [onClose]);
 
-  const onLearnMore = useCallback((e: React.MouseEvent) => {
+  const onLearnMore = useCallback((e: MouseEvent) => {
     e.preventDefault();
 
     setIsLearnMoreVisible(true);

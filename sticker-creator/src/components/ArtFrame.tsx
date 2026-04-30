@@ -1,7 +1,14 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useRef } from 'react';
+import {
+  useRef,
+  memo,
+  useState,
+  useCallback,
+  useEffect,
+  type JSX,
+} from 'react';
 import { createPortal } from 'react-dom';
 import classNames from 'classnames';
 import {
@@ -44,11 +51,11 @@ export type Props = Partial<Pick<DropZoneProps, 'onDrop'>> &
     onRemove?(id: string): unknown;
   }>;
 
-function Emoji({ emoji }: EmojiData): React.JSX.Element {
+function Emoji({ emoji }: EmojiData): JSX.Element {
   return <span className={styles.emoji}>{emoji}</span>;
 }
 
-export const ArtFrame = React.memo(function ArtFrame({
+export const ArtFrame = memo(function ArtFrame({
   id,
   artType,
   emoji,
@@ -60,17 +67,17 @@ export const ArtFrame = React.memo(function ArtFrame({
   onDrop,
 }: Props) {
   const i18n = useI18n();
-  const [emojiPickerOpen, setEmojiPickerOpen] = React.useState(false);
+  const [emojiPickerOpen, setEmojiPickerOpen] = useState(false);
   const emojiPickerPopperRef = useRef<HTMLElement>(null);
-  const [previewActive, setPreviewActive] = React.useState(false);
+  const [previewActive, setPreviewActive] = useState(false);
   const previewPopperRef = useRef<HTMLElement>(null);
-  const timerRef = React.useRef<number>();
+  const timerRef = useRef<number>();
 
-  const handleToggleEmojiPicker = React.useCallback(() => {
+  const handleToggleEmojiPicker = useCallback(() => {
     setEmojiPickerOpen(open => !open);
   }, [setEmojiPickerOpen]);
 
-  const handlePickEmoji = React.useCallback(
+  const handlePickEmoji = useCallback(
     (clickData: EmojiClickData) => {
       if (!id) {
         return;
@@ -97,7 +104,7 @@ export const ArtFrame = React.memo(function ArtFrame({
     [id, onPickEmoji, setEmojiPickerOpen]
   );
 
-  const handleRemove = React.useCallback(() => {
+  const handleRemove = useCallback(() => {
     if (!id) {
       return;
     }
@@ -107,19 +114,19 @@ export const ArtFrame = React.memo(function ArtFrame({
     onRemove(id);
   }, [onRemove, id]);
 
-  const handleMouseEnter = React.useCallback(() => {
+  const handleMouseEnter = useCallback(() => {
     window.clearTimeout(timerRef.current);
     timerRef.current = window.setTimeout(() => {
       setPreviewActive(true);
     }, 500);
   }, [timerRef, setPreviewActive]);
 
-  const handleMouseLeave = React.useCallback(() => {
+  const handleMouseLeave = useCallback(() => {
     clearTimeout(timerRef.current);
     setPreviewActive(false);
   }, [timerRef, setPreviewActive]);
 
-  React.useEffect(
+  useEffect(
     () => () => {
       clearTimeout(timerRef.current);
     },
@@ -140,7 +147,7 @@ export const ArtFrame = React.memo(function ArtFrame({
     },
   });
 
-  const [dragActive, setDragActive] = React.useState<boolean>(false);
+  const [dragActive, setDragActive] = useState<boolean>(false);
 
   const sizeContainer = (
     <div

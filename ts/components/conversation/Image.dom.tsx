@@ -1,8 +1,8 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { CSSProperties } from 'react';
-import React, { useCallback } from 'react';
+import type { CSSProperties, JSX, MouseEvent, KeyboardEvent } from 'react';
+import { useCallback } from 'react';
 import classNames from 'classnames';
 
 import { ImageOrBlurhash } from '../ImageOrBlurhash.dom.tsx';
@@ -92,7 +92,7 @@ export function Image({
   width = 0,
   cropWidth = 0,
   cropHeight = 0,
-}: Props): React.JSX.Element {
+}: Props): JSX.Element {
   const resolvedBlurHash = blurHash || defaultBlurHash(theme);
 
   const curveStyles: CSSProperties = {
@@ -103,7 +103,7 @@ export function Image({
   };
 
   const showVisualAttachmentClick = useCallback(
-    (event: React.MouseEvent) => {
+    (event: MouseEvent) => {
       if (showVisualAttachment) {
         event.preventDefault();
         event.stopPropagation();
@@ -113,7 +113,7 @@ export function Image({
     [attachment, showVisualAttachment]
   );
   const showVisualAttachmentKeyDown = useCallback(
-    (event: React.KeyboardEvent<HTMLButtonElement>) => {
+    (event: KeyboardEvent<HTMLButtonElement>) => {
       if (
         showVisualAttachment &&
         (event.key === 'Enter' || event.key === 'Space')
@@ -126,7 +126,7 @@ export function Image({
     [attachment, showVisualAttachment]
   );
   const cancelDownloadClick = useCallback(
-    (event: React.MouseEvent) => {
+    (event: MouseEvent) => {
       if (cancelDownload) {
         event.preventDefault();
         event.stopPropagation();
@@ -136,7 +136,7 @@ export function Image({
     [cancelDownload]
   );
   const cancelDownloadKeyDown = useCallback(
-    (event: React.KeyboardEvent<HTMLButtonElement>) => {
+    (event: KeyboardEvent<HTMLButtonElement>) => {
       if (cancelDownload && (event.key === 'Enter' || event.key === 'Space')) {
         event.preventDefault();
         event.stopPropagation();
@@ -146,7 +146,7 @@ export function Image({
     [cancelDownload]
   );
   const startDownloadClick = useCallback(
-    (event: React.MouseEvent) => {
+    (event: MouseEvent) => {
       if (startDownload) {
         event.preventDefault();
         event.stopPropagation();
@@ -156,7 +156,7 @@ export function Image({
     [startDownload]
   );
   const startDownloadKeyDown = useCallback(
-    (event: React.KeyboardEvent<HTMLButtonElement>) => {
+    (event: KeyboardEvent<HTMLButtonElement>) => {
       if (startDownload && (event.key === 'Enter' || event.key === 'Space')) {
         event.preventDefault();
         event.stopPropagation();
@@ -304,7 +304,7 @@ export function Image({
       {closeButton ? (
         <button
           type="button"
-          onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+          onClick={(e: MouseEvent<HTMLButtonElement>) => {
             e.preventDefault();
             e.stopPropagation();
 
@@ -329,13 +329,11 @@ export function getSpinner({
   tabIndex,
 }: {
   attachment: AttachmentForUIType;
-  cancelDownloadClick: (event: React.MouseEvent) => void;
-  cancelDownloadKeyDown: (
-    event: React.KeyboardEvent<HTMLButtonElement>
-  ) => void;
+  cancelDownloadClick: (event: MouseEvent) => void;
+  cancelDownloadKeyDown: (event: KeyboardEvent<HTMLButtonElement>) => void;
   i18n: LocalizerType;
   tabIndex: number | undefined;
-}): React.JSX.Element | undefined {
+}): JSX.Element | undefined {
   if (!attachment.pending) {
     return undefined;
   }
