@@ -1511,9 +1511,10 @@ export default class MessageReceiver
         //assuming that the proof data is sent correctly
         const serviceId = envelope.sourceServiceId;
         const deviceId = envelope.sourceDevice;
-        const vts = await getLocalNonce(serviceId, deviceId, 'vts');
+        const vtsB64= await getLocalNonce(serviceId, deviceId, 'vts_raw');
         const bob = JSON.parse(content.dataMessage.bobProofMaybe);
-        console.log('the stored vts', vts);
+        const bobB64 = bob.rawB64;
+        console.log('the stored vts', vtsB64);
         console.log('the bob proof', bob);
         //the vts and bobproof are objects/dicts of the human-readable values (not bytes)
         //for pvrfverify as it is right now, they need to be broken back down in to the byte array
@@ -1521,7 +1522,16 @@ export default class MessageReceiver
         /*
 
         */
-        if (vts && bob) {
+        if (vtsB64 && bobB64) {
+          const result = pvrfVerify(
+            Bytes.fromBase64(vtsB64),
+            Bytes.fromBase64(bobB64)
+          );
+          const ok = result.ok;
+          const z = result.z;
+          log.info('PVRF verify ok:', ok, 'z:', Bytes.toBase64(z));
+        }
+        /*if (vts && bob) {
       
           const result = pvrfVerify(vts, bob);
           console.log('VERIFY:', result.ok);
@@ -1531,7 +1541,7 @@ export default class MessageReceiver
             log.info('PVRF SAS/debug z:', Bytes.toBase64(result.z));
           }
 
-        }
+        }*/    
       }
 
       if (
@@ -1995,13 +2005,16 @@ export default class MessageReceiver
       let bobResponseObject = {
         response: null,
         demoVts: null,
-        metadata: null
+        metadata: null,
+        rawB64: null as string | null, 
       };
       try { 
         let tempResponse = temp?.getBobResponse();
         log.info('bob response value, z is the true sas', tempResponse); 
 
         bobResponseObject.response = tempResponse;
+        bobResponseObject.rawB64 = Bytes.toBase64(tempResponse); 
+
         
       } catch (e) { log.error('error getting bob response', e); log.error('errorstack getting bob response', e.stack); }
       try { 
