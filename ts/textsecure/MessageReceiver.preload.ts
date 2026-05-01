@@ -1520,38 +1520,39 @@ export default class MessageReceiver
         log.info('datamessage found', content.dataMessage);
         //this is where alice would read bob's proof then call to libsignal to compute sas
         //assuming that the proof data is sent correctly
-        try {
-         
-          if (!serviceId) {
-            log.warn('PVRF verify skipped: no serviceId');
-            return { plaintext: undefined, envelope };
-          }
-        
-          const vtsBase64 = await getLocalNonce(serviceId, deviceId, 'vts');
-        
-          log.info('VTS exists:', !!vtsBase64);
-          log.info('Bob proof exists:', !!bobBase64);
-        
-          if (vtsBase64 && bobBase64) 
-          {
-            const vts = Bytes.fromBase64(vtsBase64);
-            const bob = Bytes.fromBase64(bobBase64);
-        
-            const result = pvrfVerify(vts, bob);
-        
-            log.info(`PVRF VERIFY RESULT: ${result.ok}`);
-        
-            if (!result.ok) {
-              log.error('❌ SAS VERIFICATION FAILED');
-            } else {
-              log.info('✅ SAS VERIFIED');
-              log.info('SAS z:', Bytes.toBase64(result.z));
-            }
-          }
-        } 
-        catch (e) {
-          log.error('PVRF verify error', e);
+        const serviceId = envelope.sourceServiceId;
+        const deviceId = envelope.sourceDevice;
+        const vtsB64= await getLocalNonce(serviceId, deviceId, 'vts_raw');
+        const bob = JSON.parse(content.dataMessage.bobProofMaybe);
+        const bobB64 = bob.rawB64;
+        console.log('the stored vts', vtsB64);
+        console.log('the bob proof', bob);
+        //the vts and bobproof are objects/dicts of the human-readable values (not bytes)
+        //for pvrfverify as it is right now, they need to be broken back down in to the byte array
+        //or we can try to make pvrfverify work with the stuff in the objets
+        /*
+
+        */
+        if (vtsB64 && bobB64) {
+          const result = pvrfVerify(
+            Bytes.fromBase64(vtsB64),
+            Bytes.fromBase64(bobB64)
+          );
+          const ok = result.ok;
+          const z = result.z;
+          log.info('PVRF verify ok:', ok, 'z:', Bytes.toBase64(z));
         }
+        /*if (vts && bob) {
+      
+          const result = pvrfVerify(vts, bob);
+          console.log('VERIFY:', result.ok);
+
+          if (result.ok) {
+            console.log('SAS/debug z:', result.z);
+            log.info('PVRF SAS/debug z:', Bytes.toBase64(result.z));
+          }
+
+        }*/    
       }
       }
 
@@ -2042,13 +2043,16 @@ export default class MessageReceiver
       /*let bobResponseObject = {
         response: null,
         demoVts: null,
-        metadata: null
+        metadata: null,
+        rawB64: null as string | null, 
       };
       try { 
         let tempResponse = temp?.getBobResponse();
         log.info('bob response value, z is the true sas', tempResponse); 
 
         bobResponseObject.response = tempResponse;
+        bobResponseObject.rawB64 = Bytes.toBase64(tempResponse); 
+
         
       } catch (e) { log.error('error getting bob response', e); log.error('errorstack getting bob response', e.stack); }
       try { 
