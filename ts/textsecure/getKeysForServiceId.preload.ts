@@ -273,9 +273,10 @@ async function handleServerKeys(
           try { log.info('SAS value', temp?.getSAS?.()); } catch (e) { log.error('error getting SAS', e); }
           try { log.info('VTS value', temp?.getVTS?.()); } catch (e) { log.error('error getting VTS', e); }
           //try { log.info('bob response value, z is the true sas', temp?.getBobResponse()); } catch (e) { log.error('error getting bob response', e); log.error('errorstack getting bob response', e.stack); }
-          const buf = temp?.getVTS?.();
-          const rawVts: Uint8Array = temp?.getVTS?.();
-          await setLocalNonce(serviceId, deviceId, Bytes.toBase64(rawVts), 'vts_raw');    
+          
+          //const buf = temp?.getVTS?.();
+
+        
 
           // fixed-size fields
           /*try {
