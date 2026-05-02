@@ -1233,6 +1233,7 @@ export const actions = {
   saveAttachment,
   saveAttachments,
   saveAttachmentFromMessage,
+  dragAttachment,
   saveAvatarToDisk,
   scrollToMessage,
   scrollToOldestUnreadMention,
@@ -4203,6 +4204,30 @@ function saveAttachment(
     }
   };
 }
+
+export type DragAttachmentActionCreatorType = ReadonlyDeep<
+  (attachment: AttachmentType, timestamp?: number) => unknown
+>;
+
+function dragAttachment(
+  attachment: AttachmentType,
+  timestamp = Date.now()
+): ThunkAction<void, RootStateType, unknown, ShowToastActionType> {
+  return async () => {
+    const fullPath = await Attachment.save({
+      attachment,
+      getUnusedFilename,
+      readAttachmentData,
+      saveAttachmentToDisk,
+      timestamp,
+      baseDir: tmpdir(),
+    });
+    if (fullPath) {
+      ipcRenderer.send('start-attachment-drag', fullPath);
+    }
+  };
+}
+
 
 const showSaveMultiDialog = (
   i18n: LocalizerType
