@@ -3194,6 +3194,10 @@ ipc.on('show-item-in-folder', (_event, folder) => {
   shell.showItemInFolder(folder);
 });
 
+ipc.handle('open-file-path', async (_event, filePath: string) => {
+  await shell.openPath(filePath);
+});
+
 ipc.handle('show-save-dialog', async (_event, { defaultPath }) => {
   if (!mainWindow) {
     log.warn('show-save-dialog: no main window');
