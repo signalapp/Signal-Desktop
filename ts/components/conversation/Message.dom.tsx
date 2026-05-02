@@ -1187,6 +1187,7 @@ export class Message extends React.PureComponent<Props, State> {
       shouldCollapseAbove,
       shouldCollapseBelow,
       showEditHistoryModal,
+      saveAttachment,
       showLightbox,
       showMediaNoLongerAvailableToast,
       status,
@@ -1358,6 +1359,7 @@ export class Message extends React.PureComponent<Props, State> {
     // attachment. But we don't want the user to tab here unless that text exists.
     const tabIndex = text ? 0 : -1;
     return (
+      <div className="module-message__simple-attachment-container">
       <button
         className={classNames(
           'module-message__simple-attachment',
@@ -1464,6 +1466,18 @@ export class Message extends React.PureComponent<Props, State> {
           </div>
         </div>
       </button>
+      {firstAttachment.path && !isAttachmentNotAvailable && (
+        <button
+          type="button"
+          className="module-message__simple-attachment__save-button"
+          onClick={(e: React.MouseEvent) => {
+            e.stopPropagation();
+            saveAttachment(firstAttachment, timestamp);
+          }}
+          aria-label={i18n('icu:save')}
+        />
+      )}
+      </div>
     );
   }
 
