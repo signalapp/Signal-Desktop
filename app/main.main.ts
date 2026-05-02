@@ -18,6 +18,7 @@ import {
   dialog,
   ipcMain as ipc,
   Menu,
+  nativeImage,
   nativeTheme,
   net,
   powerSaveBlocker,
@@ -3193,6 +3194,14 @@ ipc.on('show-message-box', (_event, { type, message }) => {
 ipc.on('show-item-in-folder', (_event, folder) => {
   shell.showItemInFolder(folder);
 });
+
+ipc.on('start-attachment-drag', (event, filePath: string) => {
+  const icon = nativeImage
+    .createFromPath(join(__dirname, '../images/group_default.png'))
+    .resize({ width: 32 });
+  event.sender.startDrag({ file: filePath, icon });
+});
+
 
 ipc.handle('show-save-dialog', async (_event, { defaultPath }) => {
   if (!mainWindow) {
