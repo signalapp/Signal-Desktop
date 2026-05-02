@@ -18,6 +18,7 @@ import type { ReadonlyDeep } from 'type-fest';
 import type {
   ConversationType,
   ConversationTypeType,
+  DragAttachmentActionCreatorType,
   InteractionModeType,
   OpenAttachmentInDefaultAppActionCreatorType,
   PushPanelForConversationActionType,
@@ -387,6 +388,7 @@ export type PropsActions = {
     attachment: AttachmentType;
     messageId: string;
   }) => void;
+  dragAttachment: DragAttachmentActionCreatorType;
   openAttachmentInDefaultApp: OpenAttachmentInDefaultAppActionCreatorType;
   saveAttachment: SaveAttachmentActionCreatorType;
   saveAttachments: SaveAttachmentsActionCreatorType;
@@ -1168,6 +1170,7 @@ export class Message extends React.PureComponent<Props, State> {
       canRetryDeleteForEveryone,
       cancelAttachmentDownload,
       direction,
+      dragAttachment,
       expirationLength,
       expirationTimestamp,
       i18n,
@@ -1357,8 +1360,18 @@ export class Message extends React.PureComponent<Props, State> {
     // Note: this has to be interactive for the case where text comes along with the
     // attachment. But we don't want the user to tab here unless that text exists.
     const tabIndex = text ? 0 : -1;
+    const isDraggable = !!firstAttachment.path && !isAttachmentNotAvailable;
     return (
-      <div className="module-message__simple-attachment-container">
+      <div
+        className="module-message__simple-attachment-container"
+        draggable={isDraggable}
+        onDragStart={(event: React.DragEvent) => {
+          event.preventDefault();
+          if (isDraggable) {
+            dragAttachment(firstAttachment, timestamp);
+          }
+        }}
+      >
       <button
         className={classNames(
           'module-message__simple-attachment',

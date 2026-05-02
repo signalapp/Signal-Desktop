@@ -1228,6 +1228,7 @@ export const actions = {
   saveAttachment,
   saveAttachments,
   saveAttachmentFromMessage,
+  dragAttachment,
   openAttachmentInDefaultApp,
   saveAvatarToDisk,
   scrollToMessage,
@@ -4209,6 +4210,29 @@ function openAttachmentInDefaultApp(
 
     if (fullPath) {
       await ipcRenderer.invoke('open-file-path', fullPath);
+    }
+  };
+}
+
+export type DragAttachmentActionCreatorType = ReadonlyDeep<
+  (attachment: AttachmentType, timestamp?: number) => unknown
+>;
+
+function dragAttachment(
+  attachment: AttachmentType,
+  timestamp = Date.now()
+): ThunkAction<void, RootStateType, unknown, ShowToastActionType> {
+  return async () => {
+    const fullPath = await Attachment.save({
+      attachment,
+      getUnusedFilename,
+      readAttachmentData,
+      saveAttachmentToDisk,
+      timestamp,
+      baseDir: tmpdir(),
+    });
+    if (fullPath) {
+      ipcRenderer.send('start-attachment-drag', fullPath);
     }
   };
 }
