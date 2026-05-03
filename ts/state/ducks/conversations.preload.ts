@@ -1,6 +1,7 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { tmpdir } from 'node:os';
 import type { ThunkAction } from 'redux-thunk';
 import lodash from 'lodash';
 import { type PhoneNumber } from 'google-libphonenumber';
@@ -1227,6 +1228,7 @@ export const actions = {
   saveAttachment,
   saveAttachments,
   saveAttachmentFromMessage,
+  openAttachmentInDefaultApp,
   saveAvatarToDisk,
   scrollToMessage,
   scrollToOldestUnreadMention,
@@ -4183,6 +4185,30 @@ function saveAttachment(
           },
         },
       });
+    }
+  };
+}
+
+export type OpenAttachmentInDefaultAppActionCreatorType = ReadonlyDeep<
+  (attachment: AttachmentType, timestamp?: number) => unknown
+>;
+
+function openAttachmentInDefaultApp(
+  attachment: AttachmentType,
+  timestamp = Date.now()
+): ThunkAction<void, RootStateType, unknown, ShowToastActionType> {
+  return async () => {
+    const fullPath = await Attachment.save({
+      attachment,
+      getUnusedFilename,
+      readAttachmentData,
+      saveAttachmentToDisk,
+      timestamp,
+      baseDir: tmpdir(),
+    });
+
+    if (fullPath) {
+      await ipcRenderer.invoke('open-file-path', fullPath);
     }
   };
 }

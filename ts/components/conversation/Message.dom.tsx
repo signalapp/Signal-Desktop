@@ -19,6 +19,7 @@ import type {
   ConversationType,
   ConversationTypeType,
   InteractionModeType,
+  OpenAttachmentInDefaultAppActionCreatorType,
   PushPanelForConversationActionType,
   SaveAttachmentActionCreatorType,
   SaveAttachmentsActionCreatorType,
@@ -386,6 +387,7 @@ export type PropsActions = {
     attachment: AttachmentType;
     messageId: string;
   }) => void;
+  openAttachmentInDefaultApp: OpenAttachmentInDefaultAppActionCreatorType;
   saveAttachment: SaveAttachmentActionCreatorType;
   saveAttachments: SaveAttachmentsActionCreatorType;
   showLightbox: (options: {
@@ -1356,6 +1358,7 @@ export class Message extends React.PureComponent<Props, State> {
     // attachment. But we don't want the user to tab here unless that text exists.
     const tabIndex = text ? 0 : -1;
     return (
+      <div className="module-message__simple-attachment-container">
       <button
         className={classNames(
           'module-message__simple-attachment',
@@ -1462,6 +1465,7 @@ export class Message extends React.PureComponent<Props, State> {
           </div>
         </div>
       </button>
+      </div>
     );
   }
 
@@ -3218,7 +3222,7 @@ export class Message extends React.PureComponent<Props, State> {
     const {
       id,
       attachments,
-      saveAttachment,
+      openAttachmentInDefaultApp,
       timestamp,
       kickOffAttachmentDownload,
       attachmentDroppedDueToSize,
@@ -3251,7 +3255,7 @@ export class Message extends React.PureComponent<Props, State> {
         messageId: id,
       });
     } else {
-      saveAttachment(firstAttachment, timestamp);
+      openAttachmentInDefaultApp(firstAttachment, timestamp);
     }
   };
 

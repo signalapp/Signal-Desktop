@@ -3194,6 +3194,24 @@ ipc.on('show-item-in-folder', (_event, folder) => {
   shell.showItemInFolder(folder);
 });
 
+ipc.handle('open-file-path', async (_event, filePath: string) => {
+  if (!mainWindow) {
+    return;
+  }
+  const fileName = basename(filePath);
+  const { response } = await dialog.showMessageBox(mainWindow, {
+    type: 'question',
+    buttons: ['Open', 'Cancel'],
+    defaultId: 0,
+    cancelId: 1,
+    message: `Open "${fileName}"?`,
+    detail: 'This file will be opened with your default application.',
+  });
+  if (response === 0) {
+    await shell.openPath(filePath);
+  }
+});
+
 ipc.handle('show-save-dialog', async (_event, { defaultPath }) => {
   if (!mainWindow) {
     log.warn('show-save-dialog: no main window');
