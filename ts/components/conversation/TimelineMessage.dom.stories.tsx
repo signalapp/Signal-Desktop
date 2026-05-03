@@ -317,6 +317,8 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
       : overrideProps.readStatus,
   renderReactionPicker,
   renderAudioAttachment,
+  dragAttachment: action('dragAttachment'),
+  openAttachmentInDefaultApp: action('openAttachmentInDefaultApp'),
   saveAttachment: action('saveAttachment'),
   saveAttachments: action('saveAttachments'),
   setQuoteByMessageId: action('setQuoteByMessageId'),

@@ -671,6 +671,10 @@ $message-padding-horizontal: 12px;
   cursor: pointer;
 }
 
+.module-message__simple-attachment-container {
+  width: 100%;
+}
+
 .module-message__simple-attachment {
   @include mixins.button-reset;
 

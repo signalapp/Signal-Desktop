@@ -18,6 +18,7 @@ import {
   dialog,
   ipcMain as ipc,
   Menu,
+  nativeImage,
   nativeTheme,
   net,
   powerSaveBlocker,
@@ -3192,6 +3193,31 @@ ipc.on('show-message-box', (_event, { type, message }) => {
 
 ipc.on('show-item-in-folder', (_event, folder) => {
   shell.showItemInFolder(folder);
+});
+
+ipc.handle('open-file-path', async (_event, filePath: string) => {
+  if (!mainWindow) {
+    return;
+  }
+  const fileName = basename(filePath);
+  const { response } = await dialog.showMessageBox(mainWindow, {
+    type: 'question',
+    buttons: ['Open', 'Cancel'],
+    defaultId: 0,
+    cancelId: 1,
+    message: `Open "${fileName}"?`,
+    detail: 'This file will be opened with your default application.',
+  });
+  if (response === 0) {
+    await shell.openPath(filePath);
+  }
+});
+
+ipc.on('start-attachment-drag', (event, filePath: string) => {
+  const icon = nativeImage
+    .createFromPath(join(__dirname, '../images/group_default.png'))
+    .resize({ width: 32 });
+  event.sender.startDrag({ file: filePath, icon });
 });
 
 ipc.handle('show-save-dialog', async (_event, { defaultPath }) => {
