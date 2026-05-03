@@ -672,53 +672,7 @@ $message-padding-horizontal: 12px;
 }
 
 .module-message__simple-attachment-container {
-  position: relative;
   width: 100%;
-}
-
-.module-message__simple-attachment__save-button {
-  @include mixins.button-reset;
-
-  & {
-    position: absolute;
-    top: 50%;
-    inset-inline-end: 8px;
-    transform: translateY(-50%);
-    width: 20px;
-    height: 20px;
-    opacity: 0;
-    transition: opacity 150ms;
-  }
-
-  .module-message__simple-attachment-container:hover & {
-    opacity: 1;
-  }
-
-  @include mixins.light-theme {
-    @include mixins.color-svg(
-      '../images/icons/v3/save/save.svg',
-      variables.$color-gray-45
-    );
-    &:hover {
-      @include mixins.color-svg(
-        '../images/icons/v3/save/save.svg',
-        variables.$color-gray-90
-      );
-    }
-  }
-
-  @include mixins.dark-theme {
-    @include mixins.color-svg(
-      '../images/icons/v3/save/save.svg',
-      variables.$color-gray-45
-    );
-    &:hover {
-      @include mixins.color-svg(
-        '../images/icons/v3/save/save.svg',
-        variables.$color-gray-02
-      );
-    }
-  }
 }
 
 .module-message__simple-attachment {

@@ -1187,7 +1187,6 @@ export class Message extends React.PureComponent<Props, State> {
       shouldCollapseAbove,
       shouldCollapseBelow,
       showEditHistoryModal,
-      saveAttachment,
       showLightbox,
       showMediaNoLongerAvailableToast,
       status,
@@ -1466,17 +1465,6 @@ export class Message extends React.PureComponent<Props, State> {
           </div>
         </div>
       </button>
-      {firstAttachment.path && !isAttachmentNotAvailable && (
-        <button
-          type="button"
-          className="module-message__simple-attachment__save-button"
-          onClick={(e: React.MouseEvent) => {
-            e.stopPropagation();
-            saveAttachment(firstAttachment, timestamp);
-          }}
-          aria-label={i18n('icu:save')}
-        />
-      )}
       </div>
     );
   }
