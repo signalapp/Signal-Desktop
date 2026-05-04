@@ -2056,10 +2056,17 @@ app.commandLine.appendSwitch('disable-features', featuresToDisable);
 // This has to run before the 'ready' event.
 electronProtocol.registerSchemesAsPrivileged([
   {
+    scheme: 'asset',
+    privileges: {
+      corsEnabled: true,
+    },
+  },
+  {
     scheme: 'attachment',
     privileges: {
       standard: true,
       supportFetchAPI: true,
+      corsEnabled: true,
       stream: true,
     },
   },
