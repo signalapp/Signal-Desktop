@@ -10,11 +10,11 @@ static float in[NUM_SAMPLES];
 // NUM_SAMPLES * 1.25 + 7200 (see lame.h)
 static unsigned char out[7360];
 
-void wrapper_init(int sample_rate, int bit_rate) {
+void wrapper_init(int q, int sample_rate, int bit_rate) {
   gf = lame_init();
   lame_set_in_samplerate(gf, sample_rate);
   lame_set_VBR(gf, vbr_mtrh);
-  lame_set_VBR_q(gf, 5);
+  lame_set_VBR_q(gf, q);
   lame_set_VBR_max_bitrate_kbps(gf, bit_rate);
   lame_set_mode(gf, MONO);
   lame_set_num_channels(gf, 1);
