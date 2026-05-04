@@ -206,8 +206,6 @@ export async function sendPollVote(
 
       didFullySend = true;
     } else {
-      const sendOptions = await getSendOptions(conversation.attributes);
-
       let promise: Promise<CallbackResultType>;
 
       if (isDirectConversation(conversation.attributes)) {
@@ -218,35 +216,38 @@ export async function sendPollVote(
         }
 
         jobLog.info('sending direct poll vote message');
-        const contentMessage = await messaging.getPollVoteContentMessage({
-          groupV2: undefined,
-          timestamp: currentTimestamp,
-          profileKey,
-          expireTimer,
-          expireTimerVersion: conversation.getExpireTimerVersion(),
-          pollVote: {
-            targetAuthorAci: data.targetAuthorAci,
-            targetTimestamp: data.targetTimestamp,
-            optionIndexes: currentOptionIndexes,
-            voteCount: currentVoteCount,
-          },
-        });
+        promise = conversation.queueJob('sendPollVote/direct', async () => {
+          const contentMessage = await messaging.getPollVoteContentMessage({
+            groupV2: undefined,
+            timestamp: currentTimestamp,
+            profileKey,
+            expireTimer,
+            expireTimerVersion: conversation.getExpireTimerVersion(),
+            pollVote: {
+              targetAuthorAci: data.targetAuthorAci,
+              targetTimestamp: data.targetTimestamp,
+              optionIndexes: currentOptionIndexes,
+              voteCount: currentVoteCount,
+            },
+          });
 
-        addPniSignatureMessageToProto({
-          conversation,
-          proto: contentMessage,
-          reason: `sendPollVote(${currentTimestamp})`,
-        });
+          addPniSignatureMessageToProto({
+            conversation,
+            proto: contentMessage,
+            reason: `sendPollVote(${currentTimestamp})`,
+          });
 
-        promise = messaging.sendMessageProtoAndWait({
-          timestamp: currentTimestamp,
-          // oxlint-disable-next-line typescript/no-non-null-assertion
-          recipients: [recipientServiceIdsWithoutMe[0]!],
-          proto: contentMessage,
-          contentHint: ContentHint.Resendable,
-          groupId: undefined,
-          options: sendOptions,
-          urgent: true,
+          const sendOptions = await getSendOptions(conversation.attributes);
+          return messaging.sendMessageProtoAndWait({
+            timestamp: currentTimestamp,
+            // oxlint-disable-next-line typescript/no-non-null-assertion
+            recipients: [recipientServiceIdsWithoutMe[0]!],
+            proto: contentMessage,
+            contentHint: ContentHint.Resendable,
+            groupId: undefined,
+            options: sendOptions,
+            urgent: true,
+          });
         });
       } else {
         const shouldSend = shouldSendToConversation(conversation, {
@@ -292,6 +293,7 @@ export async function sendPollVote(
               throw new Error('sendPollVote was aborted');
             }
 
+            const sendOptions = await getSendOptions(conversation.attributes);
             return sendContentMessageToGroup({
               contentHint: ContentHint.Resendable,
               contentMessage,

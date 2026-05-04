@@ -67,45 +67,49 @@ export async function sendGroupCallUpdate(
   }
 
   const sendType = 'callingMessage';
-  const groupV2 = conversation.getGroupV2Info();
-  const sendOptions = await getSendOptions(conversation.attributes);
-  if (!groupV2) {
-    log.error(`${logId}: Conversation lacks groupV2 info!`);
-    return;
-  }
 
-  try {
-    await wrapWithSyncMessageSend({
-      conversation,
-      logId,
-      messageIds: [],
-      send: () =>
-        conversation.queueJob(logId, () =>
-          sendToGroup({
-            contentHint: ContentHint.Default,
-            groupSendOptions: {
-              groupCallUpdate: { eraId },
-              groupV2,
-              timestamp,
-            },
-            messageId: undefined,
-            sendOptions,
-            sendTarget: conversation.toSenderKeyTarget(),
-            sendType,
-            urgent,
-          })
-        ),
-      sendType,
-      timestamp,
-      expirationStartTimestamp: null,
-    });
-  } catch (error: unknown) {
-    await handleMultipleSendErrors({
-      errors: maybeExpandErrors(error),
-      isFinalAttempt,
-      log,
-      timeRemaining,
-      toThrow: error,
-    });
-  }
+  await conversation.queueJob('sendGroupCallUpdate', async () => {
+    const groupV2 = conversation.getGroupV2Info();
+    if (!groupV2) {
+      log.error(`${logId}: Conversation lacks groupV2 info!`);
+      return;
+    }
+
+    const sendOptions = await getSendOptions(conversation.attributes);
+
+    try {
+      await wrapWithSyncMessageSend({
+        conversation,
+        logId,
+        messageIds: [],
+        send: () =>
+          conversation.queueJob(logId, () =>
+            sendToGroup({
+              contentHint: ContentHint.Default,
+              groupSendOptions: {
+                groupCallUpdate: { eraId },
+                groupV2,
+                timestamp,
+              },
+              messageId: undefined,
+              sendOptions,
+              sendTarget: conversation.toSenderKeyTarget(),
+              sendType,
+              urgent,
+            })
+          ),
+        sendType,
+        timestamp,
+        expirationStartTimestamp: null,
+      });
+    } catch (error: unknown) {
+      await handleMultipleSendErrors({
+        errors: maybeExpandErrors(error),
+        isFinalAttempt,
+        log,
+        timeRemaining,
+        toThrow: error,
+      });
+    }
+  });
 }

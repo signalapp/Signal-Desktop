@@ -225,8 +225,6 @@ export async function sendReaction(
       didFullySend = true;
       successfulConversationIds.add(ourConversationId);
     } else {
-      const sendOptions = await getSendOptions(conversation.attributes);
-
       let promise: Promise<CallbackResultType>;
       if (isDirectConversation(conversation.attributes)) {
         const [ok, refusal] = shouldSendToDirectConversation(conversation);
@@ -237,27 +235,30 @@ export async function sendReaction(
         }
 
         log.info('sending direct reaction message');
-        promise = messaging.sendMessageToServiceId({
-          // oxlint-disable-next-line typescript/no-non-null-assertion
-          serviceId: recipientServiceIdsWithoutMe[0]!,
-          messageOptions: {
-            reaction: reactionForSend,
-            timestamp: pendingReaction.timestamp,
-            expireTimer,
-            expireTimerVersion: conversation.getExpireTimerVersion(),
-            profileKey,
-          },
-          groupId: undefined,
-          contentHint: ContentHint.Resendable,
-          options: sendOptions,
-          urgent: true,
-          includePniSignatureMessage: true,
+        promise = conversation.queueJob('sendRection/direct', async () => {
+          const sendOptions = await getSendOptions(conversation.attributes);
+          return messaging.sendMessageToServiceId({
+            // oxlint-disable-next-line typescript/no-non-null-assertion
+            serviceId: recipientServiceIdsWithoutMe[0]!,
+            messageOptions: {
+              reaction: reactionForSend,
+              timestamp: pendingReaction.timestamp,
+              expireTimer,
+              expireTimerVersion: conversation.getExpireTimerVersion(),
+              profileKey,
+            },
+            groupId: undefined,
+            contentHint: ContentHint.Resendable,
+            options: sendOptions,
+            urgent: true,
+            includePniSignatureMessage: true,
+          });
         });
       } else {
         log.info('sending group reaction message');
         promise = conversation.queueJob(
           'conversationQueue/sendReaction',
-          abortSignal => {
+          async abortSignal => {
             // Note: this will happen for all old jobs queued before 5.32.x
             if (isGroupV2(conversation.attributes) && !isNumber(revision)) {
               log.error('No revision provided, but conversation is GroupV2');
@@ -270,7 +271,7 @@ export async function sendReaction(
             if (isNumber(revision)) {
               groupV2Info.revision = revision;
             }
-
+            const sendOptions = await getSendOptions(conversation.attributes);
             return sendToGroup({
               abortSignal,
               contentHint: ContentHint.Resendable,
