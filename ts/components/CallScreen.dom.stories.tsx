@@ -24,7 +24,6 @@ import type { ConversationType } from '../state/ducks/conversations.preload.ts';
 import { AvatarColors } from '../types/Colors.std.ts';
 import type { PropsType } from './CallScreen.dom.tsx';
 import { CallScreen as UnwrappedCallScreen } from './CallScreen.dom.tsx';
-import { DEFAULT_PREFERRED_REACTION_EMOJI } from '../reactions/constants.std.ts';
 import { missingCaseError } from '../util/missingCaseError.std.ts';
 import {
   getAvatarPath,
@@ -38,6 +37,7 @@ import { MINUTE } from '../util/durations/index.std.ts';
 import { strictAssert } from '../util/assert.std.ts';
 import { generateAci } from '../test-helpers/serviceIdUtils.std.ts';
 import { renderCallingParticipantMenu } from './CallingParticipantMenu.dom.stories.tsx';
+import { Emoji } from '../axo/emoji.std.ts';
 
 const { sample, shuffle, times } = lodash;
 
@@ -834,7 +834,18 @@ export function GroupCallReactionsSkinTones(): JSX.Element {
   const activeCall = useReactionsEmitter({
     activeCall: props.activeCall as ActiveGroupCallType,
     frequency: 500,
-    emojis: ['👍', '👍🏻', '👍🏼', '👍🏽', '👍🏾', '👍🏿', '❤️', '😂', '😮', '😢'],
+    emojis: [
+      Emoji.getVariant(Emoji.THUMBS_UP, Emoji.SkinTone.None),
+      Emoji.getVariant(Emoji.THUMBS_UP, Emoji.SkinTone.Type1),
+      Emoji.getVariant(Emoji.THUMBS_UP, Emoji.SkinTone.Type2),
+      Emoji.getVariant(Emoji.THUMBS_UP, Emoji.SkinTone.Type3),
+      Emoji.getVariant(Emoji.THUMBS_UP, Emoji.SkinTone.Type4),
+      Emoji.getVariant(Emoji.THUMBS_UP, Emoji.SkinTone.Type5),
+      Emoji.HEART,
+      Emoji.JOY,
+      Emoji.OPEN_MOUTH,
+      Emoji.CRY,
+    ],
   });
 
   return <CallScreen {...props} activeCall={activeCall} />;
@@ -845,10 +856,10 @@ export function GroupCallReactionsManyInOrder(): JSX.Element {
   const remoteParticipants = allRemoteParticipants.slice(0, 5);
   const reactions = remoteParticipants.map((participant, i) => {
     const { demuxId } = participant;
-    const value =
-      DEFAULT_PREFERRED_REACTION_EMOJI[
-        i % DEFAULT_PREFERRED_REACTION_EMOJI.length
-      ];
+    const defaults = Emoji.getDefaultPreferredReactionEmojis(
+      Emoji.SkinTone.None
+    );
+    const value = defaults[i % defaults.length];
     strictAssert(value, 'Missing value');
     return { timestamp, demuxId, value };
   });
@@ -868,12 +879,12 @@ function useReactionsEmitter({
   activeCall,
   frequency = 2000,
   removeAfter = 5000,
-  emojis = DEFAULT_PREFERRED_REACTION_EMOJI,
+  emojis = Emoji.getDefaultPreferredReactionEmojis(Emoji.SkinTone.None),
 }: {
   activeCall: ActiveGroupCallType;
   frequency?: number;
   removeAfter?: number;
-  emojis?: Array<string>;
+  emojis?: ReadonlyArray<Emoji.Variant>;
 }) {
   const [call, setCall] = useState(activeCall);
   useEffect(() => {

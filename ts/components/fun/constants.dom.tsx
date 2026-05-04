@@ -1,13 +1,13 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { EmojiPickerCategory } from './data/emojis.std.ts';
 import type { StickerPackType } from '../../state/ducks/stickers.preload.ts';
+import { Emoji } from '../../axo/emoji.std.ts';
 
 export enum FunPickerTabKey {
-  Emoji = 'Emoji',
-  Stickers = 'Stickers',
-  Gifs = 'Gifs',
+  EmojisTab = 'EmojisTab',
+  StickersTab = 'Stickers',
+  GifsTab = 'Gifs',
 }
 
 export enum FunGifsCategory {
@@ -54,7 +54,7 @@ export function toFunStickersPackSection(
 
 export type FunEmojisSection =
   | FunSectionCommon
-  | EmojiPickerCategory
+  | Emoji.Category
   | FunEmojisBase;
 export type FunStickersSection =
   | FunSectionCommon
@@ -63,16 +63,16 @@ export type FunStickersSection =
 export type FunGifsSection = FunSectionCommon | FunGifsCategory;
 
 export const FunEmojisSectionOrder: ReadonlyArray<
-  FunSectionCommon.Recents | FunEmojisBase.ThisMessage | EmojiPickerCategory
+  FunSectionCommon.Recents | FunEmojisBase.ThisMessage | Emoji.Category
 > = [
   FunEmojisBase.ThisMessage,
   FunSectionCommon.Recents,
-  EmojiPickerCategory.SmileysAndPeople,
-  EmojiPickerCategory.AnimalsAndNature,
-  EmojiPickerCategory.FoodAndDrink,
-  EmojiPickerCategory.Activities,
-  EmojiPickerCategory.TravelAndPlaces,
-  EmojiPickerCategory.Objects,
-  EmojiPickerCategory.Symbols,
-  EmojiPickerCategory.Flags,
+  Emoji.Category.SMILIES_AND_PEOPLE,
+  Emoji.Category.ANIMALS_AND_NATURE,
+  Emoji.Category.FOOD_AND_DRINK,
+  Emoji.Category.ACTIVITIES,
+  Emoji.Category.TRAVEL_AND_PLACES,
+  Emoji.Category.OBJECTS,
+  Emoji.Category.SYMBOLS,
+  Emoji.Category.FLAGS,
 ];

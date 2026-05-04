@@ -270,6 +270,7 @@ import { missingCaseError } from '../util/missingCaseError.std.ts';
 import * as Message from '../types/Message2.preload.ts';
 import { itemStorage } from '../textsecure/Storage.preload.ts';
 import { isUsernameValid } from '../util/Username.dom.ts';
+import type { Emoji } from '../axo/emoji.std.ts';
 
 const { compact, isNumber, throttle, debounce } = lodash;
 
@@ -4641,7 +4642,7 @@ export class ConversationModel {
     labelEmoji,
     labelString,
   }: {
-    labelEmoji: string | undefined;
+    labelEmoji: Emoji.Variant | undefined;
     labelString: string | undefined;
   }): Promise<void> {
     if (!isGroupV2(this.attributes)) {

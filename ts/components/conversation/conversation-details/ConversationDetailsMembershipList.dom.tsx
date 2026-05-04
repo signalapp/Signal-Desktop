@@ -20,11 +20,12 @@ import { GroupMemberLabel } from '../ContactName.dom.tsx';
 import { AriaClickable } from '../../../axo/AriaClickable.dom.tsx';
 import type { ContactModalStateType } from '../../../types/globalModals.std.ts';
 import type { ContactNameColorType } from '../../../types/Colors.std.ts';
+import type { Emoji } from '../../../axo/emoji.std.ts';
 
 export type GroupV2Membership = {
   isAdmin: boolean;
   member: ConversationType;
-  labelEmoji: string | undefined;
+  labelEmoji: Emoji.Variant | undefined;
   labelString: string | undefined;
 };
 

@@ -31,7 +31,6 @@ import { WidthBreakpoint } from './_util.std.ts';
 import { getAvatarColor } from '../types/Colors.std.ts';
 import { shouldNeverBeCalled } from '../util/shouldNeverBeCalled.std.ts';
 import { ConfirmationDialog } from './ConfirmationDialog.dom.tsx';
-import type { EmojiSkinTone } from './fun/data/emojis.std.ts';
 import { FunEmojiPicker } from './fun/FunEmojiPicker.dom.tsx';
 import { FunEmojiPickerButton } from './fun/FunButton.dom.tsx';
 import type { FunEmojiSelection } from './fun/panels/FunPanelEmojis.dom.tsx';
@@ -40,6 +39,7 @@ import { AxoContextMenu } from '../axo/AxoContextMenu.dom.tsx';
 import type { AxoMenuBuilder } from '../axo/AxoMenuBuilder.dom.tsx';
 import { drop } from '../util/drop.std.ts';
 import type { ContactModalStateType } from '../types/globalModals.std.ts';
+import type { Emoji } from '../axo/emoji.std.ts';
 
 const { noop, orderBy } = lodash;
 
@@ -111,7 +111,7 @@ export type PropsType = {
   isInternalUser?: boolean;
   onChangeViewTarget: (target: StoryViewTargetType) => unknown;
   onClose: () => unknown;
-  onReact: (emoji: string) => unknown;
+  onReact: (emoji: Emoji.Variant) => unknown;
   onReply: (
     message: string,
     bodyRanges: DraftBodyRanges,
@@ -120,10 +120,10 @@ export type PropsType = {
   onTextTooLong: () => unknown;
   onSelectEmoji: (emojiSelection: FunEmojiSelection) => unknown;
   ourConversationId: string | undefined;
-  preferredReactionEmoji: ReadonlyArray<string>;
+  preferredReactionEmoji: ReadonlyArray<Emoji.Variant>;
   replies: ReadonlyArray<ReplyType>;
   showContactModal: (payload: ContactModalStateType) => void;
-  emojiSkinToneDefault: EmojiSkinTone | null;
+  emojiSkinToneDefault: Emoji.SkinTone | null;
   sortedGroupMembers?: ReadonlyArray<ConversationType>;
   views: ReadonlyArray<StorySendStateType>;
   viewTarget: StoryViewTargetType;

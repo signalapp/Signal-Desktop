@@ -104,15 +104,6 @@ import { CallingPendingParticipants } from './CallingPendingParticipants.dom.tsx
 import type { CallingImageDataCache } from './CallManager.dom.tsx';
 import { FunStaticEmoji } from './fun/FunEmoji.dom.tsx';
 import {
-  getEmojiDebugLabel,
-  getEmojiParentByKey,
-  getEmojiParentKeyByVariantKey,
-  getEmojiVariantByKey,
-  getEmojiVariantKeyByValue,
-  isEmojiVariantValue,
-} from './fun/data/emojis.std.ts';
-import { useFunEmojiLocalizer } from './fun/useFunEmojiLocalizer.dom.tsx';
-import {
   BeforeNavigateResponse,
   beforeNavigateService,
 } from '../services/BeforeNavigate.std.ts';
@@ -124,6 +115,7 @@ import {
   PIP_MINIMUM_LOCAL_VIDEO_HEIGHT_MULTIPLIER,
 } from './CallingPip.dom.tsx';
 import type { PropsType as SmartCallingParticipantMenuProps } from '../state/smart/CallingParticipantMenu.preload.tsx';
+import { Emoji } from '../axo/emoji.std.ts';
 
 const { isEqual, noop } = lodash;
 
@@ -1398,17 +1390,16 @@ function useReactionsToast(props: UseReactionsToastType): void {
     Map<
       string,
       {
-        value: string;
-        originalValue: string;
+        value: Emoji;
+        originalValue: Emoji;
         isBursted: boolean;
         expireAt: number;
         demuxId: number;
       }
     >
   >(new Map());
-  const burstsShown = useRef<Map<string, number>>(new Map());
+  const burstsShown = useRef<Map<Emoji | Emoji.Variant, number>>(new Map());
   const { showToast } = useCallingToasts();
-  const emojiLocalizer = useFunEmojiLocalizer();
 
   useEffect(() => {
     setPreviousReactions(reactions);
@@ -1429,15 +1420,12 @@ function useReactionsToast(props: UseReactionsToastType): void {
 
       const key = `reactions-${timestamp}-${demuxId}`;
 
-      if (!isEmojiVariantValue(value)) {
+      if (!Emoji.isEmoji(value)) {
         log.error(
-          `Expected a valid emoji value, got ${getEmojiDebugLabel(value)}`
+          `Expected a valid emoji value, got ${Emoji.getDebugLabel(value)}`
         );
         return;
       }
-
-      const emojiVariantKey = getEmojiVariantKeyByValue(value);
-      const emojiVariant = getEmojiVariantByKey(emojiVariantKey);
 
       showToast({
         key,
@@ -1447,9 +1435,9 @@ function useReactionsToast(props: UseReactionsToastType): void {
           <span className="CallingReactionsToasts__reaction">
             <FunStaticEmoji
               role="img"
-              aria-label={emojiLocalizer.getLocaleShortName(emojiVariantKey)}
+              aria-label={Emoji.getDisplayLabel(value)}
               size={28}
-              emoji={emojiVariant}
+              emoji={Emoji.ignorePreferredSkinTone(value)}
             />
             {demuxId === localDemuxId ||
             (ourServiceId && conversation?.serviceId === ourServiceId)
@@ -1472,11 +1460,9 @@ function useReactionsToast(props: UseReactionsToastType): void {
       );
       // Normalize skin tone emoji to calculate burst threshold, but save original
       // value to show in the burst animation
-      const emojiParentKey = getEmojiParentKeyByVariantKey(emojiVariantKey);
-      const emojiParent = getEmojiParentByKey(emojiParentKey);
-      const normalizedValue = emojiParent.value;
+      const emojiParent = Emoji.getParent(value);
       reactionsShown.current.set(key, {
-        value: normalizedValue,
+        value: emojiParent,
         originalValue: value,
         isBursted,
         expireAt: timestamp + REACTIONS_BURST_WINDOW,
@@ -1489,9 +1475,9 @@ function useReactionsToast(props: UseReactionsToastType): void {
       return;
     }
 
-    const unburstedEmojis = new Map<string, Set<string>>();
+    const unburstedEmojis = new Map<Emoji, Set<string>>();
     const unburstedEmojisReactorIds = new Map<
-      string,
+      Emoji,
       Set<ServiceIdString | number>
     >();
     reactionsShown.current.forEach(
@@ -1502,6 +1488,10 @@ function useReactionsToast(props: UseReactionsToastType): void {
         }
 
         if (isBursted) {
+          return;
+        }
+
+        if (!Emoji.isEmoji(value)) {
           return;
         }
 
@@ -1540,7 +1530,7 @@ function useReactionsToast(props: UseReactionsToastType): void {
       }
 
       burstsShown.current.set(value, time);
-      const values: Array<string> = [];
+      const values: Array<Emoji> = [];
       reactionKeys.forEach(key => {
         const reactionShown = reactionsShown.current.get(key);
         if (!reactionShown) {
@@ -1565,7 +1555,6 @@ function useReactionsToast(props: UseReactionsToastType): void {
     localDemuxId,
     i18n,
     ourServiceId,
-    emojiLocalizer,
   ]);
 }
 

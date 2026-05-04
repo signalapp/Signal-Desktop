@@ -9,7 +9,7 @@ import { FunStickerPicker } from './FunStickerPicker.dom.tsx';
 import { MOCK_RECENT_EMOJIS } from '../../test-helpers/funPickerMocks.dom.tsx';
 import { FunProvider } from './FunProvider.dom.tsx';
 import { packs, recentStickers } from '../../test-helpers/stickersMocks.std.ts';
-import { EmojiSkinTone } from './data/emojis.std.ts';
+import { Emoji } from '../../axo/emoji.std.ts';
 
 const { i18n } = window.SignalContext;
 
@@ -33,7 +33,7 @@ function Template(props: TemplateProps): JSX.Element {
       recentStickers={recentStickers}
       recentGifs={[]}
       // Emojis
-      emojiSkinToneDefault={EmojiSkinTone.None}
+      emojiSkinToneDefault={Emoji.SkinTone.None}
       onEmojiSkinToneDefaultChange={() => null}
       onOpenCustomizePreferredReactionsModal={() => null}
       onSelectEmoji={() => null}

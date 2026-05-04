@@ -21,7 +21,6 @@ import { Toast } from './Toast.dom.tsx';
 import { FunEmojiPicker } from './fun/FunEmojiPicker.dom.tsx';
 import { FunEmojiPickerButton } from './fun/FunButton.dom.tsx';
 import type { FunEmojiSelection } from './fun/panels/FunPanelEmojis.dom.tsx';
-import { getEmojiVariantByKey } from './fun/data/emojis.std.ts';
 import { strictAssert } from '../util/assert.std.ts';
 import {
   type PollCreateType,
@@ -178,8 +177,7 @@ export function PollCreateModal({
       strictAssert(inputEl, 'Missing input ref for option');
 
       const { selectionStart, selectionEnd } = inputEl;
-      const variant = getEmojiVariantByKey(emojiSelection.variantKey);
-      const emoji = variant.value;
+      const emoji = emojiSelection.emoji;
 
       const updatedOptions = options.map(opt => {
         if (opt.id !== optionId) {

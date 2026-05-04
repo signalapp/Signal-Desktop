@@ -8,7 +8,6 @@ import {
   type JSX,
   type MouseEvent,
 } from 'react';
-
 import { isInSystemContacts } from '../../util/isInSystemContacts.std.ts';
 import { Avatar, AvatarBlur, AvatarSize } from '../Avatar.dom.tsx';
 import { Modal } from '../Modal.dom.tsx';
@@ -18,17 +17,11 @@ import { About } from './About.dom.tsx';
 import { I18n } from '../I18n.dom.tsx';
 import { canHaveNicknameAndNote } from '../../util/nicknames.dom.ts';
 import { Tooltip, TooltipPlacement } from '../Tooltip.dom.tsx';
-import { useFunEmojiLocalizer } from '../fun/useFunEmojiLocalizer.dom.tsx';
-import {
-  getEmojiVariantByKey,
-  getEmojiVariantKeyByValue,
-  isEmojiVariantValue,
-} from '../fun/data/emojis.std.ts';
 import { FunStaticEmoji } from '../fun/FunEmoji.dom.tsx';
 import { missingEmojiPlaceholder } from '../../types/GroupMemberLabels.std.ts';
-
 import type { ConversationType } from '../../state/ducks/conversations.preload.ts';
 import type { LocalizerType } from '../../types/Util.std.ts';
+import { Emoji } from '../../axo/emoji.std.ts';
 
 function muted(parts: Array<string | JSX.Element>) {
   return (
@@ -40,7 +33,7 @@ export type PropsType = Readonly<{
   i18n: LocalizerType;
   canAddLabel: boolean;
   contact: ConversationType;
-  contactLabelEmoji: string | undefined;
+  contactLabelEmoji: Emoji.Variant | undefined;
   contactLabelString: string | undefined;
   contactNameColor: string | undefined;
   fromOrAddedByTrustedContact?: boolean;
@@ -135,23 +128,20 @@ export function AboutContactModal({
   const shouldShowLabel = isMe && hasLabel;
   const shouldShowAddLabel =
     isMe && !hasLabel && canAddLabel && isEditMemberLabelEnabled;
-  const emojiLocalizer = useFunEmojiLocalizer();
 
   let labelEmojiElement;
   if (
     shouldShowLabel &&
     contactLabelEmoji &&
-    isEmojiVariantValue(contactLabelEmoji)
+    Emoji.isEmoji(contactLabelEmoji)
   ) {
-    const emojiKey = getEmojiVariantKeyByValue(contactLabelEmoji);
-    const labelEmojiData = getEmojiVariantByKey(emojiKey);
     labelEmojiElement = (
       <>
         <FunStaticEmoji
           role="img"
-          aria-label={emojiLocalizer.getLocaleShortName(labelEmojiData.key)}
+          aria-label={Emoji.getDisplayLabel(contactLabelEmoji)}
           size={14}
-          emoji={labelEmojiData}
+          emoji={contactLabelEmoji}
         />{' '}
       </>
     );

@@ -102,6 +102,7 @@ import type {
   SendPinMessageType,
   SendUnpinMessageType,
 } from '../types/PinnedMessage.std.ts';
+import type { Emoji } from '../axo/emoji.std.ts';
 
 const log = createLogger('SendMessage');
 
@@ -173,12 +174,12 @@ export type OutgoingStickerType = Readonly<{
   packId: string;
   packKey: string;
   stickerId: number;
-  emoji?: string;
+  emoji?: Emoji.Variant;
   data: Readonly<UploadedAttachmentType>;
 }>;
 
 export type ReactionType = {
-  emoji?: string;
+  emoji?: Emoji.Variant;
   remove?: boolean;
   targetAuthorAci?: AciString;
   targetTimestamp?: number;

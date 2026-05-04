@@ -116,23 +116,14 @@ import { TapToViewNotAvailableType } from '../TapToViewNotAvailableModal.dom.tsx
 import type { DataPropsType as TapToViewNotAvailablePropsType } from '../TapToViewNotAvailableModal.dom.tsx';
 import { FileThumbnail } from '../FileThumbnail.dom.tsx';
 import { FunStaticEmoji } from '../fun/FunEmoji.dom.tsx';
-import {
-  type EmojifyData,
-  getEmojiDebugLabel,
-  getEmojifyData,
-  getEmojiParentByKey,
-  getEmojiParentKeyByVariantKey,
-  getEmojiVariantByKey,
-  getEmojiVariantKeyByValue,
-  isEmojiVariantValue,
-} from '../fun/data/emojis.std.ts';
-import { useGroupedAndOrderedReactions } from '../../util/groupAndOrderReactions.dom.ts';
+import { useGroupedAndOrderedReactions } from '../../util/groupAndOrderReactions.std.ts';
 import type { AxoMenuBuilder } from '../../axo/AxoMenuBuilder.dom.tsx';
 import { AxoSymbol } from '../../axo/AxoSymbol.dom.tsx';
 import type { RenderAudioAttachmentProps } from '../../state/smart/renderAudioAttachment.preload.tsx';
 import type { MemberLabelType } from '../../types/GroupMemberLabels.std.ts';
 import type { ContactModalStateType } from '../../types/globalModals.std.ts';
 import { tw } from '../../axo/tw.dom.tsx';
+import { Emoji } from '../../axo/emoji.std.ts';
 
 const { drop, take, unescape } = lodash;
 
@@ -202,25 +193,18 @@ export type GiftBadgeType =
       state: GiftBadgeStates.Failed;
     };
 
-function ReactionEmoji(props: { emojiVariantValue: string }) {
-  if (!isEmojiVariantValue(props.emojiVariantValue)) {
-    log.error(
-      `Expected a valid emoji variant value, got ${getEmojiDebugLabel(props.emojiVariantValue)}`
-    );
-    return null;
-  }
+type EmojifyData = Readonly<{
+  text: string;
+  count: Emoji.JumboEmojiCount;
+}>;
 
-  const emojiVariantKey = getEmojiVariantKeyByValue(props.emojiVariantValue);
-  const emojiVariant = getEmojiVariantByKey(emojiVariantKey);
-  const emojiParentKey = getEmojiParentKeyByVariantKey(emojiVariantKey);
-  const emojiParent = getEmojiParentByKey(emojiParentKey);
-
+function ReactionEmoji(props: { emoji: Emoji.Variant }) {
   return (
     <FunStaticEmoji
       role="img"
-      aria-label={emojiParent.englishShortNameDefault}
+      aria-label={Emoji.getDisplayLabel(props.emoji)}
       size={16}
-      emoji={emojiVariant}
+      emoji={props.emoji}
     />
   );
 }
@@ -300,7 +284,7 @@ export type PropsData = {
     authorTitle: string;
     conversationColor: ConversationColorType;
     customColor?: CustomColorType;
-    emoji?: string;
+    emoji?: Emoji.Variant;
     isFromMe: boolean;
     rawAttachment?: QuotedAttachmentForUIType;
     storyId?: string;
@@ -465,7 +449,7 @@ const MessageReactions = forwardRef(function MessageReactions(
   }: MessageReactionsProps,
   parentRef
 ): JSX.Element {
-  const ordered = useGroupedAndOrderedReactions(reactions, 'parentKey');
+  const ordered = useGroupedAndOrderedReactions(reactions, 'parent');
 
   const reactionsContainerRefMerger = useRef(createRefMerger());
 
@@ -578,7 +562,7 @@ const MessageReactions = forwardRef(function MessageReactions(
                     </span>
                   ) : (
                     <>
-                      <ReactionEmoji emojiVariantValue={re.emoji} />
+                      <ReactionEmoji emoji={re.emoji} />
                       {re.count > 1 ? (
                         <span
                           className={classNames(
@@ -1027,15 +1011,14 @@ export class Message extends PureComponent<Props, State> {
       this.#cachedEmojifyData == null ||
       this.#cachedEmojifyData.text !== text
     ) {
-      this.#cachedEmojifyData = getEmojifyData(text);
+      this.#cachedEmojifyData = {
+        text,
+        count: Emoji.getJumboEmojiCount(text),
+      };
     }
     const emojifyData = this.#cachedEmojifyData;
 
-    if (
-      !emojifyData.isEmojiOnlyText ||
-      emojifyData.emojiCount === 0 ||
-      emojifyData.emojiCount >= 6
-    ) {
+    if (emojifyData.count == null) {
       return false;
     }
 

@@ -13,8 +13,8 @@ import {
   getEmptyState,
   reducer,
 } from '../../../state/ducks/preferredReactions.preload.ts';
-import { EmojiSkinTone } from '../../../components/fun/data/emojis.std.ts';
 import { itemStorage } from '../../../textsecure/Storage.preload.ts';
+import { Emoji } from '../../../axo/emoji.std.ts';
 
 describe('preferred reactions duck', () => {
   const getEmptyRootState = (): StateType =>
@@ -30,13 +30,27 @@ describe('preferred reactions duck', () => {
   const stateWithOpenCustomizationModal = {
     ...getEmptyState(),
     customizePreferredReactionsModal: {
-      draftPreferredReactions: ['✨', '❇️', '🎇', '🦈', '💖', '🅿️'],
-      originalPreferredReactions: ['💙', '👍', '👎', '😂', '😮', '😢'],
+      draftPreferredReactions: [
+        Emoji.SPARKLES,
+        Emoji.SPARKLE,
+        Emoji.FIREWORK_SPARKLER,
+        Emoji.SHARK,
+        Emoji.SPARKLING_HEART,
+        Emoji.PARKING,
+      ],
+      originalPreferredReactions: [
+        Emoji.BLUE_HEART,
+        Emoji.getDefaultVariant(Emoji.THUMBS_UP),
+        Emoji.getDefaultVariant(Emoji.THUMBS_DOWN),
+        Emoji.JOY,
+        Emoji.OPEN_MOUTH,
+        Emoji.CRY,
+      ],
       selectedDraftEmojiIndex: undefined,
       isSaving: false as const,
       hadSaveError: false,
     },
-  };
+  } satisfies PreferredReactionsStateType;
 
   const stateWithOpenCustomizationModalAndSelectedEmoji = {
     ...stateWithOpenCustomizationModal,
@@ -44,7 +58,7 @@ describe('preferred reactions duck', () => {
       ...stateWithOpenCustomizationModal.customizePreferredReactionsModal,
       selectedDraftEmojiIndex: 1,
     },
-  };
+  } satisfies PreferredReactionsStateType;
 
   let sinonSandbox: sinon.SinonSandbox;
 
@@ -116,7 +130,7 @@ describe('preferred reactions duck', () => {
         ...emptyRootState,
         items: {
           ...emptyRootState.items,
-          emojiSkinToneDefault: EmojiSkinTone.Type5,
+          emojiSkinToneDefault: Emoji.SkinTone.Type5,
         },
       };
 
@@ -126,7 +140,9 @@ describe('preferred reactions duck', () => {
 
       const result = reducer(rootState.preferredReactions, action);
 
-      const expectedEmoji = ['❤️', '👍🏿', '👎🏿', '😂', '😮', '😢'];
+      const expectedEmoji = Emoji.getDefaultPreferredReactionEmojis(
+        Emoji.SkinTone.Type5
+      );
 
       assert.deepEqual(result.customizePreferredReactionsModal, {
         draftPreferredReactions: expectedEmoji,
@@ -138,7 +154,14 @@ describe('preferred reactions duck', () => {
     });
 
     it('opens the customization modal with stored values', () => {
-      const storedPreferredReactionEmoji = ['✨', '❇️', '🎇', '🦈', '💖', '🅿️'];
+      const storedPreferredReactionEmoji = [
+        Emoji.SPARKLES,
+        Emoji.SPARKLE,
+        Emoji.FIREWORK_SPARKLER,
+        Emoji.SHARK,
+        Emoji.SPARKLING_HEART,
+        Emoji.PARKING,
+      ];
 
       const emptyRootState = getEmptyRootState();
       const state = {
@@ -170,21 +193,23 @@ describe('preferred reactions duck', () => {
 
     it('is a no-op if the customization modal is not open', () => {
       const state = getEmptyState();
-      const action = replaceSelectedDraftEmoji('🦈');
+      const action = replaceSelectedDraftEmoji(Emoji.SHARK);
       const result = reducer(state, action);
 
       assert.strictEqual(result, state);
     });
 
     it('is a no-op if no emoji is selected', () => {
-      const action = replaceSelectedDraftEmoji('💅');
+      const action = replaceSelectedDraftEmoji(
+        Emoji.getDefaultVariant(Emoji.NAIL_CARE)
+      );
       const result = reducer(stateWithOpenCustomizationModal, action);
 
       assert.strictEqual(result, stateWithOpenCustomizationModal);
     });
 
     it('replaces the selected draft emoji and deselects', () => {
-      const action = replaceSelectedDraftEmoji('🐱');
+      const action = replaceSelectedDraftEmoji(Emoji.CAT);
       const result = reducer(
         stateWithOpenCustomizationModalAndSelectedEmoji,
         action
@@ -192,7 +217,14 @@ describe('preferred reactions duck', () => {
 
       assert.deepStrictEqual(
         result.customizePreferredReactionsModal?.draftPreferredReactions,
-        ['✨', '🐱', '🎇', '🦈', '💖', '🅿️']
+        [
+          Emoji.SPARKLES,
+          Emoji.CAT,
+          Emoji.FIREWORK_SPARKLER,
+          Emoji.SHARK,
+          Emoji.SPARKLING_HEART,
+          Emoji.PARKING,
+        ]
       );
       assert.isUndefined(
         result.customizePreferredReactionsModal?.selectedDraftEmojiIndex
@@ -226,7 +258,7 @@ describe('preferred reactions duck', () => {
 
       assert.deepEqual(
         result.customizePreferredReactionsModal?.draftPreferredReactions,
-        ['❤️', '👍', '👎', '😂', '😮', '😢']
+        Emoji.getDefaultPreferredReactionEmojis(Emoji.SkinTone.None)
       );
     });
 

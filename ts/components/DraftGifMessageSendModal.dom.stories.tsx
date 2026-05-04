@@ -10,10 +10,10 @@ import {
 import { ThemeType } from '../types/Util.std.ts';
 import { CompositionTextArea } from './CompositionTextArea.dom.tsx';
 import type { SmartCompositionTextAreaProps } from '../state/smart/CompositionTextArea.preload.tsx';
-import { EmojiSkinTone } from './fun/data/emojis.std.ts';
 import { LoadingState } from '../util/loadable.std.ts';
 import { VIDEO_MP4 } from '../types/MIME.std.ts';
 import { drop } from '../util/drop.std.ts';
+import { Emoji } from '../axo/emoji.std.ts';
 
 const { i18n } = window.SignalContext;
 
@@ -39,7 +39,7 @@ function RenderCompositionTextArea(props: SmartCompositionTextAreaProps) {
       onTextTooLong={action('onTextTooLong')}
       ourConversationId="me"
       platform="darwin"
-      emojiSkinToneDefault={EmojiSkinTone.None}
+      emojiSkinToneDefault={Emoji.SkinTone.None}
       convertDraftBodyRangesIntoHydrated={() => []}
     />
   );

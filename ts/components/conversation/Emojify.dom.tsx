@@ -1,20 +1,11 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import type { CSSProperties, JSX } from 'react';
+import { useMemo } from 'react';
 import type { RenderTextCallbackType } from '../../types/Util.std.ts';
-import { splitByEmoji } from '../../util/emoji.std.ts';
 import { missingCaseError } from '../../util/missingCaseError.std.ts';
 import { FunInlineEmoji } from '../fun/FunEmoji.dom.tsx';
-import {
-  getEmojiVariantByKey,
-  getEmojiVariantKeyByValue,
-  isEmojiVariantValue,
-  isEmojiVariantValueNonQualified,
-} from '../fun/data/emojis.std.ts';
-import { createLogger } from '../../logging/log.std.ts';
-import { useFunEmojiLocalizer } from '../fun/useFunEmojiLocalizer.dom.tsx';
-
-const log = createLogger('Emojify');
+import { Emoji } from '../../axo/emoji.std.ts';
 
 export type Props = {
   fontSizeOverride?: number | null;
@@ -34,43 +25,31 @@ export function Emojify({
   renderNonEmoji = defaultRenderNonEmoji,
   style,
 }: Props): JSX.Element {
-  const emojiLocalizer = useFunEmojiLocalizer();
+  const segments = useMemo(() => {
+    return Array.from(Emoji.getSegments(text));
+  }, [text]);
+
   return (
     <>
-      {splitByEmoji(text).map(({ type, value: match }, index) => {
-        if (type === 'emoji') {
-          // If we don't recognize the emoji, render it as text.
-          if (!isEmojiVariantValue(match)) {
-            log.warn('Found emoji that we did not recognize', match.length);
-            return renderNonEmoji({ text: match, key: index });
-          }
-
-          // Render emoji as text if they are a non-qualified emoji value.
-          if (isEmojiVariantValueNonQualified(match)) {
-            return renderNonEmoji({ text: match, key: index });
-          }
-
-          const variantKey = getEmojiVariantKeyByValue(match);
-          const variant = getEmojiVariantByKey(variantKey);
-
+      {segments.map(segment => {
+        if (segment.kind === 'emoji') {
           return (
             <FunInlineEmoji
-              // oxlint-disable-next-line react/no-array-index-key
-              key={index}
+              key={segment.offset}
               role="img"
-              aria-label={emojiLocalizer.getLocaleShortName(variantKey)}
-              emoji={variant}
+              aria-label={Emoji.getDisplayLabel(segment.value)}
+              emoji={segment.value}
               size={fontSizeOverride}
               style={style}
             />
           );
         }
 
-        if (type === 'text') {
-          return renderNonEmoji({ text: match, key: index });
+        if (segment.kind === 'text') {
+          return renderNonEmoji({ text: segment.value, key: segment.offset });
         }
 
-        throw missingCaseError(type);
+        throw missingCaseError(segment);
       })}
     </>
   );

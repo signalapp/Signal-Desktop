@@ -4,7 +4,6 @@
 import lodash from 'lodash';
 import { createSelector } from 'reselect';
 import { direction as getDirection } from 'direction';
-import emojiRegex from 'emoji-regex';
 import LinkifyIt from 'linkify-it';
 import type { ReadonlyDeep } from 'type-fest';
 
@@ -181,6 +180,7 @@ import { LONG_MESSAGE } from '../../types/MIME.std.ts';
 import type { MessageRequestResponseNotificationData } from '../../components/conversation/MessageRequestResponseNotification.dom.tsx';
 import type { PinnedMessageNotificationData } from '../../components/conversation/pinned-messages/PinnedMessageNotification.dom.tsx';
 import type { PollTerminateNotificationDataType } from '../../components/conversation/PollTerminateNotification.dom.tsx';
+import { Emoji } from '../../axo/emoji.std.ts';
 
 const { groupBy, isEmpty, isNumber, isObject, map } = lodash;
 
@@ -807,8 +807,7 @@ function getPayment(
 
 export function cleanBodyForDirectionCheck(text: string): string {
   const MENTIONS_REGEX = getMentionsRegex();
-  const EMOJI_REGEX = emojiRegex();
-  const initial = text.replace(MENTIONS_REGEX, '').replace(EMOJI_REGEX, '');
+  const initial = Emoji.stripEmojiFromText(text.replace(MENTIONS_REGEX, ''));
 
   const linkMatches = linkify.match(initial);
 

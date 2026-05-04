@@ -64,10 +64,7 @@ import type { LocalizerType } from '../../../types/I18N.std.ts';
 import { isAbortError } from '../../../util/isAbortError.std.ts';
 import { createLogger } from '../../../logging/log.std.ts';
 import * as Errors from '../../../types/errors.std.ts';
-import {
-  EMOJI_VARIANT_KEY_CONSTANTS,
-  getEmojiVariantByKey,
-} from '../data/emojis.std.ts';
+import { Emoji } from '../../../axo/emoji.std.ts';
 import type { fetchGiphyFile } from '../../../state/smart/fun/giphy.preload.ts';
 import {
   getGifCdnUrlOrigin,
@@ -561,9 +558,7 @@ export function FunPanelGifs({
                   <FunStaticEmoji
                     size={16}
                     role="presentation"
-                    emoji={getEmojiVariantByKey(
-                      EMOJI_VARIANT_KEY_CONSTANTS.SLIGHTLY_FROWNING_FACE
-                    )}
+                    emoji={Emoji.SLIGHTLY_FROWNING_FACE}
                   />
                 </FunResultsHeader>
               )}

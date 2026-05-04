@@ -25,6 +25,7 @@ import {
 import { loadAllAndReinitializeRedux } from '../../services/allLoaders.preload.ts';
 import { itemStorage } from '../../textsecure/Storage.preload.ts';
 import { generateAci } from '../../test-helpers/serviceIdUtils.std.ts';
+import { Emoji } from '../../axo/emoji.std.ts';
 
 const CONTACT_A = generateAci();
 const GROUP_ID = Bytes.toBase64(getRandomBytes(32));
@@ -381,7 +382,7 @@ describe('backup/non-bubble messages', () => {
         ],
         reactions: [
           {
-            emoji: '👍',
+            emoji: Emoji.getDefaultVariant(Emoji.THUMBS_UP),
             fromId: contactA.id,
             targetTimestamp: 1,
             timestamp: 1,
@@ -408,7 +409,7 @@ describe('backup/non-bubble messages', () => {
         unidentifiedDeliveryReceived: true,
         // TODO (DESKTOP-6845): properly handle data FilePointer
         sticker: {
-          emoji: '👍',
+          emoji: Emoji.getDefaultVariant(Emoji.THUMBS_UP),
           packId: Bytes.toHex(getRandomBytes(16)),
           stickerId: 1,
           packKey: Bytes.toBase64(getRandomBytes(32)),
@@ -420,7 +421,7 @@ describe('backup/non-bubble messages', () => {
         },
         reactions: [
           {
-            emoji: '👍',
+            emoji: Emoji.getDefaultVariant(Emoji.THUMBS_UP),
             fromId: contactA.id,
             targetTimestamp: 1,
             timestamp: 1,

@@ -5,7 +5,6 @@ import { StrictMode, useSyncExternalStore, type JSX } from 'react';
 import { createRoot } from 'react-dom/client';
 import '../sandboxedInit.dom.ts';
 import { CallDiagnosticWindow } from '../../components/CallDiagnosticWindow.dom.tsx';
-import { FunDefaultEnglishEmojiLocalizationProvider } from '../../components/fun/FunEmojiLocalizationProvider.dom.tsx';
 import { strictAssert } from '../../util/assert.std.ts';
 import { AxoProvider } from '../../axo/AxoProvider.dom.tsx';
 
@@ -38,9 +37,7 @@ createRoot(app).render(
     <AxoProvider
       dir={window.SignalContext.getResolvedMessagesLocaleDirection()}
     >
-      <FunDefaultEnglishEmojiLocalizationProvider>
-        <App />
-      </FunDefaultEnglishEmojiLocalizationProvider>
+      <App />
     </AxoProvider>
   </StrictMode>
 );

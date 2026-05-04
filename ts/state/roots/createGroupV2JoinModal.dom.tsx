@@ -12,7 +12,6 @@ import type { Store } from 'redux';
 import { ModalHost } from '../../components/ModalHost.dom.tsx';
 import type { SmartGroupV2JoinDialogProps } from '../smart/GroupV2JoinDialog.dom.tsx';
 import { SmartGroupV2JoinDialog } from '../smart/GroupV2JoinDialog.dom.tsx';
-import { FunEmojiLocalizationProvider } from '../../components/fun/FunEmojiLocalizationProvider.dom.tsx';
 
 export const createGroupV2JoinModal = (
   store: Store,
@@ -22,11 +21,9 @@ export const createGroupV2JoinModal = (
 
   return (
     <Provider store={store}>
-      <FunEmojiLocalizationProvider i18n={window.SignalContext.i18n}>
-        <ModalHost modalName="createGroupV2JoinModal" onClose={onClose}>
-          <SmartGroupV2JoinDialog {...props} />
-        </ModalHost>
-      </FunEmojiLocalizationProvider>
+      <ModalHost modalName="createGroupV2JoinModal" onClose={onClose}>
+        <SmartGroupV2JoinDialog {...props} />
+      </ModalHost>
     </Provider>
   );
 };

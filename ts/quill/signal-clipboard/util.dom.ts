@@ -78,9 +78,9 @@ function getStringFromNode(
   }
   const element = node;
 
-  const emojiValue = getFunEmojiElementValue(element);
-  if (emojiValue != null) {
-    return emojiValue;
+  const emoji = getFunEmojiElementValue(element);
+  if (emoji != null) {
+    return emoji;
   }
 
   // Sometimes we need to add multiple newlines to represent nested divs, and other times

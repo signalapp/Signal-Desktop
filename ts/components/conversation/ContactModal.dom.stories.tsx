@@ -12,6 +12,7 @@ import { ThemeType } from '../../types/Util.std.ts';
 import { getDefaultConversation } from '../../test-helpers/getDefaultConversation.std.ts';
 import { getFakeBadges } from '../../test-helpers/getFakeBadge.std.ts';
 import { SignalService as Proto } from '../../protobuf/index.std.ts';
+import { Emoji } from '../../axo/emoji.std.ts';
 
 const ACCESS_ENUM = Proto.AccessControl.AccessRequired;
 
@@ -85,7 +86,7 @@ AsNonAdmin.args = {
 export const WithLabel = Template.bind({});
 WithLabel.args = {
   areWeAdmin: false,
-  contactLabelEmoji: '💪🏼',
+  contactLabelEmoji: Emoji.getVariant(Emoji.MUSCLE, Emoji.SkinTone.Type2),
   contactLabelString: 'Strong',
   contactNameColor: '180',
 };
@@ -100,28 +101,28 @@ WithLabelNoEmoji.args = {
 export const WithLabelInvalidEmoji = Template.bind({});
 WithLabelInvalidEmoji.args = {
   areWeAdmin: false,
-  contactLabelEmoji: '%',
+  contactLabelEmoji: Emoji.unsafeCastMaybeInvalidStringToVariant('%'),
   contactLabelString: 'Strong',
   contactNameColor: '220',
 };
 
 export const LongLabel = Template.bind({});
 LongLabel.args = {
-  contactLabelEmoji: '🐝',
+  contactLabelEmoji: Emoji.BEE,
   contactLabelString: '𒐫𒐫𒐫𒐫𒐫𒐫𒐫𒐫𒐫𒐫𒐫𒐫𒐫𒐫𒐫𒐫𒐫𒐫𒐫𒐫𒐫𒐫𒐫𒐫',
   contactNameColor: '270',
 };
 
 export const LongLabel2 = Template.bind({});
 LongLabel2.args = {
-  contactLabelEmoji: '🐝',
+  contactLabelEmoji: Emoji.BEE,
   contactLabelString: '﷽﷽﷽﷽﷽﷽﷽﷽﷽﷽﷽﷽﷽﷽﷽﷽﷽﷽﷽﷽﷽﷽﷽﷽',
   contactNameColor: '270',
 };
 
 export const LongLabelAllEmoji = Template.bind({});
 LongLabelAllEmoji.args = {
-  contactLabelEmoji: '🐝',
+  contactLabelEmoji: Emoji.BEE,
   contactLabelString: '🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝',
   contactNameColor: '270',
 };

@@ -32,11 +32,12 @@ import type {
 import { useScrollerLock } from '../../hooks/useScrollLock.dom.tsx';
 import { MessageContextMenu } from './MessageContextMenu.dom.tsx';
 import { ForwardMessagesModalType } from '../ForwardMessagesModal.dom.tsx';
-import { useGroupedAndOrderedReactions } from '../../util/groupAndOrderReactions.dom.ts';
+import { useGroupedAndOrderedReactions } from '../../util/groupAndOrderReactions.std.ts';
 import { isNotNil } from '../../util/isNotNil.std.ts';
 import type { AxoMenuBuilder } from '../../axo/AxoMenuBuilder.dom.tsx';
 import { AxoContextMenu } from '../../axo/AxoContextMenu.dom.tsx';
 import { useDocumentKeyDown } from '../../hooks/useDocumentKeyDown.dom.ts';
+import type { Emoji } from '../../axo/emoji.std.ts';
 
 const { useAxoContextMenuOutsideKeyboardTrigger } = AxoContextMenu;
 
@@ -53,7 +54,7 @@ export type PropsData = {
   canReact: boolean;
   canReply: boolean;
   canPinMessage: boolean;
-  selectedReaction?: string;
+  selectedReaction?: Emoji.Variant;
   isTargeted?: boolean;
   isSignalConversation: boolean;
 } & Omit<MessagePropsData, 'renderingContext' | 'menu'>;
@@ -66,7 +67,7 @@ export type PropsActions = {
   endPoll: (id: string) => void;
   reactToMessage: (
     id: string,
-    { emoji, remove }: { emoji: string; remove: boolean }
+    { emoji, remove }: { emoji: Emoji.Variant; remove: boolean }
   ) => void;
   retryMessageSend: (id: string) => void;
   sendPollVote: (params: {
@@ -309,13 +310,13 @@ export function TimelineMessage(props: Props): JSX.Element {
 
   const groupedReactions = useGroupedAndOrderedReactions(
     props.reactions,
-    'variantKey'
+    'variant'
   );
 
   const messageEmojis = useMemo(() => {
     return groupedReactions
       .map(groupedReaction => {
-        return groupedReaction?.[0]?.variantKey;
+        return groupedReaction?.[0]?.variant;
       })
       .filter(isNotNil);
   }, [groupedReactions]);

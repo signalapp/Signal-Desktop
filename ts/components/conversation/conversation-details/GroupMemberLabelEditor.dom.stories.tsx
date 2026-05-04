@@ -16,8 +16,28 @@ import { SECOND } from '../../../util/durations/constants.std.ts';
 import { sleep } from '../../../util/sleep.std.ts';
 import { SignalService as Proto } from '../../../protobuf/index.std.ts';
 import { ContactNameColors } from '../../../types/Colors.std.ts';
+import { Emoji } from '../../../axo/emoji.std.ts';
 
 const { i18n } = window.SignalContext;
+
+function getRandomEmoji() {
+  return sample([
+    Emoji.BLACK_CIRCLE,
+    Emoji.HEART,
+    Emoji.DOTTED_LINE_FACE,
+    Emoji.WHITE_HEART,
+    Emoji.TWO,
+    Emoji.THREE,
+    Emoji.CLINKING_GLASSES,
+    Emoji.CONFETTI_BALL,
+    Emoji.PLUS,
+    Emoji.FACE_WITH_SPIRAL_EYES,
+    Emoji.BIKE,
+    Emoji.DOG,
+    Emoji.CAT,
+    Emoji.HOUSE,
+  ]);
+}
 
 export default {
   title: 'Components/Conversation/ConversationDetails/GroupMemberLabelEditor',
@@ -25,7 +45,7 @@ export default {
 
 const createProps = (): PropsType => ({
   canAddLabel: true,
-  existingLabelEmoji: '🐘',
+  existingLabelEmoji: Emoji.ELEPHANT,
   existingLabelString: 'Good Memory',
   getPreferredBadge: () => undefined,
   group: getDefaultConversation({ type: 'group' }),
@@ -134,22 +154,7 @@ export function AFewMembersWithLabel(): JSX.Element {
         (contactNameColor, i) => ({
           member: getDefaultConversation(),
           isAdmin: i <= 2,
-          labelEmoji: sample([
-            '⚫',
-            '❤️',
-            '🫥',
-            '🤍',
-            '2️⃣',
-            '3️⃣',
-            '🥂',
-            '🎊',
-            '➕',
-            '😵‍💫',
-            '🚲',
-            '🐶',
-            '🐱',
-            '🏠',
-          ]),
+          labelEmoji: getRandomEmoji(),
           labelString:
             i % 2 === 0
               ? `Label number long long long long long long long long long ${i}`
@@ -170,22 +175,7 @@ export function LotsOfMembersWithLabel(): JSX.Element {
       membersWithLabel={ContactNameColors.map((contactNameColor, i) => ({
         member: getDefaultConversation(),
         isAdmin: i <= 6,
-        labelEmoji: sample([
-          '⚫',
-          '❤️',
-          '🫥',
-          '🤍',
-          '2️⃣',
-          '3️⃣',
-          '🥂',
-          '🎊',
-          '➕',
-          '😵‍💫',
-          '🚲',
-          '🐶',
-          '🐱',
-          '🏠',
-        ]),
+        labelEmoji: getRandomEmoji(),
         labelString:
           i % 2 === 0
             ? `Label number long long long long long long long long long ${i}`

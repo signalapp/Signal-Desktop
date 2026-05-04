@@ -49,13 +49,14 @@ import {
 } from '../jobs/conversationJobQueue.preload.ts';
 import { maybeNotify } from '../messages/maybeNotify.preload.ts';
 import { itemStorage } from '../textsecure/Storage.preload.ts';
+import type { Emoji } from '../axo/emoji.std.ts';
 
 const { maxBy } = lodash;
 
 const log = createLogger('Reactions');
 
 export type ReactionAttributesType = {
-  emoji: string;
+  emoji: Emoji.Variant;
   envelopeId: string;
   fromId: string;
   remove?: boolean;

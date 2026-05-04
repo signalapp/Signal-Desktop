@@ -8,8 +8,8 @@ import { getDefaultConversation } from '../test-helpers/getDefaultConversation.s
 import type { Props } from './CompositionInput.dom.tsx';
 import { CompositionInput } from './CompositionInput.dom.tsx';
 import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext.std.ts';
-import { EmojiSkinTone } from './fun/data/emojis.std.ts';
 import { generateAci } from '../test-helpers/serviceIdUtils.std.ts';
+import { Emoji } from '../axo/emoji.std.ts';
 
 const { i18n } = window.SignalContext;
 
@@ -46,7 +46,7 @@ const useProps = (overrideProps: Partial<Props> = {}): Props => {
     sendCounter: 0,
     sortedGroupMembers: overrideProps.sortedGroupMembers ?? [],
     emojiSkinToneDefault:
-      overrideProps.emojiSkinToneDefault ?? EmojiSkinTone.None,
+      overrideProps.emojiSkinToneDefault ?? Emoji.SkinTone.None,
     theme: useContext(StorybookThemeContext),
     inputApi: null,
     shouldHidePopovers: null,

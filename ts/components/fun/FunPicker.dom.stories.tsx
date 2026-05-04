@@ -12,7 +12,7 @@ import {
   MOCK_GIFS_PAGINATED_ONE_PAGE,
   MOCK_RECENT_EMOJIS,
 } from '../../test-helpers/funPickerMocks.dom.tsx';
-import { EmojiSkinTone } from './data/emojis.std.ts';
+import { Emoji } from '../../axo/emoji.std.ts';
 
 const { i18n } = window.SignalContext;
 
@@ -33,7 +33,7 @@ function Template(props: TemplateProps) {
       recentStickers={recentStickers}
       recentGifs={[]}
       // Emojis
-      emojiSkinToneDefault={EmojiSkinTone.None}
+      emojiSkinToneDefault={Emoji.SkinTone.None}
       onEmojiSkinToneDefaultChange={() => null}
       onOpenCustomizePreferredReactionsModal={() => null}
       onSelectEmoji={() => null}

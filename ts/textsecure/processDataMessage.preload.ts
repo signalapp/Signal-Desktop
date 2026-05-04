@@ -56,6 +56,7 @@ import { isNotNil } from '../util/isNotNil.std.ts';
 import { createLogger } from '../logging/log.std.ts';
 
 import { toNumber } from '../util/toNumber.std.ts';
+import { Emoji } from '../axo/emoji.std.ts';
 
 const { isNumber } = lodash;
 
@@ -317,7 +318,10 @@ function processSticker(
     packId: sticker.packId ? Bytes.toHex(sticker.packId) : undefined,
     packKey: sticker.packKey ? Bytes.toBase64(sticker.packKey) : undefined,
     stickerId: sticker.stickerId ?? 0,
-    emoji: sticker.emoji ?? '',
+    emoji:
+      sticker.emoji != null
+        ? Emoji.unsafeCastMaybeInvalidStringToVariant(sticker.emoji)
+        : undefined,
     data: processAttachment(sticker.data),
   };
 }
@@ -338,7 +342,10 @@ function processReaction(
   );
 
   return {
-    emoji: reaction.emoji ?? '',
+    emoji:
+      reaction.emoji != null
+        ? Emoji.unsafeCastMaybeInvalidStringToVariant(reaction.emoji)
+        : undefined,
     remove: Boolean(reaction.remove),
     targetAuthorAci,
     targetTimestamp: toNumber(reaction.targetSentTimestamp) ?? 0,

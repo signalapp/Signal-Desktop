@@ -11,8 +11,6 @@ import { ProgressModal } from '../components/ProgressModal.dom.tsx';
 import { clearTimeoutIfNecessary } from './clearTimeoutIfNecessary.std.ts';
 import { sleep } from './sleep.std.ts';
 // oxlint-disable-next-line signal-desktop/no-restricted-paths
-import { FunDefaultEnglishEmojiLocalizationProvider } from '../components/fun/FunEmojiLocalizationProvider.dom.tsx';
-// oxlint-disable-next-line signal-desktop/no-restricted-paths
 import { AxoProvider } from '../axo/AxoProvider.dom.tsx';
 
 const log = createLogger('longRunningTaskWrapper');
@@ -45,9 +43,7 @@ export async function longRunningTaskWrapper<T>({
     progressRoot.render(
       <StrictMode>
         <AxoProvider dir={i18n.getLocaleDirection()}>
-          <FunDefaultEnglishEmojiLocalizationProvider>
-            <ProgressModal i18n={i18n} description={spinnerText} />
-          </FunDefaultEnglishEmojiLocalizationProvider>
+          <ProgressModal i18n={i18n} description={spinnerText} />
         </AxoProvider>
       </StrictMode>
     );

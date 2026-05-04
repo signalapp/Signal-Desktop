@@ -3,6 +3,7 @@
 
 # Generated files
 build/**/*.js
+build/**/*.json
 app/**/*.js
 config/local-*.json
 config/local.json
@@ -30,6 +31,7 @@ packages/lame/lame-*/
 danger/node_modules/**
 sticker-creator/node_modules/**
 components/**
+scripts/emoji-datasource/emoji-datasource.json
 
 # Assets
 /images/

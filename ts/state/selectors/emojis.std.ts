@@ -2,14 +2,16 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { createSelector } from 'reselect';
-import { useSelector } from 'react-redux';
 import type { StateType } from '../reducer.preload.ts';
-import { isEmojiEnglishShortName } from '../../components/fun/data/emojis.std.ts';
+import type { EmojisStateType } from '../ducks/emojis.preload.ts';
+import type { StateSelector } from '../types.std.ts';
+import type { Emoji } from '../../axo/emoji.std.ts';
 
-export const selectRecentEmojis = createSelector(
-  ({ emojis }: StateType) => emojis.recents,
-  recents => recents.filter(isEmojiEnglishShortName)
-);
+function selectEmojisState(state: StateType): EmojisStateType {
+  return state.emojis;
+}
 
-export const useRecentEmojis = (): Array<string> =>
-  useSelector(selectRecentEmojis);
+export const selectRecentEmojis: StateSelector<ReadonlyArray<Emoji.Parent>> =
+  createSelector(selectEmojisState, state => {
+    return state.recentEmojis;
+  });

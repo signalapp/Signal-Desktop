@@ -70,7 +70,6 @@ import { updateIdentityKey } from './services/profiles.preload.ts';
 import { initializeUpdateListener } from './services/updateListener.preload.ts';
 import { RoutineProfileRefresher } from './routineProfileRefresh.preload.ts';
 import { isOlderThan } from './util/timestamp.std.ts';
-import { isValidReactionEmoji } from './reactions/isValidReactionEmoji.std.ts';
 import { safeParsePartial } from './util/schemas.std.ts';
 import { PollVoteSchema, PollTerminateSchema } from './types/Polls.dom.ts';
 import type { ConversationModel } from './models/conversations.preload.ts';
@@ -295,6 +294,7 @@ import { initMessageCleanup } from './services/messageStateCleanup.dom.ts';
 import { MessageCache } from './services/MessageCache.preload.ts';
 import { saveAndNotify } from './messages/saveAndNotify.preload.ts';
 import { getBackupKeyHash } from './services/backups/crypto.preload.ts';
+import { Emoji } from './axo/emoji.std.ts';
 
 const { isNumber, throttle } = lodash;
 
@@ -2547,7 +2547,13 @@ async function startApp(): Promise<void> {
 
       const { reaction, timestamp } = data.message;
 
-      if (!isValidReactionEmoji(reaction.emoji)) {
+      if (reaction.emoji == null) {
+        log.warn('Received a reaction without an emoji. Dropping it');
+        confirm();
+        return;
+      }
+
+      if (!Emoji.isEmoji(reaction.emoji)) {
         log.warn('Received an invalid reaction emoji. Dropping it');
         confirm();
         return;
@@ -3103,7 +3109,13 @@ async function startApp(): Promise<void> {
         'Reaction without targetAuthorAci'
       );
 
-      if (!isValidReactionEmoji(reaction.emoji)) {
+      if (reaction.emoji == null) {
+        log.warn('Received a reaction without an emoji. Dropping it');
+        confirm();
+        return;
+      }
+
+      if (!Emoji.isEmoji(reaction.emoji)) {
         log.warn('Received an invalid reaction emoji. Dropping it');
         confirm();
         return;

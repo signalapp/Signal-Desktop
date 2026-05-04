@@ -121,7 +121,7 @@ describe('Link previews', () => {
 
       const expected = ['https://github.com/signalapp/Signal-Desktop'];
 
-      const actual = findLinks(text, 45);
+      const actual = findLinks(text, 46);
       assert.deepEqual(expected, actual);
     });
 
@@ -130,7 +130,7 @@ describe('Link previews', () => {
 
       const expected = ['https://github.com/signalapp/Signal-Desktop'];
 
-      const actual = findLinks(text, 45);
+      const actual = findLinks(text, 52);
       assert.deepEqual(expected, actual);
     });
 

@@ -14,11 +14,12 @@ import lodash from 'lodash';
 import { v4 as uuid } from 'uuid';
 import { Emojify } from './conversation/Emojify.dom.tsx';
 import { useReducedMotion } from '../hooks/useReducedMotion.dom.ts';
+import type { Emoji } from '../axo/emoji.std.ts';
 
 const { random } = lodash;
 
 export type PropsType = {
-  values: Array<string>;
+  values: Array<Emoji>;
   onAnimationEnd?: () => unknown;
 };
 
@@ -109,7 +110,7 @@ export function CallReactionBurstEmoji({ values }: PropsType): JSX.Element {
 }
 
 type AnimatedEmojiProps = {
-  value: string;
+  value: Emoji;
   fromRotate: number;
   fromX: number;
   fromY: number;

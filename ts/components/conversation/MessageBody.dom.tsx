@@ -12,30 +12,30 @@ import type { RenderLocation } from './MessageTextRenderer.dom.tsx';
 import { UserText } from '../UserText.dom.tsx';
 import { shouldLinkifyMessage } from '../../types/LinkPreview.std.ts';
 import { FunJumboEmojiSize } from '../fun/FunEmoji.dom.tsx';
-import { getEmojifyData } from '../fun/data/emojis.std.ts';
+import { Emoji } from '../../axo/emoji.std.ts';
+import { missingCaseError } from '../../util/missingCaseError.std.ts';
 
 function getSizeClass(str: string): FunJumboEmojiSize | null {
-  const emojifyData = getEmojifyData(str);
-  // Do we have non-emoji characters?
-  if (!emojifyData.isEmojiOnlyText) {
+  const count = Emoji.getJumboEmojiCount(str);
+  if (count == null) {
     return null;
   }
-  if (emojifyData.emojiCount === 1) {
+  if (count === 1) {
     return FunJumboEmojiSize.Max;
   }
-  if (emojifyData.emojiCount === 2) {
+  if (count === 2) {
     return FunJumboEmojiSize.ExtraLarge;
   }
-  if (emojifyData.emojiCount === 3) {
+  if (count === 3) {
     return FunJumboEmojiSize.Large;
   }
-  if (emojifyData.emojiCount === 4) {
+  if (count === 4) {
     return FunJumboEmojiSize.Medium;
   }
-  if (emojifyData.emojiCount === 5) {
+  if (count === 5) {
     return FunJumboEmojiSize.Small;
   }
-  return null;
+  throw missingCaseError(count);
 }
 
 export type Props = {

@@ -12,7 +12,7 @@ import { SendStatus } from '../messages/MessageSendState.std.ts';
 import { StoryViewsNRepliesModal } from './StoryViewsNRepliesModal.dom.tsx';
 import { getDefaultConversation } from '../test-helpers/getDefaultConversation.std.ts';
 import { StoryViewTargetType } from '../types/Stories.std.ts';
-import { DEFAULT_PREFERRED_REACTION_EMOJI } from '../reactions/constants.std.ts';
+import { Emoji } from '../axo/emoji.std.ts';
 
 const { i18n } = window.SignalContext;
 
@@ -40,7 +40,9 @@ export default {
     onReply: action('onReply'),
     onTextTooLong: action('onTextTooLong'),
     onSelectEmoji: action('onSelectEmoji'),
-    preferredReactionEmoji: DEFAULT_PREFERRED_REACTION_EMOJI,
+    preferredReactionEmoji: Emoji.getDefaultPreferredReactionEmojis(
+      Emoji.SkinTone.None
+    ),
     replies: [],
     views: [],
     viewTarget: StoryViewTargetType.Views,
@@ -119,7 +121,7 @@ function getViewsAndReplies() {
       author: p4,
       conversationId: p4.id,
       id: generateUuid(),
-      reactionEmoji: '❤️',
+      reactionEmoji: Emoji.HEART,
       timestamp: Date.now() - 5 * durations.MINUTE,
     },
     {

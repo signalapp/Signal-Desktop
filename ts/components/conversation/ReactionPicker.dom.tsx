@@ -16,19 +16,18 @@ import {
   ReactionPickerPickerEmojiButton,
   ReactionPickerPickerStyle,
 } from '../ReactionPickerPicker.dom.tsx';
-import type { EmojiVariantKey } from '../fun/data/emojis.std.ts';
-import { getEmojiVariantByKey } from '../fun/data/emojis.std.ts';
 import { FunEmojiPicker } from '../fun/FunEmojiPicker.dom.tsx';
 import type { FunEmojiSelection } from '../fun/panels/FunPanelEmojis.dom.tsx';
+import type { Emoji } from '../../axo/emoji.std.ts';
 
 export type OwnProps = {
   i18n: LocalizerType;
-  selected?: string;
+  selected?: Emoji.Variant;
   onClose?: () => unknown;
-  onPick: (emoji: string) => unknown;
-  preferredReactionEmoji: ReadonlyArray<string>;
+  onPick: (emoji: Emoji.Variant) => unknown;
+  preferredReactionEmoji: ReadonlyArray<Emoji.Variant>;
   theme?: ThemeType;
-  messageEmojis?: ReadonlyArray<EmojiVariantKey>;
+  messageEmojis?: ReadonlyArray<Emoji.Variant>;
 };
 
 export type Props = OwnProps & Pick<HTMLProps<HTMLDivElement>, 'style'>;
@@ -70,8 +69,7 @@ export const ReactionPicker = forwardRef<HTMLDivElement, Props>(
 
     const onSelectEmoji = useCallback(
       (emojiSelection: FunEmojiSelection) => {
-        const variant = getEmojiVariantByKey(emojiSelection.variantKey);
-        onPick(variant.value);
+        onPick(emojiSelection.emoji);
       },
       [onPick]
     );

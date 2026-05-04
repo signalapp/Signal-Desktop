@@ -8,11 +8,11 @@ import { Modal } from './Modal.dom.tsx';
 import type { HydratedBodyRangesType } from '../types/BodyRange.std.ts';
 import type { SmartCompositionTextAreaProps } from '../state/smart/CompositionTextArea.preload.tsx';
 import type { ThemeType } from '../types/Util.std.ts';
-import { EmojiSkinTone } from './fun/data/emojis.std.ts';
 import { FunGifPreview } from './fun/FunGif.dom.tsx';
 import type { FunGifSelection } from './fun/panels/FunPanelGifs.dom.tsx';
 import type { GifDownloadState } from '../state/smart/DraftGifMessageSendModal.preload.tsx';
 import { LoadingState } from '../util/loadable.std.ts';
+import { Emoji } from '../axo/emoji.std.ts';
 
 export type DraftGifMessageSendModalProps = Readonly<{
   i18n: LocalizerType;
@@ -98,7 +98,7 @@ export function DraftGifMessageSendModal(
         onChange={props.onChange}
         onSubmit={props.onSubmit}
         theme={props.theme}
-        emojiSkinToneDefault={EmojiSkinTone.None}
+        emojiSkinToneDefault={Emoji.SkinTone.None}
       />
     </Modal>
   );

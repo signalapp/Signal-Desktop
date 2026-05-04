@@ -7,7 +7,6 @@ import { createRoot } from 'react-dom/client';
 import '../sandboxedInit.dom.ts';
 import { About } from '../../components/About.dom.tsx';
 import { strictAssert } from '../../util/assert.std.ts';
-import { FunDefaultEnglishEmojiLocalizationProvider } from '../../components/fun/FunEmojiLocalizationProvider.dom.tsx';
 import { AxoProvider } from '../../axo/AxoProvider.dom.tsx';
 
 const { AboutWindowProps } = window.Signal;
@@ -23,16 +22,14 @@ createRoot(app).render(
     <AxoProvider
       dir={window.SignalContext.getResolvedMessagesLocaleDirection()}
     >
-      <FunDefaultEnglishEmojiLocalizationProvider>
-        <About
-          closeAbout={() => window.SignalContext.executeMenuRole('close')}
-          appEnv={AboutWindowProps.appEnv}
-          platform={AboutWindowProps.platform}
-          arch={AboutWindowProps.arch}
-          i18n={i18n}
-          version={window.SignalContext.getVersion()}
-        />
-      </FunDefaultEnglishEmojiLocalizationProvider>
+      <About
+        closeAbout={() => window.SignalContext.executeMenuRole('close')}
+        appEnv={AboutWindowProps.appEnv}
+        platform={AboutWindowProps.platform}
+        arch={AboutWindowProps.arch}
+        i18n={i18n}
+        version={window.SignalContext.getVersion()}
+      />
     </AxoProvider>
   </StrictMode>
 );

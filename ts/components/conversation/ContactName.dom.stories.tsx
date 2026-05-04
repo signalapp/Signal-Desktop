@@ -7,6 +7,7 @@ import type { Meta } from '@storybook/react';
 import type { PropsType } from './ContactName.dom.tsx';
 import { ContactName } from './ContactName.dom.tsx';
 import { ContactNameColors } from '../../types/Colors.std.ts';
+import { Emoji } from '../../axo/emoji.std.ts';
 
 export default {
   title: 'Components/Conversation/ContactName',
@@ -32,7 +33,7 @@ export function WithLongLabel(): JSX.Element {
       <ContactName
         title="Troublemaker"
         contactLabel={{
-          labelEmoji: '✅',
+          labelEmoji: Emoji.CHECKMARK,
           labelString:
             "this is a long label. really long. why don't we see what happens?",
         }}
@@ -48,7 +49,7 @@ export function WithLabelWithBigUnicode(): JSX.Element {
       <ContactName
         title="Troublemaker"
         contactLabel={{
-          labelEmoji: '✅',
+          labelEmoji: Emoji.CHECKMARK,
           labelString: '𒐫𒐫𒐫𒐫𒐫𒐫𒐫𒐫𒐫𒐫𒐫𒐫𒐫𒐫𒐫𒐫𒐫𒐫𒐫𒐫𒐫𒐫𒐫𒐫',
         }}
         contactNameColor="140"
@@ -77,7 +78,10 @@ export function ColorsWithLabels(): JSX.Element {
           <ContactName
             title={`Hello ${color}`}
             contactNameColor={color}
-            contactLabel={{ labelEmoji: '✅', labelString: 'Task Wrangler' }}
+            contactLabel={{
+              labelEmoji: Emoji.CHECKMARK,
+              labelString: 'Task Wrangler',
+            }}
           />
         </div>
       ))}
@@ -113,7 +117,7 @@ export function ColorsWithInvalidLabelEmoji(): JSX.Element {
             title={`Hello ${color}`}
             contactNameColor={color}
             contactLabel={{
-              labelEmoji: '&',
+              labelEmoji: Emoji.unsafeCastMaybeInvalidStringToVariant('&'),
               labelString: 'Task Wrangler',
             }}
           />

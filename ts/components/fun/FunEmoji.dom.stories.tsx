@@ -6,13 +6,7 @@ import { useCallback, useEffect, useRef, type JSX } from 'react';
 import { type ComponentMeta } from '../../storybook/types.std.ts';
 import type { FunStaticEmojiProps } from './FunEmoji.dom.tsx';
 import { FunInlineEmoji, FunStaticEmoji } from './FunEmoji.dom.tsx';
-import {
-  _getAllEmojiVariantKeys,
-  EMOJI_VARIANT_KEY_CONSTANTS,
-  getEmojiParentByKey,
-  getEmojiParentKeyByVariantKey,
-  getEmojiVariantByKey,
-} from './data/emojis.std.ts';
+import { Emoji } from '../../axo/emoji.std.ts';
 
 const { chunk } = lodash;
 
@@ -31,9 +25,11 @@ const COLUMNS = 8;
 
 type AllProps = Pick<FunStaticEmojiProps, 'size'>;
 
+const ALL_VARIANTS = Array.from(Emoji.iterateAllVariants());
+
 export function All(props: AllProps): JSX.Element {
   const scrollerRef = useRef<HTMLDivElement>(null);
-  const data = Array.from(_getAllEmojiVariantKeys());
+  const data = ALL_VARIANTS;
   const rows = chunk(data, COLUMNS);
 
   const getScrollElement = useCallback(() => {
@@ -95,19 +91,15 @@ export function All(props: AllProps): JSX.Element {
                 alignItems: 'center',
               }}
             >
-              {row.map(emojiVariantKey => {
-                const variant = getEmojiVariantByKey(emojiVariantKey);
-                const parentKey =
-                  getEmojiParentKeyByVariantKey(emojiVariantKey);
-                const parent = getEmojiParentByKey(parentKey);
+              {row.map(variant => {
                 return (
                   <div
-                    key={emojiVariantKey}
+                    key={variant}
                     style={{ display: 'flex', outline: '1px solid' }}
                   >
                     <FunStaticEmoji
                       role="img"
-                      aria-label={parent.englishShortNameDefault}
+                      aria-label={Emoji.getDisplayLabel(variant)}
                       size={props.size}
                       emoji={variant}
                     />
@@ -122,10 +114,6 @@ export function All(props: AllProps): JSX.Element {
   );
 }
 
-const FRIED_SHRIMP = getEmojiVariantByKey(
-  EMOJI_VARIANT_KEY_CONSTANTS.FRIED_SHRIMP
-);
-
 export function Inline(): JSX.Element {
   return (
     <div style={{ userSelect: 'none' }}>
@@ -133,7 +121,7 @@ export function Inline(): JSX.Element {
         <FunInlineEmoji
           role="img"
           aria-label="Fried Shrimp"
-          emoji={FRIED_SHRIMP}
+          emoji={Emoji.FRIED_SHRIMP}
         />{' '}
         Lorem, ipsum dolor sit amet consectetur adipisicing elit. Repellat
         voluptates, mollitia tempora alias libero repudiandae nesciunt. Deleniti
@@ -142,7 +130,7 @@ export function Inline(): JSX.Element {
         <FunInlineEmoji
           role="img"
           aria-label="Fried Shrimp"
-          emoji={FRIED_SHRIMP}
+          emoji={Emoji.FRIED_SHRIMP}
         />{' '}
         Consectetur quibusdam accusantium magni ipsum nemo eligendi quisquam
         dolor, recusandae vero dolore reiciendis doloribus ducimus officiis
@@ -151,7 +139,7 @@ export function Inline(): JSX.Element {
         <FunInlineEmoji
           role="img"
           aria-label="Fried Shrimp"
-          emoji={FRIED_SHRIMP}
+          emoji={Emoji.FRIED_SHRIMP}
         />
       </p>
     </div>

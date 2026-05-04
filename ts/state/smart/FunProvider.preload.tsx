@@ -13,11 +13,6 @@ import {
   getRecentStickers,
 } from '../selectors/stickers.std.ts';
 import { strictAssert } from '../../util/assert.std.ts';
-import type { EmojiSkinTone } from '../../components/fun/data/emojis.std.ts';
-import {
-  getEmojiParentKeyByEnglishShortName,
-  isEmojiEnglishShortName,
-} from '../../components/fun/data/emojis.std.ts';
 import {
   getEmojiSkinToneDefault,
   getShowStickerPickerHint,
@@ -35,6 +30,7 @@ import { useStickersActions } from '../ducks/stickers.preload.ts';
 import type { FunStickerSelection } from '../../components/fun/panels/FunPanelStickers.dom.tsx';
 import type { FunEmojiSelection } from '../../components/fun/panels/FunPanelEmojis.dom.tsx';
 import { getRecentGifs } from '../selectors/gifs.std.ts';
+import { Emoji } from '../../axo/emoji.std.ts';
 
 export type SmartFunProviderProps = Readonly<{
   children: ReactNode;
@@ -60,17 +56,14 @@ export const SmartFunProvider = memo(function SmartFunProvider(
 
   // Translate recent emojis to keys
   const recentEmojisKeys = useMemo(() => {
-    return recentEmojis.map(emojiShortName => {
-      strictAssert(
-        isEmojiEnglishShortName(emojiShortName),
-        `Invalid short name: ${emojiShortName}`
-      );
-      return getEmojiParentKeyByEnglishShortName(emojiShortName);
+    return recentEmojis.map(emoji => {
+      strictAssert(Emoji.isParent(emoji), `Invalid emoji parent: ${emoji}`);
+      return emoji;
     });
   }, [recentEmojis]);
 
   const handleEmojiSkinToneDefaultChange = useCallback(
-    (emojiSkinTone: EmojiSkinTone) => {
+    (emojiSkinTone: Emoji.SkinTone) => {
       setEmojiSkinToneDefault(emojiSkinTone);
     },
     [setEmojiSkinToneDefault]

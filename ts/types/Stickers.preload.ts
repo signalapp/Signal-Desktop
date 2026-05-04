@@ -51,6 +51,7 @@ import {
   getStickerPackManifest,
 } from '../textsecure/WebAPI.preload.ts';
 import { getExistingAttachmentDataForReuse } from '../util/attachments/deduplicateAttachment.preload.ts';
+import { Emoji } from '../axo/emoji.std.ts';
 
 const { isNumber, reject, groupBy, values, chunk } = lodash;
 
@@ -66,7 +67,7 @@ export type StickerType = {
   packId: string;
   stickerId: number;
   packKey: string;
-  emoji?: string;
+  emoji?: Emoji.Variant;
   data?: AttachmentType;
   path?: string;
   width?: number;
@@ -464,7 +465,10 @@ async function downloadSticker(
 
   return {
     id,
-    emoji: dropNull(emoji),
+    emoji:
+      emoji != null
+        ? Emoji.unsafeCastMaybeInvalidStringToVariant(emoji)
+        : undefined,
     ...sticker,
     packId,
   };

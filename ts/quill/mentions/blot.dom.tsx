@@ -8,7 +8,6 @@ import { createRoot } from 'react-dom/client';
 import { Emojify } from '../../components/conversation/Emojify.dom.tsx';
 import { normalizeAci } from '../../util/normalizeAci.std.ts';
 import type { MentionBlotValue } from '../util.dom.ts';
-import { FunEmojiLocalizationProvider } from '../../components/fun/FunEmojiLocalizationProvider.dom.tsx';
 import { AxoProvider } from '../../axo/AxoProvider.dom.tsx';
 
 const { i18n } = window.SignalContext;
@@ -52,14 +51,12 @@ export class MentionBlot extends EmbedBlot {
     createRoot(mentionSpan).render(
       <StrictMode>
         <AxoProvider dir={i18n.getLocaleDirection()}>
-          <FunEmojiLocalizationProvider i18n={i18n}>
-            <span className="module-composition-input__at-mention">
-              <bdi>
-                @
-                <Emojify text={mention.title} />
-              </bdi>
-            </span>
-          </FunEmojiLocalizationProvider>
+          <span className="module-composition-input__at-mention">
+            <bdi>
+              @
+              <Emojify text={mention.title} />
+            </bdi>
+          </span>
         </AxoProvider>
       </StrictMode>
     );

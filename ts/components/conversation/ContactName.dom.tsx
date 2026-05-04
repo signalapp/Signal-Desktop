@@ -8,12 +8,6 @@ import type { ReactNode, JSX, MouseEvent } from 'react';
 
 import { getClassNamesFor } from '../../util/getClassNamesFor.std.ts';
 import { isSignalConversation as getIsSignalConversation } from '../../util/isSignalConversation.dom.ts';
-import {
-  getEmojiVariantByKey,
-  getEmojiVariantKeyByValue,
-  isEmojiVariantValue,
-} from '../fun/data/emojis.std.ts';
-import { useFunEmojiLocalizer } from '../fun/useFunEmojiLocalizer.dom.tsx';
 import { FunStaticEmoji } from '../fun/FunEmoji.dom.tsx';
 import { missingEmojiPlaceholder } from '../../types/GroupMemberLabels.std.ts';
 
@@ -23,10 +17,11 @@ import type { ContactNameColorType } from '../../types/Colors.std.ts';
 import type { FunStaticEmojiSize } from '../fun/FunEmoji.dom.tsx';
 import { UserText } from '../UserText.dom.tsx';
 import { OfficialChatInlineBadge } from './OfficialChatInlineBadge.dom.tsx';
+import { Emoji } from '../../axo/emoji.std.ts';
 
 export type ContactNameData = {
   contactNameColor?: ContactNameColorType;
-  contactLabel?: { labelString: string; labelEmoji: string | undefined };
+  contactLabel?: { labelString: string; labelEmoji: Emoji.Variant | undefined };
   firstName?: string;
   isSignalConversation?: boolean;
   isMe?: boolean;
@@ -134,7 +129,6 @@ export function GroupMemberLabel({
   context: Context;
   module?: string;
 }): ReactNode {
-  const emojiLocalizer = useFunEmojiLocalizer();
   const getClassName = getClassNamesFor('module-contact-name', module);
 
   if (!contactLabel) {
@@ -144,10 +138,7 @@ export function GroupMemberLabel({
   const { labelEmoji, labelString } = contactLabel;
 
   let emojiElement;
-  if (labelEmoji && isEmojiVariantValue(labelEmoji)) {
-    const emojiKey = getEmojiVariantKeyByValue(labelEmoji);
-    const emojiData = getEmojiVariantByKey(emojiKey);
-
+  if (labelEmoji && Emoji.isEmoji(labelEmoji)) {
     emojiElement = (
       <span
         className={classNames(
@@ -157,9 +148,9 @@ export function GroupMemberLabel({
       >
         <FunStaticEmoji
           role="img"
-          aria-label={emojiLocalizer.getLocaleShortName(emojiData.key)}
+          aria-label={Emoji.getDisplayLabel(labelEmoji)}
           size={emojiSize}
-          emoji={emojiData}
+          emoji={Emoji.ignorePreferredSkinTone(labelEmoji)}
         />
       </span>
     );

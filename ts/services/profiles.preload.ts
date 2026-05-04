@@ -57,6 +57,7 @@ import { ProfileDecryptError } from '../types/errors.std.ts';
 import { signalProtocolStore } from '../SignalProtocolStore.preload.ts';
 import { itemStorage } from '../textsecure/Storage.preload.ts';
 import { runMegaphoneCheck } from './megaphone.preload.ts';
+import { Emoji } from '../axo/emoji.std.ts';
 
 const log = createLogger('profiles');
 
@@ -684,7 +685,11 @@ async function doGetProfile(
   if (isFieldDefined(profile.aboutEmoji)) {
     if (updatedDecryptionKey != null) {
       const decrypted = decryptField(profile.aboutEmoji, updatedDecryptionKey);
-      c.set({ aboutEmoji: formatTextField(decrypted) });
+      c.set({
+        aboutEmoji: Emoji.unsafeCastMaybeInvalidStringToVariant(
+          formatTextField(decrypted)
+        ),
+      });
     }
   } else {
     c.set({ aboutEmoji: undefined });

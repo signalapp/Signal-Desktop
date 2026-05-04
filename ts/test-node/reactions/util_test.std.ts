@@ -14,6 +14,7 @@ import {
   markOutgoingReactionFailed,
   markOutgoingReactionSent,
 } from '../../reactions/util.std.ts';
+import { Emoji } from '../../axo/emoji.std.ts';
 
 const { omit } = lodash;
 
@@ -21,7 +22,7 @@ describe('reaction utilities', () => {
   const OUR_CONVO_ID = uuid();
 
   const rxn = (
-    emoji: undefined | string,
+    emoji: undefined | Emoji.Variant,
     { isPending = false }: Readonly<{ isPending?: boolean }> = {}
   ): MessageReactionType => ({
     emoji,
@@ -33,19 +34,19 @@ describe('reaction utilities', () => {
 
   describe('addOutgoingReaction', () => {
     it('adds the reaction to the end of an empty list', () => {
-      const reaction = rxn('💅');
+      const reaction = rxn(Emoji.getDefaultVariant(Emoji.NAIL_CARE));
       const result = addOutgoingReaction([], reaction);
       assert.deepStrictEqual(result, [reaction]);
     });
 
     it('removes all pending reactions', () => {
       const oldReactions = [
-        { ...rxn('😭', { isPending: true }), timestamp: 3 },
-        { ...rxn('💬'), fromId: uuid() },
-        { ...rxn('🥀', { isPending: true }), timestamp: 1 },
-        { ...rxn('🌹', { isPending: true }), timestamp: 2 },
+        { ...rxn(Emoji.SOB, { isPending: true }), timestamp: 3 },
+        { ...rxn(Emoji.SPEECH_BALLOON), fromId: uuid() },
+        { ...rxn(Emoji.WILTED_FLOWER, { isPending: true }), timestamp: 1 },
+        { ...rxn(Emoji.ROSE, { isPending: true }), timestamp: 2 },
       ] as const;
-      const reaction = rxn('😀');
+      const reaction = rxn(Emoji.GRINNING);
       const newReactions = addOutgoingReaction(oldReactions, reaction);
       assert.deepStrictEqual(newReactions, [oldReactions[1], reaction]);
     });
@@ -53,20 +54,22 @@ describe('reaction utilities', () => {
 
   describe('getNewestPendingOutgoingReaction', () => {
     it('returns undefined if there are no pending outgoing reactions', () => {
-      [[], [rxn('🔔')], [rxn('😭'), { ...rxn('💬'), fromId: uuid() }]].forEach(
-        oldReactions => {
-          assert.deepStrictEqual(
-            getNewestPendingOutgoingReaction(oldReactions, OUR_CONVO_ID),
-            {}
-          );
-        }
-      );
+      [
+        [],
+        [rxn(Emoji.BELL)],
+        [rxn(Emoji.SOB), { ...rxn(Emoji.SPEECH_BALLOON), fromId: uuid() }],
+      ].forEach(oldReactions => {
+        assert.deepStrictEqual(
+          getNewestPendingOutgoingReaction(oldReactions, OUR_CONVO_ID),
+          {}
+        );
+      });
     });
 
     it("returns undefined if there's a pending reaction before a fully sent one", () => {
       const oldReactions = [
-        { ...rxn('⭐️'), timestamp: 2 },
-        { ...rxn('🔥', { isPending: true }), timestamp: 1 },
+        { ...rxn(Emoji.STAR), timestamp: 2 },
+        { ...rxn(Emoji.FIRE, { isPending: true }), timestamp: 1 },
       ];
       const { pendingReaction, emojiToRemove } =
         getNewestPendingOutgoingReaction(oldReactions, OUR_CONVO_ID);
@@ -77,32 +80,32 @@ describe('reaction utilities', () => {
 
     it('returns the newest pending reaction', () => {
       [
-        [rxn('⭐️', { isPending: true })],
+        [rxn(Emoji.STAR, { isPending: true })],
         [
-          { ...rxn('🥀', { isPending: true }), timestamp: 1 },
-          { ...rxn('⭐️', { isPending: true }), timestamp: 2 },
+          { ...rxn(Emoji.WILTED_FLOWER, { isPending: true }), timestamp: 1 },
+          { ...rxn(Emoji.STAR, { isPending: true }), timestamp: 2 },
         ],
       ].forEach(oldReactions => {
         const { pendingReaction, emojiToRemove } =
           getNewestPendingOutgoingReaction(oldReactions, OUR_CONVO_ID);
 
-        assert.strictEqual(pendingReaction?.emoji, '⭐️');
+        assert.strictEqual(pendingReaction?.emoji, Emoji.STAR);
         assert.isUndefined(emojiToRemove);
       });
     });
 
     it('makes its best guess of an emoji to remove, if applicable', () => {
       const oldReactions = [
-        { ...rxn('⭐️'), timestamp: 1 },
+        { ...rxn(Emoji.STAR), timestamp: 1 },
         { ...rxn(undefined, { isPending: true }), timestamp: 3 },
-        { ...rxn('🔥', { isPending: true }), timestamp: 2 },
+        { ...rxn(Emoji.FIRE, { isPending: true }), timestamp: 2 },
       ];
       const { pendingReaction, emojiToRemove } =
         getNewestPendingOutgoingReaction(oldReactions, OUR_CONVO_ID);
 
       assert.isDefined(pendingReaction);
       assert.isUndefined(pendingReaction?.emoji);
-      assert.strictEqual(emojiToRemove, '⭐️');
+      assert.strictEqual(emojiToRemove, Emoji.STAR);
     });
   });
 
@@ -138,12 +141,12 @@ describe('reaction utilities', () => {
   });
 
   describe('markReactionFailed', () => {
-    const fullySent = rxn('⭐️');
+    const fullySent = rxn(Emoji.STAR);
     const partiallySent = {
-      ...rxn('🔥'),
+      ...rxn(Emoji.FIRE),
       isSentByConversationId: { [uuid()]: true, [uuid()]: false },
     };
-    const unsent = rxn('🤫', { isPending: true });
+    const unsent = rxn(Emoji.SHUSHING_FACE, { isPending: true });
 
     const reactions = [fullySent, partiallySent, unsent];
 
@@ -161,7 +164,10 @@ describe('reaction utilities', () => {
 
     it('does nothing if the reaction is not in the list', () => {
       assert.deepStrictEqual(
-        markOutgoingReactionFailed(reactions, rxn('🥀', { isPending: true })),
+        markOutgoingReactionFailed(
+          reactions,
+          rxn(Emoji.WILTED_FLOWER, { isPending: true })
+        ),
         reactions
       );
     });
@@ -180,7 +186,7 @@ describe('reaction utilities', () => {
     const uuid3 = uuid();
 
     const star = {
-      ...rxn('⭐️'),
+      ...rxn(Emoji.STAR),
       timestamp: 2,
       isSentByConversationId: {
         [uuid1]: false,
@@ -198,12 +204,12 @@ describe('reaction utilities', () => {
       },
     };
 
-    const reactions = [star, none, { ...rxn('🔕'), timestamp: 1 }];
+    const reactions = [star, none, { ...rxn(Emoji.NO_BELL), timestamp: 1 }];
 
     it("does nothing if the reaction isn't in the list", () => {
       const result = markOutgoingReactionSent(
         reactions,
-        rxn('🥀', { isPending: true }),
+        rxn(Emoji.WILTED_FLOWER, { isPending: true }),
         [uuid()]
       );
       assert.deepStrictEqual(result, reactions);
@@ -234,7 +240,7 @@ describe('reaction utilities', () => {
         uuid3,
       ]);
 
-      const newReaction = result.find(re => re.emoji === '⭐️');
+      const newReaction = result.find(re => re.emoji === Emoji.STAR);
       assert.isDefined(newReaction);
       assert.isUndefined(newReaction?.isSentByConversationId);
     });
@@ -259,7 +265,7 @@ describe('reaction utilities', () => {
         uuid3,
       ]);
 
-      assert.isUndefined(result.find(re => re.emoji === '🔕'));
+      assert.isUndefined(result.find(re => re.emoji === Emoji.NO_BELL));
     });
   });
 });

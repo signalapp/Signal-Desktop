@@ -15,7 +15,7 @@ import { getDefaultConversation } from '../test-helpers/getDefaultConversation.s
 import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext.std.ts';
 import { CompositionTextArea } from './CompositionTextArea.dom.tsx';
 import type { MessageForwardDraft } from '../types/ForwardDraft.std.ts';
-import { EmojiSkinTone } from './fun/data/emojis.std.ts';
+import { Emoji } from '../axo/emoji.std.ts';
 
 const createAttachment = (
   props: Partial<AttachmentForUIType> = {}
@@ -69,7 +69,7 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
       onTextTooLong={action('onTextTooLong')}
       ourConversationId="me"
       platform="darwin"
-      emojiSkinToneDefault={EmojiSkinTone.None}
+      emojiSkinToneDefault={Emoji.SkinTone.None}
       convertDraftBodyRangesIntoHydrated={() => []}
     />
   ),

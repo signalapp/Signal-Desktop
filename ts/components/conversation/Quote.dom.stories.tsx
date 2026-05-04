@@ -26,6 +26,7 @@ import { getDefaultConversation } from '../../test-helpers/getDefaultConversatio
 import { WidthBreakpoint } from '../_util.std.ts';
 import { ThemeType } from '../../types/Util.std.ts';
 import { PaymentEventKind } from '../../types/Payment.std.ts';
+import { Emoji } from '../../axo/emoji.std.ts';
 
 const { i18n } = window.SignalContext;
 
@@ -232,7 +233,7 @@ IncomingByAnotherWithLabel.args = {
   authorTitle: getDefaultConversation().title,
   isIncoming: true,
   authorLabel: {
-    labelEmoji: '1️⃣',
+    labelEmoji: Emoji.ONE,
     labelString: 'First',
   },
 };
@@ -251,7 +252,7 @@ export function IncomingOutgoingColors(args: Props): JSX.Element {
           ...args,
           conversationColor: color,
           authorLabel: {
-            labelEmoji: '1️⃣',
+            labelEmoji: Emoji.ONE,
             labelString: 'First',
           },
         })
@@ -630,7 +631,7 @@ IsStoryReplyEmoji.args = {
       url: pngUrl,
     },
   },
-  reactionEmoji: '🏋️',
+  reactionEmoji: Emoji.getDefaultVariant(Emoji.WEIGHT_LIFTER),
 };
 
 export const Payment = Template.bind({});

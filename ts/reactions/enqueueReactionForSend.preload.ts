@@ -24,6 +24,7 @@ import { isAciString } from '../util/isAciString.std.ts';
 import { SendStatus } from '../messages/MessageSendState.std.ts';
 import { createLogger } from '../logging/log.std.ts';
 import { getMessageIdForLogging } from '../util/idForLogging.preload.ts';
+import type { Emoji } from '../axo/emoji.std.ts';
 
 const log = createLogger('enqueueReactionForSend');
 
@@ -32,7 +33,7 @@ export async function enqueueReactionForSend({
   messageId,
   remove,
 }: Readonly<{
-  emoji: string;
+  emoji: Emoji.Variant;
   messageId: string;
   remove: boolean;
 }>): Promise<void> {

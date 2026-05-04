@@ -79,6 +79,7 @@ import type {
 } from '../types/Megaphone.std.ts';
 import { sqlFragment, sqlId, sqlJoin } from './util.std.ts';
 import type { MIMEType } from '../types/MIME.std.ts';
+import type { Emoji } from '../axo/emoji.std.ts';
 
 export type ReadableDB = Database & { __readable_db: never };
 export type WritableDB = ReadableDB & { __writable_db: never };
@@ -115,10 +116,6 @@ export type ConversationMetricsType = {
   totalUnseen: number;
 };
 export type ConversationType = ConversationAttributesType;
-export type EmojiType = {
-  shortName: string;
-  lastUsage: number;
-};
 
 export type IdentityKeyType = {
   firstUse: boolean;
@@ -354,7 +351,7 @@ export type StickerType = Readonly<{
   id: number;
   packId: string;
 
-  emoji?: string;
+  emoji?: Emoji.Variant;
   isCoverOnly: boolean;
   lastUsed?: number;
   path: string;
@@ -1037,7 +1034,7 @@ type ReadableInterface = {
   getAllStickers: () => Array<StickerType>;
   getRecentStickers: (options?: { limit?: number }) => Array<StickerType>;
 
-  getRecentEmojis: (limit?: number) => Array<EmojiType>;
+  getRecentEmojis: (limit: number) => ReadonlyArray<Emoji.Parent>;
   getRecentGifs: (limit: number) => ReadonlyArray<GifType>;
 
   getAllBadges(): Array<BadgeType>;
@@ -1237,7 +1234,7 @@ type WritableInterface = {
     targetTimestamp: number
   ) => MessageAttributesType | undefined;
   removeReactionFromConversation: (reaction: {
-    emoji: string;
+    emoji: Emoji.Variant;
     fromId: string;
     targetAuthorServiceId: ServiceIdString;
     targetTimestamp: number;
@@ -1381,7 +1378,7 @@ type WritableInterface = {
   uninstallStickerPack: (packId: string, timestamp: number) => boolean;
   clearAllErrorStickerPackAttempts: () => void;
 
-  updateEmojiUsage: (shortName: string, timeUsed?: number) => void;
+  updateEmojiUsage: (emoji: Emoji.Parent, lastUsedAt: number) => void;
 
   addRecentGif: (gif: GifType, lastUsedAt: number, maxRecents: number) => void;
   removeRecentGif: (gif: GifType['id']) => void;

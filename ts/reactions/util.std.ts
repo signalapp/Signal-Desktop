@@ -4,6 +4,7 @@
 import lodash from 'lodash';
 import type { MessageReactionType } from '../model-types.d.ts';
 import { areObjectEntriesEqual } from '../util/areObjectEntriesEqual.std.ts';
+import type { Emoji } from '../axo/emoji.std.ts';
 
 const { findLastIndex, has, identity, omit, negate } = lodash;
 
@@ -50,7 +51,7 @@ export function getNewestPendingOutgoingReaction(
   | { pendingReaction?: undefined; emojiToRemove?: undefined }
   | {
       pendingReaction: MessageReactionType;
-      emojiToRemove?: string;
+      emojiToRemove?: Emoji.Variant;
     } {
   const ourReactions = reactions
     .filter(({ fromId }) => fromId === ourConversationId)

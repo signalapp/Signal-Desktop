@@ -11,6 +11,7 @@ import type { SendStatus } from '../messages/MessageSendState.std.ts';
 import type { StoryDistributionListDataType } from '../state/ducks/storyDistributionLists.preload.ts';
 import type { ServiceIdString } from './ServiceId.std.ts';
 import type { StoryDistributionIdString } from './StoryDistributionId.std.ts';
+import type { Emoji } from '../axo/emoji.std.ts';
 
 export type ReplyType = {
   author: Pick<
@@ -31,7 +32,7 @@ export type ReplyType = {
   conversationId: string;
   deletedForEveryone?: boolean;
   id: string;
-  reactionEmoji?: string;
+  reactionEmoji?: Emoji.Variant;
   readStatus?: ReadStatus;
   timestamp: number;
 };

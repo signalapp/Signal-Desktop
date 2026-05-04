@@ -3,20 +3,16 @@
 import { useCallback, useMemo, type JSX } from 'react';
 import type { Selection } from 'react-aria-components';
 import { ListBox, ListBoxItem } from 'react-aria-components';
-import type { EmojiParentKey } from './data/emojis.std.ts';
-import {
-  EmojiSkinTone,
-  getEmojiVariantByParentKeyAndSkinTone,
-} from './data/emojis.std.ts';
 import { strictAssert } from '../../util/assert.std.ts';
 import { FunStaticEmoji } from './FunEmoji.dom.tsx';
 import type { LocalizerType } from '../../types/I18N.std.ts';
+import { Emoji } from '../../axo/emoji.std.ts';
 
 export type FunSkinTonesListProps = Readonly<{
   i18n: LocalizerType;
-  emoji: EmojiParentKey;
-  skinTone: EmojiSkinTone | null;
-  onSelectSkinTone: (skinTone: EmojiSkinTone) => void;
+  emoji: Emoji.Parent;
+  skinTone: Emoji.SkinTone | null;
+  onSelectSkinTone: (skinTone: Emoji.SkinTone) => void;
 }>;
 
 export function FunSkinTonesList(props: FunSkinTonesListProps): JSX.Element {
@@ -27,7 +23,7 @@ export function FunSkinTonesList(props: FunSkinTonesListProps): JSX.Element {
       strictAssert(keys !== 'all', 'Expected single selection');
       strictAssert(keys.size === 1, 'Expected single selection');
       const [first] = keys.values();
-      onSelectSkinTone(first as EmojiSkinTone);
+      onSelectSkinTone(first as Emoji.SkinTone);
     },
     [onSelectSkinTone]
   );
@@ -45,31 +41,31 @@ export function FunSkinTonesList(props: FunSkinTonesListProps): JSX.Element {
       <FunSkinTonesListItem
         emoji={props.emoji}
         aria-label={i18n('icu:FunSkinTones__ListItem--None')}
-        skinTone={EmojiSkinTone.None}
+        skinTone={Emoji.SkinTone.None}
       />
       <FunSkinTonesListItem
         emoji={props.emoji}
-        skinTone={EmojiSkinTone.Type1}
+        skinTone={Emoji.SkinTone.Type1}
         aria-label={i18n('icu:FunSkinTones__ListItem--Light')}
       />
       <FunSkinTonesListItem
         emoji={props.emoji}
-        skinTone={EmojiSkinTone.Type2}
+        skinTone={Emoji.SkinTone.Type2}
         aria-label={i18n('icu:FunSkinTones__ListItem--MediumLight')}
       />
       <FunSkinTonesListItem
         emoji={props.emoji}
-        skinTone={EmojiSkinTone.Type3}
+        skinTone={Emoji.SkinTone.Type3}
         aria-label={i18n('icu:FunSkinTones__ListItem--Medium')}
       />
       <FunSkinTonesListItem
         emoji={props.emoji}
-        skinTone={EmojiSkinTone.Type4}
+        skinTone={Emoji.SkinTone.Type4}
         aria-label={i18n('icu:FunSkinTones__ListItem--MediumDark')}
       />
       <FunSkinTonesListItem
         emoji={props.emoji}
-        skinTone={EmojiSkinTone.Type5}
+        skinTone={Emoji.SkinTone.Type5}
         aria-label={i18n('icu:FunSkinTones__ListItem--Dark')}
       />
     </ListBox>
@@ -77,14 +73,14 @@ export function FunSkinTonesList(props: FunSkinTonesListProps): JSX.Element {
 }
 
 type FunSkinTonesListItemProps = Readonly<{
-  emoji: EmojiParentKey;
+  emoji: Emoji.Parent;
   'aria-label': string;
-  skinTone: EmojiSkinTone;
+  skinTone: Emoji.SkinTone;
 }>;
 
 function FunSkinTonesListItem(props: FunSkinTonesListItemProps) {
   const variant = useMemo(() => {
-    return getEmojiVariantByParentKeyAndSkinTone(props.emoji, props.skinTone);
+    return Emoji.getVariant(props.emoji, props.skinTone);
   }, [props.emoji, props.skinTone]);
 
   return (

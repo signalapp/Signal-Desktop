@@ -22,6 +22,7 @@ import type { ContactNameColorType } from '../../../types/Colors.std.ts';
 import { ContactNameColors } from '../../../types/Colors.std.ts';
 import { isNotNil } from '../../../util/isNotNil.std.ts';
 import { strictAssert } from '../../../util/assert.std.ts';
+import { Emoji } from '../../../axo/emoji.std.ts';
 
 const { times } = lodash;
 
@@ -48,7 +49,7 @@ const createProps = (
 ): Props => {
   const memberships = times(32, i => ({
     isAdmin: i === 1,
-    labelEmoji: i % 6 === 0 ? '🟢' : undefined,
+    labelEmoji: i % 6 === 0 ? Emoji.GREEN_CIRCLE : undefined,
     labelString: i % 3 === 0 ? `Task Wrangler ${i}` : undefined,
     member: getDefaultConversation({
       isMe: i === 2,
@@ -220,7 +221,7 @@ export function AsLastAdmin(): JSX.Element {
       isAdmin
       memberships={times(32, i => ({
         isAdmin: i === 2,
-        labelEmoji: i % 6 === 0 ? '🟢' : undefined,
+        labelEmoji: i % 6 === 0 ? Emoji.GREEN_CIRCLE : undefined,
         labelString: i % 3 === 0 ? `Last Admin ${i}` : undefined,
         member: getDefaultConversation({
           isMe: i === 2,

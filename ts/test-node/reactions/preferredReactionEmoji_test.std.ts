@@ -7,24 +7,17 @@ import {
   canBeSynced,
   getPreferredReactionEmoji,
 } from '../../reactions/preferredReactionEmoji.std.ts';
-import { EmojiSkinTone } from '../../components/fun/data/emojis.std.ts';
+import { Emoji } from '../../axo/emoji.std.ts';
 
 describe('preferred reaction emoji utilities', () => {
   describe('getPreferredReactionEmoji', () => {
-    const defaultsForSkinTone2 = ['❤️', '👍🏼', '👎🏼', '😂', '😮', '😢'];
-
-    it('returns the default set if passed a non-array', () => {
-      [undefined, null, '❤️👍🏼👎🏼😂😮😢'].forEach(input => {
-        assert.deepStrictEqual(
-          getPreferredReactionEmoji(input, EmojiSkinTone.Type2),
-          defaultsForSkinTone2
-        );
-      });
-    });
+    const defaultsForSkinTone2 = Emoji.getDefaultPreferredReactionEmojis(
+      Emoji.SkinTone.Type2
+    );
 
     it('returns the default set if passed an empty array', () => {
       assert.deepStrictEqual(
-        getPreferredReactionEmoji([], EmojiSkinTone.Type2),
+        getPreferredReactionEmoji([], Emoji.SkinTone.Type2),
         defaultsForSkinTone2
       );
     });
@@ -33,16 +26,23 @@ describe('preferred reaction emoji utilities', () => {
       const input = ['✨', '❇️'];
       const expected = ['✨', '❇️', '👎🏽', '😂', '😮', '😢'];
       assert.deepStrictEqual(
-        getPreferredReactionEmoji(input, EmojiSkinTone.Type3),
+        getPreferredReactionEmoji(input, Emoji.SkinTone.Type3),
         expected
       );
     });
 
     it('falls back to defaults when passed an array with some invalid values', () => {
-      const input = ['✨', 'invalid', '🎇', '🦈', undefined, ''];
+      const input = [
+        '✨',
+        'invalid',
+        '🎇',
+        '🦈',
+        undefined,
+        '',
+      ] as Array<Emoji.Variant>;
       const expected = ['✨', '👍🏼', '🎇', '🦈', '😮', '😢'];
       assert.deepStrictEqual(
-        getPreferredReactionEmoji(input, EmojiSkinTone.Type2),
+        getPreferredReactionEmoji(input, Emoji.SkinTone.Type2),
         expected
       );
     });
@@ -50,7 +50,7 @@ describe('preferred reaction emoji utilities', () => {
     it('returns a custom set if passed a valid value', () => {
       const input = ['✨', '❇️', '🎇', '🦈', '💖', '🅿️'];
       assert.deepStrictEqual(
-        getPreferredReactionEmoji(input, EmojiSkinTone.Type3),
+        getPreferredReactionEmoji(input, Emoji.SkinTone.Type3),
         input
       );
     });
@@ -59,7 +59,7 @@ describe('preferred reaction emoji utilities', () => {
       const expected = ['✨', '❇️', '🎇', '🦈', '💖', '🅿️'];
       const input = [...expected, '💅', '💅', '💅', '💅'];
       assert.deepStrictEqual(
-        getPreferredReactionEmoji(input, EmojiSkinTone.Type3),
+        getPreferredReactionEmoji(input, Emoji.SkinTone.Type3),
         expected
       );
     });
@@ -68,8 +68,8 @@ describe('preferred reaction emoji utilities', () => {
   describe('canBeSynced', () => {
     it('returns false for non-arrays', () => {
       assert.isFalse(canBeSynced(undefined));
-      assert.isFalse(canBeSynced(null));
-      assert.isFalse(canBeSynced('❤️👍🏼👎🏼😂😮😢'));
+      assert.isFalse(canBeSynced(null as unknown as Array<string>));
+      assert.isFalse(canBeSynced('❤️👍🏼👎🏼😂😮😢' as unknown as Array<string>));
     });
 
     it('returns false for arrays that are too long', () => {

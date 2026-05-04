@@ -10,14 +10,10 @@ import { replaceIndex } from '../../util/replaceIndex.std.ts';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.ts';
 import { useBoundActions } from '../../hooks/useBoundActions.std.ts';
 import type { StateType as RootStateType } from '../reducer.preload.ts';
-import { DEFAULT_PREFERRED_REACTION_EMOJI_PARENT_KEYS } from '../../reactions/constants.std.ts';
 import { getPreferredReactionEmoji } from '../../reactions/preferredReactionEmoji.std.ts';
 import { getEmojiSkinToneDefault } from '../selectors/items.dom.ts';
-import {
-  EmojiSkinTone,
-  getEmojiVariantByParentKeyAndSkinTone,
-} from '../../components/fun/data/emojis.std.ts';
 import { itemStorage } from '../../textsecure/Storage.preload.ts';
+import { Emoji } from '../../axo/emoji.std.ts';
 
 const { omit } = lodash;
 
@@ -27,8 +23,8 @@ const log = createLogger('preferredReactions');
 
 export type PreferredReactionsStateType = ReadonlyDeep<{
   customizePreferredReactionsModal?: {
-    draftPreferredReactions: Array<string>;
-    originalPreferredReactions: Array<string>;
+    draftPreferredReactions: Array<Emoji.Variant>;
+    originalPreferredReactions: Array<Emoji.Variant>;
     selectedDraftEmojiIndex: undefined | number;
   } & (
     | { isSaving: true; hadSaveError: false }
@@ -66,18 +62,18 @@ type DeselectDraftEmojiActionType = ReadonlyDeep<{
 type OpenCustomizePreferredReactionsModalActionType = ReadonlyDeep<{
   type: typeof OPEN_CUSTOMIZE_PREFERRED_REACTIONS_MODAL;
   payload: {
-    originalPreferredReactions: Array<string>;
+    originalPreferredReactions: Array<Emoji.Variant>;
   };
 }>;
 
 type ReplaceSelectedDraftEmojiActionType = ReadonlyDeep<{
   type: typeof REPLACE_SELECTED_DRAFT_EMOJI;
-  payload: string;
+  payload: Emoji.Variant;
 }>;
 
 type ResetDraftEmojiActionType = ReadonlyDeep<{
   type: typeof RESET_DRAFT_EMOJI;
-  payload: { emojiSkinTone: EmojiSkinTone };
+  payload: { emojiSkinTone: Emoji.SkinTone };
 }>;
 
 type SavePreferredReactionsFulfilledActionType = ReadonlyDeep<{
@@ -131,7 +127,7 @@ function openCustomizePreferredReactionsModal(): ThunkAction<
     const state = getState();
     const originalPreferredReactions = getPreferredReactionEmoji(
       getState().items.preferredReactionEmoji,
-      getEmojiSkinToneDefault(state) ?? EmojiSkinTone.None
+      getEmojiSkinToneDefault(state) ?? Emoji.SkinTone.None
     );
     dispatch({
       type: OPEN_CUSTOMIZE_PREFERRED_REACTIONS_MODAL,
@@ -141,7 +137,7 @@ function openCustomizePreferredReactionsModal(): ThunkAction<
 }
 
 function replaceSelectedDraftEmoji(
-  newEmoji: string
+  newEmoji: Emoji.Variant
 ): ReplaceSelectedDraftEmojiActionType {
   return {
     type: REPLACE_SELECTED_DRAFT_EMOJI,
@@ -157,7 +153,7 @@ function resetDraftEmoji(): ThunkAction<
 > {
   return (dispatch, getState) => {
     const emojiSkinTone =
-      getEmojiSkinToneDefault(getState()) ?? EmojiSkinTone.None;
+      getEmojiSkinToneDefault(getState()) ?? Emoji.SkinTone.None;
     dispatch({ type: RESET_DRAFT_EMOJI, payload: { emojiSkinTone } });
   };
 }
@@ -295,13 +291,7 @@ export function reducer(
         customizePreferredReactionsModal: {
           ...state.customizePreferredReactionsModal,
           draftPreferredReactions:
-            DEFAULT_PREFERRED_REACTION_EMOJI_PARENT_KEYS.map(parentKey => {
-              const variant = getEmojiVariantByParentKeyAndSkinTone(
-                parentKey,
-                emojiSkinTone
-              );
-              return variant.value;
-            }),
+            Emoji.getDefaultPreferredReactionEmojis(emojiSkinTone),
           selectedDraftEmojiIndex: undefined,
         },
       };

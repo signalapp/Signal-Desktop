@@ -51,9 +51,9 @@ import { MessageBody } from './conversation/MessageBody.dom.tsx';
 import { RenderLocation } from './conversation/MessageTextRenderer.dom.tsx';
 import { arrow } from '../util/keyboard.dom.ts';
 import { StoryProgressSegment } from './StoryProgressSegment.dom.tsx';
-import type { EmojiSkinTone } from './fun/data/emojis.std.ts';
 import type { FunEmojiSelection } from './fun/panels/FunPanelEmojis.dom.tsx';
 import type { ContactModalStateType } from '../types/globalModals.std.ts';
+import type { Emoji } from '../axo/emoji.std.ts';
 
 const log = createLogger('StoryViewer');
 
@@ -95,7 +95,7 @@ export type PropsType = {
   onGoToConversation: (conversationId: string) => unknown;
   onHideStory: (conversationId: string) => unknown;
   onTextTooLong: () => unknown;
-  onReactToStory: (emoji: string, story: StoryViewType) => unknown;
+  onReactToStory: (emoji: Emoji.Variant, story: StoryViewType) => unknown;
   onReplyToStory: (
     message: string,
     bodyRanges: DraftBodyRanges,
@@ -106,7 +106,7 @@ export type PropsType = {
   onMediaPlaybackStart: () => void;
   ourConversationId: string | undefined;
   platform: string;
-  preferredReactionEmoji: ReadonlyArray<string>;
+  preferredReactionEmoji: ReadonlyArray<Emoji.Variant>;
   queueStoryDownload: (storyId: string) => unknown;
   replyState?: ReplyStateType;
   retryMessageSend: (messageId: string) => unknown;
@@ -114,7 +114,7 @@ export type PropsType = {
   setHasAllStoriesUnmuted: (isUnmuted: boolean) => unknown;
   showContactModal: (payload: ContactModalStateType) => void;
   showToast: ShowToastAction;
-  emojiSkinToneDefault: EmojiSkinTone | null;
+  emojiSkinToneDefault: Emoji.SkinTone | null;
   story: StoryViewType;
   storyViewMode: StoryViewModeType;
   viewStory: ViewStoryActionCreatorType;
@@ -178,7 +178,9 @@ export function StoryViewer({
     useState<boolean>(false);
   const [storyDuration, setStoryDuration] = useState<number | undefined>();
   const [hasConfirmHideStory, setHasConfirmHideStory] = useState(false);
-  const [reactionEmoji, setReactionEmoji] = useState<string | undefined>();
+  const [reactionEmoji, setReactionEmoji] = useState<
+    Emoji.Variant | undefined
+  >();
   const [confirmDeleteStory, setConfirmDeleteStory] = useState<
     StoryViewType | undefined
   >();

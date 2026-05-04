@@ -1,7 +1,7 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import getEmojiRegex from 'emoji-regex';
+import getEmojiRegex from 'emoji-regex-xs';
 import type {
   MessageFormatElement,
   TagElement,

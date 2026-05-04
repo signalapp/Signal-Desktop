@@ -16,8 +16,8 @@ import type { ContactNameColorType } from '../types/Colors.std.ts';
 import { ContactNameColors, ConversationColors } from '../types/Colors.std.ts';
 import { getDefaultConversation } from '../test-helpers/getDefaultConversation.std.ts';
 import { PaymentEventKind } from '../types/Payment.std.ts';
-import { EmojiSkinTone } from './fun/data/emojis.std.ts';
 import { isNotNil } from '../util/isNotNil.std.ts';
+import { Emoji } from '../axo/emoji.std.ts';
 
 const { i18n } = window.SignalContext;
 
@@ -29,12 +29,12 @@ const groupAdmins = [
   },
   {
     member: getDefaultConversation(),
-    labelEmoji: '✅',
+    labelEmoji: Emoji.CHECKMARK,
     labelString: 'Planner',
   },
   {
     member: getDefaultConversation(),
-    labelEmoji: '#',
+    labelEmoji: Emoji.unsafeCastMaybeInvalidStringToVariant('#'),
     labelString: 'Invalid Emoji',
   },
   {
@@ -128,7 +128,7 @@ export default {
     sortedGroupMembers: [],
     // FunPicker
     onSelectEmoji: action('onSelectEmoji'),
-    emojiSkinToneDefault: EmojiSkinTone.Type1,
+    emojiSkinToneDefault: Emoji.SkinTone.Type1,
     pushPanelForConversation: action('pushPanelForConversation'),
     sendStickerMessage: action('sendStickerMessage'),
     // Message Requests

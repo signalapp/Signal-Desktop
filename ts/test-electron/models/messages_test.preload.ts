@@ -32,6 +32,7 @@ import { send } from '../../messages/send.preload.ts';
 import { messageSender } from '../../textsecure/SendMessage.preload.ts';
 import { itemStorage } from '../../textsecure/Storage.preload.ts';
 import { generateAci } from '../../test-helpers/serviceIdUtils.std.ts';
+import { Emoji } from '../../axo/emoji.std.ts';
 
 describe('Message', () => {
   const i18n = setupI18n('en', enMessages);
@@ -283,7 +284,7 @@ describe('Message', () => {
             },
           ],
         }),
-        { text: 'View-once Photo', emoji: '📷' }
+        { text: 'View-once Photo', emoji: Emoji.CAMERA }
       );
     });
 
@@ -299,7 +300,7 @@ describe('Message', () => {
             },
           ],
         }),
-        { text: 'View-once Video', emoji: '🎥' }
+        { text: 'View-once Video', emoji: Emoji.MOVIE_CAMERA }
       );
     });
 
@@ -315,7 +316,7 @@ describe('Message', () => {
             },
           ],
         }),
-        { text: 'Media Message', emoji: '📎' }
+        { text: 'Media Message', emoji: Emoji.PAPERCLIP }
       );
     });
 
@@ -498,7 +499,7 @@ describe('Message', () => {
       attachment: AttachmentType;
       expectedResult: {
         text: string;
-        emoji: string;
+        emoji: Emoji.Variant;
         bodyRanges?: Array<RawBodyRange>;
       };
     }> = [
@@ -510,7 +511,7 @@ describe('Message', () => {
         },
         expectedResult: {
           text: 'GIF',
-          emoji: '🎡',
+          emoji: Emoji.FERRIS_WHEEL,
           bodyRanges: [],
         },
       },
@@ -522,7 +523,7 @@ describe('Message', () => {
         },
         expectedResult: {
           text: 'Photo',
-          emoji: '📷',
+          emoji: Emoji.CAMERA,
           bodyRanges: [],
         },
       },
@@ -534,7 +535,7 @@ describe('Message', () => {
         },
         expectedResult: {
           text: 'Video',
-          emoji: '🎥',
+          emoji: Emoji.MOVIE_CAMERA,
           bodyRanges: [],
         },
       },
@@ -547,7 +548,7 @@ describe('Message', () => {
         },
         expectedResult: {
           text: 'Voice Message',
-          emoji: '🎤',
+          emoji: Emoji.MICROPHONE,
           bodyRanges: [],
         },
       },
@@ -560,7 +561,7 @@ describe('Message', () => {
         },
         expectedResult: {
           text: 'Audio Message',
-          emoji: '🔈',
+          emoji: Emoji.SPEAKER,
           bodyRanges: [],
         },
       },
@@ -572,7 +573,7 @@ describe('Message', () => {
         },
         expectedResult: {
           text: 'File',
-          emoji: '📎',
+          emoji: Emoji.PAPERCLIP,
           bodyRanges: [],
         },
       },
@@ -584,7 +585,7 @@ describe('Message', () => {
         },
         expectedResult: {
           text: 'File',
-          emoji: '📎',
+          emoji: Emoji.PAPERCLIP,
           bodyRanges: [],
         },
       },

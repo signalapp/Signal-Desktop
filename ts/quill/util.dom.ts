@@ -1,10 +1,8 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import emojiRegex from 'emoji-regex';
 import { Delta } from '@signalapp/quill-cjs';
 import type { AttributeMap, Op, Parchment } from '@signalapp/quill-cjs';
-
 import type {
   DisplayNode,
   DraftBodyRange,
@@ -19,15 +17,8 @@ import {
 } from './formatting/menu.dom.tsx';
 import { isNotNil } from '../util/isNotNil.std.ts';
 import type { AciString } from '../types/ServiceId.std.ts';
-import {
-  getEmojiDebugLabel,
-  getEmojiVariantByKey,
-  getEmojiVariantKeyByValue,
-  isSafeEmojifyEmoji,
-} from '../components/fun/data/emojis.std.ts';
-import { createLogger } from '../logging/log.std.ts';
-
-const log = createLogger('quill/util');
+import { Emoji } from '../axo/emoji.std.ts';
+import { missingCaseError } from '../util/missingCaseError.std.ts';
 
 export type Matcher = (
   node: HTMLElement,
@@ -431,39 +422,29 @@ export const insertEmojiOps = (
   incomingOps: ReadonlyArray<Op>,
   existingAttributes: AttributeMap
 ): Array<Op> => {
-  return incomingOps.reduce<Array<Op>>((ops, op) => {
-    if (typeof op.insert === 'string') {
-      const text = op.insert;
-      const { attributes } = op;
-      const re = emojiRegex();
-      let index = 0;
-      let match: RegExpExecArray | null;
+  const result: Array<Op> = [];
 
-      // oxlint-disable-next-line no-cond-assign
-      while ((match = re.exec(text))) {
-        const [emojiMatch] = match;
-        if (!isSafeEmojifyEmoji(emojiMatch)) {
-          log.error(
-            `Expected a valid emoji variant value, got ${getEmojiDebugLabel(emojiMatch)}`
-          );
+  for (const op of incomingOps) {
+    if (typeof op.insert === 'string') {
+      for (const segment of Emoji.getSegments(op.insert)) {
+        if (segment.kind === 'text') {
+          result.push({ insert: segment.value, attributes: op.attributes });
           continue;
         }
-        const variantKey = getEmojiVariantKeyByValue(emojiMatch);
-        const variant = getEmojiVariantByKey(variantKey);
 
-        ops.push({ insert: text.slice(index, match.index), attributes });
-        ops.push({
-          insert: { emoji: { value: variant.value } },
-          attributes: { ...existingAttributes, ...attributes },
-        });
-        index = match.index + variant.value.length;
+        if (segment.kind === 'emoji') {
+          const emoji = { value: segment.value };
+          const attributes = { ...existingAttributes, ...op.attributes };
+          result.push({ insert: { emoji }, attributes });
+          continue;
+        }
+
+        throw missingCaseError(segment);
       }
-
-      ops.push({ insert: text.slice(index, text.length), attributes });
     } else {
-      ops.push(op);
+      result.push(op);
     }
+  }
 
-    return ops;
-  }, []);
+  return result;
 };

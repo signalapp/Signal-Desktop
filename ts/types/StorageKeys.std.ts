@@ -27,8 +27,8 @@ import type { NotificationProfileOverride } from './NotificationProfile.std.ts';
 import type { PhoneNumberSharingMode } from './PhoneNumberSharingMode.std.ts';
 import type { LocalBackupExportMetadata } from './LocalExport.std.ts';
 import type { ServerAlertsType } from './ServerAlert.std.ts';
-import type { EmojiSkinTone } from './emoji.std.ts';
 import type { AssertSameMembers } from './Util.std.ts';
+import type { Emoji } from '../axo/emoji.std.ts';
 
 export type AutoDownloadAttachmentType = {
   photos: boolean;
@@ -174,8 +174,8 @@ export type StorageAccessType = {
   setBackupMessagesSignatureKey: boolean;
   setBackupMediaSignatureKey: boolean;
   lastReceivedAtCounter: number;
-  preferredReactionEmoji: ReadonlyArray<string>;
-  emojiSkinToneDefault: EmojiSkinTone;
+  preferredReactionEmoji: ReadonlyArray<Emoji.Variant>;
+  emojiSkinToneDefault: Emoji.SkinTone;
   unreadCount: number;
   'challenge:conversations': ReadonlyArray<RegisteredChallengeType>;
 

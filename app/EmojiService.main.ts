@@ -12,6 +12,7 @@ import { SignalService as Proto } from '../ts/protobuf/index.std.ts';
 import { parseUnknown } from '../ts/util/schemas.std.ts';
 import { utf16ToEmoji } from '../ts/util/utf16ToEmoji.node.ts';
 import { getAppRootDir } from '../ts/util/appRootDir.main.ts';
+import { Emoji } from '../ts/axo/emoji.std.ts';
 
 const MANIFEST_PATH = join(getAppRootDir(), 'build', 'jumbomoji.json');
 
@@ -28,7 +29,7 @@ type SheetCacheEntry = Map<string, Uint8Array<ArrayBuffer>>;
 
 export class EmojiService {
   readonly #resourceService: OptionalResourceService;
-  readonly #emojiMap = new Map<string, EmojiEntryType>();
+  readonly #emojiMap = new Map<Emoji.Variant, EmojiEntryType>();
 
   readonly #sheetCache = new LRUCache<string, SheetCacheEntry>({
     // Each sheet is roughly 500kb
@@ -44,16 +45,21 @@ export class EmojiService {
     protocol.handle('emoji', async req => {
       const url = new URL(req.url);
       const emoji = url.searchParams.get('emoji');
-      if (!emoji) {
+      if (emoji == null || !Emoji.isEmoji(emoji)) {
         return new Response('invalid', { status: 400 });
       }
 
-      return this.#fetch(emoji);
+      return this.#fetch(Emoji.ignorePreferredSkinTone(emoji));
     });
 
     for (const [sheet, emojiList] of Object.entries(manifest)) {
       for (const utf16 of emojiList) {
-        this.#emojiMap.set(utf16, { sheet, utf16 });
+        if (Emoji.isEmoji(utf16)) {
+          this.#emojiMap.set(Emoji.ignorePreferredSkinTone(utf16), {
+            sheet,
+            utf16,
+          });
+        }
       }
     }
   }
@@ -67,7 +73,7 @@ export class EmojiService {
     return new EmojiService(resourceService, manifest);
   }
 
-  async #fetch(emoji: string): Promise<Response> {
+  async #fetch(emoji: Emoji.Variant): Promise<Response> {
     const entry = this.#emojiMap.get(emoji);
     if (!entry) {
       return new Response('entry not found', { status: 404 });
