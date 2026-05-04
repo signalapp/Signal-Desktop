@@ -45,7 +45,7 @@
     "test": "run-s test-node test-electron test-lint-intl test-oxlint",
     "test-electron": "node scripts/test-electron.mjs",
     "test-release": "node scripts/test-release.mjs",
-    "test-node": "cross-env NODE_ENV=test NODE_OPTIONS='--import=tsx' LANG=en-us electron-mocha --timeout 10000 --file ts/test-node/setup.preload.ts --recursive ts/test-node/**/*.{ts,tsx} scripts/**/*_test.mjs",
+    "test-node": "cross-env NODE_ENV=test NODE_OPTIONS='--import=tsx' LANG=en-us electron-mocha --timeout 10000  --extension ts,tsx,js,mjs --file ts/test-node/setup.preload.ts --recursive ts/test-node scripts/**/*_test.mjs",
     "test-mock": "node scripts/mocha-separator.mjs --require ts/test-mock/setup-ci.node.ts -- ts/test-mock/**/*_test.node.ts",
     "test-mock-docker": "mocha --require ts/test-mock/setup-ci.node.ts ts/test-mock/**/*_test.docker.node.ts",
     "test-oxlint": "mocha --require .oxlint/test-setup.mjs .oxlint/rules/**/*.test.mjs",
