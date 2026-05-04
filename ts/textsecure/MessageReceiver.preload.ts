@@ -1524,7 +1524,7 @@ export default class MessageReceiver
         const deviceId = envelope.sourceDevice;
         //const vts= await getLocalNonce(serviceId, deviceId, 'vts');
 
-        const vtsStr = await getLocalNonce(serviceId, deviceId, 'vts');
+        const vtsStr = await getLocalNonce(serviceId, 1, 'vts');
         const vts = typeof vtsStr === 'string' ? JSON.parse(vtsStr) : vtsStr;
 
         const bob = typeof content.dataMessage.bobProofMaybe === 'string'
@@ -2057,7 +2057,7 @@ export default class MessageReceiver
         log.error('error storing raw Bob proof bytes', e);
       }
 
-      /*let bobResponseObject = {
+      let bobResponseObject = {
         response: null,
         demoVts: null,
         metadata: null,
@@ -2082,14 +2082,14 @@ export default class MessageReceiver
         log.info('VTS value', temp?.getVTS());
         bobResponseObject.demoVts = temp?.getVTS();
        } catch (e) { log.error('error getting VTS', e); }
-      const deviceId = envelope.sourceDevice ?? 1;
-      const serviceId = envelope.sourceServiceId ?? 'unknown';
+      //const deviceId = envelope.sourceDevice ?? 1;
+      //const serviceId = envelope.sourceServiceId ?? 'unknown';
       log.info('setting bob proof in memory for', serviceId, deviceId, "but deviceid faked to 1");
       await setBobProof(serviceId, 1, JSON.stringify(bobResponseObject));
 
       log.info('demonstrate what was save');
       const storedBobProof = await getBobProof(serviceId, 1);
-      log.info('stored bob proof', storedBobProof);*/
+      log.info('stored bob proof', storedBobProof);
 
       return { plaintext: this.#unpad(plaintext), wasEncrypted };
     }

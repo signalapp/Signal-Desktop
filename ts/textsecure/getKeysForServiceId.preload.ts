@@ -256,7 +256,7 @@ async function handleServerKeys(
             const payloadBytes = new TextEncoder().encode(JSON.stringify(payloadObj));
             const payloadB64 = Bytes.toBase64(payloadBytes);
             await setPendingBasis(serviceId, deviceId, payloadB64);
-            await setLocalNonce(serviceId, deviceId, nonce_b64);
+            //await setLocalNonce(serviceId, deviceId, nonce_b64);
             log.info(
               `PVRF demo (Alice): stored pending NONCE + localNonce for ${serviceId}.${deviceId}`
             );
@@ -278,7 +278,7 @@ async function handleServerKeys(
           await setLocalNonce(serviceId, deviceId, Bytes.toBase64(rawVts), 'vts_raw');    
 
           // fixed-size fields
-          /*try {
+          try {
           const s1 = buf.vt.tau[0]
           const s2_1 = buf.vt.tau[1][0]
           const s2_2 = buf.vt.tau[1][1]
@@ -298,13 +298,13 @@ async function handleServerKeys(
           const initial_stored_vts = await getLocalNonce(serviceId, deviceId, 'vts');
           console.log('initial stored vts', initial_stored_vts);
           console.log('this is the vts', vts);
-          await setLocalNonce(serviceId, deviceId, JSON.stringify(vts), 'vts');
+          await setLocalNonce(serviceId, 1, JSON.stringify(vts), 'vts');
           console.log('loading what was stored');
           const stored_vts = await getLocalNonce(serviceId, deviceId, 'vts');
           console.log('stored vts', stored_vts);
           } catch (err){
             log.error('error parsing VTS', err, err.stack);
-          }*/
+          }
           // below stuff doesnt really work feel free to try
           // contextBridge.exposeInMainWorld('preKeyBundle', preKeyBundle);
           // contextBridge.exposeInMainWorld('protocolAddress', protocolAddress);
