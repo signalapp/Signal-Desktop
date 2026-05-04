@@ -70,9 +70,8 @@ export class Storage implements StorageInterface {
     }
 
     this.#items[key] = value;
-    await DataWriter.createOrUpdateItem({ id: key, value });
-
     window.reduxActions?.items.putItemExternal(key, value);
+    await DataWriter.createOrUpdateItem({ id: key, value });
   }
 
   public async remove<K extends keyof Access>(key: K): Promise<void> {
