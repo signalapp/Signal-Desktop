@@ -6122,6 +6122,10 @@
     "messageformat": "Donate to Signal",
     "description": "In the badge dialog. This button is shown under sustainer badges, taking users to some instructions"
   },
+  "icu:BadgeDialog__name-supports-signal": {
+    "messageformat": "{name} supports Signal",
+    "description": "Title of the badge dialog, which is shown when clicking on a person's Signal sustainer badge."
+  },
   "icu:BadgeSustainerInstructions__header": {
     "messageformat": "Donate to Signal",
     "description": "In the instructions for becoming a sustainer. The heading."

@@ -102,13 +102,12 @@
     flex-direction: column;
     align-items: center;
     text-align: center;
-    padding-block: 24px;
+    padding-block-end: 16px;
     padding-inline: 10px;
   }
 
   &__name {
-    @include mixins.font-title-2;
-    @include fixed-height(3.5em);
+    @include mixins.font-title-medium;
     align-items: center;
     display: flex;
     justify-content: center;
@@ -118,8 +117,7 @@
 
   &__description {
     @include mixins.font-body-1;
-    @include fixed-height(5.5em);
-    margin-bottom: 12px;
+    margin-bottom: 22px;
   }
 
   &__instructions-button {

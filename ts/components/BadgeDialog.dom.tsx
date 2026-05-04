@@ -2,17 +2,14 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { useEffect, useState, type JSX } from 'react';
-import classNames from 'classnames';
-
 import { strictAssert } from '../util/assert.std.ts';
 import type { LocalizerType } from '../types/Util.std.ts';
 import type { BadgeType } from '../badges/types.std.ts';
-import { BadgeCategory } from '../badges/BadgeCategory.std.ts';
 import { Modal } from './Modal.dom.tsx';
-import { Button, ButtonSize } from './Button.dom.tsx';
 import { BadgeDescription } from './BadgeDescription.dom.tsx';
 import { BadgeImage } from './BadgeImage.dom.tsx';
 import { BadgeCarouselIndex } from './BadgeCarouselIndex.dom.tsx';
+import { AxoButton } from '../axo/AxoButton.dom.tsx';
 
 export type PropsType = Readonly<{
   areWeASubscriber: boolean;
@@ -93,8 +90,14 @@ function BadgeDialogWithBadges({
           type="button"
         />
         <div className="BadgeDialog__main">
-          <BadgeImage badge={currentBadge} size={160} />
-          <div className="BadgeDialog__name">{currentBadge.name}</div>
+          <BadgeImage badge={currentBadge} size={96} />
+          <div className="BadgeDialog__name">
+            {firstName
+              ? i18n('icu:BadgeDialog__name-supports-signal', {
+                  name: firstName,
+                })
+              : currentBadge.name}
+          </div>
           <div className="BadgeDialog__description">
             <BadgeDescription
               firstName={firstName}
@@ -103,17 +106,9 @@ function BadgeDialogWithBadges({
             />
           </div>
           {!areWeASubscriber && (
-            <Button
-              className={classNames(
-                'BadgeDialog__instructions-button',
-                currentBadge.category !== BadgeCategory.Donor &&
-                  'BadgeDialog__instructions-button--hidden'
-              )}
-              onClick={onDonate}
-              size={ButtonSize.Large}
-            >
+            <AxoButton.Root size="lg" variant="primary" onClick={onDonate}>
               {i18n('icu:BadgeDialog__become-a-sustainer-button')}
-            </Button>
+            </AxoButton.Root>
           )}
           <BadgeCarouselIndex
             currentIndex={currentBadgeIndex}

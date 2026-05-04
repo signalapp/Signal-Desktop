@@ -195,6 +195,10 @@ function getContentType(response: Response) {
   return null;
 }
 
+function getLocaleHeaders(): Record<'Accept-Language', string> {
+  return { 'Accept-Language': window.SignalContext.getI18nLocale() };
+}
+
 type FetchHeaderListType = { [name: string]: string };
 type HTTPCodeType = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH' | 'HEAD';
 
@@ -2430,6 +2434,7 @@ export async function getProfile(
   const { profileKeyVersion, profileKeyCredentialRequest } = options;
 
   return (await _ajax({
+    headers: getLocaleHeaders(),
     host: 'chatService',
     call: 'profile',
     httpType: 'GET',
@@ -2557,6 +2562,7 @@ export async function getProfileUnauth(
   }
 
   return (await _ajax({
+    headers: getLocaleHeaders(),
     host: 'chatService',
     call: 'profile',
     httpType: 'GET',
@@ -2627,6 +2633,7 @@ export async function downloadOnboardingStories(
 
 export async function getSubscriptionConfiguration(): Promise<SubscriptionConfigurationResultType> {
   return _ajax({
+    headers: getLocaleHeaders(),
     host: 'chatService',
     call: 'subscriptionConfiguration',
     httpType: 'GET',
