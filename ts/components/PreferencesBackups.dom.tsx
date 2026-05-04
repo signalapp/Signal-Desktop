@@ -38,6 +38,8 @@ export const SIGNAL_BACKUPS_LEARN_MORE_URL =
 
 const LOCAL_BACKUPS_PAGES = new Set([
   SettingsPage.LocalBackups,
+  SettingsPage.LocalBackupsSetupKey,
+  SettingsPage.LocalBackupsSetupFolder,
   SettingsPage.LocalBackupsKeyReference,
 ]);
 
@@ -291,13 +293,17 @@ export function PreferencesBackups({
               disabled={isAuthPending}
               onClick={async () => {
                 if (isLocalBackupsSetup) {
-                  setSettingsLocation({ page: SettingsPage.LocalBackups });
+                  setSettingsLocation({
+                    page: SettingsPage.LocalBackups,
+                  });
                 } else {
                   try {
                     setIsAuthPending(true);
                     const result = await promptOSAuth('enable-backups');
                     if (result === 'success' || result === 'unsupported') {
-                      setSettingsLocation({ page: SettingsPage.LocalBackups });
+                      setSettingsLocation({
+                        page: SettingsPage.LocalBackupsSetupFolder,
+                      });
                     }
                   } finally {
                     setIsAuthPending(false);

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ChangeEvent, JSX, MouseEvent } from 'react';
-import { useCallback, useEffect, useMemo, useState, useRef } from 'react';
+import { useCallback, useMemo, useState, useRef } from 'react';
 import lodash from 'lodash';
 import classNames from 'classnames';
 
@@ -85,24 +85,33 @@ export function PreferencesLocalBackups({
   const [isShowingBackupKeyChangedModal, setIsShowingBackupKeyChangedModal] =
     useState<boolean>(false);
 
-  if (!localBackupFolder) {
+  if (settingsLocation.page === SettingsPage.LocalBackupsSetupFolder) {
+    if (localBackupFolder) {
+      setSettingsLocation({ page: SettingsPage.LocalBackups });
+    }
     return (
       <LocalBackupsSetupFolderPicker
         i18n={i18n}
-        pickLocalBackupFolder={pickLocalBackupFolder}
+        pickLocalBackupFolder={async () => {
+          const folder = await pickLocalBackupFolder();
+          if (folder) {
+            setSettingsLocation({ page: SettingsPage.LocalBackupsSetupKey });
+          }
+        }}
       />
     );
   }
 
-  const isReferencingBackupKey =
-    settingsLocation.page === SettingsPage.LocalBackupsKeyReference;
-  if (!previouslyViewedBackupKeyHash || isReferencingBackupKey) {
+  if (
+    settingsLocation.page === SettingsPage.LocalBackupsSetupKey ||
+    settingsLocation.page === SettingsPage.LocalBackupsKeyReference
+  ) {
     return (
       <LocalBackupsBackupKeyViewer
         backupKey={backupKey}
         i18n={i18n}
         isReferencing={
-          isReferencingBackupKey &&
+          settingsLocation.page === SettingsPage.LocalBackupsKeyReference &&
           previouslyViewedBackupKeyHash === backupKeyHash
         }
         onBackupKeyViewed={() => {
@@ -114,6 +123,16 @@ export function PreferencesLocalBackups({
         showToast={showToast}
       />
     );
+  }
+
+  if (!localBackupFolder && !isDisablePending) {
+    setSettingsLocation({ page: SettingsPage.LocalBackupsSetupFolder });
+    return null;
+  }
+
+  if (!previouslyViewedBackupKeyHash && !isDisablePending) {
+    setSettingsLocation({ page: SettingsPage.LocalBackupsSetupKey });
+    return null;
   }
 
   async function showKeyReferenceWithAuth() {
@@ -218,7 +237,11 @@ export function PreferencesLocalBackups({
             <AxoButton.Root
               variant="secondary"
               size="lg"
-              onClick={() => openFileInFolder(localBackupFolder)}
+              onClick={() =>
+                localBackupFolder
+                  ? openFileInFolder(localBackupFolder)
+                  : undefined
+              }
             >
               {showInFolderText}
             </AxoButton.Root>
@@ -557,13 +580,10 @@ function LocalBackupsBackupKeyViewer({
   );
   const isStepViewOrReference = step === 'view' || step === 'reference';
 
-  const backupKeyForDisplay = useMemo(() => {
-    return backupKey
-      .replace(/\s/g, '')
-      .replace(/.{4}(?=.)/g, '$& ')
-      .toUpperCase();
-  }, [backupKey]);
-
+  const backupKeyForDisplay = useMemo(
+    () => formatBackupKeyForDisplay(backupKey, { convertAmbiguousChars: true }),
+    [backupKey]
+  );
   const onCopyBackupKey = useCallback(
     async function handleCopyBackupKey(e: MouseEvent) {
       e.preventDefault();
@@ -645,8 +665,10 @@ function LocalBackupsBackupKeyViewer({
       {step === 'caution' && (
         <Modal
           i18n={i18n}
-          modalName="CallingAdhocCallInfo.UnknownContactInfo"
+          modalName="LocalBackupsConfirmKeyModal"
           moduleClassName="Preferences--LocalBackupsConfirmKeyModal"
+          noMouseClose
+          noEscapeClose
           modalFooter={
             <AxoButton.Root
               variant="primary"
@@ -684,7 +706,8 @@ function LocalBackupsBackupKeyViewer({
       <div className="Preferences--LocalBackupsSetupScreenPane">
         <div className="Preferences--LocalBackupsSetupScreenPaneContent">
           <LocalBackupsBackupKeyTextarea
-            backupKey={backupKeyForDisplay}
+            key={step === 'view' ? 'view' : 'reference'}
+            backupKeyForDisplay={backupKeyForDisplay}
             i18n={i18n}
             onValidate={(isValid: boolean) => setIsBackupKeyConfirmed(isValid)}
             isStepViewOrReference={isStepViewOrReference}
@@ -715,13 +738,29 @@ function LocalBackupsBackupKeyViewer({
   );
 }
 
+function formatBackupKeyForDisplay(
+  backupKey: string,
+  { convertAmbiguousChars }: { convertAmbiguousChars: boolean }
+): string {
+  const spacedAndUppercase = backupKey
+    .toUpperCase()
+    .replace(/\s/g, '')
+    .replace(/.{4}(?=.)/g, '$& ');
+
+  if (convertAmbiguousChars) {
+    return spacedAndUppercase.replace(/O/g, '#').replace(/0/g, '=');
+  }
+
+  return spacedAndUppercase;
+}
+
 function LocalBackupsBackupKeyTextarea({
-  backupKey,
+  backupKeyForDisplay,
   i18n,
   onValidate,
   isStepViewOrReference,
 }: {
-  backupKey: string;
+  backupKeyForDisplay: string;
   i18n: LocalizerType;
   onValidate: (isValid: boolean) => void;
   isStepViewOrReference: boolean;
@@ -729,30 +768,39 @@ function LocalBackupsBackupKeyTextarea({
   const backupKeyTextareaRef = useRef<HTMLTextAreaElement>(null);
   const [backupKeyInput, setBackupKeyInput] = useState<string>('');
 
-  useEffect(() => {
-    if (backupKeyTextareaRef.current) {
-      backupKeyTextareaRef.current.focus();
-    }
-  }, [backupKeyTextareaRef, isStepViewOrReference]);
-
-  const backupKeyNoSpaces = useMemo(() => {
-    return backupKey.replace(/\s/g, '');
-  }, [backupKey]);
-
   const handleTextareaChange = useCallback(
     (ev: ChangeEvent<HTMLTextAreaElement>) => {
-      const { value } = ev.target;
-      const valueUppercaseNoSpaces = value.replace(/\s/g, '').toUpperCase();
-      const valueForUI = valueUppercaseNoSpaces.replace(/.{4}(?=.)/g, '$& ');
-      setBackupKeyInput(valueForUI);
-      onValidate(valueUppercaseNoSpaces === backupKeyNoSpaces);
+      const { selectionStart, value } = ev.target;
+
+      setBackupKeyInput(
+        formatBackupKeyForDisplay(value, { convertAmbiguousChars: false })
+      );
+
+      const currentCharIndex = value
+        .slice(0, selectionStart)
+        .replace(/\s/g, '').length;
+      const newCaretIndex =
+        currentCharIndex + Math.max(0, Math.floor((currentCharIndex - 1) / 4));
+
+      requestAnimationFrame(() => {
+        backupKeyTextareaRef.current?.setSelectionRange(
+          newCaretIndex,
+          newCaretIndex
+        );
+      });
+
+      onValidate(
+        formatBackupKeyForDisplay(value, { convertAmbiguousChars: true }) ===
+          backupKeyForDisplay
+      );
     },
-    [backupKeyNoSpaces, onValidate]
+    [backupKeyForDisplay, onValidate]
   );
 
   return (
     <textarea
       aria-label={i18n('icu:Preferences--local-backups-recovery-key-text-box')}
+      autoFocus
       className="Preferences--LocalBackupsBackupKey"
       dir="ltr"
       maxLength={79}
@@ -761,7 +809,7 @@ function LocalBackupsBackupKeyTextarea({
       readOnly={isStepViewOrReference}
       ref={backupKeyTextareaRef}
       spellCheck="false"
-      value={isStepViewOrReference ? backupKey : backupKeyInput}
+      value={isStepViewOrReference ? backupKeyForDisplay : backupKeyInput}
     />
   );
 }

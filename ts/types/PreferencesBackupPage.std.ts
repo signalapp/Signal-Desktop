@@ -8,6 +8,8 @@ export type PreferencesBackupPage =
   | SettingsPage.Backups
   | SettingsPage.BackupsDetails
   | SettingsPage.LocalBackups
+  | SettingsPage.LocalBackupsSetupFolder
+  | SettingsPage.LocalBackupsSetupKey
   | SettingsPage.LocalBackupsKeyReference;
 
 // Should be in sync with PreferencesBackupPage
@@ -18,6 +20,8 @@ export function isBackupPage(
     page === SettingsPage.Backups ||
     page === SettingsPage.BackupsDetails ||
     page === SettingsPage.LocalBackups ||
+    page === SettingsPage.LocalBackupsSetupFolder ||
+    page === SettingsPage.LocalBackupsSetupKey ||
     page === SettingsPage.LocalBackupsKeyReference
   );
 }
