@@ -7,7 +7,6 @@ on:
     types: [created]
   pull_request:
     types: [opened, labeled, unlabeled, closed]
-  status:
 
 jobs:
   backport:
