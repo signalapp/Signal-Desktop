@@ -196,6 +196,7 @@ export type PropsDataType = {
   shouldShowUpdateDialog: boolean;
   theme: ThemeType;
   notificationProfileCount: number;
+  weArePrimaryDevice: boolean;
 
   // Limited support features
   isAutoDownloadUpdatesSupported: boolean;
@@ -607,6 +608,7 @@ export function Preferences({
   sfuUrl,
   forceKeyTransparencyCheck,
   keyTransparencySelfHealth,
+  weArePrimaryDevice,
 }: PropsType): JSX.Element {
   const storiesId = useId();
   const themeSelectId = useId();
@@ -1959,56 +1961,109 @@ export function Preferences({
           )}
         </SettingsRow>
         <SettingsRow>
-          <FlowingControl>
-            <div
-              className={classNames(
-                'Preferences__pnp',
-                'Preferences__two-thirds-flow'
-              )}
-            >
-              <div>{i18n('icu:clearDataHeader')}</div>
-              <div className="Preferences__description">
-                {i18n('icu:clearDataExplanation')}
-              </div>
-            </div>
-
-            <div
-              className={classNames(
-                'Preferences__pnp',
-                'Preferences__flow-button',
-                'Preferences__one-third-flow',
-                'Preferences__one-third-flow--align-right'
-              )}
-            >
-              <AxoButton.Root
-                variant="subtle-destructive"
-                size="lg"
-                onClick={() => setConfirmDelete(true)}
+          {!weArePrimaryDevice && (
+            <FlowingControl>
+              <div
+                className={classNames(
+                  'Preferences__pnp',
+                  'Preferences__two-thirds-flow'
+                )}
               >
-                {i18n('icu:clearDataButton')}
-              </AxoButton.Root>
-            </div>
-          </FlowingControl>
+                <div>{i18n('icu:clearDataHeader')}</div>
+                <div className="Preferences__description">
+                  {i18n('icu:clearDataExplanation')}
+                </div>
+              </div>
+
+              <div
+                className={classNames(
+                  'Preferences__pnp',
+                  'Preferences__flow-button',
+                  'Preferences__one-third-flow',
+                  'Preferences__one-third-flow--align-right'
+                )}
+              >
+                <AxoButton.Root
+                  variant="subtle-destructive"
+                  size="lg"
+                  onClick={() => setConfirmDelete(true)}
+                >
+                  {i18n('icu:clearDataButton')}
+                </AxoButton.Root>
+              </div>
+            </FlowingControl>
+          )}
+          {confirmDelete && !weArePrimaryDevice ? (
+            <ConfirmationDialog
+              dialogName="Preference.deleteAllData"
+              actions={[
+                {
+                  action: doDeleteAllData,
+                  style: 'negative',
+                  text: i18n('icu:clearDataButton'),
+                },
+              ]}
+              i18n={i18n}
+              onClose={() => {
+                setConfirmDelete(false);
+              }}
+              title={i18n('icu:deleteAllDataHeader')}
+            >
+              {i18n('icu:deleteAllDataBody')}
+            </ConfirmationDialog>
+          ) : null}
+          {weArePrimaryDevice && (
+            <FlowingControl>
+              <div
+                className={classNames(
+                  'Preferences__pnp',
+                  'Preferences__two-thirds-flow'
+                )}
+              >
+                <div>{i18n('icu:deleteAccountHeader')}</div>
+                <div className="Preferences__description">
+                  {i18n('icu:deleteAccountExplanation')}
+                </div>
+              </div>
+
+              <div
+                className={classNames(
+                  'Preferences__pnp',
+                  'Preferences__flow-button',
+                  'Preferences__one-third-flow',
+                  'Preferences__one-third-flow--align-right'
+                )}
+              >
+                <AxoButton.Root
+                  variant="subtle-destructive"
+                  size="lg"
+                  onClick={() => setConfirmDelete(true)}
+                >
+                  {i18n('icu:deleteAccountButton')}
+                </AxoButton.Root>
+              </div>
+            </FlowingControl>
+          )}
+          {confirmDelete && weArePrimaryDevice ? (
+            <ConfirmationDialog
+              dialogName="Preference.deleteAccount"
+              actions={[
+                {
+                  action: doDeleteAllData,
+                  style: 'negative',
+                  text: i18n('icu:deleteAccountButton'),
+                },
+              ]}
+              i18n={i18n}
+              onClose={() => {
+                setConfirmDelete(false);
+              }}
+              title={i18n('icu:deleteAccountDialogHeader')}
+            >
+              {i18n('icu:deleteAccountDialogBody')}
+            </ConfirmationDialog>
+          ) : null}
         </SettingsRow>
-        {confirmDelete ? (
-          <ConfirmationDialog
-            dialogName="Preference.deleteAllData"
-            actions={[
-              {
-                action: doDeleteAllData,
-                style: 'negative',
-                text: i18n('icu:clearDataButton'),
-              },
-            ]}
-            i18n={i18n}
-            onClose={() => {
-              setConfirmDelete(false);
-            }}
-            title={i18n('icu:deleteAllDataHeader')}
-          >
-            {i18n('icu:deleteAllDataBody')}
-          </ConfirmationDialog>
-        ) : null}
         {confirmStoriesOff ? (
           <ConfirmationDialog
             dialogName="Preference.turnStoriesOff"

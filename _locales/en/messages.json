@@ -2929,9 +2929,33 @@
     "messageformat": "Delete all data and messages from this version of Signal Desktop? Your Signal account and data on your phone or other linked devices will not be deleted.",
     "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
   },
+  "icu:deleteAccountProgress": {
+    "messageformat": "Deleting account and all data…",
+    "description": "Message shown to user when app is disconnected and data deleted"
+  },
   "icu:deleteAllDataProgress": {
     "messageformat": "Disconnecting and deleting all data…",
     "description": "Message shown to user when app is disconnected and data deleted"
+  },
+  "icu:deleteAccountHeader": {
+    "messageformat": "Delete account",
+    "description": "Header in preferences for the section dealing with account deletion"
+  },
+  "icu:deleteAccountExplanation": {
+    "messageformat": "This will delete your account info, profile, and all of your messages. You will also be removed from all Signal groups.",
+    "description": "Text describing what the delete account button will do."
+  },
+  "icu:deleteAccountButton": {
+    "messageformat": "Delete account",
+    "description": "Button allowing users to delete their entire Signal account"
+  },
+  "icu:deleteAccountDialogHeader": {
+    "messageformat": "Delete Account?",
+    "description": "Header for dialog shown when users choose to delete their account"
+  },
+  "icu:deleteAccountDialogBody": {
+    "messageformat": "This will delete your account info, profile, and all of your messages. You will also be removed from all Signal groups. The app will close after this process is complete.",
+    "description": "Description of dialog shown when users choose to delete their account"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "You have obsolete data from a prior installation of Signal Desktop. If you choose to continue, it will be deleted and you will start from scratch.",
@@ -6117,6 +6141,22 @@
   "icu:ClearingData__description": {
     "messageformat": "This may take a few minutes",
     "description": "Description at the bottom of clearing all data screen"
+  },
+  "icu:DeletingAccount__LeavingGroups__Title": {
+    "messageformat": "Leaving groups...",
+    "description": "Shown with a progress spinner after the user has selected to delete their account, at the top of the screen"
+  },
+  "icu:DeletingAccount__LeavingGroups__Detail": {
+    "messageformat": "Depending on the number of groups you’re in, this might take a few minutes",
+    "description": "Shown with a progress spinner after the user has selected to delete their account, at the bottom of the screen"
+  },
+  "icu:DeletingAccount__DeletingData__Title": {
+    "messageformat": "Deleting account and all data...",
+    "description": "Shown with a progress spinner after the user has selected to delete their account, at the top of the screen"
+  },
+  "icu:DeletingAccount__DeletingData__Detail": {
+    "messageformat": "Deleting user data and resetting the app",
+    "description": "Shown with a progress spinner after the user has selected to delete their account, at the bottom of the screen"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Donate to Signal",

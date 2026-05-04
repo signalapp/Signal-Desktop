@@ -775,6 +775,7 @@ const CHAT_CALLS = {
   getBackupMediaUploadForm: 'v1/archives/media/upload/form',
   keys: 'v2/keys',
   linkDevice: 'v1/devices/link',
+  me: 'v1/accounts/me',
   messages: 'v1/messages',
   multiRecipient: 'v1/messages/multi_recipient',
   phoneNumberDiscoverability: 'v2/accounts/phone_number_discoverability',
@@ -4814,6 +4815,15 @@ export async function cdsLookup({
     e164s,
     acisAndAccessKeys,
     returnAcisWithoutUaks,
+  });
+}
+
+export async function deleteAccount(): Promise<void> {
+  await _ajax({
+    host: 'chatService',
+    call: 'me',
+    httpType: 'DELETE',
+    responseType: 'bytes',
   });
 }
 

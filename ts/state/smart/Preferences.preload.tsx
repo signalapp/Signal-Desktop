@@ -1116,6 +1116,7 @@ export function SmartPreferences(): JSX.Element | null {
           setSfuUrl={setSfuUrl}
           forceKeyTransparencyCheck={forceKeyTransparencyCheck}
           keyTransparencySelfHealth={items.keyTransparencySelfHealth}
+          weArePrimaryDevice={weArePrimaryDevice}
         />
       </AxoProvider>
     </StrictMode>
