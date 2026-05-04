@@ -72,6 +72,7 @@ const ScalarKeys = [
   'desktop.senderKey.retry',
   'desktop.senderKeyMaxAge',
   'global.adminDeleteMaxAgeInSeconds',
+  'global.attachments.maxAutoDownloadSizeBytes',
   'global.attachments.maxBytes',
   'global.attachments.maxReceiveBytes',
   'global.backups.mediaTierFallbackCdnNumber',
