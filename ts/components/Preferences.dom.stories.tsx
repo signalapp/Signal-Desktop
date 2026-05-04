@@ -506,6 +506,7 @@ export default {
     themeSetting: 'system',
     theme: ThemeType.light,
     universalExpireTimer: DurationInSeconds.HOUR,
+    weArePrimaryDevice: false,
     whoCanFindMe: PhoneNumberDiscoverability.Discoverable,
     whoCanSeeMe: PhoneNumberSharingMode.Everybody,
     zoomFactor: 1,
@@ -1032,43 +1033,43 @@ Internal.args = {
   isInternalUser: true,
 };
 
-export const Blocked1Contact = Template.bind({});
-Blocked1Contact.args = {
+export const PrivacyBlocked1Contact = Template.bind({});
+PrivacyBlocked1Contact.args = {
   blockedContacts: [getDefaultConversation()],
   settingsLocation: { page: SettingsPage.Privacy },
 };
 
-export const Blocked1Group = Template.bind({});
-Blocked1Group.args = {
+export const PrivacyBlocked1Group = Template.bind({});
+PrivacyBlocked1Group.args = {
   blockedGroups: [getDefaultConversation()],
   settingsLocation: { page: SettingsPage.Privacy },
 };
 
-export const Blocked1Both = Template.bind({});
-Blocked1Both.args = {
+export const PrivacyBlocked1Both = Template.bind({});
+PrivacyBlocked1Both.args = {
   blockedContacts: [getDefaultConversation()],
   blockedGroups: [getDefaultConversation()],
   settingsLocation: { page: SettingsPage.Privacy },
 };
 
-export const BlockedManyContacts = Template.bind({});
-BlockedManyContacts.args = {
+export const PrivacyBlockedManyContacts = Template.bind({});
+PrivacyBlockedManyContacts.args = {
   blockedContacts: new Array(55)
     .fill(undefined)
     .map(() => getDefaultConversation()),
   settingsLocation: { page: SettingsPage.Privacy },
 };
 
-export const BlockedManyGroups = Template.bind({});
-BlockedManyGroups.args = {
+export const PrivacyBlockedManyGroups = Template.bind({});
+PrivacyBlockedManyGroups.args = {
   blockedGroups: new Array(55)
     .fill(undefined)
     .map(() => getDefaultConversation()),
   settingsLocation: { page: SettingsPage.Privacy },
 };
 
-export const BlockedManyBoth = Template.bind({});
-BlockedManyBoth.args = {
+export const PrivacyBlockedManyBoth = Template.bind({});
+PrivacyBlockedManyBoth.args = {
   blockedContacts: new Array(20)
     .fill(undefined)
     .map(() => getDefaultConversation()),
@@ -1076,6 +1077,12 @@ BlockedManyBoth.args = {
     .fill(undefined)
     .map(() => getDefaultConversation()),
   settingsLocation: { page: SettingsPage.Privacy },
+};
+
+export const PrivacyWhenPrimary = Template.bind({});
+PrivacyWhenPrimary.args = {
+  settingsLocation: { page: SettingsPage.Privacy },
+  weArePrimaryDevice: true,
 };
 
 export const CustomUniversalExpireTimer = Template.bind({});

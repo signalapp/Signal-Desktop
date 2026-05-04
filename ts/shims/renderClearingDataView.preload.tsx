@@ -12,6 +12,7 @@ import { AxoProvider } from '../axo/AxoProvider.dom.tsx';
 
 export function renderClearingDataView(): void {
   const appContainer = document.getElementById('app-container');
+
   strictAssert(appContainer != null, 'No #app-container');
   createRoot(appContainer).render(
     <StrictMode>

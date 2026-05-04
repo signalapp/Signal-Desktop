@@ -14,6 +14,39 @@ export default {
   title: 'Components/ClearingData',
 } satisfies Meta<PropsType>;
 
-export function Basic(): JSX.Element {
+export function CallbackNotCalledYet(): JSX.Element {
   return <ClearingData deleteAllData={action('deleteAllData')} i18n={i18n} />;
+}
+
+export function LeavingGroups(): JSX.Element {
+  return (
+    <ClearingData
+      deleteAllData={callback => {
+        callback('leaving-groups');
+      }}
+      i18n={i18n}
+    />
+  );
+}
+
+export function DeletingAccount(): JSX.Element {
+  return (
+    <ClearingData
+      deleteAllData={callback => {
+        callback('deleting-account');
+      }}
+      i18n={i18n}
+    />
+  );
+}
+
+export function DeletingData(): JSX.Element {
+  return (
+    <ClearingData
+      deleteAllData={callback => {
+        callback('deleting-data');
+      }}
+      i18n={i18n}
+    />
+  );
 }
