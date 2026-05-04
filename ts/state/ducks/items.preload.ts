@@ -19,9 +19,9 @@ import { reloadSelectedConversation } from '../../shims/reloadSelectedConversati
 import type { StorageAccessType } from '../../types/Storage.d.ts';
 import { actions as conversationActions } from './conversations.preload.ts';
 import type { ConfigMapType as RemoteConfigType } from '../../RemoteConfig.dom.ts';
-import type { EmojiSkinTone } from '../../components/fun/data/emojis.std.ts';
 import type { StateThunk } from '../types.std.ts';
 import { storageServiceUploadJob } from '../../services/storage.preload.ts';
+import type { Emoji } from '../../axo/emoji.std.ts';
 
 const { omit } = lodash;
 
@@ -109,7 +109,7 @@ function putItem<K extends keyof StorageAccessType>(
 }
 
 function setEmojiSkinToneDefault(
-  emojiSkinToneDefault: EmojiSkinTone
+  emojiSkinToneDefault: Emoji.SkinTone
 ): ThunkAction<void, RootStateType, unknown, ItemPutAction> {
   return putItem('emojiSkinToneDefault', emojiSkinToneDefault);
 }

@@ -46,7 +46,7 @@ export function updateToVersion(db: WritableDB, version: number): void {
   throw new Error(`Migration to ${version} not found`);
 }
 
-type TableRows = ReadonlyArray<
+export type TableRows = ReadonlyArray<
   Record<
     string,
     string | number | Buffer<ArrayBuffer> | null | Record<string, unknown>

@@ -24,7 +24,6 @@ const external = [
   'sass',
 
   // Large libraries (3.7mb total)
-  'emoji-datasource',
   'google-libphonenumber',
 
   // Imported, but not used in production builds

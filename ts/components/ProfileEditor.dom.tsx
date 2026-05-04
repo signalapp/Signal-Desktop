@@ -28,17 +28,8 @@ import { Tooltip, TooltipPlacement } from './Tooltip.dom.tsx';
 import { offsetDistanceModifier } from '../util/popperUtil.std.ts';
 import { useReducedMotion } from '../hooks/useReducedMotion.dom.ts';
 import { FunStaticEmoji } from './fun/FunEmoji.dom.tsx';
-import {
-  EMOJI_PARENT_KEY_CONSTANTS,
-  EmojiSkinTone,
-  getEmojiVariantByKey,
-  getEmojiVariantByParentKeyAndSkinTone,
-  getEmojiVariantKeyByValue,
-  isEmojiVariantValue,
-} from './fun/data/emojis.std.ts';
 import { FunEmojiPicker } from './fun/FunEmojiPicker.dom.tsx';
 import { FunEmojiPickerButton } from './fun/FunButton.dom.tsx';
-import { useFunEmojiLocalizer } from './fun/useFunEmojiLocalizer.dom.tsx';
 import { PreferencesContent } from './Preferences.dom.tsx';
 import { ProfileEditorPage } from '../types/Nav.std.ts';
 
@@ -58,11 +49,11 @@ import type {
 } from '../state/ducks/conversations.preload.ts';
 import type { UsernameLinkState } from '../state/ducks/usernameEnums.std.ts';
 import type { ShowToastAction } from '../state/ducks/toast.preload.ts';
-import type { EmojiParentKey, EmojiVariantKey } from './fun/data/emojis.std.ts';
 import type { FunEmojiSelection } from './fun/panels/FunPanelEmojis.dom.tsx';
 import { useConfirmDiscard } from '../hooks/useConfirmDiscard.dom.tsx';
 import { AxoButton } from '../axo/AxoButton.dom.tsx';
 import { normalizeProfileName } from '../util/normalizeProfileName.std.ts';
+import { Emoji } from '../axo/emoji.std.ts';
 import { AxoTextField } from '../axo/AxoTextField.dom.tsx';
 import { tw } from '../axo/tw.dom.tsx';
 
@@ -79,12 +70,12 @@ type PropsExternalType = {
 };
 
 export type PropsDataType = {
-  aboutEmoji?: string;
+  aboutEmoji?: Emoji.Variant;
   aboutText?: string;
   color?: AvatarColorType;
   contentsRef: MutableRefObject<HTMLDivElement | null>;
   conversationId: string;
-  emojiSkinToneDefault: EmojiSkinTone | null;
+  emojiSkinToneDefault: Emoji.SkinTone | null;
   familyName?: string;
   firstName: string;
   hasCompletedUsernameLinkOnboarding: boolean;
@@ -120,42 +111,40 @@ export type PropsType = PropsDataType & PropsActionType & PropsExternalType;
 
 type DefaultBio = {
   i18nLabel: string;
-  emojiParentKey: EmojiParentKey;
+  emojiParent: Emoji.Parent;
 };
 
 function getDefaultBios(i18n: LocalizerType): Array<DefaultBio> {
   return [
     {
       i18nLabel: i18n('icu:Bio--speak-freely'),
-      emojiParentKey: EMOJI_PARENT_KEY_CONSTANTS.WAVING_HAND,
+      emojiParent: Emoji.WAVE,
     },
     {
       i18nLabel: i18n('icu:Bio--encrypted'),
-      emojiParentKey: EMOJI_PARENT_KEY_CONSTANTS.ZIPPER_MOUTH_FACE,
+      emojiParent: Emoji.ZIPPER_MOUTH_FACE,
     },
     {
       i18nLabel: i18n('icu:Bio--free-to-chat'),
-      emojiParentKey: EMOJI_PARENT_KEY_CONSTANTS.THUMBS_UP,
+      emojiParent: Emoji.THUMBS_UP,
     },
     {
       i18nLabel: i18n('icu:Bio--coffee-lover'),
-      emojiParentKey: EMOJI_PARENT_KEY_CONSTANTS.HOT_BEVERAGE,
+      emojiParent: Emoji.COFFEE,
     },
     {
       i18nLabel: i18n('icu:Bio--taking-break'),
-      emojiParentKey: EMOJI_PARENT_KEY_CONSTANTS.MOBILE_PHONE_OFF,
+      emojiParent: Emoji.MOBILE_PHONE_OFF,
     },
   ];
 }
 
-function BioEmoji(props: { emoji: EmojiVariantKey }) {
-  const emojiLocalizer = useFunEmojiLocalizer();
-  const emojiVariant = getEmojiVariantByKey(props.emoji);
+function BioEmoji(props: { emoji: Emoji.Variant }) {
   return (
     <FunStaticEmoji
       role="img"
-      aria-label={emojiLocalizer.getLocaleShortName(props.emoji)}
-      emoji={emojiVariant}
+      aria-label={Emoji.getDisplayLabel(props.emoji)}
+      emoji={props.emoji}
       size={24}
     />
   );
@@ -242,14 +231,14 @@ export function ProfileEditor({
   const [isResettingUsernameLink, setIsResettingUsernameLink] = useState(false);
   const [emojiPickerOpen, setEmojiPickerOpen] = useState(false);
 
-  const stagedAboutEmojiVariantKey = useMemo(() => {
+  const stagedAboutEmojiVariant = useMemo(() => {
     if (
       stagedProfile.aboutEmoji == null ||
-      !isEmojiVariantValue(stagedProfile.aboutEmoji)
+      !Emoji.isEmoji(stagedProfile.aboutEmoji)
     ) {
       return null;
     }
-    return getEmojiVariantKeyByValue(stagedProfile.aboutEmoji);
+    return Emoji.ignorePreferredSkinTone(stagedProfile.aboutEmoji);
   }, [stagedProfile.aboutEmoji]);
 
   // Reset username edit state when leaving
@@ -270,11 +259,9 @@ export function ProfileEditor({
 
   const handleSelectEmoji = useCallback(
     (emojiSelection: FunEmojiSelection) => {
-      const emojiVariant = getEmojiVariantByKey(emojiSelection.variantKey);
-
       setStagedProfile(profileData => ({
         ...profileData,
-        aboutEmoji: emojiVariant.value,
+        aboutEmoji: emojiSelection.emoji,
       }));
     },
     [setStagedProfile]
@@ -471,7 +458,7 @@ export function ProfileEditor({
               >
                 <FunEmojiPickerButton
                   i18n={i18n}
-                  selectedEmoji={stagedAboutEmojiVariantKey}
+                  selectedEmoji={stagedAboutEmojiVariant}
                 />
               </FunEmojiPicker>
             </div>
@@ -501,25 +488,25 @@ export function ProfileEditor({
         />
 
         {defaultBios.map(defaultBio => {
-          const emojiVariant = getEmojiVariantByParentKeyAndSkinTone(
-            defaultBio.emojiParentKey,
-            emojiSkinToneDefault ?? EmojiSkinTone.None
+          const emojiVariant = Emoji.getVariant(
+            defaultBio.emojiParent,
+            emojiSkinToneDefault ?? Emoji.SkinTone.None
           );
 
           return (
             <PanelRow
               className="ProfileEditor__row"
-              key={defaultBio.emojiParentKey}
+              key={defaultBio.emojiParent}
               icon={
                 <div className="ProfileEditor__icon--container">
-                  <BioEmoji emoji={emojiVariant.key} />
+                  <BioEmoji emoji={emojiVariant} />
                 </div>
               }
               label={defaultBio.i18nLabel}
               onClick={() => {
                 setStagedProfile(profileData => ({
                   ...profileData,
-                  aboutEmoji: emojiVariant.value,
+                  aboutEmoji: emojiVariant,
                   aboutText: defaultBio.i18nLabel,
                 }));
               }}
@@ -754,10 +741,10 @@ export function ProfileEditor({
         <PanelRow
           className="ProfileEditor__row"
           icon={
-            fullBio.aboutEmoji && isEmojiVariantValue(fullBio.aboutEmoji) ? (
+            fullBio.aboutEmoji && Emoji.isEmoji(fullBio.aboutEmoji) ? (
               <div className="ProfileEditor__icon--container">
                 <BioEmoji
-                  emoji={getEmojiVariantKeyByValue(fullBio.aboutEmoji)}
+                  emoji={Emoji.ignorePreferredSkinTone(fullBio.aboutEmoji)}
                 />
               </div>
             ) : (

@@ -2,22 +2,18 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import EmbedBlot from '@signalapp/quill-cjs/blots/embed.js';
-import type { EmojiVariantValue } from '../../components/fun/data/emojis.std.ts';
-import {
-  getEmojiVariantByKey,
-  getEmojiVariantKeyByValue,
-} from '../../components/fun/data/emojis.std.ts';
 import {
   createStaticEmojiBlot,
   FUN_STATIC_EMOJI_CLASS,
   getFunEmojiElementValue,
 } from '../../components/fun/FunEmoji.dom.tsx';
+import { Emoji } from '../../axo/emoji.std.ts';
 
 // the DOM structure of this EmojiBlot should match the other emoji implementations:
 // ts/components/fun/FunEmoji.tsx
 
 export type EmojiBlotValue = Readonly<{
-  value: EmojiVariantValue;
+  value: Emoji.Variant;
   source?: string;
 }>;
 
@@ -29,20 +25,16 @@ export class EmojiBlot extends EmbedBlot {
 
   static override className = FUN_STATIC_EMOJI_CLASS;
 
-  static override create({ value: emoji, source }: EmojiBlotValue): Node {
+  static override create({ value, source }: EmojiBlotValue): Node {
     const node = super.create(undefined) as HTMLSpanElement;
-
-    const variantKey = getEmojiVariantKeyByValue(emoji);
-    const variant = getEmojiVariantByKey(variantKey);
 
     createStaticEmojiBlot(node, {
       role: 'img',
-      'aria-label': emoji,
-      emoji: variant,
+      'aria-label': Emoji.getDisplayLabel(value),
+      emoji: value,
       size: 20,
     });
-    node.setAttribute('data-emoji-key', variantKey);
-    node.setAttribute('data-emoji-value', emoji);
+    node.setAttribute('data-emoji', value);
     node.setAttribute('data-source', source ?? '');
 
     return node;

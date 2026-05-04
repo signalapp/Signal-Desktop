@@ -5,6 +5,7 @@ coverage/*
 build/curve25519_compiled.js
 build/compact-locales
 build/*.policy
+build/emoji-data.json
 stylesheets/*.css.map
 /dist
 .DS_Store

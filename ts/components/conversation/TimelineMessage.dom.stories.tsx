@@ -44,6 +44,7 @@ import { PaymentEventKind } from '../../types/Payment.std.ts';
 import type { RenderAudioAttachmentProps } from '../../state/smart/renderAudioAttachment.preload.tsx';
 import type { PollVoteWithUserType } from '../../state/selectors/message.preload.ts';
 import { generateAci } from '../../test-helpers/serviceIdUtils.std.ts';
+import { Emoji } from '../../axo/emoji.std.ts';
 
 const { isBoolean, noop } = lodash;
 
@@ -98,7 +99,7 @@ const messageIdToAudioUrl = {
 
 function getJoyReaction() {
   return {
-    emoji: '😂',
+    emoji: Emoji.JOY,
     from: getDefaultConversation({
       id: '+14155552674',
       phoneNumber: '+14155552674',
@@ -608,7 +609,7 @@ export function ReactionsWiderMessage(): JSX.Element {
     timestamp: Date.now() - 180 * 24 * 60 * 60 * 1000,
     reactions: [
       {
-        emoji: '👍',
+        emoji: Emoji.getDefaultVariant(Emoji.THUMBS_UP),
         from: getDefaultConversation({
           isMe: true,
           id: '+14155552672',
@@ -619,7 +620,7 @@ export function ReactionsWiderMessage(): JSX.Element {
         timestamp: Date.now() - 10,
       },
       {
-        emoji: '👍',
+        emoji: Emoji.getDefaultVariant(Emoji.THUMBS_UP),
         from: getDefaultConversation({
           id: '+14155552672',
           phoneNumber: '+14155552672',
@@ -629,7 +630,7 @@ export function ReactionsWiderMessage(): JSX.Element {
         timestamp: Date.now() - 10,
       },
       {
-        emoji: '👍',
+        emoji: Emoji.getDefaultVariant(Emoji.THUMBS_UP),
         from: getDefaultConversation({
           id: '+14155552673',
           phoneNumber: '+14155552673',
@@ -639,7 +640,7 @@ export function ReactionsWiderMessage(): JSX.Element {
         timestamp: Date.now() - 10,
       },
       {
-        emoji: '😂',
+        emoji: Emoji.JOY,
         from: getDefaultConversation({
           id: '+14155552674',
           phoneNumber: '+14155552674',
@@ -649,7 +650,7 @@ export function ReactionsWiderMessage(): JSX.Element {
         timestamp: Date.now() - 10,
       },
       {
-        emoji: '😡',
+        emoji: Emoji.RAGE,
         from: getDefaultConversation({
           id: '+14155552677',
           phoneNumber: '+14155552677',
@@ -659,7 +660,7 @@ export function ReactionsWiderMessage(): JSX.Element {
         timestamp: Date.now() - 10,
       },
       {
-        emoji: '👎',
+        emoji: Emoji.getVariant(Emoji.THUMBS_DOWN, Emoji.SkinTone.None),
         from: getDefaultConversation({
           id: '+14155552678',
           phoneNumber: '+14155552678',
@@ -669,7 +670,7 @@ export function ReactionsWiderMessage(): JSX.Element {
         timestamp: Date.now() - 10,
       },
       {
-        emoji: '❤️',
+        emoji: Emoji.HEART,
         from: getDefaultConversation({
           id: '+14155552679',
           phoneNumber: '+14155552679',
@@ -693,7 +694,7 @@ export function ReactionsShortMessage(): JSX.Element {
     reactions: [
       ...joyReactions,
       {
-        emoji: '👍',
+        emoji: Emoji.getDefaultVariant(Emoji.THUMBS_UP),
         from: getDefaultConversation({
           isMe: true,
           id: '+14155552672',
@@ -704,7 +705,7 @@ export function ReactionsShortMessage(): JSX.Element {
         timestamp: Date.now(),
       },
       {
-        emoji: '👍',
+        emoji: Emoji.getDefaultVariant(Emoji.THUMBS_UP),
         from: getDefaultConversation({
           id: '+14155552672',
           phoneNumber: '+14155552672',
@@ -714,7 +715,7 @@ export function ReactionsShortMessage(): JSX.Element {
         timestamp: Date.now(),
       },
       {
-        emoji: '👍',
+        emoji: Emoji.getDefaultVariant(Emoji.THUMBS_UP),
         from: getDefaultConversation({
           id: '+14155552673',
           phoneNumber: '+14155552673',
@@ -724,7 +725,7 @@ export function ReactionsShortMessage(): JSX.Element {
         timestamp: Date.now(),
       },
       {
-        emoji: '😡',
+        emoji: Emoji.RAGE,
         from: getDefaultConversation({
           id: '+14155552677',
           phoneNumber: '+14155552677',
@@ -734,7 +735,7 @@ export function ReactionsShortMessage(): JSX.Element {
         timestamp: Date.now(),
       },
       {
-        emoji: '👎',
+        emoji: Emoji.getVariant(Emoji.THUMBS_DOWN, Emoji.SkinTone.None),
         from: getDefaultConversation({
           id: '+14155552678',
           phoneNumber: '+14155552678',
@@ -744,7 +745,7 @@ export function ReactionsShortMessage(): JSX.Element {
         timestamp: Date.now(),
       },
       {
-        emoji: '❤️',
+        emoji: Emoji.HEART,
         from: getDefaultConversation({
           id: '+14155552679',
           phoneNumber: '+14155552679',
@@ -783,7 +784,7 @@ LabelInGroup.args = {
   text: 'Hello it is me, the saxophone.',
   contactNameColor: '260',
   contactLabel: {
-    labelEmoji: '🍗',
+    labelEmoji: Emoji.POULTRY_LEG,
     labelString: 'Chicken Taster',
   },
 };
@@ -799,7 +800,7 @@ LabelInGroupWithLongName.args = {
   },
   contactNameColor: '260',
   contactLabel: {
-    labelEmoji: '🍗',
+    labelEmoji: Emoji.POULTRY_LEG,
     labelString: 'Chicken Taster',
   },
 };
@@ -815,7 +816,7 @@ LabelInGroupWithLongNameAndLongMessage.args = {
   },
   contactNameColor: '260',
   contactLabel: {
-    labelEmoji: '🍗',
+    labelEmoji: Emoji.POULTRY_LEG,
     labelString: 'Chicken Taster',
   },
 };
@@ -868,7 +869,7 @@ StickerWithLabelInGroup.args = {
   status: 'sent',
   contactNameColor: '260',
   contactLabel: {
-    labelEmoji: '🍗',
+    labelEmoji: Emoji.POULTRY_LEG,
     labelString: 'Chicken Taster',
   },
 };
@@ -893,7 +894,7 @@ StickerWithLongNameAndLabelInGroup.args = {
   },
   contactNameColor: '280',
   contactLabel: {
-    labelEmoji: '🍗',
+    labelEmoji: Emoji.POULTRY_LEG,
     labelString: 'Chicken Taster',
   },
 };
@@ -3408,7 +3409,7 @@ export const StoryReplyEmoji = (): JSX.Element => {
     storyReplyContext: {
       authorTitle: conversation.firstName || conversation.title,
       conversationColor: ConversationColors[0],
-      emoji: '💄',
+      emoji: Emoji.LIPSTICK,
       isFromMe: false,
       rawAttachment: fakeAttachment({
         url: '/fixtures/snow.jpg',

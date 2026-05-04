@@ -30,6 +30,7 @@ import { strictAssert } from '../../util/assert.std.ts';
 import { BackupLevel } from '../../services/backups/types.std.ts';
 import { generateNotificationProfileId } from '../../types/NotificationProfile-node.node.ts';
 import { generateAci } from '../../test-helpers/serviceIdUtils.std.ts';
+import { Emoji } from '../../axo/emoji.std.ts';
 
 export const debug = createDebug('mock:test:backups');
 
@@ -258,7 +259,7 @@ describe('backups', function (this: Mocha.Suite) {
           targetMessageTimestamp: ourTimestamp,
           reactionTimestamp,
           desktop,
-          emoji: '👍',
+          emoji: Emoji.getDefaultVariant(Emoji.THUMBS_UP),
         })
       );
     }

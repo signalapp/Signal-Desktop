@@ -39,7 +39,6 @@ import { removeDiacritics } from '../util/removeDiacritics.std.ts';
 import { assertDev } from '../util/assert.std.ts';
 import { I18n } from './I18n.dom.tsx';
 import { FunSkinTonesList } from './fun/FunSkinTones.dom.tsx';
-import { EMOJI_PARENT_KEY_CONSTANTS } from './fun/data/emojis.std.ts';
 import {
   SettingsControl as Control,
   FlowingSettingsControl as FlowingControl,
@@ -48,14 +47,12 @@ import {
 } from './PreferencesUtil.dom.tsx';
 import { PreferencesBackups } from './PreferencesBackups.dom.tsx';
 import { PreferencesInternal } from './PreferencesInternal.dom.tsx';
-import { FunEmojiLocalizationProvider } from './fun/FunEmojiLocalizationProvider.dom.tsx';
 import { Avatar, AvatarSize } from './Avatar.dom.tsx';
 import { NavSidebar } from './NavSidebar.dom.tsx';
 import type { SettingsLocation } from '../types/Nav.std.ts';
 import { SettingsPage, ProfileEditorPage } from '../types/Nav.std.ts';
 import { tw } from '../axo/tw.dom.tsx';
 import { FullWidthButton } from './PreferencesNotificationProfiles.dom.tsx';
-import type { EmojiSkinTone } from './fun/data/emojis.std.ts';
 import type { MediaDeviceSettings } from '../types/Calling.std.ts';
 import type { ValidationResultType as BackupValidationResultType } from '../services/backups/index.preload.ts';
 import type {
@@ -105,6 +102,7 @@ import { isDonationsPage } from './PreferencesDonations.dom.tsx';
 import type { VisibleRemoteMegaphoneType } from '../types/Megaphone.std.ts';
 import { TitlebarDragArea } from './TitlebarDragArea.dom.tsx';
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges.preload.ts';
+import { Emoji } from '../axo/emoji.std.ts';
 
 const { isNumber, noop, partition } = lodash;
 
@@ -134,7 +132,7 @@ export type PropsDataType = {
   customColors: Record<string, CustomColorType>;
   defaultConversationColor: DefaultConversationColorType;
   deviceName?: string;
-  emojiSkinToneDefault: EmojiSkinTone;
+  emojiSkinToneDefault: Emoji.SkinTone;
   hasAnyCurrentCustomChatFolders: boolean;
   hasAudioNotifications?: boolean;
   hasAutoConvertEmoji: boolean;
@@ -326,7 +324,7 @@ type PropsFunctionType = {
   onCallRingtoneNotificationChange: CheckboxChangeHandlerType;
   onContentProtectionChange: CheckboxChangeHandlerType;
   onCountMutedConversationsChange: CheckboxChangeHandlerType;
-  onEmojiSkinToneDefaultChange: (emojiSkinTone: EmojiSkinTone) => void;
+  onEmojiSkinToneDefaultChange: (emojiSkinTone: Emoji.SkinTone) => void;
   onHasKeyTransparencyDisabledChanged: SelectChangeHandlerType<boolean>;
   onHasStoriesDisabledChanged: SelectChangeHandlerType<boolean>;
   onHideMenuBarChange: CheckboxChangeHandlerType;
@@ -1254,7 +1252,7 @@ export function Preferences({
               right={
                 <FunSkinTonesList
                   i18n={i18n}
-                  emoji={EMOJI_PARENT_KEY_CONSTANTS.RAISED_HAND}
+                  emoji={Emoji.HAND}
                   skinTone={emojiSkinToneDefault}
                   onSelectSkinTone={onEmojiSkinToneDefaultChange}
                 />
@@ -2585,7 +2583,7 @@ export function Preferences({
     );
   }
   return (
-    <FunEmojiLocalizationProvider i18n={i18n}>
+    <>
       <div className="Preferences">
         <NavSidebar
           title={i18n('icu:Preferences--header')}
@@ -2828,7 +2826,7 @@ export function Preferences({
         {content}
       </div>
       <TitlebarDragArea />
-    </FunEmojiLocalizationProvider>
+    </>
   );
 }
 

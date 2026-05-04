@@ -7,6 +7,7 @@ import { DAY, HOUR, MINUTE } from '../util/durations/index.std.ts';
 import { strictAssert } from '../util/assert.std.ts';
 
 import type { StorageServiceFieldsType } from '../sql/Interface.std.ts';
+import type { Emoji } from '../axo/emoji.std.ts';
 
 const { isNumber, orderBy } = lodash;
 
@@ -32,7 +33,7 @@ export type NotificationProfileType = Readonly<{
   id: NotificationProfileIdString;
 
   name: string;
-  emoji: string | undefined;
+  emoji: Emoji.Variant | undefined;
   /* A numeric representation of a color, like 0xAARRGGBB */
   color: number;
 

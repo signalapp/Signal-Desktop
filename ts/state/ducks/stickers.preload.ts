@@ -28,6 +28,7 @@ import { noopAction, type NoopActionType } from './noop.std.ts';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.ts';
 import { useBoundActions } from '../../hooks/useBoundActions.std.ts';
 import { strictAssert } from '../../util/assert.std.ts';
+import type { Emoji } from '../../axo/emoji.std.ts';
 
 const { omit, reject } = lodash;
 
@@ -48,7 +49,7 @@ export type StickersStateType = ReadonlyDeep<{
 export type StickerType = ReadonlyDeep<{
   id: number;
   packId: string;
-  emoji?: string;
+  emoji?: Emoji.Variant;
   url: string;
 }>;
 

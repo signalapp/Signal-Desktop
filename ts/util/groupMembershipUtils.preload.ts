@@ -16,6 +16,7 @@ import {
   STRING_GRAPHEME_LIMIT,
 } from '../types/GroupMemberLabels.std.ts';
 import { isConversationAccepted } from './isConversationAccepted.preload.ts';
+import type { Emoji } from '../axo/emoji.std.ts';
 
 export function isMemberPending(
   conversationAttrs: Pick<
@@ -183,7 +184,7 @@ export function getMemberships(
 ): ReadonlyArray<{
   aci: AciString;
   isAdmin: boolean;
-  labelEmoji: string | undefined;
+  labelEmoji: Emoji.Variant | undefined;
   labelString: string | undefined;
 }> {
   if (!isGroupV2(conversationAttrs)) {

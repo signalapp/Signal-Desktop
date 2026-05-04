@@ -75,7 +75,7 @@ export function MultipleTagReplacement(
   );
 }
 
-export function Emoji(
+export function WithEmoji(
   args: Props<'icu:Message__reaction-emoji-label--you'>
 ): JSX.Element {
   return (

@@ -28,7 +28,6 @@ import { handleOutsideClick } from '../util/handleOutsideClick.dom.ts';
 import { Spinner } from './Spinner.dom.tsx';
 import { FunEmojiPicker } from './fun/FunEmojiPicker.dom.tsx';
 import type { FunEmojiSelection } from './fun/panels/FunPanelEmojis.dom.tsx';
-import { getEmojiVariantByKey } from './fun/data/emojis.std.ts';
 import { FunEmojiPickerButton } from './fun/FunButton.dom.tsx';
 import { useConfirmDiscard } from '../hooks/useConfirmDiscard.dom.tsx';
 
@@ -341,8 +340,7 @@ export function TextStoryCreator({
 
   const handleSelectEmoji = useCallback(
     (emojiSelection: FunEmojiSelection) => {
-      const emojiVariant = getEmojiVariantByKey(emojiSelection.variantKey);
-      const emojiValue = emojiVariant.value;
+      const { emoji } = emojiSelection;
 
       onSelectEmoji(emojiSelection);
 
@@ -353,7 +351,7 @@ export function TextStoryCreator({
         const before = originalText.substr(0, insertAt);
         const after = originalText.substr(insertAt, originalText.length);
 
-        return `${before}${emojiValue}${after}`;
+        return `${before}${emoji}${after}`;
       });
     },
     [onSelectEmoji]

@@ -82,7 +82,6 @@ import type { FunGifSelection } from './fun/panels/FunPanelGifs.dom.tsx';
 import type { SmartDraftGifMessageSendModalProps } from '../state/smart/DraftGifMessageSendModal.preload.tsx';
 import { strictAssert } from '../util/assert.std.ts';
 import { ConfirmationDialog } from './ConfirmationDialog.dom.tsx';
-import type { EmojiSkinTone } from './fun/data/emojis.std.ts';
 import { FunPickerButton } from './fun/FunButton.dom.tsx';
 import { AxoDropdownMenu } from '../axo/AxoDropdownMenu.dom.tsx';
 import { AxoIconButton } from '../axo/AxoIconButton.dom.tsx';
@@ -92,6 +91,7 @@ import { PollCreateModal } from './PollCreateModal.dom.tsx';
 import { useDocumentKeyDown } from '../hooks/useDocumentKeyDown.dom.ts';
 import { hasDraft } from '../util/hasDraft.std.ts';
 import type { ContactNameColorType } from '../types/Colors.std.ts';
+import type { Emoji } from '../axo/emoji.std.ts';
 
 export type OwnProps = Readonly<{
   acceptedMessageRequest: boolean | null;
@@ -123,7 +123,7 @@ export type OwnProps = Readonly<{
   focusCounter: number;
   groupAdmins: Array<{
     member: ConversationType;
-    labelEmoji: string | undefined;
+    labelEmoji: Emoji.Variant | undefined;
     labelString: string | undefined;
   }>;
   groupVersion: 1 | 2 | null;
@@ -229,7 +229,7 @@ export type OwnProps = Readonly<{
   ) => void;
 
   onSelectEmoji: (emojiSelection: FunEmojiSelection) => void;
-  emojiSkinToneDefault: EmojiSkinTone | null;
+  emojiSkinToneDefault: Emoji.SkinTone | null;
 }>;
 
 export type Props = Pick<

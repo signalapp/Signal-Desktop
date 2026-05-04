@@ -14,8 +14,8 @@ import type { PreferredBadgeSelectorType } from '../state/selectors/badges.prelo
 import * as grapheme from '../util/grapheme.std.ts';
 import { FunEmojiPicker } from './fun/FunEmojiPicker.dom.tsx';
 import type { FunEmojiSelection } from './fun/panels/FunPanelEmojis.dom.tsx';
-import type { EmojiSkinTone } from './fun/data/emojis.std.ts';
 import { FunEmojiPickerButton } from './fun/FunButton.dom.tsx';
+import type { Emoji } from '../axo/emoji.std.ts';
 
 export type CompositionTextAreaProps = {
   bodyRanges: HydratedBodyRangesType | null;
@@ -32,8 +32,8 @@ export type CompositionTextAreaProps = {
     draftBodyRanges: HydratedBodyRangesType,
     caretLocation?: number
   ) => void;
-  emojiSkinToneDefault: EmojiSkinTone;
-  onEmojiSkinToneDefaultChange: (emojiSkinToneDefault: EmojiSkinTone) => void;
+  emojiSkinToneDefault: Emoji.SkinTone;
+  onEmojiSkinToneDefaultChange: (emojiSkinToneDefault: Emoji.SkinTone) => void;
   onSubmit: (
     message: string,
     draftBodyRanges: DraftBodyRanges,

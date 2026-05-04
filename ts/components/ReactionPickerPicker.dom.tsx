@@ -4,16 +4,10 @@
 import type { CSSProperties, ReactNode } from 'react';
 import { forwardRef } from 'react';
 import classNames from 'classnames';
-
 import { Button } from 'react-aria-components';
 import { FunStaticEmoji } from './fun/FunEmoji.dom.tsx';
-import {
-  getEmojiDebugLabel,
-  getEmojiVariantByKey,
-  getEmojiVariantKeyByValue,
-  isEmojiVariantValue,
-} from './fun/data/emojis.std.ts';
 import { createLogger } from '../logging/log.std.ts';
+import { Emoji } from '../axo/emoji.std.ts';
 
 const log = createLogger('ReactionPickerPicker');
 
@@ -25,7 +19,7 @@ export enum ReactionPickerPickerStyle {
 export const ReactionPickerPickerEmojiButton = forwardRef<
   HTMLButtonElement,
   {
-    emoji: string;
+    emoji: Emoji.Variant;
     isSelected: boolean;
     onClick: () => unknown;
     title?: string;
@@ -34,15 +28,12 @@ export const ReactionPickerPickerEmojiButton = forwardRef<
   { emoji, onClick, isSelected, title },
   ref
 ) {
-  if (!isEmojiVariantValue(emoji)) {
+  if (!Emoji.isEmoji(emoji)) {
     log.error(
-      `Expected a valid emoji variant value, got ${getEmojiDebugLabel(emoji)}`
+      `Expected a valid emoji variant value, got ${Emoji.getDebugLabel(emoji)}`
     );
     return null;
   }
-
-  const emojiVariantKey = getEmojiVariantKeyByValue(emoji);
-  const emojiVariant = getEmojiVariantByKey(emojiVariantKey);
 
   return (
     <Button
@@ -58,7 +49,7 @@ export const ReactionPickerPickerEmojiButton = forwardRef<
         role="img"
         aria-label={title ?? ''}
         size={48}
-        emoji={emojiVariant}
+        emoji={emoji}
       />
     </Button>
   );

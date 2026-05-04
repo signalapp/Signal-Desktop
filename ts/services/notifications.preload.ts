@@ -18,6 +18,7 @@ import type { StorageInterface } from '../types/Storage.d.ts';
 import type { LocalizerType } from '../types/Util.std.ts';
 import { NotificationType } from '../types/notifications.std.ts';
 import { drop } from '../util/drop.std.ts';
+import type { Emoji } from '../axo/emoji.std.ts';
 
 const { debounce } = lodash;
 
@@ -31,7 +32,7 @@ type NotificationDataType = Readonly<{
   notificationIconUrl?: undefined | string;
   notificationIconAbsolutePath?: undefined | string;
   reaction?: {
-    emoji: string;
+    emoji: Emoji.Variant;
     targetAuthorAci: string;
     targetTimestamp: number;
   };
@@ -254,7 +255,7 @@ class NotificationService extends EventEmitter {
   public removeBy(
     options: Readonly<
       {
-        emoji?: string;
+        emoji?: Emoji.Variant;
         targetAuthorAci?: string;
         targetTimestamp?: number;
         onlyRemoveAssociatedPollVotes?: boolean;

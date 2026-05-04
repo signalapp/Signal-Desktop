@@ -2,11 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReadonlyDeep } from 'type-fest';
-import type { AudioDevice, Reaction as CallReaction } from '@signalapp/ringrtc';
+import type { AudioDevice } from '@signalapp/ringrtc';
 import type { ConversationType } from '../state/ducks/conversations.preload.ts';
 import type { AciString, ServiceIdString } from './ServiceId.std.ts';
 import type { CallLinkConversationType } from './CallLink.std.ts';
 import type { CallMode } from './CallDisposition.std.ts';
+import type { Emoji } from '../axo/emoji.std.ts';
 
 export const MAX_CALLING_REACTIONS = 5;
 export const CALLING_REACTIONS_LIFETIME = 4000;
@@ -38,8 +39,10 @@ export type PresentedSource = {
 // };
 
 export type ActiveCallReaction = {
+  demuxId: number;
+  value: Emoji.Variant;
   timestamp: number;
-} & CallReaction;
+};
 
 export type ActiveCallReactionsType = ReadonlyArray<ActiveCallReaction>;
 

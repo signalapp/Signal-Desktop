@@ -40,6 +40,7 @@ import { tw } from '../../axo/tw.dom.tsx';
 import { strictAssert } from '../../util/assert.std.ts';
 import type { RemoveClientType } from '../../types/Calling.std.ts';
 import type { ContactNameColorType } from '../../types/Colors.std.ts';
+import type { Emoji } from '../../axo/emoji.std.ts';
 
 const ACCESS_ENUM = Proto.AccessControl.AccessRequired;
 
@@ -51,7 +52,7 @@ export type PropsDataType = {
   areWeAdmin: boolean;
   badges: ReadonlyArray<BadgeType>;
   contact?: ConversationType;
-  contactLabelEmoji: string | undefined;
+  contactLabelEmoji: Emoji.Variant | undefined;
   contactLabelString: string | undefined;
   contactNameColor: ContactNameColorType | undefined;
   conversation?: ConversationType;

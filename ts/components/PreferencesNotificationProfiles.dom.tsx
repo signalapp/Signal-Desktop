@@ -9,14 +9,8 @@ import { sample, isEqual, noop, range } from 'lodash';
 import classNames from 'classnames';
 import { Popper } from 'react-popper';
 
-import {
-  isEmojiVariantValue,
-  getEmojiVariantByKey,
-  getEmojiVariantKeyByValue,
-} from './fun/data/emojis.std.ts';
 import { FunStaticEmoji } from './fun/FunEmoji.dom.tsx';
 import { FunEmojiPicker } from './fun/FunEmojiPicker.dom.tsx';
-import { useFunEmojiLocalizer } from './fun/useFunEmojiLocalizer.dom.tsx';
 import { FunEmojiPickerButton } from './fun/FunButton.dom.tsx';
 import { tw } from '../axo/tw.dom.tsx';
 import { AxoButton } from '../axo/AxoButton.dom.tsx';
@@ -46,8 +40,6 @@ import { useRefMerger } from '../hooks/useRefMerger.std.ts';
 import { handleOutsideClick } from '../util/handleOutsideClick.dom.ts';
 import { useEscapeHandling } from '../hooks/useEscapeHandling.dom.ts';
 import { Modal } from './Modal.dom.tsx';
-
-import type { EmojiVariantKey } from './fun/data/emojis.std.ts';
 import type { LocalizerType } from '../types/I18N.std.ts';
 import type { ThemeType } from '../types/Util.std.ts';
 import type { ConversationType } from '../state/ducks/conversations.preload.ts';
@@ -60,6 +52,7 @@ import type {
 } from '../types/NotificationProfile.std.ts';
 import type { SettingsLocation } from '../types/Nav.std.ts';
 import { addLeadingZero } from '../util/timestamp.std.ts';
+import { Emoji } from '../axo/emoji.std.ts';
 
 enum CreateFlowPage {
   Name = 'Name',
@@ -261,14 +254,6 @@ function getColorFromProfile(argb: number): string {
   return `#${rgb.toString(16)}`;
 }
 
-function getEmojiVariantKey(value: string): EmojiVariantKey | undefined {
-  if (isEmojiVariantValue(value)) {
-    return getEmojiVariantKeyByValue(value);
-  }
-
-  return undefined;
-}
-
 type ProfileToSave = Omit<NotificationProfileType, 'id'>;
 
 export function NotificationProfilesCreateFlow({
@@ -284,7 +269,7 @@ export function NotificationProfilesCreateFlow({
   const [page, setPage] = useState(CreateFlowPage.Name);
 
   const [name, setName] = useState<string | undefined>();
-  const [emoji, setEmoji] = useState<string | undefined>();
+  const [emoji, setEmoji] = useState<Emoji.Variant | undefined>();
   const [allowedMembers, setAllowedMembers] = useState<ReadonlySet<string>>(
     new Set<string>()
   );
@@ -683,40 +668,39 @@ function NotificationProfilesNamePage({
 }: {
   contentsRef: MutableRefObject<HTMLDivElement | null>;
   i18n: LocalizerType;
-  initialEmoji: string | undefined;
+  initialEmoji: Emoji.Variant | undefined;
   initialName?: string;
   isEditing: boolean;
   onBack: VoidFunction;
   onNext: () => void;
-  onUpdate: (data: { emoji: string | undefined; name: string }) => void;
+  onUpdate: (data: { emoji: Emoji.Variant | undefined; name: string }) => void;
   theme: ThemeType;
 }) {
   const [emojiPickerOpen, setEmojiPickerOpen] = useState(false);
   const [name, setName] = useState(initialName);
-  const [emoji, setEmoji] = useState<string | undefined>(initialEmoji);
-  const emojiLocalizer = useFunEmojiLocalizer();
+  const [emoji, setEmoji] = useState<Emoji.Variant | undefined>(initialEmoji);
 
   const isValid = Boolean(name);
   const sampleProfileNames = useMemo(() => {
     return [
       {
-        emoji: '💪',
+        emoji: Emoji.getDefaultVariant(Emoji.MUSCLE),
         text: i18n('icu:NotificationProfiles--sample-name__work'),
       },
       {
-        emoji: '😴',
+        emoji: Emoji.SLEEPING,
         text: i18n('icu:NotificationProfiles--sample-name__sleep'),
       },
       {
-        emoji: '🚗',
+        emoji: Emoji.CAR,
         text: i18n('icu:NotificationProfiles--sample-name__driving'),
       },
       {
-        emoji: '😊',
+        emoji: Emoji.BLUSH,
         text: i18n('icu:NotificationProfiles--sample-name__downtime'),
       },
       {
-        emoji: '💡',
+        emoji: Emoji.BULB,
         text: i18n('icu:NotificationProfiles--sample-name__focus'),
       },
     ] as const;
@@ -738,8 +722,6 @@ function NotificationProfilesNamePage({
     },
     [emoji, setEmoji, setName, onUpdate]
   );
-
-  const emojiKey = emoji ? getEmojiVariantKey(emoji) : null;
 
   return (
     <>
@@ -767,8 +749,7 @@ function NotificationProfilesNamePage({
                 onOpenChange={handleFunEmojiPickerOpenChange}
                 placement="bottom"
                 onSelectEmoji={data => {
-                  const newEmoji = getEmojiVariantByKey(data.variantKey)?.value;
-
+                  const newEmoji = data.emoji;
                   setEmoji(newEmoji);
                   if (name) {
                     onUpdate({ name, emoji: newEmoji });
@@ -777,7 +758,7 @@ function NotificationProfilesNamePage({
                 closeOnSelect
                 theme={theme}
               >
-                <FunEmojiPickerButton i18n={i18n} selectedEmoji={emojiKey} />
+                <FunEmojiPickerButton i18n={i18n} selectedEmoji={emoji} />
               </FunEmojiPicker>
             }
             maxLengthCount={140}
@@ -791,13 +772,6 @@ function NotificationProfilesNamePage({
           />
           <div className={tw('mx-auto w-full max-w-[320px]')}>
             {sampleProfileNames.map(item => {
-              const itemEmojiKey = getEmojiVariantKey(item.emoji);
-              strictAssert(
-                itemEmojiKey,
-                'Emoji for name defaults should exist'
-              );
-              const itemEmojiData = getEmojiVariantByKey(itemEmojiKey);
-
               return (
                 <FullWidthButton
                   key={item.text}
@@ -813,11 +787,9 @@ function NotificationProfilesNamePage({
                 >
                   <FunStaticEmoji
                     role="img"
-                    aria-label={emojiLocalizer.getLocaleShortName(
-                      itemEmojiData.key
-                    )}
+                    aria-label={Emoji.getDisplayLabel(item.emoji)}
                     size={24}
-                    emoji={itemEmojiData}
+                    emoji={item.emoji}
                   />
                   {item.text}
                 </FullWidthButton>
@@ -1566,12 +1538,11 @@ function EmojiOrMoon({
   i18n,
   size,
 }: {
-  emoji?: EmojiVariantKey | undefined;
+  emoji?: Emoji.Variant | undefined;
   forceLightTheme?: boolean;
   i18n: LocalizerType;
   size: IconSize;
 }) {
-  const emojiLocalizer = useFunEmojiLocalizer();
   const sizeMap = useMemo(
     () => ({
       large: 48 as const,
@@ -1605,17 +1576,15 @@ function EmojiOrMoon({
     );
   }
 
-  const emojiData = getEmojiVariantByKey(emoji);
-
   return (
     <span
       className={tw('absolute inset-s-1/2 top-1/2 -translate-1/2 leading-0')}
     >
       <FunStaticEmoji
         role="img"
-        aria-label={emojiLocalizer.getLocaleShortName(emojiData.key)}
+        aria-label={Emoji.getDisplayLabel(emoji)}
         size={sizeMap[size]}
-        emoji={emojiData}
+        emoji={emoji}
       />
     </span>
   );
@@ -1775,7 +1744,6 @@ export function ProfileAvatar({
   profile?: ProfileToSave;
   size: IconSize;
 }): ReactNode {
-  const emoji = profile?.emoji ? getEmojiVariantKey(profile.emoji) : undefined;
   const backgroundColor = profile?.color
     ? getColorFromProfile(profile.color)
     : undefined;
@@ -1803,7 +1771,7 @@ export function ProfileAvatar({
       style={{ backgroundColor }}
     >
       <EmojiOrMoon
-        emoji={emoji}
+        emoji={profile?.emoji}
         forceLightTheme={forceLightTheme}
         i18n={i18n}
         size={size}

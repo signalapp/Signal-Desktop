@@ -42,6 +42,7 @@ import {
 import { KIBIBYTE } from '../../types/AttachmentSize.std.ts';
 import { itemStorage } from '../../textsecure/Storage.preload.ts';
 import { generateAci } from '../../test-helpers/serviceIdUtils.std.ts';
+import { Emoji } from '../../axo/emoji.std.ts';
 
 const { omit } = lodash;
 
@@ -831,7 +832,7 @@ describe('backup/attachments', () => {
           [
             composeMessage(1, {
               sticker: {
-                emoji: '🐒',
+                emoji: Emoji.MONKEY,
                 packId,
                 packKey,
                 stickerId: 0,
@@ -848,7 +849,7 @@ describe('backup/attachments', () => {
           [
             composeMessage(1, {
               sticker: {
-                emoji: '🐒',
+                emoji: Emoji.MONKEY,
                 packId,
                 packKey,
                 stickerId: 0,
@@ -895,7 +896,7 @@ describe('backup/attachments', () => {
           [
             composeMessage(1, {
               sticker: {
-                emoji: '🐒',
+                emoji: Emoji.MONKEY,
                 packId,
                 packKey,
                 stickerId: 0,
@@ -912,7 +913,7 @@ describe('backup/attachments', () => {
           [
             composeMessage(1, {
               sticker: {
-                emoji: '🐒',
+                emoji: Emoji.MONKEY,
                 packId,
                 packKey,
                 stickerId: 0,
@@ -940,7 +941,7 @@ describe('backup/attachments', () => {
           [
             composeMessage(1, {
               sticker: {
-                emoji: '🐒',
+                emoji: Emoji.MONKEY,
                 packId,
                 packKey,
                 stickerId: 0,
@@ -951,7 +952,7 @@ describe('backup/attachments', () => {
           [
             composeMessage(1, {
               sticker: {
-                emoji: '🐒',
+                emoji: Emoji.MONKEY,
                 packId,
                 packKey,
                 stickerId: 0,

@@ -14,6 +14,7 @@ import { IMAGE_GIF, IMAGE_JPEG, LONG_MESSAGE } from '../types/MIME.std.ts';
 import { toAciObject } from '../util/ServiceId.node.ts';
 import { uuidToBytes } from '../util/uuidToBytes.std.ts';
 import { generateAci } from '../test-helpers/serviceIdUtils.std.ts';
+import { Emoji } from '../axo/emoji.std.ts';
 
 const ACI_1 = generateAci();
 const ACI_BINARY_1 = toAciObject(ACI_1).getRawUuidBytes();
@@ -358,7 +359,7 @@ describe('processDataMessage', () => {
     assert.deepStrictEqual(
       check({
         reaction: {
-          emoji: '😎',
+          emoji: Emoji.COOL,
           remove: null,
           targetAuthorAci: null,
           targetAuthorAciBinary: ACI_BINARY_1,
@@ -366,7 +367,7 @@ describe('processDataMessage', () => {
         },
       }).reaction,
       {
-        emoji: '😎',
+        emoji: Emoji.COOL,
         remove: false,
         targetAuthorAci: ACI_1,
         targetTimestamp: TIMESTAMP,
@@ -376,7 +377,7 @@ describe('processDataMessage', () => {
     assert.deepStrictEqual(
       check({
         reaction: {
-          emoji: '😎',
+          emoji: Emoji.COOL,
           remove: true,
           targetAuthorAci: null,
           targetAuthorAciBinary: ACI_BINARY_1,
@@ -384,7 +385,7 @@ describe('processDataMessage', () => {
         },
       }).reaction,
       {
-        emoji: '😎',
+        emoji: Emoji.COOL,
         remove: true,
         targetAuthorAci: ACI_1,
         targetTimestamp: TIMESTAMP,
@@ -431,7 +432,7 @@ describe('processDataMessage', () => {
       packId: '010203',
       packKey: 'BAUG',
       stickerId: 1,
-      emoji: '💯',
+      emoji: Emoji.ONE_HUNDRED,
       data: PROCESSED_ATTACHMENT,
     });
   });

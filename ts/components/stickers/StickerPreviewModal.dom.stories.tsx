@@ -12,6 +12,11 @@ import {
   portraitTealUrl,
   squareStickerUrl,
 } from '../../storybook/Fixtures.std.ts';
+import type {
+  StickerPackType,
+  StickerType,
+} from '../../state/ducks/stickers.preload.ts';
+import { Emoji } from '../../axo/emoji.std.ts';
 
 const { i18n } = window.SignalContext;
 
@@ -21,21 +26,21 @@ export default {
   args: {},
 } satisfies Meta<Props>;
 
-const abeSticker = {
+const abeSticker: StickerType = {
   id: -1,
-  emoji: '🎩',
+  emoji: Emoji.TOPHAT,
   url: squareStickerUrl,
   packId: 'abe',
 };
-const wideSticker = {
+const wideSticker: StickerType = {
   id: -2,
-  emoji: '🤯',
+  emoji: Emoji.EXPLODING_HEAD,
   url: landscapeGreenUrl,
   packId: 'wide',
 };
-const tallSticker = {
+const tallSticker: StickerType = {
   id: -3,
-  emoji: '🔥',
+  emoji: Emoji.FIRE,
   url: portraitTealUrl,
   packId: 'tall',
 };
@@ -44,7 +49,7 @@ export function Full(): JSX.Element {
   const title = 'Foo';
   const author = 'Foo McBarrington';
 
-  const pack = {
+  const pack: StickerPackType = {
     id: 'foo',
     key: 'foo',
     lastUsed: Date.now(),

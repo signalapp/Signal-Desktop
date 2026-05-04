@@ -10,8 +10,8 @@ import {
   isLinkSneaky,
   shouldLinkifyMessage,
 } from '../../types/LinkPreview.std.ts';
-import { splitByEmoji } from '../../util/emoji.std.ts';
 import { missingCaseError } from '../../util/missingCaseError.std.ts';
+import { Emoji } from '../../axo/emoji.std.ts';
 
 export const linkify = new LinkifyIt()
   // This is all TLDs in place in 2010, according to [IANA's root zone database][0]
@@ -326,6 +326,11 @@ export const SUPPORTED_PROTOCOLS = /^(http|https):/i;
 
 const defaultRenderNonLink: RenderTextCallbackType = ({ text }) => text;
 
+type ChunkDataItem = Readonly<{
+  chunk: string;
+  matchData: ReadonlyArray<LinkifyItMatch>;
+}>;
+
 export function Linkify(props: Props): JSX.Element {
   const { text, renderNonLink = defaultRenderNonLink } = props;
 
@@ -333,19 +338,20 @@ export function Linkify(props: Props): JSX.Element {
     return <>{renderNonLink({ text, key: 1 })}</>;
   }
 
-  const chunkData: Array<{
-    chunk: string;
-    matchData: ReadonlyArray<LinkifyItMatch>;
-  }> = splitByEmoji(text).map(({ type, value: chunk }) => {
-    if (type === 'text') {
+  const segments = Array.from(Emoji.getSegments(text));
+
+  const chunkData = segments.map((segment): ChunkDataItem => {
+    const chunk = segment.value;
+
+    if (segment.kind === 'text') {
       return { chunk, matchData: linkify.match(chunk) || [] };
     }
 
-    if (type === 'emoji') {
+    if (segment.kind === 'emoji') {
       return { chunk, matchData: [] };
     }
 
-    throw missingCaseError(type);
+    throw missingCaseError(segment);
   });
 
   const results: Array<JSX.Element | string> = [];

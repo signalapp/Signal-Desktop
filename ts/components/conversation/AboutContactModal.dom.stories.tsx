@@ -8,6 +8,7 @@ import type { PropsType } from './AboutContactModal.dom.tsx';
 import { AboutContactModal } from './AboutContactModal.dom.tsx';
 import { type ComponentMeta } from '../../storybook/types.std.ts';
 import { getDefaultConversation } from '../../test-helpers/getDefaultConversation.std.ts';
+import { Emoji } from '../../axo/emoji.std.ts';
 
 const { i18n } = window.SignalContext;
 
@@ -107,7 +108,7 @@ export function MeWithLabel(args: PropsType): JSX.Element {
     <AboutContactModal
       {...{
         ...args,
-        contactLabelEmoji: '🐝',
+        contactLabelEmoji: Emoji.BEE,
         contactLabelString: 'Worker Bee',
         contactNameColor: '270',
       }}
@@ -121,7 +122,7 @@ export function LongLabel(args: PropsType): JSX.Element {
     <AboutContactModal
       {...{
         ...args,
-        contactLabelEmoji: '🐝',
+        contactLabelEmoji: Emoji.BEE,
         contactLabelString: '𒐫 𒐫 𒐫 𒐫 𒐫 𒐫 𒐫 𒐫 𒐫 𒐫 𒐫 𒐫 𒐫',
         contactNameColor: '270',
       }}
@@ -135,7 +136,7 @@ export function LongLabelAllEmoji(args: PropsType): JSX.Element {
     <AboutContactModal
       {...{
         ...args,
-        contactLabelEmoji: '🐝',
+        contactLabelEmoji: Emoji.BEE,
         contactLabelString: '🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝',
         contactNameColor: '270',
       }}
@@ -149,7 +150,7 @@ export function MeWithInvalidLabelEmoji(args: PropsType): JSX.Element {
     <AboutContactModal
       {...{
         ...args,
-        contactLabelEmoji: '@',
+        contactLabelEmoji: Emoji.unsafeCastMaybeInvalidStringToVariant('@'),
         contactLabelString: 'Worker Bee',
         contactNameColor: '270',
       }}

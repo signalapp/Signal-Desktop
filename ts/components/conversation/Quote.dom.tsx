@@ -33,6 +33,7 @@ import type {
 import type { AnyPaymentEvent } from '../../types/Payment.std.ts';
 import type { QuotedAttachmentType } from '../../model-types.d.ts';
 import type { MemberLabelType } from '../../types/GroupMemberLabels.std.ts';
+import type { Emoji } from '../../axo/emoji.std.ts';
 
 const { noop } = lodash;
 
@@ -64,7 +65,7 @@ export type Props = {
   payment?: AnyPaymentEvent;
   isGiftBadge: boolean;
   isViewOnce: boolean;
-  reactionEmoji?: string;
+  reactionEmoji?: Emoji.Variant;
   referencedMessageNotFound: boolean;
   doubleCheckMissingQuoteReference?: () => unknown;
 };

@@ -41,7 +41,6 @@ import {
   getUser,
   getUserNumber,
 } from '../selectors/user.std.ts';
-import { EmojiSkinTone } from '../../components/fun/data/emojis.std.ts';
 import { renderClearingDataView } from '../../shims/renderClearingDataView.preload.tsx';
 import OS from '../../util/os/osPreload.preload.ts';
 import { themeChanged } from '../../shims/themeChanged.dom.ts';
@@ -122,6 +121,7 @@ import { useMegaphonesActions } from '../ducks/megaphones.preload.ts';
 import type { ZoomFactorType } from '../../types/StorageKeys.std.ts';
 import { isLocalBackupsEnabled } from '../../util/isLocalBackupsEnabled.preload.ts';
 import { getBackupKeyHash } from '../../services/backups/crypto.preload.ts';
+import { Emoji } from '../../axo/emoji.std.ts';
 
 const DEFAULT_NOTIFICATION_SETTING = 'message';
 
@@ -613,7 +613,8 @@ export function SmartPreferences(): JSX.Element | null {
     return result;
   }, [items, conversationSelector]);
 
-  const emojiSkinToneDefault = items.emojiSkinToneDefault ?? EmojiSkinTone.None;
+  const emojiSkinToneDefault =
+    items.emojiSkinToneDefault ?? Emoji.SkinTone.None;
   const isInternalUser =
     items.remoteConfig?.['desktop.internalUser']?.enabled ?? false;
   const isContentProtectionSupported =

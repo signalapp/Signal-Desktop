@@ -18,11 +18,12 @@ import { createPortal } from 'react-dom';
 import { v4 as uuid } from 'uuid';
 import { useIsMounted } from '../hooks/useIsMounted.std.ts';
 import { CallReactionBurstEmoji } from './CallReactionBurstEmoji.dom.tsx';
+import type { Emoji } from '../axo/emoji.std.ts';
 
 const LIFETIME = 3000;
 
 export type CallReactionBurstType = {
-  values: Array<string>;
+  values: Array<Emoji>;
 };
 
 type CallReactionBurstStateType = CallReactionBurstType & {

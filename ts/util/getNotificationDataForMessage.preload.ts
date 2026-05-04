@@ -62,6 +62,7 @@ import { MessageRequestResponseEvent } from '../types/MessageRequestResponseEven
 import { missingCaseError } from './missingCaseError.std.ts';
 import { getUserConversationId } from '../state/selectors/user.std.ts';
 import { itemStorage } from '../textsecure/Storage.preload.ts';
+import { Emoji } from '../axo/emoji.std.ts';
 
 const log = createLogger('getNotificationDataForMessage');
 const { i18n } = window.SignalContext;
@@ -78,12 +79,12 @@ export function getNotificationDataForMessage(
   attributes: ReadonlyMessageAttributesType
 ): {
   bodyRanges?: ReadonlyArray<ReadonlyDeep<RawBodyRange>>;
-  emoji?: string;
+  emoji?: Emoji.Variant;
   text: string;
 } {
   if (isDeliveryIssue(attributes)) {
     return {
-      emoji: '⚠️',
+      emoji: Emoji.WARNING,
       text: i18n('icu:DeliveryIssue--preview'),
     };
   }
@@ -117,7 +118,7 @@ export function getNotificationDataForMessage(
 
   if (isChatSessionRefreshed(attributes)) {
     return {
-      emoji: '🔁',
+      emoji: Emoji.REPEAT,
       text: i18n('icu:ChatRefresh--notification'),
     };
   }
@@ -187,7 +188,7 @@ export function getNotificationDataForMessage(
         sender.isMe,
         i18n
       ),
-      emoji: '💳',
+      emoji: Emoji.CREDIT_CARD,
     };
   }
 
@@ -249,18 +250,18 @@ export function getNotificationDataForMessage(
     if (Attachment.isImage(attachments)) {
       return {
         text: i18n('icu:message--getDescription--disappearing-photo'),
-        emoji: '📷',
+        emoji: Emoji.CAMERA,
       };
     }
     if (Attachment.isVideo(attachments)) {
       return {
         text: i18n('icu:message--getDescription--disappearing-video'),
-        emoji: '🎥',
+        emoji: Emoji.MOVIE_CAMERA,
       };
     }
     // There should be an image or video attachment, but we have a fallback just in
     //   case.
-    return { text: i18n('icu:mediaMessage'), emoji: '📎' };
+    return { text: i18n('icu:mediaMessage'), emoji: Emoji.PAPERCLIP };
   }
 
   if (isGroupUpdate(attributes)) {
@@ -368,7 +369,7 @@ export function getNotificationDataForMessage(
     ).length;
     if (tooBigAttachmentCount === attachments.length) {
       return {
-        emoji: '📎',
+        emoji: Emoji.PAPERCLIP,
         text: i18n('icu:message--attachmentTooBig--one'),
       };
     }
@@ -376,35 +377,35 @@ export function getNotificationDataForMessage(
     if (contentType === MIME.IMAGE_GIF || Attachment.isGIF(attachments)) {
       return {
         bodyRanges,
-        emoji: '🎡',
+        emoji: Emoji.FERRIS_WHEEL,
         text: body || i18n('icu:message--getNotificationText--gif'),
       };
     }
     if (Attachment.isImage(attachments)) {
       return {
         bodyRanges,
-        emoji: '📷',
+        emoji: Emoji.CAMERA,
         text: body || i18n('icu:message--getNotificationText--photo'),
       };
     }
     if (Attachment.isVideo(attachments)) {
       return {
         bodyRanges,
-        emoji: '🎥',
+        emoji: Emoji.MOVIE_CAMERA,
         text: body || i18n('icu:message--getNotificationText--video'),
       };
     }
     if (Attachment.isVoiceMessage(attachment)) {
       return {
         bodyRanges,
-        emoji: '🎤',
+        emoji: Emoji.MICROPHONE,
         text: body || i18n('icu:message--getNotificationText--voice-message'),
       };
     }
     if (Attachment.isAudio(attachments)) {
       return {
         bodyRanges,
-        emoji: '🔈',
+        emoji: Emoji.SPEAKER,
         text: body || i18n('icu:message--getNotificationText--audio-message'),
       };
     }
@@ -412,7 +413,7 @@ export function getNotificationDataForMessage(
     return {
       bodyRanges,
       text: body || i18n('icu:message--getNotificationText--file'),
-      emoji: '📎',
+      emoji: Emoji.PAPERCLIP,
     };
   }
 
@@ -480,13 +481,13 @@ export function getNotificationDataForMessage(
     return {
       // oxlint-disable-next-line typescript/no-non-null-assertion
       text: EmbeddedContact.getName(contacts[0]!) || i18n('icu:unknownContact'),
-      emoji: '👤',
+      emoji: Emoji.BUST_IN_SILHOUETTE,
     };
   }
 
   const { giftBadge } = attributes;
   if (giftBadge) {
-    const emoji = '✨';
+    const emoji = Emoji.SPARKLES;
 
     if (isOutgoing(attributes)) {
       const toContact = window.ConversationController.get(
@@ -527,7 +528,7 @@ export function getNotificationDataForMessage(
     }
 
     return {
-      emoji: '📌',
+      emoji: Emoji.PUSHPIN,
       text,
     };
   }
@@ -535,7 +536,7 @@ export function getNotificationDataForMessage(
   const { poll } = attributes;
   if (poll) {
     return {
-      emoji: '📊',
+      emoji: Emoji.BAR_CHART,
       text: i18n('icu:Poll--preview', {
         pollQuestion: poll.question,
       }),
@@ -557,7 +558,7 @@ export function getNotificationDataForMessage(
         });
 
     return {
-      emoji: '📊',
+      emoji: Emoji.BAR_CHART,
       text,
     };
   }

@@ -87,9 +87,6 @@ importers:
       '@signalapp/windows-ucv':
         specifier: 1.0.1
         version: 1.0.1
-      emoji-datasource:
-        specifier: 16.0.0
-        version: 16.0.0
       google-libphonenumber:
         specifier: 3.2.44
         version: 3.2.44
@@ -430,9 +427,9 @@ importers:
       electron-mocha:
         specifier: 13.1.0
         version: 13.1.0
-      emoji-regex:
-        specifier: 10.6.0
-        version: 10.6.0
+      emoji-regex-xs:
+        specifier: 2.0.1
+        version: 2.0.1
       enhanced-resolve:
         specifier: 5.20.1
         version: 5.20.1
@@ -6156,11 +6153,9 @@ packages:
     resolution: {integrity: sha512-DeWwawk6r5yR9jFgnDKYt4sLS0LmHJJi3ZOnb5/JdbYwj3nW+FxQnHIjhBKz8YLC7oRNPVM9NQ47I3CVx34eqQ==}
     engines: {node: '>=12'}
 
-  emoji-datasource@16.0.0:
-    resolution: {integrity: sha512-/qHKqK5Nr3+8zhgO6kHmF43Fm5C8HNn0AaFRIpgw8HF3+uF0Vfc8jgLI1ZQS5ba1vBzksS8NBCjHejwLb2D/Sg==}
-
-  emoji-regex@10.6.0:
-    resolution: {integrity: sha512-toUI84YS5YmxW219erniWD0CIVOo46xGKColeNQRgOzDorgBi1v4D71/OFzgD9GO2UGKIv1C3Sp8DAn0+j5w7A==}
+  emoji-regex-xs@2.0.1:
+    resolution: {integrity: sha512-1QFuh8l7LqUcKe24LsPUNzjrzJQ7pgRwp1QMcZ5MX6mFplk2zQ08NVCM84++1cveaUUYtcCYHmeFEuNg16sU4g==}
+    engines: {node: '>=10.0.0'}
 
   emoji-regex@7.0.3:
     resolution: {integrity: sha512-CwBLREIQ7LvYFB0WyRvwhq5N5qPhc6PMjD6bYggFlI5YyDgl+0vxq5VHbMOFqLg7hfWzmu8T5Z1QofhmTIhItA==}
@@ -16400,9 +16395,7 @@ snapshots:
 
   emittery@0.13.1: {}
 
-  emoji-datasource@16.0.0: {}
-
-  emoji-regex@10.6.0: {}
+  emoji-regex-xs@2.0.1: {}
 
   emoji-regex@7.0.3: {}
 

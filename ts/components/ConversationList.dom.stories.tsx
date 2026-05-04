@@ -16,6 +16,7 @@ import { getDefaultConversation } from '../test-helpers/getDefaultConversation.s
 import { ThemeType } from '../types/Util.std.ts';
 import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext.std.ts';
 import { makeFakeLookupConversationWithoutServiceId } from '../test-helpers/fakeLookupConversationWithoutServiceId.std.ts';
+import { Emoji } from '../axo/emoji.std.ts';
 
 const { times, omit } = lodash;
 
@@ -349,7 +350,7 @@ export const ConversationWithDraft = (): JSX.Element =>
     shouldShowDraft: true,
     draftPreview: {
       text: "I'm in the middle of typing this...",
-      prefix: '🎤',
+      prefix: Emoji.MICROPHONE,
       bodyRanges: [],
     },
   });

@@ -6,7 +6,7 @@ import { usePreferredReactionsActions } from '../ducks/preferredReactions.preloa
 import { useItemsActions } from '../ducks/items.preload.ts';
 import { getIntl } from '../selectors/user.std.ts';
 import { getEmojiSkinToneDefault } from '../selectors/items.dom.ts';
-import { useRecentEmojis } from '../selectors/emojis.std.ts';
+import { selectRecentEmojis } from '../selectors/emojis.std.ts';
 import { getCustomizeModalState } from '../selectors/preferredReactions.std.ts';
 import { CustomizingPreferredReactionsModal } from '../../components/CustomizingPreferredReactionsModal.dom.tsx';
 import { strictAssert } from '../../util/assert.std.ts';
@@ -16,7 +16,7 @@ export const SmartCustomizingPreferredReactionsModal = memo(
     const i18n = useSelector(getIntl);
     const customizeModalState = useSelector(getCustomizeModalState);
     const emojiSkinToneDefault = useSelector(getEmojiSkinToneDefault);
-    const recentEmojis = useRecentEmojis();
+    const recentEmojis = useSelector(selectRecentEmojis);
 
     const {
       cancelCustomizePreferredReactionsModal,

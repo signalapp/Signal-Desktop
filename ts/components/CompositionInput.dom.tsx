@@ -88,19 +88,14 @@ import type { AutoSubstituteAsciiEmojisOptions } from '../quill/auto-substitute-
 import { AutoSubstituteAsciiEmojis } from '../quill/auto-substitute-ascii-emojis/index.dom.tsx';
 import { dropNull } from '../util/dropNull.std.ts';
 import { SimpleQuillWrapper } from './SimpleQuillWrapper.dom.tsx';
-import {
-  getEmojiVariantByKey,
-  type EmojiSkinTone,
-} from './fun/data/emojis.std.ts';
 import { FUN_STATIC_EMOJI_CLASS } from './fun/FunEmoji.dom.tsx';
-import { useFunEmojiSearch } from './fun/useFunEmojiSearch.dom.tsx';
 import type { EmojiCompletionOptions } from '../quill/emoji/completion.dom.tsx';
-import { useFunEmojiLocalizer } from './fun/useFunEmojiLocalizer.dom.tsx';
 import { MAX_BODY_ATTACHMENT_BYTE_LENGTH } from '../util/longAttachment.std.ts';
 import type { FunEmojiSelection } from './fun/panels/FunPanelEmojis.dom.tsx';
 import { AxoSymbol } from '../axo/AxoSymbol.dom.tsx';
 import { AxoTooltip } from '../axo/AxoTooltip.dom.tsx';
 import { tw } from '../axo/tw.dom.tsx';
+import type { Emoji } from '../axo/emoji.std.ts';
 
 const log = createLogger('CompositionInput');
 
@@ -145,7 +140,7 @@ export type Props = Readonly<{
   isFormattingEnabled: boolean;
   isActive: boolean;
   sendCounter: number;
-  emojiSkinToneDefault: EmojiSkinTone | null;
+  emojiSkinToneDefault: Emoji.SkinTone | null;
   draftText: string | null;
   draftBodyRanges: HydratedBodyRangesType | null;
   moduleClassName?: string;
@@ -321,12 +316,10 @@ export function CompositionInput(props: Props): ReactElement {
         return;
       }
 
-      const emojiVariant = getEmojiVariantByKey(emojiSelection.variantKey);
-
       const delta = new Delta()
         .retain(insertionRange.index)
         .delete(insertionRange.length)
-        .insert({ emoji: { value: emojiVariant.value } });
+        .insert({ emoji: { value: emojiSelection.emoji } });
 
       quill.updateContents(delta, 'user');
       quill.setSelection(insertionRange.index + 1, 0, 'user');
@@ -811,9 +804,6 @@ export function CompositionInput(props: Props): ReactElement {
   const callbacksRef = useRef(unstaleCallbacks);
   callbacksRef.current = unstaleCallbacks;
 
-  const emojiSearch = useFunEmojiSearch();
-  const emojiLocalizer = useFunEmojiLocalizer();
-
   const reactQuill = useMemo(
     () => {
       const delta = generateDelta(draftText || '', draftBodyRanges || []);
@@ -879,8 +869,6 @@ export function CompositionInput(props: Props): ReactElement {
               onSelectEmoji: (emojiSelection: FunEmojiSelection) =>
                 callbacksRef.current.onSelectEmoji(emojiSelection),
               emojiSkinToneDefault,
-              emojiSearch,
-              emojiLocalizer,
             } satisfies EmojiCompletionOptions,
             autoSubstituteAsciiEmojis: {
               emojiSkinToneDefault,

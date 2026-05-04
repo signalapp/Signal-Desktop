@@ -51,6 +51,7 @@ import { callLinkRefreshJobQueue } from '../../../jobs/callLinkRefreshJobQueue.p
 import { CALL_LINK_DEFAULT_STATE } from '../../../util/callLinks.std.ts';
 import { DataWriter } from '../../../sql/Client.preload.ts';
 import { generateAci } from '../../../test-helpers/serviceIdUtils.std.ts';
+import { Emoji } from '../../../axo/emoji.std.ts';
 
 const { cloneDeep, noop } = lodash;
 
@@ -1886,7 +1887,7 @@ describe('calling duck', () => {
           {
             timestamp: NOW.getTime(),
             demuxId: 123,
-            value: '❤️',
+            value: Emoji.HEART,
           },
         ]);
 
@@ -1899,7 +1900,7 @@ describe('calling duck', () => {
           reactions: [
             {
               demuxId: 456,
-              value: '🎉',
+              value: Emoji.TADA,
             },
           ],
         });
@@ -1913,12 +1914,12 @@ describe('calling duck', () => {
           {
             timestamp: NOW.getTime(),
             demuxId: 123,
-            value: '❤️',
+            value: Emoji.HEART,
           },
           {
             timestamp: secondDate.getTime(),
             demuxId: 456,
-            value: '🎉',
+            value: Emoji.TADA,
           },
         ]);
       });
@@ -1930,11 +1931,11 @@ describe('calling duck', () => {
           reactions: [
             {
               demuxId: 123,
-              value: '❤️',
+              value: Emoji.HEART,
             },
             {
               demuxId: 456,
-              value: '🎉',
+              value: Emoji.TADA,
             },
           ],
         });
@@ -1948,12 +1949,12 @@ describe('calling duck', () => {
           {
             timestamp: NOW.getTime(),
             demuxId: 123,
-            value: '❤️',
+            value: Emoji.HEART,
           },
           {
             timestamp: NOW.getTime(),
             demuxId: 456,
-            value: '🎉',
+            value: Emoji.TADA,
           },
         ]);
       });
@@ -1992,7 +1993,7 @@ describe('calling duck', () => {
         const action = getAction({
           callMode: CallMode.Group,
           conversationId: 'fake-group-call-conversation-id',
-          value: '❤️',
+          value: Emoji.HEART,
         });
         const result = reducer(getState().calling, action);
 
@@ -2004,7 +2005,7 @@ describe('calling duck', () => {
           {
             timestamp: NOW.getTime(),
             demuxId: 1,
-            value: '❤️',
+            value: Emoji.HEART,
           },
         ]);
       });

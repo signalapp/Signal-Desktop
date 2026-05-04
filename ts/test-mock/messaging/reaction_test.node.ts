@@ -19,6 +19,7 @@ import {
   sendReaction,
   createGroup,
 } from '../helpers.node.ts';
+import { Emoji } from '../../axo/emoji.std.ts';
 
 export const debug = createDebug('mock:test:reactions');
 
@@ -38,7 +39,7 @@ async function getReactionsForMessage(page: Page, timestamp: number) {
       // oxlint-disable-next-line no-await-in-loop
       const emoji = await row
         .locator('.FunStaticEmoji')
-        .getAttribute('data-emoji-value');
+        .getAttribute('data-emoji');
       // oxlint-disable-next-line no-await-in-loop
       const reactor = await row
         .locator('.module-reaction-viewer__body__row__name')
@@ -60,7 +61,7 @@ async function getReactionsForMessage(page: Page, timestamp: number) {
 async function expectMessageToHaveReactions(
   page: Page,
   timestamp: number,
-  reactionsBySender: Record<string, Array<string>>,
+  reactionsBySender: Record<Emoji.Variant, Array<string>>,
   options?: { timeout: number }
 ): Promise<void> {
   return expect(async () => {
@@ -164,7 +165,7 @@ describe('reactions', function (this: Mocha.Suite) {
     await sendReaction({
       from: bob,
       to: desktop,
-      emoji: '👻',
+      emoji: Emoji.GHOST,
       targetAuthor: alice,
       targetMessageTimestamp: alice1on1Timestamp,
       desktop,
@@ -174,17 +175,18 @@ describe('reactions', function (this: Mocha.Suite) {
     await sendReaction({
       from: phone,
       to: desktop,
-      emoji: '💀',
+      emoji: Emoji.SKULL,
       targetAuthor: bob,
       targetMessageTimestamp: alice1on1Timestamp,
       desktop,
     });
 
+    const thumbsUp = Emoji.getDefaultVariant(Emoji.THUMBS_UP);
     // [✅ incoming message] alice reacting to her own message
     await sendReaction({
       from: alice,
       to: desktop,
-      emoji: '👍',
+      emoji: thumbsUp,
       targetAuthor: alice,
       targetMessageTimestamp: alice1on1Timestamp,
       desktop,
@@ -192,22 +194,23 @@ describe('reactions', function (this: Mocha.Suite) {
 
     await clickOnConversation(window, alice);
     await expectMessageToHaveReactions(window, alice1on1Timestamp, {
-      '👍': [alice.profileName],
+      [thumbsUp]: [alice.profileName],
     });
 
     // [✅ incoming message] phone sending message with right author
+    const wave = Emoji.getDefaultVariant(Emoji.WAVE);
     await sendReaction({
       from: phone,
       to: alice,
-      emoji: '👋',
+      emoji: wave,
       targetAuthor: alice,
       targetMessageTimestamp: alice1on1Timestamp,
       desktop,
     });
 
     await expectMessageToHaveReactions(window, alice1on1Timestamp, {
-      '👍': [alice.profileName],
-      '👋': ['You'],
+      [thumbsUp]: [alice.profileName],
+      [wave]: ['You'],
     });
 
     // now, receive reactions from those messages with same timestamp
@@ -215,7 +218,7 @@ describe('reactions', function (this: Mocha.Suite) {
     await sendReaction({
       from: bob,
       to: desktop,
-      emoji: '👋',
+      emoji: Emoji.getDefaultVariant(Emoji.WAVE),
       targetAuthor: phone,
       targetMessageTimestamp: outgoingTimestamp,
       desktop,
@@ -225,7 +228,7 @@ describe('reactions', function (this: Mocha.Suite) {
     await sendReaction({
       from: charlie,
       to: desktop,
-      emoji: '👋',
+      emoji: Emoji.getDefaultVariant(Emoji.WAVE),
       targetAuthor: phone,
       targetMessageTimestamp: outgoingTimestamp,
       desktop,
@@ -233,12 +236,12 @@ describe('reactions', function (this: Mocha.Suite) {
 
     await clickOnConversation(window, bob);
     await expectMessageToHaveReactions(window, outgoingTimestamp, {
-      '👋': [bob.profileName],
+      [wave]: [bob.profileName],
     });
 
     await clickOnConversation(window, charlie);
     await expectMessageToHaveReactions(window, outgoingTimestamp, {
-      '👋': [charlie.profileName],
+      [wave]: [charlie.profileName],
     });
   });
 
@@ -269,10 +272,11 @@ describe('reactions', function (this: Mocha.Suite) {
     const charlieGroupTimestamp = now + 3;
 
     // [✅ outgoing message]: charlie reacting to bob's group message, early
+    const wave = Emoji.getDefaultVariant(Emoji.WAVE);
     await sendReaction({
       from: charlie,
       to: desktop,
-      emoji: '👋',
+      emoji: wave,
       targetAuthor: bob,
       targetMessageTimestamp: bobGroupTimestamp,
       desktop,
@@ -318,17 +322,18 @@ describe('reactions', function (this: Mocha.Suite) {
     await sendReaction({
       from: danielle,
       to: desktop,
-      emoji: '👻',
+      emoji: Emoji.GHOST,
       targetAuthor: phone,
       targetMessageTimestamp: myGroupTimestamp,
       desktop,
     });
 
     // [✅ outgoing message]: alice reacting to our group message
+    const thumbsUp = Emoji.getDefaultVariant(Emoji.THUMBS_UP);
     await sendReaction({
       from: alice,
       to: desktop,
-      emoji: '👍',
+      emoji: thumbsUp,
       targetAuthor: phone,
       targetMessageTimestamp: myGroupTimestamp,
       desktop,
@@ -338,7 +343,7 @@ describe('reactions', function (this: Mocha.Suite) {
     await sendReaction({
       from: bob,
       to: desktop,
-      emoji: '👍',
+      emoji: thumbsUp,
       targetAuthor: phone,
       targetMessageTimestamp: myGroupTimestamp,
       desktop,
@@ -348,22 +353,22 @@ describe('reactions', function (this: Mocha.Suite) {
     await sendReaction({
       from: charlie,
       to: desktop,
-      emoji: '😛',
+      emoji: Emoji.STUCK_OUT_TONGUE,
       targetAuthor: alice,
       targetMessageTimestamp: aliceGroupTimestamp,
       desktop,
     });
 
     await expectMessageToHaveReactions(window, myGroupTimestamp, {
-      '👍': [bob.profileName, alice.profileName],
+      [thumbsUp]: [bob.profileName, alice.profileName],
     });
 
     await expectMessageToHaveReactions(window, aliceGroupTimestamp, {
-      '😛': [charlie.profileName],
+      [Emoji.STUCK_OUT_TONGUE]: [charlie.profileName],
     });
 
     await expectMessageToHaveReactions(window, bobGroupTimestamp, {
-      '👋': [charlie.profileName],
+      [wave]: [charlie.profileName],
     });
   });
 
@@ -397,7 +402,7 @@ describe('reactions', function (this: Mocha.Suite) {
     await sendReaction({
       from: phone,
       to: desktop,
-      emoji: '👍🏽',
+      emoji: Emoji.getVariant(Emoji.THUMBS_UP, Emoji.SkinTone.Type3),
       targetAuthor: phone,
       targetMessageTimestamp: ts,
       desktop,
@@ -407,7 +412,7 @@ describe('reactions', function (this: Mocha.Suite) {
     await sendReaction({
       from: bob,
       to: desktop,
-      emoji: '👍🏿',
+      emoji: Emoji.getVariant(Emoji.THUMBS_UP, Emoji.SkinTone.Type5),
       targetAuthor: phone,
       targetMessageTimestamp: ts,
       desktop,
@@ -426,7 +431,7 @@ describe('reactions', function (this: Mocha.Suite) {
     );
 
     // The header emoji should still show the local "👍🏽"
-    await expect(headerEmoji).toHaveAttribute('data-emoji-value', '👍🏽');
+    await expect(headerEmoji).toHaveAttribute('data-emoji', '👍🏽');
 
     // Get all reaction rows; Bob's should be first (most recent), then "You"
     const reactionRows = await window
@@ -440,7 +445,7 @@ describe('reactions', function (this: Mocha.Suite) {
       firstReaction.locator('.module-reaction-viewer__body__row__name')
     ).toHaveText(bob.profileName);
     await expect(firstReaction.locator('.FunStaticEmoji')).toHaveAttribute(
-      'data-emoji-value',
+      'data-emoji',
       '👍🏿'
     );
 
@@ -451,7 +456,7 @@ describe('reactions', function (this: Mocha.Suite) {
       secondReaction.locator('.module-reaction-viewer__body__row__name')
     ).toHaveText('You');
     await expect(secondReaction.locator('.FunStaticEmoji')).toHaveAttribute(
-      'data-emoji-value',
+      'data-emoji',
       '👍🏽'
     );
   });

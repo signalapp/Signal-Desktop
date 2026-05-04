@@ -6,8 +6,6 @@ import { createRoot, type Root } from 'react-dom/client';
 // oxlint-disable-next-line signal-desktop/no-restricted-paths
 import { ConfirmationDialog } from '../components/ConfirmationDialog.dom.tsx';
 // oxlint-disable-next-line signal-desktop/no-restricted-paths
-import { FunDefaultEnglishEmojiLocalizationProvider } from '../components/fun/FunEmojiLocalizationProvider.dom.tsx';
-// oxlint-disable-next-line signal-desktop/no-restricted-paths
 import { AxoProvider } from '../axo/AxoProvider.dom.tsx';
 
 type ConfirmationDialogViewProps = {
@@ -64,37 +62,35 @@ export function showConfirmationDialog(
   confirmationDialogRoot.render(
     <StrictMode>
       <AxoProvider dir={i18n.getLocaleDirection()}>
-        <FunDefaultEnglishEmojiLocalizationProvider>
-          <ConfirmationDialog
-            dialogName={options.dialogName}
-            onTopOfEverything={options.onTopOfEverything}
-            actions={[
-              {
-                action: () => {
-                  options.resolve();
-                },
-                style: options.confirmStyle,
-                text: options.okText || i18n('icu:ok'),
+        <ConfirmationDialog
+          dialogName={options.dialogName}
+          onTopOfEverything={options.onTopOfEverything}
+          actions={[
+            {
+              action: () => {
+                options.resolve();
               },
-            ]}
-            cancelText={options.cancelText || i18n('icu:cancel')}
-            i18n={i18n}
-            onCancel={() => {
-              if (options.reject) {
-                options.reject(
-                  new Error('showConfirmationDialog: onCancel called')
-                );
-              }
-            }}
-            onClose={() => {
-              removeConfirmationDialog();
-            }}
-            title={options.title}
-            noMouseClose={options.noMouseClose}
-          >
-            {options.description}
-          </ConfirmationDialog>
-        </FunDefaultEnglishEmojiLocalizationProvider>
+              style: options.confirmStyle,
+              text: options.okText || i18n('icu:ok'),
+            },
+          ]}
+          cancelText={options.cancelText || i18n('icu:cancel')}
+          i18n={i18n}
+          onCancel={() => {
+            if (options.reject) {
+              options.reject(
+                new Error('showConfirmationDialog: onCancel called')
+              );
+            }
+          }}
+          onClose={() => {
+            removeConfirmationDialog();
+          }}
+          title={options.title}
+          noMouseClose={options.noMouseClose}
+        >
+          {options.description}
+        </ConfirmationDialog>
       </AxoProvider>
     </StrictMode>
   );

@@ -6,11 +6,6 @@ import { noop } from 'lodash';
 
 import { Input } from '../../Input.dom.tsx';
 import { FunEmojiPicker } from '../../fun/FunEmojiPicker.dom.tsx';
-import {
-  getEmojiVariantByKey,
-  getEmojiVariantKeyByValue,
-  isEmojiVariantValue,
-} from '../../fun/data/emojis.std.ts';
 import { FunEmojiPickerButton } from '../../fun/FunButton.dom.tsx';
 import { tw } from '../../../axo/tw.dom.tsx';
 import { AxoButton } from '../../../axo/AxoButton.dom.tsx';
@@ -33,8 +28,6 @@ import { GroupMemberLabel } from '../ContactName.dom.tsx';
 import { useConfirmDiscard } from '../../../hooks/useConfirmDiscard.dom.tsx';
 import { NavTab } from '../../../types/Nav.std.ts';
 import { PanelType } from '../../../types/Panels.std.ts';
-
-import type { EmojiVariantKey } from '../../fun/data/emojis.std.ts';
 import type {
   ConversationType,
   UpdateGroupMemberLabelType,
@@ -43,10 +36,11 @@ import type { LocalizerType, ThemeType } from '../../../types/Util.std.ts';
 import type { PreferredBadgeSelectorType } from '../../../state/selectors/badges.preload.ts';
 import type { Location } from '../../../types/Nav.std.ts';
 import { usePrevious } from '../../../hooks/usePrevious.std.ts';
+import type { Emoji } from '../../../axo/emoji.std.ts';
 
 export type PropsDataType = {
   canAddLabel: boolean;
-  existingLabelEmoji: string | undefined;
+  existingLabelEmoji: Emoji.Variant | undefined;
   existingLabelString: string | undefined;
   group: ConversationType;
   i18n: LocalizerType;
@@ -55,7 +49,7 @@ export type PropsDataType = {
   membersWithLabel: Array<{
     contactNameColor: ContactNameColorType;
     isAdmin: boolean;
-    labelEmoji: string | undefined;
+    labelEmoji: Emoji.Variant | undefined;
     labelString: string;
     member: ConversationType;
   }>;
@@ -84,14 +78,6 @@ export function getLeafPanelOnly(
   );
 }
 
-function getEmojiVariantKey(value: string): EmojiVariantKey | undefined {
-  if (isEmojiVariantValue(value)) {
-    return getEmojiVariantKeyByValue(value);
-  }
-
-  return undefined;
-}
-
 export function GroupMemberLabelEditor({
   canAddLabel,
   group,
@@ -118,7 +104,6 @@ export function GroupMemberLabelEditor({
 
   const [emojiPickerOpen, setEmojiPickerOpen] = useState(false);
 
-  const emojiKey = labelEmoji ? getEmojiVariantKey(labelEmoji) : null;
   const [isSaving, setIsSaving] = useState(false);
 
   const labelStringForSave = labelString ? labelString.trim() : labelString;
@@ -185,14 +170,12 @@ export function GroupMemberLabelEditor({
                 onOpenChange={(open: boolean) => setEmojiPickerOpen(open)}
                 placement="bottom"
                 onSelectEmoji={data => {
-                  const newEmoji = getEmojiVariantByKey(data.variantKey)?.value;
-
-                  setLabelEmoji(newEmoji);
+                  setLabelEmoji(data.emoji);
                 }}
                 closeOnSelect
                 theme={theme}
               >
-                <FunEmojiPickerButton i18n={i18n} selectedEmoji={emojiKey} />
+                <FunEmojiPickerButton i18n={i18n} selectedEmoji={labelEmoji} />
               </FunEmojiPicker>
             }
             maxLengthCount={STRING_GRAPHEME_LIMIT}

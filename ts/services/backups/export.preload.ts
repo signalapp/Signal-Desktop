@@ -191,6 +191,7 @@ import { MAX_VALUE as LONG_MAX_VALUE } from '../../util/long.std.ts';
 import { encodeDelimited } from '../../util/encodeDelimited.std.ts';
 import { safeParseStrict } from '../../util/schemas.std.ts';
 import type { WithRequiredProperties } from '../../types/Util.std.ts';
+import type { Emoji } from '../../axo/emoji.std.ts';
 
 const { isNumber } = lodash;
 
@@ -976,7 +977,7 @@ export class BackupExportStream extends Readable {
 
     const rawPreferredReactionEmoji = itemStorage.get('preferredReactionEmoji');
 
-    let preferredReactionEmoji: Array<string> | undefined;
+    let preferredReactionEmoji: Array<Emoji.Variant> | undefined;
     if (canPreferredReactionEmojiBeSynced(rawPreferredReactionEmoji)) {
       preferredReactionEmoji = rawPreferredReactionEmoji;
     }

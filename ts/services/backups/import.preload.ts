@@ -168,6 +168,7 @@ import type { PinnedMessageParams } from '../../types/PinnedMessage.std.ts';
 import type { ThemeType } from '../../util/preload.preload.ts';
 import { toNumber } from '../../util/toNumber.std.ts';
 import { isKnownProtoEnumMember } from '../../util/isKnownProtoEnumMember.std.ts';
+import { Emoji } from '../../axo/emoji.std.ts';
 
 const { isNumber } = lodash;
 
@@ -827,7 +828,7 @@ export class BackupImportStream extends Writable {
       me.about = bioText;
     }
     if (bioEmoji != null) {
-      me.aboutEmoji = bioEmoji;
+      me.aboutEmoji = Emoji.unsafeCastMaybeInvalidStringToVariant(bioEmoji);
     }
     if (Bytes.isNotEmpty(keyTransparencyData)) {
       const ourAci = this.#ourConversation?.serviceId;
@@ -936,7 +937,9 @@ export class BackupImportStream extends Writable {
     );
     await itemStorage.put(
       'preferredReactionEmoji',
-      accountSettings?.preferredReactionEmoji || []
+      accountSettings?.preferredReactionEmoji?.map(emoji => {
+        return Emoji.unsafeCastMaybeInvalidStringToVariant(emoji);
+      }) ?? []
     );
     if (svrPin) {
       await itemStorage.put('svrPin', svrPin);
@@ -1287,7 +1290,10 @@ export class BackupImportStream extends Writable {
           return {
             aci: fromAciObject(Aci.fromUuidBytes(userId)),
             joinedAtVersion: dropNull(joinedAtVersion) ?? 0,
-            labelEmoji: dropNull(labelEmoji),
+            labelEmoji:
+              labelEmoji != null
+                ? Emoji.unsafeCastMaybeInvalidStringToVariant(labelEmoji)
+                : undefined,
             labelString: dropNull(labelString),
             role: parseGroupMemberRole(role),
           };
@@ -2297,7 +2303,7 @@ export class BackupImportStream extends Writable {
         : undefined;
     } else if (emoji) {
       result.storyReaction = {
-        emoji,
+        emoji: Emoji.unsafeCastMaybeInvalidStringToVariant(emoji),
         targetAuthorAci: storyAuthorAci,
         targetTimestamp: 0, // stories are never imported
       };
@@ -2519,7 +2525,6 @@ export class BackupImportStream extends Writable {
         return 0;
       })
       .map(({ emoji, authorId, sentTimestamp }) => {
-        strictAssert(emoji != null, 'reaction must have an emoji');
         strictAssert(authorId != null, 'reaction must have authorId');
         strictAssert(
           sentTimestamp != null,
@@ -2533,7 +2538,7 @@ export class BackupImportStream extends Writable {
         );
 
         return {
-          emoji,
+          emoji: Emoji.unsafeCastMaybeInvalidStringToVariant(emoji),
           fromId: authorConvo.id,
           targetTimestamp: getCheckedTimestampFromLong(sentTimestamp),
           timestamp: getCheckedTimestampFromLong(sentTimestamp),
@@ -2711,7 +2716,10 @@ export class BackupImportStream extends Writable {
       return {
         message: {
           sticker: {
-            emoji: dropNull(emoji),
+            emoji:
+              emoji != null
+                ? Emoji.unsafeCastMaybeInvalidStringToVariant(emoji)
+                : undefined,
             packId: Bytes.toHex(packId),
             packKey: Bytes.toBase64(packKey),
             stickerId,
@@ -3946,7 +3954,10 @@ export class BackupImportStream extends Writable {
     const profile: NotificationProfileType = {
       id: normalizeNotificationProfileId(Bytes.toHex(id), 'import', log),
       name,
-      emoji: dropNull(emoji),
+      emoji:
+        emoji != null
+          ? Emoji.unsafeCastMaybeInvalidStringToVariant(emoji)
+          : undefined,
       color: dropNull(color) ?? DEFAULT_PROFILE_COLOR,
       createdAtMs: getCheckedTimestampOrUndefinedFromLong(createdAtMs) ?? 0,
       allowAllCalls,

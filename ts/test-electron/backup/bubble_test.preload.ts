@@ -29,6 +29,7 @@ import { generateAttachmentKeys } from '../../AttachmentCrypto.node.ts';
 import { itemStorage } from '../../textsecure/Storage.preload.ts';
 import { BodyRange } from '../../types/BodyRange.std.ts';
 import { generateAci } from '../../test-helpers/serviceIdUtils.std.ts';
+import { Emoji } from '../../axo/emoji.std.ts';
 
 const CONTACT_A = generateAci();
 const CONTACT_B = generateAci();
@@ -523,19 +524,19 @@ describe('backup/bubble messages', () => {
       timestamp: 3,
       reactions: [
         {
-          emoji: 'first',
+          emoji: Emoji.ONE,
           fromId: contactA.id,
           targetTimestamp: 3,
           timestamp: 3,
         },
         {
-          emoji: 'second',
+          emoji: Emoji.TWO,
           fromId: generateGuid(),
           targetTimestamp: 3,
           timestamp: 3,
         },
         {
-          emoji: 'third',
+          emoji: Emoji.THREE,
           fromId: contactB.id,
           targetTimestamp: 3,
           timestamp: 3,
@@ -1337,7 +1338,7 @@ describe('backup/bubble messages', () => {
         unidentifiedDeliveryReceived: true,
         sourceServiceId: CONTACT_A,
         storyReaction: {
-          emoji: '🤷‍♂️',
+          emoji: Emoji.getDefaultVariant(Emoji.SHRUG),
           targetAuthorAci: OUR_ACI,
           targetTimestamp: 0, // targetTimestamp is not roundtripped
         },
@@ -1353,7 +1354,7 @@ describe('backup/bubble messages', () => {
         type: 'outgoing',
         sourceServiceId: OUR_ACI,
         storyReaction: {
-          emoji: '🤷‍♂️',
+          emoji: Emoji.getDefaultVariant(Emoji.SHRUG),
           targetAuthorAci: CONTACT_A,
           targetTimestamp: 0, // targetTimestamp is not roundtripped
         },
@@ -1834,13 +1835,13 @@ describe('backup/bubble messages', () => {
           },
           reactions: [
             {
-              emoji: '👍',
+              emoji: Emoji.getDefaultVariant(Emoji.THUMBS_UP),
               fromId: contactA.id,
               targetTimestamp: 3,
               timestamp: 3,
             },
             {
-              emoji: '❤️',
+              emoji: Emoji.HEART,
               fromId: contactB.id,
               targetTimestamp: 3,
               timestamp: 3,

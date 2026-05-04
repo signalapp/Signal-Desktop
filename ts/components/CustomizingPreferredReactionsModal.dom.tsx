@@ -12,31 +12,26 @@ import {
   ReactionPickerPickerEmojiButton,
   ReactionPickerPickerStyle,
 } from './ReactionPickerPicker.dom.tsx';
-import { DEFAULT_PREFERRED_REACTION_EMOJI_PARENT_KEYS } from '../reactions/constants.std.ts';
-import {
-  EmojiSkinTone,
-  getEmojiVariantByKey,
-  getEmojiVariantByParentKeyAndSkinTone,
-} from './fun/data/emojis.std.ts';
 import { FunEmojiPicker } from './fun/FunEmojiPicker.dom.tsx';
 import type { FunEmojiSelection } from './fun/panels/FunPanelEmojis.dom.tsx';
+import { Emoji } from '../axo/emoji.std.ts';
 
 const { isEqual } = lodash;
 
 export type PropsType = {
-  draftPreferredReactions: ReadonlyArray<string>;
+  draftPreferredReactions: ReadonlyArray<Emoji.Variant>;
   hadSaveError: boolean;
   i18n: LocalizerType;
   isSaving: boolean;
-  originalPreferredReactions: ReadonlyArray<string>;
-  recentEmojis: ReadonlyArray<string>;
+  originalPreferredReactions: ReadonlyArray<Emoji.Variant>;
+  recentEmojis: ReadonlyArray<Emoji.Parent>;
   selectedDraftEmojiIndex: undefined | number;
-  emojiSkinToneDefault: EmojiSkinTone | null;
+  emojiSkinToneDefault: Emoji.SkinTone | null;
 
   cancelCustomizePreferredReactionsModal(): unknown;
   deselectDraftEmoji(): unknown;
-  onEmojiSkinToneDefaultChange: (emojiSkinToneDefault: EmojiSkinTone) => void;
-  replaceSelectedDraftEmoji(newEmoji: string): unknown;
+  onEmojiSkinToneDefaultChange: (emojiSkinToneDefault: Emoji.SkinTone) => void;
+  replaceSelectedDraftEmoji(newEmoji: Emoji.Variant): unknown;
   resetDraftEmoji(): unknown;
   savePreferredReactions(): unknown;
   selectDraftEmojiToBeReplaced(index: number): unknown;
@@ -68,13 +63,9 @@ export function CustomizingPreferredReactionsModal({
   const canReset =
     !isSaving &&
     !isEqual(
-      DEFAULT_PREFERRED_REACTION_EMOJI_PARENT_KEYS.map(parentKey => {
-        const variant = getEmojiVariantByParentKeyAndSkinTone(
-          parentKey,
-          emojiSkinToneDefault ?? EmojiSkinTone.None
-        );
-        return variant.value;
-      }),
+      Emoji.getDefaultPreferredReactionEmojis(
+        emojiSkinToneDefault ?? Emoji.SkinTone.None
+      ),
       draftPreferredReactions
     );
   const canSave = !isSaving && hasChanged;
@@ -147,10 +138,7 @@ export function CustomizingPreferredReactionsModal({
                   deselectDraftEmoji();
                 }}
                 onSelectEmoji={emojiSelection => {
-                  const emojiVariant = getEmojiVariantByKey(
-                    emojiSelection.variantKey
-                  );
-                  replaceSelectedDraftEmoji(emojiVariant.value);
+                  replaceSelectedDraftEmoji(emojiSelection.emoji);
                 }}
               />
             );
@@ -165,7 +153,7 @@ export function CustomizingPreferredReactionsModal({
 }
 
 function CustomizingPreferredReactionsModalItem(props: {
-  emoji: string;
+  emoji: Emoji.Variant;
   isSelected: boolean;
   onSelect: () => void;
   onDeselect: () => void;

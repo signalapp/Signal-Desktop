@@ -43,7 +43,7 @@ import {
 } from '../types/ForwardDraft.std.ts';
 import { missingCaseError } from '../util/missingCaseError.std.ts';
 import { Theme } from '../util/theme.std.ts';
-import { EmojiSkinTone } from './fun/data/emojis.std.ts';
+import { Emoji } from '../axo/emoji.std.ts';
 
 export enum ForwardMessagesModalType {
   Forward,
@@ -477,7 +477,7 @@ function ForwardMessageEditor({
         onChange={onChange}
         onSubmit={onSubmit}
         theme={theme}
-        emojiSkinToneDefault={EmojiSkinTone.None}
+        emojiSkinToneDefault={Emoji.SkinTone.None}
       />
     </div>
   );

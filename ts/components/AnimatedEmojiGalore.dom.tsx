@@ -8,16 +8,12 @@ import lodash from 'lodash';
 import { useReducedMotion } from '../hooks/useReducedMotion.dom.ts';
 import { FunStaticEmoji } from './fun/FunEmoji.dom.tsx';
 import { strictAssert } from '../util/assert.std.ts';
-import {
-  getEmojiVariantByKey,
-  getEmojiVariantKeyByValue,
-  isEmojiVariantValue,
-} from './fun/data/emojis.std.ts';
+import { Emoji } from '../axo/emoji.std.ts';
 
 const { random } = lodash;
 
 export type PropsType = {
-  emoji: string;
+  emoji: Emoji.Variant;
   onAnimationEnd: () => unknown;
   rotate?: number;
   scale?: number;
@@ -48,9 +44,7 @@ export function AnimatedEmojiGalore({
   emoji,
   onAnimationEnd,
 }: PropsType): JSX.Element {
-  strictAssert(isEmojiVariantValue(emoji), 'Must be valid english short name');
-  const emojiVariantKey = getEmojiVariantKeyByValue(emoji);
-  const emojiVariant = getEmojiVariantByKey(emojiVariantKey);
+  strictAssert(Emoji.isEmoji(emoji), 'Must be valid emoji variant value');
 
   const reducedMotion = useReducedMotion();
   const [springs] = useSprings(NUM_EMOJIS, i => ({
@@ -80,7 +74,7 @@ export function AnimatedEmojiGalore({
             ),
           }}
         >
-          <FunStaticEmoji size={48} emoji={emojiVariant} role="presentation" />
+          <FunStaticEmoji size={48} emoji={emoji} role="presentation" />
         </animated.div>
       ))}
     </>

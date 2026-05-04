@@ -133,6 +133,7 @@ import { keyTransparency } from './keyTransparency.preload.ts';
 import { toNumber } from '../util/toNumber.std.ts';
 import { MAX_VALUE } from '../util/long.std.ts';
 import { isKnownProtoEnumMember } from '../util/isKnownProtoEnumMember.std.ts';
+import { Emoji } from '../axo/emoji.std.ts';
 
 const { isEqual } = lodash;
 
@@ -1621,7 +1622,12 @@ export async function mergeAccountRecord(
         rawPreferredReactionEmoji.length
       );
     }
-    await itemStorage.put('preferredReactionEmoji', rawPreferredReactionEmoji);
+    await itemStorage.put(
+      'preferredReactionEmoji',
+      rawPreferredReactionEmoji?.map(emoji => {
+        return Emoji.unsafeCastMaybeInvalidStringToVariant(emoji);
+      })
+    );
   }
 
   void setUniversalExpireTimer(
@@ -2844,7 +2850,10 @@ export async function mergeNotificationProfileRecord(
   const newProfile: NotificationProfileType = {
     id: idString,
     name,
-    emoji: dropNull(emoji),
+    emoji:
+      emoji != null
+        ? Emoji.unsafeCastMaybeInvalidStringToVariant(emoji)
+        : undefined,
     color: dropNull(color) ?? DEFAULT_PROFILE_COLOR,
     createdAtMs: toNumber(createdAtMs) ?? Date.now(),
     allowAllCalls,

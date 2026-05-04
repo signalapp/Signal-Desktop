@@ -17,6 +17,7 @@ import type { DurationInSeconds } from '../util/durations/index.std.ts';
 import type { AnyPaymentEvent } from '../types/Payment.std.ts';
 import type { RawBodyRange } from '../types/BodyRange.std.ts';
 import type { StoryMessageRecipientsType } from '../types/Stories.std.ts';
+import type { Emoji } from '../axo/emoji.std.ts';
 
 export type {
   IdentityKeyType,
@@ -175,12 +176,12 @@ export type ProcessedSticker = {
   packId?: string;
   packKey?: string;
   stickerId?: number;
-  emoji?: string;
+  emoji?: Emoji.Variant;
   data?: ProcessedAttachment;
 };
 
 export type ProcessedReaction = {
-  emoji?: string;
+  emoji?: Emoji.Variant;
   remove: boolean;
   targetAuthorAci?: AciString;
   targetTimestamp?: number;

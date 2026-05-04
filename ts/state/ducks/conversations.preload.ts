@@ -256,6 +256,7 @@ import {
   getSelectedConversationId,
 } from '../selectors/nav.std.ts';
 import { computeGroupNameHash } from '../../util/Conversation.preload.ts';
+import type { Emoji } from '../../axo/emoji.std.ts';
 
 const { chunk, difference, fromPairs, omit, orderBy, pick, values, without } =
   lodash;
@@ -315,7 +316,7 @@ export type LastMessageType = ReadonlyDeep<
 >;
 export type DraftPreviewType = ReadonlyDeep<{
   text: string;
-  prefix?: string;
+  prefix?: Emoji.Variant;
   bodyRanges?: HydratedBodyRangesType;
 }>;
 
@@ -326,7 +327,7 @@ export type ConversationRemovalStage = ReadonlyDeep<
 export type MembershipType = ReadonlyDeep<{
   aci: AciString;
   isAdmin: boolean;
-  labelEmoji: string | undefined;
+  labelEmoji: Emoji.Variant | undefined;
   labelString: string | undefined;
 }>;
 
@@ -351,7 +352,7 @@ export type ConversationType = ReadonlyDeep<
     username?: string;
     about?: string;
     aboutText?: string;
-    aboutEmoji?: string;
+    aboutEmoji?: Emoji.Variant;
     avatars?: ReadonlyArray<AvatarDataType>;
     avatarUrl?: string;
     rawAvatarPath?: string;
@@ -4675,7 +4676,7 @@ function updateGroupMemberLabel(
     labelString,
   }: {
     conversationId: string;
-    labelEmoji: string | undefined;
+    labelEmoji: Emoji.Variant | undefined;
     labelString: string | undefined;
   },
   {

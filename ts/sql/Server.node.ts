@@ -132,7 +132,6 @@ import type {
   DeleteSentProtoRecipientOptionsType,
   DeleteSentProtoRecipientResultType,
   EditedMessageType,
-  EmojiType,
   GetAllStoriesResultType,
   GetConversationRangeCenteredOnMessageResultType,
   GetKnownMessageAttachmentsResultType,
@@ -306,6 +305,7 @@ import { permissiveMessageAttachmentSchema } from './server/messageAttachments.s
 import { getFilePathsReferencedByMessage } from '../util/messageFilePaths.std.ts';
 import { createMessagesOnInsertTrigger } from './migrations/1500-search-polls.std.ts';
 import { isValidPlaintextHash } from '../types/Crypto.std.ts';
+import { Emoji } from '../axo/emoji.std.ts';
 
 const {
   forEach,
@@ -846,7 +846,10 @@ function rowToSticker(row: StickerRow): StickerType {
   return {
     ...row,
     isCoverOnly: Boolean(row.isCoverOnly),
-    emoji: dropNull(row.emoji),
+    emoji:
+      row.emoji != null
+        ? Emoji.unsafeCastMaybeInvalidStringToVariant(row.emoji)
+        : undefined,
     version: row.version || 1,
     localKey: dropNull(row.localKey),
     size: dropNull(row.size),
@@ -3894,7 +3897,7 @@ function removeReactionFromConversation(
     targetAuthorServiceId,
     targetTimestamp,
   }: {
-    emoji: string;
+    emoji: Emoji.Variant;
     fromId: string;
     targetAuthorServiceId: ServiceIdString;
     targetTimestamp: number;
@@ -7560,55 +7563,31 @@ function getRecentStickers(
 }
 
 // Emojis
-function updateEmojiUsage(
-  db: WritableDB,
-  shortName: string,
-  timeUsed: number = Date.now()
-): void {
-  db.transaction(() => {
-    const rows = db
-      .prepare(
-        `
-        SELECT * FROM emojis
-        WHERE shortName = $shortName;
-        `
-      )
-      .get({
-        shortName,
-      });
 
-    if (rows) {
-      db.prepare(
-        `
-        UPDATE emojis
-        SET lastUsage = $timeUsed
-        WHERE shortName = $shortName;
-        `
-      ).run({ shortName, timeUsed });
-    } else {
-      db.prepare(
-        `
-        INSERT INTO emojis(shortName, lastUsage)
-        VALUES ($shortName, $timeUsed);
-        `
-      ).run({ shortName, timeUsed });
-    }
-  })();
+function updateEmojiUsage(db: WritableDB, emoji: Emoji.Parent): void {
+  const lastUsedAt = Date.now();
+  const [query, params] = sql`
+    INSERT OR REPLACE INTO recentEmojis (
+      emoji,
+      lastUsedAt
+    ) VALUES (
+      ${emoji},
+      ${lastUsedAt}
+    )
+  `;
+  db.prepare(query).run(params);
 }
 
-function getRecentEmojis(db: ReadableDB, limit = 32): Array<EmojiType> {
-  const rows = db
-    .prepare(
-      `
-      SELECT *
-      FROM emojis
-      ORDER BY lastUsage DESC
-      LIMIT $limit;
-      `
-    )
-    .all<EmojiType>({ limit });
-
-  return rows || [];
+function getRecentEmojis(
+  db: ReadableDB,
+  limit: number
+): ReadonlyArray<Emoji.Parent> {
+  const [query, params] = sql`
+    SELECT emoji FROM recentEmojis
+    ORDER BY lastUsedAt DESC
+    LIMIT ${limit}
+  `;
+  return db.prepare(query, { pluck: true }).all(params);
 }
 
 const RecentGifsRow = z.object({
@@ -8253,7 +8232,7 @@ function countStoryReadsByConversation(
 
 type NotificationProfileForDatabase = Readonly<
   {
-    emoji: string | null;
+    emoji: Emoji.Variant | null;
     allowAllCalls: 0 | 1;
     allowAllMentions: 0 | 1;
     scheduleEnabled: 0 | 1;
@@ -8287,7 +8266,7 @@ function hydrateNotificationProfile(
 ): NotificationProfileType {
   return {
     ...omit(profile, ['allowedMembersJson', 'scheduleDaysEnabledJson']),
-    emoji: profile.emoji || undefined,
+    emoji: profile.emoji ?? undefined,
     allowAllCalls: Boolean(profile.allowAllCalls),
     allowAllMentions: Boolean(profile.allowAllMentions),
     scheduleEnabled: Boolean(profile.scheduleEnabled),
@@ -8491,7 +8470,6 @@ function removeAll(db: WritableDB): void {
       DELETE FROM conversations;
       DELETE FROM defunctCallLinks;
       DELETE FROM donationReceipts;
-      DELETE FROM emojis;
       DELETE FROM groupCallRingCancellations;
       DELETE FROM groupSendCombinedEndorsement;
       DELETE FROM groupSendMemberEndorsement;
@@ -8508,6 +8486,7 @@ function removeAll(db: WritableDB): void {
       DELETE FROM pinnedMessages;
       DELETE FROM preKeys;
       DELETE FROM reactions;
+      DELETE FROM recentEmojis;
       DELETE FROM recentGifs;
       DELETE FROM senderKeys;
       DELETE FROM sendLogMessageIds;

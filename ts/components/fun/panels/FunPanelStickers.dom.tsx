@@ -48,13 +48,6 @@ import {
   FunSubNavListBoxItem,
   FunSubNavScroller,
 } from '../base/FunSubNav.dom.tsx';
-import {
-  EMOJI_VARIANT_KEY_CONSTANTS,
-  type EmojiParentKey,
-  getEmojiParentKeyByValue,
-  getEmojiVariantByKey,
-  isEmojiParentValue,
-} from '../data/emojis.std.ts';
 import { FunKeyboard } from '../keyboard/FunKeyboard.dom.tsx';
 import type { GridKeyboardState } from '../keyboard/GridKeyboardDelegate.dom.tsx';
 import { GridKeyboardDelegate } from '../keyboard/GridKeyboardDelegate.dom.tsx';
@@ -77,7 +70,7 @@ import {
 import { FunSticker } from '../FunSticker.dom.tsx';
 import { getAnalogTime } from '../../../util/getAnalogTime.std.ts';
 import { getDateTimeFormatter } from '../../../util/formatTimestamp.dom.ts';
-import { useFunEmojiSearch } from '../useFunEmojiSearch.dom.tsx';
+import { Emoji } from '../../../axo/emoji.std.ts';
 
 const STICKER_GRID_COLUMNS = 4;
 const STICKER_GRID_CELL_WIDTH = 80;
@@ -246,26 +239,19 @@ export function FunPanelStickers({
     );
   });
 
-  const searchEmojis = useFunEmojiSearch();
-
   const sections = useMemo(() => {
     if (searchQuery !== '') {
-      const emojiKeys = new Set<EmojiParentKey>();
-
-      for (const result of searchEmojis(searchQuery)) {
-        emojiKeys.add(result.parentKey);
-      }
+      const emojis = new Set<Emoji.Parent>(Emoji.search(searchQuery));
 
       const allStickers = installedStickerPacks.flatMap(pack => pack.stickers);
       const matchingStickers = allStickers.filter(sticker => {
         if (sticker.emoji == null) {
           return false;
         }
-        if (!isEmojiParentValue(sticker.emoji)) {
+        if (!Emoji.isParent(sticker.emoji)) {
           return false;
         }
-        const parentKey = getEmojiParentKeyByValue(sticker.emoji);
-        return emojiKeys.has(parentKey);
+        return emojis.has(sticker.emoji);
       });
 
       return [
@@ -304,13 +290,7 @@ export function FunPanelStickers({
     }
 
     return result;
-  }, [
-    showTimeStickers,
-    recentStickers,
-    installedStickerPacks,
-    searchEmojis,
-    searchQuery,
-  ]);
+  }, [showTimeStickers, recentStickers, installedStickerPacks, searchQuery]);
 
   const [virtualizer, layout] = useFunVirtualGrid({
     scrollerRef,
@@ -480,9 +460,7 @@ export function FunPanelStickers({
                 <FunStaticEmoji
                   size={16}
                   role="presentation"
-                  emoji={getEmojiVariantByKey(
-                    EMOJI_VARIANT_KEY_CONSTANTS.SLIGHTLY_FROWNING_FACE
-                  )}
+                  emoji={Emoji.SLIGHTLY_FROWNING_FACE}
                 />
               </FunResultsHeader>
             </FunResults>

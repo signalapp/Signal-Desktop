@@ -1,15 +1,11 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import { useMemo, type JSX } from 'react';
+import { type JSX } from 'react';
 import { VisuallyHidden } from 'react-aria';
 import { Button } from 'react-aria-components';
 import type { LocalizerType } from '../../types/I18N.std.ts';
-import {
-  type EmojiVariantKey,
-  getEmojiVariantByKey,
-} from './data/emojis.std.ts';
 import { FunStaticEmoji } from './FunEmoji.dom.tsx';
-import { useFunEmojiLocalizer } from './useFunEmojiLocalizer.dom.tsx';
+import { Emoji } from '../../axo/emoji.std.ts';
 
 /**
  * Fun Picker Button
@@ -34,7 +30,7 @@ export function FunPickerButton(props: FunPickerButtonProps): JSX.Element {
  */
 
 export type FunEmojiPickerButtonProps = Readonly<{
-  selectedEmoji?: EmojiVariantKey | null;
+  selectedEmoji?: Emoji.Variant | null;
   i18n: LocalizerType;
 }>;
 
@@ -42,26 +38,15 @@ export function FunEmojiPickerButton(
   props: FunEmojiPickerButtonProps
 ): JSX.Element {
   const { i18n } = props;
-  const emojiLocalizer = useFunEmojiLocalizer();
-
-  const emojiVarant = useMemo(() => {
-    if (props.selectedEmoji == null) {
-      return null;
-    }
-
-    const variantKey = props.selectedEmoji;
-    const variant = getEmojiVariantByKey(variantKey);
-    return variant;
-  }, [props.selectedEmoji]);
 
   return (
     <Button className="FunButton">
-      {emojiVarant ? (
+      {props.selectedEmoji != null ? (
         <FunStaticEmoji
           role="img"
           size={20}
-          aria-label={emojiLocalizer.getLocaleShortName(emojiVarant.key)}
-          emoji={emojiVarant}
+          aria-label={Emoji.getDisplayLabel(props.selectedEmoji)}
+          emoji={props.selectedEmoji}
         />
       ) : (
         <span className="FunButton__Icon FunButton__Icon--EmojiPicker" />

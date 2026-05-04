@@ -14,8 +14,7 @@ import { VIDEO_MP4 } from '../types/MIME.std.ts';
 import { fakeAttachment } from '../test-helpers/fakeAttachment.std.ts';
 import { getDefaultConversation } from '../test-helpers/getDefaultConversation.std.ts';
 import { getFakeStoryView } from '../test-helpers/getFakeStory.dom.tsx';
-import { DEFAULT_PREFERRED_REACTION_EMOJI } from '../reactions/constants.std.ts';
-import { EmojiSkinTone } from './fun/data/emojis.std.ts';
+import { Emoji } from '../axo/emoji.std.ts';
 
 const { i18n } = window.SignalContext;
 
@@ -48,11 +47,13 @@ export default {
     onTextTooLong: action('onTextTooLong'),
     onSelectEmoji: action('onSelectEmoji'),
     onMediaPlaybackStart: action('onMediaPlaybackStart'),
-    preferredReactionEmoji: DEFAULT_PREFERRED_REACTION_EMOJI,
+    preferredReactionEmoji: Emoji.getDefaultPreferredReactionEmojis(
+      Emoji.SkinTone.None
+    ),
     queueStoryDownload: action('queueStoryDownload'),
     retryMessageSend: action('retryMessageSend'),
     showToast: action('showToast'),
-    emojiSkinToneDefault: EmojiSkinTone.None,
+    emojiSkinToneDefault: Emoji.SkinTone.None,
     story: getFakeStoryView(),
     storyViewMode: StoryViewModeType.All,
     viewStory: action('viewStory'),

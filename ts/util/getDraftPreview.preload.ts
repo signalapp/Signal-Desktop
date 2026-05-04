@@ -9,6 +9,7 @@ import { hydrateRanges } from './BodyRange.node.ts';
 import { isVoiceMessage } from './Attachment.std.ts';
 import { stripNewlinesForLeftPane } from './stripNewlinesForLeftPane.std.ts';
 import { isDirectConversation } from './whatTypeOfConversation.dom.ts';
+import { Emoji } from '../axo/emoji.std.ts';
 
 const { i18n } = window.SignalContext;
 
@@ -35,7 +36,7 @@ export function getDraftPreview(
     if (isVoiceMessage(draftAttachments[0])) {
       return {
         text: i18n('icu:message--getNotificationText--voice-message'),
-        prefix: '🎤',
+        prefix: Emoji.MICROPHONE,
       };
     }
     return {

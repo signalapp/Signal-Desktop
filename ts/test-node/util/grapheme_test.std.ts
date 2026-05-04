@@ -3,31 +3,9 @@
 
 import { assert } from 'chai';
 
-import {
-  getGraphemes,
-  count,
-  hasAtMostGraphemes,
-} from '../../util/grapheme.std.ts';
+import { count, hasAtMostGraphemes } from '../../util/grapheme.std.ts';
 
 describe('grapheme utilities', () => {
-  describe('getGraphemes', () => {
-    it('returns extended graphemes in a string', () => {
-      assert.deepEqual([...getGraphemes('')], []);
-      // oxlint-disable-next-line typescript/no-misused-spread
-      assert.deepEqual([...getGraphemes('hello')], [...'hello']);
-      assert.deepEqual(
-        [...getGraphemes('Bokmål')],
-        ['B', 'o', 'k', 'm', 'å', 'l']
-      );
-
-      assert.deepEqual([...getGraphemes('💩💩💩')], ['💩', '💩', '💩']);
-      assert.deepEqual([...getGraphemes('👩‍❤️‍👩')], ['👩‍❤️‍👩']);
-      assert.deepEqual([...getGraphemes('👌🏽👌🏾👌🏿')], ['👌🏽', '👌🏾', '👌🏿']);
-
-      assert.deepEqual([...getGraphemes('L̷̳͔̲͝Ģ̵̮̯̤̩̙͍̬̟͉̹̘̹͍͈̮̦̰̣͟͝O̶̴̮̻̮̗͘͡!̴̷̟͓͓')], ['L̷̳͔̲͝', 'Ģ̵̮̯̤̩̙͍̬̟͉̹̘̹͍͈̮̦̰̣͟͝', 'O̶̴̮̻̮̗͘͡', '!̴̷̟͓͓']);
-    });
-  });
-
   describe('count', () => {
     it('returns the number of extended graphemes in a string (not necessarily the length)', () => {
       // These tests modified [from iOS][0].

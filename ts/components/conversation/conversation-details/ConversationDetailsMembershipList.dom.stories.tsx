@@ -15,6 +15,7 @@ import type {
 import { ConversationDetailsMembershipList } from './ConversationDetailsMembershipList.dom.tsx';
 import type { ContactNameColorType } from '../../../types/Colors.std.ts';
 import { ContactNameColors } from '../../../types/Colors.std.ts';
+import { Emoji } from '../../../axo/emoji.std.ts';
 
 const { i18n } = window.SignalContext;
 
@@ -24,7 +25,7 @@ const createMemberships = (
   return Array.from(new Array(numberOfMemberships)).map(
     (_, i): GroupV2Membership => ({
       isAdmin: i % 4 === 0,
-      labelEmoji: i % 6 === 0 ? '🟢' : undefined,
+      labelEmoji: i % 6 === 0 ? Emoji.GREEN_CIRCLE : undefined,
       labelString: i % 3 === 0 ? `Task Wrangler ${i}` : undefined,
       member: getDefaultConversation({
         isMe: i === 2,

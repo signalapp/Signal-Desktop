@@ -104,6 +104,9 @@ window.testUtilities = {
       callHistory: [],
       callHistoryUnreadCount: 0,
       chatFolders: [],
+      emojis: {
+        recentEmojis: [],
+      },
       gifs: {
         recentGifs: [],
       },
@@ -123,9 +126,6 @@ window.testUtilities = {
         platform: 'test',
       },
       notificationProfiles: [],
-      recentEmoji: {
-        recents: [],
-      },
       stories: [],
       storyDistributionLists: [],
       donations: {

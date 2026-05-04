@@ -12,6 +12,7 @@ import type { MessageAttributesType } from '../../model-types.d.ts';
 import { ReadStatus } from '../../messages/MessageReadStatus.std.ts';
 import { postSaveUpdates } from '../../util/cleanup.preload.ts';
 import { generateAci } from '../../test-helpers/serviceIdUtils.std.ts';
+import { Emoji } from '../../axo/emoji.std.ts';
 
 const { _getAllReactions, _getAllMessages, getTotalUnreadForConversation } =
   DataReader;
@@ -535,7 +536,7 @@ describe('sql/markRead', () => {
 
     const reaction1: ReactionType = {
       conversationId,
-      emoji: '🎉',
+      emoji: Emoji.TADA,
       fromId: generateUuid(),
       messageId: message1.id,
       messageReceivedAt: message1.received_at,
@@ -545,7 +546,7 @@ describe('sql/markRead', () => {
     };
     const reaction2: ReactionType = {
       conversationId,
-      emoji: '🚀',
+      emoji: Emoji.ROCKET,
       fromId: generateUuid(),
       messageId: message2.id,
       messageReceivedAt: message2.received_at,
@@ -555,7 +556,7 @@ describe('sql/markRead', () => {
     };
     const reaction3: ReactionType = {
       conversationId: generateUuid(),
-      emoji: '☀️',
+      emoji: Emoji.SUNNY,
       fromId: generateUuid(),
       messageId: message3.id,
       messageReceivedAt: message3.received_at,
@@ -565,7 +566,7 @@ describe('sql/markRead', () => {
     };
     const reaction4: ReactionType = {
       conversationId,
-      emoji: '❤️‍🔥',
+      emoji: Emoji.HEART_ON_FIRE,
       fromId: generateUuid(),
       messageId: message4.id,
       messageReceivedAt: message4.received_at,
@@ -575,7 +576,7 @@ describe('sql/markRead', () => {
     };
     const reaction5: ReactionType = {
       conversationId,
-      emoji: '🆒',
+      emoji: Emoji.COOL,
       fromId: generateUuid(),
       messageId: message5.id,
       messageReceivedAt: message5.received_at,
@@ -682,7 +683,7 @@ describe('sql/markRead', () => {
 
     const reaction1: ReactionType = {
       conversationId,
-      emoji: '🎉',
+      emoji: Emoji.TADA,
       fromId: generateUuid(),
       messageId: message1.id,
       messageReceivedAt: message1.received_at,
@@ -692,7 +693,7 @@ describe('sql/markRead', () => {
     };
     const reaction2: ReactionType = {
       conversationId,
-      emoji: '🚀',
+      emoji: Emoji.ROCKET,
       fromId: generateUuid(),
       messageId: message2.id,
       messageReceivedAt: message2.received_at,
@@ -702,7 +703,7 @@ describe('sql/markRead', () => {
     };
     const reaction3: ReactionType = {
       conversationId: generateUuid(),
-      emoji: '☀️',
+      emoji: Emoji.SUNNY,
       fromId: generateUuid(),
       messageId: message3.id,
       messageReceivedAt: message3.received_at,
@@ -712,7 +713,7 @@ describe('sql/markRead', () => {
     };
     const reaction4: ReactionType = {
       conversationId,
-      emoji: '❤️‍🔥',
+      emoji: Emoji.HEART_ON_FIRE,
       fromId: generateUuid(),
       messageId: message4.id,
       messageReceivedAt: message4.received_at,
@@ -722,7 +723,7 @@ describe('sql/markRead', () => {
     };
     const reaction5: ReactionType = {
       conversationId,
-      emoji: '🆒',
+      emoji: Emoji.COOL,
       fromId: generateUuid(),
       messageId: message5.id,
       messageReceivedAt: message5.received_at,

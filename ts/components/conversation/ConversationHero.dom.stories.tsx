@@ -12,6 +12,7 @@ import { StorybookThemeContext } from '../../../.storybook/StorybookThemeContext
 import { getDefaultConversation } from '../../test-helpers/getDefaultConversation.std.ts';
 import { ThemeType } from '../../types/Util.std.ts';
 import type { GroupV2Membership } from './conversation-details/ConversationDetailsMembershipList.dom.tsx';
+import { Emoji } from '../../axo/emoji.std.ts';
 
 const { i18n } = window.SignalContext;
 
@@ -29,7 +30,7 @@ const createMemberships = ({
   return Array.from(new Array(count)).map(
     (_, i): GroupV2Membership => ({
       isAdmin: i % 3 === 0,
-      labelEmoji: i % 6 === 0 ? '🟢' : undefined,
+      labelEmoji: i % 6 === 0 ? Emoji.GREEN_CIRCLE : undefined,
       labelString: i % 3 === 0 ? `Task Wrangler ${i}` : undefined,
       member: unknownContactIndices.includes(i)
         ? getDefaultConversation({

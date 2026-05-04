@@ -37,7 +37,6 @@ import { AxoSwitch } from '../../../axo/AxoSwitch.dom.tsx';
 import { FunEmojiPickerButton } from '../../fun/FunButton.dom.tsx';
 import { FunEmojiPicker } from '../../fun/FunEmojiPicker.dom.tsx';
 import type { FunEmojiSelection } from '../../fun/panels/FunPanelEmojis.dom.tsx';
-import { getEmojiVariantByKey } from '../../fun/data/emojis.std.ts';
 import {
   ItemAvatar,
   ItemBody,
@@ -127,9 +126,7 @@ export function PreferencesEditChatFolderPage(
       strictAssert(inputRef.current, 'Missing input ref');
       const input = inputRef.current;
       const { selectionStart, selectionEnd } = input;
-
-      const variant = getEmojiVariantByKey(emojiSelection.variantKey);
-      const emoji = variant.value;
+      const emoji = emojiSelection.emoji;
 
       let newName: string;
       if (selectionStart == null || selectionEnd == null) {

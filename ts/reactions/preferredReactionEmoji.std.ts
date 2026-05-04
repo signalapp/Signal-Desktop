@@ -1,66 +1,39 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import lodash from 'lodash';
-import { createLogger } from '../logging/log.std.ts';
-import { DEFAULT_PREFERRED_REACTION_EMOJI_PARENT_KEYS } from './constants.std.ts';
-import { isValidReactionEmoji } from './isValidReactionEmoji.std.ts';
-import {
-  getEmojiVariantByParentKeyAndSkinTone,
-  type EmojiSkinTone,
-} from '../components/fun/data/emojis.std.ts';
-
-const { times } = lodash;
-
-const log = createLogger('preferredReactionEmoji');
+import { Emoji } from '../axo/emoji.std.ts';
 
 const MAX_STORED_LENGTH = 20;
 const MAX_ITEM_LENGTH = 20;
 
-const PREFERRED_REACTION_EMOJI_COUNT =
-  DEFAULT_PREFERRED_REACTION_EMOJI_PARENT_KEYS.length;
-
 export function getPreferredReactionEmoji(
-  storedValue: unknown,
-  emojiSkinToneDefault: EmojiSkinTone
-): Array<string> {
-  const storedValueAsArray: Array<unknown> = Array.isArray(storedValue)
-    ? storedValue
-    : [];
+  storedValueTyped: ReadonlyArray<string> | undefined,
+  emojiSkinToneDefault: Emoji.SkinTone
+): Array<Emoji.Variant> {
+  const storedValue = storedValueTyped as Array<string | null | undefined>;
 
-  return times(PREFERRED_REACTION_EMOJI_COUNT, index => {
-    const storedItem: unknown = storedValueAsArray[index];
-    if (isValidReactionEmoji(storedItem)) {
-      return storedItem;
+  const defaultEmojis =
+    Emoji.getDefaultPreferredReactionEmojis(emojiSkinToneDefault);
+
+  return defaultEmojis.map((defaultEmoji, index) => {
+    const storedItem = storedValue?.[index];
+    if (storedItem != null && Emoji.isEmoji(storedItem)) {
+      return Emoji.ignorePreferredSkinTone(storedItem);
     }
 
-    const fallbackParentKey =
-      DEFAULT_PREFERRED_REACTION_EMOJI_PARENT_KEYS.at(index);
-    if (fallbackParentKey == null) {
-      log.error(
-        'Index is out of range. Is the preferred count larger than the list of fallbacks?'
-      );
-      return '❤️';
-    }
-
-    const fallbackEmoji = getEmojiVariantByParentKeyAndSkinTone(
-      fallbackParentKey,
-      emojiSkinToneDefault
-    );
-    if (fallbackEmoji == null) {
-      log.error(
-        'No fallback emoji. Does the fallback list contain an invalid short name?'
-      );
-      return '❤️';
-    }
-
-    return fallbackEmoji.value;
+    return defaultEmoji;
   });
 }
 
-export const canBeSynced = (value: unknown): value is Array<string> =>
-  Array.isArray(value) &&
-  value.length <= MAX_STORED_LENGTH &&
-  value.every(
-    item => typeof item === 'string' && item.length <= MAX_ITEM_LENGTH
+export function canBeSynced<T extends string>(
+  typedValue: ReadonlyArray<T> | undefined
+): typedValue is Array<T> {
+  const value: unknown = typedValue;
+  return (
+    Array.isArray(value) &&
+    value.length <= MAX_STORED_LENGTH &&
+    value.every(item => {
+      return typeof item === 'string' && item.length <= MAX_ITEM_LENGTH;
+    })
   );
+}

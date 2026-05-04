@@ -20,18 +20,20 @@ import {
   getDonationsForRedux,
   loadDonationReceipts,
 } from './donationsLoader.preload.ts';
+import { loadLocalizedEmojiList } from './localizedEmojiListLoader.dom.ts';
 import { getStoriesForRedux, loadStories } from './storyLoader.preload.ts';
 import { getUserDataForRedux, loadUserData } from './userLoader.dom.ts';
 import {
   loadCachedProfiles as loadNotificationProfiles,
   getCachedProfiles as getNotificationProfiles,
 } from './notificationProfilesService.preload.ts';
+import {
+  getRecentEmojisForRedux,
+  loadRecentEmojis,
+} from './recentEmojisLoader.preload.ts';
 
 // old-style loaders
-import {
-  getEmojiReducerState,
-  loadRecentEmojis,
-} from '../util/loadRecentEmojis.preload.ts';
+
 import {
   load as loadStickers,
   getInitialState as getStickersReduxState,
@@ -55,6 +57,7 @@ export async function loadAll(): Promise<void> {
     loadDistributionLists(),
     loadDonationReceipts(),
     loadGifsState(),
+    loadLocalizedEmojiList(),
     loadNotificationProfiles(),
     loadRecentEmojis(),
     loadStickers(),
@@ -78,12 +81,12 @@ export function getParametersForRedux(): ReduxInitData {
     callLinks: getCallLinksForRedux(),
     chatFolders: getChatFoldersForRedux(),
     donations: getDonationsForRedux(),
+    emojis: getRecentEmojisForRedux(),
     gifs: getGifsStateForRedux(),
     mainWindowStats,
     menuOptions,
     megaphones: getInitialMegaphonesState(),
     notificationProfiles: getNotificationProfiles(),
-    recentEmoji: getEmojiReducerState(),
     stickers: getStickersReduxState(),
     stories: getStoriesForRedux(),
     storyDistributionLists: getDistributionListsForRedux(),

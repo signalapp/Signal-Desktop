@@ -12,8 +12,8 @@ import {
 } from '../../test-helpers/funPickerMocks.dom.tsx';
 import { FunProvider } from './FunProvider.dom.tsx';
 import { packs, recentStickers } from '../../test-helpers/stickersMocks.std.ts';
-import { EmojiSkinTone } from './data/emojis.std.ts';
 import { Select } from '../Select.dom.tsx';
+import { Emoji } from '../../axo/emoji.std.ts';
 
 const { i18n } = window.SignalContext;
 
@@ -23,24 +23,24 @@ type TemplateProps = Omit<
 >;
 
 const skinToneOptions = [
-  { value: EmojiSkinTone.None, text: 'Default' },
-  { value: EmojiSkinTone.Type1, text: 'Light Skin Tone' },
-  { value: EmojiSkinTone.Type2, text: 'Medium-Light Skin Tone' },
-  { value: EmojiSkinTone.Type3, text: 'Medium Skin Tone' },
-  { value: EmojiSkinTone.Type4, text: 'Medium-Dark Skin Tone' },
-  { value: EmojiSkinTone.Type5, text: 'Dark Skin Tone' },
+  { value: Emoji.SkinTone.None, text: 'Default' },
+  { value: Emoji.SkinTone.Type1, text: 'Light Skin Tone' },
+  { value: Emoji.SkinTone.Type2, text: 'Medium-Light Skin Tone' },
+  { value: Emoji.SkinTone.Type3, text: 'Medium Skin Tone' },
+  { value: Emoji.SkinTone.Type4, text: 'Medium-Dark Skin Tone' },
+  { value: Emoji.SkinTone.Type5, text: 'Dark Skin Tone' },
 ];
 
 function Template(props: TemplateProps): JSX.Element {
   const [open, setOpen] = useState(true);
-  const [skinTone, setSkinTone] = useState(EmojiSkinTone.None);
+  const [skinTone, setSkinTone] = useState(Emoji.SkinTone.None);
 
   const handleOpenChange = useCallback((openState: boolean) => {
     setOpen(openState);
   }, []);
 
   const handleSkinToneChange = useCallback((value: string) => {
-    setSkinTone(value as EmojiSkinTone);
+    setSkinTone(value as Emoji.SkinTone);
   }, []);
 
   return (

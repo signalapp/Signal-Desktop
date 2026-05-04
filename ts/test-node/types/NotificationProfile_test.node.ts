@@ -21,6 +21,7 @@ import type {
   NextProfileEvent,
   NotificationProfileType,
 } from '../../types/NotificationProfile.std.ts';
+import { Emoji } from '../../axo/emoji.std.ts';
 
 describe('NotificationProfile', () => {
   const startingTime = Date.now();
@@ -42,7 +43,7 @@ describe('NotificationProfile', () => {
     return {
       id: generateNotificationProfileId(),
       name: 'After Hours',
-      emoji: '💤 ',
+      emoji: Emoji.ZZZ,
       color: 0xff111111,
 
       createdAtMs: now,

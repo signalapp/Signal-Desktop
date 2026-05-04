@@ -30,13 +30,13 @@ import { Environment, setEnvironment } from '../ts/environment.std.ts';
 import { parseUnknown } from '../ts/util/schemas.std.ts';
 import { LocaleEmojiListSchema } from '../ts/types/emoji.std.ts';
 import { FunProvider } from '../ts/components/fun/FunProvider.dom.tsx';
-import { EmojiSkinTone } from '../ts/components/fun/data/emojis.std.ts';
 import { MOCK_GIFS_PAGINATED_ONE_PAGE } from '../ts/test-helpers/funPickerMocks.dom.tsx';
 import { NavTab } from '../ts/types/Nav.std.ts';
 
 import type { FunEmojiSelection } from '../ts/components/fun/panels/FunPanelEmojis.dom.tsx';
 import type { FunGifSelection } from '../ts/components/fun/panels/FunPanelGifs.dom.tsx';
 import type { FunStickerSelection } from '../ts/components/fun/panels/FunPanelStickers.dom.tsx';
+import { Emoji } from '../ts/axo/emoji.std.ts';
 
 setEnvironment(Environment.Development, true);
 
@@ -258,7 +258,7 @@ function withFunProvider(Story, context) {
       recentEmojis={[]}
       recentStickers={[]}
       recentGifs={[]}
-      emojiSkinToneDefault={EmojiSkinTone.None}
+      emojiSkinToneDefault={Emoji.SkinTone.None}
       onEmojiSkinToneDefaultChange={noop}
       installedStickerPacks={[]}
       showStickerPickerHint={false}

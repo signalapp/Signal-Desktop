@@ -13,42 +13,42 @@ export const sticker1: StickerType = {
   id: 1,
   url: '/fixtures/kitten-1-64-64.jpg',
   packId: 'foo',
-  emoji: '',
+  emoji: undefined,
 };
 
 export const sticker2: StickerType = {
   id: 2,
   url: '/fixtures/kitten-2-64-64.jpg',
   packId: 'bar',
-  emoji: '',
+  emoji: undefined,
 };
 
 const sticker3: StickerType = {
   id: 3,
   url: '/fixtures/kitten-3-64-64.jpg',
   packId: 'baz',
-  emoji: '',
+  emoji: undefined,
 };
 
 const abeSticker: StickerType = {
   id: 4,
   url: '/fixtures/512x515-thumbs-up-lincoln.webp',
   packId: 'abe',
-  emoji: '',
+  emoji: undefined,
 };
 
 const wideSticker: StickerType = {
   id: 5,
   url: '/fixtures/1000x50-green.jpeg',
   packId: 'wide',
-  emoji: '',
+  emoji: undefined,
 };
 
 const tallSticker: StickerType = {
   id: 6,
   url: '/fixtures/50x1000-teal.jpeg',
   packId: 'tall',
-  emoji: '',
+  emoji: undefined,
 };
 
 const choosableStickers = [sticker1, sticker2, sticker3, abeSticker];

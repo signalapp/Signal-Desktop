@@ -7,7 +7,7 @@ import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import type { Props as ReactionPickerProps } from './ReactionPicker.dom.tsx';
 import { ReactionPicker } from './ReactionPicker.dom.tsx';
-import { DEFAULT_PREFERRED_REACTION_EMOJI } from '../../reactions/constants.std.ts';
+import { Emoji } from '../../axo/emoji.std.ts';
 
 const { i18n } = window.SignalContext;
 
@@ -20,7 +20,9 @@ export function Base(): JSX.Element {
     <ReactionPicker
       i18n={i18n}
       onPick={action('onPick')}
-      preferredReactionEmoji={DEFAULT_PREFERRED_REACTION_EMOJI}
+      preferredReactionEmoji={Emoji.getDefaultPreferredReactionEmojis(
+        Emoji.SkinTone.None
+      )}
     />
   );
 }
@@ -28,13 +30,23 @@ export function Base(): JSX.Element {
 export function SelectedReaction(): JSX.Element {
   return (
     <>
-      {['❤️', '👍', '👎', '😂', '😮', '😢', '😡'].map(e => (
+      {[
+        Emoji.HEART,
+        Emoji.getDefaultVariant(Emoji.THUMBS_UP),
+        Emoji.getDefaultVariant(Emoji.THUMBS_DOWN),
+        Emoji.JOY,
+        Emoji.OPEN_MOUTH,
+        Emoji.CRY,
+        Emoji.RAGE,
+      ].map(e => (
         <div key={e} style={{ height: '100px' }}>
           <ReactionPicker
             i18n={i18n}
             selected={e}
             onPick={action('onPick')}
-            preferredReactionEmoji={DEFAULT_PREFERRED_REACTION_EMOJI}
+            preferredReactionEmoji={Emoji.getDefaultPreferredReactionEmojis(
+              Emoji.SkinTone.None
+            )}
           />
         </div>
       ))}

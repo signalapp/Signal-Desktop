@@ -138,6 +138,7 @@ import Actions = Proto.GroupChange.Actions;
 import AccessRequired = Proto.AccessControl.AccessRequired;
 import MemberRole = Proto.Member.Role;
 import { computeGroupNameHash } from './util/Conversation.preload.ts';
+import { Emoji } from './axo/emoji.std.ts';
 
 const { compact, difference, flatten, fromPairs, isNumber, omit, values } =
   lodash;
@@ -1325,7 +1326,7 @@ export function buildModifyMemberLabelChange({
 }: {
   serviceId: ServiceIdString;
   group: ConversationAttributesType;
-  labelEmoji: string | undefined;
+  labelEmoji: Emoji.Variant | undefined;
   labelString: string | undefined;
 }): Actions.Params {
   const logId = `buildModifyMemberLabelChange(${getConversationIdForLogging(group)})`;
@@ -6332,7 +6333,7 @@ function normalizeTimestamp(timestamp: bigint | null | undefined): number {
 
 type DecryptedModifyMemberLabelAction = {
   userId: AciString;
-  labelEmoji?: string;
+  labelEmoji?: Emoji.Variant;
   labelString?: string;
 };
 
@@ -7127,11 +7128,11 @@ function decryptModifyMemberLabelAction(
   }
 
   // labelEmoji
-  let decryptedLabelEmoji: string | undefined;
+  let decryptedLabelEmoji: Emoji.Variant | undefined;
   if (Bytes.isNotEmpty(labelEmoji)) {
     try {
-      decryptedLabelEmoji = Bytes.toString(
-        decryptGroupBlob(clientZkGroupCipher, labelEmoji)
+      decryptedLabelEmoji = Emoji.unsafeCastMaybeInvalidStringToVariant(
+        Bytes.toString(decryptGroupBlob(clientZkGroupCipher, labelEmoji))
       );
     } catch (error) {
       log.warn(
@@ -7364,7 +7365,7 @@ type DecryptedMember = Readonly<{
   profileKey: Uint8Array<ArrayBuffer>;
   role: MemberRole;
   joinedAtVersion: number;
-  labelEmoji?: string;
+  labelEmoji?: Emoji.Variant;
   labelString?: string;
 }>;
 
@@ -7413,11 +7414,11 @@ function decryptMember(
   }
 
   // labelEmoji
-  let decryptedLabelEmoji: string | undefined;
+  let decryptedLabelEmoji: Emoji.Variant | undefined;
   if (Bytes.isNotEmpty(member.labelEmoji)) {
     try {
-      decryptedLabelEmoji = Bytes.toString(
-        decryptGroupBlob(clientZkGroupCipher, member.labelEmoji)
+      decryptedLabelEmoji = Emoji.unsafeCastMaybeInvalidStringToVariant(
+        Bytes.toString(decryptGroupBlob(clientZkGroupCipher, member.labelEmoji))
       );
     } catch (error) {
       log.warn(

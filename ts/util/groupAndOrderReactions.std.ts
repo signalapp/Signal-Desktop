@@ -3,65 +3,37 @@
 
 import lodash from 'lodash';
 import { useMemo } from 'react';
-
 // oxlint-disable-next-line signal-desktop/no-restricted-paths
 import type { Reaction } from '../components/conversation/ReactionViewer.dom.tsx';
-import {
-  isEmojiVariantValue,
-  getEmojiVariantKeyByValue,
-  getEmojiParentKeyByVariantKey,
-  getEmojiVariantByKey,
-  type EmojiVariantKey,
-  type EmojiParentKey,
-  // oxlint-disable-next-line signal-desktop/no-restricted-paths
-} from '../components/fun/data/emojis.std.ts';
 import { isNotNil } from './isNotNil.std.ts';
-// oxlint-disable-next-line signal-desktop/no-restricted-paths
-import { useFunEmojiLocalizer } from '../components/fun/useFunEmojiLocalizer.dom.tsx';
+import { Emoji } from '../axo/emoji.std.ts';
 
 const { groupBy, orderBy } = lodash;
 
 type ReactionWithEmojiData = Reaction & {
-  short_name: string | undefined;
-  short_names: Array<string>;
-  sheet_x: number;
-  sheet_y: number;
-  parentKey: EmojiParentKey;
-  variantKey: EmojiVariantKey;
+  parent: Emoji.Parent;
+  variant: Emoji.Variant;
 };
 
 export function useGroupedAndOrderedReactions(
   reactions: ReadonlyArray<Reaction> | undefined,
-  groupByKey: 'variantKey' | 'parentKey'
+  groupByKey: 'variant' | 'parent'
 ): Array<Array<ReactionWithEmojiData>> {
-  const emojiLocalization = useFunEmojiLocalizer();
-
   return useMemo(() => {
     if (!reactions || reactions.length === 0) {
       return [];
     }
 
     const reactionsWithEmojiData: Array<ReactionWithEmojiData> = reactions
-      .map(reaction => {
-        if (!isEmojiVariantValue(reaction.emoji)) {
-          return undefined;
-        }
-
+      .map((reaction): ReactionWithEmojiData | undefined => {
         try {
-          const variantKey = getEmojiVariantKeyByValue(reaction.emoji);
-          const parentKey = getEmojiParentKeyByVariantKey(variantKey);
-          const variant = getEmojiVariantByKey(variantKey);
-
-          const shortName = emojiLocalization.getLocaleShortName(variantKey);
+          const variant = reaction.emoji;
+          const parent = Emoji.getParent(variant);
 
           return {
             ...reaction,
-            short_name: shortName,
-            short_names: [shortName].filter(isNotNil),
-            variantKey,
-            parentKey,
-            sheet_x: variant.sheetX,
-            sheet_y: variant.sheetY,
+            variant,
+            parent,
           };
         } catch {
           return undefined;
@@ -85,5 +57,5 @@ export function useGroupedAndOrderedReactions(
       ['length', ([first]) => first!.timestamp],
       ['desc', 'desc']
     );
-  }, [reactions, groupByKey, emojiLocalization]);
+  }, [reactions, groupByKey]);
 }

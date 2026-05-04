@@ -84,6 +84,7 @@ import { ReceiptType } from '../../types/Receipt.std.ts';
 import { cleanupMessages } from '../../util/cleanup.preload.ts';
 import { AttachmentDownloadUrgency } from '../../types/AttachmentDownload.std.ts';
 import { itemStorage } from '../../textsecure/Storage.preload.ts';
+import type { Emoji } from '../../axo/emoji.std.ts';
 
 const { isEqual, pick } = lodash;
 
@@ -557,7 +558,7 @@ function queueStoryDownload(
 }
 
 function reactToStory(
-  nextReaction: string,
+  nextReaction: Emoji.Variant,
   messageId: string
 ): ThunkAction<
   void,
