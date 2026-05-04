@@ -12,6 +12,7 @@ import {
 import { DataWriter } from '../sql/Client.preload.ts';
 
 import type { AttachmentType, ThumbnailType } from '../types/Attachment.std.ts';
+import type { AutoDownloadAttachmentType } from '../types/StorageKeys.std.ts';
 import type {
   EditHistoryType,
   MessageAttributesType,
@@ -28,6 +29,7 @@ import {
   getUndownloadedAttachmentSignature,
 } from './Attachment.std.ts';
 import { AttachmentDownloadUrgency } from '../types/AttachmentDownload.std.ts';
+import { getMaximumAutoDownloadSize } from '../types/AttachmentSize.std.ts';
 import type { LinkPreviewType } from '../types/message/LinkPreviews.std.ts';
 import { strictAssert } from './assert.std.ts';
 import { isNotNil } from './isNotNil.std.ts';
@@ -48,8 +50,12 @@ import {
   itemStorage,
   DEFAULT_AUTO_DOWNLOAD_ATTACHMENT,
 } from '../textsecure/Storage.preload.ts';
+import * as RemoteConfig from '../RemoteConfig.dom.ts';
 
 const defaultLogger = createLogger('queueAttachmentDownloads');
+
+const MAX_STICKER_AUTO_DOWNLOAD_SIZE = 100 * 1024;
+const MAX_VOICE_MESSAGE_AUTO_DOWNLOAD_SIZE = 100 * 1024;
 
 function getLogger(source: AttachmentDownloadSource) {
   const verbose =
@@ -104,6 +110,26 @@ export async function queueAttachmentDownloadsAndMaybeSaveMessage(
   await queueUpdateMessage(message.attributes);
 }
 
+function isAutoDownloadEnabled(
+  attachment: Pick<AttachmentType, 'size'>,
+  disposition: keyof AutoDownloadAttachmentType
+): boolean {
+  const autoDownloadAttachment = itemStorage.get(
+    'auto-download-attachment',
+    DEFAULT_AUTO_DOWNLOAD_ATTACHMENT
+  );
+
+  if (!autoDownloadAttachment[disposition]) {
+    return false;
+  }
+
+  if (attachment.size >= getMaximumAutoDownloadSize(RemoteConfig.getValue)) {
+    return false;
+  }
+
+  return true;
+}
+
 // Receive logic
 // NOTE: If you're changing any logic in this function that deals with the
 // count then you'll also have to modify ./hasAttachmentsDownloads
@@ -131,11 +157,6 @@ export async function queueAttachmentDownloads(
       getUndownloadedAttachmentSignature(attachment)
     );
   }
-
-  const autoDownloadAttachment = itemStorage.get(
-    'auto-download-attachment',
-    DEFAULT_AUTO_DOWNLOAD_ATTACHMENT
-  );
 
   const messageId = message.id;
   const idForLogging = getMessageIdForLogging(message.attributes);
@@ -281,7 +302,7 @@ export async function queueAttachmentDownloads(
       }
 
       if (!isManualDownload) {
-        if (!autoDownloadAttachment.photos) {
+        if (!isAutoDownloadEnabled(item.avatar.avatar, 'photos')) {
           return item;
         }
       }
@@ -353,7 +374,10 @@ export async function queueAttachmentDownloads(
     }
 
     if (!copiedSticker) {
-      if (sticker.data) {
+      if (
+        sticker.data &&
+        (isManualDownload || sticker.data.size < MAX_STICKER_AUTO_DOWNLOAD_SIZE)
+      ) {
         if (shouldQueueAttachmentBasedOnSignature(sticker.data)) {
           log.info(`${logId}: Queueing sticker download`);
           count += 1;
@@ -544,24 +568,28 @@ async function queueNormalAttachments({
 
       const { contentType } = attachment;
       if (!isManualDownload) {
-        const autoDownloadAttachment = itemStorage.get(
-          'auto-download-attachment',
-          DEFAULT_AUTO_DOWNLOAD_ATTACHMENT
-        );
-
+        let disposition: keyof AutoDownloadAttachmentType | undefined;
         if (isVideo(contentType)) {
-          if (!autoDownloadAttachment.videos) {
-            return attachment;
-          }
+          disposition = 'videos';
         } else if (isImage(contentType)) {
-          if (!autoDownloadAttachment.photos) {
-            return attachment;
-          }
+          disposition = 'photos';
         } else if (isAudio(contentType)) {
-          if (!autoDownloadAttachment.audio && !isVoiceMessage(attachment)) {
-            return attachment;
+          if (
+            isVoiceMessage(attachment) &&
+            attachment.size < MAX_VOICE_MESSAGE_AUTO_DOWNLOAD_SIZE
+          ) {
+            disposition = undefined;
+          } else {
+            disposition = 'audio';
           }
-        } else if (!autoDownloadAttachment.documents) {
+        } else {
+          disposition = 'documents';
+        }
+
+        if (
+          disposition != null &&
+          !isAutoDownloadEnabled(attachment, disposition)
+        ) {
           return attachment;
         }
       }
@@ -656,12 +684,7 @@ async function queuePreviews({
       }
 
       if (!isManualDownload) {
-        const autoDownloadAttachment = itemStorage.get(
-          'auto-download-attachment',
-          DEFAULT_AUTO_DOWNLOAD_ATTACHMENT
-        );
-
-        if (!autoDownloadAttachment.photos) {
+        if (!isAutoDownloadEnabled(item.image, 'photos')) {
           return item;
         }
       }

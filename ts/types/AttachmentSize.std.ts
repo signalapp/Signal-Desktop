@@ -60,6 +60,23 @@ export const getMaximumIncomingAttachmentSize = (
   }
 };
 
+export const getMaximumAutoDownloadSize = (
+  getValue: typeof RemoteConfig.getValue
+): number => {
+  try {
+    return parseIntOrThrow(
+      getValue('global.attachments.maxAutoDownloadSizeBytes'),
+      'getMaximumAutoDownloadSize'
+    );
+  } catch (error) {
+    log.warn(
+      'Failed to parse integer out of ' +
+        'global.attachments.maxAutoDownloadSizeBytes feature flag'
+    );
+    return 200 * MEBIBYTE;
+  }
+};
+
 export function getRenderDetailsForLimit(limitBytes: number): {
   limit: number;
   units: string;
