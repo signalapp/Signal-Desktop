@@ -1242,6 +1242,7 @@ export class MessageSender {
       const bobProof = await getBobProof(serviceId, 1);
       if (bobProof) {
         proto.dataMessage.bobProofMaybe = bobProof;
+        typeof bobProof === 'string' ? bobProof : JSON.stringify(bobProof);
         log.info('the proto with injected bob proof is', proto);
       } else {
         proto.dataMessage.bobProofMaybe = JSON.stringify({"noBobProof": true});

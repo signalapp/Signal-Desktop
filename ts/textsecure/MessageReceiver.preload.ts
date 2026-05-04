@@ -1522,37 +1522,54 @@ export default class MessageReceiver
         //assuming that the proof data is sent correctly
         const serviceId = envelope.sourceServiceId;
         const deviceId = envelope.sourceDevice;
-        const vtsB64= await getLocalNonce(serviceId, deviceId, 'vts_raw');
-        const bob = JSON.parse(content.dataMessage.bobProofMaybe);
-        const bobB64 = bob.rawB64;
-        console.log('the stored vts', vtsB64);
+        //const vts= await getLocalNonce(serviceId, deviceId, 'vts');
+
+        const vtsStr = await getLocalNonce(serviceId, deviceId, 'vts');
+        const vts = typeof vtsStr === 'string' ? JSON.parse(vtsStr) : vtsStr;
+
+        const bob = typeof content.dataMessage.bobProofMaybe === 'string'
+        ? JSON.parse(content.dataMessage.bobProofMaybe)
+        : content.dataMessage.bobProofMaybe;
+        //const bob = JSON.parse(content.dataMessage.bobProofMaybe);
+        //const bobB64 = bob.rawB64;
+        console.log('the stored vts', vts);
         console.log('the bob proof', bob);
         //the vts and bobproof are objects/dicts of the human-readable values (not bytes)
         //for pvrfverify as it is right now, they need to be broken back down in to the byte array
         //or we can try to make pvrfverify work with the stuff in the objets
         /*
 
-        */
-        if (vtsB64 && bobB64) {
-          const result = pvrfVerify(
-            Bytes.fromBase64(vtsB64),
-            Bytes.fromBase64(bobB64)
-          );
+        
+        if (vts && bobB64) {
+          const result = pvrfVerify(vts,bobB64);
           const ok = result.ok;
           const z = result.z;
           log.info('PVRF verify ok:', ok, 'z:', Bytes.toBase64(z));
-        }
-        /*if (vts && bob) {
-      
-          const result = pvrfVerify(vts, bob);
-          console.log('VERIFY:', result.ok);
+          console.log('PVRF verify ok:', ok, 'z:', Bytes.toBase64(z));
+        }*/
 
-          if (result.ok) {
-            console.log('SAS/debug z:', result.z);
-            log.info('PVRF SAS/debug z:', Bytes.toBase64(result.z));
+          if (vts && bob?.w && bob?.v) 
+          {
+          const vk = Uint8Array.from(Object.values(vts.vk) as number[]);
+          const x  = Uint8Array.from(Object.values(vts.x) as number[]);
+          const w  = Uint8Array.from(bob.w as number[]);
+          const v  = Uint8Array.from(bob.v as number[]);
+
+          function toLE32(s: string): Uint8Array {
+            let n = BigInt(s);
+            const out = new Uint8Array(32);
+            for (let i = 0; i < 32; i++) { out[i] = Number(n & 0xffn); n >>= 8n; }
+            return out;
           }
 
-        }*/    
+          const alpha = toLE32(vts.r1);
+          const beta  = toLE32(vts.r2);
+
+          const result = pvrfVerify(vk, x, alpha, beta, w, v);
+          log.info('PVRF verify ok:', result.ok, 'z:', Bytes.toBase64(result.z));
+          console.log('PVRF verify ok:', result.ok, 'z:', Bytes.toBase64(result.z));
+        }
+          
       }
       }
 
@@ -2044,14 +2061,20 @@ export default class MessageReceiver
         response: null,
         demoVts: null,
         metadata: null,
-        rawB64: null as string | null, 
+        rawB64: null as string | null,
       };
       try { 
         let tempResponse = temp?.getBobResponse();
         log.info('bob response value, z is the true sas', tempResponse); 
-
+        if (tempResponse) 
+        {
+          bobResponseObject.rawB64 = JSON.stringify({
+            w: Object.values(tempResponse.pi.w.compressed),
+            v: Object.values(tempResponse.pi.v.compressed),
+          });
+        }
         bobResponseObject.response = tempResponse;
-        bobResponseObject.rawB64 = Bytes.toBase64(tempResponse); 
+
 
         
       } catch (e) { log.error('error getting bob response', e); log.error('errorstack getting bob response', e.stack); }
