@@ -330,7 +330,6 @@ export async function sendNormalMessage(
       });
     } else {
       const conversationType = conversation.get('type');
-      const sendOptions = await getSendOptions(conversation.attributes);
 
       let innerPromise: Promise<CallbackResultType>;
       if (conversationType === GROUP) {
@@ -349,9 +348,10 @@ export async function sendNormalMessage(
 
         log.info('sending group message');
         innerPromise = conversation.queueJob(
-          'conversationQueue/sendNormalMessage',
-          abortSignal =>
-            sendToGroup({
+          'conversationQueue/sendNormalMessage/group',
+          async abortSignal => {
+            const sendOptions = await getSendOptions(conversation.attributes);
+            return sendToGroup({
               abortSignal,
               contentHint: ContentHint.Resendable,
               groupSendOptions: {
@@ -380,7 +380,8 @@ export async function sendNormalMessage(
               sendType: 'message',
               story: Boolean(storyContext),
               urgent: true,
-            })
+            });
+          }
         );
       } else {
         const [ok, refusal] = shouldSendToDirectConversation(conversation);
@@ -395,36 +396,43 @@ export async function sendNormalMessage(
         }
 
         log.info('sending direct message');
-        innerPromise = messaging.sendMessageToServiceId({
-          // oxlint-disable-next-line typescript/no-non-null-assertion
-          serviceId: recipientServiceIdsWithoutMe[0]!,
-          messageOptions: {
-            attachments,
-            body,
-            bodyRanges,
-            contact,
-            expireTimer,
-            expireTimerVersion: conversation.getExpireTimerVersion(),
-            isViewOnce,
-            preview,
-            profileKey,
-            quote,
-            sticker,
-            storyContext,
-            reaction,
-            targetTimestampForEdit: editedMessageTimestamp
-              ? targetOfThisEditTimestamp
-              : undefined,
-            pollCreate: poll,
-            timestamp: targetTimestamp,
-          },
-          contentHint: ContentHint.Resendable,
-          groupId: undefined,
-          options: sendOptions,
-          // Note: 1:1 story replies should not set story=true -   they aren't group sends
-          urgent: true,
-          includePniSignatureMessage: true,
-        });
+
+        innerPromise = conversation.queueJob(
+          'conversationQueue/sendNormalMessage/direct',
+          async () => {
+            const sendOptions = await getSendOptions(conversation.attributes);
+            return messaging.sendMessageToServiceId({
+              // oxlint-disable-next-line typescript/no-non-null-assertion
+              serviceId: recipientServiceIdsWithoutMe[0]!,
+              messageOptions: {
+                attachments,
+                body,
+                bodyRanges,
+                contact,
+                expireTimer,
+                expireTimerVersion: conversation.getExpireTimerVersion(),
+                isViewOnce,
+                preview,
+                profileKey,
+                quote,
+                sticker,
+                storyContext,
+                reaction,
+                targetTimestampForEdit: editedMessageTimestamp
+                  ? targetOfThisEditTimestamp
+                  : undefined,
+                pollCreate: poll,
+                timestamp: targetTimestamp,
+              },
+              contentHint: ContentHint.Resendable,
+              groupId: undefined,
+              options: sendOptions,
+              // Note: 1:1 story replies should not set story=true -   they aren't group sends
+              urgent: true,
+              includePniSignatureMessage: true,
+            });
+          }
+        );
       }
 
       messageSendPromise = send(message, {

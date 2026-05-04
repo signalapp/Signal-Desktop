@@ -65,7 +65,6 @@ export async function sendSenderKeyDistribution(
     return;
   }
 
-  const sendOptions = await getSendOptions(conversation.attributes);
   const { groupId } = data;
   const group = window.ConversationController.get(groupId);
   const distributionId = group?.get('senderKeyInfo')?.distributionId;
@@ -86,19 +85,24 @@ export async function sendSenderKeyDistribution(
   }
 
   try {
-    await handleMessageSend(
-      messaging.sendSenderKeyDistributionMessage(
-        {
-          distributionId,
-          groupId,
-          serviceIds: [serviceId],
-          throwIfNotInDatabase: true,
-          urgent: false,
-        },
-        sendOptions
-      ),
-      { messageIds: [], sendType: 'senderKeyDistributionMessage' }
-    );
+    await conversation.queueJob('sendSenderKeyDistribution', async () => {
+      const sendOptions = await getSendOptions(conversation.attributes, {
+        groupId,
+      });
+      await handleMessageSend(
+        messaging.sendSenderKeyDistributionMessage(
+          {
+            distributionId,
+            groupId,
+            serviceIds: [serviceId],
+            throwIfNotInDatabase: true,
+            urgent: false,
+          },
+          sendOptions
+        ),
+        { messageIds: [], sendType: 'senderKeyDistributionMessage' }
+      );
+    });
   } catch (error: unknown) {
     if (
       error instanceof NoSenderKeyError ||

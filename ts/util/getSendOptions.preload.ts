@@ -105,10 +105,12 @@ export async function getSendOptions(
     case SEALED_SENDER.DISABLED:
       // Try to get GSE token
       if (serviceId != null && groupId != null) {
+        const alreadyInQueue = true;
         const { state: groupSendEndorsementState, didRefreshGroupState } =
           await maybeCreateGroupSendEndorsementState(
             groupId,
-            alreadyRefreshedGroupState
+            alreadyRefreshedGroupState,
+            alreadyInQueue
           );
 
         if (

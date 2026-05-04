@@ -331,55 +331,56 @@ export async function sendStory(
           return;
         }
 
-        const sendOptions = await getSendOptionsForRecipients(
-          pendingSendRecipientServiceIds,
-          { story: true }
-        );
-
         log.info(
           `stories.sendStory(${timestamp}): sending story to ${receiverId}`
         );
 
-        const storyMessage: Proto.StoryMessage.Params = {
-          bodyRanges: originalStoryMessage.bodyRanges,
-          profileKey: originalStoryMessage.profileKey,
-          attachment: originalStoryMessage.attachment,
-          group: originalStoryMessage.group,
-          allowsReplies:
-            isGroupV2(conversation.attributes) ||
-            Boolean(distributionList?.allowsReplies),
-        };
-
-        const sendTarget = distributionList
-          ? distributionListToSendTarget(
-              distributionList,
-              pendingSendRecipientServiceIds
-            )
-          : conversation.toSenderKeyTarget();
-
-        const innerPromise = sendContentMessageToGroup({
-          contentHint: ContentHint.Implicit,
-          contentMessage: {
-            content: {
-              storyMessage,
-            },
-            senderKeyDistributionMessage: null,
-            pniSignatureMessage: null,
-          },
-          isPartialSend: false,
-          messageId: undefined,
-          recipients: pendingSendRecipientServiceIds,
-          sendOptions,
-          sendTarget,
-          sendType: 'story',
-          story: true,
-          timestamp: message.get('timestamp'),
-          urgent: false,
-        });
-
         // Don't send normal sync messages; a story sync is sent at the end of the process
         // oxlint-disable-next-line no-param-reassign
         message.doNotSendSyncMessage = true;
+
+        const innerPromise = conversation.queueJob('sendStory', async () => {
+          const sendOptions = await getSendOptionsForRecipients(
+            pendingSendRecipientServiceIds,
+            { story: true }
+          );
+          const storyMessage: Proto.StoryMessage.Params = {
+            bodyRanges: originalStoryMessage.bodyRanges,
+            profileKey: originalStoryMessage.profileKey,
+            attachment: originalStoryMessage.attachment,
+            group: originalStoryMessage.group,
+            allowsReplies:
+              isGroupV2(conversation.attributes) ||
+              Boolean(distributionList?.allowsReplies),
+          };
+
+          const sendTarget = distributionList
+            ? distributionListToSendTarget(
+                distributionList,
+                pendingSendRecipientServiceIds
+              )
+            : conversation.toSenderKeyTarget();
+
+          return sendContentMessageToGroup({
+            contentHint: ContentHint.Implicit,
+            contentMessage: {
+              content: {
+                storyMessage,
+              },
+              senderKeyDistributionMessage: null,
+              pniSignatureMessage: null,
+            },
+            isPartialSend: false,
+            messageId: undefined,
+            recipients: pendingSendRecipientServiceIds,
+            sendOptions,
+            sendTarget,
+            sendType: 'story',
+            story: true,
+            timestamp: message.get('timestamp'),
+            urgent: false,
+          });
+        });
 
         const messageSendPromise = send(message, {
           promise: handleMessageSend(innerPromise, {

@@ -395,26 +395,36 @@ function validateGroupSendEndorsements(
 
 export async function maybeCreateGroupSendEndorsementState(
   groupId: string,
-  alreadyRefreshedGroupState: boolean
+  alreadyRefreshedGroupState: boolean,
+  alreadyInQueue = false
 ): Promise<MaybeCreateGroupSendEndorsementStateResult> {
   const logId = `maybeCreateGroupSendEndorsementState/groupv2(${groupId})`;
 
   const conversation = window.ConversationController.get(groupId);
-  strictAssert(conversation != null, `${logId}: Convertion not found`);
+  strictAssert(conversation != null, `${logId}: Conversation not found`);
   strictAssert(
     isGroupV2(conversation.attributes),
     `${logId}: Conversation is not groupV2`
   );
 
-  const secretParams = conversation.get('secretParams');
-  const membersV2 = conversation.get('membersV2');
-  strictAssert(secretParams, `${logId}: Must have secret params`);
-  strictAssert(membersV2, `${logId}: Must have members`);
-  const members = new Set(membersV2.map(member => member.aci));
+  async function getEndorsementsState() {
+    strictAssert(conversation != null, `${logId}: Conversation not found`);
 
-  const data = await DataReader.getGroupSendEndorsementsData(groupId);
-  const state =
-    data != null ? new GroupSendEndorsementState(data, secretParams) : null;
+    const secretParams = conversation.get('secretParams');
+    const membersV2 = conversation.get('membersV2');
+    strictAssert(secretParams, `${logId}: Must have secret params`);
+    strictAssert(membersV2, `${logId}: Must have members`);
+
+    const members = new Set(membersV2.map(member => member.aci));
+
+    const data = await DataReader.getGroupSendEndorsementsData(groupId);
+    const state =
+      data != null ? new GroupSendEndorsementState(data, secretParams) : null;
+
+    return { members, state };
+  }
+
+  const { members, state } = await getEndorsementsState();
 
   // Check if we need to refresh the group state.
   const result = validateGroupSendEndorsements(members, state);
@@ -451,8 +461,31 @@ export async function maybeCreateGroupSendEndorsementState(
     // the group state to avoid incorrectly processing messages.
     await window.waitForEmptyEventQueue();
 
+    if (alreadyInQueue) {
+      await maybeUpdateGroup({ conversation, force: true });
+      return { state: null, didRefreshGroupState: true };
+    }
+
     // Refresh the group state all allow the caller to try again.
-    await maybeUpdateGroup({ conversation, force: true });
+    await conversation.queueJob(
+      'maybeCreateGroupSendEndorsementState',
+      async () => {
+        // Check again; we might have updated since we queued this job
+        const { members: newMembers, state: newState } =
+          await getEndorsementsState();
+
+        const newResult = validateGroupSendEndorsements(newMembers, newState);
+        if (newResult.valid) {
+          log.info(
+            `${logId}: Endorsements are valid; returning without updating group`
+          );
+          return;
+        }
+
+        await maybeUpdateGroup({ conversation, force: true });
+      }
+    );
+
     return { state: null, didRefreshGroupState: true };
   }
 

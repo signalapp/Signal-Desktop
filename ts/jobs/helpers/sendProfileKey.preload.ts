@@ -100,7 +100,6 @@ export async function sendProfileKey(
   );
 
   const { revision } = data;
-  const sendOptions = await getSendOptions(conversation.attributes);
   const contentHint = ContentHint.Resendable;
   const sendType = 'profileKeyUpdate';
 
@@ -129,21 +128,25 @@ export async function sendProfileKey(
       return;
     }
 
-    const proto = await messaging.getContentMessage({
-      flags: Proto.DataMessage.Flags.PROFILE_KEY_UPDATE,
-      profileKey,
-      recipients: conversation.getRecipients(),
-      expireTimerVersion: undefined,
-      timestamp,
-      includePniSignatureMessage: true,
-    });
-    sendPromise = messaging.sendIndividualProto({
-      contentHint,
-      serviceId: conversation.getSendTarget(),
-      options: sendOptions,
-      proto,
-      timestamp,
-      urgent: false,
+    sendPromise = conversation.queueJob('sendProfileKey/direct', async () => {
+      const proto = await messaging.getContentMessage({
+        flags: Proto.DataMessage.Flags.PROFILE_KEY_UPDATE,
+        profileKey,
+        recipients: conversation.getRecipients(),
+        expireTimerVersion: undefined,
+        timestamp,
+        includePniSignatureMessage: true,
+      });
+
+      const sendOptions = await getSendOptions(conversation.attributes);
+      return messaging.sendIndividualProto({
+        contentHint,
+        serviceId: conversation.getSendTarget(),
+        options: sendOptions,
+        proto,
+        timestamp,
+        urgent: false,
+      });
     });
   } else {
     if (isGroupV2(conversation.attributes) && !isNumber(revision)) {
@@ -158,25 +161,28 @@ export async function sendProfileKey(
       return;
     }
 
-    const groupV2Info = conversation.getGroupV2Info();
-    strictAssert(groupV2Info, 'Missing groupV2Info');
-    if (isNumber(revision)) {
-      groupV2Info.revision = revision;
-    }
+    sendPromise = conversation.queueJob('sendProfileKey/group', async () => {
+      const groupV2Info = conversation.getGroupV2Info();
+      strictAssert(groupV2Info, 'Missing groupV2Info');
+      if (isNumber(revision)) {
+        groupV2Info.revision = revision;
+      }
 
-    sendPromise = sendToGroup({
-      contentHint,
-      groupSendOptions: {
-        flags: Proto.DataMessage.Flags.PROFILE_KEY_UPDATE,
-        groupV2: groupV2Info,
-        profileKey,
-        timestamp,
-      },
-      messageId: undefined,
-      sendOptions,
-      sendTarget: conversation.toSenderKeyTarget(),
-      sendType,
-      urgent: false,
+      const sendOptions = await getSendOptions(conversation.attributes);
+      return sendToGroup({
+        contentHint,
+        groupSendOptions: {
+          flags: Proto.DataMessage.Flags.PROFILE_KEY_UPDATE,
+          groupV2: groupV2Info,
+          profileKey,
+          timestamp,
+        },
+        messageId: undefined,
+        sendOptions,
+        sendTarget: conversation.toSenderKeyTarget(),
+        sendType,
+        urgent: false,
+      });
     });
   }
 

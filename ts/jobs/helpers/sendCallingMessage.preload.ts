@@ -87,68 +87,70 @@ export async function sendCallingMessage(
     return;
   }
 
-  const sendType = 'callingMessage';
-  const sendOptions = await getSendOptions(conversation.attributes, {
-    groupId,
-  });
+  await conversation.queueJob('sendCallingMessage', async () => {
+    const sendType = 'callingMessage';
+    const sendOptions = await getSendOptions(conversation.attributes, {
+      groupId,
+    });
 
-  const callMessage = Proto.CallMessage.decode(Bytes.fromBase64(protoBase64));
+    const callMessage = Proto.CallMessage.decode(Bytes.fromBase64(protoBase64));
 
-  try {
-    if (isGroup(conversation.attributes)) {
-      await handleMessageSend(
-        sendContentMessageToGroup({
-          contentHint: ContentHint.Default,
-          contentMessage: {
-            content: { callMessage },
-            senderKeyDistributionMessage: null,
-            pniSignatureMessage: null,
-          },
-          isPartialSend,
-          messageId: undefined,
-          recipients,
-          sendOptions,
-          sendTarget: conversation.toSenderKeyTarget(),
-          sendType,
-          timestamp,
-          urgent,
-        }),
-        { messageIds: [], sendType }
-      );
-    } else {
-      const sendTarget = conversation.getSendTarget();
-      if (!sendTarget) {
-        log.error(`${logId}: Direct conversation send target is falsy`);
+    try {
+      if (isGroup(conversation.attributes)) {
+        await handleMessageSend(
+          sendContentMessageToGroup({
+            contentHint: ContentHint.Default,
+            contentMessage: {
+              content: { callMessage },
+              senderKeyDistributionMessage: null,
+              pniSignatureMessage: null,
+            },
+            isPartialSend,
+            messageId: undefined,
+            recipients,
+            sendOptions,
+            sendTarget: conversation.toSenderKeyTarget(),
+            sendType,
+            timestamp,
+            urgent,
+          }),
+          { messageIds: [], sendType }
+        );
+      } else {
+        const sendTarget = conversation.getSendTarget();
+        if (!sendTarget) {
+          log.error(`${logId}: Direct conversation send target is falsy`);
+          return;
+        }
+        await handleMessageSend(
+          messaging.sendCallingMessage(
+            sendTarget,
+            callMessage,
+            timestamp,
+            urgent,
+            sendOptions
+          ),
+          { messageIds: [], sendType }
+        );
+      }
+    } catch (error: unknown) {
+      if (
+        error instanceof OutgoingIdentityKeyError ||
+        error instanceof UnregisteredUserError
+      ) {
+        log.info(
+          `${logId}: Send failure was OutgoingIdentityKeyError or UnregisteredUserError. Canceling job.`
+        );
         return;
       }
-      await handleMessageSend(
-        messaging.sendCallingMessage(
-          sendTarget,
-          callMessage,
-          timestamp,
-          urgent,
-          sendOptions
-        ),
-        { messageIds: [], sendType }
-      );
-    }
-  } catch (error: unknown) {
-    if (
-      error instanceof OutgoingIdentityKeyError ||
-      error instanceof UnregisteredUserError
-    ) {
-      log.info(
-        `${logId}: Send failure was OutgoingIdentityKeyError or UnregisteredUserError. Canceling job.`
-      );
-      return;
-    }
 
-    await handleMultipleSendErrors({
-      errors: maybeExpandErrors(error),
-      isFinalAttempt,
-      log,
-      timeRemaining,
-      toThrow: error,
-    });
-  }
+      await handleMultipleSendErrors({
+        errors: maybeExpandErrors(error),
+        isFinalAttempt,
+        log,
+        timeRemaining,
+        toThrow: error,
+      });
+    }
+  });
 }
