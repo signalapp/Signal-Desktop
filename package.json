@@ -152,10 +152,10 @@
     "@react-aria/interactions": "3.27.1",
     "@react-aria/utils": "3.33.1",
     "@react-spring/web": "10.0.3",
+    "@signalapp/lame": "workspace:1.0.0",
     "@signalapp/minimask": "1.0.1",
     "@signalapp/mock-server": "22.0.0",
     "@signalapp/quill-cjs": "2.1.2",
-    "@signalapp/lame": "workspace:1.0.0",
     "@storybook/addon-a11y": "8.4.4",
     "@storybook/addon-actions": "8.4.4",
     "@storybook/addon-controls": "8.4.4",
@@ -234,7 +234,7 @@
     "debug": "4.4.3",
     "direction": "2.0.1",
     "dom-accessibility-api": "0.7.1",
-    "electron": "41.4.0",
+    "electron": "41.5.0",
     "electron-builder": "26.0.14",
     "electron-mocha": "13.1.0",
     "emoji-regex": "10.6.0",
@@ -383,7 +383,7 @@
     ]
   },
   "engines": {
-    "node": "24.14.0"
+    "node": "24.15.0"
   },
   "build": {
     "appId": "org.whispersystems.signal-desktop",
@@ -655,6 +655,6 @@
     ]
   },
   "volta": {
-    "node": "24.14.0"
+    "node": "24.15.0"
   }
 }
