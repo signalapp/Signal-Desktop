@@ -1547,13 +1547,17 @@ export default class MessageReceiver
           log.info('PVRF verify ok:', ok, 'z:', Bytes.toBase64(z));
           console.log('PVRF verify ok:', ok, 'z:', Bytes.toBase64(z));
         }*/
+          const w_bob=bob?.response?.pi?.w?.compressed;
+          const v_bob=bob?.response?.pi?.v?.compressed;
 
-          if (vts && bob?.w && bob?.v) 
+          if (vts && w_bob && v_bob) 
           {
-          const vk = Uint8Array.from(Object.values(vts.vk) as number[]);
-          const x  = Uint8Array.from(Object.values(vts.x) as number[]);
-          const w  = Uint8Array.from(bob.w as number[]);
-          const v  = Uint8Array.from(bob.v as number[]);
+          console.log("entered phase 1")
+          const vk = Uint8Array.from(Object.values(vts?.vk) as number[]);
+          const x  = Uint8Array.from(Object.values(vts?.secrets) as number[]);
+          const w  = Uint8Array.from(Object.values(w_bob) as number[]);
+          const v  = Uint8Array.from(Object.values(v_bob) as number[]);
+          console.log("phase 2")
 
           function toLE32(s: string): Uint8Array {
             let n = BigInt(s);
@@ -1562,10 +1566,14 @@ export default class MessageReceiver
             return out;
           }
 
-          const alpha = toLE32(vts.r1);
-          const beta  = toLE32(vts.r2);
+          const alpha = toLE32(vts?.alpha);
+          const beta  = toLE32(vts?.beta);
+          console.log(vk,x,alpha,beta,w,v)
+
 
           const result = pvrfVerify(vk, x, alpha, beta, w, v);
+         
+          console.log("phase 3")
           log.info('PVRF verify ok:', result.ok, 'z:', Bytes.toBase64(result.z));
           console.log('PVRF verify ok:', result.ok, 'z:', Bytes.toBase64(result.z));
         }
@@ -2035,28 +2043,6 @@ export default class MessageReceiver
       const deviceId = envelope.sourceDevice ?? 1;
       const serviceId = envelope.sourceServiceId ?? 'unknown';
 
-      try {
-        const bobResponseBytes = temp?.getBobResponse?.();
-
-        if (bobResponseBytes) {
-          await setBobProof(
-            serviceId,
-            1,
-            Bytes.toBase64(bobResponseBytes)
-          );
-
-          log.info(
-            `PVRF demo (Bob): stored raw Bob proof bytes for ${serviceId}.1`
-          );
-        } else {
-          log.warn(
-            `PVRF demo (Bob): no Bob proof found for ${serviceId}.1`
-          );
-        }
-      } catch (e) {
-        log.error('error storing raw Bob proof bytes', e);
-      }
-
       let bobResponseObject = {
         response: null,
         demoVts: null,
@@ -2074,8 +2060,6 @@ export default class MessageReceiver
           });
         }
         bobResponseObject.response = tempResponse;
-
-
         
       } catch (e) { log.error('error getting bob response', e); log.error('errorstack getting bob response', e.stack); }
       try { 
