@@ -233,7 +233,7 @@
     "debug": "4.4.3",
     "direction": "2.0.1",
     "dom-accessibility-api": "0.7.1",
-    "electron": "41.4.0",
+    "electron": "41.5.0",
     "electron-builder": "26.0.14",
     "electron-mocha": "13.1.0",
     "emoji-regex": "10.6.0",
@@ -382,7 +382,7 @@
     ]
   },
   "engines": {
-    "node": "24.14.0"
+    "node": "24.15.0"
   },
   "build": {
     "appId": "org.whispersystems.signal-desktop",
@@ -654,6 +654,6 @@
     ]
   },
   "volta": {
-    "node": "24.14.0"
+    "node": "24.15.0"
   }
 }
