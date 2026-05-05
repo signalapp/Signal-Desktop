@@ -63,6 +63,7 @@ export function makeImageThumbnail({
   return new Promise((resolve, reject) => {
     const image = document.createElement('img');
 
+    image.crossOrigin = 'anonymous';
     image.addEventListener('load', async () => {
       // using components/blueimp-load-image
 
@@ -134,6 +135,7 @@ export async function makeImageThumbnailForBackup({
   return new Promise((resolve, reject) => {
     const image = document.createElement('img');
 
+    image.crossOrigin = 'anonymous';
     image.addEventListener('load', async () => {
       const start = performance.now();
 
@@ -258,6 +260,7 @@ export async function makeVideoScreenshot({
   signal.addEventListener('abort', onAborted);
 
   try {
+    video.crossOrigin = 'anonymous';
     video.src = objectUrl;
     await videoLoadedAndSeeked;
     const blob = await captureScreenshot(video, contentType);
