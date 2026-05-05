@@ -22,8 +22,8 @@ const input = new Float32Array(
 
 const output = HEAPU8.subarray(_wrapper_get_out());
 
-export function init(sampleRate, bitRate) {
-  _wrapper_init(sampleRate, bitRate);
+export function init(q, sampleRate, bitRate) {
+  _wrapper_init(q, sampleRate, bitRate);
 }
 
 export function encode(data) {

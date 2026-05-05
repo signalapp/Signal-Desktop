@@ -32,9 +32,10 @@ declare function registerProcessor(
   processorCtor: AudioWorkletProcessorConstructor
 ): void;
 
-const BIT_RATE = 128;
+const BIT_RATE = 90;
+const Q = 7;
 
-init(sampleRate, BIT_RATE);
+init(Q, sampleRate, BIT_RATE);
 
 class Mp3Encoder
   extends AudioWorkletProcessor
