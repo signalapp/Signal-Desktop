@@ -79,7 +79,7 @@ export function reducer(
         ...state.recentEmojis.filter(emoji => {
           return emoji !== payload;
         }),
-      ].slice(32),
+      ].slice(0, 32),
     };
   }
 
