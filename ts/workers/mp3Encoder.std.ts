@@ -5,7 +5,7 @@ import type {
   WorkletMessageType,
   RendererMessageType,
 } from '../types/AudioRecorder.std.ts';
-import { init, encode, flush, getLametagFrame } from '@signalapp/lame';
+import { Encoder } from '@signalapp/lame';
 
 declare const sampleRate: number;
 
@@ -35,13 +35,16 @@ declare function registerProcessor(
 const BIT_RATE = 90;
 const Q = 7;
 
-init(Q, sampleRate, BIT_RATE);
-
 class Mp3Encoder
   extends AudioWorkletProcessor
   implements AudioWorkletProcessorImpl
 {
   #isStopped = false;
+  readonly #encoder = new Encoder({
+    q: Q,
+    sampleRate,
+    bitRate: BIT_RATE,
+  });
 
   constructor() {
     super();
@@ -50,11 +53,14 @@ class Mp3Encoder
       if (data.type !== 'stop') {
         throw new Error('Unexpected message');
       }
+      if (this.#isStopped) {
+        throw new Error('Already stopped');
+      }
       this.#isStopped = true;
 
-      const chunk = new Uint8Array(flush());
+      const chunk = new Uint8Array(this.#encoder.flush());
 
-      const lametagFrame = new Uint8Array(getLametagFrame());
+      const lametagFrame = new Uint8Array(this.#encoder.getLametagFrame());
       this.port.postMessage(
         {
           type: 'complete',
@@ -81,7 +87,7 @@ class Mp3Encoder
       return true;
     }
 
-    const shared = encode(channel);
+    const shared = this.#encoder.encode(channel);
     if (shared.length === 0) {
       return true;
     }

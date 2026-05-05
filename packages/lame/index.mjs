@@ -6,42 +6,58 @@ import initWrapper from './wrapper.mjs';
 const {
   HEAPU8,
   _wrapper_init,
-  _wrapper_get_num_samples,
+  _wrapper_get_max_input_size,
   _wrapper_get_in,
   _wrapper_get_out,
   _wrapper_encode,
   _wrapper_get_lametag_frame,
   _wrapper_flush,
+  _wrapper_close,
 } = initWrapper();
 
 const input = new Float32Array(
   HEAPU8.buffer,
   HEAPU8.byteOffset + _wrapper_get_in(),
-  _wrapper_get_num_samples(),
+  _wrapper_get_max_input_size(),
 );
 
 const output = HEAPU8.subarray(_wrapper_get_out());
 
-export function init(q, sampleRate, bitRate) {
-  _wrapper_init(q, sampleRate, bitRate);
-}
+export class Encoder {
+  #gf;
 
-export function encode(data) {
-  if (data.length !== input.length) {
-    throw new Error(`Invalid sample count, expected: ${input.length}`);
+  constructor({ q, sampleRate, bitRate }) {
+    this.#gf = _wrapper_init(q, sampleRate, bitRate);
   }
 
-  input.set(data);
-  const size = _wrapper_encode();
-  return output.subarray(0, size);
-}
+  encode(data) {
+    if (data.length > input.length) {
+      throw new Error(`Invalid sample count, expected: ${input.length}`);
+    }
 
-export function flush() {
-  const size = _wrapper_flush();
-  return output.subarray(0, size);
-}
+    input.set(data);
+    const size = _wrapper_encode(this.#gf, data.length);
+    if (size < 0) {
+      throw new Error(`Failed to encode: ${size}`);
+    }
+    return output.subarray(0, size);
+  }
 
-export function getLametagFrame() {
-  const size = _wrapper_get_lametag_frame();
-  return output.subarray(0, size);
+  flush() {
+    const size = _wrapper_flush(this.#gf);
+    if (size < 0) {
+      throw new Error(`Failed to flush: ${size}`);
+    }
+    return output.subarray(0, size);
+  }
+
+  getLametagFrame() {
+    const size = _wrapper_get_lametag_frame(this.#gf);
+    if (size < 0) {
+      throw new Error(`Failed to get lametag: ${size}`);
+    }
+    _wrapper_close(this.#gf);
+    this.#gf = null;
+    return output.subarray(0, size);
+  }
 }
