@@ -213,6 +213,8 @@ export async function sendDeleteStoryForEveryone(
   // sync message.
   if (!hadSuccessfulSends && didSuccessfullySendOne) {
     log.info(`${logId}: Sending sync message`);
+
+    // Okay to call outside of queue, since it's for our own conversation
     const options = await getSendOptions(ourConversation.attributes, {
       syncMessage: true,
     });

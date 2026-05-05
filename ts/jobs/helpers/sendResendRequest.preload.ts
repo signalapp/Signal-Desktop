@@ -106,19 +106,23 @@ export async function sendResendRequest(
   const targetConversationId = groupConversationId ?? conversation.get('id');
 
   try {
-    const options = await getSendOptions(conversation.attributes);
-    await handleMessageSend(
-      messaging.sendMessageProtoAndWait({
-        timestamp,
-        recipients: [senderAci],
-        proto: plaintext,
-        contentHint: ContentHint.Default,
+    await conversation.queueJob('sendResendRequest', async () => {
+      const options = await getSendOptions(conversation.attributes, {
         groupId,
-        options,
-        urgent: false,
-      }),
-      { messageIds: [], sendType: 'retryRequest' }
-    );
+      });
+      await handleMessageSend(
+        messaging.sendMessageProtoAndWait({
+          timestamp,
+          recipients: [senderAci],
+          proto: plaintext,
+          contentHint: ContentHint.Default,
+          groupId,
+          options,
+          urgent: false,
+        }),
+        { messageIds: [], sendType: 'retryRequest' }
+      );
+    });
 
     // Now that we've successfully sent, represent this to the user. Three options:
 

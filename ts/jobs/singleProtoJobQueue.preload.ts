@@ -95,34 +95,36 @@ class SingleProtoJobQueue extends JobQueue<SingleProtoJobData> {
       return undefined;
     }
 
-    const proto = Proto.Content.decode(Bytes.fromBase64(protoBase64));
-    const options = await getSendOptions(conversation.attributes, {
-      syncMessage: isSyncMessage,
-    });
-
-    try {
-      await handleMessageSend(
-        messageSender.sendIndividualProto({
-          contentHint,
-          serviceId,
-          options,
-          proto,
-          timestamp,
-          urgent: isBoolean(urgent) ? urgent : true,
-        }),
-        { messageIds, sendType: type }
-      );
-    } catch (error: unknown) {
-      await handleMultipleSendErrors({
-        errors: maybeExpandErrors(error),
-        isFinalAttempt,
-        log,
-        timeRemaining,
-        toThrow: error,
+    return conversation.queueJob('singleProtoJobQueue.run', async () => {
+      const proto = Proto.Content.decode(Bytes.fromBase64(protoBase64));
+      const options = await getSendOptions(conversation.attributes, {
+        syncMessage: isSyncMessage,
       });
-    }
 
-    return undefined;
+      try {
+        await handleMessageSend(
+          messageSender.sendIndividualProto({
+            contentHint,
+            serviceId,
+            options,
+            proto,
+            timestamp,
+            urgent: isBoolean(urgent) ? urgent : true,
+          }),
+          { messageIds, sendType: type }
+        );
+      } catch (error: unknown) {
+        await handleMultipleSendErrors({
+          errors: maybeExpandErrors(error),
+          isFinalAttempt,
+          log,
+          timeRemaining,
+          toThrow: error,
+        });
+      }
+
+      return undefined;
+    });
   }
 }
 
