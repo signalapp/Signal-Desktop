@@ -83,21 +83,19 @@ export async function sendGroupCallUpdate(
         logId,
         messageIds: [],
         send: () =>
-          conversation.queueJob(logId, () =>
-            sendToGroup({
-              contentHint: ContentHint.Default,
-              groupSendOptions: {
-                groupCallUpdate: { eraId },
-                groupV2,
-                timestamp,
-              },
-              messageId: undefined,
-              sendOptions,
-              sendTarget: conversation.toSenderKeyTarget(),
-              sendType,
-              urgent,
-            })
-          ),
+          sendToGroup({
+            contentHint: ContentHint.Default,
+            groupSendOptions: {
+              groupCallUpdate: { eraId },
+              groupV2,
+              timestamp,
+            },
+            messageId: undefined,
+            sendOptions,
+            sendTarget: conversation.toSenderKeyTarget(),
+            sendType,
+            urgent,
+          }),
         sendType,
         timestamp,
         expirationStartTimestamp: null,
