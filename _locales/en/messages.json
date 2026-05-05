@@ -2118,6 +2118,18 @@
     "messageformat": "Need help?",
     "description": "Shown on the install screen. Link takes users to a support page"
   },
+  "icu:Install__confirm-data-deletion__title": {
+    "messageformat": "Delete all data?",
+    "description": "Title of the confirmation dialog shown while relinking Signal Desktop if the new account would delete local data"
+  },
+  "icu:Install__confirm-data-deletion__body": {
+    "messageformat": "You’re attempting to link a different Signal account to this desktop. If you continue, all data currently in Signal Desktop will be deleted.",
+    "description": "Body of the confirmation dialog shown while relinking Signal Desktop if the new account would delete local data"
+  },
+  "icu:Install__confirm-data-deletion__continue": {
+    "messageformat": "Continue",
+    "description": "Button in the relinking data deletion confirmation dialog that continues linking and allows local data deletion"
+  },
   "icu:Preferences--header": {
     "messageformat": "Settings",
     "description": "Shown at the top of the settings tab when open"

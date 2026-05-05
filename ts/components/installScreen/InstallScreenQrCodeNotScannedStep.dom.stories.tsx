@@ -29,6 +29,20 @@ const DEFAULT_UPDATES = {
   version: 'v7.7.7',
 };
 
+const DEFAULT_PROPS: Omit<PropsType, 'provisioningUrl'> = {
+  i18n,
+  isStaging: false,
+  updates: DEFAULT_UPDATES,
+  OS: 'macOS',
+  startUpdate: action('startUpdate'),
+  forceUpdate: action('forceUpdate'),
+  currentVersion: 'v6.0.0',
+  retryGetQrCode: action('retryGetQrCode'),
+  isConfirmingDataDeletion: false,
+  restartInstall: action('restartInstall'),
+  continueInstallWithDataDeletion: action('continueInstallWithDataDeletion'),
+};
+
 export default {
   title: 'Components/InstallScreen/InstallScreenQrCodeNotScannedStep',
   argTypes: {},
@@ -56,15 +70,8 @@ function Simulation({
 
   return (
     <InstallScreenQrCodeNotScannedStep
-      i18n={i18n}
-      isStaging={false}
+      {...DEFAULT_PROPS}
       provisioningUrl={provisioningUrl}
-      updates={DEFAULT_UPDATES}
-      OS="macOS"
-      startUpdate={action('startUpdate')}
-      forceUpdate={action('forceUpdate')}
-      currentVersion="v6.0.0"
-      retryGetQrCode={action('retryGetQrCode')}
     />
   );
 }
@@ -72,17 +79,10 @@ function Simulation({
 export function QrCodeLoading(): JSX.Element {
   return (
     <InstallScreenQrCodeNotScannedStep
-      i18n={i18n}
-      isStaging={false}
+      {...DEFAULT_PROPS}
       provisioningUrl={{
         loadingState: LoadingState.Loading,
       }}
-      updates={DEFAULT_UPDATES}
-      OS="macOS"
-      startUpdate={action('startUpdate')}
-      forceUpdate={action('forceUpdate')}
-      currentVersion="v6.0.0"
-      retryGetQrCode={action('retryGetQrCode')}
     />
   );
 }
@@ -90,18 +90,11 @@ export function QrCodeLoading(): JSX.Element {
 export function QrCodeFailedToLoad(): JSX.Element {
   return (
     <InstallScreenQrCodeNotScannedStep
-      i18n={i18n}
-      isStaging={false}
+      {...DEFAULT_PROPS}
       provisioningUrl={{
         loadingState: LoadingState.LoadFailed,
         error: InstallScreenQRCodeError.Unknown,
       }}
-      updates={DEFAULT_UPDATES}
-      OS="macOS"
-      startUpdate={action('startUpdate')}
-      forceUpdate={action('forceUpdate')}
-      currentVersion="v6.0.0"
-      retryGetQrCode={action('retryGetQrCode')}
     />
   );
 }
@@ -109,15 +102,18 @@ export function QrCodeFailedToLoad(): JSX.Element {
 export function QrCodeLoaded(): JSX.Element {
   return (
     <InstallScreenQrCodeNotScannedStep
-      i18n={i18n}
-      isStaging={false}
+      {...DEFAULT_PROPS}
       provisioningUrl={LOADED_URL}
-      updates={DEFAULT_UPDATES}
-      OS="macOS"
-      startUpdate={action('startUpdate')}
-      forceUpdate={action('forceUpdate')}
-      currentVersion="v6.0.0"
-      retryGetQrCode={action('retryGetQrCode')}
+    />
+  );
+}
+
+export function ConfirmDataDeletion(): JSX.Element {
+  return (
+    <InstallScreenQrCodeNotScannedStep
+      {...DEFAULT_PROPS}
+      provisioningUrl={LOADED_URL}
+      isConfirmingDataDeletion
     />
   );
 }
@@ -180,19 +176,14 @@ export const WithUpdateKnobs: StoryFn<PropsType & { dialogType: DialogType }> =
   }): JSX.Element {
     return (
       <InstallScreenQrCodeNotScannedStep
-        i18n={i18n}
-        isStaging={false}
+        {...DEFAULT_PROPS}
         provisioningUrl={LOADED_URL}
         hasExpired
         updates={{
           ...DEFAULT_UPDATES,
           dialogType,
         }}
-        OS="macOS"
-        startUpdate={action('startUpdate')}
-        forceUpdate={action('forceUpdate')}
         currentVersion={currentVersion}
-        retryGetQrCode={action('retryGetQrCode')}
       />
     );
   };

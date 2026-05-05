@@ -26,6 +26,7 @@ import { InstallScreenSignalLogo } from './InstallScreenSignalLogo.dom.tsx';
 import { InstallScreenUpdateDialog } from './InstallScreenUpdateDialog.dom.tsx';
 import { getClassNamesFor } from '../../util/getClassNamesFor.std.ts';
 import type { UpdatesStateType } from '../../state/ducks/updates.preload.ts';
+import { AxoAlertDialog } from '../../axo/AxoAlertDialog.dom.tsx';
 
 const { noop } = lodash;
 
@@ -43,6 +44,9 @@ export type PropsType = Readonly<{
   retryGetQrCode: () => void;
   startUpdate: () => void;
   forceUpdate: () => void;
+  isConfirmingDataDeletion: boolean;
+  continueInstallWithDataDeletion: () => void;
+  restartInstall: () => void;
 }>;
 
 const getQrCodeClassName = getClassNamesFor(
@@ -62,6 +66,9 @@ export function InstallScreenQrCodeNotScannedStep({
   retryGetQrCode,
   startUpdate,
   forceUpdate,
+  isConfirmingDataDeletion,
+  restartInstall,
+  continueInstallWithDataDeletion,
   updates,
 }: Readonly<PropsType>): ReactElement {
   return (
@@ -125,6 +132,34 @@ export function InstallScreenQrCodeNotScannedStep({
           )}
         </div>
       </div>
+      {isConfirmingDataDeletion ? (
+        <AxoAlertDialog.Root open>
+          <AxoAlertDialog.Content escape="cancel-is-destructive">
+            <AxoAlertDialog.Body>
+              <AxoAlertDialog.Title>
+                {i18n('icu:Install__confirm-data-deletion__title')}
+              </AxoAlertDialog.Title>
+              <AxoAlertDialog.Description>
+                {i18n('icu:Install__confirm-data-deletion__body')}
+              </AxoAlertDialog.Description>
+            </AxoAlertDialog.Body>
+            <AxoAlertDialog.Footer>
+              <AxoAlertDialog.Action
+                variant="secondary"
+                onClick={restartInstall}
+              >
+                {i18n('icu:cancel')}
+              </AxoAlertDialog.Action>
+              <AxoAlertDialog.Action
+                variant="destructive"
+                onClick={continueInstallWithDataDeletion}
+              >
+                {i18n('icu:Install__confirm-data-deletion__continue')}
+              </AxoAlertDialog.Action>
+            </AxoAlertDialog.Footer>
+          </AxoAlertDialog.Content>
+        </AxoAlertDialog.Root>
+      ) : null}
     </div>
   );
 }

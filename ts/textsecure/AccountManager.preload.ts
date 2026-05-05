@@ -87,7 +87,10 @@ import { itemStorage } from './Storage.preload.ts';
 import { deriveAccessKeyFromProfileKey } from '../util/zkgroup.node.ts';
 import { wrappingAdd24 } from '../util/wrappingAdd.std.ts';
 import { everDone as registrationEverDone } from '../util/registration.preload.ts';
-import { isAciString } from '../util/isAciString.std.ts';
+import {
+  isRelinkingToSameAccount as getIsRelinkingToSameAccount,
+  isCleanStart as getIsCleanStart,
+} from '../util/isRelinkingToSameAccount.std.ts';
 
 const { isNumber, omit, orderBy } = lodash;
 
@@ -1013,8 +1016,8 @@ export default class AccountManager extends EventTarget {
     const pniRegistrationId = generateRegistrationId();
 
     const previousNumber = itemStorage.user.getNumber();
-    const previousACI = itemStorage.user.getAci();
-    const previousPNI = itemStorage.user.getPni();
+    const previousAci = itemStorage.user.getAci();
+    const previousPni = itemStorage.user.getPni();
     const previousDeviceId = itemStorage.user.getDeviceId();
 
     log.info(
@@ -1023,71 +1026,48 @@ export default class AccountManager extends EventTarget {
       }`
     );
 
-    let uuidChanged: boolean;
+    let isRelinkingToSameAccount: boolean;
     if (options.type === AccountType.Primary) {
-      uuidChanged = true;
+      isRelinkingToSameAccount = false;
     } else if (options.type === AccountType.Linked) {
-      uuidChanged = previousACI != null && previousACI !== options.ourAci;
+      isRelinkingToSameAccount = getIsRelinkingToSameAccount({
+        newAci: options.ourAci,
+        newNumber: number,
+        previousAci,
+        previousNumber,
+      });
     } else {
       throw missingCaseError(options);
     }
 
-    // We only consider the number changed if we didn't have a UUID before
-    const numberChanged =
-      !previousACI && previousNumber && previousNumber !== number;
+    let isCleanStart = getIsCleanStart({
+      existingAci: previousAci,
+      existingPni: previousPni,
+      existingNumber: previousNumber,
+      registrationEverDone: registrationEverDone(),
+    });
 
-    let cleanStart =
-      !previousACI &&
-      !previousPNI &&
-      !previousNumber &&
-      !registrationEverDone();
-
-    // To be extra safe, clear everything if we know registration happened but there's no
-    // existing identifier
-    const hadPreviousIdentifier =
-      isAciString(previousACI) || Boolean(previousNumber);
-    const missingCriticalData =
-      registrationEverDone() && !hadPreviousIdentifier;
-
-    if (uuidChanged || numberChanged || missingCriticalData) {
-      if (uuidChanged) {
-        log.warn(
-          'createAccount: New uuid is different from old uuid; deleting all previous data'
-        );
-      }
-      if (numberChanged) {
-        log.warn(
-          'createAccount: New number is different from old number; deleting all previous data'
-        );
-      }
-      if (missingCriticalData) {
-        log.error(
-          'createAccount: device had been registered but had no previous identifier'
-        );
-      }
-
-      try {
-        await signalProtocolStore.removeAllData();
-        log.info('createAccount: Successfully deleted previous data');
-
-        cleanStart = true;
-      } catch (error) {
-        log.error(
-          'Something went wrong deleting data from previous number',
-          Errors.toLogFormat(error)
-        );
-      }
-    } else {
+    if (isRelinkingToSameAccount) {
       const weArePrimary = isNumber(previousDeviceId) && previousDeviceId === 1;
       log.info(
         `createAccount: Erasing configuration (isPrimary=${weArePrimary})`
       );
       await signalProtocolStore.removeAllConfiguration(weArePrimary);
+      log.info(
+        `createAccount: Successfully erased configuration (isPrimary=${weArePrimary})`
+      );
+    } else {
+      log.warn(
+        'createAccount: linking to new account; deleting any existing data'
+      );
+      await signalProtocolStore.removeAllData();
+      isCleanStart = true;
+      log.info('createAccount: Successfully deleted any previous data');
     }
 
     await senderCertificateService.clear();
 
-    const previousUuids = [previousACI, previousPNI].filter(isNotNil);
+    const previousUuids = [previousAci, previousPni].filter(isNotNil);
 
     if (previousUuids.length > 0) {
       await Promise.all([
@@ -1201,7 +1181,7 @@ export default class AccountManager extends EventTarget {
     // Set backup download path before storing credentials to ensure that
     // storage service and message receiver are not operating
     // until the backup is downloaded and imported.
-    if (shouldDownloadBackup && cleanStart) {
+    if (shouldDownloadBackup && isCleanStart) {
       if (options.type === AccountType.Linked && options.ephemeralBackupKey) {
         log.info('createAccount: setting ephemeral key');
         await itemStorage.put('backupEphemeralKey', options.ephemeralBackupKey);
