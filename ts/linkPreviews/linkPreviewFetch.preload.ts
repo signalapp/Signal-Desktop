@@ -16,6 +16,7 @@ import {
 import type { LoggerType } from '../types/Logging.std.ts';
 import { scaleImageToLevel } from '../util/scaleImageToLevel.preload.ts';
 import { createLogger } from '../logging/log.std.ts';
+import { shouldPreviewHref } from '../types/LinkPreview.std.ts';
 
 const log = createLogger('linkPreviewFetch');
 
@@ -114,9 +115,9 @@ async function fetchWithRedirects(
     }
 
     const newUrl = maybeParseUrl(location, nextHrefToLoad);
-    if (newUrl?.protocol !== 'https:') {
+    if (!newUrl || !shouldPreviewHref(newUrl.href)) {
       logger.warn(
-        'fetchWithRedirects: got a redirect status code and an invalid Location header'
+        'fetchWithRedirects: got a redirect status code and an invalid or disallowed Location header'
       );
       throw new Error('invalid location');
     }
