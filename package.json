@@ -155,6 +155,7 @@
     "@signalapp/lame": "workspace:1.0.0",
     "@signalapp/minimask": "1.0.1",
     "@signalapp/mock-server": "22.0.0",
+    "@signalapp/parchment-cjs": "3.0.1",
     "@signalapp/quill-cjs": "2.1.2",
     "@storybook/addon-a11y": "8.4.4",
     "@storybook/addon-actions": "8.4.4",
