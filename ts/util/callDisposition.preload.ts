@@ -121,6 +121,7 @@ export function formatPeekInfo(peekInfo: PeekInfo): string {
   const callId = eraId != null ? getCallIdFromEra(eraId) : null;
   let creatorAci: AciString | null = null;
   if (creator != null) {
+    // @ts-expect-error needs ringrtc update
     const creatorBytes: Uint8Array<ArrayBuffer> = creator;
     creatorAci = getCreatorAci(creatorBytes);
   }
@@ -157,6 +158,7 @@ export function getGroupCallMeta(
     return null;
   }
   const callId = getCallIdFromEra(peekInfo.eraId);
+  // @ts-expect-error needs ringrtc update
   const creatorBytes: Uint8Array<ArrayBuffer> = peekInfo.creator;
   const ringerId = bytesToUuid(creatorBytes);
   strictAssert(ringerId != null, 'peekInfo.creator was invalid uuid');

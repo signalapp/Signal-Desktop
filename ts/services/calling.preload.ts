@@ -630,10 +630,14 @@ class CallingClass {
     RingRTC.handleRejectedIncomingCallRequest =
       this.#handleRejectedIncomingCallRequest.bind(this);
     RingRTC.handleLogMessage = this.#handleLogMessage.bind(this);
+    // @ts-expect-error needs ringrtc update
     RingRTC.handleSendHttpRequest = this.#handleSendHttpRequest.bind(this);
+    // @ts-expect-error needs ringrtc update
     RingRTC.handleSendCallMessage = this.#handleSendCallMessage.bind(this);
+    // @ts-expect-error needs ringrtc update
     RingRTC.handleSendCallMessageToGroup =
       this.#handleSendCallMessageToGroup.bind(this);
+    // @ts-expect-error needs ringrtc update
     RingRTC.handleGroupCallRingUpdate =
       this.#handleGroupCallRingUpdate.bind(this);
 
@@ -865,8 +869,10 @@ class CallingClass {
     );
 
     const rootKey = CallLinkRootKey.generate();
+    // @ts-expect-error needs ringrtc update
     const rootKeyBytes: Uint8Array<ArrayBuffer> = rootKey.bytes;
     const roomId = rootKey.deriveRoomId();
+    // @ts-expect-error needs ringrtc update
     const roomIdBytes: Uint8Array<ArrayBuffer> = roomId;
     const roomIdHex = Bytes.toHex(roomIdBytes);
     const logId = `createCallLink(${roomIdHex})`;
@@ -874,6 +880,7 @@ class CallingClass {
     log.info(`${logId}: Creating call link`);
 
     const adminKey = CallLinkRootKey.generateAdminPassKey();
+    // @ts-expect-error needs ringrtc update
     const adminKeyBytes: Uint8Array<ArrayBuffer> = adminKey;
 
     const context =
@@ -1888,6 +1895,7 @@ class CallingClass {
       let aci: AciString | null = null;
 
       if (device.userId) {
+        // @ts-expect-error needs ringrtc update
         const userIdBytes: Uint8Array<ArrayBuffer> = device.userId;
         aci = this.#formatUserId(userIdBytes);
       }
@@ -2178,6 +2186,7 @@ class CallingClass {
     let creatorAci: string | undefined;
 
     if (peekInfo.creator) {
+      // @ts-expect-error needs ringrtc update
       const creatorBytes: Uint8Array<ArrayBuffer> = peekInfo.creator;
       creatorAci = bytesToUuid(creatorBytes);
     }
@@ -2185,6 +2194,7 @@ class CallingClass {
     return {
       acis: peekInfo.devices.map(peekDeviceInfo => {
         if (peekDeviceInfo.userId) {
+          // @ts-expect-error needs ringrtc update
           const userIdBytes: Uint8Array<ArrayBuffer> = peekDeviceInfo.userId;
           const uuid = this.#formatUserId(userIdBytes);
           if (uuid) {
@@ -2202,6 +2212,7 @@ class CallingClass {
       }),
       pendingAcis: compact(
         peekInfo.pendingUsers.map(userId => {
+          // @ts-expect-error needs ringrtc update;
           const userIdBytes: Uint8Array<ArrayBuffer> = userId;
           return this.#formatUserId(userIdBytes);
         })
@@ -2250,6 +2261,7 @@ class CallingClass {
         ? this.formatGroupCallPeekInfoForRedux(peekInfo)
         : undefined,
       remoteParticipants: remoteDeviceStates.map(remoteDeviceState => {
+        // @ts-expect-error needs ringrtc update
         const userIdBytes: Uint8Array<ArrayBuffer> = remoteDeviceState.userId;
         let aci = bytesToUuid(userIdBytes);
         if (!aci) {
