@@ -4,11 +4,7 @@ import type { ReactNode, JSX } from 'react';
 import { useState } from 'react';
 import type { Meta } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
-import {
-  _getAllAxoButtonVariants,
-  _getAllAxoButtonSizes,
-  AxoButton,
-} from './AxoButton.dom.tsx';
+import { AxoButton } from './AxoButton.dom.tsx';
 import { tw } from './tw.dom.tsx';
 import { AxoSwitch } from './AxoSwitch.dom.tsx';
 
@@ -17,8 +13,8 @@ export default {
 } satisfies Meta;
 
 export function Basic(): JSX.Element {
-  const variants = _getAllAxoButtonVariants();
-  const sizes = _getAllAxoButtonSizes();
+  const variants = AxoButton._getAllVariants();
+  const sizes = AxoButton._getAllSizes();
   return (
     <div className={tw('grid gap-1')}>
       {sizes.map(size => {
@@ -93,19 +89,19 @@ export function Basic(): JSX.Element {
 }
 
 export function Spinner(): JSX.Element {
-  const sizes = _getAllAxoButtonSizes();
-  const variants = _getAllAxoButtonVariants();
+  const variants = AxoButton._getAllVariants();
+  const sizes = AxoButton._getAllSizes();
 
-  const [loading, setLoading] = useState(true);
+  const [pending, setPending] = useState(true);
 
   function handleClick() {
-    setLoading(true);
+    setPending(true);
   }
 
   return (
     <>
       <div className={tw('mb-4 flex gap-2')}>
-        <AxoSwitch.Root checked={loading} onCheckedChange={setLoading} />
+        <AxoSwitch.Root checked={pending} onCheckedChange={setPending} />
         <span>Loading</span>
       </div>
       <div className={tw('flex flex-col gap-2')}>
@@ -117,10 +113,8 @@ export function Spinner(): JSX.Element {
                   <AxoButton.Root
                     variant={variant}
                     size={size}
-                    disabled={loading}
-                    experimentalSpinner={
-                      loading ? { 'aria-label': 'Loading' } : null
-                    }
+                    disabled={pending}
+                    pending={pending}
                     onClick={handleClick}
                   >
                     Save

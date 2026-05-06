@@ -27,7 +27,7 @@ export function ProfileNameWarningModal({
         disableMissingAriaDescriptionWarning
       >
         <AxoDialog.Header>
-          <AxoDialog.Close aria-label={i18n('icu:close')} />
+          <AxoDialog.Close />
         </AxoDialog.Header>
         <AxoDialog.Body padding="normal">
           <div className={tw('flex justify-center')}>

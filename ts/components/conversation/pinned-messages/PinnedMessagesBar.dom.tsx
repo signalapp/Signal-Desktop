@@ -271,7 +271,7 @@ function HiddenTrigger(props: {
 
   return (
     <AriaClickable.HiddenTrigger
-      aria-label={i18n(
+      label={i18n(
         'icu:PinnedMessagesBar__GoToMessageClickableArea__AccessibilityLabel'
       )}
       onClick={handlePinGoToCurrent}

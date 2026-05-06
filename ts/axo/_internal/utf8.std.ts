@@ -6,7 +6,10 @@ export namespace utf8 {
   const HIGH_SURROGATE = 0b11011000_00000000;
   const LOW_SURROGATE = 0b11011100_00000000;
 
-  /** Source: https://codeberg.org/indutny/protopiler/src/branch/main/lib/utf8.mjs */
+  /**
+   * Source: https://codeberg.org/indutny/protopiler/src/branch/main/lib/utf8.mjs
+   * @internal
+   */
   function _getByteLength(
     input: string,
     onlyNeedToKnowIsOver: number | null
@@ -53,6 +56,7 @@ export namespace utf8 {
     return size;
   }
 
+  /** Returns the UTF-8 byte length of `input`. */
   export function getByteLength(input: string): number {
     return _getByteLength(input, null);
   }
@@ -60,36 +64,45 @@ export namespace utf8 {
   const MIN_BYTES_PER_CHAR = 1;
   const MAX_BYTES_PER_CHAR = 3;
 
+  /** @internal */
   function _minPossibleBytes(input: string) {
     return input.length * MIN_BYTES_PER_CHAR;
   }
 
+  /** @internal */
   function _maxPossibleBytes(input: string) {
     return input.length * MAX_BYTES_PER_CHAR;
   }
 
+  /** Returns `true` if the UTF-8 byte length of `input` is less than `n`. */
   export function lt(input: string, n: number): boolean {
     return _maxPossibleBytes(input) < n || _getByteLength(input, n) < n;
   }
 
+  /** Returns `true` if the UTF-8 byte length of `input` is less than or equal to `n`. */
   export function lte(input: string, n: number): boolean {
     return _maxPossibleBytes(input) <= n || _getByteLength(input, n) <= n;
   }
 
+  /** Returns `true` if the UTF-8 byte length of `input` is greater than `n`. */
   export function gt(input: string, n: number): boolean {
     return _minPossibleBytes(input) > n || _getByteLength(input, n) > n;
   }
 
+  /** Returns `true` if the UTF-8 byte length of `input` is greater than or equal to `n`. */
   export function gte(input: string, n: number): boolean {
     return _minPossibleBytes(input) >= n || _getByteLength(input, n) >= n;
   }
 
   let segmenter: Intl.Segmenter;
-  function getSegmenter() {
+
+  /** @internal */
+  function _getSegmenter() {
     segmenter ??= new Intl.Segmenter('und', { granularity: 'grapheme' });
     return segmenter;
   }
 
+  /** @internal */
   function _getGraphemeCount(
     input: string,
     onlyNeedToKnowIsOver: number | null
@@ -100,7 +113,7 @@ export namespace utf8 {
 
     let result = 0;
     // oxlint-disable-next-line no-unused-vars
-    for (const _grapheme of getSegmenter().segment(input)) {
+    for (const _grapheme of _getSegmenter().segment(input)) {
       result += 1;
 
       if (onlyNeedToKnowIsOver != null && result > onlyNeedToKnowIsOver) {
@@ -111,10 +124,12 @@ export namespace utf8 {
     return result;
   }
 
+  /** Returns the number of user-perceived grapheme clusters in `input`. */
   export function getGraphemeCount(input: string): number {
     return _getGraphemeCount(input, null);
   }
 
+  /** Returns `input` truncated to at most `maxBytes` grapheme clusters. */
   export function truncateGraphemes(input: string, maxBytes: number): string {
     if (maxBytes === 0) {
       return '';
@@ -123,7 +138,7 @@ export namespace utf8 {
     let count = 0;
     let result = '';
 
-    for (const item of getSegmenter().segment(input)) {
+    for (const item of _getSegmenter().segment(input)) {
       count += 1;
       result += item.segment;
 
@@ -135,6 +150,10 @@ export namespace utf8 {
     return result;
   }
 
+  /**
+   * Returns `input` truncated to fit within both `maxBytes` UTF-8 bytes and
+   * `maxGraphemes` grapheme clusters, whichever limit is reached first.
+   */
   export function truncateBytesAndGraphemes(
     value: string,
     maxBytes: number,
@@ -148,7 +167,7 @@ export namespace utf8 {
     let remainingBytes = maxBytes;
     let remainingGraphemes = maxGraphemes;
 
-    for (const grapheme of getSegmenter().segment(value)) {
+    for (const grapheme of _getSegmenter().segment(value)) {
       remainingBytes -= _getByteLength(grapheme.segment, remainingBytes);
       remainingGraphemes -= 1;
 

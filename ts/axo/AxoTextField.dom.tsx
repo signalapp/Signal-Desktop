@@ -5,40 +5,104 @@ import type { FC, InputEvent, MouseEvent, ReactNode, RefObject } from 'react';
 import { mergeRefs } from '@react-aria/utils';
 import { AxoSymbol } from './AxoSymbol.dom.tsx';
 import { tw } from './tw.dom.tsx';
-import type { TailwindStyles } from './tw.dom.tsx';
 import { assert } from './_internal/assert.std.tsx';
 import { utf8 } from './_internal/utf8.std.ts';
 import {
   createStrictContext,
   useStrictContext,
 } from './_internal/StrictContext.dom.tsx';
+import { useAxoIntl } from './_internal/AxoIntl.dom.tsx';
+import { variants } from './_internal/variants.dom.tsx';
 
-const Namespace = 'AxoTextField';
-
+/**
+ * A single-line text input with optional icons, action buttons, and
+ * character/byte limiting.
+ *
+ * @example Anatomy
+ * ```tsx
+ * <AxoTextField.Root>
+ *   <AxoTextField.Input />
+ *   <AxoTextField.Separator />
+ *   <AxoTextField.Input />
+ *   <AxoTextField.Action />
+ * </AxoTextField.Root>
+ * ```
+ * @see {@link https://w3c.github.io/aria/#textbox | `textbox` role - WAI-ARIA 1.3}
+ * @see {@link https://w3c.github.io/aria/#group | `group` role - WAI-ARIA 1.3}
+ */
 export namespace AxoTextField {
-  export type Width = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
-  export type Sizing = 'fixed' | 'grow' | 'fit';
-
   /**
    * <AxoTextField.Root>
    * --------------------------------------------------------------------------
    */
 
+  /** @internal */
   type RootContextType = Readonly<{
     disabled?: boolean;
     readOnly?: boolean;
   }>;
 
-  const RootContext = createStrictContext<RootContextType>(`${Namespace}.Root`);
+  /** @internal */
+  const RootContext = createStrictContext<RootContextType>('AxoTextField.Root');
+
+  /**
+   * The preferred width of the text field.
+   *
+   * TODO(jamie): Get real sizes from design
+   *
+   * - `xs` – 200px
+   * - `sm` – 300px
+   * - `md` – 400px
+   * - `lg` – 500px
+   * - `xl` – 600px
+   * - `full` – stretches to fill the container (default)
+   *
+   * All sizes shrink to fit the container if it is narrower than the minimum.
+   */
+  export type Width = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
 
   export type RootProps = Readonly<{
+    /** Leading icon displayed before the input. */
     symbol?: AxoSymbol.IconName;
+    /** Controls the width of the entire field. Defaults to `full`. */
     width?: Width;
+    /** Disables all inputs and actions within the field. */
     disabled?: boolean;
+    /** Makes all inputs within the field read-only. */
     readOnly?: boolean;
+    /** Should be `Input`, `Action`, and/or `Separator` elements. */
     children: ReactNode;
   }>;
 
+  /**
+   * Container for the text field. Provides shared `disabled`/`readOnly` state
+   * to child inputs and actions.
+   *
+   * @example Basic usage
+   * ```tsx
+   * <AxoTextField.Root>
+   *   <AxoTextField.Input
+   *     placeholder="First name"
+   *     value={value}
+   *     onValueChange={setValue}
+   *     maxGraphemes={26}
+   *     maxBytes={128}
+   *     showCount
+   *     showClear
+   *   />
+   * </AxoTextField.Root>
+   * ```
+   *
+   * @example Segmented field with icon and action
+   * ```tsx
+   * <AxoTextField.Root symbol="at">
+   *   <AxoTextField.Input placeholder="Username" sizing="grow" ... />
+   *   <AxoTextField.Separator />
+   *   <AxoTextField.Input placeholder="00" sizing="fit" ... />
+   *   <AxoTextField.Action label="Insert emoji" symbol="emoji" onClick={openEmojiPicker} />
+   * </AxoTextField.Root>
+   * ```
+   */
   export const Root: FC<RootProps> = memo(props => {
     const { disabled, readOnly } = props;
 
@@ -56,21 +120,21 @@ export namespace AxoTextField {
     );
   });
 
-  Root.displayName = `${Namespace}.Root`;
+  Root.displayName = 'AxoTextField.Root';
 
   /**
    * <AxoTextField.Group>
    * --------------------------------------------------------------------------
    */
 
-  const GroupWidthStyles: Record<Width, TailwindStyles> = {
+  const GroupWidthStyles = variants<Width>('AxoTextField.Width', {
     xs: tw('w-[calc-size(fit-content,min(max(200px,size),100%))]'),
     sm: tw('w-[calc-size(fit-content,min(max(300px,size),100%))]'),
     md: tw('w-[calc-size(fit-content,min(max(400px,size),100%))]'),
     lg: tw('w-[calc-size(fit-content,min(max(500px,size),100%))]'),
     xl: tw('w-[calc-size(fit-content,min(max(600px,size),100%))]'),
     full: tw('w-full'),
-  };
+  });
 
   /** @internal */
   type GroupProps = Readonly<{
@@ -86,7 +150,7 @@ export namespace AxoTextField {
         className={tw(
           'group flex items-stretch',
           'overflow-hidden',
-          GroupWidthStyles[props.width],
+          GroupWidthStyles.get(props.width),
           'curved-lg bg-fill-primary',
           'border-[0.5px] border-border-primary',
           'shadow-elevation-0 shadow-no-outline',
@@ -105,38 +169,57 @@ export namespace AxoTextField {
     );
   });
 
-  Group.displayName = `${Namespace}.Group`;
+  Group.displayName = 'AxoTextField.Group';
 
   /**
    * <AxoTextField.Input>
    * --------------------------------------------------------------------------
    */
 
+  /**
+   * How an `Input` sizes itself within the field group.
+   * - `fixed`: Takes up all remaining space (default).
+   * - `grow`: Expands with typed content, up to available space.
+   * - `fit`: Shrinks to fit typed content, useful for segmented fields.
+   */
+  export type Sizing = 'fixed' | 'grow' | 'fit';
+
   export type InputProps = Readonly<{
+    /** Ref to the underlying `<input>` element. */
     ref?: RefObject<HTMLInputElement | null>;
-
+    /** Provide your own id for the `<input>` to target with a `<label>`. Auto-generated if omitted. */
     id?: string;
+    /** Form field name for native form submissions. */
     name?: string;
+    /** Placeholder text shown when the input is empty. */
     placeholder: string;
-
+    /** How the input sizes itself within the field group. Defaults to `fixed`. */
     sizing?: Sizing;
-
+    /** Controlled value of the input. */
     value: string;
+    /** Called with the new value on every change. */
     onValueChange: (value: string) => void;
-
+    /** Maximum number of Unicode grapheme clusters allowed. */
     maxGraphemes: number;
+    /** Maximum number of UTF-8 bytes allowed. Should be ~4x the number of `maxGraphemes`. */
     maxBytes: number;
-
+    /** Shows a remaining-character counter that appears as the limit is approached. */
     showCount?: boolean;
-    showClearWithLabel?: string | null;
-
+    /** Shows a clear button when the input has a value. */
+    showClear?: boolean;
+    /** Marks the input as required for form validation. */
     required?: boolean;
+    /** Disables this input. Also disabled if `Root` has `disabled` set. */
     disabled?: boolean;
+    /** Makes this input read-only. Also read-only if `Root` has `readOnly` set. */
     readOnly?: boolean;
+    /** Focuses the input on mount. */
     autoFocus?: boolean;
+    /** Enables or disables browser spell checking. */
     spellCheck?: boolean;
   }>;
 
+  /** The text input field. Must be placed inside `Root`. */
   export const Input: FC<InputProps> = memo(props => {
     const { onValueChange, maxBytes, maxGraphemes } = props;
     const context = useStrictContext(RootContext);
@@ -259,13 +342,12 @@ export namespace AxoTextField {
             maxGraphemes={props.maxGraphemes}
           />
         )}
-        {props.showClearWithLabel != null && (
+        {props.showClear && (
           <Clear
             inputRef={inputRef}
             inputId={inputId}
             value={props.value}
             onValueChange={onValueChange}
-            label={props.showClearWithLabel}
             disabled={disabled || readOnly}
           />
         )}
@@ -273,13 +355,14 @@ export namespace AxoTextField {
     );
   });
 
-  Input.displayName = `${Namespace}.Input`;
+  Input.displayName = 'AxoTextField.Input';
 
   /**
    * <AxoTextField.Icon>
    * --------------------------------------------------------------------------
    */
 
+  /** @internal */
   type IconProps = Readonly<{
     symbol: AxoSymbol.IconName;
   }>;
@@ -298,7 +381,7 @@ export namespace AxoTextField {
     );
   });
 
-  Icon.displayName = `${Namespace}.Icon`;
+  Icon.displayName = 'AxoTextField.Icon';
 
   /**
    * <AxoTextField.Count>
@@ -308,6 +391,7 @@ export namespace AxoTextField {
   const SHOW_REMAINING_COUNT_THRESHOLD = 0.5;
   const WARN_REMAINING_COUNT_THRESHOLD = 0.25;
 
+  /** @internal */
   type CountProps = Readonly<{
     value: string;
     maxBytes: number;
@@ -364,17 +448,17 @@ export namespace AxoTextField {
     );
   });
 
-  Count.displayName = `${Namespace}.Count`;
+  Count.displayName = 'AxoTextField.Count';
 
   /**
    * <AxoTextField.Clear>
    * --------------------------------------------------------------------------
    */
 
+  /** @internal */
   type ClearProps = Readonly<{
     inputRef: RefObject<HTMLInputElement | null>;
     inputId: string;
-    label: string;
     value: string;
     onValueChange: (value: string) => void;
     disabled: boolean;
@@ -383,6 +467,7 @@ export namespace AxoTextField {
   /** @internal */
   const Clear: FC<ClearProps> = memo(props => {
     const { inputRef, value, onValueChange } = props;
+    const intl = useAxoIntl();
 
     const handleClear = useCallback(
       (event: MouseEvent) => {
@@ -400,7 +485,7 @@ export namespace AxoTextField {
     return (
       <button
         type="button"
-        aria-label={props.label}
+        aria-label={intl.get('AxoTextField.Clear')}
         aria-controls={props.inputId}
         className={tw(
           'z-10',
@@ -428,7 +513,7 @@ export namespace AxoTextField {
     );
   });
 
-  Clear.displayName = `${Namespace}.Clear`;
+  Clear.displayName = 'AxoTextField.Clear';
 
   /**
    * <AxoTextField.Action>
@@ -436,12 +521,28 @@ export namespace AxoTextField {
    */
 
   export type ActionProps = Readonly<{
+    /** Accessible label for the button describing the action to be taken, not the icon. */
     label: string;
+    /** Icon to display inside the button. */
     symbol: AxoSymbol.IconName;
+    /** Called when the button is clicked. */
     onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
+    /** Overrides the `disabled` state from `Root` for this button only. */
     disabled?: boolean;
   }>;
 
+  /**
+   * An icon button placed inside a `Root`, typically used for supplementary
+   * actions like inserting an emoji or opening a menu.
+   *
+   * @example
+   * ```tsx
+   * <AxoTextField.Root>
+   *   <AxoTextField.Input ... />
+   *   <AxoTextField.Action label="Insert emoji" symbol="emoji" onClick={openEmojiPicker} />
+   * </AxoTextField.Root>
+   * ```
+   */
   export const Action: FC<ActionProps> = memo(props => {
     const { onClick } = props;
     const context = useStrictContext(RootContext);
@@ -454,9 +555,11 @@ export namespace AxoTextField {
     const handleClick = useCallback(
       (event: MouseEvent<HTMLButtonElement>) => {
         event.stopPropagation();
-        if (!disabled) {
-          onClick?.(event);
+        if (disabled) {
+          event.preventDefault();
+          return;
         }
+        onClick?.(event);
       },
       [disabled, onClick]
     );
@@ -488,13 +591,25 @@ export namespace AxoTextField {
     );
   });
 
-  Action.displayName = `${Namespace}.Action`;
+  Action.displayName = 'AxoTextField.Action';
 
   /**
    * <AxoTextField.Separator>
    * --------------------------------------------------------------------------
    */
 
+  /**
+   * A vertical divider between segments in a multi-input field.
+   *
+   * @example Username + discriminator
+   * ```tsx
+   * <AxoTextField.Root symbol="at">
+   *   <AxoTextField.Input placeholder="Username" sizing="grow" ... />
+   *   <AxoTextField.Separator />
+   *   <AxoTextField.Input placeholder="00" sizing="fit" ... />
+   * </AxoTextField.Root>
+   * ```
+   */
   export const Separator: FC = memo(() => {
     return (
       <span className={tw('flex py-2 ps-3 pe-2')}>
@@ -511,5 +626,5 @@ export namespace AxoTextField {
     );
   });
 
-  Separator.displayName = `${Namespace}.Separator`;
+  Separator.displayName = 'AxoTextField.Separator';
 }

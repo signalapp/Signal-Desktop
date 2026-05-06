@@ -2,12 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ContextMenu } from 'radix-ui';
-import type {
-  FC,
-  KeyboardEvent,
-  KeyboardEventHandler,
-  MouseEvent as ReactMouseEvent,
-} from 'react';
+import type { FC, KeyboardEvent, MouseEvent } from 'react';
 import { AxoSymbol } from './AxoSymbol.dom.tsx';
 import { AxoBaseMenu } from './_internal/AxoBaseMenu.dom.tsx';
 import { tw } from './tw.dom.tsx';
@@ -21,63 +16,88 @@ import { AxoTheme } from './AxoTheme.dom.tsx';
 
 const { useDisableDragRegions } = AxoDragRegion;
 
-const Namespace = 'AxoContextMenu';
-
 /**
- * Displays a menu located at the pointer, triggered by a right click or a long press.
+ * Displays a menu at the pointer position, triggered by a right-click or the
+ * platform context-menu keyboard shortcut.
  *
- * Note: For menus that are triggered by a normal button press, you should use
- * `AxoDropdownMenu`.
+ * For menus triggered by a button press, use `AxoDropdownMenu` instead.
  *
  * @example Anatomy
  * ```tsx
- * import { AxoContextMenu } from "./axo/ContextMenu/AxoContentMenu.tsx";
- *
- * export default () => (
- *   <AxoContextMenu.Root>
- *     <AxoContextMenu.Trigger />
- *
+ * <AxoContextMenu.Root>
+ *   <AxoContextMenu.Trigger>
  *     <AxoContextMenu.Content>
  *       <AxoContextMenu.Label />
  *       <AxoContextMenu.Item />
- *
  *       <AxoContextMenu.Group>
  *         <AxoContextMenu.Item />
  *       </AxoContextMenu.Group>
- *
- *       <AxoContextMenu.CheckboxItem/>
- *
+ *       <AxoContextMenu.CheckboxItem />
  *       <AxoContextMenu.RadioGroup>
- *         <AxoContextMenu.RadioItem/>
+ *         <AxoContextMenu.RadioItem />
  *       </AxoContextMenu.RadioGroup>
- *
  *       <AxoContextMenu.Sub>
  *         <AxoContextMenu.SubTrigger />
  *         <AxoContextMenu.SubContent />
  *       </AxoContextMenu.Sub>
- *
  *       <AxoContextMenu.Separator />
  *     </AxoContextMenu.Content>
- *   </AxoContextMenu.Root>
- * )
+ *   </AxoContextMenu.Trigger>
+ * </AxoContextMenu.Root>
  * ```
+ *
+ * @see {@link https://www.radix-ui.com/primitives/docs/components/context-menu | Context Menu - Radix Docs}
+ * @see {@link https://www.w3.org/WAI/ARIA/apg/patterns/menu-button/ | Menu Button Pattern - ARIA Authoring Practices Guide}
+ * @see {@link https://w3c.github.io/aria/#menu | `menu` role - WAI-ARIA 1.3}
  */
 export namespace AxoContextMenu {
+  /**
+   * <AxoContextMenu.Root>
+   * --------------------------------------------------------------------------
+   */
+
+  /** @internal */
   type RootContextType = Readonly<{
     open: boolean;
   }>;
 
+  /** @internal */
   const RootContext = createStrictContext<RootContextType>(
-    `${Namespace}.RootContext`
+    'AxoContextMenu.RootContext'
   );
-
-  /**
-   * Component: <AxoContextMenu.Root>
-   * --------------------------------
-   */
 
   export type RootProps = AxoBaseMenu.MenuRootProps;
 
+  /**
+   * Contains all the parts of a context menu.
+   *
+   * @example Conversation list item with context menu
+   * ```tsx
+   * <AxoContextMenu.Root onOpenChange={onOpenChange}>
+   *   <AxoContextMenu.Trigger>
+   *     <ConversationListItem conversation={conversation} />
+   *   </AxoContextMenu.Trigger>
+   *   <AxoContextMenu.Content>
+   *     <AxoContextMenu.Item symbol="message-badge" onSelect={onMarkUnread}>
+   *       Mark unread
+   *     </AxoContextMenu.Item>
+   *     <AxoContextMenu.Sub>
+   *       <AxoContextMenu.SubTrigger symbol="bell-slash">
+   *         Mute notifications
+   *       </AxoContextMenu.SubTrigger>
+   *       <AxoContextMenu.SubContent>
+   *         <AxoContextMenu.Item onSelect={() => onMute('1-hour')}>For 1 hour</AxoContextMenu.Item>
+   *         <AxoContextMenu.Item onSelect={() => onMute('always')}>Always</AxoContextMenu.Item>
+   *       </AxoContextMenu.SubContent>
+   *     </AxoContextMenu.Sub>
+   *     <AxoContextMenu.Separator />
+   *     <AxoContextMenu.Item symbol="trash" onSelect={onDelete}>
+   *       Delete conversation
+   *     </AxoContextMenu.Item>
+   *   </AxoContextMenu.Content>
+   * </AxoContextMenu.Root>
+   * ```
+   */
   export const Root: FC<RootProps> = memo(props => {
     const { onOpenChange } = props;
     const [open, setOpen] = useState(false);
@@ -105,15 +125,16 @@ export namespace AxoContextMenu {
     );
   });
 
-  Root.displayName = `${Namespace}.Root`;
+  Root.displayName = 'AxoContextMenu.Root';
 
   /**
-   * Component: <AxoContextMenu.Trigger>
-   * -----------------------------------
+   * <AxoContextMenu.Trigger>
+   * --------------------------------------------------------------------------
    */
 
   type TriggerElementGetter = (event: KeyboardEvent) => Element;
 
+  /** @internal */
   function useContextMenuTriggerKeyboardEventHandler(
     getTriggerElement: TriggerElementGetter
   ) {
@@ -143,7 +164,7 @@ export namespace AxoContextMenu {
           const clientRect = trigger.getBoundingClientRect();
 
           trigger.dispatchEvent(
-            new MouseEvent('contextmenu', {
+            new globalThis.MouseEvent('contextmenu', {
               bubbles: true,
               cancelable: true,
               clientX: clientRect.left,
@@ -158,12 +179,17 @@ export namespace AxoContextMenu {
 
   export type TriggerProps = AxoBaseMenu.MenuTriggerProps;
 
+  /**
+   * The area that opens the context menu.
+   * Wrap it around the target you want the context menu to open from when
+   * right-clicking (or using the relevant keyboard shortcuts).
+   */
   export const Trigger: FC<TriggerProps> = memo(props => {
     const context = useStrictContext(RootContext);
     const [disableCurrentEvent, setDisableCurrentEvent] = useState(false);
 
     const handleContextMenuCapture = useCallback(
-      (event: ReactMouseEvent<HTMLElement>) => {
+      (event: MouseEvent<HTMLElement>) => {
         const { target, currentTarget } = event;
         if (
           target instanceof HTMLElement &&
@@ -207,20 +233,48 @@ export namespace AxoContextMenu {
     );
   });
 
-  Trigger.displayName = `${Namespace}.Trigger`;
+  Trigger.displayName = 'AxoContextMenu.Trigger';
 
-  export function useAxoContextMenuOutsideKeyboardTrigger(): KeyboardEventHandler {
+  /**
+   * useAxoContextMenuOutsideKeyboardTrigger()
+   * --------------------------------------------------------------------------
+   */
+
+  /**
+   * Returns a `onKeyDown` handler that fires the context-menu keyboard shortcut
+   * on the `AxoContextMenu.Trigger` found inside `event.currentTarget`.
+   *
+   * Use this when the keyboard handler must live on a parent element that is
+   * separate from the `Trigger` (e.g. a focusable row that contains a trigger
+   * deeper in its tree). Attach the returned handler to the focusable element's
+   * `onKeyDown`.
+   *
+   * @example Row-level keyboard handler
+   * ```tsx
+   * const handleKeyDown = AxoContextMenu.useAxoContextMenuOutsideKeyboardTrigger();
+   *
+   * <div role="row" tabIndex={0} onKeyDown={handleKeyDown}>
+   *   <AxoContextMenu.Root>
+   *     <AxoContextMenu.Trigger>{rowContent}</AxoContextMenu.Trigger>
+   *     <AxoContextMenu.Content>...</AxoContextMenu.Content>
+   *   </AxoContextMenu.Root>
+   * </div>
+   * ```
+   */
+  export function useAxoContextMenuOutsideKeyboardTrigger(): (
+    event: KeyboardEvent
+  ) => void {
     return useContextMenuTriggerKeyboardEventHandler(event => {
       return assert(
         event.currentTarget.querySelector('[data-axo-contextmenu-trigger]'),
-        `Couldn't find <${Namespace}.Trigger> element, did you forget to pass all html props through?`
+        `Couldn't find <AxoContextMenu.Trigger> element, did you forget to pass all html props through?`
       );
     });
   }
 
   /**
-   * Component: <AxoContextMenu.Content>
-   * -----------------------------------
+   * <AxoContextMenu.Content>
+   * --------------------------------------------------------------------------
    */
 
   export type ContentProps = AxoBaseMenu.MenuContentProps;
@@ -248,23 +302,17 @@ export namespace AxoContextMenu {
     );
   });
 
-  Content.displayName = `${Namespace}.Content`;
+  Content.displayName = 'AxoContextMenu.Content';
 
   /**
-   * Component: <AxoContextMenu.Item>
-   * --------------------------------
+   * <AxoContextMenu.Item>
+   * --------------------------------------------------------------------------
    */
 
   export type ItemProps = AxoBaseMenu.MenuItemProps;
 
   /**
-   * The component that contains the context menu items.
-   * @example
-   * ```tsx
-   * <AxoContextMenu.Item icon={<svg/>}>
-   *   {i18n("myContextMenuText")}
-   * </AxoContentMenu.Item>
-   * ````
+   * A single selectable item in the context menu.
    */
   export const Item: FC<ItemProps> = memo(props => {
     return (
@@ -291,11 +339,11 @@ export namespace AxoContextMenu {
     );
   });
 
-  Item.displayName = `${Namespace}.Item`;
+  Item.displayName = 'AxoContextMenu.Item';
 
   /**
-   * Component: <AxoContextMenu.Group>
-   * ---------------------------------
+   * <AxoContextMenu.Group>
+   * --------------------------------------------------------------------------
    */
 
   export type GroupProps = AxoBaseMenu.MenuGroupProps;
@@ -311,11 +359,11 @@ export namespace AxoContextMenu {
     );
   });
 
-  Group.displayName = `${Namespace}.Group`;
+  Group.displayName = 'AxoContextMenu.Group';
 
   /**
-   * Component: <AxoContextMenu.Label>
-   * ---------------------------------
+   * <AxoContextMenu.Label>
+   * --------------------------------------------------------------------------
    */
 
   export type LabelProps = AxoBaseMenu.MenuLabelProps;
@@ -333,11 +381,11 @@ export namespace AxoContextMenu {
     );
   });
 
-  Label.displayName = `${Namespace}.Label`;
+  Label.displayName = 'AxoContextMenu.Label';
 
   /**
-   * Component: <AxoContextMenu.CheckboxItem>
-   * ----------------------------------------
+   * <AxoContextMenu.CheckboxItem>
+   * --------------------------------------------------------------------------
    */
 
   export type CheckboxItemProps = AxoBaseMenu.MenuCheckboxItemProps;
@@ -379,11 +427,11 @@ export namespace AxoContextMenu {
     );
   });
 
-  CheckboxItem.displayName = `${Namespace}.CheckboxItem`;
+  CheckboxItem.displayName = 'AxoContextMenu.CheckboxItem';
 
   /**
-   * Component: <AxoContextMenu.RadioGroup>
-   * --------------------------------------
+   * <AxoContextMenu.RadioGroup>
+   * --------------------------------------------------------------------------
    */
 
   export type RadioGroupProps = AxoBaseMenu.MenuRadioGroupProps;
@@ -403,11 +451,11 @@ export namespace AxoContextMenu {
     );
   });
 
-  RadioGroup.displayName = `${Namespace}.RadioGroup`;
+  RadioGroup.displayName = 'AxoContextMenu.RadioGroup';
 
   /**
-   * Component: <AxoContextMenu.RadioItem>
-   * -------------------------------------
+   * <AxoContextMenu.RadioItem>
+   * --------------------------------------------------------------------------
    */
 
   export type RadioItemProps = AxoBaseMenu.MenuRadioItemProps;
@@ -446,11 +494,11 @@ export namespace AxoContextMenu {
     );
   });
 
-  RadioItem.displayName = `${Namespace}.RadioItem`;
+  RadioItem.displayName = 'AxoContextMenu.RadioItem';
 
   /**
-   * Component: <AxoContextMenu.Separator>
-   * -------------------------------------
+   * <AxoContextMenu.Separator>
+   * --------------------------------------------------------------------------
    */
 
   /**
@@ -462,11 +510,11 @@ export namespace AxoContextMenu {
     );
   });
 
-  Separator.displayName = `${Namespace}.Separator`;
+  Separator.displayName = 'AxoContextMenu.Separator';
 
   /**
-   * Component: <AxoContextMenu.Sub>
-   * -------------------------------
+   * <AxoContextMenu.Sub>
+   * --------------------------------------------------------------------------
    */
 
   export type SubProps = AxoBaseMenu.MenuSubProps;
@@ -478,18 +526,17 @@ export namespace AxoContextMenu {
     return <ContextMenu.Sub>{props.children}</ContextMenu.Sub>;
   });
 
-  Sub.displayName = `${Namespace}.Sub`;
+  Sub.displayName = 'AxoContextMenu.Sub';
 
   /**
-   * Component: <AxoContextMenu.SubTrigger>
-   * --------------------------------------
+   * <AxoContextMenu.SubTrigger>
+   * --------------------------------------------------------------------------
    */
 
   export type SubTriggerProps = AxoBaseMenu.MenuSubTriggerProps;
 
   /**
-   * An item that opens a submenu. Must be rendered inside
-   * {@link ContextMenu.Sub}.
+   * An item that opens a submenu. Must be rendered inside `AxoContextMenu.Sub`.
    */
   export const SubTrigger: FC<SubTriggerProps> = memo(props => {
     return (
@@ -509,11 +556,11 @@ export namespace AxoContextMenu {
     );
   });
 
-  SubTrigger.displayName = `${Namespace}.SubTrigger`;
+  SubTrigger.displayName = 'AxoContextMenu.SubTrigger';
 
   /**
-   * Component: <AxoContextMenu.SubContent>
-   * --------------------------------------
+   * <AxoContextMenu.SubContent>
+   * --------------------------------------------------------------------------
    */
 
   export type SubContentProps = AxoBaseMenu.MenuSubContentProps;
@@ -534,5 +581,5 @@ export namespace AxoContextMenu {
     );
   });
 
-  SubContent.displayName = `${Namespace}.SubContent`;
+  SubContent.displayName = 'AxoContextMenu.SubContent';
 }

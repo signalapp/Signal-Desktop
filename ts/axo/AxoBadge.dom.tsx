@@ -3,11 +3,9 @@
 import type { FC } from 'react';
 import { memo, useMemo } from 'react';
 import { AxoSymbol } from './AxoSymbol.dom.tsx';
-import type { TailwindStyles } from './tw.dom.tsx';
 import { tw } from './tw.dom.tsx';
 import { unreachable } from './_internal/assert.std.tsx';
-
-const Namespace = 'AxoBadge';
+import { variants } from './_internal/variants.dom.tsx';
 
 /**
  * @example Anatomy
@@ -24,8 +22,21 @@ const Namespace = 'AxoBadge';
  * ````
  */
 export namespace ExperimentalAxoBadge {
-  export type BadgeSize = 'sm' | 'md' | 'lg';
-  export type BadgeValue = number | 'mention' | 'unread';
+  /**
+   * Visual size of the badge.
+   * - `sm`: 14px height
+   * - `md`: 16px height
+   * - `lg`: 18px height
+   */
+  export type Size = 'sm' | 'md' | 'lg';
+
+  /**
+   * What the badge represents.
+   * - `number`: A numeric count, displayed with optional overflow formatting.
+   * - `'mention'`: Shows an `@`-sign icon.
+   * - `'unread'`: A dot with no text content.
+   */
+  export type Value = number | 'mention' | 'unread';
 
   const baseStyles = tw(
     'flex size-fit items-center justify-center-safe overflow-clip',
@@ -35,28 +46,21 @@ export namespace ExperimentalAxoBadge {
     'select-none'
   );
 
-  type BadgeConfig = Readonly<{
-    rootStyles: TailwindStyles;
-    countStyles: TailwindStyles;
-  }>;
+  const Sizes = variants<Size>('AxoBadge.Size', {
+    sm: tw(baseStyles, 'min-h-3.5 min-w-3.5 text-[8px] leading-3.5'),
+    md: tw(baseStyles, 'min-h-4 min-w-4 text-[11px] leading-4'),
+    lg: tw(baseStyles, 'min-h-4.5 min-w-4.5 text-[11px] leading-4.5'),
+  });
 
-  const BadgeSizes: Record<BadgeSize, BadgeConfig> = {
-    sm: {
-      rootStyles: tw(baseStyles, 'min-h-3.5 min-w-3.5 text-[8px] leading-3.5'),
-      countStyles: tw('px-[3px]'),
-    },
-    md: {
-      rootStyles: tw(baseStyles, 'min-h-4 min-w-4 text-[11px] leading-4'),
-      countStyles: tw('px-[4px]'),
-    },
-    lg: {
-      rootStyles: tw(baseStyles, 'min-h-4.5 min-w-4.5 text-[11px] leading-4.5'),
-      countStyles: tw('px-[5px]'),
-    },
-  };
+  const CountSizes = variants<Size>('AxoBadge.Size', {
+    sm: tw('px-[3px]'),
+    md: tw('px-[4px]'),
+    lg: tw('px-[5px]'),
+  });
 
-  export function _getAllBadgeSizes(): ReadonlyArray<BadgeSize> {
-    return Object.keys(BadgeSizes) as Array<BadgeSize>;
+  /** @testexport */
+  export function _getAllSizes(): ReadonlyArray<Size> {
+    return Sizes.keys();
   }
 
   let cachedNumberFormat: Intl.NumberFormat;
@@ -74,21 +78,43 @@ export namespace ExperimentalAxoBadge {
   }
 
   /**
-   * Component: <AxoBadge.Root>
-   * --------------------------
+   * <AxoBadge.Root>
+   * --------------------------------------------------------------------------
    */
 
   export type RootProps = Readonly<{
-    size: BadgeSize;
-    value: BadgeValue;
+    /** Visual size of the badge. */
+    size: Size;
+    /** What the badge represents. */
+    value: Value;
+    /** When `value` is a number, values above this are replaced with `maxDisplay`. */
     max: number;
+    /** The string shown when the numeric `value` exceeds `max` (e.g. `"999+"`). */
     maxDisplay: string;
-    'aria-label': string | null;
+    /** Accessible label for screen readers. Pass `null` if the badge is purely decorative. */
+    label: string | null;
   }>;
 
+  /**
+   * Renders a colored pill badge.
+   *
+   * @example Count with overflow
+   * ```tsx
+   * <ExperimentalAxoBadge.Root size="md" value={42} max={99} maxDisplay="99+" label="42 unread messages" />
+   * ```
+   *
+   * @example Mention
+   * ```tsx
+   * <ExperimentalAxoBadge.Root size="md" value="mention" max={0} maxDisplay="" label="You were mentioned" />
+   * ```
+   *
+   * @example Unread dot
+   * ```tsx
+   * <ExperimentalAxoBadge.Root size="md" value="unread" max={0} maxDisplay="" label="Marked unread" />
+   * ```
+   */
   export const Root: FC<RootProps> = memo(props => {
-    const { value, max, maxDisplay } = props;
-    const config = BadgeSizes[props.size];
+    const { size, value, max, maxDisplay } = props;
 
     const children = useMemo(() => {
       if (value === 'unread') {
@@ -99,23 +125,20 @@ export namespace ExperimentalAxoBadge {
       }
       if (typeof value === 'number') {
         return (
-          <span aria-hidden className={config.countStyles}>
+          <span aria-hidden className={CountSizes.get(size)}>
             {formatBadgeCount(value, max, maxDisplay)}
           </span>
         );
       }
       unreachable(value);
-    }, [value, max, maxDisplay, config]);
+    }, [size, value, max, maxDisplay]);
 
     return (
-      <span
-        aria-label={props['aria-label'] ?? undefined}
-        className={config.rootStyles}
-      >
+      <span aria-label={props.label ?? undefined} className={Sizes.get(size)}>
         {children}
       </span>
     );
   });
 
-  Root.displayName = `${Namespace}.Root`;
+  Root.displayName = 'AxoBadge.Root';
 }

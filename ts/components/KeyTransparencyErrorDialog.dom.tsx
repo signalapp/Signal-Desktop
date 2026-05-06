@@ -71,15 +71,7 @@ export function KeyTransparencyErrorDialog(
             <AxoDialog.Action
               variant="primary"
               onClick={handleSubmit}
-              experimentalSpinner={
-                isSubmitting
-                  ? {
-                      'aria-label': i18n(
-                        'icu:KeyTransparencyErrorDialog__Submitting'
-                      ),
-                    }
-                  : null
-              }
+              pending={isSubmitting}
             >
               {i18n('icu:KeyTransparencyErrorDialog__Submit')}
             </AxoDialog.Action>

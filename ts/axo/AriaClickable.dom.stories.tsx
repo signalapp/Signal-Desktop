@@ -52,10 +52,7 @@ function CardSeeMoreLink(props: { onClick: () => void; children: ReactNode }) {
       >
         {props.children}
       </span>
-      <AriaClickable.HiddenTrigger
-        aria-labelledby={id}
-        onClick={props.onClick}
-      />
+      <AriaClickable.HiddenTrigger labelledby={id} onClick={props.onClick} />
     </>
   );
 }

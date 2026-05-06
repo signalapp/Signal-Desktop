@@ -26,9 +26,7 @@ export function DeleteAttachmentConfirmationDialog({
           <AxoDialog.Title>
             {i18n('icu:DeleteAttachmentModal__Title')}
           </AxoDialog.Title>
-          <AxoDialog.Close
-            aria-label={i18n('icu:DeleteAttachmentModal__Close')}
-          />
+          <AxoDialog.Close />
         </AxoDialog.Header>
         <AxoDialog.Body>
           {i18n('icu:DeleteAttachmentModal__Body')}

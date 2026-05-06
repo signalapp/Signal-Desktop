@@ -164,7 +164,7 @@ export function InDialog(): JSX.Element {
       <AxoDialog.Content size="md" escape="cancel-is-destructive">
         <AxoDialog.Header>
           <AxoDialog.Title>Title</AxoDialog.Title>
-          <AxoDialog.Close aria-label="Close" />
+          <AxoDialog.Close />
         </AxoDialog.Header>
         <AxoDialog.Body>
           <div className={tw('flex flex-col items-center-safe gap-50 py-50')}>

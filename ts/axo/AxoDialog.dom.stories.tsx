@@ -54,11 +54,9 @@ function Template(props: {
       </AxoDialog.Trigger>
       <AxoDialog.Content size={props.contentSize} escape="cancel-is-noop">
         <AxoDialog.Header>
-          {props.back && (
-            <AxoDialog.Back aria-label="Back" onClick={action('onBack')} />
-          )}
+          {props.back && <AxoDialog.Back onClick={action('onBack')} />}
           <AxoDialog.Title>Title</AxoDialog.Title>
-          <AxoDialog.Close aria-label="Close" />
+          <AxoDialog.Close />
         </AxoDialog.Header>
         <AxoDialog.Body padding={props.bodyPadding}>
           {props.children}
@@ -210,7 +208,7 @@ export function ExampleNicknameAndNoteDialog(): JSX.Element {
       <AxoDialog.Content size="sm" escape="cancel-is-destructive">
         <AxoDialog.Header>
           <AxoDialog.Title>Nickname</AxoDialog.Title>
-          <AxoDialog.Close aria-label="Close" />
+          <AxoDialog.Close />
         </AxoDialog.Header>
         <AxoDialog.Body>
           <p className={tw('mb-4 type-body-small text-label-secondary')}>
@@ -278,7 +276,7 @@ export function ExampleMuteNotificationsDialog(): JSX.Element {
       <AxoDialog.Content size="sm" escape="cancel-is-noop">
         <AxoDialog.Header>
           <AxoDialog.Title>Mute notifications</AxoDialog.Title>
-          <AxoDialog.Close aria-label="Close" />
+          <AxoDialog.Close />
         </AxoDialog.Header>
         <AxoDialog.Body>
           <Spacer height={8} />
@@ -345,7 +343,7 @@ export function ExampleLanguageDialog(): JSX.Element {
       <AxoDialog.Content size="sm" escape="cancel-is-noop">
         <AxoDialog.Header>
           <AxoDialog.Title>Language</AxoDialog.Title>
-          <AxoDialog.Close aria-label="Close" />
+          <AxoDialog.Close />
         </AxoDialog.Header>
         <AxoDialog.ExperimentalSearch>
           <input

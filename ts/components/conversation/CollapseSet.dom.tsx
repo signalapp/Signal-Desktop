@@ -405,8 +405,8 @@ function CollapseSetButton(
         variant="secondary"
         arrow={arrow}
         symbol={symbol}
-        aria-expanded={ariaExpanded}
-        aria-controls={disclosureContentId}
+        expanded={ariaExpanded}
+        controls={disclosureContentId}
         onClick={onClick}
       >
         {text}

@@ -1241,7 +1241,7 @@ function NotificationProfilesEditPage({
             />
             <AriaClickable.HiddenTrigger
               onClick={onEditName}
-              aria-labelledby="edit-icon"
+              labelledby="edit-icon"
             />
           </span>
 
@@ -1255,22 +1255,12 @@ function NotificationProfilesEditPage({
                   onUpdateOverrideState(value);
                 }}
               >
-                <AxoSelect.Trigger placeholder={currentActiveString}>
-                  {currentActiveString}
-                </AxoSelect.Trigger>
+                <AxoSelect.Trigger placeholder="" />
                 <AxoSelect.Content>
-                  <AxoSelect.Item
-                    key="isActive"
-                    value={activeString}
-                    textValue={activeString}
-                  >
+                  <AxoSelect.Item value={activeString}>
                     <AxoSelect.ItemText>{activeString}</AxoSelect.ItemText>
                   </AxoSelect.Item>
-                  <AxoSelect.Item
-                    key="isNotActive"
-                    value={notActiveString}
-                    textValue={notActiveString}
-                  >
+                  <AxoSelect.Item value={notActiveString}>
                     <AxoSelect.ItemText>{notActiveString}</AxoSelect.ItemText>
                   </AxoSelect.Item>
                 </AxoSelect.Content>

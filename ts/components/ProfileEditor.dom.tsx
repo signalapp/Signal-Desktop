@@ -377,7 +377,7 @@ export function ProfileEditor({
               maxBytes={128}
               autoFocus
               showCount
-              showClearWithLabel={i18n('icu:clear')}
+              showClear
             />
           </AxoTextField.Root>
 
@@ -394,7 +394,7 @@ export function ProfileEditor({
               maxGraphemes={26}
               maxBytes={128}
               showCount
-              showClearWithLabel={i18n('icu:clear')}
+              showClear
             />
           </AxoTextField.Root>
         </div>

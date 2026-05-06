@@ -7,6 +7,12 @@ export type FlexWrapDetectorProps = Readonly<{
   children: ReactNode;
 }>;
 
+/**
+ * Detects when flex items wrap and exposes `container-scrollable` /
+ * `container-not-scrollable` container-query states to descendants.
+ * Used internally by `AxoAlertDialog.Footer` to toggle between stacked
+ * (full-width) and inline (equal-basis) button layouts.
+ */
 export const FlexWrapDetector = memo(function FlexWrapDetector(
   props: FlexWrapDetectorProps
 ) {

@@ -1359,10 +1359,7 @@ export function Preferences({
                   <AxoButton.Root
                     variant="secondary"
                     size="lg"
-                    disabled={nowSyncing}
-                    experimentalSpinner={
-                      nowSyncing ? { 'aria-label': i18n('icu:syncing') } : null
-                    }
+                    pending={nowSyncing}
                     onClick={async () => {
                       setShowSyncFailed(false);
                       setNowSyncing(true);

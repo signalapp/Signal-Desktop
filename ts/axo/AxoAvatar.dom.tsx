@@ -5,12 +5,11 @@ import type {
   CSSProperties,
   FC,
   ImgHTMLAttributes,
-  MouseEventHandler,
+  MouseEvent,
   ReactNode,
 } from 'react';
 import { memo, useCallback, useMemo, useRef, useState } from 'react';
 import { AxoSymbol } from './AxoSymbol.dom.tsx';
-import type { TailwindStyles } from './tw.dom.tsx';
 import { tw } from './tw.dom.tsx';
 import {
   createStrictContext,
@@ -18,27 +17,33 @@ import {
 } from './_internal/StrictContext.dom.tsx';
 import { assert } from './_internal/assert.std.tsx';
 import { AxoTokens } from './AxoTokens.std.ts';
-
-const Namespace = 'AxoAvatar';
+import { variants } from './_internal/variants.dom.tsx';
 
 /**
+ * A circular avatar for displaying a user or group's profile image, initials,
+ * gradient, or icon — with optional badge and unread-story ring overlays.
+ *
  * @example Anatomy
  * ```tsx
  * <AxoAvatar.Root>
  *   <AxoAvatar.Content>
- *     {
- *       <AxoAvatar.Icon/> ||
- *       <AxoAvatar.Initials/> ||
- *       <AxoAvatar.Gradient/> ||
- *       <AxoAvatar.Image/>
- *     }
- *     <AxoAvatar.ClickToView/>
+ *     {/* One of: *\/}
+ *     <AxoAvatar.Image />
+ *     <AxoAvatar.Initials />
+ *     <AxoAvatar.Gradient />
+ *     <AxoAvatar.Icon />
+ *     <AxoAvatar.Preset />
+ *     {/* Optional overlay: *\/}
+ *     <AxoAvatar.ClickToView />
  *   </AxoAvatar.Content>
- *   <AxoAvatar.Badge/>
- * </AxoAlertDialog.Root>
+ *   <AxoAvatar.Badge />
+ * </AxoAvatar.Root>
  * ```
  */
 export namespace AxoAvatar {
+  /**
+   * Width and height of the avatar in pixels.
+   */
   export type Size =
     | 20
     | 24
@@ -55,9 +60,10 @@ export namespace AxoAvatar {
     | 96
     | 216;
 
-  const SizeContext = createStrictContext<Size>(`${Namespace}.Root`);
+  /** @internal */
+  const SizeContext = createStrictContext<Size>('AxoAvatar.Root');
 
-  const RootSizes: Record<Size, TailwindStyles> = {
+  const RootSizes = variants<Size>('AxoAvatar.Size', {
     20: tw('size-[20px]'),
     24: tw('size-[24px]'),
     28: tw('size-[28px]'),
@@ -72,9 +78,9 @@ export namespace AxoAvatar {
     80: tw('size-[80px]'),
     96: tw('size-[96px]'),
     216: tw('size-[216px]'),
-  };
+  });
 
-  const RingSizes: Record<Size, TailwindStyles | null> = {
+  const RingSizes = variants<Size>('AxoAvatar.Size', {
     20: tw('border p-[1.5px]'),
     24: tw('border p-[1.5px]'),
     28: tw('border-[1.5px] p-[2px]'),
@@ -89,33 +95,61 @@ export namespace AxoAvatar {
     80: tw('border-[2.5px] p-[3.5px]'),
     96: tw('border-[3px] p-[4px]'),
     216: tw('border-4 p-[6px]'),
-  };
+  });
 
+  /** @testexport */
   export function _getAllSizes(): ReadonlyArray<Size> {
-    return Object.keys(RootSizes).map(size => Number(size) as Size);
+    return RootSizes.keys().map(size => Number(size) as Size);
   }
 
   const DefaultColor = tw('bg-fill-secondary text-label-primary');
 
   /**
-   * Component: <AxoAvatar.Root>
-   * ---------------------------
+   * <AxoAvatar.Root>
+   * --------------------------------------------------------------------------
    */
 
   export type RootProps = Readonly<{
+    /**
+     * Width and height of the avatar in pixels.
+     */
     size: Size;
+    /**
+     * Story ring shown around the avatar.
+     * - `unread`: Colored ring indicating an unread story.
+     * - `read`: Dimmed ring indicating a viewed story.
+     * - `null`: No ring.
+     */
     ring?: 'unread' | 'read' | null;
+    /**
+     * Should be a `Content` element, optionally followed by a `Badge`.
+     */
     children: ReactNode;
   }>;
 
+  /**
+   * Contains all the parts of an avatar.
+   *
+   * @example Contact avatar with initials and badge
+   * ```tsx
+   * <AxoAvatar.Root size={40} ring={hasUnreadStory ? 'unread' : null}>
+   *   <AxoAvatar.Content label={contact.name}>
+   *     <AxoAvatar.Initials initials={contact.initials} color={contact.color} />
+   *   </AxoAvatar.Content>
+   *   {contact.badge && (
+   *     <AxoAvatar.Badge label={contact.badge.name} svgs={contact.badge.svgs} />
+   *   )}
+   * </AxoAvatar.Root>
+   * ```
+   */
   export const Root: FC<RootProps> = memo(props => {
     return (
       <SizeContext.Provider value={props.size}>
         <div
           className={tw(
             'relative shrink-0 rounded-full contain-layout select-none',
-            RootSizes[props.size],
-            props.ring != null && RingSizes[props.size],
+            RootSizes.get(props.size),
+            props.ring != null && RingSizes.get(props.size),
             props.ring === 'unread' && 'border-border-selected',
             props.ring === 'read' && 'border-label-secondary'
           )}
@@ -126,59 +160,127 @@ export namespace AxoAvatar {
     );
   });
 
-  Root.displayName = `${Namespace}.Root`;
+  Root.displayName = 'AxoAvatar.Root';
 
   /**
-   * Component: <AxoAvatar.Content>
-   * ------------------------------
+   * <AxoAvatar.Content>
+   * --------------------------------------------------------------------------
    */
 
   export type ContentProps = Readonly<{
+    /**
+     * Accessible label for the avatar.
+     *
+     * Pass `null` when the avatar is purely decorative and a nearby element
+     * already identifies the contact.
+     */
     label: string | null;
-    onClick?: MouseEventHandler<HTMLButtonElement> | null;
+    /**
+     * When provided, renders the content as a `<button>` with this click handler.
+     * Without it, renders as a `<div role="img">`.
+     */
+    onClick?: ((event: MouseEvent<HTMLButtonElement>) => void) | null;
+    /**
+     * The visual content of the avatar, should be one of:
+     *
+     * - `Image`
+     * - `Initials`
+     * - `Gradient`
+     * - `Icon`
+     * - `Preset`
+     *
+     * Optionally followed by `ClickToView`.
+     */
     children: ReactNode;
   }>;
 
-  export const Content: FC<ContentProps> = memo(props => {
-    const ariaLabel = props.label ?? undefined;
-    const baseClassName = tw('relative size-full rounded-full contain-strict');
-
-    let result: ReactNode;
-    if (props.onClick != null) {
-      result = (
-        <button
-          type="button"
-          aria-label={ariaLabel}
-          className={tw(
-            baseClassName,
-            'outline-none keyboard-mode:focus:outline-focus-ring'
-          )}
-          onClick={props.onClick}
-        >
-          {props.children}
-        </button>
-      );
-    } else {
-      result = (
-        <div role="img" aria-label={ariaLabel} className={baseClassName}>
-          {props.children}
-        </div>
-      );
-    }
-    return result;
-  });
-
-  Content.displayName = `${Namespace}.Content`;
+  const baseContentStyles = tw(
+    'relative size-full rounded-full contain-strict'
+  );
 
   /**
-   * Component: <AxoAvatar.Icon>
-   * ---------------------------
+   * The content of the avatar.
+   *
+   * Renders as a button when `onClick` is provided, otherwise as an image.
+   */
+  export const Content: FC<ContentProps> = memo(props => {
+    if (props.onClick != null) {
+      return (
+        <ContentButton label={props.label} onClick={props.onClick}>
+          {props.children}
+        </ContentButton>
+      );
+    }
+
+    return (
+      <div
+        role="img"
+        aria-label={props.label ?? undefined}
+        className={baseContentStyles}
+      >
+        {props.children}
+      </div>
+    );
+  });
+
+  Content.displayName = 'AxoAvatar.Content';
+
+  /**
+   * <AxoAvatar.ContentButton>
+   * --------------------------------------------------------------------------
+   */
+
+  /** @internal */
+  type ContentButtonProps = Readonly<{
+    label: string | null;
+    onClick: (event: MouseEvent<HTMLButtonElement>) => void;
+    children: ReactNode;
+  }>;
+
+  /** @internal */
+  const ContentButton: FC<ContentButtonProps> = memo(props => {
+    const { onClick } = props;
+
+    const handleClick = useCallback(
+      (event: MouseEvent<HTMLButtonElement>) => {
+        event.stopPropagation();
+        onClick(event);
+      },
+      [onClick]
+    );
+
+    return (
+      <button
+        type="button"
+        aria-label={props.label ?? undefined}
+        className={tw(
+          baseContentStyles,
+          'outline-none keyboard-mode:focus:outline-focus-ring'
+        )}
+        onClick={handleClick}
+      >
+        {props.children}
+      </button>
+    );
+  });
+
+  ContentButton.displayName = 'AxoAvatar.ContentButton';
+
+  /**
+   * <AxoAvatar.Icon>
+   * --------------------------------------------------------------------------
    */
 
   export type IconProps = Readonly<{
+    /**
+     * The icon to display. Sized proportionally to the avatar.
+     */
     symbol: AxoSymbol.IconName;
   }>;
 
+  /**
+   * Displays a centered icon on a secondary fill background.
+   */
   export const Icon: FC<IconProps> = memo(props => {
     const size = useStrictContext(SizeContext);
     return (
@@ -194,22 +296,43 @@ export namespace AxoAvatar {
     );
   });
 
-  Icon.displayName = `${Namespace}.Icon`;
+  Icon.displayName = 'AxoAvatar.Icon';
 
   /**
-   * Component: <AxoAvatar.Image>
-   * ----------------------------
+   * <AxoAvatar.Image>
+   * --------------------------------------------------------------------------
    */
 
   export type ImageProps = Readonly<{
+    /**
+     * URL of the avatar image.
+     */
     src: string;
+    /**
+     * Intrinsic width of the source image in pixels.
+     */
     srcWidth: number;
+    /**
+     * Intrinsic height of the source image in pixels.
+     */
     srcHeight: number;
+    /**
+     * When `true`, applies a blur and slight zoom to the image.
+     */
     blur: boolean;
+    /**
+     * Icon to show if the image fails to load.
+     */
     fallbackIcon: AxoSymbol.IconName;
+    /**
+     * Color theme for the fallback icon background.
+     */
     fallbackColor: AxoTokens.Avatar.ColorName;
   }>;
 
+  /**
+   * Lazily loads a profile image. Falls back to `Icon` on load error.
+   */
   export const Image: FC<ImageProps> = memo(props => {
     const { src } = props;
 
@@ -263,16 +386,23 @@ export namespace AxoAvatar {
     );
   });
 
-  Image.displayName = `${Namespace}.Image`;
+  Image.displayName = 'AxoAvatar.Image';
 
   /**
-   * Component: <AxoAvatar.PresetImage>
+   * <AxoAvatar.Preset>
+   * --------------------------------------------------------------------------
    */
 
   export type PresetProps = Readonly<{
+    /**
+     * One of the pre-designed avatar presets (e.g. `"cat"`, `"abstract_01"`).
+     */
     preset: AxoTokens.Avatar.PresetName;
   }>;
 
+  /**
+   * Displays one of the built-in preset avatar illustrations.
+   */
   export const Preset: FC<PresetProps> = memo(props => {
     const { preset } = props;
 
@@ -298,25 +428,34 @@ export namespace AxoAvatar {
     );
   });
 
-  Preset.displayName = `${Namespace}.Preset`;
+  Preset.displayName = 'AxoAvatar.Preset';
 
   /**
-   * Component: <AxoAvatar.ClickToView>
-   * ----------------------------------
+   * <AxoAvatar.ClickToView>
+   * --------------------------------------------------------------------------
    */
 
+  /** @testexport */
   export const MIN_CLICK_TO_VIEW_SIZE = 80;
 
   export type ClickToViewProps = Readonly<{
+    /**
+     * Accessible label and visible text for the overlay (e.g. `"View"`).
+     */
     label: string;
   }>;
 
+  /**
+   * A semi-transparent overlay with a tap icon and label, used on profile
+   * photos that open a full-screen viewer when clicked.
+   * Only valid at size ≥ `MIN_CLICK_TO_VIEW_SIZE` (80px).
+   */
   export const ClickToView: FC<ClickToViewProps> = memo(props => {
     const size = useStrictContext(SizeContext);
 
     assert(
       size >= MIN_CLICK_TO_VIEW_SIZE,
-      `Cannot render ${Namespace}.ClickToView at a size smaller than ${MIN_CLICK_TO_VIEW_SIZE}`
+      `Cannot render <AxoAvatar.ClickToView> at a size smaller than ${MIN_CLICK_TO_VIEW_SIZE}`
     );
 
     return (
@@ -335,18 +474,27 @@ export namespace AxoAvatar {
     );
   });
 
-  ClickToView.displayName = `${Namespace}.ClickToView`;
+  ClickToView.displayName = 'AxoAvatar.ClickToView';
 
   /**
-   * Component: <AxoAvatar.Initials>
-   * -------------------------------
+   * <AxoAvatar.Initials>
+   * --------------------------------------------------------------------------
    */
 
   export type InitialsProps = Readonly<{
+    /**
+     * 1–2 character string to display (e.g. `"JK"`).
+     */
     initials: string;
+    /**
+     * Color theme for the background and text.
+     */
     color: AxoTokens.Avatar.ColorName;
   }>;
 
+  /**
+   * Renders initials as an SVG on a colored background.
+   */
   export const Initials: FC<InitialsProps> = memo(props => {
     const style = useMemo((): CSSProperties => {
       const color = AxoTokens.Avatar.getColorValues(props.color);
@@ -374,17 +522,24 @@ export namespace AxoAvatar {
     );
   });
 
-  Initials.displayName = `${Namespace}.Initials`;
+  Initials.displayName = 'AxoAvatar.Initials';
 
   /**
-   * Component: <AxoAvatar.Gradient>
-   * -------------------------------
+   * <AxoAvatar.Gradient>
+   * --------------------------------------------------------------------------
    */
 
   export type GradientProps = Readonly<{
+    /**
+     * A numeric hash (typically derived from a conversation or user ID) that
+     * deterministically selects one of the available gradient themes.
+     */
     identifierHash: number;
   }>;
 
+  /**
+   * Fills the avatar with a gradient background chosen by `identifierHash`.
+   */
   export const Gradient: FC<GradientProps> = memo(props => {
     const { identifierHash } = props;
     const style = useMemo((): CSSProperties => {
@@ -399,18 +554,25 @@ export namespace AxoAvatar {
     );
   });
 
-  Gradient.displayName = `${Namespace}.Gradient`;
+  Gradient.displayName = 'AxoAvatar.Gradient';
 
   /**
-   * Component: <AxoAvatar.Badge>
-   * ----------------------------
+   * <AxoAvatar.Badge>
+   * --------------------------------------------------------------------------
    */
 
+  /**
+   * Paths to an SVG badge image for light and dark color schemes.
+   */
   export type BadgeSvg = Readonly<{
     light: string;
     dark: string;
   }>;
 
+  /**
+   * Badge SVGs at each of the three rendered sizes (16, 24, and 36px).
+   * The correct size is chosen automatically based on the avatar size.
+   */
   export type BadgeSvgs = Readonly<{
     16: BadgeSvg;
     24: BadgeSvg;
@@ -418,12 +580,22 @@ export namespace AxoAvatar {
   }>;
 
   export type BadgeProps = Readonly<{
+    /**
+     * Accessible label for the badge (e.g. `"Signal Planet"`).
+     */
     label: string;
+    /**
+     * SVG paths for all badge sizes and color schemes.
+     */
     svgs: BadgeSvgs;
-    onClick?: MouseEventHandler<HTMLButtonElement> | null;
+    /**
+     * When provided, renders the badge as a clickable `<button>`.
+     */
+    onClick?: ((event: MouseEvent<HTMLButtonElement>) => void) | null;
   }>;
 
-  const BadgeSvgSizes: Record<Size, keyof BadgeSvgs | null> = {
+  type BadgeSvgSize = keyof BadgeSvgs | null;
+  const BadgeSvgSizes = variants<Size, BadgeSvgSize>('AxoAvatar.Size', {
     20: null,
     24: null,
     28: 16,
@@ -438,14 +610,26 @@ export namespace AxoAvatar {
     80: 36,
     96: 36,
     216: 36,
-  };
+  });
 
+  const baseBadgeStyles = tw(
+    'absolute rounded-full',
+    // Proportionately sized & positioned based on the size of the avatar
+    '-inset-e-[calc(2.75px-3%)] -bottom-[calc(6.25px-1%)] size-[calc(5px+37.5%)]'
+  );
+
+  /**
+   * A donor badge overlaid on the bottom-end corner of the avatar.
+   * Automatically picks the right size for the current avatar size.
+   *
+   * Note: Not rendered at sizes 20 or 24 (too small).
+   */
   export const Badge: FC<BadgeProps> = memo(props => {
     const { svgs } = props;
     const avatarSize = useStrictContext(SizeContext);
 
     const badge = useMemo(() => {
-      const badgeSize = BadgeSvgSizes[avatarSize];
+      const badgeSize = BadgeSvgSizes.get(avatarSize);
       if (badgeSize == null) {
         return null;
       }
@@ -489,37 +673,61 @@ export namespace AxoAvatar {
       </>
     );
 
-    const baseClassName = tw(
-      'absolute rounded-full',
-      // Proportionately sized & positioned based on the size of the avatar
-      '-inset-e-[calc(2.75px-3%)] -bottom-[calc(6.25px-1%)] size-[calc(5px+37.5%)]'
-    );
-
-    let result: ReactNode;
     if (props.onClick != null) {
-      result = (
-        <button
-          type="button"
-          aria-label={props.label}
-          onClick={props.onClick}
-          className={tw(
-            baseClassName,
-            'outline-focus-ring-inset outline-none keyboard-mode:focus:outline-focus-ring'
-          )}
-        >
+      return (
+        <BadgeButton label={props.label} onClick={props.onClick}>
           {children}
-        </button>
-      );
-    } else {
-      result = (
-        <div className={tw(baseClassName, 'pointer-events-none')}>
-          {children}
-        </div>
+        </BadgeButton>
       );
     }
 
-    return result;
+    return (
+      <div className={tw(baseBadgeStyles, 'pointer-events-none')}>
+        {children}
+      </div>
+    );
   });
 
-  Badge.displayName = `${Namespace}.Badge`;
+  Badge.displayName = 'AxoAvatar.Badge';
+
+  /**
+   * <AxoAvatar.BadgeButton>
+   * --------------------------------------------------------------------------
+   */
+
+  /** @internal */
+  type BadgeButtonProps = Readonly<{
+    label: string;
+    onClick: (event: MouseEvent<HTMLButtonElement>) => void;
+    children: ReactNode;
+  }>;
+
+  /** @internal */
+  const BadgeButton: FC<BadgeButtonProps> = memo(props => {
+    const { onClick } = props;
+
+    const handleClick = useCallback(
+      (event: MouseEvent<HTMLButtonElement>) => {
+        event.stopPropagation();
+        onClick(event);
+      },
+      [onClick]
+    );
+
+    return (
+      <button
+        type="button"
+        aria-label={props.label}
+        onClick={handleClick}
+        className={tw(
+          baseBadgeStyles,
+          'outline-focus-ring-inset outline-none keyboard-mode:focus:outline-focus-ring'
+        )}
+      >
+        {props.children}
+      </button>
+    );
+  });
+
+  BadgeButton.displayName = 'AxoAvatar.BadgeButton';
 }

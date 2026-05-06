@@ -55,7 +55,7 @@ export function SafetyNumberModal({
       <AxoDialog.Content size="sm" escape="cancel-is-noop">
         <AxoDialog.Header>
           <AxoDialog.Title>{title}</AxoDialog.Title>
-          {hasXButton && <AxoDialog.Close aria-label={i18n('icu:close')} />}
+          {hasXButton && <AxoDialog.Close />}
         </AxoDialog.Header>
         <AxoDialog.Body maxHeight={560}>{content}</AxoDialog.Body>
       </AxoDialog.Content>

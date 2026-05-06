@@ -1,21 +1,55 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
+import type { FC } from 'react';
 import { memo } from 'react';
 import { Switch } from 'radix-ui';
 import { tw } from './tw.dom.tsx';
 import { AxoSymbol } from './AxoSymbol.dom.tsx';
 
-const Namespace = 'AxoSwitch';
-
+/**
+ * A control that allows the user to toggle between checked and not checked.
+ *
+ * TODO(jamie): We need to figure out a better way to label these.
+ *
+ * @example Anatomy
+ * ```tsx
+ * <AxoSwitch.Root checked={checked} onCheckedChange={setChecked} />
+ * ```
+ *
+ * @see {@link https://www.radix-ui.com/primitives/docs/components/switch | Switch - Radix Docs}
+ * @see {@link https://www.w3.org/WAI/ARIA/apg/patterns/switch/ | Switch Pattern - ARIA Authoring Practices Guide}
+ * @see {@link https://w3c.github.io/aria/#switch | `switch` role - WAI-ARIA 1.3}
+ */
 export namespace AxoSwitch {
+  /**
+   * <AxoSwitch.Root>
+   * --------------------------------------------------------------------------
+   */
+
   export type RootProps = Readonly<{
+    /** The controlled state of the switch. Must be used in conjunction with `onCheckedChange`. */
     checked: boolean;
+    /** Event handler called when the state of the switch changes. */
     onCheckedChange: (nextChecked: boolean) => void;
+    /** When true, prevents the user from interacting with the switch. */
     disabled?: boolean;
+    /** When true, indicates that the user must check the switch before the owning form can be submitted. */
     required?: boolean;
   }>;
 
-  export const Root = memo((props: RootProps) => {
+  /**
+   * Contains all the parts of a switch. An input will also render when used
+   * within a form to ensure events propagate correctly.
+   *
+   * @example Inside a label element
+   * ```tsx
+   * <label className={tw('flex items-center gap-3')}>
+   *   <span className={tw('grow')}>Allow multiple votes</span>
+   *   <AxoSwitch.Root checked={allowMultiple} onCheckedChange={setAllowMultiple} />
+   * </label>
+   * ```
+   */
+  export const Root: FC<RootProps> = memo(props => {
     return (
       <Switch.Root
         checked={props.checked}
@@ -74,5 +108,5 @@ export namespace AxoSwitch {
     );
   });
 
-  Root.displayName = `${Namespace}.Root`;
+  Root.displayName = 'AxoSwitch.Root';
 }

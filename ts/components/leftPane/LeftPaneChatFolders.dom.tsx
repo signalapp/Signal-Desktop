@@ -219,7 +219,7 @@ function ChatFolderSelectItem(props: {
               maxCount: UNREAD_BADGE_MAX_COUNT,
             }
           )}
-          aria-label={null}
+          label={null}
         />
       )}
     </AxoSelect.Item>
@@ -263,7 +263,7 @@ function ChatFolderSegmentedControlItem(props: {
               'icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount',
               { maxCount: UNREAD_BADGE_MAX_COUNT }
             )}
-            aria-label={null}
+            label={null}
           />
         )}
       </ExperimentalAxoSegmentedControl.Item>

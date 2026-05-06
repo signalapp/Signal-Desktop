@@ -54,10 +54,7 @@ export function PanelRow({
         className={classNames(bem('root', 'button'), className)}
       >
         {!disabled && (
-          <AriaClickable.HiddenTrigger
-            onClick={onClick}
-            aria-labelledby={labelId}
-          />
+          <AriaClickable.HiddenTrigger onClick={onClick} labelledby={labelId} />
         )}
         <div className={bem('inner')}>
           {content}

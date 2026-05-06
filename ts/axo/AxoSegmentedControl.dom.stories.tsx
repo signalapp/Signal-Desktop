@@ -46,7 +46,7 @@ function Template(props: {
               value={42}
               max={99}
               maxDisplay="99+"
-              aria-label={null}
+              label={null}
             />
           )}
         </ExperimentalAxoSegmentedControl.Item>
@@ -60,7 +60,7 @@ function Template(props: {
               value="mention"
               max={99}
               maxDisplay="99+"
-              aria-label={null}
+              label={null}
             />
           )}
         </ExperimentalAxoSegmentedControl.Item>
@@ -73,7 +73,7 @@ function Template(props: {
               value="unread"
               max={99}
               maxDisplay="99+"
-              aria-label={null}
+              label={null}
             />
           )}
         </ExperimentalAxoSegmentedControl.Item>

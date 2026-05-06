@@ -28,11 +28,7 @@ export function KeyTransparencyOnboardingDialog(
     <AxoDialog.Root open={open} onOpenChange={onOpenChange}>
       <AxoDialog.Content escape="cancel-is-noop" size="sm">
         <AxoDialog.Header>
-          <AxoDialog.Close
-            aria-label={i18n(
-              'icu:KeyTransparencyOnboardingDialog__CloseButton__AccessibilityLabel'
-            )}
-          />
+          <AxoDialog.Close />
         </AxoDialog.Header>
         <AxoDialog.Body>
           <div className={tw('mt-1.5 mb-3 flex items-center justify-center')}>

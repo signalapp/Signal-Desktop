@@ -96,7 +96,7 @@ function TemplateInput(props: TemplateInputProps) {
       maxGraphemes={props.showCount ? MAX_GRAPHEMES_SHORT : 200}
       maxBytes={props.showCount ? MAX_BYTES_SHORT : 800}
       showCount={props.showCount}
-      showClearWithLabel={props.showClear ? 'Clear' : null}
+      showClear={props.showClear}
       sizing={props.sizing}
       disabled={props.disabled}
     />

@@ -397,9 +397,7 @@ export function UsernameEditor({
           size="lg"
           disabled={!canSave}
           onClick={onSave}
-          experimentalSpinner={
-            isConfirming ? { 'aria-label': i18n('icu:loading') } : null
-          }
+          pending={isConfirming}
         >
           {i18n('icu:save')}
         </AxoButton.Root>

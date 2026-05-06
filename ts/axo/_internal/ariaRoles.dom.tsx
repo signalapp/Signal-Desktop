@@ -21,7 +21,13 @@ const AbstractRoles = {
   window: true,
 } as const satisfies Record<string, true>;
 
+/** An abstract WAI-ARIA role (e.g. `widget`, `landmark`). Cannot be assigned to elements directly. */
 export type AbstractAriaRole = keyof typeof AbstractRoles;
+
+/**
+ * A concrete WAI-ARIA role assignable to an element, including roles
+ * missing from React's built-in `AriaRole` type.
+ */
 export type AriaRole =
   | Exclude<ReactAriaRole, object>
   // Missing from React's types
@@ -152,7 +158,7 @@ const ParentRoles = {
   dialog: ['window'],
 } as const satisfies Record<AnyAriaRole, ReadonlyArray<AnyAriaRole>>;
 
-function inherits(role: AnyAriaRole, superRole: AnyAriaRole): boolean {
+function _inherits(role: AnyAriaRole, superRole: AnyAriaRole): boolean {
   if (role === superRole) {
     return true;
   }
@@ -160,7 +166,7 @@ function inherits(role: AnyAriaRole, superRole: AnyAriaRole): boolean {
   const parentRoles = assert(ParentRoles[role], `Unknown Aria role: ${role}`);
 
   for (const parentRole of parentRoles) {
-    if (inherits(parentRole, superRole)) {
+    if (_inherits(parentRole, superRole)) {
       return true;
     }
   }
@@ -172,6 +178,7 @@ function isValidAriaRole(role: string | null): role is AriaRole {
   return role != null && Object.hasOwn(ParentRoles, role);
 }
 
+/** Returns the computed WAI-ARIA role of a DOM element, or `null` if the role is not a valid concrete role. */
 export function getElementAriaRole(element: Element): AriaRole | null {
   const role = getRole(element);
   if (isValidAriaRole(role)) {
@@ -180,6 +187,7 @@ export function getElementAriaRole(element: Element): AriaRole | null {
   return null;
 }
 
+/** Returns `true` if `role` inherits from the `widget` abstract role (i.e. it is interactive). */
 export function isAriaWidgetRole(role: AriaRole | null): boolean {
-  return role != null && inherits(role, 'widget');
+  return role != null && _inherits(role, 'widget');
 }

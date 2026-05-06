@@ -123,11 +123,7 @@ export function CallQualitySurveyDialog(
               <AxoDialog.Title>
                 {i18n('icu:CallQualitySurvey__HowWasYourCall__PageTitle')}
               </AxoDialog.Title>
-              <AxoDialog.Close
-                aria-label={i18n(
-                  'icu:CallQualitySurvey__CloseButton__AccessibilityLabel'
-                )}
-              />
+              <AxoDialog.Close />
             </AxoDialog.Header>
             <AxoDialog.Body>
               <p className={tw('mb-3 type-body-medium text-label-primary')}>
@@ -173,9 +169,6 @@ export function CallQualitySurveyDialog(
           <>
             <AxoDialog.Header>
               <AxoDialog.Back
-                aria-label={i18n(
-                  'icu:CallQualitySurvey__BackButton__AccessibilityLabel'
-                )}
                 onClick={() => {
                   setPage(Page.HOW_WAS_YOUR_CALL);
                 }}
@@ -183,11 +176,7 @@ export function CallQualitySurveyDialog(
               <AxoDialog.Title>
                 {i18n('icu:CallQualitySurvey__WhatIssuesDidYouHave__PageTitle')}
               </AxoDialog.Title>
-              <AxoDialog.Close
-                aria-label={i18n(
-                  'icu:CallQualitySurvey__CloseButton__AccessibilityLabel'
-                )}
-              />
+              <AxoDialog.Close />
             </AxoDialog.Header>
             <AxoDialog.Body>
               <p className={tw('mb-3 type-body-medium text-label-primary')}>
@@ -303,9 +292,6 @@ export function CallQualitySurveyDialog(
           <>
             <AxoDialog.Header>
               <AxoDialog.Back
-                aria-label={i18n(
-                  'icu:CallQualitySurvey__BackButton__AccessibilityLabel'
-                )}
                 onClick={() => {
                   if (!userSatisfied) {
                     setPage(Page.WHAT_ISSUES_DID_YOU_HAVE);
@@ -317,11 +303,7 @@ export function CallQualitySurveyDialog(
               <AxoDialog.Title>
                 {i18n('icu:CallQualitySurvey__ConfirmSubmission__PageTitle')}
               </AxoDialog.Title>
-              <AxoDialog.Close
-                aria-label={i18n(
-                  'icu:CallQualitySurvey__CloseButton__AccessibilityLabel'
-                )}
-              />
+              <AxoDialog.Close />
             </AxoDialog.Header>
             <AxoDialog.Body>
               <p className={tw('mb-3 type-body-medium text-label-primary')}>
@@ -367,15 +349,7 @@ export function CallQualitySurveyDialog(
                 <AxoDialog.Action
                   variant="primary"
                   onClick={handleSubmit}
-                  experimentalSpinner={
-                    isSubmitting
-                      ? {
-                          'aria-label': i18n(
-                            'icu:CallQualitySurvey__ConfirmSubmission__Submitting'
-                          ),
-                        }
-                      : null
-                  }
+                  pending={isSubmitting}
                 >
                   {i18n(
                     'icu:CallQualitySurvey__ConfirmSubmission__SubmitButton'
@@ -615,7 +589,7 @@ function IssueToggle(props: {
       variant={props.isSelected ? 'primary' : 'secondary'}
       size="md"
       symbol={isSelected ? 'check' : ISSUE_ICONS[issue]}
-      aria-pressed={props.isSelected}
+      pressed={props.isSelected}
       onClick={handleClick}
     >
       {getIssueLabel(i18n, issue)}

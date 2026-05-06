@@ -112,11 +112,6 @@ export function GroupMemberLabelEditor({
     (labelStringForSave || undefined) !== (existingLabelString || undefined);
   const canSave =
     isDirty && ((!labelEmoji && !labelStringForSave) || labelStringForSave);
-  const spinner = isSaving
-    ? {
-        'aria-label': i18n('icu:ConversationDetails--member-label--saving'),
-      }
-    : undefined;
 
   const contactLabelForMessage = labelStringForSave
     ? { labelEmoji, labelString: labelStringForSave }
@@ -373,8 +368,8 @@ export function GroupMemberLabelEditor({
         <AxoButton.Root
           variant="primary"
           size="md"
-          experimentalSpinner={spinner}
-          disabled={!canSave || isSaving}
+          pending={isSaving}
+          disabled={!canSave}
           onClick={() => {
             setIsSaving(true);
             updateGroupMemberLabel(

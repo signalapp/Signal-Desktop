@@ -19,13 +19,29 @@ import {
 } from './_internal/ariaRoles.dom.tsx';
 import { isTestOrMockEnvironment } from '../environment.std.ts';
 import { AxoTheme } from './AxoTheme.dom.tsx';
+import { variants } from './_internal/variants.dom.tsx';
 
 const { useDirection } = Direction;
 
-const Namespace = 'AxoTooltip';
-
-type PhysicalDirection = 'top' | 'bottom' | 'left' | 'right';
-
+/**
+ * A popup that displays information related to an element when the element
+ * receives keyboard focus or the mouse hovers over it.
+ *
+ * @example Anatomy
+ * ```tsx
+ * <AxoTooltip.Provider>
+ *   <AxoTooltip.CollisionBoundary>
+ *     <AxoTooltip.Root>
+ *       <button/>
+ *     </AxoTooltip.Root>
+ *   </AxoTooltip.CollisionBoundary>
+ * </AxoTooltip.Provider>
+ * ```
+ *
+ * @see {@link https://www.radix-ui.com/primitives/docs/components/tooltip | Tooltip - Radix Docs}
+ * @see {@link https://www.w3.org/WAI/ARIA/apg/patterns/tooltip/ | Tooltip Pattern - ARIA Authoring Practices Guide}
+ * @see {@link https://w3c.github.io/aria/#tooltip | `tooltip` role - WAI-ARIA 1.3}
+ */
 export namespace AxoTooltip {
   /**
    * The duration from when the mouse enters a tooltip trigger until the
@@ -37,10 +53,10 @@ export namespace AxoTooltip {
    */
   export type Delay = 'auto' | 'none';
 
-  const Delays: Record<Delay, number> = {
+  const Delays = variants<Delay, number>('AxoTooltip.Delay', {
     auto: 700,
     none: 0,
-  };
+  });
 
   /**
    * How much time the user has to enter another tooltip trigger without
@@ -50,10 +66,113 @@ export namespace AxoTooltip {
    */
   export type SkipDelay = 'auto' | 'never';
 
-  const SkipDelays: Record<SkipDelay, number> = {
+  const SkipDelays = variants<SkipDelay, number>('AxoTooltip.SkipDelay', {
     auto: 300,
     never: 0,
-  };
+  });
+
+  /**
+   * <AxoTooltip.Provider>
+   * --------------------------------------------------------------------------
+   */
+
+  export type ProviderProps = Readonly<{
+    /** The duration from when the mouse enters a tooltip trigger until the tooltip opens. */
+    delay?: Delay;
+    /** How much time a user has to enter another trigger without incurring a delay again. */
+    skipDelay?: SkipDelay;
+    /** The subtree of components that can use tooltips. */
+    children: ReactNode;
+  }>;
+
+  /** Wraps your app to provide global functionality to your tooltips. */
+  export const Provider: FC<ProviderProps> = memo(props => {
+    const { delay = 'auto', skipDelay = 'auto' } = props;
+    return (
+      <Tooltip.Provider
+        delayDuration={Delays.get(delay)}
+        skipDelayDuration={SkipDelays.get(skipDelay)}
+      >
+        {props.children}
+      </Tooltip.Provider>
+    );
+  });
+
+  Provider.displayName = 'AxoTooltip.Provider';
+
+  /**
+   * <AxoTooltip.CollisionBoundary>
+   * --------------------------------------------------------------------------
+   */
+
+  const DEFAULT_COLLISION_PADDING = 8;
+
+  /** @internal */
+  type CollisionBoundaryType = Readonly<{
+    elements: Array<Element | null>;
+    padding: number;
+  }>;
+
+  /** @internal */
+  const CollisionBoundaryContext = createContext<CollisionBoundaryType>({
+    elements: [],
+    padding: DEFAULT_COLLISION_PADDING,
+  });
+
+  export type CollisionBoundaryProps = Readonly<{
+    /**
+     * The element used as the collision boundary. By default this is the viewport,
+     * though you can provide additional element(s) to be included in this check.
+     */
+    boundary: Element | null;
+    /**
+     * The distance in pixels from the boundary edges where collision detection
+     * should occur. Accepts a number (same for all sides).
+     */
+    padding?: number;
+    /** The subtree of components that share this collision boundary. */
+    children: ReactNode;
+  }>;
+
+  /**
+   * Constrains tooltip positioning to stay within a specific element,
+   * overriding any parent boundary.
+   * @example
+   * ```tsx
+   * const [boundary, setBoundary] = useState<HTMLElement | null>(null);
+   * <AxoTooltip.CollisionBoundary boundary={boundary}>
+   *   <div ref={setBoundary}>
+   *     <AxoTooltip.Root label="Hello">
+   *       <button />
+   *     </AxoTooltip.Root>
+   *   </div>
+   * </AxoTooltip.CollisionBoundary>
+   * ```
+   */
+  export const CollisionBoundary: FC<CollisionBoundaryProps> = memo(props => {
+    const { boundary, padding } = props;
+    const context = useContext(CollisionBoundaryContext);
+
+    const value = useMemo((): CollisionBoundaryType => {
+      return {
+        elements: [...context.elements, boundary],
+        padding: padding ?? DEFAULT_COLLISION_PADDING, // Always reset to default
+      };
+    }, [context, boundary, padding]);
+
+    return (
+      <CollisionBoundaryContext.Provider value={value}>
+        {props.children}
+      </CollisionBoundaryContext.Provider>
+    );
+  });
+
+  CollisionBoundary.displayName = 'AxoTooltip.CollisionBoundary';
+
+  /**
+   * <AxoTooltip.Root>
+   * --------------------------------------------------------------------------
+   */
 
   /**
    * The preferred side of the trigger to render against when open.
@@ -75,95 +194,25 @@ export namespace AxoTooltip {
    */
   export type Align = 'center' | 'force-start' | 'force-end';
 
-  const Aligns: Record<Align, Tooltip.TooltipContentProps['align']> = {
+  type AlignValue = Tooltip.TooltipContentProps['align'];
+
+  const Aligns = variants<Align, AlignValue>('AxoTooltip.Align', {
     center: 'center',
     'force-start': 'start',
     'force-end': 'end',
-  };
+  });
 
+  /**
+   * The format used to display a timestamp alongside the tooltip label.
+   *
+   * TODO(jamie): Need to spec timestamp formats.
+   */
   export type ExperimentalTimestampFormat = 'testing-only';
 
-  /**
-   * Component: <AxoTooltip.Provider>
-   * --------------------------------
-   */
+  /** @internal */
+  type PhysicalDirection = 'top' | 'bottom' | 'left' | 'right';
 
-  export type ProviderProps = Readonly<{
-    delay?: Delay;
-    skipDelay?: SkipDelay;
-    children: ReactNode;
-  }>;
-
-  export const Provider: FC<ProviderProps> = memo(props => {
-    const { delay = 'auto', skipDelay = 'auto' } = props;
-
-    const delayDuration = useMemo(() => {
-      return Delays[delay];
-    }, [delay]);
-
-    const skipDelayDuration = useMemo(() => {
-      return SkipDelays[skipDelay];
-    }, [skipDelay]);
-
-    return (
-      <Tooltip.Provider
-        delayDuration={delayDuration}
-        skipDelayDuration={skipDelayDuration}
-      >
-        {props.children}
-      </Tooltip.Provider>
-    );
-  });
-
-  Provider.displayName = `${Namespace}.Provider`;
-
-  /**
-   * Component: <AxoTooltip.CollisionBoundary>
-   * -----------------------------------------
-   */
-
-  const DEFAULT_COLLISION_PADDING = 8;
-
-  type CollisionBoundaryType = Readonly<{
-    elements: Array<Element | null>;
-    padding: number;
-  }>;
-  const CollisionBoundaryContext = createContext<CollisionBoundaryType>({
-    elements: [],
-    padding: DEFAULT_COLLISION_PADDING,
-  });
-
-  export type CollisionBoundaryProps = Readonly<{
-    boundary: Element | null;
-    padding?: number;
-    children: ReactNode;
-  }>;
-
-  export const CollisionBoundary: FC<CollisionBoundaryProps> = memo(props => {
-    const { boundary, padding } = props;
-    const context = useContext(CollisionBoundaryContext);
-
-    const value = useMemo((): CollisionBoundaryType => {
-      return {
-        elements: [...context.elements, boundary],
-        padding: padding ?? DEFAULT_COLLISION_PADDING, // Always reset to default
-      };
-    }, [context, boundary, padding]);
-
-    return (
-      <CollisionBoundaryContext.Provider value={value}>
-        {props.children}
-      </CollisionBoundaryContext.Provider>
-    );
-  });
-
-  CollisionBoundary.displayName = `${Namespace}.CollisionBoundary`;
-
-  /**
-   * Component: <AxoTooltip.Root>
-   * ----------------------------
-   */
-
+  /** @internal */
   function generateTooltipArrowPath(): string {
     let path = '';
     path += 'M        0 0'; // start at top left
@@ -182,13 +231,19 @@ export namespace AxoTooltip {
   const TOOLTIP_ARROW_HEIGHT = 6;
 
   export type RootConfigProps = Readonly<{
+    /** Override the duration given to the `Provider` to customise the open delay for a specific tooltip. */
     delay?: Delay;
+    /** The preferred side of the trigger to render against when open. Will be reversed when collisions occur. */
     side?: Side;
+    /** The preferred alignment against the trigger. May change when collisions occur. */
     align?: Align;
+    /** The primary text content of the tooltip. */
     label: ReactNode;
-    // TODO(jamie): Need to spec timestamp formats
+    /** An additional timestamp to display after the label. */
     experimentalTimestamp?: number | null;
+    /** The timestamp format to use when a timestamp has been provided. */
     experimentalTimestampFormat?: ExperimentalTimestampFormat;
+    /** An supplementary keyboard shortcut to display after the label for the button that the tooltip wraps. */
     keyboardShortcut?: string | null;
   }>;
 
@@ -200,13 +255,32 @@ export namespace AxoTooltip {
        * a visual affordance.
        */
       tooltipRepeatsTriggerAccessibleName?: boolean;
+      /** The trigger element that activates the tooltip on hover/focus. Must be a widget with an accessible name. */
       children: ReactNode;
       /** @private exported for stories only */
       __FORCE_OPEN?: boolean;
     }>;
 
-  const rootDisplayName = `${Namespace}.Root`;
-
+  /**
+   * Wraps a trigger element and shows a tooltip on hover/focus.
+   *
+   * The child must be a focusable widget with an accessible name that does
+   * not duplicate the tooltip label.
+   *
+   * @example Tooltip repeats the label of the button to provide a visual label
+   * ```tsx
+   * <AxoTooltip.Root label="Send message" tooltipRepeatsTriggerAccessibleName>
+   *   <button aria-label="Send message"/>
+   * </AxoTooltip.Root>
+   * ```
+   *
+   * @example Tooltip provides supplemental info to some button with an already visible label
+   * ```tsx
+   * <AxoTooltip.Root label="Already in a call">
+   *   <button disabled>Join Call</button>
+   * </AxoTooltip.Root>
+   * ```
+   */
   export const Root: FC<RootProps> = memo(props => {
     const {
       delay,
@@ -234,7 +308,7 @@ export namespace AxoTooltip {
     }, [side]);
 
     const delayDuration = useMemo(() => {
-      return delay != null ? Delays[delay] : undefined;
+      return delay != null ? Delays.get(delay) : undefined;
     }, [delay]);
 
     const formattedTimestamp = useMemo(() => {
@@ -253,16 +327,16 @@ export namespace AxoTooltip {
       if (isTestOrMockEnvironment()) {
         assert(
           triggerRef.current instanceof HTMLElement,
-          `${rootDisplayName} child must forward ref`
+          `<AxoTooltip.Root> child must forward ref`
         );
         assert(
           isAriaWidgetRole(getElementAriaRole(triggerRef.current)),
-          `${rootDisplayName} child must have a widget role like 'button'`
+          `<AxoTooltip.Root> child must have a widget role like 'button'`
         );
         const triggerName = computeAccessibleName(triggerRef.current);
         assert(
           triggerName !== '',
-          `${rootDisplayName} child must have an accessible name`
+          `<AxoTooltip.Root> child must have an accessible name`
         );
 
         if (props.tooltipRepeatsTriggerAccessibleName) {
@@ -271,7 +345,7 @@ export namespace AxoTooltip {
 
         assert(
           triggerName !== props.label,
-          `${rootDisplayName} label must not repeat child trigger's accessible name. ` +
+          `<AxoTooltip.Root> label must not repeat child trigger's accessible name. ` +
             'Use the tooltipRepeatsTriggerAccessibleName prop if you would ' +
             'like to make the tooltip presentational only.'
         );
@@ -290,7 +364,7 @@ export namespace AxoTooltip {
           <AxoTheme.Inherit>
             <Tooltip.Content
               side={physicalDirection}
-              align={Aligns[align]}
+              align={Aligns.get(align)}
               sideOffset={6}
               arrowPadding={14}
               collisionBoundary={collisionBoundary.elements}
@@ -356,5 +430,5 @@ export namespace AxoTooltip {
     );
   });
 
-  Root.displayName = rootDisplayName;
+  Root.displayName = 'AxoTooltip.Root';
 }

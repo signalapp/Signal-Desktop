@@ -135,8 +135,8 @@ export function Sizes(): JSX.Element {
 
 const AllStates: Record<string, Partial<AxoIconButton.RootProps>> = {
   'disabled=true': { disabled: true },
-  'aria-pressed=false': { 'aria-pressed': false },
-  'aria-pressed=true': { 'aria-pressed': true },
+  'pressed=false': { pressed: false },
+  'pressed=true': { pressed: true },
 };
 
 export function States(): JSX.Element {
@@ -211,7 +211,7 @@ export function Spinners(): JSX.Element {
                     size={size}
                     symbol="more"
                     label="More actions"
-                    experimentalSpinner={{ 'aria-label': 'Loading' }}
+                    pending
                   />
                 </div>
               );

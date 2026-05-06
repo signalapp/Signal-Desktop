@@ -106,15 +106,7 @@ export function PlaintextExportWorkflow({
               </AxoDialog.Action>
               <AxoDialog.Action
                 variant="primary"
-                experimentalSpinner={
-                  shouldShowSpinner
-                    ? {
-                        'aria-label': i18n(
-                          'icu:PlaintextExport--Confirmation--WaitingLabel'
-                        ),
-                      }
-                    : null
-                }
+                pending={shouldShowSpinner}
                 onClick={() => verifyWithOSForExport(includeMedia)}
               >
                 {i18n('icu:PlaintextExport--Confirmation--ContinueButton')}

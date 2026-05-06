@@ -33,7 +33,7 @@ export function Basic(): JSX.Element {
   return (
     <>
       <h1 className={tw('type-title-large')}>AxoCheckbox</h1>
-      {AxoCheckbox._getAllCheckboxVariants().map(variant => {
+      {AxoCheckbox._getAllVariants().map(variant => {
         return (
           <section>
             <Template

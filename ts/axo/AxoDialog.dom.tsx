@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { Dialog } from 'radix-ui';
-import type { CSSProperties, FC, ReactNode } from 'react';
+import type { CSSProperties, FC, MouseEvent, ReactNode } from 'react';
 import { memo, useMemo, useState } from 'react';
 import { AxoBaseDialog } from './_internal/AxoBaseDialog.dom.tsx';
 import type { AxoSymbol } from './AxoSymbol.dom.tsx';
@@ -12,23 +12,113 @@ import { AxoButton } from './AxoButton.dom.tsx';
 import { AxoIconButton } from './AxoIconButton.dom.tsx';
 import { AxoTooltip } from './AxoTooltip.dom.tsx';
 import { AxoTheme } from './AxoTheme.dom.tsx';
-
-const Namespace = 'AxoDialog';
+import { useAxoIntl } from './_internal/AxoIntl.dom.tsx';
+import { variants } from './_internal/variants.dom.tsx';
 
 const { useContentEscapeBehavior } = AxoBaseDialog;
 
+/**
+ * A window overlaid on either the primary window or another dialog window,
+ * rendering the content underneath inert.
+ *
+ * @example Anatomy
+ * ```tsx
+ * <AxoDialog.Root>
+ *   <AxoDialog.Trigger />
+ *   <AxoDialog.Content>
+ *     <AxoDialog.Header>
+ *       <AxoDialog.Back />
+ *       <AxoDialog.Title />
+ *       <AxoDialog.Close />
+ *     </AxoDialog.Header>
+ *     <AxoDialog.Body>
+ *       <AxoDialog.Description />
+ *     </AxoDialog.Body>
+ *     <AxoDialog.Footer>
+ *       <AxoDialog.FooterContent />
+ *       <AxoDialog.Actions>
+ *         <AxoDialog.Action/>
+ *         <AxoDialog.Action/>
+ *       </AxoDialog.Actions>
+ *     </AxoDialog.Footer>
+ *   </AxoDialog.Content>
+ * </AxoDialog.Root>
+ * ```
+ *
+ * @see {@link https://www.radix-ui.com/primitives/docs/components/dialog | Dialog - Radix Docs}
+ * @see {@link https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/ | Dialog (Modal) Pattern - ARIA Authoring Practices Guide}
+ * @see {@link https://w3c.github.io/aria/#dialog | `dialog` role - WAI-ARIA 1.3}
+ */
 export namespace AxoDialog {
   /**
-   * Component: <AxoDialog.Root>
-   * ---------------------------
+   * <AxoDialog.Root>
+   * --------------------------------------------------------------------------
    */
 
   export type RootProps = Readonly<{
+    /**
+     * The controlled open state of the dialog.
+     * Must be used in conjunction with `onOpenChange`.
+     */
     open?: boolean;
+    /**
+     * Event handler called when the open state of the dialog changes.
+     */
     onOpenChange?: (open: boolean) => void;
+    /**
+     * Should be a `Trigger` and `Content`.
+     */
     children: ReactNode;
   }>;
 
+  /**
+   * Contains all the parts of a dialog.
+   *
+   * @example Controlled dialog (most common)
+   * ```tsx
+   * <AxoDialog.Root open={open} onOpenChange={onOpenChange}>
+   *   <AxoDialog.Content size="sm" escape="cancel-is-noop">
+   *     <AxoDialog.Header>
+   *       <AxoDialog.Title>Delete attachment?</AxoDialog.Title>
+   *       <AxoDialog.Close />
+   *     </AxoDialog.Header>
+   *     <AxoDialog.Body>
+   *       <AxoDialog.Description>
+   *         This attachment will be permanently deleted.
+   *       </AxoDialog.Description>
+   *     </AxoDialog.Body>
+   *     <AxoDialog.Footer>
+   *       <AxoDialog.Actions>
+   *         <AxoDialog.Action variant="secondary" onClick={onCancel}>
+   *           Cancel
+   *         </AxoDialog.Action>
+   *         <AxoDialog.Action variant="destructive" onClick={onDelete}>
+   *           Delete
+   *         </AxoDialog.Action>
+   *       </AxoDialog.Actions>
+   *     </AxoDialog.Footer>
+   *   </AxoDialog.Content>
+   * </AxoDialog.Root>
+   * ```
+   *
+   * @example Trigger-based dialog
+   * ```tsx
+   * <AxoDialog.Root>
+   *   <AxoDialog.Trigger>
+   *     <AxoButton.Root variant="secondary" size="md" width="fit" onClick={noop}>
+   *       Open settings
+   *     </AxoButton.Root>
+   *   </AxoDialog.Trigger>
+   *   <AxoDialog.Content size="md" escape="cancel-is-destructive">
+   *     <AxoDialog.Header>
+   *       <AxoDialog.Title>Settings</AxoDialog.Title>
+   *       <AxoDialog.Close />
+   *     </AxoDialog.Header>
+   *     <AxoDialog.Body>...</AxoDialog.Body>
+   *   </AxoDialog.Content>
+   * </AxoDialog.Root>
+   * ```
+   */
   export const Root: FC<RootProps> = memo(props => {
     return (
       <Dialog.Root open={props.open} onOpenChange={props.onOpenChange} modal>
@@ -37,51 +127,81 @@ export namespace AxoDialog {
     );
   });
 
-  Root.displayName = `${Namespace}.Root`;
+  Root.displayName = 'AxoDialog.Root';
 
   /**
-   * Component: <AxoDialog.Trigger>
-   * ------------------------------
+   * <AxoDialog.Trigger>
+   * --------------------------------------------------------------------------
    */
 
   export type TriggerProps = Readonly<{
+    /**
+     * The element that opens the dialog when clicked.
+     */
     children: ReactNode;
   }>;
 
+  /**
+   * The button that opens the dialog.
+   */
   export const Trigger: FC<TriggerProps> = memo(props => {
     return <Dialog.Trigger asChild>{props.children}</Dialog.Trigger>;
   });
 
-  Trigger.displayName = `${Namespace}.Trigger`;
+  Trigger.displayName = 'AxoDialog.Trigger';
 
   /**
-   * Component: <AxoDialog.Content>
-   * ------------------------------
+   * <AxoDialog.Content>
+   * --------------------------------------------------------------------------
    */
 
-  type ContentSizeConfig = Readonly<{
-    width: number;
-    minWidth: number;
-  }>;
-
-  const ContentSizes: Record<ContentSize, ContentSizeConfig> = {
-    xs: { width: 300, minWidth: 300 },
-    sm: { width: 360, minWidth: 360 },
-    md: { width: 420, minWidth: 360 },
-    lg: { width: 720, minWidth: 360 },
-  };
-
+  /**
+   * Width of the dialog.
+   * - `xs` – 300px
+   * - `sm` – 360px
+   * - `md` – 420px
+   * - `lg` – 720px
+   */
   export type ContentSize = 'xs' | 'sm' | 'md' | 'lg';
+
+  /**
+   * How dangerous the cancel action is considered.
+   * - `cancel-is-noop`: Canceling is safe — pressing Escape or clicking outside closes the dialog.
+   * - `cancel-is-destructive`: Canceling would lose user state — pressing Escape or clicking outside is disabled.
+   */
   export type ContentEscape = AxoBaseDialog.ContentEscape;
+
+  const ContentSizeStyles = variants<ContentSize>('AxoDialog.ContentSize', {
+    xs: tw('w-[300px] min-w-[300px]'),
+    sm: tw('w-[360px] min-w-[360px]'),
+    md: tw('w-[420px] min-w-[360px]'),
+    lg: tw('w-[720px] min-w-[360px]'),
+  });
+
   export type ContentProps = Readonly<{
+    /**
+     * Width of the dialog.
+     */
     size: ContentSize;
+    /**
+     * What happens when the user presses `Escape` or clicks outside.
+     */
     escape: ContentEscape;
+    /**
+     * Suppresses the Radix UI warning about a missing `aria-describedby`.
+     * Prefer adding a visually-hidden `Description` instead of using this.
+     */
     disableMissingAriaDescriptionWarning?: boolean;
+    /**
+     * Should be `Header`, `Body`, `Footer`, and/or `Description` elements.
+     */
     children: ReactNode;
   }>;
 
+  /**
+   * Contains content to be rendered in the open dialog.
+   */
   export const Content: FC<ContentProps> = memo(props => {
-    const sizeConfig = ContentSizes[props.size];
     const handleContentEscapeEvent = useContentEscapeBehavior(props.escape);
     const [boundary, setBoundary] = useState<Element | null>(null);
 
@@ -102,13 +222,12 @@ export namespace AxoDialog {
             <AxoTooltip.CollisionBoundary boundary={boundary} padding={4}>
               <Dialog.Content
                 ref={setBoundary}
-                className={AxoBaseDialog.contentStyles}
+                className={tw(
+                  AxoBaseDialog.contentStyles,
+                  ContentSizeStyles.get(props.size)
+                )}
                 onEscapeKeyDown={handleContentEscapeEvent}
                 onInteractOutside={handleContentEscapeEvent}
-                style={{
-                  width: sizeConfig.width,
-                  minWidth: 320,
-                }}
                 {...descriptionProps}
               >
                 {props.children}
@@ -120,17 +239,25 @@ export namespace AxoDialog {
     );
   });
 
-  Content.displayName = `${Namespace}.Content`;
+  Content.displayName = 'AxoDialog.Content';
 
   /**
-   * Component: <AxoDialog.Header>
-   * -----------------------------
+   * <AxoDialog.Header>
+   * --------------------------------------------------------------------------
    */
 
   export type HeaderProps = Readonly<{
+    /**
+     * Should be `Back`, `Title`, and/or `Close` elements.
+     */
     children: ReactNode;
   }>;
 
+  /**
+   * A three-column grid header: back button on the left, title in the center,
+   * close button on the right. Omitting `Back` or `Close` leaves their column
+   * empty so the title stays centered.
+   */
   export const Header: FC<HeaderProps> = memo(props => {
     return (
       <div
@@ -144,18 +271,28 @@ export namespace AxoDialog {
     );
   });
 
-  Header.displayName = `${Namespace}.Header`;
+  Header.displayName = 'AxoDialog.Header';
 
   /**
-   * Component: <AxoDialog.Title>
-   * ----------------------------
+   * <AxoDialog.Title>
+   * --------------------------------------------------------------------------
    */
 
   export type TitleProps = Readonly<{
+    /**
+     * There must always be a title for the dialog, but if you don't want it to
+     * be visually displayed you can pass `screenReaderOnly: true`
+     */
     screenReaderOnly?: boolean;
+    /**
+     * The title text.
+     */
     children: ReactNode;
   }>;
 
+  /**
+   * An accessible title to be announced when the dialog is opened.
+   */
   export const Title: FC<TitleProps> = memo(props => {
     return (
       <Dialog.Title
@@ -171,26 +308,32 @@ export namespace AxoDialog {
     );
   });
 
-  Title.displayName = `${Namespace}.Title`;
+  Title.displayName = 'AxoDialog.Title';
 
   /**
-   * Component: <AxoDialog.Back>
-   * ---------------------------
+   * <AxoDialog.Back>
+   * --------------------------------------------------------------------------
    */
 
   export type BackProps = Readonly<{
-    'aria-label': string;
-    onClick: () => void;
+    /**
+     * Called when the back button is clicked.
+     */
+    onClick: (event: MouseEvent<HTMLButtonElement>) => void;
   }>;
 
+  /**
+   * A back-navigation button rendered in the leading column of `Header`.
+   */
   export const Back: FC<BackProps> = memo(props => {
+    const intl = useAxoIntl();
     return (
       <div className={tw('col-[back-slot] text-start')}>
         <AxoIconButton.Root
           size="sm"
           variant="borderless-secondary"
           symbol="chevron-[start]"
-          label={props['aria-label']}
+          label={intl.get('AxoDialog.Back')}
           tooltip={false}
           onClick={props.onClick}
         />
@@ -198,18 +341,18 @@ export namespace AxoDialog {
     );
   });
 
-  Back.displayName = `${Namespace}.Back`;
+  Back.displayName = 'AxoDialog.Back';
 
   /**
-   * Component: <AxoDialog.Close>
-   * ----------------------------
+   * <AxoDialog.Close>
+   * --------------------------------------------------------------------------
    */
 
-  export type CloseProps = Readonly<{
-    'aria-label': string;
-  }>;
-
-  export const Close: FC<CloseProps> = memo(props => {
+  /**
+   * The button that closes the dialog.
+   */
+  export const Close: FC = memo(() => {
+    const intl = useAxoIntl();
     return (
       <div className={tw('col-[close-slot] text-end leading-none')}>
         <Dialog.Close asChild>
@@ -217,7 +360,7 @@ export namespace AxoDialog {
             size="sm"
             variant="borderless-secondary"
             symbol="x"
-            label={props['aria-label']}
+            label={intl.get('AxoDialog.Close')}
             tooltip={false}
           />
         </Dialog.Close>
@@ -225,31 +368,66 @@ export namespace AxoDialog {
     );
   });
 
-  Close.displayName = `${Namespace}.Close`;
+  Close.displayName = 'AxoDialog.Close';
+
+  /**
+   * <AxoDialog.Search>
+   * --------------------------------------------------------------------------
+   */
 
   export type ExperimentalSearchProps = Readonly<{
+    /**
+     * A search input element.
+     */
     children: ReactNode;
   }>;
 
+  /**
+   * A padded slot for a search input, placed between `Header` and `Body`.
+   * Pair with `Body` using `padding="only-scrollbar-gutter"` so the list
+   * content aligns with the search field.
+   */
   export const ExperimentalSearch: FC<ExperimentalSearchProps> = memo(props => {
     return <div className={tw('px-4 pb-2')}>{props.children}</div>;
   });
 
-  ExperimentalSearch.displayName = `${Namespace}.ExperimentalSearch`;
+  ExperimentalSearch.displayName = 'AxoDialog.ExperimentalSearch';
 
   /**
-   * Component: <AxoDialog.Body>
-   * ---------------------------
+   * <AxoDialog.Body>
+   * --------------------------------------------------------------------------
    */
 
+  /**
+   * Horizontal padding applied to the body content.
+   * - `normal`: Standard 24px inline padding (default).
+   * - `only-scrollbar-gutter`: No padding, only reserves space for the scrollbar.
+   *   Use when content (e.g. a list) provides its own padding, or when paired
+   *   with `ExperimentalSearch` so items align with the search field.
+   */
   export type BodyPadding = 'normal' | 'only-scrollbar-gutter';
 
   export type BodyProps = Readonly<{
+    /**
+     * Horizontal padding applied to the body content.
+     * Defaults to `normal`.
+     */
     padding?: BodyPadding;
+    /**
+     * Maximum height before the body becomes scrollable.
+     * Defaults to `440`.
+     */
     maxHeight?: number;
+    /**
+     * The scrollable body content.
+     */
     children: ReactNode;
   }>;
 
+  /**
+   * Scrollable content area between `Header` and `Footer`.
+   * Automatically shows scroll hints and a thin scrollbar.
+   */
   export const Body: FC<BodyProps> = memo(props => {
     const { padding = 'normal', maxHeight = 440 } = props;
 
@@ -280,32 +458,44 @@ export namespace AxoDialog {
     );
   });
 
-  Body.displayName = `${Namespace}.Body`;
+  Body.displayName = 'AxoDialog.Body';
 
   /**
-   * Component: <AxoDialog.Description>
-   * ----------------------------------
+   * <AxoDialog.Description>
+   * --------------------------------------------------------------------------
    */
 
   export type DescriptionProps = Readonly<{
+    /**
+     * The description text.
+     */
     children: ReactNode;
   }>;
 
+  /**
+   * An optional accessible description to be announced when the dialog is opened.
+   */
   export const Description: FC<DescriptionProps> = memo(props => {
     return <Dialog.Description>{props.children}</Dialog.Description>;
   });
 
-  Description.displayName = `${Namespace}.Description`;
+  Description.displayName = 'AxoDialog.Description';
 
   /**
-   * Component: <AxoDialog.Body>
-   * ---------------------------
+   * <AxoDialog.Body>
+   * --------------------------------------------------------------------------
    */
 
   export type FooterProps = Readonly<{
+    /**
+     * Should be `FooterContent` and/or `Actions` elements.
+     */
     children: ReactNode;
   }>;
 
+  /**
+   * A row of action buttons at the bottom of the dialog.
+   */
   export const Footer: FC<FooterProps> = memo(props => {
     return (
       <div className={tw('flex flex-wrap items-center gap-3 px-3 py-2.5')}>
@@ -314,17 +504,26 @@ export namespace AxoDialog {
     );
   });
 
-  Footer.displayName = `${Namespace}.Footer`;
+  Footer.displayName = 'AxoDialog.Footer';
 
   /**
-   * Component: <AxoDialog.FooterContent>
-   * ------------------------------------
+   * <AxoDialog.FooterContent>
+   * --------------------------------------------------------------------------
    */
 
   export type FooterContentProps = Readonly<{
+    /**
+     * Supplementary text shown alongside the action buttons.
+     */
     children: ReactNode;
   }>;
 
+  /**
+   * Optional text content placed in `Footer` alongside `Actions`.
+   *
+   * Flows into its own row when the available width is too narrow to share a
+   * line.
+   */
   export const FooterContent: FC<FooterContentProps> = memo(props => {
     return (
       <div
@@ -346,17 +545,23 @@ export namespace AxoDialog {
     );
   });
 
-  FooterContent.displayName = `${Namespace}.FooterContent`;
+  FooterContent.displayName = 'AxoDialog.FooterContent';
 
   /**
-   * Component: <AxoDialog.Actions>
-   * ------------------------------
+   * <AxoDialog.Actions>
+   * --------------------------------------------------------------------------
    */
 
   export type ActionsProps = Readonly<{
+    /**
+     * Should be `Action` and/or `IconAction` elements.
+     */
     children: ReactNode;
   }>;
 
+  /**
+   * A right-aligned group of action buttons inside `Footer`.
+   */
   export const Actions: FC<ActionsProps> = memo(props => {
     return (
       <div
@@ -375,35 +580,63 @@ export namespace AxoDialog {
     );
   });
 
-  Actions.displayName = `${Namespace}.Actions`;
+  Actions.displayName = 'AxoDialog.Actions';
 
   /**
-   * Component: <AxoDialog.Actions>
-   * ------------------------------
+   * <AxoDialog.Actions>
+   * --------------------------------------------------------------------------
    */
 
+  /**
+   * Visual style of an action button.
+   * - `primary`: High-emphasis confirm action.
+   * - `secondary`: Low-emphasis cancel or alternative action.
+   * - `destructive`: Irreversible or dangerous action.
+   */
   export type ActionVariant = 'primary' | 'destructive' | 'secondary';
 
   export type ActionProps = Readonly<{
+    /**
+     * Visual style of the button.
+     */
     variant: ActionVariant;
+    /**
+     * Optional leading icon.
+     */
     symbol?: AxoSymbol.InlineGlyphName;
-    arrow?: boolean;
-    experimentalSpinner?: { 'aria-label': string } | null;
-    disabled?: boolean;
-    focusableWhenDisabled?: boolean;
-    onClick: () => void;
+    /**
+     * When `true`, shows a forward arrow on the trailing side.
+     */
+    arrow?: boolean | null;
+    /**
+     * When `true`, shows a loading spinner and prevents interaction.
+     */
+    pending?: boolean | null;
+    /**
+     * When `true`, prevents interaction.
+     */
+    disabled?: boolean | null;
+    /**
+     * Event handler called when the button is clicked.
+     */
+    onClick: (event: MouseEvent<HTMLButtonElement>) => void;
+    /**
+     * The button label.
+     */
     children: ReactNode;
   }>;
 
+  /**
+   * A button for use inside `Actions`.
+   */
   export const Action: FC<ActionProps> = memo(props => {
     return (
       <AxoButton.Root
         variant={props.variant}
         symbol={props.symbol}
         arrow={props.arrow ? 'next' : null}
-        experimentalSpinner={props.experimentalSpinner}
+        pending={props.pending}
         disabled={props.disabled}
-        focusableWhenDisabled={props.focusableWhenDisabled}
         size="md"
         width="grow"
         onClick={props.onClick}
@@ -413,22 +646,44 @@ export namespace AxoDialog {
     );
   });
 
-  Action.displayName = `${Namespace}.Action`;
+  Action.displayName = 'AxoDialog.Action';
 
   /**
-   * Component: <AxoDialog.IconAction>
-   * ---------------------------------
+   * <AxoDialog.IconAction>
+   * --------------------------------------------------------------------------
    */
 
+  /**
+   * Visual style of an icon action button.
+   * - `primary`: High-emphasis confirm action.
+   * - `secondary`: Low-emphasis cancel or alternative action.
+   * - `destructive`: Irreversible or dangerous action.
+   */
   export type IconActionVariant = 'primary' | 'destructive' | 'secondary';
 
   export type IconActionProps = Readonly<{
+    /**
+     * Accessible label for screen readers.
+     * Should describe the action of the button, not the icon.
+     */
     label: string;
-    variant: ActionVariant;
+    /**
+     * Visual style of the button.
+     */
+    variant: IconActionVariant;
+    /**
+     * The icon to display.
+     */
     symbol: AxoSymbol.IconName;
-    onClick: () => void;
+    /**
+     * Event handler called when the button is clicked.
+     */
+    onClick: (event: MouseEvent<HTMLButtonElement>) => void;
   }>;
 
+  /**
+   * An icon-only button for use inside `Actions`.
+   */
   export const IconAction: FC<IconActionProps> = memo(props => {
     return (
       <AxoIconButton.Root
@@ -441,5 +696,5 @@ export namespace AxoDialog {
     );
   });
 
-  IconAction.displayName = `${Namespace}.IconAction`;
+  IconAction.displayName = 'AxoDialog.IconAction';
 }

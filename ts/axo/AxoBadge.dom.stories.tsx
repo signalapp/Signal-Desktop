@@ -11,7 +11,7 @@ export default {
 } satisfies Meta;
 
 export function All(): JSX.Element {
-  const values: ReadonlyArray<ExperimentalAxoBadge.BadgeValue> = [
+  const values: ReadonlyArray<ExperimentalAxoBadge.Value> = [
     -1,
     0,
     1,
@@ -32,7 +32,7 @@ export function All(): JSX.Element {
         })}
       </thead>
       <tbody>
-        {ExperimentalAxoBadge._getAllBadgeSizes().map(size => {
+        {ExperimentalAxoBadge._getAllSizes().map(size => {
           return (
             <tr key={size}>
               <th>{size}</th>
@@ -44,7 +44,7 @@ export function All(): JSX.Element {
                       value={value}
                       max={99}
                       maxDisplay="99+"
-                      aria-label={null}
+                      label={null}
                     />
                   </td>
                 );

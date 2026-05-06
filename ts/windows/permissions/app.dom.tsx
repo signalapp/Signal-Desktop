@@ -1,13 +1,10 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-
-import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-
 import '../sandboxedInit.dom.ts';
 import { PermissionsPopup } from '../../components/PermissionsPopup.dom.tsx';
 import { strictAssert } from '../../util/assert.std.ts';
-import { AxoProvider } from '../../axo/AxoProvider.dom.tsx';
+import { AppProvider } from '../AppProvider.dom.tsx';
 
 const { PermissionsWindowProps } = window.Signal;
 const { i18n } = window.SignalContext;
@@ -31,16 +28,12 @@ const app = document.getElementById('app');
 strictAssert(app != null, 'No #app');
 
 createRoot(app).render(
-  <StrictMode>
-    <AxoProvider
-      dir={window.SignalContext.getResolvedMessagesLocaleDirection()}
-    >
-      <PermissionsPopup
-        i18n={i18n}
-        message={message}
-        onAccept={PermissionsWindowProps.onAccept}
-        onClose={PermissionsWindowProps.onClose}
-      />
-    </AxoProvider>
-  </StrictMode>
+  <AppProvider>
+    <PermissionsPopup
+      i18n={i18n}
+      message={message}
+      onAccept={PermissionsWindowProps.onAccept}
+      onClose={PermissionsWindowProps.onClose}
+    />
+  </AppProvider>
 );

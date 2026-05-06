@@ -11,6 +11,22 @@
       }
     ]
   },
+  "icu:AxoButton.Pending": {
+    "messageformat": "Pending",
+    "description": "Axo Design System > Button Component > Pending State > Generic accessibility label"
+  },
+  "icu:AxoDialog.Back": {
+    "messageformat": "Back",
+    "description": "Axo Design System > Dialog Component > Back Button > Generic accessibility label"
+  },
+  "icu:AxoDialog.Close": {
+    "messageformat": "Close",
+    "description": "Axo Design System > Dialog Component > Close Button > Generic accessibility label"
+  },
+  "icu:AxoTextField.Clear": {
+    "messageformat": "Clear",
+    "description": "Axo Design System > Text Field Component > Clear Button > Generic accessibility label"
+  },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "Add to a group",
     "description": "Shown as the title of the dialog that allows you to add a contact to an group"

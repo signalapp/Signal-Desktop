@@ -2,38 +2,21 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import { memo, useMemo, useState } from 'react';
 import type { CSSProperties, FC, ReactNode } from 'react';
-import type { TailwindStyles } from './tw.dom.tsx';
 import { tw } from './tw.dom.tsx';
 import {
   createStrictContext,
   useStrictContext,
 } from './_internal/StrictContext.dom.tsx';
 import { AxoTooltip } from './AxoTooltip.dom.tsx';
-
-const Namespace = 'AxoScrollArea';
-
-const AXO_SCROLL_AREA_TIMELINE_VERTICAL = '--axo-scroll-area-timeline-vertical';
-const AXO_SCROLL_AREA_TIMELINE_HORIZONTAL =
-  '--axo-scroll-area-timeline-horizontal';
-
-type AxoScrollAreaOrientation = 'vertical' | 'horizontal' | 'both';
-
-const AxoScrollAreaOrientationContext =
-  createStrictContext<AxoScrollAreaOrientation>(`${Namespace}.Root`);
-
-function useAxoScrollAreaOrientation(): AxoScrollArea.Orientation {
-  return useStrictContext(AxoScrollAreaOrientationContext);
-}
+import { variants } from './_internal/variants.dom.tsx';
 
 /**
- * Displays a menu located at the pointer, triggered by a right click or a long press.
- *
- * Note: For menus that are triggered by a normal button press, you should use
- * `AxoDropdownMenu`.
+ * A scrollable container with configurable scrollbar styling, optional scroll
+ * hints (edge indicators), and an optional gradient mask.
  *
  * @example Anatomy
  * ```tsx
- * <AxoScrollArea.Root>
+ * <AxoScrollArea.Root scrollbarWidth="thin">
  *   <AxoScrollArea.Hint edge="top"/>
  *   <AxoScrollArea.Hint edge="bottom"/>
  *   <AxoScrollArea.Mask>
@@ -48,53 +31,123 @@ function useAxoScrollAreaOrientation(): AxoScrollArea.Orientation {
  */
 export namespace AxoScrollArea {
   /**
-   * Context: ScrollAreaOrientation
+   * <AxoScrollArea.Root>
+   * --------------------------------------------------------------------------
    */
 
-  export type Orientation = AxoScrollAreaOrientation;
+  const AXO_SCROLL_AREA_TIMELINE_VERTICAL =
+    '--axo-scroll-area-timeline-vertical';
+  const AXO_SCROLL_AREA_TIMELINE_HORIZONTAL =
+    '--axo-scroll-area-timeline-horizontal';
 
   /**
-   * Context: ScrollAreaConfig
+   * Which directions the area scrolls:
+   * - `vertical`: Scrolls up/down (default).
+   * - `horizontal`: Scrolls left/right.
+   * - `both`: Scrolls in both axes.
    */
+  export type Orientation = 'vertical' | 'horizontal' | 'both';
 
+  /**
+   * Width of the native scrollbar track:
+   * - `wide`: Full-width system scrollbar.
+   * - `thin`: Narrow overlay-style scrollbar.
+   * - `none`: No scrollbar rendered (content still scrollable).
+   */
   export type ScrollbarWidth = 'wide' | 'thin' | 'none';
+
+  /**
+   * Space reserved for the scrollbar to prevent layout shifts.
+   * - `unstable`: No reserved space, layout shifts when scrollbar appears (default).
+   * - `stable-one-edge`: Reserved space on one side only.
+   * - `stable-both-edges`: Reserved space on both sides, keeps content centered.
+   */
 
   export type ScrollbarGutter =
     | 'unstable'
     | 'stable-one-edge'
     | 'stable-both-edges';
 
+  /**
+   * Whether programmatic scrolling (e.g. `scrollIntoView`) is animated by default.
+   * - `auto`: Instant scroll (default).
+   * - `smooth`: Animated scroll.
+   */
   export type ScrollBehavior = 'auto' | 'smooth';
 
+  /**
+   * When the scrollbar thumb is visible.
+   * - `auto`: Always visible when content overflows (default).
+   * - `as-needed`: Fades out when the area is not hovered or focused.
+   */
   export type ScrollbarVisibility = 'auto' | 'as-needed';
 
-  type ScrollAreaConfig = Readonly<{
+  /** @internal */
+  type RootContextText = Readonly<{
+    orientation: Orientation;
     scrollbarWidth: ScrollbarWidth;
     scrollbarGutter: ScrollbarGutter;
     scrollbarVisibility: ScrollbarVisibility;
     scrollBehavior: ScrollBehavior;
   }>;
 
-  const ScrollAreaConfigContext = createStrictContext<ScrollAreaConfig>(
-    `${Namespace}.Root`
-  );
-
-  /**
-   * Component: <AxoScrollArea.Root>
-   * -------------------------------
-   */
+  /** @internal */
+  const RootContext =
+    createStrictContext<RootContextText>('AxoScrollArea.Root');
 
   export type RootProps = Readonly<{
+    /**
+     * Which axis(es) the area scrolls. Defaults to `vertical`.
+     */
     orientation?: Orientation;
+    /**
+     * Constrains the width of the scroll area.
+     */
     maxWidth?: number;
+    /**
+     * Constrains the height of the scroll area.
+     * Use when the container is trying to fit the height of its children.
+     */
     maxHeight?: number;
+    /**
+     * Width of the native scrollbar track.
+     * Use when the container is trying to fit the width of its children.
+     */
     scrollbarWidth: ScrollbarWidth;
+    /**
+     * Space reserved for the scrollbar. Defaults to `stable-both-edges`.
+     */
     scrollbarGutter?: ScrollbarGutter;
+    /**
+     * When the scrollbar thumb is visible. Defaults to `auto`.
+     */
     scrollbarVisibility?: ScrollbarVisibility;
+    /**
+     * Whether programmatic scrolling is animated by default.
+     * Defaults to `auto`.
+     */
     scrollBehavior?: ScrollBehavior;
+    /**
+     * Should be `Hint`, `Mask`, and/or `Viewport` elements.
+     */
     children: ReactNode;
   }>;
 
+  /**
+   * Container that configures the scroll area. Provides scroll settings to
+   * child `Viewport`, `Hint`, and `Mask` elements.
+   *
+   * @example Vertical scroll with thin scrollbar
+   * ```tsx
+   * <AxoScrollArea.Root scrollbarWidth="thin" scrollbarVisibility="as-needed" maxHeight={400}>
+   *   <AxoScrollArea.Hint edge="top" />
+   *   <AxoScrollArea.Hint edge="bottom" />
+   *   <AxoScrollArea.Viewport>
+   *     <AxoScrollArea.Content>{items}</AxoScrollArea.Content>
+   *   </AxoScrollArea.Viewport>
+   * </AxoScrollArea.Root>
+   * ```
+   */
   export const Root: FC<RootProps> = memo(props => {
     const {
       orientation = 'vertical',
@@ -106,14 +159,21 @@ export namespace AxoScrollArea {
       scrollBehavior = 'auto',
     } = props;
 
-    const config = useMemo((): ScrollAreaConfig => {
+    const context = useMemo((): RootContextText => {
       return {
+        orientation,
         scrollbarWidth,
         scrollbarGutter,
         scrollbarVisibility,
         scrollBehavior,
       };
-    }, [scrollbarWidth, scrollbarGutter, scrollbarVisibility, scrollBehavior]);
+    }, [
+      orientation,
+      scrollbarWidth,
+      scrollbarGutter,
+      scrollbarVisibility,
+      scrollBehavior,
+    ]);
 
     const style = useMemo((): CSSProperties => {
       return {
@@ -126,31 +186,29 @@ export namespace AxoScrollArea {
     }, [maxWidth, maxHeight]);
 
     return (
-      <AxoScrollAreaOrientationContext.Provider value={orientation}>
-        <ScrollAreaConfigContext.Provider value={config}>
-          <div
-            className={tw(
-              'relative z-0',
-              'flex size-full flex-col overflow-hidden',
-              'rounded-[2px]',
-              // Move the outline from the viewport to the parent
-              // so it doesn't get cut off by <Mask>
-              'keyboard-mode:has-[[data-axo-scroll-area-viewport]:focus]:outline-focus-ring'
-            )}
-            style={style}
-          >
-            {props.children}
-          </div>
-        </ScrollAreaConfigContext.Provider>
-      </AxoScrollAreaOrientationContext.Provider>
+      <RootContext.Provider value={context}>
+        <div
+          className={tw(
+            'relative z-0',
+            'flex size-full flex-col overflow-hidden',
+            'rounded-[2px]',
+            // Move the outline from the viewport to the parent
+            // so it doesn't get cut off by <Mask>
+            'keyboard-mode:has-[[data-axo-scroll-area-viewport]:focus]:outline-focus-ring'
+          )}
+          style={style}
+        >
+          {props.children}
+        </div>
+      </RootContext.Provider>
     );
   });
 
-  Root.displayName = `${Namespace}.Root`;
+  Root.displayName = 'AxoScrollArea.Root';
 
   /**
-   * Component: <AxoScrollArea.Viewport>
-   * -----------------------------------
+   * <AxoScrollArea.Viewport>
+   * --------------------------------------------------------------------------
    */
 
   const baseViewportStyles = tw(
@@ -161,62 +219,79 @@ export namespace AxoScrollArea {
     'outline-none'
   );
 
-  const ViewportScrollbarWidths: Record<ScrollbarWidth, TailwindStyles> = {
-    wide: tw('scrollbar-width-auto'),
-    thin: tw('scrollbar-width-thin'),
-    none: tw('scrollbar-width-none'),
-  };
+  const ViewportScrollbarWidths = variants<ScrollbarWidth>(
+    'AxoScrollArea.ScrollbarWidth',
+    {
+      wide: tw('scrollbar-width-auto'),
+      thin: tw('scrollbar-width-thin'),
+      none: tw('scrollbar-width-none'),
+    }
+  );
 
-  const ViewportScrollbarGutters: Record<ScrollbarGutter, TailwindStyles> = {
-    unstable: tw('scrollbar-gutter-auto'),
-    'stable-one-edge': tw('scrollbar-gutter-stable'),
-    'stable-both-edges': tw('scrollbar-gutter-stable'),
-  };
+  const ViewportScrollbarGutters = variants<ScrollbarGutter>(
+    'AxoScrollArea.ScrollbarGutter',
+    {
+      unstable: tw('scrollbar-gutter-auto'),
+      'stable-one-edge': tw('scrollbar-gutter-stable'),
+      'stable-both-edges': tw('scrollbar-gutter-stable'),
+    }
+  );
 
-  const ViewportScrollbarVisibilities: Record<
-    ScrollbarVisibility,
-    TailwindStyles
-  > = {
-    auto: tw(),
-    'as-needed': tw(
-      'transition-[scrollbar-color] duration-150 not-hover:not-focus-within:scrollbar-thumb-transparent'
-    ),
-  };
+  const ViewportScrollbarVisibilities = variants<ScrollbarVisibility>(
+    'AxoScrollArea.ScrollbarVisibility',
+    {
+      auto: tw(),
+      'as-needed': tw(
+        'transition-[scrollbar-color] duration-150 not-hover:not-focus-within:scrollbar-thumb-transparent'
+      ),
+    }
+  );
 
-  const ViewportScrollBehaviors: Record<ScrollBehavior, TailwindStyles> = {
-    auto: tw('scroll-auto'),
-    smooth: tw('scroll-smooth'),
-  };
+  const ViewportScrollBehaviors = variants<ScrollBehavior>(
+    'AxoScrollArea.ScrollBehavior',
+    {
+      auto: tw('scroll-auto'),
+      smooth: tw('scroll-smooth'),
+    }
+  );
 
-  type GutterCss = { horizontal: string; vertical: string };
+  const ScrollbarWidthGutterVertical = variants<ScrollbarWidth, string>(
+    'AxoScrollArea.ScrollbarWidth',
+    {
+      wide: 'var(--axo-scrollbar-gutter-auto-vertical)',
+      thin: 'var(--axo-scrollbar-gutter-thin-vertical)',
+      none: '0px',
+    }
+  );
 
-  const ScrollbarWidthToGutterCss: Record<ScrollbarWidth, GutterCss> = {
-    wide: {
-      vertical: 'var(--axo-scrollbar-gutter-auto-vertical)',
-      horizontal: 'var(--axo-scrollbar-gutter-auto-horizontal)',
-    },
-    thin: {
-      vertical: 'var(--axo-scrollbar-gutter-thin-vertical)',
-      horizontal: 'var(--axo-scrollbar-gutter-thin-horizontal)',
-    },
-    none: {
-      vertical: '0px',
-      horizontal: '0px',
-    },
-  };
+  const ScrollbarWidthGutterHorizontal = variants<ScrollbarWidth, string>(
+    'AxoScrollArea.ScrollbarWidth',
+    {
+      wide: 'var(--axo-scrollbar-gutter-auto-horizontal)',
+      thin: 'var(--axo-scrollbar-gutter-thin-horizontal)',
+      none: '0px',
+    }
+  );
 
   export type ViewportProps = Readonly<{
+    /**
+     * Should be a `Content` element.
+     */
     children: ReactNode;
   }>;
 
+  /**
+   * The scrollable element.
+   * Must be placed inside `Root`, and should wrap a `Content`.
+   */
   export const Viewport: FC<ViewportProps> = memo(props => {
-    const orientation = useAxoScrollAreaOrientation();
     const {
+      orientation,
       scrollbarWidth,
       scrollbarGutter,
       scrollbarVisibility,
       scrollBehavior,
-    } = useStrictContext(ScrollAreaConfigContext);
+    } = useStrictContext(RootContext);
     const [boundary, setBoundary] = useState<HTMLDivElement | null>(null);
 
     const style = useMemo((): CSSProperties => {
@@ -230,11 +305,10 @@ export namespace AxoScrollArea {
       let paddingInlineStart: string | undefined;
       if (scrollbarGutter === 'stable-both-edges') {
         if (hasVerticalScrollbar) {
-          paddingInlineStart =
-            ScrollbarWidthToGutterCss[scrollbarWidth].vertical;
+          paddingInlineStart = ScrollbarWidthGutterVertical.get(scrollbarWidth);
         }
         if (hasHorizontalScrollbar) {
-          paddingTop = ScrollbarWidthToGutterCss[scrollbarWidth].horizontal;
+          paddingTop = ScrollbarWidthGutterHorizontal.get(scrollbarWidth);
         }
       }
 
@@ -269,10 +343,10 @@ export namespace AxoScrollArea {
           data-axo-scroll-area-viewport
           className={tw(
             baseViewportStyles,
-            ViewportScrollbarWidths[scrollbarWidth],
-            ViewportScrollbarGutters[scrollbarGutter],
-            ViewportScrollbarVisibilities[scrollbarVisibility],
-            ViewportScrollBehaviors[scrollBehavior]
+            ViewportScrollbarWidths.get(scrollbarWidth),
+            ViewportScrollbarGutters.get(scrollbarGutter),
+            ViewportScrollbarVisibilities.get(scrollbarVisibility),
+            ViewportScrollBehaviors.get(scrollBehavior)
           )}
           style={style}
         >
@@ -282,14 +356,17 @@ export namespace AxoScrollArea {
     );
   });
 
-  Viewport.displayName = `${Namespace}.Viewport`;
+  Viewport.displayName = 'AxoScrollArea.Viewport';
 
   /**
-   * Component: <AxoScrollArea.Content>
-   * ----------------------------------
+   * <AxoScrollArea.Content>
+   * --------------------------------------------------------------------------
    */
 
   export type ContentProps = Readonly<{
+    /**
+     * The scrollable content.
+     */
     children: ReactNode;
   }>;
 
@@ -307,17 +384,27 @@ export namespace AxoScrollArea {
     'grow'
   );
 
+  /**
+   * Wrapper for the content inside `Viewport`.
+   *
+   * Sizes itself to fit content while also filling available space.
+   */
   export const Content: FC<ContentProps> = memo(props => {
     return <div className={contentStyles}>{props.children}</div>;
   });
 
-  Content.displayName = `${Namespace}.Content`;
+  Content.displayName = 'AxoScrollArea.Content';
 
   /**
-   * Component: <AxoScrollArea.Hint>
-   * -------------------------------
+   * <AxoScrollArea.Hint>
+   * --------------------------------------------------------------------------
    */
 
+  /**
+   * Which edge of the scroll area the hint appears on.
+   * - `top` / `bottom`: For vertically scrollable areas.
+   * - `inline-start` / `inline-end`: For horizontally scrollable areas.
+   */
   export type Edge = 'top' | 'bottom' | 'inline-start' | 'inline-end';
 
   const edgeStyles = tw(
@@ -335,47 +422,57 @@ export namespace AxoScrollArea {
   const edgeYStyles = tw('inset-x-0 h-0.5 forced-colors:h-px');
   const edgeXStyles = tw('inset-y-0 w-0.5 forced-colors:w-px');
 
-  const HintEdges: Record<Edge, TailwindStyles> = {
+  const HintEdges = variants<Edge>('AxoScrollArea.Edge', {
     top: tw(
-      edgeStyles,
-      edgeYStyles,
-      edgeStartStyles,
-      'top-0',
-      'bg-linear-to-b'
+      tw(edgeStyles, edgeYStyles, edgeStartStyles),
+      'top-0 bg-linear-to-b'
     ),
     bottom: tw(
-      edgeStyles,
-      edgeYStyles,
-      edgeEndStyles,
-      'bottom-0',
-      'bg-linear-to-t'
+      tw(edgeStyles, edgeYStyles, edgeEndStyles),
+      'bottom-0 bg-linear-to-t'
     ),
     'inline-start': tw(
-      edgeStyles,
-      edgeXStyles,
-      edgeStartStyles,
-      'inset-s-0',
-      'bg-linear-to-r rtl:bg-linear-to-l'
+      tw(edgeStyles, edgeXStyles, edgeStartStyles),
+      'inset-s-0 bg-linear-to-r rtl:bg-linear-to-l'
     ),
     'inline-end': tw(
-      edgeStyles,
-      edgeXStyles,
-      edgeEndStyles,
-      'inset-e-0',
-      'bg-linear-to-l rtl:bg-linear-to-r'
+      tw(edgeStyles, edgeXStyles, edgeEndStyles),
+      'inset-e-0 bg-linear-to-l rtl:bg-linear-to-r'
     ),
-  };
+  });
 
   export type HintProps = Readonly<{
+    /**
+     * Scroll offset (px) at which the hint becomes fully visible.
+     * Defaults to `1` (appears as soon as the user has scrolled 1px).
+     */
     animationStartOffset?: number;
+    /**
+     * Scroll offset (px) from the end at which the hint starts to fade out.
+     * Defaults to `20`.
+     */
     animationEndOffset?: number;
+    /**
+     * Which edge of the scroll area to show the hint on.
+     */
     edge: Edge;
   }>;
 
+  /**
+   * A thin gradient line that fades in at a scroll edge to signal there is
+   * more content in that direction.
+   *
+   * Place inside `Root`, outside `Viewport`.
+   *
+   * @example
+   * ```tsx
+   * <AxoScrollArea.Hint edge="top" />
+   * <AxoScrollArea.Hint edge="bottom" />
+   * ```
+   */
   export const Hint: FC<HintProps> = memo(props => {
     const { edge, animationStartOffset = 1, animationEndOffset = 20 } = props;
-    const orientation = useAxoScrollAreaOrientation();
-    const { scrollbarWidth } = useStrictContext(ScrollAreaConfigContext);
+    const { orientation, scrollbarWidth } = useStrictContext(RootContext);
 
     const style = useMemo((): CSSProperties => {
       const isVerticalEdge = edge === 'top' || edge === 'bottom';
@@ -384,11 +481,11 @@ export namespace AxoScrollArea {
       return {
         insetInlineEnd:
           edge !== 'inline-start' && orientation === 'both'
-            ? ScrollbarWidthToGutterCss[scrollbarWidth].horizontal
+            ? ScrollbarWidthGutterHorizontal.get(scrollbarWidth)
             : undefined,
         bottom:
           edge !== 'top' && orientation === 'both'
-            ? ScrollbarWidthToGutterCss[scrollbarWidth].vertical
+            ? ScrollbarWidthGutterVertical.get(scrollbarWidth)
             : undefined,
         animationTimeline: isVerticalEdge
           ? AXO_SCROLL_AREA_TIMELINE_VERTICAL
@@ -408,31 +505,61 @@ export namespace AxoScrollArea {
       animationEndOffset,
     ]);
 
-    return <div className={HintEdges[edge]} style={style} />;
+    return <div className={HintEdges.get(edge)} style={style} />;
   });
 
-  Hint.displayName = `${Namespace}.Hint`;
+  Hint.displayName = 'AxoScrollArea.Hint';
 
   /**
-   * Component: <AxoScrollArea.Mask>
-   * -------------------------------
+   * <AxoScrollArea.Mask>
+   * --------------------------------------------------------------------------
    */
 
   export type MaskProps = Readonly<{
+    /**
+     * Fully-transparent (clipped) zone at the start edge in px.
+     * Defaults to `0`.
+     */
     maskStart?: number;
+    /**
+     * Gradient blend zone at each masked edge in px.
+     * Defaults to `4`.
+     */
     maskPadding?: number;
+    /**
+     * Fade-out zone at the scrollable end edge in px.
+     * Defaults to `40`.
+     */
     maskEnd?: number;
-
+    /**
+     * Scroll offset at which the start-edge mask begins animating in.
+     * Defaults to `maskStart`.
+     */
     animationStart?: number;
+    /**
+     * Blend zone used during animation.
+     * Defaults to `maskPadding`.
+     */
     animationPadding?: number;
+    /**
+     * Scroll offset at which the end-edge mask is fully visible.
+     * Defaults to `maskEnd * 3`.
+     */
     animationEnd?: number;
-
+    /**
+     * Should be a `Viewport` element.
+     */
     children: ReactNode;
   }>;
 
   // These styles are very complex so they are in a separate CSS file
   const AXO_MASK_CLASS_NAME = 'axo-scroll-area-mask';
 
+  /**
+   * Applies a gradient fade mask at the scroll edges so content appears to
+   * dissolve rather than abruptly clip. The mask animates in/out based on
+   * scroll position. Wrap `Viewport` with this when a fade effect is needed.
+   */
   export const Mask: FC<MaskProps> = memo(props => {
     const {
       maskStart = 0,
@@ -443,18 +570,17 @@ export namespace AxoScrollArea {
       animationEnd = maskEnd * 3,
     } = props;
 
-    const orientation = useAxoScrollAreaOrientation();
-    const { scrollbarWidth } = useStrictContext(ScrollAreaConfigContext);
+    const { orientation, scrollbarWidth } = useStrictContext(RootContext);
 
     const style = useMemo(() => {
       const hasVerticalScrollbar = orientation !== 'horizontal';
       const hasHorizontalScrollbar = orientation !== 'vertical';
 
       const verticalGutter = hasVerticalScrollbar
-        ? ScrollbarWidthToGutterCss[scrollbarWidth].vertical
+        ? ScrollbarWidthGutterVertical.get(scrollbarWidth)
         : '0px';
       const horizontalGutter = hasHorizontalScrollbar
-        ? ScrollbarWidthToGutterCss[scrollbarWidth].horizontal
+        ? ScrollbarWidthGutterHorizontal.get(scrollbarWidth)
         : '0px';
 
       return {
@@ -491,5 +617,5 @@ export namespace AxoScrollArea {
     );
   });
 
-  Mask.displayName = `${Namespace}.Mask`;
+  Mask.displayName = 'AxoScrollArea.Mask';
 }

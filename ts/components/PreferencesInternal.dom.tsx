@@ -348,12 +348,7 @@ export function PreferencesInternal({
               variant="secondary"
               size="lg"
               onClick={validateBackup}
-              disabled={isValidationPending}
-              experimentalSpinner={
-                isValidationPending
-                  ? { 'aria-label': i18n('icu:loading') }
-                  : null
-              }
+              pending={isValidationPending}
             >
               {i18n('icu:Preferences__internal__validate-backup')}
             </AxoButton.Root>
@@ -526,12 +521,7 @@ export function PreferencesInternal({
                           variant="secondary"
                           size="lg"
                           onClick={() => handleGenerateReceipt(receipt)}
-                          disabled={isGeneratingReceipt}
-                          experimentalSpinner={
-                            isGeneratingReceipt
-                              ? { 'aria-label': i18n('icu:loading') }
-                              : null
-                          }
+                          pending={isGeneratingReceipt}
                         >
                           Download
                         </AxoButton.Root>
@@ -762,11 +752,7 @@ export function PreferencesInternal({
               variant="secondary"
               size="lg"
               onClick={handleKeyTransparencyCheck}
-              experimentalSpinner={
-                isKeyTransparencyRunning
-                  ? { 'aria-label': i18n('icu:loading') }
-                  : null
-              }
+              pending={isKeyTransparencyRunning}
             >
               Check
             </AxoButton.Root>

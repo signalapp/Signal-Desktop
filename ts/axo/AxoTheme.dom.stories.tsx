@@ -101,7 +101,7 @@ function AxoDialogTest() {
       <AxoDialog.Content size="md" escape="cancel-is-noop">
         <AxoDialog.Header>
           <AxoDialog.Title>AxoDialog</AxoDialog.Title>
-          <AxoDialog.Close aria-label="Close" />
+          <AxoDialog.Close />
         </AxoDialog.Header>
         <AxoDialog.Body>
           <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit.</p>

@@ -42,7 +42,7 @@ export function DonationPrivacyInformationModal({
           <AxoDialog.Title screenReaderOnly>
             {i18n('icu:PreferencesDonations__privacy-modal-title')}
           </AxoDialog.Title>
-          <AxoDialog.Close aria-label={i18n('icu:PinMessageDialog__Close')} />
+          <AxoDialog.Close />
         </AxoDialog.Header>
         <AxoDialog.Body>
           <img

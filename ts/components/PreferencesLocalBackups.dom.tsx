@@ -266,10 +266,7 @@ export function PreferencesLocalBackups({
             <AxoButton.Root
               variant="secondary"
               size="lg"
-              disabled={isAuthPending}
-              experimentalSpinner={
-                isAuthPending ? { 'aria-label': i18n('icu:loading') } : null
-              }
+              pending={isAuthPending}
               onClick={async () => {
                 if (
                   !previouslyViewedBackupKeyHash ||
@@ -514,9 +511,7 @@ function DisableLocalBackupsDialog({
               </AxoDialog.Action>
               <AxoDialog.Action
                 variant="destructive"
-                experimentalSpinner={
-                  isPending ? { 'aria-label': i18n('icu:loading') } : null
-                }
+                pending={isPending}
                 onClick={handleDisableLocalBackups}
               >
                 {i18n('icu:Preferences__local-backups-turn-off-action')}

@@ -233,7 +233,7 @@ function PinMessageSelectDurationDialog(props: {
           <AxoDialog.Title>
             {i18n('icu:PinMessageDialog__Title')}
           </AxoDialog.Title>
-          <AxoDialog.Close aria-label={i18n('icu:PinMessageDialog__Close')} />
+          <AxoDialog.Close />
         </AxoDialog.Header>
         <AxoDialog.Body>
           <AxoRadioGroup.Root

@@ -1437,14 +1437,10 @@ export function MediaEditor({
                 />
               </div>
               <AxoButton.Root
-                disabled={!image || isSaving || isSending}
                 variant="primary"
                 size="md"
-                experimentalSpinner={
-                  isSending
-                    ? { 'aria-label': doneButtonLabel || i18n('icu:save') }
-                    : null
-                }
+                disabled={!image}
+                pending={isSaving || isSending}
                 onClick={async () => {
                   if (!fabricCanvas) {
                     return;

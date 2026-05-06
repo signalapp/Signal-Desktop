@@ -150,7 +150,7 @@ export function ListItem({
       </div>
       {renderContextMenu(
         mediaItem,
-        <AriaClickable.HiddenTrigger aria-label={label} onClick={handleClick} />
+        <AriaClickable.HiddenTrigger label={label} onClick={handleClick} />
       )}
       <AriaClickable.SubWidget>
         <button

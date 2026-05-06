@@ -81,7 +81,7 @@ function SafetyTipsSummary({
         <AxoDialog.Title>
           {i18n('icu:SafetyTipsModal__Title-v2')}
         </AxoDialog.Title>
-        <AxoDialog.Close aria-label={i18n('icu:close')} />
+        <AxoDialog.Close />
       </AxoDialog.Header>
       <AxoDialog.Body>
         <div className={tw('py-4')}>
@@ -199,7 +199,7 @@ function SafetyTipsDetails({ i18n }: { i18n: LocalizerType }): JSX.Element {
             {i18n('icu:SafetyTipsModal__Title-v2')}
           </AxoDialog.Title>
         </div>
-        <AxoDialog.Close aria-label={i18n('icu:close')} />
+        <AxoDialog.Close />
       </AxoDialog.Header>
       <Tabs.Root
         value={tips[pageIndex]?.key}
