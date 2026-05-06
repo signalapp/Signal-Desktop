@@ -58,7 +58,7 @@ describe('link preview fetching', () => {
       status = 200,
       headers = {},
       body = makeHtml(['<title>test title</title>']),
-      url = 'https://example.com',
+      url = 'https://signal.org',
     }: {
       status?: number;
       headers?: { [key: string]: null | string };
@@ -116,7 +116,7 @@ describe('link preview fetching', () => {
           body: makeHtml([
             '<meta property="og:title" content="test title">',
             '<meta property="og:description" content="test description">',
-            '<meta property="og:image" content="https://example.com/image.jpg">',
+            '<meta property="og:image" content="https://signal.org/image.jpg">',
             '<meta property="og:published_time" content="2020-04-20T12:34:56.009Z">',
           ]),
         })
@@ -125,14 +125,14 @@ describe('link preview fetching', () => {
       assert.deepEqual(
         await fetchLinkPreviewMetadata(
           fakeFetch,
-          'https://example.com',
+          'https://signal.org',
           new AbortController().signal
         ),
         {
           title: 'test title',
           description: 'test description',
           date: 1587386096009,
-          image: 'https://example.com/image.jpg',
+          image: 'https://signal.org/image.jpg',
         }
       );
     });
@@ -140,28 +140,28 @@ describe('link preview fetching', () => {
     it('handles image href sources in the correct order', async () => {
       const orderedImageHrefSources = [
         {
-          tag: '<meta property="og:image" content="https://example.com/og-image.jpg">',
-          expectedHref: 'https://example.com/og-image.jpg',
+          tag: '<meta property="og:image" content="https://signal.org/og-image.jpg">',
+          expectedHref: 'https://signal.org/og-image.jpg',
         },
         {
-          tag: '<meta property="og:image:url" content="https://example.com/og-image-url.jpg">',
-          expectedHref: 'https://example.com/og-image-url.jpg',
+          tag: '<meta property="og:image:url" content="https://signal.org/og-image-url.jpg">',
+          expectedHref: 'https://signal.org/og-image-url.jpg',
         },
         {
-          tag: '<link rel="apple-touch-icon" href="https://example.com/apple-touch-icon.jpg">',
-          expectedHref: 'https://example.com/apple-touch-icon.jpg',
+          tag: '<link rel="apple-touch-icon" href="https://signal.org/apple-touch-icon.jpg">',
+          expectedHref: 'https://signal.org/apple-touch-icon.jpg',
         },
         {
-          tag: '<link rel="apple-touch-icon-precomposed" href="https://example.com/apple-touch-icon-precomposed.jpg">',
-          expectedHref: 'https://example.com/apple-touch-icon-precomposed.jpg',
+          tag: '<link rel="apple-touch-icon-precomposed" href="https://signal.org/apple-touch-icon-precomposed.jpg">',
+          expectedHref: 'https://signal.org/apple-touch-icon-precomposed.jpg',
         },
         {
-          tag: '<link rel="shortcut icon" href="https://example.com/shortcut-icon.jpg">',
-          expectedHref: 'https://example.com/shortcut-icon.jpg',
+          tag: '<link rel="shortcut icon" href="https://signal.org/shortcut-icon.jpg">',
+          expectedHref: 'https://signal.org/shortcut-icon.jpg',
         },
         {
-          tag: '<link rel="icon" href="https://example.com/icon.jpg">',
-          expectedHref: 'https://example.com/icon.jpg',
+          tag: '<link rel="icon" href="https://signal.org/icon.jpg">',
+          expectedHref: 'https://signal.org/icon.jpg',
         },
       ] as const;
       for (const [i, orderedImageHrefSource] of orderedImageHrefSources
@@ -186,7 +186,7 @@ describe('link preview fetching', () => {
         // oxlint-disable-next-line no-await-in-loop
         const val = await fetchLinkPreviewMetadata(
           fakeFetch,
-          'https://example.com',
+          'https://signal.org',
           new AbortController().signal
         );
         assert.propertyVal(val, 'image', orderedImageHrefSource.expectedHref);
@@ -199,7 +199,7 @@ describe('link preview fetching', () => {
           body: makeHtml([
             '<meta property="og:title" content="test title">',
             '<meta property="og:description" content="test description">',
-            '<meta property="og:image" content="https://example.com/image.jpg">',
+            '<meta property="og:image" content="https://signal.org/image.jpg">',
             '<meta property="og:published_time" content="2020-04-20T12:34:56.009Z">',
           ]),
         })
@@ -207,7 +207,7 @@ describe('link preview fetching', () => {
 
       await fetchLinkPreviewMetadata(
         fakeFetch,
-        'https://example.com',
+        'https://signal.org',
         new AbortController().signal,
         logger
       );
@@ -220,13 +220,13 @@ describe('link preview fetching', () => {
 
       await fetchLinkPreviewMetadata(
         fakeFetch,
-        'https://example.com',
+        'https://signal.org',
         new AbortController().signal
       );
 
       sinon.assert.calledWith(
         fakeFetch,
-        'https://example.com',
+        'https://signal.org',
         sinon.match({
           headers: {
             'User-Agent': 'WhatsApp/2',
@@ -241,7 +241,7 @@ describe('link preview fetching', () => {
       assert.isNull(
         await fetchLinkPreviewMetadata(
           fakeFetch,
-          'https://example.com',
+          'https://signal.org',
           new AbortController().signal,
           logger
         )
@@ -262,7 +262,7 @@ describe('link preview fetching', () => {
           assert.isNull(
             await fetchLinkPreviewMetadata(
               fakeFetch,
-              'https://example.com',
+              'https://signal.org',
               new AbortController().signal,
               logger
             )
@@ -281,13 +281,13 @@ describe('link preview fetching', () => {
 
       await fetchLinkPreviewMetadata(
         fakeFetch,
-        'https://example.com',
+        'https://signal.org',
         new AbortController().signal
       );
 
       sinon.assert.calledWith(
         fakeFetch,
-        'https://example.com',
+        'https://signal.org',
         sinon.match({ redirect: 'manual' })
       );
     });
@@ -298,7 +298,7 @@ describe('link preview fetching', () => {
         fakeFetch.onFirstCall().resolves(
           makeResponse({
             status,
-            headers: { Location: 'https://example.com/2' },
+            headers: { Location: 'https://signal.org/2' },
             body: null,
           })
         );
@@ -307,7 +307,7 @@ describe('link preview fetching', () => {
         assert.deepEqual(
           await fetchLinkPreviewMetadata(
             fakeFetch,
-            'https://example.com',
+            'https://signal.org',
             new AbortController().signal
           ),
           {
@@ -319,8 +319,8 @@ describe('link preview fetching', () => {
         );
 
         sinon.assert.calledTwice(fakeFetch);
-        sinon.assert.calledWith(fakeFetch.getCall(0), 'https://example.com');
-        sinon.assert.calledWith(fakeFetch.getCall(1), 'https://example.com/2');
+        sinon.assert.calledWith(fakeFetch.getCall(0), 'https://signal.org');
+        sinon.assert.calledWith(fakeFetch.getCall(1), 'https://signal.org/2');
       });
 
       it(`returns null when seeing a ${status} status with no Location header`, async () => {
@@ -329,7 +329,7 @@ describe('link preview fetching', () => {
         assert.isNull(
           await fetchLinkPreviewMetadata(
             fakeFetch,
-            'https://example.com',
+            'https://signal.org',
             new AbortController().signal
           )
         );
@@ -357,7 +357,7 @@ describe('link preview fetching', () => {
       assert.deepEqual(
         await fetchLinkPreviewMetadata(
           fakeFetch,
-          'https://example.com',
+          'https://signal.org',
           new AbortController().signal
         ),
         {
@@ -369,16 +369,16 @@ describe('link preview fetching', () => {
       );
 
       sinon.assert.calledThrice(fakeFetch);
-      sinon.assert.calledWith(fakeFetch.getCall(0), 'https://example.com');
-      sinon.assert.calledWith(fakeFetch.getCall(1), 'https://example.com/2/');
-      sinon.assert.calledWith(fakeFetch.getCall(2), 'https://example.com/2/3');
+      sinon.assert.calledWith(fakeFetch.getCall(0), 'https://signal.org');
+      sinon.assert.calledWith(fakeFetch.getCall(1), 'https://signal.org/2/');
+      sinon.assert.calledWith(fakeFetch.getCall(2), 'https://signal.org/2/3');
     });
 
     it('returns null if redirecting to an insecure HTTP URL', async () => {
       const fakeFetch = stub().resolves(
         makeResponse({
           status: 301,
-          headers: { Location: 'http://example.com' },
+          headers: { Location: 'http://signal.org' },
           body: null,
         })
       );
@@ -386,12 +386,38 @@ describe('link preview fetching', () => {
       assert.isNull(
         await fetchLinkPreviewMetadata(
           fakeFetch,
-          'https://example.com',
+          'https://signal.org',
           new AbortController().signal
         )
       );
 
       sinon.assert.calledOnce(fakeFetch);
+    });
+
+    [
+      'https://localhost:8443/scary',
+      'https://internal.test/bad',
+      'https://example.com/ohno',
+    ].forEach(redirectTarget => {
+      it(`returns null if redirecting to excluded domain ${redirectTarget}`, async () => {
+        const fakeFetch = stub().resolves(
+          makeResponse({
+            status: 301,
+            headers: { Location: redirectTarget },
+            body: null,
+          })
+        );
+
+        assert.isNull(
+          await fetchLinkPreviewMetadata(
+            fakeFetch,
+            'https://signal.org',
+            new AbortController().signal
+          )
+        );
+
+        sinon.assert.calledOnce(fakeFetch);
+      });
     });
 
     it("returns null if there's a redirection loop", async () => {
@@ -414,7 +440,7 @@ describe('link preview fetching', () => {
       assert.isNull(
         await fetchLinkPreviewMetadata(
           fakeFetch,
-          'https://example.com/start',
+          'https://signal.org/start',
           new AbortController().signal
         )
       );
@@ -434,7 +460,7 @@ describe('link preview fetching', () => {
       assert.isNull(
         await fetchLinkPreviewMetadata(
           fakeFetch,
-          'https://example.com/start',
+          'https://signal.org/start',
           new AbortController().signal
         )
       );
@@ -448,7 +474,7 @@ describe('link preview fetching', () => {
       assert.isNull(
         await fetchLinkPreviewMetadata(
           fakeFetch,
-          'https://example.com',
+          'https://signal.org',
           new AbortController().signal,
           logger
         )
@@ -466,7 +492,7 @@ describe('link preview fetching', () => {
       assert.isNull(
         await fetchLinkPreviewMetadata(
           fakeFetch,
-          'https://example.com',
+          'https://signal.org',
           new AbortController().signal,
           logger
         )
@@ -489,7 +515,7 @@ describe('link preview fetching', () => {
       assert.isNull(
         await fetchLinkPreviewMetadata(
           fakeFetch,
-          'https://example.com',
+          'https://signal.org',
           new AbortController().signal,
           logger
         )
@@ -512,7 +538,7 @@ describe('link preview fetching', () => {
       assert.deepEqual(
         await fetchLinkPreviewMetadata(
           fakeFetch,
-          'https://example.com',
+          'https://signal.org',
           new AbortController().signal
         ),
         {
@@ -534,7 +560,7 @@ describe('link preview fetching', () => {
       assert.isNull(
         await fetchLinkPreviewMetadata(
           fakeFetch,
-          'https://example.com',
+          'https://signal.org',
           new AbortController().signal,
           logger
         )
@@ -557,7 +583,7 @@ describe('link preview fetching', () => {
       assert.deepEqual(
         await fetchLinkPreviewMetadata(
           fakeFetch,
-          'https://example.com',
+          'https://signal.org',
           new AbortController().signal
         ),
         {
@@ -587,7 +613,7 @@ describe('link preview fetching', () => {
       assert.deepEqual(
         await fetchLinkPreviewMetadata(
           fakeFetch,
-          'https://example.com',
+          'https://signal.org',
           new AbortController().signal
         ),
         {
@@ -617,7 +643,7 @@ describe('link preview fetching', () => {
       assert.propertyVal(
         await fetchLinkPreviewMetadata(
           fakeFetch,
-          'https://example.com',
+          'https://signal.org',
           new AbortController().signal
         ),
         'title',
@@ -648,7 +674,7 @@ describe('link preview fetching', () => {
       assert.propertyVal(
         await fetchLinkPreviewMetadata(
           fakeFetch,
-          'https://example.com',
+          'https://signal.org',
           new AbortController().signal
         ),
         'title',
@@ -679,7 +705,7 @@ describe('link preview fetching', () => {
       assert.propertyVal(
         await fetchLinkPreviewMetadata(
           fakeFetch,
-          'https://example.com',
+          'https://signal.org',
           new AbortController().signal
         ),
         'title',
@@ -709,7 +735,7 @@ describe('link preview fetching', () => {
         assert.propertyVal(
           await fetchLinkPreviewMetadata(
             fakeFetch,
-            'https://example.com',
+            'https://signal.org',
             new AbortController().signal
           ),
           'title',
@@ -735,7 +761,7 @@ describe('link preview fetching', () => {
         assert.propertyVal(
           await fetchLinkPreviewMetadata(
             fakeFetch,
-            'https://example.com',
+            'https://signal.org',
             new AbortController().signal
           ),
           'title',
@@ -761,7 +787,7 @@ describe('link preview fetching', () => {
       assert.propertyVal(
         await fetchLinkPreviewMetadata(
           fakeFetch,
-          'https://example.com',
+          'https://signal.org',
           new AbortController().signal
         ),
         'title',
@@ -793,7 +819,7 @@ describe('link preview fetching', () => {
       assert.propertyVal(
         await fetchLinkPreviewMetadata(
           fakeFetch,
-          'https://example.com',
+          'https://signal.org',
           new AbortController().signal
         ),
         'title',
@@ -816,7 +842,7 @@ describe('link preview fetching', () => {
       assert.propertyVal(
         await fetchLinkPreviewMetadata(
           fakeFetch,
-          'https://example.com',
+          'https://signal.org',
           new AbortController().signal,
           logger
         ),
@@ -850,7 +876,7 @@ describe('link preview fetching', () => {
       assert.isNull(
         await fetchLinkPreviewMetadata(
           fakeFetch,
-          'https://example.com',
+          'https://signal.org',
           abortController.signal
         )
       );
@@ -884,7 +910,7 @@ describe('link preview fetching', () => {
       assert.deepEqual(
         await fetchLinkPreviewMetadata(
           fakeFetch,
-          'https://example.com',
+          'https://signal.org',
           new AbortController().signal
         ),
         {
@@ -903,7 +929,7 @@ describe('link preview fetching', () => {
         makeResponse({
           body: makeHtml([
             '<meta property="og:description" content="ignored">',
-            '<meta property="og:image" content="https://example.com/ignored.jpg">',
+            '<meta property="og:image" content="https://signal.org/ignored.jpg">',
             `<meta property="og:published_time" content="${new Date().toISOString()}">`,
           ]),
         })
@@ -912,7 +938,7 @@ describe('link preview fetching', () => {
       assert.isNull(
         await fetchLinkPreviewMetadata(
           fakeFetch,
-          'https://example.com',
+          'https://signal.org',
           new AbortController().signal,
           logger
         )
@@ -938,7 +964,7 @@ describe('link preview fetching', () => {
       assert.propertyVal(
         await fetchLinkPreviewMetadata(
           fakeFetch,
-          'https://example.com',
+          'https://signal.org',
           new AbortController().signal
         ),
         'title',
@@ -960,7 +986,7 @@ describe('link preview fetching', () => {
       assert.propertyVal(
         await fetchLinkPreviewMetadata(
           fakeFetch,
-          'https://example.com',
+          'https://signal.org',
           new AbortController().signal
         ),
         'description',
@@ -981,7 +1007,7 @@ describe('link preview fetching', () => {
       assert.propertyVal(
         await fetchLinkPreviewMetadata(
           fakeFetch,
-          'https://example.com',
+          'https://signal.org',
           new AbortController().signal
         ),
         'description',
@@ -1002,7 +1028,7 @@ describe('link preview fetching', () => {
       assert.propertyVal(
         await fetchLinkPreviewMetadata(
           fakeFetch,
-          'https://example.com',
+          'https://signal.org',
           new AbortController().signal
         ),
         'description',
@@ -1015,7 +1041,7 @@ describe('link preview fetching', () => {
         makeResponse({
           body: makeHtml([
             '<title>foo</title>',
-            '<meta property="og:image" content="https://example.com/image.jpg">',
+            '<meta property="og:image" content="https://signal.org/image.jpg">',
           ]),
         })
       );
@@ -1023,11 +1049,11 @@ describe('link preview fetching', () => {
       assert.propertyVal(
         await fetchLinkPreviewMetadata(
           fakeFetch,
-          'https://example.com',
+          'https://signal.org',
           new AbortController().signal
         ),
         'image',
-        'https://example.com/image.jpg'
+        'https://signal.org/image.jpg'
       );
     });
 
@@ -1044,11 +1070,11 @@ describe('link preview fetching', () => {
       assert.propertyVal(
         await fetchLinkPreviewMetadata(
           fakeFetch,
-          'https://example.com',
+          'https://signal.org',
           new AbortController().signal
         ),
         'image',
-        'https://example.com/assets/image.jpg'
+        'https://signal.org/assets/image.jpg'
       );
     });
 
@@ -1059,18 +1085,18 @@ describe('link preview fetching', () => {
             '<title>foo</title>',
             '<meta property="og:image" content="image.jpg">',
           ]),
-          url: 'https://bar.example/assets/',
+          url: 'https://bar.signal.org/assets/',
         })
       );
 
       assert.propertyVal(
         await fetchLinkPreviewMetadata(
           fakeFetch,
-          'https://foo.example',
+          'https://foo.signal.org',
           new AbortController().signal
         ),
         'image',
-        'https://bar.example/assets/image.jpg'
+        'https://bar.signal.org/assets/image.jpg'
       );
     });
 
@@ -1087,7 +1113,7 @@ describe('link preview fetching', () => {
       assert.propertyVal(
         await fetchLinkPreviewMetadata(
           fakeFetch,
-          'https://example.com',
+          'https://signal.org',
           new AbortController().signal
         ),
         'image',
@@ -1108,7 +1134,7 @@ describe('link preview fetching', () => {
       assert.propertyVal(
         await fetchLinkPreviewMetadata(
           fakeFetch,
-          'https://example.com',
+          'https://signal.org',
           new AbortController().signal
         ),
         'image',
@@ -1129,7 +1155,7 @@ describe('link preview fetching', () => {
 
       const result = await fetchLinkPreviewMetadata(
         fakeFetch,
-        'https://example.com/d/lincoln.webp?spurious=true',
+        'https://signal.org/d/lincoln.webp?spurious=true',
         new AbortController().signal
       );
       assert.hasAllDeepKeys(result, {
@@ -1196,7 +1222,7 @@ describe('link preview fetching', () => {
           (
             await fetchLinkPreviewImage(
               fakeFetch,
-              'https://example.com/img',
+              'https://signal.org/img',
               new AbortController().signal
             )
           )?.contentType,
@@ -1211,7 +1237,7 @@ describe('link preview fetching', () => {
       assert.isNull(
         await fetchLinkPreviewImage(
           fakeFetch,
-          'https://example.com/img',
+          'https://signal.org/img',
           new AbortController().signal,
           logger
         )
@@ -1242,7 +1268,7 @@ describe('link preview fetching', () => {
           assert.isNull(
             await fetchLinkPreviewImage(
               fakeFetch,
-              'https://example.com/img',
+              'https://signal.org/img',
               new AbortController().signal,
               logger
             )
@@ -1282,7 +1308,7 @@ describe('link preview fetching', () => {
         (
           await fetchLinkPreviewImage(
             fakeFetch,
-            'https://example.com/img',
+            'https://signal.org/img',
             new AbortController().signal
           )
         )?.contentType,
@@ -1290,10 +1316,10 @@ describe('link preview fetching', () => {
       );
 
       sinon.assert.calledTwice(fakeFetch);
-      sinon.assert.calledWith(fakeFetch.getCall(0), 'https://example.com/img');
+      sinon.assert.calledWith(fakeFetch.getCall(0), 'https://signal.org/img');
       sinon.assert.calledWith(
         fakeFetch.getCall(1),
-        'https://example.com/result.jpg'
+        'https://signal.org/result.jpg'
       );
     });
 
@@ -1310,7 +1336,7 @@ describe('link preview fetching', () => {
       assert.isNull(
         await fetchLinkPreviewImage(
           fakeFetch,
-          'https://example.com/img',
+          'https://signal.org/img',
           new AbortController().signal,
           logger
         )
@@ -1341,7 +1367,7 @@ describe('link preview fetching', () => {
             assert.isNull(
               await fetchLinkPreviewImage(
                 fakeFetch,
-                'https://example.com/img',
+                'https://signal.org/img',
                 new AbortController().signal,
                 logger
               )
@@ -1361,13 +1387,13 @@ describe('link preview fetching', () => {
 
       await fetchLinkPreviewImage(
         fakeFetch,
-        'https://example.com/img',
+        'https://signal.org/img',
         new AbortController().signal
       );
 
       sinon.assert.calledWith(
         fakeFetch,
-        'https://example.com/img',
+        'https://signal.org/img',
         sinon.match({
           headers: {
             'User-Agent': 'WhatsApp/2',
@@ -1405,7 +1431,7 @@ describe('link preview fetching', () => {
       assert.isNull(
         await fetchLinkPreviewImage(
           fakeFetch,
-          'https://example.com/img',
+          'https://signal.org/img',
           abortController.signal
         )
       );
@@ -1435,7 +1461,7 @@ describe('link preview fetching', () => {
       assert.isNull(
         await fetchLinkPreviewImage(
           fakeFetch,
-          'https://example.com/img',
+          'https://signal.org/img',
           abortController.signal
         )
       );
