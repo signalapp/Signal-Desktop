@@ -1,6 +1,8 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import os from 'node:os';
+
 import * as moment from 'moment';
 import 'moment/min/locales.min.js';
 
@@ -36,6 +38,10 @@ moment.locale(
   localeOverride != null ? [localeOverride] : preferredSystemLocales
 );
 
+const homedir = os.homedir();
+if (homedir && homedir !== '/' && homedir !== '\\') {
+  addSensitivePath(homedir);
+}
 addSensitivePath(ATTACHMENTS_PATH);
 addSensitivePath(STICKERS_PATH);
 addSensitivePath(DRAFT_PATH);
