@@ -339,6 +339,7 @@ export function MediaEditor({
     }
 
     const img = new Image();
+    img.crossOrigin = 'anonymous';
     img.onload = () => {
       setImage(img);
 
