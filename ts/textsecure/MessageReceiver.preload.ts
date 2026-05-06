@@ -1801,6 +1801,7 @@ export default class MessageReceiver
         return signalDecrypt(
           message,
           sourceAddress,
+          localAddress,
           sessionStore,
           identityKeyStore
         );
@@ -1886,6 +1887,10 @@ export default class MessageReceiver
             await signalDecrypt(
               signalMessage,
               ProtocolAddress.new(identifier, sourceDevice),
+              ProtocolAddress.new(
+                this.#storage.user.getCheckedServiceId(serviceIdKind),
+                this.#storage.user.getCheckedDeviceId()
+              ),
               sessionStore,
               identityKeyStore
             )
