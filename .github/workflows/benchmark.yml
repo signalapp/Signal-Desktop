@@ -14,6 +14,7 @@ on:
 
 jobs:
   linux:
+    name: Benchmark
     strategy:
       matrix:
         metric:
