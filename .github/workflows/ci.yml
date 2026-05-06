@@ -504,7 +504,7 @@ jobs:
         key: electron-gyp-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
 
     - name: Install Desktop node_modules
-      if: matrix.os != 'windows-latest-8-cores'
+      if: matrix.os != 'windows-latest'
       run: pnpm install
       env:
         NPM_CONFIG_LOGLEVEL: verbose
@@ -513,10 +513,10 @@ jobs:
         NPM_CONFIG_NODE_GYP: echo
 
     - run: touch noop.js
-      if: matrix.os == 'windows-latest-8-cores'
+      if: matrix.os == 'windows-latest'
 
     - name: Install Desktop node_modules on Windows
-      if: matrix.os == 'windows-latest-8-cores'
+      if: matrix.os == 'windows-latest'
       run: pnpm install
       env:
         NPM_CONFIG_LOGLEVEL: verbose
