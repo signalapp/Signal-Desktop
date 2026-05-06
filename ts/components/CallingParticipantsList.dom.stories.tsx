@@ -68,13 +68,13 @@ export function ManyParticipants(): JSX.Element {
         title: 'Goku Black',
       }),
       createCallParticipant({
-        isHandRaised: true,
+        isOnlyHandRaised: true,
         title: 'Supreme Kai Zamasu',
       }),
       createCallParticipant({
         hasRemoteAudio: false,
         hasRemoteVideo: true,
-        isHandRaised: true,
+        isOnlyHandRaised: true,
         title: 'Chi Chi',
       }),
       createCallParticipant({

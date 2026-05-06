@@ -5,35 +5,27 @@
 @use '../variables';
 
 .CallingStatusIndicator {
+  @include mixins.font-body-2-medium;
   $size: 28px;
 
   display: flex;
+  flex-shrink: 0;
   align-items: center;
   justify-content: center;
   height: $size;
   min-width: $size;
-  width: $size;
+  padding: 6px;
   z-index: variables.$z-index-base;
-  border-radius: calc($size / 2);
+  border-radius: 40px;
   background: rgba(variables.$color-gray-80, 0.7);
-
-  &::after {
-    content: '';
-    $icon-size: 16px;
-    width: $icon-size;
-    height: $icon-size;
-  }
 }
 
 .CallingStatusIndicator--HandRaised {
   background: variables.$color-white;
 }
 
-.CallingStatusIndicator--HandRaised::after {
-  @include mixins.color-svg(
-    '../images/icons/v3/raise_hand/raise_hand-light.svg',
-    variables.$color-black
-  );
+.CallingStatusIndicator--HandRaised.CallingStatusIndicator--NextHandRaised {
+  background: variables.$color-next-raised-hand;
 }
 
 .CallingStatusIndicator--NoVideo::after {
@@ -63,4 +55,28 @@
   .CallingStatusIndicator--HandRaised {
   margin-block: 1px;
   margin-inline-start: 5px;
+}
+
+.CallingStatusIndicator--HandRaised:has(
+  .CallingStatusIndicator--HandRaisedOrder
+) {
+  padding-inline: 8px;
+}
+
+.module-ongoing-call__participants__grid
+  .module-ongoing-call__group-call-remote-participant--hand-raised
+  .CallingStatusIndicator--HandRaised,
+.module-ongoing-call__group-call-remote-participant:hover
+  .CallingStatusIndicator--HandRaised {
+  padding-inline-end: 6px;
+}
+
+.CallingStatusIndicator--HandRaisedOrder {
+  margin-inline-end: 4px;
+}
+
+.module-ongoing-call__participants__grid
+  .module-ongoing-call__group-call-remote-participant--hand-raised
+  .CallingStatusIndicator--HandRaisedOrder {
+  margin-inline-end: 2px;
 }

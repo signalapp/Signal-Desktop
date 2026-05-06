@@ -116,6 +116,7 @@ import {
 } from './CallingPip.dom.tsx';
 import type { PropsType as SmartCallingParticipantMenuProps } from '../state/smart/CallingParticipantMenu.preload.tsx';
 import { Emoji } from '../axo/emoji.std.ts';
+import { CallingStatusIndicatorHandRaised } from './CallingStatusIndicatorHandRaised.dom.tsx';
 
 const { isEqual, noop } = lodash;
 
@@ -512,6 +513,14 @@ export function CallScreen({
   // to use it in UI so the user understands what remote clients see.
   const syncedLocalHandRaised = isHandRaised(raisedHands, localDemuxId);
 
+  const isOnlyHandRaisedMine = Boolean(
+    syncedLocalHandRaised && raisedHands && raisedHands.size === 1
+  );
+  const myRaisedHandOrder =
+    syncedLocalHandRaised && localDemuxId !== undefined && raisedHands
+      ? [...raisedHands.values()].indexOf(localDemuxId)
+      : undefined;
+
   const isLonelyInCall = !activeCall.remoteParticipants.length;
   const isAudioOnly = !hasLocalVideo && !hasRemoteVideo;
 
@@ -722,8 +731,11 @@ export function CallScreen({
             onClick={handlePreviewClick}
           />
         </div>
-        {syncedLocalHandRaised && (
-          <div className="CallingStatusIndicator CallingStatusIndicator--HandRaised" />
+        {myRaisedHandOrder !== undefined && (
+          <CallingStatusIndicatorHandRaised
+            isOnlyHandRaised={isOnlyHandRaisedMine}
+            raisedHandOrder={myRaisedHandOrder}
+          />
         )}
       </div>
     );

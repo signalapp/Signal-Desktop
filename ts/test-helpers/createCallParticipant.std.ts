@@ -18,9 +18,10 @@ export function createCallParticipant(
     demuxId: 2,
     hasRemoteAudio: Boolean(participantProps.hasRemoteAudio),
     hasRemoteVideo: Boolean(participantProps.hasRemoteVideo),
-    isHandRaised: Boolean(participantProps.isHandRaised),
+    isOnlyHandRaised: Boolean(participantProps.isOnlyHandRaised),
     mediaKeysReceived: Boolean(participantProps.mediaKeysReceived),
     presenting: Boolean(participantProps.presenting),
+    raisedHandOrder: participantProps.raisedHandOrder,
     sharingScreen: Boolean(participantProps.sharingScreen),
     videoAspectRatio: 1.3,
     ...getDefaultConversationWithServiceId({

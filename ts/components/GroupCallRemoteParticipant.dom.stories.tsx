@@ -39,17 +39,19 @@ const createProps = (
   {
     addedTime,
     isBlocked = false,
-    isHandRaised = false,
+    isOnlyHandRaised = false,
     hasRemoteAudio = false,
     mediaKeysReceived = true,
     presenting = false,
+    raisedHandOrder,
   }: {
     addedTime?: number;
     isBlocked?: boolean;
+    isOnlyHandRaised?: boolean;
     hasRemoteAudio?: boolean;
     mediaKeysReceived?: boolean;
     presenting?: boolean;
-    isHandRaised?: boolean;
+    raisedHandOrder?: number | undefined;
   } = {}
 ): PropsType => ({
   getFrameBuffer,
@@ -65,9 +67,10 @@ const createProps = (
     demuxId: 123,
     hasRemoteAudio,
     hasRemoteVideo: true,
-    isHandRaised,
+    isOnlyHandRaised,
     mediaKeysReceived,
     presenting,
+    raisedHandOrder,
     sharingScreen: false,
     videoAspectRatio: 1.3,
     ...getDefaultConversation({
@@ -132,7 +135,7 @@ export function Speaking(): JSX.Element {
   );
 }
 
-export function HandRaised(): JSX.Element {
+export function HandRaisedOnlyOne(): JSX.Element {
   return (
     <GroupCallRemoteParticipant
       {...createProps(
@@ -143,7 +146,50 @@ export function HandRaised(): JSX.Element {
           top: 0,
           width: 120,
         },
-        { isHandRaised: true }
+        {
+          isOnlyHandRaised: true,
+          raisedHandOrder: 0,
+        }
+      )}
+    />
+  );
+}
+
+export function HandRaisedFirstOfMany(): JSX.Element {
+  return (
+    <GroupCallRemoteParticipant
+      {...createProps(
+        {
+          isInPip: false,
+          height: 120,
+          left: 0,
+          top: 0,
+          width: 120,
+        },
+        {
+          isOnlyHandRaised: false,
+          raisedHandOrder: 0,
+        }
+      )}
+    />
+  );
+}
+
+export function HandRaisedSecondOfMany(): JSX.Element {
+  return (
+    <GroupCallRemoteParticipant
+      {...createProps(
+        {
+          isInPip: false,
+          height: 120,
+          left: 0,
+          top: 0,
+          width: 120,
+        },
+        {
+          isOnlyHandRaised: false,
+          raisedHandOrder: 1,
+        }
       )}
     />
   );

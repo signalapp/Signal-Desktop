@@ -81,9 +81,10 @@ const getUnknownParticipant = (): GroupCallRemoteParticipantType => ({
   demuxId: Math.round(10000 * Math.random()),
   hasRemoteAudio: true,
   hasRemoteVideo: true,
-  isHandRaised: false,
+  isOnlyHandRaised: false,
   mediaKeysReceived: false,
   presenting: false,
+  raisedHandOrder: undefined,
   sharingScreen: false,
   videoAspectRatio: 1,
 });

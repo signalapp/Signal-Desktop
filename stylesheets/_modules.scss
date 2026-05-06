@@ -3975,9 +3975,8 @@ button.module-image__border-overlay:focus {
       max-width: 100%;
 
       &__contact-name {
+        @include mixins.font-body-2-medium;
         flex-grow: 1;
-        font-size: 13px;
-        line-height: 18px;
         color: variables.$color-white;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -4008,6 +4007,10 @@ button.module-image__border-overlay:focus {
         display: none;
         color: variables.$color-black;
         margin-inline-end: 12px;
+      }
+
+      &:has(.CallingStatusIndicator--NextHandRaised) {
+        background: variables.$color-next-raised-hand;
       }
     }
 

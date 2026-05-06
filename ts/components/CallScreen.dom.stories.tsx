@@ -148,7 +148,7 @@ const getRaisedHands = (overrideProps: GroupCallOverrideProps) => {
 
   return new Set<number>(
     overrideProps.remoteParticipants
-      .filter(participant => participant.isHandRaised)
+      .filter(participant => participant.raisedHandOrder !== undefined)
       .map(participant => participant.demuxId)
   );
 };
@@ -461,9 +461,10 @@ export function GroupCall1(): JSX.Element {
             demuxId: 0,
             hasRemoteAudio: true,
             hasRemoteVideo: true,
-            isHandRaised: false,
+            isOnlyHandRaised: false,
             mediaKeysReceived: true,
             presenting: false,
+            raisedHandOrder: undefined,
             sharingScreen: false,
             videoAspectRatio: 1.3,
             ...getDefaultConversation({
@@ -499,9 +500,10 @@ export function GroupCallYourHandRaised(): JSX.Element {
             demuxId: 0,
             hasRemoteAudio: true,
             hasRemoteVideo: true,
-            isHandRaised: false,
+            isOnlyHandRaised: false,
             mediaKeysReceived: true,
             presenting: false,
+            raisedHandOrder: undefined,
             sharingScreen: false,
             videoAspectRatio: 1.3,
             ...getDefaultConversation({
@@ -522,6 +524,7 @@ const PARTICIPANT_EMOJIS = ['❤️', '🤔', '✨', '😂', '🦄'] as const;
 // We generate these upfront so that the list is stable when you move the slider.
 export const allRemoteParticipants = times(MAX_PARTICIPANTS).map(index => {
   const mediaKeysReceived = (index + 1) % 20 !== 0;
+  const isHandRaised = (index - 3) % 10 === 0;
 
   return {
     aci: generateAci(),
@@ -529,9 +532,10 @@ export const allRemoteParticipants = times(MAX_PARTICIPANTS).map(index => {
     demuxId: index,
     hasRemoteAudio: mediaKeysReceived ? index % 3 !== 0 : false,
     hasRemoteVideo: mediaKeysReceived ? index % 4 !== 0 : false,
-    isHandRaised: (index - 3) % 10 === 0,
+    isOnlyHandRaised: false,
     mediaKeysReceived,
     presenting: false,
+    raisedHandOrder: isHandRaised ? (index - 3) / 10 : undefined,
     sharingScreen: false,
     videoAspectRatio: Math.random() < 0.7 ? 1.3 : Math.random() * 0.4 + 0.6,
     ...getDefaultConversationWithServiceId({
@@ -624,9 +628,10 @@ export function GroupCallReconnecting(): JSX.Element {
             demuxId: 0,
             hasRemoteAudio: true,
             hasRemoteVideo: true,
-            isHandRaised: false,
+            isOnlyHandRaised: false,
             mediaKeysReceived: true,
             presenting: false,
+            raisedHandOrder: undefined,
             sharingScreen: false,
             videoAspectRatio: 1.3,
             ...getDefaultConversation({
@@ -990,10 +995,17 @@ function useHandRaiser(
 
         const participantIndicesSet = new Set(participantIndices);
         const remoteParticipants = [...call.remoteParticipants].map(
-          (participant, index) => {
+          (participant, index): GroupCallRemoteParticipantType => {
+            const raisedHandOrderRaw = participantIndices.indexOf(index);
+            const raisedHandOrder =
+              raisedHandOrderRaw === -1 ? undefined : raisedHandOrderRaw;
+            const isOnlyHandRaised =
+              participantIndicesSet.size === 1 &&
+              participantIndicesSet.has(index);
             return {
               ...participant,
-              isHandRaised: participantIndicesSet.has(index),
+              raisedHandOrder,
+              isOnlyHandRaised,
             };
           }
         );
@@ -1110,9 +1122,10 @@ export function RemoteMuteYouRemoteMutedBySelf(): JSX.Element {
             demuxId: 0,
             hasRemoteAudio: true,
             hasRemoteVideo: true,
-            isHandRaised: false,
+            isOnlyHandRaised: false,
             mediaKeysReceived: true,
             presenting: false,
+            raisedHandOrder: undefined,
             sharingScreen: false,
             videoAspectRatio: 1.3,
             ...getDefaultConversation({
@@ -1182,9 +1195,10 @@ export function RemoteMuteObserveIgnoreSelfMute(): JSX.Element {
             demuxId: 0,
             hasRemoteAudio: true,
             hasRemoteVideo: true,
-            isHandRaised: false,
+            isOnlyHandRaised: false,
             mediaKeysReceived: true,
             presenting: false,
+            raisedHandOrder: undefined,
             sharingScreen: false,
             videoAspectRatio: 1.3,
             ...getDefaultConversation({

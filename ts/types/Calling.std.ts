@@ -171,9 +171,10 @@ export type GroupCallRemoteParticipantType = ConversationType & {
   demuxId: number;
   hasRemoteAudio: boolean;
   hasRemoteVideo: boolean;
-  isHandRaised: boolean;
+  isOnlyHandRaised: boolean;
   mediaKeysReceived: boolean;
   presenting: boolean;
+  raisedHandOrder: number | undefined;
   sharingScreen: boolean;
   speakerTime?: number;
   videoAspectRatio: number;

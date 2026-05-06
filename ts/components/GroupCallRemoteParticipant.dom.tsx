@@ -37,6 +37,7 @@ import type { PropsType as SmartCallingParticipantMenuProps } from '../state/sma
 import type { AxoMenuBuilder } from '../axo/AxoMenuBuilder.dom.tsx';
 import { AxoIconButton } from '../axo/AxoIconButton.dom.tsx';
 import { tw } from '../axo/tw.dom.tsx';
+import { CallingStatusIndicatorHandRaised } from './CallingStatusIndicatorHandRaised.dom.tsx';
 
 const { debounce, noop } = lodash;
 
@@ -113,16 +114,18 @@ export const GroupCallRemoteParticipant: FC<PropsType> = memo(
       hasAvatar,
       hasRemoteAudio,
       hasRemoteVideo,
-      isHandRaised,
+      isOnlyHandRaised,
       isBlocked,
       mediaKeysReceived,
       profileName,
+      raisedHandOrder,
       sharingScreen,
       title,
       titleNoDefault,
       videoAspectRatio,
     } = props.remoteParticipant;
 
+    const isHandRaised = raisedHandOrder !== undefined;
     const isSpeaking = useValueAtFixedRate(
       !props.isInPip ? props.audioLevel > 0 : false,
       SPEAKING_LINGER_MS
@@ -393,7 +396,10 @@ export const GroupCallRemoteParticipant: FC<PropsType> = memo(
             onClick={onClickRaisedHand}
             type="button"
           >
-            <div className="CallingStatusIndicator CallingStatusIndicator--HandRaised" />
+            <CallingStatusIndicatorHandRaised
+              isOnlyHandRaised={isOnlyHandRaised}
+              raisedHandOrder={raisedHandOrder}
+            />
             {nameElement}
           </button>
         );
