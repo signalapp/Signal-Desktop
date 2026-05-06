@@ -133,6 +133,7 @@ async function handleServerKeys(
   devicesToUpdate: Array<number> | null
 ): Promise<void> {
   const ourAci = itemStorage.user.getCheckedAci();
+  const ourDeviceId = itemStorage.user.getCheckedDeviceId();
   const sessionStore = new Sessions({
     signalProtocolStore,
     ourServiceId: ourAci,
@@ -166,6 +167,7 @@ async function handleServerKeys(
         );
       }
       const protocolAddress = ProtocolAddress.new(serviceId, deviceId);
+      const localAddress = ProtocolAddress.new(ourAci, ourDeviceId);
       const preKeyId = preKey?.keyId || null;
       const preKeyObject = preKey
         ? PublicKey.deserialize(preKey.publicKey)
@@ -200,6 +202,7 @@ async function handleServerKeys(
           processPreKeyBundle(
             preKeyBundle,
             protocolAddress,
+            localAddress,
             sessionStore,
             identityKeyStore
           )

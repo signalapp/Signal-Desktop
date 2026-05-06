@@ -117,7 +117,7 @@
   "dependencies": {
     "@indutny/mac-screen-share": "1.0.13",
     "@indutny/simple-windows-notifications": "2.0.16",
-    "@signalapp/libsignal-client": "0.92.2",
+    "@signalapp/libsignal-client": "0.93.2",
     "@signalapp/mute-state-change": "workspace:1.0.0",
     "@signalapp/ringrtc": "2.68.1",
     "@signalapp/sqlcipher": "3.2.1",
