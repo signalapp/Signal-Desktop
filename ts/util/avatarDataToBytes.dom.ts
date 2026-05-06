@@ -32,6 +32,7 @@ async function drawImage(
   canvas: HTMLCanvasElement
 ): Promise<void> {
   const image = new Image();
+  image.crossOrigin = 'anonymous';
   image.src = src;
   await image.decode();
   // oxlint-disable-next-line no-param-reassign
