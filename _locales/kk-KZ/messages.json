@@ -1791,10 +1791,10 @@
     "messageformat": "Бас тарту"
   },
   "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
-    "messageformat": "Show status icon"
+    "messageformat": "Статус белгішесін көрсету"
   },
   "icu:Preferences__PrivacyPage__ShowStatusIcon__Description": {
-    "messageformat": "Show an icon in message details when they were delivered using sealed sender."
+    "messageformat": "Хат қорғалған жіберуші арқылы жеткізілгенде, хат мәліметтерінде белгішені көрсету."
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
     "messageformat": "Кілтті автоматты түрде растау"
@@ -1954,6 +1954,27 @@
   },
   "icu:CallingButton--more-options": {
     "messageformat": "Қосымша опциялар"
+  },
+  "icu:CallingParticipantMenu__MuteAudio": {
+    "messageformat": "Mute audio"
+  },
+  "icu:CallingParticipantMenu__UnmuteAudio": {
+    "messageformat": "Unmute audio"
+  },
+  "icu:CallingParticipantMenu__ViewProfile": {
+    "messageformat": "View profile"
+  },
+  "icu:CallingParticipantMenu__GoToChat": {
+    "messageformat": "Go to chat"
+  },
+  "icu:CallingParticipantMenu__RemoveFromCall": {
+    "messageformat": "Remove from call"
+  },
+  "icu:CallingParticipantListItem__ContextMenuButton": {
+    "messageformat": "More actions"
+  },
+  "icu:CallingParticipantListItem__Presenting": {
+    "messageformat": "Presenting"
   },
   "icu:CallingPendingParticipants__ApproveUser": {
     "messageformat": "Қосылуға өтінішті растау"
@@ -2183,8 +2204,26 @@
   "icu:deleteAllDataBody": {
     "messageformat": "Signal Desktop-тың осы нұсқасынан барлық деректі және хатты жою керек пе? Signal аккаунтыңыз және телефоныңыздағы деректер немесе басқа да байланыстырылған құрылғылар жойылмайды."
   },
+  "icu:deleteAccountProgress": {
+    "messageformat": "Deleting account and all data…"
+  },
   "icu:deleteAllDataProgress": {
     "messageformat": "Қолданба ажыратылып жатыр және деректер толығымен жойылып жатыр…"
+  },
+  "icu:deleteAccountHeader": {
+    "messageformat": "Delete account"
+  },
+  "icu:deleteAccountExplanation": {
+    "messageformat": "This will delete your account info, profile, and all of your messages. You will also be removed from all Signal groups."
+  },
+  "icu:deleteAccountButton": {
+    "messageformat": "Delete account"
+  },
+  "icu:deleteAccountDialogHeader": {
+    "messageformat": "Delete Account?"
+  },
+  "icu:deleteAccountDialogBody": {
+    "messageformat": "This will delete your account info, profile, and all of your messages. You will also be removed from all Signal groups. The app will close after this process is complete."
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Signal-дың компьютерлік нұсқасын бұған дейін орнатқаннан ескі деректер қалып қойған. Жалғастыратын болсаңыз, ол жойылады және бәрін басынан бастайсыз."
@@ -2530,6 +2569,12 @@
   },
   "icu:unlinked": {
     "messageformat": "Байланыс ажыратылды"
+  },
+  "icu:unregisteredWarning": {
+    "messageformat": "Click to re-register and continue messaging. Signal Desktop is unregistered likely because you registered your phone number with Signal on a different device."
+  },
+  "icu:unregistered": {
+    "messageformat": "No longer registered"
   },
   "icu:autoUpdateNewVersionTitle": {
     "messageformat": "Жаңа нұсқасы шықты"
@@ -3320,8 +3365,41 @@
   "icu:SafetyTipsModal__Title": {
     "messageformat": "Қауіпсіздікке қатысты кеңестер"
   },
+  "icu:SafetyTipsModal__Title-v2": {
+    "messageformat": "Safety tips"
+  },
+  "icu:SafetyTipsModal__TipTitle--SignalChat": {
+    "messageformat": "Don’t respond to chats from Signal"
+  },
+  "icu:SafetyTipsModal__TipDescription--SignalChat": {
+    "messageformat": "Signal will never message you for your registration code, PIN, or recovery key. Never respond to a chat pretending to be Signal."
+  },
+  "icu:SafetyTipsModal__TipTitle--NamesAndPhotos": {
+    "messageformat": "Review names and photos"
+  },
+  "icu:SafetyTipsModal__TipDescription--NamesAndPhotos": {
+    "messageformat": "Look out for the “Name not verified” notice. Everyone sets their own profile name in Signal."
+  },
+  "icu:SafetyTipsModal__TipTitle--Scams": {
+    "messageformat": "Look out for scams"
+  },
+  "icu:SafetyTipsModal__TipDescription--Scams": {
+    "messageformat": "Avoid vague messages that try to get you to reply. Be aware of financial tips and suspicious web links."
+  },
   "icu:SafetyTipsModal__Description": {
     "messageformat": "Бейтаныс адамдардың хат арқылы жіберетін өтініштеріне сақ болыңыз. Мынадай хаттардан сақ болыңыз:"
+  },
+  "icu:SafetyTipsModal__TipTitle--DontRespond": {
+    "messageformat": "Don’t respond to chats from Signal"
+  },
+  "icu:SafetyTipsModal__TipDescription--DontRespond": {
+    "messageformat": "Signal will never message you for your registration code, PIN, or recover key. Don't reply to chats pretending to be Signal or Signal Support. Bad actors set up fake names to try to take over your account."
+  },
+  "icu:SafetyTipsModal__TipTitle--ReviewNames": {
+    "messageformat": "Review names and photos"
+  },
+  "icu:SafetyTipsModal__TipDescription--ReviewNames": {
+    "messageformat": "Look out for the “Name not verified” notice. Everyone sets their own profile name and photo in Signal. If you’re unsure who a new request is from it’s safer to ignore it."
   },
   "icu:SafetyTipsModal__TipTitle--Fake": {
     "messageformat": "Жалған атаулар мен аккаунттар"
@@ -3347,8 +3425,14 @@
   "icu:SafetyTipsModal__TipDescription--Links": {
     "messageformat": "Қандай да бір веб-сайттарға сілтеме берген бейтаныс адамдардың хаттарынан қауіптене берсеңіз болады. Сенімсіз адамдардан келген сілтемелерді мүлде ашпаңыз."
   },
+  "icu:SafetyTipsModal__TipTitle--Links-v2": {
+    "messageformat": "Messages with web links"
+  },
   "icu:SafetyTipsModal__TipTitle--Business": {
     "messageformat": "Жалған компаниялар мен мекемелер"
+  },
+  "icu:SafetyTipsModal__TipTitle--Business-v2": {
+    "messageformat": "Fake businesses"
   },
   "icu:SafetyTipsModal__TipDescription--Business": {
     "messageformat": "Сізге хабарласқан компаниялардан немесе мемлекеттік органдардан сақ болыңыз. Салық агенттіктерінен, курьерлерден және т.с.с. келген хаттар спам болуы мүмкін."
@@ -3364,6 +3448,9 @@
   },
   "icu:SafetyTipsModal__Button--Done": {
     "messageformat": "Дайын"
+  },
+  "icu:SafetyTipsModal__Button--ViewMore": {
+    "messageformat": "View more"
   },
   "icu:MessageRequests--message-direct": {
     "messageformat": "{name} пайдаланушысы сізге хат жіберуіне рұқсат беріп, оларға сіздің атыңыз бен фотосуретіңіз көрсетілсін бе? Өтіңішті қабылдамайынша, олар хаттарын көргеніңізді білмейді."
@@ -3467,6 +3554,12 @@
   "icu:MessageRequests--accept-confirm-body": {
     "messageformat": "Сұрауларды мұқият тексеріңіз. Профиль атауларын аккаунт иелері таңдайды және олар расталмайды."
   },
+  "icu:MessageRequests--accept-confirm-title-v2": {
+    "messageformat": "Accept request?"
+  },
+  "icu:MessageRequests--accept-confirm-body-v2": {
+    "messageformat": "Only accept requests from people you trust. <bold>Signal will never</bold> message you for a registration code, PIN, or recovery key."
+  },
   "icu:MessageRequests--continue": {
     "messageformat": "Жалғастыру"
   },
@@ -3509,9 +3602,6 @@
   "icu:ConversationHero--group-members-other-and-you": {
     "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3} және тағы <clickable>{remainingCount,number}</clickable> мүше} other {{member1}, {member2}, {member3} және <clickable>{remainingCount,number}</clickable> мүше}}"
   },
-  "icu:ConversationHero--review-carefully": {
-    "messageformat": "Мұқият тексеріңіз"
-  },
   "icu:ConversationHero--group-names": {
     "messageformat": "<clickable>Топ атаулары</clickable> расталмайды"
   },
@@ -3519,16 +3609,22 @@
     "messageformat": "<clickable>Профиль атаулары</clickable> расталмайды"
   },
   "icu:ConversationHero--name-not-verified": {
-    "messageformat": "Name not verified"
+    "messageformat": "Аты расталмаған"
   },
   "icu:ConversationHero--signal-official-chat": {
     "messageformat": "Бұл – Signal-дың ресми және жалғыз чаты"
   },
   "icu:ConversationHero--signal-official-account": {
-    "messageformat": "Official account"
+    "messageformat": "Ресми аккаунт"
+  },
+  "icu:ConversationHero--signal-official-chat-title": {
+    "messageformat": "Official chat"
   },
   "icu:ConversationHero--signal-official-account--description": {
-    "messageformat": "The only official chat from Signal. Keep up to date with news and release notes."
+    "messageformat": "Бұл – Signal-дың ресми чаты. Жаңалықтар мен шығарылым туралы ескертпелерден хабардар болыңыз."
+  },
+  "icu:Timeline--signal-official-chat--chip": {
+    "messageformat": "The only official chat from Signal."
   },
   "icu:ConversationHero--release-notes": {
     "messageformat": "Жаңалықтар мен шығарылым туралы ескертпелерден хабардар болыңыз."
@@ -4514,6 +4610,9 @@
   "icu:close": {
     "messageformat": "Жабу"
   },
+  "icu:clear": {
+    "messageformat": "Clear"
+  },
   "icu:previous": {
     "messageformat": "алдыңғы"
   },
@@ -4522,6 +4621,18 @@
   },
   "icu:ClearingData__description": {
     "messageformat": "Оған бірнеше минут кетуі мүмкін"
+  },
+  "icu:DeletingAccount__LeavingGroups__Title": {
+    "messageformat": "Leaving groups..."
+  },
+  "icu:DeletingAccount__LeavingGroups__Detail": {
+    "messageformat": "Depending on the number of groups you’re in, this might take a few minutes"
+  },
+  "icu:DeletingAccount__DeletingData__Title": {
+    "messageformat": "Deleting account and all data..."
+  },
+  "icu:DeletingAccount__DeletingData__Detail": {
+    "messageformat": "Deleting user data and resetting the app"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Signal-ды демеу"
@@ -5298,11 +5409,11 @@
   "icu:ShareCallLinkViaSignal__DraftMessageText": {
     "messageformat": "Signal қоңырауына қосылу үшін осы сілтемені пайдаланыңыз: {url}"
   },
-  "icu:MessageRequestWarning__safety-tips": {
-    "messageformat": "Қауіпсіздікке қатысты кеңестер"
+  "icu:MessageRequestWarning__review-carefully": {
+    "messageformat": "Review requests carefully"
   },
   "icu:MessageRequestWarning__safety-tips-v2": {
-    "messageformat": "Safety tips"
+    "messageformat": "Қауіпсіздікке қатысты кеңестер"
   },
   "icu:ContactSpoofing__same-name--link": {
     "messageformat": "Өтініштерді мұқият қарап шығыңыз. Signal аты дәл осындай тағы бір адамды тапты. <reviewRequestLink>Өтінішті қарап шығу</reviewRequestLink>"
@@ -5902,17 +6013,14 @@
   "icu:Preferences__link-previews--title": {
     "messageformat": "Сілтеменің шағын көріністерін жасау"
   },
-  "icu:Preferences__link-previews--description": {
-    "messageformat": "Осы параметрді өзгерту үшін мобильдік құрылғыңызда Signal қолданбасын ашыңыз және \"Параметрлер > Чаттар\" бөліміне өтіңіз"
-  },
   "icu:Preferences__link-previews--new-description": {
-    "messageformat": "Retrieve link previews directly from websites for messages you send."
+    "messageformat": "Жіберетін хаттарыңыз үшін сілтеменің шағын көріністерін тікелей веб-сайттардан алыңыз."
   },
   "icu:Preferences__address-book-photos--title": {
-    "messageformat": "Use address book photos"
+    "messageformat": "Мекенжайлар кітабындағы фотосуреттерді қолдану"
   },
   "icu:Preferences__address-book-photos--description": {
-    "messageformat": "Display contact photos from your address book if available."
+    "messageformat": "Мекенжайлар кітабындағы контактілердің фотосуреттерін (бар болса) көрсетіңіз."
   },
   "icu:Preferences__auto-convert-emoji--title": {
     "messageformat": "Терілген эмотикондарды эмодзилерге түрлендіру"
@@ -6274,6 +6382,27 @@
   "icu:Preferences--blocked": {
     "messageformat": "Блокталған"
   },
+  "icu:Preferences--blocked-count": {
+    "messageformat": "{num, plural, one {1 контакт} other {{num,number} контакт}}"
+  },
+  "icu:Preferences--blocked-count-both-new": {
+    "messageformat": "{num, plural, =0 { No users or groups } one {{num,number} user or group} other {{num,number} users or groups}}"
+  },
+  "icu:Preferences--blocked-count-contacts-new": {
+    "messageformat": "{num, plural, =0 { No users } one {{num,number} user} other {{num,number} users}}"
+  },
+  "icu:Preferences--blocked-count-groups-new": {
+    "messageformat": "{num, plural, =0 { No groups } one {{num,number} group} other {{num,number} groups}}"
+  },
+  "icu:Preferences--blocked-users--description": {
+    "messageformat": "Blocked users will not be able to call you or send you messages"
+  },
+  "icu:Preferences--blocked-users": {
+    "messageformat": "Blocked Users"
+  },
+  "icu:Preferences--blocked-groups": {
+    "messageformat": "Blocked Groups"
+  },
   "icu:Preferences--signal-backups": {
     "messageformat": "Signal қауіпсіз сақтық көшірмелері"
   },
@@ -6457,12 +6586,6 @@
   "icu:Preferences__recovery-key-updated__view-key": {
     "messageformat": "Жаңа кілтті көру"
   },
-  "icu:Preferences--blocked-count": {
-    "messageformat": "{num, plural, one {1 контакт} other {{num,number} контакт}}"
-  },
-  "icu:Preferences__privacy--description": {
-    "messageformat": "Осы параметрлерді өзгерту үшін мобильдік құрылғыңызда Signal қолданбасын ашыңыз және \"Параметрлер > Құпиялылық\" бөлімін ашыңыз"
-  },
   "icu:Preferences__pnp__row--title": {
     "messageformat": "Телефон нөмірі"
   },
@@ -6521,13 +6644,13 @@
     "messageformat": "Оқылғандығын растау"
   },
   "icu:Preferences--read-receipts--description": {
-    "messageformat": "If disabled, you won't see read receipts from others."
+    "messageformat": "Бұл мүмкіндік өшірулі тұрса, басқа пайдаланушылардың хабарды оқығаны туралы белгі көрсетілмейді."
   },
   "icu:Preferences--typing-indicators": {
     "messageformat": "Теру индикаторлары"
   },
   "icu:Preferences--typing-indicators--description": {
-    "messageformat": "If disabled, you won't see typing indicators from others."
+    "messageformat": "Бұл мүмкіндік өшірулі тұрса, басқа пайдаланушылардың мәтін теріп жатқаны туралы белгі көрсетілмейді."
   },
   "icu:Preferences--updates": {
     "messageformat": "Жаңартулар"
@@ -6850,6 +6973,9 @@
   "icu:MessageRequestResponseNotification__Message--Accepted": {
     "messageformat": "Хат алмасу туралы өтінішті қабылдадыңыз"
   },
+  "icu:MessageRequestResponseNotification__Message--Accepted-Contact-Title": {
+    "messageformat": "You accepted {userProfileName}'s message request"
+  },
   "icu:MessageRequestResponseNotification__Message--Reported": {
     "messageformat": "Спам деп хабарланды"
   },
@@ -6867,6 +6993,9 @@
   },
   "icu:MessageRequestResponseNotification__Button--Options": {
     "messageformat": "Опциялар"
+  },
+  "icu:MessageRequestResponseNotification__Button--block-or-report": {
+    "messageformat": "Block or Report..."
   },
   "icu:MessageRequestResponseNotification__Button--LearnMore": {
     "messageformat": "Толығырақ"
@@ -7040,10 +7169,7 @@
     "messageformat": "Көрілгендігі туралы хаттар"
   },
   "icu:StoriesSettings__view-receipts--new-description": {
-    "messageformat": "See and share when stories are viewed. If disabled, you won't see when others view your story."
-  },
-  "icu:StoriesSettings__view-receipts--description": {
-    "messageformat": "Осы параметрді өзгерту үшін, мобильдік құрылғыңызда Signal қолданбасын ашыңыз да, \"Параметрлер > Стористер\" бөліміне өтіңіз"
+    "messageformat": "Стористі біреудің көргенін біліп отырыңыз және бөлісіңіз. Өшіріп қойсаңыз, басқа адамдар стористеріңізді көргенін біле алмайсыз."
   },
   "icu:GroupStorySettingsModal__members_title": {
     "messageformat": "Бұл стористі кім көре алады"
@@ -7682,26 +7808,17 @@
   "icu:ProfileNameWarningModal__description--direct": {
     "messageformat": "Signal-дағы профиль атауларын аккаунт иесі таңдайды:"
   },
-  "icu:ProfileNameWarningModal__list--item1--direct": {
-    "messageformat": "Профиль атаулары расталмайды"
-  },
-  "icu:ProfileNameWarningModal__list--item2--direct": {
-    "messageformat": "Басқа біреудің атын жамылған аккаунттардан абай болыңыз"
-  },
-  "icu:ProfileNameWarningModal__list--item3--direct": {
-    "messageformat": "Танымайтын адамдармен жеке ақпаратты бөліспеңіз"
-  },
   "icu:ProfileNameWarningModal__warning--signal-cant-verify": {
-    "messageformat": "Signal can’t verify names and photos"
+    "messageformat": "Signal пайдаланушылардың аты-жөнін және фотосуреттерін растай алмайды"
   },
   "icu:ProfileNameWarningModal__warning--signal-wont-contact": {
-    "messageformat": "Signal will never contact you for your registration code, PIN, or recovery key"
+    "messageformat": "Signal ешқашан сізге хабарласып, тіркеу кодыңызды, PIN кодыңызды немесе қалпына келтіру кілтіңізді сұрамайды"
   },
   "icu:ProfileNameWarningModal__warning--be-cautious": {
-    "messageformat": "Be cautious of accounts that impersonate others"
+    "messageformat": "Басқа біреудің атын жамылған аккаунттардан абай болыңыз"
   },
   "icu:ProfileNameWarningModal__warning--dont-share-info": {
-    "messageformat": "Don't share personal information with people you don't know"
+    "messageformat": "Танымайтын адамдармен жеке ақпаратты бөліспеңіз"
   },
   "icu:ProfileNameWarningModal__description--group": {
     "messageformat": "Топ атауларын топ мүшелері таңдайды."
@@ -8138,6 +8255,12 @@
   "icu:Megaphone__ExpandNarrowSidebar": {
     "messageformat": "Мегафонмен әрекеттесу үшін бүйірлік жолақты кеңейтіңіз"
   },
+  "icu:Carousel--Role": {
+    "messageformat": "Carousel"
+  },
+  "icu:Carousel__Slide--Role": {
+    "messageformat": "Slide"
+  },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Бұл нұсқада Signal-дың еш кінәратсыз жұмыс істеуіне қажетті бірнеше шағын түзетпе жасалды және ақаулар түзетілді.",
     "ignoreUnused": true
@@ -8165,5 +8288,8 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Кішігірім түзетпелер жасалды, ақаулар жөнделді және жұмысы жақсартылды. Signal-ды қолданғаныңыз үшін рақмет!",
     "ignoreUnused": true
+  },
+  "icu:WhatsNew__8.10--0": {
+    "messageformat": "The freshly spun emoji in Unicode 17.0 have now pirouetted into place in Signal. Send a message reaction with the new Ballet Dancer emoji to perform your own digital version of a pas de chat."
   }
 }
