@@ -208,6 +208,7 @@ const STD_PACKAGES = new Set([
   '@internationalized/date',
   '@react-types/shared',
   '@signalapp/minimask',
+  '@signalapp/parchment-cjs',
   '@signalapp/quill-cjs',
   '@signalapp/lame',
   '@typescript-eslint/eslint-plugin',

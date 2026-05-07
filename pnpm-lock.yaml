@@ -181,6 +181,9 @@ importers:
       '@signalapp/mock-server':
         specifier: 22.0.0
         version: 22.0.0(bufferutil@4.0.9)(utf-8-validate@5.0.10)
+      '@signalapp/parchment-cjs':
+        specifier: 3.0.1
+        version: 3.0.1
       '@signalapp/quill-cjs':
         specifier: 2.1.2
         version: 2.1.2

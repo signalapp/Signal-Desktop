@@ -154,8 +154,6 @@ export function createStaticEmojiBlot(
   if (props['aria-label'] != null) {
     node.setAttribute('aria-label', props['aria-label']);
   }
-  // Needed to lookup emoji value in `matchEmojiBlot`
-  node.dataset.emoji = props.emoji;
 
   node.innerText = props.emoji;
 }

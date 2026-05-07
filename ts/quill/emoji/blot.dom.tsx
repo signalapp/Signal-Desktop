@@ -1,7 +1,9 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import EmbedBlot from '@signalapp/quill-cjs/blots/embed.js';
+// EmbedBlot from `@signalapp/quill-cjs` wraps the element with `\uFEFF` guards
+// that prevent mouse cursor adjustment when clicking the blot.
+import { EmbedBlot } from '@signalapp/parchment-cjs';
 import {
   createStaticEmojiBlot,
   FUN_STATIC_EMOJI_CLASS,
@@ -36,6 +38,7 @@ export class EmojiBlot extends EmbedBlot {
     });
     node.setAttribute('data-emoji', value);
     node.setAttribute('data-source', source ?? '');
+    node.setAttribute('contenteditable', 'false');
 
     return node;
   }
