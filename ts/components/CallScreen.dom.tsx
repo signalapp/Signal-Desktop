@@ -117,6 +117,7 @@ import {
 import type { PropsType as SmartCallingParticipantMenuProps } from '../state/smart/CallingParticipantMenu.preload.tsx';
 import { Emoji } from '../axo/emoji.std.ts';
 import { CallingStatusIndicatorHandRaised } from './CallingStatusIndicatorHandRaised.dom.tsx';
+import { AxoSymbol } from '../axo/AxoSymbol.dom.tsx';
 
 const { isEqual, noop } = lodash;
 
@@ -700,7 +701,13 @@ export function CallScreen({
                 ? 'module-ongoing-call__controls--fadeOut'
                 : undefined
             )}
-          />
+          >
+            <AxoSymbol.Icon
+              size={16}
+              symbol="videocamera-slash-fill"
+              label={null}
+            />
+          </div>
         )}
         <CallingAudioIndicator
           hasAudio={hasLocalAudio}

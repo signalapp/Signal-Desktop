@@ -28,13 +28,6 @@
   background: variables.$color-next-raised-hand;
 }
 
-.CallingStatusIndicator--NoVideo::after {
-  @include mixins.color-svg(
-    '../images/icons/v3/video/video-slash-fill-light.svg',
-    variables.$color-white
-  );
-}
-
 .module-ongoing-call__local-preview .CallingStatusIndicator {
   position: absolute;
   z-index: variables.$z-index-base;
