@@ -5,9 +5,10 @@ import type { JSX } from 'react';
 
 import classNames from 'classnames';
 import { assertDev } from '../../util/assert.std.ts';
+import type { PeakType } from '../../types/Audio.dom.tsx';
 
 type Props = {
-  peaks: ReadonlyArray<number>;
+  peaks: ReadonlyArray<PeakType>;
   barMinHeight: number;
   barMaxHeight: number;
   currentTime: number | undefined;
@@ -26,13 +27,13 @@ export function Waveform({
 
   return (
     <div className={classNames(['Waveform'])}>
-      {peaks.map((peak, i) => {
+      {peaks.map(({ value, index }, i) => {
         assertDev(
-          peak >= 0 && peak <= 1 && !Number.isNaN(peak),
-          `Peak outside of range: ${peak}`
+          value >= 0 && value <= 1 && !Number.isNaN(value),
+          `Peak outside of range: ${value}`
         );
 
-        let height = Math.max(barMinHeight, barMaxHeight * peak);
+        let height = Math.max(barMinHeight, barMaxHeight * value);
 
         const highlight = i < peakPosition;
 
@@ -43,15 +44,13 @@ export function Waveform({
 
         assertDev(!Number.isNaN(height), 'Got NaN for peak height');
 
-        const key = i;
-
         return (
           <div
             className={classNames([
               'Waveform__bar',
               highlight ? 'Waveform__bar--active' : null,
             ])}
-            key={key}
+            key={index}
             style={{ height }}
           />
         );

@@ -30,6 +30,7 @@
   }
 
   &__microphone {
+    flex-shrink: 0;
     display: inline-block;
     height: 20px;
     width: 20px;

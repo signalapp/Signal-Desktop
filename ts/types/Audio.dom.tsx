@@ -3,10 +3,15 @@
 
 import type { LRUCache } from 'lru-cache';
 
+export type PeakType = Readonly<{
+  value: number;
+  index: number;
+}>;
+
 export type WaveformCache = LRUCache<
   string,
   {
     duration: number;
-    peaks: ReadonlyArray<number>;
+    peaks: ReadonlyArray<PeakType>;
   }
 >;

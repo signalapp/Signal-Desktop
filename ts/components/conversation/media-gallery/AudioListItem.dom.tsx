@@ -93,10 +93,10 @@ export function AudioListItem({
         'size-9 rounded-sm'
       )}
     >
-      {peaks.map((peak, index) => {
+      {peaks.map(peak => {
         let height: number;
         if (hasPeaks) {
-          height = Math.max(MIN_PEAK_HEIGHT, peak * MAX_PEAK_HEIGHT);
+          height = Math.max(MIN_PEAK_HEIGHT, peak.value * MAX_PEAK_HEIGHT);
         } else {
           // Intentionally zero when processing or not downloaded
           height = 0;
@@ -104,8 +104,7 @@ export function AudioListItem({
 
         return (
           <div
-            // oxlint-disable-next-line react/no-array-index-key
-            key={index}
+            key={peak.index}
             className={tw(
               'rounded-sm bg-label-placeholder p-px',
               'transition-[height] duration-250'

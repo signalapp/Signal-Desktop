@@ -16,7 +16,7 @@ const MAX_AUDIO_DURATION = 15 * 60; // 15 minutes
 
 export type ComputePeaksResult = {
   duration: number;
-  peaks: ReadonlyArray<number>; // 0 < peak < 1
+  peaks: ReadonlyArray<{ value: number; index: number }>; // 0 < peak < 1
 };
 
 export type Contents = {
@@ -96,7 +96,13 @@ async function doComputePeaks(
 
   const duration = await getAudioDuration(raw);
 
-  const peaks = new Array(barCount).fill(0);
+  const peaks = [];
+  for (let i = 0; i < barCount; i += 1) {
+    peaks.push({
+      value: 0,
+      index: i,
+    });
+  }
   if (duration > MAX_AUDIO_DURATION) {
     log.info(`${logId}: duration ${duration}s is too long`);
     const emptyResult = { peaks, duration };
@@ -124,21 +130,25 @@ async function doComputePeaks(
 
     for (const [sample, sampleData] of channel.entries()) {
       const i = Math.floor(sample / samplesPerPeak);
-      peaks[i] += sampleData ** 2;
+      const peak = peaks[i];
+      if (peak == null) {
+        throw new Error('Missing peak');
+      }
+      peak.value += sampleData ** 2;
       norms[i] += 1;
     }
   }
 
   // Average
   let max = 1e-23;
-  for (let i = 0; i < peaks.length; i += 1) {
-    peaks[i] = Math.sqrt(peaks[i] / Math.max(1, norms[i]));
-    max = Math.max(max, peaks[i]);
+  for (const [i, peak] of peaks.entries()) {
+    peak.value = Math.sqrt(peak.value / Math.max(1, norms[i]));
+    max = Math.max(max, peak.value);
   }
 
   // Normalize
-  for (let i = 0; i < peaks.length; i += 1) {
-    peaks[i] /= max;
+  for (const peak of peaks) {
+    peak.value /= max;
   }
 
   const result = { peaks, duration };

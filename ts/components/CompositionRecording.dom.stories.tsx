@@ -4,6 +4,7 @@
 import { useState, type JSX } from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
+import type { PeakType } from '../types/Audio.dom.tsx';
 import type { Props } from './CompositionRecording.dom.tsx';
 import { CompositionRecording } from './CompositionRecording.dom.tsx';
 
@@ -13,6 +14,14 @@ export default {
   title: 'components/CompositionRecording',
   component: CompositionRecording,
 } satisfies Meta<Props>;
+
+const PEAKS = new Array<PeakType>();
+for (let i = 0; i < 200; i += 1) {
+  PEAKS.push({
+    value: ((i / 50) % 1) * 0.5,
+    index: i,
+  });
+}
 
 export function Default(): JSX.Element {
   const [active, setActive] = useState(false);
@@ -49,6 +58,7 @@ export function Default(): JSX.Element {
           saveDraftRecordingIfNeeded={action('saveDraftRecordingIfNeeded')}
           showToast={action('showToast')}
           hideToast={action('hideToast')}
+          peaks={PEAKS}
         />
       )}
     </>

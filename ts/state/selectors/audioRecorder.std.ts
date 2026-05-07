@@ -21,3 +21,10 @@ export const getRecordingState = createSelector(
     return audioRecorder.recordingState;
   }
 );
+
+export const getRecordingPeaks = createSelector(
+  getAudioRecorder,
+  audioRecorder => {
+    return audioRecorder.peaks;
+  }
+);

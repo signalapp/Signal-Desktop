@@ -5,13 +5,14 @@ import lodash from 'lodash';
 import { useEffect, useState } from 'react';
 import { computePeaks } from '../components/VoiceNotesPlaybackContext.dom.tsx';
 import { createLogger } from '../logging/log.std.ts';
+import type { PeakType } from '../types/Audio.dom.tsx';
 
 const { noop } = lodash;
 
 const log = createLogger('useComputePeaks');
 
 type WaveformData = {
-  peaks: ReadonlyArray<number>;
+  peaks: ReadonlyArray<PeakType>;
   duration: number;
 };
 
@@ -25,7 +26,7 @@ export function useComputePeaks({
   activeDuration: number | undefined;
   barCount: number;
   onCorrupted: () => void;
-}): { peaks: ReadonlyArray<number>; hasPeaks: boolean; duration: number } {
+}): { peaks: ReadonlyArray<PeakType>; hasPeaks: boolean; duration: number } {
   const [waveformData, setWaveformData] = useState<WaveformData | undefined>(
     undefined
   );
@@ -69,9 +70,18 @@ export function useComputePeaks({
     };
   }, [audioUrl, barCount, onCorrupted]);
 
+  let peaks = waveformData?.peaks;
+  if (peaks == null) {
+    const blank = new Array<PeakType>();
+    for (let i = 0; i < barCount; i += 1) {
+      blank.push({ value: 0, index: i });
+    }
+    peaks = blank;
+  }
+
   return {
     duration: waveformData?.duration ?? activeDuration ?? 1e-23,
     hasPeaks: waveformData !== undefined,
-    peaks: waveformData?.peaks ?? new Array(barCount).fill(0),
+    peaks,
   };
 }

@@ -35,6 +35,9 @@ declare function registerProcessor(
 const BIT_RATE = 90;
 const Q = 7;
 
+// Produce a peak value every 100 milliseconds
+const PEAK_EVERY = Math.round((sampleRate * 100) / 1000);
+
 class Mp3Encoder
   extends AudioWorkletProcessor
   implements AudioWorkletProcessorImpl
@@ -45,6 +48,8 @@ class Mp3Encoder
     sampleRate,
     bitRate: BIT_RATE,
   });
+  #peakSquares = 0;
+  #peakSamples = 0;
 
   constructor() {
     super();
@@ -85,6 +90,20 @@ class Mp3Encoder
     const [channel] = input;
     if (channel == null) {
       return true;
+    }
+
+    for (const sample of channel) {
+      this.#peakSquares += sample ** 2;
+      this.#peakSamples += 1;
+      if (this.#peakSamples >= PEAK_EVERY) {
+        const peak = Math.sqrt(this.#peakSquares / this.#peakSamples);
+        this.#peakSquares = 0;
+        this.#peakSamples = 0;
+        this.port.postMessage({
+          type: 'peak',
+          peak,
+        } satisfies WorkletMessageType);
+      }
     }
 
     const shared = this.#encoder.encode(channel);

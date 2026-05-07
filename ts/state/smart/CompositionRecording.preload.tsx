@@ -9,6 +9,7 @@ import { useComposerActions } from '../ducks/composer.preload.ts';
 import { useToastActions } from '../ducks/toast.preload.ts';
 import { getSelectedConversationId } from '../selectors/nav.std.ts';
 import { getIntl } from '../selectors/user.std.ts';
+import { getRecordingPeaks } from '../selectors/audioRecorder.std.ts';
 
 export const SmartCompositionRecording = memo(
   function SmartCompositionRecording() {
@@ -16,6 +17,7 @@ export const SmartCompositionRecording = memo(
     const selectedConversationId = useSelector(getSelectedConversationId);
     const { errorRecording, cancelRecording, completeRecording } =
       useAudioRecorderActions();
+    const peaks = useSelector(getRecordingPeaks);
 
     const { sendMultiMediaMessage, saveDraftRecordingIfNeeded: saveDraft } =
       useComposerActions();
@@ -53,6 +55,7 @@ export const SmartCompositionRecording = memo(
         saveDraftRecordingIfNeeded={saveDraftRecordingIfNeeded}
         showToast={showToast}
         hideToast={hideToast}
+        peaks={peaks}
       />
     );
   }

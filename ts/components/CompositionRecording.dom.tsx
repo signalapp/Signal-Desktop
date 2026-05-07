@@ -8,27 +8,32 @@ import type {
   HideToastAction,
   ShowToastAction,
 } from '../state/ducks/toast.preload.ts';
+import type { PeakType } from '../types/Audio.dom.tsx';
 import { ErrorDialogAudioRecorderType } from '../types/AudioRecorder.std.ts';
 import type { LocalizerType } from '../types/Util.std.ts';
 import type { AnyToast } from '../types/Toast.dom.tsx';
 import { ToastType } from '../types/Toast.dom.tsx';
 import { DurationInSeconds, SECOND } from '../util/durations/index.std.ts';
+import { tw } from '../axo/tw.dom.tsx';
 import { durationToPlaybackText } from '../util/durationToPlaybackText.std.ts';
 import { ConfirmationDialog } from './ConfirmationDialog.dom.tsx';
 import { RecordingComposer } from './RecordingComposer.dom.tsx';
 
 const { noop } = lodash;
 
-export type Props = {
+const MAX_BAR_HEIGHT = 20;
+
+export type Props = Readonly<{
   i18n: LocalizerType;
   onCancel: () => void;
   onSend: () => void;
   errorRecording: (e: ErrorDialogAudioRecorderType) => unknown;
   errorDialogAudioRecorderType?: ErrorDialogAudioRecorderType;
+  peaks: ReadonlyArray<PeakType>;
   saveDraftRecordingIfNeeded: () => void;
   showToast: ShowToastAction;
   hideToast: HideToastAction;
-};
+}>;
 
 export function CompositionRecording({
   i18n,
@@ -36,6 +41,7 @@ export function CompositionRecording({
   onSend,
   errorRecording,
   errorDialogAudioRecorderType,
+  peaks,
   saveDraftRecordingIfNeeded,
   showToast,
   hideToast,
@@ -123,6 +129,26 @@ export function CompositionRecording({
       <div className="CompositionRecording__microphone" />
       <div className="CompositionRecording__timer">
         {durationToPlaybackText(duration)}
+      </div>
+      <div
+        className={tw(
+          'shrink-0 grow overflow-hidden',
+          'flex flex-row-reverse items-center gap-0.5',
+          'bg-elevated-background-tertiary',
+          'size-9 rounded-sm'
+        )}
+      >
+        {peaks.toReversed().map(({ value, index }) => {
+          // RMS peaks around 0.5 for loud sounds
+          const clamped = Math.min(value * 2, 1) * MAX_BAR_HEIGHT;
+          return (
+            <b
+              key={index}
+              style={{ height: `${clamped}px` }}
+              className={tw('rounded-sm bg-label-placeholder p-px')}
+            />
+          );
+        })}
       </div>
 
       {confirmationDialog}

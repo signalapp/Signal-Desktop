@@ -23,6 +23,10 @@ export type WorkletMessageType = Readonly<
       lametagFrame: Uint8Array<ArrayBuffer>;
       finalFrame: Uint8Array<ArrayBuffer>;
     }
+  | {
+      type: 'peak';
+      peak: number;
+    }
 >;
 
 // Sent by `ts/services/audioRecorder.dom.ts`

@@ -34,7 +34,7 @@ type State = Readonly<
 export class AudioRecorder {
   #state: State = { type: 'idle' };
 
-  async start(): Promise<boolean> {
+  async start(onPeak: (peak: number) => void): Promise<boolean> {
     if (this.#state.type !== 'idle') {
       throw new Error('Already started');
     }
@@ -86,6 +86,10 @@ export class AudioRecorder {
         result.set(data.lametagFrame);
 
         resolve(result);
+        return;
+      }
+      if (data.type === 'peak') {
+        onPeak(data.peak);
         return;
       }
     };

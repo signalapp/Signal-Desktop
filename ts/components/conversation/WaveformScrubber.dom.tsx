@@ -11,13 +11,14 @@ import {
 } from 'react';
 import { useRefMerger } from '../../hooks/useRefMerger.std.ts';
 import type { LocalizerType } from '../../types/Util.std.ts';
+import type { PeakType } from '../../types/Audio.dom.tsx';
 import { durationToPlaybackText } from '../../util/durationToPlaybackText.std.ts';
 import { Waveform } from './Waveform.dom.tsx';
 import { arrow } from '../../util/keyboard.dom.ts';
 
 type Props = Readonly<{
   i18n: LocalizerType;
-  peaks: ReadonlyArray<number>;
+  peaks: ReadonlyArray<PeakType>;
   currentTime: number;
   duration: number | undefined;
   barMinHeight: number;
