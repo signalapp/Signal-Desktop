@@ -1794,7 +1794,7 @@
     "messageformat": "Show status icon"
   },
   "icu:Preferences__PrivacyPage__ShowStatusIcon__Description": {
-    "messageformat": "Show an icon in message details when they were delivered using sealed sender."
+    "messageformat": "Magpakita ng icon sa message details when they were delivered gamit ang sealed sender."
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
     "messageformat": "Automatic Key Verification"
@@ -3519,7 +3519,7 @@
     "messageformat": "Hindi verified ang <clickable>Profile names</clickable>"
   },
   "icu:ConversationHero--name-not-verified": {
-    "messageformat": "Name not verified"
+    "messageformat": "Hindi verified ang pangalan"
   },
   "icu:ConversationHero--signal-official-chat": {
     "messageformat": "Ito ang opisyal at natatanging chat mula sa Signal"
@@ -3528,7 +3528,7 @@
     "messageformat": "Official account"
   },
   "icu:ConversationHero--signal-official-account--description": {
-    "messageformat": "The only official chat from Signal. Keep up to date with news and release notes."
+    "messageformat": "Ito ang opisyal at natatanging chat mula sa Signal. Maging updated sa mga balita at release notes."
   },
   "icu:ConversationHero--release-notes": {
     "messageformat": "Maging updated sa mga balita at release notes."
@@ -5302,7 +5302,7 @@
     "messageformat": "Tips Para Sa Kaligtasan"
   },
   "icu:MessageRequestWarning__safety-tips-v2": {
-    "messageformat": "Safety tips"
+    "messageformat": "Tips Para Sa Kaligtasan"
   },
   "icu:ContactSpoofing__same-name--link": {
     "messageformat": "Tingnan nang maigi ang requests. Nakakita ang Signal ng isa pang contact na may kaparehong pangalan. <reviewRequestLink>Tingnan ang request</reviewRequestLink>"
@@ -5906,13 +5906,13 @@
     "messageformat": "Para mabago ang setting na ito, buksan ang Signal app sa iyong mobile device at pumunta sa Settings > Chats"
   },
   "icu:Preferences__link-previews--new-description": {
-    "messageformat": "Retrieve link previews directly from websites for messages you send."
+    "messageformat": "I-retrieve ang link previews directly from websites for messages you send."
   },
   "icu:Preferences__address-book-photos--title": {
     "messageformat": "Use address book photos"
   },
   "icu:Preferences__address-book-photos--description": {
-    "messageformat": "Display contact photos from your address book if available."
+    "messageformat": "I-display ang contact photos mula sa address book mo kung available."
   },
   "icu:Preferences__auto-convert-emoji--title": {
     "messageformat": "Gawing emoji ang typed emoticons"
@@ -6521,13 +6521,13 @@
     "messageformat": "Read receipts"
   },
   "icu:Preferences--read-receipts--description": {
-    "messageformat": "If disabled, you won't see read receipts from others."
+    "messageformat": "Kapag naka-disable, hindi mo makikita ang read receipts mula sa iba."
   },
   "icu:Preferences--typing-indicators": {
     "messageformat": "Typing indicators"
   },
   "icu:Preferences--typing-indicators--description": {
-    "messageformat": "If disabled, you won't see typing indicators from others."
+    "messageformat": "Kapag naka-disable, hindi mo makikita ang typing indicators mula sa iba."
   },
   "icu:Preferences--updates": {
     "messageformat": "Updates"
@@ -7040,7 +7040,7 @@
     "messageformat": "View Receipts"
   },
   "icu:StoriesSettings__view-receipts--new-description": {
-    "messageformat": "See and share when stories are viewed. If disabled, you won't see when others view your story."
+    "messageformat": "Makita at i-share kapag na-view ang stories mo. Kung naka-disable ito, hindi mo makikita kung sinong nag-view ng story mo."
   },
   "icu:StoriesSettings__view-receipts--description": {
     "messageformat": "Para mabago ang setting na ito, buksan ang Signal app sa iyong mobile device at pumunta sa Settings -> Stories"
@@ -7692,16 +7692,16 @@
     "messageformat": "Huwag magbigay ng personal na impormasyon sa mga hindi mo kakilala"
   },
   "icu:ProfileNameWarningModal__warning--signal-cant-verify": {
-    "messageformat": "Signal can’t verify names and photos"
+    "messageformat": "Hindi ma-verify ng Signal ang mga pangalan at photos"
   },
   "icu:ProfileNameWarningModal__warning--signal-wont-contact": {
-    "messageformat": "Signal will never contact you for your registration code, PIN, or recovery key"
+    "messageformat": "Hindi kailanman makikipag-ugnayan sa 'yo ang Signal para hingin ang registration code, PIN, o recovery key mo"
   },
   "icu:ProfileNameWarningModal__warning--be-cautious": {
-    "messageformat": "Be cautious of accounts that impersonate others"
+    "messageformat": "Mag-ingat sa accounts na nagpapanggap bilang ibang tao"
   },
   "icu:ProfileNameWarningModal__warning--dont-share-info": {
-    "messageformat": "Don't share personal information with people you don't know"
+    "messageformat": "Huwag magbigay ng personal na impormasyon sa mga hindi mo kakilala"
   },
   "icu:ProfileNameWarningModal__description--group": {
     "messageformat": "Ang group names ay pinili ng members ng group."

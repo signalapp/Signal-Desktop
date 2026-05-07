@@ -1791,10 +1791,10 @@
     "messageformat": "ביטול"
   },
   "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
-    "messageformat": "Show status icon"
+    "messageformat": "הראה איקון מעמד"
   },
   "icu:Preferences__PrivacyPage__ShowStatusIcon__Description": {
-    "messageformat": "Show an icon in message details when they were delivered using sealed sender."
+    "messageformat": "הראה איקון בפרטי הודעה כאשר היא נשלחה ע״י שימוש בשולח אטום."
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
     "messageformat": "אימות מפתח אוטומטי"
@@ -3519,16 +3519,16 @@
     "messageformat": "<clickable>שמות פרופילים</clickable> אינם מאומתים"
   },
   "icu:ConversationHero--name-not-verified": {
-    "messageformat": "Name not verified"
+    "messageformat": "שם לא אומת"
   },
   "icu:ConversationHero--signal-official-chat": {
     "messageformat": "זה הצ׳אט הרשמי והיחיד של Signal"
   },
   "icu:ConversationHero--signal-official-account": {
-    "messageformat": "Official account"
+    "messageformat": "חשבון רשמי"
   },
   "icu:ConversationHero--signal-official-account--description": {
-    "messageformat": "The only official chat from Signal. Keep up to date with news and release notes."
+    "messageformat": "הצ׳אט הרשמי היחיד של Signal. להתעדכן בחדשות והערות עדכון גרסה."
   },
   "icu:ConversationHero--release-notes": {
     "messageformat": "להתעדכן בחדשות והערות עדכון גרסה."
@@ -5302,7 +5302,7 @@
     "messageformat": "טיפים לבטיחות"
   },
   "icu:MessageRequestWarning__safety-tips-v2": {
-    "messageformat": "Safety tips"
+    "messageformat": "טיפים לבטיחות"
   },
   "icu:ContactSpoofing__same-name--link": {
     "messageformat": "כדאי לסקור בקשות בזהירות. Signal מצאה איש קשר אחר עם אותו שם. <reviewRequestLink>סקירת בקשה</reviewRequestLink>"
@@ -5906,13 +5906,13 @@
     "messageformat": "כדי לשנות הגדרה זו, צריך לפתוח את אפליקציית Signal במכשיר הנייד שלך ולנווט אל הגדרות > צ'אטים"
   },
   "icu:Preferences__link-previews--new-description": {
-    "messageformat": "Retrieve link previews directly from websites for messages you send."
+    "messageformat": "אחזר תצוגות מקדימות של קישורים ישירות מאתרים עבור הודעות שאתה שולח."
   },
   "icu:Preferences__address-book-photos--title": {
-    "messageformat": "Use address book photos"
+    "messageformat": "השתמש בתמונות של פנקס הכתובות"
   },
   "icu:Preferences__address-book-photos--description": {
-    "messageformat": "Display contact photos from your address book if available."
+    "messageformat": "הצגת תמונות אנשי קשר מרשימת אנשי הקשר אם זמינות."
   },
   "icu:Preferences__auto-convert-emoji--title": {
     "messageformat": "המרת אמוטיקונים מוקלדים לאימוג׳ים"
@@ -6521,13 +6521,13 @@
     "messageformat": "אישורי קריאה"
   },
   "icu:Preferences--read-receipts--description": {
-    "messageformat": "If disabled, you won't see read receipts from others."
+    "messageformat": "אם האפשרות הזו מושבתת, לא יוצגו לך אישורי קריאה מאחרים."
   },
   "icu:Preferences--typing-indicators": {
     "messageformat": "מחווני הקלדה"
   },
   "icu:Preferences--typing-indicators--description": {
-    "messageformat": "If disabled, you won't see typing indicators from others."
+    "messageformat": "אם האפשרות הזו מושבתת, לא יוצגו לך מחווני הקלדה מאחרים."
   },
   "icu:Preferences--updates": {
     "messageformat": "עדכונים"
@@ -7040,7 +7040,7 @@
     "messageformat": "אישורי צפייה"
   },
   "icu:StoriesSettings__view-receipts--new-description": {
-    "messageformat": "See and share when stories are viewed. If disabled, you won't see when others view your story."
+    "messageformat": "רואים ומשתפים כשיש צפיות בסטוריז. אם אפשרות זו מושבתת, אי אפשר לראות כשאחרים צופים בסטורי שלך."
   },
   "icu:StoriesSettings__view-receipts--description": {
     "messageformat": "כדי לשנות הגדרה זו, יש לפתוח את אפליקציית Signal בנייד שלך ולנווט אל הגדרות ← סטוריז"
@@ -7692,16 +7692,16 @@
     "messageformat": "אין לשתף מידע אישי עם אנשים שלא מוכרים לך"
   },
   "icu:ProfileNameWarningModal__warning--signal-cant-verify": {
-    "messageformat": "Signal can’t verify names and photos"
+    "messageformat": "Signal לא יכולה לאמת שמות ותמונות"
   },
   "icu:ProfileNameWarningModal__warning--signal-wont-contact": {
-    "messageformat": "Signal will never contact you for your registration code, PIN, or recovery key"
+    "messageformat": "Signal לעולם לא תשלח לך הודעה כדי לבקש את קוד הרישום, ה–PIN, או מפתח השחזור שלך."
   },
   "icu:ProfileNameWarningModal__warning--be-cautious": {
-    "messageformat": "Be cautious of accounts that impersonate others"
+    "messageformat": "יש להיזהר מחשבונות שמתחזים לאחרים"
   },
   "icu:ProfileNameWarningModal__warning--dont-share-info": {
-    "messageformat": "Don't share personal information with people you don't know"
+    "messageformat": "אין לשתף מידע אישי עם אנשים שלא מוכרים לך"
   },
   "icu:ProfileNameWarningModal__description--group": {
     "messageformat": "שמות קבוצות נבחרים על ידי חברי הקבוצה."

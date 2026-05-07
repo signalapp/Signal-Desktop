@@ -1791,10 +1791,10 @@
     "messageformat": "Kanselleer"
   },
   "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
-    "messageformat": "Show status icon"
+    "messageformat": "Toon statusikoon"
   },
   "icu:Preferences__PrivacyPage__ShowStatusIcon__Description": {
-    "messageformat": "Show an icon in message details when they were delivered using sealed sender."
+    "messageformat": "Toon ’n ikoon in boodskapdetails wanneer dit d.m.v. verseëlde afsender afgelewer is."
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
     "messageformat": "Outomatiese sleutelverifiëring"
@@ -3519,16 +3519,16 @@
     "messageformat": "<clickable>Profielname</clickable> is nie geverifieer nie"
   },
   "icu:ConversationHero--name-not-verified": {
-    "messageformat": "Name not verified"
+    "messageformat": "Naam nie geverifieer nie"
   },
   "icu:ConversationHero--signal-official-chat": {
     "messageformat": "Hierdie is die amptelike en enigste klets van Signal"
   },
   "icu:ConversationHero--signal-official-account": {
-    "messageformat": "Official account"
+    "messageformat": "Amptelike rekening"
   },
   "icu:ConversationHero--signal-official-account--description": {
-    "messageformat": "The only official chat from Signal. Keep up to date with news and release notes."
+    "messageformat": "Die enigste amptelike klets van Signal. Bly op datum met nuus en vrystellingnotas."
   },
   "icu:ConversationHero--release-notes": {
     "messageformat": "Bly op datum met nuus en vrystellingnotas."
@@ -5302,7 +5302,7 @@
     "messageformat": "Veiligheidswenke"
   },
   "icu:MessageRequestWarning__safety-tips-v2": {
-    "messageformat": "Safety tips"
+    "messageformat": "Veiligheidswenke"
   },
   "icu:ContactSpoofing__same-name--link": {
     "messageformat": "Gaan versoeke noukeurig na. Signal het 'n ander kontak met dieselfde naam gevind. <reviewRequestLink>Gaan versoek na</reviewRequestLink>"
@@ -5906,13 +5906,13 @@
     "messageformat": "Om hierdie instellings te verander, maak die Signal-toepassing op jou mobiele toestel oop en gaan na Instellings > Kletse"
   },
   "icu:Preferences__link-previews--new-description": {
-    "messageformat": "Retrieve link previews directly from websites for messages you send."
+    "messageformat": "Haal skakelvoorskoue direk van die webwerwe af vir boodskappe wat jy stuur."
   },
   "icu:Preferences__address-book-photos--title": {
-    "messageformat": "Use address book photos"
+    "messageformat": "Gebruik adresboekfoto's"
   },
   "icu:Preferences__address-book-photos--description": {
-    "messageformat": "Display contact photos from your address book if available."
+    "messageformat": "Vertoon kontakfoto's vanaf jou adresboek indien beskikbaar."
   },
   "icu:Preferences__auto-convert-emoji--title": {
     "messageformat": "Skakel getikte emotikons om in emoji's"
@@ -6521,13 +6521,13 @@
     "messageformat": "Leesbewyse"
   },
   "icu:Preferences--read-receipts--description": {
-    "messageformat": "If disabled, you won't see read receipts from others."
+    "messageformat": "Indien dit gedeaktiveer is, sal jy nie leesbewyse vanaf andere kan sien nie."
   },
   "icu:Preferences--typing-indicators": {
     "messageformat": "Tikaanduiders"
   },
   "icu:Preferences--typing-indicators--description": {
-    "messageformat": "If disabled, you won't see typing indicators from others."
+    "messageformat": "Indien dit gedeaktiveer is, sal jy nie tikaanwysers vanaf andere kan sien nie."
   },
   "icu:Preferences--updates": {
     "messageformat": "Bywerkings"
@@ -7040,7 +7040,7 @@
     "messageformat": "Kykbewyse"
   },
   "icu:StoriesSettings__view-receipts--new-description": {
-    "messageformat": "See and share when stories are viewed. If disabled, you won't see when others view your story."
+    "messageformat": "Sien en deel wanneer na stories gekyk word. As dit gedeaktiveer is, sal jy nie sien wanneer ander na jou storie kyk nie."
   },
   "icu:StoriesSettings__view-receipts--description": {
     "messageformat": "Maak die Signal-toepassing op jou mobiele toestel oop en gaan na Instellings -> Stories om hierdie instellings te verander"
@@ -7692,16 +7692,16 @@
     "messageformat": "Moenie persoonlike inligting deel met mense wat jy nie ken nie"
   },
   "icu:ProfileNameWarningModal__warning--signal-cant-verify": {
-    "messageformat": "Signal can’t verify names and photos"
+    "messageformat": "Signal kan nie name en foto's verifieer nie"
   },
   "icu:ProfileNameWarningModal__warning--signal-wont-contact": {
-    "messageformat": "Signal will never contact you for your registration code, PIN, or recovery key"
+    "messageformat": "Signal sal jou nooit vir jou registrasiekode, PIN of herwinsleutel kontak nie"
   },
   "icu:ProfileNameWarningModal__warning--be-cautious": {
-    "messageformat": "Be cautious of accounts that impersonate others"
+    "messageformat": "Wees versigtig vir rekeninge wat ander naboots"
   },
   "icu:ProfileNameWarningModal__warning--dont-share-info": {
-    "messageformat": "Don't share personal information with people you don't know"
+    "messageformat": "Moenie persoonlike inligting deel met mense wat jy nie ken nie"
   },
   "icu:ProfileNameWarningModal__description--group": {
     "messageformat": "Groepname word deur lede van die groep gekies."

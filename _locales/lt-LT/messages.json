@@ -1791,10 +1791,10 @@
     "messageformat": "Atšaukti"
   },
   "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
-    "messageformat": "Show status icon"
+    "messageformat": "Rodyti būsenos piktogramą"
   },
   "icu:Preferences__PrivacyPage__ShowStatusIcon__Description": {
-    "messageformat": "Show an icon in message details when they were delivered using sealed sender."
+    "messageformat": "Išsamesnėje žinučių informacijoje rodyti piktogramą tais atvejais, kai jos buvo pristatytos naudojant užantspauduotą siuntėją."
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
     "messageformat": "Automatinis rakto patvirtinimas"
@@ -3519,16 +3519,16 @@
     "messageformat": "<clickable>Profilių vardai</clickable> nėra patvirtinti"
   },
   "icu:ConversationHero--name-not-verified": {
-    "messageformat": "Name not verified"
+    "messageformat": "Vardas nepatvirtintas"
   },
   "icu:ConversationHero--signal-official-chat": {
     "messageformat": "Tai oficialus ir vienintelis pokalbis su „Signal“"
   },
   "icu:ConversationHero--signal-official-account": {
-    "messageformat": "Official account"
+    "messageformat": "Oficiali paskyra"
   },
   "icu:ConversationHero--signal-official-account--description": {
-    "messageformat": "The only official chat from Signal. Keep up to date with news and release notes."
+    "messageformat": "Tai vienintelis oficialus pokalbis su „Signal“. Sekite naujienas ir informaciją apie naujas versijas."
   },
   "icu:ConversationHero--release-notes": {
     "messageformat": "Sekite naujienas ir informaciją apie naujas versijas."
@@ -5302,7 +5302,7 @@
     "messageformat": "Saugos patarimai"
   },
   "icu:MessageRequestWarning__safety-tips-v2": {
-    "messageformat": "Safety tips"
+    "messageformat": "Saugos patarimai"
   },
   "icu:ContactSpoofing__same-name--link": {
     "messageformat": "Atidžiai peržiūrėkite užklausas. „Signal“ rado kitą adresatą tokiu pačiu vardu. <reviewRequestLink>Peržiūrėti užklausą</reviewRequestLink>"
@@ -5906,13 +5906,13 @@
     "messageformat": "Jei nori pakeisti šį nustatymą, atverk „Signal“ savo mobiliajame įrenginyje ir eik čia: Nustatymai > Pokalbiai"
   },
   "icu:Preferences__link-previews--new-description": {
-    "messageformat": "Retrieve link previews directly from websites for messages you send."
+    "messageformat": "Gauti savo siunčiamoms žinutėms nuorodų peržiūras tiesiogiai iš internetinių svetainių."
   },
   "icu:Preferences__address-book-photos--title": {
-    "messageformat": "Use address book photos"
+    "messageformat": "Naudoti adresų knygos nuotraukas"
   },
   "icu:Preferences__address-book-photos--description": {
-    "messageformat": "Display contact photos from your address book if available."
+    "messageformat": "Jei prieinama, rodyti adresatų nuotraukas iš jūsų adresų knygos."
   },
   "icu:Preferences__auto-convert-emoji--title": {
     "messageformat": "Konvertuoti tekstinius jaustukus į paveikslėlius"
@@ -6521,13 +6521,13 @@
     "messageformat": "Pranešimai apie žinučių skaitymą"
   },
   "icu:Preferences--read-receipts--description": {
-    "messageformat": "If disabled, you won't see read receipts from others."
+    "messageformat": "Išjungę nebegalėsite matyti kitų žmonių perskaitymo pranešimų."
   },
   "icu:Preferences--typing-indicators": {
     "messageformat": "Rašymo indikatoriai"
   },
   "icu:Preferences--typing-indicators--description": {
-    "messageformat": "If disabled, you won't see typing indicators from others."
+    "messageformat": "Išjungę nebegalėsite matyti kitų žmonių rašymo indikatorių."
   },
   "icu:Preferences--updates": {
     "messageformat": "Atnaujinimai"
@@ -7040,7 +7040,7 @@
     "messageformat": "Žiūrėti pranešimus"
   },
   "icu:StoriesSettings__view-receipts--new-description": {
-    "messageformat": "See and share when stories are viewed. If disabled, you won't see when others view your story."
+    "messageformat": "Žiūrėti ir dalintis, kai istorijos peržiūrimos. Jei išjungsi, nematysi, kai žmonės žiūrės tavo istoriją."
   },
   "icu:StoriesSettings__view-receipts--description": {
     "messageformat": "Jei nori pakeisti šį nustatymą, atverk „Signal“ savo mobiliajame įrenginyje, eik į Nustatymus ir pasirink Istorijas"
@@ -7692,16 +7692,16 @@
     "messageformat": "Nesidalinkite asmenine informacija su nepažįstamais žmonėmis"
   },
   "icu:ProfileNameWarningModal__warning--signal-cant-verify": {
-    "messageformat": "Signal can’t verify names and photos"
+    "messageformat": "„Signal“ negali patvirtinti vardų ir nuotraukų"
   },
   "icu:ProfileNameWarningModal__warning--signal-wont-contact": {
-    "messageformat": "Signal will never contact you for your registration code, PIN, or recovery key"
+    "messageformat": "„Signal“ niekada neprašys jūsų pateikti registracijos kodą, PIN ar atkūrimo raktą"
   },
   "icu:ProfileNameWarningModal__warning--be-cautious": {
-    "messageformat": "Be cautious of accounts that impersonate others"
+    "messageformat": "Būkite atidūs – naudotojai gali apsimesti kitais žmonėmis"
   },
   "icu:ProfileNameWarningModal__warning--dont-share-info": {
-    "messageformat": "Don't share personal information with people you don't know"
+    "messageformat": "Nesidalinkite asmenine informacija su nepažįstamais žmonėmis"
   },
   "icu:ProfileNameWarningModal__description--group": {
     "messageformat": "Grupės pavadinimus pasirenka grupės nariai."

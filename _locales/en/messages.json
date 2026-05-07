@@ -4430,7 +4430,7 @@
   },
   "icu:SafetyTipsModal__Title": {
     "messageformat": "Safety Tips",
-    "description": "Title of the safety tips modal"
+    "description": "(Deleted 2026/05/07) Title of the safety tips modal"
   },
   "icu:SafetyTipsModal__Title-v2": {
     "messageformat": "Safety tips",
@@ -4462,7 +4462,7 @@
   },
   "icu:SafetyTipsModal__Description": {
     "messageformat": "Be careful when accepting message requests from people you don’t know. Watch out for:",
-    "description": "Description of the safety tips modal"
+    "description": "(Deleted 2026/05/07) Description of the safety tips modal"
   },
   "icu:SafetyTipsModal__TipTitle--DontRespond": {
     "messageformat": "Don’t respond to chats from Signal",
@@ -4482,11 +4482,11 @@
   },
   "icu:SafetyTipsModal__TipTitle--Fake": {
     "messageformat": "Fake names and accounts",
-    "description": "Title of the fake name safety tip"
+    "description": "(Deleted 2026/05/07) Title of the fake name safety tip"
   },
   "icu:SafetyTipsModal__TipDescription--Fake": {
     "messageformat": "Signal will never contact you for your registration code or PIN. Be cautious of requests that impersonate others. Profile names are chosen by their account holder and aren't verified.",
-    "description": "Description of the fake name safety tip"
+    "description": "(Deleted 2026/05/07) Description of the fake name safety tip"
   },
   "icu:SafetyTipsModal__TipTitle--Crypto": {
     "messageformat": "Crypto or money scams",
@@ -4506,7 +4506,7 @@
   },
   "icu:SafetyTipsModal__TipTitle--Links": {
     "messageformat": "Messages with links",
-    "description": "Title of the links safety tip"
+    "description": "(Deleted 2026/05/07) Title of the links safety tip"
   },
   "icu:SafetyTipsModal__TipDescription--Links": {
     "messageformat": "Be careful of messages from people you don’t know that have links to websites. Never visit links from people you don’t trust.",
@@ -4522,7 +4522,7 @@
   },
   "icu:SafetyTipsModal__TipTitle--Business-v2": {
     "messageformat": "Fake businesses",
-    "description": "Title of the business safety tip"
+    "description": "(Deleted 2026/05/07) Title of the business safety tip"
   },
   "icu:SafetyTipsModal__TipDescription--Business": {
     "messageformat": "Be careful of businesses or government agencies contacting you. Messages involving tax agencies, couriers, and more can be spam.",
@@ -4530,19 +4530,19 @@
   },
   "icu:SafetyTipsModal__DotLabel": {
     "messageformat": "Go to page {page, number}",
-    "description": "Label for the dots in the safety tips modal that when clicked will take you to a specific tip"
+    "description": "(Deleted 2026/05/07) Label for the dots in the safety tips modal that when clicked will take you to a specific tip"
   },
   "icu:SafetyTipsModal__Button--Previous": {
     "messageformat": "Previous tip",
-    "description": "Button to go to the previous safety tip"
+    "description": "(Deleted 2026/05/07) Button to go to the previous safety tip"
   },
   "icu:SafetyTipsModal__Button--Next": {
     "messageformat": "Next tip",
-    "description": "Button to go to the next safety tip"
+    "description": "(Deleted 2026/05/07) Button to go to the next safety tip"
   },
   "icu:SafetyTipsModal__Button--Done": {
     "messageformat": "Done",
-    "description": "Button to close the safety tips modal when you've reached the last tip"
+    "description": "(Deleted 2026/05/07) Button to close the safety tips modal when you've reached the last tip"
   },
   "icu:SafetyTipsModal__Button--ViewMore": {
     "messageformat": "View more",

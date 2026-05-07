@@ -1791,10 +1791,10 @@
     "messageformat": "বাতিল করুন"
   },
   "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
-    "messageformat": "Show status icon"
+    "messageformat": "স্ট্যাটাস আইকন দেখান"
   },
   "icu:Preferences__PrivacyPage__ShowStatusIcon__Description": {
-    "messageformat": "Show an icon in message details when they were delivered using sealed sender."
+    "messageformat": "সিল করা প্রেরকের মাধ্যমে কোন মেসেজ পাঠানো হলে মেসেজের বিস্তারিত বিবরণীতে একটি আইকন দেখান।"
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
     "messageformat": "স্বয়ংক্রিয় 'কি' যাচাইকরণ"
@@ -3519,16 +3519,16 @@
     "messageformat": "<clickable>প্রোফাইলের নাম</clickable> যাচাই করা হয়নি"
   },
   "icu:ConversationHero--name-not-verified": {
-    "messageformat": "Name not verified"
+    "messageformat": "নাম যাচাইকৃত নয়"
   },
   "icu:ConversationHero--signal-official-chat": {
     "messageformat": "এটি Signal-এর অফিসিয়াল ও একমাত্র চ্যাট"
   },
   "icu:ConversationHero--signal-official-account": {
-    "messageformat": "Official account"
+    "messageformat": "অফিসিয়াল অ্যাকাউন্ট"
   },
   "icu:ConversationHero--signal-official-account--description": {
-    "messageformat": "The only official chat from Signal. Keep up to date with news and release notes."
+    "messageformat": "Signal-এর একমাত্র অফিসিয়াল চ্যাট। খবর ও রিলিজ নোট পেয়ে আপডেট থাকুন।"
   },
   "icu:ConversationHero--release-notes": {
     "messageformat": "খবর ও রিলিজ নোট পেয়ে আপডেট থাকুন।"
@@ -5302,7 +5302,7 @@
     "messageformat": "নিরাপত্তা সংক্রান্ত পরামর্শ"
   },
   "icu:MessageRequestWarning__safety-tips-v2": {
-    "messageformat": "Safety tips"
+    "messageformat": "নিরাপত্তা সংক্রান্ত পরামর্শ"
   },
   "icu:ContactSpoofing__same-name--link": {
     "messageformat": "সতর্কতার সাথে অনুরোধ পর্যালোচনা করুন। Signal একই নামের আরেকটি কন্টাক্ট খুঁজে পেয়েছে। <reviewRequestLink>পর্যালোচনা করার অনুরোধ</reviewRequestLink>"
@@ -5906,13 +5906,13 @@
     "messageformat": "এই সেটিং পরিবর্তন করতে, আপনার মোবাইল ডিভাইসে Signal অ্যাপটি খুলুন এবং সেটিংস > চ্যাট-এ যান"
   },
   "icu:Preferences__link-previews--new-description": {
-    "messageformat": "Retrieve link previews directly from websites for messages you send."
+    "messageformat": "আপনার পাঠানো মেসেজের জন্য ওয়েবসাইটগুলি থেকে সরাসরি লিঙ্কের প্রিভিউ পুনরুদ্ধার করুন।"
   },
   "icu:Preferences__address-book-photos--title": {
-    "messageformat": "Use address book photos"
+    "messageformat": "অ্যাড্রেস বুকের ছবি ব্যবহার করুন"
   },
   "icu:Preferences__address-book-photos--description": {
-    "messageformat": "Display contact photos from your address book if available."
+    "messageformat": "যদি থাকে তবে আপনার অ্যাড্রেস বুক থেকে কন্টাক্টদের ছবি দেখান।"
   },
   "icu:Preferences__auto-convert-emoji--title": {
     "messageformat": "টাইপ করা ইমোটিকনকে ইমোজিতে রূপান্তর করুন"
@@ -6521,13 +6521,13 @@
     "messageformat": "পড়ার প্রাপ্তিগুলি"
   },
   "icu:Preferences--read-receipts--description": {
-    "messageformat": "If disabled, you won't see read receipts from others."
+    "messageformat": "এটি নিষ্ক্রিয় করা থাকলে, আপনি অন্যদের পাঠানো মেসেজ পড়ার রিড রিসিপ্ট দেখতে পাবেন না।"
   },
   "icu:Preferences--typing-indicators": {
     "messageformat": "টাইপিং সূচক"
   },
   "icu:Preferences--typing-indicators--description": {
-    "messageformat": "If disabled, you won't see typing indicators from others."
+    "messageformat": "এটি নিষ্ক্রিয় করা থাকলে, আপনি অন্যদের টাইপিং সূচক দেখতে পাবেন না।"
   },
   "icu:Preferences--updates": {
     "messageformat": "আপডেট"
@@ -7040,7 +7040,7 @@
     "messageformat": "রিসিপ্ট দেখুন"
   },
   "icu:StoriesSettings__view-receipts--new-description": {
-    "messageformat": "See and share when stories are viewed. If disabled, you won't see when others view your story."
+    "messageformat": "স্টোরি দেখা হলে তা দেখুন ও শেয়ার করুন। নিষ্ক্রিয় থাকলে, অন্যরা কখন আপনার স্টোরি দেখেন তা আপনি দেখতে পারবেন না।"
   },
   "icu:StoriesSettings__view-receipts--description": {
     "messageformat": "এই সেটিং পরিবর্তন করতে, আপনার মোবাইল ডিভাইসে Signal অ্যাপটি খুলুন এবং সেটিংস > স্টোরি-তে যান"
@@ -7692,16 +7692,16 @@
     "messageformat": "আপনার পরিচিত নন এমন কোনো ব্যক্তির সাথে ব্যক্তিগত তথ্য শেয়ার করবেন না"
   },
   "icu:ProfileNameWarningModal__warning--signal-cant-verify": {
-    "messageformat": "Signal can’t verify names and photos"
+    "messageformat": "Signal নাম ও ছবি যাচাই করতে পারছে না"
   },
   "icu:ProfileNameWarningModal__warning--signal-wont-contact": {
-    "messageformat": "Signal will never contact you for your registration code, PIN, or recovery key"
+    "messageformat": "Signal কখনোই আপনার রেজিস্ট্রেশন কোড, পিন বা পুনরুদ্ধার 'কি'-এর জন্য আপনার সাথে যোগাযোগ করবে না"
   },
   "icu:ProfileNameWarningModal__warning--be-cautious": {
-    "messageformat": "Be cautious of accounts that impersonate others"
+    "messageformat": "অন্যদের ছদ্মবেশ ধারণ করে আছে এমন কারো অ্যাকাউন্ট থেকে সাবধান থাকুন"
   },
   "icu:ProfileNameWarningModal__warning--dont-share-info": {
-    "messageformat": "Don't share personal information with people you don't know"
+    "messageformat": "আপনার পরিচিত নন এমন কোনো ব্যক্তির সাথে ব্যক্তিগত তথ্য শেয়ার করবেন না"
   },
   "icu:ProfileNameWarningModal__description--group": {
     "messageformat": "গ্রুপের নাম গ্রুপের সদস্যরা বেছে নেন।"

@@ -1791,10 +1791,10 @@
     "messageformat": "Cancelar"
   },
   "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
-    "messageformat": "Show status icon"
+    "messageformat": "Mostrar icona de estado"
   },
   "icu:Preferences__PrivacyPage__ShowStatusIcon__Description": {
-    "messageformat": "Show an icon in message details when they were delivered using sealed sender."
+    "messageformat": "Mostrar unha icona nos detalles das mensaxes cando se entreguen empregando o remitente oculto."
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
     "messageformat": "Verificación automática da clave"
@@ -3519,16 +3519,16 @@
     "messageformat": "Os <clickable>nomes de perfil</clickable> non se verifican"
   },
   "icu:ConversationHero--name-not-verified": {
-    "messageformat": "Name not verified"
+    "messageformat": "Nome non verificado"
   },
   "icu:ConversationHero--signal-official-chat": {
     "messageformat": "Esta é a única conversa oficial de Signal"
   },
   "icu:ConversationHero--signal-official-account": {
-    "messageformat": "Official account"
+    "messageformat": "Conta oficial"
   },
   "icu:ConversationHero--signal-official-account--description": {
-    "messageformat": "The only official chat from Signal. Keep up to date with news and release notes."
+    "messageformat": "Esta é a única conversa oficial de Signal. Sigue as últimas novidades e actualizacións."
   },
   "icu:ConversationHero--release-notes": {
     "messageformat": "Segue as últimas novidades e actualizacións."
@@ -5302,7 +5302,7 @@
     "messageformat": "Consellos de seguridade"
   },
   "icu:MessageRequestWarning__safety-tips-v2": {
-    "messageformat": "Safety tips"
+    "messageformat": "Consellos de seguridade"
   },
   "icu:ContactSpoofing__same-name--link": {
     "messageformat": "Revisa as solicitudes con atención. Signal atopou outro contacto co mesmo nome. <reviewRequestLink>Revisar solicitude</reviewRequestLink>"
@@ -5906,13 +5906,13 @@
     "messageformat": "Para cambiar esta configuración, abre Signal no teu móbil e vai a Configuración > Conversas"
   },
   "icu:Preferences__link-previews--new-description": {
-    "messageformat": "Retrieve link previews directly from websites for messages you send."
+    "messageformat": "Obter vistas previas das ligazóns directamente desde os sitios web para as mensaxes que envías."
   },
   "icu:Preferences__address-book-photos--title": {
-    "messageformat": "Use address book photos"
+    "messageformat": "Utilizar fotografías da axenda de enderezos"
   },
   "icu:Preferences__address-book-photos--description": {
-    "messageformat": "Display contact photos from your address book if available."
+    "messageformat": "Mostra as fotografías dos contactos a partir da axenda, caso de estaren dispoñibles."
   },
   "icu:Preferences__auto-convert-emoji--title": {
     "messageformat": "Converter emoticonas escritas en emoji"
@@ -6521,13 +6521,13 @@
     "messageformat": "Confirmacións de lectura"
   },
   "icu:Preferences--read-receipts--description": {
-    "messageformat": "If disabled, you won't see read receipts from others."
+    "messageformat": "Se non está activado, non poderás ver as confirmacións de lectura dos demais."
   },
   "icu:Preferences--typing-indicators": {
     "messageformat": "Indicador de escritura"
   },
   "icu:Preferences--typing-indicators--description": {
-    "messageformat": "If disabled, you won't see typing indicators from others."
+    "messageformat": "Se non está activado, non poderás ver o indicador de escritura dos demais."
   },
   "icu:Preferences--updates": {
     "messageformat": "Actualizacións"
@@ -7040,7 +7040,7 @@
     "messageformat": "Confirmacións de visualización"
   },
   "icu:StoriesSettings__view-receipts--new-description": {
-    "messageformat": "See and share when stories are viewed. If disabled, you won't see when others view your story."
+    "messageformat": "Ver e compartir cando se visualizan as historias. Se se desactiva, non verás cando os demais visualizan a túa historia."
   },
   "icu:StoriesSettings__view-receipts--description": {
     "messageformat": "Para cambiar esta configuración, abre Signal no teu móbil e vai a Configuración -> Historias"
@@ -7692,16 +7692,16 @@
     "messageformat": "Non compartas a túa información persoal con xente que non coñeces"
   },
   "icu:ProfileNameWarningModal__warning--signal-cant-verify": {
-    "messageformat": "Signal can’t verify names and photos"
+    "messageformat": "Signal non pode verificar os nomes nin as fotos"
   },
   "icu:ProfileNameWarningModal__warning--signal-wont-contact": {
-    "messageformat": "Signal will never contact you for your registration code, PIN, or recovery key"
+    "messageformat": "Signal nunca che pedirá o teu código de rexistro, o PIN ou a clave de recuperación"
   },
   "icu:ProfileNameWarningModal__warning--be-cautious": {
-    "messageformat": "Be cautious of accounts that impersonate others"
+    "messageformat": "Ten coidado coas contas que se fan pasar por outras persoas"
   },
   "icu:ProfileNameWarningModal__warning--dont-share-info": {
-    "messageformat": "Don't share personal information with people you don't know"
+    "messageformat": "Non compartas a túa información persoal con xente que non coñeces"
   },
   "icu:ProfileNameWarningModal__description--group": {
     "messageformat": "Os membros do grupo escollen o nome do grupo."

@@ -1791,10 +1791,10 @@
     "messageformat": "Avbryt"
   },
   "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
-    "messageformat": "Show status icon"
+    "messageformat": "Visa statusikon"
   },
   "icu:Preferences__PrivacyPage__ShowStatusIcon__Description": {
-    "messageformat": "Show an icon in message details when they were delivered using sealed sender."
+    "messageformat": "Visa en ikon i meddelandedetaljer när de levererades med dold avsändare."
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
     "messageformat": "Automatisk nyckelverifiering"
@@ -3519,16 +3519,16 @@
     "messageformat": "<clickable>Profilnamn</clickable> verifieras inte"
   },
   "icu:ConversationHero--name-not-verified": {
-    "messageformat": "Name not verified"
+    "messageformat": "Namnet har inte verifierats"
   },
   "icu:ConversationHero--signal-official-chat": {
     "messageformat": "Det här är den officiella och enda chatten från Signal"
   },
   "icu:ConversationHero--signal-official-account": {
-    "messageformat": "Official account"
+    "messageformat": "Officiellt konto"
   },
   "icu:ConversationHero--signal-official-account--description": {
-    "messageformat": "The only official chat from Signal. Keep up to date with news and release notes."
+    "messageformat": "Den enda officiella chatten från Signal. Håll dig uppdaterad med nyheter och versionsinformation."
   },
   "icu:ConversationHero--release-notes": {
     "messageformat": "Håll dig uppdaterad med nyheter och versionsinformation."
@@ -5302,7 +5302,7 @@
     "messageformat": "Säkerhetstips"
   },
   "icu:MessageRequestWarning__safety-tips-v2": {
-    "messageformat": "Safety tips"
+    "messageformat": "Säkerhetstips"
   },
   "icu:ContactSpoofing__same-name--link": {
     "messageformat": "Granska förfrågningar noggrant. Signal hittade en annan kontakt med samma namn. <reviewRequestLink>Granska förfrågan</reviewRequestLink>"
@@ -5906,13 +5906,13 @@
     "messageformat": "Om du vill ändra den här inställningen öppnar du Signal-appen på din mobila enhet och navigerar till Inställningar > Chattar"
   },
   "icu:Preferences__link-previews--new-description": {
-    "messageformat": "Retrieve link previews directly from websites for messages you send."
+    "messageformat": "Hämta länkförhandsgranskningar direkt från webbplatser för meddelanden du skickar."
   },
   "icu:Preferences__address-book-photos--title": {
-    "messageformat": "Use address book photos"
+    "messageformat": "Använd foton från adressboken"
   },
   "icu:Preferences__address-book-photos--description": {
-    "messageformat": "Display contact photos from your address book if available."
+    "messageformat": "Visa kontaktfoton från din adressbok om tillgängliga"
   },
   "icu:Preferences__auto-convert-emoji--title": {
     "messageformat": "Konvertera skrivna uttryckssymboler till emojier"
@@ -6521,13 +6521,13 @@
     "messageformat": "Läskvitton"
   },
   "icu:Preferences--read-receipts--description": {
-    "messageformat": "If disabled, you won't see read receipts from others."
+    "messageformat": "Om det är inaktiverat ser du inte läskvitton från andra."
   },
   "icu:Preferences--typing-indicators": {
     "messageformat": "Skrivindikatorer"
   },
   "icu:Preferences--typing-indicators--description": {
-    "messageformat": "If disabled, you won't see typing indicators from others."
+    "messageformat": "Om det är inaktiverat ser du inte skrivindikatorer från andra."
   },
   "icu:Preferences--updates": {
     "messageformat": "Uppdateringar"
@@ -7040,7 +7040,7 @@
     "messageformat": "Visa kvitton"
   },
   "icu:StoriesSettings__view-receipts--new-description": {
-    "messageformat": "See and share when stories are viewed. If disabled, you won't see when others view your story."
+    "messageformat": "Se och dela när stories visas. Om de är inaktiverade ser du inte när andra ser din story."
   },
   "icu:StoriesSettings__view-receipts--description": {
     "messageformat": "Om du vill ändra den här inställningen öppnar du Signal-appen på din mobila enhet och navigerar till Inställningar > Stories"
@@ -7692,16 +7692,16 @@
     "messageformat": "Dela inte personlig information med personer du inte känner"
   },
   "icu:ProfileNameWarningModal__warning--signal-cant-verify": {
-    "messageformat": "Signal can’t verify names and photos"
+    "messageformat": "Signal kan inte verifiera namn och foton"
   },
   "icu:ProfileNameWarningModal__warning--signal-wont-contact": {
-    "messageformat": "Signal will never contact you for your registration code, PIN, or recovery key"
+    "messageformat": "Signal kommer aldrig att kontakta dig för att be om din registreringskod, PIN-kod eller återställningsnyckel"
   },
   "icu:ProfileNameWarningModal__warning--be-cautious": {
-    "messageformat": "Be cautious of accounts that impersonate others"
+    "messageformat": "Var försiktig med konton där någon utger sig för att vara en annan person"
   },
   "icu:ProfileNameWarningModal__warning--dont-share-info": {
-    "messageformat": "Don't share personal information with people you don't know"
+    "messageformat": "Dela inte personlig information med personer du inte känner"
   },
   "icu:ProfileNameWarningModal__description--group": {
     "messageformat": "Gruppnamn väljs av medlemmar i gruppen."

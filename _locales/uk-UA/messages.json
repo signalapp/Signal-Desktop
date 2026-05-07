@@ -1791,10 +1791,10 @@
     "messageformat": "Закрити"
   },
   "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
-    "messageformat": "Show status icon"
+    "messageformat": "Показувати значок стану"
   },
   "icu:Preferences__PrivacyPage__ShowStatusIcon__Description": {
-    "messageformat": "Show an icon in message details when they were delivered using sealed sender."
+    "messageformat": "Показувати піктограму в інформації про повідомлення, доставлене від засекреченого відправника."
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
     "messageformat": "Автоматичне підтвердження ключа"
@@ -3519,16 +3519,16 @@
     "messageformat": "<clickable>Назви профілів</clickable> не проходять перевірку"
   },
   "icu:ConversationHero--name-not-verified": {
-    "messageformat": "Name not verified"
+    "messageformat": "Назву профілю не перевірено"
   },
   "icu:ConversationHero--signal-official-chat": {
     "messageformat": "Це офіційний і єдиний чат від Signal"
   },
   "icu:ConversationHero--signal-official-account": {
-    "messageformat": "Official account"
+    "messageformat": "Офіційний акаунт"
   },
   "icu:ConversationHero--signal-official-account--description": {
-    "messageformat": "The only official chat from Signal. Keep up to date with news and release notes."
+    "messageformat": "Єдиний офіційний чат від Signal. Будьте в курсі новин і впроваджених змін."
   },
   "icu:ConversationHero--release-notes": {
     "messageformat": "Будьте в курсі новин і впроваджених змін."
@@ -5302,7 +5302,7 @@
     "messageformat": "Заходи безпеки"
   },
   "icu:MessageRequestWarning__safety-tips-v2": {
-    "messageformat": "Safety tips"
+    "messageformat": "Заходи безпеки"
   },
   "icu:ContactSpoofing__same-name--link": {
     "messageformat": "Уважно перевіряйте, від кого надходять запити. Signal знайшов іншого користувача з таким самим ім'ям. <reviewRequestLink>Переглянути запит</reviewRequestLink>"
@@ -5906,13 +5906,13 @@
     "messageformat": "Щоб змінити це налаштування, відкрийте застосунок Signal на мобільному пристрої та перейдіть у налаштування > Чати"
   },
   "icu:Preferences__link-previews--new-description": {
-    "messageformat": "Retrieve link previews directly from websites for messages you send."
+    "messageformat": "Показувати попередній вигляд вебсторінок за посиланнями, які ви надсилаєте в повідомленнях."
   },
   "icu:Preferences__address-book-photos--title": {
-    "messageformat": "Use address book photos"
+    "messageformat": "Використовувати фото з адресної книги"
   },
   "icu:Preferences__address-book-photos--description": {
-    "messageformat": "Display contact photos from your address book if available."
+    "messageformat": "За наявності показувати фото контактів з вашої адресної книги."
   },
   "icu:Preferences__auto-convert-emoji--title": {
     "messageformat": "Перетворювати емограми, введені символами, на емоджі"
@@ -6521,13 +6521,13 @@
     "messageformat": "Відмітки про читання"
   },
   "icu:Preferences--read-receipts--description": {
-    "messageformat": "If disabled, you won't see read receipts from others."
+    "messageformat": "Якщо вимкнути, ви не будете бачити, чи прочитали ваші повідомлення."
   },
   "icu:Preferences--typing-indicators": {
     "messageformat": "Індикатор набору тексту"
   },
   "icu:Preferences--typing-indicators--description": {
-    "messageformat": "If disabled, you won't see typing indicators from others."
+    "messageformat": "Якщо вимкнути, ви не будете бачити індикатор набору тексту, коли інші користувачі набиратимуть повідомлення."
   },
   "icu:Preferences--updates": {
     "messageformat": "Оновлення"
@@ -7040,7 +7040,7 @@
     "messageformat": "Відмітки про перегляд"
   },
   "icu:StoriesSettings__view-receipts--new-description": {
-    "messageformat": "See and share when stories are viewed. If disabled, you won't see when others view your story."
+    "messageformat": "Увімкніть, щоб бачити перегляди ваших історій від інших і дозволити іншим бачити ваші перегляди їхніх історій. Якщо цю функцію вимкнено, ви не будете знати, чи хтось переглянув вашу історію."
   },
   "icu:StoriesSettings__view-receipts--description": {
     "messageformat": "Щоб змінити це налаштування, відкрийте застосунок Signal на своєму мобільному пристрої та перейдіть у налаштування -> Історії"
@@ -7692,16 +7692,16 @@
     "messageformat": "Не діліться особистою інформацією з незнайомцями"
   },
   "icu:ProfileNameWarningModal__warning--signal-cant-verify": {
-    "messageformat": "Signal can’t verify names and photos"
+    "messageformat": "Signal не може перевірити справжність імен і фотографій"
   },
   "icu:ProfileNameWarningModal__warning--signal-wont-contact": {
-    "messageformat": "Signal will never contact you for your registration code, PIN, or recovery key"
+    "messageformat": "Представники Signal ніколи не питатимуть ваш код для реєстрації, PIN-код і ключ відновлення"
   },
   "icu:ProfileNameWarningModal__warning--be-cautious": {
-    "messageformat": "Be cautious of accounts that impersonate others"
+    "messageformat": "Зважайте на те, що акаунти можуть бути фейкові"
   },
   "icu:ProfileNameWarningModal__warning--dont-share-info": {
-    "messageformat": "Don't share personal information with people you don't know"
+    "messageformat": "Не діліться особистою інформацією з незнайомцями"
   },
   "icu:ProfileNameWarningModal__description--group": {
     "messageformat": "Назви груп обирають їхні учасники."

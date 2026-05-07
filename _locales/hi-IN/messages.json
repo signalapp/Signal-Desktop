@@ -1791,10 +1791,10 @@
     "messageformat": "कैंसिल करें"
   },
   "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
-    "messageformat": "Show status icon"
+    "messageformat": "स्टेटस आइकन दिखाएं"
   },
   "icu:Preferences__PrivacyPage__ShowStatusIcon__Description": {
-    "messageformat": "Show an icon in message details when they were delivered using sealed sender."
+    "messageformat": "एनक्रिप्टेड सेंडर के ज़रिए डिलीवर हुए मैसेज के लिए, मैसेज के विवरण में आइकन दिखाएं।"
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
     "messageformat": "ऑटोमैटिक 'की' वेरिफ़िकेशन"
@@ -3519,16 +3519,16 @@
     "messageformat": "<clickable>प्रोफ़ाइल नेम</clickable> वेरिफ़ाइड नहीं हैं"
   },
   "icu:ConversationHero--name-not-verified": {
-    "messageformat": "Name not verified"
+    "messageformat": "नाम वेरिफ़ाइड नहीं है"
   },
   "icu:ConversationHero--signal-official-chat": {
     "messageformat": "यह Signal की ओर से आधिकारिक और इकलौती चैट है"
   },
   "icu:ConversationHero--signal-official-account": {
-    "messageformat": "Official account"
+    "messageformat": "ऑफ़िशियल अकाउंट"
   },
   "icu:ConversationHero--signal-official-account--description": {
-    "messageformat": "The only official chat from Signal. Keep up to date with news and release notes."
+    "messageformat": "Signal की ओर से इकलौती ऑफ़िशियल चैट। खबरों और रिलीज़ नोट के ज़रिए अप-टू-डेट रहें।"
   },
   "icu:ConversationHero--release-notes": {
     "messageformat": "खबरों और रिलीज़ नोट के ज़रिए अप-टू-डेट रहें।"
@@ -5302,7 +5302,7 @@
     "messageformat": "सुरक्षा टिप्स"
   },
   "icu:MessageRequestWarning__safety-tips-v2": {
-    "messageformat": "Safety tips"
+    "messageformat": "सुरक्षा से जुड़े सुझाव"
   },
   "icu:ContactSpoofing__same-name--link": {
     "messageformat": "अनुरोधों की सावधानीपूर्वक समीक्षा करें। Signal को एक ही नाम वाला एक और संपर्क मिला। <reviewRequestLink>निवेदन की समीक्षा करें</reviewRequestLink>"
@@ -5906,13 +5906,13 @@
     "messageformat": "इस सेटिंग को बदलने के लिए, अपने मोबाइल डिवाइस पर Signal ऐप को खोलें और सेटिंग > चैट पर नैविगेट करें"
   },
   "icu:Preferences__link-previews--new-description": {
-    "messageformat": "Retrieve link previews directly from websites for messages you send."
+    "messageformat": "भेजे जाने वाले मैसेज के लिए, सीधे वेबसाइट से लिंक प्रीव्यू करने की सुविधा पाएं।"
   },
   "icu:Preferences__address-book-photos--title": {
-    "messageformat": "Use address book photos"
+    "messageformat": "ऐड्रेस बुक की फ़ोटो इस्तेमाल करें"
   },
   "icu:Preferences__address-book-photos--description": {
-    "messageformat": "Display contact photos from your address book if available."
+    "messageformat": "उपलब्ध होने पर अपनी ऐड्रेस बुक से कॉन्टैक्ट फ़ोटो डिसप्ले करें।"
   },
   "icu:Preferences__auto-convert-emoji--title": {
     "messageformat": "टाइप किए गए इमोटिकॉन्स को इमोजी में बदलें"
@@ -6521,13 +6521,13 @@
     "messageformat": "मैसेज पढ़े जाने की सूचना"
   },
   "icu:Preferences--read-receipts--description": {
-    "messageformat": "If disabled, you won't see read receipts from others."
+    "messageformat": "इस सुविधा के बंद होने पर, आपको पता नहीं चल पाएगा कि दूसरे लोगों ने आपका मैसेज पढ़ा है या नहीं।"
   },
   "icu:Preferences--typing-indicators": {
     "messageformat": "टाइप किए जाने की सूचना"
   },
   "icu:Preferences--typing-indicators--description": {
-    "messageformat": "If disabled, you won't see typing indicators from others."
+    "messageformat": "इस सुविधा के बंद होने पर, आपको पता नहीं चल पाएगा कि दूसरे लोग टाइप कर रहे हैं या नहीं।"
   },
   "icu:Preferences--updates": {
     "messageformat": "अपडेट"
@@ -7040,7 +7040,7 @@
     "messageformat": "देखे जाने की सूचना"
   },
   "icu:StoriesSettings__view-receipts--new-description": {
-    "messageformat": "See and share when stories are viewed. If disabled, you won't see when others view your story."
+    "messageformat": "स्टोरी देखे जाने की सूचना देखें और शेयर करें। बंद होने पर, आपको पता नहीं चल पाएगा कि दूसरे लोगों ने आपकी स्टोरी कब देखी।"
   },
   "icu:StoriesSettings__view-receipts--description": {
     "messageformat": "इस सेटिंग को बदलने के लिए, अपने मोबाइल डिवाइस पर Signal ऐप खोलें और इसके बाद सेटिंग -> चैट पर जाएं"
@@ -7692,16 +7692,16 @@
     "messageformat": "आप जिन लोगों को नहीं जानते उनके साथ व्यक्तिगत जानकारी शेयन न करें"
   },
   "icu:ProfileNameWarningModal__warning--signal-cant-verify": {
-    "messageformat": "Signal can’t verify names and photos"
+    "messageformat": "Signal, नाम और फ़ोटो वेरिफ़ाई नहीं कर सकता"
   },
   "icu:ProfileNameWarningModal__warning--signal-wont-contact": {
-    "messageformat": "Signal will never contact you for your registration code, PIN, or recovery key"
+    "messageformat": "Signal आपसे कभी भी आपका रजिस्ट्रेशन कोड, पिन या 'रिकवरी की' मांगने के लिए संपर्क नहीं करता"
   },
   "icu:ProfileNameWarningModal__warning--be-cautious": {
-    "messageformat": "Be cautious of accounts that impersonate others"
+    "messageformat": "दूसरों के नाम पर खुद मैसेज करने वाले अकाउंट से सावधान रहें"
   },
   "icu:ProfileNameWarningModal__warning--dont-share-info": {
-    "messageformat": "Don't share personal information with people you don't know"
+    "messageformat": "अनजान लोगों के साथ निजी जानकारी शेयर न करें"
   },
   "icu:ProfileNameWarningModal__description--group": {
     "messageformat": "ग्रुप के नाम ग्रुप के सदस्य चुनते हैं।"

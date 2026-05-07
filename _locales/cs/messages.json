@@ -1791,10 +1791,10 @@
     "messageformat": "Zrušit"
   },
   "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
-    "messageformat": "Show status icon"
+    "messageformat": "Zobrazit ikonu stavu"
   },
   "icu:Preferences__PrivacyPage__ShowStatusIcon__Description": {
-    "messageformat": "Show an icon in message details when they were delivered using sealed sender."
+    "messageformat": "Zobrazení ikonu v podrobnostech zprávy, pokud byla doručena pomocí utajeného odesílatele."
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
     "messageformat": "Automatické ověření klíče"
@@ -3519,16 +3519,16 @@
     "messageformat": "<clickable>Jména profilů</clickable> nejsou ověřována"
   },
   "icu:ConversationHero--name-not-verified": {
-    "messageformat": "Name not verified"
+    "messageformat": "Jméno nebylo ověřeno"
   },
   "icu:ConversationHero--signal-official-chat": {
     "messageformat": "Toto je jediný oficiální chat od služby Signal"
   },
   "icu:ConversationHero--signal-official-account": {
-    "messageformat": "Official account"
+    "messageformat": "Oficiální účet"
   },
   "icu:ConversationHero--signal-official-account--description": {
-    "messageformat": "The only official chat from Signal. Keep up to date with news and release notes."
+    "messageformat": "Jediný oficiální chat od služby Signal. Sledujte novinky a poznámky k vydání."
   },
   "icu:ConversationHero--release-notes": {
     "messageformat": "Sledujte novinky a poznámky k vydání."
@@ -5302,7 +5302,7 @@
     "messageformat": "Bezpečnostní tipy"
   },
   "icu:MessageRequestWarning__safety-tips-v2": {
-    "messageformat": "Safety tips"
+    "messageformat": "Bezpečnostní tipy"
   },
   "icu:ContactSpoofing__same-name--link": {
     "messageformat": "Žádosti pečlivě kontrolujte. Signal našel další kontakt se stejným jménem. <reviewRequestLink>Zkontrolovat žádost</reviewRequestLink>"
@@ -5906,13 +5906,13 @@
     "messageformat": "Chcete-li změnit toto nastavení, otevřete aplikaci Signal na mobilním zařízení a přejděte do Nastavení > Chaty"
   },
   "icu:Preferences__link-previews--new-description": {
-    "messageformat": "Retrieve link previews directly from websites for messages you send."
+    "messageformat": "Vytvářet náhledy odkazů u odesílaných zpráv přímo z webových stránek."
   },
   "icu:Preferences__address-book-photos--title": {
-    "messageformat": "Use address book photos"
+    "messageformat": "Používat fotografie z adresáře"
   },
   "icu:Preferences__address-book-photos--description": {
-    "messageformat": "Display contact photos from your address book if available."
+    "messageformat": "Zobrazovat fotografie kontaktů z adresáře, pokud jsou k dispozici."
   },
   "icu:Preferences__auto-convert-emoji--title": {
     "messageformat": "Převádět emotikony psané pomocí znaků na emoji"
@@ -6521,13 +6521,13 @@
     "messageformat": "Potvrzení o přečtení"
   },
   "icu:Preferences--read-receipts--description": {
-    "messageformat": "If disabled, you won't see read receipts from others."
+    "messageformat": "Pokud je tato funkce vypnutá, nebudou se vám zobrazovat potvrzení o přečtení od ostatních."
   },
   "icu:Preferences--typing-indicators": {
     "messageformat": "Indikátory psaní"
   },
   "icu:Preferences--typing-indicators--description": {
-    "messageformat": "If disabled, you won't see typing indicators from others."
+    "messageformat": "Pokud je tato funkce vypnutá, neuvidíte u ostatních, že právě píšou."
   },
   "icu:Preferences--updates": {
     "messageformat": "Aktualizace"
@@ -7040,7 +7040,7 @@
     "messageformat": "Potvrzení o zobrazení"
   },
   "icu:StoriesSettings__view-receipts--new-description": {
-    "messageformat": "See and share when stories are viewed. If disabled, you won't see when others view your story."
+    "messageformat": "Zobrazovat a sdílet informace o zhlédnutí příběhů. Pokud je tato funkce vypnutá, neuvidíte, kdo si váš příběh prohlédl."
   },
   "icu:StoriesSettings__view-receipts--description": {
     "messageformat": "Pokud chcete toto nastavení změnit, otevřete aplikaci Signal na mobilním zařízení a přejděte do Nastavení > Příběhy"
@@ -7692,16 +7692,16 @@
     "messageformat": "Nesdílejte osobní údaje s lidmi, které neznáte"
   },
   "icu:ProfileNameWarningModal__warning--signal-cant-verify": {
-    "messageformat": "Signal can’t verify names and photos"
+    "messageformat": "Signal nemůže ověřovat jména a fotky"
   },
   "icu:ProfileNameWarningModal__warning--signal-wont-contact": {
-    "messageformat": "Signal will never contact you for your registration code, PIN, or recovery key"
+    "messageformat": "Signal vás nikdy nebude kontaktovat ohledně registračního kódu, PIN nebo klíče pro obnovení"
   },
   "icu:ProfileNameWarningModal__warning--be-cautious": {
-    "messageformat": "Be cautious of accounts that impersonate others"
+    "messageformat": "Dávejte si pozor na účty, které se vydávají za někoho jiného"
   },
   "icu:ProfileNameWarningModal__warning--dont-share-info": {
-    "messageformat": "Don't share personal information with people you don't know"
+    "messageformat": "Nesdílejte osobní údaje s lidmi, které neznáte"
   },
   "icu:ProfileNameWarningModal__description--group": {
     "messageformat": "Názvy skupin vybírají členové skupiny."

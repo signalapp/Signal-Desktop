@@ -1791,10 +1791,10 @@
     "messageformat": "ਰੱਦ ਕਰੋ"
   },
   "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
-    "messageformat": "Show status icon"
+    "messageformat": "ਸਟੇਟਸ ਆਈਕਨ ਦਿਖਾਓ"
   },
   "icu:Preferences__PrivacyPage__ShowStatusIcon__Description": {
-    "messageformat": "Show an icon in message details when they were delivered using sealed sender."
+    "messageformat": "ਸੁਨੇਹੇ ਕਦੋਂ ਪਹੁੰਚਾਏ ਗਏ ਸਨ ਇਸ ਬਾਰੇ ਸੁਨੇਹਾ ਵੇਰਵਿਆਂ ਵਿੱਚ ਸੀਲਬੰਦ ਭੇਜਣ ਵਾਲੇ ਦੀ ਵਰਤੋਂ ਕਰਦੇ ਹੋਏ ਇੱਕ ਆਈਕੋਨ ਦਿਖਾਓ।"
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
     "messageformat": "ਕੁੰਜੀ ਦੀ ਆਪਣੇ-ਆਪ ਤਸਦੀਕ"
@@ -3519,16 +3519,16 @@
     "messageformat": "<clickable>ਪ੍ਰੋਫਾਈਲਾਂ ਦੇ ਨਾਂ</clickable> ਤਸਦੀਕਸ਼ੁਦਾ ਨਹੀਂ ਹੁੰਦੇ ਹਨ"
   },
   "icu:ConversationHero--name-not-verified": {
-    "messageformat": "Name not verified"
+    "messageformat": "ਨਾਂ ਤਸਦੀਕਸ਼ੁਦਾ ਨਹੀਂ ਹੈ"
   },
   "icu:ConversationHero--signal-official-chat": {
     "messageformat": "ਇਹ Signal ਦੀ ਅਧਿਕਾਰਤ ਅਤੇ ਇੱਕੋ-ਇੱਕ ਚੈਟ ਹੈ"
   },
   "icu:ConversationHero--signal-official-account": {
-    "messageformat": "Official account"
+    "messageformat": "ਅਧਿਕਾਰਤ ਖਾਤਾ"
   },
   "icu:ConversationHero--signal-official-account--description": {
-    "messageformat": "The only official chat from Signal. Keep up to date with news and release notes."
+    "messageformat": "ਇਹ Signal ਦੀ ਇੱਕੋ-ਇੱਕ ਅਧਿਕਾਰਤ ਚੈਟ ਹੈ ਖ਼ਬਰਾਂ ਅਤੇ ਰੀਲੀਜ਼ ਨੋਟਸ ਬਾਰੇ ਅੱਪ-ਟੂ-ਡੇਟ ਰਹੋ।"
   },
   "icu:ConversationHero--release-notes": {
     "messageformat": "ਖ਼ਬਰਾਂ ਅਤੇ ਰੀਲੀਜ਼ ਨੋਟਸ ਬਾਰੇ ਅੱਪ-ਟੂ-ਡੇਟ ਰਹੋ।"
@@ -5302,7 +5302,7 @@
     "messageformat": "ਸੁਰੱਖਿਆ ਸੰਬੰਧੀ ਸੁਝਾਅ"
   },
   "icu:MessageRequestWarning__safety-tips-v2": {
-    "messageformat": "Safety tips"
+    "messageformat": "ਸੁਰੱਖਿਆ ਸੰਬੰਧੀ ਸੁਝਾਅ"
   },
   "icu:ContactSpoofing__same-name--link": {
     "messageformat": "ਬੇਨਤੀਆਂ ਦੀ ਧਿਆਨ ਨਾਲ ਸਮੀਖਿਆ ਕਰੋ। Signal ਨੂੰ ਇਸੇ ਨਾਮ ਵਾਲਾ ਇੱਕ ਹੋਰ ਸੰਪਰਕ ਲੱਭਿਆ ਹੈ। <reviewRequestLink>ਬੇਨਤੀ ਦੀ ਸਮੀਖਿਆ ਕਰੋ</reviewRequestLink>"
@@ -5906,13 +5906,13 @@
     "messageformat": "ਇਸ ਸੈਟਿੰਗ ਨੂੰ ਬਦਲਣ ਲਈ, ਆਪਣੇ ਮੋਬਾਈਲ ਡਿਵਾਈਸ ਵਿੱਚ Signal ਐਪ ਨੂੰ ਖੋਲ੍ਹੋ ਅਤੇ ਸੈਟਿੰਗਾਂ > ਚੈਟਾਂ 'ਤੇ ਜਾਓ"
   },
   "icu:Preferences__link-previews--new-description": {
-    "messageformat": "Retrieve link previews directly from websites for messages you send."
+    "messageformat": "ਹੁਣ ਤੁਹਾਡੇ ਦੁਆਰਾ ਭੇਜੇ ਗਏ ਸੁਨੇਹਿਆਂ ਲਈ ਸਿੱਧੇ ਕਿਸੇ ਵੀ ਵੈੱਬਸਾਈਟ ਤੋਂ ਲਿੰਕ ਝਲਕ ਪ੍ਰਾਪਤ ਕਰੋ।"
   },
   "icu:Preferences__address-book-photos--title": {
-    "messageformat": "Use address book photos"
+    "messageformat": "ਐਡਰੈਸ ਬੁੱਕ ਫੋਟੋਆਂ ਵਰਤੋਂ"
   },
   "icu:Preferences__address-book-photos--description": {
-    "messageformat": "Display contact photos from your address book if available."
+    "messageformat": "ਤੁਹਾਡੀ ਐਡਰੈਸ ਬੁੱਕ ਤੋਂ ਸੰਪਰਕ ਦੀਆਂ ਫ਼ੋਟੋਆਂ ਦਿਖਾਓ, ਜੇ ਉਪਲਬਧ ਹੋਣ।"
   },
   "icu:Preferences__auto-convert-emoji--title": {
     "messageformat": "ਟਾਈਪ ਕੀਤੇ ਇਮੋਟੀਕੋਨ ਨੂੰ ਇਮੋਜੀ ਵਿੱਚ ਬਦਲੋ"
@@ -6521,13 +6521,13 @@
     "messageformat": "ਪੜ੍ਹੀਆਂ ਹੋਇਆਂ ਰਸੀਦਾਂ"
   },
   "icu:Preferences--read-receipts--description": {
-    "messageformat": "If disabled, you won't see read receipts from others."
+    "messageformat": "ਜੇਕਰ ਅਸਮਰੱਥ ਕੀਤਾ ਹੋਇਆ ਹੈ, ਤਾਂ ਤੁਸੀਂ ਹੋਰਾਂ ਦੀਆਂ ਪੜ੍ਹਨ ਦੀਆਂ ਸੂਚਨਾਵਾਂ ਦੇਖ ਨਹੀਂ ਸਕੋਗੇ।"
   },
   "icu:Preferences--typing-indicators": {
     "messageformat": "ਲਿਖਣ ਦੇ ਸੰਕੇਤ"
   },
   "icu:Preferences--typing-indicators--description": {
-    "messageformat": "If disabled, you won't see typing indicators from others."
+    "messageformat": "ਜੇਕਰ ਅਸਮਰੱਥ ਕੀਤਾ ਹੋਇਆ ਹੈ, ਤਾਂ ਤੁਸੀਂ ਦੂਜਿਆਂ ਦੇ ਲਿਖਣ ਦੇ ਸੰਕੇਤ ਦੇਖ ਨਹੀਂ ਸਕੋਗੇ।"
   },
   "icu:Preferences--updates": {
     "messageformat": "ਅੱਪਡੇਟ"
@@ -7040,7 +7040,7 @@
     "messageformat": "ਵਿਊ ਦੀਆਂ ਰਸੀਦਾਂ"
   },
   "icu:StoriesSettings__view-receipts--new-description": {
-    "messageformat": "See and share when stories are viewed. If disabled, you won't see when others view your story."
+    "messageformat": "ਸਟੋਰੀਆਂ ਕਦੋਂ ਦੇਖੀਆਂ ਜਾ ਰਹੀਆਂ ਹਨ ਇਹ ਦੇਖੋ ਅਤੇ ਸਾਂਝਾ ਕਰੋ। ਜੇਕਰ ਅਸਮਰੱਥ ਕੀਤਾ ਜਾਂਦਾ ਹੈ, ਤਾਂ ਤੁਸੀਂ ਨਹੀਂ ਦੇਖ ਸਕੋਗੇ ਕਿ ਹੋਰ ਲੋਕਾਂ ਨੇ ਤੁਹਾਡੀ ਸਟੋਰੀ ਕਦੋਂ ਦੇਖੀ ਹੈ।"
   },
   "icu:StoriesSettings__view-receipts--description": {
     "messageformat": "ਇਸ ਸੈਟਿੰਗ ਨੂੰ ਬਦਲਣ ਲਈ, ਆਪਣੇ ਮੋਬਾਈਲ ਡਿਵਾਈਸ 'ਤੇ Signal ਐਪ ਖੋਲ੍ਹੋ ਅਤੇ ਸੈਟਿੰਗਾਂ -> ਸਟੋਰੀਆਂ 'ਤੇ ਜਾਓ"
@@ -7692,16 +7692,16 @@
     "messageformat": "ਉਹਨਾਂ ਲੋਕਾਂ ਨਾਲ ਨਿੱਜੀ ਜਾਣਕਾਰੀ ਸਾਂਝੀ ਨਾ ਕਰੋ ਜਿਹਨਾਂ ਨੂੰ ਤੁਸੀਂ ਨਹੀਂ ਜਾਣਦੇ ਹੋ"
   },
   "icu:ProfileNameWarningModal__warning--signal-cant-verify": {
-    "messageformat": "Signal can’t verify names and photos"
+    "messageformat": "Signal ਨਾਂਵਾਂ ਅਤੇ ਫ਼ੋਟੋਆਂ ਦੀ ਤਸਦੀਕ ਨਹੀਂ ਕਰ ਸਕਦਾ ਹੈ"
   },
   "icu:ProfileNameWarningModal__warning--signal-wont-contact": {
-    "messageformat": "Signal will never contact you for your registration code, PIN, or recovery key"
+    "messageformat": "Signal ਕਦੇ ਵੀ ਤੁਹਾਡੇ ਤੋਂ ਰਜਿਸਟ੍ਰੇਸ਼ਨ ਕੋਡ, PIN, ਜਾਂ ਰਿਕਵਰੀ ਕੁੰਜੀ ਪੁੱਛਣ ਲਈ ਤੁਹਾਡੇ ਨਾਲ ਸੰਪਰਕ ਨਹੀੰ ਕਰੇਗਾ"
   },
   "icu:ProfileNameWarningModal__warning--be-cautious": {
-    "messageformat": "Be cautious of accounts that impersonate others"
+    "messageformat": "ਦੂਜਿਆਂ ਦਾ ਭੇਸ ਧਾਰਨ ਕਰਨ ਵਾਲੇ ਖਾਤਿਆਂ ਤੋਂ ਸਾਵਧਾਨ ਰਹੋ"
   },
   "icu:ProfileNameWarningModal__warning--dont-share-info": {
-    "messageformat": "Don't share personal information with people you don't know"
+    "messageformat": "ਉਹਨਾਂ ਲੋਕਾਂ ਨਾਲ ਨਿੱਜੀ ਜਾਣਕਾਰੀ ਸਾਂਝੀ ਨਾ ਕਰੋ ਜਿਹਨਾਂ ਨੂੰ ਤੁਸੀਂ ਨਹੀਂ ਜਾਣਦੇ ਹੋ"
   },
   "icu:ProfileNameWarningModal__description--group": {
     "messageformat": "ਗਰੁੱਪ ਦਾ ਨਾਂ ਗਰੁੱਪ ਦੇ ਮੈਂਬਰ ਚੁਣਦੇ ਹਨ।"
