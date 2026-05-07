@@ -210,6 +210,7 @@ export type OwnProps = Readonly<{
   }): unknown;
   shouldSendHighQualityAttachments: boolean;
   showConversation: ShowConversationType;
+  warmupRecording: () => void;
   startRecording: (id: string) => unknown;
   terminated: boolean | null;
   theme: ThemeType;
@@ -285,6 +286,7 @@ export const CompositionArea = memo(function CompositionArea({
   // AudioCapture
   recordingState,
   startRecording,
+  warmupRecording,
   // StagedLinkPreview
   linkPreviewLoading,
   linkPreviewResult,
@@ -796,6 +798,7 @@ export const CompositionArea = memo(function CompositionArea({
         draftAttachments={draftAttachments}
         i18n={i18n}
         showToast={showToast}
+        warmupRecording={warmupRecording}
         startRecording={startRecording}
       />
     </div>

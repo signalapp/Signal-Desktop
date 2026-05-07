@@ -105,6 +105,7 @@ export default {
     errorRecording: action('errorRecording'),
     recordingState: RecordingState.Idle,
     startRecording: action('startRecording'),
+    warmupRecording: action('warmupRecording'),
     // StagedLinkPreview
     linkPreviewLoading: false,
     linkPreviewResult: undefined,

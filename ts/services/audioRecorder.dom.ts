@@ -34,6 +34,13 @@ type State = Readonly<
 export class AudioRecorder {
   #state: State = { type: 'idle' };
 
+  static async warmup(): Promise<void> {
+    if (contextPromise == null) {
+      contextPromise = initContext();
+    }
+    await contextPromise;
+  }
+
   async start(onPeak: (peak: number) => void): Promise<boolean> {
     if (this.#state.type !== 'idle') {
       throw new Error('Already started');

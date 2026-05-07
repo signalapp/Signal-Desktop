@@ -92,11 +92,18 @@ export const actions = {
   completeRecording,
   errorRecording,
   startRecording,
+  warmupRecording,
 };
 
 export const useAudioRecorderActions = (): BoundActionCreatorsMapObject<
   typeof actions
 > => useBoundActions(actions);
+
+function warmupRecording(): ThunkAction<void, RootStateType, unknown, never> {
+  return async () => {
+    drop(AudioRecorder.warmup());
+  };
+}
 
 function startRecording(
   conversationId: string
@@ -119,13 +126,13 @@ function startRecording(
       return;
     }
 
+    drop(recorder?.stop());
+    recorder = new AudioRecorder();
+
     dispatch({
       type: START_RECORDING,
       payload: undefined,
     });
-
-    drop(recorder?.stop());
-    recorder = new AudioRecorder();
 
     try {
       const started = await recorder.start(peak => {

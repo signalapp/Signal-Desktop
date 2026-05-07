@@ -130,8 +130,7 @@ export function CompositionRecording({
         )}
       >
         {peaks.toReversed().map(({ value, index }) => {
-          // RMS peaks around 0.5 for loud sounds
-          const clamped = Math.min(value * 2, 1) * MAX_BAR_HEIGHT;
+          const clamped = value * MAX_BAR_HEIGHT;
           return (
             <b
               key={index}

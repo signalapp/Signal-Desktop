@@ -230,8 +230,13 @@ export const SmartCompositionArea = memo(function SmartCompositionArea({
     showConversation,
   } = useConversationsActions();
   const { pushPanelForConversation } = useNavActions();
-  const { cancelRecording, completeRecording, startRecording, errorRecording } =
-    useAudioRecorderActions();
+  const {
+    cancelRecording,
+    completeRecording,
+    warmupRecording,
+    startRecording,
+    errorRecording,
+  } = useAudioRecorderActions();
   const { onUseEmoji } = useEmojisActions();
   const {
     showGV2MigrationDialog,
@@ -281,6 +286,7 @@ export const SmartCompositionArea = memo(function SmartCompositionArea({
       recordingState={recordingState}
       cancelRecording={cancelRecording}
       completeRecording={completeRecording}
+      warmupRecording={warmupRecording}
       startRecording={startRecording}
       errorRecording={errorRecording}
       // AttachmentsList
