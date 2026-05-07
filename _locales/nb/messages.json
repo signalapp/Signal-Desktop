@@ -1791,10 +1791,10 @@
     "messageformat": "Avbryt"
   },
   "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
-    "messageformat": "Show status icon"
+    "messageformat": "Vis statusikon"
   },
   "icu:Preferences__PrivacyPage__ShowStatusIcon__Description": {
-    "messageformat": "Show an icon in message details when they were delivered using sealed sender."
+    "messageformat": "Vis et statusikon i meldingsdetaljer når de ble levert ved bruk av forseglet avsender."
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
     "messageformat": "Automatisk kodebekreftelse"
@@ -1954,6 +1954,27 @@
   },
   "icu:CallingButton--more-options": {
     "messageformat": "Flere muligheter"
+  },
+  "icu:CallingParticipantMenu__MuteAudio": {
+    "messageformat": "Mute audio"
+  },
+  "icu:CallingParticipantMenu__UnmuteAudio": {
+    "messageformat": "Unmute audio"
+  },
+  "icu:CallingParticipantMenu__ViewProfile": {
+    "messageformat": "View profile"
+  },
+  "icu:CallingParticipantMenu__GoToChat": {
+    "messageformat": "Go to chat"
+  },
+  "icu:CallingParticipantMenu__RemoveFromCall": {
+    "messageformat": "Remove from call"
+  },
+  "icu:CallingParticipantListItem__ContextMenuButton": {
+    "messageformat": "More actions"
+  },
+  "icu:CallingParticipantListItem__Presenting": {
+    "messageformat": "Presenting"
   },
   "icu:CallingPendingParticipants__ApproveUser": {
     "messageformat": "La bli med"
@@ -2183,8 +2204,26 @@
   "icu:deleteAllDataBody": {
     "messageformat": "Vil du slette alle dataene og meldingene fra denne Signal Desktop-versjonen? Signal-kontoen og dataene du har på mobilen og andre tilkoblede enheter, slettes ikke."
   },
+  "icu:deleteAccountProgress": {
+    "messageformat": "Deleting account and all data…"
+  },
   "icu:deleteAllDataProgress": {
     "messageformat": "Kobler fra og sletter alle data …"
+  },
+  "icu:deleteAccountHeader": {
+    "messageformat": "Delete account"
+  },
+  "icu:deleteAccountExplanation": {
+    "messageformat": "This will delete your account info, profile, and all of your messages. You will also be removed from all Signal groups."
+  },
+  "icu:deleteAccountButton": {
+    "messageformat": "Delete account"
+  },
+  "icu:deleteAccountDialogHeader": {
+    "messageformat": "Delete Account?"
+  },
+  "icu:deleteAccountDialogBody": {
+    "messageformat": "This will delete your account info, profile, and all of your messages. You will also be removed from all Signal groups. The app will close after this process is complete."
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Du har foreldede data fra en tidligere installasjon av Signal Desktop. Hvis du velger å fortsette, blir den slettet, og du vil starte med blank konfigurasjon."
@@ -2530,6 +2569,12 @@
   },
   "icu:unlinked": {
     "messageformat": "Frakoblet enhet"
+  },
+  "icu:unregisteredWarning": {
+    "messageformat": "Click to re-register and continue messaging. Signal Desktop is unregistered likely because you registered your phone number with Signal on a different device."
+  },
+  "icu:unregistered": {
+    "messageformat": "No longer registered"
   },
   "icu:autoUpdateNewVersionTitle": {
     "messageformat": "En oppdatering er tilgjengelig"
@@ -3320,8 +3365,41 @@
   "icu:SafetyTipsModal__Title": {
     "messageformat": "Sikkerhetstips"
   },
+  "icu:SafetyTipsModal__Title-v2": {
+    "messageformat": "Safety tips"
+  },
+  "icu:SafetyTipsModal__TipTitle--SignalChat": {
+    "messageformat": "Don’t respond to chats from Signal"
+  },
+  "icu:SafetyTipsModal__TipDescription--SignalChat": {
+    "messageformat": "Signal will never message you for your registration code, PIN, or recovery key. Never respond to a chat pretending to be Signal."
+  },
+  "icu:SafetyTipsModal__TipTitle--NamesAndPhotos": {
+    "messageformat": "Review names and photos"
+  },
+  "icu:SafetyTipsModal__TipDescription--NamesAndPhotos": {
+    "messageformat": "Look out for the “Name not verified” notice. Everyone sets their own profile name in Signal."
+  },
+  "icu:SafetyTipsModal__TipTitle--Scams": {
+    "messageformat": "Look out for scams"
+  },
+  "icu:SafetyTipsModal__TipDescription--Scams": {
+    "messageformat": "Avoid vague messages that try to get you to reply. Be aware of financial tips and suspicious web links."
+  },
   "icu:SafetyTipsModal__Description": {
     "messageformat": "Vær forsiktig når du godtar meldingsforespørsler fra personer du ikke kjenner. Vær forsiktig med:"
+  },
+  "icu:SafetyTipsModal__TipTitle--DontRespond": {
+    "messageformat": "Don’t respond to chats from Signal"
+  },
+  "icu:SafetyTipsModal__TipDescription--DontRespond": {
+    "messageformat": "Signal will never message you for your registration code, PIN, or recover key. Don't reply to chats pretending to be Signal or Signal Support. Bad actors set up fake names to try to take over your account."
+  },
+  "icu:SafetyTipsModal__TipTitle--ReviewNames": {
+    "messageformat": "Review names and photos"
+  },
+  "icu:SafetyTipsModal__TipDescription--ReviewNames": {
+    "messageformat": "Look out for the “Name not verified” notice. Everyone sets their own profile name and photo in Signal. If you’re unsure who a new request is from it’s safer to ignore it."
   },
   "icu:SafetyTipsModal__TipTitle--Fake": {
     "messageformat": "Falske navn og kontoer"
@@ -3347,8 +3425,14 @@
   "icu:SafetyTipsModal__TipDescription--Links": {
     "messageformat": "Vær forsiktig med meldinger fra folk du ikke kjenner, som har lenker til nettsteder. Du bør aldri trykke på lenker fra personer du ikke kjenner eller stoler på."
   },
+  "icu:SafetyTipsModal__TipTitle--Links-v2": {
+    "messageformat": "Messages with web links"
+  },
   "icu:SafetyTipsModal__TipTitle--Business": {
     "messageformat": "Falske virksomheter og organisasjoner"
+  },
+  "icu:SafetyTipsModal__TipTitle--Business-v2": {
+    "messageformat": "Fake businesses"
   },
   "icu:SafetyTipsModal__TipDescription--Business": {
     "messageformat": "Vær forsiktig hvis du blir kontaktet av virksomheter eller offentlige etater. Meldinger som omhandler skattebetalinger, forsendelser og lignende er ofte søppelpost."
@@ -3364,6 +3448,9 @@
   },
   "icu:SafetyTipsModal__Button--Done": {
     "messageformat": "Ferdig"
+  },
+  "icu:SafetyTipsModal__Button--ViewMore": {
+    "messageformat": "View more"
   },
   "icu:MessageRequests--message-direct": {
     "messageformat": "La {name} sende meldinger til deg og del ditt navn og bilde med dem? De vil ikke vite at du ser deres meldinger før du aksepterer."
@@ -3467,6 +3554,12 @@
   "icu:MessageRequests--accept-confirm-body": {
     "messageformat": "Se nøye gjennom forespørsler. Profilnavn velges av kontoinnehavere og bekreftes ikke."
   },
+  "icu:MessageRequests--accept-confirm-title-v2": {
+    "messageformat": "Accept request?"
+  },
+  "icu:MessageRequests--accept-confirm-body-v2": {
+    "messageformat": "Only accept requests from people you trust. <bold>Signal will never</bold> message you for a registration code, PIN, or recovery key."
+  },
   "icu:MessageRequests--continue": {
     "messageformat": "Fortsett"
   },
@@ -3509,9 +3602,6 @@
   "icu:ConversationHero--group-members-other-and-you": {
     "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3} og <clickable>{remainingCount,number} annen</clickable>} other {{member1}, {member2}, {member3} og <clickable>{remainingCount,number} andre</clickable>}}"
   },
-  "icu:ConversationHero--review-carefully": {
-    "messageformat": "Se nøye gjennom"
-  },
   "icu:ConversationHero--group-names": {
     "messageformat": "<clickable>Gruppenavn</clickable> kan ikke bekreftes"
   },
@@ -3519,16 +3609,22 @@
     "messageformat": "<clickable>Profilnavn</clickable> kan ikke bekreftes"
   },
   "icu:ConversationHero--name-not-verified": {
-    "messageformat": "Name not verified"
+    "messageformat": "Navn er ikke bekreftet"
   },
   "icu:ConversationHero--signal-official-chat": {
     "messageformat": "Dette er den offisielle og eneste samtalen du har med Signal"
   },
   "icu:ConversationHero--signal-official-account": {
-    "messageformat": "Official account"
+    "messageformat": "Offisiell konto"
+  },
+  "icu:ConversationHero--signal-official-chat-title": {
+    "messageformat": "Official chat"
   },
   "icu:ConversationHero--signal-official-account--description": {
-    "messageformat": "The only official chat from Signal. Keep up to date with news and release notes."
+    "messageformat": "Den eneste offisielle samtalen med Signal. Hold deg oppdatert på nyheter og utgavemerknader."
+  },
+  "icu:Timeline--signal-official-chat--chip": {
+    "messageformat": "The only official chat from Signal."
   },
   "icu:ConversationHero--release-notes": {
     "messageformat": "Hold deg oppdatert på nyheter og utgavemerknader."
@@ -4514,6 +4610,9 @@
   "icu:close": {
     "messageformat": "Lukk"
   },
+  "icu:clear": {
+    "messageformat": "Clear"
+  },
   "icu:previous": {
     "messageformat": "Forrige"
   },
@@ -4522,6 +4621,18 @@
   },
   "icu:ClearingData__description": {
     "messageformat": "Dette kan ta noen minutter"
+  },
+  "icu:DeletingAccount__LeavingGroups__Title": {
+    "messageformat": "Leaving groups..."
+  },
+  "icu:DeletingAccount__LeavingGroups__Detail": {
+    "messageformat": "Depending on the number of groups you’re in, this might take a few minutes"
+  },
+  "icu:DeletingAccount__DeletingData__Title": {
+    "messageformat": "Deleting account and all data..."
+  },
+  "icu:DeletingAccount__DeletingData__Detail": {
+    "messageformat": "Deleting user data and resetting the app"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Donér til Signal"
@@ -5298,11 +5409,11 @@
   "icu:ShareCallLinkViaSignal__DraftMessageText": {
     "messageformat": "Bruk denne lenken for å bli med i en Signal-samtale: {url}"
   },
-  "icu:MessageRequestWarning__safety-tips": {
-    "messageformat": "Sikkerhetstips"
+  "icu:MessageRequestWarning__review-carefully": {
+    "messageformat": "Review requests carefully"
   },
   "icu:MessageRequestWarning__safety-tips-v2": {
-    "messageformat": "Safety tips"
+    "messageformat": "Sikkerhetstips"
   },
   "icu:ContactSpoofing__same-name--link": {
     "messageformat": "Se grundig gjennom forespørsler. Signal fant en annen kontakt med samme navn. <reviewRequestLink>Se gjennom forespørsel</reviewRequestLink>"
@@ -5902,17 +6013,14 @@
   "icu:Preferences__link-previews--title": {
     "messageformat": "Forhåndsvis nettsteder"
   },
-  "icu:Preferences__link-previews--description": {
-    "messageformat": "Åpne Signal på mobilenheten din og gå til Innstillinger > Samtaler for å endre dette"
-  },
   "icu:Preferences__link-previews--new-description": {
-    "messageformat": "Retrieve link previews directly from websites for messages you send."
+    "messageformat": "Hent forhåndsvisninger av lenker direkte fra nettsteder for meldinger du sender."
   },
   "icu:Preferences__address-book-photos--title": {
-    "messageformat": "Use address book photos"
+    "messageformat": "Benytt adressebokbilder"
   },
   "icu:Preferences__address-book-photos--description": {
-    "messageformat": "Display contact photos from your address book if available."
+    "messageformat": "Vis adressebokbilder hvis tilgjengelig."
   },
   "icu:Preferences__auto-convert-emoji--title": {
     "messageformat": "Gjør emoticons om til emojier"
@@ -6274,6 +6382,27 @@
   "icu:Preferences--blocked": {
     "messageformat": "Blokkert"
   },
+  "icu:Preferences--blocked-count": {
+    "messageformat": "{num, plural, one {{num,number} kontakt} other {{num,number} kontakter}}"
+  },
+  "icu:Preferences--blocked-count-both-new": {
+    "messageformat": "{num, plural, =0 { No users or groups } one {{num,number} user or group} other {{num,number} users or groups}}"
+  },
+  "icu:Preferences--blocked-count-contacts-new": {
+    "messageformat": "{num, plural, =0 { No users } one {{num,number} user} other {{num,number} users}}"
+  },
+  "icu:Preferences--blocked-count-groups-new": {
+    "messageformat": "{num, plural, =0 { No groups } one {{num,number} group} other {{num,number} groups}}"
+  },
+  "icu:Preferences--blocked-users--description": {
+    "messageformat": "Blocked users will not be able to call you or send you messages"
+  },
+  "icu:Preferences--blocked-users": {
+    "messageformat": "Blocked Users"
+  },
+  "icu:Preferences--blocked-groups": {
+    "messageformat": "Blocked Groups"
+  },
   "icu:Preferences--signal-backups": {
     "messageformat": "Sikre sikkerhetskopier på Signal"
   },
@@ -6457,12 +6586,6 @@
   "icu:Preferences__recovery-key-updated__view-key": {
     "messageformat": "Se den nye koden"
   },
-  "icu:Preferences--blocked-count": {
-    "messageformat": "{num, plural, one {{num,number} kontakt} other {{num,number} kontakter}}"
-  },
-  "icu:Preferences__privacy--description": {
-    "messageformat": "Åpne Signal på mobilenheten din og gå til Innstillinger > Personvern for å endre disse innstillingene"
-  },
   "icu:Preferences__pnp__row--title": {
     "messageformat": "Telefonnummer"
   },
@@ -6521,13 +6644,13 @@
     "messageformat": "Lesebekreftelser"
   },
   "icu:Preferences--read-receipts--description": {
-    "messageformat": "If disabled, you won't see read receipts from others."
+    "messageformat": "Hvis du slår av dette, kan du ikke se lesebekreftelser fra andre."
   },
   "icu:Preferences--typing-indicators": {
     "messageformat": "Skriveindikatorer"
   },
   "icu:Preferences--typing-indicators--description": {
-    "messageformat": "If disabled, you won't see typing indicators from others."
+    "messageformat": "Hvis du slår av dette, kan du ikke se skrivetegn fra andre."
   },
   "icu:Preferences--updates": {
     "messageformat": "Oppdateringer"
@@ -6850,6 +6973,9 @@
   "icu:MessageRequestResponseNotification__Message--Accepted": {
     "messageformat": "Du godtok meldingsforespørselen"
   },
+  "icu:MessageRequestResponseNotification__Message--Accepted-Contact-Title": {
+    "messageformat": "You accepted {userProfileName}'s message request"
+  },
   "icu:MessageRequestResponseNotification__Message--Reported": {
     "messageformat": "Rapportert som søppelpost"
   },
@@ -6867,6 +6993,9 @@
   },
   "icu:MessageRequestResponseNotification__Button--Options": {
     "messageformat": "Alternativer"
+  },
+  "icu:MessageRequestResponseNotification__Button--block-or-report": {
+    "messageformat": "Block or Report..."
   },
   "icu:MessageRequestResponseNotification__Button--LearnMore": {
     "messageformat": "Les mer"
@@ -7040,10 +7169,7 @@
     "messageformat": "Visningsbekreftelser"
   },
   "icu:StoriesSettings__view-receipts--new-description": {
-    "messageformat": "See and share when stories are viewed. If disabled, you won't see when others view your story."
-  },
-  "icu:StoriesSettings__view-receipts--description": {
-    "messageformat": "Åpne Signal på mobilenheten din og gå til Innstillinger > Storyer for å endre denne innstillingen"
+    "messageformat": "Se og del når storyene dine blir sett av andre. Hvis dette er deaktivert, kan du ikke vite når andre ser storyen din."
   },
   "icu:GroupStorySettingsModal__members_title": {
     "messageformat": "Disse kan se denne storyen"
@@ -7682,26 +7808,17 @@
   "icu:ProfileNameWarningModal__description--direct": {
     "messageformat": "Profilnavn på Signal velges av kontoinnehaveren:"
   },
-  "icu:ProfileNameWarningModal__list--item1--direct": {
-    "messageformat": "Profilnavn kan ikke bekreftes"
-  },
-  "icu:ProfileNameWarningModal__list--item2--direct": {
-    "messageformat": "Vær på vakt mot svindlere som utgir seg for å være andre"
-  },
-  "icu:ProfileNameWarningModal__list--item3--direct": {
-    "messageformat": "Ikke send personlige opplysninger til folk du ikke kjenner"
-  },
   "icu:ProfileNameWarningModal__warning--signal-cant-verify": {
-    "messageformat": "Signal can’t verify names and photos"
+    "messageformat": "Signal kan ikke bekrefte navn og bilder"
   },
   "icu:ProfileNameWarningModal__warning--signal-wont-contact": {
-    "messageformat": "Signal will never contact you for your registration code, PIN, or recovery key"
+    "messageformat": "Signal kommer aldri til å be deg om å sende registreringskoden, PIN-koden eller sikkerhetskoden din."
   },
   "icu:ProfileNameWarningModal__warning--be-cautious": {
-    "messageformat": "Be cautious of accounts that impersonate others"
+    "messageformat": "Vær på vakt mot svindlere som utgir seg for å være andre"
   },
   "icu:ProfileNameWarningModal__warning--dont-share-info": {
-    "messageformat": "Don't share personal information with people you don't know"
+    "messageformat": "Ikke send personlige opplysninger til folk du ikke kjenner"
   },
   "icu:ProfileNameWarningModal__description--group": {
     "messageformat": "Gruppenavn velges av gruppemedlemmene."
@@ -8138,6 +8255,12 @@
   "icu:Megaphone__ExpandNarrowSidebar": {
     "messageformat": "Utvid sidefeltet for å bruke megafonen"
   },
+  "icu:Carousel--Role": {
+    "messageformat": "Carousel"
+  },
+  "icu:Carousel__Slide--Role": {
+    "messageformat": "Slide"
+  },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Denne versjonen inneholder noen justeringer og feilrettinger som sikrer at Signal fungerer optimalt.",
     "ignoreUnused": true
@@ -8165,5 +8288,8 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Noen små justeringer, feilrettinger og ytelsesforbedringer. Takk for at du bruker Signal!",
     "ignoreUnused": true
+  },
+  "icu:WhatsNew__8.10--0": {
+    "messageformat": "The freshly spun emoji in Unicode 17.0 have now pirouetted into place in Signal. Send a message reaction with the new Ballet Dancer emoji to perform your own digital version of a pas de chat."
   }
 }

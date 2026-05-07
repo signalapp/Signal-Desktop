@@ -1791,10 +1791,10 @@
     "messageformat": "បោះបង់"
   },
   "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
-    "messageformat": "Show status icon"
+    "messageformat": "បង្ហាញរូបស្ថានភាព"
   },
   "icu:Preferences__PrivacyPage__ShowStatusIcon__Description": {
-    "messageformat": "Show an icon in message details when they were delivered using sealed sender."
+    "messageformat": "បង្ហាញរូបតំណាងនៅក្នុងព័ត៌មានលម្អិតរបស់សារ នៅពេលវាត្រូវបានបញ្ជូន ដោយប្រើមុខងារការពារអ្នកផ្ញើ។"
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
     "messageformat": "ការផ្ទៀងផ្ទាត់សោដោយស្វ័យប្រវត្តិ"
@@ -1954,6 +1954,27 @@
   },
   "icu:CallingButton--more-options": {
     "messageformat": "ជម្រើសច្រើនទៀត"
+  },
+  "icu:CallingParticipantMenu__MuteAudio": {
+    "messageformat": "Mute audio"
+  },
+  "icu:CallingParticipantMenu__UnmuteAudio": {
+    "messageformat": "Unmute audio"
+  },
+  "icu:CallingParticipantMenu__ViewProfile": {
+    "messageformat": "View profile"
+  },
+  "icu:CallingParticipantMenu__GoToChat": {
+    "messageformat": "Go to chat"
+  },
+  "icu:CallingParticipantMenu__RemoveFromCall": {
+    "messageformat": "Remove from call"
+  },
+  "icu:CallingParticipantListItem__ContextMenuButton": {
+    "messageformat": "More actions"
+  },
+  "icu:CallingParticipantListItem__Presenting": {
+    "messageformat": "Presenting"
   },
   "icu:CallingPendingParticipants__ApproveUser": {
     "messageformat": "យល់ព្រមតាមសំណើចូលរួម"
@@ -2183,8 +2204,26 @@
   "icu:deleteAllDataBody": {
     "messageformat": "លុបទិន្នន័យ និងសារទាំងអស់ចេញពីកំណែ Signal Desktop នេះឬ? ទិន្នន័យ និងគណនី Signal របស់អ្នកនៅលើទូរសព្ទរបស់អ្នក ឬឧបករណ៍ដែលបានភ្ជាប់ផ្សេងទៀតនឹងមិនត្រូវបានលុបឡើយ។"
   },
+  "icu:deleteAccountProgress": {
+    "messageformat": "Deleting account and all data…"
+  },
   "icu:deleteAllDataProgress": {
     "messageformat": "កំពុងផ្តាច់ និងលុបទិន្នន័យទាំងអស់…"
+  },
+  "icu:deleteAccountHeader": {
+    "messageformat": "Delete account"
+  },
+  "icu:deleteAccountExplanation": {
+    "messageformat": "This will delete your account info, profile, and all of your messages. You will also be removed from all Signal groups."
+  },
+  "icu:deleteAccountButton": {
+    "messageformat": "Delete account"
+  },
+  "icu:deleteAccountDialogHeader": {
+    "messageformat": "Delete Account?"
+  },
+  "icu:deleteAccountDialogBody": {
+    "messageformat": "This will delete your account info, profile, and all of your messages. You will also be removed from all Signal groups. The app will close after this process is complete."
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "អ្នកមានទិន្នន័យដែលលែងប្រើ ពីការដំឡើង Signal Desktop ពីមុន។ ប្រសិនបើអ្នកជ្រើសរើសបន្ត វានឹងត្រូវលុបចោល ហើយអ្នកនឹងចាប់ផ្តើមសាឡើងវិញទាំងអស់។"
@@ -2530,6 +2569,12 @@
   },
   "icu:unlinked": {
     "messageformat": "បានផ្តាច់"
+  },
+  "icu:unregisteredWarning": {
+    "messageformat": "Click to re-register and continue messaging. Signal Desktop is unregistered likely because you registered your phone number with Signal on a different device."
+  },
+  "icu:unregistered": {
+    "messageformat": "No longer registered"
   },
   "icu:autoUpdateNewVersionTitle": {
     "messageformat": "មានកំណែថ្មី"
@@ -3320,8 +3365,41 @@
   "icu:SafetyTipsModal__Title": {
     "messageformat": "គន្លឹះសុវត្ថិភាព"
   },
+  "icu:SafetyTipsModal__Title-v2": {
+    "messageformat": "Safety tips"
+  },
+  "icu:SafetyTipsModal__TipTitle--SignalChat": {
+    "messageformat": "Don’t respond to chats from Signal"
+  },
+  "icu:SafetyTipsModal__TipDescription--SignalChat": {
+    "messageformat": "Signal will never message you for your registration code, PIN, or recovery key. Never respond to a chat pretending to be Signal."
+  },
+  "icu:SafetyTipsModal__TipTitle--NamesAndPhotos": {
+    "messageformat": "Review names and photos"
+  },
+  "icu:SafetyTipsModal__TipDescription--NamesAndPhotos": {
+    "messageformat": "Look out for the “Name not verified” notice. Everyone sets their own profile name in Signal."
+  },
+  "icu:SafetyTipsModal__TipTitle--Scams": {
+    "messageformat": "Look out for scams"
+  },
+  "icu:SafetyTipsModal__TipDescription--Scams": {
+    "messageformat": "Avoid vague messages that try to get you to reply. Be aware of financial tips and suspicious web links."
+  },
   "icu:SafetyTipsModal__Description": {
     "messageformat": "សូមប្រុងប្រយ័ត្នពេលទទួលយកសំណើសារពីមនុស្សដែលអ្នកមិនស្គាល់។ សូមប្រុងប្រយ័ត្នចំពោះ៖"
+  },
+  "icu:SafetyTipsModal__TipTitle--DontRespond": {
+    "messageformat": "Don’t respond to chats from Signal"
+  },
+  "icu:SafetyTipsModal__TipDescription--DontRespond": {
+    "messageformat": "Signal will never message you for your registration code, PIN, or recover key. Don't reply to chats pretending to be Signal or Signal Support. Bad actors set up fake names to try to take over your account."
+  },
+  "icu:SafetyTipsModal__TipTitle--ReviewNames": {
+    "messageformat": "Review names and photos"
+  },
+  "icu:SafetyTipsModal__TipDescription--ReviewNames": {
+    "messageformat": "Look out for the “Name not verified” notice. Everyone sets their own profile name and photo in Signal. If you’re unsure who a new request is from it’s safer to ignore it."
   },
   "icu:SafetyTipsModal__TipTitle--Fake": {
     "messageformat": "ឈ្មោះ និងគណនីក្លែងក្លាយ"
@@ -3347,8 +3425,14 @@
   "icu:SafetyTipsModal__TipDescription--Links": {
     "messageformat": "សូមប្រុងប្រយ័ត្នចំពោះសារមកពីមនុស្សដែលអ្នកមិនស្គាល់ ដែលមានតំណទៅកាន់គេហទំព័រផ្សេងៗ។ កុំចូលមើលតំណពីមនុស្សដែលអ្នកមិនទុកចិត្តឱ្យសោះ។"
   },
+  "icu:SafetyTipsModal__TipTitle--Links-v2": {
+    "messageformat": "Messages with web links"
+  },
   "icu:SafetyTipsModal__TipTitle--Business": {
     "messageformat": "អាជីវកម្ម និងស្ថាប័នក្លែងក្លាយ"
+  },
+  "icu:SafetyTipsModal__TipTitle--Business-v2": {
+    "messageformat": "Fake businesses"
   },
   "icu:SafetyTipsModal__TipDescription--Business": {
     "messageformat": "សូមប្រុងប្រយ័ត្នចំពោះអាជីវកម្ម ឬទីភ្នាក់ងាររដ្ឋាភិបាលដែលទាក់ទងអ្នក។ សារដែលពាក់ព័ន្ធនឹងទីភ្នាក់ងារពន្ធ អ្នកដឹកជញ្ជូន និងអ្វីៗជាច្រើនទៀតអាចជាសារឥតបានការ។"
@@ -3364,6 +3448,9 @@
   },
   "icu:SafetyTipsModal__Button--Done": {
     "messageformat": "បញ្ចប់"
+  },
+  "icu:SafetyTipsModal__Button--ViewMore": {
+    "messageformat": "View more"
   },
   "icu:MessageRequests--message-direct": {
     "messageformat": "ឲ្យ {name} ផ្ញើសារមកអ្នកបាន និងចែករំលែកឈ្មោះ និងរូបថតរបស់អ្នកជាមួយគេឬ? គេនឹងមិនដឹងថាអ្នកបានឃើញសាររបស់គេទេ ទាល់តែអ្នកព្រមទទួលយកសិន។"
@@ -3467,6 +3554,12 @@
   "icu:MessageRequests--accept-confirm-body": {
     "messageformat": "ពិនិត្យមើលសំណើដោយយកចិត្តទុកដាក់។ ឈ្មោះប្រូហ្វាល់ត្រូវបានជ្រើសរើសដោយម្ចាស់គណនី ហើយមិនត្រូវបានផ្ទៀងផ្ទាត់ទេ។"
   },
+  "icu:MessageRequests--accept-confirm-title-v2": {
+    "messageformat": "Accept request?"
+  },
+  "icu:MessageRequests--accept-confirm-body-v2": {
+    "messageformat": "Only accept requests from people you trust. <bold>Signal will never</bold> message you for a registration code, PIN, or recovery key."
+  },
   "icu:MessageRequests--continue": {
     "messageformat": "បន្ត"
   },
@@ -3509,9 +3602,6 @@
   "icu:ConversationHero--group-members-other-and-you": {
     "messageformat": "{remainingCount, plural, other {{member1}, {member2}, {member3} និង <clickable>{remainingCount,number} នាក់ផ្សេងទៀត</clickable>}}"
   },
-  "icu:ConversationHero--review-carefully": {
-    "messageformat": "ពិនិត្យមើលដោយយកចិត្តទុកដាក់"
-  },
   "icu:ConversationHero--group-names": {
     "messageformat": "<clickable>ឈ្មោះក្រុម</clickable>មិនត្រូវបានផ្ទៀងផ្ទាត់ទេ"
   },
@@ -3519,16 +3609,22 @@
     "messageformat": "<clickable>ឈ្មោះប្រូហ្វាល់</clickable>មិនត្រូវបានផ្ទៀងផ្ទាត់ទេ"
   },
   "icu:ConversationHero--name-not-verified": {
-    "messageformat": "Name not verified"
+    "messageformat": "ឈ្មោះមិនទាន់បានផ្ទៀងផ្ទាត់"
   },
   "icu:ConversationHero--signal-official-chat": {
     "messageformat": "នេះជាការជជែកជាផ្លូវការ និងតែមួយគត់ពី Signal"
   },
   "icu:ConversationHero--signal-official-account": {
-    "messageformat": "Official account"
+    "messageformat": "គណនីផ្លូវការ"
+  },
+  "icu:ConversationHero--signal-official-chat-title": {
+    "messageformat": "Official chat"
   },
   "icu:ConversationHero--signal-official-account--description": {
-    "messageformat": "The only official chat from Signal. Keep up to date with news and release notes."
+    "messageformat": "ការជជែកជាផ្លូវការតែមួយគត់ពី Signal។ ទទួលបានដំណឹង និងកំណត់ចំណាំនៃការចេញផ្សាយថ្មីៗ។"
+  },
+  "icu:Timeline--signal-official-chat--chip": {
+    "messageformat": "The only official chat from Signal."
   },
   "icu:ConversationHero--release-notes": {
     "messageformat": "ទទួលបានដំណឹង និងកំណត់ចំណាំនៃការចេញផ្សាយថ្មីៗ។"
@@ -4514,6 +4610,9 @@
   "icu:close": {
     "messageformat": "បិទ"
   },
+  "icu:clear": {
+    "messageformat": "Clear"
+  },
   "icu:previous": {
     "messageformat": "ពីមុន"
   },
@@ -4522,6 +4621,18 @@
   },
   "icu:ClearingData__description": {
     "messageformat": "វាអាចនឹងចំណាយពេលពីរបីនាទី"
+  },
+  "icu:DeletingAccount__LeavingGroups__Title": {
+    "messageformat": "Leaving groups..."
+  },
+  "icu:DeletingAccount__LeavingGroups__Detail": {
+    "messageformat": "Depending on the number of groups you’re in, this might take a few minutes"
+  },
+  "icu:DeletingAccount__DeletingData__Title": {
+    "messageformat": "Deleting account and all data..."
+  },
+  "icu:DeletingAccount__DeletingData__Detail": {
+    "messageformat": "Deleting user data and resetting the app"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "ឧបត្ថម្ភទៅ Signal"
@@ -5298,11 +5409,11 @@
   "icu:ShareCallLinkViaSignal__DraftMessageText": {
     "messageformat": "ប្រើតំណនេះដើម្បីចូលរួមការហៅតាម Signal៖ {url}"
   },
-  "icu:MessageRequestWarning__safety-tips": {
-    "messageformat": "គន្លឹះសុវត្ថិភាព"
+  "icu:MessageRequestWarning__review-carefully": {
+    "messageformat": "Review requests carefully"
   },
   "icu:MessageRequestWarning__safety-tips-v2": {
-    "messageformat": "Safety tips"
+    "messageformat": "គន្លឹះសុវត្ថិភាព"
   },
   "icu:ContactSpoofing__same-name--link": {
     "messageformat": "ពិនិត្យសំណើដោយយកចិត្តទុកដាក់។ Signal បានរកឃើញឈ្មោះទំនាក់ទំនងមួយផ្សេងទៀតដែលមានឈ្មោះដូចគ្នា។ <reviewRequestLink>ពិនិត្យសំណើ</reviewRequestLink>"
@@ -5902,17 +6013,14 @@
   "icu:Preferences__link-previews--title": {
     "messageformat": "បង្កើតការមើលមុនតំណភ្ជាប់"
   },
-  "icu:Preferences__link-previews--description": {
-    "messageformat": "ដើម្បីផ្លាស់ប្តូរការកំណត់នេះ សូមបើកកម្មវិធី Signal នៅលើឧបករណ៍ចល័តរបស់អ្នក ហើយចូលទៅកាន់ការកំណត់ > ការជជែក"
-  },
   "icu:Preferences__link-previews--new-description": {
-    "messageformat": "Retrieve link previews directly from websites for messages you send."
+    "messageformat": "ទាញយកតំណភ្ជាប់មើលជាមុនពីគេហទំព័រដោយផ្ទាល់ សម្រាប់សារដែលអ្នកផ្ញើ។"
   },
   "icu:Preferences__address-book-photos--title": {
-    "messageformat": "Use address book photos"
+    "messageformat": "ប្រើប្រាស់រូបថតសៀវភៅអាសយដ្ឋាន"
   },
   "icu:Preferences__address-book-photos--description": {
-    "messageformat": "Display contact photos from your address book if available."
+    "messageformat": "បង្ហាញរូបថតលេខទំនាក់ទំនងចេញពីសៀវភៅអាសយដ្ឋានរបស់អ្នក ប្រសិនបើមាន។"
   },
   "icu:Preferences__auto-convert-emoji--title": {
     "messageformat": "បំប្លែងសញ្ញាអារម្មណ៍ដែលបានវាយបញ្ចូលទៅជារូបអារម្មណ៍"
@@ -6274,6 +6382,27 @@
   "icu:Preferences--blocked": {
     "messageformat": "បានទប់ស្កាត់"
   },
+  "icu:Preferences--blocked-count": {
+    "messageformat": "{num, plural, other {{num,number} ឈ្មោះទំនាក់ទំនង}}"
+  },
+  "icu:Preferences--blocked-count-both-new": {
+    "messageformat": "{num, plural, =0 { No users or groups } one {{num,number} user or group} other {{num,number} users or groups}}"
+  },
+  "icu:Preferences--blocked-count-contacts-new": {
+    "messageformat": "{num, plural, =0 { No users } one {{num,number} user} other {{num,number} users}}"
+  },
+  "icu:Preferences--blocked-count-groups-new": {
+    "messageformat": "{num, plural, =0 { No groups } one {{num,number} group} other {{num,number} groups}}"
+  },
+  "icu:Preferences--blocked-users--description": {
+    "messageformat": "Blocked users will not be able to call you or send you messages"
+  },
+  "icu:Preferences--blocked-users": {
+    "messageformat": "Blocked Users"
+  },
+  "icu:Preferences--blocked-groups": {
+    "messageformat": "Blocked Groups"
+  },
   "icu:Preferences--signal-backups": {
     "messageformat": "ការបម្រុងទុកសុវត្ថិភាព Signal"
   },
@@ -6457,12 +6586,6 @@
   "icu:Preferences__recovery-key-updated__view-key": {
     "messageformat": "មើលសោថ្មី"
   },
-  "icu:Preferences--blocked-count": {
-    "messageformat": "{num, plural, other {{num,number} ឈ្មោះទំនាក់ទំនង}}"
-  },
-  "icu:Preferences__privacy--description": {
-    "messageformat": "ដើម្បីផ្លាស់ប្តូរការកំណត់ទាំងនេះ សូមបើកកម្មវិធី Signal នៅលើឧបករណ៍ចល័តរបស់អ្នក ហើយចូលទៅកាន់ការកំណត់ > ឯកជនភាព"
-  },
   "icu:Preferences__pnp__row--title": {
     "messageformat": "លេខទូរសព្ទ"
   },
@@ -6521,13 +6644,13 @@
     "messageformat": "ទទួលបានការអាន"
   },
   "icu:Preferences--read-receipts--description": {
-    "messageformat": "If disabled, you won't see read receipts from others."
+    "messageformat": "ប្រសិនបើបិទ អ្នកនឹងមិនឃើញមុខងារអានសារពីអ្នកផ្សេងទេ។"
   },
   "icu:Preferences--typing-indicators": {
     "messageformat": "វាស់ការវាយអក្សរ"
   },
   "icu:Preferences--typing-indicators--description": {
-    "messageformat": "If disabled, you won't see typing indicators from others."
+    "messageformat": "ប្រសិនបើបិទ អ្នកនឹងមិនឃើញសញ្ញាវាយអក្សរពីអ្នកផ្សេងទេ។"
   },
   "icu:Preferences--updates": {
     "messageformat": "កំណែថ្មី"
@@ -6850,6 +6973,9 @@
   "icu:MessageRequestResponseNotification__Message--Accepted": {
     "messageformat": "អ្នកបានទទួលយកសំណើសារ"
   },
+  "icu:MessageRequestResponseNotification__Message--Accepted-Contact-Title": {
+    "messageformat": "You accepted {userProfileName}'s message request"
+  },
   "icu:MessageRequestResponseNotification__Message--Reported": {
     "messageformat": "បានរាយការណ៍ជាសារឥតបានការ"
   },
@@ -6867,6 +6993,9 @@
   },
   "icu:MessageRequestResponseNotification__Button--Options": {
     "messageformat": "ជម្រើស"
+  },
+  "icu:MessageRequestResponseNotification__Button--block-or-report": {
+    "messageformat": "Block or Report..."
   },
   "icu:MessageRequestResponseNotification__Button--LearnMore": {
     "messageformat": "ស្វែងយល់បន្ថែម"
@@ -7040,10 +7169,7 @@
     "messageformat": "មុខងារមើលសារ"
   },
   "icu:StoriesSettings__view-receipts--new-description": {
-    "messageformat": "See and share when stories are viewed. If disabled, you won't see when others view your story."
-  },
-  "icu:StoriesSettings__view-receipts--description": {
-    "messageformat": "ដើម្បីផ្លាស់ប្តូរការកំណត់នេះ សូមបើកកម្មវិធី Signal នៅលើឧបករណ៍ចល័តរបស់អ្នក ហើយចូលទៅកាន់ការកំណត់ -> រឿងរ៉ាវ"
+    "messageformat": "ឃើញហើយចែករំលែក នៅពេលរឿងរ៉ាវត្រូវបានមើល។ ប្រសិនបើបិទ អ្នកនឹងមើលមិនឃើញទេនៅពេលដែលអ្នកផ្សេងមើលរឿងរ៉ាវរបស់អ្នក។"
   },
   "icu:GroupStorySettingsModal__members_title": {
     "messageformat": "អ្នកដែលអាចមើលរឿងរ៉ាវនេះបាន"
@@ -7682,26 +7808,17 @@
   "icu:ProfileNameWarningModal__description--direct": {
     "messageformat": "ឈ្មោះប្រូហ្វាល់នៅលើ Signal ត្រូវបានជ្រើសរើសដោយម្ចាស់គណនី៖"
   },
-  "icu:ProfileNameWarningModal__list--item1--direct": {
-    "messageformat": "ឈ្មោះប្រូហ្វាល់មិនត្រូវបានផ្ទៀងផ្ទាត់ទេ"
-  },
-  "icu:ProfileNameWarningModal__list--item2--direct": {
-    "messageformat": "សូមប្រុងប្រយ័ត្នចំពោះគណនីដែលក្លែងបន្លំជាអ្នកផ្សេង"
-  },
-  "icu:ProfileNameWarningModal__list--item3--direct": {
-    "messageformat": "កុំចែករំលែកព័ត៌មានផ្ទាល់ខ្លួនជាមួយមនុស្សដែលអ្នកមិនស្គាល់"
-  },
   "icu:ProfileNameWarningModal__warning--signal-cant-verify": {
-    "messageformat": "Signal can’t verify names and photos"
+    "messageformat": "Signal មិនអាចផ្ទៀងផ្ទាត់ឈ្មោះ និងរូបថតបានទេ"
   },
   "icu:ProfileNameWarningModal__warning--signal-wont-contact": {
-    "messageformat": "Signal will never contact you for your registration code, PIN, or recovery key"
+    "messageformat": "Signal នឹងមិនដែលទាក់ទងអ្នកដើម្បីសុំលេខកូដចុះឈ្មោះ លេខកូដសម្ងាត់ ឬសោស្តាររបស់អ្នកជាដាច់ខាត"
   },
   "icu:ProfileNameWarningModal__warning--be-cautious": {
-    "messageformat": "Be cautious of accounts that impersonate others"
+    "messageformat": "សូមប្រុងប្រយ័ត្នចំពោះគណនីដែលក្លែងបន្លំជាអ្នកផ្សេង"
   },
   "icu:ProfileNameWarningModal__warning--dont-share-info": {
-    "messageformat": "Don't share personal information with people you don't know"
+    "messageformat": "កុំចែករំលែកព័ត៌មានផ្ទាល់ខ្លួនជាមួយមនុស្សដែលអ្នកមិនស្គាល់"
   },
   "icu:ProfileNameWarningModal__description--group": {
     "messageformat": "ឈ្មោះក្រុមត្រូវបានជ្រើសរើសដោយសមាជិកក្រុម។"
@@ -8138,6 +8255,12 @@
   "icu:Megaphone__ExpandNarrowSidebar": {
     "messageformat": "ពង្រីករបារចំហៀងដើម្បីធ្វើអន្តរកម្មជាមួយមេហ្គាហ្វូន"
   },
+  "icu:Carousel--Role": {
+    "messageformat": "Carousel"
+  },
+  "icu:Carousel__Slide--Role": {
+    "messageformat": "Slide"
+  },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "កំណែ​នេះ​មាន​ការ​កែ​សម្រួល និង​ការកែបញ្ហាតូចៗ​មួយ​ចំនួន ដើម្បី​ឲ្យ​ Signal បន្ត​ដំណើរការ​ដោយ​រលូន។",
     "ignoreUnused": true
@@ -8165,5 +8288,8 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "ការកែប្រែបន្តិចបន្តួច ការដោះស្រាយបញ្ហា និងការបង្កើនប្រតិបត្តិការ។ សូមអរគុណចំពោះការប្រើប្រាស់ Signal!",
     "ignoreUnused": true
+  },
+  "icu:WhatsNew__8.10--0": {
+    "messageformat": "The freshly spun emoji in Unicode 17.0 have now pirouetted into place in Signal. Send a message reaction with the new Ballet Dancer emoji to perform your own digital version of a pas de chat."
   }
 }
