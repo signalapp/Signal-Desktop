@@ -97,19 +97,15 @@ export function createSendMessageJob<Data>(
           return;
         }
 
+        const ourConversation =
+          window.ConversationController.getOurConversationOrThrow();
+        const sendOptions = await getSendOptions(ourConversation.attributes, {
+          syncMessage: true,
+        });
         // Only sending a sync to ourselves
         await conversation.queueJob(
           `conversationQueue/${sendName}/sync`,
           async () => {
-            const ourConversation =
-              window.ConversationController.getOurConversationOrThrow();
-            const sendOptions = await getSendOptions(
-              ourConversation.attributes,
-              {
-                syncMessage: true,
-              }
-            );
-
             const encodedDataMessage = await job.messaging.getDataOrEditMessage(
               {
                 ...messageOptions,
@@ -146,11 +142,11 @@ export function createSendMessageJob<Data>(
           return;
         }
 
+        const sendOptions = await getSendOptions(conversation.attributes);
+
         await conversation.queueJob(
           `conversationQueue/${sendName}/direct`,
-          async () => {
-            const sendOptions = await getSendOptions(conversation.attributes);
-
+          () => {
             return wrapWithSyncMessageSend({
               conversation,
               logId,
@@ -173,15 +169,17 @@ export function createSendMessageJob<Data>(
           }
         );
       } else if (isGroupV2(conversation.attributes)) {
+        const sendOptions = await getSendOptions(conversation.attributes, {
+          groupId: conversation.get('groupId'),
+        });
+        const groupV2Info = conversation.getGroupV2Info({
+          members: recipientServiceIdsWithoutMe,
+        });
+        strictAssert(groupV2Info, 'Missing groupV2Info');
+
         await conversation.queueJob(
           `conversationQueue/${sendName}/group`,
-          async abortSignal => {
-            const sendOptions = await getSendOptions(conversation.attributes);
-            const groupV2Info = conversation.getGroupV2Info({
-              members: recipientServiceIdsWithoutMe,
-            });
-            strictAssert(groupV2Info, 'Missing groupV2Info');
-
+          abortSignal => {
             return wrapWithSyncMessageSend({
               conversation,
               logId,

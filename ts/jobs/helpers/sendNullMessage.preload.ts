@@ -67,6 +67,7 @@ export async function sendNullMessage(
     `starting null message send to ${conversation.idForLogging()} with timestamp ${timestamp}`
   );
 
+  const sendOptions = await getSendOptions(conversation.attributes);
   const contentHint = ContentHint.Resendable;
   const sendType = 'nullMessage';
 
@@ -93,10 +94,8 @@ export async function sendNullMessage(
 
       await conversation.queueJob(
         'conversationQueue/sendNullMessage/direct',
-        async _abortSignal => {
-          const sendOptions = await getSendOptions(conversation.attributes);
-
-          return handleMessageSend(
+        _abortSignal =>
+          handleMessageSend(
             messaging.sendIndividualProto({
               contentHint,
               serviceId: conversation.getSendTarget(),
@@ -109,8 +108,7 @@ export async function sendNullMessage(
               messageIds: [],
               sendType,
             }
-          );
-        }
+          )
       );
     } else {
       const groupV2Info = conversation.getGroupV2Info();
@@ -119,9 +117,8 @@ export async function sendNullMessage(
 
       await conversation.queueJob(
         'conversationQueue/sendNullMessage/group',
-        async abortSignal => {
-          const sendOptions = await getSendOptions(conversation.attributes);
-          return sendToGroup({
+        abortSignal =>
+          sendToGroup({
             abortSignal,
             contentHint: ContentHint.Resendable,
             groupSendOptions: {
@@ -147,8 +144,7 @@ export async function sendNullMessage(
             sendType,
             story: false,
             urgent: true,
-          });
-        }
+          })
       );
     }
   } catch (error: unknown) {

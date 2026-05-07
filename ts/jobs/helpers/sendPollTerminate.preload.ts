@@ -80,6 +80,7 @@ export async function sendPollTerminate(
     ? await ourProfileKeyService.get()
     : undefined;
 
+  const sendOptions = await getSendOptions(conversation.attributes);
   const timestamp = Date.now();
   const expireTimer = conversation.get('expireTimer');
 
@@ -125,7 +126,6 @@ export async function sendPollTerminate(
         },
       });
 
-      const sendOptions = await getSendOptions(conversation.attributes);
       await handleMessageSend(
         messaging.sendSyncMessage({
           encodedDataMessage: Proto.DataMessage.encode(dataMessage),
@@ -154,51 +154,43 @@ export async function sendPollTerminate(
         `${logId}: Sending direct poll terminate for poll timestamp ${targetTimestamp}`
       );
 
-      await conversation.queueJob(
-        'conversationQueue/sendPollTerminate/direct',
-        async () => {
-          const contentMessage = await messaging.getPollTerminateContentMessage(
-            {
-              groupV2: undefined,
-              timestamp,
-              profileKey,
-              expireTimer,
-              expireTimerVersion: conversation.getExpireTimerVersion(),
-              pollTerminate: {
-                targetTimestamp,
-              },
-            }
-          );
+      const contentMessage = await messaging.getPollTerminateContentMessage({
+        groupV2: undefined,
+        timestamp,
+        profileKey,
+        expireTimer,
+        expireTimerVersion: conversation.getExpireTimerVersion(),
+        pollTerminate: {
+          targetTimestamp,
+        },
+      });
 
-          addPniSignatureMessageToProto({
-            conversation,
-            proto: contentMessage,
-            reason: `sendPollTerminate(${timestamp})`,
-          });
+      addPniSignatureMessageToProto({
+        conversation,
+        proto: contentMessage,
+        reason: `sendPollTerminate(${timestamp})`,
+      });
 
-          const sendOptions = await getSendOptions(conversation.attributes);
-          await wrapWithSyncMessageSend({
-            conversation,
-            logId,
-            messageIds: [pollMessageId],
-            send: async () =>
-              messaging.sendMessageProtoAndWait({
-                timestamp,
-                recipients: [recipientServiceId],
-                proto: contentMessage,
-                contentHint: ContentHint.Resendable,
-                groupId: undefined,
-                options: sendOptions,
-                urgent: true,
-              }),
-            sendType: 'pollTerminate',
+      await wrapWithSyncMessageSend({
+        conversation,
+        logId,
+        messageIds: [pollMessageId],
+        send: async () =>
+          messaging.sendMessageProtoAndWait({
             timestamp,
-            expirationStartTimestamp: null,
-          });
+            recipients: [recipientServiceId],
+            proto: contentMessage,
+            contentHint: ContentHint.Resendable,
+            groupId: undefined,
+            options: sendOptions,
+            urgent: true,
+          }),
+        sendType: 'pollTerminate',
+        timestamp,
+        expirationStartTimestamp: null,
+      });
 
-          await markTerminateSuccess(pollMessage, jobLog);
-        }
-      );
+      await markTerminateSuccess(pollMessage, jobLog);
     } else {
       strictAssert(
         isGroupV2Conversation,
@@ -213,7 +205,7 @@ export async function sendPollTerminate(
       }
 
       await conversation.queueJob(
-        'conversationQueue/sendPollTerminate/group',
+        'conversationQueue/sendPollTerminate',
         async abortSignal => {
           jobLog.info(
             `${logId}: Sending group poll terminate for poll timestamp ${targetTimestamp}`
@@ -256,9 +248,8 @@ export async function sendPollTerminate(
             conversation,
             logId,
             messageIds: [pollMessageId],
-            send: async () => {
-              const sendOptions = await getSendOptions(conversation.attributes);
-              return sendContentMessageToGroup({
+            send: async () =>
+              sendContentMessageToGroup({
                 contentHint: ContentHint.Resendable,
                 contentMessage,
                 messageId: pollMessageId,
@@ -268,8 +259,7 @@ export async function sendPollTerminate(
                 sendType: 'pollTerminate',
                 timestamp,
                 urgent: true,
-              });
-            },
+              }),
             sendType: 'pollTerminate',
             timestamp,
             expirationStartTimestamp: null,

@@ -74,32 +74,27 @@ export async function sendSavedProto(
     timestamp: originalTimestamp,
     urgent,
   } = data;
+  const sendOptions = await getSendOptions(conversation.attributes, { story });
   const sendType = 'resendFromLog';
 
   try {
-    await conversation.queueJob('sendSavedProto', async () => {
-      const proto = Proto.Content.decode(Bytes.fromBase64(protoBase64));
-      const sendOptions = await getSendOptions(conversation.attributes, {
+    const proto = Proto.Content.decode(Bytes.fromBase64(protoBase64));
+    await handleMessageSend(
+      messaging.sendMessageProtoAndWait({
+        contentHint,
         groupId,
+        options: sendOptions,
+        proto,
+        recipients: [serviceId],
+        timestamp: originalTimestamp,
+        urgent,
         story,
-      });
-      await handleMessageSend(
-        messaging.sendMessageProtoAndWait({
-          contentHint,
-          groupId,
-          options: sendOptions,
-          proto,
-          recipients: [serviceId],
-          timestamp: originalTimestamp,
-          urgent,
-          story,
-        }),
-        {
-          messageIds: [],
-          sendType,
-        }
-      );
-    });
+      }),
+      {
+        messageIds: [],
+        sendType,
+      }
+    );
   } catch (error: unknown) {
     if (
       error instanceof OutgoingIdentityKeyError ||
