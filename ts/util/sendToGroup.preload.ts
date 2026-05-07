@@ -365,10 +365,12 @@ async function sendToGroupViaSenderKey(
 
   let groupSendEndorsementState: GroupSendEndorsementState | null = null;
   if (groupId != null && !story) {
+    const alreadyInQueue = true;
     const { state, didRefreshGroupState } =
       await maybeCreateGroupSendEndorsementState(
         groupId,
-        recursion.didRefreshGroupState
+        recursion.didRefreshGroupState,
+        alreadyInQueue
       );
     if (state != null) {
       groupSendEndorsementState = state;
