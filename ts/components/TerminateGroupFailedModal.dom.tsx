@@ -31,7 +31,7 @@ export function TerminateGroupFailedModal(props: PropsType): JSX.Element {
           </AxoAlertDialog.Description>
         </AxoAlertDialog.Body>
         <AxoAlertDialog.Footer>
-          <AxoAlertDialog.Cancel>{i18n('icu:cancel')}</AxoAlertDialog.Cancel>
+          <AxoAlertDialog.Cancel />
           <AxoAlertDialog.Action variant="secondary" onClick={onRetry}>
             {i18n('icu:TerminateGroupFailedModal__try-again')}
           </AxoAlertDialog.Action>

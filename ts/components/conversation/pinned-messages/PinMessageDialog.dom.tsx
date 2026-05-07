@@ -185,9 +185,7 @@ function PinMessageConfirmReplacePinDialog(props: {
           </AxoAlertDialog.Description>
         </AxoAlertDialog.Body>
         <AxoAlertDialog.Footer>
-          <AxoAlertDialog.Cancel>
-            {i18n('icu:PinMessageDialog--HasMaxPinnedMessages__Cancel')}
-          </AxoAlertDialog.Cancel>
+          <AxoAlertDialog.Cancel />
           <AxoAlertDialog.Action
             variant="primary"
             onClick={handleConfirmReplaceOldestPin}

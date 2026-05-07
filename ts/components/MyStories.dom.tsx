@@ -11,7 +11,6 @@ import {
 import type { LocalizerType } from '../types/Util.std.ts';
 import { ThemeType } from '../types/Util.std.ts';
 import type { ViewStoryActionCreatorType } from '../state/ducks/stories.preload.ts';
-import { ConfirmationDialog } from './ConfirmationDialog.dom.tsx';
 import { ContextMenu } from './ContextMenu.dom.tsx';
 import { MessageTimestamp } from './conversation/MessageTimestamp.dom.tsx';
 import { StoryDistributionListName } from './StoryDistributionListName.dom.tsx';
@@ -22,6 +21,8 @@ import { useRetryStorySend } from '../hooks/useRetryStorySend.dom.tsx';
 import { NavSidebar } from './NavSidebar.dom.tsx';
 import type { WidthBreakpoint } from './_util.std.ts';
 import type { UnreadStats } from '../util/countUnreadStats.std.ts';
+import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
+import { strictAssert } from '../util/assert.std.ts';
 
 export type PropsType = {
   i18n: LocalizerType;
@@ -76,22 +77,27 @@ export function MyStories({
 
   return (
     <>
-      {confirmDeleteStory && (
-        <ConfirmationDialog
-          dialogName="MyStories.delete"
-          actions={[
-            {
-              text: i18n('icu:delete'),
-              action: () => onDelete(confirmDeleteStory),
-              style: 'negative',
-            },
-          ]}
-          i18n={i18n}
-          onClose={() => setConfirmDeleteStory(undefined)}
+      <AxoConfirmDialog.Root
+        open={confirmDeleteStory != null}
+        onOpenChange={() => setConfirmDeleteStory(undefined)}
+        // @ts-expect-error ConfirmationDialog migration: Needs title
+        title={null}
+        description={i18n('icu:MyStories__delete')}
+      >
+        <AxoConfirmDialog.Cancel />
+        <AxoConfirmDialog.Action
+          variant="destructive"
+          onClick={() => {
+            strictAssert(
+              confirmDeleteStory != null,
+              'Missing confirmDeleteStory'
+            );
+            onDelete(confirmDeleteStory);
+          }}
         >
-          {i18n('icu:MyStories__delete')}
-        </ConfirmationDialog>
-      )}
+          {i18n('icu:delete')}
+        </AxoConfirmDialog.Action>
+      </AxoConfirmDialog.Root>
       <NavSidebar
         i18n={i18n}
         title={i18n('icu:MyStories__title')}

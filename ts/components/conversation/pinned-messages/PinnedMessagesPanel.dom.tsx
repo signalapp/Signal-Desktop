@@ -128,11 +128,7 @@ export const PinnedMessagesPanel = memo(function PinnedMessagesPanel(
             </AxoAlertDialog.Description>
           </AxoAlertDialog.Body>
           <AxoAlertDialog.Footer>
-            <AxoAlertDialog.Cancel>
-              {i18n(
-                'icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Cancel'
-              )}
-            </AxoAlertDialog.Cancel>
+            <AxoAlertDialog.Cancel />
             <AxoAlertDialog.Action
               variant="primary"
               onClick={props.onPinnedMessageRemoveAll}

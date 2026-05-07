@@ -120,9 +120,9 @@ describe('safety number', function (this: Mocha.Suite) {
     await input.press('Enter');
 
     debug('Waiting for safety number dialog');
-    const dialog = window.locator(
-      '[data-testid="ConfirmationDialog.SafetyNumberChangeDialog.reviewing"]'
-    );
+    const dialog = window.getByRole('alertdialog', {
+      name: 'Safety Number Changes',
+    });
     await dialog.locator(`"${alice.profileName}"`).waitFor();
 
     await expectSystemMessages(window, [
@@ -181,9 +181,9 @@ describe('safety number', function (this: Mocha.Suite) {
     await window.locator('button.SendStoryModal__send').click();
 
     debug('Waiting for safety number dialog');
-    const dialog = window.locator(
-      '[data-testid="ConfirmationDialog.SafetyNumberChangeDialog.reviewing"]'
-    );
+    const dialog = window.getByRole('alertdialog', {
+      name: 'Safety Number Changes',
+    });
     await dialog.locator(`"${alice.profileName}"`).waitFor();
 
     debug('Confirming send');

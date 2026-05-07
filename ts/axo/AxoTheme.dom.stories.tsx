@@ -137,7 +137,7 @@ function AxoAlertDialogTest() {
           </AxoAlertDialog.Description>
         </AxoAlertDialog.Body>
         <AxoAlertDialog.Footer>
-          <AxoAlertDialog.Cancel>Cancel</AxoAlertDialog.Cancel>
+          <AxoAlertDialog.Cancel />
           <AxoAlertDialog.Action variant="primary" onClick={() => null}>
             OK
           </AxoAlertDialog.Action>

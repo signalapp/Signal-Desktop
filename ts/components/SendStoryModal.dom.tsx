@@ -28,7 +28,6 @@ import { Alert } from './Alert.dom.tsx';
 import { Avatar, AvatarSize } from './Avatar.dom.tsx';
 import { Button, ButtonSize, ButtonVariant } from './Button.dom.tsx';
 import { Checkbox } from './Checkbox.dom.tsx';
-import { ConfirmationDialog } from './ConfirmationDialog.dom.tsx';
 import { ContextMenu } from './ContextMenu.dom.tsx';
 
 import {
@@ -50,6 +49,7 @@ import {
 import { UserText } from './UserText.dom.tsx';
 import { Theme } from '../util/theme.std.ts';
 import { strictAssert } from '../util/assert.std.ts';
+import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
 
 const { noop, sortBy } = lodash;
 
@@ -163,6 +163,10 @@ export function SendStoryModal({
   const [confirmDiscardModal, confirmDiscardIf] = useConfirmDiscard({
     i18n,
     name: 'SendStoryModal',
+    // @ts-expect-error ConfirmationDialog migration: Needs title
+    title: null,
+    // @ts-expect-error ConfirmationDialog migration: Needs description
+    description: null,
   });
 
   const [selectedListIds, setSelectedListIds] = useState<
@@ -986,52 +990,51 @@ export function SendStoryModal({
           theme={theme === ThemeType.dark ? Theme.Dark : Theme.Light}
         />
       )}
-      {confirmRemoveGroupId && (
-        <ConfirmationDialog
-          dialogName="SendStoryModal.confirmRemoveGroupId"
-          actions={[
-            {
-              action: () => {
-                void toggleGroupsForStorySend([confirmRemoveGroupId]);
-                setConfirmRemoveGroupId(undefined);
-              },
-              style: 'negative',
-              text: i18n('icu:delete'),
-            },
-          ]}
-          i18n={i18n}
-          onClose={() => {
+      <AxoConfirmDialog.Root
+        open={confirmRemoveGroupId != null}
+        onOpenChange={() => setConfirmRemoveGroupId(undefined)}
+        // @ts-expect-error ConfirmationDialog migration: Needs title
+        title={null}
+        description={i18n('icu:SendStoryModal__confirm-remove-group')}
+      >
+        <AxoConfirmDialog.Cancel />
+        <AxoConfirmDialog.Action
+          variant="destructive"
+          onClick={() => {
+            strictAssert(
+              confirmRemoveGroupId != null,
+              'Missing confirmRemoveGroupId'
+            );
+            void toggleGroupsForStorySend([confirmRemoveGroupId]);
             setConfirmRemoveGroupId(undefined);
           }}
-          theme={theme === ThemeType.dark ? Theme.Dark : Theme.Light}
         >
-          {i18n('icu:SendStoryModal__confirm-remove-group')}
-        </ConfirmationDialog>
-      )}
-      {confirmDeleteList && (
-        <ConfirmationDialog
-          dialogName="SendStoryModal.confirmDeleteList"
-          actions={[
-            {
-              action: () => {
-                onDeleteList(confirmDeleteList.id);
-                setConfirmDeleteList(undefined);
-              },
-              style: 'negative',
-              text: i18n('icu:delete'),
-            },
-          ]}
-          i18n={i18n}
-          onClose={() => {
+          {i18n('icu:delete')}
+        </AxoConfirmDialog.Action>
+      </AxoConfirmDialog.Root>
+      <AxoConfirmDialog.Root
+        open={confirmDeleteList != null}
+        onOpenChange={() => setConfirmDeleteList(undefined)}
+        // @ts-expect-error ConfirmationDialog migration: Needs title
+        title={null}
+        description={i18n('icu:StoriesSettings__delete-list--confirm', {
+          name: confirmDeleteList?.name ?? '',
+        })}
+      >
+        <AxoConfirmDialog.Action
+          variant="destructive"
+          onClick={() => {
+            strictAssert(
+              confirmDeleteList != null,
+              'Missing confirmDeleteList'
+            );
+            onDeleteList(confirmDeleteList.id);
             setConfirmDeleteList(undefined);
           }}
-          theme={theme === ThemeType.dark ? Theme.Dark : Theme.Light}
         >
-          {i18n('icu:StoriesSettings__delete-list--confirm', {
-            name: confirmDeleteList.name,
-          })}
-        </ConfirmationDialog>
-      )}
+          {i18n('icu:delete')}
+        </AxoConfirmDialog.Action>
+      </AxoConfirmDialog.Root>
       {confirmDiscardModal}
     </>
   );

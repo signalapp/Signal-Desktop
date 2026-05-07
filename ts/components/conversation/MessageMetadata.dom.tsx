@@ -15,12 +15,12 @@ import { MessageTimestamp } from './MessageTimestamp.dom.tsx';
 import { PanelType } from '../../types/Panels.std.ts';
 import { Spinner } from '../Spinner.dom.tsx';
 import { AxoAlertDialog } from '../../axo/AxoAlertDialog.dom.tsx';
-import { ConfirmationDialog } from '../ConfirmationDialog.dom.tsx';
 import { refMerger } from '../../util/refMerger.std.ts';
 import type { Size } from '../../hooks/useSizeObserver.dom.tsx';
 import { SizeObserver } from '../../hooks/useSizeObserver.dom.tsx';
 import { AxoSymbol } from '../../axo/AxoSymbol.dom.tsx';
 import { tw } from '../../axo/tw.dom.tsx';
+import { AxoConfirmDialog } from '../../axo/AxoConfirmDialog.dom.tsx';
 
 type PropsType = {
   canRetryDeleteForEveryone: boolean;
@@ -182,25 +182,24 @@ export const MessageMetadata = forwardRef<HTMLDivElement, Readonly<PropsType>>(
       // no-op
     } else if (confirmationType === ConfirmationType.EditError) {
       confirmation = (
-        <ConfirmationDialog
-          dialogName="MessageMetadata.confirmEditResend"
-          actions={[
-            {
-              action: () => {
-                retryMessageSend(id);
-                setConfirmationType(undefined);
-              },
-              style: 'negative',
-              text: i18n('icu:ResendMessageEdit__button'),
-            },
-          ]}
-          i18n={i18n}
-          onClose={() => {
-            setConfirmationType(undefined);
-          }}
+        <AxoConfirmDialog.Root
+          open
+          onOpenChange={() => setConfirmationType(undefined)}
+          // @ts-expect-error ConfirmationDialog migration: Needs title
+          title={null}
+          description={i18n('icu:ResendMessageEdit__body')}
         >
-          {i18n('icu:ResendMessageEdit__body')}
-        </ConfirmationDialog>
+          <AxoConfirmDialog.Cancel />
+          <AxoConfirmDialog.Action
+            variant="destructive"
+            onClick={() => {
+              retryMessageSend(id);
+              setConfirmationType(undefined);
+            }}
+          >
+            {i18n('icu:ResendMessageEdit__button')}
+          </AxoConfirmDialog.Action>
+        </AxoConfirmDialog.Root>
       );
     } else if (confirmationType === ConfirmationType.DeleteError) {
       confirmation = (
@@ -218,9 +217,7 @@ export const MessageMetadata = forwardRef<HTMLDivElement, Readonly<PropsType>>(
               </AxoAlertDialog.Description>
             </AxoAlertDialog.Body>
             <AxoAlertDialog.Footer>
-              <AxoAlertDialog.Cancel>
-                {i18n('icu:cancel')}
-              </AxoAlertDialog.Cancel>
+              <AxoAlertDialog.Cancel />
               <AxoAlertDialog.Action
                 variant="primary"
                 onClick={() => {

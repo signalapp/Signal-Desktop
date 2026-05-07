@@ -29,7 +29,7 @@ import type {
 import type { SmartContactRendererType } from '../../groupChange.std.ts';
 import { renderChange } from '../../groupChange.std.ts';
 import { Modal } from '../Modal.dom.tsx';
-import { ConfirmationDialog } from '../ConfirmationDialog.dom.tsx';
+import { AxoConfirmDialog } from '../../axo/AxoConfirmDialog.dom.tsx';
 
 const { get } = lodash;
 
@@ -229,27 +229,28 @@ function GroupV2Detail({
       }
 
       modalNode = (
-        <ConfirmationDialog
-          dialogName="GroupV2Change.confirmBlockLinkRequests"
+        <AxoConfirmDialog.Root
+          open
+          onOpenChange={() => setModalState(ModalState.None)}
           title={i18n('icu:PendingRequests--block--title')}
-          actions={[
-            {
-              action: () => blockGroupLinkRequests(conversationId, detail.aci),
-              text: i18n('icu:PendingRequests--block--confirm'),
-              style: 'affirmative',
-            },
-          ]}
-          i18n={i18n}
-          onClose={() => setModalState(ModalState.None)}
+          description={
+            <I18n
+              id="icu:PendingRequests--block--contents"
+              i18n={i18n}
+              components={{
+                name: renderContact(detail.aci),
+              }}
+            />
+          }
         >
-          <I18n
-            id="icu:PendingRequests--block--contents"
-            i18n={i18n}
-            components={{
-              name: renderContact(detail.aci),
-            }}
-          />
-        </ConfirmationDialog>
+          <AxoConfirmDialog.Cancel />
+          <AxoConfirmDialog.Action
+            variant="destructive"
+            onClick={() => blockGroupLinkRequests(conversationId, detail.aci)}
+          >
+            {i18n('icu:PendingRequests--block--confirm')}
+          </AxoConfirmDialog.Action>
+        </AxoConfirmDialog.Root>
       );
       break;
     default: {

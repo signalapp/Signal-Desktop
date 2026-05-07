@@ -177,16 +177,17 @@ describe('groups/terminate', function (this: Mocha.Suite) {
       .click();
 
     await window
-      .getByTestId(
-        'ConfirmationDialog.ConversationDetailsAction.promptTerminateGroup'
-      )
+      .getByRole('alertdialog', { name: `End "${group.title}"?` })
       .getByRole('button', { name: 'End group' })
       .click();
 
     await window
-      .getByTestId(
-        'ConfirmationDialog.ConversationDetailsAction.confirmTerminateGroup'
-      )
+      .getByRole('alertdialog')
+      .filter({
+        has: window.getByText(
+          'This will end the group permanently. Are you sure you want to proceed?'
+        ),
+      })
       .getByRole('button', { name: 'End group' })
       .click();
 

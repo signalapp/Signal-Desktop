@@ -17,7 +17,6 @@ import { createLogger } from '../../logging/log.std.ts';
 import { Avatar, AvatarBlur, AvatarSize } from '../Avatar.dom.tsx';
 import { AvatarLightbox } from '../AvatarLightbox.dom.tsx';
 import { BadgeDialog } from '../BadgeDialog.dom.tsx';
-import { ConfirmationDialog } from '../ConfirmationDialog.dom.tsx';
 import { Modal } from '../Modal.dom.tsx';
 import { RemoveGroupMemberConfirmationDialog } from './RemoveGroupMemberConfirmationDialog.dom.tsx';
 import { missingCaseError } from '../../util/missingCaseError.std.ts';
@@ -41,6 +40,7 @@ import { strictAssert } from '../../util/assert.std.ts';
 import type { RemoveClientType } from '../../types/Calling.std.ts';
 import type { ContactNameColorType } from '../../types/Colors.std.ts';
 import type { Emoji } from '../../axo/emoji.std.ts';
+import { AxoConfirmDialog } from '../../axo/AxoConfirmDialog.dom.tsx';
 
 const ACCESS_ENUM = Proto.AccessControl.AccessRequired;
 
@@ -258,52 +258,52 @@ export function ContactModal({
         conversation.accessControlAttributes === ACCESS_ENUM.ADMINISTRATOR
       ) {
         modalNode = (
-          <ConfirmationDialog
-            dialogName="ContactModal.toggleAdmin"
-            actions={[
-              {
-                action: () => toggleAdmin(conversation.id, contact.id),
-                text: isAdmin
-                  ? i18n('icu:ContactModal--rm-admin')
-                  : i18n('icu:ContactModal--make-admin'),
-                style: 'affirmative',
-              },
-            ]}
-            i18n={i18n}
-            onClose={() => setSubModalState(SubModalState.None)}
+          <AxoConfirmDialog.Root
+            open
+            onOpenChange={() => setSubModalState(SubModalState.None)}
             title={i18n('icu:ContactModal--rm-admin-info', {
               contact: contact.title,
             })}
+            description={i18n('icu:ContactModal--rm-admin--clear-label')}
           >
-            {i18n('icu:ContactModal--rm-admin--clear-label')}
-          </ConfirmationDialog>
+            <AxoConfirmDialog.Cancel />
+            <AxoConfirmDialog.Action
+              variant="destructive"
+              onClick={() => toggleAdmin(conversation.id, contact.id)}
+            >
+              {i18n('icu:ContactModal--rm-admin')}
+            </AxoConfirmDialog.Action>
+          </AxoConfirmDialog.Root>
         );
         break;
       }
 
       modalNode = (
-        <ConfirmationDialog
-          dialogName="ContactModal.toggleAdmin"
-          actions={[
-            {
-              action: () => toggleAdmin(conversation.id, contact.id),
-              text: isAdmin
-                ? i18n('icu:ContactModal--rm-admin')
-                : i18n('icu:ContactModal--make-admin'),
-              style: 'affirmative',
-            },
-          ]}
-          i18n={i18n}
-          onClose={() => setSubModalState(SubModalState.None)}
+        <AxoConfirmDialog.Root
+          open
+          onOpenChange={() => setSubModalState(SubModalState.None)}
+          // @ts-expect-error ConfirmationDialog migration: Needs title
+          title={null}
+          description={
+            isAdmin
+              ? i18n('icu:ContactModal--rm-admin-info', {
+                  contact: contact.title,
+                })
+              : i18n('icu:ContactModal--make-admin-info', {
+                  contact: contact.title,
+                })
+          }
         >
-          {isAdmin
-            ? i18n('icu:ContactModal--rm-admin-info', {
-                contact: contact.title,
-              })
-            : i18n('icu:ContactModal--make-admin-info', {
-                contact: contact.title,
-              })}
-        </ConfirmationDialog>
+          <AxoConfirmDialog.Cancel />
+          <AxoConfirmDialog.Action
+            variant={isAdmin ? 'destructive' : 'primary'}
+            onClick={() => toggleAdmin(conversation.id, contact.id)}
+          >
+            {isAdmin
+              ? i18n('icu:ContactModal--rm-admin')
+              : i18n('icu:ContactModal--make-admin')}
+          </AxoConfirmDialog.Action>
+        </AxoConfirmDialog.Root>
       );
       break;
     case SubModalState.MemberRemove:
@@ -329,95 +329,94 @@ export function ContactModal({
       break;
     case SubModalState.ConfirmingBlock:
       modalNode = (
-        <ConfirmationDialog
-          dialogName="ContactModal.confirmBlock"
-          actions={[
-            {
-              text: i18n('icu:MessageRequests--block'),
-              action: () => blockConversation(contact.id),
-              style: 'affirmative',
-            },
-          ]}
-          i18n={i18n}
-          onClose={() => setSubModalState(SubModalState.None)}
+        <AxoConfirmDialog.Root
+          open
+          onOpenChange={() => setSubModalState(SubModalState.None)}
           title={i18n('icu:MessageRequests--block-direct-confirm-title', {
             title: contact.title,
           })}
+          description={i18n('icu:MessageRequests--block-direct-confirm-body')}
         >
-          {i18n('icu:MessageRequests--block-direct-confirm-body')}
-        </ConfirmationDialog>
+          <AxoConfirmDialog.Cancel />
+          <AxoConfirmDialog.Action
+            variant="destructive"
+            onClick={() => blockConversation(contact.id)}
+          >
+            {i18n('icu:MessageRequests--block')}
+          </AxoConfirmDialog.Action>
+        </AxoConfirmDialog.Root>
       );
       break;
     case SubModalState.ConfirmingMute:
       modalNode = (
-        <ConfirmationDialog
-          dialogName="ContactModal.confirmMute"
-          actions={[
-            {
-              text: i18n('icu:ContactModal--confirm-mute-primary-button'),
-              action: () => {
-                strictAssert(
-                  activeCallDemuxId != null,
-                  'activeCallDemuxId must exist'
-                );
-                hideContactModal();
-                sendRemoteMute(activeCallDemuxId);
-              },
-              style: 'affirmative',
-            },
-          ]}
-          i18n={i18n}
-          onClose={() => setSubModalState(SubModalState.None)}
-        >
-          {i18n('icu:ContactModal--confirm-mute-body', {
+        <AxoConfirmDialog.Root
+          open
+          onOpenChange={() => setSubModalState(SubModalState.None)}
+          // @ts-expect-error ConfirmationDialog migration: Needs title
+          title={null}
+          description={i18n('icu:ContactModal--confirm-mute-body', {
             contact: contact.title,
           })}
-        </ConfirmationDialog>
+        >
+          <AxoConfirmDialog.Cancel />
+          <AxoConfirmDialog.Action
+            variant="primary"
+            onClick={() => {
+              strictAssert(
+                activeCallDemuxId != null,
+                'activeCallDemuxId must exist'
+              );
+              hideContactModal();
+              sendRemoteMute(activeCallDemuxId);
+            }}
+          >
+            {i18n('icu:ContactModal--confirm-mute-primary-button')}
+          </AxoConfirmDialog.Action>
+        </AxoConfirmDialog.Root>
       );
       break;
     case SubModalState.RemoveFromCall:
       modalNode = (
-        <ConfirmationDialog
-          dialogName="CallingAdhocCallInfo.removeClientDialog"
-          moduleClassName="CallingAdhocCallInfo__RemoveClientDialog"
-          actions={[
+        <AxoConfirmDialog.Root
+          open
+          onOpenChange={() => setSubModalState(SubModalState.None)}
+          // @ts-expect-error ConfirmationDialog migration: Needs title
+          title={null}
+          description={i18n(
+            'icu:CallingAdhocCallInfo__RemoveClientDialogBody',
             {
-              action: () => {
-                strictAssert(
-                  activeCallDemuxId != null,
-                  'activeCallDemuxId must exist'
-                );
-                hideContactModal();
-                blockClientFromCall({ demuxId: activeCallDemuxId });
-              },
-              style: 'negative',
-              text: i18n(
-                'icu:CallingAdhocCallInfo__RemoveClientDialogButton--block'
-              ),
-            },
-            {
-              action: () => {
-                strictAssert(
-                  activeCallDemuxId != null,
-                  'activeCallDemuxId must exist'
-                );
-                hideContactModal();
-                removeClientFromCall({ demuxId: activeCallDemuxId });
-              },
-              style: 'negative',
-              text: i18n(
-                'icu:CallingAdhocCallInfo__RemoveClientDialogButton--remove'
-              ),
-            },
-          ]}
-          cancelText={i18n('icu:cancel')}
-          i18n={i18n}
-          onClose={() => setSubModalState(SubModalState.None)}
+              name: contact.title,
+            }
+          )}
         >
-          {i18n('icu:CallingAdhocCallInfo__RemoveClientDialogBody', {
-            name: contact.title,
-          })}
-        </ConfirmationDialog>
+          <AxoConfirmDialog.Cancel />
+          <AxoConfirmDialog.Action
+            variant="destructive"
+            onClick={() => {
+              strictAssert(
+                activeCallDemuxId != null,
+                'activeCallDemuxId must exist'
+              );
+              hideContactModal();
+              blockClientFromCall({ demuxId: activeCallDemuxId });
+            }}
+          >
+            {i18n('icu:CallingAdhocCallInfo__RemoveClientDialogButton--block')}
+          </AxoConfirmDialog.Action>
+          <AxoConfirmDialog.Action
+            variant="destructive"
+            onClick={() => {
+              strictAssert(
+                activeCallDemuxId != null,
+                'activeCallDemuxId must exist'
+              );
+              hideContactModal();
+              removeClientFromCall({ demuxId: activeCallDemuxId });
+            }}
+          >
+            {i18n('icu:CallingAdhocCallInfo__RemoveClientDialogButton--remove')}
+          </AxoConfirmDialog.Action>
+        </AxoConfirmDialog.Root>
       );
       break;
     default: {

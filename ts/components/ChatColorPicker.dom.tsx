@@ -4,7 +4,6 @@
 import type { MouseEvent, ReactNode, JSX } from 'react';
 import { useCallback, useState } from 'react';
 import classNames from 'classnames';
-import { ConfirmationDialog } from './ConfirmationDialog.dom.tsx';
 import { CustomColorEditor } from './CustomColorEditor.dom.tsx';
 import { Modal } from './Modal.dom.tsx';
 import type {
@@ -17,10 +16,10 @@ import type { LocalizerType } from '../types/Util.std.ts';
 import { SampleMessageBubbles } from './SampleMessageBubbles.dom.tsx';
 import { PanelRow } from './conversation/conversation-details/PanelRow.dom.tsx';
 import { getCustomColorStyle } from '../util/getCustomColorStyle.dom.ts';
-
 import { useDelayedRestoreFocus } from '../hooks/useRestoreFocus.dom.ts';
 import { AxoDropdownMenu } from '../axo/AxoDropdownMenu.dom.tsx';
 import { tw } from '../axo/tw.dom.tsx';
+import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
 
 type CustomColorDataType = {
   id?: string;
@@ -50,8 +49,8 @@ type PropsActionType = {
   editCustomColor: (colorId: string, color: CustomColorType) => unknown;
   removeCustomColor: (colorId: string) => unknown;
   removeCustomColorOnConversations: (colorId: string) => unknown;
-  resetAllChatColors: () => unknown;
-  resetDefaultChatColor: () => unknown;
+  resetAllChatColors: () => void;
+  resetDefaultChatColor: () => void;
   setGlobalDefaultConversationColor: (
     color: ConversationColorType,
     customColorData?: {
@@ -125,52 +124,40 @@ export function ChatColorPicker({
   return (
     <div className="ChatColorPicker__container">
       {customColorToEdit ? renderCustomColorEditorWrapper() : null}
-      {confirmResetWhat ? (
-        <ConfirmationDialog
-          dialogName="ChatColorPicker.confirmReset"
-          actions={[
-            {
-              action: resetDefaultChatColor,
-              style: 'affirmative',
-              text: i18n('icu:ChatColorPicker__confirm-reset-default'),
-            },
-            {
-              action: () => {
-                resetDefaultChatColor();
-                resetAllChatColors();
-              },
-              style: 'affirmative',
-              text: i18n('icu:ChatColorPicker__resetAll'),
-            },
-          ]}
-          i18n={i18n}
-          onClose={() => {
-            setConfirmResetWhat(false);
-          }}
-          title={i18n('icu:ChatColorPicker__resetDefault')}
+      <AxoConfirmDialog.Root
+        open={confirmResetWhat}
+        onOpenChange={setConfirmResetWhat}
+        title={i18n('icu:ChatColorPicker__resetDefault')}
+        description={i18n('icu:ChatColorPicker__confirm-reset-message')}
+      >
+        <AxoConfirmDialog.Cancel />
+        <AxoConfirmDialog.Action
+          variant="primary"
+          onClick={resetDefaultChatColor}
         >
-          {i18n('icu:ChatColorPicker__confirm-reset-message')}
-        </ConfirmationDialog>
-      ) : null}
-      {confirmResetAll ? (
-        <ConfirmationDialog
-          dialogName="ChatColorPicker.confirmResetAll"
-          actions={[
-            {
-              action: resetAllChatColors,
-              style: 'affirmative',
-              text: i18n('icu:ChatColorPicker__confirm-reset'),
-            },
-          ]}
-          i18n={i18n}
-          onClose={() => {
-            setConfirmResetAll(false);
+          {i18n('icu:ChatColorPicker__confirm-reset-default')}
+        </AxoConfirmDialog.Action>
+        <AxoConfirmDialog.Action
+          variant="primary"
+          onClick={() => {
+            resetDefaultChatColor();
+            resetAllChatColors();
           }}
-          title={i18n('icu:ChatColorPicker__resetAll')}
         >
-          {i18n('icu:ChatColorPicker__confirm-reset-message')}
-        </ConfirmationDialog>
-      ) : null}
+          {i18n('icu:ChatColorPicker__resetAll')}
+        </AxoConfirmDialog.Action>
+      </AxoConfirmDialog.Root>
+      <AxoConfirmDialog.Root
+        open={confirmResetAll}
+        onOpenChange={setConfirmResetAll}
+        title={i18n('icu:ChatColorPicker__resetAll')}
+        description={i18n('icu:ChatColorPicker__confirm-reset-message')}
+      >
+        <AxoConfirmDialog.Cancel />
+        <AxoConfirmDialog.Action variant="primary" onClick={resetAllChatColors}>
+          {i18n('icu:ChatColorPicker__confirm-reset')}
+        </AxoConfirmDialog.Action>
+      </AxoConfirmDialog.Root>
       <SampleMessageBubbles
         backgroundStyle={getCustomColorStyle(selectedCustomColor.value)}
         color={selectedColor}
@@ -267,7 +254,7 @@ type CustomColorBubblePropsType = {
   getConversationsWithCustomColor: (colorId: string) => Array<ConversationType>;
   i18n: LocalizerType;
   isSelected: boolean;
-  onDelete: () => unknown;
+  onDelete: () => void;
   onDupe: () => unknown;
   onEdit: () => unknown;
   onChoose: () => unknown;
@@ -309,27 +296,19 @@ function CustomColorBubble({
 
   return (
     <>
-      {confirmDeleteCount != null && (
-        <ConfirmationDialog
-          dialogName="ChatColorPicker.confirmDelete"
-          actions={[
-            {
-              action: onDelete,
-              style: 'negative',
-              text: i18n('icu:ChatColorPicker__context--delete'),
-            },
-          ]}
-          i18n={i18n}
-          onClose={() => {
-            setConfirmDeleteCount(undefined);
-          }}
-          title={i18n('icu:ChatColorPicker__delete--title')}
-        >
-          {i18n('icu:ChatColorPicker__delete--message', {
-            num: confirmDeleteCount,
-          })}
-        </ConfirmationDialog>
-      )}
+      <AxoConfirmDialog.Root
+        open={confirmDeleteCount != null}
+        onOpenChange={() => setConfirmDeleteCount(undefined)}
+        title={i18n('icu:ChatColorPicker__delete--title')}
+        description={i18n('icu:ChatColorPicker__delete--message', {
+          num: confirmDeleteCount ?? 0,
+        })}
+      >
+        <AxoConfirmDialog.Cancel />
+        <AxoConfirmDialog.Action variant="destructive" onClick={onDelete}>
+          {i18n('icu:ChatColorPicker__context--delete')}
+        </AxoConfirmDialog.Action>
+      </AxoConfirmDialog.Root>
       <CustomColorBubbleDropdownMenu
         i18n={i18n}
         onEdit={onEdit}

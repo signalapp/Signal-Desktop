@@ -19,7 +19,6 @@ import type { BackupLevel } from '@signalapp/libsignal-client/zkgroup.js';
 import { ChatColorPicker } from './ChatColorPicker.dom.tsx';
 import { Checkbox } from './Checkbox.dom.tsx';
 import { WidthBreakpoint } from './_util.std.ts';
-import { ConfirmationDialog } from './ConfirmationDialog.dom.tsx';
 import { DisappearingTimeDialog } from './DisappearingTimeDialog.dom.tsx';
 import { PhoneNumberDiscoverability } from '../util/phoneNumberDiscoverability.std.ts';
 import { PhoneNumberSharingMode } from '../types/PhoneNumberSharingMode.std.ts';
@@ -103,6 +102,7 @@ import type { VisibleRemoteMegaphoneType } from '../types/Megaphone.std.ts';
 import { TitlebarDragArea } from './TitlebarDragArea.dom.tsx';
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges.preload.ts';
 import { Emoji } from '../axo/emoji.std.ts';
+import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
 
 const { isNumber, noop, partition } = lodash;
 
@@ -1078,25 +1078,24 @@ export function Preferences({
           </Modal>
         )}
         {languageDialog === LanguageDialog.Confirmation && (
-          <ConfirmationDialog
-            dialogName="Preferences__Language"
-            i18n={i18n}
+          <AxoConfirmDialog.Root
+            open
+            onOpenChange={closeLanguageDialog}
             title={i18n('icu:Preferences__LanguageModal__Restart__Title')}
-            onCancel={closeLanguageDialog}
-            onClose={closeLanguageDialog}
-            cancelText={i18n('icu:cancel')}
-            actions={[
-              {
-                text: i18n('icu:Preferences__LanguageModal__Restart__Button'),
-                style: 'affirmative',
-                action: () => {
-                  onLocaleChange(selectedLanguageLocale);
-                },
-              },
-            ]}
+            description={i18n(
+              'icu:Preferences__LanguageModal__Restart__Description'
+            )}
           >
-            {i18n('icu:Preferences__LanguageModal__Restart__Description')}
-          </ConfirmationDialog>
+            <AxoConfirmDialog.Cancel>
+              {i18n('icu:cancel')}
+            </AxoConfirmDialog.Cancel>
+            <AxoConfirmDialog.Action
+              variant="primary"
+              onClick={() => onLocaleChange(selectedLanguageLocale)}
+            >
+              {i18n('icu:Preferences__LanguageModal__Restart__Button')}
+            </AxoConfirmDialog.Action>
+          </AxoConfirmDialog.Root>
         )}
         <Control
           icon
@@ -1849,25 +1848,22 @@ export function Preferences({
           </SettingsRow>
         )}
         {confirmContentProtection ? (
-          <ConfirmationDialog
-            dialogName="Preference.confirmContentProtection"
-            actions={[
-              {
-                action: () => onContentProtectionChange(false),
-                style: 'negative',
-                text: i18n(
-                  'icu:Preferences__content-protection__modal--disable'
-                ),
-              },
-            ]}
-            i18n={i18n}
-            onClose={() => {
-              setConfirmContentProtection(false);
-            }}
+          <AxoConfirmDialog.Root
+            open={confirmContentProtection}
+            onOpenChange={setConfirmContentProtection}
             title={i18n('icu:Preferences__content-protection__modal--title')}
+            description={i18n(
+              'icu:Preferences__content-protection__modal--body'
+            )}
           >
-            {i18n('icu:Preferences__content-protection__modal--body')}
-          </ConfirmationDialog>
+            <AxoConfirmDialog.Cancel />
+            <AxoConfirmDialog.Action
+              variant="destructive"
+              onClick={() => onContentProtectionChange(false)}
+            >
+              {i18n('icu:Preferences__content-protection__modal--disable')}
+            </AxoConfirmDialog.Action>
+          </AxoConfirmDialog.Root>
         ) : null}
         <SettingsRow title={i18n('icu:Stories__title')}>
           <FlowingControl>
@@ -1988,25 +1984,22 @@ export function Preferences({
               </div>
             </FlowingControl>
           )}
-          {confirmDelete && !weArePrimaryDevice ? (
-            <ConfirmationDialog
-              dialogName="Preference.deleteAllData"
-              actions={[
-                {
-                  action: doDeleteAllData,
-                  style: 'negative',
-                  text: i18n('icu:clearDataButton'),
-                },
-              ]}
-              i18n={i18n}
-              onClose={() => {
-                setConfirmDelete(false);
-              }}
-              title={i18n('icu:deleteAllDataHeader')}
+
+          <AxoConfirmDialog.Root
+            open={confirmDelete && !weArePrimaryDevice}
+            onOpenChange={setConfirmDelete}
+            title={i18n('icu:deleteAllDataHeader')}
+            description={i18n('icu:deleteAllDataBody')}
+          >
+            <AxoConfirmDialog.Cancel />
+            <AxoConfirmDialog.Action
+              variant="destructive"
+              onClick={doDeleteAllData}
             >
-              {i18n('icu:deleteAllDataBody')}
-            </ConfirmationDialog>
-          ) : null}
+              {i18n('icu:clearDataButton')}
+            </AxoConfirmDialog.Action>
+          </AxoConfirmDialog.Root>
+
           {weArePrimaryDevice && (
             <FlowingControl>
               <div
@@ -2039,44 +2032,36 @@ export function Preferences({
               </div>
             </FlowingControl>
           )}
-          {confirmDelete && weArePrimaryDevice ? (
-            <ConfirmationDialog
-              dialogName="Preference.deleteAccount"
-              actions={[
-                {
-                  action: doDeleteAllData,
-                  style: 'negative',
-                  text: i18n('icu:deleteAccountButton'),
-                },
-              ]}
-              i18n={i18n}
-              onClose={() => {
-                setConfirmDelete(false);
-              }}
-              title={i18n('icu:deleteAccountDialogHeader')}
-            >
-              {i18n('icu:deleteAccountDialogBody')}
-            </ConfirmationDialog>
-          ) : null}
-        </SettingsRow>
-        {confirmStoriesOff ? (
-          <ConfirmationDialog
-            dialogName="Preference.turnStoriesOff"
-            actions={[
-              {
-                action: () => onHasStoriesDisabledChanged(true),
-                style: 'negative',
-                text: i18n('icu:Preferences__turn-stories-off--action'),
-              },
-            ]}
-            i18n={i18n}
-            onClose={() => {
-              setConfirmStoriesOff(false);
-            }}
+          <AxoConfirmDialog.Root
+            open={confirmDelete && weArePrimaryDevice}
+            onOpenChange={setConfirmDelete}
+            title={i18n('icu:deleteAccountDialogHeader')}
+            description={i18n('icu:deleteAccountDialogBody')}
           >
-            {i18n('icu:Preferences__turn-stories-off--body')}
-          </ConfirmationDialog>
-        ) : null}
+            <AxoConfirmDialog.Cancel />
+            <AxoConfirmDialog.Action
+              variant="destructive"
+              onClick={doDeleteAllData}
+            >
+              {i18n('icu:deleteAccountButton')}
+            </AxoConfirmDialog.Action>
+          </AxoConfirmDialog.Root>
+        </SettingsRow>
+        <AxoConfirmDialog.Root
+          open={confirmStoriesOff}
+          onOpenChange={setConfirmStoriesOff}
+          // @ts-expect-error ConfirmationDialog migration: Needs title
+          title={null}
+          description={i18n('icu:Preferences__turn-stories-off--body')}
+        >
+          <AxoConfirmDialog.Cancel />
+          <AxoConfirmDialog.Action
+            variant="destructive"
+            onClick={() => onHasStoriesDisabledChanged(true)}
+          >
+            {i18n('icu:Preferences__turn-stories-off--action')}
+          </AxoConfirmDialog.Action>
+        </AxoConfirmDialog.Root>
       </>
     );
     content = (
@@ -2411,43 +2396,37 @@ export function Preferences({
             </div>
           </div>
         </SettingsRow>
-        {confirmPnpNotDiscoverable && (
-          <ConfirmationDialog
-            i18n={i18n}
-            title={i18n(
-              'icu:Preferences__pnp__discoverability__nobody__confirmModal__title'
-            )}
-            dialogName="Preference.turnPnpDiscoveryOff"
-            onClose={() => {
-              setConfirmPnpNoDiscoverable(false);
-            }}
-            actions={[
-              {
-                action: () =>
-                  onWhoCanFindMeChange(
-                    PhoneNumberDiscoverability.NotDiscoverable
-                  ),
-                style: 'affirmative',
-                text: i18n('icu:ok'),
-              },
-            ]}
+        <AxoConfirmDialog.Root
+          open={confirmPnpNotDiscoverable}
+          onOpenChange={() => setConfirmPnpNoDiscoverable(false)}
+          title={i18n(
+            'icu:Preferences__pnp__discoverability__nobody__confirmModal__title'
+          )}
+          description={i18n(
+            'icu:Preferences__pnp__discoverability__nobody__confirmModal__description',
+            {
+              // This is a rare instance where we want to interpolate the exact
+              // text of the string into quotes in the translation as an
+              // explanation.
+              settingTitle: i18n(
+                'icu:Preferences__pnp__discoverability--title'
+              ),
+              nobodyLabel: i18n(
+                'icu:Preferences__pnp__discoverability__nobody'
+              ),
+            }
+          )}
+        >
+          <AxoConfirmDialog.Cancel />
+          <AxoConfirmDialog.Action
+            variant="primary"
+            onClick={() =>
+              onWhoCanFindMeChange(PhoneNumberDiscoverability.NotDiscoverable)
+            }
           >
-            {i18n(
-              'icu:Preferences__pnp__discoverability__nobody__confirmModal__description',
-              {
-                // This is a rare instance where we want to interpolate the exact
-                // text of the string into quotes in the translation as an
-                // explanation.
-                settingTitle: i18n(
-                  'icu:Preferences__pnp__discoverability--title'
-                ),
-                nobodyLabel: i18n(
-                  'icu:Preferences__pnp__discoverability__nobody'
-                ),
-              }
-            )}
-          </ConfirmationDialog>
-        )}
+            {i18n('icu:ok')}
+          </AxoConfirmDialog.Action>
+        </AxoConfirmDialog.Root>
       </>
     );
     content = (

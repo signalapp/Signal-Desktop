@@ -357,7 +357,7 @@ export async function acceptConversation(page: Page): Promise<void> {
     .click();
 
   const confirmationButton = page
-    .locator('.MessageRequestActionsConfirmation')
+    .getByRole('alertdialog', { name: 'Accept request?' })
     .getByRole('button', { name: 'Accept' });
 
   await confirmationButton.waitFor({

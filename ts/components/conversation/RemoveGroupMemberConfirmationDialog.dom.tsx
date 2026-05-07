@@ -2,14 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { JSX } from 'react';
-
 import type { ConversationType } from '../../state/ducks/conversations.preload.ts';
 import type { LocalizerType } from '../../types/Util.std.ts';
 import { isAccessControlEnabled } from '../../groups/util.std.ts';
-
-import { ConfirmationDialog } from '../ConfirmationDialog.dom.tsx';
 import { I18n } from '../I18n.dom.tsx';
 import { ContactName } from './ContactName.dom.tsx';
+import { AxoConfirmDialog } from '../../axo/AxoConfirmDialog.dom.tsx';
 
 type PropsType = {
   group: ConversationType;
@@ -33,17 +31,9 @@ export function RemoveGroupMemberConfirmationDialog({
   const contactName = <ContactName title={conversation.title} />;
 
   return (
-    <ConfirmationDialog
-      dialogName="RemoveGroupMemberConfirmationDialog"
-      actions={[
-        {
-          action: onRemove,
-          text: i18n('icu:RemoveGroupMemberConfirmation__remove-button'),
-          style: 'negative',
-        },
-      ]}
-      i18n={i18n}
-      onClose={onClose}
+    <AxoConfirmDialog.Root
+      open
+      onOpenChange={onClose}
       title={
         accessControlEnabled ? (
           <I18n
@@ -59,6 +49,13 @@ export function RemoveGroupMemberConfirmationDialog({
           />
         )
       }
-    />
+      // @ts-expect-error ConfirmationDialog migration: Needs description
+      description={null}
+    >
+      <AxoConfirmDialog.Cancel />
+      <AxoConfirmDialog.Action variant="destructive" onClick={onRemove}>
+        {i18n('icu:RemoveGroupMemberConfirmation__remove-button')}
+      </AxoConfirmDialog.Action>
+    </AxoConfirmDialog.Root>
   );
 }

@@ -17,7 +17,6 @@ import type { RenderModalPage, ModalPropsType } from './Modal.dom.tsx';
 import { Avatar, AvatarSize } from './Avatar.dom.tsx';
 import { Button, ButtonVariant } from './Button.dom.tsx';
 import { Checkbox } from './Checkbox.dom.tsx';
-import { ConfirmationDialog } from './ConfirmationDialog.dom.tsx';
 import { ContactPills } from './ContactPills.dom.tsx';
 import { ContactPill } from './ContactPill.dom.tsx';
 import { ConversationList, RowType } from './ConversationList.dom.tsx';
@@ -41,6 +40,7 @@ import { getGroupMemberships } from '../util/getGroupMemberships.dom.ts';
 import { strictAssert } from '../util/assert.std.ts';
 import { UserText } from './UserText.dom.tsx';
 import { SizeObserver } from '../hooks/useSizeObserver.dom.tsx';
+import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
 
 const { noop } = lodash;
 
@@ -271,6 +271,10 @@ export function StoriesSettingsModal({
     i18n,
     name: 'StoriesSettingsModal',
     tryClose,
+    // @ts-expect-error ConfirmationDialog migration: Needs title
+    title: null,
+    // @ts-expect-error ConfirmationDialog migration: Needs description
+    description: null,
   });
 
   const [listToEditId, setListToEditId] = useState<string | undefined>(
@@ -502,53 +506,57 @@ export function StoriesSettingsModal({
           {modal}
         </PagedModal>
       )}
-      {confirmDeleteList && (
-        <ConfirmationDialog
-          dialogName="StoriesSettings.deleteList"
-          actions={[
-            {
-              action: () => {
-                onDeleteList(confirmDeleteList.id);
-                setListToEditId(undefined);
-              },
-              style: 'negative',
-              text: i18n('icu:delete'),
-            },
-          ]}
-          i18n={i18n}
-          onClose={() => {
-            setConfirmDeleteList(undefined);
+
+      <AxoConfirmDialog.Root
+        open={confirmDeleteList != null}
+        onOpenChange={() => setConfirmDeleteList(undefined)}
+        // @ts-expect-error ConfirmationDialog migration: Needs title
+        title={null}
+        description={i18n('icu:StoriesSettings__delete-list--confirm', {
+          name: confirmDeleteList?.name ?? '',
+        })}
+      >
+        <AxoConfirmDialog.Cancel />
+        <AxoConfirmDialog.Action
+          variant="destructive"
+          onClick={() => {
+            strictAssert(
+              confirmDeleteList != null,
+              'Missing confirmDeleteList'
+            );
+            onDeleteList(confirmDeleteList.id);
+            setListToEditId(undefined);
           }}
         >
-          {i18n('icu:StoriesSettings__delete-list--confirm', {
-            name: confirmDeleteList.name,
-          })}
-        </ConfirmationDialog>
-      )}
-      {confirmRemoveGroup != null && (
-        <ConfirmationDialog
-          dialogName="StoriesSettings.removeGroupStory"
-          actions={[
-            {
-              action: () => {
-                toggleGroupsForStorySend([confirmRemoveGroup.id]);
-                setConfirmRemoveGroup(null);
-                setGroupToViewId(null);
-              },
-              style: 'negative',
-              text: i18n('icu:delete'),
-            },
-          ]}
-          i18n={i18n}
-          onClose={() => {
+          {i18n('icu:delete')}
+        </AxoConfirmDialog.Action>
+      </AxoConfirmDialog.Root>
+
+      <AxoConfirmDialog.Root
+        open={confirmRemoveGroup != null}
+        onOpenChange={() => setConfirmRemoveGroup(null)}
+        // @ts-expect-error ConfirmationDialog migration: Needs title
+        title={null}
+        description={i18n('icu:StoriesSettings__remove_group--confirm', {
+          groupTitle: confirmRemoveGroup?.title ?? '',
+        })}
+      >
+        <AxoConfirmDialog.Cancel />
+        <AxoConfirmDialog.Action
+          variant="destructive"
+          onClick={() => {
+            strictAssert(
+              confirmRemoveGroup != null,
+              'Missing confirmRemoveGroup'
+            );
+            toggleGroupsForStorySend([confirmRemoveGroup.id]);
             setConfirmRemoveGroup(null);
+            setGroupToViewId(null);
           }}
         >
-          {i18n('icu:StoriesSettings__remove_group--confirm', {
-            groupTitle: confirmRemoveGroup.title,
-          })}
-        </ConfirmationDialog>
-      )}
+          {i18n('icu:delete')}
+        </AxoConfirmDialog.Action>
+      </AxoConfirmDialog.Root>
       {confirmDiscardModal}
     </>
   );
@@ -755,30 +763,30 @@ export function DistributionListSettingsModal({
         </>
       )}
 
-      {confirmRemoveMember && (
-        <ConfirmationDialog
-          dialogName="StoriesSettings.confirmRemoveMember"
-          actions={[
-            {
-              action: () =>
-                onRemoveMembers(confirmRemoveMember.listId, [
-                  confirmRemoveMember.serviceId,
-                ]),
-              style: 'negative',
-              text: i18n('icu:StoriesSettings__remove--action'),
-            },
-          ]}
-          i18n={i18n}
-          onClose={() => {
-            setConfirmRemoveMember(undefined);
+      <AxoConfirmDialog.Root
+        open={confirmRemoveMember != null}
+        onOpenChange={() => setConfirmRemoveMember(undefined)}
+        title={i18n('icu:StoriesSettings__remove--title', {
+          title: confirmRemoveMember?.title ?? '',
+        })}
+        description={i18n('icu:StoriesSettings__remove--body')}
+      >
+        <AxoConfirmDialog.Cancel />
+        <AxoConfirmDialog.Action
+          variant="destructive"
+          onClick={() => {
+            strictAssert(
+              confirmRemoveMember != null,
+              'Missing confirmRemoveMember'
+            );
+            onRemoveMembers(confirmRemoveMember.listId, [
+              confirmRemoveMember.serviceId,
+            ]);
           }}
-          title={i18n('icu:StoriesSettings__remove--title', {
-            title: confirmRemoveMember.title,
-          })}
         >
-          {i18n('icu:StoriesSettings__remove--body')}
-        </ConfirmationDialog>
-      )}
+          {i18n('icu:StoriesSettings__remove--action')}
+        </AxoConfirmDialog.Action>
+      </AxoConfirmDialog.Root>
     </ModalPage>
   );
 }

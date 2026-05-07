@@ -133,6 +133,10 @@ export function GroupMemberLabelEditor({
     i18n,
     name: 'GroupMemberLabelEditor',
     tryClose,
+    // @ts-expect-error ConfirmationDialog migration: Needs title
+    title: null,
+    // @ts-expect-error ConfirmationDialog migration: Needs description
+    description: null,
   });
 
   const onTryClose = useCallback(() => {

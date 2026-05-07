@@ -5,14 +5,6 @@
 @use '../variables';
 
 .module-SafetyNumberChangeDialog {
-  &__confirm-dialog__header {
-    padding-bottom: 0px;
-
-    // We've got no title, but we want the X button from ConfirmationDialog, so
-    //   we need to bump the dialog contents up into the header area just a bit.
-    margin-bottom: -5px;
-  }
-
   // Used to ensure that a set of spans reverse order under RTL
   &__rtl-span {
     display: inline-block;

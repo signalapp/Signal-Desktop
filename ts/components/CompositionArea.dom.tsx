@@ -81,7 +81,6 @@ import type { FunStickerSelection } from './fun/panels/FunPanelStickers.dom.tsx'
 import type { FunGifSelection } from './fun/panels/FunPanelGifs.dom.tsx';
 import type { SmartDraftGifMessageSendModalProps } from '../state/smart/DraftGifMessageSendModal.preload.tsx';
 import { strictAssert } from '../util/assert.std.ts';
-import { ConfirmationDialog } from './ConfirmationDialog.dom.tsx';
 import { FunPickerButton } from './fun/FunButton.dom.tsx';
 import { AxoDropdownMenu } from '../axo/AxoDropdownMenu.dom.tsx';
 import { AxoIconButton } from '../axo/AxoIconButton.dom.tsx';
@@ -92,6 +91,7 @@ import { useDocumentKeyDown } from '../hooks/useDocumentKeyDown.dom.ts';
 import { hasDraft } from '../util/hasDraft.std.ts';
 import type { ContactNameColorType } from '../types/Colors.std.ts';
 import type { Emoji } from '../axo/emoji.std.ts';
+import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
 
 export type OwnProps = Readonly<{
   acceptedMessageRequest: boolean | null;
@@ -752,27 +752,20 @@ export const CompositionArea = memo(function CompositionArea({
 
   const leftHandSideButtonsFragment = (
     <>
-      {confirmGifSelection && (
-        <ConfirmationDialog
-          i18n={i18n}
-          dialogName="CompositionArea.ConfirmGifSelection"
-          hasXButton={false}
-          onClose={handleCancelGifSelection}
-          onCancel={handleCancelGifSelection}
-          title={i18n('icu:CompositionArea__ConfirmGifSelection__Title')}
-          actions={[
-            {
-              action: handleConfirmGifSelection,
-              style: 'affirmative',
-              text: i18n(
-                'icu:CompositionArea__ConfirmGifSelection__ReplaceButton'
-              ),
-            },
-          ]}
+      <AxoConfirmDialog.Root
+        open={confirmGifSelection != null}
+        onOpenChange={handleCancelGifSelection}
+        title={i18n('icu:CompositionArea__ConfirmGifSelection__Title')}
+        description={i18n('icu:CompositionArea__ConfirmGifSelection__Body')}
+      >
+        <AxoConfirmDialog.Cancel />
+        <AxoConfirmDialog.Action
+          variant="primary"
+          onClick={handleConfirmGifSelection}
         >
-          {i18n('icu:CompositionArea__ConfirmGifSelection__Body')}
-        </ConfirmationDialog>
-      )}
+          {i18n('icu:CompositionArea__ConfirmGifSelection__ReplaceButton')}
+        </AxoConfirmDialog.Action>
+      </AxoConfirmDialog.Root>
       <div
         aria-hidden={isViewOnceActive || undefined}
         className={classNames(

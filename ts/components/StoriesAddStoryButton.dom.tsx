@@ -12,7 +12,7 @@ import {
   isVideoGoodForStories,
   ReasonVideoNotGood,
 } from '../util/isVideoGoodForStories.std.ts';
-import { ConfirmationDialog } from './ConfirmationDialog.dom.tsx';
+import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
 
 export type PropsType = {
   children?: ReactNode;
@@ -111,27 +111,21 @@ export function StoriesAddStoryButton({
       >
         {children}
       </ContextMenu>
-      {error && (
-        <ConfirmationDialog
-          dialogName="StoriesAddStoryButton.error"
-          noDefaultCancelButton
-          actions={[
-            {
-              action: () => {
-                setError(undefined);
-              },
-              style: 'affirmative',
-              text: i18n('icu:Confirmation--confirm'),
-            },
-          ]}
-          i18n={i18n}
-          onClose={() => {
-            setError(undefined);
-          }}
+      <AxoConfirmDialog.Root
+        open={error != null}
+        onOpenChange={() => setError(undefined)}
+        // @ts-expect-error ConfirmationDialog migration: Needs title
+        title={null}
+        // @ts-expect-error ConfirmationDialog migration: Needs description
+        description={error}
+      >
+        <AxoConfirmDialog.Action
+          variant="primary"
+          onClick={() => setError(undefined)}
         >
-          {error}
-        </ConfirmationDialog>
-      )}
+          {i18n('icu:Confirmation--confirm')}
+        </AxoConfirmDialog.Action>
+      </AxoConfirmDialog.Root>
     </>
   );
 }

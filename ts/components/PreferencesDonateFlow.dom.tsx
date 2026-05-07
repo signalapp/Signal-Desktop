@@ -336,9 +336,12 @@ export function PreferencesDonateFlow({
 
   const [confirmDiscardModal, confirmDiscardIf] = useConfirmDiscard({
     i18n,
-    bodyText: discardModalBodyText,
-    cancelText: discardModalCancelText,
-    discardText: discardModalDiscardText,
+    // @ts-expect-error ConfirmationDialog migration: Needs title
+    title: null,
+    // @ts-expect-error ConfirmationDialog migration: Needs description
+    description: discardModalBodyText,
+    cancelLabel: discardModalCancelText,
+    discardLabel: discardModalDiscardText,
     name: 'PreferencesDonateFlow',
     tryClose,
   });

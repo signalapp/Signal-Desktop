@@ -169,7 +169,7 @@ describe('pnp/accept gv2 invite', function (this: Mocha.Suite) {
       .click();
 
     await window
-      .getByTestId('ConfirmationDialog.ConversationDetailsAction.confirmLeave')
+      .getByRole('alertdialog', { name: 'Do you really want to leave?' })
       .getByRole('button', { name: 'Leave' })
       .click();
 
@@ -205,7 +205,10 @@ describe('pnp/accept gv2 invite', function (this: Mocha.Suite) {
       .click();
 
     debug('waiting for confirmation modal');
-    await window.locator('.module-Modal button >> "Block"').click();
+    await window
+      .getByRole('alertdialog', { name: `Block and Leave ${group.title}?` })
+      .getByRole('button', { name: 'Block' })
+      .click();
 
     group = await phone.waitForGroupUpdate(group);
     assert.strictEqual(group.revision, 2);
@@ -322,7 +325,10 @@ describe('pnp/accept gv2 invite', function (this: Mocha.Suite) {
       .click();
 
     debug('waiting for confirmation modal');
-    await window.locator('.module-Modal button >> "Block"').click();
+    await window
+      .getByRole('alertdialog', { name: `Block and Leave ${group.title}?` })
+      .getByRole('button', { name: 'Block' })
+      .click();
 
     group = await phone.waitForGroupUpdate(group);
     assert.strictEqual(group.revision, 3);

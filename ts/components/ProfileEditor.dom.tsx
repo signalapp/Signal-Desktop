@@ -3,20 +3,16 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useSpring, animated } from '@react-spring/web';
-
 import type { MutableRefObject, JSX, ReactNode } from 'react';
-
 import { AvatarColors } from '../types/Colors.std.ts';
 import { AvatarEditor } from './AvatarEditor.dom.tsx';
 import { AvatarPreview } from './AvatarPreview.dom.tsx';
-import { ButtonVariant } from './Button.dom.tsx';
 import { Input } from './Input.dom.tsx';
 import { PanelRow } from './conversation/conversation-details/PanelRow.dom.tsx';
 import { UsernameEditState } from '../state/ducks/usernameEnums.std.ts';
 import { ToastType } from '../types/Toast.dom.tsx';
 import { assertDev } from '../util/assert.std.ts';
 import { missingCaseError } from '../util/missingCaseError.std.ts';
-import { ConfirmationDialog } from './ConfirmationDialog.dom.tsx';
 import { ContextMenu } from './ContextMenu.dom.tsx';
 import { UsernameLinkEditor } from './UsernameLinkEditor.dom.tsx';
 import {
@@ -56,6 +52,7 @@ import { normalizeProfileName } from '../util/normalizeProfileName.std.ts';
 import { Emoji } from '../axo/emoji.std.ts';
 import { AxoTextField } from '../axo/AxoTextField.dom.tsx';
 import { tw } from '../axo/tw.dom.tsx';
+import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
 
 type ProfileEditorData = {
   firstName: string;
@@ -192,6 +189,10 @@ export function ProfileEditor({
     i18n,
     name: 'ProfileEditor',
     tryClose,
+    // @ts-expect-error ConfirmationDialog migration: Needs title
+    title: null,
+    // @ts-expect-error ConfirmationDialog migration: Needs description
+    description: null,
   });
 
   const TITLES_BY_EDIT_STATE: Record<ProfileEditorPage, string | undefined> = {
@@ -782,69 +783,63 @@ export function ProfileEditor({
 
   return (
     <>
-      {usernameEditState === UsernameEditState.ConfirmingDelete && (
-        <ConfirmationDialog
-          dialogName="ProfileEditor.confirmDeleteUsername"
-          i18n={i18n}
-          onClose={() => setUsernameEditState(UsernameEditState.Editing)}
-          actions={[
-            {
-              text: i18n('icu:ProfileEditor--username--confirm-delete-button'),
-              style: 'negative',
-              action: () => deleteUsername(),
-            },
-          ]}
-        >
-          {i18n('icu:ProfileEditor--username--confirm-delete-body-2', {
+      <AxoConfirmDialog.Root
+        open={usernameEditState === UsernameEditState.ConfirmingDelete}
+        onOpenChange={() => setUsernameEditState(UsernameEditState.Editing)}
+        // @ts-expect-error ConfirmationDialog migration: Needs title
+        title={null}
+        description={i18n(
+          'icu:ProfileEditor--username--confirm-delete-body-2',
+          {
             username: username ?? '',
-          })}
-        </ConfirmationDialog>
-      )}
+          }
+        )}
+      >
+        <AxoConfirmDialog.Cancel />
+        <AxoConfirmDialog.Action variant="destructive" onClick={deleteUsername}>
+          {i18n('icu:ProfileEditor--username--confirm-delete-button')}
+        </AxoConfirmDialog.Action>
+      </AxoConfirmDialog.Root>
 
       {confirmDiscardModal}
 
-      {isResettingUsernameLink && (
-        <ConfirmationDialog
-          i18n={i18n}
-          dialogName="ProfileEditor__resettingUsername"
-          onClose={() => setIsResettingUsernameLink(false)}
-          cancelButtonVariant={ButtonVariant.Secondary}
-          cancelText={i18n('icu:cancel')}
-          actions={[
-            {
-              action: () => {
-                setIsResettingUsernameLink(false);
-                setEditState(ProfileEditorPage.UsernameLink);
-              },
-              style: 'affirmative',
-              text: i18n('icu:UsernameLinkModalBody__error__fix-now'),
-            },
-          ]}
+      <AxoConfirmDialog.Root
+        open={isResettingUsernameLink}
+        onOpenChange={() => setIsResettingUsernameLink(false)}
+        // @ts-expect-error ConfirmationDialog migration: Needs title
+        title={null}
+        description={i18n('icu:UsernameLinkModalBody__error__text')}
+      >
+        <AxoConfirmDialog.Cancel />
+        <AxoConfirmDialog.Action
+          variant="secondary"
+          onClick={() => {
+            setIsResettingUsernameLink(false);
+            setEditState(ProfileEditorPage.UsernameLink);
+          }}
         >
-          {i18n('icu:UsernameLinkModalBody__error__text')}
-        </ConfirmationDialog>
-      )}
+          {i18n('icu:UsernameLinkModalBody__error__fix-now')}
+        </AxoConfirmDialog.Action>
+      </AxoConfirmDialog.Root>
 
-      {isResettingUsername && (
-        <ConfirmationDialog
-          dialogName="ProfileEditor.confirmResetUsername"
-          moduleClassName="ProfileEditor__reset-username-modal"
-          i18n={i18n}
-          onClose={() => setIsResettingUsername(false)}
-          actions={[
-            {
-              text: i18n('icu:ProfileEditor--username--corrupted--fix-button'),
-              style: 'affirmative',
-              action: () => {
-                openUsernameReservationModal();
-                setEditState(ProfileEditorPage.Username);
-              },
-            },
-          ]}
+      <AxoConfirmDialog.Root
+        open={isResettingUsername}
+        onOpenChange={() => setIsResettingUsername(false)}
+        // @ts-expect-error ConfirmationDialog migration: Needs title
+        title={null}
+        description={i18n('icu:ProfileEditor--username--corrupted--body')}
+      >
+        <AxoConfirmDialog.Cancel />
+        <AxoConfirmDialog.Action
+          variant="primary"
+          onClick={() => {
+            openUsernameReservationModal();
+            setEditState(ProfileEditorPage.Username);
+          }}
         >
-          {i18n('icu:ProfileEditor--username--corrupted--body')}
-        </ConfirmationDialog>
-      )}
+          {i18n('icu:ProfileEditor--username--corrupted--fix-button')}
+        </AxoConfirmDialog.Action>
+      </AxoConfirmDialog.Root>
 
       <PreferencesContent
         backButton={backButton}

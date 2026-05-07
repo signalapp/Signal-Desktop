@@ -8,11 +8,11 @@ import {
   type MouseEvent,
   type KeyboardEvent,
 } from 'react';
-import { ConfirmationDialog } from '../ConfirmationDialog.dom.tsx';
 import type { LocalizerType } from '../../types/Util.std.ts';
 import type { StickerPackType } from '../../state/ducks/stickers.preload.ts';
 import { Button, ButtonVariant } from '../Button.dom.tsx';
 import { UserText } from '../UserText.dom.tsx';
+import { AxoConfirmDialog } from '../../axo/AxoConfirmDialog.dom.tsx';
 
 export type OwnProps = {
   readonly i18n: LocalizerType;
@@ -101,22 +101,21 @@ export const StickerManagerPackRow = memo(function StickerManagerPackRowInner({
 
   return (
     <>
-      {uninstalling ? (
-        <ConfirmationDialog
-          dialogName="StickerManagerPackRow.confirmUninstall"
-          i18n={i18n}
-          onClose={clearUninstalling}
-          actions={[
-            {
-              style: 'negative',
-              text: i18n('icu:stickers--StickerManager--Uninstall'),
-              action: handleConfirmUninstall,
-            },
-          ]}
+      <AxoConfirmDialog.Root
+        open={uninstalling}
+        onOpenChange={setUninstalling}
+        // @ts-expect-error ConfirmationDialog migration: Needs title
+        title={null}
+        description={i18n('icu:stickers--StickerManager--UninstallWarning')}
+      >
+        <AxoConfirmDialog.Cancel />
+        <AxoConfirmDialog.Action
+          variant="destructive"
+          onClick={handleConfirmUninstall}
         >
-          {i18n('icu:stickers--StickerManager--UninstallWarning')}
-        </ConfirmationDialog>
-      ) : null}
+          {i18n('icu:stickers--StickerManager--Uninstall')}
+        </AxoConfirmDialog.Action>
+      </AxoConfirmDialog.Root>
       <div
         tabIndex={0}
         // This can't be a button because we have buttons as descendants

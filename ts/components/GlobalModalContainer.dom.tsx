@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { JSX } from 'react';
-
 import type {
   CallQualitySurveyPropsType,
   DeleteMessagesPropsType,
@@ -21,9 +20,7 @@ import {
   UsernameOnboardingState,
 } from '../types/globalModals.std.ts';
 import { missingCaseError } from '../util/missingCaseError.std.ts';
-
-import { ButtonVariant } from './Button.dom.tsx';
-import { ConfirmationDialog } from './ConfirmationDialog.dom.tsx';
+import type { ButtonVariant } from './Button.dom.tsx';
 import { SignalConnectionsModal } from './SignalConnectionsModal.dom.tsx';
 import { WhatsNewModal } from './WhatsNewModal.dom.tsx';
 import { MediaPermissionsModal } from './MediaPermissionsModal.dom.tsx';
@@ -42,6 +39,7 @@ import { LowDiskSpaceBackupImportModal } from './LowDiskSpaceBackupImportModal.d
 import { KeyTransparencyOnboardingDialog } from './KeyTransparencyOnboardingDialog.dom.tsx';
 import { isUsernameValid } from '../util/Username.dom.ts';
 import type { PinMessageDialogData } from '../state/smart/PinMessageDialog.preload.tsx';
+import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
 
 // NOTE: All types should be required for this component so that the smart
 // component gives you type errors when adding/removing props.
@@ -519,15 +517,15 @@ export function GlobalModalContainer({
     }
 
     return (
-      <ConfirmationDialog
-        dialogName="GlobalModalContainer.userNotFound"
-        cancelText={i18n('icu:ok')}
-        cancelButtonVariant={ButtonVariant.Secondary}
-        i18n={i18n}
-        onClose={hideUserNotFoundModal}
+      <AxoConfirmDialog.Root
+        open
+        onOpenChange={hideUserNotFoundModal}
+        // @ts-expect-error ConfirmationDialog migration: Needs title
+        title={null}
+        description={content}
       >
-        {content}
-      </ConfirmationDialog>
+        <AxoConfirmDialog.Cancel>{i18n('icu:ok')}</AxoConfirmDialog.Cancel>
+      </AxoConfirmDialog.Root>
     );
   }
 

@@ -30,7 +30,6 @@ import { Avatar } from './Avatar.dom.tsx';
 import { missingCaseError } from '../util/missingCaseError.std.ts';
 import { formatTimestamp } from '../util/formatTimestamp.dom.ts';
 import { strictAssert } from '../util/assert.std.ts';
-import { ConfirmationDialog } from './ConfirmationDialog.dom.tsx';
 import { SettingsPage } from '../types/Nav.std.ts';
 import { useConfirmDiscard } from '../hooks/useConfirmDiscard.dom.tsx';
 import { AriaClickable } from '../axo/AriaClickable.dom.tsx';
@@ -53,6 +52,7 @@ import type {
 import type { SettingsLocation } from '../types/Nav.std.ts';
 import { addLeadingZero } from '../util/timestamp.std.ts';
 import { Emoji } from '../axo/emoji.std.ts';
+import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
 
 enum CreateFlowPage {
   Name = 'Name',
@@ -289,6 +289,10 @@ export function NotificationProfilesCreateFlow({
     i18n,
     name: 'NotificationProfilesCreateFlow',
     tryClose,
+    // @ts-expect-error ConfirmationDialog migration: Needs title
+    title: null,
+    // @ts-expect-error ConfirmationDialog migration: Needs description
+    description: null,
   });
 
   const onTryClose = useCallback(() => {
@@ -1203,22 +1207,21 @@ function NotificationProfilesEditPage({
 
   return (
     <>
-      {isConfirmingDelete ? (
-        <ConfirmationDialog
-          dialogName="NotificationProfileDelete"
-          actions={[
-            {
-              action: onDeleteProfile,
-              text: i18n('icu:NotificationProfiles--delete-button'),
-              style: 'affirmative',
-            },
-          ]}
-          i18n={i18n}
-          onClose={() => setIsConfirmingDelete(false)}
+      <AxoConfirmDialog.Root
+        open={isConfirmingDelete}
+        onOpenChange={setIsConfirmingDelete}
+        // @ts-expect-error ConfirmationDialog migration: Needs title
+        title={null}
+        description={i18n('icu:NotificationProfiles--delete-confirmation')}
+      >
+        <AxoConfirmDialog.Cancel />
+        <AxoConfirmDialog.Action
+          variant="destructive"
+          onClick={onDeleteProfile}
         >
-          {i18n('icu:NotificationProfiles--delete-confirmation')}
-        </ConfirmationDialog>
-      ) : null}
+          {i18n('icu:NotificationProfiles--delete-button')}
+        </AxoConfirmDialog.Action>
+      </AxoConfirmDialog.Root>
       <Header onBack={onBack} title={profile.name} i18n={i18n} />
       <Container contentsRef={contentsRef}>
         <AriaClickable.Root

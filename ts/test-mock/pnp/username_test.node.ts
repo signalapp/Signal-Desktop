@@ -270,7 +270,13 @@ describe('pnp/username', function (this: Mocha.Suite) {
       .click();
     await profileEditor.locator('button[aria-label="Delete"]').click();
     await window
-      .locator('.module-Modal .module-Modal__button-footer button >> "Delete"')
+      .getByRole('alertdialog')
+      .filter({
+        has: window.getByText(
+          `This will remove your username and disable your QR code and link. “${username}” will be available for others to claim. Are you sure?`
+        ),
+      })
+      .getByRole('button', { name: 'Delete' })
       .click();
     await profileEditor.getByRole('button', { name: 'Username' }).waitFor();
 

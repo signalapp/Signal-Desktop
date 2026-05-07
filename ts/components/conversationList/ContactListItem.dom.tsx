@@ -14,10 +14,10 @@ import { ListTile } from '../ListTile.dom.tsx';
 import { Avatar, AvatarSize } from '../Avatar.dom.tsx';
 import { ContextMenu } from '../ContextMenu.dom.tsx';
 import { I18n } from '../I18n.dom.tsx';
-import { ConfirmationDialog } from '../ConfirmationDialog.dom.tsx';
 import { isSignalConversation } from '../../util/isSignalConversation.dom.ts';
 import { isInSystemContacts } from '../../util/isInSystemContacts.std.ts';
 import { InContactsIcon } from '../InContactsIcon.dom.tsx';
+import { AxoConfirmDialog } from '../../axo/AxoConfirmDialog.dom.tsx';
 
 export type ContactListItemConversationType = Pick<
   ConversationType,
@@ -173,10 +173,9 @@ export const ContactListItem: FunctionComponent<PropsType> = memo(
 
     if (isConfirmingBlocking) {
       blockConfirmation = (
-        <ConfirmationDialog
-          dialogName="ContactListItem.blocking"
-          i18n={i18n}
-          onClose={() => setConfirmingBlocking(false)}
+        <AxoConfirmDialog.Root
+          open
+          onOpenChange={() => setConfirmingBlocking(false)}
           title={
             <I18n
               i18n={i18n}
@@ -186,16 +185,16 @@ export const ContactListItem: FunctionComponent<PropsType> = memo(
               }}
             />
           }
-          actions={[
-            {
-              text: i18n('icu:MessageRequests--block'),
-              action: () => onBlock?.(id),
-              style: 'negative',
-            },
-          ]}
+          description={i18n('icu:MessageRequests--block-direct-confirm-body')}
         >
-          {i18n('icu:MessageRequests--block-direct-confirm-body')}
-        </ConfirmationDialog>
+          <AxoConfirmDialog.Cancel />
+          <AxoConfirmDialog.Action
+            variant="destructive"
+            onClick={() => onBlock?.(id)}
+          >
+            {i18n('icu:MessageRequests--block')}
+          </AxoConfirmDialog.Action>
+        </AxoConfirmDialog.Root>
       );
     }
 
@@ -204,11 +203,9 @@ export const ContactListItem: FunctionComponent<PropsType> = memo(
         isInSystemContacts({ type, name, systemGivenName, systemFamilyName })
       ) {
         removeConfirmation = (
-          <ConfirmationDialog
-            key="ContactListItem.systemContact"
-            dialogName="ContactListItem.systemContact"
-            i18n={i18n}
-            onClose={() => setConfirmingRemoving(false)}
+          <AxoConfirmDialog.Root
+            open
+            onOpenChange={() => setConfirmingRemoving(false)}
             title={
               <I18n
                 i18n={i18n}
@@ -218,18 +215,18 @@ export const ContactListItem: FunctionComponent<PropsType> = memo(
                 }}
               />
             }
-            cancelText={i18n('icu:Confirmation--confirm')}
+            description={i18n('icu:ContactListItem__remove-system--body')}
           >
-            {i18n('icu:ContactListItem__remove-system--body')}
-          </ConfirmationDialog>
+            <AxoConfirmDialog.Cancel>
+              {i18n('icu:Confirmation--confirm')}
+            </AxoConfirmDialog.Cancel>
+          </AxoConfirmDialog.Root>
         );
       } else {
         removeConfirmation = (
-          <ConfirmationDialog
-            key="ContactListItem.removing"
-            dialogName="ContactListItem.removing"
-            i18n={i18n}
-            onClose={() => setConfirmingRemoving(false)}
+          <AxoConfirmDialog.Root
+            open
+            onOpenChange={() => setConfirmingRemoving(false)}
             title={
               <I18n
                 i18n={i18n}
@@ -239,16 +236,16 @@ export const ContactListItem: FunctionComponent<PropsType> = memo(
                 }}
               />
             }
-            actions={[
-              {
-                text: i18n('icu:ContactListItem__remove--confirm'),
-                action: () => onRemove?.(id),
-                style: 'negative',
-              },
-            ]}
+            description={i18n('icu:ContactListItem__remove--body')}
           >
-            {i18n('icu:ContactListItem__remove--body')}
-          </ConfirmationDialog>
+            <AxoConfirmDialog.Cancel />
+            <AxoConfirmDialog.Action
+              variant="destructive"
+              onClick={() => onRemove?.(id)}
+            >
+              {i18n('icu:ContactListItem__remove--confirm')}
+            </AxoConfirmDialog.Action>
+          </AxoConfirmDialog.Root>
         );
       }
     }

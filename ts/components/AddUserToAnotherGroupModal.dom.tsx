@@ -16,7 +16,6 @@ import type { ConversationType } from '../state/ducks/conversations.preload.ts';
 import type { LocalizerType } from '../types/Util.std.ts';
 import { ToastType } from '../types/Toast.dom.tsx';
 import { filterAndSortConversations } from '../util/filterAndSortConversations.std.ts';
-import { ConfirmationDialog } from './ConfirmationDialog.dom.tsx';
 import type { GroupListItemConversationType } from './conversationList/GroupListItem.dom.tsx';
 import {
   DisabledReason,
@@ -30,6 +29,7 @@ import { ListTile } from './ListTile.dom.tsx';
 import type { ShowToastAction } from '../state/ducks/toast.preload.ts';
 import { SizeObserver } from '../hooks/useSizeObserver.dom.tsx';
 import { strictAssert } from '../util/assert.std.ts';
+import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
 
 const { pick } = lodash;
 
@@ -217,42 +217,42 @@ export function AddUserToAnotherGroupModal({
       )}
 
       {selectedGroupId && selectedGroup && (
-        <ConfirmationDialog
-          dialogName="AddUserToAnotherGroupModal__confirm"
+        <AxoConfirmDialog.Root
+          open
+          onOpenChange={() => setSelectedGroupId(undefined)}
           title={i18n('icu:AddUserToAnotherGroupModal__confirm-title')}
-          i18n={i18n}
-          onClose={() => setSelectedGroupId(undefined)}
-          actions={[
-            {
-              text: i18n('icu:AddUserToAnotherGroupModal__confirm-add'),
-              style: 'affirmative',
-              action: () => {
-                showToast({
-                  toastType: ToastType.AddingUserToGroup,
-                  parameters: {
-                    contact: contact.title,
-                  },
-                });
-                addMembersToGroup(selectedGroupId, [contact.id], {
-                  onSuccess: () =>
-                    showToast({
-                      toastType: ToastType.UserAddedToGroup,
-                      parameters: {
-                        contact: contact.title,
-                        group: selectedGroup.title,
-                      },
-                    }),
-                });
-                toggleAddUserToAnotherGroupModal(undefined);
-              },
-            },
-          ]}
-        >
-          {i18n('icu:AddUserToAnotherGroupModal__confirm-message', {
+          description={i18n('icu:AddUserToAnotherGroupModal__confirm-message', {
             contact: contact.title,
             group: selectedGroup.title,
           })}
-        </ConfirmationDialog>
+        >
+          <AxoConfirmDialog.Cancel />
+          <AxoConfirmDialog.Action
+            variant="primary"
+            onClick={() => {
+              showToast({
+                toastType: ToastType.AddingUserToGroup,
+                parameters: {
+                  contact: contact.title,
+                },
+              });
+              addMembersToGroup(selectedGroupId, [contact.id], {
+                onSuccess: () => {
+                  showToast({
+                    toastType: ToastType.UserAddedToGroup,
+                    parameters: {
+                      contact: contact.title,
+                      group: selectedGroup.title,
+                    },
+                  });
+                },
+              });
+              toggleAddUserToAnotherGroupModal(undefined);
+            }}
+          >
+            {i18n('icu:AddUserToAnotherGroupModal__confirm-add')}
+          </AxoConfirmDialog.Action>
+        </AxoConfirmDialog.Root>
       )}
     </>
   );

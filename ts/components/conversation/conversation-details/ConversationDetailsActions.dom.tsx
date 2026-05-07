@@ -4,11 +4,8 @@
 import type { ReactNode, JSX } from 'react';
 import { useState } from 'react';
 import classNames from 'classnames';
-
 import type { LocalizerType } from '../../../types/Util.std.ts';
-import { ConfirmationDialog } from '../../ConfirmationDialog.dom.tsx';
 import { Tooltip, TooltipPlacement } from '../../Tooltip.dom.tsx';
-
 import { PanelRow } from './PanelRow.dom.tsx';
 import { PanelSection } from './PanelSection.dom.tsx';
 import {
@@ -16,6 +13,7 @@ import {
   IconType,
 } from './ConversationDetailsIcon.dom.tsx';
 import { DeleteMessagesConfirmationDialog } from '../../DeleteMessagesConfirmationDialog.dom.tsx';
+import { AxoConfirmDialog } from '../../../axo/AxoConfirmDialog.dom.tsx';
 
 export type Props = {
   acceptConversation: (id: string) => void;
@@ -297,200 +295,170 @@ export function ConversationDetailsActions({
         {reportSpamNode}
       </PanelSection>
       {terminateGroupNode && <PanelSection>{terminateGroupNode}</PanelSection>}
-      {confirmLeave && (
-        <ConfirmationDialog
-          dialogName="ConversationDetailsAction.confirmLeave"
-          actions={[
-            {
-              text: i18n(
-                'icu:ConversationDetailsActions--leave-group-modal-confirm'
-              ),
-              action: onLeave,
-              style: 'negative',
-            },
-          ]}
-          i18n={i18n}
-          onClose={() => gLeave(false)}
-          title={i18n(
-            'icu:ConversationDetailsActions--leave-group-modal-title'
-          )}
-        >
-          {i18n('icu:ConversationDetailsActions--leave-group-modal-content')}
-        </ConfirmationDialog>
-      )}
+      <AxoConfirmDialog.Root
+        open={confirmLeave}
+        onOpenChange={gLeave}
+        title={i18n('icu:ConversationDetailsActions--leave-group-modal-title')}
+        description={i18n(
+          'icu:ConversationDetailsActions--leave-group-modal-content'
+        )}
+      >
+        <AxoConfirmDialog.Cancel />
+        <AxoConfirmDialog.Action variant="destructive" onClick={onLeave}>
+          {i18n('icu:ConversationDetailsActions--leave-group-modal-confirm')}
+        </AxoConfirmDialog.Action>
+      </AxoConfirmDialog.Root>
 
-      {confirmGroupBlock && (
-        <ConfirmationDialog
-          dialogName="ConversationDetailsAction.confirmBlock"
-          actions={[
-            {
-              text: i18n(
-                'icu:ConversationDetailsActions--block-group-modal-confirm'
-              ),
-              action: () => blockConversation(conversationId),
-              style: 'negative',
-            },
-          ]}
-          i18n={i18n}
-          onClose={() => gGroupBlock(false)}
-          title={i18n(
-            'icu:ConversationDetailsActions--block-group-modal-title',
-            {
-              groupName: conversationTitle,
-            }
-          )}
+      <AxoConfirmDialog.Root
+        open={confirmGroupBlock}
+        onOpenChange={gGroupBlock}
+        title={i18n('icu:ConversationDetailsActions--block-group-modal-title', {
+          groupName: conversationTitle,
+        })}
+        description={i18n(
+          'icu:ConversationDetailsActions--block-group-modal-content'
+        )}
+      >
+        <AxoConfirmDialog.Cancel />
+        <AxoConfirmDialog.Action
+          variant="destructive"
+          onClick={() => blockConversation(conversationId)}
         >
-          {i18n('icu:ConversationDetailsActions--block-group-modal-content')}
-        </ConfirmationDialog>
-      )}
-      {confirmGroupUnblock && (
-        <ConfirmationDialog
-          dialogName="ConversationDetailsAction.confirmUnblock"
-          actions={[
-            {
-              text: i18n(
-                'icu:ConversationDetailsActions--unblock-group-modal-confirm'
-              ),
-              action: () => acceptConversation(conversationId),
-              style: 'negative',
-            },
-          ]}
-          i18n={i18n}
-          onClose={() => gGroupUnblock(false)}
-          title={i18n(
-            'icu:ConversationDetailsActions--unblock-group-modal-title',
-            {
-              groupName: conversationTitle,
-            }
-          )}
-        >
-          {i18n('icu:ConversationDetailsActions--unblock-group-modal-body')}
-        </ConfirmationDialog>
-      )}
+          {i18n('icu:ConversationDetailsActions--block-group-modal-confirm')}
+        </AxoConfirmDialog.Action>
+      </AxoConfirmDialog.Root>
 
-      {confirmDirectBlock && (
-        <ConfirmationDialog
-          dialogName="ConversationDetailsAction.confirmDirectBlock"
-          actions={[
-            {
-              text: i18n('icu:MessageRequests--block'),
-              action: () => blockConversation(conversationId),
-              style: 'negative',
-            },
-          ]}
-          i18n={i18n}
-          onClose={() => gDirectBlock(false)}
-          title={i18n('icu:MessageRequests--block-direct-confirm-title', {
-            title: conversationTitle,
-          })}
+      <AxoConfirmDialog.Root
+        open={confirmGroupUnblock}
+        onOpenChange={gGroupUnblock}
+        title={i18n(
+          'icu:ConversationDetailsActions--unblock-group-modal-title',
+          {
+            groupName: conversationTitle,
+          }
+        )}
+        description={i18n(
+          'icu:ConversationDetailsActions--unblock-group-modal-body'
+        )}
+      >
+        <AxoConfirmDialog.Cancel />
+        <AxoConfirmDialog.Action
+          variant="destructive"
+          onClick={() => acceptConversation(conversationId)}
         >
-          {i18n('icu:MessageRequests--block-direct-confirm-body')}
-        </ConfirmationDialog>
-      )}
-      {confirmDirectUnblock && (
-        <ConfirmationDialog
-          dialogName="ConversationDetailsAction.confirmDirectUnblock"
-          actions={[
-            {
-              text: i18n('icu:MessageRequests--unblock'),
-              action: () => acceptConversation(conversationId),
-              style: 'affirmative',
-            },
-          ]}
-          i18n={i18n}
-          onClose={() => gDirectUnblock(false)}
-          title={i18n('icu:MessageRequests--unblock-direct-confirm-title', {
-            name: conversationTitle,
-          })}
-        >
-          {i18n('icu:MessageRequests--unblock-direct-confirm-body')}
-        </ConfirmationDialog>
-      )}
+          {i18n('icu:ConversationDetailsActions--unblock-group-modal-confirm')}
+        </AxoConfirmDialog.Action>
+      </AxoConfirmDialog.Root>
 
-      {confirmReportSpam && (
-        <ConfirmationDialog
-          dialogName="ConversationDetailsAction.confirmSpam"
-          actions={[
-            {
-              text: i18n(
-                'icu:ConversationDetailsActions--report-spam-modal-report-spam'
-              ),
-              action: onReportSpam,
-              style: 'negative',
-            },
-            ...(isBlocked
-              ? []
-              : ([
-                  {
-                    text: i18n(
-                      'icu:ConversationDetailsActions--report-spam-modal-report-and-block'
-                    ),
-                    action: onReportSpamAndBlock,
-                    style: 'negative',
-                  },
-                ] as const)),
-          ]}
-          i18n={i18n}
-          onClose={() => gConfirmReportSpam(false)}
-          title={i18n('icu:MessageRequests--ReportAndMaybeBlockModal-title')}
+      <AxoConfirmDialog.Root
+        open={confirmDirectBlock}
+        onOpenChange={gDirectBlock}
+        title={i18n('icu:MessageRequests--block-direct-confirm-title', {
+          title: conversationTitle,
+        })}
+        description={i18n('icu:MessageRequests--block-direct-confirm-body')}
+      >
+        <AxoConfirmDialog.Cancel />
+        <AxoConfirmDialog.Action
+          variant="destructive"
+          onClick={() => blockConversation(conversationId)}
         >
-          {isGroup
+          {i18n('icu:MessageRequests--block')}
+        </AxoConfirmDialog.Action>
+      </AxoConfirmDialog.Root>
+
+      <AxoConfirmDialog.Root
+        open={confirmDirectUnblock}
+        onOpenChange={gDirectUnblock}
+        title={i18n('icu:MessageRequests--unblock-direct-confirm-title', {
+          name: conversationTitle,
+        })}
+        description={i18n('icu:MessageRequests--unblock-direct-confirm-body')}
+      >
+        <AxoConfirmDialog.Cancel />
+        <AxoConfirmDialog.Action
+          variant="primary"
+          onClick={() => acceptConversation(conversationId)}
+        >
+          {i18n('icu:MessageRequests--unblock')}
+        </AxoConfirmDialog.Action>
+      </AxoConfirmDialog.Root>
+
+      <AxoConfirmDialog.Root
+        open={confirmReportSpam}
+        onOpenChange={gConfirmReportSpam}
+        title={i18n('icu:MessageRequests--ReportAndMaybeBlockModal-title')}
+        description={
+          isGroup
             ? i18n(
                 'icu:ConversationDetailsActions--report-spam-modal-content-group'
               )
             : i18n(
                 'icu:ConversationDetailsActions--report-spam-modal-content-direct'
-              )}
-        </ConfirmationDialog>
-      )}
-
-      {promptTerminateGroup && (
-        <ConfirmationDialog
-          dialogName="ConversationDetailsAction.promptTerminateGroup"
-          actions={[
-            {
-              text: i18n(
-                'icu:ConversationDetailsActions--terminate-group-modal-confirm'
-              ),
-              action: () => gConfirmTerminateGroup(true),
-              style: 'negative',
-            },
-          ]}
-          i18n={i18n}
-          onClose={() => gPromptTerminateGroup(false)}
-          title={i18n(
-            'icu:ConversationDetailsActions--prompt-terminate-group-modal-title',
-            {
-              groupName: conversationTitle,
-            }
+              )
+        }
+      >
+        <AxoConfirmDialog.Cancel />
+        <AxoConfirmDialog.Action variant="destructive" onClick={onReportSpam}>
+          {i18n(
+            'icu:ConversationDetailsActions--report-spam-modal-report-spam'
           )}
+        </AxoConfirmDialog.Action>
+        {!isBlocked && (
+          <AxoConfirmDialog.Action
+            variant="destructive"
+            onClick={onReportSpamAndBlock}
+          >
+            {i18n(
+              'icu:ConversationDetailsActions--report-spam-modal-report-and-block'
+            )}
+          </AxoConfirmDialog.Action>
+        )}
+      </AxoConfirmDialog.Root>
+
+      <AxoConfirmDialog.Root
+        open={promptTerminateGroup}
+        onOpenChange={gPromptTerminateGroup}
+        title={i18n(
+          'icu:ConversationDetailsActions--prompt-terminate-group-modal-title',
+          {
+            groupName: conversationTitle,
+          }
+        )}
+        description={i18n(
+          'icu:ConversationDetailsActions--prompt-terminate-group-modal-content'
+        )}
+      >
+        <AxoConfirmDialog.Cancel />
+        <AxoConfirmDialog.Action
+          variant="destructive"
+          onClick={() => gConfirmTerminateGroup(true)}
         >
           {i18n(
-            'icu:ConversationDetailsActions--prompt-terminate-group-modal-content'
+            'icu:ConversationDetailsActions--terminate-group-modal-confirm'
           )}
-        </ConfirmationDialog>
-      )}
+        </AxoConfirmDialog.Action>
+      </AxoConfirmDialog.Root>
 
-      {confirmTerminateGroup && (
-        <ConfirmationDialog
-          dialogName="ConversationDetailsAction.confirmTerminateGroup"
-          actions={[
-            {
-              text: i18n(
-                'icu:ConversationDetailsActions--terminate-group-modal-confirm'
-              ),
-              action: onTerminateGroup,
-              style: 'negative',
-            },
-          ]}
-          i18n={i18n}
-          onClose={() => gConfirmTerminateGroup(false)}
+      <AxoConfirmDialog.Root
+        open={confirmTerminateGroup}
+        onOpenChange={gConfirmTerminateGroup}
+        // @ts-expect-error ConfirmationDialog migration: Needs title
+        title={null}
+        description={i18n(
+          'icu:ConversationDetailsActions--confirm-terminate-group-confirm-modal-content'
+        )}
+      >
+        <AxoConfirmDialog.Cancel />
+        <AxoConfirmDialog.Action
+          variant="destructive"
+          onClick={onTerminateGroup}
         >
           {i18n(
-            'icu:ConversationDetailsActions--confirm-terminate-group-confirm-modal-content'
+            'icu:ConversationDetailsActions--terminate-group-modal-confirm'
           )}
-        </ConfirmationDialog>
-      )}
+        </AxoConfirmDialog.Action>
+      </AxoConfirmDialog.Root>
 
       {confirmGroupDelete && (
         <DeleteMessagesConfirmationDialog

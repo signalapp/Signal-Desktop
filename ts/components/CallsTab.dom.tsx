@@ -17,7 +17,6 @@ import type {
   ActiveCallStateType,
   PeekNotConnectedGroupCallType,
 } from '../state/ducks/calling.preload.ts';
-import { ConfirmationDialog } from './ConfirmationDialog.dom.tsx';
 import type { UnreadStats } from '../util/countUnreadStats.std.ts';
 import type { getCallIdFromEra } from '../util/callDisposition.preload.ts';
 import type { CallLinkType } from '../types/CallLink.std.ts';
@@ -26,6 +25,7 @@ import type { StartCallData } from './ConfirmLeaveCallModal.dom.tsx';
 import { I18n } from './I18n.dom.tsx';
 import { AxoDropdownMenu } from '../axo/AxoDropdownMenu.dom.tsx';
 import type { SmartPropsType as SmartToastManagerPropsType } from '../state/smart/ToastManager.preload.tsx';
+import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
 
 enum CallsTabSidebarView {
   CallsListView,
@@ -169,10 +169,6 @@ export function CallsTab({
 
   const handleOpenClearCallHistoryDialog = useCallback(() => {
     setConfirmClearCallHistoryDialogOpen(true);
-  }, []);
-
-  const handleCloseClearCallHistoryDialog = useCallback(() => {
-    setConfirmClearCallHistoryDialogOpen(false);
   }, []);
 
   const handleOutgoingAudioCallInConversation = useCallback(
@@ -343,27 +339,24 @@ export function CallsTab({
           </div>
         )}
       </div>
-      {confirmClearCallHistoryDialogOpen && (
-        <ConfirmationDialog
-          dialogName="CallsTab__ConfirmClearCallHistory"
-          i18n={i18n}
-          onClose={handleCloseClearCallHistoryDialog}
-          title={i18n('icu:CallsTab__ConfirmClearCallHistory__Title')}
-          actions={[
-            {
-              style: 'negative',
-              text: i18n(
-                'icu:CallsTab__ConfirmClearCallHistory__ConfirmButton'
-              ),
-              action: onClearCallHistory,
-            },
-          ]}
-        >
-          {hasAnyAdminCallLinks
+      <AxoConfirmDialog.Root
+        open={confirmClearCallHistoryDialogOpen}
+        onOpenChange={setConfirmClearCallHistoryDialogOpen}
+        title={i18n('icu:CallsTab__ConfirmClearCallHistory__Title')}
+        description={
+          hasAnyAdminCallLinks
             ? i18n('icu:CallsTab__ConfirmClearCallHistory__Body--call-links')
-            : i18n('icu:CallsTab__ConfirmClearCallHistory__Body')}
-        </ConfirmationDialog>
-      )}
+            : i18n('icu:CallsTab__ConfirmClearCallHistory__Body')
+        }
+      >
+        <AxoConfirmDialog.Cancel />
+        <AxoConfirmDialog.Action
+          variant="destructive"
+          onClick={onClearCallHistory}
+        >
+          {i18n('icu:CallsTab__ConfirmClearCallHistory__ConfirmButton')}
+        </AxoConfirmDialog.Action>
+      </AxoConfirmDialog.Root>
     </>
   );
 }

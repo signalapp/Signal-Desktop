@@ -1,13 +1,10 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-
 import { useState, type JSX } from 'react';
-
-import { ConfirmationDialog } from './ConfirmationDialog.dom.tsx';
 import { Select } from './Select.dom.tsx';
 import type { LocalizerType } from '../types/Util.std.ts';
-import type { Theme } from '../util/theme.std.ts';
 import { DurationInSeconds } from '../util/durations/index.std.ts';
+import { AxoAlertDialog } from '../axo/AxoAlertDialog.dom.tsx';
 
 const CSS_MODULE = 'module-disappearing-time-dialog';
 
@@ -15,7 +12,6 @@ const DEFAULT_VALUE = 60;
 
 export type PropsType = Readonly<{
   i18n: LocalizerType;
-  theme?: Theme;
   initialValue?: DurationInSeconds;
   onSubmit: (value: DurationInSeconds) => void;
   onClose: () => void;
@@ -42,13 +38,7 @@ const RANGES = new Map<Unit, [number, number]>([
 ]);
 
 export function DisappearingTimeDialog(props: PropsType): JSX.Element {
-  const {
-    i18n,
-    theme,
-    initialValue = DEFAULT_VALUE,
-    onSubmit,
-    onClose,
-  } = props;
+  const { i18n, initialValue = DEFAULT_VALUE, onSubmit, onClose } = props;
 
   let initialUnit: Unit = 'seconds';
   let initialUnitValue = 1;
@@ -74,66 +64,70 @@ export function DisappearingTimeDialog(props: PropsType): JSX.Element {
   }
 
   return (
-    <ConfirmationDialog
-      dialogName="DisappearingTimerDialog"
-      moduleClassName={CSS_MODULE}
-      i18n={i18n}
-      theme={theme}
-      onClose={onClose}
-      title={i18n('icu:DisappearingTimeDialog__title')}
-      hasXButton
-      actions={[
-        {
-          text: i18n('icu:DisappearingTimeDialog__set'),
-          style: 'affirmative',
-          action() {
-            onSubmit(
-              DurationInSeconds.fromSeconds(
-                unitValue * (UNIT_TO_SEC.get(unit) ?? 1)
-              )
-            );
-          },
-        },
-      ]}
-    >
-      <p>{i18n('icu:DisappearingTimeDialog__body')}</p>
-      <section className={`${CSS_MODULE}__time-boxes`}>
-        <Select
-          ariaLabel={i18n('icu:DisappearingTimeDialog__label--value')}
-          moduleClassName={`${CSS_MODULE}__time-boxes__value`}
-          value={unitValue}
-          onChange={newValue => setUnitValue(parseInt(newValue, 10))}
-          options={values.map(value => ({ value, text: value.toString() }))}
-        />
-        <Select
-          ariaLabel={i18n('icu:DisappearingTimeDialog__label--units')}
-          moduleClassName={`${CSS_MODULE}__time-boxes__units`}
-          value={unit}
-          onChange={newUnit => {
-            setUnit(newUnit as Unit);
+    <AxoAlertDialog.Root open onOpenChange={onClose}>
+      <AxoAlertDialog.Content escape="cancel-is-noop">
+        <AxoAlertDialog.Body>
+          <AxoAlertDialog.Title>
+            {i18n('icu:DisappearingTimeDialog__title')}
+          </AxoAlertDialog.Title>
+          <AxoAlertDialog.Description>
+            {i18n('icu:DisappearingTimeDialog__body')}
+          </AxoAlertDialog.Description>
 
-            const ranges = RANGES.get(newUnit as Unit);
-            if (!ranges) {
-              return;
-            }
+          <section className={`${CSS_MODULE}__time-boxes`}>
+            <Select
+              ariaLabel={i18n('icu:DisappearingTimeDialog__label--value')}
+              moduleClassName={`${CSS_MODULE}__time-boxes__value`}
+              value={unitValue}
+              onChange={newValue => setUnitValue(parseInt(newValue, 10))}
+              options={values.map(value => ({ value, text: value.toString() }))}
+            />
+            <Select
+              ariaLabel={i18n('icu:DisappearingTimeDialog__label--units')}
+              moduleClassName={`${CSS_MODULE}__time-boxes__units`}
+              value={unit}
+              onChange={newUnit => {
+                setUnit(newUnit as Unit);
 
-            const [min, max] = ranges;
-            setUnitValue(Math.max(min, Math.min(max - 1, unitValue)));
-          }}
-          options={UNITS.map(unitName => {
-            return {
-              value: unitName,
-              text: {
-                seconds: i18n('icu:DisappearingTimeDialog__seconds'),
-                minutes: i18n('icu:DisappearingTimeDialog__minutes'),
-                hours: i18n('icu:DisappearingTimeDialog__hours'),
-                days: i18n('icu:DisappearingTimeDialog__days'),
-                weeks: i18n('icu:DisappearingTimeDialog__weeks'),
-              }[unitName],
-            };
-          })}
-        />
-      </section>
-    </ConfirmationDialog>
+                const ranges = RANGES.get(newUnit as Unit);
+                if (!ranges) {
+                  return;
+                }
+
+                const [min, max] = ranges;
+                setUnitValue(Math.max(min, Math.min(max - 1, unitValue)));
+              }}
+              options={UNITS.map(unitName => {
+                return {
+                  value: unitName,
+                  text: {
+                    seconds: i18n('icu:DisappearingTimeDialog__seconds'),
+                    minutes: i18n('icu:DisappearingTimeDialog__minutes'),
+                    hours: i18n('icu:DisappearingTimeDialog__hours'),
+                    days: i18n('icu:DisappearingTimeDialog__days'),
+                    weeks: i18n('icu:DisappearingTimeDialog__weeks'),
+                  }[unitName],
+                };
+              })}
+            />
+          </section>
+        </AxoAlertDialog.Body>
+        <AxoAlertDialog.Footer>
+          <AxoAlertDialog.Cancel />
+          <AxoAlertDialog.Action
+            variant="primary"
+            onClick={() => {
+              onSubmit(
+                DurationInSeconds.fromSeconds(
+                  unitValue * (UNIT_TO_SEC.get(unit) ?? 1)
+                )
+              );
+            }}
+          >
+            {i18n('icu:DisappearingTimeDialog__set')}
+          </AxoAlertDialog.Action>
+        </AxoAlertDialog.Footer>
+      </AxoAlertDialog.Content>
+    </AxoAlertDialog.Root>
   );
 }

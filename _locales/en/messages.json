@@ -11,6 +11,10 @@
       }
     ]
   },
+  "icu:AxoAlertDialog.Cancel": {
+    "messageformat": "Cancel",
+    "description": "Axo Design System > Alert Dialog Component > Cancel Button > Generic default Label"
+  },
   "icu:AxoButton.Pending": {
     "messageformat": "Pending",
     "description": "Axo Design System > Button Component > Pending State > Generic accessibility label"

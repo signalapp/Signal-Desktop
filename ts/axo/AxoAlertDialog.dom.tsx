@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { AlertDialog } from 'radix-ui';
-import type { FC, MouseEvent, ReactNode } from 'react';
+import type { FC, MouseEvent, ReactElement, ReactNode } from 'react';
 import { memo } from 'react';
 import { AxoButton } from './AxoButton.dom.tsx';
 import { tw } from './tw.dom.tsx';
@@ -11,6 +11,7 @@ import { AxoScrollArea } from './AxoScrollArea.dom.tsx';
 import type { AxoSymbol } from './AxoSymbol.dom.tsx';
 import { FlexWrapDetector } from './_internal/FlexWrapDetector.dom.tsx';
 import { AxoTheme } from './AxoTheme.dom.tsx';
+import { useAxoIntl } from './_internal/AxoIntl.dom.tsx';
 
 const { useContentEscapeBehavior } = AxoBaseDialog;
 
@@ -62,7 +63,7 @@ export namespace AxoAlertDialog {
    *       </AxoAlertDialog.Description>
    *     </AxoAlertDialog.Body>
    *     <AxoAlertDialog.Footer>
-   *       <AxoAlertDialog.Cancel>Cancel</AxoAlertDialog.Cancel>
+   *       <AxoAlertDialog.Cancel/>
    *       <AxoAlertDialog.Action variant="destructive" onClick={onDiscard}>
    *         Discard
    *       </AxoAlertDialog.Action>
@@ -289,7 +290,7 @@ export namespace AxoAlertDialog {
     /**
      * The button label.
      */
-    children: ReactNode;
+    children?: string | ReactElement | null;
     /**
      * When `true`, prevents the user from dismissing via this button.
      */
@@ -301,6 +302,7 @@ export namespace AxoAlertDialog {
    * Automatically closes the dialog — no `onClick` needed.
    */
   export const Cancel: FC<CancelProps> = memo(props => {
+    const intl = useAxoIntl();
     return (
       <AlertDialog.Cancel asChild>
         <AxoButton.Root
@@ -309,7 +311,7 @@ export namespace AxoAlertDialog {
           width="grow"
           disabled={props.disabled}
         >
-          {props.children}
+          {props.children ?? intl.get('AxoAlertDialog.Cancel')}
         </AxoButton.Root>
       </AlertDialog.Cancel>
     );

@@ -11,6 +11,7 @@ const IntlContext =
 /** @internal Localization context for built-in Axo UI strings. */
 export namespace AxoIntl {
   const DefaultMessages = {
+    'AxoAlertDialog.Cancel': 'Cancel',
     'AxoButton.Pending': 'Pending',
     'AxoDialog.Back': 'Back',
     'AxoDialog.Close': 'Close',

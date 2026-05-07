@@ -20,7 +20,6 @@ import { isInSystemContacts } from '../../util/isInSystemContacts.std.ts';
 import { missingCaseError } from '../../util/missingCaseError.std.ts';
 import { Alert } from '../Alert.dom.tsx';
 import { Avatar, AvatarSize } from '../Avatar.dom.tsx';
-import { ConfirmationDialog } from '../ConfirmationDialog.dom.tsx';
 import { DisappearingTimeDialog } from '../DisappearingTimeDialog.dom.tsx';
 import { InContactsIcon } from '../InContactsIcon.dom.tsx';
 import { UserText } from '../UserText.dom.tsx';
@@ -54,6 +53,7 @@ import { AxoDragRegion } from '../../axo/AxoDragRegion.dom.tsx';
 import { OfficialChatInlineBadge } from './OfficialChatInlineBadge.dom.tsx';
 import { AxoIconButton } from '../../axo/AxoIconButton.dom.tsx';
 import { AxoButton } from '../../axo/AxoButton.dom.tsx';
+import { AxoConfirmDialog } from '../../axo/AxoConfirmDialog.dom.tsx';
 
 function HeaderInfoTitle({
   name,
@@ -1081,24 +1081,23 @@ function LeaveGroupConfirmationDialog({
   onClose: () => void;
 }) {
   return (
-    <ConfirmationDialog
-      dialogName="ConversationHeader.leaveGroup"
+    <AxoConfirmDialog.Root
+      open
+      onOpenChange={onClose}
       title={i18n('icu:ConversationHeader__LeaveGroupConfirmation__title')}
-      actions={[
-        {
-          disabled: cannotLeaveBecauseYouAreLastAdmin,
-          action: onLeaveGroup,
-          style: 'negative',
-          text: i18n(
-            'icu:ConversationHeader__LeaveGroupConfirmation__confirmButton'
-          ),
-        },
-      ]}
-      i18n={i18n}
-      onClose={onClose}
+      description={i18n(
+        'icu:ConversationHeader__LeaveGroupConfirmation__description'
+      )}
     >
-      {i18n('icu:ConversationHeader__LeaveGroupConfirmation__description')}
-    </ConfirmationDialog>
+      <AxoConfirmDialog.Cancel />
+      <AxoConfirmDialog.Action
+        variant="destructive"
+        onClick={onLeaveGroup}
+        disabled={cannotLeaveBecauseYouAreLastAdmin}
+      >
+        {i18n('icu:ConversationHeader__LeaveGroupConfirmation__confirmButton')}
+      </AxoConfirmDialog.Action>
+    </AxoConfirmDialog.Root>
   );
 }
 

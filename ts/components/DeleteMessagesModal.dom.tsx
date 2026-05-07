@@ -166,7 +166,7 @@ function DeleteMessagesSelectDeleteTypeDialog(props: {
           </AxoAlertDialog.Description>
         </AxoAlertDialog.Body>
         <AxoAlertDialog.Footer>
-          <AxoAlertDialog.Cancel>{i18n('icu:cancel')}</AxoAlertDialog.Cancel>
+          <AxoAlertDialog.Cancel />
           <AxoAlertDialog.Action
             variant="subtle-destructive"
             onClick={props.onSelectDeleteForMe}

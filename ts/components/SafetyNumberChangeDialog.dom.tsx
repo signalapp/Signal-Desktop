@@ -2,15 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { useState, createRef, useEffect, type JSX } from 'react';
-import lodash from 'lodash';
-import classNames from 'classnames';
-
 import { Avatar, AvatarSize } from './Avatar.dom.tsx';
-import type { ActionSpec } from './ConfirmationDialog.dom.tsx';
-import { ConfirmationDialog } from './ConfirmationDialog.dom.tsx';
 import { InContactsIcon } from './InContactsIcon.dom.tsx';
 import { Modal } from './Modal.dom.tsx';
-
 import type { ConversationType } from '../state/ducks/conversations.preload.ts';
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges.preload.ts';
 import type { LocalizerType } from '../types/Util.std.ts';
@@ -24,8 +18,8 @@ import { MY_STORY_ID } from '../types/Stories.std.ts';
 import type { ServiceIdString } from '../types/ServiceId.std.ts';
 import type { StoryDistributionIdString } from '../types/StoryDistributionId.std.ts';
 import { UserText } from './UserText.dom.tsx';
-
-const { noop } = lodash;
+import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
+import { AxoAlertDialog } from '../axo/AxoAlertDialog.dom.tsx';
 
 enum DialogState {
   StartingInReview = 'StartingInReview',
@@ -156,48 +150,45 @@ export function SafetyNumberChangeDialog({
     }
 
     return (
-      <ConfirmationDialog
-        key="SafetyNumberChangeDialog.reviewing"
-        dialogName="SafetyNumberChangeDialog.reviewing"
-        actions={[
-          {
-            action: () => {
-              if (dialogState === DialogState.ExplicitReviewStep) {
-                setDialogState(DialogState.ExplicitReviewComplete);
-              } else {
-                onConfirm();
-              }
-            },
-            text,
-            style: 'affirmative',
-          },
-        ]}
-        hasXButton
-        i18n={i18n}
-        moduleClassName="module-SafetyNumberChangeDialog__confirm-dialog"
-        noMouseClose
-        onCancel={onClose}
-        onClose={noop}
-      >
-        <div className="module-SafetyNumberChangeDialog__shield-icon" />
-        <div className="module-SafetyNumberChangeDialog__title">
-          {i18n('icu:safetyNumberChanges')}
-        </div>
-        <div className="module-SafetyNumberChangeDialog__message">
-          {i18n('icu:safetyNumberChangeDialog__message')}
-        </div>
-        {contacts.map((section: StoryContacts) => (
-          <ContactSection
-            key={section.story?.name || 'default'}
-            section={section}
-            getPreferredBadge={getPreferredBadge}
-            i18n={i18n}
-            removeFromStory={removeFromStory}
-            setSelectedContact={setSelectedContact}
-            theme={theme}
-          />
-        ))}
-      </ConfirmationDialog>
+      <AxoAlertDialog.Root open onOpenChange={onClose}>
+        <AxoAlertDialog.Content escape="cancel-is-destructive">
+          <AxoAlertDialog.Body>
+            <div className="module-SafetyNumberChangeDialog__shield-icon" />
+            <AxoAlertDialog.Title>
+              {i18n('icu:safetyNumberChanges')}
+            </AxoAlertDialog.Title>
+            <AxoAlertDialog.Description>
+              {i18n('icu:safetyNumberChangeDialog__message')}
+            </AxoAlertDialog.Description>
+            {contacts.map((section: StoryContacts) => (
+              <ContactSection
+                key={section.story?.name || 'default'}
+                section={section}
+                getPreferredBadge={getPreferredBadge}
+                i18n={i18n}
+                removeFromStory={removeFromStory}
+                setSelectedContact={setSelectedContact}
+                theme={theme}
+              />
+            ))}
+          </AxoAlertDialog.Body>
+          <AxoAlertDialog.Footer>
+            <AxoAlertDialog.Cancel />
+            <AxoAlertDialog.Action
+              variant="primary"
+              onClick={() => {
+                if (dialogState === DialogState.ExplicitReviewStep) {
+                  setDialogState(DialogState.ExplicitReviewComplete);
+                } else {
+                  onConfirm();
+                }
+              }}
+            >
+              {text}
+            </AxoAlertDialog.Action>
+          </AxoAlertDialog.Footer>
+        </AxoAlertDialog.Content>
+      </AxoAlertDialog.Root>
     );
   }
 
@@ -210,53 +201,46 @@ export function SafetyNumberChangeDialog({
     throw missingCaseError(dialogState);
   }
 
-  const actions: Array<ActionSpec> = [
-    {
-      action: onConfirm,
-      text,
-      style: 'affirmative',
-    },
-  ];
-
-  if (dialogState === DialogState.ExplicitReviewNeeded) {
-    actions.unshift({
-      action: () => setDialogState(DialogState.ExplicitReviewStep),
-      text: i18n('icu:safetyNumberChangeDialog__review'),
-    });
-  }
-
   return (
-    <ConfirmationDialog
-      key="SafetyNumberChangeDialog.manyContacts"
-      dialogName="SafetyNumberChangeDialog.manyContacts"
-      actions={actions}
-      hasXButton
-      i18n={i18n}
-      moduleClassName="module-SafetyNumberChangeDialog__confirm-dialog"
-      noMouseClose
-      noDefaultCancelButton={dialogState === DialogState.ExplicitReviewNeeded}
-      onCancel={onClose}
-      onClose={noop}
-    >
-      <div className="module-SafetyNumberChangeDialog__shield-icon" />
-      <div className="module-SafetyNumberChangeDialog__title">
-        {i18n('icu:safetyNumberChanges')}
-      </div>
-      <div
-        className={classNames(
-          'module-SafetyNumberChangeDialog__message',
-          dialogState === DialogState.ExplicitReviewComplete
-            ? 'module-SafetyNumberChangeDialog__message--narrow'
-            : undefined
-        )}
+    <AxoAlertDialog.Root open onOpenChange={onClose}>
+      <AxoAlertDialog.Content
+        escape={
+          dialogState === DialogState.ExplicitReviewNeeded
+            ? 'cancel-is-destructive'
+            : 'cancel-is-noop'
+        }
       >
-        {dialogState === DialogState.ExplicitReviewNeeded
-          ? i18n('icu:safetyNumberChangeDialog__many-contacts', {
-              count: totalCount,
-            })
-          : i18n('icu:safetyNumberChangeDialog__post-review')}
-      </div>
-    </ConfirmationDialog>
+        <AxoAlertDialog.Body>
+          <div className="module-SafetyNumberChangeDialog__shield-icon" />
+          <AxoAlertDialog.Title>
+            {i18n('icu:safetyNumberChanges')}
+          </AxoAlertDialog.Title>
+          <AxoAlertDialog.Description>
+            {dialogState === DialogState.ExplicitReviewNeeded
+              ? i18n('icu:safetyNumberChangeDialog__many-contacts', {
+                  count: totalCount,
+                })
+              : i18n('icu:safetyNumberChangeDialog__post-review')}
+          </AxoAlertDialog.Description>
+        </AxoAlertDialog.Body>
+        <AxoAlertDialog.Footer>
+          {dialogState !== DialogState.ExplicitReviewNeeded && (
+            <AxoAlertDialog.Cancel />
+          )}
+          {dialogState === DialogState.ExplicitReviewNeeded && (
+            <AxoAlertDialog.Action
+              variant="primary"
+              onClick={() => setDialogState(DialogState.ExplicitReviewStep)}
+            >
+              {i18n('icu:safetyNumberChangeDialog__review')}
+            </AxoAlertDialog.Action>
+          )}
+          <AxoAlertDialog.Action variant="primary" onClick={onConfirm}>
+            {text}
+          </AxoAlertDialog.Action>
+        </AxoAlertDialog.Footer>
+      </AxoAlertDialog.Content>
+    </AxoAlertDialog.Root>
   );
 }
 
@@ -390,31 +374,27 @@ function SectionButtonWithMenu({
         moduleClassName="module-SafetyNumberChangeDialog__row__chevron"
         theme={theme === ThemeType.dark ? Theme.Dark : Theme.Light}
       />
-      {isConfirming && (
-        <ConfirmationDialog
-          key="SafetyNumberChangeDialog.confirm-remove-all"
-          dialogName="SafetyNumberChangeDialog.confirm-remove-all"
-          actions={[
-            {
-              action: () => {
-                removeFromStory();
-                setIsConfirming(false);
-              },
-              text: i18n('icu:safetyNumberChangeDialog__remove-all'),
-              style: 'affirmative',
-            },
-          ]}
-          i18n={i18n}
-          noMouseClose
-          onCancel={() => setIsConfirming(false)}
-          onClose={noop}
+      <AxoConfirmDialog.Root
+        open={isConfirming}
+        onOpenChange={setIsConfirming}
+        // @ts-expect-error ConfirmationDialog migration: Needs title
+        title={null}
+        description={i18n('icu:safetyNumberChangeDialog__confirm-remove-all', {
+          story: storyName,
+          count: memberCount,
+        })}
+      >
+        <AxoConfirmDialog.Cancel />
+        <AxoConfirmDialog.Action
+          variant="destructive"
+          onClick={() => {
+            removeFromStory();
+            setIsConfirming(false);
+          }}
         >
-          {i18n('icu:safetyNumberChangeDialog__confirm-remove-all', {
-            story: storyName,
-            count: memberCount,
-          })}
-        </ConfirmationDialog>
-      )}
+          {i18n('icu:safetyNumberChangeDialog__remove-all')}
+        </AxoConfirmDialog.Action>
+      </AxoConfirmDialog.Root>
     </>
   );
 }

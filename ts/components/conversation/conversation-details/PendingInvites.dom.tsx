@@ -9,7 +9,6 @@ import type { LocalizerType, ThemeType } from '../../../types/Util.std.ts';
 import type { PreferredBadgeSelectorType } from '../../../state/selectors/badges.preload.ts';
 import type { AciString } from '../../../types/ServiceId.std.ts';
 import { Avatar, AvatarSize } from '../../Avatar.dom.tsx';
-import { ConfirmationDialog } from '../../ConfirmationDialog.dom.tsx';
 import { PanelSection } from './PanelSection.dom.tsx';
 import { PanelRow } from './PanelRow.dom.tsx';
 import {
@@ -18,6 +17,7 @@ import {
 } from './ConversationDetailsIcon.dom.tsx';
 import { isAccessControlEnabled } from '../../../groups/util.std.ts';
 import { Tabs } from '../../Tabs.dom.tsx';
+import { AxoConfirmDialog } from '../../../axo/AxoConfirmDialog.dom.tsx';
 
 export type PropsDataType = {
   readonly conversation?: ConversationType;
@@ -220,26 +220,24 @@ function MembershipActionConfirmation({
   }
 
   return (
-    <ConfirmationDialog
-      dialogName="PendingInvites.actionConfirmation"
-      actions={[
-        {
-          action: modalAction,
-          style: 'affirmative',
-          text: modalActionText,
-        },
-      ]}
-      i18n={i18n}
-      onClose={onClose}
-    >
-      {getConfirmationMessage({
+    <AxoConfirmDialog.Root
+      open
+      onOpenChange={onClose}
+      // @ts-expect-error ConfirmationDialog migration: Needs title
+      title={null}
+      description={getConfirmationMessage({
         conversation,
         i18n,
         members,
         ourAci,
         stagedMemberships,
       })}
-    </ConfirmationDialog>
+    >
+      <AxoConfirmDialog.Cancel />
+      <AxoConfirmDialog.Action variant="primary" onClick={modalAction}>
+        {modalActionText}
+      </AxoConfirmDialog.Action>
+    </AxoConfirmDialog.Root>
   );
 }
 

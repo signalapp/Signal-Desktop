@@ -23,10 +23,10 @@ import { copyCallLink } from '../util/copyLinksWithToast.dom.ts';
 import { getColorForCallLink } from '../util/getColorForCallLink.std.ts';
 import { isCallLinkAdmin } from '../types/CallLink.std.ts';
 import { CallLinkRestrictionsSelect } from './CallLinkRestrictionsSelect.dom.tsx';
-import { ConfirmationDialog } from './ConfirmationDialog.dom.tsx';
 import { InAnotherCallTooltip } from './conversation/InAnotherCallTooltip.dom.tsx';
 import { offsetDistanceModifier } from '../util/popperUtil.std.ts';
 import { Tooltip, TooltipPlacement } from './Tooltip.dom.tsx';
+import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
 
 function toUrlWithoutProtocol(url: URL): string {
   return `${url.hostname}${url.pathname}${url.search}${url.hash}`;
@@ -240,26 +240,20 @@ export function CallLinkDetails({
           />
         </PanelSection>
       )}
-      {isDeleteCallLinkModalOpen && (
-        <ConfirmationDialog
-          i18n={i18n}
-          dialogName="CallLinkDetails__DeleteLinkModal"
-          title={i18n('icu:CallLinkDetails__DeleteLinkModal__Title')}
-          cancelText={i18n('icu:CallLinkDetails__DeleteLinkModal__Cancel')}
-          actions={[
-            {
-              text: i18n('icu:CallLinkDetails__DeleteLinkModal__Delete'),
-              style: 'affirmative',
-              action: onDeleteCallLink,
-            },
-          ]}
-          onClose={() => {
-            setIsDeleteCallLinkModalOpen(false);
-          }}
+      <AxoConfirmDialog.Root
+        open={isDeleteCallLinkModalOpen}
+        onOpenChange={setIsDeleteCallLinkModalOpen}
+        title={i18n('icu:CallLinkDetails__DeleteLinkModal__Title')}
+        description={i18n('icu:CallLinkDetails__DeleteLinkModal__Body')}
+      >
+        <AxoConfirmDialog.Cancel />
+        <AxoConfirmDialog.Action
+          variant="destructive"
+          onClick={onDeleteCallLink}
         >
-          {i18n('icu:CallLinkDetails__DeleteLinkModal__Body')}
-        </ConfirmationDialog>
-      )}
+          {i18n('icu:CallLinkDetails__DeleteLinkModal__Delete')}
+        </AxoConfirmDialog.Action>
+      </AxoConfirmDialog.Root>
     </div>
   );
 }

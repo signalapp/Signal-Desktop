@@ -389,9 +389,7 @@ export function PreferencesLocalBackups({
                 </AxoAlertDialog.Description>
               </AxoAlertDialog.Body>
               <AxoAlertDialog.Footer>
-                <AxoAlertDialog.Cancel>
-                  {i18n('icu:cancel')}
-                </AxoAlertDialog.Cancel>
+                <AxoAlertDialog.Cancel />
                 <AxoAlertDialog.Action
                   variant="primary"
                   onClick={showKeyReferenceWithAuth}

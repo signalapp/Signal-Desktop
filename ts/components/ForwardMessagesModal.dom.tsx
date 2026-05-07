@@ -13,7 +13,6 @@ import {
 import { AttachmentList } from './conversation/AttachmentList.dom.tsx';
 import type { AttachmentForUIType } from '../types/Attachment.std.ts';
 import { Button } from './Button.dom.tsx';
-import { ConfirmationDialog } from './ConfirmationDialog.dom.tsx';
 import { ContactCheckboxDisabledReason } from './conversationList/ContactCheckbox.dom.tsx';
 import type { Row } from './ConversationList.dom.tsx';
 import { ConversationList, RowType } from './ConversationList.dom.tsx';
@@ -44,6 +43,7 @@ import {
 import { missingCaseError } from '../util/missingCaseError.std.ts';
 import { Theme } from '../util/theme.std.ts';
 import { Emoji } from '../axo/emoji.std.ts';
+import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
 
 export enum ForwardMessagesModalType {
   Forward,
@@ -294,16 +294,17 @@ export function ForwardMessagesModal({
 
   return (
     <>
-      {cannotMessage && (
-        <ConfirmationDialog
-          dialogName="ForwardMessageModal.confirm"
-          cancelText={i18n('icu:Confirmation--confirm')}
-          i18n={i18n}
-          onClose={() => setCannotMessage(false)}
-        >
-          {i18n('icu:GroupV2--cannot-send')}
-        </ConfirmationDialog>
-      )}
+      <AxoConfirmDialog.Root
+        open={cannotMessage}
+        onOpenChange={setCannotMessage}
+        // @ts-expect-error ConfirmationDialog migration: Needs title
+        title={null}
+        description={i18n('icu:GroupV2--cannot-send')}
+      >
+        <AxoConfirmDialog.Cancel>
+          {i18n('icu:Confirmation--confirm')}
+        </AxoConfirmDialog.Cancel>
+      </AxoConfirmDialog.Root>
       <Modal
         modalName="ForwardMessageModal"
         hasXButton

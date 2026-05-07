@@ -44,7 +44,6 @@ import { EditConversationAttributesModal } from './EditConversationAttributesMod
 import { RequestState } from './util.std.ts';
 import { getCustomColorStyle } from '../../../util/getCustomColorStyle.dom.ts';
 import { openLinkInWebBrowser } from '../../../util/openLinkInWebBrowser.dom.ts';
-import { ConfirmationDialog } from '../../ConfirmationDialog.dom.tsx';
 import { ConversationNotificationsModal } from './ConversationNotificationsModal.dom.tsx';
 import type {
   AvatarDataType,
@@ -68,6 +67,7 @@ import type { ContactModalStateType } from '../../../types/globalModals.std.ts';
 import type { ShowToastAction } from '../../../state/ducks/toast.preload.ts';
 import { ToastType } from '../../../types/Toast.dom.tsx';
 import type { ContactNameColorType } from '../../../types/Colors.std.ts';
+import { AxoConfirmDialog } from '../../../axo/AxoConfirmDialog.dom.tsx';
 
 enum ModalState {
   AddingGroupMembers,
@@ -354,26 +354,24 @@ export function ConversationDetails({
       break;
     case ModalState.ConfirmDeleteNicknameAndNote:
       modalNode = (
-        <ConfirmationDialog
-          dialogName="ConversationDetails.ConfirmDeleteNicknameAndNote"
-          actions={[
-            {
-              action: onDeleteNicknameAndNote,
-              style: 'negative',
-              text: i18n('icu:delete'),
-            },
-          ]}
-          hasXButton
-          i18n={i18n}
+        <AxoConfirmDialog.Root
+          open
+          onOpenChange={onCloseModal}
           title={i18n(
             'icu:ConversationDetails__ConfirmDeleteNicknameAndNote__Title'
           )}
-          onClose={onCloseModal}
-        >
-          {i18n(
+          description={i18n(
             'icu:ConversationDetails__ConfirmDeleteNicknameAndNote__Description'
           )}
-        </ConfirmationDialog>
+        >
+          <AxoConfirmDialog.Cancel />
+          <AxoConfirmDialog.Action
+            variant="destructive"
+            onClick={onDeleteNicknameAndNote}
+          >
+            {i18n('icu:delete')}
+          </AxoConfirmDialog.Action>
+        </AxoConfirmDialog.Root>
       );
       break;
     case ModalState.MuteNotifications:
@@ -389,22 +387,23 @@ export function ConversationDetails({
       break;
     case ModalState.UnmuteNotifications:
       modalNode = (
-        <ConfirmationDialog
-          dialogName="ConversationDetails.unmuteNotifications"
-          actions={[
-            {
-              action: () => setMuteExpiration(conversation.id, 0),
-              style: 'affirmative',
-              text: i18n('icu:unmute'),
-            },
-          ]}
-          hasXButton
-          i18n={i18n}
+        <AxoConfirmDialog.Root
+          open
+          onOpenChange={onCloseModal}
           title={i18n('icu:ConversationDetails__unmute--title')}
-          onClose={onCloseModal}
+          description={getMutedUntilText(
+            Number(conversation.muteExpiresAt),
+            i18n
+          )}
         >
-          {getMutedUntilText(Number(conversation.muteExpiresAt), i18n)}
-        </ConfirmationDialog>
+          <AxoConfirmDialog.Cancel />
+          <AxoConfirmDialog.Action
+            variant="primary"
+            onClick={() => setMuteExpiration(conversation.id, 0)}
+          >
+            {i18n('icu:unmute')}
+          </AxoConfirmDialog.Action>
+        </AxoConfirmDialog.Root>
       );
       break;
 

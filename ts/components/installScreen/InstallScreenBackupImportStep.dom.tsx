@@ -13,13 +13,13 @@ import {
 import { formatFileSize } from '../../util/formatFileSize.std.ts';
 import { TitlebarDragArea } from '../TitlebarDragArea.dom.tsx';
 import { ProgressBar } from '../ProgressBar.dom.tsx';
-import { ConfirmationDialog } from '../ConfirmationDialog.dom.tsx';
 import { InstallScreenSignalLogo } from './InstallScreenSignalLogo.dom.tsx';
 import { roundFractionForProgressBar } from '../../util/numbers.std.ts';
 import { missingCaseError } from '../../util/missingCaseError.std.ts';
 import { SYNCING_MESSAGES_SECURITY_URL } from '../../types/support.std.ts';
 import { I18n } from '../I18n.dom.tsx';
 import { InstallScreenUpdateDialog } from './InstallScreenUpdateDialog.dom.tsx';
+import { AxoConfirmDialog } from '../../axo/AxoConfirmDialog.dom.tsx';
 
 // We can't always use destructuring assignment because of the complexity of this props
 //   type.
@@ -72,10 +72,6 @@ export function InstallScreenBackupImportStep(props: PropsType): JSX.Element {
     setIsConfirmingCancel(true);
   }, []);
 
-  const abortCancel = useCallback(() => {
-    setIsConfirmingCancel(false);
-  }, []);
-
   const onCancelWrap = useCallback(() => {
     onCancel();
     setIsConfirmingCancel(false);
@@ -111,46 +107,34 @@ export function InstallScreenBackupImportStep(props: PropsType): JSX.Element {
   } else if (error === InstallScreenBackupError.Retriable) {
     if (!isConfirmingCancel) {
       errorElem = (
-        <ConfirmationDialog
-          dialogName="InstallScreenBackupImportStep.error"
+        <AxoConfirmDialog.Root
+          open
+          onOpenChange={confirmCancel}
           title={i18n('icu:BackupImportScreen__error__title')}
-          cancelText={i18n(
-            'icu:BackupImportScreen__cancel-confirmation__confirm'
-          )}
-          actions={[
-            {
-              action: onRetryWrap,
-              style: 'affirmative',
-              text: i18n('icu:BackupImportScreen__error__confirm'),
-            },
-          ]}
-          i18n={i18n}
-          onClose={confirmCancel}
+          description={i18n('icu:BackupImportScreen__error__body')}
         >
-          {i18n('icu:BackupImportScreen__error__body')}
-        </ConfirmationDialog>
+          <AxoConfirmDialog.Cancel>
+            {i18n('icu:BackupImportScreen__cancel-confirmation__confirm')}
+          </AxoConfirmDialog.Cancel>
+          <AxoConfirmDialog.Action variant="primary" onClick={onRetryWrap}>
+            {i18n('icu:BackupImportScreen__error__confirm')}
+          </AxoConfirmDialog.Action>
+          .
+        </AxoConfirmDialog.Root>
       );
     }
   } else if (error === InstallScreenBackupError.Fatal) {
     errorElem = (
-      <ConfirmationDialog
-        dialogName="InstallScreenBackupImportStep.error"
+      <AxoConfirmDialog.Root
+        open
+        onOpenChange={() => null}
         title={i18n('icu:BackupImportScreen__error__title')}
-        actions={[
-          {
-            action: onCancel,
-            style: 'affirmative',
-            text: i18n('icu:BackupImportScreen__error__confirm'),
-          },
-        ]}
-        i18n={i18n}
-        onClose={() => null}
-        noMouseClose
-        noDefaultCancelButton
-        noEscapeClose
+        description={i18n('icu:BackupImportScreen__error-fatal__body')}
       >
-        {i18n('icu:BackupImportScreen__error-fatal__body')}
-      </ConfirmationDialog>
+        <AxoConfirmDialog.Action variant="primary" onClick={onCancel}>
+          {i18n('icu:BackupImportScreen__error__confirm')}
+        </AxoConfirmDialog.Action>
+      </AxoConfirmDialog.Root>
     );
   } else {
     throw missingCaseError(error);
@@ -204,28 +188,19 @@ export function InstallScreenBackupImportStep(props: PropsType): JSX.Element {
         {cancelButton}
       </div>
 
-      {isConfirmingCancel && (
-        <ConfirmationDialog
-          dialogName="InstallScreenBackupImportStep.confirmCancel"
-          title={i18n('icu:BackupImportScreen__cancel-confirmation__title')}
-          cancelText={i18n(
-            'icu:BackupImportScreen__cancel-confirmation__cancel'
-          )}
-          actions={[
-            {
-              action: onCancelWrap,
-              style: 'negative',
-              text: i18n(
-                'icu:BackupImportScreen__cancel-confirmation__confirm'
-              ),
-            },
-          ]}
-          i18n={i18n}
-          onClose={abortCancel}
-        >
-          {i18n('icu:BackupImportScreen__cancel-confirmation__body')}
-        </ConfirmationDialog>
-      )}
+      <AxoConfirmDialog.Root
+        open={isConfirmingCancel}
+        onOpenChange={setIsConfirmingCancel}
+        title={i18n('icu:BackupImportScreen__cancel-confirmation__title')}
+        description={i18n('icu:BackupImportScreen__cancel-confirmation__body')}
+      >
+        <AxoConfirmDialog.Cancel>
+          {i18n('icu:BackupImportScreen__cancel-confirmation__cancel')}
+        </AxoConfirmDialog.Cancel>
+        <AxoConfirmDialog.Action variant="destructive" onClick={onCancelWrap}>
+          {i18n('icu:BackupImportScreen__cancel-confirmation__confirm')}
+        </AxoConfirmDialog.Action>
+      </AxoConfirmDialog.Root>
 
       {errorElem}
     </div>

@@ -18,8 +18,11 @@ const createProps = ({
   discardText?: string;
 } = {}): ConfirmDialogProps => ({
   i18n,
-  bodyText,
-  discardText,
+  // @ts-expect-error ConfirmationDialog migration: Needs title
+  title: null,
+  // @ts-expect-error ConfirmationDialog migration: Needs description
+  description: bodyText,
+  discardLabel: discardText,
   onClose: action('onClose'),
   onDiscard: action('onDiscard'),
 });

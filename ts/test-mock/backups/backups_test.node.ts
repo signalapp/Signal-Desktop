@@ -503,9 +503,9 @@ describe('backups', function (this: Mocha.Suite) {
     });
 
     const window = await app.getWindow();
-    const modal = window.getByTestId(
-      'ConfirmationDialog.InstallScreenBackupImportStep.error'
-    );
+    const modal = window.getByRole('alertdialog', {
+      name: 'Error transferring your messages',
+    });
 
     await modal.waitFor();
 

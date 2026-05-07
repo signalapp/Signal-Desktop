@@ -12,7 +12,6 @@ import type { LocalizerType, ThemeType } from '../types/Util.std.ts';
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges.preload.ts';
 import type { ViewUserStoriesActionCreatorType } from '../state/ducks/stories.preload.ts';
 import { Avatar, AvatarSize } from './Avatar.dom.tsx';
-import { ConfirmationDialog } from './ConfirmationDialog.dom.tsx';
 import { ContextMenu } from './ContextMenu.dom.tsx';
 import { SIGNAL_ACI } from '../types/SignalConversation.std.ts';
 import { StoryViewTargetType, HasStories } from '../types/Stories.std.ts';
@@ -21,6 +20,7 @@ import { MessageTimestamp } from './conversation/MessageTimestamp.dom.tsx';
 import { StoryImage } from './StoryImage.dom.tsx';
 import { getAvatarColor } from '../types/Colors.std.ts';
 import { OfficialChatInlineBadge } from './conversation/OfficialChatInlineBadge.dom.tsx';
+import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
 
 export type PropsType = Pick<ConversationStoryType, 'group' | 'isHidden'> & {
   conversationId: string;
@@ -205,26 +205,23 @@ export function StoryListItem({
           />
         </div>
       </ContextMenu>
-      {hasConfirmHideStory && (
-        <ConfirmationDialog
-          dialogName="StoryListItem.hideStory"
-          actions={[
-            {
-              action: () => onHideStory(conversationId),
-              style: 'affirmative',
-              text: i18n('icu:StoryListItem__hide-modal--confirm'),
-            },
-          ]}
-          i18n={i18n}
-          onClose={() => {
-            setHasConfirmHideStory(false);
-          }}
+      <AxoConfirmDialog.Root
+        open={hasConfirmHideStory}
+        onOpenChange={setHasConfirmHideStory}
+        // @ts-expect-error ConfirmationDialog migration: Needs title
+        title={null}
+        description={i18n('icu:StoryListItem__hide-modal--body', {
+          name: firstName ?? '',
+        })}
+      >
+        <AxoConfirmDialog.Cancel />
+        <AxoConfirmDialog.Action
+          variant="primary"
+          onClick={() => onHideStory(conversationId)}
         >
-          {i18n('icu:StoryListItem__hide-modal--body', {
-            name: String(firstName),
-          })}
-        </ConfirmationDialog>
-      )}
+          {i18n('icu:StoryListItem__hide-modal--confirm')}
+        </AxoConfirmDialog.Action>
+      </AxoConfirmDialog.Root>
     </>
   );
 }

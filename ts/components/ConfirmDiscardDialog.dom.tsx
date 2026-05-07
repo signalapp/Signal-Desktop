@@ -2,42 +2,41 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { JSX } from 'react';
-
-import { ConfirmationDialog } from './ConfirmationDialog.dom.tsx';
 import type { LocalizerType } from '../types/Util.std.ts';
+import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
 
 export type ConfirmDialogProps = {
   i18n: LocalizerType;
-  bodyText?: string;
-  cancelText?: string;
-  discardText?: string;
-  onClose: () => unknown;
-  onDiscard: () => unknown;
+  title: string;
+  description: string;
+  cancelLabel?: string;
+  discardLabel?: string;
+  onClose: () => void;
+  onDiscard: () => void;
 };
 
+/** @deprecated */
 export function ConfirmDiscardDialog({
   i18n,
-  bodyText,
-  cancelText,
-  discardText,
+  title,
+  description,
+  cancelLabel,
+  discardLabel,
   onClose,
   onDiscard,
 }: ConfirmDialogProps): JSX.Element {
   return (
-    <ConfirmationDialog
-      dialogName="ConfirmDiscardDialog"
-      cancelText={cancelText}
-      actions={[
-        {
-          action: onDiscard,
-          text: discardText ?? i18n('icu:discard'),
-          style: 'negative',
-        },
-      ]}
-      i18n={i18n}
-      onClose={onClose}
+    <AxoConfirmDialog.Root
+      open
+      onOpenChange={onClose}
+      title={title}
+      // Deprecated: APIs should provide description
+      description={description ?? i18n('icu:ConfirmDiscardDialog--discard')}
     >
-      {bodyText ?? i18n('icu:ConfirmDiscardDialog--discard')}
-    </ConfirmationDialog>
+      <AxoConfirmDialog.Cancel>{cancelLabel}</AxoConfirmDialog.Cancel>
+      <AxoConfirmDialog.Action variant="destructive" onClick={onDiscard}>
+        {discardLabel ?? i18n('icu:discard')}
+      </AxoConfirmDialog.Action>
+    </AxoConfirmDialog.Root>
   );
 }

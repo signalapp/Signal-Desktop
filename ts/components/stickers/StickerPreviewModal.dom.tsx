@@ -4,7 +4,6 @@
 import { memo, useState, useEffect, useCallback } from 'react';
 import lodash from 'lodash';
 import classNames from 'classnames';
-import { ConfirmationDialog } from '../ConfirmationDialog.dom.tsx';
 import type { LocalizerType } from '../../types/Util.std.ts';
 import type { StickerPackType } from '../../state/ducks/stickers.preload.ts';
 import { Spinner } from '../Spinner.dom.tsx';
@@ -12,6 +11,7 @@ import { useRestoreFocus } from '../../hooks/useRestoreFocus.dom.ts';
 import { Modal } from '../Modal.dom.tsx';
 import { Button, ButtonVariant } from '../Button.dom.tsx';
 import { UserText } from '../UserText.dom.tsx';
+import { AxoConfirmDialog } from '../../axo/AxoConfirmDialog.dom.tsx';
 
 const { isNumber, range } = lodash;
 
@@ -204,22 +204,21 @@ export const StickerPreviewModal = memo(function StickerPreviewModalInner({
 
   return (
     <>
-      {confirmingUninstall && (
-        <ConfirmationDialog
-          dialogName="StickerPreviewModal.confirmUninstall"
-          actions={[
-            {
-              style: 'negative',
-              text: i18n('icu:stickers--StickerManager--Uninstall'),
-              action: handleUninstall,
-            },
-          ]}
-          i18n={i18n}
-          onClose={() => setConfirmingUninstall(false)}
+      <AxoConfirmDialog.Root
+        open={confirmingUninstall}
+        onOpenChange={setConfirmingUninstall}
+        // @ts-expect-error ConfirmationDialog migration: Needs title
+        title={null}
+        description={i18n('icu:stickers--StickerManager--UninstallWarning')}
+      >
+        <AxoConfirmDialog.Cancel />
+        <AxoConfirmDialog.Action
+          variant="destructive"
+          onClick={handleUninstall}
         >
-          {i18n('icu:stickers--StickerManager--UninstallWarning')}
-        </ConfirmationDialog>
-      )}
+          {i18n('icu:stickers--StickerManager--Uninstall')}
+        </AxoConfirmDialog.Action>
+      </AxoConfirmDialog.Root>
       <Modal
         hasXButton
         i18n={i18n}

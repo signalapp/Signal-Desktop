@@ -23,13 +23,11 @@ import {
   SPEAKING_LINGER_MS,
 } from './CallingAudioIndicator.dom.tsx';
 import { Avatar, AvatarSize } from './Avatar.dom.tsx';
-import { ConfirmationDialog } from './ConfirmationDialog.dom.tsx';
 import { I18n } from './I18n.dom.tsx';
 import { ContactName } from './conversation/ContactName.dom.tsx';
 import { useIntersectionObserver } from '../hooks/useIntersectionObserver.std.ts';
 import { MAX_FRAME_HEIGHT, MAX_FRAME_WIDTH } from '../calling/constants.std.ts';
 import { useValueAtFixedRate } from '../hooks/useValueAtFixedRate.std.ts';
-import { Theme } from '../util/theme.std.ts';
 import { isOlderThan } from '../util/timestamp.std.ts';
 import type { CallingImageDataCache } from './CallManager.dom.tsx';
 import { usePrevious } from '../hooks/usePrevious.std.ts';
@@ -38,6 +36,7 @@ import type { AxoMenuBuilder } from '../axo/AxoMenuBuilder.dom.tsx';
 import { AxoIconButton } from '../axo/AxoIconButton.dom.tsx';
 import { tw } from '../axo/tw.dom.tsx';
 import { CallingStatusIndicatorHandRaised } from './CallingStatusIndicatorHandRaised.dom.tsx';
+import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
 
 const { debounce, noop } = lodash;
 
@@ -580,18 +579,15 @@ export const GroupCallRemoteParticipant: FC<PropsType> = memo(
 
     return (
       <>
-        {showErrorDialog && (
-          <ConfirmationDialog
-            dialogName="GroupCallRemoteParticipant.blockInfo"
-            cancelText={i18n('icu:ok')}
-            i18n={i18n}
-            onClose={() => setShowErrorDialog(false)}
-            theme={Theme.Dark}
-            title={errorDialogTitle}
-          >
-            {errorDialogBody}
-          </ConfirmationDialog>
-        )}
+        <AxoConfirmDialog.Root
+          open={showErrorDialog}
+          onOpenChange={setShowErrorDialog}
+          // @ts-expect-error ConfirmationDialog migration: Needs title
+          title={errorDialogTitle}
+          description={errorDialogBody}
+        >
+          <AxoConfirmDialog.Cancel>{i18n('icu:ok')}</AxoConfirmDialog.Cancel>
+        </AxoConfirmDialog.Root>
         {maybeWrapWithParticipantMenu(
           'AxoContextMenu',
           <div

@@ -303,10 +303,10 @@ describe('storage service', function (this: Mocha.Suite) {
       .getByRole('button', { name: 'Delete link' })
       .click();
 
-    const confirmModal = window.getByTestId(
-      'ConfirmationDialog.CallLinkDetails__DeleteLinkModal'
-    );
-    await confirmModal.locator('.module-Button').getByText('Delete').click();
+    await window
+      .getByRole('alertdialog', { name: 'Delete call link?' })
+      .getByRole('button', { name: 'Delete' })
+      .click();
 
     debug('Waiting for manifest sync');
     await app.waitForManifestVersion(state.version);

@@ -128,7 +128,13 @@ describe('stickers', function (this: Mocha.Suite) {
 
       // Confirm
       await window
-        .locator('.module-Button--destructive >> "Uninstall"')
+        .getByRole('alertdialog')
+        .filter({
+          has: window.getByText(
+            'You may not be able to re-install this sticker pack if you no longer have the source message.'
+          ),
+        })
+        .getByRole('button', { name: 'Uninstall' })
         .click();
 
       debug('waiting for sync message');

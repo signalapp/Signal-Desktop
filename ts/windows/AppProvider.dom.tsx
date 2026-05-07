@@ -15,6 +15,7 @@ export const AppProvider: FC<AppProviderProps> = memo(
     const dir = window.SignalContext.getResolvedMessagesLocaleDirection();
 
     const messages: AxoProviderProps['messages'] = {
+      'AxoAlertDialog.Cancel': i18n('icu:AxoAlertDialog.Cancel'),
       'AxoButton.Pending': i18n('icu:AxoButton.Pending'),
       'AxoDialog.Back': i18n('icu:AxoDialog.Back'),
       'AxoDialog.Close': i18n('icu:AxoDialog.Close'),

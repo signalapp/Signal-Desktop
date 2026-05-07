@@ -85,6 +85,10 @@ export function EditConversationAttributesModal({
     i18n,
     name: 'EditConversationAttributesModal',
     tryClose,
+    // @ts-expect-error ConfirmationDialog migration: Needs title
+    title: null,
+    // @ts-expect-error ConfirmationDialog migration: Needs description
+    description: null,
   });
 
   const focusRef = (el: null | HTMLElement) => {

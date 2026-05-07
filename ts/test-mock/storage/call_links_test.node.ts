@@ -116,11 +116,11 @@ describe('storage service', function (this: Mocha.Suite) {
       name: 'Delete link',
     });
     await deleteButton.click();
-    const confirmModal = window.getByTestId(
-      'ConfirmationDialog.CallLinkDetails__DeleteLinkModal'
-    );
+    const confirmModal = window.getByRole('alertdialog', {
+      name: 'Delete call link?',
+    });
     await confirmModal.waitFor();
-    const deleteConfirm = window.locator('.module-Button').getByText('Delete');
+    const deleteConfirm = confirmModal.getByRole('button', { name: 'Delete' });
     await deleteConfirm.click();
 
     debug('Waiting for storage update');

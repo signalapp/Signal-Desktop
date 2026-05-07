@@ -20,7 +20,6 @@ import type { ViewStoryActionCreatorType } from '../state/ducks/stories.preload.
 import { createLogger } from '../logging/log.std.ts';
 import { AnimatedEmojiGalore } from './AnimatedEmojiGalore.dom.tsx';
 import { Avatar, AvatarSize } from './Avatar.dom.tsx';
-import { ConfirmationDialog } from './ConfirmationDialog.dom.tsx';
 import { ContextMenu } from './ContextMenu.dom.tsx';
 import { I18n } from './I18n.dom.tsx';
 import { MessageTimestamp } from './conversation/MessageTimestamp.dom.tsx';
@@ -54,6 +53,7 @@ import { StoryProgressSegment } from './StoryProgressSegment.dom.tsx';
 import type { FunEmojiSelection } from './fun/panels/FunPanelEmojis.dom.tsx';
 import type { ContactModalStateType } from '../types/globalModals.std.ts';
 import type { Emoji } from '../axo/emoji.std.ts';
+import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
 
 const log = createLogger('StoryViewer');
 
@@ -968,47 +968,53 @@ export function StoryViewer({
             deleteGroupStoryReplyForEveryone={deleteGroupStoryReplyForEveryone}
           />
         )}
-        {hasConfirmHideStory && (
-          <ConfirmationDialog
-            dialogName="StoryViewer.confirmHideStory"
-            actions={[
-              {
-                action: () => {
-                  onHideStory(conversationId);
-                  onClose();
-                },
-                style: 'affirmative',
-                text: i18n('icu:StoryListItem__hide-modal--confirm'),
-              },
-            ]}
-            i18n={i18n}
-            onClose={() => {
-              setHasConfirmHideStory(false);
+
+        <AxoConfirmDialog.Root
+          open={hasConfirmHideStory}
+          onOpenChange={setHasConfirmHideStory}
+          // @ts-expect-error ConfirmationDialog migration: Needs title
+          title={null}
+          description={i18n('icu:StoryListItem__hide-modal--body', {
+            name: firstName ?? '',
+          })}
+        >
+          <AxoConfirmDialog.Cancel />
+          <AxoConfirmDialog.Action
+            variant="primary"
+            onClick={() => {
+              onHideStory(conversationId);
+              onClose();
             }}
           >
-            {i18n('icu:StoryListItem__hide-modal--body', {
-              name: String(firstName),
-            })}
-          </ConfirmationDialog>
-        )}
-        {confirmDeleteStory && (
-          <ConfirmationDialog
-            dialogName="StoryViewer.deleteStory"
-            actions={[
-              {
-                text: i18n('icu:delete'),
-                action: () => deleteStoryForEveryone(confirmDeleteStory),
-                style: 'negative',
-              },
-            ]}
-            i18n={i18n}
-            onClose={() => setConfirmDeleteStory(undefined)}
-          >
-            {group?.terminated
+            {i18n('icu:StoryListItem__hide-modal--confirm')}
+          </AxoConfirmDialog.Action>
+        </AxoConfirmDialog.Root>
+
+        <AxoConfirmDialog.Root
+          open={confirmDeleteStory != null}
+          onOpenChange={() => setConfirmDeleteStory(undefined)}
+          // @ts-expect-error ConfirmationDialog migration: Needs title
+          title={null}
+          description={
+            group?.terminated
               ? i18n('icu:MyStories__delete-group-story-for-me')
-              : i18n('icu:MyStories__delete')}
-          </ConfirmationDialog>
-        )}
+              : i18n('icu:MyStories__delete')
+          }
+        >
+          <AxoConfirmDialog.Cancel />
+          <AxoConfirmDialog.Action
+            variant="destructive"
+            onClick={() => {
+              strictAssert(
+                confirmDeleteStory != null,
+                'Missing confirmDeleteStory'
+              );
+              deleteStoryForEveryone(confirmDeleteStory);
+            }}
+          >
+            {i18n('icu:delete')}
+          </AxoConfirmDialog.Action>
+        </AxoConfirmDialog.Root>
       </div>
     </FocusScope>
   );

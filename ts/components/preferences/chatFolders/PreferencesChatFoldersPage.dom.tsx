@@ -345,9 +345,6 @@ export function PreferencesChatFoldersPage(
           deleteText={i18n(
             'icu:Preferences__ChatsPage__DeleteChatFolderDialog__DeleteButton'
           )}
-          cancelText={i18n(
-            'icu:Preferences__ChatsPage__DeleteChatFolderDialog__CancelButton'
-          )}
           onConfirm={handleChatFolderDeleteConfirm}
         />
       </AxoAlertDialog.Root>

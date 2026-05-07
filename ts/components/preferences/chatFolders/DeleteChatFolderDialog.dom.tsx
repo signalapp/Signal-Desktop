@@ -6,7 +6,6 @@ import { AxoAlertDialog } from '../../../axo/AxoAlertDialog.dom.tsx';
 export function DeleteChatFolderDialog(props: {
   title: string;
   description: ReactNode;
-  cancelText: string;
   deleteText: string;
   onConfirm: () => void;
 }): JSX.Element {
@@ -19,7 +18,7 @@ export function DeleteChatFolderDialog(props: {
         </AxoAlertDialog.Description>
       </AxoAlertDialog.Body>
       <AxoAlertDialog.Footer>
-        <AxoAlertDialog.Cancel>{props.cancelText}</AxoAlertDialog.Cancel>
+        <AxoAlertDialog.Cancel />
         <AxoAlertDialog.Action variant="destructive" onClick={props.onConfirm}>
           {props.deleteText}
         </AxoAlertDialog.Action>

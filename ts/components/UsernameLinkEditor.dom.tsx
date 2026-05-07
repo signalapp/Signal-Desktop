@@ -26,10 +26,10 @@ import { drop } from '../util/drop.std.ts';
 import { splitText } from '../util/splitText.std.ts';
 import { loadImage } from '../util/loadImage.std.ts';
 import { Button, ButtonVariant } from './Button.dom.tsx';
-import { ConfirmationDialog } from './ConfirmationDialog.dom.tsx';
 import { Spinner } from './Spinner.dom.tsx';
 import { BrandedQRCode } from './BrandedQRCode.dom.tsx';
 import { useConfirmDiscard } from '../hooks/useConfirmDiscard.dom.tsx';
+import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
 
 const { noop } = lodash;
 
@@ -553,10 +553,6 @@ export function UsernameLinkEditor({
     setConfirmReset(true);
   }, []);
 
-  const onCancelReset = useCallback(() => {
-    setConfirmReset(false);
-  }, []);
-
   const onConfirmReset = useCallback(() => {
     setShowError(false);
     setConfirmReset(false);
@@ -608,6 +604,10 @@ export function UsernameLinkEditor({
     i18n,
     name: 'UsernameLinkEditor',
     tryClose,
+    // @ts-expect-error ConfirmationDialog migration: Needs title
+    title: null,
+    // @ts-expect-error ConfirmationDialog migration: Needs description
+    description: null,
   });
 
   const onTryClose = useCallback(() => {
@@ -738,53 +738,44 @@ export function UsernameLinkEditor({
           </div>
         </div>
 
-        {confirmReset && (
-          <ConfirmationDialog
-            i18n={i18n}
-            dialogName="UsernameLinkModal__confirm-reset"
-            onClose={onCancelReset}
-            actions={[
-              {
-                action: onConfirmReset,
-                style: 'negative',
-                text: i18n('icu:UsernameLinkModalBody__reset'),
-              },
-            ]}
+        <AxoConfirmDialog.Root
+          open={confirmReset}
+          onOpenChange={setConfirmReset}
+          // @ts-expect-error ConfirmationDialog migration: Needs title
+          title={null}
+          description={i18n('icu:UsernameLinkModalBody__reset__confirm')}
+        >
+          <AxoConfirmDialog.Cancel />
+          <AxoConfirmDialog.Action
+            variant="destructive"
+            onClick={onConfirmReset}
           >
-            {i18n('icu:UsernameLinkModalBody__reset__confirm')}
-          </ConfirmationDialog>
-        )}
+            {i18n('icu:UsernameLinkModalBody__reset')}
+          </AxoConfirmDialog.Action>
+        </AxoConfirmDialog.Root>
 
-        {showError && (
-          <ConfirmationDialog
-            i18n={i18n}
-            dialogName="UsernameLinkModal__error"
-            onClose={onCloseError}
-            cancelButtonVariant={ButtonVariant.Secondary}
-            cancelText={i18n('icu:cancel')}
-            actions={[
-              {
-                action: onConfirmReset,
-                style: 'affirmative',
-                text: i18n('icu:UsernameLinkModalBody__error__fix-now'),
-              },
-            ]}
-          >
-            {i18n('icu:UsernameLinkModalBody__error__text')}
-          </ConfirmationDialog>
-        )}
+        <AxoConfirmDialog.Root
+          open={showError}
+          onOpenChange={onCloseError}
+          // @ts-expect-error ConfirmationDialog migration: Needs title
+          title={null}
+          description={i18n('icu:UsernameLinkModalBody__error__text')}
+        >
+          <AxoConfirmDialog.Cancel />
+          <AxoConfirmDialog.Action variant="primary" onClick={onConfirmReset}>
+            {i18n('icu:UsernameLinkModalBody__error__fix-now')}
+          </AxoConfirmDialog.Action>
+        </AxoConfirmDialog.Root>
 
-        {recoveryModalVisibility === RecoveryModalVisibility.Open && (
-          <ConfirmationDialog
-            i18n={i18n}
-            dialogName="UsernameLinkModal__error"
-            onClose={onRecoveryModalClose}
-            cancelButtonVariant={ButtonVariant.Secondary}
-            cancelText={i18n('icu:ok')}
-          >
-            {i18n('icu:UsernameLinkModalBody__recovered__text')}
-          </ConfirmationDialog>
-        )}
+        <AxoConfirmDialog.Root
+          open={recoveryModalVisibility === RecoveryModalVisibility.Open}
+          onOpenChange={onRecoveryModalClose}
+          // @ts-expect-error ConfirmationDialog migration: Needs title
+          title={null}
+          description={i18n('icu:UsernameLinkModalBody__recovered__text')}
+        >
+          <AxoConfirmDialog.Cancel>{i18n('icu:ok')}</AxoConfirmDialog.Cancel>
+        </AxoConfirmDialog.Root>
 
         {showColors ? (
           <UsernameLinkColors

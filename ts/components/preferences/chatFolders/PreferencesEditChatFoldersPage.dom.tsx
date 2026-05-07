@@ -8,7 +8,6 @@ import type { PreferredBadgeSelectorType } from '../../../state/selectors/badges
 import type { LocalizerType } from '../../../types/I18N.std.ts';
 import type { ThemeType } from '../../../types/Util.std.ts';
 import { Input } from '../../Input.dom.tsx';
-import { ConfirmationDialog } from '../../ConfirmationDialog.dom.tsx';
 import type { ChatFolderSelection } from '../PreferencesSelectChatsDialog.dom.tsx';
 import { SettingsControl, SettingsRow } from '../../PreferencesUtil.dom.tsx';
 import { PreferencesSelectChatsDialog } from '../PreferencesSelectChatsDialog.dom.tsx';
@@ -47,6 +46,7 @@ import {
 } from './PreferencesChatFolderItems.dom.tsx';
 import { AxoButton } from '../../../axo/AxoButton.dom.tsx';
 import { AxoAlertDialog } from '../../../axo/AxoAlertDialog.dom.tsx';
+import { AxoConfirmDialog } from '../../../axo/AxoConfirmDialog.dom.tsx';
 
 export type PreferencesEditChatFolderPageProps = Readonly<{
   i18n: LocalizerType;
@@ -474,9 +474,6 @@ export function PreferencesEditChatFolderPage(
                     description={i18n(
                       'icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__Description'
                     )}
-                    cancelText={i18n(
-                      'icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__CancelButton'
-                    )}
                     deleteText={i18n(
                       'icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__DeleteButton'
                     )}
@@ -574,32 +571,27 @@ function SaveChangesFolderDialog(props: {
   onClose: () => void;
 }) {
   const { i18n } = props;
-
   return (
-    <ConfirmationDialog
-      i18n={i18n}
-      dialogName="Preferences__EditChatFolderPage__SaveChangesFolderDialog"
+    <AxoConfirmDialog.Root
+      open
+      onOpenChange={props.onClose}
       title={i18n(
         'icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__Title'
       )}
-      cancelText={i18n(
-        'icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__DiscardButton'
-      )}
-      actions={[
-        {
-          text: i18n(
-            'icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__SaveButton'
-          ),
-          style: 'affirmative',
-          action: props.onSave,
-        },
-      ]}
-      onCancel={props.onDiscard}
-      onClose={props.onClose}
-    >
-      {i18n(
+      description={i18n(
         'icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__Description'
       )}
-    </ConfirmationDialog>
+    >
+      <AxoConfirmDialog.Action variant="secondary" onClick={props.onDiscard}>
+        {i18n(
+          'icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__DiscardButton'
+        )}
+      </AxoConfirmDialog.Action>
+      <AxoConfirmDialog.Action variant="primary" onClick={props.onSave}>
+        {i18n(
+          'icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__SaveButton'
+        )}
+      </AxoConfirmDialog.Action>
+    </AxoConfirmDialog.Root>
   );
 }

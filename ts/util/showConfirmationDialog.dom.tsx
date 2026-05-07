@@ -2,19 +2,16 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { createRoot, type Root } from 'react-dom/client';
-// oxlint-disable-next-line signal-desktop/no-restricted-paths
-import { ConfirmationDialog } from '../components/ConfirmationDialog.dom.tsx';
 import { AppProvider } from '../windows/AppProvider.dom.tsx';
+// oxlint-disable-next-line signal-desktop/no-restricted-paths
+import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
 
 type ConfirmationDialogViewProps = {
-  onTopOfEverything?: boolean;
-  dialogName: string;
   cancelText?: string;
-  confirmStyle?: 'affirmative' | 'negative';
+  confirmStyle?: 'primary' | 'destructive';
   title: string;
-  description?: string;
+  description: string;
   okText: string;
-  noMouseClose?: boolean;
   reject?: (error: Error) => void;
   resolve: () => void;
 };
@@ -59,35 +56,29 @@ export function showConfirmationDialog(
   confirmationDialogRoot = createRoot(confirmationDialogViewNode);
   confirmationDialogRoot.render(
     <AppProvider>
-      <ConfirmationDialog
-        dialogName={options.dialogName}
-        onTopOfEverything={options.onTopOfEverything}
-        actions={[
-          {
-            action: () => {
-              options.resolve();
-            },
-            style: options.confirmStyle,
-            text: options.okText || i18n('icu:ok'),
-          },
-        ]}
-        cancelText={options.cancelText || i18n('icu:cancel')}
-        i18n={i18n}
-        onCancel={() => {
-          if (options.reject) {
-            options.reject(
+      <AxoConfirmDialog.Root
+        open
+        onOpenChange={removeConfirmationDialog}
+        title={options.title}
+        description={options.description}
+      >
+        <AxoConfirmDialog.Action
+          variant="secondary"
+          onClick={() => {
+            options.reject?.(
               new Error('showConfirmationDialog: onCancel called')
             );
-          }
-        }}
-        onClose={() => {
-          removeConfirmationDialog();
-        }}
-        title={options.title}
-        noMouseClose={options.noMouseClose}
-      >
-        {options.description}
-      </ConfirmationDialog>
+          }}
+        >
+          {options.cancelText ?? i18n('icu:cancel')}
+        </AxoConfirmDialog.Action>
+        <AxoConfirmDialog.Action
+          variant={options.confirmStyle ?? 'primary'}
+          onClick={options.resolve}
+        >
+          {options.okText || i18n('icu:ok')}
+        </AxoConfirmDialog.Action>
+      </AxoConfirmDialog.Root>
     </AppProvider>
   );
 }

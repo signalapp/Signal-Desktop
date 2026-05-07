@@ -1,7 +1,5 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-
-import lodash from 'lodash';
 import { useEffect, useRef, useState, type JSX } from 'react';
 import { useEscapeHandling } from '../hooks/useEscapeHandling.dom.ts';
 import type {
@@ -16,10 +14,8 @@ import { ToastType } from '../types/Toast.dom.tsx';
 import { DurationInSeconds, SECOND } from '../util/durations/index.std.ts';
 import { tw } from '../axo/tw.dom.tsx';
 import { durationToPlaybackText } from '../util/durationToPlaybackText.std.ts';
-import { ConfirmationDialog } from './ConfirmationDialog.dom.tsx';
 import { RecordingComposer } from './RecordingComposer.dom.tsx';
-
-const { noop } = lodash;
+import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
 
 const MAX_BAR_HEIGHT = 20;
 
@@ -90,37 +86,32 @@ export function CompositionRecording({
   let confirmationDialog: JSX.Element | undefined;
   if (errorDialogAudioRecorderType === ErrorDialogAudioRecorderType.Timeout) {
     confirmationDialog = (
-      <ConfirmationDialog
-        dialogName="AudioCapture.sendAnyway"
-        i18n={i18n}
-        onCancel={onCancel}
-        onClose={noop}
-        cancelText={i18n('icu:discard')}
-        actions={[
-          {
-            text: i18n('icu:sendAnyway'),
-            style: 'affirmative',
-            action: onSend,
-          },
-        ]}
+      <AxoConfirmDialog.Root
+        open
+        onOpenChange={onCancel}
+        // @ts-expect-error ConfirmationDialog migration: Needs title
+        title={null}
+        description={i18n('icu:voiceRecordingInterruptedMax')}
       >
-        {i18n('icu:voiceRecordingInterruptedMax')}
-      </ConfirmationDialog>
+        <AxoConfirmDialog.Cancel>{i18n('icu:discard')}</AxoConfirmDialog.Cancel>
+        <AxoConfirmDialog.Action variant="primary" onClick={onSend}>
+          {i18n('icu:sendAnyway')}
+        </AxoConfirmDialog.Action>
+      </AxoConfirmDialog.Root>
     );
   } else if (
     errorDialogAudioRecorderType === ErrorDialogAudioRecorderType.ErrorRecording
   ) {
     confirmationDialog = (
-      <ConfirmationDialog
-        dialogName="AudioCapture.error"
-        i18n={i18n}
-        onCancel={onCancel}
-        onClose={noop}
-        cancelText={i18n('icu:ok')}
-        actions={[]}
+      <AxoConfirmDialog.Root
+        open
+        onOpenChange={onCancel}
+        // @ts-expect-error ConfirmationDialog migration: Needs title
+        title={null}
+        description={i18n('icu:voiceNoteError')}
       >
-        {i18n('icu:voiceNoteError')}
-      </ConfirmationDialog>
+        <AxoConfirmDialog.Cancel>{i18n('icu:ok')}</AxoConfirmDialog.Cancel>
+      </AxoConfirmDialog.Root>
     );
   }
 

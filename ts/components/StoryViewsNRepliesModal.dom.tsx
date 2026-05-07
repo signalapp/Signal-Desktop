@@ -30,7 +30,6 @@ import { ThemeType } from '../types/Util.std.ts';
 import { WidthBreakpoint } from './_util.std.ts';
 import { getAvatarColor } from '../types/Colors.std.ts';
 import { shouldNeverBeCalled } from '../util/shouldNeverBeCalled.std.ts';
-import { ConfirmationDialog } from './ConfirmationDialog.dom.tsx';
 import { FunEmojiPicker } from './fun/FunEmojiPicker.dom.tsx';
 import { FunEmojiPickerButton } from './fun/FunButton.dom.tsx';
 import type { FunEmojiSelection } from './fun/panels/FunPanelEmojis.dom.tsx';
@@ -40,6 +39,8 @@ import type { AxoMenuBuilder } from '../axo/AxoMenuBuilder.dom.tsx';
 import { drop } from '../util/drop.std.ts';
 import type { ContactModalStateType } from '../types/globalModals.std.ts';
 import type { Emoji } from '../axo/emoji.std.ts';
+import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
+import { strictAssert } from '../util/assert.std.ts';
 
 const { noop, orderBy } = lodash;
 
@@ -225,6 +226,10 @@ export function StoryViewsNRepliesModal({
     i18n,
     name: 'StoryViewsNRepliesModal',
     tryClose,
+    // @ts-expect-error ConfirmationDialog migration: Needs title
+    title: null,
+    // @ts-expect-error ConfirmationDialog migration: Needs description
+    description: null,
   });
   const onTryClose = useCallback(() => {
     confirmDiscardIf(emojiPickerOpen || messageBodyText.length > 0, onClose);
@@ -487,43 +492,44 @@ export function StoryViewsNRepliesModal({
           )}
         </div>
       </Modal>
-      {deleteReplyId && (
-        <ConfirmationDialog
-          i18n={i18n}
-          theme={Theme.Dark}
-          dialogName="confirmDialog"
-          actions={[
-            {
-              text: i18n('icu:delete'),
-              action: () => deleteGroupStoryReply(deleteReplyId),
-              style: 'negative',
-            },
-          ]}
-          title={i18n('icu:deleteWarning')}
-          onClose={() => setDeleteReplyId(undefined)}
-          onCancel={() => setDeleteReplyId(undefined)}
-        />
-      )}
-      {deleteForEveryoneReplyId && (
-        <ConfirmationDialog
-          i18n={i18n}
-          theme={Theme.Dark}
-          dialogName="confirmDialog"
-          actions={[
-            {
-              text: i18n('icu:delete'),
-              action: () =>
-                deleteGroupStoryReplyForEveryone(deleteForEveryoneReplyId),
-              style: 'negative',
-            },
-          ]}
-          title={i18n('icu:deleteWarning')}
-          onClose={() => setDeleteForEveryoneReplyId(undefined)}
-          onCancel={() => setDeleteForEveryoneReplyId(undefined)}
+      <AxoConfirmDialog.Root
+        open={deleteReplyId != null}
+        onOpenChange={() => setDeleteReplyId(undefined)}
+        title={i18n('icu:deleteWarning')}
+        // @ts-expect-error ConfirmationDialog migration: Needs description
+        description={null}
+      >
+        <AxoConfirmDialog.Cancel />
+        <AxoConfirmDialog.Action
+          variant="destructive"
+          onClick={() => {
+            strictAssert(deleteReplyId != null, 'Missing deleteReplyId');
+            deleteGroupStoryReply(deleteReplyId);
+          }}
         >
-          {i18n('icu:deleteForEveryoneWarning')}
-        </ConfirmationDialog>
-      )}
+          {i18n('icu:delete')}
+        </AxoConfirmDialog.Action>
+      </AxoConfirmDialog.Root>
+      <AxoConfirmDialog.Root
+        open={deleteForEveryoneReplyId != null}
+        onOpenChange={() => setDeleteForEveryoneReplyId(undefined)}
+        title={i18n('icu:deleteWarning')}
+        description={i18n('icu:deleteForEveryoneWarning')}
+      >
+        <AxoConfirmDialog.Cancel />
+        <AxoConfirmDialog.Action
+          variant="destructive"
+          onClick={() => {
+            strictAssert(
+              deleteForEveryoneReplyId != null,
+              'Missing deleteForEveryoneReplyId'
+            );
+            deleteGroupStoryReplyForEveryone(deleteForEveryoneReplyId);
+          }}
+        >
+          {i18n('icu:delete')}
+        </AxoConfirmDialog.Action>
+      </AxoConfirmDialog.Root>
     </>
   );
 }
