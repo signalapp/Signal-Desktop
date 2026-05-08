@@ -15,6 +15,7 @@ export async function imagePathToBytes(
     );
   }
 
+  image.crossOrigin = 'anonymous';
   image.src = src;
   await image.decode();
 
