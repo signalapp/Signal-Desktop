@@ -1,73 +1,75 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-
-import { useEffect, useState, type JSX } from 'react';
-
+import type { JSX, MouseEvent } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import type { LocalizerType } from '../types/Util.std.ts';
-import { Modal } from './Modal.dom.tsx';
-import { Button, ButtonVariant } from './Button.dom.tsx';
 import { DAY } from '../util/durations/index.std.ts';
+import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
+import { useTimers } from '../axo/timers.dom.tsx';
 
-export type PropsType = {
+export type PropsType = Readonly<{
   // Test-only
   _timeout?: number;
   i18n: LocalizerType;
-  onCancelDonation: () => unknown;
-  onOpenBrowser: () => unknown;
-  onTimedOut: () => unknown;
-};
+  onCancelDonation: () => void;
+  onOpenBrowser: () => void;
+  onTimedOut: () => void;
+}>;
+
+type Step = 'init' | 'opening' | 'reopening' | 'opened';
 
 export function DonationVerificationModal(props: PropsType): JSX.Element {
-  const { _timeout, i18n, onCancelDonation, onOpenBrowser, onTimedOut } = props;
-  const [hasOpenedBrowser, setHasOpenedBrowser] = useState(false);
+  const { _timeout, i18n, onOpenBrowser, onTimedOut } = props;
 
-  const titleText = hasOpenedBrowser
-    ? i18n('icu:Donations__3dsValidationNeeded--waiting')
-    : i18n('icu:Donations__3dsValidationNeeded');
-  const openBrowserText = hasOpenedBrowser
-    ? i18n('icu:Donations__3dsValidationNeeded__OpenBrowser--opened')
-    : i18n('icu:Donations__3dsValidationNeeded__OpenBrowser');
-
-  const footer = (
-    <>
-      <Button variant={ButtonVariant.Secondary} onClick={onCancelDonation}>
-        {i18n('icu:Donations__3dsValidationNeeded__CancelDonation')}
-      </Button>
-      <Button
-        onClick={() => {
-          setHasOpenedBrowser(true);
-          onOpenBrowser();
-        }}
-      >
-        {openBrowserText}
-      </Button>
-    </>
-  );
+  const [step, setStep] = useState<Step>('init');
+  const expiresTimers = useTimers();
+  const pendingTimers = useTimers();
 
   useEffect(() => {
-    let timeout: NodeJS.Timeout | undefined = setTimeout(() => {
-      timeout = undefined;
-      onTimedOut();
-    }, _timeout ?? DAY);
+    expiresTimers.add(_timeout ?? DAY, onTimedOut);
+  }, [expiresTimers, _timeout, onTimedOut]);
 
-    return () => {
-      if (timeout) {
-        clearTimeout(timeout);
-      }
-    };
-  }, [_timeout, onTimedOut]);
+  const handleClick = useCallback(
+    (event: MouseEvent) => {
+      event.preventDefault();
+      setStep(prev => (prev === 'opened' ? 'reopening' : 'opening'));
+      onOpenBrowser();
+
+      pendingTimers.cancelAll();
+      pendingTimers.add(3000, () => {
+        setStep('opened');
+      });
+    },
+    [pendingTimers, onOpenBrowser]
+  );
+
+  const hasOpened = step === 'opened' || step === 'reopening';
+  const isOpening = step === 'opening' || step === 'reopening';
 
   return (
-    <Modal
-      i18n={i18n}
-      modalFooter={footer}
-      moduleClassName="DonationVerificationModal"
-      modalName="DonationVerificationModal"
-      noMouseClose
-      onClose={onCancelDonation}
-      title={titleText}
+    <AxoConfirmDialog.Root
+      open
+      onOpenChange={props.onCancelDonation}
+      title={
+        hasOpened
+          ? i18n('icu:Donations__3dsValidationNeeded--waiting')
+          : i18n('icu:Donations__3dsValidationNeeded')
+      }
+      description={i18n('icu:Donations__3dsValidationNeeded__Description')}
+      forceAlwaysBreakToSeparateLines
     >
-      {i18n('icu:Donations__3dsValidationNeeded__Description')}
-    </Modal>
+      <AxoConfirmDialog.Cancel disabled={isOpening}>
+        {i18n('icu:Donations__3dsValidationNeeded__CancelDonation')}
+      </AxoConfirmDialog.Cancel>
+      <AxoConfirmDialog.Action
+        pending={isOpening}
+        variant="primary"
+        onClick={handleClick}
+      >
+        {hasOpened
+          ? i18n('icu:Donations__3dsValidationNeeded__OpenBrowser--opened')
+          : i18n('icu:Donations__3dsValidationNeeded__OpenBrowser')}
+      </AxoConfirmDialog.Action>
+    </AxoConfirmDialog.Root>
   );
 }

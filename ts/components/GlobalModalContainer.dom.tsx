@@ -20,18 +20,17 @@ import {
   UsernameOnboardingState,
 } from '../types/globalModals.std.ts';
 import { missingCaseError } from '../util/missingCaseError.std.ts';
-import type { ButtonVariant } from './Button.dom.tsx';
 import { SignalConnectionsModal } from './SignalConnectionsModal.dom.tsx';
 import { WhatsNewModal } from './WhatsNewModal.dom.tsx';
 import { MediaPermissionsModal } from './MediaPermissionsModal.dom.tsx';
 import type { StartCallData } from './ConfirmLeaveCallModal.dom.tsx';
 import {
   TapToViewNotAvailableModal,
-  type DataPropsType as TapToViewNotAvailablePropsType,
+  type TapToViewNotAvailableModalData,
 } from './TapToViewNotAvailableModal.dom.tsx';
 import {
   BackfillFailureModal,
-  type DataPropsType as BackfillFailureModalPropsType,
+  type BackfillFailureModalKind,
 } from './BackfillFailureModal.dom.tsx';
 import type { SmartDraftGifMessageSendModalProps } from '../state/smart/DraftGifMessageSendModal.preload.tsx';
 import { CriticalIdlePrimaryDeviceModal } from './CriticalIdlePrimaryDeviceModal.dom.tsx';
@@ -40,6 +39,7 @@ import { KeyTransparencyOnboardingDialog } from './KeyTransparencyOnboardingDial
 import { isUsernameValid } from '../util/Username.dom.ts';
 import type { PinMessageDialogData } from '../state/smart/PinMessageDialog.preload.tsx';
 import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
+import type { ErrorModalDataProps } from './ErrorModal.dom.tsx';
 
 // NOTE: All types should be required for this component so that the smart
 // component gives you type errors when adding/removing props.
@@ -74,18 +74,8 @@ export type PropsType = {
   editNicknameAndNoteModalProps: EditNicknameAndNoteModalPropsType | null;
   renderEditNicknameAndNoteModal: () => JSX.Element;
   // ErrorModal
-  errorModalProps:
-    | {
-        buttonVariant?: ButtonVariant;
-        description?: string;
-        title?: string | null;
-      }
-    | undefined;
-  renderErrorModal: (opts: {
-    buttonVariant?: ButtonVariant;
-    description?: string;
-    title?: string | null;
-  }) => JSX.Element;
+  errorModalProps: ErrorModalDataProps | null;
+  renderErrorModal: (props: ErrorModalDataProps) => JSX.Element;
   // DebugLogErrorModal
   debugLogErrorModalProps:
     | {
@@ -158,10 +148,10 @@ export type PropsType = {
     | undefined;
   renderSendAnywayDialog: () => JSX.Element;
   // TapToViewNotAvailableModal
-  tapToViewNotAvailableModalProps: TapToViewNotAvailablePropsType | undefined;
+  tapToViewNotAvailableModalData: TapToViewNotAvailableModalData | null;
   hideTapToViewNotAvailableModal: () => void;
   // BackfillFailureModal
-  backfillFailureModalProps: BackfillFailureModalPropsType | undefined;
+  backfillFailureModalKind: BackfillFailureModalKind | null;
   hideBackfillFailureModal: () => void;
   // UserNotFoundModal
   hideUserNotFoundModal: () => unknown;
@@ -285,10 +275,10 @@ export function GlobalModalContainer({
   safetyNumberChangedBlockingData,
   renderSendAnywayDialog,
   // TapToViewNotAvailableModal
-  tapToViewNotAvailableModalProps,
+  tapToViewNotAvailableModalData,
   hideTapToViewNotAvailableModal,
   // BackfillFailureModal
-  backfillFailureModalProps,
+  backfillFailureModalKind,
   hideBackfillFailureModal,
   // UserNotFoundModal
   hideUserNotFoundModal,
@@ -529,22 +519,22 @@ export function GlobalModalContainer({
     );
   }
 
-  if (tapToViewNotAvailableModalProps) {
+  if (tapToViewNotAvailableModalData) {
     return (
       <TapToViewNotAvailableModal
         i18n={i18n}
         onClose={hideTapToViewNotAvailableModal}
-        {...tapToViewNotAvailableModalProps}
+        {...tapToViewNotAvailableModalData}
       />
     );
   }
 
-  if (backfillFailureModalProps != null) {
+  if (backfillFailureModalKind != null) {
     return (
       <BackfillFailureModal
         i18n={i18n}
         onClose={hideBackfillFailureModal}
-        {...backfillFailureModalProps}
+        kind={backfillFailureModalKind}
       />
     );
   }

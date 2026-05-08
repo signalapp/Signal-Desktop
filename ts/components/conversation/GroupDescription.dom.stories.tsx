@@ -45,7 +45,7 @@ export function WithNewlines(args: PropsType): JSX.Element {
 }
 
 export function WithEmoji(args: PropsType): JSX.Element {
-  return <GroupDescription {...args} text="🍒🍩🌭" />;
+  return <GroupDescription {...args} text={'🍒🍩🌭'.repeat(20)} />;
 }
 
 export function WithLink(args: PropsType): JSX.Element {

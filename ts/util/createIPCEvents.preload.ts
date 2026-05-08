@@ -452,6 +452,7 @@ export function createIPCEvents(
 
 function showUnknownSgnlLinkModal(): void {
   window.reduxActions.globalModals.showErrorModal({
+    title: i18n('icu:ErrorModal--title'),
     description: i18n('icu:unknown-sgnl-link'),
   });
 }

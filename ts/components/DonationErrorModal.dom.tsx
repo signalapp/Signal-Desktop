@@ -1,27 +1,24 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ReactNode, JSX } from 'react';
-
+import type { JSX } from 'react';
 import { missingCaseError } from '../util/missingCaseError.std.ts';
 import { donationErrorTypeSchema } from '../types/Donations.std.ts';
-
 import type { LocalizerType } from '../types/Util.std.ts';
 import type { DonationErrorType } from '../types/Donations.std.ts';
-import { Button } from './Button.dom.tsx';
-import { Modal } from './Modal.dom.tsx';
+import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
 
-export type PropsType = {
+export type PropsType = Readonly<{
   i18n: LocalizerType;
   onClose: () => void;
   errorType: DonationErrorType;
-};
+}>;
 
 export function DonationErrorModal(props: PropsType): JSX.Element {
-  const { i18n, onClose } = props;
+  const { i18n } = props;
 
   let title: string;
-  let body: ReactNode;
+  let body: string;
 
   switch (props.errorType) {
     case donationErrorTypeSchema.enum.Failed3dsValidation: {
@@ -59,25 +56,18 @@ export function DonationErrorModal(props: PropsType): JSX.Element {
       body = i18n('icu:Donations__BadgeApplicationFailed__Description');
       break;
     }
-
     default:
       throw missingCaseError(props.errorType);
   }
 
   return (
-    <Modal
-      hasXButton
-      i18n={i18n}
-      modalFooter={
-        <Button onClick={onClose}>{i18n('icu:Confirmation--confirm')}</Button>
-      }
-      moduleClassName="DonationErrorModal"
-      modalName="DonationErrorModal"
-      noMouseClose
-      onClose={onClose}
+    <AxoConfirmDialog.Root
+      open
+      onOpenChange={props.onClose}
       title={title}
+      description={body}
     >
-      {body}
-    </Modal>
+      <AxoConfirmDialog.Cancel>{i18n('icu:ok')}</AxoConfirmDialog.Cancel>
+    </AxoConfirmDialog.Root>
   );
 }

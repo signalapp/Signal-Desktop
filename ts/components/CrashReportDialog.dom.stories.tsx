@@ -22,13 +22,13 @@ export function Basic(): JSX.Element {
     <CrashReportDialog
       i18n={i18n}
       isPending={isPending}
-      writeCrashReportsToLog={async () => {
+      onSend={async () => {
         setIsPending(true);
         action('writeCrashReportsToLog')();
         await sleep(5000);
         setIsPending(false);
       }}
-      eraseCrashReports={action('eraseCrashReports')}
+      onErase={action('eraseCrashReports')}
     />
   );
 }

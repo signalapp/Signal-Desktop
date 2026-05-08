@@ -24,7 +24,8 @@ const { i18n } = window.SignalContext;
 const OUR_ACI = generateAci();
 
 function createParticipant(
-  participantProps: Partial<GroupCallRemoteParticipantType>
+  participantProps: Partial<GroupCallRemoteParticipantType>,
+  isUnknownContact?: boolean
 ): GroupCallRemoteParticipantType {
   const aci = participantProps.aci ?? generateAci();
 
@@ -47,6 +48,7 @@ function createParticipant(
       profileName: participantProps.title,
       title: String(participantProps.title),
       serviceId: aci,
+      ...(isUnknownContact && { titleNoDefault: undefined }),
     }),
     isMe: Boolean(participantProps.isMe),
   };
@@ -186,6 +188,17 @@ export function AsAdmin(): JSX.Element {
         title: 'My Name',
         aci: OUR_ACI,
       }),
+    ],
+  });
+  return <CallingAdhocCallInfo {...props} />;
+}
+
+export function UnknownParticipants(): JSX.Element {
+  const props = createProps({
+    participants: [
+      createParticipant({ title: 'Son Goku' }),
+      createParticipant({ title: 'Unknown Contact' }, true),
+      createParticipant({ title: 'Unknown Contact' }, true),
     ],
   });
   return <CallingAdhocCallInfo {...props} />;

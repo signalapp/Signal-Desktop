@@ -6178,15 +6178,6 @@ button.module-calling-participants-list__contact {
   z-index: variables.$z-index-popup-overlay;
 }
 
-// Module: Error Modal
-
-.module-error-modal__button-container {
-  margin-top: 10px;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-}
-
 .module-button {
   &__small {
     @include mixins.font-body-2;

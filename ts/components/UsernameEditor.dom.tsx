@@ -31,11 +31,11 @@ import type { ShowToastAction } from '../state/ducks/toast.preload.ts';
 import { AutoSizeInput } from './AutoSizeInput.dom.tsx';
 import { Input } from './Input.dom.tsx';
 import { Spinner } from './Spinner.dom.tsx';
-import { Modal } from './Modal.dom.tsx';
-import { Button, ButtonVariant } from './Button.dom.tsx';
 import { useConfirmDiscard } from '../hooks/useConfirmDiscard.dom.tsx';
 import { AxoButton } from '../axo/AxoButton.dom.tsx';
 import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
+import { AxoAlertDialog } from '../axo/AxoAlertDialog.dom.tsx';
+import { AxoSymbol } from '../axo/AxoSymbol.dom.tsx';
 
 const { noop } = lodash;
 
@@ -328,13 +328,6 @@ export function UsernameEditor({
     title = `${nickname}.${discriminator}`;
   }
 
-  const learnMoreTitle = (
-    <>
-      <i className="UsernameEditor__learn-more__hashtag" />
-      {i18n('icu:EditUsernameModalBody__learn-more__title')}
-    </>
-  );
-
   return (
     <>
       <div className="UsernameEditor__header">
@@ -409,26 +402,19 @@ export function UsernameEditor({
 
       {confirmDiscardModal}
 
-      {isLearnMoreVisible && (
-        <Modal
-          modalName="UsernameEditor.LearnMore"
-          moduleClassName="UsernameEditor__learn-more"
-          i18n={i18n}
-          onClose={() => setIsLearnMoreVisible(false)}
-          title={learnMoreTitle}
-        >
-          {i18n('icu:EditUsernameModalBody__learn-more__body')}
-
-          <div className="UsernameEditor__button-footer">
-            <Button
-              onClick={() => setIsLearnMoreVisible(false)}
-              variant={ButtonVariant.Secondary}
-            >
-              {i18n('icu:ok')}
-            </Button>
-          </div>
-        </Modal>
-      )}
+      <AxoConfirmDialog.Root
+        open={isLearnMoreVisible}
+        onOpenChange={setIsLearnMoreVisible}
+        title={
+          <>
+            <AxoSymbol.InlineGlyph symbol="number" label={null} />{' '}
+            {i18n('icu:EditUsernameModalBody__learn-more__title')}
+          </>
+        }
+        description={i18n('icu:EditUsernameModalBody__learn-more__body')}
+      >
+        <AxoAlertDialog.Cancel>{i18n('icu:ok')}</AxoAlertDialog.Cancel>
+      </AxoConfirmDialog.Root>
 
       <AxoConfirmDialog.Root
         open={error === UsernameReservationError.General}

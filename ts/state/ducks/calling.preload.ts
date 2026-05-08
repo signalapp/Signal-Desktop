@@ -134,6 +134,7 @@ import type { SizeCallbackType } from '../../calling/VideoSupport.preload.ts';
 import { noopAction, type NoopActionType } from './noop.std.ts';
 import type { SignalService } from '../../protobuf/index.std.ts';
 import { Emoji } from '../../axo/emoji.std.ts';
+import type { ErrorModalDataProps } from '../../components/ErrorModal.dom.tsx';
 
 const { omit } = lodash;
 
@@ -2380,16 +2381,13 @@ function deleteCallLink(
       dispatch(handleCallLinkDelete({ roomId }));
     } catch (error) {
       log.warn('clearCallHistory: Failed to delete call link', error);
-
       const i18n = getIntl(getState());
-      dispatch({
-        type: SHOW_ERROR_MODAL,
-        payload: {
-          title: null,
-          description: i18n('icu:calling__call-link-delete-failed'),
-          buttonVariant: ButtonVariant.Primary,
-        },
-      });
+      const payload: ErrorModalDataProps = {
+        // @ts-expect-error ConfirmationDialog migration: Needs title
+        title: null,
+        description: i18n('icu:calling__call-link-delete-failed'),
+      };
+      dispatch({ type: SHOW_ERROR_MODAL, payload });
     }
   };
 }

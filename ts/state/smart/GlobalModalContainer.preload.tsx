@@ -3,8 +3,10 @@
 
 import { memo, useCallback, type JSX } from 'react';
 import { useSelector } from 'react-redux';
-import type { ButtonVariant } from '../../components/Button.dom.tsx';
-import { ErrorModal } from '../../components/ErrorModal.dom.tsx';
+import {
+  ErrorModal,
+  type ErrorModalDataProps,
+} from '../../components/ErrorModal.dom.tsx';
 import { GlobalModalContainer } from '../../components/GlobalModalContainer.dom.tsx';
 import { SmartAboutContactModal } from './AboutContactModal.preload.tsx';
 import { SmartAddUserToAnotherGroupModal } from './AddUserToAnotherGroupModal.preload.tsx';
@@ -162,7 +164,7 @@ export const SmartGlobalModalContainer = memo(
     const {
       aboutContactModalState,
       addUserToAnotherGroupModalContactId,
-      backfillFailureModalProps,
+      backfillFailureModalKind,
       callLinkAddNameModalRoomId,
       callLinkEditModalRoomId,
       callQualitySurveyProps,
@@ -196,7 +198,7 @@ export const SmartGlobalModalContainer = memo(
       safetyNumberChangedBlockingData,
       safetyNumberModalContactId,
       stickerPackPreviewId,
-      tapToViewNotAvailableModalProps,
+      tapToViewNotAvailableModalData,
       terminateGroupFailedModal,
       userNotFoundModalState,
     } = useSelector(getGlobalModalsState);
@@ -242,21 +244,12 @@ export const SmartGlobalModalContainer = memo(
     );
 
     const renderErrorModal = useCallback(
-      ({
-        buttonVariant,
-        description,
-        title,
-      }: {
-        buttonVariant?: ButtonVariant;
-        description?: string;
-        title?: string | null;
-      }) => (
+      (props: ErrorModalDataProps) => (
         <ErrorModal
-          buttonVariant={buttonVariant}
-          description={description}
-          title={title}
           i18n={i18n}
           onClose={closeErrorModal}
+          title={props.title}
+          description={props.description}
         />
       ),
       [closeErrorModal, i18n]
@@ -289,7 +282,7 @@ export const SmartGlobalModalContainer = memo(
         addUserToAnotherGroupModalContactId={
           addUserToAnotherGroupModalContactId
         }
-        backfillFailureModalProps={backfillFailureModalProps}
+        backfillFailureModalKind={backfillFailureModalKind}
         callLinkAddNameModalRoomId={callLinkAddNameModalRoomId}
         callLinkEditModalRoomId={callLinkEditModalRoomId}
         callQualitySurveyProps={callQualitySurveyProps}
@@ -380,7 +373,7 @@ export const SmartGlobalModalContainer = memo(
           shouldShowLocalBackupExportWorkflow
         }
         stickerPackPreviewId={stickerPackPreviewId}
-        tapToViewNotAvailableModalProps={tapToViewNotAvailableModalProps}
+        tapToViewNotAvailableModalData={tapToViewNotAvailableModalData}
         theme={theme}
         toggleSignalConnectionsModal={toggleSignalConnectionsModal}
         userNotFoundModalState={userNotFoundModalState}

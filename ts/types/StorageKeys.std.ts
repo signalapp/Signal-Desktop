@@ -208,7 +208,6 @@ export type StorageAccessType = {
   };
   serverAlerts: ServerAlertsType;
   needOrphanedAttachmentCheck: boolean;
-  needProfileMovedModal: boolean;
   notificationProfileOverride: NotificationProfileOverride | undefined;
   notificationProfileOverrideFromPrimary:
     | NotificationProfileOverride
@@ -423,7 +422,6 @@ export const STORAGE_KEYS_TO_PRESERVE_WHEN_PRIMARY = [
   'usernameCorrupted',
   'usernameLinkCorrupted',
   'usernameLink',
-  'needProfileMovedModal',
   'notificationProfileOverride',
   'notificationProfileOverrideFromPrimary',
   'notificationProfileSyncDisabled',

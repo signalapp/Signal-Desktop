@@ -7,7 +7,7 @@ import { action } from '@storybook/addon-actions';
 import type { PropsType } from './BackfillFailureModal.dom.tsx';
 import {
   BackfillFailureModal,
-  BackfillFailureKind,
+  BackfillFailureModalKind,
 } from './BackfillFailureModal.dom.tsx';
 import type { ComponentMeta } from '../storybook/types.std.ts';
 
@@ -19,7 +19,7 @@ export default {
   args: {
     i18n,
     onClose: action('onClose'),
-    kind: BackfillFailureKind.Timeout,
+    kind: BackfillFailureModalKind.Timeout,
   },
 } satisfies ComponentMeta<PropsType>;
 
@@ -28,5 +28,7 @@ export function Timeout(args: PropsType): JSX.Element {
 }
 
 export function NotFound(args: PropsType): JSX.Element {
-  return <BackfillFailureModal {...args} kind={BackfillFailureKind.NotFound} />;
+  return (
+    <BackfillFailureModal {...args} kind={BackfillFailureModalKind.NotFound} />
+  );
 }

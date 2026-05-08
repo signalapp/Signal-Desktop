@@ -80,7 +80,10 @@ export async function longRunningTaskWrapper<T>({
 
     if (!suppressErrorDialog) {
       log.info(`${idLog}: Showing error dialog`);
-      window.reduxActions.globalModals.showErrorModal({});
+      window.reduxActions.globalModals.showErrorModal({
+        title: i18n('icu:ErrorModal--title'),
+        description: i18n('icu:ErrorModal--description'),
+      });
     }
 
     throw error;

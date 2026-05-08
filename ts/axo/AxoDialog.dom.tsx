@@ -476,7 +476,11 @@ export namespace AxoDialog {
    * An optional accessible description to be announced when the dialog is opened.
    */
   export const Description: FC<DescriptionProps> = memo(props => {
-    return <Dialog.Description>{props.children}</Dialog.Description>;
+    return (
+      <Dialog.Description asChild>
+        <div>{props.children}</div>
+      </Dialog.Description>
+    );
   });
 
   Description.displayName = 'AxoDialog.Description';
@@ -490,7 +494,7 @@ export namespace AxoDialog {
     /**
      * Should be `FooterContent` and/or `Actions` elements.
      */
-    children: ReactNode;
+    children?: ReactNode;
   }>;
 
   /**

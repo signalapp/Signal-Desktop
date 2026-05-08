@@ -4,7 +4,7 @@
 import type { JSX } from 'react';
 
 import { action } from '@storybook/addon-actions';
-import type { PropsType } from './TapToViewNotAvailableModal.dom.tsx';
+import type { TapToViewNotAvailableModalProps } from './TapToViewNotAvailableModal.dom.tsx';
 import {
   TapToViewNotAvailableModal,
   TapToViewNotAvailableType,
@@ -24,9 +24,9 @@ export default {
     i18n,
     onClose: action('onClose'),
   },
-} satisfies ComponentMeta<PropsType>;
+} satisfies ComponentMeta<TapToViewNotAvailableModalProps>;
 
-export function Error(args: PropsType): JSX.Element {
+export function Error(args: TapToViewNotAvailableModalProps): JSX.Element {
   return (
     <TapToViewNotAvailableModal
       {...args}
@@ -35,7 +35,7 @@ export function Error(args: PropsType): JSX.Element {
   );
 }
 
-export function Expired(args: PropsType): JSX.Element {
+export function Expired(args: TapToViewNotAvailableModalProps): JSX.Element {
   return (
     <TapToViewNotAvailableModal
       {...args}

@@ -1,76 +1,47 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-
-import type { JSX, MouseEvent } from 'react';
-
+import type { JSX } from 'react';
 import type { LocalizerType } from '../types/Util.std.ts';
-import { Button, ButtonVariant } from './Button.dom.tsx';
-import { Modal } from './Modal.dom.tsx';
-import { Spinner } from './Spinner.dom.tsx';
+import { AxoAlertDialog } from '../axo/AxoAlertDialog.dom.tsx';
 
-type PropsActionsType = {
-  writeCrashReportsToLog: () => void;
-  eraseCrashReports: () => void;
-};
-
-export type PropsType = {
+export type PropsType = Readonly<{
   i18n: LocalizerType;
   isPending: boolean;
-} & PropsActionsType;
+  onErase: () => void;
+  onSend: () => void;
+}>;
 
-export function CrashReportDialog({
-  i18n,
-  isPending,
-  writeCrashReportsToLog,
-  eraseCrashReports,
-}: Readonly<PropsType>): JSX.Element {
-  const onEraseClick = (event: MouseEvent) => {
-    event.preventDefault();
-
-    eraseCrashReports();
-  };
-
-  const onSubmitClick = (event: MouseEvent) => {
-    event.preventDefault();
-
-    writeCrashReportsToLog();
-  };
-
-  const footer = (
-    <>
-      <Button
-        disabled={isPending}
-        onClick={onEraseClick}
-        variant={ButtonVariant.Secondary}
-      >
-        {i18n('icu:CrashReportDialog__erase')}
-      </Button>
-      <Button
-        disabled={isPending}
-        onClick={onSubmitClick}
-        ref={button => button?.focus()}
-        variant={ButtonVariant.Primary}
-      >
-        {isPending ? (
-          <Spinner size="22px" svgSize="small" />
-        ) : (
-          i18n('icu:CrashReportDialog__submit')
-        )}
-      </Button>
-    </>
-  );
-
+export function CrashReportDialog(props: Readonly<PropsType>): JSX.Element {
+  const { i18n } = props;
   return (
-    <Modal
-      modalName="CrashReportDialog"
-      moduleClassName="module-Modal--important"
-      i18n={i18n}
-      title={i18n('icu:CrashReportDialog__title')}
-      hasXButton
-      onClose={eraseCrashReports}
-      modalFooter={footer}
-    >
-      <section>{i18n('icu:CrashReportDialog__body')}</section>
-    </Modal>
+    <AxoAlertDialog.Root open>
+      <AxoAlertDialog.Content escape="cancel-is-destructive">
+        <AxoAlertDialog.Body>
+          <AxoAlertDialog.Title>
+            {i18n('icu:CrashReportDialog__title')}
+          </AxoAlertDialog.Title>
+          <AxoAlertDialog.Description>
+            {i18n('icu:CrashReportDialog__body')}
+          </AxoAlertDialog.Description>
+        </AxoAlertDialog.Body>
+        <AxoAlertDialog.Footer>
+          <AxoAlertDialog.Action
+            disabled={props.isPending}
+            variant="secondary"
+            onClick={props.onErase}
+          >
+            {i18n('icu:CrashReportDialog__erase')}
+          </AxoAlertDialog.Action>
+          <AxoAlertDialog.Action
+            autoFocus
+            disabled={props.isPending}
+            variant="primary"
+            onClick={props.onSend}
+          >
+            {i18n('icu:CrashReportDialog__submit')}
+          </AxoAlertDialog.Action>
+        </AxoAlertDialog.Footer>
+      </AxoAlertDialog.Content>
+    </AxoAlertDialog.Root>
   );
 }

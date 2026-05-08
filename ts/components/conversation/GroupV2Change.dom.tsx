@@ -28,8 +28,8 @@ import type {
 
 import type { SmartContactRendererType } from '../../groupChange.std.ts';
 import { renderChange } from '../../groupChange.std.ts';
-import { Modal } from '../Modal.dom.tsx';
 import { AxoConfirmDialog } from '../../axo/AxoConfirmDialog.dom.tsx';
+import { AxoDialog } from '../../axo/AxoDialog.dom.tsx';
 
 const { get } = lodash;
 
@@ -204,15 +204,23 @@ function GroupV2Detail({
       }
 
       modalNode = (
-        <Modal
-          modalName="GroupV2Change.ViewingGroupDescription"
-          hasXButton
-          i18n={i18n}
-          title={groupName}
-          onClose={() => setModalState(ModalState.None)}
+        <AxoDialog.Root
+          open
+          onOpenChange={() => setModalState(ModalState.None)}
         >
-          <GroupDescriptionText text={detail.description} />
-        </Modal>
+          <AxoDialog.Content size="md" escape="cancel-is-noop">
+            <AxoDialog.Header>
+              <AxoDialog.Title>{groupName}</AxoDialog.Title>
+              <AxoDialog.Close />
+            </AxoDialog.Header>
+            <AxoDialog.Body>
+              <AxoDialog.Description>
+                <GroupDescriptionText text={detail.description} />
+              </AxoDialog.Description>
+            </AxoDialog.Body>
+            <AxoDialog.Footer />
+          </AxoDialog.Content>
+        </AxoDialog.Root>
       );
       break;
     case ModalState.ConfirmingblockGroupLinkRequests:

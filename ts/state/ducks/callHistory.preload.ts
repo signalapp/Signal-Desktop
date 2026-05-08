@@ -33,9 +33,9 @@ import {
 import { makeLookup } from '../../util/makeLookup.std.ts';
 import { missingCaseError } from '../../util/missingCaseError.std.ts';
 import { getIntl } from '../selectors/user.std.ts';
-import { ButtonVariant } from '../../components/Button.dom.tsx';
 import type { ShowErrorModalActionType } from './globalModals.preload.ts';
 import { SHOW_ERROR_MODAL } from './globalModals.preload.ts';
+import type { ErrorModalDataProps } from '../../components/ErrorModal.dom.tsx';
 
 const { debounce, omit } = lodash;
 
@@ -218,26 +218,23 @@ function clearAllCallHistory(): ThunkAction<
         dispatch(showToast({ toastType: ToastType.CallHistoryCleared }));
       } else if (result === ClearCallHistoryResult.Error) {
         const i18n = getIntl(getState());
+        const payload: ErrorModalDataProps = {
+          // @ts-expect-error ConfirmationDialog migration: Needs title
+          title: null,
+          description: i18n('icu:CallsTab__ClearCallHistoryError'),
+        };
         dispatch({
           type: SHOW_ERROR_MODAL,
-          payload: {
-            title: null,
-            description: i18n('icu:CallsTab__ClearCallHistoryError'),
-            buttonVariant: ButtonVariant.Primary,
-          },
+          payload,
         });
       } else if (result === ClearCallHistoryResult.ErrorDeletingCallLinks) {
         const i18n = getIntl(getState());
-        dispatch({
-          type: SHOW_ERROR_MODAL,
-          payload: {
-            title: null,
-            description: i18n(
-              'icu:CallsTab__ClearCallHistoryError--call-links'
-            ),
-            buttonVariant: ButtonVariant.Primary,
-          },
-        });
+        const payload: ErrorModalDataProps = {
+          // @ts-expect-error ConfirmationDialog migration: Needs title
+          title: null,
+          description: i18n('icu:CallsTab__ClearCallHistoryError--call-links'),
+        };
+        dispatch({ type: SHOW_ERROR_MODAL, payload });
       } else {
         throw missingCaseError(result);
       }

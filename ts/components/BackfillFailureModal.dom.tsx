@@ -1,64 +1,41 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-
 import type { JSX } from 'react';
-
 import type { LocalizerType } from '../types/Util.std.ts';
 import { missingCaseError } from '../util/missingCaseError.std.ts';
-import { Modal } from './Modal.dom.tsx';
-import { Button, ButtonVariant } from './Button.dom.tsx';
+import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
 
-export enum BackfillFailureKind {
+export enum BackfillFailureModalKind {
   Timeout = 'Timeout',
   NotFound = 'NotFound',
 }
 
-export type DataPropsType = Readonly<{
-  kind: BackfillFailureKind;
-}>;
-
-export type HousekeepingPropsType = Readonly<{
+export type PropsType = Readonly<{
   i18n: LocalizerType;
+  kind: BackfillFailureModalKind;
   onClose: () => void;
 }>;
-
-export type PropsType = DataPropsType & HousekeepingPropsType;
-
-function focusRef(el: HTMLElement | null) {
-  if (el) {
-    el.focus();
-  }
-}
 
 export function BackfillFailureModal(props: PropsType): JSX.Element {
   const { i18n, kind, onClose } = props;
 
-  const footer = (
-    <Button onClick={onClose} ref={focusRef} variant={ButtonVariant.Primary}>
-      {i18n('icu:Confirmation--confirm')}
-    </Button>
-  );
-
   let body: string;
-  if (kind === BackfillFailureKind.Timeout) {
+  if (kind === BackfillFailureModalKind.Timeout) {
     body = i18n('icu:BackfillFailureModal__body--timeout');
-  } else if (kind === BackfillFailureKind.NotFound) {
+  } else if (kind === BackfillFailureModalKind.NotFound) {
     body = i18n('icu:BackfillFailureModal__body--not-found');
   } else {
     throw missingCaseError(kind);
   }
 
   return (
-    <Modal
-      modalName="BackfillFailureModal"
-      moduleClassName="BackfillFailureModal"
+    <AxoConfirmDialog.Root
+      open
+      onOpenChange={onClose}
       title={i18n('icu:BackfillFailureModal__title')}
-      i18n={i18n}
-      onClose={onClose}
-      modalFooter={footer}
-      padded={false}
+      description={body}
     >
-      <div className="module-error-modal__description">{body}</div>
-    </Modal>
+      <AxoConfirmDialog.Cancel>{i18n('icu:ok')}</AxoConfirmDialog.Cancel>
+    </AxoConfirmDialog.Root>
   );
 }
