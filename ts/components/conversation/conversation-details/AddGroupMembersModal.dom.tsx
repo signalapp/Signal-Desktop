@@ -6,8 +6,8 @@ import lodash from 'lodash';
 
 import type { LocalizerType } from '../../../types/Util.std.ts';
 import {
-  AddGroupMemberErrorDialog,
-  AddGroupMemberErrorDialogMode,
+  AddGroupMemberMaximumGroupSizeErrorDialog,
+  AddGroupMemberRecommendedMaximumGroupSizeErrorDialog,
 } from '../../AddGroupMemberErrorDialog.dom.tsx';
 import type { SmartChooseGroupMembersModalPropsType } from '../../../state/smart/ChooseGroupMembersModal.preload.tsx';
 import type { SmartConfirmAdditionsModalPropsType } from '../../../state/smart/ConfirmAdditionsModal.dom.tsx';
@@ -178,10 +178,9 @@ export function AddGroupMembersModal({
 
   if (maximumGroupSizeModalState === OneTimeModalState.Showing) {
     return (
-      <AddGroupMemberErrorDialog
+      <AddGroupMemberMaximumGroupSizeErrorDialog
         i18n={i18n}
         maximumNumberOfContacts={maxGroupSize}
-        mode={AddGroupMemberErrorDialogMode.MaximumGroupSize}
         onClose={() => {
           dispatch({ type: ActionType.CloseMaximumGroupSizeModal });
         }}
@@ -191,9 +190,8 @@ export function AddGroupMembersModal({
 
   if (recommendedGroupSizeModalState === OneTimeModalState.Showing) {
     return (
-      <AddGroupMemberErrorDialog
+      <AddGroupMemberRecommendedMaximumGroupSizeErrorDialog
         i18n={i18n}
-        mode={AddGroupMemberErrorDialogMode.RecommendedMaximumGroupSize}
         onClose={() => {
           dispatch({
             type: ActionType.CloseRecommendedMaximumGroupSizeModal,

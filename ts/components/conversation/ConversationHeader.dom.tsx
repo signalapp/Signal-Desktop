@@ -1,7 +1,7 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { RefObject, JSX } from 'react';
+import type { RefObject, JSX, ReactNode } from 'react';
 import { memo, useCallback, useMemo, useRef, useState } from 'react';
 import type { ReadonlyDeep } from 'type-fest';
 import type { BadgeType } from '../../badges/types.std.ts';
@@ -18,7 +18,6 @@ import { getMuteOptions } from '../../util/getMuteOptions.std.ts';
 import { isConversationMuted } from '../../util/isConversationMuted.std.ts';
 import { isInSystemContacts } from '../../util/isInSystemContacts.std.ts';
 import { missingCaseError } from '../../util/missingCaseError.std.ts';
-import { Alert } from '../Alert.dom.tsx';
 import { Avatar, AvatarSize } from '../Avatar.dom.tsx';
 import { DisappearingTimeDialog } from '../DisappearingTimeDialog.dom.tsx';
 import { InContactsIcon } from '../InContactsIcon.dom.tsx';
@@ -1101,21 +1100,24 @@ function LeaveGroupConfirmationDialog({
   );
 }
 
-function CannotLeaveGroupBecauseYouAreLastAdminAlert({
-  i18n,
-  onClose,
-}: {
+/** @testexport */
+export function CannotLeaveGroupBecauseYouAreLastAdminAlert(props: {
   i18n: LocalizerType;
   onClose: () => void;
-}) {
+}): ReactNode {
+  const { i18n } = props;
   return (
-    <Alert
-      i18n={i18n}
-      body={i18n(
+    <AxoConfirmDialog.Root
+      open
+      onOpenChange={props.onClose}
+      // @ts-expect-error ConfirmationDialog migration: Needs title
+      title={null}
+      description={i18n(
         'icu:ConversationHeader__CannotLeaveGroupBecauseYouAreLastAdminAlert__description'
       )}
-      onClose={onClose}
-    />
+    >
+      <AxoConfirmDialog.Cancel>{i18n('icu:ok')}</AxoConfirmDialog.Cancel>
+    </AxoConfirmDialog.Root>
   );
 }
 

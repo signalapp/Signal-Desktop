@@ -66,6 +66,7 @@ import { strictAssert } from '../util/assert.std.ts';
 import type { SetLocalPreviewContainerType } from '../services/calling.preload.ts';
 import type { ContactModalStateType } from '../types/globalModals.std.ts';
 import type { PropsType as SmartCallingParticipantMenuProps } from '../state/smart/CallingParticipantMenu.preload.tsx';
+import { AxoTheme } from '../axo/AxoTheme.dom.tsx';
 
 const { noop } = lodash;
 
@@ -380,7 +381,7 @@ function ActiveCallManager({
 
   if (showCallLobby) {
     return (
-      <>
+      <AxoTheme.Override theme="force-dark">
         <CallingLobby
           availableCameras={availableCameras}
           callMode={activeCall.callMode}
@@ -439,7 +440,7 @@ function ActiveCallManager({
               renderCallingParticipantMenu={renderCallingParticipantMenu}
             />
           ))}
-      </>
+      </AxoTheme.Override>
     );
   }
 
@@ -468,7 +469,7 @@ function ActiveCallManager({
     : [];
 
   return (
-    <>
+    <AxoTheme.Override theme="force-dark">
       <CallScreen
         activeCall={activeCall}
         approveUser={approveUser}
@@ -542,7 +543,7 @@ function ActiveCallManager({
             renderCallingParticipantMenu={renderCallingParticipantMenu}
           />
         ))}
-    </>
+    </AxoTheme.Override>
   );
 }
 

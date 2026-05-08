@@ -22,6 +22,7 @@ import { MediaEditor } from './MediaEditor.dom.tsx';
 import { TextStoryCreator } from './TextStoryCreator.dom.tsx';
 import type { DraftBodyRanges } from '../types/BodyRange.std.ts';
 import type { processAttachment } from '../util/processAttachment.preload.ts';
+import { AxoTheme } from '../axo/AxoTheme.dom.tsx';
 
 const { get, has } = lodash;
 
@@ -217,7 +218,7 @@ export function StoryCreator({
 
   return portalElement != null
     ? createPortal(
-        <>
+        <AxoTheme.Override theme="force-dark">
           {draftAttachment && isReadyToSend && (
             <SendStoryModal
               draftAttachment={draftAttachment}
@@ -315,7 +316,7 @@ export function StoryCreator({
               onSelectEmoji={onSelectEmoji}
             />
           )}
-        </>,
+        </AxoTheme.Override>,
         portalElement
       )
     : null;
