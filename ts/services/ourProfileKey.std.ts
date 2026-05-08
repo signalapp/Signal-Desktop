@@ -3,6 +3,8 @@
 
 import { assertDev, strictAssert } from '../util/assert.std.ts';
 import { createLogger } from '../logging/log.std.ts';
+import { sleep } from '../util/sleep.std.ts';
+import { SECOND } from '../util/durations/constants.std.ts';
 
 import type { StorageInterface } from '../types/Storage.d.ts';
 
@@ -59,11 +61,15 @@ export class OurProfileKeyService {
   }
 
   async #doGet(): Promise<undefined | Uint8Array<ArrayBuffer>> {
-    log.info(
-      `Our profile key service: waiting for ${this.#promisesBlockingGet.length} promises before fetching`
-    );
-
-    await Promise.allSettled(this.#promisesBlockingGet);
+    if (this.#promisesBlockingGet.length > 0) {
+      log.info(
+        `Our profile key service: waiting for ${this.#promisesBlockingGet.length} promises before fetching`
+      );
+      await Promise.race([
+        Promise.allSettled(this.#promisesBlockingGet),
+        sleep(30 * SECOND),
+      ]);
+    }
     this.#promisesBlockingGet = [];
 
     delete this.getPromise;
