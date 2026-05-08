@@ -8,6 +8,7 @@ export async function loadImage(src: string): Promise<HTMLImageElement> {
 
   // oxlint-disable-next-line no-undef FIXME
   const img = new Image();
+  img.crossOrigin = 'anonymous';
   img.addEventListener('load', () => resolve(), { once: true });
   img.addEventListener(
     'error',
