@@ -35,6 +35,7 @@ const FunImageBase = forwardRef(function FunImageBase(
       role={props.role}
       aria-label={props['aria-label']}
       className={props.className}
+      crossOrigin="anonymous"
       src={props.src}
       width={props.width}
       height={props.height}
