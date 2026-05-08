@@ -67,6 +67,7 @@ import { AxoButton } from '../axo/AxoButton.dom.tsx';
 import { tw } from '../axo/tw.dom.tsx';
 import type { FunTimeStickerStyle } from './fun/constants.dom.tsx';
 import * as Errors from '../types/errors.std.ts';
+import { AxoTheme } from '../axo/AxoTheme.dom.tsx';
 
 const { get, has, noop } = lodash;
 
@@ -1229,299 +1230,308 @@ export function MediaEditor({
   }
 
   return createPortal(
-    <div className="MediaEditor dark-theme">
-      <div className="MediaEditor__history-buttons">
+    <AxoTheme.Override theme="force-dark">
+      <div className="MediaEditor dark-theme">
+        <div className="MediaEditor__history-buttons">
+          <button
+            aria-label={i18n('icu:MediaEditor__control--undo')}
+            className="MediaEditor__control MediaEditor__control--undo"
+            disabled={!canUndo}
+            onClick={() => {
+              if (editMode === EditMode.Crop) {
+                setEditMode(undefined);
+              }
+              undoIfPossible();
+            }}
+            type="button"
+          />
+          <button
+            aria-label={i18n('icu:MediaEditor__control--redo')}
+            className="MediaEditor__control MediaEditor__control--redo"
+            disabled={!canRedo}
+            onClick={() => {
+              if (editMode === EditMode.Crop) {
+                setEditMode(undefined);
+              }
+              redoIfPossible();
+            }}
+            type="button"
+          />
+        </div>
         <button
-          aria-label={i18n('icu:MediaEditor__control--undo')}
-          className="MediaEditor__control MediaEditor__control--undo"
-          disabled={!canUndo}
-          onClick={() => {
-            if (editMode === EditMode.Crop) {
-              setEditMode(undefined);
-            }
-            undoIfPossible();
-          }}
+          aria-label={i18n('icu:close')}
+          className="MediaEditor__close"
+          onClick={onTryClose}
           type="button"
         />
-        <button
-          aria-label={i18n('icu:MediaEditor__control--redo')}
-          className="MediaEditor__control MediaEditor__control--redo"
-          disabled={!canRedo}
-          onClick={() => {
-            if (editMode === EditMode.Crop) {
-              setEditMode(undefined);
-            }
-            redoIfPossible();
-          }}
-          type="button"
-        />
-      </div>
-      <button
-        aria-label={i18n('icu:close')}
-        className="MediaEditor__close"
-        onClick={onTryClose}
-        type="button"
-      />
-      <div className="MediaEditor__container">
-        <SizeObserver
-          onSizeChange={size => {
-            if (size.hidden) {
-              return;
-            }
-            setContainerWidth(size.width);
-            setContainerHeight(size.height);
-          }}
-        >
-          {ref => (
-            <div className="MediaEditor__media" ref={ref}>
-              {image && (
-                <div>
-                  <canvas
-                    className={classNames('MediaEditor__media--canvas', {
-                      'MediaEditor__media--canvas--cropping':
-                        editMode === EditMode.Crop,
-                    })}
-                    id={canvasId}
-                  />
-                </div>
-              )}
-            </div>
-          )}
-        </SizeObserver>
-      </div>
-      <div className="MediaEditor__tools">
-        {toolElement !== undefined ? (
-          toolElement
-        ) : (
-          <>
-            <div className="MediaEditor__tools-row-1">
-              <button
-                aria-label={i18n('icu:MediaEditor__control--draw')}
-                className={classNames({
-                  MediaEditor__control: true,
-                  'MediaEditor__control--pen': true,
-                  'MediaEditor__control--selected': editMode === EditMode.Draw,
-                })}
-                onClick={() => {
-                  setEditMode(
-                    editMode === EditMode.Draw ? undefined : EditMode.Draw
-                  );
-                }}
-                type="button"
-              />
-              <button
-                aria-label={i18n('icu:MediaEditor__control--text')}
-                className={classNames({
-                  MediaEditor__control: true,
-                  'MediaEditor__control--text': true,
-                  'MediaEditor__control--selected': editMode === EditMode.Text,
-                })}
-                onClick={() => {
-                  if (editMode === EditMode.Text) {
-                    setEditMode(undefined);
-                    const obj = fabricCanvas?.getActiveObject();
-                    if (obj instanceof MediaEditorFabricIText) {
-                      obj.exitEditing();
-                    }
-                  } else {
-                    setEditMode(EditMode.Text);
-                  }
-                }}
-                type="button"
-              />
-              <button
-                aria-label={i18n('icu:MediaEditor__control--crop')}
-                className={classNames({
-                  MediaEditor__control: true,
-                  'MediaEditor__control--crop': true,
-                  'MediaEditor__control--selected': editMode === EditMode.Crop,
-                })}
-                onClick={() => {
-                  if (!fabricCanvas) {
-                    return;
-                  }
-                  if (editMode === EditMode.Crop) {
-                    const obj = fabricCanvas.getActiveObject();
-                    if (obj instanceof MediaEditorFabricCropRect) {
-                      fabricCanvas.remove(obj);
-                    }
-                    setEditMode(undefined);
-                  } else {
-                    setEditMode(EditMode.Crop);
-                  }
-                }}
-                type="button"
-              />
-              <FunStickerPicker
-                open={stickerPickerOpen}
-                onOpenChange={handleStickerPickerOpenChange}
-                onSelectSticker={handleSelectSticker}
-                showTimeStickers
-                onSelectTimeSticker={handlePickTimeSticker}
-                placement="top"
-                theme={pickerTheme}
-              >
-                <FunStickerPickerButton i18n={i18n} />
-              </FunStickerPicker>
-            </div>
-            <div className="MediaEditor__tools-row-2">
-              <div
-                className={classNames(
-                  tw('mx-1 flex items-center justify-center'),
-                  localIsViewOnce ? tw('invisible') : null
+        <div className="MediaEditor__container">
+          <SizeObserver
+            onSizeChange={size => {
+              if (size.hidden) {
+                return;
+              }
+              setContainerWidth(size.width);
+              setContainerHeight(size.height);
+            }}
+          >
+            {ref => (
+              <div className="MediaEditor__media" ref={ref}>
+                {image && (
+                  <div>
+                    <canvas
+                      className={classNames('MediaEditor__media--canvas', {
+                        'MediaEditor__media--canvas--cropping':
+                          editMode === EditMode.Crop,
+                      })}
+                      id={canvasId}
+                    />
+                  </div>
                 )}
-              >
-                <FunEmojiPicker
-                  open={emojiPickerOpen}
-                  onOpenChange={handleEmojiPickerOpenChange}
-                  onSelectEmoji={handleSelectEmoji}
+              </div>
+            )}
+          </SizeObserver>
+        </div>
+        <div className="MediaEditor__tools">
+          {toolElement !== undefined ? (
+            toolElement
+          ) : (
+            <>
+              <div className="MediaEditor__tools-row-1">
+                <button
+                  aria-label={i18n('icu:MediaEditor__control--draw')}
+                  className={classNames({
+                    MediaEditor__control: true,
+                    'MediaEditor__control--pen': true,
+                    'MediaEditor__control--selected':
+                      editMode === EditMode.Draw,
+                  })}
+                  onClick={() => {
+                    setEditMode(
+                      editMode === EditMode.Draw ? undefined : EditMode.Draw
+                    );
+                  }}
+                  type="button"
+                />
+                <button
+                  aria-label={i18n('icu:MediaEditor__control--text')}
+                  className={classNames({
+                    MediaEditor__control: true,
+                    'MediaEditor__control--text': true,
+                    'MediaEditor__control--selected':
+                      editMode === EditMode.Text,
+                  })}
+                  onClick={() => {
+                    if (editMode === EditMode.Text) {
+                      setEditMode(undefined);
+                      const obj = fabricCanvas?.getActiveObject();
+                      if (obj instanceof MediaEditorFabricIText) {
+                        obj.exitEditing();
+                      }
+                    } else {
+                      setEditMode(EditMode.Text);
+                    }
+                  }}
+                  type="button"
+                />
+                <button
+                  aria-label={i18n('icu:MediaEditor__control--crop')}
+                  className={classNames({
+                    MediaEditor__control: true,
+                    'MediaEditor__control--crop': true,
+                    'MediaEditor__control--selected':
+                      editMode === EditMode.Crop,
+                  })}
+                  onClick={() => {
+                    if (!fabricCanvas) {
+                      return;
+                    }
+                    if (editMode === EditMode.Crop) {
+                      const obj = fabricCanvas.getActiveObject();
+                      if (obj instanceof MediaEditorFabricCropRect) {
+                        fabricCanvas.remove(obj);
+                      }
+                      setEditMode(undefined);
+                    } else {
+                      setEditMode(EditMode.Crop);
+                    }
+                  }}
+                  type="button"
+                />
+                <FunStickerPicker
+                  open={stickerPickerOpen}
+                  onOpenChange={handleStickerPickerOpenChange}
+                  onSelectSticker={handleSelectSticker}
+                  showTimeStickers
+                  onSelectTimeSticker={handlePickTimeSticker}
                   placement="top"
                   theme={pickerTheme}
-                  closeOnSelect={false}
                 >
-                  <FunEmojiPickerButton i18n={i18n} />
-                </FunEmojiPicker>
+                  <FunStickerPickerButton i18n={i18n} />
+                </FunStickerPicker>
               </div>
-              {showMediaQualitySelector && (
-                <div className={tw('mx-1 flex items-center justify-center')}>
-                  <MediaQualitySelector
-                    conversationId=""
-                    i18n={i18n}
-                    isHighQuality={localIsHighQuality}
-                    onSelectQuality={handleSelectQuality}
+              <div className="MediaEditor__tools-row-2">
+                <div
+                  className={classNames(
+                    tw('mx-1 flex items-center justify-center'),
+                    localIsViewOnce ? tw('invisible') : null
+                  )}
+                >
+                  <FunEmojiPicker
+                    open={emojiPickerOpen}
+                    onOpenChange={handleEmojiPickerOpenChange}
+                    onSelectEmoji={handleSelectEmoji}
+                    placement="top"
                     theme={pickerTheme}
+                    closeOnSelect={false}
+                  >
+                    <FunEmojiPickerButton i18n={i18n} />
+                  </FunEmojiPicker>
+                </div>
+                {showMediaQualitySelector && (
+                  <div className={tw('mx-1 flex items-center justify-center')}>
+                    <MediaQualitySelector
+                      conversationId=""
+                      i18n={i18n}
+                      isHighQuality={localIsHighQuality}
+                      onSelectQuality={handleSelectQuality}
+                      theme={pickerTheme}
+                    />
+                  </div>
+                )}
+                <div className="MediaEditor__tools--input">
+                  <CompositionInput
+                    draftText={caption}
+                    draftBodyRanges={hydratedBodyRanges ?? null}
+                    getPreferredBadge={getPreferredBadge}
+                    i18n={i18n}
+                    inputApi={inputApiRef}
+                    isActive
+                    isFormattingEnabled={isFormattingEnabled}
+                    moduleClassName="StoryViewsNRepliesModal__input"
+                    onCloseLinkPreview={noop}
+                    onEditorStateChange={({ bodyRanges, messageText }) => {
+                      setCaptionBodyRanges(bodyRanges);
+                      setCaption(messageText);
+                    }}
+                    emojiSkinToneDefault={emojiSkinToneDefault ?? null}
+                    onSelectEmoji={onSelectEmoji}
+                    onSubmit={noop}
+                    onTextTooLong={onTextTooLong}
+                    ourConversationId={ourConversationId}
+                    placeholder={i18n('icu:MediaEditor__input-placeholder')}
+                    platform={platform}
+                    quotedMessageId={null}
+                    sendCounter={0}
+                    sortedGroupMembers={sortedGroupMembers}
+                    theme={pickerTheme}
+                    // Only needed for state updates and we need to override those
+                    conversationId={null}
+                    // Cannot enter media editor while editing
+                    draftEditMessage={null}
+                    // We don't use the large editor mode
+                    large={null}
+                    // panels do not appear over the media editor
+                    shouldHidePopovers={null}
+                    // link previews not displayed with media
+                    linkPreviewResult={null}
+                    showViewOnceButton={showViewOnceToggle}
+                    isViewOnceActive={localIsViewOnce}
+                    onToggleViewOnce={() => {
+                      const newValue = !localIsViewOnce;
+                      setLocalIsViewOnce(newValue);
+                      if (newValue) {
+                        setEmojiPickerOpen(false);
+                      }
+                    }}
                   />
                 </div>
-              )}
-              <div className="MediaEditor__tools--input">
-                <CompositionInput
-                  draftText={caption}
-                  draftBodyRanges={hydratedBodyRanges ?? null}
-                  getPreferredBadge={getPreferredBadge}
-                  i18n={i18n}
-                  inputApi={inputApiRef}
-                  isActive
-                  isFormattingEnabled={isFormattingEnabled}
-                  moduleClassName="StoryViewsNRepliesModal__input"
-                  onCloseLinkPreview={noop}
-                  onEditorStateChange={({ bodyRanges, messageText }) => {
-                    setCaptionBodyRanges(bodyRanges);
-                    setCaption(messageText);
-                  }}
-                  emojiSkinToneDefault={emojiSkinToneDefault ?? null}
-                  onSelectEmoji={onSelectEmoji}
-                  onSubmit={noop}
-                  onTextTooLong={onTextTooLong}
-                  ourConversationId={ourConversationId}
-                  placeholder={i18n('icu:MediaEditor__input-placeholder')}
-                  platform={platform}
-                  quotedMessageId={null}
-                  sendCounter={0}
-                  sortedGroupMembers={sortedGroupMembers}
-                  theme={pickerTheme}
-                  // Only needed for state updates and we need to override those
-                  conversationId={null}
-                  // Cannot enter media editor while editing
-                  draftEditMessage={null}
-                  // We don't use the large editor mode
-                  large={null}
-                  // panels do not appear over the media editor
-                  shouldHidePopovers={null}
-                  // link previews not displayed with media
-                  linkPreviewResult={null}
-                  showViewOnceButton={showViewOnceToggle}
-                  isViewOnceActive={localIsViewOnce}
-                  onToggleViewOnce={() => {
-                    const newValue = !localIsViewOnce;
-                    setLocalIsViewOnce(newValue);
-                    if (newValue) {
-                      setEmojiPickerOpen(false);
+                <AxoButton.Root
+                  variant="primary"
+                  size="md"
+                  disabled={!image}
+                  pending={isSaving || isSending}
+                  onClick={async () => {
+                    if (!fabricCanvas) {
+                      return;
                     }
-                  }}
-                />
-              </div>
-              <AxoButton.Root
-                variant="primary"
-                size="md"
-                disabled={!image}
-                pending={isSaving || isSending}
-                onClick={async () => {
-                  if (!fabricCanvas) {
-                    return;
-                  }
 
-                  setEditMode(undefined);
-                  setIsSaving(true);
+                    setEditMode(undefined);
+                    setIsSaving(true);
 
-                  let data: Uint8Array<ArrayBuffer>;
-                  let blurHash: string;
-                  try {
-                    const renderFabricCanvas =
-                      await cloneFabricCanvas(fabricCanvas);
+                    let data: Uint8Array<ArrayBuffer>;
+                    let blurHash: string;
+                    try {
+                      const renderFabricCanvas =
+                        await cloneFabricCanvas(fabricCanvas);
 
-                    renderFabricCanvas.remove(
-                      ...renderFabricCanvas
-                        .getObjects()
-                        .filter(obj => obj.excludeFromExport)
-                    );
-
-                    let finalImageState: ImageStateType;
-                    const pendingCrop = getPendingCrop(fabricCanvas);
-                    if (pendingCrop) {
-                      finalImageState = getNewImageStateFromCrop(
-                        imageState,
-                        pendingCrop
+                      renderFabricCanvas.remove(
+                        ...renderFabricCanvas
+                          .getObjects()
+                          .filter(obj => obj.excludeFromExport)
                       );
-                      moveFabricObjectsForCrop(renderFabricCanvas, pendingCrop);
-                      drawFabricBackgroundImage({
-                        fabricCanvas: renderFabricCanvas,
-                        image,
-                        imageState: finalImageState,
+
+                      let finalImageState: ImageStateType;
+                      const pendingCrop = getPendingCrop(fabricCanvas);
+                      if (pendingCrop) {
+                        finalImageState = getNewImageStateFromCrop(
+                          imageState,
+                          pendingCrop
+                        );
+                        moveFabricObjectsForCrop(
+                          renderFabricCanvas,
+                          pendingCrop
+                        );
+                        drawFabricBackgroundImage({
+                          fabricCanvas: renderFabricCanvas,
+                          image,
+                          imageState: finalImageState,
+                        });
+                      } else {
+                        finalImageState = imageState;
+                      }
+
+                      renderFabricCanvas.setDimensions({
+                        width: finalImageState.width,
+                        height: finalImageState.height,
                       });
-                    } else {
-                      finalImageState = imageState;
+                      renderFabricCanvas.setZoom(1);
+                      const renderedCanvas =
+                        renderFabricCanvas.toCanvasElement();
+
+                      data = await canvasToBytes(renderedCanvas);
+
+                      const blob = new Blob([data], {
+                        type: IMAGE_PNG,
+                      });
+
+                      blurHash = await imageToBlurHash(blob);
+                    } catch (err) {
+                      onTryClose();
+                      throw err;
+                    } finally {
+                      setIsSaving(false);
                     }
 
-                    renderFabricCanvas.setDimensions({
-                      width: finalImageState.width,
-                      height: finalImageState.height,
+                    onDone({
+                      contentType: IMAGE_PNG,
+                      data,
+                      caption: caption !== '' ? caption : undefined,
+                      captionBodyRanges: captionBodyRanges ?? undefined,
+                      blurHash,
+                      isViewOnce: localIsViewOnce,
+                      isHighQuality: localIsHighQuality,
                     });
-                    renderFabricCanvas.setZoom(1);
-                    const renderedCanvas = renderFabricCanvas.toCanvasElement();
-
-                    data = await canvasToBytes(renderedCanvas);
-
-                    const blob = new Blob([data], {
-                      type: IMAGE_PNG,
-                    });
-
-                    blurHash = await imageToBlurHash(blob);
-                  } catch (err) {
-                    onTryClose();
-                    throw err;
-                  } finally {
-                    setIsSaving(false);
-                  }
-
-                  onDone({
-                    contentType: IMAGE_PNG,
-                    data,
-                    caption: caption !== '' ? caption : undefined,
-                    captionBodyRanges: captionBodyRanges ?? undefined,
-                    blurHash,
-                    isViewOnce: localIsViewOnce,
-                    isHighQuality: localIsHighQuality,
-                  });
-                }}
-              >
-                {doneButtonLabel || i18n('icu:save')}
-              </AxoButton.Root>
-            </div>
-          </>
-        )}
+                  }}
+                >
+                  {doneButtonLabel || i18n('icu:save')}
+                </AxoButton.Root>
+              </div>
+            </>
+          )}
+        </div>
+        {confirmDiscardModal}
       </div>
-      {confirmDiscardModal}
-    </div>,
+    </AxoTheme.Override>,
     portal
   );
 }

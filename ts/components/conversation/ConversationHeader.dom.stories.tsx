@@ -14,7 +14,10 @@ import {
 import { getRandomColor } from '../../test-helpers/getRandomColor.std.ts';
 import { DurationInSeconds } from '../../util/durations/index.std.ts';
 import { StorybookThemeContext } from '../../../.storybook/StorybookThemeContext.std.ts';
-import type { PropsType } from './ConversationHeader.dom.tsx';
+import {
+  CannotLeaveGroupBecauseYouAreLastAdminAlert,
+  type PropsType,
+} from './ConversationHeader.dom.tsx';
 import {
   ConversationHeader,
   OutgoingCallButtonStyle,
@@ -597,4 +600,13 @@ export function WithMinPlayerAndPinnedMessagesBar(): JSX.Element {
   const theme = useContext(StorybookThemeContext);
 
   return <ConversationHeader {...props} theme={theme} />;
+}
+
+export function LastAdminAlert(): JSX.Element {
+  return (
+    <CannotLeaveGroupBecauseYouAreLastAdminAlert
+      i18n={i18n}
+      onClose={action('onClose')}
+    />
+  );
 }

@@ -3,10 +3,8 @@
 
 import { useCallback, useEffect, useMemo, useState, type JSX } from 'react';
 import lodash from 'lodash';
-
 import { SearchInput } from './SearchInput.dom.tsx';
 import { filterAndSortConversations } from '../util/filterAndSortConversations.std.ts';
-
 import type { ConversationType } from '../state/ducks/conversations.preload.ts';
 import type { ConversationWithStoriesType } from '../state/selectors/conversations.dom.ts';
 import type { LocalizerType } from '../types/Util.std.ts';
@@ -24,12 +22,10 @@ import {
 import type { StoryDistributionListWithMembersDataType } from '../types/Stories.std.ts';
 import type { StoryDistributionIdString } from '../types/StoryDistributionId.std.ts';
 import type { ServiceIdString } from '../types/ServiceId.std.ts';
-import { Alert } from './Alert.dom.tsx';
 import { Avatar, AvatarSize } from './Avatar.dom.tsx';
 import { Button, ButtonSize, ButtonVariant } from './Button.dom.tsx';
 import { Checkbox } from './Checkbox.dom.tsx';
 import { ContextMenu } from './ContextMenu.dom.tsx';
-
 import {
   MY_STORY_ID,
   getStoryDistributionListName,
@@ -982,14 +978,17 @@ export function SendStoryModal({
           {modal}
         </PagedModal>
       )}
-      {hasAnnouncementsOnlyAlert && (
-        <Alert
-          body={i18n('icu:SendStoryModal__announcements-only')}
-          i18n={i18n}
-          onClose={() => setHasAnnouncementsOnlyAlert(false)}
-          theme={theme === ThemeType.dark ? Theme.Dark : Theme.Light}
-        />
-      )}
+
+      <AxoConfirmDialog.Root
+        open={hasAnnouncementsOnlyAlert}
+        onOpenChange={setHasAnnouncementsOnlyAlert}
+        // @ts-expect-error ConfirmationDialog migration: Needs title
+        title={null}
+        description={i18n('icu:SendStoryModal__announcements-only')}
+      >
+        <AxoConfirmDialog.Cancel>{i18n('icu:ok')}</AxoConfirmDialog.Cancel>
+      </AxoConfirmDialog.Root>
+
       <AxoConfirmDialog.Root
         open={confirmRemoveGroupId != null}
         onOpenChange={() => setConfirmRemoveGroupId(undefined)}

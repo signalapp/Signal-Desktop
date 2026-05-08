@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReactNode } from 'react';
-
 import { LeftPaneHelper } from './LeftPaneHelper.dom.tsx';
 import type { Row } from '../ConversationList.dom.tsx';
 import { RowType } from '../ConversationList.dom.tsx';
@@ -10,7 +9,6 @@ import type { ContactListItemConversationType } from '../conversationList/Contac
 import { DisappearingTimerSelect } from '../DisappearingTimerSelect.dom.tsx';
 import type { LocalizerType } from '../../types/Util.std.ts';
 import type { DurationInSeconds } from '../../util/durations/index.std.ts';
-import { Alert } from '../Alert.dom.tsx';
 import { AvatarEditor } from '../AvatarEditor.dom.tsx';
 import { AvatarPreview } from '../AvatarPreview.dom.tsx';
 import { Spinner } from '../Spinner.dom.tsx';
@@ -24,6 +22,7 @@ import type {
   SaveAvatarToDiskActionType,
 } from '../../types/Avatar.std.ts';
 import { AvatarColors } from '../../types/Colors.std.ts';
+import { AxoConfirmDialog } from '../../axo/AxoConfirmDialog.dom.tsx';
 
 export type LeftPaneSetGroupMetadataPropsType = {
   groupAvatar: undefined | Uint8Array<ArrayBuffer>;
@@ -204,13 +203,15 @@ export class LeftPaneSetGroupMetadataHelper extends LeftPaneHelper<LeftPaneSetGr
           />
         </section>
 
-        {this.#hasError && (
-          <Alert
-            body={i18n('icu:setGroupMetadata__error-message')}
-            i18n={i18n}
-            onClose={clearGroupCreationError}
-          />
-        )}
+        <AxoConfirmDialog.Root
+          open={this.#hasError}
+          onOpenChange={clearGroupCreationError}
+          // @ts-expect-error ConfirmationDialog migration: Needs title
+          title={null}
+          description={i18n('icu:setGroupMetadata__error-message')}
+        >
+          <AxoConfirmDialog.Cancel>{i18n('icu:ok')}</AxoConfirmDialog.Cancel>
+        </AxoConfirmDialog.Root>
       </form>
     );
   }

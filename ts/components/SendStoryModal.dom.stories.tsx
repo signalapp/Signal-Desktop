@@ -130,3 +130,17 @@ export function FirstTimeAlreadyConfiguredOnMobile(
     />
   );
 }
+
+export function AnnouncementsOnly(args: PropsType): JSX.Element {
+  return (
+    <SendStoryModal
+      {...args}
+      distributionLists={[]}
+      groupStories={[]}
+      candidateConversations={[]}
+      groupConversations={[
+        getDefaultGroup({ announcementsOnly: true, areWeAdmin: false }),
+      ]}
+    />
+  );
+}

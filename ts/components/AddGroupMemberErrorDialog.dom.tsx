@@ -1,62 +1,49 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ReactNode, JSX } from 'react';
-
+import type { JSX } from 'react';
 import type { LocalizerType } from '../types/Util.std.ts';
-import { Alert } from './Alert.dom.tsx';
-import { missingCaseError } from '../util/missingCaseError.std.ts';
+import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
 
-export enum AddGroupMemberErrorDialogMode {
-  MaximumGroupSize,
-  RecommendedMaximumGroupSize,
-}
-
-type PropsDataType =
-  | {
-      mode: AddGroupMemberErrorDialogMode.MaximumGroupSize;
-      maximumNumberOfContacts: number;
-    }
-  | {
-      mode: AddGroupMemberErrorDialogMode.RecommendedMaximumGroupSize;
-      recommendedMaximumNumberOfContacts: number;
-    };
-
-export type PropsType = {
+export function AddGroupMemberMaximumGroupSizeErrorDialog(props: {
   i18n: LocalizerType;
   onClose: () => void;
-} & PropsDataType;
+  maximumNumberOfContacts: number;
+}): JSX.Element {
+  const { i18n } = props;
+  return (
+    <AxoConfirmDialog.Root
+      open
+      onOpenChange={props.onClose}
+      title={i18n('icu:chooseGroupMembers__maximum-group-size__title')}
+      description={i18n('icu:chooseGroupMembers__maximum-group-size__body', {
+        max: props.maximumNumberOfContacts,
+      })}
+    >
+      <AxoConfirmDialog.Cancel>{i18n('icu:ok')}</AxoConfirmDialog.Cancel>
+    </AxoConfirmDialog.Root>
+  );
+}
 
-export function AddGroupMemberErrorDialog(props: PropsType): JSX.Element {
-  const { i18n, onClose } = props;
-
-  let title: string;
-  let body: ReactNode;
-  switch (props.mode) {
-    case AddGroupMemberErrorDialogMode.MaximumGroupSize: {
-      const { maximumNumberOfContacts } = props;
-      title = i18n('icu:chooseGroupMembers__maximum-group-size__title');
-      body = i18n('icu:chooseGroupMembers__maximum-group-size__body', {
-        max: maximumNumberOfContacts,
-      });
-      break;
-    }
-    case AddGroupMemberErrorDialogMode.RecommendedMaximumGroupSize: {
-      const { recommendedMaximumNumberOfContacts } = props;
-      title = i18n(
+export function AddGroupMemberRecommendedMaximumGroupSizeErrorDialog(props: {
+  i18n: LocalizerType;
+  onClose: () => void;
+  recommendedMaximumNumberOfContacts: number;
+}): JSX.Element {
+  const { i18n } = props;
+  return (
+    <AxoConfirmDialog.Root
+      open
+      onOpenChange={props.onClose}
+      title={i18n(
         'icu:chooseGroupMembers__maximum-recommended-group-size__title'
-      );
-      body = i18n(
+      )}
+      description={i18n(
         'icu:chooseGroupMembers__maximum-recommended-group-size__body',
-        {
-          max: recommendedMaximumNumberOfContacts,
-        }
-      );
-      break;
-    }
-    default:
-      throw missingCaseError(props);
-  }
-
-  return <Alert body={body} i18n={i18n} onClose={onClose} title={title} />;
+        { max: props.recommendedMaximumNumberOfContacts }
+      )}
+    >
+      <AxoConfirmDialog.Cancel>{i18n('icu:ok')}</AxoConfirmDialog.Cancel>
+    </AxoConfirmDialog.Root>
+  );
 }

@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReactNode, ChangeEvent } from 'react';
-
 import { LeftPaneHelper } from './LeftPaneHelper.dom.tsx';
 import type { Row } from '../ConversationList.dom.tsx';
 import { RowType } from '../ConversationList.dom.tsx';
@@ -12,8 +11,8 @@ import { ContactPills } from '../ContactPills.dom.tsx';
 import { ContactPill } from '../ContactPill.dom.tsx';
 import { SearchInput } from '../SearchInput.dom.tsx';
 import {
-  AddGroupMemberErrorDialog,
-  AddGroupMemberErrorDialogMode,
+  AddGroupMemberMaximumGroupSizeErrorDialog,
+  AddGroupMemberRecommendedMaximumGroupSizeErrorDialog,
 } from '../AddGroupMemberErrorDialog.dom.tsx';
 import { Button } from '../Button.dom.tsx';
 import type { LocalizerType } from '../../types/Util.std.ts';
@@ -189,19 +188,17 @@ export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<LeftPaneCho
     let modalNode: undefined | ReactNode;
     if (this.#isShowingMaximumGroupSizeModal) {
       modalNode = (
-        <AddGroupMemberErrorDialog
+        <AddGroupMemberMaximumGroupSizeErrorDialog
           i18n={i18n}
           maximumNumberOfContacts={this.#groupSizeHardLimit}
-          mode={AddGroupMemberErrorDialogMode.MaximumGroupSize}
           onClose={closeMaximumGroupSizeModal}
         />
       );
     } else if (this.#isShowingRecommendedGroupSizeModal) {
       modalNode = (
-        <AddGroupMemberErrorDialog
+        <AddGroupMemberRecommendedMaximumGroupSizeErrorDialog
           i18n={i18n}
           recommendedMaximumNumberOfContacts={this.#groupSizeRecommendedLimit}
-          mode={AddGroupMemberErrorDialogMode.RecommendedMaximumGroupSize}
           onClose={closeRecommendedGroupSizeModal}
         />
       );

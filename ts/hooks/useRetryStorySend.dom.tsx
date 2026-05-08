@@ -2,11 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { useState, useEffect, type JSX } from 'react';
-
 import type { LocalizerType } from '../types/Util.std.ts';
-import { Alert } from '../components/Alert.dom.tsx';
 import { ResolvedSendStatus } from '../types/Stories.std.ts';
 import { usePrevious } from './usePrevious.std.ts';
+import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
 
 export function useRetryStorySend(
   i18n: LocalizerType,
@@ -39,13 +38,17 @@ export function useRetryStorySend(
   }, [previousSendStatus, sendStatus, wasManuallyRetried]);
 
   function renderAlert(): JSX.Element | null {
-    return hasSendFailedAlert ? (
-      <Alert
-        body={i18n('icu:Stories__failed-send')}
-        i18n={i18n}
-        onClose={() => setHasSendFailedAlert(false)}
-      />
-    ) : null;
+    return (
+      <AxoConfirmDialog.Root
+        open={hasSendFailedAlert}
+        onOpenChange={() => setHasSendFailedAlert(false)}
+        // @ts-expect-error ConfirmationDialog migration: Needs title
+        title={null}
+        description={i18n('icu:Stories__failed-send')}
+      >
+        <AxoConfirmDialog.Cancel>{i18n('icu:ok')}</AxoConfirmDialog.Cancel>
+      </AxoConfirmDialog.Root>
+    );
   }
 
   return { renderAlert, setWasManuallyRetried, wasManuallyRetried };
