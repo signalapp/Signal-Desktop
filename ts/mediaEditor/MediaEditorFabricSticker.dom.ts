@@ -14,6 +14,7 @@ export class MediaEditorFabricSticker extends fabric.Image {
     let normalizedElement: undefined | HTMLImageElement | HTMLVideoElement;
     if (typeof element === 'string') {
       normalizedElement = new Image();
+      normalizedElement.crossOrigin = 'anonymous';
       normalizedElement.src = element;
     } else {
       normalizedElement = element;
