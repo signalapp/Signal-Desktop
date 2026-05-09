@@ -5,6 +5,7 @@ import type { ThunkAction } from 'redux-thunk';
 import lodash from 'lodash';
 import { type PhoneNumber } from 'google-libphonenumber';
 
+import { tmpdir } from 'os';
 import { clipboard, ipcRenderer } from 'electron';
 import type { ReadonlyDeep, SetOptional } from 'type-fest';
 import { DataReader, DataWriter } from '../../sql/Client.preload.ts';
