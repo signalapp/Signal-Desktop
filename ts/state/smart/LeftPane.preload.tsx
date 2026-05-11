@@ -104,7 +104,7 @@ import { SmartCaptchaDialog } from './CaptchaDialog.preload.tsx';
 import { SmartCrashReportDialog } from './CrashReportDialog.preload.tsx';
 import { SmartMessageSearchResult } from './MessageSearchResult.preload.tsx';
 import { SmartNetworkStatus } from './NetworkStatus.preload.tsx';
-import { SmartRelinkDialog } from './RelinkDialog.dom.tsx';
+import { SmartRelinkDialog } from './RelinkDialog.preload.tsx';
 import {
   renderToastManagerWithoutMegaphone,
   SmartToastManager,

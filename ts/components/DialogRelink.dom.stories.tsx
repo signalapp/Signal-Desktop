@@ -16,6 +16,7 @@ const defaultProps = {
   containerWidthBreakpoint: WidthBreakpoint.Wide,
   i18n,
   relinkDevice: action('relink-device'),
+  renderClearingDataView: action('render-clearing-data-view'),
   reregister: action('reregister'),
   weArePrimaryDevice: false,
 };
