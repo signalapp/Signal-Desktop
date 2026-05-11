@@ -425,6 +425,7 @@ export class Bootstrap {
             return;
           }
           await relinkButton.click();
+          await window.getByRole('button', { name: "Don't transfer" }).click();
         } catch {
           // Ignore, provision will fail if QR code was never generated
         }

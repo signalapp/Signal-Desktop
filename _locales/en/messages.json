@@ -11022,6 +11022,50 @@
     "messageformat": "Slide",
     "description": "aria-label for a slide within a carousel UI layout"
   },
+  "icu:MaybeTransferModal__title": {
+    "messageformat": "Transfer your phone’s message history to this desktop?",
+    "description": "Title for dialog shown when user is unlinked and clicks to relink"
+  },
+  "icu:MaybeTransferModal__description": {
+    "messageformat": "When you re-link this desktop, you can transfer your phone’s message history to this device.",
+    "description": "Description for dialog shown when user is unlinked and clicks to relink"
+  },
+  "icu:MaybeTransferModal__learnMore": {
+    "messageformat": "Learn more",
+    "description": "Text for link to a support article about relinking a linked device"
+  },
+  "icu:MaybeTransferModal__replaceHistory": {
+    "messageformat": "This will <bold>replace</bold> the message history on this desktop.",
+    "description": "Bullet point in relink dialog for what will happen if you link & sync"
+  },
+  "icu:MaybeTransferModal__scanQrCode": {
+    "messageformat": "You’ll need to relink by scanning a QR code.",
+    "description": "Bullet point in relink dialog for what will happen if you link & sync"
+  },
+  "icu:MaybeTransferModal__media": {
+    "messageformat": "If you have paid Signal Secure Backups, all of your media will be transferred. Otherwise, your last 45 days of media will be included.",
+    "description": "Bullet point in relink dialog for what will happen if you link & sync"
+  },
+  "icu:MaybeTransferModal__transfer": {
+    "messageformat": "Transfer",
+    "description": "Button text when user wants to transfer data from their phone"
+  },
+  "icu:MaybeTransferModal__dontTransfer": {
+    "messageformat": "Don't transfer",
+    "description": "Button text when user does not want to transfer data from their phone"
+  },
+  "icu:DeleteDataAndRelinkConfirmationDialog__title": {
+    "messageformat": "Delete all data?",
+    "description": "Title in confirmation dialog shown when user is unlinked and chose to delete data and relink"
+  },
+  "icu:DeleteDataAndRelinkConfirmationDialog__pending": {
+    "messageformat": "Deleting all data",
+    "description": "Accessiblity label for button when data is in progress of being deleted"
+  },
+  "icu:DeleteDataAndRelinkConfirmationDialog__body": {
+    "messageformat": "All current data in Signal Desktop will be deleted. You can then scan a QR code and transfer your message history from your phone.",
+    "description": "Description in confirmation dialog shown when user is unlinked and chose to delete data and relink"
+  },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "This version contains a number of small tweaks and bug fixes to keep Signal running smoothly.",
     "description": "Release notes for releases that only include bug fixes",
