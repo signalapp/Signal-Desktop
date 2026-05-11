@@ -73,8 +73,8 @@ importers:
         specifier: 2.0.16
         version: 2.0.16
       '@signalapp/libsignal-client':
-        specifier: 0.93.2
-        version: 0.93.2
+        specifier: 0.94.0
+        version: 0.94.0
       '@signalapp/mute-state-change':
         specifier: workspace:1.0.0
         version: link:packages/mute-state-change
@@ -4118,8 +4118,8 @@ packages:
   '@signalapp/libsignal-client@0.92.2':
     resolution: {integrity: sha512-mSYKpw32Rtmm+D1y8NKzNA9wkiuU60gXRGuum6NTGRN9C3NI4R1cb6xE9w7q+6rjR4zAb4qZWb9QUG5QcLr7pg==}
 
-  '@signalapp/libsignal-client@0.93.2':
-    resolution: {integrity: sha512-wDDNQqOcVcoHutdgEWgih80QYU+nP+aIdjMsK0dKrl9H2N2qZPoHgqBQTh78QEoIPteq2idrcZakdqTvil3VFw==}
+  '@signalapp/libsignal-client@0.94.0':
+    resolution: {integrity: sha512-yunLwp/gYwn/6Nd1c7zThsPFvQUoONdkWMd1tJIUI5+RYFUAtuBnU6JI5BmHDAlsaTFXxSEnhAo6/4Qywbcd7Q==}
 
   '@signalapp/minimask@1.0.1':
     resolution: {integrity: sha512-QAwo0joA60urTNbW9RIz6vLKQjy+jdVtH7cvY0wD9PVooD46MAjE40MLssp4xUJrph91n2XvtJ3pbEUDrmT2AA==}
@@ -14015,7 +14015,7 @@ snapshots:
       node-gyp-build: 4.8.4
       type-fest: 4.26.1
 
-  '@signalapp/libsignal-client@0.93.2':
+  '@signalapp/libsignal-client@0.94.0':
     dependencies:
       node-gyp-build: 4.8.4
       type-fest: 4.26.1

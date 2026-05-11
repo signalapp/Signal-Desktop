@@ -82,6 +82,10 @@ const log = createLogger('SignalProtocolStore');
 const TIMESTAMP_THRESHOLD = 5 * 1000; // 5 seconds
 const LOW_KEYS_THRESHOLD = 25;
 
+// Probability that a non-SPQR session should be archived to force a PQ rekey
+// on next send. 0 keeps all sessions usable; raise to ramp up PQ enforcement.
+const ARCHIVE_NON_SPQR_SESSION_PROBABILITY = 0;
+
 const VerifiedStatus = {
   DEFAULT: 0,
   VERIFIED: 1,
@@ -1554,7 +1558,9 @@ export class SignalProtocolStore extends EventEmitter {
           entries.map(async entry => {
             if (entry.hydrated) {
               const record = entry.item;
-              if (record.hasCurrentState()) {
+              if (
+                record.hasCurrentState(ARCHIVE_NON_SPQR_SESSION_PROBABILITY)
+              ) {
                 return { record, entry };
               }
 
@@ -1562,7 +1568,7 @@ export class SignalProtocolStore extends EventEmitter {
             }
 
             const record = hydrateSession(entry.fromDB);
-            if (record.hasCurrentState()) {
+            if (record.hasCurrentState(ARCHIVE_NON_SPQR_SESSION_PROBABILITY)) {
               return { record, entry };
             }
 
@@ -1709,7 +1715,7 @@ export class SignalProtocolStore extends EventEmitter {
       async () => {
         const item = entry.hydrated ? entry.item : hydrateSession(entry.fromDB);
 
-        if (!item.hasCurrentState()) {
+        if (!item.hasCurrentState(ARCHIVE_NON_SPQR_SESSION_PROBABILITY)) {
           return;
         }
 
