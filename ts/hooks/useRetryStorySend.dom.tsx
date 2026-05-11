@@ -11,6 +11,7 @@ export function useRetryStorySend(
   i18n: LocalizerType,
   sendStatus: ResolvedSendStatus | undefined
 ): {
+  hasAlert: boolean;
   renderAlert: () => JSX.Element | null;
   setWasManuallyRetried: (value: boolean) => unknown;
   wasManuallyRetried: boolean;
@@ -51,5 +52,10 @@ export function useRetryStorySend(
     );
   }
 
-  return { renderAlert, setWasManuallyRetried, wasManuallyRetried };
+  return {
+    hasAlert: hasSendFailedAlert,
+    renderAlert,
+    setWasManuallyRetried,
+    wasManuallyRetried,
+  };
 }

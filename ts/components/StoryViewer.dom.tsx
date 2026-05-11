@@ -201,7 +201,7 @@ export function StoryViewer({
   const conversationId = group?.id || story.sender.id;
 
   const sendStatus = sendState ? resolveStorySendStatus(sendState) : undefined;
-  const { renderAlert, setWasManuallyRetried, wasManuallyRetried } =
+  const { hasAlert, renderAlert, setWasManuallyRetried, wasManuallyRetried } =
     useRetryStorySend(i18n, sendStatus);
 
   const [currentViewTarget, setCurrentViewTarget] = useState(
@@ -323,7 +323,7 @@ export function StoryViewer({
 
   const shouldPauseViewing =
     storyDuration == null ||
-    Boolean(alertElement) ||
+    hasAlert ||
     Boolean(confirmDeleteStory) ||
     currentViewTarget != null ||
     hasActiveCall ||
