@@ -119,7 +119,7 @@
     "@indutny/simple-windows-notifications": "2.0.16",
     "@signalapp/libsignal-client": "0.93.2",
     "@signalapp/mute-state-change": "workspace:1.0.0",
-    "@signalapp/ringrtc": "2.68.1",
+    "@signalapp/ringrtc": "2.69.0",
     "@signalapp/sqlcipher": "3.2.1",
     "@signalapp/windows-ucv": "1.0.1",
     "google-libphonenumber": "3.2.44"

@@ -79,8 +79,8 @@ importers:
         specifier: workspace:1.0.0
         version: link:packages/mute-state-change
       '@signalapp/ringrtc':
-        specifier: 2.68.1
-        version: 2.68.1
+        specifier: 2.69.0
+        version: 2.69.0
       '@signalapp/sqlcipher':
         specifier: 3.2.1
         version: 3.2.1
@@ -4134,8 +4134,8 @@ packages:
     resolution: {integrity: sha512-y2sgqdivlrG41J4Zvt/82xtH/PZjDlgItqlD2g/Cv3ZbjlR6cGhTNXbfNygCJB8nXj+C7I28pjt1Zm3k0pv2mg==}
     engines: {npm: '>=8.2.3'}
 
-  '@signalapp/ringrtc@2.68.1':
-    resolution: {integrity: sha512-S7fHuU9klQixZklNaRaWHNnBveckgPZRMSFlX0qfGMwWBLZYcfRpZTzwg481h2+9MBBfvB/p0jBukcjoq+gSaw==}
+  '@signalapp/ringrtc@2.69.0':
+    resolution: {integrity: sha512-yugpBTyFvmeV9//DdCIj1c1pc23GdLsRR0jHsfaDKVyDKvaa1JQ7aa2xjUZjSZNwqQK+X2y6EcUSErr0Hba4Ww==}
     hasBin: true
 
   '@signalapp/sqlcipher@3.2.1':
@@ -14053,7 +14053,7 @@ snapshots:
       lodash: 4.17.23
       quill-delta: 5.1.0
 
-  '@signalapp/ringrtc@2.68.1':
+  '@signalapp/ringrtc@2.69.0':
     dependencies:
       https-proxy-agent: 7.0.6
       tar: 7.5.2
