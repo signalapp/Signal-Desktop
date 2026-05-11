@@ -18,7 +18,7 @@ export default {
 const PEAKS = new Array<PeakType>();
 for (let i = 0; i < 200; i += 1) {
   PEAKS.push({
-    value: ((i / 50) % 1) * 0.5,
+    value: (i / 50) % 1,
     index: i,
   });
 }
@@ -62,5 +62,20 @@ export function Default(): JSX.Element {
         />
       )}
     </>
+  );
+}
+
+export function Visible(): JSX.Element {
+  return (
+    <CompositionRecording
+      i18n={i18n}
+      onCancel={action('cancel')}
+      onSend={action('send')}
+      errorRecording={_ => action('error')()}
+      saveDraftRecordingIfNeeded={action('saveDraftRecordingIfNeeded')}
+      showToast={action('showToast')}
+      hideToast={action('hideToast')}
+      peaks={PEAKS}
+    />
   );
 }
