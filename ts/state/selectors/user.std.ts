@@ -89,6 +89,7 @@ export const getVersion = createSelector(
   (state: UserStateType) => state.version
 );
 
+/** @testexport */
 export const getIsNightly = createSelector(getVersion, isNightly);
 
 export const getIsMainWindowMaximized = createSelector(

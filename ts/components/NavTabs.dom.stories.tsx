@@ -2,38 +2,29 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { JSX } from 'react';
-
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import type { NavTabsProps } from './NavTabs.dom.tsx';
 import { NavTabs } from './NavTabs.dom.tsx';
 import { NavTab } from '../types/Nav.std.ts';
-import { getDefaultConversation } from '../test-helpers/getDefaultConversation.std.ts';
-import { ThemeType } from '../types/Util.std.ts';
 
 const { i18n } = window.SignalContext;
 
 const createProps = (
   overrideProps: Partial<NavTabsProps> = {}
 ): NavTabsProps => ({
-  badge: overrideProps.badge,
   hasFailedStorySends: Boolean(overrideProps.hasFailedStorySends),
   hasPendingUpdate: Boolean(overrideProps.hasPendingUpdate),
   i18n,
-  me: getDefaultConversation(),
   navTabsCollapsed: Boolean(overrideProps.navTabsCollapsed),
   onChangeLocation: action('onChangeLocation'),
-  onDismissProfileMovedModal: action('onDismissProfileMovedModal'),
   onToggleNavTabsCollapse: action('onToggleNavTabsCollapse'),
-  profileMovedModalNeeded: false,
   renderCallsTab: () => <div>Calls Tab goes here</div>,
   renderChatsTab: () => <div>Chats Tab goes here</div>,
   renderStoriesTab: () => <div>Stories Tab goes here</div>,
   renderSettingsTab: () => <div>Settings Tab goes here</div>,
   selectedNavTab: overrideProps.selectedNavTab ?? NavTab.Chats,
-  shouldShowProfileIcon: Boolean(overrideProps.shouldShowProfileIcon),
   storiesEnabled: Boolean(overrideProps.storiesEnabled),
-  theme: overrideProps.theme ?? ThemeType.light,
   unreadCallsCount: overrideProps.unreadCallsCount ?? 0,
   unreadConversationsStats: overrideProps.unreadConversationsStats ?? {
     unreadCount: 0,

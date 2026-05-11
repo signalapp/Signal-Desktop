@@ -113,7 +113,7 @@ import { formatFileSize } from '../../util/formatFileSize.std.ts';
 import { assertDev, strictAssert } from '../../util/assert.std.ts';
 import { AttachmentStatusIcon } from './AttachmentStatusIcon.dom.tsx';
 import { TapToViewNotAvailableType } from '../TapToViewNotAvailableModal.dom.tsx';
-import type { DataPropsType as TapToViewNotAvailablePropsType } from '../TapToViewNotAvailableModal.dom.tsx';
+import type { TapToViewNotAvailableModalData } from '../TapToViewNotAvailableModal.dom.tsx';
 import { FileThumbnail } from '../FileThumbnail.dom.tsx';
 import { FunStaticEmoji } from '../fun/FunEmoji.dom.tsx';
 import { useGroupedAndOrderedReactions } from '../../util/groupAndOrderReactions.std.ts';
@@ -395,7 +395,7 @@ export type PropsActions = {
   showExpiredOutgoingTapToViewToast: () => unknown;
   showMediaNoLongerAvailableToast: () => unknown;
   showTapToViewNotAvailableModal: (
-    props: TapToViewNotAvailablePropsType
+    props: TapToViewNotAvailableModalData
   ) => void;
   viewStory: ViewStoryActionCreatorType;
 

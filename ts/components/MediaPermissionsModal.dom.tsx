@@ -2,12 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { useCallback, type JSX } from 'react';
-
-import { Modal } from './Modal.dom.tsx';
 import { tw } from '../axo/tw.dom.tsx';
 import type { LocalizerType } from '../types/Util.std.ts';
 import { missingCaseError } from '../util/missingCaseError.std.ts';
-import { Button } from './Button.dom.tsx';
+import { AxoAlertDialog } from '../axo/AxoAlertDialog.dom.tsx';
 
 export type PropsType = {
   i18n: LocalizerType;
@@ -53,37 +51,37 @@ export function MediaPermissionsModal({
   );
 
   return (
-    <Modal
-      modalName="MediaPermissionsModal"
-      hasXButton
-      i18n={i18n}
-      onClose={onClose}
-      moduleClassName="MediaPermissionsModal"
-    >
-      <div className="MediaPermissionsModal__body">
-        <h1>{title}</h1>
-        <p className="MediaPermissionsModal__subtitle">{subtitle}</p>
-        <ol className={tw('list-decimal')}>
-          <li>
-            {i18n('icu:MediaPermissionsModal__step-1', {
-              buttonName: i18n('icu:MediaPermissionsModal__open'),
-            })}
-          </li>
-          <li>
-            <img
-              className={tw('me-1 inline-block')}
-              alt=""
-              src="images/macos-switch.svg"
-              width={30}
-              height={20}
-            />
-            {i18n('icu:MediaPermissionsModal__step-2')}
-          </li>
-        </ol>
-        <Button onClick={onClick}>
-          {i18n('icu:MediaPermissionsModal__open')}
-        </Button>
-      </div>
-    </Modal>
+    <AxoAlertDialog.Root open onOpenChange={onClose}>
+      <AxoAlertDialog.Content escape="cancel-is-noop">
+        <AxoAlertDialog.Body>
+          <AxoAlertDialog.Title>{title}</AxoAlertDialog.Title>
+          <AxoAlertDialog.Description>
+            <p className={tw('mb-2')}>{subtitle}</p>
+            <ol className={tw('flex list-inside list-decimal flex-col gap-1')}>
+              <li>
+                {i18n('icu:MediaPermissionsModal__step-1', {
+                  buttonName: i18n('icu:MediaPermissionsModal__open'),
+                })}
+              </li>
+              <li>
+                <img
+                  className={tw('me-1 inline-block')}
+                  alt=""
+                  src="images/macos-switch.svg"
+                  width={30}
+                  height={20}
+                />
+                {i18n('icu:MediaPermissionsModal__step-2')}
+              </li>
+            </ol>
+          </AxoAlertDialog.Description>
+        </AxoAlertDialog.Body>
+        <AxoAlertDialog.Footer>
+          <AxoAlertDialog.Action variant="primary" onClick={onClick}>
+            {i18n('icu:MediaPermissionsModal__open')}
+          </AxoAlertDialog.Action>
+        </AxoAlertDialog.Footer>
+      </AxoAlertDialog.Content>
+    </AxoAlertDialog.Root>
   );
 }

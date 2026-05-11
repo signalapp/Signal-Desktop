@@ -1003,13 +1003,6 @@ async function startApp(): Promise<void> {
         await itemStorage.remove('backupMediaDownloadIdle');
       }
 
-      if (
-        window.isBeforeVersion(lastVersion, 'v7.57.0') &&
-        itemStorage.get('needProfileMovedModal') === undefined
-      ) {
-        await itemStorage.put('needProfileMovedModal', true);
-      }
-
       if (window.isBeforeVersion(lastVersion, 'v7.75.0-beta.1')) {
         const hasAllChatsChatFolder = await DataReader.hasAllChatsChatFolder();
         if (!hasAllChatsChatFolder) {

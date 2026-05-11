@@ -117,6 +117,7 @@ export async function joinViaLink(value: string): Promise<void> {
       });
     } else if (error instanceof HTTPError && error.code === 423) {
       window.reduxActions.globalModals.showErrorModal({
+        title: i18n('icu:ErrorModal--title'),
         description: i18n('icu:GroupV2--join--group-terminated'),
       });
     } else {

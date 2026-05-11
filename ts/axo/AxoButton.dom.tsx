@@ -263,6 +263,10 @@ export namespace AxoButton {
      */
     disabled?: boolean | null;
     /**
+     * When `true`, takes initial focus when rendered.
+     */
+    autoFocus?: boolean | null;
+    /**
      * Called when the button is clicked.
      * Not called when `pending` or `disabled`.
      */
@@ -310,6 +314,7 @@ export namespace AxoButton {
       pressed,
       expanded,
       controls,
+      autoFocus,
       onClick,
       children,
       ...rest
@@ -338,6 +343,7 @@ export namespace AxoButton {
         aria-expanded={expanded ?? undefined}
         aria-pressed={pressed ?? undefined}
         aria-controls={controls ?? undefined}
+        autoFocus={autoFocus ?? undefined}
         onClick={handleClick}
         className={tw(
           VariantStyles.get(variant),

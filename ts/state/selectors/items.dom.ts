@@ -32,12 +32,6 @@ export const getAreWeASubscriber = createSelector(
     Boolean(areWeASubscriber)
 );
 
-export const getProfileMovedModalNeeded = createSelector(
-  getItems,
-  ({ needProfileMovedModal }: Readonly<ItemsStateType>): boolean =>
-    Boolean(needProfileMovedModal)
-);
-
 export const getPinnedConversationIds = createSelector(
   getItems,
   (state: ItemsStateType): Array<string> =>

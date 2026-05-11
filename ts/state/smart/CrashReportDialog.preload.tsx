@@ -16,8 +16,8 @@ export const SmartCrashReportDialog = memo(function SmartCrashReportDialog() {
     <CrashReportDialog
       i18n={i18n}
       isPending={isPending}
-      writeCrashReportsToLog={writeCrashReportsToLog}
-      eraseCrashReports={eraseCrashReports}
+      onSend={writeCrashReportsToLog}
+      onErase={eraseCrashReports}
     />
   );
 });

@@ -318,7 +318,9 @@ describe('attachment backfill', function (this: Mocha.Suite) {
     await startDownload.click();
 
     debug('waiting for modal');
-    const modal = page.getByTestId('BackfillFailureModal');
+    const modal = page.getByRole('alertdialog', {
+      name: 'Can’t download media',
+    });
     await modal.waitFor();
     await modal.locator('text=/internet connection/').waitFor();
   });
@@ -400,7 +402,9 @@ describe('attachment backfill', function (this: Mocha.Suite) {
     );
 
     debug('waiting for modal');
-    const modal = page.getByTestId('BackfillFailureModal');
+    const modal = page.getByRole('alertdialog', {
+      name: 'Can’t download media',
+    });
     await modal.waitFor();
     await modal.locator('text=/no longer available/').waitFor();
   });

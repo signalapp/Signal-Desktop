@@ -1,57 +1,35 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-
 import type { JSX } from 'react';
-
 import type { LocalizerType } from '../types/Util.std.ts';
-import { Modal } from './Modal.dom.tsx';
-import { Button, ButtonVariant } from './Button.dom.tsx';
+import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
 
-export type PropsType = {
+export type PropsType = Readonly<{
   description?: string;
   i18n: LocalizerType;
   onClose: () => void;
   onSubmitDebugLog: () => void;
-};
-
-function focusRef(el: HTMLElement | null) {
-  if (el) {
-    el.focus();
-  }
-}
+}>;
 
 export function DebugLogErrorModal(props: PropsType): JSX.Element {
-  const { description, i18n, onClose, onSubmitDebugLog } = props;
-
-  const footer = (
-    <>
-      <Button onClick={onClose} variant={ButtonVariant.Secondary}>
+  const { i18n } = props;
+  return (
+    <AxoConfirmDialog.Root
+      open
+      onOpenChange={props.onClose}
+      title={i18n('icu:DebugLogErrorModal__UnexpectedError')}
+      description={props.description || i18n('icu:ErrorModal--description')}
+    >
+      <AxoConfirmDialog.Cancel>
         {i18n('icu:DebugLogErrorModal__SubmitDebugLog__Cancel')}
-      </Button>
-      <Button
-        onClick={() => {
-          onSubmitDebugLog();
-          onClose();
-        }}
-        ref={focusRef}
-        variant={ButtonVariant.Primary}
+      </AxoConfirmDialog.Cancel>
+      <AxoConfirmDialog.Action
+        autoFocus
+        variant="primary"
+        onClick={props.onSubmitDebugLog}
       >
         {i18n('icu:DebugLogErrorModal__SubmitDebugLog')}
-      </Button>
-    </>
-  );
-
-  return (
-    <Modal
-      modalName="DebugLogErrorModal"
-      i18n={i18n}
-      onClose={onClose}
-      title={i18n('icu:DebugLogErrorModal__UnexpectedError')}
-      modalFooter={footer}
-    >
-      <div className="module-error-modal__description">
-        {description || i18n('icu:ErrorModal--description')}
-      </div>
-    </Modal>
+      </AxoConfirmDialog.Action>
+    </AxoConfirmDialog.Root>
   );
 }

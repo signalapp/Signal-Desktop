@@ -43,7 +43,7 @@ import { addAttachmentToMessage } from '../../messageModifiers/AttachmentDownloa
 import { SignalService as Proto } from '../../protobuf/index.std.ts';
 import * as RemoteConfig from '../../RemoteConfig.dom.ts';
 import { isTestOrMockEnvironment } from '../../environment.std.ts';
-import { BackfillFailureKind } from '../../components/BackfillFailureModal.dom.tsx';
+import { BackfillFailureModalKind } from '../../components/BackfillFailureModal.dom.tsx';
 
 const log = createLogger('attachmentBackfill');
 
@@ -156,9 +156,9 @@ export class AttachmentBackfill {
       }
 
       if (response.error === ErrorEnum.MESSAGE_NOT_FOUND) {
-        window.reduxActions.globalModals.showBackfillFailureModal({
-          kind: BackfillFailureKind.NotFound,
-        });
+        window.reduxActions.globalModals.showBackfillFailureModal(
+          BackfillFailureModalKind.NotFound
+        );
       } else {
         throw missingCaseError(response.error);
       }
@@ -458,9 +458,9 @@ export class AttachmentBackfill {
       );
     }
 
-    window.reduxActions.globalModals.showBackfillFailureModal({
-      kind: BackfillFailureKind.Timeout,
-    });
+    window.reduxActions.globalModals.showBackfillFailureModal(
+      BackfillFailureModalKind.Timeout
+    );
   }
 }
 

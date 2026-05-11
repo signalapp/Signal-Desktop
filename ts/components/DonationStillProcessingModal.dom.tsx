@@ -2,33 +2,24 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { JSX } from 'react';
-
 import type { LocalizerType } from '../types/Util.std.ts';
-import { Modal } from './Modal.dom.tsx';
-import { Button } from './Button.dom.tsx';
+import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
 
-export type PropsType = {
+export type PropsType = Readonly<{
   i18n: LocalizerType;
-  onClose: () => unknown;
-};
+  onClose: () => void;
+}>;
 
 export function DonationStillProcessingModal(props: PropsType): JSX.Element {
-  const { i18n, onClose } = props;
-
+  const { i18n } = props;
   return (
-    <Modal
-      hasXButton
-      i18n={i18n}
-      modalFooter={
-        <Button onClick={onClose}>{i18n('icu:Confirmation--confirm')}</Button>
-      }
-      modalName="DonationStillProcessingModal"
-      moduleClassName="DonationStillProcessingModal"
-      noMouseClose
-      onClose={onClose}
+    <AxoConfirmDialog.Root
+      open
+      onOpenChange={props.onClose}
       title={i18n('icu:Donations__StillProcessing')}
+      description={i18n('icu:Donations__StillProcessing__Description')}
     >
-      {i18n('icu:Donations__StillProcessing__Description')}
-    </Modal>
+      <AxoConfirmDialog.Cancel>{i18n('icu:ok')}</AxoConfirmDialog.Cancel>
+    </AxoConfirmDialog.Root>
   );
 }

@@ -186,7 +186,25 @@ export namespace AxoAlertDialog {
    * --------------------------------------------------------------------------
    */
 
+  const footerWrapDetectorStyles = tw(
+    // When actions are not being wrapped:
+    // Try to keep all actions equal size, but don't truncate them.
+    'container-not-scrollable:*:basis-0',
+    'container-not-scrollable:*:min-w-fit',
+    // When actions are being wrapped:
+    // Make all of them full width
+    'container-scrollable:*:w-full'
+  );
+
+  // oxlint-disable-next-line better-tailwindcss/no-restricted-classes
+  const footerWrapForcedBreakStyles = tw('*:w-full');
+
   export type FooterProps = Readonly<{
+    /**
+     * Force actions to always break onto separate lines, even if they fit onto
+     * one line.
+     */
+    forceAlwaysBreakToSeparateLines?: boolean | null;
     /**
      * Should be a `Cancel` and one or more `Action` elements.
      */
@@ -197,24 +215,24 @@ export namespace AxoAlertDialog {
    * A row of buttons at the bottom of the dialog.
    */
   export const Footer: FC<FooterProps> = memo(props => {
-    return (
-      <FlexWrapDetector>
-        <div
-          className={tw(
-            'flex flex-wrap-reverse gap-2 px-6 py-4',
-            // When actions are not being wrapped:
-            // Try to keep all actions equal size, but don't truncate them.
-            'container-not-scrollable:*:basis-0',
-            'container-not-scrollable:*:min-w-fit',
-            // When actions are being wrapped:
-            // Make all of them full width
-            'container-scrollable:*:w-full'
-          )}
-        >
-          {props.children}
-        </div>
-      </FlexWrapDetector>
+    const children = (
+      <div
+        className={tw(
+          'flex flex-wrap-reverse gap-2 px-6 py-4',
+          props.forceAlwaysBreakToSeparateLines
+            ? footerWrapForcedBreakStyles
+            : footerWrapDetectorStyles
+        )}
+      >
+        {props.children}
+      </div>
     );
+
+    if (props.forceAlwaysBreakToSeparateLines) {
+      return children;
+    }
+
+    return <FlexWrapDetector>{children}</FlexWrapDetector>;
   });
 
   Footer.displayName = 'AxoAlertDialog.Footer';
@@ -271,10 +289,10 @@ export namespace AxoAlertDialog {
    */
   export const Description: FC<DescriptionProps> = memo(props => {
     return (
-      <AlertDialog.Description
-        className={tw('text-center type-body-large text-label-secondary')}
-      >
-        {props.children}
+      <AlertDialog.Description asChild>
+        <div className={tw('text-center type-body-large text-label-secondary')}>
+          {props.children}
+        </div>
       </AlertDialog.Description>
     );
   });
@@ -355,6 +373,14 @@ export namespace AxoAlertDialog {
      */
     disabled?: boolean;
     /**
+     * When `true`, shows a loading spinner and prevents interaction.
+     */
+    pending?: boolean;
+    /**
+     * When `true`, takes initial focus when rendered.
+     */
+    autoFocus?: boolean;
+    /**
      * The button label.
      */
     children: ReactNode;
@@ -375,6 +401,8 @@ export namespace AxoAlertDialog {
           width="grow"
           onClick={props.onClick}
           disabled={props.disabled}
+          pending={props.pending}
+          autoFocus={props.autoFocus}
         >
           {props.children}
         </AxoButton.Root>

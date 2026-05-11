@@ -7,6 +7,7 @@ import type { RenderTextCallbackType } from '../types/Util.std.ts';
 import { AddNewLines } from './conversation/AddNewLines.dom.tsx';
 import { Emojify } from './conversation/Emojify.dom.tsx';
 import { Linkify } from './conversation/Linkify.dom.tsx';
+import { tw } from '../axo/tw.dom.tsx';
 
 type PropsType = {
   text: string;
@@ -22,8 +23,10 @@ const renderNonNewLine: RenderTextCallbackType = ({ key, text }) => (
 
 export function GroupDescriptionText({ text }: PropsType): JSX.Element {
   return (
-    <div className="GroupDescriptionText">
+    <span
+      className={tw('select-text [&_a]:text-label-primary [&_a]:underline')}
+    >
       <AddNewLines text={text} renderNonNewLine={renderNonNewLine} />
-    </div>
+    </span>
   );
 }

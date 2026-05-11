@@ -1,18 +1,15 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ReactNode, JSX } from 'react';
-
+import type { JSX, ReactElement } from 'react';
 import type { LocalizerType } from '../../../../types/Util.std.ts';
 import { assertDev } from '../../../../util/assert.std.ts';
-import { ModalHost } from '../../../ModalHost.dom.tsx';
-import { Button, ButtonVariant } from '../../../Button.dom.tsx';
-import { Spinner } from '../../../Spinner.dom.tsx';
 import type { ConversationType } from '../../../../state/ducks/conversations.preload.ts';
 import { RequestState } from '../util.std.ts';
 import { I18n } from '../../../I18n.dom.tsx';
 import { ContactName } from '../../ContactName.dom.tsx';
 import { UserText } from '../../../UserText.dom.tsx';
+import { AxoConfirmDialog } from '../../../../axo/AxoConfirmDialog.dom.tsx';
 
 export type StatePropsType = {
   groupTitle: string;
@@ -41,9 +38,9 @@ export function ConfirmAdditionsModal({
 
   const groupTitleNode: JSX.Element = <UserText text={groupTitle} />;
 
-  let headerText: ReactNode;
+  let title: ReactElement;
   if (selectedContacts.length === 1) {
-    headerText = (
+    title = (
       <I18n
         i18n={i18n}
         id="icu:AddGroupMembersModal--confirm-title--one"
@@ -54,7 +51,7 @@ export function ConfirmAdditionsModal({
       />
     );
   } else {
-    headerText = (
+    title = (
       <I18n
         i18n={i18n}
         id="icu:AddGroupMembersModal--confirm-title--many"
@@ -66,43 +63,31 @@ export function ConfirmAdditionsModal({
     );
   }
 
-  let buttonContents: ReactNode;
-  if (requestState === RequestState.Active) {
-    buttonContents = (
-      <Spinner size="20px" svgSize="small" direction="on-avatar" />
-    );
-  } else if (selectedContacts.length === 1) {
-    buttonContents = i18n('icu:AddGroupMembersModal--confirm-button--one');
+  let description: string;
+  if (requestState === RequestState.InactiveWithError) {
+    description = i18n('icu:updateGroupAttributes__error-message');
   } else {
-    buttonContents = i18n('icu:AddGroupMembersModal--confirm-button--many');
+    // @ts-expect-error ConfirmationDialog migration: Needs description
+    description = null;
   }
 
   return (
-    <ModalHost
-      modalName="AddGroupMemberModal.ConfirmAdditionsModal"
-      onClose={onClose}
+    <AxoConfirmDialog.Root
+      open
+      onOpenChange={onClose}
+      title={title}
+      description={description}
     >
-      <div className="module-AddGroupMembersModal module-AddGroupMembersModal--confirm-adds">
-        <h1 className="module-AddGroupMembersModal__header">{headerText}</h1>
-        {requestState === RequestState.InactiveWithError && (
-          <div className="module-AddGroupMembersModal__error-message">
-            {i18n('icu:updateGroupAttributes__error-message')}
-          </div>
-        )}
-        <div className="module-AddGroupMembersModal__button-container">
-          <Button onClick={onClose} variant={ButtonVariant.Secondary}>
-            {i18n('icu:cancel')}
-          </Button>
-
-          <Button
-            disabled={requestState === RequestState.Active}
-            onClick={makeRequest}
-            variant={ButtonVariant.Primary}
-          >
-            {buttonContents}
-          </Button>
-        </div>
-      </div>
-    </ModalHost>
+      <AxoConfirmDialog.Cancel />
+      <AxoConfirmDialog.Action
+        variant="primary"
+        pending={requestState === RequestState.Active}
+        onClick={makeRequest}
+      >
+        {selectedContacts.length === 1
+          ? i18n('icu:AddGroupMembersModal--confirm-button--one')
+          : i18n('icu:AddGroupMembersModal--confirm-button--many')}
+      </AxoConfirmDialog.Action>
+    </AxoConfirmDialog.Root>
   );
 }
