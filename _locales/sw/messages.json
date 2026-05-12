@@ -1956,25 +1956,25 @@
     "messageformat": "Chaguzi zaidi"
   },
   "icu:CallingParticipantMenu__MuteAudio": {
-    "messageformat": "Mute audio"
+    "messageformat": "Zima sauti"
   },
   "icu:CallingParticipantMenu__UnmuteAudio": {
-    "messageformat": "Unmute audio"
+    "messageformat": "Rejesha sauti"
   },
   "icu:CallingParticipantMenu__ViewProfile": {
-    "messageformat": "View profile"
+    "messageformat": "Angalia wasifu"
   },
   "icu:CallingParticipantMenu__GoToChat": {
-    "messageformat": "Go to chat"
+    "messageformat": "Nenda kwenye gumzo"
   },
   "icu:CallingParticipantMenu__RemoveFromCall": {
-    "messageformat": "Remove from call"
+    "messageformat": "Ondoa kwenye simu"
   },
   "icu:CallingParticipantListItem__ContextMenuButton": {
-    "messageformat": "More actions"
+    "messageformat": "Vitendo zaidi"
   },
   "icu:CallingParticipantListItem__Presenting": {
-    "messageformat": "Presenting"
+    "messageformat": "Anawasilisha"
   },
   "icu:CallingPendingParticipants__ApproveUser": {
     "messageformat": "Idhinisha ombi la kujiunga"
@@ -2205,25 +2205,25 @@
     "messageformat": "Futa data na jumbe zote kutoka kwenye toleo hili la Signal Desktop? Akaunti yako ya Signal na data kwenye simu yako au vifaa vingine vilivyounganishwa havitofutwa."
   },
   "icu:deleteAccountProgress": {
-    "messageformat": "Deleting account and all data…"
+    "messageformat": "Inafuta akaunti na data yote…"
   },
   "icu:deleteAllDataProgress": {
     "messageformat": "Inatenganisha na kufuta data yote…"
   },
   "icu:deleteAccountHeader": {
-    "messageformat": "Delete account"
+    "messageformat": "Futa akaunti"
   },
   "icu:deleteAccountExplanation": {
-    "messageformat": "This will delete your account info, profile, and all of your messages. You will also be removed from all Signal groups."
+    "messageformat": "Mchakato huu utafuta maelezo ya akaunti yako, wasifu na jumbe zako zote. Pia utaondolewa kwenye vikundi vyote vya Signal."
   },
   "icu:deleteAccountButton": {
-    "messageformat": "Delete account"
+    "messageformat": "Futa akaunti"
   },
   "icu:deleteAccountDialogHeader": {
-    "messageformat": "Delete Account?"
+    "messageformat": "Ungependa Kufuta Akaunti?"
   },
   "icu:deleteAccountDialogBody": {
-    "messageformat": "This will delete your account info, profile, and all of your messages. You will also be removed from all Signal groups. The app will close after this process is complete."
+    "messageformat": "Mchakato huu utafuta maelezo ya akaunti yako, wasifu na jumbe zako zote. Pia utaondolewa kwenye vikundi vyote vya Signal. Programu hii itafunga baada ya mchakato huu kukamilika."
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Una data nzee kutokana na usanikishaji wa awali wa Signal Desktop. Ukichagua kuendelea, itafutwa na utaanza kutoka mwanzoni."
@@ -2571,10 +2571,10 @@
     "messageformat": "Havijaunganishwa"
   },
   "icu:unregisteredWarning": {
-    "messageformat": "Click to re-register and continue messaging. Signal Desktop is unregistered likely because you registered your phone number with Signal on a different device."
+    "messageformat": "Bofya ili kusajili upya au kuendelea kutuma ujumbe. Signal Desktop haijasajiliwa labda kwa sababu umesajili namba ya simu yako kwa kutumia Signal kwenye kifaa tofauti."
   },
   "icu:unregistered": {
-    "messageformat": "No longer registered"
+    "messageformat": "Haijasajiliwa tena"
   },
   "icu:autoUpdateNewVersionTitle": {
     "messageformat": "Sasisho jipya la Signal linapatikana"
@@ -3366,40 +3366,40 @@
     "messageformat": "Vidokezo vya Usalama"
   },
   "icu:SafetyTipsModal__Title-v2": {
-    "messageformat": "Safety tips"
+    "messageformat": "Vidokezo vya Usalama"
   },
   "icu:SafetyTipsModal__TipTitle--SignalChat": {
-    "messageformat": "Don’t respond to chats from Signal"
+    "messageformat": "Usijibu magumzo kutoka Signal"
   },
   "icu:SafetyTipsModal__TipDescription--SignalChat": {
-    "messageformat": "Signal will never message you for your registration code, PIN, or recovery key. Never respond to a chat pretending to be Signal."
+    "messageformat": "Signal haiwezi kukutumia ujumbe ikiomba code yako ya usajili, Nenosiri au ufunguo wa kurejesha akaunti. Usijibu gumzo linaloiga kuwa Signal."
   },
   "icu:SafetyTipsModal__TipTitle--NamesAndPhotos": {
-    "messageformat": "Review names and photos"
+    "messageformat": "Kagua majina na picha"
   },
   "icu:SafetyTipsModal__TipDescription--NamesAndPhotos": {
-    "messageformat": "Look out for the “Name not verified” notice. Everyone sets their own profile name in Signal."
+    "messageformat": "Tafuta ilani ya \"Jina halijathibitishwa\". Kila mtu huweka jina lake la wasifu katika Signal."
   },
   "icu:SafetyTipsModal__TipTitle--Scams": {
-    "messageformat": "Look out for scams"
+    "messageformat": "Kuwa makini na ulaghai"
   },
   "icu:SafetyTipsModal__TipDescription--Scams": {
-    "messageformat": "Avoid vague messages that try to get you to reply. Be aware of financial tips and suspicious web links."
+    "messageformat": "Epuka jumbe zisizoeleweka zinazojaribu kukufanya ujibu. Kuwa makini na dondoo za fedha na viungo vya tovuti vinavyotiliwa shaka."
   },
   "icu:SafetyTipsModal__Description": {
     "messageformat": "Kuwa makini unapokubali maombi ya ujumbe kutoka kwa watu usiowafahamu. Kuwa makini na:"
   },
   "icu:SafetyTipsModal__TipTitle--DontRespond": {
-    "messageformat": "Don’t respond to chats from Signal"
+    "messageformat": "Usijibu magumzo kutoka Signal"
   },
   "icu:SafetyTipsModal__TipDescription--DontRespond": {
-    "messageformat": "Signal will never message you for your registration code, PIN, or recover key. Don't reply to chats pretending to be Signal or Signal Support. Bad actors set up fake names to try to take over your account."
+    "messageformat": "Signal haiwezi kukutumia ujumbe ikiomba code yako ya usajili, Nenosiri au ufunguo wa kurejesha akaunti. Usijibu magumzo yanayoiga kuwa Signal au timu ya Usaidizi ya Signal. Waigizaji wahalifu huanzisha mazungumzo ya uwongo ili kujaribu kuchukua udhibiti wa akaunti yako."
   },
   "icu:SafetyTipsModal__TipTitle--ReviewNames": {
-    "messageformat": "Review names and photos"
+    "messageformat": "Kagua majina na picha"
   },
   "icu:SafetyTipsModal__TipDescription--ReviewNames": {
-    "messageformat": "Look out for the “Name not verified” notice. Everyone sets their own profile name and photo in Signal. If you’re unsure who a new request is from it’s safer to ignore it."
+    "messageformat": "Tafuta ilani ya \"Jina halijathibitishwa\". Kila mtu huweka jina la wasifu na picha yake kwenye Signal. Ikiwa hauna uhakika ombi jipya limetoka wapi ni salama zaidi ukilipuuzia."
   },
   "icu:SafetyTipsModal__TipTitle--Fake": {
     "messageformat": "Majina na akaunti bandia"
@@ -3426,13 +3426,13 @@
     "messageformat": "Kuwa makini na jumbe kutoka kwa watu usiowafahamu ambazo zina viungo vya tovuti. Usitembelee viungo kutoka kwa watu usiowaamini."
   },
   "icu:SafetyTipsModal__TipTitle--Links-v2": {
-    "messageformat": "Messages with web links"
+    "messageformat": "Jumbe zenye viungo vya tovuti"
   },
   "icu:SafetyTipsModal__TipTitle--Business": {
     "messageformat": "Taasisi na biashara batili"
   },
   "icu:SafetyTipsModal__TipTitle--Business-v2": {
-    "messageformat": "Fake businesses"
+    "messageformat": "Biashara bandia"
   },
   "icu:SafetyTipsModal__TipDescription--Business": {
     "messageformat": "Kuwa makini na biashara au mawakala wa serikali wanaokutafuta. Ujumbe unaohusisha mawakala wa kodi, matarishi, na zaidi unaweza kuwa wa ulaghai."
@@ -3450,7 +3450,7 @@
     "messageformat": "Imekamilika"
   },
   "icu:SafetyTipsModal__Button--ViewMore": {
-    "messageformat": "View more"
+    "messageformat": "Tazama zaidi"
   },
   "icu:MessageRequests--message-direct": {
     "messageformat": "Ungependa kumruhusu {name} akutumie ujumbe na ushiriki jina na picha yako naye? Hatajua umeona ujumbe wake hadi utakapokubali."
@@ -3555,10 +3555,10 @@
     "messageformat": "Kagua maombi kwa uangalifu. Majina ya wasifu huchaguliwa na mmiliki wa akaunti na huwa hayathibitishwi."
   },
   "icu:MessageRequests--accept-confirm-title-v2": {
-    "messageformat": "Accept request?"
+    "messageformat": "Je, kubali ombi?"
   },
   "icu:MessageRequests--accept-confirm-body-v2": {
-    "messageformat": "Only accept requests from people you trust. <bold>Signal will never</bold> message you for a registration code, PIN, or recovery key."
+    "messageformat": "Kubali tu maombi kutoka kwa watu unaowaamini. <bold>Signal haiwezi</bold> kukutumia ujumbe ikiomba code yako ya usajili, Nenosiri au ufunguo wa kurejesha akaunti."
   },
   "icu:MessageRequests--continue": {
     "messageformat": "Endelea"
@@ -3618,13 +3618,13 @@
     "messageformat": "Akaunti rasmi"
   },
   "icu:ConversationHero--signal-official-chat-title": {
-    "messageformat": "Official chat"
+    "messageformat": "Gumzo rasmi"
   },
   "icu:ConversationHero--signal-official-account--description": {
     "messageformat": "Gumzo rasmi pekee kutoka Signal. Pata taarifa mpya za habari na matoleo."
   },
   "icu:Timeline--signal-official-chat--chip": {
-    "messageformat": "The only official chat from Signal."
+    "messageformat": "Gumzo rasmi pekee kutoka Signal."
   },
   "icu:ConversationHero--release-notes": {
     "messageformat": "Pata taarifa mpya za habari na matoleo."
@@ -4611,7 +4611,7 @@
     "messageformat": "Funga"
   },
   "icu:clear": {
-    "messageformat": "Clear"
+    "messageformat": "Futa"
   },
   "icu:previous": {
     "messageformat": "iliyopita"
@@ -4623,16 +4623,16 @@
     "messageformat": "Huenda hatua hii ikachukua dakika kadhaa"
   },
   "icu:DeletingAccount__LeavingGroups__Title": {
-    "messageformat": "Leaving groups..."
+    "messageformat": "Unaondoka kwenye vikundi..."
   },
   "icu:DeletingAccount__LeavingGroups__Detail": {
-    "messageformat": "Depending on the number of groups you’re in, this might take a few minutes"
+    "messageformat": "Kulingana na idadi ya vikundi ulivyomo, hii inaweza kuchukua dakika chache"
   },
   "icu:DeletingAccount__DeletingData__Title": {
-    "messageformat": "Deleting account and all data..."
+    "messageformat": "Inafuta akaunti na data yote..."
   },
   "icu:DeletingAccount__DeletingData__Detail": {
-    "messageformat": "Deleting user data and resetting the app"
+    "messageformat": "Kufuta data za mtumiaji na kupanga upya programu"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Changia Signal"
@@ -5410,7 +5410,7 @@
     "messageformat": "Tumia kiungo hiki ili kujiunga na simu ya Signal: {url}"
   },
   "icu:MessageRequestWarning__review-carefully": {
-    "messageformat": "Review requests carefully"
+    "messageformat": "Kagua maombi kwa uangalifu"
   },
   "icu:MessageRequestWarning__safety-tips-v2": {
     "messageformat": "Vidokezo vya Usalama"
@@ -6386,22 +6386,22 @@
     "messageformat": "{num, plural, one {Muwasiliani {num,number}} other {Wawasiliani {num,number}}}"
   },
   "icu:Preferences--blocked-count-both-new": {
-    "messageformat": "{num, plural, =0 { No users or groups } one {{num,number} user or group} other {{num,number} users or groups}}"
+    "messageformat": "{num, plural, =0 { Hakuna watumiaji au vikundi } one {Mtumiaji au kikundi {num,number}} other {Watumiaji au vikundi {num,number}}}"
   },
   "icu:Preferences--blocked-count-contacts-new": {
-    "messageformat": "{num, plural, =0 { No users } one {{num,number} user} other {{num,number} users}}"
+    "messageformat": "{num, plural, =0 { Hakuna watumiaji } one {Mtumiaji {num,number}} other {Watumiaji {num,number}}}"
   },
   "icu:Preferences--blocked-count-groups-new": {
-    "messageformat": "{num, plural, =0 { No groups } one {{num,number} group} other {{num,number} groups}}"
+    "messageformat": "{num, plural, =0 { Hakuna vikundi } one {Kikundi {num,number}} other {Vikundi {num,number}}}"
   },
   "icu:Preferences--blocked-users--description": {
-    "messageformat": "Blocked users will not be able to call you or send you messages"
+    "messageformat": "Watumiaji waliozuiliwa hawataweza kukupigia simu au kukutumia ujumbe"
   },
   "icu:Preferences--blocked-users": {
-    "messageformat": "Blocked Users"
+    "messageformat": "Watumiaji waliozuiliwa"
   },
   "icu:Preferences--blocked-groups": {
-    "messageformat": "Blocked Groups"
+    "messageformat": "Vikundi Vilivyozuiliwa"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Hifadhi Nakala ya Signal iliyo Salama"
@@ -6974,7 +6974,7 @@
     "messageformat": "Umekubali ombi la ujumbe"
   },
   "icu:MessageRequestResponseNotification__Message--Accepted-Contact-Title": {
-    "messageformat": "You accepted {userProfileName}'s message request"
+    "messageformat": "Umekubali ombi la ujumbe la {userProfileName}"
   },
   "icu:MessageRequestResponseNotification__Message--Reported": {
     "messageformat": "Imeripotiwa kuwa spam"
@@ -6995,7 +6995,7 @@
     "messageformat": "Chaguzi"
   },
   "icu:MessageRequestResponseNotification__Button--block-or-report": {
-    "messageformat": "Block or Report..."
+    "messageformat": "Zuia au Ripoti..."
   },
   "icu:MessageRequestResponseNotification__Button--LearnMore": {
     "messageformat": "Jifunze Zaidi"
@@ -8259,7 +8259,7 @@
     "messageformat": "Carousel"
   },
   "icu:Carousel__Slide--Role": {
-    "messageformat": "Slide"
+    "messageformat": "Slaidi"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Toleo hili lina mabadiliko kidogo na maboresho ya program kuiwezesha Signal kufanya kazi vizuri.",
@@ -8290,6 +8290,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__8.10--0": {
-    "messageformat": "The freshly spun emoji in Unicode 17.0 have now pirouetted into place in Signal. Send a message reaction with the new Ballet Dancer emoji to perform your own digital version of a pas de chat."
+    "messageformat": "Emoji mpya iliyotengenezwa hivi karibuni kwa kutumia Unicode 17.0 sasa zimewasili rasmi kwenye Signal. Tuma reaction ya ujumbe ukitumia emoji mpya ya Ballet Dancer ili kufanya toleo lako la kidijitali la pas de chat."
   }
 }

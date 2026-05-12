@@ -1956,25 +1956,25 @@
     "messageformat": "Aukera gehiago"
   },
   "icu:CallingParticipantMenu__MuteAudio": {
-    "messageformat": "Mute audio"
+    "messageformat": "Desaktibatu audioa"
   },
   "icu:CallingParticipantMenu__UnmuteAudio": {
-    "messageformat": "Unmute audio"
+    "messageformat": "Aktibatu audioa"
   },
   "icu:CallingParticipantMenu__ViewProfile": {
-    "messageformat": "View profile"
+    "messageformat": "Ikusi profila"
   },
   "icu:CallingParticipantMenu__GoToChat": {
-    "messageformat": "Go to chat"
+    "messageformat": "Joan txatera"
   },
   "icu:CallingParticipantMenu__RemoveFromCall": {
-    "messageformat": "Remove from call"
+    "messageformat": "Kendu deitik"
   },
   "icu:CallingParticipantListItem__ContextMenuButton": {
-    "messageformat": "More actions"
+    "messageformat": "Ekintza gehiago"
   },
   "icu:CallingParticipantListItem__Presenting": {
-    "messageformat": "Presenting"
+    "messageformat": "Aurkezten"
   },
   "icu:CallingPendingParticipants__ApproveUser": {
     "messageformat": "Onartu sartzeko eskaera"
@@ -2205,25 +2205,25 @@
     "messageformat": "Signal-en ordenagailurako bertsio honetako datu eta mezu guztiak ezabatu nahi dituzu? Telefonoan nahiz lotutako beste gailu batzuetan, Signal-eko kontua eta datuak ez dira ezabatuko."
   },
   "icu:deleteAccountProgress": {
-    "messageformat": "Deleting account and all data…"
+    "messageformat": "Kontua eta datu guztiak ezabatzen…"
   },
   "icu:deleteAllDataProgress": {
     "messageformat": "Deskonektatzen eta datu guztiak ezabatzen…"
   },
   "icu:deleteAccountHeader": {
-    "messageformat": "Delete account"
+    "messageformat": "Ezabatu kontua"
   },
   "icu:deleteAccountExplanation": {
-    "messageformat": "This will delete your account info, profile, and all of your messages. You will also be removed from all Signal groups."
+    "messageformat": "Kontuko informazioa, profila eta mezu guztiak ezabatuko dira. Halaber, Signal-eko taldeetatik irtengo zara."
   },
   "icu:deleteAccountButton": {
-    "messageformat": "Delete account"
+    "messageformat": "Ezabatu kontua"
   },
   "icu:deleteAccountDialogHeader": {
-    "messageformat": "Delete Account?"
+    "messageformat": "Kontua ezabatu nahi duzu?"
   },
   "icu:deleteAccountDialogBody": {
-    "messageformat": "This will delete your account info, profile, and all of your messages. You will also be removed from all Signal groups. The app will close after this process is complete."
+    "messageformat": "Kontuko informazioa, profila eta mezu guztiak ezabatuko dira. Halaber, Signal-eko taldeetatik irtengo zara. Prozesua amaitu ondoren, aplikazioa itxi egingo da."
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Ordenagailurako Signal-en aurreko instalazio baten datu zaharkituak dauzkazu. Aurrera jarraituz gero, ezabatu egingo dira, eta zerotik hasi beharko duzu."
@@ -2571,10 +2571,10 @@
     "messageformat": "Lotu gabe"
   },
   "icu:unregisteredWarning": {
-    "messageformat": "Click to re-register and continue messaging. Signal Desktop is unregistered likely because you registered your phone number with Signal on a different device."
+    "messageformat": "Egin klik berriro erregistratzeko eta mezuak bidaltzen jarraitzeko. Ziurrenik Signal-eko telefono-zenbakia beste gailu batekin erregistratu duzulako kendu da erregistrotik Signal Desktop."
   },
   "icu:unregistered": {
-    "messageformat": "No longer registered"
+    "messageformat": "Jada ez dago erregistratuta"
   },
   "icu:autoUpdateNewVersionTitle": {
     "messageformat": "Eguneratze bat dago"
@@ -3366,40 +3366,40 @@
     "messageformat": "Segurtasun-aholkuak"
   },
   "icu:SafetyTipsModal__Title-v2": {
-    "messageformat": "Safety tips"
+    "messageformat": "Segurtasun-aholkuak"
   },
   "icu:SafetyTipsModal__TipTitle--SignalChat": {
-    "messageformat": "Don’t respond to chats from Signal"
+    "messageformat": "Ez erantzun Signal-en txatei"
   },
   "icu:SafetyTipsModal__TipDescription--SignalChat": {
-    "messageformat": "Signal will never message you for your registration code, PIN, or recovery key. Never respond to a chat pretending to be Signal."
+    "messageformat": "Signal ez da inoiz zurekin harremanetan jarriko erregistro-kodea, PINa edo berreskuratzeko PINa eskatzeko. Ez erantzun Signal izatearen plantak egiten dituzten txatei."
   },
   "icu:SafetyTipsModal__TipTitle--NamesAndPhotos": {
-    "messageformat": "Review names and photos"
+    "messageformat": "Berrikusi izenak eta zenbakiak"
   },
   "icu:SafetyTipsModal__TipDescription--NamesAndPhotos": {
-    "messageformat": "Look out for the “Name not verified” notice. Everyone sets their own profile name in Signal."
+    "messageformat": "Bilatu \"Izena ez da egiaztatu\" oharra. Bakoitzak bere profileko izena ezartzen du Signal-en."
   },
   "icu:SafetyTipsModal__TipTitle--Scams": {
-    "messageformat": "Look out for scams"
+    "messageformat": "Erne iruzurrekin"
   },
   "icu:SafetyTipsModal__TipDescription--Scams": {
-    "messageformat": "Avoid vague messages that try to get you to reply. Be aware of financial tips and suspicious web links."
+    "messageformat": "Saihestu erantzun dezazun nahi duten mezu lausoak. Kontuz ibili finantza-aholkuekin eta webguneetarako esteka susmagarriekin."
   },
   "icu:SafetyTipsModal__Description": {
     "messageformat": "Kontuz ibili ezagutzen ez duzun jendearen mezu-eskaerak onartzean. Adi ibili hauekin:"
   },
   "icu:SafetyTipsModal__TipTitle--DontRespond": {
-    "messageformat": "Don’t respond to chats from Signal"
+    "messageformat": "Ez erantzun Signal-en txatei"
   },
   "icu:SafetyTipsModal__TipDescription--DontRespond": {
-    "messageformat": "Signal will never message you for your registration code, PIN, or recover key. Don't reply to chats pretending to be Signal or Signal Support. Bad actors set up fake names to try to take over your account."
+    "messageformat": "Signal ez da inoiz zurekin harremanetan jarriko erregistro-kodea, PINa edo berreskuratzeko gakoa eskatzeko. Ez erantzun Signal edo Signal-en laguntza-zerbitzua izatearen plantak egiten dituzten txatei. Gaizkileek izen faltsuak konfiguratzen dituzte zure kontua lapurtzeko."
   },
   "icu:SafetyTipsModal__TipTitle--ReviewNames": {
-    "messageformat": "Review names and photos"
+    "messageformat": "Berrikusi izenak eta zenbakiak"
   },
   "icu:SafetyTipsModal__TipDescription--ReviewNames": {
-    "messageformat": "Look out for the “Name not verified” notice. Everyone sets their own profile name and photo in Signal. If you’re unsure who a new request is from it’s safer to ignore it."
+    "messageformat": "Bilatu \"Izena ez da egiaztatu\" oharra. Bakoitzak bere profileko izena eta argazkia ezartzen ditu Signal-en. Eskaera nork bidali duen ziur ez badakizu, hobe duzu jaramonik ez egitea."
   },
   "icu:SafetyTipsModal__TipTitle--Fake": {
     "messageformat": "Gezurrezko izenak eta kontuak"
@@ -3426,13 +3426,13 @@
     "messageformat": "Ezagutzen ez dituzun pertsonek webguneetarako estekak dituzten mezuak bidaltzen badizkizute, kontuz. Ez ireki inoiz zure konfiantzakoak ez diren pertsonen estekak."
   },
   "icu:SafetyTipsModal__TipTitle--Links-v2": {
-    "messageformat": "Messages with web links"
+    "messageformat": "Webguneetarako estekak dituzten mezuak"
   },
   "icu:SafetyTipsModal__TipTitle--Business": {
     "messageformat": "Gezurrezko enpresa eta erakundeak"
   },
   "icu:SafetyTipsModal__TipTitle--Business-v2": {
-    "messageformat": "Fake businesses"
+    "messageformat": "Negozio faltsuak"
   },
   "icu:SafetyTipsModal__TipDescription--Business": {
     "messageformat": "Enpresa edo gobernu-erakunderen bat zurekin harremanetan jartzen bada, kontuz. Baliteke zerga-erakunde, banatzaile eta abarrekin lotutako mezuak spama izatea."
@@ -3450,7 +3450,7 @@
     "messageformat": "Eginda"
   },
   "icu:SafetyTipsModal__Button--ViewMore": {
-    "messageformat": "View more"
+    "messageformat": "Ikusi gehiago"
   },
   "icu:MessageRequests--message-direct": {
     "messageformat": "{name} erabiltzaileari baimena eman nahi diozu zuri mezuak bidaltzeko eta zure izena eta argazkia beraiekin partekatzeko. Zuk onartu arte ez dute jakingo beraien mezua ikusi duzunik."
@@ -3555,10 +3555,10 @@
     "messageformat": "Berrikusi eskaerak kontu handiz. Profileko izenak kontuen jabeek aukeratzen dituzte eta ez dira egiaztatzen."
   },
   "icu:MessageRequests--accept-confirm-title-v2": {
-    "messageformat": "Accept request?"
+    "messageformat": "Eskaera onartu nahi duzu?"
   },
   "icu:MessageRequests--accept-confirm-body-v2": {
-    "messageformat": "Only accept requests from people you trust. <bold>Signal will never</bold> message you for a registration code, PIN, or recovery key."
+    "messageformat": "Onartu konfiantzazko pertsonen eskaerak soilik. <bold>Signal ez da inoiz</bold> zurekin harremanetan jarriko erregistro-kodea, PINa edo berreskuratze-gakoa eskatzeko."
   },
   "icu:MessageRequests--continue": {
     "messageformat": "Jarraitu"
@@ -3618,13 +3618,13 @@
     "messageformat": "Kontu ofiziala"
   },
   "icu:ConversationHero--signal-official-chat-title": {
-    "messageformat": "Official chat"
+    "messageformat": "Txat ofiziala"
   },
   "icu:ConversationHero--signal-official-account--description": {
     "messageformat": "Signal-eko txat ofizial bakarra Jaso azken albiste eta kaleratze-oharrak."
   },
   "icu:Timeline--signal-official-chat--chip": {
-    "messageformat": "The only official chat from Signal."
+    "messageformat": "Signal-eko txat ofizial bakarra"
   },
   "icu:ConversationHero--release-notes": {
     "messageformat": "Jaso azken albiste eta kaleratze-oharrak."
@@ -4611,7 +4611,7 @@
     "messageformat": "Itxi"
   },
   "icu:clear": {
-    "messageformat": "Clear"
+    "messageformat": "Garbitu"
   },
   "icu:previous": {
     "messageformat": "aurrekoa"
@@ -4623,16 +4623,16 @@
     "messageformat": "Baliteke minutu batzuk behar izatea"
   },
   "icu:DeletingAccount__LeavingGroups__Title": {
-    "messageformat": "Leaving groups..."
+    "messageformat": "Taldeetatik irteten…"
   },
   "icu:DeletingAccount__LeavingGroups__Detail": {
-    "messageformat": "Depending on the number of groups you’re in, this might take a few minutes"
+    "messageformat": "Kide zaituzten talde kopuruaren arabera, baliteke minutu batzuk behar izatea"
   },
   "icu:DeletingAccount__DeletingData__Title": {
-    "messageformat": "Deleting account and all data..."
+    "messageformat": "Kontua eta datu guztiak ezabatzen…"
   },
   "icu:DeletingAccount__DeletingData__Detail": {
-    "messageformat": "Deleting user data and resetting the app"
+    "messageformat": "Erabiltzailearen datuak ezabatzen eta aplikazioa berrezartzen"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Egin dohaintza Signal-i"
@@ -5410,7 +5410,7 @@
     "messageformat": "Erabili esteka hau Signal-eko dei batean sartzeko: {url}"
   },
   "icu:MessageRequestWarning__review-carefully": {
-    "messageformat": "Review requests carefully"
+    "messageformat": "Berrikusi eskaerak kontu handiz"
   },
   "icu:MessageRequestWarning__safety-tips-v2": {
     "messageformat": "Segurtasun-aholkuak"
@@ -6386,22 +6386,22 @@
     "messageformat": "{num, plural, one {Kontaktu 1} other {{num,number} kontaktu}}"
   },
   "icu:Preferences--blocked-count-both-new": {
-    "messageformat": "{num, plural, =0 { No users or groups } one {{num,number} user or group} other {{num,number} users or groups}}"
+    "messageformat": "{num, plural, =0 { Ez dago erabiltzaile edo talderik } one {{num,number} erabiltzaile edo talde} other {{num,number} erabiltzaile edo talde}}"
   },
   "icu:Preferences--blocked-count-contacts-new": {
-    "messageformat": "{num, plural, =0 { No users } one {{num,number} user} other {{num,number} users}}"
+    "messageformat": "{num, plural, =0 { Ez dago erabiltzailerik } one {{num,number} erabiltzaile} other {{num,number} erabiltzaile}}"
   },
   "icu:Preferences--blocked-count-groups-new": {
-    "messageformat": "{num, plural, =0 { No groups } one {{num,number} group} other {{num,number} groups}}"
+    "messageformat": "{num, plural, =0 { Ez dago talderik } one {{num,number} talde} other {{num,number} talde}}"
   },
   "icu:Preferences--blocked-users--description": {
-    "messageformat": "Blocked users will not be able to call you or send you messages"
+    "messageformat": "Blokeatutako erabiltzaileek ezin izango dizute deitu, ezta mezuak bidali ere"
   },
   "icu:Preferences--blocked-users": {
-    "messageformat": "Blocked Users"
+    "messageformat": "Blokeatutako erabiltzaileak"
   },
   "icu:Preferences--blocked-groups": {
-    "messageformat": "Blocked Groups"
+    "messageformat": "Blokeatutako taldeak"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Signal-en babeskopia seguruak"
@@ -6974,7 +6974,7 @@
     "messageformat": "Onartu duzu mezu-eskaera"
   },
   "icu:MessageRequestResponseNotification__Message--Accepted-Contact-Title": {
-    "messageformat": "You accepted {userProfileName}'s message request"
+    "messageformat": "{userProfileName}(r)en mezu-eskaera onartu duzu"
   },
   "icu:MessageRequestResponseNotification__Message--Reported": {
     "messageformat": "Spama dela salatu da"
@@ -6995,7 +6995,7 @@
     "messageformat": "Aukerak"
   },
   "icu:MessageRequestResponseNotification__Button--block-or-report": {
-    "messageformat": "Block or Report..."
+    "messageformat": "Blokeatu edo salatu…"
   },
   "icu:MessageRequestResponseNotification__Button--LearnMore": {
     "messageformat": "Informazio gehiago"
@@ -8256,10 +8256,10 @@
     "messageformat": "Zabaldu alboko barra megafonoarekin interakzioan jarduteko"
   },
   "icu:Carousel--Role": {
-    "messageformat": "Carousel"
+    "messageformat": "Zerrenda horizontala"
   },
   "icu:Carousel__Slide--Role": {
-    "messageformat": "Slide"
+    "messageformat": "Diapositiba"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Bertsio honek hainbat doikuntza txiki eta akats konpontzen ditu Signal-ek ondo funtzionatzen jarraitzeko.",
@@ -8290,6 +8290,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__8.10--0": {
-    "messageformat": "The freshly spun emoji in Unicode 17.0 have now pirouetted into place in Signal. Send a message reaction with the new Ballet Dancer emoji to perform your own digital version of a pas de chat."
+    "messageformat": "Unicode 17.0 bertsioko emoji berriak erabiltzeko aukera gehitu dugu."
   }
 }

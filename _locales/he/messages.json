@@ -1956,25 +1956,25 @@
     "messageformat": "עוד אפשרויות"
   },
   "icu:CallingParticipantMenu__MuteAudio": {
-    "messageformat": "Mute audio"
+    "messageformat": "השתקת שמע"
   },
   "icu:CallingParticipantMenu__UnmuteAudio": {
-    "messageformat": "Unmute audio"
+    "messageformat": "ביטול השתקה"
   },
   "icu:CallingParticipantMenu__ViewProfile": {
-    "messageformat": "View profile"
+    "messageformat": "הצגת פרופיל"
   },
   "icu:CallingParticipantMenu__GoToChat": {
-    "messageformat": "Go to chat"
+    "messageformat": "מעבר לצ'אט"
   },
   "icu:CallingParticipantMenu__RemoveFromCall": {
-    "messageformat": "Remove from call"
+    "messageformat": "הסרה מהשיחה"
   },
   "icu:CallingParticipantListItem__ContextMenuButton": {
-    "messageformat": "More actions"
+    "messageformat": "פעולות נוספות"
   },
   "icu:CallingParticipantListItem__Presenting": {
-    "messageformat": "Presenting"
+    "messageformat": "מציג/ה"
   },
   "icu:CallingPendingParticipants__ApproveUser": {
     "messageformat": "אישור בקשת הצטרפות"
@@ -2205,25 +2205,25 @@
     "messageformat": "למחוק את כל הנתונים וההודעות מגרסה זו של Signal לשולחן העבודה? חשבון Signal שלך והנתונים בטלפון שלך או במכשירים מקושרים אחרים לא יימחקו."
   },
   "icu:deleteAccountProgress": {
-    "messageformat": "Deleting account and all data…"
+    "messageformat": "מחיקת החשבון וכל הנתונים…"
   },
   "icu:deleteAllDataProgress": {
     "messageformat": "התנתקות ומחיקת כל הנתונים בתהליך…"
   },
   "icu:deleteAccountHeader": {
-    "messageformat": "Delete account"
+    "messageformat": "מחיקת חשבון"
   },
   "icu:deleteAccountExplanation": {
-    "messageformat": "This will delete your account info, profile, and all of your messages. You will also be removed from all Signal groups."
+    "messageformat": "זה ימחק את מידע החשבון שלך, את הפרופיל שלך ואת כל ההודעות שלך. זה גם יסיר אותך מכל קבוצות Signal."
   },
   "icu:deleteAccountButton": {
-    "messageformat": "Delete account"
+    "messageformat": "מחיקת חשבון"
   },
   "icu:deleteAccountDialogHeader": {
-    "messageformat": "Delete Account?"
+    "messageformat": "למחוק את החשבון?"
   },
   "icu:deleteAccountDialogBody": {
-    "messageformat": "This will delete your account info, profile, and all of your messages. You will also be removed from all Signal groups. The app will close after this process is complete."
+    "messageformat": "זה ימחק את מידע החשבון שלך, את הפרופיל שלך ואת כל ההודעות שלך. זה גם יסיר אתך מכל קבוצות Signal. האפליקציה תיסגר לאחר השלמת התהליך."
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "יש לך נתונים מיושנים מהתקנה קודמת של Signal Desktop. אם בא לך להמשיך, הם יימחקו ו–Signal תתחיל מאפס."
@@ -2571,10 +2571,10 @@
     "messageformat": "לא מקושר"
   },
   "icu:unregisteredWarning": {
-    "messageformat": "Click to re-register and continue messaging. Signal Desktop is unregistered likely because you registered your phone number with Signal on a different device."
+    "messageformat": "יש ללחוץ כדי להירשם מחדש ולהמשיך לשלוח הודעות. Signal Desktop כבר לא רשומה, כנראה בגלל שרשמת את מספר הטלפון שלך ב–Signal על מכשיר אחר."
   },
   "icu:unregistered": {
-    "messageformat": "No longer registered"
+    "messageformat": "ההרשמה כבר לא בתוקף"
   },
   "icu:autoUpdateNewVersionTitle": {
     "messageformat": "עדכון זמין"
@@ -3366,40 +3366,40 @@
     "messageformat": "טיפים לבטיחות"
   },
   "icu:SafetyTipsModal__Title-v2": {
-    "messageformat": "Safety tips"
+    "messageformat": "טיפים לבטיחות"
   },
   "icu:SafetyTipsModal__TipTitle--SignalChat": {
-    "messageformat": "Don’t respond to chats from Signal"
+    "messageformat": "אין להשיב לצ׳אטים מ–Signal"
   },
   "icu:SafetyTipsModal__TipDescription--SignalChat": {
-    "messageformat": "Signal will never message you for your registration code, PIN, or recovery key. Never respond to a chat pretending to be Signal."
+    "messageformat": "Signal לעולם לא תשלח לך הודעה כדי לבקש את קוד הרישום, ה–PIN, או מפתח השחזור שלך. אף פעם אין להשיב לצ׳אט ממישהו שמתחזה ל–Signal."
   },
   "icu:SafetyTipsModal__TipTitle--NamesAndPhotos": {
-    "messageformat": "Review names and photos"
+    "messageformat": "יש לבדוק שמות ותמונות"
   },
   "icu:SafetyTipsModal__TipDescription--NamesAndPhotos": {
-    "messageformat": "Look out for the “Name not verified” notice. Everyone sets their own profile name in Signal."
+    "messageformat": "יש לשים לב להתראת ״שם לא אומת״. כולם ב–Signal מגדירים את שם הפרופיל של עצמם."
   },
   "icu:SafetyTipsModal__TipTitle--Scams": {
-    "messageformat": "Look out for scams"
+    "messageformat": "יש להיזהר מהונאות"
   },
   "icu:SafetyTipsModal__TipDescription--Scams": {
-    "messageformat": "Avoid vague messages that try to get you to reply. Be aware of financial tips and suspicious web links."
+    "messageformat": "חשוב להימנע מהודעות עמומות שמנסות לגרום לך להשיב. יש לגלות מודעות לטיפים בנושא פיננסים וללינקים חשודים."
   },
   "icu:SafetyTipsModal__Description": {
     "messageformat": "חשוב להיזהר כשמקבלים בקשת הודעה מאנשים שלא מכירים. כדאי להיזהר מ:"
   },
   "icu:SafetyTipsModal__TipTitle--DontRespond": {
-    "messageformat": "Don’t respond to chats from Signal"
+    "messageformat": "אין להשיב לצ׳אטים מ–Signal"
   },
   "icu:SafetyTipsModal__TipDescription--DontRespond": {
-    "messageformat": "Signal will never message you for your registration code, PIN, or recover key. Don't reply to chats pretending to be Signal or Signal Support. Bad actors set up fake names to try to take over your account."
+    "messageformat": "Signal לעולם לא תשלח לך הודעה כדי לבקש את קוד הרישום, ה–PIN, או מפתח השחזור שלך. אין להשיב לצ׳אטים ממישהו שמתחזה ל–Signal או לתמיכה של Signal. עבריינים מגדירים לעצמם שמות מזויפים כדי לנסות להשתלט על החשבון שלך."
   },
   "icu:SafetyTipsModal__TipTitle--ReviewNames": {
-    "messageformat": "Review names and photos"
+    "messageformat": "יש לבדוק שמות ותמונות"
   },
   "icu:SafetyTipsModal__TipDescription--ReviewNames": {
-    "messageformat": "Look out for the “Name not verified” notice. Everyone sets their own profile name and photo in Signal. If you’re unsure who a new request is from it’s safer to ignore it."
+    "messageformat": "יש לשים לב להתראת ״שם לא אומת״. כולם ב–Signal מגדירים את שם הפרופיל והתמונה של עצמם. אם לא בטוחים ממי הגיעה בקשה חדשה, הכי בטוח להתעלם ממנה."
   },
   "icu:SafetyTipsModal__TipTitle--Fake": {
     "messageformat": "שמות וחשבונות מזויפים"
@@ -3426,13 +3426,13 @@
     "messageformat": "חשוב להיזהר מהודעות מאנשים שלא מכירים שמכילות לינקים לאתרי אינטרנט. אף פעם לא ללחוץ על לינקים מאנשים שלא סומכים עליהם."
   },
   "icu:SafetyTipsModal__TipTitle--Links-v2": {
-    "messageformat": "Messages with web links"
+    "messageformat": "הודעות עם לינקים"
   },
   "icu:SafetyTipsModal__TipTitle--Business": {
     "messageformat": "עסקים ומוסדות מזויפים"
   },
   "icu:SafetyTipsModal__TipTitle--Business-v2": {
-    "messageformat": "Fake businesses"
+    "messageformat": "עסקים מזויפים"
   },
   "icu:SafetyTipsModal__TipDescription--Business": {
     "messageformat": "חשוב להיזהר מעסקים או סוכנויות ממשלתיות שיוצרים איתך קשר. הודעות הקשורות בסוכנויות מס, שליחויות ועוד עלולות להיות ספאם."
@@ -3450,7 +3450,7 @@
     "messageformat": "סיים"
   },
   "icu:SafetyTipsModal__Button--ViewMore": {
-    "messageformat": "View more"
+    "messageformat": "הצג עוד"
   },
   "icu:MessageRequests--message-direct": {
     "messageformat": "לאפשר אל {name} לשלוח לך הודעות ולשתף את השם והתמונה שלך איתו/איתה? הוא/היא לא יידע/תידע שקראת את ההודעות שלו/שלה עד שתאשר."
@@ -3555,10 +3555,10 @@
     "messageformat": "בדוק בקפידה את הבקשות. שמות פרופילים נבחרים על ידי בעל/ת החשבון ואינם מאומתים."
   },
   "icu:MessageRequests--accept-confirm-title-v2": {
-    "messageformat": "Accept request?"
+    "messageformat": "לאשר את הבקשה?"
   },
   "icu:MessageRequests--accept-confirm-body-v2": {
-    "messageformat": "Only accept requests from people you trust. <bold>Signal will never</bold> message you for a registration code, PIN, or recovery key."
+    "messageformat": "יש לאשר בקשות רק מאנשים שסומכים עליהם. <bold>Signal לעולם לא</bold> תשלח לך הודעה כדי לבקש את קוד רישום, PIN, או מפתח שחזור."
   },
   "icu:MessageRequests--continue": {
     "messageformat": "המשך"
@@ -3618,13 +3618,13 @@
     "messageformat": "חשבון רשמי"
   },
   "icu:ConversationHero--signal-official-chat-title": {
-    "messageformat": "Official chat"
+    "messageformat": "צ׳אט רשמי"
   },
   "icu:ConversationHero--signal-official-account--description": {
     "messageformat": "הצ׳אט הרשמי היחיד של Signal. להתעדכן בחדשות והערות עדכון גרסה."
   },
   "icu:Timeline--signal-official-chat--chip": {
-    "messageformat": "The only official chat from Signal."
+    "messageformat": "הצ׳אט הרשמי היחיד של Signal."
   },
   "icu:ConversationHero--release-notes": {
     "messageformat": "להתעדכן בחדשות והערות עדכון גרסה."
@@ -4611,7 +4611,7 @@
     "messageformat": "סגור"
   },
   "icu:clear": {
-    "messageformat": "Clear"
+    "messageformat": "נקה"
   },
   "icu:previous": {
     "messageformat": "הקודם"
@@ -4623,16 +4623,16 @@
     "messageformat": "זה עשוי לקחת כמה דקות"
   },
   "icu:DeletingAccount__LeavingGroups__Title": {
-    "messageformat": "Leaving groups..."
+    "messageformat": "עזיבת קבוצות מתבצעת…"
   },
   "icu:DeletingAccount__LeavingGroups__Detail": {
-    "messageformat": "Depending on the number of groups you’re in, this might take a few minutes"
+    "messageformat": "בהתאם למספר הקבוצות שלך, זה עשוי להימשך מספר דקות"
   },
   "icu:DeletingAccount__DeletingData__Title": {
-    "messageformat": "Deleting account and all data..."
+    "messageformat": "מחיקת החשבון וכל הנתונים…"
   },
   "icu:DeletingAccount__DeletingData__Detail": {
-    "messageformat": "Deleting user data and resetting the app"
+    "messageformat": "מוחק נתוני משתמש ומאפס את היישום"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "תרום אל Signal"
@@ -5410,7 +5410,7 @@
     "messageformat": "אפשר להשתמש בלינק הזה כדי להצטרף לשיחת Signal: {url}"
   },
   "icu:MessageRequestWarning__review-carefully": {
-    "messageformat": "Review requests carefully"
+    "messageformat": "סקור בקשות בזהירות"
   },
   "icu:MessageRequestWarning__safety-tips-v2": {
     "messageformat": "טיפים לבטיחות"
@@ -6386,22 +6386,22 @@
     "messageformat": "{num, plural, one {איש קשר {num,number}} two {{num,number} אנשי קשר} many {{num,number} אנשי קשר} other {{num,number} אנשי קשר}}"
   },
   "icu:Preferences--blocked-count-both-new": {
-    "messageformat": "{num, plural, =0 { No users or groups } one {{num,number} user or group} other {{num,number} users or groups}}"
+    "messageformat": "{num, plural, =0 { אין משתמשים או קבוצות } one {משתמש/ת או קבוצה {num,number}} two {{num,number} משתמשים או קבוצות} many {{num,number} משתמשים או קבוצות} other {{num,number} משתמשים או קבוצות}}"
   },
   "icu:Preferences--blocked-count-contacts-new": {
-    "messageformat": "{num, plural, =0 { No users } one {{num,number} user} other {{num,number} users}}"
+    "messageformat": "{num, plural, =0 { אין משתמשים } one {משתמש/ת {num,number}} two {{num,number} משתמשים} many {{num,number} משתמשים} other {{num,number} משתמשים}}"
   },
   "icu:Preferences--blocked-count-groups-new": {
-    "messageformat": "{num, plural, =0 { No groups } one {{num,number} group} other {{num,number} groups}}"
+    "messageformat": "{num, plural, =0 { אין קבוצות } one {קבוצה {num,number}} two {{num,number} קבוצות} many {{num,number} קבוצות} other {{num,number} קבוצות}}"
   },
   "icu:Preferences--blocked-users--description": {
-    "messageformat": "Blocked users will not be able to call you or send you messages"
+    "messageformat": "משתמשים חסומים לא יוכלו להתקשר או לשלוח לך הודעות."
   },
   "icu:Preferences--blocked-users": {
-    "messageformat": "Blocked Users"
+    "messageformat": "משתמשים חסומים"
   },
   "icu:Preferences--blocked-groups": {
-    "messageformat": "Blocked Groups"
+    "messageformat": "קבוצות חסומות"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "גיבויים מאובטחים של Signal"
@@ -6974,7 +6974,7 @@
     "messageformat": "אישרת את בקשת ההודעה"
   },
   "icu:MessageRequestResponseNotification__Message--Accepted-Contact-Title": {
-    "messageformat": "You accepted {userProfileName}'s message request"
+    "messageformat": "אישרת את בקשת ההודעה של {userProfileName}."
   },
   "icu:MessageRequestResponseNotification__Message--Reported": {
     "messageformat": "דוּוח/ה כספאם"
@@ -6995,7 +6995,7 @@
     "messageformat": "אפשרויות"
   },
   "icu:MessageRequestResponseNotification__Button--block-or-report": {
-    "messageformat": "Block or Report..."
+    "messageformat": "חסימה או דיווח…"
   },
   "icu:MessageRequestResponseNotification__Button--LearnMore": {
     "messageformat": "למידע נוסף"
@@ -8256,10 +8256,10 @@
     "messageformat": "יש להרחיב את הסרגל הצדדי לאינטראקציה עם המגפון"
   },
   "icu:Carousel--Role": {
-    "messageformat": "Carousel"
+    "messageformat": "קרוסלה"
   },
   "icu:Carousel__Slide--Role": {
-    "messageformat": "Slide"
+    "messageformat": "שקופית"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "גרסה זו מכילה מספר של שפצורים קטנים ותיקוני תקלים כדי לשמור על Signal שירוץ באופן חלק.",
@@ -8290,6 +8290,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__8.10--0": {
-    "messageformat": "The freshly spun emoji in Unicode 17.0 have now pirouetted into place in Signal. Send a message reaction with the new Ballet Dancer emoji to perform your own digital version of a pas de chat."
+    "messageformat": "הוספנו תמיכה לאימוג׳י חדש ב–Unicode 17.0."
   }
 }

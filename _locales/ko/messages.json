@@ -1956,25 +1956,25 @@
     "messageformat": "옵션 더 보기"
   },
   "icu:CallingParticipantMenu__MuteAudio": {
-    "messageformat": "Mute audio"
+    "messageformat": "음소거"
   },
   "icu:CallingParticipantMenu__UnmuteAudio": {
-    "messageformat": "Unmute audio"
+    "messageformat": "음소거 해제"
   },
   "icu:CallingParticipantMenu__ViewProfile": {
-    "messageformat": "View profile"
+    "messageformat": "프로필 보기"
   },
   "icu:CallingParticipantMenu__GoToChat": {
-    "messageformat": "Go to chat"
+    "messageformat": "대화로 이동"
   },
   "icu:CallingParticipantMenu__RemoveFromCall": {
-    "messageformat": "Remove from call"
+    "messageformat": "통화에서 내보내기"
   },
   "icu:CallingParticipantListItem__ContextMenuButton": {
-    "messageformat": "More actions"
+    "messageformat": "더 많은 작업"
   },
   "icu:CallingParticipantListItem__Presenting": {
-    "messageformat": "Presenting"
+    "messageformat": "화면 공유 중"
   },
   "icu:CallingPendingParticipants__ApproveUser": {
     "messageformat": "참여 요청 승인"
@@ -2205,25 +2205,25 @@
     "messageformat": "이 Signal 데스크톱 버전에서 모든 데이터와 메시지를 삭제할까요? 휴대폰 또는 기타 연결된 장치의 Signal 계정과 데이터는 삭제되지 않습니다."
   },
   "icu:deleteAccountProgress": {
-    "messageformat": "Deleting account and all data…"
+    "messageformat": "계정 및 모든 데이터 삭제 중…"
   },
   "icu:deleteAllDataProgress": {
     "messageformat": "연결 해제 및 모든 데이터 삭제 중…"
   },
   "icu:deleteAccountHeader": {
-    "messageformat": "Delete account"
+    "messageformat": "계정 삭제"
   },
   "icu:deleteAccountExplanation": {
-    "messageformat": "This will delete your account info, profile, and all of your messages. You will also be removed from all Signal groups."
+    "messageformat": "계정 정보와 프로필, 모든 메시지가 삭제되고, 모든 Signal 그룹에서 내보내기 처리됩니다."
   },
   "icu:deleteAccountButton": {
-    "messageformat": "Delete account"
+    "messageformat": "계정 삭제"
   },
   "icu:deleteAccountDialogHeader": {
-    "messageformat": "Delete Account?"
+    "messageformat": "계정을 삭제할까요?"
   },
   "icu:deleteAccountDialogBody": {
-    "messageformat": "This will delete your account info, profile, and all of your messages. You will also be removed from all Signal groups. The app will close after this process is complete."
+    "messageformat": "계정 정보와 프로필, 모든 메시지가 삭제되고, 모든 Signal 그룹에서 내보내기 처리됩니다. 이 절차가 완료되면 자동으로 앱이 종료됩니다."
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Signal Desktop의 이전 설치 버전에서 사용하지 않는 데이터가 있습니다. 계속하면 해당 데이터가 삭제되고 앱을 처음부터 시작합니다."
@@ -2571,10 +2571,10 @@
     "messageformat": "연결 해제됨"
   },
   "icu:unregisteredWarning": {
-    "messageformat": "Click to re-register and continue messaging. Signal Desktop is unregistered likely because you registered your phone number with Signal on a different device."
+    "messageformat": "기기를 다시 등록하고 메시지 전송을 이어가세요. 다른 기기에서 동일한 번호로 인증을 진행해 데스크탑 등록이 해제된 것일 수 있습니다."
   },
   "icu:unregistered": {
-    "messageformat": "No longer registered"
+    "messageformat": "등록 해제 안내"
   },
   "icu:autoUpdateNewVersionTitle": {
     "messageformat": "사용할 수 있는 업데이트가 있습니다."
@@ -3366,40 +3366,40 @@
     "messageformat": "안전 팁"
   },
   "icu:SafetyTipsModal__Title-v2": {
-    "messageformat": "Safety tips"
+    "messageformat": "안전 팁"
   },
   "icu:SafetyTipsModal__TipTitle--SignalChat": {
-    "messageformat": "Don’t respond to chats from Signal"
+    "messageformat": "Signal에서 보낸 채팅에 답하지 마세요"
   },
   "icu:SafetyTipsModal__TipDescription--SignalChat": {
-    "messageformat": "Signal will never message you for your registration code, PIN, or recovery key. Never respond to a chat pretending to be Signal."
+    "messageformat": "Signal은 절대 사용자의 등록 코드나 PIN, 복구 키를 요청하는 메시지를 보내지 않습니다. Signal을 사칭하는 채팅에 절대 답장하지 마세요."
   },
   "icu:SafetyTipsModal__TipTitle--NamesAndPhotos": {
-    "messageformat": "Review names and photos"
+    "messageformat": "이름과 사진 검토"
   },
   "icu:SafetyTipsModal__TipDescription--NamesAndPhotos": {
-    "messageformat": "Look out for the “Name not verified” notice. Everyone sets their own profile name in Signal."
+    "messageformat": "'이름이 인증되지 않음'과 같은 경고 메시지에 주의하세요. Signal의 프로필 이름은 각 사용자가 직접 설정합니다."
   },
   "icu:SafetyTipsModal__TipTitle--Scams": {
-    "messageformat": "Look out for scams"
+    "messageformat": "사기 주의"
   },
   "icu:SafetyTipsModal__TipDescription--Scams": {
-    "messageformat": "Avoid vague messages that try to get you to reply. Be aware of financial tips and suspicious web links."
+    "messageformat": "답장을 유도하려는 모호한 메시지에는 응답하지 마시고, 금전 관련 제안이나 의심스러운 웹 링크에 유의하세요."
   },
   "icu:SafetyTipsModal__Description": {
     "messageformat": "모르는 상대의 메시지 요청을 수락할 때는 주의가 필요합니다. 특히 다음 사항에 유의하세요."
   },
   "icu:SafetyTipsModal__TipTitle--DontRespond": {
-    "messageformat": "Don’t respond to chats from Signal"
+    "messageformat": "Signal에서 보낸 채팅에 답하지 마세요"
   },
   "icu:SafetyTipsModal__TipDescription--DontRespond": {
-    "messageformat": "Signal will never message you for your registration code, PIN, or recover key. Don't reply to chats pretending to be Signal or Signal Support. Bad actors set up fake names to try to take over your account."
+    "messageformat": "Signal은 절대 사용자의 등록 코드나 PIN, 복구 키를 요청하는 메시지를 보내지 않습니다. Signal 또는 Signal 지원팀을 사칭하는 채팅에 답장하지 마세요. 악의적인 사용자가 가짜 이름을 설정해 계정 해킹을 시도할 수 있습니다."
   },
   "icu:SafetyTipsModal__TipTitle--ReviewNames": {
-    "messageformat": "Review names and photos"
+    "messageformat": "이름과 사진 검토"
   },
   "icu:SafetyTipsModal__TipDescription--ReviewNames": {
-    "messageformat": "Look out for the “Name not verified” notice. Everyone sets their own profile name and photo in Signal. If you’re unsure who a new request is from it’s safer to ignore it."
+    "messageformat": "'이름이 인증되지 않음'과 같은 경고 메시지에 주의하세요. Signal의 프로필 이름은 각 사용자가 직접 설정합니다. 새 요청을 보낸 사람이 누구인지 확실하지 않다면, 무시하는 편이 더 안전합니다."
   },
   "icu:SafetyTipsModal__TipTitle--Fake": {
     "messageformat": "가짜 이름과 계정"
@@ -3426,13 +3426,13 @@
     "messageformat": "모르는 사람이 보낸 웹사이트 링크가 포함된 메시지에 주의하세요. 신뢰할 수 없는 출처의 링크는 절대 방문하지 마세요."
   },
   "icu:SafetyTipsModal__TipTitle--Links-v2": {
-    "messageformat": "Messages with web links"
+    "messageformat": "웹사이트 링크가 포함된 메시지"
   },
   "icu:SafetyTipsModal__TipTitle--Business": {
     "messageformat": "가짜 비즈니스 또는 기관"
   },
   "icu:SafetyTipsModal__TipTitle--Business-v2": {
-    "messageformat": "Fake businesses"
+    "messageformat": "허위 사업체"
   },
   "icu:SafetyTipsModal__TipDescription--Business": {
     "messageformat": "기업이나 정부 기관을 사칭한 연락에 주의하세요. 국세청 등의 공공기관이나 배송 업체와 관련된 메시지는 스팸일 가능성이 높습니다."
@@ -3450,7 +3450,7 @@
     "messageformat": "확인"
   },
   "icu:SafetyTipsModal__Button--ViewMore": {
-    "messageformat": "View more"
+    "messageformat": "더 보기"
   },
   "icu:MessageRequests--message-direct": {
     "messageformat": "{name} 님이 나에게 메시지를 보내고, 내 이름과 사진을 볼 수 있도록 허용할까요? 내가 수락하기 전까지 상대방은 내가 메시지를 확인했는지 알 수 없습니다."
@@ -3555,10 +3555,10 @@
     "messageformat": "신중하게 요청을 검토하세요. 프로필 이름은 계정 소유자가 직접 설정하며 별도의 인증 과정을 거치지 않습니다."
   },
   "icu:MessageRequests--accept-confirm-title-v2": {
-    "messageformat": "Accept request?"
+    "messageformat": "요청을 수락할까요?"
   },
   "icu:MessageRequests--accept-confirm-body-v2": {
-    "messageformat": "Only accept requests from people you trust. <bold>Signal will never</bold> message you for a registration code, PIN, or recovery key."
+    "messageformat": "신뢰할 수 있는 사람의 요청만 수락하세요. <bold>Signal은 절대</bold> 등록 코드나 PIN, 복구 키를 요청하는 메시지를 보내지 않습니다."
   },
   "icu:MessageRequests--continue": {
     "messageformat": "계속"
@@ -3618,13 +3618,13 @@
     "messageformat": "공식 계정"
   },
   "icu:ConversationHero--signal-official-chat-title": {
-    "messageformat": "Official chat"
+    "messageformat": "공식 채팅"
   },
   "icu:ConversationHero--signal-official-account--description": {
     "messageformat": "Signal이 운영하는 유일한 공식 채널. 최신 소식과 릴리스 노트를 확인하세요."
   },
   "icu:Timeline--signal-official-chat--chip": {
-    "messageformat": "The only official chat from Signal."
+    "messageformat": "Signal이 운영하는 유일한 공식 채널."
   },
   "icu:ConversationHero--release-notes": {
     "messageformat": "최신 소식과 릴리스 노트를 확인하세요."
@@ -4611,7 +4611,7 @@
     "messageformat": "닫기"
   },
   "icu:clear": {
-    "messageformat": "Clear"
+    "messageformat": "지우기"
   },
   "icu:previous": {
     "messageformat": "이전"
@@ -4623,16 +4623,16 @@
     "messageformat": "몇 분 정도 소요됩니다"
   },
   "icu:DeletingAccount__LeavingGroups__Title": {
-    "messageformat": "Leaving groups..."
+    "messageformat": "그룹에서 나가는 중..."
   },
   "icu:DeletingAccount__LeavingGroups__Detail": {
-    "messageformat": "Depending on the number of groups you’re in, this might take a few minutes"
+    "messageformat": "속한 그룹 수에 따라 작업을 완료하는 데 몇 분 정도가 소요될 수 있습니다."
   },
   "icu:DeletingAccount__DeletingData__Title": {
-    "messageformat": "Deleting account and all data..."
+    "messageformat": "계정 및 모든 데이터 삭제 중..."
   },
   "icu:DeletingAccount__DeletingData__Detail": {
-    "messageformat": "Deleting user data and resetting the app"
+    "messageformat": "사용자 데이터를 삭제하고 앱을 초기화하는 중"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Signal 후원하기"
@@ -5410,7 +5410,7 @@
     "messageformat": "Signal 통화에 참여할 때 사용할 링크: {url}"
   },
   "icu:MessageRequestWarning__review-carefully": {
-    "messageformat": "Review requests carefully"
+    "messageformat": "신중하게 요청을 검토하세요"
   },
   "icu:MessageRequestWarning__safety-tips-v2": {
     "messageformat": "안전 팁"
@@ -6386,22 +6386,22 @@
     "messageformat": "{num, plural, other {연락처 {num,number}개}}"
   },
   "icu:Preferences--blocked-count-both-new": {
-    "messageformat": "{num, plural, =0 { No users or groups } one {{num,number} user or group} other {{num,number} users or groups}}"
+    "messageformat": "{num, plural, =0 { 사용자 또는 그룹 없음 } other {사용자 또는 그룹 수: {num,number}}}"
   },
   "icu:Preferences--blocked-count-contacts-new": {
-    "messageformat": "{num, plural, =0 { No users } one {{num,number} user} other {{num,number} users}}"
+    "messageformat": "{num, plural, =0 { 사용자 없음 } other {사용자 {num,number}명}}"
   },
   "icu:Preferences--blocked-count-groups-new": {
-    "messageformat": "{num, plural, =0 { No groups } one {{num,number} group} other {{num,number} groups}}"
+    "messageformat": "{num, plural, =0 { 그룹 없음 } other {그룹 {num,number}개}}"
   },
   "icu:Preferences--blocked-users--description": {
-    "messageformat": "Blocked users will not be able to call you or send you messages"
+    "messageformat": "차단한 사용자는 나에게 전화를 걸거나 메시지를 보낼 수 없습니다."
   },
   "icu:Preferences--blocked-users": {
-    "messageformat": "Blocked Users"
+    "messageformat": "차단한 사용자"
   },
   "icu:Preferences--blocked-groups": {
-    "messageformat": "Blocked Groups"
+    "messageformat": "차단한 그룹"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Signal 안전 백업"
@@ -6614,7 +6614,7 @@
     "messageformat": "모두"
   },
   "icu:Preferences__pnp__sharing__nobody": {
-    "messageformat": "모두 금지"
+    "messageformat": "없음"
   },
   "icu:Preferences__pnp__discoverability--title": {
     "messageformat": "전화번호로 나를 찾을 수 있는 사람"
@@ -6629,7 +6629,7 @@
     "messageformat": "모두"
   },
   "icu:Preferences__pnp__discoverability__nobody": {
-    "messageformat": "모두 금지"
+    "messageformat": "없음"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__title": {
     "messageformat": "계속할까요?"
@@ -6974,7 +6974,7 @@
     "messageformat": "메시지 요청을 수락했습니다."
   },
   "icu:MessageRequestResponseNotification__Message--Accepted-Contact-Title": {
-    "messageformat": "You accepted {userProfileName}'s message request"
+    "messageformat": "{userProfileName} 님의 메시지 요청을 수락했습니다."
   },
   "icu:MessageRequestResponseNotification__Message--Reported": {
     "messageformat": "스팸으로 신고함"
@@ -6995,7 +6995,7 @@
     "messageformat": "옵션"
   },
   "icu:MessageRequestResponseNotification__Button--block-or-report": {
-    "messageformat": "Block or Report..."
+    "messageformat": "차단 또는 신고하기"
   },
   "icu:MessageRequestResponseNotification__Button--LearnMore": {
     "messageformat": "자세히 알아보기"
@@ -7803,7 +7803,7 @@
     "messageformat": "Experimental WebSocket Transport is seeing too many errors. Please submit a debug log"
   },
   "icu:WhoCanFindMeReadOnlyToast": {
-    "messageformat": "이 설정을 바꾸려면 '내 전화번호를 볼 수 있는 사람'을 '아무도 보지 못함'으로 설정하세요."
+    "messageformat": "이 설정을 바꾸려면 '내 전화번호를 볼 수 있는 사람'을 '없음'으로 설정하세요."
   },
   "icu:ProfileNameWarningModal__description--direct": {
     "messageformat": "Signal의 프로필 이름은 해당 계정 보유자가 선택합니다."
@@ -7851,7 +7851,7 @@
     "messageformat": "내 지원"
   },
   "icu:PreferencesDonations__badge-label-one-time": {
-    "messageformat": "{formattedCurrencyAmount} 일회성 기부"
+    "messageformat": "{formattedCurrencyAmount} 일회성 후원"
   },
   "icu:PreferencesDonations__badge-processing-donation": {
     "messageformat": "기부를 처리하는 중..."
@@ -7962,7 +7962,7 @@
     "messageformat": "최소 후원 금액은 {formattedCurrencyAmount}입니다."
   },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
-    "messageformat": "기부할 수 있는 최소 금액은 {formattedCurrencyAmount}입니다."
+    "messageformat": "후원할 수 있는 최소 금액은 {formattedCurrencyAmount}입니다."
   },
   "icu:DonateFlow__custom-amount-above-maximum-error": {
     "messageformat": "최대 기부 금액은 {formattedCurrencyAmount}입니다."
@@ -8256,10 +8256,10 @@
     "messageformat": "메가폰을 사용하려면 사이드바를 펼치세요"
   },
   "icu:Carousel--Role": {
-    "messageformat": "Carousel"
+    "messageformat": "캐러셀"
   },
   "icu:Carousel__Slide--Role": {
-    "messageformat": "Slide"
+    "messageformat": "슬라이드"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "이 버전에는 Signal의 원활한 실행을 위한 일부 기능 업데이트와 버그 수정이 다수 포함되어 있습니다.",
@@ -8290,6 +8290,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__8.10--0": {
-    "messageformat": "The freshly spun emoji in Unicode 17.0 have now pirouetted into place in Signal. Send a message reaction with the new Ballet Dancer emoji to perform your own digital version of a pas de chat."
+    "messageformat": "Unicode 17.0의 신규 이모지에 대한 지원을 추가했습니다."
   }
 }

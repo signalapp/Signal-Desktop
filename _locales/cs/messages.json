@@ -1956,25 +1956,25 @@
     "messageformat": "Více možností"
   },
   "icu:CallingParticipantMenu__MuteAudio": {
-    "messageformat": "Mute audio"
+    "messageformat": "Ztlumit zvuk"
   },
   "icu:CallingParticipantMenu__UnmuteAudio": {
-    "messageformat": "Unmute audio"
+    "messageformat": "Zrušit ztlumení zvuku"
   },
   "icu:CallingParticipantMenu__ViewProfile": {
-    "messageformat": "View profile"
+    "messageformat": "Zobrazit profil"
   },
   "icu:CallingParticipantMenu__GoToChat": {
-    "messageformat": "Go to chat"
+    "messageformat": "Přejít na chat"
   },
   "icu:CallingParticipantMenu__RemoveFromCall": {
-    "messageformat": "Remove from call"
+    "messageformat": "Odebrat z hovoru"
   },
   "icu:CallingParticipantListItem__ContextMenuButton": {
-    "messageformat": "More actions"
+    "messageformat": "Další akce"
   },
   "icu:CallingParticipantListItem__Presenting": {
-    "messageformat": "Presenting"
+    "messageformat": "Sdílí obrazovku"
   },
   "icu:CallingPendingParticipants__ApproveUser": {
     "messageformat": "Povolit žádost o připojení"
@@ -2205,25 +2205,25 @@
     "messageformat": "Odstranit všechna data a zprávy z této verze aplikace Signal Desktop? Váš účet Signal a data v telefonu nebo jiných propojených zařízení nebudou odstraněny."
   },
   "icu:deleteAccountProgress": {
-    "messageformat": "Deleting account and all data…"
+    "messageformat": "Odstraňuje se účet a všechna data…"
   },
   "icu:deleteAllDataProgress": {
     "messageformat": "Odpojuji a mažu všechna data…"
   },
   "icu:deleteAccountHeader": {
-    "messageformat": "Delete account"
+    "messageformat": "Smazat účet"
   },
   "icu:deleteAccountExplanation": {
-    "messageformat": "This will delete your account info, profile, and all of your messages. You will also be removed from all Signal groups."
+    "messageformat": "Tím se vymažou informace o vašem účtu, váš profil a všechny vaše zprávy. Budete také odebráni ze všech skupin ve službě Signal."
   },
   "icu:deleteAccountButton": {
-    "messageformat": "Delete account"
+    "messageformat": "Smazat účet"
   },
   "icu:deleteAccountDialogHeader": {
-    "messageformat": "Delete Account?"
+    "messageformat": "Smazat účet?"
   },
   "icu:deleteAccountDialogBody": {
-    "messageformat": "This will delete your account info, profile, and all of your messages. You will also be removed from all Signal groups. The app will close after this process is complete."
+    "messageformat": "Tím se vymažou informace o vašem účtu, váš profil a všechny vaše zprávy. Budete také odebráni ze všech skupin ve službě Signal. Po dokončení tohoto procesu se aplikace zavře."
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Máte zastaralá data z předchozí instalace aplikace Signal Desktop. Pokud se rozhodnete pokračovat, budou odstraněna a budete muset začít od začátku."
@@ -2571,10 +2571,10 @@
     "messageformat": "Odpárováno"
   },
   "icu:unregisteredWarning": {
-    "messageformat": "Click to re-register and continue messaging. Signal Desktop is unregistered likely because you registered your phone number with Signal on a different device."
+    "messageformat": "Kliknutím se znovu zaregistrujete, abyste mohli dál posílat zprávy. Signal Desktop je odhlášen nejspíše proto, že jste své telefonní číslo pro Signal registrovali na jiném zařízení."
   },
   "icu:unregistered": {
-    "messageformat": "No longer registered"
+    "messageformat": "Už nejste zaregistrováni"
   },
   "icu:autoUpdateNewVersionTitle": {
     "messageformat": "K dispozici je aktualizace"
@@ -3366,40 +3366,40 @@
     "messageformat": "Bezpečnostní tipy"
   },
   "icu:SafetyTipsModal__Title-v2": {
-    "messageformat": "Safety tips"
+    "messageformat": "Bezpečnostní tipy"
   },
   "icu:SafetyTipsModal__TipTitle--SignalChat": {
-    "messageformat": "Don’t respond to chats from Signal"
+    "messageformat": "Neodpovídejte na chaty od služby Signal"
   },
   "icu:SafetyTipsModal__TipDescription--SignalChat": {
-    "messageformat": "Signal will never message you for your registration code, PIN, or recovery key. Never respond to a chat pretending to be Signal."
+    "messageformat": "Signal od vás nikdy nebude ve zprávě vyžadovat registrační kód, PIN ani klíč pro obnovení. Nikdy neodpovídejte na chat, který se tváří jako Signal."
   },
   "icu:SafetyTipsModal__TipTitle--NamesAndPhotos": {
-    "messageformat": "Review names and photos"
+    "messageformat": "Kontrolujte jména a fotky"
   },
   "icu:SafetyTipsModal__TipDescription--NamesAndPhotos": {
-    "messageformat": "Look out for the “Name not verified” notice. Everyone sets their own profile name in Signal."
+    "messageformat": "Všímejte si upozornění „Jméno není ověřeno“. V aplikaci Signal si každý nastavuje vlastní profilové jméno."
   },
   "icu:SafetyTipsModal__TipTitle--Scams": {
-    "messageformat": "Look out for scams"
+    "messageformat": "Dávejte si pozor na podvody"
   },
   "icu:SafetyTipsModal__TipDescription--Scams": {
-    "messageformat": "Avoid vague messages that try to get you to reply. Be aware of financial tips and suspicious web links."
+    "messageformat": "Vyhýbejte se neurčitým zprávám, které se vás snaží přimět k odpovědi. Mějte se na pozoru před finančními tipy a podezřelými webovými odkazy."
   },
   "icu:SafetyTipsModal__Description": {
     "messageformat": "Buďte opatrní při přijímání žádostí o zaslání zprávy od lidí, které neznáte. Dávejte si pozor na následující:"
   },
   "icu:SafetyTipsModal__TipTitle--DontRespond": {
-    "messageformat": "Don’t respond to chats from Signal"
+    "messageformat": "Neodpovídejte na chaty od služby Signal"
   },
   "icu:SafetyTipsModal__TipDescription--DontRespond": {
-    "messageformat": "Signal will never message you for your registration code, PIN, or recover key. Don't reply to chats pretending to be Signal or Signal Support. Bad actors set up fake names to try to take over your account."
+    "messageformat": "Signal od vás nikdy nebude ve zprávě vyžadovat registrační kód, PIN ani klíč pro obnovení. Neodpovídejte na chaty, které se tváří jako Signal nebo podpora Signal. Útočníci vytvářejí falešné chaty ve snaze ovládnout váš účet."
   },
   "icu:SafetyTipsModal__TipTitle--ReviewNames": {
-    "messageformat": "Review names and photos"
+    "messageformat": "Kontrolujte jména a fotky"
   },
   "icu:SafetyTipsModal__TipDescription--ReviewNames": {
-    "messageformat": "Look out for the “Name not verified” notice. Everyone sets their own profile name and photo in Signal. If you’re unsure who a new request is from it’s safer to ignore it."
+    "messageformat": "Všímejte si upozornění „Jméno není ověřeno“. V aplikaci Signal si každý nastavuje své vlastní jméno a profilovou fotku. Pokud si nejste jisti, od koho nová žádost pochází, je bezpečnější ji ignorovat."
   },
   "icu:SafetyTipsModal__TipTitle--Fake": {
     "messageformat": "Falešná jména a účty"
@@ -3426,13 +3426,13 @@
     "messageformat": "Dávejte si pozor na zprávy od neznámých lidí, které obsahují odkazy na webové stránky. Nikdy nenavštěvujte odkazy od lidí, kterým nedůvěřujete."
   },
   "icu:SafetyTipsModal__TipTitle--Links-v2": {
-    "messageformat": "Messages with web links"
+    "messageformat": "Zprávy s webovými odkazy"
   },
   "icu:SafetyTipsModal__TipTitle--Business": {
     "messageformat": "Falešné firmy a instituce"
   },
   "icu:SafetyTipsModal__TipTitle--Business-v2": {
-    "messageformat": "Fake businesses"
+    "messageformat": "Falešné firmy"
   },
   "icu:SafetyTipsModal__TipDescription--Business": {
     "messageformat": "Dávejte pozor na firmy nebo státní instituce, které vás kontaktují. Například zprávy od finančního úřadu nebo doručovacích služeb mohou být spam."
@@ -3450,7 +3450,7 @@
     "messageformat": "Hotovo"
   },
   "icu:SafetyTipsModal__Button--ViewMore": {
-    "messageformat": "View more"
+    "messageformat": "Zobrazit více"
   },
   "icu:MessageRequests--message-direct": {
     "messageformat": "Chcete povolit, aby vám {name} mohl/a posílat zprávy a sdílet vaše jméno a fotografii? Nedozví se, že jste jejich zprávy viděli, dokud je nepřijmete."
@@ -3555,10 +3555,10 @@
     "messageformat": "Žádosti pečlivě kontrolujte. Jména profilů si vybírá majitel účtu a nejsou ověřována."
   },
   "icu:MessageRequests--accept-confirm-title-v2": {
-    "messageformat": "Accept request?"
+    "messageformat": "Přijmout žádost?"
   },
   "icu:MessageRequests--accept-confirm-body-v2": {
-    "messageformat": "Only accept requests from people you trust. <bold>Signal will never</bold> message you for a registration code, PIN, or recovery key."
+    "messageformat": "Přijímejte žádosti pouze od lidí, kterým důvěřujete. <bold>Signal od vás nikdy</bold> nebude ve zprávě vyžadovat registrační kód, PIN ani klíč pro obnovení."
   },
   "icu:MessageRequests--continue": {
     "messageformat": "Pokračovat"
@@ -3618,13 +3618,13 @@
     "messageformat": "Oficiální účet"
   },
   "icu:ConversationHero--signal-official-chat-title": {
-    "messageformat": "Official chat"
+    "messageformat": "Oficiální chat"
   },
   "icu:ConversationHero--signal-official-account--description": {
     "messageformat": "Jediný oficiální chat od služby Signal. Sledujte novinky a poznámky k vydání."
   },
   "icu:Timeline--signal-official-chat--chip": {
-    "messageformat": "The only official chat from Signal."
+    "messageformat": "Jediný oficiální chat od služby Signal."
   },
   "icu:ConversationHero--release-notes": {
     "messageformat": "Sledujte novinky a poznámky k vydání."
@@ -4611,7 +4611,7 @@
     "messageformat": "Zavřít"
   },
   "icu:clear": {
-    "messageformat": "Clear"
+    "messageformat": "Vymazat"
   },
   "icu:previous": {
     "messageformat": "předchozí"
@@ -4623,16 +4623,16 @@
     "messageformat": "To může trvat několik minut"
   },
   "icu:DeletingAccount__LeavingGroups__Title": {
-    "messageformat": "Leaving groups..."
+    "messageformat": "Opouštím skupiny…"
   },
   "icu:DeletingAccount__LeavingGroups__Detail": {
-    "messageformat": "Depending on the number of groups you’re in, this might take a few minutes"
+    "messageformat": "V závislosti na počtu skupin, ve kterých jste, to může trvat několik minut"
   },
   "icu:DeletingAccount__DeletingData__Title": {
-    "messageformat": "Deleting account and all data..."
+    "messageformat": "Odstraňuje se účet a všechna data…"
   },
   "icu:DeletingAccount__DeletingData__Detail": {
-    "messageformat": "Deleting user data and resetting the app"
+    "messageformat": "Odstraňuji uživatelská data a resetuji aplikaci"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Podpořte Signal finančně"
@@ -5410,7 +5410,7 @@
     "messageformat": "K hovoru Signal se můžete připojit pomocí tohoto odkazu: {url}"
   },
   "icu:MessageRequestWarning__review-carefully": {
-    "messageformat": "Review requests carefully"
+    "messageformat": "Žádosti si pečlivě kontrolujte"
   },
   "icu:MessageRequestWarning__safety-tips-v2": {
     "messageformat": "Bezpečnostní tipy"
@@ -6386,22 +6386,22 @@
     "messageformat": "{num, plural, one {{num,number} kontakt} few {{num,number} kontakty} many {{num,number} kontaktů} other {{num,number} kontaktů}}"
   },
   "icu:Preferences--blocked-count-both-new": {
-    "messageformat": "{num, plural, =0 { No users or groups } one {{num,number} user or group} other {{num,number} users or groups}}"
+    "messageformat": "{num, plural, =0 { Žádní uživatelé nebo skupiny } one {{num,number} uživatel nebo skupina} few {{num,number} uživatelé nebo skupiny} many {{num,number} uživatelů nebo skupin} other {{num,number} uživatelů nebo skupin}}"
   },
   "icu:Preferences--blocked-count-contacts-new": {
-    "messageformat": "{num, plural, =0 { No users } one {{num,number} user} other {{num,number} users}}"
+    "messageformat": "{num, plural, =0 { Žádní uživatelé } one {{num,number} uživatel} few {{num,number} uživatelé} many {{num,number} uživatelů} other {{num,number} uživatelů}}"
   },
   "icu:Preferences--blocked-count-groups-new": {
-    "messageformat": "{num, plural, =0 { No groups } one {{num,number} group} other {{num,number} groups}}"
+    "messageformat": "{num, plural, =0 { Žádné skupiny } one {{num,number} skupina} few {{num,number} skupiny} many {{num,number} skupin} other {{num,number} skupin}}"
   },
   "icu:Preferences--blocked-users--description": {
-    "messageformat": "Blocked users will not be able to call you or send you messages"
+    "messageformat": "Blokovaní uživatelé vám nebudou moci volat ani posílat zprávy"
   },
   "icu:Preferences--blocked-users": {
-    "messageformat": "Blocked Users"
+    "messageformat": "Zablokovaní uživatelé"
   },
   "icu:Preferences--blocked-groups": {
-    "messageformat": "Blocked Groups"
+    "messageformat": "Zablokované skupiny"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Zabezpečené zálohování služby Signal"
@@ -6974,7 +6974,7 @@
     "messageformat": "Přijali jste žádost o zaslání zprávy"
   },
   "icu:MessageRequestResponseNotification__Message--Accepted-Contact-Title": {
-    "messageformat": "You accepted {userProfileName}'s message request"
+    "messageformat": "Přijali jste žádost o zprávu od {userProfileName}"
   },
   "icu:MessageRequestResponseNotification__Message--Reported": {
     "messageformat": "Nahlášeno jako spam"
@@ -6995,7 +6995,7 @@
     "messageformat": "Možnosti"
   },
   "icu:MessageRequestResponseNotification__Button--block-or-report": {
-    "messageformat": "Block or Report..."
+    "messageformat": "Blokovat nebo nahlásit…"
   },
   "icu:MessageRequestResponseNotification__Button--LearnMore": {
     "messageformat": "Zjistit více"
@@ -8256,10 +8256,10 @@
     "messageformat": "Kliknutím rozbalíte postranní panel pro interakci s megafonem"
   },
   "icu:Carousel--Role": {
-    "messageformat": "Carousel"
+    "messageformat": "Karusel"
   },
   "icu:Carousel__Slide--Role": {
-    "messageformat": "Slide"
+    "messageformat": "Snímek"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Tato verze obsahuje řadu drobných vylepšení a oprav chyb, aby Signal fungoval bez problémů.",
@@ -8290,6 +8290,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__8.10--0": {
-    "messageformat": "The freshly spun emoji in Unicode 17.0 have now pirouetted into place in Signal. Send a message reaction with the new Ballet Dancer emoji to perform your own digital version of a pas de chat."
+    "messageformat": "Přidali jsme podporu pro nová emoji z vydání Unicode 17.0."
   }
 }

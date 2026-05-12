@@ -1956,25 +1956,25 @@
     "messageformat": "Daha fazla seçenek"
   },
   "icu:CallingParticipantMenu__MuteAudio": {
-    "messageformat": "Mute audio"
+    "messageformat": "Sesi kapat"
   },
   "icu:CallingParticipantMenu__UnmuteAudio": {
-    "messageformat": "Unmute audio"
+    "messageformat": "Sessizden çıkar"
   },
   "icu:CallingParticipantMenu__ViewProfile": {
-    "messageformat": "View profile"
+    "messageformat": "Profili görüntüle"
   },
   "icu:CallingParticipantMenu__GoToChat": {
-    "messageformat": "Go to chat"
+    "messageformat": "Sohbete git"
   },
   "icu:CallingParticipantMenu__RemoveFromCall": {
-    "messageformat": "Remove from call"
+    "messageformat": "Aramadan çıkar"
   },
   "icu:CallingParticipantListItem__ContextMenuButton": {
-    "messageformat": "More actions"
+    "messageformat": "Diğer eylemler"
   },
   "icu:CallingParticipantListItem__Presenting": {
-    "messageformat": "Presenting"
+    "messageformat": "Sunuyor"
   },
   "icu:CallingPendingParticipants__ApproveUser": {
     "messageformat": "Katılım isteğini onayla"
@@ -2205,25 +2205,25 @@
     "messageformat": "Signal Desktop'ın bu sürümündeki tüm veriler ve mesajlar silinsin mi? Signal hesabın ve telefonundaki veya diğer bağlı cihazlarındaki veriler silinmez."
   },
   "icu:deleteAccountProgress": {
-    "messageformat": "Deleting account and all data…"
+    "messageformat": "Hesap ve tüm veriler siliniyor…"
   },
   "icu:deleteAllDataProgress": {
     "messageformat": "Bağlantı kesiliyor ve tüm veriler siliniyor…"
   },
   "icu:deleteAccountHeader": {
-    "messageformat": "Delete account"
+    "messageformat": "Hesabı sil"
   },
   "icu:deleteAccountExplanation": {
-    "messageformat": "This will delete your account info, profile, and all of your messages. You will also be removed from all Signal groups."
+    "messageformat": "Bu işlem hesap bilgini, profilini ve tüm mesajlarını silecektir. Tüm Signal gruplarından da çıkarılacaksın."
   },
   "icu:deleteAccountButton": {
-    "messageformat": "Delete account"
+    "messageformat": "Hesabı sil"
   },
   "icu:deleteAccountDialogHeader": {
-    "messageformat": "Delete Account?"
+    "messageformat": "Hesap Silinsin mi?"
   },
   "icu:deleteAccountDialogBody": {
-    "messageformat": "This will delete your account info, profile, and all of your messages. You will also be removed from all Signal groups. The app will close after this process is complete."
+    "messageformat": "Bu işlem hesap bilgini, profilini ve tüm mesajlarını silecektir. Tüm Signal gruplarından da çıkarılacaksın. Bu işlem tamamlandıktan sonra uygulama kapanacaktır."
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Daha önceki Signal Masaüstü kurulumundan kalma eski verilerin var. Eğer devam etmeyi seçersen bu veriler silinecek ve sıfırdan başlayacaksın."
@@ -2571,10 +2571,10 @@
     "messageformat": "Bağlantı koparıldı"
   },
   "icu:unregisteredWarning": {
-    "messageformat": "Click to re-register and continue messaging. Signal Desktop is unregistered likely because you registered your phone number with Signal on a different device."
+    "messageformat": "Yeniden kaydolmak ve mesajlaşmaya devam etmek için tıkla. Signal Desktop'ın kaydedilmemiş olmasının nedeni büyük olasılıkla telefon numaranın farklı bir cihazda Signal'a kaydedilmiş olmasıdır."
   },
   "icu:unregistered": {
-    "messageformat": "No longer registered"
+    "messageformat": "Artık kayıtlı değil"
   },
   "icu:autoUpdateNewVersionTitle": {
     "messageformat": "Güncelleme mevcut"
@@ -3366,40 +3366,40 @@
     "messageformat": "Güvenlik İpuçları"
   },
   "icu:SafetyTipsModal__Title-v2": {
-    "messageformat": "Safety tips"
+    "messageformat": "Güvenlik ipuçları"
   },
   "icu:SafetyTipsModal__TipTitle--SignalChat": {
-    "messageformat": "Don’t respond to chats from Signal"
+    "messageformat": "Signal'dan gelen sohbetleri yanıtlama"
   },
   "icu:SafetyTipsModal__TipDescription--SignalChat": {
-    "messageformat": "Signal will never message you for your registration code, PIN, or recovery key. Never respond to a chat pretending to be Signal."
+    "messageformat": "Signal hiçbir zaman kayıt kodun, PIN kodun veya kurtarma anahtarın için sana mesaj atmaz. Signal olduğunu iddia eden bir sohbeti hiçbir zaman yanıtlama."
   },
   "icu:SafetyTipsModal__TipTitle--NamesAndPhotos": {
-    "messageformat": "Review names and photos"
+    "messageformat": "Adları ve fotoğrafları incele"
   },
   "icu:SafetyTipsModal__TipDescription--NamesAndPhotos": {
-    "messageformat": "Look out for the “Name not verified” notice. Everyone sets their own profile name in Signal."
+    "messageformat": "\"Ad doğrulanmadı\" bildirimini ara. Herkes Signal'da kendi profil adını ayarlar."
   },
   "icu:SafetyTipsModal__TipTitle--Scams": {
-    "messageformat": "Look out for scams"
+    "messageformat": "Dolandırıcılıklara dikkat et"
   },
   "icu:SafetyTipsModal__TipDescription--Scams": {
-    "messageformat": "Avoid vague messages that try to get you to reply. Be aware of financial tips and suspicious web links."
+    "messageformat": "Yanıtlamanı sağlamaya çalışan belirsiz mesajlardan kaçın. Finansal ipuçları ve şüpheli web bağlantılarına karşı dikkatli ol."
   },
   "icu:SafetyTipsModal__Description": {
     "messageformat": "Tanımadığın kişilerden gelen mesaj isteklerini kabul ederken dikkatli ol. Şunlara dikkat et:"
   },
   "icu:SafetyTipsModal__TipTitle--DontRespond": {
-    "messageformat": "Don’t respond to chats from Signal"
+    "messageformat": "Signal'dan gelen sohbetleri yanıtlama"
   },
   "icu:SafetyTipsModal__TipDescription--DontRespond": {
-    "messageformat": "Signal will never message you for your registration code, PIN, or recover key. Don't reply to chats pretending to be Signal or Signal Support. Bad actors set up fake names to try to take over your account."
+    "messageformat": "Signal hiçbir zaman kayıt kodun, PIN kodun veya kurtarma anahtarın için sana mesaj atmaz. Signal veya Signal Destek olduğunu iddia eden sohbetleri yanıtlama. Kötü niyetli kişiler hesabını ele geçirmek için sahte adlar oluşturabilir."
   },
   "icu:SafetyTipsModal__TipTitle--ReviewNames": {
-    "messageformat": "Review names and photos"
+    "messageformat": "Adları ve fotoğrafları incele"
   },
   "icu:SafetyTipsModal__TipDescription--ReviewNames": {
-    "messageformat": "Look out for the “Name not verified” notice. Everyone sets their own profile name and photo in Signal. If you’re unsure who a new request is from it’s safer to ignore it."
+    "messageformat": "\"Ad doğrulanmadı\" bildirimini ara. Herkes Signal'da kendi profil adını ve fotoğrafını ayarlar. Yeni bir isteğin kimden geldiğinden emin değilsen, isteği yok saymak daha güvenlidir."
   },
   "icu:SafetyTipsModal__TipTitle--Fake": {
     "messageformat": "Sahte isimler ve hesaplar"
@@ -3426,13 +3426,13 @@
     "messageformat": "Tanımadığın kişilerden gelen ve web sitelerine bağlantılar içeren mesajlara dikkat et. Güvenmediğin kişilerin bağlantılarını asla ziyaret etme."
   },
   "icu:SafetyTipsModal__TipTitle--Links-v2": {
-    "messageformat": "Messages with web links"
+    "messageformat": "Web bağlantılı mesajlar"
   },
   "icu:SafetyTipsModal__TipTitle--Business": {
     "messageformat": "Sahte işletmeler ve kurumlar"
   },
   "icu:SafetyTipsModal__TipTitle--Business-v2": {
-    "messageformat": "Fake businesses"
+    "messageformat": "Sahte işletmeler"
   },
   "icu:SafetyTipsModal__TipDescription--Business": {
     "messageformat": "Seninle iletişime geçen işletmelere veya devlet kurumlarına karşı dikkatli ol. Vergi daireleri, kuryeler ve daha fazlasını içeren mesajlar spam olabilir."
@@ -3450,7 +3450,7 @@
     "messageformat": "Tamam"
   },
   "icu:SafetyTipsModal__Button--ViewMore": {
-    "messageformat": "View more"
+    "messageformat": "Daha fazlasını gör"
   },
   "icu:MessageRequests--message-direct": {
     "messageformat": "{name} kişisinin sizinle yazışmasına ve adınızla fotoğrafınızı görmesine izin vermek istiyor musunuz? Kabul edene kadar iletilerini gördüğünüzü bilmeyecekler."
@@ -3555,10 +3555,10 @@
     "messageformat": "İstekleri dikkatlice incele. Profil adları, hesap sahibi tarafından seçilir ve doğrulanmaz."
   },
   "icu:MessageRequests--accept-confirm-title-v2": {
-    "messageformat": "Accept request?"
+    "messageformat": "İstek kabul edilsin mi?"
   },
   "icu:MessageRequests--accept-confirm-body-v2": {
-    "messageformat": "Only accept requests from people you trust. <bold>Signal will never</bold> message you for a registration code, PIN, or recovery key."
+    "messageformat": "Yalnızca güvendiğin insanların isteklerini kabul et. Signal kayıt kodun, PIN kodun veya kurtarma anahtarın için sana <bold>hiçbir zaman</bold> mesaj atmaz."
   },
   "icu:MessageRequests--continue": {
     "messageformat": "Devam"
@@ -3618,13 +3618,13 @@
     "messageformat": "Resmi hesap"
   },
   "icu:ConversationHero--signal-official-chat-title": {
-    "messageformat": "Official chat"
+    "messageformat": "Resmi sohbet"
   },
   "icu:ConversationHero--signal-official-account--description": {
     "messageformat": "Signal'dan gelen tek resmi sohbet. Haberler ve sürüm notları ile güncel bilgilere eriş."
   },
   "icu:Timeline--signal-official-chat--chip": {
-    "messageformat": "The only official chat from Signal."
+    "messageformat": "Signal'dan gelen tek resmi sohbet."
   },
   "icu:ConversationHero--release-notes": {
     "messageformat": "Haberler ve sürüm notları ile güncel bilgilere eriş."
@@ -4611,7 +4611,7 @@
     "messageformat": "Kapat"
   },
   "icu:clear": {
-    "messageformat": "Clear"
+    "messageformat": "Kaldır"
   },
   "icu:previous": {
     "messageformat": "önceki"
@@ -4623,16 +4623,16 @@
     "messageformat": "Bu işlem birkaç dakika sürebilir"
   },
   "icu:DeletingAccount__LeavingGroups__Title": {
-    "messageformat": "Leaving groups..."
+    "messageformat": "Gruplardan çıkılıyor..."
   },
   "icu:DeletingAccount__LeavingGroups__Detail": {
-    "messageformat": "Depending on the number of groups you’re in, this might take a few minutes"
+    "messageformat": "Bulunduğun grup sayısına bağlı olarak bu işlem birkaç dakika sürebilir"
   },
   "icu:DeletingAccount__DeletingData__Title": {
-    "messageformat": "Deleting account and all data..."
+    "messageformat": "Hesap ve tüm veriler siliniyor..."
   },
   "icu:DeletingAccount__DeletingData__Detail": {
-    "messageformat": "Deleting user data and resetting the app"
+    "messageformat": "Kullanıcı verilerini silme ve uygulamayı sıfırlama"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Signal'e Bağış Yap"
@@ -5410,7 +5410,7 @@
     "messageformat": "Bir Signal Aramasına katılmak için bu bağlantıyı kullan: {url}"
   },
   "icu:MessageRequestWarning__review-carefully": {
-    "messageformat": "Review requests carefully"
+    "messageformat": "İstekleri dikkatlice incele"
   },
   "icu:MessageRequestWarning__safety-tips-v2": {
     "messageformat": "Güvenlik ipuçları"
@@ -6386,22 +6386,22 @@
     "messageformat": "{num, plural, one {{num,number} kişi} other {{num,number} kişi}}"
   },
   "icu:Preferences--blocked-count-both-new": {
-    "messageformat": "{num, plural, =0 { No users or groups } one {{num,number} user or group} other {{num,number} users or groups}}"
+    "messageformat": "{num, plural, =0 { Kullanıcı veya grup yok } one {{num,number} kullanıcı veya grup} other {{num,number} kullanıcı veya grup}}"
   },
   "icu:Preferences--blocked-count-contacts-new": {
-    "messageformat": "{num, plural, =0 { No users } one {{num,number} user} other {{num,number} users}}"
+    "messageformat": "{num, plural, =0 { Kullanıcı yok } one {{num,number} kullanıcı} other {{num,number} kullanıcı}}"
   },
   "icu:Preferences--blocked-count-groups-new": {
-    "messageformat": "{num, plural, =0 { No groups } one {{num,number} group} other {{num,number} groups}}"
+    "messageformat": "{num, plural, =0 { Grup yok } one {{num,number} grup} other {{num,number} grup}}"
   },
   "icu:Preferences--blocked-users--description": {
-    "messageformat": "Blocked users will not be able to call you or send you messages"
+    "messageformat": "Engellenen kullanıcılar seni arayamaz veya sana mesaj gönderemez"
   },
   "icu:Preferences--blocked-users": {
-    "messageformat": "Blocked Users"
+    "messageformat": "Engellenen Kullanıcılar"
   },
   "icu:Preferences--blocked-groups": {
-    "messageformat": "Blocked Groups"
+    "messageformat": "Engellenen Gruplar"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Signal Güvenli Yedeklemeler"
@@ -6974,7 +6974,7 @@
     "messageformat": "Mesaj isteğini kabul ettin"
   },
   "icu:MessageRequestResponseNotification__Message--Accepted-Contact-Title": {
-    "messageformat": "You accepted {userProfileName}'s message request"
+    "messageformat": "{userProfileName} kişisinin mesaj isteğini kabul ettin"
   },
   "icu:MessageRequestResponseNotification__Message--Reported": {
     "messageformat": "Spam olarak bildirildi"
@@ -6995,7 +6995,7 @@
     "messageformat": "Seçenekler"
   },
   "icu:MessageRequestResponseNotification__Button--block-or-report": {
-    "messageformat": "Block or Report..."
+    "messageformat": "Engelle veya Bildir..."
   },
   "icu:MessageRequestResponseNotification__Button--LearnMore": {
     "messageformat": "Daha Fazlasını Öğren"
@@ -8256,10 +8256,10 @@
     "messageformat": "Megafon ile etkileşim için kenar çubuğunu genişlet"
   },
   "icu:Carousel--Role": {
-    "messageformat": "Carousel"
+    "messageformat": "Kaydırmalı içerik"
   },
   "icu:Carousel__Slide--Role": {
-    "messageformat": "Slide"
+    "messageformat": "Kaydır"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Bu sürüm Signal'in sorunsuz çalışması için gereken bir takım küçük düzeltme ve hata gidermelerini içerir.",
@@ -8290,6 +8290,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__8.10--0": {
-    "messageformat": "The freshly spun emoji in Unicode 17.0 have now pirouetted into place in Signal. Send a message reaction with the new Ballet Dancer emoji to perform your own digital version of a pas de chat."
+    "messageformat": "Unicode 17.0'da yeni emoji için desteği etkinleştirdik. Yeni Bale Dansçısı emojisi ile bir mesaj tepkisi gönderebilirsin."
   }
 }

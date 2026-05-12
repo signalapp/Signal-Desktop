@@ -1956,25 +1956,25 @@
     "messageformat": "گزینه‌های بیشتر"
   },
   "icu:CallingParticipantMenu__MuteAudio": {
-    "messageformat": "Mute audio"
+    "messageformat": "بی‌صدا کردن صوت"
   },
   "icu:CallingParticipantMenu__UnmuteAudio": {
-    "messageformat": "Unmute audio"
+    "messageformat": "صدادار کردن"
   },
   "icu:CallingParticipantMenu__ViewProfile": {
-    "messageformat": "View profile"
+    "messageformat": "مشاهده نمایه"
   },
   "icu:CallingParticipantMenu__GoToChat": {
-    "messageformat": "Go to chat"
+    "messageformat": "رفتن به گفتگو"
   },
   "icu:CallingParticipantMenu__RemoveFromCall": {
-    "messageformat": "Remove from call"
+    "messageformat": "حذف از تماس"
   },
   "icu:CallingParticipantListItem__ContextMenuButton": {
-    "messageformat": "More actions"
+    "messageformat": "اقدامات بیشتر"
   },
   "icu:CallingParticipantListItem__Presenting": {
-    "messageformat": "Presenting"
+    "messageformat": "در حال ارائه"
   },
   "icu:CallingPendingParticipants__ApproveUser": {
     "messageformat": "تأیید درخواست پیوستن"
@@ -2205,25 +2205,25 @@
     "messageformat": "همۀ داده‌ها و پیام‌ها از این نسخه سیگنال دسکتاپ پاک شود؟ داده‌ها و حساب سیگنال شما در تلفن‌تان و سایر دستگاههای متصل‌شده پاک نخواهد شد."
   },
   "icu:deleteAccountProgress": {
-    "messageformat": "Deleting account and all data…"
+    "messageformat": "در حال حذف حساب و همه داده‌ها…"
   },
   "icu:deleteAllDataProgress": {
     "messageformat": "در حال قطع اتصال و حذف تمام داده‌ها…"
   },
   "icu:deleteAccountHeader": {
-    "messageformat": "Delete account"
+    "messageformat": "پاک کردن حساب"
   },
   "icu:deleteAccountExplanation": {
-    "messageformat": "This will delete your account info, profile, and all of your messages. You will also be removed from all Signal groups."
+    "messageformat": "این گزینه اطلاعات حساب کاربری، نمایه، و تمامی پیام‌های شما را حذف می‌کند. از همه گروه‌های سیگنال نیز حذف خواهید شد."
   },
   "icu:deleteAccountButton": {
-    "messageformat": "Delete account"
+    "messageformat": "پاک کردن حساب"
   },
   "icu:deleteAccountDialogHeader": {
-    "messageformat": "Delete Account?"
+    "messageformat": "حساب حذف شود؟"
   },
   "icu:deleteAccountDialogBody": {
-    "messageformat": "This will delete your account info, profile, and all of your messages. You will also be removed from all Signal groups. The app will close after this process is complete."
+    "messageformat": "این گزینه اطلاعات حساب کاربری، نمایه، و تمامی پیام‌های شما را حذف می‌کند. از همه گروه‌های سیگنال نیز حذف خواهید شد. پس از تکمیل این فرایند، برنامه بسته خواهد شد."
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "از نصب گذشته سیگنال دسکتاپ اطلاعات منسوخی برجا مانده است. اگر ادامه دهید این اطلاعات پاک خواهد شد و از نو آغاز خواهید کرد."
@@ -2571,10 +2571,10 @@
     "messageformat": "جدا شد"
   },
   "icu:unregisteredWarning": {
-    "messageformat": "Click to re-register and continue messaging. Signal Desktop is unregistered likely because you registered your phone number with Signal on a different device."
+    "messageformat": "برای ثبت‌نام دوباره یا ادامه ارسال پیام، کلیک کنید. سیگنال دسک‌تاپ ثبت‌نام نشده است، احتمالاً چون شماره تلفن خود را با سیگنال در دستگاه دیگری ثبت کرده‌اید."
   },
   "icu:unregistered": {
-    "messageformat": "No longer registered"
+    "messageformat": "دیگر ثبت‌نام‌شده نیست"
   },
   "icu:autoUpdateNewVersionTitle": {
     "messageformat": "به‌روزرسانی موجود است"
@@ -3366,40 +3366,40 @@
     "messageformat": "نکات ایمنی"
   },
   "icu:SafetyTipsModal__Title-v2": {
-    "messageformat": "Safety tips"
+    "messageformat": "نکات ایمنی"
   },
   "icu:SafetyTipsModal__TipTitle--SignalChat": {
-    "messageformat": "Don’t respond to chats from Signal"
+    "messageformat": "به گفتگوها از سیگنال پاسخ ندهید"
   },
   "icu:SafetyTipsModal__TipDescription--SignalChat": {
-    "messageformat": "Signal will never message you for your registration code, PIN, or recovery key. Never respond to a chat pretending to be Signal."
+    "messageformat": "سیگنال هیچ‌وقت برای کد ثبت‌نام، پین یا رمز بازیابی به شما پیام نمی‌دهد. هیچ‌وقت به گفتگویی که وانمود می‌کند سیگنال است پاسخ ندهید."
   },
   "icu:SafetyTipsModal__TipTitle--NamesAndPhotos": {
-    "messageformat": "Review names and photos"
+    "messageformat": "مرور نام‌ها و عکس‌ها"
   },
   "icu:SafetyTipsModal__TipDescription--NamesAndPhotos": {
-    "messageformat": "Look out for the “Name not verified” notice. Everyone sets their own profile name in Signal."
+    "messageformat": "به دنبال اطلاعیه «نام تأیید نشده است» باشید. هر کسی در سیگنال، نام نمایه خودش را تنظیم می‌کند."
   },
   "icu:SafetyTipsModal__TipTitle--Scams": {
-    "messageformat": "Look out for scams"
+    "messageformat": "مراقب کلاهبرداری‌ها باشید"
   },
   "icu:SafetyTipsModal__TipDescription--Scams": {
-    "messageformat": "Avoid vague messages that try to get you to reply. Be aware of financial tips and suspicious web links."
+    "messageformat": "از پیام‌های مبهمی که سعی می‌کنند شما را به پاسخ دادن اغوا کنند اجتناب کنید. در مورد توصیه‌های مالی و پیوندهای مشکوک وب احتیاط کنید."
   },
   "icu:SafetyTipsModal__Description": {
     "messageformat": "هنگام پذیرفتن درخواست پیام از افراد ناشناس احتیاط کنید. در موارد زیر احتیاط کنید:"
   },
   "icu:SafetyTipsModal__TipTitle--DontRespond": {
-    "messageformat": "Don’t respond to chats from Signal"
+    "messageformat": "به گفتگوها از سیگنال پاسخ ندهید"
   },
   "icu:SafetyTipsModal__TipDescription--DontRespond": {
-    "messageformat": "Signal will never message you for your registration code, PIN, or recover key. Don't reply to chats pretending to be Signal or Signal Support. Bad actors set up fake names to try to take over your account."
+    "messageformat": "سیگنال هیچ‌وقت برای کد ثبت‌نام، پین یا رمز بازیابی به شما پیام نمی‌دهد. به گفتگوهایی که وانمود می‌کنند سیگنال یا پشتیبانی سیگنال هستند پاسخ ندهید. خرابکارها نام‌های جعلی می‌سازند تا سعی کنند کنترل حسابتان را به دست بگیرند."
   },
   "icu:SafetyTipsModal__TipTitle--ReviewNames": {
-    "messageformat": "Review names and photos"
+    "messageformat": "مرور نام‌ها و عکس‌ها"
   },
   "icu:SafetyTipsModal__TipDescription--ReviewNames": {
-    "messageformat": "Look out for the “Name not verified” notice. Everyone sets their own profile name and photo in Signal. If you’re unsure who a new request is from it’s safer to ignore it."
+    "messageformat": "به دنبال اطلاعیه «نام تأیید نشده است» باشید. هر کسی در سیگنال، نام نمایه و عکس خودش را تنظیم می‌کند. اگر مطمئن نیستید درخواستی از طرف چه کسی است، امن‌تر است که آن را نادیده بگیرید."
   },
   "icu:SafetyTipsModal__TipTitle--Fake": {
     "messageformat": "نام‌ها و حساب‌های جعلی"
@@ -3426,13 +3426,13 @@
     "messageformat": "در مورد پیام‌هایی که از افراد ناشناس دریافت می‌کنید و داخل آن‌ها پیوند به وب‌سایتی وجود دارد احتیاط کنید. هیچ‌وقت پیوندی که از افراد غیرقابل‌اعتماد دریافت کرده‌اید را باز نکنید."
   },
   "icu:SafetyTipsModal__TipTitle--Links-v2": {
-    "messageformat": "Messages with web links"
+    "messageformat": "پیام‌های دارای پیوندهای وب"
   },
   "icu:SafetyTipsModal__TipTitle--Business": {
     "messageformat": "کسب‌وکارها و سازمان‌های جعلی"
   },
   "icu:SafetyTipsModal__TipTitle--Business-v2": {
-    "messageformat": "Fake businesses"
+    "messageformat": "کسب‌وکارهای جعلی"
   },
   "icu:SafetyTipsModal__TipDescription--Business": {
     "messageformat": "در مورد کسب‌وکارها و سازمان‌های دولتی که با شما تماس می‌گیرند احتیاط کنید. پیام‌های مربوط به نهادهای مالیاتی، شرکت مخابراتی و نظایر آن ممکن است هرزنامه باشند."
@@ -3450,7 +3450,7 @@
     "messageformat": "تمام"
   },
   "icu:SafetyTipsModal__Button--ViewMore": {
-    "messageformat": "View more"
+    "messageformat": "مشاهدۀ بیشتر"
   },
   "icu:MessageRequests--message-direct": {
     "messageformat": "به {name} اجازه می‌دهید که به شما پیام دهد و نام و عکس خود را با آن‌ها به اشتراک می‌گذارید؟ تا زمانی که نپذیرید آن‌ها متوجه نمی‌شوند که پیام‌شان را خوانده‌اید."
@@ -3555,10 +3555,10 @@
     "messageformat": "درخواست‌ها را با دقت بازنگری کنید. نام نمایه توسط دارنده حساب انتخاب می‌شود و نیاز به تأیید ندارد."
   },
   "icu:MessageRequests--accept-confirm-title-v2": {
-    "messageformat": "Accept request?"
+    "messageformat": "درخواست پذیرفته شود؟"
   },
   "icu:MessageRequests--accept-confirm-body-v2": {
-    "messageformat": "Only accept requests from people you trust. <bold>Signal will never</bold> message you for a registration code, PIN, or recovery key."
+    "messageformat": "درخواست‌ها را فقط از افراد مورد اعتمادتان بپذیرید. <bold>سیگنال هیچ‌وقت</bold> برای کد ثبت‌نام، پین یا رمز بازیابی به شما پیام نمی‌دهد."
   },
   "icu:MessageRequests--continue": {
     "messageformat": "ادامه"
@@ -3618,13 +3618,13 @@
     "messageformat": "حساب رسمی"
   },
   "icu:ConversationHero--signal-official-chat-title": {
-    "messageformat": "Official chat"
+    "messageformat": "گفتگوی رسمی"
   },
   "icu:ConversationHero--signal-official-account--description": {
     "messageformat": "تنها گفتگوی رسمی از سیگنال. از اخبار و تغییرات جدید با خبر شوید."
   },
   "icu:Timeline--signal-official-chat--chip": {
-    "messageformat": "The only official chat from Signal."
+    "messageformat": "تنها گفتگوی رسمی از سیگنال."
   },
   "icu:ConversationHero--release-notes": {
     "messageformat": "از اخبار و تغییرات جدید با خبر شوید."
@@ -4611,7 +4611,7 @@
     "messageformat": "بستن"
   },
   "icu:clear": {
-    "messageformat": "Clear"
+    "messageformat": "پاک کردن"
   },
   "icu:previous": {
     "messageformat": "قبلی"
@@ -4623,16 +4623,16 @@
     "messageformat": "ممکن است چند دقیقه زمان ببرد"
   },
   "icu:DeletingAccount__LeavingGroups__Title": {
-    "messageformat": "Leaving groups..."
+    "messageformat": "در حال ترک گروه‌ها..."
   },
   "icu:DeletingAccount__LeavingGroups__Detail": {
-    "messageformat": "Depending on the number of groups you’re in, this might take a few minutes"
+    "messageformat": "بسته به تعداد گروه‌هایی که در آن‌ها هستید، این ممکن است چند دقیقه طول بکشد"
   },
   "icu:DeletingAccount__DeletingData__Title": {
-    "messageformat": "Deleting account and all data..."
+    "messageformat": "در حال حذف حساب و همه داده‌ها..."
   },
   "icu:DeletingAccount__DeletingData__Detail": {
-    "messageformat": "Deleting user data and resetting the app"
+    "messageformat": "در حال حذف داده‌های کاربر و بازنشانی برنامه"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "حمایت از سیگنال"
@@ -5410,7 +5410,7 @@
     "messageformat": "با استفاده از این پیوند به تماس سیگنال بپیوندید: {url}"
   },
   "icu:MessageRequestWarning__review-carefully": {
-    "messageformat": "Review requests carefully"
+    "messageformat": "درخواست‌ها را با دقت بازنگری کنید"
   },
   "icu:MessageRequestWarning__safety-tips-v2": {
     "messageformat": "نکات ایمنی"
@@ -6386,22 +6386,22 @@
     "messageformat": "{num, plural, one {{num,number} مخاطب} other {{num,number} مخاطب}}"
   },
   "icu:Preferences--blocked-count-both-new": {
-    "messageformat": "{num, plural, =0 { No users or groups } one {{num,number} user or group} other {{num,number} users or groups}}"
+    "messageformat": "{num, plural, =0 { کاربر یا گروهی وجود ندارد } one {‏{num,number} کاربر یا گروه} other {‏{num,number} کاربر یا گروه}}"
   },
   "icu:Preferences--blocked-count-contacts-new": {
-    "messageformat": "{num, plural, =0 { No users } one {{num,number} user} other {{num,number} users}}"
+    "messageformat": "{num, plural, =0 { کاربری وجود ندارد } one {‏ {num,number} کاربر} other {‏{num,number} کاربر}}"
   },
   "icu:Preferences--blocked-count-groups-new": {
-    "messageformat": "{num, plural, =0 { No groups } one {{num,number} group} other {{num,number} groups}}"
+    "messageformat": "{num, plural, =0 { گروهی وجود ندارد } one {‏{num,number} گروه} other {‏{num,number} گروه}}"
   },
   "icu:Preferences--blocked-users--description": {
-    "messageformat": "Blocked users will not be able to call you or send you messages"
+    "messageformat": "کاربران مسدودشده، امکان تماس با شما یا ارسال پیام به شما را نخواهند داشت"
   },
   "icu:Preferences--blocked-users": {
-    "messageformat": "Blocked Users"
+    "messageformat": "کاربران مسدودشده"
   },
   "icu:Preferences--blocked-groups": {
-    "messageformat": "Blocked Groups"
+    "messageformat": "گروه‌های مسدودشده"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "پشتیبان‌های امن سیگنال"
@@ -6974,7 +6974,7 @@
     "messageformat": "درخواست پیام را پذیرفتید"
   },
   "icu:MessageRequestResponseNotification__Message--Accepted-Contact-Title": {
-    "messageformat": "You accepted {userProfileName}'s message request"
+    "messageformat": "درخواست تبادل پیام {userProfileName} را پذیرفتید"
   },
   "icu:MessageRequestResponseNotification__Message--Reported": {
     "messageformat": "به‌عنوان هرزنامه گزارش شد"
@@ -6995,7 +6995,7 @@
     "messageformat": "گزینه‌ها"
   },
   "icu:MessageRequestResponseNotification__Button--block-or-report": {
-    "messageformat": "Block or Report..."
+    "messageformat": "مسدودسازی یا گزارش..."
   },
   "icu:MessageRequestResponseNotification__Button--LearnMore": {
     "messageformat": "بیشتر بدانید"
@@ -8256,10 +8256,10 @@
     "messageformat": "گسترش نوار کناری برای تعامل با بلندگو"
   },
   "icu:Carousel--Role": {
-    "messageformat": "Carousel"
+    "messageformat": "کاروسل"
   },
   "icu:Carousel__Slide--Role": {
-    "messageformat": "Slide"
+    "messageformat": "لغزاندن"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "این نسخه شامل شماری از بهینه سازی های کوچک و رفع عیب برای تداوم اجرای راحت سیگنال می باشد",
@@ -8290,6 +8290,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__8.10--0": {
-    "messageformat": "The freshly spun emoji in Unicode 17.0 have now pirouetted into place in Signal. Send a message reaction with the new Ballet Dancer emoji to perform your own digital version of a pas de chat."
+    "messageformat": "ما پشتیبانی را برای ایموجی جدید در Unicode 17.0 فعال کردیم. ‌"
   }
 }

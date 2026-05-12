@@ -1956,25 +1956,25 @@
     "messageformat": "Lisää valintoja"
   },
   "icu:CallingParticipantMenu__MuteAudio": {
-    "messageformat": "Mute audio"
+    "messageformat": "Mykistä ääni"
   },
   "icu:CallingParticipantMenu__UnmuteAudio": {
-    "messageformat": "Unmute audio"
+    "messageformat": "Poista mykistys"
   },
   "icu:CallingParticipantMenu__ViewProfile": {
-    "messageformat": "View profile"
+    "messageformat": "Näytä profiili"
   },
   "icu:CallingParticipantMenu__GoToChat": {
-    "messageformat": "Go to chat"
+    "messageformat": "Siirry keskusteluun"
   },
   "icu:CallingParticipantMenu__RemoveFromCall": {
-    "messageformat": "Remove from call"
+    "messageformat": "Poista puhelusta"
   },
   "icu:CallingParticipantListItem__ContextMenuButton": {
-    "messageformat": "More actions"
+    "messageformat": "Lisätoimintoja"
   },
   "icu:CallingParticipantListItem__Presenting": {
-    "messageformat": "Presenting"
+    "messageformat": "Esitetään"
   },
   "icu:CallingPendingParticipants__ApproveUser": {
     "messageformat": "Hyväksy liittymispyyntö"
@@ -2205,25 +2205,25 @@
     "messageformat": "Poista kaikki tiedot ja viestit tästä Signal Desktop -versiosta? Signal-tiliäsi ja puhelimesi tai muiden yhdistettyjen laitteiden tietoja ei poisteta."
   },
   "icu:deleteAccountProgress": {
-    "messageformat": "Deleting account and all data…"
+    "messageformat": "Poistetaan tili ja kaikki tiedot…"
   },
   "icu:deleteAllDataProgress": {
     "messageformat": "Katkaistaan yhteyttä ja poistetaan kaikki tiedot…"
   },
   "icu:deleteAccountHeader": {
-    "messageformat": "Delete account"
+    "messageformat": "Poista tili"
   },
   "icu:deleteAccountExplanation": {
-    "messageformat": "This will delete your account info, profile, and all of your messages. You will also be removed from all Signal groups."
+    "messageformat": "Tilin tiedot, profiili ja kaikki viestit poistetaan. Sinut poistetaan myös kaikista Signal-ryhmistä."
   },
   "icu:deleteAccountButton": {
-    "messageformat": "Delete account"
+    "messageformat": "Poista tili"
   },
   "icu:deleteAccountDialogHeader": {
-    "messageformat": "Delete Account?"
+    "messageformat": "Poistetaanko tili?"
   },
   "icu:deleteAccountDialogBody": {
-    "messageformat": "This will delete your account info, profile, and all of your messages. You will also be removed from all Signal groups. The app will close after this process is complete."
+    "messageformat": "Tilin tiedot, profiili ja kaikki viestit poistetaan. Sinut poistetaan myös kaikista Signal-ryhmistä. Sovellus sulkeutuu, kun prosessi on valmis."
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Sinulla on vanhentuneita tietoja aiemmasta Signal Desktopin asennuksesta. Jos päätät jatkaa, tiedot poistetaan ja aloitat alusta."
@@ -2571,10 +2571,10 @@
     "messageformat": "Ei yhdistetty"
   },
   "icu:unregisteredWarning": {
-    "messageformat": "Click to re-register and continue messaging. Signal Desktop is unregistered likely because you registered your phone number with Signal on a different device."
+    "messageformat": "Napsauta tästä ja rekisteröidy uudelleen, jotta pääset taas viestimään. Signal Desktop ei ole rekisteröity todennäköisesti siksi, että olet rekisteröinyt puhelinnumerosi Signaliin toisella laitteella."
   },
   "icu:unregistered": {
-    "messageformat": "No longer registered"
+    "messageformat": "Ei enää rekisteröity"
   },
   "icu:autoUpdateNewVersionTitle": {
     "messageformat": "Päivitys saatavilla"
@@ -3366,40 +3366,40 @@
     "messageformat": "Turvallisuusvinkkejä"
   },
   "icu:SafetyTipsModal__Title-v2": {
-    "messageformat": "Safety tips"
+    "messageformat": "Turvallisuusvinkkejä"
   },
   "icu:SafetyTipsModal__TipTitle--SignalChat": {
-    "messageformat": "Don’t respond to chats from Signal"
+    "messageformat": "Älä vastaa keskusteluihin, joiden lähettäjänä on Signal"
   },
   "icu:SafetyTipsModal__TipDescription--SignalChat": {
-    "messageformat": "Signal will never message you for your registration code, PIN, or recovery key. Never respond to a chat pretending to be Signal."
+    "messageformat": "Signal ei koskaan lähetä viestejä pyytääkseen rekisteröintikoodia, PIN-koodia tai palautusavainta. Älä vastaa keskusteluihin, joissa lähettäjä esittää edustavansa Signalia."
   },
   "icu:SafetyTipsModal__TipTitle--NamesAndPhotos": {
-    "messageformat": "Review names and photos"
+    "messageformat": "Tarkista nimet ja kuvat"
   },
   "icu:SafetyTipsModal__TipDescription--NamesAndPhotos": {
-    "messageformat": "Look out for the “Name not verified” notice. Everyone sets their own profile name in Signal."
+    "messageformat": "Kiinnitä huomiota ilmoitukseen ”Nimeä ei ole vahvistettu”. Jokainen asettaa itse profiilinsa nimen ja kuvan Signalissa."
   },
   "icu:SafetyTipsModal__TipTitle--Scams": {
-    "messageformat": "Look out for scams"
+    "messageformat": "Varo huijauksia"
   },
   "icu:SafetyTipsModal__TipDescription--Scams": {
-    "messageformat": "Avoid vague messages that try to get you to reply. Be aware of financial tips and suspicious web links."
+    "messageformat": "Vältä epämääräisiä viestejä, joilla yritetään saada sinut vastaamaan. Varo taloudellisia vinkkejä ja epäilyttäviä verkkolinkkejä."
   },
   "icu:SafetyTipsModal__Description": {
     "messageformat": "Ole varovainen vastaanottaessasi viestipyyntöjä tuntemattomilta henkilöiltä. Varo seuraavia:"
   },
   "icu:SafetyTipsModal__TipTitle--DontRespond": {
-    "messageformat": "Don’t respond to chats from Signal"
+    "messageformat": "Älä vastaa keskusteluihin, joiden lähettäjänä on Signal"
   },
   "icu:SafetyTipsModal__TipDescription--DontRespond": {
-    "messageformat": "Signal will never message you for your registration code, PIN, or recover key. Don't reply to chats pretending to be Signal or Signal Support. Bad actors set up fake names to try to take over your account."
+    "messageformat": "Signal ei koskaan lähetä viestejä pyytääkseen rekisteröintikoodia, PIN-koodia tai palautusavainta. Älä vastaa keskusteluihin, joissa lähettäjä esittää edustavansa Signalia tai Signal-tukea. Huijarit aloittavat väärennettyjä keskusteluja tarkoituksenaan kaapata tilisi."
   },
   "icu:SafetyTipsModal__TipTitle--ReviewNames": {
-    "messageformat": "Review names and photos"
+    "messageformat": "Tarkista nimet ja kuvat"
   },
   "icu:SafetyTipsModal__TipDescription--ReviewNames": {
-    "messageformat": "Look out for the “Name not verified” notice. Everyone sets their own profile name and photo in Signal. If you’re unsure who a new request is from it’s safer to ignore it."
+    "messageformat": "Kiinnitä huomiota ilmoitukseen ”Nimeä ei ole vahvistettu”. Jokainen asettaa Signalissa profiilinsa nimen ja kuvan itse. Jos et ole varma, keneltä uusi pyyntö on peräisin, on turvallisinta jättää se huomiotta."
   },
   "icu:SafetyTipsModal__TipTitle--Fake": {
     "messageformat": "Väärennetyt nimet ja tilit"
@@ -3426,13 +3426,13 @@
     "messageformat": "Ole varovainen tuntemattomien lähettämissä viesteissä, joissa on linkkejä verkkosivustoille. Älä koskaan käy viestin linkeissä, jos et luota sen lähettäjään."
   },
   "icu:SafetyTipsModal__TipTitle--Links-v2": {
-    "messageformat": "Messages with web links"
+    "messageformat": "Viestit, joissa on linkkejä verkkoon"
   },
   "icu:SafetyTipsModal__TipTitle--Business": {
     "messageformat": "Väärennetyt yritykset ja organisaatiot"
   },
   "icu:SafetyTipsModal__TipTitle--Business-v2": {
-    "messageformat": "Fake businesses"
+    "messageformat": "Väärennetyt yritykset"
   },
   "icu:SafetyTipsModal__TipDescription--Business": {
     "messageformat": "Varo yrityksiä tai virastoja, jotka ottavat sinuun yhteyttä. Viestit, joissa mainitaan esim. verovirasto tai logistiikkayhtiö, voivat olla roskapostia."
@@ -3450,7 +3450,7 @@
     "messageformat": "Valmis"
   },
   "icu:SafetyTipsModal__Button--ViewMore": {
-    "messageformat": "View more"
+    "messageformat": "Näytä lisää"
   },
   "icu:MessageRequests--message-direct": {
     "messageformat": "Sallitaanko henkilön {name} lähettää sinulle viestejä ja nähdä nimesi ja profiilikuvasi? Hän ei tiedä että olet nähnyt hänen viestinsä ennen hyväksymistä."
@@ -3555,10 +3555,10 @@
     "messageformat": "Tarkista pyynnöt huolellisesti. Profiilin nimi on tilin haltijan valittavissa eikä sitä vahvisteta."
   },
   "icu:MessageRequests--accept-confirm-title-v2": {
-    "messageformat": "Accept request?"
+    "messageformat": "Hyväksytäänkö pyyntö?"
   },
   "icu:MessageRequests--accept-confirm-body-v2": {
-    "messageformat": "Only accept requests from people you trust. <bold>Signal will never</bold> message you for a registration code, PIN, or recovery key."
+    "messageformat": "Hyväksy pyynnöt vain luotettavilta henkilöiltä. <bold>Signal ei koskaan</bold> lähetä viestejä pyytääkseen rekisteröintikoodia, PIN-koodia tai palautusavainta."
   },
   "icu:MessageRequests--continue": {
     "messageformat": "Jatka"
@@ -3618,13 +3618,13 @@
     "messageformat": "Virallinen tili"
   },
   "icu:ConversationHero--signal-official-chat-title": {
-    "messageformat": "Official chat"
+    "messageformat": "Virallinen keskustelu"
   },
   "icu:ConversationHero--signal-official-account--description": {
     "messageformat": "Ainoa virallinen Signal-keskustelu. Pysy ajan tasalla uutisista ja julkaisutiedotteista."
   },
   "icu:Timeline--signal-official-chat--chip": {
-    "messageformat": "The only official chat from Signal."
+    "messageformat": "Ainoa virallinen Signal-keskustelu."
   },
   "icu:ConversationHero--release-notes": {
     "messageformat": "Pysy ajan tasalla uutisista ja julkaisutiedotteista."
@@ -4611,7 +4611,7 @@
     "messageformat": "Sulje"
   },
   "icu:clear": {
-    "messageformat": "Clear"
+    "messageformat": "Tyhjennä"
   },
   "icu:previous": {
     "messageformat": "edellinen"
@@ -4623,16 +4623,16 @@
     "messageformat": "Tämä saattaa kestää muutaman minuutin"
   },
   "icu:DeletingAccount__LeavingGroups__Title": {
-    "messageformat": "Leaving groups..."
+    "messageformat": "Poistutaan ryhmistä..."
   },
   "icu:DeletingAccount__LeavingGroups__Detail": {
-    "messageformat": "Depending on the number of groups you’re in, this might take a few minutes"
+    "messageformat": "Tämä saattaa kestää muutamia minuutteja riippuen siitä, miten monen ryhmän jäsen olet"
   },
   "icu:DeletingAccount__DeletingData__Title": {
-    "messageformat": "Deleting account and all data..."
+    "messageformat": "Poistetaan tili ja kaikki tiedot..."
   },
   "icu:DeletingAccount__DeletingData__Detail": {
-    "messageformat": "Deleting user data and resetting the app"
+    "messageformat": "Poistetaan käyttäjätietoja ja palautetaan sovelluksen oletuksia"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Lahjoita Signalille"
@@ -5410,7 +5410,7 @@
     "messageformat": "Liity Signal-puheluun tämän linkin avulla: {url}"
   },
   "icu:MessageRequestWarning__review-carefully": {
-    "messageformat": "Review requests carefully"
+    "messageformat": "Tarkista pyynnöt huolellisesti"
   },
   "icu:MessageRequestWarning__safety-tips-v2": {
     "messageformat": "Turvallisuusvinkkejä"
@@ -6386,22 +6386,22 @@
     "messageformat": "{num, plural, one {1 yhteystieto} other {{num,number} yhteystietoa}}"
   },
   "icu:Preferences--blocked-count-both-new": {
-    "messageformat": "{num, plural, =0 { No users or groups } one {{num,number} user or group} other {{num,number} users or groups}}"
+    "messageformat": "{num, plural, =0 { Ei käyttäjiä tai ryhmiä } one {{num,number} käyttäjä tai ryhmä} other {{num,number} käyttäjää tai ryhmää}}"
   },
   "icu:Preferences--blocked-count-contacts-new": {
-    "messageformat": "{num, plural, =0 { No users } one {{num,number} user} other {{num,number} users}}"
+    "messageformat": "{num, plural, =0 { Ei käyttäjiä } one {{num,number} käyttäjä} other {{num,number} käyttäjää}}"
   },
   "icu:Preferences--blocked-count-groups-new": {
-    "messageformat": "{num, plural, =0 { No groups } one {{num,number} group} other {{num,number} groups}}"
+    "messageformat": "{num, plural, =0 { Ei ryhmiä } one {{num,number} ryhmä} other {{num,number} ryhmää}}"
   },
   "icu:Preferences--blocked-users--description": {
-    "messageformat": "Blocked users will not be able to call you or send you messages"
+    "messageformat": "Estetyt käyttäjät eivät voi soittaa sinulle tai lähettää sinulle viestejä"
   },
   "icu:Preferences--blocked-users": {
-    "messageformat": "Blocked Users"
+    "messageformat": "Estetyt käyttäjät"
   },
   "icu:Preferences--blocked-groups": {
-    "messageformat": "Blocked Groups"
+    "messageformat": "Estetyt ryhmät"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Signal Secure -varmuuskopiointi"
@@ -6974,7 +6974,7 @@
     "messageformat": "Hyväksyit viestipyynnön"
   },
   "icu:MessageRequestResponseNotification__Message--Accepted-Contact-Title": {
-    "messageformat": "You accepted {userProfileName}'s message request"
+    "messageformat": "Hyväksyit viestipyynnön henkilöltä {userProfileName}"
   },
   "icu:MessageRequestResponseNotification__Message--Reported": {
     "messageformat": "Ilmoitettu roskapostista"
@@ -6995,7 +6995,7 @@
     "messageformat": "Valinnat"
   },
   "icu:MessageRequestResponseNotification__Button--block-or-report": {
-    "messageformat": "Block or Report..."
+    "messageformat": "Estä tai ilmoita..."
   },
   "icu:MessageRequestResponseNotification__Button--LearnMore": {
     "messageformat": "Lue lisää"
@@ -8256,10 +8256,10 @@
     "messageformat": "Voit olla vuorovaikutuksessa megafonin kanssa laajentamalla sivupalkkia"
   },
   "icu:Carousel--Role": {
-    "messageformat": "Carousel"
+    "messageformat": "Karuselli"
   },
   "icu:Carousel__Slide--Role": {
-    "messageformat": "Slide"
+    "messageformat": "Liukusäädin"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Tämä versio sisältää useita pieniä parannuksia ja virhekorjauksia, jotka pitävät Signalin toiminnan sujuvana.",
@@ -8290,6 +8290,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__8.10--0": {
-    "messageformat": "The freshly spun emoji in Unicode 17.0 have now pirouetted into place in Signal. Send a message reaction with the new Ballet Dancer emoji to perform your own digital version of a pas de chat."
+    "messageformat": "Olemme ottaneet käyttöön tuen Unicode 17.0:n uusille emojille."
   }
 }

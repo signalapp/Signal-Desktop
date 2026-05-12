@@ -1956,25 +1956,25 @@
     "messageformat": "Mai multe opțiuni"
   },
   "icu:CallingParticipantMenu__MuteAudio": {
-    "messageformat": "Mute audio"
+    "messageformat": "Dezactivează sunetul"
   },
   "icu:CallingParticipantMenu__UnmuteAudio": {
-    "messageformat": "Unmute audio"
+    "messageformat": "Activare sunet"
   },
   "icu:CallingParticipantMenu__ViewProfile": {
-    "messageformat": "View profile"
+    "messageformat": "Vezi profilul"
   },
   "icu:CallingParticipantMenu__GoToChat": {
-    "messageformat": "Go to chat"
+    "messageformat": "Arată conversația"
   },
   "icu:CallingParticipantMenu__RemoveFromCall": {
-    "messageformat": "Remove from call"
+    "messageformat": "Elimină din apel"
   },
   "icu:CallingParticipantListItem__ContextMenuButton": {
-    "messageformat": "More actions"
+    "messageformat": "Mai multe acțiuni"
   },
   "icu:CallingParticipantListItem__Presenting": {
-    "messageformat": "Presenting"
+    "messageformat": "Prezintă"
   },
   "icu:CallingPendingParticipants__ApproveUser": {
     "messageformat": "Aprobă solicitarea de participare"
@@ -2205,25 +2205,25 @@
     "messageformat": "Ștergi toate datele și mesajele din această versiune de Signal Desktop? Contul tău Signal și datele de pe telefon sau alte dispozitive conectate nu vor fi șterse."
   },
   "icu:deleteAccountProgress": {
-    "messageformat": "Deleting account and all data…"
+    "messageformat": "Eliminăm contul și toate datele…"
   },
   "icu:deleteAllDataProgress": {
     "messageformat": "Se deconectează și se șterg toate datele…"
   },
   "icu:deleteAccountHeader": {
-    "messageformat": "Delete account"
+    "messageformat": "Șterge-ți contul"
   },
   "icu:deleteAccountExplanation": {
-    "messageformat": "This will delete your account info, profile, and all of your messages. You will also be removed from all Signal groups."
+    "messageformat": "Această acțiune va elimina informațiile contului, profilul și toate mesajele tale. Vei fi eliminat/ă și din toate grupurile Signal."
   },
   "icu:deleteAccountButton": {
-    "messageformat": "Delete account"
+    "messageformat": "Șterge-ți contul"
   },
   "icu:deleteAccountDialogHeader": {
-    "messageformat": "Delete Account?"
+    "messageformat": "Elimini contul?"
   },
   "icu:deleteAccountDialogBody": {
-    "messageformat": "This will delete your account info, profile, and all of your messages. You will also be removed from all Signal groups. The app will close after this process is complete."
+    "messageformat": "Această acțiune va elimina informațiile contului, profilul și toate mesajele tale. Vei fi eliminat/ă și din toate grupurile Signal. Aplicația se va închide după ce se încheie procesul."
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Ai date învechite de la o instalare anterioara a Signal Desktop. Dacă alegi să continui, acestea vor fi șterse și vei începe de la zero."
@@ -2571,10 +2571,10 @@
     "messageformat": "Disociat"
   },
   "icu:unregisteredWarning": {
-    "messageformat": "Click to re-register and continue messaging. Signal Desktop is unregistered likely because you registered your phone number with Signal on a different device."
+    "messageformat": "Dă clic ca să te reînscrii și să continui să dai mesaje. Probabil că aplicația Signal Desktop nu este înregistrată deoarece ți-ai înscris numărul de telefon în Signal de pe un alt dispozitiv."
   },
   "icu:unregistered": {
-    "messageformat": "No longer registered"
+    "messageformat": "Nu mai este înregistrat(ă)"
   },
   "icu:autoUpdateNewVersionTitle": {
     "messageformat": "Actualizare disponibilă"
@@ -3366,40 +3366,40 @@
     "messageformat": "Sfaturi de siguranță"
   },
   "icu:SafetyTipsModal__Title-v2": {
-    "messageformat": "Safety tips"
+    "messageformat": "Sfaturi de siguranță"
   },
   "icu:SafetyTipsModal__TipTitle--SignalChat": {
-    "messageformat": "Don’t respond to chats from Signal"
+    "messageformat": "Nu răspunde la conversații de la Signal"
   },
   "icu:SafetyTipsModal__TipDescription--SignalChat": {
-    "messageformat": "Signal will never message you for your registration code, PIN, or recovery key. Never respond to a chat pretending to be Signal."
+    "messageformat": "Signal nu îți va da niciodată mesaj în care să îți ceară codul de înregistrare, PIN-ul sau codul de recuperare. Nu răspunde niciodată la o conversație de la cineva care pretinde că e Signal."
   },
   "icu:SafetyTipsModal__TipTitle--NamesAndPhotos": {
-    "messageformat": "Review names and photos"
+    "messageformat": "Verifică numele și fotografiile"
   },
   "icu:SafetyTipsModal__TipDescription--NamesAndPhotos": {
-    "messageformat": "Look out for the “Name not verified” notice. Everyone sets their own profile name in Signal."
+    "messageformat": "Ai grijă la mesajul Numele nu a fost verificat. Fiecare își stabilește propriul nume de profil în Signal."
   },
   "icu:SafetyTipsModal__TipTitle--Scams": {
-    "messageformat": "Look out for scams"
+    "messageformat": "Ai grijă la înșelătorii"
   },
   "icu:SafetyTipsModal__TipDescription--Scams": {
-    "messageformat": "Avoid vague messages that try to get you to reply. Be aware of financial tips and suspicious web links."
+    "messageformat": "Evită mesajele vagi care încearcă să te convingă să răspunzi. Ai grijă la sfaturi financiare și linkuri web suspicioase."
   },
   "icu:SafetyTipsModal__Description": {
     "messageformat": "Ai grijă când accepți cereri de mesaje de la persoane pe care nu le cunoști. Ai grijă la:"
   },
   "icu:SafetyTipsModal__TipTitle--DontRespond": {
-    "messageformat": "Don’t respond to chats from Signal"
+    "messageformat": "Nu răspunde la conversații de la Signal"
   },
   "icu:SafetyTipsModal__TipDescription--DontRespond": {
-    "messageformat": "Signal will never message you for your registration code, PIN, or recover key. Don't reply to chats pretending to be Signal or Signal Support. Bad actors set up fake names to try to take over your account."
+    "messageformat": "Signal nu îți va da mesaje în care să îți ceară cod de înregistrare, PIN sau cod de recuperare. Nu răspunde mesajelor care pretind că sunt de la Signal sau de la Asistența Signal. Cei care înșală aranjează conversații false ca să încerce să îți preia contul."
   },
   "icu:SafetyTipsModal__TipTitle--ReviewNames": {
-    "messageformat": "Review names and photos"
+    "messageformat": "Verifică numele și fotografiile"
   },
   "icu:SafetyTipsModal__TipDescription--ReviewNames": {
-    "messageformat": "Look out for the “Name not verified” notice. Everyone sets their own profile name and photo in Signal. If you’re unsure who a new request is from it’s safer to ignore it."
+    "messageformat": "Ai grijă la mesajul Numele nu a fost verificat. Toată lumea își setează numele de profil și poza în Signal. Dacă nu îți e clar de la cine e o nouă cerere, e mai sigur să o ignori."
   },
   "icu:SafetyTipsModal__TipTitle--Fake": {
     "messageformat": "Nume și conturi false"
@@ -3426,13 +3426,13 @@
     "messageformat": "Ai grijă la mesajele de la persoane necunoscute care au linkuri către site-uri web. Nu vizita niciodată link-uri de la persoane în care nu ai încredere."
   },
   "icu:SafetyTipsModal__TipTitle--Links-v2": {
-    "messageformat": "Messages with web links"
+    "messageformat": "Mesaje cu linkuri web"
   },
   "icu:SafetyTipsModal__TipTitle--Business": {
     "messageformat": "Companii și instituții false"
   },
   "icu:SafetyTipsModal__TipTitle--Business-v2": {
-    "messageformat": "Fake businesses"
+    "messageformat": "Companii false"
   },
   "icu:SafetyTipsModal__TipDescription--Business": {
     "messageformat": "Ai grijă la companiile sau agențiile guvernamentale care te contactează. Mesajele care implică agențiile fiscale, curierii și multe altele pot fi spam."
@@ -3450,7 +3450,7 @@
     "messageformat": "Gata"
   },
   "icu:SafetyTipsModal__Button--ViewMore": {
-    "messageformat": "View more"
+    "messageformat": "Vezi mai multe"
   },
   "icu:MessageRequests--message-direct": {
     "messageformat": "Permiți lui {name} să îți trimită mesaje și partajezi numele și fotografia cu ei? Nu vor ști că le-ai văzut mesajul până nu accepți."
@@ -3555,10 +3555,10 @@
     "messageformat": "Examinează cu atenție solicitările. Numele de profil sunt alese de proprietarul contului și nu sunt verificate."
   },
   "icu:MessageRequests--accept-confirm-title-v2": {
-    "messageformat": "Accept request?"
+    "messageformat": "Accepți cererea?"
   },
   "icu:MessageRequests--accept-confirm-body-v2": {
-    "messageformat": "Only accept requests from people you trust. <bold>Signal will never</bold> message you for a registration code, PIN, or recovery key."
+    "messageformat": "Acceptă cereri doar de la persoane în care ai încredere. <bold>Signal nu îți va da niciodată</bold> mesaj în care să îți ceară codul de înregistrare, PIN-ul sau codul de recuperare."
   },
   "icu:MessageRequests--continue": {
     "messageformat": "Continuă"
@@ -3618,13 +3618,13 @@
     "messageformat": "Cont oficial"
   },
   "icu:ConversationHero--signal-official-chat-title": {
-    "messageformat": "Official chat"
+    "messageformat": "Chat oficial"
   },
   "icu:ConversationHero--signal-official-account--description": {
     "messageformat": "Singurul chat oficial de la Signal. Fii la curent cu știrile și notele de lansare."
   },
   "icu:Timeline--signal-official-chat--chip": {
-    "messageformat": "The only official chat from Signal."
+    "messageformat": "Singurul chat oficial de la Signal."
   },
   "icu:ConversationHero--release-notes": {
     "messageformat": "Fii la curent cu știrile și notele de lansare."
@@ -4611,7 +4611,7 @@
     "messageformat": "Închide"
   },
   "icu:clear": {
-    "messageformat": "Clear"
+    "messageformat": "Eliminare"
   },
   "icu:previous": {
     "messageformat": "anterior"
@@ -4623,16 +4623,16 @@
     "messageformat": "Această operațiune poate dura câteva minute"
   },
   "icu:DeletingAccount__LeavingGroups__Title": {
-    "messageformat": "Leaving groups..."
+    "messageformat": "Se părăsesc grupurile..."
   },
   "icu:DeletingAccount__LeavingGroups__Detail": {
-    "messageformat": "Depending on the number of groups you’re in, this might take a few minutes"
+    "messageformat": "În funcție de numărul de grupuri în care te afli, acest lucru poate dura câteva minute"
   },
   "icu:DeletingAccount__DeletingData__Title": {
-    "messageformat": "Deleting account and all data..."
+    "messageformat": "Eliminăm contul și toate datele..."
   },
   "icu:DeletingAccount__DeletingData__Detail": {
-    "messageformat": "Deleting user data and resetting the app"
+    "messageformat": "Se șterg datele de utilizator și se resetează aplicația"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Donează pentru Signal"
@@ -5410,7 +5410,7 @@
     "messageformat": "Folosește acest link pentru a te alătura unui apel Signal: {url}"
   },
   "icu:MessageRequestWarning__review-carefully": {
-    "messageformat": "Review requests carefully"
+    "messageformat": "Examinează cu atenție solicitările"
   },
   "icu:MessageRequestWarning__safety-tips-v2": {
     "messageformat": "Sfaturi de siguranță"
@@ -6386,22 +6386,22 @@
     "messageformat": "{num, plural, one {{num,number} contact} few {{num,number} contacte} other {{num,number} de contacte}}"
   },
   "icu:Preferences--blocked-count-both-new": {
-    "messageformat": "{num, plural, =0 { No users or groups } one {{num,number} user or group} other {{num,number} users or groups}}"
+    "messageformat": "{num, plural, =0 { Fără utilizatori sau grupuri } one {{num,number} utilizator sau grup} few {{num,number} utilizatori sau grupuri} other {{num,number} de utilizatori sau grupuri}}"
   },
   "icu:Preferences--blocked-count-contacts-new": {
-    "messageformat": "{num, plural, =0 { No users } one {{num,number} user} other {{num,number} users}}"
+    "messageformat": "{num, plural, =0 { Fără utilizatori } one {{num,number} utilizator} few {{num,number} utilizatori} other {{num,number} de utilizatori}}"
   },
   "icu:Preferences--blocked-count-groups-new": {
-    "messageformat": "{num, plural, =0 { No groups } one {{num,number} group} other {{num,number} groups}}"
+    "messageformat": "{num, plural, =0 { Fără grupuri } one {{num,number} grup} few {{num,number} grupuri} other {{num,number} de grupuri}}"
   },
   "icu:Preferences--blocked-users--description": {
-    "messageformat": "Blocked users will not be able to call you or send you messages"
+    "messageformat": "Utilizatorii blocați nu vor putea să te sune sau să îți trimită mesaje"
   },
   "icu:Preferences--blocked-users": {
-    "messageformat": "Blocked Users"
+    "messageformat": "Utilizatori blocați"
   },
   "icu:Preferences--blocked-groups": {
-    "messageformat": "Blocked Groups"
+    "messageformat": "Grupuri blocate"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Backup-uri securizate Signal"
@@ -6974,7 +6974,7 @@
     "messageformat": "Ai acceptat o solicitare de mesaj"
   },
   "icu:MessageRequestResponseNotification__Message--Accepted-Contact-Title": {
-    "messageformat": "You accepted {userProfileName}'s message request"
+    "messageformat": "Ai acceptat solicitarea de mesaj de la {userProfileName}"
   },
   "icu:MessageRequestResponseNotification__Message--Reported": {
     "messageformat": "Raportat ca spam"
@@ -6995,7 +6995,7 @@
     "messageformat": "Opțiuni"
   },
   "icu:MessageRequestResponseNotification__Button--block-or-report": {
-    "messageformat": "Block or Report..."
+    "messageformat": "Blochează sau raportează..."
   },
   "icu:MessageRequestResponseNotification__Button--LearnMore": {
     "messageformat": "Află mai multe"
@@ -8256,7 +8256,7 @@
     "messageformat": "Extinde bara laterală, pentru a interacționa cu megafonul"
   },
   "icu:Carousel--Role": {
-    "messageformat": "Carousel"
+    "messageformat": "Carusel"
   },
   "icu:Carousel__Slide--Role": {
     "messageformat": "Slide"
@@ -8290,6 +8290,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__8.10--0": {
-    "messageformat": "The freshly spun emoji in Unicode 17.0 have now pirouetted into place in Signal. Send a message reaction with the new Ballet Dancer emoji to perform your own digital version of a pas de chat."
+    "messageformat": "Emoji-urile nou introduse în Unicode 17.0 și-au făcut deja apariția în Signal. Trimite o reacție la un mesaj, folosind noul emoji „Balerină” pentru a-ți interpreta propria versiune digitală a unui „Pas de chat”."
   }
 }

@@ -1956,25 +1956,25 @@
     "messageformat": "Više opcija"
   },
   "icu:CallingParticipantMenu__MuteAudio": {
-    "messageformat": "Mute audio"
+    "messageformat": "Isključi zvuk"
   },
   "icu:CallingParticipantMenu__UnmuteAudio": {
-    "messageformat": "Unmute audio"
+    "messageformat": "Uključi zvuk"
   },
   "icu:CallingParticipantMenu__ViewProfile": {
-    "messageformat": "View profile"
+    "messageformat": "Prikaži profil"
   },
   "icu:CallingParticipantMenu__GoToChat": {
-    "messageformat": "Go to chat"
+    "messageformat": "Idi na razgovor"
   },
   "icu:CallingParticipantMenu__RemoveFromCall": {
-    "messageformat": "Remove from call"
+    "messageformat": "Ukloni iz poziva"
   },
   "icu:CallingParticipantListItem__ContextMenuButton": {
-    "messageformat": "More actions"
+    "messageformat": "Više radnji"
   },
   "icu:CallingParticipantListItem__Presenting": {
-    "messageformat": "Presenting"
+    "messageformat": "Prezentira"
   },
   "icu:CallingPendingParticipants__ApproveUser": {
     "messageformat": "Prihvati zahtjev za pridruživanje"
@@ -2205,25 +2205,25 @@
     "messageformat": "Želite izbrisati sve podatke i poruke s ove verzije Signala za desktop? Vaš Signal račun i podaci na vašem telefonu ili drugim povezanim uređajima neće biti izbrisani."
   },
   "icu:deleteAccountProgress": {
-    "messageformat": "Deleting account and all data…"
+    "messageformat": "Brisanje računa i povezanih podataka…"
   },
   "icu:deleteAllDataProgress": {
     "messageformat": "Prekidanje veze i brisanje svih podataka…"
   },
   "icu:deleteAccountHeader": {
-    "messageformat": "Delete account"
+    "messageformat": "Korisnički račun"
   },
   "icu:deleteAccountExplanation": {
-    "messageformat": "This will delete your account info, profile, and all of your messages. You will also be removed from all Signal groups."
+    "messageformat": "Brisanjem računa izbrisat ćete podatke o vašem računu i profilu, kao i sve vaše poruke. Također, bit ćete uklonjeni iz svih grupnih razgovora na Signalu."
   },
   "icu:deleteAccountButton": {
-    "messageformat": "Delete account"
+    "messageformat": "Izbriši korisnički račun"
   },
   "icu:deleteAccountDialogHeader": {
-    "messageformat": "Delete Account?"
+    "messageformat": "Želite izbrisati račun?"
   },
   "icu:deleteAccountDialogBody": {
-    "messageformat": "This will delete your account info, profile, and all of your messages. You will also be removed from all Signal groups. The app will close after this process is complete."
+    "messageformat": "Brisanjem računa izbrisat ćete podatke o vašem računu i profilu, kao i sve vaše poruke. Također, bit ćete uklonjeni iz svih grupnih razgovora na Signalu. Aplikacija će se zatvoriti nakon završetka ovog postupka."
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Imate zastarjele podatke iz prethodne instalacije Signala za Desktop. Ako odlučite nastaviti, bit će izbrisani i započet ćete ispočetka."
@@ -2571,10 +2571,10 @@
     "messageformat": "Prekinuta je veza"
   },
   "icu:unregisteredWarning": {
-    "messageformat": "Click to re-register and continue messaging. Signal Desktop is unregistered likely because you registered your phone number with Signal on a different device."
+    "messageformat": "Kliknite za ponovnu registraciju i nastavak slanja poruka. Više niste registrirani putem Signala za desktop najvjerojatnije zato što je vaš broj telefona registriran na Signalu na drugom uređaju."
   },
   "icu:unregistered": {
-    "messageformat": "No longer registered"
+    "messageformat": "Više niste registrirani"
   },
   "icu:autoUpdateNewVersionTitle": {
     "messageformat": "Dostupno je ažuriranje"
@@ -3366,40 +3366,40 @@
     "messageformat": "Savjeti za sigurnost"
   },
   "icu:SafetyTipsModal__Title-v2": {
-    "messageformat": "Safety tips"
+    "messageformat": "Savjeti za sigurnost"
   },
   "icu:SafetyTipsModal__TipTitle--SignalChat": {
-    "messageformat": "Don’t respond to chats from Signal"
+    "messageformat": "Ne odgovarajte porukama koje šalje Signal"
   },
   "icu:SafetyTipsModal__TipDescription--SignalChat": {
-    "messageformat": "Signal will never message you for your registration code, PIN, or recovery key. Never respond to a chat pretending to be Signal."
+    "messageformat": "Signal vam nikada neće poslati poruku da traži vaš kôd za registraciju, PIN ili ključ za oporavak. Nikada ne odgovarajte na poruke koje se predstavljaju kao da su od Signala."
   },
   "icu:SafetyTipsModal__TipTitle--NamesAndPhotos": {
-    "messageformat": "Review names and photos"
+    "messageformat": "Pregledajte imena i fotografije"
   },
   "icu:SafetyTipsModal__TipDescription--NamesAndPhotos": {
-    "messageformat": "Look out for the “Name not verified” notice. Everyone sets their own profile name in Signal."
+    "messageformat": "Obratite pozornost na obavijest „Ime nije potvrđeno“. Na Signalu svatko sam postavlja ime profila."
   },
   "icu:SafetyTipsModal__TipTitle--Scams": {
-    "messageformat": "Look out for scams"
+    "messageformat": "Čuvajte se prijevara"
   },
   "icu:SafetyTipsModal__TipDescription--Scams": {
-    "messageformat": "Avoid vague messages that try to get you to reply. Be aware of financial tips and suspicious web links."
+    "messageformat": "Ignorirajte nejasne poruke koje vas potiču da odgovorite. Čuvajte se financijskih savjeta i sumnjivih poveznica."
   },
   "icu:SafetyTipsModal__Description": {
     "messageformat": "Budite oprezni pri prihvaćanju zahtjeva za poruke od osoba koje ne poznajete. Pripazite na:"
   },
   "icu:SafetyTipsModal__TipTitle--DontRespond": {
-    "messageformat": "Don’t respond to chats from Signal"
+    "messageformat": "Ne odgovarajte porukama koje šalje Signal"
   },
   "icu:SafetyTipsModal__TipDescription--DontRespond": {
-    "messageformat": "Signal will never message you for your registration code, PIN, or recover key. Don't reply to chats pretending to be Signal or Signal Support. Bad actors set up fake names to try to take over your account."
+    "messageformat": "Signal vam nikada neće poslati poruku da traži vaš kôd za registraciju, PIN ili ključ za oporavak. Ne odgovarajte na poruke koje se predstavljaju kao da su od Signala ili od korisničke podrške Signala. Zlonamjerni akteri postavljaju lažna imena kako bi pokušali preuzeti vaš račun."
   },
   "icu:SafetyTipsModal__TipTitle--ReviewNames": {
-    "messageformat": "Review names and photos"
+    "messageformat": "Pregledajte imena i fotografije"
   },
   "icu:SafetyTipsModal__TipDescription--ReviewNames": {
-    "messageformat": "Look out for the “Name not verified” notice. Everyone sets their own profile name and photo in Signal. If you’re unsure who a new request is from it’s safer to ignore it."
+    "messageformat": "Obratite pozornost na obavijest „Ime nije potvrđeno“. Na Signalu svatko sam postavlja ime profila i fotografiju. Ako niste sigurni tko vam šalje zahtjev, sigurnije ga je ignorirati."
   },
   "icu:SafetyTipsModal__TipTitle--Fake": {
     "messageformat": "Lažna imena i računi"
@@ -3426,13 +3426,13 @@
     "messageformat": "Budite oprezni s porukama koje vam pošalju osobe koje ne poznajete, a koje sadrže poveznice na web-lokacije. Nikada ne posjećujte poveznice koje vam pošalju osobe kojima ne vjerujete."
   },
   "icu:SafetyTipsModal__TipTitle--Links-v2": {
-    "messageformat": "Messages with web links"
+    "messageformat": "Poruke koje sadrže poveznice"
   },
   "icu:SafetyTipsModal__TipTitle--Business": {
     "messageformat": "Lažne tvrtke i ustanove"
   },
   "icu:SafetyTipsModal__TipTitle--Business-v2": {
-    "messageformat": "Fake businesses"
+    "messageformat": "Lažni poslovni računi"
   },
   "icu:SafetyTipsModal__TipDescription--Business": {
     "messageformat": "Budite oprezni kada vas kontaktiraju tvrtke ili državne agencije. Poruke koje se odnose na porezne agencije, kurire i sl. mogle bi biti neželjeni sadržaj."
@@ -3450,7 +3450,7 @@
     "messageformat": "Gotovo"
   },
   "icu:SafetyTipsModal__Button--ViewMore": {
-    "messageformat": "View more"
+    "messageformat": "Vidi više"
   },
   "icu:MessageRequests--message-direct": {
     "messageformat": "Želite li dopustiti {name} da vam pošalje poruku i da dijelite svoje ime i fotografiju s njima? Neće znati da ste vidjeli njihove poruke dok ne prihvatite."
@@ -3555,10 +3555,10 @@
     "messageformat": "Pažljivo pregledajte zahtjeve. Imena profila biraju vlasnici računa i ne provjeravaju se."
   },
   "icu:MessageRequests--accept-confirm-title-v2": {
-    "messageformat": "Accept request?"
+    "messageformat": "Sigurno želite prihvatiti zahtjev?"
   },
   "icu:MessageRequests--accept-confirm-body-v2": {
-    "messageformat": "Only accept requests from people you trust. <bold>Signal will never</bold> message you for a registration code, PIN, or recovery key."
+    "messageformat": "Prihvatite samo zahtjeve koje vam šalju ljudi kojima vjerujete. <bold>Signal vas nikada</bold> neće kontaktirati da traži vaš kôd za registraciju, PIN ili ključ za oporavak."
   },
   "icu:MessageRequests--continue": {
     "messageformat": "Nastavi"
@@ -3618,13 +3618,13 @@
     "messageformat": "Službeni račun"
   },
   "icu:ConversationHero--signal-official-chat-title": {
-    "messageformat": "Official chat"
+    "messageformat": "Službeni razgovor"
   },
   "icu:ConversationHero--signal-official-account--description": {
     "messageformat": "Ovo je jedini službeni razgovor sa Signalom. Budite u toku s novostima i bilješkama o novim verzijama aplikacije."
   },
   "icu:Timeline--signal-official-chat--chip": {
-    "messageformat": "The only official chat from Signal."
+    "messageformat": "Ovo je jedini službeni razgovor sa Signalom."
   },
   "icu:ConversationHero--release-notes": {
     "messageformat": "Budite u toku s novostima i bilješkama o novim verzijama aplikacije."
@@ -4611,7 +4611,7 @@
     "messageformat": "Zatvori"
   },
   "icu:clear": {
-    "messageformat": "Clear"
+    "messageformat": "Ukloni"
   },
   "icu:previous": {
     "messageformat": "prethodno"
@@ -4623,16 +4623,16 @@
     "messageformat": "Ovo može potrajati nekoliko minuta"
   },
   "icu:DeletingAccount__LeavingGroups__Title": {
-    "messageformat": "Leaving groups..."
+    "messageformat": "Napuštanje grupnih razgovora…"
   },
   "icu:DeletingAccount__LeavingGroups__Detail": {
-    "messageformat": "Depending on the number of groups you’re in, this might take a few minutes"
+    "messageformat": "Ovisno o broju grupnih razgovora kojima pripadate, ovo bi moglo malo duže potrajati"
   },
   "icu:DeletingAccount__DeletingData__Title": {
-    "messageformat": "Deleting account and all data..."
+    "messageformat": "Brisanje računa i povezanih podataka…"
   },
   "icu:DeletingAccount__DeletingData__Detail": {
-    "messageformat": "Deleting user data and resetting the app"
+    "messageformat": "Brisanje korisničkih podataka i ponovno postavljanje aplikacije"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Donirajte Signalu"
@@ -5410,7 +5410,7 @@
     "messageformat": "Koristite ovu poveznicu da biste se pridružili Signal pozivu: {url}"
   },
   "icu:MessageRequestWarning__review-carefully": {
-    "messageformat": "Review requests carefully"
+    "messageformat": "Pažljivo pregledajte zahtjeve"
   },
   "icu:MessageRequestWarning__safety-tips-v2": {
     "messageformat": "Savjeti za sigurnost"
@@ -6386,22 +6386,22 @@
     "messageformat": "{num, plural, one {{num,number} kontakt} few {{num,number} kontakta} many {{num,number} kontakata} other {{num,number} kontakata}}"
   },
   "icu:Preferences--blocked-count-both-new": {
-    "messageformat": "{num, plural, =0 { No users or groups } one {{num,number} user or group} other {{num,number} users or groups}}"
+    "messageformat": "{num, plural, =0 { Nema korisnika niti grupnih razgovora } one {{num,number} korisnik ili grupni razgovor} few {{num,number} korisnika ili grupna razgovora} many {{num,number} korisnika ili grupnih razgovora} other {{num,number} korisnika ili grupnih razgovora}}"
   },
   "icu:Preferences--blocked-count-contacts-new": {
-    "messageformat": "{num, plural, =0 { No users } one {{num,number} user} other {{num,number} users}}"
+    "messageformat": "{num, plural, =0 { Nema korisnika } one {{num,number} korisnik} few {{num,number} korisnika} many {{num,number} korisnika} other {{num,number} korisnika}}"
   },
   "icu:Preferences--blocked-count-groups-new": {
-    "messageformat": "{num, plural, =0 { No groups } one {{num,number} group} other {{num,number} groups}}"
+    "messageformat": "{num, plural, =0 { Nema grupnih razgovora } one {{num,number} grupni razgovor} few {{num,number} grupna razgovora} many {{num,number} grupnih razgovora} other {{num,number} grupnih razgovora}}"
   },
   "icu:Preferences--blocked-users--description": {
-    "messageformat": "Blocked users will not be able to call you or send you messages"
+    "messageformat": "Blokirani korisnici vas neće moći nazvati niti vam slati poruke"
   },
   "icu:Preferences--blocked-users": {
-    "messageformat": "Blocked Users"
+    "messageformat": "Blokirani korisnici"
   },
   "icu:Preferences--blocked-groups": {
-    "messageformat": "Blocked Groups"
+    "messageformat": "Blokirane grupe"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Zaštićene kopije podataka"
@@ -6974,7 +6974,7 @@
     "messageformat": "Prihvatili ste zahtjev za poruku"
   },
   "icu:MessageRequestResponseNotification__Message--Accepted-Contact-Title": {
-    "messageformat": "You accepted {userProfileName}'s message request"
+    "messageformat": "Prihvatili ste zahtjev za poruku korisnika {userProfileName}"
   },
   "icu:MessageRequestResponseNotification__Message--Reported": {
     "messageformat": "Prijavljeno kao neželjeni sadržaj"
@@ -6995,7 +6995,7 @@
     "messageformat": "Mogućnosti"
   },
   "icu:MessageRequestResponseNotification__Button--block-or-report": {
-    "messageformat": "Block or Report..."
+    "messageformat": "Blokiraj ili prijavi…"
   },
   "icu:MessageRequestResponseNotification__Button--LearnMore": {
     "messageformat": "Saznajte više"
@@ -8256,10 +8256,10 @@
     "messageformat": "Proširite bočnu traku za interakciju s megafonom"
   },
   "icu:Carousel--Role": {
-    "messageformat": "Carousel"
+    "messageformat": "Sadržaj koji se može listati"
   },
   "icu:Carousel__Slide--Role": {
-    "messageformat": "Slide"
+    "messageformat": "Listaj"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Ova verzija Signala sadrži niz malih podešavanja i ispravaka programskih pogrešaka za nesmetano korištenje aplikacije.",
@@ -8290,6 +8290,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__8.10--0": {
-    "messageformat": "The freshly spun emoji in Unicode 17.0 have now pirouetted into place in Signal. Send a message reaction with the new Ballet Dancer emoji to perform your own digital version of a pas de chat."
+    "messageformat": "Dodali smo podršku za novi emoji u Unicode-u 17.0."
   }
 }

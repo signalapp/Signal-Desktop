@@ -1956,25 +1956,25 @@
     "messageformat": "Lebih pilihan"
   },
   "icu:CallingParticipantMenu__MuteAudio": {
-    "messageformat": "Mute audio"
+    "messageformat": "Redamkan audio"
   },
   "icu:CallingParticipantMenu__UnmuteAudio": {
-    "messageformat": "Unmute audio"
+    "messageformat": "Nyahbisu audio"
   },
   "icu:CallingParticipantMenu__ViewProfile": {
-    "messageformat": "View profile"
+    "messageformat": "Lihat profil"
   },
   "icu:CallingParticipantMenu__GoToChat": {
-    "messageformat": "Go to chat"
+    "messageformat": "Pergi ke sembang"
   },
   "icu:CallingParticipantMenu__RemoveFromCall": {
-    "messageformat": "Remove from call"
+    "messageformat": "Alih keluar daripada panggilan"
   },
   "icu:CallingParticipantListItem__ContextMenuButton": {
-    "messageformat": "More actions"
+    "messageformat": "Lebih tindakan"
   },
   "icu:CallingParticipantListItem__Presenting": {
-    "messageformat": "Presenting"
+    "messageformat": "Sedang membentang"
   },
   "icu:CallingPendingParticipants__ApproveUser": {
     "messageformat": "Luluskan permintaan penyertaan"
@@ -2205,25 +2205,25 @@
     "messageformat": "Padamkan semua data dan mesej daripada versi Signal Desktop ini? Akaun Signal dan data pada telefon anda atau peranti terpaut lain tidak akan dipadamkan."
   },
   "icu:deleteAccountProgress": {
-    "messageformat": "Deleting account and all data…"
+    "messageformat": "Memadamkan akaun dan semua data…"
   },
   "icu:deleteAllDataProgress": {
     "messageformat": "Memutuskan dan memadam semua data…"
   },
   "icu:deleteAccountHeader": {
-    "messageformat": "Delete account"
+    "messageformat": "Padam akaun"
   },
   "icu:deleteAccountExplanation": {
-    "messageformat": "This will delete your account info, profile, and all of your messages. You will also be removed from all Signal groups."
+    "messageformat": "Ini akan memadam maklumat akaun, profil dan semua mesej anda.Anda juga akan dikeluarkan daripada semua kumpulan Signal."
   },
   "icu:deleteAccountButton": {
-    "messageformat": "Delete account"
+    "messageformat": "Padam akaun"
   },
   "icu:deleteAccountDialogHeader": {
-    "messageformat": "Delete Account?"
+    "messageformat": "Padam Akaun?"
   },
   "icu:deleteAccountDialogBody": {
-    "messageformat": "This will delete your account info, profile, and all of your messages. You will also be removed from all Signal groups. The app will close after this process is complete."
+    "messageformat": "Ini akan memadam maklumat akaun, profil dan semua mesej anda.Anda juga akan dikeluarkan daripada semua kumpulan Signal.Aplikasi akan ditutup selepas proses ini selesai."
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Anda mempunyai data usang daripada pemasangan Signal Desktop terdahulu. Sekiranya anda memilih untuk meneruskan, data tersebut akan dipadamkan dan anda akan bermula dari awal."
@@ -2571,10 +2571,10 @@
     "messageformat": "Dinyahpautkan"
   },
   "icu:unregisteredWarning": {
-    "messageformat": "Click to re-register and continue messaging. Signal Desktop is unregistered likely because you registered your phone number with Signal on a different device."
+    "messageformat": "Klik untuk mendaftar semula dan terus menghantar mesej.Signal Desktop tidak lagi berdaftar, kemungkinan kerana anda telah mendaftarkan nombor telefon anda dengan Signal pada peranti lain."
   },
   "icu:unregistered": {
-    "messageformat": "No longer registered"
+    "messageformat": "Tidak lagi berdaftar"
   },
   "icu:autoUpdateNewVersionTitle": {
     "messageformat": "Kemas kini tersedia"
@@ -3366,40 +3366,40 @@
     "messageformat": "Tip Keselamatan"
   },
   "icu:SafetyTipsModal__Title-v2": {
-    "messageformat": "Safety tips"
+    "messageformat": "Tip Keselamatan"
   },
   "icu:SafetyTipsModal__TipTitle--SignalChat": {
-    "messageformat": "Don’t respond to chats from Signal"
+    "messageformat": "Jangan balas sembang daripada Signal"
   },
   "icu:SafetyTipsModal__TipDescription--SignalChat": {
-    "messageformat": "Signal will never message you for your registration code, PIN, or recovery key. Never respond to a chat pretending to be Signal."
+    "messageformat": "Signal tidak akan menghantar mesej kepada anda untuk meminta kod pendaftaran, PIN atau kunci pemulihan anda. Jangan pernah membalas sembang yang menyamar sebagai Signal."
   },
   "icu:SafetyTipsModal__TipTitle--NamesAndPhotos": {
-    "messageformat": "Review names and photos"
+    "messageformat": "Perhatikan nama dan foto"
   },
   "icu:SafetyTipsModal__TipDescription--NamesAndPhotos": {
-    "messageformat": "Look out for the “Name not verified” notice. Everyone sets their own profile name in Signal."
+    "messageformat": "Perhatikan notis \"Nama tidak disahkan\". Setiap orang menetapkan nama profil mereka sendiri di Signal."
   },
   "icu:SafetyTipsModal__TipTitle--Scams": {
-    "messageformat": "Look out for scams"
+    "messageformat": "Berwaspada terhadap penipuan"
   },
   "icu:SafetyTipsModal__TipDescription--Scams": {
-    "messageformat": "Avoid vague messages that try to get you to reply. Be aware of financial tips and suspicious web links."
+    "messageformat": "Elakkan mesej yang samar-samar yang cuba membuat anda membalas. Berwaspada terhadap tip kewangan dan pautan web yang mencurigakan."
   },
   "icu:SafetyTipsModal__Description": {
     "messageformat": "Berhati-hati apabila menerima permintaan mesej daripada orang yang tidak dikenali. Berhati-hati dengan:"
   },
   "icu:SafetyTipsModal__TipTitle--DontRespond": {
-    "messageformat": "Don’t respond to chats from Signal"
+    "messageformat": "Jangan balas sembang daripada Signal"
   },
   "icu:SafetyTipsModal__TipDescription--DontRespond": {
-    "messageformat": "Signal will never message you for your registration code, PIN, or recover key. Don't reply to chats pretending to be Signal or Signal Support. Bad actors set up fake names to try to take over your account."
+    "messageformat": "Signal tidak akan menghantar mesej kepada anda untuk meminta kod pendaftaran, PIN atau kunci pemulihan anda. Jangan membalas sembang yang menyamar sebagai Signal atau Sokongan Signal. Individu berniat jahat menggunakan nama palsu untuk cuba mengambil alih akaun anda."
   },
   "icu:SafetyTipsModal__TipTitle--ReviewNames": {
-    "messageformat": "Review names and photos"
+    "messageformat": "Perhatikan nama dan foto"
   },
   "icu:SafetyTipsModal__TipDescription--ReviewNames": {
-    "messageformat": "Look out for the “Name not verified” notice. Everyone sets their own profile name and photo in Signal. If you’re unsure who a new request is from it’s safer to ignore it."
+    "messageformat": "Perhatikan notis “Nama tidak disahkan”.Setiap orang menetapkan nama profil dan foto mereka sendiri dalam Signal.Jika anda tidak pasti permintaan baharu itu daripada siapa, lebih selamat untuk mengabaikannya."
   },
   "icu:SafetyTipsModal__TipTitle--Fake": {
     "messageformat": "Nama dan akaun palsu"
@@ -3426,13 +3426,13 @@
     "messageformat": "Berhati-hati apabila menerima mesej daripada orang yang tidak dikenali, yang mengandungi pautan ke laman web. Jangan sekali-kali melayari pautan daripada orang yang tidak dipercayai."
   },
   "icu:SafetyTipsModal__TipTitle--Links-v2": {
-    "messageformat": "Messages with web links"
+    "messageformat": "Mesej dengan pautan web"
   },
   "icu:SafetyTipsModal__TipTitle--Business": {
     "messageformat": "Perniagaan dan institusi palsu"
   },
   "icu:SafetyTipsModal__TipTitle--Business-v2": {
-    "messageformat": "Fake businesses"
+    "messageformat": "Perniagaan palsu"
   },
   "icu:SafetyTipsModal__TipDescription--Business": {
     "messageformat": "Berhati-hati dengan perniagaan atau agensi kerajaan yang menghubungi anda. Mesej yang melibatkan agensi cukai, kurier dan banyak lagi boleh menjadi spam."
@@ -3450,7 +3450,7 @@
     "messageformat": "Selesai"
   },
   "icu:SafetyTipsModal__Button--ViewMore": {
-    "messageformat": "View more"
+    "messageformat": "Lihat lebih lagi"
   },
   "icu:MessageRequests--message-direct": {
     "messageformat": "Membenarkan {name} menghantar mesej kepada anda dan kongsikan nama dan foto anda dengan mereka? Mereka tidak akan tahu bahawa anda telah melihat mesej mereka sehingga anda menerimanya."
@@ -3555,10 +3555,10 @@
     "messageformat": "Semak permintaan dengan berhati-hati. Nama profil dipilih sendiri oleh pemilik akaun dan tidak disahkan."
   },
   "icu:MessageRequests--accept-confirm-title-v2": {
-    "messageformat": "Accept request?"
+    "messageformat": "Terima permintaan?"
   },
   "icu:MessageRequests--accept-confirm-body-v2": {
-    "messageformat": "Only accept requests from people you trust. <bold>Signal will never</bold> message you for a registration code, PIN, or recovery key."
+    "messageformat": "Hanya terima permintaan daripada orang yang anda percayai. Signal tidak akan sesekali menghantar mesej kepada anda untuk meminta kod pendaftaran, PIN atau kunci pemulihan.<bold>Signal tidak akan sesekali</bold> menghantar mesej kepada anda untuk meminta kod pendaftaran, PIN atau kunci pemulihan."
   },
   "icu:MessageRequests--continue": {
     "messageformat": "Teruskan"
@@ -3618,13 +3618,13 @@
     "messageformat": "Akaun rasmi"
   },
   "icu:ConversationHero--signal-official-chat-title": {
-    "messageformat": "Official chat"
+    "messageformat": "Sembang rasmi"
   },
   "icu:ConversationHero--signal-official-account--description": {
     "messageformat": "Satu-satunya sembang rasmi daripada Signal. Ikuti perkembangan terkini dengan berita dan nota keluaran."
   },
   "icu:Timeline--signal-official-chat--chip": {
-    "messageformat": "The only official chat from Signal."
+    "messageformat": "Satu-satunya sembang rasmi daripada Signal."
   },
   "icu:ConversationHero--release-notes": {
     "messageformat": "Ikuti perkembangan terkini dengan berita dan nota keluaran."
@@ -4611,7 +4611,7 @@
     "messageformat": "Tutup"
   },
   "icu:clear": {
-    "messageformat": "Clear"
+    "messageformat": "Kosongkan"
   },
   "icu:previous": {
     "messageformat": "sebelumnya"
@@ -4623,16 +4623,16 @@
     "messageformat": "Proses ini mungkin mengambil masa beberapa minit"
   },
   "icu:DeletingAccount__LeavingGroups__Title": {
-    "messageformat": "Leaving groups..."
+    "messageformat": "Meninggalkan kumpulan…"
   },
   "icu:DeletingAccount__LeavingGroups__Detail": {
-    "messageformat": "Depending on the number of groups you’re in, this might take a few minutes"
+    "messageformat": "Bergantung pada jumlah kumpulan yang anda sertai, proses ini mungkin mengambil masa beberapa minit"
   },
   "icu:DeletingAccount__DeletingData__Title": {
-    "messageformat": "Deleting account and all data..."
+    "messageformat": "Memadamkan akaun dan semua data…"
   },
   "icu:DeletingAccount__DeletingData__Detail": {
-    "messageformat": "Deleting user data and resetting the app"
+    "messageformat": "Memadamkan data pengguna dan mengeset semula aplikasi"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Sumbang kepada Signal"
@@ -5410,7 +5410,7 @@
     "messageformat": "Gunakan pautan ini untuk menyertai Panggilan Signal: {url}"
   },
   "icu:MessageRequestWarning__review-carefully": {
-    "messageformat": "Review requests carefully"
+    "messageformat": "Review permintaan sebaik-baiknya"
   },
   "icu:MessageRequestWarning__safety-tips-v2": {
     "messageformat": "Tip Keselamatan"
@@ -6386,22 +6386,22 @@
     "messageformat": "{num, plural, other {{num,number} kenalan}}"
   },
   "icu:Preferences--blocked-count-both-new": {
-    "messageformat": "{num, plural, =0 { No users or groups } one {{num,number} user or group} other {{num,number} users or groups}}"
+    "messageformat": "{num, plural, =0 { Tiada pengguna atau kumpulan } other {{num,number} pengguna atau kumpulan}}"
   },
   "icu:Preferences--blocked-count-contacts-new": {
-    "messageformat": "{num, plural, =0 { No users } one {{num,number} user} other {{num,number} users}}"
+    "messageformat": "{num, plural, =0 { Tiada pengguna } other {{num,number} pengguna}}"
   },
   "icu:Preferences--blocked-count-groups-new": {
-    "messageformat": "{num, plural, =0 { No groups } one {{num,number} group} other {{num,number} groups}}"
+    "messageformat": "{num, plural, =0 { Tiada Kumpulan } other {{num,number} kumpulan}}"
   },
   "icu:Preferences--blocked-users--description": {
-    "messageformat": "Blocked users will not be able to call you or send you messages"
+    "messageformat": "Pengguna yang disekat mungkin tidak dapat menghubungi anda atau menghantar mesej kepada anda"
   },
   "icu:Preferences--blocked-users": {
-    "messageformat": "Blocked Users"
+    "messageformat": "Pengguna Disekat"
   },
   "icu:Preferences--blocked-groups": {
-    "messageformat": "Blocked Groups"
+    "messageformat": "Kumpulan Disekat"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Sandaran Selamat Signal"
@@ -6974,7 +6974,7 @@
     "messageformat": "Anda menerima permintaan mesej"
   },
   "icu:MessageRequestResponseNotification__Message--Accepted-Contact-Title": {
-    "messageformat": "You accepted {userProfileName}'s message request"
+    "messageformat": "Anda menerima permintaan mesej {userProfileName}"
   },
   "icu:MessageRequestResponseNotification__Message--Reported": {
     "messageformat": "Dilaporkan sebagai spam"
@@ -6995,7 +6995,7 @@
     "messageformat": "Pilihan"
   },
   "icu:MessageRequestResponseNotification__Button--block-or-report": {
-    "messageformat": "Block or Report..."
+    "messageformat": "Sekat atau Laporkan…"
   },
   "icu:MessageRequestResponseNotification__Button--LearnMore": {
     "messageformat": "Ketahui Lebih Lanjut"
@@ -8256,10 +8256,10 @@
     "messageformat": "Kembangkan bar sisi untuk berinteraksi dengan megafon"
   },
   "icu:Carousel--Role": {
-    "messageformat": "Carousel"
+    "messageformat": "Karusel"
   },
   "icu:Carousel__Slide--Role": {
-    "messageformat": "Slide"
+    "messageformat": "Leret"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Versi ini mengandungi sedikit tweak kecil dan pembetulan pepijat untuk memastikan Signal berjalan dengan lancar.",
@@ -8290,6 +8290,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__8.10--0": {
-    "messageformat": "The freshly spun emoji in Unicode 17.0 have now pirouetted into place in Signal. Send a message reaction with the new Ballet Dancer emoji to perform your own digital version of a pas de chat."
+    "messageformat": "Emoji baharu yang segar diperkenalkan dalam Unicode 17.0 kini telah tampil bergaya dalam Signal.Hantar reaksi mesej menggunakan emoji Penari Balet baharu untuk melakukan versi digital pas de chat anda sendiri."
   }
 }

@@ -1956,25 +1956,25 @@
     "messageformat": "その他のオプション"
   },
   "icu:CallingParticipantMenu__MuteAudio": {
-    "messageformat": "Mute audio"
+    "messageformat": "音声をミュート"
   },
   "icu:CallingParticipantMenu__UnmuteAudio": {
-    "messageformat": "Unmute audio"
+    "messageformat": "ミュート解除"
   },
   "icu:CallingParticipantMenu__ViewProfile": {
-    "messageformat": "View profile"
+    "messageformat": "プロフィールを表示"
   },
   "icu:CallingParticipantMenu__GoToChat": {
-    "messageformat": "Go to chat"
+    "messageformat": "チャットする"
   },
   "icu:CallingParticipantMenu__RemoveFromCall": {
-    "messageformat": "Remove from call"
+    "messageformat": "通話から削除"
   },
   "icu:CallingParticipantListItem__ContextMenuButton": {
-    "messageformat": "More actions"
+    "messageformat": "その他"
   },
   "icu:CallingParticipantListItem__Presenting": {
-    "messageformat": "Presenting"
+    "messageformat": "発表中"
   },
   "icu:CallingPendingParticipants__ApproveUser": {
     "messageformat": "参加リクエストを承認"
@@ -2205,25 +2205,25 @@
     "messageformat": "Signal Desktopからすべてのデータとメッセージを消去しますか？Signalアカウントやスマートフォンのデータ、その他のリンク済み端末のデータは消去されません。"
   },
   "icu:deleteAccountProgress": {
-    "messageformat": "Deleting account and all data…"
+    "messageformat": "アカウントとすべてのデータを消去しています…"
   },
   "icu:deleteAllDataProgress": {
     "messageformat": "接続を切って全データを消去しています…"
   },
   "icu:deleteAccountHeader": {
-    "messageformat": "Delete account"
+    "messageformat": "アカウントの消去"
   },
   "icu:deleteAccountExplanation": {
-    "messageformat": "This will delete your account info, profile, and all of your messages. You will also be removed from all Signal groups."
+    "messageformat": "あなたのアカウント情報、プロフィールおよびずべてのメッセージを消去します。Signalの各グループからも退出することになります。"
   },
   "icu:deleteAccountButton": {
-    "messageformat": "Delete account"
+    "messageformat": "アカウントの消去"
   },
   "icu:deleteAccountDialogHeader": {
-    "messageformat": "Delete Account?"
+    "messageformat": "アカウントを消去しますか？"
   },
   "icu:deleteAccountDialogBody": {
-    "messageformat": "This will delete your account info, profile, and all of your messages. You will also be removed from all Signal groups. The app will close after this process is complete."
+    "messageformat": "あなたのアカウント情報、プロフィールおよびずべてのメッセージを消去します。Signalの各グループからも退出することになります。この処理が完了するとアプリは終了します。"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "以前のバージョンの Signal Desktop で利用していた、すでに利用できなくなっているデータが残っています。続行するとこのデータは消去され、フレッシュな状態で改めて利用を始めることになります。"
@@ -2571,10 +2571,10 @@
     "messageformat": "未リンク"
   },
   "icu:unregisteredWarning": {
-    "messageformat": "Click to re-register and continue messaging. Signal Desktop is unregistered likely because you registered your phone number with Signal on a different device."
+    "messageformat": "クリックして再登録し、メッセージのやり取りを継続してください。別の端末でSignalに電話番号を登録したため、Signal Desktopの登録が解除された可能性があります。"
   },
   "icu:unregistered": {
-    "messageformat": "No longer registered"
+    "messageformat": "登録されていません"
   },
   "icu:autoUpdateNewVersionTitle": {
     "messageformat": "アップデートがあります"
@@ -3366,40 +3366,40 @@
     "messageformat": "安全な使い方のヒント"
   },
   "icu:SafetyTipsModal__Title-v2": {
-    "messageformat": "Safety tips"
+    "messageformat": "安全な使い方のヒント"
   },
   "icu:SafetyTipsModal__TipTitle--SignalChat": {
-    "messageformat": "Don’t respond to chats from Signal"
+    "messageformat": "Signalからのチャットに返信しないでください"
   },
   "icu:SafetyTipsModal__TipDescription--SignalChat": {
-    "messageformat": "Signal will never message you for your registration code, PIN, or recovery key. Never respond to a chat pretending to be Signal."
+    "messageformat": "Signalは決して、登録コード、PIN、回復キーについて皆さんにメッセージしません。Signalを装ったチャットには返信しないでください。"
   },
   "icu:SafetyTipsModal__TipTitle--NamesAndPhotos": {
-    "messageformat": "Review names and photos"
+    "messageformat": "名前や写真を確認してください"
   },
   "icu:SafetyTipsModal__TipDescription--NamesAndPhotos": {
-    "messageformat": "Look out for the “Name not verified” notice. Everyone sets their own profile name in Signal."
+    "messageformat": "「未確認の名前です」という表示に注意してください。Signalでは、プロフィールの名前を自由に設定できます。"
   },
   "icu:SafetyTipsModal__TipTitle--Scams": {
-    "messageformat": "Look out for scams"
+    "messageformat": "詐欺に注意してください"
   },
   "icu:SafetyTipsModal__TipDescription--Scams": {
-    "messageformat": "Avoid vague messages that try to get you to reply. Be aware of financial tips and suspicious web links."
+    "messageformat": "返信させようとする怪しいメッセージは無視してください。また、利益をうたったものや不審なウェブリンクに注意してください。"
   },
   "icu:SafetyTipsModal__Description": {
     "messageformat": "知らない人からのメッセージリクエストにはご注意ください。次の点にご注意ください。"
   },
   "icu:SafetyTipsModal__TipTitle--DontRespond": {
-    "messageformat": "Don’t respond to chats from Signal"
+    "messageformat": "Signalからのチャットに返信しないでください"
   },
   "icu:SafetyTipsModal__TipDescription--DontRespond": {
-    "messageformat": "Signal will never message you for your registration code, PIN, or recover key. Don't reply to chats pretending to be Signal or Signal Support. Bad actors set up fake names to try to take over your account."
+    "messageformat": "Signalは決して、登録コード、PIN、回復キーについて皆さんにメッセージすることはありません。SignalやSignalサポートを装ったチャットには返信しないでください。悪意のある相手は、あなたのアカウントを乗っ取ろうと偽名を設定します。"
   },
   "icu:SafetyTipsModal__TipTitle--ReviewNames": {
-    "messageformat": "Review names and photos"
+    "messageformat": "名前や写真を確認してください"
   },
   "icu:SafetyTipsModal__TipDescription--ReviewNames": {
-    "messageformat": "Look out for the “Name not verified” notice. Everyone sets their own profile name and photo in Signal. If you’re unsure who a new request is from it’s safer to ignore it."
+    "messageformat": "「未確認の名前です」という表示に注意してください。Signalでは、プロフィールの名前や写真を自由に設定できます。知らない相手から突然リクエストが来たら、無視するのが安全です。"
   },
   "icu:SafetyTipsModal__TipTitle--Fake": {
     "messageformat": "偽名と偽アカウント"
@@ -3426,13 +3426,13 @@
     "messageformat": "知らない人からのメッセージで、ウェブサイトへのリンクが含まれている場合は注意が必要です。信頼していない人が送ってきたウェブサイトのリンクは開かないようにしましょう。"
   },
   "icu:SafetyTipsModal__TipTitle--Links-v2": {
-    "messageformat": "Messages with web links"
+    "messageformat": "ウェブリンクを含むメッセージ"
   },
   "icu:SafetyTipsModal__TipTitle--Business": {
     "messageformat": "偽の企業や団体"
   },
   "icu:SafetyTipsModal__TipTitle--Business-v2": {
-    "messageformat": "Fake businesses"
+    "messageformat": "架空の企業など"
   },
   "icu:SafetyTipsModal__TipDescription--Business": {
     "messageformat": "企業や政府機関からの連絡にはご注意ください。税務署や宅配業者などのメッセージはスパムである可能性があります。"
@@ -3450,7 +3450,7 @@
     "messageformat": "完了"
   },
   "icu:SafetyTipsModal__Button--ViewMore": {
-    "messageformat": "View more"
+    "messageformat": "続き"
   },
   "icu:MessageRequests--message-direct": {
     "messageformat": "{name}があなたへメッセージを送信できるように、またあなたの名前とプロフィール画像が共有されるようにしますか? あなたが承認するまで、相手にはあなたがメッセージを見たことははわかりません。"
@@ -3555,10 +3555,10 @@
     "messageformat": "慎重に申請を確認してください。プロフィールネームはアカウント所有者によって選択され、検証はされません。"
   },
   "icu:MessageRequests--accept-confirm-title-v2": {
-    "messageformat": "Accept request?"
+    "messageformat": "申請を承認しますか？"
   },
   "icu:MessageRequests--accept-confirm-body-v2": {
-    "messageformat": "Only accept requests from people you trust. <bold>Signal will never</bold> message you for a registration code, PIN, or recovery key."
+    "messageformat": "信頼できる相手からのリクエストのみ承認してください。<bold>Signalは決して</bold>、登録コード、PIN、回復キーについて皆さんにメッセージしません。"
   },
   "icu:MessageRequests--continue": {
     "messageformat": "続ける"
@@ -3618,13 +3618,13 @@
     "messageformat": "公式アカウント"
   },
   "icu:ConversationHero--signal-official-chat-title": {
-    "messageformat": "Official chat"
+    "messageformat": "公式チャット"
   },
   "icu:ConversationHero--signal-official-account--description": {
     "messageformat": "Signalからの唯一の公式チャットです。ニュースやリリースノートで最新情報をチェックしてください。"
   },
   "icu:Timeline--signal-official-chat--chip": {
-    "messageformat": "The only official chat from Signal."
+    "messageformat": "Signalからの唯一の公式チャットです。"
   },
   "icu:ConversationHero--release-notes": {
     "messageformat": "ニュースやリリースノートで最新情報をチェックしてください。"
@@ -4611,7 +4611,7 @@
     "messageformat": "閉じる"
   },
   "icu:clear": {
-    "messageformat": "Clear"
+    "messageformat": "消去する"
   },
   "icu:previous": {
     "messageformat": "前へ"
@@ -4623,16 +4623,16 @@
     "messageformat": "これには数分かかる場合があります"
   },
   "icu:DeletingAccount__LeavingGroups__Title": {
-    "messageformat": "Leaving groups..."
+    "messageformat": "グループから退出しています…"
   },
   "icu:DeletingAccount__LeavingGroups__Detail": {
-    "messageformat": "Depending on the number of groups you’re in, this might take a few minutes"
+    "messageformat": "参加しているグループ数によっては数分かかることがあります"
   },
   "icu:DeletingAccount__DeletingData__Title": {
-    "messageformat": "Deleting account and all data..."
+    "messageformat": "アカウントとすべてのデータを消去しています…"
   },
   "icu:DeletingAccount__DeletingData__Detail": {
-    "messageformat": "Deleting user data and resetting the app"
+    "messageformat": "ユーザーデータの削除とアプリのリセットを行っています"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Signalへの寄付"
@@ -5410,7 +5410,7 @@
     "messageformat": "リンクを使用して Signal 通話に参加する　{url}"
   },
   "icu:MessageRequestWarning__review-carefully": {
-    "messageformat": "Review requests carefully"
+    "messageformat": "慎重に申請を確認してください"
   },
   "icu:MessageRequestWarning__safety-tips-v2": {
     "messageformat": "安全な使い方のヒント"
@@ -6386,22 +6386,22 @@
     "messageformat": "{num, plural, other {{num,number}人}}"
   },
   "icu:Preferences--blocked-count-both-new": {
-    "messageformat": "{num, plural, =0 { No users or groups } one {{num,number} user or group} other {{num,number} users or groups}}"
+    "messageformat": "{num, plural, =0 { 0件のユーザーまたはグループ } other {{num,number}件のユーザーまたはグループ}}"
   },
   "icu:Preferences--blocked-count-contacts-new": {
-    "messageformat": "{num, plural, =0 { No users } one {{num,number} user} other {{num,number} users}}"
+    "messageformat": "{num, plural, =0 { ブロックしたユーザーはいません } other {{num,number} 件のユーザー}}"
   },
   "icu:Preferences--blocked-count-groups-new": {
-    "messageformat": "{num, plural, =0 { No groups } one {{num,number} group} other {{num,number} groups}}"
+    "messageformat": "{num, plural, =0 { ブロックしたグループはありません } other {{num,number} 件のグループ}}"
   },
   "icu:Preferences--blocked-users--description": {
-    "messageformat": "Blocked users will not be able to call you or send you messages"
+    "messageformat": "ブロックしたユーザーは、あなたに通話したりメッセージを送信したりできなくなります"
   },
   "icu:Preferences--blocked-users": {
-    "messageformat": "Blocked Users"
+    "messageformat": "ブロック中のユーザー"
   },
   "icu:Preferences--blocked-groups": {
-    "messageformat": "Blocked Groups"
+    "messageformat": "ブロック中のグループ"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Signalセキュアバックアップ"
@@ -6974,7 +6974,7 @@
     "messageformat": "メッセージ申請を承認しました"
   },
   "icu:MessageRequestResponseNotification__Message--Accepted-Contact-Title": {
-    "messageformat": "You accepted {userProfileName}'s message request"
+    "messageformat": "{userProfileName}のメッセージ申請を承認しました"
   },
   "icu:MessageRequestResponseNotification__Message--Reported": {
     "messageformat": "スパムとして報告する"
@@ -6995,7 +6995,7 @@
     "messageformat": "オプション"
   },
   "icu:MessageRequestResponseNotification__Button--block-or-report": {
-    "messageformat": "Block or Report..."
+    "messageformat": "ブロックまたは報告…"
   },
   "icu:MessageRequestResponseNotification__Button--LearnMore": {
     "messageformat": "詳しく見る"
@@ -8256,10 +8256,10 @@
     "messageformat": "サイドバーを展開してメガホンを操作できます"
   },
   "icu:Carousel--Role": {
-    "messageformat": "Carousel"
+    "messageformat": "カルーセル"
   },
   "icu:Carousel__Slide--Role": {
-    "messageformat": "Slide"
+    "messageformat": "スライド"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Signalをスムーズに動作させるための微調整とバグ修正を行いました。",
@@ -8290,6 +8290,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__8.10--0": {
-    "messageformat": "The freshly spun emoji in Unicode 17.0 have now pirouetted into place in Signal. Send a message reaction with the new Ballet Dancer emoji to perform your own digital version of a pas de chat."
+    "messageformat": "Unicode 17.0の新しい絵文字に対応しました。"
   }
 }

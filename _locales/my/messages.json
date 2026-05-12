@@ -1956,25 +1956,25 @@
     "messageformat": "နောက်ထပ် ရွေးစရာများ"
   },
   "icu:CallingParticipantMenu__MuteAudio": {
-    "messageformat": "Mute audio"
+    "messageformat": "အော်ဒီယို ပိတ်ရန်"
   },
   "icu:CallingParticipantMenu__UnmuteAudio": {
-    "messageformat": "Unmute audio"
+    "messageformat": "အော်ဒီယို ဖွင့်ရန်"
   },
   "icu:CallingParticipantMenu__ViewProfile": {
-    "messageformat": "View profile"
+    "messageformat": "ပရိုဖိုင်ကို ကြည့်ရန်"
   },
   "icu:CallingParticipantMenu__GoToChat": {
-    "messageformat": "Go to chat"
+    "messageformat": "ချက်(တ်)သို့ သွားရန်"
   },
   "icu:CallingParticipantMenu__RemoveFromCall": {
-    "messageformat": "Remove from call"
+    "messageformat": "ကောလ်မှ ဖယ်ရှားရန်"
   },
   "icu:CallingParticipantListItem__ContextMenuButton": {
-    "messageformat": "More actions"
+    "messageformat": "နောက်ထပ် လုပ်ဆောင်မှုများ"
   },
   "icu:CallingParticipantListItem__Presenting": {
-    "messageformat": "Presenting"
+    "messageformat": "တင်ပြနေသည်"
   },
   "icu:CallingPendingParticipants__ApproveUser": {
     "messageformat": "ပါဝင်ရန် တောင်းဆိုချက်ကို အတည်ပြုသည်"
@@ -2205,25 +2205,25 @@
     "messageformat": "ဤ Signal Desktop ဗားရှင်းမှ ဒေတာနှင့် မက်ဆေ့ချ်အားလုံးကို ဖျက်ပါမည်လား။ သင့်ဖုန်း သို့မဟုတ် အခြား ချိတ်ထားသည့် စက်များမှ သင့် Signal အကောင့်နှင့် ဒေတာကို ဖျက်မည်မဟုတ်ပါ။"
   },
   "icu:deleteAccountProgress": {
-    "messageformat": "Deleting account and all data…"
+    "messageformat": "အကောင့်နှင့် ဒေတာအားလုံးကို ဖျက်နေသည်…"
   },
   "icu:deleteAllDataProgress": {
     "messageformat": "ချိတ်ဆက်မှုကိုဖြုတ်၍ ဒေတာအားလုံးကို ဖျက်နေသည်..."
   },
   "icu:deleteAccountHeader": {
-    "messageformat": "Delete account"
+    "messageformat": "အကောင့်ကို ဖျက်ရန်"
   },
   "icu:deleteAccountExplanation": {
-    "messageformat": "This will delete your account info, profile, and all of your messages. You will also be removed from all Signal groups."
+    "messageformat": "ဤသည်က သင့်အကောင့် အချက်အလက်၊ ပရိုဖိုင်နှင့် မက်ဆေ့ချ်အားလုံးကို ဖျက်ပစ်ပါလိမ့်မည်။ Signal အဖွဲ့အားလုံးမှလည်း သင့်အား ဖယ်ရှားပါမည်။"
   },
   "icu:deleteAccountButton": {
-    "messageformat": "Delete account"
+    "messageformat": "အကောင့်ကို ဖျက်ရန်"
   },
   "icu:deleteAccountDialogHeader": {
-    "messageformat": "Delete Account?"
+    "messageformat": "အကောင့်ကို ဖျက်မည်လား။"
   },
   "icu:deleteAccountDialogBody": {
-    "messageformat": "This will delete your account info, profile, and all of your messages. You will also be removed from all Signal groups. The app will close after this process is complete."
+    "messageformat": "ဤသည်က သင့်အကောင့် အချက်အလက်၊ ပရိုဖိုင်နှင့် မက်ဆေ့ချ်အားလုံးကို ဖျက်ပစ်ပါလိမ့်မည်။ Signal အဖွဲ့အားလုံးမှလည်း သင့်အား ဖယ်ရှားပါမည်။ ဤလုပ်ငန်းစဉ် ပြီးသွားသောအခါ အက်ပ် ပိတ်သွားပါမည်။"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "သင့်တွင် ယခင် Signal Desktop ထည့်သွင်းမှုမှ ဒေတာအဟောင်းများ ရှိပါသည်။ ဆက်လုပ်ရန်ကို ရွေးချယ်ပါက ၎င်းကို ဖျက်မည်ဖြစ်ပြီး အစမှ စတင်ပါလိမ့်မည်။"
@@ -2571,10 +2571,10 @@
     "messageformat": "Unlinked"
   },
   "icu:unregisteredWarning": {
-    "messageformat": "Click to re-register and continue messaging. Signal Desktop is unregistered likely because you registered your phone number with Signal on a different device."
+    "messageformat": "ပြန်လည် စာရင်းသွင်းရန်နှင့် ဆက်လက်မက်ဆေ့ချ်ပို့ရန် နှိပ်ပါ။ အခြားစက်တစ်ခုတွင် Signal ဖြင့် သင့်ဖုန်းနံပါတ်ကို စာရင်းသွင်းထားသောကြောင့် Signal Desktop သည် စာရင်းသွင်း၍မရခြင်း ဖြစ်နိုင်သည်။"
   },
   "icu:unregistered": {
-    "messageformat": "No longer registered"
+    "messageformat": "စာရင်းသွင်းထားခြင်း မရှိတော့ပါ"
   },
   "icu:autoUpdateNewVersionTitle": {
     "messageformat": "အပ်ဒိတ် ရရှိနိုင်ပါပြီ"
@@ -3366,40 +3366,40 @@
     "messageformat": "ဘေးကင်းရေး အကြံပြုချက်များ"
   },
   "icu:SafetyTipsModal__Title-v2": {
-    "messageformat": "Safety tips"
+    "messageformat": "ဘေးကင်းရေး အကြံပြုချက်များ"
   },
   "icu:SafetyTipsModal__TipTitle--SignalChat": {
-    "messageformat": "Don’t respond to chats from Signal"
+    "messageformat": "Signal မှ ချက်(တ်)များကို မတုံ့ပြန်ပါနှင့်"
   },
   "icu:SafetyTipsModal__TipDescription--SignalChat": {
-    "messageformat": "Signal will never message you for your registration code, PIN, or recovery key. Never respond to a chat pretending to be Signal."
+    "messageformat": "Signal က သင့် စာရင်းသွင်းကုဒ်၊ PIN သို့မဟုတ် ပြန်လည်ရယူရေးကီးကို မည်သည့်အခါမျှ မက်ဆေ့ချ်ပို့မည်မဟုတ်ပါ။ Signal ဟန်ဆောင်ထားသည့် ချက်(တ်)ကို စာမပြန်ပါနှင့်။"
   },
   "icu:SafetyTipsModal__TipTitle--NamesAndPhotos": {
-    "messageformat": "Review names and photos"
+    "messageformat": "အမည်များနှင့် ဓာတ်ပုံများကို ပြန်လည်သုံးသပ်ပါ"
   },
   "icu:SafetyTipsModal__TipDescription--NamesAndPhotos": {
-    "messageformat": "Look out for the “Name not verified” notice. Everyone sets their own profile name in Signal."
+    "messageformat": "\"အမည်ကို အတည်မပြုရသေးပါ\" ဟူသော အသိပေးချက်ကို သတိပြုပါ။ Signal တွင် လူတိုင်းက ၎င်းတို့၏ ကိုယ်ပိုင် ပရိုဖိုင်အမည်ကို သတ်မှတ်ကြပါသည်။"
   },
   "icu:SafetyTipsModal__TipTitle--Scams": {
-    "messageformat": "Look out for scams"
+    "messageformat": "လိမ်လည်မှုများကို သတိထားပါ"
   },
   "icu:SafetyTipsModal__TipDescription--Scams": {
-    "messageformat": "Avoid vague messages that try to get you to reply. Be aware of financial tips and suspicious web links."
+    "messageformat": "သင့်ထံမှ အကြောင်းပြန်ရန် ကြိုးစားသည့် မရှင်းလင်းသော မက်ဆေ့ချ်များကို ရှောင်ပါ။ ငွေကြေးဆိုင်ရာ အကြံပြုချက်များနှင့် သံသယဖြစ်ဖွယ် ဝက်ဘ်လင့်ခ်များကို သတိပြုပါ။"
   },
   "icu:SafetyTipsModal__Description": {
     "messageformat": "သင်မသိသူများထံမှ မက်ဆေ့ချ်တောင်းဆိုချက်များကို လက်ခံသောအခါ သတိထားပါ။ ဤသည်တို့ကို သတိပြုပါ-"
   },
   "icu:SafetyTipsModal__TipTitle--DontRespond": {
-    "messageformat": "Don’t respond to chats from Signal"
+    "messageformat": "Signal မှ ချက်(တ်)များကို မတုံ့ပြန်ပါနှင့်"
   },
   "icu:SafetyTipsModal__TipDescription--DontRespond": {
-    "messageformat": "Signal will never message you for your registration code, PIN, or recover key. Don't reply to chats pretending to be Signal or Signal Support. Bad actors set up fake names to try to take over your account."
+    "messageformat": "Signal က သင့် စာရင်းသွင်းကုဒ်၊ PIN သို့မဟုတ် ပြန်လည်ရယူရေးကီးကို မည်သည့်အခါမျှ မက်ဆေ့ချ်ပို့မည်မဟုတ်ပါ။ Signal သို့မဟုတ် Signal ပံ့ပိုးမှု ဟန်ဆောင်ထားသော ချက်(တ်)များကို အကြောင်းမပြန်ပါနှင့်။ မသမာသူများသည် သင့်အကောင့်ကိုသိမ်းပိုက်ရန် အတုအယောင် အမည်များကို ဖန်တီးကြပါသည်။"
   },
   "icu:SafetyTipsModal__TipTitle--ReviewNames": {
-    "messageformat": "Review names and photos"
+    "messageformat": "အမည်များနှင့် ဓာတ်ပုံများကို ပြန်လည်သုံးသပ်ပါ"
   },
   "icu:SafetyTipsModal__TipDescription--ReviewNames": {
-    "messageformat": "Look out for the “Name not verified” notice. Everyone sets their own profile name and photo in Signal. If you’re unsure who a new request is from it’s safer to ignore it."
+    "messageformat": "\"အမည်ကို အတည်မပြုရသေးပါ\" ဟူသော အသိပေးချက်ကို သတိပြုပါ။ Signal တွင် လူတိုင်းက ၎င်းတို့၏ ကိုယ်ပိုင် ပရိုဖိုင်အမည်နှင့် ဓာတ်ပုံကို သတ်မှတ်ကြပါသည်။ တောင်းဆိုချက်အသစ်က မည်သူဆိုသည်ကို မသေချာလျှင် လျစ်လျူရှုထားလိုက်ခြင်းက ပိုလုံခြုံပါသည်။"
   },
   "icu:SafetyTipsModal__TipTitle--Fake": {
     "messageformat": "အမည်အတုနှင့် အကောင့်များ"
@@ -3426,13 +3426,13 @@
     "messageformat": "သင်မသိသူများထံမှ ဝက်ဘ်ဆိုက်လင့်ခ်များပါသော မက်ဆေ့ချ်များကို သတိထားပါ။ သင် မယုံကြည်သောသူများထံမှ လင့်ခ်များကို ဘယ်တော့မှဝင်မကြည့်ပါနှင့်။"
   },
   "icu:SafetyTipsModal__TipTitle--Links-v2": {
-    "messageformat": "Messages with web links"
+    "messageformat": "ဝက်ဘ်လင့်ခ်များပါသော မက်ဆေ့ချ်များ"
   },
   "icu:SafetyTipsModal__TipTitle--Business": {
     "messageformat": "စီးပွားရေးလုပ်ငန်းနှင့် အဖွဲ့အစည်း အတုများ"
   },
   "icu:SafetyTipsModal__TipTitle--Business-v2": {
-    "messageformat": "Fake businesses"
+    "messageformat": "အတုအယောင် လုပ်ငန်းများ"
   },
   "icu:SafetyTipsModal__TipDescription--Business": {
     "messageformat": "သင့်ထံဆက်သွယ်လာသော စီးပွားရေးလုပ်ငန်း သို့မဟုတ် အစိုးရအေဂျင်စီများကို သတိပြုပါ။ အခွန်အေဂျင်စီများ၊ စာပို့သူများနှင့် အခြားအရာများ ပါဝင်သော မက်ဆေ့ချ်များသည် လိမ်လည်မှုဖြစ်နိုင်ပါသည်။"
@@ -3450,7 +3450,7 @@
     "messageformat": "ပြီးပါပြီ"
   },
   "icu:SafetyTipsModal__Button--ViewMore": {
-    "messageformat": "View more"
+    "messageformat": "ပိုမို ကြည့်ရှုရန်"
   },
   "icu:MessageRequests--message-direct": {
     "messageformat": "{name} အား မက်ဆေ့ချ်ပို့စေပြီး သင့်အမည်နှင့် ဓာတ်ပုံကို ၎င်းနှင့် ဝေမျှပါမည်လား။ သင်လက်မခံမချင်း ၎င်း၏ မက်ဆေ့ချ်များကို သင်မြင်ရကြောင်း ၎င်းက သိရှိမည် မဟုတ်ပါ။"
@@ -3555,10 +3555,10 @@
     "messageformat": "တောင်းဆိုမှုများကို သေချာ ပြန်သုံးသပ်ပါ။ ပရိုဖိုင်း အမည်များကို ၎င်းတို့၏အကောင့်ပိုင်ရှင်က ရွေးချယ်ထားပြီး အတည်မပြုထားပါ။"
   },
   "icu:MessageRequests--accept-confirm-title-v2": {
-    "messageformat": "Accept request?"
+    "messageformat": "တောင်းဆိုမှုကို လက်ခံပါသလား။"
   },
   "icu:MessageRequests--accept-confirm-body-v2": {
-    "messageformat": "Only accept requests from people you trust. <bold>Signal will never</bold> message you for a registration code, PIN, or recovery key."
+    "messageformat": "သင်ယုံကြည်ရသူများထံမှသာ တောင်းဆိုမှုများကို လက်ခံပါ။ စာရင်းသွင်းကုဒ်၊ PIN သို့မဟုတ် ပြန်လည်ရယူရေးကီးအတွက် <bold>Signal သည် သင့်ထံမည်သည့်အခါမျှ</bold> မက်ဆေ့ချ်ပို့မည်မဟုတ်ပါ။"
   },
   "icu:MessageRequests--continue": {
     "messageformat": "ဆက်လုပ်ရန်"
@@ -3618,13 +3618,13 @@
     "messageformat": "တရားဝင််အကောင့်"
   },
   "icu:ConversationHero--signal-official-chat-title": {
-    "messageformat": "Official chat"
+    "messageformat": "တရားဝင် ချက်(တ်)"
   },
   "icu:ConversationHero--signal-official-account--description": {
     "messageformat": "Signal မှ တစ်ခုတည်းသော တရားဝင်ချက်(တ်)။ သတင်းများနှင့် ထုတ်ဝေမှုမှတ်ချက်များကို အပ်ဒိတ်ရယူလိုက်ပါ။"
   },
   "icu:Timeline--signal-official-chat--chip": {
-    "messageformat": "The only official chat from Signal."
+    "messageformat": "Signal မှ တစ်ခုတည်းသော တရားဝင်ချက်(တ်)။"
   },
   "icu:ConversationHero--release-notes": {
     "messageformat": "သတင်းများနှင့် ထုတ်ဝေမှုမှတ်ချက်များကို အပ်ဒိတ်ရယူလိုက်ပါ။"
@@ -4611,7 +4611,7 @@
     "messageformat": "ပိတ်မယ်"
   },
   "icu:clear": {
-    "messageformat": "Clear"
+    "messageformat": "ဖယ်ရှားမည်"
   },
   "icu:previous": {
     "messageformat": "နောက်သို့"
@@ -4623,16 +4623,16 @@
     "messageformat": "မိနစ်အနည်းငယ် ကြာနိုင်ပါသည်"
   },
   "icu:DeletingAccount__LeavingGroups__Title": {
-    "messageformat": "Leaving groups..."
+    "messageformat": "အဖွဲ့မှ ထွက်မည်..."
   },
   "icu:DeletingAccount__LeavingGroups__Detail": {
-    "messageformat": "Depending on the number of groups you’re in, this might take a few minutes"
+    "messageformat": "သင်ဝင်ထားသည့် အဖွဲ့ အရေအတွက်ပေါ်မူတည်၍ မိနစ်အနည်းငယ် ကြာနိုင်ပါသည်"
   },
   "icu:DeletingAccount__DeletingData__Title": {
-    "messageformat": "Deleting account and all data..."
+    "messageformat": "အကောင့်နှင့် ဒေတာအားလုံးကို ဖျက်နေသည်..."
   },
   "icu:DeletingAccount__DeletingData__Detail": {
-    "messageformat": "Deleting user data and resetting the app"
+    "messageformat": "သုံးစွဲသူ ဒေတာကို ဖျက်ခြင်းနှင့် အက်ပ်ကို ပြန်လည်သတ်မှတ်ခြင်း"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Signal ကိုလှူဒါန်းပါ"
@@ -5410,7 +5410,7 @@
     "messageformat": "Signal ကောလ်တွင် ပါဝင်ရန် ဤလင့်ခ်ကို သုံးပါ- {url}"
   },
   "icu:MessageRequestWarning__review-carefully": {
-    "messageformat": "Review requests carefully"
+    "messageformat": "တောင်းဆိုမှုများကို သေချာ ပြန်သုံးသပ်ပါ"
   },
   "icu:MessageRequestWarning__safety-tips-v2": {
     "messageformat": "ဘေးကင်းရေး အကြံပြုချက်များ"
@@ -6386,22 +6386,22 @@
     "messageformat": "{num, plural, other {အဆက်အသွယ် {num,number} ခု}}"
   },
   "icu:Preferences--blocked-count-both-new": {
-    "messageformat": "{num, plural, =0 { No users or groups } one {{num,number} user or group} other {{num,number} users or groups}}"
+    "messageformat": "{num, plural, =0 { သုံးစွဲသူ သို့မဟုတ် အဖွဲ့မရှိပါ } other {သုံးစွဲသူ သို့မဟုတ် အဖွဲ့ {num,number}}}"
   },
   "icu:Preferences--blocked-count-contacts-new": {
-    "messageformat": "{num, plural, =0 { No users } one {{num,number} user} other {{num,number} users}}"
+    "messageformat": "{num, plural, =0 { သုံးစွဲသူမရှိပါ } other {အသုံးပြုသူ {num,number}}}"
   },
   "icu:Preferences--blocked-count-groups-new": {
-    "messageformat": "{num, plural, =0 { No groups } one {{num,number} group} other {{num,number} groups}}"
+    "messageformat": "{num, plural, =0 { အဖွဲ့မရှိပါ } other {အဖွဲ့ {num,number}}}"
   },
   "icu:Preferences--blocked-users--description": {
-    "messageformat": "Blocked users will not be able to call you or send you messages"
+    "messageformat": "ဘလော့ခ်ထားသော သုံးစွဲသူများသည် သင့်ထံ ဖုန်းခေါ်ခြင်း သို့မဟုတ် မက်ဆေ့ချ်ပို့ခြင်းများ မလုပ်နိုင်တော့ပါ"
   },
   "icu:Preferences--blocked-users": {
-    "messageformat": "Blocked Users"
+    "messageformat": "ဘလော့ခ်ထားသော သုံးစွဲသူများ"
   },
   "icu:Preferences--blocked-groups": {
-    "messageformat": "Blocked Groups"
+    "messageformat": "ဘလော့ခ်ထားသော အဖွဲ့များ"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Signal လုံခြုံရေးဘက်ခ်အပ်"
@@ -6974,7 +6974,7 @@
     "messageformat": "မက်ဆေ့ချ် တောင်းဆိုမှုကို သင် လက်ခံခဲ့သည်"
   },
   "icu:MessageRequestResponseNotification__Message--Accepted-Contact-Title": {
-    "messageformat": "You accepted {userProfileName}'s message request"
+    "messageformat": "သင်သည် {userProfileName} ၏ မက်ဆေ့ချ်တောင်းဆိုမှုကို လက်ခံလိုက်ပါပြီ"
   },
   "icu:MessageRequestResponseNotification__Message--Reported": {
     "messageformat": "လိမ်လည်မှုအဖြစ် ရီပို့(တ်)လုပ်ပြီးပါပြီ"
@@ -6995,7 +6995,7 @@
     "messageformat": "ရွေးချယ်စရာများ"
   },
   "icu:MessageRequestResponseNotification__Button--block-or-report": {
-    "messageformat": "Block or Report..."
+    "messageformat": "ဘလော့ခ်လုပ်ရန် သို့မဟုတ် တိုင်ကြားရန်..."
   },
   "icu:MessageRequestResponseNotification__Button--LearnMore": {
     "messageformat": "ပိုမိုလေ့လာရန်"
@@ -8259,7 +8259,7 @@
     "messageformat": "Carousel"
   },
   "icu:Carousel__Slide--Role": {
-    "messageformat": "Slide"
+    "messageformat": "ဆလိုက်"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "ဤဗားရှင်းတွင် Signal အား အထစ်အငေါ့မရှိ လုပ်ဆောင်နိုင်စေရန် ချို့ယွင်းချက် ပြင်ဆင်မှုများနှင့် အနေအထား ပြုပြင်မှု အသေးလေးများ ပါဝင်ပါသည်။",
@@ -8290,6 +8290,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__8.10--0": {
-    "messageformat": "The freshly spun emoji in Unicode 17.0 have now pirouetted into place in Signal. Send a message reaction with the new Ballet Dancer emoji to perform your own digital version of a pas de chat."
+    "messageformat": "Unicode 17.0 တွင် အီမိုဂျီအသစ်အတွက် ပံ့ပိုးမှုကို ဖွင့်လိုက်ပါပြီ။"
   }
 }

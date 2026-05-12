@@ -1956,25 +1956,25 @@
     "messageformat": "Περισσότερες επιλογές"
   },
   "icu:CallingParticipantMenu__MuteAudio": {
-    "messageformat": "Mute audio"
+    "messageformat": "Σίγαση ήχου"
   },
   "icu:CallingParticipantMenu__UnmuteAudio": {
-    "messageformat": "Unmute audio"
+    "messageformat": "Αναίρεση σίγασης ήχου"
   },
   "icu:CallingParticipantMenu__ViewProfile": {
-    "messageformat": "View profile"
+    "messageformat": "Προβολή προφίλ"
   },
   "icu:CallingParticipantMenu__GoToChat": {
-    "messageformat": "Go to chat"
+    "messageformat": "Μετάβαση στη συνομιλία"
   },
   "icu:CallingParticipantMenu__RemoveFromCall": {
-    "messageformat": "Remove from call"
+    "messageformat": "Αφαίρεση από την κλήση"
   },
   "icu:CallingParticipantListItem__ContextMenuButton": {
-    "messageformat": "More actions"
+    "messageformat": "Περισσότερες ενέργειες"
   },
   "icu:CallingParticipantListItem__Presenting": {
-    "messageformat": "Presenting"
+    "messageformat": "Παρουσίαση"
   },
   "icu:CallingPendingParticipants__ApproveUser": {
     "messageformat": "Έγκριση αίτησης συμμετοχής"
@@ -2205,25 +2205,25 @@
     "messageformat": "Να διαγραφούν όλα τα δεδομένα και τα μηνύματα από αυτή την έκδοση Signal για υπολογιστή; Ο λογαριασμός σου στο Signal, τα δεδομένα στο τηλέφωνό σου ή σε άλλες συνδεδεμένες συσκευές δεν θα διαγραφούν."
   },
   "icu:deleteAccountProgress": {
-    "messageformat": "Deleting account and all data…"
+    "messageformat": "Διαγραφή λογαριασμού και όλων των δεδομένων..."
   },
   "icu:deleteAllDataProgress": {
     "messageformat": "Αποσύνδεση και διαγραφή όλων των δεδομένων..."
   },
   "icu:deleteAccountHeader": {
-    "messageformat": "Delete account"
+    "messageformat": "Διαγραφή λογαριασμού"
   },
   "icu:deleteAccountExplanation": {
-    "messageformat": "This will delete your account info, profile, and all of your messages. You will also be removed from all Signal groups."
+    "messageformat": "Με αυτή την ενέργεια, τα στοιχεία του λογαριασμού σου, το προφίλ σου και όλα σου τα μηνύματα θα διαγραφούν. Επιπλέον, θα αφαιρεθείς από όλες τις ομάδες Signal."
   },
   "icu:deleteAccountButton": {
-    "messageformat": "Delete account"
+    "messageformat": "Διαγραφή λογαριασμού"
   },
   "icu:deleteAccountDialogHeader": {
-    "messageformat": "Delete Account?"
+    "messageformat": "Διαγραφή λογαριασμού;"
   },
   "icu:deleteAccountDialogBody": {
-    "messageformat": "This will delete your account info, profile, and all of your messages. You will also be removed from all Signal groups. The app will close after this process is complete."
+    "messageformat": "Με αυτή την ενέργεια, τα στοιχεία του λογαριασμού σου, το προφίλ σου και όλα σου τα μηνύματα θα διαγραφούν. Επιπλέον, θα αφαιρεθείς από όλες τις ομάδες Signal. Η εφαρμογή θα κλείσει αφού ολοκληρωθεί αυτή η διαδικασία."
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Υπάρχουν παρωχημένα δεδομένα από μια προηγούμενη εγκατάσταση του Signal Desktop. Αν επιλέξεις να συνεχίσεις, αυτά θα διαγραφούν και θα ξεκινήσεις από την αρχή."
@@ -2571,10 +2571,10 @@
     "messageformat": "Αποσυνδεμένο"
   },
   "icu:unregisteredWarning": {
-    "messageformat": "Click to re-register and continue messaging. Signal Desktop is unregistered likely because you registered your phone number with Signal on a different device."
+    "messageformat": "Πάτα για να κάνεις εκ νέου εγγραφή και να συνεχίσεις να στέλνεις μηνύματα. Το Signal Desktop δεν έχει καταχωρηθεί, πιθανώς επειδή καταχώρησες τον αριθμό τηλεφώνου σου στο Signal από άλλη συσκευή."
   },
   "icu:unregistered": {
-    "messageformat": "No longer registered"
+    "messageformat": "Δεν υπάρχει πλέον εγγραφή"
   },
   "icu:autoUpdateNewVersionTitle": {
     "messageformat": "Διαθέσιμη αναβάθμιση"
@@ -3366,40 +3366,40 @@
     "messageformat": "Συμβουλές ασφαλείας"
   },
   "icu:SafetyTipsModal__Title-v2": {
-    "messageformat": "Safety tips"
+    "messageformat": "Συμβουλές ασφαλείας"
   },
   "icu:SafetyTipsModal__TipTitle--SignalChat": {
-    "messageformat": "Don’t respond to chats from Signal"
+    "messageformat": "Μην απαντάς σε μηνύματα από το Signal"
   },
   "icu:SafetyTipsModal__TipDescription--SignalChat": {
-    "messageformat": "Signal will never message you for your registration code, PIN, or recovery key. Never respond to a chat pretending to be Signal."
+    "messageformat": "Το Signal δεν θα επικοινωνήσει ποτέ μαζί σου για τον κωδικό εγγραφής, το PIN σου ή το κλειδί ανάκτησής σου. Μην απαντάς ποτέ σε μηνύματα από το Signal."
   },
   "icu:SafetyTipsModal__TipTitle--NamesAndPhotos": {
-    "messageformat": "Review names and photos"
+    "messageformat": "Έλεγξε ονόματα και φωτογραφίες"
   },
   "icu:SafetyTipsModal__TipDescription--NamesAndPhotos": {
-    "messageformat": "Look out for the “Name not verified” notice. Everyone sets their own profile name in Signal."
+    "messageformat": "Πρόσεξε την ένδειξη «Το όνομα δεν έχει επαληθευτεί». Ο καθένας ορίζει το δικό του όνομα προφίλ στο Signal."
   },
   "icu:SafetyTipsModal__TipTitle--Scams": {
-    "messageformat": "Look out for scams"
+    "messageformat": "Προσοχή στις απάτες"
   },
   "icu:SafetyTipsModal__TipDescription--Scams": {
-    "messageformat": "Avoid vague messages that try to get you to reply. Be aware of financial tips and suspicious web links."
+    "messageformat": "Απόφυγε τα ασαφή μηνύματα που προσπαθούν να σε κάνουν να απαντήσεις. Πρόσεξε τις οικονομικές συμβουλές και τους ύποπτους συνδέσμους στο διαδίκτυο."
   },
   "icu:SafetyTipsModal__Description": {
     "messageformat": "Να προσέχεις όταν δέχεσαι αιτήματα μηνυμάτων από άτομα που δεν γνωρίζεις. Να προσέχεις για:"
   },
   "icu:SafetyTipsModal__TipTitle--DontRespond": {
-    "messageformat": "Don’t respond to chats from Signal"
+    "messageformat": "Μην απαντάς σε μηνύματα από το Signal"
   },
   "icu:SafetyTipsModal__TipDescription--DontRespond": {
-    "messageformat": "Signal will never message you for your registration code, PIN, or recover key. Don't reply to chats pretending to be Signal or Signal Support. Bad actors set up fake names to try to take over your account."
+    "messageformat": "Το Signal δεν θα επικοινωνήσει ποτέ μαζί σου για τον κωδικό εγγραφής, το PIN σου ή το κλειδί ανάκτησής σου. Μην απαντάς σε μηνύματα που προσποιούνται ότι προέρχονται από το Signal ή την Υποστήριξη Signal. Κακόβουλοι χρήστες δημιουργούν ψεύτικα ονόματα για να προσπαθήσουν να καταλάβουν τον λογαριασμό σου."
   },
   "icu:SafetyTipsModal__TipTitle--ReviewNames": {
-    "messageformat": "Review names and photos"
+    "messageformat": "Έλεγξε ονόματα και φωτογραφίες"
   },
   "icu:SafetyTipsModal__TipDescription--ReviewNames": {
-    "messageformat": "Look out for the “Name not verified” notice. Everyone sets their own profile name and photo in Signal. If you’re unsure who a new request is from it’s safer to ignore it."
+    "messageformat": "Πρόσεξε την ένδειξη «Το όνομα δεν έχει επαληθευτεί». Ο καθένας ορίζει το δικό του όνομα προφίλ και τη δική του φωτογραφία στο Signal. Αν δεν γνωρίζεις σίγουρα από ποιον προέρχεται ένα νέο αίτημα, είναι ασφαλέστερο να το αγνοήσεις."
   },
   "icu:SafetyTipsModal__TipTitle--Fake": {
     "messageformat": "Ψεύτικα ονόματα και λογαριασμοί"
@@ -3426,13 +3426,13 @@
     "messageformat": "Να προσέχεις για μηνύματα από άτομα που δεν γνωρίζεις και τα οποία περιέχουν συνδέσμους για ιστότοπους. Μην επισκέπτεσαι συνδέσμους από άτομα που δεν εμπιστεύεσαι."
   },
   "icu:SafetyTipsModal__TipTitle--Links-v2": {
-    "messageformat": "Messages with web links"
+    "messageformat": "Μηνύματα με συνδέσμους ιστού"
   },
   "icu:SafetyTipsModal__TipTitle--Business": {
     "messageformat": "Ψεύτικες επιχειρήσεις και ιδρύματα"
   },
   "icu:SafetyTipsModal__TipTitle--Business-v2": {
-    "messageformat": "Fake businesses"
+    "messageformat": "Ψεύτικες επιχειρήσεις"
   },
   "icu:SafetyTipsModal__TipDescription--Business": {
     "messageformat": "Να προσέχεις με τις επιχειρήσεις ή τις κυβερνητικές υπηρεσίες που επικοινωνούν μαζί σου. Τα μηνύματα που αφορούν φορολογικές υπηρεσίες, ταχυμεταφορείς και πολλά άλλα μπορεί να είναι spam."
@@ -3450,7 +3450,7 @@
     "messageformat": "Τέλος"
   },
   "icu:SafetyTipsModal__Button--ViewMore": {
-    "messageformat": "View more"
+    "messageformat": "Προβολή περισσότερων"
   },
   "icu:MessageRequests--message-direct": {
     "messageformat": "Να επιτραπεί στον/στην {name} να σου στείλει μηνύματα, και να μοιραστεί το όνομα και η φωτογραφία προφίλ σου μαζί του/της; Δεν θα γνωρίζει ότι έχεις δει τα μηνύματά του/της μέχρι να δεχτείς."
@@ -3555,10 +3555,10 @@
     "messageformat": "Έλεγξε τα αιτήματα προσεκτικά. Τα ονόματα προφίλ επιλέγονται από τον κάτοχο του λογαριασμού και δεν είναι επαληθευμένα."
   },
   "icu:MessageRequests--accept-confirm-title-v2": {
-    "messageformat": "Accept request?"
+    "messageformat": "Αποδοχή αιτήματος;"
   },
   "icu:MessageRequests--accept-confirm-body-v2": {
-    "messageformat": "Only accept requests from people you trust. <bold>Signal will never</bold> message you for a registration code, PIN, or recovery key."
+    "messageformat": "Να αποδέχεσαι αιτήματα μόνο από άτομα που εμπιστεύεσαι. <bold>Το Signal δεν θα</bold> επικοινωνήσει ποτέ μαζί σου για τον κωδικό εγγραφής, το PIN ή το κλειδί ανάκτησής."
   },
   "icu:MessageRequests--continue": {
     "messageformat": "Συνέχεια"
@@ -3618,13 +3618,13 @@
     "messageformat": "Επίσημος λογαριασμός"
   },
   "icu:ConversationHero--signal-official-chat-title": {
-    "messageformat": "Official chat"
+    "messageformat": "Επίσημη συνομιλία"
   },
   "icu:ConversationHero--signal-official-account--description": {
     "messageformat": "Η μόνη επίσημη συνομιλία από το Signal. Μην χάσεις ξανά τα νέα και τις σημειώσεις έκδοσης."
   },
   "icu:Timeline--signal-official-chat--chip": {
-    "messageformat": "The only official chat from Signal."
+    "messageformat": "Η μόνη επίσημη συνομιλία από το Signal."
   },
   "icu:ConversationHero--release-notes": {
     "messageformat": "Μην χάσεις ξανά τα νέα και τις σημειώσεις έκδοσης."
@@ -4611,7 +4611,7 @@
     "messageformat": "Κλείσιμο"
   },
   "icu:clear": {
-    "messageformat": "Clear"
+    "messageformat": "Εκκαθάριση"
   },
   "icu:previous": {
     "messageformat": "προηγούμενο"
@@ -4623,16 +4623,16 @@
     "messageformat": "Αυτό μπορεί να πάρει μερικά λεπτά"
   },
   "icu:DeletingAccount__LeavingGroups__Title": {
-    "messageformat": "Leaving groups..."
+    "messageformat": "Αποχώρηση από ομάδες..."
   },
   "icu:DeletingAccount__LeavingGroups__Detail": {
-    "messageformat": "Depending on the number of groups you’re in, this might take a few minutes"
+    "messageformat": "Ανάλογα με τον αριθμό ομάδων που είσαι μέλος, αυτό μπορεί να πάρει μέχρι μερικά λεπτά"
   },
   "icu:DeletingAccount__DeletingData__Title": {
-    "messageformat": "Deleting account and all data..."
+    "messageformat": "Διαγραφή λογαριασμού και όλων των δεδομένων..."
   },
   "icu:DeletingAccount__DeletingData__Detail": {
-    "messageformat": "Deleting user data and resetting the app"
+    "messageformat": "Τα δεδομένα χρήστη διαγράφονται και η εφαρμογή επαναφέρεται"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Κάνε μια δωρεά στο Signal"
@@ -5410,7 +5410,7 @@
     "messageformat": "Χρησιμοποίησε αυτόν τον σύνδεσμο για να μπεις σε μια κλήση Signal: {url}"
   },
   "icu:MessageRequestWarning__review-carefully": {
-    "messageformat": "Review requests carefully"
+    "messageformat": "Επιθεώρησε τα αιτήματα προσεκτικά"
   },
   "icu:MessageRequestWarning__safety-tips-v2": {
     "messageformat": "Συμβουλές ασφαλείας"
@@ -6386,22 +6386,22 @@
     "messageformat": "{num, plural, one {{num,number} επαφή} other {{num,number} επαφές}}"
   },
   "icu:Preferences--blocked-count-both-new": {
-    "messageformat": "{num, plural, =0 { No users or groups } one {{num,number} user or group} other {{num,number} users or groups}}"
+    "messageformat": "{num, plural, =0 { Δεν υπάρχουν χρήστες ή ομάδες } one {{num,number} χρήστης ή ομάδα} other {{num,number} χρήστες ή ομάδες}}"
   },
   "icu:Preferences--blocked-count-contacts-new": {
-    "messageformat": "{num, plural, =0 { No users } one {{num,number} user} other {{num,number} users}}"
+    "messageformat": "{num, plural, =0 { Δεν υπάρχουν χρήστες } one {{num,number} χρήστης} other {{num,number} χρήστες}}"
   },
   "icu:Preferences--blocked-count-groups-new": {
-    "messageformat": "{num, plural, =0 { No groups } one {{num,number} group} other {{num,number} groups}}"
+    "messageformat": "{num, plural, =0 { Δεν υπάρχουν ομάδες } one {{num,number} ομάδα} other {{num,number} ομάδες}}"
   },
   "icu:Preferences--blocked-users--description": {
-    "messageformat": "Blocked users will not be able to call you or send you messages"
+    "messageformat": "Οι αποκλεισμένοι χρήστες δεν θα μπορούν να σε καλέσουν ή να σου στείλουν μηνύματα"
   },
   "icu:Preferences--blocked-users": {
-    "messageformat": "Blocked Users"
+    "messageformat": "Αποκλεισμένοι χρήστες"
   },
   "icu:Preferences--blocked-groups": {
-    "messageformat": "Blocked Groups"
+    "messageformat": "Αποκλεισμένες ομάδες"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Signal Secure Backups"
@@ -6974,7 +6974,7 @@
     "messageformat": "Αποδέχτηκες το αίτημα μηνύματος"
   },
   "icu:MessageRequestResponseNotification__Message--Accepted-Contact-Title": {
-    "messageformat": "You accepted {userProfileName}'s message request"
+    "messageformat": "Αποδέχτηκες το αίτημα μηνύματος του χρήστη {userProfileName}"
   },
   "icu:MessageRequestResponseNotification__Message--Reported": {
     "messageformat": "Έγινε αναφορά ως ανεπιθύμητο"
@@ -6995,7 +6995,7 @@
     "messageformat": "Επιλογές"
   },
   "icu:MessageRequestResponseNotification__Button--block-or-report": {
-    "messageformat": "Block or Report..."
+    "messageformat": "Αποκλεισμός ή αναφορά..."
   },
   "icu:MessageRequestResponseNotification__Button--LearnMore": {
     "messageformat": "Μάθε περισσότερα"
@@ -8256,10 +8256,10 @@
     "messageformat": "Ανάπτυξη της πλαϊνής μπάρας για αλληλεπίδραση με το μεγάφωνο"
   },
   "icu:Carousel--Role": {
-    "messageformat": "Carousel"
+    "messageformat": "Καρουζέλ"
   },
   "icu:Carousel__Slide--Role": {
-    "messageformat": "Slide"
+    "messageformat": "Διαφάνεια"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Αυτή η έκδοση περιλαμβάνει διάφορες μικρές βελτιώσεις και αποσφαλματώσεις για να συνεχίσει το Signal να λειτουργεί ομαλά.",
@@ -8290,6 +8290,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__8.10--0": {
-    "messageformat": "The freshly spun emoji in Unicode 17.0 have now pirouetted into place in Signal. Send a message reaction with the new Ballet Dancer emoji to perform your own digital version of a pas de chat."
+    "messageformat": "Ενεργοποιήσαμε την υποστήριξη για τα νέα emoji του Unicode 17.0."
   }
 }

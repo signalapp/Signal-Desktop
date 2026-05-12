@@ -1956,25 +1956,25 @@
     "messageformat": "Opsione të tjera"
   },
   "icu:CallingParticipantMenu__MuteAudio": {
-    "messageformat": "Mute audio"
+    "messageformat": "Bëje audion pa zë"
   },
   "icu:CallingParticipantMenu__UnmuteAudio": {
-    "messageformat": "Unmute audio"
+    "messageformat": "Aktivizo zërin e audios"
   },
   "icu:CallingParticipantMenu__ViewProfile": {
-    "messageformat": "View profile"
+    "messageformat": "Shiko profilin"
   },
   "icu:CallingParticipantMenu__GoToChat": {
-    "messageformat": "Go to chat"
+    "messageformat": "Kalo te biseda"
   },
   "icu:CallingParticipantMenu__RemoveFromCall": {
-    "messageformat": "Remove from call"
+    "messageformat": "Hiq nga telefonata"
   },
   "icu:CallingParticipantListItem__ContextMenuButton": {
-    "messageformat": "More actions"
+    "messageformat": "Më tepër veprime"
   },
   "icu:CallingParticipantListItem__Presenting": {
-    "messageformat": "Presenting"
+    "messageformat": "Prezantohet"
   },
   "icu:CallingPendingParticipants__ApproveUser": {
     "messageformat": "Mirato kërkesën për t'ju bashkuar"
@@ -2205,25 +2205,25 @@
     "messageformat": "Të fshihen të gjitha të dhënat dhe mesazhet nga versioni i Signal Desktop? Llogaria e Signal dhe të dhënat që gjenden në telefon apo në pajisje të tjera të lidhura nuk do të fshihen."
   },
   "icu:deleteAccountProgress": {
-    "messageformat": "Deleting account and all data…"
+    "messageformat": "Po fshihet llogaria dhe të gjitha të dhënat…"
   },
   "icu:deleteAllDataProgress": {
     "messageformat": "Të gjitha të dhënat po shkëputen dhe po fshihen…"
   },
   "icu:deleteAccountHeader": {
-    "messageformat": "Delete account"
+    "messageformat": "Fshije llogarinë"
   },
   "icu:deleteAccountExplanation": {
-    "messageformat": "This will delete your account info, profile, and all of your messages. You will also be removed from all Signal groups."
+    "messageformat": "Kjo do të fshijë informacionin e llogarisë, profilin dhe të gjitha mesazhet. Gjithashtu do të hiqesh nga të gjitha grupet në Signal."
   },
   "icu:deleteAccountButton": {
-    "messageformat": "Delete account"
+    "messageformat": "Fshije llogarinë"
   },
   "icu:deleteAccountDialogHeader": {
-    "messageformat": "Delete Account?"
+    "messageformat": "Të fshihet llogaria?"
   },
   "icu:deleteAccountDialogBody": {
-    "messageformat": "This will delete your account info, profile, and all of your messages. You will also be removed from all Signal groups. The app will close after this process is complete."
+    "messageformat": "Kjo do të fshijë informacionin e llogarisë, profilin dhe të gjitha mesazhet. Gjithashtu do të hiqesh nga të gjitha grupet në Signal. Aplikacioni do të mbyllet pasi të përfundojë ky proces."
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Ke të dhëna të vjetra prej një instalimi të mëparshëm të Signal-it për Desktop. Nëse vendos të vazhdosh, do të fshihen dhe do t’ia filloni nga e para."
@@ -2571,10 +2571,10 @@
     "messageformat": "Jo e lidhur"
   },
   "icu:unregisteredWarning": {
-    "messageformat": "Click to re-register and continue messaging. Signal Desktop is unregistered likely because you registered your phone number with Signal on a different device."
+    "messageformat": "Kliko për t’u regjistruar përsëri dhe për të vazhduar me mesazhet. Signal Desktop është çregjistruar, me shumë mundësi sepse e ke regjistruar numrin e telefonit në Signal në një pajisje tjetër."
   },
   "icu:unregistered": {
-    "messageformat": "No longer registered"
+    "messageformat": "Nuk është më i regjistruar"
   },
   "icu:autoUpdateNewVersionTitle": {
     "messageformat": "Ka përditësim të gatshëm"
@@ -3366,40 +3366,40 @@
     "messageformat": "Këshilla sigurie"
   },
   "icu:SafetyTipsModal__Title-v2": {
-    "messageformat": "Safety tips"
+    "messageformat": "Këshilla sigurie"
   },
   "icu:SafetyTipsModal__TipTitle--SignalChat": {
-    "messageformat": "Don’t respond to chats from Signal"
+    "messageformat": "Mos u kthe përgjigje bisedave nga Signal"
   },
   "icu:SafetyTipsModal__TipDescription--SignalChat": {
-    "messageformat": "Signal will never message you for your registration code, PIN, or recovery key. Never respond to a chat pretending to be Signal."
+    "messageformat": "Signal nuk do të kërkojë kurrë përmes mesazhit kodin e regjistrimit, PIN-in ose kodin e rikthimit. Mos iu përgjigj asnjëherë një bisede që hiqet si Signal."
   },
   "icu:SafetyTipsModal__TipTitle--NamesAndPhotos": {
-    "messageformat": "Review names and photos"
+    "messageformat": "Shqyrto emrat dhe fotot"
   },
   "icu:SafetyTipsModal__TipDescription--NamesAndPhotos": {
-    "messageformat": "Look out for the “Name not verified” notice. Everyone sets their own profile name in Signal."
+    "messageformat": "Shiko njoftimin “Emri nuk është verifikuar”. Në Signal, secili e vendos vetë emrin e profilit të tij."
   },
   "icu:SafetyTipsModal__TipTitle--Scams": {
-    "messageformat": "Look out for scams"
+    "messageformat": "Ki kujdes nga mashtrimet"
   },
   "icu:SafetyTipsModal__TipDescription--Scams": {
-    "messageformat": "Avoid vague messages that try to get you to reply. Be aware of financial tips and suspicious web links."
+    "messageformat": "Shmang mesazhet e paqarta që përpiqen të të nxisin që t'u përgjigjesh. Ki kujdes nga këshillat financiare dhe lidhjet e dyshimta të faqeve të internetit."
   },
   "icu:SafetyTipsModal__Description": {
     "messageformat": "Ki kujdes kur pranon kërkesa për mesazhe nga persona që nuk i njeh. Kujdes nga:"
   },
   "icu:SafetyTipsModal__TipTitle--DontRespond": {
-    "messageformat": "Don’t respond to chats from Signal"
+    "messageformat": "Mos u kthe përgjigje bisedave nga Signal"
   },
   "icu:SafetyTipsModal__TipDescription--DontRespond": {
-    "messageformat": "Signal will never message you for your registration code, PIN, or recover key. Don't reply to chats pretending to be Signal or Signal Support. Bad actors set up fake names to try to take over your account."
+    "messageformat": "Signal nuk do të kërkojë kurrë përmes mesazhit kodin e regjistrimit, PIN-in ose kodin e rikthimit. Mos iu përgjigj bisedave që hiqen si Signal ose si Ndihma nga Signal. Personat keqdashës krijojnë biseda të rreme në përpjekje që të marrin kontrollin e llogarisë."
   },
   "icu:SafetyTipsModal__TipTitle--ReviewNames": {
-    "messageformat": "Review names and photos"
+    "messageformat": "Shqyrto emrat dhe fotot"
   },
   "icu:SafetyTipsModal__TipDescription--ReviewNames": {
-    "messageformat": "Look out for the “Name not verified” notice. Everyone sets their own profile name and photo in Signal. If you’re unsure who a new request is from it’s safer to ignore it."
+    "messageformat": "Shiko njoftimin “Emri nuk është verifikuar”. Gjithsecili vendos emrin dhe foton e vet të profilit në Signal. Nëse nuk je i sigurt se nga kush vjen kërkesa e re, është më e sigurt ta shpërfillësh atë."
   },
   "icu:SafetyTipsModal__TipTitle--Fake": {
     "messageformat": "Emra dhe llogari të rreme"
@@ -3426,13 +3426,13 @@
     "messageformat": "Ki kujdes nga mesazhet e njerëzve që nuk i njeh dhe që përmbajnë lidhje me faqe interneti. Mos hap asnjëherë lidhje që të vijnë nga njerëz të pabesueshëm."
   },
   "icu:SafetyTipsModal__TipTitle--Links-v2": {
-    "messageformat": "Messages with web links"
+    "messageformat": "Mesazhe me lidhje të faqeve të internetit"
   },
   "icu:SafetyTipsModal__TipTitle--Business": {
     "messageformat": "Biznese dhe institucione të rreme"
   },
   "icu:SafetyTipsModal__TipTitle--Business-v2": {
-    "messageformat": "Fake businesses"
+    "messageformat": "Biznese të rreme"
   },
   "icu:SafetyTipsModal__TipDescription--Business": {
     "messageformat": "Ki kujdes nga bizneset ose agjencitë qeveritare që të kontaktojnë. Mesazhet, si ato të agjencive tatimore, të korrierëve dhe të tjera mund të jenë të padëshiruara."
@@ -3450,7 +3450,7 @@
     "messageformat": "U bë"
   },
   "icu:SafetyTipsModal__Button--ViewMore": {
-    "messageformat": "View more"
+    "messageformat": "Shihni më tepër"
   },
   "icu:MessageRequests--message-direct": {
     "messageformat": "Të lejohet {name} t’ju dërgojë mesazh dhe të ndajë emrin dhe foton tuaj me të tjerë? S’do ta dijë se e keni parë mesazhin e tij, para se të pranoni këtë."
@@ -3555,10 +3555,10 @@
     "messageformat": "Shqyrto me kujdes kërkesat. Emrat e profilit zgjidhen nga mbajtësi i llogarisë dhe nuk verifikohen."
   },
   "icu:MessageRequests--accept-confirm-title-v2": {
-    "messageformat": "Accept request?"
+    "messageformat": "Të pranohet kërkesa?"
   },
   "icu:MessageRequests--accept-confirm-body-v2": {
-    "messageformat": "Only accept requests from people you trust. <bold>Signal will never</bold> message you for a registration code, PIN, or recovery key."
+    "messageformat": "Prano kërkesa vetëm nga njerëz që u beson. <bold>Signal nuk do të kërkojë kurrë</bold> përmes mesazhit kodin e regjistrimit, PIN-in ose kodin e rikthimit."
   },
   "icu:MessageRequests--continue": {
     "messageformat": "Vazhdo"
@@ -3618,13 +3618,13 @@
     "messageformat": "Llogaria zyrtare"
   },
   "icu:ConversationHero--signal-official-chat-title": {
-    "messageformat": "Official chat"
+    "messageformat": "Biseda zyrtare"
   },
   "icu:ConversationHero--signal-official-account--description": {
     "messageformat": "E vetmja bisedë zyrtare nga Signal. Qëndro i përditësuar me lajmet dhe shënimet e publikimit."
   },
   "icu:Timeline--signal-official-chat--chip": {
-    "messageformat": "The only official chat from Signal."
+    "messageformat": "E vetmja bisedë zyrtare nga Signal."
   },
   "icu:ConversationHero--release-notes": {
     "messageformat": "Qëndro i përditësuar me lajmet dhe shënimet e publikimit."
@@ -4611,7 +4611,7 @@
     "messageformat": "Mbylle"
   },
   "icu:clear": {
-    "messageformat": "Clear"
+    "messageformat": "Spastroje"
   },
   "icu:previous": {
     "messageformat": "e mëparshmja"
@@ -4623,16 +4623,16 @@
     "messageformat": "Kjo mund të zgjasë disa minuta"
   },
   "icu:DeletingAccount__LeavingGroups__Title": {
-    "messageformat": "Leaving groups..."
+    "messageformat": "Largim nga grupet..."
   },
   "icu:DeletingAccount__LeavingGroups__Detail": {
-    "messageformat": "Depending on the number of groups you’re in, this might take a few minutes"
+    "messageformat": "Në varësi të numrit të grupeve ku gjendesh, kjo mund të zgjasë pak minuta"
   },
   "icu:DeletingAccount__DeletingData__Title": {
-    "messageformat": "Deleting account and all data..."
+    "messageformat": "Duke fshirë llogarinë dhe të gjitha të dhënat..."
   },
   "icu:DeletingAccount__DeletingData__Detail": {
-    "messageformat": "Deleting user data and resetting the app"
+    "messageformat": "Po fshihet të dhëna përdoruesi dhe po rikthehet aplikacioni te parazgjedhjet"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Dhuroni për Signal-in"
@@ -5410,7 +5410,7 @@
     "messageformat": "Përdor këtë lidhje për t'iu bashkuar një telefonate në Signal: {url}"
   },
   "icu:MessageRequestWarning__review-carefully": {
-    "messageformat": "Review requests carefully"
+    "messageformat": "Shqyrtoni me kujdes kërkesat"
   },
   "icu:MessageRequestWarning__safety-tips-v2": {
     "messageformat": "Këshilla sigurie"
@@ -6386,22 +6386,22 @@
     "messageformat": "{num, plural, one {{num,number} kontakt} other {{num,number} kontakte}}"
   },
   "icu:Preferences--blocked-count-both-new": {
-    "messageformat": "{num, plural, =0 { No users or groups } one {{num,number} user or group} other {{num,number} users or groups}}"
+    "messageformat": "{num, plural, =0 { Asnjë përdorues apo grup } one {{num,number} përdorues ose grup} other {{num,number} përdoruesi ose grupe}}"
   },
   "icu:Preferences--blocked-count-contacts-new": {
-    "messageformat": "{num, plural, =0 { No users } one {{num,number} user} other {{num,number} users}}"
+    "messageformat": "{num, plural, =0 { Asnjë përdorues } one {{num,number} përdorues} other {{num,number} përdorues}}"
   },
   "icu:Preferences--blocked-count-groups-new": {
-    "messageformat": "{num, plural, =0 { No groups } one {{num,number} group} other {{num,number} groups}}"
+    "messageformat": "{num, plural, =0 { Asnjë grup } one {{num,number} grup} other {{num,number} grupe}}"
   },
   "icu:Preferences--blocked-users--description": {
-    "messageformat": "Blocked users will not be able to call you or send you messages"
+    "messageformat": "Përdoruesit e bllokuar nuk do të mund të telefonojnë apo të dërgojnë mesazhe"
   },
   "icu:Preferences--blocked-users": {
-    "messageformat": "Blocked Users"
+    "messageformat": "Përdoruesit e bllokuar"
   },
   "icu:Preferences--blocked-groups": {
-    "messageformat": "Blocked Groups"
+    "messageformat": "Grupe të bllokuara"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Kopjeruajtjet e sigurta të Signal"
@@ -6974,7 +6974,7 @@
     "messageformat": "Kërkesa për mesazh u pranua"
   },
   "icu:MessageRequestResponseNotification__Message--Accepted-Contact-Title": {
-    "messageformat": "You accepted {userProfileName}'s message request"
+    "messageformat": "Pranove kërkesën për mesazh nga {userProfileName}"
   },
   "icu:MessageRequestResponseNotification__Message--Reported": {
     "messageformat": "Raportuar si mesazh i padëshiruar"
@@ -6995,7 +6995,7 @@
     "messageformat": "Opsione"
   },
   "icu:MessageRequestResponseNotification__Button--block-or-report": {
-    "messageformat": "Block or Report..."
+    "messageformat": "Blloko ose raporto..."
   },
   "icu:MessageRequestResponseNotification__Button--LearnMore": {
     "messageformat": "Mëso më tepër"
@@ -8256,10 +8256,10 @@
     "messageformat": "Zgjero shiritin anësor për të bashkëvepruar me megafonin"
   },
   "icu:Carousel--Role": {
-    "messageformat": "Carousel"
+    "messageformat": "Karusel"
   },
   "icu:Carousel__Slide--Role": {
-    "messageformat": "Slide"
+    "messageformat": "Shtresë"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Ky version përmban një numër përimtimesh të vockla dhe ndreqje të metash për ta mbajtur të rrjedhshme punën e Signal-it.",
@@ -8290,6 +8290,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__8.10--0": {
-    "messageformat": "The freshly spun emoji in Unicode 17.0 have now pirouetted into place in Signal. Send a message reaction with the new Ballet Dancer emoji to perform your own digital version of a pas de chat."
+    "messageformat": "Ne aktivizuam mbështetjen për emoxhi e rinj në Unicode 17.0."
   }
 }

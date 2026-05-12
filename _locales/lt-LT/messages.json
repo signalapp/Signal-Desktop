@@ -1956,25 +1956,25 @@
     "messageformat": "Daugiau parinkčių"
   },
   "icu:CallingParticipantMenu__MuteAudio": {
-    "messageformat": "Mute audio"
+    "messageformat": "Nutildyti garsą"
   },
   "icu:CallingParticipantMenu__UnmuteAudio": {
-    "messageformat": "Unmute audio"
+    "messageformat": "Įjungti garsą"
   },
   "icu:CallingParticipantMenu__ViewProfile": {
-    "messageformat": "View profile"
+    "messageformat": "Rodyti profilį"
   },
   "icu:CallingParticipantMenu__GoToChat": {
-    "messageformat": "Go to chat"
+    "messageformat": "Pereiti į pokalbį"
   },
   "icu:CallingParticipantMenu__RemoveFromCall": {
-    "messageformat": "Remove from call"
+    "messageformat": "Pašalinti iš skambučio"
   },
   "icu:CallingParticipantListItem__ContextMenuButton": {
-    "messageformat": "More actions"
+    "messageformat": "Daugiau veiksmų"
   },
   "icu:CallingParticipantListItem__Presenting": {
-    "messageformat": "Presenting"
+    "messageformat": "Pristatinėja"
   },
   "icu:CallingPendingParticipants__ApproveUser": {
     "messageformat": "Patvirtinti prisijungimo prašymą"
@@ -2205,25 +2205,25 @@
     "messageformat": "Ištrinti visus duomenis ir žinutes iš šios „Signal Desktop“ versijos? Jūsų „Signal“ paskyra ir duomenys telefone ar kituose susietuose įrenginiuose nebus ištrinti."
   },
   "icu:deleteAccountProgress": {
-    "messageformat": "Deleting account and all data…"
+    "messageformat": "Ištrinama paskyra ir visi duomenys..."
   },
   "icu:deleteAllDataProgress": {
     "messageformat": "Atsijungiama ir ištrinami visi duomenys…"
   },
   "icu:deleteAccountHeader": {
-    "messageformat": "Delete account"
+    "messageformat": "Ištrinti paskyrą"
   },
   "icu:deleteAccountExplanation": {
-    "messageformat": "This will delete your account info, profile, and all of your messages. You will also be removed from all Signal groups."
+    "messageformat": "Tai ištrins jūsų paskyros informaciją, profilį ir visas žinutes. Taip pat būsite pašalinti iš visų „Signal“ grupių."
   },
   "icu:deleteAccountButton": {
-    "messageformat": "Delete account"
+    "messageformat": "Ištrinti paskyrą"
   },
   "icu:deleteAccountDialogHeader": {
-    "messageformat": "Delete Account?"
+    "messageformat": "Ištrinti paskyrą?"
   },
   "icu:deleteAccountDialogBody": {
-    "messageformat": "This will delete your account info, profile, and all of your messages. You will also be removed from all Signal groups. The app will close after this process is complete."
+    "messageformat": "Tai ištrins jūsų paskyros informaciją, profilį ir visas žinutes. Taip pat būsite pašalinti iš visų „Signal“ grupių. Užbaigus šį procesą, programėlė bus užverta."
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Turi nebenaudojamų duomenų, likusių iš ankstesnio „Signal Desktop“ diegimo. Jei pasirinksi tęsti, jie bus ištrinti ir pradėsi viską nuo nulio."
@@ -2571,10 +2571,10 @@
     "messageformat": "Atsietas"
   },
   "icu:unregisteredWarning": {
-    "messageformat": "Click to re-register and continue messaging. Signal Desktop is unregistered likely because you registered your phone number with Signal on a different device."
+    "messageformat": "Spustelėkite, jei pageidaujate užsiregistruoti iš naujo ir toliau siųsti žinutes. Gali būti, kad „Signal Desktop“ nebėra registruotas, nes savo telefono numerį „Signal“ užregistravote kitame įrenginyje."
   },
   "icu:unregistered": {
-    "messageformat": "No longer registered"
+    "messageformat": "Nebėra registruotas"
   },
   "icu:autoUpdateNewVersionTitle": {
     "messageformat": "Galimas atnaujinimas"
@@ -3366,40 +3366,40 @@
     "messageformat": "Saugos patarimai"
   },
   "icu:SafetyTipsModal__Title-v2": {
-    "messageformat": "Safety tips"
+    "messageformat": "Saugos patarimai"
   },
   "icu:SafetyTipsModal__TipTitle--SignalChat": {
-    "messageformat": "Don’t respond to chats from Signal"
+    "messageformat": "Neatsakykite į „Signal“ pradėtus pokalbius"
   },
   "icu:SafetyTipsModal__TipDescription--SignalChat": {
-    "messageformat": "Signal will never message you for your registration code, PIN, or recovery key. Never respond to a chat pretending to be Signal."
+    "messageformat": "„Signal“ niekada neprašys jūsų pateikti registracijos kodą, PIN ar atkūrimo raktą. Niekada neatsakykite į pokalbius, kuriuose apsimetama „Signal“."
   },
   "icu:SafetyTipsModal__TipTitle--NamesAndPhotos": {
-    "messageformat": "Review names and photos"
+    "messageformat": "Peržiūrėkite vardus ir nuotraukas"
   },
   "icu:SafetyTipsModal__TipDescription--NamesAndPhotos": {
-    "messageformat": "Look out for the “Name not verified” notice. Everyone sets their own profile name in Signal."
+    "messageformat": "Žiūrėkite, ar nėra pranešimo „Vardas nepatvirtintas“. Programoje „Signal“ kiekvienas nusistato savo profilio vardą."
   },
   "icu:SafetyTipsModal__TipTitle--Scams": {
-    "messageformat": "Look out for scams"
+    "messageformat": "Saugokitės sukčių"
   },
   "icu:SafetyTipsModal__TipDescription--Scams": {
-    "messageformat": "Avoid vague messages that try to get you to reply. Be aware of financial tips and suspicious web links."
+    "messageformat": "Neatsakykite į bendro pobūdžio žinutes, kuriomis bandoma iš jūsų išgauti atsakymą. Nepasitikėkite asmenimis, kurie siunčia finansinius patarimus ar įtartinas internetines nuorodas."
   },
   "icu:SafetyTipsModal__Description": {
     "messageformat": "Atsargiai vertinkite žinučių užklausas iš nepažįstamų žmonių. Štai į ką reikia atkreipti dėmesį:"
   },
   "icu:SafetyTipsModal__TipTitle--DontRespond": {
-    "messageformat": "Don’t respond to chats from Signal"
+    "messageformat": "Neatsakykite į „Signal“ pradėtus pokalbius"
   },
   "icu:SafetyTipsModal__TipDescription--DontRespond": {
-    "messageformat": "Signal will never message you for your registration code, PIN, or recover key. Don't reply to chats pretending to be Signal or Signal Support. Bad actors set up fake names to try to take over your account."
+    "messageformat": "„Signal“ niekada neprašys jūsų pateikti registracijos kodą, PIN ar atkūrimo raktą. Neatsakykite į pokalbius, kuriuos neva atsiuntė „Signal“ ar „Signal“ palaikymo komanda. Sukčiai sukuria netikrus vardus bandydami perimti jūsų paskyrą."
   },
   "icu:SafetyTipsModal__TipTitle--ReviewNames": {
-    "messageformat": "Review names and photos"
+    "messageformat": "Peržiūrėkite vardus ir nuotraukas"
   },
   "icu:SafetyTipsModal__TipDescription--ReviewNames": {
-    "messageformat": "Look out for the “Name not verified” notice. Everyone sets their own profile name and photo in Signal. If you’re unsure who a new request is from it’s safer to ignore it."
+    "messageformat": "Žiūrėkite, ar nėra pranešimo „Vardas nepatvirtintas“. Programoje „Signal“ kiekvienas nusistato savo profilio vardą ir nuotrauką. Jei nesate tikri, nuo ko yra gautas naujas prašymas, geriau nekreipkite į jį dėmesio."
   },
   "icu:SafetyTipsModal__TipTitle--Fake": {
     "messageformat": "Netikri vardai ir paskyros"
@@ -3426,13 +3426,13 @@
     "messageformat": "Atsargiai vertinkite žinutes iš nepažįstamų žmonių, kuriose yra nuorodos į svetaines. Niekada nespauskite nuorodų, kurias atsiuntė nepatikimi žmonės."
   },
   "icu:SafetyTipsModal__TipTitle--Links-v2": {
-    "messageformat": "Messages with web links"
+    "messageformat": "Žinutės su internetinėmis nuorodomis"
   },
   "icu:SafetyTipsModal__TipTitle--Business": {
     "messageformat": "Netikros įmonės ir institucijos"
   },
   "icu:SafetyTipsModal__TipTitle--Business-v2": {
-    "messageformat": "Fake businesses"
+    "messageformat": "Netikri verslai"
   },
   "icu:SafetyTipsModal__TipDescription--Business": {
     "messageformat": "Atsargiai vertinkite su jumis susisiekti bandančias įmones ar vyriausybines institucijas. Žinutės nuo mokesčių inspekcijos, kurjerių ir pan. gali būti šlamštas."
@@ -3450,7 +3450,7 @@
     "messageformat": "Atlikta"
   },
   "icu:SafetyTipsModal__Button--ViewMore": {
-    "messageformat": "View more"
+    "messageformat": "Rodyti daugiau"
   },
   "icu:MessageRequests--message-direct": {
     "messageformat": "Ar norite leisti, kad {name} rašytų jums žinutes, ir bendrinti savo vardą bei nuotrauką su šiuo naudotoju? Naudotojas nežinos, kad matėte jo žinutes tol, kol nesutiksite."
@@ -3555,10 +3555,10 @@
     "messageformat": "Atidžiai peržiūrėkite užklausas. Profilio vardus pasirenka paskyros savininkai, jie nėra patvirtinti."
   },
   "icu:MessageRequests--accept-confirm-title-v2": {
-    "messageformat": "Accept request?"
+    "messageformat": "Priimti užklausą?"
   },
   "icu:MessageRequests--accept-confirm-body-v2": {
-    "messageformat": "Only accept requests from people you trust. <bold>Signal will never</bold> message you for a registration code, PIN, or recovery key."
+    "messageformat": "Priimkite prašymus tik iš žmonių, kuriais pasitikite. <bold>„Signal“ niekada</bold> neprašys jūsų pateikti registracijos kodą, PIN ar atkūrimo raktą."
   },
   "icu:MessageRequests--continue": {
     "messageformat": "Tęsti"
@@ -3618,13 +3618,13 @@
     "messageformat": "Oficiali paskyra"
   },
   "icu:ConversationHero--signal-official-chat-title": {
-    "messageformat": "Official chat"
+    "messageformat": "Oficialus pokalbis"
   },
   "icu:ConversationHero--signal-official-account--description": {
     "messageformat": "Tai vienintelis oficialus pokalbis su „Signal“. Sekite naujienas ir informaciją apie naujas versijas."
   },
   "icu:Timeline--signal-official-chat--chip": {
-    "messageformat": "The only official chat from Signal."
+    "messageformat": "Tai vienintelis oficialus pokalbis su „Signal“."
   },
   "icu:ConversationHero--release-notes": {
     "messageformat": "Sekite naujienas ir informaciją apie naujas versijas."
@@ -4611,7 +4611,7 @@
     "messageformat": "Užverti"
   },
   "icu:clear": {
-    "messageformat": "Clear"
+    "messageformat": "Išvalyti"
   },
   "icu:previous": {
     "messageformat": "ankstesnis"
@@ -4623,16 +4623,16 @@
     "messageformat": "Tai gali šiek tiek užtrukti"
   },
   "icu:DeletingAccount__LeavingGroups__Title": {
-    "messageformat": "Leaving groups..."
+    "messageformat": "Išeinama iš grupių…"
   },
   "icu:DeletingAccount__LeavingGroups__Detail": {
-    "messageformat": "Depending on the number of groups you’re in, this might take a few minutes"
+    "messageformat": "Priklausomai nuo to, kelių grupių narys esate, tai gali užimti kelias minutes"
   },
   "icu:DeletingAccount__DeletingData__Title": {
-    "messageformat": "Deleting account and all data..."
+    "messageformat": "Ištrinama paskyra ir visi duomenys..."
   },
   "icu:DeletingAccount__DeletingData__Detail": {
-    "messageformat": "Deleting user data and resetting the app"
+    "messageformat": "Ištrinami naudotojo duomenys ir atstatoma programėlė"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Paaukokite Signal programėlei"
@@ -5410,7 +5410,7 @@
     "messageformat": "Naudok šią nuorodą prisijungti prie „Signal“ skambučio: {url}"
   },
   "icu:MessageRequestWarning__review-carefully": {
-    "messageformat": "Review requests carefully"
+    "messageformat": "Atidžiai peržiūrėkite prašymus"
   },
   "icu:MessageRequestWarning__safety-tips-v2": {
     "messageformat": "Saugos patarimai"
@@ -6386,22 +6386,22 @@
     "messageformat": "{num, plural, one {{num,number} adresatas} few {{num,number} adresatai} many {{num,number} adresato} other {{num,number} adresatų}}"
   },
   "icu:Preferences--blocked-count-both-new": {
-    "messageformat": "{num, plural, =0 { No users or groups } one {{num,number} user or group} other {{num,number} users or groups}}"
+    "messageformat": "{num, plural, =0 { Jokių naudotojų ar grupių } one {{num,number} naudotojas ar grupė} few {{num,number} naudotojai ar grupės} many {{num,number} naudotojo ar grupių} other {{num,number} naudotojų ar grupių}}"
   },
   "icu:Preferences--blocked-count-contacts-new": {
-    "messageformat": "{num, plural, =0 { No users } one {{num,number} user} other {{num,number} users}}"
+    "messageformat": "{num, plural, =0 { Jokių naudotojų } one {{num,number} naudotojas} few {{num,number} naudotojai} many {{num,number} naudotojo} other {{num,number} naudotojų}}"
   },
   "icu:Preferences--blocked-count-groups-new": {
-    "messageformat": "{num, plural, =0 { No groups } one {{num,number} group} other {{num,number} groups}}"
+    "messageformat": "{num, plural, =0 { Jokių grupių } one {{num,number} grupė} few {{num,number} grupės} many {{num,number} grupės} other {{num,number} grupių}}"
   },
   "icu:Preferences--blocked-users--description": {
-    "messageformat": "Blocked users will not be able to call you or send you messages"
+    "messageformat": "Užblokuoti naudotojai negalės jums skambinti ar siųsti žinučių"
   },
   "icu:Preferences--blocked-users": {
-    "messageformat": "Blocked Users"
+    "messageformat": "Užblokuoti naudotojai"
   },
   "icu:Preferences--blocked-groups": {
-    "messageformat": "Blocked Groups"
+    "messageformat": "Užblokuotos grupės"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "„Signal“ saugiosios atsarginės kopijos"
@@ -6974,7 +6974,7 @@
     "messageformat": "Priėmei žinutės užklausą"
   },
   "icu:MessageRequestResponseNotification__Message--Accepted-Contact-Title": {
-    "messageformat": "You accepted {userProfileName}'s message request"
+    "messageformat": "Priėmėte {userProfileName} žinutės užklausą"
   },
   "icu:MessageRequestResponseNotification__Message--Reported": {
     "messageformat": "Pranešta apie šlamštą"
@@ -6995,7 +6995,7 @@
     "messageformat": "Parinktys"
   },
   "icu:MessageRequestResponseNotification__Button--block-or-report": {
-    "messageformat": "Block or Report..."
+    "messageformat": "Užblokuoti arba pranešti…"
   },
   "icu:MessageRequestResponseNotification__Button--LearnMore": {
     "messageformat": "Sužinoti daugiau"
@@ -8256,10 +8256,10 @@
     "messageformat": "Išskleiskite šoninę juostą, kad galėtumėte naudotis megafonu"
   },
   "icu:Carousel--Role": {
-    "messageformat": "Carousel"
+    "messageformat": "Karuselė"
   },
   "icu:Carousel__Slide--Role": {
-    "messageformat": "Slide"
+    "messageformat": "Skaidrė"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Šioje versijoje yra daug smulkių patobulinimų ir klaidų ištaisymų, kurie padės Signal sklandžiai veikti.",
@@ -8290,6 +8290,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__8.10--0": {
-    "messageformat": "The freshly spun emoji in Unicode 17.0 have now pirouetted into place in Signal. Send a message reaction with the new Ballet Dancer emoji to perform your own digital version of a pas de chat."
+    "messageformat": "Įjungėme naujo jaustuko palaikymą „Unicode“ 17.0."
   }
 }

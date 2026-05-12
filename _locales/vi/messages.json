@@ -1956,25 +1956,25 @@
     "messageformat": "Tùy chọn khác"
   },
   "icu:CallingParticipantMenu__MuteAudio": {
-    "messageformat": "Mute audio"
+    "messageformat": "Tắt tiếng"
   },
   "icu:CallingParticipantMenu__UnmuteAudio": {
-    "messageformat": "Unmute audio"
+    "messageformat": "Bỏ tắt tiếng"
   },
   "icu:CallingParticipantMenu__ViewProfile": {
-    "messageformat": "View profile"
+    "messageformat": "Xem hồ sơ"
   },
   "icu:CallingParticipantMenu__GoToChat": {
-    "messageformat": "Go to chat"
+    "messageformat": "Đến cuộc trò chuyện"
   },
   "icu:CallingParticipantMenu__RemoveFromCall": {
-    "messageformat": "Remove from call"
+    "messageformat": "Gỡ khỏi cuộc gọi"
   },
   "icu:CallingParticipantListItem__ContextMenuButton": {
-    "messageformat": "More actions"
+    "messageformat": "Các thao tác khác"
   },
   "icu:CallingParticipantListItem__Presenting": {
-    "messageformat": "Presenting"
+    "messageformat": "Đang trình bày"
   },
   "icu:CallingPendingParticipants__ApproveUser": {
     "messageformat": "Chấp nhận yêu cầu tham gia"
@@ -2205,25 +2205,25 @@
     "messageformat": "Xóa tất cả ứng dụng và tin nhắn khỏi phiên bản Signal Desktop này? Tài khoản Signal và dữ liệu của bạn trên điện thoại hoặc các thiết bị đã liên kết sẽ không bị xóa."
   },
   "icu:deleteAccountProgress": {
-    "messageformat": "Deleting account and all data…"
+    "messageformat": "Đang xóa tài khoản và tất cả dữ liệu…"
   },
   "icu:deleteAllDataProgress": {
     "messageformat": "Đang ngắt kết nối và xóa toàn bộ dữ liệu…"
   },
   "icu:deleteAccountHeader": {
-    "messageformat": "Delete account"
+    "messageformat": "Xóa tài khoản"
   },
   "icu:deleteAccountExplanation": {
-    "messageformat": "This will delete your account info, profile, and all of your messages. You will also be removed from all Signal groups."
+    "messageformat": "Hành động này sẽ xóa thông tin tài khoản, hồ sơ và tất cả tin nhắn của bạn. Chúng tôi cũng sẽ xóa bạn khỏi tất cả nhóm Signal."
   },
   "icu:deleteAccountButton": {
-    "messageformat": "Delete account"
+    "messageformat": "Xóa tài khoản"
   },
   "icu:deleteAccountDialogHeader": {
-    "messageformat": "Delete Account?"
+    "messageformat": "Xóa tài khoản?"
   },
   "icu:deleteAccountDialogBody": {
-    "messageformat": "This will delete your account info, profile, and all of your messages. You will also be removed from all Signal groups. The app will close after this process is complete."
+    "messageformat": "Hành động này sẽ xóa thông tin tài khoản, hồ sơ và tất cả tin nhắn của bạn. Chúng tôi cũng sẽ xóa bạn khỏi tất cả nhóm Signal. Ứng dụng sẽ đóng sau khi quá trình này hoàn tất."
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Bạn có dữ liệu cũ từ một lần cài đặt trước của Signal Desktop. Nếu bạn chọn để tiếp tục, dữ liệu sẽ bị xoá và bạn sẽ bắt đầu lại từ đầu."
@@ -2571,10 +2571,10 @@
     "messageformat": "Đã bỏ liên kết"
   },
   "icu:unregisteredWarning": {
-    "messageformat": "Click to re-register and continue messaging. Signal Desktop is unregistered likely because you registered your phone number with Signal on a different device."
+    "messageformat": "Bấm để đăng ký lại và tiếp tục nhắn tin. Nguyên nhân Signal Desktop bị hủy đăng ký có thể là do bạn đăng ký số điện thoại của mình với Signal trên một thiết bị khác."
   },
   "icu:unregistered": {
-    "messageformat": "No longer registered"
+    "messageformat": "Không còn được đăng ký"
   },
   "icu:autoUpdateNewVersionTitle": {
     "messageformat": "Cập nhật có sẵn"
@@ -3366,40 +3366,40 @@
     "messageformat": "Lời khuyên để giữ an toàn"
   },
   "icu:SafetyTipsModal__Title-v2": {
-    "messageformat": "Safety tips"
+    "messageformat": "Lời khuyên để giữ an toàn"
   },
   "icu:SafetyTipsModal__TipTitle--SignalChat": {
-    "messageformat": "Don’t respond to chats from Signal"
+    "messageformat": "Đừng trả lời tin nhắn từ Signal"
   },
   "icu:SafetyTipsModal__TipDescription--SignalChat": {
-    "messageformat": "Signal will never message you for your registration code, PIN, or recovery key. Never respond to a chat pretending to be Signal."
+    "messageformat": "Signal sẽ không bao giờ nhắn tin yêu cầu bạn cung cấp mã đăng ký, mã PIN hoặc mã khóa khôi phục. Đừng bao giờ trả lời tin nhắn giả mạo Signal."
   },
   "icu:SafetyTipsModal__TipTitle--NamesAndPhotos": {
-    "messageformat": "Review names and photos"
+    "messageformat": "Kiểm tra tên và ảnh"
   },
   "icu:SafetyTipsModal__TipDescription--NamesAndPhotos": {
-    "messageformat": "Look out for the “Name not verified” notice. Everyone sets their own profile name in Signal."
+    "messageformat": "Hãy chú ý đến thông báo \"Tên chưa được xác minh\". Người dùng có thể tự đặt tên hồ sơ của mình trên Signal."
   },
   "icu:SafetyTipsModal__TipTitle--Scams": {
-    "messageformat": "Look out for scams"
+    "messageformat": "Hãy cảnh giác với các chiêu trò lừa đảo"
   },
   "icu:SafetyTipsModal__TipDescription--Scams": {
-    "messageformat": "Avoid vague messages that try to get you to reply. Be aware of financial tips and suspicious web links."
+    "messageformat": "Tránh những tin nhắn mơ hồ nhằm khiến bạn trả lời. Hãy cảnh giác với các lời khuyên về tài chính và các đường dẫn web đáng ngờ."
   },
   "icu:SafetyTipsModal__Description": {
     "messageformat": "Hãy cẩn trọng khi chấp nhận yêu cầu gửi tin nhắn từ những người bạn không biết. Chú ý:"
   },
   "icu:SafetyTipsModal__TipTitle--DontRespond": {
-    "messageformat": "Don’t respond to chats from Signal"
+    "messageformat": "Đừng trả lời tin nhắn từ Signal"
   },
   "icu:SafetyTipsModal__TipDescription--DontRespond": {
-    "messageformat": "Signal will never message you for your registration code, PIN, or recover key. Don't reply to chats pretending to be Signal or Signal Support. Bad actors set up fake names to try to take over your account."
+    "messageformat": "Signal sẽ không bao giờ nhắn tin yêu cầu bạn cung cấp mã đăng ký, mã PIN hoặc mã khóa khôi phục. Đừng trả lời tin nhắn giả danh Signal hoặc bộ phận hỗ trợ của Signal. Kẻ xấu sử dụng tên giả để cố gắng chiếm đoạt tài khoản của bạn."
   },
   "icu:SafetyTipsModal__TipTitle--ReviewNames": {
-    "messageformat": "Review names and photos"
+    "messageformat": "Kiểm tra tên và ảnh"
   },
   "icu:SafetyTipsModal__TipDescription--ReviewNames": {
-    "messageformat": "Look out for the “Name not verified” notice. Everyone sets their own profile name and photo in Signal. If you’re unsure who a new request is from it’s safer to ignore it."
+    "messageformat": "Hãy chú ý đến thông báo \"Tên chưa được xác minh\". Người dùng có thể tự đặt tên hồ sơ và ảnh đại diện của mình trên Signal. Nếu bạn không chắc yêu cầu mới đến từ ai, tốt hơn hết là nên bỏ qua."
   },
   "icu:SafetyTipsModal__TipTitle--Fake": {
     "messageformat": "Tên và tài khoản giả"
@@ -3426,13 +3426,13 @@
     "messageformat": "Hãy cẩn trọng với tin nhắn từ những người bạn không biết và có chứa đường dẫn đến các trang web. Đừng bao giờ bấm vào các đường dẫn từ những người bạn không tin tưởng."
   },
   "icu:SafetyTipsModal__TipTitle--Links-v2": {
-    "messageformat": "Messages with web links"
+    "messageformat": "Tin nhắn có chứa đường dẫn web"
   },
   "icu:SafetyTipsModal__TipTitle--Business": {
     "messageformat": "Doanh nghiệp và tổ chức giả mạo"
   },
   "icu:SafetyTipsModal__TipTitle--Business-v2": {
-    "messageformat": "Fake businesses"
+    "messageformat": "Doanh nghiệp giả mạo"
   },
   "icu:SafetyTipsModal__TipDescription--Business": {
     "messageformat": "Hãy cẩn trọng khi có các doanh nghiệp hoặc cơ quan của chính phủ liên hệ với bạn. Tin nhắn có nội dung liên quan đến cơ quan thuế, giao hàng, v.v. có thể là spam."
@@ -3450,7 +3450,7 @@
     "messageformat": "Xong"
   },
   "icu:SafetyTipsModal__Button--ViewMore": {
-    "messageformat": "View more"
+    "messageformat": "Xem thêm"
   },
   "icu:MessageRequests--message-direct": {
     "messageformat": "Cho phép {name} nhắn tin cho bạn và chia sẻ tên và ảnh của bạn với họ? Họ sẽ không biết bạn đã xem tin nhắn của họ cho tới khi bạn đồng ý."
@@ -3555,10 +3555,10 @@
     "messageformat": "Kiểm tra các yêu cầu một cách kĩ lưỡng. Tên hồ sơ được chọn bởi chủ tài khoản và không được xác minh."
   },
   "icu:MessageRequests--accept-confirm-title-v2": {
-    "messageformat": "Accept request?"
+    "messageformat": "Chấp nhận yêu cầu?"
   },
   "icu:MessageRequests--accept-confirm-body-v2": {
-    "messageformat": "Only accept requests from people you trust. <bold>Signal will never</bold> message you for a registration code, PIN, or recovery key."
+    "messageformat": "Chỉ chấp nhận yêu cầu kết bạn từ những người bạn tin tưởng. <bold>Signal sẽ không bao giờ</bold> nhắn tin yêu cầu bạn cung cấp mã đăng ký, mã PIN hoặc mã khóa khôi phục."
   },
   "icu:MessageRequests--continue": {
     "messageformat": "Tiếp tục"
@@ -3618,13 +3618,13 @@
     "messageformat": "Tài khoản chính thức"
   },
   "icu:ConversationHero--signal-official-chat-title": {
-    "messageformat": "Official chat"
+    "messageformat": "Cuộc trò chuyện chính thức"
   },
   "icu:ConversationHero--signal-official-account--description": {
     "messageformat": "Cuộc trò chuyện chính thức duy nhất từ Signal. Cập nhật tin tức và thông tin về bản cập nhật."
   },
   "icu:Timeline--signal-official-chat--chip": {
-    "messageformat": "The only official chat from Signal."
+    "messageformat": "Cuộc trò chuyện chính thức duy nhất từ Signal."
   },
   "icu:ConversationHero--release-notes": {
     "messageformat": "Cập nhật tin tức và thông tin về bản cập nhật."
@@ -4611,7 +4611,7 @@
     "messageformat": "Đóng"
   },
   "icu:clear": {
-    "messageformat": "Clear"
+    "messageformat": "Xoá"
   },
   "icu:previous": {
     "messageformat": "trước"
@@ -4623,16 +4623,16 @@
     "messageformat": "Quá trình này có thể mất ít phút"
   },
   "icu:DeletingAccount__LeavingGroups__Title": {
-    "messageformat": "Leaving groups..."
+    "messageformat": "Đang rời nhóm…"
   },
   "icu:DeletingAccount__LeavingGroups__Detail": {
-    "messageformat": "Depending on the number of groups you’re in, this might take a few minutes"
+    "messageformat": "Tùy thuộc vào số lượng nhóm bạn tham gia, quá trình này có thể mất vài phút"
   },
   "icu:DeletingAccount__DeletingData__Title": {
-    "messageformat": "Deleting account and all data..."
+    "messageformat": "Đang xóa tài khoản và tất cả dữ liệu…"
   },
   "icu:DeletingAccount__DeletingData__Detail": {
-    "messageformat": "Deleting user data and resetting the app"
+    "messageformat": "Xóa dữ liệu người dùng và đặt lại ứng dụng"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Ủng hộ Signal"
@@ -5410,7 +5410,7 @@
     "messageformat": "Sử dụng đường dẫn này để tham gia cuộc gọi Signal: {url}"
   },
   "icu:MessageRequestWarning__review-carefully": {
-    "messageformat": "Review requests carefully"
+    "messageformat": "Kiểm tra yêu cầu một cách kĩ lưỡng"
   },
   "icu:MessageRequestWarning__safety-tips-v2": {
     "messageformat": "Lời khuyên để giữ an toàn"
@@ -6386,22 +6386,22 @@
     "messageformat": "{num, plural, other {{num,number} liên hệ}}"
   },
   "icu:Preferences--blocked-count-both-new": {
-    "messageformat": "{num, plural, =0 { No users or groups } one {{num,number} user or group} other {{num,number} users or groups}}"
+    "messageformat": "{num, plural, =0 { Không có người dùng hoặc nhóm } other {{num,number} người dùng hoặc nhóm}}"
   },
   "icu:Preferences--blocked-count-contacts-new": {
-    "messageformat": "{num, plural, =0 { No users } one {{num,number} user} other {{num,number} users}}"
+    "messageformat": "{num, plural, =0 { Không có người dùng } other {{num,number} người dùng}}"
   },
   "icu:Preferences--blocked-count-groups-new": {
-    "messageformat": "{num, plural, =0 { No groups } one {{num,number} group} other {{num,number} groups}}"
+    "messageformat": "{num, plural, =0 { Không có nhóm } other {{num,number} nhóm}}"
   },
   "icu:Preferences--blocked-users--description": {
-    "messageformat": "Blocked users will not be able to call you or send you messages"
+    "messageformat": "Người dùng bị chặn sẽ không thể gửi tin nhắn hay gọi cho bạn"
   },
   "icu:Preferences--blocked-users": {
-    "messageformat": "Blocked Users"
+    "messageformat": "Người dùng Đã Chặn"
   },
   "icu:Preferences--blocked-groups": {
-    "messageformat": "Blocked Groups"
+    "messageformat": "Các nhóm Đã Chặn"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Sao lưu bảo mật Signal"
@@ -6974,7 +6974,7 @@
     "messageformat": "Bạn đã chấp nhận yêu cầu gửi tin nhắn"
   },
   "icu:MessageRequestResponseNotification__Message--Accepted-Contact-Title": {
-    "messageformat": "You accepted {userProfileName}'s message request"
+    "messageformat": "Bạn đã chấp nhận yêu cầu gửi tin nhắn của {userProfileName}"
   },
   "icu:MessageRequestResponseNotification__Message--Reported": {
     "messageformat": "Đã báo cáo là spam"
@@ -6995,7 +6995,7 @@
     "messageformat": "Tùy chọn"
   },
   "icu:MessageRequestResponseNotification__Button--block-or-report": {
-    "messageformat": "Block or Report..."
+    "messageformat": "Chặn hoặc báo cáo…"
   },
   "icu:MessageRequestResponseNotification__Button--LearnMore": {
     "messageformat": "Tìm hiểu thêm"
@@ -8256,10 +8256,10 @@
     "messageformat": "Mở rộng thanh bên để tương tác với biểu tượng loa cầm tay"
   },
   "icu:Carousel--Role": {
-    "messageformat": "Carousel"
+    "messageformat": "Thanh chuyển"
   },
   "icu:Carousel__Slide--Role": {
-    "messageformat": "Slide"
+    "messageformat": "Mục"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Phiên bản này có một số tinh chỉnh và sửa lỗi để giữ cho Signal hoạt động mượt mà.",
@@ -8290,6 +8290,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__8.10--0": {
-    "messageformat": "The freshly spun emoji in Unicode 17.0 have now pirouetted into place in Signal. Send a message reaction with the new Ballet Dancer emoji to perform your own digital version of a pas de chat."
+    "messageformat": "Hỗ trợ emoji mới trong Unicode 17.0."
   }
 }

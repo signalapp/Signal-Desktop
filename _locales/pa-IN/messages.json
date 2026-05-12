@@ -1956,25 +1956,25 @@
     "messageformat": "ਹੋਰ ਵਿਕਲਪ"
   },
   "icu:CallingParticipantMenu__MuteAudio": {
-    "messageformat": "Mute audio"
+    "messageformat": "ਆਡੀਓ ਨੂੰ ਮਿਊਟ ਕਰੋ"
   },
   "icu:CallingParticipantMenu__UnmuteAudio": {
-    "messageformat": "Unmute audio"
+    "messageformat": "ਆਡੀਓ ਅਣਮਿਊਟ ਕਰੋ"
   },
   "icu:CallingParticipantMenu__ViewProfile": {
-    "messageformat": "View profile"
+    "messageformat": "ਪ੍ਰੋਫ਼ਾਈਲ ਦੇਖੋ"
   },
   "icu:CallingParticipantMenu__GoToChat": {
-    "messageformat": "Go to chat"
+    "messageformat": "ਚੈਟ 'ਤੇ ਜਾਓ"
   },
   "icu:CallingParticipantMenu__RemoveFromCall": {
-    "messageformat": "Remove from call"
+    "messageformat": "ਕਾਲ ਵਿੱਚੋਂ ਹਟਾਓ"
   },
   "icu:CallingParticipantListItem__ContextMenuButton": {
-    "messageformat": "More actions"
+    "messageformat": "ਹੋਰ ਕਾਰਵਾਈਆਂ"
   },
   "icu:CallingParticipantListItem__Presenting": {
-    "messageformat": "Presenting"
+    "messageformat": "ਪੇਸ਼ ਕਰ ਰਹੇ ਹਨ"
   },
   "icu:CallingPendingParticipants__ApproveUser": {
     "messageformat": "ਸ਼ਾਮਲ ਹੋਣ ਦੀ ਬੇਨਤੀ ਨੂੰ ਮਨਜ਼ੂਰ ਕਰੋ"
@@ -2205,25 +2205,25 @@
     "messageformat": "ਕੀ Signal Desktop ਦੇ ਇਸ ਵਰਜ਼ਨ ਤੋਂ ਸਾਰਾ ਡਾਟਾ ਅਤੇ ਸੁਨੇਹਿਆਂ ਨੂੰ ਮਿਟਾਉਣਾ ਹੈ? ਤੁਹਾਡਾ Signal ਖਾਤਾ ਅਤੇ ਤੁਹਾਡੇ ਫ਼ੋਨ ਜਾਂ ਹੋਰ ਲਿੰਕ ਕੀਤੇ ਡਿਵਾਈਸਾਂ 'ਤੇ ਮੌਜੂਦ ਡਾਟਾ ਮਿਟਾਇਆ ਨਹੀਂ ਜਾਵੇਗਾ।"
   },
   "icu:deleteAccountProgress": {
-    "messageformat": "Deleting account and all data…"
+    "messageformat": "ਖਾਤਾ ਅਤੇ ਸਾਰਾ ਡਾਟਾ ਮਿਟਾਇਆ ਜਾ ਰਿਹਾ ਹੈ…"
   },
   "icu:deleteAllDataProgress": {
     "messageformat": "ਡਿਸਕਨੈਕਟ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ ਅਤੇ ਸਾਰਾ ਡਾਟਾ ਮਿਟਾਇਆ ਜਾ ਰਿਹਾ ਹੈ…"
   },
   "icu:deleteAccountHeader": {
-    "messageformat": "Delete account"
+    "messageformat": "ਖਾਤਾ ਮਿਟਾਓ"
   },
   "icu:deleteAccountExplanation": {
-    "messageformat": "This will delete your account info, profile, and all of your messages. You will also be removed from all Signal groups."
+    "messageformat": "ਅਜਿਹਾ ਕਰਨ ਨਾਲ ਤੁਹਾਡੇ ਖਾਤੇ ਦੀ ਜਾਣਕਾਰੀ, ਪ੍ਰੋਫਾਈਲ ਅਤੇ ਤੁਹਾਡੇ ਸਾਰੇ ਸੁਨੇਹੇ ਮਿਟਾ ਦਿੱਤੇ ਜਾਣਗੇ। ਤੁਹਾਨੂੰ ਸਾਰੇ Signal ਗਰੁੱਪਾਂ ਵਿੱਚੋਂ ਵੀ ਹਟਾ ਦਿੱਤਾ ਜਾਵੇਗਾ।"
   },
   "icu:deleteAccountButton": {
-    "messageformat": "Delete account"
+    "messageformat": "ਖਾਤਾ ਮਿਟਾਓ"
   },
   "icu:deleteAccountDialogHeader": {
-    "messageformat": "Delete Account?"
+    "messageformat": "ਕੀ ਖਾਤਾ ਮਿਟਾਉਣਾ ਹੈ?"
   },
   "icu:deleteAccountDialogBody": {
-    "messageformat": "This will delete your account info, profile, and all of your messages. You will also be removed from all Signal groups. The app will close after this process is complete."
+    "messageformat": "ਅਜਿਹਾ ਕਰਨ ਨਾਲ ਤੁਹਾਡੇ ਖਾਤੇ ਦੀ ਜਾਣਕਾਰੀ, ਪ੍ਰੋਫਾਈਲ ਅਤੇ ਤੁਹਾਡੇ ਸਾਰੇ ਸੁਨੇਹੇ ਮਿਟਾ ਦਿੱਤੇ ਜਾਣਗੇ। ਤੁਹਾਨੂੰ ਸਾਰੇ Signal ਗਰੁੱਪਾਂ ਵਿੱਚੋਂ ਵੀ ਹਟਾ ਦਿੱਤਾ ਜਾਵੇਗਾ। ਇਸ ਪ੍ਰਕਿਰਿਆ ਦੇ ਪੂਰਾ ਹੋਣ ਤੋਂ ਬਾਅਦ ਐਪ ਬੰਦ ਹੋ ਜਾਵੇਗੀ।"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "ਤੁਹਾਡੇ ਕੋਲ Signal Desktop ਦੀ ਪਿਛਲੀ ਇੰਸਟਾਲੇਸ਼ਨ ਦਾ ਪੁਰਾਣਾ ਡਾਟਾ ਮੌਜੂਦ ਹੈ। ਜੇ ਤੁਸੀਂ ਅੱਗੇ ਜਾਰੀ ਰੱਖਦੇ ਹੋ, ਤਾਂ ਇਸਨੂੰ ਮਿਟਾ ਦਿੱਤਾ ਜਾਵੇਗਾ ਅਤੇ ਤੁਹਾਨੂੰ ਮੁੱਢ ਤੋਂ ਸ਼ੁਰੂ ਕਰਨਾ ਪਵੇਗਾ।"
@@ -2571,10 +2571,10 @@
     "messageformat": "ਲਿੰਕ ਨਹੀਂ ਕੀਤਾ ਹੋਇਆ"
   },
   "icu:unregisteredWarning": {
-    "messageformat": "Click to re-register and continue messaging. Signal Desktop is unregistered likely because you registered your phone number with Signal on a different device."
+    "messageformat": "ਦੁਬਾਰਾ ਰਜਿਸਟਰ ਕਰਨ ਲਈ ਕਲਿੱਕ ਕਰੋ ਅਤੇ ਸੁਨੇਹੇ ਭੇਜਣਾ ਜਾਰੀ ਰੱਖੋ। Signal Desktop ਅਨ-ਰਜਿਸਟਰ ਹੈ ਕਿਉਂਕਿ ਤੁਸੀਂ ਇੱਕ ਵੱਖਰੇ ਡਿਵਾਈਸ ’ਤੇ Signal ਨਾਲ ਆਪਣਾ ਫੋਨ ਨੰਬਰ ਰਜਿਸਟਰ ਕੀਤਾ ਸੀ।"
   },
   "icu:unregistered": {
-    "messageformat": "No longer registered"
+    "messageformat": "ਹੁਣ ਰਜਿਸਟਰ ਨਹੀਂ ਹੈ"
   },
   "icu:autoUpdateNewVersionTitle": {
     "messageformat": "ਅੱਪਡੇਟ ਉਪਲਬਧ ਹੈ"
@@ -3366,40 +3366,40 @@
     "messageformat": "ਸੁਰੱਖਿਆ ਸੰਬੰਧੀ ਸੁਝਾਅ"
   },
   "icu:SafetyTipsModal__Title-v2": {
-    "messageformat": "Safety tips"
+    "messageformat": "ਸੁਰੱਖਿਆ ਸੰਬੰਧੀ ਸੁਝਾਅ"
   },
   "icu:SafetyTipsModal__TipTitle--SignalChat": {
-    "messageformat": "Don’t respond to chats from Signal"
+    "messageformat": "Signal ਦੇ ਨਾਂ ਤੋਂ ਭੇਜੀ ਗਈ ਚੈਟ ਦਾ ਜਵਾਬ ਨਾ ਦਿਓ"
   },
   "icu:SafetyTipsModal__TipDescription--SignalChat": {
-    "messageformat": "Signal will never message you for your registration code, PIN, or recovery key. Never respond to a chat pretending to be Signal."
+    "messageformat": "Signal ਕਦੇ ਵੀ ਤੁਹਾਡੇ ਤੋਂ ਰਜਿਸਟ੍ਰੇਸ਼ਨ ਕੋਡ, PIN, ਜਾਂ ਰਿਕਵਰੀ ਕੁੰਜੀ ਪੁੱਛਣ ਲਈ ਤੁਹਾਨੂੰ ਸੁਨੇਹਾ ਨਹੀਂ ਭੇਜੇਗਾ। ਕਦੇ ਵੀ Signal ਹੋਣ ਦਾ ਦਿਖਾਵਾ ਕਰਨ ਵਾਲੀਆਂ ਚੈਟਾਂ ਦਾ ਜਵਾਬ ਨਾ ਦਿਓ।"
   },
   "icu:SafetyTipsModal__TipTitle--NamesAndPhotos": {
-    "messageformat": "Review names and photos"
+    "messageformat": "ਨਾਂ ਅਤੇ ਫ਼ੋਟੋਆਂ ਦੀ ਜਾਂਚ ਕਰੋ"
   },
   "icu:SafetyTipsModal__TipDescription--NamesAndPhotos": {
-    "messageformat": "Look out for the “Name not verified” notice. Everyone sets their own profile name in Signal."
+    "messageformat": "\"ਨਾਂ ਤਸਦੀਕਸ਼ੁਦਾ ਨਹੀਂ ਹੈ\" ਨੋਟਿਸ ਵੱਲ ਧਿਆਨ ਦਿਓ। Signal ਵਿੱਚ ਹਰ ਕੋਈ ਆਪਣਾ ਪ੍ਰੋਫਾਈਲ ਨਾਂ ਸੈੱਟ ਕਰ ਸਕਦਾ ਹੈ।"
   },
   "icu:SafetyTipsModal__TipTitle--Scams": {
-    "messageformat": "Look out for scams"
+    "messageformat": "ਘੁਟਾਲਿਆਂ ਤੋਂ ਬਚੋ"
   },
   "icu:SafetyTipsModal__TipDescription--Scams": {
-    "messageformat": "Avoid vague messages that try to get you to reply. Be aware of financial tips and suspicious web links."
+    "messageformat": "ਅਜੀਬ ਸੁਨੇਹਿਆਂ ਦਾ ਜਵਾਬ ਦੇਣ ਤੋਂ ਪਰਹੇਜ਼ ਕਰੋ ਜੋ ਤੁਹਾਨੂੰ ਜਵਾਬ ਦੇਣ ਲਈ ਮਜਬੂਰ ਕਰਦੇ ਹਨ। ਵਿੱਤੀ ਸੁਝਾਵਾਂ ਅਤੇ ਸ਼ੱਕੀ ਵੈੱਬ ਲਿੰਕਾਂ ਤੋਂ ਸਾਵਧਾਨ ਰਹੋ।"
   },
   "icu:SafetyTipsModal__Description": {
     "messageformat": "ਅਣਜਾਣ ਲੋਕਾਂ ਦੀਆਂ ਸੁਨੇਹੇ ਦੀਆਂ ਬੇਨਤੀਆਂ ਸਵੀਕਾਰ ਕਰਦੇ ਸਮੇਂ ਸਾਵਧਾਨ ਰਹੋ। ਇਹਨਾਂ ਗੱਲਾਂ ਦਾ ਧਿਆਨ ਰੱਖੋ:"
   },
   "icu:SafetyTipsModal__TipTitle--DontRespond": {
-    "messageformat": "Don’t respond to chats from Signal"
+    "messageformat": "Signal ਦੇ ਨਾਂ ਤੋਂ ਭੇਜੀ ਗਈ ਚੈਟ ਦਾ ਜਵਾਬ ਨਾ ਦਿਓ"
   },
   "icu:SafetyTipsModal__TipDescription--DontRespond": {
-    "messageformat": "Signal will never message you for your registration code, PIN, or recover key. Don't reply to chats pretending to be Signal or Signal Support. Bad actors set up fake names to try to take over your account."
+    "messageformat": "Signal ਕਦੇ ਵੀ ਤੁਹਾਡੇ ਤੋਂ ਰਜਿਸਟ੍ਰੇਸ਼ਨ ਕੋਡ, PIN, ਜਾਂ ਰਿਕਵਰੀ ਕੁੰਜੀ ਪੁੱਛਣ ਲਈ ਤੁਹਾਨੂੰ ਸੁਨੇਹਾ ਨਹੀਂ ਭੇਜੇਗਾ। Signal ਜਾਂ Signal ਸਹਾਇਤਾ ਟੀਮ ਹੋਣ ਦਾ ਦਿਖਾਵਾ ਕਰਨ ਵਾਲੀਆਂ ਚੈਟਾਂ ਦਾ ਜਵਾਬ ਨਾ ਦਿਓ। ਬੁਰੇ ਲੋਕ ਤੁਹਾਡੇ ਖਾਤੇ 'ਤੇ ਕਬਜ਼ਾ ਕਰਨ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰਨ ਲਈ ਨਕਲੀ ਨਾਂ ਦਾ ਸਹਾਰਾ ਲੈਂਦੇ ਹਨ।"
   },
   "icu:SafetyTipsModal__TipTitle--ReviewNames": {
-    "messageformat": "Review names and photos"
+    "messageformat": "ਨਾਂ ਅਤੇ ਫ਼ੋਟੋਆਂ ਦੀ ਜਾਂਚ ਕਰੋ"
   },
   "icu:SafetyTipsModal__TipDescription--ReviewNames": {
-    "messageformat": "Look out for the “Name not verified” notice. Everyone sets their own profile name and photo in Signal. If you’re unsure who a new request is from it’s safer to ignore it."
+    "messageformat": "\"ਨਾਂ ਤਸਦੀਕਸ਼ੁਦਾ ਨਹੀਂ ਹੈ\" ਨੋਟਿਸ ਵੱਲ ਧਿਆਨ ਦਿਓ। Signal ਵਿੱਚ ਹਰ ਕੋਈ ਆਪਣਾ ਪ੍ਰੋਫਾਈਲ ਨਾਂ ਅਤੇ ਫ਼ੋਟੋ ਸੈੱਟ ਕਰ ਸਕਦਾ ਹੈ। ਜੇਕਰ ਤੁਹਾਨੂੰ ਪੱਕੇ ਤੌਰ 'ਤੇ ਨਹੀਂ ਪਤਾ ਕਿ ਨਵੀਂ ਬੇਨਤੀ ਕਿਸ ਵੱਲੋਂ ਹੈ ਤਾਂ ਉਸਨੂੰ ਨਜ਼ਰਅੰਦਾਜ਼ ਕਰਨਾ ਹੀ ਠੀਕ ਹੈ।"
   },
   "icu:SafetyTipsModal__TipTitle--Fake": {
     "messageformat": "ਨਕਲੀ ਨਾਮ ਅਤੇ ਖਾਤੇ"
@@ -3426,13 +3426,13 @@
     "messageformat": "ਅਣਜਾਣ ਲੋਕਾਂ ਵੱਲੋਂ ਆਉਣ ਵਾਲੇ ਸੁਨੇਹਿਆਂ ਤੋਂ ਸਾਵਧਾਨ ਰਹੋ ਜਿਹਨਾਂ ਵਿੱਚ ਵੈੱਬਸਾਈਟਾਂ ਦੇ ਲਿੰਕ ਹੁੰਦੇ ਹਨ। ਅਜਿਹੇ ਲੋਕਾਂ ਵੱਲੋਂ ਭੇਜੇ ਲਿੰਕ ਕਦੇ ਨਾ ਖੋਲ੍ਹੋ ਜਿਹਨਾਂ ਉੱਤੇ ਤੁਸੀਂ ਭਰੋਸਾ ਨਹੀਂ ਕਰਦੇ ਹੋ।"
   },
   "icu:SafetyTipsModal__TipTitle--Links-v2": {
-    "messageformat": "Messages with web links"
+    "messageformat": "ਵੈੱਬ ਲਿੰਕ ਵਾਲੇ ਸੁਨੇਹੇ"
   },
   "icu:SafetyTipsModal__TipTitle--Business": {
     "messageformat": "ਜਾਅਲੀ ਕਾਰੋਬਾਰ ਅਤੇ ਸੰਸਥਾਵਾਂ"
   },
   "icu:SafetyTipsModal__TipTitle--Business-v2": {
-    "messageformat": "Fake businesses"
+    "messageformat": "ਜਾਅਲੀ ਕਾਰੋਬਾਰ"
   },
   "icu:SafetyTipsModal__TipDescription--Business": {
     "messageformat": "ਤੁਹਾਡੇ ਨਾਲ ਸੰਪਰਕ ਕਰਨ ਵਾਲੇ ਕਾਰੋਬਾਰਾਂ ਜਾਂ ਸਰਕਾਰੀ ਏਜੰਸੀਆਂ ਤੋਂ ਸਾਵਧਾਨ ਰਹੋ। ਟੈਕਸ ਏਜੰਸੀਆਂ, ਕੋਰੀਅਰ ਅਤੇ ਅਜਿਹੀਆਂ ਹੋਰ ਕੰਪਨੀਆਂ ਵੱਲੋਂ ਆਉਣ ਵਾਲੇ ਸੁਨੇਹੇ ਸਪੈਮ ਹੋ ਸਕਦੇ ਹਨ।"
@@ -3450,7 +3450,7 @@
     "messageformat": "ਮੁਕੰਮਲ"
   },
   "icu:SafetyTipsModal__Button--ViewMore": {
-    "messageformat": "View more"
+    "messageformat": "ਹੋਰ ਦੇਖੋ"
   },
   "icu:MessageRequests--message-direct": {
     "messageformat": "{name} ਨੂੰ ਤੁਹਾਨੂੰ ਸੁਨੇਹਾ ਭੇਜਣ ਅਤੇ ਉਹਨਾਂ ਨਾਲ ਤੁਹਾਡਾ ਨਾਂ ਅਤੇ ਫ਼ੋਟੋ ਸਾਂਝੀ ਕਰਨ ਦੀ ਆਗਿਆ ਦੇਣੀ ਹੈ? ਜਦੋਂ ਤਕ ਤੁਸੀਂ ਮਨਜ਼ੂਰ ਨਹੀਂ ਕਰ ਲੈਂਦੇ ਉਦੋਂ ਤਕ ਉਹਨਾਂ ਨੂੰ ਇਹ ਪਤਾ ਨਹੀਂ ਲੱਗੇਗਾ ਕਿ ਤੁਸੀਂ ਉਹਨਾਂ ਦੇ ਸੁਨੇਹੇ ਦੇਖ ਲਏ ਹਨ।"
@@ -3555,10 +3555,10 @@
     "messageformat": "ਬੇਨਤੀਆਂ ਦੀ ਧਿਆਨ ਨਾਲ ਸਮੀਖਿਆ ਕਰੋ। ਪ੍ਰੋਫ਼ਾਈਲ ਨਾਂ ਦੀ ਚੋਣ ਉਹਨਾਂ ਦੇ ਖਾਤਾ ਧਾਰਕ ਦੁਆਰਾ ਕੀਤੀ ਜਾਂਦੀ ਹੈ ਅਤੇ ਉਹ ਨਾਂ ਤਸਦੀਕਸ਼ੁਦਾ ਨਹੀਂ ਹੁੰਦੇ ਹਨ।"
   },
   "icu:MessageRequests--accept-confirm-title-v2": {
-    "messageformat": "Accept request?"
+    "messageformat": "ਕੀ ਬੇਨਤੀ ਸਵੀਕਾਰ ਕਰਨੀ ਹੈ?"
   },
   "icu:MessageRequests--accept-confirm-body-v2": {
-    "messageformat": "Only accept requests from people you trust. <bold>Signal will never</bold> message you for a registration code, PIN, or recovery key."
+    "messageformat": "ਸਿਰਫ਼ ਉਨ੍ਹਾਂ ਲੋਕਾਂ ਦੀਆਂ ਬੇਨਤੀਆਂ ਸਵੀਕਾਰ ਕਰੋ ਜਿਨ੍ਹਾਂ 'ਤੇ ਤੁਸੀਂ ਭਰੋਸਾ ਕਰਦੇ ਹੋ। <bold>Signal ਕਦੇ ਵੀ ਸੁਨੇਹੇ ਭੇਜ ਕੇ ਤੁਹਾਡੇ ਤੋਂ ਇਹ ਨਹੀਂ ਪੁੱਛੇਗਾ:</bold> ਰਜਿਸਟ੍ਰੇਸ਼ਨ ਕੋਡ, PIN, ਜਾਂ ਰਿਕਵਰੀ ਕੁੰਜੀ।"
   },
   "icu:MessageRequests--continue": {
     "messageformat": "ਜਾਰੀ ਰੱਖੋ"
@@ -3618,13 +3618,13 @@
     "messageformat": "ਅਧਿਕਾਰਤ ਖਾਤਾ"
   },
   "icu:ConversationHero--signal-official-chat-title": {
-    "messageformat": "Official chat"
+    "messageformat": "ਅਧਿਕਾਰਤ ਚੈਟ"
   },
   "icu:ConversationHero--signal-official-account--description": {
     "messageformat": "ਇਹ Signal ਦੀ ਇੱਕੋ-ਇੱਕ ਅਧਿਕਾਰਤ ਚੈਟ ਹੈ ਖ਼ਬਰਾਂ ਅਤੇ ਰੀਲੀਜ਼ ਨੋਟਸ ਬਾਰੇ ਅੱਪ-ਟੂ-ਡੇਟ ਰਹੋ।"
   },
   "icu:Timeline--signal-official-chat--chip": {
-    "messageformat": "The only official chat from Signal."
+    "messageformat": "ਇਹ Signal ਦੀ ਇੱਕੋ-ਇੱਕ ਅਧਿਕਾਰਤ ਚੈਟ ਹੈ"
   },
   "icu:ConversationHero--release-notes": {
     "messageformat": "ਖ਼ਬਰਾਂ ਅਤੇ ਰੀਲੀਜ਼ ਨੋਟਸ ਬਾਰੇ ਅੱਪ-ਟੂ-ਡੇਟ ਰਹੋ।"
@@ -4611,7 +4611,7 @@
     "messageformat": "ਬੰਦ ਕਰੋ"
   },
   "icu:clear": {
-    "messageformat": "Clear"
+    "messageformat": "ਮਿਟਾਓ"
   },
   "icu:previous": {
     "messageformat": "ਪਿੱਛੇ"
@@ -4623,16 +4623,16 @@
     "messageformat": "ਇਸ ਵਿੱਚ ਕੁਝ ਮਿੰਟ ਲੱਗ ਸਕਦੇ ਹਨ"
   },
   "icu:DeletingAccount__LeavingGroups__Title": {
-    "messageformat": "Leaving groups..."
+    "messageformat": "ਗਰੁੱਪ ਛੱਡੇ ਜਾ ਰਹੇ ਹਨ…"
   },
   "icu:DeletingAccount__LeavingGroups__Detail": {
-    "messageformat": "Depending on the number of groups you’re in, this might take a few minutes"
+    "messageformat": "ਜਿੰਨੇ ਗਰੁੱਪਾਂ ਵਿੱਚ ਤੁਸੀਂ ਹੋ, ਉਸ ਮੁਤਾਬਕ ਇਸ ਵਿੱਚ ਕੁਝ ਮਿੰਟ ਲੱਗ ਸਕਦੇ ਹਨ"
   },
   "icu:DeletingAccount__DeletingData__Title": {
-    "messageformat": "Deleting account and all data..."
+    "messageformat": "ਖਾਤਾ ਅਤੇ ਸਾਰਾ ਡਾਟਾ ਮਿਟਾਇਆ ਜਾ ਰਿਹਾ ਹੈ…"
   },
   "icu:DeletingAccount__DeletingData__Detail": {
-    "messageformat": "Deleting user data and resetting the app"
+    "messageformat": "ਵਰਤੋਂਕਾਰ ਡਾਟਾ ਹਟਾਇਆ ਅਤੇ ਐਪ ਨੂੰ ਰੀਸੈੱਟ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Signal ਨੂੰ ਦਾਨ ਕਰੋ"
@@ -5410,7 +5410,7 @@
     "messageformat": "Signal ਕਾਲ ਵਿੱਚ ਸ਼ਾਮਲ ਹੋਣ ਲਈ ਇਸ ਲਿੰਕ ਦੀ ਵਰਤੋਂ ਕਰੋ: {url}"
   },
   "icu:MessageRequestWarning__review-carefully": {
-    "messageformat": "Review requests carefully"
+    "messageformat": "ਬੇਨਤੀਆਂ ਦੀ ਧਿਆਨ ਨਾਲ ਸਮੀਖਿਆ ਕਰੋ"
   },
   "icu:MessageRequestWarning__safety-tips-v2": {
     "messageformat": "ਸੁਰੱਖਿਆ ਸੰਬੰਧੀ ਸੁਝਾਅ"
@@ -6386,22 +6386,22 @@
     "messageformat": "{num, plural, one {1 ਸੰਪਰਕ} other {{num,number} ਸੰਪਰਕ}}"
   },
   "icu:Preferences--blocked-count-both-new": {
-    "messageformat": "{num, plural, =0 { No users or groups } one {{num,number} user or group} other {{num,number} users or groups}}"
+    "messageformat": "{num, plural, =0 { ਕੋਈ ਵਰਤੋਂਕਾਰ ਜਾਂ ਗਰੁੱਪ ਨਹੀਂ ਹੈ } one {{num,number} ਵਰਤੋਂਕਾਰ ਜਾਂ ਗਰੁੱਪ} other {{num,number} ਵਰਤੋਂਕਾਰ ਜਾਂ ਗਰੁੱਪ}}"
   },
   "icu:Preferences--blocked-count-contacts-new": {
-    "messageformat": "{num, plural, =0 { No users } one {{num,number} user} other {{num,number} users}}"
+    "messageformat": "{num, plural, =0 { ਕੋਈ ਵਰਤੋਂਕਾਰ ਨਹੀਂ ਹੈ } one {{num,number} ਵਰਤੋਂਕਾਰ} other {{num,number} ਵਰਤੋਂਕਾਰ}}"
   },
   "icu:Preferences--blocked-count-groups-new": {
-    "messageformat": "{num, plural, =0 { No groups } one {{num,number} group} other {{num,number} groups}}"
+    "messageformat": "{num, plural, =0 { ਕੋਈ ਗਰੁੱਪ ਨਹੀਂ ਹੈ } one {{num,number} ਗਰੁੱਪ} other {{num,number} ਗਰੁੱਪ}}"
   },
   "icu:Preferences--blocked-users--description": {
-    "messageformat": "Blocked users will not be able to call you or send you messages"
+    "messageformat": "ਪਾਬੰਦੀਸ਼ੁਦਾ ਵਰਤੋਂਕਾਰ ਨਾ ਹੀ ਤੁਹਾਨੂੰ ਕਾਲ ਕਰ ਸਕਣਗੇ ਅਤੇ ਨਾ ਹੀ ਸੁਨੇਹੇ ਭੇਜ ਸਕਣਗੇ"
   },
   "icu:Preferences--blocked-users": {
-    "messageformat": "Blocked Users"
+    "messageformat": "ਪਾਬੰਦੀਸ਼ੁਦਾ ਵਰਤੋਂਕਾਰ"
   },
   "icu:Preferences--blocked-groups": {
-    "messageformat": "Blocked Groups"
+    "messageformat": "ਪਾਬੰਦੀਸ਼ੁਦਾ ਗਰੁੱਪ"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Signal ਸਿਕਿਓਰ ਬੈਕਅੱਪ"
@@ -6974,7 +6974,7 @@
     "messageformat": "ਤੁਸੀਂ ਸੁਨੇਹੇ ਦੀ ਬੇਨਤੀ ਨੂੰ ਮਨਜ਼ੂਰ ਕਰ ਲਿਆ ਹੈ"
   },
   "icu:MessageRequestResponseNotification__Message--Accepted-Contact-Title": {
-    "messageformat": "You accepted {userProfileName}'s message request"
+    "messageformat": "ਤੁਸੀਂ {userProfileName} ਦੀ ਸੁਨੇਹੇ ਦੀ ਬੇਨਤੀ ਨੂੰ ਸਵੀਕਾਰ ਕਰ ਲਿਆ ਹੈ"
   },
   "icu:MessageRequestResponseNotification__Message--Reported": {
     "messageformat": "ਸਪੈਮ ਵਜੋਂ ਰਿਪੋਰਟ ਕੀਤੀ ਗਈ"
@@ -6995,7 +6995,7 @@
     "messageformat": "ਵਿਕਲਪ"
   },
   "icu:MessageRequestResponseNotification__Button--block-or-report": {
-    "messageformat": "Block or Report..."
+    "messageformat": "ਪਾਬੰਦੀ ਲਗਾਓ ਜਾਂ ਰਿਪੋਰਟ ਕਰੋ…"
   },
   "icu:MessageRequestResponseNotification__Button--LearnMore": {
     "messageformat": "ਹੋਰ ਜਾਣੋ"
@@ -8256,10 +8256,10 @@
     "messageformat": "ਮੈਗਾਫੋਨ ਨਾਲ ਇੰਟਰੈਕਟ ਕਰਨ ਲਈ ਸਾਈਡਬਾਰ ਨੂੰ ਵੱਡਾ ਕਰੋ"
   },
   "icu:Carousel--Role": {
-    "messageformat": "Carousel"
+    "messageformat": "ਕੈਰੋਜ਼ਲ"
   },
   "icu:Carousel__Slide--Role": {
-    "messageformat": "Slide"
+    "messageformat": "ਸਲਾਈਡ"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Signal ਨੂੰ ਸੁਚਾਰੂ ਢੰਗ ਨਾਲ ਚੱਲਦਾ ਰੱਖਣ ਲਈ ਇਸ ਵਰਜ਼ਨ ਵਿੱਚ ਨਿੱਕੇ-ਮੋਟੇ ਸੁਧਾਰ ਅਤੇ ਬੱਗ ਠੀਕ ਕੀਤੇ ਗਏ ਹਨ।",
@@ -8290,6 +8290,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__8.10--0": {
-    "messageformat": "The freshly spun emoji in Unicode 17.0 have now pirouetted into place in Signal. Send a message reaction with the new Ballet Dancer emoji to perform your own digital version of a pas de chat."
+    "messageformat": "ਹੁਣ ਤੁਸੀਂ ਯੂਨੀਕੋਡ 17.0 ਵਿੱਚ ਉਪਲਬਧ ਨਵੇਂ ਇਮੋਜੀ ਵਰਤ ਸਕਦੇ ਹੋ।"
   }
 }
