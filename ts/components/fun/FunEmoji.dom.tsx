@@ -12,12 +12,7 @@ const log = createLogger('FunEmoji');
 
 export const FUN_STATIC_EMOJI_CLASS = 'FunStaticEmoji';
 const FUN_INLINE_EMOJI_CLASS = 'FunInlineEmoji';
-
 const FUN_STATIC_EMOJI_TEXT_CLASS = 'FunStaticEmoji__Text';
-const FUN_INLINE_EMOJI_IMAGE_CLASS = 'FunInlineEmoji__Image';
-const FUN_INLINE_EMOJI_IMAGE_LOADED_CLASS = 'FunInlineEmoji__Image--loaded';
-const FUN_INLINE_EMOJI_SMALL_CLASS = 'FunInlineEmoji__Small';
-const FUN_INLINE_EMOJI_JUMBO_CLASS = 'FunInlineEmoji__Jumbo';
 
 const KNOWN_JUMBOMOJI = new Set<string>(Object.values(MANIFEST).flat());
 const MIN_JUMBOMOJI_SIZE = 33;
@@ -113,7 +108,7 @@ export function FunStaticEmoji(props: FunStaticEmojiProps): JSX.Element {
     <>
       {img}
       {!isLoaded && (
-        <div
+        <span
           role={props.role}
           aria-label={props['aria-label']}
           data-emoji={props.emoji}
@@ -129,7 +124,7 @@ export function FunStaticEmoji(props: FunStaticEmojiProps): JSX.Element {
           }
         >
           {props.emoji}
-        </div>
+        </span>
       )}
     </>
   );
@@ -183,8 +178,8 @@ export function FunInlineEmoji(props: FunInlineEmojiProps): JSX.Element {
     img = (
       <img
         className={classNames(
-          FUN_INLINE_EMOJI_IMAGE_CLASS,
-          isLoaded && FUN_INLINE_EMOJI_IMAGE_LOADED_CLASS
+          'FunInlineEmoji__Image',
+          isLoaded && 'FunInlineEmoji__Image--loaded'
         )}
         aria-hidden
         alt=""
@@ -196,7 +191,7 @@ export function FunInlineEmoji(props: FunInlineEmojiProps): JSX.Element {
   }
 
   return (
-    <div
+    <span
       className={FUN_INLINE_EMOJI_CLASS}
       aria-label={props['aria-label']}
       // Needed to lookup emoji value in `matchEmojiBlot`
@@ -209,12 +204,20 @@ export function FunInlineEmoji(props: FunInlineEmojiProps): JSX.Element {
         } as CSSProperties
       }
     >
-      <div className={FUN_INLINE_EMOJI_SMALL_CLASS}>{props.emoji}</div>
-      <div className={FUN_INLINE_EMOJI_JUMBO_CLASS}>
-        {!isLoaded && props.emoji}
-        {img}
-      </div>
-    </div>
+      <span
+        className={classNames(
+          'FunInlineEmoji__Small',
+          isLoaded && 'FunInlineEmoji__Small--Hidden'
+        )}
+      >
+        {props.emoji}
+      </span>
+      {img != null && (
+        <span className="FunInlineEmoji__Jumbo" aria-hidden>
+          {img}
+        </span>
+      )}
+    </span>
   );
 }
 

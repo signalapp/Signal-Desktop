@@ -18,6 +18,7 @@
   content-visibility: auto;
   vertical-align: top;
   letter-spacing: inherit;
+  font-style: normal;
 
   // Override global `max-width: 100%`
   max-width: inherit;
@@ -144,6 +145,12 @@ $inline-emoji-container-name: inline-emoji;
   letter-spacing: inherit;
   content-visibility: auto;
   vertical-align: bottom;
+  font-style: normal;
+  color: hsl(from currentColor h s l / 100%);
+}
+
+.FunInlineEmoji__Small--Hidden {
+  display: none;
 }
 
 .FunInlineEmoji__Image {
@@ -159,17 +166,9 @@ $inline-emoji-container-name: inline-emoji;
 }
 
 .FunInlineEmoji__Small {
-  color: hsl(from currentColor h s l / 100%);
-
-  @container #{$inline-emoji-container-name} (width > 32px) {
-    @include hidpi {
-      display: none;
-    }
-  }
-
-  @container #{$inline-emoji-container-name} (width > 64px) {
-    display: none;
-  }
+  // Inline-block so copying multiple emoji does not insert newlines around
+  // each one in the clipboard plain-text serialization.
+  display: inline-block;
 
   // Emoji font images are slightly higher than optical center
   @container #{$inline-emoji-container-name} (width > 16px) {
