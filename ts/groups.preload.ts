@@ -3223,9 +3223,9 @@ async function updateGroup(
     };
   });
 
-  const contactsWithoutProfileKey = new Array<ConversationModel>();
+  const contactsNeedingFetch = new Array<ConversationModel>();
 
-  // Capture profile key for each member in the group, if we don't have it yet
+  // Update profile key for each member, if self-updated or we have no profileKey for them
   for (const [aci, profileKey] of newProfileKeys) {
     const contact = window.ConversationController.getOrCreate(aci, 'private');
 
@@ -3235,20 +3235,20 @@ async function updateGroup(
       profileKey.length > 0 &&
       contact.get('profileKey') !== profileKey
     ) {
-      contactsWithoutProfileKey.push(contact);
+      contactsNeedingFetch.push(contact);
       drop(contact.setProfileKey(profileKey, { reason: 'updateGroup' }));
     }
   }
 
   let profileFetches: Promise<Array<void>> | undefined;
-  if (contactsWithoutProfileKey.length !== 0) {
+  if (contactsNeedingFetch.length !== 0) {
     log.info(
       `updateGroup/${logId}: fetching ` +
-        `${contactsWithoutProfileKey.length} missing profiles`
+        `${contactsNeedingFetch.length} missing profiles`
     );
 
     profileFetches = Promise.all(
-      contactsWithoutProfileKey.map(contact => {
+      contactsNeedingFetch.map(contact => {
         return getProfile({
           serviceId: contact.getServiceId() ?? null,
           e164: contact.get('e164') ?? null,
@@ -3326,10 +3326,10 @@ async function updateGroup(
   //   the group updates happen on the model.
   if (changeMessagesToSave.length > 0) {
     try {
-      if (contactsWithoutProfileKey && contactsWithoutProfileKey.length > 0) {
+      if (contactsNeedingFetch && contactsNeedingFetch.length > 0) {
         await Promise.race([profileFetches, sleep(30 * SECOND)]);
         log.info(
-          `updateGroup/${logId}: timed out or finished fetching ${contactsWithoutProfileKey.length} profiles`
+          `updateGroup/${logId}: timed out or finished fetching ${contactsNeedingFetch.length} profiles`
         );
       }
     } catch (error) {
@@ -5648,7 +5648,7 @@ async function applyGroupChange({
       const { added } = addMemberPendingAdminApproval;
       if (!added) {
         throw new Error(
-          'applyGroupChange: modifyMemberProfileKey had a missing value'
+          'applyGroupChange: addMemberPendingAdminApproval had a missing value'
         );
       }
 

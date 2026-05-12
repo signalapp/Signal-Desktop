@@ -5309,10 +5309,12 @@ export class ConversationModel {
       { noTrigger: viaStorageServiceSync }
     );
 
-    // If our profile key was cleared above, we don't tell our linked devices about it.
-    //   We want linked devices to tell us what it should be, instead of telling them to
-    //   erase their local value.
-    if (!viaStorageServiceSync) {
+    // We _don't_ update storage service when we find out about a new profileKey unless
+    // we're a primary device
+    if (
+      !viaStorageServiceSync &&
+      window.ConversationController.areWePrimaryDevice()
+    ) {
       this.captureChange('profileKey');
     }
 
