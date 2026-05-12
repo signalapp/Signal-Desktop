@@ -55,7 +55,7 @@ import { createLogger } from '../logging/log.std.ts';
 import { isGroupOrAdhocActiveCall } from '../util/isGroupOrAdhocCall.std.ts';
 import { CallingAdhocCallInfo } from './CallingAdhocCallInfo.dom.tsx';
 import { callLinkRootKeyToUrl } from '../util/callLinkRootKeyToUrl.std.ts';
-import { usePrevious } from '../hooks/usePrevious.std.ts';
+import { usePreviousDeprecated } from '../hooks/usePrevious.std.ts';
 import { copyCallLink } from '../util/copyLinksWithToast.dom.ts';
 import {
   redactNotificationProfileId,
@@ -264,7 +264,10 @@ function ActiveCallManager({
   // For caching screenshare frames which update slowly, between Pip and CallScreen.
   const imageDataCache = useRef<CallingImageDataCache>(new Map());
 
-  const previousConversationId = usePrevious(conversation.id, conversation.id);
+  const previousConversationId = usePreviousDeprecated(
+    conversation.id,
+    conversation.id
+  );
   useEffect(() => {
     if (conversation.id !== previousConversationId) {
       imageDataCache.current.clear();

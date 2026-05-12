@@ -10,7 +10,7 @@ import type {
 import type { LocalizerType } from '../types/Util.std.ts';
 import { Avatar, AvatarSize } from './Avatar.dom.tsx';
 import { SearchInput } from './SearchInput.dom.tsx';
-import { usePrevious } from '../hooks/usePrevious.std.ts';
+import { usePreviousDeprecated } from '../hooks/usePrevious.std.ts';
 import { Tooltip, TooltipPlacement } from './Tooltip.dom.tsx';
 import { Theme } from '../util/theme.std.ts';
 
@@ -67,12 +67,18 @@ export function LeftPaneSearchInput({
 }: PropsType): JSX.Element {
   const inputRef = useRef<null | HTMLInputElement>(null);
 
-  const prevSearchConversationId = usePrevious(
+  const prevSearchConversationId = usePreviousDeprecated(
     undefined,
     searchConversation?.id
   );
-  const prevSearchCounter = usePrevious(startSearchCounter, startSearchCounter);
-  const wasSearchingGlobally = usePrevious(false, isSearchingGlobally);
+  const prevSearchCounter = usePreviousDeprecated(
+    startSearchCounter,
+    startSearchCounter
+  );
+  const wasSearchingGlobally = usePreviousDeprecated(
+    false,
+    isSearchingGlobally
+  );
 
   useEffect(() => {
     // When user chooses to search in a given conversation we focus the field for them

@@ -35,7 +35,7 @@ import type {
 import type { LocalizerType, ThemeType } from '../../../types/Util.std.ts';
 import type { PreferredBadgeSelectorType } from '../../../state/selectors/badges.preload.ts';
 import type { Location } from '../../../types/Nav.std.ts';
-import { usePrevious } from '../../../hooks/usePrevious.std.ts';
+import { usePreviousDeprecated } from '../../../hooks/usePrevious.std.ts';
 import type { Emoji } from '../../../axo/emoji.std.ts';
 
 export type PropsDataType = {
@@ -148,7 +148,7 @@ export function GroupMemberLabelEditor({
 
   // Popping the panel here after a save is far safer; we may not have re-rendered with
   // the new existing values yet when the onSuccess callback down-file is called.
-  const previousIsSaving = usePrevious(isSaving, isSaving);
+  const previousIsSaving = usePreviousDeprecated(isSaving, isSaving);
   useEffect(() => {
     if (!isSaving && previousIsSaving !== isSaving && !isDirty) {
       popPanelForConversation();

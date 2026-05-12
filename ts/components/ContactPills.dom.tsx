@@ -5,7 +5,7 @@ import type { ReactNode, JSX } from 'react';
 import { useRef, useEffect, Children } from 'react';
 import classNames from 'classnames';
 
-import { usePrevious } from '../hooks/usePrevious.std.ts';
+import { usePreviousDeprecated } from '../hooks/usePrevious.std.ts';
 import { scrollToBottom } from '../util/scrollUtil.std.ts';
 
 type PropsType = {
@@ -21,7 +21,7 @@ export function ContactPills({
 
   // oxlint-disable-next-line no-react-children
   const childCount = Children.count(children);
-  const previousChildCount = usePrevious(0, childCount);
+  const previousChildCount = usePreviousDeprecated(0, childCount);
 
   useEffect(() => {
     const hasAddedNewChild = childCount > previousChildCount;

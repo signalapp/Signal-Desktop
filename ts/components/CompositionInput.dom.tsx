@@ -75,7 +75,7 @@ import { createLogger } from '../logging/log.std.ts';
 import type { LinkPreviewForUIType } from '../types/message/LinkPreviews.std.ts';
 import { StagedLinkPreview } from './conversation/StagedLinkPreview.dom.tsx';
 import type { DraftEditMessageType } from '../model-types.d.ts';
-import { usePrevious } from '../hooks/usePrevious.std.ts';
+import { usePreviousDeprecated } from '../hooks/usePrevious.std.ts';
 import {
   matchBold,
   matchItalic,
@@ -417,11 +417,11 @@ export function CompositionInput(props: Props): ReactElement {
     return false;
   };
 
-  const previousFormattingEnabled = usePrevious(
+  const previousFormattingEnabled = usePreviousDeprecated(
     isFormattingEnabled,
     isFormattingEnabled
   );
-  const previousIsMouseDown = usePrevious(isMouseDown, isMouseDown);
+  const previousIsMouseDown = usePreviousDeprecated(isMouseDown, isMouseDown);
 
   useEffect(() => {
     const formattingChanged =
@@ -779,7 +779,7 @@ export function CompositionInput(props: Props): ReactElement {
   const memberIdList = useMemo(() => {
     return JSON.stringify(sortedGroupMembers?.map(mem => mem.id));
   }, [sortedGroupMembers]);
-  const previousMemberIdList = usePrevious(undefined, memberIdList);
+  const previousMemberIdList = usePreviousDeprecated(undefined, memberIdList);
 
   useEffect(() => {
     memberRepositoryRef.current.updateMembers(sortedGroupMembers || []);

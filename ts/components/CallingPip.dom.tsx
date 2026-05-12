@@ -36,7 +36,7 @@ import type { ConversationType } from '../state/ducks/conversations.preload.ts';
 import { Avatar, AvatarSize } from './Avatar.dom.tsx';
 import { AvatarColors } from '../types/Colors.std.ts';
 import type { SetLocalPreviewContainerType } from '../services/calling.preload.ts';
-import { usePrevious } from '../hooks/usePrevious.std.ts';
+import { usePreviousDeprecated } from '../hooks/usePrevious.std.ts';
 import type { SizeCallbackType } from '../calling/VideoSupport.preload.ts';
 import { MAX_FRAME_HEIGHT } from '../calling/constants.std.ts';
 
@@ -290,7 +290,10 @@ export function CallingPip({
     };
   }, []);
 
-  const previousIsWindowLarge = usePrevious(isWindowLarge, isWindowLarge);
+  const previousIsWindowLarge = usePreviousDeprecated(
+    isWindowLarge,
+    isWindowLarge
+  );
   // This only runs when isWindowLarge changes, so we aggressively change height + width
   useEffect(() => {
     if (previousIsWindowLarge === isWindowLarge) {
