@@ -1395,7 +1395,17 @@ export async function mergeContactRecord(
   });
 
   let needsProfileFetch = false;
-  if (contactRecord.profileKey && contactRecord.profileKey.length > 0) {
+  const isFirstSync = !itemStorage.get('storageFetchComplete');
+
+  const localProfileKey = conversation.get('profileKey');
+  if (
+    (isFirstSync || !localProfileKey) &&
+    contactRecord.profileKey &&
+    contactRecord.profileKey.length > 0
+  ) {
+    log.info(
+      `mergeContactRecord: ${conversation.idForLogging()} had no profileKey; using remote`
+    );
     needsProfileFetch = await conversation.setProfileKey(
       Bytes.toBase64(contactRecord.profileKey),
       { viaStorageServiceSync: true, reason: 'mergeContactRecord' }
@@ -1406,25 +1416,18 @@ export async function mergeContactRecord(
   const remoteFamilyName = normalizeProfileName(contactRecord.familyName);
   const localName = conversation.get('profileName');
   const localFamilyName = conversation.get('profileFamilyName');
-  if (
-    remoteName &&
-    (localName !== remoteName || localFamilyName !== remoteFamilyName)
-  ) {
+  const noLocalProfileName = !localName && !localFamilyName;
+  if (remoteName && (isFirstSync || noLocalProfileName)) {
     log.info(
-      `mergeContactRecord: ${conversation.idForLogging()} name doesn't match remote name; overwriting`
+      `mergeContactRecord: ${conversation.idForLogging()} had no profileName; using remote`
     );
     details.push('updated profile name');
     conversation.set({
       profileName: remoteName,
       profileFamilyName: remoteFamilyName,
     });
-    if (localName) {
-      log.info(
-        `mergeContactRecord: ${conversation.idForLogging()} name doesn't match remote name; also fetching profile`
-      );
-      drop(conversation.getProfiles());
-      details.push('refreshing profile');
-    }
+
+    needsProfileFetch = true;
   }
   conversation.set({
     systemGivenName: dropNull(contactRecord.systemGivenName || null),
