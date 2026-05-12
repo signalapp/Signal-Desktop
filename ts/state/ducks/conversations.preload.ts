@@ -1253,7 +1253,7 @@ export const actions = {
   setIsNearBottom,
   setMessageLoadingState,
   setMessageToEdit,
-  setMuteExpiration,
+  setMuteDuration,
   setChatFolderMuteExpiration,
   setPinned,
   setPreJoinConversation,
@@ -1775,7 +1775,7 @@ function setDontNotifyForMentionsIfMuted(
 
 function setChatFolderMuteExpiration(
   chatFolderId: ChatFolderId,
-  muteExpiresAt: number
+  muteDuration: number
 ): ThunkAction<void, RootStateType, unknown, NoopActionType> {
   return async (dispatch, getState) => {
     const chatFolderConversations = _getAllConversationsInChatFolder(
@@ -1784,27 +1784,29 @@ function setChatFolderMuteExpiration(
     );
 
     for (const conversation of chatFolderConversations) {
-      dispatch(setMuteExpiration(conversation.id, muteExpiresAt));
+      dispatch(setMuteDuration(conversation.id, muteDuration));
     }
   };
 }
 
-function setMuteExpiration(
+function setMuteDuration(
   conversationId: string,
-  muteExpiresAt = 0
+  muteDuration = 0
 ): NoopActionType {
   const conversation = window.ConversationController.get(conversationId);
   if (!conversation) {
-    throw new Error('setMuteExpiration: No conversation found');
+    throw new Error('setMuteDuration: No conversation found');
   }
 
-  conversation.setMuteExpiration(
-    muteExpiresAt >= Number.MAX_SAFE_INTEGER
-      ? muteExpiresAt
-      : Date.now() + muteExpiresAt
-  );
+  if (muteDuration === 0) {
+    conversation.setMuteExpiration(0);
+  } else {
+    conversation.setMuteExpiration(
+      Math.min(Date.now() + muteDuration, Number.MAX_SAFE_INTEGER)
+    );
+  }
 
-  return noopAction('setMuteExpiration');
+  return noopAction('setMuteDuration');
 }
 
 function setPinned(

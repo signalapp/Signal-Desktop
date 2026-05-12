@@ -38,7 +38,7 @@ export const SmartLeftPaneConversationListItemContextMenu: FC<RenderConversation
       onArchive,
       onMoveToInbox,
       deleteConversation,
-      setMuteExpiration,
+      setMuteDuration,
     } = useConversationsActions();
     const { updateChatFolderToggleChat } = useChatFolderActions();
     const { changeLocation } = useNavActions();
@@ -93,7 +93,7 @@ export const SmartLeftPaneConversationListItemContextMenu: FC<RenderConversation
         onMarkRead={markConversationRead}
         onPin={handlePin}
         onUnpin={handleUnpin}
-        onUpdateMute={setMuteExpiration}
+        onUpdateMute={setMuteDuration}
         onArchive={onArchive}
         onUnarchive={onMoveToInbox}
         onDelete={deleteConversation}

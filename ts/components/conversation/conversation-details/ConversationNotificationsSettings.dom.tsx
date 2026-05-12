@@ -25,9 +25,9 @@ export type PropsType = {
     conversationId: string,
     dontNotifyForMentionsIfMuted: boolean
   ) => unknown;
-  setMuteExpiration: (
+  setMuteDuration: (
     conversationId: string,
-    muteExpiresAt: undefined | number
+    muteDuration: undefined | number
   ) => unknown;
 };
 
@@ -37,7 +37,7 @@ export function ConversationNotificationsSettings({
   dontNotifyForMentionsIfMuted,
   i18n,
   muteExpiresAt,
-  setMuteExpiration,
+  setMuteDuration,
   setDontNotifyForMentionsIfMuted,
 }: PropsType): JSX.Element {
   const muteNotificationsSelectId = useId();
@@ -69,7 +69,7 @@ export function ConversationNotificationsSettings({
       rawValue,
       'NotificationSettings: mute ms was not an integer'
     );
-    setMuteExpiration(id, ms);
+    setMuteDuration(id, ms);
   };
 
   const onChangeDontNotifyForMentionsIfMuted = (rawValue: string) => {

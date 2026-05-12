@@ -24,6 +24,7 @@ import { strictAssert } from '../../util/assert.std.ts';
 import { UserText } from '../UserText.dom.tsx';
 import { isConversationMuted } from '../../util/isConversationMuted.std.ts';
 import { isInternalFeaturesEnabled } from '../../util/isInternalFeaturesEnabled.dom.ts';
+import { canConversationOnlyBeMutedAlways } from '../../conversations/canConversationOnlyBeMutedAlways.dom.ts';
 
 export type ChatFolderToggleChat = (
   chatFolderId: ChatFolderId,
@@ -79,8 +80,10 @@ export const LeftPaneConversationListItemContextMenu: FC<LeftPaneConversationLis
     }, [selectedChatFolder]);
 
     const muteOptions = useMemo(() => {
-      return getMuteOptions(muteExpiresAt, i18n);
-    }, [muteExpiresAt, i18n]);
+      return getMuteOptions(muteExpiresAt, i18n, {
+        canOnlyBeMutedAlways: canConversationOnlyBeMutedAlways(conversation),
+      });
+    }, [muteExpiresAt, i18n, conversation]);
 
     const [showConfirmDeleteDialog, setShowConfirmDeleteDialog] =
       useState(false);

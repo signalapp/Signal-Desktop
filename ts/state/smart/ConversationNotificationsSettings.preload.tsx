@@ -19,7 +19,7 @@ export const SmartConversationNotificationsSettings = memo(
   }: SmartConversationNotificationsSettingsProps) {
     const i18n = useSelector(getIntl);
     const conversationSelector = useSelector(getConversationByIdSelector);
-    const { setMuteExpiration, setDontNotifyForMentionsIfMuted } =
+    const { setMuteDuration, setDontNotifyForMentionsIfMuted } =
       useConversationsActions();
     const conversation = conversationSelector(conversationId);
     strictAssert(conversation, 'Expected a conversation to be found');
@@ -35,7 +35,7 @@ export const SmartConversationNotificationsSettings = memo(
         dontNotifyForMentionsIfMuted={dontNotifyForMentionsIfMuted ?? false}
         i18n={i18n}
         muteExpiresAt={muteExpiresAt}
-        setMuteExpiration={setMuteExpiration}
+        setMuteDuration={setMuteDuration}
         setDontNotifyForMentionsIfMuted={setDontNotifyForMentionsIfMuted}
       />
     );

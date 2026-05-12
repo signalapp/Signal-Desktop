@@ -68,6 +68,7 @@ import type { ShowToastAction } from '../../../state/ducks/toast.preload.ts';
 import { ToastType } from '../../../types/Toast.dom.tsx';
 import type { ContactNameColorType } from '../../../types/Colors.std.ts';
 import { AxoConfirmDialog } from '../../../axo/AxoConfirmDialog.dom.tsx';
+import { canConversationOnlyBeMutedAlways } from '../../../conversations/canConversationOnlyBeMutedAlways.dom.ts';
 
 enum ModalState {
   AddingGroupMembers,
@@ -146,7 +147,7 @@ type ActionProps = {
   saveAvatarToDisk: SaveAvatarToDiskActionType;
   searchInConversation: (id: string) => unknown;
   setDisappearingMessages: (id: string, seconds: DurationInSeconds) => void;
-  setMuteExpiration: (id: string, muteExpiresAt: undefined | number) => unknown;
+  setMuteDuration: (id: string, muteDuration: undefined | number) => unknown;
   showContactModal: (payload: ContactModalStateType) => void;
   showConversation: ShowConversationType;
   terminateGroup: (conversationId: string) => void;
@@ -221,7 +222,7 @@ export function ConversationDetails({
   searchInConversation,
   selectedNavTab,
   setDisappearingMessages,
-  setMuteExpiration,
+  setMuteDuration,
   showContactModal,
   showConversation,
   showToast,
@@ -381,7 +382,7 @@ export function ConversationDetails({
           id={conversation.id}
           muteExpiresAt={conversation.muteExpiresAt}
           onClose={onCloseModal}
-          setMuteExpiration={setMuteExpiration}
+          setMuteDuration={setMuteDuration}
         />
       );
       break;
@@ -399,7 +400,7 @@ export function ConversationDetails({
           <AxoConfirmDialog.Cancel />
           <AxoConfirmDialog.Action
             variant="primary"
-            onClick={() => setMuteExpiration(conversation.id, 0)}
+            onClick={() => setMuteDuration(conversation.id, 0)}
           >
             {i18n('icu:unmute')}
           </AxoConfirmDialog.Action>
@@ -481,11 +482,11 @@ export function ConversationDetails({
         <Button
           icon={isMuted ? ButtonIconType.muted : ButtonIconType.unmuted}
           onClick={() => {
-            if (isSignalConversation) {
+            if (canConversationOnlyBeMutedAlways(conversation)) {
               if (isMuted) {
-                setMuteExpiration(conversation.id, 0);
+                setMuteDuration(conversation.id, 0);
               } else {
-                setMuteExpiration(conversation.id, Number.MAX_SAFE_INTEGER);
+                setMuteDuration(conversation.id, Number.MAX_SAFE_INTEGER);
               }
               return;
             }

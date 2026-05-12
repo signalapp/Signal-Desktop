@@ -16,9 +16,9 @@ type PropsType = {
   id: string;
   muteExpiresAt: undefined | number;
   onClose: () => unknown;
-  setMuteExpiration: (
+  setMuteDuration: (
     conversationId: string,
-    muteExpiresAt: undefined | number
+    muteDuration: undefined | number
   ) => unknown;
 };
 
@@ -27,7 +27,7 @@ export function ConversationNotificationsModal({
   id,
   muteExpiresAt,
   onClose,
-  setMuteExpiration,
+  setMuteDuration,
 }: PropsType): JSX.Element {
   const muteOptions = useMemo(
     () =>
@@ -41,14 +41,14 @@ export function ConversationNotificationsModal({
     [i18n, muteExpiresAt]
   );
 
-  const [muteExpirationValue, setMuteExpirationValue] = useState(muteExpiresAt);
+  const [muteDurationValue, setMuteDurationValue] = useState<number>();
 
   const onMuteChange = () => {
     const ms = parseIntOrThrow(
-      muteExpirationValue,
+      muteDurationValue,
       'NotificationSettings: mute ms was not an integer'
     );
-    setMuteExpiration(id, ms);
+    setMuteDuration(id, ms);
     onClose();
   };
 
@@ -83,13 +83,13 @@ export function ConversationNotificationsModal({
         >
           <CircleCheckbox
             id={htmlIds[i]}
-            checked={muteExpirationValue === option.value}
+            checked={muteDurationValue === option.value}
             variant={Variant.Small}
             disabled={option.disabled}
             isRadio
             moduleClassName="ConversationDetails__radio"
             name="mute"
-            onChange={value => value && setMuteExpirationValue(option.value)}
+            onChange={value => value && setMuteDurationValue(option.value)}
           />
           {option.text}
         </label>

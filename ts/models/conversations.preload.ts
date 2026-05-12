@@ -271,6 +271,7 @@ import * as Message from '../types/Message2.preload.ts';
 import { itemStorage } from '../textsecure/Storage.preload.ts';
 import { isUsernameValid } from '../util/Username.dom.ts';
 import type { Emoji } from '../axo/emoji.std.ts';
+import { canConversationOnlyBeMutedAlways } from '../conversations/canConversationOnlyBeMutedAlways.dom.ts';
 
 const { compact, isNumber, throttle, debounce } = lodash;
 
@@ -5681,9 +5682,19 @@ export class ConversationModel {
   }
 
   setMuteExpiration(
-    muteExpiresAt = 0,
+    expiresAt = 0,
     { viaStorageServiceSync = false } = {}
   ): void {
+    let muteExpiresAt = expiresAt;
+
+    if (
+      muteExpiresAt > 0 &&
+      canConversationOnlyBeMutedAlways(this.attributes)
+    ) {
+      log.error('Invalid mute expiration for only-always-mute conversation');
+      muteExpiresAt = Number.MAX_SAFE_INTEGER;
+    }
+
     const prevExpiration = this.get('muteExpiresAt');
 
     if (prevExpiration === muteExpiresAt) {

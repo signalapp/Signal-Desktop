@@ -22,7 +22,7 @@ const getCommonProps = () => ({
   dontNotifyForMentionsIfMuted: false,
   i18n,
   setDontNotifyForMentionsIfMuted: action('setDontNotifyForMentionsIfMuted'),
-  setMuteExpiration: action('setMuteExpiration'),
+  setMuteDuration: action('setMuteDuration'),
 });
 
 export function GroupConversationAllDefault(): JSX.Element {
