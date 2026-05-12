@@ -39,8 +39,10 @@ const Q = 7;
 const PEAK_EVERY_S = 0.1;
 const PEAK_EVERY = Math.round(sampleRate * PEAK_EVERY_S);
 
-// Keep maximum peak over last 5 seconds
+// Compute maximum peak over last 5 seconds
 const WINDOW_SIZE = Math.round(5 / PEAK_EVERY_S);
+
+const MAX_DECAY = 0.8;
 
 class Mp3Encoder
   extends AudioWorkletProcessor
@@ -56,6 +58,7 @@ class Mp3Encoder
   #peakSamples = 0;
   #window = new Array<number>();
   #windowOffset = 0;
+  #previousMax = 1;
 
   constructor() {
     super();
@@ -115,6 +118,13 @@ class Mp3Encoder
       let max = 1e-23;
       for (const oldPeak of this.#window) {
         max = Math.max(max, oldPeak);
+      }
+
+      this.#previousMax *= MAX_DECAY;
+      if (this.#previousMax < max) {
+        this.#previousMax = max;
+      } else {
+        max = this.#previousMax;
       }
 
       this.#peakSquares = 0;

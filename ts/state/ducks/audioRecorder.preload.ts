@@ -25,7 +25,7 @@ import {
 import { getSelectedConversationId } from '../selectors/nav.std.ts';
 
 const log = createLogger('audioRecorder');
-const MAX_PEAKS = 200;
+const MAX_PEAKS = 400;
 
 let recorder: AudioRecorder | undefined;
 let lastPeakIndex = 0;

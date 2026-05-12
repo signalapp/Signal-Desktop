@@ -17,8 +17,6 @@ import { durationToPlaybackText } from '../util/durationToPlaybackText.std.ts';
 import { RecordingComposer } from './RecordingComposer.dom.tsx';
 import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
 
-const MAX_BAR_HEIGHT = 20;
-
 export type Props = Readonly<{
   i18n: LocalizerType;
   onCancel: () => void;
@@ -126,15 +124,14 @@ export function CompositionRecording({
           'shrink-0 grow overflow-hidden',
           'flex flex-row-reverse items-center gap-0.5',
           'bg-elevated-background-tertiary',
-          'size-9 rounded-sm'
+          'h-full basis-0 rounded-sm'
         )}
       >
         {peaks.toReversed().map(({ value, index }) => {
-          const clamped = value * MAX_BAR_HEIGHT;
           return (
             <b
               key={index}
-              style={{ height: `${clamped}px` }}
+              style={{ height: `${value * 100}%` }}
               className={tw('rounded-sm bg-label-placeholder p-px')}
             />
           );
