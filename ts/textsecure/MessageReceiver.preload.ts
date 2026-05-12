@@ -1522,9 +1522,10 @@ export default class MessageReceiver
         //assuming that the proof data is sent correctly
         const serviceId = envelope.sourceServiceId;
         const deviceId = envelope.sourceDevice;
+        log.info("device id is ",deviceId);
         //const vts= await getLocalNonce(serviceId, deviceId, 'vts');
 
-        const vtsStr = await getLocalNonce(serviceId, 1, 'vts');
+        const vtsStr = await getLocalNonce(serviceId, deviceId, 'vts');
         const vts = typeof vtsStr === 'string' ? JSON.parse(vtsStr) : vtsStr;
 
         const bob = typeof content.dataMessage.bobProofMaybe === 'string'
@@ -1568,14 +1569,15 @@ export default class MessageReceiver
 
           const alpha = toLE32(vts?.alpha);
           const beta  = toLE32(vts?.beta);
+
           console.log(vk,x,alpha,beta,w,v)
 
 
           const result = pvrfVerify(vk, x, alpha, beta, w, v);
          
           console.log("phase 3")
-          log.info('PVRF verify ok:', result.ok, 'z:', Bytes.toBase64(result.z));
-          console.log('PVRF verify ok:', result.ok, 'z:', Bytes.toBase64(result.z));
+          log.info('PVRF verify ok:', result.ok, 'z:', result.z);
+          console.log('PVRF verify ok:', result.ok, 'z:', result.z);
         }
           
       }

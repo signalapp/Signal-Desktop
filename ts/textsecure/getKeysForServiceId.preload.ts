@@ -297,7 +297,7 @@ async function handleServerKeys(
           const initial_stored_vts = await getLocalNonce(serviceId, deviceId, 'vts');
           console.log('initial stored vts', initial_stored_vts);
           console.log('this is the vts', vts);
-          await setLocalNonce(serviceId, 1, JSON.stringify(vts), 'vts');
+          await setLocalNonce(serviceId, deviceId, JSON.stringify(vts), 'vts');
           console.log('loading what was stored');
           const stored_vts = await getLocalNonce(serviceId, deviceId, 'vts');
           console.log('stored vts', stored_vts);
@@ -313,28 +313,6 @@ async function handleServerKeys(
           //   'signalProtocolStore',
           //   signalProtocolStore
           // );
-          try {
-        const vtsBytes = temp?.getVTS?.();
-
-        if (vtsBytes) {
-          await setLocalNonce(
-            serviceId,
-            deviceId,
-            Bytes.toBase64(vtsBytes),
-            'vts'
-          );
-
-          log.info(
-            `PVRF demo (Alice): stored raw VTS bytes for ${serviceId}.${deviceId}`
-          );
-        } else {
-          log.warn(
-            `PVRF demo (Alice): no VTS found for ${serviceId}.${deviceId}`
-          );
-        }
-      } catch (err) {
-        log.error('error storing raw VTS bytes', err);
-      }
       
         }
       } 
