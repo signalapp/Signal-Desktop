@@ -525,7 +525,10 @@
       },
       "artifactName": "${name}_${version}_${arch}.${ext}",
       "target": [
-        "deb"
+        {
+          "target": "deb",
+          "arch": "x64"
+        }
       ],
       "icon": "build/icons/png",
       "publish": [

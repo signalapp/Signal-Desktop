@@ -997,6 +997,10 @@ function getUpdatesFileName(): string {
   }
 
   if (process.platform === 'linux') {
+    if (process.arch === 'arm64') {
+      return `${prefix}-linux-arm64.yml`;
+    }
+
     return `${prefix}-linux.yml`;
   }
 

@@ -7,7 +7,8 @@
 # Env vars:
 # SOURCE_DATE_EPOCH: Build timestamp override. Defaults to latest git commit or 1.
 # SKIP_DOCKER_BUILD: To support docker build cache during actions.
-# BUILD_TARGETS: Override build targets. Empty default results in deb.
+# BUILD_TARGETS: Override build targets. Empty default results in deb. Comma separated list.
+# BUILD_ARCH: Override build architectures. Empty default results in x64. Comma separated list.
 
 # Examples:
 # ./build.sh public
@@ -54,4 +55,5 @@ docker run --rm \
   -e PNPM_HOME=/tmp/.pnpm-home \
   -e SOURCE_DATE_EPOCH=$source_date_epoch \
   -e BUILD_TARGETS=$BUILD_TARGETS \
+  -e BUILD_ARCH=$BUILD_ARCH \
   signal-desktop $1

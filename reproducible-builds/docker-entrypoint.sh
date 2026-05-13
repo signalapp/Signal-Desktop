@@ -66,8 +66,8 @@ else
   exit 1
 fi
 
-if [ "${BUILD_TARGETS}" != "" ]; then
-  pnpm run prepare-linux-build $BUILD_TARGETS
+if [ "${BUILD_TARGETS}" != "" ] || [ "${BUILD_ARCH}" != "" ]; then
+  pnpm run prepare-linux-build "$BUILD_TARGETS" "$BUILD_ARCH"
 fi
 
 pnpm run build-linux
