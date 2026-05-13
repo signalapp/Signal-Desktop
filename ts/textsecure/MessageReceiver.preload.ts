@@ -1574,8 +1574,10 @@ export default class MessageReceiver
 
 
           const result = pvrfVerify(vk, x, alpha, beta, w, v);
+          const sas = String.fromCharCode(...result.z);
+          await setLocalNonce(serviceId, 1, sas, 'sas');  
          
-          console.log("phase 3")
+          console.log("phase 3", sas)
           log.info('PVRF verify ok:', result.ok, 'z:', result.z);
           console.log('PVRF verify ok:', result.ok, 'z:', result.z);
         }
@@ -2054,6 +2056,8 @@ export default class MessageReceiver
       try { 
         let tempResponse = temp?.getBobResponse();
         log.info('bob response value, z is the true sas', tempResponse); 
+        await setLocalNonce(serviceId, 1, tempResponse.z_decoded, 'sas');  
+
         if (tempResponse) 
         {
           bobResponseObject.rawB64 = JSON.stringify({
