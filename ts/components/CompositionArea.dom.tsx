@@ -66,7 +66,6 @@ import {
 import { MediaEditor } from './MediaEditor.dom.tsx';
 import { isImageTypeSupported } from '../util/GoogleChrome.std.ts';
 import * as KeyboardLayout from '../services/keyboardLayout.dom.ts';
-import { usePreviousDeprecated } from '../hooks/usePrevious.std.ts';
 import { PanelType } from '../types/Panels.std.ts';
 import type { SmartCompositionRecordingDraftProps } from '../state/smart/CompositionRecordingDraft.preload.tsx';
 import { useEscapeHandling } from '../hooks/useEscapeHandling.dom.ts';
@@ -527,85 +526,96 @@ export const CompositionArea = memo(function CompositionArea({
   });
 
   // Focus input on first mount
-  const previousFocusCounter = usePreviousDeprecated<number | undefined>(
-    focusCounter,
-    focusCounter
-  );
   useEffect(() => {
     if (inputApiRef.current) {
       inputApiRef.current.focus();
     }
   }, []);
-  // Focus input whenever explicitly requested
-  useEffect(() => {
-    if (focusCounter !== previousFocusCounter && inputApiRef.current) {
-      inputApiRef.current.focus();
-    }
-  }, [inputApiRef, focusCounter, previousFocusCounter]);
 
-  const previousSendCounter = usePreviousDeprecated(sendCounter, sendCounter);
-  const previousConversationId = usePreviousDeprecated(
-    conversationId,
-    conversationId
-  );
+  // Focus input whenever explicitly requested
+  const inputFocusedRef = useRef({ focusCounter });
+  useEffect(() => {
+    if (
+      inputApiRef.current &&
+      inputFocusedRef.current.focusCounter !== focusCounter
+    ) {
+      inputApiRef.current.focus();
+      inputFocusedRef.current = { focusCounter };
+    }
+  }, [inputApiRef, focusCounter]);
+
+  const inputResetRef = useRef({ sendCounter, conversationId });
   useEffect(() => {
     if (!inputApiRef.current) {
       return;
     }
-    if (conversationId !== previousConversationId) {
-      return;
-    }
 
-    if (previousSendCounter !== sendCounter) {
+    if (
+      inputResetRef.current.sendCounter !== sendCounter ||
+      inputResetRef.current.conversationId !== conversationId
+    ) {
       inputApiRef.current.reset();
+      inputResetRef.current = {
+        sendCounter,
+        conversationId,
+      };
     }
-  }, [
-    conversationId,
-    previousConversationId,
-    previousSendCounter,
-    sendCounter,
-  ]);
+  }, [conversationId, sendCounter]);
 
   // We want to reset the state of Quill only if:
   //
   // - Our other device edits the message (edit history length would change)
   // - User begins editing another message.
-  const editHistoryLength = draftEditMessage?.editHistoryLength;
-  const hasEditHistoryChanged =
-    usePreviousDeprecated(editHistoryLength, editHistoryLength) !==
-    editHistoryLength;
-  const hasEditedMessageChanged =
-    usePreviousDeprecated(editedMessageId, editedMessageId) !== editedMessageId;
-
-  const hasEditDraftChanged = hasEditHistoryChanged || hasEditedMessageChanged;
-  useEffect(() => {
-    if (!hasEditDraftChanged) {
-      return;
-    }
-
-    inputApiRef.current?.setContents(
-      draftEditMessageBody ?? '',
-      draftBodyRanges ?? undefined,
-      true
-    );
-  }, [draftBodyRanges, draftEditMessageBody, hasEditDraftChanged]);
+  const editDraftContentsSetRef = useRef<{
+    targetMessageId: string;
+    editHistoryLength: number;
+  }>(null);
 
   useEffect(() => {
-    if (conversationId === previousConversationId) {
+    if (!inputApiRef.current) {
       return;
     }
 
-    if (!draftText) {
-      inputApiRef.current?.setContents('');
+    if (
+      editDraftContentsSetRef.current?.targetMessageId !==
+        draftEditMessage?.targetMessageId ||
+      editDraftContentsSetRef.current?.editHistoryLength !==
+        draftEditMessage?.editHistoryLength
+    ) {
+      inputApiRef.current.setContents(
+        draftEditMessageBody ?? '',
+        draftBodyRanges ?? undefined,
+        true
+      );
+      editDraftContentsSetRef.current = draftEditMessage
+        ? {
+            targetMessageId: draftEditMessage.targetMessageId,
+            editHistoryLength: draftEditMessage.editHistoryLength,
+          }
+        : null;
+    }
+  }, [draftBodyRanges, draftEditMessageBody, draftEditMessage]);
+
+  const setDraftTextRef = useRef<{ conversationId: string }>(null);
+  useEffect(() => {
+    if (setDraftTextRef.current?.conversationId === conversationId) {
       return;
     }
+    try {
+      if (!draftText) {
+        inputApiRef.current?.setContents('');
+        return;
+      }
 
-    inputApiRef.current?.setContents(
-      draftText,
-      draftBodyRanges ?? undefined,
-      true
-    );
-  }, [conversationId, draftBodyRanges, draftText, previousConversationId]);
+      inputApiRef.current?.setContents(
+        draftText,
+        draftBodyRanges ?? undefined,
+        true
+      );
+    } finally {
+      setDraftTextRef.current = { conversationId };
+    }
+  }, [conversationId, draftBodyRanges, draftText]);
 
   const handleToggleLarge = useCallback(() => {
     setLarge(l => !l);
