@@ -176,7 +176,6 @@ import {
 
 import { toNumber } from '../util/toNumber.std.ts';
 import { getLocalStores, setLocalStores } from './pvrfLocalStoresStorage.preload.js';
-import { te } from 'intl-tel-input/i18n';
 const { isBoolean, isNumber, isString, noop, omit } = lodash;
 
 const log = createLogger('MessageReceiver');
