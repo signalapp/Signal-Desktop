@@ -338,6 +338,8 @@
     "zod": "4.3.6"
   },
   "pnpm": {
+    "allowUnusedPatches": false,
+    "ignorePatchFailures": false,
     "overrides": {
       "canvas": "-",
       "jsdom": "-",
@@ -355,7 +357,6 @@
       "growing-file@0.1.3": "patches/growing-file+0.1.3.patch",
       "app-builder-lib": "patches/app-builder-lib.patch",
       "dmg-builder": "patches/dmg-builder.patch",
-      "eslint-plugin-better-tailwindcss": "patches/eslint-plugin-better-tailwindcss.patch",
       "fs-xattr": "patches/fs-xattr.patch",
       "@types/chai": "patches/@types__chai.patch",
       "@napi-rs/canvas@0.1.61": "patches/@napi-rs__canvas@0.1.61.patch",

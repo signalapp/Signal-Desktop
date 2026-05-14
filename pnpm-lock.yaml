@@ -17,7 +17,7 @@ patchedDependencies:
     hash: d232c1154bffd88fa8df40fc91dc36098b29aba725d826c24ce74cfac7803919
     path: patches/@napi-rs__canvas@0.1.61.patch
   '@types/chai':
-    hash: 610a7faa9e043c420d54f80984cbbbe4d0c5940d76cf57de8112e93a70862fb1
+    hash: b1cea4e432957039e7f72a32140d7a718258944078c5d5bdb40ad62b8717cb97
     path: patches/@types__chai.patch
   '@types/fabric@4.5.3':
     hash: e5f339ecf72fbab1c91505e7713e127a7184bfe8164aa3a9afe9bf45a0ad6b89
@@ -34,9 +34,6 @@ patchedDependencies:
   dmg-builder:
     hash: 7ce1df215d2c4dcbe797485ec0456168d19a4870687b21c489062abd079c7982
     path: patches/dmg-builder.patch
-  eslint-plugin-better-tailwindcss:
-    hash: a94affa4d170a27c4cfd44f7ac30ea11ae285cb4e270a5d930dd28cc79901b4f
-    path: patches/eslint-plugin-better-tailwindcss.patch
   fabric@4.6.0:
     hash: 259e6eff3d60c4a453f7815fca6aa0d3a81842f4efdc4051836812fc1e711e00
     path: patches/fabric+4.6.0.patch
@@ -252,7 +249,7 @@ importers:
         version: 5.16.6
       '@types/chai':
         specifier: 5.2.3
-        version: 5.2.3(patch_hash=610a7faa9e043c420d54f80984cbbbe4d0c5940d76cf57de8112e93a70862fb1)
+        version: 5.2.3(patch_hash=b1cea4e432957039e7f72a32140d7a718258944078c5d5bdb40ad62b8717cb97)
       '@types/chai-as-promised':
         specifier: 8.0.2
         version: 8.0.2
@@ -444,7 +441,7 @@ importers:
         version: 10.1.0(jiti@2.6.1)
       eslint-plugin-better-tailwindcss:
         specifier: 4.3.2
-        version: 4.3.2(patch_hash=a94affa4d170a27c4cfd44f7ac30ea11ae285cb4e270a5d930dd28cc79901b4f)(eslint@10.1.0(jiti@2.6.1))(oxlint@1.57.0(oxlint-tsgolint@0.17.4))(tailwindcss@4.2.2)(typescript@6.0.2)
+        version: 4.3.2(eslint@10.1.0(jiti@2.6.1))(oxlint@1.57.0(oxlint-tsgolint@0.17.4))(tailwindcss@4.2.2)(typescript@6.0.2)
       execa:
         specifier: 9.6.1
         version: 9.6.1
@@ -14661,9 +14658,9 @@ snapshots:
 
   '@types/chai-as-promised@8.0.2':
     dependencies:
-      '@types/chai': 5.2.3(patch_hash=610a7faa9e043c420d54f80984cbbbe4d0c5940d76cf57de8112e93a70862fb1)
+      '@types/chai': 5.2.3(patch_hash=b1cea4e432957039e7f72a32140d7a718258944078c5d5bdb40ad62b8717cb97)
 
-  '@types/chai@5.2.3(patch_hash=610a7faa9e043c420d54f80984cbbbe4d0c5940d76cf57de8112e93a70862fb1)':
+  '@types/chai@5.2.3(patch_hash=b1cea4e432957039e7f72a32140d7a718258944078c5d5bdb40ad62b8717cb97)':
     dependencies:
       '@types/deep-eql': 4.0.2
       assertion-error: 2.0.1
@@ -16568,7 +16565,7 @@ snapshots:
 
   escape-string-regexp@4.0.0: {}
 
-  eslint-plugin-better-tailwindcss@4.3.2(patch_hash=a94affa4d170a27c4cfd44f7ac30ea11ae285cb4e270a5d930dd28cc79901b4f)(eslint@10.1.0(jiti@2.6.1))(oxlint@1.57.0(oxlint-tsgolint@0.17.4))(tailwindcss@4.2.2)(typescript@6.0.2):
+  eslint-plugin-better-tailwindcss@4.3.2(eslint@10.1.0(jiti@2.6.1))(oxlint@1.57.0(oxlint-tsgolint@0.17.4))(tailwindcss@4.2.2)(typescript@6.0.2):
     dependencies:
       '@eslint/css-tree': 3.6.9
       '@valibot/to-json-schema': 1.5.0(valibot@1.2.0(typescript@6.0.2))
