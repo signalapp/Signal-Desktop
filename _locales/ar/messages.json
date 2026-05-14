@@ -1,4 +1,19 @@
 {
+  "icu:AxoAlertDialog.Cancel": {
+    "messageformat": "Cancel"
+  },
+  "icu:AxoButton.Pending": {
+    "messageformat": "Pending"
+  },
+  "icu:AxoDialog.Back": {
+    "messageformat": "Back"
+  },
+  "icu:AxoDialog.Close": {
+    "messageformat": "Close"
+  },
+  "icu:AxoTextField.Clear": {
+    "messageformat": "Clear"
+  },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "إضافة إلى مجموعة"
   },
@@ -440,15 +455,6 @@
   "icu:pinnedConversationsFull": {
     "messageformat": "يمكنك تثبيت فقط حتى أربع دردشات."
   },
-  "icu:loadingMessages--other": {
-    "messageformat": "{daysAgo, plural, zero {جارٍ تحميل الرسائل منذ {daysAgo,number} أيام…} one {جارٍ تحميل الرسائل منذ 1 يوم…} two {جارٍ تحميل الرسائل منذ {daysAgo,number} يومين…} few {جارٍ تحميل الرسائل منذ {daysAgo,number} أيامٍ…} many {جارٍ تحميل الرسائل منذ {daysAgo,number} يومًا…} other {جارٍ تحميل الرسائل منذ {daysAgo,number} يومٍ…}}"
-  },
-  "icu:loadingMessages--yesterday": {
-    "messageformat": "جارٍ تحميل رسائل البارحة…"
-  },
-  "icu:loadingMessages--today": {
-    "messageformat": "جارٍ تحميل رسائل اليوم…"
-  },
   "icu:view": {
     "messageformat": "عرض"
   },
@@ -534,7 +540,7 @@
     "messageformat": "انضم على أي حال"
   },
   "icu:debugLogExplanation": {
-    "messageformat": "‫عند النقرعلى زر \"إرسال\"، سوف يُنشَر السجلّ على الإنترنت لمدة 30 يومًا في عنوان URL فريد غير منشور. يمكنك حفظه محليًا أولًا."
+    "messageformat": "‫عند النقر على زر \"إرسال\"، سوف يُنشَر السجلّ على الإنترنت لمدة 30 يومًا في عنوان URL فريد غير منشور. يمكنك حفظه محليًا أولًا."
   },
   "icu:debugLogExplanation--close": {
     "messageformat": "سيُنشَر هذا السّجل علنًا على الانترنت حتى يتمكّن المساهمون من الاطِّلاع عليه. يمكنك تنزيله لمراجعته أو تعديله قبل إرساله."
@@ -1592,6 +1598,15 @@
   "icu:Install__support-link": {
     "messageformat": "هل تحتاج لمُساعدة؟"
   },
+  "icu:Install__confirm-data-deletion__title": {
+    "messageformat": "Delete all data?"
+  },
+  "icu:Install__confirm-data-deletion__body": {
+    "messageformat": "You’re attempting to link a different Signal account to this desktop. If you continue, all data currently in Signal Desktop will be deleted."
+  },
+  "icu:Install__confirm-data-deletion__continue": {
+    "messageformat": "Continue"
+  },
   "icu:Preferences--header": {
     "messageformat": "الإعدادات"
   },
@@ -1956,25 +1971,25 @@
     "messageformat": "خيارات أكثر"
   },
   "icu:CallingParticipantMenu__MuteAudio": {
-    "messageformat": "Mute audio"
+    "messageformat": "كتم الصوت"
   },
   "icu:CallingParticipantMenu__UnmuteAudio": {
-    "messageformat": "Unmute audio"
+    "messageformat": "إلغاء كتم الصوت"
   },
   "icu:CallingParticipantMenu__ViewProfile": {
-    "messageformat": "View profile"
+    "messageformat": "عرض الحساب الشخصي"
   },
   "icu:CallingParticipantMenu__GoToChat": {
-    "messageformat": "Go to chat"
+    "messageformat": "انتقِل إلى الدردشة"
   },
   "icu:CallingParticipantMenu__RemoveFromCall": {
-    "messageformat": "Remove from call"
+    "messageformat": "إزالة من المكالمة"
   },
   "icu:CallingParticipantListItem__ContextMenuButton": {
-    "messageformat": "More actions"
+    "messageformat": "إجراءات أخرى"
   },
   "icu:CallingParticipantListItem__Presenting": {
-    "messageformat": "Presenting"
+    "messageformat": "في طور العرض"
   },
   "icu:CallingPendingParticipants__ApproveUser": {
     "messageformat": "الموافقة على طلب الانضمام"
@@ -2204,26 +2219,23 @@
   "icu:deleteAllDataBody": {
     "messageformat": "هل ترغبُ بحذف جميع البيانات والرسائل من هذا الإصدار من سيجنال Desktop؟ حساب سيجنال الخاص بك وبياناتك على هاتفك أو أي أجهزة أخرى مُرتبِطة لن يتم حذفها."
   },
-  "icu:deleteAccountProgress": {
-    "messageformat": "Deleting account and all data…"
-  },
   "icu:deleteAllDataProgress": {
     "messageformat": "جارٍ فصل وحذف جميع البيانات…"
   },
   "icu:deleteAccountHeader": {
-    "messageformat": "Delete account"
+    "messageformat": "حذف الحساب"
   },
   "icu:deleteAccountExplanation": {
-    "messageformat": "This will delete your account info, profile, and all of your messages. You will also be removed from all Signal groups."
+    "messageformat": "سَيؤدي هذا إلى حذف معلومات حسابك، وملفك الشخصي، وجميع الرسائل الخاصة بك. وسيتم أيضًا استبعادك من جميع مجموعات سيجنال."
   },
   "icu:deleteAccountButton": {
-    "messageformat": "Delete account"
+    "messageformat": "حذف الحساب"
   },
   "icu:deleteAccountDialogHeader": {
-    "messageformat": "Delete Account?"
+    "messageformat": "هل ترغبُ بحذف الحساب؟"
   },
   "icu:deleteAccountDialogBody": {
-    "messageformat": "This will delete your account info, profile, and all of your messages. You will also be removed from all Signal groups. The app will close after this process is complete."
+    "messageformat": "سَيؤدي هذا إلى حذف معلومات حسابك، وحسابك الشخصي، وجميع الرسائل الخاصة بك. وسَيتم أيضًا استبعادك من جميع مجموعات سيجنال. سيتمُّ إغلاق التطبيق بعد اكتمال هذه العملية."
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "لديك بيانات قديمة لم تعد تنفع من تثبيت سابق لسيجنال Desktop. إذا اخترتَ المتابعة، فستُحذَف وستبدأ بعدها من الصفر."
@@ -2571,10 +2583,10 @@
     "messageformat": "غير مرتبط"
   },
   "icu:unregisteredWarning": {
-    "messageformat": "Click to re-register and continue messaging. Signal Desktop is unregistered likely because you registered your phone number with Signal on a different device."
+    "messageformat": "انقر لإعادة التسجيل ومتابعة المراسلة. نسخة سيجنال Desktop غير مُسجّلة، غالبًا بسبب قيامك بتسجيل رقم هاتفك على سيجنال باستخدام جهازٍ مختلف."
   },
   "icu:unregistered": {
-    "messageformat": "No longer registered"
+    "messageformat": "لم يعد مُسجَّلًا"
   },
   "icu:autoUpdateNewVersionTitle": {
     "messageformat": "هناك تحديث جديد"
@@ -3362,50 +3374,38 @@
   "icu:ReactionsViewer--all": {
     "messageformat": "الجميع"
   },
-  "icu:SafetyTipsModal__Title": {
+  "icu:SafetyTipsModal__Title-v2": {
     "messageformat": "نصائح السلامة"
   },
-  "icu:SafetyTipsModal__Title-v2": {
-    "messageformat": "Safety tips"
-  },
   "icu:SafetyTipsModal__TipTitle--SignalChat": {
-    "messageformat": "Don’t respond to chats from Signal"
+    "messageformat": "لا تردّ على الدردشات الواردة من سيجنال"
   },
   "icu:SafetyTipsModal__TipDescription--SignalChat": {
-    "messageformat": "Signal will never message you for your registration code, PIN, or recovery key. Never respond to a chat pretending to be Signal."
+    "messageformat": "لن يُرسِل لك سيجنال أبدًا رسالة يطلب فيها كود التسجيل أو رقم التعريف الشخصي (PIN) أو مفتاح الاستعادة الخاص بك. تجنَّب الرد نهائيًا على الدردشات التي تدعي أنها مُرسَلة من طرف سيجنال."
   },
   "icu:SafetyTipsModal__TipTitle--NamesAndPhotos": {
-    "messageformat": "Review names and photos"
+    "messageformat": "دَقِّق في الأسماء والصور"
   },
   "icu:SafetyTipsModal__TipDescription--NamesAndPhotos": {
-    "messageformat": "Look out for the “Name not verified” notice. Everyone sets their own profile name in Signal."
+    "messageformat": "ابحث عن إشعار \"لم يُتَحقّق من الاسم\". يُحدِّد كل مُستخدِم اسم حسابه الشخصي على سيجنال."
   },
   "icu:SafetyTipsModal__TipTitle--Scams": {
-    "messageformat": "Look out for scams"
+    "messageformat": "اِحذر من عمليات الاحتيال"
   },
   "icu:SafetyTipsModal__TipDescription--Scams": {
-    "messageformat": "Avoid vague messages that try to get you to reply. Be aware of financial tips and suspicious web links."
-  },
-  "icu:SafetyTipsModal__Description": {
-    "messageformat": "احذر عند قبول طلب مراسلة من أشخاص لا تعرفهم. احذر من:"
+    "messageformat": "تجنَّب الرسائل الغامضة التي تحاول استدراجك للرد عليها. اِحذر من النصائح المالية والروابط الإلكترونية المشبوهة."
   },
   "icu:SafetyTipsModal__TipTitle--DontRespond": {
-    "messageformat": "Don’t respond to chats from Signal"
+    "messageformat": "لا تردّ على الدردشات الواردة من سيجنال"
   },
   "icu:SafetyTipsModal__TipDescription--DontRespond": {
-    "messageformat": "Signal will never message you for your registration code, PIN, or recover key. Don't reply to chats pretending to be Signal or Signal Support. Bad actors set up fake names to try to take over your account."
+    "messageformat": "لن يُرسِل لك سيجنال أبدًا رسالة يطلب فيها كود التسجيل أو رقم التعريف الشخصي (PIN) أو مفتاح الاستعادة. تجنَّب الرد نهائيًا على الدردشات التي تدعي أنها مُرسَلة من طرف سيجنال أو قسم الدعم في سيجنال. تقوم جهات خبيثة باستخدام أسماء وهمية لمحاولة الاستيلاء على حسابك."
   },
   "icu:SafetyTipsModal__TipTitle--ReviewNames": {
-    "messageformat": "Review names and photos"
+    "messageformat": "دَقِّق في الأسماء والصور"
   },
   "icu:SafetyTipsModal__TipDescription--ReviewNames": {
-    "messageformat": "Look out for the “Name not verified” notice. Everyone sets their own profile name and photo in Signal. If you’re unsure who a new request is from it’s safer to ignore it."
-  },
-  "icu:SafetyTipsModal__TipTitle--Fake": {
-    "messageformat": "الأسماء والحسابات المُزيَّفة"
-  },
-  "icu:SafetyTipsModal__TipDescription--Fake": {
-    "messageformat": "لن يَطلب سيجنال منك أبدًا كود التسجيل أو رقم التعريف الشخصي (PIN). كُن حذرًا من الطلبات التي تنتحل شخصية الآخرين. يتم تعيين أسماء الحسابات الشخصية من قبل أصحابها، وهي غير خاضعة لعملية التحقُّق."
+    "messageformat": "ابحث عن إشعار \"لم يتم التحقّق من الاسم\". يُحدِّد كل شخص اسم حسابه الشخصي وصورته في سيجنال. إذا كُنتَ غير متأكِّد من مصدر الطلب الجديد، فمن الأفضل تجاهله."
   },
   "icu:SafetyTipsModal__TipTitle--Crypto": {
     "messageformat": "عمليات الاحتيال المالي أو الخاص بالعملات المشفرة"
@@ -3419,38 +3419,20 @@
   "icu:SafetyTipsModal__TipDescription--Vague": {
     "messageformat": "يبدأ مُرسلو الرسائل غير المرغوب فيها برسالة بسيطة مثل \"مرحبًا\" لجذبك. إذا قُمتَ بالرد، فسيُواصلون التفاعل معك."
   },
-  "icu:SafetyTipsModal__TipTitle--Links": {
-    "messageformat": "الرسائل التي تتضمّن روابط"
-  },
   "icu:SafetyTipsModal__TipDescription--Links": {
     "messageformat": "احذر من الرسائل الواردة من الأشخاص الذين لا تعرفهم والتي تتضمّن روابط تقودك إلى مواقع. لا تزر أبدًا روابط من الأشخاص الذين لا تثق بهم."
   },
   "icu:SafetyTipsModal__TipTitle--Links-v2": {
-    "messageformat": "Messages with web links"
+    "messageformat": "الرسائل التي تتضمّن روابط إلكترونية"
   },
   "icu:SafetyTipsModal__TipTitle--Business": {
     "messageformat": "الشركات والمُؤسَّسات الوهمية"
   },
-  "icu:SafetyTipsModal__TipTitle--Business-v2": {
-    "messageformat": "Fake businesses"
-  },
   "icu:SafetyTipsModal__TipDescription--Business": {
     "messageformat": "احذر من الشركات أو الوكالات الحكومية التي تتواصل معك. قد تكون الرسائل التي تتعلق بوكالات الضرائب وشركات التوصيل والمزيد رسائل غير مرغوب فيها."
   },
-  "icu:SafetyTipsModal__DotLabel": {
-    "messageformat": "انتقِل إلى {page,number}"
-  },
-  "icu:SafetyTipsModal__Button--Previous": {
-    "messageformat": "النصيحة السابقة"
-  },
-  "icu:SafetyTipsModal__Button--Next": {
-    "messageformat": "النصيحة التالية"
-  },
-  "icu:SafetyTipsModal__Button--Done": {
-    "messageformat": "تمّ"
-  },
   "icu:SafetyTipsModal__Button--ViewMore": {
-    "messageformat": "View more"
+    "messageformat": "عرض المزيد"
   },
   "icu:MessageRequests--message-direct": {
     "messageformat": "هل ترغبُ بالسماح لجهة الاتصال {name} بمراسلتك، وهل ترغبُ بمشاركة اسمك وصورتك معها؟ لن تعرف أنك قرأتَ رسالتها إلّا إذا سمحتَ بذلك."
@@ -3548,17 +3530,11 @@
   "icu:MessageRequests--accept": {
     "messageformat": "قبول"
   },
-  "icu:MessageRequests--accept-confirm-title": {
+  "icu:MessageRequests--accept-confirm-title-v2": {
     "messageformat": "هل ترغبُ بقبول الطلب؟"
   },
-  "icu:MessageRequests--accept-confirm-body": {
-    "messageformat": "راجِع الطلبات بعناية. يتم تعيين أسماء الحسابات الشخصية من قبل أصحابها، وهي غير خاضعة لعملية التحقُّق."
-  },
-  "icu:MessageRequests--accept-confirm-title-v2": {
-    "messageformat": "Accept request?"
-  },
   "icu:MessageRequests--accept-confirm-body-v2": {
-    "messageformat": "Only accept requests from people you trust. <bold>Signal will never</bold> message you for a registration code, PIN, or recovery key."
+    "messageformat": "لا تقبَل الطلبات إلّا من الأشخاص الذين تثق بهم. <bold>لن يُرسِل لك سيجنال أبدًا</bold> رسالة يطلب فيها كود التسجيل أو رقم التعريف الشخصي (PIN) أو مفتاح الاستعادة الخاص بك."
   },
   "icu:MessageRequests--continue": {
     "messageformat": "متابعة"
@@ -3614,17 +3590,14 @@
   "icu:ConversationHero--signal-official-chat": {
     "messageformat": "هذه هي الدردشة الوحيدة والرسمية من سيجنال."
   },
-  "icu:ConversationHero--signal-official-account": {
-    "messageformat": "حساب رسمي"
-  },
   "icu:ConversationHero--signal-official-chat-title": {
-    "messageformat": "Official chat"
+    "messageformat": "دردشة رسمية"
   },
   "icu:ConversationHero--signal-official-account--description": {
     "messageformat": "الدردشة الوحيدة الرسمية من سيجنال. ابقَ على اطِّلاع على آخر الأخبار وملاحظات الإصدارات."
   },
   "icu:Timeline--signal-official-chat--chip": {
-    "messageformat": "The only official chat from Signal."
+    "messageformat": "الدردشة الوحيدة الرسمية من سيجنال."
   },
   "icu:ConversationHero--release-notes": {
     "messageformat": "ابقَ على اطِّلاع على آخر الأخبار وملاحظات الإصدارات."
@@ -3895,9 +3868,6 @@
   },
   "icu:calling__SelectPresentingSourcesModal--window": {
     "messageformat": "نافذة"
-  },
-  "icu:calling__ParticipantInfoButton": {
-    "messageformat": "مزيد من المعلومات عن جهة الاتصال هذه"
   },
   "icu:CallingAdhocCallInfo__CopyLink": {
     "messageformat": "نسخ رابط المكالمة"
@@ -4611,7 +4581,7 @@
     "messageformat": "إغلاق"
   },
   "icu:clear": {
-    "messageformat": "Clear"
+    "messageformat": "مسح"
   },
   "icu:previous": {
     "messageformat": "السابق"
@@ -4623,34 +4593,22 @@
     "messageformat": "قد يَستغرق هذا بعض الدقائق."
   },
   "icu:DeletingAccount__LeavingGroups__Title": {
-    "messageformat": "Leaving groups..."
+    "messageformat": "جارٍ مغادرة المجموعات…"
   },
   "icu:DeletingAccount__LeavingGroups__Detail": {
-    "messageformat": "Depending on the number of groups you’re in, this might take a few minutes"
+    "messageformat": "قد يتطلّب هذا بضع دقائق، بناءً على عدد المجموعات التي لديك عضوية فيها"
   },
   "icu:DeletingAccount__DeletingData__Title": {
-    "messageformat": "Deleting account and all data..."
+    "messageformat": "جارٍ حذف الحساب وكافة البيانات…"
   },
   "icu:DeletingAccount__DeletingData__Detail": {
-    "messageformat": "Deleting user data and resetting the app"
+    "messageformat": "يجري حذف بيانات المُستخدِم ثم سيُعاد إعداد التطبيق."
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "تبرَّع لسيجنال"
   },
-  "icu:BadgeSustainerInstructions__header": {
-    "messageformat": "تبرَّع لسيجنال"
-  },
-  "icu:BadgeSustainerInstructions__subheader": {
-    "messageformat": "سيجنال يدعمه أشخاص مثلك. ساهِم واحصَل على شارة."
-  },
-  "icu:BadgeSustainerInstructions__instructions__1": {
-    "messageformat": "افتح تطبيق سيجنال على هاتفك"
-  },
-  "icu:BadgeSustainerInstructions__instructions__2": {
-    "messageformat": "انقر على صورة حسابك في الأعلى على اليسار لفتح \"الإعدادات\""
-  },
-  "icu:BadgeSustainerInstructions__instructions__3": {
-    "messageformat": "انقر على \"تبرَّع لسيجنال\" واشترِك"
+  "icu:BadgeDialog__name-supports-signal": {
+    "messageformat": "{name} supports Signal"
   },
   "icu:ProfileMovedModal__title": {
     "messageformat": "تمَّ نقل حسابك الشخصي"
@@ -5410,7 +5368,7 @@
     "messageformat": "استخدِم هذا الرابط للانضمام إلى مكالمة سيجنال: {url}"
   },
   "icu:MessageRequestWarning__review-carefully": {
-    "messageformat": "Review requests carefully"
+    "messageformat": "مراجعة الطلبات بعناية"
   },
   "icu:MessageRequestWarning__safety-tips-v2": {
     "messageformat": "نصائح السلامة"
@@ -6382,26 +6340,23 @@
   "icu:Preferences--blocked": {
     "messageformat": "الجهات المحظورة"
   },
-  "icu:Preferences--blocked-count": {
-    "messageformat": "{num, plural, zero {{num,number} جهات اتصال} one {{num,number} جهة اتصال} two {{num,number} جهتيْ اتصال} few {{num,number} جهات اتصال} many {{num,number} جهة اتصال} other {{num,number} جهة اتصال}}"
-  },
   "icu:Preferences--blocked-count-both-new": {
-    "messageformat": "{num, plural, =0 { No users or groups } one {{num,number} user or group} other {{num,number} users or groups}}"
+    "messageformat": "{num, plural, =0 { لا يوجد مُستخدِمون أو مجموعات } zero {{num,number} مُستخدِمين أو مجموعات} one {{num,number} مُستخدِم أو مجموعة} two {{num,number} مُستخدِمان أو مجموعتان} few {{num,number} مُستخدِمين أو مجموعات} many {{num,number} مُستخدِم أو مجموعة} other {{num,number} مُستخدِم أو مجموعة}}"
   },
   "icu:Preferences--blocked-count-contacts-new": {
-    "messageformat": "{num, plural, =0 { No users } one {{num,number} user} other {{num,number} users}}"
+    "messageformat": "{num, plural, =0 { لا يوجد مُستخدِمون } zero {{num,number} مُستخدِمين} one {{num,number} مُستخدِم} two {{num,number} مُستخدِمان} few {{num,number} مُستخدِمين} many {{num,number} مُستخدِم} other {{num,number} مُستخدِم}}"
   },
   "icu:Preferences--blocked-count-groups-new": {
-    "messageformat": "{num, plural, =0 { No groups } one {{num,number} group} other {{num,number} groups}}"
+    "messageformat": "{num, plural, =0 { لا توجد مجموعات } zero {{num,number} مجموعات} one {{num,number} مجموعة} two {{num,number} مجموعتان} few {{num,number} مجموعات} many {{num,number} مجموعة} other {{num,number} مجموعة}}"
   },
   "icu:Preferences--blocked-users--description": {
-    "messageformat": "Blocked users will not be able to call you or send you messages"
+    "messageformat": "لن يتمكّن المُستخدِمون المحظورون من مكالمتك أو مراستك"
   },
   "icu:Preferences--blocked-users": {
-    "messageformat": "Blocked Users"
+    "messageformat": "المُستخدمون المحظورون"
   },
   "icu:Preferences--blocked-groups": {
-    "messageformat": "Blocked Groups"
+    "messageformat": "المجموعات المحظورة"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "النسخ الاحتياطية الآمنة على سيجنال"
@@ -6974,7 +6929,7 @@
     "messageformat": "قبِلتَ طلب المراسلة"
   },
   "icu:MessageRequestResponseNotification__Message--Accepted-Contact-Title": {
-    "messageformat": "You accepted {userProfileName}'s message request"
+    "messageformat": "قبِلتَ طلب التراسُل من {userProfileName}"
   },
   "icu:MessageRequestResponseNotification__Message--Reported": {
     "messageformat": "تمَّ الإبلاغ عنها كرسالة غير مرغوب فيها"
@@ -6991,11 +6946,8 @@
   "icu:MessageRequestResponseNotification__Message--Unblocked--Group": {
     "messageformat": "رفعتَ الحظر عن المجموعة."
   },
-  "icu:MessageRequestResponseNotification__Button--Options": {
-    "messageformat": "الخيارات"
-  },
   "icu:MessageRequestResponseNotification__Button--block-or-report": {
-    "messageformat": "Block or Report..."
+    "messageformat": "حظر أو إبلاغ…"
   },
   "icu:MessageRequestResponseNotification__Button--LearnMore": {
     "messageformat": "اعرف المزيد"
@@ -8256,10 +8208,43 @@
     "messageformat": "افتح الشريط الجانبي للتفاعُل مع مُكبِّر الصوت"
   },
   "icu:Carousel--Role": {
-    "messageformat": "Carousel"
+    "messageformat": "شريط التمرير"
   },
   "icu:Carousel__Slide--Role": {
-    "messageformat": "Slide"
+    "messageformat": "مرِّر"
+  },
+  "icu:MaybeTransferModal__title": {
+    "messageformat": "Transfer your phone’s message history to this desktop?"
+  },
+  "icu:MaybeTransferModal__description": {
+    "messageformat": "When you re-link this desktop, you can transfer your phone’s message history to this device."
+  },
+  "icu:MaybeTransferModal__learnMore": {
+    "messageformat": "Learn more"
+  },
+  "icu:MaybeTransferModal__replaceHistory": {
+    "messageformat": "This will <bold>replace</bold> the message history on this desktop."
+  },
+  "icu:MaybeTransferModal__scanQrCode": {
+    "messageformat": "You’ll need to relink by scanning a QR code."
+  },
+  "icu:MaybeTransferModal__media": {
+    "messageformat": "If you have paid Signal Secure Backups, all of your media will be transferred. Otherwise, your last 45 days of media will be included."
+  },
+  "icu:MaybeTransferModal__transfer": {
+    "messageformat": "Transfer"
+  },
+  "icu:MaybeTransferModal__dontTransfer": {
+    "messageformat": "Don't transfer"
+  },
+  "icu:DeleteDataAndRelinkConfirmationDialog__title": {
+    "messageformat": "Delete all data?"
+  },
+  "icu:DeleteDataAndRelinkConfirmationDialog__pending": {
+    "messageformat": "Deleting all data"
+  },
+  "icu:DeleteDataAndRelinkConfirmationDialog__body": {
+    "messageformat": "All current data in Signal Desktop will be deleted. You can then scan a QR code and transfer your message history from your phone."
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "يحتوي هذا الإصدار على عدد من التعديلات الصغيرة وإصلاحات الأخطاء للحفاظ على عمل سيجنال بسلاسة.",
@@ -8290,6 +8275,15 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__8.10--0": {
-    "messageformat": "The freshly spun emoji in Unicode 17.0 have now pirouetted into place in Signal. Send a message reaction with the new Ballet Dancer emoji to perform your own digital version of a pas de chat."
+    "messageformat": "قمنا بتفعيل دعم الرموز التعبيرية الجديدة في إصدار Unicode 17.0. تفاعَل مع الرسائل باستخدام رمز \"راقص الباليه\" التعبيري الجديد لتُؤدي نسختك الرقمية الخاصة من حركة \"pas de chat\"."
+  },
+  "icu:WhatsNew__8.11--0": {
+    "messageformat": "We've introduced additional confirmations and educational messaging in the app to help protect Signal users from phishing and social engineering attacks. As a reminder, never reply to chats pretending to be Signal, and never send your verification code, PIN, or recovery key to anyone."
+  },
+  "icu:WhatsNew__8.11--1": {
+    "messageformat": "Raised hand indicators in group calls now display the current order of the queue, so you can easily see who got the upper hand first."
+  },
+  "icu:WhatsNew__8.11--2": {
+    "messageformat": "We also added a real-time visualization while recording voice messages, so surfers (and oceanographers) can stare at multiple moving waveforms whenever they share updates from the beach."
   }
 }

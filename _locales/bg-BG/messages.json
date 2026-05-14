@@ -1,4 +1,19 @@
 {
+  "icu:AxoAlertDialog.Cancel": {
+    "messageformat": "Cancel"
+  },
+  "icu:AxoButton.Pending": {
+    "messageformat": "Pending"
+  },
+  "icu:AxoDialog.Back": {
+    "messageformat": "Back"
+  },
+  "icu:AxoDialog.Close": {
+    "messageformat": "Close"
+  },
+  "icu:AxoTextField.Clear": {
+    "messageformat": "Clear"
+  },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "Добави към група"
   },
@@ -439,15 +454,6 @@
   },
   "icu:pinnedConversationsFull": {
     "messageformat": "Можете да закачите до 4 чата"
-  },
-  "icu:loadingMessages--other": {
-    "messageformat": "{daysAgo, plural, one {Зареждане на съобщенията отпреди 1 ден...} other {Зареждане на съобщенията отпреди {daysAgo,number} дни...}}"
-  },
-  "icu:loadingMessages--yesterday": {
-    "messageformat": "Зареждане на съобщенията от вчера..."
-  },
-  "icu:loadingMessages--today": {
-    "messageformat": "Зареждане на съобщенията от днес..."
   },
   "icu:view": {
     "messageformat": "Преглед"
@@ -1592,6 +1598,15 @@
   "icu:Install__support-link": {
     "messageformat": "Нужда от помощ?"
   },
+  "icu:Install__confirm-data-deletion__title": {
+    "messageformat": "Delete all data?"
+  },
+  "icu:Install__confirm-data-deletion__body": {
+    "messageformat": "You’re attempting to link a different Signal account to this desktop. If you continue, all data currently in Signal Desktop will be deleted."
+  },
+  "icu:Install__confirm-data-deletion__continue": {
+    "messageformat": "Continue"
+  },
   "icu:Preferences--header": {
     "messageformat": "Настройки"
   },
@@ -1956,25 +1971,25 @@
     "messageformat": "Още опции"
   },
   "icu:CallingParticipantMenu__MuteAudio": {
-    "messageformat": "Mute audio"
+    "messageformat": "Заглушаване на аудио"
   },
   "icu:CallingParticipantMenu__UnmuteAudio": {
-    "messageformat": "Unmute audio"
+    "messageformat": "Включване на звука"
   },
   "icu:CallingParticipantMenu__ViewProfile": {
-    "messageformat": "View profile"
+    "messageformat": "Преглед на профила"
   },
   "icu:CallingParticipantMenu__GoToChat": {
-    "messageformat": "Go to chat"
+    "messageformat": "Към чата"
   },
   "icu:CallingParticipantMenu__RemoveFromCall": {
-    "messageformat": "Remove from call"
+    "messageformat": "Премахване от повикването"
   },
   "icu:CallingParticipantListItem__ContextMenuButton": {
-    "messageformat": "More actions"
+    "messageformat": "Повече опции"
   },
   "icu:CallingParticipantListItem__Presenting": {
-    "messageformat": "Presenting"
+    "messageformat": "Презентира"
   },
   "icu:CallingPendingParticipants__ApproveUser": {
     "messageformat": "Одобряване на заявката за присъединяване"
@@ -2204,26 +2219,23 @@
   "icu:deleteAllDataBody": {
     "messageformat": "Изтриване на всички данни и съобщения от тази версия на Signal Desktop? Вашият акаунт в Signal и данните на телефона ви или други свързани устройства няма да бъдат изтрити."
   },
-  "icu:deleteAccountProgress": {
-    "messageformat": "Deleting account and all data…"
-  },
   "icu:deleteAllDataProgress": {
     "messageformat": "Прекъсване и изтриване на всички данни…"
   },
   "icu:deleteAccountHeader": {
-    "messageformat": "Delete account"
+    "messageformat": "Изтриване на акаунт"
   },
   "icu:deleteAccountExplanation": {
-    "messageformat": "This will delete your account info, profile, and all of your messages. You will also be removed from all Signal groups."
+    "messageformat": "Това ще изтрие информацията за вашия акаунт, профила ви и всички ваши съобщения. Също така ще бъдете премахнати от всички групи в Signal."
   },
   "icu:deleteAccountButton": {
-    "messageformat": "Delete account"
+    "messageformat": "Изтриване на акаунт"
   },
   "icu:deleteAccountDialogHeader": {
-    "messageformat": "Delete Account?"
+    "messageformat": "Изтриване на акаунта?"
   },
   "icu:deleteAccountDialogBody": {
-    "messageformat": "This will delete your account info, profile, and all of your messages. You will also be removed from all Signal groups. The app will close after this process is complete."
+    "messageformat": "Това ще изтрие информацията за вашия акаунт, профила ви и всички ваши съобщения. Също така ще бъдете премахнати от всички групи в Signal. След завършване на този процес приложението ще се затвори."
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Имате стари данни от предишна инсталация на Signal Desktop. Ако продължите, тези данни ще бъдат изтрити и ще започнете на чисто."
@@ -2571,10 +2583,10 @@
     "messageformat": "Разкачи"
   },
   "icu:unregisteredWarning": {
-    "messageformat": "Click to re-register and continue messaging. Signal Desktop is unregistered likely because you registered your phone number with Signal on a different device."
+    "messageformat": "Кликнете, за да направите нова регистрация и да продължите да изпращате съобщения. Регистрацията на Signal Desktop най-вероятно е премахната, защото сте регистрирали телефонния си номер за Signal на друго устройство."
   },
   "icu:unregistered": {
-    "messageformat": "No longer registered"
+    "messageformat": "Вече няма регистрация"
   },
   "icu:autoUpdateNewVersionTitle": {
     "messageformat": "Налична е актуализация"
@@ -3362,50 +3374,38 @@
   "icu:ReactionsViewer--all": {
     "messageformat": "Всичко"
   },
-  "icu:SafetyTipsModal__Title": {
+  "icu:SafetyTipsModal__Title-v2": {
     "messageformat": "Съвети за безопасност"
   },
-  "icu:SafetyTipsModal__Title-v2": {
-    "messageformat": "Safety tips"
-  },
   "icu:SafetyTipsModal__TipTitle--SignalChat": {
-    "messageformat": "Don’t respond to chats from Signal"
+    "messageformat": "Не отговаряйте на чатове от Signal"
   },
   "icu:SafetyTipsModal__TipDescription--SignalChat": {
-    "messageformat": "Signal will never message you for your registration code, PIN, or recovery key. Never respond to a chat pretending to be Signal."
+    "messageformat": "Signal никога няма да ви изпрати съобщение, за да иска код на регистрация, ПИН код или ключ за възстановяване. Никога не отговаряйте на чатове, в които някой се преструва за Signal."
   },
   "icu:SafetyTipsModal__TipTitle--NamesAndPhotos": {
-    "messageformat": "Review names and photos"
+    "messageformat": "Проверявайте имената и снимките"
   },
   "icu:SafetyTipsModal__TipDescription--NamesAndPhotos": {
-    "messageformat": "Look out for the “Name not verified” notice. Everyone sets their own profile name in Signal."
+    "messageformat": "Внимавайте за предупреждението „Името не е потвърдено“. Всеки задава своето собствено име на профил в Signal."
   },
   "icu:SafetyTipsModal__TipTitle--Scams": {
-    "messageformat": "Look out for scams"
+    "messageformat": "Внимавайте за измами"
   },
   "icu:SafetyTipsModal__TipDescription--Scams": {
-    "messageformat": "Avoid vague messages that try to get you to reply. Be aware of financial tips and suspicious web links."
-  },
-  "icu:SafetyTipsModal__Description": {
-    "messageformat": "Внимавайте, когато приемате заявки за съобщения от хора, които не познавате. Бъдете нащрек за:"
+    "messageformat": "Избягвайте неясни съобщения, които ви провокират да отговаряте. Бъдете внимателни с финансови съвети и подозрителни уеб линкове."
   },
   "icu:SafetyTipsModal__TipTitle--DontRespond": {
-    "messageformat": "Don’t respond to chats from Signal"
+    "messageformat": "Не отговаряйте на чатове от Signal"
   },
   "icu:SafetyTipsModal__TipDescription--DontRespond": {
-    "messageformat": "Signal will never message you for your registration code, PIN, or recover key. Don't reply to chats pretending to be Signal or Signal Support. Bad actors set up fake names to try to take over your account."
+    "messageformat": "Signal никога няма да ви изпраща съобщения, за да иска вашия код на регистрация, ПИН код или ключ за възстановяване. Не отговаряте на чатове, в които някой се преструва на Signal или поддръжката на Signal. Лица с лоши намерения създават фалшиви имена, за да се опитат да откраднат акаунта ви."
   },
   "icu:SafetyTipsModal__TipTitle--ReviewNames": {
-    "messageformat": "Review names and photos"
+    "messageformat": "Проверявайте имената и снимките"
   },
   "icu:SafetyTipsModal__TipDescription--ReviewNames": {
-    "messageformat": "Look out for the “Name not verified” notice. Everyone sets their own profile name and photo in Signal. If you’re unsure who a new request is from it’s safer to ignore it."
-  },
-  "icu:SafetyTipsModal__TipTitle--Fake": {
-    "messageformat": "Фалшиви имена и акаунти"
-  },
-  "icu:SafetyTipsModal__TipDescription--Fake": {
-    "messageformat": "Signal никога няма да се свързва с вас, за да иска вашия код на регистрация или ПИН код. Внимавайте за заявки, в които се представят за други хора. Имената на профилите се избират от титуляра на акаунта и не се проверяват."
+    "messageformat": "Внимавайте за предупреждението „Името не е потвърдено“. Всеки задава своите собствени снимка и име на профил в Signal. По-безопасно е да игнорирате нова заявка, ако не знаете от кого е тя."
   },
   "icu:SafetyTipsModal__TipTitle--Crypto": {
     "messageformat": "Измами с крипто или пари"
@@ -3419,38 +3419,20 @@
   "icu:SafetyTipsModal__TipDescription--Vague": {
     "messageformat": "Спамърите често започват с простичко съобщение като „Здрасти“, за да привлекат вниманието ви. Ако отговорите, може да ви ангажират допълнително."
   },
-  "icu:SafetyTipsModal__TipTitle--Links": {
-    "messageformat": "Съобщения с линкове"
-  },
   "icu:SafetyTipsModal__TipDescription--Links": {
     "messageformat": "Внимавайте със съобщения от хора, които не познавате, в които има линкове към уебсайтове. Никога не посещавайте линкове от хора, на които нямате доверие."
   },
   "icu:SafetyTipsModal__TipTitle--Links-v2": {
-    "messageformat": "Messages with web links"
+    "messageformat": "Съобщения с уеб линкове"
   },
   "icu:SafetyTipsModal__TipTitle--Business": {
     "messageformat": "Фалшиви фирми и институции"
   },
-  "icu:SafetyTipsModal__TipTitle--Business-v2": {
-    "messageformat": "Fake businesses"
-  },
   "icu:SafetyTipsModal__TipDescription--Business": {
     "messageformat": "Внимавайте, когато с вас се свържат фирми или държавни агенции. Съобщения, свързани с данъчни служби, куриери и други, може да бъдат спам."
   },
-  "icu:SafetyTipsModal__DotLabel": {
-    "messageformat": "Към страница {page,number}"
-  },
-  "icu:SafetyTipsModal__Button--Previous": {
-    "messageformat": "Предишен съвет"
-  },
-  "icu:SafetyTipsModal__Button--Next": {
-    "messageformat": "Следващ съвет"
-  },
-  "icu:SafetyTipsModal__Button--Done": {
-    "messageformat": "Готово"
-  },
   "icu:SafetyTipsModal__Button--ViewMore": {
-    "messageformat": "View more"
+    "messageformat": "Вижте още"
   },
   "icu:MessageRequests--message-direct": {
     "messageformat": "Искате ли да получавате съобщения от {name} и да виждат името и снимката Ви? Те няма да знаят, че сте видели съобщението им, докато не приемете."
@@ -3548,17 +3530,11 @@
   "icu:MessageRequests--accept": {
     "messageformat": "Приемам"
   },
-  "icu:MessageRequests--accept-confirm-title": {
+  "icu:MessageRequests--accept-confirm-title-v2": {
     "messageformat": "Приемане на заявката?"
   },
-  "icu:MessageRequests--accept-confirm-body": {
-    "messageformat": "Преглеждайте заявките внимателно. Имената на профилите се избират от собственика на акаунта и не се проверяват."
-  },
-  "icu:MessageRequests--accept-confirm-title-v2": {
-    "messageformat": "Accept request?"
-  },
   "icu:MessageRequests--accept-confirm-body-v2": {
-    "messageformat": "Only accept requests from people you trust. <bold>Signal will never</bold> message you for a registration code, PIN, or recovery key."
+    "messageformat": "Приемайте заявки само от хора, на които имате доверие. <bold>Signal никога няма</bold> да ви изпрати съобщение, за да иска код на регистрация, ПИН код или ключ за възстановяване."
   },
   "icu:MessageRequests--continue": {
     "messageformat": "Продължаване"
@@ -3614,17 +3590,14 @@
   "icu:ConversationHero--signal-official-chat": {
     "messageformat": "Това е официалният и единствен чат от Signal"
   },
-  "icu:ConversationHero--signal-official-account": {
-    "messageformat": "Официален акаунт"
-  },
   "icu:ConversationHero--signal-official-chat-title": {
-    "messageformat": "Official chat"
+    "messageformat": "Официален чат"
   },
   "icu:ConversationHero--signal-official-account--description": {
     "messageformat": "Това е единственият официален чат със Signal. Бъдете в крак с новините и бележките за версиите."
   },
   "icu:Timeline--signal-official-chat--chip": {
-    "messageformat": "The only official chat from Signal."
+    "messageformat": "Това е единственият официален чат със Signal."
   },
   "icu:ConversationHero--release-notes": {
     "messageformat": "Бъдете в крак с новините и бележките за версиите."
@@ -3895,9 +3868,6 @@
   },
   "icu:calling__SelectPresentingSourcesModal--window": {
     "messageformat": "Прозорец"
-  },
-  "icu:calling__ParticipantInfoButton": {
-    "messageformat": "Повече инфо за този контакт"
   },
   "icu:CallingAdhocCallInfo__CopyLink": {
     "messageformat": "Копиране на линка за разговор"
@@ -4611,7 +4581,7 @@
     "messageformat": "Затвори"
   },
   "icu:clear": {
-    "messageformat": "Clear"
+    "messageformat": "Изчистване"
   },
   "icu:previous": {
     "messageformat": "предишен"
@@ -4623,34 +4593,22 @@
     "messageformat": "Това може да отнеме няколко минути"
   },
   "icu:DeletingAccount__LeavingGroups__Title": {
-    "messageformat": "Leaving groups..."
+    "messageformat": "Напускане на групи…"
   },
   "icu:DeletingAccount__LeavingGroups__Detail": {
-    "messageformat": "Depending on the number of groups you’re in, this might take a few minutes"
+    "messageformat": "В зависимост от броя на групите, в които участвате, това може да отнеме няколко минути"
   },
   "icu:DeletingAccount__DeletingData__Title": {
-    "messageformat": "Deleting account and all data..."
+    "messageformat": "Изтриване на акаунта и всички данни…"
   },
   "icu:DeletingAccount__DeletingData__Detail": {
-    "messageformat": "Deleting user data and resetting the app"
+    "messageformat": "Изтриване на потребителските данни и нулиране на приложението"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Дари на Signal"
   },
-  "icu:BadgeSustainerInstructions__header": {
-    "messageformat": "Дари на Signal"
-  },
-  "icu:BadgeSustainerInstructions__subheader": {
-    "messageformat": "Signal съществува благодарение на хора като вас. Направете дарение и ще получите значка."
-  },
-  "icu:BadgeSustainerInstructions__instructions__1": {
-    "messageformat": "Отворете Signal на телефона си"
-  },
-  "icu:BadgeSustainerInstructions__instructions__2": {
-    "messageformat": "Натиснете профилната си снимка в горния ляв ъгъл и отворете Настройки"
-  },
-  "icu:BadgeSustainerInstructions__instructions__3": {
-    "messageformat": "Докоснете върху „Дарение за Signal“ и се абонирайте"
+  "icu:BadgeDialog__name-supports-signal": {
+    "messageformat": "{name} supports Signal"
   },
   "icu:ProfileMovedModal__title": {
     "messageformat": "Профилът ви е преместен"
@@ -5410,7 +5368,7 @@
     "messageformat": "Използвайте този линк, за да се присъедините към повикване в Signal: {url}"
   },
   "icu:MessageRequestWarning__review-carefully": {
-    "messageformat": "Review requests carefully"
+    "messageformat": "Прегледайте внимателно заявката"
   },
   "icu:MessageRequestWarning__safety-tips-v2": {
     "messageformat": "Съвети за безопасност"
@@ -6382,26 +6340,23 @@
   "icu:Preferences--blocked": {
     "messageformat": "Блокирани"
   },
-  "icu:Preferences--blocked-count": {
-    "messageformat": "{num, plural, one {{num,number} контакт} other {{num,number} контакта}}"
-  },
   "icu:Preferences--blocked-count-both-new": {
-    "messageformat": "{num, plural, =0 { No users or groups } one {{num,number} user or group} other {{num,number} users or groups}}"
+    "messageformat": "{num, plural, =0 { Няма потребители или групи } one {{num,number} потребител или група} other {{num,number} потребители или групи}}"
   },
   "icu:Preferences--blocked-count-contacts-new": {
-    "messageformat": "{num, plural, =0 { No users } one {{num,number} user} other {{num,number} users}}"
+    "messageformat": "{num, plural, =0 { Няма потребители } one {{num,number} потребител} other {{num,number} потребители}}"
   },
   "icu:Preferences--blocked-count-groups-new": {
-    "messageformat": "{num, plural, =0 { No groups } one {{num,number} group} other {{num,number} groups}}"
+    "messageformat": "{num, plural, =0 { Няма групи } one {{num,number} група} other {{num,number} групи}}"
   },
   "icu:Preferences--blocked-users--description": {
-    "messageformat": "Blocked users will not be able to call you or send you messages"
+    "messageformat": "Блокираните потребители не могат да ви се обаждат, нито да ви изпращат съобщения"
   },
   "icu:Preferences--blocked-users": {
-    "messageformat": "Blocked Users"
+    "messageformat": "Блокирани потребители"
   },
   "icu:Preferences--blocked-groups": {
-    "messageformat": "Blocked Groups"
+    "messageformat": "Блокирани групи"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Сигурни резервни копия на Signal"
@@ -6974,7 +6929,7 @@
     "messageformat": "Вие приехте заявката за съобщение"
   },
   "icu:MessageRequestResponseNotification__Message--Accepted-Contact-Title": {
-    "messageformat": "You accepted {userProfileName}'s message request"
+    "messageformat": "Вие приехте заявката за съобщение от {userProfileName}"
   },
   "icu:MessageRequestResponseNotification__Message--Reported": {
     "messageformat": "Докладван спам"
@@ -6991,11 +6946,8 @@
   "icu:MessageRequestResponseNotification__Message--Unblocked--Group": {
     "messageformat": "Вие отблокирахте групата"
   },
-  "icu:MessageRequestResponseNotification__Button--Options": {
-    "messageformat": "Опции"
-  },
   "icu:MessageRequestResponseNotification__Button--block-or-report": {
-    "messageformat": "Block or Report..."
+    "messageformat": "Блокиране или докладване…"
   },
   "icu:MessageRequestResponseNotification__Button--LearnMore": {
     "messageformat": "Научете повече"
@@ -8256,10 +8208,43 @@
     "messageformat": "Разширете страничната лента, за да си взаимодействате с мегафона"
   },
   "icu:Carousel--Role": {
-    "messageformat": "Carousel"
+    "messageformat": "Въртележка"
   },
   "icu:Carousel__Slide--Role": {
-    "messageformat": "Slide"
+    "messageformat": "Плъзване"
+  },
+  "icu:MaybeTransferModal__title": {
+    "messageformat": "Transfer your phone’s message history to this desktop?"
+  },
+  "icu:MaybeTransferModal__description": {
+    "messageformat": "When you re-link this desktop, you can transfer your phone’s message history to this device."
+  },
+  "icu:MaybeTransferModal__learnMore": {
+    "messageformat": "Learn more"
+  },
+  "icu:MaybeTransferModal__replaceHistory": {
+    "messageformat": "This will <bold>replace</bold> the message history on this desktop."
+  },
+  "icu:MaybeTransferModal__scanQrCode": {
+    "messageformat": "You’ll need to relink by scanning a QR code."
+  },
+  "icu:MaybeTransferModal__media": {
+    "messageformat": "If you have paid Signal Secure Backups, all of your media will be transferred. Otherwise, your last 45 days of media will be included."
+  },
+  "icu:MaybeTransferModal__transfer": {
+    "messageformat": "Transfer"
+  },
+  "icu:MaybeTransferModal__dontTransfer": {
+    "messageformat": "Don't transfer"
+  },
+  "icu:DeleteDataAndRelinkConfirmationDialog__title": {
+    "messageformat": "Delete all data?"
+  },
+  "icu:DeleteDataAndRelinkConfirmationDialog__pending": {
+    "messageformat": "Deleting all data"
+  },
+  "icu:DeleteDataAndRelinkConfirmationDialog__body": {
+    "messageformat": "All current data in Signal Desktop will be deleted. You can then scan a QR code and transfer your message history from your phone."
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Тази версия съдържа редица дребни модификации и корекции на бъгове, за да поддържа гладката работа на Signal.",
@@ -8290,6 +8275,15 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__8.10--0": {
-    "messageformat": "The freshly spun emoji in Unicode 17.0 have now pirouetted into place in Signal. Send a message reaction with the new Ballet Dancer emoji to perform your own digital version of a pas de chat."
+    "messageformat": "Вече предлагаме поддръжка за новите емоджита от Unicode 17.0."
+  },
+  "icu:WhatsNew__8.11--0": {
+    "messageformat": "We've introduced additional confirmations and educational messaging in the app to help protect Signal users from phishing and social engineering attacks. As a reminder, never reply to chats pretending to be Signal, and never send your verification code, PIN, or recovery key to anyone."
+  },
+  "icu:WhatsNew__8.11--1": {
+    "messageformat": "Raised hand indicators in group calls now display the current order of the queue, so you can easily see who got the upper hand first."
+  },
+  "icu:WhatsNew__8.11--2": {
+    "messageformat": "We also added a real-time visualization while recording voice messages, so surfers (and oceanographers) can stare at multiple moving waveforms whenever they share updates from the beach."
   }
 }
