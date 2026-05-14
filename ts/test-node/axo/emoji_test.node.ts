@@ -845,5 +845,45 @@ describe('Emoji', () => {
       setup();
       check(':D', ['not_a_default_tag']);
     });
+
+    it('ranks primary short name above aliases on prefix matches', () => {
+      Emoji.setupLocale([
+        {
+          emoji: '🤔',
+          rank: 26,
+          tags: ['thinking face', 'ponder', 'wondering'],
+        },
+        {
+          emoji: '😔',
+          rank: 34,
+          tags: ['pensive', 'sad', 'thinking'],
+        },
+      ]);
+      const results = Emoji.search('thinkin').map(emoji => {
+        return Emoji.getCompletionLabel(emoji);
+      });
+      assert.equal(results[0], 'thinking_face');
+    });
+
+    it('ranks alt prefix matches above fuzzy matches', () => {
+      const term = 'thisshouldnotmatchanydefaultemojishortname';
+      const prefix = `${term}andhereissomemoretext`;
+      const fuzzy = `fuzzy-${term}`;
+
+      Emoji.setupLocale([
+        // Prefix Match: Default Short Name
+        { emoji: '1️⃣', rank: 4, tags: [prefix, 'ignore'] },
+        // Prefix Match: Alt Short Name
+        { emoji: '2️⃣', rank: 3, tags: ['ignore', prefix] },
+        // Fuzzy Match: Default Short Name
+        { emoji: '3️⃣', rank: 2, tags: [fuzzy, 'ignore'] },
+        // Fuzzy Match: Alt Short Name
+        { emoji: '4️⃣', rank: 1, tags: ['ignore', fuzzy] },
+      ]);
+      const results = Emoji.search(term).map(emoji => {
+        return Emoji.getDefaultVariant(emoji);
+      });
+      assert.deepEqual(results, ['1️⃣', '2️⃣', '3️⃣', '4️⃣']);
+    });
   });
 });
