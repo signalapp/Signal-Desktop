@@ -6,6 +6,7 @@ import { applyRangesToText } from '../types/BodyRange.std.ts';
 import { hydrateRanges } from './BodyRange.node.ts';
 import { findAndFormatContact } from './findAndFormatContact.preload.ts';
 import { getNotificationDataForMessage } from './getNotificationDataForMessage.preload.ts';
+import { getTitleNoDefault } from './getTitle.preload.ts';
 import { isConversationAccepted } from './isConversationAccepted.preload.ts';
 import { strictAssert } from './assert.std.ts';
 import { itemStorage } from '../textsecure/Storage.preload.ts';
@@ -32,7 +33,7 @@ export function getNotificationTextForMessage(
 
   if (attributes.storyReaction) {
     if (attributes.type === 'outgoing') {
-      const { profileName: name } = conversation.attributes;
+      const name = getTitleNoDefault(conversation.attributes);
 
       if (!name) {
         return i18n(
