@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 // import { contextBridge } from 'electron';
 
-import { getLocalNonce, setLocalNonce } from './pvrfLocalNonceStorage.preload.js';
+import { getLocalStores, setLocalStores } from './pvrfLocalStoresStorage.preload.js';
 
 
 import {
@@ -36,8 +36,6 @@ import { HTTPError } from '../types/HTTPError.std.ts';
 import { signalProtocolStore } from '../SignalProtocolStore.preload.ts';
 import { itemStorage } from './Storage.preload.ts';
 
-import * as Bytes from '../Bytes.std.js';
-import { setPendingBasis } from './pvrfPendingBasisStorage.preload.js';
 
 
 const log = createLogger('getKeysForServiceId');
@@ -247,7 +245,7 @@ async function handleServerKeys(
 
           try { log.info('VTS value', temp?.getVTS?.()); } catch (e) { log.error('error getting VTS', e); }
           const buf = temp?.getVTS?.();
-          await setLocalNonce(serviceId, deviceId, buf, 'vts');    
+          await setLocalStores(serviceId, deviceId, buf, 'vts');    
 
           // fixed-size fields
           try {
@@ -267,12 +265,12 @@ async function handleServerKeys(
 
 
           console.log('first check what was stored', serviceId, deviceId);
-          const initial_stored_vts = await getLocalNonce(serviceId, deviceId, 'vts');
+          const initial_stored_vts = await getLocalStores(serviceId, deviceId, 'vts');
           console.log('initial stored vts', initial_stored_vts);
           console.log('this is the vts', vts);
-          await setLocalNonce(serviceId, deviceId, JSON.stringify(vts), 'vts');
+          await setLocalStores(serviceId, deviceId, JSON.stringify(vts), 'vts');
           console.log('loading what was stored');
-          const stored_vts = await getLocalNonce(serviceId, deviceId, 'vts');
+          const stored_vts = await getLocalStores(serviceId, deviceId, 'vts');
           console.log('stored vts', stored_vts);
           } catch (err){
             log.error('error parsing VTS', err, err.stack);
