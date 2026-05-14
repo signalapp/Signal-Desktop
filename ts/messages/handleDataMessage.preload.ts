@@ -4,7 +4,6 @@
 import * as Bytes from '../Bytes.std.js';
 import lodash from 'lodash';
 import type { z } from 'zod';
-import { pvrfComputeZbDemo, pvrfComputeSasDemo } from '@signalapp/libsignal-client';
 import { createLogger } from '../logging/log.std.js';
 import * as Errors from '../types/errors.std.js';
 import * as LinkPreview from '../types/LinkPreview.std.js';
@@ -545,92 +544,6 @@ export async function handleDataMessage(
     // There are type conflicts between ModelAttributesType and protos passed in here
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const dataMessage = await upgradeMessageSchema(withQuoteReference as any);
-
-    /*if (typeof dataMessage.body === 'string' && dataMessage.body.length > 0) 
-    {
-      const { payloadObj, strippedBody } = tryExtractPvrfPayload(dataMessage.body);
-      if(payloadObj) 
-      {
-        log.info(`${idLog}: PVRF demo: received payload`, payloadObj);
-        if (typeof strippedBody === 'string') {dataMessage.body = strippedBody;}
-      }
-    }*/
-      log.info('got datamessage in handledatamessage', dataMessage, JSON.stringify(dataMessage));
-      log.info('but we might need better', initialMessage, JSON.stringify(initialMessage));
-      log.info('orr', message, JSON.stringify(message), message.attributes, JSON.stringify(message.attributes));
-      log.info('ideally', message.attributes.dataMessage, JSON.stringify(message.attributes.dataMessage));
-      // if (dataMessage.bobProofMaybe) {
-      //   log.info(`${idLog}: PVRF demo: got bob proof in message options`, dataMessage.bobProofMaybe);
-      //   const nonce_b64 = dataMessage.bobProofMaybe;
-      //   const senderServiceId = sourceServiceId;
-      //   const senderDeviceId = message.get('sourceDevice');
-      // }
-      if (typeof dataMessage.body === 'string') {
-        const extracted = tryExtractPvrfPayload(dataMessage.body);
-      
-        if (extracted) {
-          const { payload, strippedBody } = extracted;
-      
-          // Strip header from user-visible body always
-          dataMessage.body = strippedBody;
-      
-          const senderServiceId = sourceServiceId;
-          const senderDeviceId = message.get('sourceDevice');
-      
-          if (!senderServiceId || !senderDeviceId) {
-            log.warn(`${idLog}: PVRF demo: missing sender service/device`);
-          } else {
-            const DEMO_CONTEXT = new TextEncoder().encode('demo-context-v0');
-      
-            if (payload.type === 'nonce') {
-              // ---- Bob receives Alice nonce ----
-              const nonce = Bytes.fromBase64(payload.nonce_b64);
-      
-              const zB = pvrfComputeZbDemo(DEMO_CONTEXT, nonce);
-              const sas16 = pvrfComputeSasDemo(nonce, zB);
-      
-              log.info(`${idLog}: PVRF demo (Bob): sas16=${Bytes.toBase64(sas16)}`);
-      
-              // Schedule sending zB back on Bob's next outgoing message to Alice
-              const zbPayloadObj = {
-                v: 0,
-                type: 'zb',
-                from: ourAci,
-                ts: Date.now(),
-                zb_b64: Bytes.toBase64(zB),
-              };
-      
-              const zbPayloadB64 = Bytes.toBase64(
-                new TextEncoder().encode(JSON.stringify(zbPayloadObj))
-              );
-      
-              await setPendingBasis(senderServiceId, senderDeviceId, zbPayloadB64);
-              log.info(
-                `${idLog}: PVRF demo (Bob): stored pending ZB for ${senderServiceId}.${senderDeviceId}`
-              );
-            }
-      
-            if (payload.type === 'zb') {
-              // ---- Alice receives Bob zB ----
-              const zB = Bytes.fromBase64(payload.zb_b64);
-      
-              const nonce_b64 = await getLocalNonce(senderServiceId, senderDeviceId);
-              if (!nonce_b64) {
-                log.warn(
-                  `${idLog}: PVRF demo (Alice): no local nonce for ${senderServiceId}.${senderDeviceId}`
-                );
-              } else {
-                const nonce = Bytes.fromBase64(nonce_b64);
-                const sas16 = pvrfComputeSasDemo(nonce, zB);
-      
-                log.info(`${idLog}: PVRF demo (Alice): sas16=${Bytes.toBase64(sas16)}`);
-      
-                await clearLocalNonce(senderServiceId, senderDeviceId);
-              }
-            }
-          }
-        }
-      }
 
     const isGroupStoryReply =
       isGroup(conversation.attributes) && dataMessage.storyId;

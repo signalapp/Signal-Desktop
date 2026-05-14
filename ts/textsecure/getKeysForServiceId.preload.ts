@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 // import { contextBridge } from 'electron';
 
-import { pvrfComputeZbDemo, pvrfComputeSasDemo } from '@signalapp/libsignal-client';
 import { getLocalNonce, setLocalNonce } from './pvrfLocalNonceStorage.preload.js';
 
 
@@ -236,43 +235,11 @@ async function handleServerKeys(
         //but would require synchronosity, doing device 1 first, then allowing others to run
         //remove the true || to test 
         if (deviceId == 1 || true) {
-          if (!existingSession) 
-          {
-            // 2) create "sender-specific" SAS / basis for demo, Use env var if available; otherwise derive from ourAci so Alice/Bob differ.
-            //const demoSas=(typeof process!=='undefined' && process.env && process.env.SIGNAL_DEMO_SAS)||ourAci.slice(-4); 
-            //{ v: 0, sas: demoSas, from: ourAci, ts: Date.now() }
-
-            const nonce = new Uint8Array(16);
-            globalThis.crypto.getRandomValues(nonce);
-            const nonce_b64 = Bytes.toBase64(nonce);
-            const payloadObj = {
-              v: 0,
-              type: 'nonce',
-              from: ourAci,
-              ts: Date.now(),
-              nonce_b64,
-            };
-
-            const payloadBytes = new TextEncoder().encode(JSON.stringify(payloadObj));
-            const payloadB64 = Bytes.toBase64(payloadBytes);
-            await setPendingBasis(serviceId, deviceId, payloadB64);
-            //await setLocalNonce(serviceId, deviceId, nonce_b64);
-            log.info(
-              `PVRF demo (Alice): stored pending NONCE + localNonce for ${serviceId}.${deviceId}`
-            );
-            //log.info( `PVRF demo: stored pending payload for ${serviceId}.${deviceId} sas=${demoSas}`);
-            const DEMO_CONTEXT = new TextEncoder().encode('demo-context-v0');
-            const zb16 = pvrfComputeZbDemo(DEMO_CONTEXT, nonce);
-            const sas16 = pvrfComputeSasDemo(nonce, zb16);
-            log.info(`DEBUG INFO TO CHECK EQUALITY:PVRF demo (Alice): computed sas16=${Bytes.toBase64(sas16)}`);
-          }
 
           const temp = await sessionStore.getSession(protocolAddress);
           log.info('got session', temp, device, temp?.getBobResponse);
 
-          try { log.info('SAS value', temp?.getSAS?.()); } catch (e) { log.error('error getting SAS', e); }
           try { log.info('VTS value', temp?.getVTS?.()); } catch (e) { log.error('error getting VTS', e); }
-          //try { log.info('bob response value, z is the true sas', temp?.getBobResponse()); } catch (e) { log.error('error getting bob response', e); log.error('errorstack getting bob response', e.stack); }
           const buf = temp?.getVTS?.();
           await setLocalNonce(serviceId, deviceId, buf, 'vts');    
 
@@ -304,15 +271,6 @@ async function handleServerKeys(
           } catch (err){
             log.error('error parsing VTS', err, err.stack);
           }
-          // below stuff doesnt really work feel free to try
-          // contextBridge.exposeInMainWorld('preKeyBundle', preKeyBundle);
-          // contextBridge.exposeInMainWorld('protocolAddress', protocolAddress);
-          // contextBridge.exposeInMainWorld('sessionStore', sessionStore);
-          // contextBridge.exposeInMainWorld('identityKeyStore', identityKeyStore);
-          // contextBridge.exposeInMainWorld(
-          //   'signalProtocolStore',
-          //   signalProtocolStore
-          // );
       
         }
       } 

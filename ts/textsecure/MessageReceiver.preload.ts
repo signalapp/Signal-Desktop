@@ -1508,29 +1508,31 @@ export default class MessageReceiver
       if (content.dataMessage) 
       {
         const serviceId = envelope.sourceServiceId;
-        const deviceId = 1;
         const bobBase64 = await getBobProof(serviceId, 1);
 
         if (!bobBase64) {
           log.warn('PVRF verify skipped: no stored Bob proof yet');
         }
-        else
-        {
+        else {
 
         log.info('datamessage found', content.dataMessage);
         //this is where alice would read bob's proof then call to libsignal to compute sas
         //assuming that the proof data is sent correctly
         const serviceId = envelope.sourceServiceId;
-        const deviceId = envelope.sourceDevice;
+        const deviceId = envelope.sourceDevice ?? 1;
         log.info("device id is ",deviceId);
         //const vts= await getLocalNonce(serviceId, deviceId, 'vts');
 
         const vtsStr = await getLocalNonce(serviceId, deviceId, 'vts');
-        const vts = typeof vtsStr === 'string' ? JSON.parse(vtsStr) : vtsStr;
+        const vts = typeof vtsStr === 'string' ? JSON.parse(vtsStr) : vtsStr; 
+        const ourAci = this.#storage.user.getCheckedAci();
+        const sessionStore = new Sessions({ ourServiceId: ourAci });
+        const protocolAddress = ProtocolAddress.new(serviceId, deviceId);
+        const active_session = await sessionStore.getSession(protocolAddress);
 
         const bob = typeof content.dataMessage.bobProofMaybe === 'string'
-        ? JSON.parse(content.dataMessage.bobProofMaybe)
-        : content.dataMessage.bobProofMaybe;
+          ? JSON.parse(content.dataMessage.bobProofMaybe)
+          : content.dataMessage.bobProofMaybe;
         //const bob = JSON.parse(content.dataMessage.bobProofMaybe);
         //const bobB64 = bob.rawB64;
         console.log('the stored vts', vts);
@@ -1538,21 +1540,10 @@ export default class MessageReceiver
         //the vts and bobproof are objects/dicts of the human-readable values (not bytes)
         //for pvrfverify as it is right now, they need to be broken back down in to the byte array
         //or we can try to make pvrfverify work with the stuff in the objets
-        /*
+        const w_bob=bob?.response?.pi?.w?.compressed;
+        const v_bob=bob?.response?.pi?.v?.compressed;
 
-        
-        if (vts && bobB64) {
-          const result = pvrfVerify(vts,bobB64);
-          const ok = result.ok;
-          const z = result.z;
-          log.info('PVRF verify ok:', ok, 'z:', Bytes.toBase64(z));
-          console.log('PVRF verify ok:', ok, 'z:', Bytes.toBase64(z));
-        }*/
-          const w_bob=bob?.response?.pi?.w?.compressed;
-          const v_bob=bob?.response?.pi?.v?.compressed;
-
-          if (vts && w_bob && v_bob) 
-          {
+        if (vts && w_bob && v_bob) {
           console.log("entered phase 1")
           const vk = Uint8Array.from(Object.values(vts?.vk) as number[]);
           const x  = Uint8Array.from(Object.values(vts?.secrets) as number[]);
@@ -1573,11 +1564,11 @@ export default class MessageReceiver
           console.log(vk,x,alpha,beta,w,v)
 
 
-          const result = pvrfVerify(vk, x, alpha, beta, w, v);
-          const sas = String.fromCharCode(...result.z);
-          await setLocalNonce(serviceId, 1, sas, 'sas');  
+          const result = pvrfVerify(vk, x, alpha, beta, w, v, );
+          const z_decoded = String.fromCharCode(...result.z);
+          await setLocalNonce(serviceId, 1, z_decoded, 'sas');  
          
-          console.log("phase 3", sas)
+          console.log("phase 3", z_decoded)
           log.info('PVRF verify ok:', result.ok, 'z:', result.z);
           console.log('PVRF verify ok:', result.ok, 'z:', result.z);
         }
