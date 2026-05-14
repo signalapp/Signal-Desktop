@@ -176,6 +176,7 @@ import {
 
 import { toNumber } from '../util/toNumber.std.ts';
 import { getLocalStores, setLocalStores } from './pvrfLocalStoresStorage.preload.js';
+import { te } from 'intl-tel-input/i18n';
 const { isBoolean, isNumber, isString, noop, omit } = lodash;
 
 const log = createLogger('MessageReceiver');
@@ -1554,6 +1555,9 @@ export default class MessageReceiver
           console.log("phase 3", z_decoded)
           log.info('PVRF verify ok:', result.ok, 'z:', result.z);
           console.log('PVRF verify ok:', result.ok, 'z:', result.z);
+          if (!result.ok) {
+            console.error("alice could not verify bob");
+          }
         }
       }
 
@@ -2042,6 +2046,12 @@ export default class MessageReceiver
       try { 
         let tempResponse = temp?.getBobResponse();
         log.info('bob response value, z is the true sas', tempResponse); 
+        if (tempResponse.c != tempResponse.computed_c) {
+          console.log('bob has c mismatch', tempResponse.c, tempResponse.computed_c);
+          console.error('thats a mismatch');
+        } else {
+          console.log('bob has c match', tempResponse.c, tempResponse.computed_c);
+        }
         await setLocalStores(serviceId, 1, tempResponse.z_decoded, 'sas');  
         bobResponseObject.response = tempResponse;
         console.log('storing sas', tempResponse.z_decoded);
