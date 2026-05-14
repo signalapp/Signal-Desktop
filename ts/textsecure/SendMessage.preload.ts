@@ -1242,9 +1242,14 @@ export class MessageSender {
       const serviceId = messageOptions.recipients[0];
       const bobProof = await getLocalStores(serviceId, 1, "bob_proof");
       if (bobProof) {
-        proto.dataMessage.bobProof = bobProof;
-        typeof bobProof === 'string' ? bobProof : JSON.stringify(bobProof);
-        log.info('the proto with injected bob proof is', proto);
+        const bobJson = JSON.parse(bobProof);
+        const bobToAlice = JSON.stringify({
+          response: {
+            pi: bobJson.response?.pi
+          }
+        })
+        proto.dataMessage.bobProof = bobToAlice;
+        log.info('the proto with injected bob proof is', bobToAlice, proto, proto.dataMessage);
       } else {
         proto.dataMessage.bobProof = JSON.stringify({"noBobProof": true});
         log.info('no bob proof available for', serviceId);
