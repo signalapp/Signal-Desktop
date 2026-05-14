@@ -11,6 +11,7 @@ import {
   useStartRecordingShortcut,
   useKeyboardShortcuts,
 } from '../../hooks/useKeyboardShortcuts.dom.tsx';
+import { AxoIconButton } from '../../axo/AxoIconButton.dom.tsx';
 
 export type PropsType = {
   conversationId: string;
@@ -50,14 +51,15 @@ export function AudioCapture({
 
   return (
     <div className="AudioCapture">
-      <button
-        aria-label={i18n('icu:voiceRecording--start')}
-        className="AudioCapture__microphone"
+      <AxoIconButton.Root
+        symbol="mic"
+        variant="borderless-secondary"
+        size="md"
+        label={i18n('icu:voiceRecording--start')}
         onClick={handleClick}
         onMouseEnter={handleWarmup}
         onFocus={handleWarmup}
-        title={i18n('icu:voiceRecording--start')}
-        type="button"
+        tooltip={false}
       />
     </div>
   );

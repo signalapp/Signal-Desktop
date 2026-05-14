@@ -3,7 +3,7 @@
 
 import type { ReactNode, JSX } from 'react';
 import type { LocalizerType } from '../types/I18N.std.ts';
-import { Button, ButtonSize, ButtonVariant } from './Button.dom.tsx';
+import { AxoButton } from '../axo/AxoButton.dom.tsx';
 
 type Props = {
   i18n: LocalizerType;
@@ -21,21 +21,16 @@ export function RecordingComposer({
   return (
     <div className="RecordingComposer">
       <div className="RecordingComposer__content">{children}</div>
-      <Button
-        className="RecordingComposer__button"
+      <AxoButton.Root
+        variant="borderless-secondary"
+        size="md"
         onClick={onCancel}
-        size={ButtonSize.Medium}
-        variant={ButtonVariant.Secondary}
       >
         {i18n('icu:RecordingComposer__cancel')}
-      </Button>
-      <Button
-        className="RecordingComposer__button"
-        onClick={onSend}
-        size={ButtonSize.Medium}
-      >
+      </AxoButton.Root>
+      <AxoButton.Root variant="primary" size="md" onClick={onSend}>
         {i18n('icu:RecordingComposer__send')}
-      </Button>
+      </AxoButton.Root>
     </div>
   );
 }

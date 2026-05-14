@@ -1,11 +1,12 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import { type JSX } from 'react';
-import { VisuallyHidden } from 'react-aria';
+import { Pressable, VisuallyHidden } from 'react-aria';
 import { Button } from 'react-aria-components';
 import type { LocalizerType } from '../../types/I18N.std.ts';
 import { FunStaticEmoji } from './FunEmoji.dom.tsx';
 import { Emoji } from '../../axo/emoji.std.ts';
+import { AxoIconButton } from '../../axo/AxoIconButton.dom.tsx';
 
 /**
  * Fun Picker Button
@@ -18,10 +19,15 @@ export type FunPickerButtonProps = Readonly<{
 export function FunPickerButton(props: FunPickerButtonProps): JSX.Element {
   const { i18n } = props;
   return (
-    <Button className="FunButton">
-      <span className="FunButton__Icon FunButton__Icon--FunPicker" />
-      <VisuallyHidden>{i18n('icu:FunButton__Label--FunPicker')}</VisuallyHidden>
-    </Button>
+    <Pressable>
+      <AxoIconButton.Root
+        symbol="emoji"
+        variant="borderless-secondary"
+        label={i18n('icu:FunButton__Label--FunPicker')}
+        size="md"
+        tooltip={false}
+      />
+    </Pressable>
   );
 }
 

@@ -870,11 +870,12 @@ export const CompositionArea = memo(function CompositionArea({
       <div className="CompositionArea__placeholder" />
       <div className="CompositionArea__button-cell">
         <div className={actionSlotClassName}>
-          <button
-            type="button"
-            className="CompositionArea__send-button"
+          <AxoIconButton.Root
+            symbol="send-fill"
+            variant="primary"
+            size="md"
+            label={i18n('icu:sendMessageToContact')}
             onClick={handleForceSend}
-            aria-label={i18n('icu:sendMessageToContact')}
           />
         </div>
       </div>
@@ -1294,11 +1295,12 @@ export const CompositionArea = memo(function CompositionArea({
         {isViewOnceActive && (
           <div className="CompositionArea__button-cell">
             <div className={actionSlotClassName}>
-              <button
-                type="button"
-                className="CompositionArea__send-button"
+              <AxoIconButton.Root
+                size="md"
+                variant="primary"
+                symbol="send-fill"
+                label={i18n('icu:sendMessageToContact')}
                 onClick={handleForceSend}
-                aria-label={i18n('icu:sendMessageToContact')}
               />
             </div>
           </div>
