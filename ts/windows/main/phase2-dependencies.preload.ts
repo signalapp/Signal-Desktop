@@ -14,6 +14,7 @@ import {
   ATTACHMENTS_PATH,
   STICKERS_PATH,
   DRAFT_PATH,
+  TEMP_PATH,
 } from '../../util/basePaths.preload.ts';
 import { SignalContext } from '../context.preload.ts';
 import '../clipboard.dom.ts';
@@ -45,6 +46,7 @@ if (homedir && homedir !== '/' && homedir !== '\\') {
 addSensitivePath(ATTACHMENTS_PATH);
 addSensitivePath(STICKERS_PATH);
 addSensitivePath(DRAFT_PATH);
+addSensitivePath(TEMP_PATH);
 if (config.crashDumpsPath) {
   addSensitivePath(config.crashDumpsPath);
 }

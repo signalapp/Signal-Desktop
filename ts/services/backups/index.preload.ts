@@ -108,6 +108,7 @@ import {
   unlink as unlinkAccount,
 } from '../../textsecure/WebAPI.preload.ts';
 import { itemStorage } from '../../textsecure/Storage.preload.ts';
+import { addSensitivePath } from '../../util/privacy.node.ts';
 import { LOCAL_BACKUP_VERSION } from './constants.std.ts';
 import { getTimestampForFolder } from '../../util/timestamp.std.ts';
 import { MEBIBYTE } from '../../types/AttachmentSize.std.ts';
@@ -1455,6 +1456,7 @@ export class BackupsService {
     await mkdir(localBackupsBaseDir, { recursive: true });
 
     await itemStorage.put('localBackupFolder', localBackupsBaseDir);
+    addSensitivePath(localBackupsBaseDir);
     return localBackupsBaseDir;
   }
 
@@ -1495,3 +1497,10 @@ export class BackupsService {
 }
 
 export const backupsService = new BackupsService();
+
+itemStorage.onready(() => {
+  const localBackupFolder = itemStorage.get('localBackupFolder');
+  if (localBackupFolder) {
+    addSensitivePath(localBackupFolder);
+  }
+});
