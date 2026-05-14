@@ -174,7 +174,6 @@ import {
   MessageRequestResponseSource,
 } from '../types/MessageRequestResponseEvent.std.js';
 import { getLocalStores, setLocalStores } from './pvrfLocalStoresStorage.preload.js';
-import { te } from 'intl-tel-input/i18n';
 const { isBoolean, isNumber, isString, noop, omit } = lodash;
 
 const log = createLogger('MessageReceiver');
