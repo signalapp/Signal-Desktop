@@ -239,33 +239,22 @@ async function handleServerKeys(
 
           try { log.info('VTS value', temp?.getVTS?.()); } catch (e) { log.error('error getting VTS', e); }
           const buf = temp?.getVTS?.();
-          await setLocalStores(serviceId, deviceId, buf, 'vts');    
-
-          // fixed-size fields
           try {
-          const s1 = buf.vt.tau[0]
-          const s2_1 = buf.vt.tau[1][0]
-          const s2_2 = buf.vt.tau[1][1]
+            const s1 = buf.vt.tau[0]
+            const s2_1 = buf.vt.tau[1][0]
+            const s2_2 = buf.vt.tau[1][1]
 
-          const h = buf.vt.h;
-          const hprime = buf.vt.hprime;
-          const tau = { c: s1, s: [s2_1, s2_2] };
-          const vt = { h, hprime, tau };
-          const vk = buf.vk;
-          const secrets = buf.x;
-          const alpha = buf.r1;
-          const beta = buf.r2;
-          const vts = { vt, vk, secrets, alpha, beta };
+            const h = buf.vt.h;
+            const hprime = buf.vt.hprime;
+            const tau = { c: s1, s: [s2_1, s2_2] };
+            const vt = { h, hprime, tau };
+            const vk = buf.vk;
+            const secrets = buf.x;
+            const alpha = buf.r1;
+            const beta = buf.r2;
+            const vts = { vt, vk, secrets, alpha, beta };
 
-
-          console.log('first check what was stored', serviceId, deviceId);
-          const initial_stored_vts = await getLocalStores(serviceId, deviceId, 'vts');
-          console.log('initial stored vts', initial_stored_vts);
-          console.log('this is the vts', vts);
-          await setLocalStores(serviceId, deviceId, JSON.stringify(vts), 'vts');
-          console.log('loading what was stored');
-          const stored_vts = await getLocalStores(serviceId, deviceId, 'vts');
-          console.log('stored vts', stored_vts);
+            await setLocalStores(serviceId, deviceId, JSON.stringify(vts), 'vts');
           } catch (err){
             log.error('error parsing VTS', err, err.stack);
           }

@@ -1507,33 +1507,29 @@ export default class MessageReceiver
       if (content.dataMessage) 
       {
         const serviceId = envelope.sourceServiceId;
-        const bobBase64 = await getLocalStores(serviceId, 1, "bob_proof");
-
-        if (!bobBase64) {
-          log.warn('PVRF verify skipped: no stored Bob proof yet');
-        }
-        else {
-
         log.info('datamessage found', content.dataMessage);
         //this is where alice would read bob's proof then call to libsignal to compute sas
         //assuming that the proof data is sent correctly
-        const serviceId = envelope.sourceServiceId;
         const deviceId = envelope.sourceDevice ?? 1;
         log.info("device id is ",deviceId);
-        //const vts= await getLocalStores(serviceId, deviceId, 'vts');
 
-        const vtsStr = await getLocalStores(serviceId, deviceId, 'vts');
-        const vts = typeof vtsStr === 'string' ? JSON.parse(vtsStr) : vtsStr; 
         const ourAci = this.#storage.user.getCheckedAci();
         const sessionStore = new Sessions({ ourServiceId: ourAci });
         const protocolAddress = ProtocolAddress.new(serviceId, deviceId);
         const active_session = await sessionStore.getSession(protocolAddress);
+        let vts;
+        if (!active_session) {
+          console.log('couldnt find the active session for the sender of this envelope');
+          const vtsStr = await getLocalStores(serviceId, deviceId, 'vts');
+          vts = typeof vtsStr === 'string' ? JSON.parse(vtsStr) : vtsStr;
+        } else {
+          console.log('active session was found, using session vts instead');
+          vts = active_session.getVTS();
+        }
 
         const bob = typeof content.dataMessage.bobProof === 'string'
           ? JSON.parse(content.dataMessage.bobProof)
           : content.dataMessage.bobProof;
-        //const bob = JSON.parse(content.dataMessage.bobProof);
-        //const bobB64 = bob.rawB64;
         console.log('the stored vts', vts);
         console.log('the bob proof', bob);
         //the vts and bobproof are objects/dicts of the human-readable values (not bytes)
@@ -1565,14 +1561,13 @@ export default class MessageReceiver
 
           const result = pvrfVerify(vk, x, alpha, beta, w, v, );
           const z_decoded = String.fromCharCode(...result.z);
-          await setLocalStores(serviceId, 1, z_decoded, 'sas');  
-         
+          console.log('storing sas', z_decoded, "which will need to be xored with the salt in", vts)
+          await setLocalStores(serviceId, 1, z_decoded, 'sas');
+        
           console.log("phase 3", z_decoded)
           log.info('PVRF verify ok:', result.ok, 'z:', result.z);
           console.log('PVRF verify ok:', result.ok, 'z:', result.z);
         }
-          
-      }
       }
 
       if (
@@ -2039,37 +2034,21 @@ export default class MessageReceiver
 
       let bobResponseObject = {
         response: null,
-        demoVts: null,
-        metadata: null,
-        rawB64: null as string | null,
       };
       try { 
         let tempResponse = temp?.getBobResponse();
         log.info('bob response value, z is the true sas', tempResponse); 
         await setLocalStores(serviceId, 1, tempResponse.z_decoded, 'sas');  
-
-        if (tempResponse) 
-        {
-          bobResponseObject.rawB64 = JSON.stringify({
-            w: Object.values(tempResponse.pi.w.compressed),
-            v: Object.values(tempResponse.pi.v.compressed),
-          });
-        }
         bobResponseObject.response = tempResponse;
-        
+        console.log('storing sas', tempResponse.z_decoded);
+        console.log("but hopefully its already xored as", temp?.getSAS());
       } catch (e) { log.error('error getting bob response', e); log.error('errorstack getting bob response', e.stack); }
+     
       try { 
         log.info('VTS value', temp?.getVTS());
-        bobResponseObject.demoVts = temp?.getVTS();
        } catch (e) { log.error('error getting VTS', e); }
-      //const deviceId = envelope.sourceDevice ?? 1;
-      //const serviceId = envelope.sourceServiceId ?? 'unknown';
       log.info('setting bob proof in memory for', serviceId, deviceId, "but deviceid faked to 1");
       await setLocalStores(serviceId, 1, JSON.stringify(bobResponseObject), "bob_proof");
-
-      log.info('demonstrate what was save');
-      const storedBobProof = await getLocalStores(serviceId, 1, "bob_proof");
-      log.info('stored bob proof', storedBobProof);
 
       return { plaintext: this.#unpad(plaintext), wasEncrypted };
     }
