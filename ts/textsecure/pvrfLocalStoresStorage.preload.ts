@@ -3,21 +3,21 @@
 
 import { itemStorage } from './Storage.preload.js';
 
-type LocalNonceStore = Record<string, Record<string, string>>;
+type LocalStoresStore = Record<string, Record<string, string>>;
 // serviceId -> deviceId -> nonce_b64
 
-const KEY = 'pvrfDemoLocalNonce' as const;
+const KEY = 'pvrfDemoLocalStores' as const;
 
-async function readStore(key?: any): Promise<LocalNonceStore> {
+async function readStore(key?: any): Promise<LocalStoresStore> {
   const realKey =  (key || KEY)
   return (await itemStorage.get(realKey)) ?? {};
 }
 
-async function writeStore(store: LocalNonceStore, key?: any): Promise<void> {
+async function writeStore(store: LocalStoresStore, key?: any): Promise<void> {
   await itemStorage.put(key || KEY, store);
 }
 
-export async function setLocalNonce(
+export async function setLocalStores(
   serviceId: string,
   deviceId: number,
   nonceB64: string,
@@ -32,7 +32,7 @@ export async function setLocalNonce(
   await writeStore(store, key);
 }
 
-export async function getLocalNonce(
+export async function getLocalStores(
   serviceId: string,
   deviceId: number,
   key?: string
@@ -41,7 +41,7 @@ export async function getLocalNonce(
   return store[serviceId]?.[String(deviceId)];
 }
 
-export async function clearLocalNonce(
+export async function clearLocalStores(
   serviceId: string,
   deviceId: number
 ): Promise<void> {

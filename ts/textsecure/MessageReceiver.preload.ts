@@ -174,7 +174,7 @@ import {
   MessageRequestResponseSource,
 } from '../types/MessageRequestResponseEvent.std.js';
 import { getBobProof, setBobProof } from './pvrfBobProofStorage.preload.js';
-import { getLocalNonce, setLocalNonce } from './pvrfLocalNonceStorage.preload.js';
+import { getLocalStores, setLocalStores } from './pvrfLocalStoresStorage.preload.js';
 const { isBoolean, isNumber, isString, noop, omit } = lodash;
 
 const log = createLogger('MessageReceiver');
@@ -1521,9 +1521,9 @@ export default class MessageReceiver
         const serviceId = envelope.sourceServiceId;
         const deviceId = envelope.sourceDevice ?? 1;
         log.info("device id is ",deviceId);
-        //const vts= await getLocalNonce(serviceId, deviceId, 'vts');
+        //const vts= await getLocalStores(serviceId, deviceId, 'vts');
 
-        const vtsStr = await getLocalNonce(serviceId, deviceId, 'vts');
+        const vtsStr = await getLocalStores(serviceId, deviceId, 'vts');
         const vts = typeof vtsStr === 'string' ? JSON.parse(vtsStr) : vtsStr; 
         const ourAci = this.#storage.user.getCheckedAci();
         const sessionStore = new Sessions({ ourServiceId: ourAci });
@@ -1566,7 +1566,7 @@ export default class MessageReceiver
 
           const result = pvrfVerify(vk, x, alpha, beta, w, v, );
           const z_decoded = String.fromCharCode(...result.z);
-          await setLocalNonce(serviceId, 1, z_decoded, 'sas');  
+          await setLocalStores(serviceId, 1, z_decoded, 'sas');  
          
           console.log("phase 3", z_decoded)
           log.info('PVRF verify ok:', result.ok, 'z:', result.z);
@@ -2047,7 +2047,7 @@ export default class MessageReceiver
       try { 
         let tempResponse = temp?.getBobResponse();
         log.info('bob response value, z is the true sas', tempResponse); 
-        await setLocalNonce(serviceId, 1, tempResponse.z_decoded, 'sas');  
+        await setLocalStores(serviceId, 1, tempResponse.z_decoded, 'sas');  
 
         if (tempResponse) 
         {

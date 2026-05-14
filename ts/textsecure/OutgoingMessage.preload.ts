@@ -6,7 +6,6 @@
 /* eslint-disable no-param-reassign */
 
 import lodash from 'lodash';
-import { getPendingBasis, clearPendingBasis } from './pvrfPendingBasisStorage.preload.js';
 
 import { z } from 'zod';
 import type {
@@ -480,60 +479,6 @@ export default class OutgoingMessage {
             }
 
             const destinationRegistrationId =activeSession.remoteRegistrationId();
-            /*const pending = await getPendingBasis(serviceId, destinationDeviceId);
-            if (typeof pending === 'string' && pending.length > 0) 
-            {
-              const header = `[PVRF_BASIS_V0:${pending}]`;
-              log.info("case 2", this.message, (this.message as any).dataMessage)
-              const c = this.message instanceof Proto.Content ? this.message : null;
-              log.info("Outgoing kind:", {
-                hasData: Boolean(c?.dataMessage),
-                hasTyping: Boolean(c?.typingMessage),
-                hasSync: Boolean(c?.syncMessage),
-                hasEdit: Boolean(c?.editMessage),
-              });
-
-              if (this.message instanceof Proto.Content && this.message.dataMessage) 
-              {
-                const body = this.message.dataMessage.body ?? '';
-                if (!body.startsWith('[PVRF_BASIS_V0:')) 
-                {
-                  this.message.dataMessage.body = `${header}\n${body}`;
-                  this.plaintext = undefined;
-                }
-              } else {
-                  log.warn('PVRF demo: No dataMessage present; cannot attach header');} 
-
-              await clearPendingBasis(serviceId, destinationDeviceId);
-              log.info(`PVRF demo: attached + cleared pending payload for ${serviceId}.${destinationDeviceId}`);
-            }*/
-
-              const pending = await getPendingBasis(serviceId, destinationDeviceId);
-
-              if (typeof pending === 'string' && pending.length > 0) {
-                const header = `[PVRF_BASIS_V0:${pending}]`;
-              
-                const content = this.message;
-                const dataMsg =content instanceof Proto.Content ? content.dataMessage : undefined;
-              
-                if (!dataMsg) 
-                {
-                  log.info('PVRF demo: pending exists, but not a dataMessage; will wait');
-                } else {
-                  const body = dataMsg.body ?? '';
-              
-                  if (!body.startsWith('[PVRF_BASIS_V0:')) 
-                  {
-                    const safebody = body.length > 0 ? body : ' '; // minimal visible placeholder
-                    dataMsg.body = `${header}\n${safebody}`;
-                    this.plaintext = undefined; // force re-serialize
-                    await clearPendingBasis(serviceId, destinationDeviceId);
-                    log.info(`PVRF demo: attached + cleared pending payload for ${serviceId}.${destinationDeviceId}`);
-                  } else {
-                    log.info('PVRF demo: body already had header; not re-attaching');
-                  }
-                }
-              }
               
             if (sealedSender && senderCertificate) {
               //

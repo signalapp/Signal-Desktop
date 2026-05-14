@@ -80,8 +80,6 @@ import type { LinkPreviewType } from '../types/message/LinkPreviews.std.js';
 import { getCachedSubscriptionConfiguration } from '../util/subscriptionConfiguration.preload.js';
 import { itemStorage } from '../textsecure/Storage.preload.js';
 
-import { setPendingBasis } from '../textsecure/pvrfPendingBasisStorage.preload.js'; // adjust path to wherever your pending file is
-import { getLocalNonce, clearLocalNonce } from '../textsecure/pvrfLocalNonceStorage.preload.js';
 
 const { isNumber } = lodash;
 
