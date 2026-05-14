@@ -119,7 +119,6 @@ message Content {
   optional bytes /* SenderKeyDistributionMessage */ senderKeyDistributionMessage = 7;
   optional PniSignatureMessage pniSignatureMessage = 10;
   optional EditMessage editMessage = 11;
-  optional string bobProof = 12;
 }
 
 message CallMessage {
@@ -443,8 +442,8 @@ message DataMessage {
   optional PinMessage pinMessage = 27;
   optional UnpinMessage unpinMessage = 28;
   optional AdminDelete adminDelete = 29;
-  optional string bobProofMaybe = 30;
-  // NEXT ID: 30
+  optional string bobProof = 30;
+  // NEXT ID: 31
 }
 
 message NullMessage {
