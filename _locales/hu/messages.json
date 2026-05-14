@@ -1,4 +1,19 @@
 {
+  "icu:AxoAlertDialog.Cancel": {
+    "messageformat": "Cancel"
+  },
+  "icu:AxoButton.Pending": {
+    "messageformat": "Pending"
+  },
+  "icu:AxoDialog.Back": {
+    "messageformat": "Back"
+  },
+  "icu:AxoDialog.Close": {
+    "messageformat": "Close"
+  },
+  "icu:AxoTextField.Clear": {
+    "messageformat": "Clear"
+  },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "Hozzáadás egy csoporthoz"
   },
@@ -439,15 +454,6 @@
   },
   "icu:pinnedConversationsFull": {
     "messageformat": "Max. 4 csevegést rögzíthetsz"
-  },
-  "icu:loadingMessages--other": {
-    "messageformat": "{daysAgo, plural, one {1 nappal ezelőtti üzenetek betöltése…} other {{daysAgo,number} nappal ezelőtti üzenetek betöltése…}}"
-  },
-  "icu:loadingMessages--yesterday": {
-    "messageformat": "Tegnapi üzenetek betöltése…"
-  },
-  "icu:loadingMessages--today": {
-    "messageformat": "Mai üzenetek betöltése…"
   },
   "icu:view": {
     "messageformat": "Megtekintés"
@@ -1592,6 +1598,15 @@
   "icu:Install__support-link": {
     "messageformat": "Segítségre van szükséged?"
   },
+  "icu:Install__confirm-data-deletion__title": {
+    "messageformat": "Delete all data?"
+  },
+  "icu:Install__confirm-data-deletion__body": {
+    "messageformat": "You’re attempting to link a different Signal account to this desktop. If you continue, all data currently in Signal Desktop will be deleted."
+  },
+  "icu:Install__confirm-data-deletion__continue": {
+    "messageformat": "Continue"
+  },
   "icu:Preferences--header": {
     "messageformat": "Beállítások"
   },
@@ -1956,25 +1971,25 @@
     "messageformat": "További lehetőségek"
   },
   "icu:CallingParticipantMenu__MuteAudio": {
-    "messageformat": "Mute audio"
+    "messageformat": "Hang némítása"
   },
   "icu:CallingParticipantMenu__UnmuteAudio": {
-    "messageformat": "Unmute audio"
+    "messageformat": "Hang némítás megszüntetése"
   },
   "icu:CallingParticipantMenu__ViewProfile": {
-    "messageformat": "View profile"
+    "messageformat": "Profil megtekintése"
   },
   "icu:CallingParticipantMenu__GoToChat": {
-    "messageformat": "Go to chat"
+    "messageformat": "Ugrás a csevegésre"
   },
   "icu:CallingParticipantMenu__RemoveFromCall": {
-    "messageformat": "Remove from call"
+    "messageformat": "Eltávolítva a hívásból"
   },
   "icu:CallingParticipantListItem__ContextMenuButton": {
-    "messageformat": "More actions"
+    "messageformat": "További tevékenységek"
   },
   "icu:CallingParticipantListItem__Presenting": {
-    "messageformat": "Presenting"
+    "messageformat": "Képernyő-megosztás"
   },
   "icu:CallingPendingParticipants__ApproveUser": {
     "messageformat": "Csatlakozási kérelem jóváhagyása"
@@ -2204,26 +2219,23 @@
   "icu:deleteAllDataBody": {
     "messageformat": "Törlöd az összes adatot és üzenetet a Signal Desktop ezen verziójából? A Signal-fiókod és a telefonodon vagy más társított eszközökön lévő adatok nem törlődnek."
   },
-  "icu:deleteAccountProgress": {
-    "messageformat": "Deleting account and all data…"
-  },
   "icu:deleteAllDataProgress": {
     "messageformat": "Lecsatlakozás és az összes adat törlése…"
   },
   "icu:deleteAccountHeader": {
-    "messageformat": "Delete account"
+    "messageformat": "Fiók törlése"
   },
   "icu:deleteAccountExplanation": {
-    "messageformat": "This will delete your account info, profile, and all of your messages. You will also be removed from all Signal groups."
+    "messageformat": "Ezzel fiók információid, profilod és minden üzeneted törlésre kerül. Emellett az összes Signal-csoportból is eltávolításra kerülsz."
   },
   "icu:deleteAccountButton": {
-    "messageformat": "Delete account"
+    "messageformat": "Fiók törlése"
   },
   "icu:deleteAccountDialogHeader": {
-    "messageformat": "Delete Account?"
+    "messageformat": "Fiók törlése?"
   },
   "icu:deleteAccountDialogBody": {
-    "messageformat": "This will delete your account info, profile, and all of your messages. You will also be removed from all Signal groups. The app will close after this process is complete."
+    "messageformat": "Ezzel fiók információid, profilod és minden üzeneted törlésre kerül. Emellett az összes Signal-csoportból is eltávolításra kerülsz. Az alkalmazás a folyamat befejezése után bezárul."
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Egy korábbi Signal Desktop telepítés elavult adatokat hagyott hátra. Ha úgy döntesz, hogy folytatod, akkor ezek az adatok törölve lesznek, és elölről kell kezdened."
@@ -2571,10 +2583,10 @@
     "messageformat": "Nincs párosítva"
   },
   "icu:unregisteredWarning": {
-    "messageformat": "Click to re-register and continue messaging. Signal Desktop is unregistered likely because you registered your phone number with Signal on a different device."
+    "messageformat": "Kattints ide az újbóli regisztrációhoz és az üzenetváltás folytatásához. A Signal Desktop valószínűleg azért nincs regisztrálva, mert egy másik eszközön regisztráltad a telefonszámodat a Signalnál."
   },
   "icu:unregistered": {
-    "messageformat": "No longer registered"
+    "messageformat": "Már nincs regisztrálva"
   },
   "icu:autoUpdateNewVersionTitle": {
     "messageformat": "Frissítés érhető el"
@@ -3362,50 +3374,38 @@
   "icu:ReactionsViewer--all": {
     "messageformat": "Összes"
   },
-  "icu:SafetyTipsModal__Title": {
+  "icu:SafetyTipsModal__Title-v2": {
     "messageformat": "Biztonsági tippek"
   },
-  "icu:SafetyTipsModal__Title-v2": {
-    "messageformat": "Safety tips"
-  },
   "icu:SafetyTipsModal__TipTitle--SignalChat": {
-    "messageformat": "Don’t respond to chats from Signal"
+    "messageformat": "Ne válaszolj a Signal csevegéseire"
   },
   "icu:SafetyTipsModal__TipDescription--SignalChat": {
-    "messageformat": "Signal will never message you for your registration code, PIN, or recovery key. Never respond to a chat pretending to be Signal."
+    "messageformat": "A Signal soha nem küld üzenetet a regisztrációs kódoddal, a PIN-kódoddal vagy a helyreállítási kulcsoddal kapcsolatban. Soha ne válaszolj olyan csevegésre, amelyben úgy tesznek, mintha a Signal nevében írnának."
   },
   "icu:SafetyTipsModal__TipTitle--NamesAndPhotos": {
-    "messageformat": "Review names and photos"
+    "messageformat": "Nevek és fotók felülvizsgálata"
   },
   "icu:SafetyTipsModal__TipDescription--NamesAndPhotos": {
-    "messageformat": "Look out for the “Name not verified” notice. Everyone sets their own profile name in Signal."
+    "messageformat": "Vigyázz a „Név nincs ellenőrizve” értesítések esetén. A Signalban mindenki saját maga állítja be a profilnevét."
   },
   "icu:SafetyTipsModal__TipTitle--Scams": {
-    "messageformat": "Look out for scams"
+    "messageformat": "Vigyázz a csalásokra"
   },
   "icu:SafetyTipsModal__TipDescription--Scams": {
-    "messageformat": "Avoid vague messages that try to get you to reply. Be aware of financial tips and suspicious web links."
-  },
-  "icu:SafetyTipsModal__Description": {
-    "messageformat": "Legyél óvatos, amikor ismeretlen emberek üzenetkéréseit fogadod el. Vigyázz:"
+    "messageformat": "Kerüld az olyan kétes üzeneteket, amelyekkel válaszadásra próbálnak rávenni. Vigyázz a pénzügyi tippekkel és a gyanús webes linkekkel."
   },
   "icu:SafetyTipsModal__TipTitle--DontRespond": {
-    "messageformat": "Don’t respond to chats from Signal"
+    "messageformat": "Ne válaszolj a Signal csevegéseire"
   },
   "icu:SafetyTipsModal__TipDescription--DontRespond": {
-    "messageformat": "Signal will never message you for your registration code, PIN, or recover key. Don't reply to chats pretending to be Signal or Signal Support. Bad actors set up fake names to try to take over your account."
+    "messageformat": "A Signal soha nem küld üzenetet a regisztrációs kódoddal, a PIN-kódoddal vagy a helyreállítási kulcsoddal kapcsolatban. Ne válaszolj olyan csevegésekre, amelyek a Signalnak vagy a Signal ügyfélszolgálatának adják ki magukat. A rosszindulatú szereplők hamis neveket adnak meg, hogy megpróbálják átvenni az irányítást a fiókod felett."
   },
   "icu:SafetyTipsModal__TipTitle--ReviewNames": {
-    "messageformat": "Review names and photos"
+    "messageformat": "Nevek és fotók felülvizsgálata"
   },
   "icu:SafetyTipsModal__TipDescription--ReviewNames": {
-    "messageformat": "Look out for the “Name not verified” notice. Everyone sets their own profile name and photo in Signal. If you’re unsure who a new request is from it’s safer to ignore it."
-  },
-  "icu:SafetyTipsModal__TipTitle--Fake": {
-    "messageformat": "Hamis nevek és fiókok"
-  },
-  "icu:SafetyTipsModal__TipDescription--Fake": {
-    "messageformat": "A Signal soha nem fogja felvenni veled a kapcsolatot regisztrációs vagy PIN-kódoddal kapcsolatban. Legyél óvatos azokkal a kérésekkel, amelyeket mások nevében küldenek. A profilneveket a fióktulajdonos választja ki, és nincsenek ellenőrizve."
+    "messageformat": "Vigyázz a „Név nincs ellenőrizve” értesítések esetén. A Signalban mindenki saját maga állítja be a profilnevét és fotóját. Ha nem vagy biztos benne, hogy kitől érkezett egy új kérés, biztonságosabb, ha figyelmen kívül hagyod."
   },
   "icu:SafetyTipsModal__TipTitle--Crypto": {
     "messageformat": "Kripto- vagy pénzzel kapcsolatos átverések"
@@ -3419,38 +3419,20 @@
   "icu:SafetyTipsModal__TipDescription--Vague": {
     "messageformat": "A kéretlen üzenetek küldői gyakran egy olyan egyszerű üzenettel indítanak, mint például „Szia”, hogy magukhoz vonzzanak téged. Ha válaszolsz, lehet, hogy továbbmennek."
   },
-  "icu:SafetyTipsModal__TipTitle--Links": {
-    "messageformat": "Üzenetek hivatkozásokkal"
-  },
   "icu:SafetyTipsModal__TipDescription--Links": {
     "messageformat": "Legyél óvatos az ismeretlen személyektől érkező, weboldalakra mutató hivatkozásokat tartalmazó üzenetekkel. Soha ne látogass el olyan emberek hivatkozásaira, akikben nem bízol meg."
   },
   "icu:SafetyTipsModal__TipTitle--Links-v2": {
-    "messageformat": "Messages with web links"
+    "messageformat": "Üzenetek webhivatkozásokkal"
   },
   "icu:SafetyTipsModal__TipTitle--Business": {
     "messageformat": "Hamis vállalkozások és intézmények"
   },
-  "icu:SafetyTipsModal__TipTitle--Business-v2": {
-    "messageformat": "Fake businesses"
-  },
   "icu:SafetyTipsModal__TipDescription--Business": {
     "messageformat": "Legyél óvatos, ha vállalkozások vagy kormányzati szervek lépnek kapcsolatba veled. Az adóhivatalokat, futárszolgálatokat stb. érintő üzenetek kéretlen üzenetek lehetnek."
   },
-  "icu:SafetyTipsModal__DotLabel": {
-    "messageformat": "Tovább a(z) {page,number}. oldalra"
-  },
-  "icu:SafetyTipsModal__Button--Previous": {
-    "messageformat": "Előző tipp"
-  },
-  "icu:SafetyTipsModal__Button--Next": {
-    "messageformat": "Következő tipp"
-  },
-  "icu:SafetyTipsModal__Button--Done": {
-    "messageformat": "Befejezés"
-  },
   "icu:SafetyTipsModal__Button--ViewMore": {
-    "messageformat": "View more"
+    "messageformat": "Tovább"
   },
   "icu:MessageRequests--message-direct": {
     "messageformat": "Engedélyezed, hogy {name} üzenetet küldjön számodra és lássa a profilodat, valamint profilképedet? Amíg nem fogadod el a felkérést, nem fogja tudni, hogy megkaptad az üzeneteit."
@@ -3548,17 +3530,11 @@
   "icu:MessageRequests--accept": {
     "messageformat": "Elfogadás"
   },
-  "icu:MessageRequests--accept-confirm-title": {
+  "icu:MessageRequests--accept-confirm-title-v2": {
     "messageformat": "Elfogadod a felkérést?"
   },
-  "icu:MessageRequests--accept-confirm-body": {
-    "messageformat": "Gondosan nézd át a felkéréseket. A profilneveket a fióktulajdonos választja ki, és nincsenek ellenőrizve."
-  },
-  "icu:MessageRequests--accept-confirm-title-v2": {
-    "messageformat": "Accept request?"
-  },
   "icu:MessageRequests--accept-confirm-body-v2": {
-    "messageformat": "Only accept requests from people you trust. <bold>Signal will never</bold> message you for a registration code, PIN, or recovery key."
+    "messageformat": "Csak olyan emberektől fogadj el kéréseket, akikben megbízol. A <bold>Signal soha nem</bold> küld üzenetet a regisztrációs kódoddal, a PIN-kódoddal vagy a helyreállítási kulcsoddal kapcsolatban."
   },
   "icu:MessageRequests--continue": {
     "messageformat": "Folytatás"
@@ -3614,17 +3590,14 @@
   "icu:ConversationHero--signal-official-chat": {
     "messageformat": "Ez a hivatalos és egyetlen Signal chat"
   },
-  "icu:ConversationHero--signal-official-account": {
-    "messageformat": "Hivatalos fiók"
-  },
   "icu:ConversationHero--signal-official-chat-title": {
-    "messageformat": "Official chat"
+    "messageformat": "Hivatalos csevegés"
   },
   "icu:ConversationHero--signal-official-account--description": {
     "messageformat": "Az egyetlen hivatalos csevegés a Signaltól. Legyél naprakész a hírekkel és a frissítésekkel kapcsolatban."
   },
   "icu:Timeline--signal-official-chat--chip": {
-    "messageformat": "The only official chat from Signal."
+    "messageformat": "Az egyetlen hivatalos csevegés a Signaltól."
   },
   "icu:ConversationHero--release-notes": {
     "messageformat": "Legyél naprakész a hírekkel és a frissítésekkel kapcsolatban."
@@ -3895,9 +3868,6 @@
   },
   "icu:calling__SelectPresentingSourcesModal--window": {
     "messageformat": "Egy ablak"
-  },
-  "icu:calling__ParticipantInfoButton": {
-    "messageformat": "További információ erről a névjegyről"
   },
   "icu:CallingAdhocCallInfo__CopyLink": {
     "messageformat": "Híváslink másolása"
@@ -4611,7 +4581,7 @@
     "messageformat": "Bezárás"
   },
   "icu:clear": {
-    "messageformat": "Clear"
+    "messageformat": "Törlés"
   },
   "icu:previous": {
     "messageformat": "előző"
@@ -4623,34 +4593,22 @@
     "messageformat": "Ez eltarthat néhány percig"
   },
   "icu:DeletingAccount__LeavingGroups__Title": {
-    "messageformat": "Leaving groups..."
+    "messageformat": "Kilépés a csoportból..."
   },
   "icu:DeletingAccount__LeavingGroups__Detail": {
-    "messageformat": "Depending on the number of groups you’re in, this might take a few minutes"
+    "messageformat": "Csoportjaid számától függően ez eltarthat pár percig"
   },
   "icu:DeletingAccount__DeletingData__Title": {
-    "messageformat": "Deleting account and all data..."
+    "messageformat": "Fiók és az összes adat törlése..."
   },
   "icu:DeletingAccount__DeletingData__Detail": {
-    "messageformat": "Deleting user data and resetting the app"
+    "messageformat": "Az adatok törlése és az alkalmazás visszaállítása folyamatban van"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Adomány a Signal számára"
   },
-  "icu:BadgeSustainerInstructions__header": {
-    "messageformat": "Adomány a Signal számára"
-  },
-  "icu:BadgeSustainerInstructions__subheader": {
-    "messageformat": "A Signalt hozzád hasonló emberek működtetik. Hozzájárulásoddal kitűzőhöz juthatsz."
-  },
-  "icu:BadgeSustainerInstructions__instructions__1": {
-    "messageformat": "Nyisd meg a Signalt a telefonodon!"
-  },
-  "icu:BadgeSustainerInstructions__instructions__2": {
-    "messageformat": "Kattints a profilképedre bal-felül a Beállítások megnyitásához!"
-  },
-  "icu:BadgeSustainerInstructions__instructions__3": {
-    "messageformat": "Koppints az „Adományozás a Signalnak” lehetőségre, és iratkozz fel"
+  "icu:BadgeDialog__name-supports-signal": {
+    "messageformat": "{name} supports Signal"
   },
   "icu:ProfileMovedModal__title": {
     "messageformat": "A profilod átköltözött"
@@ -5410,7 +5368,7 @@
     "messageformat": "Ezzel a hivatkozással csatlakozhatsz egy Signal-híváshoz: {url}"
   },
   "icu:MessageRequestWarning__review-carefully": {
-    "messageformat": "Review requests carefully"
+    "messageformat": "Gondosan nézd át a kéréseket"
   },
   "icu:MessageRequestWarning__safety-tips-v2": {
     "messageformat": "Biztonsági tippek"
@@ -6382,26 +6340,23 @@
   "icu:Preferences--blocked": {
     "messageformat": "Letiltva"
   },
-  "icu:Preferences--blocked-count": {
-    "messageformat": "{num, plural, one {{num,number} névjegy} other {{num,number} névjegy}}"
-  },
   "icu:Preferences--blocked-count-both-new": {
-    "messageformat": "{num, plural, =0 { No users or groups } one {{num,number} user or group} other {{num,number} users or groups}}"
+    "messageformat": "{num, plural, =0 { Nincs felhasználó vagy csoport } one {{num,number} felhasználó vagy csoport} other {{num,number} felhasználó vagy csoport}}"
   },
   "icu:Preferences--blocked-count-contacts-new": {
-    "messageformat": "{num, plural, =0 { No users } one {{num,number} user} other {{num,number} users}}"
+    "messageformat": "{num, plural, =0 { Nincs felhasználó } one {{num,number} felhasználó} other {{num,number} felhasználó}}"
   },
   "icu:Preferences--blocked-count-groups-new": {
-    "messageformat": "{num, plural, =0 { No groups } one {{num,number} group} other {{num,number} groups}}"
+    "messageformat": "{num, plural, =0 { Nincs csoport } one {{num,number} csoport} other {{num,number} csoport}}"
   },
   "icu:Preferences--blocked-users--description": {
-    "messageformat": "Blocked users will not be able to call you or send you messages"
+    "messageformat": "A letiltott felhasználók nem fognak tudni sem felhívni, sem üzenetet küldeni neked"
   },
   "icu:Preferences--blocked-users": {
-    "messageformat": "Blocked Users"
+    "messageformat": "Letiltott felhasználók"
   },
   "icu:Preferences--blocked-groups": {
-    "messageformat": "Blocked Groups"
+    "messageformat": "Letiltott csoportok"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Signal Biztonságos Biztonsági mentések"
@@ -6974,7 +6929,7 @@
     "messageformat": "Elfogadtad az üzenetkérést"
   },
   "icu:MessageRequestResponseNotification__Message--Accepted-Contact-Title": {
-    "messageformat": "You accepted {userProfileName}'s message request"
+    "messageformat": "Elfogadtad {userProfileName} csevegésre szóló felkérését"
   },
   "icu:MessageRequestResponseNotification__Message--Reported": {
     "messageformat": "Megjelölve kéretlen üzenetként"
@@ -6991,11 +6946,8 @@
   "icu:MessageRequestResponseNotification__Message--Unblocked--Group": {
     "messageformat": "Feloldottad a csoport letiltását"
   },
-  "icu:MessageRequestResponseNotification__Button--Options": {
-    "messageformat": "Opciók"
-  },
   "icu:MessageRequestResponseNotification__Button--block-or-report": {
-    "messageformat": "Block or Report..."
+    "messageformat": "Letiltás vagy jelentés..."
   },
   "icu:MessageRequestResponseNotification__Button--LearnMore": {
     "messageformat": "Tudj meg többet"
@@ -8256,10 +8208,43 @@
     "messageformat": "Az oldalsáv kibontása a megafonnal való interakcióhoz"
   },
   "icu:Carousel--Role": {
-    "messageformat": "Carousel"
+    "messageformat": "Körhinta"
   },
   "icu:Carousel__Slide--Role": {
-    "messageformat": "Slide"
+    "messageformat": "Csúszda"
+  },
+  "icu:MaybeTransferModal__title": {
+    "messageformat": "Transfer your phone’s message history to this desktop?"
+  },
+  "icu:MaybeTransferModal__description": {
+    "messageformat": "When you re-link this desktop, you can transfer your phone’s message history to this device."
+  },
+  "icu:MaybeTransferModal__learnMore": {
+    "messageformat": "Learn more"
+  },
+  "icu:MaybeTransferModal__replaceHistory": {
+    "messageformat": "This will <bold>replace</bold> the message history on this desktop."
+  },
+  "icu:MaybeTransferModal__scanQrCode": {
+    "messageformat": "You’ll need to relink by scanning a QR code."
+  },
+  "icu:MaybeTransferModal__media": {
+    "messageformat": "If you have paid Signal Secure Backups, all of your media will be transferred. Otherwise, your last 45 days of media will be included."
+  },
+  "icu:MaybeTransferModal__transfer": {
+    "messageformat": "Transfer"
+  },
+  "icu:MaybeTransferModal__dontTransfer": {
+    "messageformat": "Don't transfer"
+  },
+  "icu:DeleteDataAndRelinkConfirmationDialog__title": {
+    "messageformat": "Delete all data?"
+  },
+  "icu:DeleteDataAndRelinkConfirmationDialog__pending": {
+    "messageformat": "Deleting all data"
+  },
+  "icu:DeleteDataAndRelinkConfirmationDialog__body": {
+    "messageformat": "All current data in Signal Desktop will be deleted. You can then scan a QR code and transfer your message history from your phone."
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Ebbe a verzióba néhány kisebb újítás és hibajavítás került annak érdekében, hogy a Signal továbbra is gond nélkül fusson.",
@@ -8290,6 +8275,15 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__8.10--0": {
-    "messageformat": "The freshly spun emoji in Unicode 17.0 have now pirouetted into place in Signal. Send a message reaction with the new Ballet Dancer emoji to perform your own digital version of a pas de chat."
+    "messageformat": "Engedélyeztük az új emojik támogatását az Unicode 17.0-ban."
+  },
+  "icu:WhatsNew__8.11--0": {
+    "messageformat": "We've introduced additional confirmations and educational messaging in the app to help protect Signal users from phishing and social engineering attacks. As a reminder, never reply to chats pretending to be Signal, and never send your verification code, PIN, or recovery key to anyone."
+  },
+  "icu:WhatsNew__8.11--1": {
+    "messageformat": "Raised hand indicators in group calls now display the current order of the queue, so you can easily see who got the upper hand first."
+  },
+  "icu:WhatsNew__8.11--2": {
+    "messageformat": "We also added a real-time visualization while recording voice messages, so surfers (and oceanographers) can stare at multiple moving waveforms whenever they share updates from the beach."
   }
 }

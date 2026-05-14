@@ -1,4 +1,19 @@
 {
+  "icu:AxoAlertDialog.Cancel": {
+    "messageformat": "Cancel"
+  },
+  "icu:AxoButton.Pending": {
+    "messageformat": "Pending"
+  },
+  "icu:AxoDialog.Back": {
+    "messageformat": "Back"
+  },
+  "icu:AxoDialog.Close": {
+    "messageformat": "Close"
+  },
+  "icu:AxoTextField.Clear": {
+    "messageformat": "Clear"
+  },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "ჯგუფში დამატება"
   },
@@ -439,15 +454,6 @@
   },
   "icu:pinnedConversationsFull": {
     "messageformat": "მაქსიმუმ 4 ჩატის აპინვა შეგიძლია"
-  },
-  "icu:loadingMessages--other": {
-    "messageformat": "{daysAgo, plural, one {იტვირთება 1 დღის წინანდელი შეტყობინებები...} other {იტვირთება {daysAgo,number} დღის წინანდელი შეტყობინებები...}}"
-  },
-  "icu:loadingMessages--yesterday": {
-    "messageformat": "იტვირთება გუშინდელი შეტყობინებები..."
-  },
-  "icu:loadingMessages--today": {
-    "messageformat": "იტვირთება დღევანდელი შეტყობინებები..."
   },
   "icu:view": {
     "messageformat": "ნახვა"
@@ -1592,6 +1598,15 @@
   "icu:Install__support-link": {
     "messageformat": "დახმარება გჭირდება?"
   },
+  "icu:Install__confirm-data-deletion__title": {
+    "messageformat": "Delete all data?"
+  },
+  "icu:Install__confirm-data-deletion__body": {
+    "messageformat": "You’re attempting to link a different Signal account to this desktop. If you continue, all data currently in Signal Desktop will be deleted."
+  },
+  "icu:Install__confirm-data-deletion__continue": {
+    "messageformat": "Continue"
+  },
   "icu:Preferences--header": {
     "messageformat": "პარამეტრები"
   },
@@ -1956,25 +1971,25 @@
     "messageformat": "მეტი ოფცია"
   },
   "icu:CallingParticipantMenu__MuteAudio": {
-    "messageformat": "Mute audio"
+    "messageformat": "აუდიოს დადუმება"
   },
   "icu:CallingParticipantMenu__UnmuteAudio": {
-    "messageformat": "Unmute audio"
+    "messageformat": "ხმის ჩართვა"
   },
   "icu:CallingParticipantMenu__ViewProfile": {
-    "messageformat": "View profile"
+    "messageformat": "პროფილის ნახვა"
   },
   "icu:CallingParticipantMenu__GoToChat": {
-    "messageformat": "Go to chat"
+    "messageformat": "ჩატში გადასვლა"
   },
   "icu:CallingParticipantMenu__RemoveFromCall": {
-    "messageformat": "Remove from call"
+    "messageformat": "ზარიდან წაშლა"
   },
   "icu:CallingParticipantListItem__ContextMenuButton": {
-    "messageformat": "More actions"
+    "messageformat": "მეტი მოქმედება"
   },
   "icu:CallingParticipantListItem__Presenting": {
-    "messageformat": "Presenting"
+    "messageformat": "პრეზენტირება"
   },
   "icu:CallingPendingParticipants__ApproveUser": {
     "messageformat": "შემოსვლის მოთხოვნის დადასტურება"
@@ -2204,26 +2219,23 @@
   "icu:deleteAllDataBody": {
     "messageformat": "გსურს, Signal Desktop-ის ამ ვერსიიდან ყველა მონაცემი და მიმოწერა წაშალო? შენი Signal-ის პროფილი და მონაცემები შენს ტელეფონზე ან სხვა დაკავშირებულ მოწყობილობებზე არ წაიშლება."
   },
-  "icu:deleteAccountProgress": {
-    "messageformat": "Deleting account and all data…"
-  },
   "icu:deleteAllDataProgress": {
     "messageformat": "მიმდინარეობს გათიშვა და ყველა მონაცემის წაშლა…"
   },
   "icu:deleteAccountHeader": {
-    "messageformat": "Delete account"
+    "messageformat": "მონაცემების წაშლა"
   },
   "icu:deleteAccountExplanation": {
-    "messageformat": "This will delete your account info, profile, and all of your messages. You will also be removed from all Signal groups."
+    "messageformat": "ეს წაშლის შენი ანგარიშის ინფორმაციას, პროფილს და ყველა შეტყობინებას. ასევე წაიშლები Signal-ის ყველა ჯგუფიდან."
   },
   "icu:deleteAccountButton": {
-    "messageformat": "Delete account"
+    "messageformat": "მონაცემების წაშლა"
   },
   "icu:deleteAccountDialogHeader": {
-    "messageformat": "Delete Account?"
+    "messageformat": "წაიშალოს ანგარიში?"
   },
   "icu:deleteAccountDialogBody": {
-    "messageformat": "This will delete your account info, profile, and all of your messages. You will also be removed from all Signal groups. The app will close after this process is complete."
+    "messageformat": "ეს წაშლის შენი ანგარიშის ინფორმაციას, პროფილს და ყველა შეტყობინებას. ასევე წაიშლები Signal-ის ყველა ჯგუფიდან. აპი დაიხურება ამ პროცესის დასრულების შემდეგ."
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "შენ გაქვს მოძველებული მონაცემები Signal Desktop-ის წინა ინსტალაციისდან. თუ გაგრძელებას აირჩევ, ის წაიშლება და ნულიდან დაიწყებ."
@@ -2571,10 +2583,10 @@
     "messageformat": "Unlinked"
   },
   "icu:unregisteredWarning": {
-    "messageformat": "Click to re-register and continue messaging. Signal Desktop is unregistered likely because you registered your phone number with Signal on a different device."
+    "messageformat": "დააკლიკე ხელახლა რეგისტრაციისთვის და მიმოწერის გასაგრძელებლად. Signal Desktop რეგისტრაციიდან მოხსნილია, სავარაუდოდ იმიტომ, რომ შენი ტელეფონის ნომერი Signal-ში სხვა მოწყობილობაზე დაარეგისტრირე."
   },
   "icu:unregistered": {
-    "messageformat": "No longer registered"
+    "messageformat": "აღარაა რეგისტრირებული"
   },
   "icu:autoUpdateNewVersionTitle": {
     "messageformat": "განახლება ხელმისაწვდომია"
@@ -3362,50 +3374,38 @@
   "icu:ReactionsViewer--all": {
     "messageformat": "ყველა"
   },
-  "icu:SafetyTipsModal__Title": {
+  "icu:SafetyTipsModal__Title-v2": {
     "messageformat": "რჩევები უსაფრთხოებაზე"
   },
-  "icu:SafetyTipsModal__Title-v2": {
-    "messageformat": "Safety tips"
-  },
   "icu:SafetyTipsModal__TipTitle--SignalChat": {
-    "messageformat": "Don’t respond to chats from Signal"
+    "messageformat": "არ უპასუხო Signal-ის ჩატებს"
   },
   "icu:SafetyTipsModal__TipDescription--SignalChat": {
-    "messageformat": "Signal will never message you for your registration code, PIN, or recovery key. Never respond to a chat pretending to be Signal."
+    "messageformat": "Signal-ი არასდროს მოგწერს შენი რეგისტრაციის კოდის, პინ-კოდის ან აღდგენის გასაღების მოთხოვნით. არასდროს უპასუხო ჩატს, რომელიც თავს Signal-ად ასაღებს."
   },
   "icu:SafetyTipsModal__TipTitle--NamesAndPhotos": {
-    "messageformat": "Review names and photos"
+    "messageformat": "გადახედე სახელებსა და ფოტოებს"
   },
   "icu:SafetyTipsModal__TipDescription--NamesAndPhotos": {
-    "messageformat": "Look out for the “Name not verified” notice. Everyone sets their own profile name in Signal."
+    "messageformat": "ყურადღება მიაქციე შეტყობინებას „სახელი არაა ვერიფიცირებული\". Signal-ზე ყველა საკუთარ პროფილის სახელს აყენებს."
   },
   "icu:SafetyTipsModal__TipTitle--Scams": {
-    "messageformat": "Look out for scams"
+    "messageformat": "ფრთხილად იყავი თაღლითურ სქემებთან"
   },
   "icu:SafetyTipsModal__TipDescription--Scams": {
-    "messageformat": "Avoid vague messages that try to get you to reply. Be aware of financial tips and suspicious web links."
-  },
-  "icu:SafetyTipsModal__Description": {
-    "messageformat": "ფრთხილად იყავი, როცა მიმოწერის მოთხოვნებს უცნობებისგან იღებ. უფრთხილდი:"
+    "messageformat": "ერიდე ბუნდოვან წერილებს, რომლითაც ცდილობენ, პასუხი გამოგტყუონ. ფრთხილად იყავი ფინანსურ რჩევებთან და საეჭვო ვებსაიტების ბმულებთან."
   },
   "icu:SafetyTipsModal__TipTitle--DontRespond": {
-    "messageformat": "Don’t respond to chats from Signal"
+    "messageformat": "არასდროს უპასუხო Signal-ის ჩატებს"
   },
   "icu:SafetyTipsModal__TipDescription--DontRespond": {
-    "messageformat": "Signal will never message you for your registration code, PIN, or recover key. Don't reply to chats pretending to be Signal or Signal Support. Bad actors set up fake names to try to take over your account."
+    "messageformat": "Signal-ი არასდროს მოგწერს შენი რეგისტრაციის კოდის, პინ-კოდის ან აღდგენის გასაღების მოთხოვნით. არ უპასუხო ჩატებს, რომლებიც თავს Signal-ად ან Signal-ის მხარდაჭერის გუნდად ასაღებენ. ბოროტმოქმედები ყალბ ჩატებს ქმნიან, რათა შენი ანგარიში დაისაკუთრონ."
   },
   "icu:SafetyTipsModal__TipTitle--ReviewNames": {
-    "messageformat": "Review names and photos"
+    "messageformat": "გადახედე სახელებსა და ფოტოებს"
   },
   "icu:SafetyTipsModal__TipDescription--ReviewNames": {
-    "messageformat": "Look out for the “Name not verified” notice. Everyone sets their own profile name and photo in Signal. If you’re unsure who a new request is from it’s safer to ignore it."
-  },
-  "icu:SafetyTipsModal__TipTitle--Fake": {
-    "messageformat": "ყალბი სახელები და ანგარიშები"
-  },
-  "icu:SafetyTipsModal__TipDescription--Fake": {
-    "messageformat": "Signal არასოდეს დაგიკავშირდება შენი სარეგისტრაციო კოდის ან პინ-კოდისთვის. ფრთხილად იყავი თხოვნებთან იმ ანგარიშებიდან, რომლებიც სხვებად ასაღებენ თავს. პროფილის სახელებს მათი ანგარიშის მფლობელი ირჩევს და ვერიფიცირებული არაა."
+    "messageformat": "ყურადღება მიაქციე შეტყობინებას „სახელი არაა ვერიფიცირებული\". Signal-ზე ყველა საკუთარ პროფილის სახელსა და ფოტოს აყენებს. თუ ზუსტად არ იცი, ვისგანაა ახალი მოთხოვნა, უფრო უსაფრთხო იქნება, რომ დააიგნორო."
   },
   "icu:SafetyTipsModal__TipTitle--Crypto": {
     "messageformat": "კრიპტო ან ფულის თაღლითობები"
@@ -3419,38 +3419,20 @@
   "icu:SafetyTipsModal__TipDescription--Vague": {
     "messageformat": "სპამერები ხშირად მარტივი შეტყობინებით იწყებენ, მაგალითად „გამარჯობა“, რომ საუბარში შეგიყოლიონ. თუ უპასუხებ, შეიძლება კიდევ უფრო ჩაგითრიონ საუბარში."
   },
-  "icu:SafetyTipsModal__TipTitle--Links": {
-    "messageformat": "შეტყობინებები ბმულებით"
-  },
   "icu:SafetyTipsModal__TipDescription--Links": {
     "messageformat": "ფრთხილად იყავი უცნობების ისეთ შეტყობინებებთან, რომლებიც ვებსაიტების ბმულებს შეიცავენ. არასდროს გადახვიდე იმ ადამიანების გამოგზავნილ ბმულებზე, ვისაც არ ენდობი."
   },
   "icu:SafetyTipsModal__TipTitle--Links-v2": {
-    "messageformat": "Messages with web links"
+    "messageformat": "შეტყობინებები ვებსაიტების ბმულებით"
   },
   "icu:SafetyTipsModal__TipTitle--Business": {
     "messageformat": "ყალბი ბიზნესები და დაწესებულებები"
   },
-  "icu:SafetyTipsModal__TipTitle--Business-v2": {
-    "messageformat": "Fake businesses"
-  },
   "icu:SafetyTipsModal__TipDescription--Business": {
     "messageformat": "ფრთხილად იყავი, თუ ბიზნესები ან სახელმწიფო უწყებები გიკავშირდებიან. შეტყობინებები, რომლებიც მოიცავს საგადასახადო სააგენტოებს, კურიერებს და სხვა, შეიძლება სპამი იყოს."
   },
-  "icu:SafetyTipsModal__DotLabel": {
-    "messageformat": "გვერდზე გადასვლა {page,number}"
-  },
-  "icu:SafetyTipsModal__Button--Previous": {
-    "messageformat": "წინა რჩევა"
-  },
-  "icu:SafetyTipsModal__Button--Next": {
-    "messageformat": "შემდეგი რჩევა"
-  },
-  "icu:SafetyTipsModal__Button--Done": {
-    "messageformat": "შესრულებულია"
-  },
   "icu:SafetyTipsModal__Button--ViewMore": {
-    "messageformat": "View more"
+    "messageformat": "მეტის ნახვა"
   },
   "icu:MessageRequests--message-direct": {
     "messageformat": "მივცეთ ნება {name} -ს გამოგიგზავნოს შეტყობინება და გავუზიაროთ მას შენი სახელი და ფოტო? ის ვერ გაიგებს, რომ მისი შეტყობინებები ნახე, სანამ მას არ დაეთანხმები."
@@ -3548,17 +3530,11 @@
   "icu:MessageRequests--accept": {
     "messageformat": "დასტური"
   },
-  "icu:MessageRequests--accept-confirm-title": {
+  "icu:MessageRequests--accept-confirm-title-v2": {
     "messageformat": "გსურს მოთხოვნა დაადასტურო?"
   },
-  "icu:MessageRequests--accept-confirm-body": {
-    "messageformat": "ყურადღებით გადახედე მოთხოვნებს. პროფილის სახელებს მათი ანგარიშის მფლობელი ირჩევს და ვერიფიცირებული არაა."
-  },
-  "icu:MessageRequests--accept-confirm-title-v2": {
-    "messageformat": "Accept request?"
-  },
   "icu:MessageRequests--accept-confirm-body-v2": {
-    "messageformat": "Only accept requests from people you trust. <bold>Signal will never</bold> message you for a registration code, PIN, or recovery key."
+    "messageformat": "მხოლოდ იმ ადამიანების მოთხოვნებს დაეთანხმე, ვისაც ენდობი. <bold>Signal-ი არასდროს</bold> მოგწერს შენი რეგისტრაციის კოდის, პინ-კოდის ან აღდგენის გასაღების მოთხოვნით."
   },
   "icu:MessageRequests--continue": {
     "messageformat": "გაგრძელება"
@@ -3614,17 +3590,14 @@
   "icu:ConversationHero--signal-official-chat": {
     "messageformat": "ეს Signal-ის ოფიციალური და ერთადერთი ჩატია"
   },
-  "icu:ConversationHero--signal-official-account": {
-    "messageformat": "ოფიციალური ანგარიში"
-  },
   "icu:ConversationHero--signal-official-chat-title": {
-    "messageformat": "Official chat"
+    "messageformat": "ოფიციალური ჩატი"
   },
   "icu:ConversationHero--signal-official-account--description": {
     "messageformat": "Signal-ის ერთადერთი ოფიციალური ჩატი. გაიგე სიახლეები და გამოშვების შენიშვნები."
   },
   "icu:Timeline--signal-official-chat--chip": {
-    "messageformat": "The only official chat from Signal."
+    "messageformat": "Signal-ის ერთადერთი ოფიციალური ჩატი."
   },
   "icu:ConversationHero--release-notes": {
     "messageformat": "გაიგე სიახლეები და გამოშვების შენიშვნები."
@@ -3895,9 +3868,6 @@
   },
   "icu:calling__SelectPresentingSourcesModal--window": {
     "messageformat": "ფანჯარა"
-  },
-  "icu:calling__ParticipantInfoButton": {
-    "messageformat": "მეტი ინფორმაცია ამ კონტაქტზე"
   },
   "icu:CallingAdhocCallInfo__CopyLink": {
     "messageformat": "ზარის ბმულის დაკოპირება"
@@ -4611,7 +4581,7 @@
     "messageformat": "Close"
   },
   "icu:clear": {
-    "messageformat": "Clear"
+    "messageformat": "გასუფთავება"
   },
   "icu:previous": {
     "messageformat": "წინა"
@@ -4623,34 +4593,22 @@
     "messageformat": "შეიძლება, ამას რამდენიმე წუთი დასჭირდეს"
   },
   "icu:DeletingAccount__LeavingGroups__Title": {
-    "messageformat": "Leaving groups..."
+    "messageformat": "ჯგუფების დატოვება..."
   },
   "icu:DeletingAccount__LeavingGroups__Detail": {
-    "messageformat": "Depending on the number of groups you’re in, this might take a few minutes"
+    "messageformat": "ამას შეიძლება რამოდენიმე წუთი დასჭირდეს, დამოკიდებულია იმ ჯგუფების რაოდენობაზე, რომლებშიც ხარ"
   },
   "icu:DeletingAccount__DeletingData__Title": {
-    "messageformat": "Deleting account and all data..."
+    "messageformat": "ანგარიშისა და ყველა მონაცემის წაშლა…"
   },
   "icu:DeletingAccount__DeletingData__Detail": {
-    "messageformat": "Deleting user data and resetting the app"
+    "messageformat": "მიმდინარეობს მომხმარებლის მონაცემთა წაშლა და აპის გადატვირთვა"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Signal-ისთვის დონაციის გაკეთება"
   },
-  "icu:BadgeSustainerInstructions__header": {
-    "messageformat": "Signal-ისთვის დონაციის გაკეთება"
-  },
-  "icu:BadgeSustainerInstructions__subheader": {
-    "messageformat": "Signal-ი შენნაირ ხალხზე დგას. შემოიტანე წვლილი და მიიღე ემბლემა."
-  },
-  "icu:BadgeSustainerInstructions__instructions__1": {
-    "messageformat": "გახსენი Signal-ი შენს ტელეფონში"
-  },
-  "icu:BadgeSustainerInstructions__instructions__2": {
-    "messageformat": "პარამეტრების გასახსნელად ზედა მარცხენა კუთხეში შენი პროფილის ფოტოს დააჭირე"
-  },
-  "icu:BadgeSustainerInstructions__instructions__3": {
-    "messageformat": "დააჭირე \"Signal-ისთვის დონაციის გაკეთება“ და გამოიწერე"
+  "icu:BadgeDialog__name-supports-signal": {
+    "messageformat": "{name} supports Signal"
   },
   "icu:ProfileMovedModal__title": {
     "messageformat": "შენი პროფილი გადატანილია"
@@ -5410,7 +5368,7 @@
     "messageformat": "გამოიყენე ეს ბმული Signal-ის ზარზე შესასვლელად: {url}"
   },
   "icu:MessageRequestWarning__review-carefully": {
-    "messageformat": "Review requests carefully"
+    "messageformat": "ყურადღებით გადახედე მოთხოვნებს"
   },
   "icu:MessageRequestWarning__safety-tips-v2": {
     "messageformat": "რჩევები უსაფრთხოებაზე"
@@ -6382,26 +6340,23 @@
   "icu:Preferences--blocked": {
     "messageformat": "დაბლოკილია"
   },
-  "icu:Preferences--blocked-count": {
-    "messageformat": "{num, plural, one {{num,number} კონტაქტი} other {{num,number} კონტაქტი}}"
-  },
   "icu:Preferences--blocked-count-both-new": {
-    "messageformat": "{num, plural, =0 { No users or groups } one {{num,number} user or group} other {{num,number} users or groups}}"
+    "messageformat": "{num, plural, =0 { მომხმარებლების ან ჯგუფების გარეშე } one {{num,number} მომხმარებელი ან ჯგუფი} other {{num,number} მომხმარებელი ან ჯგუფი}}"
   },
   "icu:Preferences--blocked-count-contacts-new": {
-    "messageformat": "{num, plural, =0 { No users } one {{num,number} user} other {{num,number} users}}"
+    "messageformat": "{num, plural, =0 { მომხმარებლების გარეშე } one {{num,number} მომხმარებელი} other {{num,number} მომხმარებელი}}"
   },
   "icu:Preferences--blocked-count-groups-new": {
-    "messageformat": "{num, plural, =0 { No groups } one {{num,number} group} other {{num,number} groups}}"
+    "messageformat": "{num, plural, =0 { ჯგუფების გარეშე } one {{num,number} ჯგუფი} other {{num,number} ჯგუფი}}"
   },
   "icu:Preferences--blocked-users--description": {
-    "messageformat": "Blocked users will not be able to call you or send you messages"
+    "messageformat": "დაბლოკილ მომხმარებლებს არ ექნებათ შესაძლებლობა დაგირეკონ ან მოგწერონ."
   },
   "icu:Preferences--blocked-users": {
-    "messageformat": "Blocked Users"
+    "messageformat": "დაბლოკილი მომხმარებლები"
   },
   "icu:Preferences--blocked-groups": {
-    "messageformat": "Blocked Groups"
+    "messageformat": "დაბლოკილი ჯგუფები"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Signal-ის უსაფრთხო სათადარიგო ასლები"
@@ -6974,7 +6929,7 @@
     "messageformat": "შენ დაეთანხმე მიმოწერის მოთხოვნას"
   },
   "icu:MessageRequestResponseNotification__Message--Accepted-Contact-Title": {
-    "messageformat": "You accepted {userProfileName}'s message request"
+    "messageformat": "შენ დაეთანხმე {userProfileName}-(ი)ს მიმოწერის მოთხოვნას"
   },
   "icu:MessageRequestResponseNotification__Message--Reported": {
     "messageformat": "დარეპორტებულია, როგორც სპამი"
@@ -6991,11 +6946,8 @@
   "icu:MessageRequestResponseNotification__Message--Unblocked--Group": {
     "messageformat": "შენ განბლოკე ჯგუფი"
   },
-  "icu:MessageRequestResponseNotification__Button--Options": {
-    "messageformat": "ოფციები"
-  },
   "icu:MessageRequestResponseNotification__Button--block-or-report": {
-    "messageformat": "Block or Report..."
+    "messageformat": "დაბლოკვა ან დარეპორტება..."
   },
   "icu:MessageRequestResponseNotification__Button--LearnMore": {
     "messageformat": "გაიგე მეტი"
@@ -8256,10 +8208,43 @@
     "messageformat": "გაადიდე გვერდით პანელი, რომ მეგაფონთან ინტერაქცია შეძლო"
   },
   "icu:Carousel--Role": {
-    "messageformat": "Carousel"
+    "messageformat": "კარუსელი"
   },
   "icu:Carousel__Slide--Role": {
-    "messageformat": "Slide"
+    "messageformat": "სლაიდი"
+  },
+  "icu:MaybeTransferModal__title": {
+    "messageformat": "Transfer your phone’s message history to this desktop?"
+  },
+  "icu:MaybeTransferModal__description": {
+    "messageformat": "When you re-link this desktop, you can transfer your phone’s message history to this device."
+  },
+  "icu:MaybeTransferModal__learnMore": {
+    "messageformat": "Learn more"
+  },
+  "icu:MaybeTransferModal__replaceHistory": {
+    "messageformat": "This will <bold>replace</bold> the message history on this desktop."
+  },
+  "icu:MaybeTransferModal__scanQrCode": {
+    "messageformat": "You’ll need to relink by scanning a QR code."
+  },
+  "icu:MaybeTransferModal__media": {
+    "messageformat": "If you have paid Signal Secure Backups, all of your media will be transferred. Otherwise, your last 45 days of media will be included."
+  },
+  "icu:MaybeTransferModal__transfer": {
+    "messageformat": "Transfer"
+  },
+  "icu:MaybeTransferModal__dontTransfer": {
+    "messageformat": "Don't transfer"
+  },
+  "icu:DeleteDataAndRelinkConfirmationDialog__title": {
+    "messageformat": "Delete all data?"
+  },
+  "icu:DeleteDataAndRelinkConfirmationDialog__pending": {
+    "messageformat": "Deleting all data"
+  },
+  "icu:DeleteDataAndRelinkConfirmationDialog__body": {
+    "messageformat": "All current data in Signal Desktop will be deleted. You can then scan a QR code and transfer your message history from your phone."
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "ეს ვერსია შეიცავს უამრავ მცირე შესწორებას და ბაგების გამოსწორებებს Signal-ის შეუფერხებლად მუშაობის შესანარჩუნებლად.",
@@ -8290,6 +8275,15 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__8.10--0": {
-    "messageformat": "The freshly spun emoji in Unicode 17.0 have now pirouetted into place in Signal. Send a message reaction with the new Ballet Dancer emoji to perform your own digital version of a pas de chat."
+    "messageformat": "Unicode 17.0-ში ახალი ემოჯის მხარდაჭერა დაგვემატა. 8.10 ვერსიის სიახლეები. გამოხატე რეაქცია მესიჯებზე ახალი ემოჯიების საშუალებით."
+  },
+  "icu:WhatsNew__8.11--0": {
+    "messageformat": "We've introduced additional confirmations and educational messaging in the app to help protect Signal users from phishing and social engineering attacks. As a reminder, never reply to chats pretending to be Signal, and never send your verification code, PIN, or recovery key to anyone."
+  },
+  "icu:WhatsNew__8.11--1": {
+    "messageformat": "Raised hand indicators in group calls now display the current order of the queue, so you can easily see who got the upper hand first."
+  },
+  "icu:WhatsNew__8.11--2": {
+    "messageformat": "We also added a real-time visualization while recording voice messages, so surfers (and oceanographers) can stare at multiple moving waveforms whenever they share updates from the beach."
   }
 }
