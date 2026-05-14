@@ -1,7 +1,6 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-
-import type { FC, Ref, MouseEvent } from 'react';
+import type { FC, Ref, MouseEvent, FocusEvent } from 'react';
 import { memo, useCallback, useMemo } from 'react';
 import { AxoSymbol } from './AxoSymbol.dom.tsx';
 import { tw } from './tw.dom.tsx';
@@ -174,6 +173,14 @@ export namespace AxoIconButton {
      * Called when the button is clicked. Not called when `pending` or `disabled`.
      */
     onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
+    /**
+     * Called when the mouse enters the button.
+     */
+    onMouseEnter?: (event: MouseEvent<HTMLButtonElement>) => void;
+    /**
+     * Called when the mouse focuses the button.
+     */
+    onFocus?: (event: FocusEvent<HTMLButtonElement>) => void;
   }>;
 
   /**
@@ -215,6 +222,8 @@ export namespace AxoIconButton {
       pressed,
       disabled,
       onClick,
+      onMouseEnter,
+      onFocus,
       ...rest
     } = props;
     const intl = useAxoIntl();
@@ -249,6 +258,8 @@ export namespace AxoIconButton {
         aria-pressed={pressed ?? undefined}
         aria-disabled={(pending || disabled) ?? undefined}
         onClick={handleClick}
+        onMouseEnter={onMouseEnter}
+        onFocus={onFocus}
         className={tw(baseStyles, Variants.get(variant), Sizes.get(size))}
         {...rest}
       >

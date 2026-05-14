@@ -12,7 +12,6 @@ import {
 } from 'react';
 import { AttachmentList } from './conversation/AttachmentList.dom.tsx';
 import type { AttachmentForUIType } from '../types/Attachment.std.ts';
-import { Button } from './Button.dom.tsx';
 import { ContactCheckboxDisabledReason } from './conversationList/ContactCheckbox.dom.tsx';
 import type { Row } from './ConversationList.dom.tsx';
 import { ConversationList, RowType } from './ConversationList.dom.tsx';
@@ -44,6 +43,7 @@ import { missingCaseError } from '../util/missingCaseError.std.ts';
 import { Theme } from '../util/theme.std.ts';
 import { Emoji } from '../axo/emoji.std.ts';
 import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
+import { AxoIconButton } from '../axo/AxoIconButton.dom.tsx';
 
 export enum ForwardMessagesModalType {
   Forward,
@@ -260,16 +260,20 @@ export function ForwardMessagesModal({
       </div>
       <div>
         {isEditingMessage || !isLonelyDraftEditable ? (
-          <Button
-            aria-label={i18n('icu:ForwardMessageModal--continue')}
-            className="module-ForwardMessageModal__send-button module-ForwardMessageModal__send-button--forward"
-            aria-disabled={!canForwardMessages}
+          <AxoIconButton.Root
+            size="md"
+            variant="primary"
+            symbol="send-fill"
+            label={i18n('icu:ForwardMessageModal--continue')}
+            disabled={!canForwardMessages}
             onClick={forwardMessages}
           />
         ) : (
-          <Button
-            aria-label={i18n('icu:forwardMessage')}
-            className="module-ForwardMessageModal__send-button module-ForwardMessageModal__send-button--continue"
+          <AxoIconButton.Root
+            size="md"
+            variant="primary"
+            symbol="arrow-[end]"
+            label={i18n('icu:forwardMessage')}
             disabled={!hasContactsSelected}
             onClick={() => setIsEditingMessage(true)}
           />

@@ -5,18 +5,20 @@ import type { JSX } from 'react';
 
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './MediaQualitySelector.dom.tsx';
+import type { MediaQualitySelectorProps } from './MediaQualitySelector.dom.tsx';
 import { MediaQualitySelector } from './MediaQualitySelector.dom.tsx';
 
 export default {
   title: 'Components/MediaQualitySelector',
   argTypes: {},
   args: {},
-} satisfies Meta<PropsType>;
+} satisfies Meta<MediaQualitySelectorProps>;
 
 const { i18n } = window.SignalContext;
 
-const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
+const createProps = (
+  overrideProps: Partial<MediaQualitySelectorProps> = {}
+): MediaQualitySelectorProps => ({
   conversationId: 'abc123',
   i18n,
   isHighQuality: overrideProps.isHighQuality ?? false,

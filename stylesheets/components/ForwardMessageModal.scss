@@ -44,44 +44,6 @@
     justify-content: center;
   }
 
-  &__send-button {
-    align-items: center;
-    border: none;
-    border-radius: 100%;
-    display: flex;
-    height: 32px;
-    justify-content: center;
-    width: 32px;
-
-    &::after {
-      content: '';
-      display: block;
-      flex-shrink: 0;
-      height: 20px;
-      width: 20px;
-    }
-
-    &--continue {
-      &::after {
-        height: 24px;
-        width: 24px;
-        @include mixins.color-svg(
-          '../images/icons/v3/arrow/arrow-right.svg',
-          variables.$color-white
-        );
-      }
-    }
-
-    &--forward {
-      &::after {
-        @include mixins.color-svg(
-          '../images/icons/v3/send/send-fill.svg',
-          variables.$color-white
-        );
-      }
-    }
-  }
-
   // Disable vertical scrolling on the modal pages
   // since the elements inside are scrollable themselves
   .module-Modal__body {

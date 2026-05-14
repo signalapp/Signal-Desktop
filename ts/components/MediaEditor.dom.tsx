@@ -1394,7 +1394,6 @@ export function MediaEditor({
                       i18n={i18n}
                       isHighQuality={localIsHighQuality}
                       onSelectQuality={handleSelectQuality}
-                      theme={pickerTheme}
                     />
                   </div>
                 )}
