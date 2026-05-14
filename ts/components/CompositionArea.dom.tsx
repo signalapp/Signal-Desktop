@@ -609,6 +609,7 @@ export const CompositionArea = memo(function CompositionArea({
 
   const shouldShowMicrophone =
     !large &&
+    draftEditMessage == null &&
     !hasDraft({
       draft: draftText,
       draftAttachments,

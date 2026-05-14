@@ -676,9 +676,9 @@ export function CompositionInput(props: Props): ReactElement {
         isDirty = text.length > 0;
       } else if (text.trimEnd() !== draftEditMessage.body.trimEnd()) {
         isDirty = true;
-      } else if (bodyRanges.length !== draftEditMessage.bodyRanges?.length) {
-        isDirty = true;
-      } else if (!areBodyRangesEqual(bodyRanges, draftEditMessage.bodyRanges)) {
+      } else if (
+        !areBodyRangesEqual(bodyRanges, draftEditMessage.bodyRanges ?? [])
+      ) {
         isDirty = true;
       } else if (dropNull(quotedMessageId) !== draftEditMessage.quote?.id) {
         isDirty = true;
