@@ -725,7 +725,7 @@ export function toCallLinkRecord(
       $unknown,
     };
   }
-  strictAssert(callLinkDbRecord.adminKey, 'toCallLinkRecord: no adminPasskey');
+
   return {
     rootKey: callLinkDbRecord.rootKey,
     adminPasskey: callLinkDbRecord.adminKey,
