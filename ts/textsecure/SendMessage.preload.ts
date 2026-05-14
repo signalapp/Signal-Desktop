@@ -108,7 +108,8 @@ import type {
   SendPinMessageType,
   SendUnpinMessageType,
 } from '../types/PinnedMessage.std.js';
-import { getBobProof, clearBobProof } from '../textsecure/pvrfBobProofStorage.preload.js';
+
+import { getLocalStores, setLocalStores } from './pvrfLocalStoresStorage.preload.js';
 
 
 const log = createLogger('SendMessage');
@@ -1239,13 +1240,13 @@ export class MessageSender {
     if (proto.dataMessage) {
       log.info('has datamessage');
       const serviceId = messageOptions.recipients[0];
-      const bobProof = await getBobProof(serviceId, 1);
+      const bobProof = await getLocalStores(serviceId, 1, "bob_proof");
       if (bobProof) {
-        proto.dataMessage.bobProofMaybe = bobProof;
+        proto.dataMessage.bobProof = bobProof;
         typeof bobProof === 'string' ? bobProof : JSON.stringify(bobProof);
         log.info('the proto with injected bob proof is', proto);
       } else {
-        proto.dataMessage.bobProofMaybe = JSON.stringify({"noBobProof": true});
+        proto.dataMessage.bobProof = JSON.stringify({"noBobProof": true});
         log.info('no bob proof available for', serviceId);
       }
     }

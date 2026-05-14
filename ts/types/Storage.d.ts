@@ -63,8 +63,6 @@ export type StorageAccessType = {
   'auto-download-attachment': AutoDownloadAttachmentType;
   autoConvertEmoji: boolean;
   'badge-count-muted-conversations': boolean;
-  pvrfDemoAliceBasis?: Record<string, Record<string, string>>;
-  pvrfDemoBobProof?: Record<string, Record<string, string>>;
   pvrfDemoLocalStores?: Record<string, Record<string, string>>;
   vts?:  Record<string, Record<string, string>>;
   'blocked-groups': ReadonlyArray<string>;

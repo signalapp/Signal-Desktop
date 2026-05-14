@@ -115,7 +115,6 @@ message Content {
   optional StoryMessage storyMessage = 9;
   optional PniSignatureMessage pniSignatureMessage = 10;
   optional EditMessage editMessage = 11;
-  optional string bobProof = 12;
 }
 
 message CallMessage {
@@ -432,7 +431,7 @@ message DataMessage {
   optional PollVote pollVote = 26;
   optional PinMessage pinMessage = 27;
   optional UnpinMessage unpinMessage = 28;
-  optional string bobProofMaybe = 29;
+  optional string bobProof = 29;
   // NEXT ID: 30
 }
 

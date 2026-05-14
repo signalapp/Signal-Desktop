@@ -173,7 +173,6 @@ import {
   type MessageRequestResponseInfo,
   MessageRequestResponseSource,
 } from '../types/MessageRequestResponseEvent.std.js';
-import { getBobProof, setBobProof } from './pvrfBobProofStorage.preload.js';
 import { getLocalStores, setLocalStores } from './pvrfLocalStoresStorage.preload.js';
 const { isBoolean, isNumber, isString, noop, omit } = lodash;
 
@@ -1508,7 +1507,7 @@ export default class MessageReceiver
       if (content.dataMessage) 
       {
         const serviceId = envelope.sourceServiceId;
-        const bobBase64 = await getBobProof(serviceId, 1);
+        const bobBase64 = await getLocalStores(serviceId, 1, "bob_proof");
 
         if (!bobBase64) {
           log.warn('PVRF verify skipped: no stored Bob proof yet');
@@ -1530,10 +1529,10 @@ export default class MessageReceiver
         const protocolAddress = ProtocolAddress.new(serviceId, deviceId);
         const active_session = await sessionStore.getSession(protocolAddress);
 
-        const bob = typeof content.dataMessage.bobProofMaybe === 'string'
-          ? JSON.parse(content.dataMessage.bobProofMaybe)
-          : content.dataMessage.bobProofMaybe;
-        //const bob = JSON.parse(content.dataMessage.bobProofMaybe);
+        const bob = typeof content.dataMessage.bobProof === 'string'
+          ? JSON.parse(content.dataMessage.bobProof)
+          : content.dataMessage.bobProof;
+        //const bob = JSON.parse(content.dataMessage.bobProof);
         //const bobB64 = bob.rawB64;
         console.log('the stored vts', vts);
         console.log('the bob proof', bob);
@@ -2066,10 +2065,10 @@ export default class MessageReceiver
       //const deviceId = envelope.sourceDevice ?? 1;
       //const serviceId = envelope.sourceServiceId ?? 'unknown';
       log.info('setting bob proof in memory for', serviceId, deviceId, "but deviceid faked to 1");
-      await setBobProof(serviceId, 1, JSON.stringify(bobResponseObject));
+      await setLocalStores(serviceId, 1, JSON.stringify(bobResponseObject), "bob_proof");
 
       log.info('demonstrate what was save');
-      const storedBobProof = await getBobProof(serviceId, 1);
+      const storedBobProof = await getLocalStores(serviceId, 1, "bob_proof");
       log.info('stored bob proof', storedBobProof);
 
       return { plaintext: this.#unpad(plaintext), wasEncrypted };

@@ -85,44 +85,6 @@ const { isNumber } = lodash;
 
 const log = createLogger('handleDataMessage');
 
-const PVRF_PREFIX = '[PVRF_BASIS_V0:';
-type PvrfPayloadV0 =
-  | { v: 0; type: 'nonce'; from?: string; ts?: number; nonce_b64: string }
-  | { v: 0; type: 'zb'; from?: string; ts?: number; zb_b64: string };
-
-function tryExtractPvrfPayload(
-  body: string
-): { payload: PvrfPayloadV0; strippedBody: string } | null {
-  if (!body.startsWith(PVRF_PREFIX)) return null;
-
-  const end = body.indexOf(']');
-  if (end <= PVRF_PREFIX.length) return null;
-
-  const b64 = body.slice(PVRF_PREFIX.length, end);
-
-  let obj: any;
-  try {
-    const json = new TextDecoder().decode(Bytes.fromBase64(b64));
-    obj = JSON.parse(json);
-  } catch {
-    return null;
-  }
-
-  if (obj?.v !== 0) return null;
-
-  let strippedBody = body.slice(end + 1);
-  if (strippedBody.startsWith('\r\n')) strippedBody = strippedBody.slice(2);
-  else if (strippedBody.startsWith('\n')) strippedBody = strippedBody.slice(1);
-
-  if (obj?.type === 'nonce' && typeof obj?.nonce_b64 === 'string') {
-    return { payload: obj as PvrfPayloadV0, strippedBody };
-  }
-  if (obj?.type === 'zb' && typeof obj?.zb_b64 === 'string') {
-    return { payload: obj as PvrfPayloadV0, strippedBody };
-  }
-
-  return null;
-}
  
 const CURRENT_PROTOCOL_VERSION = Proto.DataMessage.ProtocolVersion.CURRENT;
 const INITIAL_PROTOCOL_VERSION = Proto.DataMessage.ProtocolVersion.INITIAL;
