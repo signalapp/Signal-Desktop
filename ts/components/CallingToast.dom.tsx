@@ -21,7 +21,7 @@ import classNames from 'classnames';
 import { v4 as uuid } from 'uuid';
 import { useIsMounted } from '../hooks/useIsMounted.std.ts';
 import type { LocalizerType } from '../types/I18N.std.ts';
-import { usePrevious } from '../hooks/usePrevious.std.ts';
+import { usePreviousDeprecated } from '../hooks/usePrevious.std.ts';
 import { difference } from '../util/setUtil.std.ts';
 import { useReducedMotion } from '../hooks/useReducedMotion.dom.ts';
 
@@ -81,7 +81,7 @@ export function CallingToastProvider({
   transitionFrom?: object;
 }): JSX.Element {
   const [toasts, setToasts] = useState<Array<CallingToastStateType>>([]);
-  const previousToasts = usePrevious([], toasts);
+  const previousToasts = usePreviousDeprecated([], toasts);
   const timeouts = useRef<Map<string, TimeoutType>>(new Map());
   // All toasts are paused on hover or focus so that toasts don't disappear while a user
   // is attempting to interact with them

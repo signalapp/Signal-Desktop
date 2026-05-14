@@ -35,7 +35,7 @@ import { LeftPaneMode } from '../types/leftPane.std.ts';
 import type { LocalizerType, ThemeType } from '../types/Util.std.ts';
 import { ScrollBehavior } from '../types/Util.std.ts';
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges.preload.ts';
-import { usePrevious } from '../hooks/usePrevious.std.ts';
+import { usePreviousDeprecated } from '../hooks/usePrevious.std.ts';
 import { missingCaseError } from '../util/missingCaseError.std.ts';
 import type { DurationInSeconds } from '../util/durations/index.std.ts';
 import { WidthBreakpoint, getNavSidebarWidthBreakpoint } from './_util.std.ts';
@@ -312,7 +312,7 @@ export function LeftPane({
   dismissBackupMediaDownloadBanner,
   updateFilterByUnread,
 }: PropsType): JSX.Element {
-  const previousModeSpecificProps = usePrevious(
+  const previousModeSpecificProps = usePreviousDeprecated(
     modeSpecificProps,
     modeSpecificProps
   );
@@ -599,7 +599,7 @@ export function LeftPane({
   const measureRef = useRef<HTMLDivElement>(null);
   const measureSize = useSizeObserver(measureRef);
 
-  const previousMeasureSize = usePrevious(null, measureSize);
+  const previousMeasureSize = usePreviousDeprecated(null, measureSize);
 
   const widthBreakpoint = getNavSidebarWidthBreakpoint(
     measureSize && !measureSize.hidden
@@ -613,7 +613,7 @@ export function LeftPane({
   };
 
   // Control scroll position
-  const previousSelectedConversationId = usePrevious(
+  const previousSelectedConversationId = usePreviousDeprecated(
     selectedConversationId,
     selectedConversationId
   );

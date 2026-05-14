@@ -12,7 +12,7 @@ import type { PollWithResolvedVotersType } from '../../../state/selectors/messag
 import type { LocalizerType } from '../../../types/Util.std.ts';
 import { PollVotesModal } from './PollVotesModal.dom.tsx';
 import { SpinnerV2 } from '../../SpinnerV2.dom.tsx';
-import { usePrevious } from '../../../hooks/usePrevious.std.ts';
+import { usePreviousDeprecated } from '../../../hooks/usePrevious.std.ts';
 import { UserText } from '../../UserText.dom.tsx';
 
 function VotedCheckmark({
@@ -170,7 +170,10 @@ export function PollMessageContents({
   const [isPending, setIsPending] = useState(false);
 
   const hasPendingVotes = poll.pendingVoteDiff && poll.pendingVoteDiff.size > 0;
-  const hadPendingVotesInLastRender = usePrevious(hasPendingVotes, undefined);
+  const hadPendingVotesInLastRender = usePreviousDeprecated(
+    hasPendingVotes,
+    undefined
+  );
 
   const pendingCheckTimer = useRef<NodeJS.Timeout | null>(null);
   const isIncoming = direction === 'incoming';

@@ -3,7 +3,7 @@
 
 import { useEffect, useMemo } from 'react';
 import type { AciString } from '../types/ServiceId.std.ts';
-import { usePrevious } from './usePrevious.std.ts';
+import { usePreviousDeprecated } from './usePrevious.std.ts';
 
 type RemoteParticipant = {
   hasRemoteVideo: boolean;
@@ -31,7 +31,7 @@ export function useActivateSpeakerViewOnPresenting({
   switchFromPresentationView: () => void;
 }): void {
   const presenterAci = usePresenter(remoteParticipants);
-  const prevPresenterAci = usePrevious(presenterAci, presenterAci);
+  const prevPresenterAci = usePreviousDeprecated(presenterAci, presenterAci);
 
   useEffect(() => {
     if (prevPresenterAci !== presenterAci && presenterAci) {

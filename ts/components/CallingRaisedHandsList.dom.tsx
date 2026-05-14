@@ -13,7 +13,7 @@ import type { ConversationType } from '../state/ducks/conversations.preload.ts';
 import { ModalHost } from './ModalHost.dom.tsx';
 import { drop } from '../util/drop.std.ts';
 import { createLogger } from '../logging/log.std.ts';
-import { usePrevious } from '../hooks/usePrevious.std.ts';
+import { usePrevious, usePreviousEffect } from '../hooks/usePrevious.std.ts';
 import { useReducedMotion } from '../hooks/useReducedMotion.dom.ts';
 
 const log = createLogger('CallingRaisedHandsList');
@@ -200,24 +200,20 @@ export function CallingRaisedHandsListButton({
     []
   );
 
-  const prevRaisedHandsCount = usePrevious(raisedHandsCount, raisedHandsCount);
-  const prevSyncedLocalHandRaised = usePrevious(
+  const prevRaisedHandsCount = usePrevious(raisedHandsCount) ?? 0;
+  const prevSyncedLocalHandRaised = usePreviousEffect(
     syncedLocalHandRaised,
     syncedLocalHandRaised
   );
+
   const prevShownRaisedHandsCountRef = useRef<number>(raisedHandsCount);
   const prevShownSyncedLocalHandRaisedRef = useRef<boolean>(
     syncedLocalHandRaised
   );
 
+  // Bouncy effect
   useEffect(() => {
-    if (
-      raisedHandsCount > prevRaisedHandsCount ||
-      (raisedHandsCount > 0 && !isVisible)
-    ) {
-      setIsVisible(true);
-      opacitySpringApi.stop();
-      drop(Promise.all(opacitySpringApi.start({ opacity: 1 })));
+    if (raisedHandsCount > prevRaisedHandsCount) {
       scaleSpringApi.stop();
       drop(
         Promise.all(
@@ -228,14 +224,33 @@ export function CallingRaisedHandsListButton({
           })
         )
       );
-    } else if (raisedHandsCount === 0) {
-      opacitySpringApi.stop();
+    }
+  }, [raisedHandsCount, prevRaisedHandsCount, scaleSpringApi]);
+
+  useEffect(() => {
+    if (raisedHandsCount === prevRaisedHandsCount) {
+      return;
+    }
+
+    opacitySpringApi.stop();
+    if (raisedHandsCount > 0) {
+      setIsVisible(true);
       drop(
         Promise.all(
           opacitySpringApi.start({
+            from: { opacity: opacitySpringProps.opacity },
+            to: { opacity: 1 },
+          })
+        )
+      );
+    } else {
+      drop(
+        Promise.all(
+          opacitySpringApi.start({
+            from: { opacity: opacitySpringProps.opacity },
             to: { opacity: 0 },
-            onRest: () => {
-              if (!raisedHandsCount) {
+            onResolve: ({ cancelled }) => {
+              if (!cancelled) {
                 setIsVisible(false);
               }
             },
@@ -244,11 +259,10 @@ export function CallingRaisedHandsListButton({
       );
     }
   }, [
-    isVisible,
     raisedHandsCount,
     prevRaisedHandsCount,
     opacitySpringApi,
-    scaleSpringApi,
+    opacitySpringProps.opacity,
     setIsVisible,
   ]);
 

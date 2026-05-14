@@ -80,7 +80,7 @@ import {
 } from '../hooks/useKeyboardShortcuts.dom.tsx';
 import { useValueAtFixedRate } from '../hooks/useValueAtFixedRate.std.ts';
 import { isReconnecting as callingIsReconnecting } from '../util/callingIsReconnecting.std.ts';
-import { usePrevious } from '../hooks/usePrevious.std.ts';
+import { usePreviousDeprecated } from '../hooks/usePrevious.std.ts';
 import {
   CallingToastProvider,
   PersistentCallingToast,
@@ -585,7 +585,7 @@ export function CallScreen({
   }, [isSendingVideo, handleSize, isLonelyInCall, setLocalPreviewContainer]);
 
   const { selfViewExpanded } = activeCall;
-  const previousSelfViewExpanded = usePrevious(
+  const previousSelfViewExpanded = usePreviousDeprecated(
     selfViewExpanded,
     selfViewExpanded
   );
@@ -777,7 +777,10 @@ export function CallScreen({
   const [localHandRaised, setLocalHandRaised] = useState<boolean>(
     syncedLocalHandRaised
   );
-  const previousLocalHandRaised = usePrevious(localHandRaised, localHandRaised);
+  const previousLocalHandRaised = usePreviousDeprecated(
+    localHandRaised,
+    localHandRaised
+  );
   const toggleRaiseHand = useCallback(
     (raise?: boolean) => {
       const nextValue = raise ?? !localHandRaised;
@@ -1339,7 +1342,7 @@ function useViewModeChangedToast({
   i18n: LocalizerType;
 }): void {
   const { viewMode } = activeCall;
-  const previousViewMode = usePrevious(viewMode, viewMode);
+  const previousViewMode = usePreviousDeprecated(viewMode, viewMode);
   const presenterAci = usePresenter(activeCall.remoteParticipants);
 
   const VIEW_MODE_CHANGED_TOAST_KEY = 'view-mode-changed';

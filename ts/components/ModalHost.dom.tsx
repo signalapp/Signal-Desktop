@@ -21,7 +21,7 @@ import { assertDev } from '../util/assert.std.ts';
 import { getClassNamesFor } from '../util/getClassNamesFor.std.ts';
 import { themeClassName } from '../util/theme.std.ts';
 import { useEscapeHandling } from '../hooks/useEscapeHandling.dom.ts';
-import { usePrevious } from '../hooks/usePrevious.std.ts';
+import { usePreviousDeprecated } from '../hooks/usePrevious.std.ts';
 import { handleOutsideClick } from '../util/handleOutsideClick.dom.ts';
 import { createLogger } from '../logging/log.std.ts';
 
@@ -57,7 +57,7 @@ export const ModalHost = memo(function ModalHostInner({
   theme,
 }: PropsType) {
   const containerRef = useRef<HTMLDivElement | null>(null);
-  const previousModalName = usePrevious(modalName, modalName);
+  const previousModalName = usePreviousDeprecated(modalName, modalName);
   const modalContainer = useContext(ModalContainerContext) ?? document.body;
 
   if (previousModalName !== modalName) {

@@ -29,7 +29,7 @@ import { formatDateTimeForAttachment } from '../util/formatTimestamp.dom.ts';
 import { formatDuration } from '../util/formatDuration.std.ts';
 import { isGIF, isIncremental } from '../util/Attachment.std.ts';
 import { useRestoreFocus } from '../hooks/useRestoreFocus.dom.ts';
-import { usePrevious } from '../hooks/usePrevious.std.ts';
+import { usePreviousDeprecated } from '../hooks/usePrevious.std.ts';
 import { arrow } from '../util/keyboard.dom.ts';
 import { drop } from '../util/drop.std.ts';
 import { isCmdOrCtrl } from '../hooks/useKeyboardShortcuts.dom.tsx';
@@ -117,7 +117,7 @@ export function Lightbox({
 }: PropsType): JSX.Element | null {
   const hasThumbnails = media.length > 1;
   const messageId = media.at(0)?.message.id;
-  const prevMessageId = usePrevious(messageId, messageId);
+  const prevMessageId = usePreviousDeprecated(messageId, messageId);
   const needsAnimation = messageId !== prevMessageId;
   const [root, setRoot] = useState<HTMLElement | undefined>();
 

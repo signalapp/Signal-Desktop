@@ -30,7 +30,7 @@ import { MAX_FRAME_HEIGHT, MAX_FRAME_WIDTH } from '../calling/constants.std.ts';
 import { useValueAtFixedRate } from '../hooks/useValueAtFixedRate.std.ts';
 import { isOlderThan } from '../util/timestamp.std.ts';
 import type { CallingImageDataCache } from './CallManager.dom.tsx';
-import { usePrevious } from '../hooks/usePrevious.std.ts';
+import { usePreviousDeprecated } from '../hooks/usePrevious.std.ts';
 import type { PropsType as SmartCallingParticipantMenuProps } from '../state/smart/CallingParticipantMenu.preload.tsx';
 import type { AxoMenuBuilder } from '../axo/AxoMenuBuilder.dom.tsx';
 import { AxoIconButton } from '../axo/AxoIconButton.dom.tsx';
@@ -129,8 +129,11 @@ export const GroupCallRemoteParticipant: FC<PropsType> = memo(
       !props.isInPip ? props.audioLevel > 0 : false,
       SPEAKING_LINGER_MS
     );
-    const previousSharingScreen = usePrevious(sharingScreen, sharingScreen);
-    const prevIsActiveSpeakerInSpeakerView = usePrevious(
+    const previousSharingScreen = usePreviousDeprecated(
+      sharingScreen,
+      sharingScreen
+    );
+    const prevIsActiveSpeakerInSpeakerView = usePreviousDeprecated(
       isActiveSpeakerInSpeakerView,
       isActiveSpeakerInSpeakerView
     );

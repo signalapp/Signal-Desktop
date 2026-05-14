@@ -66,7 +66,7 @@ import {
 import { MediaEditor } from './MediaEditor.dom.tsx';
 import { isImageTypeSupported } from '../util/GoogleChrome.std.ts';
 import * as KeyboardLayout from '../services/keyboardLayout.dom.ts';
-import { usePrevious } from '../hooks/usePrevious.std.ts';
+import { usePreviousDeprecated } from '../hooks/usePrevious.std.ts';
 import { PanelType } from '../types/Panels.std.ts';
 import type { SmartCompositionRecordingDraftProps } from '../state/smart/CompositionRecordingDraft.preload.tsx';
 import { useEscapeHandling } from '../hooks/useEscapeHandling.dom.ts';
@@ -527,7 +527,7 @@ export const CompositionArea = memo(function CompositionArea({
   });
 
   // Focus input on first mount
-  const previousFocusCounter = usePrevious<number | undefined>(
+  const previousFocusCounter = usePreviousDeprecated<number | undefined>(
     focusCounter,
     focusCounter
   );
@@ -543,8 +543,11 @@ export const CompositionArea = memo(function CompositionArea({
     }
   }, [inputApiRef, focusCounter, previousFocusCounter]);
 
-  const previousSendCounter = usePrevious(sendCounter, sendCounter);
-  const previousConversationId = usePrevious(conversationId, conversationId);
+  const previousSendCounter = usePreviousDeprecated(sendCounter, sendCounter);
+  const previousConversationId = usePreviousDeprecated(
+    conversationId,
+    conversationId
+  );
   useEffect(() => {
     if (!inputApiRef.current) {
       return;
@@ -569,9 +572,10 @@ export const CompositionArea = memo(function CompositionArea({
   // - User begins editing another message.
   const editHistoryLength = draftEditMessage?.editHistoryLength;
   const hasEditHistoryChanged =
-    usePrevious(editHistoryLength, editHistoryLength) !== editHistoryLength;
+    usePreviousDeprecated(editHistoryLength, editHistoryLength) !==
+    editHistoryLength;
   const hasEditedMessageChanged =
-    usePrevious(editedMessageId, editedMessageId) !== editedMessageId;
+    usePreviousDeprecated(editedMessageId, editedMessageId) !== editedMessageId;
 
   const hasEditDraftChanged = hasEditHistoryChanged || hasEditedMessageChanged;
   useEffect(() => {

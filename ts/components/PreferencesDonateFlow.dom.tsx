@@ -72,7 +72,7 @@ import { offsetDistanceModifier } from '../util/popperUtil.std.ts';
 import { AxoButton } from '../axo/AxoButton.dom.tsx';
 import { missingCaseError } from '../util/missingCaseError.std.ts';
 import { openLinkInWebBrowser } from '../util/openLinkInWebBrowser.dom.ts';
-import { usePrevious } from '../hooks/usePrevious.std.ts';
+import { usePreviousDeprecated } from '../hooks/usePrevious.std.ts';
 import { tw } from '../axo/tw.dom.tsx';
 
 const SUPPORT_URL = 'https://support.signal.org/hc/requests/new?desktop';
@@ -168,7 +168,7 @@ export function PreferencesDonateFlow({
     CardFormValues | undefined
   >();
 
-  const prevStep = usePrevious(step, step);
+  const prevStep = usePreviousDeprecated(step, step);
 
   const hasCardFormData = useMemo(() => {
     if (!cardFormValues) {

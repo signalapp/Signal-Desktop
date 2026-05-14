@@ -19,7 +19,7 @@ import { getConversations } from '../selectors/conversations.dom.ts';
 import { SeenStatus } from '../../MessageSeenStatus.std.ts';
 import { markViewed } from '../ducks/conversations.preload.ts';
 import * as Errors from '../../types/errors.std.ts';
-import { usePrevious } from '../../hooks/usePrevious.std.ts';
+import { usePreviousDeprecated } from '../../hooks/usePrevious.std.ts';
 
 const log = createLogger('VoiceNotesPlaybackProvider');
 
@@ -35,7 +35,10 @@ export const SmartVoiceNotesPlaybackProvider = memo(
     const active = useSelector(selectAudioPlayerActive);
     const conversations = useSelector(getConversations);
 
-    const previousStartPosition = usePrevious(undefined, active?.startPosition);
+    const previousStartPosition = usePreviousDeprecated(
+      undefined,
+      active?.startPosition
+    );
 
     const content = active?.content;
     let url: undefined | string;

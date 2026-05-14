@@ -10,7 +10,7 @@ import { CallMode } from '../types/CallDisposition.std.ts';
 import type { ConversationType } from '../state/ducks/conversations.preload.ts';
 import type { LocalizerType } from '../types/Util.std.ts';
 import { CallingToastProvider, useCallingToasts } from './CallingToast.dom.tsx';
-import { usePrevious } from '../hooks/usePrevious.std.ts';
+import { usePreviousDeprecated } from '../hooks/usePrevious.std.ts';
 import { difference as setDifference } from '../util/setUtil.std.ts';
 import { isMoreRecentThan } from '../util/timestamp.std.ts';
 import { isGroupOrAdhocActiveCall } from '../util/isGroupOrAdhocCall.std.ts';
@@ -58,7 +58,10 @@ export function useScreenSharingStoppedToast({
     () => getCurrentPresenter(activeCall),
     [activeCall]
   );
-  const previousPresenter = usePrevious(currentPresenter, currentPresenter);
+  const previousPresenter = usePreviousDeprecated(
+    currentPresenter,
+    currentPresenter
+  );
 
   useEffect(() => {
     if (previousPresenter && !currentPresenter) {
@@ -93,7 +96,10 @@ function useMutedToast({
   mutedBy: number | undefined;
   i18n: LocalizerType;
 }): void {
-  const previousHasLocalAudio = usePrevious(hasLocalAudio, hasLocalAudio);
+  const previousHasLocalAudio = usePreviousDeprecated(
+    hasLocalAudio,
+    hasLocalAudio
+  );
   const { showToast, hideToast } = useCallingToasts();
   const MUTED_TOAST_KEY = 'muted';
 
@@ -131,7 +137,10 @@ function useOutgoingRingToast({
   i18n: LocalizerType;
 }): void {
   const { showToast, hideToast } = useCallingToasts();
-  const previousOutgoingRing = usePrevious(outgoingRing, outgoingRing);
+  const previousOutgoingRing = usePreviousDeprecated(
+    outgoingRing,
+    outgoingRing
+  );
   const RINGING_TOAST_KEY = 'ringing';
 
   useEffect(() => {
@@ -182,7 +191,7 @@ function useRaisedHandsToast({
     return () => clearTimeout(timeout);
   }, []);
 
-  const previousRaisedHands = usePrevious(raisedHands, raisedHands);
+  const previousRaisedHands = usePreviousDeprecated(raisedHands, raisedHands);
   const [newHands, loweredHands]: [Set<number>, Set<number>] = isLoaded
     ? [
         setDifference(
@@ -276,7 +285,7 @@ function useLowerHandSuggestionToast({
   handleLowerHand: (() => void) | undefined;
   isHandRaised: boolean | undefined;
 }): void {
-  const previousSuggestLowerHand = usePrevious(
+  const previousSuggestLowerHand = usePreviousDeprecated(
     suggestLowerHand,
     suggestLowerHand
   );
@@ -343,7 +352,7 @@ function useMutedByToast({
   conversationsByDemuxId?: Map<number, ConversationType>;
   i18n: LocalizerType;
 }): void {
-  const previousMutedBy = usePrevious(mutedBy, mutedBy);
+  const previousMutedBy = usePreviousDeprecated(mutedBy, mutedBy);
 
   const { showToast, hideToast } = useCallingToasts();
   const MUTED_BY_TOAST_KEY = 'MUTED_BY_TOAST_KEY';
@@ -401,7 +410,7 @@ function useObservedRemoteMuteToast({
 }): void {
   const { showToast, hideToast } = useCallingToasts();
   const OBSERVED_REMOTE_MUTE_TOAST_KEY = 'OBSERVED_REMOTE_MUTE_TOAST_KEY';
-  const previousObservedRemoteMute = usePrevious(
+  const previousObservedRemoteMute = usePreviousDeprecated(
     observedRemoteMute,
     observedRemoteMute
   );

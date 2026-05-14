@@ -4,7 +4,7 @@
 import { useState, useEffect, type JSX } from 'react';
 import type { LocalizerType } from '../types/Util.std.ts';
 import { ResolvedSendStatus } from '../types/Stories.std.ts';
-import { usePrevious } from './usePrevious.std.ts';
+import { usePreviousDeprecated } from './usePrevious.std.ts';
 import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
 
 export function useRetryStorySend(
@@ -19,7 +19,7 @@ export function useRetryStorySend(
   const [hasSendFailedAlert, setHasSendFailedAlert] = useState(false);
   const [wasManuallyRetried, setWasManuallyRetried] = useState(false);
 
-  const previousSendStatus = usePrevious(sendStatus, sendStatus);
+  const previousSendStatus = usePreviousDeprecated(sendStatus, sendStatus);
 
   useEffect(() => {
     if (!wasManuallyRetried) {

@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import type { ForwardedRef, ReactNode, JSX } from 'react';
-import { forwardRef, memo, useCallback, useMemo, useState } from 'react';
+import { forwardRef, memo, useCallback, useMemo } from 'react';
 import { Tabs } from 'radix-ui';
 import { AnimatePresence, motion } from 'motion/react';
 import type { LocalizerType } from '../../../types/I18N.std.ts';
@@ -19,23 +19,12 @@ import type { HydratedBodyRangesType } from '../../../types/BodyRange.std.ts';
 import { AxoSymbol } from '../../../axo/AxoSymbol.dom.tsx';
 import { missingCaseError } from '../../../util/missingCaseError.std.ts';
 import { stripNewlinesForLeftPane } from '../../../util/stripNewlinesForLeftPane.std.ts';
+import { usePrevious } from '../../../hooks/usePrevious.std.ts';
 
 enum Direction {
   None = 0,
   Backwards = -1,
   Forwards = 1,
-}
-
-// This `usePrevious()` hook is safe in React concurrent mode and doesn't break
-// when rendered multiple times with the same values in `<StrictMode>`
-function usePrevious<T>(value: T): T | null {
-  const [current, setCurrent] = useState<T>(value);
-  const [previous, setPrevious] = useState<T | null>(null);
-  if (current !== value) {
-    setCurrent(value);
-    setPrevious(current);
-  }
-  return previous;
 }
 
 export type PinMessageText = Readonly<{
