@@ -363,12 +363,15 @@ export async function toContactRecord(
   };
 }
 
-export function toAccountRecord(
-  conversation: ConversationModel,
-  {
-    notificationProfileSyncDisabled,
-  }: { notificationProfileSyncDisabled: boolean }
-): Proto.AccountRecord.Params {
+export function toAccountRecord({
+  ourConversation,
+  signalConversation,
+  notificationProfileSyncDisabled,
+}: {
+  ourConversation: ConversationModel;
+  signalConversation: ConversationModel;
+  notificationProfileSyncDisabled: boolean;
+}): Proto.AccountRecord.Params {
   const PHONE_NUMBER_SHARING_MODE_ENUM =
     Proto.AccountRecord.PhoneNumberSharingMode;
   const localPhoneNumberSharingMode = parsePhoneNumberSharingMode(
@@ -409,6 +412,14 @@ export function toAccountRecord(
 
       if (!pinnedConversation) {
         return undefined;
+      }
+
+      if (pinnedConversation.id === signalConversation.id) {
+        return {
+          identifier: {
+            releaseNotes: {},
+          },
+        };
       }
 
       if (pinnedConversation.get('type') === 'private') {
@@ -503,7 +514,7 @@ export function toAccountRecord(
     };
   }
 
-  const profileKey = conversation.get('profileKey');
+  const profileKey = ourConversation.get('profileKey');
   const storyViewReceiptsEnabled = itemStorage.get('storyViewReceiptsEnabled');
   const backupTier = itemStorage.get('backupTier');
 
@@ -531,12 +542,12 @@ export function toAccountRecord(
 
   return {
     profileKey: profileKey ? Bytes.fromBase64(profileKey) : null,
-    givenName: conversation.get('profileName') || null,
-    familyName: conversation.get('profileFamilyName') || null,
+    givenName: ourConversation.get('profileName') || null,
+    familyName: ourConversation.get('profileFamilyName') || null,
     avatarUrlPath: itemStorage.get('avatarUrl') || null,
-    username: conversation.get('username') || null,
-    noteToSelfArchived: Boolean(conversation.get('isArchived')),
-    noteToSelfMarkedUnread: Boolean(conversation.get('markedUnread')),
+    username: ourConversation.get('username') || null,
+    noteToSelfArchived: Boolean(ourConversation.get('isArchived')),
+    noteToSelfMarkedUnread: Boolean(ourConversation.get('markedUnread')),
     readReceipts: getReadReceiptSetting(),
     sealedSenderIndicators: getSealedSenderIndicatorSetting(),
     typingIndicators: getTypingIndicatorSetting(),
@@ -586,7 +597,7 @@ export function toAccountRecord(
     hasSeenAdminDeleteEducationDialog:
       itemStorage.get('hasSeenAdminDeleteEducationDialog') ?? null,
 
-    avatarColor: conversation.get('colorFromPrimary') ?? null,
+    avatarColor: ourConversation.get('colorFromPrimary') ?? null,
     automaticKeyVerificationDisabled:
       itemStorage.get('hasKeyTransparencyDisabled') === true,
     storiesDisabled: itemStorage.get('hasStoriesDisabled') === true,
@@ -595,8 +606,17 @@ export function toAccountRecord(
     usernameLink,
     notificationProfileManualOverride,
     notificationProfileSyncDisabled,
+    releaseNotesChatArchived: Boolean(signalConversation?.get('isArchived')),
+    releaseNotesChatMarkedUnread: Boolean(
+      signalConversation?.get('markedUnread')
+    ),
+    releaseNotesChatMutedUntilTimestamp: getSafeLongFromTimestamp(
+      signalConversation?.get('muteExpiresAt'),
+      MAX_VALUE
+    ),
+    releaseNotesChatBlocked: signalConversation?.isBlocked() ?? null,
 
-    $unknown: conversationUnknownFieldsToRecord(conversation),
+    $unknown: conversationUnknownFieldsToRecord(ourConversation),
   };
 }
 
@@ -900,12 +920,8 @@ export function toNotificationProfileRecord(
   };
 }
 
-type MessageRequestCapableRecord =
-  | Proto.ContactRecord.Params
-  | Proto.GroupV2Record.Params;
-
 async function applyMessageRequestState(
-  record: MessageRequestCapableRecord,
+  record: { blocked: boolean; whitelisted: boolean },
   conversation: ConversationModel
 ): Promise<void> {
   const messageRequestEnum = Proto.SyncMessage.MessageRequestResponse.Type;
@@ -936,7 +952,7 @@ async function applyMessageRequestState(
     conversation.unblock({ viaStorageServiceSync: true });
   }
 
-  if (record.whitelisted === false) {
+  if (!record.whitelisted) {
     conversation.disableProfileSharing({
       reason: 'storage record not whitelisted',
       viaStorageServiceSync: true,
@@ -1575,13 +1591,21 @@ export async function mergeAccountRecord(
     notificationProfileManualOverride,
     notificationProfileSyncDisabled,
     automaticKeyVerificationDisabled,
+    releaseNotesChatArchived,
+    releaseNotesChatBlocked,
+    releaseNotesChatMarkedUnread,
+    releaseNotesChatMutedUntilTimestamp,
   } = accountRecord;
 
-  const conversation =
+  const ourConversation =
     window.ConversationController.getOurConversationOrThrow();
+  const signalConversation =
+    await window.ConversationController.getOrCreateSignalConversation();
 
   const details = logRecordChanges(
-    toAccountRecord(conversation, {
+    toAccountRecord({
+      ourConversation,
+      signalConversation,
       notificationProfileSyncDisabled,
     }),
     accountRecord
@@ -1720,7 +1744,8 @@ export async function mergeAccountRecord(
           return undefined;
         }
 
-        const { contact, legacyGroupId, groupMasterKey } = identifier;
+        const { contact, legacyGroupId, groupMasterKey, releaseNotes } =
+          identifier;
         let convo: ConversationModel | undefined;
 
         if (contact) {
@@ -1743,6 +1768,8 @@ export async function mergeAccountRecord(
             e164: contact.e164,
             reason: 'storageService.mergeAccountRecord',
           });
+        } else if (releaseNotes) {
+          convo = signalConversation;
         } else if (legacyGroupId && legacyGroupId.length) {
           const groupId = Bytes.toBinary(legacyGroupId);
           convo = window.ConversationController.get(groupId);
@@ -1954,12 +1981,12 @@ export async function mergeAccountRecord(
     updateOverride(overrideToSave, { fromStorageService: true });
   }
 
-  addUnknownFieldsToConversation(accountRecord, conversation, details);
+  addUnknownFieldsToConversation(accountRecord, ourConversation, details);
 
-  const oldStorageID = conversation.get('storageID');
-  const oldStorageVersion = conversation.get('storageVersion');
+  const oldStorageID = ourConversation.get('storageID');
+  const oldStorageVersion = ourConversation.get('storageVersion');
 
-  if ((username || undefined) !== conversation.get('username')) {
+  if ((username || undefined) !== ourConversation.get('username')) {
     // Username is part of key transparency self monitor parameters. Make sure
     // we delay self-check until the changes fully propagate to the log.
     drop(keyTransparency.onKnownIdentifierChange());
@@ -1969,7 +1996,7 @@ export async function mergeAccountRecord(
     }
   }
 
-  conversation.set({
+  ourConversation.set({
     isArchived: noteToSelfArchived,
     markedUnread: noteToSelfMarkedUnread,
     storageID,
@@ -1977,32 +2004,57 @@ export async function mergeAccountRecord(
     needsStorageServiceSync: false,
   });
 
-  await conversation.updateUsername(dropNull(username || null), {
+  await ourConversation.updateUsername(dropNull(username || null), {
     shouldSave: false,
     fromStorageService: true,
   });
 
   let needsProfileFetch = false;
   if (profileKey && profileKey.byteLength > 0) {
-    needsProfileFetch = await conversation.setProfileKey(
+    needsProfileFetch = await ourConversation.setProfileKey(
       Bytes.toBase64(profileKey),
       { viaStorageServiceSync: true, reason: 'mergeAccountRecord' }
     );
 
     const avatarUrl = dropNull(accountRecord.avatarUrlPath || null);
-    await conversation.setAndMaybeFetchProfileAvatar({
+    await ourConversation.setAndMaybeFetchProfileAvatar({
       avatarUrl,
       decryptionKey: profileKey,
     });
     await itemStorage.put('avatarUrl', avatarUrl);
   }
 
-  applyAvatarColor(conversation, accountRecord.avatarColor);
+  applyAvatarColor(ourConversation, accountRecord.avatarColor);
 
-  updatedConversations.push(conversation);
+  signalConversation.set({
+    isArchived: releaseNotesChatArchived,
+    markedUnread: releaseNotesChatMarkedUnread,
+    storageID,
+    storageVersion,
+    needsStorageServiceSync: false,
+  });
+  await applyMessageRequestState(
+    {
+      blocked: releaseNotesChatBlocked,
+      whitelisted: !releaseNotesChatBlocked,
+    },
+    signalConversation
+  );
+  signalConversation.setMuteExpiration(
+    getTimestampFromLong(
+      releaseNotesChatMutedUntilTimestamp,
+      Number.MAX_SAFE_INTEGER
+    ),
+    {
+      viaStorageServiceSync: true,
+    }
+  );
+
+  updatedConversations.push(ourConversation);
+  updatedConversations.push(signalConversation);
 
   return {
-    conversation,
+    conversation: ourConversation,
     updatedConversations,
     needsProfileFetch,
     oldStorageID,
