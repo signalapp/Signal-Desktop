@@ -38,6 +38,7 @@ type ExampleProps = {
   align?: AxoTooltip.Align;
   keyboardShortcut?: string;
   experimentalTimestamp?: number;
+  disabled?: boolean;
 };
 
 function SimpleExample(props: ExampleProps) {
@@ -49,6 +50,7 @@ function SimpleExample(props: ExampleProps) {
       align={props.align}
       keyboardShortcut={props.keyboardShortcut}
       experimentalTimestamp={props.experimentalTimestamp}
+      disabled={props.disabled}
     >
       <AxoButton.Root variant="primary" size="md" onClick={action('onClick')}>
         {props.trigger ?? 'Hover Me'}
@@ -186,4 +188,8 @@ export function InDialog(): JSX.Element {
       </AxoDialog.Content>
     </AxoDialog.Root>
   );
+}
+
+export function Disabled(): JSX.Element {
+  return <SimpleExample disabled />;
 }

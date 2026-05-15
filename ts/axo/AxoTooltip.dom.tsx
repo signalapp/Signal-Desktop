@@ -231,6 +231,8 @@ export namespace AxoTooltip {
   const TOOLTIP_ARROW_HEIGHT = 6;
 
   export type RootConfigProps = Readonly<{
+    /** Prevent the tooltip from showing */
+    disabled?: boolean;
     /** Override the duration given to the `Provider` to customise the open delay for a specific tooltip. */
     delay?: Delay;
     /** The preferred side of the trigger to render against when open. Will be reversed when collisions occur. */
@@ -320,10 +322,14 @@ export namespace AxoTooltip {
     }, [experimentalTimestamp]);
 
     const hasAccessory = useMemo(() => {
-      return keyboardShortcut != null && formattedTimestamp != null;
+      return keyboardShortcut != null || formattedTimestamp != null;
     }, [keyboardShortcut, formattedTimestamp]);
 
     useEffect(() => {
+      if (props.disabled) {
+        return;
+      }
+
       if (isTestOrMockEnvironment()) {
         assert(
           triggerRef.current instanceof HTMLElement,
@@ -351,6 +357,10 @@ export namespace AxoTooltip {
         );
       }
     });
+
+    if (props.disabled) {
+      return <>{props.children}</>;
+    }
 
     return (
       <Tooltip.Root
