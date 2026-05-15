@@ -2973,6 +2973,7 @@ function submitCallQualitySurvey(
       const { qualityStats } = callSummary;
       const { audioStats, videoStats } = qualityStats;
 
+      // @ts-expect-error needs ringrtc update
       const callTelemetry: Uint8Array<ArrayBuffer> | null =
         callSummary.rawStats ?? null;
 

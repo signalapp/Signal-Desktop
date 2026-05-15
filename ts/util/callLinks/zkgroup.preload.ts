@@ -35,6 +35,7 @@ export async function getCallLinkAuthCredentialPresentation(
   }
   const userId = Aci.fromUuid(ourAci);
 
+  // @ts-expect-error needs ringrtc update
   const rootKeyBytes: Uint8Array<ArrayBuffer> = callLinkRootKey.bytes;
 
   const callLinkSecretParams =
