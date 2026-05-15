@@ -159,9 +159,11 @@ export function findLinks(text: string, caretLocation?: number): Array<string> {
   }
 
   const haveCaretLocation = isNumber(caretLocation);
-  const textLength = text.length;
+  const textWithoutEmoji = Emoji.replaceEmojiWithOneSpace(text);
+  const textLength = textWithoutEmoji.length;
 
-  const matches = linkify.match(Emoji.replaceEmojiWithSpaces(text)) || [];
+  const matches = linkify.match(textWithoutEmoji) ?? [];
+
   return compact(
     matches.map(match => {
       if (!haveCaretLocation) {

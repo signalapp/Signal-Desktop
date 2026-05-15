@@ -538,6 +538,14 @@ export namespace Emoji {
     });
   }
 
+  export function replaceEmojiWithOneSpace(input: string): string {
+    if (isEmptyString(input)) {
+      return input; // fast path
+    }
+    const emojiRegex = getEmojiRegex();
+    return input.replaceAll(emojiRegex, ' ');
+  }
+
   /**
    * Emoji.stripEmojiFromText()
    * --------------------------
