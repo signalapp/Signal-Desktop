@@ -3,7 +3,7 @@
 
 import classNames from 'classnames';
 import type { RefObject } from 'react';
-import React, { memo, useCallback, useMemo, useRef, useState } from 'react';
+import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { ReadonlyDeep } from 'type-fest';
 import type { BadgeType } from '../../badges/types.std.js';
 import {
@@ -52,6 +52,14 @@ import type {
   MultipleGroupMembersWithSameTitleContactSpoofingWarning,
 } from '../../state/selectors/timeline.preload.js';
 import { tw } from '../../axo/tw.dom.js';
+import { generateSafetyNumber } from '../../util/safetyNumber.preload.js';
+import { itemStorage } from '../../textsecure/Storage.preload.js';
+import { signalProtocolStore } from '../../SignalProtocolStore.preload.js';
+
+// Test SAS setting toggle
+export function isSASEnabled(): boolean {
+  return itemStorage.get('sas-enabled', true);
+}
 
 function HeaderInfoTitle({
   name,
@@ -277,6 +285,180 @@ export const ConversationHeader = memo(function ConversationHeader({
     MessageRequestState.default
   );
 
+  const [sasNumber, setSasNumber] = useState<string | null>(null);
+  const [selectedMemberId, setSelectedMemberId] = useState<string | null>(null);
+  const [selectedMemberName, setSelectedMemberName] = useState<string | null>(null);
+  const [showGroupSASModal, setShowGroupSASModal] = useState(false);
+
+  // user device name
+  const ourDeviceName = itemStorage.get('device_name');
+  console.log('Our device name:', ourDeviceName);
+
+  const handleShowSASModal = useCallback(async () => {
+    if (conversation.type === 'group') {
+      setShowGroupSASModal(true);
+      return;
+    }
+
+    try {
+      const fullConversation = window.ConversationController.get(conversation.id)?.format();
+      if (!fullConversation) {
+        console.error('Could not find full conversation');
+        return;
+      }
+      if (!fullConversation.serviceId) {
+        console.error('Contact has no serviceId');
+        return;
+      }
+
+      // temporary to check for device IDs
+      const ourConversationId = window.ConversationController.getOurConversationId();
+      const ourConversation = ourConversationId
+        ? window.ConversationController.get(ourConversationId)
+        : null;
+      const ourAci = ourConversation?.get('serviceId');
+      console.log('Our ACI:', ourAci);
+      console.log('Their serviceId:', fullConversation.serviceId);
+
+      if (ourAci) {
+        try {
+          const deviceIds = await signalProtocolStore.getDeviceIds({
+            ourServiceId: ourAci as any,
+            serviceId: fullConversation.serviceId as any,
+          });
+          console.log('Their device IDs:', deviceIds);
+          deviceIds.forEach((id: number) => {
+            console.log(`  Device ${id}: ${id === 1 ? 'Primary Device (Phone)' : `Linked Device ${id}`}`);
+          });
+        } catch (deviceErr) {
+          console.error('Failed to get device IDs:', deviceErr);
+        }
+      }
+      // end check
+
+      const result = await generateSafetyNumber(fullConversation);
+      const total = result.numberBlocks.reduce((sum, block) => sum + parseInt(block, 10), 0) % 1000000;
+      setSasNumber(total.toString().padStart(6, '0'));
+    } catch (err) {
+      console.error('Failed to generate safety number', err);
+    }
+  }, [conversation]);
+
+  const handleVerifyMember = useCallback(async (memberId: string) => {
+    try {
+      const memberConv = window.ConversationController.get(memberId);
+      const resolvedId = memberConv?.id ?? memberId;
+
+      const fullConversation = memberConv?.format();
+      if (!fullConversation?.serviceId) {
+        console.error('Member conversation has no serviceId');
+        return;
+      }
+
+      const result = await generateSafetyNumber(fullConversation);
+      setSelectedMemberId(resolvedId);
+      const memberName = groupMembers.find(m => m.id === memberId)?.name ?? 'Unknown';
+      setSelectedMemberName(memberName);
+      const total = result.numberBlocks.reduce((sum, block) => sum + parseInt(block, 10), 0) % 1000000;
+      setSasNumber(total.toString().padStart(6, '0'));
+      setShowGroupSASModal(false);
+    } catch (err) {
+      console.error('Failed to generate safety number', err);
+    }
+  }, []);
+
+  const [groupMembersVersion, setGroupMembersVersion] = useState(0);
+  const groupMembers = useMemo(() => {
+    if (conversation.type !== 'group') return [];
+    try {
+      const conv = window.ConversationController.get(conversation.id);
+      if (!conv) return [];
+      const ourConversationId = window.ConversationController.getOurConversationId();
+      const ourConversation = ourConversationId ? window.ConversationController.get(ourConversationId) : null;
+      const ourAci = ourConversation?.get('serviceId');
+      const ourE164 = ourConversation?.get('e164');
+
+      // const members = conv.getMembers?.({ includePendingMembers: true }) ??
+      //                 conv.get('membersV2') ??
+      //                 conv.get('members') ??
+      //                 [];
+
+      const memberIds: Array<string> = (conv.get('membersV2') ?? []).map((m: any) => m.aci ?? m.uuid ?? m.id)
+      .concat(conv.get('members') ?? [])
+      .filter((id: string, index: number, arr: Array<string>) => arr.indexOf(id) === index);
+      // conv.getMembers() contain all non blocked members
+      // conv.get('membersV2') contain all members but not the conversationType id but in UUIDs format?
+      // conv.get('members') is undefined?
+
+      return memberIds
+        .filter((id: string) => {
+          if (id === ourConversationId) return false;
+          if (ourAci && id === ourAci) return false;
+          if (ourE164 && id === ourE164) return false;
+          const memberConv = window.ConversationController.get(id);
+          const memberServiceId = memberConv?.get('serviceId');
+          if (ourAci && ourAci === memberServiceId) return false;
+          return true;
+        })
+        .map((id: string) => {
+          const memberConv = window.ConversationController.get(id);
+          return {
+            id: memberConv?.id ?? id,
+            name: memberConv?.get('profileName') ?? memberConv?.get('name') ?? memberConv?.get('e164') ?? id ?? 'Unknown',
+            isBlocked: memberConv?.isBlocked() === true,
+          }
+        })
+      
+    } catch (err) {
+      console.error('Failed to get group members', err);
+      return [];
+    }
+  }, [conversation.id, conversation.type, groupMembersVersion]);
+
+  const [sasVerified, setSasVerified] = useState(false);
+  useEffect(() => {
+    try {
+      const verifiedMap = (itemStorage.get('sas-verified-conversations') ?? {}) as Record<string, boolean>;
+      if (conversation.type === 'group') {
+        const allVerified = groupMembers.length > 0 && groupMembers.every(m => {
+          return verifiedMap[m.id] === true;
+        });
+        setSasVerified(allVerified);
+      } else {
+        setSasVerified(verifiedMap[conversation.id] === true);
+      }
+    } catch (err) {
+      console.error('Failed to check SAS verified status', err);
+      setSasVerified(false);
+    }
+  }, [conversation.id, conversation.type, groupMembers]);
+
+  const handleSASNumbersMatch = useCallback(() => {
+    const verifiedMap = (itemStorage.get('sas-verified-conversations') ?? {}) as Record<string, boolean>;
+    const idToVerify = selectedMemberId ?? conversation.id;
+    const updatedMap = {...verifiedMap, [idToVerify]: true };
+    void itemStorage.put('sas-verified-conversations', updatedMap);
+
+    if (selectedMemberId) {
+      // group modal verification after verifying a member
+      setSelectedMemberId(null);
+      setSelectedMemberName(null);
+      setShowGroupSASModal(true);
+
+      // update right away to reflect the changes instead of doing it later
+      const allVerified = groupMembers.length > 0 && groupMembers.every(m => updatedMap[m.id] === true);
+      setSasVerified(allVerified);
+    } else {
+      // individual verification
+      setSasVerified(true);
+    }
+
+    setSasNumber(null);
+  }, [conversation.id, selectedMemberId, groupMembers]);
+
+  const [showMismatchWarning, setShowMismatchWarning] = useState(false);
+  const [mismatchMemberId, setMismatchMemberId] = useState<string | null>(null);
+
   if (hasPanelShowing) {
     return null;
   }
@@ -336,6 +518,61 @@ export const ConversationHeader = memo(function ConversationHeader({
           }}
         />
       )}
+      {sasNumber != null && (
+        <SASModal
+          sasValue={sasNumber}
+          onClose={() => setSasNumber(null)}
+          onNumbersMatch={handleSASNumbersMatch}
+          onNumbersMismatch={() => {
+            setSasNumber(null);
+            setMismatchMemberId(selectedMemberId); // capturing the mismatched member id for group
+            setShowMismatchWarning(true);
+          }}
+          contactName={selectedMemberName ?? conversation.title}
+          i18n={i18n}
+        />
+      )}
+      {showGroupSASModal && (
+        <GroupSASModal
+          conversationId={conversation.id}
+          members={groupMembers}
+          verifiedMap={(itemStorage.get('sas-verified-conversations') ?? {}) as Record<string, boolean>}
+          onVerifyMember={handleVerifyMember}
+          onClose={() => setShowGroupSASModal(false)}
+          i18n={i18n}
+        />
+      )}
+      {showMismatchWarning && (
+        <MismatchWarningDialog
+          i18n={i18n}
+          isGroupMember={mismatchMemberId != null}
+          onConfirm={() => {
+            setShowMismatchWarning(false);
+            setSasNumber(null);
+
+            if (mismatchMemberId) {
+              const memberConv = window.ConversationController.get(mismatchMemberId);
+              memberConv?.block();
+              setGroupMembersVersion(v => v + 1); // refresh group members to reflect the update blocked status
+              setMismatchMemberId(null); 
+              setSelectedMemberId(null);
+              setSelectedMemberName(null);
+              setShowGroupSASModal(true);
+            } else {
+              onConversationBlock();
+            }
+          }}
+          onCancel={() => {
+            setShowMismatchWarning(false);
+            setMismatchMemberId(null);
+            // cancelling during group flow, go back to group modal
+            if (selectedMemberId) {
+              setShowGroupSASModal(true);
+            }
+          }}
+        />
+      )}
+
       <SizeObserver
         onSizeChange={size => {
           setIsNarrow(size.width < 500);
@@ -361,7 +598,10 @@ export const ConversationHeader = memo(function ConversationHeader({
                 onViewUserStories={onViewUserStories}
                 onViewConversationDetails={onViewConversationDetails}
                 isSignalConversation={isSignalConversation ?? false}
+                onShowSASModal={handleShowSASModal}
+                sasVerified={sasVerified}
               />
+
               {!isSmsOnlyOrUnregistered && !isSignalConversation && (
                 <OutgoingCallButtons
                   conversation={conversation}
@@ -494,6 +734,8 @@ function HeaderContent({
   isSignalConversation,
   onViewUserStories,
   onViewConversationDetails,
+  onShowSASModal,
+  sasVerified,
 }: {
   conversation: MinimalConversation;
   badge: BadgeType | null;
@@ -504,6 +746,8 @@ function HeaderContent({
   isSignalConversation: boolean;
   onViewUserStories: () => void;
   onViewConversationDetails: () => void;
+  onShowSASModal: () => void;
+  sasVerified: boolean;
 }) {
   let onClick: undefined | (() => void);
   const { type } = conversation;
@@ -519,6 +763,8 @@ function HeaderContent({
     default:
       throw missingCaseError(type);
   }
+
+ const showSASButton = itemStorage.get('sas-enabled', true);
 
   const avatar = (
     <span className="module-ConversationHeader__header__avatar">
@@ -580,7 +826,7 @@ function HeaderContent({
     return (
       <div className="module-ConversationHeader__header">
         {avatar}
-        <div>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
           <button
             type="button"
             className="module-ConversationHeader__header--clickable"
@@ -588,6 +834,48 @@ function HeaderContent({
           >
             {contents}
           </button>
+
+          {showSASButton && (
+            conversation.type === 'group' ? (
+              sasVerified ? (
+                <span className="module-ConversationHeader__header__info__button">
+                  ✓ All Members SAS Verified
+                </span>
+              ) : (
+                <button
+                  type="button"
+                  onClick={onShowSASModal}
+                  className="module-ConversationHeader__header__info__button"
+                >
+                  Verify Group SAS
+                </button>
+              )
+            ) : conversation.isBlocked ? (
+              sasVerified ? (
+                <span className="module-ConversationHeader__header__info__button" style={{ color: 'gray' }}>
+                  ✓ SAS Verified but Contact is Blocked
+                </span>
+              ) : (
+                <span className="module-ConversationHeader__header__info__button" style={{ color: 'gray' }}>
+                  Not possible to verify SAS with a blocked contact
+                </span>
+              )
+            ) : (
+              sasVerified ? (
+                <span className="module-ConversationHeader__header__info__button">
+                  ✓ SAS Verified
+                </span>
+              ) : (
+                <button
+                  type="button"
+                  onClick={onShowSASModal}
+                  className="module-ConversationHeader__header__info__button"
+                >
+                  View SAS Number
+                </button>
+              )
+            )
+          )}
         </div>
       </div>
     );
@@ -596,7 +884,31 @@ function HeaderContent({
   return (
     <div className="module-ConversationHeader__header" ref={headerRef}>
       {avatar}
-      {contents}
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+        <button
+          type="button"
+          className="module-ConversationHeader__header--clickable"
+          onClick={onClick}
+        >
+          {contents}
+        </button>
+
+        {showSASButton && (
+          sasVerified ? (
+            <span className="module-ConversationHeader__header__info__button">
+              ✓ SAS Verified
+            </span>
+          ) : (
+            <button
+              type="button"
+              onClick={onShowSASModal}
+              className="module-ConversationHeader__header__info__button"
+            >
+              View SAS Number
+            </button>
+          )
+        )}
+      </div>
     </div>
   );
 }
@@ -1342,4 +1654,161 @@ function MultipleGroupMembersWithSameTitleWarning(props: {
       />
     </TimelineWarning>
   );
+}
+
+// right now this is displaying safety number and not the SAS flow
+function SASModal({
+  sasValue,
+  onClose,
+  onNumbersMatch,
+  onNumbersMismatch,
+  contactName,
+  i18n,
+}: {
+  sasValue: string;
+  onClose: () => void;
+  onNumbersMatch: () => void;
+  onNumbersMismatch: () => void;
+  contactName: string;
+  i18n: LocalizerType;
+}) {
+  return (
+    <ConfirmationDialog
+      dialogName="ConversationHeader.SASModal"
+      title="SAS Number"
+      i18n={i18n}
+      onClose={onClose}
+      cancelText='Close'
+      actions={[
+        {
+          text: 'Numbers Match',
+          action: onNumbersMatch,
+          style: 'affirmative',
+        },
+        {
+          text: 'Numbers Mismatch',
+          action: onNumbersMismatch,
+          style: 'negative',
+        }
+      ]}
+    >
+      <div className="module-ConversationHeader__SASModal__content">
+        <p>Verify your SAS with {contactName}: </p>
+        <div style={{
+          display: 'flex',
+          gap: '8px',
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: '#1b1b1b',
+          borderRadius: '12px',
+          padding: '16px 24px',
+          marginTop: '12px',
+        }}>
+          {sasValue.replace(/\s/g, '').split('').map((digit, index) => (
+            <span 
+              key={index}
+              style={{
+                fontSize: '32px',
+                fontWeight: 'bold',
+                fontFamily: 'monospace',
+                width: '36px',
+                textAlign: 'center',
+                lineHeight: '1',
+              }}
+              >
+                {digit}
+              </span>
+          ))}
+        </div>
+      </div>
+    </ConfirmationDialog>
+  )
+}
+
+function GroupSASModal ({
+  members,
+  verifiedMap,
+  onVerifyMember,
+  onClose,
+  i18n,
+}: {
+  conversationId: string;
+  members: Array<{ id: string; name: string; isBlocked: boolean }>;
+  verifiedMap: Record<string, boolean>;
+  onVerifyMember: (memberId: string) => void;
+  onClose: () => void;
+  i18n: LocalizerType;
+}) {
+  const allVerified = members.length > 0 && members.every(m => verifiedMap[m.id] === true);
+
+  return (
+    <ConfirmationDialog
+      dialogName="ConversationHeader.GroupSASModal"
+      title="Group SAS Verification"
+      i18n={i18n}
+      onClose={onClose}
+      cancelText='Close'
+      actions={[]}
+    >
+      <p>
+        {allVerified
+          ? '✓ All members verified'
+          : 'Verify SAS with each member:'}
+      </p>
+      {members.map(member => (
+        <div key={member.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+          <span>{member.name}</span>
+          {member.isBlocked ? (
+            <span style={{ color: 'gray' }}>Blocked</span>
+          ) : verifiedMap[member.id] ? (
+            <span style={{ color: 'green' }}>✓ Verified</span>
+          ) : (
+            <button
+              type='button'
+              onClick={() => onVerifyMember(member.id)}
+            >
+              Verify
+            </button>
+          )}
+        </div>
+      ))}
+    </ConfirmationDialog>
+  )
+}
+
+function MismatchWarningDialog ({
+  i18n,
+  onConfirm,
+  onCancel,
+  isGroupMember = false,
+}: {
+  i18n: LocalizerType;
+  onConfirm: () => void;
+  onCancel: () => void;
+  isGroupMember?: boolean;
+}) {
+  return (
+    <ConfirmationDialog
+      dialogName='ConversationHeader.MismatchWarning'
+      title='⚠️ Possible Security Risk'
+      i18n={i18n}
+      onClose={onCancel}
+      cancelText='Go Back'
+      actions={[
+        {
+          text: isGroupMember ? 'Yes, Block This Member' : 'Yes, Block This Contact',
+          action: onConfirm,
+          style: 'negative',
+        }
+      ]}
+    >
+      <p>
+        If the numbers do not match, someone may be intercepting your messages.
+        Are you sure you want to block this contact?
+      </p>
+      <p>
+        This action will prevent you from sending or receiving messages from this person.
+      </p>
+    </ConfirmationDialog>
+  )
 }

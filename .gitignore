@@ -50,4 +50,5 @@ ts/protobuf/*.d.ts
 /.zed
 *.sublime*
 *.map
+prebuilds/
 apply.sh

@@ -73,6 +73,8 @@ export type StorageAccessType = {
   lastCallQualityFailureSurveyTime: number;
   cqsTestMode: boolean;
   'hide-menu-bar': boolean;
+  'sas-enabled': boolean; // SAS config key
+  'sas-verified-conversations': Record<string, boolean>;
   'incoming-call-notification': boolean;
   'notification-draw-attention': boolean;
   'notification-setting': NotificationSettingType;

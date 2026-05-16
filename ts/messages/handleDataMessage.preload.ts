@@ -1,7 +1,6 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as Bytes from '../Bytes.std.js';
 import lodash from 'lodash';
 import type { z } from 'zod';
 import { createLogger } from '../logging/log.std.js';
@@ -79,7 +78,6 @@ import type { ServiceIdString } from '../types/ServiceId.std.js';
 import type { LinkPreviewType } from '../types/message/LinkPreviews.std.js';
 import { getCachedSubscriptionConfiguration } from '../util/subscriptionConfiguration.preload.js';
 import { itemStorage } from '../textsecure/Storage.preload.js';
-
 
 const { isNumber } = lodash;
 
@@ -504,7 +502,6 @@ export async function handleDataMessage(
     // There are type conflicts between ModelAttributesType and protos passed in here
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const dataMessage = await upgradeMessageSchema(withQuoteReference as any);
-
     const isGroupStoryReply =
       isGroup(conversation.attributes) && dataMessage.storyId;
 

@@ -3184,6 +3184,10 @@
     "messageformat": "Hide menu bar",
     "description": "Label text for menu bar visibility setting"
   },
+  "icu:sas": {
+    "messageformat": "Show SAS",
+    "description": "Label text for SAS setting"
+  },
   "icu:newConversation": {
     "messageformat": "New chat",
     "description": "Label for header when starting a new conversation"

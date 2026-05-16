@@ -38,7 +38,6 @@ import { signalProtocolStore } from '../SignalProtocolStore.preload.js';
 import { itemStorage } from './Storage.preload.js';
 
 
-
 const log = createLogger('getKeysForServiceId');
 
 type ServerType = Readonly<{
@@ -205,9 +204,6 @@ async function handleServerKeys(
           identityKeyStore,
           signalProtocolStore
         );
-
-        // 1) check if we already had a session before running X3DH
-        const existingSession = await sessionStore.getSession(protocolAddress);
 
         await signalProtocolStore.enqueueSessionJob(address, () =>
           processPreKeyBundle(
