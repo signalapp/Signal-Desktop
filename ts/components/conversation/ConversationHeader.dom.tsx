@@ -108,18 +108,6 @@ function HeaderInfoTitle({
           />
         ) : null}
       </div>
-
-      <button
-        type="button"
-        onClick={(e) => {
-          e.stopPropagation();
-          console.log("Button has been clicked!");
-          // TODO: add a function to actually grab SAS value
-        }}
-        className="module-ConversationHeader__header__info__button"
-      >
-        Click me for SAS
-      </button>
     </>
   );
   
