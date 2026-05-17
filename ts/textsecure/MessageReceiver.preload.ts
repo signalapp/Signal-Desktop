@@ -1524,7 +1524,13 @@ export default class MessageReceiver
           vts = typeof vtsStr === 'string' ? JSON.parse(vtsStr) : vtsStr;
         } else {
           console.log('active session was found, using session vts instead');
-          vts = active_session?.getVTS?.();
+          try{
+            vts = active_session?.getVTS?.();
+          } catch (e) {
+            console.log("error getting vts from active session");
+            vts = null;
+          }
+
         }
 
         const bob = typeof content.dataMessage.bobProof === 'string'
