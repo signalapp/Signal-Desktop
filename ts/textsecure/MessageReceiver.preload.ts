@@ -1543,9 +1543,11 @@ export default class MessageReceiver
           console.log('the saltobj is', saltObject);
           const salt = new Uint8Array(Object.values(saltObject));
           console.log('salt is', salt);
-          const sas = result.z.map((v, i) => v ^ salt[i]);
-          console.log('sas is', sas);
-          await setLocalStores(serviceId, 1, z_decoded, 'sas');
+          const sasBytes = result.z.map((v, i) => v ^ salt[i]);
+          console.log('sasbytes is', sasBytes);
+          const sas = (((sasBytes[0] << 16) | (sasBytes[1] << 8) | sasBytes[2])) % 1000000;
+          console.log('sas is', sas)
+          await setLocalStores(serviceId, 1, sas.toString(), 'sas');
         
           console.log("phase 3", z_decoded)
           log.info('PVRF verify ok:', result.ok, 'z:', result.z);
@@ -2047,10 +2049,14 @@ export default class MessageReceiver
         } else {
           console.log('bob has c match', tempResponse.c, tempResponse.computed_c);
         }
-        await setLocalStores(serviceId, 1, tempResponse.z_decoded, 'sas');  
+        const sasBytes = temp?.getSAS();
+        console.log('sasbytes is', sasBytes);
+        const sas = (((sasBytes[0] << 16) | (sasBytes[1] << 8) | sasBytes[2])) % 1000000;
+        console.log("sas is", sas);
+        await setLocalStores(serviceId, 1, sas.toString(), 'sas');  
         bobResponseObject.response = tempResponse;
-        console.log('storing sas', tempResponse.z_decoded);
-        console.log("but hopefully its already xored as", temp?.getSAS());
+        // console.log('storing sas', tempResponse.z_decoded);
+        // console.log("but hopefully its already xored as", temp?.getSAS());
       } catch (e) { log.error('error getting bob response', e); log.error('errorstack getting bob response', e.stack); }
      
       try { 
