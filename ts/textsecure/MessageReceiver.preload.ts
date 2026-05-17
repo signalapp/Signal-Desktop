@@ -1513,25 +1513,9 @@ export default class MessageReceiver
         const deviceId = envelope.sourceDevice ?? 1;
         log.info("device id is ",deviceId);
 
-        const ourAci = this.#storage.user.getCheckedAci();
-        const sessionStore = new Sessions({ ourServiceId: ourAci });
-        const protocolAddress = ProtocolAddress.new(serviceId, deviceId);
-        const active_session = await sessionStore.getSession(protocolAddress);
         let vts;
-        if (!active_session) {
-          console.log('couldnt find the active session for the sender of this envelope');
-          const vtsStr = await getLocalStores(serviceId, deviceId, 'vts');
-          vts = typeof vtsStr === 'string' ? JSON.parse(vtsStr) : vtsStr;
-        } else {
-          console.log('active session was found, using session vts instead');
-          try{
-            vts = active_session?.getVTS?.();
-          } catch (e) {
-            console.log("error getting vts from active session");
-            vts = null;
-          }
-
-        }
+        const vtsStr = await getLocalStores(serviceId, deviceId, 'vts');
+        vts = typeof vtsStr === 'string' ? JSON.parse(vtsStr) : vtsStr;
 
         const bob = typeof content.dataMessage.bobProof === 'string'
           ? JSON.parse(content.dataMessage.bobProof)
