@@ -1682,16 +1682,8 @@ function SASModal({
     >
       <div className="module-ConversationHeader__SASModal__content">
         <p>Verify your SAS with {contactName}: </p>
-        <div style={{
-          display: 'flex',
-          gap: '8px',
-          justifyContent: 'center',
-          alignItems: 'center',
-          backgroundColor: '#1b1b1b',
-          borderRadius: '12px',
-          padding: '16px 24px',
-          marginTop: '12px',
-        }}>
+        <div
+        className="module-ConversationHeader__SASModal-backdrop">
           {sasValue.replace(/\s/g, '').split('').map((digit, index) => (
             <span 
               key={index}
