@@ -1552,6 +1552,8 @@ export default class MessageReceiver
           const result = pvrfVerify(vk, x, alpha, beta, w, v, );
           const z_decoded = String.fromCharCode(...result.z);
           console.log('storing sas', z_decoded, "which will need to be xored with the salt in", vts)
+          const salt = vts.salt;
+          console.log('the salt is', salt);
           await setLocalStores(serviceId, 1, z_decoded, 'sas');
         
           console.log("phase 3", z_decoded)
