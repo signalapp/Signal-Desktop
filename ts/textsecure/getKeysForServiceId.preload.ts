@@ -252,7 +252,8 @@ async function handleServerKeys(
             const secrets = buf.x;
             const alpha = buf.r1;
             const beta = buf.r2;
-            const vts = { vt, vk, secrets, alpha, beta };
+            const salt = buf.contrib_salt;
+            const vts = { vt, vk, secrets, alpha, beta, salt };
 
             await setLocalStores(serviceId, deviceId, JSON.stringify(vts), 'vts');
           } catch (err){
