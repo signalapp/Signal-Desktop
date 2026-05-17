@@ -52,9 +52,9 @@ import type {
   MultipleGroupMembersWithSameTitleContactSpoofingWarning,
 } from '../../state/selectors/timeline.preload.js';
 import { tw } from '../../axo/tw.dom.js';
-import { generateSafetyNumber } from '../../util/safetyNumber.preload.js';
 import { itemStorage } from '../../textsecure/Storage.preload.js';
 import { signalProtocolStore } from '../../SignalProtocolStore.preload.js';
+import { getLocalStores } from './../../textsecure/pvrfLocalStoresStorage.preload.js';
 
 // Test SAS setting toggle
 export function isSASEnabled(): boolean {
@@ -336,8 +336,8 @@ export const ConversationHeader = memo(function ConversationHeader({
       }
       // end check
 
-      const result = await generateSafetyNumber(fullConversation);
-      const total = result.numberBlocks.reduce((sum, block) => sum + parseInt(block, 10), 0) % 1000000;
+      const result = await getLocalStores(fullConversation.serviceId, 1, 'sas') || "";
+      const total = parseInt(result) % 1000000;
       setSasNumber(total.toString().padStart(6, '0'));
     } catch (err) {
       console.error('Failed to generate safety number', err);
@@ -355,11 +355,13 @@ export const ConversationHeader = memo(function ConversationHeader({
         return;
       }
 
-      const result = await generateSafetyNumber(fullConversation);
+      //const result = await generateSafetyNumber(fullConversation);
       setSelectedMemberId(resolvedId);
       const memberName = groupMembers.find(m => m.id === memberId)?.name ?? 'Unknown';
       setSelectedMemberName(memberName);
-      const total = result.numberBlocks.reduce((sum, block) => sum + parseInt(block, 10), 0) % 1000000;
+      //const total = result.numberBlocks.reduce((sum, block) => sum + parseInt(block, 10), 0) % 1000000;
+      const result = await getLocalStores(fullConversation.serviceId, 1, 'sas') || "";
+      const total = parseInt(result) % 1000000;
       setSasNumber(total.toString().padStart(6, '0'));
       setShowGroupSASModal(false);
     } catch (err) {
