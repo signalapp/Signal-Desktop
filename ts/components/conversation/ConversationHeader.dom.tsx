@@ -1681,7 +1681,7 @@ function SASModal({
       ]}
     >
       <div className="module-ConversationHeader__SASModal__content">
-        <p>Verify your SAS with {contactName}: </p>
+        <p>  {(sasValue == "000NaN") ? `SAS Unknown: Message and receive a response from ${contactName} to generate your SAS`  : `Verify your SAS with ${contactName}:`} </p>
         <div
         className="module-ConversationHeader__SASModal-backdrop">
           {sasValue.replace(/\s/g, '').split('').map((digit, index) => (

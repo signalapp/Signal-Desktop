@@ -176,6 +176,7 @@ import {
 
 import { toNumber } from '../util/toNumber.std.ts';
 import { getLocalStores, setLocalStores } from './pvrfLocalStoresStorage.preload.js';
+import { showConfirmationDialog } from './../util/showConfirmationDialog.dom.js';
 const { isBoolean, isNumber, isString, noop, omit } = lodash;
 
 const log = createLogger('MessageReceiver');
@@ -1554,6 +1555,24 @@ export default class MessageReceiver
           console.log('PVRF verify ok:', result.ok, 'z:', result.z);
           if (!result.ok) {
             console.error("alice could not verify bob");
+            await new Promise<void>((resolve, reject) => {
+            showConfirmationDialog({
+              dialogName: 'mitmWarningAlice',
+              noMouseClose: true,
+              onTopOfEverything: true,
+              cancelText: "Acknowledge",
+              confirmStyle: 'negative',
+              title: "⚠️ Possible Security Risk",
+              description: `Signal could not verify the integrity of this contact.
+                You may be part of a targeted attack. 
+                Please consider verifying their identity through their safety number. 
+
+                Please contact Signal Support for more information.`,
+              okText: "Proceed anyway",
+              reject: () => reject(),
+              resolve: () => resolve(),
+            });
+          });
           }
         }
       }
@@ -2046,6 +2065,24 @@ export default class MessageReceiver
         if (tempResponse.c != tempResponse.computed_c) {
           console.log('bob has c mismatch', tempResponse.c, tempResponse.computed_c);
           console.error('thats a mismatch');
+           await new Promise<void>((resolve, reject) => {
+            showConfirmationDialog({
+              dialogName: 'mitmWarningBob',
+              noMouseClose: true,
+              onTopOfEverything: true,
+              cancelText: "Acknowledge",
+              confirmStyle: 'negative',
+              title: "⚠️ Possible Security Risk",
+              description: `Signal could not verify the integrity of this contact.
+                You may be part of a targeted attack. 
+                Please consider verifying their identity through their safety number. 
+
+                Please contact Signal Support for more information.`,
+              okText: "Proceed anyway",
+              reject: () => reject(),
+              resolve: () => resolve(),
+            });
+          });
         } else {
           console.log('bob has c match', tempResponse.c, tempResponse.computed_c);
         }
