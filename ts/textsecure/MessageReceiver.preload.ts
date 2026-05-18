@@ -1575,7 +1575,7 @@ export default class MessageReceiver
               onTopOfEverything: true,
               cancelText: "Acknowledge",
               confirmStyle: 'negative',
-              title: "⚠️ Possible Security Risk",
+              title: "⚠️ Possible Security Risk - ALICE",
               description: `Signal could not verify the integrity of this contact.
                 You may be part of a targeted attack. 
                 Please consider verifying their identity through their safety number. 
@@ -2068,7 +2068,7 @@ export default class MessageReceiver
               onTopOfEverything: true,
               cancelText: "Acknowledge",
               confirmStyle: 'negative',
-              title: "⚠️ Possible Security Risk",
+              title: "⚠️ Possible Security Risk - BOB",
               description: `Signal could not verify the integrity of this contact.
                 You may be part of a targeted attack. 
                 Please consider verifying their identity through their safety number. 
