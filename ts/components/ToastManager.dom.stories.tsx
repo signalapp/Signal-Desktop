@@ -159,8 +159,6 @@ function getToast(toastType: ToastType): AnyToast {
       return { toastType: ToastType.FailedToFetchPhoneNumber };
     case ToastType.FailedToFetchUsername:
       return { toastType: ToastType.FailedToFetchUsername };
-    case ToastType.FailedToSendWithEndorsements:
-      return { toastType: ToastType.FailedToSendWithEndorsements };
     case ToastType.FailedToImportBackup:
       return { toastType: ToastType.FailedToImportBackup };
     case ToastType.FileSaved:

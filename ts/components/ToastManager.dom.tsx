@@ -540,20 +540,6 @@ function renderToast({
     );
   }
 
-  if (toastType === ToastType.FailedToSendWithEndorsements) {
-    return (
-      <Toast
-        onClose={hideToast}
-        toastAction={{
-          label: i18n('icu:Toast__ActionLabel--SubmitLog'),
-          onClick: onShowDebugLog,
-        }}
-      >
-        {i18n('icu:Toast--FailedToSendWithEndorsements')}
-      </Toast>
-    );
-  }
-
   if (toastType === ToastType.FailedToImportBackup) {
     return (
       <Toast

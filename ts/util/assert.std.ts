@@ -10,7 +10,7 @@ const log = createLogger('assert');
 /**
  * In development, starts the debugger.
  */
-export function devDebugger(): void {
+function devDebugger(): void {
   if (getEnvironment() === Environment.Development) {
     debugger; // oxlint-disable-line no-debugger
   }
