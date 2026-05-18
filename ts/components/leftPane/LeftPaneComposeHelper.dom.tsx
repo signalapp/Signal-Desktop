@@ -34,6 +34,7 @@ enum TopButtons {
   Visible = 'Visible',
 }
 
+// oxlint-disable-next-line react/prefer-function-component
 export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsType> {
   readonly #composeContacts: ReadonlyArray<ContactListItemConversationType>;
   readonly #composeGroups: ReadonlyArray<GroupListItemConversationType>;

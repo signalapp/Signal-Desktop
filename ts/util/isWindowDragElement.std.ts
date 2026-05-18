@@ -5,7 +5,8 @@ export function isWindowDragElement(el: Readonly<Element>): boolean {
   let currentEl: Element | null = el;
   do {
     const appRegion =
-      // oxlint-disable-next-line no-undef FIXME
+      // FIXME
+      // oxlint-disable-next-line no-undef
       getComputedStyle(currentEl).getPropertyValue('-webkit-app-region');
     switch (appRegion) {
       case 'no-drag':

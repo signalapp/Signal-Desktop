@@ -656,6 +656,8 @@ export function Lightbox({
       const shouldLoop = isAttachmentGIF || isViewOnce;
 
       content = (
+        // FIXME
+        // oxlint-disable-next-line jsx-a11y/control-has-associated-label
         <video
           className="Lightbox__object Lightbox__object--video"
           controls={!shouldLoop}

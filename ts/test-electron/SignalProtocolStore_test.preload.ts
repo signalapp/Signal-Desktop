@@ -315,6 +315,8 @@ describe('SignalProtocolStore', () => {
         store.saveIdentity(identifier, newIdentity, false, {
           zone: GLOBAL_ZONE,
         }),
+        // FIXME
+        // oxlint-disable-next-line typescript/await-thenable
         resolve(),
       ]);
     });

@@ -77,6 +77,8 @@ export function AvatarUploadButton({
       >
         {i18n('icu:photo')}
       </button>
+      {/* FIXME */}
+      {/* oxlint-disable-next-line jsx-a11y/control-has-associated-label */}
       <input
         accept=".gif,.jpg,.jpeg,.png,.webp,image/gif,image/jpeg,image/png,image/webp"
         hidden

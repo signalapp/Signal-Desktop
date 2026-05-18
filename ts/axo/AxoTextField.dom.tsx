@@ -156,7 +156,7 @@ export namespace AxoTextField {
           'shadow-elevation-0 shadow-no-outline',
           'placeholder:text-label-placeholder',
           'select-none',
-          '-outline-offset-[1.5px]',
+          'outline-offset-[-1.5px]',
           'not-forced-colors:has-[input:focus]:outline-[1.5px]',
           'not-forced-colors:has-[input:focus]:outline-border-selected',
           'forced-colors:border-[ButtonBorder] forced-colors:bg-[ButtonFace] forced-colors:text-[ButtonText]',
@@ -305,6 +305,8 @@ export namespace AxoTextField {
             'peer-has-[input]:overflow-hidden'
           )}
         >
+          {/* FIXME */}
+          {/* oxlint-disable-next-line jsx-a11y/control-has-associated-label */}
           <input
             ref={mergedRef}
             id={inputId}

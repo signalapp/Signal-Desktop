@@ -59,6 +59,8 @@ export const DonateInputCardNumber = memo(function DonateInputCardNumber(
   );
 
   return (
+    // FIXME
+    // oxlint-disable-next-line jsx-a11y/control-has-associated-label
     <input
       ref={inputRef}
       id={props.id}

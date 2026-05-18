@@ -1278,6 +1278,8 @@ export function MediaEditor({
               <div className="MediaEditor__media" ref={ref}>
                 {image && (
                   <div>
+                    {/* FIXME */}
+                    {/* oxlint-disable-next-line jsx-a11y/control-has-associated-label */}
                     <canvas
                       className={classNames('MediaEditor__media--canvas', {
                         'MediaEditor__media--canvas--cropping':

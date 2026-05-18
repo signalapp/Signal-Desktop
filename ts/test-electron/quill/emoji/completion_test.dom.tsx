@@ -19,7 +19,7 @@ describe('emojiCompletion', () => {
   // oxlint-disable-next-line typescript/no-explicit-any
   let mockQuill: any;
 
-  beforeEach(function (this: Mocha.Context) {
+  beforeEach(() => {
     mockQuill = {
       getLeaf: sinon.stub(),
       getText: sinon.stub(),

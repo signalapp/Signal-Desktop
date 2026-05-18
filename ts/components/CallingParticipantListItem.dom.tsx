@@ -101,6 +101,8 @@ export function CallingParticipantListItem({
   ]);
 
   return (
+    // FIXME
+    // oxlint-disable-next-line jsx-a11y/interactive-supports-focus
     <div
       className={classNames(
         'module-calling-participants-list__contact',

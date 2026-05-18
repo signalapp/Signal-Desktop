@@ -269,7 +269,7 @@ export default class AccountManager extends EventTarget {
   }
 
   async #queueTask<T>(task: () => Promise<T>): Promise<T> {
-    this.pendingQueue = this.pendingQueue || new PQueue({ concurrency: 1 });
+    this.pendingQueue ??= new PQueue({ concurrency: 1 });
 
     return this.pendingQueue.add(() =>
       runTaskWithTimeout(task, 'AccountManager task')

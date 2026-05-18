@@ -279,7 +279,6 @@ function ProgressBarAndDescription(props: ProgressBarPropsType): JSX.Element {
       </>
     );
   } else if (backupStep === InstallScreenBackupStep.Process) {
-    // oxlint-disable-next-line no-else-return
     return (
       <>
         <ProgressBar
@@ -291,6 +290,7 @@ function ProgressBarAndDescription(props: ProgressBarPropsType): JSX.Element {
         </div>
       </>
     );
+    // oxlint-disable-next-line no-else-return
   } else {
     throw missingCaseError(backupStep);
   }

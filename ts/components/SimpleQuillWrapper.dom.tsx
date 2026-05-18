@@ -16,6 +16,7 @@ export type Props = {
   readOnly: boolean | undefined;
 };
 
+// oxlint-disable-next-line react/prefer-function-component
 export class SimpleQuillWrapper extends Component<Props> {
   quill: Quill | undefined;
   quillElement = createRef<HTMLDivElement>();

@@ -39,6 +39,7 @@ export type LeftPaneChooseGroupMembersPropsType = {
   selectedContacts: Array<ConversationType>;
 };
 
+// oxlint-disable-next-line react/prefer-function-component
 export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<LeftPaneChooseGroupMembersPropsType> {
   readonly #candidateContacts: ReadonlyArray<ConversationType>;
   readonly #isPhoneNumberChecked: boolean;

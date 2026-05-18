@@ -335,6 +335,8 @@ export async function sendStoryMessage(
   // * Save the message models
   // * Add message to group conversation
   await Promise.all(
+    // FIXME
+    // oxlint-disable-next-line typescript/await-thenable
     conversationIds.map(conversationId => {
       const messageAttributes =
         groupV2MessagesByConversationId.get(conversationId);

@@ -248,11 +248,9 @@ describe('ReleaseNoteAndMegaphoneFetcher', () => {
     sandbox.stub(saveNewMessageBatcher, 'add').resolves();
 
     // Mock SignalCI
-    window.SignalCI =
-      window.SignalCI ||
-      ({
-        handleEvent: sandbox.stub(),
-      } as unknown as CIType);
+    window.SignalCI ??= {
+      handleEvent: sandbox.stub(),
+    } as unknown as CIType;
 
     // Helper to run fetcher and wait for completion
     const runFetcherAndWaitForCompletion = async () => {

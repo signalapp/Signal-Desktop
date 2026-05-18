@@ -48,6 +48,7 @@ export type LeftPaneSearchPropsType = {
   searchConversation: undefined | ConversationType;
 };
 
+// oxlint-disable-next-line react/prefer-function-component
 export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType> {
   readonly #conversationResults: MaybeLoadedSearchResultsType<ConversationListItemPropsType>;
   readonly #contactResults: MaybeLoadedSearchResultsType<ConversationListItemPropsType>;

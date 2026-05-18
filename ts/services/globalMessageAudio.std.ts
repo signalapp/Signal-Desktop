@@ -11,7 +11,8 @@ const { noop } = lodash;
  * source and callbacks without requiring removeEventListener
  */
 class GlobalMessageAudio {
-  // oxlint-disable-next-line no-undef FIXME
+  // FIXME
+  // oxlint-disable-next-line no-undef
   readonly #audio: HTMLAudioElement = new Audio();
   #url: string | undefined;
 

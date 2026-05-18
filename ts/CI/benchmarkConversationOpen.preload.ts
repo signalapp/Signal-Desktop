@@ -123,8 +123,7 @@ export async function benchmarkConversationOpen({
   );
 
   // oxlint-disable-next-line no-param-reassign
-  conversationId =
-    conversationId || getSelectedConversationId(window.reduxStore.getState());
+  conversationId ??= getSelectedConversationId(window.reduxStore.getState());
 
   strictAssert(conversationId, 'Must open a conversation for benchmarking');
 

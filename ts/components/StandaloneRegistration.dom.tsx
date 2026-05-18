@@ -99,6 +99,8 @@ function PhoneInput({
     <div className="phone-input">
       <div className="phone-input-form">
         <div className={`number-container ${isValid ? 'valid' : 'invalid'}`}>
+          {/* FIXME */}
+          {/* oxlint-disable-next-line jsx-a11y/control-has-associated-label */}
           <input
             className="number"
             type="tel"
@@ -319,7 +321,8 @@ function VerificationCodeStage({
       <div className="step-body">
         <div className="banner-image module-splash-screen__logo module-img--128" />
         <div className="header">Create your Signal Account</div>
-
+        {/* FIXME */}
+        {/* oxlint-disable-next-line jsx-a11y/control-has-associated-label */}
         <input
           className={`form-control ${isValidCode ? 'valid' : 'invalid'}`}
           type="text"
@@ -466,6 +469,8 @@ function ProfileNameStage({
             width: 80,
           }}
         />
+        {/* FIXME */}
+        {/* oxlint-disable-next-line jsx-a11y/control-has-associated-label */}
         <input
           className={`form-control ${firstName ? 'valid' : 'invalid'}`}
           type="text"
@@ -478,6 +483,8 @@ function ProfileNameStage({
           onChange={onChangeFirstName}
         />
         &nbsp;
+        {/* FIXME */}
+        {/* oxlint-disable-next-line jsx-a11y/control-has-associated-label */}
         <input
           className="form-control"
           type="text"

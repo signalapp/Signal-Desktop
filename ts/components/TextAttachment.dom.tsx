@@ -243,6 +243,8 @@ export const TextAttachment = forwardRef<HTMLTextAreaElement, PropsType>(
               }}
             >
               {onChange ? (
+                // FIXME
+                // oxlint-disable-next-line jsx-a11y/control-has-associated-label
                 <textarea
                   dir="auto"
                   className="TextAttachment__text__container TextAttachment__text__textarea"

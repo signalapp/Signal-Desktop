@@ -1592,7 +1592,7 @@ describe('calling duck', () => {
         return { dispatch };
       };
 
-      it('reads the link and dispatches START_CALL_LINK_LOBBY', async function (this: Mocha.Context) {
+      it('reads the link and dispatches START_CALL_LINK_LOBBY', async () => {
         const { roomId, rootKey } = FAKE_CALL_LINK;
         const { dispatch } = await doAction({ rootKey });
 
@@ -1650,7 +1650,7 @@ describe('calling duck', () => {
         return { dispatch };
       };
 
-      it('fails', async function (this: Mocha.Context) {
+      it('fails', async () => {
         const { roomId, rootKey } = FAKE_CALL_LINK;
         const { dispatch } = await doAction({ rootKey });
 

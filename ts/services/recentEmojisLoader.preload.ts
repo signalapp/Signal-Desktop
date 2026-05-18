@@ -11,5 +11,5 @@ export async function loadRecentEmojis(): Promise<void> {
 }
 
 export function getRecentEmojisForRedux(): EmojisStateType {
-  return { recentEmojis: recentEmojis };
+  return { recentEmojis };
 }

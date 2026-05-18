@@ -527,7 +527,7 @@ export const enforceFileSuffix = ESLintUtils.RuleCreator.withoutDocs({
         );
         if (match == null) {
           context.report({
-            node: node,
+            node,
             messageId: 'missingFileSuffixMustBeOneOf',
           });
           return;

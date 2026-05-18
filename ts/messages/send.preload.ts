@@ -343,7 +343,7 @@ async function sendSyncMessage(
   }
 
   // oxlint-disable-next-line no-param-reassign
-  message.syncPromise = message.syncPromise || Promise.resolve();
+  message.syncPromise ??= Promise.resolve();
   const next = async () => {
     const dataMessage = message.get('dataMessage');
     if (!dataMessage) {

@@ -5,7 +5,6 @@ import { useCallback } from 'react';
 import type { ReactNode } from 'react';
 import { tw } from '../tw.dom.tsx';
 
-/** @internal */
 export namespace AxoBaseDialog {
   /**
    * <AxoBaseDialog.Root>
@@ -38,7 +37,7 @@ export namespace AxoBaseDialog {
     'legacy-z-index-modal-host',
     'absolute inset-0 flex items-center-safe justify-center-safe bg-background-overlay p-4',
     // Allow the entire overlay to be scrolled in case the window is extremely small
-    'overflow-auto scrollbar-width-none',
+    'scrollbar-width-none overflow-auto',
     'data-[state=closed]:animate-exit data-[state=open]:animate-enter',
     'animate-opacity-0',
     'forced-colors:bg-[Canvas]'

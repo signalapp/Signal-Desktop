@@ -3601,10 +3601,10 @@ export class BackupImportStream extends Writable {
         });
       }
       if (update.groupV2MigrationUpdate) {
-        migrationMessage = migrationMessage || getDefaultMigrationMessage();
+        migrationMessage ??= getDefaultMigrationMessage();
       }
       if (update.groupV2MigrationSelfInvitedUpdate) {
-        migrationMessage = migrationMessage || getDefaultMigrationMessage();
+        migrationMessage ??= getDefaultMigrationMessage();
         const { groupMigration } = migrationMessage;
         if (!groupMigration) {
           throw new Error(
@@ -3614,7 +3614,7 @@ export class BackupImportStream extends Writable {
         groupMigration.areWeInvited = true;
       }
       if (update.groupV2MigrationInvitedMembersUpdate) {
-        migrationMessage = migrationMessage || getDefaultMigrationMessage();
+        migrationMessage ??= getDefaultMigrationMessage();
         const { groupMigration } = migrationMessage;
         if (!groupMigration) {
           throw new Error(
@@ -3631,7 +3631,7 @@ export class BackupImportStream extends Writable {
         groupMigration.invitedMemberCount = invitedMembersCount;
       }
       if (update.groupV2MigrationDroppedMembersUpdate) {
-        migrationMessage = migrationMessage || getDefaultMigrationMessage();
+        migrationMessage ??= getDefaultMigrationMessage();
         const { groupMigration } = migrationMessage;
         if (!groupMigration) {
           throw new Error(
@@ -3963,7 +3963,7 @@ export class BackupImportStream extends Writable {
       allowAllCalls,
       allowAllMentions,
       allowedMembers: new Set(allowedMemberConversationIds ?? []),
-      scheduleEnabled: scheduleEnabled,
+      scheduleEnabled,
       scheduleStartTime: dropNull(scheduleStartTime),
       scheduleEndTime: dropNull(scheduleEndTime),
       scheduleDaysEnabled: parseScheduleDaysEnabled(scheduleDaysEnabled),

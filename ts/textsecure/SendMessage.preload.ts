@@ -765,8 +765,7 @@ export class MessageSender {
       serviceId,
       'private'
     );
-    this.pendingMessages[id] =
-      this.pendingMessages[id] || new PQueue({ concurrency: 1 });
+    this.pendingMessages[id] ??= new PQueue({ concurrency: 1 });
 
     const queue = this.pendingMessages[id];
 

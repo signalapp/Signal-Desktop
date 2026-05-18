@@ -71,7 +71,7 @@ jobs:
     - run: pnpm run lint-prettier
     - run: pnpm run lint-css
     - run: pnpm run check:types
-    - run: pnpm run oxlint --format=github
+    - run: pnpm run oxlint:ci
     - run: pnpm run lint-deps
     - run: pnpm run lint-license-comments
     - run: pnpm run lint-intl

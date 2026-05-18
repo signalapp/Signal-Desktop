@@ -37,6 +37,7 @@ export type InsertEmojiOptionsType = Readonly<{
   justPressedColon?: boolean;
 }>;
 
+// oxlint-disable-next-line react/prefer-function-component
 export class EmojiCompletion {
   results: ReadonlyArray<Emoji.Parent>;
 

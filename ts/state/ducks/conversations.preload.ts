@@ -4939,6 +4939,8 @@ function onConversationOpened(
             ? Promise.resolve()
             : conversation.loadNewestMessages(undefined, undefined),
           conversation.updateLastMessage(),
+          // FIXME
+          // oxlint-disable-next-line typescript/await-thenable
           conversation.throttledUpdateUnread(),
         ])
       );

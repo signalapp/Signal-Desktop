@@ -56,7 +56,8 @@ describe('routing', function (this: Mocha.Suite) {
     const page = await app.getWindow();
     await page.locator('#LeftPane').waitFor();
     const token = await page.evaluate(
-      // oxlint-disable-next-line no-undef FIXME
+      // FIXME
+      // oxlint-disable-next-line no-undef
       serviceId => window.SignalCI?.createNotificationToken(serviceId),
       friend.device.aci
     );

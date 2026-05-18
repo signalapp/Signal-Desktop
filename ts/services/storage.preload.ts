@@ -1469,6 +1469,8 @@ async function getNonConversationRecords(): Promise<NonConversationRecordsResult
     DataReader.getAllCallLinkRecordsWithAdminKey(),
     DataReader.getAllDefunctCallLinksWithAdminKey(),
     DataReader.getAllNotificationProfiles(),
+    // FIXME
+    // oxlint-disable-next-line typescript/await-thenable
     callLinkRefreshJobQueue.getPendingAdminCallLinks(),
     DataReader.getAllStoryDistributionsWithMembers(),
     DataReader.getUninstalledStickerPacks(),

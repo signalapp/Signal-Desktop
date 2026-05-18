@@ -58,6 +58,7 @@ export function isNewlineOnlyOp(op: Op): boolean {
   return isString(op.insert) && /^\n+$/g.test(op.insert);
 }
 
+// oxlint-disable-next-line react/prefer-function-component
 export class FormattingMenu {
   // Cache the results of our virtual elements's last rect calculation
   lastRect: DOMRect | undefined;

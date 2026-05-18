@@ -106,7 +106,7 @@ function _maybeGrabLinkPreview(
 
   const links = LinkPreview.findLinks(message, caretLocation);
   currentlyMatchedLink = undefined;
-  excludedPreviewUrls = excludedPreviewUrls || [];
+  excludedPreviewUrls ??= [];
 
   const link = links.find(
     item =>

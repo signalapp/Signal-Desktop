@@ -38,6 +38,8 @@ export function DirectCallRemoteParticipant({
   }, [handleSize, setRendererCanvas]);
 
   return hasRemoteVideo ? (
+    // FIXME
+    // oxlint-disable-next-line jsx-a11y/control-has-associated-label
     <canvas
       className={classNames(
         'module-ongoing-call__remote-video-enabled',

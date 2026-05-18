@@ -39,6 +39,7 @@ export type LeftPaneInboxPropsType = {
   filterByUnread: boolean;
 };
 
+// oxlint-disable-next-line react/prefer-function-component
 export class LeftPaneInboxHelper extends LeftPaneHelper<LeftPaneInboxPropsType> {
   readonly #conversations: ReadonlyArray<ConversationListItemPropsType>;
   readonly #archivedConversations: ReadonlyArray<ConversationListItemPropsType>;

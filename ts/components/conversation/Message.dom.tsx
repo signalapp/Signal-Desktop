@@ -611,6 +611,7 @@ const MessageReactions = forwardRef(function MessageReactions(
   );
 });
 
+// oxlint-disable-next-line react/prefer-function-component
 export class Message extends PureComponent<Props, State> {
   public focusRef: RefObject<HTMLDivElement | null> = createRef();
 

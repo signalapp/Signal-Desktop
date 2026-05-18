@@ -34,6 +34,7 @@ type DoLookupActionsType = Readonly<{
 }> &
   LookupConversationWithoutServiceIdActionsType;
 
+// oxlint-disable-next-line react/prefer-function-component
 export class LeftPaneFindByPhoneNumberHelper extends LeftPaneHelper<LeftPaneFindByPhoneNumberPropsType> {
   readonly #searchTerm: string;
   readonly #phoneNumber: ParsedE164Type | undefined;

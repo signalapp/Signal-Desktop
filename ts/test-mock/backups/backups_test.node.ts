@@ -440,7 +440,7 @@ describe('backups', function (this: Mocha.Suite) {
     );
   });
 
-  it('imports ephemeral backup', async function () {
+  it('imports ephemeral backup', async () => {
     const ephemeralBackupKey = randomBytes(32);
     const cdnKey = randomBytes(16).toString('hex');
 
@@ -489,7 +489,7 @@ describe('backups', function (this: Mocha.Suite) {
     await window.locator('.module-message >> "Message 33"').waitFor();
   });
 
-  it('handles remote ephemeral backup cancellation', async function () {
+  it('handles remote ephemeral backup cancellation', async () => {
     const ephemeralBackupKey = randomBytes(32);
 
     const { phone, server } = bootstrap;

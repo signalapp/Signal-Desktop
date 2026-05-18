@@ -1793,6 +1793,8 @@ async function startApp(): Promise<void> {
 
         try {
           log.info(`${logId}: waiting for postRegistrationSyncs`);
+          // FIXME
+          // oxlint-disable-next-line typescript/await-thenable
           await Promise.all(syncsToAwaitBeforeShowingInbox);
           await itemStorage.put('postRegistrationSyncsStatus', 'complete');
           log.info(`${logId}: postRegistrationSyncs complete`);
