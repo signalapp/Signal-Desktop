@@ -68,6 +68,7 @@ const ScalarKeys = [
   'desktop.mediaQuality.levels',
   'desktop.messageCleanup',
   'desktop.recentGifs.allowLegacyTenorCdnUrls',
+  'desktop.requirePqRatio',
   'desktop.retryRespondMaxAge',
   'desktop.senderKey.retry',
   'desktop.senderKeyMaxAge',

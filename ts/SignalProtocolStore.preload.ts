@@ -74,6 +74,7 @@ import { formatGroups, groupWhile } from './util/groupWhile.std.ts';
 import { parseUnknown } from './util/schemas.std.ts';
 import { wrappingAdd24 } from './util/wrappingAdd.std.ts';
 import { itemStorage } from './textsecure/Storage.preload.ts';
+import { getRequirePqRatio } from './util/getRequirePqRatio.dom.ts';
 
 const { omit } = lodash;
 
@@ -81,10 +82,6 @@ const log = createLogger('SignalProtocolStore');
 
 const TIMESTAMP_THRESHOLD = 5 * 1000; // 5 seconds
 const LOW_KEYS_THRESHOLD = 25;
-
-// Probability that a non-SPQR session should be archived to force a PQ rekey
-// on next send. 0 keeps all sessions usable; raise to ramp up PQ enforcement.
-const ARCHIVE_NON_SPQR_SESSION_PROBABILITY = 0;
 
 const VerifiedStatus = {
   DEFAULT: 0,
@@ -1558,9 +1555,7 @@ export class SignalProtocolStore extends EventEmitter {
           entries.map(async entry => {
             if (entry.hydrated) {
               const record = entry.item;
-              if (
-                record.hasCurrentState(ARCHIVE_NON_SPQR_SESSION_PROBABILITY)
-              ) {
+              if (record.hasCurrentState(getRequirePqRatio())) {
                 return { record, entry };
               }
 
@@ -1568,7 +1563,7 @@ export class SignalProtocolStore extends EventEmitter {
             }
 
             const record = hydrateSession(entry.fromDB);
-            if (record.hasCurrentState(ARCHIVE_NON_SPQR_SESSION_PROBABILITY)) {
+            if (record.hasCurrentState(getRequirePqRatio())) {
               return { record, entry };
             }
 
@@ -1715,7 +1710,7 @@ export class SignalProtocolStore extends EventEmitter {
       async () => {
         const item = entry.hydrated ? entry.item : hydrateSession(entry.fromDB);
 
-        if (!item.hasCurrentState(ARCHIVE_NON_SPQR_SESSION_PROBABILITY)) {
+        if (!item.hasCurrentState(getRequirePqRatio())) {
           return;
         }
 
