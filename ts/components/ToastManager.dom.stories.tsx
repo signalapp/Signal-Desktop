@@ -224,6 +224,13 @@ function getToast(toastType: ToastType): AnyToast {
       };
     case ToastType.ReceiptSaveFailed:
       return { toastType: ToastType.ReceiptSaveFailed };
+    case ToastType.RemoteConfigChanged:
+      return {
+        toastType: ToastType.RemoteConfigChanged,
+        changes: [
+          { name: 'desktop.example.value', from: '1.0.0', to: '2.0.0' },
+        ],
+      };
     case ToastType.ReportedSpam:
       return { toastType: ToastType.ReportedSpam };
     case ToastType.ReportedSpamAndBlocked:

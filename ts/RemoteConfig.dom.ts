@@ -217,6 +217,11 @@ export const _refreshRemoteConfig = async ({
   }
 
   const changedKeys = new Set<string>();
+  const changeDescriptions: Array<{
+    name: string;
+    from: string;
+    to: string;
+  }> = [];
 
   const oldConfig = config;
   let semverError = false;
@@ -263,6 +268,11 @@ export const _refreshRemoteConfig = async ({
 
       if (hasChanged) {
         changedKeys.add(name);
+        changeDescriptions.push({
+          name,
+          from: previousValue ?? '[undefined]',
+          to: configValue.value ?? '[undefined]',
+        });
       }
 
       // Return new configuration object
@@ -278,6 +288,13 @@ export const _refreshRemoteConfig = async ({
     log.info(
       `Remote Config: Flags ${[...changedKeys].join(', ')} have changed`
     );
+
+    if (isEnabled('desktop.loggingErrorToasts')) {
+      window.reduxActions.toast.showToast({
+        toastType: ToastType.RemoteConfigChanged,
+        changes: changeDescriptions,
+      });
+    }
 
     // If enablement changes at all, notify listeners
     for (const { keys, callback } of listeners) {

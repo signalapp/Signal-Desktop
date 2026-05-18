@@ -819,6 +819,30 @@ function renderToast({
     );
   }
 
+  if (toastType === ToastType.RemoteConfigChanged) {
+    return (
+      <Toast
+        autoDismissDisabled
+        onClose={hideToast}
+        style={{ width: 'max-content', maxWidth: '650px' }}
+      >
+        <div>
+          <strong>
+            <span className={tw('text-color-fill-warning')}>
+              <AxoSymbol.InlineGlyph symbol="error-triangle" label="Change" />
+            </span>
+            &nbsp;Remote Config changed:
+          </strong>
+        </div>
+        {toast.changes.map(({ name, from, to }) => (
+          <div key={name} className={tw('font-mono type-body-small')}>
+            {name}: {from} → {to}
+          </div>
+        ))}
+      </Toast>
+    );
+  }
+
   if (toastType === ToastType.ReportedSpam) {
     return (
       <Toast onClose={hideToast}>
