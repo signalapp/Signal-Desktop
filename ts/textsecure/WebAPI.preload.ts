@@ -398,9 +398,10 @@ async function getFetchOptions<Type extends ResponseType, OutputShape>(
     method: options.type,
     body,
     headers: {
-      'User-Agent': options.socketManager
-        ? undefined
-        : getUserAgent(options.version),
+      // libsignal-net adds the user-agent header for us
+      ...(options.socketManager
+        ? null
+        : { 'User-Agent': getUserAgent(options.version) }),
       'X-Signal-Agent': 'OWD',
       ...options.headers,
     } as FetchHeaderListType,
