@@ -162,6 +162,11 @@ describe('ReleaseNoteAndMegaphoneFetcher', () => {
       set: sandbox.stub(),
       throttledUpdateUnread: sandbox.stub(),
       id: 'fake-signal-conversation-id',
+      setArchived: sandbox.stub(),
+      attributes: {
+        archived: false,
+      },
+      updateLastMessage: sandbox.stub(),
     };
 
     // Stub global methods

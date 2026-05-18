@@ -50,6 +50,7 @@ import {
   deleteMegaphoneAndRemoveFromRedux,
   runMegaphoneCheck,
 } from './megaphone.preload.ts';
+import { canConversationBeUnarchived } from '../util/canConversationBeUnarchived.preload.ts';
 
 const { last } = lodash;
 
@@ -528,11 +529,16 @@ export class ReleaseNoteAndMegaphoneFetcher {
       messages.map(message => saveNewMessageBatcher.add(message))
     );
 
-    signalConversation.set({ active_at: Date.now(), isArchived: false });
-    signalConversation.throttledUpdateUnread();
-
     log.info(`Updating version watermark to ${versionWatermark}`);
-    drop(itemStorage.put(VERSION_WATERMARK_STORAGE_KEY, versionWatermark));
+    await itemStorage.put(VERSION_WATERMARK_STORAGE_KEY, versionWatermark);
+
+    signalConversation.set({ active_at: Date.now() });
+
+    if (canConversationBeUnarchived(signalConversation.attributes)) {
+      signalConversation.setArchived(false);
+    }
+    signalConversation.throttledUpdateUnread();
+    await signalConversation.updateLastMessage();
   }
 
   async #scheduleForNextRun(options?: {
@@ -603,6 +609,7 @@ export class ReleaseNoteAndMegaphoneFetcher {
 
       await this.#scheduleForNextRun();
       this.setTimeoutForNextRun();
+
       window.SignalCI?.handleEvent('release_notes_fetcher_complete', {});
     } catch (error) {
       const errorString =
