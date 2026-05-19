@@ -1284,7 +1284,7 @@ async function startApp(): Promise<void> {
         enqueueReconnectToWebSocket();
       }
 
-      drop(keyTransparency.onKnownIdentifierChange());
+      drop(keyTransparency.onKnownIdentifierChange('e164'));
     });
 
     window.Whisper.events.on('setMenuOptions', (options: MenuOptionsType) => {

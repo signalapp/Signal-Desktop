@@ -272,6 +272,7 @@ import { itemStorage } from '../textsecure/Storage.preload.ts';
 import { isUsernameValid } from '../util/Username.dom.ts';
 import type { Emoji } from '../axo/emoji.std.ts';
 import { canConversationOnlyBeMutedAlways } from '../conversations/canConversationOnlyBeMutedAlways.dom.ts';
+import { keyTransparency } from '../services/keyTransparency.preload.ts';
 
 const { compact, isNumber, throttle, debounce } = lodash;
 
@@ -4479,6 +4480,14 @@ export class ConversationModel {
     log.info(`updateUsername(${this.idForLogging()}): updating username`);
 
     this.#doSet({ username });
+
+    if (isMe(this.attributes)) {
+      drop(keyTransparency.onKnownIdentifierChange('username'));
+      if (itemStorage.get('usernameCorrupted')) {
+        log.info('updateUsername: clearing username corruption');
+        await itemStorage.remove('usernameCorrupted');
+      }
+    }
     await window.ConversationController.usernameUpdated(this);
 
     if (!fromStorageService) {

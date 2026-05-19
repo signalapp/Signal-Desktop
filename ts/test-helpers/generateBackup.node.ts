@@ -163,7 +163,6 @@ function* createRecords({
       androidSpecificSettings: null,
       bioText: null,
       bioEmoji: null,
-      keyTransparencyData: null,
     },
   });
 
