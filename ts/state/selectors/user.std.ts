@@ -7,8 +7,8 @@ import { type LocalizerType, ThemeType } from '../../types/Util.std.ts';
 import type { AciString, PniString } from '../../types/ServiceId.std.ts';
 
 import type { StateType } from '../reducer.preload.ts';
-import type { CallingStateType } from '../ducks/calling.preload.ts';
 import type { UserStateType } from '../ducks/user.preload.ts';
+import { getIsInFullScreenCall } from './isInFullScreenCall.std.ts';
 
 import { isNightly } from '../../util/version.std.ts';
 
@@ -69,18 +69,11 @@ const getPreferredTheme = createSelector(
   (state: UserStateType): ThemeType => state.theme
 );
 
-// Also defined in calling selectors, redefined to avoid circular dependency
-const getIsInFullScreenCall = createSelector(
-  (state: StateType): CallingStateType => state.calling,
-  (state: CallingStateType): boolean =>
-    state.activeCallState?.state === 'Active' && !state.activeCallState.pip
-);
-
 export const getTheme = createSelector(
   getPreferredTheme,
   getIsInFullScreenCall,
-  (theme: ThemeType, isInCall: boolean): ThemeType => {
-    return isInCall ? ThemeType.dark : theme;
+  (theme: ThemeType, inFullScreenCall: boolean): ThemeType => {
+    return inFullScreenCall ? ThemeType.dark : theme;
   }
 );
 

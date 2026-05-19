@@ -151,12 +151,6 @@ export const isInCall = createSelector(
   (call: CallStateType | undefined): boolean => Boolean(call)
 );
 
-export const isInFullScreenCall = createSelector(
-  getActiveCallState,
-  (activeCallState: undefined | ActiveCallStateType): boolean =>
-    Boolean(activeCallState && !activeCallState.pip)
-);
-
 export const getRingingCall = createSelector(
   getCallsByConversation,
   getActiveCallState,

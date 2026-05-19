@@ -6,8 +6,8 @@ import lodash from 'lodash';
 import { useSelector } from 'react-redux';
 import * as KeyboardLayout from '../services/keyboardLayout.dom.ts';
 import { getHasPanelOpen } from '../state/selectors/nav.std.ts';
-import { isInFullScreenCall } from '../state/selectors/calling.std.ts';
 import { isShowingAnyModal } from '../state/selectors/globalModals.std.ts';
+import { getIsInFullScreenCall } from '../state/selectors/isInFullScreenCall.std.ts';
 
 const { get } = lodash;
 
@@ -89,7 +89,7 @@ function useHasGlobalModal(): boolean {
 }
 
 function useHasCalling(): boolean {
-  return useSelector(isInFullScreenCall);
+  return useSelector(getIsInFullScreenCall);
 }
 
 function useHasAnyOverlay(): boolean {

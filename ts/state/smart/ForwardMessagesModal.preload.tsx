@@ -11,7 +11,6 @@ import * as Errors from '../../types/errors.std.ts';
 import { getAllComposableConversations } from '../selectors/conversations.dom.ts';
 import { getIntl, getTheme, getRegionCode } from '../selectors/user.std.ts';
 import { getLinkPreview } from '../selectors/linkPreviews.std.ts';
-import { isInFullScreenCall as getIsInFullScreenCall } from '../selectors/calling.std.ts';
 import { getPreferredBadgeSelector } from '../selectors/badges.preload.ts';
 import { maybeForwardMessages } from '../../util/maybeForwardMessages.preload.ts';
 import {
@@ -31,6 +30,7 @@ import type {
 } from '../../types/ForwardDraft.std.ts';
 import { getForwardMessagesProps } from '../selectors/globalModals.std.ts';
 import { applyRangesToText } from '../../types/BodyRange.std.ts';
+import { getIsInFullScreenCall } from '../selectors/isInFullScreenCall.std.ts';
 
 const log = createLogger('ForwardMessagesModal');
 
