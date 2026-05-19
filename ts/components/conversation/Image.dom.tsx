@@ -189,13 +189,16 @@ export function Image({
     !attachment.path && !attachment.pending && !isIncremental(attachment) ? (
       <button
         type="button"
-        className="module-image__overlay-circle"
+        className="module-image__border-overlay module-image__border-overlay--with-click-handler"
         aria-label={i18n('icu:startDownload')}
         onClick={startDownloadClick}
         onKeyDown={startDownloadKeyDown}
+        style={curveStyles}
         tabIndex={tabIndex}
       >
-        <div className="module-image__download-icon" />
+        <span className="module-image__overlay-circle">
+          <span className="module-image__download-icon" />
+        </span>
       </button>
     ) : undefined;
 
