@@ -1,18 +1,18 @@
 {
   "icu:AxoAlertDialog.Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Hủy"
   },
   "icu:AxoButton.Pending": {
-    "messageformat": "Pending"
+    "messageformat": "Đang chờ"
   },
   "icu:AxoDialog.Back": {
-    "messageformat": "Back"
+    "messageformat": "Trở lại"
   },
   "icu:AxoDialog.Close": {
-    "messageformat": "Close"
+    "messageformat": "Đóng"
   },
   "icu:AxoTextField.Clear": {
-    "messageformat": "Clear"
+    "messageformat": "Xoá"
   },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "Thêm vào một nhóm"
@@ -371,9 +371,6 @@
   "icu:NavTabs__ItemLabel--Settings": {
     "messageformat": "Cài đặt"
   },
-  "icu:NavTabs__ItemLabel--Profile": {
-    "messageformat": "Hồ sơ"
-  },
   "icu:NavSidebar__BackButtonLabel": {
     "messageformat": "Trở lại"
   },
@@ -611,11 +608,20 @@
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
     "messageformat": "Đối với các liên hệ bạn đã kết nối thông qua số điện thoại, Signal có thể tự động xác nhận xem kết nối có an toàn hay không bằng cách sử dụng quy trình gọi là độ minh bạch của mã khóa. Để tăng cường bảo mật, hãy xác minh thủ công mã hóa đầu cuối bằng cách so sánh các số trên màn hình trước đó hoặc quét mã trên thiết bị của họ."
   },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body-2": {
+    "messageformat": "For people you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+  },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
     "messageformat": "Tính năng tự động xác minh không còn khả dụng cho cuộc trò chuyện này"
   },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title-2": {
+    "messageformat": "Auto-verification is not available for this chat"
+  },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
     "messageformat": "Signal không còn khả năng tự động xác minh mã hóa cho cuộc trò chuyện này. Điều này có thể là vì {name} đã đổi số điện thoại của họ. Xác minh thủ công mã hóa đầu cuối bằng cách so sánh các số trên màn hình trước đó hoặc quét mã trên thiết bị của họ."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body-2": {
+    "messageformat": "Signal can not automatically verify the encryption for this chat. This could be because {name} changed their phone number or their phone number privacy settings. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
     "messageformat": "Signal chỉ có thể tự động xác minh mã hóa trong các cuộc trò chuyện mà bạn được kết nối với ai đó thông qua số điện thoại. Nếu cuộc trò chuyện được bắt đầu với tên người dùng hoặc một nhóm chung, hãy xác minh mã hóa đầu cuối bằng cách so sánh các số trên màn hình trước đó hoặc quét mã trên thiết bị của họ."
@@ -644,9 +650,6 @@
   "icu:KeyTransparencyErrorDialog__Submit": {
     "messageformat": "Gửi"
   },
-  "icu:KeyTransparencyErrorDialog__Submitting": {
-    "messageformat": "Đang gửi..."
-  },
   "icu:KeyTransparencyOnboardingDialog__Title": {
     "messageformat": "Signal nay có thể tự động xác minh mã hóa"
   },
@@ -658,9 +661,6 @@
   },
   "icu:KeyTransparencyOnboardingDialog__LearnMore": {
     "messageformat": "Tìm hiểu thêm"
-  },
-  "icu:KeyTransparencyOnboardingDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Đóng"
   },
   "icu:verified": {
     "messageformat": "Đã xác minh"
@@ -1292,9 +1292,6 @@
   "icu:PinMessageDialog__Title": {
     "messageformat": "Ghim tin nhắn trong…"
   },
-  "icu:PinMessageDialog__Close": {
-    "messageformat": "Đóng"
-  },
   "icu:PinMessageDialog__Option--TIME_24_HOURS": {
     "messageformat": "24 giờ"
   },
@@ -1318,9 +1315,6 @@
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Description": {
     "messageformat": "Thao tác ghim tin nhắn này sẽ thay thế tin nhắn được ghim cũ nhất."
-  },
-  "icu:PinMessageDialog--HasMaxPinnedMessages__Cancel": {
-    "messageformat": "Hủy"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Continue": {
     "messageformat": "Tiếp tục"
@@ -1408,9 +1402,6 @@
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Description": {
     "messageformat": "Tin nhắn sẽ được bỏ ghim đối với thành viên của cuộc trò chuyện này."
-  },
-  "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Cancel": {
-    "messageformat": "Hủy"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Unpin": {
     "messageformat": "Bỏ ghim"
@@ -1599,13 +1590,13 @@
     "messageformat": "Cần hỗ trợ?"
   },
   "icu:Install__confirm-data-deletion__title": {
-    "messageformat": "Delete all data?"
+    "messageformat": "Xóa tất cả dữ liệu ?"
   },
   "icu:Install__confirm-data-deletion__body": {
-    "messageformat": "You’re attempting to link a different Signal account to this desktop. If you continue, all data currently in Signal Desktop will be deleted."
+    "messageformat": "Bạn đang cố gắng liên kết một tài khoản Signal khác với máy tính này. Nếu tiếp tục, tất cả dữ liệu hiện có trong Signal Desktop sẽ bị xóa."
   },
   "icu:Install__confirm-data-deletion__continue": {
-    "messageformat": "Continue"
+    "messageformat": "Tiếp tục"
   },
   "icu:Preferences--header": {
     "messageformat": "Cài đặt"
@@ -1657,9 +1648,6 @@
   },
   "icu:Preferences__ChatsPage__DeleteChatFolderDialog__DeleteButton": {
     "messageformat": "Xóa"
-  },
-  "icu:Preferences__ChatsPage__DeleteChatFolderDialog__CancelButton": {
-    "messageformat": "Hủy"
   },
   "icu:Preferences__ChatFoldersPage__Title": {
     "messageformat": "Thư mục trò chuyện"
@@ -1783,9 +1771,6 @@
   },
   "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__DeleteButton": {
     "messageformat": "Xóa"
-  },
-  "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__CancelButton": {
-    "messageformat": "Hủy"
   },
   "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__Title": {
     "messageformat": "Lưu thay đổi?"
@@ -2314,9 +2299,6 @@
   },
   "icu:syncNow": {
     "messageformat": "Nhập ngay"
-  },
-  "icu:syncing": {
-    "messageformat": "Đang nhập…"
   },
   "icu:syncFailed": {
     "messageformat": "Nhập không thành công. Hãy chắc chắn rằng máy tính và điện thoại của bạn đã kết nối internet."
@@ -3317,6 +3299,9 @@
   "icu:Keyboard--toggle-preview": {
     "messageformat": "Bật hoặc tắt khung xem trước mở rộng"
   },
+  "icu:Keyboard--toggle-raise-hand": {
+    "messageformat": "Raise or lower your hand (group calls only)"
+  },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Trả lời cuộc gọi với video (chỉ cuộc gọi video)"
   },
@@ -3895,9 +3880,6 @@
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogBody": {
     "messageformat": "Trước khi tham gia một cuộc gọi, bạn chỉ có thể thấy tên của những liên hệ có trên điện thoại, những người ở trong cùng một nhóm với bạn, hoặc những người bạn đã trò chuyện trực tiếp. Bạn sẽ thấy tất cả tên và ảnh khi bạn đã tham gia cuộc gọi."
-  },
-  "icu:CallingAdhocCallInfo__UnknownContactInfoDialogOk": {
-    "messageformat": "Đã hiểu"
   },
   "icu:callingDeviceSelection__label--video": {
     "messageformat": "Video"
@@ -4580,9 +4562,6 @@
   "icu:close": {
     "messageformat": "Đóng"
   },
-  "icu:clear": {
-    "messageformat": "Xoá"
-  },
   "icu:previous": {
     "messageformat": "trước"
   },
@@ -4608,13 +4587,7 @@
     "messageformat": "Ủng hộ Signal"
   },
   "icu:BadgeDialog__name-supports-signal": {
-    "messageformat": "{name} supports Signal"
-  },
-  "icu:ProfileMovedModal__title": {
-    "messageformat": "Hồ sơ của bạn đã được dịch chuyển"
-  },
-  "icu:ProfileMovedModal__description": {
-    "messageformat": "Mở thẻ Cài đặt để xem và chỉnh sửa hồ sơ của bạn."
+    "messageformat": "{name} ủng hộ Signal"
   },
   "icu:BackupImportScreen__title": {
     "messageformat": "Đang đồng bộ tin nhắn"
@@ -4705,9 +4678,6 @@
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
     "messageformat": "Đồng bộ tập tin đa phương tiện chưa hoàn tất. Nếu chọn hủy, bạn có thể đồng bộ lại bằng cách liên kết lại thiết bị. <learnMoreLink>Tìm hiểu thêm</learnMoreLink>."
-  },
-  "icu:BackupMediaDownloadCancelConfirmation__button-continue": {
-    "messageformat": "Tiếp tục đồng bộ"
   },
   "icu:BackupMediaDownloadCancelConfirmation__button-confirm-cancel": {
     "messageformat": "Hủy đồng bộ"
@@ -4885,9 +4855,6 @@
   },
   "icu:ConversationDetails--member-label--no-members": {
     "messageformat": "Không có thành viên nào khác có nhãn"
-  },
-  "icu:ConversationDetails--member-label--saving": {
-    "messageformat": "Đang lưu các thay đổi..."
   },
   "icu:ConversationDetails--member-label--error-title": {
     "messageformat": "Không thể lưu nhãn thành viên"
@@ -5255,9 +5222,6 @@
   },
   "icu:DeleteAttachmentModal__Body": {
     "messageformat": "Thao tác này sẽ xóa vĩnh viễn mục đã chọn. Các tin nhắn có liên kết với mục này cũng sẽ bị xóa."
-  },
-  "icu:DeleteAttachmentModal__Close": {
-    "messageformat": "Đóng"
   },
   "icu:DeleteAttachmentModal__Delete": {
     "messageformat": "Xóa"
@@ -6018,9 +5982,6 @@
   },
   "icu:PlaintextExport--Confirmation--ContinueButton": {
     "messageformat": "Tiếp tục"
-  },
-  "icu:PlaintextExport--Confirmation--WaitingLabel": {
-    "messageformat": "Đang chờ"
   },
   "icu:PlaintextExport--OSPrompt--Mac": {
     "messageformat": "xuất lịch sử trò chuyện"
@@ -7703,9 +7664,6 @@
   "icu:CallLinkDetails__DeleteLinkModal__Body": {
     "messageformat": "Đường dẫn này sẽ không còn hoạt động với bất kỳ ai."
   },
-  "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
-    "messageformat": "Hủy"
-  },
   "icu:CallLinkDetails__DeleteLinkModal__Delete": {
     "messageformat": "Xóa"
   },
@@ -8099,12 +8057,6 @@
   "icu:Donations__badge-modal--help-text": {
     "messageformat": "Bạn có thể điều chỉnh cài đặt này trên thiết bị di động ở mục Cài đặt → Ủng hộ Signal → Huy hiệu"
   },
-  "icu:CallQualitySurvey__CloseButton__AccessibilityLabel": {
-    "messageformat": "Đóng"
-  },
-  "icu:CallQualitySurvey__BackButton__AccessibilityLabel": {
-    "messageformat": "Trở lại"
-  },
   "icu:CallQualitySurvey__HowWasYourCall__PageTitle": {
     "messageformat": "Cuộc gọi của bạn thế nào?"
   },
@@ -8192,9 +8144,6 @@
   "icu:CallQualitySurvey__ConfirmSubmission__SubmitButton": {
     "messageformat": "Gửi"
   },
-  "icu:CallQualitySurvey__ConfirmSubmission__Submitting": {
-    "messageformat": "Đang gửi khảo sát…"
-  },
   "icu:CallQualitySurvey__SubmissionFailed": {
     "messageformat": "Không thể gửi khảo sát"
   },
@@ -8214,37 +8163,34 @@
     "messageformat": "Mục"
   },
   "icu:MaybeTransferModal__title": {
-    "messageformat": "Transfer your phone’s message history to this desktop?"
+    "messageformat": "Bạn muốn chuyển lịch sử tin nhắn của điện thoại sang máy tính này?"
   },
   "icu:MaybeTransferModal__description": {
-    "messageformat": "When you re-link this desktop, you can transfer your phone’s message history to this device."
+    "messageformat": "Khi bạn liên kết lại máy tính này, bạn có thể chuyển lịch sử tin nhắn từ điện thoại sang thiết bị này."
   },
   "icu:MaybeTransferModal__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Tìm hiểu thêm"
   },
   "icu:MaybeTransferModal__replaceHistory": {
-    "messageformat": "This will <bold>replace</bold> the message history on this desktop."
+    "messageformat": "Thao tác này sẽ <bold>thay thế</bold> lịch sử tin nhắn trên máy tính này."
   },
   "icu:MaybeTransferModal__scanQrCode": {
-    "messageformat": "You’ll need to relink by scanning a QR code."
+    "messageformat": "Bạn sẽ cần liên kết lại bằng cách quét mã QR."
   },
   "icu:MaybeTransferModal__media": {
-    "messageformat": "If you have paid Signal Secure Backups, all of your media will be transferred. Otherwise, your last 45 days of media will be included."
+    "messageformat": "Nếu bạn có gói Sao lưu bảo mật Signal trả phí, tất cả tập tin đa phương tiện của bạn sẽ được chuyển. Nếu không, chỉ có tập tin đa phương tiện trong 45 ngày qua được bao gồm."
   },
   "icu:MaybeTransferModal__transfer": {
-    "messageformat": "Transfer"
+    "messageformat": "Truyền tải"
   },
   "icu:MaybeTransferModal__dontTransfer": {
-    "messageformat": "Don't transfer"
+    "messageformat": "Không chuyển"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__title": {
-    "messageformat": "Delete all data?"
-  },
-  "icu:DeleteDataAndRelinkConfirmationDialog__pending": {
-    "messageformat": "Deleting all data"
+    "messageformat": "Xóa tất cả dữ liệu ?"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__body": {
-    "messageformat": "All current data in Signal Desktop will be deleted. You can then scan a QR code and transfer your message history from your phone."
+    "messageformat": "Tất cả dữ liệu hiện có trong Signal Desktop sẽ bị xóa. Sau đó, bạn có thể quét mã QR và chuyển lịch sử tin nhắn từ điện thoại của mình."
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Phiên bản này có một số tinh chỉnh và sửa lỗi để giữ cho Signal hoạt động mượt mà.",
@@ -8274,16 +8220,16 @@
     "messageformat": "Các tinh chỉnh, sửa lỗi, và cải thiện hiệu năng. Cảm ơn bạn đã sử dụng Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.10--0": {
-    "messageformat": "Hỗ trợ emoji mới trong Unicode 17.0."
-  },
   "icu:WhatsNew__8.11--0": {
-    "messageformat": "We've introduced additional confirmations and educational messaging in the app to help protect Signal users from phishing and social engineering attacks. As a reminder, never reply to chats pretending to be Signal, and never send your verification code, PIN, or recovery key to anyone."
+    "messageformat": "Chúng tôi đã bổ sung các bước xác nhận và thông báo hướng dẫn trong ứng dụng để giúp bảo vệ người dùng Signal khỏi các hành vi tấn công giả mạo và phi kỹ thuật. Cần nhắc lại, tuyệt đối không trả lời tin nhắn giả mạo Signal và không bao giờ gửi mã xác minh, mã PIN hoặc mã khóa khôi phục của bạn cho bất kỳ ai."
   },
   "icu:WhatsNew__8.11--1": {
-    "messageformat": "Raised hand indicators in group calls now display the current order of the queue, so you can easily see who got the upper hand first."
+    "messageformat": "Chỉ báo giơ tay trong cuộc gọi nhóm giờ đây hiển thị thứ tự hiện tại trong hàng đợi."
   },
   "icu:WhatsNew__8.11--2": {
-    "messageformat": "We also added a real-time visualization while recording voice messages, so surfers (and oceanographers) can stare at multiple moving waveforms whenever they share updates from the beach."
+    "messageformat": "Hình ảnh trực quan mới khi ghi âm tin nhắn thoại."
+  },
+  "icu:WhatsNew__8.12--0": {
+    "messageformat": "On the one hand, you can click on the raise hand icon during group calls. But on the other hand, now you can use a new keyboard shortcut too (Shift-H)."
   }
 }

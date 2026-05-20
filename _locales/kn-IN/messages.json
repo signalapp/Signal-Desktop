@@ -1,18 +1,18 @@
 {
   "icu:AxoAlertDialog.Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "ರದ್ದುಮಾಡಿ"
   },
   "icu:AxoButton.Pending": {
-    "messageformat": "Pending"
+    "messageformat": "ಬಾಕಿ ಇದೆ"
   },
   "icu:AxoDialog.Back": {
-    "messageformat": "Back"
+    "messageformat": "ಹಿಂದಕ್ಕೆ"
   },
   "icu:AxoDialog.Close": {
-    "messageformat": "Close"
+    "messageformat": "ಮುಚ್ಚಿ"
   },
   "icu:AxoTextField.Clear": {
-    "messageformat": "Clear"
+    "messageformat": "ತೆರವುಗೊಳಿಸಿ"
   },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "ಗುಂಪಿಗೆ ಸೇರಿಸಿ"
@@ -371,9 +371,6 @@
   "icu:NavTabs__ItemLabel--Settings": {
     "messageformat": "ಸೆಟ್ಟಿಂಗ್‌ಗಳು"
   },
-  "icu:NavTabs__ItemLabel--Profile": {
-    "messageformat": "ಪ್ರೊಫೈಲ್"
-  },
   "icu:NavSidebar__BackButtonLabel": {
     "messageformat": "ಹಿಂದಕ್ಕೆ"
   },
@@ -611,11 +608,20 @@
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
     "messageformat": "ನೀವು ಫೋನ್ ಸಂಖ್ಯೆಯ ಮೂಲಕ ಕನೆಕ್ಟ್ ಆಗಿರುವ ಸಂಪರ್ಕಗಳಿಗೆ, ಕೀ ಟ್ರಾನ್ಸ್‌ಪರೆನ್ಸಿ ಎಂಬ ಪ್ರಕ್ರಿಯೆಯನ್ನು ಬಳಸಿಕೊಂಡು ಕನೆಕ್ಷನ್ ಸುರಕ್ಷಿತವಾಗಿದೆಯೇ ಎಂದು Signal ಸ್ವಯಂಚಾಲಿತವಾಗಿ ದೃಢೀಕರಿಸುತ್ತದೆ. ಹೆಚ್ಚುವರಿ ಭದ್ರತೆಗಾಗಿ, ಹಿಂದಿನ ಸ್ಕ್ರೀನ್‌ನಲ್ಲಿರುವ ಸಂಖ್ಯೆಗಳನ್ನು ಹೋಲಿಕೆ ಮಾಡುವ ಮೂಲಕ ಅಥವಾ ಅವರ ಸಾಧನದಲ್ಲಿರುವ ಕೋಡ್ ಅನ್ನು ಸ್ಕ್ಯಾನ್ ಮಾಡುವ ಮೂಲಕ ಹಸ್ತಚಾಲಿತವಾಗಿ ಎಂಡ್-ಟು-ಎಂಡ್ ಎನ್‌ಕ್ರಿಪ್ಶನ್ ಅನ್ನು ದೃಢೀಕರಿಸಿ."
   },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body-2": {
+    "messageformat": "For people you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+  },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
     "messageformat": "ಈ ಚಾಟ್‌ಗೆ ಸ್ವಯಂ-ದೃಢೀಕರಣವು ಇನ್ನು ಲಭ್ಯವಿರುವುದಿಲ್ಲ"
   },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title-2": {
+    "messageformat": "Auto-verification is not available for this chat"
+  },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
     "messageformat": "ಈ ಚಾಟ್‌ಗಾಗಿ ಎನ್‌ಕ್ರಿಪ್ಶನ್ ಅನ್ನು Signal ಇನ್ನು ಸ್ವಯಂಚಾಲಿತವಾಗಿ ದೃಢೀಕರಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ. ಇದು {name} ಅವರು ತಮ್ಮ ಫೋನ್ ಸಂಖ್ಯೆಯನ್ನು ಬದಲಾಯಿಸಿರುವುದರಿಂದ ಆಗಿರಬಹುದು. ಹಿಂದಿನ ಸ್ಕ್ರೀನ್‌ನ ಸಂಖ್ಯೆಗಳನ್ನು ಹೋಲಿಕೆ ಮಾಡುವ ಮೂಲಕ ಅಥವಾ ಅವರ ಸಾಧನದಲ್ಲಿನ ಕೋಡ್ ಅನ್ನು ಸ್ಕ್ಯಾನ್ ಮಾಡುವ ಮೂಲಕ ಎಂಡ್-ಟು-ಎಂಡ್ ಎನ್‌ಕ್ರಿಪ್ಶನ್ ಅನ್ನು ಹಸ್ತಚಾಲಿತವಾಗಿ ದೃಢೀಕರಿಸಿ."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body-2": {
+    "messageformat": "Signal can not automatically verify the encryption for this chat. This could be because {name} changed their phone number or their phone number privacy settings. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
     "messageformat": "ನೀವು ಫೋನ್ ಸಂಖ್ಯೆಯ ಮೂಲಕ ಯಾರೊಂದಿಗಾದರೂ ಸಂಪರ್ಕಗೊಂಡಿರುವ ಚಾಟ್‌ಗಳಲ್ಲಿ Signal ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಎನ್‌ಕ್ರಿಪ್ಶನ್ ಅನ್ನು ದೃಢೀಕರಿಸಬಹುದು. ಚಾಟ್ ಅನ್ನು ಯೂಸರ್‌ನೇಮ್ ಅಥವಾ ಸಾಮಾನ್ಯ ಗುಂಪಿನೊಂದಿಗೆ ಪ್ರಾರಂಭಿಸಿದ್ದರೆ, ಹಿಂದಿನ ಸ್ಕ್ರೀನ್‌ನಲ್ಲಿರುವ ಸಂಖ್ಯೆಗಳನ್ನು ಹೋಲಿಕೆ ಮಾಡುವ ಮೂಲಕ ಅಥವಾ ಅವರ ಸಾಧನದಲ್ಲಿ ಕೋಡ್ ಅನ್ನು ಸ್ಕ್ಯಾನ್ ಮಾಡುವ ಮೂಲಕ ಎಂಡ್-ಟು-ಎಂಡ್ ಎನ್‌ಕ್ರಿಪ್ಶನ್ ಅನ್ನು ದೃಢೀಕರಿಸಿ."
@@ -644,9 +650,6 @@
   "icu:KeyTransparencyErrorDialog__Submit": {
     "messageformat": "ಸಲ್ಲಿಸಿ"
   },
-  "icu:KeyTransparencyErrorDialog__Submitting": {
-    "messageformat": "ಸಲ್ಲಿಸಲಾಗುತ್ತಿದೆ..."
-  },
   "icu:KeyTransparencyOnboardingDialog__Title": {
     "messageformat": "Signal ಈಗ ಎನ್‌ಕ್ರಿಪ್ಶನ್ ಅನ್ನು ಸ್ವಯಂ-ದೃಢೀಕರಿಸಬಲ್ಲದು"
   },
@@ -658,9 +661,6 @@
   },
   "icu:KeyTransparencyOnboardingDialog__LearnMore": {
     "messageformat": "ಇನ್ನಷ್ಟು ತಿಳಿಯಿರಿ"
-  },
-  "icu:KeyTransparencyOnboardingDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "ಮುಚ್ಚಿ"
   },
   "icu:verified": {
     "messageformat": "ಪರಿಶೀಲಿಸಲಾಗಿದೆ"
@@ -1292,9 +1292,6 @@
   "icu:PinMessageDialog__Title": {
     "messageformat": "ಈ ಅವಧಿಗಾಗಿ ಮೆಸೇಜ್ ಅನ್ನು ಪಿನ್ ಮಾಡಿ..."
   },
-  "icu:PinMessageDialog__Close": {
-    "messageformat": "ಮುಚ್ಚಿ"
-  },
   "icu:PinMessageDialog__Option--TIME_24_HOURS": {
     "messageformat": "24 ಗಂಟೆಗಳು"
   },
@@ -1318,9 +1315,6 @@
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Description": {
     "messageformat": "ಈ ಮೆಸೇಜ್ ಅನ್ನು ಪಿನ್ ಮಾಡುವುದರಿಂದ ಅತಿ ಹಳೆಯ ಮೆಸೇಜ್ ಅನ್ನು ಬದಲಾಯಿಸಲಾಗುತ್ತದೆ."
-  },
-  "icu:PinMessageDialog--HasMaxPinnedMessages__Cancel": {
-    "messageformat": "ರದ್ದುಮಾಡಿ"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Continue": {
     "messageformat": "ಮುಂದುವರಿಸಿ"
@@ -1408,9 +1402,6 @@
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Description": {
     "messageformat": "ಈ ಚಾಟ್‌ನ ಸದಸ್ಯರಿಗೆ ಮೆಸೇಜ್‌ಗಳನ್ನು ಅನ್‌ಪಿನ್ ಮಾಡಲಾಗುತ್ತದೆ."
-  },
-  "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Cancel": {
-    "messageformat": "ರದ್ದುಮಾಡಿ"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Unpin": {
     "messageformat": "ಅನ್‌ಪಿನ್"
@@ -1599,13 +1590,13 @@
     "messageformat": "ಸಹಾಯ ಅಗತ್ಯವಿದೆಯೇ?"
   },
   "icu:Install__confirm-data-deletion__title": {
-    "messageformat": "Delete all data?"
+    "messageformat": "ಎಲ್ಲ ಡೇಟಾ ಅಳಿಸುವುದೇ?"
   },
   "icu:Install__confirm-data-deletion__body": {
-    "messageformat": "You’re attempting to link a different Signal account to this desktop. If you continue, all data currently in Signal Desktop will be deleted."
+    "messageformat": "ನೀವು ಈ ಡೆಸ್ಕ್‌ಟಾಪ್‌ಗೆ ಬೇರೆ Signal ಖಾತೆಯನ್ನು ಲಿಂಕ್ ಮಾಡಲು ಪ್ರಯತ್ನಿಸುತ್ತಿದ್ದೀರಿ. ನೀವು ಮುಂದುವರಿಸಿದರೆ, ಪ್ರಸ್ತುತ ಸಿಗ್ನಲ್ ಡೆಸ್ಕ್‌ಟಾಪ್‌ನಲ್ಲಿರುವ ಎಲ್ಲಾ ಡೇಟಾವನ್ನು ಅಳಿಸಲಾಗುತ್ತದೆ."
   },
   "icu:Install__confirm-data-deletion__continue": {
-    "messageformat": "Continue"
+    "messageformat": "ಮುಂದುವರಿಸಿ"
   },
   "icu:Preferences--header": {
     "messageformat": "ಸೆಟ್ಟಿಂಗ್‌ಗಳು"
@@ -1657,9 +1648,6 @@
   },
   "icu:Preferences__ChatsPage__DeleteChatFolderDialog__DeleteButton": {
     "messageformat": "ಅಳಿಸಿ"
-  },
-  "icu:Preferences__ChatsPage__DeleteChatFolderDialog__CancelButton": {
-    "messageformat": "ರದ್ದುಮಾಡಿ"
   },
   "icu:Preferences__ChatFoldersPage__Title": {
     "messageformat": "ಚಾಟ್ ಫೋಲ್ಡರ್ ಗಳು"
@@ -1783,9 +1771,6 @@
   },
   "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__DeleteButton": {
     "messageformat": "ಅಳಿಸಿ"
-  },
-  "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__CancelButton": {
-    "messageformat": "ರದ್ದುಮಾಡಿ"
   },
   "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__Title": {
     "messageformat": "ಬದಲಾವಣೆಗಳನ್ನು ಉಳಿಸಬೇಕೇ?"
@@ -2314,9 +2299,6 @@
   },
   "icu:syncNow": {
     "messageformat": "ಈಗ ಆಮದು ಮಾಡಿ"
-  },
-  "icu:syncing": {
-    "messageformat": "ಆಮದು ಮಾಡಲಾಗುತ್ತಿದೆ..."
   },
   "icu:syncFailed": {
     "messageformat": "ಆಮದು ವಿಫಲವಾಗಿದೆ. ನಿಮ್ಮ ಕಂಪ್ಯೂಟರ್ ಮತ್ತು ನಿಮ್ಮ ಫೋನ್ ಇಂಟರ್ನೆಟ್ ಸಂಪರ್ಕ ಹೊಂದಿರುವ ಬಗ್ಗೆ ಖಚಿತಪಡಿಸಿಕೊಳ್ಳಿ."
@@ -3317,6 +3299,9 @@
   "icu:Keyboard--toggle-preview": {
     "messageformat": "ವಿಸ್ತಿರಿಸಿದ ಪ್ರಿವ್ಯೂ ಆನ್ ಅಥವಾ ಆಫ್ ಅನ್ನು ಟಾಗಲ್ ಮಾಡಿ"
   },
+  "icu:Keyboard--toggle-raise-hand": {
+    "messageformat": "Raise or lower your hand (group calls only)"
+  },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "ವೀಡಿಯೋದೊಂದಿಗೆ ಕರೆಗೆ ಉತ್ತರಿಸಿ (ವೀಡಿಯೋ ಕರೆಗಳು ಮಾತ್ರ)"
   },
@@ -3895,9 +3880,6 @@
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogBody": {
     "messageformat": "ಕರೆಗೆ ಸೇರುವ ಮೊದಲು ನೀವು ಫೋನ್ ಸಂಪರ್ಕಗಳ ಹೆಸರುಗಳು, ನೀವು ಇರುವ ಗ್ರೂಪ್‍ಗಳಲ್ಲಿನ ಜನರು ಅಥವಾ ನೀವು 1:1 ಚಾಟ್ ಮಾಡಿದ ಜನರನ್ನು ಮಾತ್ರ ನೋಡಬಹುದು. ನೀವು ಕರೆಗೆ ಸೇರಿದ ನಂತರ ಎಲ್ಲಾ ಹೆಸರುಗಳು ಮತ್ತು ಫೊಟೋಗಳನ್ನು ನೀವು ನೋಡುತ್ತೀರಿ."
-  },
-  "icu:CallingAdhocCallInfo__UnknownContactInfoDialogOk": {
-    "messageformat": "ಅರ್ಥವಾಯಿತು"
   },
   "icu:callingDeviceSelection__label--video": {
     "messageformat": "ವೀಡಿಯೊ"
@@ -4580,9 +4562,6 @@
   "icu:close": {
     "messageformat": "ಮುಚ್ಚಿ"
   },
-  "icu:clear": {
-    "messageformat": "ತೆರವುಗೊಳಿಸಿ"
-  },
   "icu:previous": {
     "messageformat": "ಹಿಂದಿನ"
   },
@@ -4608,13 +4587,7 @@
     "messageformat": "Signal ಗೆ ದಾನ ಮಾಡಿ"
   },
   "icu:BadgeDialog__name-supports-signal": {
-    "messageformat": "{name} supports Signal"
-  },
-  "icu:ProfileMovedModal__title": {
-    "messageformat": "ನಿಮ್ಮ ಪ್ರೊಫೈಲ್ ಅನ್ನು ಮೂವ್ ಮಾಡಲಾಗಿದೆ"
-  },
-  "icu:ProfileMovedModal__description": {
-    "messageformat": "ನಿಮ್ಮ ಪ್ರೊಫೈಲ್ ಅನ್ನು ವೀಕ್ಷಿಸಲು ಮತ್ತು ಎಡಿಟ್ ಮಾಡಲು ಸೆಟ್ಟಿಂಗ್‌ಗಳ ಟ್ಯಾಬ್ ತೆರೆಯಿರಿ."
+    "messageformat": "{name} ಅವರು Signal ಅನ್ನು ಬೆಂಬಲಿಸುತ್ತಾರೆ"
   },
   "icu:BackupImportScreen__title": {
     "messageformat": "ಮೆಸೇಜ್‌ಗಳನ್ನು ಸಿಂಕ್ ಮಾಡಲಾಗುತ್ತಿದೆ"
@@ -4705,9 +4678,6 @@
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
     "messageformat": "ನಿಮ್ಮ ಮೀಡಿಯಾ ಸಿಂಕ್ ಆಗುವುದನ್ನು ಪೂರ್ಣಗೊಳಿಸಿಲ್ಲ. ನೀವು ರದ್ದುಗೊಳಿಸಲು ಬಯಸಿದರೆ, ಈ ಸಾಧನವನ್ನು ಮರು-ಲಿಂಕ್ ಮಾಡುವ ಮೂಲಕ ನೀವು ಮತ್ತೆ ಸಿಂಕ್ ಮಾಡಬಹುದು. <learnMoreLink>ಇನ್ನಷ್ಟು ತಿಳಿಯಿರಿ.</learnMoreLink>"
-  },
-  "icu:BackupMediaDownloadCancelConfirmation__button-continue": {
-    "messageformat": "ಸಿಂಕ್ ಮಾಡುವುದನ್ನು ಮುಂದುವರಿಸಿ"
   },
   "icu:BackupMediaDownloadCancelConfirmation__button-confirm-cancel": {
     "messageformat": "ಸಿಂಕ್ ಮಾಡುವುದನ್ನು ರದ್ದುಗೊಳಿಸಿ"
@@ -4885,9 +4855,6 @@
   },
   "icu:ConversationDetails--member-label--no-members": {
     "messageformat": "ಬೇರೆ ಯಾವುದೇ ಸದಸ್ಯರು ಲೇಬಲ್‌ಗಳನ್ನು ಹೊಂದಿಲ್ಲ"
-  },
-  "icu:ConversationDetails--member-label--saving": {
-    "messageformat": "ಬದಲಾವಣೆಗಳನ್ನು ಉಳಿಸಲಾಗುತ್ತಿದೆ..."
   },
   "icu:ConversationDetails--member-label--error-title": {
     "messageformat": "ಸದಸ್ಯರ ಲೇಬಲ್ ಸೇವ್ ಮಾಡಲು ಸಾಧ್ಯವಿಲ್ಲ"
@@ -5255,9 +5222,6 @@
   },
   "icu:DeleteAttachmentModal__Body": {
     "messageformat": "ಇದು ಐಟಂ ಅನ್ನು ಶಾಶ್ವತವಾಗಿ ಅಳಿಸುತ್ತದೆ. ಈ ಐಟಂಗೆ ಸಂಬಂಧಿಸಿದ ಯಾವುದೇ ಮೆಸೇಜ್ ಪಠ್ಯವನ್ನು ಸಹ ಅಳಿಸಲಾಗುತ್ತದೆ."
-  },
-  "icu:DeleteAttachmentModal__Close": {
-    "messageformat": "ಮುಚ್ಚಿ"
   },
   "icu:DeleteAttachmentModal__Delete": {
     "messageformat": "ಅಳಿಸಿ"
@@ -6018,9 +5982,6 @@
   },
   "icu:PlaintextExport--Confirmation--ContinueButton": {
     "messageformat": "ಮುಂದುವರಿಸಿ"
-  },
-  "icu:PlaintextExport--Confirmation--WaitingLabel": {
-    "messageformat": "ಇನ್‌ಪುಟ್‌ಗಾಗಿ ನಿರೀಕ್ಷಿಸಲಾಗುತ್ತಿದೆ"
   },
   "icu:PlaintextExport--OSPrompt--Mac": {
     "messageformat": "ನಿಮ್ಮ ಚಾಟ್ ಇತಿಹಾಸವನ್ನು ಎಕ್ಸ್‌ಪೋರ್ಟ್ ಮಾಡಿ"
@@ -7703,9 +7664,6 @@
   "icu:CallLinkDetails__DeleteLinkModal__Body": {
     "messageformat": "ಈ ಲಿಂಕ್ ಹೊಂದಿರುವ ಯಾರಿಗೂ ಇನ್ನು ಮುಂದೆ ಈ ಲಿಂಕ್ ಕಾರ್ಯನಿರ್ವಹಿಸುವುದಿಲ್ಲ."
   },
-  "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
-    "messageformat": "ರದ್ದುಮಾಡಿ"
-  },
   "icu:CallLinkDetails__DeleteLinkModal__Delete": {
     "messageformat": "ಅಳಿಸಿ"
   },
@@ -8099,12 +8057,6 @@
   "icu:Donations__badge-modal--help-text": {
     "messageformat": "ನೀವು ಇದನ್ನು ನಿಮ್ಮ ಮೊಬೈಲ್ ಸಾಧನದಲ್ಲಿ ಸೆಟ್ಟಿಂಗ್‍ಗಳು → Signal ಗೆ ದೇಣಿಗೆ ನೀಡುವುದು → ಬ್ಯಾಡ್ಜ್‌ಗಳು ಎಂಬುದರ ಅಡಿಯಲ್ಲಿ ಹೊಂದಿಸಬಹುದು"
   },
-  "icu:CallQualitySurvey__CloseButton__AccessibilityLabel": {
-    "messageformat": "ಮುಚ್ಚಿ"
-  },
-  "icu:CallQualitySurvey__BackButton__AccessibilityLabel": {
-    "messageformat": "ಹಿಂದಕ್ಕೆ"
-  },
   "icu:CallQualitySurvey__HowWasYourCall__PageTitle": {
     "messageformat": "ನಿಮ್ಮ ಕರೆ ಹೇಗಿತ್ತು?"
   },
@@ -8192,9 +8144,6 @@
   "icu:CallQualitySurvey__ConfirmSubmission__SubmitButton": {
     "messageformat": "ಸಲ್ಲಿಸಿ"
   },
-  "icu:CallQualitySurvey__ConfirmSubmission__Submitting": {
-    "messageformat": "ಸಮೀಕ್ಷೆಯನ್ನು ಸಲ್ಲಿಸಲಾಗುತ್ತಿದೆ..."
-  },
   "icu:CallQualitySurvey__SubmissionFailed": {
     "messageformat": "ಸಮೀಕ್ಷೆಯನ್ನು ಸಲ್ಲಿಸಲು ವಿಫಲವಾಗಿದೆ"
   },
@@ -8214,37 +8163,34 @@
     "messageformat": "ಸ್ಲೈಡ್"
   },
   "icu:MaybeTransferModal__title": {
-    "messageformat": "Transfer your phone’s message history to this desktop?"
+    "messageformat": "ನಿಮ್ಮ ಫೋನ್‌ನ ಸಂದೇಶ ಇತಿಹಾಸವನ್ನು ಈ ಡೆಸ್ಕ್‌ಟಾಪ್‌ಗೆ ವರ್ಗಾಯಿಸಬೇಕೆ?"
   },
   "icu:MaybeTransferModal__description": {
-    "messageformat": "When you re-link this desktop, you can transfer your phone’s message history to this device."
+    "messageformat": "ನೀವು ಈ ಡೆಸ್ಕ್‌ಟಾಪ್ ಅನ್ನು ಮರು-ಲಿಂಕ್ ಮಾಡಿದಾಗ, ನಿಮ್ಮ ಫೋನ್‌ನ ಸಂದೇಶ ಇತಿಹಾಸವನ್ನು ಈ ಸಾಧನಕ್ಕೆ ವರ್ಗಾಯಿಸಬಹುದು."
   },
   "icu:MaybeTransferModal__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "ಇನ್ನಷ್ಟು ತಿಳಿಯಿರಿ"
   },
   "icu:MaybeTransferModal__replaceHistory": {
-    "messageformat": "This will <bold>replace</bold> the message history on this desktop."
+    "messageformat": "ಇದು ಈ ಡೆಸ್ಕ್‌ಟಾಪ್‌ನ ಸಂದೇಶ ಇತಿಹಾಸವನ್ನು <bold>ಬದಲಾಯಿಸುತ್ತದೆ</bold>."
   },
   "icu:MaybeTransferModal__scanQrCode": {
-    "messageformat": "You’ll need to relink by scanning a QR code."
+    "messageformat": "QR ಕೋಡ್ ಸ್ಕ್ಯಾನ್ ಮಾಡುವ ಮೂಲಕ ನೀವು ಮರುಲಿಂಕ್ ಮಾಡಬೇಕಾಗುತ್ತದೆ."
   },
   "icu:MaybeTransferModal__media": {
-    "messageformat": "If you have paid Signal Secure Backups, all of your media will be transferred. Otherwise, your last 45 days of media will be included."
+    "messageformat": "ನಿಮ್ಮಲ್ಲಿ ಪಾವತಿಸಿದ Signal ಸುರಕ್ಷಿತ ಬ್ಯಾಕಪ್‌ಗಳು ಇದ್ದರೆ, ನಿಮ್ಮ ಎಲ್ಲಾ ಮೀಡಿಯಾವನ್ನು ವರ್ಗಾಯಿಸಲಾಗುತ್ತದೆ. ಇಲ್ಲದಿದ್ದರೆ, ನಿಮ್ಮ ಕಳೆದ 45 ದಿನಗಳ ಮೀಡಿಯಾವನ್ನು ಸೇರಿಸಲಾಗುತ್ತದೆ."
   },
   "icu:MaybeTransferModal__transfer": {
-    "messageformat": "Transfer"
+    "messageformat": "ವರ್ಗಾವಣೆ"
   },
   "icu:MaybeTransferModal__dontTransfer": {
-    "messageformat": "Don't transfer"
+    "messageformat": "ವರ್ಗಾವಣೆ ಮಾಡಬೇಡಿ"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__title": {
-    "messageformat": "Delete all data?"
-  },
-  "icu:DeleteDataAndRelinkConfirmationDialog__pending": {
-    "messageformat": "Deleting all data"
+    "messageformat": "ಎಲ್ಲ ಡೇಟಾ ಅಳಿಸುವುದೇ?"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__body": {
-    "messageformat": "All current data in Signal Desktop will be deleted. You can then scan a QR code and transfer your message history from your phone."
+    "messageformat": "ಸಿಗ್ನಲ್ ಡೆಸ್ಕ್‌ಟಾಪ್‌ನಲ್ಲಿರುವ ಎಲ್ಲಾ ಪ್ರಸ್ತುತ ಡೇಟಾವನ್ನು ಅಳಿಸಲಾಗುತ್ತದೆ. ಆಗ ನೀವು QR ಕೋಡ್ ಅನ್ನು ಸ್ಕ್ಯಾನ್ ಮಾಡಬಹುದು ಮತ್ತು ನಿಮ್ಮ ಫೋನ್‌ನಿಂದ ನಿಮ್ಮ ಸಂದೇಶ ಇತಿಹಾಸವನ್ನು ವರ್ಗಾಯಿಸಬಹುದು."
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": " Signal ಅನ್ನು ಸರಾಗವಾಗಿ ಚಾಲ್ತಿಯಲ್ಲಿಡಲು ಈ ಆವೃತ್ತಿಯು ಸಾಕಷ್ಟು ಸಣ್ಣ ಟ್ವೀಕ್‌ಗಳನ್ನು ಹೊಂದಿದೆ ಮತ್ತು ಬಗ್ ಫಿಕ್ಸ್‌ಗಳನ್ನು ಹೊಂದಿದೆ.",
@@ -8274,16 +8220,16 @@
     "messageformat": "ಸಣ್ಣ ಟ್ವೀಕ್‌ಗಳು, ಬಗ್ ಫಿಕ್ಸ್‌ಗಳು ಮತ್ತು ಕಾರ್ಯಕ್ಷಮತೆ ವರ್ಧನೆಗಳು. Signal ಬಳಸುತ್ತಿರುವುದಕ್ಕಾಗಿ ಧನ್ಯವಾದಗಳು!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.10--0": {
-    "messageformat": "ಯೂನಿಕೋಡ್ 17.0 ರಲ್ಲಿ ಹೊಸದಾಗಿ ತಯಾರಿಸಲಾದ ಎಮೋಜಿಗಳು ಈಗ Signal ನಲ್ಲಿ ಸ್ಥಾನ ಪಡೆದಿವೆ. ಪಾಸ್ ಡ ಚಾಟ್‌ನ ನಿಮ್ಮ ಸ್ವಂತ ಡಿಜಿಟಲ್ ಆವೃತ್ತಿಯನ್ನು ಪ್ರದರ್ಶಿಸಲು ಹೊಸ ಬ್ಯಾಲೆ ಡ್ಯಾನ್ಸರ್ ಎಮೋಜಿಯೊಂದಿಗೆ ಮೆಸೇಜ್ ಪ್ರತಿಕ್ರಿಯೆಯನ್ನು ಕಳುಹಿಸಿ."
-  },
   "icu:WhatsNew__8.11--0": {
-    "messageformat": "We've introduced additional confirmations and educational messaging in the app to help protect Signal users from phishing and social engineering attacks. As a reminder, never reply to chats pretending to be Signal, and never send your verification code, PIN, or recovery key to anyone."
+    "messageformat": "Signal ಬಳಕೆದಾರರನ್ನು ಫಿಶಿಂಗ್ ಮತ್ತು ಸಾಮಾಜಿಕ ಎಂಜಿನಿಯರಿಂಗ್ ದಾಳಿಗಳಿಂದ ರಕ್ಷಿಸುವುದಕ್ಕೆ ಸಹಾಯ ಮಾಡಲು ನಾವು ಆ್ಯಪ್‌ನಲ್ಲಿ ಹೆಚ್ಚುವರಿ ದೃಢೀಕರಣಗಳು ಮತ್ತು ಶೈಕ್ಷಣಿಕ ಮೆಸೇಜಿಂಗ್ ಅನ್ನು ಪರಿಚಯಿಸಿದ್ದೇವೆ. ನೆನಪಿಡಿ, Signal ಎಂದು ಸೋಗುಹಾಕುವ ಚಾಟ್‌ಗಳಿಗೆ ಎಂದಿಗೂ ಉತ್ತರಿಸಬೇಡಿ ಮತ್ತು ನಿಮ್ಮ ದೃಢೀಕರಣ ಕೋಡ್, ಪಿನ್ ಅಥವಾ ರಿಕವರಿ ಕೀಯನ್ನು ಯಾರಿಗೂ ಕಳುಹಿಸಬೇಡಿ."
   },
   "icu:WhatsNew__8.11--1": {
-    "messageformat": "Raised hand indicators in group calls now display the current order of the queue, so you can easily see who got the upper hand first."
+    "messageformat": "ಗುಂಪು ಕರೆಗಳಲ್ಲಿ ಈಗ ಎತ್ತಿದ ಕೈ ಸೂಚಕಗಳು ಸರದಿಯ ಪ್ರಸ್ತುತ ಕ್ರಮವನ್ನು ಪ್ರದರ್ಶಿಸುತ್ತವೆ, ಆದ್ದರಿಂದ ಯಾರು ಮೊದಲು ಕೈ ಎತ್ತಿದರು ಎಂಬುದನ್ನು ನೀವು ಸುಲಭವಾಗಿ ನೋಡಬಹುದು."
   },
   "icu:WhatsNew__8.11--2": {
-    "messageformat": "We also added a real-time visualization while recording voice messages, so surfers (and oceanographers) can stare at multiple moving waveforms whenever they share updates from the beach."
+    "messageformat": "ಧ್ವನಿ ಸಂದೇಶಗಳನ್ನು ರೆಕಾರ್ಡ್ ಮಾಡುವಾಗ ನಾವು ನೈಜ-ಸಮಯದ ದೃಶ್ಯೀಕರಣವನ್ನು ಕೂಡ ಸೇರಿಸಿದ್ದೇವೆ, ಆದ್ದರಿಂದ ಸರ್ಫರ್‌ಗಳು (ಮತ್ತು ಸಮುದ್ರಶಾಸ್ತ್ರಜ್ಞರು) ಕಡಲತೀರದ ಕುರಿತ ಅಪ್‌ಡೇಟ್‌ಗಳನ್ನು ಹಂಚಿಕೊಂಡಾಗಲೆಲ್ಲಾ ಅನೇಕ ಚಲಿಸುವ ತರಂಗರೂಪಗಳನ್ನು ನೋಡಬಹುದು."
+  },
+  "icu:WhatsNew__8.12--0": {
+    "messageformat": "On the one hand, you can click on the raise hand icon during group calls. But on the other hand, now you can use a new keyboard shortcut too (Shift-H)."
   }
 }

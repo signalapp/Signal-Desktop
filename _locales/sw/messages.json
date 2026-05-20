@@ -1,18 +1,18 @@
 {
   "icu:AxoAlertDialog.Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Ghairi"
   },
   "icu:AxoButton.Pending": {
-    "messageformat": "Pending"
+    "messageformat": "Unasubiri"
   },
   "icu:AxoDialog.Back": {
-    "messageformat": "Back"
+    "messageformat": "Rudi nyuma"
   },
   "icu:AxoDialog.Close": {
-    "messageformat": "Close"
+    "messageformat": "Funga"
   },
   "icu:AxoTextField.Clear": {
-    "messageformat": "Clear"
+    "messageformat": "Futa"
   },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "Ongeza kwenye kikundi"
@@ -371,9 +371,6 @@
   "icu:NavTabs__ItemLabel--Settings": {
     "messageformat": "Mipangilio"
   },
-  "icu:NavTabs__ItemLabel--Profile": {
-    "messageformat": "Wasifu"
-  },
   "icu:NavSidebar__BackButtonLabel": {
     "messageformat": "Rudi nyuma"
   },
@@ -611,11 +608,20 @@
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
     "messageformat": "Kwa wawasiliani uliounganisha nao moja kwa moja kupitia namba ya simu, Signal inaweza kuthibitisha kiotomatiki iwapo muunganisho huo ni salama kwa kutumia mchakato unaoitwa uwazi wa funguo. Ili uimarishe usalama, thibitisha mwenyewe usimbaji fiche wa mwanzo hadi mwisho kwa kulinganisha namba kwenye skrini iliyotangulia au kuchanganua msimbo kwenye kifaa chako."
   },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body-2": {
+    "messageformat": "For people you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+  },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
     "messageformat": "Hakuna uthibitishaji wa kiotomatiki kwa gumzo hili"
   },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title-2": {
+    "messageformat": "Auto-verification is not available for this chat"
+  },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
     "messageformat": "Signal haiwezi tena kuthibitisha kiotomatiki usimbaji fiche wa gumzo hili. Huenda hii ni kutokana na {name} kubadilisha namba yake ya simu. Thibitisha usimbaji fiche wa mwanzo hadi mwisho kwa kulinganisha mwenyewe namba kwenye skrini iliyotangulia au kuchanganua msimbo kwenye kifaa hiki."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body-2": {
+    "messageformat": "Signal can not automatically verify the encryption for this chat. This could be because {name} changed their phone number or their phone number privacy settings. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
     "messageformat": "Signal inaweza tu kuthibitisha kiotomatiki usimbaji fiche kwenye magumzo unapounganishwa na mtu kupitia namba ya simu. Ikiwa gumzo lilianzishwa na jina la mtumiaji au kikundi cha pamoja, thibitisha usimbaji fiche wa mwanzo hadi mwisho kwa kulinganisha namba kwenye skrini iliyotangulia au kuchanganua msimbo kwenye kifaa chake."
@@ -644,9 +650,6 @@
   "icu:KeyTransparencyErrorDialog__Submit": {
     "messageformat": "Tuma"
   },
-  "icu:KeyTransparencyErrorDialog__Submitting": {
-    "messageformat": "Inawasilisha..."
-  },
   "icu:KeyTransparencyOnboardingDialog__Title": {
     "messageformat": "Sasa Signal inaweza kuthibitisha kiotomatiki usimbaji fiche"
   },
@@ -658,9 +661,6 @@
   },
   "icu:KeyTransparencyOnboardingDialog__LearnMore": {
     "messageformat": "Jifunze zaidi"
-  },
-  "icu:KeyTransparencyOnboardingDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Funga"
   },
   "icu:verified": {
     "messageformat": "Imehakikishwa"
@@ -1292,9 +1292,6 @@
   "icu:PinMessageDialog__Title": {
     "messageformat": "Bandika jumbe kwa..."
   },
-  "icu:PinMessageDialog__Close": {
-    "messageformat": "Funga"
-  },
   "icu:PinMessageDialog__Option--TIME_24_HOURS": {
     "messageformat": "Saa 24"
   },
@@ -1318,9 +1315,6 @@
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Description": {
     "messageformat": "Kubandika ujumbe huu kutabadilisha ujumbe wa zamani zaidi."
-  },
-  "icu:PinMessageDialog--HasMaxPinnedMessages__Cancel": {
-    "messageformat": "Ghairi"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Continue": {
     "messageformat": "Endelea"
@@ -1408,9 +1402,6 @@
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Description": {
     "messageformat": "Jumbe zitabanduliwa kwa wanachama wa gumzo hili."
-  },
-  "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Cancel": {
-    "messageformat": "Ghairi"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Unpin": {
     "messageformat": "Bandua"
@@ -1599,13 +1590,13 @@
     "messageformat": "Unahitaji usaidizi?"
   },
   "icu:Install__confirm-data-deletion__title": {
-    "messageformat": "Delete all data?"
+    "messageformat": "Futa data yote?"
   },
   "icu:Install__confirm-data-deletion__body": {
-    "messageformat": "You’re attempting to link a different Signal account to this desktop. If you continue, all data currently in Signal Desktop will be deleted."
+    "messageformat": "Unajaribu kuunganisha akaunti tofauti ya Signal kwenye kompyuta hii. Ukiendelea, data yote iliyo kwenye Signal Desktop itafutwa."
   },
   "icu:Install__confirm-data-deletion__continue": {
-    "messageformat": "Continue"
+    "messageformat": "Endelea"
   },
   "icu:Preferences--header": {
     "messageformat": "Mipangilio"
@@ -1657,9 +1648,6 @@
   },
   "icu:Preferences__ChatsPage__DeleteChatFolderDialog__DeleteButton": {
     "messageformat": "Futa"
-  },
-  "icu:Preferences__ChatsPage__DeleteChatFolderDialog__CancelButton": {
-    "messageformat": "Ghairi"
   },
   "icu:Preferences__ChatFoldersPage__Title": {
     "messageformat": "Folda la magumzo"
@@ -1783,9 +1771,6 @@
   },
   "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__DeleteButton": {
     "messageformat": "Futa"
-  },
-  "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__CancelButton": {
-    "messageformat": "Ghairi"
   },
   "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__Title": {
     "messageformat": "Hifadhi mabadiliko?"
@@ -2314,9 +2299,6 @@
   },
   "icu:syncNow": {
     "messageformat": "Hamisha sasa"
-  },
-  "icu:syncing": {
-    "messageformat": "Inahamisha…"
   },
   "icu:syncFailed": {
     "messageformat": "Hamisho limeshindwa. Hakikisha tarakilishi na simu zako zimeunganishwa kwenye mtandao."
@@ -3317,6 +3299,9 @@
   "icu:Keyboard--toggle-preview": {
     "messageformat": "Washa na uzime onyesha lililopanuliwa"
   },
+  "icu:Keyboard--toggle-raise-hand": {
+    "messageformat": "Raise or lower your hand (group calls only)"
+  },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Jibu simu kwa video (simu za video peke yake)"
   },
@@ -3895,9 +3880,6 @@
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogBody": {
     "messageformat": "Kabla ya kujiunga na simu utaona tu majina ya wawasiliani, watu ambao uko nao kikundi kimoja, au watu uliopiga nao gumzo ya 1:1. Utaona majina na picha zote mara tu utakapojiunga na simu."
-  },
-  "icu:CallingAdhocCallInfo__UnknownContactInfoDialogOk": {
-    "messageformat": "Nimeelewa"
   },
   "icu:callingDeviceSelection__label--video": {
     "messageformat": "Video"
@@ -4580,9 +4562,6 @@
   "icu:close": {
     "messageformat": "Funga"
   },
-  "icu:clear": {
-    "messageformat": "Futa"
-  },
   "icu:previous": {
     "messageformat": "iliyopita"
   },
@@ -4608,13 +4587,7 @@
     "messageformat": "Changia Signal"
   },
   "icu:BadgeDialog__name-supports-signal": {
-    "messageformat": "{name} supports Signal"
-  },
-  "icu:ProfileMovedModal__title": {
-    "messageformat": "Wasifu wako umehamishwa"
-  },
-  "icu:ProfileMovedModal__description": {
-    "messageformat": "Fungua kichupo cha Mipangilio na uhariri wasifu wako."
+    "messageformat": "{name} anaichangia Signal"
   },
   "icu:BackupImportScreen__title": {
     "messageformat": "Sawazisha jumbe"
@@ -4705,9 +4678,6 @@
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
     "messageformat": "Picha na video zako bado hazijakamilka kusawazishwa. Ukichagua kughairi, unaweza kusawazisha tena kwa kuunganisha upya kutoka kwenye Mipangilio. <learnMoreLink>Pata maelezo zaidi</learnMoreLink>."
-  },
-  "icu:BackupMediaDownloadCancelConfirmation__button-continue": {
-    "messageformat": "Endelea kusawazisha"
   },
   "icu:BackupMediaDownloadCancelConfirmation__button-confirm-cancel": {
     "messageformat": "Sitisha usawazishaji"
@@ -4885,9 +4855,6 @@
   },
   "icu:ConversationDetails--member-label--no-members": {
     "messageformat": "Hakuna wanachama wengine wenye vyeo"
-  },
-  "icu:ConversationDetails--member-label--saving": {
-    "messageformat": "Inahifadhi mabadiliko..."
   },
   "icu:ConversationDetails--member-label--error-title": {
     "messageformat": "Imeshindwa kuhifadhi cheo cha mwanachama"
@@ -5255,9 +5222,6 @@
   },
   "icu:DeleteAttachmentModal__Body": {
     "messageformat": "Hii itafuta kabisa kipengee. Ujumbe wowote ule unaohusiana na kipengee hiki pia utafutwa."
-  },
-  "icu:DeleteAttachmentModal__Close": {
-    "messageformat": "Funga"
   },
   "icu:DeleteAttachmentModal__Delete": {
     "messageformat": "Futa"
@@ -6018,9 +5982,6 @@
   },
   "icu:PlaintextExport--Confirmation--ContinueButton": {
     "messageformat": "Endelea"
-  },
-  "icu:PlaintextExport--Confirmation--WaitingLabel": {
-    "messageformat": "Inasubiri ingizo"
   },
   "icu:PlaintextExport--OSPrompt--Mac": {
     "messageformat": "hamisha historia yako ya gumzo"
@@ -7703,9 +7664,6 @@
   "icu:CallLinkDetails__DeleteLinkModal__Body": {
     "messageformat": "Kiungo hiki hakitafanya tena kazi kwa yeyote alichonacho."
   },
-  "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
-    "messageformat": "Ghairi"
-  },
   "icu:CallLinkDetails__DeleteLinkModal__Delete": {
     "messageformat": "Futa"
   },
@@ -8099,12 +8057,6 @@
   "icu:Donations__badge-modal--help-text": {
     "messageformat": "Unaweza kurekebisha hili kwenye kifaa chako cha mkononi katika Mipangilio → Changia Signal → Beji"
   },
-  "icu:CallQualitySurvey__CloseButton__AccessibilityLabel": {
-    "messageformat": "Funga"
-  },
-  "icu:CallQualitySurvey__BackButton__AccessibilityLabel": {
-    "messageformat": "Rudi nyuma"
-  },
   "icu:CallQualitySurvey__HowWasYourCall__PageTitle": {
     "messageformat": "Hali yako ya utumiaji simu ilikuwaje?"
   },
@@ -8192,9 +8144,6 @@
   "icu:CallQualitySurvey__ConfirmSubmission__SubmitButton": {
     "messageformat": "Tuma"
   },
-  "icu:CallQualitySurvey__ConfirmSubmission__Submitting": {
-    "messageformat": "Inawasilisha dodoso..."
-  },
   "icu:CallQualitySurvey__SubmissionFailed": {
     "messageformat": "Imeshindwa kuwasilisha dodoso"
   },
@@ -8214,37 +8163,34 @@
     "messageformat": "Slaidi"
   },
   "icu:MaybeTransferModal__title": {
-    "messageformat": "Transfer your phone’s message history to this desktop?"
+    "messageformat": "Ungependa kuhamishia historia ya jumbe ya simu yako kwenye kompyuta hii?"
   },
   "icu:MaybeTransferModal__description": {
-    "messageformat": "When you re-link this desktop, you can transfer your phone’s message history to this device."
+    "messageformat": "Ukiunganisha upya kwenye kompyuta hii, unaweza kuhamisha historia ya jumbe ya simu yako kwenye kifaa hiki."
   },
   "icu:MaybeTransferModal__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Jifunze zaidi"
   },
   "icu:MaybeTransferModal__replaceHistory": {
-    "messageformat": "This will <bold>replace</bold> the message history on this desktop."
+    "messageformat": "Hatua hii <bold>itabadilisha</bold>historia ya jumbe kwenye kompyuta hii."
   },
   "icu:MaybeTransferModal__scanQrCode": {
-    "messageformat": "You’ll need to relink by scanning a QR code."
+    "messageformat": "Itabidi uunganishe upya kwa kuchanganua QR code."
   },
   "icu:MaybeTransferModal__media": {
-    "messageformat": "If you have paid Signal Secure Backups, all of your media will be transferred. Otherwise, your last 45 days of media will be included."
+    "messageformat": "Ikiwa una Nakala Salama Zilizohifadhiwa na Signal, maudhui yako yote yatahifadhiwa. La sivyo, siku 45 za mwisho za picha na video zako hazitajumuishwa."
   },
   "icu:MaybeTransferModal__transfer": {
-    "messageformat": "Transfer"
+    "messageformat": "Hamisha"
   },
   "icu:MaybeTransferModal__dontTransfer": {
-    "messageformat": "Don't transfer"
+    "messageformat": "Usihamishe"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__title": {
-    "messageformat": "Delete all data?"
-  },
-  "icu:DeleteDataAndRelinkConfirmationDialog__pending": {
-    "messageformat": "Deleting all data"
+    "messageformat": "Futa data yote?"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__body": {
-    "messageformat": "All current data in Signal Desktop will be deleted. You can then scan a QR code and transfer your message history from your phone."
+    "messageformat": "Data yote iliyo kwenye Signal Desktop itafutwa. Kisha unaweza kuchanganua QR code na kuhamisha historia ya jumbe zako kutoka kwenye simu yako."
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Toleo hili lina mabadiliko kidogo na maboresho ya program kuiwezesha Signal kufanya kazi vizuri.",
@@ -8274,16 +8220,16 @@
     "messageformat": "Mabadiliko madogo, marekebisho ya bugs na uboreshaji wa utendaji. Asante kwa kutumia Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.10--0": {
-    "messageformat": "Emoji mpya iliyotengenezwa hivi karibuni kwa kutumia Unicode 17.0 sasa zimewasili rasmi kwenye Signal. Tuma reaction ya ujumbe ukitumia emoji mpya ya Ballet Dancer ili kufanya toleo lako la kidijitali la pas de chat."
-  },
   "icu:WhatsNew__8.11--0": {
-    "messageformat": "We've introduced additional confirmations and educational messaging in the app to help protect Signal users from phishing and social engineering attacks. As a reminder, never reply to chats pretending to be Signal, and never send your verification code, PIN, or recovery key to anyone."
+    "messageformat": "Tumeongeza uthibitisho wa ziada na ujumbe wa elimu ndani ya programu ili kusaidia kulinda watumiaji wa Signal dhidi ya mashambulizi ya wizi wa data binafsi na kuhadaa watu. Kumbuka, usiwahi kujibu magumzo yanayojifanya kuwa Signal na usiwahi kutuma code yako ya uthibitishaji, PIN au ufunguo wa kurejesha akaunti kwa mtu yeyote."
   },
   "icu:WhatsNew__8.11--1": {
-    "messageformat": "Raised hand indicators in group calls now display the current order of the queue, so you can easily see who got the upper hand first."
+    "messageformat": "Viashiria vya mkono ulioinuliwa katika simu za vikundi sasa vinaonyesha mpangilio wa foleni kwa wakati halisi, ili uweze kuona kwa urahisi nani aliyeinua mkono kwanza."
   },
   "icu:WhatsNew__8.11--2": {
-    "messageformat": "We also added a real-time visualization while recording voice messages, so surfers (and oceanographers) can stare at multiple moving waveforms whenever they share updates from the beach."
+    "messageformat": "Pia tumeweka taswira katika muda halisi wakati wa kurekodi ujumbe wa sauti, ili watelezaji wa kwenye maji na (wataalamu wa bahari) waweze kutazama mawimbi mengi yanayosogea wanashiriki sasisho kutoka baharini."
+  },
+  "icu:WhatsNew__8.12--0": {
+    "messageformat": "On the one hand, you can click on the raise hand icon during group calls. But on the other hand, now you can use a new keyboard shortcut too (Shift-H)."
   }
 }

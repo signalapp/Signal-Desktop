@@ -1,18 +1,18 @@
 {
   "icu:AxoAlertDialog.Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Anuluj"
   },
   "icu:AxoButton.Pending": {
-    "messageformat": "Pending"
+    "messageformat": "Wysyłanie"
   },
   "icu:AxoDialog.Back": {
-    "messageformat": "Back"
+    "messageformat": "Wstecz"
   },
   "icu:AxoDialog.Close": {
-    "messageformat": "Close"
+    "messageformat": "Zamknij"
   },
   "icu:AxoTextField.Clear": {
-    "messageformat": "Clear"
+    "messageformat": "Usuń"
   },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "Dodaj do grupy"
@@ -371,9 +371,6 @@
   "icu:NavTabs__ItemLabel--Settings": {
     "messageformat": "Ustawienia"
   },
-  "icu:NavTabs__ItemLabel--Profile": {
-    "messageformat": "Profil"
-  },
   "icu:NavSidebar__BackButtonLabel": {
     "messageformat": "Wstecz"
   },
@@ -611,11 +608,20 @@
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
     "messageformat": "W przypadku osób, z którymi kontakt został nawiązany za pomocą numeru telefonu, Signal może automatycznie potwierdzić, czy połączenie jest bezpieczne – robi to za pomocą mechanizmu przejrzystości kluczy. Jeśli chcesz mieć absolutną pewność, że komunikujesz się z właściwą osobą, możesz dodatkowo sprawdzić szyfrowanie end-to-end ręcznie. W tym celu porównaj Wasze numery bezpieczeństwa z poprzedniego ekranu lub zeskanuj kod QR z urządzenia kontaktu."
   },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body-2": {
+    "messageformat": "For people you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+  },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
     "messageformat": "W tym czacie automatyczna weryfikacja nie jest już dostępna"
   },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title-2": {
+    "messageformat": "Auto-verification is not available for this chat"
+  },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
     "messageformat": "Signal nie może już automatycznie weryfikować szyfrowania w tym czacie – prawdopodobnie dlatego, że {name} ma nowy numer telefonu. Sprawdź szyfrowanie end-to-end ręcznie. W tym celu porównaj Wasze numery bezpieczeństwa z poprzedniego ekranu lub zeskanuj kod QR z urządzenia kontaktu."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body-2": {
+    "messageformat": "Signal can not automatically verify the encryption for this chat. This could be because {name} changed their phone number or their phone number privacy settings. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
     "messageformat": "Signal może automatycznie weryfikować szyfrowanie wyłącznie w przypadku tych osób, z którym kontakt nawiązano przez numer telefonu. Jeżeli kontakt został nawiązany przez nazwę użytkownika lub wspólną grupę, szyfrowanie end-to-end możesz zweryfikować ręcznie. W tym celu porównaj Wasze numery bezpieczeństwa z poprzedniego ekranu lub zeskanuj kod QR z urządzenia kontaktu."
@@ -644,9 +650,6 @@
   "icu:KeyTransparencyErrorDialog__Submit": {
     "messageformat": "Prześlij"
   },
-  "icu:KeyTransparencyErrorDialog__Submitting": {
-    "messageformat": "Przesyłanie…"
-  },
   "icu:KeyTransparencyOnboardingDialog__Title": {
     "messageformat": "Signal może teraz automatycznie weryfikować szyfrowanie"
   },
@@ -658,9 +661,6 @@
   },
   "icu:KeyTransparencyOnboardingDialog__LearnMore": {
     "messageformat": "Dowiedz się więcej"
-  },
-  "icu:KeyTransparencyOnboardingDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Zamknij"
   },
   "icu:verified": {
     "messageformat": "Zweryfikowany"
@@ -1292,9 +1292,6 @@
   "icu:PinMessageDialog__Title": {
     "messageformat": "Przypnij wiadomość na…"
   },
-  "icu:PinMessageDialog__Close": {
-    "messageformat": "Zamknij"
-  },
   "icu:PinMessageDialog__Option--TIME_24_HOURS": {
     "messageformat": "24 godziny"
   },
@@ -1318,9 +1315,6 @@
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Description": {
     "messageformat": "Gdy przypniesz tę wiadomość, zastąpi ona dotychczas najstarszą przypiętą wiadomość."
-  },
-  "icu:PinMessageDialog--HasMaxPinnedMessages__Cancel": {
-    "messageformat": "Anuluj"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Continue": {
     "messageformat": "Kontynuuj"
@@ -1408,9 +1402,6 @@
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Description": {
     "messageformat": "Wiadomości zostaną odpięte u wszystkich osób na tym czacie."
-  },
-  "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Cancel": {
-    "messageformat": "Anuluj"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Unpin": {
     "messageformat": "Odepnij"
@@ -1599,13 +1590,13 @@
     "messageformat": "Potrzebujesz pomocy?"
   },
   "icu:Install__confirm-data-deletion__title": {
-    "messageformat": "Delete all data?"
+    "messageformat": "Usunąć wszystkie dane?"
   },
   "icu:Install__confirm-data-deletion__body": {
-    "messageformat": "You’re attempting to link a different Signal account to this desktop. If you continue, all data currently in Signal Desktop will be deleted."
+    "messageformat": "Próbujesz połączyć z tym komputerem inne konto Signal. Jeśli przejdziesz dalej, wszystkie dane zapisane obecnie w aplikacji Signal Desktop zostaną usunięte."
   },
   "icu:Install__confirm-data-deletion__continue": {
-    "messageformat": "Continue"
+    "messageformat": "Kontynuuj"
   },
   "icu:Preferences--header": {
     "messageformat": "Ustawienia"
@@ -1657,9 +1648,6 @@
   },
   "icu:Preferences__ChatsPage__DeleteChatFolderDialog__DeleteButton": {
     "messageformat": "Usuń"
-  },
-  "icu:Preferences__ChatsPage__DeleteChatFolderDialog__CancelButton": {
-    "messageformat": "Anuluj"
   },
   "icu:Preferences__ChatFoldersPage__Title": {
     "messageformat": "Foldery z czatami"
@@ -1783,9 +1771,6 @@
   },
   "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__DeleteButton": {
     "messageformat": "Usuń"
-  },
-  "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__CancelButton": {
-    "messageformat": "Anuluj"
   },
   "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__Title": {
     "messageformat": "Zapisać zmiany?"
@@ -2314,9 +2299,6 @@
   },
   "icu:syncNow": {
     "messageformat": "Zaimportuj"
-  },
-  "icu:syncing": {
-    "messageformat": "Importowanie…"
   },
   "icu:syncFailed": {
     "messageformat": "Nie udało się zaimportować. Upewnij się, że komputer i urządzenie mobilne mają połączenie z internetem."
@@ -3317,6 +3299,9 @@
   "icu:Keyboard--toggle-preview": {
     "messageformat": "Włącz/wyłącz powiększony podgląd"
   },
+  "icu:Keyboard--toggle-raise-hand": {
+    "messageformat": "Raise or lower your hand (group calls only)"
+  },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Odbierz z wideo (tylko w przypadku połączeń wideo)"
   },
@@ -3895,9 +3880,6 @@
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogBody": {
     "messageformat": "Zanim dołączysz do rozmowy, wyświetlą się tylko imiona osób, które masz w kontaktach telefonu, osób, z którymi jesteś w jakiejś grupie, lub osób, z którymi zdarzyło Ci się wymienić wiadomości prywatne. Wszystkie imiona oraz zdjęcia wyświetlą się, gdy dołączysz do rozmowy."
-  },
-  "icu:CallingAdhocCallInfo__UnknownContactInfoDialogOk": {
-    "messageformat": "Rozumiem"
   },
   "icu:callingDeviceSelection__label--video": {
     "messageformat": "Wideo"
@@ -4580,9 +4562,6 @@
   "icu:close": {
     "messageformat": "Zamknij"
   },
-  "icu:clear": {
-    "messageformat": "Usuń"
-  },
   "icu:previous": {
     "messageformat": "Wstecz"
   },
@@ -4608,13 +4587,7 @@
     "messageformat": "Wesprzyj Signal darowizną"
   },
   "icu:BadgeDialog__name-supports-signal": {
-    "messageformat": "{name} supports Signal"
-  },
-  "icu:ProfileMovedModal__title": {
-    "messageformat": "Swój profil znajdziesz teraz gdzie indziej"
-  },
-  "icu:ProfileMovedModal__description": {
-    "messageformat": "Od teraz możesz go wyświetlać i edytować w ustawieniach."
+    "messageformat": "{name} wspiera Signal"
   },
   "icu:BackupImportScreen__title": {
     "messageformat": "Synchronizowanie wiadomości"
@@ -4705,9 +4678,6 @@
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
     "messageformat": "Synchronizowanie multimediów nie zostało zakończone. Jeśli anulujesz ten proces, możesz uruchomić go powtórnie przez ponowne połączenie urządzenia. <learnMoreLink>Dowiedz się więcej.</learnMoreLink>"
-  },
-  "icu:BackupMediaDownloadCancelConfirmation__button-continue": {
-    "messageformat": "Kontynuuj synchronizowanie"
   },
   "icu:BackupMediaDownloadCancelConfirmation__button-confirm-cancel": {
     "messageformat": "Anuluj synchronizowanie"
@@ -4885,9 +4855,6 @@
   },
   "icu:ConversationDetails--member-label--no-members": {
     "messageformat": "Jeszcze nikt nie podał swojej roli w grupie"
-  },
-  "icu:ConversationDetails--member-label--saving": {
-    "messageformat": "Zapisywanie zmian…"
   },
   "icu:ConversationDetails--member-label--error-title": {
     "messageformat": "Nie można zapisać roli w grupie"
@@ -5255,9 +5222,6 @@
   },
   "icu:DeleteAttachmentModal__Body": {
     "messageformat": "Spowoduje to trwałe usunięcie pliku. Wszystkie wiadomości powiązane z tym plikiem również zostaną usunięte."
-  },
-  "icu:DeleteAttachmentModal__Close": {
-    "messageformat": "Zamknij"
   },
   "icu:DeleteAttachmentModal__Delete": {
     "messageformat": "Usuń"
@@ -6018,9 +5982,6 @@
   },
   "icu:PlaintextExport--Confirmation--ContinueButton": {
     "messageformat": "Kontynuuj"
-  },
-  "icu:PlaintextExport--Confirmation--WaitingLabel": {
-    "messageformat": "Oczekiwanie na dane wejściowe"
   },
   "icu:PlaintextExport--OSPrompt--Mac": {
     "messageformat": "wyeksportować historię czatu"
@@ -7703,9 +7664,6 @@
   "icu:CallLinkDetails__DeleteLinkModal__Body": {
     "messageformat": "Link przestanie działać u osób, którym został udostępniony."
   },
-  "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
-    "messageformat": "Anuluj"
-  },
   "icu:CallLinkDetails__DeleteLinkModal__Delete": {
     "messageformat": "Usuń"
   },
@@ -8099,12 +8057,6 @@
   "icu:Donations__badge-modal--help-text": {
     "messageformat": "Możesz to zmienić na swoim urządzeniu mobilnym. Aby to zrobić, przejdź do sekcji Ustawienia → Wesprzyj Signal darowizną → Odznaki"
   },
-  "icu:CallQualitySurvey__CloseButton__AccessibilityLabel": {
-    "messageformat": "Zamknij"
-  },
-  "icu:CallQualitySurvey__BackButton__AccessibilityLabel": {
-    "messageformat": "Wstecz"
-  },
   "icu:CallQualitySurvey__HowWasYourCall__PageTitle": {
     "messageformat": "Jaka była jakość połączenia?"
   },
@@ -8192,9 +8144,6 @@
   "icu:CallQualitySurvey__ConfirmSubmission__SubmitButton": {
     "messageformat": "Prześlij"
   },
-  "icu:CallQualitySurvey__ConfirmSubmission__Submitting": {
-    "messageformat": "Przesyłanie odpowiedzi…"
-  },
   "icu:CallQualitySurvey__SubmissionFailed": {
     "messageformat": "Nie udało się przesłać odpowiedzi"
   },
@@ -8214,37 +8163,34 @@
     "messageformat": "Przewiń"
   },
   "icu:MaybeTransferModal__title": {
-    "messageformat": "Transfer your phone’s message history to this desktop?"
+    "messageformat": "Czy chcesz zsynchronizować z tym komputerem historię wiadomości z telefonu?"
   },
   "icu:MaybeTransferModal__description": {
-    "messageformat": "When you re-link this desktop, you can transfer your phone’s message history to this device."
+    "messageformat": "Aby zsynchronizować z tym komputerem historię wiadomości z telefonu, musisz ponownie połączyć ten komputer."
   },
   "icu:MaybeTransferModal__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Dowiedz się więcej"
   },
   "icu:MaybeTransferModal__replaceHistory": {
-    "messageformat": "This will <bold>replace</bold> the message history on this desktop."
+    "messageformat": "Spowoduje to <bold>zastąpienie</bold> historii wiadomości na tym komputerze."
   },
   "icu:MaybeTransferModal__scanQrCode": {
-    "messageformat": "You’ll need to relink by scanning a QR code."
+    "messageformat": "Aby ponownie połączyć komputer, zeskanuj kod QR."
   },
   "icu:MaybeTransferModal__media": {
-    "messageformat": "If you have paid Signal Secure Backups, all of your media will be transferred. Otherwise, your last 45 days of media will be included."
+    "messageformat": "Jeśli masz płatną usługę bezpiecznych kopii zapasowych Signal, zostaną zsynchronizowane wszystkie Twoje multimedia. Jeśli jej nie masz, zostaną zsynchronizowane multimedia z ostatnich 45 dni."
   },
   "icu:MaybeTransferModal__transfer": {
-    "messageformat": "Transfer"
+    "messageformat": "Zsynchronizuj"
   },
   "icu:MaybeTransferModal__dontTransfer": {
-    "messageformat": "Don't transfer"
+    "messageformat": "Nie synchronizuj"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__title": {
-    "messageformat": "Delete all data?"
-  },
-  "icu:DeleteDataAndRelinkConfirmationDialog__pending": {
-    "messageformat": "Deleting all data"
+    "messageformat": "Usunąć wszystkie dane?"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__body": {
-    "messageformat": "All current data in Signal Desktop will be deleted. You can then scan a QR code and transfer your message history from your phone."
+    "messageformat": "Wszystkie dane zapisane obecnie w aplikacji Signal Desktop zostaną usunięte. Następnie będziesz mieć możliwość zeskanowania kodu QR i synchronizacji historii wiadomości z telefonem."
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Ta wersja obejmuje wiele drobnych ulepszeń i poprawek błędów. Wszystko po to, aby aplikacja Signal działała płynnie.",
@@ -8274,16 +8220,16 @@
     "messageformat": "Drobne ulepszenia, poprawki błędów i większa funkcjonalność. Cieszymy się, że korzystasz z aplikacji Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.10--0": {
-    "messageformat": "Świeżutkie emoji z Unicode 17.0 już tańczą w aplikacji Signal. Przyjaciółka pisze, że zapisała się na balet dla dorosłych? Emoji z baletnicą sprawdzi się idealnie."
-  },
   "icu:WhatsNew__8.11--0": {
-    "messageformat": "We've introduced additional confirmations and educational messaging in the app to help protect Signal users from phishing and social engineering attacks. As a reminder, never reply to chats pretending to be Signal, and never send your verification code, PIN, or recovery key to anyone."
+    "messageformat": "Wprowadziliśmy w aplikacji dodatkowe potwierdzenia i komunikaty informacyjne – wszystko po to, aby jeszcze lepiej chronić osoby korzystające z aplikacji Signal przed phishingiem i atakami socjotechnicznymi. Na wszelki wypadek przypominamy: nigdy nie odpowiadaj na wiadomości od osób podszywających się pod pracowników Signal i nikomu nie udostępniaj swojego kodu weryfikacyjnego, PIN-u ani kodu odzyskiwania."
   },
   "icu:WhatsNew__8.11--1": {
-    "messageformat": "Raised hand indicators in group calls now display the current order of the queue, so you can easily see who got the upper hand first."
+    "messageformat": "Od teraz podczas połączeń grupowych oprócz tego, kto podniósł rękę, możesz również sprawdzić kolejność, w jakiej zgłosiły się te osoby. To się nazywa porządek obrad!"
   },
   "icu:WhatsNew__8.11--2": {
-    "messageformat": "We also added a real-time visualization while recording voice messages, so surfers (and oceanographers) can stare at multiple moving waveforms whenever they share updates from the beach."
+    "messageformat": "Dodaliśmy też wizualizację, która wyświetla się w czasie rzeczywistym podczas nagrywania wiadomości głosowych. Tylko nie strać wątku, podziwiając te hipnotyzujące kształty."
+  },
+  "icu:WhatsNew__8.12--0": {
+    "messageformat": "On the one hand, you can click on the raise hand icon during group calls. But on the other hand, now you can use a new keyboard shortcut too (Shift-H)."
   }
 }

@@ -1,18 +1,18 @@
 {
   "icu:AxoAlertDialog.Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Avbryt"
   },
   "icu:AxoButton.Pending": {
-    "messageformat": "Pending"
+    "messageformat": "Väntar"
   },
   "icu:AxoDialog.Back": {
-    "messageformat": "Back"
+    "messageformat": "Tillbaka"
   },
   "icu:AxoDialog.Close": {
-    "messageformat": "Close"
+    "messageformat": "Stäng"
   },
   "icu:AxoTextField.Clear": {
-    "messageformat": "Clear"
+    "messageformat": "Rensa"
   },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "Lägg till i en grupp"
@@ -371,9 +371,6 @@
   "icu:NavTabs__ItemLabel--Settings": {
     "messageformat": "Inställningar"
   },
-  "icu:NavTabs__ItemLabel--Profile": {
-    "messageformat": "Profil"
-  },
   "icu:NavSidebar__BackButtonLabel": {
     "messageformat": "Tillbaka"
   },
@@ -611,11 +608,20 @@
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
     "messageformat": "För kontakter som du är ansluten till via telefonnummer kan Signal automatiskt bekräfta om anslutningen är säker med hjälp av en process som kallas nyckeltransparens. För ökad säkerhet, verifiera totalsträckskryptering manuellt genom att jämföra siffrorna på den föregående skärmen eller skanna koden på deras enhet."
   },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body-2": {
+    "messageformat": "For people you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+  },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
     "messageformat": "Automatisk verifiering är inte längre tillgänglig för den här chatten"
   },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title-2": {
+    "messageformat": "Auto-verification is not available for this chat"
+  },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
     "messageformat": "Signal kan inte längre automatiskt verifiera krypteringen för den här chatten. Detta beror troligen på att {name} har ändrat sitt telefonnummer. Verifiera totalsträckskryptering manuellt genom att jämföra siffrorna på den föregående skärmen eller skanna koden på deras enhet."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body-2": {
+    "messageformat": "Signal can not automatically verify the encryption for this chat. This could be because {name} changed their phone number or their phone number privacy settings. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
     "messageformat": "Signal kan bara automatiskt verifiera krypteringen i chattar där du är ansluten till någon via ett telefonnummer. Om chatten startades med ett användarnamn eller en gemensam grupp, verifiera totalsträckskryptering genom att jämföra siffrorna på den föregående skärmen eller skanna koden på deras enhet."
@@ -644,9 +650,6 @@
   "icu:KeyTransparencyErrorDialog__Submit": {
     "messageformat": "Skicka"
   },
-  "icu:KeyTransparencyErrorDialog__Submitting": {
-    "messageformat": "Skickar in …"
-  },
   "icu:KeyTransparencyOnboardingDialog__Title": {
     "messageformat": "Signal kan nu automatiskt verifiera kryptering"
   },
@@ -658,9 +661,6 @@
   },
   "icu:KeyTransparencyOnboardingDialog__LearnMore": {
     "messageformat": "Läs mer"
-  },
-  "icu:KeyTransparencyOnboardingDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Stäng"
   },
   "icu:verified": {
     "messageformat": "Verifierat"
@@ -1292,9 +1292,6 @@
   "icu:PinMessageDialog__Title": {
     "messageformat": "Fäst meddelande i…"
   },
-  "icu:PinMessageDialog__Close": {
-    "messageformat": "Stäng"
-  },
   "icu:PinMessageDialog__Option--TIME_24_HOURS": {
     "messageformat": "24 timmar"
   },
@@ -1318,9 +1315,6 @@
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Description": {
     "messageformat": "Om du fäster det här meddelandet ersätts det äldsta."
-  },
-  "icu:PinMessageDialog--HasMaxPinnedMessages__Cancel": {
-    "messageformat": "Avbryt"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Continue": {
     "messageformat": "Fortsätt"
@@ -1408,9 +1402,6 @@
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Description": {
     "messageformat": "Meddelanden kommer att lösgöras för medlemmar i den här chatten."
-  },
-  "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Cancel": {
-    "messageformat": "Avbryt"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Unpin": {
     "messageformat": "Lösgör"
@@ -1599,13 +1590,13 @@
     "messageformat": "Behöver du hjälp?"
   },
   "icu:Install__confirm-data-deletion__title": {
-    "messageformat": "Delete all data?"
+    "messageformat": "Ta bort alla data?"
   },
   "icu:Install__confirm-data-deletion__body": {
-    "messageformat": "You’re attempting to link a different Signal account to this desktop. If you continue, all data currently in Signal Desktop will be deleted."
+    "messageformat": "Du försöker länka ett annat Signal-konto till den här datorn. Om du fortsätter raderas alla data som finns i Signal Desktop just nu."
   },
   "icu:Install__confirm-data-deletion__continue": {
-    "messageformat": "Continue"
+    "messageformat": "Fortsätt"
   },
   "icu:Preferences--header": {
     "messageformat": "Inställningar"
@@ -1657,9 +1648,6 @@
   },
   "icu:Preferences__ChatsPage__DeleteChatFolderDialog__DeleteButton": {
     "messageformat": "Ta bort"
-  },
-  "icu:Preferences__ChatsPage__DeleteChatFolderDialog__CancelButton": {
-    "messageformat": "Avbryt"
   },
   "icu:Preferences__ChatFoldersPage__Title": {
     "messageformat": "Chattmappar"
@@ -1783,9 +1771,6 @@
   },
   "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__DeleteButton": {
     "messageformat": "Ta bort"
-  },
-  "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__CancelButton": {
-    "messageformat": "Avbryt"
   },
   "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__Title": {
     "messageformat": "Spara ändringar?"
@@ -2314,9 +2299,6 @@
   },
   "icu:syncNow": {
     "messageformat": "Importera nu"
-  },
-  "icu:syncing": {
-    "messageformat": "Importerar …"
   },
   "icu:syncFailed": {
     "messageformat": "Importen misslyckades. Kontrollera att din dator och din telefon har en fungerande internetuppkoppling."
@@ -3317,6 +3299,9 @@
   "icu:Keyboard--toggle-preview": {
     "messageformat": "Växla expanderad förhandsvisning på och av"
   },
+  "icu:Keyboard--toggle-raise-hand": {
+    "messageformat": "Raise or lower your hand (group calls only)"
+  },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Svara samtal med video (endast videosamtal)"
   },
@@ -3895,9 +3880,6 @@
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogBody": {
     "messageformat": "Innan du går med i ett samtal kan du bara se namnen på telefonkontakter, personer som är med i samma grupp som du eller personer som du har chattat med privat. Du ser alla namn och foton när du är ansluten till samtalet."
-  },
-  "icu:CallingAdhocCallInfo__UnknownContactInfoDialogOk": {
-    "messageformat": "Uppfattat"
   },
   "icu:callingDeviceSelection__label--video": {
     "messageformat": "Video"
@@ -4580,9 +4562,6 @@
   "icu:close": {
     "messageformat": "Stäng"
   },
-  "icu:clear": {
-    "messageformat": "Rensa"
-  },
   "icu:previous": {
     "messageformat": "föregående"
   },
@@ -4608,13 +4587,7 @@
     "messageformat": "Donera till Signal"
   },
   "icu:BadgeDialog__name-supports-signal": {
-    "messageformat": "{name} supports Signal"
-  },
-  "icu:ProfileMovedModal__title": {
-    "messageformat": "Din profil har flyttats"
-  },
-  "icu:ProfileMovedModal__description": {
-    "messageformat": "Öppna fliken Inställningar för att visa och redigera din profil."
+    "messageformat": "{name} stöder Signal"
   },
   "icu:BackupImportScreen__title": {
     "messageformat": "Synkronisera meddelanden"
@@ -4705,9 +4678,6 @@
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
     "messageformat": "Synkroniseringen av dina medier har inte slutförts. Om du väljer att avbryta kan du synkronisera igen genom att länka enheten på nytt. <learnMoreLink>Läs mer</learnMoreLink>."
-  },
-  "icu:BackupMediaDownloadCancelConfirmation__button-continue": {
-    "messageformat": "Fortsätt synkronisera"
   },
   "icu:BackupMediaDownloadCancelConfirmation__button-confirm-cancel": {
     "messageformat": "Avbryt synkronisering"
@@ -4885,9 +4855,6 @@
   },
   "icu:ConversationDetails--member-label--no-members": {
     "messageformat": "Inga andra medlemmar har etiketter"
-  },
-  "icu:ConversationDetails--member-label--saving": {
-    "messageformat": "Sparar ändringar …"
   },
   "icu:ConversationDetails--member-label--error-title": {
     "messageformat": "Det går inte att spara medlemsetikett"
@@ -5255,9 +5222,6 @@
   },
   "icu:DeleteAttachmentModal__Body": {
     "messageformat": "Detta kommer att radera objektet permanent. All meddelandetext som är associerad med det här objektet kommer också att raderas."
-  },
-  "icu:DeleteAttachmentModal__Close": {
-    "messageformat": "Stäng"
   },
   "icu:DeleteAttachmentModal__Delete": {
     "messageformat": "Ta bort"
@@ -6018,9 +5982,6 @@
   },
   "icu:PlaintextExport--Confirmation--ContinueButton": {
     "messageformat": "Fortsätt"
-  },
-  "icu:PlaintextExport--Confirmation--WaitingLabel": {
-    "messageformat": "Väntar på inmatning"
   },
   "icu:PlaintextExport--OSPrompt--Mac": {
     "messageformat": "exportera din chatthistorik"
@@ -7703,9 +7664,6 @@
   "icu:CallLinkDetails__DeleteLinkModal__Body": {
     "messageformat": "Den här länken fungerar inte längre för alla som har den."
   },
-  "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
-    "messageformat": "Avbryt"
-  },
   "icu:CallLinkDetails__DeleteLinkModal__Delete": {
     "messageformat": "Ta bort"
   },
@@ -8099,12 +8057,6 @@
   "icu:Donations__badge-modal--help-text": {
     "messageformat": "Du kan justera detta på din mobila enhet under Inställningar → Donera till Signal → Märken"
   },
-  "icu:CallQualitySurvey__CloseButton__AccessibilityLabel": {
-    "messageformat": "Stäng"
-  },
-  "icu:CallQualitySurvey__BackButton__AccessibilityLabel": {
-    "messageformat": "Tillbaka"
-  },
   "icu:CallQualitySurvey__HowWasYourCall__PageTitle": {
     "messageformat": "Hur var ditt samtal?"
   },
@@ -8192,9 +8144,6 @@
   "icu:CallQualitySurvey__ConfirmSubmission__SubmitButton": {
     "messageformat": "Skicka"
   },
-  "icu:CallQualitySurvey__ConfirmSubmission__Submitting": {
-    "messageformat": "Skickar in undersökning …"
-  },
   "icu:CallQualitySurvey__SubmissionFailed": {
     "messageformat": "Det gick inte att skicka in undersökningen"
   },
@@ -8214,37 +8163,34 @@
     "messageformat": "Bild"
   },
   "icu:MaybeTransferModal__title": {
-    "messageformat": "Transfer your phone’s message history to this desktop?"
+    "messageformat": "Vill du överföra meddelandehistoriken från din telefon till den här datorn?"
   },
   "icu:MaybeTransferModal__description": {
-    "messageformat": "When you re-link this desktop, you can transfer your phone’s message history to this device."
+    "messageformat": "När du länkar om den här datorn kan du överföra meddelandehistoriken från din telefon till den här enheten."
   },
   "icu:MaybeTransferModal__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Läs mer"
   },
   "icu:MaybeTransferModal__replaceHistory": {
-    "messageformat": "This will <bold>replace</bold> the message history on this desktop."
+    "messageformat": "Det här <bold>ersätter</bold> meddelandehistoriken på den här datorn."
   },
   "icu:MaybeTransferModal__scanQrCode": {
-    "messageformat": "You’ll need to relink by scanning a QR code."
+    "messageformat": "Du behöver länka om genom att skanna en QR-kod."
   },
   "icu:MaybeTransferModal__media": {
-    "messageformat": "If you have paid Signal Secure Backups, all of your media will be transferred. Otherwise, your last 45 days of media will be included."
+    "messageformat": "Om du har Signal Säker säkerhetskopiering med betalabonnemang överförs all din media. Annars inkluderas din media från de senaste 45 dagarna."
   },
   "icu:MaybeTransferModal__transfer": {
-    "messageformat": "Transfer"
+    "messageformat": "Överför"
   },
   "icu:MaybeTransferModal__dontTransfer": {
-    "messageformat": "Don't transfer"
+    "messageformat": "Överför inte"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__title": {
-    "messageformat": "Delete all data?"
-  },
-  "icu:DeleteDataAndRelinkConfirmationDialog__pending": {
-    "messageformat": "Deleting all data"
+    "messageformat": "Ta bort alla data?"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__body": {
-    "messageformat": "All current data in Signal Desktop will be deleted. You can then scan a QR code and transfer your message history from your phone."
+    "messageformat": "Alla aktuella data i Signal Desktop raderas. Sedan kan du skanna en QR-kod och överföra meddelandehistoriken från din telefon."
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Den här versionen innehåller ett antal små justeringar och felrättningar för att Signal ska fungera smidigt.",
@@ -8274,16 +8220,16 @@
     "messageformat": "Små justeringer, buggfixar och prestandaförbättringar. Tack för att du använder Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.10--0": {
-    "messageformat": "Vi har aktiverat stöd för de nya emojierna i Unicode 17.0."
-  },
   "icu:WhatsNew__8.11--0": {
-    "messageformat": "We've introduced additional confirmations and educational messaging in the app to help protect Signal users from phishing and social engineering attacks. As a reminder, never reply to chats pretending to be Signal, and never send your verification code, PIN, or recovery key to anyone."
+    "messageformat": "Vi har lagt till fler bekräftelser och informativa meddelanden i appen som hjälper till att skydda Signal-användare från nätfiske och social manipulation. Som påminnelse: svara aldrig på chattar som utger sig för att vara Signal, och skicka aldrig din verifieringskod, PIN-kod eller återställningsnyckel till någon."
   },
   "icu:WhatsNew__8.11--1": {
-    "messageformat": "Raised hand indicators in group calls now display the current order of the queue, so you can easily see who got the upper hand first."
+    "messageformat": "Indikatorerna för uppräckta händer i gruppsamtal visar nu den aktuella ordningen i kön."
   },
   "icu:WhatsNew__8.11--2": {
-    "messageformat": "We also added a real-time visualization while recording voice messages, so surfers (and oceanographers) can stare at multiple moving waveforms whenever they share updates from the beach."
+    "messageformat": "Ny visualisering vid inspelning av röstmeddelanden."
+  },
+  "icu:WhatsNew__8.12--0": {
+    "messageformat": "On the one hand, you can click on the raise hand icon during group calls. But on the other hand, now you can use a new keyboard shortcut too (Shift-H)."
   }
 }

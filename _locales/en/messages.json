@@ -507,10 +507,6 @@
     "messageformat": "Settings",
     "description": "Nav Tabs > Settings Button > Label & Accessibility Text"
   },
-  "icu:NavTabs__ItemLabel--Profile": {
-    "messageformat": "Profile",
-    "description": "(Deleted 2026/05/14) Nav Tabs > Profile Button > Accessibility Text"
-  },
   "icu:NavSidebar__BackButtonLabel": {
     "messageformat": "Back",
     "description": "Shown in the sidebar header when on a nested panel within the current sidebar, takes the user back to the previous step or default sidebar state"
@@ -824,7 +820,7 @@
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
     "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device.",
-    "description": "A body of an education modal in Key Transparency section of SafetyNumberViewer when verification was successful"
+    "description": "(Deleted 2026/05/20) A body of an education modal in Key Transparency section of SafetyNumberViewer when verification was successful"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body-2": {
     "messageformat": "For people you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device.",
@@ -832,7 +828,7 @@
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
     "messageformat": "Auto-verification is no longer available for this chat",
-    "description": "A title of an education modal in Key Transparency section of SafetyNumberViewer when verification was unsuccessful"
+    "description": "(Deleted 2026/05/20) A title of an education modal in Key Transparency section of SafetyNumberViewer when verification was unsuccessful"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title-2": {
     "messageformat": "Auto-verification is not available for this chat",
@@ -840,7 +836,7 @@
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
     "messageformat": "Signal can no longer automatically verify the encryption for this chat. This is likely because {name} changed their phone number. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device.",
-    "description": "A body of an education modal in Key Transparency section of SafetyNumberViewer when verification was unsuccessful"
+    "description": "(Deleted 2026/05/20) A body of an education modal in Key Transparency section of SafetyNumberViewer when verification was unsuccessful"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body-2": {
     "messageformat": "Signal can not automatically verify the encryption for this chat. This could be because {name} changed their phone number or their phone number privacy settings. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device.",
@@ -882,10 +878,6 @@
     "messageformat": "Submit",
     "description": "Primary button text in the dialog shown when an unexpected key transparency error occurs. Clicking it will open a support page"
   },
-  "icu:KeyTransparencyErrorDialog__Submitting": {
-    "messageformat": "Submitting...",
-    "description": "(Deleted 2026/05/14) Key Transparency Error Dialog > Accessibility label for loading spinner while submitting"
-  },
   "icu:KeyTransparencyOnboardingDialog__Title": {
     "messageformat": "Signal can now auto-verify encryption",
     "description": "Key Transparency Onboarding Dialog > Title"
@@ -901,10 +893,6 @@
   "icu:KeyTransparencyOnboardingDialog__LearnMore": {
     "messageformat": "Learn more",
     "description": "Key Transparency Onboarding Dialog > Text of the secondary button that opens a support page in the browser"
-  },
-  "icu:KeyTransparencyOnboardingDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Close",
-    "description": "(Deleted 2026/05/14) Key Transparency Onboarding Dialog > Dialog Close Button (Accessibility Label)"
   },
   "icu:verified": {
     "messageformat": "Verified"
@@ -974,7 +962,7 @@
   },
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements",
-    "description": "An error popup when we attempted and failed to send a message using endorsements, only for internal users."
+    "description": "(Deleted 2026/05/20) An error popup when we attempted and failed to send a message using endorsements, only for internal users."
   },
   "icu:Toast--SQLError": {
     "messageformat": "Database error: please share your logs.",
@@ -1730,10 +1718,6 @@
     "messageformat": "Pin message for...",
     "description": "Message > Context Menu > Pin Message > Dialog > Title"
   },
-  "icu:PinMessageDialog__Close": {
-    "messageformat": "Close",
-    "description": "(Deleted 2026/05/14) Message > Context Menu > Pin Message > Dialog > Close Button (Accessibility Label)"
-  },
   "icu:PinMessageDialog__Option--TIME_24_HOURS": {
     "messageformat": "24 hours",
     "description": "Message > Context Menu > Pin Message > Dialog > Duration Option: 24 hours"
@@ -1765,10 +1749,6 @@
   "icu:PinMessageDialog--HasMaxPinnedMessages__Description": {
     "messageformat": "Pinning this message will replace the oldest one.",
     "description": "Message > Context Menu > Pin Message (when at max pinned messages) > Dialog > Description"
-  },
-  "icu:PinMessageDialog--HasMaxPinnedMessages__Cancel": {
-    "messageformat": "Cancel",
-    "description": "(Deleted 2026/05/14) Message > Context Menu > Pin Message (when at max pinned messages) > Dialog > Cancel Button"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Continue": {
     "messageformat": "Continue",
@@ -1885,10 +1865,6 @@
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Description": {
     "messageformat": "Messages will be unpinned for members of this chat.",
     "description": "Conversation > Pinned messages panel (view all) > Unpin all messages button > Confirm Dialog > Description (in group)"
-  },
-  "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Cancel": {
-    "messageformat": "Cancel",
-    "description": "(Deleted 2026/05/14) Conversation > Pinned messages panel (view all) > Unpin all messages button > Confirm Dialog > Cancel"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Unpin": {
     "messageformat": "Unpin",
@@ -2218,10 +2194,6 @@
     "messageformat": "Delete",
     "description": "Preferences > Chats Page > Delete Chat Folder Dialog > Delete Button"
   },
-  "icu:Preferences__ChatsPage__DeleteChatFolderDialog__CancelButton": {
-    "messageformat": "Cancel",
-    "description": "(Deleted 2026/05/14) Preferences > Chats Page > Delete Chat Folder Dialog > Cancel Button"
-  },
   "icu:Preferences__ChatFoldersPage__Title": {
     "messageformat": "Chat folders",
     "description": "Preferences > Chat Folders Page > Title"
@@ -2385,10 +2357,6 @@
   "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__DeleteButton": {
     "messageformat": "Delete",
     "description": "Preferences > Delete Chat Folder Dialog > Delete Button"
-  },
-  "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__CancelButton": {
-    "messageformat": "Cancel",
-    "description": "(Deleted 2026/05/14) Preferences > Delete Chat Folder Dialog > Cancel Button"
   },
   "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__Title": {
     "messageformat": "Save changes?",
@@ -2711,7 +2679,7 @@
   },
   "icu:CallingRaisedHandsList__TitleHint": {
     "messageformat": "(first to last)",
-    "description": "Shown in the call raised hands list next to the raised hands count to explain list ordering"
+    "description": "(Deleted 2026/05/20) Shown in the call raised hands list next to the raised hands count to explain list ordering"
   },
   "icu:CallingReactions--me": {
     "messageformat": "You",
@@ -3087,10 +3055,6 @@
   "icu:syncNow": {
     "messageformat": "Import now",
     "description": "Label for a button that syncs contacts and groups from your phone"
-  },
-  "icu:syncing": {
-    "messageformat": "Importing...",
-    "description": "(Deleted 2026/05/14) Label for a disabled sync button while sync is in progress."
   },
   "icu:syncFailed": {
     "messageformat": "Import failed. Make sure your computer and your phone are connected to the internet.",
@@ -5186,10 +5150,6 @@
     "messageformat": "Before joining a call you can only see the names of phone contacts, people you’re in a group with, or people you’ve chatted with 1:1. You’ll see all names and photos once you’ve joined the call.",
     "description": "Text for an info dialog which can be opened from the in-call participant list, which is available in call links when unknown contacts are in the call"
   },
-  "icu:CallingAdhocCallInfo__UnknownContactInfoDialogOk": {
-    "messageformat": "Got it",
-    "description": "(Deleted 2026/05/14) Button text for info dialog which can be opened from the in-call participant list, which is available in call links when unknown contacts are in the call."
-  },
   "icu:callingDeviceSelection__label--video": {
     "messageformat": "Video",
     "description": "Label for video input selector"
@@ -6098,10 +6058,6 @@
     "messageformat": "Close",
     "description": "Generic close label"
   },
-  "icu:clear": {
-    "messageformat": "Clear",
-    "description": "(Deleted 2026/05/14) Generic clear label (ex: text/search inputs)"
-  },
   "icu:previous": {
     "messageformat": "previous",
     "description": "Generic previous label"
@@ -6137,14 +6093,6 @@
   "icu:BadgeDialog__name-supports-signal": {
     "messageformat": "{name} supports Signal",
     "description": "Title of the badge dialog, which is shown when clicking on a person's Signal sustainer badge."
-  },
-  "icu:ProfileMovedModal__title": {
-    "messageformat": "Your profile has moved",
-    "description": "(Deleted 2026/05/14) Bolded text on modal that explains the move of Profile Editor into the new Settings Tab"
-  },
-  "icu:ProfileMovedModal__description": {
-    "messageformat": "Open the Settings tab to view and edit your profile.",
-    "description": "(Deleted 2026/05/14) Description text on modal that explains the move of Profile Editor into the new Settings Tab"
   },
   "icu:BackupImportScreen__title": {
     "messageformat": "Syncing messages",
@@ -6265,10 +6213,6 @@
   "icu:BackupMediaDownloadCancelConfirmation__description": {
     "messageformat": "Your media has not completed syncing. If you choose to cancel, you can sync again by re-linking this device. <learnMoreLink>Learn more</learnMoreLink>.",
     "description": "Text for button to cancel media (attachment) download after backup import"
-  },
-  "icu:BackupMediaDownloadCancelConfirmation__button-continue": {
-    "messageformat": "Continue syncing",
-    "description": "(Deleted 2026/05/14) Text for button to close confirmation dialog and continue media (attachment) download"
   },
   "icu:BackupMediaDownloadCancelConfirmation__button-confirm-cancel": {
     "messageformat": "Cancel syncing",
@@ -6505,10 +6449,6 @@
   "icu:ConversationDetails--member-label--no-members": {
     "messageformat": "No other members have labels",
     "description": "Placeholder for 'other members with labels' section when there are zero other members with labels"
-  },
-  "icu:ConversationDetails--member-label--saving": {
-    "messageformat": "Saving changes...",
-    "description": "(Deleted 2026/05/14) Accessibility label for button with spinner as we save the user's member label."
   },
   "icu:ConversationDetails--member-label--error-title": {
     "messageformat": "Can’t save member label",
@@ -6998,10 +6938,6 @@
   "icu:DeleteAttachmentModal__Body": {
     "messageformat": "This will permanently delete the item. Any message text associated with this item will also be deleted.",
     "description": "Body of confirmation modal when deleting an attachment from media gallery"
-  },
-  "icu:DeleteAttachmentModal__Close": {
-    "messageformat": "Close",
-    "description": "(Deleted 2026/05/14) Accessibility label of close button in confirmation modal when deleting an attachment from media gallery"
   },
   "icu:DeleteAttachmentModal__Delete": {
     "messageformat": "Delete",
@@ -8015,10 +7951,6 @@
   "icu:PlaintextExport--Confirmation--ContinueButton": {
     "messageformat": "Continue",
     "description": "Button on confirmation dialog to continue on through the export process"
-  },
-  "icu:PlaintextExport--Confirmation--WaitingLabel": {
-    "messageformat": "Waiting for input",
-    "description": "(Deleted 2026/05/14) Label for spinner on Confirmation dialog when user as pressed Continue, and OS Auth/Export Location dialogs are show"
   },
   "icu:PlaintextExport--OSPrompt--Mac": {
     "messageformat": "export your chat history",
@@ -10258,10 +10190,6 @@
     "messageformat": "This link will no longer work for anyone who has it.",
     "description": "Call History > Call Link Details > Delete Link Modal > Body"
   },
-  "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
-    "messageformat": "Cancel",
-    "description": "(Deleted 2026/05/14) Call History > Call Link Details > Delete Link Modal > Cancel Button"
-  },
   "icu:CallLinkDetails__DeleteLinkModal__Delete": {
     "messageformat": "Delete",
     "description": "Call History > Call Link Details > Delete Link Modal > Delete Button"
@@ -10786,14 +10714,6 @@
     "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges",
     "description": "Help text below the toggle in donation thank you modal"
   },
-  "icu:CallQualitySurvey__CloseButton__AccessibilityLabel": {
-    "messageformat": "Close",
-    "description": "(Deleted 2026/05/14) Call Quality Survey Dialog > Dialog Close Button (Accessibility Label)"
-  },
-  "icu:CallQualitySurvey__BackButton__AccessibilityLabel": {
-    "messageformat": "Back",
-    "description": "(Deleted 2026/05/14) Call Quality Survey Dialog > Dialog Back Button (Accessibility Label)"
-  },
   "icu:CallQualitySurvey__HowWasYourCall__PageTitle": {
     "messageformat": "How was your call?",
     "description": "Call Quality Survey Dialog > How was your call? > Page Title"
@@ -10910,10 +10830,6 @@
     "messageformat": "Submit",
     "description": "Call Quality Survey Dialog > Help us improve > Submit Button"
   },
-  "icu:CallQualitySurvey__ConfirmSubmission__Submitting": {
-    "messageformat": "Submitting survey...",
-    "description": "(Deleted 2026/05/14) Call Quality Survey Dialog > Help us improve > Accessibility label for loading spinner while submitting"
-  },
   "icu:CallQualitySurvey__SubmissionFailed": {
     "messageformat": "Failed to submit survey",
     "description": "Toast message shown when call quality survey submission fails"
@@ -10974,10 +10890,6 @@
     "messageformat": "Delete all data?",
     "description": "Title in confirmation dialog shown when user is unlinked and chose to delete data and relink"
   },
-  "icu:DeleteDataAndRelinkConfirmationDialog__pending": {
-    "messageformat": "Deleting all data",
-    "description": "(Deleted 2026/05/14) Accessiblity label for button when data is in progress of being deleted"
-  },
   "icu:DeleteDataAndRelinkConfirmationDialog__body": {
     "messageformat": "All current data in Signal Desktop will be deleted. You can then scan a QR code and transfer your message history from your phone.",
     "description": "Description in confirmation dialog shown when user is unlinked and chose to delete data and relink"
@@ -11019,15 +10931,15 @@
   },
   "icu:WhatsNew__8.11--0": {
     "messageformat": "We've introduced additional confirmations and educational messaging in the app to help protect Signal users from phishing and social engineering attacks. As a reminder, never reply to chats pretending to be Signal, and never send your verification code, PIN, or recovery key to anyone.",
-    "description": "Release notes for 8.11"
+    "description": "(Deleted 2026/05/20) Release notes for 8.11"
   },
   "icu:WhatsNew__8.11--1": {
     "messageformat": "Raised hand indicators in group calls now display the current order of the queue, so you can easily see who got the upper hand first.",
-    "description": "Release notes for 8.11"
+    "description": "(Deleted 2026/05/20) Release notes for 8.11"
   },
   "icu:WhatsNew__8.11--2": {
     "messageformat": "We also added a real-time visualization while recording voice messages, so surfers (and oceanographers) can stare at multiple moving waveforms whenever they share updates from the beach.",
-    "description": "Release notes for 8.11"
+    "description": "(Deleted 2026/05/20) Release notes for 8.11"
   },
   "icu:WhatsNew__8.12--0": {
     "messageformat": "On the one hand, you can click on the raise hand icon during group calls. But on the other hand, now you can use a new keyboard shortcut too (Shift-H).",

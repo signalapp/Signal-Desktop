@@ -1,18 +1,18 @@
 {
   "icu:AxoAlertDialog.Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Cuir ar ceal"
   },
   "icu:AxoButton.Pending": {
-    "messageformat": "Pending"
+    "messageformat": "Ar feitheamh"
   },
   "icu:AxoDialog.Back": {
-    "messageformat": "Back"
+    "messageformat": "Siar"
   },
   "icu:AxoDialog.Close": {
-    "messageformat": "Close"
+    "messageformat": "Dún"
   },
   "icu:AxoTextField.Clear": {
-    "messageformat": "Clear"
+    "messageformat": "Glan"
   },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "Add to a Group"
@@ -371,9 +371,6 @@
   "icu:NavTabs__ItemLabel--Settings": {
     "messageformat": "Socruithe"
   },
-  "icu:NavTabs__ItemLabel--Profile": {
-    "messageformat": "Próifíl"
-  },
   "icu:NavSidebar__BackButtonLabel": {
     "messageformat": "Ar Ais"
   },
@@ -611,11 +608,20 @@
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
     "messageformat": "I gcás teagmhálaithe lena bhfuil tú nasctha le huimhir ghutháin, is féidir le Signal slánú an naisc a dheimhniú go huathoibríoch agus próiseas ar a dtugtar trédhearcacht eochracha in úsáid. Ar mhaithe le slándáil bhreise, fíoraigh an criptiú ó cheann ceann de láimh ach na huimhreacha ar an scáileán roimhe a chur i gcomparáid lena chéile nó an cód ar ghléas an duine a scanadh."
   },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body-2": {
+    "messageformat": "For people you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+  },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
     "messageformat": "Níl an t-uathfhíorú ar fáil don chomhrá seo a thuilleadh"
   },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title-2": {
+    "messageformat": "Auto-verification is not available for this chat"
+  },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
     "messageformat": "Ní féidir le Signal an criptiú a uathfhíorú don chomhrá seo a thuilleadh. Is dócha gur athraigh {name} a (h)uimhir ghutháin. Fíoraigh an criptiú ó cheann ceann de láimh ach na huimhreacha ar an scáileán roimhe a chur i gcomparáid le chéile nó an cód ar ghléas an duine a scanadh."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body-2": {
+    "messageformat": "Signal can not automatically verify the encryption for this chat. This could be because {name} changed their phone number or their phone number privacy settings. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
     "messageformat": "Níl Signal in ann an criptiú i gcomhráite a uathfhíorú ach amháin nuair a bhíonn tú nasctha le duine éigin eile agus uimhir ghutháin in úsáid. I gcás gur tosaíodh comhrá agus ainm úsáideora nó grúpa i bpáirt, fíoraigh an criptiú ó cheann ceann ach na huimhreacha ar an scáileán roimhe a chur i gcomparáid lena chéile nó an cód ar ghléas an duine a scanadh."
@@ -644,9 +650,6 @@
   "icu:KeyTransparencyErrorDialog__Submit": {
     "messageformat": "Seol isteach é"
   },
-  "icu:KeyTransparencyErrorDialog__Submitting": {
-    "messageformat": "Á chur isteach..."
-  },
   "icu:KeyTransparencyOnboardingDialog__Title": {
     "messageformat": "Tá Signal in ann criptiú a uathfhíorú anois"
   },
@@ -658,9 +661,6 @@
   },
   "icu:KeyTransparencyOnboardingDialog__LearnMore": {
     "messageformat": "Tuilleadh faisnéise"
-  },
-  "icu:KeyTransparencyOnboardingDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Dún"
   },
   "icu:verified": {
     "messageformat": "Deimhnithe"
@@ -1292,9 +1292,6 @@
   "icu:PinMessageDialog__Title": {
     "messageformat": "Pionnáil an teachtaireacht go ceann..."
   },
-  "icu:PinMessageDialog__Close": {
-    "messageformat": "Dún"
-  },
   "icu:PinMessageDialog__Option--TIME_24_HOURS": {
     "messageformat": "24 uair an chloig"
   },
@@ -1318,9 +1315,6 @@
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Description": {
     "messageformat": "Má ghreamaítear an teachtaireacht seo, cuirfear in ionad an chinn is sine í."
-  },
-  "icu:PinMessageDialog--HasMaxPinnedMessages__Cancel": {
-    "messageformat": "Cuir ar ceal"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Continue": {
     "messageformat": "Ar aghaidh"
@@ -1408,9 +1402,6 @@
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Description": {
     "messageformat": "Déanfar teachtaireachtaí a dhíghreamú do bhaill an chomhrá seo."
-  },
-  "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Cancel": {
-    "messageformat": "Cuir ar ceal"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Unpin": {
     "messageformat": "Díphionnáil"
@@ -1599,13 +1590,13 @@
     "messageformat": "An bhfuil cúnamh uait?"
   },
   "icu:Install__confirm-data-deletion__title": {
-    "messageformat": "Delete all data?"
+    "messageformat": "Scrios na sonraí go léir?"
   },
   "icu:Install__confirm-data-deletion__body": {
-    "messageformat": "You’re attempting to link a different Signal account to this desktop. If you continue, all data currently in Signal Desktop will be deleted."
+    "messageformat": "Tá tú ag iarraidh cuntas difriúil de chuid Signal a nascadh leis an ríomhaire deisce seo. Má leanann tú leis, scriosfar na sonraí go léir atá in Signal Desktop faoi láthair."
   },
   "icu:Install__confirm-data-deletion__continue": {
-    "messageformat": "Continue"
+    "messageformat": "Ar aghaidh"
   },
   "icu:Preferences--header": {
     "messageformat": "Socruithe"
@@ -1657,9 +1648,6 @@
   },
   "icu:Preferences__ChatsPage__DeleteChatFolderDialog__DeleteButton": {
     "messageformat": "Scrios"
-  },
-  "icu:Preferences__ChatsPage__DeleteChatFolderDialog__CancelButton": {
-    "messageformat": "Cuir ar ceal"
   },
   "icu:Preferences__ChatFoldersPage__Title": {
     "messageformat": "Fillteáin comhráite"
@@ -1783,9 +1771,6 @@
   },
   "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__DeleteButton": {
     "messageformat": "Scrios"
-  },
-  "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__CancelButton": {
-    "messageformat": "Cuir ar ceal"
   },
   "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__Title": {
     "messageformat": "Sábháil na hathruithe?"
@@ -2314,9 +2299,6 @@
   },
   "icu:syncNow": {
     "messageformat": "Iompórtáil anois"
-  },
-  "icu:syncing": {
-    "messageformat": "Iompórtáil…"
   },
   "icu:syncFailed": {
     "messageformat": "Theip ar an iompórtáil. Cinntigh go bhfuil do ríomhaire agus do ghuthán nasctha leis an Idirlíon."
@@ -3317,6 +3299,9 @@
   "icu:Keyboard--toggle-preview": {
     "messageformat": "Scoránaigh an réamhamharc uasmhéadaithe air agus as"
   },
+  "icu:Keyboard--toggle-raise-hand": {
+    "messageformat": "Raise or lower your hand (group calls only)"
+  },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Freagair an glao le físeán (físghlaonna amháin)"
   },
@@ -3895,9 +3880,6 @@
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogBody": {
     "messageformat": "Sula dtéann tú isteach i nglao, ní bheidh tú in ann a fheiceáil ach ainmneacha do theagmhálaithe gutháin, ainmneacha na ndaoine atá i ngrúpa leat, nó ainmneacha na ndaoine a raibh comhrá duine le duine agat leo. Feicfidh tú gach ainm agus grianghraf tar éis duit dul isteach sa ghlao."
-  },
-  "icu:CallingAdhocCallInfo__UnknownContactInfoDialogOk": {
-    "messageformat": "Tuigim"
   },
   "icu:callingDeviceSelection__label--video": {
     "messageformat": "Físeán"
@@ -4580,9 +4562,6 @@
   "icu:close": {
     "messageformat": "Dún"
   },
-  "icu:clear": {
-    "messageformat": "Glan"
-  },
   "icu:previous": {
     "messageformat": "Roimhe"
   },
@@ -4608,13 +4587,7 @@
     "messageformat": "Bronn airgead ar Signal"
   },
   "icu:BadgeDialog__name-supports-signal": {
-    "messageformat": "{name} supports Signal"
-  },
-  "icu:ProfileMovedModal__title": {
-    "messageformat": "Bogadh do phróifíl"
-  },
-  "icu:ProfileMovedModal__description": {
-    "messageformat": "Oscail an táb Socruithe chun féachaint ar do phróifíl agus í a chur in eagar."
+    "messageformat": "Tacaíonn {name} le Signal"
   },
   "icu:BackupImportScreen__title": {
     "messageformat": "Teachtaireachtaí á sioncronú"
@@ -4705,9 +4678,6 @@
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
     "messageformat": "Níl sioncronú do mheán críochnaithe. Má roghnaíonn tú é a chur ar ceal, beidh tú in ann sioncronú arís tríd an ngléas seo a athnascadh. <learnMoreLink>Tuilleadh faisnéise</learnMoreLink>."
-  },
-  "icu:BackupMediaDownloadCancelConfirmation__button-continue": {
-    "messageformat": "Lean leis an sioncronú"
   },
   "icu:BackupMediaDownloadCancelConfirmation__button-confirm-cancel": {
     "messageformat": "Cuir sioncronú ar ceal"
@@ -4885,9 +4855,6 @@
   },
   "icu:ConversationDetails--member-label--no-members": {
     "messageformat": "Níl lipéad ag aon bhaill eile"
-  },
-  "icu:ConversationDetails--member-label--saving": {
-    "messageformat": "Athruithe á sábháil..."
   },
   "icu:ConversationDetails--member-label--error-title": {
     "messageformat": "Ní féidir an lipéad baill a shábháil"
@@ -5255,9 +5222,6 @@
   },
   "icu:DeleteAttachmentModal__Body": {
     "messageformat": "Scriosfar an mhír go buan leis sin. Scriosfar aon téacs teachtaireachta a bhaineann leis an mír sin freisin."
-  },
-  "icu:DeleteAttachmentModal__Close": {
-    "messageformat": "Dún"
   },
   "icu:DeleteAttachmentModal__Delete": {
     "messageformat": "Scrios"
@@ -6018,9 +5982,6 @@
   },
   "icu:PlaintextExport--Confirmation--ContinueButton": {
     "messageformat": "Ar aghaidh"
-  },
-  "icu:PlaintextExport--Confirmation--WaitingLabel": {
-    "messageformat": "Ag feitheamh le hionchur"
   },
   "icu:PlaintextExport--OSPrompt--Mac": {
     "messageformat": "do stair comhráite a easpórtáil"
@@ -7703,9 +7664,6 @@
   "icu:CallLinkDetails__DeleteLinkModal__Body": {
     "messageformat": "Ní oibreoidh an nasc seo a thuilleadh do dhuine ar bith ag a bhfuil sé."
   },
-  "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
-    "messageformat": "Cuir ar ceal"
-  },
   "icu:CallLinkDetails__DeleteLinkModal__Delete": {
     "messageformat": "Scrios"
   },
@@ -8099,12 +8057,6 @@
   "icu:Donations__badge-modal--help-text": {
     "messageformat": "Is féidir leat é sin a choigeartú ar do ghléas móibíleach faoi Socruithe → Tabhair Airgead do Signal → Suaitheantais"
   },
-  "icu:CallQualitySurvey__CloseButton__AccessibilityLabel": {
-    "messageformat": "Dún"
-  },
-  "icu:CallQualitySurvey__BackButton__AccessibilityLabel": {
-    "messageformat": "Siar"
-  },
   "icu:CallQualitySurvey__HowWasYourCall__PageTitle": {
     "messageformat": "Cén chaoi a raibh do ghlao?"
   },
@@ -8192,9 +8144,6 @@
   "icu:CallQualitySurvey__ConfirmSubmission__SubmitButton": {
     "messageformat": "Seol isteach é"
   },
-  "icu:CallQualitySurvey__ConfirmSubmission__Submitting": {
-    "messageformat": "Suirbhé á chur isteach…"
-  },
   "icu:CallQualitySurvey__SubmissionFailed": {
     "messageformat": "Theip ar chur isteach an tsuirbhé"
   },
@@ -8214,37 +8163,34 @@
     "messageformat": "Sleamhnán"
   },
   "icu:MaybeTransferModal__title": {
-    "messageformat": "Transfer your phone’s message history to this desktop?"
+    "messageformat": "Aistrigh stair teachtaireachtaí do ghutháin chuig an ríomhaire deisce seo?"
   },
   "icu:MaybeTransferModal__description": {
-    "messageformat": "When you re-link this desktop, you can transfer your phone’s message history to this device."
+    "messageformat": "Nuair a athnascann tú an ríomhaire deisce seo, beidh tú in ann stair teachtaireachtaí do ghutháin a aistriú chuig an ngléas seo."
   },
   "icu:MaybeTransferModal__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Tuilleadh faisnéise"
   },
   "icu:MaybeTransferModal__replaceHistory": {
-    "messageformat": "This will <bold>replace</bold> the message history on this desktop."
+    "messageformat": "Cuirfear í sin <bold>in ionad</bold> na staire teachtaireachtaí ar an ríomhaire deisce seo."
   },
   "icu:MaybeTransferModal__scanQrCode": {
-    "messageformat": "You’ll need to relink by scanning a QR code."
+    "messageformat": "Beidh ort athnascadh trí chód QR a scanadh."
   },
   "icu:MaybeTransferModal__media": {
-    "messageformat": "If you have paid Signal Secure Backups, all of your media will be transferred. Otherwise, your last 45 days of media will be included."
+    "messageformat": "Má tá Cúltacaí Slána Signal íoctha agat, aistreofar do mheáin go léir. Seachas sin, cuirfear do 45 lá anuas de mheáin san áireamh."
   },
   "icu:MaybeTransferModal__transfer": {
-    "messageformat": "Transfer"
+    "messageformat": "Aistrigh"
   },
   "icu:MaybeTransferModal__dontTransfer": {
-    "messageformat": "Don't transfer"
+    "messageformat": "Ná haistrigh"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__title": {
-    "messageformat": "Delete all data?"
-  },
-  "icu:DeleteDataAndRelinkConfirmationDialog__pending": {
-    "messageformat": "Deleting all data"
+    "messageformat": "Scrios na sonraí go léir?"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__body": {
-    "messageformat": "All current data in Signal Desktop will be deleted. You can then scan a QR code and transfer your message history from your phone."
+    "messageformat": "Scriosfar na sonraí go léir atá in Signal Desktop faoi láthair. Ansin beidh tú in ann cód QR a scanadh agus do stair teachtaireachtaí a aistriú ó do ghuthán."
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Tá roinnt mionathruithe agus paistí ar fhabhtanna sa leagan seo chun Signal a choinneáil ag rith go réidh.",
@@ -8274,16 +8220,16 @@
     "messageformat": "Mionathruithe, paistí fabhtanna agus feabhsuithe ar fheidhmíocht. Go raibh maith agat as Signal a úsáid!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.10--0": {
-    "messageformat": "Rinneamar tacaíocht don emoji nua in Unicode 17.0 a chumasú."
-  },
   "icu:WhatsNew__8.11--0": {
-    "messageformat": "We've introduced additional confirmations and educational messaging in the app to help protect Signal users from phishing and social engineering attacks. As a reminder, never reply to chats pretending to be Signal, and never send your verification code, PIN, or recovery key to anyone."
+    "messageformat": "Thugamar isteach deimhnithe agus seoladh teachtaireachtaí oideachasúla san aip mar chabhair chun úsáideoirí Signal a chosaint ar fhioscaireacht agus ar ionsaithe innealtóireachta sóisialta. Cuimhnigh, ná freagair comhráite riamh ina gcuirtear i gcéill gur Signal atá ann, agus ná seol do chód fíoraithe, d'UAP nó d'eochair athshlánaithe chuig duine ar bith riamh."
   },
   "icu:WhatsNew__8.11--1": {
-    "messageformat": "Raised hand indicators in group calls now display the current order of the queue, so you can easily see who got the upper hand first."
+    "messageformat": "Déanann táscairí na lámh ardaithe i ngrúpghlaonna ord reatha na scuaine a thaispeáint anois."
   },
   "icu:WhatsNew__8.11--2": {
-    "messageformat": "We also added a real-time visualization while recording voice messages, so surfers (and oceanographers) can stare at multiple moving waveforms whenever they share updates from the beach."
+    "messageformat": "Léirshamhlú nua le linn glórphoist a thaifeadadh."
+  },
+  "icu:WhatsNew__8.12--0": {
+    "messageformat": "On the one hand, you can click on the raise hand icon during group calls. But on the other hand, now you can use a new keyboard shortcut too (Shift-H)."
   }
 }

@@ -1,18 +1,18 @@
 {
   "icu:AxoAlertDialog.Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Avbryt"
   },
   "icu:AxoButton.Pending": {
-    "messageformat": "Pending"
+    "messageformat": "Avventer"
   },
   "icu:AxoDialog.Back": {
-    "messageformat": "Back"
+    "messageformat": "Tilbake"
   },
   "icu:AxoDialog.Close": {
-    "messageformat": "Close"
+    "messageformat": "Lukk"
   },
   "icu:AxoTextField.Clear": {
-    "messageformat": "Clear"
+    "messageformat": "Slett"
   },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "Legg til i gruppen"
@@ -371,9 +371,6 @@
   "icu:NavTabs__ItemLabel--Settings": {
     "messageformat": "Innstillinger"
   },
-  "icu:NavTabs__ItemLabel--Profile": {
-    "messageformat": "Profil"
-  },
   "icu:NavSidebar__BackButtonLabel": {
     "messageformat": "Tilbake"
   },
@@ -611,11 +608,20 @@
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
     "messageformat": "Når du har lagt til en kontakt med telefonnummer, kan Signal automatisk bekrefte om forbindelsen er sikker via noe som kalles «key transparency». Hvis du ønsker mer sikkerhet, kan du bekrefte ende-til-ende-krypteringen manuelt ved å sammenligne tallene på forrige side eller skanne koden på enheten til personen du chatter med."
   },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body-2": {
+    "messageformat": "For people you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+  },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
     "messageformat": "Automatisk bekreftelse er ikke lenger tilgjengelig for denne samtalen"
   },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title-2": {
+    "messageformat": "Auto-verification is not available for this chat"
+  },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
     "messageformat": "Signal kan ikke bekrefte krypteringen i denne samtalen automatisk. Dette skyldes sannsynligvis at {name} har byttet telefonnummer. Du kan bekrefte ende-til-ende-krypteringen manuelt ved å sammenligne tallene på forrige side eller skanne koden på enheten til personen du chatter med."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body-2": {
+    "messageformat": "Signal can not automatically verify the encryption for this chat. This could be because {name} changed their phone number or their phone number privacy settings. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
     "messageformat": "Signal kan ikke bekrefte krypteringen i samtalen automatisk med mindre du har lagt til kontakten via et telefonnummer. Hvis du la til kontakten via et brukernavn eller en gruppe, må du bekrefte ende-til-ende-krypteringen manuelt. Dette gjør du ved å sammenligne tallene på den forrige siden eller skanne koden på enheten til personen du chatter med."
@@ -644,9 +650,6 @@
   "icu:KeyTransparencyErrorDialog__Submit": {
     "messageformat": "Send inn"
   },
-  "icu:KeyTransparencyErrorDialog__Submitting": {
-    "messageformat": "Sender inn …"
-  },
   "icu:KeyTransparencyOnboardingDialog__Title": {
     "messageformat": "Signal bekrefter nå krypteringer automatisk"
   },
@@ -658,9 +661,6 @@
   },
   "icu:KeyTransparencyOnboardingDialog__LearnMore": {
     "messageformat": "Les mer"
-  },
-  "icu:KeyTransparencyOnboardingDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Lukk"
   },
   "icu:verified": {
     "messageformat": "Bekreftet"
@@ -1292,9 +1292,6 @@
   "icu:PinMessageDialog__Title": {
     "messageformat": "Hvor lenge skal den være festet?"
   },
-  "icu:PinMessageDialog__Close": {
-    "messageformat": "Lukk"
-  },
   "icu:PinMessageDialog__Option--TIME_24_HOURS": {
     "messageformat": "24 timer"
   },
@@ -1318,9 +1315,6 @@
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Description": {
     "messageformat": "Hvis du fester denne meldingen, bytter du ut den eldste festede meldingen."
-  },
-  "icu:PinMessageDialog--HasMaxPinnedMessages__Cancel": {
-    "messageformat": "Avbryt"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Continue": {
     "messageformat": "Fortsett"
@@ -1408,9 +1402,6 @@
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Description": {
     "messageformat": "Meldingene løsnes for alle medlemmene i denne samtalen."
-  },
-  "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Cancel": {
-    "messageformat": "Avbryt"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Unpin": {
     "messageformat": "Løsne"
@@ -1599,13 +1590,13 @@
     "messageformat": "Ønsker du hjelp?"
   },
   "icu:Install__confirm-data-deletion__title": {
-    "messageformat": "Delete all data?"
+    "messageformat": "Vil du slette alle dataene?"
   },
   "icu:Install__confirm-data-deletion__body": {
-    "messageformat": "You’re attempting to link a different Signal account to this desktop. If you continue, all data currently in Signal Desktop will be deleted."
+    "messageformat": "Du forsøker å koble en annen Signal-konto til denne enheten. Hvis du går videre, slettes alle dataene du har i Signal Desktop."
   },
   "icu:Install__confirm-data-deletion__continue": {
-    "messageformat": "Continue"
+    "messageformat": "Fortsett"
   },
   "icu:Preferences--header": {
     "messageformat": "Innstillinger"
@@ -1657,9 +1648,6 @@
   },
   "icu:Preferences__ChatsPage__DeleteChatFolderDialog__DeleteButton": {
     "messageformat": "Slett"
-  },
-  "icu:Preferences__ChatsPage__DeleteChatFolderDialog__CancelButton": {
-    "messageformat": "Avbryt"
   },
   "icu:Preferences__ChatFoldersPage__Title": {
     "messageformat": "Samtalemapper"
@@ -1783,9 +1771,6 @@
   },
   "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__DeleteButton": {
     "messageformat": "Slett"
-  },
-  "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__CancelButton": {
-    "messageformat": "Avbryt"
   },
   "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__Title": {
     "messageformat": "Vil du lagre endringene?"
@@ -2314,9 +2299,6 @@
   },
   "icu:syncNow": {
     "messageformat": "Importer nå"
-  },
-  "icu:syncing": {
-    "messageformat": "Importerer …"
   },
   "icu:syncFailed": {
     "messageformat": "Feil ved importering. Sørg for at datamaskinen og telefonen din er koblet til internett."
@@ -3317,6 +3299,9 @@
   "icu:Keyboard--toggle-preview": {
     "messageformat": "Skru fullskjermsmodus av og på"
   },
+  "icu:Keyboard--toggle-raise-hand": {
+    "messageformat": "Raise or lower your hand (group calls only)"
+  },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Besvar anropet med video (kun videosamtaler)"
   },
@@ -3895,9 +3880,6 @@
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogBody": {
     "messageformat": "Før du blir med i samtalen får du kun se navnene på de som står i kontaktlisten din, de som du har chattet med tidligere, og de som er medlem av samme gruppe som deg. Alle navnene og bildene blir synlige når du blir med i samtalen."
-  },
-  "icu:CallingAdhocCallInfo__UnknownContactInfoDialogOk": {
-    "messageformat": "Skjønner"
   },
   "icu:callingDeviceSelection__label--video": {
     "messageformat": "Video"
@@ -4580,9 +4562,6 @@
   "icu:close": {
     "messageformat": "Lukk"
   },
-  "icu:clear": {
-    "messageformat": "Slett"
-  },
   "icu:previous": {
     "messageformat": "Forrige"
   },
@@ -4608,13 +4587,7 @@
     "messageformat": "Donér til Signal"
   },
   "icu:BadgeDialog__name-supports-signal": {
-    "messageformat": "{name} supports Signal"
-  },
-  "icu:ProfileMovedModal__title": {
-    "messageformat": "Profilen din er flyttet"
-  },
-  "icu:ProfileMovedModal__description": {
-    "messageformat": "Åpne Innstillinger-fanen for å se og redigere profilen din."
+    "messageformat": "{name} støtter Signal"
   },
   "icu:BackupImportScreen__title": {
     "messageformat": "Synkroniserer meldinger"
@@ -4705,9 +4678,6 @@
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
     "messageformat": "Synkroniseringen av mediefilene dine er ikke fullført. Hvis du avbryter nå, kan du fortsette senere ved å koble til enheten på nytt. <learnMoreLink>Les mer</learnMoreLink>."
-  },
-  "icu:BackupMediaDownloadCancelConfirmation__button-continue": {
-    "messageformat": "Fortsett synk."
   },
   "icu:BackupMediaDownloadCancelConfirmation__button-confirm-cancel": {
     "messageformat": "Avbryt synk."
@@ -4885,9 +4855,6 @@
   },
   "icu:ConversationDetails--member-label--no-members": {
     "messageformat": "Ingen andre medlemmer har merker"
-  },
-  "icu:ConversationDetails--member-label--saving": {
-    "messageformat": "Lagrer endringene …"
   },
   "icu:ConversationDetails--member-label--error-title": {
     "messageformat": "Medlemsmerket kan ikke lagres"
@@ -5255,9 +5222,6 @@
   },
   "icu:DeleteAttachmentModal__Body": {
     "messageformat": "Elementet slettes for godt. All tekst tilknyttet dette elementet, blir også slettet."
-  },
-  "icu:DeleteAttachmentModal__Close": {
-    "messageformat": "Lukk"
   },
   "icu:DeleteAttachmentModal__Delete": {
     "messageformat": "Slett"
@@ -6018,9 +5982,6 @@
   },
   "icu:PlaintextExport--Confirmation--ContinueButton": {
     "messageformat": "Fortsett"
-  },
-  "icu:PlaintextExport--Confirmation--WaitingLabel": {
-    "messageformat": "Venter på svar"
   },
   "icu:PlaintextExport--OSPrompt--Mac": {
     "messageformat": "eksportere samtaleloggen"
@@ -7703,9 +7664,6 @@
   "icu:CallLinkDetails__DeleteLinkModal__Body": {
     "messageformat": "Dette vil føre til at den slutter å fungere for alle som har den."
   },
-  "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
-    "messageformat": "Avbryt"
-  },
   "icu:CallLinkDetails__DeleteLinkModal__Delete": {
     "messageformat": "Slett"
   },
@@ -8099,12 +8057,6 @@
   "icu:Donations__badge-modal--help-text": {
     "messageformat": "Du kan justere dette på mobilen din under Innstillinger → Gi penger til Signal → Merker"
   },
-  "icu:CallQualitySurvey__CloseButton__AccessibilityLabel": {
-    "messageformat": "Lukk"
-  },
-  "icu:CallQualitySurvey__BackButton__AccessibilityLabel": {
-    "messageformat": "Tilbake"
-  },
   "icu:CallQualitySurvey__HowWasYourCall__PageTitle": {
     "messageformat": "Hvordan var samtalen?"
   },
@@ -8192,9 +8144,6 @@
   "icu:CallQualitySurvey__ConfirmSubmission__SubmitButton": {
     "messageformat": "Send"
   },
-  "icu:CallQualitySurvey__ConfirmSubmission__Submitting": {
-    "messageformat": "Undersøkelsen sendes inn …"
-  },
   "icu:CallQualitySurvey__SubmissionFailed": {
     "messageformat": "Undesøkelsen kunne ikke sendes inn"
   },
@@ -8214,37 +8163,34 @@
     "messageformat": "Fortsett-knapp"
   },
   "icu:MaybeTransferModal__title": {
-    "messageformat": "Transfer your phone’s message history to this desktop?"
+    "messageformat": "Vil du overføre meldingsloggen fra telefonen til denne enheten?"
   },
   "icu:MaybeTransferModal__description": {
-    "messageformat": "When you re-link this desktop, you can transfer your phone’s message history to this device."
+    "messageformat": "Du kan overføre meldingsloggen fra telefonen til denne enheten når du kobler til enheten på nytt."
   },
   "icu:MaybeTransferModal__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Les mer"
   },
   "icu:MaybeTransferModal__replaceHistory": {
-    "messageformat": "This will <bold>replace</bold> the message history on this desktop."
+    "messageformat": "Dette <bold>erstatter</bold> meldingsloggen som finnes på denne enheten."
   },
   "icu:MaybeTransferModal__scanQrCode": {
-    "messageformat": "You’ll need to relink by scanning a QR code."
+    "messageformat": "Du må koble til på nytt ved å skanne en QR-kode."
   },
   "icu:MaybeTransferModal__media": {
-    "messageformat": "If you have paid Signal Secure Backups, all of your media will be transferred. Otherwise, your last 45 days of media will be included."
+    "messageformat": "Hvis du har et betalingsabonnement på Sikre sikkerhetskopier, overføres alle mediefilene dine. Hvis ikke, overføres mediefilene fra de siste 45 dagene."
   },
   "icu:MaybeTransferModal__transfer": {
-    "messageformat": "Transfer"
+    "messageformat": "Overfør"
   },
   "icu:MaybeTransferModal__dontTransfer": {
-    "messageformat": "Don't transfer"
+    "messageformat": "Ikke overfør"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__title": {
-    "messageformat": "Delete all data?"
-  },
-  "icu:DeleteDataAndRelinkConfirmationDialog__pending": {
-    "messageformat": "Deleting all data"
+    "messageformat": "Vil du slette alle dataene?"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__body": {
-    "messageformat": "All current data in Signal Desktop will be deleted. You can then scan a QR code and transfer your message history from your phone."
+    "messageformat": "Alle dataene som er lagret i Signal Desktop, slettes. Du kan deretter skanne QR-koden og overføre meldingsloggen fra telefonen din."
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Denne versjonen inneholder noen justeringer og feilrettinger som sikrer at Signal fungerer optimalt.",
@@ -8274,16 +8220,16 @@
     "messageformat": "Noen små justeringer, feilrettinger og ytelsesforbedringer. Takk for at du bruker Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.10--0": {
-    "messageformat": "Vi støtter nå den nye emojien i Unicode 17.0."
-  },
   "icu:WhatsNew__8.11--0": {
-    "messageformat": "We've introduced additional confirmations and educational messaging in the app to help protect Signal users from phishing and social engineering attacks. As a reminder, never reply to chats pretending to be Signal, and never send your verification code, PIN, or recovery key to anyone."
+    "messageformat": "Vi har lansert ekstra bekreftelser og meldinger i appen for å beskytte Signal-brukere mot phishing og hacking. Husk at du aldri bør svare på meldinger fra personer som utgir seg for å representere Signal, og aldri sende bekreftelseskoden, PIN-koden eller sikkerhetskoden din til noen."
   },
   "icu:WhatsNew__8.11--1": {
-    "messageformat": "Raised hand indicators in group calls now display the current order of the queue, so you can easily see who got the upper hand first."
+    "messageformat": "Nå kan du se hvem som rakk opp hånden først i gruppesamtaler."
   },
   "icu:WhatsNew__8.11--2": {
-    "messageformat": "We also added a real-time visualization while recording voice messages, so surfers (and oceanographers) can stare at multiple moving waveforms whenever they share updates from the beach."
+    "messageformat": "Du ser også ny grafikk når du tar opp talemeldinger."
+  },
+  "icu:WhatsNew__8.12--0": {
+    "messageformat": "On the one hand, you can click on the raise hand icon during group calls. But on the other hand, now you can use a new keyboard shortcut too (Shift-H)."
   }
 }
