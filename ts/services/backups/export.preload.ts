@@ -1014,10 +1014,6 @@ export class BackupExportStream extends Readable {
     const themeSetting = await window.Events.getThemeSetting();
     const appTheme = toAppTheme(themeSetting);
 
-    const keyTransparencyData = await DataReader.getKTAccountData(
-      me.getCheckedAci('Backup export: key transparency data')
-    );
-
     return {
       profileKey: itemStorage.get('profileKey') ?? null,
       username: me.get('username') || null,
@@ -1047,7 +1043,6 @@ export class BackupExportStream extends Readable {
       svrPin: itemStorage.get('svrPin') ?? null,
       bioText: me.get('about') ?? null,
       bioEmoji: me.get('aboutEmoji') ?? null,
-      keyTransparencyData: keyTransparencyData ?? null,
       // Test only values
       androidSpecificSettings: isTestOrMockEnvironment()
         ? (itemStorage.get('androidSpecificSettings') ?? null)

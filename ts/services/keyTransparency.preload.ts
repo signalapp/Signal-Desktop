@@ -7,9 +7,11 @@ import {
   PublicKey,
   usernames,
 } from '@signalapp/libsignal-client';
-import type {
-  Request,
-  E164Info,
+import {
+  type Request,
+  type E164Info,
+  resetField,
+  AccountDataField,
 } from '@signalapp/libsignal-client/dist/net/KeyTransparency.js';
 import pTimeout from 'p-timeout';
 
@@ -32,6 +34,7 @@ import { createLogger } from '../logging/log.std.ts';
 import { isEnabled } from '../RemoteConfig.dom.ts';
 import { DataWriter } from '../sql/Client.preload.ts';
 import { runStorageServiceSyncJob } from './storage.preload.ts';
+import { KeyTransparencyStore } from '../LibSignalStores.node.ts';
 
 const log = createLogger('KeyTransparency');
 
@@ -92,7 +95,15 @@ class KeyTransparency {
     this.#scheduler.start();
   }
 
-  public async onKnownIdentifierChange(): Promise<void> {
+  public async onKnownIdentifierChange(
+    field: 'e164' | 'username' | 'accessKey' | 'phoneNumberDiscoverability'
+  ): Promise<void> {
+    if (field === 'e164') {
+      await this.#resetSelfIdentifier(AccountDataField.E164);
+    } else if (field === 'username') {
+      await this.#resetSelfIdentifier(AccountDataField.UsernameHash);
+    }
+
     await this.#scheduler.delayBy(KNOWN_IDENTIFIER_CHANGE_DELAY);
   }
 
@@ -350,6 +361,19 @@ class KeyTransparency {
       }
 
       return this.#check(request, abortSignal, backOff);
+    }
+  }
+
+  async #resetSelfIdentifier(field: AccountDataField): Promise<void> {
+    try {
+      const ourAci = itemStorage.user.getCheckedAci();
+      const store = new KeyTransparencyStore(signalProtocolStore);
+      await resetField(toAciObject(ourAci), field, store);
+    } catch (error) {
+      log.error(
+        `resetSelfIdentifier(${AccountDataField[field]}): failed`,
+        toLogFormat(error)
+      );
     }
   }
 }

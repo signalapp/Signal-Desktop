@@ -1694,14 +1694,14 @@ export async function mergeAccountRecord(
   // Key Transparancy parameters for self request change whenever
   // discoverability changes. Make sure we don't do self check prematurely
   if (discoverability !== itemStorage.get('phoneNumberDiscoverability')) {
-    drop(keyTransparency.onKnownIdentifierChange());
+    drop(keyTransparency.onKnownIdentifierChange('phoneNumberDiscoverability'));
   }
   await itemStorage.put('phoneNumberDiscoverability', discoverability);
 
   if (profileKey && profileKey.byteLength > 0) {
     // Access key is part of Key Transparency request and changing it must
     // delay self monitoring.
-    drop(keyTransparency.onKnownIdentifierChange());
+    drop(keyTransparency.onKnownIdentifierChange('accessKey'));
     drop(ourProfileKeyService.set(profileKey));
   }
 
@@ -1985,16 +1985,6 @@ export async function mergeAccountRecord(
 
   const oldStorageID = ourConversation.get('storageID');
   const oldStorageVersion = ourConversation.get('storageVersion');
-
-  if ((username || undefined) !== ourConversation.get('username')) {
-    // Username is part of key transparency self monitor parameters. Make sure
-    // we delay self-check until the changes fully propagate to the log.
-    drop(keyTransparency.onKnownIdentifierChange());
-    if (itemStorage.get('usernameCorrupted')) {
-      details.push('clearing username corruption');
-      await itemStorage.remove('usernameCorrupted');
-    }
-  }
 
   ourConversation.set({
     isArchived: noteToSelfArchived,

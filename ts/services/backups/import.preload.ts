@@ -783,7 +783,6 @@ export class BackupImportStream extends Writable {
     androidSpecificSettings,
     bioText,
     bioEmoji,
-    keyTransparencyData,
   }: Backups.AccountData): Promise<void> {
     strictAssert(this.#ourConversation === undefined, 'Duplicate AccountData');
     const me = {
@@ -829,15 +828,6 @@ export class BackupImportStream extends Writable {
     }
     if (bioEmoji != null) {
       me.aboutEmoji = Emoji.unsafeCastMaybeInvalidStringToVariant(bioEmoji);
-    }
-    if (Bytes.isNotEmpty(keyTransparencyData)) {
-      const ourAci = this.#ourConversation?.serviceId;
-      strictAssert(
-        isAciString(ourAci),
-        'Must have our aci for Key Transparency data'
-      );
-
-      await DataWriter.setKTAccountData(ourAci, keyTransparencyData);
     }
     if (avatarUrlPath != null) {
       await itemStorage.put('avatarUrl', avatarUrlPath);
