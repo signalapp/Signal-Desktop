@@ -263,6 +263,9 @@ export class FormattingMenu {
   }
 
   isStyleEnabledInSelection(style: QuillFormattingStyle): boolean {
+    if (!this.quill.hasFocus()) {
+      return false;
+    }
     return this.quill.getFormat()[style] != null;
   }
 
