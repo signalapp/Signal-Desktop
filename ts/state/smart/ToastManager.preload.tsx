@@ -17,7 +17,6 @@ import {
 } from '../selectors/globalModals.std.ts';
 import { hasSelectedStoryData } from '../selectors/stories.preload.ts';
 import { shouldShowLightbox } from '../selectors/lightbox.std.ts';
-import { isInFullScreenCall as getIsInFullScreenCall } from '../selectors/calling.std.ts';
 import {
   getSelectedConversationId,
   getSelectedNavTab,
@@ -40,6 +39,7 @@ import { useMegaphonesActions } from '../ducks/megaphones.preload.ts';
 import { shouldNeverBeCalled } from '../../util/shouldNeverBeCalled.std.ts';
 import { saveAttachmentToDisk } from '../../windows/main/attachments.preload.ts';
 import * as Bytes from '../../Bytes.std.ts';
+import { getIsInFullScreenCall } from '../selectors/isInFullScreenCall.std.ts';
 
 export type SmartPropsType = Readonly<{
   disableMegaphone?: boolean;

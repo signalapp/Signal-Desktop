@@ -24,11 +24,7 @@ import { SmartHeroRow } from './HeroRow.preload.tsx';
 import { SmartTimelineItem } from './TimelineItem.preload.tsx';
 import { SmartTypingBubble } from './TypingBubble.preload.tsx';
 import { AttachmentDownloadManager } from '../../jobs/AttachmentDownloadManager.preload.ts';
-import {
-  getActiveCall,
-  getCallSelector,
-  isInFullScreenCall as getIsInFullScreenCall,
-} from '../selectors/calling.std.ts';
+import { getActiveCall, getCallSelector } from '../selectors/calling.std.ts';
 import { getMidnight } from '../../types/NotificationProfile.std.ts';
 
 import type { PropsType as SmartContactSpoofingReviewDialogPropsType } from './ContactSpoofingReviewDialog.preload.tsx';
@@ -38,6 +34,7 @@ import { getCallIdFromEra } from '../../util/callDisposition.preload.ts';
 import { mapItemsIntoCollapseSets } from '../../util/CollapseSet.std.ts';
 import type { CollapseSet } from '../../util/CollapseSet.std.ts';
 import { isSignalConversation } from '../../util/isSignalConversation.dom.ts';
+import { getIsInFullScreenCall } from '../selectors/isInFullScreenCall.std.ts';
 
 type ExternalProps = {
   id: string;

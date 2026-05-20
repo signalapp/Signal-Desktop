@@ -26,7 +26,6 @@ import {
   getStoryByIdSelector,
   getHasAllStoriesUnmuted,
 } from '../selectors/stories.preload.ts';
-import { isInFullScreenCall } from '../selectors/calling.std.ts';
 import { isSignalConversation as getIsSignalConversation } from '../../util/isSignalConversation.dom.ts';
 import { strictAssert } from '../../util/assert.std.ts';
 import { asyncShouldNeverBeCalled } from '../../util/shouldNeverBeCalled.std.ts';
@@ -39,6 +38,7 @@ import { useIsWindowActive } from '../../hooks/useIsWindowActive.dom.ts';
 import type { DraftBodyRanges } from '../../types/BodyRange.std.ts';
 import type { StoryViewType } from '../../types/Stories.std.ts';
 import type { Emoji } from '../../axo/emoji.std.ts';
+import { getIsInFullScreenCall } from '../selectors/isInFullScreenCall.std.ts';
 
 export const SmartStoryViewer = memo(function SmartStoryViewer() {
   const {
@@ -81,7 +81,7 @@ export const SmartStoryViewer = memo(function SmartStoryViewer() {
   const emojiSkinToneDefault = useSelector(getEmojiSkinToneDefault);
   const replyState = useSelector(getStoryReplies);
   const hasAllStoriesUnmuted = useSelector(getHasAllStoriesUnmuted);
-  const hasActiveCall = useSelector(isInFullScreenCall);
+  const hasActiveCall = useSelector(getIsInFullScreenCall);
   const hasViewReceiptSetting = useSelector(getHasStoryViewReceiptSetting);
   const isFormattingEnabled = useSelector(getTextFormattingEnabled);
 
