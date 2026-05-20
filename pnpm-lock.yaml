@@ -692,8 +692,8 @@ importers:
         specifier: 4.3.0
         version: 4.3.0
       tinykeys:
-        specifier: 3.0.0
-        version: 3.0.0
+        specifier: 3.1.0
+        version: 3.1.0
       tsx:
         specifier: 4.21.0
         version: 4.21.0(patch_hash=251027c4cc25615da4cf5b54757ba1af5ecae4256a23772bcc2c1284f6aa1251)
@@ -9688,8 +9688,8 @@ packages:
     resolution: {integrity: sha512-pn99VhoACYR8nFHhxqix+uvsbXineAasWm5ojXoN8xEwK5Kd3/TrhNn1wByuD52UxWRLy8pu+kRMniEi6Eq9Zg==}
     engines: {node: '>=12.0.0'}
 
-  tinykeys@3.0.0:
-    resolution: {integrity: sha512-nazawuGv5zx6MuDfDY0rmfXjuOGhD5XU2z0GLURQ1nzl0RUe9OuCJq+0u8xxJZINHe+mr7nw8PWYYZ9WhMFujw==}
+  tinykeys@3.1.0:
+    resolution: {integrity: sha512-LyQgmvqSSCBzK6PJjDy1kJWlanBVY0LFnJtte3AzJfdoijCZ+nDWjT0GvJAoHI+LUiBGpQQfvRrRNmValIZQiw==}
 
   tinyrainbow@1.2.0:
     resolution: {integrity: sha512-weEDEq7Z5eTHPDh4xjX789+fHfF+P8boiFB+0vbWzpbnbsEr/GRaohi/uMKxg8RZMXnl1ItAi/IUHWMsjDV7kQ==}
@@ -20450,7 +20450,7 @@ snapshots:
       fdir: 6.5.0(picomatch@4.0.4)
       picomatch: 4.0.4
 
-  tinykeys@3.0.0: {}
+  tinykeys@3.1.0: {}
 
   tinyrainbow@1.2.0: {}
 

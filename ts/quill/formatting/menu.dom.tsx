@@ -13,7 +13,6 @@ import type { VirtualElement } from '@popperjs/core';
 import { createLogger } from '../../logging/log.std.ts';
 import type { LocalizerType } from '../../types/Util.std.ts';
 import { handleOutsideClick } from '../../util/handleOutsideClick.dom.ts';
-// @ts-expect-error - Needs tinykeys to update package.json type resolution
 import { createKeybindingsHandler } from 'tinykeys';
 
 const { isString } = lodash;
@@ -111,11 +110,11 @@ export class FormattingMenu {
     };
 
     this.#handleKeyDown = createKeybindingsHandler({
-      '$mod+(b|B|KeyB)': onBold,
-      '$mod+(i|I|KeyI)': onItalic,
-      '$mod+(e|E|KeyE)': onMonospace,
-      '$mod+Shift+(x|X|KeyX)': onStrike,
-      '$mod+Shift+(b|B|KeyB)': onSpoiler,
+      '$mod+(B|KeyB)': onBold,
+      '$mod+(I|KeyI)': onItalic,
+      '$mod+(E|KeyE)': onMonospace,
+      '$mod+Shift+(X|KeyX)': onStrike,
+      '$mod+Shift+(B|KeyB)': onSpoiler,
     });
 
     this.quill.root.addEventListener('keydown', this.#handleKeyDown);
