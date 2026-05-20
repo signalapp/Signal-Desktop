@@ -387,7 +387,9 @@ export namespace AxoTooltip {
                 'bg-elevated-background-quaternary text-label-primary-on-color',
                 'shadow-elevation-3 shadow-no-outline',
                 'min-w-12',
-                hasAccessory ? 'max-w-[228px]' : 'max-w-[192px]'
+                hasAccessory ? 'max-w-[228px]' : 'max-w-[192px]',
+                'forced-color-adjust-none',
+                'forced-colors:bg-[Highlight] forced-colors:text-[HighlightText]'
               )}
             >
               {hasArrow && (
@@ -397,7 +399,11 @@ export namespace AxoTooltip {
                   height={TOOLTIP_ARROW_HEIGHT}
                 >
                   <svg
-                    className={tw('fill-elevated-background-quaternary')}
+                    role="none"
+                    className={tw(
+                      'fill-elevated-background-quaternary',
+                      'forced-colors:fill-[Highlight]'
+                    )}
                     xmlns="http://www.w3.org/2000/svg"
                     width={TOOLTIP_ARROW_WIDTH}
                     height={TOOLTIP_ARROW_HEIGHT}
@@ -407,31 +413,33 @@ export namespace AxoTooltip {
                   </svg>
                 </Tooltip.Arrow>
               )}
-              <div
+              <span
                 aria-hidden={props.tooltipRepeatsTriggerAccessibleName}
                 className={tw(
                   'line-clamp-4 max-h-full text-balance text-ellipsis hyphens-auto'
                 )}
               >
                 {props.label}
-              </div>
+              </span>
               {keyboardShortcut != null && (
-                <div
+                <span
                   className={tw(
-                    'type-body-small text-label-secondary-on-color'
+                    'type-body-small text-label-secondary-on-color',
+                    'forced-colors:text-inherit forced-colors:italic'
                   )}
                 >
                   {keyboardShortcut}
-                </div>
+                </span>
               )}
               {formattedTimestamp != null && (
-                <div
+                <span
                   className={tw(
-                    'type-caption whitespace-nowrap text-label-secondary-on-color'
+                    'type-caption whitespace-nowrap text-label-secondary-on-color',
+                    'forced-colors:text-inherit forced-colors:italic'
                   )}
                 >
                   {formattedTimestamp}
-                </div>
+                </span>
               )}
             </Tooltip.Content>
           </AxoTheme.Inherit>
