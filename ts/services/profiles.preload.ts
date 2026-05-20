@@ -49,10 +49,7 @@ import {
 } from '../Crypto.node.ts';
 import type { ConversationLastProfileType } from '../model-types.d.ts';
 import type { GroupSendToken } from '../types/GroupSendEndorsements.std.ts';
-import {
-  maybeCreateGroupSendEndorsementState,
-  onFailedToSendWithEndorsements,
-} from '../util/groupSendEndorsements.preload.ts';
+import { maybeCreateGroupSendEndorsementState } from '../util/groupSendEndorsements.preload.ts';
 import { ProfileDecryptError } from '../types/errors.std.ts';
 import { signalProtocolStore } from '../SignalProtocolStore.preload.ts';
 import { itemStorage } from '../textsecure/Storage.preload.ts';
@@ -558,10 +555,6 @@ async function doGetProfile(
 
       // Unauthorized/Forbidden
       if (error.code === 401 || error.code === 403) {
-        if (request.groupSendToken != null) {
-          onFailedToSendWithEndorsements(error);
-        }
-
         // Step #: Retries for unauthorized access keys and group send tokens
         if (!isMe(c.attributes)) {
           // Fallback from failed unauth (access key) request

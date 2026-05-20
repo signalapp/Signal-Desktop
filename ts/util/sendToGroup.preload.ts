@@ -84,10 +84,7 @@ import { strictAssert } from './assert.std.ts';
 import { createLogger } from '../logging/log.std.ts';
 import { waitForAll } from './waitForAll.std.ts';
 import type { GroupSendEndorsementState } from './groupSendEndorsements.preload.ts';
-import {
-  maybeCreateGroupSendEndorsementState,
-  onFailedToSendWithEndorsements,
-} from './groupSendEndorsements.preload.ts';
+import { maybeCreateGroupSendEndorsementState } from './groupSendEndorsements.preload.ts';
 import type { GroupSendToken } from '../types/GroupSendEndorsements.std.ts';
 import { isAciString } from './isAciString.std.ts';
 import { safeParseStrict, safeParseUnknown } from './schemas.std.ts';
@@ -749,11 +746,9 @@ async function sendToGroupViaSenderKey(
     }
 
     if (error.code === UNKNOWN_RECIPIENT) {
-      onFailedToSendWithEndorsements(error);
       throw new UnknownRecipientError();
     }
     if (error.code === INCORRECT_AUTH_KEY) {
-      onFailedToSendWithEndorsements(error);
       throw new IncorrectSenderKeyAuthError();
     }
 
@@ -787,13 +782,6 @@ async function sendToGroupViaSenderKey(
 
         // Now that we've eliminate this problematic account, we can try the send again.
         return startOver('error: invalid registration id');
-      }
-    }
-
-    if (groupSendEndorsementState != null) {
-      // Ignore server errors
-      if (!(error instanceof HTTPError && error.code === 500)) {
-        onFailedToSendWithEndorsements(error);
       }
     }
 
@@ -1381,11 +1369,6 @@ function isValidSenderKeyRecipient(
 
   if (groupSendEndorsementState != null) {
     if (!groupSendEndorsementState.hasMember(serviceId)) {
-      onFailedToSendWithEndorsements(
-        new Error(
-          `isValidSenderKeyRecipient: Sending to ${serviceId}, missing endorsement`
-        )
-      );
       return false;
     }
   } else if (!getAccessKey(memberConversation.attributes, { story })) {
@@ -1587,12 +1570,6 @@ async function fetchKeysForServiceId(
     if (error instanceof UnregisteredUserError) {
       await markServiceIdUnregistered(serviceId);
       return;
-    }
-    if (useGroupSendEndorsement) {
-      // Ignore untrusted identity key errors
-      if (!(error instanceof OutgoingIdentityKeyError)) {
-        onFailedToSendWithEndorsements(error as Error);
-      }
     }
     log.error(
       `${logId}: Error fetching ${devices?.join(', ') || 'all'} devices`,

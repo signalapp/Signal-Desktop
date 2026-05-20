@@ -28,7 +28,6 @@ import { createLogger } from '../logging/log.std.ts';
 import { isRecord } from '../util/isRecord.std.ts';
 import type { GroupSendToken } from '../types/GroupSendEndorsements.std.ts';
 import { HTTPError } from '../types/HTTPError.std.ts';
-import { onFailedToSendWithEndorsements } from '../util/groupSendEndorsements.preload.ts';
 import { signalProtocolStore } from '../SignalProtocolStore.preload.ts';
 import { itemStorage } from './Storage.preload.ts';
 
@@ -115,8 +114,6 @@ async function getServerKeys(
     } catch (error) {
       if (!isUnauthorizedError(error)) {
         throw error;
-      } else {
-        onFailedToSendWithEndorsements(error);
       }
     }
   }

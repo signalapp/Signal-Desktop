@@ -53,7 +53,6 @@ export enum ToastType {
   FailedToDeleteUsername = 'FailedToDeleteUsername',
   FailedToFetchPhoneNumber = 'FailedToFetchPhoneNumber',
   FailedToFetchUsername = 'FailedToFetchUsername',
-  FailedToSendWithEndorsements = 'FailedToSendWithEndorsements',
   FailedToImportBackup = 'FailedToImportBackup',
   FileSaved = 'FileSaved',
   FileSize = 'FileSize',
@@ -180,7 +179,6 @@ export type AnyToast =
   | { toastType: ToastType.FailedToDeleteUsername }
   | { toastType: ToastType.FailedToFetchPhoneNumber }
   | { toastType: ToastType.FailedToFetchUsername }
-  | { toastType: ToastType.FailedToSendWithEndorsements }
   | { toastType: ToastType.FailedToImportBackup }
   | {
       toastType: ToastType.FileSaved;
