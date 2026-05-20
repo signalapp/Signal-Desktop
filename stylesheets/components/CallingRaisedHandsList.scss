@@ -84,20 +84,6 @@
   );
 }
 
-.CallingRaisedHandsList__NameHandIcon {
-  display: inline-block;
-  $icon-size: 16px;
-  width: $icon-size;
-  height: $icon-size;
-  margin-inline: 8px;
-  content: '';
-
-  @include mixins.color-svg(
-    '../images/icons/v3/raise_hand/raise_hand-light.svg',
-    variables.$color-gray-15
-  );
-}
-
 .CallingRaisedHandsList__LowerMyHandLink {
   @include mixins.button-reset;
   & {

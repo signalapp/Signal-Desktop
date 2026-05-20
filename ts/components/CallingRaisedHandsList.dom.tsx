@@ -9,12 +9,13 @@ import { ContactName } from './conversation/ContactName.dom.tsx';
 import type { ConversationsByDemuxIdType } from '../types/Calling.std.ts';
 import type { ServiceIdString } from '../types/ServiceId.std.ts';
 import type { LocalizerType } from '../types/Util.std.ts';
-import type { ConversationType } from '../state/ducks/conversations.preload.ts';
 import { ModalHost } from './ModalHost.dom.tsx';
 import { drop } from '../util/drop.std.ts';
 import { createLogger } from '../logging/log.std.ts';
 import { usePrevious, usePreviousEffect } from '../hooks/usePrevious.std.ts';
 import { useReducedMotion } from '../hooks/useReducedMotion.dom.ts';
+import { CallingStatusIndicatorHandRaised } from './CallingStatusIndicatorHandRaised.dom.tsx';
+import { tw } from '../axo/tw.dom.tsx';
 
 const log = createLogger('CallingRaisedHandsList');
 
@@ -41,9 +42,10 @@ export function CallingRaisedHandsList({
     ? conversationsByDemuxId.get(localDemuxId)?.serviceId
     : undefined;
 
-  const participants = useMemo<Array<ConversationType>>(() => {
-    const serviceIds = new Set<ServiceIdString>();
-    const conversations: Array<ConversationType> = [];
+  // Filter by unique serviceId, in case participants are on multiple devices
+  const raisedHandsForDisplay = useMemo<Array<number>>(() => {
+    const serviceIdsSeen = new Set<ServiceIdString>();
+    const resultDemuxIds: Array<number> = [];
     raisedHands.forEach(demuxId => {
       const conversation = conversationsByDemuxId.get(demuxId);
       if (!conversation) {
@@ -55,16 +57,16 @@ export function CallingRaisedHandsList({
 
       const { serviceId } = conversation;
       if (serviceId) {
-        if (serviceIds.has(serviceId)) {
+        if (serviceIdsSeen.has(serviceId)) {
           return;
         }
 
-        serviceIds.add(serviceId);
+        serviceIdsSeen.add(serviceId);
       }
 
-      conversations.push(conversation);
+      resultDemuxIds.push(demuxId);
     });
-    return conversations;
+    return resultDemuxIds;
   }, [raisedHands, conversationsByDemuxId]);
 
   return (
@@ -77,14 +79,8 @@ export function CallingRaisedHandsList({
         <div className="module-calling-participants-list__header">
           <div className="module-calling-participants-list__title">
             {i18n('icu:CallingRaisedHandsList__Title', {
-              count: participants.length,
+              count: raisedHandsForDisplay.length,
             })}
-            {participants.length > 1 ? (
-              <span className="CallingRaisedHandsList__TitleHint">
-                {' '}
-                {i18n('icu:CallingRaisedHandsList__TitleHint')}
-              </span>
-            ) : null}
           </div>
           <button
             type="button"
@@ -95,51 +91,63 @@ export function CallingRaisedHandsList({
           />
         </div>
         <ul className="module-calling-participants-list__list">
-          {participants.map((participant: ConversationType, index: number) => (
-            <li
-              className="module-calling-participants-list__contact"
-              key={participant.serviceId ?? index}
-            >
-              <div className="CallingRaisedHandsList__AvatarAndName module-calling-participants-list__avatar-and-name">
-                <Avatar
-                  avatarPlaceholderGradient={
-                    participant.avatarPlaceholderGradient
-                  }
-                  avatarUrl={participant.avatarUrl}
-                  badge={undefined}
-                  color={participant.color}
-                  conversationType="direct"
-                  hasAvatar={participant.hasAvatar}
-                  i18n={i18n}
-                  profileName={participant.profileName}
-                  title={participant.title}
-                  size={AvatarSize.THIRTY_TWO}
-                />
-                {ourServiceId && participant.serviceId === ourServiceId ? (
-                  <span className="module-calling-participants-list__name">
-                    {i18n('icu:you')}
-                  </span>
-                ) : (
-                  <ContactName
-                    module="module-calling-participants-list__name"
-                    title={participant.title}
+          {raisedHandsForDisplay.map((demuxId: number, index: number) => {
+            const conversation = conversationsByDemuxId.get(demuxId);
+            if (!conversation) {
+              return null;
+            }
+
+            return (
+              <li
+                className="module-calling-participants-list__contact"
+                key={conversation.serviceId ?? index}
+              >
+                <div className="CallingRaisedHandsList__AvatarAndName module-calling-participants-list__avatar-and-name">
+                  <Avatar
+                    avatarPlaceholderGradient={
+                      conversation.avatarPlaceholderGradient
+                    }
+                    avatarUrl={conversation.avatarUrl}
+                    badge={undefined}
+                    color={conversation.color}
+                    conversationType="direct"
+                    hasAvatar={conversation.hasAvatar}
+                    i18n={i18n}
+                    profileName={conversation.profileName}
+                    title={conversation.title}
+                    size={AvatarSize.THIRTY_SIX}
                   />
-                )}
-              </div>
-              {localHandRaised &&
-                ourServiceId &&
-                participant.serviceId === ourServiceId && (
-                  <button
-                    className="CallingRaisedHandsList__LowerMyHandLink"
-                    type="button"
-                    onClick={onLowerMyHand}
-                  >
-                    {i18n('icu:CallControls__RaiseHands--lower')}
-                  </button>
-                )}
-              <div className="CallingRaisedHandsList__NameHandIcon" />
-            </li>
-          ))}
+                  {ourServiceId && conversation.serviceId === ourServiceId ? (
+                    <span className="module-calling-participants-list__name">
+                      {i18n('icu:you')}
+                    </span>
+                  ) : (
+                    <ContactName
+                      module="module-calling-participants-list__name"
+                      title={conversation.title}
+                    />
+                  )}
+                </div>
+                <span className={tw('me-1')} />
+                {localHandRaised &&
+                  ourServiceId &&
+                  conversation.serviceId === ourServiceId && (
+                    <button
+                      className="CallingRaisedHandsList__LowerMyHandLink"
+                      type="button"
+                      onClick={onLowerMyHand}
+                    >
+                      {i18n('icu:CallControls__RaiseHands--lower')}
+                    </button>
+                  )}
+                <CallingStatusIndicatorHandRaised
+                  isOnlyHandRaised={raisedHandsForDisplay.length === 1}
+                  raisedHandOrder={index}
+                />
+                <span className={tw('me-2')} />
+              </li>
+            );
+          })}
         </ul>
       </div>
     </ModalHost>
