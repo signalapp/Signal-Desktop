@@ -11017,10 +11017,6 @@
     "description": "Release notes for releases that only include bug fixes",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.10--0": {
-    "messageformat": "The freshly spun emoji in Unicode 17.0 have now pirouetted into place in Signal. Send a message reaction with the new Ballet Dancer emoji to perform your own digital version of a pas de chat.",
-    "description": "(Deleted 2026/05/14) Release notes for 8.10"
-  },
   "icu:WhatsNew__8.11--0": {
     "messageformat": "We've introduced additional confirmations and educational messaging in the app to help protect Signal users from phishing and social engineering attacks. As a reminder, never reply to chats pretending to be Signal, and never send your verification code, PIN, or recovery key to anyone.",
     "description": "Release notes for 8.11"
@@ -11032,5 +11028,9 @@
   "icu:WhatsNew__8.11--2": {
     "messageformat": "We also added a real-time visualization while recording voice messages, so surfers (and oceanographers) can stare at multiple moving waveforms whenever they share updates from the beach.",
     "description": "Release notes for 8.11"
+  },
+  "icu:WhatsNew__8.12--0": {
+    "messageformat": "On the one hand, you can click on the raise hand icon during group calls. But on the other hand, now you can use a new keyboard shortcut too (Shift-H).",
+    "description": "Release notes for 8.12"
   }
 }
