@@ -110,11 +110,11 @@ export class FormattingMenu {
     };
 
     this.#handleKeyDown = createKeybindingsHandler({
-      '$mod+(B|KeyB)': onBold,
-      '$mod+(I|KeyI)': onItalic,
-      '$mod+(E|KeyE)': onMonospace,
-      '$mod+Shift+(X|KeyX)': onStrike,
-      '$mod+Shift+(B|KeyB)': onSpoiler,
+      '$mod+B': onBold,
+      '$mod+I': onItalic,
+      '$mod+E': onMonospace,
+      '$mod+Shift+X': onStrike,
+      '$mod+Shift+B': onSpoiler,
     });
 
     this.quill.root.addEventListener('keydown', this.#handleKeyDown);
