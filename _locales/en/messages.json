@@ -826,12 +826,24 @@
     "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device.",
     "description": "A body of an education modal in Key Transparency section of SafetyNumberViewer when verification was successful"
   },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body-2": {
+    "messageformat": "For people you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device.",
+    "description": "A body of an education modal in Key Transparency section of SafetyNumberViewer when verification was successful"
+  },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
     "messageformat": "Auto-verification is no longer available for this chat",
     "description": "A title of an education modal in Key Transparency section of SafetyNumberViewer when verification was unsuccessful"
   },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title-2": {
+    "messageformat": "Auto-verification is not available for this chat",
+    "description": "A title of an education modal in Key Transparency section of SafetyNumberViewer when verification was unsuccessful"
+  },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
     "messageformat": "Signal can no longer automatically verify the encryption for this chat. This is likely because {name} changed their phone number. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device.",
+    "description": "A body of an education modal in Key Transparency section of SafetyNumberViewer when verification was unsuccessful"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body-2": {
+    "messageformat": "Signal can not automatically verify the encryption for this chat. This could be because {name} changed their phone number or their phone number privacy settings. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device.",
     "description": "A body of an education modal in Key Transparency section of SafetyNumberViewer when verification was unsuccessful"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {

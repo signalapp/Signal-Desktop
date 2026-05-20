@@ -329,15 +329,15 @@ function Popup({ i18n, contact, type, onClose }: PopupPropsType): JSX.Element {
     case 'ok':
       icon = 'check-circle';
       title = i18n('icu:SafetyNumberViewer__KeyTransparency__popup--ok__title');
-      body = i18n('icu:SafetyNumberViewer__KeyTransparency__popup--ok__body');
+      body = i18n('icu:SafetyNumberViewer__KeyTransparency__popup--ok__body-2');
       break;
     case 'fail':
       icon = 'info';
       title = i18n(
-        'icu:SafetyNumberViewer__KeyTransparency__popup--fail__title'
+        'icu:SafetyNumberViewer__KeyTransparency__popup--fail__title-2'
       );
       body = i18n(
-        'icu:SafetyNumberViewer__KeyTransparency__popup--fail__body',
+        'icu:SafetyNumberViewer__KeyTransparency__popup--fail__body-2',
         {
           name: contact.title,
         }
@@ -347,7 +347,7 @@ function Popup({ i18n, contact, type, onClose }: PopupPropsType): JSX.Element {
       icon = 'info';
       // Intentionally the same as in 'fail'
       title = i18n(
-        'icu:SafetyNumberViewer__KeyTransparency__popup--fail__title'
+        'icu:SafetyNumberViewer__KeyTransparency__popup--fail__title-2'
       );
       body = i18n(
         'icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body'
