@@ -77,6 +77,7 @@ export enum ToastType {
   ReceiptSaved = 'ReceiptSaved',
   ReceiptSaveFailed = 'ReceiptSaveFailed',
   ReportedSpam = 'ReportedSpam',
+  RemoteConfigChanged = 'RemoteConfigChanged',
   ReportedSpamAndBlocked = 'ReportedSpamAndBlocked',
   SQLError = 'SQLError',
   StickerPackInstallFailed = 'StickerPackInstallFailed',
@@ -219,6 +220,14 @@ export type AnyToast =
   | { toastType: ToastType.PinnedMessageNotFound }
   | { toastType: ToastType.PollNotFound }
   | { toastType: ToastType.ReactionFailed }
+  | {
+      toastType: ToastType.RemoteConfigChanged;
+      changes: ReadonlyArray<{
+        name: string;
+        from: string;
+        to: string;
+      }>;
+    }
   | {
       toastType: ToastType.ReceiptSaved;
       parameters: { fullPath: string };
