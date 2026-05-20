@@ -101,7 +101,7 @@ function getPattern(): RegExp {
     value = window.localStorage.getItem('debug') || '';
   }
   if (typeof process !== 'undefined' && process.env) {
-    value = value || process.env.DEBUG || '';
+    value ??= process.env.DEBUG || '';
   }
 
   const parts = value

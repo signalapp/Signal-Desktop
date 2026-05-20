@@ -14,7 +14,7 @@ export const _SEGMENT_SIZE_BUCKETS: ReadonlyArray<number> = [
   1024 * 1, // 1 KiB
 ];
 
-/** @internal Exported for testing */
+/** Exported for testing */
 export type _SegmentRange = Readonly<{
   startIndex: number;
   endIndexInclusive: number;

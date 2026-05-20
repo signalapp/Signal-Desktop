@@ -644,12 +644,6 @@
     "updated": "2024-06-24T19:19:28.335Z"
   },
   {
-    "rule": "eval",
-    "path": "node_modules/prettier-plugin-tailwindcss/dist/index.mjs",
-    "reasonCategory": "testCode",
-    "updated": "2026-04-28T23:06:53.011Z"
-  },
-  {
     "rule": "DOM-innerHTML",
     "path": "node_modules/react-blurhash/docs/demo.f335462148ad584661d8.js",
     "reasonCategory": "usageTrusted",

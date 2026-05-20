@@ -580,6 +580,8 @@ export async function decryptAndReencryptLocally(
     const passthrough = new PassThrough();
     const [result] = await Promise.all([
       decryptAttachmentV2ToSink(options, passthrough),
+      // FIXME
+      // oxlint-disable-next-line typescript/await-thenable
       await encryptAttachmentV2({
         keys,
         needIncrementalMac: false,

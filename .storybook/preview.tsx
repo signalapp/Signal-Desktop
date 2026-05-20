@@ -103,7 +103,7 @@ const mockStore: Store<StateType> = createStore(
 // oxlint-disable-next-line
 const noop = () => {};
 
-window.Whisper = window.Whisper || {};
+window.Whisper ??= {};
 window.Whisper.events = {
   on: noop,
   off: noop,
@@ -167,7 +167,7 @@ window.SignalContext = {
   _stopTrackingICUStrings: () => i18n.stopTrackingUsage(),
 };
 
-window.ConversationController = window.ConversationController || {};
+window.ConversationController ??= {};
 window.ConversationController.isSignalConversationId = () => false;
 window.ConversationController.onConvoMessageMount = noop;
 window.reduxStore = mockStore;

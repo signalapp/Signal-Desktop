@@ -9,6 +9,7 @@ import { normalizeAci } from '../../util/normalizeAci.std.ts';
 import type { MentionBlotValue } from '../util.dom.ts';
 import { AppProvider } from '../../windows/AppProvider.dom.tsx';
 
+// oxlint-disable-next-line react/prefer-function-component
 export class MentionBlot extends EmbedBlot {
   static override blotName = 'mention';
 

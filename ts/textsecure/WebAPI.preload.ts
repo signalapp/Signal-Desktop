@@ -2838,7 +2838,8 @@ async function _withNewCredentials<
 
   const result = await callback();
 
-  // oxlint-disable-next-line typescript/no-useless-default-assignment FIXME
+  // FIXME
+  // oxlint-disable-next-line typescript/no-useless-default-assignment
   const { uuid: aci = newUsername, deviceId = 1 } = result;
 
   // Set final REST credentials to let `registerKeys` succeed.
@@ -3218,7 +3219,8 @@ export function createFetchForAttachmentUpload({
       ...init,
       headers: {
         ...fetchOptions.headers,
-        // oxlint-disable-next-line typescript/no-misused-spread FIXME
+        // FIXME
+        // oxlint-disable-next-line typescript/no-misused-spread
         ...init.headers,
       },
     });

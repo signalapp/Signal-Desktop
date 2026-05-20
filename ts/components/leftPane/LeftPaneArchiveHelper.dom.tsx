@@ -34,6 +34,7 @@ export type LeftPaneArchivePropsType =
   | LeftPaneArchiveBasePropsType
   | (LeftPaneArchiveBasePropsType & LeftPaneSearchPropsType);
 
+// oxlint-disable-next-line react/prefer-function-component
 export class LeftPaneArchiveHelper extends LeftPaneHelper<LeftPaneArchivePropsType> {
   readonly #archivedConversations: ReadonlyArray<ConversationListItemPropsType>;
   readonly #isSearchingGlobally: boolean;

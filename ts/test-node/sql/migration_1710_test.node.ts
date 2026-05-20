@@ -24,7 +24,7 @@ describe('SQL/updateToSchemaVersion1710', () => {
   type Item = { id: string; json: { id: string; value: string } };
 
   function item(id: string, value: string): Item {
-    return { id: id, json: { id, value } };
+    return { id, json: { id, value } };
   }
 
   function skinToneItem(value: string): Item {

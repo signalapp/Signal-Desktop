@@ -33,6 +33,7 @@ export type MentionCompletionOptions = {
 const MENTION_REGEX = /(?:^|\W)@([-+\p{L}\p{M}\p{N}]*)$/u;
 type MentionRegexMatch = RegExpMatchArray & { 1: string };
 
+// oxlint-disable-next-line react/prefer-function-component
 export class MentionCompletion {
   results: ReadonlyArray<MemberType>;
 

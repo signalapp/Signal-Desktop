@@ -78,7 +78,7 @@ class Mp3Encoder
       this.port.postMessage(
         {
           type: 'complete',
-          lametagFrame: lametagFrame,
+          lametagFrame,
           finalFrame: chunk,
         } satisfies WorkletMessageType,
         [lametagFrame.buffer, chunk.buffer]

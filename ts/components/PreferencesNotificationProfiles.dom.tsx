@@ -1937,7 +1937,7 @@ function TimePicker({
             >
               <div
                 className={tw(
-                  'w-[46px] overflow-y-scroll scrollbar-width-none'
+                  'w-[46px] scrollbar-width-none overflow-y-scroll'
                 )}
               >
                 {(use24HourTime ? HOURS_24 : HOURS_12).map(hour => {
@@ -1966,7 +1966,7 @@ function TimePicker({
               </div>
               <div
                 className={tw(
-                  'ms-0.5 w-[46px] overflow-y-scroll scrollbar-width-none'
+                  'ms-0.5 w-[46px] scrollbar-width-none overflow-y-scroll'
                 )}
               >
                 {MINUTES.map(minute => {
@@ -1996,7 +1996,7 @@ function TimePicker({
               {!use24HourTime ? (
                 <div
                   className={tw(
-                    'ms-0.5 w-[46px] overflow-y-scroll scrollbar-width-none'
+                    'ms-0.5 w-[46px] scrollbar-width-none overflow-y-scroll'
                   )}
                 >
                   {AM_PM.map(item => {

@@ -100,6 +100,8 @@ export function All(): JSX.Element {
           'sticky top-4 mb-3 bg-elevated-background-primary p-4 shadow-elevation-2'
         )}
       >
+        {/* FIXME */}
+        {/* oxlint-disable-next-line jsx-a11y/control-has-associated-label */}
         <input
           type="search"
           value={input}

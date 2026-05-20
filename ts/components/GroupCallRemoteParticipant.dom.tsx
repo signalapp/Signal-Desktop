@@ -647,6 +647,8 @@ export const GroupCallRemoteParticipant: FC<PropsType> = memo(
               </>
             )}
             {wantsToShowVideo && (
+              // FIXME
+              // oxlint-disable-next-line jsx-a11y/control-has-associated-label
               <canvas
                 className={classNames(
                   'module-ongoing-call__group-call-remote-participant__remote-video',

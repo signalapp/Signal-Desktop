@@ -620,7 +620,8 @@ export namespace Emoji {
 
     let cursor = 0;
 
-    // oxlint-disable-next-line typescript/no-unnecessary-qualifier allow this call to be spied on
+    // Allow this call to be spied on
+    // oxlint-disable-next-line typescript/no-unnecessary-qualifier
     for (const match of Emoji.getMatches(input)) {
       const { offset, emoji } = match;
 
@@ -655,7 +656,8 @@ export namespace Emoji {
 
     let count = 0;
 
-    // oxlint-disable-next-line typescript/no-unnecessary-qualifier allow this call to be spied on
+    // Allow this call to be spied on
+    // oxlint-disable-next-line typescript/no-unnecessary-qualifier
     for (const segment of Emoji.getSegments(input)) {
       if (segment.kind === 'text') {
         return 0; // found other text

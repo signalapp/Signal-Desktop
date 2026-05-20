@@ -35,6 +35,7 @@ export type LeftPaneSetGroupMetadataPropsType = {
   userAvatarData: ReadonlyArray<AvatarDataType>;
 };
 
+// oxlint-disable-next-line react/prefer-function-component
 export class LeftPaneSetGroupMetadataHelper extends LeftPaneHelper<LeftPaneSetGroupMetadataPropsType> {
   readonly #groupAvatar: undefined | Uint8Array<ArrayBuffer>;
   readonly #groupName: string;

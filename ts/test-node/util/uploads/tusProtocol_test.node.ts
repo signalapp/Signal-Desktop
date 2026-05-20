@@ -385,7 +385,7 @@ describe('tusProtocol', () => {
             assert.strictEqual(server.lastRequest()?.method, 'HEAD');
           }
           return body(server, async function* () {
-            cursor = cursor ?? 0;
+            cursor ??= 0;
             const nextChunk = file.subarray(cursor, (cursor += 2));
             if (offset === undefined) {
               // Stage 1: Create and upload

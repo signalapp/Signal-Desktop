@@ -301,8 +301,8 @@ export namespace AxoBaseMenu {
   export const menuContentStyles = tw(
     baseContentStyles,
     baseContentGridStyles,
-    'max-h-(--radix-popper-available-height) overflow-auto scrollbar-width-none',
-    'overflow-auto scrollbar-width-none'
+    'max-h-(--radix-popper-available-height) scrollbar-width-none overflow-auto',
+    'scrollbar-width-none overflow-auto'
   );
 
   export const selectContentStyles = tw(baseContentStyles);
@@ -479,7 +479,7 @@ export namespace AxoBaseMenu {
 
   export const menuSubContentStyles = tw(
     baseContentStyles,
-    'max-h-(--radix-popper-available-height) overflow-auto scrollbar-width-none',
+    'max-h-(--radix-popper-available-height) scrollbar-width-none overflow-auto',
     baseContentGridStyles
   );
 }

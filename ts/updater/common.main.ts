@@ -1071,7 +1071,7 @@ export function getUpdateFileName(
     }
   }
 
-  path = path ?? info.path;
+  path ??= info.path;
 
   if (!isUpdateFileNameValid(path)) {
     throw new Error(

@@ -31,3 +31,5 @@ void applyThemeLoop();
 window.SignalContext.nativeThemeListener.subscribe(() => {
   void applyTheme();
 });
+
+export {};

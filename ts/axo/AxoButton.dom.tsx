@@ -306,7 +306,7 @@ export namespace AxoButton {
     const {
       variant,
       size,
-      width,
+      width = 'fit',
       symbol,
       arrow,
       pending,
@@ -348,7 +348,7 @@ export namespace AxoButton {
         className={tw(
           VariantStyles.get(variant),
           SizeStyles.get(size),
-          WidthStyles.get(width ?? 'fit')
+          WidthStyles.get(width)
         )}
         {...rest}
       >

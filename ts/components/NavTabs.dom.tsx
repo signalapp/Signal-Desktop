@@ -156,6 +156,8 @@ export function NavTabsToggle({
     : i18n('icu:NavTabsToggle__hideTabs');
   const isRTL = i18n.getLocaleDirection() === 'rtl';
   return (
+    // FIXME
+    // oxlint-disable-next-line jsx-a11y/control-has-associated-label
     <button
       type="button"
       className="NavTabs__Item NavTabs__Toggle"

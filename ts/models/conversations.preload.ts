@@ -3852,7 +3852,7 @@ export class ConversationModel {
       throw new Error(`${logId}: shutting down, can't accept more work`);
     }
 
-    this.jobQueue = this.jobQueue || new PQueue({ concurrency: 1 });
+    this.jobQueue ??= new PQueue({ concurrency: 1 });
 
     const abortController = new AbortController();
     const { signal: abortSignal } = abortController;
@@ -4952,7 +4952,7 @@ export class ConversationModel {
 
     const ourConversation =
       window.ConversationController.getOurConversationOrThrow();
-    source = source || ourConversation.id;
+    source ??= ourConversation.id;
     const sourceServiceId =
       window.ConversationController.get(source)?.get('serviceId');
 
@@ -5863,7 +5863,7 @@ export class ConversationModel {
 
     const typingToken = `${sender.id}.${senderDevice}`;
 
-    this.contactTypingTimers = this.contactTypingTimers || {};
+    this.contactTypingTimers ??= {};
     const record = this.contactTypingTimers[typingToken];
 
     if (record) {
@@ -5907,7 +5907,7 @@ export class ConversationModel {
   }
 
   clearContactTypingTimer(typingToken: string): void {
-    this.contactTypingTimers = this.contactTypingTimers || {};
+    this.contactTypingTimers ??= {};
     const record = this.contactTypingTimers[typingToken];
 
     if (record) {

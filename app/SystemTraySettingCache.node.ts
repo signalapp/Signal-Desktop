@@ -35,7 +35,7 @@ export class SystemTraySettingCache {
       return this.#cachedValue;
     }
 
-    this.#getPromise = this.#getPromise || this.#doFirstGet();
+    this.#getPromise ??= this.#doFirstGet();
     return this.#getPromise;
   }
 

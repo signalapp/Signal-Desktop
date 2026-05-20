@@ -166,7 +166,7 @@ export async function migrateBatchOfMessages({
 }: {
   numMessagesPerBatch: number;
   maxVersion?: number;
-}): ReturnType<typeof _migrateMessageData> {
+}): Promise<BatchResultType> {
   return migrationQueue.add(() =>
     _migrateMessageData({
       numMessagesPerBatch,

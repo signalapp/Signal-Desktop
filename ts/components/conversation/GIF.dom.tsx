@@ -212,6 +212,8 @@ export function GIF(props: Props): JSX.Element {
     );
   } else {
     gif = (
+      // FIXME
+      // oxlint-disable-next-line jsx-a11y/control-has-associated-label
       <video
         ref={videoRef}
         onTimeUpdate={onTimeUpdate}

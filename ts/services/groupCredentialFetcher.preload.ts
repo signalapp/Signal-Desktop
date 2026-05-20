@@ -113,11 +113,9 @@ async function runWithRetry(
   const duration = options.scheduleAnother;
   // oxlint-disable-next-line no-unreachable
   if (duration) {
-    // oxlint-disable-next-line no-unreachable
     log.info(
       `runWithRetry: scheduling another run with a setTimeout duration of ${duration}ms`
     );
-    // oxlint-disable-next-line no-unreachable
     setTimeout(async () => runWithRetry(fn, options), duration);
   }
 }

@@ -2876,6 +2876,8 @@ export function PollAnimationPlayground(): JSX.Element {
         )}
       >
         <label className={tw('mb-2 flex cursor-pointer items-center gap-2')}>
+          {/* FIXME */}
+          {/* oxlint-disable-next-line jsx-a11y/control-has-associated-label */}
           <input
             type="checkbox"
             checked={allowMultiple}
@@ -2890,6 +2892,8 @@ export function PollAnimationPlayground(): JSX.Element {
         </label>
 
         <label className={tw('mb-4 flex cursor-pointer items-center gap-2')}>
+          {/* FIXME */}
+          {/* oxlint-disable-next-line jsx-a11y/control-has-associated-label */}
           <input
             type="checkbox"
             checked={badNetwork}

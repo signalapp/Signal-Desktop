@@ -76,14 +76,16 @@ export class Sound {
 
   get #context(): AudioContext {
     if (!Sound.context) {
-      // oxlint-disable-next-line no-undef FIXME
+      // FIXME
+      // oxlint-disable-next-line no-undef
       Sound.context = new AudioContext();
     }
     return Sound.context;
   }
 
   static async loadSoundFile(src: string): Promise<ArrayBuffer> {
-    // oxlint-disable-next-line no-undef FIXME
+    // FIXME
+    // oxlint-disable-next-line no-undef
     const xhr = new XMLHttpRequest();
 
     xhr.open('GET', src, true);

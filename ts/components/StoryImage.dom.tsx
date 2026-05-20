@@ -126,6 +126,8 @@ export function StoryImage({
     const shouldLoop = isGIF(attachment ? [attachment] : undefined);
 
     storyElement = (
+      // FIXME
+      // oxlint-disable-next-line jsx-a11y/control-has-associated-label
       <video
         autoPlay={!isPaused}
         className={getClassName('__image')}

@@ -46,7 +46,8 @@ export function useHasWrapped<T extends HTMLElement>(): [Ref<T>, boolean] {
       return noop;
     }
 
-    // oxlint-disable-next-line no-undef FIXME
+    // FIXME
+    // oxlint-disable-next-line no-undef
     const observer = new ResizeObserver(() => {
       setHasWrapped(isWrapped(element));
     });

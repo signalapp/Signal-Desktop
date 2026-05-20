@@ -61,6 +61,8 @@ export const DonateInputCardCvc = memo(function DonateInputCardCvc(
   );
 
   return (
+    // FIXME
+    // oxlint-disable-next-line jsx-a11y/control-has-associated-label
     <input
       ref={inputRef}
       id={props.id}

@@ -158,6 +158,7 @@ type SnapshotType =
   | { scrollTop: number }
   | { scrollBottom: number };
 
+// oxlint-disable-next-line react/prefer-function-component
 export class Timeline extends Component<PropsType, StateType, SnapshotType> {
   readonly #containerRef = createRef<HTMLDivElement>();
   readonly #messagesRef = createRef<HTMLDivElement>();
@@ -392,7 +393,7 @@ export class Timeline extends Component<PropsType, StateType, SnapshotType> {
           if (element === atBottomDetectorEl) {
             newIsNearBottom = true;
           } else {
-            oldestPartiallyVisible = oldestPartiallyVisible || element;
+            oldestPartiallyVisible ??= element;
             newestPartiallyVisible = element;
             if (intersectionRatio === 1) {
               newestFullyVisible = element;

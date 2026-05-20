@@ -8,7 +8,7 @@ import { createStrictContext, useStrictContext } from './StrictContext.dom.tsx';
 const IntlContext =
   createStrictContext<AxoIntl.ContextType>('AxoIntl.Provider');
 
-/** @internal Localization context for built-in Axo UI strings. */
+/** Localization context for built-in Axo UI strings. */
 export namespace AxoIntl {
   const DefaultMessages = {
     'AxoAlertDialog.Cancel': 'Cancel',

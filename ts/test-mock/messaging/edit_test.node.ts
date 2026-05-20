@@ -169,7 +169,7 @@ describe('editing', function (this: Mocha.Suite) {
     await bootstrap.teardown();
   });
 
-  describe('online', function (this: Mocha.Suite) {
+  describe('online', () => {
     beforeEach(async () => {
       app = await bootstrap.link();
     });
@@ -556,7 +556,8 @@ describe('editing', function (this: Mocha.Suite) {
       ): Promise<MessageAttributesType> {
         await sleep(RECEIPT_BATCHER_WAIT_MS + 20);
         const messages = await page.evaluate(
-          // oxlint-disable-next-line no-undef FIXME
+          // FIXME
+          // oxlint-disable-next-line no-undef
           timestamp => window.SignalCI?.getMessagesBySentAt(timestamp),
           originalMessageTimestamp
         );
@@ -615,7 +616,8 @@ describe('editing', function (this: Mocha.Suite) {
 
       debug("getting friend's conversationId");
       const conversationId = await page.evaluate(
-        // oxlint-disable-next-line no-undef FIXME
+        // FIXME
+        // oxlint-disable-next-line no-undef
         serviceId => window.SignalCI?.getConversationId(serviceId),
         friend.device.aci
       );
@@ -851,7 +853,7 @@ describe('editing', function (this: Mocha.Suite) {
     });
   });
 
-  describe('offline', function (this: Mocha.Suite) {
+  describe('offline', () => {
     beforeEach(async () => {
       await bootstrap.linkAndClose();
     });

@@ -255,7 +255,7 @@
     // [correctness] Enforce all anchors are valid, navigable elements.
     "jsx-a11y/anchor-is-valid": "error",
     // [correctness] Enforce elements with aria-activedescendant are tabbable.
-    "jsx-a11y/aria-activedescendent-has-tabindex": "error",
+    "jsx-a11y/aria-activedescendant-has-tabindex": "error",
     // [correctness] (🛠️ autofix) Enforce all aria-* props are valid.
     "jsx-a11y/aria-props": "error",
     // [correctness] Enforce ARIA state and property values are valid.
@@ -268,6 +268,14 @@
     "jsx-a11y/autocomplete-valid": "error",
     // [correctness] Enforce a clickable non-interactive element has at least one keyboard event listener.
     "jsx-a11y/click-events-have-key-events": "error",
+    // [correctness] Enforce that a control (an interactive element) has a text label.
+    "jsx-a11y/control-has-associated-label": [
+      "error",
+      {
+        "depth": 3,
+        "ignoreRoles": ["separator"]
+      }
+    ],
     // [correctness] Enforce heading (h1, h2, etc) elements contain accessible content.
     "jsx-a11y/heading-has-content": "error",
     // [correctness] Enforce <html> element has lang prop.
@@ -276,6 +284,8 @@
     "jsx-a11y/iframe-has-title": "error",
     // [correctness] Enforce <img> alt prop does not contain the word "image", "picture", or "photo".
     "jsx-a11y/img-redundant-alt": "error",
+    // [correctness] (💡 suggestion) Elements with an interactive role and interaction handlers (mouse or key press) must be focusable.
+    "jsx-a11y/interactive-supports-focus": "error",
     // [correctness] Enforce that a label tag has a text label and an associated control.
     "jsx-a11y/label-has-associated-control": "error",
     // [correctness] Enforce lang attribute has a valid value.
@@ -292,6 +302,8 @@
     "jsx-a11y/no-autofocus": "off",
     // [correctness] Enforce distracting elements are not used.
     "jsx-a11y/no-distracting-elements": "error",
+    // [correctness] Non-interactive elements should not be assigned mouse or keyboard event listeners.
+    "jsx-a11y/no-noninteractive-element-interactions": "error",
     // [correctness] tabIndex should only be declared on interactive elements.
     "jsx-a11y/no-noninteractive-tabindex": "off",
     // [correctness] (🛠️ autofix) Enforce explicit role property is not the same as implicit/default role property on element.
@@ -403,6 +415,8 @@
     "react/no-danger-with-children": "error",
     // [correctness] Disallow usage of setState in componentDidMount
     "react/no-did-mount-set-state": "off",
+    // [correctness] Disallow usage of setState in componentDidUpdate.
+    "react/no-did-update-set-state": "off", // DECIDEME (errors: 1)
     // [correctness] Disallow direct mutation of this.state
     "react/no-direct-mutation-state": "error",
     // [correctness] Disallow usage of findDOMNode
@@ -541,6 +555,8 @@
     "eslint/no-undef": "error",
     // [nursery] Disallow unreachable code after return, throw, continue, and break statements
     "eslint/no-unreachable": "error", // [reason: Cannot enable `tsconfig.json#allowUnreachableCode` yet]
+    // [nursery] Disallow variable assignments when the value is not used
+    "eslint/no-useless-assignment": "off", // DECIDEME (errors: 28)
     // [nursery] Forbid any invalid exports, i.e. re-export of the same name.
     "import/export": "off",
     // [nursery] Ensure named imports correspond to a named export in the remote file.
@@ -655,6 +671,8 @@
     "eslint/radix": "error",
     // [pedantic] (⚠️ 🛠️ dangerous autofix) Disallow async functions which have no await expression
     "eslint/require-await": "off", // DECIDEME (errors: 662)
+    // [pedantic] (🚧 planned autofix) Enforce the use of 'u' or 'v' flag on regular expressions
+    "eslint/require-unicode-regexp": "off", // DECIDEME (errors: 290)
     // [pedantic] (🚧 planned autofix) Require variables within the same declaration block to be sorted
     "eslint/sort-vars": "off", // DECIDEME (errors: 1)
     // [pedantic] Require symbol descriptions
@@ -757,6 +775,8 @@
     "unicorn/no-instanceof-array": "off", // DECIDEME (errors: 4)
     // [pedantic] (🚧 planned autofix) Disallow if statements as the only statement in if blocks without else.
     "unicorn/no-lonely-if": "off", // DECIDEME (errors: 41)
+    // [pedantic] (🚧 planned autofix) Disallow negated conditions.
+    "unicorn/no-negated-condition": "off", // DECIDEME (errors: 269)
     // [pedantic] (💡 suggestion) Disallow negated expression in equality check.
     "unicorn/no-negation-in-equality-check": "error",
     // [pedantic] (💡 suggestion) Enforce the use of Buffer.from() and Buffer.alloc() instead of the deprecated new Buffer().
@@ -881,6 +901,8 @@
     "eslint/no-empty-function": "error",
     // [restriction] (⚠️ 🛠️ dangerous autofix) Disallow null comparisons without type-checking operators
     "eslint/no-eq-null": "off", // DECIDEME (errors: 1678)
+    // [restriction] Disallow declarations in the global scope
+    "eslint/no-implicit-globals": "error",
     // [restriction] Disallow reassigning function parameters
     "eslint/no-param-reassign": [
       "error",
@@ -981,6 +1003,8 @@
     "promise/spec-only": "error",
     // [restriction] Disallow usage of button elements without an explicit type attribute
     "react/button-has-type": "error",
+    // [restriction] Disallow certain props on components.
+    "react/forbid-component-props": "off", // DECIDEME (261)
     // [restriction] Disallow certain props on DOM Nodes
     "react/forbid-dom-props": "error",
     // [restriction] Disallow certain elements
@@ -999,8 +1023,12 @@
     "react/no-unknown-property": "error",
     // [restriction] Ensures that modules only export React components (and related HMR-safe items) so that Fast Refresh (a.k.a. hot reloading) can safely preserve component state.
     "react/only-export-components": "off", // DECIDEME (errors: 172)
+    // [restriction] Prevents the use of React class components.
+    "react/prefer-function-component": "error",
     // [restriction] Require explicit return types on functions and class methods
     "typescript/explicit-function-return-type": "off", // DECIDEME (errors: 2062)
+    // [restriction] Require explicit accessibility modifiers on class properties and methods.
+    "typescript/explicit-member-accessibility": "off", // DECIDEME (errors: 1284)
     // [restriction] Require explicit return and argument types on exported functions' and classes' public class methods
     "typescript/explicit-module-boundary-types": [
       "error",
@@ -1083,6 +1111,8 @@
     "eslint/default-case-last": "error",
     // [style] Enforce default parameters to be last
     "eslint/default-param-last": "off", // DECIDEME (errors: 38)
+    // [style] Require function names to match the name of the variable or property to which they are assigned
+    "eslint/func-name-matching": "off", // DECIDEME (errors: 1)
     // [style] (🛠️ autofix) (💡 suggestion) Require or disallow named function expressions
     "eslint/func-names": "off", // DECIDEME (errors: 203)
     // [style] (🚧 planned autofix) Enforce the consistent use of either function declarations or expressions assigned to variables
@@ -1095,6 +1125,8 @@
     "eslint/id-length": "off", // DECIDEME (errors: 1393)
     // [style] Require or disallow initialization in variable declarations
     "eslint/init-declarations": "off", // DECIDEME (errors: 1572)
+    // [style] (🚧 planned autofix) Require or disallow logical assignment operator shorthand
+    "eslint/logical-assignment-operators": "error",
     // [style] Enforce a maximum number of parameters in function definitions
     "eslint/max-params": "off", // DECIDEME (errors: 171)
     // [style] Enforce a maximum number of statements allowed in function blocks
@@ -1135,6 +1167,8 @@
     "eslint/no-ternary": "off", // DECIDEME (errors: 2947)
     // [style] (🚧 planned autofix) Disallow unnecessary computed property keys in objects and classes
     "eslint/no-useless-computed-key": "error",
+    // [style] (🛠️ autofix) Require or disallow method and property shorthand syntax for object literals
+    "eslint/object-shorthand": "error",
     // [style] (⚠️ 🛠️ dangerous autofix) Require or disallow assignment operator shorthand where possible
     "eslint/operator-assignment": "error",
     // [style] (🛠️ autofix) Require const declarations for variables that are never reassigned after declared
@@ -1187,6 +1221,13 @@
     "import/no-namespace": "off", // DECIDEME (errors: 743)
     // [style] Forbid Node.js builtin modules.
     "import/no-nodejs-modules": "off", // DECIDEME (errors: 479)
+    // [style] (🛠️ autofix) Require using arrow functions for callbacks
+    "eslint/prefer-arrow-callback": [
+      "error",
+      {
+        "allowNamedFunctions": true // Allow named functions for better stack traces and React components wrapped with memo/forwardRef
+      }
+    ],
     // [style] Prefer a default export if module exports a single name or multiple names.
     "import/prefer-default-export": "off", // DECIDEME (errors: 631)
     // [style] (🛠️ autofix) Enforce test and it usage conventions
@@ -1291,6 +1332,8 @@
     "promise/prefer-await-to-then": "error",
     // [style] (🚧 planned autofix) Prefer catch to then(a, b)/then(null, b) for handling errors.
     "promise/prefer-catch": "off", // DECIDEME (errors: 1)
+    // [style] (🚧 planned autofix) Ensure destructuring and symmetric naming of useState hook value and setter variables.
+    "react/hook-use-state": "off", // DECIDEME (errors: 46)
     // [style] (🛠️ autofix) Enforce boolean attributes notation in JSX
     "react/jsx-boolean-value": "error",
     // [style] (🛠️ autofix) Disallow unnecessary JSX expressions when literals alone are sufficient or enforce JSX expressions on literals in JSX children or attributes
@@ -1483,6 +1526,8 @@
     "eslint/no-new": "off",
     // [suspicious] Disallow variable declarations from shadowing variables declared in the outer scope
     "eslint/no-shadow": "error",
+    // [suspicious] Disallow dangling underscores in identifiers
+    "eslint/no-underscore-dangle": "off", // DECIDEME (errors: 493)
     // [suspicious] (⚠️ 🛠 dangerous autofix)️ Disallow variable declarations from shadowing variables declared in the outer scope
     "eslint/no-unexpected-multiline": "error",
     // [suspicious] Disallow unmodified loop conditions

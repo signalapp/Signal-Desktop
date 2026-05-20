@@ -98,7 +98,6 @@ export function CallingRaisedHandsList({
           {participants.map((participant: ConversationType, index: number) => (
             <li
               className="module-calling-participants-list__contact"
-              // oxlint-disable-next-line react/no-array-index-key
               key={participant.serviceId ?? index}
             >
               <div className="CallingRaisedHandsList__AvatarAndName module-calling-participants-list__avatar-and-name">

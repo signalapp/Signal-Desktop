@@ -640,7 +640,8 @@ export function CompositionInput(props: Props): ReactElement {
         node.attributes.removeNamedItem('style');
       }
 
-      // oxlint-disable-next-line no-undef FIXME
+      // FIXME
+      // oxlint-disable-next-line no-undef
       if (Buffer.byteLength(text) > MAX_BODY_ATTACHMENT_BYTE_LENGTH) {
         quill.history.undo();
         propsRef.current.onTextTooLong();

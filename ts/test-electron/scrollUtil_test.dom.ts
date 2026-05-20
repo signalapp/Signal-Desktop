@@ -17,7 +17,8 @@ describe('scroll utilities', () => {
   //   make sense because the test is synchronous, but this quick-and-dirty fix is
   //   probably better than a full investigation.
   before(function (this: Mocha.Context) {
-    // oxlint-disable-next-line no-undef FIXME
+    // FIXME
+    // oxlint-disable-next-line no-undef
     if (process.platform === 'win32') {
       this.skip();
     }

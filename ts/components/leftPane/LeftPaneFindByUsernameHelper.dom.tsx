@@ -28,6 +28,7 @@ type DoLookupActionsType = Readonly<{
 }> &
   LookupConversationWithoutServiceIdActionsType;
 
+// oxlint-disable-next-line react/prefer-function-component
 export class LeftPaneFindByUsernameHelper extends LeftPaneHelper<LeftPaneFindByUsernamePropsType> {
   readonly #searchTerm: string;
   readonly #username: string | undefined;

@@ -134,6 +134,8 @@ export function DebugLogWindow({
           </p>
         </div>
         <div className="DebugLogWindow__container">
+          {/* FIXME */}
+          {/* oxlint-disable-next-line jsx-a11y/control-has-associated-label */}
           <input
             className="DebugLogWindow__link"
             readOnly

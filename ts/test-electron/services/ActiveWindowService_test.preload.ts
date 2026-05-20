@@ -72,7 +72,7 @@ describe('ActiveWindowService', () => {
           assert.isFalse(service.isActive());
         });
       } else {
-        it(`is inactive even in the face of ${eventName} events if unfocused`, function (this: Mocha.Context) {
+        it(`is inactive even in the face of ${eventName} events if unfocused`, () => {
           const fakeDocument = createFakeDocument();
           const fakeIpc = new EventEmitter();
           const service = getActiveWindowService(fakeDocument, fakeIpc);
@@ -105,7 +105,7 @@ describe('ActiveWindowService', () => {
     }
   );
 
-  it('is inactive immediately after a blur event, despite any previous events', function (this: Mocha.Context) {
+  it('is inactive immediately after a blur event, despite any previous events', () => {
     const fakeDocument = createFakeDocument();
     const fakeIpc = new EventEmitter();
     const service = getActiveWindowService(fakeDocument, fakeIpc);

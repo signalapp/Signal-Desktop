@@ -68,6 +68,8 @@ export function AutoSizeInput({
 
   return (
     <div className={getClassName('__container')}>
+      {/* FIXME */}
+      {/* oxlint-disable-next-line jsx-a11y/control-has-associated-label */}
       <input
         type="text"
         className={getClassName('__input')}

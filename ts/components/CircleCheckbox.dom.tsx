@@ -62,6 +62,8 @@ export function CircleCheckbox({
 
   return (
     <div className={classNames(getClassName('__checkbox'), variantModifier)}>
+      {/* FIXME */}
+      {/* oxlint-disable-next-line jsx-a11y/control-has-associated-label */}
       <input
         checked={Boolean(checked)}
         disabled={disabled}
