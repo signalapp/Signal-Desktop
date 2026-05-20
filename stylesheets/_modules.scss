@@ -2633,22 +2633,39 @@ button.module-image__border-overlay:focus {
   gap: 1px;
 }
 
-.module-image-grid__download-pill {
-  @include mixins.position-absolute-center;
+.module-image-grid__download-overlay {
   @include mixins.button-reset;
 
   & {
-    background-color: variables.$color-black-alpha-80;
-    color: variables.$color-white;
-    backdrop-filter: blur(10px);
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    inset-inline: 0;
+    z-index: variables.$z-index-above-above-base;
 
-    height: 44px;
-    border-radius: 44px;
-
-    display: inline-flex;
-    flex-direction: row;
+    display: flex;
     align-items: center;
+    justify-content: center;
   }
+
+  @include mixins.keyboard-mode {
+    &:focus .module-image-grid__download-pill {
+      box-shadow: 0px 0px 0px 2px variables.$color-ultramarine;
+    }
+  }
+}
+
+.module-image-grid__download-pill {
+  background-color: variables.$color-black-alpha-80;
+  color: variables.$color-white;
+  backdrop-filter: blur(10px);
+
+  height: 44px;
+  border-radius: 44px;
+
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
 }
 .module-image-grid__download_pill__icon-wrapper {
   position: relative;
