@@ -1,18 +1,18 @@
 {
   "icu:AxoAlertDialog.Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "გაუქმება"
   },
   "icu:AxoButton.Pending": {
-    "messageformat": "Pending"
+    "messageformat": "იგზავნება"
   },
   "icu:AxoDialog.Back": {
-    "messageformat": "Back"
+    "messageformat": "უკან"
   },
   "icu:AxoDialog.Close": {
     "messageformat": "Close"
   },
   "icu:AxoTextField.Clear": {
-    "messageformat": "Clear"
+    "messageformat": "გასუფთავება"
   },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "ჯგუფში დამატება"
@@ -371,9 +371,6 @@
   "icu:NavTabs__ItemLabel--Settings": {
     "messageformat": "პარამეტრები"
   },
-  "icu:NavTabs__ItemLabel--Profile": {
-    "messageformat": "პროფილი"
-  },
   "icu:NavSidebar__BackButtonLabel": {
     "messageformat": "უკან"
   },
@@ -611,11 +608,20 @@
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
     "messageformat": "Signal-ს შეუძლია კონტაქტებისთვის, რომლებთანაც მობილურის ნომრით ხარ დაკავშირებული, კავშირის უსაფრთხოება ავტომატურად დაადასტუროს პროცესის დახმარებით, რომელსაც გასაღების გამჭვირვალობა ჰქვია. დამატებითი უსაფრთხოებისთვის, ბოლომდე დაშიფვრის ვერიფიკაცია წინა ეკრანზე არსებული რიცხვების შედარებით ან მის მოწყობილობაზე კოდის სკანირებით შეგიძლია."
   },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body-2": {
+    "messageformat": "For people you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+  },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
     "messageformat": "ამ ჩატისთვის ავტომატური ვერიფიკაცია ხელმისაწვდომი არაა"
   },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title-2": {
+    "messageformat": "Auto-verification is not available for this chat"
+  },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
     "messageformat": "Signal-ი ამ ჩატის დაშიფვრის ავტომატურ ვერიფიკაციას ვეღარ შეძლებს. ალბათ, ეს იმიტომ მოხდა, რომ {name}-მ(ა) მობილურის ნომერი შეცვალა. ხელით გადაამოწმე ბოლომდე დაშიფვრა წინა ეკრანზე არსებული რიცხვების შედარებით ან მის მოწყობილობაზე კოდის სკანირებით."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body-2": {
+    "messageformat": "Signal can not automatically verify the encryption for this chat. This could be because {name} changed their phone number or their phone number privacy settings. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
     "messageformat": "Signal-ს მხოლოდ იმ ჩატების დაშიფვრის ავტომატური ვერიფიკაცია შეუძლია, რომლებშიც ვინმესთან მობილურის ნომრით ხარ დაკავშირებული. თუ ჩატი მომხმარებლის სახელით ან საერთო ჯგუფით წამოიწყო, ბოლომდე დაშიფვრის ვერიფიკაციას წინა ეკრანზე არსებული რიცხვების შედარებით ან მის მოწყობილობაზე კოდის სკანირებით შეძლებ."
@@ -644,9 +650,6 @@
   "icu:KeyTransparencyErrorDialog__Submit": {
     "messageformat": "დადასტურება"
   },
-  "icu:KeyTransparencyErrorDialog__Submitting": {
-    "messageformat": "იტვირთება..."
-  },
   "icu:KeyTransparencyOnboardingDialog__Title": {
     "messageformat": "ახლა უკვე Signal-ს დაშიფვრის ავტომატური ვერიფიკაცია შეუძლია"
   },
@@ -658,9 +661,6 @@
   },
   "icu:KeyTransparencyOnboardingDialog__LearnMore": {
     "messageformat": "გაიგე მეტი"
-  },
-  "icu:KeyTransparencyOnboardingDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Close"
   },
   "icu:verified": {
     "messageformat": "ვერიფიცირებულია"
@@ -1292,9 +1292,6 @@
   "icu:PinMessageDialog__Title": {
     "messageformat": "წერილის აპინვა..."
   },
-  "icu:PinMessageDialog__Close": {
-    "messageformat": "Close"
-  },
   "icu:PinMessageDialog__Option--TIME_24_HOURS": {
     "messageformat": "24 საათი"
   },
@@ -1318,9 +1315,6 @@
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Description": {
     "messageformat": "ამ წერილს თუ აპინავ, ყველაზე ადრე აპინულ წერილს ჩაანაცვლებს."
-  },
-  "icu:PinMessageDialog--HasMaxPinnedMessages__Cancel": {
-    "messageformat": "გაუქმება"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Continue": {
     "messageformat": "გაგრძელება"
@@ -1408,9 +1402,6 @@
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Description": {
     "messageformat": "ამ ჩატის წევრებისთვის წერილების პინები მოიხსნება."
-  },
-  "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Cancel": {
-    "messageformat": "გაუქმება"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Unpin": {
     "messageformat": "პინის მოხსნა"
@@ -1599,13 +1590,13 @@
     "messageformat": "დახმარება გჭირდება?"
   },
   "icu:Install__confirm-data-deletion__title": {
-    "messageformat": "Delete all data?"
+    "messageformat": "წავშალოთ ყველა მონაცემი?"
   },
   "icu:Install__confirm-data-deletion__body": {
-    "messageformat": "You’re attempting to link a different Signal account to this desktop. If you continue, all data currently in Signal Desktop will be deleted."
+    "messageformat": "ამ დესკტოპზე Signal-ის სხვა ანგარიშის მიბმას ცდილობ. თუ განაგრძობ, Signal Desktop-ზე ამჟამად არსებული ყველა მონაცემი წაიშლება."
   },
   "icu:Install__confirm-data-deletion__continue": {
-    "messageformat": "Continue"
+    "messageformat": "გაგრძელება"
   },
   "icu:Preferences--header": {
     "messageformat": "პარამეტრები"
@@ -1657,9 +1648,6 @@
   },
   "icu:Preferences__ChatsPage__DeleteChatFolderDialog__DeleteButton": {
     "messageformat": "წაშლა"
-  },
-  "icu:Preferences__ChatsPage__DeleteChatFolderDialog__CancelButton": {
-    "messageformat": "გაუქმება"
   },
   "icu:Preferences__ChatFoldersPage__Title": {
     "messageformat": "ჩატის საქაღალდეები"
@@ -1783,9 +1771,6 @@
   },
   "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__DeleteButton": {
     "messageformat": "წაშლა"
-  },
-  "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__CancelButton": {
-    "messageformat": "გაუქმება"
   },
   "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__Title": {
     "messageformat": "გსურს, ცვლილებების შენახვა?"
@@ -2314,9 +2299,6 @@
   },
   "icu:syncNow": {
     "messageformat": "Import now"
-  },
-  "icu:syncing": {
-    "messageformat": "მიმდინარეობს იმპორტირება..."
   },
   "icu:syncFailed": {
     "messageformat": "Import failed. Make sure your computer and your phone are connected to the internet."
@@ -3317,6 +3299,9 @@
   "icu:Keyboard--toggle-preview": {
     "messageformat": "გაფართოებული წინასწარ ნახვის ჩართვა და გამორთვა"
   },
+  "icu:Keyboard--toggle-raise-hand": {
+    "messageformat": "Raise or lower your hand (group calls only)"
+  },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "უპასუხე ზარს ვიდეოთი (მხოლოდ ვიდეო ზარები)"
   },
@@ -3895,9 +3880,6 @@
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogBody": {
     "messageformat": "ზარზე შესვლამდე შეგიძლია ნახო მხოლოდ სატელეფონო კონტაქტების სახელები, იმ ადამიანების სახელები, რომლებთანაც ჯგუფში ხარ ან ერთი ერთზე მიმოწერა გაქვს. როგორც კი ზარზე შეხვალ, ყველას სახელსა და ფოტოს ნახავ."
-  },
-  "icu:CallingAdhocCallInfo__UnknownContactInfoDialogOk": {
-    "messageformat": "გასაგებია"
   },
   "icu:callingDeviceSelection__label--video": {
     "messageformat": "ვიდეო"
@@ -4580,9 +4562,6 @@
   "icu:close": {
     "messageformat": "Close"
   },
-  "icu:clear": {
-    "messageformat": "გასუფთავება"
-  },
   "icu:previous": {
     "messageformat": "წინა"
   },
@@ -4608,13 +4587,7 @@
     "messageformat": "Signal-ისთვის დონაციის გაკეთება"
   },
   "icu:BadgeDialog__name-supports-signal": {
-    "messageformat": "{name} supports Signal"
-  },
-  "icu:ProfileMovedModal__title": {
-    "messageformat": "შენი პროფილი გადატანილია"
-  },
-  "icu:ProfileMovedModal__description": {
-    "messageformat": "გახსენი პარამეტრების ჩანართი შენი პროფილის სანახავად და რედაქტირებისთვის."
+    "messageformat": "{name} მხარს უჭერს Signal-ს"
   },
   "icu:BackupImportScreen__title": {
     "messageformat": "მიმდინარეობს წერილების სინქრონიზება"
@@ -4705,9 +4678,6 @@
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
     "messageformat": "შენი მედია ფაილების სინქრონიზაცია არ დასრულებულა. თუ გაუქმებას აირჩევ, ხელახალ სინქრონიზაციას ამ მოწყობილობის თავიდან დაკავშირებით შეძლებ. <learnMoreLink>გაიგე მეტი</learnMoreLink>."
-  },
-  "icu:BackupMediaDownloadCancelConfirmation__button-continue": {
-    "messageformat": "სინქრონიზაციის გაგრძელება"
   },
   "icu:BackupMediaDownloadCancelConfirmation__button-confirm-cancel": {
     "messageformat": "სინქრონიზაციის გაუქმება"
@@ -4885,9 +4855,6 @@
   },
   "icu:ConversationDetails--member-label--no-members": {
     "messageformat": "სხვა წევრებს იარლიყები არ აქვთ"
-  },
-  "icu:ConversationDetails--member-label--saving": {
-    "messageformat": "ცვლილებები ინახება..."
   },
   "icu:ConversationDetails--member-label--error-title": {
     "messageformat": "წევრის იარლიყის შენახვა შეუძლებელია"
@@ -5255,9 +5222,6 @@
   },
   "icu:DeleteAttachmentModal__Body": {
     "messageformat": "ეს ამ ელემენტს სამუდამოდ წაშლის. ამ ელემენტთან დაკავშირებული ნებისმიერი შეტყობინებაც წაიშლება."
-  },
-  "icu:DeleteAttachmentModal__Close": {
-    "messageformat": "Close"
   },
   "icu:DeleteAttachmentModal__Delete": {
     "messageformat": "წაშლა"
@@ -6018,9 +5982,6 @@
   },
   "icu:PlaintextExport--Confirmation--ContinueButton": {
     "messageformat": "გაგრძელება"
-  },
-  "icu:PlaintextExport--Confirmation--WaitingLabel": {
-    "messageformat": "შეყვანის მოლოდინში"
   },
   "icu:PlaintextExport--OSPrompt--Mac": {
     "messageformat": "გადაიტანე შენი ჩატის ისტორია"
@@ -7703,9 +7664,6 @@
   "icu:CallLinkDetails__DeleteLinkModal__Body": {
     "messageformat": "მათთვის, ვისაც ეს ბმული აქვს, ის აღარ იმუშავებს."
   },
-  "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
-    "messageformat": "გაუქმება"
-  },
   "icu:CallLinkDetails__DeleteLinkModal__Delete": {
     "messageformat": "წაშლა"
   },
@@ -8099,12 +8057,6 @@
   "icu:Donations__badge-modal--help-text": {
     "messageformat": "ამის დარეგულირება შენს მობილურ მოწყობილობაზე შეგიძლია. აირჩიე პარამეტრები → Signal-ისთვის დონაციის გაკეთება → ემბლემები"
   },
-  "icu:CallQualitySurvey__CloseButton__AccessibilityLabel": {
-    "messageformat": "Close"
-  },
-  "icu:CallQualitySurvey__BackButton__AccessibilityLabel": {
-    "messageformat": "უკან"
-  },
   "icu:CallQualitySurvey__HowWasYourCall__PageTitle": {
     "messageformat": "როგორ შეაფასებდი ზარს?"
   },
@@ -8192,9 +8144,6 @@
   "icu:CallQualitySurvey__ConfirmSubmission__SubmitButton": {
     "messageformat": "დადასტურება"
   },
-  "icu:CallQualitySurvey__ConfirmSubmission__Submitting": {
-    "messageformat": "გამოკითხვა იტვირთება..."
-  },
   "icu:CallQualitySurvey__SubmissionFailed": {
     "messageformat": "გამოკითხვა ვერ აიტვირთა"
   },
@@ -8214,37 +8163,34 @@
     "messageformat": "სლაიდი"
   },
   "icu:MaybeTransferModal__title": {
-    "messageformat": "Transfer your phone’s message history to this desktop?"
+    "messageformat": "გსურს შენი მობილურის მიმოწერის ისტორია ამ დესკტოპზე გადმოიტანო?"
   },
   "icu:MaybeTransferModal__description": {
-    "messageformat": "When you re-link this desktop, you can transfer your phone’s message history to this device."
+    "messageformat": "როცა შენს დესკტოპს თავიდან მიაბამ, ამ მოწყობილობაზე შენი მობილურის მიმოწერის ისტორიის გადმოტანას შეძლებ."
   },
   "icu:MaybeTransferModal__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "გაიგე მეტი"
   },
   "icu:MaybeTransferModal__replaceHistory": {
-    "messageformat": "This will <bold>replace</bold> the message history on this desktop."
+    "messageformat": "ეს ამ დესკტოპზე არსებულ მიმოწერის ისტორიას <bold>ჩაანაცვლებს</bold>."
   },
   "icu:MaybeTransferModal__scanQrCode": {
-    "messageformat": "You’ll need to relink by scanning a QR code."
+    "messageformat": "თავიდან უნდა მიაბა QR კოდის დასკანირებით."
   },
   "icu:MaybeTransferModal__media": {
-    "messageformat": "If you have paid Signal Secure Backups, all of your media will be transferred. Otherwise, your last 45 days of media will be included."
+    "messageformat": "თუ Signal-ის უსაფრთხო სათადარიგო ასლების ფასიანი გამოწერა გაქვს, შენი ყველა მედია ფაილიც გადმოვა. სხვა შემთხვევაში, ბოლო 45 დღის მედია ფაილი შევა."
   },
   "icu:MaybeTransferModal__transfer": {
-    "messageformat": "Transfer"
+    "messageformat": "გადარიცხვა"
   },
   "icu:MaybeTransferModal__dontTransfer": {
-    "messageformat": "Don't transfer"
+    "messageformat": "არ გადაიტანო"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__title": {
-    "messageformat": "Delete all data?"
-  },
-  "icu:DeleteDataAndRelinkConfirmationDialog__pending": {
-    "messageformat": "Deleting all data"
+    "messageformat": "წავშალოთ ყველა მონაცემი?"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__body": {
-    "messageformat": "All current data in Signal Desktop will be deleted. You can then scan a QR code and transfer your message history from your phone."
+    "messageformat": "Signal Desktop-ზე ამჟამად არსებული ყველა მონაცემი წაიშლება. ამის შემდეგ შეძლებ QR კოდი დაასკანირო და შენი მობილურიდან მიმოწერის ისტორია გადმოიტანო."
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "ეს ვერსია შეიცავს უამრავ მცირე შესწორებას და ბაგების გამოსწორებებს Signal-ის შეუფერხებლად მუშაობის შესანარჩუნებლად.",
@@ -8274,16 +8220,16 @@
     "messageformat": "მცირე შესწორებები, ბაგების გამოსწორება და წარმადობის გაუმჯობესება. მადლობას გიხდით სიგნალის გამოყენებისთვის!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.10--0": {
-    "messageformat": "Unicode 17.0-ში ახალი ემოჯის მხარდაჭერა დაგვემატა. 8.10 ვერსიის სიახლეები. გამოხატე რეაქცია მესიჯებზე ახალი ემოჯიების საშუალებით."
-  },
   "icu:WhatsNew__8.11--0": {
-    "messageformat": "We've introduced additional confirmations and educational messaging in the app to help protect Signal users from phishing and social engineering attacks. As a reminder, never reply to chats pretending to be Signal, and never send your verification code, PIN, or recovery key to anyone."
+    "messageformat": "აპში დამატებითი დასტურები და საგანმანათლებლო შეტყობინებები დავამატეთ, რათა Signal-ის მომხმარებლები თაღლითობისა და სოციალური ინჟინერიის შეტევებისგან დავიცვათ. შეგახსენებთ, რომ არასდროს უპასუხო ჩატებს, რომლებიც Signal-ად ასაღებენ თავს და არავის გაუგზავნო შენი ვერიფიკაციის კოდი, პინ-კოდი ან აღდგენის გასაღები."
   },
   "icu:WhatsNew__8.11--1": {
-    "messageformat": "Raised hand indicators in group calls now display the current order of the queue, so you can easily see who got the upper hand first."
+    "messageformat": "ახლა ჯგუფის ზარებში აწეული ხელის ინდიკატორები უკვე შესაბამისი რიგითობით ჩნდება."
   },
   "icu:WhatsNew__8.11--2": {
-    "messageformat": "We also added a real-time visualization while recording voice messages, so surfers (and oceanographers) can stare at multiple moving waveforms whenever they share updates from the beach."
+    "messageformat": "ასევე ხმოვანი შეტყობინების ჩაწერისას ცოცხალ რეჟიმში ვიზუალიზაცია დავამატეთ."
+  },
+  "icu:WhatsNew__8.12--0": {
+    "messageformat": "On the one hand, you can click on the raise hand icon during group calls. But on the other hand, now you can use a new keyboard shortcut too (Shift-H)."
   }
 }

@@ -1,18 +1,18 @@
 {
   "icu:AxoAlertDialog.Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "ביטול"
   },
   "icu:AxoButton.Pending": {
-    "messageformat": "Pending"
+    "messageformat": "ממתין"
   },
   "icu:AxoDialog.Back": {
-    "messageformat": "Back"
+    "messageformat": "הקודם"
   },
   "icu:AxoDialog.Close": {
-    "messageformat": "Close"
+    "messageformat": "סגירה"
   },
   "icu:AxoTextField.Clear": {
-    "messageformat": "Clear"
+    "messageformat": "נקה"
   },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "הוסף אל קבוצה"
@@ -371,9 +371,6 @@
   "icu:NavTabs__ItemLabel--Settings": {
     "messageformat": "הגדרות"
   },
-  "icu:NavTabs__ItemLabel--Profile": {
-    "messageformat": "פרופיל"
-  },
   "icu:NavSidebar__BackButtonLabel": {
     "messageformat": "הקודם"
   },
@@ -611,11 +608,20 @@
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
     "messageformat": "עבור אנשי קשר שהחיבור איתם נוצר באמצעות מספר טלפון, Signal יכולה לאשר אוטומטית שהחיבור מאובטח באמצעות שימוש בתהליך הנקרא שקיפות מפתחות. לבטיחות משופרת, אפשר לאמת הצפנה מקצה לקצה באופן ידני באמצעות השוואת המספרים במסך הקודם או סריקת הקוד במכשיר שלו או שלה."
   },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body-2": {
+    "messageformat": "For people you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+  },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
     "messageformat": "אימות אוטומטי אינו זמין עוד עבור צ'אט זה"
   },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title-2": {
+    "messageformat": "Auto-verification is not available for this chat"
+  },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
     "messageformat": "Signal אינה יכולה עוד לאמת אוטומטית את ההצפנה עבור צ׳אט זה. זה כנראה בגלל ש{name} החליפ/ה מספר טלפון. יש לאמת ידנית הצפנה מקצה לקצה ידנית באמצעות השוואת המספרים במסך הקודם או סריקת הקוד במכשיר שלו או שלה."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body-2": {
+    "messageformat": "Signal can not automatically verify the encryption for this chat. This could be because {name} changed their phone number or their phone number privacy settings. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
     "messageformat": "Signal יכולה לאמת אוטומטית את ההצפנה רק הצ׳אטים שבהם החיבור עם הצד השני מתבצע באמצעות מספר טלפון. אם הצ׳אט התחיל באמצעות שם משתמש או קבוצה משותפת, יש לאמת את ההצפנה מקצה לקצה באמצעות השוואת המספרים במסך הקודם או סריקת הקוד במכשיר שלו או שלה."
@@ -644,9 +650,6 @@
   "icu:KeyTransparencyErrorDialog__Submit": {
     "messageformat": "שלח"
   },
-  "icu:KeyTransparencyErrorDialog__Submitting": {
-    "messageformat": "שליחה בתהליך…"
-  },
   "icu:KeyTransparencyOnboardingDialog__Title": {
     "messageformat": "Signal יכולה כעת לאמת הצפנה באופן אוטומטי"
   },
@@ -658,9 +661,6 @@
   },
   "icu:KeyTransparencyOnboardingDialog__LearnMore": {
     "messageformat": "למידע נוסף"
-  },
-  "icu:KeyTransparencyOnboardingDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "סגירה"
   },
   "icu:verified": {
     "messageformat": "מודא"
@@ -1292,9 +1292,6 @@
   "icu:PinMessageDialog__Title": {
     "messageformat": "הצמדת הודעה למשך…"
   },
-  "icu:PinMessageDialog__Close": {
-    "messageformat": "סגירה"
-  },
   "icu:PinMessageDialog__Option--TIME_24_HOURS": {
     "messageformat": "24 שעות"
   },
@@ -1318,9 +1315,6 @@
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Description": {
     "messageformat": "הצמדת הודעה זו תחליף את ההודעה המוצמדת הוותיקה ביותר."
-  },
-  "icu:PinMessageDialog--HasMaxPinnedMessages__Cancel": {
-    "messageformat": "ביטול"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Continue": {
     "messageformat": "המשך"
@@ -1408,9 +1402,6 @@
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Description": {
     "messageformat": "ההודעות יוסרו מהצמדה עבור חברי הצ׳אט הזה."
-  },
-  "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Cancel": {
-    "messageformat": "ביטול"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Unpin": {
     "messageformat": "ביטול הצמדה"
@@ -1599,13 +1590,13 @@
     "messageformat": "צריך עזרה?"
   },
   "icu:Install__confirm-data-deletion__title": {
-    "messageformat": "Delete all data?"
+    "messageformat": "למחוק את כל הנתונים?"
   },
   "icu:Install__confirm-data-deletion__body": {
-    "messageformat": "You’re attempting to link a different Signal account to this desktop. If you continue, all data currently in Signal Desktop will be deleted."
+    "messageformat": "ניסית לקשר חשבון Signal אחר למחשב הזה.אם תמשיכ/י, כל הנתונים הנוכחיים של Signal לשולחן העבודה יימחקו."
   },
   "icu:Install__confirm-data-deletion__continue": {
-    "messageformat": "Continue"
+    "messageformat": "המשך"
   },
   "icu:Preferences--header": {
     "messageformat": "הגדרות"
@@ -1657,9 +1648,6 @@
   },
   "icu:Preferences__ChatsPage__DeleteChatFolderDialog__DeleteButton": {
     "messageformat": "מחיקה"
-  },
-  "icu:Preferences__ChatsPage__DeleteChatFolderDialog__CancelButton": {
-    "messageformat": "ביטול"
   },
   "icu:Preferences__ChatFoldersPage__Title": {
     "messageformat": "תיקיות צ׳אטים"
@@ -1783,9 +1771,6 @@
   },
   "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__DeleteButton": {
     "messageformat": "מחיקה"
-  },
-  "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__CancelButton": {
-    "messageformat": "ביטול"
   },
   "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__Title": {
     "messageformat": "לשמור שינויים?"
@@ -2314,9 +2299,6 @@
   },
   "icu:syncNow": {
     "messageformat": "ייבא כעת"
-  },
-  "icu:syncing": {
-    "messageformat": "מייבא…"
   },
   "icu:syncFailed": {
     "messageformat": "יבוא נכשל. וודא שהמחשב והטלפון שלך מחוברים לאינטרנט."
@@ -3317,6 +3299,9 @@
   "icu:Keyboard--toggle-preview": {
     "messageformat": "הפעלה והשבתה של תצוגה מקדימה מורחבת"
   },
+  "icu:Keyboard--toggle-raise-hand": {
+    "messageformat": "Raise or lower your hand (group calls only)"
+  },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "מענה לשיחה עם וידאו (שיחות וידאו בלבד)"
   },
@@ -3895,9 +3880,6 @@
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogBody": {
     "messageformat": "לפני הצטרפות לשיחה, אפשר לראות רק את השמות של משתתפים שהם אנשי קשר שלך בטלפון, אנשים שאיתך בקבוצה, או אנשים ששוחחת איתם אחד על אחד. תהיה לך אפשרות לראות את כל השמות והתמונות לאחר שהצטרפת לשיחה."
-  },
-  "icu:CallingAdhocCallInfo__UnknownContactInfoDialogOk": {
-    "messageformat": "הבנתי"
   },
   "icu:callingDeviceSelection__label--video": {
     "messageformat": "סרטון"
@@ -4580,9 +4562,6 @@
   "icu:close": {
     "messageformat": "סגור"
   },
-  "icu:clear": {
-    "messageformat": "נקה"
-  },
   "icu:previous": {
     "messageformat": "הקודם"
   },
@@ -4608,13 +4587,7 @@
     "messageformat": "תרום אל Signal"
   },
   "icu:BadgeDialog__name-supports-signal": {
-    "messageformat": "{name} supports Signal"
-  },
-  "icu:ProfileMovedModal__title": {
-    "messageformat": "הפרופיל שלך עבר מיקום"
-  },
-  "icu:ProfileMovedModal__description": {
-    "messageformat": "יש לפתוח את כרטיסיית ההגדרות כדי לראות ולערוך את הפרופיל שלך."
+    "messageformat": "Signal מקבלת תמיכה מ{name}"
   },
   "icu:BackupImportScreen__title": {
     "messageformat": "מסנכרנים הודעות"
@@ -4705,9 +4678,6 @@
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
     "messageformat": "סנכרון המדיה שלך לא הושלם. אם תבחר/י לבטל, אפשר לבצע סנכרון שוב באמצעות קישור מחדש של מכשיר זה. <learnMoreLink>למידע נוסף</learnMoreLink>."
-  },
-  "icu:BackupMediaDownloadCancelConfirmation__button-continue": {
-    "messageformat": "המשך סנכרון"
   },
   "icu:BackupMediaDownloadCancelConfirmation__button-confirm-cancel": {
     "messageformat": "ביטול סנכרון"
@@ -4885,9 +4855,6 @@
   },
   "icu:ConversationDetails--member-label--no-members": {
     "messageformat": "אין חברים אחרים עם תוויות"
-  },
-  "icu:ConversationDetails--member-label--saving": {
-    "messageformat": "שינויים בשמירה…"
   },
   "icu:ConversationDetails--member-label--error-title": {
     "messageformat": "לא ניתן לשמור תווית חבר/ה"
@@ -5255,9 +5222,6 @@
   },
   "icu:DeleteAttachmentModal__Body": {
     "messageformat": "זה ימחק את הפריט הזה לצמיתות. גם מלל הודעה שמשויך לפריט הזה יימחק."
-  },
-  "icu:DeleteAttachmentModal__Close": {
-    "messageformat": "סגירה"
   },
   "icu:DeleteAttachmentModal__Delete": {
     "messageformat": "מחיקה"
@@ -6018,9 +5982,6 @@
   },
   "icu:PlaintextExport--Confirmation--ContinueButton": {
     "messageformat": "המשך"
-  },
-  "icu:PlaintextExport--Confirmation--WaitingLabel": {
-    "messageformat": "בהמתנה לקלט"
   },
   "icu:PlaintextExport--OSPrompt--Mac": {
     "messageformat": "ייצוא היסטוריית צ'אט"
@@ -7703,9 +7664,6 @@
   "icu:CallLinkDetails__DeleteLinkModal__Body": {
     "messageformat": "הלינק הזה לא יעבוד יותר לאף אחד."
   },
-  "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
-    "messageformat": "ביטול"
-  },
   "icu:CallLinkDetails__DeleteLinkModal__Delete": {
     "messageformat": "מחיקה"
   },
@@ -8099,12 +8057,6 @@
   "icu:Donations__badge-modal--help-text": {
     "messageformat": "אפשר לשנות את זה במכשיר הנייד שלך תחת הגדרות > תרומה ל–Signal > תגים"
   },
-  "icu:CallQualitySurvey__CloseButton__AccessibilityLabel": {
-    "messageformat": "סגור"
-  },
-  "icu:CallQualitySurvey__BackButton__AccessibilityLabel": {
-    "messageformat": "הקודם"
-  },
   "icu:CallQualitySurvey__HowWasYourCall__PageTitle": {
     "messageformat": "איך הייתה השיחה שלך?"
   },
@@ -8192,9 +8144,6 @@
   "icu:CallQualitySurvey__ConfirmSubmission__SubmitButton": {
     "messageformat": "שלח"
   },
-  "icu:CallQualitySurvey__ConfirmSubmission__Submitting": {
-    "messageformat": "שליחת הסקר מתבצעת..."
-  },
   "icu:CallQualitySurvey__SubmissionFailed": {
     "messageformat": "שליחת הסקר נכשלה"
   },
@@ -8214,37 +8163,34 @@
     "messageformat": "שקופית"
   },
   "icu:MaybeTransferModal__title": {
-    "messageformat": "Transfer your phone’s message history to this desktop?"
+    "messageformat": "להעביר את היסטוריית ההודעות מהטלפון שלך למחשב הזה? "
   },
   "icu:MaybeTransferModal__description": {
-    "messageformat": "When you re-link this desktop, you can transfer your phone’s message history to this device."
+    "messageformat": "לאחר קישור מחדש של המחשב הזה, אפשר להעביר את היסטוריית ההודעות של הטלפון שלך למכשיר הזה."
   },
   "icu:MaybeTransferModal__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "למידע נוסף"
   },
   "icu:MaybeTransferModal__replaceHistory": {
-    "messageformat": "This will <bold>replace</bold> the message history on this desktop."
+    "messageformat": "זה <bold>יחליף</bold> את היסטוריית ההודעות במחשב הזה."
   },
   "icu:MaybeTransferModal__scanQrCode": {
-    "messageformat": "You’ll need to relink by scanning a QR code."
+    "messageformat": "צריך יהיה לקשר מחדש באמצעות סריקת קוד QR."
   },
   "icu:MaybeTransferModal__media": {
-    "messageformat": "If you have paid Signal Secure Backups, all of your media will be transferred. Otherwise, your last 45 days of media will be included."
+    "messageformat": "אם שילמת לגיבויי Signal מאובטחים, כל המדיה שלך תועבר. אחרת, תיכלל המדיה שלך מ–45 הימים האחרונים."
   },
   "icu:MaybeTransferModal__transfer": {
-    "messageformat": "Transfer"
+    "messageformat": "העבר"
   },
   "icu:MaybeTransferModal__dontTransfer": {
-    "messageformat": "Don't transfer"
+    "messageformat": "לא להעביר"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__title": {
-    "messageformat": "Delete all data?"
-  },
-  "icu:DeleteDataAndRelinkConfirmationDialog__pending": {
-    "messageformat": "Deleting all data"
+    "messageformat": "למחוק את כל הנתונים?"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__body": {
-    "messageformat": "All current data in Signal Desktop will be deleted. You can then scan a QR code and transfer your message history from your phone."
+    "messageformat": "כל הנתונים הנוכחיים של Signal לשולחן העבודה יימחקו. לאחר מכן, אפשר יהיה לסרוק קוד QR ולהעביר את היסטוריית ההודעות שלך מהטלפון שלך."
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "גרסה זו מכילה מספר של שפצורים קטנים ותיקוני תקלים כדי לשמור על Signal שירוץ באופן חלק.",
@@ -8274,16 +8220,16 @@
     "messageformat": "התאמות קטנות, תיקוני באגים ושיפורי ביצועים. תודה על השימוש ב-Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.10--0": {
-    "messageformat": "הוספנו תמיכה לאימוג׳י חדש ב–Unicode 17.0."
-  },
   "icu:WhatsNew__8.11--0": {
-    "messageformat": "We've introduced additional confirmations and educational messaging in the app to help protect Signal users from phishing and social engineering attacks. As a reminder, never reply to chats pretending to be Signal, and never send your verification code, PIN, or recovery key to anyone."
+    "messageformat": "• הוספנו אישורים והודעות הסברה באפליקציה כדי לעזור להגן על משתמשים ומשתמשות Signal מפני מתקפות פישינג והנדסה חברתית. אנחנו מזכירים לעולם לא להשיב לצ׳אטים שמעמידים פנים שהם Signal, ולעולם לא לשלוח את קוד האימות, ה–PIN, או מפתח השחזור שלך לאף אחד."
   },
   "icu:WhatsNew__8.11--1": {
-    "messageformat": "Raised hand indicators in group calls now display the current order of the queue, so you can easily see who got the upper hand first."
+    "messageformat": "סמלי הרמת יד בשיחות קבוצתיות מוצגים כעת בסדר הנוכחי של התור."
   },
   "icu:WhatsNew__8.11--2": {
-    "messageformat": "We also added a real-time visualization while recording voice messages, so surfers (and oceanographers) can stare at multiple moving waveforms whenever they share updates from the beach."
+    "messageformat": "תצוגה חזותית חדשה בעת הקלטת הודעות קוליות."
+  },
+  "icu:WhatsNew__8.12--0": {
+    "messageformat": "On the one hand, you can click on the raise hand icon during group calls. But on the other hand, now you can use a new keyboard shortcut too (Shift-H)."
   }
 }

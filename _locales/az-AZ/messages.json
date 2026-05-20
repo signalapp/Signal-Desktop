@@ -1,18 +1,18 @@
 {
   "icu:AxoAlertDialog.Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Ləğv et"
   },
   "icu:AxoButton.Pending": {
-    "messageformat": "Pending"
+    "messageformat": "Gözləyir"
   },
   "icu:AxoDialog.Back": {
-    "messageformat": "Back"
+    "messageformat": "Geri"
   },
   "icu:AxoDialog.Close": {
-    "messageformat": "Close"
+    "messageformat": "Bağla"
   },
   "icu:AxoTextField.Clear": {
-    "messageformat": "Clear"
+    "messageformat": "Təmizlə"
   },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "Bir qrupa əlavə et"
@@ -371,9 +371,6 @@
   "icu:NavTabs__ItemLabel--Settings": {
     "messageformat": "Tənzimləmələr"
   },
-  "icu:NavTabs__ItemLabel--Profile": {
-    "messageformat": "Profil"
-  },
   "icu:NavSidebar__BackButtonLabel": {
     "messageformat": "Geri"
   },
@@ -611,11 +608,20 @@
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
     "messageformat": "Telefon nömrəsi ilə əlaqə saxladığınız kontaktlar üçün Signal “açar şəffaflığı” adlanan proses vasitəsilə bağlantının təhlükəsiz olduğunu avtomatik təsdiqləyə bilər. Əlavə təhlükəsizlik üçün əvvəlki ekranda olan nömrələri müqayisə edərək və ya onun cihazındakı kodu skan edərək tam şifrələməni əlinizlə yoxlayın."
   },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body-2": {
+    "messageformat": "For people you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+  },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
     "messageformat": "Bu çat üçün avtomatik yoxlama artıq aktiv deyil"
   },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title-2": {
+    "messageformat": "Auto-verification is not available for this chat"
+  },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
     "messageformat": "Signal artıq bu çatın şifrələnməsini avtomatik yoxlaya bilmir. Bu hal, {name} telefon nömrəsini dəyişdiyi üçün baş vermiş ola bilər. Əvvəlki ekranda olan nömrələri müqayisə edərək və ya onun cihazındakı kodu skanlayaraq tam şifrələməni əlinizlə yoxlayın."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body-2": {
+    "messageformat": "Signal can not automatically verify the encryption for this chat. This could be because {name} changed their phone number or their phone number privacy settings. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
     "messageformat": "Signal yalnız telefon nömrəsindən biri ilə əlaqə saxladığınız zaman çatlardakı şifrələməni avtomatik yoxlaya bilər. Çat bir istifadəçi adı və ya ümumi bir qrupla başladıqda, tam şifrələməni əvvəlki ekranda çıxan nömrələri müqayisə edərək və ya onun cihazındakı kodu skan edərək yoxlayın."
@@ -644,9 +650,6 @@
   "icu:KeyTransparencyErrorDialog__Submit": {
     "messageformat": "Təqdim et"
   },
-  "icu:KeyTransparencyErrorDialog__Submitting": {
-    "messageformat": "Göndərilir..."
-  },
   "icu:KeyTransparencyOnboardingDialog__Title": {
     "messageformat": "Artıq Signal şifrələməni avtomatik yoxlaya bilir"
   },
@@ -658,9 +661,6 @@
   },
   "icu:KeyTransparencyOnboardingDialog__LearnMore": {
     "messageformat": "Daha ətraflı"
-  },
-  "icu:KeyTransparencyOnboardingDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Bağla"
   },
   "icu:verified": {
     "messageformat": "Təsdiqləndi"
@@ -1292,9 +1292,6 @@
   "icu:PinMessageDialog__Title": {
     "messageformat": "Mesajın sancaqlanması müddəti..."
   },
-  "icu:PinMessageDialog__Close": {
-    "messageformat": "Bağla"
-  },
   "icu:PinMessageDialog__Option--TIME_24_HOURS": {
     "messageformat": "24 saat"
   },
@@ -1318,9 +1315,6 @@
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Description": {
     "messageformat": "Bu mesajın sancaqlanması köhnəsini əvəz edəcək."
-  },
-  "icu:PinMessageDialog--HasMaxPinnedMessages__Cancel": {
-    "messageformat": "Ləğv et"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Continue": {
     "messageformat": "Davam et"
@@ -1408,9 +1402,6 @@
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Description": {
     "messageformat": "Bu çat qrupunun üzvləri üçün mesajlar sancaqlamadan çıxarılacaq."
-  },
-  "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Cancel": {
-    "messageformat": "Ləğv et"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Unpin": {
     "messageformat": "Sancağı götür"
@@ -1599,13 +1590,13 @@
     "messageformat": "Kömək lazımdır?"
   },
   "icu:Install__confirm-data-deletion__title": {
-    "messageformat": "Delete all data?"
+    "messageformat": "Bütün verilənlər silinsin?"
   },
   "icu:Install__confirm-data-deletion__body": {
-    "messageformat": "You’re attempting to link a different Signal account to this desktop. If you continue, all data currently in Signal Desktop will be deleted."
+    "messageformat": "Siz fərqli bir Signal hesabını bu masaüstü ilə əlaqələndirməyə cəhd edirsiniz. Davam etsəniz, hazırda Signal Desktop-da olan bütün verilənlər silinəcək."
   },
   "icu:Install__confirm-data-deletion__continue": {
-    "messageformat": "Continue"
+    "messageformat": "Davam et"
   },
   "icu:Preferences--header": {
     "messageformat": "Tənzimləmələr"
@@ -1657,9 +1648,6 @@
   },
   "icu:Preferences__ChatsPage__DeleteChatFolderDialog__DeleteButton": {
     "messageformat": "Sil"
-  },
-  "icu:Preferences__ChatsPage__DeleteChatFolderDialog__CancelButton": {
-    "messageformat": "Ləğv et"
   },
   "icu:Preferences__ChatFoldersPage__Title": {
     "messageformat": "Çat qovluqları"
@@ -1783,9 +1771,6 @@
   },
   "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__DeleteButton": {
     "messageformat": "Sil"
-  },
-  "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__CancelButton": {
-    "messageformat": "Ləğv et"
   },
   "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__Title": {
     "messageformat": "Dəyişikliklər yaddaşda saxlansın?"
@@ -2314,9 +2299,6 @@
   },
   "icu:syncNow": {
     "messageformat": "İndi idxal et"
-  },
-  "icu:syncing": {
-    "messageformat": "İdxal edilir..."
   },
   "icu:syncFailed": {
     "messageformat": "İdxal edilmədi. Kompüterinizin və telefonunuzun internetə bağlandığına əmin olun."
@@ -3317,6 +3299,9 @@
   "icu:Keyboard--toggle-preview": {
     "messageformat": "Artırılmış önbaxışı açıb, bağlayın"
   },
+  "icu:Keyboard--toggle-raise-hand": {
+    "messageformat": "Raise or lower your hand (group calls only)"
+  },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Zəngə görüntülü cavab verin (yalnız video zənglər)"
   },
@@ -3895,9 +3880,6 @@
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogBody": {
     "messageformat": "Zəngə qoşulmazdan əvvəl yalnız eyni qrupda olduğunuz və ya birə-bir çatlaşdığıınız telefon kontaktlarının adlarını görə bilərsiniz. Zəngə qoşulduqdan dərhal sonra bütün adları və fotoları görəcəksiniz."
-  },
-  "icu:CallingAdhocCallInfo__UnknownContactInfoDialogOk": {
-    "messageformat": "Anladım"
   },
   "icu:callingDeviceSelection__label--video": {
     "messageformat": "Video"
@@ -4580,9 +4562,6 @@
   "icu:close": {
     "messageformat": "Bağla"
   },
-  "icu:clear": {
-    "messageformat": "Təmizlə"
-  },
   "icu:previous": {
     "messageformat": "əvvəlki"
   },
@@ -4608,13 +4587,7 @@
     "messageformat": "Signal-a ianə verin"
   },
   "icu:BadgeDialog__name-supports-signal": {
-    "messageformat": "{name} supports Signal"
-  },
-  "icu:ProfileMovedModal__title": {
-    "messageformat": "Profiliniz köçürülüb"
-  },
-  "icu:ProfileMovedModal__description": {
-    "messageformat": "Profilinizə baxmaq və onu redaktə etmək üçün Parametrlər tab-vərəqəsini açın."
+    "messageformat": "{name} Signal-ı dəstəkləyir"
   },
   "icu:BackupImportScreen__title": {
     "messageformat": "Mesajlar sinxronlaşdırılır"
@@ -4705,9 +4678,6 @@
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
     "messageformat": "Media faylınızın sinxronlaşdırılması tamamlanmadı. Ləğv etməyi seçsəniz, bu cihazı təkrar əlaqələndirməklə yenidən sinxronlaşdıra bilərsiniz. <learnMoreLink>Daha ətraflı</learnMoreLink>."
-  },
-  "icu:BackupMediaDownloadCancelConfirmation__button-continue": {
-    "messageformat": "Sinxronlaşdırmağa davam et"
   },
   "icu:BackupMediaDownloadCancelConfirmation__button-confirm-cancel": {
     "messageformat": "Sinxronlaşdırmanı ləğv et"
@@ -4885,9 +4855,6 @@
   },
   "icu:ConversationDetails--member-label--no-members": {
     "messageformat": "Digər heç bir üzvün etiketi yoxdur"
-  },
-  "icu:ConversationDetails--member-label--saving": {
-    "messageformat": "Dəyişikliklər yaddaşda saxlanılır..."
   },
   "icu:ConversationDetails--member-label--error-title": {
     "messageformat": "Üzv etiketini yaddaşda saxlamaq mümkün deyil"
@@ -5255,9 +5222,6 @@
   },
   "icu:DeleteAttachmentModal__Body": {
     "messageformat": "Bu addım elementi daimi olaraq silir. Bu elementlə əlaqələndirilmiş istənilən mesaj mətni də silinəcək."
-  },
-  "icu:DeleteAttachmentModal__Close": {
-    "messageformat": "Bağla"
   },
   "icu:DeleteAttachmentModal__Delete": {
     "messageformat": "Sil"
@@ -6018,9 +5982,6 @@
   },
   "icu:PlaintextExport--Confirmation--ContinueButton": {
     "messageformat": "Davam et"
-  },
-  "icu:PlaintextExport--Confirmation--WaitingLabel": {
-    "messageformat": "Daxiletmə gözlənilir"
   },
   "icu:PlaintextExport--OSPrompt--Mac": {
     "messageformat": "çat tarixçənizi ixrac edin"
@@ -7703,9 +7664,6 @@
   "icu:CallLinkDetails__DeleteLinkModal__Body": {
     "messageformat": "Bu keçid artıq onu istifadə edənlərin heç biri üçün aktiv olmayacaq."
   },
-  "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
-    "messageformat": "Ləğv et"
-  },
   "icu:CallLinkDetails__DeleteLinkModal__Delete": {
     "messageformat": "Sil"
   },
@@ -8099,12 +8057,6 @@
   "icu:Donations__badge-modal--help-text": {
     "messageformat": "Bu parametri mobil cihazınızda Parametrlər → Signal-a ianə ver → Nişanlar bölməsinə keçərək tənzimləyə bilərsiniz"
   },
-  "icu:CallQualitySurvey__CloseButton__AccessibilityLabel": {
-    "messageformat": "Bağla"
-  },
-  "icu:CallQualitySurvey__BackButton__AccessibilityLabel": {
-    "messageformat": "Geri"
-  },
   "icu:CallQualitySurvey__HowWasYourCall__PageTitle": {
     "messageformat": "Zənginiz necə idi?"
   },
@@ -8192,9 +8144,6 @@
   "icu:CallQualitySurvey__ConfirmSubmission__SubmitButton": {
     "messageformat": "Təqdim et"
   },
-  "icu:CallQualitySurvey__ConfirmSubmission__Submitting": {
-    "messageformat": "Sorğu göndərilir..."
-  },
   "icu:CallQualitySurvey__SubmissionFailed": {
     "messageformat": "Sorğunu göndərmək mümkün olmadı"
   },
@@ -8214,37 +8163,34 @@
     "messageformat": "Slayd"
   },
   "icu:MaybeTransferModal__title": {
-    "messageformat": "Transfer your phone’s message history to this desktop?"
+    "messageformat": "Telefonunuzun mesaj tarixşəsi bu masüstünə köçürülsün?"
   },
   "icu:MaybeTransferModal__description": {
-    "messageformat": "When you re-link this desktop, you can transfer your phone’s message history to this device."
+    "messageformat": "Bu masaüstü ilə yenidən əlaqələndirdikdə, telefonunuzun mesaj tarixçəsini bu cihaza köçürə bilərsiniz."
   },
   "icu:MaybeTransferModal__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Daha ətraflı"
   },
   "icu:MaybeTransferModal__replaceHistory": {
-    "messageformat": "This will <bold>replace</bold> the message history on this desktop."
+    "messageformat": "Bununla bu masaüstündə mesaj tarixçəsi <bold>dəyişir</bold>."
   },
   "icu:MaybeTransferModal__scanQrCode": {
-    "messageformat": "You’ll need to relink by scanning a QR code."
+    "messageformat": "QR kodunu skan edərək hesabınızı yenidən əlaqələndirməli olacaqsınız."
   },
   "icu:MaybeTransferModal__media": {
-    "messageformat": "If you have paid Signal Secure Backups, all of your media will be transferred. Otherwise, your last 45 days of media will be included."
+    "messageformat": "Ödənişli Signal təhlükəsiz ehtiyat nüsxələrinə maliksinizsə bütün media fayllarınız köçürüləcək. Əks təqdirdə sadəcə son 45 gündə olan media fayllarınız köçürüləcək."
   },
   "icu:MaybeTransferModal__transfer": {
-    "messageformat": "Transfer"
+    "messageformat": "Köçür"
   },
   "icu:MaybeTransferModal__dontTransfer": {
-    "messageformat": "Don't transfer"
+    "messageformat": "Köçürmə"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__title": {
-    "messageformat": "Delete all data?"
-  },
-  "icu:DeleteDataAndRelinkConfirmationDialog__pending": {
-    "messageformat": "Deleting all data"
+    "messageformat": "Bütün verilənlər silinsin?"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__body": {
-    "messageformat": "All current data in Signal Desktop will be deleted. You can then scan a QR code and transfer your message history from your phone."
+    "messageformat": "Signal Desktop-da olan bütün cari verilənlər silinəcək. Bu zaman QR kodu skan edərək telefonunuzdan mesaj tarixçəsini köçürə bilərsiniz."
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Bu versiya, Signal-ın problemsiz işləməsini təmin etmək üçün kiçik düzəltmələr və xəta düzəltmələri ehtiva edir.",
@@ -8274,16 +8220,16 @@
     "messageformat": "Kiçik spesifik tənzimləmələr, xəta düzəlişləri və məhsuldarlığın artırılması. Signal istifadə etdiyiniz üçün təşəkkürlər!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.10--0": {
-    "messageformat": "Unicode 17.0 versiyasındakı yeni \"baş gicəllənməsi\" emojisi artıq Signal tərəfindən də dəstəklənir. Çatlaşmaq istədiyinizi göstərmək məqsədilə, yeni \"balerina\" emojisindən istifadə edərək bir mesaj reaksiyası göndərin."
-  },
   "icu:WhatsNew__8.11--0": {
-    "messageformat": "We've introduced additional confirmations and educational messaging in the app to help protect Signal users from phishing and social engineering attacks. As a reminder, never reply to chats pretending to be Signal, and never send your verification code, PIN, or recovery key to anyone."
+    "messageformat": "Signal istifadəçilərini fişinq və sosial mühəndislik hücumlarından qorumağa kömək etmək üçün tətbiqə əlavə təsdiq və məlumatlandırıcı mesajlar əlavə etdik. Xatırladırıq ki, özünü Signal kimi göstərən heç bir çata cavab verməməli və təsdiq kodunu, PIN və ya bərpa şifrəsini heç kəsə göndərməməlisiniz."
   },
   "icu:WhatsNew__8.11--1": {
-    "messageformat": "Raised hand indicators in group calls now display the current order of the queue, so you can easily see who got the upper hand first."
+    "messageformat": "Sıranın ilk kimdə olduğunu görməyiniz üçün qrup zənglərində istifadə olunan qaldırılmış əl göstəriciləri artıq cari sıranı göstərir."
   },
   "icu:WhatsNew__8.11--2": {
-    "messageformat": "We also added a real-time visualization while recording voice messages, so surfers (and oceanographers) can stare at multiple moving waveforms whenever they share updates from the beach."
+    "messageformat": "Səsli mesaj göndərərkən ekranda görə biləcəyiniz yeni səs dalğaları əlavə etdik ki, yeniləmələri çimərlikdən paylaşdığınız zaman həm səsinizin, həm də dənizin dalğasını görə biləsiniz."
+  },
+  "icu:WhatsNew__8.12--0": {
+    "messageformat": "On the one hand, you can click on the raise hand icon during group calls. But on the other hand, now you can use a new keyboard shortcut too (Shift-H)."
   }
 }

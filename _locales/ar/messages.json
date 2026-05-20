@@ -1,18 +1,18 @@
 {
   "icu:AxoAlertDialog.Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "إلغاء"
   },
   "icu:AxoButton.Pending": {
-    "messageformat": "Pending"
+    "messageformat": "مُعلَّق"
   },
   "icu:AxoDialog.Back": {
-    "messageformat": "Back"
+    "messageformat": "الرجوع"
   },
   "icu:AxoDialog.Close": {
-    "messageformat": "Close"
+    "messageformat": "إغلاق"
   },
   "icu:AxoTextField.Clear": {
-    "messageformat": "Clear"
+    "messageformat": "مسح"
   },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "إضافة إلى مجموعة"
@@ -371,9 +371,6 @@
   "icu:NavTabs__ItemLabel--Settings": {
     "messageformat": "الإعدادات"
   },
-  "icu:NavTabs__ItemLabel--Profile": {
-    "messageformat": "الحساب الشخصي"
-  },
   "icu:NavSidebar__BackButtonLabel": {
     "messageformat": "الرجوع"
   },
@@ -611,11 +608,20 @@
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
     "messageformat": "بالنسبة لجهات الاتصال المرتبطين بك عبر رقم الهاتف، يمكن لتطبيق سيجنال التحقُّق تلقائيًا من أمان الاتصال باستخدام عملية تُسمّى شفافية المفاتيح. للمزيد من الأمان، تحقَّق من التشفير من طرف لطرف يدويًا من خلال مقارنة الأرقام على الشاشة السابقة أو مسح الكود على جهازه(ا)."
   },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body-2": {
+    "messageformat": "For people you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+  },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
     "messageformat": "التحقُّق التلقائي غير متوفِّر لهذه الدردشة."
   },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title-2": {
+    "messageformat": "Auto-verification is not available for this chat"
+  },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
     "messageformat": "لم يعد سيجنال قادرًا على التحقُّق تلقائيًا من التشفير لهذه الدردشة. هذا على الأرجح لأن {name} غيَّر رقم هاتفه. التحقُّق من التشفير من طرف لطرف يدويًا عن طريق مقارنة الأرقام على الشاشة السابقة أو مسح الكود على جهازه(ا)."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body-2": {
+    "messageformat": "Signal can not automatically verify the encryption for this chat. This could be because {name} changed their phone number or their phone number privacy settings. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
     "messageformat": "يمكن لسيجنال التحقُّق تلقائيًا من التشفير في الدردشات التي تكون متصلًا فيها بشخص ما عبر رقم الهاتف. إذا تمَّ بدء الدردشة باسم مُستخدِم أو مجموعة مشتركة، تحقَّق من التشفير من طرف لطرف من خلال مقارنة الأرقام على الشاشة السابقة أو مسح الكود على جهازه(ا)."
@@ -644,9 +650,6 @@
   "icu:KeyTransparencyErrorDialog__Submit": {
     "messageformat": "إرسال"
   },
-  "icu:KeyTransparencyErrorDialog__Submitting": {
-    "messageformat": "جارٍ الإرسال…"
-  },
   "icu:KeyTransparencyOnboardingDialog__Title": {
     "messageformat": "يُمكن لسيجنال الآن التحقُّق تلقائيًا من التشفير"
   },
@@ -658,9 +661,6 @@
   },
   "icu:KeyTransparencyOnboardingDialog__LearnMore": {
     "messageformat": "اعرف المزيد"
-  },
-  "icu:KeyTransparencyOnboardingDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "إغلاق"
   },
   "icu:verified": {
     "messageformat": "مُتحقَّق منه"
@@ -1292,9 +1292,6 @@
   "icu:PinMessageDialog__Title": {
     "messageformat": "تثبيت الرسالة لمدة…"
   },
-  "icu:PinMessageDialog__Close": {
-    "messageformat": "إغلاق"
-  },
   "icu:PinMessageDialog__Option--TIME_24_HOURS": {
     "messageformat": "24 ساعة"
   },
@@ -1318,9 +1315,6 @@
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Description": {
     "messageformat": "سَتحل الرسالة المُثبَّتة مكان الرسالة الأقدم."
-  },
-  "icu:PinMessageDialog--HasMaxPinnedMessages__Cancel": {
-    "messageformat": "إلغاء"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Continue": {
     "messageformat": "متابعة"
@@ -1408,9 +1402,6 @@
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Description": {
     "messageformat": "سيُلغى تثبيت الرسائل لأعضاء هذه الدردشة."
-  },
-  "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Cancel": {
-    "messageformat": "إلغاء"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Unpin": {
     "messageformat": "إزالة التثبيت"
@@ -1599,13 +1590,13 @@
     "messageformat": "هل تحتاج لمُساعدة؟"
   },
   "icu:Install__confirm-data-deletion__title": {
-    "messageformat": "Delete all data?"
+    "messageformat": "هل ترغبُ بحذف جميع البيانات؟"
   },
   "icu:Install__confirm-data-deletion__body": {
-    "messageformat": "You’re attempting to link a different Signal account to this desktop. If you continue, all data currently in Signal Desktop will be deleted."
+    "messageformat": "يبدو أنك تحاول ربط حساب سيجنال آخر بهذا الحاسوب. إذا واصلت، فستُحذف جميع البيانات الموجودة حالياً على سيجنال Desktop."
   },
   "icu:Install__confirm-data-deletion__continue": {
-    "messageformat": "Continue"
+    "messageformat": "متابعة"
   },
   "icu:Preferences--header": {
     "messageformat": "الإعدادات"
@@ -1657,9 +1648,6 @@
   },
   "icu:Preferences__ChatsPage__DeleteChatFolderDialog__DeleteButton": {
     "messageformat": "حذف"
-  },
-  "icu:Preferences__ChatsPage__DeleteChatFolderDialog__CancelButton": {
-    "messageformat": "إلغاء"
   },
   "icu:Preferences__ChatFoldersPage__Title": {
     "messageformat": "مجلدات الدردشة"
@@ -1783,9 +1771,6 @@
   },
   "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__DeleteButton": {
     "messageformat": "حذف"
-  },
-  "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__CancelButton": {
-    "messageformat": "إلغاء"
   },
   "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__Title": {
     "messageformat": "هل تريد حفظ التغييرات؟"
@@ -2314,9 +2299,6 @@
   },
   "icu:syncNow": {
     "messageformat": "استيراد اﻵن"
-  },
-  "icu:syncing": {
-    "messageformat": "جارٍ الاستيراد…"
   },
   "icu:syncFailed": {
     "messageformat": "فشل الاستيراد. تأكَّد من أن الحاسوب و هاتفك متصلان بالإنترنت."
@@ -3317,6 +3299,9 @@
   "icu:Keyboard--toggle-preview": {
     "messageformat": "تفعيل أو تعطيل المعاينة المُكبَّرة"
   },
+  "icu:Keyboard--toggle-raise-hand": {
+    "messageformat": "Raise or lower your hand (group calls only)"
+  },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "رد على المكالمة بالفيديو (مكالمات الفيديو فقط)"
   },
@@ -3895,9 +3880,6 @@
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoDialogBody": {
     "messageformat": "قبل الانضمام إلى مُكالمة، يمكنك فقط رؤية أسماء جهات الاتصال الموجودة على هاتفك، والأشخاص الموجودين في مجموعة معك، أو الأشخاص الذين تحدثت معهم فرديًا. سَتظهر لك كل الأسماء والصور عندما تنضمّ إلى المكالمة."
-  },
-  "icu:CallingAdhocCallInfo__UnknownContactInfoDialogOk": {
-    "messageformat": "فهمت"
   },
   "icu:callingDeviceSelection__label--video": {
     "messageformat": "الكاميرا"
@@ -4580,9 +4562,6 @@
   "icu:close": {
     "messageformat": "إغلاق"
   },
-  "icu:clear": {
-    "messageformat": "مسح"
-  },
   "icu:previous": {
     "messageformat": "السابق"
   },
@@ -4608,13 +4587,7 @@
     "messageformat": "تبرَّع لسيجنال"
   },
   "icu:BadgeDialog__name-supports-signal": {
-    "messageformat": "{name} supports Signal"
-  },
-  "icu:ProfileMovedModal__title": {
-    "messageformat": "تمَّ نقل حسابك الشخصي"
-  },
-  "icu:ProfileMovedModal__description": {
-    "messageformat": "افتح علامة تبويب \"الإعدادات\" لِعرض وتعديل حسابك الشخصي."
+    "messageformat": "{name} يدعم سيجنال"
   },
   "icu:BackupImportScreen__title": {
     "messageformat": "جارٍ مزامنة الرسائل"
@@ -4705,9 +4678,6 @@
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
     "messageformat": "لم تكمل ملفات الوسائط الخاصة بك المزامنة بعد. إذا اخترتَ الإلغاء، يمكنك المزامنة مجددًا من خلال إعادة ربط هذا الجهاز. <learnMoreLink>اعرف المزيد.</learnMoreLink>"
-  },
-  "icu:BackupMediaDownloadCancelConfirmation__button-continue": {
-    "messageformat": "متابعة المزامنة"
   },
   "icu:BackupMediaDownloadCancelConfirmation__button-confirm-cancel": {
     "messageformat": "إلغاء المزامنة"
@@ -4885,9 +4855,6 @@
   },
   "icu:ConversationDetails--member-label--no-members": {
     "messageformat": "لا يتوفر أي أعضاء آخرون على أدوار"
-  },
-  "icu:ConversationDetails--member-label--saving": {
-    "messageformat": "جارٍ حفظ التغييرات…"
   },
   "icu:ConversationDetails--member-label--error-title": {
     "messageformat": "لا يُمكن حفظ دور العضو."
@@ -5255,9 +5222,6 @@
   },
   "icu:DeleteAttachmentModal__Body": {
     "messageformat": "سيُؤدي هذا إلى حذف الملف المُرفَق بشكل نهائي. سيتمُّ حذف أي نص رسالة مُقترِنة بهذا العنصر أيضًا."
-  },
-  "icu:DeleteAttachmentModal__Close": {
-    "messageformat": "إغلاق"
   },
   "icu:DeleteAttachmentModal__Delete": {
     "messageformat": "حذف"
@@ -6018,9 +5982,6 @@
   },
   "icu:PlaintextExport--Confirmation--ContinueButton": {
     "messageformat": "متابعة"
-  },
-  "icu:PlaintextExport--Confirmation--WaitingLabel": {
-    "messageformat": "في انتظار الإدخال"
   },
   "icu:PlaintextExport--OSPrompt--Mac": {
     "messageformat": "تصدير سِجل الدردشة الخاص بك"
@@ -7703,9 +7664,6 @@
   "icu:CallLinkDetails__DeleteLinkModal__Body": {
     "messageformat": "لن يعمل هذا الرابط بعد الآن لأي شخص أرسلته إليه من قبل."
   },
-  "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
-    "messageformat": "إلغاء"
-  },
   "icu:CallLinkDetails__DeleteLinkModal__Delete": {
     "messageformat": "حذف"
   },
@@ -8099,12 +8057,6 @@
   "icu:Donations__badge-modal--help-text": {
     "messageformat": "يُمكنك تعديلُها على جهازك المحمول في: الإعدادات ← تبرَّع لسيجنال ← الشارات."
   },
-  "icu:CallQualitySurvey__CloseButton__AccessibilityLabel": {
-    "messageformat": "إغلاق"
-  },
-  "icu:CallQualitySurvey__BackButton__AccessibilityLabel": {
-    "messageformat": "الرجوع"
-  },
   "icu:CallQualitySurvey__HowWasYourCall__PageTitle": {
     "messageformat": "كيف كانت مكالمتك؟"
   },
@@ -8192,9 +8144,6 @@
   "icu:CallQualitySurvey__ConfirmSubmission__SubmitButton": {
     "messageformat": "إرسال"
   },
-  "icu:CallQualitySurvey__ConfirmSubmission__Submitting": {
-    "messageformat": "جارٍ إرسال الاستطلاع…"
-  },
   "icu:CallQualitySurvey__SubmissionFailed": {
     "messageformat": "فشل إرسال الاستطلاع"
   },
@@ -8214,37 +8163,34 @@
     "messageformat": "مرِّر"
   },
   "icu:MaybeTransferModal__title": {
-    "messageformat": "Transfer your phone’s message history to this desktop?"
+    "messageformat": "هل تريد نقل سِجل رسائل هاتفك إلى هذا الكمبيوتر؟"
   },
   "icu:MaybeTransferModal__description": {
-    "messageformat": "When you re-link this desktop, you can transfer your phone’s message history to this device."
+    "messageformat": "عند إعادة ربط هذا الكمبيوتر، يمكنك نقل سِجل رسائل هاتفك إلى هذا الجهاز."
   },
   "icu:MaybeTransferModal__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "اعرف المزيد"
   },
   "icu:MaybeTransferModal__replaceHistory": {
-    "messageformat": "This will <bold>replace</bold> the message history on this desktop."
+    "messageformat": "سَيؤدي هذا الإجراء إلى <bold>استبدال</bold> سِجل الرسائل الحالي على هذا الكمبيوتر."
   },
   "icu:MaybeTransferModal__scanQrCode": {
-    "messageformat": "You’ll need to relink by scanning a QR code."
+    "messageformat": "سَتحتاج إلى إعادة الربط عبر مسح رمز QR."
   },
   "icu:MaybeTransferModal__media": {
-    "messageformat": "If you have paid Signal Secure Backups, all of your media will be transferred. Otherwise, your last 45 days of media will be included."
+    "messageformat": "إذا كان لديك اشتراك مدفوع في \"النسخ الاحتياطية الآمنة لسيجنال\"، فستُنقل جميع الوسائط الخاصة بك. وإلا فستُنقل الوسائط الخاصة بك لآخر 45 يوماً فقط."
   },
   "icu:MaybeTransferModal__transfer": {
-    "messageformat": "Transfer"
+    "messageformat": "نقل"
   },
   "icu:MaybeTransferModal__dontTransfer": {
-    "messageformat": "Don't transfer"
+    "messageformat": "عدم نقل سِجل الرسائل"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__title": {
-    "messageformat": "Delete all data?"
-  },
-  "icu:DeleteDataAndRelinkConfirmationDialog__pending": {
-    "messageformat": "Deleting all data"
+    "messageformat": "هل ترغبُ بحذف جميع البيانات؟"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__body": {
-    "messageformat": "All current data in Signal Desktop will be deleted. You can then scan a QR code and transfer your message history from your phone."
+    "messageformat": "ستُحذف جميع البيانات الحالية في تطبيق سيجنال Desktop. يُمكنك بعد ذلك مسح رمز الـ QR ونقل سِجل رسائلك من هاتفك."
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "يحتوي هذا الإصدار على عدد من التعديلات الصغيرة وإصلاحات الأخطاء للحفاظ على عمل سيجنال بسلاسة.",
@@ -8274,16 +8220,16 @@
     "messageformat": "تعديلات صغيرة، وإصلاح أعطال، وتحسينات للأداء. شكرًا على استخدامك سيجنال!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.10--0": {
-    "messageformat": "قمنا بتفعيل دعم الرموز التعبيرية الجديدة في إصدار Unicode 17.0. تفاعَل مع الرسائل باستخدام رمز \"راقص الباليه\" التعبيري الجديد لتُؤدي نسختك الرقمية الخاصة من حركة \"pas de chat\"."
-  },
   "icu:WhatsNew__8.11--0": {
-    "messageformat": "We've introduced additional confirmations and educational messaging in the app to help protect Signal users from phishing and social engineering attacks. As a reminder, never reply to chats pretending to be Signal, and never send your verification code, PIN, or recovery key to anyone."
+    "messageformat": "أضفنا خطوات تأكيد إضافية ورسائل توعوية داخل التطبيق، وذلك لحماية مُستخدِمي سيجنال من التصيُّد الاحتيالي وهجمات الهندسة الاجتماعية. وللتذكير، لا تردّ مطلقًا على أي محادثات تدّعي أنها من فريق سيجنال، ولا ترسل كود التحقُّق، أو رقم التعريف الشخصي (PIN)، أو مفتاح الاستعادة الخاص بك لأي شخص كان."
   },
   "icu:WhatsNew__8.11--1": {
-    "messageformat": "Raised hand indicators in group calls now display the current order of the queue, so you can easily see who got the upper hand first."
+    "messageformat": "تُعرَض مؤشرات رفع اليد في المكالمات الجماعية الآن وفق ترتيب قائمة الانتظار الحالية، لذلك يمكنك بسهولة رؤية من رفع يده أوّلًا."
   },
   "icu:WhatsNew__8.11--2": {
-    "messageformat": "We also added a real-time visualization while recording voice messages, so surfers (and oceanographers) can stare at multiple moving waveforms whenever they share updates from the beach."
+    "messageformat": "قُمنا بإضافة عرض مرئي جديد يظهر أثناء تسجيل الرسائل الصوتية."
+  },
+  "icu:WhatsNew__8.12--0": {
+    "messageformat": "On the one hand, you can click on the raise hand icon during group calls. But on the other hand, now you can use a new keyboard shortcut too (Shift-H)."
   }
 }
