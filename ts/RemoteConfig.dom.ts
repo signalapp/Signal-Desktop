@@ -102,6 +102,8 @@ const KnownDesktopLibsignalNetKeys = [
   'desktop.libsignalNet.grpc.AccountsAnonymousLookupUsernameLink.2.beta',
   'desktop.libsignalNet.grpc.AttachmentsGetUploadForm',
   'desktop.libsignalNet.grpc.AttachmentsGetUploadForm.beta',
+  'desktop.libsignalNet.grpc.BackupsAnonymousGetUploadForm',
+  'desktop.libsignalNet.grpc.BackupsAnonymousGetUploadForm.beta',
   'desktop.libsignalNet.grpc.MessagesAnonymousSendMultiRecipientMessage.2',
   'desktop.libsignalNet.grpc.MessagesAnonymousSendMultiRecipientMessage.2.beta',
   'desktop.libsignalNet.grpc.MessagesAnonymousSendSingleRecipientMessage',
