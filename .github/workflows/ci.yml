@@ -64,7 +64,10 @@ jobs:
       run: pnpm install
       working-directory: sticker-creator
 
+    - name: Install libpulse0
+      run: sudo apt-get install -y libpulse0 || (sudo apt-get update && sudo apt-get install -y libpulse0)
     - run: pnpm run generate
+    - run: pnpm run build:db-schema --check
     - run: pnpm run lint-prettier
     - run: pnpm run lint-css
     - run: pnpm run check:types
