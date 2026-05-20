@@ -1,18 +1,18 @@
 {
   "icu:AxoAlertDialog.Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Hủy"
   },
   "icu:AxoButton.Pending": {
-    "messageformat": "Pending"
+    "messageformat": "Đang chờ"
   },
   "icu:AxoDialog.Back": {
-    "messageformat": "Back"
+    "messageformat": "Trở lại"
   },
   "icu:AxoDialog.Close": {
-    "messageformat": "Close"
+    "messageformat": "Đóng"
   },
   "icu:AxoTextField.Clear": {
-    "messageformat": "Clear"
+    "messageformat": "Xoá"
   },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "Thêm vào một nhóm"
@@ -1599,13 +1599,13 @@
     "messageformat": "Cần hỗ trợ?"
   },
   "icu:Install__confirm-data-deletion__title": {
-    "messageformat": "Delete all data?"
+    "messageformat": "Xóa tất cả dữ liệu ?"
   },
   "icu:Install__confirm-data-deletion__body": {
-    "messageformat": "You’re attempting to link a different Signal account to this desktop. If you continue, all data currently in Signal Desktop will be deleted."
+    "messageformat": "Bạn đang cố gắng liên kết một tài khoản Signal khác với máy tính này. Nếu tiếp tục, tất cả dữ liệu hiện có trong Signal Desktop sẽ bị xóa."
   },
   "icu:Install__confirm-data-deletion__continue": {
-    "messageformat": "Continue"
+    "messageformat": "Tiếp tục"
   },
   "icu:Preferences--header": {
     "messageformat": "Cài đặt"
@@ -4608,7 +4608,7 @@
     "messageformat": "Ủng hộ Signal"
   },
   "icu:BadgeDialog__name-supports-signal": {
-    "messageformat": "{name} supports Signal"
+    "messageformat": "{name} ủng hộ Signal"
   },
   "icu:ProfileMovedModal__title": {
     "messageformat": "Hồ sơ của bạn đã được dịch chuyển"
@@ -8214,37 +8214,37 @@
     "messageformat": "Mục"
   },
   "icu:MaybeTransferModal__title": {
-    "messageformat": "Transfer your phone’s message history to this desktop?"
+    "messageformat": "Bạn muốn chuyển lịch sử tin nhắn của điện thoại sang máy tính này?"
   },
   "icu:MaybeTransferModal__description": {
-    "messageformat": "When you re-link this desktop, you can transfer your phone’s message history to this device."
+    "messageformat": "Khi bạn liên kết lại máy tính này, bạn có thể chuyển lịch sử tin nhắn từ điện thoại sang thiết bị này."
   },
   "icu:MaybeTransferModal__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Tìm hiểu thêm"
   },
   "icu:MaybeTransferModal__replaceHistory": {
-    "messageformat": "This will <bold>replace</bold> the message history on this desktop."
+    "messageformat": "Thao tác này sẽ <bold>thay thế</bold> lịch sử tin nhắn trên máy tính này."
   },
   "icu:MaybeTransferModal__scanQrCode": {
-    "messageformat": "You’ll need to relink by scanning a QR code."
+    "messageformat": "Bạn sẽ cần liên kết lại bằng cách quét mã QR."
   },
   "icu:MaybeTransferModal__media": {
-    "messageformat": "If you have paid Signal Secure Backups, all of your media will be transferred. Otherwise, your last 45 days of media will be included."
+    "messageformat": "Nếu bạn có gói Sao lưu bảo mật Signal trả phí, tất cả tập tin đa phương tiện của bạn sẽ được chuyển. Nếu không, chỉ có tập tin đa phương tiện trong 45 ngày qua được bao gồm."
   },
   "icu:MaybeTransferModal__transfer": {
-    "messageformat": "Transfer"
+    "messageformat": "Truyền tải"
   },
   "icu:MaybeTransferModal__dontTransfer": {
-    "messageformat": "Don't transfer"
+    "messageformat": "Không chuyển"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__title": {
-    "messageformat": "Delete all data?"
+    "messageformat": "Xóa tất cả dữ liệu ?"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__pending": {
-    "messageformat": "Deleting all data"
+    "messageformat": "Đang xóa tất cả dữ liệu"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__body": {
-    "messageformat": "All current data in Signal Desktop will be deleted. You can then scan a QR code and transfer your message history from your phone."
+    "messageformat": "Tất cả dữ liệu hiện có trong Signal Desktop sẽ bị xóa. Sau đó, bạn có thể quét mã QR và chuyển lịch sử tin nhắn từ điện thoại của mình."
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Phiên bản này có một số tinh chỉnh và sửa lỗi để giữ cho Signal hoạt động mượt mà.",
@@ -8278,12 +8278,12 @@
     "messageformat": "Hỗ trợ emoji mới trong Unicode 17.0."
   },
   "icu:WhatsNew__8.11--0": {
-    "messageformat": "We've introduced additional confirmations and educational messaging in the app to help protect Signal users from phishing and social engineering attacks. As a reminder, never reply to chats pretending to be Signal, and never send your verification code, PIN, or recovery key to anyone."
+    "messageformat": "Chúng tôi đã bổ sung các bước xác nhận và thông báo hướng dẫn trong ứng dụng để giúp bảo vệ người dùng Signal khỏi các hành vi tấn công giả mạo và phi kỹ thuật. Cần nhắc lại, tuyệt đối không trả lời tin nhắn giả mạo Signal và không bao giờ gửi mã xác minh, mã PIN hoặc mã khóa khôi phục của bạn cho bất kỳ ai."
   },
   "icu:WhatsNew__8.11--1": {
-    "messageformat": "Raised hand indicators in group calls now display the current order of the queue, so you can easily see who got the upper hand first."
+    "messageformat": "Chỉ báo giơ tay trong cuộc gọi nhóm giờ đây hiển thị thứ tự hiện tại trong hàng đợi."
   },
   "icu:WhatsNew__8.11--2": {
-    "messageformat": "We also added a real-time visualization while recording voice messages, so surfers (and oceanographers) can stare at multiple moving waveforms whenever they share updates from the beach."
+    "messageformat": "Hình ảnh trực quan mới khi ghi âm tin nhắn thoại."
   }
 }

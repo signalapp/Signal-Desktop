@@ -1,18 +1,18 @@
 {
   "icu:AxoAlertDialog.Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "취소"
   },
   "icu:AxoButton.Pending": {
-    "messageformat": "Pending"
+    "messageformat": "대기 중"
   },
   "icu:AxoDialog.Back": {
-    "messageformat": "Back"
+    "messageformat": "뒤로"
   },
   "icu:AxoDialog.Close": {
-    "messageformat": "Close"
+    "messageformat": "닫기"
   },
   "icu:AxoTextField.Clear": {
-    "messageformat": "Clear"
+    "messageformat": "지우기"
   },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "그룹에 추가"
@@ -381,7 +381,7 @@
     "messageformat": "이 대화들은 보관 처리되었으며 새 메시지를 받을 때에만 받은 메시지에 표시됩니다."
   },
   "icu:noArchivedConversations": {
-    "messageformat": "보관되지 않은 대화"
+    "messageformat": "보관된 대화가 없습니다."
   },
   "icu:archiveConversation": {
     "messageformat": "보관"
@@ -906,7 +906,7 @@
     "messageformat": "집"
   },
   "icu:work": {
-    "messageformat": "회사"
+    "messageformat": "직장"
   },
   "icu:mobile": {
     "messageformat": "모바일"
@@ -1014,7 +1014,7 @@
     "messageformat": "취소"
   },
   "icu:discard": {
-    "messageformat": "버리기"
+    "messageformat": "삭제하기"
   },
   "icu:error": {
     "messageformat": "오류"
@@ -1599,13 +1599,13 @@
     "messageformat": "도움이 필요하신가요?"
   },
   "icu:Install__confirm-data-deletion__title": {
-    "messageformat": "Delete all data?"
+    "messageformat": "모든 데이터를 삭제할까요?"
   },
   "icu:Install__confirm-data-deletion__body": {
-    "messageformat": "You’re attempting to link a different Signal account to this desktop. If you continue, all data currently in Signal Desktop will be deleted."
+    "messageformat": "이 데스크톱에 연결하려는 Signal 계정이 기존 계정과 다릅니다. 계속 진행할 경우 현재 Signal 데스크톱에 있는 모든 데이터가 삭제됩니다."
   },
   "icu:Install__confirm-data-deletion__continue": {
-    "messageformat": "Continue"
+    "messageformat": "계속"
   },
   "icu:Preferences--header": {
     "messageformat": "설정"
@@ -1797,7 +1797,7 @@
     "messageformat": "저장"
   },
   "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__DiscardButton": {
-    "messageformat": "버리기"
+    "messageformat": "삭제하기"
   },
   "icu:Preferences__EditChatFolderPage__SaveButton": {
     "messageformat": "저장"
@@ -4608,7 +4608,7 @@
     "messageformat": "Signal 후원하기"
   },
   "icu:BadgeDialog__name-supports-signal": {
-    "messageformat": "{name} supports Signal"
+    "messageformat": "{name} 님은 Signal을 후원 중입니다"
   },
   "icu:ProfileMovedModal__title": {
     "messageformat": "프로필을 이동함"
@@ -5638,7 +5638,7 @@
     "messageformat": "파일 없음"
   },
   "icu:MediaGallery__EmptyState__description--documents-2": {
-    "messageformat": "내가 주고받는 파일이 여기에 표시됩니다"
+    "messageformat": "내가 주고받는 파일이 여기에 표시됩니다."
   },
   "icu:MediaGallery__ContextMenu__ViewInChat": {
     "messageformat": "채팅에서 보기"
@@ -6182,19 +6182,19 @@
     "messageformat": "프로필 이름"
   },
   "icu:NotificationProfiles--sample-name__work": {
-    "messageformat": "회사"
+    "messageformat": "업무 중"
   },
   "icu:NotificationProfiles--sample-name__sleep": {
-    "messageformat": "수면"
+    "messageformat": "취침 중"
   },
   "icu:NotificationProfiles--sample-name__driving": {
-    "messageformat": "운전"
+    "messageformat": "운전 중"
   },
   "icu:NotificationProfiles--sample-name__downtime": {
-    "messageformat": "휴식"
+    "messageformat": "휴식 중"
   },
   "icu:NotificationProfiles--sample-name__focus": {
-    "messageformat": "집중"
+    "messageformat": "집중 모드"
   },
   "icu:NotificationProfiles--allowed-title": {
     "messageformat": "알림 허용"
@@ -6548,7 +6548,7 @@
     "messageformat": "내 전화번호를 볼 수 있고, Signal에서 내 전화번호로 나한테 연락할 수 있는 사람을 선택하세요."
   },
   "icu:Preferences__pnp__row--button": {
-    "messageformat": "변경…"
+    "messageformat": "변경"
   },
   "icu:Preferences__pnp__sharing--title": {
     "messageformat": "내 전화번호를 볼 수 있는 사람"
@@ -8214,37 +8214,37 @@
     "messageformat": "슬라이드"
   },
   "icu:MaybeTransferModal__title": {
-    "messageformat": "Transfer your phone’s message history to this desktop?"
+    "messageformat": "휴대폰 메시지 기록을 이 데스크톱으로 가져오시겠어요?"
   },
   "icu:MaybeTransferModal__description": {
-    "messageformat": "When you re-link this desktop, you can transfer your phone’s message history to this device."
+    "messageformat": "이 데스크톱 기기를 다시 연결하면 휴대폰의 메시지 기록을 이 기기로 가져올 수 있습니다."
   },
   "icu:MaybeTransferModal__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "더 알아보기"
   },
   "icu:MaybeTransferModal__replaceHistory": {
-    "messageformat": "This will <bold>replace</bold> the message history on this desktop."
+    "messageformat": "휴대폰 메시지 기록을 가져올 경우 해당 기록이 이 데스크톱의 메시지 기록을 <bold>대체합니다</bold>."
   },
   "icu:MaybeTransferModal__scanQrCode": {
-    "messageformat": "You’ll need to relink by scanning a QR code."
+    "messageformat": "QR 코드를 스캔하여 기기를 다시 연결해야 합니다."
   },
   "icu:MaybeTransferModal__media": {
-    "messageformat": "If you have paid Signal Secure Backups, all of your media will be transferred. Otherwise, your last 45 days of media will be included."
+    "messageformat": "유료 Signal 안전 백업을 사용하시는 경우 모든 미디어가 이전됩니다. 그렇지 않을 경우, 최근 45일 이내의 미디어 파일만 이전됩니다."
   },
   "icu:MaybeTransferModal__transfer": {
-    "messageformat": "Transfer"
+    "messageformat": "가져오기"
   },
   "icu:MaybeTransferModal__dontTransfer": {
-    "messageformat": "Don't transfer"
+    "messageformat": "가져오기 안 함"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__title": {
-    "messageformat": "Delete all data?"
+    "messageformat": "모든 데이터를 삭제할까요?"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__pending": {
-    "messageformat": "Deleting all data"
+    "messageformat": "모든 데이터 삭제 중"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__body": {
-    "messageformat": "All current data in Signal Desktop will be deleted. You can then scan a QR code and transfer your message history from your phone."
+    "messageformat": "Signal 데스크톱의 현재 데이터가 모두 삭제됩니다. 이 작업이 완료되면 QR 코드를 스캔하여 휴대폰의 메시지 기록을 가져올 수 있습니다."
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "이 버전에는 Signal의 원활한 실행을 위한 일부 기능 업데이트와 버그 수정이 다수 포함되어 있습니다.",
@@ -8278,12 +8278,12 @@
     "messageformat": "Unicode 17.0의 신규 이모지에 대한 지원을 추가했습니다."
   },
   "icu:WhatsNew__8.11--0": {
-    "messageformat": "We've introduced additional confirmations and educational messaging in the app to help protect Signal users from phishing and social engineering attacks. As a reminder, never reply to chats pretending to be Signal, and never send your verification code, PIN, or recovery key to anyone."
+    "messageformat": "피싱과 소셜 엔지니어링 공격으로부터 Signal 사용자를 보호하기 위해 Signal 앱 내에 확인 및 안내 메시지를 추가했습니다. 다시 한번 당부드리지만, Signal을 사칭하는 채팅에는 절대 답장하지 마시고, 다른 사람에게 인증 코드나 PIN, 복구 키를 절대 전송하지 마세요."
   },
   "icu:WhatsNew__8.11--1": {
-    "messageformat": "Raised hand indicators in group calls now display the current order of the queue, so you can easily see who got the upper hand first."
+    "messageformat": "이제 그룹 통화에서 손 들기 표시를 통해 현재 발언 대기 순서를 확인할 수 있습니다."
   },
   "icu:WhatsNew__8.11--2": {
-    "messageformat": "We also added a real-time visualization while recording voice messages, so surfers (and oceanographers) can stare at multiple moving waveforms whenever they share updates from the beach."
+    "messageformat": "음성 메시지를 녹음하는 동안 새로운 시각적 효과가 표시됩니다."
   }
 }

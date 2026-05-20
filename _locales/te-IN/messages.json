@@ -1,18 +1,18 @@
 {
   "icu:AxoAlertDialog.Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "రద్దు చేయండి"
   },
   "icu:AxoButton.Pending": {
-    "messageformat": "Pending"
+    "messageformat": "పెండింగ్‌లో ఉంది"
   },
   "icu:AxoDialog.Back": {
-    "messageformat": "Back"
+    "messageformat": "తిరిగి"
   },
   "icu:AxoDialog.Close": {
-    "messageformat": "Close"
+    "messageformat": "మూసివెయ్యి"
   },
   "icu:AxoTextField.Clear": {
-    "messageformat": "Clear"
+    "messageformat": "స్పష్టమైన"
   },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "సమూహానికి జోడించండి"
@@ -1599,13 +1599,13 @@
     "messageformat": "సాయం అవసరమా?"
   },
   "icu:Install__confirm-data-deletion__title": {
-    "messageformat": "Delete all data?"
+    "messageformat": "మొత్తం సమాచారమును తొలగించేదా?"
   },
   "icu:Install__confirm-data-deletion__body": {
-    "messageformat": "You’re attempting to link a different Signal account to this desktop. If you continue, all data currently in Signal Desktop will be deleted."
+    "messageformat": "మీరు వేరొక Signal ఖాతాను ఈ డెస్క్‌టాప్‌కు అనుసంధానించడానికి ప్రయత్నిస్తున్నారు. ఒకవేళ మీరు కొనసాగిస్తే, Signal Desktop లో ప్రస్తుతం ఉన్న మొత్తం డేటా తొలగించబడుతుంది."
   },
   "icu:Install__confirm-data-deletion__continue": {
-    "messageformat": "Continue"
+    "messageformat": "కొనసాగించండి"
   },
   "icu:Preferences--header": {
     "messageformat": "అమరికలు"
@@ -2226,7 +2226,7 @@
     "messageformat": "ఖాతాను తొలగించండి"
   },
   "icu:deleteAccountExplanation": {
-    "messageformat": "ఇది మీ ఖాతా సమాచారం, ప్రొఫైల్ మరియు మీ సందేశాలన్నింటినీ తొలగిస్తుంది. మిమ్మల్ని అన్ని Signal గ్రూపుల నుండి కూడా తీసివేస్తారు."
+    "messageformat": "ఇది మీ ఖాతా సమాచారం, ప్రొఫైల్ మరియు మీ సందేశాలన్నింటినీ తొలగిస్తుంది. మీరు అన్ని Signal గ్రూపుల నుండి కూడా ."
   },
   "icu:deleteAccountButton": {
     "messageformat": "ఖాతాను తొలగించండి"
@@ -2235,7 +2235,7 @@
     "messageformat": "ఖాతాను తొలగించాలా?"
   },
   "icu:deleteAccountDialogBody": {
-    "messageformat": "ఇది మీ ఖాతా సమాచారం, ప్రొఫైల్ మరియు మీ సందేశాలన్నింటినీ తొలగిస్తుంది. మిమ్మల్ని అన్ని Signal గ్రూపుల నుండి కూడా తీసివేస్తారు. ఈ ప్రక్రియ పూర్తయిన తరువాత యాప్ మూసివేయబడుతుంది."
+    "messageformat": "ఇది మీ ఖాతా సమాచారం, ప్రొఫైల్ మరియు మీ సందేశాలన్నింటినీ తొలగిస్తుంది. మీరు అన్ని Signal గ్రూపుల నుండి కూడా .ఈ ప్రక్రియ పూర్తయిన తరువాత యాప్ మూసివేయబడుతుంది."
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Signal Desktop యొక్క మునుపటి ఇన్‌స్టాలేషన్ నుండి మీరు వాడుకలో లేని డేటా కలిగి ఉన్నారు. ఒకవేళ మీరు కొనసాగించాలని ఎంచుకుంటే, అది తొలగించబడుతుంది మరియు మీరు మొదటి నుండి ప్రారంభిస్తారు."
@@ -3387,25 +3387,25 @@
     "messageformat": "పేర్లు మరియు ఫోటోలను సమీక్షించండి"
   },
   "icu:SafetyTipsModal__TipDescription--NamesAndPhotos": {
-    "messageformat": "“పేరు ధృవీకరించబడలేదు” అనే నోటీసు కోసం చూడండి. Signalలో ప్రతిఒక్కరూ తమ సొంత ప్రొఫైల్ పేరును సెట్ చేసుకుంటారు."
+    "messageformat": "“పేరు ధృవీకరించబడలేదు” అనే ప్రకటన కోసం చూడండి. Signalలో ప్రతిఒక్కరూ తమ సొంత ప్రొఫైల్ పేరును సెట్ చేసుకుంటారు."
   },
   "icu:SafetyTipsModal__TipTitle--Scams": {
     "messageformat": "భారీ మోసాల పట్ల జాగ్రత్త వహించండి"
   },
   "icu:SafetyTipsModal__TipDescription--Scams": {
-    "messageformat": "మీరు ప్రత్యుత్తరం ఇచ్చేలా చేసే అస్పష్టమైన సందేశాలను తప్పించండి. ఆర్థిక సలహాలు మరియు అనుమానాస్పద వెబ్ లింక్‌ల పట్ల అప్రమత్తంగా ఉండండి."
+    "messageformat": "మీరు ప్రత్యుత్తరం ఇచ్చేలా చేసే అస్పష్టమైన సందేశాలను తప్పించండి. ఆర్థిక చిట్కాలు మరియు అనుమానాస్పద వెబ్ లింక్‌ల పట్ల అప్రమత్తంగా ఉండండి."
   },
   "icu:SafetyTipsModal__TipTitle--DontRespond": {
     "messageformat": "Signal నుండి వచ్చే చాట్‌లకు స్పందించవద్దు"
   },
   "icu:SafetyTipsModal__TipDescription--DontRespond": {
-    "messageformat": "Signal మీ నమోదు కోడ్, PIN లేదా రికవర్ కీ కోసం మీకు ఎప్పటికీ సందేశం పంపదు. Signal లేదా Signal మద్దతు అని నటిస్తూ చేసే చాట్‌లకు ప్రత్యుత్తరము ఇవ్వకండి. చెడ్డవారు మీ ఖాతాను స్వాధీనం చేసుకోవడానికి నకిలీ పేరులను సెటప్ చేస్తారు."
+    "messageformat": "Signal మీ నమోదు కోడ్, PIN లేదా రికవర్ కీ కోసం మీకు ఎప్పటికీ సందేశం పంపదు. Signal లేదా Signal మద్దతు అని నటిస్తూ చేసే చాట్‌లకు ప్రత్యుత్తరము ఇవ్వకండి. చెడ్డవారు మీ ఖాతాను స్వాధీనం చేసుకోవడానికి నకిలీ పేర్లను సెటప్ చేస్తారు."
   },
   "icu:SafetyTipsModal__TipTitle--ReviewNames": {
     "messageformat": "పేర్లు మరియు ఫోటోలను సమీక్షించండి"
   },
   "icu:SafetyTipsModal__TipDescription--ReviewNames": {
-    "messageformat": "“పేరు ధృవీకరించబడలేదు” అనే నోటీసు కోసం చూడండి. Signalలో ప్రతిఒక్కరూ తమ సొంత ప్రొఫైల్ పేరు మరియు ఫోటోను సెట్ చేసుకుంటారు. కొత్త అభ్యర్థన ఎవరి నుండి వచ్చిందో మీకు ఖచ్చితంగా తెలియకపోతే, దానిని విస్మరించడం సురక్షితం."
+    "messageformat": "“పేరు ధృవీకరించబడలేదు” అనే ప్రకటన కోసం చూడండి.Signalలో ప్రతిఒక్కరూ తమ సొంత ప్రొఫైల్ పేరు మరియు ఫోటోను సెట్ చేసుకుంటారు. కొత్త అభ్యర్థన ఎవరి నుండి వచ్చిందో ఒకవేళ మీకు ఖచ్చితంగా తెలియకపోతే, దానిని విస్మరించడం సురక్షితం."
   },
   "icu:SafetyTipsModal__TipTitle--Crypto": {
     "messageformat": "క్రిప్టో లేదా నగదు స్కామ్‌లు"
@@ -3534,7 +3534,7 @@
     "messageformat": "అభ్యర్థనను అంగీకరిస్తారా?"
   },
   "icu:MessageRequests--accept-confirm-body-v2": {
-    "messageformat": "మీరు విశ్వసించే వ్యక్తుల నుండి వచ్చే అభ్యర్థనలను మాత్రమే స్వీకరించండి. మీ నమోదు కోడ్, PIN లేదా రికవర్ కీ కోసం మీకు SIGNAL ఎప్పటికీ సందేశం పంపదు."
+    "messageformat": "మీరు విశ్వసించే వ్యక్తుల నుండి వచ్చే అభ్యర్థనలను మాత్రమే అంగీకరించండి. మీ నమోదు కోడ్, PIN లేదా రికవర్ కీ కోసం మీకు SIGNAL ఎప్పటికీ సందేశం పంపదు."
   },
   "icu:MessageRequests--continue": {
     "messageformat": "కొనసాగించండి"
@@ -4593,7 +4593,7 @@
     "messageformat": "దీనికి కొంత సమయం పట్టవచ్చు"
   },
   "icu:DeletingAccount__LeavingGroups__Title": {
-    "messageformat": "గ్రూప్‌లను విడిచిపెడుతోంది..."
+    "messageformat": "గ్రూప్‌లను విడిచిపెడుతున్నారు..."
   },
   "icu:DeletingAccount__LeavingGroups__Detail": {
     "messageformat": "మీరు ఉన్న గ్రూపుల సంఖ్య ఆధారంగా, దీనికి కొన్ని నిమిషాలు పట్టవచ్చు"
@@ -4608,7 +4608,7 @@
     "messageformat": "Signal కు దానం చేయండి"
   },
   "icu:BadgeDialog__name-supports-signal": {
-    "messageformat": "{name} supports Signal"
+    "messageformat": "Signal కు {name} మద్దతు ఇస్తారు"
   },
   "icu:ProfileMovedModal__title": {
     "messageformat": "మీ ప్రొఫైల్ కదిలింది"
@@ -6341,13 +6341,13 @@
     "messageformat": "బ్లాక్ చేయబడింది"
   },
   "icu:Preferences--blocked-count-both-new": {
-    "messageformat": "{num, plural, =0 { యూజర్‌లు లేదా గ్రూప్‌లు లేవు } one {{num,number} యూజర్ లేదా గ్రూప్} other {{num,number} యూజర్‌లు లేదా గ్రూప్‌లు}}"
+    "messageformat": "{num, plural, =0 { యూజర్‌లు లేదా గ్రూప్‌లు లేవు } one {{num,number} యూజర్ లేదా గ్రూప్} other {{num,number} యూజర్‌లు లేదా గ్రూప్లు}}"
   },
   "icu:Preferences--blocked-count-contacts-new": {
-    "messageformat": "{num, plural, =0 { యూజర్‌లు లేరు } one {{num,number} యూజర్} other {{num,number} యూజర్‌లు}}"
+    "messageformat": "{num, plural, =0 { యూజర్‌లు లేరు } one {{num,number} యూజర్} other {{num,number} యూజర్లు}}"
   },
   "icu:Preferences--blocked-count-groups-new": {
-    "messageformat": "{num, plural, =0 { గ్రూప్‌లు లేరు } one {{num,number} గ్రూప్} other {{num,number} గ్రూప్‌లు}}"
+    "messageformat": "{num, plural, =0 { గ్రూప్‌లు లేవు } one {{num,number} గ్రూప్} other {{num,number} గ్రూప్లు}}"
   },
   "icu:Preferences--blocked-users--description": {
     "messageformat": "బ్లాక్ చేయబడిన యూజర్‌లు మీకు కాల్ చేయలేరు లేదా మీకు సందేశాలు పంపలేరు"
@@ -8208,43 +8208,43 @@
     "messageformat": "మెగాఫోన్‌తో పరస్పరం సంభాషించుకోవడానికి సైడ్‌బార్‌ను విస్తరించండి"
   },
   "icu:Carousel--Role": {
-    "messageformat": "భ్రమణ ప్రదర్శన"
+    "messageformat": "కరోసెల్"
   },
   "icu:Carousel__Slide--Role": {
     "messageformat": "స్లయిడ్"
   },
   "icu:MaybeTransferModal__title": {
-    "messageformat": "Transfer your phone’s message history to this desktop?"
+    "messageformat": "మీ ఫోన్ సందేశాల చరిత్రను ఈ డెస్క్‌టాప్‌కు బదిలీ చేయాలా?"
   },
   "icu:MaybeTransferModal__description": {
-    "messageformat": "When you re-link this desktop, you can transfer your phone’s message history to this device."
+    "messageformat": "మీరు ఈ డెస్క్‌టాప్‌ను తిరిగి లింక్ చేసినప్పుడు, మీ ఫోన్ సందేశ చరిత్రను మీరు ఈ పరికరానికి బదిలీ చేయవచ్చు."
   },
   "icu:MaybeTransferModal__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "మరింత నేర్చుకోండి"
   },
   "icu:MaybeTransferModal__replaceHistory": {
-    "messageformat": "This will <bold>replace</bold> the message history on this desktop."
+    "messageformat": "ఇది ఈ డెస్క్‌టాప్‌లోని సందేశ చరిత్రను <bold>భర్తీ చేస్తుంది</bold>."
   },
   "icu:MaybeTransferModal__scanQrCode": {
-    "messageformat": "You’ll need to relink by scanning a QR code."
+    "messageformat": "QR కోడ్‌ను స్కాన్ చేయడం ద్వారా మీరు మళ్ళీ లింక్ చేయాల్సి ఉంటుంది."
   },
   "icu:MaybeTransferModal__media": {
-    "messageformat": "If you have paid Signal Secure Backups, all of your media will be transferred. Otherwise, your last 45 days of media will be included."
+    "messageformat": "ఒకవేళ మీరు చెల్లింపు Signal సురక్షిత బ్యాకప్‌లను కలిగి ఉంటే, మీ మీడియా అంతా బదిలీ చేయబడుతుంది. లేకపోతే, మీ గత 45 రోజుల మీడియా చేర్చబడుతుంది."
   },
   "icu:MaybeTransferModal__transfer": {
-    "messageformat": "Transfer"
+    "messageformat": "బదిలీ చేయి"
   },
   "icu:MaybeTransferModal__dontTransfer": {
-    "messageformat": "Don't transfer"
+    "messageformat": "బదిలీ చేయవద్దు"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__title": {
-    "messageformat": "Delete all data?"
+    "messageformat": "మొత్తం సమాచారమును తొలగించేదా?"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__pending": {
-    "messageformat": "Deleting all data"
+    "messageformat": "సమస్త డేటాను తొలగించడం"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__body": {
-    "messageformat": "All current data in Signal Desktop will be deleted. You can then scan a QR code and transfer your message history from your phone."
+    "messageformat": "Signal Desktop లోని ప్రస్తుత డేటా అంతా తొలగించబడుతుంది. ఆ తర్వాత, మీరు ఒక QR కోడ్‌ను స్కాన్ చేసి, మీ ఫోన్ నుండి మీ సందేశ చరిత్రను బదిలీ చేయవచ్చు."
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Signal ని సజావుగా నడిపించడానికి ఈ వెర్షన్‌లో చిన్నపాటి ట్వీక్‌లు మరియు బగ్ ఫిక్స్‌లు ఉన్నాయి.",
@@ -8278,12 +8278,12 @@
     "messageformat": "Unicode 17.0లో సరికొత్తగా రూపొందించిన ఎమోజీలు, ఇప్పుడు Signalలో తమ స్థానాన్ని అలంకరించాయి. పాస్ డి చాట్ యొక్క మీ స్వంత డిజిటల్ వెర్షన్‌ను ప్రదర్శించడానికి, కొత్త బ్యాలెట్ డాన్సర్ ఎమోజీతో ఒక సందేశ ప్రతిస్పందనను పంపండి."
   },
   "icu:WhatsNew__8.11--0": {
-    "messageformat": "We've introduced additional confirmations and educational messaging in the app to help protect Signal users from phishing and social engineering attacks. As a reminder, never reply to chats pretending to be Signal, and never send your verification code, PIN, or recovery key to anyone."
+    "messageformat": "Signal యూజర్‌లను ఫిషింగ్ మరియు సోషల్ ఇంజనీరింగ్ దాడుల నుండి రక్షించడంలో సహాయపడటానికి, మేము యాప్‌లో అదనపు నిర్ధారణలను మరియు అవగాహన సందేశాలను ప్రవేశపెట్టాము. గమనికగా, Signal అని నటిస్తూ వచ్చే చాట్‌లకు ఎప్పుడూ ప్రత్యుత్తరం ఇవ్వకండి, అలాగే మీ దృవీకరణ కోడ్, PIN లేదా రికవరీ కీని ఎప్పుడూ ఎవరికీ పంపకండి."
   },
   "icu:WhatsNew__8.11--1": {
-    "messageformat": "Raised hand indicators in group calls now display the current order of the queue, so you can easily see who got the upper hand first."
+    "messageformat": "గ్రూప్ కాల్స్‌లో చేతులు పైకెత్తినట్లు సూచించే గుర్తులు ఇప్పుడు క్యూలోని ప్రస్తుత క్రమాన్ని ప్రదర్శిస్తాయి."
   },
   "icu:WhatsNew__8.11--2": {
-    "messageformat": "We also added a real-time visualization while recording voice messages, so surfers (and oceanographers) can stare at multiple moving waveforms whenever they share updates from the beach."
+    "messageformat": "స్వర సందేశాలను రికార్డ్ చేస్తున్నప్పుడు కొత్త విజువలైజేషన్."
   }
 }

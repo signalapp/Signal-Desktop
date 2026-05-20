@@ -1,18 +1,18 @@
 {
   "icu:AxoAlertDialog.Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "ביטול"
   },
   "icu:AxoButton.Pending": {
-    "messageformat": "Pending"
+    "messageformat": "ממתין"
   },
   "icu:AxoDialog.Back": {
-    "messageformat": "Back"
+    "messageformat": "הקודם"
   },
   "icu:AxoDialog.Close": {
-    "messageformat": "Close"
+    "messageformat": "סגירה"
   },
   "icu:AxoTextField.Clear": {
-    "messageformat": "Clear"
+    "messageformat": "נקה"
   },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "הוסף אל קבוצה"
@@ -1599,13 +1599,13 @@
     "messageformat": "צריך עזרה?"
   },
   "icu:Install__confirm-data-deletion__title": {
-    "messageformat": "Delete all data?"
+    "messageformat": "למחוק את כל הנתונים?"
   },
   "icu:Install__confirm-data-deletion__body": {
-    "messageformat": "You’re attempting to link a different Signal account to this desktop. If you continue, all data currently in Signal Desktop will be deleted."
+    "messageformat": "ניסית לקשר חשבון Signal אחר למחשב הזה.אם תמשיכ/י, כל הנתונים הנוכחיים של Signal לשולחן העבודה יימחקו."
   },
   "icu:Install__confirm-data-deletion__continue": {
-    "messageformat": "Continue"
+    "messageformat": "המשך"
   },
   "icu:Preferences--header": {
     "messageformat": "הגדרות"
@@ -4608,7 +4608,7 @@
     "messageformat": "תרום אל Signal"
   },
   "icu:BadgeDialog__name-supports-signal": {
-    "messageformat": "{name} supports Signal"
+    "messageformat": "Signal מקבלת תמיכה מ{name}"
   },
   "icu:ProfileMovedModal__title": {
     "messageformat": "הפרופיל שלך עבר מיקום"
@@ -8214,37 +8214,37 @@
     "messageformat": "שקופית"
   },
   "icu:MaybeTransferModal__title": {
-    "messageformat": "Transfer your phone’s message history to this desktop?"
+    "messageformat": "להעביר את היסטוריית ההודעות מהטלפון שלך למחשב הזה? "
   },
   "icu:MaybeTransferModal__description": {
-    "messageformat": "When you re-link this desktop, you can transfer your phone’s message history to this device."
+    "messageformat": "לאחר קישור מחדש של המחשב הזה, אפשר להעביר את היסטוריית ההודעות של הטלפון שלך למכשיר הזה."
   },
   "icu:MaybeTransferModal__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "למידע נוסף"
   },
   "icu:MaybeTransferModal__replaceHistory": {
-    "messageformat": "This will <bold>replace</bold> the message history on this desktop."
+    "messageformat": "זה <bold>יחליף</bold> את היסטוריית ההודעות במחשב הזה."
   },
   "icu:MaybeTransferModal__scanQrCode": {
-    "messageformat": "You’ll need to relink by scanning a QR code."
+    "messageformat": "צריך יהיה לקשר מחדש באמצעות סריקת קוד QR."
   },
   "icu:MaybeTransferModal__media": {
-    "messageformat": "If you have paid Signal Secure Backups, all of your media will be transferred. Otherwise, your last 45 days of media will be included."
+    "messageformat": "אם שילמת לגיבויי Signal מאובטחים, כל המדיה שלך תועבר. אחרת, תיכלל המדיה שלך מ–45 הימים האחרונים."
   },
   "icu:MaybeTransferModal__transfer": {
-    "messageformat": "Transfer"
+    "messageformat": "העבר"
   },
   "icu:MaybeTransferModal__dontTransfer": {
-    "messageformat": "Don't transfer"
+    "messageformat": "לא להעביר"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__title": {
-    "messageformat": "Delete all data?"
+    "messageformat": "למחוק את כל הנתונים?"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__pending": {
-    "messageformat": "Deleting all data"
+    "messageformat": "מחיקת כל הנתונים"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__body": {
-    "messageformat": "All current data in Signal Desktop will be deleted. You can then scan a QR code and transfer your message history from your phone."
+    "messageformat": "כל הנתונים הנוכחיים של Signal לשולחן העבודה יימחקו. לאחר מכן, אפשר יהיה לסרוק קוד QR ולהעביר את היסטוריית ההודעות שלך מהטלפון שלך."
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "גרסה זו מכילה מספר של שפצורים קטנים ותיקוני תקלים כדי לשמור על Signal שירוץ באופן חלק.",
@@ -8278,12 +8278,12 @@
     "messageformat": "הוספנו תמיכה לאימוג׳י חדש ב–Unicode 17.0."
   },
   "icu:WhatsNew__8.11--0": {
-    "messageformat": "We've introduced additional confirmations and educational messaging in the app to help protect Signal users from phishing and social engineering attacks. As a reminder, never reply to chats pretending to be Signal, and never send your verification code, PIN, or recovery key to anyone."
+    "messageformat": "• הוספנו אישורים והודעות הסברה באפליקציה כדי לעזור להגן על משתמשים ומשתמשות Signal מפני מתקפות פישינג והנדסה חברתית. אנחנו מזכירים לעולם לא להשיב לצ׳אטים שמעמידים פנים שהם Signal, ולעולם לא לשלוח את קוד האימות, ה–PIN, או מפתח השחזור שלך לאף אחד."
   },
   "icu:WhatsNew__8.11--1": {
-    "messageformat": "Raised hand indicators in group calls now display the current order of the queue, so you can easily see who got the upper hand first."
+    "messageformat": "סמלי הרמת יד בשיחות קבוצתיות מוצגים כעת בסדר הנוכחי של התור."
   },
   "icu:WhatsNew__8.11--2": {
-    "messageformat": "We also added a real-time visualization while recording voice messages, so surfers (and oceanographers) can stare at multiple moving waveforms whenever they share updates from the beach."
+    "messageformat": "תצוגה חזותית חדשה בעת הקלטת הודעות קוליות."
   }
 }

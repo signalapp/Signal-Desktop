@@ -1,18 +1,18 @@
 {
   "icu:AxoAlertDialog.Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "取消"
   },
   "icu:AxoButton.Pending": {
-    "messageformat": "Pending"
+    "messageformat": "等緊處理"
   },
   "icu:AxoDialog.Back": {
-    "messageformat": "Back"
+    "messageformat": "返轉頭"
   },
   "icu:AxoDialog.Close": {
-    "messageformat": "Close"
+    "messageformat": "關閉"
   },
   "icu:AxoTextField.Clear": {
-    "messageformat": "Clear"
+    "messageformat": "清走晒佢"
   },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "加入去一個谷度"
@@ -1599,13 +1599,13 @@
     "messageformat": "需要幫手？"
   },
   "icu:Install__confirm-data-deletion__title": {
-    "messageformat": "Delete all data?"
+    "messageformat": "係咪要清除所有資料？"
   },
   "icu:Install__confirm-data-deletion__body": {
-    "messageformat": "You’re attempting to link a different Signal account to this desktop. If you continue, all data currently in Signal Desktop will be deleted."
+    "messageformat": "你嘗試緊將另一個 Signal 帳戶連結去呢部桌面電腦。如果你繼續，系統會刪除而家 Signal 桌面版嘅所有資料。"
   },
   "icu:Install__confirm-data-deletion__continue": {
-    "messageformat": "Continue"
+    "messageformat": "繼續"
   },
   "icu:Preferences--header": {
     "messageformat": "設定"
@@ -4608,7 +4608,7 @@
     "messageformat": "捐款俾 Signal"
   },
   "icu:BadgeDialog__name-supports-signal": {
-    "messageformat": "{name} supports Signal"
+    "messageformat": "{name} 支持 Signal"
   },
   "icu:ProfileMovedModal__title": {
     "messageformat": "個人資料已經搬咗位"
@@ -8214,37 +8214,37 @@
     "messageformat": "卡片"
   },
   "icu:MaybeTransferModal__title": {
-    "messageformat": "Transfer your phone’s message history to this desktop?"
+    "messageformat": "係咪要轉移你手機嘅訊息紀錄去呢部桌面電腦？"
   },
   "icu:MaybeTransferModal__description": {
-    "messageformat": "When you re-link this desktop, you can transfer your phone’s message history to this device."
+    "messageformat": "當你重新連結呢部桌面電腦嗰陣，就即刻可以將手機嘅訊息紀錄轉移去呢部機度。"
   },
   "icu:MaybeTransferModal__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "了解多啲"
   },
   "icu:MaybeTransferModal__replaceHistory": {
-    "messageformat": "This will <bold>replace</bold> the message history on this desktop."
+    "messageformat": "咁樣會<bold>取代</bold>呢部桌面電腦上面嘅訊息紀錄。"
   },
   "icu:MaybeTransferModal__scanQrCode": {
-    "messageformat": "You’ll need to relink by scanning a QR code."
+    "messageformat": "你需要掃描二維碼嚟重新連結。"
   },
   "icu:MaybeTransferModal__media": {
-    "messageformat": "If you have paid Signal Secure Backups, all of your media will be transferred. Otherwise, your last 45 days of media will be included."
+    "messageformat": "如果你已經課咗金用「Signal 安全備份」服務，系統會轉移你所有嘅媒體檔案。如果冇嘅話，系統只會轉移你最近 45 日嘅媒體。"
   },
   "icu:MaybeTransferModal__transfer": {
-    "messageformat": "Transfer"
+    "messageformat": "轉移"
   },
   "icu:MaybeTransferModal__dontTransfer": {
-    "messageformat": "Don't transfer"
+    "messageformat": "唔好轉移"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__title": {
-    "messageformat": "Delete all data?"
+    "messageformat": "係咪要清除所有資料？"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__pending": {
-    "messageformat": "Deleting all data"
+    "messageformat": "刪除緊所有資料"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__body": {
-    "messageformat": "All current data in Signal Desktop will be deleted. You can then scan a QR code and transfer your message history from your phone."
+    "messageformat": "系統會刪除而家 Signal 桌面版嘅所有資料。你之後可以掃描二維碼，將手機度嘅訊息紀錄轉移過嚟。"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "呢個版本包含咗少少調整同埋錯誤修復，等 Signal 可以順暢運作。",
@@ -8278,12 +8278,12 @@
     "messageformat": "Unicode 17.0 新推出嘅旋轉表情符號，而家旋風登陸 Signal。傳送心情回應嘅時候用全新嘅「芭蕾舞者」表情符號，喺電子世界跳下你嘅「貓步」。"
   },
   "icu:WhatsNew__8.11--0": {
-    "messageformat": "We've introduced additional confirmations and educational messaging in the app to help protect Signal users from phishing and social engineering attacks. As a reminder, never reply to chats pretending to be Signal, and never send your verification code, PIN, or recovery key to anyone."
+    "messageformat": "我哋已經喺個 APP 度加咗確認機制同埋教育訊息，目的保護 Signal 用戶唔好俾釣魚訊息同社交工程攻擊。溫馨提示：千祈唔好回覆假扮 Signal 嘅聊天訊息，亦都唔好將你嘅驗證碼、PIN 碼或者恢復金鑰發送俾任何人。"
   },
   "icu:WhatsNew__8.11--1": {
-    "messageformat": "Raised hand indicators in group calls now display the current order of the queue, so you can easily see who got the upper hand first."
+    "messageformat": "而家喺成谷通話入面嘅舉手標記會顯示埋最新嘅排隊順序，等你可以輕鬆睇到邊個最先攞到發言權。"
   },
   "icu:WhatsNew__8.11--2": {
-    "messageformat": "We also added a real-time visualization while recording voice messages, so surfers (and oceanographers) can stare at multiple moving waveforms whenever they share updates from the beach."
+    "messageformat": "我哋仲新加咗錄語音訊息嗰陣嘅即時視覺化功能，等你分享最新動態嘅時候，都可以睇到幾個波形動態。"
   }
 }

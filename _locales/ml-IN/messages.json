@@ -1,18 +1,18 @@
 {
   "icu:AxoAlertDialog.Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "റദ്ദാക്കുക"
   },
   "icu:AxoButton.Pending": {
-    "messageformat": "Pending"
+    "messageformat": "ശേഷിക്കുന്നു"
   },
   "icu:AxoDialog.Back": {
-    "messageformat": "Back"
+    "messageformat": "തിരികെ പോകുക"
   },
   "icu:AxoDialog.Close": {
-    "messageformat": "Close"
+    "messageformat": "അടയ്ക്കുക"
   },
   "icu:AxoTextField.Clear": {
-    "messageformat": "Clear"
+    "messageformat": "മായ്‌ക്കുക"
   },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "ഒരു ഗ്രൂപ്പിലേക്ക് ചേർക്കുക"
@@ -1599,13 +1599,13 @@
     "messageformat": "സഹായം ആവശ്യമുണ്ടോ?"
   },
   "icu:Install__confirm-data-deletion__title": {
-    "messageformat": "Delete all data?"
+    "messageformat": "എല്ലാ ഡാറ്റയും ഇല്ലാതാക്കണോ?"
   },
   "icu:Install__confirm-data-deletion__body": {
-    "messageformat": "You’re attempting to link a different Signal account to this desktop. If you continue, all data currently in Signal Desktop will be deleted."
+    "messageformat": "നിങ്ങൾ മറ്റൊരു Signal അക്കൗണ്ട് ഈ ഡെസ്ക്ടോപ്പിലേക്ക് ലിങ്ക് ചെയ്യാൻ ശ്രമിക്കുകയാണ്. നിങ്ങൾ തുടരുകയാണെങ്കിൽ നിലവിൽ Signal ഡെസ്ക്ടോപ്പിലുള്ള എല്ലാ ഡാറ്റയും ഇല്ലാതാക്കപ്പെടും."
   },
   "icu:Install__confirm-data-deletion__continue": {
-    "messageformat": "Continue"
+    "messageformat": "തുടരുക"
   },
   "icu:Preferences--header": {
     "messageformat": "ക്രമീകരണങ്ങൾ"
@@ -4608,7 +4608,7 @@
     "messageformat": "Signal-ന് സംഭാവന ചെയ്യുക"
   },
   "icu:BadgeDialog__name-supports-signal": {
-    "messageformat": "{name} supports Signal"
+    "messageformat": "{name} Signal-നെ പിന്തുണയ്‌ക്കുന്നു"
   },
   "icu:ProfileMovedModal__title": {
     "messageformat": "നിങ്ങളുടെ പ്രൊഫൈൽ നീക്കി"
@@ -8214,37 +8214,37 @@
     "messageformat": "സ്ലൈഡ്"
   },
   "icu:MaybeTransferModal__title": {
-    "messageformat": "Transfer your phone’s message history to this desktop?"
+    "messageformat": "നിങ്ങളുടെ ഫോണിലെ സന്ദേശങ്ങളുടെ ചരിത്രം ഈ ഡെസ്ക്ടോപ്പിലേക്ക് കൈമാറ്റം ചെയ്യണമെന്നുണ്ടോ?"
   },
   "icu:MaybeTransferModal__description": {
-    "messageformat": "When you re-link this desktop, you can transfer your phone’s message history to this device."
+    "messageformat": "നിങ്ങൾ ഈ ഡെസ്ക്ടോപ്പ് വീണ്ടും ലിങ്ക് ചെയ്യുമ്പോൾ നിങ്ങളുടെ ഫോണിലെ സന്ദേശങ്ങളുടെ ചരിത്രം ഈ ഉപകരണത്തിലേക്ക് കൈമാറ്റം ചെയ്യാം."
   },
   "icu:MaybeTransferModal__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "കൂടുതൽ അറിയുക"
   },
   "icu:MaybeTransferModal__replaceHistory": {
-    "messageformat": "This will <bold>replace</bold> the message history on this desktop."
+    "messageformat": "ഇത് ഈ ഡെസ്ക്ടോപ്പിലെ സന്ദേശങ്ങളുടെ ചരിത്രത്തിന് <bold>പകരമായി</bold> മാറും."
   },
   "icu:MaybeTransferModal__scanQrCode": {
-    "messageformat": "You’ll need to relink by scanning a QR code."
+    "messageformat": "ഒരു QR കോഡ് സ്കാൻ ചെയ്തുകൊണ്ട് നിങ്ങൾ വീണ്ടും ലിങ്ക് ചെയ്യേണ്ടതുണ്ട്."
   },
   "icu:MaybeTransferModal__media": {
-    "messageformat": "If you have paid Signal Secure Backups, all of your media will be transferred. Otherwise, your last 45 days of media will be included."
+    "messageformat": "നിങ്ങൾ പണം നൽകിയുള്ള Signal സുരക്ഷിത ബാക്കപ്പുകൾ ഉപയോഗിക്കുന്നുണ്ടെങ്കിൽ നിങ്ങളുടെ എല്ലാ മീഡിയയും കൈമാറ്റം ചെയ്യപ്പെടും. അല്ലെങ്കിൽ നിങ്ങളുടെ കഴിഞ്ഞ 45 ദിവസത്തെ മീഡിയ ഉൾപ്പെടുത്തും."
   },
   "icu:MaybeTransferModal__transfer": {
-    "messageformat": "Transfer"
+    "messageformat": "കൈമാറുക"
   },
   "icu:MaybeTransferModal__dontTransfer": {
-    "messageformat": "Don't transfer"
+    "messageformat": "കൈമാറരുത്"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__title": {
-    "messageformat": "Delete all data?"
+    "messageformat": "എല്ലാ ഡാറ്റയും ഇല്ലാതാക്കണോ?"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__pending": {
-    "messageformat": "Deleting all data"
+    "messageformat": "എല്ലാ ഡാറ്റയും ഇല്ലാതാക്കുന്നു"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__body": {
-    "messageformat": "All current data in Signal Desktop will be deleted. You can then scan a QR code and transfer your message history from your phone."
+    "messageformat": "Signal ഡെസ്ക്ടോപ്പിലെ നിലവിലുള്ള എല്ലാ ഡാറ്റയും ഇല്ലാതാക്കപ്പെടും. തുടർന്ന് നിങ്ങൾക്ക് ഒരു QR കോഡ് സ്കാൻ ചെയ്യാനും നിങ്ങളുടെ ഫോണിൽ നിന്ന് സന്ദേശങ്ങളുടെ ചരിത്രം കൈമാറ്റം ചെയ്യാനും കഴിയും."
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Signal സുഗമമായി പ്രവർത്തിപ്പിക്കുന്നതിന് ആവശ്യമായ ഏതാനും ചെറിയ മാറ്റങ്ങളും ബഗ് ഫിക്‌സുകളും ഈ പതിപ്പിൽ അടങ്ങിയിട്ടുണ്ട്.",
@@ -8278,12 +8278,12 @@
     "messageformat": "യുണികോഡ് 17.0-ലെ പുത്തൻ ഇമോജികൾ ഇപ്പോൾ Signal-ലും ലഭ്യമാണ്. നിങ്ങളുടെ തനതായ രീതിയിൽ ഒരു Pas de chat അവതരിപ്പിക്കാനായി പുതിയ ബാലെ ഡാൻസർ ഇമോജി ഉപയോഗിച്ച് ഒരു മെസ്സേജ് റിയാക്ഷൻ അയയ്ക്കൂ."
   },
   "icu:WhatsNew__8.11--0": {
-    "messageformat": "We've introduced additional confirmations and educational messaging in the app to help protect Signal users from phishing and social engineering attacks. As a reminder, never reply to chats pretending to be Signal, and never send your verification code, PIN, or recovery key to anyone."
+    "messageformat": "ഫിഷിംഗ്, സോഷ്യൽ എഞ്ചിനീയറിംഗ് ആക്രമണങ്ങളിൽ നിന്ന് Signal ഉപയോക്താക്കളെ സംരക്ഷിക്കാൻ സഹായിക്കുന്നതിന് ആപ്പിൽ ഞങ്ങൾ അധിക സ്ഥിരീകരണങ്ങളും അവബോധന സന്ദേശങ്ങളും അവതരിപ്പിച്ചിട്ടുണ്ട്. ഒരു ഓർമ്മപ്പെടുത്തൽ എന്ന നിലയിൽ, Signal ആണെന്ന് നടിച്ചുള്ള ചാറ്റുകൾക്ക് ഒരിക്കലും മറുപടി നൽകരുത്, ഒപ്പം നിങ്ങളുടെ പരിശോധിച്ചുറപ്പിക്കൽ കോഡോ PIN നമ്പറോ വീണ്ടെടുക്കൽ കീയോ ആർക്കും അയയ്ക്കരുത്."
   },
   "icu:WhatsNew__8.11--1": {
-    "messageformat": "Raised hand indicators in group calls now display the current order of the queue, so you can easily see who got the upper hand first."
+    "messageformat": "ഗ്രൂപ്പ് കോളുകളിൽ കൈ ഉയർത്തുന്നതിനുള്ള സൂചകങ്ങൾ ഇനി മുതൽ ക്യൂവിലെ നിലവിലെ ക്രമം കാണിക്കും, അതിനാൽ ആരാണ് ആദ്യം കൈ ഉയർത്തിയത് എന്ന് നിങ്ങൾക്ക് എളുപ്പത്തിൽ മനസ്സിലാക്കാം."
   },
   "icu:WhatsNew__8.11--2": {
-    "messageformat": "We also added a real-time visualization while recording voice messages, so surfers (and oceanographers) can stare at multiple moving waveforms whenever they share updates from the beach."
+    "messageformat": "ശബ്ദ സന്ദേശങ്ങൾ റെക്കോർഡ് ചെയ്യുമ്പോൾ തത്സമയ വിഷ്വലൈസേഷനും ഞങ്ങൾ ചേർത്തിട്ടുണ്ട്, അതിനാൽ സർഫർമാർക്കും (സമുദ്രശാസ്ത്രജ്ഞർക്കും) ബീച്ചിൽ നിന്നുള്ള അപ്ഡേറ്റുകൾ പങ്കിടുമ്പോഴെല്ലാം ചലിക്കുന്ന ഒന്നിലധികം വേവ്ഫോമുകളിലേക്ക് നോക്കിയിരിക്കാം."
   }
 }

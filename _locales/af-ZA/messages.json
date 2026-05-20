@@ -1,18 +1,18 @@
 {
   "icu:AxoAlertDialog.Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Kanselleer"
   },
   "icu:AxoButton.Pending": {
-    "messageformat": "Pending"
+    "messageformat": "Hangend"
   },
   "icu:AxoDialog.Back": {
-    "messageformat": "Back"
+    "messageformat": "Terug"
   },
   "icu:AxoDialog.Close": {
-    "messageformat": "Close"
+    "messageformat": "Maak toe"
   },
   "icu:AxoTextField.Clear": {
-    "messageformat": "Clear"
+    "messageformat": "Vee uit"
   },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "Voeg toe by ’n groep"
@@ -1599,13 +1599,13 @@
     "messageformat": "Hulp nodig?"
   },
   "icu:Install__confirm-data-deletion__title": {
-    "messageformat": "Delete all data?"
+    "messageformat": "Skrap alle data?"
   },
   "icu:Install__confirm-data-deletion__body": {
-    "messageformat": "You’re attempting to link a different Signal account to this desktop. If you continue, all data currently in Signal Desktop will be deleted."
+    "messageformat": "Jy is besig om 'n ander Signal-rekening aan hierdie rekenaar te probeer koppel. Indien jy voortgaan, sal alle data wat tans in Signal Desktop is, geskrap word."
   },
   "icu:Install__confirm-data-deletion__continue": {
-    "messageformat": "Continue"
+    "messageformat": "Gaan voort"
   },
   "icu:Preferences--header": {
     "messageformat": "Instellings"
@@ -4608,7 +4608,7 @@
     "messageformat": "Dra by tot Signal"
   },
   "icu:BadgeDialog__name-supports-signal": {
-    "messageformat": "{name} supports Signal"
+    "messageformat": "{name} ondersteun Signal"
   },
   "icu:ProfileMovedModal__title": {
     "messageformat": "Jou profiel is verskuif"
@@ -8214,37 +8214,37 @@
     "messageformat": "Skyfie"
   },
   "icu:MaybeTransferModal__title": {
-    "messageformat": "Transfer your phone’s message history to this desktop?"
+    "messageformat": "Wil jy jou foon se boodskapgeskiedenis na hierdie rekenaar toe oordra?"
   },
   "icu:MaybeTransferModal__description": {
-    "messageformat": "When you re-link this desktop, you can transfer your phone’s message history to this device."
+    "messageformat": "Wanneer jy hierdie rekenaar herkoppel, kan jy jou foon se boodskapgeskiedenis na hierdie toestel toe oordra."
   },
   "icu:MaybeTransferModal__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Vind meer uit"
   },
   "icu:MaybeTransferModal__replaceHistory": {
-    "messageformat": "This will <bold>replace</bold> the message history on this desktop."
+    "messageformat": "Dit sal die boodskapgeskiedenis op hierdie rekenaar <bold>vervang</bold>."
   },
   "icu:MaybeTransferModal__scanQrCode": {
-    "messageformat": "You’ll need to relink by scanning a QR code."
+    "messageformat": "Jy sal die herkoppeling moet doen deur 'n QR-kode te skandeer."
   },
   "icu:MaybeTransferModal__media": {
-    "messageformat": "If you have paid Signal Secure Backups, all of your media will be transferred. Otherwise, your last 45 days of media will be included."
+    "messageformat": "Indien jy betaalde Signal Veilige Rugsteun het, sal al jou media oorgedra word. Andersins sal jou laaste 45 dae se media ingesluit word."
   },
   "icu:MaybeTransferModal__transfer": {
-    "messageformat": "Transfer"
+    "messageformat": "Dra oor"
   },
   "icu:MaybeTransferModal__dontTransfer": {
-    "messageformat": "Don't transfer"
+    "messageformat": "Moenie oordra nie"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__title": {
-    "messageformat": "Delete all data?"
+    "messageformat": "Skrap alle data?"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__pending": {
-    "messageformat": "Deleting all data"
+    "messageformat": "Besig om alle data te skrap"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__body": {
-    "messageformat": "All current data in Signal Desktop will be deleted. You can then scan a QR code and transfer your message history from your phone."
+    "messageformat": "Alle huidige data in Signal Desktop sal geskrap word. Jy kan dan 'n QR-kode skandeer en jou boodskapgeskiedenis van jou foon af oordra."
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Hierdie weergawe bevat ’n aantal klein aanpassings en regstellings om Signal glad te laat werk.",
@@ -8278,12 +8278,12 @@
     "messageformat": "Ons het ondersteuning vir die nuwe emoji in Unicode 17.0 geaktiveer."
   },
   "icu:WhatsNew__8.11--0": {
-    "messageformat": "We've introduced additional confirmations and educational messaging in the app to help protect Signal users from phishing and social engineering attacks. As a reminder, never reply to chats pretending to be Signal, and never send your verification code, PIN, or recovery key to anyone."
+    "messageformat": "Ons het bykomende bevestigings en voorligtingsboodskappe in die toepassing bekend gestel om Signal-gebruikers teen aanvalle deur uitvissing en sosiale manipulasie te help beskerm. Net om jou te herinner, moet nooit antwoord op kletse wat voorgee dat dit van Signal is nie, en moet nooit jou verifiëringskode, PIN of herwinsleutel aan enigiemand stuur nie."
   },
   "icu:WhatsNew__8.11--1": {
-    "messageformat": "Raised hand indicators in group calls now display the current order of the queue, so you can easily see who got the upper hand first."
+    "messageformat": "Aanduidings deur opgesteekte hande in groepoproepe wys nou die huidige volgorde van die mense in die tou."
   },
   "icu:WhatsNew__8.11--2": {
-    "messageformat": "We also added a real-time visualization while recording voice messages, so surfers (and oceanographers) can stare at multiple moving waveforms whenever they share updates from the beach."
+    "messageformat": "Nuwe visualisering terwyl stemboodskappe opgeneem word."
   }
 }

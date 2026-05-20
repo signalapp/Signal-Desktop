@@ -1,18 +1,18 @@
 {
   "icu:AxoAlertDialog.Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "بىكار قىلىش"
   },
   "icu:AxoButton.Pending": {
-    "messageformat": "Pending"
+    "messageformat": "كۈتۈۋاتىدۇ…"
   },
   "icu:AxoDialog.Back": {
-    "messageformat": "Back"
+    "messageformat": "قايت"
   },
   "icu:AxoDialog.Close": {
-    "messageformat": "Close"
+    "messageformat": "تاقا"
   },
   "icu:AxoTextField.Clear": {
-    "messageformat": "Clear"
+    "messageformat": "تازىلا"
   },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "گۇرۇپپىغا قوش"
@@ -1599,13 +1599,13 @@
     "messageformat": "ياردەم كېرەكمۇ؟"
   },
   "icu:Install__confirm-data-deletion__title": {
-    "messageformat": "Delete all data?"
+    "messageformat": "بارلىق سانلىق مەلۇماتنى ئۆچۈرەمسىز؟"
   },
   "icu:Install__confirm-data-deletion__body": {
-    "messageformat": "You’re attempting to link a different Signal account to this desktop. If you continue, all data currently in Signal Desktop will be deleted."
+    "messageformat": "سىز بۇ ئۈستەليۈزى نۇسخىسىغا باشقا بىر Signal ھېساباتىنى ئۇلاشقا ئۇرۇنىۋاتىسىز. ئەگەر داۋاملاشتۇرسىڭىز، ھازىرقى Signal ئۈستەليۈزى نۇسخىسىدىكى بارلىق سانلىق-مەلۇماتلار ئۆچۈرۈلىدۇ."
   },
   "icu:Install__confirm-data-deletion__continue": {
-    "messageformat": "Continue"
+    "messageformat": "داۋاملاشتۇرۇش"
   },
   "icu:Preferences--header": {
     "messageformat": "تەڭشەكلەر"
@@ -4608,7 +4608,7 @@
     "messageformat": "‫Signal غا ئىئانە قىلىڭ"
   },
   "icu:BadgeDialog__name-supports-signal": {
-    "messageformat": "{name} supports Signal"
+    "messageformat": "{name} Signal نى قوللايدۇ"
   },
   "icu:ProfileMovedModal__title": {
     "messageformat": "باش بېتىڭىز يۆتكەلدى"
@@ -8214,37 +8214,37 @@
     "messageformat": "سىيرىلغۇچ"
   },
   "icu:MaybeTransferModal__title": {
-    "messageformat": "Transfer your phone’s message history to this desktop?"
+    "messageformat": "تېلېفونىڭىزنىڭ ئۇچۇرلىشىش تارىخىنى بۇ ئۈستەليۈزى نۇسخىسىغا يۆتكەمسىز؟"
   },
   "icu:MaybeTransferModal__description": {
-    "messageformat": "When you re-link this desktop, you can transfer your phone’s message history to this device."
+    "messageformat": "بۇ ئۈستەليۈزى نۇسخىسىنى قايتا ئۇلىغاندا، تېلېفونىڭىزنىڭ ئۇچۇرلىشىش تارىخىنى بۇ ئۈسكۈنىگە يۆتكىيەلەيسىز."
   },
   "icu:MaybeTransferModal__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "تەپسىلاتى"
   },
   "icu:MaybeTransferModal__replaceHistory": {
-    "messageformat": "This will <bold>replace</bold> the message history on this desktop."
+    "messageformat": "بۇ، ئۇچۇرلىشىش تارىخىنى بۇ ئۈستەليۈزى نۇسخىسىغا <bold>ئالماشتۇرالايدۇ</bold>."
   },
   "icu:MaybeTransferModal__scanQrCode": {
-    "messageformat": "You’ll need to relink by scanning a QR code."
+    "messageformat": "قايتا ئۇلاش ئۈچۈن QR كودىنى سكاننېرلاڭ."
   },
   "icu:MaybeTransferModal__media": {
-    "messageformat": "If you have paid Signal Secure Backups, all of your media will be transferred. Otherwise, your last 45 days of media will be included."
+    "messageformat": "ئەگەر سىز Signal بىخەتەر زاپاسلانمىللىرىغا پۇل تۆلەپ ئابونىت بولغان بولسىڭىز، سىزدىكى ھەممە مېدىيانى يۆتكىگىلى بولىدۇ. ئۇنداق بولمىسا، پەقەت ئەڭ ئاخىرىقى 45 كۈنلۈك مېدىيانىلا ئۆز ئىچىگە ئالىدۇ."
   },
   "icu:MaybeTransferModal__transfer": {
-    "messageformat": "Transfer"
+    "messageformat": "يۆتكە"
   },
   "icu:MaybeTransferModal__dontTransfer": {
-    "messageformat": "Don't transfer"
+    "messageformat": "يۆتكىمەڭ"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__title": {
-    "messageformat": "Delete all data?"
+    "messageformat": "بارلىق سانلىق مەلۇماتنى ئۆچۈرەمسىز؟"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__pending": {
-    "messageformat": "Deleting all data"
+    "messageformat": "ھەممە سانلىق مەلۇماتنى ئۆچۈرۈش"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__body": {
-    "messageformat": "All current data in Signal Desktop will be deleted. You can then scan a QR code and transfer your message history from your phone."
+    "messageformat": "Signal ئۈستەليۈزى نۇسخىسىدا ھازىر بار بولغان ھەممە مەلۇماتلار ئۆچۈرۈلىدۇ. ئۇنىڭدىن كىيىن، QR كودىنى سكاننېرلاپ تېلېفونىڭىزدىن ئۇچۇر تارىخىنى يۆتكىيەلەيسىز."
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Signal نىڭ راۋان ئىجرا بولۇشى ئۈچۈن بۇ نەشرىدە بىر قانچە كىچىك ئۆزگەرتىشلەر ئېلىپ بېرىلدى ۋە كاشىلىلار ئوڭشالدى.",
@@ -8278,12 +8278,12 @@
     "messageformat": "بىز Unicode 17.0 دە يېڭى emoji لارنى قوللاشنى قوزغاتتۇق. يېڭى بالېت ئۇسسۇلچى emoji نى ئىشلىتىپ بىر ئۇچۇرغا ئىنكاس يوللاپ، ئۆزىڭىزنىڭ رەقەملىك ھەرىكىتىنى نامايەن قىلىڭ."
   },
   "icu:WhatsNew__8.11--0": {
-    "messageformat": "We've introduced additional confirmations and educational messaging in the app to help protect Signal users from phishing and social engineering attacks. As a reminder, never reply to chats pretending to be Signal, and never send your verification code, PIN, or recovery key to anyone."
+    "messageformat": "بىز ئەپكە قوشۇمچە جەزملەشتۈرۈش باسقۇچلىرى ۋە ئىلمىي-تەربىيەۋى ئۇچۇرلارنى كىرگۈزۈپ، Signal قوللانغۇچىلىرىنى ئالدامچىلىق ۋە ئىجتىمائىي ھادىسىدىن پەيدا بولغان ھۇجۇملاردىن تېخىمۇ ياخشى قوغداشنى مەقسەت قىلدۇق. ئەسكەرتىش، ئۆزىنى Signal دەپ تونۇشتۇرغان ھېچقانداق سۆھبەتكە جاۋاب قايتۇرماڭ، شۇنداقلا دەلىللەش كودىڭىز، PIN نومۇرىڭىز ياكى ئەسلىگە كەلتۈرۈش ئاچقۇچىڭىزنى ھېچكىمگە يوللىماڭ."
   },
   "icu:WhatsNew__8.11--1": {
-    "messageformat": "Raised hand indicators in group calls now display the current order of the queue, so you can easily see who got the upper hand first."
+    "messageformat": "گۇرۇپپا چاقىرىقلىرىدا قول كۆتۈرۈش بەلگىلىرى ئەمدى ئۆچرەتنىڭ نۆۋەتتىكى تەرتىپىنى كۆرسىتىدۇ.8.11 نەشرى ئۈچۈن تەييارلاندى."
   },
   "icu:WhatsNew__8.11--2": {
-    "messageformat": "We also added a real-time visualization while recording voice messages, so surfers (and oceanographers) can stare at multiple moving waveforms whenever they share updates from the beach."
+    "messageformat": "ئاۋازلىق ئۇچۇر خاتىرىلەش جەريانىدا ئىپادىلىنىدىغان يېڭى كۆرۈنۈش لايىھەسى قوشۇلدى. 8.11 نەشرى ئۈچۈن تەييارلاندى."
   }
 }

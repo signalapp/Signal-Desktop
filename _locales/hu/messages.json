@@ -1,18 +1,18 @@
 {
   "icu:AxoAlertDialog.Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Mégse"
   },
   "icu:AxoButton.Pending": {
-    "messageformat": "Pending"
+    "messageformat": "Folyamatban"
   },
   "icu:AxoDialog.Back": {
-    "messageformat": "Back"
+    "messageformat": "Vissza"
   },
   "icu:AxoDialog.Close": {
-    "messageformat": "Close"
+    "messageformat": "Bezárás"
   },
   "icu:AxoTextField.Clear": {
-    "messageformat": "Clear"
+    "messageformat": "Törlés"
   },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "Hozzáadás egy csoporthoz"
@@ -1599,13 +1599,13 @@
     "messageformat": "Segítségre van szükséged?"
   },
   "icu:Install__confirm-data-deletion__title": {
-    "messageformat": "Delete all data?"
+    "messageformat": "Törlöd az összes adatot?"
   },
   "icu:Install__confirm-data-deletion__body": {
-    "messageformat": "You’re attempting to link a different Signal account to this desktop. If you continue, all data currently in Signal Desktop will be deleted."
+    "messageformat": "Egy másik Signal-fiókot próbálsz összekapcsolni ezzel az asztali számítógéppel. Ha folytatod, a Signal Desktopban jelenleg megtalálható összes adat törlődik."
   },
   "icu:Install__confirm-data-deletion__continue": {
-    "messageformat": "Continue"
+    "messageformat": "Folytatás"
   },
   "icu:Preferences--header": {
     "messageformat": "Beállítások"
@@ -4608,7 +4608,7 @@
     "messageformat": "Adomány a Signal számára"
   },
   "icu:BadgeDialog__name-supports-signal": {
-    "messageformat": "{name} supports Signal"
+    "messageformat": "{name} támogatja a Signalt"
   },
   "icu:ProfileMovedModal__title": {
     "messageformat": "A profilod átköltözött"
@@ -8214,37 +8214,37 @@
     "messageformat": "Csúszda"
   },
   "icu:MaybeTransferModal__title": {
-    "messageformat": "Transfer your phone’s message history to this desktop?"
+    "messageformat": "Áthelyezed a telefonod üzenetelőzményeit erre az asztali gépre?"
   },
   "icu:MaybeTransferModal__description": {
-    "messageformat": "When you re-link this desktop, you can transfer your phone’s message history to this device."
+    "messageformat": "Amikor újra összekapcsolod ezt az asztali számítógépet, áthelyezheted a telefonod üzenetelőzményeit erre az eszközre."
   },
   "icu:MaybeTransferModal__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Tudj meg többet!"
   },
   "icu:MaybeTransferModal__replaceHistory": {
-    "messageformat": "This will <bold>replace</bold> the message history on this desktop."
+    "messageformat": "Ezzel <bold>lecseréled</bold> az üzenetelőzményeket ezen az asztali számítógépen."
   },
   "icu:MaybeTransferModal__scanQrCode": {
-    "messageformat": "You’ll need to relink by scanning a QR code."
+    "messageformat": "Újra össze kell kapcsolnod egy QR-kód beolvasásával."
   },
   "icu:MaybeTransferModal__media": {
-    "messageformat": "If you have paid Signal Secure Backups, all of your media will be transferred. Otherwise, your last 45 days of media will be included."
+    "messageformat": "Ha fizettél a Signal biztonsági mentés szolgáltatásáért, az összes médiafájlod áthelyezésre kerül. Máskülönben a legutóbbi 45 nap adatai lesznek figyelembe véve."
   },
   "icu:MaybeTransferModal__transfer": {
-    "messageformat": "Transfer"
+    "messageformat": "Átutalás"
   },
   "icu:MaybeTransferModal__dontTransfer": {
-    "messageformat": "Don't transfer"
+    "messageformat": "Nem kerül áthelyezésre"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__title": {
-    "messageformat": "Delete all data?"
+    "messageformat": "Törlöd az összes adatot?"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__pending": {
-    "messageformat": "Deleting all data"
+    "messageformat": "Összes adat törlése"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__body": {
-    "messageformat": "All current data in Signal Desktop will be deleted. You can then scan a QR code and transfer your message history from your phone."
+    "messageformat": "A Signal Desktopban jelenleg megtalálható összes adat törlődik. Ezután beolvashatsz egy QR-kódot, és áthelyezheted az üzenetelőzményeidet a telefonodról."
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Ebbe a verzióba néhány kisebb újítás és hibajavítás került annak érdekében, hogy a Signal továbbra is gond nélkül fusson.",
@@ -8278,12 +8278,12 @@
     "messageformat": "Engedélyeztük az új emojik támogatását az Unicode 17.0-ban."
   },
   "icu:WhatsNew__8.11--0": {
-    "messageformat": "We've introduced additional confirmations and educational messaging in the app to help protect Signal users from phishing and social engineering attacks. As a reminder, never reply to chats pretending to be Signal, and never send your verification code, PIN, or recovery key to anyone."
+    "messageformat": "További visszaigazolásokat és oktató jellegű üzeneteket vezettünk be az alkalmazásba, hogy megvédjük a Signal felhasználóit az adathalászattól és a pszichológiai manipulációtól. Emlékeztetőül: soha ne válaszolj olyan csevegésekre, amelyek a Signalnak álcázzák magukat, és soha ne küldd el senkinek az ellenőrző kódodat, a PIN-kódodat vagy a helyreállítási kulcsodat."
   },
   "icu:WhatsNew__8.11--1": {
-    "messageformat": "Raised hand indicators in group calls now display the current order of the queue, so you can easily see who got the upper hand first."
+    "messageformat": "A csoportos hívásokban a „felemelt kéz” jelzések mostantól a soron belüli aktuális sorrendet mutatják."
   },
   "icu:WhatsNew__8.11--2": {
-    "messageformat": "We also added a real-time visualization while recording voice messages, so surfers (and oceanographers) can stare at multiple moving waveforms whenever they share updates from the beach."
+    "messageformat": "Új vizualizáció hangüzenetek rögzítése közben."
   }
 }

@@ -1,18 +1,18 @@
 {
   "icu:AxoAlertDialog.Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Anulează"
   },
   "icu:AxoButton.Pending": {
-    "messageformat": "Pending"
+    "messageformat": "În curs"
   },
   "icu:AxoDialog.Back": {
-    "messageformat": "Back"
+    "messageformat": "Înapoi"
   },
   "icu:AxoDialog.Close": {
-    "messageformat": "Close"
+    "messageformat": "Închide"
   },
   "icu:AxoTextField.Clear": {
-    "messageformat": "Clear"
+    "messageformat": "Eliminare"
   },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "Adaugă la un grup"
@@ -1599,13 +1599,13 @@
     "messageformat": "Ai nevoie de ajutor?"
   },
   "icu:Install__confirm-data-deletion__title": {
-    "messageformat": "Delete all data?"
+    "messageformat": "Ștergi toate datele?"
   },
   "icu:Install__confirm-data-deletion__body": {
-    "messageformat": "You’re attempting to link a different Signal account to this desktop. If you continue, all data currently in Signal Desktop will be deleted."
+    "messageformat": "Încerci să asociezi un alt cont Signal la acest computer. Dacă continui, toate datele existente în prezent în Signal Desktop vor fi șterse."
   },
   "icu:Install__confirm-data-deletion__continue": {
-    "messageformat": "Continue"
+    "messageformat": "Continuă"
   },
   "icu:Preferences--header": {
     "messageformat": "Setări"
@@ -4608,7 +4608,7 @@
     "messageformat": "Donează pentru Signal"
   },
   "icu:BadgeDialog__name-supports-signal": {
-    "messageformat": "{name} supports Signal"
+    "messageformat": "{name} sprijină Signal"
   },
   "icu:ProfileMovedModal__title": {
     "messageformat": "Profilul tău a fost mutat"
@@ -8214,37 +8214,37 @@
     "messageformat": "Slide"
   },
   "icu:MaybeTransferModal__title": {
-    "messageformat": "Transfer your phone’s message history to this desktop?"
+    "messageformat": "Vrei să transferi istoricul mesajelor de pe telefonul tău pe acest computer?"
   },
   "icu:MaybeTransferModal__description": {
-    "messageformat": "When you re-link this desktop, you can transfer your phone’s message history to this device."
+    "messageformat": "Când reconectezi acest computer, îți poți transfera istoricul mesajelor de pe telefon pe acest dispozitiv."
   },
   "icu:MaybeTransferModal__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Află mai multe"
   },
   "icu:MaybeTransferModal__replaceHistory": {
-    "messageformat": "This will <bold>replace</bold> the message history on this desktop."
+    "messageformat": "Aceasta va <bold>înlocui</bold> istoricul mesajelor de pe acest desktop."
   },
   "icu:MaybeTransferModal__scanQrCode": {
-    "messageformat": "You’ll need to relink by scanning a QR code."
+    "messageformat": "Va trebui să te reconectezi scanând un cod QR."
   },
   "icu:MaybeTransferModal__media": {
-    "messageformat": "If you have paid Signal Secure Backups, all of your media will be transferred. Otherwise, your last 45 days of media will be included."
+    "messageformat": "Dacă ai achitat serviciul Backup-uri securizate Signal, toate fișierele media vor fi transferate. În caz contrar, vor fi incluse fișierele media din ultimele 45 de zile."
   },
   "icu:MaybeTransferModal__transfer": {
     "messageformat": "Transfer"
   },
   "icu:MaybeTransferModal__dontTransfer": {
-    "messageformat": "Don't transfer"
+    "messageformat": "Nu transfera"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__title": {
-    "messageformat": "Delete all data?"
+    "messageformat": "Ștergi toate datele?"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__pending": {
-    "messageformat": "Deleting all data"
+    "messageformat": "Se șterg toate datele"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__body": {
-    "messageformat": "All current data in Signal Desktop will be deleted. You can then scan a QR code and transfer your message history from your phone."
+    "messageformat": "Toate datele actuale din Signal Desktop vor fi șterse. Apoi poți scana un cod QR și transfera istoricul mesajelor de pe telefon."
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Această versiune conține o serie de mici modificări și remedieri ale unor erori pentru ca Signal să funcționeze fără probleme.",
@@ -8278,12 +8278,12 @@
     "messageformat": "Emoji-urile nou introduse în Unicode 17.0 și-au făcut deja apariția în Signal. Trimite o reacție la un mesaj, folosind noul emoji „Balerină” pentru a-ți interpreta propria versiune digitală a unui „Pas de chat”."
   },
   "icu:WhatsNew__8.11--0": {
-    "messageformat": "We've introduced additional confirmations and educational messaging in the app to help protect Signal users from phishing and social engineering attacks. As a reminder, never reply to chats pretending to be Signal, and never send your verification code, PIN, or recovery key to anyone."
+    "messageformat": "Am introdus în aplicație confirmări suplimentare și mesaje informative pentru a ajuta la protejarea utilizatorilor Signal împotriva atacurilor de tip phishing și de inginerie socială. Îți reamintim să nu răspunzi niciodată la mesaje care pretind că provin de la Signal și să nu trimiți niciodată nimănui codul de verificare, codul PIN sau codul de recuperare."
   },
   "icu:WhatsNew__8.11--1": {
-    "messageformat": "Raised hand indicators in group calls now display the current order of the queue, so you can easily see who got the upper hand first."
+    "messageformat": "Indicatorii de prioritate din apelurile de grup afișează acum ordinea curentă din coadă, astfel încât să vezi ușor cine a obținut prioritatea primul."
   },
   "icu:WhatsNew__8.11--2": {
-    "messageformat": "We also added a real-time visualization while recording voice messages, so surfers (and oceanographers) can stare at multiple moving waveforms whenever they share updates from the beach."
+    "messageformat": "De asemenea, am adăugat o vizualizare în timp real în timpul înregistrării mesajelor vocale, astfel încât surferii (și oceanografii) să poată urmări mai multe forme de undă în mișcare ori de câte ori transmit noutăți de pe plajă."
   }
 }

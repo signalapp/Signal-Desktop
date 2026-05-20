@@ -1,18 +1,18 @@
 {
   "icu:AxoAlertDialog.Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "لغو"
   },
   "icu:AxoButton.Pending": {
-    "messageformat": "Pending"
+    "messageformat": "در انتظار…"
   },
   "icu:AxoDialog.Back": {
-    "messageformat": "Back"
+    "messageformat": "بازگشت"
   },
   "icu:AxoDialog.Close": {
-    "messageformat": "Close"
+    "messageformat": "بستن"
   },
   "icu:AxoTextField.Clear": {
-    "messageformat": "Clear"
+    "messageformat": "پاک کردن"
   },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "افزودن به گروه"
@@ -1599,13 +1599,13 @@
     "messageformat": "به راهنمایی نیاز دارید؟"
   },
   "icu:Install__confirm-data-deletion__title": {
-    "messageformat": "Delete all data?"
+    "messageformat": "پاک کردن همه اطلاعات؟"
   },
   "icu:Install__confirm-data-deletion__body": {
-    "messageformat": "You’re attempting to link a different Signal account to this desktop. If you continue, all data currently in Signal Desktop will be deleted."
+    "messageformat": "در حال تلاش برای پیوند دادن یک حساب متفاوت سیگنال به این دسکتاپ هستید. اگر ادامه دهید، همه داده‌های فعلی در سیگنال دسک‌تاپ حذف خواهند شد."
   },
   "icu:Install__confirm-data-deletion__continue": {
-    "messageformat": "Continue"
+    "messageformat": "ادامه"
   },
   "icu:Preferences--header": {
     "messageformat": "تنظیمات"
@@ -4608,7 +4608,7 @@
     "messageformat": "حمایت از سیگنال"
   },
   "icu:BadgeDialog__name-supports-signal": {
-    "messageformat": "{name} supports Signal"
+    "messageformat": "{name} از سیگنال پشتیبانی می‌کند"
   },
   "icu:ProfileMovedModal__title": {
     "messageformat": "نمایه شما منتقل شده است"
@@ -8214,37 +8214,37 @@
     "messageformat": "لغزاندن"
   },
   "icu:MaybeTransferModal__title": {
-    "messageformat": "Transfer your phone’s message history to this desktop?"
+    "messageformat": "تاریخچه پیام‌های تلفنتان به این دسکتاپ منتقل شود؟"
   },
   "icu:MaybeTransferModal__description": {
-    "messageformat": "When you re-link this desktop, you can transfer your phone’s message history to this device."
+    "messageformat": "وقتی این دسکتاپ را دوباره پیوند می‌دهید، می‌توانید تاریخچه پیام‌های تلفنتان را به این دستگاه منتقل کنید."
   },
   "icu:MaybeTransferModal__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "بیشتر بدانید"
   },
   "icu:MaybeTransferModal__replaceHistory": {
-    "messageformat": "This will <bold>replace</bold> the message history on this desktop."
+    "messageformat": "این <bold>جایگزین</bold> تاریخچه پیام‌ها در این دسکتاپ خواهد شد."
   },
   "icu:MaybeTransferModal__scanQrCode": {
-    "messageformat": "You’ll need to relink by scanning a QR code."
+    "messageformat": "برای پیوند دادن دوباره، باید کد QR را اسکن کنید."
   },
   "icu:MaybeTransferModal__media": {
-    "messageformat": "If you have paid Signal Secure Backups, all of your media will be transferred. Otherwise, your last 45 days of media will be included."
+    "messageformat": "اگر از «پشتیبان‌گیری امن سیگنال» پولی استفاده می‌کنید، تمام رسانه‌های شما منتقل خواهند شد. در غیر این صورت، رسانه‌های ۴۵ روز اخیرتان منتقل خواهند شد."
   },
   "icu:MaybeTransferModal__transfer": {
-    "messageformat": "Transfer"
+    "messageformat": "انتقال"
   },
   "icu:MaybeTransferModal__dontTransfer": {
-    "messageformat": "Don't transfer"
+    "messageformat": "انتقال داده نشود"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__title": {
-    "messageformat": "Delete all data?"
+    "messageformat": "پاک کردن همه اطلاعات؟"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__pending": {
-    "messageformat": "Deleting all data"
+    "messageformat": "در حال حذف همه داده‌ها"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__body": {
-    "messageformat": "All current data in Signal Desktop will be deleted. You can then scan a QR code and transfer your message history from your phone."
+    "messageformat": "همه داده‌های فعلی در سیگنال دسک‌تاپ حذف خواهند شد. سپس می‌توانید یک کد QR را اسکن کرده و تاریخچه پیام‌های خود را از تلفنتان منتقل کنید."
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "این نسخه شامل شماری از بهینه سازی های کوچک و رفع عیب برای تداوم اجرای راحت سیگنال می باشد",
@@ -8278,12 +8278,12 @@
     "messageformat": "ما پشتیبانی را برای ایموجی جدید در Unicode 17.0 فعال کردیم. ‌"
   },
   "icu:WhatsNew__8.11--0": {
-    "messageformat": "We've introduced additional confirmations and educational messaging in the app to help protect Signal users from phishing and social engineering attacks. As a reminder, never reply to chats pretending to be Signal, and never send your verification code, PIN, or recovery key to anyone."
+    "messageformat": "برای کمک به محافظت از کاربران سیگنال در برابر حملات فیشینگ و مهندسی اجتماعی، تأییدیه‌های اضافی و پیام‌های آموزشی بیشتری را در برنامه اضافه کرده‌ایم. یادآوری می‌کنیم که هرگز به گفتگوهایی که خود را به‌جای سیگنال جا می‌زنند پاسخ ندهید و هرگز کد تأیید، پین یا رمز بازیابی خود را برای کسی ارسال نکنید."
   },
   "icu:WhatsNew__8.11--1": {
-    "messageformat": "Raised hand indicators in group calls now display the current order of the queue, so you can easily see who got the upper hand first."
+    "messageformat": "نشانگرهای دست بالا‌رفته در تماس‌های گروهی اکنون ترتیب فعلی صف را نمایش می‌دهند."
   },
   "icu:WhatsNew__8.11--2": {
-    "messageformat": "We also added a real-time visualization while recording voice messages, so surfers (and oceanographers) can stare at multiple moving waveforms whenever they share updates from the beach."
+    "messageformat": "نمایش بصری جدید هنگام ضبط پیام‌های صوتی."
   }
 }

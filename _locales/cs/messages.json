@@ -1,18 +1,18 @@
 {
   "icu:AxoAlertDialog.Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Zrušit"
   },
   "icu:AxoButton.Pending": {
-    "messageformat": "Pending"
+    "messageformat": "Čeká na odeslání"
   },
   "icu:AxoDialog.Back": {
-    "messageformat": "Back"
+    "messageformat": "Zpět"
   },
   "icu:AxoDialog.Close": {
-    "messageformat": "Close"
+    "messageformat": "Zavřít"
   },
   "icu:AxoTextField.Clear": {
-    "messageformat": "Clear"
+    "messageformat": "Vymazat"
   },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "Přidat do skupiny"
@@ -1599,13 +1599,13 @@
     "messageformat": "Potřebujete pomoc?"
   },
   "icu:Install__confirm-data-deletion__title": {
-    "messageformat": "Delete all data?"
+    "messageformat": "Smazat všechna data?"
   },
   "icu:Install__confirm-data-deletion__body": {
-    "messageformat": "You’re attempting to link a different Signal account to this desktop. If you continue, all data currently in Signal Desktop will be deleted."
+    "messageformat": "Pokoušíte se s tímto počítačem propojit jiný účet Signal. Pokud budete pokračovat, všechna data, která momentálně v Signal Desktop máte, budou smazána."
   },
   "icu:Install__confirm-data-deletion__continue": {
-    "messageformat": "Continue"
+    "messageformat": "Pokračovat"
   },
   "icu:Preferences--header": {
     "messageformat": "Nastavení"
@@ -4608,7 +4608,7 @@
     "messageformat": "Podpořte Signal finančně"
   },
   "icu:BadgeDialog__name-supports-signal": {
-    "messageformat": "{name} supports Signal"
+    "messageformat": "{name} podporuje Signal"
   },
   "icu:ProfileMovedModal__title": {
     "messageformat": "Váš profil byl přesunut"
@@ -8214,37 +8214,37 @@
     "messageformat": "Snímek"
   },
   "icu:MaybeTransferModal__title": {
-    "messageformat": "Transfer your phone’s message history to this desktop?"
+    "messageformat": "Přenést historii zpráv z telefonu do tohoto počítače?"
   },
   "icu:MaybeTransferModal__description": {
-    "messageformat": "When you re-link this desktop, you can transfer your phone’s message history to this device."
+    "messageformat": "Když tento počítač znovu propojíte, můžete do něj přenést historii zpráv ze svého telefonu."
   },
   "icu:MaybeTransferModal__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Zjistit více"
   },
   "icu:MaybeTransferModal__replaceHistory": {
-    "messageformat": "This will <bold>replace</bold> the message history on this desktop."
+    "messageformat": "Tím se <bold>nahradí</bold> historie zpráv v tomto počítači."
   },
   "icu:MaybeTransferModal__scanQrCode": {
-    "messageformat": "You’ll need to relink by scanning a QR code."
+    "messageformat": "Bude potřeba provést opětovné propojení naskenováním QR kódu."
   },
   "icu:MaybeTransferModal__media": {
-    "messageformat": "If you have paid Signal Secure Backups, all of your media will be transferred. Otherwise, your last 45 days of media will be included."
+    "messageformat": "Pokud máte placenou Zabezpečenou zálohu Signal, přenesou se všechna vaše média. V opačném případě budou zahrnuta média za posledních 45 dní."
   },
   "icu:MaybeTransferModal__transfer": {
-    "messageformat": "Transfer"
+    "messageformat": "Přenést"
   },
   "icu:MaybeTransferModal__dontTransfer": {
-    "messageformat": "Don't transfer"
+    "messageformat": "Nepřenášet"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__title": {
-    "messageformat": "Delete all data?"
+    "messageformat": "Smazat všechna data?"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__pending": {
-    "messageformat": "Deleting all data"
+    "messageformat": "Mažou se všechna data"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__body": {
-    "messageformat": "All current data in Signal Desktop will be deleted. You can then scan a QR code and transfer your message history from your phone."
+    "messageformat": "Všechna současná data v Signal Desktop budou smazána. Poté můžete naskenovat QR kód a přenést historii zpráv ze svého telefonu."
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Tato verze obsahuje řadu drobných vylepšení a oprav chyb, aby Signal fungoval bez problémů.",
@@ -8278,12 +8278,12 @@
     "messageformat": "Přidali jsme podporu pro nová emoji z vydání Unicode 17.0."
   },
   "icu:WhatsNew__8.11--0": {
-    "messageformat": "We've introduced additional confirmations and educational messaging in the app to help protect Signal users from phishing and social engineering attacks. As a reminder, never reply to chats pretending to be Signal, and never send your verification code, PIN, or recovery key to anyone."
+    "messageformat": "Do aplikace jsme přidali další potvrzovací kroky a varovné zprávy, abychom uživatele služby Signal lépe chránili před phishingem a útoky sociálního inženýrství. Připomínáme: Nikdy neodpovídejte na zprávy, které předstírají, že jsou od služby Signal, a nikdy nikomu neposílejte svůj ověřovací kód, PIN ani klíč pro obnovení."
   },
   "icu:WhatsNew__8.11--1": {
-    "messageformat": "Raised hand indicators in group calls now display the current order of the queue, so you can easily see who got the upper hand first."
+    "messageformat": "Ukazatele zvednuté ruky ve skupinových hovorech nyní zobrazují aktuální pořadí ve frontě."
   },
   "icu:WhatsNew__8.11--2": {
-    "messageformat": "We also added a real-time visualization while recording voice messages, so surfers (and oceanographers) can stare at multiple moving waveforms whenever they share updates from the beach."
+    "messageformat": "Přidali jsme také novou vizualizaci pro nahrávání hlasových zpráv."
   }
 }

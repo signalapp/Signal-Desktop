@@ -1,18 +1,18 @@
 {
   "icu:AxoAlertDialog.Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "ரத்துசெய்"
   },
   "icu:AxoButton.Pending": {
-    "messageformat": "Pending"
+    "messageformat": "நிலுவையில் உள்ளது"
   },
   "icu:AxoDialog.Back": {
-    "messageformat": "Back"
+    "messageformat": "மீண்டும்"
   },
   "icu:AxoDialog.Close": {
-    "messageformat": "Close"
+    "messageformat": "நெருக்கமான"
   },
   "icu:AxoTextField.Clear": {
-    "messageformat": "Clear"
+    "messageformat": "அழி"
   },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "ஒரு குழுவில் சேர்க்கவும்"
@@ -1599,13 +1599,13 @@
     "messageformat": "உங்களுக்கு உதவி வேண்டுமா?"
   },
   "icu:Install__confirm-data-deletion__title": {
-    "messageformat": "Delete all data?"
+    "messageformat": "எல்லா தரவையும் நீக்கவா?"
   },
   "icu:Install__confirm-data-deletion__body": {
-    "messageformat": "You’re attempting to link a different Signal account to this desktop. If you continue, all data currently in Signal Desktop will be deleted."
+    "messageformat": "இந்த டெஸ்க்டாப்பில் வேறொரு சிக்னல் கணக்கை இணைக்க முயல்கிறீர்கள். நீங்கள் தொடர்ந்தால், சிக்னல் டெஸ்க்டாப்பில் தற்போதுள்ள தரவுகள் அனைத்தும் நீக்கப்படும்."
   },
   "icu:Install__confirm-data-deletion__continue": {
-    "messageformat": "Continue"
+    "messageformat": "தொடர்க"
   },
   "icu:Preferences--header": {
     "messageformat": "அமைப்புகள்"
@@ -4608,7 +4608,7 @@
     "messageformat": "Signal-க்கு நன்கொடை அளி"
   },
   "icu:BadgeDialog__name-supports-signal": {
-    "messageformat": "{name} supports Signal"
+    "messageformat": "{name} Signalஐ ஆதரிக்கிறார்"
   },
   "icu:ProfileMovedModal__title": {
     "messageformat": "உங்கள் சுயவிவரம் இடமாற்றப்பட்டது"
@@ -8214,37 +8214,37 @@
     "messageformat": "ஸ்லைடு"
   },
   "icu:MaybeTransferModal__title": {
-    "messageformat": "Transfer your phone’s message history to this desktop?"
+    "messageformat": "உங்கள் பேசியின் செய்தி வரலாற்றை இந்த டெஸ்க்டாப்புக்கு இடமாற்ற வேண்டுமா?"
   },
   "icu:MaybeTransferModal__description": {
-    "messageformat": "When you re-link this desktop, you can transfer your phone’s message history to this device."
+    "messageformat": "இந்த டெஸ்க்டாப்பை நீங்கள் மீண்டும் இணைக்கும்போது, உங்கள் பேசியின் செய்தி வரலாற்றை இந்தச் சாதனத்திற்கு இடமாற்றிக்கொள்ளலாம்."
   },
   "icu:MaybeTransferModal__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "மேலும் அறிக"
   },
   "icu:MaybeTransferModal__replaceHistory": {
-    "messageformat": "This will <bold>replace</bold> the message history on this desktop."
+    "messageformat": "இது இந்த டெஸ்க்டாப்பில் உள்ள செய்தி வரலாற்றை முழுமையாக <bold>மாற்றிவிடும்.</bold>"
   },
   "icu:MaybeTransferModal__scanQrCode": {
-    "messageformat": "You’ll need to relink by scanning a QR code."
+    "messageformat": "ஒரு QR குறியீட்டை ஸ்கேன் செய்வதன் மூலம் நீங்கள் மீண்டும் இணைக்க வேண்டும்."
   },
   "icu:MaybeTransferModal__media": {
-    "messageformat": "If you have paid Signal Secure Backups, all of your media will be transferred. Otherwise, your last 45 days of media will be included."
+    "messageformat": "நீங்கள் கட்டணம் செலுத்தி 'சிக்னலின் பாதுகாப்பு காப்பிப்பிரதிகள்' சேவையை உபயோகித்தால், உங்களின் ஊடகங்கள் அனைத்தும் இடமாற்றப்படும். இல்லையெனில், உங்கள் கடந்த 45 நாட்களுக்கான ஊடகங்கள் மட்டுமே சேர்க்கப்படும்."
   },
   "icu:MaybeTransferModal__transfer": {
-    "messageformat": "Transfer"
+    "messageformat": "இடமாற்றம்"
   },
   "icu:MaybeTransferModal__dontTransfer": {
-    "messageformat": "Don't transfer"
+    "messageformat": "இடமாற்றம் செய்ய வேண்டாம்"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__title": {
-    "messageformat": "Delete all data?"
+    "messageformat": "எல்லா தரவையும் நீக்கவா?"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__pending": {
-    "messageformat": "Deleting all data"
+    "messageformat": "அனைத்துத் தரவுகளும் நீக்கப்படுகின்றன"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__body": {
-    "messageformat": "All current data in Signal Desktop will be deleted. You can then scan a QR code and transfer your message history from your phone."
+    "messageformat": "சிக்னல் டெஸ்க்டாப்பில் உள்ள தற்போதைய தரவுகள் அனைத்தும் நீக்கப்படும். அதன்பிறகு, நீங்கள் ஒரு QR குறியீட்டை ஸ்கேன் செய்து, உங்கள் பேசியில் இருந்து செய்தி வரலாற்றை இடமாற்றிக்கொள்ளலாம்."
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "இந்த பதிப்பில் சிக்னலை சீராக இயங்க வைக்க பல சிறிய மாற்றங்கள் மற்றும் பிழை திருத்தங்கள் உள்ளன.",
@@ -8278,12 +8278,12 @@
     "messageformat": "Unicode 17.0-இல் புதிதாக உருவான எமோஜிகள் இப்போது சிக்னலில் தடம் பதித்துள்ளன. புதிய பாலே நடனக் கலைஞர் எமோஜியைப் பயன்படுத்தி மெசேஜுக்கு எதிர்வினையாற்றுவதன் மூலம், உங்களுக்கே உரித்தான டிஜிட்டல் பதிப்பான pas de chat நடன அசைவைச் செய்து காட்டுங்கள்."
   },
   "icu:WhatsNew__8.11--0": {
-    "messageformat": "We've introduced additional confirmations and educational messaging in the app to help protect Signal users from phishing and social engineering attacks. As a reminder, never reply to chats pretending to be Signal, and never send your verification code, PIN, or recovery key to anyone."
+    "messageformat": "சிக்னல் பயனர்களை இணைய மோசடிகள் மற்றும் சமூகப் பொறியியல் தாக்குதல்களிலிருந்து பாதுகாக்க, செயலியில் கூடுதல் உறுதிப்படுத்தல்களையும் விழிப்புணர்வுச் செய்திகளையும் அறிமுகப்படுத்தியுள்ளோம். நினைவூட்டலாக, சிக்னல் போல் ஆள்மாறாட்டம் செய்து வரும் உரையாடல்களுக்கு ஒருபோதும் பதிலளிக்காதீர்கள், மேலும் உங்கள் சரிபார்ப்புக் குறியீடு, பின் அல்லது மீட்புக் குறியீட்டை யாருக்கும் அனுப்பாதீர்கள்."
   },
   "icu:WhatsNew__8.11--1": {
-    "messageformat": "Raised hand indicators in group calls now display the current order of the queue, so you can easily see who got the upper hand first."
+    "messageformat": "தொகுப்பு அழைப்புகளில் கையை உயர்த்தும் குறிகாட்டிகள் இப்போது வரிசையின் தற்போதைய நிலையைக் காட்டுகின்றன."
   },
   "icu:WhatsNew__8.11--2": {
-    "messageformat": "We also added a real-time visualization while recording voice messages, so surfers (and oceanographers) can stare at multiple moving waveforms whenever they share updates from the beach."
+    "messageformat": "வாய்ஸ் மெசேஜைப் பதிவு செய்யும் போது புதிய காட்சிப்படுத்துதல்."
   }
 }

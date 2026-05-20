@@ -1,18 +1,18 @@
 {
   "icu:AxoAlertDialog.Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Utzi"
   },
   "icu:AxoButton.Pending": {
-    "messageformat": "Pending"
+    "messageformat": "Zain"
   },
   "icu:AxoDialog.Back": {
-    "messageformat": "Back"
+    "messageformat": "Atzera"
   },
   "icu:AxoDialog.Close": {
-    "messageformat": "Close"
+    "messageformat": "Itxi"
   },
   "icu:AxoTextField.Clear": {
-    "messageformat": "Clear"
+    "messageformat": "Garbitu"
   },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "Gehitu taldera"
@@ -1599,13 +1599,13 @@
     "messageformat": "Laguntza behar duzu?"
   },
   "icu:Install__confirm-data-deletion__title": {
-    "messageformat": "Delete all data?"
+    "messageformat": "Datu guztiak ezabatu nahi dituzu?"
   },
   "icu:Install__confirm-data-deletion__body": {
-    "messageformat": "You’re attempting to link a different Signal account to this desktop. If you continue, all data currently in Signal Desktop will be deleted."
+    "messageformat": "Ordenagailu honekin Signal-eko beste kontu bat lotu nahian zabiltza. Jarraituz gero, une honetan Signal Desktop-en dauden datu guztiak ezabatu egingo dira."
   },
   "icu:Install__confirm-data-deletion__continue": {
-    "messageformat": "Continue"
+    "messageformat": "Jarraitu"
   },
   "icu:Preferences--header": {
     "messageformat": "Ezarpenak"
@@ -4608,7 +4608,7 @@
     "messageformat": "Egin dohaintza Signal-i"
   },
   "icu:BadgeDialog__name-supports-signal": {
-    "messageformat": "{name} supports Signal"
+    "messageformat": "{name}(e)k Signal-i laguntzen dio"
   },
   "icu:ProfileMovedModal__title": {
     "messageformat": "Profila tokiz aldatu da"
@@ -8214,37 +8214,37 @@
     "messageformat": "Diapositiba"
   },
   "icu:MaybeTransferModal__title": {
-    "messageformat": "Transfer your phone’s message history to this desktop?"
+    "messageformat": "Telefonoko mezu-historia ordenagailu honetara transferitu nahi duzu?"
   },
   "icu:MaybeTransferModal__description": {
-    "messageformat": "When you re-link this desktop, you can transfer your phone’s message history to this device."
+    "messageformat": "Ordenagailua berriro lotzean, telefonoko mezu-historia gailu honetara transferi dezakezu."
   },
   "icu:MaybeTransferModal__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Informazio gehiago"
   },
   "icu:MaybeTransferModal__replaceHistory": {
-    "messageformat": "This will <bold>replace</bold> the message history on this desktop."
+    "messageformat": "Mezu-historia <bold>ordeztu</bold> egingo da ordenagailuan."
   },
   "icu:MaybeTransferModal__scanQrCode": {
-    "messageformat": "You’ll need to relink by scanning a QR code."
+    "messageformat": "Berriro lotu beharko duzu QR kode bat eskaneatuz."
   },
   "icu:MaybeTransferModal__media": {
-    "messageformat": "If you have paid Signal Secure Backups, all of your media will be transferred. Otherwise, your last 45 days of media will be included."
+    "messageformat": "Ordainpeko Babeskopia seguruak badituzu, multimedia-eduki guztia transferituko da. Bestela, azken 45 egunetako multimedia-edukia sartuko da."
   },
   "icu:MaybeTransferModal__transfer": {
-    "messageformat": "Transfer"
+    "messageformat": "Transferitu"
   },
   "icu:MaybeTransferModal__dontTransfer": {
-    "messageformat": "Don't transfer"
+    "messageformat": "Ez transferitu"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__title": {
-    "messageformat": "Delete all data?"
+    "messageformat": "Datu guztiak ezabatu nahi dituzu?"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__pending": {
-    "messageformat": "Deleting all data"
+    "messageformat": "Datu guztiak ezabatzen"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__body": {
-    "messageformat": "All current data in Signal Desktop will be deleted. You can then scan a QR code and transfer your message history from your phone."
+    "messageformat": "Une honetan Signal Desktop-en dauden datu guztiak ezabatu egingo dira. Ondoren, QR kodea eskanea dezakezu, eta mezu-historia telefonotik transferitu."
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Bertsio honek hainbat doikuntza txiki eta akats konpontzen ditu Signal-ek ondo funtzionatzen jarraitzeko.",
@@ -8278,12 +8278,12 @@
     "messageformat": "Unicode 17.0 bertsioko emoji berriak erabiltzeko aukera gehitu dugu."
   },
   "icu:WhatsNew__8.11--0": {
-    "messageformat": "We've introduced additional confirmations and educational messaging in the app to help protect Signal users from phishing and social engineering attacks. As a reminder, never reply to chats pretending to be Signal, and never send your verification code, PIN, or recovery key to anyone."
+    "messageformat": "Berrespen gehigarriak eta mezu hezigarriak gehitu ditugu aplikazioan, Sigal-en erabiltzaileak phishingetik eta ingeniaritza sozialetik babesteko. Gogoratu, ez erantzun Signal-en plantak egiten dituzten txatei, eta ez bidali egiaztapen-kodea, PINa edo berreskuratze-gakoa inori."
   },
   "icu:WhatsNew__8.11--1": {
-    "messageformat": "Raised hand indicators in group calls now display the current order of the queue, so you can easily see who got the upper hand first."
+    "messageformat": "Taldeko deietan jasotako eskuen adierazleek ilararen ordena bistaratzen dute orain."
   },
   "icu:WhatsNew__8.11--2": {
-    "messageformat": "We also added a real-time visualization while recording voice messages, so surfers (and oceanographers) can stare at multiple moving waveforms whenever they share updates from the beach."
+    "messageformat": "Ikuspegi berria ahots-mezuak grabatzean."
   }
 }

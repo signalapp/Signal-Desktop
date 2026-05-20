@@ -1,18 +1,18 @@
 {
   "icu:AxoAlertDialog.Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Annullér"
   },
   "icu:AxoButton.Pending": {
-    "messageformat": "Pending"
+    "messageformat": "Afventer"
   },
   "icu:AxoDialog.Back": {
-    "messageformat": "Back"
+    "messageformat": "Tilbage"
   },
   "icu:AxoDialog.Close": {
-    "messageformat": "Close"
+    "messageformat": "Luk"
   },
   "icu:AxoTextField.Clear": {
-    "messageformat": "Clear"
+    "messageformat": "Fjern"
   },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "Tilføj til en gruppe"
@@ -1599,13 +1599,13 @@
     "messageformat": "Brug for hjælp?"
   },
   "icu:Install__confirm-data-deletion__title": {
-    "messageformat": "Delete all data?"
+    "messageformat": "Slet alle data?"
   },
   "icu:Install__confirm-data-deletion__body": {
-    "messageformat": "You’re attempting to link a different Signal account to this desktop. If you continue, all data currently in Signal Desktop will be deleted."
+    "messageformat": "Du forsøger at tilknytte en anden Signal-konto til denne computer. Hvis du fortsætter, vil alle data på Signal Desktop blive slettet."
   },
   "icu:Install__confirm-data-deletion__continue": {
-    "messageformat": "Continue"
+    "messageformat": "Fortsæt"
   },
   "icu:Preferences--header": {
     "messageformat": "Indstillinger"
@@ -4608,7 +4608,7 @@
     "messageformat": "Donér til Signal"
   },
   "icu:BadgeDialog__name-supports-signal": {
-    "messageformat": "{name} supports Signal"
+    "messageformat": "{name} understøtter Signal"
   },
   "icu:ProfileMovedModal__title": {
     "messageformat": "Din profil er blevet flyttet"
@@ -8214,37 +8214,37 @@
     "messageformat": "Slider"
   },
   "icu:MaybeTransferModal__title": {
-    "messageformat": "Transfer your phone’s message history to this desktop?"
+    "messageformat": "Vil du overføre din telefons beskedhistorik til denne computer?"
   },
   "icu:MaybeTransferModal__description": {
-    "messageformat": "When you re-link this desktop, you can transfer your phone’s message history to this device."
+    "messageformat": "Når du forbinder til denne computer igen, kan du overføre din telefons beskedhistorik til denne enhed."
   },
   "icu:MaybeTransferModal__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Læs mere"
   },
   "icu:MaybeTransferModal__replaceHistory": {
-    "messageformat": "This will <bold>replace</bold> the message history on this desktop."
+    "messageformat": "Dette vil <bold>erstatte</bold> beskedhistorikken på denne computer."
   },
   "icu:MaybeTransferModal__scanQrCode": {
-    "messageformat": "You’ll need to relink by scanning a QR code."
+    "messageformat": "Du skal tilknytte igen ved at scanne en QR-kode."
   },
   "icu:MaybeTransferModal__media": {
-    "messageformat": "If you have paid Signal Secure Backups, all of your media will be transferred. Otherwise, your last 45 days of media will be included."
+    "messageformat": "Hvis du har betalt for Sikre sikkerhedskopier, vil alt dit medieindhold blive overført. Ellers vil de seneste 45 dages medier blive inkluderet."
   },
   "icu:MaybeTransferModal__transfer": {
-    "messageformat": "Transfer"
+    "messageformat": "Overfør"
   },
   "icu:MaybeTransferModal__dontTransfer": {
-    "messageformat": "Don't transfer"
+    "messageformat": "Overfør ikke"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__title": {
-    "messageformat": "Delete all data?"
+    "messageformat": "Slet alle data?"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__pending": {
-    "messageformat": "Deleting all data"
+    "messageformat": "Sletter alle data"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__body": {
-    "messageformat": "All current data in Signal Desktop will be deleted. You can then scan a QR code and transfer your message history from your phone."
+    "messageformat": "Alle nuværende data på Signal Desktop vil blive slettet. Derefter kan du scanne en QR-kode og overføre din beskedhistorik fra din telefon."
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Denne version indeholder en række småjusteringer og fejlrettelser som sikrer, at Signal kører problemfrit.",
@@ -8278,12 +8278,12 @@
     "messageformat": "De nyudgivne emojier i Unicode 17.0 har nu taget deres plads i Signal. Send en reaktion med den nye balletdanseremoji, og lav din egen digitale pas de chat."
   },
   "icu:WhatsNew__8.11--0": {
-    "messageformat": "We've introduced additional confirmations and educational messaging in the app to help protect Signal users from phishing and social engineering attacks. As a reminder, never reply to chats pretending to be Signal, and never send your verification code, PIN, or recovery key to anyone."
+    "messageformat": "Vi har tilføjet ekstra bekræftelses- og informationsbeskeder i appen for at beskytte Signal-brugere mod phishing og social manipulation. Som en påmindelse: Svar aldrig på beskeder, der udgiver sig for at være Signal, og del aldrig din bekræftelseskode, pinkode eller din gendannelsesnøgle med nogen."
   },
   "icu:WhatsNew__8.11--1": {
-    "messageformat": "Raised hand indicators in group calls now display the current order of the queue, so you can easily see who got the upper hand first."
+    "messageformat": "Indikatorerne for håndsoprækning i gruppeopkald viser nu den aktuelle rækkefølge i køen, så du nemt kan se, hvem der rakte hånden op først."
   },
   "icu:WhatsNew__8.11--2": {
-    "messageformat": "We also added a real-time visualization while recording voice messages, so surfers (and oceanographers) can stare at multiple moving waveforms whenever they share updates from the beach."
+    "messageformat": "Vi har også tilføjet en realtidsvisualisering under optagelse af talebeskeder, så surfere (og oceanografer) kan stirre på flere former for bølger, når de deler opdateringer fra stranden."
   }
 }

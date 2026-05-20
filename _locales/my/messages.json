@@ -1,18 +1,18 @@
 {
   "icu:AxoAlertDialog.Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "မလုပ်တော့ပါ"
   },
   "icu:AxoButton.Pending": {
-    "messageformat": "Pending"
+    "messageformat": "ဆိုင်းငံ့နေသည်"
   },
   "icu:AxoDialog.Back": {
-    "messageformat": "Back"
+    "messageformat": "နောက်သို့"
   },
   "icu:AxoDialog.Close": {
-    "messageformat": "Close"
+    "messageformat": "ပိတ်မည်"
   },
   "icu:AxoTextField.Clear": {
-    "messageformat": "Clear"
+    "messageformat": "ဖယ်ရှားမည်"
   },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "အဖွဲ့တစ်ဖွဲ့ထဲသို့ ထည့်သွင်းရန်"
@@ -1599,13 +1599,13 @@
     "messageformat": "အကူအညီ လိုအပ်ပါသလား?"
   },
   "icu:Install__confirm-data-deletion__title": {
-    "messageformat": "Delete all data?"
+    "messageformat": "ဒေတာအားလုံးကို ဖျက်မည်လား။"
   },
   "icu:Install__confirm-data-deletion__body": {
-    "messageformat": "You’re attempting to link a different Signal account to this desktop. If you continue, all data currently in Signal Desktop will be deleted."
+    "messageformat": "သင်သည် အခြား Signal အကောင့်တစ်ခုကို ဤ Desktop သို့ ချိတ်ဆက်ရန် ကြိုးစားနေပါသည်။ ဆက်လုပ်ပါက Signal Desktop တွင် လက်ရှိရှိနေသော ဒေတာအားလုံးကို ဖျက်ပစ်ပါမည်။"
   },
   "icu:Install__confirm-data-deletion__continue": {
-    "messageformat": "Continue"
+    "messageformat": "ဆက်လုပ်ရန်"
   },
   "icu:Preferences--header": {
     "messageformat": "ဆက်တင်များ"
@@ -4608,7 +4608,7 @@
     "messageformat": "Signal ကိုလှူဒါန်းပါ"
   },
   "icu:BadgeDialog__name-supports-signal": {
-    "messageformat": "{name} supports Signal"
+    "messageformat": "{name} သည် Signal ကို ပံ့ပိုးပေးပါသည်"
   },
   "icu:ProfileMovedModal__title": {
     "messageformat": "သင့်ပရိုဖိုင်ကို ရွှေ့လိုက်ပါပြီ"
@@ -8214,37 +8214,37 @@
     "messageformat": "ဆလိုက်"
   },
   "icu:MaybeTransferModal__title": {
-    "messageformat": "Transfer your phone’s message history to this desktop?"
+    "messageformat": "သင့်ဖုန်း၏ မက်ဆေ့ချ်မှတ်တမ်းကို ဤ Desktop သို့ လွှဲပြောင်းမလား။"
   },
   "icu:MaybeTransferModal__description": {
-    "messageformat": "When you re-link this desktop, you can transfer your phone’s message history to this device."
+    "messageformat": "ဤ Desktop ကို ပြန်လည်လင့်ခ်ချိတ်သောအခါ သင့်ဖုန်း၏ မက်ဆေ့ချ်မှတ်တမ်းကို ဤစက်သို့ လွှဲပြောင်းနိုင်သည်။"
   },
   "icu:MaybeTransferModal__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "ပိုမိုသိရှိရန်"
   },
   "icu:MaybeTransferModal__replaceHistory": {
-    "messageformat": "This will <bold>replace</bold> the message history on this desktop."
+    "messageformat": "၎င်းသည် Desktop တွင်ရှိသော မက်ဆေ့ချ်မှတ်တမ်းကို <bold>အစားထိုး</bold> ပေးပါလိမ့်မည်။"
   },
   "icu:MaybeTransferModal__scanQrCode": {
-    "messageformat": "You’ll need to relink by scanning a QR code."
+    "messageformat": "QR ကုဒ်ကို စကင်န်ဖတ်ခြင်းဖြင့် ပြန်လည်လင့်ခ်ချိတ်ရန် လိုအပ်ပါသည်။"
   },
   "icu:MaybeTransferModal__media": {
-    "messageformat": "If you have paid Signal Secure Backups, all of your media will be transferred. Otherwise, your last 45 days of media will be included."
+    "messageformat": "Signal လုံခြုံရေးဘက်ခ်အပ်ကို ငွေပေးချေပြီးပါက သင့်မီဒီယာအားလုံးကို လွှဲပြောင်းပေးပါမည်။ ထိုသို့မဟုတ်ပါက သင့် နောက်ဆုံး ၄၅ ရက်စာ မီဒီယာကို ထည့်သွင်းပေးပါမည်။"
   },
   "icu:MaybeTransferModal__transfer": {
-    "messageformat": "Transfer"
+    "messageformat": "လွှဲပြောင်းမည်"
   },
   "icu:MaybeTransferModal__dontTransfer": {
-    "messageformat": "Don't transfer"
+    "messageformat": "မလွှဲပြောင်းပါ"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__title": {
-    "messageformat": "Delete all data?"
+    "messageformat": "ဒေတာအားလုံးကို ဖျက်မည်လား။"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__pending": {
-    "messageformat": "Deleting all data"
+    "messageformat": "ဒေတာအားလုံးကို ဖျက်နေသည်"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__body": {
-    "messageformat": "All current data in Signal Desktop will be deleted. You can then scan a QR code and transfer your message history from your phone."
+    "messageformat": "Signal Desktop ရှိ လက်ရှိဒေတာအားလုံးကို ဖျက်ပစ်ပါမည်။ ထို့နောက် QR ကုဒ်ကို စကင်န်ဖတ်ပြီး သင့်ဖုန်းမှ မက်ဆေ့ချ်မှတ်တမ်းကို လွှဲပြောင်းနိုင်သည်။"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "ဤဗားရှင်းတွင် Signal အား အထစ်အငေါ့မရှိ လုပ်ဆောင်နိုင်စေရန် ချို့ယွင်းချက် ပြင်ဆင်မှုများနှင့် အနေအထား ပြုပြင်မှု အသေးလေးများ ပါဝင်ပါသည်။",
@@ -8278,12 +8278,12 @@
     "messageformat": "Unicode 17.0 တွင် အီမိုဂျီအသစ်အတွက် ပံ့ပိုးမှုကို ဖွင့်လိုက်ပါပြီ။"
   },
   "icu:WhatsNew__8.11--0": {
-    "messageformat": "We've introduced additional confirmations and educational messaging in the app to help protect Signal users from phishing and social engineering attacks. As a reminder, never reply to chats pretending to be Signal, and never send your verification code, PIN, or recovery key to anyone."
+    "messageformat": "Signal အသုံးပြုသူများကို Phishing နှင့် Social Engineering တိုက်ခိုက်မှုများမှ ကာကွယ်ရန် အက်ပ်တွင် နောက်ထပ်အတည်ပြုချက်များနှင့် ပညာပေးမက်ဆေ့ချ်ပေးပို့ခြင်းများကို မိတ်ဆက်ပေးထားပါသည်။ Signal ဟန်ဆောင်ထားသော ချက်(တ်)များကို မည်သည့်အခါမျှ စာမပြန်ပါနှင့်၊ သင့် အတည်ပြုကုဒ်၊ PIN သို့မဟုတ် ပြန်လည်ရယူရေးကီးကို မည်သူ့ကိုမျှ မပို့ပါနှင့်။"
   },
   "icu:WhatsNew__8.11--1": {
-    "messageformat": "Raised hand indicators in group calls now display the current order of the queue, so you can easily see who got the upper hand first."
+    "messageformat": "ယခုအခါ အဖွဲ့လိုက်ခေါ်ဆိုမှုများတွင် လက်ထောင်ထားသည့် ညွှန်ပြချက်များကို အစဉ်လိုက်ပြသပေးသည်။"
   },
   "icu:WhatsNew__8.11--2": {
-    "messageformat": "We also added a real-time visualization while recording voice messages, so surfers (and oceanographers) can stare at multiple moving waveforms whenever they share updates from the beach."
+    "messageformat": "အသံမက်ဆေ့ချ်များ မှတ်တမ်းတင်နေစဉ် မြင်ရမည့် ပုံစံအသစ်။"
   }
 }

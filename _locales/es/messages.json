@@ -1,18 +1,18 @@
 {
   "icu:AxoAlertDialog.Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Cancelar"
   },
   "icu:AxoButton.Pending": {
-    "messageformat": "Pending"
+    "messageformat": "Pendiente"
   },
   "icu:AxoDialog.Back": {
-    "messageformat": "Back"
+    "messageformat": "Atrás"
   },
   "icu:AxoDialog.Close": {
-    "messageformat": "Close"
+    "messageformat": "Cerrar"
   },
   "icu:AxoTextField.Clear": {
-    "messageformat": "Clear"
+    "messageformat": "Eliminar"
   },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "Añadir a un grupo"
@@ -1599,13 +1599,13 @@
     "messageformat": "¿Necesitas ayuda?"
   },
   "icu:Install__confirm-data-deletion__title": {
-    "messageformat": "Delete all data?"
+    "messageformat": "¿Eliminar todos los datos?"
   },
   "icu:Install__confirm-data-deletion__body": {
-    "messageformat": "You’re attempting to link a different Signal account to this desktop. If you continue, all data currently in Signal Desktop will be deleted."
+    "messageformat": "Estás intentando vincular este dispositivo de escritorio con una cuenta de Signal distinta. Si continúas, se eliminarán todos los datos almacenados actualmente en Signal Desktop."
   },
   "icu:Install__confirm-data-deletion__continue": {
-    "messageformat": "Continue"
+    "messageformat": "Continuar"
   },
   "icu:Preferences--header": {
     "messageformat": "Ajustes"
@@ -3387,7 +3387,7 @@
     "messageformat": "Revisa los nombres y las fotos"
   },
   "icu:SafetyTipsModal__TipDescription--NamesAndPhotos": {
-    "messageformat": "Presta atención al aviso de \"Nombre no verificado\". En Signal, todos los usuarios eligen su propio nombre de perfil."
+    "messageformat": "Presta atención al aviso de \"Nombre no verificado\". En Signal, cada usuario elige su propio nombre de perfil."
   },
   "icu:SafetyTipsModal__TipTitle--Scams": {
     "messageformat": "Presta atención a posibles estafas"
@@ -3405,7 +3405,7 @@
     "messageformat": "Revisa los nombres y las fotos"
   },
   "icu:SafetyTipsModal__TipDescription--ReviewNames": {
-    "messageformat": "Presta atención al aviso de \"Nombre no verificado\". En Signal, todos los usuarios eligen su propio nombre y foto de perfil. Si no sabes quién te ha enviado una nueva solicitud de mensaje, lo mejor (y más seguro) es ignorarla."
+    "messageformat": "Presta atención al aviso de \"Nombre no verificado\". En Signal, cada usuario elige su propio nombre y foto de perfil. Si no sabes quién te ha enviado una nueva solicitud de mensaje, lo mejor (y más seguro) es ignorarla."
   },
   "icu:SafetyTipsModal__TipTitle--Crypto": {
     "messageformat": "Estafas de criptomonedas o dinero"
@@ -3579,10 +3579,10 @@
     "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3} y <clickable>{remainingCount,number} persona más</clickable>} other {{member1}, {member2}, {member3} y <clickable>{remainingCount,number} personas más</clickable>}}"
   },
   "icu:ConversationHero--group-names": {
-    "messageformat": "<clickable>Los nombres de los grupos</clickable> no se verifican"
+    "messageformat": "Los <clickable>nombres de los grupos</clickable> no se verifican"
   },
   "icu:ConversationHero--profile-names": {
-    "messageformat": "<clickable>Los nombres de perfil</clickable> no se verifican"
+    "messageformat": "Los <clickable>nombres de perfil</clickable> no se verifican"
   },
   "icu:ConversationHero--name-not-verified": {
     "messageformat": "Nombre no verificado"
@@ -4608,7 +4608,7 @@
     "messageformat": "Haz una donación a Signal"
   },
   "icu:BadgeDialog__name-supports-signal": {
-    "messageformat": "{name} supports Signal"
+    "messageformat": "{name} apoya a Signal"
   },
   "icu:ProfileMovedModal__title": {
     "messageformat": "Hemos cambiado la ubicación de tu perfil"
@@ -7758,7 +7758,7 @@
     "messageformat": "Para cambiar este ajuste, selecciona la opción \"Nadie\" en \"Quién puede ver mi número\"."
   },
   "icu:ProfileNameWarningModal__description--direct": {
-    "messageformat": "Los nombres de perfil en Signal los elige quien crea la cuenta:"
+    "messageformat": "Cada usuario elige su nombre de perfil en Signal:"
   },
   "icu:ProfileNameWarningModal__warning--signal-cant-verify": {
     "messageformat": "Signal no puede verificar los nombres ni las fotos."
@@ -7773,7 +7773,7 @@
     "messageformat": "No compartas información personal con personas que no conozcas."
   },
   "icu:ProfileNameWarningModal__description--group": {
-    "messageformat": "Los nombres de los grupos los eligen los participantes del grupo."
+    "messageformat": "Los participantes del grupo eligen el nombre del grupo."
   },
   "icu:ProfileNameWarningModal__list--item1--group": {
     "messageformat": "Ten cuidado con los grupos que se hacen pasar por organizaciones y empresas"
@@ -8214,37 +8214,37 @@
     "messageformat": "Diapositiva"
   },
   "icu:MaybeTransferModal__title": {
-    "messageformat": "Transfer your phone’s message history to this desktop?"
+    "messageformat": "¿Transferir el historial de mensajes de tu teléfono a este dispositivo de escritorio?"
   },
   "icu:MaybeTransferModal__description": {
-    "messageformat": "When you re-link this desktop, you can transfer your phone’s message history to this device."
+    "messageformat": "Cuando vuelvas a vincular este dispositivo, podrás transferir el historial de mensajes desde tu teléfono."
   },
   "icu:MaybeTransferModal__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Más información"
   },
   "icu:MaybeTransferModal__replaceHistory": {
-    "messageformat": "This will <bold>replace</bold> the message history on this desktop."
+    "messageformat": "Se <bold>reemplazará</bold> el historial de mensajes que tienes en este dispositivo."
   },
   "icu:MaybeTransferModal__scanQrCode": {
-    "messageformat": "You’ll need to relink by scanning a QR code."
+    "messageformat": "Para volver a vincularlo, tendrás que escanear el código QR."
   },
   "icu:MaybeTransferModal__media": {
-    "messageformat": "If you have paid Signal Secure Backups, all of your media will be transferred. Otherwise, your last 45 days of media will be included."
+    "messageformat": "Si tienes un plan de pago de Copias Seguras de Signal, se transferirán todos tus archivos multimedia. De lo contrario, solo se incluirán los archivos multimedia de los últimos 45 días."
   },
   "icu:MaybeTransferModal__transfer": {
-    "messageformat": "Transfer"
+    "messageformat": "Transferir"
   },
   "icu:MaybeTransferModal__dontTransfer": {
-    "messageformat": "Don't transfer"
+    "messageformat": "No transferir"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__title": {
-    "messageformat": "Delete all data?"
+    "messageformat": "¿Eliminar todos los datos?"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__pending": {
-    "messageformat": "Deleting all data"
+    "messageformat": "Eliminando todos los datos"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__body": {
-    "messageformat": "All current data in Signal Desktop will be deleted. You can then scan a QR code and transfer your message history from your phone."
+    "messageformat": "Se eliminarán todos los datos almacenados actualmente en Signal Desktop. Puedes escanear un código QR y transferir tu historial de mensajes desde tu teléfono."
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Esta versión incluye una series de ajustes y correcciones de errores para que Signal funcione sin problemas.",
@@ -8278,12 +8278,12 @@
     "messageformat": "Los emojis de Unicode 17.0 han llegado a Signal. Ya puedes usar el nuevo emoji de bailarina para reaccionar a un mensaje por el que quieras pasar (digitalmente) de puntillas."
   },
   "icu:WhatsNew__8.11--0": {
-    "messageformat": "We've introduced additional confirmations and educational messaging in the app to help protect Signal users from phishing and social engineering attacks. As a reminder, never reply to chats pretending to be Signal, and never send your verification code, PIN, or recovery key to anyone."
+    "messageformat": "Hemos añadido mensajes informativos y confirmaciones adicionales en la app para ayudar a proteger a los usuarios de Signal de los ataques de <em>phishing</em> y de ingeniería social. Recuerda: nunca respondas a un mensaje que diga ser de Signal ni compartas tu clave de verificación, PIN o clave de recuperación con nadie."
   },
   "icu:WhatsNew__8.11--1": {
-    "messageformat": "Raised hand indicators in group calls now display the current order of the queue, so you can easily see who got the upper hand first."
+    "messageformat": "En las llamadas grupales, si varias personas levantan la mano, ahora los indicadores se muestran en orden cronológico. Así podrás ver fácilmente quién tiene prioridad de palabra."
   },
   "icu:WhatsNew__8.11--2": {
-    "messageformat": "We also added a real-time visualization while recording voice messages, so surfers (and oceanographers) can stare at multiple moving waveforms whenever they share updates from the beach."
+    "messageformat": "También hemos añadido una visualización en tiempo real a la grabación de mensajes de voz. Los amantes del mar podrán disfrutar de las olas incluso lejos de la playa mientras comparten su última anécdota."
   }
 }

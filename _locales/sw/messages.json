@@ -1,18 +1,18 @@
 {
   "icu:AxoAlertDialog.Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Ghairi"
   },
   "icu:AxoButton.Pending": {
-    "messageformat": "Pending"
+    "messageformat": "Unasubiri"
   },
   "icu:AxoDialog.Back": {
-    "messageformat": "Back"
+    "messageformat": "Rudi nyuma"
   },
   "icu:AxoDialog.Close": {
-    "messageformat": "Close"
+    "messageformat": "Funga"
   },
   "icu:AxoTextField.Clear": {
-    "messageformat": "Clear"
+    "messageformat": "Futa"
   },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "Ongeza kwenye kikundi"
@@ -1599,13 +1599,13 @@
     "messageformat": "Unahitaji usaidizi?"
   },
   "icu:Install__confirm-data-deletion__title": {
-    "messageformat": "Delete all data?"
+    "messageformat": "Futa data yote?"
   },
   "icu:Install__confirm-data-deletion__body": {
-    "messageformat": "You’re attempting to link a different Signal account to this desktop. If you continue, all data currently in Signal Desktop will be deleted."
+    "messageformat": "Unajaribu kuunganisha akaunti tofauti ya Signal kwenye kompyuta hii. Ukiendelea, data yote iliyo kwenye Signal Desktop itafutwa."
   },
   "icu:Install__confirm-data-deletion__continue": {
-    "messageformat": "Continue"
+    "messageformat": "Endelea"
   },
   "icu:Preferences--header": {
     "messageformat": "Mipangilio"
@@ -4608,7 +4608,7 @@
     "messageformat": "Changia Signal"
   },
   "icu:BadgeDialog__name-supports-signal": {
-    "messageformat": "{name} supports Signal"
+    "messageformat": "{name} anaichangia Signal"
   },
   "icu:ProfileMovedModal__title": {
     "messageformat": "Wasifu wako umehamishwa"
@@ -8214,37 +8214,37 @@
     "messageformat": "Slaidi"
   },
   "icu:MaybeTransferModal__title": {
-    "messageformat": "Transfer your phone’s message history to this desktop?"
+    "messageformat": "Ungependa kuhamishia historia ya jumbe ya simu yako kwenye kompyuta hii?"
   },
   "icu:MaybeTransferModal__description": {
-    "messageformat": "When you re-link this desktop, you can transfer your phone’s message history to this device."
+    "messageformat": "Ukiunganisha upya kwenye kompyuta hii, unaweza kuhamisha historia ya jumbe ya simu yako kwenye kifaa hiki."
   },
   "icu:MaybeTransferModal__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Jifunze zaidi"
   },
   "icu:MaybeTransferModal__replaceHistory": {
-    "messageformat": "This will <bold>replace</bold> the message history on this desktop."
+    "messageformat": "Hatua hii <bold>itabadilisha</bold>historia ya jumbe kwenye kompyuta hii."
   },
   "icu:MaybeTransferModal__scanQrCode": {
-    "messageformat": "You’ll need to relink by scanning a QR code."
+    "messageformat": "Itabidi uunganishe upya kwa kuchanganua QR code."
   },
   "icu:MaybeTransferModal__media": {
-    "messageformat": "If you have paid Signal Secure Backups, all of your media will be transferred. Otherwise, your last 45 days of media will be included."
+    "messageformat": "Ikiwa una Nakala Salama Zilizohifadhiwa na Signal, maudhui yako yote yatahifadhiwa. La sivyo, siku 45 za mwisho za picha na video zako hazitajumuishwa."
   },
   "icu:MaybeTransferModal__transfer": {
-    "messageformat": "Transfer"
+    "messageformat": "Hamisha"
   },
   "icu:MaybeTransferModal__dontTransfer": {
-    "messageformat": "Don't transfer"
+    "messageformat": "Usihamishe"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__title": {
-    "messageformat": "Delete all data?"
+    "messageformat": "Futa data yote?"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__pending": {
-    "messageformat": "Deleting all data"
+    "messageformat": "Inafuta data yote"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__body": {
-    "messageformat": "All current data in Signal Desktop will be deleted. You can then scan a QR code and transfer your message history from your phone."
+    "messageformat": "Data yote iliyo kwenye Signal Desktop itafutwa. Kisha unaweza kuchanganua QR code na kuhamisha historia ya jumbe zako kutoka kwenye simu yako."
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Toleo hili lina mabadiliko kidogo na maboresho ya program kuiwezesha Signal kufanya kazi vizuri.",
@@ -8278,12 +8278,12 @@
     "messageformat": "Emoji mpya iliyotengenezwa hivi karibuni kwa kutumia Unicode 17.0 sasa zimewasili rasmi kwenye Signal. Tuma reaction ya ujumbe ukitumia emoji mpya ya Ballet Dancer ili kufanya toleo lako la kidijitali la pas de chat."
   },
   "icu:WhatsNew__8.11--0": {
-    "messageformat": "We've introduced additional confirmations and educational messaging in the app to help protect Signal users from phishing and social engineering attacks. As a reminder, never reply to chats pretending to be Signal, and never send your verification code, PIN, or recovery key to anyone."
+    "messageformat": "Tumeongeza uthibitisho wa ziada na ujumbe wa elimu ndani ya programu ili kusaidia kulinda watumiaji wa Signal dhidi ya mashambulizi ya wizi wa data binafsi na kuhadaa watu. Kumbuka, usiwahi kujibu magumzo yanayojifanya kuwa Signal na usiwahi kutuma code yako ya uthibitishaji, PIN au ufunguo wa kurejesha akaunti kwa mtu yeyote."
   },
   "icu:WhatsNew__8.11--1": {
-    "messageformat": "Raised hand indicators in group calls now display the current order of the queue, so you can easily see who got the upper hand first."
+    "messageformat": "Viashiria vya mkono ulioinuliwa katika simu za vikundi sasa vinaonyesha mpangilio wa foleni kwa wakati halisi, ili uweze kuona kwa urahisi nani aliyeinua mkono kwanza."
   },
   "icu:WhatsNew__8.11--2": {
-    "messageformat": "We also added a real-time visualization while recording voice messages, so surfers (and oceanographers) can stare at multiple moving waveforms whenever they share updates from the beach."
+    "messageformat": "Pia tumeweka taswira katika muda halisi wakati wa kurekodi ujumbe wa sauti, ili watelezaji wa kwenye maji na (wataalamu wa bahari) waweze kutazama mawimbi mengi yanayosogea wanashiriki sasisho kutoka baharini."
   }
 }

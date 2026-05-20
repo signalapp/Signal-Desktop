@@ -1,18 +1,18 @@
 {
   "icu:AxoAlertDialog.Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Cuir ar ceal"
   },
   "icu:AxoButton.Pending": {
-    "messageformat": "Pending"
+    "messageformat": "Ar feitheamh"
   },
   "icu:AxoDialog.Back": {
-    "messageformat": "Back"
+    "messageformat": "Siar"
   },
   "icu:AxoDialog.Close": {
-    "messageformat": "Close"
+    "messageformat": "Dún"
   },
   "icu:AxoTextField.Clear": {
-    "messageformat": "Clear"
+    "messageformat": "Glan"
   },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "Add to a Group"
@@ -1599,13 +1599,13 @@
     "messageformat": "An bhfuil cúnamh uait?"
   },
   "icu:Install__confirm-data-deletion__title": {
-    "messageformat": "Delete all data?"
+    "messageformat": "Scrios na sonraí go léir?"
   },
   "icu:Install__confirm-data-deletion__body": {
-    "messageformat": "You’re attempting to link a different Signal account to this desktop. If you continue, all data currently in Signal Desktop will be deleted."
+    "messageformat": "Tá tú ag iarraidh cuntas difriúil de chuid Signal a nascadh leis an ríomhaire deisce seo. Má leanann tú leis, scriosfar na sonraí go léir atá in Signal Desktop faoi láthair."
   },
   "icu:Install__confirm-data-deletion__continue": {
-    "messageformat": "Continue"
+    "messageformat": "Ar aghaidh"
   },
   "icu:Preferences--header": {
     "messageformat": "Socruithe"
@@ -4608,7 +4608,7 @@
     "messageformat": "Bronn airgead ar Signal"
   },
   "icu:BadgeDialog__name-supports-signal": {
-    "messageformat": "{name} supports Signal"
+    "messageformat": "Tacaíonn {name} le Signal"
   },
   "icu:ProfileMovedModal__title": {
     "messageformat": "Bogadh do phróifíl"
@@ -8214,37 +8214,37 @@
     "messageformat": "Sleamhnán"
   },
   "icu:MaybeTransferModal__title": {
-    "messageformat": "Transfer your phone’s message history to this desktop?"
+    "messageformat": "Aistrigh stair teachtaireachtaí do ghutháin chuig an ríomhaire deisce seo?"
   },
   "icu:MaybeTransferModal__description": {
-    "messageformat": "When you re-link this desktop, you can transfer your phone’s message history to this device."
+    "messageformat": "Nuair a athnascann tú an ríomhaire deisce seo, beidh tú in ann stair teachtaireachtaí do ghutháin a aistriú chuig an ngléas seo."
   },
   "icu:MaybeTransferModal__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Tuilleadh faisnéise"
   },
   "icu:MaybeTransferModal__replaceHistory": {
-    "messageformat": "This will <bold>replace</bold> the message history on this desktop."
+    "messageformat": "Cuirfear í sin <bold>in ionad</bold> na staire teachtaireachtaí ar an ríomhaire deisce seo."
   },
   "icu:MaybeTransferModal__scanQrCode": {
-    "messageformat": "You’ll need to relink by scanning a QR code."
+    "messageformat": "Beidh ort athnascadh trí chód QR a scanadh."
   },
   "icu:MaybeTransferModal__media": {
-    "messageformat": "If you have paid Signal Secure Backups, all of your media will be transferred. Otherwise, your last 45 days of media will be included."
+    "messageformat": "Má tá Cúltacaí Slána Signal íoctha agat, aistreofar do mheáin go léir. Seachas sin, cuirfear do 45 lá anuas de mheáin san áireamh."
   },
   "icu:MaybeTransferModal__transfer": {
-    "messageformat": "Transfer"
+    "messageformat": "Aistrigh"
   },
   "icu:MaybeTransferModal__dontTransfer": {
-    "messageformat": "Don't transfer"
+    "messageformat": "Ná haistrigh"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__title": {
-    "messageformat": "Delete all data?"
+    "messageformat": "Scrios na sonraí go léir?"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__pending": {
-    "messageformat": "Deleting all data"
+    "messageformat": "Sonraí go léir á scriosadh"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__body": {
-    "messageformat": "All current data in Signal Desktop will be deleted. You can then scan a QR code and transfer your message history from your phone."
+    "messageformat": "Scriosfar na sonraí go léir atá in Signal Desktop faoi láthair. Ansin beidh tú in ann cód QR a scanadh agus do stair teachtaireachtaí a aistriú ó do ghuthán."
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Tá roinnt mionathruithe agus paistí ar fhabhtanna sa leagan seo chun Signal a choinneáil ag rith go réidh.",
@@ -8278,12 +8278,12 @@
     "messageformat": "Rinneamar tacaíocht don emoji nua in Unicode 17.0 a chumasú."
   },
   "icu:WhatsNew__8.11--0": {
-    "messageformat": "We've introduced additional confirmations and educational messaging in the app to help protect Signal users from phishing and social engineering attacks. As a reminder, never reply to chats pretending to be Signal, and never send your verification code, PIN, or recovery key to anyone."
+    "messageformat": "Thugamar isteach deimhnithe agus seoladh teachtaireachtaí oideachasúla san aip mar chabhair chun úsáideoirí Signal a chosaint ar fhioscaireacht agus ar ionsaithe innealtóireachta sóisialta. Cuimhnigh, ná freagair comhráite riamh ina gcuirtear i gcéill gur Signal atá ann, agus ná seol do chód fíoraithe, d'UAP nó d'eochair athshlánaithe chuig duine ar bith riamh."
   },
   "icu:WhatsNew__8.11--1": {
-    "messageformat": "Raised hand indicators in group calls now display the current order of the queue, so you can easily see who got the upper hand first."
+    "messageformat": "Déanann táscairí na lámh ardaithe i ngrúpghlaonna ord reatha na scuaine a thaispeáint anois."
   },
   "icu:WhatsNew__8.11--2": {
-    "messageformat": "We also added a real-time visualization while recording voice messages, so surfers (and oceanographers) can stare at multiple moving waveforms whenever they share updates from the beach."
+    "messageformat": "Léirshamhlú nua le linn glórphoist a thaifeadadh."
   }
 }

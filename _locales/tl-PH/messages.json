@@ -1,18 +1,18 @@
 {
   "icu:AxoAlertDialog.Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "I-cancel"
   },
   "icu:AxoButton.Pending": {
     "messageformat": "Pending"
   },
   "icu:AxoDialog.Back": {
-    "messageformat": "Back"
+    "messageformat": "Bumalik"
   },
   "icu:AxoDialog.Close": {
-    "messageformat": "Close"
+    "messageformat": "Isara"
   },
   "icu:AxoTextField.Clear": {
-    "messageformat": "Clear"
+    "messageformat": "Burahin"
   },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "I-add sa isang group"
@@ -1599,13 +1599,13 @@
     "messageformat": "Kailangan mo ba ng tulong?"
   },
   "icu:Install__confirm-data-deletion__title": {
-    "messageformat": "Delete all data?"
+    "messageformat": "Gusto mo bang i-burahin ang lahat ng data?"
   },
   "icu:Install__confirm-data-deletion__body": {
-    "messageformat": "You’re attempting to link a different Signal account to this desktop. If you continue, all data currently in Signal Desktop will be deleted."
+    "messageformat": "Sinusubukan mong mag-link ng ibang Signal account sa desktop na ito. Kung magpapatuloy ka, mabubura ang lahat ng data na kasalukuyang nasa Signal Desktop."
   },
   "icu:Install__confirm-data-deletion__continue": {
-    "messageformat": "Continue"
+    "messageformat": "Magpatuloy"
   },
   "icu:Preferences--header": {
     "messageformat": "Settings"
@@ -4608,7 +4608,7 @@
     "messageformat": "Mag-donate sa Signal"
   },
   "icu:BadgeDialog__name-supports-signal": {
-    "messageformat": "{name} supports Signal"
+    "messageformat": "Sinusuportahan ni {name} ang Signal"
   },
   "icu:ProfileMovedModal__title": {
     "messageformat": "Inilipat ang profile mo"
@@ -8214,37 +8214,37 @@
     "messageformat": "Slide"
   },
   "icu:MaybeTransferModal__title": {
-    "messageformat": "Transfer your phone’s message history to this desktop?"
+    "messageformat": "Gusto mo bang ilipat ang message history ng phone mo sa desktop na ito?"
   },
   "icu:MaybeTransferModal__description": {
-    "messageformat": "When you re-link this desktop, you can transfer your phone’s message history to this device."
+    "messageformat": "Kapag ini-link mo ulit ang desktop na ito, maaari mong i-transfer ang message history ng phone mo sa device na ito."
   },
   "icu:MaybeTransferModal__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Matuto pa"
   },
   "icu:MaybeTransferModal__replaceHistory": {
-    "messageformat": "This will <bold>replace</bold> the message history on this desktop."
+    "messageformat": "<bold>Papalitan</bold> nito ang message history sa desktop mo."
   },
   "icu:MaybeTransferModal__scanQrCode": {
-    "messageformat": "You’ll need to relink by scanning a QR code."
+    "messageformat": "Kailangan mong mag-link ulit sa pamamagitan ng pag-scan ng QR code."
   },
   "icu:MaybeTransferModal__media": {
-    "messageformat": "If you have paid Signal Secure Backups, all of your media will be transferred. Otherwise, your last 45 days of media will be included."
+    "messageformat": "Kung may paid Signal Secure Backups ka, malilipat lahat ng media mo. Kung hindi, ang media mo lang nitong nakaraang 45 araw ang isasama."
   },
   "icu:MaybeTransferModal__transfer": {
-    "messageformat": "Transfer"
+    "messageformat": "Mag-transfer"
   },
   "icu:MaybeTransferModal__dontTransfer": {
-    "messageformat": "Don't transfer"
+    "messageformat": "'Wag ilipat"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__title": {
-    "messageformat": "Delete all data?"
+    "messageformat": "Gusto mo bang i-burahin ang lahat ng data?"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__pending": {
-    "messageformat": "Deleting all data"
+    "messageformat": "Binubura ang lahat ng data"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__body": {
-    "messageformat": "All current data in Signal Desktop will be deleted. You can then scan a QR code and transfer your message history from your phone."
+    "messageformat": "Mabubura ang lahat ng data na kasalukuyang nasa Signal Desktop. Maaari kang mag-scan ng QR code at mag-transfer ng message history mo mula sa phone mo."
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Ang version na ito'y may small tweaks at bug fixes to keep Signal running smoothly.",
@@ -8278,12 +8278,12 @@
     "messageformat": "Sinusuportahan na namin ang bagong emoji sa Unicode 17.0."
   },
   "icu:WhatsNew__8.11--0": {
-    "messageformat": "We've introduced additional confirmations and educational messaging in the app to help protect Signal users from phishing and social engineering attacks. As a reminder, never reply to chats pretending to be Signal, and never send your verification code, PIN, or recovery key to anyone."
+    "messageformat": "Naglagay kami ng karagdagang kompirmasyon at impormasyon sa app para protektahan ang Signal users mula sa phishing at social engineering attacks. Bilang paalala, huwag mag-reply sa chats na nagpapanggap na Signal, at huwag i-send ang iyong verification code, PIN, o recovery key kahit kanino."
   },
   "icu:WhatsNew__8.11--1": {
-    "messageformat": "Raised hand indicators in group calls now display the current order of the queue, so you can easily see who got the upper hand first."
+    "messageformat": "Ang raised hand indicators sa group calls ay nagpapakita ngayon ng kasalukuyang order ng queue."
   },
   "icu:WhatsNew__8.11--2": {
-    "messageformat": "We also added a real-time visualization while recording voice messages, so surfers (and oceanographers) can stare at multiple moving waveforms whenever they share updates from the beach."
+    "messageformat": "Bagong visualization habang nagre-record ng voice messages."
   }
 }

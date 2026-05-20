@@ -1,18 +1,18 @@
 {
   "icu:AxoAlertDialog.Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "გაუქმება"
   },
   "icu:AxoButton.Pending": {
-    "messageformat": "Pending"
+    "messageformat": "იგზავნება"
   },
   "icu:AxoDialog.Back": {
-    "messageformat": "Back"
+    "messageformat": "უკან"
   },
   "icu:AxoDialog.Close": {
     "messageformat": "Close"
   },
   "icu:AxoTextField.Clear": {
-    "messageformat": "Clear"
+    "messageformat": "გასუფთავება"
   },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "ჯგუფში დამატება"
@@ -1599,13 +1599,13 @@
     "messageformat": "დახმარება გჭირდება?"
   },
   "icu:Install__confirm-data-deletion__title": {
-    "messageformat": "Delete all data?"
+    "messageformat": "წავშალოთ ყველა მონაცემი?"
   },
   "icu:Install__confirm-data-deletion__body": {
-    "messageformat": "You’re attempting to link a different Signal account to this desktop. If you continue, all data currently in Signal Desktop will be deleted."
+    "messageformat": "ამ დესკტოპზე Signal-ის სხვა ანგარიშის მიბმას ცდილობ. თუ განაგრძობ, Signal Desktop-ზე ამჟამად არსებული ყველა მონაცემი წაიშლება."
   },
   "icu:Install__confirm-data-deletion__continue": {
-    "messageformat": "Continue"
+    "messageformat": "გაგრძელება"
   },
   "icu:Preferences--header": {
     "messageformat": "პარამეტრები"
@@ -4608,7 +4608,7 @@
     "messageformat": "Signal-ისთვის დონაციის გაკეთება"
   },
   "icu:BadgeDialog__name-supports-signal": {
-    "messageformat": "{name} supports Signal"
+    "messageformat": "{name} მხარს უჭერს Signal-ს"
   },
   "icu:ProfileMovedModal__title": {
     "messageformat": "შენი პროფილი გადატანილია"
@@ -8214,37 +8214,37 @@
     "messageformat": "სლაიდი"
   },
   "icu:MaybeTransferModal__title": {
-    "messageformat": "Transfer your phone’s message history to this desktop?"
+    "messageformat": "გსურს შენი მობილურის მიმოწერის ისტორია ამ დესკტოპზე გადმოიტანო?"
   },
   "icu:MaybeTransferModal__description": {
-    "messageformat": "When you re-link this desktop, you can transfer your phone’s message history to this device."
+    "messageformat": "როცა შენს დესკტოპს თავიდან მიაბამ, ამ მოწყობილობაზე შენი მობილურის მიმოწერის ისტორიის გადმოტანას შეძლებ."
   },
   "icu:MaybeTransferModal__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "გაიგე მეტი"
   },
   "icu:MaybeTransferModal__replaceHistory": {
-    "messageformat": "This will <bold>replace</bold> the message history on this desktop."
+    "messageformat": "ეს ამ დესკტოპზე არსებულ მიმოწერის ისტორიას <bold>ჩაანაცვლებს</bold>."
   },
   "icu:MaybeTransferModal__scanQrCode": {
-    "messageformat": "You’ll need to relink by scanning a QR code."
+    "messageformat": "თავიდან უნდა მიაბა QR კოდის დასკანირებით."
   },
   "icu:MaybeTransferModal__media": {
-    "messageformat": "If you have paid Signal Secure Backups, all of your media will be transferred. Otherwise, your last 45 days of media will be included."
+    "messageformat": "თუ Signal-ის უსაფრთხო სათადარიგო ასლების ფასიანი გამოწერა გაქვს, შენი ყველა მედია ფაილიც გადმოვა. სხვა შემთხვევაში, ბოლო 45 დღის მედია ფაილი შევა."
   },
   "icu:MaybeTransferModal__transfer": {
-    "messageformat": "Transfer"
+    "messageformat": "გადარიცხვა"
   },
   "icu:MaybeTransferModal__dontTransfer": {
-    "messageformat": "Don't transfer"
+    "messageformat": "არ გადაიტანო"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__title": {
-    "messageformat": "Delete all data?"
+    "messageformat": "წავშალოთ ყველა მონაცემი?"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__pending": {
-    "messageformat": "Deleting all data"
+    "messageformat": "მიმდინარეობს ყველა მონაცემის წაშლა"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__body": {
-    "messageformat": "All current data in Signal Desktop will be deleted. You can then scan a QR code and transfer your message history from your phone."
+    "messageformat": "Signal Desktop-ზე ამჟამად არსებული ყველა მონაცემი წაიშლება. ამის შემდეგ შეძლებ QR კოდი დაასკანირო და შენი მობილურიდან მიმოწერის ისტორია გადმოიტანო."
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "ეს ვერსია შეიცავს უამრავ მცირე შესწორებას და ბაგების გამოსწორებებს Signal-ის შეუფერხებლად მუშაობის შესანარჩუნებლად.",
@@ -8278,12 +8278,12 @@
     "messageformat": "Unicode 17.0-ში ახალი ემოჯის მხარდაჭერა დაგვემატა. 8.10 ვერსიის სიახლეები. გამოხატე რეაქცია მესიჯებზე ახალი ემოჯიების საშუალებით."
   },
   "icu:WhatsNew__8.11--0": {
-    "messageformat": "We've introduced additional confirmations and educational messaging in the app to help protect Signal users from phishing and social engineering attacks. As a reminder, never reply to chats pretending to be Signal, and never send your verification code, PIN, or recovery key to anyone."
+    "messageformat": "აპში დამატებითი დასტურები და საგანმანათლებლო შეტყობინებები დავამატეთ, რათა Signal-ის მომხმარებლები თაღლითობისა და სოციალური ინჟინერიის შეტევებისგან დავიცვათ. შეგახსენებთ, რომ არასდროს უპასუხო ჩატებს, რომლებიც Signal-ად ასაღებენ თავს და არავის გაუგზავნო შენი ვერიფიკაციის კოდი, პინ-კოდი ან აღდგენის გასაღები."
   },
   "icu:WhatsNew__8.11--1": {
-    "messageformat": "Raised hand indicators in group calls now display the current order of the queue, so you can easily see who got the upper hand first."
+    "messageformat": "ახლა ჯგუფის ზარებში აწეული ხელის ინდიკატორები უკვე შესაბამისი რიგითობით ჩნდება."
   },
   "icu:WhatsNew__8.11--2": {
-    "messageformat": "We also added a real-time visualization while recording voice messages, so surfers (and oceanographers) can stare at multiple moving waveforms whenever they share updates from the beach."
+    "messageformat": "ასევე ხმოვანი შეტყობინების ჩაწერისას ცოცხალ რეჟიმში ვიზუალიზაცია დავამატეთ."
   }
 }

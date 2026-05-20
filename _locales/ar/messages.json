@@ -1,18 +1,18 @@
 {
   "icu:AxoAlertDialog.Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "إلغاء"
   },
   "icu:AxoButton.Pending": {
-    "messageformat": "Pending"
+    "messageformat": "مُعلَّق"
   },
   "icu:AxoDialog.Back": {
-    "messageformat": "Back"
+    "messageformat": "الرجوع"
   },
   "icu:AxoDialog.Close": {
-    "messageformat": "Close"
+    "messageformat": "إغلاق"
   },
   "icu:AxoTextField.Clear": {
-    "messageformat": "Clear"
+    "messageformat": "مسح"
   },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "إضافة إلى مجموعة"
@@ -1599,13 +1599,13 @@
     "messageformat": "هل تحتاج لمُساعدة؟"
   },
   "icu:Install__confirm-data-deletion__title": {
-    "messageformat": "Delete all data?"
+    "messageformat": "هل ترغبُ بحذف جميع البيانات؟"
   },
   "icu:Install__confirm-data-deletion__body": {
-    "messageformat": "You’re attempting to link a different Signal account to this desktop. If you continue, all data currently in Signal Desktop will be deleted."
+    "messageformat": "يبدو أنك تحاول ربط حساب سيجنال آخر بهذا الحاسوب. إذا واصلت، فستُحذف جميع البيانات الموجودة حالياً على سيجنال Desktop."
   },
   "icu:Install__confirm-data-deletion__continue": {
-    "messageformat": "Continue"
+    "messageformat": "متابعة"
   },
   "icu:Preferences--header": {
     "messageformat": "الإعدادات"
@@ -4608,7 +4608,7 @@
     "messageformat": "تبرَّع لسيجنال"
   },
   "icu:BadgeDialog__name-supports-signal": {
-    "messageformat": "{name} supports Signal"
+    "messageformat": "{name} يدعم سيجنال"
   },
   "icu:ProfileMovedModal__title": {
     "messageformat": "تمَّ نقل حسابك الشخصي"
@@ -8214,37 +8214,37 @@
     "messageformat": "مرِّر"
   },
   "icu:MaybeTransferModal__title": {
-    "messageformat": "Transfer your phone’s message history to this desktop?"
+    "messageformat": "هل تريد نقل سِجل رسائل هاتفك إلى هذا الكمبيوتر؟"
   },
   "icu:MaybeTransferModal__description": {
-    "messageformat": "When you re-link this desktop, you can transfer your phone’s message history to this device."
+    "messageformat": "عند إعادة ربط هذا الكمبيوتر، يمكنك نقل سِجل رسائل هاتفك إلى هذا الجهاز."
   },
   "icu:MaybeTransferModal__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "اعرف المزيد"
   },
   "icu:MaybeTransferModal__replaceHistory": {
-    "messageformat": "This will <bold>replace</bold> the message history on this desktop."
+    "messageformat": "سَيؤدي هذا الإجراء إلى <bold>استبدال</bold> سِجل الرسائل الحالي على هذا الكمبيوتر."
   },
   "icu:MaybeTransferModal__scanQrCode": {
-    "messageformat": "You’ll need to relink by scanning a QR code."
+    "messageformat": "سَتحتاج إلى إعادة الربط عبر مسح رمز QR."
   },
   "icu:MaybeTransferModal__media": {
-    "messageformat": "If you have paid Signal Secure Backups, all of your media will be transferred. Otherwise, your last 45 days of media will be included."
+    "messageformat": "إذا كان لديك اشتراك مدفوع في \"النسخ الاحتياطية الآمنة لسيجنال\"، فستُنقل جميع الوسائط الخاصة بك. وإلا فستُنقل الوسائط الخاصة بك لآخر 45 يوماً فقط."
   },
   "icu:MaybeTransferModal__transfer": {
-    "messageformat": "Transfer"
+    "messageformat": "نقل"
   },
   "icu:MaybeTransferModal__dontTransfer": {
-    "messageformat": "Don't transfer"
+    "messageformat": "عدم نقل سِجل الرسائل"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__title": {
-    "messageformat": "Delete all data?"
+    "messageformat": "هل ترغبُ بحذف جميع البيانات؟"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__pending": {
-    "messageformat": "Deleting all data"
+    "messageformat": "جارٍ حذف جميع البيانات"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__body": {
-    "messageformat": "All current data in Signal Desktop will be deleted. You can then scan a QR code and transfer your message history from your phone."
+    "messageformat": "ستُحذف جميع البيانات الحالية في تطبيق سيجنال Desktop. يُمكنك بعد ذلك مسح رمز الـ QR ونقل سِجل رسائلك من هاتفك."
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "يحتوي هذا الإصدار على عدد من التعديلات الصغيرة وإصلاحات الأخطاء للحفاظ على عمل سيجنال بسلاسة.",
@@ -8278,12 +8278,12 @@
     "messageformat": "قمنا بتفعيل دعم الرموز التعبيرية الجديدة في إصدار Unicode 17.0. تفاعَل مع الرسائل باستخدام رمز \"راقص الباليه\" التعبيري الجديد لتُؤدي نسختك الرقمية الخاصة من حركة \"pas de chat\"."
   },
   "icu:WhatsNew__8.11--0": {
-    "messageformat": "We've introduced additional confirmations and educational messaging in the app to help protect Signal users from phishing and social engineering attacks. As a reminder, never reply to chats pretending to be Signal, and never send your verification code, PIN, or recovery key to anyone."
+    "messageformat": "أضفنا خطوات تأكيد إضافية ورسائل توعوية داخل التطبيق، وذلك لحماية مُستخدِمي سيجنال من التصيُّد الاحتيالي وهجمات الهندسة الاجتماعية. وللتذكير، لا تردّ مطلقًا على أي محادثات تدّعي أنها من فريق سيجنال، ولا ترسل كود التحقُّق، أو رقم التعريف الشخصي (PIN)، أو مفتاح الاستعادة الخاص بك لأي شخص كان."
   },
   "icu:WhatsNew__8.11--1": {
-    "messageformat": "Raised hand indicators in group calls now display the current order of the queue, so you can easily see who got the upper hand first."
+    "messageformat": "تُعرَض مؤشرات رفع اليد في المكالمات الجماعية الآن وفق ترتيب قائمة الانتظار الحالية، لذلك يمكنك بسهولة رؤية من رفع يده أوّلًا."
   },
   "icu:WhatsNew__8.11--2": {
-    "messageformat": "We also added a real-time visualization while recording voice messages, so surfers (and oceanographers) can stare at multiple moving waveforms whenever they share updates from the beach."
+    "messageformat": "قُمنا بإضافة عرض مرئي جديد يظهر أثناء تسجيل الرسائل الصوتية."
   }
 }

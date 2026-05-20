@@ -1,18 +1,18 @@
 {
   "icu:AxoAlertDialog.Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "বাতিল করুন"
   },
   "icu:AxoButton.Pending": {
-    "messageformat": "Pending"
+    "messageformat": "স্থগিত"
   },
   "icu:AxoDialog.Back": {
-    "messageformat": "Back"
+    "messageformat": "ফিরে যান"
   },
   "icu:AxoDialog.Close": {
-    "messageformat": "Close"
+    "messageformat": "বন্ধ"
   },
   "icu:AxoTextField.Clear": {
-    "messageformat": "Clear"
+    "messageformat": "সাফ করুন"
   },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "গ্রুপে যোগ করো"
@@ -1599,13 +1599,13 @@
     "messageformat": "সাহায্য প্রয়োজন?"
   },
   "icu:Install__confirm-data-deletion__title": {
-    "messageformat": "Delete all data?"
+    "messageformat": "সকল ডেটা মুছে ফেলবেন?"
   },
   "icu:Install__confirm-data-deletion__body": {
-    "messageformat": "You’re attempting to link a different Signal account to this desktop. If you continue, all data currently in Signal Desktop will be deleted."
+    "messageformat": "আপনি এই ডেস্কটপের সাথে একটি ভিন্ন Signal অ্যাকাউন্ট লিংক করার চেষ্টা করছেন। আপনি যদি এগিয়ে যান, তাহলে বর্তমানে Signal Desktop-এ থাকা সব ডেটা মুছে ফেলা হবে।"
   },
   "icu:Install__confirm-data-deletion__continue": {
-    "messageformat": "Continue"
+    "messageformat": "চালিয়ে যান"
   },
   "icu:Preferences--header": {
     "messageformat": "সেটিংস"
@@ -4608,7 +4608,7 @@
     "messageformat": "Signal-এ দান করুন"
   },
   "icu:BadgeDialog__name-supports-signal": {
-    "messageformat": "{name} supports Signal"
+    "messageformat": "{name} Signal-কে সমর্থন করে"
   },
   "icu:ProfileMovedModal__title": {
     "messageformat": "আপনার প্রোফাইল সরানো হয়েছে"
@@ -8214,37 +8214,37 @@
     "messageformat": "স্লাইড"
   },
   "icu:MaybeTransferModal__title": {
-    "messageformat": "Transfer your phone’s message history to this desktop?"
+    "messageformat": "আপনার ফোনের মেসেজের ইতিহাস এই ডেস্কটপে ট্রান্সফার করবেন?"
   },
   "icu:MaybeTransferModal__description": {
-    "messageformat": "When you re-link this desktop, you can transfer your phone’s message history to this device."
+    "messageformat": "যখন আপনি এই ডেস্কটপটি পুনরায় লিংক করবেন, তখন আপনি আপনার ফোনের মেসেজের ইতিহাস এই ডিভাইসে ট্রান্সফার করতে পারবেন।"
   },
   "icu:MaybeTransferModal__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "আরো জানুন"
   },
   "icu:MaybeTransferModal__replaceHistory": {
-    "messageformat": "This will <bold>replace</bold> the message history on this desktop."
+    "messageformat": "এটি এই ডেস্কটপের মেসেজের ইতিহাস <bold>প্রতিস্থাপন</bold> করবে।"
   },
   "icu:MaybeTransferModal__scanQrCode": {
-    "messageformat": "You’ll need to relink by scanning a QR code."
+    "messageformat": "আপনাকে একটি QR কোড স্ক্যান করে পুনরায় লিংক করতে হবে।"
   },
   "icu:MaybeTransferModal__media": {
-    "messageformat": "If you have paid Signal Secure Backups, all of your media will be transferred. Otherwise, your last 45 days of media will be included."
+    "messageformat": "যদি আপনি Signal নিরাপদ ব্যাকআপ-এর জন্য পেমেন্ট করে থাকেন, তাহলে আপনার সব মিডিয়া ট্রান্সফার করা হবে। অন্যথায়, শুধু আপনার শেষ 45 দিনের মিডিয়া অন্তর্ভুক্ত থাকবে।"
   },
   "icu:MaybeTransferModal__transfer": {
-    "messageformat": "Transfer"
+    "messageformat": "স্থানান্তর"
   },
   "icu:MaybeTransferModal__dontTransfer": {
-    "messageformat": "Don't transfer"
+    "messageformat": "ট্রান্সফার করবেন না"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__title": {
-    "messageformat": "Delete all data?"
+    "messageformat": "সকল ডেটা মুছে ফেলবেন?"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__pending": {
-    "messageformat": "Deleting all data"
+    "messageformat": "সব ডেটা মুছে ফেলা হচ্ছে"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__body": {
-    "messageformat": "All current data in Signal Desktop will be deleted. You can then scan a QR code and transfer your message history from your phone."
+    "messageformat": "Signal Desktop-এ থাকা সব বর্তমান ডেটা মুছে ফেলা হবে। এরপর আপনি একটি QR কোড স্ক্যান করে আপনার ফোন থেকে মেসেজের ইতিহাস ট্রান্সফার করতে পারবেন।"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "সিগন্যালকে মসৃণভাবে চলমান রাখতে এই সংস্করণে অনেকগুলি ছোটখাট পরিবর্তন রয়েছে এবং বাগ সংশোধন করা হয়েছে।",
@@ -8278,12 +8278,12 @@
     "messageformat": "আমরা Unicode 17.0-তে নতুন ইমোজিটির জন্য সমর্থন চালু করেছি।"
   },
   "icu:WhatsNew__8.11--0": {
-    "messageformat": "We've introduced additional confirmations and educational messaging in the app to help protect Signal users from phishing and social engineering attacks. As a reminder, never reply to chats pretending to be Signal, and never send your verification code, PIN, or recovery key to anyone."
+    "messageformat": "Signal ব্যবহারকারীদের ফিশিং এবং সোশ্যাল ইঞ্জিনিয়ারিং আক্রমণ থেকে রক্ষা করতে সাহায্য করার জন্য আমরা অ্যাপটিতে বাড়তি নিশ্চিতকরণ এবং সচেতনতামূলক মেসেজিং যোগ করেছি। মনে রাখবেন, Signal-এর প্রতিনিধির ছদ্মবেশে আসা কারো চ্যাটের উত্তর দিবেন না এবং আপনার যাচাইকরণ কোড, পিন বা পুনরুদ্ধার 'কি' কাউকে পাঠাবেন না।"
   },
   "icu:WhatsNew__8.11--1": {
-    "messageformat": "Raised hand indicators in group calls now display the current order of the queue, so you can easily see who got the upper hand first."
+    "messageformat": "গ্রুপ কলে হাত তুললে এখন কিউ-এর বর্তমান ক্রম দেখা যাবে।"
   },
   "icu:WhatsNew__8.11--2": {
-    "messageformat": "We also added a real-time visualization while recording voice messages, so surfers (and oceanographers) can stare at multiple moving waveforms whenever they share updates from the beach."
+    "messageformat": "ভয়েস মেসেজ রেকর্ড করার সময় নতুন ভিজ্যুয়ালাইজেশন।"
   }
 }

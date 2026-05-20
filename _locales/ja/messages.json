@@ -1,18 +1,18 @@
 {
   "icu:AxoAlertDialog.Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "キャンセル"
   },
   "icu:AxoButton.Pending": {
-    "messageformat": "Pending"
+    "messageformat": "保留中"
   },
   "icu:AxoDialog.Back": {
-    "messageformat": "Back"
+    "messageformat": "戻る"
   },
   "icu:AxoDialog.Close": {
-    "messageformat": "Close"
+    "messageformat": "閉じる"
   },
   "icu:AxoTextField.Clear": {
-    "messageformat": "Clear"
+    "messageformat": "消去する"
   },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "グループへ追加"
@@ -1599,13 +1599,13 @@
     "messageformat": "お困りですか？"
   },
   "icu:Install__confirm-data-deletion__title": {
-    "messageformat": "Delete all data?"
+    "messageformat": "すべてのデータを消去しますか？"
   },
   "icu:Install__confirm-data-deletion__body": {
-    "messageformat": "You’re attempting to link a different Signal account to this desktop. If you continue, all data currently in Signal Desktop will be deleted."
+    "messageformat": "このデスクトップに別のSignalアカウントをリンクしようとしています。続行すると、Signal Desktop内の既存のすべてのデータが消去されます。"
   },
   "icu:Install__confirm-data-deletion__continue": {
-    "messageformat": "Continue"
+    "messageformat": "続ける"
   },
   "icu:Preferences--header": {
     "messageformat": "設定"
@@ -4608,7 +4608,7 @@
     "messageformat": "Signalへの寄付"
   },
   "icu:BadgeDialog__name-supports-signal": {
-    "messageformat": "{name} supports Signal"
+    "messageformat": "{name} さんはSignalをサポートしています"
   },
   "icu:ProfileMovedModal__title": {
     "messageformat": "プロフィールの場所が変更されました"
@@ -8214,37 +8214,37 @@
     "messageformat": "スライド"
   },
   "icu:MaybeTransferModal__title": {
-    "messageformat": "Transfer your phone’s message history to this desktop?"
+    "messageformat": "スマートフォンのメッセージ履歴をこのデスクトップへ移行しますか？"
   },
   "icu:MaybeTransferModal__description": {
-    "messageformat": "When you re-link this desktop, you can transfer your phone’s message history to this device."
+    "messageformat": "このデスクトップを再リンクすると、スマートフォンのメッセージ履歴をこの端末に移行できます。"
   },
   "icu:MaybeTransferModal__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "さらに詳しく"
   },
   "icu:MaybeTransferModal__replaceHistory": {
-    "messageformat": "This will <bold>replace</bold> the message history on this desktop."
+    "messageformat": "移行すると、このデスクトップ上にあるメッセージ履歴が<bold>置き換えられます</bold>。"
   },
   "icu:MaybeTransferModal__scanQrCode": {
-    "messageformat": "You’ll need to relink by scanning a QR code."
+    "messageformat": "QRコードをスキャンして再リンクする必要があります。"
   },
   "icu:MaybeTransferModal__media": {
-    "messageformat": "If you have paid Signal Secure Backups, all of your media will be transferred. Otherwise, your last 45 days of media will be included."
+    "messageformat": "Signalセキュアバックアップに加入している場合、すべてのメディアが移行されます。そうでない場合は、直近45日間のメディアのみが移行されます。"
   },
   "icu:MaybeTransferModal__transfer": {
-    "messageformat": "Transfer"
+    "messageformat": "振替"
   },
   "icu:MaybeTransferModal__dontTransfer": {
-    "messageformat": "Don't transfer"
+    "messageformat": "移行しない"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__title": {
-    "messageformat": "Delete all data?"
+    "messageformat": "すべてのデータを消去しますか？"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__pending": {
-    "messageformat": "Deleting all data"
+    "messageformat": "すべてのデータを消去中"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__body": {
-    "messageformat": "All current data in Signal Desktop will be deleted. You can then scan a QR code and transfer your message history from your phone."
+    "messageformat": "Signal Desktop内の、既存のすべてのデータが消去されます。その後、QRコードをスキャンしてスマートフォンからメッセージ履歴を移行できます。"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Signalをスムーズに動作させるための微調整とバグ修正を行いました。",
@@ -8278,12 +8278,12 @@
     "messageformat": "Unicode 17.0の新しい絵文字に対応しました。"
   },
   "icu:WhatsNew__8.11--0": {
-    "messageformat": "We've introduced additional confirmations and educational messaging in the app to help protect Signal users from phishing and social engineering attacks. As a reminder, never reply to chats pretending to be Signal, and never send your verification code, PIN, or recovery key to anyone."
+    "messageformat": "フィッシングやソーシャルエンジニアリング攻撃からユーザーを保護するため、Signalアプリに追加の確認メッセージと警告メッセージを導入しました。以前にもお伝えしていますが、Signalを装ったチャットには絶対に返信しないでください。また、確認コード、PIN、回復キーは誰にも教えないでください。"
   },
   "icu:WhatsNew__8.11--1": {
-    "messageformat": "Raised hand indicators in group calls now display the current order of the queue, so you can easily see who got the upper hand first."
+    "messageformat": "グループ通話時の挙手表示で、現在の順番が表示されるようになりました。"
   },
   "icu:WhatsNew__8.11--2": {
-    "messageformat": "We also added a real-time visualization while recording voice messages, so surfers (and oceanographers) can stare at multiple moving waveforms whenever they share updates from the beach."
+    "messageformat": "ボイスメッセージ録音時のヴィジュアル表示を一新しました。"
   }
 }

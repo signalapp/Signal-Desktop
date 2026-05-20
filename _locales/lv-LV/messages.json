@@ -1,18 +1,18 @@
 {
   "icu:AxoAlertDialog.Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Atcelt"
   },
   "icu:AxoButton.Pending": {
-    "messageformat": "Pending"
+    "messageformat": "Gaidīšanas statusā"
   },
   "icu:AxoDialog.Back": {
-    "messageformat": "Back"
+    "messageformat": "Atpakaļ"
   },
   "icu:AxoDialog.Close": {
-    "messageformat": "Close"
+    "messageformat": "Aizvērt"
   },
   "icu:AxoTextField.Clear": {
-    "messageformat": "Clear"
+    "messageformat": "Notīrīt"
   },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "Pievienot grupai"
@@ -1599,13 +1599,13 @@
     "messageformat": "Nepieciešama palīdzība?"
   },
   "icu:Install__confirm-data-deletion__title": {
-    "messageformat": "Delete all data?"
+    "messageformat": "Vai dzēst visus datus?"
   },
   "icu:Install__confirm-data-deletion__body": {
-    "messageformat": "You’re attempting to link a different Signal account to this desktop. If you continue, all data currently in Signal Desktop will be deleted."
+    "messageformat": "Jūs šai darbvirsmai cenšaties piesaistīt citu Signal kontu. Ja turpināsiet, visi esošie Signal Desktop dati tiks dzēsti."
   },
   "icu:Install__confirm-data-deletion__continue": {
-    "messageformat": "Continue"
+    "messageformat": "Turpināt"
   },
   "icu:Preferences--header": {
     "messageformat": "Iestatījumi"
@@ -4608,7 +4608,7 @@
     "messageformat": "Ziedot Signal"
   },
   "icu:BadgeDialog__name-supports-signal": {
-    "messageformat": "{name} supports Signal"
+    "messageformat": "{name} atbalsta Signal"
   },
   "icu:ProfileMovedModal__title": {
     "messageformat": "Jūsu profils ir pārvietots"
@@ -8214,37 +8214,37 @@
     "messageformat": "Slaids"
   },
   "icu:MaybeTransferModal__title": {
-    "messageformat": "Transfer your phone’s message history to this desktop?"
+    "messageformat": "Vai pārsūtīt tālruņa ziņu vēsturi uz šo darbvirsmu?"
   },
   "icu:MaybeTransferModal__description": {
-    "messageformat": "When you re-link this desktop, you can transfer your phone’s message history to this device."
+    "messageformat": "Atkārtoti piesaistot šo darbvirsmu, varēsiet pārsūtīt tālruņa ziņu vēsturi uz šo ierīci."
   },
   "icu:MaybeTransferModal__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Uzzināt vairāk"
   },
   "icu:MaybeTransferModal__replaceHistory": {
-    "messageformat": "This will <bold>replace</bold> the message history on this desktop."
+    "messageformat": "Tādējādi tiks <bold>aizstāta</bold> ziņu vēsture šajā darbvirsmā."
   },
   "icu:MaybeTransferModal__scanQrCode": {
-    "messageformat": "You’ll need to relink by scanning a QR code."
+    "messageformat": "Jums vajadzēs atkārtoti veikt saistīšanu, skenējot šo QR kodu."
   },
   "icu:MaybeTransferModal__media": {
-    "messageformat": "If you have paid Signal Secure Backups, all of your media will be transferred. Otherwise, your last 45 days of media will be included."
+    "messageformat": "Ja izmantojat maksas Signal drošās rezerves kopijas, tiks pārsūtīta visa multivide. Pretējā gadījumā tiks pārsūtīta tikai pēdējo 45 dienu multivide."
   },
   "icu:MaybeTransferModal__transfer": {
-    "messageformat": "Transfer"
+    "messageformat": "Pārsūtīt"
   },
   "icu:MaybeTransferModal__dontTransfer": {
-    "messageformat": "Don't transfer"
+    "messageformat": "Nepārsūtīt"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__title": {
-    "messageformat": "Delete all data?"
+    "messageformat": "Vai dzēst visus datus?"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__pending": {
-    "messageformat": "Deleting all data"
+    "messageformat": "Dzēš visus datus"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__body": {
-    "messageformat": "All current data in Signal Desktop will be deleted. You can then scan a QR code and transfer your message history from your phone."
+    "messageformat": "Visi esošie Signal Desktop dati tiks dzēsti. Jūs varat skenēt šo QR kodu un pārsūtīt ziņu vēsturi no sava tālruņa."
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Šī versija ietver vairākus nelielus uzlabojumus un kļūdu labojumus, lai Signal darbotos bez problēmām.",
@@ -8278,12 +8278,12 @@
     "messageformat": "Jaunās emocijzīmes Unicode 17.0 versijā tagad ir pieejamas arī Signal. Reaģē ar jauno baletdejotāja emocijzīmi un izpildi soli \"pas de chat\" digitāli."
   },
   "icu:WhatsNew__8.11--0": {
-    "messageformat": "We've introduced additional confirmations and educational messaging in the app to help protect Signal users from phishing and social engineering attacks. As a reminder, never reply to chats pretending to be Signal, and never send your verification code, PIN, or recovery key to anyone."
+    "messageformat": "Mēs ieviesām papildu apstiprinājumus un izglītojošus ziņojumus lietotnē, kas aizsargās Signal lietotājus no pikšķerēšanas un sociālās inženierijas uzbrukumiem. Atgādinājums! Nekad neatbildiet uz sarunām, kurās personas uzdodas par Signal darbiniekiem, un nekad nevienam nesūtiet savu verifikācijas kodu, PIN kodu vai atkopšanas atslēgu."
   },
   "icu:WhatsNew__8.11--1": {
-    "messageformat": "Raised hand indicators in group calls now display the current order of the queue, so you can easily see who got the upper hand first."
+    "messageformat": "Paceltas rokas indikatori grupu zvanos tagad rāda pašreizējo rindas secību, un tas ļauj jums redzēt, kurš pacēla roku pirmais."
   },
   "icu:WhatsNew__8.11--2": {
-    "messageformat": "We also added a real-time visualization while recording voice messages, so surfers (and oceanographers) can stare at multiple moving waveforms whenever they share updates from the beach."
+    "messageformat": "Tāpat esam pievienojuši reāllaika vizualizāciju, kas redzama balss ziņu ieraksta laikā, lai sērfotāji (un okeanogrāfi) var skatīties uz kustīgām viļņu animācijām, kad viņi draugiem sūta jaunumus no pludmales."
   }
 }

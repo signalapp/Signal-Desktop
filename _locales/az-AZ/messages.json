@@ -1,18 +1,18 @@
 {
   "icu:AxoAlertDialog.Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Ləğv et"
   },
   "icu:AxoButton.Pending": {
-    "messageformat": "Pending"
+    "messageformat": "Gözləyir"
   },
   "icu:AxoDialog.Back": {
-    "messageformat": "Back"
+    "messageformat": "Geri"
   },
   "icu:AxoDialog.Close": {
-    "messageformat": "Close"
+    "messageformat": "Bağla"
   },
   "icu:AxoTextField.Clear": {
-    "messageformat": "Clear"
+    "messageformat": "Təmizlə"
   },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "Bir qrupa əlavə et"
@@ -1599,13 +1599,13 @@
     "messageformat": "Kömək lazımdır?"
   },
   "icu:Install__confirm-data-deletion__title": {
-    "messageformat": "Delete all data?"
+    "messageformat": "Bütün verilənlər silinsin?"
   },
   "icu:Install__confirm-data-deletion__body": {
-    "messageformat": "You’re attempting to link a different Signal account to this desktop. If you continue, all data currently in Signal Desktop will be deleted."
+    "messageformat": "Siz fərqli bir Signal hesabını bu masaüstü ilə əlaqələndirməyə cəhd edirsiniz. Davam etsəniz, hazırda Signal Desktop-da olan bütün verilənlər silinəcək."
   },
   "icu:Install__confirm-data-deletion__continue": {
-    "messageformat": "Continue"
+    "messageformat": "Davam et"
   },
   "icu:Preferences--header": {
     "messageformat": "Tənzimləmələr"
@@ -4608,7 +4608,7 @@
     "messageformat": "Signal-a ianə verin"
   },
   "icu:BadgeDialog__name-supports-signal": {
-    "messageformat": "{name} supports Signal"
+    "messageformat": "{name} Signal-ı dəstəkləyir"
   },
   "icu:ProfileMovedModal__title": {
     "messageformat": "Profiliniz köçürülüb"
@@ -8214,37 +8214,37 @@
     "messageformat": "Slayd"
   },
   "icu:MaybeTransferModal__title": {
-    "messageformat": "Transfer your phone’s message history to this desktop?"
+    "messageformat": "Telefonunuzun mesaj tarixşəsi bu masüstünə köçürülsün?"
   },
   "icu:MaybeTransferModal__description": {
-    "messageformat": "When you re-link this desktop, you can transfer your phone’s message history to this device."
+    "messageformat": "Bu masaüstü ilə yenidən əlaqələndirdikdə, telefonunuzun mesaj tarixçəsini bu cihaza köçürə bilərsiniz."
   },
   "icu:MaybeTransferModal__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Daha ətraflı"
   },
   "icu:MaybeTransferModal__replaceHistory": {
-    "messageformat": "This will <bold>replace</bold> the message history on this desktop."
+    "messageformat": "Bununla bu masaüstündə mesaj tarixçəsi <bold>dəyişir</bold>."
   },
   "icu:MaybeTransferModal__scanQrCode": {
-    "messageformat": "You’ll need to relink by scanning a QR code."
+    "messageformat": "QR kodunu skan edərək hesabınızı yenidən əlaqələndirməli olacaqsınız."
   },
   "icu:MaybeTransferModal__media": {
-    "messageformat": "If you have paid Signal Secure Backups, all of your media will be transferred. Otherwise, your last 45 days of media will be included."
+    "messageformat": "Ödənişli Signal təhlükəsiz ehtiyat nüsxələrinə maliksinizsə bütün media fayllarınız köçürüləcək. Əks təqdirdə sadəcə son 45 gündə olan media fayllarınız köçürüləcək."
   },
   "icu:MaybeTransferModal__transfer": {
-    "messageformat": "Transfer"
+    "messageformat": "Köçür"
   },
   "icu:MaybeTransferModal__dontTransfer": {
-    "messageformat": "Don't transfer"
+    "messageformat": "Köçürmə"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__title": {
-    "messageformat": "Delete all data?"
+    "messageformat": "Bütün verilənlər silinsin?"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__pending": {
-    "messageformat": "Deleting all data"
+    "messageformat": "Bütün verilənlər silinir"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__body": {
-    "messageformat": "All current data in Signal Desktop will be deleted. You can then scan a QR code and transfer your message history from your phone."
+    "messageformat": "Signal Desktop-da olan bütün cari verilənlər silinəcək. Bu zaman QR kodu skan edərək telefonunuzdan mesaj tarixçəsini köçürə bilərsiniz."
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Bu versiya, Signal-ın problemsiz işləməsini təmin etmək üçün kiçik düzəltmələr və xəta düzəltmələri ehtiva edir.",
@@ -8278,12 +8278,12 @@
     "messageformat": "Unicode 17.0 versiyasındakı yeni \"baş gicəllənməsi\" emojisi artıq Signal tərəfindən də dəstəklənir. Çatlaşmaq istədiyinizi göstərmək məqsədilə, yeni \"balerina\" emojisindən istifadə edərək bir mesaj reaksiyası göndərin."
   },
   "icu:WhatsNew__8.11--0": {
-    "messageformat": "We've introduced additional confirmations and educational messaging in the app to help protect Signal users from phishing and social engineering attacks. As a reminder, never reply to chats pretending to be Signal, and never send your verification code, PIN, or recovery key to anyone."
+    "messageformat": "Signal istifadəçilərini fişinq və sosial mühəndislik hücumlarından qorumağa kömək etmək üçün tətbiqə əlavə təsdiq və məlumatlandırıcı mesajlar əlavə etdik. Xatırladırıq ki, özünü Signal kimi göstərən heç bir çata cavab verməməli və təsdiq kodunu, PIN və ya bərpa şifrəsini heç kəsə göndərməməlisiniz."
   },
   "icu:WhatsNew__8.11--1": {
-    "messageformat": "Raised hand indicators in group calls now display the current order of the queue, so you can easily see who got the upper hand first."
+    "messageformat": "Sıranın ilk kimdə olduğunu görməyiniz üçün qrup zənglərində istifadə olunan qaldırılmış əl göstəriciləri artıq cari sıranı göstərir."
   },
   "icu:WhatsNew__8.11--2": {
-    "messageformat": "We also added a real-time visualization while recording voice messages, so surfers (and oceanographers) can stare at multiple moving waveforms whenever they share updates from the beach."
+    "messageformat": "Səsli mesaj göndərərkən ekranda görə biləcəyiniz yeni səs dalğaları əlavə etdik ki, yeniləmələri çimərlikdən paylaşdığınız zaman həm səsinizin, həm də dənizin dalğasını görə biləsiniz."
   }
 }

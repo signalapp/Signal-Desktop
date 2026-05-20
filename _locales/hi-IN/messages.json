@@ -1,18 +1,18 @@
 {
   "icu:AxoAlertDialog.Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "कैंसिल करें"
   },
   "icu:AxoButton.Pending": {
-    "messageformat": "Pending"
+    "messageformat": "पेंडिंग है"
   },
   "icu:AxoDialog.Back": {
-    "messageformat": "Back"
+    "messageformat": "पीछे जाएं"
   },
   "icu:AxoDialog.Close": {
-    "messageformat": "Close"
+    "messageformat": "बंद करें"
   },
   "icu:AxoTextField.Clear": {
-    "messageformat": "Clear"
+    "messageformat": "हटाएं"
   },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "ग्रुप में जोड़ें"
@@ -1599,13 +1599,13 @@
     "messageformat": "मदद चाहिए?"
   },
   "icu:Install__confirm-data-deletion__title": {
-    "messageformat": "Delete all data?"
+    "messageformat": "सारा डेटा डिलीट करना है?"
   },
   "icu:Install__confirm-data-deletion__body": {
-    "messageformat": "You’re attempting to link a different Signal account to this desktop. If you continue, all data currently in Signal Desktop will be deleted."
+    "messageformat": "आपने इस डेस्कटॉप से किसी दूसरे Signal अकाउंट को लिंक करने की कोशिश की है। इसे लिंक करने पर, Signal डेस्कटॉप में अभी मौजूद सारा डेटा डिलीट हो जाएगा।"
   },
   "icu:Install__confirm-data-deletion__continue": {
-    "messageformat": "Continue"
+    "messageformat": "जारी रखें"
   },
   "icu:Preferences--header": {
     "messageformat": "सेटिंग"
@@ -4608,7 +4608,7 @@
     "messageformat": "Signal को डोनेट करें"
   },
   "icu:BadgeDialog__name-supports-signal": {
-    "messageformat": "{name} supports Signal"
+    "messageformat": "{name} ने Signal को सहयोग दिया है"
   },
   "icu:ProfileMovedModal__title": {
     "messageformat": "आपकी प्रोफ़ाइल की जगह बदल दी गई है"
@@ -5629,7 +5629,7 @@
     "messageformat": "आपकी ओर से भेजे गए या आपको मिले वॉइस मैसेज और ऑडियो फ़ाइलें यहां दिखेंगी"
   },
   "icu:MediaGallery__EmptyState__title--links": {
-    "messageformat": "कोई लिंक नहीं"
+    "messageformat": "कोई लिंक नहीं है"
   },
   "icu:MediaGallery__EmptyState__description--links-2": {
     "messageformat": "आपके भेजे गए और आपको मिले लिंक यहां दिखेंगे"
@@ -6410,7 +6410,7 @@
     "messageformat": "आपका फ़ोन"
   },
   "icu:Preferences__local-backups": {
-    "messageformat": "डेस्कटॉप बैकअप्स"
+    "messageformat": "डेस्कटॉप बैकअप"
   },
   "icu:Preferences__local-backups-section__description": {
     "messageformat": "आपका बैकअप एंड-टू-एंड एनक्रिप्टेड है और आपके कंप्यूटर पर स्टोर है।"
@@ -6431,7 +6431,7 @@
     "messageformat": "अगला"
   },
   "icu:Preferences--local-backups-view-backup-key-done": {
-    "messageformat": "पूर्ण"
+    "messageformat": "हो गया"
   },
   "icu:Preferences--local-backups--view-recovery-key--os-prompt--mac": {
     "messageformat": "आपकी 'रिकवरी की' दिखाने"
@@ -6449,13 +6449,13 @@
     "messageformat": "'रिकवरी की'"
   },
   "icu:Preferences--local-backups-enter-backup-key": {
-    "messageformat": "की दर्ज करें"
+    "messageformat": "'की' डालें"
   },
   "icu:Preferences--local-backups-record-recovery-key": {
     "messageformat": "अपनी 'रिकवरी की' सहेजें"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
-    "messageformat": "आपके अकाउंट और डेटा को रिकवर करने के लिए यह की ज़रूरी है। इस की को किसी सुरक्षित जगह पर स्टोर करें। अगर यह खो जाती है, तो आप अपना अकाउंट रिकवर नहीं कर पाएँगे। <learnMoreLink>अधिक जानें।</learnMoreLink>"
+    "messageformat": "आपके अकाउंट और डेटा को रिकवर करने के लिए यह 'की' ज़रूरी है। इस 'की' को किसी सुरक्षित जगह पर स्टोर करें। इसके खोने पर आपको अकाउंट रिकवर करने में परेशानी होगी। <learnMoreLink>और जानें।</learnMoreLink>"
   },
   "icu:Preferences--local-backups-confirm-recovery-key": {
     "messageformat": "अपनी 'रिकवरी की' की पुष्टि करें"
@@ -6464,7 +6464,7 @@
     "messageformat": "अभी आपने जो 'रिकवरी की' रिकॉर्ड की है, वह डालें"
   },
   "icu:Preferences__local-backups-confirm-key-modal-title": {
-    "messageformat": "अपनी की सुरक्षित रखें"
+    "messageformat": "अपनी 'की' सुरक्षित रखें"
   },
   "icu:Preferences__local-backups-confirm-key-modal-body": {
     "messageformat": "अगर आपकी की खो जाती है, तो Signal आपका बैकअप रीस्टोर करने में आपकी मदद नहीं कर पाएगा। इसे किसी सुरक्षित जगह पर स्टोर करें और किसी और के साथ शेयर न करें।"
@@ -6839,13 +6839,13 @@
     "messageformat": "9:16"
   },
   "icu:MediaPermissionsModal__title--microphone": {
-    "messageformat": "माइक्रोफोन इस्तेमाल करने की अनुमति दें"
+    "messageformat": "माइक्रोफ़ोन का ऐक्सेस दें"
   },
   "icu:MediaPermissionsModal__title--camera": {
-    "messageformat": "कैमरा के एक्सेस की अनुमति दें"
+    "messageformat": "कैमरा का ऐक्सेस दें"
   },
   "icu:MediaPermissionsModal__subtitle--call": {
-    "messageformat": "कॉल से जुड़ें या कॉल शुरू करें:"
+    "messageformat": "कॉल से जुड़ने या शुरू करने के लिए:"
   },
   "icu:MediaPermissionsModal__subtitle--call--camera": {
     "messageformat": "अपना वीडियो सक्षम करने के लिए:"
@@ -7436,7 +7436,7 @@
     "messageformat": "आपका QR कोड और लिंक फिर से स्थापित कर दिया गया है और आपका यूज़रनेम {username} है"
   },
   "icu:UsernameLinkModalBody__hint": {
-    "messageformat": "Signal पर मुझसे चैट करने के लिए इस QR कोड को अपने फोन से स्कैन करें।",
+    "messageformat": "Signal पर मुझसे चैट करने के लिए इस QR कोड को अपने फ़ोन से स्कैन करें।",
     "descrption": "Text of the hint displayed below generated QR code on the printable image."
   },
   "icu:UsernameLinkModalBody__save": {
@@ -7611,7 +7611,7 @@
     "messageformat": "हाल ही के कॉल यहाँ दिखेंगे।"
   },
   "icu:CallsList__EmptyState--hasQuery": {
-    "messageformat": "“{query}” के लिए कोई परिणाम नहीं"
+    "messageformat": "“{query}” के लिए कोई नतीजा नहीं मिला"
   },
   "icu:CallsList__EmptyState--hasQueryAndMissedCalls": {
     "messageformat": "मिस्ड कॉल में, \"{query}\" के लिए कोई नतीजा नहीं"
@@ -7650,10 +7650,10 @@
     "messageformat": "कॉल छोड़ें"
   },
   "icu:CallsNewCall__EmptyState--noQuery": {
-    "messageformat": "कोई हालिया बातचीत नहीं।"
+    "messageformat": "हाल में की गई कोई बातचीत नहीं है।"
   },
   "icu:CallsNewCall__EmptyState--hasQuery": {
-    "messageformat": "“{query}” के लिए कोई परिणाम नहीं"
+    "messageformat": "“{query}” के लिए कोई नतीजा नहीं मिला"
   },
   "icu:CallsNewCallButton--return": {
     "messageformat": "वापस जाएँ"
@@ -7749,7 +7749,7 @@
     "messageformat": "कॉल नाम"
   },
   "icu:TypingBubble__avatar--overflow-count": {
-    "messageformat": "{count, plural, one {{count,number} अन्य टाइप कर रहा/रही है।} other {{count,number} अन्य टाइप कर रहे/रही हैं।}}"
+    "messageformat": "{count, plural, one {{count,number} और व्यक्ति टाइप कर रहा है।} other {{count,number} और लोग टाइप कर रहे हैं।}}"
   },
   "icu:TransportError": {
     "messageformat": "Experimental WebSocket Transport is seeing too many errors. Please submit a debug log"
@@ -8214,37 +8214,37 @@
     "messageformat": "स्लाइड"
   },
   "icu:MaybeTransferModal__title": {
-    "messageformat": "Transfer your phone’s message history to this desktop?"
+    "messageformat": "अपने फ़ोन के पुराने मैसेज इस डेस्कटॉप पर ट्रांसफ़र करने हैं?"
   },
   "icu:MaybeTransferModal__description": {
-    "messageformat": "When you re-link this desktop, you can transfer your phone’s message history to this device."
+    "messageformat": "इस डेस्कटॉप को दोबारा लिंक करने पर, आपके फ़ोन के पुराने मैसेज इस डिवाइस पर ट्रांसफ़र हो जाएंगे।"
   },
   "icu:MaybeTransferModal__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "और जानें"
   },
   "icu:MaybeTransferModal__replaceHistory": {
-    "messageformat": "This will <bold>replace</bold> the message history on this desktop."
+    "messageformat": "इससे इस डेस्कटॉप पर मैसेज हिस्ट्री <bold>रिप्लेस</bold> हो जाएगी।"
   },
   "icu:MaybeTransferModal__scanQrCode": {
-    "messageformat": "You’ll need to relink by scanning a QR code."
+    "messageformat": "आपको QR कोड स्कैन करके फिर से लिंक करना होगा।"
   },
   "icu:MaybeTransferModal__media": {
-    "messageformat": "If you have paid Signal Secure Backups, all of your media will be transferred. Otherwise, your last 45 days of media will be included."
+    "messageformat": "अगर आपके पास पेड Signal सिक्योर बैकअप प्लान है, तो आपका सारा मीडिया ट्रांसफ़र हो जाएगा। नहीं तो, सिर्फ़ पिछले 45 दिनों का मीडिया शामिल किया जाएगा।"
   },
   "icu:MaybeTransferModal__transfer": {
-    "messageformat": "Transfer"
+    "messageformat": "ट्रांसफ़र करें"
   },
   "icu:MaybeTransferModal__dontTransfer": {
-    "messageformat": "Don't transfer"
+    "messageformat": "ट्रांसफ़र न करें"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__title": {
-    "messageformat": "Delete all data?"
+    "messageformat": "सारा डेटा डिलीट करना है?"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__pending": {
-    "messageformat": "Deleting all data"
+    "messageformat": "सारा डाटा डिलीट किया जा रहा है"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__body": {
-    "messageformat": "All current data in Signal Desktop will be deleted. You can then scan a QR code and transfer your message history from your phone."
+    "messageformat": "Signal डेस्कटॉप में अभी मौजूद सारा डेटा डिलीट हो जाएगा। इसके बाद, अपने फ़ोन से पुराने मैसेज ट्रांसफ़र करने के लिए आपको एक QR कोड स्कैन करना होगा।"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "इस वर्ज़न में बग ठीक करने के साथ-साथ कई छोटे-छोटे बदलाव किए गए हैं, जिससे Signal की परफ़ॉर्मेंस और बेहतर हो सके।",
@@ -8278,12 +8278,12 @@
     "messageformat": "Unicode 17.0 वाले ताज़ा इमोजी अब Signal में भी इस्तेमाल के लिए उपलब्ध हैं। डिजिटल दुनिया में अपने खास डांस स्टेप की झलक दिखाने के लिए मैसेज पर नए 'बैले डांसर' इमोजी वाला रिएक्शन दें।"
   },
   "icu:WhatsNew__8.11--0": {
-    "messageformat": "We've introduced additional confirmations and educational messaging in the app to help protect Signal users from phishing and social engineering attacks. As a reminder, never reply to chats pretending to be Signal, and never send your verification code, PIN, or recovery key to anyone."
+    "messageformat": "Signal के यूज़र को फ़िशिंग और ऑनलाइन ठगी से बचाने के लिए, हमने ऐप में पुष्टि के अतिरिक्त विकल्प और जागरूकता वाले मैसेज शामिल किए हैं। याद रखें, Signal के नाम पर भेजे गए किसी भी मैसेज का कतई जवाब न दें। साथ ही, अपना वेरिफ़िकेशन कोड, पिन या 'रिकवरी की' कभी किसी को न दें।"
   },
   "icu:WhatsNew__8.11--1": {
-    "messageformat": "Raised hand indicators in group calls now display the current order of the queue, so you can easily see who got the upper hand first."
+    "messageformat": "अब ग्रुप कॉल में 'हाथ उठाने' के संकेत यह भी दिखाएंगे कि कतार में कौन किस क्रम में है। इससे पता लगाना आसान हो जाएगा कि सबसे पहले किसने हाथ उठाया।"
   },
   "icu:WhatsNew__8.11--2": {
-    "messageformat": "We also added a real-time visualization while recording voice messages, so surfers (and oceanographers) can stare at multiple moving waveforms whenever they share updates from the beach."
+    "messageformat": "हमने वॉइस मैसेज रिकॉर्ड करते समय एक रियल-टाइम विज़ुअलाइज़ेशन की सुविधा भी जोड़ी है। इससे जब भी सर्फ़र (और समुद्र विज्ञानी) समुद्रतट से कोई अपडेट शेयर करेंगे, तो वे स्क्रीन पर चलती हुई कई वेवफ़ॉर्म लाइव देख सकते हैं।"
   }
 }

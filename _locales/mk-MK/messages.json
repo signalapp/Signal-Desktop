@@ -1,18 +1,18 @@
 {
   "icu:AxoAlertDialog.Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Откажи"
   },
   "icu:AxoButton.Pending": {
-    "messageformat": "Pending"
+    "messageformat": "На чекање"
   },
   "icu:AxoDialog.Back": {
-    "messageformat": "Back"
+    "messageformat": "Назад"
   },
   "icu:AxoDialog.Close": {
-    "messageformat": "Close"
+    "messageformat": "Затвори"
   },
   "icu:AxoTextField.Clear": {
-    "messageformat": "Clear"
+    "messageformat": "Исчисти"
   },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "Додај во група"
@@ -1599,13 +1599,13 @@
     "messageformat": "Потребна Ви е помош?"
   },
   "icu:Install__confirm-data-deletion__title": {
-    "messageformat": "Delete all data?"
+    "messageformat": "Избришете ги сите податоци?"
   },
   "icu:Install__confirm-data-deletion__body": {
-    "messageformat": "You’re attempting to link a different Signal account to this desktop. If you continue, all data currently in Signal Desktop will be deleted."
+    "messageformat": "Се обидувате да поврзете различна корисничка сметка на Signal на овој десктоп. Ако продолжите, сите податоци кои моментално се на Signal Desktop ќе бидат избришани."
   },
   "icu:Install__confirm-data-deletion__continue": {
-    "messageformat": "Continue"
+    "messageformat": "Продолжи"
   },
   "icu:Preferences--header": {
     "messageformat": "Поставувања"
@@ -4608,7 +4608,7 @@
     "messageformat": "Донирај на Signal"
   },
   "icu:BadgeDialog__name-supports-signal": {
-    "messageformat": "{name} supports Signal"
+    "messageformat": "{name} го поддржува Signal"
   },
   "icu:ProfileMovedModal__title": {
     "messageformat": "Вашиот профил е преместен"
@@ -8214,37 +8214,37 @@
     "messageformat": "Слајд"
   },
   "icu:MaybeTransferModal__title": {
-    "messageformat": "Transfer your phone’s message history to this desktop?"
+    "messageformat": "Да се пренесе историјата на вашите пораки од телефонот на овој десктоп?"
   },
   "icu:MaybeTransferModal__description": {
-    "messageformat": "When you re-link this desktop, you can transfer your phone’s message history to this device."
+    "messageformat": "Кога повторно ќе го поврзете овој десктоп, можете да ја пренесете историјата на вашите пораки од телефонот на овој уред."
   },
   "icu:MaybeTransferModal__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Дознајте повеќе"
   },
   "icu:MaybeTransferModal__replaceHistory": {
-    "messageformat": "This will <bold>replace</bold> the message history on this desktop."
+    "messageformat": "Ова ќе ја <bold>замени</bold> историјата на пораки на овој десктоп."
   },
   "icu:MaybeTransferModal__scanQrCode": {
-    "messageformat": "You’ll need to relink by scanning a QR code."
+    "messageformat": "Треба повторно да поврзете со скенирање на QR-код."
   },
   "icu:MaybeTransferModal__media": {
-    "messageformat": "If you have paid Signal Secure Backups, all of your media will be transferred. Otherwise, your last 45 days of media will be included."
+    "messageformat": "Ако имате платена претплата на Безбедни резервни копии, сите ваши медиумски датотеки ќе бидат пренесени. Во спротивно, ќе бидат вклучени вашите медиумски датотеки од последните 45 дена."
   },
   "icu:MaybeTransferModal__transfer": {
-    "messageformat": "Transfer"
+    "messageformat": "Трансфер"
   },
   "icu:MaybeTransferModal__dontTransfer": {
-    "messageformat": "Don't transfer"
+    "messageformat": "Не префрлајте"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__title": {
-    "messageformat": "Delete all data?"
+    "messageformat": "Избришете ги сите податоци?"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__pending": {
-    "messageformat": "Deleting all data"
+    "messageformat": "Се бришат сите податоци"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__body": {
-    "messageformat": "All current data in Signal Desktop will be deleted. You can then scan a QR code and transfer your message history from your phone."
+    "messageformat": "Сите податоци на Signal Desktop ќе бидат избришани. Потоа ќе можете да скенирате QR-код и да ја пренесете историјата на пораки од вашиот телефон."
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Оваа верзија има некои мали подобрувања и решени багови за Signal да функционира беспрекорно.",
@@ -8278,12 +8278,12 @@
     "messageformat": "Овозможивме поддршка за новиот емотикон во Unicode 17.0."
   },
   "icu:WhatsNew__8.11--0": {
-    "messageformat": "We've introduced additional confirmations and educational messaging in the app to help protect Signal users from phishing and social engineering attacks. As a reminder, never reply to chats pretending to be Signal, and never send your verification code, PIN, or recovery key to anyone."
+    "messageformat": "Воведовме дополнителни потврди и едукативни пораки во апликацијата за да ги заштитиме корисниците на Signal од фишинг и измами преку социјален инженеринг. Како потсетување, никогаш не одговарајте на пораки од оние кои се преправаат дека се пратени од Signal и никогаш не го испраќајте вашиот код за верификација, PIN или клуч за враќање резервни копии никому."
   },
   "icu:WhatsNew__8.11--1": {
-    "messageformat": "Raised hand indicators in group calls now display the current order of the queue, so you can easily see who got the upper hand first."
+    "messageformat": "Индикаторите за кренати раце во групните повици сега го прикажуваат тековниот редослед."
   },
   "icu:WhatsNew__8.11--2": {
-    "messageformat": "We also added a real-time visualization while recording voice messages, so surfers (and oceanographers) can stare at multiple moving waveforms whenever they share updates from the beach."
+    "messageformat": "Нови визуелизации додека се снимаат гласовни пораки."
   }
 }

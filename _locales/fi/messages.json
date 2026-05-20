@@ -1,18 +1,18 @@
 {
   "icu:AxoAlertDialog.Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Peruuta"
   },
   "icu:AxoButton.Pending": {
-    "messageformat": "Pending"
+    "messageformat": "Käsiteltävänä"
   },
   "icu:AxoDialog.Back": {
-    "messageformat": "Back"
+    "messageformat": "Takaisin"
   },
   "icu:AxoDialog.Close": {
-    "messageformat": "Close"
+    "messageformat": "Sulje"
   },
   "icu:AxoTextField.Clear": {
-    "messageformat": "Clear"
+    "messageformat": "Tyhjennä"
   },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "Lisää ryhmään"
@@ -1599,13 +1599,13 @@
     "messageformat": "Tarvitsetko apua?"
   },
   "icu:Install__confirm-data-deletion__title": {
-    "messageformat": "Delete all data?"
+    "messageformat": "Poistetaanko kaikki tiedot?"
   },
   "icu:Install__confirm-data-deletion__body": {
-    "messageformat": "You’re attempting to link a different Signal account to this desktop. If you continue, all data currently in Signal Desktop will be deleted."
+    "messageformat": "Yrität yhdistää toisen Signal-tilin tähän tietokoneeseen. Jos jatkat, kaikki Signal Desktopissa tällä hetkellä olevat tiedot poistetaan."
   },
   "icu:Install__confirm-data-deletion__continue": {
-    "messageformat": "Continue"
+    "messageformat": "Jatka"
   },
   "icu:Preferences--header": {
     "messageformat": "Asetukset"
@@ -4608,7 +4608,7 @@
     "messageformat": "Lahjoita Signalille"
   },
   "icu:BadgeDialog__name-supports-signal": {
-    "messageformat": "{name} supports Signal"
+    "messageformat": "{name} tukee Signalia"
   },
   "icu:ProfileMovedModal__title": {
     "messageformat": "Profiilisi on siirretty"
@@ -8214,37 +8214,37 @@
     "messageformat": "Liukusäädin"
   },
   "icu:MaybeTransferModal__title": {
-    "messageformat": "Transfer your phone’s message history to this desktop?"
+    "messageformat": "Haluatko siirtää puhelimesi viestihistorian tälle tietokoneelle?"
   },
   "icu:MaybeTransferModal__description": {
-    "messageformat": "When you re-link this desktop, you can transfer your phone’s message history to this device."
+    "messageformat": "Kun yhdistät tietokoneen uudelleen, voit siirtää puhelimesi viestihistorian tälle laitteelle."
   },
   "icu:MaybeTransferModal__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Lue lisää"
   },
   "icu:MaybeTransferModal__replaceHistory": {
-    "messageformat": "This will <bold>replace</bold> the message history on this desktop."
+    "messageformat": "Tämä <bold>korvaa</bold> tietokoneella olevan viestihistorian."
   },
   "icu:MaybeTransferModal__scanQrCode": {
-    "messageformat": "You’ll need to relink by scanning a QR code."
+    "messageformat": "Sinun on yhdistettävä laite uudelleen skannaamalla QR-koodi."
   },
   "icu:MaybeTransferModal__media": {
-    "messageformat": "If you have paid Signal Secure Backups, all of your media will be transferred. Otherwise, your last 45 days of media will be included."
+    "messageformat": "Jos sinulla on maksullinen Signal Secure-varmuuskopiointi -tilaus, kaikki mediasisältö siirretään. Muussa tapauksessa mediasisältö sisällytetään vain viimeisten 45 päivän ajalta."
   },
   "icu:MaybeTransferModal__transfer": {
-    "messageformat": "Transfer"
+    "messageformat": "Siirrä"
   },
   "icu:MaybeTransferModal__dontTransfer": {
-    "messageformat": "Don't transfer"
+    "messageformat": "Älä siirrä"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__title": {
-    "messageformat": "Delete all data?"
+    "messageformat": "Poistetaanko kaikki tiedot?"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__pending": {
-    "messageformat": "Deleting all data"
+    "messageformat": "Poistetaan kaikki tiedot"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__body": {
-    "messageformat": "All current data in Signal Desktop will be deleted. You can then scan a QR code and transfer your message history from your phone."
+    "messageformat": "Kaikki Signal Desktopin sisältämät tiedot poistetaan. Sen jälkeen voit skannata QR-koodin ja siirtää viestihistorian puhelimeltasi."
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Tämä versio sisältää useita pieniä parannuksia ja virhekorjauksia, jotka pitävät Signalin toiminnan sujuvana.",
@@ -8278,12 +8278,12 @@
     "messageformat": "Olemme ottaneet käyttöön tuen Unicode 17.0:n uusille emojille."
   },
   "icu:WhatsNew__8.11--0": {
-    "messageformat": "We've introduced additional confirmations and educational messaging in the app to help protect Signal users from phishing and social engineering attacks. As a reminder, never reply to chats pretending to be Signal, and never send your verification code, PIN, or recovery key to anyone."
+    "messageformat": "• Olemme lisänneet sovellukseen uusia vahvistusvaiheita ja opasteviestejä, joiden tarkoituksena on suojata Signal-käyttäjiä tietojenkalastelulta ja sosiaalisen manipuloinnin hyökkäyksiltä. Muistathan: älä koskaan vastaa keskusteluihin, joiden lähettäjä esittää olevansa Signal, äläkä koskaan lähetä vahvistuskoodia, PIN-koodia tai palautusavainta kenellekään."
   },
   "icu:WhatsNew__8.11--1": {
-    "messageformat": "Raised hand indicators in group calls now display the current order of the queue, so you can easily see who got the upper hand first."
+    "messageformat": "Ryhmäpuheluissa näkyvät kädennostosymbolit osoittavat nyt jonon järjestyksen ajantasaisesti."
   },
   "icu:WhatsNew__8.11--2": {
-    "messageformat": "We also added a real-time visualization while recording voice messages, so surfers (and oceanographers) can stare at multiple moving waveforms whenever they share updates from the beach."
+    "messageformat": "Uusi esitystapa ääniviestejä tallentaessa."
   }
 }

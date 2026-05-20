@@ -1,18 +1,18 @@
 {
   "icu:AxoAlertDialog.Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Atšaukti"
   },
   "icu:AxoButton.Pending": {
-    "messageformat": "Pending"
+    "messageformat": "Laukiama"
   },
   "icu:AxoDialog.Back": {
-    "messageformat": "Back"
+    "messageformat": "Atgal"
   },
   "icu:AxoDialog.Close": {
-    "messageformat": "Close"
+    "messageformat": "Užverti"
   },
   "icu:AxoTextField.Clear": {
-    "messageformat": "Clear"
+    "messageformat": "Išvalyti"
   },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "Pridėti į grupę"
@@ -1599,13 +1599,13 @@
     "messageformat": "Reikia pagalbos?"
   },
   "icu:Install__confirm-data-deletion__title": {
-    "messageformat": "Delete all data?"
+    "messageformat": "Ištrinti visus duomenis?"
   },
   "icu:Install__confirm-data-deletion__body": {
-    "messageformat": "You’re attempting to link a different Signal account to this desktop. If you continue, all data currently in Signal Desktop will be deleted."
+    "messageformat": "Su šiuo kompiuteriu bandote susieti kitą „Signal“ paskyrą. Jei tęsite, visi šiuo metu „Signal Desktop“ esantys duomenys bus ištrinti."
   },
   "icu:Install__confirm-data-deletion__continue": {
-    "messageformat": "Continue"
+    "messageformat": "Tęsti"
   },
   "icu:Preferences--header": {
     "messageformat": "Nustatymai"
@@ -4608,7 +4608,7 @@
     "messageformat": "Paaukokite Signal programėlei"
   },
   "icu:BadgeDialog__name-supports-signal": {
-    "messageformat": "{name} supports Signal"
+    "messageformat": "{name} remia „Signal“"
   },
   "icu:ProfileMovedModal__title": {
     "messageformat": "Jūsų profilis perkeltas"
@@ -8214,37 +8214,37 @@
     "messageformat": "Skaidrė"
   },
   "icu:MaybeTransferModal__title": {
-    "messageformat": "Transfer your phone’s message history to this desktop?"
+    "messageformat": "Perkelti telefono žinučių istoriją į šį kompiuterį?"
   },
   "icu:MaybeTransferModal__description": {
-    "messageformat": "When you re-link this desktop, you can transfer your phone’s message history to this device."
+    "messageformat": "Iš naujo susieję kompiuterį galėsite į jį perkelti telefono žinučių istoriją."
   },
   "icu:MaybeTransferModal__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Sužinoti daugiau"
   },
   "icu:MaybeTransferModal__replaceHistory": {
-    "messageformat": "This will <bold>replace</bold> the message history on this desktop."
+    "messageformat": "Tai <bold>pakeis</bold> šio kompiuterio žinučių istoriją."
   },
   "icu:MaybeTransferModal__scanQrCode": {
-    "messageformat": "You’ll need to relink by scanning a QR code."
+    "messageformat": "Turėsite iš naujo susieti nuskaitydami QR kodą."
   },
   "icu:MaybeTransferModal__media": {
-    "messageformat": "If you have paid Signal Secure Backups, all of your media will be transferred. Otherwise, your last 45 days of media will be included."
+    "messageformat": "Jei turite mokamas „Signal“ atsargines kopijas, bus perkelti visi jūsų įrašai. Kitu atveju bus perkeliami paskutinių 45 dienų įrašai."
   },
   "icu:MaybeTransferModal__transfer": {
-    "messageformat": "Transfer"
+    "messageformat": "Pervesti"
   },
   "icu:MaybeTransferModal__dontTransfer": {
-    "messageformat": "Don't transfer"
+    "messageformat": "Neperkelti"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__title": {
-    "messageformat": "Delete all data?"
+    "messageformat": "Ištrinti visus duomenis?"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__pending": {
-    "messageformat": "Deleting all data"
+    "messageformat": "Ištrinami visi duomenys"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__body": {
-    "messageformat": "All current data in Signal Desktop will be deleted. You can then scan a QR code and transfer your message history from your phone."
+    "messageformat": "Visi dabartiniai „Signal Desktop“ duomenys bus ištrinti. Tuomet galėsite nuskaityti QR kodą ir perkelti žinučių istoriją iš telefono."
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Šioje versijoje yra daug smulkių patobulinimų ir klaidų ištaisymų, kurie padės Signal sklandžiai veikti.",
@@ -8278,12 +8278,12 @@
     "messageformat": "Įjungėme naujo jaustuko palaikymą „Unicode“ 17.0."
   },
   "icu:WhatsNew__8.11--0": {
-    "messageformat": "We've introduced additional confirmations and educational messaging in the app to help protect Signal users from phishing and social engineering attacks. As a reminder, never reply to chats pretending to be Signal, and never send your verification code, PIN, or recovery key to anyone."
+    "messageformat": "Siekdami apsaugoti „Signal“ naudotojus nuo sukčiavimo ir socialinės inžinerijos atakų, programėlėje įdiegėme papildomus patvirtinimus ir informacinius pranešimus. Primename: niekada neatsakykite į žinutes, kuriose siunčiantysis apsimeta esąs „Signal“, ir niekam nesiųskite savo patvirtinimo kodo, PIN kodo ar atkūrimo rakto."
   },
   "icu:WhatsNew__8.11--1": {
-    "messageformat": "Raised hand indicators in group calls now display the current order of the queue, so you can easily see who got the upper hand first."
+    "messageformat": "Pakeltos rankos indikatoriai grupės skambučiuose nuo šiol rodomi dabartine eilės tvarka."
   },
   "icu:WhatsNew__8.11--2": {
-    "messageformat": "We also added a real-time visualization while recording voice messages, so surfers (and oceanographers) can stare at multiple moving waveforms whenever they share updates from the beach."
+    "messageformat": "Naujas vizualizavimas įrašant balso žinutes."
   }
 }

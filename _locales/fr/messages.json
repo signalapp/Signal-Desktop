@@ -1,18 +1,18 @@
 {
   "icu:AxoAlertDialog.Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Annuler"
   },
   "icu:AxoButton.Pending": {
-    "messageformat": "Pending"
+    "messageformat": "En attente"
   },
   "icu:AxoDialog.Back": {
-    "messageformat": "Back"
+    "messageformat": "Retour"
   },
   "icu:AxoDialog.Close": {
-    "messageformat": "Close"
+    "messageformat": "Fermer"
   },
   "icu:AxoTextField.Clear": {
-    "messageformat": "Clear"
+    "messageformat": "Supprimer"
   },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "Ajouter à un groupe"
@@ -1599,13 +1599,13 @@
     "messageformat": "Besoin d'aide ?"
   },
   "icu:Install__confirm-data-deletion__title": {
-    "messageformat": "Delete all data?"
+    "messageformat": "Supprimer toutes les données ?"
   },
   "icu:Install__confirm-data-deletion__body": {
-    "messageformat": "You’re attempting to link a different Signal account to this desktop. If you continue, all data currently in Signal Desktop will be deleted."
+    "messageformat": "Vous tentez d'associer un autre compte Signal à cet ordinateur. Si vous décidez de poursuivre, toutes les données actuellement stockées dans Signal Desktop seront supprimées."
   },
   "icu:Install__confirm-data-deletion__continue": {
-    "messageformat": "Continue"
+    "messageformat": "Continuer"
   },
   "icu:Preferences--header": {
     "messageformat": "Paramètres"
@@ -4608,7 +4608,7 @@
     "messageformat": "Faire un don à Signal"
   },
   "icu:BadgeDialog__name-supports-signal": {
-    "messageformat": "{name} supports Signal"
+    "messageformat": "{name} soutient Signal"
   },
   "icu:ProfileMovedModal__title": {
     "messageformat": "Votre profil a été déplacé"
@@ -8214,37 +8214,37 @@
     "messageformat": "Diapositive"
   },
   "icu:MaybeTransferModal__title": {
-    "messageformat": "Transfer your phone’s message history to this desktop?"
+    "messageformat": "Transférer tous les messages de votre téléphone vers cet ordinateur ?"
   },
   "icu:MaybeTransferModal__description": {
-    "messageformat": "When you re-link this desktop, you can transfer your phone’s message history to this device."
+    "messageformat": "Lorsque vous réassociez votre ordinateur, vous pouvez transférer l'historique des messages de votre téléphone vers cet appareil."
   },
   "icu:MaybeTransferModal__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "En savoir plus"
   },
   "icu:MaybeTransferModal__replaceHistory": {
-    "messageformat": "This will <bold>replace</bold> the message history on this desktop."
+    "messageformat": "Tous les messages présents sur cet ordinateur seront <bold>remplacés</bold>."
   },
   "icu:MaybeTransferModal__scanQrCode": {
-    "messageformat": "You’ll need to relink by scanning a QR code."
+    "messageformat": "Pour réassocier cet ordinateur, vous devrez scanner un code QR."
   },
   "icu:MaybeTransferModal__media": {
-    "messageformat": "If you have paid Signal Secure Backups, all of your media will be transferred. Otherwise, your last 45 days of media will be included."
+    "messageformat": "Si vous disposez de la version payante des sauvegardes sécurisées Signal, tous vos médias seront transférés. Sinon, seuls les médias des 45 derniers jours seront compris dans le transfert."
   },
   "icu:MaybeTransferModal__transfer": {
-    "messageformat": "Transfer"
+    "messageformat": "Transférer les données"
   },
   "icu:MaybeTransferModal__dontTransfer": {
-    "messageformat": "Don't transfer"
+    "messageformat": "Ne pas les transférer"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__title": {
-    "messageformat": "Delete all data?"
+    "messageformat": "Supprimer toutes les données ?"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__pending": {
-    "messageformat": "Deleting all data"
+    "messageformat": "Suppression de toutes les données"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__body": {
-    "messageformat": "All current data in Signal Desktop will be deleted. You can then scan a QR code and transfer your message history from your phone."
+    "messageformat": "Toutes les données stockées dans Signal Desktop seront supprimées. Vous pourrez ensuite scanner un code QR pour transférer tous vos messages depuis votre téléphone."
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Dans cette version, nous avons apporté quelques ajustements et corrigé de petits bugs. Pour que votre messagerie préférée continue de fonctionner comme sur des roulettes.",
@@ -8278,12 +8278,12 @@
     "messageformat": "Les nouveaux émojis Unicode 17.0 entrent dans la danse. Un ami vous pose une question piège ? Répondez par une pirouette et agrémentez votre message d'un émoji \"danseuse de ballet\"."
   },
   "icu:WhatsNew__8.11--0": {
-    "messageformat": "We've introduced additional confirmations and educational messaging in the app to help protect Signal users from phishing and social engineering attacks. As a reminder, never reply to chats pretending to be Signal, and never send your verification code, PIN, or recovery key to anyone."
+    "messageformat": "Pour protéger les utilisateurs de Signal contre les attaques de phishing et d'ingénierie sociale, l'appli intègre des étapes de vérification supplémentaires et de nouveaux messages de prévention. Pour rappel, ne répondez jamais à des messages semblant provenir de Signal et n'envoyez jamais ni votre code PIN, ni votre code de vérification, ni votre clé de récupération à qui que ce soit."
   },
   "icu:WhatsNew__8.11--1": {
-    "messageformat": "Raised hand indicators in group calls now display the current order of the queue, so you can easily see who got the upper hand first."
+    "messageformat": "Dans les appels de groupe, les mains levées s'affichent désormais dans l'ordre chronologique. Si vous avez levé la main en premier, vous n'aurez pas à faire des pieds et des mains pour parler en premier."
   },
   "icu:WhatsNew__8.11--2": {
-    "messageformat": "We also added a real-time visualization while recording voice messages, so surfers (and oceanographers) can stare at multiple moving waveforms whenever they share updates from the beach."
+    "messageformat": "Nous avons également ajouté une visualisation en temps réel lors de l'enregistrement des messages vocaux. Plus besoin d'être à la plage pour observer les vagues !"
   }
 }

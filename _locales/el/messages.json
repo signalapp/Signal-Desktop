@@ -1,18 +1,18 @@
 {
   "icu:AxoAlertDialog.Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Ακύρωση"
   },
   "icu:AxoButton.Pending": {
-    "messageformat": "Pending"
+    "messageformat": "Εκκρεμεί"
   },
   "icu:AxoDialog.Back": {
-    "messageformat": "Back"
+    "messageformat": "Πίσω"
   },
   "icu:AxoDialog.Close": {
-    "messageformat": "Close"
+    "messageformat": "Κλείσιμο"
   },
   "icu:AxoTextField.Clear": {
-    "messageformat": "Clear"
+    "messageformat": "Εκκαθάριση"
   },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "Προσθήκη σε μια ομάδα"
@@ -1599,13 +1599,13 @@
     "messageformat": "Χρειάζεσαι βοήθεια;"
   },
   "icu:Install__confirm-data-deletion__title": {
-    "messageformat": "Delete all data?"
+    "messageformat": "Διαγραφή όλων των δεδομένων;"
   },
   "icu:Install__confirm-data-deletion__body": {
-    "messageformat": "You’re attempting to link a different Signal account to this desktop. If you continue, all data currently in Signal Desktop will be deleted."
+    "messageformat": "Προσπαθείς να συνδέσεις έναν άλλο λογαριασμό Signal σε αυτόν τον υπολογιστή. Αν συνεχίσεις, όλα τα δεδομένα που υπάρχουν αυτή τη στιγμή στο Signal Desktop θα διαγραφούν."
   },
   "icu:Install__confirm-data-deletion__continue": {
-    "messageformat": "Continue"
+    "messageformat": "Συνέχεια"
   },
   "icu:Preferences--header": {
     "messageformat": "Ρυθμίσεις"
@@ -4608,7 +4608,7 @@
     "messageformat": "Κάνε μια δωρεά στο Signal"
   },
   "icu:BadgeDialog__name-supports-signal": {
-    "messageformat": "{name} supports Signal"
+    "messageformat": "Ο χρήστης {name} στηρίζει το Signal"
   },
   "icu:ProfileMovedModal__title": {
     "messageformat": "Το προφίλ σου έχει μετακινηθεί"
@@ -8214,37 +8214,37 @@
     "messageformat": "Διαφάνεια"
   },
   "icu:MaybeTransferModal__title": {
-    "messageformat": "Transfer your phone’s message history to this desktop?"
+    "messageformat": "Μεταφορά του ιστορικού μηνυμάτων του τηλεφώνου σου σε αυτόν τον υπολογιστή;"
   },
   "icu:MaybeTransferModal__description": {
-    "messageformat": "When you re-link this desktop, you can transfer your phone’s message history to this device."
+    "messageformat": "Όταν συνδέσεις ξανά αυτόν τον υπολογιστή, μπορείς να μεταφέρεις το ιστορικό μηνυμάτων του κινητού σου σε αυτή τη συσκευή."
   },
   "icu:MaybeTransferModal__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Μάθε περισσότερα"
   },
   "icu:MaybeTransferModal__replaceHistory": {
-    "messageformat": "This will <bold>replace</bold> the message history on this desktop."
+    "messageformat": "Αυτό θα <bold>αντικαταστήσει</bold> το ιστορικό μηνυμάτων σε αυτόν τον υπολογιστή."
   },
   "icu:MaybeTransferModal__scanQrCode": {
-    "messageformat": "You’ll need to relink by scanning a QR code."
+    "messageformat": "Θα πρέπει να επανασυνδεθείς σαρώνοντας έναν κωδικό QR."
   },
   "icu:MaybeTransferModal__media": {
-    "messageformat": "If you have paid Signal Secure Backups, all of your media will be transferred. Otherwise, your last 45 days of media will be included."
+    "messageformat": "Εάν έχεις πληρώσεις για τα Ασφαλή αντίγραφα Signal, θα γίνει μεταφορά όλων των πολυμέσων σου. Διαφορετικά, θα συμπεριληφθούν τα πολυμέσα σου από τις τελευταίες 45 ημέρες."
   },
   "icu:MaybeTransferModal__transfer": {
-    "messageformat": "Transfer"
+    "messageformat": "Μεταφορά"
   },
   "icu:MaybeTransferModal__dontTransfer": {
-    "messageformat": "Don't transfer"
+    "messageformat": "Να μη γίνει μεταφορά"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__title": {
-    "messageformat": "Delete all data?"
+    "messageformat": "Διαγραφή όλων των δεδομένων;"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__pending": {
-    "messageformat": "Deleting all data"
+    "messageformat": "Διαγραφή όλων των δεδομένων"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__body": {
-    "messageformat": "All current data in Signal Desktop will be deleted. You can then scan a QR code and transfer your message history from your phone."
+    "messageformat": "Όλα τα τρέχοντα δεδομένα στο Signal Desktop θα διαγραφούν. Στη συνέχεια, μπορείς να σαρώσεις έναν κωδικό QR και να μεταφέρεις το ιστορικό των μηνυμάτων σου από το κινητό σου."
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Αυτή η έκδοση περιλαμβάνει διάφορες μικρές βελτιώσεις και αποσφαλματώσεις για να συνεχίσει το Signal να λειτουργεί ομαλά.",
@@ -8278,12 +8278,12 @@
     "messageformat": "Ενεργοποιήσαμε την υποστήριξη για τα νέα emoji του Unicode 17.0."
   },
   "icu:WhatsNew__8.11--0": {
-    "messageformat": "We've introduced additional confirmations and educational messaging in the app to help protect Signal users from phishing and social engineering attacks. As a reminder, never reply to chats pretending to be Signal, and never send your verification code, PIN, or recovery key to anyone."
+    "messageformat": "Έχουμε προσθέσει επιπλέον επιβεβαιώσεις και ενημερωτικά μηνύματα στην εφαρμογή, προκειμένου να προστατεύσουμε τους χρήστες του Signal από επιθέσεις phishing και social engineering. Σου υπενθυμίζουμε να μην απαντάς ποτέ σε μηνύματα που προσποιούνται ότι προέρχονται από το Signal και να μην στέλνεις ποτέ τον κωδικό επαλήθευσης, το PIN ή το κλειδί ανάκτησης σε κανέναν."
   },
   "icu:WhatsNew__8.11--1": {
-    "messageformat": "Raised hand indicators in group calls now display the current order of the queue, so you can easily see who got the upper hand first."
+    "messageformat": "Οι ενδείξεις «υψωμένου χεριού» στις ομαδικές κλήσεις εμφανίζουν πλέον την τρέχουσα σειρά προτεραιότητας στην ουρά."
   },
   "icu:WhatsNew__8.11--2": {
-    "messageformat": "We also added a real-time visualization while recording voice messages, so surfers (and oceanographers) can stare at multiple moving waveforms whenever they share updates from the beach."
+    "messageformat": "Νέα απεικόνιση κατά την εγγραφή φωνητικών μηνυμάτων."
   }
 }

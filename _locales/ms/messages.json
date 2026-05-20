@@ -1,18 +1,18 @@
 {
   "icu:AxoAlertDialog.Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Batal"
   },
   "icu:AxoButton.Pending": {
-    "messageformat": "Pending"
+    "messageformat": "Belum selesai"
   },
   "icu:AxoDialog.Back": {
-    "messageformat": "Back"
+    "messageformat": "Kembali"
   },
   "icu:AxoDialog.Close": {
-    "messageformat": "Close"
+    "messageformat": "Tutup"
   },
   "icu:AxoTextField.Clear": {
-    "messageformat": "Clear"
+    "messageformat": "Kosongkan"
   },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "Tambah kepada kumpulan"
@@ -1599,13 +1599,13 @@
     "messageformat": "Perlukan bantuan?"
   },
   "icu:Install__confirm-data-deletion__title": {
-    "messageformat": "Delete all data?"
+    "messageformat": "Padamkan semua data?"
   },
   "icu:Install__confirm-data-deletion__body": {
-    "messageformat": "You’re attempting to link a different Signal account to this desktop. If you continue, all data currently in Signal Desktop will be deleted."
+    "messageformat": "Anda sedang cuba memautkan akaun Signal yang berbeza ke desktop ini. Jika anda teruskan, semua data yang kini berada dalam Signal Desktop akan dipadam."
   },
   "icu:Install__confirm-data-deletion__continue": {
-    "messageformat": "Continue"
+    "messageformat": "Teruskan"
   },
   "icu:Preferences--header": {
     "messageformat": "Tetapan"
@@ -4608,7 +4608,7 @@
     "messageformat": "Sumbang kepada Signal"
   },
   "icu:BadgeDialog__name-supports-signal": {
-    "messageformat": "{name} supports Signal"
+    "messageformat": "{name} menyokong Signal"
   },
   "icu:ProfileMovedModal__title": {
     "messageformat": "Profil anda telah dipindahkan"
@@ -8214,37 +8214,37 @@
     "messageformat": "Leret"
   },
   "icu:MaybeTransferModal__title": {
-    "messageformat": "Transfer your phone’s message history to this desktop?"
+    "messageformat": "Pindahkan sejarah mesej telefon anda ke desktop ini?"
   },
   "icu:MaybeTransferModal__description": {
-    "messageformat": "When you re-link this desktop, you can transfer your phone’s message history to this device."
+    "messageformat": "Apabila anda memautkan semula desktop ini, anda boleh memindahkan sejarah mesej telefon anda ke peranti ini."
   },
   "icu:MaybeTransferModal__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Ketahui lebih lanjut"
   },
   "icu:MaybeTransferModal__replaceHistory": {
-    "messageformat": "This will <bold>replace</bold> the message history on this desktop."
+    "messageformat": "Ini akan <bold>menggantikan</bold> sejarah mesej pada desktop ini."
   },
   "icu:MaybeTransferModal__scanQrCode": {
-    "messageformat": "You’ll need to relink by scanning a QR code."
+    "messageformat": "Anda perlu memaut semula dengan mengimbas kod QR."
   },
   "icu:MaybeTransferModal__media": {
-    "messageformat": "If you have paid Signal Secure Backups, all of your media will be transferred. Otherwise, your last 45 days of media will be included."
+    "messageformat": "Jika anda mempunyai Sandaran Selamat Signal, semua media anda akan dipindahkan. Jika tidak, media anda untuk 45 hari terakhir akan disertakan."
   },
   "icu:MaybeTransferModal__transfer": {
-    "messageformat": "Transfer"
+    "messageformat": "Pindah"
   },
   "icu:MaybeTransferModal__dontTransfer": {
-    "messageformat": "Don't transfer"
+    "messageformat": "Jangan pindahkan"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__title": {
-    "messageformat": "Delete all data?"
+    "messageformat": "Padamkan semua data?"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__pending": {
-    "messageformat": "Deleting all data"
+    "messageformat": "Memadam semua data"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__body": {
-    "messageformat": "All current data in Signal Desktop will be deleted. You can then scan a QR code and transfer your message history from your phone."
+    "messageformat": "Semua data semasa dalam Signal Desktop akan dipadam. Selepas itu, anda boleh mengimbas kod QR dan memindahkan sejarah mesej daripada telefon anda."
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Versi ini mengandungi sedikit tweak kecil dan pembetulan pepijat untuk memastikan Signal berjalan dengan lancar.",
@@ -8278,12 +8278,12 @@
     "messageformat": "Emoji baharu yang segar diperkenalkan dalam Unicode 17.0 kini telah tampil bergaya dalam Signal.Hantar reaksi mesej menggunakan emoji Penari Balet baharu untuk melakukan versi digital pas de chat anda sendiri."
   },
   "icu:WhatsNew__8.11--0": {
-    "messageformat": "We've introduced additional confirmations and educational messaging in the app to help protect Signal users from phishing and social engineering attacks. As a reminder, never reply to chats pretending to be Signal, and never send your verification code, PIN, or recovery key to anyone."
+    "messageformat": "Kami telah menambah pengesahan tambahan dan mesej keselamatan dalam aplikasi untuk membantu melindungi pengguna Signal daripada serangan memancing data dan kejuruteraan sosial. Sebagai peringatan, jangan sesekali membalas sembang yang menyamar sebagai Signal, dan jangan kongsi kod pengesahan, PIN atau kunci pemulihan anda dengan sesiapa pun."
   },
   "icu:WhatsNew__8.11--1": {
-    "messageformat": "Raised hand indicators in group calls now display the current order of the queue, so you can easily see who got the upper hand first."
+    "messageformat": "Penunjuk angkat tangan dalam panggilan berkumpulan kini memaparkan giliran semasa dalam barisan."
   },
   "icu:WhatsNew__8.11--2": {
-    "messageformat": "We also added a real-time visualization while recording voice messages, so surfers (and oceanographers) can stare at multiple moving waveforms whenever they share updates from the beach."
+    "messageformat": "Visualisasi baharu semasa merakam mesej suara."
   }
 }

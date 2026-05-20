@@ -1,18 +1,18 @@
 {
   "icu:AxoAlertDialog.Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Anuluj"
   },
   "icu:AxoButton.Pending": {
-    "messageformat": "Pending"
+    "messageformat": "Wysyłanie"
   },
   "icu:AxoDialog.Back": {
-    "messageformat": "Back"
+    "messageformat": "Wstecz"
   },
   "icu:AxoDialog.Close": {
-    "messageformat": "Close"
+    "messageformat": "Zamknij"
   },
   "icu:AxoTextField.Clear": {
-    "messageformat": "Clear"
+    "messageformat": "Usuń"
   },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "Dodaj do grupy"
@@ -1599,13 +1599,13 @@
     "messageformat": "Potrzebujesz pomocy?"
   },
   "icu:Install__confirm-data-deletion__title": {
-    "messageformat": "Delete all data?"
+    "messageformat": "Usunąć wszystkie dane?"
   },
   "icu:Install__confirm-data-deletion__body": {
-    "messageformat": "You’re attempting to link a different Signal account to this desktop. If you continue, all data currently in Signal Desktop will be deleted."
+    "messageformat": "Próbujesz połączyć z tym komputerem inne konto Signal. Jeśli przejdziesz dalej, wszystkie dane zapisane obecnie w aplikacji Signal Desktop zostaną usunięte."
   },
   "icu:Install__confirm-data-deletion__continue": {
-    "messageformat": "Continue"
+    "messageformat": "Kontynuuj"
   },
   "icu:Preferences--header": {
     "messageformat": "Ustawienia"
@@ -4608,7 +4608,7 @@
     "messageformat": "Wesprzyj Signal darowizną"
   },
   "icu:BadgeDialog__name-supports-signal": {
-    "messageformat": "{name} supports Signal"
+    "messageformat": "{name} wspiera Signal"
   },
   "icu:ProfileMovedModal__title": {
     "messageformat": "Swój profil znajdziesz teraz gdzie indziej"
@@ -8214,37 +8214,37 @@
     "messageformat": "Przewiń"
   },
   "icu:MaybeTransferModal__title": {
-    "messageformat": "Transfer your phone’s message history to this desktop?"
+    "messageformat": "Czy chcesz zsynchronizować z tym komputerem historię wiadomości z telefonu?"
   },
   "icu:MaybeTransferModal__description": {
-    "messageformat": "When you re-link this desktop, you can transfer your phone’s message history to this device."
+    "messageformat": "Aby zsynchronizować z tym komputerem historię wiadomości z telefonu, musisz ponownie połączyć ten komputer."
   },
   "icu:MaybeTransferModal__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Dowiedz się więcej"
   },
   "icu:MaybeTransferModal__replaceHistory": {
-    "messageformat": "This will <bold>replace</bold> the message history on this desktop."
+    "messageformat": "Spowoduje to <bold>zastąpienie</bold> historii wiadomości na tym komputerze."
   },
   "icu:MaybeTransferModal__scanQrCode": {
-    "messageformat": "You’ll need to relink by scanning a QR code."
+    "messageformat": "Aby ponownie połączyć komputer, zeskanuj kod QR."
   },
   "icu:MaybeTransferModal__media": {
-    "messageformat": "If you have paid Signal Secure Backups, all of your media will be transferred. Otherwise, your last 45 days of media will be included."
+    "messageformat": "Jeśli masz płatną usługę bezpiecznych kopii zapasowych Signal, zostaną zsynchronizowane wszystkie Twoje multimedia. Jeśli jej nie masz, zostaną zsynchronizowane multimedia z ostatnich 45 dni."
   },
   "icu:MaybeTransferModal__transfer": {
-    "messageformat": "Transfer"
+    "messageformat": "Zsynchronizuj"
   },
   "icu:MaybeTransferModal__dontTransfer": {
-    "messageformat": "Don't transfer"
+    "messageformat": "Nie synchronizuj"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__title": {
-    "messageformat": "Delete all data?"
+    "messageformat": "Usunąć wszystkie dane?"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__pending": {
-    "messageformat": "Deleting all data"
+    "messageformat": "Usuwanie wszystkich danych"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__body": {
-    "messageformat": "All current data in Signal Desktop will be deleted. You can then scan a QR code and transfer your message history from your phone."
+    "messageformat": "Wszystkie dane zapisane obecnie w aplikacji Signal Desktop zostaną usunięte. Następnie będziesz mieć możliwość zeskanowania kodu QR i synchronizacji historii wiadomości z telefonem."
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Ta wersja obejmuje wiele drobnych ulepszeń i poprawek błędów. Wszystko po to, aby aplikacja Signal działała płynnie.",
@@ -8278,12 +8278,12 @@
     "messageformat": "Świeżutkie emoji z Unicode 17.0 już tańczą w aplikacji Signal. Przyjaciółka pisze, że zapisała się na balet dla dorosłych? Emoji z baletnicą sprawdzi się idealnie."
   },
   "icu:WhatsNew__8.11--0": {
-    "messageformat": "We've introduced additional confirmations and educational messaging in the app to help protect Signal users from phishing and social engineering attacks. As a reminder, never reply to chats pretending to be Signal, and never send your verification code, PIN, or recovery key to anyone."
+    "messageformat": "Wprowadziliśmy w aplikacji dodatkowe potwierdzenia i komunikaty informacyjne – wszystko po to, aby jeszcze lepiej chronić osoby korzystające z aplikacji Signal przed phishingiem i atakami socjotechnicznymi. Na wszelki wypadek przypominamy: nigdy nie odpowiadaj na wiadomości od osób podszywających się pod pracowników Signal i nikomu nie udostępniaj swojego kodu weryfikacyjnego, PIN-u ani kodu odzyskiwania."
   },
   "icu:WhatsNew__8.11--1": {
-    "messageformat": "Raised hand indicators in group calls now display the current order of the queue, so you can easily see who got the upper hand first."
+    "messageformat": "Od teraz podczas połączeń grupowych oprócz tego, kto podniósł rękę, możesz również sprawdzić kolejność, w jakiej zgłosiły się te osoby. To się nazywa porządek obrad!"
   },
   "icu:WhatsNew__8.11--2": {
-    "messageformat": "We also added a real-time visualization while recording voice messages, so surfers (and oceanographers) can stare at multiple moving waveforms whenever they share updates from the beach."
+    "messageformat": "Dodaliśmy też wizualizację, która wyświetla się w czasie rzeczywistym podczas nagrywania wiadomości głosowych. Tylko nie strać wątku, podziwiając te hipnotyzujące kształty."
   }
 }

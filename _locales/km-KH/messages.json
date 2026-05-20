@@ -1,18 +1,18 @@
 {
   "icu:AxoAlertDialog.Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "បោះបង់"
   },
   "icu:AxoButton.Pending": {
-    "messageformat": "Pending"
+    "messageformat": "មិនទាន់សម្រេច"
   },
   "icu:AxoDialog.Back": {
-    "messageformat": "Back"
+    "messageformat": "ត្រឡប់ក្រោយ"
   },
   "icu:AxoDialog.Close": {
-    "messageformat": "Close"
+    "messageformat": "បិទ"
   },
   "icu:AxoTextField.Clear": {
-    "messageformat": "Clear"
+    "messageformat": "សម្អាត"
   },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "ដាក់បញ្ចូលទៅក្រុមមួយ"
@@ -1599,13 +1599,13 @@
     "messageformat": "ត្រូវការជំនួយ?"
   },
   "icu:Install__confirm-data-deletion__title": {
-    "messageformat": "Delete all data?"
+    "messageformat": "លុបទិន្នន័យទាំងអស់?"
   },
   "icu:Install__confirm-data-deletion__body": {
-    "messageformat": "You’re attempting to link a different Signal account to this desktop. If you continue, all data currently in Signal Desktop will be deleted."
+    "messageformat": "អ្នកកំពុងព្យាយាមភ្ជាប់គណនី Signal ផ្សេងជាមួយកុំព្យូទ័រលើតុនេះ។ ប្រសិនបើអ្នកបន្ត ទិន្នន័យទាំងអស់ដែលកំពុងមាននៅក្នុង Signal Desktop នឹងត្រូវបានលុប។"
   },
   "icu:Install__confirm-data-deletion__continue": {
-    "messageformat": "Continue"
+    "messageformat": "បន្ត"
   },
   "icu:Preferences--header": {
     "messageformat": "ការកំណត់"
@@ -4608,7 +4608,7 @@
     "messageformat": "ឧបត្ថម្ភទៅ Signal"
   },
   "icu:BadgeDialog__name-supports-signal": {
-    "messageformat": "{name} supports Signal"
+    "messageformat": "{name} ឧបត្ថម្ភគាំទ្រ Signal"
   },
   "icu:ProfileMovedModal__title": {
     "messageformat": "ប្រូហ្វាល់របស់អ្នកបានផ្លាស់ទី"
@@ -8214,37 +8214,37 @@
     "messageformat": "រូបអូស"
   },
   "icu:MaybeTransferModal__title": {
-    "messageformat": "Transfer your phone’s message history to this desktop?"
+    "messageformat": "ផ្ទេរប្រវត្តិសារទូរសព្ទរបស់អ្នកទៅកុំព្យូទ័រលើតុនេះ?"
   },
   "icu:MaybeTransferModal__description": {
-    "messageformat": "When you re-link this desktop, you can transfer your phone’s message history to this device."
+    "messageformat": "នៅពេលអ្នកភ្ជាប់ជាមួយកុំព្យូទ័រលើតុនេះឡើងវិញ អ្នកអាចផ្ទេរប្រវត្តិសាររបស់ទូរសព្ទអ្នកទៅឧបករណ៍នេះបាន។"
   },
   "icu:MaybeTransferModal__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "ស្វែងយល់បន្ថែម"
   },
   "icu:MaybeTransferModal__replaceHistory": {
-    "messageformat": "This will <bold>replace</bold> the message history on this desktop."
+    "messageformat": "ការធ្វើបែបនេះនឹង<bold>ជំនួស</bold>ប្រវត្តិសារនៅលើកុំព្យូទ័រលើតុនេះ។"
   },
   "icu:MaybeTransferModal__scanQrCode": {
-    "messageformat": "You’ll need to relink by scanning a QR code."
+    "messageformat": "អ្នកនឹងត្រូវភ្ជាប់ឡើងវិញដោយស្គែនកូដ QR។"
   },
   "icu:MaybeTransferModal__media": {
-    "messageformat": "If you have paid Signal Secure Backups, all of your media will be transferred. Otherwise, your last 45 days of media will be included."
+    "messageformat": "ប្រសិនបើអ្នកបានបង់ប្រាក់លើការបម្រុងទុកសុវត្ថិភាព Signal មេឌៀទាំងអស់របស់អ្នកនឹងត្រូវបានផ្ទេរ។ បើមិនដូច្នោះទេ មេឌៀរយៈពេល 45 ថ្ងៃចុងក្រោយរបស់អ្នកនឹងត្រូវបានរួមបញ្ចូល។"
   },
   "icu:MaybeTransferModal__transfer": {
-    "messageformat": "Transfer"
+    "messageformat": "ផ្ទេរ"
   },
   "icu:MaybeTransferModal__dontTransfer": {
-    "messageformat": "Don't transfer"
+    "messageformat": "កុំផ្ទេរ"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__title": {
-    "messageformat": "Delete all data?"
+    "messageformat": "លុបទិន្នន័យទាំងអស់?"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__pending": {
-    "messageformat": "Deleting all data"
+    "messageformat": "កំពុងលុបទិន្នន័យទាំងអស់"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__body": {
-    "messageformat": "All current data in Signal Desktop will be deleted. You can then scan a QR code and transfer your message history from your phone."
+    "messageformat": "ទិន្នន័យបច្ចុប្បន្នទាំងអស់នៅក្នុង Signal Desktop នឹងត្រូវបានលុប។ បន្ទាប់មក អ្នកអាចស្គែនកូដ QR ហើយផ្ទេរប្រវត្តិសាររបស់អ្នកពីទូរសព្ទរបស់អ្នក។"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "កំណែ​នេះ​មាន​ការ​កែ​សម្រួល និង​ការកែបញ្ហាតូចៗ​មួយ​ចំនួន ដើម្បី​ឲ្យ​ Signal បន្ត​ដំណើរការ​ដោយ​រលូន។",
@@ -8278,12 +8278,12 @@
     "messageformat": "ឥឡូវនេះ រូបអារម្មណ៍បង្វិលខ្លួនដែលទើបដាក់នៅក្នុង Unicode 17.0 ត្រូវបានដាក់បញ្ចូលទៅក្នុង Signal ហើយ។ ផ្ញើសារប្រតិកម្មជាមួយរូបអារម្មណ៍ថ្មីនៃអ្នករាំរបាំបាល់ឡេ ដើម្បីលោតចុះលោតឡើងតាមកំណែឌីជីថលផ្ទាល់ខ្លួនរបស់អ្នក។"
   },
   "icu:WhatsNew__8.11--0": {
-    "messageformat": "We've introduced additional confirmations and educational messaging in the app to help protect Signal users from phishing and social engineering attacks. As a reminder, never reply to chats pretending to be Signal, and never send your verification code, PIN, or recovery key to anyone."
+    "messageformat": "យើងបានដាក់ឱ្យប្រើប្រាស់នូវការបញ្ជាក់បន្ថែម និងការផ្ញើសារអប់រំនៅក្នុងកម្មវិធី ដើម្បីជួយការពារអ្នកប្រើ Signal ពីការវាយប្រហារតាមការដាក់នុយ (phishing) និងការវាយប្រហារតាមវិស្វកម្មសង្គម។ ជាការរំលឹក សូមកុំឆ្លើយតបទៅនឹងការជជែកដែលតាំងខ្លួនជា Signal ហើយកុំផ្ញើលេខកូដផ្ទៀងផ្ទាត់ លេខកូដសម្ងាត់ ឬសោស្តាររបស់អ្នកទៅនរណាម្នាក់ឱ្យសោះ។"
   },
   "icu:WhatsNew__8.11--1": {
-    "messageformat": "Raised hand indicators in group calls now display the current order of the queue, so you can easily see who got the upper hand first."
+    "messageformat": "ឥឡូវ សញ្ញាលើកដៃនៅក្នុងការហៅជាក្រុមបង្ហាញតាមលំដាប់រង់ចាំបច្ចុប្បន្ន ដូច្នេះអ្នកអាចស្រួលមើលឃើញថានរណាគេលើកដៃមុនគេ។"
   },
   "icu:WhatsNew__8.11--2": {
-    "messageformat": "We also added a real-time visualization while recording voice messages, so surfers (and oceanographers) can stare at multiple moving waveforms whenever they share updates from the beach."
+    "messageformat": "យើងក៏បានបញ្ចូលរូបបង្ហាញតាមពេលជាក់ស្តែង ពេលកំពុងថតសារសំឡេងផងដែរ ដូច្នេះអ្នកជិះស្គីលើទឹក (និងអ្នកសិក្សាអំពីមហាសមុទ្រ) អាចសម្លឹងមើលរលកសញ្ញាមានចលនាជាច្រើន នៅពេលណាដែលពួកគេចែករំលែកព័ត៌មានថ្មីៗពីឆ្នេរ។"
   }
 }

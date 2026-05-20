@@ -1,18 +1,18 @@
 {
   "icu:AxoAlertDialog.Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "ರದ್ದುಮಾಡಿ"
   },
   "icu:AxoButton.Pending": {
-    "messageformat": "Pending"
+    "messageformat": "ಬಾಕಿ ಇದೆ"
   },
   "icu:AxoDialog.Back": {
-    "messageformat": "Back"
+    "messageformat": "ಹಿಂದಕ್ಕೆ"
   },
   "icu:AxoDialog.Close": {
-    "messageformat": "Close"
+    "messageformat": "ಮುಚ್ಚಿ"
   },
   "icu:AxoTextField.Clear": {
-    "messageformat": "Clear"
+    "messageformat": "ತೆರವುಗೊಳಿಸಿ"
   },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "ಗುಂಪಿಗೆ ಸೇರಿಸಿ"
@@ -1599,13 +1599,13 @@
     "messageformat": "ಸಹಾಯ ಅಗತ್ಯವಿದೆಯೇ?"
   },
   "icu:Install__confirm-data-deletion__title": {
-    "messageformat": "Delete all data?"
+    "messageformat": "ಎಲ್ಲ ಡೇಟಾ ಅಳಿಸುವುದೇ?"
   },
   "icu:Install__confirm-data-deletion__body": {
-    "messageformat": "You’re attempting to link a different Signal account to this desktop. If you continue, all data currently in Signal Desktop will be deleted."
+    "messageformat": "ನೀವು ಈ ಡೆಸ್ಕ್‌ಟಾಪ್‌ಗೆ ಬೇರೆ Signal ಖಾತೆಯನ್ನು ಲಿಂಕ್ ಮಾಡಲು ಪ್ರಯತ್ನಿಸುತ್ತಿದ್ದೀರಿ. ನೀವು ಮುಂದುವರಿಸಿದರೆ, ಪ್ರಸ್ತುತ ಸಿಗ್ನಲ್ ಡೆಸ್ಕ್‌ಟಾಪ್‌ನಲ್ಲಿರುವ ಎಲ್ಲಾ ಡೇಟಾವನ್ನು ಅಳಿಸಲಾಗುತ್ತದೆ."
   },
   "icu:Install__confirm-data-deletion__continue": {
-    "messageformat": "Continue"
+    "messageformat": "ಮುಂದುವರಿಸಿ"
   },
   "icu:Preferences--header": {
     "messageformat": "ಸೆಟ್ಟಿಂಗ್‌ಗಳು"
@@ -4608,7 +4608,7 @@
     "messageformat": "Signal ಗೆ ದಾನ ಮಾಡಿ"
   },
   "icu:BadgeDialog__name-supports-signal": {
-    "messageformat": "{name} supports Signal"
+    "messageformat": "{name} ಅವರು Signal ಅನ್ನು ಬೆಂಬಲಿಸುತ್ತಾರೆ"
   },
   "icu:ProfileMovedModal__title": {
     "messageformat": "ನಿಮ್ಮ ಪ್ರೊಫೈಲ್ ಅನ್ನು ಮೂವ್ ಮಾಡಲಾಗಿದೆ"
@@ -8214,37 +8214,37 @@
     "messageformat": "ಸ್ಲೈಡ್"
   },
   "icu:MaybeTransferModal__title": {
-    "messageformat": "Transfer your phone’s message history to this desktop?"
+    "messageformat": "ನಿಮ್ಮ ಫೋನ್‌ನ ಸಂದೇಶ ಇತಿಹಾಸವನ್ನು ಈ ಡೆಸ್ಕ್‌ಟಾಪ್‌ಗೆ ವರ್ಗಾಯಿಸಬೇಕೆ?"
   },
   "icu:MaybeTransferModal__description": {
-    "messageformat": "When you re-link this desktop, you can transfer your phone’s message history to this device."
+    "messageformat": "ನೀವು ಈ ಡೆಸ್ಕ್‌ಟಾಪ್ ಅನ್ನು ಮರು-ಲಿಂಕ್ ಮಾಡಿದಾಗ, ನಿಮ್ಮ ಫೋನ್‌ನ ಸಂದೇಶ ಇತಿಹಾಸವನ್ನು ಈ ಸಾಧನಕ್ಕೆ ವರ್ಗಾಯಿಸಬಹುದು."
   },
   "icu:MaybeTransferModal__learnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "ಇನ್ನಷ್ಟು ತಿಳಿಯಿರಿ"
   },
   "icu:MaybeTransferModal__replaceHistory": {
-    "messageformat": "This will <bold>replace</bold> the message history on this desktop."
+    "messageformat": "ಇದು ಈ ಡೆಸ್ಕ್‌ಟಾಪ್‌ನ ಸಂದೇಶ ಇತಿಹಾಸವನ್ನು <bold>ಬದಲಾಯಿಸುತ್ತದೆ</bold>."
   },
   "icu:MaybeTransferModal__scanQrCode": {
-    "messageformat": "You’ll need to relink by scanning a QR code."
+    "messageformat": "QR ಕೋಡ್ ಸ್ಕ್ಯಾನ್ ಮಾಡುವ ಮೂಲಕ ನೀವು ಮರುಲಿಂಕ್ ಮಾಡಬೇಕಾಗುತ್ತದೆ."
   },
   "icu:MaybeTransferModal__media": {
-    "messageformat": "If you have paid Signal Secure Backups, all of your media will be transferred. Otherwise, your last 45 days of media will be included."
+    "messageformat": "ನಿಮ್ಮಲ್ಲಿ ಪಾವತಿಸಿದ Signal ಸುರಕ್ಷಿತ ಬ್ಯಾಕಪ್‌ಗಳು ಇದ್ದರೆ, ನಿಮ್ಮ ಎಲ್ಲಾ ಮೀಡಿಯಾವನ್ನು ವರ್ಗಾಯಿಸಲಾಗುತ್ತದೆ. ಇಲ್ಲದಿದ್ದರೆ, ನಿಮ್ಮ ಕಳೆದ 45 ದಿನಗಳ ಮೀಡಿಯಾವನ್ನು ಸೇರಿಸಲಾಗುತ್ತದೆ."
   },
   "icu:MaybeTransferModal__transfer": {
-    "messageformat": "Transfer"
+    "messageformat": "ವರ್ಗಾವಣೆ"
   },
   "icu:MaybeTransferModal__dontTransfer": {
-    "messageformat": "Don't transfer"
+    "messageformat": "ವರ್ಗಾವಣೆ ಮಾಡಬೇಡಿ"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__title": {
-    "messageformat": "Delete all data?"
+    "messageformat": "ಎಲ್ಲ ಡೇಟಾ ಅಳಿಸುವುದೇ?"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__pending": {
-    "messageformat": "Deleting all data"
+    "messageformat": "ಎಲ್ಲಾ ಡೇಟಾ ಅಳಿಸಲಾಗುತ್ತಿದೆ"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__body": {
-    "messageformat": "All current data in Signal Desktop will be deleted. You can then scan a QR code and transfer your message history from your phone."
+    "messageformat": "ಸಿಗ್ನಲ್ ಡೆಸ್ಕ್‌ಟಾಪ್‌ನಲ್ಲಿರುವ ಎಲ್ಲಾ ಪ್ರಸ್ತುತ ಡೇಟಾವನ್ನು ಅಳಿಸಲಾಗುತ್ತದೆ. ಆಗ ನೀವು QR ಕೋಡ್ ಅನ್ನು ಸ್ಕ್ಯಾನ್ ಮಾಡಬಹುದು ಮತ್ತು ನಿಮ್ಮ ಫೋನ್‌ನಿಂದ ನಿಮ್ಮ ಸಂದೇಶ ಇತಿಹಾಸವನ್ನು ವರ್ಗಾಯಿಸಬಹುದು."
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": " Signal ಅನ್ನು ಸರಾಗವಾಗಿ ಚಾಲ್ತಿಯಲ್ಲಿಡಲು ಈ ಆವೃತ್ತಿಯು ಸಾಕಷ್ಟು ಸಣ್ಣ ಟ್ವೀಕ್‌ಗಳನ್ನು ಹೊಂದಿದೆ ಮತ್ತು ಬಗ್ ಫಿಕ್ಸ್‌ಗಳನ್ನು ಹೊಂದಿದೆ.",
@@ -8278,12 +8278,12 @@
     "messageformat": "ಯೂನಿಕೋಡ್ 17.0 ರಲ್ಲಿ ಹೊಸದಾಗಿ ತಯಾರಿಸಲಾದ ಎಮೋಜಿಗಳು ಈಗ Signal ನಲ್ಲಿ ಸ್ಥಾನ ಪಡೆದಿವೆ. ಪಾಸ್ ಡ ಚಾಟ್‌ನ ನಿಮ್ಮ ಸ್ವಂತ ಡಿಜಿಟಲ್ ಆವೃತ್ತಿಯನ್ನು ಪ್ರದರ್ಶಿಸಲು ಹೊಸ ಬ್ಯಾಲೆ ಡ್ಯಾನ್ಸರ್ ಎಮೋಜಿಯೊಂದಿಗೆ ಮೆಸೇಜ್ ಪ್ರತಿಕ್ರಿಯೆಯನ್ನು ಕಳುಹಿಸಿ."
   },
   "icu:WhatsNew__8.11--0": {
-    "messageformat": "We've introduced additional confirmations and educational messaging in the app to help protect Signal users from phishing and social engineering attacks. As a reminder, never reply to chats pretending to be Signal, and never send your verification code, PIN, or recovery key to anyone."
+    "messageformat": "Signal ಬಳಕೆದಾರರನ್ನು ಫಿಶಿಂಗ್ ಮತ್ತು ಸಾಮಾಜಿಕ ಎಂಜಿನಿಯರಿಂಗ್ ದಾಳಿಗಳಿಂದ ರಕ್ಷಿಸುವುದಕ್ಕೆ ಸಹಾಯ ಮಾಡಲು ನಾವು ಆ್ಯಪ್‌ನಲ್ಲಿ ಹೆಚ್ಚುವರಿ ದೃಢೀಕರಣಗಳು ಮತ್ತು ಶೈಕ್ಷಣಿಕ ಮೆಸೇಜಿಂಗ್ ಅನ್ನು ಪರಿಚಯಿಸಿದ್ದೇವೆ. ನೆನಪಿಡಿ, Signal ಎಂದು ಸೋಗುಹಾಕುವ ಚಾಟ್‌ಗಳಿಗೆ ಎಂದಿಗೂ ಉತ್ತರಿಸಬೇಡಿ ಮತ್ತು ನಿಮ್ಮ ದೃಢೀಕರಣ ಕೋಡ್, ಪಿನ್ ಅಥವಾ ರಿಕವರಿ ಕೀಯನ್ನು ಯಾರಿಗೂ ಕಳುಹಿಸಬೇಡಿ."
   },
   "icu:WhatsNew__8.11--1": {
-    "messageformat": "Raised hand indicators in group calls now display the current order of the queue, so you can easily see who got the upper hand first."
+    "messageformat": "ಗುಂಪು ಕರೆಗಳಲ್ಲಿ ಈಗ ಎತ್ತಿದ ಕೈ ಸೂಚಕಗಳು ಸರದಿಯ ಪ್ರಸ್ತುತ ಕ್ರಮವನ್ನು ಪ್ರದರ್ಶಿಸುತ್ತವೆ, ಆದ್ದರಿಂದ ಯಾರು ಮೊದಲು ಕೈ ಎತ್ತಿದರು ಎಂಬುದನ್ನು ನೀವು ಸುಲಭವಾಗಿ ನೋಡಬಹುದು."
   },
   "icu:WhatsNew__8.11--2": {
-    "messageformat": "We also added a real-time visualization while recording voice messages, so surfers (and oceanographers) can stare at multiple moving waveforms whenever they share updates from the beach."
+    "messageformat": "ಧ್ವನಿ ಸಂದೇಶಗಳನ್ನು ರೆಕಾರ್ಡ್ ಮಾಡುವಾಗ ನಾವು ನೈಜ-ಸಮಯದ ದೃಶ್ಯೀಕರಣವನ್ನು ಕೂಡ ಸೇರಿಸಿದ್ದೇವೆ, ಆದ್ದರಿಂದ ಸರ್ಫರ್‌ಗಳು (ಮತ್ತು ಸಮುದ್ರಶಾಸ್ತ್ರಜ್ಞರು) ಕಡಲತೀರದ ಕುರಿತ ಅಪ್‌ಡೇಟ್‌ಗಳನ್ನು ಹಂಚಿಕೊಂಡಾಗಲೆಲ್ಲಾ ಅನೇಕ ಚಲಿಸುವ ತರಂಗರೂಪಗಳನ್ನು ನೋಡಬಹುದು."
   }
 }
