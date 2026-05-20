@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import lodash from 'lodash';
 import { useSelector } from 'react-redux';
 import * as KeyboardLayout from '../services/keyboardLayout.dom.ts';
@@ -331,14 +331,46 @@ export function useEditLastMessageSent(
 export function useKeyboardShortcuts(
   ...eventHandlers: Array<KeyboardShortcutHandlerType>
 ): void {
+  const handlersRef = useRef(eventHandlers);
+  handlersRef.current = eventHandlers;
+
   useEffect(() => {
     function handleKeydown(ev: KeyboardEvent): void {
-      eventHandlers.some(eventHandler => eventHandler(ev));
+      handlersRef.current.some(eventHandler => eventHandler(ev));
     }
 
     document.addEventListener('keydown', handleKeydown);
     return () => {
       document.removeEventListener('keydown', handleKeydown);
     };
-  }, [eventHandlers]);
+  }, []);
+}
+
+/** `key` is matched case-insensitively. */
+export function makeKeyboardShortcutHandler(
+  key: string,
+  strictMods: Partial<Mods>,
+  callback: () => unknown
+): KeyboardShortcutHandlerType {
+  return ev => {
+    const keyPressed = KeyboardLayout.lookup(ev);
+
+    if (
+      hasExactModifiers(ev, {
+        controlOrMeta: false,
+        shift: false,
+        alt: false,
+        ...strictMods,
+      }) &&
+      keyPressed?.toLowerCase() === key.toLowerCase()
+    ) {
+      ev.preventDefault();
+      ev.stopPropagation();
+
+      callback();
+      return true;
+    }
+
+    return false;
+  };
 }

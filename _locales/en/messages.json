@@ -4398,6 +4398,10 @@
     "messageformat": "Toggle expanded preview on and off",
     "description": "Shown in the shortcuts guide"
   },
+  "icu:Keyboard--toggle-raise-hand": {
+    "messageformat": "Raise or lower your hand (group calls only)",
+    "description": "Shown in the shortcuts guide"
+  },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Answer call with video (video calls only)",
     "description": "Shown in the calling keyboard shortcuts guide"

@@ -65,7 +65,6 @@ import { CallParticipantCount } from './CallParticipantCount.dom.tsx';
 import type { LocalizerType } from '../types/Util.std.ts';
 import { NeedsScreenRecordingPermissionsModal } from './NeedsScreenRecordingPermissionsModal.dom.tsx';
 import { missingCaseError } from '../util/missingCaseError.std.ts';
-import * as KeyboardLayout from '../services/keyboardLayout.dom.ts';
 import {
   usePresenter,
   useActivateSpeakerViewOnPresenting,
@@ -75,6 +74,7 @@ import {
   SPEAKING_LINGER_MS,
 } from './CallingAudioIndicator.dom.tsx';
 import {
+  makeKeyboardShortcutHandler,
   useActiveCallShortcuts,
   useKeyboardShortcuts,
 } from '../hooks/useKeyboardShortcuts.dom.tsx';
@@ -389,37 +389,6 @@ export function CallScreen({
     }, 2000);
     return clearTimeout.bind(null, timer);
   }, [showSelfViewControls, setShowSelfViewControls, selfViewHover]);
-
-  useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent): void => {
-      let eventHandled = false;
-
-      const key = KeyboardLayout.lookup(event);
-
-      if (event.shiftKey && (key === 'V' || key === 'v')) {
-        toggleVideo();
-        setShowControls(true);
-        eventHandled = true;
-      } else if (event.shiftKey && (key === 'M' || key === 'm')) {
-        toggleAudio();
-        setShowControls(true);
-        eventHandled = true;
-      } else if (event.shiftKey && (key === 'P' || key === 'p')) {
-        toggleSelfViewExpanded();
-        eventHandled = true;
-      }
-
-      if (eventHandled) {
-        event.preventDefault();
-        event.stopPropagation();
-      }
-    };
-
-    document.addEventListener('keydown', handleKeyDown);
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [setShowControls, toggleAudio, toggleSelfViewExpanded, toggleVideo]);
 
   useEffect(() => {
     if (!showReactionPicker) {
@@ -955,6 +924,22 @@ export function CallScreen({
     hasLocalAudio,
     toggleParticipants,
   ]);
+
+  useKeyboardShortcuts(
+    makeKeyboardShortcutHandler('v', { shift: true }, () => {
+      toggleVideo();
+      setShowControls(true);
+    }),
+    makeKeyboardShortcutHandler('m', { shift: true }, () => {
+      toggleAudio();
+      setShowControls(true);
+    }),
+    makeKeyboardShortcutHandler('h', { shift: true }, () => {
+      toggleRaiseHand();
+      setShowControls(true);
+    }),
+    makeKeyboardShortcutHandler('p', { shift: true }, toggleSelfViewExpanded)
+  );
 
   let remoteParticipantsElement: ReactNode;
   switch (activeCall.callMode) {

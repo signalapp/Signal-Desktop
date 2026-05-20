@@ -35,6 +35,7 @@ type KeyType =
   | 'E'
   | 'F'
   | 'G'
+  | 'H'
   | 'I'
   | 'J'
   | 'K'
@@ -328,6 +329,11 @@ function getCallingShortcuts(i18n: LocalizerType): Array<ShortcutType> {
       id: 'Keyboard--toggle-preview',
       description: i18n('icu:Keyboard--toggle-preview'),
       keys: [['shift', 'P']],
+    },
+    {
+      id: 'Keyboard--toggle-raise-hand',
+      description: i18n('icu:Keyboard--toggle-raise-hand'),
+      keys: [['shift', 'H']],
     },
     {
       id: 'Keyboard--accept-video-call',
