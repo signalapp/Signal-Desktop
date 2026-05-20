@@ -269,25 +269,68 @@ async function generateManifest(
     };
   }
 
+  const ourConversation =
+    window.ConversationController.getOurConversationOrThrow();
+  const signalConversation =
+    await window.ConversationController.getOrCreateSignalConversation();
+
+  const accountRecord = {
+    record: {
+      account: toAccountRecord({
+        ourConversation,
+        signalConversation,
+        notificationProfileSyncDisabled,
+      }),
+    },
+  };
+
+  const {
+    isNewItem: isAccountRecordNewItem,
+    storageID: accountRecordStorageID,
+  } = processStorageRecord({
+    conversation: ourConversation,
+    currentStorageID: ourConversation.get('storageID'),
+    currentStorageVersion: ourConversation.get('storageVersion'),
+    identifierType: ITEM_TYPE.ACCOUNT,
+    storageNeedsSync: Boolean(
+      ourConversation.get('needsStorageServiceSync') ||
+      signalConversation.get('needsStorageServiceSync')
+    ),
+    storageRecord: accountRecord,
+  });
+
+  if (isAccountRecordNewItem) {
+    postUploadUpdateFunctions.push(() => {
+      ourConversation.set({
+        needsStorageServiceSync: false,
+        storageVersion: version,
+        storageID: accountRecordStorageID,
+      });
+      signalConversation.set({
+        needsStorageServiceSync: false,
+        storageVersion: version,
+        storageID: accountRecordStorageID,
+      });
+      drop(updateConversation(ourConversation.attributes));
+      drop(updateConversation(signalConversation.attributes));
+    });
+  }
+
   for (const conversation of window.ConversationController.getAll()) {
     let identifierType;
     let storageRecord: Proto.StorageRecord.Params | undefined;
 
-    if (isSignalConversation(conversation.attributes)) {
+    const conversationType = typeofConversation(conversation.attributes);
+
+    // Metadata for the Signal (release notes) and self conversation is included in AccountRecord
+    if (
+      isSignalConversation(conversation.attributes) ||
+      conversationType === ConversationTypes.Me
+    ) {
       continue;
     }
 
-    const conversationType = typeofConversation(conversation.attributes);
-    if (conversationType === ConversationTypes.Me) {
-      storageRecord = {
-        record: {
-          account: toAccountRecord(conversation, {
-            notificationProfileSyncDisabled,
-          }),
-        },
-      };
-      identifierType = ITEM_TYPE.ACCOUNT;
-    } else if (conversationType === ConversationTypes.Direct) {
+    if (conversationType === ConversationTypes.Direct) {
       // Contacts must have UUID
       if (!conversation.getServiceId()) {
         continue;

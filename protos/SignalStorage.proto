@@ -197,10 +197,13 @@ message AccountRecord {
       bytes serviceIdBinary = 3; // service ID binary (i.e. 16 byte UUID for ACI, 1 byte prefix + 16 byte UUID for PNI)
     }
 
+    message ReleaseNotes {}
+
     oneof identifier {
       Contact contact = 1;
       bytes legacyGroupId = 3;
       bytes groupMasterKey = 4;
+      ReleaseNotes releaseNotes = 5;
     }
   }
 
@@ -298,6 +301,10 @@ message AccountRecord {
   bool notificationProfileSyncDisabled = 45;
   bool automaticKeyVerificationDisabled = 46;
   bool hasSeenAdminDeleteEducationDialog = 47;
+  bool releaseNotesChatArchived = 48;
+  uint64 releaseNotesChatMutedUntilTimestamp = 49;
+  bool releaseNotesChatBlocked = 50;
+  bool releaseNotesChatMarkedUnread = 51;
 }
 
 message StoryDistributionListRecord {

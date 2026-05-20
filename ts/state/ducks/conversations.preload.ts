@@ -257,6 +257,7 @@ import {
 } from '../selectors/nav.std.ts';
 import { computeGroupNameHash } from '../../util/Conversation.preload.ts';
 import type { Emoji } from '../../axo/emoji.std.ts';
+import { isSignalConversation } from '../../util/isSignalConversation.dom.ts';
 
 const { chunk, difference, fromPairs, omit, orderBy, pick, values, without } =
   lodash;
@@ -3758,6 +3759,11 @@ async function syncMessageRequestResponse(
     },
     { shouldSave }
   );
+
+  // Signal conversation block status is synced via storage service's AccountRecord
+  if (isSignalConversation(conversation)) {
+    return;
+  }
 
   const groupId = conversation.getGroupIdBuffer();
 

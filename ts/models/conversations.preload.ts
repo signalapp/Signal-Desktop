@@ -989,6 +989,11 @@ export class ConversationModel {
   }
 
   block({ viaStorageServiceSync = false } = {}): void {
+    if (isMe(this.attributes)) {
+      log.error(`${this.idForLogging()}: Refusing to block Note to Self`);
+      return;
+    }
+
     let blocked = false;
     const wasBlocked = this.isBlocked();
 
@@ -5642,10 +5647,6 @@ export class ConversationModel {
   // [X] dontNotifyForMentionsIfMuted
   // [x] firstUnregisteredAt
   captureChange(logMessage: string): void {
-    if (isSignalConversation(this.attributes)) {
-      return;
-    }
-
     log.info('storageService[captureChange]', logMessage, this.idForLogging());
     this.set({ needsStorageServiceSync: true });
 
