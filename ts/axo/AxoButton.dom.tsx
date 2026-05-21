@@ -68,7 +68,8 @@ export namespace AxoButton {
   const baseStyles = tw(
     'relative inline-flex max-w-full items-center-safe justify-center-safe rounded-full select-none',
     'outline-none keyboard-mode:focus:outline-focus-ring',
-    'forced-colors:border'
+    'forced-colors:border',
+    'forced-colors:aria-disabled:text-[GrayText]'
   );
 
   const baseSubtleVariant = tw(

@@ -74,7 +74,7 @@ const config = {
       ],
       ignoreFiles: [
         'ts/components/Profiler.dom.tsx',
-        ...(PROD_ONLY ? ['ts/axo/AxoAvatar.dom.tsx'] : []),
+        ...(PROD_ONLY ? ['ts/axo/*.dom.tsx'] : []),
       ],
       ignoreBinaries: PROD_ONLY ? ['electron'] : [],
       storybook: {
