@@ -13,7 +13,6 @@ import { AvatarEditor } from '../AvatarEditor.dom.tsx';
 import { AvatarPreview } from '../AvatarPreview.dom.tsx';
 import { Spinner } from '../Spinner.dom.tsx';
 import { Button } from '../Button.dom.tsx';
-import { Modal } from '../Modal.dom.tsx';
 import { GroupTitleInput } from '../GroupTitleInput.dom.tsx';
 import type {
   AvatarDataType,
@@ -23,6 +22,7 @@ import type {
 } from '../../types/Avatar.std.ts';
 import { AvatarColors } from '../../types/Colors.std.ts';
 import { AxoConfirmDialog } from '../../axo/AxoConfirmDialog.dom.tsx';
+import { AxoDialog } from '../../axo/AxoDialog.dom.tsx';
 
 export type LeftPaneSetGroupMetadataPropsType = {
   groupAvatar: undefined | Uint8Array<ArrayBuffer>;
@@ -143,31 +143,35 @@ export class LeftPaneSetGroupMetadataHelper extends LeftPaneHelper<LeftPaneSetGr
         }}
       >
         {this.#isEditingAvatar && (
-          <Modal
-            modalName="LeftPaneSetGroupMetadataHelper.AvatarEditor"
-            hasXButton
-            i18n={i18n}
-            onClose={toggleComposeEditingAvatar}
-            title={i18n(
-              'icu:LeftPaneSetGroupMetadataHelper__avatar-modal-title'
-            )}
-          >
-            <AvatarEditor
-              avatarColor={avatarColor}
-              avatarValue={this.#groupAvatar}
-              deleteAvatarFromDisk={composeDeleteAvatarFromDisk}
-              i18n={i18n}
-              isGroup
-              onCancel={toggleComposeEditingAvatar}
-              onSave={newAvatar => {
-                setComposeGroupAvatar(newAvatar);
-                toggleComposeEditingAvatar();
-              }}
-              userAvatarData={this.#userAvatarData}
-              replaceAvatar={composeReplaceAvatar}
-              saveAvatarToDisk={composeSaveAvatarToDisk}
-            />
-          </Modal>
+          <AxoDialog.Root open onOpenChange={toggleComposeEditingAvatar}>
+            <AxoDialog.Content size="md" escape="cancel-is-noop">
+              <AxoDialog.Header>
+                <AxoDialog.Title>
+                  {i18n(
+                    'icu:LeftPaneSetGroupMetadataHelper__avatar-modal-title'
+                  )}
+                </AxoDialog.Title>
+                <AxoDialog.Close />
+              </AxoDialog.Header>
+              <AxoDialog.Body maxHeight={600}>
+                <AvatarEditor
+                  avatarColor={avatarColor}
+                  avatarValue={this.#groupAvatar}
+                  deleteAvatarFromDisk={composeDeleteAvatarFromDisk}
+                  i18n={i18n}
+                  isGroup
+                  onCancel={toggleComposeEditingAvatar}
+                  onSave={newAvatar => {
+                    setComposeGroupAvatar(newAvatar);
+                    toggleComposeEditingAvatar();
+                  }}
+                  userAvatarData={this.#userAvatarData}
+                  replaceAvatar={composeReplaceAvatar}
+                  saveAvatarToDisk={composeSaveAvatarToDisk}
+                />
+              </AxoDialog.Body>
+            </AxoDialog.Content>
+          </AxoDialog.Root>
         )}
         <AvatarPreview
           avatarColor={avatarColor}

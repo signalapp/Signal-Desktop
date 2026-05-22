@@ -1,15 +1,13 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { useMemo, useState, type JSX } from 'react';
-import { v4 as uuid } from 'uuid';
-
+import { useCallback, useMemo, useState, type JSX } from 'react';
 import type { LocalizerType } from '../../../types/Util.std.ts';
 import { getMuteOptions } from '../../../util/getMuteOptions.std.ts';
-import { parseIntOrThrow } from '../../../util/parseIntOrThrow.std.ts';
-import { CircleCheckbox, Variant } from '../../CircleCheckbox.dom.tsx';
-import { Modal } from '../../Modal.dom.tsx';
-import { Button, ButtonVariant } from '../../Button.dom.tsx';
+import { AxoDialog } from '../../../axo/AxoDialog.dom.tsx';
+import { AxoRadioGroup } from '../../../axo/AxoRadioGroup.dom.tsx';
+import { safeParseInteger } from '../../../util/numbers.std.ts';
+import { strictAssert } from '../../../util/assert.std.ts';
 
 type PropsType = {
   i18n: LocalizerType;
@@ -29,70 +27,63 @@ export function ConversationNotificationsModal({
   onClose,
   setMuteDuration,
 }: PropsType): JSX.Element {
-  const muteOptions = useMemo(
-    () =>
-      getMuteOptions(muteExpiresAt, i18n)
-        .map(({ disabled, name, value }) => ({
-          disabled,
-          text: name,
-          value,
-        }))
-        .filter(x => x.value > 0),
-    [i18n, muteExpiresAt]
-  );
+  const muteOptions = useMemo(() => {
+    return getMuteOptions(muteExpiresAt, i18n).filter(option => {
+      return option.value > 0;
+    });
+  }, [i18n, muteExpiresAt]);
 
-  const [muteDurationValue, setMuteDurationValue] = useState<number>();
+  const [value, setValue] = useState<string>();
 
-  const onMuteChange = () => {
-    const ms = parseIntOrThrow(
-      muteDurationValue,
-      'NotificationSettings: mute ms was not an integer'
-    );
-    setMuteDuration(id, ms);
+  const onConfirm = useCallback(() => {
+    if (value == null) {
+      return;
+    }
+    const duration = safeParseInteger(value);
+    strictAssert(duration, `Could not parse value: ${value}`);
+    setMuteDuration(id, duration);
     onClose();
-  };
-
-  const htmlIds = useMemo(() => {
-    return Array.from({ length: muteOptions.length }, () => uuid());
-  }, [muteOptions.length]);
+  }, [id, value, setMuteDuration, onClose]);
 
   return (
-    <Modal
-      modalName="ConversationNotificationsModal"
-      hasXButton
-      onClose={onClose}
-      i18n={i18n}
-      title={i18n('icu:muteNotificationsTitle')}
-      modalFooter={
-        <>
-          <Button onClick={onClose} variant={ButtonVariant.Secondary}>
-            {i18n('icu:cancel')}
-          </Button>
-          <Button onClick={onMuteChange} variant={ButtonVariant.Primary}>
-            {i18n('icu:mute')}
-          </Button>
-        </>
-      }
-    >
-      {muteOptions.map((option, i) => (
-        <label
-          className="Preferences__settings-radio__label"
-          key={htmlIds[i]}
-          htmlFor={htmlIds[i]}
-        >
-          <CircleCheckbox
-            id={htmlIds[i]}
-            checked={muteDurationValue === option.value}
-            variant={Variant.Small}
-            disabled={option.disabled}
-            isRadio
-            moduleClassName="ConversationDetails__radio"
-            name="mute"
-            onChange={value => value && setMuteDurationValue(option.value)}
-          />
-          {option.text}
-        </label>
-      ))}
-    </Modal>
+    <AxoDialog.Root open onOpenChange={onClose}>
+      <AxoDialog.Content size="sm" escape="cancel-is-noop">
+        <AxoDialog.Header>
+          <AxoDialog.Title>
+            {i18n('icu:muteNotificationsTitle')}
+          </AxoDialog.Title>
+          <AxoDialog.Close />
+        </AxoDialog.Header>
+        <AxoDialog.Body>
+          <AxoRadioGroup.Root value={value ?? null} onValueChange={setValue}>
+            {muteOptions.map(option => {
+              return (
+                <AxoRadioGroup.Item
+                  value={`${option.value}`}
+                  disabled={option.disabled}
+                >
+                  <AxoRadioGroup.Indicator />
+                  <AxoRadioGroup.Label>{option.name}</AxoRadioGroup.Label>
+                </AxoRadioGroup.Item>
+              );
+            })}
+          </AxoRadioGroup.Root>
+        </AxoDialog.Body>
+        <AxoDialog.Footer>
+          <AxoDialog.Actions>
+            <AxoDialog.Action variant="secondary" onClick={onClose}>
+              {i18n('icu:cancel')}
+            </AxoDialog.Action>
+            <AxoDialog.Action
+              variant="primary"
+              onClick={onConfirm}
+              disabled={value == null}
+            >
+              {i18n('icu:mute')}
+            </AxoDialog.Action>
+          </AxoDialog.Actions>
+        </AxoDialog.Footer>
+      </AxoDialog.Content>
+    </AxoDialog.Root>
   );
 }

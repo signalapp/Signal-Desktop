@@ -102,6 +102,7 @@ export namespace AxoScrollArea {
     orientation?: Orientation;
     /**
      * Constrains the width of the scroll area.
+     * Use when the container is trying to fit the width of its children.
      */
     maxWidth?: number;
     /**
@@ -111,7 +112,6 @@ export namespace AxoScrollArea {
     maxHeight?: number;
     /**
      * Width of the native scrollbar track.
-     * Use when the container is trying to fit the width of its children.
      */
     scrollbarWidth: ScrollbarWidth;
     /**
@@ -377,9 +377,9 @@ export namespace AxoScrollArea {
     // 2. Parent is sized based on the content of the scroller.
     //
     // For #2, we'll make the intrisic size fit to the content.
-    'size-fit',
+    'h-fit w-full',
     // For #1, we'll fill the available space (this has no effect on #2).
-    'min-h-full min-w-full',
+    'min-h-full',
     // Also support flex containers for #1
     'grow'
   );

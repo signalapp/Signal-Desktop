@@ -170,11 +170,13 @@ describe('pnp/send gv2 invite', function (this: Mocha.Suite) {
       const detailsHeader = conversationStack.locator(
         '[data-testid=ConversationDetailsHeader]'
       );
-      await detailsHeader.locator('button >> "My group"').click();
+      await detailsHeader.getByRole('button', { name: 'My group' }).click();
 
-      const modal = window.locator('.module-Modal:has-text("Edit group")');
-      await modal.locator('input').fill('My group (v2)');
-      await modal.locator('button >> "Save"').click();
+      const modal = window.getByRole('dialog', { name: 'Edit group' });
+      await modal
+        .getByRole('textbox', { name: 'Group name (required)' })
+        .fill('My group (v2)');
+      await modal.getByRole('button', { name: 'Save' }).click();
     }
 
     debug('waiting for the second group update');

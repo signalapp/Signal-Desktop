@@ -79,7 +79,7 @@ describe('stickers', function (this: Mocha.Suite) {
         .locator(`a:has-text("${STICKER_PACKS[0].id.toString('hex')}")`)
         .click();
       await window
-        .getByTestId('StickerPreviewModal')
+        .getByRole('dialog', { name: 'Sticker Pack' })
         .getByRole('button', { name: 'Install' })
         .click();
 
@@ -122,7 +122,7 @@ describe('stickers', function (this: Mocha.Suite) {
         .locator(`a:has-text("${STICKER_PACKS[0].id.toString('hex')}")`)
         .click();
       await window
-        .getByTestId('StickerPreviewModal')
+        .getByRole('dialog', { name: 'Sticker Pack' })
         .getByRole('button', { name: 'Uninstall' })
         .click();
 

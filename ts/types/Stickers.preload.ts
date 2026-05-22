@@ -19,11 +19,12 @@ import type {
   AttachmentType,
   AttachmentWithHydratedData,
 } from './Attachment.std.ts';
-import type {
-  StickerType as StickerFromDBType,
-  StickerPackType,
-  StickerPackStatusType,
-  UninstalledStickerPackType,
+import {
+  type StickerType as StickerFromDBType,
+  type StickerPackType,
+  type StickerPackStatusType,
+  type UninstalledStickerPackType,
+  STICKER_PACK_DEFAULTS,
 } from '../sql/Interface.std.ts';
 import { DataReader, DataWriter } from '../sql/Client.preload.ts';
 import { SignalService as Proto } from '../protobuf/index.std.ts';
@@ -163,22 +164,6 @@ const BLESSED_PACKS: Record<string, BlessedType> = {
     key: 'X1vqt9OCRDywCh5I65Upe2uMrf0GMeXQ2dyUnmmZ/0s=',
     status: 'downloaded',
   },
-};
-
-const STICKER_PACK_DEFAULTS: StickerPackType = {
-  id: '',
-  key: '',
-
-  author: '',
-  coverStickerId: 0,
-  createdAt: 0,
-  downloadAttempts: 0,
-  status: 'ephemeral',
-  stickerCount: 0,
-  stickers: {},
-  title: '',
-
-  storageNeedsSync: false,
 };
 
 const DOWNLOAD_PRIORITY_NORMAL = 0;

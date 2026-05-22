@@ -26,6 +26,7 @@ export type PropTypes = Readonly<{
   placeholder: string;
   value: string;
   description?: string;
+  noMargin?: boolean;
 }>;
 
 const BASE_CLASS_NAME = 'module-SearchInput';
@@ -46,12 +47,19 @@ export const SearchInput = forwardRef<HTMLInputElement, PropTypes>(
       placeholder,
       value,
       description,
+      noMargin,
     },
     ref
   ) {
     const getClassName = getClassNamesFor(BASE_CLASS_NAME, moduleClassName);
     return (
-      <div className={getClassName('__container')} data-supertab>
+      <div
+        className={classNames(
+          getClassName('__container'),
+          noMargin && getClassName('__container--noMargin')
+        )}
+        data-supertab
+      >
         {hasSearchIcon && <i className={getClassName('__icon')} />}
         {children}
         <input

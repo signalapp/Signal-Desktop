@@ -3,10 +3,10 @@
 
 import { useState, type JSX } from 'react';
 import type { LocalizerType } from '../types/Util.std.ts';
-import { Modal } from './Modal.dom.tsx';
 import { AxoButton } from '../axo/AxoButton.dom.tsx';
 import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
 import { strictAssert } from '../util/assert.std.ts';
+import { tw } from '../axo/tw.dom.tsx';
 
 export type PropsType = {
   hasChanges: boolean;
@@ -26,7 +26,7 @@ export function AvatarModalButtons({
   >(undefined);
 
   return (
-    <Modal.ButtonFooter>
+    <div className={tw('flex justify-end-safe gap-2 py-2.5')}>
       <AxoButton.Root
         variant="secondary"
         size="lg"
@@ -53,8 +53,7 @@ export function AvatarModalButtons({
         onOpenChange={() => setConfirmDiscardAction(undefined)}
         // @ts-expect-error ConfirmationDialog migration: Needs title
         title={null}
-        // @ts-expect-error ConfirmationDialog migration: Needs description
-        description={null}
+        description={i18n('icu:ConfirmDiscardDialog--discard')}
       >
         <AxoConfirmDialog.Cancel />
         <AxoConfirmDialog.Action
@@ -70,6 +69,6 @@ export function AvatarModalButtons({
           {i18n('icu:discard')}
         </AxoConfirmDialog.Action>
       </AxoConfirmDialog.Root>
-    </Modal.ButtonFooter>
+    </div>
   );
 }

@@ -45,7 +45,7 @@ export function SafetyNumberViewer({
   checkKeyTransparency,
 }: PropsType): JSX.Element | null {
   const containerClassName = tw(
-    'flex flex-col items-center justify-center gap-4 pb-8'
+    'flex flex-col items-center justify-center gap-4'
   );
 
   if (!safetyNumber) {

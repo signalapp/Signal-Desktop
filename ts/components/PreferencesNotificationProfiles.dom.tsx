@@ -38,7 +38,6 @@ import { themeClassName2 } from '../util/theme.std.ts';
 import { useRefMerger } from '../hooks/useRefMerger.std.ts';
 import { handleOutsideClick } from '../util/handleOutsideClick.dom.ts';
 import { useEscapeHandling } from '../hooks/useEscapeHandling.dom.ts';
-import { Modal } from './Modal.dom.tsx';
 import type { LocalizerType } from '../types/I18N.std.ts';
 import type { ThemeType } from '../types/Util.std.ts';
 import type { ConversationType } from '../state/ducks/conversations.preload.ts';
@@ -53,6 +52,7 @@ import type { SettingsLocation } from '../types/Nav.std.ts';
 import { addLeadingZero } from '../util/timestamp.std.ts';
 import { Emoji } from '../axo/emoji.std.ts';
 import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
+import { NotificationProfilesOnboardingDialog } from './preferences/notificationProfiles/NotificationProfilesOnboardingDialog.dom.tsx';
 
 enum CreateFlowPage {
   Name = 'Name',
@@ -627,35 +627,6 @@ export function NotificationProfilesHome({
       ) : null}
       {getPageContents()}
     </div>
-  );
-}
-
-function NotificationProfilesOnboardingDialog({
-  i18n,
-  onDismiss,
-}: {
-  i18n: LocalizerType;
-  onDismiss: VoidFunction;
-}) {
-  return (
-    <Modal
-      modalName="NotificationProfilesOnboarding"
-      onClose={onDismiss}
-      i18n={i18n}
-    >
-      <div className={tw('flex flex-col items-center')}>
-        <div className={tw('mt-4 mb-3')}>
-          <ProfileAvatar i18n={i18n} size="large" />
-        </div>
-        <Title title={i18n('icu:NotificationProfiles--title')} />
-        <p className={tw('mt-4 mb-12 max-w-[340px] text-center leading-5')}>
-          {i18n('icu:NotificationProfiles--setup-description')}
-        </p>
-        <AxoButton.Root variant="primary" onClick={onDismiss} size="lg">
-          {i18n('icu:NotificationProfiles--setup-continue')}
-        </AxoButton.Root>
-      </div>
-    </Modal>
   );
 }
 

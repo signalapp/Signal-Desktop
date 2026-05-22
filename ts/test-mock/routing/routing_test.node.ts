@@ -42,10 +42,8 @@ describe('routing', function (this: Mocha.Suite) {
     });
     await app.openSignalRoute(stickerUrl);
     const page = await app.getWindow();
-    const title = page.locator(
-      '.module-sticker-manager__preview-modal__footer--title',
-      { hasText: 'Test Stickerpack' }
-    );
+    const dialog = page.getByRole('dialog', { name: 'Sticker Pack' });
+    const title = dialog.getByRole('heading', { name: 'Test Stickerpack' });
     await title.waitFor();
     assert.isTrue(await title.isVisible());
   });

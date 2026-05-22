@@ -17,6 +17,7 @@ import type {
   StickerType,
 } from '../../state/ducks/stickers.preload.ts';
 import { Emoji } from '../../axo/emoji.std.ts';
+import { STICKER_PACK_DEFAULTS } from '../../sql/Interface.std.ts';
 
 const { i18n } = window.SignalContext;
 
@@ -118,8 +119,11 @@ export function InitialDownload(): JSX.Element {
       uninstallStickerPack={action('uninstallStickerPack')}
       downloadStickerPack={action('downloadStickerPack')}
       i18n={i18n}
-      //  oxlint-disable-next-line typescript/no-explicit-any
-      pack={{} as any}
+      pack={{
+        ...STICKER_PACK_DEFAULTS,
+        isBlessed: false,
+        stickers: [],
+      }}
     />
   );
 }
@@ -133,6 +137,36 @@ export function PackDeleted(): JSX.Element {
       downloadStickerPack={action('downloadStickerPack')}
       i18n={i18n}
       pack={undefined}
+    />
+  );
+}
+
+export function PackError(): JSX.Element {
+  return (
+    <StickerPreviewModal
+      closeStickerPackPreview={action('closeStickerPackPreview')}
+      installStickerPack={action('installStickerPack')}
+      uninstallStickerPack={action('uninstallStickerPack')}
+      downloadStickerPack={action('downloadStickerPack')}
+      i18n={i18n}
+      pack={{
+        id: 'foo',
+        key: 'foo',
+        lastUsed: Date.now(),
+        cover: abeSticker,
+        title: 'Foo',
+        isBlessed: true,
+        author: 'Foo McBarrington',
+        status: 'error',
+        stickerCount: 101,
+        stickers: [
+          wideSticker,
+          tallSticker,
+          ...Array(101)
+            .fill(0)
+            .map((_n, id) => ({ ...abeSticker, id })),
+        ],
+      }}
     />
   );
 }

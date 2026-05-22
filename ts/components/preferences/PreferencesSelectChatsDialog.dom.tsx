@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import type { ChangeEvent, JSX } from 'react';
 import { useCallback, useMemo, useState } from 'react';
-
 import type { ConversationType } from '../../state/ducks/conversations.preload.ts';
 import type { PreferredBadgeSelectorType } from '../../state/selectors/badges.preload.ts';
 import type { LocalizerType } from '../../types/I18N.std.ts';
@@ -15,8 +14,6 @@ import {
   shouldNeverBeCalled,
 } from '../../util/shouldNeverBeCalled.std.ts';
 import { SearchInput } from '../SearchInput.dom.tsx';
-import { Button, ButtonVariant } from '../Button.dom.tsx';
-import { Modal } from '../Modal.dom.tsx';
 import type { Row } from '../ConversationList.dom.tsx';
 import {
   ConversationList,
@@ -26,6 +23,7 @@ import {
 import type { GetConversationByIdType } from '../../state/selectors/conversations.dom.ts';
 import { SizeObserver } from '../../hooks/useSizeObserver.dom.tsx';
 import { tw } from '../../axo/tw.dom.tsx';
+import { AxoDialog } from '../../axo/AxoDialog.dom.tsx';
 
 export type ChatFolderSelection = Readonly<{
   selectedRecipientIds: ReadonlyArray<string>;
@@ -194,90 +192,96 @@ export function PreferencesSelectChatsDialog(
   ]);
 
   return (
-    <Modal
-      modalName="Preferences__EditChatFolderPage__SelectChatsDialog"
-      moduleClassName="Preferences__EditChatFolderPage__SelectChatsDialog"
-      i18n={i18n}
-      title={props.title}
-      onClose={handleClose}
-      padded={false}
-      noMouseClose
-      hasXButton
-      modalFooter={
-        <Button variant={ButtonVariant.Primary} onClick={handleClose}>
-          {i18n(
-            'icu:Preferences__EditChatFolderPage__SelectChatsDialog__DoneButton'
+    <AxoDialog.Root open onOpenChange={handleClose}>
+      <AxoDialog.Content size="md" escape="cancel-is-destructive">
+        <AxoDialog.Header>
+          <AxoDialog.Title>{props.title}</AxoDialog.Title>
+          <AxoDialog.Close />
+        </AxoDialog.Header>
+        <AxoDialog.ExperimentalSearch>
+          <SearchInput
+            i18n={i18n}
+            placeholder={i18n(
+              'icu:Preferences__EditChatFolderPage__SelectChatsDialog__Search__Placeholder'
+            )}
+            value={searchInput}
+            onChange={handleSearchInputChange}
+            noMargin
+          />
+        </AxoDialog.ExperimentalSearch>
+        <AxoDialog.Body scrollbarWidth="none" padding="only-scrollbar-gutter">
+          {selectedRecipientIds.size > 0 && (
+            <ContactPills>
+              {Array.from(selectedRecipientIds, conversationId => {
+                const conversation = conversationSelector(conversationId);
+                return (
+                  <ContactPill
+                    key={conversationId}
+                    avatarUrl={conversation.avatarUrl}
+                    color={conversation.color}
+                    firstName={conversation.firstName}
+                    hasAvatar={conversation.hasAvatar}
+                    i18n={i18n}
+                    id={conversation.id}
+                    isMe={conversation.isMe}
+                    phoneNumber={conversation.phoneNumber}
+                    profileName={conversation.profileName}
+                    title={conversation.title}
+                    onClickRemove={handleToggleSelectedConversation}
+                  />
+                );
+              })}
+            </ContactPills>
           )}
-        </Button>
-      }
-    >
-      <SearchInput
-        i18n={i18n}
-        placeholder={i18n(
-          'icu:Preferences__EditChatFolderPage__SelectChatsDialog__Search__Placeholder'
-        )}
-        value={searchInput}
-        onChange={handleSearchInputChange}
-      />
-      {selectedRecipientIds.size > 0 && (
-        <ContactPills>
-          {Array.from(selectedRecipientIds, conversationId => {
-            const conversation = conversationSelector(conversationId);
-            return (
-              <ContactPill
-                key={conversationId}
-                avatarUrl={conversation.avatarUrl}
-                color={conversation.color}
-                firstName={conversation.firstName}
-                hasAvatar={conversation.hasAvatar}
-                i18n={i18n}
-                id={conversation.id}
-                isMe={conversation.isMe}
-                phoneNumber={conversation.phoneNumber}
-                profileName={conversation.profileName}
-                title={conversation.title}
-                onClickRemove={handleToggleSelectedConversation}
-              />
-            );
-          })}
-        </ContactPills>
-      )}
-      <SizeObserver>
-        {(ref, size) => {
-          return (
-            <div ref={ref} className={tw('min-h-[100px] w-full grow')}>
-              {size != null && !size.hidden && (
-                <ConversationList
-                  dimensions={size}
-                  i18n={i18n}
-                  getPreferredBadge={props.preferredBadgeSelector}
-                  getRow={index => rows[index]}
-                  onClickContactCheckbox={handleToggleSelectedConversation}
-                  rowCount={rows.length}
-                  shouldRecomputeRowHeights={false}
-                  theme={props.theme}
-                  // never called:
-                  blockConversation={shouldNeverBeCalled}
-                  lookupConversationWithoutServiceId={asyncShouldNeverBeCalled}
-                  onClickArchiveButton={shouldNeverBeCalled}
-                  onClickClearFilterButton={shouldNeverBeCalled}
-                  onOutgoingAudioCallInConversation={shouldNeverBeCalled}
-                  onOutgoingVideoCallInConversation={shouldNeverBeCalled}
-                  onPreloadConversation={shouldNeverBeCalled}
-                  onSelectConversation={shouldNeverBeCalled}
-                  removeConversation={shouldNeverBeCalled}
-                  setIsFetchingUUID={shouldNeverBeCalled}
-                  showChooseGroupMembers={shouldNeverBeCalled}
-                  showConversation={shouldNeverBeCalled}
-                  showFindByPhoneNumber={shouldNeverBeCalled}
-                  showFindByUsername={shouldNeverBeCalled}
-                  showUserNotFoundModal={shouldNeverBeCalled}
-                />
+          <SizeObserver>
+            {(ref, size) => {
+              return (
+                <div ref={ref} className={tw('h-96 w-full')}>
+                  {size != null && !size.hidden && (
+                    <ConversationList
+                      dimensions={size}
+                      i18n={i18n}
+                      getPreferredBadge={props.preferredBadgeSelector}
+                      getRow={index => rows[index]}
+                      onClickContactCheckbox={handleToggleSelectedConversation}
+                      rowCount={rows.length}
+                      shouldRecomputeRowHeights={false}
+                      theme={props.theme}
+                      // never called:
+                      blockConversation={shouldNeverBeCalled}
+                      lookupConversationWithoutServiceId={
+                        asyncShouldNeverBeCalled
+                      }
+                      onClickArchiveButton={shouldNeverBeCalled}
+                      onClickClearFilterButton={shouldNeverBeCalled}
+                      onOutgoingAudioCallInConversation={shouldNeverBeCalled}
+                      onOutgoingVideoCallInConversation={shouldNeverBeCalled}
+                      onPreloadConversation={shouldNeverBeCalled}
+                      onSelectConversation={shouldNeverBeCalled}
+                      removeConversation={shouldNeverBeCalled}
+                      setIsFetchingUUID={shouldNeverBeCalled}
+                      showChooseGroupMembers={shouldNeverBeCalled}
+                      showConversation={shouldNeverBeCalled}
+                      showFindByPhoneNumber={shouldNeverBeCalled}
+                      showFindByUsername={shouldNeverBeCalled}
+                      showUserNotFoundModal={shouldNeverBeCalled}
+                    />
+                  )}
+                </div>
+              );
+            }}
+          </SizeObserver>
+        </AxoDialog.Body>
+        <AxoDialog.Footer>
+          <AxoDialog.Actions>
+            <AxoDialog.Action variant="primary" onClick={handleClose}>
+              {i18n(
+                'icu:Preferences__EditChatFolderPage__SelectChatsDialog__DoneButton'
               )}
-            </div>
-          );
-        }}
-      </SizeObserver>
-    </Modal>
+            </AxoDialog.Action>
+          </AxoDialog.Actions>
+        </AxoDialog.Footer>
+      </AxoDialog.Content>
+    </AxoDialog.Root>
   );
 }
