@@ -54,10 +54,10 @@ export type OwnProps = Readonly<{
   status?: MessageStatusType;
   textPending?: boolean;
   timestamp: number;
-  cancelAttachmentDownload(): void;
-  kickOffAttachmentDownload(): void;
-  onCorrupted(): void;
-  computePeaks(url: string, barCount: number): Promise<ComputePeaksResult>;
+  cancelAttachmentDownload: () => void;
+  kickOffAttachmentDownload: () => void;
+  onCorrupted: () => void;
+  computePeaks: (url: string, barCount: number) => Promise<ComputePeaksResult>;
   onPlayMessage: (id: string, position: number) => void;
 }>;
 

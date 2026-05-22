@@ -14,9 +14,9 @@ const { noop } = lodash;
 const log = createLogger('JobQueueDatabaseStore');
 
 type Database = {
-  getJobsInQueue(queueType: string): Promise<Array<StoredJob>>;
-  insertJob(job: Readonly<StoredJob>): Promise<void>;
-  deleteJob(id: string): Promise<void>;
+  getJobsInQueue: (queueType: string) => Promise<Array<StoredJob>>;
+  insertJob: (job: Readonly<StoredJob>) => Promise<void>;
+  deleteJob: (id: string) => Promise<void>;
 };
 
 export class JobQueueDatabaseStore implements JobQueueStore {

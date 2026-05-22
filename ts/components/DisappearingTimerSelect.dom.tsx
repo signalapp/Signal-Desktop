@@ -15,7 +15,7 @@ export type Props = {
 
   disabled?: boolean;
   value?: DurationInSeconds;
-  onChange(value: DurationInSeconds): void;
+  onChange: (value: DurationInSeconds) => void;
 };
 
 export function DisappearingTimerSelect(props: Props): JSX.Element {

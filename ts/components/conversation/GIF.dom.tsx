@@ -46,11 +46,11 @@ export type Props = {
   readonly i18n: LocalizerType;
   readonly theme?: ThemeType;
 
-  onError(): void;
+  onError: () => void;
   showMediaNoLongerAvailableToast?: () => void;
-  showVisualAttachment(): void;
-  startDownload(): void;
-  cancelDownload(): void;
+  showVisualAttachment: () => void;
+  startDownload: () => void;
+  cancelDownload: () => void;
 };
 
 type MediaEvent = SyntheticEvent<HTMLVideoElement>;

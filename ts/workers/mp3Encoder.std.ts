@@ -19,7 +19,7 @@ declare const AudioWorkletProcessor: {
 };
 
 type AudioWorkletProcessorImpl = Readonly<{
-  process(inputs: Array<Array<Float32Array<ArrayBuffer>>>): boolean;
+  process: (inputs: Array<Array<Float32Array<ArrayBuffer>>>) => boolean;
 }> &
   AudioWorkletProcessor;
 

@@ -9,16 +9,16 @@ export type Callback = (change: NativeThemeState) => void;
 // oxlint-disable-next-line typescript/consistent-type-definitions
 export interface MinimalIPC {
   // oxlint-disable-next-line typescript/no-explicit-any
-  send(channel: string, ...args: ReadonlyArray<any>): void;
+  send: (channel: string, ...args: ReadonlyArray<any>) => void;
 
   // oxlint-disable-next-line typescript/no-explicit-any
-  sendSync(channel: string): any;
+  sendSync: (channel: string) => any;
 
-  on(
+  on: (
     channel: string,
     // oxlint-disable-next-line typescript/no-explicit-any
     listener: (event: unknown, ...args: ReadonlyArray<any>) => void
-  ): this;
+  ) => this;
 }
 export type SystemThemeHolder = { systemTheme: SystemThemeType };
 

@@ -19,7 +19,7 @@ const CACHED_AUTH_TTL = 23 * HOUR;
 export type CDSBaseOptionsType = Readonly<{
   logger: LoggerType;
   proxyUrl?: string;
-  getAuth(): Promise<CDSAuthType>;
+  getAuth: () => Promise<CDSAuthType>;
 }>;
 
 export type CachedAuthType = Readonly<{

@@ -147,7 +147,7 @@ export function addGlobalKeyboardShortcuts(): void {
         (target.attributes as any).class.value
       ) {
         const className = (target.attributes as any).class.value;
-        /* eslint-enable @typescript-eslint/no-explicit-any */
+        /* oxlint-enable @typescript-eslint/no-explicit-any */
 
         // Search box wants to handle events internally
         if (className.includes('LeftPaneSearchInput__input')) {

@@ -44,13 +44,13 @@ export type PropsType = {
     | 'title'
     | 'type'
   >;
-  bounceAppIconStart(): unknown;
-  bounceAppIconStop(): unknown;
-  notifyForCall(
+  bounceAppIconStart: () => unknown;
+  bounceAppIconStop: () => unknown;
+  notifyForCall: (
     conversationId: string,
     conversationTitle: string,
     isVideoCall: boolean
-  ): unknown;
+  ) => unknown;
 } & (
   | {
       callMode: CallMode.Direct;

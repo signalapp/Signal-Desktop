@@ -20,7 +20,7 @@ export type ComputePeaksResult = {
 };
 
 export type Contents = {
-  computePeaks(url: string, barCount: number): Promise<ComputePeaksResult>;
+  computePeaks: (url: string, barCount: number) => Promise<ComputePeaksResult>;
 };
 
 // This context's value is effectively global. This is not ideal but is necessary because

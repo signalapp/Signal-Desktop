@@ -78,9 +78,9 @@ export type IpcResponseType = Readonly<{
 
 export type DesktopCapturerOptionsType = Readonly<{
   i18n: LocalizerType;
-  onPresentableSources(sources: ReadonlyArray<PresentableSource>): void;
-  onMediaStream(stream: MediaStream): void;
-  onError(error: Error): void;
+  onPresentableSources: (sources: ReadonlyArray<PresentableSource>) => void;
+  onMediaStream: (stream: MediaStream) => void;
+  onError: (error: Error) => void;
 }>;
 
 export type DesktopCapturerBaton = Readonly<{

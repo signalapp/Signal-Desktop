@@ -9,7 +9,7 @@ const log = createLogger('StartupQueue');
 
 type EntryType = Readonly<{
   value: number;
-  callback(): Promise<void>;
+  callback: () => Promise<void>;
 }>;
 
 let startupProcessingQueue: StartupQueue | undefined;

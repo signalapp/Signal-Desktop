@@ -4,7 +4,7 @@
 import { powerMonitor } from 'electron';
 
 export type InitializeOptions = {
-  send(event: string): void;
+  send: (event: string) => void;
 };
 
 export namespace PowerChannel {

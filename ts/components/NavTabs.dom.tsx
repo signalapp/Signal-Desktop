@@ -128,7 +128,7 @@ export type NavTabPanelProps = Readonly<{
   collapsed: boolean;
   hasFailedStorySends: boolean;
   hasPendingUpdate: boolean;
-  onToggleCollapse(collapsed: boolean): void;
+  onToggleCollapse: (collapsed: boolean) => void;
 }>;
 
 export type NavTabsToggleProps = Readonly<{
@@ -137,7 +137,7 @@ export type NavTabsToggleProps = Readonly<{
   hasFailedStorySends: boolean;
   hasPendingUpdate: boolean;
   navTabsCollapsed: boolean;
-  onToggleNavTabsCollapse(navTabsCollapsed: boolean): void;
+  onToggleNavTabsCollapse: (navTabsCollapsed: boolean) => void;
 }>;
 
 export function NavTabsToggle({

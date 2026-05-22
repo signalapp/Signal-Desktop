@@ -5,10 +5,10 @@ export type JobQueueStore = {
   /**
    * Add a job to the database. Doing this should enqueue it in the stream.
    */
-  insert(
+  insert: (
     job: Readonly<StoredJob>,
     options?: Readonly<{ shouldPersist?: boolean }>
-  ): Promise<void>;
+  ) => Promise<void>;
 
   /**
    * Remove a job. This should be called when a job finishes successfully or
@@ -16,13 +16,13 @@ export type JobQueueStore = {
    *
    * It should NOT be called to cancel a job.
    */
-  delete(id: string): Promise<void>;
+  delete: (id: string) => Promise<void>;
 
   /**
    * Stream jobs for a given queue. At startup, this stream may produce a bunch of
    * jobs. After that, it should produce one job per `insert`.
    */
-  stream(queueType: string): AsyncIterable<StoredJob>;
+  stream: (queueType: string) => AsyncIterable<StoredJob>;
 };
 
 export type ParsedJob<T> = {

@@ -18,7 +18,7 @@ const UPDATE_INTERVAL = 2 * durations.DAY;
 const UPDATE_TIME_STORAGE_KEY = 'nextScheduledUpdateKeyTime';
 
 export type MinimalEventsType = {
-  on(event: 'timetravel', callback: () => void): void;
+  on: (event: 'timetravel', callback: () => void) => void;
 };
 
 let initComplete = false;

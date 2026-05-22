@@ -147,23 +147,23 @@ export type Props = Readonly<{
   theme: ThemeType;
   placeholder?: string;
   sortedGroupMembers: ReadonlyArray<ConversationType> | null;
-  onDirtyChange?(dirty: boolean): unknown;
-  onEditorStateChange(options: {
+  onDirtyChange?: (dirty: boolean) => unknown;
+  onEditorStateChange: (options: {
     bodyRanges: DraftBodyRanges;
     caretLocation?: number;
     conversationId: string | undefined;
     messageText: string;
     sendCounter: number;
-  }): unknown;
-  onTextTooLong(): unknown;
+  }) => unknown;
+  onTextTooLong: () => unknown;
   onSelectEmoji: (emojiSelection: FunEmojiSelection) => void;
   onBlur?: () => unknown;
   onFocus?: () => unknown;
-  onSubmit(
+  onSubmit: (
     message: string,
     bodyRanges: DraftBodyRanges,
     timestamp: number
-  ): unknown;
+  ) => unknown;
   onScroll?: (ev: UIEvent<HTMLElement>) => void;
   ourConversationId: string | undefined;
   platform: string;
@@ -171,7 +171,7 @@ export type Props = Readonly<{
   shouldHidePopovers: boolean | null;
   linkPreviewLoading?: boolean;
   linkPreviewResult: LinkPreviewForUIType | null;
-  onCloseLinkPreview?(conversationId: string): unknown;
+  onCloseLinkPreview?: (conversationId: string) => unknown;
   showViewOnceButton: boolean;
   isViewOnceActive: boolean;
   onToggleViewOnce: () => void;

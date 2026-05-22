@@ -139,11 +139,11 @@ class ActiveWindowService {
 }
 
 export type ActiveWindowServiceType = {
-  isActive(): boolean;
-  registerForActive(callback: () => void): void;
-  unregisterForActive(callback: () => void): void;
-  registerForChange(callback: (isActive: boolean) => void): void;
-  unregisterForChange(callback: (isActive: boolean) => void): void;
+  isActive: () => boolean;
+  registerForActive: (callback: () => void) => void;
+  unregisterForActive: (callback: () => void) => void;
+  registerForChange: (callback: (isActive: boolean) => void) => void;
+  unregisterForChange: (callback: (isActive: boolean) => void) => void;
 };
 
 export function getActiveWindowService(

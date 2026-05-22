@@ -418,7 +418,7 @@ export function ForwardMessagesModal({
 type ForwardMessageEditorProps = Readonly<{
   draft: MessageForwardDraft;
   linkPreview: LinkPreviewForUIType | null | void;
-  removeLinkPreview(): void;
+  removeLinkPreview: () => void;
   RenderCompositionTextArea: ComponentType<SmartCompositionTextAreaProps>;
   onChange: (
     messageText: string,

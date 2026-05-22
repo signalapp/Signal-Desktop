@@ -62,7 +62,7 @@ export type NavSidebarProps = Readonly<{
   hideHeader?: boolean;
   navTabsCollapsed: boolean;
   onBack?: (() => void) | null;
-  onToggleNavTabsCollapse(navTabsCollapsed: boolean): void;
+  onToggleNavTabsCollapse: (navTabsCollapsed: boolean) => void;
   preferredLeftPaneWidth: number;
   requiresFullWidth: boolean;
   savePreferredLeftPaneWidth: (width: number) => void;

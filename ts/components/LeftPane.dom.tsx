@@ -210,7 +210,7 @@ export type PropsType = {
   renderUpdateDialog: (
     _: Readonly<{ containerWidthBreakpoint: WidthBreakpoint }>
   ) => JSX.Element;
-  renderCaptchaDialog: (props: { onSkip(): void }) => JSX.Element;
+  renderCaptchaDialog: (props: { onSkip: () => void }) => JSX.Element;
   renderCrashReportDialog: () => JSX.Element;
   renderExpiredBuildDialog: (_: DialogExpiredBuildPropsType) => JSX.Element;
   renderLeftPaneChatFolders: () => JSX.Element;

@@ -27,12 +27,15 @@ const log = createLogger('copyQuote');
 const { i18n } = window.SignalContext;
 
 export type MinimalMessageCache = Readonly<{
-  findBySentAt(
+  findBySentAt: (
     sentAt: number,
     predicate: (attributes: MessageModel) => boolean
-  ): Promise<MessageModel | undefined>;
-  upgradeSchema(message: MessageModel, minSchemaVersion: number): Promise<void>;
-  register(message: MessageModel): MessageModel;
+  ) => Promise<MessageModel | undefined>;
+  upgradeSchema: (
+    message: MessageModel,
+    minSchemaVersion: number
+  ) => Promise<void>;
+  register: (message: MessageModel) => MessageModel;
 }>;
 
 export type CopyQuoteOptionsType = Readonly<{

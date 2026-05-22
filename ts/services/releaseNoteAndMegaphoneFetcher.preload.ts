@@ -64,7 +64,7 @@ const VERSION_WATERMARK_STORAGE_KEY = 'releaseNotesVersionWatermark';
 const BUCKET_VALUE_HASH_SALT = 'ReleaseNoteAndMegaphoneFetcher';
 
 type MinimalEventsType = {
-  on(event: 'timetravel', callback: () => void): void;
+  on: (event: 'timetravel', callback: () => void) => void;
 };
 
 type FetchOptions = {

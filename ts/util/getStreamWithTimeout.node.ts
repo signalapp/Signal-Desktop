@@ -7,7 +7,7 @@ import { clearTimeoutIfNecessary } from './clearTimeoutIfNecessary.std.ts';
 export type OptionsType = Readonly<{
   name: string;
   timeout: number;
-  abortController: { abort(): void };
+  abortController: { abort: () => void };
 }>;
 
 class StreamTimeoutError extends Error {}

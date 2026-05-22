@@ -58,8 +58,8 @@ declare module 'mp4box' {
   export type MP4ArrayBuffer = ArrayBuffer & { fileStart: number };
 
   export type MP4File = {
-    appendBuffer(data: MP4ArrayBuffer): number;
-    flush(): void;
+    appendBuffer: (data: MP4ArrayBuffer) => number;
+    flush: () => void;
     onError?: (e: string) => void;
     onReady?: (info: MP4Info) => void;
   };

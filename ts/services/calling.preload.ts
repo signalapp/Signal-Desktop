@@ -257,7 +257,7 @@ type CallingReduxInterface = Pick<
   | 'setMutedBy'
   | 'onObservedRemoteMute'
 > & {
-  areAnyCallsActiveOrRinging(): boolean;
+  areAnyCallsActiveOrRinging: () => boolean;
 };
 
 export type SetPresentingOptionsType = Readonly<{

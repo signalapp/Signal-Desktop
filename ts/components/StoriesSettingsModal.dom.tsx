@@ -144,7 +144,7 @@ type DistributionListItemProps = {
   distributionList: StoryDistributionListWithMembersDataType;
   me: ConversationType;
   signalConnections: Array<ConversationType>;
-  onSelectItemToEdit(id: StoryDistributionIdString): void;
+  onSelectItemToEdit: (id: StoryDistributionIdString) => void;
 };
 
 function DistributionListItem({
@@ -200,7 +200,7 @@ function DistributionListItem({
 type GroupStoryItemProps = {
   i18n: LocalizerType;
   groupStory: ConversationType;
-  onSelectGroupToView(id: string): void;
+  onSelectGroupToView: (id: string) => void;
 };
 
 function GroupStoryItem({
@@ -1269,12 +1269,12 @@ export function EditDistributionListModal({
 type GroupStorySettingsModalProps = {
   i18n: LocalizerType;
   group: ConversationType;
-  onClose(): void;
-  onBackButtonClick(): void;
-  getConversationByServiceId(
+  onClose: () => void;
+  onBackButtonClick: () => void;
+  getConversationByServiceId: (
     serviceId: ServiceIdString
-  ): ConversationType | undefined;
-  onRemoveGroup(group: ConversationType): void;
+  ) => ConversationType | undefined;
+  onRemoveGroup: (group: ConversationType) => void;
 };
 
 function GroupStorySettingsModal({

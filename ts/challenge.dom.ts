@@ -44,8 +44,8 @@ export type IPCResponse = Readonly<{
 type Handler = Readonly<{
   token: string | undefined;
 
-  resolve(response: ChallengeResponse): void;
-  reject(error: Error): void;
+  resolve: (response: ChallengeResponse) => void;
+  reject: (error: Error) => void;
 }>;
 
 export type ChallengeData = Readonly<{
@@ -57,16 +57,18 @@ export type ChallengeData = Readonly<{
 export type Options = Readonly<{
   storage: Pick<StorageInterface, 'get' | 'put'>;
 
-  requestChallenge(request: IPCRequest): void;
+  requestChallenge: (request: IPCRequest) => void;
 
-  startQueue(conversationId: string): void;
+  startQueue: (conversationId: string) => void;
 
-  sendChallengeResponse(data: ChallengeData): Promise<void>;
+  sendChallengeResponse: (data: ChallengeData) => Promise<void>;
 
-  setChallengeStatus(challengeStatus: 'idle' | 'required' | 'pending'): void;
+  setChallengeStatus: (
+    challengeStatus: 'idle' | 'required' | 'pending'
+  ) => void;
 
-  onChallengeSolved(): void;
-  onChallengeFailed(retryAfter?: number): void;
+  onChallengeSolved: () => void;
+  onChallengeFailed: (retryAfter?: number) => void;
 
   expireAfter?: number;
 }>;

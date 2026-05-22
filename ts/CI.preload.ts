@@ -30,9 +30,9 @@ export type CIType = {
   deviceName: string;
   getConversationId: (address: string | null) => string | null;
   createNotificationToken: (address: string) => string | undefined;
-  getMessagesBySentAt(
+  getMessagesBySentAt: (
     sentAt: number
-  ): Promise<ReadonlyArray<MessageAttributesType>>;
+  ) => Promise<ReadonlyArray<MessageAttributesType>>;
   getPendingEventCount: (event: string) => number;
   getSocketStatus: () => SocketStatuses;
   handleEvent: (event: string, data: unknown) => unknown;
@@ -46,16 +46,16 @@ export type CIType = {
       ignorePastEvents?: boolean;
     }
   ) => unknown;
-  openSignalRoute(url: string): Promise<void>;
-  migrateAllMessages(): Promise<void>;
-  exportLocalBackup(backupsBaseDir: string): Promise<string>;
-  stageLocalBackupForImport(snapshotDir: string): Promise<void>;
-  uploadBackup(): Promise<void>;
+  openSignalRoute: (url: string) => Promise<void>;
+  migrateAllMessages: () => Promise<void>;
+  exportLocalBackup: (backupsBaseDir: string) => Promise<string>;
+  stageLocalBackupForImport: (snapshotDir: string) => Promise<void>;
+  uploadBackup: () => Promise<void>;
   unlink: () => void;
   print: (...args: ReadonlyArray<unknown>) => void;
-  resetReleaseNoteAndMegaphoneFetcher(): void;
+  resetReleaseNoteAndMegaphoneFetcher: () => void;
   forceUnprocessed: boolean;
-  setMediaPermissions(): Promise<void>;
+  setMediaPermissions: () => Promise<void>;
   maybeUpdateMaxAudioLevel: (level: number) => void;
   getAndResetMaxAudioLevel: () => number | undefined;
 };

@@ -144,8 +144,8 @@ export type OwnProps = Readonly<{
   left: boolean | null;
   linkPreviewLoading: boolean;
   linkPreviewResult: LinkPreviewForUIType | null;
-  onClearAttachments(conversationId: string): unknown;
-  onCloseLinkPreview(conversationId: string): unknown;
+  onClearAttachments: (conversationId: string) => unknown;
+  onCloseLinkPreview: (conversationId: string) => unknown;
   platform: string;
   showToast: ShowToastAction;
   processAttachments: (options: {
@@ -153,12 +153,12 @@ export type OwnProps = Readonly<{
     files: ReadonlyArray<File>;
     flags: number | null;
   }) => unknown;
-  setMediaQualitySetting(conversationId: string, isHQ: boolean): unknown;
-  sendStickerMessage(
+  setMediaQualitySetting: (conversationId: string, isHQ: boolean) => unknown;
+  sendStickerMessage: (
     id: string,
     opts: { packId: string; stickerId: number }
-  ): unknown;
-  sendEditedMessage(
+  ) => unknown;
+  sendEditedMessage: (
     conversationId: string,
     options: {
       bodyRanges?: DraftBodyRanges;
@@ -167,8 +167,8 @@ export type OwnProps = Readonly<{
       quoteSentAt?: number;
       targetMessageId: string;
     }
-  ): unknown;
-  sendMultiMediaMessage(
+  ) => unknown;
+  sendMultiMediaMessage: (
     conversationId: string,
     options: {
       draftAttachments?: ReadonlyArray<AttachmentDraftType>;
@@ -178,8 +178,8 @@ export type OwnProps = Readonly<{
       timestamp?: number;
       voiceNoteAttachment?: InMemoryAttachmentDraftType;
     }
-  ): unknown;
-  sendPoll(conversationId: string, poll: PollCreateType): unknown;
+  ) => unknown;
+  sendPoll: (conversationId: string, poll: PollCreateType) => unknown;
   quotedMessageId: string | null;
   quotedMessageProps: null | ReadonlyDeep<
     Omit<
@@ -196,17 +196,17 @@ export type OwnProps = Readonly<{
   ) => unknown;
   scrollToMessage: (conversationId: string, messageId: string) => unknown;
   setComposerFocus: (conversationId: string) => unknown;
-  setMessageToEdit(conversationId: string, messageId: string): unknown;
-  setQuoteByMessageId(
+  setMessageToEdit: (conversationId: string, messageId: string) => unknown;
+  setQuoteByMessageId: (
     conversationId: string,
     messageId: string | undefined
-  ): unknown;
+  ) => unknown;
   isViewOnce: boolean;
-  setViewOnce(options: {
+  setViewOnce: (options: {
     conversationId: string;
     value: boolean;
     toastNotify: boolean;
-  }): unknown;
+  }) => unknown;
   shouldSendHighQualityAttachments: boolean;
   showConversation: ShowConversationType;
   warmupRecording: () => void;

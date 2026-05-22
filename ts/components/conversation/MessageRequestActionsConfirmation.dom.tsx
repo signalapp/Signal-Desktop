@@ -25,18 +25,18 @@ export type MessageRequestActionsConfirmationBaseProps = {
   conversationName: ContactNameData;
   isBlocked: boolean;
   isReported: boolean;
-  acceptConversation(conversationId: string): void;
-  blockAndReportSpam(conversationId: string): void;
-  blockConversation(conversationId: string): void;
-  reportSpam(conversationId: string): void;
-  deleteConversation(conversationId: string): void;
+  acceptConversation: (conversationId: string) => void;
+  blockAndReportSpam: (conversationId: string) => void;
+  blockConversation: (conversationId: string) => void;
+  reportSpam: (conversationId: string) => void;
+  deleteConversation: (conversationId: string) => void;
 };
 
 export type MessageRequestActionsConfirmationProps =
   MessageRequestActionsConfirmationBaseProps & {
     i18n: LocalizerType;
     state: MessageRequestState;
-    onChangeState(state: MessageRequestState): void;
+    onChangeState: (state: MessageRequestState) => void;
   };
 
 function Bold(parts: Array<string | JSX.Element>) {

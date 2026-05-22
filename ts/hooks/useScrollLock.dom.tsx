@@ -7,9 +7,9 @@ import { createLogger } from '../logging/log.std.ts';
 const log = createLogger('useScrollLock');
 
 export type ScrollerLock = Readonly<{
-  isLocked(): boolean;
-  lock(reason: string, onUserInterrupt: () => void): () => void;
-  onUserInterrupt(reason: string): void;
+  isLocked: () => boolean;
+  lock: (reason: string, onUserInterrupt: () => void) => () => void;
+  onUserInterrupt: (reason: string) => void;
 }>;
 
 export function createScrollerLock(
@@ -59,7 +59,7 @@ export const ScrollerLockContext = createContext<ScrollerLock | null>(null);
 export type ScrollLockProps = Readonly<{
   reason: string;
   lockScrollWhen: boolean;
-  onUserInterrupt(): void;
+  onUserInterrupt: () => void;
 }>;
 
 export function useScrollerLock({
