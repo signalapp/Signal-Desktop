@@ -262,10 +262,11 @@ export class FormattingMenu {
   }
 
   isStyleEnabledInSelection(style: QuillFormattingStyle): boolean {
-    if (!this.quill.hasFocus()) {
+    const selection = this.quill.getSelection();
+    if (selection == null) {
       return false;
     }
-    return this.quill.getFormat()[style] != null;
+    return this.quill.getFormat(selection)[style] != null;
   }
 
   toggleForStyle(style: QuillFormattingStyle): void {
