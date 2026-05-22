@@ -5,7 +5,6 @@ import { useMemo, Fragment, type JSX } from 'react';
 import { tw } from '../../../axo/tw.dom.tsx';
 import { AxoButton } from '../../../axo/AxoButton.dom.tsx';
 import { AxoSymbol } from '../../../axo/AxoSymbol.dom.tsx';
-import { Modal } from '../../Modal.dom.tsx';
 import { Avatar, AvatarSize } from '../../Avatar.dom.tsx';
 import { ContactName } from '../ContactName.dom.tsx';
 import { UserText } from '../../UserText.dom.tsx';
@@ -14,6 +13,7 @@ import type {
   PollVoteWithUserType,
   PollWithResolvedVotersType,
 } from '../../../state/selectors/message.preload.ts';
+import { AxoDialog } from '../../../axo/AxoDialog.dom.tsx';
 
 type PollVotesModalProps = {
   i18n: LocalizerType;
@@ -39,136 +39,144 @@ export function PollVotesModal({
   }, [poll.votesByOption]);
 
   return (
-    <Modal
-      modalName="PollVotesModal"
-      i18n={i18n}
-      title={i18n('icu:PollVotesModal__title')}
-      onClose={onClose}
-      hasXButton
-      padded={false}
-    >
-      <div className={tw('flex flex-col gap-5 px-6 pb-4')}>
-        <div className={tw('mt-4 text-label-primary')}>
-          <div className={tw('mb-3 type-title-small')}>
-            {i18n('icu:PollVotesModal__questionLabel')}
-          </div>
-
-          <div
-            className={tw(
-              'rounded-md bg-fill-secondary px-3 py-1 type-body-large'
-            )}
-          >
-            <UserText text={poll.question} />
-          </div>
-        </div>
-
-        {poll.options.map((option, index, array) => {
-          const voters = poll.votesByOption.get(index) || [];
-          const optionKey = `option-${index}`;
-          const isLastOption = index === array.length - 1;
-          const isWinning = voters.length > 0 && voters.length === maxVoteCount;
-
-          return (
-            <Fragment key={optionKey}>
-              <div className={tw('flex flex-col')}>
-                {/* Option Header */}
-                <div
-                  className={tw(
-                    'mb-3 flex items-start gap-3 text-label-primary'
-                  )}
-                >
-                  <div className={tw('type-title-small')}>
-                    <UserText text={option} />
-                  </div>
-                  <div
-                    className={tw(
-                      'ms-auto mt-[2px] flex shrink-0 items-center gap-1 type-body-medium'
-                    )}
-                  >
-                    {isWinning && (
-                      <AxoSymbol.InlineGlyph
-                        symbol="star-fill"
-                        label={i18n('icu:PollVotesModal__winningOption')}
-                      />
-                    )}
-                    {voters.length > 0 &&
-                      i18n('icu:PollVotesModal__voteCount', {
-                        count: voters.length,
-                      })}
-                  </div>
-                </div>
-
-                {/* Voters List */}
-                {voters.length === 0 ? (
-                  <div className={tw('type-body-medium text-label-secondary')}>
-                    {i18n('icu:PollVotesModal__noVotes')}
-                  </div>
-                ) : (
-                  <div className={tw('flex flex-col gap-4')}>
-                    {voters.map((vote: PollVoteWithUserType) => (
-                      <div
-                        key={vote.from.id}
-                        className={tw('flex items-center gap-3')}
-                      >
-                        <Avatar
-                          avatarUrl={vote.from.avatarUrl}
-                          badge={undefined}
-                          color={vote.from.color}
-                          conversationType="direct"
-                          i18n={i18n}
-                          noteToSelf={false}
-                          phoneNumber={vote.from.phoneNumber}
-                          profileName={vote.from.profileName}
-                          size={AvatarSize.THIRTY_SIX}
-                          title={vote.from.title}
-                        />
-                        <div className={tw('min-w-0 flex-1')}>
-                          <ContactName
-                            title={vote.from.title}
-                            module={tw('type-body-large text-label-primary')}
-                          />
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
+    <AxoDialog.Root open onOpenChange={onClose}>
+      <AxoDialog.Content size="md" escape="cancel-is-noop">
+        <AxoDialog.Header>
+          <AxoDialog.Title>{i18n('icu:PollVotesModal__title')}</AxoDialog.Title>
+        </AxoDialog.Header>
+        <AxoDialog.Body>
+          <div className={tw('flex flex-col gap-5')}>
+            <div className={tw('mt-4 text-label-primary')}>
+              <div className={tw('mb-3 type-title-small')}>
+                {i18n('icu:PollVotesModal__questionLabel')}
               </div>
-              {!isLastOption && (
-                <hr className={tw('border-t-[0.5px] border-label-secondary')} />
-              )}
-            </Fragment>
-          );
-        })}
 
-        {poll.totalNumVotes === 0 && (
-          <div
-            className={tw(
-              'flex items-center justify-center',
-              'type-body-large text-label-secondary'
-            )}
-          >
-            {i18n('icu:PollVotesModal__noVotes')}
-          </div>
-        )}
-
-        {!poll.terminatedAt && canEndPoll && (
-          <>
-            <hr className={tw('border-t-[0.5px] border-label-secondary')} />
-            <div className={tw('flex justify-center')}>
-              <AxoButton.Root
-                size="lg"
-                variant="secondary"
-                onClick={() => {
-                  endPoll(messageId);
-                  onClose();
-                }}
+              <div
+                className={tw(
+                  'rounded-md bg-fill-secondary px-3 py-1 type-body-large'
+                )}
               >
-                {i18n('icu:Poll__end-poll')}
-              </AxoButton.Root>
+                <UserText text={poll.question} />
+              </div>
             </div>
-          </>
-        )}
-      </div>
-    </Modal>
+
+            {poll.options.map((option, index, array) => {
+              const voters = poll.votesByOption.get(index) || [];
+              const optionKey = `option-${index}`;
+              const isLastOption = index === array.length - 1;
+              const isWinning =
+                voters.length > 0 && voters.length === maxVoteCount;
+
+              return (
+                <Fragment key={optionKey}>
+                  <div className={tw('flex flex-col')}>
+                    {/* Option Header */}
+                    <div
+                      className={tw(
+                        'mb-3 flex items-start gap-3 text-label-primary'
+                      )}
+                    >
+                      <div className={tw('type-title-small')}>
+                        <UserText text={option} />
+                      </div>
+                      <div
+                        className={tw(
+                          'ms-auto mt-[2px] flex shrink-0 items-center gap-1 type-body-medium'
+                        )}
+                      >
+                        {isWinning && (
+                          <AxoSymbol.InlineGlyph
+                            symbol="star-fill"
+                            label={i18n('icu:PollVotesModal__winningOption')}
+                          />
+                        )}
+                        {voters.length > 0 &&
+                          i18n('icu:PollVotesModal__voteCount', {
+                            count: voters.length,
+                          })}
+                      </div>
+                    </div>
+
+                    {/* Voters List */}
+                    {voters.length === 0 ? (
+                      <div
+                        className={tw('type-body-medium text-label-secondary')}
+                      >
+                        {i18n('icu:PollVotesModal__noVotes')}
+                      </div>
+                    ) : (
+                      <div className={tw('flex flex-col gap-4')}>
+                        {voters.map((vote: PollVoteWithUserType) => (
+                          <div
+                            key={vote.from.id}
+                            className={tw('flex items-center gap-3')}
+                          >
+                            <Avatar
+                              avatarUrl={vote.from.avatarUrl}
+                              badge={undefined}
+                              color={vote.from.color}
+                              conversationType="direct"
+                              i18n={i18n}
+                              noteToSelf={false}
+                              phoneNumber={vote.from.phoneNumber}
+                              profileName={vote.from.profileName}
+                              size={AvatarSize.THIRTY_SIX}
+                              title={vote.from.title}
+                            />
+                            <div className={tw('min-w-0 flex-1')}>
+                              <ContactName
+                                title={vote.from.title}
+                                module={tw(
+                                  'type-body-large text-label-primary'
+                                )}
+                              />
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                  {!isLastOption && (
+                    <hr
+                      className={tw('border-t-[0.5px] border-label-secondary')}
+                    />
+                  )}
+                </Fragment>
+              );
+            })}
+
+            {poll.totalNumVotes === 0 && (
+              <div
+                className={tw(
+                  'flex items-center justify-center',
+                  'type-body-large text-label-secondary'
+                )}
+              >
+                {i18n('icu:PollVotesModal__noVotes')}
+              </div>
+            )}
+
+            {!poll.terminatedAt && canEndPoll && (
+              <>
+                <hr className={tw('border-t-[0.5px] border-label-secondary')} />
+                <div className={tw('flex justify-center')}>
+                  <AxoButton.Root
+                    size="lg"
+                    variant="secondary"
+                    onClick={() => {
+                      endPoll(messageId);
+                      onClose();
+                    }}
+                  >
+                    {i18n('icu:Poll__end-poll')}
+                  </AxoButton.Root>
+                </div>
+              </>
+            )}
+          </div>
+        </AxoDialog.Body>
+        <AxoDialog.Footer />
+      </AxoDialog.Content>
+    </AxoDialog.Root>
   );
 }

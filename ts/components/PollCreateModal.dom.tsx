@@ -13,11 +13,8 @@ import { flushSync } from 'react-dom';
 import { v4 as generateUuid } from 'uuid';
 import { tw } from '../axo/tw.dom.tsx';
 import type { LocalizerType } from '../types/Util.std.ts';
-import { Modal } from './Modal.dom.tsx';
 import { AutoSizeTextArea } from './AutoSizeTextArea.dom.tsx';
-import { AxoButton } from '../axo/AxoButton.dom.tsx';
 import { AxoSwitch } from '../axo/AxoSwitch.dom.tsx';
-import { Toast } from './Toast.dom.tsx';
 import { FunEmojiPicker } from './fun/FunEmojiPicker.dom.tsx';
 import { FunEmojiPickerButton } from './fun/FunButton.dom.tsx';
 import type { FunEmojiSelection } from './fun/panels/FunPanelEmojis.dom.tsx';
@@ -31,6 +28,8 @@ import {
 } from '../types/Polls.dom.ts';
 import { count as countGraphemes } from '../util/grapheme.std.ts';
 import { MAX_MESSAGE_BODY_BYTE_LENGTH } from '../util/longAttachment.std.ts';
+import { AxoDialog } from '../axo/AxoDialog.dom.tsx';
+import { AxoSymbol } from '../axo/AxoSymbol.dom.tsx';
 
 type PollOption = {
   id: string;
@@ -294,127 +293,137 @@ export function PollCreateModal({
   }, [validatePoll, question, options, allowMultiple, onSendPoll]);
 
   return (
-    <Modal
-      modalName="PollCreateModal"
-      i18n={i18n}
-      title={i18n('icu:PollCreateModal__title')}
-      hasXButton
-      onClose={onClose}
-      noMouseClose
-    >
-      {/* Visually hidden error messages for screen readers */}
-      <div id="poll-question-error" className={tw('sr-only')}>
-        {i18n('icu:PollCreateModal__Error--RequiresQuestion')}
-      </div>
-      <div id="poll-options-error" className={tw('sr-only')}>
-        {i18n('icu:PollCreateModal__Error--RequiresTwoOptions')}
-      </div>
-
-      <div className={tw('flex flex-col')}>
-        <div className={tw('ms-2 mt-4')}>
-          <div className={tw('type-body-medium font-semibold')}>
-            {i18n('icu:PollCreateModal__questionLabel')}
+    <AxoDialog.Root open onOpenChange={onClose}>
+      <AxoDialog.Content size="md" escape="cancel-is-destructive">
+        <AxoDialog.Header>
+          <AxoDialog.Title>
+            {i18n('icu:PollCreateModal__title')}
+          </AxoDialog.Title>
+          <AxoDialog.Close />
+        </AxoDialog.Header>
+        <AxoDialog.Body>
+          {/* Visually hidden error messages for screen readers */}
+          <div id="poll-question-error" className={tw('sr-only')}>
+            {i18n('icu:PollCreateModal__Error--RequiresQuestion')}
+          </div>
+          <div id="poll-options-error" className={tw('sr-only')}>
+            {i18n('icu:PollCreateModal__Error--RequiresTwoOptions')}
           </div>
 
-          <div className={tw('mt-5')}>
-            <AutoSizeTextArea
-              ref={questionInputRef}
-              i18n={i18n}
-              moduleClassName="PollCreateModalInput"
-              value={question}
-              onChange={handleQuestionChange}
-              placeholder={i18n('icu:PollCreateModal__questionPlaceholder')}
-              maxLengthCount={POLL_QUESTION_MAX_LENGTH_SEND}
-              whenToShowRemainingCount={POLL_QUESTION_MAX_LENGTH_SEND - 30}
-              aria-invalid={validationErrors.question || undefined}
-              aria-errormessage={
-                validationErrors.question ? 'poll-question-error' : undefined
-              }
-            />
-          </div>
+          <div className={tw('mb-2.5 flex flex-col')}>
+            <div className={tw('ms-2 mt-4')}>
+              <div className={tw('type-body-medium font-semibold')}>
+                {i18n('icu:PollCreateModal__questionLabel')}
+              </div>
 
-          <div className={tw('mt-5 type-body-medium font-semibold')}>
-            {i18n('icu:PollCreateModal__optionsLabel')}
-          </div>
-
-          <div className={tw('mt-5 flex flex-col gap-4')}>
-            {options.map((option, index) => (
-              <div key={option.id}>
+              <div className={tw('mt-5')}>
                 <AutoSizeTextArea
-                  ref={el => {
-                    optionRefsMap.current.set(option.id, el);
-                  }}
+                  ref={questionInputRef}
                   i18n={i18n}
                   moduleClassName="PollCreateModalInput"
-                  value={option.value}
-                  onChange={value => handleOptionChange(option.id, value)}
-                  onEnter={e => handleEnterKey(e, index)}
-                  placeholder={i18n('icu:PollCreateModal__optionPlaceholder', {
-                    number: String(index + 1),
-                  })}
-                  maxLengthCount={POLL_OPTION_MAX_LENGTH}
-                  whenToShowRemainingCount={POLL_OPTION_MAX_LENGTH - 30}
-                  aria-invalid={validationErrors.options || undefined}
+                  value={question}
+                  onChange={handleQuestionChange}
+                  placeholder={i18n('icu:PollCreateModal__questionPlaceholder')}
+                  maxLengthCount={POLL_QUESTION_MAX_LENGTH_SEND}
+                  whenToShowRemainingCount={POLL_QUESTION_MAX_LENGTH_SEND - 30}
+                  aria-invalid={validationErrors.question || undefined}
                   aria-errormessage={
-                    validationErrors.options ? 'poll-options-error' : undefined
+                    validationErrors.question
+                      ? 'poll-question-error'
+                      : undefined
                   }
-                >
-                  <FunEmojiPicker
-                    open={emojiPickerOpenForOption === option.id}
-                    onOpenChange={open => {
-                      setEmojiPickerOpenForOption(open ? option.id : null);
-                    }}
-                    onSelectEmoji={emojiSelection =>
-                      handleSelectEmoji(option.id, emojiSelection)
-                    }
-                    closeOnSelect
-                  >
-                    <FunEmojiPickerButton i18n={i18n} />
-                  </FunEmojiPicker>
-                </AutoSizeTextArea>
+                />
               </div>
-            ))}
-          </div>
-        </div>
 
-        <div className={tw('mt-8 h-[0.5px] bg-border-primary')} />
+              <div className={tw('mt-5 type-body-medium font-semibold')}>
+                {i18n('icu:PollCreateModal__optionsLabel')}
+              </div>
 
-        <label className={tw('mt-6 flex items-center gap-3')}>
-          <span className={tw('grow type-body-large')}>
-            {i18n('icu:PollCreateModal__allowMultipleVotes')}
-          </span>
-          <AxoSwitch.Root
-            checked={allowMultiple}
-            onCheckedChange={setAllowMultiple}
-          />
-        </label>
-
-        <div
-          className={tw('mt-3 flex min-h-[26px] items-center justify-center')}
-        >
-          {validationErrorMessages && (
-            <div aria-hidden="true">
-              <Toast onClose={() => setValidationErrorMessages(null)}>
-                {validationErrorMessages[0]}
-              </Toast>
+              <div className={tw('mt-5 flex flex-col gap-4')}>
+                {options.map((option, index) => (
+                  <div key={option.id}>
+                    <AutoSizeTextArea
+                      ref={el => {
+                        optionRefsMap.current.set(option.id, el);
+                      }}
+                      i18n={i18n}
+                      moduleClassName="PollCreateModalInput"
+                      value={option.value}
+                      onChange={value => handleOptionChange(option.id, value)}
+                      onEnter={e => handleEnterKey(e, index)}
+                      placeholder={i18n(
+                        'icu:PollCreateModal__optionPlaceholder',
+                        {
+                          number: String(index + 1),
+                        }
+                      )}
+                      maxLengthCount={POLL_OPTION_MAX_LENGTH}
+                      whenToShowRemainingCount={POLL_OPTION_MAX_LENGTH - 30}
+                      aria-invalid={validationErrors.options || undefined}
+                      aria-errormessage={
+                        validationErrors.options
+                          ? 'poll-options-error'
+                          : undefined
+                      }
+                    >
+                      <FunEmojiPicker
+                        open={emojiPickerOpenForOption === option.id}
+                        onOpenChange={open => {
+                          setEmojiPickerOpenForOption(open ? option.id : null);
+                        }}
+                        onSelectEmoji={emojiSelection =>
+                          handleSelectEmoji(option.id, emojiSelection)
+                        }
+                        closeOnSelect
+                      >
+                        <FunEmojiPickerButton i18n={i18n} />
+                      </FunEmojiPicker>
+                    </AutoSizeTextArea>
+                  </div>
+                ))}
+              </div>
             </div>
-          )}
-        </div>
 
-        <div className={tw('mt-3 flex justify-end gap-3')}>
-          <AxoButton.Root variant="secondary" size="lg" onClick={onClose}>
-            {i18n('icu:cancel')}
-          </AxoButton.Root>
-          <AxoButton.Root
-            variant="primary"
-            size="lg"
-            onClick={handleSend}
-            disabled={!allowSend}
-          >
-            {i18n('icu:PollCreateModal__sendButton')}
-          </AxoButton.Root>
-        </div>
-      </div>
-    </Modal>
+            <div className={tw('mt-8 h-[0.5px] bg-border-primary')} />
+
+            <label className={tw('mt-6 flex items-center gap-3')}>
+              <span className={tw('grow type-body-large')}>
+                {i18n('icu:PollCreateModal__allowMultipleVotes')}
+              </span>
+              <AxoSwitch.Root
+                checked={allowMultiple}
+                onCheckedChange={setAllowMultiple}
+              />
+            </label>
+
+            {validationErrorMessages && (
+              <p
+                role="status"
+                className={tw('mt-4 text-center type-body-medium')}
+              >
+                <span className={tw('text-color-label-destructive')}>
+                  <AxoSymbol.InlineGlyph symbol="error" label={null} />
+                </span>{' '}
+                {validationErrorMessages[0]}
+              </p>
+            )}
+          </div>
+        </AxoDialog.Body>
+        <AxoDialog.Footer>
+          <AxoDialog.Actions>
+            <AxoDialog.Action variant="secondary" onClick={onClose}>
+              {i18n('icu:cancel')}
+            </AxoDialog.Action>
+            <AxoDialog.Action
+              variant="primary"
+              onClick={handleSend}
+              disabled={!allowSend}
+            >
+              {i18n('icu:PollCreateModal__sendButton')}
+            </AxoDialog.Action>
+          </AxoDialog.Actions>
+        </AxoDialog.Footer>
+      </AxoDialog.Content>
+    </AxoDialog.Root>
   );
 }

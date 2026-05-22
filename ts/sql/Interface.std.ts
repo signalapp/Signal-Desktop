@@ -419,6 +419,22 @@ export type StickerPackType = InstalledStickerPackType &
     title: string;
   }>;
 
+export const STICKER_PACK_DEFAULTS: StickerPackType = {
+  id: '',
+  key: '',
+
+  author: '',
+  coverStickerId: 0,
+  createdAt: 0,
+  downloadAttempts: 0,
+  status: 'ephemeral',
+  stickerCount: 0,
+  stickers: {},
+  title: '',
+
+  storageNeedsSync: false,
+};
+
 export type StickerPackRefType = Readonly<{
   packId: string;
   messageId: string;

@@ -422,9 +422,10 @@ describe('editing', function (this: Mocha.Suite) {
         .locator('.module-message__metadata__edited')
         .click();
 
-      const history = window.locator(
-        '.EditHistoryMessagesModal .module-message'
-      );
+      const history = window
+        .getByRole('dialog', { name: 'Edit History' })
+        .locator('.module-message');
+
       assert.strictEqual(await history.count(), 3);
 
       assert.isTrue(await history.locator('"edit message 1"').isVisible());

@@ -40,3 +40,7 @@ export default {
 export function Default(): JSX.Element {
   return <SafetyNumberModal {...createProps({})} />;
 }
+
+export function NotReady(): JSX.Element {
+  return <SafetyNumberModal {...createProps({ contact: undefined })} />;
+}

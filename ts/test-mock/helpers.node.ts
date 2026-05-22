@@ -505,7 +505,7 @@ export async function createCallLink(
     .getByText('Create a Call Link')
     .click();
 
-  const editModal = page.locator('.CallLinkEditModal');
+  const editModal = page.getByRole('dialog', { name: 'Call link details' });
   await editModal.waitFor();
 
   if (isAdminApprovalRequired !== undefined) {
@@ -519,7 +519,7 @@ export async function createCallLink(
     }
   }
 
-  await editModal.locator('button', { hasText: 'Add call name' }).click();
+  await editModal.getByRole('button', { name: 'Add call name' }).click();
 
   const addNameModal = page.locator('.CallLinkAddNameModal');
   await addNameModal.waitFor();

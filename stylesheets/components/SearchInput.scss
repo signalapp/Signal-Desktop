@@ -9,6 +9,11 @@
     position: relative;
     margin-inline: 16px;
     margin-bottom: 8px;
+
+    &--noMargin {
+      margin-inline: 0px;
+      margin-bottom: 0px;
+    }
   }
 
   &__icon {

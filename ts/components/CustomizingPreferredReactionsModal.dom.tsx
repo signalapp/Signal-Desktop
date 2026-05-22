@@ -1,12 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-
-import { useState, useCallback, useRef, type JSX } from 'react';
+import { useState, useCallback, type JSX, useMemo } from 'react';
 import lodash from 'lodash';
-
 import type { LocalizerType } from '../types/Util.std.ts';
-import { Modal } from './Modal.dom.tsx';
-import { Button, ButtonVariant } from './Button.dom.tsx';
 import {
   ReactionPickerPicker,
   ReactionPickerPickerEmojiButton,
@@ -15,6 +11,8 @@ import {
 import { FunEmojiPicker } from './fun/FunEmojiPicker.dom.tsx';
 import type { FunEmojiSelection } from './fun/panels/FunPanelEmojis.dom.tsx';
 import { Emoji } from '../axo/emoji.std.ts';
+import { AxoDialog } from '../axo/AxoDialog.dom.tsx';
+import { tw } from '../axo/tw.dom.tsx';
 
 const { isEqual } = lodash;
 
@@ -52,103 +50,90 @@ export function CustomizingPreferredReactionsModal({
   selectDraftEmojiToBeReplaced,
   selectedDraftEmojiIndex,
 }: Readonly<PropsType>): JSX.Element {
-  const pickerRef = useRef<HTMLDivElement>(null);
-
   const isSomethingSelected = selectedDraftEmojiIndex !== undefined;
 
-  const hasChanged = !isEqual(
-    originalPreferredReactions,
-    draftPreferredReactions
-  );
-  const canReset =
-    !isSaving &&
-    !isEqual(
+  const hasChanged = useMemo(() => {
+    return !isEqual(originalPreferredReactions, draftPreferredReactions);
+  }, [originalPreferredReactions, draftPreferredReactions]);
+
+  const isDefaults = useMemo(() => {
+    return isEqual(
       Emoji.getDefaultPreferredReactionEmojis(
         emojiSkinToneDefault ?? Emoji.SkinTone.None
       ),
       draftPreferredReactions
     );
-  const canSave = !isSaving && hasChanged;
-
-  const footer = (
-    <>
-      <Button
-        disabled={!canReset}
-        onClick={() => {
-          resetDraftEmoji();
-        }}
-        onKeyDown={event => {
-          if (event.key === 'Enter' || event.key === 'Space') {
-            resetDraftEmoji();
-          }
-        }}
-        variant={ButtonVariant.SecondaryAffirmative}
-      >
-        {i18n('icu:reset')}
-      </Button>
-      <Button
-        disabled={!canSave}
-        onClick={() => {
-          savePreferredReactions();
-        }}
-        onKeyDown={event => {
-          if (event.key === 'Enter' || event.key === 'Space') {
-            savePreferredReactions();
-          }
-        }}
-      >
-        {i18n('icu:save')}
-      </Button>
-    </>
-  );
+  }, [emojiSkinToneDefault, draftPreferredReactions]);
 
   return (
-    <Modal
-      modalName="CustomizingPreferredReactionsModal"
-      moduleClassName="module-CustomizingPreferredReactionsModal"
-      hasXButton
-      i18n={i18n}
-      onClose={() => {
-        cancelCustomizePreferredReactionsModal();
-      }}
-      title={i18n('icu:CustomizingPreferredReactions__title')}
-      modalFooter={footer}
-    >
-      <div
-        ref={pickerRef}
-        className="module-CustomizingPreferredReactionsModal__small-emoji-picker-wrapper"
-      >
-        <ReactionPickerPicker
-          isSomethingSelected={isSomethingSelected}
-          pickerStyle={ReactionPickerPickerStyle.Menu}
-        >
-          {draftPreferredReactions.map((emoji, index) => {
-            return (
-              <CustomizingPreferredReactionsModalItem
-                // The index is the only thing that uniquely identifies the emoji, because
-                //   there can be duplicates in the list.
-                // oxlint-disable-next-line react/no-array-index-key
-                key={index}
-                emoji={emoji}
-                isSelected={index === selectedDraftEmojiIndex}
-                onSelect={() => {
-                  selectDraftEmojiToBeReplaced(index);
-                }}
-                onDeselect={() => {
-                  deselectDraftEmoji();
-                }}
-                onSelectEmoji={emojiSelection => {
-                  replaceSelectedDraftEmoji(emojiSelection.emoji);
-                }}
-              />
-            );
-          })}
-        </ReactionPickerPicker>
-        {hadSaveError
-          ? i18n('icu:CustomizingPreferredReactions__had-save-error')
-          : i18n('icu:CustomizingPreferredReactions__subtitle')}
-      </div>
-    </Modal>
+    <AxoDialog.Root open onOpenChange={cancelCustomizePreferredReactionsModal}>
+      <AxoDialog.Content size="sm" escape="cancel-is-destructive">
+        <AxoDialog.Header>
+          <AxoDialog.Title>
+            {i18n('icu:CustomizingPreferredReactions__title')}
+          </AxoDialog.Title>
+          <AxoDialog.Close />
+        </AxoDialog.Header>
+        <AxoDialog.Body>
+          <div className={tw('flex flex-col items-center py-16')}>
+            <ReactionPickerPicker
+              isSomethingSelected={isSomethingSelected}
+              pickerStyle={ReactionPickerPickerStyle.Menu}
+            >
+              {draftPreferredReactions.map((emoji, index) => {
+                return (
+                  <CustomizingPreferredReactionsModalItem
+                    // The index is the only thing that uniquely identifies the emoji, because
+                    //   there can be duplicates in the list.
+                    // oxlint-disable-next-line react/no-array-index-key
+                    key={index}
+                    emoji={emoji}
+                    isSelected={index === selectedDraftEmojiIndex}
+                    onSelect={() => {
+                      selectDraftEmojiToBeReplaced(index);
+                    }}
+                    onDeselect={deselectDraftEmoji}
+                    onSelectEmoji={emojiSelection => {
+                      replaceSelectedDraftEmoji(emojiSelection.emoji);
+                    }}
+                  />
+                );
+              })}
+            </ReactionPickerPicker>
+            <AxoDialog.Description>
+              <p
+                className={tw(
+                  'mt-8 text-center type-body-medium text-pretty text-label-secondary'
+                )}
+              >
+                {hadSaveError
+                  ? i18n('icu:CustomizingPreferredReactions__had-save-error')
+                  : i18n('icu:CustomizingPreferredReactions__subtitle')}
+              </p>
+            </AxoDialog.Description>
+          </div>
+        </AxoDialog.Body>
+        <AxoDialog.Footer>
+          <AxoDialog.Actions>
+            <AxoDialog.Action
+              variant="secondary"
+              disabled={!isDefaults || isSaving}
+              onClick={resetDraftEmoji}
+            >
+              {i18n('icu:reset')}
+            </AxoDialog.Action>
+            <AxoDialog.Action
+              variant="primary"
+              disabled={!hasChanged}
+              pending={isSaving}
+              onClick={savePreferredReactions}
+            >
+              {i18n('icu:save')}
+            </AxoDialog.Action>
+          </AxoDialog.Actions>
+        </AxoDialog.Footer>
+      </AxoDialog.Content>
+    </AxoDialog.Root>
   );
 }
 

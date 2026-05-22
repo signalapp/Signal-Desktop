@@ -1,15 +1,11 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { FormEventHandler, JSX } from 'react';
+import type { JSX, SubmitEvent } from 'react';
 import { useCallback, useRef, useState } from 'react';
-
 import type { LocalizerType } from '../../../types/Util.std.ts';
-import { Modal } from '../../Modal.dom.tsx';
 import { AvatarEditor } from '../../AvatarEditor.dom.tsx';
 import { AvatarPreview } from '../../AvatarPreview.dom.tsx';
-import { Button, ButtonVariant } from '../../Button.dom.tsx';
-import { Spinner } from '../../Spinner.dom.tsx';
 import { GroupDescriptionInput } from '../../GroupDescriptionInput.dom.tsx';
 import { GroupTitleInput } from '../../GroupTitleInput.dom.tsx';
 import { RequestState } from './util.std.ts';
@@ -21,6 +17,7 @@ import type {
 } from '../../../types/Avatar.std.ts';
 import type { AvatarColorType } from '../../../types/Colors.std.ts';
 import { useConfirmDiscard } from '../../../hooks/useConfirmDiscard.dom.tsx';
+import { AxoDialog } from '../../../axo/AxoDialog.dom.tsx';
 
 type PropsType = {
   avatarColor?: AvatarColorType;
@@ -61,6 +58,7 @@ export function EditConversationAttributesModal({
   saveAvatarToDisk,
   userAvatarData,
 }: PropsType): JSX.Element {
+  const formRef = useRef<HTMLFormElement>(null);
   const focusDescriptionRef = useRef<undefined | boolean>(
     initiallyFocusDescription
   );
@@ -135,7 +133,11 @@ export function EditConversationAttributesModal({
   ]);
   tryClose.current = onTryClose;
 
-  const onSubmit: FormEventHandler<HTMLFormElement> = event => {
+  function onRequestSubmit() {
+    formRef.current?.requestSubmit();
+  }
+
+  function onSubmit(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
 
     const request: {
@@ -153,7 +155,7 @@ export function EditConversationAttributesModal({
       request.description = trimmedDescription;
     }
     makeRequest(request);
-  };
+  }
 
   const avatarUrlForPreview = hasAvatarChanged ? undefined : externalAvatarUrl;
 
@@ -185,7 +187,7 @@ export function EditConversationAttributesModal({
   } else {
     content = (
       <form
-        id="edit-conversation-form"
+        ref={formRef}
         onSubmit={onSubmit}
         className="module-EditConversationAttributesModal"
       >
@@ -235,46 +237,42 @@ export function EditConversationAttributesModal({
     );
   }
 
-  // AvatarEditor brings its own footer with it so no need to duplicate it.
-  const modalFooter = editingAvatar ? undefined : (
-    <>
-      <Button
-        disabled={isRequestActive}
-        onClick={onClose}
-        variant={ButtonVariant.Secondary}
-      >
-        {i18n('icu:cancel')}
-      </Button>
-
-      <Button
-        type="submit"
-        form="edit-conversation-form"
-        variant={ButtonVariant.Primary}
-        disabled={!canSubmit}
-      >
-        {isRequestActive ? (
-          <Spinner size="20px" svgSize="small" direction="on-avatar" />
-        ) : (
-          i18n('icu:save')
-        )}
-      </Button>
-    </>
-  );
-
   if (confirmDiscardModal) {
     return confirmDiscardModal;
   }
 
   return (
-    <Modal
-      modalName="EditConversationAttributesModal"
-      hasXButton
-      i18n={i18n}
-      onClose={onTryClose}
-      title={i18n('icu:updateGroupAttributes__title')}
-      modalFooter={modalFooter}
-    >
-      {content}
-    </Modal>
+    <AxoDialog.Root open onOpenChange={onTryClose}>
+      <AxoDialog.Content size="md" escape="cancel-is-destructive">
+        <AxoDialog.Header>
+          <AxoDialog.Title>
+            {i18n('icu:updateGroupAttributes__title')}
+          </AxoDialog.Title>
+        </AxoDialog.Header>
+        <AxoDialog.Body>{content}</AxoDialog.Body>
+        {/* AvatarEditor brings its own footer with it so no need to duplicate it. */}
+        {!editingAvatar && (
+          <AxoDialog.Footer>
+            <AxoDialog.Actions>
+              <AxoDialog.Action
+                variant="secondary"
+                onClick={onClose}
+                disabled={isRequestActive}
+              >
+                {i18n('icu:cancel')}
+              </AxoDialog.Action>
+              <AxoDialog.Action
+                variant="primary"
+                onClick={onRequestSubmit}
+                disabled={!canSubmit}
+                pending={isRequestActive}
+              >
+                {i18n('icu:save')}
+              </AxoDialog.Action>
+            </AxoDialog.Actions>
+          </AxoDialog.Footer>
+        )}
+      </AxoDialog.Content>
+    </AxoDialog.Root>
   );
 }

@@ -1,10 +1,8 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-
 import type { ReactNode, JSX } from 'react';
 import { useCallback, useState, useRef, Fragment } from 'react';
 import lodash from 'lodash';
-
 import type { AttachmentType } from '../types/Attachment.std.ts';
 import type { LocalizerType } from '../types/Util.std.ts';
 import type { MessagePropsType } from '../state/selectors/message.preload.ts';
@@ -14,7 +12,6 @@ import {
   MessageInteractivity,
   TextDirection,
 } from './conversation/Message.dom.tsx';
-import { Modal } from './Modal.dom.tsx';
 import { WidthBreakpoint } from './_util.std.ts';
 import { shouldNeverBeCalled } from '../util/shouldNeverBeCalled.std.ts';
 import { useTheme } from '../hooks/useTheme.dom.ts';
@@ -24,6 +21,7 @@ import { AxoContextMenu } from '../axo/AxoContextMenu.dom.tsx';
 import { drop } from '../util/drop.std.ts';
 import type { AxoMenuBuilder } from '../axo/AxoMenuBuilder.dom.tsx';
 import { strictAssert } from '../util/assert.std.ts';
+import { AxoDialog } from '../axo/AxoDialog.dom.tsx';
 
 const { noop } = lodash;
 
@@ -122,144 +120,156 @@ export function EditHistoryMessagesModal({
   let previousItem = currentMessage;
 
   return (
-    <Modal
-      hasXButton
-      i18n={i18n}
-      modalName="EditHistoryMessagesModal"
-      moduleClassName="EditHistoryMessagesModal"
-      onClose={closeEditHistoryModal}
-      noTransform
-    >
-      <div ref={containerElementRef}>
-        <TimelineDateHeader i18n={i18n} timestamp={currentMessage.timestamp} />
-        <Message
-          {...MESSAGE_DEFAULT_PROPS}
-          {...currentMessage}
-          id={currentMessageId}
-          containerElementRef={containerElementRef}
-          displayLimit={displayLimitById[currentMessageId]}
-          getPreferredBadge={getPreferredBadge}
-          i18n={i18n}
-          interactivity={MessageInteractivity.Static}
-          isEditedMessage
-          isSpoilerExpanded={revealedSpoilersById[currentMessageId] || {}}
-          key={currentMessage.timestamp}
-          kickOffAttachmentDownload={() =>
-            kickOffAttachmentDownload({ messageId: currentMessage.id })
-          }
-          cancelAttachmentDownload={() =>
-            cancelAttachmentDownload({ messageId: currentMessage.id })
-          }
-          messageExpanded={(messageId, displayLimit) => {
-            const update = {
-              ...displayLimitById,
-              [messageId]: displayLimit,
-            };
-            setDisplayLimitById(update);
-          }}
-          platform={platform}
-          showLightbox={closeAndShowLightbox}
-          showSpoiler={(messageId, data) => {
-            const update = {
-              ...revealedSpoilersById,
-              [messageId]: data,
-            };
-            setRevealedSpoilersById(update);
-          }}
-          theme={theme}
-          renderMessageContextMenu={(
-            _renderer: AxoMenuBuilder.Renderer,
-            children
-          ) => {
-            return (
-              <EditHistoryMessageContextMenu
-                i18n={i18n}
-                timestamp={currentMessage.timestamp}
-              >
-                {children}
-              </EditHistoryMessageContextMenu>
-            );
-          }}
-        />
-
-        <hr className="EditHistoryMessagesModal__divider" />
-
-        <h3 className="EditHistoryMessagesModal__title">
-          {i18n('icu:EditHistoryMessagesModal__title')}
-        </h3>
-
-        {pastEdits.map(messageAttributes => {
-          const syntheticId = `${messageAttributes.id}.${messageAttributes.timestamp}`;
-
-          const shouldShowDateHeader =
-            !previousItem ||
-            // This comparison avoids strange header behavior for out-of-order messages.
-            (messageAttributes.timestamp > previousItem.timestamp &&
-              !isSameDay(previousItem.timestamp, messageAttributes.timestamp));
-          const dateHeaderElement = shouldShowDateHeader ? (
+    <AxoDialog.Root open onOpenChange={closeEditHistoryModal}>
+      <AxoDialog.Content size="sm" escape="cancel-is-noop">
+        <AxoDialog.Header>
+          <AxoDialog.Title screenReaderOnly>
+            {i18n('icu:EditHistoryMessagesModal__title')}
+          </AxoDialog.Title>
+          <AxoDialog.Close />
+        </AxoDialog.Header>
+        <AxoDialog.Body padding="only-scrollbar-gutter">
+          <div ref={containerElementRef}>
             <TimelineDateHeader
               i18n={i18n}
-              timestamp={messageAttributes.timestamp}
+              timestamp={currentMessage.timestamp}
             />
-          ) : null;
+            <Message
+              {...MESSAGE_DEFAULT_PROPS}
+              {...currentMessage}
+              id={currentMessageId}
+              containerElementRef={containerElementRef}
+              displayLimit={displayLimitById[currentMessageId]}
+              getPreferredBadge={getPreferredBadge}
+              i18n={i18n}
+              interactivity={MessageInteractivity.Static}
+              isEditedMessage
+              isSpoilerExpanded={revealedSpoilersById[currentMessageId] || {}}
+              key={currentMessage.timestamp}
+              kickOffAttachmentDownload={() =>
+                kickOffAttachmentDownload({ messageId: currentMessage.id })
+              }
+              cancelAttachmentDownload={() =>
+                cancelAttachmentDownload({ messageId: currentMessage.id })
+              }
+              messageExpanded={(messageId, displayLimit) => {
+                const update = {
+                  ...displayLimitById,
+                  [messageId]: displayLimit,
+                };
+                setDisplayLimitById(update);
+              }}
+              platform={platform}
+              showLightbox={closeAndShowLightbox}
+              showSpoiler={(messageId, data) => {
+                const update = {
+                  ...revealedSpoilersById,
+                  [messageId]: data,
+                };
+                setRevealedSpoilersById(update);
+              }}
+              theme={theme}
+              renderMessageContextMenu={(
+                _renderer: AxoMenuBuilder.Renderer,
+                children
+              ) => {
+                return (
+                  <EditHistoryMessageContextMenu
+                    i18n={i18n}
+                    timestamp={currentMessage.timestamp}
+                  >
+                    {children}
+                  </EditHistoryMessageContextMenu>
+                );
+              }}
+            />
 
-          previousItem = messageAttributes;
+            <hr className="EditHistoryMessagesModal__divider" />
 
-          return (
-            <Fragment key={messageAttributes.timestamp}>
-              {dateHeaderElement}
-              <Message
-                {...MESSAGE_DEFAULT_PROPS}
-                {...messageAttributes}
-                id={syntheticId}
-                interactivity={MessageInteractivity.Static}
-                containerElementRef={containerElementRef}
-                displayLimit={displayLimitById[syntheticId]}
-                getPreferredBadge={getPreferredBadge}
-                i18n={i18n}
-                isSpoilerExpanded={revealedSpoilersById[syntheticId] || {}}
-                kickOffAttachmentDownload={() =>
-                  kickOffAttachmentDownload({ messageId: currentMessage.id })
-                }
-                cancelAttachmentDownload={() =>
-                  cancelAttachmentDownload({ messageId: currentMessage.id })
-                }
-                messageExpanded={(messageId, displayLimit) => {
-                  const update = {
-                    ...displayLimitById,
-                    [messageId]: displayLimit,
-                  };
-                  setDisplayLimitById(update);
-                }}
-                platform={platform}
-                showLightbox={closeAndShowLightbox}
-                showSpoiler={(messageId, data) => {
-                  const update = {
-                    ...revealedSpoilersById,
-                    [messageId]: data,
-                  };
-                  setRevealedSpoilersById(update);
-                }}
-                theme={theme}
-                renderMessageContextMenu={(
-                  _renderer: AxoMenuBuilder.Renderer,
-                  children
-                ) => {
-                  return (
-                    <EditHistoryMessageContextMenu
-                      i18n={i18n}
-                      timestamp={messageAttributes.timestamp}
-                    >
-                      {children}
-                    </EditHistoryMessageContextMenu>
-                  );
-                }}
-              />
-            </Fragment>
-          );
-        })}
-      </div>
-    </Modal>
+            <h3 className="EditHistoryMessagesModal__title">
+              {i18n('icu:EditHistoryMessagesModal__title')}
+            </h3>
+
+            {pastEdits.map(messageAttributes => {
+              const syntheticId = `${messageAttributes.id}.${messageAttributes.timestamp}`;
+
+              const shouldShowDateHeader =
+                !previousItem ||
+                // This comparison avoids strange header behavior for out-of-order messages.
+                (messageAttributes.timestamp > previousItem.timestamp &&
+                  !isSameDay(
+                    previousItem.timestamp,
+                    messageAttributes.timestamp
+                  ));
+              const dateHeaderElement = shouldShowDateHeader ? (
+                <TimelineDateHeader
+                  i18n={i18n}
+                  timestamp={messageAttributes.timestamp}
+                />
+              ) : null;
+
+              previousItem = messageAttributes;
+
+              return (
+                <Fragment key={messageAttributes.timestamp}>
+                  {dateHeaderElement}
+                  <Message
+                    {...MESSAGE_DEFAULT_PROPS}
+                    {...messageAttributes}
+                    id={syntheticId}
+                    interactivity={MessageInteractivity.Static}
+                    containerElementRef={containerElementRef}
+                    displayLimit={displayLimitById[syntheticId]}
+                    getPreferredBadge={getPreferredBadge}
+                    i18n={i18n}
+                    isSpoilerExpanded={revealedSpoilersById[syntheticId] || {}}
+                    kickOffAttachmentDownload={() =>
+                      kickOffAttachmentDownload({
+                        messageId: currentMessage.id,
+                      })
+                    }
+                    cancelAttachmentDownload={() =>
+                      cancelAttachmentDownload({ messageId: currentMessage.id })
+                    }
+                    messageExpanded={(messageId, displayLimit) => {
+                      const update = {
+                        ...displayLimitById,
+                        [messageId]: displayLimit,
+                      };
+                      setDisplayLimitById(update);
+                    }}
+                    platform={platform}
+                    showLightbox={closeAndShowLightbox}
+                    showSpoiler={(messageId, data) => {
+                      const update = {
+                        ...revealedSpoilersById,
+                        [messageId]: data,
+                      };
+                      setRevealedSpoilersById(update);
+                    }}
+                    theme={theme}
+                    renderMessageContextMenu={(
+                      _renderer: AxoMenuBuilder.Renderer,
+                      children
+                    ) => {
+                      return (
+                        <EditHistoryMessageContextMenu
+                          i18n={i18n}
+                          timestamp={messageAttributes.timestamp}
+                        >
+                          {children}
+                        </EditHistoryMessageContextMenu>
+                      );
+                    }}
+                  />
+                </Fragment>
+              );
+            })}
+          </div>
+        </AxoDialog.Body>
+        <AxoDialog.Footer />
+      </AxoDialog.Content>
+    </AxoDialog.Root>
   );
 }
 

@@ -3,7 +3,6 @@
 
 import type { ReactNode, JSX } from 'react';
 import { useState } from 'react';
-
 import type { LocalizerType, ThemeType } from '../../types/Util.std.ts';
 import type { ConversationType } from '../../state/ducks/conversations.preload.ts';
 import type { PreferredBadgeSelectorType } from '../../state/selectors/badges.preload.ts';
@@ -12,15 +11,15 @@ import {
   MessageRequestState,
 } from './MessageRequestActionsConfirmation.dom.tsx';
 import { ContactSpoofingType } from '../../util/contactSpoofing.std.ts';
-
-import { Modal } from '../Modal.dom.tsx';
 import { RemoveGroupMemberConfirmationDialog } from './RemoveGroupMemberConfirmationDialog.dom.tsx';
 import { ContactSpoofingReviewDialogPerson } from './ContactSpoofingReviewDialogPerson.dom.tsx';
-import { Button, ButtonVariant } from '../Button.dom.tsx';
 import { assertDev } from '../../util/assert.std.ts';
 import { missingCaseError } from '../../util/missingCaseError.std.ts';
 import { isInSystemContacts } from '../../util/isInSystemContacts.std.ts';
 import type { ContactModalStateType } from '../../types/globalModals.std.ts';
+import { AxoDialog } from '../../axo/AxoDialog.dom.tsx';
+import { tw } from '../../axo/tw.dom.tsx';
+import { AxoButton } from '../../axo/AxoButton.dom.tsx';
 
 export type ReviewPropsType = Readonly<
   | {
@@ -53,16 +52,16 @@ export type ReviewPropsType = Readonly<
 
 export type PropsType = {
   conversationId: string;
-  acceptConversation: (conversationId: string) => unknown;
-  reportSpam: (conversationId: string) => unknown;
-  blockAndReportSpam: (conversationId: string) => unknown;
-  blockConversation: (conversationId: string) => unknown;
-  deleteConversation: (conversationId: string) => unknown;
+  acceptConversation: (conversationId: string) => void;
+  reportSpam: (conversationId: string) => void;
+  blockAndReportSpam: (conversationId: string) => void;
+  blockConversation: (conversationId: string) => void;
+  deleteConversation: (conversationId: string) => void;
   toggleSignalConnectionsModal: () => void;
   getPreferredBadge: PreferredBadgeSelectorType;
   i18n: LocalizerType;
   onClose: () => void;
-  showContactModal: (payload: ContactModalStateType) => unknown;
+  showContactModal: (payload: ContactModalStateType) => void;
   removeMember: (
     conversationId: string,
     memberConversationId: string
@@ -204,8 +203,12 @@ export function ContactSpoofingReviewDialog(props: PropsType): JSX.Element {
       title = i18n('icu:ContactSpoofingReviewDialog__title');
       contents = (
         <>
-          <p>{i18n('icu:ContactSpoofingReviewDialog__description')}</p>
-          <h2>
+          <div className={tw('mb-2.5 type-body-medium text-label-secondary')}>
+            <AxoDialog.Description>
+              {i18n('icu:ContactSpoofingReviewDialog__description')}
+            </AxoDialog.Description>
+          </div>
+          <h2 className={tw('type-title-small text-label-primary')}>
             {i18n('icu:ContactSpoofingReviewDialog__possibly-unsafe-title')}
           </h2>
           <ContactSpoofingReviewDialogPerson
@@ -218,9 +221,10 @@ export function ContactSpoofingReviewDialog(props: PropsType): JSX.Element {
             isSignalConnection={possiblyUnsafe.isSignalConnection}
             oldName={undefined}
           >
-            <div className="module-ContactSpoofingReviewDialog__buttons">
-              <Button
-                variant={ButtonVariant.SecondaryDestructive}
+            <div className={tw('flex gap-2')}>
+              <AxoButton.Root
+                size="md"
+                variant="subtle-destructive"
                 onClick={() => {
                   setConfirmationState({
                     type: ConfirmationStateType.ConfirmingDelete,
@@ -229,9 +233,10 @@ export function ContactSpoofingReviewDialog(props: PropsType): JSX.Element {
                 }}
               >
                 {i18n('icu:MessageRequests--delete')}
-              </Button>
-              <Button
-                variant={ButtonVariant.SecondaryDestructive}
+              </AxoButton.Root>
+              <AxoButton.Root
+                size="md"
+                variant="subtle-destructive"
                 onClick={() => {
                   setConfirmationState({
                     type: ConfirmationStateType.ConfirmingBlock,
@@ -240,11 +245,15 @@ export function ContactSpoofingReviewDialog(props: PropsType): JSX.Element {
                 }}
               >
                 {i18n('icu:MessageRequests--block')}
-              </Button>
+              </AxoButton.Root>
             </div>
           </ContactSpoofingReviewDialogPerson>
-          <hr />
-          <h2>{i18n('icu:ContactSpoofingReviewDialog__safe-title')}</h2>
+          <hr
+            className={tw('my-2.5 border-0 border-t border-t-border-secondary')}
+          />
+          <h2 className={tw('type-title-small text-label-primary')}>
+            {i18n('icu:ContactSpoofingReviewDialog__safe-title')}
+          </h2>
           <ContactSpoofingReviewDialogPerson
             conversation={safe.conversation}
             getPreferredBadge={getPreferredBadge}
@@ -274,18 +283,20 @@ export function ContactSpoofingReviewDialog(props: PropsType): JSX.Element {
       title = i18n('icu:ContactSpoofingReviewDialog__group__title');
       contents = (
         <>
-          <p className="module-ContactSpoofingReviewDialog__description">
-            {numSharedTitles > 1
-              ? i18n(
-                  'icu:ContactSpoofingReviewDialog__group__multiple-conflicts__description',
-                  {
-                    count: numSharedTitles,
-                  }
-                )
-              : i18n('icu:ContactSpoofingReviewDialog__group__description', {
-                  count: totalConversations,
-                })}
-          </p>
+          <div className={tw('mb-2.5 type-body-medium text-label-secondary')}>
+            <AxoDialog.Description>
+              {numSharedTitles > 1
+                ? i18n(
+                    'icu:ContactSpoofingReviewDialog__group__multiple-conflicts__description',
+                    {
+                      count: numSharedTitles,
+                    }
+                  )
+                : i18n('icu:ContactSpoofingReviewDialog__group__description', {
+                    count: totalConversations,
+                  })}
+            </AxoDialog.Description>
+          </div>
 
           {Object.values(collisionInfoByTitle)
             .map((conversationInfos, titleIdx) =>
@@ -293,8 +304,9 @@ export function ContactSpoofingReviewDialog(props: PropsType): JSX.Element {
                 let button: ReactNode;
                 if (group.areWeAdmin) {
                   button = (
-                    <Button
-                      variant={ButtonVariant.SecondaryAffirmative}
+                    <AxoButton.Root
+                      size="md"
+                      variant="subtle-destructive"
                       onClick={() => {
                         setConfirmationState({
                           type: ConfirmationStateType.ConfirmingGroupRemoval,
@@ -304,23 +316,25 @@ export function ContactSpoofingReviewDialog(props: PropsType): JSX.Element {
                       }}
                     >
                       {i18n('icu:RemoveGroupMemberConfirmation__remove-button')}
-                    </Button>
+                    </AxoButton.Root>
                   );
                 } else if (conversationInfo.conversation.isBlocked) {
                   button = (
-                    <Button
-                      variant={ButtonVariant.SecondaryAffirmative}
+                    <AxoButton.Root
+                      size="md"
+                      variant="subtle-affirmative"
                       onClick={() => {
                         acceptConversation(conversationInfo.conversation.id);
                       }}
                     >
                       {i18n('icu:MessageRequests--unblock')}
-                    </Button>
+                    </AxoButton.Root>
                   );
                 } else if (!isInSystemContacts(conversationInfo.conversation)) {
                   button = (
-                    <Button
-                      variant={ButtonVariant.SecondaryDestructive}
+                    <AxoButton.Root
+                      size="md"
+                      variant="subtle-destructive"
                       onClick={() => {
                         setConfirmationState({
                           type: ConfirmationStateType.ConfirmingBlock,
@@ -329,7 +343,7 @@ export function ContactSpoofingReviewDialog(props: PropsType): JSX.Element {
                       }}
                     >
                       {i18n('icu:MessageRequests--block')}
-                    </Button>
+                    </AxoButton.Root>
                   );
                 }
 
@@ -363,7 +377,11 @@ export function ContactSpoofingReviewDialog(props: PropsType): JSX.Element {
                     </ContactSpoofingReviewDialogPerson>
                     {titleIdx < sharedTitles.length - 1 ||
                     conversationIdx < conversationInfos.length - 1 ? (
-                      <hr />
+                      <hr
+                        className={tw(
+                          'my-2.5 border-0 border-t border-t-border-secondary'
+                        )}
+                      />
                     ) : null}
                   </>
                 );
@@ -379,15 +397,15 @@ export function ContactSpoofingReviewDialog(props: PropsType): JSX.Element {
   }
 
   return (
-    <Modal
-      modalName="ContactSpoofingReviewDialog"
-      hasXButton
-      i18n={i18n}
-      moduleClassName="module-ContactSpoofingReviewDialog"
-      onClose={onClose}
-      title={title}
-    >
-      {contents}
-    </Modal>
+    <AxoDialog.Root open onOpenChange={onClose}>
+      <AxoDialog.Content size="md" escape="cancel-is-noop">
+        <AxoDialog.Header>
+          <AxoDialog.Title>{title}</AxoDialog.Title>
+          <AxoDialog.Close />
+        </AxoDialog.Header>
+        <AxoDialog.Body>{contents}</AxoDialog.Body>
+        <AxoDialog.Footer />
+      </AxoDialog.Content>
+    </AxoDialog.Root>
   );
 }
