@@ -265,6 +265,7 @@ message AccountRecord {
   bool unlistedPhoneNumber = 13;
   repeated PinnedConversation pinnedConversations = 14;
   bool preferContactAvatars = 15;
+  Payments payments = 16;
   uint32 universalExpireTimer = 17;
   reserved 18; // primarySendsSms
   reserved 19; // deprecatedE164

@@ -456,6 +456,7 @@ const ITEM_SPECS: Partial<Record<ItemKeyType, ObjectMappingSpecType>> = {
   manifestRecordIkm: ['value'],
   usernameLink: ['value.entropy', 'value.serverId'],
   lastDistinguishedTreeHead: ['value'],
+  payments: ['value.entropy'],
 };
 async function createOrUpdateItem<K extends ItemKeyType>(
   data: ItemType<K>
