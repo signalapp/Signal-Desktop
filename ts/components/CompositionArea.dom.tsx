@@ -1148,7 +1148,7 @@ export const CompositionArea = memo(function CompositionArea({
               convertDraftBodyRangesIntoHydrated
             }
             onClose={() => setAttachmentToEdit(undefined)}
-            onDone={({
+            onDone={async ({
               caption,
               captionBodyRanges,
               data,
@@ -1165,7 +1165,7 @@ export const CompositionArea = memo(function CompositionArea({
                 size: data.byteLength,
               };
 
-              addAttachment(conversationId, newAttachment);
+              await addAttachment(conversationId, newAttachment);
               setAttachmentToEdit(undefined);
 
               if (

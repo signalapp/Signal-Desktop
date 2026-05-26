@@ -54,7 +54,7 @@ export async function writeDraftAttachment(
   }
 
   return {
-    ...omit(attachment, ['data', 'screenshotData']),
+    ...omit(attachment, ['data', 'screenshotData', 'url', 'incrementalUrl']),
     ...local,
     screenshot: localScreenshot
       ? {

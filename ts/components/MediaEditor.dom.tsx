@@ -1459,8 +1459,6 @@ export function MediaEditor({
                     setEditMode(undefined);
                     setIsSaving(true);
 
-                    let data: Uint8Array<ArrayBuffer>;
-                    let blurHash: string;
                     try {
                       const renderFabricCanvas =
                         await cloneFabricCanvas(fabricCanvas);
@@ -1499,29 +1497,29 @@ export function MediaEditor({
                       const renderedCanvas =
                         renderFabricCanvas.toCanvasElement();
 
-                      data = await canvasToBytes(renderedCanvas);
+                      const data = await canvasToBytes(renderedCanvas);
 
                       const blob = new Blob([data], {
                         type: IMAGE_PNG,
                       });
 
-                      blurHash = await imageToBlurHash(blob);
+                      const blurHash = await imageToBlurHash(blob);
+
+                      await onDone({
+                        contentType: IMAGE_PNG,
+                        data,
+                        caption: caption !== '' ? caption : undefined,
+                        captionBodyRanges: captionBodyRanges ?? undefined,
+                        blurHash,
+                        isViewOnce: localIsViewOnce,
+                        isHighQuality: localIsHighQuality,
+                      });
                     } catch (err) {
                       onTryClose();
                       throw err;
                     } finally {
                       setIsSaving(false);
                     }
-
-                    onDone({
-                      contentType: IMAGE_PNG,
-                      data,
-                      caption: caption !== '' ? caption : undefined,
-                      captionBodyRanges: captionBodyRanges ?? undefined,
-                      blurHash,
-                      isViewOnce: localIsViewOnce,
-                      isHighQuality: localIsHighQuality,
-                    });
                   }}
                 >
                   {doneButtonLabel || i18n('icu:save')}
