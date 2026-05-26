@@ -38,7 +38,10 @@ import { hydrateStoryContext } from './hydrateStoryContext.preload.ts';
 import { update as updateExpiringMessagesService } from '../services/expiringMessagesDeletion.preload.ts';
 import { tapToViewMessagesDeletionService } from '../services/tapToViewMessagesDeletionService.preload.ts';
 import { throttledUpdateBackupMediaDownloadProgress } from './updateBackupMediaDownloadProgress.preload.ts';
-import { messageAttrsToPreserveAfterErase } from '../types/Message.std.ts';
+import {
+  getMessageAttrsToPreserveAfterErase,
+  type EraseMessageReasonType,
+} from '../types/Message.std.ts';
 import type { AttachmentType } from '../types/Attachment.std.ts';
 
 const log = createLogger('cleanup');
@@ -50,13 +53,7 @@ export async function postSaveUpdates(): Promise<void> {
 
 export async function eraseMessageContents(
   message: MessageModel,
-  reason:
-    | 'view-once-viewed'
-    | 'view-once-invalid'
-    | 'view-once-expired'
-    | 'view-once-sent'
-    | 'unsupported-message'
-    | 'delete-for-everyone',
+  reason: EraseMessageReasonType,
   additionalProperties: Partial<MessageAttributesType> = {}
 ): Promise<void> {
   log.info(
@@ -69,7 +66,7 @@ export async function eraseMessageContents(
   const originalAttributes = message.attributes;
   const preservedAttributes = pick(
     message.attributes,
-    ...messageAttrsToPreserveAfterErase
+    ...getMessageAttrsToPreserveAfterErase(reason)
   );
 
   message.resetAllAttributes({

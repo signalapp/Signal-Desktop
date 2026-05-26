@@ -19,6 +19,7 @@ import { SendStatus } from '../../messages/MessageSendState.std.ts';
 import { getAbsoluteAttachmentPath } from '../../util/migrations.preload.ts';
 import { getAttachmentsPath } from '../../../app/attachments.node.ts';
 import { generateAci } from '../../test-helpers/serviceIdUtils.std.ts';
+import type { Emoji } from '../../axo/emoji.std.ts';
 
 async function writeAttachmentFile(path: string) {
   await ensureFile(getAbsoluteAttachmentPath(path));
@@ -55,6 +56,14 @@ describe('cleanupMessage', () => {
       timestamp: now,
       schemaVersion: 12,
       body: 'body',
+      reactions: [
+        {
+          emoji: 'emoji' as Emoji.Variant,
+          fromId: 'from',
+          targetTimestamp: now,
+          timestamp: now + 1,
+        },
+      ],
       poll: {
         question: 'poll question',
       } as PollMessageAttribute,
@@ -78,6 +87,60 @@ describe('cleanupMessage', () => {
       timestamp: attributes.timestamp,
       schemaVersion: 12,
       sendStateByConversationId: { aci: { status: SendStatus.Delivered } },
+      isErased: true,
+    });
+  });
+
+  it('eraseMessageContents preserves reactions for view-once messages', async () => {
+    const now = Date.now();
+    const attributes: MessageAttributesType = {
+      id: v7(),
+      type: 'incoming',
+      sent_at: now,
+      received_at: now,
+      conversationId: 'convoId',
+      timestamp: now,
+      schemaVersion: 12,
+      body: 'body',
+      reactions: [
+        {
+          emoji: 'emoji' as Emoji.Variant,
+          fromId: 'from',
+          targetTimestamp: now,
+          timestamp: now + 1,
+        },
+      ],
+      poll: {
+        question: 'poll question',
+      } as PollMessageAttribute,
+      sendStateByConversationId: { aci: { status: SendStatus.Delivered } },
+      storyReplyContext: {
+        attachment: { contentType: IMAGE_BMP, size: 128 },
+        messageId: 'messageId',
+      },
+    };
+    await window.MessageCache.saveMessage(attributes, { forceSave: true });
+    const message = new MessageModel(attributes);
+
+    await eraseMessageContents(message, 'view-once-viewed');
+
+    assert.deepEqual(message.attributes, {
+      id: attributes.id,
+      type: attributes.type,
+      sent_at: attributes.sent_at,
+      received_at: attributes.received_at,
+      conversationId: 'convoId',
+      timestamp: attributes.timestamp,
+      schemaVersion: 12,
+      sendStateByConversationId: { aci: { status: SendStatus.Delivered } },
+      reactions: [
+        {
+          emoji: 'emoji' as Emoji.Variant,
+          fromId: 'from',
+          targetTimestamp: now,
+          timestamp: now + 1,
+        },
+      ],
       isErased: true,
     });
   });
