@@ -12,6 +12,7 @@ import type { WritableDB } from './Interface.std.ts';
 import { initialize, DataReader, DataWriter, removeDB } from './Server.node.ts';
 import { SqliteErrorKind, parseSqliteError } from './errors.std.ts';
 import { sqlLogger as logger } from './sqlLogger.node.ts';
+import { WalCheckpoints } from './WalCheckpoints.std.ts';
 
 if (!parentPort) {
   throw new Error('Must run as a worker thread');
@@ -43,6 +44,17 @@ const onMessage = (
     if (request.type === 'init') {
       isPrimary = request.isPrimary;
       isRemoved = false;
+
+      if (isPrimary) {
+        WalCheckpoints.setOnCheckpointNeeded(reason => {
+          const message: WrappedWorkerResponse = {
+            type: 'walCheckpointNeeded',
+            reason,
+          };
+          port.postMessage(message);
+        });
+      }
+
       db = initialize({
         ...request.options,
         isPrimary,
@@ -98,6 +110,14 @@ const onMessage = (
 
       respond(seq, undefined);
       process.exit(0);
+      return;
+    }
+
+    if (request.type === 'walCheckpoint') {
+      if (db != null) {
+        WalCheckpoints.runImmediately(db, logger, request.reason);
+      }
+      respond(seq, undefined);
       return;
     }
 
