@@ -11,17 +11,18 @@ import {
 } from 'node:fs/promises';
 import { exists } from 'fs-extra';
 
+import { getAbsoluteAttachmentPath as doGetAbsoluteAttachmentPath } from '../util/migrations.preload.ts';
 import {
-  getAbsoluteAttachmentPath as doGetAbsoluteAttachmentPath,
-  getAbsoluteTempPath as doGetAbsoluteTempPath,
-} from '../util/migrations.preload.ts';
-import { decryptAttachmentV2ToSink } from '../AttachmentCrypto.node.ts';
+  decryptAttachmentV2ToSink,
+  safeUnlink,
+} from '../AttachmentCrypto.node.ts';
 import {
   getLocalBackupDirectoryForMediaName,
   getLocalBackupPathForMediaName,
 } from '../services/backups/util/localBackup.node.ts';
-import { createName } from '../util/attachmentPath.node.ts';
 import { redactGenericText } from '../util/privacy.node.ts';
+import { getRandomBytes } from '../Crypto.node.ts';
+import * as Bytes from '../Bytes.std.ts';
 
 import type { CoreAttachmentLocalBackupJobType } from '../types/AttachmentBackup.std.ts';
 
@@ -29,7 +30,6 @@ export class AttachmentPermanentlyMissingError extends Error {}
 
 type RunAttachmentBackupJobDependenciesType = {
   getAbsoluteAttachmentPath: typeof doGetAbsoluteAttachmentPath;
-  getAbsoluteTempPath: typeof doGetAbsoluteAttachmentPath;
   decryptAttachmentV2ToSink: typeof decryptAttachmentV2ToSink;
 };
 
@@ -44,7 +44,6 @@ export async function runAttachmentBackupJob(
   backupsBaseDir: string,
   dependencies: RunAttachmentBackupJobDependenciesType = {
     getAbsoluteAttachmentPath: doGetAbsoluteAttachmentPath,
-    getAbsoluteTempPath: doGetAbsoluteTempPath,
     decryptAttachmentV2ToSink,
   }
 ): Promise<void> {
@@ -95,20 +94,24 @@ export async function runAttachmentBackupJob(
       return;
     }
 
-    // File is already encrypted with localKey, so we just copy it to the backup dir
-    const tempPath = dependencies.getAbsoluteTempPath(createName());
+    // File is already encrypted with localKey, so we just copy it to the backup dir.
+    // The temp file must be a sibling of the destination so that rename stays on the
+    // same filesystem — the backup dir may be on a different partition than the app's
+    // temp dir, and rename only works within a single filesystem.
+    const tempPath = `${destinationLocalBackupFilePath}.tmp-${Bytes.toHex(getRandomBytes(8))}`;
 
-    // A unique constraint on the DB table should enforce that only one job is writing to
-    // the same mediaName at a time, but just to be safe, we copy to temp file and rename
-    // to ensure the atomicity of the copy operation
-
-    // Set COPYFILE_FICLONE for Copy on Write (OS dependent, graceful fallback to copy)
-    await copyFile(
-      sourceAttachmentPath,
-      tempPath,
-      FS_CONSTANTS.COPYFILE_FICLONE
-    );
-    await rename(tempPath, destinationLocalBackupFilePath);
+    try {
+      // Set COPYFILE_FICLONE for Copy on Write (OS dependent, graceful fallback to copy)
+      await copyFile(
+        sourceAttachmentPath,
+        tempPath,
+        FS_CONSTANTS.COPYFILE_FICLONE
+      );
+      await rename(tempPath, destinationLocalBackupFilePath);
+    } catch (error) {
+      await safeUnlink(tempPath);
+      throw error;
+    }
   }
 }
 
