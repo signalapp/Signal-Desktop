@@ -26,13 +26,13 @@ export type PropsType = {
   selectedDraftEmojiIndex: undefined | number;
   emojiSkinToneDefault: Emoji.SkinTone | null;
 
-  cancelCustomizePreferredReactionsModal(): unknown;
-  deselectDraftEmoji(): unknown;
+  cancelCustomizePreferredReactionsModal: () => unknown;
+  deselectDraftEmoji: () => unknown;
   onEmojiSkinToneDefaultChange: (emojiSkinToneDefault: Emoji.SkinTone) => void;
-  replaceSelectedDraftEmoji(newEmoji: Emoji.Variant): unknown;
-  resetDraftEmoji(): unknown;
-  savePreferredReactions(): unknown;
-  selectDraftEmojiToBeReplaced(index: number): unknown;
+  replaceSelectedDraftEmoji: (newEmoji: Emoji.Variant) => unknown;
+  resetDraftEmoji: () => unknown;
+  savePreferredReactions: () => unknown;
+  selectDraftEmojiToBeReplaced: (index: number) => unknown;
 };
 
 export function CustomizingPreferredReactionsModal({

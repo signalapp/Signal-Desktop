@@ -155,7 +155,7 @@ function renderUpdateDialog(
 ): JSX.Element {
   return <SmartUpdateDialog {...props} />;
 }
-function renderCaptchaDialog({ onSkip }: { onSkip(): void }): JSX.Element {
+function renderCaptchaDialog({ onSkip }: { onSkip: () => void }): JSX.Element {
   return <SmartCaptchaDialog onSkip={onSkip} />;
 }
 function renderCrashReportDialog(): JSX.Element {

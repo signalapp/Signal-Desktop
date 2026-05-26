@@ -14,7 +14,7 @@ export type Props = {
   i18n: LocalizerType;
   children: ReactNode;
 
-  showDebugLog(): void;
+  showDebugLog: () => void;
 };
 
 export type State = {

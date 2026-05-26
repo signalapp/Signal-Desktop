@@ -52,17 +52,17 @@ export type PropsDataType = Readonly<{
 }>;
 
 export type ActionPropsDataType = Readonly<{
-  setUsernameReservationError(
+  setUsernameReservationError: (
     error: UsernameReservationError | undefined
-  ): void;
-  clearUsernameReservation(): void;
-  reserveUsername(optiona: ReserveUsernameOptionsType): void;
-  confirmUsername(): void;
+  ) => void;
+  clearUsernameReservation: () => void;
+  reserveUsername: (optiona: ReserveUsernameOptionsType) => void;
+  confirmUsername: () => void;
   showToast: ShowToastAction;
 }>;
 
 export type ExternalPropsDataType = Readonly<{
-  onClose(): void;
+  onClose: () => void;
 }>;
 
 export type PropsType = PropsDataType &

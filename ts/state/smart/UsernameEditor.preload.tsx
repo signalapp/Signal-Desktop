@@ -17,7 +17,7 @@ import { useUsernameActions } from '../ducks/username.preload.ts';
 import { useToastActions } from '../ducks/toast.preload.ts';
 
 export type SmartUsernameEditorProps = Readonly<{
-  onClose(): void;
+  onClose: () => void;
 }>;
 
 export const SmartUsernameEditor = memo(function SmartUsernameEditor({

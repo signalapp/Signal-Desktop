@@ -45,15 +45,15 @@ export type LocalizerType = {
           options?: LocalizerOptions,
         ]
   ): string;
-  getIntl(): IntlShape;
-  getLocale(): string;
-  getLocaleMessages(): LocaleMessagesType;
-  getLocaleDirection(): LocaleDirection;
-  getHourCyclePreference(): HourCyclePreference;
+  getIntl: () => IntlShape;
+  getLocale: () => string;
+  getLocaleMessages: () => LocaleMessagesType;
+  getLocaleDirection: () => LocaleDirection;
+  getHourCyclePreference: () => HourCyclePreference;
 
   // Storybook
-  trackUsage(): void;
-  stopTrackingUsage(): Array<[string, string]>;
+  trackUsage: () => void;
+  stopTrackingUsage: () => Array<[string, string]>;
 };
 
 export enum SentMediaQualityType {

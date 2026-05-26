@@ -328,7 +328,7 @@ export class ConversationModel {
 
   contactCollection?: Array<ConversationModel>;
 
-  debouncedUpdateLastMessage: (() => void) & { flush(): void };
+  debouncedUpdateLastMessage: (() => void) & { flush: () => void };
 
   initialPromise?: Promise<unknown>;
 

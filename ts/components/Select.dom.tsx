@@ -18,7 +18,7 @@ export type PropsType = Readonly<{
   moduleClassName?: string;
   name?: string;
   options: ReadonlyArray<Option>;
-  onChange(value: string): void;
+  onChange: (value: string) => void;
   value?: string | number;
 }>;
 

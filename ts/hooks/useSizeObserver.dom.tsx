@@ -93,7 +93,7 @@ export type SizeObserverProps = Readonly<{
    */
   onSizeChange?: SizeChangeHandler;
   // oxlint-disable-next-line typescript/no-explicit-any
-  children(ref: RefObject<any>, size: Size | null): JSX.Element;
+  children: (ref: RefObject<any>, size: Size | null) => JSX.Element;
 }>;
 
 export function SizeObserver({

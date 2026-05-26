@@ -11,7 +11,7 @@ import { AxoButton } from '../axo/AxoButton.dom.tsx';
 
 export type SafetyTipsModalProps = Readonly<{
   i18n: LocalizerType;
-  onClose(): void;
+  onClose: () => void;
 }>;
 
 export function SafetyTipsModal({

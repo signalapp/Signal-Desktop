@@ -18,7 +18,9 @@ export type MessageRequestResponseNotificationProps =
     i18n: LocalizerType;
     isBlocked: boolean;
     isGroup: boolean;
-    onOpenMessageRequestActionsConfirmation(state: MessageRequestState): void;
+    onOpenMessageRequestActionsConfirmation: (
+      state: MessageRequestState
+    ) => void;
     renderedContact: JSX.Element | null;
   };
 

@@ -11,7 +11,7 @@ export type Props = {
   defaultValue: Delta | undefined;
   formats: Array<string>;
   modules: Record<string, unknown>;
-  onChange?(): void;
+  onChange?: () => void;
   placeholder: string;
   readOnly: boolean | undefined;
 };

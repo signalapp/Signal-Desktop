@@ -128,16 +128,16 @@ type PartialNullable<T> = {
 type RouteConfig<Args extends object> = {
   patterns: Array<URLMatcher>;
   schema: z.ZodType<Args>;
-  parse(result: URLPatternResult, url: URL): PartialNullable<Args>;
-  toWebUrl?(args: Args): URL;
-  toAppUrl?(args: Args): URL;
+  parse: (result: URLPatternResult, url: URL) => PartialNullable<Args>;
+  toWebUrl?: (args: Args) => URL;
+  toAppUrl?: (args: Args) => URL;
 };
 
 type SignalRoute<Key extends string, Args extends object> = {
-  isMatch(input: URL | string): boolean;
-  fromUrl(input: URL | string): RouteResult<Key, Args> | null;
-  toWebUrl(args: Args): URL;
-  toAppUrl(args: Args): URL;
+  isMatch: (input: URL | string) => boolean;
+  fromUrl: (input: URL | string) => RouteResult<Key, Args> | null;
+  toWebUrl: (args: Args) => URL;
+  toAppUrl: (args: Args) => URL;
 };
 
 type RouteResult<Key extends string, Args extends object> = {
@@ -714,7 +714,8 @@ export type ParsedSignalRoute = NonNullable<
 
 /** @internal */
 type MatchedSignalRoute = {
-  route: SignalRoute<string, object>;
+  // oxlint-disable-next-line typescript/no-explicit-any
+  route: SignalRoute<string, any>;
   parsed: ParsedSignalRoute;
 };
 

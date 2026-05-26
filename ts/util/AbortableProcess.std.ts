@@ -4,7 +4,7 @@
 import { explodePromise } from './explodePromise.std.ts';
 
 export type IController = {
-  abort(): void;
+  abort: () => void;
 };
 
 export class AbortableProcess<Result> implements IController {
