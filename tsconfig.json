@@ -23,7 +23,7 @@
      */
 
     /* Save .tsbuildinfo files to allow for incremental compilation of projects. */
-    "incremental": true,
+    "incremental": false,
     /* Enable constraints that allow a TypeScript project to be used with project references. */
     "composite": false,
     /* Specify the path to .tsbuildinfo incremental compilation file. */

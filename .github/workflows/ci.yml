@@ -42,13 +42,6 @@ jobs:
     #     path: ${{ env.SCCACHE_PATH }}
     #     key: sccache-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml', 'patches/**') }}
 
-    - name: Restore cached tsconfig.tsbuildinfo
-      uses: actions/cache/restore@668228422ae6a00e4ad889ee87cd7109ec5666a7 # v5.0.4
-      id: cache-lint
-      with:
-        path: tsconfig.tsbuildinfo
-        key: lint-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml', 'patches/**', 'tsconfig.json') }}
-
     - name: Install Desktop node_modules
       run: pnpm install
       env:
@@ -83,13 +76,6 @@ jobs:
         REQUIRE_SIGNAL_LIB_FILES: 1
 
     - run: git diff --exit-code
-
-    - name: Update cached tsconfig.tsbuildinfo
-      uses: actions/cache/save@668228422ae6a00e4ad889ee87cd7109ec5666a7 # v5.0.4
-      if: github.ref == 'refs/heads/main'
-      with:
-        path: tsconfig.tsbuildinfo
-        key: ${{ steps.cache-lint.outputs.cache-primary-key }}
 
   macos:
     name: MacOS
