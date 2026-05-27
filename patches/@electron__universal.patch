@@ -1,0 +1,1170 @@
+diff --git a/dist/asar-utils.d.ts b/dist/asar-utils.d.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..e207f8f0905c749a80afe0884660dcad5574cf4a
+--- /dev/null
++++ b/dist/asar-utils.d.ts
+@@ -0,0 +1,17 @@
++export declare enum AsarMode {
++    NO_ASAR = 0,
++    HAS_ASAR = 1
++}
++export type MergeASARsOptions = {
++    x64AsarPath: string;
++    arm64AsarPath: string;
++    outputAsarPath: string;
++    singleArchFiles?: string;
++};
++export declare const detectAsarMode: (appPath: string) => Promise<AsarMode>;
++export declare const generateAsarIntegrity: (asarPath: string) => {
++    algorithm: "SHA256";
++    hash: string;
++};
++export declare const mergeASARs: ({ x64AsarPath, arm64AsarPath, outputAsarPath, singleArchFiles, }: MergeASARsOptions) => Promise<void>;
++export declare const isUniversalMachO: (fileContent: Buffer) => boolean;
+diff --git a/dist/asar-utils.js b/dist/asar-utils.js
+new file mode 100644
+index 0000000000000000000000000000000000000000..0e7d6d71c3e37be8f19f3ef7faaf2698bff11fcc
+--- /dev/null
++++ b/dist/asar-utils.js
+@@ -0,0 +1,177 @@
++import { execFileSync } from 'node:child_process';
++import crypto from 'node:crypto';
++import fs from 'node:fs';
++import os from 'node:os';
++import path from 'node:path';
++import * as asar from '@electron/asar';
++import { minimatch } from 'minimatch';
++import { d } from './debug.js';
++const LIPO = 'lipo';
++export var AsarMode;
++(function (AsarMode) {
++    AsarMode[AsarMode["NO_ASAR"] = 0] = "NO_ASAR";
++    AsarMode[AsarMode["HAS_ASAR"] = 1] = "HAS_ASAR";
++})(AsarMode || (AsarMode = {}));
++// See: https://github.com/apple-opensource-mirror/llvmCore/blob/0c60489d96c87140db9a6a14c6e82b15f5e5d252/include/llvm/Object/MachOFormat.h#L108-L112
++const MACHO_MAGIC = new Set([
++    // 32-bit Mach-O
++    0xfeedface, 0xcefaedfe,
++    // 64-bit Mach-O
++    0xfeedfacf, 0xcffaedfe,
++]);
++const MACHO_UNIVERSAL_MAGIC = new Set([
++    // universal
++    0xcafebabe, 0xbebafeca,
++]);
++export const detectAsarMode = async (appPath) => {
++    d('checking asar mode of', appPath);
++    const asarPath = path.resolve(appPath, 'Contents', 'Resources', 'app.asar');
++    if (!fs.existsSync(asarPath)) {
++        d('determined no asar');
++        return AsarMode.NO_ASAR;
++    }
++    d('determined has asar');
++    return AsarMode.HAS_ASAR;
++};
++export const generateAsarIntegrity = (asarPath) => {
++    return {
++        algorithm: 'SHA256',
++        hash: crypto
++            .createHash('SHA256')
++            .update(asar.getRawHeader(asarPath).headerString)
++            .digest('hex'),
++    };
++};
++function toRelativePath(file) {
++    return file.replace(/^\//, '');
++}
++function isDirectory(a, file) {
++    return Boolean('files' in asar.statFile(a, file));
++}
++function checkSingleArch(archive, file, allowList) {
++    if (allowList === undefined || !minimatch(file, allowList, { matchBase: true })) {
++        throw new Error(`Detected unique file "${file}" in "${archive}" not covered by ` +
++            `allowList rule: "${allowList}"`);
++    }
++}
++export const mergeASARs = async ({ x64AsarPath, arm64AsarPath, outputAsarPath, singleArchFiles, }) => {
++    d(`merging ${x64AsarPath} and ${arm64AsarPath}`);
++    const x64Files = new Set(asar.listPackage(x64AsarPath, { isPack: false }).map(toRelativePath));
++    const arm64Files = new Set(asar.listPackage(arm64AsarPath, { isPack: false }).map(toRelativePath));
++    //
++    // Build set of unpacked directories and files
++    //
++    const unpackedFiles = new Set();
++    function buildUnpacked(a, fileList) {
++        for (const file of fileList) {
++            const stat = asar.statFile(a, file);
++            if (!('unpacked' in stat) || !stat.unpacked) {
++                continue;
++            }
++            if ('files' in stat) {
++                continue;
++            }
++            unpackedFiles.add(file);
++        }
++    }
++    buildUnpacked(x64AsarPath, x64Files);
++    buildUnpacked(arm64AsarPath, arm64Files);
++    //
++    // Build list of files/directories unique to each asar
++    //
++    for (const file of x64Files) {
++        if (!arm64Files.has(file)) {
++            checkSingleArch(x64AsarPath, file, singleArchFiles);
++        }
++    }
++    const arm64Unique = [];
++    for (const file of arm64Files) {
++        if (!x64Files.has(file)) {
++            checkSingleArch(arm64AsarPath, file, singleArchFiles);
++            arm64Unique.push(file);
++        }
++    }
++    //
++    // Find common bindings with different content
++    //
++    const commonBindings = [];
++    for (const file of x64Files) {
++        if (!arm64Files.has(file)) {
++            continue;
++        }
++        // Skip directories
++        if (isDirectory(x64AsarPath, file)) {
++            continue;
++        }
++        const x64Content = asar.extractFile(x64AsarPath, file);
++        const arm64Content = asar.extractFile(arm64AsarPath, file);
++        // Skip file if the same content
++        if (x64Content.compare(arm64Content) === 0) {
++            continue;
++        }
++        // Skip universal Mach-O files.
++        if (isUniversalMachO(x64Content)) {
++            continue;
++        }
++        if (!MACHO_MAGIC.has(x64Content.readUInt32LE(0))) {
++            throw new Error(`Can't reconcile two non-macho files ${file}`);
++        }
++        commonBindings.push(file);
++    }
++    //
++    // Extract both
++    //
++    const x64Dir = await fs.promises.mkdtemp(path.join(os.tmpdir(), 'x64-'));
++    const arm64Dir = await fs.promises.mkdtemp(path.join(os.tmpdir(), 'arm64-'));
++    try {
++        d(`extracting ${x64AsarPath} to ${x64Dir}`);
++        asar.extractAll(x64AsarPath, x64Dir);
++        d(`extracting ${arm64AsarPath} to ${arm64Dir}`);
++        asar.extractAll(arm64AsarPath, arm64Dir);
++        for (const file of arm64Unique) {
++            const source = path.resolve(arm64Dir, file);
++            const destination = path.resolve(x64Dir, file);
++            if (isDirectory(arm64AsarPath, file)) {
++                d(`creating unique directory: ${file}`);
++                await fs.promises.mkdir(destination, { recursive: true });
++                continue;
++            }
++            d(`copying unique file: ${file}`);
++            await fs.promises.mkdir(path.dirname(destination), { recursive: true });
++            await fs.promises.cp(source, destination, {
++                force: true,
++                recursive: true,
++                verbatimSymlinks: true,
++            });
++        }
++        for (const binding of commonBindings) {
++            const source = await fs.promises.realpath(path.resolve(arm64Dir, binding));
++            const destination = await fs.promises.realpath(path.resolve(x64Dir, binding));
++            d(`merging binding: ${binding}`);
++            execFileSync(LIPO, [source, destination, '-create', '-output', destination]);
++        }
++        d(`creating archive at ${outputAsarPath}`);
++        const resolvedUnpack = Array.from(unpackedFiles).map((file) => path.join(x64Dir, file));
++        let unpack;
++        if (resolvedUnpack.length > 1) {
++            unpack = `{${resolvedUnpack.join(',')}}`;
++        }
++        else if (resolvedUnpack.length === 1) {
++            unpack = resolvedUnpack[0];
++        }
++        await asar.createPackageWithOptions(x64Dir, outputAsarPath, {
++            unpack,
++        });
++        d('done merging');
++    }
++    finally {
++        await Promise.all([
++            fs.promises.rm(x64Dir, { recursive: true, force: true }),
++            fs.promises.rm(arm64Dir, { recursive: true, force: true }),
++        ]);
++    }
++};
++export const isUniversalMachO = (fileContent) => {
++    return MACHO_UNIVERSAL_MAGIC.has(fileContent.readUInt32LE(0));
++};
++//# sourceMappingURL=asar-utils.js.map
+\ No newline at end of file
+diff --git a/dist/asar-utils.js.map b/dist/asar-utils.js.map
+new file mode 100644
+index 0000000000000000000000000000000000000000..5ee6d0cf46cf662265a6fe9364c6c2a0493337d3
+--- /dev/null
++++ b/dist/asar-utils.js.map
+@@ -0,0 +1 @@
++{"version":3,"file":"asar-utils.js","sourceRoot":"","sources":["../src/asar-utils.ts"],"names":[],"mappings":"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"}
+\ No newline at end of file
+diff --git a/dist/cjs/file-utils.d.ts b/dist/cjs/file-utils.d.ts
+index ecf69dd338b5e8711833e3ade3181a4ed7bff3d4..c7dbbd4f2805b6b4dd5db34e19faedfc25ca5522 100644
+--- a/dist/cjs/file-utils.d.ts
++++ b/dist/cjs/file-utils.d.ts
+@@ -4,15 +4,19 @@ export declare enum AppFileType {
+     PLAIN = 1,
+     INFO_PLIST = 2,
+     SNAPSHOT = 3,
+-    APP_CODE = 4
++    APP_CODE = 4,
++    SINGLE_ARCH = 5
+ }
+ export type AppFile = {
+     relativePath: string;
+     type: AppFileType;
+ };
++export type GetAllAppFilesOpts = {
++    singleArchFiles?: string;
++};
+ /**
+  *
+  * @param appPath Path to the application
+  */
+-export declare const getAllAppFiles: (appPath: string) => Promise<AppFile[]>;
++export declare const getAllAppFiles: (appPath: string, opts: GetAllAppFilesOpts) => Promise<AppFile[]>;
+ export declare const readMachOHeader: (path: string) => Promise<Buffer>;
+diff --git a/dist/cjs/file-utils.js b/dist/cjs/file-utils.js
+index 269a550b08f21e35e8b817e75c1310df296d9d88..99f2b51785c7a4f5629938d919dcbe5e3004a347 100644
+--- a/dist/cjs/file-utils.js
++++ b/dist/cjs/file-utils.js
+@@ -44,10 +44,12 @@ var __asyncGenerator = (this && this.__asyncGenerator) || function (thisArg, _ar
+ Object.defineProperty(exports, "__esModule", { value: true });
+ exports.readMachOHeader = exports.getAllAppFiles = exports.AppFileType = void 0;
+ const cross_spawn_promise_1 = require("@malept/cross-spawn-promise");
++const minimatch_1 = require("minimatch");
+ const fs = __importStar(require("fs-extra"));
+ const path = __importStar(require("path"));
+ const node_stream_1 = require("node:stream");
+ const MACHO_PREFIX = 'Mach-O ';
++const UNPACKED_ASAR_PATH = path.join('Contents', 'Resources', 'app.asar.unpacked');
+ var AppFileType;
+ (function (AppFileType) {
+     AppFileType[AppFileType["MACHO"] = 0] = "MACHO";
+@@ -55,12 +57,27 @@ var AppFileType;
+     AppFileType[AppFileType["INFO_PLIST"] = 2] = "INFO_PLIST";
+     AppFileType[AppFileType["SNAPSHOT"] = 3] = "SNAPSHOT";
+     AppFileType[AppFileType["APP_CODE"] = 4] = "APP_CODE";
++    AppFileType[AppFileType["SINGLE_ARCH"] = 5] = "SINGLE_ARCH";
+ })(AppFileType || (exports.AppFileType = AppFileType = {}));
++const isSingleArchFile = (relativePath, opts) => {
++    if (opts.singleArchFiles === undefined) {
++        return false;
++    }
++    const unpackedPath = path.relative(UNPACKED_ASAR_PATH, relativePath);
++    // Outside of app.asar.unpacked
++    if (unpackedPath.startsWith('..')) {
++        return false;
++    }
++    return (0, minimatch_1.minimatch)(unpackedPath, opts.singleArchFiles, {
++        matchBase: true,
++    });
++};
+ /**
+  *
+  * @param appPath Path to the application
+  */
+-const getAllAppFiles = async (appPath) => {
++const getAllAppFiles = async (appPath, opts) => {
++    const unpackedPath = path.join('Contents', 'Resources', 'app.asar.unpacked');
+     const files = [];
+     const visited = new Set();
+     const traverse = async (p) => {
+@@ -72,6 +89,7 @@ const getAllAppFiles = async (appPath) => {
+         if (info.isSymbolicLink())
+             return;
+         if (info.isFile()) {
++            const relativePath = path.relative(appPath, p);
+             let fileType = AppFileType.PLAIN;
+             var fileOutput = '';
+             try {
+@@ -88,6 +106,9 @@ const getAllAppFiles = async (appPath) => {
+             if (p.endsWith('.asar')) {
+                 fileType = AppFileType.APP_CODE;
+             }
++            else if (isSingleArchFile(relativePath, opts)) {
++                fileType = AppFileType.SINGLE_ARCH;
++            }
+             else if (fileOutput.startsWith(MACHO_PREFIX)) {
+                 fileType = AppFileType.MACHO;
+             }
+@@ -98,7 +119,7 @@ const getAllAppFiles = async (appPath) => {
+                 fileType = AppFileType.INFO_PLIST;
+             }
+             files.push({
+-                relativePath: path.relative(appPath, p),
++                relativePath,
+                 type: fileType,
+             });
+         }
+diff --git a/dist/cjs/file-utils.js.map b/dist/cjs/file-utils.js.map
+index 18e999064a80a5fe1536db92155e97bf5bd147be..8ca03004a57cb1a5df3e09af62a66dcd462106a7 100644
+--- a/dist/cjs/file-utils.js.map
++++ b/dist/cjs/file-utils.js.map
+@@ -1 +1 @@
+-{"version":3,"file":"file-utils.js","sourceRoot":"","sources":["../../src/file-utils.ts"],"names":[],"mappings":"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"}
+\ No newline at end of file
++{"version":3,"file":"file-utils.js","sourceRoot":"","sources":["../../src/file-utils.ts"],"names":[],"mappings":"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"}
+\ No newline at end of file
+diff --git a/dist/cjs/index.js b/dist/cjs/index.js
+index a8e99778a052f17bfeacf8f02d50ddd099cc2968..4fa3236c198e3e9acc65f57724267617f6d09ff0 100644
+--- a/dist/cjs/index.js
++++ b/dist/cjs/index.js
+@@ -48,7 +48,9 @@ const file_utils_1 = require("./file-utils");
+ const sha_1 = require("./sha");
+ const debug_1 = require("./debug");
+ const integrity_1 = require("./integrity");
+-const dupedFiles = (files) => files.filter((f) => f.type !== file_utils_1.AppFileType.SNAPSHOT && f.type !== file_utils_1.AppFileType.APP_CODE);
++const dupedFiles = (files) => files.filter((f) => f.type !== file_utils_1.AppFileType.SNAPSHOT &&
++    f.type !== file_utils_1.AppFileType.APP_CODE &&
++    f.type !== file_utils_1.AppFileType.SINGLE_ARCH);
+ const makeUniversalApp = async (opts) => {
+     (0, debug_1.d)('making a universal app with options', opts);
+     if (process.platform !== 'darwin')
+@@ -83,8 +85,8 @@ const makeUniversalApp = async (opts) => {
+         await (0, cross_spawn_promise_1.spawn)('cp', ['-R', opts.x64AppPath, tmpApp]);
+         const uniqueToX64 = [];
+         const uniqueToArm64 = [];
+-        const x64Files = await (0, file_utils_1.getAllAppFiles)(await fs.realpath(tmpApp));
+-        const arm64Files = await (0, file_utils_1.getAllAppFiles)(await fs.realpath(opts.arm64AppPath));
++        const x64Files = await (0, file_utils_1.getAllAppFiles)(await fs.realpath(tmpApp), opts);
++        const arm64Files = await (0, file_utils_1.getAllAppFiles)(await fs.realpath(opts.arm64AppPath), opts);
+         for (const file of dupedFiles(x64Files)) {
+             if (!arm64Files.some((f) => f.relativePath === file.relativePath))
+                 uniqueToX64.push(file.relativePath);
+@@ -101,7 +103,9 @@ const makeUniversalApp = async (opts) => {
+             });
+             throw new Error('While trying to merge mach-o files across your apps we found a mismatch, the number of mach-o files is not the same between the arm64 and x64 builds');
+         }
+-        for (const file of x64Files.filter((f) => f.type === file_utils_1.AppFileType.PLAIN)) {
++        // Single Arch files are copied as is without processing.
++        const multiArchFiles = x64Files.filter((f) => f.type !== file_utils_1.AppFileType.SINGLE_ARCH);
++        for (const file of multiArchFiles.filter((f) => f.type === file_utils_1.AppFileType.PLAIN)) {
+             const x64Sha = await (0, sha_1.sha)(path.resolve(opts.x64AppPath, file.relativePath));
+             const arm64Sha = await (0, sha_1.sha)(path.resolve(opts.arm64AppPath, file.relativePath));
+             if (x64Sha !== arm64Sha) {
+@@ -115,7 +119,7 @@ const makeUniversalApp = async (opts) => {
+             }
+         }
+         const knownMergedMachOFiles = new Set();
+-        for (const machOFile of x64Files.filter((f) => f.type === file_utils_1.AppFileType.MACHO)) {
++        for (const machOFile of multiArchFiles.filter((f) => f.type === file_utils_1.AppFileType.MACHO)) {
+             const first = await fs.realpath(path.resolve(tmpApp, machOFile.relativePath));
+             const second = await fs.realpath(path.resolve(opts.arm64AppPath, machOFile.relativePath));
+             if ((0, asar_utils_1.isUniversalMachO)(await (0, file_utils_1.readMachOHeader)(first)) &&
+@@ -227,8 +231,8 @@ const makeUniversalApp = async (opts) => {
+                 (0, debug_1.d)('x64 and arm64 asars are the same');
+             }
+         }
+-        const generatedIntegrity = await (0, integrity_1.computeIntegrityData)(path.join(tmpApp, 'Contents'));
+-        const plistFiles = x64Files.filter((f) => f.type === file_utils_1.AppFileType.INFO_PLIST);
++        const generatedIntegrity = await (0, integrity_1.computeIntegrityData)(path.join(tmpApp, 'Contents'), opts);
++        const plistFiles = multiArchFiles.filter((f) => f.type === file_utils_1.AppFileType.INFO_PLIST);
+         for (const plistFile of plistFiles) {
+             const x64PlistPath = path.resolve(opts.x64AppPath, plistFile.relativePath);
+             const arm64PlistPath = path.resolve(opts.arm64AppPath, plistFile.relativePath);
+diff --git a/dist/cjs/index.js.map b/dist/cjs/index.js.map
+index 517685286a9044d3f88114d3a332c031e19e7497..f30249a6e25bd24528aaf56d744c0f82a1432181 100644
+--- a/dist/cjs/index.js.map
++++ b/dist/cjs/index.js.map
+@@ -1 +1 @@
+-{"version":3,"file":"index.js","sourceRoot":"","sources":["../../src/index.ts"],"names":[],"mappings":"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"}
+\ No newline at end of file
++{"version":3,"file":"index.js","sourceRoot":"","sources":["../../src/index.ts"],"names":[],"mappings":"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"}
+\ No newline at end of file
+diff --git a/dist/cjs/integrity.d.ts b/dist/cjs/integrity.d.ts
+index bc5e439c5368abdd923f8437c370018d1ea269dc..1d5ee8144a038df8218eadbd4396e5e41867c956 100644
+--- a/dist/cjs/integrity.d.ts
++++ b/dist/cjs/integrity.d.ts
+@@ -5,4 +5,7 @@ export interface HeaderHash {
+ export interface AsarIntegrity {
+     [key: string]: HeaderHash;
+ }
+-export declare function computeIntegrityData(contentsPath: string): Promise<AsarIntegrity>;
++export type ComputeIntegrityDataOpts = {
++    singleArchFiles?: string;
++};
++export declare function computeIntegrityData(contentsPath: string, opts: ComputeIntegrityDataOpts): Promise<AsarIntegrity>;
+diff --git a/dist/cjs/integrity.js b/dist/cjs/integrity.js
+index 99575f8a6d3070d813eab1de52340f2671a65d97..bdfcb31863bfdd477bcb18845194425780afcd84 100644
+--- a/dist/cjs/integrity.js
++++ b/dist/cjs/integrity.js
+@@ -31,11 +31,11 @@ const fs = __importStar(require("fs-extra"));
+ const path_1 = __importDefault(require("path"));
+ const file_utils_1 = require("./file-utils");
+ const asar_utils_1 = require("./asar-utils");
+-async function computeIntegrityData(contentsPath) {
++async function computeIntegrityData(contentsPath, opts) {
+     const root = await fs.realpath(contentsPath);
+     const resourcesRelativePath = 'Resources';
+     const resourcesPath = path_1.default.resolve(root, resourcesRelativePath);
+-    const resources = await (0, file_utils_1.getAllAppFiles)(resourcesPath);
++    const resources = await (0, file_utils_1.getAllAppFiles)(resourcesPath, opts);
+     const resourceAsars = resources
+         .filter((file) => file.type === file_utils_1.AppFileType.APP_CODE)
+         .reduce((prev, file) => (Object.assign(Object.assign({}, prev), { [path_1.default.join(resourcesRelativePath, file.relativePath)]: path_1.default.join(resourcesPath, file.relativePath) })), {});
+diff --git a/dist/cjs/integrity.js.map b/dist/cjs/integrity.js.map
+index ca9e8fbdc178a7f77cd885a0b9a90013a0c12817..1b7a093bcdad0df68b1837ab36c33ae3621218a3 100644
+--- a/dist/cjs/integrity.js.map
++++ b/dist/cjs/integrity.js.map
+@@ -1 +1 @@
+-{"version":3,"file":"integrity.js","sourceRoot":"","sources":["../../src/integrity.ts"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAAA,6CAA+B;AAC/B,gDAAwB;AACxB,6CAA2D;AAE3D,6CAAqD;AAe9C,KAAK,UAAU,oBAAoB,CAAC,YAAoB;IAC7D,MAAM,IAAI,GAAG,MAAM,EAAE,CAAC,QAAQ,CAAC,YAAY,CAAC,CAAC;IAE7C,MAAM,qBAAqB,GAAG,WAAW,CAAC;IAC1C,MAAM,aAAa,GAAG,cAAI,CAAC,OAAO,CAAC,IAAI,EAAE,qBAAqB,CAAC,CAAC;IAEhE,MAAM,SAAS,GAAG,MAAM,IAAA,2BAAc,EAAC,aAAa,CAAC,CAAC;IACtD,MAAM,aAAa,GAAG,SAAS;SAC5B,MAAM,CAAC,CAAC,IAAI,EAAE,EAAE,CAAC,IAAI,CAAC,IAAI,KAAK,wBAAW,CAAC,QAAQ,CAAC;SACpD,MAAM,CACL,CAAC,IAAI,EAAE,IAAI,EAAE,EAAE,CAAC,iCACX,IAAI,KACP,CAAC,cAAI,CAAC,IAAI,CAAC,qBAAqB,EAAE,IAAI,CAAC,YAAY,CAAC,CAAC,EAAE,cAAI,CAAC,IAAI,CAC9D,aAAa,EACb,IAAI,CAAC,YAAY,CAClB,IACD,EACF,EAAE,CACH,CAAC;IAEJ,kCAAkC;IAClC,MAAM,QAAQ,GAAG,MAAM,CAAC,OAAO,CAAC,aAAa,CAAC,CAAC,IAAI,CAAC,CAAC,CAAC,KAAK,CAAC,EAAE,CAAC,KAAK,CAAC,EAAE,EAAE,CACvE,KAAK,CAAC,aAAa,CAAC,KAAK,CAAC,CAC3B,CAAC;IACF,MAAM,MAAM,GAAG,MAAM,OAAO,CAAC,GAAG,CAAC,QAAQ,CAAC,GAAG,CAAC,KAAK,EAAE,CAAC,EAAE,IAAI,CAAC,EAAE,EAAE,CAAC,IAAA,kCAAqB,EAAC,IAAI,CAAC,CAAC,CAAC,CAAC;IAChG,MAAM,aAAa,GAAkB,EAAE,CAAC;IACxC,KAAK,IAAI,CAAC,GAAG,CAAC,EAAE,CAAC,GAAG,QAAQ,CAAC,MAAM,EAAE,CAAC,EAAE,EAAE;QACxC,MAAM,CAAC,IAAI,CAAC,GAAG,QAAQ,CAAC,CAAC,CAAC,CAAC;QAC3B,aAAa,CAAC,IAAI,CAAC,GAAG,MAAM,CAAC,CAAC,CAAC,CAAC;KACjC;IACD,OAAO,aAAa,CAAC;AACvB,CAAC;AA/BD,oDA+BC"}
+\ No newline at end of file
++{"version":3,"file":"integrity.js","sourceRoot":"","sources":["../../src/integrity.ts"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAAA,6CAA+B;AAC/B,gDAAwB;AACxB,6CAA2D;AAE3D,6CAAqD;AAmB9C,KAAK,UAAU,oBAAoB,CACxC,YAAoB,EACpB,IAA8B;IAE9B,MAAM,IAAI,GAAG,MAAM,EAAE,CAAC,QAAQ,CAAC,YAAY,CAAC,CAAC;IAE7C,MAAM,qBAAqB,GAAG,WAAW,CAAC;IAC1C,MAAM,aAAa,GAAG,cAAI,CAAC,OAAO,CAAC,IAAI,EAAE,qBAAqB,CAAC,CAAC;IAEhE,MAAM,SAAS,GAAG,MAAM,IAAA,2BAAc,EAAC,aAAa,EAAE,IAAI,CAAC,CAAC;IAC5D,MAAM,aAAa,GAAG,SAAS;SAC5B,MAAM,CAAC,CAAC,IAAI,EAAE,EAAE,CAAC,IAAI,CAAC,IAAI,KAAK,wBAAW,CAAC,QAAQ,CAAC;SACpD,MAAM,CACL,CAAC,IAAI,EAAE,IAAI,EAAE,EAAE,CAAC,iCACX,IAAI,KACP,CAAC,cAAI,CAAC,IAAI,CAAC,qBAAqB,EAAE,IAAI,CAAC,YAAY,CAAC,CAAC,EAAE,cAAI,CAAC,IAAI,CAC9D,aAAa,EACb,IAAI,CAAC,YAAY,CAClB,IACD,EACF,EAAE,CACH,CAAC;IAEJ,kCAAkC;IAClC,MAAM,QAAQ,GAAG,MAAM,CAAC,OAAO,CAAC,aAAa,CAAC,CAAC,IAAI,CAAC,CAAC,CAAC,KAAK,CAAC,EAAE,CAAC,KAAK,CAAC,EAAE,EAAE,CACvE,KAAK,CAAC,aAAa,CAAC,KAAK,CAAC,CAC3B,CAAC;IACF,MAAM,MAAM,GAAG,MAAM,OAAO,CAAC,GAAG,CAAC,QAAQ,CAAC,GAAG,CAAC,KAAK,EAAE,CAAC,EAAE,IAAI,CAAC,EAAE,EAAE,CAAC,IAAA,kCAAqB,EAAC,IAAI,CAAC,CAAC,CAAC,CAAC;IAChG,MAAM,aAAa,GAAkB,EAAE,CAAC;IACxC,KAAK,IAAI,CAAC,GAAG,CAAC,EAAE,CAAC,GAAG,QAAQ,CAAC,MAAM,EAAE,CAAC,EAAE,EAAE;QACxC,MAAM,CAAC,IAAI,CAAC,GAAG,QAAQ,CAAC,CAAC,CAAC,CAAC;QAC3B,aAAa,CAAC,IAAI,CAAC,GAAG,MAAM,CAAC,CAAC,CAAC,CAAC;KACjC;IACD,OAAO,aAAa,CAAC;AACvB,CAAC;AAlCD,oDAkCC"}
+\ No newline at end of file
+diff --git a/dist/debug.d.ts b/dist/debug.d.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..f6cf4a4d6c11d87d872819931e109584fee8fd0c
+--- /dev/null
++++ b/dist/debug.d.ts
+@@ -0,0 +1,2 @@
++import debug from 'debug';
++export declare const d: debug.Debugger;
+diff --git a/dist/debug.js b/dist/debug.js
+new file mode 100644
+index 0000000000000000000000000000000000000000..61f8c1e572aa93c21c296459622cdd9c73a74e1d
+--- /dev/null
++++ b/dist/debug.js
+@@ -0,0 +1,3 @@
++import debug from 'debug';
++export const d = debug('electron-universal');
++//# sourceMappingURL=debug.js.map
+\ No newline at end of file
+diff --git a/dist/debug.js.map b/dist/debug.js.map
+new file mode 100644
+index 0000000000000000000000000000000000000000..24522b31c696b388418ae09c7a92da27b310f263
+--- /dev/null
++++ b/dist/debug.js.map
+@@ -0,0 +1 @@
++{"version":3,"file":"debug.js","sourceRoot":"","sources":["../src/debug.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,MAAM,OAAO,CAAC;AAE1B,MAAM,CAAC,MAAM,CAAC,GAAG,KAAK,CAAC,oBAAoB,CAAC,CAAC"}
+\ No newline at end of file
+diff --git a/dist/esm/file-utils.d.ts b/dist/esm/file-utils.d.ts
+index ecf69dd338b5e8711833e3ade3181a4ed7bff3d4..c7dbbd4f2805b6b4dd5db34e19faedfc25ca5522 100644
+--- a/dist/esm/file-utils.d.ts
++++ b/dist/esm/file-utils.d.ts
+@@ -4,15 +4,19 @@ export declare enum AppFileType {
+     PLAIN = 1,
+     INFO_PLIST = 2,
+     SNAPSHOT = 3,
+-    APP_CODE = 4
++    APP_CODE = 4,
++    SINGLE_ARCH = 5
+ }
+ export type AppFile = {
+     relativePath: string;
+     type: AppFileType;
+ };
++export type GetAllAppFilesOpts = {
++    singleArchFiles?: string;
++};
+ /**
+  *
+  * @param appPath Path to the application
+  */
+-export declare const getAllAppFiles: (appPath: string) => Promise<AppFile[]>;
++export declare const getAllAppFiles: (appPath: string, opts: GetAllAppFilesOpts) => Promise<AppFile[]>;
+ export declare const readMachOHeader: (path: string) => Promise<Buffer>;
+diff --git a/dist/esm/file-utils.js b/dist/esm/file-utils.js
+index 9167870351984be6680f9a1e6c6dd6af7db170f3..7bfbbe7684e75fa4596689892b2f9bf22497a602 100644
+--- a/dist/esm/file-utils.js
++++ b/dist/esm/file-utils.js
+@@ -18,10 +18,12 @@ var __asyncGenerator = (this && this.__asyncGenerator) || function (thisArg, _ar
+     function settle(f, v) { if (f(v), q.shift(), q.length) resume(q[0][0], q[0][1]); }
+ };
+ import { spawn, ExitCodeError } from '@malept/cross-spawn-promise';
++import { minimatch } from 'minimatch';
+ import * as fs from 'fs-extra';
+ import * as path from 'path';
+ import { promises as stream } from 'node:stream';
+ const MACHO_PREFIX = 'Mach-O ';
++const UNPACKED_ASAR_PATH = path.join('Contents', 'Resources', 'app.asar.unpacked');
+ export var AppFileType;
+ (function (AppFileType) {
+     AppFileType[AppFileType["MACHO"] = 0] = "MACHO";
+@@ -29,12 +31,27 @@ export var AppFileType;
+     AppFileType[AppFileType["INFO_PLIST"] = 2] = "INFO_PLIST";
+     AppFileType[AppFileType["SNAPSHOT"] = 3] = "SNAPSHOT";
+     AppFileType[AppFileType["APP_CODE"] = 4] = "APP_CODE";
++    AppFileType[AppFileType["SINGLE_ARCH"] = 5] = "SINGLE_ARCH";
+ })(AppFileType || (AppFileType = {}));
++const isSingleArchFile = (relativePath, opts) => {
++    if (opts.singleArchFiles === undefined) {
++        return false;
++    }
++    const unpackedPath = path.relative(UNPACKED_ASAR_PATH, relativePath);
++    // Outside of app.asar.unpacked
++    if (unpackedPath.startsWith('..')) {
++        return false;
++    }
++    return minimatch(unpackedPath, opts.singleArchFiles, {
++        matchBase: true,
++    });
++};
+ /**
+  *
+  * @param appPath Path to the application
+  */
+-export const getAllAppFiles = async (appPath) => {
++export const getAllAppFiles = async (appPath, opts) => {
++    const unpackedPath = path.join('Contents', 'Resources', 'app.asar.unpacked');
+     const files = [];
+     const visited = new Set();
+     const traverse = async (p) => {
+@@ -46,6 +63,7 @@ export const getAllAppFiles = async (appPath) => {
+         if (info.isSymbolicLink())
+             return;
+         if (info.isFile()) {
++            const relativePath = path.relative(appPath, p);
+             let fileType = AppFileType.PLAIN;
+             var fileOutput = '';
+             try {
+@@ -62,6 +80,9 @@ export const getAllAppFiles = async (appPath) => {
+             if (p.endsWith('.asar')) {
+                 fileType = AppFileType.APP_CODE;
+             }
++            else if (isSingleArchFile(relativePath, opts)) {
++                fileType = AppFileType.SINGLE_ARCH;
++            }
+             else if (fileOutput.startsWith(MACHO_PREFIX)) {
+                 fileType = AppFileType.MACHO;
+             }
+@@ -72,7 +93,7 @@ export const getAllAppFiles = async (appPath) => {
+                 fileType = AppFileType.INFO_PLIST;
+             }
+             files.push({
+-                relativePath: path.relative(appPath, p),
++                relativePath,
+                 type: fileType,
+             });
+         }
+diff --git a/dist/esm/file-utils.js.map b/dist/esm/file-utils.js.map
+index a8089cb59097dd50322f72c695245698f6c2b8b1..3d3e724178dd724a86adcc4216a5c37379666e95 100644
+--- a/dist/esm/file-utils.js.map
++++ b/dist/esm/file-utils.js.map
+@@ -1 +1 @@
+-{"version":3,"file":"file-utils.js","sourceRoot":"","sources":["../../src/file-utils.ts"],"names":[],"mappings":"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"}
+\ No newline at end of file
++{"version":3,"file":"file-utils.js","sourceRoot":"","sources":["../../src/file-utils.ts"],"names":[],"mappings":"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"}
+\ No newline at end of file
+diff --git a/dist/esm/index.js b/dist/esm/index.js
+index 34ff91a3270e4bbb99ace1e3ce6e0a699fe5c5ff..66a1cfb9c683e642ff6569d9d03ec84bea21116b 100644
+--- a/dist/esm/index.js
++++ b/dist/esm/index.js
+@@ -22,7 +22,9 @@ import { AppFileType, getAllAppFiles, readMachOHeader } from './file-utils';
+ import { sha } from './sha';
+ import { d } from './debug';
+ import { computeIntegrityData } from './integrity';
+-const dupedFiles = (files) => files.filter((f) => f.type !== AppFileType.SNAPSHOT && f.type !== AppFileType.APP_CODE);
++const dupedFiles = (files) => files.filter((f) => f.type !== AppFileType.SNAPSHOT &&
++    f.type !== AppFileType.APP_CODE &&
++    f.type !== AppFileType.SINGLE_ARCH);
+ export const makeUniversalApp = async (opts) => {
+     d('making a universal app with options', opts);
+     if (process.platform !== 'darwin')
+@@ -57,8 +59,8 @@ export const makeUniversalApp = async (opts) => {
+         await spawn('cp', ['-R', opts.x64AppPath, tmpApp]);
+         const uniqueToX64 = [];
+         const uniqueToArm64 = [];
+-        const x64Files = await getAllAppFiles(await fs.realpath(tmpApp));
+-        const arm64Files = await getAllAppFiles(await fs.realpath(opts.arm64AppPath));
++        const x64Files = await getAllAppFiles(await fs.realpath(tmpApp), opts);
++        const arm64Files = await getAllAppFiles(await fs.realpath(opts.arm64AppPath), opts);
+         for (const file of dupedFiles(x64Files)) {
+             if (!arm64Files.some((f) => f.relativePath === file.relativePath))
+                 uniqueToX64.push(file.relativePath);
+@@ -75,7 +77,9 @@ export const makeUniversalApp = async (opts) => {
+             });
+             throw new Error('While trying to merge mach-o files across your apps we found a mismatch, the number of mach-o files is not the same between the arm64 and x64 builds');
+         }
+-        for (const file of x64Files.filter((f) => f.type === AppFileType.PLAIN)) {
++        // Single Arch files are copied as is without processing.
++        const multiArchFiles = x64Files.filter((f) => f.type !== AppFileType.SINGLE_ARCH);
++        for (const file of multiArchFiles.filter((f) => f.type === AppFileType.PLAIN)) {
+             const x64Sha = await sha(path.resolve(opts.x64AppPath, file.relativePath));
+             const arm64Sha = await sha(path.resolve(opts.arm64AppPath, file.relativePath));
+             if (x64Sha !== arm64Sha) {
+@@ -89,7 +93,7 @@ export const makeUniversalApp = async (opts) => {
+             }
+         }
+         const knownMergedMachOFiles = new Set();
+-        for (const machOFile of x64Files.filter((f) => f.type === AppFileType.MACHO)) {
++        for (const machOFile of multiArchFiles.filter((f) => f.type === AppFileType.MACHO)) {
+             const first = await fs.realpath(path.resolve(tmpApp, machOFile.relativePath));
+             const second = await fs.realpath(path.resolve(opts.arm64AppPath, machOFile.relativePath));
+             if (isUniversalMachO(await readMachOHeader(first)) &&
+@@ -201,8 +205,8 @@ export const makeUniversalApp = async (opts) => {
+                 d('x64 and arm64 asars are the same');
+             }
+         }
+-        const generatedIntegrity = await computeIntegrityData(path.join(tmpApp, 'Contents'));
+-        const plistFiles = x64Files.filter((f) => f.type === AppFileType.INFO_PLIST);
++        const generatedIntegrity = await computeIntegrityData(path.join(tmpApp, 'Contents'), opts);
++        const plistFiles = multiArchFiles.filter((f) => f.type === AppFileType.INFO_PLIST);
+         for (const plistFile of plistFiles) {
+             const x64PlistPath = path.resolve(opts.x64AppPath, plistFile.relativePath);
+             const arm64PlistPath = path.resolve(opts.arm64AppPath, plistFile.relativePath);
+diff --git a/dist/esm/index.js.map b/dist/esm/index.js.map
+index 0d2bf56fb3eb1edd1aec1256d573e2d3ca61b5bb..d4b75f8eb7dc8b5cfe6471b61534372bc229a8a8 100644
+--- a/dist/esm/index.js.map
++++ b/dist/esm/index.js.map
+@@ -1 +1 @@
+-{"version":3,"file":"index.js","sourceRoot":"","sources":["../../src/index.ts"],"names":[],"mappings":";;;;;;;;;;;AAAA,OAAO,KAAK,IAAI,MAAM,gBAAgB,CAAC;AACvC,OAAO,EAAE,KAAK,EAAE,MAAM,6BAA6B,CAAC;AACpD,OAAO,KAAK,UAAU,MAAM,aAAa,CAAC;AAC1C,OAAO,KAAK,EAAE,MAAM,UAAU,CAAC;AAC/B,OAAO,EAAE,SAAS,EAAE,MAAM,WAAW,CAAC;AACtC,OAAO,KAAK,EAAE,MAAM,IAAI,CAAC;AACzB,OAAO,KAAK,IAAI,MAAM,MAAM,CAAC;AAC7B,OAAO,KAAK,KAAK,MAAM,OAAO,CAAC;AAE/B,OAAO,EAAE,QAAQ,EAAE,cAAc,EAAE,gBAAgB,EAAE,UAAU,EAAE,MAAM,cAAc,CAAC;AACtF,OAAO,EAAW,WAAW,EAAE,cAAc,EAAE,eAAe,EAAE,MAAM,cAAc,CAAC;AACrF,OAAO,EAAE,GAAG,EAAE,MAAM,OAAO,CAAC;AAC5B,OAAO,EAAE,CAAC,EAAE,MAAM,SAAS,CAAC;AAC5B,OAAO,EAAE,oBAAoB,EAAE,MAAM,aAAa,CAAC;AA8DnD,MAAM,UAAU,GAAG,CAAC,KAAgB,EAAE,EAAE,CACtC,KAAK,CAAC,MAAM,CAAC,CAAC,CAAC,EAAE,EAAE,CAAC,CAAC,CAAC,IAAI,KAAK,WAAW,CAAC,QAAQ,IAAI,CAAC,CAAC,IAAI,KAAK,WAAW,CAAC,QAAQ,CAAC,CAAC;AAE1F,MAAM,CAAC,MAAM,gBAAgB,GAAG,KAAK,EAAE,IAAuB,EAAiB,EAAE;IAC/E,CAAC,CAAC,qCAAqC,EAAE,IAAI,CAAC,CAAC;IAE/C,IAAI,OAAO,CAAC,QAAQ,KAAK,QAAQ;QAC/B,MAAM,IAAI,KAAK,CAAC,2DAA2D,CAAC,CAAC;IAC/E,IAAI,CAAC,IAAI,CAAC,UAAU,IAAI,CAAC,IAAI,CAAC,UAAU,CAAC,IAAI,CAAC,UAAU,CAAC;QACvD,MAAM,IAAI,KAAK,CAAC,gEAAgE,CAAC,CAAC;IACpF,IAAI,CAAC,IAAI,CAAC,YAAY,IAAI,CAAC,IAAI,CAAC,UAAU,CAAC,IAAI,CAAC,YAAY,CAAC;QAC3D,MAAM,IAAI,KAAK,CAAC,kEAAkE,CAAC,CAAC;IACtF,IAAI,CAAC,IAAI,CAAC,UAAU,IAAI,CAAC,IAAI,CAAC,UAAU,CAAC,IAAI,CAAC,UAAU,CAAC;QACvD,MAAM,IAAI,KAAK,CAAC,gEAAgE,CAAC,CAAC;IAEpF,IAAI,MAAM,EAAE,CAAC,UAAU,CAAC,IAAI,CAAC,UAAU,CAAC,EAAE;QACxC,CAAC,CAAC,4BAA4B,CAAC,CAAC;QAChC,IAAI,CAAC,IAAI,CAAC,KAAK,EAAE;YACf,MAAM,IAAI,KAAK,CACb,iBAAiB,IAAI,CAAC,UAAU,+CAA+C,CAChF,CAAC;SACH;aAAM;YACL,CAAC,CAAC,wDAAwD,CAAC,CAAC;YAC5D,MAAM,EAAE,CAAC,MAAM,CAAC,IAAI,CAAC,UAAU,CAAC,CAAC;SAClC;KACF;IAED,MAAM,WAAW,GAAG,MAAM,cAAc,CAAC,IAAI,CAAC,UAAU,CAAC,CAAC;IAC1D,MAAM,aAAa,GAAG,MAAM,cAAc,CAAC,IAAI,CAAC,YAAY,CAAC,CAAC;IAC9D,CAAC,CAAC,wBAAwB,EAAE,WAAW,CAAC,CAAC;IACzC,CAAC,CAAC,0BAA0B,EAAE,aAAa,CAAC,CAAC;IAE7C,IAAI,WAAW,KAAK,aAAa;QAC/B,MAAM,IAAI,KAAK,CACb,+HAA+H,CAChI,CAAC;IAEJ,MAAM,MAAM,GAAG,MAAM,EAAE,CAAC,OAAO,CAAC,IAAI,CAAC,OAAO,CAAC,EAAE,CAAC,MAAM,EAAE,EAAE,qBAAqB,CAAC,CAAC,CAAC;IAClF,CAAC,CAAC,2BAA2B,EAAE,MAAM,CAAC,CAAC;IAEvC,IAAI;QACF,CAAC,CAAC,qCAAqC,CAAC,CAAC;QACzC,MAAM,MAAM,GAAG,IAAI,CAAC,OAAO,CAAC,MAAM,EAAE,SAAS,CAAC,CAAC;QAC/C,MAAM,KAAK,CAAC,IAAI,EAAE,CAAC,IAAI,EAAE,IAAI,CAAC,UAAU,EAAE,MAAM,CAAC,CAAC,CAAC;QAEnD,MAAM,WAAW,GAAa,EAAE,CAAC;QACjC,MAAM,aAAa,GAAa,EAAE,CAAC;QACnC,MAAM,QAAQ,GAAG,MAAM,cAAc,CAAC,MAAM,EAAE,CAAC,QAAQ,CAAC,MAAM,CAAC,CAAC,CAAC;QACjE,MAAM,UAAU,GAAG,MAAM,cAAc,CAAC,MAAM,EAAE,CAAC,QAAQ,CAAC,IAAI,CAAC,YAAY,CAAC,CAAC,CAAC;QAE9E,KAAK,MAAM,IAAI,IAAI,UAAU,CAAC,QAAQ,CAAC,EAAE;YACvC,IAAI,CAAC,UAAU,CAAC,IAAI,CAAC,CAAC,CAAC,EAAE,EAAE,CAAC,CAAC,CAAC,YAAY,KAAK,IAAI,CAAC,YAAY,CAAC;gBAC/D,WAAW,CAAC,IAAI,CAAC,IAAI,CAAC,YAAY,CAAC,CAAC;SACvC;QACD,KAAK,MAAM,IAAI,IAAI,UAAU,CAAC,UAAU,CAAC,EAAE;YACzC,IAAI,CAAC,QAAQ,CAAC,IAAI,CAAC,CAAC,CAAC,EAAE,EAAE,CAAC,CAAC,CAAC,YAAY,KAAK,IAAI,CAAC,YAAY,CAAC;gBAC7D,aAAa,CAAC,IAAI,CAAC,IAAI,CAAC,YAAY,CAAC,CAAC;SACzC;QACD,IAAI,WAAW,CAAC,MAAM,KAAK,CAAC,IAAI,aAAa,CAAC,MAAM,KAAK,CAAC,EAAE;YAC1D,CAAC,CAAC,8CAA8C,CAAC,CAAC;YAClD,OAAO,CAAC,KAAK,CAAC;gBACZ,WAAW;gBACX,aAAa;aACd,CAAC,CAAC;YACH,MAAM,IAAI,KAAK,CACb,sJAAsJ,CACvJ,CAAC;SACH;QAED,KAAK,MAAM,IAAI,IAAI,QAAQ,CAAC,MAAM,CAAC,CAAC,CAAC,EAAE,EAAE,CAAC,CAAC,CAAC,IAAI,KAAK,WAAW,CAAC,KAAK,CAAC,EAAE;YACvE,MAAM,MAAM,GAAG,MAAM,GAAG,CAAC,IAAI,CAAC,OAAO,CAAC,IAAI,CAAC,UAAU,EAAE,IAAI,CAAC,YAAY,CAAC,CAAC,CAAC;YAC3E,MAAM,QAAQ,GAAG,MAAM,GAAG,CAAC,IAAI,CAAC,OAAO,CAAC,IAAI,CAAC,YAAY,EAAE,IAAI,CAAC,YAAY,CAAC,CAAC,CAAC;YAC/E,IAAI,MAAM,KAAK,QAAQ,EAAE;gBACvB,CAAC,CAAC,cAAc,EAAE,IAAI,CAAC,YAAY,EAAE,gCAAgC,MAAM,KAAK,QAAQ,EAAE,CAAC,CAAC;gBAC5F,sHAAsH;gBACtH,IAAI,IAAI,CAAC,QAAQ,CAAC,IAAI,CAAC,OAAO,CAAC,IAAI,CAAC,YAAY,CAAC,CAAC,KAAK,cAAc,EAAE;oBACrE,6DAA6D;oBAC7D,SAAS;iBACV;gBACD,MAAM,IAAI,KAAK,CACb,6FAA6F,IAAI,CAAC,YAAY,WAAW,CAC1H,CAAC;aACH;SACF;QACD,MAAM,qBAAqB,GAAG,IAAI,GAAG,EAAE,CAAC;QACxC,KAAK,MAAM,SAAS,IAAI,QAAQ,CAAC,MAAM,CAAC,CAAC,CAAC,EAAE,EAAE,CAAC,CAAC,CAAC,IAAI,KAAK,WAAW,CAAC,KAAK,CAAC,EAAE;YAC5E,MAAM,KAAK,GAAG,MAAM,EAAE,CAAC,QAAQ,CAAC,IAAI,CAAC,OAAO,CAAC,MAAM,EAAE,SAAS,CAAC,YAAY,CAAC,CAAC,CAAC;YAC9E,MAAM,MAAM,GAAG,MAAM,EAAE,CAAC,QAAQ,CAAC,IAAI,CAAC,OAAO,CAAC,IAAI,CAAC,YAAY,EAAE,SAAS,CAAC,YAAY,CAAC,CAAC,CAAC;YAE1F,IACE,gBAAgB,CAAC,MAAM,eAAe,CAAC,KAAK,CAAC,CAAC;gBAC9C,gBAAgB,CAAC,MAAM,eAAe,CAAC,MAAM,CAAC,CAAC,EAC/C;gBACA,CAAC,CAAC,SAAS,CAAC,YAAY,EAAE,mDAAmD,CAAC,CAAC;gBAC/E,qBAAqB,CAAC,GAAG,CAAC,SAAS,CAAC,YAAY,CAAC,CAAC;gBAClD,SAAS;aACV;YAED,MAAM,MAAM,GAAG,MAAM,GAAG,CAAC,IAAI,CAAC,OAAO,CAAC,IAAI,CAAC,UAAU,EAAE,SAAS,CAAC,YAAY,CAAC,CAAC,CAAC;YAChF,MAAM,QAAQ,GAAG,MAAM,GAAG,CAAC,IAAI,CAAC,OAAO,CAAC,IAAI,CAAC,YAAY,EAAE,SAAS,CAAC,YAAY,CAAC,CAAC,CAAC;YACpF,IAAI,MAAM,KAAK,QAAQ,EAAE;gBACvB,IACE,IAAI,CAAC,YAAY,KAAK,SAAS;oBAC/B,CAAC,SAAS,CAAC,SAAS,CAAC,YAAY,EAAE,IAAI,CAAC,YAAY,EAAE,EAAE,SAAS,EAAE,IAAI,EAAE,CAAC,EAC1E;oBACA,MAAM,IAAI,KAAK,CACb,kBAAkB,SAAS,CAAC,YAAY,wEAAwE;wBAC9G,uBAAuB,IAAI,CAAC,YAAY,GAAG,CAC9C,CAAC;iBACH;gBAED,CAAC,CACC,qBAAqB,EACrB,SAAS,CAAC,YAAY,EACtB,yBAAyB,MAAM,MAAM,QAAQ,iBAAiB,CAC/D,CAAC;gBACF,SAAS;aACV;YAED,CAAC,CAAC,mCAAmC,EAAE;gBACrC,KAAK;gBACL,MAAM;aACP,CAAC,CAAC;YACH,MAAM,KAAK,CAAC,MAAM,EAAE;gBAClB,KAAK;gBACL,MAAM;gBACN,SAAS;gBACT,SAAS;gBACT,MAAM,EAAE,CAAC,QAAQ,CAAC,IAAI,CAAC,OAAO,CAAC,MAAM,EAAE,SAAS,CAAC,YAAY,CAAC,CAAC;aAChE,CAAC,CAAC;YACH,qBAAqB,CAAC,GAAG,CAAC,SAAS,CAAC,YAAY,CAAC,CAAC;SACnD;QAED;;;;;WAKG;QACH,IAAI,WAAW,KAAK,QAAQ,CAAC,OAAO,EAAE;YACpC,CAAC,CAAC,yDAAyD,CAAC,CAAC;YAC7D,MAAM,UAAU,GAAG,MAAM,UAAU,CAAC,OAAO,CACzC,IAAI,CAAC,OAAO,CAAC,MAAM,EAAE,UAAU,EAAE,WAAW,EAAE,KAAK,CAAC,EACpD,IAAI,CAAC,OAAO,CAAC,IAAI,CAAC,YAAY,EAAE,UAAU,EAAE,WAAW,EAAE,KAAK,CAAC,EAC/D,EAAE,WAAW,EAAE,IAAI,EAAE,cAAc,EAAE,IAAI,EAAE,CAC5C,CAAC;YACF,MAAM,WAAW,GAAG,UAAU,CAAC,OAAQ,CAAC,MAAM,CAAC,CAAC,UAAU,EAAE,EAAE,CAAC,UAAU,CAAC,KAAK,KAAK,OAAO,CAAC,CAAC;YAC7F,CAAC,CAAC,SAAS,WAAW,CAAC,MAAM,kDAAkD,CAAC,CAAC;YACjF,MAAM,oBAAoB,GAAG,WAAW,CAAC,MAAM,CAC7C,CAAC,UAAU,EAAE,EAAE,CACb,CAAC,UAAU,CAAC,KAAK;gBACjB,CAAC,qBAAqB,CAAC,GAAG,CACxB,IAAI,CAAC,IAAI,CAAC,UAAU,EAAE,WAAW,EAAE,KAAK,EAAE,UAAU,CAAC,YAAY,EAAE,UAAU,CAAC,KAAK,CAAC,CACrF,CACJ,CAAC;YACF,CAAC,CAAC,iDAAiD,oBAAoB,CAAC,MAAM,UAAU,CAAC,CAAC;YAE1F,IAAI,oBAAoB,CAAC,MAAM,GAAG,CAAC,EAAE;gBACnC,CAAC,CAAC,sEAAsE,CAAC,CAAC;gBAC1E,MAAM,EAAE,CAAC,IAAI,CACX,IAAI,CAAC,OAAO,CAAC,MAAM,EAAE,UAAU,EAAE,WAAW,EAAE,KAAK,CAAC,EACpD,IAAI,CAAC,OAAO,CAAC,MAAM,EAAE,UAAU,EAAE,WAAW,EAAE,SAAS,CAAC,CACzD,CAAC;gBACF,MAAM,EAAE,CAAC,IAAI,CACX,IAAI,CAAC,OAAO,CAAC,IAAI,CAAC,YAAY,EAAE,UAAU,EAAE,WAAW,EAAE,KAAK,CAAC,EAC/D,IAAI,CAAC,OAAO,CAAC,MAAM,EAAE,UAAU,EAAE,WAAW,EAAE,WAAW,CAAC,CAC3D,CAAC;gBAEF,MAAM,SAAS,GAAG,IAAI,CAAC,OAAO,CAAC,MAAM,EAAE,YAAY,CAAC,CAAC;gBACrD,MAAM,EAAE,CAAC,KAAK,CAAC,SAAS,CAAC,CAAC;gBAC1B,MAAM,EAAE,CAAC,IAAI,CACX,IAAI,CAAC,OAAO,CAAC,SAAS,EAAE,IAAI,EAAE,IAAI,EAAE,YAAY,EAAE,YAAY,CAAC,EAC/D,IAAI,CAAC,OAAO,CAAC,SAAS,EAAE,UAAU,CAAC,CACpC,CAAC;gBACF,IAAI,EAAE,GAAG,MAAM,EAAE,CAAC,QAAQ,CACxB,IAAI,CAAC,OAAO,CAAC,IAAI,CAAC,UAAU,EAAE,UAAU,EAAE,WAAW,EAAE,KAAK,EAAE,cAAc,CAAC,CAC9E,CAAC;gBACF,EAAE,CAAC,IAAI,GAAG,UAAU,CAAC;gBACrB,MAAM,EAAE,CAAC,SAAS,CAAC,IAAI,CAAC,OAAO,CAAC,SAAS,EAAE,cAAc,CAAC,EAAE,EAAE,CAAC,CAAC;gBAChE,MAAM,IAAI,CAAC,aAAa,CACtB,SAAS,EACT,IAAI,CAAC,OAAO,CAAC,MAAM,EAAE,UAAU,EAAE,WAAW,EAAE,UAAU,CAAC,CAC1D,CAAC;aACH;iBAAM;gBACL,CAAC,CAAC,wCAAwC,CAAC,CAAC;aAC7C;SACF;QAED;;;;;;WAMG;QACH,mFAAmF;QACnF,IAAI,WAAW,KAAK,QAAQ,CAAC,QAAQ,IAAI,IAAI,CAAC,UAAU,EAAE;YACxD,CAAC,CAAC,6BAA6B,CAAC,CAAC;YACjC,MAAM,MAAM,GAAG,IAAI,CAAC,OAAO,CAAC,MAAM,EAAE,UAAU,EAAE,WAAW,EAAE,UAAU,CAAC,CAAC;YACzE,MAAM,UAAU,CAAC;gBACf,WAAW,EAAE,IAAI,CAAC,OAAO,CAAC,MAAM,EAAE,UAAU,EAAE,WAAW,EAAE,UAAU,CAAC;gBACtE,aAAa,EAAE,IAAI,CAAC,OAAO,CAAC,IAAI,CAAC,YAAY,EAAE,UAAU,EAAE,WAAW,EAAE,UAAU,CAAC;gBACnF,cAAc,EAAE,MAAM;gBACtB,eAAe,EAAE,IAAI,CAAC,eAAe;aACtC,CAAC,CAAC;SACJ;aAAM,IAAI,WAAW,KAAK,QAAQ,CAAC,QAAQ,EAAE;YAC5C,CAAC,CAAC,mDAAmD,CAAC,CAAC;YACvD,MAAM,UAAU,GAAG,MAAM,GAAG,CAAC,IAAI,CAAC,OAAO,CAAC,MAAM,EAAE,UAAU,EAAE,WAAW,EAAE,UAAU,CAAC,CAAC,CAAC;YACxF,MAAM,YAAY,GAAG,MAAM,GAAG,CAC5B,IAAI,CAAC,OAAO,CAAC,IAAI,CAAC,YAAY,EAAE,UAAU,EAAE,WAAW,EAAE,UAAU,CAAC,CACrE,CAAC;YAEF,IAAI,UAAU,KAAK,YAAY,EAAE;gBAC/B,CAAC,CAAC,mCAAmC,CAAC,CAAC;gBACvC,MAAM,WAAW,GAAG,IAAI,CAAC,OAAO,CAAC,MAAM,EAAE,UAAU,EAAE,WAAW,EAAE,cAAc,CAAC,CAAC;gBAClF,MAAM,EAAE,CAAC,IAAI,CAAC,IAAI,CAAC,OAAO,CAAC,MAAM,EAAE,UAAU,EAAE,WAAW,EAAE,UAAU,CAAC,EAAE,WAAW,CAAC,CAAC;gBACtF,MAAM,WAAW,GAAG,IAAI,CAAC,OAAO,CAAC,MAAM,EAAE,UAAU,EAAE,WAAW,EAAE,mBAAmB,CAAC,CAAC;gBACvF,IAAI,MAAM,EAAE,CAAC,UAAU,CAAC,WAAW,CAAC,EAAE;oBACpC,MAAM,EAAE,CAAC,IAAI,CACX,WAAW,EACX,IAAI,CAAC,OAAO,CAAC,MAAM,EAAE,UAAU,EAAE,WAAW,EAAE,uBAAuB,CAAC,CACvE,CAAC;iBACH;gBAED,MAAM,aAAa,GAAG,IAAI,CAAC,OAAO,CAAC,MAAM,EAAE,UAAU,EAAE,WAAW,EAAE,gBAAgB,CAAC,CAAC;gBACtF,MAAM,EAAE,CAAC,IAAI,CACX,IAAI,CAAC,OAAO,CAAC,IAAI,CAAC,YAAY,EAAE,UAAU,EAAE,WAAW,EAAE,UAAU,CAAC,EACpE,aAAa,CACd,CAAC;gBACF,MAAM,aAAa,GAAG,IAAI,CAAC,OAAO,CAChC,IAAI,CAAC,YAAY,EACjB,UAAU,EACV,WAAW,EACX,mBAAmB,CACpB,CAAC;gBACF,IAAI,MAAM,EAAE,CAAC,UAAU,CAAC,aAAa,CAAC,EAAE;oBACtC,MAAM,EAAE,CAAC,IAAI,CACX,aAAa,EACb,IAAI,CAAC,OAAO,CAAC,MAAM,EAAE,UAAU,EAAE,WAAW,EAAE,yBAAyB,CAAC,CACzE,CAAC;iBACH;gBAED,MAAM,SAAS,GAAG,IAAI,CAAC,OAAO,CAAC,MAAM,EAAE,YAAY,CAAC,CAAC;gBACrD,MAAM,EAAE,CAAC,KAAK,CAAC,SAAS,CAAC,CAAC;gBAC1B,MAAM,EAAE,CAAC,IAAI,CACX,IAAI,CAAC,OAAO,CAAC,SAAS,EAAE,IAAI,EAAE,IAAI,EAAE,YAAY,EAAE,aAAa,CAAC,EAChE,IAAI,CAAC,OAAO,CAAC,SAAS,EAAE,UAAU,CAAC,CACpC,CAAC;gBACF,IAAI,EAAE,GAAG,IAAI,CAAC,KAAK,CACjB,CACE,MAAM,IAAI,CAAC,WAAW,CACpB,IAAI,CAAC,OAAO,CAAC,IAAI,CAAC,UAAU,EAAE,UAAU,EAAE,WAAW,EAAE,UAAU,CAAC,EAClE,cAAc,CACf,CACF,CAAC,QAAQ,CAAC,MAAM,CAAC,CACnB,CAAC;gBACF,EAAE,CAAC,IAAI,GAAG,UAAU,CAAC;gBACrB,MAAM,EAAE,CAAC,SAAS,CAAC,IAAI,CAAC,OAAO,CAAC,SAAS,EAAE,cAAc,CAAC,EAAE,EAAE,CAAC,CAAC;gBAChE,MAAM,QAAQ,GAAG,IAAI,CAAC,OAAO,CAAC,MAAM,EAAE,UAAU,EAAE,WAAW,EAAE,UAAU,CAAC,CAAC;gBAC3E,MAAM,IAAI,CAAC,aAAa,CAAC,SAAS,EAAE,QAAQ,CAAC,CAAC;aAC/C;iBAAM;gBACL,CAAC,CAAC,kCAAkC,CAAC,CAAC;aACvC;SACF;QAED,MAAM,kBAAkB,GAAG,MAAM,oBAAoB,CAAC,IAAI,CAAC,IAAI,CAAC,MAAM,EAAE,UAAU,CAAC,CAAC,CAAC;QAErF,MAAM,UAAU,GAAG,QAAQ,CAAC,MAAM,CAAC,CAAC,CAAC,EAAE,EAAE,CAAC,CAAC,CAAC,IAAI,KAAK,WAAW,CAAC,UAAU,CAAC,CAAC;QAC7E,KAAK,MAAM,SAAS,IAAI,UAAU,EAAE;YAClC,MAAM,YAAY,GAAG,IAAI,CAAC,OAAO,CAAC,IAAI,CAAC,UAAU,EAAE,SAAS,CAAC,YAAY,CAAC,CAAC;YAC3E,MAAM,cAAc,GAAG,IAAI,CAAC,OAAO,CAAC,IAAI,CAAC,YAAY,EAAE,SAAS,CAAC,YAAY,CAAC,CAAC;YAE/E,MAAM,KAAuD,KAAK,CAAC,KAAK,CACtE,MAAM,EAAE,CAAC,QAAQ,CAAC,YAAY,EAAE,MAAM,CAAC,CACjC,EAFF,EAAE,qBAAqB,EAAE,YAAY,OAEnC,EAFwC,QAAQ,cAAlD,yBAAoD,CAElD,CAAC;YACT,MAAM,KAA2D,KAAK,CAAC,KAAK,CAC1E,MAAM,EAAE,CAAC,QAAQ,CAAC,cAAc,EAAE,MAAM,CAAC,CACnC,EAFF,EAAE,qBAAqB,EAAE,cAAc,OAErC,EAF0C,UAAU,cAAtD,yBAAwD,CAEtD,CAAC;YACT,IAAI,IAAI,CAAC,SAAS,CAAC,QAAQ,CAAC,KAAK,IAAI,CAAC,SAAS,CAAC,UAAU,CAAC,EAAE;gBAC3D,MAAM,IAAI,KAAK,CACb,8GAA8G,SAAS,CAAC,YAAY,WAAW,CAChJ,CAAC;aACH;YAED,MAAM,mBAAmB,GACvB,CAAC,IAAI,CAAC,kBAAkB;gBACxB,SAAS,CAAC,SAAS,CAAC,YAAY,EAAE,IAAI,CAAC,kBAAkB,EAAE,EAAE,SAAS,EAAE,IAAI,EAAE,CAAC,CAAC;YAClF,MAAM,WAAW,GAAG,mBAAmB;gBACrC,CAAC,iCAAM,QAAQ,KAAE,qBAAqB,EAAE,kBAAkB,IAC1D,CAAC,mBAAM,QAAQ,CAAE,CAAC;YAEpB,MAAM,EAAE,CAAC,SAAS,CAAC,IAAI,CAAC,OAAO,CAAC,MAAM,EAAE,SAAS,CAAC,YAAY,CAAC,EAAE,KAAK,CAAC,KAAK,CAAC,WAAW,CAAC,CAAC,CAAC;SAC5F;QAED,KAAK,MAAM,aAAa,IAAI,UAAU,CAAC,MAAM,CAAC,CAAC,CAAC,EAAE,EAAE,CAAC,CAAC,CAAC,IAAI,KAAK,WAAW,CAAC,QAAQ,CAAC,EAAE;YACrF,CAAC,CAAC,uBAAuB,EAAE,aAAa,CAAC,YAAY,EAAE,uBAAuB,CAAC,CAAC;YAChF,MAAM,EAAE,CAAC,IAAI,CACX,IAAI,CAAC,OAAO,CAAC,IAAI,CAAC,YAAY,EAAE,aAAa,CAAC,YAAY,CAAC,EAC3D,IAAI,CAAC,OAAO,CAAC,MAAM,EAAE,aAAa,CAAC,YAAY,CAAC,CACjD,CAAC;SACH;QAED,CAAC,CAAC,kDAAkD,CAAC,CAAC;QACtD,MAAM,EAAE,CAAC,MAAM,CAAC,IAAI,CAAC,OAAO,CAAC,IAAI,CAAC,UAAU,CAAC,CAAC,CAAC;QAC/C,MAAM,KAAK,CAAC,IAAI,EAAE,CAAC,MAAM,EAAE,IAAI,CAAC,UAAU,CAAC,CAAC,CAAC;KAC9C;IAAC,OAAO,GAAG,EAAE;QACZ,MAAM,GAAG,CAAC;KACX;YAAS;QACR,MAAM,EAAE,CAAC,MAAM,CAAC,MAAM,CAAC,CAAC;KACzB;AACH,CAAC,CAAC"}
+\ No newline at end of file
++{"version":3,"file":"index.js","sourceRoot":"","sources":["../../src/index.ts"],"names":[],"mappings":"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"}
+\ No newline at end of file
+diff --git a/dist/esm/integrity.d.ts b/dist/esm/integrity.d.ts
+index bc5e439c5368abdd923f8437c370018d1ea269dc..1d5ee8144a038df8218eadbd4396e5e41867c956 100644
+--- a/dist/esm/integrity.d.ts
++++ b/dist/esm/integrity.d.ts
+@@ -5,4 +5,7 @@ export interface HeaderHash {
+ export interface AsarIntegrity {
+     [key: string]: HeaderHash;
+ }
+-export declare function computeIntegrityData(contentsPath: string): Promise<AsarIntegrity>;
++export type ComputeIntegrityDataOpts = {
++    singleArchFiles?: string;
++};
++export declare function computeIntegrityData(contentsPath: string, opts: ComputeIntegrityDataOpts): Promise<AsarIntegrity>;
+diff --git a/dist/esm/integrity.js b/dist/esm/integrity.js
+index f27f0ad0ca8f7e087b68c1e8c540fc0acb619fd6..d445c3336765a1e6ab344f6d7fc31e5f1027e7da 100644
+--- a/dist/esm/integrity.js
++++ b/dist/esm/integrity.js
+@@ -2,11 +2,11 @@ import * as fs from 'fs-extra';
+ import path from 'path';
+ import { AppFileType, getAllAppFiles } from './file-utils';
+ import { generateAsarIntegrity } from './asar-utils';
+-export async function computeIntegrityData(contentsPath) {
++export async function computeIntegrityData(contentsPath, opts) {
+     const root = await fs.realpath(contentsPath);
+     const resourcesRelativePath = 'Resources';
+     const resourcesPath = path.resolve(root, resourcesRelativePath);
+-    const resources = await getAllAppFiles(resourcesPath);
++    const resources = await getAllAppFiles(resourcesPath, opts);
+     const resourceAsars = resources
+         .filter((file) => file.type === AppFileType.APP_CODE)
+         .reduce((prev, file) => (Object.assign(Object.assign({}, prev), { [path.join(resourcesRelativePath, file.relativePath)]: path.join(resourcesPath, file.relativePath) })), {});
+diff --git a/dist/esm/integrity.js.map b/dist/esm/integrity.js.map
+index 43791de5d58593a59d24f65fc9e5c80e91aa60a5..782aec1d8175855ca6bccc8ad94522411504b251 100644
+--- a/dist/esm/integrity.js.map
++++ b/dist/esm/integrity.js.map
+@@ -1 +1 @@
+-{"version":3,"file":"integrity.js","sourceRoot":"","sources":["../../src/integrity.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,EAAE,MAAM,UAAU,CAAC;AAC/B,OAAO,IAAI,MAAM,MAAM,CAAC;AACxB,OAAO,EAAE,WAAW,EAAE,cAAc,EAAE,MAAM,cAAc,CAAC;AAE3D,OAAO,EAAE,qBAAqB,EAAE,MAAM,cAAc,CAAC;AAerD,MAAM,CAAC,KAAK,UAAU,oBAAoB,CAAC,YAAoB;IAC7D,MAAM,IAAI,GAAG,MAAM,EAAE,CAAC,QAAQ,CAAC,YAAY,CAAC,CAAC;IAE7C,MAAM,qBAAqB,GAAG,WAAW,CAAC;IAC1C,MAAM,aAAa,GAAG,IAAI,CAAC,OAAO,CAAC,IAAI,EAAE,qBAAqB,CAAC,CAAC;IAEhE,MAAM,SAAS,GAAG,MAAM,cAAc,CAAC,aAAa,CAAC,CAAC;IACtD,MAAM,aAAa,GAAG,SAAS;SAC5B,MAAM,CAAC,CAAC,IAAI,EAAE,EAAE,CAAC,IAAI,CAAC,IAAI,KAAK,WAAW,CAAC,QAAQ,CAAC;SACpD,MAAM,CACL,CAAC,IAAI,EAAE,IAAI,EAAE,EAAE,CAAC,iCACX,IAAI,KACP,CAAC,IAAI,CAAC,IAAI,CAAC,qBAAqB,EAAE,IAAI,CAAC,YAAY,CAAC,CAAC,EAAE,IAAI,CAAC,IAAI,CAC9D,aAAa,EACb,IAAI,CAAC,YAAY,CAClB,IACD,EACF,EAAE,CACH,CAAC;IAEJ,kCAAkC;IAClC,MAAM,QAAQ,GAAG,MAAM,CAAC,OAAO,CAAC,aAAa,CAAC,CAAC,IAAI,CAAC,CAAC,CAAC,KAAK,CAAC,EAAE,CAAC,KAAK,CAAC,EAAE,EAAE,CACvE,KAAK,CAAC,aAAa,CAAC,KAAK,CAAC,CAC3B,CAAC;IACF,MAAM,MAAM,GAAG,MAAM,OAAO,CAAC,GAAG,CAAC,QAAQ,CAAC,GAAG,CAAC,KAAK,EAAE,CAAC,EAAE,IAAI,CAAC,EAAE,EAAE,CAAC,qBAAqB,CAAC,IAAI,CAAC,CAAC,CAAC,CAAC;IAChG,MAAM,aAAa,GAAkB,EAAE,CAAC;IACxC,KAAK,IAAI,CAAC,GAAG,CAAC,EAAE,CAAC,GAAG,QAAQ,CAAC,MAAM,EAAE,CAAC,EAAE,EAAE;QACxC,MAAM,CAAC,IAAI,CAAC,GAAG,QAAQ,CAAC,CAAC,CAAC,CAAC;QAC3B,aAAa,CAAC,IAAI,CAAC,GAAG,MAAM,CAAC,CAAC,CAAC,CAAC;KACjC;IACD,OAAO,aAAa,CAAC;AACvB,CAAC"}
+\ No newline at end of file
++{"version":3,"file":"integrity.js","sourceRoot":"","sources":["../../src/integrity.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,EAAE,MAAM,UAAU,CAAC;AAC/B,OAAO,IAAI,MAAM,MAAM,CAAC;AACxB,OAAO,EAAE,WAAW,EAAE,cAAc,EAAE,MAAM,cAAc,CAAC;AAE3D,OAAO,EAAE,qBAAqB,EAAE,MAAM,cAAc,CAAC;AAmBrD,MAAM,CAAC,KAAK,UAAU,oBAAoB,CACxC,YAAoB,EACpB,IAA8B;IAE9B,MAAM,IAAI,GAAG,MAAM,EAAE,CAAC,QAAQ,CAAC,YAAY,CAAC,CAAC;IAE7C,MAAM,qBAAqB,GAAG,WAAW,CAAC;IAC1C,MAAM,aAAa,GAAG,IAAI,CAAC,OAAO,CAAC,IAAI,EAAE,qBAAqB,CAAC,CAAC;IAEhE,MAAM,SAAS,GAAG,MAAM,cAAc,CAAC,aAAa,EAAE,IAAI,CAAC,CAAC;IAC5D,MAAM,aAAa,GAAG,SAAS;SAC5B,MAAM,CAAC,CAAC,IAAI,EAAE,EAAE,CAAC,IAAI,CAAC,IAAI,KAAK,WAAW,CAAC,QAAQ,CAAC;SACpD,MAAM,CACL,CAAC,IAAI,EAAE,IAAI,EAAE,EAAE,CAAC,iCACX,IAAI,KACP,CAAC,IAAI,CAAC,IAAI,CAAC,qBAAqB,EAAE,IAAI,CAAC,YAAY,CAAC,CAAC,EAAE,IAAI,CAAC,IAAI,CAC9D,aAAa,EACb,IAAI,CAAC,YAAY,CAClB,IACD,EACF,EAAE,CACH,CAAC;IAEJ,kCAAkC;IAClC,MAAM,QAAQ,GAAG,MAAM,CAAC,OAAO,CAAC,aAAa,CAAC,CAAC,IAAI,CAAC,CAAC,CAAC,KAAK,CAAC,EAAE,CAAC,KAAK,CAAC,EAAE,EAAE,CACvE,KAAK,CAAC,aAAa,CAAC,KAAK,CAAC,CAC3B,CAAC;IACF,MAAM,MAAM,GAAG,MAAM,OAAO,CAAC,GAAG,CAAC,QAAQ,CAAC,GAAG,CAAC,KAAK,EAAE,CAAC,EAAE,IAAI,CAAC,EAAE,EAAE,CAAC,qBAAqB,CAAC,IAAI,CAAC,CAAC,CAAC,CAAC;IAChG,MAAM,aAAa,GAAkB,EAAE,CAAC;IACxC,KAAK,IAAI,CAAC,GAAG,CAAC,EAAE,CAAC,GAAG,QAAQ,CAAC,MAAM,EAAE,CAAC,EAAE,EAAE;QACxC,MAAM,CAAC,IAAI,CAAC,GAAG,QAAQ,CAAC,CAAC,CAAC,CAAC;QAC3B,aAAa,CAAC,IAAI,CAAC,GAAG,MAAM,CAAC,CAAC,CAAC,CAAC;KACjC;IACD,OAAO,aAAa,CAAC;AACvB,CAAC"}
+\ No newline at end of file
+diff --git a/dist/file-utils.d.ts b/dist/file-utils.d.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..a02a62eccca1013c535b74a21cfbab74f8abd3d2
+--- /dev/null
++++ b/dist/file-utils.d.ts
+@@ -0,0 +1,20 @@
++import type { MakeUniversalOpts } from './types.d.ts';
++export declare enum AppFileType {
++    MACHO = 0,
++    PLAIN = 1,
++    INFO_PLIST = 2,
++    SNAPSHOT = 3,
++    APP_CODE = 4,
++    SINGLE_ARCH = 5
++}
++export type AppFile = {
++    relativePath: string;
++    type: AppFileType;
++};
++/**
++ *
++ * @param appPath Path to the application
++ */
++export declare const getAllAppFiles: (appPath: string, opts: Pick<MakeUniversalOpts, "singleArchFiles">) => Promise<AppFile[]>;
++export declare const readMachOHeader: (path: string) => Promise<Buffer<ArrayBuffer>>;
++export declare const fsMove: (oldPath: string, newPath: string) => Promise<void>;
+diff --git a/dist/file-utils.js b/dist/file-utils.js
+new file mode 100644
+index 0000000000000000000000000000000000000000..f1fa260987e514c49f17f7fbbd0893748c2bce7c
+--- /dev/null
++++ b/dist/file-utils.js
+@@ -0,0 +1,119 @@
++import fs from 'node:fs';
++import path from 'node:path';
++import { promises as stream } from 'node:stream';
++import { spawn, ExitCodeError } from '@malept/cross-spawn-promise';
++import { minimatch } from 'minimatch';
++const MACHO_PREFIX = 'Mach-O ';
++const UNPACKED_ASAR_PATH = path.join('Contents', 'Resources', 'app.asar.unpacked');
++export var AppFileType;
++(function (AppFileType) {
++    AppFileType[AppFileType["MACHO"] = 0] = "MACHO";
++    AppFileType[AppFileType["PLAIN"] = 1] = "PLAIN";
++    AppFileType[AppFileType["INFO_PLIST"] = 2] = "INFO_PLIST";
++    AppFileType[AppFileType["SNAPSHOT"] = 3] = "SNAPSHOT";
++    AppFileType[AppFileType["APP_CODE"] = 4] = "APP_CODE";
++    AppFileType[AppFileType["SINGLE_ARCH"] = 5] = "SINGLE_ARCH";
++})(AppFileType || (AppFileType = {}));
++const isSingleArchFile = (relativePath, opts) => {
++    if (opts.singleArchFiles === undefined) {
++        return false;
++    }
++    const unpackedPath = path.relative(UNPACKED_ASAR_PATH, relativePath);
++    // Outside of app.asar.unpacked
++    if (unpackedPath.startsWith('..')) {
++        return false;
++    }
++    return minimatch(unpackedPath, opts.singleArchFiles, {
++        matchBase: true,
++    });
++};
++/**
++ *
++ * @param appPath Path to the application
++ */
++export const getAllAppFiles = async (appPath, opts) => {
++    const unpackedPath = path.join('Contents', 'Resources', 'app.asar.unpacked');
++    const files = [];
++    const visited = new Set();
++    const traverse = async (p) => {
++        p = await fs.promises.realpath(p);
++        if (visited.has(p))
++            return;
++        visited.add(p);
++        const info = await fs.promises.stat(p);
++        if (info.isSymbolicLink())
++            return;
++        if (info.isFile()) {
++            const relativePath = path.relative(appPath, p);
++            let fileType = AppFileType.PLAIN;
++            var fileOutput = '';
++            try {
++                fileOutput = await spawn('file', ['--brief', '--no-pad', p]);
++            }
++            catch (e) {
++                if (e instanceof ExitCodeError) {
++                    /* silently accept error codes from "file" */
++                }
++                else {
++                    throw e;
++                }
++            }
++            if (p.endsWith('.asar')) {
++                fileType = AppFileType.APP_CODE;
++            }
++            else if (isSingleArchFile(relativePath, opts)) {
++                fileType = AppFileType.SINGLE_ARCH;
++            }
++            else if (fileOutput.startsWith(MACHO_PREFIX)) {
++                fileType = AppFileType.MACHO;
++            }
++            else if (p.endsWith('.bin')) {
++                fileType = AppFileType.SNAPSHOT;
++            }
++            else if (path.basename(p) === 'Info.plist') {
++                fileType = AppFileType.INFO_PLIST;
++            }
++            files.push({
++                relativePath,
++                type: fileType,
++            });
++        }
++        if (info.isDirectory()) {
++            for (const child of await fs.promises.readdir(p)) {
++                await traverse(path.resolve(p, child));
++            }
++        }
++    };
++    await traverse(appPath);
++    return files;
++};
++export const readMachOHeader = async (path) => {
++    const chunks = [];
++    // no need to read the entire file, we only need the first 4 bytes of the file to determine the header
++    await stream.pipeline(fs.createReadStream(path, { start: 0, end: 3 }), async function* (source) {
++        for await (const chunk of source) {
++            chunks.push(chunk);
++        }
++    });
++    return Buffer.concat(chunks);
++};
++export const fsMove = async (oldPath, newPath) => {
++    try {
++        await fs.promises.rename(oldPath, newPath);
++    }
++    catch (err) {
++        if (err.code === 'EXDEV') {
++            // Cross-device link, fallback to copy and delete
++            await fs.promises.cp(oldPath, newPath, {
++                force: true,
++                recursive: true,
++                verbatimSymlinks: true,
++            });
++            await fs.promises.rm(oldPath, { force: true, recursive: true });
++        }
++        else {
++            throw err;
++        }
++    }
++};
++//# sourceMappingURL=file-utils.js.map
+\ No newline at end of file
+diff --git a/dist/file-utils.js.map b/dist/file-utils.js.map
+new file mode 100644
+index 0000000000000000000000000000000000000000..b1f854d64ca450103223fb63377fe244a336a726
+--- /dev/null
++++ b/dist/file-utils.js.map
+@@ -0,0 +1 @@
++{"version":3,"file":"file-utils.js","sourceRoot":"","sources":["../src/file-utils.ts"],"names":[],"mappings":"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"}
+\ No newline at end of file
+diff --git a/dist/index.d.ts b/dist/index.d.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..b039d86129b9a88ce9794d7d84470ebd1b18286b
+--- /dev/null
++++ b/dist/index.d.ts
+@@ -0,0 +1,2 @@
++import type { MakeUniversalOpts } from './types.d.ts';
++export declare const makeUniversalApp: (opts: MakeUniversalOpts) => Promise<void>;
+diff --git a/dist/index.js b/dist/index.js
+new file mode 100644
+index 0000000000000000000000000000000000000000..5c392c7fc7ad0535d03f3cb0535e6cecd828c369
+--- /dev/null
++++ b/dist/index.js
+@@ -0,0 +1,229 @@
++import fs from 'node:fs';
++import os from 'node:os';
++import path from 'node:path';
++import * as asar from '@electron/asar';
++import { spawn } from '@malept/cross-spawn-promise';
++import * as dircompare from 'dir-compare';
++import { minimatch } from 'minimatch';
++import plist from 'plist';
++import { AsarMode, detectAsarMode, isUniversalMachO, mergeASARs } from './asar-utils.js';
++import { AppFileType, fsMove, getAllAppFiles, readMachOHeader } from './file-utils.js';
++import { sha } from './sha.js';
++import { d } from './debug.js';
++import { computeIntegrityData } from './integrity.js';
++const dupedFiles = (files) => files.filter((f) => f.type !== AppFileType.SNAPSHOT &&
++    f.type !== AppFileType.APP_CODE &&
++    f.type !== AppFileType.SINGLE_ARCH);
++export const makeUniversalApp = async (opts) => {
++    d('making a universal app with options', opts);
++    if (process.platform !== 'darwin')
++        throw new Error('@electron/universal is only supported on darwin platforms');
++    if (!opts.x64AppPath || !path.isAbsolute(opts.x64AppPath))
++        throw new Error('Expected opts.x64AppPath to be an absolute path but it was not');
++    if (!opts.arm64AppPath || !path.isAbsolute(opts.arm64AppPath))
++        throw new Error('Expected opts.arm64AppPath to be an absolute path but it was not');
++    if (!opts.outAppPath || !path.isAbsolute(opts.outAppPath))
++        throw new Error('Expected opts.outAppPath to be an absolute path but it was not');
++    if (fs.existsSync(opts.outAppPath)) {
++        d('output path exists already');
++        if (!opts.force) {
++            throw new Error(`The out path "${opts.outAppPath}" already exists and force is not set to true`);
++        }
++        else {
++            d('overwriting existing application because force == true');
++            await fs.promises.rm(opts.outAppPath, { recursive: true, force: true });
++        }
++    }
++    const x64AsarMode = await detectAsarMode(opts.x64AppPath);
++    const arm64AsarMode = await detectAsarMode(opts.arm64AppPath);
++    d('detected x64AsarMode =', x64AsarMode);
++    d('detected arm64AsarMode =', arm64AsarMode);
++    if (x64AsarMode !== arm64AsarMode)
++        throw new Error('Both the x64 and arm64 versions of your application need to have been built with the same asar settings (enabled vs disabled)');
++    const tmpDir = await fs.promises.mkdtemp(path.resolve(os.tmpdir(), 'electron-universal-'));
++    d('building universal app in', tmpDir);
++    try {
++        d('copying x64 app as starter template');
++        const tmpApp = path.resolve(tmpDir, 'Tmp.app');
++        await spawn('cp', ['-R', opts.x64AppPath, tmpApp]);
++        const uniqueToX64 = [];
++        const uniqueToArm64 = [];
++        const x64Files = await getAllAppFiles(await fs.promises.realpath(tmpApp), opts);
++        const arm64Files = await getAllAppFiles(await fs.promises.realpath(opts.arm64AppPath), opts);
++        for (const file of dupedFiles(x64Files)) {
++            if (!arm64Files.some((f) => f.relativePath === file.relativePath))
++                uniqueToX64.push(file.relativePath);
++        }
++        for (const file of dupedFiles(arm64Files)) {
++            if (!x64Files.some((f) => f.relativePath === file.relativePath))
++                uniqueToArm64.push(file.relativePath);
++        }
++        if (uniqueToX64.length !== 0 || uniqueToArm64.length !== 0) {
++            d('some files were not in both builds, aborting');
++            console.error({
++                uniqueToX64,
++                uniqueToArm64,
++            });
++            throw new Error('While trying to merge mach-o files across your apps we found a mismatch, the number of mach-o files is not the same between the arm64 and x64 builds');
++        }
++        // Single Arch files are copied as is without processing.
++        const multiArchFiles = x64Files.filter((f) => f.type !== AppFileType.SINGLE_ARCH);
++        for (const file of multiArchFiles.filter((f) => f.type === AppFileType.PLAIN)) {
++            const x64Sha = await sha(path.resolve(opts.x64AppPath, file.relativePath));
++            const arm64Sha = await sha(path.resolve(opts.arm64AppPath, file.relativePath));
++            if (x64Sha !== arm64Sha) {
++                d('SHA for file', file.relativePath, `does not match across builds ${x64Sha}!=${arm64Sha}`);
++                // The MainMenu.nib files generated by Xcode13 are deterministic in effect but not deterministic in generated sequence
++                if (path.basename(path.dirname(file.relativePath)) === 'MainMenu.nib') {
++                    // The mismatch here is OK so we just move on to the next one
++                    continue;
++                }
++                throw new Error(`Expected all non-binary files to have identical SHAs when creating a universal build but "${file.relativePath}" did not`);
++            }
++        }
++        const knownMergedMachOFiles = new Set();
++        for (const machOFile of multiArchFiles.filter((f) => f.type === AppFileType.MACHO)) {
++            const first = await fs.promises.realpath(path.resolve(tmpApp, machOFile.relativePath));
++            const second = await fs.promises.realpath(path.resolve(opts.arm64AppPath, machOFile.relativePath));
++            if (isUniversalMachO(await readMachOHeader(first)) &&
++                isUniversalMachO(await readMachOHeader(second))) {
++                d(machOFile.relativePath, `is already universal across builds, skipping lipo`);
++                knownMergedMachOFiles.add(machOFile.relativePath);
++                continue;
++            }
++            const x64Sha = await sha(path.resolve(opts.x64AppPath, machOFile.relativePath));
++            const arm64Sha = await sha(path.resolve(opts.arm64AppPath, machOFile.relativePath));
++            if (x64Sha === arm64Sha) {
++                if (opts.x64ArchFiles === undefined ||
++                    !minimatch(machOFile.relativePath, opts.x64ArchFiles, { matchBase: true })) {
++                    throw new Error(`Detected file "${machOFile.relativePath}" that's the same in both x64 and arm64 builds and not covered by the ` +
++                        `x64ArchFiles rule: "${opts.x64ArchFiles}"`);
++                }
++                d('SHA for Mach-O file', machOFile.relativePath, `matches across builds ${x64Sha}===${arm64Sha}, skipping lipo`);
++                continue;
++            }
++            d('joining two MachO files with lipo', {
++                first,
++                second,
++            });
++            await spawn('lipo', [
++                first,
++                second,
++                '-create',
++                '-output',
++                await fs.promises.realpath(path.resolve(tmpApp, machOFile.relativePath)),
++            ]);
++            knownMergedMachOFiles.add(machOFile.relativePath);
++        }
++        /**
++         * If we don't have an ASAR we need to check if the two "app" folders are identical, if
++         * they are then we can just leave one there and call it a day.  If the app folders for x64
++         * and arm64 are different though we need to rename each folder and create a new fake "app"
++         * entrypoint to dynamically load the correct app folder
++         */
++        if (x64AsarMode === AsarMode.NO_ASAR) {
++            d('checking if the x64 and arm64 app folders are identical');
++            const comparison = await dircompare.compare(path.resolve(tmpApp, 'Contents', 'Resources', 'app'), path.resolve(opts.arm64AppPath, 'Contents', 'Resources', 'app'), { compareSize: true, compareContent: true });
++            const differences = comparison.diffSet.filter((difference) => difference.state !== 'equal');
++            d(`Found ${differences.length} difference(s) between the x64 and arm64 folders`);
++            const nonMergedDifferences = differences.filter((difference) => !difference.name1 ||
++                !knownMergedMachOFiles.has(path.join('Contents', 'Resources', 'app', difference.relativePath, difference.name1)));
++            d(`After discluding MachO files merged with lipo ${nonMergedDifferences.length} remain.`);
++            if (nonMergedDifferences.length > 0) {
++                d('x64 and arm64 app folders are different, creating dynamic entry ASAR');
++                await fsMove(path.resolve(tmpApp, 'Contents', 'Resources', 'app'), path.resolve(tmpApp, 'Contents', 'Resources', 'app-x64'));
++                await fs.promises.cp(path.resolve(opts.arm64AppPath, 'Contents', 'Resources', 'app'), path.resolve(tmpApp, 'Contents', 'Resources', 'app-arm64'), { force: true, recursive: true, verbatimSymlinks: true });
++                const entryAsar = path.resolve(tmpDir, 'entry-asar');
++                await fs.promises.mkdir(entryAsar, { recursive: true });
++                await fs.promises.cp(path.resolve(import.meta.dirname, '..', 'entry-asar', 'no-asar.js'), path.resolve(entryAsar, 'index.js'));
++                let pj = JSON.parse(await fs.promises.readFile(path.resolve(opts.x64AppPath, 'Contents', 'Resources', 'app', 'package.json'), 'utf8'));
++                pj.main = 'index.js';
++                await fs.promises.writeFile(path.resolve(entryAsar, 'package.json'), JSON.stringify(pj) + '\n', 'utf8');
++                await asar.createPackage(entryAsar, path.resolve(tmpApp, 'Contents', 'Resources', 'app.asar'));
++            }
++            else {
++                d('x64 and arm64 app folders are the same');
++            }
++        }
++        /**
++         * If we have an ASAR we just need to check if the two "app.asar" files have the same hash,
++         * if they are, same as above, we can leave one there and call it a day.  If they're different
++         * we have to make a dynamic entrypoint.  There is an assumption made here that every file in
++         * app.asar.unpacked is a native node module.  This assumption _may_ not be true so we should
++         * look at codifying that assumption as actual logic.
++         */
++        // FIXME: Codify the assumption that app.asar.unpacked only contains native modules
++        if (x64AsarMode === AsarMode.HAS_ASAR && opts.mergeASARs) {
++            d('merging x64 and arm64 asars');
++            const output = path.resolve(tmpApp, 'Contents', 'Resources', 'app.asar');
++            await mergeASARs({
++                x64AsarPath: path.resolve(tmpApp, 'Contents', 'Resources', 'app.asar'),
++                arm64AsarPath: path.resolve(opts.arm64AppPath, 'Contents', 'Resources', 'app.asar'),
++                outputAsarPath: output,
++                singleArchFiles: opts.singleArchFiles,
++            });
++        }
++        else if (x64AsarMode === AsarMode.HAS_ASAR) {
++            d('checking if the x64 and arm64 asars are identical');
++            const x64AsarSha = await sha(path.resolve(tmpApp, 'Contents', 'Resources', 'app.asar'));
++            const arm64AsarSha = await sha(path.resolve(opts.arm64AppPath, 'Contents', 'Resources', 'app.asar'));
++            if (x64AsarSha !== arm64AsarSha) {
++                d('x64 and arm64 asars are different');
++                const x64AsarPath = path.resolve(tmpApp, 'Contents', 'Resources', 'app-x64.asar');
++                await fsMove(path.resolve(tmpApp, 'Contents', 'Resources', 'app.asar'), x64AsarPath);
++                const x64Unpacked = path.resolve(tmpApp, 'Contents', 'Resources', 'app.asar.unpacked');
++                if (fs.existsSync(x64Unpacked)) {
++                    await fsMove(x64Unpacked, path.resolve(tmpApp, 'Contents', 'Resources', 'app-x64.asar.unpacked'));
++                }
++                const arm64AsarPath = path.resolve(tmpApp, 'Contents', 'Resources', 'app-arm64.asar');
++                await fs.promises.cp(path.resolve(opts.arm64AppPath, 'Contents', 'Resources', 'app.asar'), arm64AsarPath, { force: true, recursive: true, verbatimSymlinks: true });
++                const arm64Unpacked = path.resolve(opts.arm64AppPath, 'Contents', 'Resources', 'app.asar.unpacked');
++                if (fs.existsSync(arm64Unpacked)) {
++                    await fs.promises.cp(arm64Unpacked, path.resolve(tmpApp, 'Contents', 'Resources', 'app-arm64.asar.unpacked'), { force: true, recursive: true, verbatimSymlinks: true });
++                }
++                const entryAsar = path.resolve(tmpDir, 'entry-asar');
++                await fs.promises.mkdir(entryAsar, { recursive: true });
++                await fs.promises.cp(path.resolve(import.meta.dirname, '..', 'entry-asar', 'has-asar.js'), path.resolve(entryAsar, 'index.js'));
++                let pj = JSON.parse((await asar.extractFile(path.resolve(opts.x64AppPath, 'Contents', 'Resources', 'app.asar'), 'package.json')).toString('utf8'));
++                pj.main = 'index.js';
++                await fs.promises.writeFile(path.resolve(entryAsar, 'package.json'), JSON.stringify(pj) + '\n', 'utf8');
++                const asarPath = path.resolve(tmpApp, 'Contents', 'Resources', 'app.asar');
++                await asar.createPackage(entryAsar, asarPath);
++            }
++            else {
++                d('x64 and arm64 asars are the same');
++            }
++        }
++        const generatedIntegrity = await computeIntegrityData(path.join(tmpApp, 'Contents'), opts);
++        const plistFiles = multiArchFiles.filter((f) => f.type === AppFileType.INFO_PLIST);
++        for (const plistFile of plistFiles) {
++            const x64PlistPath = path.resolve(opts.x64AppPath, plistFile.relativePath);
++            const arm64PlistPath = path.resolve(opts.arm64AppPath, plistFile.relativePath);
++            const { ElectronAsarIntegrity: x64Integrity, ...x64Plist } = plist.parse(await fs.promises.readFile(x64PlistPath, 'utf8'));
++            const { ElectronAsarIntegrity: arm64Integrity, ...arm64Plist } = plist.parse(await fs.promises.readFile(arm64PlistPath, 'utf8'));
++            if (JSON.stringify(x64Plist) !== JSON.stringify(arm64Plist)) {
++                throw new Error(`Expected all Info.plist files to be identical when ignoring integrity when creating a universal build but "${plistFile.relativePath}" was not`);
++            }
++            const injectAsarIntegrity = !opts.infoPlistsToIgnore ||
++                minimatch(plistFile.relativePath, opts.infoPlistsToIgnore, { matchBase: true });
++            const mergedPlist = injectAsarIntegrity
++                ? { ...x64Plist, ElectronAsarIntegrity: generatedIntegrity }
++                : { ...x64Plist };
++            await fs.promises.writeFile(path.resolve(tmpApp, plistFile.relativePath), plist.build(mergedPlist));
++        }
++        for (const snapshotsFile of arm64Files.filter((f) => f.type === AppFileType.SNAPSHOT)) {
++            d('copying snapshot file', snapshotsFile.relativePath, 'to target application');
++            await fs.promises.cp(path.resolve(opts.arm64AppPath, snapshotsFile.relativePath), path.resolve(tmpApp, snapshotsFile.relativePath));
++        }
++        d('moving final universal app to target destination');
++        await fs.promises.mkdir(path.dirname(opts.outAppPath), { recursive: true });
++        await spawn('mv', [tmpApp, opts.outAppPath]);
++    }
++    catch (err) {
++        throw err;
++    }
++    finally {
++        await fs.promises.rm(tmpDir, { recursive: true, force: true });
++    }
++};
++//# sourceMappingURL=index.js.map
+\ No newline at end of file
+diff --git a/dist/index.js.map b/dist/index.js.map
+new file mode 100644
+index 0000000000000000000000000000000000000000..c07c98af38f49e2c37e53ff992d157979e697014
+--- /dev/null
++++ b/dist/index.js.map
+@@ -0,0 +1 @@
++{"version":3,"file":"index.js","sourceRoot":"","sources":["../src/index.ts"],"names":[],"mappings":"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"}
+\ No newline at end of file
+diff --git a/dist/integrity.d.ts b/dist/integrity.d.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..6af5c516c1389743274460536bcc1668e8a136f4
+--- /dev/null
++++ b/dist/integrity.d.ts
+@@ -0,0 +1,9 @@
++import type { MakeUniversalOpts } from './types.d.ts';
++export interface HeaderHash {
++    algorithm: 'SHA256';
++    hash: string;
++}
++export interface AsarIntegrity {
++    [key: string]: HeaderHash;
++}
++export declare function computeIntegrityData(contentsPath: string, opts: Pick<MakeUniversalOpts, 'singleArchFiles'>): Promise<AsarIntegrity>;
+diff --git a/dist/integrity.js b/dist/integrity.js
+new file mode 100644
+index 0000000000000000000000000000000000000000..7df45ded8feca61d3dbac03682a962054d9cd92c
+--- /dev/null
++++ b/dist/integrity.js
+@@ -0,0 +1,26 @@
++import fs from 'node:fs';
++import path from 'node:path';
++import { AppFileType, getAllAppFiles } from './file-utils.js';
++import { generateAsarIntegrity } from './asar-utils.js';
++export async function computeIntegrityData(contentsPath, opts) {
++    const root = await fs.promises.realpath(contentsPath);
++    const resourcesRelativePath = 'Resources';
++    const resourcesPath = path.resolve(root, resourcesRelativePath);
++    const resources = await getAllAppFiles(resourcesPath, opts);
++    const resourceAsars = resources
++        .filter((file) => file.type === AppFileType.APP_CODE)
++        .reduce((prev, file) => ({
++        ...prev,
++        [path.join(resourcesRelativePath, file.relativePath)]: path.join(resourcesPath, file.relativePath),
++    }), {});
++    // sort to produce constant result
++    const allAsars = Object.entries(resourceAsars).sort(([name1], [name2]) => name1.localeCompare(name2));
++    const hashes = await Promise.all(allAsars.map(async ([, from]) => generateAsarIntegrity(from)));
++    const asarIntegrity = {};
++    for (let i = 0; i < allAsars.length; i++) {
++        const [asar] = allAsars[i];
++        asarIntegrity[asar] = hashes[i];
++    }
++    return asarIntegrity;
++}
++//# sourceMappingURL=integrity.js.map
+\ No newline at end of file
+diff --git a/dist/integrity.js.map b/dist/integrity.js.map
+new file mode 100644
+index 0000000000000000000000000000000000000000..9fa36c6283b81b8cd02ebce3052080a84f8fce3d
+--- /dev/null
++++ b/dist/integrity.js.map
+@@ -0,0 +1 @@
++{"version":3,"file":"integrity.js","sourceRoot":"","sources":["../src/integrity.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,MAAM,SAAS,CAAC;AACzB,OAAO,IAAI,MAAM,WAAW,CAAC;AAE7B,OAAO,EAAE,WAAW,EAAE,cAAc,EAAE,MAAM,iBAAiB,CAAC;AAC9D,OAAO,EAAE,qBAAqB,EAAE,MAAM,iBAAiB,CAAC;AAgBxD,MAAM,CAAC,KAAK,UAAU,oBAAoB,CACxC,YAAoB,EACpB,IAAgD;IAEhD,MAAM,IAAI,GAAG,MAAM,EAAE,CAAC,QAAQ,CAAC,QAAQ,CAAC,YAAY,CAAC,CAAC;IAEtD,MAAM,qBAAqB,GAAG,WAAW,CAAC;IAC1C,MAAM,aAAa,GAAG,IAAI,CAAC,OAAO,CAAC,IAAI,EAAE,qBAAqB,CAAC,CAAC;IAEhE,MAAM,SAAS,GAAG,MAAM,cAAc,CAAC,aAAa,EAAE,IAAI,CAAC,CAAC;IAC5D,MAAM,aAAa,GAAG,SAAS;SAC5B,MAAM,CAAC,CAAC,IAAI,EAAE,EAAE,CAAC,IAAI,CAAC,IAAI,KAAK,WAAW,CAAC,QAAQ,CAAC;SACpD,MAAM,CACL,CAAC,IAAI,EAAE,IAAI,EAAE,EAAE,CAAC,CAAC;QACf,GAAG,IAAI;QACP,CAAC,IAAI,CAAC,IAAI,CAAC,qBAAqB,EAAE,IAAI,CAAC,YAAY,CAAC,CAAC,EAAE,IAAI,CAAC,IAAI,CAC9D,aAAa,EACb,IAAI,CAAC,YAAY,CAClB;KACF,CAAC,EACF,EAAE,CACH,CAAC;IAEJ,kCAAkC;IAClC,MAAM,QAAQ,GAAG,MAAM,CAAC,OAAO,CAAC,aAAa,CAAC,CAAC,IAAI,CAAC,CAAC,CAAC,KAAK,CAAC,EAAE,CAAC,KAAK,CAAC,EAAE,EAAE,CACvE,KAAK,CAAC,aAAa,CAAC,KAAK,CAAC,CAC3B,CAAC;IACF,MAAM,MAAM,GAAG,MAAM,OAAO,CAAC,GAAG,CAAC,QAAQ,CAAC,GAAG,CAAC,KAAK,EAAE,CAAC,EAAE,IAAI,CAAC,EAAE,EAAE,CAAC,qBAAqB,CAAC,IAAI,CAAC,CAAC,CAAC,CAAC;IAChG,MAAM,aAAa,GAAkB,EAAE,CAAC;IACxC,KAAK,IAAI,CAAC,GAAG,CAAC,EAAE,CAAC,GAAG,QAAQ,CAAC,MAAM,EAAE,CAAC,EAAE,EAAE,CAAC;QACzC,MAAM,CAAC,IAAI,CAAC,GAAG,QAAQ,CAAC,CAAC,CAAC,CAAC;QAC3B,aAAa,CAAC,IAAI,CAAC,GAAG,MAAM,CAAC,CAAC,CAAC,CAAC;IAClC,CAAC;IACD,OAAO,aAAa,CAAC;AACvB,CAAC"}
+\ No newline at end of file
+diff --git a/dist/sha.d.ts b/dist/sha.d.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..1c0daaa8b3bd65854b38289becc7dcd816bbfa87
+--- /dev/null
++++ b/dist/sha.d.ts
+@@ -0,0 +1 @@
++export declare const sha: (filePath: string) => Promise<any>;
+diff --git a/dist/sha.js b/dist/sha.js
+new file mode 100644
+index 0000000000000000000000000000000000000000..0313dfb1e2a9585c7734188fbacee40cf45621dc
+--- /dev/null
++++ b/dist/sha.js
+@@ -0,0 +1,12 @@
++import fs from 'node:fs';
++import crypto from 'node:crypto';
++import { pipeline } from 'node:stream/promises';
++import { d } from './debug.js';
++export const sha = async (filePath) => {
++    d('hashing', filePath);
++    const hash = crypto.createHash('sha256');
++    hash.setEncoding('hex');
++    await pipeline(fs.createReadStream(filePath), hash);
++    return hash.read();
++};
++//# sourceMappingURL=sha.js.map
+\ No newline at end of file
+diff --git a/dist/sha.js.map b/dist/sha.js.map
+new file mode 100644
+index 0000000000000000000000000000000000000000..0c74193f9a8cd2d3da7f89ebd854ab1dbdf8847c
+--- /dev/null
++++ b/dist/sha.js.map
+@@ -0,0 +1 @@
++{"version":3,"file":"sha.js","sourceRoot":"","sources":["../src/sha.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,MAAM,SAAS,CAAC;AACzB,OAAO,MAAM,MAAM,aAAa,CAAC;AACjC,OAAO,EAAE,QAAQ,EAAE,MAAM,sBAAsB,CAAC;AAEhD,OAAO,EAAE,CAAC,EAAE,MAAM,YAAY,CAAC;AAE/B,MAAM,CAAC,MAAM,GAAG,GAAG,KAAK,EAAE,QAAgB,EAAE,EAAE;IAC5C,CAAC,CAAC,SAAS,EAAE,QAAQ,CAAC,CAAC;IACvB,MAAM,IAAI,GAAG,MAAM,CAAC,UAAU,CAAC,QAAQ,CAAC,CAAC;IACzC,IAAI,CAAC,WAAW,CAAC,KAAK,CAAC,CAAC;IACxB,MAAM,QAAQ,CAAC,EAAE,CAAC,gBAAgB,CAAC,QAAQ,CAAC,EAAE,IAAI,CAAC,CAAC;IACpD,OAAO,IAAI,CAAC,IAAI,EAAE,CAAC;AACrB,CAAC,CAAC"}
