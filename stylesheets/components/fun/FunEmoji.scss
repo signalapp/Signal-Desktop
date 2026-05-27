@@ -152,6 +152,14 @@ $inline-emoji-container-name: inline-emoji;
 .FunInlineEmoji__Small--Hidden {
   display: none;
 }
+.FunEmojiSelectionText::selection {
+  background-color: rgba(8, 73, 205, 255);
+  color: transparent;
+}
+.FunEmojiSelectionText::-moz-selection {
+  background-color: rgba(8, 73, 205, 255);
+  color: transparent;
+}
 
 .FunInlineEmoji__Image {
   visibility: hidden;
