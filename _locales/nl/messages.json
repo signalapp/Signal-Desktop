@@ -605,23 +605,14 @@
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__title": {
     "messageformat": "Versleuteling automatisch geverifieerd voor deze chat "
   },
-  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
+  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body-2": {
     "messageformat": "Voor contacten waarmee je via een telefoonnummer bent verbonden, kan Signal automatisch bevestigen of de verbinding veilig is met een proces dat sleuteltransparantie heet. Voor extra veiligheid verifieer je de end-to-endversleuteling handmatig door de cijfers op het vorige scherm te vergelijken of de QR-code op het apparaat van je contact te scannen."
   },
-  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body-2": {
-    "messageformat": "For people you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
-  },
-  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
-    "messageformat": "Automatische verificatie niet meer beschikbaar voor deze chat"
-  },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title-2": {
-    "messageformat": "Auto-verification is not available for this chat"
-  },
-  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
-    "messageformat": "Signal kan de versleuteling voor deze chat niet langer automatisch verifiëren. Dit komt waarschijnlijk doordat het telefoonnummer van {name} is veranderd. Verifieer de end-to-endversleuteling handmatig door de cijfers op het vorige scherm te vergelijken of de QR-code op het apparaat van je contact te scannen."
+    "messageformat": "Automatische verificatie is niet beschikbaar voor deze chat"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body-2": {
-    "messageformat": "Signal can not automatically verify the encryption for this chat. This could be because {name} changed their phone number or their phone number privacy settings. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Signal kan de versleuteling voor deze chat niet automatisch verifiëren. Dit kan komen doordat {name} het telefoonnummer of de instellingen voor telefoonnummerprivacy heeft gewijzigd. Verifieer de end-to-endversleuteling handmatig door de cijfers op het vorige scherm te vergelijken of de QR-code op het apparaat van je contact te scannen."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
     "messageformat": "Signal kan de versleuteling alleen automatisch verifiëren in chats waarbij je via een telefoonnummer met iemand bent verbonden. Als de chat is gestart met een gebruikersnaam of via een gemeenschappelijke groep, verifieer de end-to-endversleuteling dan door de cijfers op het vorige scherm te vergelijken of de QR-code op het apparaat van je contact te scannen."
@@ -712,9 +703,6 @@
   },
   "icu:Toast__ActionLabel--SubmitLog": {
     "messageformat": "Foutopsporingslog indienen"
-  },
-  "icu:Toast--FailedToSendWithEndorsements": {
-    "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--SQLError": {
     "messageformat": "Databasefout: deel alsjeblieft je logs."
@@ -2015,9 +2003,6 @@
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, one {{count,number} opgestoken hand} other {{count,number} opgestoken handen}}"
   },
-  "icu:CallingRaisedHandsList__TitleHint": {
-    "messageformat": "(eerste bovenaan)"
-  },
   "icu:CallingReactions--me": {
     "messageformat": "Jij"
   },
@@ -3300,7 +3285,7 @@
     "messageformat": "Gemaximaliseerd voorbeeld in- en uitschakelen"
   },
   "icu:Keyboard--toggle-raise-hand": {
-    "messageformat": "Raise or lower your hand (group calls only)"
+    "messageformat": "Hand opsteken of omlaag doen (alleen groepsoproepen)"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Oproep beantwoorden met video (alleen video-oproepen)"
@@ -8220,16 +8205,10 @@
     "messageformat": "Kleine aanpassingen, bugfixes en prestatieverbeteringen. Bedankt dat je Signal gebruikt!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.11--0": {
-    "messageformat": "We hebben extra bevestigingsverzoeken en informatieve meldingen in de app toegevoegd om Signal-gebruikers beter te beschermen tegen phishing en social engineering-aanvallen. Ter herinnering: reageer nooit op chats die afkomstig lijken te zijn van Signal en deel nooit je verificatiecode, pincode of herstelsleutel met anderen."
-  },
-  "icu:WhatsNew__8.11--1": {
-    "messageformat": "De indicatoren voor opgestoken handen in groepsoproepen geven nu de volgorde in de wachtrij weer, zodat je direct kunt zien wie als eerste de hand opstak."
-  },
-  "icu:WhatsNew__8.11--2": {
-    "messageformat": "We hebben ook een realtime visualisatie toegevoegd tijdens het opnemen van spraakberichten, zodat surfers en strandgangers naar meerdere bewegende golven kunnen staren wanneer ze updates vanaf het strand delen."
-  },
   "icu:WhatsNew__8.12--0": {
-    "messageformat": "On the one hand, you can click on the raise hand icon during group calls. But on the other hand, now you can use a new keyboard shortcut too (Shift-H)."
+    "messageformat": "We hebben een nieuwe sneltoets toegevoegd om je een handje te helpen bij het opsteken van je hand tijdens groepsoproepen (Shift H)."
+  },
+  "icu:WhatsNew__8.13--0": {
+    "messageformat": "The new raised-hand indicators are now also displayed in the list of raised hands during group calls. It's a second-hand place to figure out who you should hand it over to when you're done speaking."
   }
 }

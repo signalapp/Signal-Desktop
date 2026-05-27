@@ -605,23 +605,14 @@
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__title": {
     "messageformat": "या चॅटसाठीचे एन्क्रिप्शन आपोआप पडताळले गेले "
   },
-  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
-    "messageformat": "तुम्हा ज्या संंपर्कांशी फोन नंबरद्वारे जोडलेले आहात, त्यांच्याशी असलेली जोडणी सुरक्षित आहे की नाही याची निश्चिती Signal की पारदर्शकता नावाची प्रक्रिया वापरून आपोआप करू शकते. अतिरिक्त सुरक्षेसाठी, मागील स्क्रीनवरील क्रमांकांची तुलना करून किंवा त्यांच्या डिव्हाईसवरील कोड स्कॅन करून स्वतः एंड-टू-एंड एन्क्रिप्शनची पडताळणी करा."
-  },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body-2": {
-    "messageformat": "For people you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
-  },
-  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
-    "messageformat": "स्वयं-पडताळणी आता या चॅटकरिता उपलब्ध नाही"
+    "messageformat": "तुम्ही ज्या लोकांशी फोन नंबरद्वारे जोडलेले आहात, त्यांच्याशी असलेली जोडणी संरक्षित आहे की नाही याची निश्चिती की पारदर्शकता नावाची प्रक्रिया वापरून Signal आपोआप करू शकते. अतिरिक्त सुरक्षेसाठी, मागील स्क्रीनवरील क्रमांकांची तुलना करून किंवा त्यांच्या डिव्हाईस वरील कोड स्कॅन करून स्वतः एंड-टू-एंड एन्क्रिप्शनची पडताळणी करा."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title-2": {
-    "messageformat": "Auto-verification is not available for this chat"
-  },
-  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
-    "messageformat": "Signal आता या चॅटचे एन्क्रिप्शन आपोआप पडताळू शकत नाही. याचे कारण कदाचित {name} यांनी त्यांचा फोन नंबर बदलला हे असू शकते. मागील स्क्रीनवरील क्रमांकांची तुलना करून किंवा त्यांच्या डिव्हाईसवरील कोड स्कॅन करून स्वतः एंड-टू-एंड एन्क्रिप्शनची पडताळणी करा."
+    "messageformat": "या चॅटकरिता स्वयं-पडताळणी उपलब्ध नाही"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body-2": {
-    "messageformat": "Signal can not automatically verify the encryption for this chat. This could be because {name} changed their phone number or their phone number privacy settings. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Signal या चॅटचे एन्क्रिप्शन आपोआप पडताळू शकत नाही. {name} यांनी त्यांचा फोन नंबर किंवा त्यांच्या फोन क्रमांक गोपनीयता सेटिंग्ज बदलल्यामुळे असे झालेले असू शकते. मागील स्क्रीनवरील क्रमांकांची तुलना करून किंवा त्यांच्या डिव्हाईस वरील कोड स्कॅन करून स्वतः एंड-टू-एंड एन्क्रिप्शनची पडताळणी करा."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
     "messageformat": "तुम्ही एखाद्याशी फोन नंबरद्वारे जोडलेले असता फक्त तेव्हाच Signal चॅट्समध्ये आपोआप एन्क्रिप्शनची पडताळणी करू शकते. जर चॅट वापरकर्ता नावासह किंवा सामाईक गटाच्या माध्यमातून सुरु झाले असेल, तर मागील स्क्रीनवरील क्रमांकांची तुलना करून किंवा त्यांच्या डिव्हाईसवरील कोड स्कॅन करून तुम्ही एंड-टू-एंड एन्क्रिप्शनची पडताळणी करू शकता."
@@ -712,9 +703,6 @@
   },
   "icu:Toast__ActionLabel--SubmitLog": {
     "messageformat": "लॉग सादर करा"
-  },
-  "icu:Toast--FailedToSendWithEndorsements": {
-    "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--SQLError": {
     "messageformat": "डेटाबेसमध्ये त्रुटी : कृपया तुमचे लॉग्ज शेअर करा."
@@ -2015,9 +2003,6 @@
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, one {{count,number} ने हात वर केला} other {{count,number} नी हात वर केले}}"
   },
-  "icu:CallingRaisedHandsList__TitleHint": {
-    "messageformat": "(प्रथम ते शेवटचे)"
-  },
   "icu:CallingReactions--me": {
     "messageformat": "आपण"
   },
@@ -3300,7 +3285,7 @@
     "messageformat": "वाढवलेले पूर्वावलोकन चालू आणि बंद करा"
   },
   "icu:Keyboard--toggle-raise-hand": {
-    "messageformat": "Raise or lower your hand (group calls only)"
+    "messageformat": "तुमचा हात उचला किंवा खाली करा (फक्त गट कॉल्ससाठी)"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "व्हिडीओसह कॉलला उत्तर द्या (फक्त व्हिडीओ कॉल्स)"
@@ -8220,16 +8205,10 @@
     "messageformat": "लहान ट्विक्स, दोष निवारण, आणि कामगिरी सुधारणा. Signal वापरल्याबद्दल आभारी आहोत!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.11--0": {
-    "messageformat": "आम्ही Signal वापरकर्त्यांचे फिशिंग आणि सोशल इंजिनिअरिंग हल्ल्यांपासून रक्षण करण्यास मदत व्हावी म्हणून ॲपमध्ये अतिरिक्त पुष्टी आणि शैक्षणिक संदेशांची जोड दिली आहे. आम्ही आठवण करून देतो, की कधीही Signal असल्याची बतावणी करणाऱ्या चॅट्सना उत्तर देऊ नका, आणि कधीही तुमचा पडताळणी कोड, पिन किंवा रीकव्हरी की कोणालाही पाठवू नका."
-  },
-  "icu:WhatsNew__8.11--1": {
-    "messageformat": "गट कॉल्समधील हात उचलल्याचे निर्देशक आता रांगेच्या क्रमाने दाखवतात, त्यामुळे कोणाला अगोदर संधी मिळाली, हे तुम्हाला सहजपणे पाहता येते."
-  },
-  "icu:WhatsNew__8.11--2": {
-    "messageformat": "आम्ही व्हॉईस संदेश रेकॉर्ड करतेवेळी रिअल-टाइम व्हिज्युअलायझेशनची सोय देखील केली आहे, जेणेकरून सर्फर्स (आणि समुद्रशास्त्रज्ञ)जेव्हा किनाऱ्यावरून अपडेट्स शेअर करतील, तेव्हा त्यांना अनेक हलणाऱ्या तरंगरूपांकडे पाहता येईल."
-  },
   "icu:WhatsNew__8.12--0": {
-    "messageformat": "On the one hand, you can click on the raise hand icon during group calls. But on the other hand, now you can use a new keyboard shortcut too (Shift-H)."
+    "messageformat": "गट कॉल्स दरम्यान तुम्ही हात वर करण्याचा आयकॉन क्लिक करू शकता. आम्ही एक नवा कीबोर्ड शॉर्टकट जोडला आहे (Shift-H)."
+  },
+  "icu:WhatsNew__8.13--0": {
+    "messageformat": "The new raised-hand indicators are now also displayed in the list of raised hands during group calls. It's a second-hand place to figure out who you should hand it over to when you're done speaking."
   }
 }

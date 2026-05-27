@@ -605,23 +605,14 @@
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__title": {
     "messageformat": "Usimbaji fiche umethibitishwa kiotomatiki kwa gumzo hili "
   },
-  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
-    "messageformat": "Kwa wawasiliani uliounganisha nao moja kwa moja kupitia namba ya simu, Signal inaweza kuthibitisha kiotomatiki iwapo muunganisho huo ni salama kwa kutumia mchakato unaoitwa uwazi wa funguo. Ili uimarishe usalama, thibitisha mwenyewe usimbaji fiche wa mwanzo hadi mwisho kwa kulinganisha namba kwenye skrini iliyotangulia au kuchanganua msimbo kwenye kifaa chako."
-  },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body-2": {
-    "messageformat": "For people you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
-  },
-  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
-    "messageformat": "Hakuna uthibitishaji wa kiotomatiki kwa gumzo hili"
+    "messageformat": "Kwa wawasiliani uliounganishwa nao moja kwa moja kupitia namba ya simu, Signal inaweza kuthibitisha kiotomatiki iwapo muunganisho huo ni salama kwa kutumia mchakato unaoitwa uwazi wa funguo. Ili uimarishe usalama, thibitisha mwenyewe usimbaji fiche wa mwanzo hadi mwisho kwa kulinganisha namba kwenye skrini iliyotangulia au kuchanganua msimbo kwenye kifaa chako."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title-2": {
-    "messageformat": "Auto-verification is not available for this chat"
-  },
-  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
-    "messageformat": "Signal haiwezi tena kuthibitisha kiotomatiki usimbaji fiche wa gumzo hili. Huenda hii ni kutokana na {name} kubadilisha namba yake ya simu. Thibitisha usimbaji fiche wa mwanzo hadi mwisho kwa kulinganisha mwenyewe namba kwenye skrini iliyotangulia au kuchanganua msimbo kwenye kifaa hiki."
+    "messageformat": "Uthibitishaji wa kiotomatiki haupatikani kwa gumzo hili"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body-2": {
-    "messageformat": "Signal can not automatically verify the encryption for this chat. This could be because {name} changed their phone number or their phone number privacy settings. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Signal haiwezi kuthibitisha kiotomatiki usimbaji fiche wa gumzo hili. Huenda hali hii ni kwa sababu {name} alibadilisha namba yake ya simu kwenye mipangilio ya faragha ya namba yake ya simu. Thibitisha usimbaji fiche wa mwanzo hadi mwisho kwa kulinganisha mwenyewe namba kwenye skrini iliyotangulia au kuchanganua msimbo kwenye kifaa hiki."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
     "messageformat": "Signal inaweza tu kuthibitisha kiotomatiki usimbaji fiche kwenye magumzo unapounganishwa na mtu kupitia namba ya simu. Ikiwa gumzo lilianzishwa na jina la mtumiaji au kikundi cha pamoja, thibitisha usimbaji fiche wa mwanzo hadi mwisho kwa kulinganisha namba kwenye skrini iliyotangulia au kuchanganua msimbo kwenye kifaa chake."
@@ -712,9 +703,6 @@
   },
   "icu:Toast__ActionLabel--SubmitLog": {
     "messageformat": "Wasilisha logi"
-  },
-  "icu:Toast--FailedToSendWithEndorsements": {
-    "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--SQLError": {
     "messageformat": "Hitilafu ya kanzidata: tafadhali tuma kumbukumbu zako."
@@ -2015,9 +2003,6 @@
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, one {mkono {count,number} umeinuliwa} other {mikono {count,number} imeinuliwa}}"
   },
-  "icu:CallingRaisedHandsList__TitleHint": {
-    "messageformat": "(wa kwanza hadi wa mwisho)"
-  },
   "icu:CallingReactions--me": {
     "messageformat": "Wewe"
   },
@@ -3300,7 +3285,7 @@
     "messageformat": "Washa na uzime onyesha lililopanuliwa"
   },
   "icu:Keyboard--toggle-raise-hand": {
-    "messageformat": "Raise or lower your hand (group calls only)"
+    "messageformat": "Inua au shusha mkono wako (simu za kikundi tu)"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Jibu simu kwa video (simu za video peke yake)"
@@ -8220,16 +8205,10 @@
     "messageformat": "Mabadiliko madogo, marekebisho ya bugs na uboreshaji wa utendaji. Asante kwa kutumia Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.11--0": {
-    "messageformat": "Tumeongeza uthibitisho wa ziada na ujumbe wa elimu ndani ya programu ili kusaidia kulinda watumiaji wa Signal dhidi ya mashambulizi ya wizi wa data binafsi na kuhadaa watu. Kumbuka, usiwahi kujibu magumzo yanayojifanya kuwa Signal na usiwahi kutuma code yako ya uthibitishaji, PIN au ufunguo wa kurejesha akaunti kwa mtu yeyote."
-  },
-  "icu:WhatsNew__8.11--1": {
-    "messageformat": "Viashiria vya mkono ulioinuliwa katika simu za vikundi sasa vinaonyesha mpangilio wa foleni kwa wakati halisi, ili uweze kuona kwa urahisi nani aliyeinua mkono kwanza."
-  },
-  "icu:WhatsNew__8.11--2": {
-    "messageformat": "Pia tumeweka taswira katika muda halisi wakati wa kurekodi ujumbe wa sauti, ili watelezaji wa kwenye maji na (wataalamu wa bahari) waweze kutazama mawimbi mengi yanayosogea wanashiriki sasisho kutoka baharini."
-  },
   "icu:WhatsNew__8.12--0": {
-    "messageformat": "On the one hand, you can click on the raise hand icon during group calls. But on the other hand, now you can use a new keyboard shortcut too (Shift-H)."
+    "messageformat": "Kwa upande mwingine, unaweza kubofya kwenye aikoni ya mkono ulionyooshwa wakati wa simu za kikundi. Ila kwa upande mwingine, unaweza pia kutumia mikato mipya ya kibodi (Shift-H)."
+  },
+  "icu:WhatsNew__8.13--0": {
+    "messageformat": "The new raised-hand indicators are now also displayed in the list of raised hands during group calls. It's a second-hand place to figure out who you should hand it over to when you're done speaking."
   }
 }

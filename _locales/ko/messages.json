@@ -605,23 +605,14 @@
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__title": {
     "messageformat": "이 채팅에 대한 암호화가 자동 인증되었습니다 "
   },
-  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
-    "messageformat": "전화번호를 통해 연결된 연락처의 경우, Signal은 키 투명성이라는 프로세스를 사용하여 연결이 안전한지 자동으로 확인할 수 있습니다. 보안을 강화하려면 이전 화면의 숫자를 대조하거나, 상대방 기기의 코드를 스캔하여 종단간 암호화를 수동으로 인증해 주세요."
-  },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body-2": {
-    "messageformat": "For people you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
-  },
-  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
-    "messageformat": "이 채팅에 더 이상 자동 인증을 사용할 수 없습니다"
+    "messageformat": "전화번호를 통해 연결된 사용자의 경우, Signal은 키 투명성이라는 프로세스를 사용하여 연결이 안전한지 자동으로 확인할 수 있습니다. 보안을 강화하려면 이전 화면의 숫자를 대조하거나, 상대방 기기의 코드를 스캔하여 종단간 암호화를 수동으로 인증해 주세요."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title-2": {
-    "messageformat": "Auto-verification is not available for this chat"
-  },
-  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
-    "messageformat": "Signal이 더 이상 이 채팅의 암호화를 자동으로 인증할 수 없습니다. {name} 님이 전화번호를 변경하여 발생한 문제일 수 있습니다. 이전 화면의 숫자를 대조하거나, 상대방 기기의 코드를 스캔하여 종단간 암호화를 수동으로 인증해 주세요."
+    "messageformat": "이 채팅에 자동 인증을 사용할 수 없음"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body-2": {
-    "messageformat": "Signal can not automatically verify the encryption for this chat. This could be because {name} changed their phone number or their phone number privacy settings. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Signal이 이 채팅의 암호화를 자동으로 인증할 수 없습니다. {name} 님이 전화번호 또는 전화번호 개인정보보호 설정을 변경하여 발생한 문제일 수 있습니다. 이전 화면의 숫자를 대조하거나, 상대방 기기의 코드를 스캔하여 종단간 암호화를 수동으로 인증해 주세요."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
     "messageformat": "Signal은 상대방과 전화번호를 통해 연결한 채팅에서만 자동으로 암호화를 인증할 수 있습니다. 사용자 이름이나 공통으로 속한 그룹을 통해 채팅을 시작한 경우, 이전 화면의 숫자를 대조하거나 상대방 기기에 있는 코드를 스캔하여 종단간 암호화를 인증해 주세요."
@@ -712,9 +703,6 @@
   },
   "icu:Toast__ActionLabel--SubmitLog": {
     "messageformat": "로그 제출"
-  },
-  "icu:Toast--FailedToSendWithEndorsements": {
-    "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--SQLError": {
     "messageformat": "데이터베이스 오류: 로그를 공유해 주세요."
@@ -1944,7 +1932,7 @@
     "messageformat": "공감 표시하기"
   },
   "icu:calling__button--ring__disabled-because-group-is-too-large": {
-    "messageformat": "단체 참여자가 너무 많아 통화를 진행할 수 없습니다."
+    "messageformat": "그룹 인원이 너무 많아 전화를 걸 수 없습니다."
   },
   "icu:CallingButton__ring-off": {
     "messageformat": "통화 끄기"
@@ -2015,9 +2003,6 @@
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, other {{count,number}명이 손을 듦}}"
   },
-  "icu:CallingRaisedHandsList__TitleHint": {
-    "messageformat": "(손 든 순서대로 정렬)"
-  },
   "icu:CallingReactions--me": {
     "messageformat": "나"
   },
@@ -2073,7 +2058,7 @@
     "messageformat": "아무도 없음"
   },
   "icu:calling__in-this-call": {
-    "messageformat": "{people, plural, other {이 통화 참여자 · {people,number}명}}"
+    "messageformat": "{people, plural, other {통화 참가자 {people,number}명}}"
   },
   "icu:calling__blocked-participant": {
     "messageformat": "{name} 님을 차단함"
@@ -3300,7 +3285,7 @@
     "messageformat": "미리 보기 펼치기 사용/사용 안 함 전환"
   },
   "icu:Keyboard--toggle-raise-hand": {
-    "messageformat": "Raise or lower your hand (group calls only)"
+    "messageformat": "손들기 또는 손 내리기(그룹 통화만 해당)"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "영상 통화로 받기(영상 통화만 해당)"
@@ -3738,7 +3723,7 @@
     "messageformat": "{otherName} 님이 나를 음소거했습니다."
   },
   "icu:CallControls__SomeoneMutedSomeoneToast": {
-    "messageformat": "{name} 님이 {otherName} 님의 음소거했습니다."
+    "messageformat": "{name} 님이 {otherName} 님을 음소거했습니다."
   },
   "icu:CallControls__YouMutedSomeoneToast": {
     "messageformat": "{otherName} 님을 음소거했습니다."
@@ -3807,10 +3792,10 @@
     "messageformat": "{name} 님이 영상 통화를 시작했습니다"
   },
   "icu:calling__in-another-call-tooltip": {
-    "messageformat": "이미 통화 참가자 수 최대"
+    "messageformat": "이미 통화에 참여 중입니다"
   },
   "icu:calling__call-notification__button__call-full-tooltip": {
-    "messageformat": "통화 참가자 수가 {max,number}에 도달함"
+    "messageformat": "통화 참여 인원 제한({max,number}명)에 도달했습니다"
   },
   "icu:calling__pip--on": {
     "messageformat": "통화 최소화"
@@ -8220,16 +8205,10 @@
     "messageformat": "사소한 변경 사항과 버그 수정 및 성능 개선. Signal을 이용해 주셔서 감사합니다!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.11--0": {
-    "messageformat": "피싱과 소셜 엔지니어링 공격으로부터 Signal 사용자를 보호하기 위해 Signal 앱 내에 확인 및 안내 메시지를 추가했습니다. 다시 한번 당부드리지만, Signal을 사칭하는 채팅에는 절대 답장하지 마시고, 다른 사람에게 인증 코드나 PIN, 복구 키를 절대 전송하지 마세요."
-  },
-  "icu:WhatsNew__8.11--1": {
-    "messageformat": "이제 그룹 통화에서 손 들기 표시를 통해 현재 발언 대기 순서를 확인할 수 있습니다."
-  },
-  "icu:WhatsNew__8.11--2": {
-    "messageformat": "음성 메시지를 녹음하는 동안 새로운 시각적 효과가 표시됩니다."
-  },
   "icu:WhatsNew__8.12--0": {
-    "messageformat": "On the one hand, you can click on the raise hand icon during group calls. But on the other hand, now you can use a new keyboard shortcut too (Shift-H)."
+    "messageformat": "그룹 통화 중 손들기 단축키(Shift-H)를 새로 추가했습니다."
+  },
+  "icu:WhatsNew__8.13--0": {
+    "messageformat": "The new raised-hand indicators are now also displayed in the list of raised hands during group calls. It's a second-hand place to figure out who you should hand it over to when you're done speaking."
   }
 }

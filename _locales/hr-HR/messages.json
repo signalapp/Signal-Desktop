@@ -605,23 +605,14 @@
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__title": {
     "messageformat": "Šifriranje je automatski provjereno za ovaj razgovor "
   },
-  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
-    "messageformat": "Za kontakte s kojima ste povezani putem broja telefona, Signal može automatski potvrditi je li veza sigurna pomoću postupka koji se naziva transparentnost ključa. Radi dodatne sigurnosti, ručno provjerite sveobuhvatno šifriranje usporedbom brojeva na prethodnom zaslonu ili skeniranjem koda na uređaju određenog korisnika."
-  },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body-2": {
-    "messageformat": "For people you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
-  },
-  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
-    "messageformat": "Automatska provjera nije više dostupna za ovaj razgovor"
+    "messageformat": "Za osobe s kojima ste povezani putem broja telefona, Signal može automatski potvrditi je li veza sigurna pomoću postupka koji se naziva transparentnost ključa. Radi dodatne sigurnosti, ručno provjerite sveobuhvatno šifriranje usporedbom brojeva na prethodnom zaslonu ili skeniranjem koda na uređaju određenog korisnika."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title-2": {
-    "messageformat": "Auto-verification is not available for this chat"
-  },
-  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
-    "messageformat": "Signal ne može više automatski provjeriti šifriranje ovog razgovora. Razlog tome je vjerojatno to što je {name} promijenio/la svoj broj telefona. Sveobuhvatno šifriranje može se provjeriti ručno, usporedbom brojeva na prethodnom zaslonu, ili skeniranjem koda na uređaju tog korisnika."
+    "messageformat": "Automatska provjera nije dostupna za ovaj razgovor"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body-2": {
-    "messageformat": "Signal can not automatically verify the encryption for this chat. This could be because {name} changed their phone number or their phone number privacy settings. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Signal ne može automatski provjeriti šifriranje ovog razgovora. Razlog tome može biti to što je {name} promijenio/la svoj broj telefona ili postavke privatnosti broja telefona. Sveobuhvatno šifriranje može se provjeriti ručno, usporedbom brojeva na prethodnom zaslonu, ili skeniranjem koda na uređaju tog korisnika."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
     "messageformat": "Signal može automatski provjeriti šifriranje samo za razgovore u kojima ste povezani s nekim putem broja telefona. Ako je razgovor započet s korisničkim imenom ili zajedničkom grupom, provjerite sveobuhvatno šifriranje usporedbom brojeva na prethodnom zaslonu ili skeniranjem koda na uređaju tog korisnika."
@@ -712,9 +703,6 @@
   },
   "icu:Toast__ActionLabel--SubmitLog": {
     "messageformat": "Pošalji zapisnik"
-  },
-  "icu:Toast--FailedToSendWithEndorsements": {
-    "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--SQLError": {
     "messageformat": "Pogreška u bazi podataka. Molimo podijelite svoj zapisnik pogreške."
@@ -2015,9 +2003,6 @@
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, one {{count,number} podignuta ruka} few {{count,number} podignute ruke} many {{count,number} podignutih ruku} other {{count,number} podignutih ruku}}"
   },
-  "icu:CallingRaisedHandsList__TitleHint": {
-    "messageformat": "(od prve do posljednje)"
-  },
   "icu:CallingReactions--me": {
     "messageformat": "Vi"
   },
@@ -3300,7 +3285,7 @@
     "messageformat": "Uključivanje i isključivanje proširenog pregleda"
   },
   "icu:Keyboard--toggle-raise-hand": {
-    "messageformat": "Raise or lower your hand (group calls only)"
+    "messageformat": "Podignite ili spustite ruku (samo za grupne pozive)"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Odgovori na poziv s videom (samo videopozivi)"
@@ -8220,16 +8205,10 @@
     "messageformat": "Manja podešavanja, ispravci grešaka i poboljšanje rada aplikacije. Hvala vam što koristite Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.11--0": {
-    "messageformat": "Dodali smo nove potvrde i edukativne poruke u aplikaciju kako bismo zaštitili korisnike Signala od phishinga i napada socijalnog inženjeringa. Podsjećamo vas da nikada ne odgovarate na poruke koje se pretvaraju da su od Signala i da nikada nikome ne šaljete svoj potvrdni kôd, PIN ili ključ za oporavak."
-  },
-  "icu:WhatsNew__8.11--1": {
-    "messageformat": "Pokazatelji podignute ruke u grupnim pozivima sada prikazuju trenutni redoslijed u redu čekanja."
-  },
-  "icu:WhatsNew__8.11--2": {
-    "messageformat": "Novi vizualni prikaz tijekom snimanja glasovnih poruka."
-  },
   "icu:WhatsNew__8.12--0": {
-    "messageformat": "On the one hand, you can click on the raise hand icon during group calls. But on the other hand, now you can use a new keyboard shortcut too (Shift-H)."
+    "messageformat": "Dodali smo novi prečac na tipkovnici za podizanje ruke tijekom grupnih poziva (Shift-H)."
+  },
+  "icu:WhatsNew__8.13--0": {
+    "messageformat": "The new raised-hand indicators are now also displayed in the list of raised hands during group calls. It's a second-hand place to figure out who you should hand it over to when you're done speaking."
   }
 }

@@ -605,23 +605,14 @@
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__title": {
     "messageformat": "Бул маектин шифрлөөсү автоматтык түрдө текшерилди "
   },
-  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
+  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body-2": {
     "messageformat": "Телефон номери аркылуу байланышкан адамдар үчүн Signal байланыштын коопсуздугун \"ачкычтын ачык-айкындыгы\" деген процесс менен текшерет. Коопсуздукту бекемдөө максатында баштан аяк шифрлөөнү буга чейинки экранда номерлерди салыштыруу же түзмөктөгү кодду скандоо менен текшериңиз."
   },
-  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body-2": {
-    "messageformat": "For people you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
-  },
-  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
+  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title-2": {
     "messageformat": "Бул маекте автотекшерүү жок"
   },
-  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title-2": {
-    "messageformat": "Auto-verification is not available for this chat"
-  },
-  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
-    "messageformat": "Signal бул маектин шифрин автоматтык түрдө текшере албайт. {name} телефон номерин өзгөрткөн окшойт. Буга чейинки экранда номерлерди салыштырып же түзмөгүндөгү кодду скандап баштан аяк шифрлөөнү кол менен текшерсеңиз болот."
-  },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body-2": {
-    "messageformat": "Signal can not automatically verify the encryption for this chat. This could be because {name} changed their phone number or their phone number privacy settings. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Signal бул маектин шифрин автоматтык түрдө текшере албайт. {name} телефон номерин өзгөрткөндүктөн же телефон номеринин коопсуздук параметрлеринен ушундай болушу мүмкүн. Буга чейинки экранда номерлерди салыштырып же түзмөгүндөгү кодду скандап баштан аяк шифрлөөнү кол менен текшерсеңиз болот."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
     "messageformat": "Signal маектерде шифрлөөнү кимдир-бирөөгө телефон аркылуу байланышып турсаңыз гана автоматтык түрдө текшере алат. Эгер маек колдонуучу ат же жалпы топ менен башталса, баштан аяк шифрлөө буга чейинки экранда номерлерди салыштыруу же түзмөктөгү кодду скандоо менен текшерилет."
@@ -712,9 +703,6 @@
   },
   "icu:Toast__ActionLabel--SubmitLog": {
     "messageformat": "Журналды тапшыруу"
-  },
-  "icu:Toast--FailedToSendWithEndorsements": {
-    "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--SQLError": {
     "messageformat": "Маалыматтар базасында ката кетти: журналдарыңызды бөлүшүңүз."
@@ -2015,9 +2003,6 @@
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, other {{count,number} адам кол көтөрдү}}"
   },
-  "icu:CallingRaisedHandsList__TitleHint": {
-    "messageformat": "(биринчисинен акыркысына)"
-  },
   "icu:CallingReactions--me": {
     "messageformat": "Сиз"
   },
@@ -3300,7 +3285,7 @@
     "messageformat": "Алдын ала кеңири көрүнүштү күйгүзүү/өчүрүү"
   },
   "icu:Keyboard--toggle-raise-hand": {
-    "messageformat": "Raise or lower your hand (group calls only)"
+    "messageformat": "Колуңузду көтөрүңүз же түшүрүңүз (топтук чалуулар гана)"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Чалууга видео режиминде жооп берүү (видео чалуулар гана)"
@@ -8220,16 +8205,10 @@
     "messageformat": "Майда-барат өзгөрүүлөрдү киргизип, мүчүлүштүктөрдү оңдоп, колдонмонун иштешин жакшыртып жатабыз. Signal'ды колдонгонуңуз үчүн чоң рахмат!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.11--0": {
-    "messageformat": "Signal колдонуучуларын фишингден жана социалдык инженерия чабуулдарынан коргоого жардам берүү үчүн колдонмого кошумча ырастоочу жана маалымат берүүчү билдирүүлөрдү киргиздик. Баса, өзүн Signal катары көрсөткөн маектерге жооп бербеңиз жана ырастоо кодуңузду, PIN кодуңузду же калыбына келтирүү ачкычыңызды эч кимге жөнөтпөңүз."
-  },
-  "icu:WhatsNew__8.11--1": {
-    "messageformat": "Топтук чалуулардагы кол көтөрүү эми кезектин учурдагы тартибин көрсөтөт. Демек, кимдин биринчи «кол көтөргөнүн» дароо көрө аласыз."
-  },
-  "icu:WhatsNew__8.11--2": {
-    "messageformat": "Мындан тышкары, үн билдирүүлөрү жазылып жатканын көрсөткөн визуализацияны коштук."
-  },
   "icu:WhatsNew__8.12--0": {
-    "messageformat": "On the one hand, you can click on the raise hand icon during group calls. But on the other hand, now you can use a new keyboard shortcut too (Shift-H)."
+    "messageformat": "Бир чети, топтук чалуу учурунда кол көтөрүү деген сүрөтчөнү басып койсоңуз болот. Экинчи чети, эми жаңы ыкчам баскычты колдоносуз (Shift-H)."
+  },
+  "icu:WhatsNew__8.13--0": {
+    "messageformat": "The new raised-hand indicators are now also displayed in the list of raised hands during group calls. It's a second-hand place to figure out who you should hand it over to when you're done speaking."
   }
 }

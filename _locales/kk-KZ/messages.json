@@ -605,23 +605,14 @@
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__title": {
     "messageformat": "Бұл чат үшін шифрлау автоматты түрде расталды "
   },
-  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
-    "messageformat": "Телефон нөмірі арқылы байланыс орнатқан контактілер үшін Signal байланыстың қаншалықты қауіпсіз екенін \"кілт ашықтығы\" деп аталатын процестің көмегімен автоматты түрде растай алады. Қауіпсіздікті күшейту үшін алдыңғы экрандағы нөмірлерді салыстыру немесе құрылғыдағы кодты сканерлеу арқылы тура шифрлауды қолмен растаңыз."
-  },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body-2": {
-    "messageformat": "For people you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
-  },
-  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
-    "messageformat": "Бұл чат үшін автоматты түрде растау енді қолжетімді емес"
+    "messageformat": "Телефон нөмірі арқылы байланыс орнатқан адамдар үшін Signal байланыстың қаншалықты қауіпсіз екенін \"кілт ашықтығы\" деп аталатын процестің көмегімен автоматты түрде растай алады. Қауіпсіздікті нығайту үшін алдыңғы экрандағы нөмірлерді салыстыру немесе құрылғыдағы кодты сканерлеу арқылы тура шифрлауды қолмен растаңыз."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title-2": {
-    "messageformat": "Auto-verification is not available for this chat"
-  },
-  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
-    "messageformat": "Signal бұл чат үшін шифрлауды енді автоматты түрде растай алмайды. Мұның себебі {name} өзінің телефон нөмірін өзгерткеннен болуы мүмкін. Алдыңғы экрандағы нөмірлерді салыстыру немесе құрылғыдағы кодты сканерлеу арқылы тура шифрлауды қолмен растаңыз."
+    "messageformat": "Бұл чат үшін автоматты түрде растау қолжетімді емес"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body-2": {
-    "messageformat": "Signal can not automatically verify the encryption for this chat. This could be because {name} changed their phone number or their phone number privacy settings. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Signal бұл чат үшін шифрлауды автоматты түрде растай алмайды. Бұл жағдай {name} өзінің телефон нөмірін немесе телефон нөміріне қатысты құпиялық параметрлерін өзгерткендіктен болуы мүмкін. Алдыңғы экрандағы нөмірлерді салыстыру немесе құрылғыдағы кодты сканерлеу арқылы тура шифрлауды қолмен растаңыз."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
     "messageformat": "Signal сіз біреуге телефон нөмірі арқылы қосылған чаттардағы шифрлауды ғана автоматты түрде растай алады. Чат пайдаланушы атымен немесе ортақ топпен басталған болса, алдыңғы экрандағы нөмірлерді салыстыру немесе құрылғыдағы кодты сканерлеу арқылы тура шифрлауды растаңыз."
@@ -712,9 +703,6 @@
   },
   "icu:Toast__ActionLabel--SubmitLog": {
     "messageformat": "Журналды жіберу"
-  },
-  "icu:Toast--FailedToSendWithEndorsements": {
-    "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--SQLError": {
     "messageformat": "Дерекқорда қате орын алды. Журналдарыңызды бөлісіңіз."
@@ -2015,9 +2003,6 @@
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, one {{count,number} адам қол көтерді} other {{count,number} адам қол көтерді}}"
   },
-  "icu:CallingRaisedHandsList__TitleHint": {
-    "messageformat": "(біріншіден соңғыға дейін)"
-  },
   "icu:CallingReactions--me": {
     "messageformat": "Сіз"
   },
@@ -3300,7 +3285,7 @@
     "messageformat": "Кеңейтілген алғы көріністі қосу және өшіру"
   },
   "icu:Keyboard--toggle-raise-hand": {
-    "messageformat": "Raise or lower your hand (group calls only)"
+    "messageformat": "Қолды көтеру немесе түсіру (тек топтық қоңыраулар үшін)"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Қоңырауға видео арқылы жауап беру (видео қоңырауларда ғана)"
@@ -8220,16 +8205,10 @@
     "messageformat": "Кішігірім түзетпелер жасалды, ақаулар жөнделді және жұмысы жақсартылды. Signal-ды қолданғаныңыз үшін рақмет!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.11--0": {
-    "messageformat": "Signal пайдаланушыларын фишинг және әлеуметтік желідегі шабуылдардан қорғау үшін қолданбаға қосымша растаулар мен түсіндірме хабарлар енгізілді. Есіңізде болсын: Signal-дың атын жамылған чаттарға жауап бермеңіз. Растау кодын, PIN кодын немесе қалпына келтіру кілтін ешкімге жібермеңіз."
-  },
-  "icu:WhatsNew__8.11--1": {
-    "messageformat": "Топтық қоңыраулардағы көтерілген қол индикаторлары енді кезектің ағымдағы ретін көрсетеді, сондықтан кімнің бірінші болып сөз сөйлеуді сұрағанын оңай көре аласыз."
-  },
-  "icu:WhatsNew__8.11--2": {
-    "messageformat": "Сондай-ақ дауыстық хабарлар жазу процесіне нақты уақыттағы визуализация қосылды, енді серфингшілер және океанографтар жағажайдан жаңалық бөліскенде бірнеше қозғалып тұрған дыбыс толқындарын көре алады."
-  },
   "icu:WhatsNew__8.12--0": {
-    "messageformat": "On the one hand, you can click on the raise hand icon during group calls. But on the other hand, now you can use a new keyboard shortcut too (Shift-H)."
+    "messageformat": "Бір жағынан топтық қоңыраулар кезінде қолды көтеру белгішесін басуға болады. Ал екінші жағынан жаңа пернелер тіркесімін (Shift-H) қолдануға болады."
+  },
+  "icu:WhatsNew__8.13--0": {
+    "messageformat": "The new raised-hand indicators are now also displayed in the list of raised hands during group calls. It's a second-hand place to figure out who you should hand it over to when you're done speaking."
   }
 }

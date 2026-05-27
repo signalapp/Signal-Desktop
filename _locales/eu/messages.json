@@ -605,23 +605,14 @@
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__title": {
     "messageformat": "Enkriptatzea automatikoki egiaztatu da txat honetan "
   },
-  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
-    "messageformat": "Zurekin telefono-zenbaki bidez konektatuta dauden kontakuei dagokienez, Signal-ek \"gako-gardentasuna\" izeneko prozesu baten bidez egiazta dezake konexioa seguruan den. Segurtasun gehiago izateko, egiaztatu muturretik muturrerako enkriptatzea eskuz, aurreko pantailako zenbakiak alderatuz edo gailuko kodea eskaneatuz."
-  },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body-2": {
-    "messageformat": "For people you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
-  },
-  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
-    "messageformat": "Egiaztapen automatikoa ez dago eskuragarri dagoeneko txat honetarako"
+    "messageformat": "Zurekin telefono-zenbaki bidez konektatuta dauden pertsonei dagokienez, Signal-ek \"gako-gardentasuna\" izeneko prozesu baten bidez egiazta dezake konexioa seguruan den. Segurtasun gehiago izateko, egiaztatu muturretik muturrerako enkriptatzea eskuz, aurreko pantailako zenbakiak alderatuz edo gailuko kodea eskaneatuz."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title-2": {
-    "messageformat": "Auto-verification is not available for this chat"
-  },
-  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
-    "messageformat": "Signal-ek dagoeneko ezin du txat honen enkriptatzea automatikoki egiaztatu. Baliteke {name}(e)k telefonoa aldatu duelako izatea. Egiaztatu muturretik muturrerako enkriptatzea eskuz, aurreko pantailako zenbakiak alderatuz edo gailuko kodea eskaneatuz."
+    "messageformat": "Egiaztapen automatikoa ez dago erabilgarri txat honetarako"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body-2": {
-    "messageformat": "Signal can not automatically verify the encryption for this chat. This could be because {name} changed their phone number or their phone number privacy settings. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Signal-ek ezin du automatikoki egiaztatu txat honen enkriptatzea. Baliteke {name}(e)k telefono-zenbakia edo telefono-zenbakiaren pribatutasun-ezarpenak aldatu dituelako izatea. Egiaztatu muturretik muturrerako enkriptatzea eskuz, aurreko pantailako zenbakiak alderatuz edo gailuko kodea eskaneatuz."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
     "messageformat": "Signal-ek enkriptatzea automatikoki egiaztatu ahal izateko, zurekin telefono-zenbaki bidez konektatuta dauden pertsonekin izan behar dituzu txatak. Txata erabiltzaile-izen batekin edo talde komun batekin hasi bada, egiaztatu muturretik muturrerako enkriptatzea, aurreko pantailako zenbakiak alderatuz edo gailuko kodea eskaneatuz."
@@ -712,9 +703,6 @@
   },
   "icu:Toast__ActionLabel--SubmitLog": {
     "messageformat": "Bidali erregistroa"
-  },
-  "icu:Toast--FailedToSendWithEndorsements": {
-    "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--SQLError": {
     "messageformat": "Datu-basearen errorea: partekatu erregistroak."
@@ -2015,9 +2003,6 @@
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, one {Jasotako {count,number} esku} other {Jasotako {count,number} esku}}"
   },
-  "icu:CallingRaisedHandsList__TitleHint": {
-    "messageformat": "(lehenetik azkenera)"
-  },
   "icu:CallingReactions--me": {
     "messageformat": "Zu"
   },
@@ -3300,7 +3285,7 @@
     "messageformat": "Aktibatu eta desaktibatu aurrebista zabaldua"
   },
   "icu:Keyboard--toggle-raise-hand": {
-    "messageformat": "Raise or lower your hand (group calls only)"
+    "messageformat": "Jaso edo jaitsi eskua (taldeko deiak soilik)"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Erantzun deiari bideoarekin (bideodeiak soilik)"
@@ -8220,16 +8205,10 @@
     "messageformat": "Doikuntza txikiak, akats-konponketak eta errendimendu-hobekuntzak. Eskerrik asko Signal erabiltzeagatik!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.11--0": {
-    "messageformat": "Berrespen gehigarriak eta mezu hezigarriak gehitu ditugu aplikazioan, Sigal-en erabiltzaileak phishingetik eta ingeniaritza sozialetik babesteko. Gogoratu, ez erantzun Signal-en plantak egiten dituzten txatei, eta ez bidali egiaztapen-kodea, PINa edo berreskuratze-gakoa inori."
-  },
-  "icu:WhatsNew__8.11--1": {
-    "messageformat": "Taldeko deietan jasotako eskuen adierazleek ilararen ordena bistaratzen dute orain."
-  },
-  "icu:WhatsNew__8.11--2": {
-    "messageformat": "Ikuspegi berria ahots-mezuak grabatzean."
-  },
   "icu:WhatsNew__8.12--0": {
-    "messageformat": "On the one hand, you can click on the raise hand icon during group calls. But on the other hand, now you can use a new keyboard shortcut too (Shift-H)."
+    "messageformat": "Taldeko deietan eskua jasotzeko teklatuko lasterbide berri bat gehitu dugu."
+  },
+  "icu:WhatsNew__8.13--0": {
+    "messageformat": "The new raised-hand indicators are now also displayed in the list of raised hands during group calls. It's a second-hand place to figure out who you should hand it over to when you're done speaking."
   }
 }
