@@ -605,23 +605,14 @@
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__title": {
     "messageformat": "Šifrování pro tento chat bylo automaticky ověřeno "
   },
-  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
-    "messageformat": "U kontaktů, se kterými jste propojeni pomocí telefonního čísla, může aplikace Signal automaticky potvrdit, zda je připojení zabezpečené, pomocí procesu zvaného transparentnost klíče. Pro lepší zabezpečení ověřte koncové šifrování ručně porovnáním čísel na předchozí obrazovce nebo naskenováním kódu na zařízení účastníků."
-  },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body-2": {
-    "messageformat": "For people you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
-  },
-  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
-    "messageformat": "Automatické ověření již není pro tento chat k dispozici"
+    "messageformat": "U lidí, se kterými jste propojeni pomocí telefonního čísla, může aplikace Signal automaticky potvrdit, zda je spojení bezpečné, pomocí procesu zvaného transparentnost klíče. Pro vyšší bezpečnost můžete koncové šifrování ověřit ručně porovnáním čísel na předchozí obrazovce nebo naskenováním kódu na zařízení daného člověka."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title-2": {
-    "messageformat": "Auto-verification is not available for this chat"
-  },
-  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
-    "messageformat": "Aplikace Signal již nemůže automaticky ověřit šifrování tohoto chatu. Je to nejspíše proto, že {name} změnil/a své telefonní číslo. Koncové šifrování můžete ověřit ručně porovnáním čísel na předchozí obrazovce nebo naskenováním kódu na jeho/jejím zařízení."
+    "messageformat": "Automatické ověření není pro tento chat k dispozici"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body-2": {
-    "messageformat": "Signal can not automatically verify the encryption for this chat. This could be because {name} changed their phone number or their phone number privacy settings. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Signal nemůže automaticky ověřit šifrování tohoto chatu. Může to být tím, že {name} změnil/a své telefonní číslo nebo nastavení soukromí. Koncové šifrování můžete ověřit ručně porovnáním čísel na předchozí obrazovce nebo naskenováním kódu na zařízení daného člověka."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
     "messageformat": "Aplikace Signal může automaticky ověřit šifrování pouze v chatech, kde jste s někým propojeni prostřednictvím telefonního čísla. Pokud byl chat zahájen se společným uživatelským jménem nebo skupinou, ověřte koncové šifrování porovnáním čísel na předchozí obrazovce nebo naskenováním kódu na jejich zařízení."
@@ -712,9 +703,6 @@
   },
   "icu:Toast__ActionLabel--SubmitLog": {
     "messageformat": "Odeslat log"
-  },
-  "icu:Toast--FailedToSendWithEndorsements": {
-    "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--SQLError": {
     "messageformat": "Chyba databáze: pošlete nám prosím své protokoly."
@@ -2015,9 +2003,6 @@
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, one {{count,number} zvednutá ruka} few {{count,number} zvednuté ruce} many {{count,number} zvednuté ruce} other {{count,number} zvednutých rukou}}"
   },
-  "icu:CallingRaisedHandsList__TitleHint": {
-    "messageformat": "(od první k poslední)"
-  },
   "icu:CallingReactions--me": {
     "messageformat": "Vy"
   },
@@ -3300,7 +3285,7 @@
     "messageformat": "Zapnout nebo vypnout větší náhled"
   },
   "icu:Keyboard--toggle-raise-hand": {
-    "messageformat": "Raise or lower your hand (group calls only)"
+    "messageformat": "Zvednout nebo spustit ruku (pouze skupinové hovory)"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Přijmout hovor s videem (pouze videohovory)"
@@ -8220,16 +8205,10 @@
     "messageformat": "Drobná vylepšení, opravy chyb a zvýšení výkonu. Děkujeme, že používáte Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.11--0": {
-    "messageformat": "Do aplikace jsme přidali další potvrzovací kroky a varovné zprávy, abychom uživatele služby Signal lépe chránili před phishingem a útoky sociálního inženýrství. Připomínáme: Nikdy neodpovídejte na zprávy, které předstírají, že jsou od služby Signal, a nikdy nikomu neposílejte svůj ověřovací kód, PIN ani klíč pro obnovení."
-  },
-  "icu:WhatsNew__8.11--1": {
-    "messageformat": "Ukazatele zvednuté ruky ve skupinových hovorech nyní zobrazují aktuální pořadí ve frontě."
-  },
-  "icu:WhatsNew__8.11--2": {
-    "messageformat": "Přidali jsme také novou vizualizaci pro nahrávání hlasových zpráv."
-  },
   "icu:WhatsNew__8.12--0": {
-    "messageformat": "On the one hand, you can click on the raise hand icon during group calls. But on the other hand, now you can use a new keyboard shortcut too (Shift-H)."
+    "messageformat": "Přidali jsme novou klávesovou zkratku pro zvednutí ruky během skupinových hovorů (Shift H)."
+  },
+  "icu:WhatsNew__8.13--0": {
+    "messageformat": "The new raised-hand indicators are now also displayed in the list of raised hands during group calls. It's a second-hand place to figure out who you should hand it over to when you're done speaking."
   }
 }

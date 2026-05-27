@@ -605,23 +605,14 @@
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__title": {
     "messageformat": "Şifreleme bu sohbet için otomatik olarak doğrulandı "
   },
-  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
-    "messageformat": "Telefon numarasıyla bağlandığın kişiler için Signal, anahtar şeffaflığı adı verilen bir süreç kullanarak bağlantının güvenli olup olmadığını otomatik olarak onaylayabilir. İlave güvenlik için önceki ekrandaki rakamları karşılaştırarak veya cihazındaki kodu tarayarak, uçtan uca şifrelemeyi manuel olarak doğrula."
-  },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body-2": {
-    "messageformat": "For people you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
-  },
-  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
-    "messageformat": "Bu sohbet için otomatik doğrulama artık kullanılamıyor"
+    "messageformat": "Telefon numarasıyla bağlandığın kişiler için Signal, anahtar şeffaflığı adı verilen bir süreç kullanarak bağlantının güvenli olup olmadığını otomatik olarak onaylayabilir. İlave güvenlik için önceki ekrandaki numaraları karşılaştırarak veya karşı tarafın cihazındaki kodu tarayarak uçtan uca şifrelemeyi manuel olarak doğrula."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title-2": {
-    "messageformat": "Auto-verification is not available for this chat"
-  },
-  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
-    "messageformat": "Signal bu sohbet için şifrelemeyi artık otomatik olarak doğrulayamıyor. Bunun sebebi muhtemelen {name} kişisinin telefon numarasını değiştirmiş olmasıdır. Önceki ekrandaki rakamları karşılaştırarak veya cihazındaki kodu tarayarak, uçtan uca şifrelemeyi manuel olarak doğrula."
+    "messageformat": "Bu sohbet için otomatik doğrulama kullanılamıyor"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body-2": {
-    "messageformat": "Signal can not automatically verify the encryption for this chat. This could be because {name} changed their phone number or their phone number privacy settings. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Signal bu sohbet için şifrelemeyi otomatik olarak doğrulayamıyor. Bunun sebebi muhtemelen {name} kişisinin telefon numarasını veya telefon numarası gizlilik ayarlarını değiştirmiş olmasıdır. Önceki ekrandaki numaraları karşılaştırarak veya karşı tarafın cihazındaki kodu tarayarak uçtan uca şifrelemeyi manuel olarak doğrula."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
     "messageformat": "Signal, sadece telefon numarası ile bağlı olduğun sohbetlerdeki şifrelemeyi otomatik olarak doğrulayabilir. Sohbet bir kullanıcı adı veya ortak bir grupla başlatılmışsa, önceki ekrandaki rakamları karşılaştırarak veya cihazındaki kodu tarayarak uçtan uca şifrelemeyi doğrula."
@@ -712,9 +703,6 @@
   },
   "icu:Toast__ActionLabel--SubmitLog": {
     "messageformat": "Günlüğü gönder"
-  },
-  "icu:Toast--FailedToSendWithEndorsements": {
-    "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--SQLError": {
     "messageformat": "Veritabanı hatası: Lütfen günlüklerini paylaş."
@@ -2015,9 +2003,6 @@
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, one {{count,number} kişi el kaldırdı} other {{count,number} kişi el kaldırdı}}"
   },
-  "icu:CallingRaisedHandsList__TitleHint": {
-    "messageformat": "(baştan sona)"
-  },
   "icu:CallingReactions--me": {
     "messageformat": "Sen"
   },
@@ -3300,7 +3285,7 @@
     "messageformat": "Genişletilmiş ön izlemeyi aç ve kapat"
   },
   "icu:Keyboard--toggle-raise-hand": {
-    "messageformat": "Raise or lower your hand (group calls only)"
+    "messageformat": "Elini kaldır veya indir (sadece grup aramaları)"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Aramayı görüntülü yanıtla (yalnızca görüntülü aramalar için)"
@@ -8220,16 +8205,10 @@
     "messageformat": "Küçük ince ayarlar, hata düzeltmeleri ve performans geliştirmeleri yaptık. Signal'i kullandığın için teşekkürler!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.11--0": {
-    "messageformat": "Signal kullanıcılarının kimlik avı ve sosyal mühendislik saldırılarından korunmasına yardımcı olmak üzere uygulamaya ek onaylar ve eğitimsel mesajlar ekledik. Bir hatırlatma olarak, Signal olduğunu ileri süren sohbetleri hiçbir zaman yanıtlama ve asla doğrulama kodu, PIN veya kurtarma anahtarını kimseye gönderme."
-  },
-  "icu:WhatsNew__8.11--1": {
-    "messageformat": "Grup görüşmelerindeki kaldırılan el göstergeleri artık sıranın mevcut düzenini sergilemektedir."
-  },
-  "icu:WhatsNew__8.11--2": {
-    "messageformat": "Sesli mesajları kaydederken yeni görselleştirme"
-  },
   "icu:WhatsNew__8.12--0": {
-    "messageformat": "On the one hand, you can click on the raise hand icon during group calls. But on the other hand, now you can use a new keyboard shortcut too (Shift-H)."
+    "messageformat": "Grup aramalarında elini kaldırman için yeni bir klavye kısayolu ekledik (Shift-H). Tabii yine de eski el kaldırma simgesini de kullanabilirsin."
+  },
+  "icu:WhatsNew__8.13--0": {
+    "messageformat": "The new raised-hand indicators are now also displayed in the list of raised hands during group calls. It's a second-hand place to figure out who you should hand it over to when you're done speaking."
   }
 }

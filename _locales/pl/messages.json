@@ -605,23 +605,14 @@
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__title": {
     "messageformat": "Szyfrowanie w tym czacie zostało zweryfikowane automatycznie "
   },
-  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
+  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body-2": {
     "messageformat": "W przypadku osób, z którymi kontakt został nawiązany za pomocą numeru telefonu, Signal może automatycznie potwierdzić, czy połączenie jest bezpieczne – robi to za pomocą mechanizmu przejrzystości kluczy. Jeśli chcesz mieć absolutną pewność, że komunikujesz się z właściwą osobą, możesz dodatkowo sprawdzić szyfrowanie end-to-end ręcznie. W tym celu porównaj Wasze numery bezpieczeństwa z poprzedniego ekranu lub zeskanuj kod QR z urządzenia kontaktu."
   },
-  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body-2": {
-    "messageformat": "For people you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
-  },
-  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
-    "messageformat": "W tym czacie automatyczna weryfikacja nie jest już dostępna"
-  },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title-2": {
-    "messageformat": "Auto-verification is not available for this chat"
-  },
-  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
-    "messageformat": "Signal nie może już automatycznie weryfikować szyfrowania w tym czacie – prawdopodobnie dlatego, że {name} ma nowy numer telefonu. Sprawdź szyfrowanie end-to-end ręcznie. W tym celu porównaj Wasze numery bezpieczeństwa z poprzedniego ekranu lub zeskanuj kod QR z urządzenia kontaktu."
+    "messageformat": "W tym czacie automatyczna weryfikacja jest niedostępna"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body-2": {
-    "messageformat": "Signal can not automatically verify the encryption for this chat. This could be because {name} changed their phone number or their phone number privacy settings. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Signal nie może automatycznie zweryfikować szyfrowania w tym czacie. Być może {name} ma nowy numer telefonu albo nowe ustawienia prywatności numeru telefonu. Sprawdź szyfrowanie end-to-end ręcznie. W tym celu porównaj Wasze numery bezpieczeństwa z poprzedniego ekranu lub zeskanuj kod QR z urządzenia kontaktu."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
     "messageformat": "Signal może automatycznie weryfikować szyfrowanie wyłącznie w przypadku tych osób, z którym kontakt nawiązano przez numer telefonu. Jeżeli kontakt został nawiązany przez nazwę użytkownika lub wspólną grupę, szyfrowanie end-to-end możesz zweryfikować ręcznie. W tym celu porównaj Wasze numery bezpieczeństwa z poprzedniego ekranu lub zeskanuj kod QR z urządzenia kontaktu."
@@ -712,9 +703,6 @@
   },
   "icu:Toast__ActionLabel--SubmitLog": {
     "messageformat": "Prześlij dziennik"
-  },
-  "icu:Toast--FailedToSendWithEndorsements": {
-    "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--SQLError": {
     "messageformat": "Błąd bazy danych: udostępnij dzienniki."
@@ -2015,9 +2003,6 @@
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, one {{count,number} podniesiona ręka} few {{count,number} podniesione ręce} many {{count,number} podniesionych rąk} other {{count,number} podniesionej ręki}}"
   },
-  "icu:CallingRaisedHandsList__TitleHint": {
-    "messageformat": "(kolejność chronologiczna)"
-  },
   "icu:CallingReactions--me": {
     "messageformat": "Ty"
   },
@@ -3300,7 +3285,7 @@
     "messageformat": "Włącz/wyłącz powiększony podgląd"
   },
   "icu:Keyboard--toggle-raise-hand": {
-    "messageformat": "Raise or lower your hand (group calls only)"
+    "messageformat": "Podnieś lub opuść rękę (tylko w połączeniach grupowych)"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Odbierz z wideo (tylko w przypadku połączeń wideo)"
@@ -8220,16 +8205,10 @@
     "messageformat": "Drobne ulepszenia, poprawki błędów i większa funkcjonalność. Cieszymy się, że korzystasz z aplikacji Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.11--0": {
-    "messageformat": "Wprowadziliśmy w aplikacji dodatkowe potwierdzenia i komunikaty informacyjne – wszystko po to, aby jeszcze lepiej chronić osoby korzystające z aplikacji Signal przed phishingiem i atakami socjotechnicznymi. Na wszelki wypadek przypominamy: nigdy nie odpowiadaj na wiadomości od osób podszywających się pod pracowników Signal i nikomu nie udostępniaj swojego kodu weryfikacyjnego, PIN-u ani kodu odzyskiwania."
-  },
-  "icu:WhatsNew__8.11--1": {
-    "messageformat": "Od teraz podczas połączeń grupowych oprócz tego, kto podniósł rękę, możesz również sprawdzić kolejność, w jakiej zgłosiły się te osoby. To się nazywa porządek obrad!"
-  },
-  "icu:WhatsNew__8.11--2": {
-    "messageformat": "Dodaliśmy też wizualizację, która wyświetla się w czasie rzeczywistym podczas nagrywania wiadomości głosowych. Tylko nie strać wątku, podziwiając te hipnotyzujące kształty."
-  },
   "icu:WhatsNew__8.12--0": {
-    "messageformat": "On the one hand, you can click on the raise hand icon during group calls. But on the other hand, now you can use a new keyboard shortcut too (Shift-H)."
+    "messageformat": "Chcesz zabrać głos podczas połączenia grupowego? Możesz kliknąć ikonę podniesionej ręki albo użyć nowego skrótu klawiszowego (Shift H). Jak Ci wygodniej."
+  },
+  "icu:WhatsNew__8.13--0": {
+    "messageformat": "The new raised-hand indicators are now also displayed in the list of raised hands during group calls. It's a second-hand place to figure out who you should hand it over to when you're done speaking."
   }
 }

@@ -605,23 +605,14 @@
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__title": {
     "messageformat": "El cifrado para este chat se ha verificado automáticamente "
   },
-  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
-    "messageformat": "Para los contactos con los que hayas iniciado la comunicación mediante un número de teléfono, Signal puede confirmar automáticamente si la conexión es segura usando un proceso llamado transparencia de claves. Para mayor seguridad, verifica el cifrado de extremo a extremo manualmente comparando los números en la pantalla anterior o escaneando el código que se muestra en el dispositivo de la otra persona."
-  },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body-2": {
-    "messageformat": "For people you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
-  },
-  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
-    "messageformat": "La verificación automática ya no está disponible para este chat"
+    "messageformat": "Para las personas con las que hayas iniciado la comunicación mediante un número de teléfono, Signal puede confirmar automáticamente si la conexión es segura usando un proceso llamado transparencia de claves. Para mayor seguridad, verifica el cifrado de extremo a extremo manualmente comparando los números en la pantalla anterior o escaneando el código que se muestra en el dispositivo de la otra persona."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title-2": {
-    "messageformat": "Auto-verification is not available for this chat"
-  },
-  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
-    "messageformat": "Signal ya no puede verificar automáticamente el cifrado de este chat. Es probable que {name} haya cambiado su número de teléfono. Verifica el cifrado de extremo a extremo manualmente comparando los números en la pantalla anterior o escaneando el código que se muestra en su dispositivo."
+    "messageformat": "La verificación automática no está disponible para este chat"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body-2": {
-    "messageformat": "Signal can not automatically verify the encryption for this chat. This could be because {name} changed their phone number or their phone number privacy settings. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Signal no puede verificar automáticamente el cifrado de este chat. Es probable que {name} haya cambiado su número de teléfono o los ajustes de privacidad de su número de teléfono. Verifica el cifrado de extremo a extremo manualmente comparando los números en la pantalla anterior o escaneando el código que se muestra en su dispositivo."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
     "messageformat": "Signal solo puede verificar automáticamente el cifrado en los chats que hayas empezado con alguien mediante un número de teléfono. Si iniciaste un chat con alguien a través de un alias o un grupo en común, verifica el cifrado de extremo a extremo comparando los números en la pantalla anterior o escaneando el código que se muestra en su dispositivo."
@@ -712,9 +703,6 @@
   },
   "icu:Toast__ActionLabel--SubmitLog": {
     "messageformat": "Enviar registro"
-  },
-  "icu:Toast--FailedToSendWithEndorsements": {
-    "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--SQLError": {
     "messageformat": "Error de base de datos: compártenos tus registros."
@@ -2015,9 +2003,6 @@
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, one {{count,number} mano levantada} other {{count,number} manos levantadas}}"
   },
-  "icu:CallingRaisedHandsList__TitleHint": {
-    "messageformat": "(de la primera a la última)"
-  },
   "icu:CallingReactions--me": {
     "messageformat": "Tú"
   },
@@ -3300,7 +3285,7 @@
     "messageformat": "Activar o desactivar la vista previa ampliada"
   },
   "icu:Keyboard--toggle-raise-hand": {
-    "messageformat": "Raise or lower your hand (group calls only)"
+    "messageformat": "Levantar o bajar la mano (solo llamadas grupales)"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Atender llamada con vídeo (solo videollamadas)"
@@ -8220,16 +8205,10 @@
     "messageformat": "Hemos hecho algunos ajustes, correcciones de errores y mejoras en el rendimiento. ¡Gracias por usar Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.11--0": {
-    "messageformat": "Hemos añadido mensajes informativos y confirmaciones adicionales en la app para ayudar a proteger a los usuarios de Signal de los ataques de <em>phishing</em> y de ingeniería social. Recuerda: nunca respondas a un mensaje que diga ser de Signal ni compartas tu clave de verificación, PIN o clave de recuperación con nadie."
-  },
-  "icu:WhatsNew__8.11--1": {
-    "messageformat": "En las llamadas grupales, si varias personas levantan la mano, ahora los indicadores se muestran en orden cronológico. Así podrás ver fácilmente quién tiene prioridad de palabra."
-  },
-  "icu:WhatsNew__8.11--2": {
-    "messageformat": "También hemos añadido una visualización en tiempo real a la grabación de mensajes de voz. Los amantes del mar podrán disfrutar de las olas incluso lejos de la playa mientras comparten su última anécdota."
-  },
   "icu:WhatsNew__8.12--0": {
-    "messageformat": "On the one hand, you can click on the raise hand icon during group calls. But on the other hand, now you can use a new keyboard shortcut too (Shift-H)."
+    "messageformat": "Ahora en las llamadas grupales tienes dos formas de pedir la palabra al alcance de tu mano: puedes hacer clic en el icono de levantar la mano o usar nuestro nuevo atajo de teclado (Shift-H)."
+  },
+  "icu:WhatsNew__8.13--0": {
+    "messageformat": "The new raised-hand indicators are now also displayed in the list of raised hands during group calls. It's a second-hand place to figure out who you should hand it over to when you're done speaking."
   }
 }

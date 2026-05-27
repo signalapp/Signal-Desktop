@@ -605,23 +605,14 @@
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__title": {
     "messageformat": "Шифрование для этого чата было автоматически подтверждено "
   },
-  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
-    "messageformat": "Для контактов, к которым вы подключены по номеру телефона, Signal может автоматически подтвердить, что соединение защищено с помощью процесса под названием «прозрачность ключа». Для дополнительной безопасности подтвердите сквозное шифрование вручную, сравнив номера на предыдущем экране или отсканировав код на устройстве контакта."
-  },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body-2": {
-    "messageformat": "For people you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
-  },
-  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
-    "messageformat": "Автоподтверждение этого чата больше недоступно"
+    "messageformat": "Для людей, к которым вы подключены по номеру телефона, Signal может автоматически подтвердить, что соединение защищено с помощью процесса под названием «прозрачность ключа». Для дополнительной безопасности подтвердите сквозное шифрование вручную, сравнив номера на предыдущем экране или отсканировав код на устройстве контакта."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title-2": {
-    "messageformat": "Auto-verification is not available for this chat"
-  },
-  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
-    "messageformat": "Signal больше не может автоматически подтверждать шифрование этого чата. Скорее всего, это связано с тем, что {name} сменил(а) свой номер телефона. Подтвердите сквозное шифрование вручную, сравнив цифры на предыдущем экране или отсканировав код на устройстве контакта."
+    "messageformat": "Автоподтверждение этого чата недоступно"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body-2": {
-    "messageformat": "Signal can not automatically verify the encryption for this chat. This could be because {name} changed their phone number or their phone number privacy settings. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Signal не может автоматически подтвердить шифрование этого чата. Скорее всего, это связано с тем, что {name} сменил(а) свой номер телефона или настройки конфиденциальности номера телефона. Подтвердите сквозное шифрование вручную, сравнив цифры на предыдущем экране или отсканировав код на устройстве контакта."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
     "messageformat": "Signal может автоматически подтверждать шифрование только в тех чатах, где вы установили контакт с человеком по номеру телефона. Если чат начался с имени пользователя или общей группы, проверьте сквозное шифрование, сравнив цифры на предыдущем экране или отсканировав код на устройстве контакта."
@@ -712,9 +703,6 @@
   },
   "icu:Toast__ActionLabel--SubmitLog": {
     "messageformat": "Отправить журнал"
-  },
-  "icu:Toast--FailedToSendWithEndorsements": {
-    "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--SQLError": {
     "messageformat": "Ошибка базы данных: пожалуйста, поделитесь своими журналами отладки."
@@ -2015,9 +2003,6 @@
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, one {{count,number} человек поднял руку} few {{count,number} человека подняли руку} many {{count,number} человек подняли руку} other {{count,number} человека поднял руку}}"
   },
-  "icu:CallingRaisedHandsList__TitleHint": {
-    "messageformat": "(от первого к последнему)"
-  },
   "icu:CallingReactions--me": {
     "messageformat": "Вы"
   },
@@ -3300,7 +3285,7 @@
     "messageformat": "Включение и выключение развёрнутого предпросмотра"
   },
   "icu:Keyboard--toggle-raise-hand": {
-    "messageformat": "Raise or lower your hand (group calls only)"
+    "messageformat": "Поднять или опустить руку (только для групповых звонков)"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Ответить на звонок с видео (только видеозвонки)"
@@ -8220,16 +8205,10 @@
     "messageformat": "Небольшие изменения, исправления ошибок и улучшения производительности. Спасибо за то, что пользуетесь Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.11--0": {
-    "messageformat": "Мы внедрили в приложение дополнительные подтверждения и обучающие сообщения, чтобы защитить пользователей Signal от фишинга и атак с использованием социальной инженерии. Напоминаем: никогда не отвечайте на чаты, притворяющиеся Signal, и никому не отправляйте свой код подтверждения, PIN-код или ключ восстановления."
-  },
-  "icu:WhatsNew__8.11--1": {
-    "messageformat": "Индикаторы поднятой руки в групповых звонках теперь отображают текущий порядок в очереди, так что вы можете легко увидеть, кто одержал верх, первым подняв руку."
-  },
-  "icu:WhatsNew__8.11--2": {
-    "messageformat": "Мы также добавили визуализацию в режиме реального времени во время записи голосовых сообщений, чтобы сёрфингисты (и океанографы) могли наблюдать за разными звуковыми волнами, когда делятся обновлениями с пляжа."
-  },
   "icu:WhatsNew__8.12--0": {
-    "messageformat": "On the one hand, you can click on the raise hand icon during group calls. But on the other hand, now you can use a new keyboard shortcut too (Shift-H)."
+    "messageformat": "Вы всегда можете нажать на значок «Поднять руку» во время групповых звонков. Но теперь у вас также есть под рукой новое сочетание клавиш (Shift-H)."
+  },
+  "icu:WhatsNew__8.13--0": {
+    "messageformat": "The new raised-hand indicators are now also displayed in the list of raised hands during group calls. It's a second-hand place to figure out who you should hand it over to when you're done speaking."
   }
 }

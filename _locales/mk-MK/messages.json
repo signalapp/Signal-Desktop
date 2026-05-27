@@ -605,23 +605,14 @@
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__title": {
     "messageformat": "Шифрирањето беше автоматски верифицирано за овој разговор "
   },
-  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
-    "messageformat": "За контактите со кои сте поврзани со телефонски број, Signal може автоматски да потврди дали врската е безбедна користејќи процес наречен транспарентност на клучеви. За дополнителна безбедност, верифицирајте го целосното шифрирање со тоа што рачно ќе ги споредите бројките на претходниот екран или со скенирање на кодот на нивниот уред."
-  },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body-2": {
-    "messageformat": "For people you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
-  },
-  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
-    "messageformat": "Автоматската верификација повеќе не е достапна за овој разговор"
+    "messageformat": "За луѓето со кои сте поврзани со телефонски број, Signal може автоматски да потврди дали врската е безбедна користејќи процес наречен транспарентност на клучеви. За дополнителна безбедност, верифицирајте го целосното шифрирање со тоа што рачно ќе ги споредите бројките на претходниот екран или со скенирање на кодот на нивниот уред."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title-2": {
-    "messageformat": "Auto-verification is not available for this chat"
-  },
-  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
-    "messageformat": "Signal повеќе не може автоматски да го верифицира шифрирањето на овој разговор. Ова е најверојатно зашто {name} го смени телефонскиот број. Верифицирајте го целосното шифрирање со тоа што рачно ќе ги споредите бројките на претходниот екран или со скенирање на кодот на нивниот уред."
+    "messageformat": "Автоматската верификација не е достапна за овој разговор"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body-2": {
-    "messageformat": "Signal can not automatically verify the encryption for this chat. This could be because {name} changed their phone number or their phone number privacy settings. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Signal не може автоматски да го верифицира шифрирањето на овој разговор. Ова е најверојатно зашто {name} го има сменето телефонскиот број или ги има сменето поставувањата за приватност на телефонскиот број. Верифицирајте го целосното шифрирање со тоа што рачно ќе ги споредите бројките на претходниот екран или со скенирање на кодот на нивниот уред."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
     "messageformat": "Signal може автоматски да го верифицира шифрирањето само на разговори со лица со кои сте поврзани со телефонски број. Доколку разговорот е започнат со корисничко име или заедничка група, потврдете го шифрирањето со споредување на броевите на претходниот екран или скенирање на кодот на нивниот уред."
@@ -712,9 +703,6 @@
   },
   "icu:Toast__ActionLabel--SubmitLog": {
     "messageformat": "Испрати запис"
-  },
-  "icu:Toast--FailedToSendWithEndorsements": {
-    "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--SQLError": {
     "messageformat": "Грешка со базата на податоци: ве молиме споделете ги вашите записи."
@@ -2015,9 +2003,6 @@
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, one {{count,number} крената рака} other {{count,number} кренати раце}}"
   },
-  "icu:CallingRaisedHandsList__TitleHint": {
-    "messageformat": "(од прв до последен)"
-  },
   "icu:CallingReactions--me": {
     "messageformat": "Вие"
   },
@@ -3300,7 +3285,7 @@
     "messageformat": "Вклучете/исклучете зголемен преглед"
   },
   "icu:Keyboard--toggle-raise-hand": {
-    "messageformat": "Raise or lower your hand (group calls only)"
+    "messageformat": "Кренете ја или спуштете ја раката (само за групни повици)"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Одговорете на повикот со видео (само за видео повици)"
@@ -8220,16 +8205,10 @@
     "messageformat": "Mали подобрувања, решени багови и подобрувања на перформансот. Ви благодариме што користите Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.11--0": {
-    "messageformat": "Воведовме дополнителни потврди и едукативни пораки во апликацијата за да ги заштитиме корисниците на Signal од фишинг и измами преку социјален инженеринг. Како потсетување, никогаш не одговарајте на пораки од оние кои се преправаат дека се пратени од Signal и никогаш не го испраќајте вашиот код за верификација, PIN или клуч за враќање резервни копии никому."
-  },
-  "icu:WhatsNew__8.11--1": {
-    "messageformat": "Индикаторите за кренати раце во групните повици сега го прикажуваат тековниот редослед."
-  },
-  "icu:WhatsNew__8.11--2": {
-    "messageformat": "Нови визуелизации додека се снимаат гласовни пораки."
-  },
   "icu:WhatsNew__8.12--0": {
-    "messageformat": "On the one hand, you can click on the raise hand icon during group calls. But on the other hand, now you can use a new keyboard shortcut too (Shift-H)."
+    "messageformat": "Додадовме нова кратенка на тастатурата за кревање рака во текот на групни повици (Shift-H)."
+  },
+  "icu:WhatsNew__8.13--0": {
+    "messageformat": "The new raised-hand indicators are now also displayed in the list of raised hands during group calls. It's a second-hand place to figure out who you should hand it over to when you're done speaking."
   }
 }

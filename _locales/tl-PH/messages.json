@@ -605,23 +605,14 @@
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__title": {
     "messageformat": "Ang encryption ay auto-verified para sa chat na ito "
   },
-  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
-    "messageformat": "Para sa contacts na naka-connect sa 'yo via phone number, automatic na makukumpirma ng Signal kung ang connection ay secure sa pamamagitan ng prosesong key transparency. Para sa karagdagang security, i-verify ang end-to-end encryption manually sa pamamagitan ng pagkumpara ng numbers sa previous screen o sa pag-scan ng code sa kanilang device."
-  },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body-2": {
-    "messageformat": "For people you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
-  },
-  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
-    "messageformat": "Ang auto-verification ay hindi na available para sa chat na ito"
+    "messageformat": "Para sa mga taong naka-connect mo via phone number, automatic na makukumpirma ng Signal kung ang connection ay secure sa pamamagitan ng prosesong tinatawag na key transparency. Para sa karagdagang security, i-verify ang end-to-end encryption manually sa pamamagitan ng pagkumpara ng numbers sa previous screen o sa pag-scan ng code sa kanilang device."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title-2": {
-    "messageformat": "Auto-verification is not available for this chat"
-  },
-  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
-    "messageformat": "Hindi na automatic na mave-verify ng Signal ang encryption para sa chat na ito. Maaaring ito ay dahil sa pagpalit ni {name} ng kanyang phone number. I-verify ang end-to-end encryption manually sa pamamagitan ng pagkumpara ng numbers sa previous screen o sa pag-scan ng code sa kanilang device."
+    "messageformat": "Ang auto-verification ay hindi available para sa chat na ito"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body-2": {
-    "messageformat": "Signal can not automatically verify the encryption for this chat. This could be because {name} changed their phone number or their phone number privacy settings. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Hindi na automatic na mave-verify ng Signal ang encryption para sa chat na ito. Ito ay maaaring dahil binago ni {name} ang kanyang phone number o dahil sa kanyang phone number privacy settings. I-verify ang end-to-end encryption manually sa pamamagitan ng pagkumpara ng numbers sa previous screen o sa pag-scan ng code sa kanilang device."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
     "messageformat": "Kaya lamang i-verify automatically ng Signal ang encryption sa chats kapag connected ka sa isang tao gamit ang kanilang phone number. Kung ang chat ay nagsimula sa isang username o sa isang group in common, i-verify ang end-to-end encryption sa pamamagitan ng pagkumpara ng numbers sa previous screen o sa pag-scan ng code sa kanilang device."
@@ -712,9 +703,6 @@
   },
   "icu:Toast__ActionLabel--SubmitLog": {
     "messageformat": "Submit log"
-  },
-  "icu:Toast--FailedToSendWithEndorsements": {
-    "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--SQLError": {
     "messageformat": "Database error: paki share ng logs mo."
@@ -2015,9 +2003,6 @@
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, one {{count,number} ang nagtaas ng kamay} other {{count,number} ang nagtaas ng kamay}}"
   },
-  "icu:CallingRaisedHandsList__TitleHint": {
-    "messageformat": "(first to last)"
-  },
   "icu:CallingReactions--me": {
     "messageformat": "Ikaw"
   },
@@ -3300,7 +3285,7 @@
     "messageformat": "I-on o i-off ang expanded preview"
   },
   "icu:Keyboard--toggle-raise-hand": {
-    "messageformat": "Raise or lower your hand (group calls only)"
+    "messageformat": "Itaas o ibaba ang kamay mo (para sa group calls lamang)"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Sagutin ang tawag na may video (video call lang)"
@@ -8220,16 +8205,10 @@
     "messageformat": "Dagdag na maliliit na pag-aayos, pag-alis ng bugs, at pagpapaganda ng takbo ng app. Maraming salamat sa paggamit ng Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.11--0": {
-    "messageformat": "Naglagay kami ng karagdagang kompirmasyon at impormasyon sa app para protektahan ang Signal users mula sa phishing at social engineering attacks. Bilang paalala, huwag mag-reply sa chats na nagpapanggap na Signal, at huwag i-send ang iyong verification code, PIN, o recovery key kahit kanino."
-  },
-  "icu:WhatsNew__8.11--1": {
-    "messageformat": "Ang raised hand indicators sa group calls ay nagpapakita ngayon ng kasalukuyang order ng queue."
-  },
-  "icu:WhatsNew__8.11--2": {
-    "messageformat": "Bagong visualization habang nagre-record ng voice messages."
-  },
   "icu:WhatsNew__8.12--0": {
-    "messageformat": "On the one hand, you can click on the raise hand icon during group calls. But on the other hand, now you can use a new keyboard shortcut too (Shift-H)."
+    "messageformat": "Nagdagdag kami ng bagong keyboard shortcut para itaas ang kamay mo sa group calls (Shift-H)."
+  },
+  "icu:WhatsNew__8.13--0": {
+    "messageformat": "The new raised-hand indicators are now also displayed in the list of raised hands during group calls. It's a second-hand place to figure out who you should hand it over to when you're done speaking."
   }
 }

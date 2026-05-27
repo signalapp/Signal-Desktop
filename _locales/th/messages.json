@@ -605,23 +605,14 @@
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__title": {
     "messageformat": "การเข้ารหัสของแชทนี้ได้รับการตรวจยืนยันโดยอัตโนมัติแล้ว "
   },
-  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
-    "messageformat": "หากคุณและผู้ติดต่อเชื่อมโยงกันผ่านทางหมายเลขโทรศัพท์ Signal จะสามารถใช้ขั้นตอนที่เรียกว่า Key Transparency ในการยืนยันความปลอดภัยของเครือข่ายโดยอัตโนมัติ เพื่อความปลอดภัยยิ่งขึ้น คุณยังสามารถตรวจยืนยันการเข้ารหัสตั้งแต่ต้นทางถึงปลายทางด้วยตนเองโดยเทียบหมายเลขซึ่งแสดงในหน้าที่แล้วหรือสแกนคิวอาร์โค้ดบนอุปกรณ์ของผู้ติดต่อ"
-  },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body-2": {
-    "messageformat": "For people you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
-  },
-  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
-    "messageformat": "ไม่สามารถใช้การตรวจยืนยันอัตโนมัติกับแชทนี้ได้แล้ว"
+    "messageformat": "หากคุณและผู้ใช้เชื่อมโยงกันผ่านทางหมายเลขโทรศัพท์ Signal จะสามารถใช้ขั้นตอนที่เรียกว่า Key Transparency ในการยืนยันความปลอดภัยของเครือข่ายโดยอัตโนมัติ เพื่อความปลอดภัยยิ่งขึ้น คุณยังสามารถตรวจยืนยันการเข้ารหัสตั้งแต่ต้นทางถึงปลายทางด้วยตนเองโดยเทียบหมายเลขซึ่งแสดงในหน้าที่แล้วหรือสแกนคิวอาร์โค้ดบนอุปกรณ์ของผู้ติดต่อ"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title-2": {
-    "messageformat": "Auto-verification is not available for this chat"
-  },
-  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
-    "messageformat": "Signal ไม่สามารถตรวจยืนยันการเข้ารหัสของแชทนี้โดยอัตโนมัติได้อีกต่อไป นี่น่าจะเป็นเพราะ {name} เปลี่ยนหมายเลขโทรศัพท์ คุณยังสามารถตรวจยืนยันการเข้ารหัสตั้งแต่ต้นทางถึงปลายทางด้วยตนเองโดยเทียบหมายเลขซึ่งแสดงในหน้าที่แล้วหรือสแกนคิวอาร์โค้ดบนอุปกรณ์ของผู้ติดต่อ"
+    "messageformat": "ไม่สามารถใช้การตรวจยืนยันอัตโนมัติกับแชทนี้ได้"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body-2": {
-    "messageformat": "Signal can not automatically verify the encryption for this chat. This could be because {name} changed their phone number or their phone number privacy settings. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Signal ไม่สามารถตรวจยืนยันการเข้ารหัสของแชทนี้โดยอัตโนมัติได้ นี่อาจเป็นเพราะ {name} เปลี่ยนหมายเลขโทรศัพท์หรือการตั้งค่าความเป็นส่วนตัวของหมายเลขโทรศัพท์ คุณยังสามารถตรวจยืนยันการเข้ารหัสตั้งแต่ต้นทางถึงปลายทางด้วยตนเองโดยเทียบหมายเลขซึ่งแสดงในหน้าที่แล้วหรือสแกนคิวอาร์โค้ดบนอุปกรณ์ของผู้ติดต่อ"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
     "messageformat": "Signal จะสามารถตรวจยืนยันการเข้ารหัสโดยอัตโนมัติได้เฉพาะในแชทที่คุณและผู้ติดต่อเชื่อมโยงกันผ่านทางหมายเลขโทรศัพท์เท่านั้น ในกรณีของแชทที่เริ่มต้นผ่านทางชื่อผู้ใช้หรือการมีกลุ่มร่วมกัน คุณสามารถตรวจยืนยันการเข้ารหัสตั้งแต่ต้นทางถึงปลายทางโดยเทียบหมายเลขซึ่งแสดงในหน้าที่แล้วหรือสแกนคิวอาร์โค้ดบนอุปกรณ์ของผู้ติดต่อ"
@@ -712,9 +703,6 @@
   },
   "icu:Toast__ActionLabel--SubmitLog": {
     "messageformat": "ส่งบันทึก"
-  },
-  "icu:Toast--FailedToSendWithEndorsements": {
-    "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--SQLError": {
     "messageformat": "ข้อผิดพลาดเกี่ยวกับฐานข้อมูล: โปรดแชร์บันทึกดีบักของคุณ"
@@ -2015,9 +2003,6 @@
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, other {{count,number} คนกำลังยกมือ}}"
   },
-  "icu:CallingRaisedHandsList__TitleHint": {
-    "messageformat": "(ตามลำดับก่อนหลัง)"
-  },
   "icu:CallingReactions--me": {
     "messageformat": "คุณ"
   },
@@ -3300,7 +3285,7 @@
     "messageformat": "เปิดปิดการขยายมุมมองของหน้าต่าง"
   },
   "icu:Keyboard--toggle-raise-hand": {
-    "messageformat": "Raise or lower your hand (group calls only)"
+    "messageformat": "ยกมือหรือเอามือลง (เฉพาะในสายโทรกลุ่ม)"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "รับสายโดยเปิดวิดีโอ (เฉพาะวิดีโอคอล)"
@@ -8220,16 +8205,10 @@
     "messageformat": "มีการปรับเปลี่ยนเล็กน้อย พร้อมแก้ไขบั๊ก และการพัฒนาประสิทธิภาพให้ดียิ่งขึ้น ขอขอบคุณที่เลือกใช้ Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.11--0": {
-    "messageformat": "เสริมปราการปกป้องผู้ใช้ Signal จากภัยมิจฉาชีพ ไม่ว่าจะเป็นการพยายามโจมตีแบบฟิชชิงหรือการหลอกลวงในรูปแบบต่างๆ ด้วยการเพิ่มขั้นตอนยืนยันในแอป รวมถึงแสดงคำแนะนำเพื่อความปลอดภัย เราขอเน้นย้ำอีกครั้ง: โปรดอย่าตอบกลับแชทที่แอบอ้างว่าเป็น Signal และอย่าเปิดเผยรหัสยืนยัน, PIN หรือกุญแจกู้คืนของคุณกับใคร"
-  },
-  "icu:WhatsNew__8.11--1": {
-    "messageformat": "ปรับปรุงตัวแจ้งสถานะเมื่อมีคนยกมือในสายโทรกลุ่มให้อัปเดตตามลำดับคิวแบบเรียลไทม์"
-  },
-  "icu:WhatsNew__8.11--2": {
-    "messageformat": "เพิ่มภาพวิชวลประกอบการบันทึกข้อความเสียงให้มีลูกเล่นกว่าเดิม"
-  },
   "icu:WhatsNew__8.12--0": {
-    "messageformat": "On the one hand, you can click on the raise hand icon during group calls. But on the other hand, now you can use a new keyboard shortcut too (Shift-H)."
+    "messageformat": "เพิ่มปุ่มลัดใหม่บนแป้นพิมพ์เพื่อให้คุณยกมือในสายโทรกลุ่มได้แบบทันใจ (Shift-H)"
+  },
+  "icu:WhatsNew__8.13--0": {
+    "messageformat": "The new raised-hand indicators are now also displayed in the list of raised hands during group calls. It's a second-hand place to figure out who you should hand it over to when you're done speaking."
   }
 }

@@ -605,23 +605,14 @@
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__title": {
     "messageformat": "系統已經為呢個聊天做緊自動加密驗證 "
   },
-  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
-    "messageformat": "對於用電話冧把聯絡嘅聯絡人，Signal 會進行一個叫「金鑰透明度」嘅程序，自動確認聯絡對象係咪安全。如果想更加保險，你可以比較上一個畫面嘅數字，或者掃瞄佢部機嘅二維碼嚟手動驗證端對端加密。"
-  },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body-2": {
-    "messageformat": "For people you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
-  },
-  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
-    "messageformat": "呢個聊天已經冇咗自動驗證功能"
+    "messageformat": "對於用電話冧把聯絡嘅人，Signal 會進行一個叫「金鑰透明度」嘅程序，自動確認聯絡對象係咪安全。如果想更加保險，你可以比較上一個畫面嘅數字，或者掃瞄佢部機嘅二維碼嚟手動驗證端對端加密。"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title-2": {
-    "messageformat": "Auto-verification is not available for this chat"
-  },
-  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
-    "messageformat": "Signal 唔可以再自動驗證呢個聊天嘅加密。原因可能係 {name} 轉咗新電話冧把。如果想手動驗證端對端加密，你可以比較上一個畫面嘅數字，或者掃瞄佢部機嘅二維碼。"
+    "messageformat": "呢個聊天未有自動驗證功能"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body-2": {
-    "messageformat": "Signal can not automatically verify the encryption for this chat. This could be because {name} changed their phone number or their phone number privacy settings. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Signal 唔可以自動驗證呢個聊天嘅加密。原因可能係 {name} 轉咗新電話冧把，或者改咗電話冧把嘅私隱設定。如果想手動驗證端對端加密，你可以比較上一個畫面嘅數字，或者掃瞄佢部機嘅二維碼。"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
     "messageformat": "只有用電話冧把同對方聯絡嘅聊天，Signal 先可以自動做加密驗證。如果個聊天係由用戶名稱或者經聊天谷建立，你可以比較上一個畫面嘅數字，或者掃瞄佢部機嘅二維碼嚟驗證端對端加密。"
@@ -712,9 +703,6 @@
   },
   "icu:Toast__ActionLabel--SubmitLog": {
     "messageformat": "提交記錄"
-  },
-  "icu:Toast--FailedToSendWithEndorsements": {
-    "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--SQLError": {
     "messageformat": "資料庫錯誤：請分享你嘅除錯記錄。"
@@ -2015,9 +2003,6 @@
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, other {{count,number} 舉咗手}}"
   },
-  "icu:CallingRaisedHandsList__TitleHint": {
-    "messageformat": "(由第一個到最後一個)"
-  },
   "icu:CallingReactions--me": {
     "messageformat": "你"
   },
@@ -3300,7 +3285,7 @@
     "messageformat": "切換放大預覽開閉"
   },
   "icu:Keyboard--toggle-raise-hand": {
-    "messageformat": "Raise or lower your hand (group calls only)"
+    "messageformat": "舉手或者放低手（淨係谷嘅通話先得）"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "接聽同開啟視像 (只限視像通話)"
@@ -8220,16 +8205,10 @@
     "messageformat": "我哋做咗啲調整、修復咗一啲錯誤，同埋加強咗程式功能。多謝你使用 Signal！",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.11--0": {
-    "messageformat": "我哋已經喺個 APP 度加咗確認機制同埋教育訊息，目的保護 Signal 用戶唔好俾釣魚訊息同社交工程攻擊。溫馨提示：千祈唔好回覆假扮 Signal 嘅聊天訊息，亦都唔好將你嘅驗證碼、PIN 碼或者恢復金鑰發送俾任何人。"
-  },
-  "icu:WhatsNew__8.11--1": {
-    "messageformat": "而家喺成谷通話入面嘅舉手標記會顯示埋最新嘅排隊順序，等你可以輕鬆睇到邊個最先攞到發言權。"
-  },
-  "icu:WhatsNew__8.11--2": {
-    "messageformat": "我哋仲新加咗錄語音訊息嗰陣嘅即時視覺化功能，等你分享最新動態嘅時候，都可以睇到幾個波形動態。"
-  },
   "icu:WhatsNew__8.12--0": {
-    "messageformat": "On the one hand, you can click on the raise hand icon during group calls. But on the other hand, now you can use a new keyboard shortcut too (Shift-H)."
+    "messageformat": "你可以喺個谷通話嗰陣用右手㩒一吓舉手圖示。而家你仲可以揀用左手㩒新嘅鍵盤快捷鍵（Shift-H）。"
+  },
+  "icu:WhatsNew__8.13--0": {
+    "messageformat": "The new raised-hand indicators are now also displayed in the list of raised hands during group calls. It's a second-hand place to figure out who you should hand it over to when you're done speaking."
   }
 }

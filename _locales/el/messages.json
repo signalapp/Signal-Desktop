@@ -605,23 +605,14 @@
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__title": {
     "messageformat": "Η κρυπτογράφηση επαληθεύτηκε αυτόματα για αυτήν τη συνομιλία "
   },
-  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
-    "messageformat": "Για τις επαφές με τις οποίες έχεις συνδεθεί μέσω αριθμού τηλεφώνου, το Signal μπορεί να επιβεβαιώσει αυτόματα εάν η σύνδεση είναι ασφαλής χρησιμοποιώντας μια διαδικασία που ονομάζεται διαφάνεια κλειδιού. Για πρόσθετη ασφάλεια, επαλήθευσε την κρυπτογράφηση από άκρο σε άκρο χειροκίνητα συγκρίνοντας τους αριθμούς στην προηγούμενη οθόνη ή σαρώνοντας τον κωδικό στη συσκευή τους."
-  },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body-2": {
-    "messageformat": "For people you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
-  },
-  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
-    "messageformat": "Η αυτόματη επαλήθευση δεν είναι πλέον διαθέσιμη για αυτήν τη συνομιλία"
+    "messageformat": "Για τα άτομα με τα οποία έχεις συνδεθεί μέσω αριθμού τηλεφώνου, το Signal μπορεί να επιβεβαιώσει αυτόματα εάν η σύνδεση είναι ασφαλής χρησιμοποιώντας μια διαδικασία που ονομάζεται διαφάνεια κλειδιού. Για πρόσθετη ασφάλεια, επαλήθευσε την κρυπτογράφηση από άκρο σε άκρο χειροκίνητα συγκρίνοντας τους αριθμούς στην προηγούμενη οθόνη ή σαρώνοντας τον κωδικό στη συσκευή τους."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title-2": {
-    "messageformat": "Auto-verification is not available for this chat"
-  },
-  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
-    "messageformat": "Το Signal δεν μπορεί πλέον να επαληθεύσει αυτόματα την κρυπτογράφηση για αυτήν τη συνομιλία. Αυτό πιθανότατα οφείλεται στο γεγονός ότι ο χρήστης {name} άλλαξε τον αριθμό τηλεφώνου του. Επαλήθευσε την κρυπτογράφηση από άκρο σε άκρο χειροκίνητα συγκρίνοντας τους αριθμούς στην προηγούμενη οθόνη ή σαρώνοντας τον κωδικό στη συσκευή τους."
+    "messageformat": "Η αυτόματη επαλήθευση δεν είναι διαθέσιμη για αυτήν τη συνομιλία"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body-2": {
-    "messageformat": "Signal can not automatically verify the encryption for this chat. This could be because {name} changed their phone number or their phone number privacy settings. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Το Signal δεν μπορεί να επαληθεύσει αυτόματα την κρυπτογράφηση για αυτήν τη συνομιλία. Αυτό πιθανότατα οφείλεται στο γεγονός ότι ο χρήστης {name} άλλαξε τον αριθμό τηλεφώνου του ή τις ρυθμίσεις απορρήτου του τηλεφώνου του. Επαλήθευσε την κρυπτογράφηση από άκρο σε άκρο χειροκίνητα συγκρίνοντας τους αριθμούς στην προηγούμενη οθόνη ή σαρώνοντας τον κωδικό στη συσκευή τους."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
     "messageformat": "Το Signal μπορεί να επαληθεύσει αυτόματα την κρυπτογράφηση μόνο σε συνομιλίες όπου έχεις συνδεθεί με κάποιον χρήστη μέσω ενός αριθμού τηλεφώνου. Εάν η συνομιλία ξεκίνησε με όνομα χρήστη ή μια κοινή ομάδα, επαλήθευσε την κρυπτογράφηση από άκρο σε άκρο συγκρίνοντας τους αριθμούς στην προηγούμενη οθόνη ή σαρώνοντας τον κωδικό στη συσκευή τους."
@@ -712,9 +703,6 @@
   },
   "icu:Toast__ActionLabel--SubmitLog": {
     "messageformat": "Υποβολή αρχείου καταγραφής"
-  },
-  "icu:Toast--FailedToSendWithEndorsements": {
-    "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--SQLError": {
     "messageformat": "Σφάλμα βάσης δεδομένων: κοινοποίησε τα αρχεία καταγραφής σου."
@@ -2015,9 +2003,6 @@
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, one {{count,number} σήκωσε το χέρι του} other {{count,number} σήκωσαν το χέρι τους}}"
   },
-  "icu:CallingRaisedHandsList__TitleHint": {
-    "messageformat": "(από το πρώτο στο τελευταίο)"
-  },
   "icu:CallingReactions--me": {
     "messageformat": "Εσύ"
   },
@@ -3300,7 +3285,7 @@
     "messageformat": "Ενεργοποίηση και απενεργοποίηση της διευρυμένης προεπισκόπησης"
   },
   "icu:Keyboard--toggle-raise-hand": {
-    "messageformat": "Raise or lower your hand (group calls only)"
+    "messageformat": "Σήκωσε ή κατέβασε το χέρι σου (μόνο στις ομαδικές κλήσεις)"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Απάντηση κλήσης με βίντεο (μόνο βιντεοκλήσεις)"
@@ -8220,16 +8205,10 @@
     "messageformat": "Μικρές τροποποιήσεις, επιδιορθώσεις σφαλμάτων και βελτιώσεις απόδοσης. Ευχαριστούμε που χρησιμοποιείς το Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.11--0": {
-    "messageformat": "Έχουμε προσθέσει επιπλέον επιβεβαιώσεις και ενημερωτικά μηνύματα στην εφαρμογή, προκειμένου να προστατεύσουμε τους χρήστες του Signal από επιθέσεις phishing και social engineering. Σου υπενθυμίζουμε να μην απαντάς ποτέ σε μηνύματα που προσποιούνται ότι προέρχονται από το Signal και να μην στέλνεις ποτέ τον κωδικό επαλήθευσης, το PIN ή το κλειδί ανάκτησης σε κανέναν."
-  },
-  "icu:WhatsNew__8.11--1": {
-    "messageformat": "Οι ενδείξεις «υψωμένου χεριού» στις ομαδικές κλήσεις εμφανίζουν πλέον την τρέχουσα σειρά προτεραιότητας στην ουρά."
-  },
-  "icu:WhatsNew__8.11--2": {
-    "messageformat": "Νέα απεικόνιση κατά την εγγραφή φωνητικών μηνυμάτων."
-  },
   "icu:WhatsNew__8.12--0": {
-    "messageformat": "On the one hand, you can click on the raise hand icon during group calls. But on the other hand, now you can use a new keyboard shortcut too (Shift-H)."
+    "messageformat": "Προσθέσαμε μια νέα συντόμευση πληκτρολογίου για να σηκώνεις το χέρι σου κατά τη διάρκεια ομαδικών κλήσεων (Shift-H)."
+  },
+  "icu:WhatsNew__8.13--0": {
+    "messageformat": "The new raised-hand indicators are now also displayed in the list of raised hands during group calls. It's a second-hand place to figure out who you should hand it over to when you're done speaking."
   }
 }

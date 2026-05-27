@@ -605,23 +605,14 @@
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__title": {
     "messageformat": "Bu çat üçün şifrələmə avtomatik olaraq yoxlanıldı "
   },
-  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
-    "messageformat": "Telefon nömrəsi ilə əlaqə saxladığınız kontaktlar üçün Signal “açar şəffaflığı” adlanan proses vasitəsilə bağlantının təhlükəsiz olduğunu avtomatik təsdiqləyə bilər. Əlavə təhlükəsizlik üçün əvvəlki ekranda olan nömrələri müqayisə edərək və ya onun cihazındakı kodu skan edərək tam şifrələməni əlinizlə yoxlayın."
-  },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body-2": {
-    "messageformat": "For people you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
-  },
-  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
-    "messageformat": "Bu çat üçün avtomatik yoxlama artıq aktiv deyil"
+    "messageformat": "Telefon nömrəsi ilə əlaqə saxladığınız insanlarla bağlı Signal “açar şəffaflığı” adlanan proses vasitəsilə bağlantının təhlükəsiz olduğunu avtomatik təsdiqləyə bilər. Əlavə təhlükəsizlik üçün əvvəlki ekranda olan nömrələri müqayisə edərək və ya onun cihazındakı kodu skan edərək tam şifrələməni əlinizlə yoxlayın."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title-2": {
-    "messageformat": "Auto-verification is not available for this chat"
-  },
-  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
-    "messageformat": "Signal artıq bu çatın şifrələnməsini avtomatik yoxlaya bilmir. Bu hal, {name} telefon nömrəsini dəyişdiyi üçün baş vermiş ola bilər. Əvvəlki ekranda olan nömrələri müqayisə edərək və ya onun cihazındakı kodu skanlayaraq tam şifrələməni əlinizlə yoxlayın."
+    "messageformat": "Bu çat üçün avtomatik yoxlama aktiv deyil"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body-2": {
-    "messageformat": "Signal can not automatically verify the encryption for this chat. This could be because {name} changed their phone number or their phone number privacy settings. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Signal artıq bu çatın şifrələnməsini avtomatik yoxlaya bilmir. Bu, {name} adlı şəxsin telefon nömrəsini və ya telefon nömrəsinin məxfilik parametrlərini dəyişməsi ilə əlaqədar ola bilər. Əvvəlki ekranda olan nömrələri müqayisə edərək və ya onun cihazındakı kodu skanlayaraq tam şifrələməni əlinizlə yoxlayın."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
     "messageformat": "Signal yalnız telefon nömrəsindən biri ilə əlaqə saxladığınız zaman çatlardakı şifrələməni avtomatik yoxlaya bilər. Çat bir istifadəçi adı və ya ümumi bir qrupla başladıqda, tam şifrələməni əvvəlki ekranda çıxan nömrələri müqayisə edərək və ya onun cihazındakı kodu skan edərək yoxlayın."
@@ -712,9 +703,6 @@
   },
   "icu:Toast__ActionLabel--SubmitLog": {
     "messageformat": "Jurnalı göndər"
-  },
-  "icu:Toast--FailedToSendWithEndorsements": {
-    "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--SQLError": {
     "messageformat": "Verilənlər bazası xətası: qeyd jurnallarınızı paylaşın."
@@ -2015,9 +2003,6 @@
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, one {{count,number} nəfər əl qaldırdı} other {{count,number} nəfər əl qaldırdı}}"
   },
-  "icu:CallingRaisedHandsList__TitleHint": {
-    "messageformat": "(birincidən sonuncuya)"
-  },
   "icu:CallingReactions--me": {
     "messageformat": "Siz"
   },
@@ -3300,7 +3285,7 @@
     "messageformat": "Artırılmış önbaxışı açıb, bağlayın"
   },
   "icu:Keyboard--toggle-raise-hand": {
-    "messageformat": "Raise or lower your hand (group calls only)"
+    "messageformat": "Əlinizi qaldırın və ya endirin (yalnız qrup zənglərində)"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Zəngə görüntülü cavab verin (yalnız video zənglər)"
@@ -8220,16 +8205,10 @@
     "messageformat": "Kiçik spesifik tənzimləmələr, xəta düzəlişləri və məhsuldarlığın artırılması. Signal istifadə etdiyiniz üçün təşəkkürlər!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.11--0": {
-    "messageformat": "Signal istifadəçilərini fişinq və sosial mühəndislik hücumlarından qorumağa kömək etmək üçün tətbiqə əlavə təsdiq və məlumatlandırıcı mesajlar əlavə etdik. Xatırladırıq ki, özünü Signal kimi göstərən heç bir çata cavab verməməli və təsdiq kodunu, PIN və ya bərpa şifrəsini heç kəsə göndərməməlisiniz."
-  },
-  "icu:WhatsNew__8.11--1": {
-    "messageformat": "Sıranın ilk kimdə olduğunu görməyiniz üçün qrup zənglərində istifadə olunan qaldırılmış əl göstəriciləri artıq cari sıranı göstərir."
-  },
-  "icu:WhatsNew__8.11--2": {
-    "messageformat": "Səsli mesaj göndərərkən ekranda görə biləcəyiniz yeni səs dalğaları əlavə etdik ki, yeniləmələri çimərlikdən paylaşdığınız zaman həm səsinizin, həm də dənizin dalğasını görə biləsiniz."
-  },
   "icu:WhatsNew__8.12--0": {
-    "messageformat": "On the one hand, you can click on the raise hand icon during group calls. But on the other hand, now you can use a new keyboard shortcut too (Shift-H)."
+    "messageformat": "Bir tərəfdən qrup zənglərində \"əl qaldırma\" piktoqramına klikləyə bilərsiniz. Digər tərəfdən isə artıq klaviaturaya yeni tətbiq etdiyimiz (Shift-H) qısayoldan istifadə edə bilərsiniz."
+  },
+  "icu:WhatsNew__8.13--0": {
+    "messageformat": "The new raised-hand indicators are now also displayed in the list of raised hands during group calls. It's a second-hand place to figure out who you should hand it over to when you're done speaking."
   }
 }

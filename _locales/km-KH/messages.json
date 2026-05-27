@@ -605,23 +605,14 @@
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__title": {
     "messageformat": "ការអ៊ីនគ្រីបត្រូវបានផ្ទៀងផ្ទាត់ដោយស្វ័យប្រវត្តិសម្រាប់ការជជែកនេះ "
   },
-  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
-    "messageformat": "សម្រាប់ទំនាក់ទំនងដែលអ្នកបានភ្ជាប់ជាមួយតាមរយៈលេខទូរសព្ទ Signal អាចបញ្ជាក់ដោយស្វ័យប្រវត្តិថាតើការភ្ជាប់នោះមានសុវត្ថិភាពឬអត់ ដោយប្រើដំណើរការមួយដែលហៅថា តម្លាភាពកូនសោ។ ដើម្បីសុវត្ថិភាពបន្ថែម សូមផ្ទៀងផ្ទាត់ការអ៊ីនគ្រីបទាំងសងខាងដោយដៃដោយប្រៀបធៀបលេខនៅលើអេក្រង់មុន ឬស្គែនកូដនៅលើឧបករណ៍របស់ពួកគេ។"
-  },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body-2": {
-    "messageformat": "For people you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
-  },
-  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
-    "messageformat": "ការផ្ទៀងផ្ទាត់ដោយស្វ័យប្រវត្តិមិនអាចធ្វើបានសម្រាប់ការជជែកនេះទៀតទេ"
+    "messageformat": "ចំពោះមនុស្សដែលអ្នកបានភ្ជាប់ទំនាក់ទំនងជាមួយតាមលេខទូរសព្ទ Signal អាចបញ្ជាក់ដោយស្វ័យប្រវត្តិថាតើការភ្ជាប់ទំនាក់ទំនងនោះមានសុវត្ថិភាពឬអត់ ដោយប្រើដំណើរការមួយដែលហៅថា តម្លាភាពកូនសោ។ ដើម្បីសុវត្ថិភាពបន្ថែម សូមផ្ទៀងផ្ទាត់ការអ៊ីនគ្រីបទាំងសងខាងដោយដៃដោយប្រៀបធៀបលេខនៅលើអេក្រង់មុន ឬស្គែនកូដនៅលើឧបករណ៍របស់ពួកគេ។"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title-2": {
-    "messageformat": "Auto-verification is not available for this chat"
-  },
-  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
-    "messageformat": "Signal លែងអាចផ្ទៀងផ្ទាត់ការអ៊ីនគ្រីបសម្រាប់ការជជែកនេះដោយស្វ័យប្រវត្តិទៀតហើយ។ នេះទំនងជាដោយសារតែ {name} បានប្តូរលេខទូរសព្ទរបស់គាត់។ ផ្ទៀងផ្ទាត់ការអ៊ីនគ្រីបទាំងសងខាងដោយដៃដោយប្រៀបធៀបលេខនៅលើអេក្រង់មុន ឬស្គែនកូដនៅលើឧបករណ៍របស់ពួកគេ។"
+    "messageformat": "ការផ្ទៀងផ្ទាត់ដោយស្វ័យប្រវត្តិមិនអាចប្រើសម្រាប់ការជជែកនេះបានទេ"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body-2": {
-    "messageformat": "Signal can not automatically verify the encryption for this chat. This could be because {name} changed their phone number or their phone number privacy settings. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Signal មិនអាចផ្ទៀងផ្ទាត់ការអ៊ីនគ្រីបសម្រាប់ការជជែកនេះដោយស្វ័យប្រវត្តិបានទេ។ នេះអាចបណ្តាលមកពី {name} បានប្តូរលេខទូរសព្ទរបស់គាត់ ឬការកំណត់ឯកជនភាពនៃលេខទូរសព្ទរបស់គាត់។ ផ្ទៀងផ្ទាត់ការអ៊ីនគ្រីបទាំងសងខាងដោយដៃដោយប្រៀបធៀបលេខនៅលើអេក្រង់មុន ឬស្គែនកូដនៅលើឧបករណ៍របស់គាត់។"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
     "messageformat": "Signal អាចផ្ទៀងផ្ទាត់ការអ៊ីនគ្រីបដោយស្វ័យប្រវត្តិបានតែនៅក្នុងការជជែកដែលអ្នកបានភ្ជាប់ជាមួយនរណាម្នាក់តាមរយៈលេខទូរសព្ទប៉ុណ្ណោះ។ ប្រសិនបើការជជែកត្រូវបានចាប់ផ្តើមជាមួយឈ្មោះអ្នកប្រើ ឬក្រុមដែលមានឈ្មោះដូចគ្នា សូមផ្ទៀងផ្ទាត់ការអ៊ីនគ្រីបទាំងសងខាងដោយប្រៀបធៀបលេខនៅលើអេក្រង់មុន ឬស្គែនកូដនៅលើឧបករណ៍របស់ពួកគេ។"
@@ -712,9 +703,6 @@
   },
   "icu:Toast__ActionLabel--SubmitLog": {
     "messageformat": "ដាក់បញ្ជូនកំណត់ហេតុ"
-  },
-  "icu:Toast--FailedToSendWithEndorsements": {
-    "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--SQLError": {
     "messageformat": "បញ្ហាមូលដ្ឋានទិន្នន័យ៖ សូមចែករំលែកកំណត់ហេតុរបស់អ្នក។"
@@ -2015,9 +2003,6 @@
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, other {{count,number} នាក់បានលើកដៃ}}"
   },
-  "icu:CallingRaisedHandsList__TitleHint": {
-    "messageformat": "(ពីដំបូងដល់ចុងក្រោយ)"
-  },
   "icu:CallingReactions--me": {
     "messageformat": "អ្នក"
   },
@@ -3300,7 +3285,7 @@
     "messageformat": "បើក/បិទការមើលជាមុនដែលបានពង្រីក"
   },
   "icu:Keyboard--toggle-raise-hand": {
-    "messageformat": "Raise or lower your hand (group calls only)"
+    "messageformat": "លើក ឬដាក់ដៃចុះ (ការហៅជាក្រុមតែប៉ុណ្ណោះ)"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "ទទួលការហៅទូរសព្ទជាវីដេអូ (ការហៅជាវីដេអូតែប៉ុណ្ណោះ)"
@@ -8220,16 +8205,10 @@
     "messageformat": "ការកែប្រែបន្តិចបន្តួច ការដោះស្រាយបញ្ហា និងការបង្កើនប្រតិបត្តិការ។ សូមអរគុណចំពោះការប្រើប្រាស់ Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.11--0": {
-    "messageformat": "យើងបានដាក់ឱ្យប្រើប្រាស់នូវការបញ្ជាក់បន្ថែម និងការផ្ញើសារអប់រំនៅក្នុងកម្មវិធី ដើម្បីជួយការពារអ្នកប្រើ Signal ពីការវាយប្រហារតាមការដាក់នុយ (phishing) និងការវាយប្រហារតាមវិស្វកម្មសង្គម។ ជាការរំលឹក សូមកុំឆ្លើយតបទៅនឹងការជជែកដែលតាំងខ្លួនជា Signal ហើយកុំផ្ញើលេខកូដផ្ទៀងផ្ទាត់ លេខកូដសម្ងាត់ ឬសោស្តាររបស់អ្នកទៅនរណាម្នាក់ឱ្យសោះ។"
-  },
-  "icu:WhatsNew__8.11--1": {
-    "messageformat": "ឥឡូវ សញ្ញាលើកដៃនៅក្នុងការហៅជាក្រុមបង្ហាញតាមលំដាប់រង់ចាំបច្ចុប្បន្ន ដូច្នេះអ្នកអាចស្រួលមើលឃើញថានរណាគេលើកដៃមុនគេ។"
-  },
-  "icu:WhatsNew__8.11--2": {
-    "messageformat": "យើងក៏បានបញ្ចូលរូបបង្ហាញតាមពេលជាក់ស្តែង ពេលកំពុងថតសារសំឡេងផងដែរ ដូច្នេះអ្នកជិះស្គីលើទឹក (និងអ្នកសិក្សាអំពីមហាសមុទ្រ) អាចសម្លឹងមើលរលកសញ្ញាមានចលនាជាច្រើន នៅពេលណាដែលពួកគេចែករំលែកព័ត៌មានថ្មីៗពីឆ្នេរ។"
-  },
   "icu:WhatsNew__8.12--0": {
-    "messageformat": "On the one hand, you can click on the raise hand icon during group calls. But on the other hand, now you can use a new keyboard shortcut too (Shift-H)."
+    "messageformat": "អ្នកអាចចុចលើរូបលើកដៃ ក្នុងអំឡុងពេលហៅជាក្រុមបាន។ ប៉ុន្តែម្យ៉ាងទៀត ឥឡូវនេះអ្នកក៏អាចប្រើផ្លូវកាត់ក្តារចុចថ្មីដែរ (Shift-H)។"
+  },
+  "icu:WhatsNew__8.13--0": {
+    "messageformat": "The new raised-hand indicators are now also displayed in the list of raised hands during group calls. It's a second-hand place to figure out who you should hand it over to when you're done speaking."
   }
 }

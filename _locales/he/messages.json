@@ -605,23 +605,14 @@
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__title": {
     "messageformat": "ההצפנה אומתה אוטומטית עבור צ'אט זה "
   },
-  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
-    "messageformat": "עבור אנשי קשר שהחיבור איתם נוצר באמצעות מספר טלפון, Signal יכולה לאשר אוטומטית שהחיבור מאובטח באמצעות שימוש בתהליך הנקרא שקיפות מפתחות. לבטיחות משופרת, אפשר לאמת הצפנה מקצה לקצה באופן ידני באמצעות השוואת המספרים במסך הקודם או סריקת הקוד במכשיר שלו או שלה."
-  },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body-2": {
-    "messageformat": "For people you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
-  },
-  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
-    "messageformat": "אימות אוטומטי אינו זמין עוד עבור צ'אט זה"
+    "messageformat": "עבור אנשים שהחיבור איתם נוצר באמצעות מספר טלפון, Signal יכולה לאשר אוטומטית שהחיבור מאובטח באמצעות שימוש בתהליך שנקרא שקיפות מפתחות. לבטיחות משופרת, אפשר לאמת הצפנה מקצה לקצה באופן ידני באמצעות השוואת המספרים במסך הקודם או סריקת הקוד במכשיר שלו או שלה."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title-2": {
-    "messageformat": "Auto-verification is not available for this chat"
-  },
-  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
-    "messageformat": "Signal אינה יכולה עוד לאמת אוטומטית את ההצפנה עבור צ׳אט זה. זה כנראה בגלל ש{name} החליפ/ה מספר טלפון. יש לאמת ידנית הצפנה מקצה לקצה ידנית באמצעות השוואת המספרים במסך הקודם או סריקת הקוד במכשיר שלו או שלה."
+    "messageformat": "אימות אוטומטי אינו זמין עבור צ'אט זה"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body-2": {
-    "messageformat": "Signal can not automatically verify the encryption for this chat. This could be because {name} changed their phone number or their phone number privacy settings. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Signal לא יכולה לאמת אוטומטית את ההצפנה עבור הצ׳אט הזה. ייתכן שזה בגלל ש{name} החליפ/ה את מספר הטלפון או את הגדרות הפרטיות של מספר הטלפון. יש לאמת את ההצפנה מקצה לקצה באופן ידני באמצעות השוואת המספרים במסך הקודם או סריקת הקוד במכשיר שלו או שלה."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
     "messageformat": "Signal יכולה לאמת אוטומטית את ההצפנה רק הצ׳אטים שבהם החיבור עם הצד השני מתבצע באמצעות מספר טלפון. אם הצ׳אט התחיל באמצעות שם משתמש או קבוצה משותפת, יש לאמת את ההצפנה מקצה לקצה באמצעות השוואת המספרים במסך הקודם או סריקת הקוד במכשיר שלו או שלה."
@@ -712,9 +703,6 @@
   },
   "icu:Toast__ActionLabel--SubmitLog": {
     "messageformat": "הגש יומן"
-  },
-  "icu:Toast--FailedToSendWithEndorsements": {
-    "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--SQLError": {
     "messageformat": "שגיאת מסד נתונים: יש נא לשתף את היומנים שלך."
@@ -2015,9 +2003,6 @@
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, one {יד מורמת {count,number}} two {{count,number} ידיים מורמות} many {{count,number} ידיים מורמות} other {{count,number} ידיים מורמות}}"
   },
-  "icu:CallingRaisedHandsList__TitleHint": {
-    "messageformat": "(מהראשונה לאחרונה)"
-  },
   "icu:CallingReactions--me": {
     "messageformat": "את/ה"
   },
@@ -3300,7 +3285,7 @@
     "messageformat": "הפעלה והשבתה של תצוגה מקדימה מורחבת"
   },
   "icu:Keyboard--toggle-raise-hand": {
-    "messageformat": "Raise or lower your hand (group calls only)"
+    "messageformat": "הרמה או הורדה של היד שלך (שיחות קבוצתיות בלבד)"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "מענה לשיחה עם וידאו (שיחות וידאו בלבד)"
@@ -8220,16 +8205,10 @@
     "messageformat": "התאמות קטנות, תיקוני באגים ושיפורי ביצועים. תודה על השימוש ב-Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.11--0": {
-    "messageformat": "• הוספנו אישורים והודעות הסברה באפליקציה כדי לעזור להגן על משתמשים ומשתמשות Signal מפני מתקפות פישינג והנדסה חברתית. אנחנו מזכירים לעולם לא להשיב לצ׳אטים שמעמידים פנים שהם Signal, ולעולם לא לשלוח את קוד האימות, ה–PIN, או מפתח השחזור שלך לאף אחד."
-  },
-  "icu:WhatsNew__8.11--1": {
-    "messageformat": "סמלי הרמת יד בשיחות קבוצתיות מוצגים כעת בסדר הנוכחי של התור."
-  },
-  "icu:WhatsNew__8.11--2": {
-    "messageformat": "תצוגה חזותית חדשה בעת הקלטת הודעות קוליות."
-  },
   "icu:WhatsNew__8.12--0": {
-    "messageformat": "On the one hand, you can click on the raise hand icon during group calls. But on the other hand, now you can use a new keyboard shortcut too (Shift-H)."
+    "messageformat": "הוספנו קיצור מקלדת חדש כדי להרים את היד שלך במהלך שיחות קבוצתיות (Shift-H)."
+  },
+  "icu:WhatsNew__8.13--0": {
+    "messageformat": "The new raised-hand indicators are now also displayed in the list of raised hands during group calls. It's a second-hand place to figure out who you should hand it over to when you're done speaking."
   }
 }

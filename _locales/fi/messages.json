@@ -605,23 +605,14 @@
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__title": {
     "messageformat": "Keskustelun salaus vahvistettiin automaattisesti. "
   },
-  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
-    "messageformat": "Kun yhteys toiseen käyttäjään perustuu puhelinnumeroon, Signal voi vahvistaa yhteyden suojauksen automaattisesti avaimen läpinäkyvyydeksi kutsutulla prosessilla. Saat lisäturvaa varmistamalla päästä päähän -salauksen vertaamalla edellisen näytön numeroita tai skannaamalla käyttäjän laitteen koodin."
-  },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body-2": {
-    "messageformat": "For people you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
-  },
-  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
-    "messageformat": "Automaattinen vahvistus ei ole keskustelussa enää käytettävissä."
+    "messageformat": "Kun yhteys toiseen henkilöön perustuu puhelinnumeroon, Signal voi vahvistaa yhteyden suojauksen automaattisesti avaimen läpinäkyvyydeksi kutsutulla prosessilla. Saat lisäturvaa varmistamalla päästä päähän -salauksen vertaamalla edellisen näytön numeroita tai skannaamalla käyttäjän laitteen koodin."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title-2": {
-    "messageformat": "Auto-verification is not available for this chat"
-  },
-  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
-    "messageformat": "Signal ei voi enää automaattisesti vahvistaa keskustelun salausta. Tämä johtuu todennäköisesti siitä, että {name} on vaihtanut puhelinnumeroaan. Varmista päästä päähän -salaus vertaamalla edellisen näytön numeroita tai skannaamalla käyttäjän laitteen koodi."
+    "messageformat": "Automaattinen vahvistus ei ole enää käytettävissä tässä keskustelussa"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body-2": {
-    "messageformat": "Signal can not automatically verify the encryption for this chat. This could be because {name} changed their phone number or their phone number privacy settings. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Signal ei voi enää automaattisesti vahvistaa keskustelun salausta. Tämä johtuu todennäköisesti siitä, että {name} on vaihtanut puhelinnumeroaan tai puhelinnumeronsa yksityisyysasetuksia. Varmista päästä päähän -salaus vertaamalla edellisen näytön numeroita tai skannaamalla käyttäjän laitteen koodi."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
     "messageformat": "Signal voi automaattisesti tarkistaa salauksen vain keskusteluissa, joissa yhteys on muodostettu puhelinnumeron avulla. Jos keskustelu on aloitettu käyttäjänimen tai yhteisen ryhmän perusteella, varmista päästä päähän -salaus vertaamalla edellisen näytön numeroita tai skannaamalla käyttäjän laitteen koodi."
@@ -712,9 +703,6 @@
   },
   "icu:Toast__ActionLabel--SubmitLog": {
     "messageformat": "Lähetä loki"
-  },
-  "icu:Toast--FailedToSendWithEndorsements": {
-    "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--SQLError": {
     "messageformat": "Tietokantavirhe: Ole hyvä ja jaa lokit."
@@ -2015,9 +2003,6 @@
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, one {{count,number} kädennosto} other {{count,number} kädennostoa}}"
   },
-  "icu:CallingRaisedHandsList__TitleHint": {
-    "messageformat": "(ensimmäisestä viimeiseen)"
-  },
   "icu:CallingReactions--me": {
     "messageformat": "Sinä"
   },
@@ -3300,7 +3285,7 @@
     "messageformat": "Ota laajennettu esikatselu käyttöön tai pois käytöstä"
   },
   "icu:Keyboard--toggle-raise-hand": {
-    "messageformat": "Raise or lower your hand (group calls only)"
+    "messageformat": "Nosta tai laske kätesi (vain ryhmäpuhelut)"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Vastaa puheluun videolla (vain videopuhelut)"
@@ -8220,16 +8205,10 @@
     "messageformat": "Pieniä säätöjä, virheenkorjauksia ja suorituskykyparannuksia. Kiitos, että käytät Signalia!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.11--0": {
-    "messageformat": "• Olemme lisänneet sovellukseen uusia vahvistusvaiheita ja opasteviestejä, joiden tarkoituksena on suojata Signal-käyttäjiä tietojenkalastelulta ja sosiaalisen manipuloinnin hyökkäyksiltä. Muistathan: älä koskaan vastaa keskusteluihin, joiden lähettäjä esittää olevansa Signal, äläkä koskaan lähetä vahvistuskoodia, PIN-koodia tai palautusavainta kenellekään."
-  },
-  "icu:WhatsNew__8.11--1": {
-    "messageformat": "Ryhmäpuheluissa näkyvät kädennostosymbolit osoittavat nyt jonon järjestyksen ajantasaisesti."
-  },
-  "icu:WhatsNew__8.11--2": {
-    "messageformat": "Uusi esitystapa ääniviestejä tallentaessa."
-  },
   "icu:WhatsNew__8.12--0": {
-    "messageformat": "On the one hand, you can click on the raise hand icon during group calls. But on the other hand, now you can use a new keyboard shortcut too (Shift-H)."
+    "messageformat": "Lisäsimme uuden pikanäppäimen, jolla voit nostaa kätesi ryhmäpuheluissa (vaihto-H)."
+  },
+  "icu:WhatsNew__8.13--0": {
+    "messageformat": "The new raised-hand indicators are now also displayed in the list of raised hands during group calls. It's a second-hand place to figure out who you should hand it over to when you're done speaking."
   }
 }

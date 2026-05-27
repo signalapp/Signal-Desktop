@@ -605,23 +605,14 @@
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__title": {
     "messageformat": "Krypteringen i denne samtalen ble automatisk bekreftet "
   },
-  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
+  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body-2": {
     "messageformat": "Når du har lagt til en kontakt med telefonnummer, kan Signal automatisk bekrefte om forbindelsen er sikker via noe som kalles «key transparency». Hvis du ønsker mer sikkerhet, kan du bekrefte ende-til-ende-krypteringen manuelt ved å sammenligne tallene på forrige side eller skanne koden på enheten til personen du chatter med."
   },
-  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body-2": {
-    "messageformat": "For people you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
-  },
-  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
-    "messageformat": "Automatisk bekreftelse er ikke lenger tilgjengelig for denne samtalen"
-  },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title-2": {
-    "messageformat": "Auto-verification is not available for this chat"
-  },
-  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
-    "messageformat": "Signal kan ikke bekrefte krypteringen i denne samtalen automatisk. Dette skyldes sannsynligvis at {name} har byttet telefonnummer. Du kan bekrefte ende-til-ende-krypteringen manuelt ved å sammenligne tallene på forrige side eller skanne koden på enheten til personen du chatter med."
+    "messageformat": "Automatisk bekreftelse er ikke tilgjengelig for denne samtalen"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body-2": {
-    "messageformat": "Signal can not automatically verify the encryption for this chat. This could be because {name} changed their phone number or their phone number privacy settings. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Signal kan ikke bekrefte krypteringen i denne samtalen automatisk. Dette kan skyldes at {name} har byttet telefonnummer eller endret innstillingene for telefonnummeret sitt. Du kan bekrefte ende-til-ende-krypteringen manuelt ved å sammenligne tallene på forrige side eller skanne koden på enheten til personen du chatter med."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
     "messageformat": "Signal kan ikke bekrefte krypteringen i samtalen automatisk med mindre du har lagt til kontakten via et telefonnummer. Hvis du la til kontakten via et brukernavn eller en gruppe, må du bekrefte ende-til-ende-krypteringen manuelt. Dette gjør du ved å sammenligne tallene på den forrige siden eller skanne koden på enheten til personen du chatter med."
@@ -712,9 +703,6 @@
   },
   "icu:Toast__ActionLabel--SubmitLog": {
     "messageformat": "Send inn logg"
-  },
-  "icu:Toast--FailedToSendWithEndorsements": {
-    "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--SQLError": {
     "messageformat": "Databasefeil: del feilsøkingsloggen din."
@@ -2015,9 +2003,6 @@
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, one {{count,number} har rukket opp hånden} other {{count,number} har rukket opp hånden}}"
   },
-  "icu:CallingRaisedHandsList__TitleHint": {
-    "messageformat": "(første til siste)"
-  },
   "icu:CallingReactions--me": {
     "messageformat": "Deg"
   },
@@ -3300,7 +3285,7 @@
     "messageformat": "Skru fullskjermsmodus av og på"
   },
   "icu:Keyboard--toggle-raise-hand": {
-    "messageformat": "Raise or lower your hand (group calls only)"
+    "messageformat": "Rekk opp eller ta ned hånden (kun i gruppesamtaler)"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Besvar anropet med video (kun videosamtaler)"
@@ -8220,16 +8205,10 @@
     "messageformat": "Noen små justeringer, feilrettinger og ytelsesforbedringer. Takk for at du bruker Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.11--0": {
-    "messageformat": "Vi har lansert ekstra bekreftelser og meldinger i appen for å beskytte Signal-brukere mot phishing og hacking. Husk at du aldri bør svare på meldinger fra personer som utgir seg for å representere Signal, og aldri sende bekreftelseskoden, PIN-koden eller sikkerhetskoden din til noen."
-  },
-  "icu:WhatsNew__8.11--1": {
-    "messageformat": "Nå kan du se hvem som rakk opp hånden først i gruppesamtaler."
-  },
-  "icu:WhatsNew__8.11--2": {
-    "messageformat": "Du ser også ny grafikk når du tar opp talemeldinger."
-  },
   "icu:WhatsNew__8.12--0": {
-    "messageformat": "On the one hand, you can click on the raise hand icon during group calls. But on the other hand, now you can use a new keyboard shortcut too (Shift-H)."
+    "messageformat": "Vi har lagt til en ny snarvei til å rekke opp hånden i gruppesamtaler (Shift+H)."
+  },
+  "icu:WhatsNew__8.13--0": {
+    "messageformat": "The new raised-hand indicators are now also displayed in the list of raised hands during group calls. It's a second-hand place to figure out who you should hand it over to when you're done speaking."
   }
 }

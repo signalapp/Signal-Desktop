@@ -605,23 +605,14 @@
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__title": {
     "messageformat": "Šio pokalbio šifravimas buvo automatiškai patvirtintas "
   },
-  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
-    "messageformat": "Jei su kontaktais bendraujate naudodami telefono numerius, „Signal“ automatiškai patvirtins, ar ryšys saugus, pagal rakto skaidrumo procesą. Jei pageidaujate papildomo saugumo, patvirtinkite ištisinį šifravimą rankiniu būdu, palygindami ankstesniame ekrane pateiktus skaičius arba nuskaitydami kodą jų įrenginyje."
-  },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body-2": {
-    "messageformat": "For people you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
-  },
-  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
-    "messageformat": "Automatinis patvirtinimas šiam pokalbiui nebepasiekiamas"
+    "messageformat": "Jei su žmonėmis bendraujate naudodami telefono numerius, „Signal“ automatiškai patvirtins, ar ryšys saugus, pagal rakto skaidrumo procesą. Jei pageidaujate papildomo saugumo, patvirtinkite ištisinį šifravimą rankiniu būdu, palygindami ankstesniame ekrane pateiktus skaičius arba nuskaitydami kodą jų įrenginyje."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title-2": {
-    "messageformat": "Auto-verification is not available for this chat"
-  },
-  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
-    "messageformat": "„Signal“ nebegali automatiškai patvirtinti šio pokalbio šifravimo. Tikėtina, kad taip yra todėl, jog {name} pasikeitė telefono numerį. Patvirtinkite ištisinį šifravimą rankiniu būdu, palygindami ankstesniame ekrane pateiktus skaičius arba nuskaitydami kodą jų įrenginyje."
+    "messageformat": "Automatinis patvirtinimas šiam pokalbiui nepasiekiamas"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body-2": {
-    "messageformat": "Signal can not automatically verify the encryption for this chat. This could be because {name} changed their phone number or their phone number privacy settings. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "„Signal“ negali automatiškai patvirtinti šio pokalbio šifravimo. Tikėtina, kad taip yra todėl, jog {name} pasikeitė telefono numerį arba telefono numerio privatumo nustatymus. Patvirtinkite ištisinį šifravimą rankiniu būdu, palygindami ankstesniame ekrane pateiktus skaičius arba nuskaitydami kodą jų įrenginyje."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
     "messageformat": "„Signal“ gali automatiškai patvirtinti šifravimą tik tuose pokalbiuose, kur su asmeniu bendraujate turėdami telefono numerį. Jei pokalbis pradėtas turint naudotojo vardą arba bendroje grupėje, patvirtinkite ištisinį šifravimą rankiniu būdu, palygindami ankstesniame ekrane pateiktus skaičius arba nuskaitydami kodą jų įrenginyje."
@@ -712,9 +703,6 @@
   },
   "icu:Toast__ActionLabel--SubmitLog": {
     "messageformat": "Pateikti žurnalą"
-  },
-  "icu:Toast--FailedToSendWithEndorsements": {
-    "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--SQLError": {
     "messageformat": "Duomenų bazės klaida: pasidalinkite savo žurnalais."
@@ -2015,9 +2003,6 @@
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, one {{count,number} pakėlė ranką} few {{count,number} pakėlė rankas} many {{count,number} pakėlė rankas} other {{count,number} pakėlė rankas}}"
   },
-  "icu:CallingRaisedHandsList__TitleHint": {
-    "messageformat": "(nuo pirmo iki paskutinio)"
-  },
   "icu:CallingReactions--me": {
     "messageformat": "Jūs"
   },
@@ -3300,7 +3285,7 @@
     "messageformat": "Perjungti išskleistą peržiūrą"
   },
   "icu:Keyboard--toggle-raise-hand": {
-    "messageformat": "Raise or lower your hand (group calls only)"
+    "messageformat": "Pakelti arba nuleisti ranką (tik grupės skambučiuose)"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Atsiliepti su vaizdu (tik vaizdo skambučiams)"
@@ -8220,16 +8205,10 @@
     "messageformat": "Smulkūs patobulinimai, klaidų pataisymai ir veikimo pagerinimas. Ačiū, kad naudoji „Signal“!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.11--0": {
-    "messageformat": "Siekdami apsaugoti „Signal“ naudotojus nuo sukčiavimo ir socialinės inžinerijos atakų, programėlėje įdiegėme papildomus patvirtinimus ir informacinius pranešimus. Primename: niekada neatsakykite į žinutes, kuriose siunčiantysis apsimeta esąs „Signal“, ir niekam nesiųskite savo patvirtinimo kodo, PIN kodo ar atkūrimo rakto."
-  },
-  "icu:WhatsNew__8.11--1": {
-    "messageformat": "Pakeltos rankos indikatoriai grupės skambučiuose nuo šiol rodomi dabartine eilės tvarka."
-  },
-  "icu:WhatsNew__8.11--2": {
-    "messageformat": "Naujas vizualizavimas įrašant balso žinutes."
-  },
   "icu:WhatsNew__8.12--0": {
-    "messageformat": "On the one hand, you can click on the raise hand icon during group calls. But on the other hand, now you can use a new keyboard shortcut too (Shift-H)."
+    "messageformat": "Pridėjome naują spartųjį klavišą pakelti ranką grupės skambučiuose (Shift-H)."
+  },
+  "icu:WhatsNew__8.13--0": {
+    "messageformat": "The new raised-hand indicators are now also displayed in the list of raised hands during group calls. It's a second-hand place to figure out who you should hand it over to when you're done speaking."
   }
 }

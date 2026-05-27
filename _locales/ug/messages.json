@@ -605,23 +605,14 @@
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__title": {
     "messageformat": "بۇ سۆھبەت ئۈچۈن شىفىرلاشتۇرۇش ئاپتوماتىك دەلىللەندى "
   },
-  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
-    "messageformat": "تېلېفون نومۇرى ئارقىلىق باغلانغان ئالاقىلاشقۇچىلىرىڭىز ئۈچۈن، Signal، ئاچقۇچ ئاشكارىلىقى دەپ ئاتىلىدىغان جەريان ئارقىلىق ئۇلىنىشنىڭ بىخەتەر ياكى ئەمەسلىكىنى ئاپتوماتىك جەزملەشتۈرەلەيدۇ. بىخەتەرلىكنى ئاشۇرۇش ئۈچۈن، ئالدىنقى ئېكراندىكى سانلارنى سېلىشتۇرۇش ياكى ئۇلارنىڭ ئۈسكۈنىسىدىكى كودنى سىكانىرلاش ئارقىلىق ئاخىرغىچە شىفىرلاشنى قولدا دەلىللەڭ."
-  },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body-2": {
-    "messageformat": "For people you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
-  },
-  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
-    "messageformat": "بۇ سۆھبەت ئۈچۈن ئاپتوماتىك دەلىللەشنى ئەمدى ئىشلەتكىلى بولمايدۇ"
+    "messageformat": "تېلېفون نومۇرى ئارقىلىق باغلانغان كىشىلەر ئۈچۈن، Signal، ئاچقۇچ ئاشكارىلىقى دەپ ئاتىلىدىغان جەريان ئارقىلىق ئۇلىنىشنىڭ بىخەتەر ياكى ئەمەسلىكىنى ئاپتوماتىك جەزملەشتۈرەلەيدۇ. بىخەتەرلىكنى ئاشۇرۇش ئۈچۈن، ئالدىنقى ئېكراندىكى سانلارنى سېلىشتۇرۇش ياكى ئۇلارنىڭ ئۈسكۈنىسىدىكى كودنى سىكانىرلاش ئارقىلىق ئاخىرغىچە شىفىرلاشنى قولدا دەلىللەڭ."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title-2": {
-    "messageformat": "Auto-verification is not available for this chat"
-  },
-  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
-    "messageformat": "Signal ئەمدى بۇ سۆھبەتنىڭ شىفىرلاشتۇرۇلىشىنى ئاپتوماتىك دەلىللىيەلمەيدۇ. بۇنىڭ سەۋەبى {name} نىڭ تېلېفون نومۇرىنى ئۆزگەرتكەنلىكى بولۇشى مۇمكىن. ئالدىنقى ئېكراندىكى نۇمۇرلارنى سېلىشتۇرۇش ياكى ئۈسكۈنىدىكى كودنى سىكانىرلاش ئارقىلىق ئاخىرغىچە شىفىرلاشتۇرۇشنى قولدا دەلىللەڭ."
+    "messageformat": "بۇ سۆھبەت ئۈچۈن ئاپتوماتىك دەلىللەشنى ئىشلەتكىلى بولمايدۇ"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body-2": {
-    "messageformat": "Signal can not automatically verify the encryption for this chat. This could be because {name} changed their phone number or their phone number privacy settings. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Signal بۇ سۆھبەتنىڭ شىفىرلاشتۇرۇلىشىنى ئاپتوماتىك دەلىللىيەلمەيدۇ. بۇنىڭ سەۋەبى بەلكىم {name} نىڭ تېلېفون نومۇرىنى ياكى تېلېفون نۇمۇرىنىڭ شەخسىي مەخپىيەتلىك تەڭشەكلىرىنى ئۆزگەرتكەنلىكى سەۋەبىدىن بولۇشى مۇمكىن. ئالدىنقى ئېكراندىكى نۇمۇرلارنى سېلىشتۇرۇش ياكى ئۈسكۈنىدىكى كودنى سىكانىرلاش ئارقىلىق ئاخىرغىچە شىفىرلاشتۇرۇشنى قولدا دەلىللەڭ."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
     "messageformat": "Signal پەقەت تېلېفون نومۇرى ئارقىلىق بىرەيلەن بىلەن باغلىنىشلىق بولغان پاراڭلاردىلا شىفىرلاشتۇرۇشنى ئاپتوماتىك دەلىللىيەلەيدۇ. ئەگەر پاراڭ، ئىشلەتكۈچى نامى ياكى ئورتاق بىر گۇرۇپپىدىكى بىىرى بىلەن باشلانغان بولسا، ئالدىنقى ئېكراندىكى سانلارنى سېلىشتۇرۇش ياكى ئۇلارنىڭ ئۈسكۈنىسىدىكى كودنى سىكانىرلاش ئارقىلىق ئاخىرغىچە شىفىرلاشتۇرۇشنى دەلىللەڭ."
@@ -712,9 +703,6 @@
   },
   "icu:Toast__ActionLabel--SubmitLog": {
     "messageformat": "خاتىرىنى تاپشۇرۇش"
-  },
-  "icu:Toast--FailedToSendWithEndorsements": {
-    "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--SQLError": {
     "messageformat": "سانلىق مەلۇمات ئامبىرى خاتالىقى: خاتىرىڭىزنى ئورتاقلىشىڭ."
@@ -2015,9 +2003,6 @@
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, other {{count,number} قول كۆتۈردى}}"
   },
-  "icu:CallingRaisedHandsList__TitleHint": {
-    "messageformat": "(بىرىنچىدىن ئاخىرغىچە)"
-  },
   "icu:CallingReactions--me": {
     "messageformat": "سىز"
   },
@@ -3300,7 +3285,7 @@
     "messageformat": "كېڭەيتىلگەن ئالدىن كۆرەكنى ئېچىش ۋە تاقاشنى ئالماشتۇرۇش"
   },
   "icu:Keyboard--toggle-raise-hand": {
-    "messageformat": "Raise or lower your hand (group calls only)"
+    "messageformat": "قولىڭىزنى كۆتۈرۈڭ ياكى چۈشۈرۈڭ (پەقەت گۇرۇپپا چاقىرىقلىرىدا)"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "چاقىرىقنى ۋىدېيولۇق قوبۇل قىلىش (ۋىدېيولۇق چاقىرىق ئۈچۈنلا)"
@@ -8220,16 +8205,10 @@
     "messageformat": "كىچىك ئۆزگەرتىشلەر كىرگۈزۈلدى، كاشىلا ھەل قىلىندى ۋە ئىقتىدار ئەلالاشتۇرۇلدى. Signal نى ئىشلەتكەنلىكىڭىزگە رەھمەت!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.11--0": {
-    "messageformat": "بىز ئەپكە قوشۇمچە جەزملەشتۈرۈش باسقۇچلىرى ۋە ئىلمىي-تەربىيەۋى ئۇچۇرلارنى كىرگۈزۈپ، Signal قوللانغۇچىلىرىنى ئالدامچىلىق ۋە ئىجتىمائىي ھادىسىدىن پەيدا بولغان ھۇجۇملاردىن تېخىمۇ ياخشى قوغداشنى مەقسەت قىلدۇق. ئەسكەرتىش، ئۆزىنى Signal دەپ تونۇشتۇرغان ھېچقانداق سۆھبەتكە جاۋاب قايتۇرماڭ، شۇنداقلا دەلىللەش كودىڭىز، PIN نومۇرىڭىز ياكى ئەسلىگە كەلتۈرۈش ئاچقۇچىڭىزنى ھېچكىمگە يوللىماڭ."
-  },
-  "icu:WhatsNew__8.11--1": {
-    "messageformat": "گۇرۇپپا چاقىرىقلىرىدا قول كۆتۈرۈش بەلگىلىرى ئەمدى ئۆچرەتنىڭ نۆۋەتتىكى تەرتىپىنى كۆرسىتىدۇ.8.11 نەشرى ئۈچۈن تەييارلاندى."
-  },
-  "icu:WhatsNew__8.11--2": {
-    "messageformat": "ئاۋازلىق ئۇچۇر خاتىرىلەش جەريانىدا ئىپادىلىنىدىغان يېڭى كۆرۈنۈش لايىھەسى قوشۇلدى. 8.11 نەشرى ئۈچۈن تەييارلاندى."
-  },
   "icu:WhatsNew__8.12--0": {
-    "messageformat": "On the one hand, you can click on the raise hand icon during group calls. But on the other hand, now you can use a new keyboard shortcut too (Shift-H)."
+    "messageformat": "گۇرۇپپا چاقىرىقلىرىدا قول كۆتۈرۈشكە قولايلىق يېڭى كۇنۇپكا تېزلەتمىسى (Shift+H) قوشتۇق. 8.12 نەشرى ئۈچۇن تارقىتىلدى گۇرۇپپا چاقىرىقلىرىدا قول كۆتۈرۈشكە قولايلىق يېڭى كۇنۇپكا تېزلەتمىسى (Shift+H) قوشتۇق. 8.12 نەشرى ئۈچۇن تارقىتىلدى"
+  },
+  "icu:WhatsNew__8.13--0": {
+    "messageformat": "The new raised-hand indicators are now also displayed in the list of raised hands during group calls. It's a second-hand place to figure out who you should hand it over to when you're done speaking."
   }
 }

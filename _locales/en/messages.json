@@ -818,25 +818,13 @@
     "messageformat": "Encryption was auto-verified for this chat ",
     "description": "A title of an education modal in Key Transparency section of SafetyNumberViewer when verification was successful"
   },
-  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device.",
-    "description": "(Deleted 2026/05/20) A body of an education modal in Key Transparency section of SafetyNumberViewer when verification was successful"
-  },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body-2": {
     "messageformat": "For people you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device.",
     "description": "A body of an education modal in Key Transparency section of SafetyNumberViewer when verification was successful"
   },
-  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
-    "messageformat": "Auto-verification is no longer available for this chat",
-    "description": "(Deleted 2026/05/20) A title of an education modal in Key Transparency section of SafetyNumberViewer when verification was unsuccessful"
-  },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title-2": {
     "messageformat": "Auto-verification is not available for this chat",
     "description": "A title of an education modal in Key Transparency section of SafetyNumberViewer when verification was unsuccessful"
-  },
-  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
-    "messageformat": "Signal can no longer automatically verify the encryption for this chat. This is likely because {name} changed their phone number. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device.",
-    "description": "(Deleted 2026/05/20) A body of an education modal in Key Transparency section of SafetyNumberViewer when verification was unsuccessful"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body-2": {
     "messageformat": "Signal can not automatically verify the encryption for this chat. This could be because {name} changed their phone number or their phone number privacy settings. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device.",
@@ -959,10 +947,6 @@
   "icu:Toast__ActionLabel--SubmitLog": {
     "messageformat": "Submit log",
     "description": "Label for the submit log button in decryption errors or other important error types"
-  },
-  "icu:Toast--FailedToSendWithEndorsements": {
-    "messageformat": "Failed to send message with endorsements",
-    "description": "(Deleted 2026/05/20) An error popup when we attempted and failed to send a message using endorsements, only for internal users."
   },
   "icu:Toast--SQLError": {
     "messageformat": "Database error: please share your logs.",
@@ -2676,10 +2660,6 @@
   "icu:CallingRaisedHandsList__Title": {
     "messageformat": "{count, plural, one {# raised hand} other {# raised hands}}",
     "description": "Shown in the call raised hands list to describe how many people have active raised hands"
-  },
-  "icu:CallingRaisedHandsList__TitleHint": {
-    "messageformat": "(first to last)",
-    "description": "(Deleted 2026/05/20) Shown in the call raised hands list next to the raised hands count to explain list ordering"
   },
   "icu:CallingReactions--me": {
     "messageformat": "You",
@@ -9964,7 +9944,7 @@
   },
   "icu:DraftGifMessageSendModal__CancelButtonLabel": {
     "messageformat": "Cancel",
-    "description": "Draft GIF Message Send Modal > Cancel Button > Label"
+    "description": "(Deleted 2026/05/27) Draft GIF Message Send Modal > Cancel Button > Label"
   },
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "Edit history",
@@ -10929,21 +10909,9 @@
     "description": "Release notes for releases that only include bug fixes",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.11--0": {
-    "messageformat": "We've introduced additional confirmations and educational messaging in the app to help protect Signal users from phishing and social engineering attacks. As a reminder, never reply to chats pretending to be Signal, and never send your verification code, PIN, or recovery key to anyone.",
-    "description": "(Deleted 2026/05/20) Release notes for 8.11"
-  },
-  "icu:WhatsNew__8.11--1": {
-    "messageformat": "Raised hand indicators in group calls now display the current order of the queue, so you can easily see who got the upper hand first.",
-    "description": "(Deleted 2026/05/20) Release notes for 8.11"
-  },
-  "icu:WhatsNew__8.11--2": {
-    "messageformat": "We also added a real-time visualization while recording voice messages, so surfers (and oceanographers) can stare at multiple moving waveforms whenever they share updates from the beach.",
-    "description": "(Deleted 2026/05/20) Release notes for 8.11"
-  },
   "icu:WhatsNew__8.12--0": {
     "messageformat": "On the one hand, you can click on the raise hand icon during group calls. But on the other hand, now you can use a new keyboard shortcut too (Shift-H).",
-    "description": "Release notes for 8.12"
+    "description": "(Deleted 2026/05/27) Release notes for 8.12"
   },
   "icu:WhatsNew__8.13--0": {
     "messageformat": "The new raised-hand indicators are now also displayed in the list of raised hands during group calls. It's a second-hand place to figure out who you should hand it over to when you're done speaking.",
