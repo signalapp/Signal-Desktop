@@ -122,7 +122,10 @@ import { storageServiceUploadJob } from '../services/storage.preload.ts';
 import { challengeHandler } from '../services/challengeHandler.preload.ts';
 import { getSendOptions } from '../util/getSendOptions.preload.ts';
 import type { IsConversationAcceptedOptionsType } from '../util/isConversationAccepted.preload.ts';
-import { isConversationAccepted } from '../util/isConversationAccepted.preload.ts';
+import {
+  isConversationAccepted,
+  isTrustedContact,
+} from '../util/isConversationAccepted.preload.ts';
 import {
   getNumber,
   getProfileName,
@@ -328,7 +331,7 @@ export class ConversationModel {
 
   contactCollection?: Array<ConversationModel>;
 
-  debouncedUpdateLastMessage: (() => void) & { flush: () => void };
+  debouncedUpdateLastMessage: (() => void) & { flush(): void };
 
   initialPromise?: Promise<unknown>;
 
@@ -4071,9 +4074,20 @@ export class ConversationModel {
       return;
     }
 
-    if (!this.get('profileSharing')) {
+    if (
+      isDirectConversation(this.attributes) &&
+      !isTrustedContact(this.attributes)
+    ) {
       log.error(
-        'sendProfileKeyUpdate: profileSharing not enabled for conversation',
+        'sendProfileKeyUpdate: not a trusted contact',
+        this.idForLogging()
+      );
+      return;
+    }
+
+    if (isGroup(this.attributes) && !this.get('profileSharing')) {
+      log.error(
+        'sendProfileKeyUpdate: not a trusted group',
         this.idForLogging()
       );
       return;
