@@ -37,6 +37,7 @@ import { shouldSendToConversation } from './shouldSendToConversation.preload.ts'
 import { sendToGroup } from '../../util/sendToGroup.preload.ts';
 import { itemStorage } from '../../textsecure/Storage.preload.ts';
 import { strictAssert } from '../../util/assert.std.ts';
+import { isTrustedContact } from '../../util/isConversationAccepted.preload.ts';
 
 const { isNumber } = lodash;
 
@@ -84,8 +85,19 @@ export async function sendProfileKey(
     return;
   }
 
-  if (!data?.isOneTimeSend && !conversation.get('profileSharing')) {
-    log.info('No longer sharing profile. Canceling job.');
+  if (data?.isOneTimeSend) {
+    log.info('isOneTimeSend=true; ignoring conversation state');
+  } else if (
+    isDirectConversation(conversation.attributes) &&
+    !isTrustedContact(conversation.attributes)
+  ) {
+    log.error('Not a trusted contact:', conversation.idForLogging());
+    return;
+  } else if (
+    isGroup(conversation.attributes) &&
+    !conversation.get('profileSharing')
+  ) {
+    log.error('Not a trusted group:', conversation.idForLogging());
     return;
   }
 

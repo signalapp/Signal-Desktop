@@ -98,7 +98,6 @@ import {
   setIsInitialContactSync,
 } from './services/contactSync.preload.ts';
 import { startTimeTravelDetector } from './util/startTimeTravelDetector.std.ts';
-import { shouldRespondWithProfileKey } from './util/shouldRespondWithProfileKey.dom.ts';
 import { LatestQueue } from './util/LatestQueue.std.ts';
 import { parseIntOrThrow } from './util/parseIntOrThrow.std.ts';
 import { getProfile } from './util/getProfile.preload.ts';
@@ -157,7 +156,7 @@ import {
 import { accountManager } from './textsecure/AccountManager.preload.ts';
 import * as KeyChangeListener from './textsecure/KeyChangeListener.dom.ts';
 import { UpdateKeysListener } from './textsecure/UpdateKeysListener.preload.ts';
-import { isGroup } from './util/whatTypeOfConversation.dom.ts';
+import { isGroup, isMe } from './util/whatTypeOfConversation.dom.ts';
 import { BackOff, FIBONACCI_TIMEOUTS } from './util/BackOff.std.ts';
 import { createApp as createAppRoot } from './state/roots/createApp.preload.tsx';
 import { AppViewType } from './types/app.std.ts';
@@ -295,6 +294,7 @@ import { MessageCache } from './services/MessageCache.preload.ts';
 import { saveAndNotify } from './messages/saveAndNotify.preload.ts';
 import { getBackupKeyHash } from './services/backups/crypto.preload.ts';
 import { Emoji } from './axo/emoji.std.ts';
+import { isTrustedContact } from './util/isConversationAccepted.preload.ts';
 
 const { isNumber, throttle } = lodash;
 
@@ -2396,12 +2396,13 @@ async function startApp(): Promise<void> {
     processBatch(batch) {
       const deduped = new Set(batch);
       deduped.forEach(async sender => {
-        if (!shouldRespondWithProfileKey(sender)) {
+        if (isMe(sender.attributes) || sender.isBlocked()) {
           return;
         }
-        sender.enableProfileSharing({
-          reason: 'shouldRespondWithProfileKey',
-        });
+
+        if (!isTrustedContact(sender.attributes)) {
+          return;
+        }
 
         drop(
           sender.queueJob('sendProfileKeyUpdate', () =>
