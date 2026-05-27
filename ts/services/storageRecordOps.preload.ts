@@ -552,6 +552,7 @@ export function toAccountRecord({
     sealedSenderIndicators: getSealedSenderIndicatorSetting(),
     typingIndicators: getTypingIndicatorSetting(),
     linkPreviews: getLinkPreviewSetting(),
+    payments: itemStorage.get('payments') ?? null,
 
     preferContactAvatars: preferContactAvatars ?? null,
     preferredReactionEmoji: preferredReactionEmoji.canBeSynced(
@@ -1588,6 +1589,7 @@ export async function mergeAccountRecord(
     storyViewReceiptsEnabled,
     username,
     usernameLink,
+    payments,
     notificationProfileManualOverride,
     notificationProfileSyncDisabled,
     automaticKeyVerificationDisabled,
@@ -1842,6 +1844,16 @@ export async function mergeAccountRecord(
 
   await saveBackupsSubscriberData(backupSubscriberData);
   await saveBackupTier(toNumber(backupTier) ?? undefined);
+
+  await itemStorage.put(
+    'payments',
+    payments
+      ? {
+          enabled: payments.enabled,
+          entropy: payments.entropy,
+        }
+      : null
+  );
 
   await itemStorage.put('displayBadgesOnProfile', displayBadgesOnProfile);
   await itemStorage.put('keepMutedChatsArchived', keepMutedChatsArchived);

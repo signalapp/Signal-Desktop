@@ -275,6 +275,12 @@ export type StorageAccessType = {
 
   blockedMessageMigrationVersion: number | undefined;
 
+  // From AccountRecord.payments
+  payments: {
+    enabled: boolean | null;
+    entropy: Uint8Array<ArrayBuffer> | null;
+  } | null;
+
   // Key Transparency
   lastDistinguishedTreeHead: Uint8Array<ArrayBuffer>;
   // Meaning of values:
@@ -542,6 +548,7 @@ const STORAGE_KEYS_TO_REMOVE_AFTER_UNLINK = [
   'sfuUrl',
   'svrPin',
   'backupKeyViewed',
+  'payments',
 ] as const satisfies ReadonlyArray<keyof StorageAccessType>;
 
 // Ensure every storage key is explicitly marked to be preserved or removed on unlink.
