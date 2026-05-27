@@ -306,6 +306,7 @@ import { getFilePathsReferencedByMessage } from '../util/messageFilePaths.std.ts
 import { createMessagesOnInsertTrigger } from './migrations/1500-search-polls.std.ts';
 import { isValidPlaintextHash } from '../types/Crypto.std.ts';
 import { Emoji } from '../axo/emoji.std.ts';
+import { WalCheckpoints } from './WalCheckpoints.std.ts';
 
 const {
   forEach,
@@ -865,6 +866,7 @@ function switchToWAL(db: WritableDB): void {
   // https://sqlite.org/wal.html
   db.pragma('journal_mode = WAL');
   db.pragma('synchronous = FULL');
+  WalCheckpoints.setupCommitHook(db, logger);
 }
 
 function migrateSchemaVersion(db: WritableDB): void {
@@ -1025,6 +1027,7 @@ export function initialize({
     // Only the first worker gets to upgrade the schema. The rest just folow.
     if (isPrimary) {
       updateSchema(db, logger);
+      WalCheckpoints.setupDeleteTriggers(db, logger);
     }
 
     // test database
@@ -1057,6 +1060,10 @@ function closeReadable(db: ReadableDB): void {
 }
 
 function closeWritable(db: WritableDB): void {
+  // Flush any pending WAL checkpoints before database close
+  // TODO: Do we need the retry behavior here?
+  WalCheckpoints.runImmediately(db, logger, 'close');
+
   // SQLLite documentation suggests that we run `PRAGMA optimize` right
   // before closing the database connection.
   db.pragma('optimize');

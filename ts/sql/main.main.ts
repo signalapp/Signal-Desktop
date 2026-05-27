@@ -45,6 +45,10 @@ export type WorkerRequest = Readonly<
       type: 'close' | 'removeDB';
     }
   | {
+      type: 'walCheckpoint';
+      reason: string;
+    }
+  | {
       type: 'sqlCall:read';
       encoding: 'js';
       method: keyof ServerReadableDirectInterface;
@@ -95,6 +99,10 @@ export type WrappedWorkerResponse =
       errorKind: SqliteErrorKind | undefined;
       // oxlint-disable-next-line typescript/no-explicit-any
       response: any;
+    }>
+  | Readonly<{
+      type: 'walCheckpointNeeded';
+      reason: string;
     }>
   | WrappedWorkerLogEntry;
 
@@ -147,6 +155,8 @@ export class MainSQL {
 
   // oxlint-disable-next-line typescript/no-explicit-any
   readonly #onResponse = new Map<number, ResponseEntry<any>>();
+
+  #checkpointPendingReason: string | null = null;
 
   readonly #shouldLogQueryTime: (queryName: string) => boolean;
   #shouldTrackQueryStats = false;
@@ -452,7 +462,26 @@ export class MainSQL {
     } finally {
       // oxlint-disable-next-line no-param-reassign
       entry.load -= 1;
+      this.#maybeRunCheckpoint();
     }
+  }
+
+  #maybeRunCheckpoint(): void {
+    if (!this.#isReady || this.#checkpointPendingReason == null) {
+      return;
+    }
+
+    for (const entry of this.#pool) {
+      if (entry.load !== 0) {
+        return;
+      }
+    }
+
+    const reason = this.#checkpointPendingReason;
+    this.#checkpointPendingReason = null;
+    const primary = this.#pool[0];
+    strictAssert(primary, 'Missing primary');
+    void this.#send(primary, { type: 'walCheckpoint', reason });
   }
 
   async #terminate(request: WorkerRequest): Promise<void> {
@@ -561,6 +590,12 @@ export class MainSQL {
         const { level, args } = wrappedResponse;
         strictAssert(this.#logger !== undefined, 'Logger not initialized');
         this.#logger[level](`MainSQL: ${format(...args)}`);
+        return;
+      }
+
+      if (wrappedResponse.type === 'walCheckpointNeeded') {
+        this.#checkpointPendingReason = wrappedResponse.reason;
+        this.#maybeRunCheckpoint();
         return;
       }
 
