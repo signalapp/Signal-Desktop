@@ -10944,5 +10944,9 @@
   "icu:WhatsNew__8.12--0": {
     "messageformat": "On the one hand, you can click on the raise hand icon during group calls. But on the other hand, now you can use a new keyboard shortcut too (Shift-H).",
     "description": "Release notes for 8.12"
+  },
+  "icu:WhatsNew__8.13--0": {
+    "messageformat": "The new raised-hand indicators are now also displayed in the list of raised hands during group calls. It's a second-hand place to figure out who you should hand it over to when you're done speaking.",
+    "description": "Release notes for 8.13"
   }
 }
