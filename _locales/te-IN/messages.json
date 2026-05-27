@@ -609,19 +609,19 @@
     "messageformat": "ఫోన్ నంబర్ ద్వారా మీరు కనెక్ట్ అయిన పరిచయాల కోసం, Signal కీ పారదర్శకత అనే ప్రక్రియను ఉపయోగించి కనెక్షన్ సురక్షితంగా ఉందో లేదో ఆటోమేటిక్‌గా నిర్ధారించగలదు. అదనపు భద్రత కోసం, మునుపటి స్క్రీన్‌పై ఉన్న నంబర్‌లను సరిపోల్చడం ద్వారా లేదా వారి పరికరంలోని కోడ్‌ను స్కాన్ చేయడం ద్వారా ఎండ్-టు-ఎండ్ గుప్తీకరణను మాన్యువల్‌గా ధృవీకరించండి."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body-2": {
-    "messageformat": "For people you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "ఫోన్ నంబర్ ద్వారా మీరు కనెక్ట్ అయిన వ్యక్తుల కోసం, Signal కీ పారదర్శకత అనే ప్రక్రియను ఉపయోగించి కనెక్షన్ సురక్షితంగా ఉందో లేదో ఆటోమేటిక్‌గా నిర్ధారించగలదు. అదనపు భద్రత కోసం, మునుపటి స్క్రీన్‌పై ఉన్న నంబర్‌లను సరిపోల్చడం ద్వారా లేదా వారి పరికరంలోని కోడ్‌ను స్కాన్ చేయడం ద్వారా ఎండ్-టు-ఎండ్ గుప్తీకరణను మాన్యువల్‌గా ధృవీకరించండి."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
     "messageformat": "ఈ చాట్ కోసం ఆటో-ధృవీకరణ ఇప్పుడు అందుబాటులో లేదు"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title-2": {
-    "messageformat": "Auto-verification is not available for this chat"
+    "messageformat": "ఈ చాట్ కోసం ఆటో-ధృవీకరణ అందుబాటులో లేదు"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
     "messageformat": "Signal ఇకపై ఈ చాట్ కోసం గుప్తీకరణను ఆటోమేటిక్‌గా ధృవీకరించలేదు. దీనికి కారణం బహుశా {name} తమ ఫోన్ నంబర్‌ను మార్చి ఉండటమే కావచ్చు. మునుపటి స్క్రీన్‌పై ఉన్న నంబర్‌లను సరిపోల్చడం ద్వారా లేదా వారి పరికరంలోని కోడ్‌ను స్కాన్ చేయడం ద్వారా ఎండ్-టు-ఎండ్ గుప్తీకరణను మాన్యువల్‌గా ధృవీకరించండి."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body-2": {
-    "messageformat": "Signal can not automatically verify the encryption for this chat. This could be because {name} changed their phone number or their phone number privacy settings. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Signal ఈ చాట్ కోసం గుప్తీకరణను ఆటోమేటిక్‌గా ధృవీకరించలేదు. ఇది {name} వారి ఫోన్ నంబర్‌ను లేదా వారి ఫోన్ నంబర్ గోప్యతా సెట్టింగ్‌లను మార్చిన కారణమో కావచ్చు. మునుపటి స్క్రీన్‌పై ఉన్న నంబర్‌లను సరిపోల్చడం ద్వారా లేదా వారి పరికరంలోని కోడ్‌ను స్కాన్ చేయడం ద్వారా ఎండ్-టు-ఎండ్ గుప్తీకరణను మాన్యువల్‌గా ధృవీకరించండి."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
     "messageformat": "మీరు ఒకరితో ఫోన్ నంబర్ ద్వారా కనెక్ట్ అయినప్పుడు మాత్రమే Signal చాట్‌లలోని గుప్తీకరణను ఆటోమేటిక్‌గా ధృవీకరించగలదు. చాట్ ఒక యూజర్ నేమ్ లేదా ఉమ్మడి గ్రూప్‌తో ప్రారంభించబడి ఉంటే, మునుపటి స్క్రీన్‌లోని నంబర్‌లను పోల్చడం ద్వారా లేదా వారి పరికరంలోని కోడ్‌ను స్కాన్ చేయడం ద్వారా ఎండ్-టు-ఎండ్ గుప్తీకరణను ధృవీకరించండి."
@@ -3300,7 +3300,7 @@
     "messageformat": "విస్తరించిన ప్రివ్యూను ఆన్ మరియు ఆఫ్‌కు టోగుల్ చేయండి"
   },
   "icu:Keyboard--toggle-raise-hand": {
-    "messageformat": "Raise or lower your hand (group calls only)"
+    "messageformat": "మీ చేతిని పైకి లేపండి లేదా కిందకు దించండి (గ్రూప్ కాల్స్‌కు మాత్రమే)"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "వీడియోతో కాల్‌కు సమాధానం ఇవ్వండి (వీడియో కాల్స్ మాత్రమే)"
@@ -8230,6 +8230,6 @@
     "messageformat": "స్వర సందేశాలను రికార్డ్ చేస్తున్నప్పుడు కొత్త విజువలైజేషన్."
   },
   "icu:WhatsNew__8.12--0": {
-    "messageformat": "On the one hand, you can click on the raise hand icon during group calls. But on the other hand, now you can use a new keyboard shortcut too (Shift-H)."
+    "messageformat": "ఒకవైపు, గ్రూప్ కాల్స్ సమయంలో మీరు చేయి పైకెత్తే ఐకాన్ పై క్లిక్ చేయవచ్చు. కానీ మరోవైపు, ఇప్పుడు మీరు ఒక కొత్త కీబోర్డ్ షార్ట్‌కట్‌ను (Shift-H) కూడా ఉపయోగించవచ్చు."
   }
 }

@@ -609,19 +609,19 @@
     "messageformat": "Untuk kontak yang terhubung dengan Anda melalui nomor telepon, Signal dapat mengonfirmasi otomatis apakah koneksinya aman lewat suatu proses yang disebut transparansi kunci. Untuk keamanan tambahan, lakukan enkripsi menyeluruh secara manual dengan membandingkan nomor di layar sebelumnya atau memindai kode di perangkat milik kontak Anda."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body-2": {
-    "messageformat": "For people you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Untuk orang yang terhubung dengan Anda melalui nomor telepon, Signal bisa otomatis mengonfirmasi apakah koneksinya aman lewat suatu proses yang disebut transparansi kunci. Untuk keamanan tambahan, lakukan verifikasi enkripsi E2E secara manual dengan membandingkan nomor di layar sebelumnya atau memindai kode di perangkat milik kontak Anda."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
     "messageformat": "Verifikasi otomatis sudah tidak tersedia untuk chat ini"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title-2": {
-    "messageformat": "Auto-verification is not available for this chat"
+    "messageformat": "Verifikasi otomatis tidak tersedia untuk chat ini"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
     "messageformat": "Proses verifikasi otomatis enkripsi untuk chat ini sudah tak dapat dilakukan oleh Signal. Kemungkinan ini terjadi karena {name} mengganti nomor teleponnya. Lakukan verifikasi enkripsi menyeluruh secara manual dengan membandingkan nomor di layar sebelumnya atau memindai kode di perangkat milik kontak Anda."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body-2": {
-    "messageformat": "Signal can not automatically verify the encryption for this chat. This could be because {name} changed their phone number or their phone number privacy settings. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Signal tidak bisa otomatis memverifikasi enkripsi untuk chat ini. Ini bisa jadi karena {name} telah mengganti nomor telepon atau mengubah pengaturan privasi nomor teleponnya. Lakukan verifikasi enkripsi E2E secara manual dengan membandingkan nomor di layar sebelumnya atau memindai kode di perangkat milik kontak Anda."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
     "messageformat": "Signal hanya bisa memverifikasi enkripsi dalam chat secara otomatis jika Anda terhubung dengan seseorang melalui nomor telepon. Jika chat dimulai dengan nama pengguna atau grup yang sama, lakukan verifikasi menyeluruh dengan membandingkan nomor di layar sebelumnya atau memindai kode di perangkat milik kontak Anda."
@@ -3300,7 +3300,7 @@
     "messageformat": "Mengaktifkan & menonaktifkan fitur perluas pratinjau"
   },
   "icu:Keyboard--toggle-raise-hand": {
-    "messageformat": "Raise or lower your hand (group calls only)"
+    "messageformat": "Angkat atau turunkan tangan (khusus panggilan grup)"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Jawab panggilan dengan video (hanya panggilan video)"
@@ -8230,6 +8230,6 @@
     "messageformat": "Kami juga menambahkan visualisasi baru saat Anda merekam pesan suara."
   },
   "icu:WhatsNew__8.12--0": {
-    "messageformat": "On the one hand, you can click on the raise hand icon during group calls. But on the other hand, now you can use a new keyboard shortcut too (Shift-H)."
+    "messageformat": "Kami menambahkan pintasan baru untuk mengangkat tangan saat panggilan grup (Shift+H)."
   }
 }

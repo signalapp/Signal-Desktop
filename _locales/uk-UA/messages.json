@@ -609,19 +609,19 @@
     "messageformat": "Signal може автоматично підтверджувати надійність з'єднання з контактами, з якими ви пов'язані через номер телефону, за допомогою процесу, що називається прозорістю ключа. Для надійності ми радимо перевірити наявність наскрізного шифрування, порівнявши цифри з попереднього екрана з цифрами на пристрої співрозмовника або зісканувавши код з його пристрою."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body-2": {
-    "messageformat": "For people you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Signal може автоматично підтверджувати надійність з'єднання з людьми, з якими ви пов'язані через номер телефону, за допомогою процесу, що називається прозорістю ключа. Для надійності ми радимо перевірити наявність наскрізного шифрування, порівнявши цифри з попереднього екрана з цифрами на пристрої співрозмовника або зісканувавши код з його пристрою."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
     "messageformat": "Автоматичне підтвердження більше не доступне для цього чату"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title-2": {
-    "messageformat": "Auto-verification is not available for this chat"
+    "messageformat": "Автоматичне підтвердження недоступне для цього чату"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
     "messageformat": "Signal більше не може автоматично підтверджувати шифрування для цього чату. Найімовірніше, користувач {name} змінив номер телефону. Перевірте наявність наскрізного шифрування, порівнявши цифри з попереднього екрана з цифрами на пристрої співрозмовника або зісканувавши код з його пристрою."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body-2": {
-    "messageformat": "Signal can not automatically verify the encryption for this chat. This could be because {name} changed their phone number or their phone number privacy settings. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Signal не може автоматично підтвердити шифрування для цього чату. Можливо, користувач {name} змінив номер телефону або налаштування конфіденційності номера телефону. Перевірте наявність наскрізного шифрування, порівнявши цифри з попереднього екрана з цифрами на пристрої співрозмовника або зісканувавши код з його пристрою."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
     "messageformat": "Signal може підтверджувати шифрування автоматично лише в чатах, які було почато через номер телефону. Якщо ви почали чат через ім'я користувача або спільну групу, перевірте наявність наскрізного шифрування, порівнявши цифри з попереднього екрана з цифрами на пристрої співрозмовника або зісканувавши код з його пристрою."
@@ -1593,7 +1593,7 @@
     "messageformat": "Видалити всі дані?"
   },
   "icu:Install__confirm-data-deletion__body": {
-    "messageformat": "Ви намагаєтеся зв'язати з цим комп'ютером інший акаунт Signal. Якщо продовжити, усі дані з поточного Signal Desktop буде видалено."
+    "messageformat": "Ви намагаєтеся зв'язати з цим комп'ютером інший акаунт Signal. Якщо продовжити, з Signal Desktop буде видалено всі наявні дані."
   },
   "icu:Install__confirm-data-deletion__continue": {
     "messageformat": "Продовжити"
@@ -3300,7 +3300,7 @@
     "messageformat": "Збільшити / зменшити попередній вигляд"
   },
   "icu:Keyboard--toggle-raise-hand": {
-    "messageformat": "Raise or lower your hand (group calls only)"
+    "messageformat": "Підняти або опустити руку (тільки для групових викликів)"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Відповісти на виклик з відео (тільки для відеовикликів)"
@@ -8172,16 +8172,16 @@
     "messageformat": "Докладніше"
   },
   "icu:MaybeTransferModal__replaceHistory": {
-    "messageformat": "Історію повідомлень на цьому комп'ютері буде <bold>змінено</bold>."
+    "messageformat": "Історію повідомлень на цьому комп'ютері буде <bold>замінено</bold>."
   },
   "icu:MaybeTransferModal__scanQrCode": {
-    "messageformat": "Потрібно знову зв'язати пристрій, зісканувавши QR-код."
+    "messageformat": "Потрібно буде знову зв'язати пристрій, зісканувавши QR-код."
   },
   "icu:MaybeTransferModal__media": {
-    "messageformat": "Якщо ви придбали надійне резервне копіювання від Signal, буде перенесено всі медіафайли. Якщо ні, то буде перенесено медіафайли за минулі 45 днів."
+    "messageformat": "Якщо ви оплачуєте надійне резервне копіювання від Signal, буде перенесено всі медіафайли. В іншому разі буде перенесено лише медіафайли за минулі 45 днів."
   },
   "icu:MaybeTransferModal__transfer": {
-    "messageformat": "Переказати"
+    "messageformat": "Перенести"
   },
   "icu:MaybeTransferModal__dontTransfer": {
     "messageformat": "Не переносити"
@@ -8190,7 +8190,7 @@
     "messageformat": "Видалити всі дані?"
   },
   "icu:DeleteDataAndRelinkConfirmationDialog__body": {
-    "messageformat": "Усі дані з поточного Signal Desktop буде видалено. Потім ви зможете зісканувати QR-код і перенести всю історію повідомлень зі свого телефона."
+    "messageformat": "З Signal Desktop буде видалено всі наявні дані. Потім ви зможете зісканувати QR-код і перенести всю історію повідомлень зі свого телефона."
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Ця версія містить ряд невеликих покращень і виправлень помилок для забезпечення безперебійної роботи Signal.",
@@ -8221,15 +8221,15 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__8.11--0": {
-    "messageformat": "Ми додали додаткові підтвердження й інформаційні повідомлення в застосунку, щоб захистити користувачів Signal від шахрайства, як-от фішингу і соціальної інженерії. Нагадування: ніколи не відповідайте на повідомлення нібито від Signal і не діліться своїм кодом підтвердження, PIN-кодом чи ключем відновлення."
+    "messageformat": "Ми додали додаткові підтвердження й інформаційні повідомлення в застосунку, щоб захистити користувачів Signal від шахрайства, як-от фішингу і соціальної інженерії. Нагадування: ніколи не відповідайте на повідомлення нібито від Signal і не повідомляйте свого коду підтвердження, PIN-коду й ключа відновлення."
   },
   "icu:WhatsNew__8.11--1": {
     "messageformat": "У групових викликах тепер коректно показується послідовність піднятих рук, тож більше ніяких «А хто останній?»."
   },
   "icu:WhatsNew__8.11--2": {
-    "messageformat": "Також ми додали візуалізацію у реальному часі під час запису голосових повідомлень, тож тепер серфери (й океанографи) можуть милуватися хвилями, навіть якщо просто записують повідомлення."
+    "messageformat": "Також ми додали візуалізацію в реальному часі під час запису голосових повідомлень, тож тепер серфери (і океанографи) можуть милуватися хвилями, навіть коли просто записують повідомлення."
   },
   "icu:WhatsNew__8.12--0": {
-    "messageformat": "On the one hand, you can click on the raise hand icon during group calls. But on the other hand, now you can use a new keyboard shortcut too (Shift-H)."
+    "messageformat": "Тепер, якщо ви хочете підняти руку під час групового виклику, можна скористатися сполученням клавіш (Shift + H), а не натискати на значок мишкою. Маємо надію, що це оновлення зіграє вам на руку."
   }
 }
