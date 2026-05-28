@@ -3162,7 +3162,7 @@ export async function getEphemeralBackupStream({
   return _getAttachment({
     cdnNumber: cdn,
     cdnPath: `/attachments/${encodeURIComponent(key)}`,
-    redactor: _createRedactor(key),
+    redactor: _createRedactor(encodeURIComponent(key)),
     options: {
       downloadOffset,
       onProgress,
@@ -3899,9 +3899,9 @@ export async function getAttachment({
   };
 }): Promise<Readable> {
   return _getAttachment({
-    cdnPath: `/attachments/${cdnKey}`,
+    cdnPath: `/attachments/${encodeURIComponent(cdnKey)}`,
     cdnNumber: cdnNumber ?? 0,
-    redactor: _createRedactor(cdnKey),
+    redactor: _createRedactor(encodeURIComponent(cdnKey)),
     options,
   });
 }
@@ -4434,14 +4434,14 @@ export async function uploadGroupAvatar(
 export async function getGroupAvatar(
   key: string
 ): Promise<Uint8Array<ArrayBuffer>> {
-  return _outerAjax(`${cdnUrlObject['0']}/${key}`, {
+  return _outerAjax(`${cdnUrlObject['0']}/${encodeURIComponent(key)}`, {
     certificateAuthority,
     proxyUrl,
     responseType: 'bytes',
     timeout: 0,
     type: 'GET',
     version,
-    redactUrl: _createRedactor(key),
+    redactUrl: _createRedactor(encodeURIComponent(key)),
   });
 }
 
