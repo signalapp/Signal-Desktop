@@ -9,7 +9,6 @@ import type { AttachmentType } from '../../types/Attachment.std.ts';
 import {
   isDownloading,
   isDownloaded,
-  isDownloadable,
   getUndownloadedAttachmentSignature,
 } from '../../util/Attachment.std.ts';
 import {
@@ -35,7 +34,6 @@ import {
 } from '../../util/queueAttachmentDownloads.preload.ts';
 import { SECOND } from '../../util/durations/index.std.ts';
 import { showDownloadFailedToast } from '../../util/showDownloadFailedToast.dom.ts';
-import { markAttachmentAsPermanentlyErrored } from '../../util/attachments/markAttachmentAsPermanentlyErrored.std.ts';
 import { singleProtoJobQueue } from '../singleProtoJobQueue.preload.ts';
 import { MessageModel } from '../../models/messages.preload.ts';
 import { getMessageById } from '../../messages/getMessageById.preload.ts';
@@ -44,6 +42,7 @@ import { SignalService as Proto } from '../../protobuf/index.std.ts';
 import * as RemoteConfig from '../../RemoteConfig.dom.ts';
 import { isTestOrMockEnvironment } from '../../environment.std.ts';
 import { BackfillFailureModalKind } from '../../components/BackfillFailureModal.dom.tsx';
+import { markAttachmentAsErrored } from '../../util/attachments/markAttachmentAsErrored.std.ts';
 
 const log = createLogger('attachmentBackfill');
 
@@ -210,9 +209,7 @@ export class AttachmentBackfill {
           changeCount += 1;
           updatedSticker = {
             ...updatedSticker,
-            data: markAttachmentAsPermanentlyErrored(existing, {
-              backfillError: true,
-            }),
+            data: markAttachmentAsErrored(existing, 'backfill-terminal-error'),
           };
           showToast = true;
         } else {
@@ -224,7 +221,7 @@ export class AttachmentBackfill {
         // a download.
         if (isDownloading(updatedSticker.data)) {
           attachmentSignaturesToDownload.add(
-            getUndownloadedAttachmentSignature(updatedSticker.data)
+            getUndownloadedAttachmentSignature(remoteSticker.attachment)
           );
         }
         updatedSticker = {
@@ -262,9 +259,9 @@ export class AttachmentBackfill {
           pendingCount += 1;
         } else if (response.longText.status === Status.TERMINAL_ERROR) {
           changeCount += 1;
-          updatedBodyAttachment = markAttachmentAsPermanentlyErrored(
+          updatedBodyAttachment = markAttachmentAsErrored(
             updatedBodyAttachment,
-            { backfillError: true }
+            'backfill-terminal-error'
           );
           showToast = true;
         } else {
@@ -274,7 +271,7 @@ export class AttachmentBackfill {
         // See sticker handling code above for the reasoning
         if (isDownloading(updatedBodyAttachment)) {
           attachmentSignaturesToDownload.add(
-            getUndownloadedAttachmentSignature(updatedBodyAttachment)
+            getUndownloadedAttachmentSignature(response.longText.attachment)
           );
         }
         updatedBodyAttachment = response.longText.attachment;
@@ -298,9 +295,9 @@ export class AttachmentBackfill {
           showToast = true;
 
           changeCount += 1;
-          updatedAttachments[index] = markAttachmentAsPermanentlyErrored(
+          updatedAttachments[index] = markAttachmentAsErrored(
             existing,
-            { backfillError: true }
+            'backfill-terminal-error'
           );
         } else {
           throw missingCaseError(entry.status);
@@ -313,7 +310,7 @@ export class AttachmentBackfill {
       // See sticker handling code above for the reasoning
       if (isDownloading(existing)) {
         attachmentSignaturesToDownload.add(
-          getUndownloadedAttachmentSignature(existing)
+          getUndownloadedAttachmentSignature(entry.attachment)
         );
       }
       updatedAttachments[index] = entry.attachment;
@@ -362,15 +359,22 @@ export class AttachmentBackfill {
     await window.MessageCache.saveMessage(message.attributes);
   }
 
-  public static isEnabledForJob(
-    jobType: MessageAttachmentType,
-    message: Pick<ReadonlyMessageAttributesType, 'type'>
-  ): boolean {
-    if (message.type === 'story') {
+  public static canRequestForAttachment({
+    attachment,
+    attachmentType,
+    isStory,
+  }: {
+    attachment: AttachmentType;
+    attachmentType: MessageAttachmentType;
+    isStory: boolean;
+  }): boolean {
+    if (attachment.backfillError) {
       return false;
     }
-
-    switch (jobType) {
+    if (isStory) {
+      return false;
+    }
+    switch (attachmentType) {
       // Supported
       case 'long-message':
         break;
@@ -388,7 +392,7 @@ export class AttachmentBackfill {
         return false;
 
       default:
-        throw missingCaseError(jobType);
+        throw missingCaseError(attachmentType);
     }
 
     return isBackfillEnabled();
@@ -462,50 +466,4 @@ export class AttachmentBackfill {
       BackfillFailureModalKind.Timeout
     );
   }
-}
-
-export function isPermanentlyUndownloadable(
-  attachment: AttachmentType,
-  disposition: MessageAttachmentType,
-  message: Pick<ReadonlyMessageAttributesType, 'type'>
-): boolean {
-  // Attachment is downloadable or user have not failed to download it yet
-  if (isDownloadable(attachment) || !attachment.error) {
-    return false;
-  }
-
-  // Too big attachments cannot be retried anymore
-  if (attachment.wasTooBig) {
-    return true;
-  }
-
-  // Previous backfill failed
-  if (attachment.backfillError) {
-    return true;
-  }
-
-  // If backfill is unavailable for the attachment - it cannot be downloaded
-  // at this time.
-  return !AttachmentBackfill.isEnabledForJob(disposition, message);
-}
-
-export function isPermanentlyUndownloadableWithoutBackfill(
-  attachment: AttachmentType
-): boolean {
-  // Attachment is downloadable or user have not failed to download it yet
-  if (isDownloadable(attachment) || !attachment.error) {
-    return false;
-  }
-
-  // Too big attachments cannot be retried anymore
-  if (attachment.wasTooBig) {
-    return true;
-  }
-
-  // Previous backfill failed
-  if (attachment.backfillError) {
-    return true;
-  }
-
-  return true;
 }

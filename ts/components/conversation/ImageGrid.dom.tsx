@@ -19,7 +19,6 @@ import {
   getImageDimensionsForTimeline,
   getThumbnailUrl,
   getUrl,
-  isDownloadable,
   isIncremental,
   isVideoAttachment,
 } from '../../util/Attachment.std.ts';
@@ -178,8 +177,8 @@ export function ImageGrid({
     return null;
   }
 
-  const downloadableAttachments = attachments.filter(attachment =>
-    isDownloadable(attachment)
+  const downloadableAttachments = attachments.filter(
+    attachment => !attachment.isPermanentlyUndownloadable
   );
 
   const detailPill = (
@@ -607,8 +606,8 @@ function renderDownloadPill({
     return null;
   }
 
-  const noneDownloadable = !attachments.some(attachment =>
-    isDownloadable(attachment)
+  const noneDownloadable = attachments.every(
+    attachment => attachment.isPermanentlyUndownloadable
   );
   if (noneDownloadable) {
     return null;

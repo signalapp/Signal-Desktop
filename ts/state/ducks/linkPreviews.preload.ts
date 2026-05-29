@@ -19,6 +19,7 @@ import { maybeGrabLinkPreview } from '../../services/LinkPreview.preload.ts';
 import { strictAssert } from '../../util/assert.std.ts';
 import { useBoundActions } from '../../hooks/useBoundActions.std.ts';
 import { getPropsForAttachment } from '../selectors/message.preload.ts';
+import { backupsService } from '../../services/backups/index.preload.ts';
 
 // State
 
@@ -78,10 +79,17 @@ function addLinkPreview(
   let image: AttachmentForUIType | undefined;
   if (linkPreview.image != null) {
     image = {
-      ...getPropsForAttachment(linkPreview.image, 'preview', {
-        type:
-          source === LinkPreviewSourceType.StoryCreator ? 'story' : 'outgoing',
-      }),
+      ...getPropsForAttachment(
+        linkPreview.image,
+        'preview',
+        {
+          type:
+            source === LinkPreviewSourceType.StoryCreator
+              ? 'story'
+              : 'outgoing',
+        },
+        { hasMediaBackups: backupsService.hasMediaBackups() }
+      ),
 
       // Save URL to the blob (it gets stripped by `getPropsForAttachment`)
       url: linkPreview.image.url,

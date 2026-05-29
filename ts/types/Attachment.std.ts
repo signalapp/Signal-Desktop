@@ -257,9 +257,10 @@ export class AttachmentSizeError extends Error {
     super(`AttachmentSizeError: ${message}`);
   }
 }
+
 // oxlint-disable-next-line max-classes-per-file
-export class AttachmentPermanentlyUndownloadableError extends Error {
+export class AttachmentUndownloadableFromTransitTierError extends Error {
   constructor(message: string) {
-    super(`AttachmentPermanentlyUndownloadableError: ${message}`);
+    super(`AttachmentUndownloadableFromTransitTierError: ${message}`);
   }
 }

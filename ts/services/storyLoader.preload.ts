@@ -19,6 +19,7 @@ import { dropNull } from '../util/dropNull.std.ts';
 import { DurationInSeconds } from '../util/durations/index.std.ts';
 import { SIGNAL_ACI } from '../types/SignalConversation.std.ts';
 import { itemStorage } from '../textsecure/Storage.preload.ts';
+import { backupsService } from './backups/index.preload.ts';
 
 const { pick } = lodash;
 
@@ -48,9 +49,10 @@ export function getStoryDataFromMessageAttributes(
     return;
   }
 
+  const hasMediaBackups = backupsService.hasMediaBackups();
   let [attachment] =
     unresolvedAttachment && unresolvedAttachment.path
-      ? getAttachmentsForMessage(message)
+      ? getAttachmentsForMessage(message, { hasMediaBackups })
       : [unresolvedAttachment];
 
   // If a story message has a preview property in its attributes then we
@@ -79,12 +81,16 @@ export function getStoryDataFromMessageAttributes(
           ...preview,
           image:
             preview.image &&
-            getPropsForAttachment(preview.image, 'preview', message),
+            getPropsForAttachment(preview.image, 'preview', message, {
+              hasMediaBackups,
+            }),
         },
       },
     };
   } else if (attachment) {
-    attachment = getPropsForAttachment(attachment, 'attachment', message);
+    attachment = getPropsForAttachment(attachment, 'attachment', message, {
+      hasMediaBackups,
+    });
   }
 
   // for a story, the message should always include the sourceDevice

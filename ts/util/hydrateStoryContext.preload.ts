@@ -6,6 +6,7 @@ import { createLogger } from '../logging/log.std.ts';
 import type { AttachmentType } from '../types/Attachment.std.ts';
 import type { MessageAttributesType } from '../model-types.d.ts';
 import { getAttachmentsForMessage } from '../state/selectors/message.preload.ts';
+import { backupsService } from '../services/backups/index.preload.ts';
 import { isAciString } from './isAciString.std.ts';
 import { isDirectConversation } from './whatTypeOfConversation.dom.ts';
 import { softAssert, strictAssert } from './assert.std.ts';
@@ -88,7 +89,10 @@ export async function hydrateStoryContext(
     return newMessageAttributes;
   }
 
-  const attachments = getAttachmentsForMessage({ ...storyMessage.attributes });
+  const attachments = getAttachmentsForMessage(
+    { ...storyMessage.attributes },
+    { hasMediaBackups: backupsService.hasMediaBackups() }
+  );
   let attachment: AttachmentType | undefined = attachments?.[0];
   if (attachment && !attachment.url && !attachment.textAttachment) {
     attachment = undefined;

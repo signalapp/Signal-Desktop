@@ -11,7 +11,7 @@ import { doesAttachmentExist } from '../../../util/migrations.preload.ts';
 import {
   hasRequiredInformationForLocalBackup,
   hasRequiredInformationForRemoteBackup,
-  hasRequiredInformationToDownloadFromTransitTier,
+  isDownloadableFromTransitTier,
 } from '../../../util/Attachment.std.ts';
 import { Backups, SignalService } from '../../../protobuf/index.std.ts';
 import * as Bytes from '../../../Bytes.std.ts';
@@ -390,12 +390,11 @@ function getLocatorInfoForAttachment({
     isOnDisk &&
     hasRequiredInformationForLocalBackup(attachment);
 
-  const isDownloadableFromTransitTier =
-    hasRequiredInformationToDownloadFromTransitTier(attachment);
+  const canDownloadFromTransitTier = isDownloadableFromTransitTier(attachment);
 
   if (
     !shouldBeLocallyBackedUp &&
-    !isDownloadableFromTransitTier &&
+    !canDownloadFromTransitTier &&
     !hasRequiredInformationForRemoteBackup(attachment)
   ) {
     return {
@@ -440,7 +439,7 @@ function getLocatorInfoForAttachment({
       : null,
     integrityCheck,
 
-    ...(isDownloadableFromTransitTier
+    ...(canDownloadFromTransitTier
       ? {
           transitCdnKey: attachment.cdnKey,
           transitCdnNumber: attachment.cdnNumber,

@@ -21,7 +21,6 @@ import {
   AttachmentSizeError,
   type AttachmentType,
   AttachmentVariant,
-  AttachmentPermanentlyUndownloadableError,
   type BackupableAttachmentType,
 } from '../types/Attachment.std.ts';
 import * as Bytes from '../Bytes.std.ts';
@@ -140,16 +139,12 @@ export async function downloadAttachment(
   const { digest, plaintextHash, incrementalMac, chunkSize, key, size } =
     attachment;
   const { logId } = options;
-  try {
-    strictAssert(
-      digest || plaintextHash,
-      `${logId}: missing digest and plaintextHash`
-    );
-    strictAssert(key, `${logId}: missing key`);
-    strictAssert(isNumber(size), `${logId}: missing size`);
-  } catch (error) {
-    throw new AttachmentPermanentlyUndownloadableError(error.message);
-  }
+  strictAssert(
+    digest || plaintextHash,
+    `${logId}: missing digest and plaintextHash`
+  );
+  strictAssert(key, `${logId}: missing key`);
+  strictAssert(isNumber(size), `${logId}: missing size`);
 
   let downloadResult: Awaited<ReturnType<typeof downloadToDisk>>;
 
