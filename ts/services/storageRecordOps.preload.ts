@@ -2512,7 +2512,7 @@ function protoToChatFolderType(
 function recipientToConversationId(
   recipient: Proto.Recipient,
   logPrefix: string
-): string {
+): string | undefined {
   let match: ConversationModel | undefined;
   if (recipient.identifier?.contact != null) {
     const serviceId = fromServiceIdBinaryOrString(
@@ -2542,7 +2542,10 @@ function recipientToConversationId(
   } else {
     throw new Error('Unexpected type of recipient');
   }
-  strictAssert(match, `${logPrefix}: Missing conversation for recipient`);
+  if (!match) {
+    log.warn(`${logPrefix}: unknown recipient, dropping`);
+    return undefined;
+  }
   return match.id;
 }
 
@@ -2550,9 +2553,11 @@ function recipientsToConversationIds(
   recipients: ReadonlyArray<Proto.Recipient>,
   logPrefix: string
 ): ReadonlyArray<string> {
-  return recipients.map(recipient => {
-    return recipientToConversationId(recipient, logPrefix);
-  });
+  return recipients
+    .map(recipient => {
+      return recipientToConversationId(recipient, logPrefix);
+    })
+    .filter(isNotNil);
 }
 
 export async function mergeChatFolderRecord(
