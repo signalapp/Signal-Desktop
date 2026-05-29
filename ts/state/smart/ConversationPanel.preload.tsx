@@ -42,6 +42,7 @@ import { SmartPinnedMessagesPanel } from './PinnedMessagesPanel.preload.tsx';
 import { SmartMiniPlayer } from './MiniPlayer.preload.tsx';
 import { SmartGroupMemberLabelEditor } from './GroupMemberLabelEditor.preload.tsx';
 import { useNavActions } from '../ducks/nav.std.ts';
+import { ErrorBoundary } from '../../components/ErrorBoundary.dom.tsx';
 
 const log = createLogger('ConversationPanel');
 
@@ -440,7 +441,11 @@ function PanelElement({
   }
 
   if (panel.type === PanelType.StickerManager) {
-    return <SmartStickerManager />;
+    return (
+      <ErrorBoundary name="StickerManager">
+        <SmartStickerManager />
+      </ErrorBoundary>
+    );
   }
 
   log.warn(toLogFormat(missingCaseError(panel.type)));

@@ -80,7 +80,7 @@ describe('stickers', function (this: Mocha.Suite) {
         .click();
       await window
         .getByRole('dialog', { name: 'Sticker Pack' })
-        .getByRole('button', { name: 'Install' })
+        .getByRole('button', { name: 'Add Stickers' })
         .click();
 
       debug('waiting for sync message');
@@ -118,12 +118,10 @@ describe('stickers', function (this: Mocha.Suite) {
       debug('uninstalling first sticker pack via UI');
       const state = await phone.expectStorageState('initial state');
 
-      await conversationView
-        .locator(`a:has-text("${STICKER_PACKS[0].id.toString('hex')}")`)
-        .click();
+      // Dialog remains open after install
       await window
         .getByRole('dialog', { name: 'Sticker Pack' })
-        .getByRole('button', { name: 'Uninstall' })
+        .getByRole('button', { name: 'Remove' })
         .click();
 
       // Confirm

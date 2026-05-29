@@ -13,6 +13,7 @@ import {
 } from '../selectors/stickers.std.ts';
 import { useStickersActions } from '../ducks/stickers.preload.ts';
 import { useGlobalModalActions } from '../ducks/globalModals.preload.ts';
+import { useToastActions } from '../ducks/toast.preload.ts';
 
 export const SmartStickerManager = memo(function SmartStickerManager() {
   const i18n = useSelector(getIntl);
@@ -24,6 +25,7 @@ export const SmartStickerManager = memo(function SmartStickerManager() {
   const { downloadStickerPack, installStickerPack, uninstallStickerPack } =
     useStickersActions();
   const { closeStickerPackPreview } = useGlobalModalActions();
+  const { showToast } = useToastActions();
 
   return (
     <StickerManager
@@ -36,6 +38,7 @@ export const SmartStickerManager = memo(function SmartStickerManager() {
       knownPacks={knownPacks}
       receivedPacks={receivedPacks}
       uninstallStickerPack={uninstallStickerPack}
+      showToast={showToast}
     />
   );
 });

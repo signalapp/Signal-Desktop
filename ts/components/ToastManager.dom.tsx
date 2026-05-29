@@ -334,6 +334,14 @@ function renderToast({
     );
   }
 
+  if (toastType === ToastType.CopiedStickerPackLink) {
+    return (
+      <Toast onClose={hideToast} timeout={3 * SECOND}>
+        {i18n('icu:stickers--StickerPreview--LinkCopied')}
+      </Toast>
+    );
+  }
+
   if (toastType === ToastType.CopiedUsername) {
     return (
       <Toast onClose={hideToast} timeout={3 * SECOND}>

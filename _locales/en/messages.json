@@ -3734,6 +3734,30 @@
     "messageformat": "Error opening sticker pack. Check your internet connection and try again.",
     "description": "The message that appears in the sticker preview modal when there is an error."
   },
+  "icu:stickers--StickerPreview--Install": {
+    "messageformat": "Add Stickers",
+    "description": "Primary button to install a sticker pack in the sticker pack preview modal."
+  },
+  "icu:stickers--StickerPreview--Remove": {
+    "messageformat": "Remove",
+    "description": "Button to uninstall and remove a sticker pack in the sticker pack preview modal."
+  },
+  "icu:stickers--StickerPreview--Link": {
+    "messageformat": "Link",
+    "description": "Button to copy the link URL of a sticker pack in the sticker pack preview modal."
+  },
+  "icu:stickers--StickerPreview--LinkCopied": {
+    "messageformat": "Link copied",
+    "description": "Toast text shown after copying the link URL of a sticker pack in the sticker pack preview modal."
+  },
+  "icu:stickers--StickerPreview--StickerCount": {
+    "messageformat": "{count, plural, one {# sticker} other {# stickers}}",
+    "description": "Text showing count of stickers in the sticker pack preview modal."
+  },
+  "icu:stickers--StickerPreview--StickerNoEmojiAriaLabel": {
+    "messageformat": "Sticker without an emoji",
+    "description": "Accessibility label for sticker without an assigned emoji in the sticker pack preview modal."
+  },
   "icu:FunPicker__Tab--Emojis": {
     "messageformat": "Emoji",
     "description": "FunPicker > Tabs > Emojis Tab > Label (emoji plural)"

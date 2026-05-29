@@ -109,6 +109,8 @@ function getToast(toastType: ToastType): AnyToast {
       return { toastType: ToastType.CopiedBackupKey };
     case ToastType.CopiedCallLink:
       return { toastType: ToastType.CopiedCallLink };
+    case ToastType.CopiedStickerPackLink:
+      return { toastType: ToastType.CopiedStickerPackLink };
     case ToastType.CopiedUsername:
       return { toastType: ToastType.CopiedUsername };
     case ToastType.CopiedUsernameLink:

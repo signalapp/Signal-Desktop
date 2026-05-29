@@ -54,6 +54,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   installedPacks: overrideProps.installedPacks || [],
   knownPacks: overrideProps.knownPacks || [],
   receivedPacks: overrideProps.receivedPacks || [],
+  showToast: action('showToast'),
   uninstallStickerPack: action('uninstallStickerPack'),
 });
 

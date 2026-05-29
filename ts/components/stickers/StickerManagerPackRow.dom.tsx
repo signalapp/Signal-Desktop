@@ -17,7 +17,7 @@ import { AxoConfirmDialog } from '../../axo/AxoConfirmDialog.dom.tsx';
 export type OwnProps = {
   readonly i18n: LocalizerType;
   readonly pack: StickerPackType;
-  readonly onClickPreview?: (sticker: StickerPackType) => unknown;
+  readonly onClickPreview?: (packId: string) => unknown;
   readonly installStickerPack?: (
     packId: string,
     packKey: string,
@@ -81,10 +81,10 @@ export const StickerManagerPackRow = memo(function StickerManagerPackRowInner({
         event.stopPropagation();
         event.preventDefault();
 
-        onClickPreview(pack);
+        onClickPreview(id);
       }
     },
-    [onClickPreview, pack]
+    [onClickPreview, id]
   );
 
   const handleClickPreview = useCallback(
@@ -93,10 +93,10 @@ export const StickerManagerPackRow = memo(function StickerManagerPackRowInner({
         event.stopPropagation();
         event.preventDefault();
 
-        onClickPreview(pack);
+        onClickPreview(id);
       }
     },
-    [onClickPreview, pack]
+    [onClickPreview, id]
   );
 
   return (
