@@ -372,7 +372,7 @@ function ProfileNameStage({
   uploadInitialProfile: (opts: {
     firstName: string;
     lastName: string;
-    avatarData: Uint8Array<ArrayBuffer>;
+    avatarData: Uint8Array<ArrayBuffer> | undefined;
   }) => Promise<void>;
   userAvatarData: ReadonlyArray<AvatarDataType>;
 }): JSX.Element {
@@ -397,10 +397,6 @@ function ProfileNameStage({
 
   const onNextClick = useCallback(
     async (event: MouseEvent<HTMLButtonElement>) => {
-      if (!avatarData) {
-        return;
-      }
-
       event.preventDefault();
       event.stopPropagation();
       try {
@@ -502,7 +498,7 @@ function ProfileNameStage({
         <button
           type="button"
           className="button"
-          disabled={!normalizeProfileName(firstName) || !avatarData}
+          disabled={!normalizeProfileName(firstName)}
           onClick={onNextClick}
         >
           Finish
@@ -534,7 +530,7 @@ export type PropsType = Readonly<{
   uploadInitialProfile: (opts: {
     firstName: string;
     lastName: string;
-    avatarData: Uint8Array<ArrayBuffer>;
+    avatarData: Uint8Array<ArrayBuffer> | undefined;
   }) => Promise<void>;
   userAvatarData: ReadonlyArray<AvatarDataType>;
 }>;

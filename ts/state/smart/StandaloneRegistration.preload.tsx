@@ -89,18 +89,23 @@ async function uploadInitialProfile({
 }: {
   firstName: string;
   lastName: string;
-  avatarData: Uint8Array<ArrayBuffer>;
+  avatarData: Uint8Array<ArrayBuffer> | undefined;
 }): Promise<void> {
   const us = window.ConversationController.getOurConversationOrThrow();
   us.set({ profileName: firstName, profileFamilyName: lastName });
   us.captureChange('standaloneProfile');
   await DataWriter.updateConversation(us.attributes);
 
-  await writeProfile(getConversation(us), {
-    keepAvatar: false,
-    avatarUpdate: {
-      oldAvatar: undefined,
-      newAvatar: avatarData,
-    },
-  });
+  await writeProfile(
+    getConversation(us),
+    avatarData
+      ? {
+          keepAvatar: false,
+          avatarUpdate: {
+            oldAvatar: undefined,
+            newAvatar: avatarData,
+          },
+        }
+      : { keepAvatar: true }
+  );
 }
