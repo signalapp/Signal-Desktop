@@ -39,6 +39,7 @@ import {
   isTapToView,
   getPropsForAttachment,
 } from '../selectors/message.preload.ts';
+import { getHasMediaBackups } from '../selectors/items.dom.ts';
 import { SHOW_TOAST } from './toast.preload.ts';
 import { ToastType } from '../../types/Toast.dom.tsx';
 import {
@@ -170,7 +171,7 @@ function setPlaybackDisabled(
 function showLightboxForViewOnceMedia(
   messageId: string
 ): ThunkAction<void, RootStateType, unknown, ShowLightboxActionType> {
-  return async dispatch => {
+  return async (dispatch, getState) => {
     log.info('showLightboxForViewOnceMedia: attempting to display message');
 
     const message = await getMessageById(messageId);
@@ -202,11 +203,13 @@ function showLightboxForViewOnceMedia(
     const absolutePath = getAbsoluteAttachmentPath(firstAttachment.path);
     const { path: tempPath } =
       await copyAttachmentIntoTempDirectory(absolutePath);
+    const hasMediaBackups = getHasMediaBackups(getState());
     const tempAttachment = {
       ...getPropsForAttachment(
         firstAttachment,
         'attachment',
-        message.attributes
+        message.attributes,
+        { hasMediaBackups }
       ),
       path: tempPath,
     };
@@ -316,6 +319,7 @@ function showLightbox(opts: {
     }
 
     const attachments = filterValidAttachments(message.attributes);
+    const hasMediaBackups = getHasMediaBackups(getState());
 
     const authorId =
       window.ConversationController.lookupOrCreate({
@@ -348,7 +352,8 @@ function showLightbox(opts: {
         attachment: getPropsForAttachment(
           item,
           'attachment',
-          message.attributes
+          message.attributes,
+          { hasMediaBackups }
         ),
         size: item.size,
         totalDownloaded: item.totalDownloaded,

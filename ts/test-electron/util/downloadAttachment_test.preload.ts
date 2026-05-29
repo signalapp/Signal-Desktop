@@ -7,22 +7,27 @@ import lodash from 'lodash';
 
 import { DataWriter } from '../../sql/Client.preload.ts';
 import { IMAGE_PNG } from '../../types/MIME.std.ts';
-import { downloadAttachment } from '../../util/downloadAttachment.preload.ts';
+import {
+  downloadAttachment,
+  isDownloadableOrBackfillable,
+} from '../../util/downloadAttachment.preload.ts';
 import { MediaTier } from '../../types/AttachmentDownload.std.ts';
 import { HTTPError } from '../../types/HTTPError.std.ts';
 import { getCdnNumberForBackupTier } from '../../textsecure/downloadAttachment.preload.ts';
 import { MASTER_KEY, MEDIA_ROOT_KEY } from '../backup/helpers.preload.ts';
 import { getMediaIdFromMediaName } from '../../services/backups/util/mediaId.preload.ts';
 import {
+  AttachmentUndownloadableFromTransitTierError,
   AttachmentVariant,
-  AttachmentPermanentlyUndownloadableError,
 } from '../../types/Attachment.std.ts';
 import { updateRemoteConfig } from '../../test-helpers/RemoteConfigStub.dom.ts';
-import { toHex, toBase64 } from '../../Bytes.std.ts';
-import { generateAttachmentKeys } from '../../AttachmentCrypto.node.ts';
-import { getRandomBytes } from '../../Crypto.node.ts';
 import { itemStorage } from '../../textsecure/Storage.preload.ts';
 import { DAY, HOUR } from '../../util/durations/constants.std.ts';
+import {
+  testAttachmentDigest,
+  testAttachmentKey,
+  testPlaintextHash,
+} from '../../test-helpers/attachments.node.ts';
 
 const { noop } = lodash;
 
@@ -30,14 +35,14 @@ describe('utils/downloadAttachment', () => {
   const baseAttachment = {
     size: 100,
     contentType: IMAGE_PNG,
-    digest: 'digest',
+    digest: testAttachmentDigest(),
     cdnKey: 'cdnKey',
     cdnNumber: 2,
-    key: toBase64(generateAttachmentKeys()),
+    key: testAttachmentKey(),
   };
   const backupableAttachment = {
     ...baseAttachment,
-    plaintextHash: toHex(getRandomBytes(32)),
+    plaintextHash: testPlaintextHash(),
   };
   const abortController = new AbortController();
 
@@ -77,7 +82,7 @@ describe('utils/downloadAttachment', () => {
     ]);
   });
 
-  it('throw permanently missing error if attachment fails with 404 and no backup information', async () => {
+  it('throws undownloadable from transit tier error on 404', async () => {
     const stubDownload = sinon
       .stub()
       .onFirstCall()
@@ -99,7 +104,7 @@ describe('utils/downloadAttachment', () => {
           downloadAttachmentFromServer: stubDownload,
         },
       }),
-      AttachmentPermanentlyUndownloadableError
+      AttachmentUndownloadableFromTransitTierError
     );
 
     assert.equal(stubDownload.callCount, 1);
@@ -114,34 +119,7 @@ describe('utils/downloadAttachment', () => {
     ]);
   });
 
-  it('throw permanently missing error if attachment fails with 404 and expiring from backup tier', async () => {
-    const stubDownload = sinon
-      .stub()
-      .throws(new HTTPError('not found', { code: 404, headers: {} }));
-
-    const attachment = backupableAttachment;
-    await assert.isRejected(
-      downloadAttachment({
-        attachment,
-        options: {
-          hasMediaBackups: true,
-          onSizeUpdate: noop,
-          abortSignal: abortController.signal,
-          messageExpiresAt: Date.now() + HOUR,
-          logId: '',
-        },
-        dependencies: {
-          downloadAttachmentFromLocalBackup: stubDownload,
-          downloadAttachmentFromServer: stubDownload,
-        },
-      }),
-      AttachmentPermanentlyUndownloadableError
-    );
-
-    assert.equal(stubDownload.callCount, 2);
-  });
-
-  it('throw permanently missing error if attachment fails with 404 and expiring from backup tier, if no transit tier info', async () => {
+  it('throws undownloadable from transit error on 404 from backup and no transit info', async () => {
     const stubDownload = sinon
       .stub()
       .throws(new HTTPError('not found', { code: 404, headers: {} }));
@@ -162,13 +140,37 @@ describe('utils/downloadAttachment', () => {
           downloadAttachmentFromServer: stubDownload,
         },
       }),
-      AttachmentPermanentlyUndownloadableError
+      AttachmentUndownloadableFromTransitTierError
     );
 
     assert.equal(stubDownload.callCount, 1);
   });
 
-  it('throw permanently missing error if attachment fails with 403 from cdn 0 and no backup information', async () => {
+  it('throws undownloadable from transit error if it has no information to download from', async () => {
+    const stubDownload = sinon.stub();
+    const attachment = { ...baseAttachment, cdnKey: undefined };
+    await assert.isRejected(
+      downloadAttachment({
+        attachment,
+        options: {
+          hasMediaBackups: true,
+          onSizeUpdate: noop,
+          abortSignal: abortController.signal,
+          messageExpiresAt: Date.now() + DAY,
+          logId: '',
+        },
+        dependencies: {
+          downloadAttachmentFromLocalBackup: stubDownload,
+          downloadAttachmentFromServer: stubDownload,
+        },
+      }),
+      AttachmentUndownloadableFromTransitTierError
+    );
+
+    assert.equal(stubDownload.callCount, 0);
+  });
+
+  it('throws undownloadable from transit error on 403 from cdn 0', async () => {
     const stubDownload = sinon
       .stub()
       .onFirstCall()
@@ -190,7 +192,7 @@ describe('utils/downloadAttachment', () => {
           downloadAttachmentFromServer: stubDownload,
         },
       }),
-      AttachmentPermanentlyUndownloadableError
+      AttachmentUndownloadableFromTransitTierError
     );
 
     assert.equal(stubDownload.callCount, 1);
@@ -205,7 +207,7 @@ describe('utils/downloadAttachment', () => {
     ]);
   });
 
-  it('throw permanently missing error if attachment fails with 403 with no cdn number and no backup information', async () => {
+  it('throw undownloadable from transit error missing error on 403 from missing cdn number', async () => {
     const stubDownload = sinon
       .stub()
       .onFirstCall()
@@ -228,7 +230,7 @@ describe('utils/downloadAttachment', () => {
           downloadAttachmentFromServer: stubDownload,
         },
       }),
-      AttachmentPermanentlyUndownloadableError
+      AttachmentUndownloadableFromTransitTierError
     );
   });
 
@@ -261,7 +263,7 @@ describe('utils/downloadAttachment', () => {
     ]);
   });
 
-  it('falls back to transit tier if backup download fails with 404', async () => {
+  it('falls back to transit tier if backup download 404s', async () => {
     const stubDownload = sinon
       .stub()
       .onFirstCall()
@@ -348,49 +350,112 @@ describe('utils/downloadAttachment', () => {
     ]);
   });
 
-  it('does not throw permanently missing error if not found on transit tier but attachment is backupable', async () => {
-    const stubDownload = sinon
-      .stub()
-      .throws(new HTTPError('not found', { code: 404, headers: {} }));
+  describe('isDownloadableOrBackfillable', () => {
+    let sandbox: sinon.SinonSandbox;
 
-    const attachment = backupableAttachment;
+    beforeEach(() => {
+      sandbox = sinon.createSandbox();
+      sandbox
+        .stub(window.ConversationController, 'areWePrimaryDevice')
+        .returns(false);
+    });
 
-    await assert.isRejected(
-      downloadAttachment({
-        attachment,
-        options: {
+    afterEach(() => {
+      sandbox.restore();
+    });
+
+    it('returns true for transit-tier attachments without media backups', () => {
+      assert.isTrue(
+        isDownloadableOrBackfillable({
+          attachment: baseAttachment,
+          attachmentType: 'attachment',
+          isStory: false,
+          hasMediaBackups: false,
+        })
+      );
+    });
+
+    it('returns true for supported attachments that can be backfilled', () => {
+      assert.isTrue(
+        isDownloadableOrBackfillable({
+          attachment: {
+            size: 100,
+            contentType: IMAGE_PNG,
+          },
+          attachmentType: 'attachment',
+          isStory: false,
+          hasMediaBackups: false,
+        })
+      );
+    });
+
+    it('does not backfill unsupported attachment types or stories', () => {
+      const attachment = {
+        size: 100,
+        contentType: IMAGE_PNG,
+      };
+
+      for (const attachmentType of ['contact', 'preview', 'quote'] as const) {
+        assert.isFalse(
+          isDownloadableOrBackfillable({
+            attachment,
+            attachmentType,
+            isStory: false,
+            hasMediaBackups: false,
+          })
+        );
+      }
+
+      assert.isFalse(
+        isDownloadableOrBackfillable({
+          attachment,
+          attachmentType: 'attachment',
+          isStory: true,
+          hasMediaBackups: false,
+        })
+      );
+    });
+
+    it('depends on hasMediaBackups for backup-only attachments', () => {
+      const attachment = {
+        size: 100,
+        contentType: IMAGE_PNG,
+        key: testAttachmentKey(),
+        plaintextHash: testPlaintextHash(),
+      };
+
+      assert.isFalse(
+        isDownloadableOrBackfillable({
+          attachment,
+          attachmentType: 'preview',
+          isStory: false,
+          hasMediaBackups: false,
+        })
+      );
+      assert.isTrue(
+        isDownloadableOrBackfillable({
+          attachment,
+          attachmentType: 'preview',
+          isStory: false,
           hasMediaBackups: true,
-          onSizeUpdate: noop,
-          abortSignal: abortController.signal,
-          messageExpiresAt: null,
-          logId: '',
-        },
-        dependencies: {
-          downloadAttachmentFromLocalBackup: stubDownload,
-          downloadAttachmentFromServer: stubDownload,
-        },
-      }),
-      HTTPError
-    );
-    assert.equal(stubDownload.callCount, 2);
-    assertDownloadArgs(stubDownload.getCall(0).args, [
-      { attachment, mediaTier: MediaTier.BACKUP },
-      {
-        variant: AttachmentVariant.Default,
-        onSizeUpdate: noop,
-        abortSignal: abortController.signal,
-        logId: '',
-      },
-    ]);
-    assertDownloadArgs(stubDownload.getCall(1).args, [
-      { attachment, mediaTier: MediaTier.STANDARD },
-      {
-        variant: AttachmentVariant.Default,
-        onSizeUpdate: noop,
-        abortSignal: abortController.signal,
-        logId: '',
-      },
-    ]);
+        })
+      );
+    });
+
+    it('returns false if undownloadable and backfill already errored', () => {
+      assert.isFalse(
+        isDownloadableOrBackfillable({
+          attachment: {
+            ...baseAttachment,
+            cdnKey: undefined,
+            backfillError: true,
+          },
+          attachmentType: 'attachment',
+          isStory: false,
+          hasMediaBackups: true,
+        })
+      );
+    });
   });
 });
 

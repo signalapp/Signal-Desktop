@@ -16,6 +16,7 @@ import {
 } from '../types/AttachmentDownload.std.ts';
 import {
   downloadAttachment as downloadAttachmentUtil,
+  isBackfillable,
   isIncrementalMacVerificationError,
 } from '../util/downloadAttachment.preload.ts';
 import {
@@ -31,15 +32,16 @@ import {
   AttachmentSizeError,
   type AttachmentType,
   AttachmentVariant,
-  AttachmentPermanentlyUndownloadableError,
+  AttachmentUndownloadableFromTransitTierError,
 } from '../types/Attachment.std.ts';
 import {
   wasImportedFromLocalBackup,
   canAttachmentHaveThumbnail,
-  shouldAttachmentEndUpInRemoteBackup,
+  isDownloadableFromBackupTier,
   getUndownloadedAttachmentSignature,
   isIncremental,
   hasRequiredInformationForRemoteBackup,
+  isDownloadableFromTransitTier,
 } from '../util/Attachment.std.ts';
 import type { ReadonlyMessageAttributesType } from '../model-types.d.ts';
 import { backupsService } from '../services/backups/index.preload.ts';
@@ -65,12 +67,7 @@ import { safeParsePartial } from '../util/schemas.std.ts';
 import { deleteDownloadsJobQueue } from './deleteDownloadsJobQueue.preload.ts';
 import { createBatcher } from '../util/batcher.std.ts';
 import { showDownloadFailedToast } from '../util/showDownloadFailedToast.dom.ts';
-import { markAttachmentAsPermanentlyErrored } from '../util/attachments/markAttachmentAsPermanentlyErrored.std.ts';
-import {
-  AttachmentBackfill,
-  isPermanentlyUndownloadable,
-  isPermanentlyUndownloadableWithoutBackfill,
-} from './helpers/attachmentBackfill.preload.ts';
+import { AttachmentBackfill } from './helpers/attachmentBackfill.preload.ts';
 import { formatCountForLogging } from '../logging/formatCountForLogging.std.ts';
 import { strictAssert } from '../util/assert.std.ts';
 import { getAttachmentCiphertextSize } from '../util/AttachmentCrypto.std.ts';
@@ -85,12 +82,11 @@ import { calculateExpirationTimestamp } from '../util/expirationTimer.std.ts';
 import { cleanupAttachmentFiles } from '../util/cleanup.preload.ts';
 import { getExistingAttachmentDataForReuse } from '../util/attachments/deduplicateAttachment.preload.ts';
 import { MAX_BODY_ATTACHMENT_BYTE_LENGTH } from '../util/longAttachment.std.ts';
+import { markAttachmentAsErrored } from '../util/attachments/markAttachmentAsErrored.std.ts';
 
 const { noop, omit, throttle } = lodash;
 
 const log = createLogger('AttachmentDownloadManager');
-
-export { isPermanentlyUndownloadable };
 
 // Type for adding a new job
 export type NewAttachmentDownloadJobType = {
@@ -220,8 +216,7 @@ export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownload
     getJobId,
     getJobIdForLogging,
     getRetryConfig: job =>
-      shouldAttachmentEndUpInRemoteBackup({
-        attachment: job.attachment,
+      isDownloadableFromBackupTier(job.attachment, {
         hasMediaBackups: backupsService.hasMediaBackups(),
       })
         ? BACKUP_RETRY_CONFIG
@@ -335,7 +330,7 @@ export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownload
     // For non-media-enabled backups, we will skip queueing download for old attachments
     // that cannot still be on the transit tier
     if (source === AttachmentDownloadSource.BACKUP_IMPORT_NO_MEDIA) {
-      if (attachment.error) {
+      if (!isDownloadableFromTransitTier(attachment)) {
         return attachment;
       }
 
@@ -606,7 +601,7 @@ export async function runDownloadAttachmentJob({
       log.info(`${logId}: Attachment is too big.`);
       await addAttachmentToMessage(
         message.id,
-        _markAttachmentAsTooBig(job.attachment),
+        markAttachmentAsErrored(job.attachment, 'too-big'),
         logId,
         { type: job.attachmentType }
       );
@@ -645,32 +640,54 @@ export async function runDownloadAttachmentJob({
       };
     }
 
-    if (error instanceof AttachmentPermanentlyUndownloadableError) {
+    if (error instanceof AttachmentUndownloadableFromTransitTierError) {
+      const erroredAttachment = markAttachmentAsErrored(
+        job.attachment,
+        'undownloadable-from-transit-tier'
+      );
+      await addAttachmentToMessage(message.id, erroredAttachment, logId, {
+        type: job.attachmentType,
+      });
+
+      if (job.source === AttachmentDownloadSource.BACKFILL) {
+        log.warn(
+          `${logId}: Attachment is missing from transit tier even after backfill response`
+        );
+        return { status: 'finished' };
+      }
+
       const canBackfill =
         job.isManualDownload &&
-        AttachmentBackfill.isEnabledForJob(
-          job.attachmentType,
-          message.attributes
+        isBackfillable({
+          attachment: erroredAttachment,
+          attachmentType: job.attachmentType,
+          isStory: message.attributes.type === 'story',
+        });
+
+      if (canBackfill) {
+        log.info(
+          `${logId}: Attachment could not be downloaded from transit tier; requesting backfill.`
         );
 
-      if (job.source !== AttachmentDownloadSource.BACKFILL && canBackfill) {
-        log.info(
-          `${logId}: Attachment is permanently undownloadable, requesting backfill.`
+        await addAttachmentToMessage(
+          job.messageId,
+          { ...erroredAttachment, pending: true },
+          logId,
+          { type: job.attachmentType }
         );
+
         await AttachmentDownloadManager.requestBackfill(message.attributes);
         return { status: 'finished' };
       }
 
-      log.info(`${logId}: Attachment is permanently undownloadable.`);
-
-      await addAttachmentToMessage(
-        message.id,
-        markAttachmentAsPermanentlyErrored(job.attachment, {
-          backfillError: false,
-        }),
-        logId,
-        { type: job.attachmentType }
-      );
+      if (
+        isDownloadableFromBackupTier(job.attachment, {
+          hasMediaBackups: options.hasMediaBackups,
+        }) ||
+        wasImportedFromLocalBackup(job.attachment)
+      ) {
+        return { status: 'retry' };
+      }
 
       return { status: 'finished' };
     }
@@ -680,16 +697,6 @@ export async function runDownloadAttachmentJob({
       log.info(logText);
     } else {
       log.warn(logText);
-    }
-
-    if (isLastAttempt) {
-      await addAttachmentToMessage(
-        message.id,
-        _markAttachmentAsTransientlyErrored(job.attachment),
-        logId,
-        { type: job.attachmentType }
-      );
-      return { status: 'finished' };
     }
 
     // Remove `pending` flag from the attachment and retry later
@@ -702,6 +709,10 @@ export async function runDownloadAttachmentJob({
       logId,
       { type: job.attachmentType }
     );
+
+    if (isLastAttempt) {
+      return { status: 'finished' };
+    }
     return { status: 'retry' };
   } finally {
     // This will fail if the message has been deleted before the download finished, which
@@ -753,8 +764,7 @@ export async function runDownloadAttachmentJobInner({
       `${logId}: Text attachment was ${size}, max is ${maxTextAttachmentSize}`
     );
   }
-  const mightBeInRemoteBackup = shouldAttachmentEndUpInRemoteBackup({
-    attachment,
+  const mightBeInRemoteBackup = isDownloadableFromBackupTier(attachment, {
     hasMediaBackups,
   });
   const wasAttachmentImportedFromLocalBackup =
@@ -812,16 +822,6 @@ export async function runDownloadAttachmentJobInner({
     logId,
     { type: attachmentType }
   );
-
-  if (
-    job.source !== AttachmentDownloadSource.BACKFILL &&
-    isPermanentlyUndownloadableWithoutBackfill(job.attachment)
-  ) {
-    // We should only get to here only if
-    throw new AttachmentPermanentlyUndownloadableError(
-      'Not downloadable without backfill'
-    );
-  }
 
   try {
     const { downloadPath } = attachment;
@@ -986,10 +986,11 @@ export async function runDownloadAttachmentJobInner({
         const message = await getMessageById(job.messageId);
         showToast =
           message != null &&
-          !AttachmentBackfill.isEnabledForJob(
+          !AttachmentBackfill.canRequestForAttachment({
+            attachment,
             attachmentType,
-            message.attributes
-          );
+            isStory: message.attributes.type === 'story',
+          });
       }
     }
 
@@ -1041,19 +1042,4 @@ async function downloadBackupThumbnail({
   };
 
   return attachmentWithThumbnail;
-}
-
-function _markAttachmentAsTooBig(attachment: AttachmentType): AttachmentType {
-  return {
-    ...markAttachmentAsPermanentlyErrored(attachment, {
-      backfillError: false,
-    }),
-    wasTooBig: true,
-  };
-}
-
-function _markAttachmentAsTransientlyErrored(
-  attachment: AttachmentType
-): AttachmentType {
-  return { ...attachment, pending: false, error: true };
 }

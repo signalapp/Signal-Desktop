@@ -809,7 +809,7 @@ export function canAttachmentHaveThumbnail({
   return isVideoTypeSupported(contentType) || isImageTypeSupported(contentType);
 }
 
-export function hasRequiredInformationToDownloadFromTransitTier(
+export function isDownloadableFromTransitTier(
   attachment: AttachmentType
 ): attachment is AttachmentDownloadableFromTransitTier {
   const hasIntegrityCheck =
@@ -830,25 +830,25 @@ export function hasRequiredInformationToDownloadFromTransitTier(
   return true;
 }
 
-export function shouldAttachmentEndUpInRemoteBackup({
-  attachment,
-  hasMediaBackups,
-}: {
-  attachment: AttachmentType;
-  hasMediaBackups: boolean;
-}): boolean {
-  return hasMediaBackups && hasRequiredInformationForRemoteBackup(attachment);
+export function isDownloadable(
+  attachment: AttachmentType,
+  { hasMediaBackups }: { hasMediaBackups: boolean }
+): boolean {
+  return (
+    isDownloadableFromTransitTier(attachment) ||
+    isDownloadableFromBackupTier(attachment, { hasMediaBackups })
+  );
 }
 
-export function isDownloadable(attachment: AttachmentType): boolean {
-  return (
-    hasRequiredInformationToDownloadFromTransitTier(attachment) ||
-    shouldAttachmentEndUpInRemoteBackup({
-      attachment,
-      // TODO: DESKTOP-8905
-      hasMediaBackups: true,
-    })
-  );
+export function isDownloadableFromBackupTier(
+  attachment: AttachmentType,
+  {
+    hasMediaBackups,
+  }: {
+    hasMediaBackups: boolean;
+  }
+): attachment is BackupableAttachmentType {
+  return hasMediaBackups && hasRequiredInformationForRemoteBackup(attachment);
 }
 
 // We now partition out the bodyAttachment on receipt, but older

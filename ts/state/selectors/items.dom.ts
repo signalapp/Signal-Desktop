@@ -267,6 +267,11 @@ export const getBackupKey = createSelector(
   (state: ItemsStateType) => state.accountEntropyPool
 );
 
+export const getHasMediaBackups = createSelector(
+  getItems,
+  (state: ItemsStateType): boolean => state.backupTier === BackupLevel.Paid
+);
+
 export const getServerAlerts = createSelector(
   getItems,
   (state: ItemsStateType) => state.serverAlerts ?? {}

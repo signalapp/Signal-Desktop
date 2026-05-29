@@ -2,14 +2,15 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import { ErrorCode, LibSignalErrorBase } from '@signalapp/libsignal-client';
 import {
-  hasRequiredInformationForRemoteBackup,
-  hasRequiredInformationToDownloadFromTransitTier,
+  isDownloadable,
+  isDownloadableFromBackupTier,
+  isDownloadableFromTransitTier,
   wasImportedFromLocalBackup,
 } from './Attachment.std.ts';
 import {
   type AttachmentType,
   AttachmentVariant,
-  AttachmentPermanentlyUndownloadableError,
+  AttachmentUndownloadableFromTransitTierError,
 } from '../types/Attachment.std.ts';
 import { downloadAttachment as doDownloadAttachment } from '../textsecure/downloadAttachment.preload.ts';
 import {
@@ -17,7 +18,10 @@ import {
   getAttachmentFromBackupTier,
 } from '../textsecure/WebAPI.preload.ts';
 import { downloadAttachmentFromLocalBackup as doDownloadAttachmentFromLocalBackup } from './downloadAttachmentFromLocalBackup.preload.ts';
-import { MediaTier } from '../types/AttachmentDownload.std.ts';
+import {
+  MediaTier,
+  type MessageAttachmentType,
+} from '../types/AttachmentDownload.std.ts';
 import { createLogger } from '../logging/log.std.ts';
 import { HTTPError } from '../types/HTTPError.std.ts';
 import { toLogFormat } from '../types/errors.std.ts';
@@ -26,6 +30,7 @@ import * as RemoteConfig from '../RemoteConfig.dom.ts';
 import { ToastType } from '../types/Toast.dom.tsx';
 import { isAbortError } from './isAbortError.std.ts';
 import { expiresTooSoonForBackup } from '../services/backups/util/expiration.std.ts';
+import { AttachmentBackfill } from '../jobs/helpers/attachmentBackfill.preload.ts';
 
 const log = createLogger('downloadAttachment');
 
@@ -62,38 +67,39 @@ export async function downloadAttachment({
     variant !== AttachmentVariant.Default ? `[${variant}]` : '';
   const logId = `${_logId}${variantForLogging}`;
 
-  const isBackupable = hasRequiredInformationForRemoteBackup(attachment);
+  const canAttemptLocalBackupDownload = wasImportedFromLocalBackup(attachment);
+  const canAttemptRemoteBackupDownload = isDownloadableFromBackupTier(
+    attachment,
+    {
+      hasMediaBackups,
+    }
+  );
+  const canAttemptTransitTierDownload =
+    isDownloadableFromTransitTier(attachment) &&
+    isVariantDownloadableFromTransitTier(variant);
 
-  const mightBeOnBackupTierNow = isBackupable && hasMediaBackups;
-  const mightBeExpiredFromBackupTier = expiresTooSoonForBackup({
-    messageExpiresAt,
-  });
-  const mightBeOnBackupTierInTheFuture =
-    isBackupable && !mightBeExpiredFromBackupTier;
-
-  if (wasImportedFromLocalBackup(attachment)) {
+  if (canAttemptLocalBackupDownload) {
     log.info(`${logId}: Downloading attachment from local backup`);
     try {
       const result = await dependencies.downloadAttachmentFromLocalBackup(
         attachment,
-        { logId }
+        {
+          logId,
+        }
       );
       onSizeUpdate(attachment.size);
       return result;
     } catch (error) {
-      if (isIncrementalMacVerificationError(error)) {
-        throw error;
-      }
-      // We also just log this error instead of throwing, since we want to still try to
-      // find it on the backup then transit tiers.
+      maybeRethrowFatalError(error);
+
       log.error(
-        `${logId}: error when downloading from local backup; will try backup and transit tier`,
+        `${logId}: error when downloading from local backup`,
         toLogFormat(error)
       );
     }
   }
 
-  if (mightBeOnBackupTierNow) {
+  if (canAttemptRemoteBackupDownload) {
     try {
       return await dependencies.downloadAttachmentFromServer(
         {
@@ -109,97 +115,73 @@ export async function downloadAttachment({
         }
       );
     } catch (error) {
-      if (isIncrementalMacVerificationError(error)) {
-        throw error;
-      }
-      if (isAbortError(error)) {
-        throw error;
-      }
-
-      const shouldFallbackToTransitTier =
-        variant !== AttachmentVariant.ThumbnailFromBackup &&
-        hasRequiredInformationToDownloadFromTransitTier(attachment);
+      maybeRethrowFatalError(error);
 
       if (
         RemoteConfig.isEnabled('desktop.internalUser') &&
-        !mightBeExpiredFromBackupTier
+        !expiresTooSoonForBackup({
+          messageExpiresAt,
+        })
       ) {
         window.reduxActions.toast.showToast({
           toastType: ToastType.UnableToDownloadFromBackupTier,
         });
       }
-
-      if (error instanceof HTTPError && error.code === 404) {
-        // This is an expected occurrence if restoring from a backup before the
-        // attachment has been moved to the backup tier
-        log.warn(
-          `${logId}: attachment not found on backup CDN`,
-          shouldFallbackToTransitTier ? 'will try transit tier' : ''
-        );
-
-        if (!mightBeOnBackupTierInTheFuture && !shouldFallbackToTransitTier) {
-          throw new AttachmentPermanentlyUndownloadableError(
-            `HTTP ${error.code}`
-          );
-        }
-      } else {
-        // We also just log this error instead of throwing, since we want to still try to
-        // find it on the attachment tier.
-        log.error(
-          `${logId}: error when downloading from backup CDN`,
-          shouldFallbackToTransitTier ? 'will try transit tier' : '',
-          toLogFormat(error)
-        );
-      }
-
-      if (!shouldFallbackToTransitTier) {
-        throw error;
-      }
     }
   }
 
-  try {
-    return await dependencies.downloadAttachmentFromServer(
-      {
-        getAttachment,
-        getAttachmentFromBackupTier,
-      },
-      { attachment, mediaTier: MediaTier.STANDARD },
-      {
-        logId,
-        onSizeUpdate,
-        variant,
-        abortSignal,
+  if (canAttemptTransitTierDownload) {
+    try {
+      return await dependencies.downloadAttachmentFromServer(
+        {
+          getAttachment,
+          getAttachmentFromBackupTier,
+        },
+        { attachment, mediaTier: MediaTier.STANDARD },
+        {
+          logId,
+          onSizeUpdate,
+          variant,
+          abortSignal,
+        }
+      );
+    } catch (error) {
+      maybeRethrowFatalError(error);
+
+      // Attachments on the transit tier expire after (message queue length + buffer) days,
+      // then start returning 404
+      if (error instanceof HTTPError && error.code === 404) {
+        throw new AttachmentUndownloadableFromTransitTierError(
+          `HTTP ${error.code}`
+        );
+      } else if (
+        error instanceof HTTPError &&
+        // CDN 0 can return 403 which means the same as 404 from other CDNs
+        error.code === 403 &&
+        (attachment.cdnNumber == null || attachment.cdnNumber === 0)
+      ) {
+        throw new AttachmentUndownloadableFromTransitTierError(
+          `HTTP ${error.code}`
+        );
+      } else {
+        throw error;
       }
+    }
+  } else {
+    throw new AttachmentUndownloadableFromTransitTierError(
+      'Attachment missing required information to download from transit tier'
     );
-  } catch (error) {
-    if (isIncrementalMacVerificationError(error)) {
-      throw error;
-    }
-    if (isAbortError(error)) {
-      throw error;
-    }
+  }
+}
 
-    if (mightBeOnBackupTierInTheFuture) {
-      // We don't want to throw the AttachmentPermanentlyUndownloadableError because we
-      // may just need to wait for this attachment to end up on the backup tier
-      throw error;
-    }
+// Some errors should be rethrown and we should avoid fallback download options
+function maybeRethrowFatalError(error: unknown) {
+  if (isIncrementalMacVerificationError(error)) {
+    throw error;
+  }
 
-    // Attachments on the transit tier expire after (message queue length + buffer) days,
-    // then start returning 404
-    if (error instanceof HTTPError && error.code === 404) {
-      throw new AttachmentPermanentlyUndownloadableError(`HTTP ${error.code}`);
-    } else if (
-      error instanceof HTTPError &&
-      // CDN 0 can return 403 which means the same as 404 from other CDNs
-      error.code === 403 &&
-      (attachment.cdnNumber == null || attachment.cdnNumber === 0)
-    ) {
-      throw new AttachmentPermanentlyUndownloadableError(`HTTP ${error.code}`);
-    } else {
-      throw error;
-    }
+  if (isAbortError(error)) {
+    throw error;
   }
 }
 
@@ -208,4 +190,41 @@ export function isIncrementalMacVerificationError(error: unknown): boolean {
     error instanceof LibSignalErrorBase &&
     error.code === ErrorCode.IncrementalMacVerificationFailed
   );
+}
+
+export function isBackfillable({
+  attachment,
+  attachmentType,
+  isStory,
+}: {
+  attachment: AttachmentType;
+  attachmentType: MessageAttachmentType;
+  isStory: boolean;
+}): boolean {
+  return AttachmentBackfill.canRequestForAttachment({
+    attachment,
+    attachmentType,
+    isStory,
+  });
+}
+
+export function isDownloadableOrBackfillable({
+  attachment,
+  attachmentType,
+  isStory,
+  hasMediaBackups,
+}: {
+  attachment: AttachmentType;
+  attachmentType: MessageAttachmentType;
+  isStory: boolean;
+  hasMediaBackups: boolean;
+}): boolean {
+  return (
+    isDownloadable(attachment, { hasMediaBackups }) ||
+    isBackfillable({ attachment, attachmentType, isStory })
+  );
+}
+
+function isVariantDownloadableFromTransitTier(variant: AttachmentVariant) {
+  return variant === AttachmentVariant.Default;
 }

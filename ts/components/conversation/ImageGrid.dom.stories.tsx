@@ -17,8 +17,6 @@ import {
 } from '../../types/MIME.std.ts';
 import { pngUrl, squareStickerUrl } from '../../storybook/Fixtures.std.ts';
 import { fakeAttachment } from '../../test-helpers/fakeAttachment.std.ts';
-import { strictAssert } from '../../util/assert.std.ts';
-import { isDownloadable } from '../../util/Attachment.std.ts';
 
 const { i18n } = window.SignalContext;
 
@@ -1076,10 +1074,6 @@ export function DownloadPill(args: Props): JSX.Element {
     cdnKey: 'mock-cdn-key',
     cdnNumber: 4000,
   });
-
-  // Pill only shows if the attachments are downloadable
-  strictAssert(isDownloadable(attachment1), 'attachment1 must be downloadable');
-  strictAssert(isDownloadable(attachment2), 'attachment2 must be downloadable');
 
   return <ImageGrid {...args} attachments={[attachment1, attachment2]} />;
 }

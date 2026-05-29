@@ -26,7 +26,10 @@ import {
   getUserACI,
   getUserPNI,
 } from './user.std.ts';
-import { getDefaultConversationColor } from './items.dom.ts';
+import {
+  getDefaultConversationColor,
+  getHasMediaBackups,
+} from './items.dom.ts';
 import { getActiveCall, getCallSelector } from './calling.std.ts';
 import { getPropsForBubble } from './message.preload.ts';
 import { getCallHistorySelector } from './callHistory.std.ts';
@@ -73,6 +76,7 @@ const getTimelineItem = (
   const pinnedMessagesMessageIds = getPinnedMessagesMessageIds(state);
   const selectedMessageIds = getSelectedMessageIds(state);
   const defaultConversationColor = getDefaultConversationColor(state);
+  const hasMediaBackups = getHasMediaBackups(state);
 
   return getPropsForBubble(message, {
     conversationSelector,
@@ -91,6 +95,7 @@ const getTimelineItem = (
     pinnedMessagesMessageIds,
     selectedMessageIds,
     defaultConversationColor,
+    hasMediaBackups,
   });
 };
 

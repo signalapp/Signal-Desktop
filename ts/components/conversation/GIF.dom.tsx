@@ -21,7 +21,6 @@ import {
   hasNotResolved,
   getImageDimensionsForTimeline,
   defaultBlurHash,
-  isDownloadable,
 } from '../../util/Attachment.std.ts';
 import * as Errors from '../../types/errors.std.ts';
 import { createLogger } from '../../logging/log.std.ts';
@@ -198,7 +197,7 @@ export function GIF(props: Props): JSX.Element {
 
   const isPending = Boolean(attachment.pending);
   const isNotResolved = hasNotResolved(attachment) && !isPending;
-  const isMediaDownloadable = isDownloadable(attachment);
+  const isMediaDownloadable = !attachment.isPermanentlyUndownloadable;
 
   let gif: JSX.Element | undefined;
   if (isNotResolved || isPending || !isMediaDownloadable) {
