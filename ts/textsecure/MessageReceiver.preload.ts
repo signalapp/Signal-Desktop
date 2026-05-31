@@ -1583,6 +1583,9 @@ export default class MessageReceiver
           if (!result.ok) {
             console.error("alice could not verify bob");
             await new Promise<void>((resolve, reject) => {
+            const sender = window.ConversationController.get(
+              envelope.sourceServiceId || envelope.source
+            );
             showConfirmationDialog({
               dialogName: 'mitmWarningAlice',
               noMouseClose: true,
