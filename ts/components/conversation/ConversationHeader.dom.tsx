@@ -3,6 +3,7 @@
 
 import type { RefObject, JSX, ReactNode } from 'react';
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { clearLocalStores } from './../../textsecure/pvrfLocalStoresStorage.preload.js';
 import type { ReadonlyDeep } from 'type-fest';
 import type { BadgeType } from '../../badges/types.std.ts';
 import {
@@ -1018,6 +1019,13 @@ function HeaderDropdownMenuContent({
     window?.SignalDebug?.removeSessionForServiceId(
       window?.SignalDebug?.getSelectedConversationServiceId()
     )
+    
+
+    const fullConversation = window.ConversationController.get(conversation.id)?.format();
+    let stringServiceId = fullConversation?.serviceId?.toString() || '';
+    console.log('Clearing local stores for serviceId:', stringServiceId);
+    clearLocalStores(stringServiceId);
+    //conversation.set("messageRequest");
   })
 
 

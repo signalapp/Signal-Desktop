@@ -43,16 +43,20 @@ export async function getLocalStores(
 
 export async function clearLocalStores(
   serviceId: string,
-  deviceId: number,
+  deviceId?: number,
   key?: string
 ): Promise<void> {
-  const store = await readStore(key);
-  const did = String(deviceId);
+  const store = key ? await readStore(key) : await readStore();
+  const did = deviceId ? String(deviceId) : "";
 
   if (!store[serviceId]) return;
 
-  delete store[serviceId][did];
-  if (Object.keys(store[serviceId]).length === 0) delete store[serviceId];
+  if (did != "") {
+    delete store[serviceId][did];
+    if (Object.keys(store[serviceId]).length === 0) delete store[serviceId];
+  } else {
+    delete store[serviceId];
+  }
 
   await writeStore(store);
 }

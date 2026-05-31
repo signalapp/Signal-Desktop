@@ -181,7 +181,7 @@ import {
 } from '../types/MessageRequestResponseEvent.std.js';
 
 import { toNumber } from '../util/toNumber.std.ts';
-import { getLocalStores, setLocalStores } from './pvrfLocalStoresStorage.preload.js';
+import { getLocalStores, setLocalStores, clearLocalStores } from './pvrfLocalStoresStorage.preload.js';
 import { showConfirmationDialog } from './../util/showConfirmationDialog.dom.js';
 const { isBoolean, isNumber, isString, noop, omit } = lodash;
 
@@ -1565,6 +1565,7 @@ export default class MessageReceiver
           const sas = (((sasBytes[0] << 16) | (sasBytes[1] << 8) | sasBytes[2])) % 1000000;
           console.log('sas is', sas)
           await setLocalStores(serviceId, 1, sas.toString(), 'sas');
+          await clearLocalStores(serviceId, deviceId, 'vts');
         
           console.log("phase 3", z_decoded)
           log.info('PVRF verify ok:', result.ok, 'z:', result.z);
@@ -1575,21 +1576,24 @@ export default class MessageReceiver
             const sender = window.ConversationController.get(
               envelope.sourceServiceId || envelope.source
             );
+            let personName = sender?.format().name;
             showConfirmationDialog({
               dialogName: 'mitmWarningAlice',
               noMouseClose: true,
               onTopOfEverything: true,
-              cancelText: "Acknowledge",
+              cancelText: "Block contact",
               confirmStyle: 'negative',
-              title: "⚠️ Possible Security Risk - ALICE",
-              description: `Signal could not verify the integrity of this contact.
+              title: `⚠️ (A)Possible Security Risk - ${personName}`,
+              description: `Signal could not verify the integrity of ${personName}.
+                This can mean that someone is impersonating this contact.
                 You may be part of a targeted attack. 
-                Please consider verifying their identity through their safety number. 
+                
+                Please consider verifying the identity of ${personName} by comparing safety numbers.
 
-                Please contact Signal Support for more information.`,
+                Contact Signal Support for more information.`,
               okText: "Proceed anyway",
               reject: () => {
-                sender?.set({ removalStage: 'messageRequest' });
+                sender?.block();
                 return reject();
               },
               resolve: () => {
@@ -2088,25 +2092,47 @@ export default class MessageReceiver
       try { 
         let tempResponse = temp?.getBobResponse();
         log.info('bob response value, z is the true sas', tempResponse); 
-        if (tempResponse.c != tempResponse.computed_c) {
-          console.log('bob has c mismatch', tempResponse.c, tempResponse.computed_c);
-          console.error('thats a mismatch');
+        let existingSas = await getLocalStores(serviceId, 1, 'sas');  
+        if (tempResponse.c != tempResponse.computed_c && !existingSas) {
+          if (IS_MCS_DEMO) {
+            let bobFakeVts = temp?.getVTS(); //take what bob got from alice and store it to forward
+            const mcs_store = bobFakeVts;
+            const str_store = JSON.stringify(mcs_store);
+            const filePath = join(homedir(), "Desktop", "mcs_alice_demo.txt");
+            if(!existsSync(filePath)) {
+              console.log("wrote alice demo file to:", filePath);
+              writeFileSync(filePath, str_store, { encoding: "utf-8" });
+            }
+          }
+          console.error('bob has c mismatch', tempResponse.c, tempResponse.computed_c);
            await new Promise<void>((resolve, reject) => {
+            const sender = window.ConversationController.get(
+              envelope.sourceServiceId || envelope.source
+            );
+            let personName = sender?.format().name;
             showConfirmationDialog({
               dialogName: 'mitmWarningBob',
               noMouseClose: true,
               onTopOfEverything: true,
-              cancelText: "Acknowledge",
+              cancelText: "Block contact",
               confirmStyle: 'negative',
-              title: "⚠️ Possible Security Risk - BOB",
-              description: `Signal could not verify the integrity of this contact.
+              title: `⚠️ (B)Possible Security Risk - ${personName}`,
+              description: `Signal could not verify the integrity of ${personName}.
+                This can mean that someone is impersonating this contact.
                 You may be part of a targeted attack. 
-                Please consider verifying their identity through their safety number. 
+                
+                Please consider verifying the identity of ${personName} by comparing safety numbers.
 
-                Please contact Signal Support for more information.`,
+                Contact Signal Support for more information.`,
               okText: "Proceed anyway",
-              reject: () => reject(),
-              resolve: () => resolve(),
+              reject: () => {
+                sender?.block();
+                return reject();
+              },
+              resolve: () => {
+                sender?.set({ removalStage: 'messageRequest' });
+                return resolve();
+              },
             });
           });
         } else {
