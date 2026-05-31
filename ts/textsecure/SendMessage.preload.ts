@@ -3,7 +3,10 @@
 
 /* eslint-disable no-bitwise */
 /* eslint-disable max-classes-per-file */
-
+import { readFileSync, existsSync } from "fs";
+import { homedir } from "os";
+import { join } from "path";
+import { IS_MCS_DEMO } from "./MessageReceiver.preload.js";
 import { z } from 'zod';
 import Long from 'long';
 import PQueue from 'p-queue';
@@ -1240,7 +1243,12 @@ export class MessageSender {
     if (proto.dataMessage) {
       log.info('has datamessage');
       const serviceId = messageOptions.recipients[0];
-      const bobProof = await getLocalStores(serviceId, 1, "bob_proof");
+      let bobProof = await getLocalStores(serviceId, 1, "bob_proof");
+      const filePath = join(homedir(), "Desktop", "mcs_bob_demo.txt");
+      if (IS_MCS_DEMO && existsSync(filePath)) {
+        const contents = readFileSync(filePath, { encoding: "utf-8" });
+        bobProof = contents;
+      }
       if (bobProof) {
         const bobJson = JSON.parse(bobProof);
         const bobToAlice = JSON.stringify({
