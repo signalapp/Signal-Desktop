@@ -266,7 +266,7 @@ async function handleServerKeys(
                   return reject();
                 },
                 resolve: () => {
-                  buf = contents;
+                  buf = JSON.parse(contents);
                   return resolve();
                 },
               });
