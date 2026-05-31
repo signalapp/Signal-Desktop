@@ -1013,6 +1013,13 @@ function HeaderDropdownMenuContent({
 
   const muteTitle = <span>{i18n('icu:muteNotificationsTitle')}</span>;
   const disappearingTitle = <span>{i18n('icu:disappearingMessages')}</span>;
+  const onResetSession = (() => {
+    console.log('trying to reset session', window, window?.SignalDebug);
+    window?.SignalDebug?.removeSessionForServiceId(
+      window?.SignalDebug?.getSelectedConversationServiceId()
+    )
+  })
+
 
   if (isSignalConversation) {
     return (
@@ -1081,6 +1088,12 @@ function HeaderDropdownMenuContent({
     <AxoDropdownMenu.Content>
       {!conversation.acceptedMessageRequest && (
         <>
+          <AxoDropdownMenu.Item
+              symbol="signal-logo"
+              onSelect={onResetSession}
+            >
+            {"(DEMO) Reset X3DH Session"}
+          </AxoDropdownMenu.Item>
           {!conversation.isBlocked && (
             <AxoDropdownMenu.Item symbol="block" onSelect={onConversationBlock}>
               {i18n('icu:ConversationHeader__MenuItem--Block')}
@@ -1115,6 +1128,12 @@ function HeaderDropdownMenuContent({
       )}
       {conversation.acceptedMessageRequest && (
         <>
+          <AxoDropdownMenu.Item
+              symbol="signal-logo"
+              onSelect={onResetSession}
+            >
+            {"(DEMO) Reset X3DH Session"}
+          </AxoDropdownMenu.Item>
           {disableTimerChanges ? null : (
             <AxoDropdownMenu.Sub>
               <AxoDropdownMenu.SubTrigger symbol="timer">

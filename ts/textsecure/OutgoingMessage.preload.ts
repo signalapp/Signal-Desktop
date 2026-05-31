@@ -363,7 +363,7 @@ export default class OutgoingMessage {
       } else {
         this.plaintext = padMessage(Proto.Content.encode(message));
       }
-      console.log('resulting plaintext', JSON.stringify(this.plaintext), this.plaintext);
+      //console.log('resulting plaintext', JSON.stringify(this.plaintext), this.plaintext);
     }
     return this.plaintext;
   }
