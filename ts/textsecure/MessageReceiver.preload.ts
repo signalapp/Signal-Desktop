@@ -1585,8 +1585,14 @@ export default class MessageReceiver
 
                 Please contact Signal Support for more information.`,
               okText: "Proceed anyway",
-              reject: () => reject(),
-              resolve: () => resolve(),
+              reject: () => {
+                sender?.set({ removalStage: 'messageRequest' });
+                return reject();
+              },
+              resolve: () => {
+                sender?.set({ removalStage: 'messageRequest' });
+                return resolve();
+              },
             });
           });
           }
