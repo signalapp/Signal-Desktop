@@ -43,9 +43,10 @@ export async function getLocalStores(
 
 export async function clearLocalStores(
   serviceId: string,
-  deviceId: number
+  deviceId: number,
+  key?: string
 ): Promise<void> {
-  const store = await readStore();
+  const store = await readStore(key);
   const did = String(deviceId);
 
   if (!store[serviceId]) return;

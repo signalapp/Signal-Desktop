@@ -197,7 +197,8 @@ async function handleServerKeys(
 
       try {
         log.info(
-          'this is x3dh SEND probably',
+          'this is x3dh SEND',
+          deviceId,
           preKeyBundle,
           protocolAddress,
           sessionStore,
@@ -213,50 +214,45 @@ async function handleServerKeys(
             identityKeyStore
           )
         );
-        log.info(
-          'after x3dh',
-          preKeyBundle,
-          protocolAddress,
-          sessionStore,
-          identityKeyStore,
-          signalProtocolStore
-        );
+        // log.info(
+        //   'after x3dh',
+        //   preKeyBundle,
+        //   protocolAddress,
+        //   sessionStore,
+        //   identityKeyStore,
+        //   signalProtocolStore
+        // );
 
 
 
-        //maybe problem if user loses their main device?
-        //end goal maybe calc for 1 device, using that data for all
-        //but would require synchronosity, doing device 1 first, then allowing others to run
-        //remove the true || to test 
-        if (deviceId == 1 || true) {
 
-          const temp = await sessionStore.getSession(protocolAddress);
-          log.info('got session', temp, device, temp?.getBobResponse);
+        const temp = await sessionStore.getSession(protocolAddress);
+        log.info('got session', temp, device, temp?.getBobResponse);
 
-          try { log.info('VTS value', temp?.getVTS?.()); } catch (e) { log.error('error getting VTS', e); }
-          const buf = temp?.getVTS?.();
-          try {
-            const s1 = buf.vt.tau[0]
-            const s2_1 = buf.vt.tau[1][0]
-            const s2_2 = buf.vt.tau[1][1]
+        try { log.info('VTS value', temp?.getVTS?.()); } catch (e) { log.error('error getting VTS', e); }
+        const buf = temp?.getVTS?.();
+        try {
+          const s1 = buf.vt.tau[0]
+          const s2_1 = buf.vt.tau[1][0]
+          const s2_2 = buf.vt.tau[1][1]
 
-            const h = buf.vt.h;
-            const hprime = buf.vt.hprime;
-            const tau = { c: s1, s: [s2_1, s2_2] };
-            const vt = { h, hprime, tau };
-            const vk = buf.vk;
-            const secrets = buf.x;
-            const alpha = buf.r1;
-            const beta = buf.r2;
-            const salt = buf.contrib_salt;
-            const vts = { vt, vk, secrets, alpha, beta, salt };
+          const h = buf.vt.h;
+          const hprime = buf.vt.hprime;
+          const tau = { c: s1, s: [s2_1, s2_2] };
+          const vt = { h, hprime, tau };
+          const vk = buf.vk;
+          const secrets = buf.x;
+          const alpha = buf.r1;
+          const beta = buf.r2;
+          const salt = buf.contrib_salt;
+          const vts = { vt, vk, secrets, alpha, beta, salt };
 
-            await setLocalStores(serviceId, deviceId, JSON.stringify(vts), 'vts');
-          } catch (err){
-            log.error('error parsing VTS', err, err.stack);
-          }
-      
+          await setLocalStores(serviceId, deviceId, JSON.stringify(vts), 'vts');
+        } catch (err){
+          log.error('error parsing VTS', err, err.stack);
         }
+      
+        
       } 
      catch (error) {
         if (

@@ -1899,7 +1899,8 @@ export default class MessageReceiver
       () => {
         if (message instanceof PreKeySignalMessage) {
           log.info(
-            '222 this is x3dh receive? probably',
+            'this is x3dh RECEIVE',
+            envelope.sourceDevice,
             message,
             protocolAddress,
             sessionStore,
@@ -1919,7 +1920,7 @@ export default class MessageReceiver
             kyberPreKeyStore
           );
         }
-        log.info('333 alternate receeive');
+        log.info('alternate x3dh receive');
         return signalDecrypt(
           message,
           protocolAddress,

@@ -201,6 +201,7 @@ declare global {
 
     // TODO DESKTOP-4801
     SignalContext: SignalContextType;
+    SignalDebug: any;
 
     SignalClipboard: {
       clear: () => void;

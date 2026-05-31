@@ -112,7 +112,7 @@ import type {
   SendUnpinMessageType,
 } from '../types/PinnedMessage.std.js';
 
-import { getLocalStores, setLocalStores } from './pvrfLocalStoresStorage.preload.js';
+import { getLocalStores, clearLocalStores } from './pvrfLocalStoresStorage.preload.js';
 
 
 const log = createLogger('SendMessage');
@@ -1236,20 +1236,18 @@ export class MessageSender {
       ...messageOptions,
       includePniSignatureMessage,
     });
-    log.info('the proto is', proto);
-    const stringifiedProto = JSON.stringify(proto);
-    log.info('the stringified proto is', stringifiedProto);
-    log.info('if ithas a datamessage', proto.dataMessage);
+    //log.info('the proto is', proto);
+    //log.info('if ithas a datamessage', proto.dataMessage);
     if (proto.dataMessage) {
-      log.info('has datamessage');
+      //log.info('has datamessage');
       const serviceId = messageOptions.recipients[0];
       let bobProof = await getLocalStores(serviceId, 1, "bob_proof");
-      const filePath = join(homedir(), "Desktop", "mcs_bob_demo.txt");
-      if (IS_MCS_DEMO && existsSync(filePath)) {
-        const contents = readFileSync(filePath, { encoding: "utf-8" });
-        bobProof = contents;
-      }
       if (bobProof) {
+        const filePath = join(homedir(), "Desktop", "mcs_bob_demo.txt");
+        if (IS_MCS_DEMO && existsSync(filePath)) {
+          const contents = readFileSync(filePath, { encoding: "utf-8" });
+          bobProof = contents;
+        }
         const bobJson = JSON.parse(bobProof);
         const bobToAlice = JSON.stringify({
           response: {
@@ -1257,9 +1255,9 @@ export class MessageSender {
           }
         })
         proto.dataMessage.bobProof = bobToAlice;
+        await clearLocalStores(serviceId, 1, "bob_proof");
         log.info('the proto with injected bob proof is', bobToAlice, proto, proto.dataMessage);
       } else {
-        proto.dataMessage.bobProof = JSON.stringify({"noBobProof": true});
         log.info('no bob proof available for', serviceId);
       }
     }
