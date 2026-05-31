@@ -1020,11 +1020,13 @@ function HeaderDropdownMenuContent({
       window?.SignalDebug?.getSelectedConversationServiceId()
     )
     
-
     const fullConversation = window.ConversationController.get(conversation.id)?.format();
     let stringServiceId = fullConversation?.serviceId?.toString() || '';
     console.log('Clearing local stores for serviceId:', stringServiceId);
-    clearLocalStores(stringServiceId);
+    clearLocalStores(stringServiceId, undefined, 'sas');
+    clearLocalStores(stringServiceId, undefined, 'vts');
+    clearLocalStores(stringServiceId, undefined, 'bob_proof');
+    onConversationDeleteMessages();
     //conversation.set("messageRequest");
   })
 
