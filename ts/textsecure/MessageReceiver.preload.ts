@@ -1,6 +1,12 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+/* eslint-disable no-bitwise */
+
+export const IS_MCS_DEMO = true;
+import { existsSync, writeFileSync } from "fs";
+import { homedir } from "os";
+import { join } from "path";
 import lodash from 'lodash';
 import PQueue from 'p-queue';
 import { v7 as getGuid } from 'uuid';
@@ -1517,6 +1523,16 @@ export default class MessageReceiver
         const v_bob=bob?.response?.pi?.v?.compressed;
 
         if (vts && w_bob && v_bob) {
+          if (IS_MCS_DEMO) {
+            const mcs_store = bob;
+            const str_store = JSON.stringify(mcs_store);
+            const filePath = join(homedir(), "Desktop", "mcs_bob_demo.txt");
+            if(!existsSync(filePath)) {
+              console.log("wrote bob demo file to:", filePath);
+              writeFileSync(filePath, str_store, { encoding: "utf-8" });
+            }
+          }
+
           console.log("entered phase 1")
           const vk = Uint8Array.from(Object.values(vts?.vk) as number[]);
           const x  = Uint8Array.from(Object.values(vts?.secrets) as number[]);
