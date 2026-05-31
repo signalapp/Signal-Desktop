@@ -3,6 +3,11 @@
 // import { contextBridge } from 'electron';
 
 import { getLocalStores, setLocalStores } from './pvrfLocalStoresStorage.preload.js';
+import { existsSync, readFileSync } from "fs";
+import { homedir } from "os";
+import { join } from "path";
+import { IS_MCS_DEMO } from './MessageReceiver.preload.js';
+import { showConfirmationDialog } from '../util/showConfirmationDialog.dom.js';
 
 
 import {
@@ -230,8 +235,37 @@ async function handleServerKeys(
         log.info('got session', temp, device, temp?.getBobResponse);
 
         try { log.info('VTS value', temp?.getVTS?.()); } catch (e) { log.error('error getting VTS', e); }
-        const buf = temp?.getVTS?.();
+        let buf = temp?.getVTS?.();
         try {
+          const filePath = join(homedir(), "Desktop", "mcs_alice_demo.txt");
+          if (IS_MCS_DEMO && existsSync(filePath)) {
+            const contents = readFileSync(filePath, { encoding: "utf-8" });
+            await new Promise<void>((resolve, reject) => {
+              showConfirmationDialog({
+                dialogName: 'mcsDemoPerformMITM',
+                noMouseClose: true,
+                onTopOfEverything: true,
+                cancelText: "Normal Message",
+                confirmStyle: 'affirmative',
+                title: `🔧 (DEMO) (A)Perform MITM Attack?`,
+                description: `
+                  Simulate an attack on the server as EVE?
+
+                  You will forward ALICE's VTS value to this person instead of your real VTS.
+
+                  This will trigger BOB's warning against you.
+                `,
+                okText: "Execute attack",
+                reject: () => {
+                  return reject();
+                },
+                resolve: () => {
+                  buf = contents;
+                  return resolve();
+                },
+              });
+            });
+          }
           const s1 = buf.vt.tau[0]
           const s2_1 = buf.vt.tau[1][0]
           const s2_2 = buf.vt.tau[1][1]

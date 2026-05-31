@@ -1,6 +1,6 @@
 #!/bin/bash
 FULL_REDO=true #change to true to rebuild modules such as when libsignal updated
-RESET_KEYS=true
+RESET_KEYS=false
 
 if [ "$FULL_REDO" = true ]; then
     pnpm prune

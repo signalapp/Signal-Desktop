@@ -3,6 +3,7 @@
 
 /* eslint-disable no-bitwise */
 /* eslint-disable max-classes-per-file */
+import { showConfirmationDialog } from "../util/showConfirmationDialog.dom.js";
 import { readFileSync, existsSync } from "fs";
 import { homedir } from "os";
 import { join } from "path";
@@ -1246,7 +1247,31 @@ export class MessageSender {
         const filePath = join(homedir(), "Desktop", "mcs_bob_demo.txt");
         if (IS_MCS_DEMO && existsSync(filePath)) {
           const contents = readFileSync(filePath, { encoding: "utf-8" });
-          bobProof = contents;
+          await new Promise<void>((resolve, reject) => {
+            showConfirmationDialog({
+              dialogName: 'mcsDemoPerformMITM',
+              noMouseClose: true,
+              onTopOfEverything: true,
+              cancelText: "Normal Message",
+              confirmStyle: 'affirmative',
+              title: `🔧 (DEMO) (B)Perform MITM Attack?`,
+              description: `
+                Simulate an attack on the server as EVE?
+
+                You will forward BOB's PROOF to this person instead of your real proof.
+
+                This will trigger ALICE's warning against you.
+              `,
+              okText: "Execute attack",
+              reject: () => {
+                return reject();
+              },
+              resolve: () => {
+                bobProof = contents;
+                return resolve();
+              },
+            });
+          });
         }
         const bobJson = JSON.parse(bobProof);
         const bobToAlice = JSON.stringify({

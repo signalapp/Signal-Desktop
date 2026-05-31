@@ -1,6 +1,7 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { clearLocalStores } from './../../textsecure/pvrfLocalStoresStorage.preload.js';
 import classNames from 'classnames';
 import type { RefObject } from 'react';
 import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -1001,6 +1002,13 @@ function HeaderDropdownMenuContent({
     window?.SignalDebug?.removeSessionForServiceId(
       window?.SignalDebug?.getSelectedConversationServiceId()
     )
+    
+
+    const fullConversation = window.ConversationController.get(conversation.id)?.format();
+    let stringServiceId = fullConversation?.serviceId?.toString() || '';
+    console.log('Clearing local stores for serviceId:', stringServiceId);
+    clearLocalStores(stringServiceId);
+    //conversation.set("messageRequest");
   })
 
 
