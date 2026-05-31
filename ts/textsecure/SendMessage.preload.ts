@@ -1267,7 +1267,7 @@ export class MessageSender {
                 return reject();
               },
               resolve: () => {
-                bobProof = contents;
+                bobProof = JSON.parse(contents);
                 return resolve();
               },
             });
