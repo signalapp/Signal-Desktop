@@ -2084,20 +2084,13 @@ export default class MessageReceiver
         response: null,
       };
       try { 
+        const sasBytes = temp?.getSAS();
+        const sas = (((sasBytes[0] << 16) | (sasBytes[1] << 8) | sasBytes[2])) % 1000000;
         let tempResponse = temp?.getBobResponse();
         log.info('bob response value, z is the true sas', tempResponse); 
         let existingSas = await getLocalStores(serviceId, 1, 'sas');  
-        if (tempResponse.c != tempResponse.computed_c && !existingSas) {
-          if (IS_MCS_DEMO) {
-            let bobFakeVts = temp?.getVTS(); //take what bob got from alice and store it to forward
-            const mcs_store = bobFakeVts;
-            const str_store = JSON.stringify(mcs_store);
-            const filePath = join(homedir(), "Desktop", "mcs_alice_demo.txt");
-            if(!existsSync(filePath)) {
-              console.log("wrote alice demo file to:", filePath);
-              writeFileSync(filePath, str_store, { encoding: "utf-8" });
-            }
-          }
+        let alreadyChecked = existingSas == sas.toString();
+        if (tempResponse.c != tempResponse.computed_c && !alreadyChecked) {         
           console.error('bob has c mismatch', tempResponse.c, tempResponse.computed_c);
            await new Promise<void>((resolve, reject) => {
             const sender = window.ConversationController.get(
@@ -2129,13 +2122,20 @@ export default class MessageReceiver
               },
             });
           });
-        } else {
+        } else if (!alreadyChecked) {
           console.log('bob has c match', tempResponse.c, tempResponse.computed_c);
+          if (IS_MCS_DEMO) {
+            let bobFakeVts = temp?.getVTS(); //take what bob got from alice and store it to forward
+            const mcs_store = bobFakeVts;
+            const str_store = JSON.stringify(mcs_store);
+            const filePath = join(homedir(), "Desktop", "mcs_alice_demo.txt");
+            if(!existsSync(filePath)) {
+              console.log("wrote alice demo file to:", filePath);
+              writeFileSync(filePath, str_store, { encoding: "utf-8" });
+            }
+          }
         }
-        const sasBytes = temp?.getSAS();
-        console.log('sasbytes is', sasBytes);
-        const sas = (((sasBytes[0] << 16) | (sasBytes[1] << 8) | sasBytes[2])) % 1000000;
-        console.log("sas is", sas);
+
         await setLocalStores(serviceId, 1, sas.toString(), 'sas');  
         bobResponseObject.response = tempResponse;
         // console.log('storing sas', tempResponse.z_decoded);
