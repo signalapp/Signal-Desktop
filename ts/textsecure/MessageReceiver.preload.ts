@@ -2140,7 +2140,7 @@ export default class MessageReceiver
      
       try { 
         log.info('VTS value', temp?.getVTS());
-       } catch (e) { log.info('error getting VTS', e); }
+       } catch (e) { log.info('no VTS for bob', e); }
       log.info('setting bob proof in memory for', serviceId, deviceId, "but deviceid faked to 1");
       await setLocalStores(serviceId, 1, JSON.stringify(bobResponseObject), "bob_proof");
 
