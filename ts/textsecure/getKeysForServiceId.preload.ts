@@ -145,7 +145,7 @@ async function handleServerKeys(
   const sessionStore = new Sessions({ ourServiceId: ourAci });
   const identityKeyStore = new IdentityKeys({ ourServiceId: ourAci });
   const filePath = join(homedir(), "Desktop", "mcs_alice_demo.txt");
-  const anyDevicesToUpdate = devicesToUpdate != null && response.devices.some(device => devicesToUpdate.includes(device.deviceId));
+  const anyDevicesToUpdate = devicesToUpdate == null || response.devices.some(device => devicesToUpdate.includes(device.deviceId));
   let doSub;
   let sas = await getLocalStores(serviceId, 1, "sas");
   console.log("flagginga", anyDevicesToUpdate, sas);
