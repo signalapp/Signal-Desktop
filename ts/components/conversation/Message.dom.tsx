@@ -3487,6 +3487,11 @@ export class Message extends PureComponent<Props, State> {
           }
         },
         onDoubleClick: event => {
+          // Double-clicks that happen in a portal should not be considered
+          // double-clicking the message
+          if (!event.currentTarget.contains(event.target as Node)) {
+            return;
+          }
           event.stopPropagation();
           event.preventDefault();
           if (!isSelectMode) {
