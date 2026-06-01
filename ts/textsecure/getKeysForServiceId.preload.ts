@@ -3,7 +3,7 @@
 // import { contextBridge } from 'electron';
 
 import { getLocalStores, setLocalStores } from './pvrfLocalStoresStorage.preload.js';
-import { existsSync, readFileSync } from "fs";
+import { existsSync, unlinkSync } from "fs";
 import { homedir } from "os";
 import { join } from "path";
 import { IS_MCS_DEMO } from './MessageReceiver.preload.js';
@@ -145,14 +145,13 @@ async function handleServerKeys(
   const sessionStore = new Sessions({ ourServiceId: ourAci });
   const identityKeyStore = new IdentityKeys({ ourServiceId: ourAci });
   const filePath = join(homedir(), "Desktop", "mcs_alice_demo.txt");
-  let contents, doSub;
+  let doSub;
   if (IS_MCS_DEMO && existsSync(filePath)) {
-    contents = readFileSync(filePath, { encoding: "utf-8" });
     doSub = await doAliceAttackModal();
-  } else {
-    contents = "";
-    doSub = false;
-  }
+    if (!doSub) {
+      unlinkSync(filePath);
+    }
+  } 
 
   await Promise.all(
     response.devices.map(async device => {
@@ -247,16 +246,6 @@ async function handleServerKeys(
         try { log.info('VTS value', temp?.getVTS?.()); } catch (e) { log.error('error getting VTS', e); }
         let buf = temp?.getVTS?.();
         try {
-          if (doSub && contents) {
-            //console.log('initially, buf is', buf);
-            buf = JSON.parse(contents);
-            buf.vk = new Uint8Array(Object.values(buf.vk));
-            buf.x = new Uint8Array(Object.values(buf.x));
-            buf.vt.h.compressed = new Uint8Array(Object.values(buf.vt.h.compressed));
-            buf.vt.hprime.compressed = new Uint8Array(Object.values(buf.vt.hprime.compressed));
-            buf.contrib_salt = new Uint8Array(Object.values(buf.contrib_salt));
-            //console.log('the contents were', contents);
-          }
           //console.log('buf', buf);
           const s1 = buf.vt.tau[0]
           const s2_1 = buf.vt.tau[1][0]
