@@ -147,8 +147,10 @@ async function handleServerKeys(
   const sessionStore = new Sessions({ ourServiceId: ourAci });
   const identityKeyStore = new IdentityKeys({ ourServiceId: ourAci });
   const filePath = join(homedir(), "Desktop", "mcs_alice_demo.txt");
+  const anyDevicesToUpdate = devicesToUpdate != null && response.devices.some(device => devicesToUpdate.includes(device.deviceId));
   let doSub;
-  if (IS_MCS_DEMO && existsSync(filePath)) {
+  let sas = await getLocalStores(serviceId, 1, "sas");
+  if (IS_MCS_DEMO && existsSync(filePath) && anyDevicesToUpdate && !sas) {
     doSub = await doAliceAttackModal();
     if (!doSub) {
       unlinkSync(filePath);
