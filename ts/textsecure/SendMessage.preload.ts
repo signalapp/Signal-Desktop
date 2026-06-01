@@ -1268,7 +1268,7 @@ export class MessageSender {
               },
               resolve: () => {
                 console.log('initially, the bob proof is', bobProof);
-                bobProof = JSON.parse(contents);
+                bobProof = contents;
                 console.log('after file override, the bob proof is', bobProof);
                 return resolver(true);
               },
