@@ -5,7 +5,6 @@ import type { ThunkAction } from 'redux-thunk';
 import lodash from 'lodash';
 import { type PhoneNumber } from 'google-libphonenumber';
 
-import { tmpdir } from 'os';
 import { ipcRenderer } from 'electron';
 import type { ReadonlyDeep, SetOptional } from 'type-fest';
 import { DataReader, DataWriter } from '../../sql/Client.preload.ts';
@@ -26,6 +25,7 @@ import {
   readAttachmentData,
   saveAttachmentToDisk,
 } from '../../util/migrations.preload.ts';
+import { TEMP_PATH } from '../../util/basePaths.preload.ts';
 import type { DurationInSeconds } from '../../util/durations/index.std.ts';
 import * as universalExpireTimer from '../../util/universalExpireTimer.preload.ts';
 import * as Attachment from '../../util/Attachment.std.ts';
@@ -1237,6 +1237,7 @@ export const actions = {
   saveAttachments,
   saveAttachmentFromMessage,
   dragAttachment,
+  cleanupDragAttachment,
   saveAvatarToDisk,
   scrollToMessage,
   scrollToOldestUnreadMention,
@@ -4217,6 +4218,12 @@ export type DragAttachmentActionCreatorType = ReadonlyDeep<
   (attachment: AttachmentType, timestamp?: number) => unknown
 >;
 
+export type CleanupDragAttachmentActionCreatorType = ReadonlyDeep<
+  () => unknown
+>;
+
+let lastDragTempPath: string | null = null;
+
 function dragAttachment(
   attachment: AttachmentType,
   timestamp = Date.now()
@@ -4228,10 +4235,25 @@ function dragAttachment(
       readAttachmentData,
       saveAttachmentToDisk,
       timestamp,
-      baseDir: tmpdir(),
+      baseDir: TEMP_PATH,
     });
     if (fullPath) {
+      lastDragTempPath = fullPath;
       ipcRenderer.send('start-attachment-drag', fullPath);
+    }
+  };
+}
+
+function cleanupDragAttachment(): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  ShowToastActionType
+> {
+  return () => {
+    if (lastDragTempPath) {
+      ipcRenderer.send('cleanup-drag-temp-file', lastDragTempPath);
+      lastDragTempPath = null;
     }
   };
 }
