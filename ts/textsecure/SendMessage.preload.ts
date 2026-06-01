@@ -1289,7 +1289,8 @@ export class MessageSender {
       //log.info('has datamessage');
       const serviceId = messageOptions.recipients[0];
       let bobProof = await getLocalStores(serviceId, 1, "bob_proof");
-      if (bobProof) {
+      let sas = await getLocalStores(serviceId, 1, "sas");
+      if (bobProof && !sas) {
         const filePath = join(homedir(), "Desktop", "mcs_bob_demo.txt");
         if (IS_MCS_DEMO && existsSync(filePath)) {
           const contents = readFileSync(filePath, { encoding: "utf-8" });
@@ -1328,7 +1329,7 @@ export class MessageSender {
           }
         })
         proto.dataMessage.bobProof = bobToAlice;
-        await clearLocalStores(serviceId, 1, "bob_proof");
+        //await clearLocalStores(serviceId, 1, "bob_proof");
         log.info('the proto with injected bob proof is', bobToAlice, proto, proto.dataMessage);
       } else {
         log.info('no bob proof available for', serviceId);
