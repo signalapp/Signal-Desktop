@@ -1009,6 +1009,17 @@ function HeaderDropdownMenuContent({
     clearLocalStores(stringServiceId, undefined, 'sas');
     clearLocalStores(stringServiceId, undefined, 'vts');
     clearLocalStores(stringServiceId, undefined, 'bob_proof');
+    const updatedMap = itemStorage.get('sas-verified-conversations');
+    //console.log('updatedMap before update:', updatedMap);
+    if (updatedMap){
+      const memberConv = window.ConversationController.get(stringServiceId);
+      const resolvedId = memberConv?.id || stringServiceId;
+      updatedMap[resolvedId] = false;
+      //console.log('updatedMap after update:', updatedMap);
+      void itemStorage.put('sas-verified-conversations', updatedMap);
+    }
+
+
     onConversationDeleteMessages();
     //conversation.set("messageRequest");
   })
