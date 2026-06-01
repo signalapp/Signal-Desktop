@@ -1576,7 +1576,7 @@ export default class MessageReceiver
             const sender = window.ConversationController.get(
               envelope.sourceServiceId || envelope.source
             );
-            let personName = sender?.format().name;
+            let personName = sender?.format()?.name || "This Contact";
             showConfirmationDialog({
               dialogName: 'mitmWarningAlice',
               noMouseClose: true,
@@ -2102,7 +2102,7 @@ export default class MessageReceiver
             const sender = window.ConversationController.get(
               envelope.sourceServiceId || envelope.source
             );
-            let personName = sender?.format().name;
+            let personName = sender?.format()?.name || "This Contact";
             showConfirmationDialog({
               dialogName: 'mitmWarningBob',
               noMouseClose: true,
@@ -2136,11 +2136,11 @@ export default class MessageReceiver
         bobResponseObject.response = tempResponse;
         // console.log('storing sas', tempResponse.z_decoded);
         // console.log("but hopefully its already xored as", temp?.getSAS());
-      } catch (e) { log.error('error getting bob response', e); log.error('errorstack getting bob response', e.stack); }
+      } catch (e) { log.info('error getting bob response', e); log.info('errorstack getting bob response', e.stack); }
      
       try { 
         log.info('VTS value', temp?.getVTS());
-       } catch (e) { log.error('error getting VTS', e); }
+       } catch (e) { log.info('error getting VTS', e); }
       log.info('setting bob proof in memory for', serviceId, deviceId, "but deviceid faked to 1");
       await setLocalStores(serviceId, 1, JSON.stringify(bobResponseObject), "bob_proof");
 
