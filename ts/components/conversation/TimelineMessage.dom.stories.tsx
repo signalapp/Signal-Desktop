@@ -320,6 +320,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   renderReactionPicker,
   renderAudioAttachment,
   dragAttachment: action('dragAttachment'),
+  cleanupDragAttachment: action('cleanupDragAttachment'),
   saveAttachment: action('saveAttachment'),
   saveAttachments: action('saveAttachments'),
   setQuoteByMessageId: action('setQuoteByMessageId'),
