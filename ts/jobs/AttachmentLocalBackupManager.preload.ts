@@ -115,14 +115,15 @@ export async function runAttachmentBackupJob(
   }
 }
 
-function getExtension(
+/** @testexport */
+export function getExtension(
   contentType: string | undefined,
   fileName: string | undefined
 ): string | undefined {
   if (fileName) {
     const extension = extname(fileName).replace(/^./, '');
 
-    if (extension) {
+    if (isValidExtension(extension)) {
       return extension;
     }
   }
@@ -132,31 +133,41 @@ function getExtension(
   }
 
   if (contentType.startsWith('application/x-')) {
-    return contentType.replace('application/x-', '');
+    return normalizeExtension(contentType.replace('application/x-', ''));
   }
 
   if (contentType.startsWith('application/')) {
-    return contentType.replace('application/', '');
+    return normalizeExtension(contentType.replace('application/', ''));
   }
 
   if (contentType.startsWith('audio/')) {
-    return contentType.replace('audio/', '');
+    return normalizeExtension(contentType.replace('audio/', ''));
   }
 
   if (contentType.startsWith('image/')) {
-    return contentType.replace('image/', '');
+    return normalizeExtension(contentType.replace('image/', ''));
   }
 
   if (contentType === 'text/x-signal-plain') {
     return 'txt';
   }
   if (contentType.startsWith('text/x-')) {
-    return contentType.replace('text/x-', '');
+    return normalizeExtension(contentType.replace('text/x-', ''));
   }
 
   if (contentType.startsWith('video/')) {
-    return contentType.replace('video/', '');
+    return normalizeExtension(contentType.replace('video/', ''));
   }
 
   return undefined;
+}
+
+const VALID_EXTENSION_REGEXP = /^[A-Za-z\d](?:[\w+.-]{0,30}[A-Za-z\d])?$/;
+
+function isValidExtension(extension: string): boolean {
+  return VALID_EXTENSION_REGEXP.test(extension);
+}
+
+function normalizeExtension(extension: string): string | undefined {
+  return isValidExtension(extension) ? extension : undefined;
 }
