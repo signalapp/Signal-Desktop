@@ -7,14 +7,19 @@ import { ReadStatus } from '../messages/MessageReadStatus.std.ts';
 import {
   isSent,
   isViewed,
-  isMessageJustForMe,
+  isNoteToSelf,
   getHighestSuccessfulRecipientStatus,
 } from '../messages/MessageSendState.std.ts';
 
 export function isVoiceMessagePlayed(
   message: Pick<
     ReadonlyMessageAttributesType,
-    'type' | 'isErased' | 'errors' | 'readStatus' | 'sendStateByConversationId'
+    | 'conversationId'
+    | 'type'
+    | 'isErased'
+    | 'errors'
+    | 'readStatus'
+    | 'sendStateByConversationId'
   >,
   ourConversationId: string | undefined
 ): boolean {
@@ -33,7 +38,7 @@ export function isVoiceMessagePlayed(
   if (isOutgoing(message)) {
     const { sendStateByConversationId = {} } = message;
 
-    if (isMessageJustForMe(sendStateByConversationId, ourConversationId)) {
+    if (isNoteToSelf({ message, ourConversationId })) {
       return isSent(
         getHighestSuccessfulRecipientStatus(
           sendStateByConversationId,

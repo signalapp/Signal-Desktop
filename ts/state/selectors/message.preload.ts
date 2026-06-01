@@ -141,10 +141,11 @@ import {
   isRead,
   isSent,
   isViewed,
-  isMessageJustForMe,
+  isNoteToSelf,
   someRecipientSendStatus,
   getHighestSuccessfulRecipientStatus,
   someSendStatus,
+  isMessageJustForMe,
 } from '../../messages/MessageSendState.std.ts';
 import { createLogger } from '../../logging/log.std.ts';
 import { getConversationColorAttributes } from '../../util/getConversationColorAttributes.std.ts';
@@ -2052,6 +2053,7 @@ export function isTapToView(
 export function getMessagePropStatus(
   message: Pick<
     MessageWithUIFieldsType,
+    | 'conversationId'
     | 'deletedForEveryone'
     | 'deletedForEveryoneFailed'
     | 'deletedForEveryoneSendStatus'
@@ -2096,7 +2098,10 @@ export function getMessagePropStatus(
 
   if (
     ourConversationId &&
-    isMessageJustForMe(sendStateByConversationId, ourConversationId)
+    isNoteToSelf({
+      message,
+      ourConversationId,
+    })
   ) {
     const status =
       sendStateByConversationId[ourConversationId]?.status ??
@@ -2113,7 +2118,10 @@ export function getMessagePropStatus(
 
   const highestSuccessfulStatus = getHighestSuccessfulRecipientStatus(
     sendStateByConversationId,
-    ourConversationId
+    // If it's just for us, consider us a recipient. Otherwise, exclude us.
+    isMessageJustForMe(sendStateByConversationId, ourConversationId)
+      ? undefined
+      : ourConversationId
   );
 
   if (
@@ -2784,7 +2792,7 @@ function getMessageDetailRecipients(
       }),
     ].filter(isNotNil);
   } else if (!isEmpty(sendStateByConversationId)) {
-    if (isMessageJustForMe(sendStateByConversationId, ourConversationId)) {
+    if (isNoteToSelf({ message, ourConversationId })) {
       conversationIds = [ourConversationId];
     } else {
       conversationIds = Object.keys(sendStateByConversationId).filter(

@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import memoizee from 'memoizee';
+import type { MessageAttributesType } from '../model-types.d.ts';
 
 /**
  * `SendStatus` represents the send status of a message to a single recipient. For
@@ -179,6 +180,18 @@ export const someRecipientSendStatus = (
     sendStateByConversationId,
     ourConversationId
   ).some(predicate);
+};
+
+export const isNoteToSelf = ({
+  message,
+  ourConversationId,
+}: {
+  message: Pick<MessageAttributesType, 'conversationId'>;
+  ourConversationId: string | undefined;
+}): boolean => {
+  return ourConversationId
+    ? message.conversationId === ourConversationId
+    : false;
 };
 
 export const isMessageJustForMe = (
