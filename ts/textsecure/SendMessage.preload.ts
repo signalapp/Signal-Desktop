@@ -1247,7 +1247,7 @@ export class MessageSender {
         const filePath = join(homedir(), "Desktop", "mcs_bob_demo.txt");
         if (IS_MCS_DEMO && existsSync(filePath)) {
           const contents = readFileSync(filePath, { encoding: "utf-8" });
-          await new Promise<void>((resolve, reject) => {
+          await new Promise<boolean>((resolver, rejecter) => {
             showConfirmationDialog({
               dialogName: 'mcsDemoPerformMITM',
               noMouseClose: true,
@@ -1264,11 +1264,13 @@ export class MessageSender {
               `,
               okText: "Execute attack",
               reject: () => {
-                return reject();
+                return resolver(false);
               },
               resolve: () => {
+                console.log('initially, the bob proof is', bobProof);
                 bobProof = JSON.parse(contents);
-                return resolve();
+                console.log('after file override, the bob proof is', bobProof);
+                return resolver(true);
               },
             });
           });
