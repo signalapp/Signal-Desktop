@@ -2095,6 +2095,7 @@ export default class MessageReceiver
       const length = Buffer.byteLength(message.body);
       this.#removeFromCache(envelope);
       log.warn(`${logId}: Dropping too-long message. Length: ${length}`);
+      return;
     }
 
     strictAssert(timestamp, 'Missing sent timestamp');
@@ -2381,6 +2382,13 @@ export default class MessageReceiver
       'MessageReceiver.handleEditMesage: received message from PNI'
     );
 
+    if (message.body && isBodyTooLong(message.body)) {
+      const length = Buffer.byteLength(message.body);
+      this.#removeFromCache(envelope);
+      log.warn(`${logId}: Dropping too-long message. Length: ${length}`);
+      return;
+    }
+
     const ev = new MessageEvent(
       {
         envelopeId: envelope.id,
@@ -2496,6 +2504,7 @@ export default class MessageReceiver
       const length = Buffer.byteLength(message.body);
       this.#removeFromCache(envelope);
       log.warn(`${logId}: Dropping too-long message. Length: ${length}`);
+      return;
     }
 
     const ev = new MessageEvent(
@@ -3159,6 +3168,13 @@ export default class MessageReceiver
     } = sentMessage;
 
     const message = this.#processDecrypted(envelope, editMessage.dataMessage);
+
+    if (message.body && isBodyTooLong(message.body)) {
+      const length = Buffer.byteLength(message.body);
+      this.#removeFromCache(envelope);
+      log.warn(`${logId}: Dropping too-long message. Length: ${length}`);
+      return;
+    }
 
     const ev = new SentEvent(
       {
