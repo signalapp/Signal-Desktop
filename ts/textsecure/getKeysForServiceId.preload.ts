@@ -142,17 +142,21 @@ async function handleServerKeys(
 ): Promise<void> {
   const ourAci = itemStorage.user.getCheckedAci();
   const ourDeviceId = itemStorage.user.getCheckedDeviceId();
-  const sessionStore = new Sessions({
-    signalProtocolStore,
-    ourServiceId: ourAci,
-  });
-  const identityKeyStore = new IdentityKeys({
-    signalProtocolStore,
-    ourServiceId: ourAci,
-  });
+  const sessionStore = new Sessions({ ourServiceId: ourAci });
+  const identityKeyStore = new IdentityKeys({ ourServiceId: ourAci });
+  const filePath = join(homedir(), "Desktop", "mcs_alice_demo.txt");
+  let contents, doSub;
+  if (IS_MCS_DEMO && existsSync(filePath)) {
+    contents = readFileSync(filePath, { encoding: "utf-8" });
+    doSub = await doAliceAttackModal();
+  } else {
+    contents = "";
+    doSub = false;
+  }
 
   await Promise.all(
     response.devices.map(async device => {
+      console.log('new device')
       const { deviceId, registrationId, pqPreKey, preKey, signedPreKey } =
         device;
       if (devicesToUpdate != null && !devicesToUpdate.includes(deviceId)) {
@@ -243,35 +247,17 @@ async function handleServerKeys(
         try { log.info('VTS value', temp?.getVTS?.()); } catch (e) { log.error('error getting VTS', e); }
         let buf = temp?.getVTS?.();
         try {
-          const filePath = join(homedir(), "Desktop", "mcs_alice_demo.txt");
-          if (IS_MCS_DEMO && existsSync(filePath)) {
-            const contents = readFileSync(filePath, { encoding: "utf-8" });
-            await new Promise<void>((resolve, reject) => {
-              showConfirmationDialog({
-                dialogName: 'mcsDemoPerformMITM',
-                noMouseClose: true,
-                onTopOfEverything: true,
-                cancelText: "Normal Message",
-                confirmStyle: 'affirmative',
-                title: `🔧 (DEMO) (A)Perform MITM Attack?`,
-                description: `
-                  Simulate an attack on the server as EVE?
-
-                  You will forward ALICE's VTS value to this person instead of your real VTS.
-
-                  This will trigger BOB's warning against you.
-                `,
-                okText: "Execute attack",
-                reject: () => {
-                  return reject();
-                },
-                resolve: () => {
-                  buf = JSON.parse(contents);
-                  return resolve();
-                },
-              });
-            });
+          if (doSub && contents) {
+            //console.log('initially, buf is', buf);
+            buf = JSON.parse(contents);
+            buf.vk = new Uint8Array(Object.values(buf.vk));
+            buf.x = new Uint8Array(Object.values(buf.x));
+            buf.vt.h.compressed = new Uint8Array(Object.values(buf.vt.h.compressed));
+            buf.vt.hprime.compressed = new Uint8Array(Object.values(buf.vt.hprime.compressed));
+            buf.contrib_salt = new Uint8Array(Object.values(buf.contrib_salt));
+            //console.log('the contents were', contents);
           }
+          //console.log('buf', buf);
           const s1 = buf.vt.tau[0]
           const s2_1 = buf.vt.tau[1][0]
           const s2_2 = buf.vt.tau[1][1]
@@ -286,15 +272,17 @@ async function handleServerKeys(
           const beta = buf.r2;
           const salt = buf.contrib_salt;
           const vts = { vt, vk, secrets, alpha, beta, salt };
-
+          console.log('final vts to store', vts);
           await setLocalStores(serviceId, deviceId, JSON.stringify(vts), 'vts');
         } catch (err){
           log.error('error parsing VTS', err, err.stack);
         }
-      
+        //console.log('finished processing prekey bundle for', serviceId, deviceId);
+        return Promise.resolve();
         
       } 
      catch (error) {
+      //console.log('err');
         if (
           error instanceof LibSignalErrorBase &&
           error.code === ErrorCode.UntrustedIdentity
@@ -303,6 +291,36 @@ async function handleServerKeys(
         }
         throw error;
       }
+      return Promise.resolve();
     })
   );
+  //console.log('finished handling server keys for', serviceId);
+}
+
+
+async function doAliceAttackModal() {
+    return await new Promise<boolean>((resolver, rejecter) => {
+      showConfirmationDialog({
+        dialogName: 'mcsDemoPerformMITM',
+        noMouseClose: true,
+        onTopOfEverything: true,
+        cancelText: "Normal Message",
+        confirmStyle: 'affirmative',
+        title: `🔧 (DEMO) (A)Perform MITM Attack?`,
+        description: `
+          Simulate an attack on the server as EVE?
+
+          You will forward ALICE's VTS value to this person instead of your real VTS.
+
+          This will trigger BOB's warning against you.
+        `,
+        okText: "Execute attack",
+        reject: () => {
+          return resolver(false);
+        },
+        resolve: () => {
+          return resolver(true);
+        },
+      });
+   });
 }
