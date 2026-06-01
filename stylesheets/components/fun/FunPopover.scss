@@ -12,6 +12,10 @@
   // do that
   display: flex;
   color: red;
+
+  // Modal dialogs disable pointer events outside the dialog content.
+  // Fun overlays are portaled to the body, so they need to opt back in.
+  pointer-events: auto;
 }
 
 .FunPopover__Dialog {
