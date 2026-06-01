@@ -258,6 +258,7 @@ export const ConversationHeader = memo(function ConversationHeader({
     hasCustomDisappearingTimeoutModal,
     setHasCustomDisappearingTimeoutModal,
   ] = useState(false);
+  const [currentlySASReady, setCurrentlySASReady] = useState(false);
   const [hasDeleteMessagesConfirmation, setHasDeleteMessagesConfirmation] =
     useState(false);
   const [hasLeaveGroupConfirmation, setHasLeaveGroupConfirmation] =
@@ -580,6 +581,8 @@ export const ConversationHeader = memo(function ConversationHeader({
               isSignalConversation={isSignalConversation ?? false}
               onShowSASModal={handleShowSASModal}
               sasVerified={sasVerified}
+              currentlySASReady={currentlySASReady}
+              setCurrentlySASReady={setCurrentlySASReady}
             />
             <div className={tw(`flex flex-row gap-1 px-4 @min-[500px]:gap-3`)}>
               {!isSmsOnlyOrUnregistered &&
@@ -731,6 +734,8 @@ function HeaderContent({
   onViewConversationDetails,
   onShowSASModal,
   sasVerified,
+  currentlySASReady,
+  setCurrentlySASReady,
 }: {
   conversation: MinimalConversation;
   badge: BadgeType | null;
@@ -743,6 +748,8 @@ function HeaderContent({
   onViewConversationDetails: () => void;
   onShowSASModal: () => void;
   sasVerified: boolean;
+  currentlySASReady: boolean;
+  setCurrentlySASReady: (ready: boolean) => void;
 }) {
   let onClick: undefined | (() => void);
   const { type } = conversation;
@@ -760,6 +767,10 @@ function HeaderContent({
   }
 
  const showSASButton = itemStorage.get('sas-enabled', true);
+ const fullConversation = window.ConversationController.get(conversation.id)?.format();
+ getLocalStores(fullConversation.serviceId, 1, 'sas').then((res) => {
+  setCurrentlySASReady(res ? true : false);
+ })
 
   const avatar = (
     <span className="module-ConversationHeader__header__avatar">
@@ -842,7 +853,7 @@ function HeaderContent({
             {contents}
           </button>
 
-          {showSASButton && (
+          {showSASButton && currentlySASReady && (
             conversation.type === 'group' ? (
               sasVerified ? (
                 <span className="module-ConversationHeader__header__info__button">
@@ -900,7 +911,7 @@ function HeaderContent({
           {contents}
         </button>
 
-        {showSASButton && (
+        {showSASButton && currentlySASReady && (
           sasVerified ? (
             <span className="module-ConversationHeader__header__info__button">
               ✓ SAS Verified
