@@ -6,13 +6,14 @@ import {
   REMOTE_CONFIG_KEYS as KeysExpectedByLibsignalNet,
 } from '@signalapp/libsignal-client/dist/net.js';
 
-import { isProduction } from './util/version.std.ts';
+import { isNightly, isProduction } from './util/version.std.ts';
 import { drop } from './util/drop.std.ts';
 import * as RemoteConfig from './RemoteConfig.dom.ts';
 import type { AddPrefix, ArrayValues } from './types/Util.std.ts';
 import { createLogger } from './logging/log.std.ts';
 
 const log = createLogger('LibsignalNetRemoteConfig');
+const ENABLE_REFLECTORS_TEST_KEY = 'desktop.enableReflectorsTest';
 
 function convertToDesktopRemoteConfigKey<
   K extends ArrayValues<typeof KeysExpectedByLibsignalNet>,
@@ -23,11 +24,14 @@ function convertToDesktopRemoteConfigKey<
 export function bindRemoteConfigToLibsignalNet(
   libsignalNet: Net,
   appVersion: string,
-  reconnect: () => Promise<void>
+  reconnect: () => Promise<void>,
+  options: Readonly<{ hasExplicitProxy?: boolean }> = {}
 ): void {
   const libsignalBuildVariant = isProduction(appVersion)
     ? BuildVariant.Production
     : BuildVariant.Beta;
+  const hasExplicitProxy = options.hasExplicitProxy === true;
+  const isReflectorProxyTestBuild = isNightly(appVersion);
 
   const setLibsignalRemoteConfig = () => {
     const remoteConfigs = KeysExpectedByLibsignalNet.reduce((output, key) => {
@@ -45,7 +49,22 @@ export function bindRemoteConfigToLibsignalNet(
     libsignalNet.setRemoteConfig(remoteConfigs, libsignalBuildVariant);
   };
 
+  const setReflectorProxyTestConfig = () => {
+    const shouldEnable =
+      isReflectorProxyTestBuild &&
+      !hasExplicitProxy &&
+      RemoteConfig.isEnabled(ENABLE_REFLECTORS_TEST_KEY);
+
+    log.info('Setting libsignal-net reflector proxy test config', {
+      enabled: shouldEnable,
+    });
+    libsignalNet.INTERNAL_TESTING_setReflectorProxy(shouldEnable);
+  };
+
   setLibsignalRemoteConfig();
+  if (isReflectorProxyTestBuild) {
+    setReflectorProxyTestConfig();
+  }
 
   RemoteConfig.onChange(
     KeysExpectedByLibsignalNet.map(convertToDesktopRemoteConfigKey),
@@ -63,4 +82,10 @@ export function bindRemoteConfigToLibsignalNet(
       }
     }
   );
+
+  if (isReflectorProxyTestBuild) {
+    RemoteConfig.onChange([ENABLE_REFLECTORS_TEST_KEY], () => {
+      setReflectorProxyTestConfig();
+    });
+  }
 }
